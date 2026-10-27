@@ -71,8 +71,10 @@ strict transforms and alterations, the moduli stack of stable pointed curves, Ch
 Chern classes, refined Gysin maps, intersection products, a K-theoretic pushforward for
 Riemann–Roch, and surfaces. Formal geometry here uses chosen ideals and level-preserving adic thickening
 systems. Comparison with the category of topologically locally ringed formal schemes and
-independence from ideals of definition are outside this scope. Polarized algebraization of
-formal schemes and a category equivalence for polarized systems are also outside this scope.
+independence from ideals of definition are outside this scope. Within that convention this
+roadmap owns the algebraization of polarized adic systems over a complete Noetherian adic base and
+the category equivalence between such systems and projective schemes with a relatively ample line
+bundle (§4.10A).
 
 **Owned elsewhere and consumed here.** The following objects have one owner; this roadmap states
 comparisons to them and never a second carrier.
@@ -5443,8 +5445,8 @@ unique morphism `G : X → Y` over `A` with `G_n = g_n` for all `n` (Stacks, Lem
 `X = Spec A` and `Y = 𝔸¹_A`, the maps `g_0 : Spec k → 𝔸¹_k` at `0` and `g_1 : Spec k[t]/(t²) →
 𝔸¹_{k[t]/(t²)}` at `1` do not form a system and come from no morphism (`algebraize_hom_test_incompatible`
 below). The scope here is coherent modules and compatible morphisms on given proper
-schemes. Algebraization of a polarized adic system, the corresponding category equivalence,
-and effective formal deformations of curves are outside this subsection. Theorem 30.28.4
+schemes. Algebraization of a polarized adic system and the corresponding category equivalence
+are §4.10A; effective formal deformations of curves are outside this subsection. Theorem 30.28.4
 (089A) concerns a compatible ample system of invertible sheaves, a hypothesis not supplied
 by properness of the initial fibre alone. *Needs:* §4.7, §4.8, §4.9; Mathlib `IsProper`,
 `IsSeparated`, `LocallyOfFiniteType`.
@@ -5467,17 +5469,111 @@ specified in this README only.
 
 ### 4.10A Polarized adic systems and projective algebraization
 
-Construct the category of compatible proper finitely presented adic systems over a Noetherian I-adically complete ring A, with I contained in its Jacobson radical. An object has schemes X_n over A/I^(n+1), actual cartesian comparison isomorphisms with cocycles, invertible sheaves L_n and compatible pullback identifications, with L_0 ample. Morphisms retain compatible scheme maps and line-bundle comparison isomorphisms. The flat subcategory requires every X_n flat over A/I^(n+1). These are compatible adic systems of4.7–4.8 with polarizations, not a new general formal-space carrier.
+Let `A` be a Noetherian ring, `I`-adically complete for an ideal `I` (so `I` lies in the Jacobson
+radical of `A`), with `S_n = Spec(A/I^{n+1})`. Construct the category of polarized adic systems over
+`(A, I)`. An object is a family of schemes `X_n → S_n`, finitely presented, with `X_0 → S_0`
+proper, cartesian comparison isomorphisms `X_n ≅ X_{n+1} ×_{S_{n+1}} S_n` satisfying the cocycle
+condition, invertible sheaves `L_n` on `X_n` with compatible isomorphisms `ι_n^* L_{n+1} ≅ L_n`, and
+`L_0` ample on `X_0`. A morphism `(X_n, L_n) → (Y_n, M_n)` is a morphism of adic thickening systems
+`g_n : X_n → Y_n` over `(S_n)_n` in the sense of §4.10 together with compatible isomorphisms
+`g_n^* M_n ≅ L_n`. The flat subcategory requires every `X_n` flat over `A/I^{n+1}`; the smooth one
+requires every `X_n` smooth over `A/I^{n+1}`. These are the level-preserving adic systems of
+§§4.7–4.8 with a polarization, not a new formal-space carrier.
 
-Prove `polarized_adic_system_algebraize`: construct a projective A-scheme X and a relatively ample line bundle L with the specified reductions; if the levels are flat, prove X flat over A. Provide the comparison on morphisms, identities, composition and isomorphisms, compatible with reduction and complete Noetherian base changes satisfying the stated ideal hypotheses. The target is an equivalence with the polarized adic systems above, retaining line-bundle automorphisms. Effectivity of coherent modules on an already given proper scheme is an input, not the existence theorem for X itself.
+Prove `polarized_adic_system_algebraize`: for every polarized adic system there are a closed
+subscheme `X ⊆ ℙ^N_A`, a line bundle `L` on `X` ample relative to `A`, and isomorphisms
+`X ×_A S_n ≅ X_n` and `L|_{X_n} ≅ L_n` compatible with the transition maps (Stacks, Theorem 30.28.4
+(089A)). The reduction functor from pairs `(X, L)` with `X` projective over `A` and `L` relatively
+ample, whose morphisms are morphisms `G : X → Y` over `A` with an isomorphism `G^* M ≅ L`, to
+polarized adic systems is an equivalence; it retains the line-bundle automorphisms (units of
+`Γ(X, O_X)` act on `L`). Full faithfulness is §4.10's `algebraize_hom` (Stacks, Lemma 30.28.3
+(0A42)) for the scheme maps together with `grothendieck_existence_fullyFaithful` for the
+line-bundle isomorphisms and their inverses; essential surjectivity is the existence statement.
+Effectivity of coherent modules on an already given proper scheme is an input, not the existence
+theorem for `X` itself.
 
-Construct the algebraization from sections of a single sufficiently high power of the compatible ample bundles. Prove the uniform finite generation and multiplication statements using projective cohomology, Serre vanishing on the closed level, completeness, compatible lifting and Nakayama. Build a finite homogeneous presentation over A, compare its relative Proj and O(1) at every level, and recover L using4.10's coherent existence and its fully faithful comparison. Prove independence from the chosen power and generators through the canonical comparison functors. Flatness uses the adic flatness criterion with all level hypotheses; projectivity is not inferred from properness of X_0 alone.
+Base change. Let `φ : A → B` be a ring map with `B` Noetherian and `J`-adically complete and
+`φ(I) ⊆ J`. Since `φ(I^{n+1}) ⊆ J^{n+1}`, `A → B/J^{n+1}` factors through `A/I^{n+1}`, and the
+base-changed system has levels `X_n ×_{Spec(A/I^{n+1})} Spec(B/J^{n+1})` with the pulled-back `L_n`.
+Prove that the algebraization of the base-changed system is canonically isomorphic to
+`(X ×_A B, L_B)` compatibly with all reductions, that the comparison is the identity for `φ = id_A`
+and `J = I`, and that it is compatible with composition `A → B → C`. Neither `J = IB` nor flatness
+of `φ` is assumed.
 
-For compatible smooth levels, prove the algebraized map is smooth near the closed fibre using finite presentation and formal smoothness. If X is proper over a complete local A, the closed complement of that smooth locus has closed image missing the closed point, hence is empty. Give the corresponding proper-flat and geometric-connectedness comparisons used by smooth surface lifts, including their actual hypotheses.
+Construction route. As in Stacks 089A, the kernels `K_{n+1} = I^{n+1} O_{X_{n+1}}` of
+`O_{X_{n+1}} → O_{X_n}` are annihilated by `I`, hence coherent on `X_0`, and `⊕_{n≥0} K_n` (with
+`K_0 = O_{X_0}`) is a graded module of finite type over the pullback to `X_0` of the finitely
+generated graded `A/I`-algebra `gr_I(A) = ⊕ I^n/I^{n+1}`. Stacks, Lemma 30.19.3 (0897), applied to
+`X_0 → S_0` and `L_0`, gives one `d_0` with `H^1(X_0, K_n ⊗ L_0^d) = 0` for every `n` and every
+`d ≥ d_0`; separate Serre vanishing for each `K_n` gives no bound uniform in `n`. Choose `d ≥ d_0`
+and sections of `L_0^d` giving a closed immersion `X_0 → ℙ^N_{S_0}`, lift them level by level
+through `0 → K_{n+1} ⊗ L_0^d → L_{n+1}^d → L_n^d → 0`, obtain compatible closed immersions
+`X_n → ℙ^N_{S_n}` with cartesian squares, and algebraize the closed subschemes by Stacks, Lemma
+30.28.1 (0899), which is §4.10's coherent existence applied to quotients of `O_{ℙ^N_A}`. Recover
+`L` from `O(1)` and `grothendieck_existence_fullyFaithful`. Prove independence from `d` and the
+sections through the canonical comparison functors. Projectivity is not inferred from properness of
+`X_0` alone.
 
-This is the polarized-system theorem of Stacks tag089A, supplied here at the exact existing boundary of4.10. Inputs are4.7–4.10, relative Proj0.3, coherent proper cohomology2.6, JacobianChallenge proper cohomology/base change, and StableReduction Layer2's ample-line-bundle convention. This proof uses the supplied projective geometry and coherent modules before any Picard representability, Enriques lattice, period map or moduli-of-surfaces theorem. It introduces no dependency on the consumer's future surface classification.
+Flatness. Prove the adic local flatness criterion: for `R → S` a ring map of Noetherian rings, `I`
+an ideal of `R` and `M` a finite `S`-module with `M/I^n M` flat over `R/I^n` for every `n ≥ 1`,
+`M_𝔮` is flat over `R` for every prime `𝔮 ⊇ IS` (Stacks, Lemma 10.99.11 (0523); the route is the
+local flatness criterion with Artin–Rees). Prove openness of the flat locus: for `f : X → Y`
+locally of finite presentation and `F` quasi-coherent of finite presentation, the set of points
+of `X` where `F` is flat over `Y` is open (Stacks, Theorem 37.15.1 (0399)). Then prove: if every
+level is flat, `X` is flat over `A`, and conversely by base change. The criterion on affine opens
+`Spec S ⊆ X` gives flatness at every point of `X_0`; the non-flat locus `Z` is closed, so `f(Z)` is
+closed in `Spec A` by properness; a nonempty closed subset of `Spec A` contains a maximal ideal,
+which contains `I`, and the points of `X` over it lie in `X_0`; hence `Z` is empty.
 
-Check a compatible O(1)-polarized projective space tower, a flat smooth hypersurface tower with its equations, and the morphism/line-bundle scalar automorphisms at a point. Noncompatible equations do not form an object. A tower without a compatible ample line bundle is outside this equivalence, even when its individual schemes are proper.
+Smoothness and geometric connectedness. Prove: the levels are all smooth if and only if `X` is
+smooth over `A`. If they are, `X` is flat by the preceding paragraph, and the fibre of `X` over a
+prime `𝔭 ⊇ I` is `X_0 ×_{A/I} κ(𝔭)`, which is smooth, so `X` is smooth at every point of `X_0`
+(Stacks, Lemma 29.35.14 (01V9)); the closed non-smooth locus is then empty by the properness
+argument above. Prove: for a smooth polarized system, every fibre of `X → Spec A` is geometrically
+connected if and only if `X_0 ×_{A/I} κ(𝔪)` is geometrically connected for every maximal ideal
+`𝔪` of `A`. For `X` proper, flat and of finite presentation with geometrically reduced fibres, the
+number of geometric connected components of the fibre over `s ∈ Spec A` is locally constant in `s`
+(Stacks, Lemma 37.53.8 (0E0N)); the closure of any prime is connected and contains a maximal ideal,
+which contains `I`, and the fibre there is `X_0 ×_{A/I} κ(𝔪)`. For `(A, 𝔪)` local with residue
+field `k`, this reads: `X` is smooth and projective over `A` with all geometric fibres connected if
+and only if every level is smooth and `X_k = X_0 ×_{A/I} Spec k` is geometrically connected.
+Geometric reducedness of the fibres is essential (the Check on `Spec A[u]/(u² − t)` below).
+
+This is the polarized-system theorem of Stacks 089A, supplied here at the boundary of §4.10.
+*Needs:* §§4.7–4.10; relative Proj §0.3; coherent proper cohomology §2.6; JacobianChallenge Layer C
+(proper coherent cohomology and base change); StableReduction Layer 2's ample-line-bundle
+convention. The proof uses projective geometry and coherent modules before any Picard
+representability, Enriques lattice, period map or moduli-of-surfaces theorem, and introduces no
+dependency on a consumer's surface classification.
+
+**Checks.**
+- The tower `(ℙ^N_{A/I^{n+1}}, O(1))` algebraizes to `(ℙ^N_A, O(1))`;
+  its line-bundle automorphisms at every level and on `ℙ^N_A` are the units of `A/I^{n+1}`,
+  respectively `A`, so a construction that forgets the line-bundle isomorphisms loses them.
+- For `A = k[[t]]` and `F = x³ + y³ + z³ + t·xyz` with `char k ≠ 3`, the
+  tower of plane cubics `V(F mod t^{n+1})` with `O(1)` is flat and smooth at every level, and
+  algebraizes to `V(F) ⊆ ℙ²_A`.
+- Inside the tower `ℙ¹` over `k[t]/(t^{n+1})`, the closed subschemes `V(x)` at `n = 0` and
+  `V(x − z)` at `n = 1` are not compatible: `V(x − z)` reduces to the point `[1:1]`, not `[0:1]`,
+  so with these embeddings they are no compatible system of closed subschemes, and Stacks 0899
+  does not apply; `V(x + t·z)` at `n = 1` does reduce to `V(x)`.
+- A tower of proper schemes with no compatible ample line bundle is
+  outside this equivalence, even when each level is proper.
+- For `A = k[[t]]` and the closed point `X = Spec k`, every level
+  is `Spec k`, not flat over `k[t]/(t^{n+1})` for `n ≥ 1`, and `X` is not flat over `A`.
+- For `φ : k[[t]] → k[[s]]`, `t ↦ s²`, and `J = (s)`, `φ(I) = (s²) ⊆ J`
+  while `IB = (s²) ≠ J`; the base-changed levels `X_n ×_{k[t]/(t^{n+1})} k[s]/(s^{n+1})` are
+  defined because `s^{2n+2} = 0` in `k[s]/(s^{n+1})`. The identity of `k[[t]]` from the `(t)`-adic
+  to the `(t²)`-adic ideal is not admitted (§4.7, `not_levelPreserving_powerSeries`).
+- For `A = k[[t]]` and `char k ≠ 2`, the scheme `X = Spec A[u]/(u² − t)`
+  with `L = O_X` is finite free of rank 2, hence projective and flat with `L` relatively ample; its
+  closed fibre `Spec k[u]/(u²)` is geometrically connected, but the geometric generic fibre is two
+  points. The levels are not smooth, and the geometric connectedness comparison does not apply.
+- For the same `X`, `X` is not smooth over `A` (its closed fibre is
+  not reduced) and `X_0 = Spec k[u]/(u²)` is not smooth over `k`, as the smoothness equivalence
+  requires.
+
+`polarized_adic_system_algebraize` is specified in this README only.
 
 ### 4.11 Modifications and strict transforms
 
