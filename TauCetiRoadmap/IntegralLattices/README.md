@@ -129,7 +129,7 @@ Out of scope, with the owner of each subject:
 | generic restricted products, compact-open families, and rational diagonals | [Restricted Products](../../Completed/RestrictedProducts/README.md) |
 | generic algebraic-group adelic points, strong approximation, reduction theory, Tamagawa measures, and the central-isogeny volume comparison | `AdelicAlgebraicGroups` AA0–AA4 and its actual earlier local/model contracts |
 | smoothening of an affine group scheme over `ℤ_p`, its special fibre, unipotent radical and reductive quotient, and the point counts of each | `OrthogonalTamagawaAndLatticeMass`, over the generic successors above |
-| the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, the dyadic local density of 7D, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor #255 names |
+| the orthogonal specialization: strong approximation for `Spin`, `τ(SO_Q) = 2`, Eichler's theorem, the genus/spinor-genus comparison in rank `≥ 3`, the dyadic local density of 7D, and the Smith–Minkowski–Siegel mass formula | `OrthogonalTamagawaAndLatticeMass`, the successor that Orthogonal and Spin Groups names |
 | root systems, Weyl groups, `DynkinType`, the ADE classification | [Root Systems](../RepresentationTheory/RootSystems/README.md) |
 | the theta series `Θ_L` and the coset series `θ_γ` of a positive definite lattice, their `q`-expansions, their `T` and `S` transformation laws, the vector-valued law on discriminant cosets, every modularity statement about them, and every conclusion drawn from one — the closed formula `r_L(2m) = 240 σ₃(m)` in even unimodular rank 8, the theta identity of the rank-16 pair, the rank-24 identities with the Leech representation numbers | [Theta Series](../ThetaSeries/README.md), which consumes this roadmap and supplies nothing to it; §*Theta series* below and Layer 8 record what it takes |
 | Poisson summation for a full-rank `ℤ`-lattice in a real inner product space, and the Gaussian Fourier transform it is applied to | [Theta Series](../ThetaSeries/README.md), whose Layer 1 is the generic theorem; no milestone here consumes it |
@@ -150,8 +150,7 @@ that a reader can see the boundary.
   series directly. A roadmap for the Weil representation would consume 1G and 1H here — the
   finite-quadratic-module carrier and its Gauss-sign invariant are what the `S`-matrix is
   stated in — together with Theta Series' Gauss-sum layer and the local formulas of
-  Scheithauer and Strömberg. Nothing here is a stand-in for it, and no declaration of this
-  roadmap acts on `ℂ[A_L]`.
+  Scheithauer and Strömberg. No milestone of this roadmap acts on `ℂ[A_L]`.
 - Half-integral weight modular forms, hence the modularity of the theta series of a lattice of
   **odd** rank. Theta Series carries an automorphy factor only in even rank `n = 2k`, where it
   is the honest integer power `(-i)^k τ^k`, and this roadmap states no automorphy factor at
@@ -250,8 +249,8 @@ branch, and a future Mathlib version are all excluded.
 
 These decisions hold in every layer.
 
-**The single lattice carrier.** The canonical object is the reviewed embedded carrier from
-PR #200: a full `ℤ`-submodule of a rational vector space, with a symmetric rational form
+**The single lattice carrier.** The canonical object is Tau Ceti's embedded carrier
+`TauCeti.IntegralLattice`: a full `ℤ`-submodule of a rational vector space, with a symmetric rational form
 which is integer-valued on the carrier:
 
 ```lean
@@ -479,10 +478,10 @@ structure or carrier for it.
 | 3G | Quadratic Form Invariants | `hilbertSymbol_eq_cohomological`, `hilbertSymbol_productFormula` | the norm-equation symbol agrees with CFT's pairing and inherits Hilbert reciprocity |
 | 3H, 4A | Global Quadratic Forms | `atFinitePlace`, `atRealPlace`, `hasseMinkowski_equivalent`, `equivalent_of_locallyEquivalent` | localization and global equivalence of the underlying rational quadratic spaces |
 | B1--B5, `¬ IsSquare Δ` | Global Number Fields | `NumberFieldOrder`, `NumberFieldOrder.conductor`, `NumberFieldOrder.IsProperFractionalIdeal`, `NumberFieldOrder.properFractionalIdeals`, `NumberFieldOrder.invertibleProperFractionalIdeals`, `NumberFieldOrder.invertible_isProper`, `NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `IdealClassMonoid`, `NumberFieldOrder.mkIdealClassMonoid`, `picEquivUnitsIdealClassMonoid`, `Pic`, `NumberFieldOrder.mkPic`, `NumberFieldOrder.mkPic_surjective`, `NarrowPic`, `NumberFieldOrder.narrowPrincipal`, `NumberFieldOrder.narrowToPic`, `NumberFieldOrder.narrowToPic_surjective`, `finite_pic`, `finite_narrowPic` | field orders and their ideal-class monoids and wide and narrow Picard groups; only the invertible proper carrier enters `Pic` and `NarrowPic`, while raw noninvertible proper ideals remain in `IdealClassMonoid`; the square-discriminant split branch is elementary and does not use these carriers |
-| B3, `Δ < 0` | Class Field Theory | `ringClassField`, `ringClassArtinMap`, `gal_ringClassField_equiv_pic` | the class-field interpretation in the nonsplit field case only. ⚠ Each of these takes an order in a number **field** together with `Module.finrank ℚ K = 2`, so the split algebra `ℚ × ℚ` cannot be supplied to any of them: it carries no `Field` instance and is the `K` of no `NumberFieldOrder K`. There is no split ring-class-field claim, and no local stand-in that would admit one |
+| B3, `Δ < 0` | Class Field Theory | `ringClassField`, `ringClassArtinMap`, `gal_ringClassField_equiv_pic` | the class-field interpretation in the nonsplit field case only. ⚠ Each of these takes an order in a number **field** together with `Module.finrank ℚ K = 2`, so the split algebra `ℚ × ℚ` cannot be supplied to any of them: it carries no `Field` instance and is the `K` of no `NumberFieldOrder K`. There is no split ring-class-field claim |
 | 3G | Class Field Theory | `hilbertProductFormula` | cohomological Hilbert reciprocity, reached on classical symbols through QFI's comparison |
-| 4B, B7 | Restricted Products | `RestrictedProductGroup`, `RestrictedProductGroupWithFactor`, `CompactOpenSubgroups`, `integralSubgroup`, `isCompact_integralSubgroup`, `rationalDiagonal` | generic restricted products, compact open reference families, and rational diagonals. ⚠ Quotient measures and Tamagawa normalization are **not** exported by #246 and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
-| 4B, 4C, 4F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `transvection`, `transvectionLiftHom` | orthogonal/spin-specific algebra, local spinor norms, and the finite-adelic point groups. ⚠ `strongApproximation_finiteAdelicSpin` and the orthogonal volume theorem are **not** #255 exports and are no longer cited; #255's README states that only `OrthogonalTamagawaAndLatticeMass` may export them |
+| 4B, B7 | Restricted Products | `RestrictedProductGroup`, `RestrictedProductGroupWithFactor`, `CompactOpenSubgroups`, `integralSubgroup`, `isCompact_integralSubgroup`, `rationalDiagonal` | generic restricted products, compact open reference families, and rational diagonals. ⚠ Quotient measures and Tamagawa normalization are **not** exported by Restricted Products and are not cited here; they belong to `TamagawaMeasures` and reach the lattice mass only through `OrthogonalTamagawaAndLatticeMass` |
+| 4B, 4C, 4F, B7 | Orthogonal and Spin Groups | `orthogonalGroup`, `orthogonalBaseChange`, `orthogonalBaseChangeReal`, `spinorNorm`, `spinorNorm_reflection`, `OrthogonalCompactOpens`, `finiteAdelicOrthogonal`, `transvection`, `transvectionLiftHom` | orthogonal/spin-specific algebra, local spinor norms, and the finite-adelic point groups. ⚠ `strongApproximation_finiteAdelicSpin` and the orthogonal volume theorem are **not** exports of Orthogonal and Spin Groups and are not cited; its README states that only `OrthogonalTamagawaAndLatticeMass` may export them |
 | 6C, 6G | Root Systems | Layer 5 ADE classification and `Nat.card P.weylGroup` | the rank-eight root system with the `E8` Cartan matrix is of type `E8` |
 
 `ThetaSeries` and `LFunctions` are **not** dependencies of this roadmap, and neither has a row
@@ -705,8 +704,9 @@ Lagrangian subgroup, is `FiniteQuadraticModuleWittTheory`'s (§*Scope*). No Witt
 is defined here; the metabolic predicate of 1G and the vanishing statement above are the exact
 contract that successor consumes.
 
-**1I. Milgram's theorem.** For an even nondegenerate lattice, `t₊ − t₋ ≡ sign q_L (mod 8)`.
-An even unimodular lattice has `A_L = 0`, so `8 ∣ t₊ − t₋`.
+**1I. Milgram's theorem.** For an even nondegenerate lattice, `t₊ − t₋ ≡ sign q_L (mod 8)`
+(`milgram`, stated with Tau Ceti's `gaussSign` of `discriminantQuadraticModule`). An even
+unimodular lattice has `A_L = 0`, so `8 ∣ t₊ − t₋`.
 
 **1J. Level.** For an even lattice the level is the exponent of the annihilator of `q_L`,
 and it agrees with the definition through `N·G⁻¹`. The level divides `2·det L`, with the
@@ -1642,7 +1642,12 @@ half-norm forms take the values `1/4` and `5/4`, equal in `ℚ/ℤ`, so both are
 realizations of `q_1^{(2)}(2) = q_5^{(2)}(2)`; their determinants differ by 5, which is not a
 square in `ℚ₂`, so the two determinant square classes differ. In the exceptional case the two
 realizations always differ by exactly this factor 5, and `discr K(q₂)` is a choice between two
-classes that condition 4 never reads. `Suggested.lean` states the choice-independence with the
+classes that condition 4 never reads. `Suggested.lean` computes `discr K(q_p)` from a generator
+decomposition of `q` (`FiniteQuadraticModule.NikulinDecomposition.padicDiscriminant`): the minimal
+realizations are `⟨θ·p^k⟩` for `q_θ^{(p)}(p^k)`, `⟨θ·2^k⟩` for `q_θ^{(2)}(2^k)`, `2^k·U` of
+determinant `−4^k` for `u^{(2)}(2^k)` and `2^k·!![2,1;1,2]` of determinant `3·4^k` for
+`v^{(2)}(2^k)`, and `discr K(q_p)` is the square class of the product over the `p`-primary
+generators. It states the choice-independence with the
 exception in its hypothesis (`padicDiscriminant_eq_squareClass_gramDet`) and pins `⟨2⟩` against
 `⟨10⟩` as a rejection test (`padicDiscriminant_not_determined_by_cyclicTwoSummand`), so that a
 version of the helper claiming unconditional independence is refuted by a named declaration.
@@ -1794,7 +1799,9 @@ signature determines `L`:
 - if `t₊ ≥ t₋`, then `L ≅ U^{t₋} ⊕ E₈^{k}`, with the positive definite `E₈`;
 - if `t₋ ≥ t₊`, then `L ≅ U^{t₊} ⊕ E₈(−1)^{k}`.
 
-If `L` is odd, then `L ≅ ⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}`. Both statements are proved milestones.
+If `L` is odd, then `L ≅ ⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}`. Both statements are proved milestones; the even
+uniqueness, two even unimodular indefinite Gram matrices of equal signature are integrally
+equivalent, is `equivalent_of_isEven_unimodular_indefinite`.
 
 **6B. Existence in the definite case.** An even unimodular positive definite lattice of
 rank `n` exists exactly when `8 ∣ n`.
@@ -1885,7 +1892,7 @@ formula paper is the source for the normalization.
 
 ⚠ **The mass formula itself is not a milestone of this roadmap.** Assembling the local factors
 into `m(f)` runs through the adelic volume of `SO(V)`, which needs a Tamagawa normalization and
-the volume theorem; #246 exports neither, and #255 states explicitly that only
+the volume theorem; Restricted Products exports neither, and Orthogonal and Spin Groups states explicitly that only
 `OrthogonalTamagawaAndLatticeMass` may export the orthogonal volume theorem. Milestones **7B,
 7D, 7F, 7H and 7I are therefore that successor's**, and are stated here only as the boundary it
 must meet. What this roadmap owns is everything the successor consumes from the lattice side:
@@ -2163,7 +2170,7 @@ equality `1/|O(E₈²)| + 1/|O(D₁₆⁺)| = m₁₆` and the finiteness of the
 | 7A | L 2C, 2G, 4A |
 | 7B | *successor milestone*: L 4B, 7A; AA quotient-integration/measure substrate and chosen gauge; numerical volume 7F is used later in 7H, not to construct this decomposition |
 | 7C | L 3B, 3C, 4B |
-| 7D | *successor milestone*: L 3D, 3E, 3I, 7C; smoothening, special fibres, unipotent radicals and reductive quotients of affine group schemes over `ℤ_p`, from `OrthogonalTamagawaAndLatticeMass` over the successors #246 names |
+| 7D | *successor milestone*: L 3D, 3E, 3I, 7C; smoothening, special fibres, unipotent radicals and reductive quotients of affine group schemes over `ℤ_p`, from `OrthogonalTamagawaAndLatticeMass` over the successors Restricted Products names |
 | 7E | native ball/radial measure, Gamma, smooth metric and density APIs; early LG finite-dimensional matrix Lie groups; DG12.1/12.4; the explicit polar Gram-Jacobian/Fubini and SO submersion/disintegration construction below; L2D is a separate covolume theorem |
 | 7F | *successor milestone*: AA measure and numerical-volume contracts, and OTM's own gauge/model compatibility; preserve all rank guards |
 | 7G | L 2C, 4A, 7A, B6, B7, B8 |
@@ -2184,16 +2191,15 @@ scope section records it from its side.
 **8S. What this roadmap supplies to Theta Series.** The traffic is the arithmetic of the
 rational lattice. Theta Series' bridge — its `ratModel`, which builds an
 `IntegralLattice (ℚ ⊗[ℤ] L)` out of its real carrier — reads the following, and each row names
-the declarations of `Suggested.lean`, in namespace `TauCetiRoadmap.IntegralLattices`, that
-carry it:
+the declarations that carry it, Tau Ceti's native ones or those of `Suggested.lean`:
 
 | Milestone | Supplied | Declarations here |
 | --- | --- | --- |
 | 0A | the carrier `IntegralLattice` and its predicates | `IntegralLattice`, `IntegralLattice.IsEven`, `IntegralLattice.IsNondegenerate`, `IntegralLattice.IsUnimodular`, `IntegralLattice.IsPosDef` |
 | 1B, 1C | the dual `L^⋆` and the discriminant group `A_L`, with `|A_L| = |det L|` | `IntegralLattice.dual`, `dual_dual`, `DiscriminantGroup`, `discriminantGroup_finite`, `natCard_discriminantGroup_eq_natAbs_gramDet`, `unimodular_iff_natCard_discriminantGroup_eq_one` |
 | 1D | the discriminant forms `b_L` and `q_L` in the half-norm convention, and the character `e^{2πi·}` of `ℚ/ℤ` | `discriminantPairing`, `discriminantQuadraticForm`, `discriminantQuadraticForm_mk`, `discriminantBilinearModule`, `discriminantQuadraticModule`; Tau Ceti's `TauCeti.expCircle` |
-| 1G | finite bilinear and quadratic modules with orthogonal sums, primary decomposition, isotropic and Lagrangian subgroups, `l(A)` and the generator classification | `FiniteBilinearModule`, `FiniteQuadraticModule`, their `IsIsotropic` and `IsLagrangian`, `FiniteQuadraticModule.orthogonalSum`, `primaryComponent`, `minGenerators`, `NikulinDecomposition` |
-| 1H, 1I | the Gauss-sum invariant `sign q ∈ ℤ/8`, and Milgram's theorem at every signature | Tau Ceti's `TauCeti.FiniteQuadraticModule.gaussSign`, `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_eq`, `TauCeti.FiniteQuadraticModule.gaussSign_prod`; milestone 1I |
+| 1G | finite bilinear and quadratic modules with orthogonal sums, primary decomposition, isotropic and Lagrangian subgroups, `l(A)` and the generator classification | `FiniteBilinearModule`, `FiniteQuadraticModule`, their `IsIsotropic` and `IsLagrangian`, `minGenerators`, `FiniteQuadraticModule.primaryComponent`, `FiniteQuadraticModule.NikulinDecomposition`, and Tau Ceti's orthogonal sum `FiniteQuadraticModule.prod` |
+| 1H, 1I | the Gauss-sum invariant `sign q ∈ ℤ/8`, and Milgram's theorem at every signature | Tau Ceti's `TauCeti.FiniteQuadraticModule.gaussSign`, `TauCeti.FiniteQuadraticModule.IsNondegenerate.gaussSum_eq`, `TauCeti.FiniteQuadraticModule.gaussSign_prod`; `milgram` (1I) |
 | 1E, 1F | the integral and even overlattice correspondences and the gluing theorem, through which `D₁₆⁺` is built | `integralOverlatticeEquivIsotropicSubgroup`, `evenOverlatticeEquivIsotropicSubgroup`, `ofIsotropicSubgroup`, `ofIsotropicSubgroup_isEven`, `FiniteQuadraticModule.orthogonalQuotient` |
 | 1J, 1K | the level, and the ADE lattices with their discriminant forms and the `D₈⁺ ≅ E₈` calculation | milestone 1J; native `typeARootLattice`, `checkerboardLattice`, `typeE₈RootLattice`, `d8PlusLattice`, `e8IsometryD8Plus`, and the remaining ADE calculations of 1K |
 | 2B, 2D | the shells `S_k(L)` and representation numbers `r_L(k)` as finite counts, and the covolume identity `covolume(L)² = det L` | milestone 2B; the Layer-2 covolume identity |
@@ -2616,7 +2622,7 @@ The rest of the order follows the prerequisite tables:
 - Layer 7's own milestones — 7A, 7C, 7E and 7G — need Layers 2, 3, 4 and B, and nothing
   adelic; 7B, 7F, 7H and 7I are `OrthogonalTamagawaAndLatticeMass`'s and are ordered after the
   generic `TamagawaMeasures`, and its 7D after the group-scheme material of the successors
-  #246 names;
+  Restricted Products names;
 - Layer 8 is a contract and orders nothing here: it imports nothing, no milestone of Layers 0
   to 7, B or 9 has a theta series among its prerequisites, and nothing here waits on Theta
   Series. What that roadmap waits on from here is 8S — Layers 0 and 1, together with 2B, 2D,
