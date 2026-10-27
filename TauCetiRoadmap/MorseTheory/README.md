@@ -708,6 +708,164 @@ three critical points and no perfect Morse function over ℚ, contrasted with
 its perfect F₂ count. More generally π₁(M)≠0 and b₁(M;ℚ)=0 obstruct
 perfection over ℚ by the necessary 1-cells in a connected CW model.
 
+<a id="m42-isolating-gradient-cup-bound"></a>
+### M4.2. Isolating gradient pairs, degenerate critical counts and cup injection
+
+Develop the compact-isolating-pair form of the critical-point bound used in
+Golé, Appendix 2, §§62–63. Here the ambient manifold need not be compact and
+critical points need not be nondegenerate. Consume [AT6's compact-metric
+Čech closed-pair supplement](../AlgebraicTopology/README.md#compact-metric-cech-closed-pairs)
+for Čech cohomology of compact metric spaces and closed pairs, its continuity,
+closed excision, exact sequences, relative cups and cube-product theorem.
+Write `Ȟ` for that theory, with coefficients in a commutative ring R;
+require `Nontrivial R` for the nonvanishing and counting statements. Use its
+comparison with singular cohomology only on the compact manifold/CW carriers
+where that comparison is proved. The maximal invariant set can be a wild
+compactum and is not assumed to have such a comparison.
+
+**Regular pair and complete flow.** Let W be smooth on a neighborhood of a
+compact subset P of a boundaryless manifold, with a smooth Riemannian metric
+there. Construct a compactly supported smooth cutoff χ, equal to 1 on a
+neighborhood of P, and extend `X=−χ grad W` by zero. Using DG3/DG12's compact
+support and flow suppliers, prove this field has a complete flow φ and agrees
+with the original negative gradient near P. Prove the flow/group/inverse laws
+and `d(W(φ_t x))/dt=−‖grad W(φ_t x)‖²` for orbit segments in P. No global
+extension of W beyond the cutoff neighborhood is needed. Prove compactness
+and metrizability of P and all the closed subsets below from the ambient
+Hausdorff second-countable manifold hypotheses.
+
+A regular pair here consists of compact P and closed L⊂P such that L is
+positively invariant relative to P, every orbit leaving P first meets L,
+and `I=Inv(P)={x∈P | ∀t∈ℝ, φ_t x∈P}` lies in `int(P\L)`. Include the
+regularity hypothesis that the first-hitting time
+`τ(x)=inf{t≥0 | φ_t x∈L}`, with value ∞ when the set is empty, is continuous
+`P→[0,∞]`, is zero on L, and every segment through time τ remains in P
+up to its endpoint. For τ=∞ this means every finite forward segment remains
+in P. Prove attainment when τ is finite and continuity of the stopped maps
+`F_s(x)=φ_(min(s,τ(x))) x` for finite s≥0, jointly in s and x. In a true
+regular isolating block, whose exit points leave P immediately, identify τ
+with the regular first-exit time from P. For a collar index pair, use the
+first hit of L with the stated relative invariance and exit hypotheses;
+it need not be the first exit from P. These hypotheses, including regularity,
+are data to check for an application, not consequences of compactness alone.
+
+**Survivors and their maps.** For t≥0 define
+
+`S_t={x∈P | φ_[0,t](x)⊂P}` and
+`T_t=φ_t(S_t)={x∈P | φ_[−t,0](x)⊂P}`.
+
+Prove this equality using the inverse flow law, compactness of S_t and T_t,
+`T_(t+s)⊂T_t⊂P`, and compactness of
+`T_∞=⋂_(n:ℕ) T_n={x∈P | φ_(−s)x∈P for every s≥0}`.
+Use these contained survivor sets throughout. A full flow image φ_t(P)
+need not lie in P and does not define a relative triple inside P.
+
+Set `K_t=T_t∪L`. The stopped map F_t has image in K_t: either it first hits
+L, or its entire t-segment survives and its endpoint is in T_t. Thus it
+factors as `r_t:P→K_t`. Construct the homotopy `H(a,x)=F_(a*t)(x)` from
+`id_P` to the inclusion composed with r_t. It fixes L pointwise. For
+x∈T_t, adjoining the original length-t backward segment to each forward
+segment before stopping proves `H(a,x)∈T_t` until it hits L; after that it
+is fixed in L. Hence H preserves K_t throughout. Restricting H to K_t gives
+the other inverse homotopy, so inclusion induces the relative homotopy
+equivalence `(K_t,L)→(P,L)`. This is a homotopy equivalence of pairs;
+H need not fix every point of K_t.
+
+Prove these equivalences commute with inclusions for increasing integer t.
+Continuity for the decreasing compact closed pairs `(K_n,L)`, followed by
+closed excision for `K_∞=T_∞∪L`, gives the actual restriction isomorphism
+
+`Ȟ^q(P,L;R) → Ȟ^q(T_∞,T_∞∩L;R)`.
+
+Next put `B_t=φ_(−t)(T_∞)`. Prove these are nested compact subsets of T_∞
+with intersection I. The maps `x↦φ_(−a*t)x`, a∈[0,1], stay in T_∞ and
+preserve B_t, giving homotopy inverse data for the inclusion `B_t→T_∞`.
+Continuity for B_n therefore identifies restriction along `I→T_∞` as an
+isomorphism `Ȟ^*(T_∞;R)→Ȟ^*(I;R)`, including ring compatibility.
+These constructions own the flow-to-Čech bridge; neither singular continuity
+on arbitrary compacta nor an unspecified Conley-index theorem is an input.
+
+**Shifted relative cup-module injection.** Let P₀⊂P be compact, let
+`α:P→P₀` be a retraction, let K≥0, and let `u∈Ȟ^K(P,L;R)` satisfy, for
+every j≥0, the degreewise isomorphism
+
+`v↦u∪α^*v : Ȟ^j(P₀;R) ≃ Ȟ^(j+K)(P,L;R)`.
+
+Prove that `(α|I)^*:Ȟ^*(P₀;R)→Ȟ^*(I;R)` is injective and preserves cups
+and units. Indeed, if `(α|I)^*v=0`, the preceding absolute restriction
+isomorphism implies `(α|T_∞)^*v=0`. Relative-cup naturality then sends
+`u∪α^*v` to zero in `Ȟ^*(T_∞,T_∞∩L;R)`. The relative restriction
+isomorphism forces `u∪α^*v=0`, and the assumed shifted isomorphism forces
+v=0. State this degreewise, without identifying the degree-K class u with
+a degree-zero class or assuming a ring isomorphism across the shift.
+
+For the product-pair specialization, supply a pair homeomorphism
+`(P,L)≃(P₀×Q^p×Q^K, P₀×Q^p×∂Q^K)`, where `Q^d=[0,1]^d`, with α the
+projection after identifying P₀ with fixed interior cube coordinates. Use
+AT6's cube relative generator and its cup/cross compatibility to construct
+u and prove the displayed shifted module isomorphism over R. Contract the
+Q^p factor as a pair; retain the degree K and the cup-order sign. Include
+K=0 with `∂Q^0=∅`. The product-pair theorem constructs this hypothesis; an
+arbitrary pair is not assumed to have product topology.
+
+**Arbitrary-degenerate count on the invariant compactum.** For every
+nonzero product `a₁∪⋯∪a_r` in `Ȟ^*(I;R)` with each factor of strictly
+positive degree, prove
+
+`(r+1 : ℕ∞) ≤ ({x∈I | dW_x=0}).encard`.
+
+Include r=0 when the empty product/unit is nonzero, equivalently I is
+nonempty. Infinite critical sets have encard ∞, so satisfy every such finite
+bound. For a finite critical set, use the gradient Lyapunov identity on I:
+forward and backward limit sets are nonempty compact connected invariant
+sets; W is constant on each, and the identity forces them into the critical
+locus. Finiteness makes each limit set a singleton. Prove these facts here
+for compact invariant trajectories, without a Morse Hessian, linearization
+or a dependency on M6's exponential-convergence theory. A nonconstant
+connecting orbit strictly decreases W, so two critical points at the same
+value cannot be connected. Construct the singleton Morse decomposition,
+ordered by critical value and with any order among tied values, including
+isolation of each singleton using its small compact neighborhood and the
+same forward/backward limit argument.
+
+Own the finite gradient Morse-decomposition cup estimate, with a concrete
+critical-value induction. Between successive distinct critical values choose
+`a<b` in their critical-free gap, and set `A=I∩{W≤b}` and
+`B=I∩{W≥a}`. These compact sets cover I; A is forward invariant and B
+backward invariant. Prove that the decreasing compact images `φ_n(A)`
+and `φ_(−n)(B)` have intersections `I_A=Inv(A)` and `I_B=Inv(B)`,
+respectively. Their flow homotopies preserve A and B and their nested
+images. Continuity therefore makes restriction `Ȟ^*(A)→Ȟ^*(I_A)` and
+`Ȟ^*(B)→Ȟ^*(I_B)` ring isomorphisms. The two grouped invariant sets
+partition the critical points into the lower and upper value groups.
+For classes restricting to zero on A and B respectively, exactness lifts
+them to `Ȟ^*(I,A)` and `Ȟ^*(I,B)`; their relative cup lies in
+`Ȟ^*(I,A∪B)=Ȟ^*(I,I)=0`. If the two groups have n_A and n_B critical
+points, induction makes every n_A-fold positive-degree product vanish on
+A and every n_B-fold such product vanish on B. Split an (n_A+n_B)-fold
+product into those consecutive groups and apply the relative-cup vanishing.
+This proves the required subadditivity and the point count. At a single
+critical value the forward and backward limits have the same W-value, so
+the energy identity makes every orbit constant: that invariant set is a
+finite discrete set of critical points. Its positive-degree groups vanish,
+giving cup bound one, at most its number of points; a singleton has bound
+one. Thus tied critical values need no artificial regular separator. Handle
+the empty invariant set separately. The induction proves the count for
+compact invariant gradient sets, so applies also to I_A and I_B without
+requiring new isolating-pair data. This counts distinct critical points,
+including arbitrarily degenerate ones; no perturbation is assumed to
+preserve their number.
+
+Combine this count with the injection to obtain the same r+1 lower bound
+from every nonzero r-fold positive-degree product on P₀. Acceptance includes
+`P₀=S¹`, its nonzero degree-one class and the resulting two-point bound for
+any such regular product pair; arbitrary exit dimension K, including zero;
+degenerate equilibria and tied critical values; and an infinite critical
+set. This is the reusable finite-dimensional supplier for annulus-action
+applications. Those applications must construct their actual pair, its
+regular exit data and the product identification, and identify its critical
+points with the fixed points being counted.
+
 ## M5. Morse–Bott normal bundles and attachments
 
 Define Morse–Bott intrinsically: the critical locus near each critical point
