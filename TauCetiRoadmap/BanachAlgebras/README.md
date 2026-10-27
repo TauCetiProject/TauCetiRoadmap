@@ -316,6 +316,30 @@ this converse with native normal-operator continuous functional calculus.
 
 ### Finite spectra, jets and resolvent power bounds
 
+For every finite-dimensional complex normed space E and bounded
+endomorphism T, put K=σ(T) with its finite subspace topology. Prove the
+following equivalent: T is diagonalizable; E has a basis of T-eigenvectors;
+there is a unital complex-algebra homomorphism
+`Ψ:C(K,ℂ)→(E→L[ℂ]E)` sending the restricted coordinate to T; and
+`T=Σ_(λ∈K) λP_λ` for nonzero pairwise annihilating idempotents P_λ
+with `Σ P_λ=I`. Distinct λ index distinct spectral values, with repeated
+eigenvalues grouped. The algebraic calculus in this statement is automatically
+continuous and unique. Construct it by
+`Ψ(f)=Σ_(λ∈K) f(λ)P_λ`, and prove
+`‖Ψ(f)‖≤(Σ_(λ∈K)‖P_λ‖)‖f‖∞`.
+
+Recover the idempotents from the characteristic functions of the singletons
+and from the Lagrange polynomials
+`P_λ=∏_(μ∈K,μ≠λ) (T−μI)/(λ−μ)`; prove range(P_λ) is exactly the
+λ-eigenspace and compare these same maps with the existing Riesz/generalized
+eigenspace projections. Construct the direct-sum equivalence and an eigenbasis
+from bases of their ranges, with the inverse given by the P_λ. This criterion
+allows arbitrary complex eigenvalues and has no normality hypothesis or
+self-adjointness assertion for P_λ. For E=0, K is empty: the empty basis,
+empty sums and unique map between the zero algebras give the corresponding
+statements, and the calculus norm is0. Retain the separate real-interval C^r
+and Hilbert-space isometric/star comparisons below.
+
 For a finite-dimensional complex normed space and T in its bounded endomorphism
 algebra, consume `Module.End.maxGenEigenspace`,
 `Module.End.iSup_maxGenEigenspace_eq_top`, the minimal-polynomial API and
