@@ -2,12 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.VonNeumannAlgebra.Basic
-import Mathlib.Analysis.InnerProductSpace.WeakOperatorTopology
-import Mathlib.Analysis.InnerProductSpace.Positive
-import Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal
-import Mathlib.Analysis.Complex.Basic
-import Mathlib.Analysis.Calculus.Deriv.Basic
+import Mathlib
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -58,7 +53,11 @@ def generated (s : Set (H →L[ℂ] H)) :
   toStarSubalgebra :=
     StarSubalgebra.centralizer ℂ (StarSubalgebra.centralizer ℂ s : Set (H →L[ℂ] H))
   centralizer_centralizer' := by
-    sorry
+    change Set.centralizer (Set.centralizer ((StarSubalgebra.centralizer ℂ
+        (StarSubalgebra.centralizer ℂ s : Set (H →L[ℂ] H)) : Set (H →L[ℂ] H)))) =
+      (StarSubalgebra.centralizer ℂ
+        (StarSubalgebra.centralizer ℂ s : Set (H →L[ℂ] H)) : Set (H →L[ℂ] H))
+    rw [StarSubalgebra.coe_centralizer_centralizer, Set.centralizer_centralizer_centralizer]
 
 /-- The existing weak operator wrapper is the topology in the bicommutant criterion. -/
 theorem double_commutant_iff_isClosed_image_ofCLM
