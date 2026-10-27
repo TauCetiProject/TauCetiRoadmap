@@ -1565,6 +1565,59 @@ Prove nonempty closed complex submanifolds of projective space are compact Kähl
 0≤k≤dim from nonzero Kähler powers. These are the geometric inputs to
 GeometricQuantization, whose scaled symplectic forms use k≥1.
 
+<a id="k7-2-tautological-incidence-blowup"></a>
+**K7.2.TautologicalIncidence — blowdown and homogeneous functions.** For a
+nonzero finite-dimensional complex vector space V of dimension d, use the
+same projectivization P(V) of lines and the tautological line O(−1).
+Identify its holomorphic total space with
+`E={(v,ℓ)∈V×P(V):v∈ℓ}` by actual bundle maps and their inverses.
+For an ordered basis e₁,…,e_d, the chart ℓ_i≠0 has coordinates
+`(a,(z_j)_(j≠i))↦(a(e_i+Σ_(j≠i)z_j e_j),[e_i+Σ_(j≠i)z_j e_j])`.
+On its overlap with chart k prove `a'=a z_k`, `z'_i=1/z_k` and
+`z'_j=z_j/z_k` for j≠i,k. Construct both projections in these charts,
+the zero section and the map b:E→V, (v,ℓ)↦v. Off that section construct
+the holomorphic inverse v↦(v,[v]); identify b⁻¹(0) with P(V).
+
+Consume [StableReduction Layer4](../StableReduction/README.md#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces)'s
+Rees blowup of the origin ideal in affine V. Identify its charts
+`v_j=v_i z_j` with the preceding incidence charts, including the chart
+inverses, transitions and blowdown. Use ComplexComparisonPartII C−1/C0's
+analytification and local coherent comparisons to identify its analytification
+with E over V, and identify the incidence projection E→P(V) as the total
+space of O(−1). This is the
+application-specific comparison with the existing algebraic blowup, not a
+second blowup construction. At d=1, P(V) is a point and b is the identity
+on V under the total-line identification.
+
+Construct the algebra isomorphism `b*:O_hol(V)≃O_hol(E)` on entire
+holomorphic functions. For d≥2 descend a function off the zero section
+through the displayed inverse, extend it across 0 by K3's Hartogs theorem,
+and prove its pullback equals the original function by density and
+continuity. For d=1 use the identity blowdown. Compare restriction to the
+compact zero section, where the function is constant, with evaluation of
+the descended function at 0. These algebras contain all entire functions;
+only their homogeneous pieces below are asserted polynomial.
+
+Let A_t(v,ℓ)=(tv,ℓ) for t∈ℂ×. For each integer k define the homogeneity
+condition `F(A_t x)=t^k F(x)`. Use the Taylor expansion of the descended
+entire function at 0 to prove that this space is the homogeneous degree-k
+polynomial space for k≥0 and is zero for k<0. With the ordinary function
+action `(t·F)(x)=F(A_(t⁻¹)x)`, these functions have character t↦t^(−k).
+Thus the source's degree-k scaling convention is distinguished from the
+weight of inverse pullback. For k≥0, evaluation on each fibre gives the
+natural isomorphism with `H⁰(P(V),O(k))`: a section s defines
+`F_s(v,ℓ)=s(ℓ)(v^⊗k)`, with the constant interpretation at k=0.
+Construct the inverse using the degree-k coefficient on each fibre and
+prove holomorphicity through the chart transitions. Compare with K7.2's
+existing homogeneous-polynomial section map, tensor multiplication,
+linear changes of V and the contragredient GL(V) action. At k=1 recover
+`H⁰(P(V),O(1))≃V*`. For d≥2 also prove H⁰(O(k))=0 when k<0 by restriction
+to projective lines and the existing P¹ calculation. At d=1 every O(k)
+on the point has a one-dimensional section space, even for k<0; do not
+identify those negative-k sections with holomorphic functions of negative
+homogeneity on E. This supplies the incidence/function comparison in
+Knutson's BorelWeil p1 with all scaling signs fixed.
+
 **K7.2.RationalQuartic — a section that does not extend.** On K7.1's single
 projective carriers construct the holomorphic map
 `q:ℂP¹→ℂP³`, `[s:t]↦[s⁴:s³t:st³:t⁴]`. Prove representative independence
