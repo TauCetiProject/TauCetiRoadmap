@@ -117,7 +117,8 @@ completion genuinely needs `ProfiniteGrp`. Pro-`p` means that every continuous f
 quotient is a `p`-group. Orders and closed-subgroup indices take supernatural values;
 generator rank is cardinal-valued in general and has a separate natural-number accessor
 under topological finite generation. Presentations always quotient by a **closed** normal
-closure. The Demushkin cup product is the one supplied by `ProfiniteCohomology`, and the
+closure. The Demushkin cup product is Tau Ceti's `TauCeti.cupFp`, the bidegree-`(1, 1)` case of the
+cup product whose general construction `ProfiniteCohomology` plans in Layer 12, and the
 commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 
 ## The build, in layers
@@ -701,7 +702,7 @@ What this layer introduces is the coefficient object the pro-`p` theory computes
 about the substrate.
 
 - **The coefficient object.** `trivialFp p G` is the trivial `𝔽_p`-representation of `G`, an
-  object of `ProfiniteCohomology.TopRep (ZMod p) G`, and `cohomFp p G n` is its cohomology,
+  object of Mathlib's `TopRep (ZMod p) G` (the category `ProfiniteCohomology.TopRep` names), and `cohomFp p G n` is its cohomology,
   `(continuousCohomology (ZMod p) G n).obj (trivialFp p G)`. Both are Tau Ceti's. Mathlib places
   the coefficients in the universe of `G`, so the trivial module is `ULift (ZMod p)`, identified
   with `ZMod p` by `TauCeti.trivialFpEquiv`. Every dimension count in this roadmap is about
@@ -711,18 +712,18 @@ about the substrate.
   *In Tau Ceti:* `TauCeti.trivialFp`, `TauCeti.cohomFp`, `TauCeti.trivialFpEquiv`,
   `TauCeti.trivialFp_ρ_apply_apply`, `TauCeti.isSmoothDiscrete_trivialFp`,
   `TauCeti.trivialFpResMap`.
-- **The multiplication pairing and the cup square.** `fpPairing p G` is the term of
-  `ProfiniteCohomology.TopPairing` on `trivialFp p G` given by multiplication in `ZMod p`; it is
-  `ZMod p`-bilinear, continuous because the coefficients are discrete, and equivariant because
-  the action is trivial. `cupFp p G a b` is `ProfiniteCohomology.cup (fpPairing p G) 1 1 a b`,
-  transported from degree `1 + 1` to degree `2`. This is the cup square
-  `H¹(G, 𝔽_p) × H¹(G, 𝔽_p) → H²(G, 𝔽_p)` that the Demushkin predicate is stated against,
-  and it is the only cup product in this roadmap. Its graded
-  commutativity, `cupFp a b = - cupFp b a`, is the specialization of
-  `ProfiniteCohomology.cup_gradedComm` at the pairing, whose opposite pairing is itself because
-  multiplication in `ZMod p` is commutative. Graded commutativity turns right nondegeneracy of a
+- **The multiplication pairing and the cup square.** `fpPairing p G` is Tau Ceti's
+  `TauCeti.fpPairing`, the `TauCeti.TopPairing` on `trivialFp p G` given by multiplication in
+  `ZMod p`; it is `ZMod p`-bilinear, continuous because the coefficients are discrete, and
+  equivariant because the action is trivial. `cupFp p G a b` is Tau Ceti's `TauCeti.cupFp`, which
+  is `(TauCeti.fpPairing p G).cup 1 1` (`TauCeti.cupFp_def`) and lands in degree `2` directly.
+  This is the cup square `H¹(G, 𝔽_p) × H¹(G, 𝔽_p) → H²(G, 𝔽_p)` that the Demushkin predicate is
+  stated against, and it is the only cup product in this roadmap; the general cup product of
+  ProfiniteCohomology Layer 12 must restrict to it at this pairing. Its graded commutativity,
+  `cupFp a b = - cupFp b a`, is Tau Ceti's `TauCeti.cupFp_gradedComm`, whose input is that the
+  opposite pairing of `fpPairing` is itself because multiplication in `ZMod p` is commutative. Graded commutativity turns right nondegeneracy of a
   cup pairing into a consequence of left nondegeneracy, so Layer 7 cites only this result.
-  *Needs:* PC-12 `TopPairing`, `ofDiscreteModulePairing`, `cup`, `cup_gradedComm`, `degreeCast`.
+  *Needs:* TC `TauCeti.TopPairing`, `TauCeti.fpPairing`, `TauCeti.cupFp`, `TauCeti.cupFp_gradedComm`.
   *Source:* NSW I §1.4 for the cochain formula.
 
   API checklist for the coefficient objects:
