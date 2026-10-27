@@ -816,6 +816,51 @@ stronger quantifier order.
   and prove that slicing commutes with it; positive-degree closed slice forms
   then have jointly smooth primitives. No contraction of N is required. Separately, Stokes on
   `M × Icc 0 1` for boundaryless `M`, for 10.5.
+- **5.4a Contraction along a map and differentiation of pullback.** This
+  extends layers0–1 on their existing arbitrary `ModelWithCorners` and
+  fixed-coefficient form carriers, retaining the stated smoothness and
+  `Within` derivative hypotheses at boundary/corner points. Let F be a
+  normed real space, p:M→N smooth and V a smooth section of p*TN. Follow
+  Mathlib's `Manifold.DifferentialForm`/`ContMDiffSection` design in
+  [the manifold-form proposal](https://github.com/leanprover-community/mathlib4/pull/45315)
+  for the scalar bundled case; realize the fixed-F extension on the same
+  native alternating bundle through layers0–1. For an
+  F-valued form ω of degree k≥1, construct the degree-(k−1) form
+  `C_(p,V)(ω)_x(v₁,…,v_(k−1))=ω_(p(x))(V_x,dp_x(v₁),…,dp_x(v_(k−1)))`.
+  Use native `ContinuousAlternatingMap.curryLeft` in the first slot and
+  pullback in the remaining slots; V need not descend to a field on N.
+  Prove smoothness for smooth ω, linearity and open restriction. For smooth
+  h:L→M and q:N→Q, prove the actual naturality equations
+  `C_(p∘h,V∘h)ω=h*(C_(p,V)ω)` and
+  `C_(p,V)(q*η)=C_(q∘p,dq∘V)η`.
+  Contraction of a zero-form is zero by convention; introduce no
+  negative-degree form carrier. For ω of degree k and η of degree l with
+  k+l≥1 and any fixed continuous bilinear coefficient pairing μ, prove
+  `C_(p,V)(wedgeWith μ ω η)=wedgeWith μ (C_(p,V)ω) (p*η)
+    +(−1)^k wedgeWith μ (p*ω) (C_(p,V)η)`, omitting each term that
+  would contract a zero-form. Both zero-degree inputs have zero contraction.
+
+  For jointly smooth P:M×J→N on an open real interval J, put p_t(x)=P(x,t)
+  and V_t(x)=dP_(x,t)(0,1). For a smooth fixed-coefficient F-valued form ω,
+  prove `∂_t(p_t*ω)=d(C_(p_t,V_t)ω)+C_(p_t,V_t)(dω)`; in degree zero
+  prove `∂_t(f∘p_t)=C_(p_t,V_t)(df)`. Differentiate in the fixed
+  alternating-form fiber over x, with coordinate-independent evaluation on
+  tangent tuples. Prove joint smoothness with extra finite-dimensional
+  parameters and the restriction/naturality laws. Apply Cartan calculus to
+  P*ω on M×J, contract with its parameter field, then restrict to the slice.
+  No completeness of F or boundaryless hypothesis is needed for this
+  pointwise calculus. For a jointly smooth family of forms ω_t, prove
+  `∂_t(p_t*ω_t)=p_t*(∂_tω_t)+d(C_(p_t,V_t)ω_t)+C_(p_t,V_t)(dω_t)`.
+  For a flow of X_t, prove `C_(p_t,V_t)ω=p_t*(ι_(X_t)ω)` and identify
+  this moving-form identity with HeegaardFloer F2.1's pullback derivative.
+
+  When J contains [0,1] and F is complete, identify
+  `K_Pω=∫₀¹ C_(p_t,V_t)ω dt` with5.4's `K(P*ω)` on
+  M×[0,1], with manifold variable first and contraction slot first.
+  Integration gives exactly `p₁*ω−p₀*ω=d(K_Pω)+K_P(dω)`, preserving the
+  existing regularity/naturality API. No invertibility of p_t is required.
+  [ContractionAlongMapTargets.lean](ContractionAlongMapTargets.lean) pins
+  the native Euclidean insertion and fixed-form derivative signatures.
 - **5.5a Densities, for every finite-dimensional real model.** `Density`,
   `RoughDensity`, the density `φ · sign_o` of a top form and an orientation, the integral of
   densities, and its agreement with the integral of top forms give orientation-free integration
