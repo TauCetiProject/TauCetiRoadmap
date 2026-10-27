@@ -2,7 +2,7 @@
 
 **Summary.** This roadmap constructs the continuous semisimple Galois representations associated with regular algebraic cuspidal representations of `GL_n` over CM and totally real fields. It starts with algebraic weights and the good-place Hecke polynomial, constructs the representations through compact-unitary cohomology or ordinary boundary cohomology, and then proves local compatibility, coefficient-prime admissibility and residual properties. These results provide the arithmetic input for potential automorphy, modularity lifting and the generic parts of Shimura-variety cohomology.
 
-The polarized route includes conjugate-self-dual cuspidal representations over CM fields, algebraic-character twists and essentially self-dual descent to totally real fields. The nonselfdual existence and away-prime route has the CM or totally real scope of HLTT and Varma. The newer nonselfdual coefficient-prime result is the CM theorem of A’Campo–Hevesi–Thorne–Whitmore. Selected unitary discrete transfers produce semisimple sums with specified constituents; a sum of this kind need not be irreducible. Three `GSp₄` specializations at the end use AG2.P’s conditional spin constructions and transfer dictionary, retaining the supplier’s `GSp₄` classification inputs. The coefficient-prime comparisons in rank `n≥2` that go beyond the BLGGT Iwahori case, including the nonselfdual semisimple comparison built on the polarized one, and the exports and `GSp₄` clauses that use them, assume the irreducibility hypothesis `ExtremelyRegularIrreducibility` of AG2.6; rank one, the good-place construction and de Rham admissibility do not.
+The polarized route includes conjugate-self-dual cuspidal representations over CM fields, algebraic-character twists and essentially self-dual descent to totally real fields. The nonselfdual existence and away-prime route has the CM or totally real scope of HLTT and Varma. The newer nonselfdual coefficient-prime result is the CM theorem of A’Campo–Hevesi–Thorne–Whitmore. Selected unitary discrete transfers produce semisimple sums with specified constituents; a sum of this kind need not be irreducible. Three `GSp₄` specializations at the end use AG2.P’s conditional spin constructions and transfer dictionary, retaining the supplier’s `GSp₄` classification inputs. The coefficient-prime comparisons in rank `n≥2` that go beyond the BLGGT Iwahori case, including the nonselfdual semisimple comparison built on the polarized one, and the exports and `GSp₄` clauses that use them, assume the irreducibility hypothesis `ExtremelyRegularIrreducibility` of AG2.6; rank one, the good-place construction and polarized de Rham admissibility do not.
 
 The general-rank construction is independent of the classical and Hilbert `GL₂` constructions.
 Their representations are identified on the regular-weight overlap in AG2.6 and AG2.7.
@@ -2529,8 +2529,13 @@ only for `b∈B(G,μ⁻¹)` in Kottwitz's normalization, that is `κ(b)=−μ^�
 
 <a id="hecke-functor"></a>
 Construct `HeckeFunctor` on `DLisBunG`, using the normalized ULA Satake kernels and
-the supplied six operations. For `V∈Rep_Λ((Ĝ⋊Q)^I)` with Satake kernel `S_V` on `Hck^I_G` it is
-`T_V(A)=p₂♮(p₁*A⊗S_V)`, a functor `D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)`.
+the supplied six operations. For `V∈Rep_Λ((Ĝ⋊Q)^I)` let `S_V^Sat` be GS's normalized perverse
+Satake sheaf, pulled back to `Hck^I_G`, and `S_V^hom=D_rel(S_V^Sat)^∨` its solid kernel, with
+Verdier duality relative to `Hck^I_G→[(Div¹_K)^I/L⁺G]`. The conversion `V↦S_V^hom` is an exact
+`Rep_Λ(Q^I)`-linear monoidal functor to solid sheaves for convolution, compatible with base
+change in `Λ` and functorial in `I`; on a smooth minuscule fibre of dimension `d` it carries
+`Λ[d](d/2)` to `Λ[−d](−d/2)`. The transform is
+`T_V(A)=p₂♮(p₁*A⊗S_V^hom)`, a functor `D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)`.
 On this target it is not an endofunctor for nonempty `I`, and composites `T_V∘T_W` are not
 defined there. Its values are lisse after pullback to `BunG×Spd C`, which descends `T_V` to
 `T_V:D_lis(BunG,Λ)→D_lis(BunG,Λ)^{BW_K^I}`, an endofunctor once the `W_K^I`-action is
@@ -2544,7 +2549,8 @@ coCartesian fibration over finite sets) makes leg repetition `ι_a` correspond t
 of `V` along `(Ĝ⋊Q)^J→(Ĝ⋊Q)^I` and to restriction of the `W_K^I`-action along the diagonal.
 Here `Λ` is a `ℤ_ℓ[√q]`-algebra and `ℓ≠p`. Prove preservation of compact and ULA objects, duality,
 the two adjunctions, fusion, coalescence and coherent Weil actions for every finite
-set of legs. Compare solid `♮` with torsion étale `!` on these ULA kernels. For a
+set of legs. Compare solid `♮` with torsion étale `!` on these ULA kernels:
+`p₂♮(p₁*A⊗S_V^hom)≅Rp₂!(p₁*A⊗S_V^Sat)` for `ℓ`-power torsion `Λ`. For a
 minuscule `μ` and algebraically closed complete `C/K`, identify the underlying
 transform `T_{μ,C}` with the modification correspondence, including shift
 `d_μ=⟨2ρ,μ⟩`. The global Hecke stacks, `HeckeFunctor` and the minuscule transform
@@ -2552,8 +2558,8 @@ are owned here; the Igusa/Newton comparison below is their automorphic applicati
 (Source: Fargues–Scholze, Definition III.0.1 and
 Theorem III.0.2, pp.87–88; Chapters III–V, especially Proposition V.2.2;
 §§VI.9–VI.12, pp.226–244; §§VII.3, VII.6–VII.7, pp.257–274;
-Theorem IX.0.1(i)–(iii), pp.317–318, and §IX.2, Proposition IX.2.1, Theorem IX.2.2 and
-Corollary IX.2.4, pp.321–324.)
+Theorem IX.0.1(i)–(iii), pp.317–318, and §IX.2, the kernel `D(S_V)^∨` on pp.321–322,
+Proposition IX.2.1, Theorem IX.2.2 and Corollary IX.2.4, pp.321–324.)
 
 **Checks.**
 
@@ -2562,6 +2568,9 @@ Corollary IX.2.4, pp.321–324.)
   invariant `a` to `a−1`), and `T_{−1}` is its inverse, so `T_1∘T_{−1}≅T_𝟙`.
 - The minuscule `PGL₂` fibre `ℙ¹` has cohomology `Λ⊕Λ(−1)`; omitting the Tate twist
   changes the Weil normalization of Satake.
+- On a smooth minuscule fibre `f` of dimension `d`, `S^Sat=Λ[d](d/2)` and `S^hom=Λ[−d](−d/2)`,
+  and `f♮Λ[−d](−d/2)≅Rf!Λ[d](d/2)` because `f♮=Rf!(−⊗Λ[2d](d))`. Putting the perverse kernel
+  into the `♮` formula would shift the transform by `2d` and twist it by `d`.
 - For every finite `I`, the unit kernel gives `T_𝟙(A)≅pr*A` for
   `pr:BunG×(Div¹_K)^I→BunG`, with trivial `W_K^I`-action. Only for `I=∅`, where
   `(Div¹_K)^∅` is a point, is this the identity functor. For `G=1` and `I={∗}` the transform
@@ -2601,8 +2610,17 @@ Use the universal torsor in one direction and the integral generators/relations
 comparison in the other. Over characteristic-zero coefficient fields the integral
 prime restriction is unnecessary.
 
-Apply this equivalence to `HeckeFunctor` on compact objects and extend by colimits
+The Satake labels of `HeckeFunctor` are opposite to those of Fargues–Scholze: here
+`T_{V_μ}` carries the trivial stratum into `B(G,μ⁻¹)`, there into `B(G,μ)`. Let `θ` be the
+Chevalley involution of `Ĝ` fixed by the pinning. It commutes with the pinned `Q`-action, so it
+extends to `Ĝ⋊Q`, and `θ*V_λ≅V_{−w₀λ}≅V_λ^∨` as `Ĝ`-representations; unlike `V↦V^∨`,
+`V↦θ*V` is covariant and monoidal. Apply this equivalence to the monoidal functor
+`V↦T_{θ*V}`, which is Fargues–Scholze's `V↦T_V`, on compact objects and extend by colimits
 to construct `geometricSpectralAction`, `excursionOperator` and `semisimpleParameter`.
+The raw action reconstructed from `V↦T_V` is the pullback of `geometricSpectralAction`
+along `φ↦θ∘φ` on `parameterStack`. Its excursions, centre map and stratum maps are those
+below composed with `θ*`, and its semisimple parameters are `θ∘φ`. All centre, parameter
+and classical comparisons in this roadmap refer to the normalized action.
 Obtain `Z_spec(G,Λ)=O(Z¹(W_K,Ĝ)_Λ)^Ĝ` acting centrally and commuting with Hecke
 transforms, and its restriction `Ψ_G^b` to each derived smooth stratum category.
 Prove coefficient/restriction naturality, including derived reduction to local Artinian
@@ -2612,23 +2630,30 @@ directly from excursions and prove its characterization, including without the
 integral prime restriction. The algebraic excursion carrier
 remains that of SR.6.3; this target supplies its geometric action. Its interface is the
 action on `D_lis(BunG,Λ)` for `Λ=O_L` with `ℓ∤|π₀Z(G)|`, or for a characteristic-zero
-coefficient field, compatible with `T_V` through the universal representation bundles of
-LP4; the map from `Z_spec(G,Λ)` to the centre; the excursion operators at every finite wild level;
+coefficient field, under which the universal representation bundle of `V` from LP4 acts
+by `T_{θ*V}`; the map from `Z_spec(G,Λ)` to the centre; the excursion operators at every finite wild level;
 and the restrictions `Ψ_G^b`. Igusa, torsion and local-shtuka applications restrict this
 action and this centre; they do not construct another integral spectral centre.
 (Source: Fargues–Scholze, Theorems VIII.1.3 and VIII.5.1,
 pp.278–281, 293–315; Theorem IX.0.1, Corollary IX.0.3 and Definition IX.0.4,
-pp.317–319; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.340–350.)
+pp.317–319; the proof of Theorem IX.3.1, p.324, for their labelling; Definition/Proposition
+IX.4.1, Proposition IX.5.3 and Proposition IX.6.5, pp.327–333; Theorem I.10.1, pp.37–38, and §§X.1–X.3, pp.340–350.)
 
 **Checks.**
 
 - The tensor unit acts identically, and a scalar excursion acts by that scalar.
-- For `GL₁`, a semisimple parameter is the local reciprocity character. The quotient
+- For `GL₁`, a semisimple parameter is the local reciprocity character, as in
+  Fargues–Scholze Proposition IX.6.5. The quotient
   still has dual-torus stabilizers; its coarse set of points is not the parameter stack.
 - `PGL_ℓ` has `|π₀Z(G)|=1`, whereas `SL_ℓ` has centre `μ_ℓ` and fails the integral
   prime restriction. Rational coefficients remove that restriction.
 - Distinct compact objects may require different finite wild levels. A comparison
   only after rationalization does not determine an integral action on torsion objects.
+- For `G=G_m`, `K=ℚ₁₁`, `ℓ=5` (`11≡1 mod 5`, so `√11∈ℤ₅`) and the unramified character `χ`
+  of `K^×` with `χ(11)=2`, over `𝔽̄₅`, the two-leg excursion for `V=std⊠std^∨`, coevaluation,
+  evaluation and Weil elements `(γ,1)` with `γ↦11` under reciprocity acts on `χ` by `2` for
+  `geometricSpectralAction`, but by `2⁻¹=3` for the raw action from `V↦T_V`. Here `d_μ=0`,
+  so no shift or half-Tate twist reconciles the two.
 
 *Needs:* bundle and Hecke categories;
 LanglandsParameterStacks LP1.7–LP1.8 and LP4.1–LP4.3;
@@ -2709,10 +2734,17 @@ trivial one, whereas `T_{μ,C}` runs from the trivial stratum to `b`. Prove
 labels `B(G,μ⁻¹)` and `b_μ`, is the present `Hck_{G,≤μ^∨}`, and `T^AHTW_{μ,C}≅T_{μ^∨,C}`
 for `T_{μ^∨}=T_{V_μ^∨}`, the right adjoint of `T_μ`, with the same shift
 `d=d_μ=⟨2ρ,μ⟩=⟨2ρ,μ^∨⟩`, the Tate twist of the normalized minuscule Satake kernel fixed by
-the chosen `p^(1/2)`, and compatibly with coefficient base change, ULA objects, the
-`W_{ℚ_p}`-action and the action of `Z_spec(G,O)`. Every AHTW formula below is read through
-this adapter, so `j₁* T_{μ^∨,C} j_b!` is the functor in the adjoint form of
-`localShimuraHeckeRealization`. Use the shared `BunG`, Newton strata, `DLisBunG` and
+the chosen `p^(1/2)`, and compatibly with coefficient base change and ULA objects. Then prove
+its Weil and spectral lift. AHTW's operator is Fargues–Scholze's `T_{V_μ}`, and on this split
+datum `V_μ^∨≅θ*V_μ`, so `T^AHTW_μ≅T_{θ*V_μ}` holds `W_{ℚ_p}`-equivariantly as functors to
+`D_lis(BunG,Λ)^{BW_{ℚ_p}}`. AHTW's spectral action, labelled by `V`, is therefore
+`geometricSpectralAction`, and AHTW's `Z_spec(G,O)`, excursions and `Ψ_G^b` are the normalized
+ones of the spectral target, not those of the raw action from `V↦T_V`. Every AHTW formula
+below is read through this adapter. The functor `j₁* T_{μ^∨,C} j_b!` has `j_b!` where the
+adjoint formula of `localShimuraHeckeRealization` has `R i_{b*}`, so it is not that formula.
+The two are related only through Verdier duality on the input and the output, as in
+Fargues–Scholze's proof of Theorem IX.3.1. Its identification with local Shimura convolution
+is the Newton graded-piece comparison below. Use the shared `BunG`, Newton strata, `DLisBunG` and
 `HeckeFunctor` carriers, their stratum equivalence, `j_b!`, `j₁*`, `T_{μ^∨,C}` and
 base-change and ULA properties. Construct the
 partial Igusa compactification and `V_b=RΓ_{c−∂}(Ig_b,Λ)`, with cohomology in `[0,d_b]`.
@@ -2724,7 +2756,8 @@ tame-level transition maps preserving the chosen `p^(1/2)`. All normalized local
 Satake and spectral-centre constructions use this choice. This constructs every required `b`, including nonbasic classes.
 (Sources: AHTW, §§2.3.2 and 2.4, Theorems 2.4.1–2.4.2, footnote 2 on p.19 and
 Remark 2.4.3, pp.14–16, 18–21; Fargues–Scholze, proof of Theorem IX.3.1, pp.324–325, for
-the adjunction between `T_μ` and `T_{μ^∨}`.)
+the adjunction between `T_μ` and `T_{μ^∨}` and the Verdier-duality comparison, and
+Proposition IX.6.5, p.333, for the torus normalization.)
 
 **Checks.**
 
@@ -2733,6 +2766,10 @@ the adjunction between `T_μ` and `T_{μ^∨}`.)
   `j₁* T_1 j_b!=0` because `T_1` carries the degree-`1` stratum to degree `2`. The passage
   from `b` back to the trivial stratum is `j₁* T_{−1} j_b!`, again that equivalence; this is
   `T^AHTW_{1,C}` through `ahtwHeckeOrientationAdapter`.
+- In the same rank-one case the adapter carries AHTW's labelling `V=std` to `T_{θ*std}=T_{−1}`,
+  so AHTW's excursions are those of `geometricSpectralAction`. With the raw action from
+  `V↦T_V` instead, the unramified `χ` with `χ(11)=2` over `𝔽̄₅` at `p=11, ℓ=5` would get
+  the excursion value `3`, not `2`.
 - At the `μ`-ordinary class the local factor is not a basic formal-module tower; its
   comparison must specialize to the parabolic-induction formula below.
 - A datum with a nonbasic `b` retains that Newton graded piece. Keeping only basic `b`
@@ -2752,7 +2789,7 @@ EndoscopicTransferAndUnitaryTraceComparison Layers 7–8 for finite-level ration
 
 For every inner Levi `G_b` of the split GL factors in the AHTW datum, and every smooth
 irreducible `ℚ̄_ℓ`-representation `σ` of `G_b(ℚ_p)`, use `semisimpleParameter` from the
-shared geometric spectral action and prove AHTW Theorem 2.3.5: it equals `rec(π)^ss` for every
+shared normalized geometric spectral action, read through `ahtwHeckeOrientationAdapter`, and prove AHTW Theorem 2.3.5: it equals `rec(π)^ss` for every
 Jordan–Hölder constituent `π` of normalized induction of `JL(σ)` from the corresponding
 split Levi. Use the fixed `p^(1/2)` for normalized induction. Prove the required spectral
 parameter compatibility with normalized parabolic induction and its inner-form
@@ -2781,8 +2818,10 @@ for classical LLC and its inner-form standard-data parameter.
 
 Fix the preceding complete DVR `O` finite over `ℤ_ℓ[p^(1/2)]`, with `ℓ≠p` and the chosen
 square root retained, and local Artinian `O`-algebras `Λ` with `ℓ` nilpotent.
-Use the shared `parameterStack`, `geometricSpectralAction`, integral centre
-`Z_spec(G,O)` and maps `Ψ_G^b:Z_spec(G,O)→Z(G_b)_O` on this datum. Retain the
+Use the shared `parameterStack`, the normalized `geometricSpectralAction`, integral centre
+`Z_spec(G,O)` and maps `Ψ_G^b:Z_spec(G,O)→Z(G_b)_O` on this datum, read through
+`ahtwHeckeOrientationAdapter`; `Δ_spec`, its vanishing and its Satake image below refer to
+this normalized centre. Retain the
 invertibility of `|π₀Z(G)|` in `O` required in AHTW §2.3.3 (it is one
 for this split local datum). For each Newton
 graded piece prove the two centre actions agree: `t₁ᵇ Ψ_G¹(z)=t_bᵇ Ψ_Gᵇ(z)` for all `z`,
@@ -3292,7 +3331,7 @@ The weak compatibility proved for the constructed `R_π` implies very weak compa
 
 The target `coefficientPrimeComparisonStrength` has the following hypotheses and conclusion.
 
-The polarized branch has de Rham admissibility and, under `ExtremelyRegularIrreducibility n` for `n≥2`, full pure WD comparison at every coefficient-prime place. The all-CM nonselfdual branch has de Rham admissibility, full labelled Hodge weights, ss compatibility and the monodromy upper bound of AHTW v1; spherical crystallinity and Iwahori semistability follow from WD criteria. Full `N` equality for general nonselfdual ramified places is not supplied by these statements. Fontaine–Laffaille, ordinary lifting and residual-image conclusions retain their separate consumer hypotheses.
+The polarized branch has de Rham admissibility and, under `ExtremelyRegularIrreducibility n` for `n≥2`, full pure WD comparison at every coefficient-prime place. The all-CM nonselfdual branch has de Rham admissibility, full labelled Hodge weights, ss compatibility and the monodromy upper bound of AHTW v1, unconditionally in rank one and, in rank `n≥2`, under `ExtremelyRegularIrreducibility m` for every `2≤m≤2n`, inherited from `allCMCoefficientPrimeComparison`; spherical crystallinity and Iwahori semistability follow from WD criteria. Full `N` equality for general nonselfdual ramified places is not supplied by these statements. Fontaine–Laffaille, ordinary lifting and residual-image conclusions retain their separate consumer hypotheses.
 
 *Needs:* AG2.6: full polarized comparison; AG2.6: Nonselfdual spherical and Iwahori admissibility; AG2.6: nonselfdual monodromy bound.
 
