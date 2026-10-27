@@ -9,30 +9,25 @@ import TauCeti.AlgebraicTopology.EilenbergMacLane.Basic
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; proving these statements finishes neither a layer nor the roadmap.
 
-The statements here are Quillen A and B (§§2.31, 2.34), the local-coefficient
-characterisation of acyclic maps (§3.7), plus existence and factorisation
-(§§3.10, 3.25), the second homotopy group and universal central extension of
-plus for an aspherical source (§3.29), and freeness of finite projectives over
-simplex function rings (§4.29).
+The statements here are Quillen A and B, the latter in both comma forms
+(§§2.31, 2.34), the local-coefficient characterisation of acyclic maps (§3.7),
+plus existence and factorisation (§§3.10–3.13, 3.25), the second homotopy group
+and universal central extension of plus for an aspherical source (§3.29), and
+freeness of finite projectives over simplex function rings (§4.29).
 Classifying spaces are Mathlib's realised nerves. The homotopy fibre is the
 subspace of the product with the continuous path space, with paths from f(x) to y,
 as in GeneralizedCohomology G2.10. Twisted homology uses Tau Ceti's local systems
-and induced homology maps. CW type means homotopy equivalence to an actual CW complex.
+and induced homology maps. CW type means homotopy equivalence to a Hausdorff CW complex.
 
-The category-homology comparison needs the category chain complex with functor
-coefficients. Rational Hurewicz needs the Hurewicz map and primitive rational
-homology. Neither interface exists at the pins. Monoidal group completion and its
-linear and orthogonal plus comparisons need the fraction categories and stable
-automorphism diagrams, also absent. The topological K-theory comparison needs the
-Segal machine and its connective spectra.
-
-The spectral comparisons of Layer 5, Waldhausen additivity and K-theory assembly
-of Layer 6, and the coefficient, completion, fracture and convergence theorems of
-Layer 7 are deferred here because the symmetric-sphere-module spectra and their
-stable localisation do not exist at the pins. Waldhausen categories and the
-S-construction are absent as well. The quotient and Moore Eₙ theorems additionally
-need spectral operad algebras, the deformation category and HF₂-synthetic spectra;
-these cannot be supplied by a few definitions on the pinned carriers.
+The remaining headline theorems need carriers specified in the README and are not
+stated here: the category chain complex with functor coefficients (category
+homology), the Hurewicz map with primitive rational homology (rational Hurewicz),
+the fraction categories and stable automorphism diagrams (monoidal group
+completion and its linear and orthogonal plus comparisons), the Segal machine and
+its connective spectra (topological K-theory), the symmetric-sphere-module spectra
+with their stable localisation (Layers 5 and 7), Waldhausen categories and the
+S-construction (Layer 6), and spectral operad algebras, the deformation category
+and HF₂-synthetic spectra (the quotient and Moore Eₙ theorems).
 -/
 
 noncomputable section
@@ -91,9 +86,9 @@ def IsPlusConstruction (f : X ⟶ Y) (x : X)
     (P : Subgroup (FundamentalGroup X x)) : Prop :=
   IsAcyclicMap f ∧ (FundamentalGroup.map f.hom x).ker = P
 
-/-- A space has CW type if it is homotopy equivalent to a CW complex. -/
+/-- A space has CW type if it is homotopy equivalent to a Hausdorff CW complex. -/
 def HasCWType (X : TopCat.{u}) : Prop :=
-  ∃ W : TopCat.{u}, Nonempty (Topology.CWComplex (Set.univ : Set W)) ∧
+  ∃ W : TopCat.{u}, Nonempty (Topology.CWComplex (Set.univ : Set W)) ∧ T2Space W ∧
     Nonempty (ContinuousMap.HomotopyEquiv W X)
 
 /-- A surjective central homomorphism initial among central extensions of its target. -/
@@ -115,9 +110,10 @@ theorem quillenTheoremA (F : C ⥤ D)
     ∃ e : ContinuousMap.HomotopyEquiv (classifyingSpace C) (classifyingSpace D),
       e.toFun = (classifyingSpaceMap F).hom := sorry
 
-/-- Quillen B: comma transport equivalences identify the comma space with the
-homotopy fibre, preserving projection up to homotopy (§2.34). The object universe
-contains the morphism universe so that comma categories use the same nerve map. -/
+/-- Quillen B, forward comma form: covariant comma transport equivalences identify
+`B(F↓d)` with the homotopy fibre, preserving projection up to homotopy (§2.34). The
+object universe contains the morphism universe so that comma categories use the
+same nerve map. -/
 theorem quillenTheoremB (F : C ⥤ D)
     (h : ∀ ⦃d d' : D⦄ (g : d ⟶ d'),
       ∃ e : ContinuousMap.HomotopyEquiv
@@ -132,6 +128,24 @@ theorem quillenTheoremB (F : C ⥤ D)
           C(TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d),
             classifyingSpace C)).comp q)
         (classifyingSpaceMap (CostructuredArrow.proj F d)).hom := sorry
+
+/-- Quillen B, primary form: when the contravariant base changes `B(d′↓F) → B(d↓F)`
+are homotopy equivalences, `B(d↓F)` is weakly equivalent to the homotopy fibre over
+`d`, preserving projection up to homotopy (§2.34). -/
+theorem quillenTheoremB_structuredArrow (F : C ⥤ D)
+    (h : ∀ ⦃d d' : D⦄ (g : d ⟶ d'),
+      ∃ e : ContinuousMap.HomotopyEquiv
+        (classifyingSpace (StructuredArrow d' F))
+        (classifyingSpace (StructuredArrow d F)),
+        e.toFun = (classifyingSpaceMap (StructuredArrow.map (T := F) g)).hom) (d : D) :
+    ∃ q : C(classifyingSpace (StructuredArrow d F),
+      TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d)),
+      TauCeti.IsWeakHomotopyEquivalence q ∧
+      ContinuousMap.Homotopic
+        ((⟨fun p => p.1.1, continuous_fst.comp continuous_subtype_val⟩ :
+          C(TauCeti.MappingPathFiber (classifyingSpaceMap F) (classifyingSpace_vertex d),
+            classifyingSpace C)).comp q)
+        (classifyingSpaceMap (StructuredArrow.proj d F)).hom := sorry
 
 end CategoryTheory
 
@@ -148,10 +162,11 @@ theorem IsAcyclicMap.iff_homology (hX : HasCWType X) (hY : HasCWType Y)
         (L : LocalCoefficientSystem.{max u w, u, max u w} R Y) (n : ℕ),
         IsIso (LocalCoefficientSystem.twistedHomologyMap f L n) := sorry
 
-/-- A connected CW space admits plus at every perfect normal subgroup (§3.10). -/
-theorem plus_exists [Topology.CWComplex (Set.univ : Set X)] [PathConnectedSpace X]
+/-- A connected Hausdorff CW space admits plus at every perfect normal subgroup
+(§§3.10–3.13). -/
+theorem plus_exists [Topology.CWComplex (Set.univ : Set X)] [T2Space X] [PathConnectedSpace X]
     (x : X) (P : Subgroup (FundamentalGroup X x)) [P.Normal] [Group.IsPerfect P] :
-    ∃ (Y : TopCat.{u}) (_ : Topology.CWComplex (Set.univ : Set Y))
+    ∃ (Y : TopCat.{u}) (_ : Topology.CWComplex (Set.univ : Set Y)) (_ : T2Space Y)
       (_ : PathConnectedSpace Y) (f : X ⟶ Y), IsPlusConstruction f x P := sorry
 
 /-- Maps killing P factor uniquely up to homotopy through any plus map, for
