@@ -33,8 +33,8 @@ normalization `(1+c r^(2−n))^(4/(n−2))δ` has mass2c.
 | --- | --- |
 | [RiemannianGeometry R1–R5,R7.8](../RiemannianGeometry/README.md) | Native metric/connection/curvature, distance, Gauss and hypersurface variation, radial density, R4.3 covering criterion, R4.6 cut-locus and rigidity interfaces, and smooth Lipschitz approximation. R5b's normal Hessian/Jacobi identity is used with its compact-support and two-sidedness hypotheses. |
 | [DifferentialGeometry 12.2–12.5](../DifferentialGeometry/README.md) | Native-compatible gradient, divergence, Laplace–Beltrami and density/Green identities. |
-| [PDE Lanes A,C–E](../PDE/README.md), [VariationalMethods V1–V5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md), [UnboundedOperators D0.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bd1bbc0a33b022a053df88d9efd662f963f8dcde/TauCetiRoadmap/OperatorTheory/UnboundedOperators/README.md) | Euclidean weak spaces, local and boundary estimates and scalar Dirichlet theory. VM V2.3 supplies realification and complex tests; UO D0.6 owns the dense form-domain self-adjoint realization, and VM V5 its compact specialization. Weighted/noncompact/end and Spin-boundary adaptations are constructed here. |
-| [RiemannianGeometry R8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/fe24665114fd3848f928d85e00f717f248bc6c56/TauCetiRoadmap/RiemannianGeometry/README.md) | R8.1 finite scalar spherical harmonics and R8.2 their complete compact realization. P1 constructs the radial scalar inverse from these inputs. Round spinor spectrum and its ambient-bundle comparison are separate P1 producers. |
+| [PDE Lanes A,C–E](../PDE/README.md), [VariationalMethods V1–V5](../VariationalMethods/README.md), [UnboundedOperators UO-D06](../OperatorTheory/UnboundedOperators/README.md) | Euclidean weak spaces, local and boundary estimates and scalar Dirichlet theory. VM V2.3 supplies realification, the complex `Complex.I` tests and the complex-linear forcing map; UO-D06 owns the dense form-domain self-adjoint realization (its closed-form operator over `RCLike 𝕜`, with both adjoint inclusions and the shifted resolvent), and VM V5.1 its compact specialization: the shifted inverse is the V2 form solution operator, compact when the inclusion is compact. Weighted/noncompact/end and Spin-boundary adaptations are constructed here. |
+| [RiemannianGeometry R8](../RiemannianGeometry/README.md) | R8.1 finite scalar spherical harmonics and R8.2 their complete compact realization. P1 constructs the radial scalar inverse from these inputs. Round spinor spectrum and its ambient-bundle comparison are separate P1 producers. |
 | [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md) | Generic real/complex bundle distributions, local elliptic regularity and compact Hilbert Sobolev/L² comparisons. Its compact resolvent theorem is not a weighted noncompact inverse. |
 | [SpinGeometry G3–G6](../SpinGeometry/README.md) | Geometric Spin lifts, spinor bundles, Clifford-compatible connections, Dirac operator, formal adjoint and Schrödinger–Lichnerowicz formula. P4–P7 extend their analytic use to the actual complete/end/boundary domains. |
 | [GeometricCurrents G1–G7](../GeometricCurrents/README.md) | Integral current minimization, compactness, barriers, codimension-one interior regularity in ambient dimensions≤7 and G7's smooth stable-limit/no-cancellation interfaces. P3 verifies their hypotheses for its AE hypersurface family and owns the induced-end estimates. |
@@ -44,10 +44,10 @@ normalization `(1+c r^(2−n))^(4/(n−2))δ` has mass2c.
 
 Order the common analytic identities and linear inputs before P0–P7,
 then prove the mass theorems P8. For compact form inputs use the acyclic
-chain VM V2.3 → UO D0.6 → VM V5 → CKG K5a's closed-base domain
+chain VM V2.3 → UO-D06 → VM V5.1 → CKG K5a's closed-base domain
 comparison → Yamabe Y1.2/Y3.1 → P3a. R5b consumes the same form
 representation for its compact normal-Jacobi Dirichlet specialization;
-that boundary domain is distinct from K5a's closed-base domain. In UO's construction a dense
+that boundary domain is distinct from K5a's closed-base domain. In UO-D06's construction a dense
 continuous injective j:V→H and a bounded Hermitian shifted-coercive form
 specify Dom A={j u : ∃h, ∀v, a(u,v)=⟨h,j v⟩} and A(j u)=h.
 Use that same graph, scalar structure and inner-product convention in
@@ -650,3 +650,9 @@ independent radial-model inputs; positive-scalar kernel vanishing alone
 is not a spectral-completeness reference. Weighted-space arguments must
 prove the finite-p and separate Hölder estimates and their precise
 coefficient/boundary hypotheses stated in P1.
+Bartnik, *The mass of an asymptotically flat manifold* (Comm. Pure Appl.
+Math. 39, 1986), §1 is the source of P1a's weight convention and of the
+weighted elliptic estimates and Fredholm theorems for 1<p<∞ (Theorem1.7),
+with its coefficient hypotheses stated before that theorem; §§2–4 give the
+Laplacian isomorphism on 2−n<δ<0, harmonic coordinates and the chart
+invariance of the mass used in P0.2 and P1d.
