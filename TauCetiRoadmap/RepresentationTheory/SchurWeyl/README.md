@@ -271,6 +271,80 @@ Schur-Weyl) can proceed in parallel once the Specht modules exist.
   representation `Perm.sign`, and `S^{(n-1,1)}` is the `(n-1)`-dimensional standard representation
   (`M^{(n-1,1)} = triv ⊕ standard`). Prove these identifications.
 
+- **Specht transpose and the actual sign-twist intertwiner.** For every
+  λ⊢n construct an isomorphism
+  `T_λ:S^λ⊗sgn_n≃S^(λᵗ)` in `FDRep ℚ (Equiv.Perm (Fin n))`,
+  with sgn_n the native
+  `FDRep.ofLinearCharacter (TauCeti.signLinearCharacter ℚ (Fin n))`.
+  Use `TauCeti.spechtModule`, `TauCeti.conjugate`, the native tableau,
+  tabloid and symmetrizer carriers, and
+  `YoungTableau.spechtIdealEquivSpechtSubrepresentation`; the construction
+  compares actual representations, not just their characters. Transport
+  it by `Representation.baseChange` to every characteristic-zero field k,
+  including the existing `spechtModuleℂ`. Prove the scalar-extension and
+  tensor-unit comparison squares; algebraic closedness is unnecessary.
+
+  Pin a concrete normalization on the ideal model. For a labelled tableau
+  t construct its transpose tᵗ, with the actual cell-swap and label/cardinality
+  transports, and prove that its row and column subgroups interchange.
+  In A=ℚ[S_n] construct the involutive algebra automorphism
+  ε([σ])=sgn(σ)[σ]. With the fixed order c_t=a_t b_t, prove
+  ε(a_t)=b_(tᵗ), ε(b_t)=a_(tᵗ), hence ε(c_t)=b_(tᵗ)a_(tᵗ).
+  Right multiplication corrects that opposite order: construct
+  `F_t:A c_t⊗sgn_n→A c_(tᵗ)` by `F_t(x⊗1)=ε(x)b_(tᵗ)`.
+  Prove membership in the target left ideal, linearity and the exact
+  intertwining equation for the sign-twisted source action. Consume
+  `YoungTableau.youngSymmetrizer_sq` for c_t²=κ_t c_t, with
+  κ_t=n!/dim_ℚ(A c_t)≠0. Prove, after the specified sign-square/unit
+  identifications, `F_(tᵗ)∘F_t=κ_t id` and
+  `F_t∘F_(tᵗ)=κ_(tᵗ) id`. These equations make F_t nonzero;
+  associativity of composition then proves κ_t=κ_(tᵗ). Thus the inverse
+  is κ_t⁻¹F_(tᵗ). After Layer5's standard-basis theorem compare κ_t
+  with n!/f^λ, without using that later dimension theorem here.
+  Carry these maps and both inverse
+  equations through the native ideal/polytabloid comparisons to obtain
+  T_λ; give the resulting generator/coefficient equations and its
+  relabelling comparison. A raw pair of transpose maps is not asserted
+  to square to the identity before this scalar is removed. Choose the
+  row-superstandard tableau for the partition-level map and retain the
+  actual comparison for its transpose, which need not be row-superstandard.
+  Distinguish the explicit inverse from the independently normalized
+  partition-level T_(λᵗ); compute their relabelling scalar, including
+  self-transpose shapes, rather than asserting an involution over ℚ.
+
+  Distinguish ε from the group-inversion anti-automorphism of A, which
+  exchanges left and right ideals. Construct the self-duality comparison
+  used to reconcile a contragredient presentation: restrict the native
+  invariant tabloid bilinear form to S^λ, prove nondegeneracy over ℚ,
+  and export the equivariant map v↦(w↦B(v,w)) and its inverse to the
+  native linear dual with action `(σ·φ)(v)=φ(σ⁻¹v)`. Compare its scalar
+  extension with the same bilinear form on k⊗S^λ; over ℂ this remains a
+  complex-bilinear duality, distinct from a Hermitian identification.
+  Use these actual maps whenever a dual Specht presentation intervenes.
+  Include n=0, n=1, a row, a column and a self-transpose shape.
+
+  Prove the character identity χ^(λᵗ)(σ)=sgn(σ)χ^λ(σ), and its integral
+  `spechtChar` version, from T_λ. For λ⊢a, μ⊢b and ν⊢a+b let
+  C_(λ,μ)^ν be the actual intertwiner space from S^ν to
+  Ind_(S_a×S_b)^(S_(a+b))(S^λ⊠S^μ), using the existing block embedding
+  and induction carriers. Prove that the restriction of sgn_(a+b) is
+  sgn_a⊠sgn_b and construct the tensor/induction comparison. Together
+  with T_λ,T_μ,T_ν it gives an explicit linear equivalence
+  `C_(λ,μ)^ν≃C_(λᵗ,μᵗ)^(νᵗ)`, with inverse equations. Through the
+  existing Schur–Weyl and Schur-functor multiplicity comparisons, derive
+  the source's transposed Schur-functor product decomposition with these
+  same multiplicity spaces; retain zero evaluations for shapes exceeding
+  the vector-space dimension. Compare this result with Layer7's
+  ω(s_λ)=s_(λᵗ), rather than using that character identity as a substitute
+  for the intertwiner. For tensor products within one fixed S_n the
+  two sign twists cancel: construct instead
+  `S^(λᵗ)⊗S^(μᵗ)≃S^λ⊗S^μ` and
+  `S^(λᵗ)⊗S^μ≃(S^λ⊗S^μ)⊗sgn_n`.
+  These give the corresponding two-factor and factor/output transpose
+  symmetries of the actual tensor-product Hom spaces; simultaneous
+  transposition of all three Kronecker indices is a different assertion.
+
+
 ### Layer 5: the standard basis and the hook-length formula
 
 - **The standard basis.** The polytabloids `{e_t : t ∈ StandardYoungTableau μ}` form a basis of
