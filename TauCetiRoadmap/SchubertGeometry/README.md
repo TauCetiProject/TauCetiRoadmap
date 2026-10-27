@@ -35,6 +35,58 @@ Construct in this order: S1's existing relative carriers and early root cells; S
 4. Construct the determinantal rank-condition schemes relative to an actual complete subbundle flag; compare them with the supplied Schubert closures and locally split integral model. Give their universal ideals, restrictions, saturation/homogeneous presentations, base change and cell decompositions. Two or more arbitrary relative flags give well-defined incidence schemes but not automatic flatness, expected codimension or smooth resolutions. State and prove each such conclusion with its actual versality/transversality/regular-sequence assumptions.
 5. Retain the symplectic exercise: for a nondegenerate alternating form, prove dim U≤m for isotropic U⊂k^(2m), and construct the isotropic Grassmannian as the universal zero locus of the restricted form on the tautological bundle. Compare its split group quotient, transitivity, parabolic stabilizer and dimension r(2m−r)−r(r−1)/2, including characteristic2 with an actual alternating form. Rank0 is a point and r>m is empty. Distinguish orthogonal characteristic2/non-smooth stabilizer issues. General root-type flag examples use the actual corresponding reductive model.
 
+
+   **Symplectic stabilizer in the exercise coordinates.** For 0≤r≤m put
+   s=m−r and take the source form
+   `Q_src=[[0,H_m],[−H_m,0]]`, where H_m has ones on its antidiagonal.
+   In one-based coordinates set u_i=e_i and f_i=e_(2m+1−i).
+   Let C have ordered columns
+   `(u_1,...,u_r; u_(r+1),...,u_m,f_(r+1),...,f_m; f_1,...,f_r)`.
+   Prove `Cᵀ Q_src C=J_(r,s)`, where
+   ```
+   J_(r,s) = [[0,0,I_r],[0,J_0,0],[−I_r,0,0]],
+   J_0     = [[0,I_s],[−I_s,0]].
+   ```
+   Give the actual permutation/reindexing maps to `Fin (2*m)` and the
+   sum-indexed native symplectic carrier. The native
+   [`Matrix.J`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/LinearAlgebra/SymplecticGroup.lean#L58)
+   is `[[0,−I],[I,0]]`; prove the global-negation and permutation comparisons,
+   using `SymplecticGroup.mem_iff'` for the column-action equation.
+
+   In these coordinates prove that the stabilizer P_r of
+   `U=span(u_1,...,u_r)` consists exactly of the block upper-triangular
+   symplectic matrices for block sizes (r,2s,r). Preservation of U forces
+   preservation of U-perp=U⊕W_0. Construct the Levi homomorphism
+   `l(A,D)=diag(A,D,A^(−T))`, with A∈GL_r and D∈Sp(W_0,J_0),
+   and the unipotent matrices
+   ```
+   u(Y,Z) = [[I_r,YᵀJ_0,Z],[0,I_(2s),Y],[0,0,I_r]],
+   Y : Matrix (Fin (2*s)) (Fin r) k,
+   Z : Matrix (Fin r) (Fin r) k,
+   Z−Zᵀ = YᵀJ_0Y.
+   ```
+   Prove every element of P_r has a unique factorization u(Y,Z)l(A,D),
+   with inverse coordinate extraction from its blocks. Export the laws
+   ```
+   (Y,Z)(Y',Z') = (Y+Y', Z+Z'+YᵀJ_0Y'),
+   (Y,Z)⁻¹      = (−Y,−Zᵀ),
+   l(A,D)u(Y,Z)l(A,D)⁻¹ = u(DYAᵀ,AZAᵀ).
+   ```
+   Identify this kernel as the unipotent radical and construct the split
+   projection P_r→GL_r×Sp_(2s), its section and the resulting semidirect
+   product on the existing group-scheme/point carriers. Prove the block
+   maps and their equations commute with field extension and base change.
+   Since YᵀJ_0Y is alternating, choose its strictly upper-triangular part
+   Z_0, with `Z_0−Z_0ᵀ=YᵀJ_0Y`; then Z−Z_0 is symmetric.
+   This gives affine coordinates of dimension `2sr+r(r+1)/2` on the
+   unipotent radical in every characteristic. No division by2 is used.
+   Recover the isotropic-Grassmannian dimension above from this stabilizer.
+   At r=0 obtain P_0=Sp_(2m) and trivial radical; at r=m obtain
+   GL_m acting on the additive symmetric matrices by Z↦AZAᵀ.
+   Compare this positive-coordinate parabolic with the roadmap's negative
+   quotient convention by its pinned opposition map before assigning a
+   root subset or Schubert index.
+
 ## S2. All-word Bott–Samelson and crank interfaces
 
 1. For each simple root use the actual minimal parabolic P_i− and projection G/B−→G/P_i−. For X→G/B− construct the right crank X×_(G/P_i−)G/B−, a P¹-bundle over X; construct the left crank P_i−×^(B−)X, an X-bundle over P¹, with its map to G/B− when X is a B−-space. Distinguish the two projection directions, group actions and universal properties. The right projection is smooth proper of relative dimension1; if X is smooth/proper over k, so is its total space in the corresponding assertion. The left construction is locally an X-bundle over P¹ and inherits smoothness/properness over k when X has that property. Export their base-change and equivariance laws; no absolute properness is asserted for an arbitrary nonproper X.
