@@ -36,7 +36,7 @@ inner-product-preserving module map; prove its equivalence with an invertible
 adjointable map whose inverse is its adjoint. `K_A(E,F)` means the norm closure
 of module rank-one maps, not the Banach-space compact operators.
 
-- [CStarAlgebras C1–C2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a35ac0d546695b37b8e36cd92ecc67e7ac93e82/TauCetiRoadmap/CStarAlgebras/README.md) supplies ideals, approximate
+- [CStarAlgebras C1–C2](../CStarAlgebras/README.md) supplies ideals, approximate
   units, hereditary subalgebras, multipliers and strict topology, representations,
   primitive spectra, and the Dauns–Hofmann theorem. C5 supplies spatial tensor
   products and analytic direct limits. C6–C7 supply nuclearity and exactness
@@ -45,27 +45,34 @@ of module rank-one maps, not the Banach-space compact operators.
   [BanachSpaceTheory B1](../BanachSpaceTheory/README.md).
   [BanachAlgebras A4](../BanachAlgebras/README.md) supplies
   module factorization; use it for essential actions and completion arguments.
-- [VonNeumannAlgebras V0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d231d5b229b03546f4bbd7aeb3021dac5416d2bb/TauCetiRoadmap/VonNeumannAlgebras/README.md) supplies states and
+- [VonNeumannAlgebras V0](../VonNeumannAlgebras/README.md) supplies states and
   GNS. Its V7 modules are Hilbert spaces carrying normal representations,
   used for coupling dimension; they are distinct from the A-valued modules
-  developed here. H3 and H7 must construct the comparison by interior
-  tensoring with a GNS
-  representation, prove its normal-representation compatibility wherever V7
-  applies, and identify induced intertwiners and tensor associators. Dimension
+  developed here. H3 and H7 construct the comparison by interior
+  tensoring with a GNS representation. For a finite factor M with faithful
+  normal tracial state τ and a right Hilbert M-module E, the model is the
+  Hilbert space `E⊗_M L²(M,τ)`: the commuting right M-action is inherited
+  from the right action of M on tracial `L²(M,τ)`, which makes it a normal
+  representation of the opposite algebra, transported to V7's sidedness
+  convention. H3's second-factor intertwiners and the elementary-tensor
+  coefficient formula give the construction. Prove normality of this
+  representation wherever V7 applies (a left action induced on `E⊗_M L²(M,τ)`
+  from an arbitrary left action on E is not asserted to be normal), and
+  identify induced intertwiners and tensor associators. Dimension
   theory remains confined to V7's normal Hilbert-space representations.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   supplies the Hilbert-space specialization of partial operators, closed graphs,
   adjoints, and resolvents. Reuse `LinearPMap` and the `zI-T` resolvent convention.
   H6 builds the module-valued adjoint and regularity theory; the Hilbert-space
   Riesz representation theorem does not give that adjoint.
-- [TopologicalKTheory T1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/58f69670927e9f48498986e7b6fc0bcf4e48bf1e/TauCetiRoadmap/TopologicalKTheory/README.md) supplies continuous
+- [TopologicalKTheory T1](../TopologicalKTheory/README.md) supplies continuous
   finite-rank vector bundles, morphisms, pullbacks, and Hermitian metrics.
   H5 constructs their continuous section modules and supplies Hilbert fields,
   compact-operator bundles, and the analytic section-algebra comparison.
-  [CharacteristicClasses C1.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/046bca7d55d37f36cab21407928935315ea4ef2c/TauCetiRoadmap/CharacteristicClasses/README.md) supplies
+  [CharacteristicClasses C1.2](../CharacteristicClasses/README.md) supplies
   the good-cover constant-coefficient Čech–singular comparison used for S³;
   [AlgebraicTopology Stage 6](../AlgebraicTopology/README.md) supplies its
-  ordinary cohomology. [TopologicalSheafCohomology TS1.1–TS1.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/253015e5e7554b58362c426c4e74dc6c0643d661/TauCetiRoadmap/TopologicalSheafCohomology/README.md#ts1-compact-space-čech-cohomology-and-bounded-hypercohomology)
+  ordinary cohomology. [TopologicalSheafCohomology TS1.1–TS1.2](../TopologicalSheafCohomology/README.md#ts1-compact-space-čech-cohomology-and-bounded-hypercohomology)
   supplies the generic fixed-cover abelian cochains, refinement maps and
   homotopies, and small cofinal cover/filtered-cohomology-colimit interfaces
   used in H5. Specialize its coefficient ring to ℤ. H5 owns the
@@ -74,15 +81,16 @@ of module rank-one maps, not the Banach-space compact operators.
   The general derived sheaf-cohomology and fine-sheaf comparison targets remain
   in [ComplexKahlerGeometry K2](../ComplexKahlerGeometry/README.md), and the
   smooth-function exponential sequence in
-  [SmoothBundlesConnections B6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1c45ab4061b483b832b5d54f597dc69afd3f97a5/TauCetiRoadmap/SmoothBundlesConnections/README.md).
+  [SmoothBundlesConnections B6](../SmoothBundlesConnections/README.md).
 
 The targets H1–H4 precede H5 and H6; H7 uses H3 and H6. K-theory and KK-theory,
 C*-dynamical imprimitivity theorems, and categorical completions consume these
 interfaces. Their classification and product theorems are not prerequisites.
-[Suggested.lean](Suggested.lean) gives representative signatures against the
-existing Mathlib module classes; this README is the specification.
+[Suggested.lean](Suggested.lean) states the headline theorems of H2 that are
+statable against the pinned Mathlib module classes; this README is the
+specification.
 
-The child [HeisenbergImprimitivity](https://github.com/TauCetiProject/TauCetiRoadmap/blob/18b9874a63178fcd6565ff1014e3c4b283d23293/TauCetiRoadmap/HilbertModules/HeisenbergImprimitivity/README.md) develops
+The child [HeisenbergImprimitivity](HeisenbergImprimitivity/README.md) develops
 finite-type phase-space lattices, Schwartz–Bruhat and Poisson analysis, positive
 twisted pairings, explicit imprimitivity, smooth frames and trace normalization.
 It consumes H1–H3; these abstract foundations are independent of that example.
@@ -139,14 +147,17 @@ full Hilbert I_E-module structure, and the compatibility of all these constructi
 
 ## H2. Adjointable maps and module compact operators
 
-Define an adjoint by `⟨Tx,y⟩=⟨x,T*y⟩`. Prove uniqueness, complex and
-A-linearity and boundedness starting with plain functions satisfying this
-identity; use the closed graph theorem after establishing linearity. A
+Define an adjoint pair `IsAdjointPair` of plain functions by
+`⟨Tx,y⟩=⟨x,T*y⟩`. Prove uniqueness, and prove complex and A-linearity and
+boundedness starting with plain functions between complete modules satisfying
+this identity (`adjointPair_exists_continuousLinearMaps`); use the closed graph
+theorem after establishing linearity. A
 bounded module map is adjointable exactly when it has a function satisfying
 this identity, and bounded module maps need not have such a function.
 Build the spaces `L_A(E,F)` with addition, composition,
 adjoint, operator norm, completeness, and the identities
-`‖T*‖=‖T‖`, `‖T*T‖=‖T‖²`, `(ST)*=T*S*`. In particular `L_A(E)` is a
+`‖T*‖=‖T‖`, `‖T*T‖=‖T‖²` (`norm_adjoint_comp_self`, for any adjoint pair of
+bounded maps), `(ST)*=T*S*`. In particular `L_A(E)` is a
 unital C*-algebra, with the zero-module convention allowed. Give positivity,
 square roots, functional calculus, orthogonal projections, isometries,
 unitaries, and the natural action on E. The forgetful map to complex
@@ -181,7 +192,11 @@ For unital A prove `id_E∈K_A(E)` iff E is finitely generated projective:
 equivalently E is unitarily isomorphic to `p A^n` for a projection
 `p∈M_n(A)`. Construct finite
 Parseval frames `x_1,…,x_n` with `Σθ_(x_i,x_i)=id_E`, the analysis and
-synthesis maps, and the projection/Gram-matrix comparison. Prove every
+synthesis maps, and the projection/Gram-matrix comparison. For unital A and a
+complete right Hilbert A-module E, prove that a finite Parseval frame exists
+iff E is finitely generated and projective as an algebraic right A-module
+(`exists_parseval_frame_iff_finite_projective`); n=0 covers E=0, and the zero
+algebra forces E=0. Prove every
 finitely generated projective right A-module admits a complete Hilbert
 module structure, unique up to unitary isomorphism. Prove every A-linear
 isomorphism between two such Hilbert modules is adjointable and its polar
@@ -354,7 +369,7 @@ K-theoretic Bott maps belong to TopologicalKTheory and OperatorKTheory.
 
 Construct the unitary dual Â as pure states modulo unitary equivalence
 of their cyclic GNS representations, using
-[CStarAlgebras C2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a35ac0d546695b37b8e36cd92ecc67e7ac93e82/TauCetiRoadmap/CStarAlgebras/README.md)'s pure-state/irreducible-GNS
+[CStarAlgebras C2](../CStarAlgebras/README.md)'s pure-state/irreducible-GNS
 correspondence. This gives a small carrier without quantifying over a
 universe of arbitrary Hilbert spaces. Prove independence of the cyclic
 representative, and equip it with the topology induced by `[π]↦ker π`
@@ -386,7 +401,7 @@ imprimitivity constructions, and prove Morita invariance of continuous trace.
 
 For the classification assume X is also paracompact. Write ČHⁿ(X,𝓕)
 for open-cover Čech cohomology of the indicated abelian sheaf. Consume
-[TopologicalSheafCohomology TS1.1–TS1.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/253015e5e7554b58362c426c4e74dc6c0643d661/TauCetiRoadmap/TopologicalSheafCohomology/README.md#ts1-compact-space-čech-cohomology-and-bounded-hypercohomology)
+[TopologicalSheafCohomology TS1.1–TS1.2](../TopologicalSheafCohomology/README.md#ts1-compact-space-čech-cohomology-and-bounded-hypercohomology)
 with coefficient ring ℤ for the generic fixed-cover complexes on actual tuple
 intersections, ordered/tuple comparison and signs, raw refinement maps and
 homotopies, and the small cofinal-cover filtered colimit of cohomology.
@@ -570,7 +585,7 @@ Give a concrete selfadjoint nonregular example. Start with
 `D=-i d/dt` on H=L²([0,1]) with domain H₀¹([0,1]), prove deficiency indices
 (1,1), and parametrize its selfadjoint extensions D_λ by λ∈𝕋 using
 normalized deficiency vectors φ_± and the condition `α_+=λ α_-` in the
-graph domain of D*. Consume [PDE Lane A.1–A.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/90cd3694d4b5bd2a5b4d3b89652a958b951210a1/TauCetiRoadmap/PDE/README.md) for weak-derivative
+graph domain of D*. Consume [PDE Lane A.1–A.6](../PDE/README.md) for weak-derivative
 Sobolev spaces, smooth density, integration by parts and boundary traces.
 H7 proves the interval specialization: each W¹,² class has a unique
 continuous absolutely-continuous representative with L² derivative; its
@@ -654,18 +669,16 @@ The [Mathlib module-convention discussion](https://leanprover.zulipchat.com/#nar
 explains the use of the opposite algebra for right modules and the prevention
 of scalar-instance diamonds. The
 [`WithCStarModule` discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/defeq%20abuse%20in%20%60WithLp%60)
-explains type synonyms for the module norm. Follow those designs and the
-C*-class unbundling in
-[Mathlib PR #24106](https://github.com/leanprover-community/mathlib4/pull/24106).
+explains type synonyms for the module norm. Follow those designs and
+Mathlib's unbundled C*-algebra classes (`CStarAlgebra`, `NonUnitalCStarAlgebra`).
 Use existing `LinearPMap` graphs and closure APIs for partial operators,
 the TopCat Čech diagrams and sites complexes for cover cochains, and T1's
 bundle APIs. The derived cohomology carrier `Sheaf.H` remains the target
 of the neighboring sheaf-comparison developments cited above.
 The [sheaf-cohomology design discussion](https://leanprover.zulipchat.com/#narrow/stream/335062-homology/topic/Roadmap%20for%20sheaf%20cohomology)
 specifies the Ext-based cohomology and the comparison from cover complexes.
-Follow [Mathlib PR #35073](https://github.com/leanprover-community/mathlib4/pull/35073)
-for the concrete abelian-group Čech cochains on open covers and their
-identification with `cechComplexFunctor`. Consume TS1.1–TS1.2's generic
+Identify the concrete abelian-group Čech cochains on open covers with
+Mathlib's `cechComplexFunctor`. Consume TS1.1–TS1.2's generic
 fixed-cover/refinement and cohomological-colimit interfaces in that shape.
 H5 builds their continuous-function-sheaf specialization, continuous
 exponential-sequence computations and nonabelian/DD lifting and gluing,
