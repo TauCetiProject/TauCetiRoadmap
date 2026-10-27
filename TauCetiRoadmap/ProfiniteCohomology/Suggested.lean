@@ -111,20 +111,41 @@ a consumer never has to prove that two of these declarations agree. That is `exp
 `explicitInfl1/2`, `explicitCoeff0/1/2`, `explicitCor0/1/2`, `explicitDelta0/1`, the six cups
 `explicitCup00/01/10/02/11/20`, and the comparisons `explicitIso_map`, `explicitIso_res`,
 `explicitIso_infl`, `explicitIso_coeffMap`, `explicitIso_delta0/1`, `explicitIso_cor0`,
-`explicitIso_cor`, `explicitIso_cor2`, `explicitIso_cup` and `explicitIso_kummerMap`.
+`explicitIso_cor`, `explicitIso_cor2` and `explicitIso_kummerMap`.
 
 Every law below is an equation between named maps. A law about restriction names `res`, one about
-corestriction names `corestriction` or its relative form `corestrictionLe`, and one comparing the
-explicit model with the canonical object names both sides. Where a map is not yet constructed it is
-declared here as a target with a `sorry` body, rather than left as a parameter of the law: a law
-quantified over an arbitrary morphism is not a weaker statement about the intended map, it is a
-different and false statement about every morphism. The maps still carried for that reason are
-`ofDiscreteModulePairing`, `cochainClass`, `resLe`, `corestrictionLe`,
-`conjOpenSubgroup`, `conjMapOf`, `powerClassNorm`, `kummerCor`, `f2Pairing`, `cupFamily`,
-`trivialF2Quotient`, `trivialF2InflSub`, `evensNormLe`, `homClass`, `galoisF2Iso`,
-`explicitH2CyclicEquiv`, `abelianizationProPSubgroupOfEquiv` and `abelianizationProPTransferLe`.
-The others this paragraph once listed are Tau Ceti's declarations now, or have bodies built from
-them.
+corestriction names `corestriction`, and one comparing the explicit model with the canonical object
+names both sides. No map is declared here with a `sorry` body, and no map is left as a parameter of
+a law: a law quantified over an arbitrary morphism is a different and false statement about every
+morphism. A headline whose statement needs a map that neither the pinned libraries nor a short
+definition on native carriers provides is therefore not stated in this file; `README.md` carries it
+as a target with its intended signature. These are:
+
+* restriction and corestriction between two open subgroups `W ≤ V` of `G`, and the conjugation map
+  `Hⁿ(W, X) → Hⁿ(gWg⁻¹, X)` between open subgroups (Layers 6 and 10), with the transitivity of
+  corestriction, the Mackey double-coset formula and the conjugation compatibility of `delta`;
+* the dimension-shifting isomorphism `Hⁱ⁺¹(G, X) ≅ Hⁱ(G, Coind X / X)` for `i ≥ 1` and the
+  compatibility of Shapiro's isomorphism with the algebraic coinduction (Layer 7), which need the
+  embedding `X → Coind X` and its cokernel as objects of `TopRep`;
+* the norm square of the Kummer isomorphism (Layer 9), which needs the field norm on power classes
+  and the corestriction of the Kummer classes;
+* the class `u_(G/V)(p)` in Layer 2's `H²` of the class module of a group of strict
+  `p`-cohomological dimension at most two, with its generation, restriction and inflation
+  statements (Layer 11): the class needs continuity of this file's `abelianizationProPAction`,
+  which no imported module provides. Tau Ceti builds the class on its own copy of the action
+  (`TauCeti.abelianizationProPClass` with the instance `TauCeti.abelianizationProP_continuousSMul`,
+  `CohomologicalDimension/ClassModule/Basic.lean`); this file does not restate the class-module
+  theorems against it;
+* the all-degree cup product on this roadmap's `TopPairing` with its Leibniz rule, associativity,
+  graded commutativity, unit laws and compatibility with restriction, inflation, coefficient maps
+  and corestriction, and its agreement with the six low-degree cups (Layer 12). Tau Ceti's
+  `TauCeti.TopPairing.cup` (`Cup/Cohomology.lean`) is that product on Tau Ceti's own
+  `TauCeti.TopPairing`; this file does not restate the laws against it;
+* the Evens norm `Hⁿ(U, 𝔽₂) → H^(ln)(G, 𝔽₂)` of an open subgroup of index `l` in every degree,
+  built from tensor induction, with its multiplicativity, transitivity, double-coset, inflation,
+  restriction and polarization formulas, the class of a homomorphism `U → 𝔽₂` in `H¹(U, 𝔽₂)`, the
+  index-two norm as a map of classes and the index-two exact sequences that involve a cup
+  (Layer 13), and their field-extension forms over a finite separable extension (Layers 9 and 13).
 
 Two hypotheses are carried as **data** rather than left implicit, because the constructions do not
 exist without them. `CosetTransversal U` bundles a section of `G → G ⧸ U` with the proof that it is
@@ -136,38 +157,31 @@ and each of them has to name the same two coefficient maps.
 
 The index-two Evens block carries **no** chosen element outside `U`, and no structure bundling one.
 Everything stated at class level is choice-free: `evensConj` is `res ∘ cor - id`, `graphClass` is a
-function of `U` and `α`, `evensNormIndexTwo` is the graph class descended to `H¹(U, 𝔽₂)`, and the
-class-level identities take only `(G : U) = 2`. The element `s` appears exactly where the cochain
-formulas need it, in `evensGraphCochain`, `evensCorCochain`, `indexTwoInd` and their theorems, and
-the theorems tying the class-level maps to those cochains (`evensConj_eq_conjMapOf`,
-`graphClass_eq_cochainClass`, `evensNormIndexTwo_eq_ind_pullback`) quantify over **every**
-`s ∉ U`. A bundled choice would have made every exported identity a statement about that choice.
+function of `U` and `α`, and the class-level identities take only `(G : U) = 2`. The element `s`
+appears exactly where the cochain formulas need it, in `evensGraphCochain`, `evensCorCochain`,
+`indexTwoInd` and their theorems, and the identities tying class-level maps to those cochains
+(README Layer 13) quantify over **every** `s ∉ U`. A bundled choice would have made every exported
+identity a statement about that choice.
 
 Degree 1 of the index-two form is stated on **cochains**, not on classes. `evensB1` and `evensBs`
 are not cocycles: for `G = C₄ = ⟨σ⟩`, `U = ⟨σ²⟩`, `s = σ` and `α ≠ 0`, the values of `evensB1` at
 `1, σ, σ², σ³` are `0, 1, 1, 0`, so it is not a homomorphism. Only their sum `evensCorCochain` is,
 and only the sum is given a class.
 
-Also prototyped: trivial-action `H¹` worked examples through `ContinuousAddMonoidHom` and the two
-topological facts the Layer 3 comparison rests on (Layers 2 and 3); the exactness of discrete
-cochain lifting (Layer 5); the canonical Shapiro map `shapiroMap`, induced by the comparison
-cochain map `shapiroCochainMap`, with Shapiro's lemma in every degree as the statement that this
-cochain map is a quasi-isomorphism (`isIso_shapiroMap`, `quasiIso_shapiroCochainMap`) and
-`shapiroIso` the resulting isomorphism, and the descent of a vanishing restriction from a closed
-subgroup to an open one (Layer 10); two cup-product cocycle identities and the `C₂` nontriviality
-anchor (Layer 8); the
-general-`n` Kummer cocycle, the norm square of the Kummer isomorphism, and the field-extension
-bridge `galoisSubgroup` with its restriction, corestriction and norm (Layer 9);
-the order-theoretic wrapper `leastENatBound`, the `p`-primary torsion of the cohomology of
-`p`-primary coefficients, the two vanishing predicates and the three invariants `cd_p`, `scd_p`,
-`cd` with their two dévissage reductions, the strict-dimension criterion and the class module of a
-group of strict `p`-cohomological dimension at most two (Layer 11); the coefficient pairing and the
-bidegree cup (Layer 12); and the index-2 Evens graph cocycle with its `C₄` and `C₈` anchors, the
-index-two norm defined as the graph class, the character of an index-two subgroup with the norm of a
-restricted class, the index-two exact sequence in degrees `≤ 2`, and the graph cochain of the
-tautological character of `C₂ ≀ C₂` against the explicit `D₁₆` extension cocycle; the cochain form
-of the norm of a restricted class, the naturality of the graph cochain and the `C₂ ≀ C₂` identity
-are proved (Layer 13).
+Also prototyped: the two topological facts the Layer 3 comparison rests on (Layer 3); the canonical
+Shapiro map `shapiroMap`, induced by the comparison cochain map `shapiroCochainMap`, with Shapiro's
+lemma in every degree as the statement that this cochain map is a quasi-isomorphism
+(`isIso_shapiroMap`, `quasiIso_shapiroCochainMap`) and `shapiroIso` the resulting isomorphism, and
+the descent of a vanishing restriction from a closed subgroup to an open one (Layer 10); the
+field-extension bridge `galoisSubgroup` with its index and its identification with the absolute
+Galois group of the extension (Layer 9); the order-theoretic wrapper `leastENatBound`, the
+`p`-primary torsion of the cohomology of `p`-primary coefficients, the two vanishing predicates and
+the three invariants `cd_p`, `scd_p`, `cd` with their two dévissage reductions and the transfer
+inputs of the class module (Layer 11); the coefficient pairing (Layer 12); and the index-2 Evens
+graph cocycle, the graph class, the index-two exact sequences in degrees `≤ 2` that involve only
+restriction and corestriction, and the graph cochain of the tautological character of `C₂ ≀ C₂`
+against the explicit `D₁₆` extension cocycle; the cochain form of the norm of a restricted class,
+the naturality of the graph cochain and the `C₂ ≀ C₂` identity are proved (Layer 13).
 
 The group and its coefficients live in one universe `u` and the coefficient **ring** in another.
 That is forced, not chosen: the canonical resolution is built from `C(G, -)`, so a coefficient
@@ -263,7 +277,7 @@ abbrev homAction {G : Type*} [Group G] {M N : Type*} [AddCommGroup M] [AddCommGr
 /-- **Layer 0, the evaluation pairing** of the internal hom, `φ ⊗ m ↦ φ m`, out of Tau Ceti's
 `TauCeti.InternalHom G M N`, the carrier of the conjugation action: this is
 `TauCeti.InternalHom.evalPairing G`. It is the pairing the duality package of Layer 8 feeds to the
-cup products, through `ofDiscreteModulePairing`, and the duality pairings of Layer 8 and of the
+cup products, and the duality pairings of Layer 8 and of the
 Class Field Theory roadmap are instances of the cup API **at this pairing** and at no other. -/
 abbrev evalPairing (G M N : Type*) [AddMonoid M] [AddCommMonoid N] :
     TauCeti.InternalHom G M N →+ (M →+ N) :=
@@ -426,27 +440,6 @@ noncomputable abbrev coeffMap {X Y : TopRep R G} (f : X ⟶ Y) (n : ℕ) :
     (continuousCohomology R G n).obj X ⟶ (continuousCohomology R G n).obj Y :=
   TauCeti.ContinuousCohomology.coeffMap f n
 
-/-- **Layer 1, the class of a continuous cocycle.** The quotient map from the cocycles of the
-canonical complex onto continuous cohomology. A construction given by a cochain formula, such as
-Layer 13's norm, is compared with a class-valued map through this, and without it the public
-class-valued function would have no stated relation to the cochain it descends from. -/
-noncomputable def cochainClass (X : TopRep R G) (n : ℕ)
-    (a : ((homogeneousCochainsFunctor R G).obj X).X n)
-    (ha : (((homogeneousCochainsFunctor R G).obj X).d n (n + 1)).hom a = 0) :
-    (continuousCohomology R G n).obj X :=
-  sorry
-
-/-- **Layer 1, cohomologous cocycles have the same class.** -/
-theorem cochainClass_eq_of_sub_eq_d (X : TopRep R G) (n j : ℕ) (hj : j + 1 = n)
-    (a b : ((homogeneousCochainsFunctor R G).obj X).X n)
-    (ha : (((homogeneousCochainsFunctor R G).obj X).d n (n + 1)).hom a = 0)
-    (hb : (((homogeneousCochainsFunctor R G).obj X).d n (n + 1)).hom b = 0)
-    (c : ((homogeneousCochainsFunctor R G).obj X).X j)
-    (hc : a - b = hj ▸ ((((homogeneousCochainsFunctor R G).obj X).d j
-      (j + 1)).hom c)) :
-    cochainClass R X n a ha = cochainClass R X n b hb :=
-  sorry
-
 end Carrier
 
 open CategoryTheory in
@@ -488,11 +481,6 @@ equivalence with: Tau Ceti's `TauCeti.SmoothDiscreteTopRep`, the full subcategor
 `TopRep.TopRepEquivActionTop` (`TauCeti.isSmoothDiscrete_iff_discreteTopology_and_isContinuous`). -/
 abbrev SmoothDiscreteTopRep : Type _ :=
   TauCeti.SmoothDiscreteTopRep.{v, u, u} R G
-
-/-- Smooth discrete objects inherit zero morphisms from `TopRep`; the zero map preserves the
-underlying object property. -/
-noncomputable instance : CategoryTheory.Limits.HasZeroMorphisms (SmoothDiscreteTopRep R G) :=
-  sorry
 
 /-- **Layer 1, the inclusion of the smooth discrete subcategory into `TopRep`,** which is how a
 coinduced object of Layer 7 reaches the canonical cohomology functor: Tau Ceti's
@@ -568,6 +556,7 @@ abbrev B1 : AddSubgroup (G → M) := TauCeti.ContCohomology.B1 G M
 `TauCeti.ContCohomology.B2`. -/
 abbrev B2 : AddSubgroup (G × G → M) := TauCeti.ContCohomology.B2 G M
 
+omit [IsTopologicalGroup G] in
 /-- **Layer 2, `d ∘ d = 0` in the form the quotient needs,** `TauCeti.ContCohomology.B1_le_Z1`. -/
 theorem B1_le_Z1 : B1 G M ≤ Z1 G M := TauCeti.ContCohomology.B1_le_Z1 G M
 
@@ -679,24 +668,6 @@ abbrev H1ConjInvariants (N : Subgroup G) [N.Normal] : AddSubgroup (H1 N M) :=
 
 end ExplicitComplex
 
-
-/-- **Layer 2, worked example `H¹(ℤ_p, ℤ/pᵏ) ≅ ℤ/pᵏ`.** Under the trivial-action
-characterization, `H¹` of the profinite additive group `ℤ_p` with discrete coefficients
-`ℤ/pᵏ` is the group of continuous additive homomorphisms, and evaluation at `1` identifies it
-with `ℤ/pᵏ`. Continuity is not what makes this true: every additive map `ℤ_p → ℤ/pᵏ` kills
-`pᵏ ℤ_p` and so factors through `ℤ_p ⧸ pᵏ ℤ_p ≅ ℤ/pᵏ`, where it is determined by the image of `1`,
-and every such map is continuous. -/
-example (p : ℕ) [Fact p.Prime] (k : ℕ) :
-    Function.Bijective (fun φ : ContinuousAddMonoidHom ℤ_[p] (ZMod (p ^ k)) ↦ φ 1) :=
-  sorry
-
-/-- **Layer 2, worked example `H¹(ℤ_p, ℤ) = 0`.** The image of a continuous homomorphism is a
-compact, hence finite, subgroup of the discrete `ℤ`, so it is zero. Continuity is not needed here
-either: for a prime `q ≠ p` every element of `ℤ_p` is divisible by every power of `q`, and the only
-such element of `ℤ` is `0`. -/
-example (p : ℕ) [Fact p.Prime] (φ : ContinuousAddMonoidHom ℤ_[p] ℤ) : φ = 0 :=
-  sorry
-
 /-! ### Layer 3: the comparison isomorphisms -/
 
 section Comparisons
@@ -709,8 +680,8 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 outright, and the one the finite-level dictionary is checked at first.
 
 ⚠ The three comparisons with `groupCohomology` are the only statements in this roadmap that are
-pinned to `Type 0`, and the pin is the pin's, not ours: `Rep k G` puts `k` and `G` in one universe
-(Mathlib #33608), so `Rep ℤ G` forces `G` into the universe of `ℤ`. They therefore carry their own
+pinned to `Type 0`, and the pin is the pin's, not ours: `Rep k G` puts `k` and `G` in one universe,
+so `Rep ℤ G` forces `G` into the universe of `ℤ`. They therefore carry their own
 binders instead of the section's. Everything downstream of them, including the comparison with the
 canonical carrier, is universe polymorphic; when Mathlib lifts the `Rep` restriction these three
 become polymorphic by deleting the binders. The three are Tau Ceti's, in
@@ -977,7 +948,7 @@ noncomputable abbrev explicitCor1Transversal (U : OpenSubgroup G)
   TauCeti.ContCohomology.explicitCor1Transversal G M U.toSubgroup t ht U.isOpen
 
 /-- **Layer 6, variable-transversal corestriction in degree 2,**
-`(cor²_t f) (γ, η) = ∑ u, t u • f (ℓᵗ_u γ, ℓᵗ_{γ⁻¹ • u} η)`: Tau Ceti's
+`(cor²_t f) (γ, η) = ∑ u, t u • f (ℓᵗ_u γ, ℓᵗ_(γ⁻¹ • u) η)`: Tau Ceti's
 `TauCeti.ContCohomology.explicitCor2Transversal`, the class of its cochain `cochainsCor2`. -/
 noncomputable abbrev explicitCor2Transversal (U : OpenSubgroup G)
     [Fintype (G ⧸ U.toSubgroup)] (t : G ⧸ U.toSubgroup → G)
@@ -985,6 +956,8 @@ noncomputable abbrev explicitCor2Transversal (U : OpenSubgroup G)
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.explicitCor2Transversal G M U.toSubgroup t ht U.isOpen
 
+omit [IsTopologicalGroup G] [TopologicalSpace M] [IsTopologicalAddGroup M] [DiscreteTopology M]
+    [ContinuousSMul G M] in
 /-- **Layer 6, change of transversal in degree 0.** The cochain formula is independent after
 passing to invariants: Tau Ceti's `TauCeti.ContCohomology.explicitCor0_changeTransversal`. -/
 theorem explicitCor0_changeTransversal (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
@@ -994,6 +967,7 @@ theorem explicitCor0_changeTransversal (U : OpenSubgroup G) [Fintype (G ⧸ U.to
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.explicitCor0_changeTransversal G M U.toSubgroup t t' ht ht'
 
+omit [DiscreteTopology M] in
 /-- **Layer 6, change of transversal in degree 1,** after the named coboundary identity on
 representatives (`TauCeti.ContCohomology.cochainsCor1_changeTransversal`): Tau Ceti's
 `TauCeti.ContCohomology.explicitCor1_changeTransversal`. -/
@@ -1004,6 +978,7 @@ theorem explicitCor1_changeTransversal (U : OpenSubgroup G) [Fintype (G ⧸ U.to
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.explicitCor1_changeTransversal G M U.toSubgroup t ht U.isOpen t' ht'
 
+omit [DiscreteTopology M] in
 /-- **Layer 6, change of transversal in degree 2,** after the named continuous 1-cochain
 coboundary identity (`TauCeti.ContCohomology.cochainsCor2_changeTransversal`): Tau Ceti's
 `TauCeti.ContCohomology.explicitCor2_changeTransversal`. -/
@@ -1225,11 +1200,13 @@ noncomputable abbrev explicitFiniteQuotientTransition2 (U V : OpenNormalSubgroup
       H2 (G ⧸ V.toSubgroup) (Invariants V.toSubgroup M) :=
   TauCeti.ContCohomology.explicitFiniteQuotientTransition2 G M U V hVU
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] [ContinuousSMul G M] in
 /-- `TauCeti.ContCohomology.explicitFiniteQuotientTransition1_id`. -/
 theorem explicitFiniteQuotientTransition1_id (U : OpenNormalSubgroup G) :
     explicitFiniteQuotientTransition1 G M U U le_rfl = AddMonoidHom.id _ :=
   TauCeti.ContCohomology.explicitFiniteQuotientTransition1_id G M U
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] [ContinuousSMul G M] in
 /-- `TauCeti.ContCohomology.explicitFiniteQuotientTransition1_comp`. -/
 theorem explicitFiniteQuotientTransition1_comp (U V W : OpenNormalSubgroup G)
     (hVU : V ≤ U) (hWV : W ≤ V) :
@@ -1244,11 +1221,15 @@ noncomputable abbrev explicitFiniteQuotientSystem0 :
     (OpenNormalSubgroup G)ᵒᵖ ⥤ AddCommGrpCat.{u} :=
   TauCeti.ContCohomology.explicitFiniteQuotientSystem0 G M
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] [TopologicalSpace M] [IsTopologicalAddGroup M]
+    [DiscreteTopology M] [ContinuousSMul G M] in
 theorem explicitFiniteQuotientSystem0_obj (U : OpenNormalSubgroup G) :
     (explicitFiniteQuotientSystem0 G M).obj (Opposite.op U) =
       AddCommGrpCat.of (H0 (G ⧸ U.toSubgroup) (Invariants U.toSubgroup M)) :=
   rfl
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] [TopologicalSpace M] [IsTopologicalAddGroup M]
+    [DiscreteTopology M] [ContinuousSMul G M] in
 theorem explicitFiniteQuotientSystem0_map {U V : (OpenNormalSubgroup G)ᵒᵖ} (f : U ⟶ V) :
     (explicitFiniteQuotientSystem0 G M).map f = AddCommGrpCat.ofHom
       (explicitFiniteQuotientTransition0 G M U.unop V.unop (leOfHom f.unop)) :=
@@ -1335,11 +1316,13 @@ noncomputable abbrev explicitFiniteQuotientSystem2 :
     (OpenNormalSubgroup G)ᵒᵖ ⥤ AddCommGrpCat.{u} :=
   TauCeti.ContCohomology.explicitFiniteQuotientSystem2 G M
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] [ContinuousSMul G M] in
 theorem explicitFiniteQuotientSystem2_obj (U : OpenNormalSubgroup G) :
     (explicitFiniteQuotientSystem2 G M).obj (Opposite.op U) =
       AddCommGrpCat.of (H2 (G ⧸ U.toSubgroup) (Invariants U.toSubgroup M)) :=
   rfl
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] [ContinuousSMul G M] in
 theorem explicitFiniteQuotientSystem2_map {U V : (OpenNormalSubgroup G)ᵒᵖ} (f : U ⟶ V) :
     (explicitFiniteQuotientSystem2 G M).map f = AddCommGrpCat.ofHom
       (explicitFiniteQuotientTransition2 G M U.unop V.unop (leOfHom f.unop)) :=
@@ -1416,17 +1399,6 @@ end AllDegreeFiniteQuotient
 
 /-! ### Layer 5: exactness of cochains -/
 
-/-- **Layer 5, discrete cochain lifting.** The reason short exact sequences of *discrete*
-modules induce long exact sequences: a continuous cochain into a discrete quotient lifts to a
-continuous cochain along any surjection of discrete modules (compose with any set-theoretic
-section; discreteness of the source of the section makes the composite continuous). Stated
-for cochains on an arbitrary topological space, degree-agnostically. -/
-example {X : Type*} [TopologicalSpace X] {B C : Type*} [AddCommGroup B] [AddCommGroup C]
-    [TopologicalSpace B] [TopologicalSpace C] [DiscreteTopology B] [DiscreteTopology C]
-    (p : B →+ C) (hp : Function.Surjective p) (f : X → C) (hf : Continuous f) :
-    ∃ g : X → B, Continuous g ∧ p ∘ g = f :=
-  sorry
-
 /-- **Layer 5, a short exact sequence of discrete `G`-modules,** the input of the long exact
 sequence. The data is carried in a structure rather than as loose hypotheses because every
 statement of this layer, and the corestriction compatibility of Layer 6, takes the same sequence
@@ -1483,6 +1455,8 @@ noncomputable abbrev continuousCochainsShortExact (S : DiscreteShortExact G A B 
     ShortComplex (CochainComplex (TopModuleCat.{u} ℤ) ℕ) :=
   TauCeti.ContCohomology.DiscreteShortExact.continuousCochainsShortExact S
 
+omit [IsTopologicalAddGroup A] [ContinuousSMul G A] [IsTopologicalAddGroup B]
+    [IsTopologicalAddGroup C] [ContinuousSMul G C] in
 /-- **Layer 10, short exactness of the canonical cochain complexes after forgetting topologies.**
 For a locally compact `G` (in particular a profinite one), the image of
 `continuousCochainsShortExact` in cochain complexes of `ℤ`-modules is short exact. This is the
@@ -1506,6 +1480,8 @@ are Tau Ceti's, in `ShortExact.lean`, `LongExact.lean`, `DeltaNaturality.lean` a
 noncomputable abbrev explicitDelta0 (S : DiscreteShortExact G A B C) : H0 G C →+ H1 G A :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitDelta0 S
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup B] [IsTopologicalAddGroup C]
+    [ContinuousSMul G C] in
 /-- **Layer 5, `δ⁰` on representatives,** mirroring the pin's `δ₀_apply` so that the discrete and
 the continuous theories are used identically. The cochain `a` is determined by `b` because `incl`
 is injective, so this pins the normalization rather than merely permitting one. -/
@@ -1519,6 +1495,7 @@ theorem explicitDelta0_apply (S : DiscreteShortExact G A B C) (c : H0 G C) (b : 
 noncomputable abbrev explicitDelta1 (S : DiscreteShortExact G A B C) : H1 G C →+ H2 G A :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1 S
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 5, `δ¹` on representatives,** mirroring the pin's `δ₁_apply`. The 1-cochain `e` is a
 continuous lift of the cocycle `f`, which exists by the cochain-lifting statement above, and `d¹ e`
 takes its values in the image of `A`. -/
@@ -1529,30 +1506,36 @@ theorem explicitDelta1_apply (S : DiscreteShortExact G A B C) (f : Z1 G C)
   TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_apply S f he hef hmem
     fun g h => (ha (g, h)).trans (TauCeti.ContCohomology.d1_apply e g h)
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup A] [ContinuousSMul G A]
+    [IsTopologicalAddGroup C] [ContinuousSMul G C] in
 /-- **Layer 5, exactness at `H⁰(G, A)`,** the first of the eight nodes (NSW (1.3.2)). -/
 theorem explicitLongExact_H0A (S : DiscreteShortExact G A B C) :
     Function.Injective
       (explicitCoeff0 G A B S.incl continuous_of_discreteTopology S.incl_equivariant) :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitLongExact_H0A S
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup A] [ContinuousSMul G A] in
 /-- **Layer 5, exactness at `H⁰(G, B)`.** -/
 theorem explicitLongExact_H0B (S : DiscreteShortExact G A B C) :
     (explicitCoeff0 G A B S.incl continuous_of_discreteTopology S.incl_equivariant).range =
       (explicitCoeff0 G B C S.proj continuous_of_discreteTopology S.proj_equivariant).ker :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitLongExact_H0B S
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup B] in
 /-- **Layer 5, exactness at `H⁰(G, C)`,** where `δ⁰` leaves. -/
 theorem explicitLongExact_H0C (S : DiscreteShortExact G A B C) :
     (explicitCoeff0 G B C S.proj continuous_of_discreteTopology S.proj_equivariant).range =
       (explicitDelta0 G A B C S).ker :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitLongExact_H0C S
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup C] [ContinuousSMul G C] in
 /-- **Layer 5, exactness at `H¹(G, A)`,** where `δ⁰` lands. -/
 theorem explicitLongExact_H1A (S : DiscreteShortExact G A B C) :
     (explicitDelta0 G A B C S).range =
       (explicitCoeff1 G A B S.incl continuous_of_discreteTopology S.incl_equivariant).ker :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitLongExact_H1A S
 
+omit [IsTopologicalGroup G] in
 /-- **Layer 5, exactness at `H¹(G, B)`.** -/
 theorem explicitLongExact_H1B (S : DiscreteShortExact G A B C) :
     (explicitCoeff1 G A B S.incl continuous_of_discreteTopology S.incl_equivariant).range =
@@ -1577,18 +1560,22 @@ theorem explicitLongExact_H2B (S : DiscreteShortExact G A B C) :
       (explicitCoeff2 G B C S.proj continuous_of_discreteTopology S.proj_equivariant).ker :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitLongExact_H2B S
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup B] [IsTopologicalAddGroup C]
+    [ContinuousSMul G C] in
 /-- **Layer 5, restriction commutes with `δ⁰`.** -/
 theorem explicitDelta0_res (S : DiscreteShortExact G A B C) (T : Subgroup G) (x : H0 G C) :
     explicitRes1 G A T (explicitDelta0 G A B C S x) =
       explicitDelta0 T A B C (S.restrict G A B C T) (explicitRes0 G C T x) :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitDelta0_res S T x
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 5, restriction commutes with `δ¹`.** -/
 theorem explicitDelta1_res (S : DiscreteShortExact G A B C) (T : Subgroup G) (x : H1 G C) :
     explicitRes2 G A T (explicitDelta1 G A B C S x) =
       explicitDelta1 T A B C (S.restrict G A B C T) (explicitRes1 G C T x) :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_res S T x
 
+omit [IsTopologicalAddGroup B] [IsTopologicalAddGroup C] [ContinuousSMul G C] in
 /-- **Layer 6, corestriction commutes with `δ⁰`** (NSW (1.5.2)). The sequence on `U` is the
 restriction of the sequence on `G`, so both sides name the same two coefficient maps. Tau Ceti's
 `TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta0`
@@ -1602,6 +1589,7 @@ theorem explicitCor_delta0 (S : DiscreteShortExact G A B C) (U : OpenSubgroup G)
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta0 S U.toSubgroup U.isOpen x
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 6, corestriction commutes with `δ¹`:** Tau Ceti's
 `TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta1`. -/
 theorem explicitCor_delta1 (S : DiscreteShortExact G A B C) (U : OpenSubgroup G)
@@ -1657,6 +1645,7 @@ theorem delta_naturality [CompactSpace G] [TotallyDisconnectedSpace G]
       (continuousCohomology ℤ G n).map F.τ₃ ≫ delta G A B C T n :=
   sorry
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 10, restriction commutes with the all-degree connecting map,** Tau Ceti's
 `TauCeti.ContCohomology.DiscreteShortExact.delta_res`. The restricted canonical object and the
 canonical object over `T` are equal on the nose (`TauCeti.res_ofDiscreteModule`), so the square
@@ -1668,6 +1657,7 @@ theorem delta_res [CompactSpace G] [TotallyDisconnectedSpace G]
       res ℤ T (ofDiscreteModule G C) n ≫ delta T A B C (S.restrict G A B C T) n :=
   TauCeti.ContCohomology.DiscreteShortExact.delta_res S T n
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 10, inflation commutes with the all-degree connecting map.** `SN` is the induced short
 exact sequence on `N`-invariants; its existence is carried explicitly because invariants do not
 preserve an arbitrary epimorphism without this exactness hypothesis. Tau Ceti's
@@ -1691,6 +1681,7 @@ theorem delta_infl [CompactSpace G] [TotallyDisconnectedSpace G]
         infl ℤ N (ofDiscreteModule G C) n ≫ delta G A B C S n :=
   TauCeti.ContCohomology.DiscreteShortExact.delta_infl S N SN hincl hproj n
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 3, the explicit and canonical connecting maps agree in degree 0,** Tau Ceti's
 `TauCeti.ContCohomology.DiscreteShortExact.explicitIso_delta0`
 (`TauCeti/RepresentationTheory/Homological/ContCohomology/ConnectingMapComparison.lean`). -/
@@ -1701,6 +1692,7 @@ theorem explicitIso_delta0 [CompactSpace G] [TotallyDisconnectedSpace G]
         (explicitDelta0 G A B C S x : DiscreteH1 G A) :=
   TauCeti.ContCohomology.DiscreteShortExact.explicitIso_delta0 S x
 
+omit [IsTopologicalAddGroup B] in
 /-- **Layer 3, the explicit and canonical connecting maps agree in degree 1,** Tau Ceti's
 `TauCeti.ContCohomology.DiscreteShortExact.explicitIso_delta1`. -/
 theorem explicitIso_delta1 [CompactSpace G] [TotallyDisconnectedSpace G]
@@ -1726,12 +1718,14 @@ invariants and the invariant-valued restriction in `FiveTerm.lean`, and the tran
 two remaining exactness statements in `Transgression.lean`. Every declaration below is an alias of,
 or has the proof of, the Tau Ceti declaration of the same name. -/
 
+omit [IsTopologicalGroup G] [DiscreteTopology M] in
 /-- **Layer 5, inflation is injective in degree 1,** the left end of the inflation-restriction
 sequence. Valid for an arbitrary topological group with discrete coefficients.
 `TauCeti.ContCohomology.explicitInfl1_injective`. -/
 theorem explicitInfl1_injective : Function.Injective (explicitInfl1 G M N) :=
   TauCeti.ContCohomology.explicitInfl1_injective G M N
 
+omit [IsTopologicalGroup G] [DiscreteTopology M] in
 /-- **Layer 5, the inflation-restriction sequence** `0 → H¹(G ⧸ N, M^N) → H¹(G, M) → H¹(N, M)`, with
 the pin's discrete `H1InfRes_exact` as the model. This three-term statement keeps the wider
 generality; the five-term extension below does not.
@@ -1740,6 +1734,7 @@ theorem explicitInfRes_exact :
     (explicitInfl1 G M N).range = (explicitRes1 G M N).ker :=
   TauCeti.ContCohomology.explicitInfRes_exact G M N
 
+omit [DiscreteTopology M] [IsTopologicalGroup (G ⧸ N)] [ContinuousSMul (G ⧸ N) (Invariants N M)] in
 /-- **Layer 5, the image of restriction is `G ⧸ N`-invariant,**
 `TauCeti.ContCohomology.explicitRes1_mem_conjInvariants`. -/
 theorem explicitRes1_mem_conjInvariants (x : H1 G M) :
@@ -1752,6 +1747,7 @@ sequence: `TauCeti.ContCohomology.explicitResConj1`, the codomain restriction of
 noncomputable abbrev explicitResConj1 : H1 G M →+ H1ConjInvariants G M N :=
   TauCeti.ContCohomology.explicitResConj1 G M N
 
+omit [DiscreteTopology M] in
 /-- **Layer 5, exactness at `H¹(G, M)` with the invariant-valued restriction:** the kernel of
 `explicitResConj1` is the image of inflation. This is `explicitInfRes_exact` read with the codomain
 the five-term sequence uses, and it is that sequence's second node.
@@ -1780,6 +1776,7 @@ noncomputable abbrev transgressionCochain [CompactSpace G] (hN : IsCompact (N : 
     C2 (G ⧸ N) (Invariants N M) :=
   TauCeti.ContCohomology.transgressionCochain G M N hN s hs_cont hs c hc
 
+omit [IsTopologicalGroup (G ⧸ N)] [ContinuousSMul (G ⧸ N) (Invariants N M)] in
 /-- **Layer 5, the lift-and-differentiate application formula.** This pins the normalization of
 the raw transgression before quotienting: after inclusion `M^N ↪ M`, its value is `d¹` of the
 named lift at the chosen representatives. `TauCeti.ContCohomology.transgressionCochain_apply`. -/
@@ -1790,6 +1787,7 @@ theorem transgressionCochain_apply [CompactSpace G] (hN : IsCompact (N : Set G))
       d1 G M (transgressionLift G M N hN s hs_cont hs c hc) (s q, s r) :=
   TauCeti.ContCohomology.transgressionCochain_apply G M N hN s hs_cont hs c hc q r
 
+omit [IsTopologicalGroup (G ⧸ N)] [ContinuousSMul (G ⧸ N) (Invariants N M)] in
 /-- **Layer 5, the raw transgression is a cocycle,**
 `TauCeti.ContCohomology.transgressionCochain_isCocycle`. -/
 theorem transgressionCochain_isCocycle [CompactSpace G] (hN : IsCompact (N : Set G))
@@ -1806,6 +1804,7 @@ noncomputable abbrev transgressionCocycle [CompactSpace G] (hN : IsCompact (N : 
     Z2 (G ⧸ N) (Invariants N M) :=
   TauCeti.ContCohomology.transgressionCocycle G M N hN s hs_cont hs c hc
 
+omit [IsTopologicalGroup (G ⧸ N)] [ContinuousSMul (G ⧸ N) (Invariants N M)] in
 /-- **Layer 5, change of section and of representative is an explicit coboundary.** This is
 proved before passing to `H²`; it is the choice-independence mechanism for the public
 transgression. `TauCeti.ContCohomology.transgressionCochain_sub_mem_B2`. -/
@@ -1820,7 +1819,7 @@ theorem transgressionCochain_sub_mem_B2 [CompactSpace G] (hN : IsCompact (N : Se
   TauCeti.ContCohomology.transgressionCochain_sub_mem_B2 G M N hN s s' hs_cont hs'_cont hs hs'
     c c' hc hc' hcc'
 
-/-- **Layer 5, the transgression** `tg : H¹(N, M)^{G ⧸ N} → H²(G ⧸ N, M^N)`, defined by lifting a
+/-- **Layer 5, the transgression** `tg : H¹(N, M)^(G ⧸ N) → H²(G ⧸ N, M^N)`, defined by lifting a
 representative cocycle on `N` through a **continuous section** of `G → G ⧸ N` supplied by Layer 0
 and differentiating, and independent of the section and the representative as an identity of
 classes. Profiniteness of `G` and closedness of `N` are genuine hypotheses: the section is what
@@ -1842,7 +1841,7 @@ theorem transgression_apply [CompactSpace G] [TotallyDisconnectedSpace G]
         (transgressionCocycle G M N hN.isCompact s hs_cont hs c (hc ▸ y.2)) :=
   TauCeti.ContCohomology.transgression_apply G M N hN s hs_cont hs y c hc
 
-/-- **Layer 5, the five-term sequence is exact at `H¹(N, M)^{G ⧸ N}`** (NSW (1.6.7)),
+/-- **Layer 5, the five-term sequence is exact at `H¹(N, M)^(G ⧸ N)`** (NSW (1.6.7)),
 `TauCeti.ContCohomology.fiveTerm_exact_H1N`. -/
 theorem fiveTerm_exact_H1N [CompactSpace G] [TotallyDisconnectedSpace G]
     (hN : IsClosed (N : Set G)) :
@@ -1852,7 +1851,7 @@ theorem fiveTerm_exact_H1N [CompactSpace G] [TotallyDisconnectedSpace G]
 /-- **Layer 5, the five-term sequence is exact at `H²(G ⧸ N, M^N)`,**
 `TauCeti.ContCohomology.fiveTerm_exact_H2Q`. With `explicitInfl1_injective`,
 `explicitInfResConj_exact` and the previous statement this is exactness of
-`0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` at every node. -/
+`0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^(G⧸N) → H²(G⧸N, M^N) → H²(G, M)` at every node. -/
 theorem fiveTerm_exact_H2Q [CompactSpace G] [TotallyDisconnectedSpace G]
     (hN : IsClosed (N : Set G)) :
     (transgression G M N hN).range = (explicitInfl2 G M N).ker :=
@@ -1890,7 +1889,7 @@ theorem lWord_mem {G : Type*} [Group G] (U : Subgroup G) (t : G ⧸ U → G)
     (ht : ∀ x : G ⧸ U, QuotientGroup.mk (t x) = x) (u : G ⧸ U) (γ : G) : lWord U t u γ ∈ U :=
   TauCeti.lWord_mem U t ht u γ
 
-/-- **Layer 6, the transversal 1-cocycle law.** `ℓᵗ_u(γ) * ℓᵗ_{γ⁻¹ • u}(η) = ℓᵗ_u(γ * η)`:
+/-- **Layer 6, the transversal 1-cocycle law.** `ℓᵗ_u(γ) * ℓᵗ_(γ⁻¹ • u)(η) = ℓᵗ_u(γ * η)`:
 pure group theory, with no normality, no finite index, and no condition on `t` at all. This
 identity is why the degree-2 corestriction sum is a cocycle. Tau Ceti's
 `TauCeti.lWord_mul_lWord`. -/
@@ -1945,6 +1944,8 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M]
   (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
 
+omit [IsTopologicalGroup G] [TopologicalSpace M] [IsTopologicalAddGroup M] [DiscreteTopology M]
+    [ContinuousSMul G M] in
 /-- **Layer 6, `cor ∘ res = index` in degree 0:** Tau Ceti's
 `TauCeti.ContCohomology.explicitCor0_comp_res0`. -/
 theorem explicitCor_comp_res0 (x : H0 G M) :
@@ -1952,6 +1953,7 @@ theorem explicitCor_comp_res0 (x : H0 G M) :
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.explicitCor0_comp_res0 G M U.toSubgroup x
 
+omit [DiscreteTopology M] in
 /-- **Layer 6, `cor ∘ res = index` in degree 1,** after the explicit coboundary correction
 `TauCeti.ContCohomology.cochainsCor1_res`: Tau Ceti's
 `TauCeti.ContCohomology.explicitCor1_comp_res1`. -/
@@ -1960,6 +1962,7 @@ theorem explicitCor_comp_res1 (x : H1 G M) :
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.explicitCor1_comp_res1 G M U.toSubgroup U.isOpen x
 
+omit [DiscreteTopology M] in
 /-- **Layer 6, `cor ∘ res = index` in degree 2,** after the explicit 1-cochain correction
 `TauCeti.ContCohomology.cochainsCor2_res`: Tau Ceti's
 `TauCeti.ContCohomology.explicitCor2_comp_res2`. -/
@@ -1998,7 +2001,7 @@ abbrev Coind (G : Type*) [Group G] [TopologicalSpace G] (U : Subgroup G)
     (A : Type*) [AddCommGroup A] [DistribMulAction U A] : AddSubgroup (G → A) :=
   TauCeti.coind G U A
 
-/-- **Layer 7, the trace on the underlying carrier,** `f ↦ ∑_{gU} g • f (g⁻¹)`: Tau Ceti's
+/-- **Layer 7, the trace on the underlying carrier,** `f ↦ ∑ (gU ∈ G ⧸ U), g • f (g⁻¹)`: Tau Ceti's
 `TauCeti.coindTrace`, which is `G`-equivariant (`TauCeti.coindTrace_smul`), natural in the
 coefficients (`TauCeti.coindTrace_coindMap`), and computed along any transversal
 (`TauCeti.coindTrace_eq_sum_transversal`). Tau Ceti takes `[U.FiniteIndex]`, which comes here from
@@ -2055,6 +2058,7 @@ variable (R : Type v) [CommRing R] [TopologicalSpace R]
   {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
 
+omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- **Layer 1, smooth discreteness is inherited by restriction to a subgroup.** The stabilizer of a
 point for the subgroup is the intersection of its `G`-stabilizer with the subgroup. Layer 10 needs
 it to feed restricted coefficients to coinduction. It is Tau Ceti's `TauCeti.IsSmoothDiscrete.res`
@@ -2090,6 +2094,7 @@ noncomputable abbrev coindFunctor (H : Subgroup G) :
     SmoothDiscreteTopRep R H ⥤ SmoothDiscreteTopRep R G :=
   TauCeti.coindFunctor R G H
 
+omit [TotallyDisconnectedSpace G] in
 /-- **Layer 7, the functor agrees with the object construction,** Tau Ceti's
 `TauCeti.coindFunctor_obj`. -/
 theorem coindFunctor_obj (H : Subgroup G) (A : SmoothDiscreteTopRep R H) :
@@ -2151,7 +2156,7 @@ inclusion `H ↪ G` and the counit of coinduction, evaluation at `1` (Tau Ceti's
 `σ ↦ ev₁ ∘ σ ∘ ι` from the homogeneous cochains of `G` with coefficients `Coind_H^G A` to those of
 `H` with coefficients `A`. It is a quasi-isomorphism (`quasiIso_shapiroCochainMap`) and not an
 isomorphism of complexes, and no isomorphism of the two complexes exists: for `G = C₂`, `H = 1`
-and `A = 𝔽₂` the degree-0 terms are `Coind_1^{C₂} 𝔽₂ = 𝔽₂^{C₂}` and `𝔽₂`, of orders `4` and `2`,
+and `A = 𝔽₂` the degree-0 terms are `Coind_1^(C₂) 𝔽₂ = 𝔽₂^(C₂)` and `𝔽₂`, of orders `4` and `2`,
 a degree-0 homogeneous cochain being determined by its value at `1`
 (`TauCeti.ContCohomology.cochainEquiv0`). -/
 noncomputable abbrev shapiroCochainMap (H : Subgroup G) (A : SmoothDiscreteTopRep R H) :
@@ -2209,38 +2214,6 @@ theorem shapiroIso_hom (H : Subgroup G) (hH : IsClosed (H : Set G))
     (shapiroIso R H hH A n).hom = shapiroMap R H A n :=
   rfl
 
-/-- The algebraic Shapiro isomorphism transported through the coefficient dictionary. -/
-noncomputable def algebraicShapiroIso (U : OpenSubgroup G)
-    (A : SmoothDiscreteTopRep R U.toSubgroup) (n : ℕ) :
-    (continuousCohomology R G n).obj
-        ((smoothDiscreteι R G).obj (algebraicCoindAsSmooth R U A)) ≅
-      (continuousCohomology R U.toSubgroup n).obj ((smoothDiscreteι R U.toSubgroup).obj A) :=
-  sorry
-
-/-- **Layer 7/10, compatibility of the topological/algebraic comparison with Shapiro.** -/
-theorem topologicalCoindIsoAlgebraic_shapiro (U : OpenSubgroup G)
-    (A : SmoothDiscreteTopRep R U.toSubgroup) (n : ℕ) :
-    (continuousCohomology R G n).map
-          ((smoothDiscreteι R G).map (topologicalCoindIsoAlgebraic R U A).hom) ≫
-        (algebraicShapiroIso R U A n).hom =
-      (shapiroIso R U.toSubgroup U.isClosed A n).hom :=
-  sorry
-
-/-- **Layer 10, the canonical embedding into the trivial-subgroup coinduced module.** Its
-underlying map is the orbit map `x ↦ (g ↦ g • x)`, which is Tau Ceti's
-`TauCeti.ContCohomology.coindBotEmbedding` for a discrete module. -/
-noncomputable def coindEmbedding (X : TopRep R G) (hX : IsSmoothDiscrete R X) :
-    X ⟶ (smoothDiscreteι R G).obj
-      (coindTopRep R (⊥ : Subgroup G) (resSmooth R (⊥ : Subgroup G) X hX)) :=
-  sorry
-
-/-- **Layer 10, the quotient used for dimension shifting,**
-`Coind_1^G X / coindEmbedding X`; for a discrete module its underlying group is Tau Ceti's
-`TauCeti.ContCohomology.DimensionShiftQuotient`. -/
-noncomputable def dimensionShiftQuotient (X : TopRep R G) (hX : IsSmoothDiscrete R X) :
-    SmoothDiscreteTopRep R G :=
-  sorry
-
 /-- **Layer 10, acyclicity of `Coind_1^G A` in every positive degree.** Tau Ceti's
 `TauCeti.ContCohomology.coindAcyclic`
 (`TauCeti/RepresentationTheory/Homological/ContCohomology/Coinduced/Acyclic.lean`); stated here
@@ -2248,15 +2221,6 @@ because the pinned Tau Ceti revision predates it; replaced by the import when th
 theorem coindAcyclic (A : SmoothDiscreteTopRep R (⊥ : Subgroup G)) (n : ℕ) (hn : 0 < n) :
     CategoryTheory.Limits.IsZero ((continuousCohomology R G n).obj
       ((smoothDiscreteι R G).obj (coindTopRep R (⊥ : Subgroup G) A))) :=
-  sorry
-
-/-- **Layer 10, dimension shifting in every positive degree,** derived from the named embedding,
-quotient, long exact sequence, and `coindAcyclic`. -/
-noncomputable def dimensionShiftIso (X : TopRep R G) (hX : IsSmoothDiscrete R X) (n : ℕ)
-    (hn : 0 < n) :
-    (continuousCohomology R G (n + 1)).obj X ≅
-      (continuousCohomology R G n).obj
-        ((smoothDiscreteι R G).obj (dimensionShiftQuotient R X hX)) :=
   sorry
 
 /-- **Layer 10, milestone 1: the trace as a morphism of coefficient objects.** A morphism in
@@ -2293,78 +2257,6 @@ theorem corestriction_naturality (U : OpenSubgroup G) {X Y : TopRep R G}
     corestriction R U X hX n ≫ (continuousCohomology R G n).map f =
       (continuousCohomology R U.toSubgroup n).map ((TopRep.resFunctor U.toSubgroup.subtype).map f) ≫
         corestriction R U Y hY n :=
-  sorry
-
-/-- **Layer 1, restriction between two open subgroups,** `res^V_W` for open `W ≤ V ≤ G`. Layer 1's
-`res` goes down from the ambient group only; the transitivity and Mackey statements below need the
-relative map, so it is named here rather than quantified over. -/
-noncomputable def resLe (V W : OpenSubgroup G) (hWV : W ≤ V) (X : TopRep R G) (n : ℕ) :
-    (continuousCohomology R V.toSubgroup n).obj ((TopRep.resFunctor V.toSubgroup.subtype).obj X) ⟶
-      (continuousCohomology R W.toSubgroup n).obj
-        ((TopRep.resFunctor W.toSubgroup.subtype).obj X) :=
-  sorry
-
-/-- **Layer 10, corestriction between two open subgroups,** `cor_W^V` for open `W ≤ V ≤ G`. The
-relative form of `corestriction`, obtained by running the same Shapiro-then-trace construction
-inside `V`. -/
-noncomputable def corestrictionLe (V W : OpenSubgroup G) (hWV : W ≤ V) (X : TopRep R G)
-    (hX : IsSmoothDiscrete R X) (n : ℕ) :
-    (continuousCohomology R W.toSubgroup n).obj ((TopRep.resFunctor W.toSubgroup.subtype).obj X) ⟶
-      (continuousCohomology R V.toSubgroup n).obj
-        ((TopRep.resFunctor V.toSubgroup.subtype).obj X) :=
-  sorry
-
-/-- **Layer 2, the conjugate of an open subgroup,** `gUg⁻¹`. Conjugation is a homeomorphism, so the
-conjugate of an open subgroup is open. -/
-def conjOpenSubgroup (g : G) (U : OpenSubgroup G) : OpenSubgroup G where
-  toSubgroup := U.toSubgroup.map (MulAut.conj g).toMonoidHom
-  isOpen' := sorry
-
-/-- **Layer 2, the conjugation isomorphism on cohomology,** `(g)_*`, between the cohomology of two
-named subgroups related by conjugation. It is the compatible pair (conjugation by `g`, the action
-of `g`). The Mackey formula names this map; a sum over an arbitrary family of morphisms would be a
-different statement, and a false one. -/
-noncomputable def conjMapOf (g : G) (W W' : OpenSubgroup G) (hconj : W' = conjOpenSubgroup g W)
-    (X : TopRep R G) (n : ℕ) :
-    (continuousCohomology R W.toSubgroup n).obj ((TopRep.resFunctor W.toSubgroup.subtype).obj X) ⟶
-      (continuousCohomology R W'.toSubgroup n).obj
-        ((TopRep.resFunctor W'.toSubgroup.subtype).obj X) :=
-  sorry
-
-/-- **Layer 2, conjugation distributes over the Mackey intersections.** The group-theoretic fact
-that makes one term of the Mackey formula typecheck. -/
-theorem conjOpenSubgroup_inf (g : G) (U V : OpenSubgroup G) :
-    V ⊓ conjOpenSubgroup g U = conjOpenSubgroup g (U ⊓ conjOpenSubgroup g⁻¹ V) :=
-  sorry
-
-/-- **Layer 10, milestone 3: transitivity,** `cor_V^G = cor_U^G ∘ cor_V^U` for open `V ≤ U ≤ G`. -/
-theorem corestriction_trans (U V : OpenSubgroup G) (hVU : V ≤ U) (X : TopRep R G)
-    (hX : IsSmoothDiscrete R X) (n : ℕ) :
-    corestriction R V X hX n = corestrictionLe R U V hVU X hX n ≫ corestriction R U X hX n :=
-  sorry
-
-/-- **Layer 10, milestone 4: one term of the Mackey double-coset formula,**
-`cor^V_{V ⊓ gUg⁻¹} ∘ (g)_* ∘ res^U_{U ⊓ g⁻¹Vg}`. It is named, rather than left as a parameter of
-the formula, so that the formula states which sum is meant. -/
-noncomputable def mackeyTerm (U V : OpenSubgroup G) (g : G) (X : TopRep R G)
-    (hX : IsSmoothDiscrete R X) (n : ℕ) :
-    (continuousCohomology R U.toSubgroup n).obj ((TopRep.resFunctor U.toSubgroup.subtype).obj X) ⟶
-      (continuousCohomology R V.toSubgroup n).obj
-        ((TopRep.resFunctor V.toSubgroup.subtype).obj X) :=
-  resLe R U (U ⊓ conjOpenSubgroup g⁻¹ V) inf_le_left X n ≫
-    conjMapOf R g (U ⊓ conjOpenSubgroup g⁻¹ V) (V ⊓ conjOpenSubgroup g U)
-        (conjOpenSubgroup_inf g U V) X n ≫
-      corestrictionLe R V (V ⊓ conjOpenSubgroup g U) inf_le_left X hX n
-
-/-- **Layer 10, milestone 4: the Mackey double-coset formula in every degree** (NSW (1.5.6)). The
-double cosets are supplied as a finite family of representatives, since the indexing set is what
-the formula is a sum over; `hdc` says the family is exactly a system of representatives. -/
-theorem corestriction_mackey (U V : OpenSubgroup G) (X : TopRep R G)
-    (hX : IsSmoothDiscrete R X) (n : ℕ)
-    (ι : Type*) [Fintype ι] (g : ι → G)
-    (hdc : ∀ x : G, ∃! i : ι, ∃ v ∈ V, ∃ u ∈ U, x = v * g i * u) :
-    corestriction R U X hX n ≫ res R V.toSubgroup X n =
-      ∑ i : ι, mackeyTerm R U V (g i) X hX n :=
   sorry
 
 /-- **Layer 10, milestone 3: `cor ∘ res = (G : U) • id`,** with Layer 1's restriction on the left.
@@ -2483,50 +2375,6 @@ theorem explicitIso_cor2 (G : Type u) [Group G] [TopologicalSpace G] [IsTopologi
 
 /-! ### Layer 8: cup products in low degrees -/
 
-/-- **Layer 8, the `(1,1)` cup cochain is a 2-cocycle.** For a `G`-equivariant biadditive
-pairing of discrete modules and continuous 1-cocycles `a, b` (in the pinned Mathlib's
-`IsCocycle₁` convention), the cup formula `(a ⌣ b)(g, h) = μ (a g) (g • b h)` is a continuous
-2-cochain satisfying `IsCocycle₂`. This is the cochain-level heart of
-`cup11 : H¹(G, M) →+ H¹(G, N) →+ H²(G, P)`. -/
-example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    {M : Type*} [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
-    [DistribMulAction G M] [ContinuousSMul G M]
-    {N : Type*} [AddCommGroup N] [TopologicalSpace N] [DiscreteTopology N]
-    [DistribMulAction G N] [ContinuousSMul G N]
-    {P : Type*} [AddCommGroup P] [TopologicalSpace P] [DiscreteTopology P]
-    [DistribMulAction G P] [ContinuousSMul G P]
-    (μ : M →+ N →+ P) (hμ : ∀ (g : G) (m : M) (n : N), μ (g • m) (g • n) = g • μ m n)
-    {a : G → M} {b : G → N} (ha : Continuous a) (hb : Continuous b)
-    (hac : groupCohomology.IsCocycle₁ a) (hbc : groupCohomology.IsCocycle₁ b) :
-    groupCohomology.IsCocycle₂ (fun q : G × G ↦ μ (a q.1) (q.1 • b q.2)) ∧
-      Continuous (fun q : G × G ↦ μ (a q.1) (q.1 • b q.2)) :=
-  sorry
-
-/-- **Layer 8, the `(1,0)` cup cochain is a 1-cocycle.** The shape that the roadmap's
-associativity instance `(1,1,0)` needs on its right-hand side, and the reason `(1,0)` and
-`(0,0)` belong to the six-shape family rather than being dropped as trivial:
-`(a ⌣ n)(g) = μ (a g) (g • n)` for an invariant `n`, that is for a class of `H⁰(G, N)`. -/
-example {G : Type*} [Group G]
-    {M : Type*} [AddCommGroup M] [DistribMulAction G M]
-    {N : Type*} [AddCommGroup N] [DistribMulAction G N]
-    {P : Type*} [AddCommGroup P] [DistribMulAction G P]
-    (μ : M →+ N →+ P) (hμ : ∀ (g : G) (m : M) (n : N), μ (g • m) (g • n) = g • μ m n)
-    {a : G → M} (hac : groupCohomology.IsCocycle₁ a) (n : N) (hn : ∀ g : G, g • n = n) :
-    groupCohomology.IsCocycle₁ (fun g : G ↦ μ (a g) (g • n)) :=
-  sorry
-
-/-- **Layer 8, worked example: the cup is nontrivial on `C₂`.** With trivial action on
-`𝔽₂ = ZMod 2`, the cup square of the nontrivial 1-cocycle on `C₂`, the 2-cochain
-`(g, h) ↦ g · h` under the identification `C₂ = Multiplicative (ZMod 2)`, is **not** a
-trivial-action coboundary `(g, h) ↦ ψ h - ψ (g * h) + ψ g`. It is the test case for a
-degenerate pairing: it gives `H¹(C₂, 𝔽₂) ⌣ H¹(C₂, 𝔽₂) ≠ 0`, the `G_ℝ` Kummer computation
-`[-1] ⌣ [-1] ≠ 0`, and every nondegeneracy statement about the mod-2 Kummer pairing
-downstream. -/
-example :
-    ¬ ∃ ψ : Multiplicative (ZMod 2) → ZMod 2, ∀ g h : Multiplicative (ZMod 2),
-        Multiplicative.toAdd g * Multiplicative.toAdd h = ψ h - ψ (g * h) + ψ g :=
-  sorry
-
 /-! ### Layer 9: the Galois interface -/
 
 /-- **Layer 9, the coefficient field is the separable closure.** Mathlib defines
@@ -2567,12 +2415,6 @@ abbrev AbsoluteGaloisGroup (K : Type*) [Field K] : Type _ :=
 noncomputable abbrev muN (K : Type*) [Field K] (n : ℕ) : Subgroup (SeparableClosure K)ˣ :=
   rootsOfUnity n (SeparableClosure K)
 
-set_option synthInstance.maxHeartbeats 80000 in
-/-- **Layer 9, `μₙ` is `G_K`-stable,** Tau Ceti's `TauCeti.smul_mem_rootsOfUnity`. -/
-theorem smul_mem_muN {K : Type*} [Field K] {n : ℕ} (g : AbsoluteGaloisGroup K)
-    {ζ : (SeparableClosure K)ˣ} (h : ζ ∈ muN K n) : g • ζ ∈ muN K n :=
-  TauCeti.smul_mem_rootsOfUnity g h
-
 /-- **Layer 9, the Kummer coefficient module.** `μₙ` written additively, through the pin's
 `Additive` idiom, and this is the coefficient object the Kummer isomorphism is stated against: Tau
 Ceti's `TauCeti.KummerCoeff` (`TauCeti/FieldTheory/GaloisCohomology/Coefficients.lean`), with its
@@ -2600,7 +2442,7 @@ theorem unitsCoeff_continuousSMul (K : Type*) [Field K] :
     ContinuousSMul (AbsoluteGaloisGroup K) (UnitsCoeff K) :=
   TauCeti.unitsCoeff_continuousSMul K
 
-/-- **Layer 9, `Kˣ ≅ ((Kˢ)ˣ)^{G_K}`.** These are not the same Lean type, so the roadmap names the
+/-- **Layer 9, `Kˣ ≅ ((Kˢ)ˣ)^(G_K)`.** These are not the same Lean type, so the roadmap names the
 canonical equivalence rather than calling them equal. It is induced by the algebra map and the
 fixed-field theorem, and it is the map the Kummer connecting homomorphism starts from. It is Tau
 Ceti's `TauCeti.baseUnitsEquivInvariants`, onto Layer 2's `H0 G_K (UnitsCoeff K)`, the invariants
@@ -2630,41 +2472,6 @@ abbrev powerSubgroup (K : Type*) [Field K] (n : ℕ) : Subgroup Kˣ :=
 isomorphism: Tau Ceti's `TauCeti.powerClassQuotient` at `Kˣ`. -/
 abbrev powerClassQuotient (K : Type*) [Field K] (n : ℕ) : Type _ :=
   TauCeti.powerClassQuotient Kˣ n
-
--- The action of `Gal(Kˢ/K)` on `(Kˢ)ˣ` is found by instance search, but not within the
--- default budget for a type this deep.
-set_option synthInstance.maxHeartbeats 40000 in
-/-- **Layer 9, the Kummer cocycle for general `n`.** Assume `n` invertible in `K`. For
-`a ∈ Kˣ` with a chosen `n`-th root `r` in the separable closure (which exists because
-`Xⁿ - a` is separable when `n` is invertible, and `SeparableClosure K` is separably closed),
-the map `κ_a(g) = g r / r` takes its values in `μₙ`, is a **multiplicative** 1-cocycle, and is
-locally constant for the Krull topology because the stabilizer of `r` is open. Its class is
-the image of `a` under the connecting map of `1 → μₙ → (Kˢ)ˣ → (Kˢ)ˣ → 1`, and the resulting
-map induces the Kummer isomorphism `Kˣ ⧸ (Kˣ)ⁿ ≅ H¹(G_K, μₙ)`, which is `kummerIso` below,
-against Layer 2's explicit `H¹`. This statement is the cocycle it is built from. -/
-example (K : Type*) [Field K] (n : ℕ) [NeZero n] (hn : IsUnit (n : K)) (a : Kˣ)
-    (r : (SeparableClosure K)ˣ)
-    (hr : (r : SeparableClosure K) ^ n = algebraMap K (SeparableClosure K) (a : K)) :
-    ∃ κ : (SeparableClosure K ≃ₐ[K] SeparableClosure K) → muN K n,
-      (∀ g, (κ g : (SeparableClosure K)ˣ) = g • r / r) ∧
-        groupCohomology.IsMulCocycle₁ (fun g ↦ (κ g : (SeparableClosure K)ˣ)) ∧
-        IsLocallyConstant κ :=
-  sorry
-
-set_option synthInstance.maxHeartbeats 40000 in
-/-- **Layer 9, the Kummer class does not depend on the chosen root.** Two `n`-th roots of the
-same `a` differ by an `n`-th root of unity, and the two cocycles differ by the coboundary of
-that root of unity. Without this the connecting map is not well defined on `Kˣ`. The factor
-`ζ` is typed as an element of `μₙ`, not as a field element that happens to satisfy
-`ζ ^ n = 1`. -/
-example (K : Type*) [Field K] (n : ℕ) [NeZero n] (a : Kˣ) (r r' : (SeparableClosure K)ˣ)
-    (hr : (r : SeparableClosure K) ^ n = algebraMap K (SeparableClosure K) (a : K))
-    (hr' : (r' : SeparableClosure K) ^ n = algebraMap K (SeparableClosure K) (a : K)) :
-    ∃ ζ : muN K n, (r' : (SeparableClosure K)ˣ) = (ζ : (SeparableClosure K)ˣ) * r ∧
-      ∀ g : SeparableClosure K ≃ₐ[K] SeparableClosure K,
-        g • r' / r' =
-          (g • (ζ : (SeparableClosure K)ˣ) / (ζ : (SeparableClosure K)ˣ)) * (g • r / r) :=
-  sorry
 
 section KummerClass
 
@@ -2711,11 +2518,6 @@ noncomputable abbrev powerClassMap (L : Type*) [Field L] [Algebra K L] :
     powerClassQuotient K n →* powerClassQuotient L n :=
   TauCeti.powerClassMap n (Units.map (algebraMap K L).toMonoidHom)
 
-/-- **Layer 9, the norm on power classes,** induced by `N_{L/K}` on units. -/
-noncomputable def powerClassNorm (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L] :
-    powerClassQuotient L n →* powerClassQuotient K n :=
-  sorry
-
 /-- **Layer 9, restriction on the Kummer `H¹` along a chosen `K`-embedding of `L` into a separable
 closure of `K`.** The embedding is genuine data: without one there is no map `G_L → G_K` at all, so
 a square stated for an arbitrary homomorphism is a different statement, and a false one. It is
@@ -2726,14 +2528,6 @@ noncomputable abbrev kummerRes (L : Type*) [Field L] [Algebra K L] [FiniteDimens
       Multiplicative (H1 (AbsoluteGaloisGroup L) (KummerCoeff L n)) :=
   TauCeti.kummerRes K n L ι
 
-/-- **Layer 9, corestriction on the Kummer `H¹` along the same embedding.** The embedding realizes
-`G_L` as an open subgroup of `G_K`, which is what makes the transfer available. -/
-noncomputable def kummerCor (L : Type*) [Field L] [Algebra K L] [FiniteDimensional K L]
-    [Algebra.IsSeparable K L] (ι : L →ₐ[K] SeparableClosure K) :
-    Multiplicative (H1 (AbsoluteGaloisGroup L) (KummerCoeff L n)) →*
-      Multiplicative (H1 (AbsoluteGaloisGroup K) (KummerCoeff K n)) :=
-  sorry
-
 /-- **Layer 9, the restriction square.** For a finite separable `L/K` with a chosen `K`-embedding
 of `L` into `Kˢ`, restriction on cohomology corresponds to the map of power classes: Tau Ceti's
 `TauCeti.kummerIso_res`. -/
@@ -2742,13 +2536,6 @@ theorem kummerIso_res (hn : IsUnit (n : K)) (L : Type*) [Field L] [Algebra K L]
     (ι : L →ₐ[K] SeparableClosure K) (x : powerClassQuotient K n) :
     kummerRes K n L ι (kummerIso K n hn x) = kummerIso L n hnL (powerClassMap K n L x) :=
   TauCeti.kummerIso_res K n L ι hn x
-
-/-- **Layer 9, the norm square.** Corestriction corresponds to the field norm `N_{L/K}`. -/
-theorem kummerIso_norm (hn : IsUnit (n : K)) (L : Type*) [Field L] [Algebra K L]
-    [FiniteDimensional K L] [Algebra.IsSeparable K L] (hnL : IsUnit (n : L))
-    (ι : L →ₐ[K] SeparableClosure K) (y : powerClassQuotient L n) :
-    kummerCor K n L ι (kummerIso L n hnL y) = kummerIso K n hn (powerClassNorm K n L y) :=
-  sorry
 
 end KummerClass
 
@@ -2759,7 +2546,6 @@ open CategoryTheory
 variable (K : Type u) [Field K] (n : ℕ) [NeZero n]
   [CompactSpace (AbsoluteGaloisGroup K)] [TotallyDisconnectedSpace (AbsoluteGaloisGroup K)]
 
-set_option synthInstance.maxHeartbeats 80000 in
 /-- **Layer 9, the Kummer class against the canonical object.** `kummerMap` lands in the explicit
 `H¹` of Layer 2; this is the same construction against Layer 1's carrier, so that a consumer
 working in all degrees never has to move between the two by hand. It is Tau Ceti's
@@ -2770,7 +2556,6 @@ noncomputable abbrev kummerMapCanonical (hn : IsUnit (n : K)) :
       (ofDiscreteModule (AbsoluteGaloisGroup K) (KummerCoeff K n))) :=
   TauCeti.kummerMapCanonical K n hn
 
-set_option synthInstance.maxHeartbeats 80000 in
 /-- **Layers 3 and 9, the explicit and canonical Kummer classes agree.** Both maps are named, so
 the statement is that these two agree and not that some isomorphism carries one to something. This
 is what makes `kummerIso` usable against the all-degree theory without a private transport. Tau
@@ -2782,7 +2567,6 @@ theorem explicitIso_kummerMap (hn : IsUnit (n : K)) (a : Kˣ) :
           DiscreteH1 (AbsoluteGaloisGroup K) (KummerCoeff K n)) :=
   TauCeti.explicitIso_kummerMap K n hn a
 
-set_option synthInstance.maxHeartbeats 80000 in
 /-- **Layer 9, the Kummer sequence** `1 → μₙ → (Kˢ)ˣ →^n (Kˢ)ˣ → 1`, as the Layer 5 datum the long
 exact sequence is taken of. Surjectivity of the `n`-th power map is separable closedness of `Kˢ`
 together with separability of `Xⁿ - a`, which is where `IsUnit (n : K)` is used. The two maps are
@@ -2792,19 +2576,21 @@ noncomputable abbrev kummerShortExact (hn : IsUnit (n : K)) :
     DiscreteShortExact (AbsoluteGaloisGroup K) (KummerCoeff K n) (UnitsCoeff K) (UnitsCoeff K) :=
   TauCeti.kummerShortExact K n hn
 
-set_option synthInstance.maxHeartbeats 80000 in
+omit [NeZero n] [CompactSpace (AbsoluteGaloisGroup K)]
+    [TotallyDisconnectedSpace (AbsoluteGaloisGroup K)] in
 /-- The inclusion of the Kummer sequence is `μₙ ⊆ (Kˢ)ˣ`. -/
 theorem kummerShortExact_incl (hn : IsUnit (n : K)) :
     (kummerShortExact K n hn).incl = kummerCoeffIncl K n :=
   TauCeti.kummerShortExact_incl K n hn
 
-set_option synthInstance.maxHeartbeats 80000 in
+omit [NeZero n] [CompactSpace (AbsoluteGaloisGroup K)]
+    [TotallyDisconnectedSpace (AbsoluteGaloisGroup K)] in
 /-- The projection of the Kummer sequence is the `n`-th power map. -/
 theorem kummerShortExact_proj (hn : IsUnit (n : K)) :
     (kummerShortExact K n hn).proj = unitsCoeffPow K n :=
   TauCeti.kummerShortExact_proj K n hn
 
-set_option synthInstance.maxHeartbeats 80000 in
+omit [CompactSpace (AbsoluteGaloisGroup K)] [TotallyDisconnectedSpace (AbsoluteGaloisGroup K)] in
 /-- **Layer 9, Hilbert 90 for the absolute Galois group,** `H¹(G_K, (Kˢ)ˣ) = 0` (NSW (6.2.1)). It
 is what makes the Kummer connecting map surjective, and Layer 4's colimit is how it is proved from
 the pin's finite-level `groupCohomology.hilbert90`. Tau Ceti's `TauCeti.hilbert90`
@@ -2815,7 +2601,6 @@ theorem hilbert90 :
       (ofDiscreteModule (AbsoluteGaloisGroup K) (UnitsCoeff K))) :=
   TauCeti.hilbert90 K
 
-set_option synthInstance.maxHeartbeats 80000 in
 /-- **Layer 9, the inclusion `μₙ ⊆ (Kˢ)ˣ` as a morphism of canonical coefficient objects.** A real
 body over Layer 1's dictionary, so that the map on cohomology below is determined by
 `kummerCoeffIncl` and cannot drift from it: Tau Ceti's `TauCeti.kummerCoeffToUnits`
@@ -2825,7 +2610,6 @@ noncomputable abbrev kummerCoeffToUnits :
       ofDiscreteModule (AbsoluteGaloisGroup K) (UnitsCoeff K) :=
   TauCeti.kummerCoeffToUnits K n
 
-set_option synthInstance.maxHeartbeats 80000 in
 /-- **Layer 9, the map `H²(G_K, μₙ) → H²(G_K, (Kˢ)ˣ)` induced by that inclusion,** which is how the
 mod-`n` part of `H²` sits inside the cohomological Brauer group. A real body, from Layer 1's
 `coeffMap`: Tau Ceti's `TauCeti.h2KummerToUnits`. -/
@@ -2836,14 +2620,16 @@ noncomputable abbrev h2KummerToUnits :
         (ofDiscreteModule (AbsoluteGaloisGroup K) (UnitsCoeff K)) :=
   TauCeti.h2KummerToUnits K n
 
-set_option synthInstance.maxHeartbeats 80000 in
+omit [NeZero n] [CompactSpace (AbsoluteGaloisGroup K)]
+    [TotallyDisconnectedSpace (AbsoluteGaloisGroup K)] in
 /-- **Layer 9, it is injective,** which is Hilbert 90 read through the long exact sequence of the
 Kummer sequence: the term before it is `H¹(G_K, (Kˢ)ˣ)`, and that vanishes. -/
 theorem h2KummerToUnits_injective (hn : IsUnit (n : K)) :
     Function.Injective (h2KummerToUnits K n).hom :=
   TauCeti.h2KummerToUnits_injective hn
 
-set_option synthInstance.maxHeartbeats 80000 in
+omit [NeZero n] [CompactSpace (AbsoluteGaloisGroup K)]
+    [TotallyDisconnectedSpace (AbsoluteGaloisGroup K)] in
 /-- **Layer 9, its image is the `n`-torsion,** which is exactness of the same sequence at
 `H²(G_K, (Kˢ)ˣ)`, the next map being multiplication by `n`. -/
 theorem h2KummerToUnits_range (hn : IsUnit (n : K))
@@ -2886,7 +2672,7 @@ theorem out_mul_out_mul_inv_mem {G : Type*} [Group G] (V : Subgroup G) [V.Normal
 
 /-! Layer 11, the class module of a group of strict dimension two. The declarations from here to
 the two final theorems are the inputs of the route in `README.md` Layer 11: NSW (3.3.11)
-(`corestriction_surjective_primaryComponent`, `corestriction_ker_primaryComponent`); the transfer
+(`corestriction_surjective_primaryComponent`); the transfer
 and (3.6.4) (i) ⇒ (ii) (`abelianizationProPTransfer`, `abelianizationProPTransfer_eq_one_iff`,
 `abelianizationProPTransfer_range`); the case `#(G ⧸ V) = p` without the diagram (3.6.2), from the
 explicit cohomology of a finite cyclic group; NSW (3.6.1) with the change of group; and NSW (3.6.3)
@@ -2904,7 +2690,7 @@ def groupNorm (Γ : Type*) [Group Γ] [Fintype Γ] (A : Type*) [AddCommGroup A]
 /-- **Layer 11, `H¹` of a finite cyclic group vanishes when the norm kernel is `(σ - 1) A`,** on
 Layer 2's explicit model, for any topological coefficients: the group is discrete, so every
 cochain on it is continuous. A 1-cocycle `f` is determined by `f σ`, since
-`f (σ ^ k) = ∑_{i < k} σ ^ i • f σ`; `f 1 = 0` puts `f σ` in the kernel of the norm, and
+`f (σ ^ k) = ∑ (i < k), σ ^ i • f σ`; `f 1 = 0` puts `f σ` in the kernel of the norm, and
 `f σ = σ • b - b` makes `f` the coboundary of `b`. This is the degree-one half of
 `H¹ = ker N / (σ - 1) A`, whose discrete-coefficient model is Mathlib's
 `Rep.FiniteCyclicGroup.groupCohomologyIsoOdd`. -/
@@ -2924,32 +2710,6 @@ theorem sum_cocycle_mem_H0 (Γ : Type*) [Group Γ] [TopologicalSpace Γ] [Fintyp
     ∑ τ : Γ, (f : Γ × Γ → A) (τ, σ) ∈ H0 Γ A :=
   sorry
 
-/-- **Layer 11, `H²` of a finite cyclic group is the invariants modulo the norms,** on Layer 2's
-explicit model, for any topological coefficients: the class of a 2-cocycle `f` goes to the class
-of `∑_τ f (τ, σ)` (`explicitH2CyclicEquiv_mk`). It is additive and kills `B²`, since for
-`f = d¹ c` the sum is the norm of `c σ`; it is surjective, the cocycle
-`(σ ^ i, σ ^ j) ↦ [i + j ≥ n] • a` for `0 ≤ i, j < n` going to `a`; and it is injective, a cocycle
-whose sum is a norm being a coboundary after the normalization by that cocycle. This is the
-degree-two half of the periodicity, whose discrete-coefficient model is Mathlib's
-`Rep.FiniteCyclicGroup.groupCohomologyIsoEven`; for the factor set of an extension with the
-section `σ ^ i ↦ t ^ i` the sum is `t ^ n`. -/
-noncomputable def explicitH2CyclicEquiv (Γ : Type*) [Group Γ] [TopologicalSpace Γ]
-    [DiscreteTopology Γ] [Fintype Γ] (A : Type*) [AddCommGroup A] [TopologicalSpace A]
-    [IsTopologicalAddGroup A] [DistribMulAction Γ A] [ContinuousSMul Γ A] (σ : Γ)
-    (hσ : ∀ γ : Γ, γ ∈ Subgroup.zpowers σ) :
-    H2 Γ A ≃+ (H0 Γ A ⧸ (groupNorm Γ A).range.addSubgroupOf (H0 Γ A)) :=
-  sorry
-
-/-- **Layer 11, the formula for `explicitH2CyclicEquiv`.** -/
-theorem explicitH2CyclicEquiv_mk (Γ : Type*) [Group Γ] [TopologicalSpace Γ]
-    [DiscreteTopology Γ] [Fintype Γ] (A : Type*) [AddCommGroup A] [TopologicalSpace A]
-    [IsTopologicalAddGroup A] [DistribMulAction Γ A] [ContinuousSMul Γ A] (σ : Γ)
-    (hσ : ∀ γ : Γ, γ ∈ Subgroup.zpowers σ) (f : Z2 Γ A) :
-    explicitH2CyclicEquiv Γ A σ hσ (H2pi Γ A f) =
-      QuotientAddGroup.mk (s := (groupNorm Γ A).range.addSubgroupOf (H0 Γ A))
-        ⟨∑ τ : Γ, (f : Γ × Γ → A) (τ, σ), sum_cocycle_mem_H0 Γ A f σ⟩ :=
-  sorry
-
 /-- **Layer 11, the pair `V ◁ W` read in `G ⧸ V`:** `W ⧸ (V ⊓ W) ≃* W.map (mk' V)`, Mathlib's
 `QuotientGroup.quotientKerEquivRange` for `(QuotientGroup.mk' V).comp W.subtype`, whose kernel is
 `V.subgroupOf W` and whose range is `W.map (QuotientGroup.mk' V)`. -/
@@ -2959,39 +2719,6 @@ noncomputable def quotientSubgroupOfEquivMap {G : Type*} [Group G] (V W : Subgro
       rw [← MonoidHom.comap_ker, QuotientGroup.ker_mk']; rfl)).trans
     ((QuotientGroup.quotientKerEquivRange ((QuotientGroup.mk' V).comp W.subtype)).trans
       (MulEquiv.subgroupCongr (by rw [MonoidHom.range_comp, Subgroup.range_subtype])))
-
-/-- **Layer 11, an open normal subgroup is its own conjugate,** so that Layer 10's `conjMapOf` acts
-on the cohomology of an open normal subgroup. -/
-theorem conjOpenSubgroup_eq_of_normal {G : Type u} [Group G] [TopologicalSpace G]
-    (V : OpenSubgroup G) [V.toSubgroup.Normal] (g : G) : conjOpenSubgroup g V = V :=
-  sorry
-
-/-- **Layer 11, conjugation commutes with the all-degree connecting map** on an open normal
-subgroup: the case of the compatible pair (conjugation by `g`, the action of `g`) of the naturality
-of `delta` in compatible pairs. The class module uses it to move the conjugation of NSW (3.3.11)
-from `H²(V, ℤ)` to characters of `V` through the Bockstein connecting map. -/
-theorem delta_conjMapOf (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G]
-    (A : Type u) [AddCommGroup A] [TopologicalSpace A] [IsTopologicalAddGroup A]
-    [DiscreteTopology A] [DistribMulAction G A] [ContinuousSMul G A]
-    (B : Type u) [AddCommGroup B] [TopologicalSpace B] [IsTopologicalAddGroup B]
-    [DiscreteTopology B] [DistribMulAction G B] [ContinuousSMul G B]
-    (C : Type u) [AddCommGroup C] [TopologicalSpace C] [IsTopologicalAddGroup C]
-    [DiscreteTopology C] [DistribMulAction G C] [ContinuousSMul G C]
-    (S : DiscreteShortExact G A B C) (V : OpenSubgroup G) [V.toSubgroup.Normal]
-    [CompactSpace V.toSubgroup] [TotallyDisconnectedSpace V.toSubgroup] (g : G) (n : ℕ) :
-    (continuousCohomology ℤ V.toSubgroup n).map (ofDiscreteModuleRes G C V.toSubgroup).inv ≫
-        conjMapOf ℤ g V V (conjOpenSubgroup_eq_of_normal V g).symm (ofDiscreteModule G C) n ≫
-        (continuousCohomology ℤ V.toSubgroup n).map (ofDiscreteModuleRes G C V.toSubgroup).hom ≫
-        delta V.toSubgroup A B C (S.restrict G A B C V.toSubgroup) n =
-      delta V.toSubgroup A B C (S.restrict G A B C V.toSubgroup) n ≫
-        (continuousCohomology ℤ V.toSubgroup (n + 1)).map
-          (ofDiscreteModuleRes G A V.toSubgroup).inv ≫
-        conjMapOf ℤ g V V (conjOpenSubgroup_eq_of_normal V g).symm (ofDiscreteModule G A)
-          (n + 1) ≫
-        (continuousCohomology ℤ V.toSubgroup (n + 1)).map
-          (ofDiscreteModuleRes G A V.toSubgroup).hom :=
-  sorry
 
 section CohomologicalDimensionInvariants
 
@@ -3102,7 +2829,7 @@ theorem cohomologicalDimensionLE_iff_torsion (n : ℕ) :
     CohomologicalDimensionLE p G n ↔
       ∀ (M : Type u) [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
         [DistribMulAction G M] [ContinuousSMul G M],
-        AddMonoid.IsTorsion M → ∀ i : ℕ, n < i →
+        IsAddTorsion M → ∀ i : ℕ, n < i →
           AddCommGroup.primaryComponent
             ((continuousCohomology ℤ G i).obj (ofDiscreteModule G M)) p = ⊥ :=
   sorry
@@ -3159,12 +2886,12 @@ theorem strictCohomologicalDimensionAt_openSubgroup_le (U : OpenSubgroup G) :
   sorry
 
 /-- **Layer 11, the strict dimension from the ordinary one** (NSW (3.3.4) and its proof):
-`scd_p G ≤ n` exactly when `cd_p G ≤ n` and the `p`-primary part of `H^{n+1}(U, ℤ)` vanishes for
+`scd_p G ≤ n` exactly when `cd_p G ≤ n` and the `p`-primary part of `H^(n+1)(U, ℤ)` vanishes for
 every open `U`, with `ℤ` carrying the trivial action. The forward direction is `cd_p ≤ scd_p`
 together with the previous statement. For the converse, `scd_p G ≤ cd_p G + 1` (NSW (3.3.3))
 disposes of every degree above `n + 1`. In degree `n + 1`, a discrete module finitely generated
 over `ℤ` is a quotient `B ⧸ C` of `B = Coind_U^G (ℤ^m)` for an open `U` acting trivially on it; the
-`p`-primary parts of `H^{n+1}(G, B) ≅ H^{n+1}(U, ℤ)^m` and of `H^{n+2}(G, C)` vanish, and taking
+`p`-primary parts of `H^(n+1)(G, B) ≅ H^(n+1)(U, ℤ)^m` and of `H^(n+2)(G, C)` vanish, and taking
 `p`-primary parts is exact on torsion groups. Layer 10's filtered colimits then give every discrete
 module. The statement holds for every `n`. -/
 theorem strictCohomologicalDimensionAt_le_iff_forall_openSubgroup (n : ℕ) :
@@ -3219,13 +2946,6 @@ noncomputable instance abelianizationProPAdditiveAction (V : Subgroup G) [V.Norm
     show Additive.ofMul (q • (Additive.toMul x * Additive.toMul y)) = _
     rw [smul_mul']; rfl
 
-/-- **Layer 11, the action is continuous:** it is on `TopologicalAbelianization V` (Tau Ceti's
-`ContinuousSMul` instance there), and the projection to the maximal pro-`p` quotient is an open
-quotient map. -/
-instance abelianizationProP_continuousSMul (V : Subgroup G) [V.Normal] :
-    ContinuousSMul (G ⧸ V) (Additive (abelianizationProP p G V)) :=
-  sorry
-
 /-- **Layer 11, the factor set of the extension** `1 → V^ab(p) → G ⧸ K → G ⧸ V → 1`, where `K` is
 the kernel of `V → V^ab(p)`: `(q, r) ↦ q.out * r.out * (q * r).out⁻¹` read in `V^ab(p)`, with the
 representatives chosen by `Quotient.out` (NSW (3.6.2), proof). -/
@@ -3247,19 +2967,11 @@ theorem abelianizationProPFactorSet_mem_Z2 (V : Subgroup G) [V.Normal]
     abelianizationProPFactorSet p G V ∈ Z2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
   sorry
 
-/-- **Layer 11, the class `u_{G/V}(p)` of the extension of `G ⧸ V` by `V^ab(p)`,** for an open
-normal `V`. Other representatives change the factor set by a coboundary, so this is the class of
-the extension; it is the image of NSW's `u_{G/V} ∈ H²(G ⧸ V, V^ab)` under `V^ab → V^ab(p)`. -/
-noncomputable def abelianizationProPClass (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
-    H2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
-  H2pi (G ⧸ V) (Additive (abelianizationProP p G V))
-    ⟨abelianizationProPFactorSet p G V, abelianizationProPFactorSet_mem_Z2 p G V hV⟩
-
 /-- **Layer 11, NSW (3.3.11), surjectivity of corestriction in the top degree.** For
 `scd_p G ≤ n` and an open subgroup `V`, every `p`-primary class of `Hⁿ(G, X)` is the corestriction
 of a `p`-primary class of `Hⁿ(V, X)`. Route: Layer 10's `longExact_exact` for
 `0 → B → Coind_V^G X → X → 0`, the last map `coindTrace`; `shapiroIso` identifies the middle term
-with `Hⁿ(V, X)` and the induced map with `corestriction`; `H^{n+1}(G, B)(p) = 0` since
+with `Hⁿ(V, X)` and the induced map with `corestriction`; `H^(n+1)(G, B)(p) = 0` since
 `scd_p G ≤ n`; and taking `p`-primary parts is exact on these torsion groups (Layer 10's torsion
 statement). -/
 theorem corestriction_surjective_primaryComponent (n : ℕ)
@@ -3270,29 +2982,6 @@ theorem corestriction_surjective_primaryComponent (n : ℕ)
     ∃ y ∈ AddCommGroup.primaryComponent ((continuousCohomology ℤ V.toSubgroup n).obj
         ((TopRep.resFunctor V.toSubgroup.subtype).obj X)) p,
       (corestriction ℤ V X hX n).hom y = z :=
-  sorry
-
-/-- **Layer 11, NSW (3.3.11), injectivity of corestriction on the coinvariants.** For
-`scd_p G ≤ n` and an open normal `V`, a `p`-primary class of `Hⁿ(V, X)` whose corestriction
-vanishes lies in the subgroup generated by the differences `(g)_* w - w` of `p`-primary classes,
-`(g)_*` Layer 10's `conjMapOf`. Route: the augmentation sequence `0 → I → ℤ[G ⧸ V] → ℤ → 0`
-tensored with `X`, whose middle term is `Coind_V^G X` and whose last map is the trace, and the
-cover `⊕_{σ ∈ G ⧸ V} Coind_V^G X → I ⊗ X`, `e_σ ⊗ x ↦ (σ - 1) ⊗ x`; the vanishing of
-`H^{n+1}(G, -)(p)` makes `Hⁿ(G, ⊕ Coind_V^G X)(p) → Hⁿ(G, I ⊗ X)(p)` surjective, and under
-`shapiroIso` right multiplication by `σ - 1` on `Coind_V^G X` is `(σ)_* - 1` on `Hⁿ(V, X)`. -/
-theorem corestriction_ker_primaryComponent (n : ℕ)
-    (hG : scd_p p G ≤ n) (V : OpenSubgroup G)
-    [V.toSubgroup.Normal] (X : TopRep ℤ G) (hX : IsSmoothDiscrete ℤ X)
-    (y : (continuousCohomology ℤ V.toSubgroup n).obj
-      ((TopRep.resFunctor V.toSubgroup.subtype).obj X))
-    (hy : y ∈ AddCommGroup.primaryComponent ((continuousCohomology ℤ V.toSubgroup n).obj
-      ((TopRep.resFunctor V.toSubgroup.subtype).obj X)) p)
-    (hcor : (corestriction ℤ V X hX n).hom y = 0) :
-    y ∈ AddSubgroup.closure {z | ∃ (g : G) (w : (continuousCohomology ℤ V.toSubgroup n).obj
-        ((TopRep.resFunctor V.toSubgroup.subtype).obj X)),
-      w ∈ AddCommGroup.primaryComponent ((continuousCohomology ℤ V.toSubgroup n).obj
-        ((TopRep.resFunctor V.toSubgroup.subtype).obj X)) p ∧
-      z = (conjMapOf ℤ g V V (conjOpenSubgroup_eq_of_normal V g).symm X n).hom w - w} :=
   sorry
 
 /-- **Layer 11, the quotient map `V → V^ab(p)`:** Mathlib's quotient map onto the topological
@@ -3331,7 +3020,7 @@ theorem abelianizationProPTransfer_eq_prod_lWord (V : Subgroup G) (hV : IsOpen (
   sorry
 
 /-- **Layer 11, NSW (1.5.9): `V → G → V^ab(p)` is the norm.** For `v ∈ V`,
-`Ver v = ∏_{q : G ⧸ V} q • [v]` for the conjugation action `abelianizationProPAction`: by
+`Ver v = ∏ (q : G ⧸ V), q • [v]` for the conjugation action `abelianizationProPAction`: by
 `abelianizationProPTransfer_eq_prod_lWord` at `t = Quotient.out`, the word of `v` at `u` is
 `(u.out)⁻¹ v u.out`, since `v` fixes every coset of the normal subgroup `V`. -/
 theorem abelianizationProPTransfer_apply_of_mem (V : Subgroup G) [V.Normal]
@@ -3408,12 +3097,12 @@ theorem abelianizationProPTransfer_range
     Set.range (abelianizationProPTransfer p G V hV) = {a | ∀ q : G ⧸ V, q • a = a} :=
   sorry
 
-/-- **Layer 11, NSW (3.6.2) for cyclic `G ⧸ V`: `V^ab(p)_{G/V} → G^ab(p)` is injective.** For
+/-- **Layer 11, NSW (3.6.2) for cyclic `G ⧸ V`: `(V^ab(p))_(G/V) → G^ab(p)` is injective.** For
 `G ⧸ V` a cyclic `p`-group generated by the image of `s`, an element of `V` that dies in `G^ab(p)`
 has class `(s • b) / b` in `V^ab(p)`. Route, with no group homology: the quotient `E` of `G` by
 the preimage of `(s - 1) V^ab(p)` is an extension of the cyclic `G ⧸ V` by the central
-`V^ab(p)_{G/V}`, hence abelian, and pro-`p`, being an extension of a `p`-group by a pro-`p` group;
-so `G → E` factors through `G^ab(p)`, and `V^ab(p)_{G/V}` embeds in `E`. -/
+`(V^ab(p))_(G/V)`, hence abelian, and pro-`p`, being an extension of a `p`-group by a pro-`p` group;
+so `G → E` factors through `G^ab(p)`, and `(V^ab(p))_(G/V)` embeds in `E`. -/
 theorem abelianizationProPMk_eq_smul_div_of_mk_eq_one (V : Subgroup G) [V.Normal]
     (hV : IsOpen (V : Set G)) (hpV : IsPGroup p (G ⧸ V)) (s : G)
     (hs : ∀ q : G ⧸ V, q ∈ Subgroup.zpowers (QuotientGroup.mk s : G ⧸ V)) (v : V)
@@ -3421,275 +3110,6 @@ theorem abelianizationProPMk_eq_smul_div_of_mk_eq_one (V : Subgroup G) [V.Normal
       (QuotientGroup.mk (v : G) : TopologicalAbelianization G) = 1) :
     ∃ b : abelianizationProP p G V,
       abelianizationProPMk p G V v = ((QuotientGroup.mk s : G ⧸ V) • b) / b :=
-  sorry
-
-/-- **Layer 11, the class module for `G ⧸ V` of order `p`, degree one** (NSW (3.6.4) (ii) ⇒ (iii),
-without the diagram (3.6.2)). By `subsingleton_H1_of_isCyclic` it is enough that an `a` killed by
-the norm is `σ • b - b`: write `a = [v]`, `v ∈ V`; then `Ver v = N a = 1`
-(`abelianizationProPTransfer_apply_of_mem`), so `v` dies in `G^ab(p)`
-(`abelianizationProPTransfer_eq_one_iff`), and `abelianizationProPMk_eq_smul_div_of_mk_eq_one`
-concludes. -/
-theorem subsingleton_h1_abelianizationProP_of_card_eq_prime
-    (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal]
-    (hV : IsOpen (V : Set G)) (hcard : Nat.card (G ⧸ V) = p) :
-    Subsingleton (H1 (G ⧸ V) (Additive (abelianizationProP p G V))) :=
-  sorry
-
-/-- **Layer 11, the class module for `G ⧸ V` of order `p`, degree two.** Under
-`explicitH2CyclicEquiv` at a generator `σ`, the class `u_{G/V}` goes to the class of
-`∑_τ u(τ, σ) = Ver σ.out` (`explicitH2CyclicEquiv_mk`, `abelianizationProPTransfer_out`). The
-invariants are the image of `Ver` (`abelianizationProPTransfer_range`), and
-`Ver (σ.out ^ i v) = i • Ver σ.out + N [v]` (`abelianizationProPTransfer_apply_of_mem`), so the
-class of `Ver σ.out` generates the invariants modulo the norms; `p • Ver σ.out = Ver (σ.out ^ p)` is a
-norm since `σ.out ^ p ∈ V`; and `Ver σ.out` is not a norm, for `Ver σ.out = Ver v` would put
-`σ.out v⁻¹` in the kernel of `G → G^ab(p)` (`abelianizationProPTransfer_eq_one_iff`), which maps
-onto the abelian `p`-group `G ⧸ V`, while `σ ≠ 1`. -/
-theorem abelianizationProPClass_generates_of_card_eq_prime
-    (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal]
-    (hV : IsOpen (V : Set G)) (hcard : Nat.card (G ⧸ V) = p) :
-    AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
-      Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) = p :=
-  sorry
-
-/-- **Layer 11, restriction to a subgroup of `G ⧸ V` with coefficients `V^ab(p)`, degree one,**
-`f ↦ f|_S`: Tau Ceti's `TauCeti.ContCohomology.explicitRes1` at these coefficients, which carries no
-discreteness hypothesis on them. -/
-noncomputable abbrev abelianizationProPRes1 (V : Subgroup G) [V.Normal] (S : Subgroup (G ⧸ V)) :
-    H1 (G ⧸ V) (Additive (abelianizationProP p G V)) →+
-      H1 S (Additive (abelianizationProP p G V)) :=
-  TauCeti.ContCohomology.explicitRes1 (G ⧸ V) (Additive (abelianizationProP p G V)) S
-
-/-- **Layer 11, the same restriction in degree two,** `f ↦ f|_{S × S}`: Tau Ceti's
-`TauCeti.ContCohomology.explicitRes2` at these coefficients. -/
-noncomputable abbrev abelianizationProPRes2 (V : Subgroup G) [V.Normal] (S : Subgroup (G ⧸ V)) :
-    H2 (G ⧸ V) (Additive (abelianizationProP p G V)) →+
-      H2 S (Additive (abelianizationProP p G V)) :=
-  TauCeti.ContCohomology.explicitRes2 (G ⧸ V) (Additive (abelianizationProP p G V)) S
-
-/-- **Layer 11, `V^ab(p)` does not depend on the ambient group:** for `V ≤ W`, the maximal
-pro-`p` abelian quotient of `V.subgroupOf W` is that of `V`, through
-`Subgroup.subgroupOfEquivOfLe`, a homeomorphism, carried by `TopologicalAbelianization.map` and
-`TauCeti.maximalProPQuotient.map`. -/
-noncomputable def abelianizationProPSubgroupOfEquiv (V W : Subgroup G) (hVW : V ≤ W) :
-    abelianizationProP p W (V.subgroupOf W) ≃* abelianizationProP p G V :=
-  sorry
-
-/-- **Layer 11, the identification of `V^ab(p)` computed in `W` with `V^ab(p)` is continuous,**
-being induced by the homeomorphism `Subgroup.subgroupOfEquivOfLe`. -/
-theorem continuous_abelianizationProPSubgroupOfEquiv (V W : Subgroup G) (hVW : V ≤ W) :
-    Continuous (abelianizationProPSubgroupOfEquiv p G V W hVW) :=
-  sorry
-
-/-- **Layer 11, and so is its inverse.** -/
-theorem continuous_abelianizationProPSubgroupOfEquiv_symm (V W : Subgroup G) (hVW : V ≤ W) :
-    Continuous (abelianizationProPSubgroupOfEquiv p G V W hVW).symm :=
-  sorry
-
-/-- **Layer 11, the identification intertwines the two conjugation actions:** that of
-`W ⧸ V.subgroupOf W` on `V^ab(p)` computed in `W`, and that of its image `W.map (mk' V)` in
-`G ⧸ V`, through `quotientSubgroupOfEquivMap`. -/
-theorem abelianizationProPSubgroupOfEquiv_smul (V W : Subgroup G) [V.Normal] (hVW : V ≤ W)
-    (q : W.map (QuotientGroup.mk' V)) (a : abelianizationProP p W (V.subgroupOf W)) :
-    abelianizationProPSubgroupOfEquiv p G V W hVW ((quotientSubgroupOfEquivMap V W).symm q • a) =
-      (q : G ⧸ V) • abelianizationProPSubgroupOfEquiv p G V W hVW a :=
-  sorry
-
-/-- **Layer 11, the explicit `H¹` of the pair `V ◁ W` computed in `W` is that of the subgroup
-`W.map (mk' V)` of `G ⧸ V`:** Layer 2's compatible-pair pullback along an isomorphism,
-`explicitMap1Equiv`, at `quotientSubgroupOfEquivMap` (a homeomorphism, both groups being discrete
-since `V` is open) and `abelianizationProPSubgroupOfEquiv`, which intertwine the two conjugation
-actions. -/
-noncomputable def abelianizationProPSubgroupOfH1Equiv (V W : Subgroup G) [V.Normal]
-    (hVW : V ≤ W) (hV : IsOpen (V : Set G)) :
-    H1 (W ⧸ V.subgroupOf W) (Additive (abelianizationProP p W (V.subgroupOf W))) ≃+
-      H1 (W.map (QuotientGroup.mk' V)) (Additive (abelianizationProP p G V)) :=
-  haveI : DiscreteTopology (G ⧸ V) := QuotientGroup.discreteTopology hV
-  haveI : DiscreteTopology (W ⧸ V.subgroupOf W) :=
-    QuotientGroup.discreteTopology (Subgroup.subgroupOf_isOpen W V hV)
-  explicitMap1Equiv (W ⧸ V.subgroupOf W) (Additive (abelianizationProP p W (V.subgroupOf W)))
-    (W.map (QuotientGroup.mk' V)) (Additive (abelianizationProP p G V))
-    { toMulEquiv := (quotientSubgroupOfEquivMap V W).symm
-      continuous_toFun := continuous_of_discreteTopology
-      continuous_invFun := continuous_of_discreteTopology }
-    (abelianizationProPSubgroupOfEquiv p G V W hVW).toAdditive
-    (continuous_abelianizationProPSubgroupOfEquiv p G V W hVW)
-    (continuous_abelianizationProPSubgroupOfEquiv_symm p G V W hVW)
-    (fun q a => congrArg Additive.ofMul
-      (abelianizationProPSubgroupOfEquiv_smul p G V W hVW q (Additive.toMul a)))
-
-/-- **Layer 11, the same in degree two:** Tau Ceti's `TauCeti.ContCohomology.explicitMap2Equiv` at
-the same pair. -/
-noncomputable def abelianizationProPSubgroupOfH2Equiv (V W : Subgroup G) [V.Normal]
-    (hVW : V ≤ W) (hV : IsOpen (V : Set G)) :
-    H2 (W ⧸ V.subgroupOf W) (Additive (abelianizationProP p W (V.subgroupOf W))) ≃+
-      H2 (W.map (QuotientGroup.mk' V)) (Additive (abelianizationProP p G V)) :=
-  haveI : DiscreteTopology (G ⧸ V) := QuotientGroup.discreteTopology hV
-  haveI : DiscreteTopology (W ⧸ V.subgroupOf W) :=
-    QuotientGroup.discreteTopology (Subgroup.subgroupOf_isOpen W V hV)
-  TauCeti.ContCohomology.explicitMap2Equiv (W ⧸ V.subgroupOf W)
-    (Additive (abelianizationProP p W (V.subgroupOf W)))
-    (W.map (QuotientGroup.mk' V)) (Additive (abelianizationProP p G V))
-    { toMulEquiv := (quotientSubgroupOfEquivMap V W).symm
-      continuous_toFun := continuous_of_discreteTopology
-      continuous_invFun := continuous_of_discreteTopology }
-    (abelianizationProPSubgroupOfEquiv p G V W hVW).toAdditive
-    (continuous_abelianizationProPSubgroupOfEquiv p G V W hVW)
-    (continuous_abelianizationProPSubgroupOfEquiv_symm p G V W hVW)
-    (fun q a => congrArg Additive.ofMul
-      (abelianizationProPSubgroupOfEquiv_smul p G V W hVW q (Additive.toMul a)))
-
-/-- **Layer 11, NSW (3.6.1) (i): the class of the pair `V ◁ W` is the restriction of the class of
-`V ◁ G`.** On factor sets, the restriction of `(σ, τ) ↦ σ.out τ.out (σ τ).out⁻¹` to
-`W.map (mk' V)` is the factor set of the extension of `W ⧸ V` by `V^ab(p)` for the
-representatives `σ.out ∈ W`, and every choice of representatives gives the same class. -/
-theorem abelianizationProPSubgroupOfH2Equiv_class (V W : Subgroup G) [V.Normal] (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) [CompactSpace W] [TotallyDisconnectedSpace W] :
-    abelianizationProPSubgroupOfH2Equiv p G V W hVW hV
-        (abelianizationProPClass p W (V.subgroupOf W) (Subgroup.subgroupOf_isOpen W V hV)) =
-      abelianizationProPRes2 p G V (W.map (QuotientGroup.mk' V))
-        (abelianizationProPClass p G V hV) :=
-  sorry
-
-/-- **Layer 11, the transfer from `W` to `V^ab(p)`, on `W^ab(p)`,** for open normal `V ≤ W` of
-`G`: Mathlib's `MonoidHom.transfer` of `abelianizationProPMk` along
-`Subgroup.subgroupOfEquivOfLe`, descended through `W^ab(p)` since `V^ab(p)` is abelian and
-pro-`p` (`TopologicalAbelianization`'s universal property and
-`TauCeti.maximalProPQuotient.lift`). -/
-noncomputable def abelianizationProPTransferLe (V W : Subgroup G) (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) :
-    abelianizationProP p G W →* abelianizationProP p G V :=
-  sorry
-
-/-- **Layer 11, the transfer from `W` to `V` is continuous,** as the transfer to an open subgroup
-is (`continuous_abelianizationProPTransfer` for the group `W`), descended through the open quotient
-map onto `W^ab(p)`. -/
-theorem continuous_abelianizationProPTransferLe (V W : Subgroup G) (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) :
-    Continuous (abelianizationProPTransferLe p G V W hVW hV) :=
-  sorry
-
-/-- **Layer 11, the transfer from `W` to `V` is equivariant** for the conjugation actions of
-`G ⧸ W` on `W^ab(p)` and of `G ⧸ V` on `V^ab(p)`, along the quotient map `G ⧸ V → G ⧸ W`: the
-transfer of a conjugate is the conjugate of the transfer, the transversal words being conjugated
-along with it. -/
-theorem abelianizationProPTransferLe_smul (V W : Subgroup G) [V.Normal] [W.Normal] (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) (q : G ⧸ V) (a : abelianizationProP p G W) :
-    abelianizationProPTransferLe p G V W hVW hV
-        (QuotientGroup.map V W (MonoidHom.id G) (fun _ hx => hVW hx) q • a) =
-      q • abelianizationProPTransferLe p G V W hVW hV a :=
-  sorry
-
-/-- **Layer 11, NSW (3.6.4) (ii) for the pair `V ◁ W`, injectivity:** the case of the group `W`,
-whose strict dimension is at most that of `G` (`strictCohomologicalDimensionAt_openSubgroup_le`),
-of `abelianizationProPTransfer_eq_one_iff`, transported by `abelianizationProPSubgroupOfEquiv`. -/
-theorem abelianizationProPTransferLe_injective
-    (hG : scd_p p G ≤ 2) (V W : Subgroup G) [V.Normal]
-    [W.Normal] (hVW : V ≤ W) (hV : IsOpen (V : Set G)) :
-    Function.Injective (abelianizationProPTransferLe p G V W hVW hV) :=
-  sorry
-
-/-- **Layer 11, NSW (3.6.4) (ii) for the pair `V ◁ W`, the image:** the `W.map (mk' V)`-invariants
-of `V^ab(p)`, by `abelianizationProPTransfer_range` for the group `W`, transported. -/
-theorem abelianizationProPTransferLe_range
-    (hG : scd_p p G ≤ 2) (V W : Subgroup G) [V.Normal]
-    [W.Normal] (hVW : V ≤ W) (hV : IsOpen (V : Set G)) :
-    Set.range (abelianizationProPTransferLe p G V W hVW hV) =
-      {a | ∀ q ∈ W.map (QuotientGroup.mk' V), q • a = a} :=
-  sorry
-
-/-- **Layer 11, the map `i` of NSW (3.6.1) (ii) in degree one:** Layer 2's compatible-pair
-pullback of the quotient map `G ⧸ V → G ⧸ W` and `Ver_{W→V} = abelianizationProPTransferLe`,
-which is equivariant for it. It is inflation from `G ⧸ W ≅ (G ⧸ V) ⧸ (W ⧸ V)` composed with
-`Ver_{W→V} : W^ab(p) ≅ V^ab(p)^{W/V}`. The body is Tau Ceti's
-`TauCeti.ContCohomology.explicitMap1` at these coefficients, the quotient map being continuous
-because `G ⧸ V` is discrete. -/
-noncomputable def abelianizationProPInfl1 (V W : Subgroup G) [V.Normal] [W.Normal] (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) :
-    H1 (G ⧸ W) (Additive (abelianizationProP p G W)) →+
-      H1 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
-  haveI : DiscreteTopology (G ⧸ V) := QuotientGroup.discreteTopology hV
-  TauCeti.ContCohomology.explicitMap1 (G ⧸ W) (Additive (abelianizationProP p G W)) (G ⧸ V)
-    (Additive (abelianizationProP p G V))
-    ⟨QuotientGroup.map V W (MonoidHom.id G) (fun _ hx => hVW hx), continuous_of_discreteTopology⟩
-    (abelianizationProPTransferLe p G V W hVW hV).toAdditive
-    (continuous_abelianizationProPTransferLe p G V W hVW hV)
-    (fun q a => congrArg Additive.ofMul
-      (abelianizationProPTransferLe_smul p G V W hVW hV q (Additive.toMul a)))
-
-/-- **Layer 11, the map `i` of NSW (3.6.1) (ii) in degree two:** Tau Ceti's
-`TauCeti.ContCohomology.explicitMap2` at the same pair. -/
-noncomputable def abelianizationProPInfl2 (V W : Subgroup G) [V.Normal] [W.Normal] (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) :
-    H2 (G ⧸ W) (Additive (abelianizationProP p G W)) →+
-      H2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
-  haveI : DiscreteTopology (G ⧸ V) := QuotientGroup.discreteTopology hV
-  TauCeti.ContCohomology.explicitMap2 (G ⧸ W) (Additive (abelianizationProP p G W)) (G ⧸ V)
-    (Additive (abelianizationProP p G V))
-    ⟨QuotientGroup.map V W (MonoidHom.id G) (fun _ hx => hVW hx), continuous_of_discreteTopology⟩
-    (abelianizationProPTransferLe p G V W hVW hV).toAdditive
-    (continuous_abelianizationProPTransferLe p G V W hVW hV)
-    (fun q a => congrArg Additive.ofMul
-      (abelianizationProPTransferLe_smul p G V W hVW hV q (Additive.toMul a)))
-
-/-- **Layer 11, NSW (3.6.1) (ii): `i (u_{G/W}) = (W : V) • u_{G/V}`.** The inflation of `u_{G/W}`
-to `G ⧸ V` and the push-forward of `u_{G/V}` along `V^ab(p) → W^ab(p)` are the same class of
-`H²(G ⧸ V, W^ab(p))`, by the morphism of extensions `G ⧸ K_V → G ⧸ K_W`. `Ver_{W→V}` composed with
-`V^ab(p) → W^ab(p)` is the norm `N` of `W ⧸ V` (`abelianizationProPTransfer_apply_of_mem` for the
-group `W`), a `G ⧸ V`-module endomorphism of `V^ab(p)`, and `N` acts on `H²(G ⧸ V, V^ab(p))` as
-multiplication by `(W : V)`: on invariants it is multiplication by `(W : V)`, and two dimension
-shifts through the coinduced module of the trivial subgroup (Layer 7's acyclicity, with Layer 5's
-connecting maps, natural in the coefficients) carry this to degree two. -/
-theorem abelianizationProPInfl2_class (V W : Subgroup G) [V.Normal] [W.Normal] (hVW : V ≤ W)
-    (hV : IsOpen (V : Set G)) :
-    abelianizationProPInfl2 p G V W hVW hV
-        (abelianizationProPClass p G W (Subgroup.isOpen_mono hVW hV)) =
-      V.relIndex W • abelianizationProPClass p G V hV :=
-  sorry
-
-/-- **Layer 11, NSW (1.6.7) for the pair `V ≤ W`, degree one:** `i` is injective, with image the
-kernel of restriction to `W.map (mk' V)`. Layer 5's `explicitInfl1_injective` and
-`explicitInfRes_exact` for the normal subgroup `W.map (mk' V)` of `G ⧸ V` (Tau Ceti's landed forms
-carry no discreteness hypothesis on the coefficients), with
-`QuotientGroup.quotientQuotientEquivQuotient` and the isomorphism `Ver_{W→V}` onto the invariants
-(`abelianizationProPTransferLe_injective`, `abelianizationProPTransferLe_range`). -/
-theorem abelianizationProPInfl1_exact
-    (hG : scd_p p G ≤ 2) (V W : Subgroup G) [V.Normal]
-    [W.Normal] (hVW : V ≤ W) (hV : IsOpen (V : Set G)) :
-    Function.Injective (abelianizationProPInfl1 p G V W hVW hV) ∧
-      (abelianizationProPInfl1 p G V W hVW hV).range =
-        (abelianizationProPRes1 p G V (W.map (QuotientGroup.mk' V))).ker :=
-  sorry
-
-/-- **Layer 11, NSW (1.6.7) for the pair `V ≤ W`, degree two:** when `H¹(W ⧸ V, V^ab(p)) = 0`, `i`
-is injective with image the kernel of restriction to `W.map (mk' V)`. This is the degree-two
-extension of Layer 5's inflation-restriction sequence (NSW (1.6.7) under vanishing of `H¹`; Milne,
-*Class Field Theory*, II.1.34; Tau Ceti's `TauCeti.groupCohomology.infRes_exact` is the same
-statement for Mathlib's discrete `groupCohomology`), proved on explicit cochains: a 2-cocycle
-killed by restriction is cohomologous to one vanishing on `W ⧸ V`-pairs, which the vanishing of
-`H¹` then makes inflated. -/
-theorem abelianizationProPInfl2_exact
-    (hG : scd_p p G ≤ 2) (V W : Subgroup G) [V.Normal]
-    [W.Normal] (hVW : V ≤ W) (hV : IsOpen (V : Set G))
-    (hH1 : Subsingleton (H1 (W.map (QuotientGroup.mk' V)) (Additive (abelianizationProP p G V)))) :
-    Function.Injective (abelianizationProPInfl2 p G V W hVW hV) ∧
-      (abelianizationProPInfl2 p G V W hVW hV).range =
-        (abelianizationProPRes2 p G V (W.map (QuotientGroup.mk' V))).ker :=
-  sorry
-
-/-- **Layer 11, the class module for a `p`-group `G ⧸ V`, degree one** (NSW (3.6.3), `p`-primary). -/
-theorem subsingleton_h1_abelianizationProP_of_isPGroup
-    (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal]
-    (hV : IsOpen (V : Set G)) (hpV : IsPGroup p (G ⧸ V)) :
-    Subsingleton (H1 (G ⧸ V) (Additive (abelianizationProP p G V))) :=
-  sorry
-
-/-- **Layer 11, the class module for a `p`-group `G ⧸ V`, degree two** (NSW (3.6.3), `p`-primary):
-`H²(G ⧸ V, V^ab(p))` is cyclic of order `#(G ⧸ V)`, generated by `u_{G/V}`. -/
-theorem abelianizationProPClass_generates_of_isPGroup
-    (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal]
-    (hV : IsOpen (V : Set G)) (hpV : IsPGroup p (G ⧸ V)) :
-    AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
-      Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) = Nat.card (G ⧸ V) :=
   sorry
 
 /-- **Layer 11, `V^ab(p)` is uniquely divisible by integers prime to `p`,** for an open `V`: an
@@ -3703,54 +3123,6 @@ misses `1` although `3` is prime to `2`. -/
 theorem abelianizationProP_pow_bijective (V : Subgroup G) (hV : IsOpen (V : Set G)) (m : ℕ)
     (hm : Nat.Coprime m p) :
     Function.Bijective fun a : abelianizationProP p G V => a ^ m :=
-  sorry
-
-/-- **Layer 11, restriction to a subgroup of index prime to `p` is injective in degree one.**
-`cor ∘ res = (G ⧸ V : S) •` (Layer 6, in Tau Ceti's landed form
-`TauCeti.ContCohomology.explicitCor1_comp_res1`, which carries no discreteness hypothesis on the
-coefficients), the same identity at the trivial subgroup kills `H¹` by `#(G ⧸ V)`, and multiplication
-by the prime-to-`p` part of that order is injective (`abelianizationProP_pow_bijective`). -/
-theorem abelianizationProPRes1_injective (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G))
-    (S : Subgroup (G ⧸ V)) (hS : ¬ p ∣ S.index) :
-    Function.Injective (abelianizationProPRes1 p G V S) :=
-  sorry
-
-/-- **Layer 11, the same in degree two** (`TauCeti.ContCohomology.explicitCor2_comp_res2`). -/
-theorem abelianizationProPRes2_injective (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G))
-    (S : Subgroup (G ⧸ V)) (hS : ¬ p ∣ S.index) :
-    Function.Injective (abelianizationProPRes2 p G V S) :=
-  sorry
-
-/-- **Layer 11, NSW (3.6.4) (i) ⇒ (iii), degree one:** for `scd_p G ≤ 2` and an open normal `V`,
-`H¹(G ⧸ V, V^ab(p)) = 0`. The route is in `README.md` Layer 11; its last step is the finite Sylow
-reduction: for a Sylow `p`-subgroup `P` of `G ⧸ V` (Mathlib's `Sylow`, `Sylow.nonempty`),
-restriction to `P` is injective (`abelianizationProPRes1_injective` with `Sylow.not_dvd_index`),
-and `H¹(P, V^ab(p)) = 0` is `subsingleton_h1_abelianizationProP_of_isPGroup` for the preimage of
-`P` (whose strict dimension is at most that of `G`,
-`strictCohomologicalDimensionAt_openSubgroup_le`), carried by
-`abelianizationProPSubgroupOfH1Equiv`. -/
-theorem subsingleton_h1_abelianizationProP
-    (hG : scd_p p G ≤ 2)
-    (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
-    Subsingleton (H1 (G ⧸ V) (Additive (abelianizationProP p G V))) :=
-  sorry
-
-/-- **Layer 11, NSW (3.6.4) (i) ⇒ (iii), degree two:** for `scd_p G ≤ 2` and an open normal `V`,
-`H²(G ⧸ V, V^ab(p))` is cyclic of order the `p`-part of `#(G ⧸ V)`, generated by the class of the
-extension. For a pair `V ◁ U` of open subgroups this applies to `U`, whose strict dimension is at
-most that of `G` (`strictCohomologicalDimensionAt_openSubgroup_le`). The last step of the route is
-the finite Sylow reduction: for a Sylow `p`-subgroup `P` of `G ⧸ V`, of order
-`p ^ padicValNat p #(G ⧸ V)` (`Sylow.card_eq_multiplicity`, `Nat.factorization_def`), restriction
-to `P` is injective (`abelianizationProPRes2_injective`, `Sylow.not_dvd_index`), and
-`abelianizationProPClass_generates_of_isPGroup` for the preimage of `P`, carried by
-`abelianizationProPSubgroupOfH2Equiv` and `abelianizationProPSubgroupOfH2Equiv_class`, makes the
-restriction of the class a generator of a group of order `#P`. -/
-theorem abelianizationProPClass_generates
-    (hG : scd_p p G ≤ 2)
-    (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
-    AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
-      Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) =
-        p ^ padicValNat p (Nat.card (G ⧸ V)) :=
   sorry
 
 end CohomologicalDimension
@@ -3777,7 +3149,7 @@ structure TopPairing (X Y Z : TopRep R G) where
   equivariant : ∀ (g : G) (x : X.V) (y : Y.V),
     bil (X.ρ g x) (Y.ρ g y) = Z.ρ g (bil x y)
 
-/-- Transport along an equality of degrees. The cup lands in `H^{m+n}`, and `(p+q)+r` and
+/-- Transport along an equality of degrees. The cup lands in `H^(m+n)`, and `(p+q)+r` and
 `p+(q+r)` are equal but not definitionally so, so associativity and commutativity are stated
 through this. -/
 noncomputable def degreeCast {m n : ℕ} (h : m = n) (X : TopRep R G) :
@@ -3800,248 +3172,7 @@ noncomputable def cochainDegreeCast {m n : ℕ} (h : m = n) (X : TopRep R G) :
       ((homogeneousCochainsFunctor R G).obj X).X n :=
   fun x => h ▸ x
 
-/-- **Layer 12, milestone 2: the Alexander--Whitney pairing on Mathlib's iterated-coinduction
-resolution.** This is the recursive construction omitted by an endpoint-only `cupCochain`. -/
-noncomputable def resolutionCupPairing {X Y Z : TopRep R G} (P : TopPairing X Y Z) (m n : ℕ) :
-    ((homogeneousCochainsFunctor R G).obj X).X m →ₗ[R]
-      ((homogeneousCochainsFunctor R G).obj Y).X n →ₗ[R]
-        ((homogeneousCochainsFunctor R G).obj Z).X (m + n) :=
-  sorry
-
-/-- The pointwise coefficient-pairing formula used at the base of the recursion. -/
-noncomputable def resolutionCupPairingZeroFormula {X Y Z : TopRep R G}
-    (P : TopPairing X Y Z) (n : ℕ) :
-    ((homogeneousCochainsFunctor R G).obj X).X 0 →ₗ[R]
-      ((homogeneousCochainsFunctor R G).obj Y).X n →ₗ[R]
-        ((homogeneousCochainsFunctor R G).obj Z).X n :=
-  sorry
-
-/-- The Alexander--Whitney head/tail formula used at the successor step. -/
-noncomputable def resolutionCupPairingSuccFormula {X Y Z : TopRep R G}
-    (P : TopPairing X Y Z) (m n : ℕ) :
-    ((homogeneousCochainsFunctor R G).obj X).X (m + 1) →ₗ[R]
-      ((homogeneousCochainsFunctor R G).obj Y).X n →ₗ[R]
-        ((homogeneousCochainsFunctor R G).obj Z).X (m + 1 + n) :=
-  sorry
-
-/-- **Layer 12, the base application equation for the resolution pairing.** The implementation
-expands this theorem to the coefficient pairing on the first iterated continuous-map coordinate. -/
-theorem resolutionCupPairing_apply_zero {X Y Z : TopRep R G} (P : TopPairing X Y Z) (n : ℕ)
-    (a : ((homogeneousCochainsFunctor R G).obj X).X 0)
-    (b : ((homogeneousCochainsFunctor R G).obj Y).X n) :
-    resolutionCupPairing P 0 n a b =
-      cochainDegreeCast (Nat.zero_add n).symm Z (resolutionCupPairingZeroFormula P n a b) :=
-  sorry
-
-/-- **Layer 12, the recursive application equation for the resolution pairing.** In the
-implementation the right side is the Alexander--Whitney head/tail recursion on the iterated
-`C(G,-)` representation; this named theorem is the rewrite interface used by Leibniz. -/
-theorem resolutionCupPairing_apply_succ {X Y Z : TopRep R G} (P : TopPairing X Y Z)
-    (m n : ℕ) (a : ((homogeneousCochainsFunctor R G).obj X).X (m + 1))
-    (b : ((homogeneousCochainsFunctor R G).obj Y).X n) :
-    resolutionCupPairing P (m + 1) n a b = resolutionCupPairingSuccFormula P m n a b :=
-  sorry
-
-/-- **Layer 12, milestone 3: the cochain-level product,** defined from the named pairing on the
-actual resolution. The Leibniz identity is a statement about this, not about classes. -/
-noncomputable def cupCochain {X Y Z : TopRep R G} (P : TopPairing X Y Z) (m n : ℕ) :
-    ((homogeneousCochainsFunctor R G).obj X).X m →
-      ((homogeneousCochainsFunctor R G).obj Y).X n →
-        ((homogeneousCochainsFunctor R G).obj Z).X (m + n) :=
-  fun a b => resolutionCupPairing P m n a b
-
-/-- **Layer 12, the public cochain product is the resolution pairing.** -/
-theorem cupCochain_apply {X Y Z : TopRep R G} (P : TopPairing X Y Z) (m n : ℕ)
-    (a : ((homogeneousCochainsFunctor R G).obj X).X m)
-    (b : ((homogeneousCochainsFunctor R G).obj Y).X n) :
-    cupCochain P m n a b = resolutionCupPairing P m n a b :=
-  rfl
-
-/-- **Layer 12, milestone 8: the named graded-commutativity homotopy operator,** a cochain map of
-degree `-1` in total degree. Its specification `cupCommHomotopy_spec` states that its coboundary is
-the graded commutator of the two cups on cocycles. -/
-noncomputable def cupCommHomotopy {X Y Z : TopRep R G}
-    (P : TopPairing X Y Z) (Pop : TopPairing Y X Z)
-    (hop : ∀ (x : X.V) (y : Y.V), Pop.bil y x = P.bil x y) (m n : ℕ) :
-    ((homogeneousCochainsFunctor R G).obj X).X m →ₗ[R]
-      ((homogeneousCochainsFunctor R G).obj Y).X n →ₗ[R]
-        ((homogeneousCochainsFunctor R G).obj Z).X (m + n).pred :=
-  sorry
-
-/-- **Layer 12, milestone 5: the cup product in bidegree `(m, n)`.** A plain function here
-because the milestones that make it biadditive, associative and graded commutative are separate;
-stating it as an additive map before those are proved would assert them. -/
-noncomputable def cup {X Y Z : TopRep R G} (P : TopPairing X Y Z) (m n : ℕ) :
-    ((continuousCohomology R G m).obj X) → ((continuousCohomology R G n).obj Y) →
-      ((continuousCohomology R G (m + n)).obj Z) :=
-  sorry
-
 variable {X Y Z : TopRep R G}
-
-/-- **Layer 12, milestone 4: the Leibniz identity,** with the sign convention fixed here. -/
-theorem cupCochain_leibniz (P : TopPairing X Y Z) (m n : ℕ)
-    (a : ((homogeneousCochainsFunctor R G).obj X).X m)
-    (b : ((homogeneousCochainsFunctor R G).obj Y).X n) :
-    (((homogeneousCochainsFunctor R G).obj Z).d (m + n) (m + n + 1)).hom
-        (cupCochain P m n a b) =
-      cochainDegreeCast (by omega) Z
-          (cupCochain P (m + 1) n
-            ((((homogeneousCochainsFunctor R G).obj X).d m (m + 1)).hom a) b) +
-        ((-1 : R) ^ m) •
-          cupCochain P m (n + 1) a
-            ((((homogeneousCochainsFunctor R G).obj Y).d n (n + 1)).hom b) :=
-  sorry
-
-/-- **Layer 12, milestone 5: additivity in the first argument.** -/
-theorem cup_add_left (P : TopPairing X Y Z) (m n : ℕ)
-    (a a' : (continuousCohomology R G m).obj X)
-    (b : (continuousCohomology R G n).obj Y) :
-    cup P m n (a + a') b = cup P m n a b + cup P m n a' b :=
-  sorry
-
-/-- **Layer 12, milestone 5: additivity in the second argument.** -/
-theorem cup_add_right (P : TopPairing X Y Z) (m n : ℕ)
-    (a : (continuousCohomology R G m).obj X)
-    (b b' : (continuousCohomology R G n).obj Y) :
-    cup P m n a (b + b') = cup P m n a b + cup P m n a b' :=
-  sorry
-
-/-- **Layer 12, milestone 6: the unit on the right.** For a discrete `G`-ring the class of `1` in
-`H⁰` is a unit for the cup; the hypothesis is the coefficient-level equation and the conclusion is
-the class-level one. -/
-theorem cup_one_right (P : TopPairing X Y X) (u : Y.V) (hinv : ∀ g : G, Y.ρ g u = u)
-    (hu : ∀ x : X.V, P.bil x u = x) (m : ℕ) (a : (continuousCohomology R G m).obj X) :
-    cup P m 0 a (degreeZeroClass Y u hinv) = a :=
-  sorry
-
-/-- **Layer 12, milestone 6: the unit on the left.** -/
-theorem cup_one_left (P : TopPairing Y X X) (u : Y.V) (hinv : ∀ g : G, Y.ρ g u = u)
-    (hu : ∀ x : X.V, P.bil u x = x) (n : ℕ) (a : (continuousCohomology R G n).obj X) :
-    cup P 0 n (degreeZeroClass Y u hinv) a = degreeCast (Nat.zero_add n).symm X a :=
-  sorry
-
-/-- **Layer 12, milestone 7: associativity on cochains.** The Alexander-Whitney cup is strictly
-associative: both parenthesizations evaluate at `(g₀, …, g_{p+q+r})` to
-`μ₂ (μ₁ (a (g₀, …, g_p)) (b (g_p, …, g_{p+q}))) (c (g_{p+q}, …, g_{p+q+r}))`, which `hcoeff`
-identifies with the `ν`-form. No homotopy operator is needed. Tau Ceti proves the same identity for
-its pairing structure as `TauCeti.TopPairing.cupCochain_assoc` (`Cup/Assoc.lean`). -/
-theorem cupCochain_assoc {A B C D E F : TopRep R G}
-    (μ₁ : TopPairing A B D) (μ₂ : TopPairing D C E)
-    (ν₁ : TopPairing B C F) (ν₂ : TopPairing A F E)
-    (hcoeff : ∀ (a : A.V) (b : B.V) (c : C.V), μ₂.bil (μ₁.bil a b) c = ν₂.bil a (ν₁.bil b c))
-    (p q r : ℕ) (a : ((homogeneousCochainsFunctor R G).obj A).X p)
-    (b : ((homogeneousCochainsFunctor R G).obj B).X q)
-    (c : ((homogeneousCochainsFunctor R G).obj C).X r) :
-    cupCochain μ₂ (p + q) r (cupCochain μ₁ p q a b) c =
-      cochainDegreeCast (Nat.add_assoc p q r).symm E
-        (cupCochain ν₂ p (q + r) a (cupCochain ν₁ q r b c)) :=
-  sorry
-
-/-- **Layer 12, milestone 7: associativity on classes,** derived from `cupCochain_assoc` on
-representing cocycles. -/
-theorem cup_assoc {A B C D E F : TopRep R G} (μ₁ : TopPairing A B D) (μ₂ : TopPairing D C E)
-    (ν₁ : TopPairing B C F) (ν₂ : TopPairing A F E)
-    (hcoeff : ∀ (a : A.V) (b : B.V) (c : C.V), μ₂.bil (μ₁.bil a b) c = ν₂.bil a (ν₁.bil b c))
-    (p q r : ℕ) (x : (continuousCohomology R G p).obj A)
-    (y : (continuousCohomology R G q).obj B) (z : (continuousCohomology R G r).obj C) :
-    cup μ₂ (p + q) r (cup μ₁ p q x y) z =
-      degreeCast (Nat.add_assoc p q r).symm E (cup ν₂ p (q + r) x (cup ν₁ q r y z)) :=
-  sorry
-
-/-- **Layer 12, milestone 8: specification of `cupCommHomotopy`.** On cocycles `a` of degree `m`
-and `b` of degree `n` with `m + n = k + 1`, the graded commutator
-`a ⌣_P b - (-1)^{mn} (b ⌣_{Pᵒᵖ} a)` is the coboundary of `cupCommHomotopy P Pop hop m n a b`, read in
-degree `k`. In total degree `0` the two cups already agree on cochains, by `hop`, and the operator
-is zero there. -/
-theorem cupCommHomotopy_spec (P : TopPairing X Y Z) (Pop : TopPairing Y X Z)
-    (hop : ∀ (x : X.V) (y : Y.V), Pop.bil y x = P.bil x y) (m n k : ℕ) (hk : k + 1 = m + n)
-    (a : ((homogeneousCochainsFunctor R G).obj X).X m)
-    (b : ((homogeneousCochainsFunctor R G).obj Y).X n)
-    (ha : (((homogeneousCochainsFunctor R G).obj X).d m (m + 1)).hom a = 0)
-    (hb : (((homogeneousCochainsFunctor R G).obj Y).d n (n + 1)).hom b = 0) :
-    cupCochain P m n a b - ((-1 : R) ^ (m * n)) •
-        cochainDegreeCast (Nat.add_comm n m) Z (cupCochain Pop n m b a) =
-      cochainDegreeCast hk Z
-        ((((homogeneousCochainsFunctor R G).obj Z).d k (k + 1)).hom
-          (cochainDegreeCast (by simp [← hk]) Z (cupCommHomotopy P Pop hop m n a b))) :=
-  sorry
-
-/-- **Layer 12, milestone 8: graded commutativity on classes, derived from the named
-homotopy.** -/
-theorem cup_gradedComm (P : TopPairing X Y Z) (Pop : TopPairing Y X Z)
-    (hop : ∀ (x : X.V) (y : Y.V), Pop.bil y x = P.bil x y) (m n : ℕ)
-    (a : (continuousCohomology R G m).obj X) (b : (continuousCohomology R G n).obj Y) :
-    cup P m n a b =
-      ((-1 : R) ^ (m * n)) • degreeCast (Nat.add_comm n m) Z (cup Pop n m b a) :=
-  sorry
-
-/-- **Layer 12, milestone 9: restriction compatibility.** The restricted pairing is supplied with
-its defining equation, since restriction does not change the coefficient map. -/
-theorem cup_res (P : TopPairing X Y Z) (S : Subgroup G)
-    (Pres : TopPairing ((TopRep.resFunctor S.subtype).obj X) ((TopRep.resFunctor S.subtype).obj Y)
-      ((TopRep.resFunctor S.subtype).obj Z))
-    (hPres : Pres.bil = P.bil) (m n : ℕ)
-    (a : (continuousCohomology R G m).obj X) (b : (continuousCohomology R G n).obj Y) :
-    (res R S Z (m + n)).hom (cup P m n a b) =
-      cup Pres m n ((res R S X m).hom a) ((res R S Y n).hom b) :=
-  sorry
-
-/-- **Layer 12, milestone 9: inflation compatibility.** The quotient pairing is supplied with its
-defining equation, which unlike the restricted case cannot be an equality of bilinear maps: the
-invariants are a different module, so the two pairings are compared after including the invariants
-into the object along `quotientToInvariantsι`. -/
-theorem cup_infl (N : Subgroup G) [N.Normal] [IsTopologicalGroup (G ⧸ N)] (P : TopPairing X Y Z)
-    (Pinv : TopPairing (quotientToInvariants R N X) (quotientToInvariants R N Y)
-      (quotientToInvariants R N Z))
-    (hPinv : ∀ (x : (quotientToInvariants R N X).V) (y : (quotientToInvariants R N Y).V),
-      (quotientToInvariantsι R N Z).hom (Pinv.bil x y) =
-        P.bil ((quotientToInvariantsι R N X).hom x) ((quotientToInvariantsι R N Y).hom y))
-    (m n : ℕ)
-    (a : (continuousCohomology R (G ⧸ N) m).obj (quotientToInvariants R N X))
-    (b : (continuousCohomology R (G ⧸ N) n).obj (quotientToInvariants R N Y)) :
-    (infl R N Z (m + n)).hom (cup Pinv m n a b) =
-      cup P m n ((infl R N X m).hom a) ((infl R N Y n).hom b) :=
-  sorry
-
-/-- **Layer 12, milestone 9: naturality in the coefficients** (NSW (1.4.2)). The two pairings are
-tied together by the three coefficient morphisms, which is what makes this a statement about a
-determined pair of cups rather than about two unrelated ones. -/
-theorem cup_coeffMap (P : TopPairing X Y Z) {X' Y' Z' : TopRep R G} (P' : TopPairing X' Y' Z')
-    (f : X ⟶ X') (g : Y ⟶ Y') (h : Z ⟶ Z')
-    (hcompat : ∀ (x : X.V) (y : Y.V), h (P.bil x y) = P'.bil (f x) (g y))
-    (m n : ℕ) (a : (continuousCohomology R G m).obj X)
-    (b : (continuousCohomology R G n).obj Y) :
-    (coeffMap R h (m + n)).hom (cup P m n a b) =
-      cup P' m n ((coeffMap R f m).hom a) ((coeffMap R g n).hom b) :=
-  sorry
-
-/-- **Layer 12, milestone 10: the projection formula,** with Layer 10's corestriction. -/
-theorem cup_projection [CompactSpace G] [TotallyDisconnectedSpace G] (U : OpenSubgroup G)
-    (hY : IsSmoothDiscrete R Y) (hZ : IsSmoothDiscrete R Z)
-    (P : TopPairing X Y Z)
-    (Pres : TopPairing ((TopRep.resFunctor U.toSubgroup.subtype).obj X)
-      ((TopRep.resFunctor U.toSubgroup.subtype).obj Y)
-      ((TopRep.resFunctor U.toSubgroup.subtype).obj Z))
-    (hPres : Pres.bil = P.bil) (m n : ℕ)
-    (a : (continuousCohomology R G m).obj X)
-    (b : (continuousCohomology R U.toSubgroup n).obj
-      ((TopRep.resFunctor U.toSubgroup.subtype).obj Y)) :
-    (corestriction R U Z hZ (m + n)).hom
-        (cup Pres m n ((res R U.toSubgroup X m).hom a) b) =
-      cup P m n a ((corestriction R U Y hY n).hom b) :=
-  sorry
-
-/-- **Layer 12, the coefficient ring and the group live in independent universes.** The arithmetic
-consumers of this interface pair a small ring, `ZMod n` in `Type 0`, with a Galois group in an
-arbitrary universe, so `TopRep` keeps the two apart. This example records that the mixed
-instantiation elaborates, so that a signature change tying them together again is caught here
-rather than downstream. -/
-noncomputable example (G' : Type u) [Group G'] [TopologicalSpace G'] [IsTopologicalGroup G']
-    (X' Y' Z' : TopRep (ZMod 2) G') (P : TopPairing X' Y' Z') (m n : ℕ)
-    (a : (continuousCohomology (ZMod 2) G' m).obj X')
-    (b : (continuousCohomology (ZMod 2) G' n).obj Y') :
-    (continuousCohomology (ZMod 2) G' (m + n)).obj Z' :=
-  cup P m n a b
 
 end GradedCup
 
@@ -4056,15 +3187,6 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [DiscreteTopology N] [DistribMulAction G N] [ContinuousSMul G N]
   [AddCommGroup P] [TopologicalSpace P] [IsTopologicalAddGroup P]
   [DiscreteTopology P] [DistribMulAction G P] [ContinuousSMul G P]
-
-/-- **Layer 12, the pairing of canonical objects induced by an equivariant pairing of discrete
-modules.** Layer 1's dictionary carries the coefficients; this carries the pairing, so that the
-agreement statement below has one pairing on each side and neither is arbitrary. -/
-noncomputable def ofDiscreteModulePairing (μ : M →+ N →+ P)
-    (hμ : Continuous fun p : M × N => μ p.1 p.2)
-    (hequiv : ∀ (g : G) (m : M) (x : N), μ (g • m) (g • x) = g • μ m x) :
-    TopPairing (ofDiscreteModule G M) (ofDiscreteModule G N) (ofDiscreteModule G P) :=
-  sorry
 
 /-- **Layer 8, the `(0,0)` cup product on the explicit model,** `m ⌣ n = μ m n`, which for
 invariant `m` and `n` is invariant. The first of the six low-degree shapes; all six are named,
@@ -4120,6 +3242,8 @@ noncomputable abbrev explicitCup20 (μ : M →+ N →+ P)
     H2 G M →+ H0 G N →+ H2 G P :=
   TauCeti.ContCohomology.explicitCup20 G M N P μ hμ hequiv
 
+omit [IsTopologicalAddGroup M] [DiscreteTopology M] [ContinuousSMul G M] [DiscreteTopology N]
+    [DiscreteTopology P] in
 /-- **Layer 8, the low-degree projection formula.** Finite index is explicit because the left and
 right sides both use the finite transversal sum; openness alone is not enough outside the compact
 case. This `(0,1)` shape determines the normalization used by the other low-degree shapes. Tau
@@ -4137,21 +3261,6 @@ theorem explicitCup_projection (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup
       explicitCup01 G M N P μ hμ hequiv a (explicitCor1 G N U b) :=
   haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   TauCeti.ContCohomology.explicitCup_projection G M N P U.toSubgroup U.isOpen μ hμ hequiv a b
-
-/-- **Layer 12, milestone 11: agreement with Layer 8's six explicit shapes** under Layer 3. The
-`(1,1)` shape is stated; the other five have the same form. Both cup products are named, so the
-statement is that these two agree and not that the canonical one agrees with something. -/
-theorem explicitIso_cup [CompactSpace G] [TotallyDisconnectedSpace G] (μ : M →+ N →+ P)
-    (hμ : Continuous fun p : M × N => μ p.1 p.2)
-    (hequiv : ∀ (g : G) (m : M) (x : N), μ (g • m) (g • x) = g • μ m x)
-    (x : DiscreteH1 G M) (y : DiscreteH1 G N) :
-    cup (ofDiscreteModulePairing G M N P μ hμ hequiv) 1 1
-        ((explicitH1IsoContinuousCohomology G M).hom.hom x)
-        ((explicitH1IsoContinuousCohomology G N).hom.hom y) =
-      (explicitH2IsoContinuousCohomology G P).hom.hom
-        (explicitCup11 G M N P μ hμ hequiv (discreteH1Equiv G M x) (discreteH1Equiv G N y) :
-          DiscreteH2 G P) :=
-  sorry
 
 end CupComparison
 
@@ -4187,12 +3296,15 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [AddCommGroup C''] [TopologicalSpace C''] [IsTopologicalAddGroup C''] [DiscreteTopology C'']
   [DistribMulAction G C''] [ContinuousSMul G C'']
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup A] [IsTopologicalAddGroup A'']
+    [ContinuousSMul G A''] [IsTopologicalAddGroup B] [DiscreteTopology B] [ContinuousSMul G B]
+    [IsTopologicalAddGroup C] [IsTopologicalAddGroup C''] [ContinuousSMul G C''] in
 /-- **Layer 8, `δ⁰` through the `(0,0)` cup in the first variable:** `δ⁰ (x ⌣ y) = δ⁰ x ⌣ y`, the
 right-hand side the `(1,0)` cup against the pairing of the sub-objects. -/
 theorem explicitDelta0_explicitCup00_left (SA : DiscreteShortExact G A' A A'')
     (SC : DiscreteShortExact G C' C C'')
     (μ : A →+ B →+ C) (μ' : A' →+ B →+ C') (μ'' : A'' →+ B →+ C'')
-    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
+    (_hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
     (hμ'' : Continuous fun q : A'' × B => μ'' q.1 q.2)
     (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
     (hequiv' : ∀ (g : G) (a : A') (b : B), μ' (g • a) (g • b) = g • μ' a b)
@@ -4204,12 +3316,14 @@ theorem explicitDelta0_explicitCup00_left (SA : DiscreteShortExact G A' A A'')
       explicitCup10 G A' B C' μ' hμ' hequiv' (explicitDelta0 G A' A A'' SA x) y := by
   apply TauCeti.ContCohomology.explicitDelta0_explicitCup00_left <;> assumption
 
+omit [IsTopologicalAddGroup A] [IsTopologicalAddGroup A''] [ContinuousSMul G A'']
+    [DiscreteTopology B] [IsTopologicalAddGroup C] in
 /-- **Layer 8, `δ¹` through the `(0,1)` cup in the first variable:** `δ¹ (x ⌣ y) = δ⁰ x ⌣ y`, the
 right-hand side the `(1,1)` cup. -/
 theorem explicitDelta1_explicitCup01_left (SA : DiscreteShortExact G A' A A'')
     (SC : DiscreteShortExact G C' C C'')
     (μ : A →+ B →+ C) (μ' : A' →+ B →+ C') (μ'' : A'' →+ B →+ C'')
-    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
+    (_hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
     (hμ'' : Continuous fun q : A'' × B => μ'' q.1 q.2)
     (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
     (hequiv' : ∀ (g : G) (a : A') (b : B), μ' (g • a) (g • b) = g • μ' a b)
@@ -4221,12 +3335,14 @@ theorem explicitDelta1_explicitCup01_left (SA : DiscreteShortExact G A' A A'')
       explicitCup11 G A' B C' μ' hμ' hequiv' (explicitDelta0 G A' A A'' SA x) y := by
   apply TauCeti.ContCohomology.explicitDelta1_explicitCup01_left <;> assumption
 
+omit [IsTopologicalAddGroup A] [IsTopologicalAddGroup B] [DiscreteTopology B]
+    [ContinuousSMul G B] [IsTopologicalAddGroup C] in
 /-- **Layer 8, `δ¹` through the `(1,0)` cup in the first variable:** `δ¹ (x ⌣ y) = δ¹ x ⌣ y`, the
 right-hand side the `(2,0)` cup. -/
 theorem explicitDelta1_explicitCup10_left (SA : DiscreteShortExact G A' A A'')
     (SC : DiscreteShortExact G C' C C'')
     (μ : A →+ B →+ C) (μ' : A' →+ B →+ C') (μ'' : A'' →+ B →+ C'')
-    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
+    (_hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A' × B => μ' q.1 q.2)
     (hμ'' : Continuous fun q : A'' × B => μ'' q.1 q.2)
     (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
     (hequiv' : ∀ (g : G) (a : A') (b : B), μ' (g • a) (g • b) = g • μ' a b)
@@ -4238,12 +3354,15 @@ theorem explicitDelta1_explicitCup10_left (SA : DiscreteShortExact G A' A A'')
       explicitCup20 G A' B C' μ' hμ' hequiv' (explicitDelta1 G A' A A'' SA x) y := by
   apply TauCeti.ContCohomology.explicitDelta1_explicitCup10_left <;> assumption
 
+omit [IsTopologicalGroup G] [IsTopologicalAddGroup A] [DiscreteTopology A] [ContinuousSMul G A]
+    [IsTopologicalAddGroup B] [IsTopologicalAddGroup B''] [ContinuousSMul G B'']
+    [IsTopologicalAddGroup C] [IsTopologicalAddGroup C''] [ContinuousSMul G C''] in
 /-- **Layer 8, `δ⁰` through the `(0,0)` cup in the second variable:** `δ⁰ (x ⌣ y) = x ⌣ δ⁰ y`, the
 sign `(-1)^p` being `1` at `p = 0`. -/
 theorem explicitDelta0_explicitCup00_right (SB : DiscreteShortExact G B' B B'')
     (SC : DiscreteShortExact G C' C C'')
     (μ : A →+ B →+ C) (μ' : A →+ B' →+ C') (μ'' : A →+ B'' →+ C'')
-    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
+    (_hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
     (hμ'' : Continuous fun q : A × B'' => μ'' q.1 q.2)
     (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
     (hequiv' : ∀ (g : G) (a : A) (b : B'), μ' (g • a) (g • b) = g • μ' a b)
@@ -4255,12 +3374,14 @@ theorem explicitDelta0_explicitCup00_right (SB : DiscreteShortExact G B' B B'')
       explicitCup01 G A B' C' μ' hμ' hequiv' x (explicitDelta0 G B' B B'' SB y) := by
   apply TauCeti.ContCohomology.explicitDelta0_explicitCup00_right <;> assumption
 
+omit [IsTopologicalAddGroup A] [DiscreteTopology A] [ContinuousSMul G A]
+    [IsTopologicalAddGroup B] [IsTopologicalAddGroup C] in
 /-- **Layer 8, `δ¹` through the `(0,1)` cup in the second variable:** `δ¹ (x ⌣ y) = x ⌣ δ¹ y`, the
 right-hand side the `(0,2)` cup. -/
 theorem explicitDelta1_explicitCup01_right (SB : DiscreteShortExact G B' B B'')
     (SC : DiscreteShortExact G C' C C'')
     (μ : A →+ B →+ C) (μ' : A →+ B' →+ C') (μ'' : A →+ B'' →+ C'')
-    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
+    (_hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
     (hμ'' : Continuous fun q : A × B'' => μ'' q.1 q.2)
     (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
     (hequiv' : ∀ (g : G) (a : A) (b : B'), μ' (g • a) (g • b) = g • μ' a b)
@@ -4272,13 +3393,15 @@ theorem explicitDelta1_explicitCup01_right (SB : DiscreteShortExact G B' B B'')
       explicitCup02 G A B' C' μ' hμ' hequiv' x (explicitDelta1 G B' B B'' SB y) := by
   apply TauCeti.ContCohomology.explicitDelta1_explicitCup01_right <;> assumption
 
+omit [DiscreteTopology A] [IsTopologicalAddGroup B] [IsTopologicalAddGroup B'']
+    [ContinuousSMul G B''] [IsTopologicalAddGroup C] in
 /-- **Layer 8, `δ¹` through the `(1,0)` cup in the second variable, with its sign:**
 `δ¹ (x ⌣ y) = -(x ⌣ δ⁰ y)`, the sign `(-1)^p` at `p = 1`. Layer 13's index-two exact sequence reads
 its connecting map off this instance at `y = 1`. -/
 theorem explicitDelta1_explicitCup10_right (SB : DiscreteShortExact G B' B B'')
     (SC : DiscreteShortExact G C' C C'')
     (μ : A →+ B →+ C) (μ' : A →+ B' →+ C') (μ'' : A →+ B'' →+ C'')
-    (hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
+    (_hμ : Continuous fun q : A × B => μ q.1 q.2) (hμ' : Continuous fun q : A × B' => μ' q.1 q.2)
     (hμ'' : Continuous fun q : A × B'' => μ'' q.1 q.2)
     (hequiv : ∀ (g : G) (a : A) (b : B), μ (g • a) (g • b) = g • μ a b)
     (hequiv' : ∀ (g : G) (a : A) (b : B'), μ' (g • a) (g • b) = g • μ' a b)
@@ -4344,7 +3467,7 @@ noncomputable abbrev evensCorCochain : G → ZMod 2 := TauCeti.ContCohomology.ev
 
 `ν (γ, η) = b₁ γ * b_s η` if `γ ∈ U`, and `b₁ γ * b₁ η + b₁ η * b_s η` otherwise.
 
-Its class is the index-2 Evens norm `N^{Ev}(α) ∈ H²(G, 𝔽₂)`. It is Tau Ceti's
+Its class is the index-2 Evens norm `N_Ev(α) ∈ H²(G, 𝔽₂)`. It is Tau Ceti's
 `TauCeti.ContCohomology.evensGraphCochain`, with `evensGraphCochain_of_mem` and
 `evensGraphCochain_of_notMem`, so the statements below are about this cochain and not about
 anything satisfying its equations. -/
@@ -4777,7 +3900,6 @@ where
   tB (n : ℕ) : ZMod 2 := if n % 4 = 2 ∨ n % 4 = 3 then 1 else 0
   tC (n : ℕ) : ZMod 2 := if n % 2 = 1 then 1 else 0
 
-set_option maxRecDepth 4000 in
 /-- **Layer 13, the quotient `D₁₆ → C₂ ≀ C₂`,** `r ↦ us = (1, 0, 1)` and `f = sr 0 ↦ s`, with
 `r^i ↦ (us)^i` and `f r^i ↦ s (us)^i`. Its kernel is the centre `{1, r⁴}`
 (`dihedralToWreath_eq_one_iff`), so `D₁₆` is a central extension of `C₂ ≀ C₂` by `C₂`. -/
@@ -4812,12 +3934,12 @@ theorem dihedralToWreath_wreathSection (g : WreathC2) :
     revert a b c
     decide
 
-/-- **Layer 13, the `D₁₆` extension cocycle** `c_{D₁₆}`: the factor set
+/-- **Layer 13, the `D₁₆` extension cocycle** `c_D₁₆`: the factor set
 `σ g · σ h · σ (g h)⁻¹ ∈ {1, r⁴} ≅ 𝔽₂` of the section `σ = wreathSection`. -/
 def wreathD16Cocycle (q : WreathC2 × WreathC2) : ZMod 2 :=
   if wreathSection q.1 * wreathSection q.2 * (wreathSection (q.1 * q.2))⁻¹ = 1 then 0 else 1
 
-/-- **Layer 13, `c_{D₁₆}` is a 2-cocycle,** in the trivial-action form of
+/-- **Layer 13, `c_D₁₆` is a 2-cocycle,** in the trivial-action form of
 `groupCohomology.IsCocycle₂`. Checked by computation. -/
 theorem wreathD16Cocycle_isCocycle (g h j : WreathC2) :
     wreathD16Cocycle (g * h, j) + wreathD16Cocycle (g, h) =
@@ -4829,7 +3951,7 @@ theorem wreathD16Cocycle_isCocycle (g h j : WreathC2) :
   revert a1 b1 c1 a2 b2 c2 a3 b3 c3
   decide
 
-/-- **Layer 13, the coboundary witness** `f = 1_{{u, uv, s, vs}}`, which on coordinates is
+/-- **Layer 13, the coboundary witness** `f = 1[u, uv, s, vs]`, which on coordinates is
 `a + c` (`wreathWitness_eq_one_iff`). -/
 def wreathWitness (g : WreathC2) : ZMod 2 := coordA g + coordC g
 
@@ -4846,7 +3968,7 @@ theorem wreathWitness_eq_one_iff (g : WreathC2) :
 
 /-- **Layer 13, the universal identity:** the graph cochain of the tautological character of
 `C₂ ≀ C₂` is the `D₁₆` extension cocycle plus the coboundary of `wreathWitness`,
-`ν_taut = c_{D₁₆} + δ 1_{{u, uv, s, vs}}`. So the index-two norm of the tautological character is
+`ν_taut = c_D₁₆ + δ 1[u, uv, s, vs]`. So the index-two norm of the tautological character is
 the class of the extension `D₁₆ → C₂ ≀ C₂`. Checked by computation. -/
 theorem evensGraphCochain_wreath (g h : WreathC2) :
     evensGraphCochain wreathBase wreathSwap wreathTautological (g, h) =
@@ -5020,7 +4142,7 @@ theorem evensGraphCochain_wreath_of_coord (t : WreathC2) (hB : coordB t = 0) (hC
       hbs']
 
 /-- **Layer 13, the index-two graph cochain is the pulled-back `D₁₆` cocycle plus a pulled-back
-coboundary,** on the nose: `ν_α = c_{D₁₆} ∘ (Ind α × Ind α) + δ (1_{{u, uv, s, vs}} ∘ Ind α)`, the
+coboundary,** on the nose: `ν_α = c_D₁₆ ∘ (Ind α × Ind α) + δ (1[u, uv, s, vs] ∘ Ind α)`, the
 coboundary written with `Ind α g * Ind α h` in place of `Ind α (g h)`. It is
 `evensGraphCochain_indexTwoInd`, then `evensGraphCochain_wreath_of_coord` at `Ind α (s)`, then the
 universal identity `evensGraphCochain_wreath`. -/
@@ -5072,17 +4194,16 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 attribute [local instance 2000] Ring.toAddCommGroup
 
 /-- **Layer 13, the coefficient object.** `𝔽₂` with trivial action, as an object of the category
-the all-degree carrier eats. The general norm is stated against this, not against Layer 2's
-low-degree abbreviations, because its degree is not bounded by 2.
+the all-degree carrier eats. The general norm of README Layer 13 is stated against this, not
+Layer 2's low-degree abbreviations, because its degree is not bounded by 2.
 
 The carrier is `ULift (ZMod 2)`, not `ZMod 2`, so that the object exists over a group in any
 universe. The canonical resolution builds its terms from `C(G, -)`, so the coefficient module of
 `TopRep R G` lives at least in the universe of `G`, and a `Type 0` carrier would pin every consumer
 of the Evens norm to a `Type 0` group. The explicit cochain formulas below stay valued in `ZMod 2`
-itself; `inhomogeneousCochain1` and `inhomogeneousCochain2` are where they enter the complex, and
-they are the only place the lift is crossed. It is Tau Ceti's `TauCeti.trivialF2`
-(`TauCeti/RepresentationTheory/Homological/ContCohomology/TrivialF2.lean`), with the carrier
-`TauCeti.trivialF2_V`, the lift `TauCeti.trivialF2Equiv`, the multiplication pairing
+itself, and entering the complex is the only place the lift is crossed. It is Tau Ceti's
+`TauCeti.trivialF2` (`TauCeti/RepresentationTheory/Homological/ContCohomology/TrivialF2.lean`), with
+the carrier `TauCeti.trivialF2_V`, the lift `TauCeti.trivialF2Equiv`, the multiplication pairing
 `TauCeti.trivialF2Pairing`, and `TauCeti.ofDiscreteModule_trivialF2`, which says that the
 coefficient dictionary sends the trivial `𝔽₂` module to it. -/
 noncomputable abbrev trivialF2 : TopRep ℤ G :=
@@ -5102,6 +4223,7 @@ noncomputable abbrev trivialF2ResMap (S : Subgroup G) (n : ℕ) :
       (continuousCohomology ℤ S n).obj (trivialF2 S) :=
   TauCeti.trivialF2ResMap G S n
 
+omit [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- **Layer 13, the trivial `𝔽₂` object is smooth discrete,** Tau Ceti's
 `TauCeti.isSmoothDiscrete_trivialF2`. `ZMod 2` is discrete and the action is trivial, so every
 stabilizer is all of `G`. Layer 10's corestriction consumes this. -/
@@ -5116,70 +4238,6 @@ noncomputable def trivialF2Corestriction (U : OpenSubgroup G) (n : ℕ) :
       (continuousCohomology ℤ G n).obj (trivialF2 G) :=
   (continuousCohomology ℤ U.toSubgroup n).map (trivialF2Res G U.toSubgroup).inv ≫
     corestriction ℤ U (trivialF2 G) (trivialF2_isSmoothDiscrete G) n
-
-/-- **Layer 13, restriction between open subgroups with trivial `𝔽₂` coefficients.** -/
-noncomputable def trivialF2ResLe (V W : OpenSubgroup G) (hWV : W ≤ V) (n : ℕ) :
-    (continuousCohomology ℤ V.toSubgroup n).obj (trivialF2 V.toSubgroup) ⟶
-      (continuousCohomology ℤ W.toSubgroup n).obj (trivialF2 W.toSubgroup) :=
-  (continuousCohomology ℤ V.toSubgroup n).map (trivialF2Res G V.toSubgroup).inv ≫
-    resLe ℤ V W hWV (trivialF2 G) n ≫
-      (continuousCohomology ℤ W.toSubgroup n).map (trivialF2Res G W.toSubgroup).hom
-
-/-- **Layer 13, conjugation between open subgroups with trivial `𝔽₂` coefficients.** -/
-noncomputable def trivialF2ConjMapOf (g : G) (W W' : OpenSubgroup G)
-    (hconj : W' = conjOpenSubgroup g W) (n : ℕ) :
-    (continuousCohomology ℤ W.toSubgroup n).obj (trivialF2 W.toSubgroup) ⟶
-      (continuousCohomology ℤ W'.toSubgroup n).obj (trivialF2 W'.toSubgroup) :=
-  (continuousCohomology ℤ W.toSubgroup n).map (trivialF2Res G W.toSubgroup).inv ≫
-    conjMapOf ℤ g W W' hconj (trivialF2 G) n ≫
-      (continuousCohomology ℤ W'.toSubgroup n).map (trivialF2Res G W'.toSubgroup).hom
-
-/-- **Layer 3, an explicit inhomogeneous 1-cochain as an element of the canonical complex,** with
-trivial `𝔽₂` coefficients. The formulas of this layer are functions `G → 𝔽₂` and `G × G → 𝔽₂`, and
-this is how they enter the complex whose homology the canonical objects are. Without it an identity
-relating an explicit formula to a class could only be stated about an arbitrary element of the
-complex. -/
-noncomputable def inhomogeneousCochain1 (f : G → ZMod 2) (hf : Continuous f) :
-    ((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).X 1 :=
-  sorry
-
-/-- **Layer 3, the same in degree 2.** -/
-noncomputable def inhomogeneousCochain2 (f : G × G → ZMod 2) (hf : Continuous f) :
-    ((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).X 2 :=
-  sorry
-
-/-- **Layer 3, the inhomogeneous 1-cocycle condition is the canonical differential.** With trivial
-coefficients a 1-cocycle is a homomorphism. -/
-theorem inhomogeneousCochain1_d_eq_zero (f : G → ZMod 2) (hf : Continuous f)
-    (hcocycle : ∀ g h : G, f (g * h) = f g + f h) :
-    (((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).d 1 2).hom
-      (inhomogeneousCochain1 G f hf) = 0 :=
-  sorry
-
-/-- **Layer 3, the inhomogeneous 2-cocycle condition is the canonical differential.** -/
-theorem inhomogeneousCochain2_d_eq_zero (f : G × G → ZMod 2) (hf : Continuous f)
-    (hcocycle : ∀ g h j : G, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j)) :
-    (((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).d 2 3).hom
-      (inhomogeneousCochain2 G f hf) = 0 :=
-  sorry
-
-/-- **Layer 3, cohomologous inhomogeneous 2-cocycles have the same canonical class.** If two
-continuous 2-cocycles differ by the inhomogeneous coboundary `(g, h) ↦ ψ h - ψ (g h) + ψ g` of a
-continuous 1-cochain `ψ`, their images under `inhomogeneousCochain2` differ by the canonical
-differential of `inhomogeneousCochain1 ψ`, so their classes agree. This is how an explicit
-coboundary witness, such as `evensGraphCochain_independent_of_rep` or the pulled-back `D₁₆`
-witness, crosses to the canonical carrier. -/
-theorem cochainClass_inhomogeneousCochain2_eq_of_coboundary (f f' : G × G → ZMod 2)
-    (hf : Continuous f) (hf' : Continuous f')
-    (hcf : ∀ g h j : G, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j))
-    (hcf' : ∀ g h j : G, f' (g * h, j) + f' (g, h) = f' (h, j) + f' (g, h * j))
-    (ψ : G → ZMod 2) (hψ : Continuous ψ)
-    (hfψ : ∀ g h : G, f (g, h) = f' (g, h) + (ψ h - ψ (g * h) + ψ g)) :
-    cochainClass ℤ (trivialF2 G) 2 (inhomogeneousCochain2 G f hf)
-        (inhomogeneousCochain2_d_eq_zero G f hf hcf) =
-      cochainClass ℤ (trivialF2 G) 2 (inhomogeneousCochain2 G f' hf')
-        (inhomogeneousCochain2_d_eq_zero G f' hf' hcf') :=
-  sorry
 
 variable {G}
 
@@ -5207,6 +4265,7 @@ noncomputable abbrev monomialHom (U : OpenSubgroup G) (t : CosetTransversal U) :
     G →* TauCeti.WreathProduct U.toSubgroup (G ⧸ U.toSubgroup) :=
   Subgroup.monomialHom U.toSubgroup ⟨Set.range t.rep, Subgroup.isComplement_range_left t.mk_rep⟩
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- **Layer 13, milestone 2: the monomial homomorphism is continuous** for the coordinate topology
 of the wreath product. Openness of `U` makes the coset space discrete, so the permutation
 component is locally constant; the Schreier factors are only continuous, not locally constant: for
@@ -5215,129 +4274,6 @@ component is locally constant; the Schreier factors are only continuous, not loc
 theorem monomialHom_continuous (U : OpenSubgroup G) (t : CosetTransversal U) :
     Continuous (monomialHom U t) :=
   Subgroup.continuous_monomialHom U.toSubgroup U.isOpen _
-
-/-- **Layer 13, milestone 3: the tensor-power coefficient object,** with the permutation action of
-the symmetric group and the induced wreath-product action, as an object of the canonical
-coefficient category. A bare `Type` would carry none of that structure and could not be fed to the
-cohomology functor. -/
-noncomputable def tensorInduction (U : OpenSubgroup G) (q : ℕ) (A : TopRep ℤ U.toSubgroup) :
-    TopRep ℤ G :=
-  sorry
-
-/-- **Layer 13, milestone 3: tensor induction is a functor.** -/
-noncomputable def tensorInductionFunctor (U : OpenSubgroup G) (q : ℕ) :
-    TopRep ℤ U.toSubgroup ⥤ TopRep ℤ G :=
-  sorry
-
-/-- **Layer 13, milestone 3: the functor agrees with the object construction.** -/
-theorem tensorInductionFunctor_obj (U : OpenSubgroup G) (q : ℕ) (A : TopRep ℤ U.toSubgroup) :
-    (tensorInductionFunctor U q).obj A = tensorInduction U q A :=
-  sorry
-
-/-- **Layer 13, milestone 3: tensor induction of the trivial `𝔽₂` object is the trivial `𝔽₂`
-object.** The `l`-fold tensor power of `𝔽₂` is `𝔽₂`, and in characteristic two the permutation
-action of `𝔖_l` on it is trivial. This is the coefficient equivalence through which the norm lands
-in `H^*(G, 𝔽₂)`; without it the cochain norm has tensor-induced coefficients and there is nothing
-tying it to the public target. -/
-noncomputable def tensorInductionTrivialF2 (U : OpenSubgroup G) (q : ℕ) :
-    tensorInduction U q (trivialF2 U.toSubgroup) ≅ trivialF2 G :=
-  sorry
-
-/-- **Layer 13, milestone 4: the norm at cochain level, before the coefficient equivalence.** This
-is the map produced by `monomialHom` and `tensorInduction`: it is where the degree formula
-`q ↦ l * q` comes from, and its coefficients are the tensor-induced ones. -/
-noncomputable def evensNormCochainRaw (U : OpenSubgroup G) (q : ℕ) (t : CosetTransversal U) :
-    ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-        (trivialF2 U.toSubgroup)).X q →
-      ((homogeneousCochainsFunctor ℤ G).obj
-        (tensorInduction U q (trivialF2 U.toSubgroup))).X (U.toSubgroup.index * q) :=
-  sorry
-
-/-- **Layer 13, milestone 4: the norm at cochain level,** with the degree formula `q ↦ l * q`.
-This is the map the public function descends from. -/
-noncomputable def evensNormCochain (U : OpenSubgroup G) (q : ℕ) (t : CosetTransversal U) :
-    ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-        (trivialF2 U.toSubgroup)).X q →
-      ((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).X
-        (U.toSubgroup.index * q) :=
-  sorry
-
-/-- **Layer 13, milestone 4: the cochain norm is the raw norm followed by the coefficient
-equivalence.** This is what ties `monomialHom` and `tensorInduction` to the public construction;
-without it they are declared and never used. -/
-theorem evensNormCochain_eq (U : OpenSubgroup G) (q : ℕ) (t : CosetTransversal U)
-    (a : ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).X q) :
-    evensNormCochain U q t a =
-      (((homogeneousCochainsFunctor ℤ G).map
-          (tensorInductionTrivialF2 U q).hom).f (U.toSubgroup.index * q)).hom
-        (evensNormCochainRaw U q t a) :=
-  sorry
-
-/-- **Layer 13, milestone 5: the cochain norm sends cocycles to cocycles.** Without it the public
-norm has no source of classes, and the degree `l * q` is not the degree of anything. -/
-theorem evensNormCochain_mem_cycles (U : OpenSubgroup G) (q : ℕ) (t : CosetTransversal U)
-    (a : ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).X q)
-    (ha : (((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).d q (q + 1)).hom a = 0) :
-    (((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).d
-        (U.toSubgroup.index * q) (U.toSubgroup.index * q + 1)).hom
-      (evensNormCochain U q t a) = 0 :=
-  sorry
-
-/-- **Layer 13, milestone 5: equivalent representatives give the same class.** Cohomologous source
-cocycles have cohomologous norm cocycles. The norm is not additive, so this does not follow from
-additivity and has to be its own milestone. -/
-theorem evensNormCochain_representative_independent (U : OpenSubgroup G) (q : ℕ)
-    (t : CosetTransversal U) (j : ℕ) (hj : j + 1 = q) (k : ℕ)
-    (hk : k + 1 = U.toSubgroup.index * q)
-    (a b : ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).X q)
-    (ha : (((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).d q (q + 1)).hom a = 0)
-    (hb : (((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).d q (q + 1)).hom b = 0)
-    (c : ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).X j)
-    (hc : a - b = cochainDegreeCast hj (trivialF2 U.toSubgroup)
-      ((((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-        (trivialF2 U.toSubgroup)).d j (j + 1)).hom c)) :
-    ∃ e : ((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).X k,
-      evensNormCochain U q t a - evensNormCochain U q t b =
-        cochainDegreeCast hk (trivialF2 G)
-          ((((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).d k (k + 1)).hom
-            e) :=
-  sorry
-
-/-- **Layer 13, milestone 7: the public norm.** A **function**, not an additive homomorphism and
-not a categorical morphism: its failure of additivity is identity 2. The degree multiplies by the
-index, which is the defining type-level feature of the construction. -/
-noncomputable def evensNorm (U : OpenSubgroup G) (q : ℕ) :
-    ((continuousCohomology ℤ U.toSubgroup q).obj (trivialF2 U.toSubgroup)) →
-      ((continuousCohomology ℤ G (U.toSubgroup.index * q)).obj (trivialF2 G)) :=
-  sorry
-
-/-- **Layer 13, milestone 7: the public norm is the class of the norm cochain.** This is what makes
-`evensNorm` the descent of `evensNormCochain` rather than an unrelated function of the same type.
-Together with the two milestone-5 theorems and transversal independence it is what makes the
-descent well defined. -/
-theorem evensNorm_eq_class (U : OpenSubgroup G) (q : ℕ) (t : CosetTransversal U)
-    (a : ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).X q)
-    (ha : (((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).d q (q + 1)).hom a = 0) :
-    evensNorm U q (cochainClass ℤ (trivialF2 U.toSubgroup) q a ha) =
-      cochainClass ℤ (trivialF2 G) (U.toSubgroup.index * q) (evensNormCochain U q t a)
-        (evensNormCochain_mem_cycles U q t a ha) :=
-  sorry
-
-/-- **Layer 13, the coefficient pairing on `𝔽₂`,** multiplication with the trivial action. The
-identities below name it: an arbitrary pairing of the trivial object with itself is a different
-input, and the statements are false for it. -/
-noncomputable def f2Pairing (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] :
-    TopPairing (trivialF2 G) (trivialF2 G) (trivialF2 G) :=
-  sorry
 
 /-- **Layer 13, the image of an open subgroup in a quotient,** `U ⧸ N` as an open subgroup of
 `G ⧸ N`, for closed normal `N ≤ U`. The inflation compatibility of the norm is a statement about
@@ -5349,6 +4285,7 @@ abbrev quotientOpenSubgroup (N : Subgroup G) [N.Normal] (_hN : IsClosed (N : Set
     OpenSubgroup (G ⧸ N) :=
   TauCeti.quotientOpenSubgroup N U
 
+omit [CompactSpace G] [TotallyDisconnectedSpace G] in
 /-- **Layer 13, the index is unchanged by passing to the quotient,** for `N ≤ U`: Tau Ceti's
 `TauCeti.quotientOpenSubgroup_index`. Without it the two sides of the inflation compatibility below
 sit in different degrees. -/
@@ -5357,151 +4294,19 @@ theorem quotientOpenSubgroup_index (N : Subgroup G) [N.Normal] (hN : IsClosed (N
     (quotientOpenSubgroup N hN U hNU).toSubgroup.index = U.toSubgroup.index :=
   TauCeti.quotientOpenSubgroup_index N U hNU
 
-/-- **Layer 13, the invariants of the trivial `𝔽₂` object are the trivial `𝔽₂` object.** -/
-noncomputable def trivialF2Quotient (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
-    [IsTopologicalGroup (G ⧸ N)] :
-    trivialF2 (G ⧸ N) ≅ quotientToInvariants ℤ N (trivialF2 G) :=
-  sorry
-
-/-- **Layer 13, inflation on trivial `𝔽₂` coefficients,** Layer 1's inflation composed with the
-identification of the invariants of the trivial object. -/
-noncomputable def trivialF2Infl (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
-    [IsTopologicalGroup (G ⧸ N)] (n : ℕ) :
-    (continuousCohomology ℤ (G ⧸ N) n).obj (trivialF2 (G ⧸ N)) ⟶
-      (continuousCohomology ℤ G n).obj (trivialF2 G) :=
-  (continuousCohomology ℤ (G ⧸ N) n).map (trivialF2Quotient N hN).hom ≫ infl ℤ N (trivialF2 G) n
-
-/-- **Layer 13, inflation from `U ⧸ N` to `U` on trivial `𝔽₂` coefficients,** where `U ⧸ N` is the
-open subgroup `quotientOpenSubgroup N hN U hNU` of `G ⧸ N`. -/
-noncomputable def trivialF2InflSub (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G))
-    (U : OpenSubgroup G) (hNU : N ≤ U) [IsTopologicalGroup (G ⧸ N)] (n : ℕ) :
-    (continuousCohomology ℤ (quotientOpenSubgroup N hN U hNU).toSubgroup n).obj
-        (trivialF2 (quotientOpenSubgroup N hN U hNU).toSubgroup) ⟶
-      (continuousCohomology ℤ U.toSubgroup n).obj (trivialF2 U.toSubgroup) :=
-  sorry
-
 variable (U : OpenSubgroup G) (q : ℕ)
-
-/-- **Layer 13, the norm between two open subgroups,** `N_V^U` for open `V ≤ U ≤ G`, with the
-degree multiplied by the relative index. Transitivity below is a statement about this map. -/
-noncomputable def evensNormLe (V : OpenSubgroup G) (hVU : V ≤ U) :
-    ((continuousCohomology ℤ V.toSubgroup q).obj (trivialF2 V.toSubgroup)) →
-      ((continuousCohomology ℤ U.toSubgroup
-        (V.toSubgroup.relIndex U.toSubgroup * q)).obj (trivialF2 U.toSubgroup)) :=
-  sorry
-
-/-- **Layer 13, milestone 6: independence of the transversal,** at cochain level, where the
-dependence lives: for a **cocycle** the two cochains differ by a coboundary of the canonical
-complex. The cocycle hypothesis is not removable. For a general cochain the difference is a
-coboundary only up to a further term in the source differential, so the unconditional statement is
-a different and stronger claim; that stronger form is the cochain homotopy, and it is not what the
-public norm needs. -/
-theorem evensNormCochain_transversal_independent (t t' : CosetTransversal U) (j : ℕ)
-    (hj : j + 1 = U.toSubgroup.index * q)
-    (a : ((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).X q)
-    (ha : (((homogeneousCochainsFunctor ℤ U.toSubgroup).obj
-      (trivialF2 U.toSubgroup)).d q (q + 1)).hom a = 0) :
-    ∃ c : ((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).X j,
-      evensNormCochain U q t a - evensNormCochain U q t' a =
-        cochainDegreeCast hj (trivialF2 G)
-          ((((homogeneousCochainsFunctor ℤ G).obj (trivialF2 G)).d j (j + 1)).hom
-            c) :=
-  sorry
-
-/-- **Layer 13, milestone 8: multiplicativity,** for the `𝔽₂` pairing on both sides. -/
-theorem evensNorm_mul (q' : ℕ)
-    (x : (continuousCohomology ℤ U.toSubgroup q).obj (trivialF2 U.toSubgroup))
-    (y : (continuousCohomology ℤ U.toSubgroup q').obj (trivialF2 U.toSubgroup)) :
-    evensNorm U (q + q') (cup (f2Pairing U.toSubgroup) q q' x y) =
-      degreeCast (by ring) (trivialF2 G)
-        (cup (f2Pairing G) (U.toSubgroup.index * q) (U.toSubgroup.index * q')
-          (evensNorm U q x) (evensNorm U q' y)) :=
-  sorry
-
-/-- **Layer 13, milestone 8: transitivity,** `N_V^G = N_U^G ∘ N_V^U` for open `V ≤ U ≤ G`. The
-degree hypothesis is `Subgroup.relindex_mul_index`, restated here so that the two sides are
-comparable without a rewrite inside the statement. -/
-theorem evensNorm_trans (V : OpenSubgroup G) (hVU : V ≤ U)
-    (hdeg : U.toSubgroup.index * (V.toSubgroup.relIndex U.toSubgroup * q) =
-      V.toSubgroup.index * q)
-    (x : (continuousCohomology ℤ V.toSubgroup q).obj (trivialF2 V.toSubgroup)) :
-    evensNorm V q x =
-      degreeCast hdeg (trivialF2 G)
-        (evensNorm U (V.toSubgroup.relIndex U.toSubgroup * q) (evensNormLe U q V hVU x)) :=
-  sorry
-
-/-- **Layer 13, the iterated cup product of a family of classes,** with the degrees adding. The
-double-coset formula is a **product** over double cosets, not a sum, because the norm is
-multiplicative, so the product has to be named before the formula can be stated. The family is
-indexed by an unordered type, which is legitimate here because over `𝔽₂` the sign in graded
-commutativity is `1`. -/
-noncomputable def cupFamily (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    {ι : Type*} [Fintype ι] (d : ι → ℕ)
-    (x : ∀ i, (continuousCohomology ℤ G (d i)).obj (trivialF2 G)) :
-    (continuousCohomology ℤ G (∑ i, d i)).obj (trivialF2 G) :=
-  sorry
-
-/-- **Layer 13, milestone 8: one factor of the restriction and double-coset formula,**
-`N^V_{V ⊓ gUg⁻¹} ∘ (g)_* ∘ res^U_{U ⊓ g⁻¹Vg}`, the multiplicative analogue of `mackeyTerm`. -/
-noncomputable def evensDoubleCosetFactor (V : OpenSubgroup G) (g : G) :
-    ((continuousCohomology ℤ U.toSubgroup q).obj (trivialF2 U.toSubgroup)) →
-      ((continuousCohomology ℤ V.toSubgroup
-        ((V ⊓ conjOpenSubgroup g U).toSubgroup.relIndex V.toSubgroup * q)).obj
-          (trivialF2 V.toSubgroup)) :=
-  fun x =>
-    evensNormLe V q (V ⊓ conjOpenSubgroup g U) inf_le_left
-      ((trivialF2ConjMapOf G g (U ⊓ conjOpenSubgroup g⁻¹ V)
-          (V ⊓ conjOpenSubgroup g U) (conjOpenSubgroup_inf g U V) q).hom
-        ((trivialF2ResLe G U (U ⊓ conjOpenSubgroup g⁻¹ V) inf_le_left q).hom x))
-
-/-- **Layer 13, milestone 8: the restriction and double-coset formula** (Evens 1963, §6 Prop. 2, pp. 61-62). The
-restriction of a norm is the cup product of the norms over the double cosets. The degree hypothesis
-is the double-coset index identity `∑ [V : V ⊓ gUg⁻¹] = [G : U]`, restated so that the two sides
-are comparable without a rewrite inside the statement. -/
-theorem evensNorm_res_doubleCoset (V : OpenSubgroup G)
-    (ι : Type*) [Fintype ι] (g : ι → G)
-    (hdc : ∀ x : G, ∃! i : ι, ∃ v ∈ V, ∃ u ∈ U, x = v * g i * u)
-    (hdeg : ∑ i : ι, (V ⊓ conjOpenSubgroup (g i) U).toSubgroup.relIndex V.toSubgroup * q =
-      U.toSubgroup.index * q)
-    (x : (continuousCohomology ℤ U.toSubgroup q).obj (trivialF2 U.toSubgroup)) :
-    (trivialF2ResMap G V.toSubgroup (U.toSubgroup.index * q)).hom (evensNorm U q x) =
-      degreeCast hdeg (trivialF2 V.toSubgroup)
-        (cupFamily V.toSubgroup
-          (fun i => (V ⊓ conjOpenSubgroup (g i) U).toSubgroup.relIndex V.toSubgroup * q)
-          (fun i => evensDoubleCosetFactor U q V (g i) x)) :=
-  sorry
-
-/-- **Layer 13, milestone 8: inflation compatibility,** for closed normal `N ≤ U`. Both inflations
-are Layer 1's, and the degrees match because the index is unchanged in the quotient. -/
-theorem evensNorm_infl (N : Subgroup G) [N.Normal] (hN : IsClosed (N : Set G)) (hNU : N ≤ U)
-    [IsTopologicalGroup (G ⧸ N)] [CompactSpace (G ⧸ N)] [TotallyDisconnectedSpace (G ⧸ N)]
-    (x : (continuousCohomology ℤ (quotientOpenSubgroup N hN U hNU).toSubgroup q).obj
-      (trivialF2 (quotientOpenSubgroup N hN U hNU).toSubgroup)) :
-    evensNorm U q (trivialF2InflSub N hN U hNU q x) =
-      trivialF2Infl N hN (U.toSubgroup.index * q)
-        (degreeCast (by rw [quotientOpenSubgroup_index]) (trivialF2 (G ⧸ N))
-          (evensNorm (quotientOpenSubgroup N hN U hNU) q x)) :=
-  sorry
 
 /-! The index-two norm and the identities the Quadratic Form Invariants roadmap consumes, as
 equations of classes. Identity 2 is the polarization, and its right-hand side is the corestriction
 of the cup with the **conjugate** class; a formula without the conjugate is a different
 statement. -/
 
-/-- **Layer 13, an index-two open subgroup is its own conjugate.** Index two forces normality
-(`Subgroup.normal_of_index_eq_two`), so conjugation by any element of `G` carries `U` to itself.
-It is named because `evensConj_eq_conjMapOf` has to feed it to `conjMapOf`. -/
-theorem conjOpenSubgroup_eq_of_index_two (hU : U.toSubgroup.index = 2) (g : G) :
-    conjOpenSubgroup g U = U :=
-  sorry
-
 /-- **Layer 13, the conjugation action on `Hⁿ(U, 𝔽₂)` at index two,** the map written `α ↦ s · α`
 in the identities below. It is defined **without choosing** an element outside `U`, as
 `res ∘ cor - id`: at index two `res ∘ cor` is `1 + s` for either element of the nontrivial coset,
 so the difference is the conjugation and depends on `U` alone. That is what makes the identities
-below statements about `U` rather than about a chosen representative;
-`evensConj_eq_conjMapOf` is the theorem that identifies it with conjugation by any `s ∉ U`. The
+below statements about `U` rather than about a chosen representative; README Layer 13 identifies
+it with conjugation by any `s ∉ U`. The
 index-two hypothesis is carried in the type and used by no line of the body, since it is what makes
 the formula a conjugation rather than what makes it well typed. -/
 noncomputable def evensConj (_hU : U.toSubgroup.index = 2) (n : ℕ)
@@ -5514,15 +4319,6 @@ noncomputable def evensConj (_hU : U.toSubgroup.index = 2) (n : ℕ)
       ((trivialF2Corestriction G U n).hom x)
   y - x
 
-/-- **Layer 13, the conjugate is conjugation by any element outside `U`.** Layer 10's `conjMapOf`
-is conjugation by a named element; this says that `evensConj` agrees with it for **every** `s ∉ U`,
-which is why no identity below has to name one. -/
-theorem evensConj_eq_conjMapOf (hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U) (n : ℕ)
-    (x : (continuousCohomology ℤ U.toSubgroup n).obj (trivialF2 U.toSubgroup)) :
-    evensConj U hU n x =
-      (trivialF2ConjMapOf G s U U (conjOpenSubgroup_eq_of_index_two U hU s).symm n).hom x :=
-  sorry
-
 /-- **Layer 13, `res ∘ cor` at index two is `1 + conj`.** It holds by the definition of
 `evensConj`, and it is named because that is the form later proofs apply. -/
 theorem res_corestriction_eq_add_evensConj (hU : U.toSubgroup.index = 2) (n : ℕ)
@@ -5532,15 +4328,6 @@ theorem res_corestriction_eq_add_evensConj (hU : U.toSubgroup.index = 2) (n : �
       x + evensConj U hU n x := by
   dsimp only [evensConj]
   rw [add_comm x, sub_add_cancel]
-
-/-- **Layer 13, the class of a continuous trivial-action 1-cocycle.** With trivial `𝔽₂`
-coefficients `H¹` is the group of continuous homomorphisms, so a continuous `α` has a class; the
-identities below are stated for classes and the cochain constructions for representatives, and this
-is the map between the two. -/
-noncomputable def homClass (H : Type u) [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
-    (α : H →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    (continuousCohomology ℤ H 1).obj (trivialF2 H) :=
-  sorry
 
 /-- **Layer 13, the class of the graph cocycle,** the explicit index-2 degree-1 norm: Tau Ceti's
 `TauCeti.ContCohomology.graphClass`
@@ -5556,116 +4343,6 @@ noncomputable abbrev graphClass (hU : U.toSubgroup.index = 2)
     (continuousCohomology ℤ G 2).obj (trivialF2 G) :=
   TauCeti.ContCohomology.graphClass U hU α hα
 
-/-- **Layer 13, the graph class is the class of the graph cochain,** at every element outside `U`,
-read on Mathlib's homogeneous complex through Layer 3's `inhomogeneousCochain2` and Layer 1's
-`cochainClass`. Tau Ceti's `TauCeti.ContCohomology.graphClass_eq_cochainClass` is the same statement
-with the class read through the explicit comparison `explicitH2AddEquivContinuousCohomology`
-(`TauCeti.ContCohomology.evensGraphCochainClass`); this is its form in the presentation the
-consumers compute with, a comparison between the two presentations of one class. Quantifying over
-`s` is what makes it choice-free. -/
-theorem graphClass_eq_cochainClass (hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U)
-    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    graphClass U hU α hα =
-      cochainClass ℤ (trivialF2 G) 2
-        (inhomogeneousCochain2 G (evensGraphCochain U.toSubgroup s α)
-          (evensGraphCochain_isCocycle U s α hU hs hα).1)
-        (inhomogeneousCochain2_d_eq_zero G _ _
-          (evensGraphCochain_isCocycle U s α hU hs hα).2) :=
-  sorry
-
-/-- **Layer 13, the graph class descends to `H¹(U, 𝔽₂)`.** Continuous homomorphisms with the same
-class give the same graph class, which is what makes `graphClass` a map out of cohomology. -/
-theorem graphClass_representative_independent (hU : U.toSubgroup.index = 2)
-    (α β : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) (hβ : Continuous β)
-    (hcl : homClass U.toSubgroup α hα = homClass U.toSubgroup β hβ) :
-    graphClass U hU α hα = graphClass U hU β hβ :=
-  sorry
-
-/-- **Layer 13, the class of a continuous homomorphism is the class of its cochain,** for a
-profinite group. This pins `homClass`: through Layer 3's `inhomogeneousCochain1` it is the quotient
-class of `h ↦ α h`, read additively. -/
-theorem homClass_eq_cochainClass (H : Type u) [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
-    [CompactSpace H] [TotallyDisconnectedSpace H]
-    (α : H →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    homClass H α hα =
-      cochainClass ℤ (trivialF2 H) 1
-        (inhomogeneousCochain1 H (fun h => Multiplicative.toAdd (α h)) (continuous_toAdd.comp hα))
-        (inhomogeneousCochain1_d_eq_zero H _ _ fun g h => by simp [map_mul, toAdd_mul]) :=
-  sorry
-
-/-- **Layer 13, every degree-one class is the class of a continuous homomorphism.** With trivial
-`𝔽₂` coefficients `H¹(H, 𝔽₂) = Hom_cont(H, 𝔽₂)`: a continuous 1-cocycle for the trivial action is a
-continuous homomorphism and `B¹ = 0`, Layer 2's trivial-action characterization, carried to the
-canonical carrier by Layer 3's `explicitH1IsoContinuousCohomology`. This is what lets a
-class-valued function be defined by a formula on homomorphisms. -/
-theorem homClass_surjective (H : Type u) [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
-    [CompactSpace H] [TotallyDisconnectedSpace H]
-    (x : (continuousCohomology ℤ H 1).obj (trivialF2 H)) :
-    ∃ (α : H →* Multiplicative (ZMod 2)) (hα : Continuous α), homClass H α hα = x :=
-  sorry
-
-/-- **Layer 13, the index-2 degree-1 Evens norm** `N^{Ev} : H¹(U, 𝔽₂) → H²(G, 𝔽₂)`: the class of the
-two-point graph cocycle, descended to `H¹(U, 𝔽₂)` through `homClass`. It is defined from
-`graphClass` and not from the general norm: `graphClass_representative_independent` makes the
-representative chosen in the body invisible, and `evensNormIndexTwo_homClass` is the equation a
-consumer computes with. Its agreement with the general construction is `evensNormIndexTwo_eq`,
-milestone 10 of the general construction, and nothing in the explicit half or in its consumers
-rests on that. It is a function and not an additive map; its failure of additivity is identity 2. -/
-noncomputable def evensNormIndexTwo (hU : U.toSubgroup.index = 2)
-    (x : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
-    (continuousCohomology ℤ G 2).obj (trivialF2 G) :=
-  graphClass U hU (homClass_surjective U.toSubgroup x).choose
-    (homClass_surjective U.toSubgroup x).choose_spec.choose
-
-/-- **Layer 13, the defining equation of the index-2 norm:** on the class of a continuous
-homomorphism it is the graph class. -/
-theorem evensNormIndexTwo_homClass (hU : U.toSubgroup.index = 2)
-    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    evensNormIndexTwo U hU (homClass U.toSubgroup α hα) = graphClass U hU α hα :=
-  graphClass_representative_independent U hU _ α _ hα
-    (homClass_surjective U.toSubgroup _).choose_spec.choose_spec
-
-/-- **Layer 13, the index-2 norm is the pullback of the `D₁₆` class:**
-`N^{Ev}(α) = (Ind α)^* c_{D₁₆}`, the class of `c_{D₁₆} ∘ (Ind α × Ind α)`, at every `s ∉ U`. Proof:
-`evensNormIndexTwo_homClass` and `graphClass_eq_cochainClass` at `s` make the left side the class of
-`evensGraphCochain U s α`; `evensGraphCochain_eq_indexTwoInd_pullback` (proved above, from the
-naturality `evensGraphCochain_comap` along `indexTwoInd`, the subgroup pullback
-`comap_indexTwoInd_wreathBase`, the character pullback `wreathTautological_indexTwoInd`, the
-transport `evensGraphCochain_subgroupCongr`, `evensGraphCochain_wreath_of_coord` at `Ind α (s)`,
-and the universal identity `evensGraphCochain_wreath`) writes that cochain as the pulled-back
-cocycle plus the coboundary of `wreathWitness ∘ Ind α` once `map_mul` rewrites
-`Ind α g * Ind α h`; and `cochainClass_inhomogeneousCochain2_eq_of_coboundary`, with
-`continuous_wreathWitness_indexTwoInd`, identifies the two classes. -/
-theorem evensNormIndexTwo_eq_ind_pullback (hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U)
-    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    evensNormIndexTwo U hU (homClass U.toSubgroup α hα) =
-      cochainClass ℤ (trivialF2 G) 2
-        (inhomogeneousCochain2 G
-          (fun q => wreathD16Cocycle
-            (indexTwoInd U.toSubgroup hU s hs α q.1, indexTwoInd U.toSubgroup hU s hs α q.2))
-          (continuous_wreathD16Cocycle_indexTwoInd U hU s hs α hα))
-        (inhomogeneousCochain2_d_eq_zero G _ _ fun g h j => by
-          simp only [map_mul]
-          exact wreathD16Cocycle_isCocycle _ _ _) :=
-  sorry
-
-/-- **Layer 13, the class `χ_U ∈ H¹(G, 𝔽₂)` of the character of an index-two subgroup.** -/
-noncomputable def indexTwoCharacterClass (hU : U.toSubgroup.index = 2) :
-    (continuousCohomology ℤ G 1).obj (trivialF2 G) :=
-  homClass G (indexTwoCharacter U.toSubgroup hU) (continuous_indexTwoCharacter U hU)
-
-/-- **Layer 13, identity 5: the norm of a restricted class,**
-`N^{Ev}(res_U y) = y ⌣ y + χ_U ⌣ y` in `H²(G, 𝔽₂)`. Proof: `evensGraphCochain_comp_subtype`,
-`graphClass_eq_cochainClass` and `homClass_eq_cochainClass` put both sides on cochains, Layer 12's
-`explicitIso_cup` identifies the two `(1,1)` cups with the cochain cups, and `cup_add_left`,
-`cup_add_right` and the mod-2 symmetry of the `(1,1)` cup on classes cancel the two `χ_U ⌣ χ_U`
-terms. The symmetry holds on classes only, not on cochains. -/
-theorem evensNorm_of_res (hU : U.toSubgroup.index = 2)
-    (y : (continuousCohomology ℤ G 1).obj (trivialF2 G)) :
-    evensNormIndexTwo U hU ((trivialF2ResMap G U.toSubgroup 1).hom y) =
-      cup (f2Pairing G) 1 1 y y + cup (f2Pairing G) 1 1 (indexTwoCharacterClass U hU) y :=
-  sorry
-
 /-! Layer 13, the index-two exact sequence in degrees `≤ 2`, from the coefficient sequence
 `0 → 𝔽₂ → 𝔽₂[G ⧸ U] → 𝔽₂ → 0`: Shapiro turns the middle terms into the cohomology of `U`, the map
 from the constants into restriction and the sum over the two cosets into corestriction, and the
@@ -5674,33 +4351,10 @@ needs index exactly two: at index three the kernel of the sum over the cosets is
 and for `S₃ ⊇ C₂` restriction and corestriction in degree one are both surjective, so
 `indexTwo_exact_res1_cor1` fails. -/
 
-/-- **Layer 13, the kernel of restriction in degree one** is `{0, χ_U}`, the image of `δ⁰`. -/
-theorem indexTwo_ker_res1 (hU : U.toSubgroup.index = 2)
-    (y : (continuousCohomology ℤ G 1).obj (trivialF2 G)) :
-    (trivialF2ResMap G U.toSubgroup 1).hom y = 0 ↔ y = 0 ∨ y = indexTwoCharacterClass U hU :=
-  sorry
-
 /-- **Layer 13, exactness at `H¹(U, 𝔽₂)`:** the image of restriction is the kernel of
 corestriction. -/
 theorem indexTwo_exact_res1_cor1 (hU : U.toSubgroup.index = 2) :
     Function.Exact (trivialF2ResMap G U.toSubgroup 1).hom (trivialF2Corestriction G U 1).hom :=
-  sorry
-
-/-- **Layer 13, exactness at `H¹(G, 𝔽₂)`:** `χ_U ⌣ x = 0` exactly when `x` is a corestriction. -/
-theorem indexTwo_exact_cor1_cup (hU : U.toSubgroup.index = 2)
-    (x : (continuousCohomology ℤ G 1).obj (trivialF2 G)) :
-    cup (f2Pairing G) 1 1 (indexTwoCharacterClass U hU) x = 0 ↔
-      ∃ w, x = (trivialF2Corestriction G U 1).hom w :=
-  sorry
-
-/-- **Layer 13, exactness at `H²(G, 𝔽₂)`:** `ker res² = χ_U ⌣ H¹(G, 𝔽₂)`, the statement identities
-1 and 2 leave open and identity 5 and the sibling roadmap's degree-2 computation use. The map is
-restriction and not corestriction: for `C₄ ⊇ C₂`, restriction `H²(C₄, 𝔽₂) → H²(C₂, 𝔽₂)` is
-injective while `χ_U ⌣ H¹(C₄, 𝔽₂) = 0`. -/
-theorem indexTwo_exact_cup_res2 (hU : U.toSubgroup.index = 2)
-    (z : (continuousCohomology ℤ G 2).obj (trivialF2 G)) :
-    (trivialF2ResMap G U.toSubgroup 2).hom z = 0 ↔
-      ∃ y, z = cup (f2Pairing G) 1 1 (indexTwoCharacterClass U hU) y :=
   sorry
 
 /-- **Layer 13, exactness at `H²(U, 𝔽₂)`:** the image of restriction is the kernel of
@@ -5709,84 +4363,7 @@ theorem indexTwo_exact_res2_cor2 (hU : U.toSubgroup.index = 2) :
     Function.Exact (trivialF2ResMap G U.toSubgroup 2).hom (trivialF2Corestriction G U 2).hom :=
   sorry
 
-/-- **Layer 13, identity 1: `res_U N^{Ev}(α) = α ⌣ (s · α)`,** the conjugate being the choice-free
-`evensConj`. -/
-theorem evensNorm_res (hU : U.toSubgroup.index = 2)
-    (α : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
-    (trivialF2ResMap G U.toSubgroup 2).hom (evensNormIndexTwo U hU α) =
-      cup (f2Pairing U.toSubgroup) 1 1 α (evensConj U hU 1 α) :=
-  sorry
-
-/-- **Layer 13, identity 2: the polarization.** Both variables appear, and the right-hand side
-carries the **conjugate** class; a formula without the conjugate is a different statement. -/
-theorem evensNorm_polarization (hU : U.toSubgroup.index = 2)
-    (α β : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
-    evensNormIndexTwo U hU (α + β) - evensNormIndexTwo U hU α - evensNormIndexTwo U hU β =
-      (trivialF2Corestriction G U 2).hom
-        (cup (f2Pairing U.toSubgroup) 1 1 α (evensConj U hU 1 β)) :=
-  sorry
-
-/-- **Layer 13, identity 3: `cor¹ α = b₁ + b_s`** at the transversal `{1, s}`, as an equation of
-**classes on the left and cochains on the right**. `b₁` and `b_s` are not cocycles, so neither has
-a class of its own and the identity cannot be stated as a sum of two classes; what is true is that
-their sum is a cocycle whose class is the corestriction. The element `s` is carried here and not in
-the class-level identities above, because it is the cochain formula that depends on it. -/
-theorem evensNorm_cor_shapiro (hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U)
-    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    (trivialF2Corestriction G U 1).hom
-        (homClass U.toSubgroup α hα) =
-      cochainClass ℤ (trivialF2 G) 1
-        (inhomogeneousCochain1 G (evensCorCochain U.toSubgroup s α)
-          (evensCorCochain_isCocycle U s α hU hs hα).1)
-        (inhomogeneousCochain1_d_eq_zero G _ _
-          (evensCorCochain_isCocycle U s α hU hs hα).2) :=
-  sorry
-
-/-- **Layer 13, identity 4: compatibility with inflation,** for closed normal `N ≤ U`. -/
-theorem evensNorm_identity_infl (hU : U.toSubgroup.index = 2) (N : Subgroup G) [N.Normal]
-    (hN : IsClosed (N : Set G)) (hNU : N ≤ U)
-    [IsTopologicalGroup (G ⧸ N)] [CompactSpace (G ⧸ N)] [TotallyDisconnectedSpace (G ⧸ N)]
-    (hUN : (quotientOpenSubgroup N hN U hNU).toSubgroup.index = 2)
-    (α : (continuousCohomology ℤ (quotientOpenSubgroup N hN U hNU).toSubgroup 1).obj
-      (trivialF2 (quotientOpenSubgroup N hN U hNU).toSubgroup)) :
-    evensNormIndexTwo U hU (trivialF2InflSub N hN U hNU 1 α) =
-      trivialF2Infl N hN 2 (evensNormIndexTwo (quotientOpenSubgroup N hN U hNU) hUN α) :=
-  sorry
-
-/-- **Layer 13, milestone 10: the general norm at index 2 and degree 1 is the graph class.** The
-identification that makes the graph cocycle a standard construction rather than an ad hoc formula.
-`evensNormIndexTwo` is the graph class descended to `H¹(U, 𝔽₂)`, so this compares the general
-construction with the explicit one and not with an unconstrained map; the explicit half and its
-consumers do not depend on it. -/
-theorem evensNormIndexTwo_eq (hU : U.toSubgroup.index = 2)
-    (x : (continuousCohomology ℤ U.toSubgroup 1).obj (trivialF2 U.toSubgroup)) :
-    degreeCast (by rw [hU]) (trivialF2 G) (evensNorm U 1 x) = evensNormIndexTwo U hU x :=
-  sorry
-
-/-- **Layer 13, milestone 10 on the class of a continuous homomorphism:** the general norm of
-`homClass α` is the graph class of `α`. -/
-theorem evensNorm_eq_graphClass (hU : U.toSubgroup.index = 2)
-    (α : U.toSubgroup →* Multiplicative (ZMod 2)) (hα : Continuous α) :
-    degreeCast (by rw [hU]) (trivialF2 G) (evensNorm U 1 (homClass U.toSubgroup α hα)) =
-      graphClass U hU α hα :=
-  (evensNormIndexTwo_eq U hU _).trans (evensNormIndexTwo_homClass U hU α hα)
-
 end EvensNorm
-
-/-- **Layer 13, the `C₈` anchor.** A class of `H²(C₄, 𝔽₂)` with trivial coefficients
-classifies a **central** extension of `C₄` by `C₂`. Since the quotient is cyclic the
-extension is abelian (Mathlib's `commutative_of_cyclic_center_quotient`), so it is `C₈` or
-`C₂ × C₄` and no nonabelian group of order 8 can occur. The two are told apart by a lift `x`
-of a generator: `x ^ 4` always lies in the kernel, and it is the nontrivial kernel element
-exactly when `x` has order 8, that is exactly when the class is nonzero. For `G = C₄` and
-`U = C₂` the Evens norm of a nonzero `α` restricts to the nonzero square on `U`, so the class
-is nonzero and the extension is `C₈`. This fixes the sign and normalization conventions of
-the graph cocycle. -/
-example {E : Type*} [Group E] (π : E →* Multiplicative (ZMod 4))
-    (hπ : Function.Surjective π) (hker : π.ker ≤ Subgroup.center E)
-    (hcard : Nat.card π.ker = 2) (x : E) (hx : π x = Multiplicative.ofAdd 1) :
-    (∀ a b : E, a * b = b * a) ∧ x ^ 4 ∈ π.ker ∧ (orderOf x = 8 ↔ x ^ 4 ≠ 1) :=
-  sorry
 
 /-! ### Layers 9 and 13: the field-extension bridge
 
@@ -5826,8 +4403,8 @@ noncomputable abbrev galoisSubgroup [FiniteDimensional K L] [Algebra.IsSeparable
   TauCeti.galoisSubgroup K L σ
 
 /-- **Layer 9, the index is the degree.** This is what discharges the index hypotheses the
-subgroup-indexed operations carry, and in particular the index-two hypothesis of
-`evensNormIndexTwo`. -/
+subgroup-indexed operations carry, and in particular the index-two hypothesis of the index-two
+Evens norm. -/
 theorem galoisSubgroup_index [FiniteDimensional K L] [Algebra.IsSeparable K L]
     (σ : L →ₐ[K] SeparableClosure K) :
     (galoisSubgroup K L σ).toSubgroup.index = Module.finrank K L :=
@@ -5843,187 +4420,6 @@ noncomputable abbrev galoisSubgroupEquiv [FiniteDimensional K L] [Algebra.IsSepa
     AbsoluteGaloisGroup L ≃ₜ* ↥(galoisSubgroup K L σ).toSubgroup :=
   TauCeti.galoisSubgroupEquiv K L σ
 
-/-- **Layer 9, the `𝔽₂`-cohomology transport.** Layer 1's `map` for the compatible pair consisting
-of `galoisSubgroupEquiv` and the identity of `𝔽₂`, with `map_id` and `map_comp` making it an
-isomorphism. Every statement below is phrased on the `G_L` side. -/
-noncomputable def galoisF2Iso [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (n : ℕ) :
-    (continuousCohomology ℤ ↥(galoisSubgroup K L σ).toSubgroup n).obj
-        (trivialF2 ↥(galoisSubgroup K L σ).toSubgroup) ≅
-      (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj
-        (trivialF2 (AbsoluteGaloisGroup L)) :=
-  sorry
-
-/-- **Layer 9, restriction along `L/K` on `𝔽₂`-cohomology.** Layer 1's `res` at `galoisSubgroup`
-followed by the transport. The body is a real term, so this is not a second restriction. -/
-noncomputable def galoisRes [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (n : ℕ) :
-    (continuousCohomology ℤ (AbsoluteGaloisGroup K) n).obj (trivialF2 (AbsoluteGaloisGroup K)) ⟶
-      (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj
-        (trivialF2 (AbsoluteGaloisGroup L)) :=
-  res ℤ (galoisSubgroup K L σ).toSubgroup (trivialF2 (AbsoluteGaloisGroup K)) n ≫
-    (galoisF2Iso K L σ n).hom
-
-/-- **Layers 9 and 10, corestriction along `L/K` on `𝔽₂`-cohomology,** Layer 10's `corestriction`
-read through the same transport. -/
-noncomputable def galoisCor [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (n : ℕ) :
-    (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj (trivialF2 (AbsoluteGaloisGroup L)) ⟶
-      (continuousCohomology ℤ (AbsoluteGaloisGroup K) n).obj
-        (trivialF2 (AbsoluteGaloisGroup K)) :=
-  (galoisF2Iso K L σ n).inv ≫
-    corestriction ℤ (galoisSubgroup K L σ) (trivialF2 (AbsoluteGaloisGroup K))
-      (trivialF2_isSmoothDiscrete (AbsoluteGaloisGroup K)) n
-
-/-- **Layers 9 and 13, the Evens norm of a quadratic extension,** `H¹(G_L, 𝔽₂) → H²(G_K, 𝔽₂)`. The
-norm multiplies the degree by the index, so this signature is the index-two case and nothing else:
-for `[L : K] = 3` the target is `H³`. -/
-noncomputable def galoisEvens [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K)
-    (hdeg : Module.finrank K L = 2) :
-    ((continuousCohomology ℤ (AbsoluteGaloisGroup L) 1).obj
-        (trivialF2 (AbsoluteGaloisGroup L))) →
-      ((continuousCohomology ℤ (AbsoluteGaloisGroup K) 2).obj
-        (trivialF2 (AbsoluteGaloisGroup K))) :=
-  fun x =>
-    evensNormIndexTwo (galoisSubgroup K L σ) (by rw [galoisSubgroup_index]; exact hdeg)
-      ((galoisF2Iso K L σ 1).inv.hom x)
-
-/-- **Layers 9 and 13, the conjugate class of a quadratic extension,** the transport of
-`evensConj`. It is written through `res ∘ cor` for the same reason `evensConj` is: no element of
-`G_K` outside `G_L` is chosen, so the identities below are about `L/K`. -/
-noncomputable def galoisConj [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (n : ℕ)
-    (y : (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj
-      (trivialF2 (AbsoluteGaloisGroup L))) :
-    (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj (trivialF2 (AbsoluteGaloisGroup L)) :=
-  (galoisRes K L σ n).hom ((galoisCor K L σ n).hom y) - y
-
-/-- At index two `res ∘ cor` is the sum over the two conjugates. It holds by the definition of
-`galoisConj`, and it is named because that is the form later proofs apply. -/
-theorem galoisRes_galoisCor [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (n : ℕ)
-    (y : (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj
-      (trivialF2 (AbsoluteGaloisGroup L))) :
-    (galoisRes K L σ n).hom ((galoisCor K L σ n).hom y) = y + galoisConj K L σ n y := by
-  simp [galoisConj]
-
-/-- **Layers 9 and 13, the two conjugates agree.** `evensConj` is the conjugation of the subgroup
-and `galoisConj` is its transport, so this is the theorem that lets the index-two identities be
-read on the `L/K` side. -/
-theorem galoisConj_evensConj [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K)
-    (hdeg : Module.finrank K L = 2) (n : ℕ)
-    (y : (continuousCohomology ℤ (AbsoluteGaloisGroup L) n).obj
-      (trivialF2 (AbsoluteGaloisGroup L))) :
-    galoisConj K L σ n y =
-      (galoisF2Iso K L σ n).hom.hom
-        (evensConj (galoisSubgroup K L σ) (by rw [galoisSubgroup_index]; exact hdeg) n
-          ((galoisF2Iso K L σ n).inv.hom y)) :=
-  sorry
-
-/-- **Layer 12 at the bridge: restriction preserves cup products.** An instance of `cup_res` at the
-`𝔽₂` pairing, named because that is what a consumer cites. -/
-theorem galoisRes_cup [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K)
-    (x y : (continuousCohomology ℤ (AbsoluteGaloisGroup K) 1).obj
-      (trivialF2 (AbsoluteGaloisGroup K))) :
-    (galoisRes K L σ 2).hom (cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 x y) =
-      cup (f2Pairing (AbsoluteGaloisGroup L)) 1 1 ((galoisRes K L σ 1).hom x)
-        ((galoisRes K L σ 1).hom y) :=
-  sorry
-
-/-- **Layer 12 at the bridge: the projection formula,** an instance of `cup_projection`. -/
-theorem galoisCor_cup [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K)
-    (x : (continuousCohomology ℤ (AbsoluteGaloisGroup K) 1).obj
-      (trivialF2 (AbsoluteGaloisGroup K)))
-    (y : (continuousCohomology ℤ (AbsoluteGaloisGroup L) 1).obj
-      (trivialF2 (AbsoluteGaloisGroup L))) :
-    (galoisCor K L σ 2).hom
-        (cup (f2Pairing (AbsoluteGaloisGroup L)) 1 1 ((galoisRes K L σ 1).hom x) y) =
-      cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 x ((galoisCor K L σ 1).hom y) :=
-  sorry
-
-/-- **Layer 13 at the bridge: identity 1,** `res N^{Ev}(x) = x ⌣ (conj x)`, the transport of
-`evensNorm_res`. -/
-theorem galoisRes_galoisEvens [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K)
-    (hdeg : Module.finrank K L = 2)
-    (x : (continuousCohomology ℤ (AbsoluteGaloisGroup L) 1).obj
-      (trivialF2 (AbsoluteGaloisGroup L))) :
-    (galoisRes K L σ 2).hom (galoisEvens K L σ hdeg x) =
-      cup (f2Pairing (AbsoluteGaloisGroup L)) 1 1 x (galoisConj K L σ 1 x) :=
-  sorry
-
-/-- **Layer 13 at the bridge: identity 2,** the polarization, the transport of
-`evensNorm_polarization`. The right-hand side carries the **conjugate** class; a formula without it
-is a different statement. -/
-theorem galoisEvens_add [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
-    (x y : (continuousCohomology ℤ (AbsoluteGaloisGroup L) 1).obj
-      (trivialF2 (AbsoluteGaloisGroup L))) :
-    galoisEvens K L σ hdeg (x + y) =
-      galoisEvens K L σ hdeg x + galoisEvens K L σ hdeg y +
-        (galoisCor K L σ 2).hom
-          (cup (f2Pairing (AbsoluteGaloisGroup L)) 1 1 x (galoisConj K L σ 1 y)) :=
-  sorry
-
-/-- **Layer 9, the character of a quadratic extension:** the class in `H¹(G_K, 𝔽₂)` of the
-character of `G_K` with kernel `G_L`, Layer 13's `indexTwoCharacterClass` at `galoisSubgroup`. -/
-noncomputable def galoisCharacter [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) :
-    (continuousCohomology ℤ (AbsoluteGaloisGroup K) 1).obj (trivialF2 (AbsoluteGaloisGroup K)) :=
-  indexTwoCharacterClass (galoisSubgroup K L σ) (by rw [galoisSubgroup_index]; exact hdeg)
-
-/-- **Layer 9, independence of the embedding,** for the character. -/
-theorem galoisCharacter_embedding_independent [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ τ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) :
-    galoisCharacter K L σ hdeg = galoisCharacter K L τ hdeg :=
-  sorry
-
-/-- **Layer 13 at the bridge: identity 5,** `N^{Ev}(res y) = y ⌣ y + χ_{L/K} ⌣ y`, the transport of
-`evensNorm_of_res`: `galoisEvens ∘ galoisRes` is `evensNormIndexTwo ∘ res` because the two
-transports through `galoisF2Iso` cancel. -/
-theorem galoisEvens_galoisRes [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
-    (y : (continuousCohomology ℤ (AbsoluteGaloisGroup K) 1).obj
-      (trivialF2 (AbsoluteGaloisGroup K))) :
-    galoisEvens K L σ hdeg ((galoisRes K L σ 1).hom y) =
-      cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 y y +
-        cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (galoisCharacter K L σ hdeg) y :=
-  sorry
-
-/-- **Layer 13 at the bridge: the kernel of restriction in degree two,**
-`ker (res_{L/K}) = χ_{L/K} ⌣ H¹(G_K, 𝔽₂)`, the transport of `indexTwo_exact_cup_res2`. -/
-theorem galoisRes_eq_zero_iff [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
-    (z : (continuousCohomology ℤ (AbsoluteGaloisGroup K) 2).obj
-      (trivialF2 (AbsoluteGaloisGroup K))) :
-    (galoisRes K L σ 2).hom z = 0 ↔
-      ∃ y, z = cup (f2Pairing (AbsoluteGaloisGroup K)) 1 1 (galoisCharacter K L σ hdeg) y :=
-  sorry
-
-/-- **Layer 13 at the bridge: restriction then corestriction is exact** at `H¹(G_L, 𝔽₂)` and at
-`H²(G_L, 𝔽₂)` for a quadratic extension, the transport of `indexTwo_exact_res1_cor1` and
-`indexTwo_exact_res2_cor2`. -/
-theorem galoisRes_galoisCor_exact [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (n : ℕ)
-    (hn : n = 1 ∨ n = 2) :
-    Function.Exact (galoisRes K L σ n).hom (galoisCor K L σ n).hom :=
-  sorry
-
-/-- **Layer 9, restriction is functorial in a tower `M/L/K`.** The three embeddings are
-independent data; the theorem is that the composite does not see which ones were chosen. -/
-theorem galoisRes_comp [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    {M : Type u} [Field M] [Algebra K M] [Algebra L M] [IsScalarTower K L M]
-    [FiniteDimensional L M] [Algebra.IsSeparable L M] [FiniteDimensional K M]
-    [Algebra.IsSeparable K M]
-    (σ : L →ₐ[K] SeparableClosure K) (τ : M →ₐ[L] SeparableClosure L)
-    (υ : M →ₐ[K] SeparableClosure K) (n : ℕ) :
-    galoisRes K L σ n ≫ galoisRes L M τ n = galoisRes K M υ n :=
-  sorry
-
 /-- **Layer 9, independence of the embedding, at the level of subgroups.** Two `K`-embeddings of
 `L` into `Kˢ` cut out conjugate open subgroups. -/
 theorem galoisSubgroup_conj [FiniteDimensional K L] [Algebra.IsSeparable K L]
@@ -6033,54 +4429,19 @@ theorem galoisSubgroup_conj [FiniteDimensional K L] [Algebra.IsSeparable K L]
         (galoisSubgroup K L σ).toSubgroup.map (MulAut.conj g).toMonoidHom :=
   sorry
 
-/-- **Layer 9, independence of the embedding,** for restriction. Conjugate subgroups induce the
-same map on cohomology, so every statement above is about `L/K` and not about a chosen
-embedding. -/
-theorem galoisRes_embedding_independent [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ τ : L →ₐ[K] SeparableClosure K) (n : ℕ) :
-    galoisRes K L σ n = galoisRes K L τ n :=
-  sorry
-
-/-- **Layer 9, independence of the embedding,** for corestriction. -/
-theorem galoisCor_embedding_independent [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ τ : L →ₐ[K] SeparableClosure K) (n : ℕ) :
-    galoisCor K L σ n = galoisCor K L τ n :=
-  sorry
-
-/-- **Layer 13, independence of the embedding,** for the Evens norm. -/
-theorem galoisEvens_embedding_independent [FiniteDimensional K L] [Algebra.IsSeparable K L]
-    (σ τ : L →ₐ[K] SeparableClosure K)
-    (hdeg : Module.finrank K L = 2) :
-    galoisEvens K L σ hdeg = galoisEvens K L τ hdeg :=
-  sorry
-
 end FieldExtension
 
 /-! ### What the sibling roadmaps consume -/
 
 /-- **Layer 13, the restriction identity, at cochain level.** The first of the index-two identities
 the Quadratic Form Invariants roadmap consumes: on `U × U` the graph cochain is the cup of `α` with
-its conjugate, `res_U N^{Ev}(α) = α ⌣ (s · α)`. Stated on cochains here, since that is the form
+its conjugate, `res_U N_Ev(α) = α ⌣ (s · α)`. Stated on cochains here, since that is the form
 the proof produces and the form a reader can check against the definition above. -/
 example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    (U : OpenSubgroup G) (hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U)
+    (U : OpenSubgroup G) (_hU : U.toSubgroup.index = 2) (s : G) (hs : s ∉ U)
     (α : U.toSubgroup →* Multiplicative (ZMod 2)) (γ η : G) (hγ : γ ∈ U) (hη : η ∈ U) :
     evensGraphCochain U.toSubgroup s α (γ, η) =
       evensExtend U.toSubgroup α γ * evensExtend U.toSubgroup α (s⁻¹ * η * s) :=
   TauCeti.ContCohomology.evensGraphCochain_apply_of_mem_of_mem hs hγ hη
-
-set_option synthInstance.maxHeartbeats 40000 in
-/-- **Layer 9, the mod-2 Kummer class.** With `2` invertible in `K`, the class of `a` is the
-continuous homomorphism `G_K → 𝔽₂` that is trivial exactly on the automorphisms fixing a chosen
-square root. This is the object the Quadratic Form Invariants roadmap calls the Kummer class, and
-its square-class isomorphism `Kˣ ⧸ (Kˣ)² ≅ H¹(G_K, 𝔽₂)` is the Layer 9 milestone it consumes.
-Multiplicative notation, through `Additive`, is the pin's own idiom for coefficients that are
-units. -/
-example (K : Type*) [Field K] (h2 : IsUnit (2 : K)) (a : Kˣ) (r : (SeparableClosure K)ˣ)
-    (hr : (r : SeparableClosure K) ^ 2 = algebraMap K (SeparableClosure K) (a : K)) :
-    ∃ κ : (SeparableClosure K ≃ₐ[K] SeparableClosure K) → Multiplicative (ZMod 2),
-      (∀ g, κ g = 1 ↔ g • r = r) ∧ IsLocallyConstant κ ∧
-        ∀ g h, κ (g * h) = κ g * κ h :=
-  sorry
 
 end TauCetiRoadmap.ProfiniteCohomology
