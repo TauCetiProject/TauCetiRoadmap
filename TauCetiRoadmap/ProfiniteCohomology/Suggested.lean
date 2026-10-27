@@ -13,6 +13,7 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.Evens.Class
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExplicitFunctoriality
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.Basic
+import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.AllDegreeColimit
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.Colimit
 import TauCeti.RepresentationTheory.Homological.ContCohomology.FiniteQuotient.DegreeTwoDescent
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Functoriality
@@ -38,6 +39,7 @@ import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
 import TauCeti.Topology.Algebra.Group.Profinite.Section
 import TauCeti.Topology.Algebra.Group.Quotient.Basic
 import TauCeti.Topology.Algebra.Group.TopologicalAbelianization
+import TauCeti.Topology.Algebra.Group.WreathProduct.Monomial
 import TauCeti.Topology.Algebra.GroupAction.Discrete
 import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 
@@ -681,16 +683,17 @@ end ExplicitComplex
 /-- **Layer 2, worked example `H¹(ℤ_p, ℤ/pᵏ) ≅ ℤ/pᵏ`.** Under the trivial-action
 characterization, `H¹` of the profinite additive group `ℤ_p` with discrete coefficients
 `ℤ/pᵏ` is the group of continuous additive homomorphisms, and evaluation at `1` identifies it
-with `ℤ/pᵏ`. Surjectivity is the content: the dense subgroup `ℤ ⊆ ℤ_p` sends `1` anywhere,
-and continuity extends the choice. -/
+with `ℤ/pᵏ`. Continuity is not what makes this true: every additive map `ℤ_p → ℤ/pᵏ` kills
+`pᵏ ℤ_p` and so factors through `ℤ_p ⧸ pᵏ ℤ_p ≅ ℤ/pᵏ`, where it is determined by the image of `1`,
+and every such map is continuous. -/
 example (p : ℕ) [Fact p.Prime] (k : ℕ) :
     Function.Bijective (fun φ : ContinuousAddMonoidHom ℤ_[p] (ZMod (p ^ k)) ↦ φ 1) :=
   sorry
 
-/-- **Layer 2, worked example `H¹(ℤ_p, ℤ) = 0`.** With discrete torsion-free coefficients
-there are no nonzero continuous homomorphisms from a profinite group: the image is a compact,
-hence finite, subgroup of `ℤ`. Continuity is what makes the statement true, since the
-abstract group `ℤ_p` has many homomorphisms to torsion-free targets. -/
+/-- **Layer 2, worked example `H¹(ℤ_p, ℤ) = 0`.** The image of a continuous homomorphism is a
+compact, hence finite, subgroup of the discrete `ℤ`, so it is zero. Continuity is not needed here
+either: for a prime `q ≠ p` every element of `ℤ_p` is divisible by every power of `q`, and the only
+such element of `ℤ` is `0`. -/
 example (p : ℕ) [Fact p.Prime] (φ : ContinuousAddMonoidHom ℤ_[p] ℤ) : φ = 0 :=
   sorry
 
@@ -1367,40 +1370,44 @@ section AllDegreeFiniteQuotient
 
 open CategoryTheory
 
-variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
-  [TotallyDisconnectedSpace G]
-  (M : Type u) [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M]
-  [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M]
+variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  (M : Type u) [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
+  [DistribMulAction G M]
 
-/-- **Layer 10, the canonical finite-quotient system in degree `n`.** Its object and arrow
-formulas are the all-degree counterparts of Layer 4's three explicit systems. -/
-noncomputable def continuousFiniteQuotientSystem
-    (M₀ : Type u) [AddCommGroup M₀] [TopologicalSpace M₀] [IsTopologicalAddGroup M₀]
-    [DiscreteTopology M₀] [DistribMulAction G M₀] [ContinuousSMul G M₀] (n : ℕ) :
+/-- **Layer 10, the canonical finite-quotient system in degree `n`.** Its object at `U` is
+`Hⁿ(G ⧸ U, M^U)`, and its arrow for `V ≤ U` is the compatible-pair pullback along
+`G ⧸ V → G ⧸ U` and the inclusion `M^U ↪ M^V`
+(`TauCeti.ContCohomology.continuousFiniteQuotientSystem_obj`,
+`continuousFiniteQuotientSystem_map`, `continuousFiniteQuotientTransition_eq_map`). Tau Ceti's
+`TauCeti.ContCohomology.continuousFiniteQuotientSystem` (`FiniteQuotient/Canonical.lean`); the
+construction needs neither compactness nor continuity of the action. -/
+noncomputable abbrev continuousFiniteQuotientSystem (n : ℕ) :
     (OpenNormalSubgroup G)ᵒᵖ ⥤ TopModuleCat.{u} ℤ :=
-  { obj := fun U =>
-      letI : ContinuousSMul (G ⧸ U.unop.toSubgroup)
-          (Invariants U.unop.toSubgroup M₀) :=
-        ⟨continuous_of_discreteTopology⟩
-      (continuousCohomology ℤ (G ⧸ U.unop.toSubgroup) n).obj
-        (ofDiscreteModule (G ⧸ U.unop.toSubgroup) (Invariants U.unop.toSubgroup M₀))
-    map := fun {_ _} _ => sorry
-    map_id := by intros; sorry
-    map_comp := by intros; sorry }
+  TauCeti.ContCohomology.continuousFiniteQuotientSystem G M n
 
-/-- **Layer 10, the inflation-and-inclusion cocone into canonical continuous cohomology.** -/
-noncomputable def continuousFiniteQuotientCocone (n : ℕ) :
+/-- **Layer 10, the inflation-and-inclusion cocone into canonical continuous cohomology.** Its point
+is `Hⁿ(G, M)` (`TauCeti.ContCohomology.continuousFiniteQuotientCocone_pt`) and its leg at `U` is the
+coefficient dictionary for `M^U` followed by inflation along `G → G ⧸ U`
+(`continuousFiniteQuotientCocone_ι_app`, `continuousFiniteQuotientComparisonApp_eq_map`). Tau
+Ceti's `TauCeti.ContCohomology.continuousFiniteQuotientCocone`. -/
+noncomputable abbrev continuousFiniteQuotientCocone (n : ℕ) :
     Limits.Cocone (continuousFiniteQuotientSystem G M n) :=
-  sorry
+  TauCeti.ContCohomology.continuousFiniteQuotientCocone G M n
 
-/-- **Layer 10, universality of the canonical finite-quotient cocone in every degree.** -/
-noncomputable def continuousFiniteQuotientColimit (n : ℕ) :
+/-- **Layer 10, universality of the canonical finite-quotient cocone in every degree:**
+`Hⁿ(G, M) ≅ colim_U Hⁿ(G ⧸ U, M^U)` for compact `G` and a discrete `M` with continuous action
+(NSW (1.2.5); Ribes-Zalesskii Cor. 6.5.6(a)). Tau Ceti's
+`TauCeti.ContCohomology.continuousFiniteQuotientColimit` (`FiniteQuotient/AllDegreeColimit.lean`).
+The compactness and continuity hypotheses are carried in the signature. -/
+noncomputable abbrev continuousFiniteQuotientColimit [CompactSpace G] [ContinuousSMul G M]
+    (n : ℕ) :
     Limits.IsColimit (continuousFiniteQuotientCocone G M n) :=
-  sorry
+  TauCeti.ContCohomology.continuousFiniteQuotientColimit G M n
 
 /-- **Layer 10, continuous cohomology preserves filtered colimits of smooth discrete
 coefficients.** This is the exact categorical theorem consumed by Layer 11's devissage. -/
-theorem continuousCohomology_preservesFilteredColimits (n : ℕ) :
+theorem continuousCohomology_preservesFilteredColimits [CompactSpace G]
+    [TotallyDisconnectedSpace G] (n : ℕ) :
     CategoryTheory.Limits.PreservesFilteredColimitsOfSize.{u, u}
       (smoothDiscreteι ℤ G ⋙ continuousCohomologyFunctor ℤ G n) :=
   sorry
@@ -1476,11 +1483,19 @@ noncomputable abbrev continuousCochainsShortExact (S : DiscreteShortExact G A B 
     ShortComplex (CochainComplex (TopModuleCat.{u} ℤ) ℕ) :=
   TauCeti.ContCohomology.DiscreteShortExact.continuousCochainsShortExact S
 
-/-- **Layer 10, degreewise short exactness of the canonical cochain complexes.** This is the
-input to Mathlib's `HomologicalComplex.HomologySequence`; it is not supplied by the carrier. -/
-theorem continuousCochainsShortExact_shortExact (S : DiscreteShortExact G A B C) :
-    (continuousCochainsShortExact G A B C S).ShortExact :=
-  sorry
+/-- **Layer 10, short exactness of the canonical cochain complexes after forgetting topologies.**
+For a locally compact `G` (in particular a profinite one), the image of
+`continuousCochainsShortExact` in cochain complexes of `ℤ`-modules is short exact. This is the
+input to Mathlib's `HomologicalComplex.HomologySequence`, and it is not supplied by the carrier.
+Tau Ceti's `TauCeti.ContCohomology.DiscreteShortExact.continuousCochainsShortExact_shortExact`
+(`ExactCochains.lean`); its lifting step uses continuity of evaluation, which is where local
+compactness enters. Short exactness in `CochainComplex (TopModuleCat ℤ) ℕ` itself is not asserted.
+-/
+theorem continuousCochainsShortExact_shortExact [LocallyCompactSpace G]
+    (S : DiscreteShortExact G A B C) :
+    ((continuousCochainsShortExact G A B C S).map
+      ((forget₂ (TopModuleCat.{u} ℤ) (ModuleCat.{u} ℤ)).mapHomologicalComplex _)).ShortExact :=
+  TauCeti.ContCohomology.DiscreteShortExact.continuousCochainsShortExact_shortExact S
 
 /-- **Layer 5, the connecting map `δ⁰ : H⁰(G, C) → H¹(G, A)`.** Choose a preimage in `B` of an
 invariant of `C` and apply `d⁰`; the result lands in `A` because the class of the preimage in `C`
@@ -3842,20 +3857,9 @@ theorem cupCochain_apply {X Y Z : TopRep R G} (P : TopPairing X Y Z) (m n : ℕ)
     cupCochain P m n a b = resolutionCupPairing P m n a b :=
   rfl
 
-/-- **Layer 12, milestone 7: the named associativity homotopy operator.** Its specification below
-states that its boundary is the difference between the two parenthesizations. -/
-noncomputable def cupAssocHomotopy {A B C D E F : TopRep R G}
-    (μ₁ : TopPairing A B D) (μ₂ : TopPairing D C E)
-    (ν₁ : TopPairing B C F) (ν₂ : TopPairing A F E)
-    (hcoeff : ∀ (a : A.V) (b : B.V) (c : C.V), μ₂.bil (μ₁.bil a b) c = ν₂.bil a (ν₁.bil b c))
-    (p q r : ℕ) :
-    ((homogeneousCochainsFunctor R G).obj A).X p →ₗ[R]
-      ((homogeneousCochainsFunctor R G).obj B).X q →ₗ[R]
-        ((homogeneousCochainsFunctor R G).obj C).X r →ₗ[R]
-          ((homogeneousCochainsFunctor R G).obj E).X (p + q + r).pred :=
-  sorry
-
-/-- **Layer 12, milestone 8: the named graded-commutativity homotopy operator.** -/
+/-- **Layer 12, milestone 8: the named graded-commutativity homotopy operator,** a cochain map of
+degree `-1` in total degree. Its specification `cupCommHomotopy_spec` states that its coboundary is
+the graded commutator of the two cups on cocycles. -/
 noncomputable def cupCommHomotopy {X Y Z : TopRep R G}
     (P : TopPairing X Y Z) (Pop : TopPairing Y X Z)
     (hop : ∀ (x : X.V) (y : Y.V), Pop.bil y x = P.bil x y) (m n : ℕ) :
@@ -3916,10 +3920,26 @@ theorem cup_one_left (P : TopPairing Y X X) (u : Y.V) (hinv : ∀ g : G, Y.ρ g 
     cup P 0 n (degreeZeroClass Y u hinv) a = degreeCast (Nat.zero_add n).symm X a :=
   sorry
 
-/-- **Layer 12, milestone 7: specification of `cupAssocHomotopy`.** Its boundary gives the two
-parenthesizations, hence the following equality on classes. -/
-theorem cupAssocHomotopy_spec {A B C D E F : TopRep R G}
+/-- **Layer 12, milestone 7: associativity on cochains.** The Alexander-Whitney cup is strictly
+associative: both parenthesizations evaluate at `(g₀, …, g_{p+q+r})` to
+`μ₂ (μ₁ (a (g₀, …, g_p)) (b (g_p, …, g_{p+q}))) (c (g_{p+q}, …, g_{p+q+r}))`, which `hcoeff`
+identifies with the `ν`-form. No homotopy operator is needed. Tau Ceti proves the same identity for
+its pairing structure as `TauCeti.TopPairing.cupCochain_assoc` (`Cup/Assoc.lean`). -/
+theorem cupCochain_assoc {A B C D E F : TopRep R G}
     (μ₁ : TopPairing A B D) (μ₂ : TopPairing D C E)
+    (ν₁ : TopPairing B C F) (ν₂ : TopPairing A F E)
+    (hcoeff : ∀ (a : A.V) (b : B.V) (c : C.V), μ₂.bil (μ₁.bil a b) c = ν₂.bil a (ν₁.bil b c))
+    (p q r : ℕ) (a : ((homogeneousCochainsFunctor R G).obj A).X p)
+    (b : ((homogeneousCochainsFunctor R G).obj B).X q)
+    (c : ((homogeneousCochainsFunctor R G).obj C).X r) :
+    cupCochain μ₂ (p + q) r (cupCochain μ₁ p q a b) c =
+      cochainDegreeCast (Nat.add_assoc p q r).symm E
+        (cupCochain ν₂ p (q + r) a (cupCochain ν₁ q r b c)) :=
+  sorry
+
+/-- **Layer 12, milestone 7: associativity on classes,** derived from `cupCochain_assoc` on
+representing cocycles. -/
+theorem cup_assoc {A B C D E F : TopRep R G} (μ₁ : TopPairing A B D) (μ₂ : TopPairing D C E)
     (ν₁ : TopPairing B C F) (ν₂ : TopPairing A F E)
     (hcoeff : ∀ (a : A.V) (b : B.V) (c : C.V), μ₂.bil (μ₁.bil a b) c = ν₂.bil a (ν₁.bil b c))
     (p q r : ℕ) (x : (continuousCohomology R G p).obj A)
@@ -3928,22 +3948,22 @@ theorem cupAssocHomotopy_spec {A B C D E F : TopRep R G}
       degreeCast (Nat.add_assoc p q r).symm E (cup ν₂ p (q + r) x (cup ν₁ q r y z)) :=
   sorry
 
-/-- **Layer 12, milestone 7: associativity on classes, derived from the named homotopy.** -/
-theorem cup_assoc {A B C D E F : TopRep R G} (μ₁ : TopPairing A B D) (μ₂ : TopPairing D C E)
-    (ν₁ : TopPairing B C F) (ν₂ : TopPairing A F E)
-    (hcoeff : ∀ (a : A.V) (b : B.V) (c : C.V), μ₂.bil (μ₁.bil a b) c = ν₂.bil a (ν₁.bil b c))
-    (p q r : ℕ) (x : (continuousCohomology R G p).obj A)
-    (y : (continuousCohomology R G q).obj B) (z : (continuousCohomology R G r).obj C) :
-    cup μ₂ (p + q) r (cup μ₁ p q x y) z =
-      degreeCast (Nat.add_assoc p q r).symm E (cup ν₂ p (q + r) x (cup ν₁ q r y z)) :=
-  cupAssocHomotopy_spec μ₁ μ₂ ν₁ ν₂ hcoeff p q r x y z
-
-/-- **Layer 12, milestone 8: specification of `cupCommHomotopy`.** -/
+/-- **Layer 12, milestone 8: specification of `cupCommHomotopy`.** On cocycles `a` of degree `m`
+and `b` of degree `n` with `m + n = k + 1`, the graded commutator
+`a ⌣_P b - (-1)^{mn} (b ⌣_{Pᵒᵖ} a)` is the coboundary of `cupCommHomotopy P Pop hop m n a b`, read in
+degree `k`. In total degree `0` the two cups already agree on cochains, by `hop`, and the operator
+is zero there. -/
 theorem cupCommHomotopy_spec (P : TopPairing X Y Z) (Pop : TopPairing Y X Z)
-    (hop : ∀ (x : X.V) (y : Y.V), Pop.bil y x = P.bil x y) (m n : ℕ)
-    (a : (continuousCohomology R G m).obj X) (b : (continuousCohomology R G n).obj Y) :
-    cup P m n a b =
-      ((-1 : R) ^ (m * n)) • degreeCast (Nat.add_comm n m) Z (cup Pop n m b a) :=
+    (hop : ∀ (x : X.V) (y : Y.V), Pop.bil y x = P.bil x y) (m n k : ℕ) (hk : k + 1 = m + n)
+    (a : ((homogeneousCochainsFunctor R G).obj X).X m)
+    (b : ((homogeneousCochainsFunctor R G).obj Y).X n)
+    (ha : (((homogeneousCochainsFunctor R G).obj X).d m (m + 1)).hom a = 0)
+    (hb : (((homogeneousCochainsFunctor R G).obj Y).d n (n + 1)).hom b = 0) :
+    cupCochain P m n a b - ((-1 : R) ^ (m * n)) •
+        cochainDegreeCast (Nat.add_comm n m) Z (cupCochain Pop n m b a) =
+      cochainDegreeCast hk Z
+        ((((homogeneousCochainsFunctor R G).obj Z).d k (k + 1)).hom
+          (cochainDegreeCast (by simp [← hk]) Z (cupCommHomotopy P Pop hop m n a b))) :=
   sorry
 
 /-- **Layer 12, milestone 8: graded commutativity on classes, derived from the named
@@ -3953,7 +3973,7 @@ theorem cup_gradedComm (P : TopPairing X Y Z) (Pop : TopPairing Y X Z)
     (a : (continuousCohomology R G m).obj X) (b : (continuousCohomology R G n).obj Y) :
     cup P m n a b =
       ((-1 : R) ^ (m * n)) • degreeCast (Nat.add_comm n m) Z (cup Pop n m b a) :=
-  cupCommHomotopy_spec P Pop hop m n a b
+  sorry
 
 /-- **Layer 12, milestone 9: restriction compatibility.** The restricted pairing is supplied with
 its defining equation, since restriction does not change the coefficient map. -/
@@ -4272,32 +4292,13 @@ theorem explicitDelta1_explicitCup10_right (SB : DiscreteShortExact G B' B B'')
 
 end ConnectingMapCup
 
-/-! ### Layer 13: the Evens norm -/
+/-! ### Layer 13: the Evens norm
 
-section GeneralEvens
-
-variable (D : Type*) [Group D] (Q : Type*) [Group Q] (X : Type*) [MulAction Q X]
-
-/-- **Layer 13, milestone 1: the permutation action of `Q` on `X → D`.** -/
-noncomputable def wreathAut : Q →* MulAut (X → D) := sorry
-
-/-- **Layer 13, milestone 1: the permutation wreath product `(X → D) ⋊ Q`.** Mathlib has only the
-**regular** `RegularWreathProduct`, which is the case `X = Q`; the norm needs `Uˡ ⋊ 𝔖_l` for the
-standard action of `𝔖_l` on `Fin l`. The base factor is `X → D` and the top factor is `Q`, which
-the docstring says because sources disagree about the notation. -/
-abbrev PermutationWreathProduct : Type _ := SemidirectProduct (X → D) Q (wreathAut D Q X)
-
-/-- **Layer 13, milestone 2: the topology on the permutation wreath product.** The base factor
-`X → D` carries the product topology and the top factor is discrete, since for the norm it is the
-finite symmetric group. This is the topology the monomial homomorphism is continuous for, and it is
-a definition rather than an instance because `PermutationWreathProduct` abbreviates
-`SemidirectProduct`, on which no such global instance should be imposed. -/
-@[reducible] def wreathTopology [TopologicalSpace D] :
-    TopologicalSpace (PermutationWreathProduct D Q X) :=
-  TopologicalSpace.induced (fun w => (w.left : X → D)) inferInstance ⊓
-    TopologicalSpace.induced (fun w => (w.right : Q)) ⊥
-
-end GeneralEvens
+The permutation wreath product `(X → D) ⋊ Q`, with `Q` acting on the base through
+`f ↦ (x ↦ f (q⁻¹ • x))`, is Tau Ceti's `TauCeti.PermutationWreathProduct`, and its full form
+`TauCeti.WreathProduct D ι` over `Equiv.Perm ι` carries the coordinate topology
+(`TauCeti/GroupTheory/Perm/WreathProduct/Basic.lean`,
+`TauCeti/Topology/Algebra/Group/WreathProduct/Basic.lean`). The norm below consumes those. -/
 
 /-! ### Layer 13: the explicit index-2 graph cocycle
 
@@ -5192,24 +5193,28 @@ structure CosetTransversal (U : OpenSubgroup G) where
   /-- it represents that coset -/
   mk_rep : ∀ x, QuotientGroup.mk (rep x) = x
 
-/-- **Layer 13, milestone 2: the transversal-dependent monomial homomorphism** `Φ : G → Uˡ ⋊ 𝔖_l`
-for `l = (G : U)`. The base component of `Φ γ` at a coset `x` is the Schreier factor
-`t(γ⁻¹ x)⁻¹ γ⁻¹ t(x)`, which lies in `U` exactly because `t` is a transversal, and the top
-component is the permutation `x ↦ γ⁻¹ x` of the coset space. -/
-noncomputable def monomialHom (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
-    (t : CosetTransversal U) :
-    G →* PermutationWreathProduct U.toSubgroup (Equiv.Perm (G ⧸ U.toSubgroup))
-      (G ⧸ U.toSubgroup) :=
-  sorry
+/-- **Layer 13, milestone 2: the transversal-dependent monomial homomorphism**
+`Φ : G →* (G ⧸ U → U) ⋊ Perm (G ⧸ U)`. The permutation component of `Φ γ` is left translation
+`x ↦ γ x` of the coset space (`Subgroup.monomialHom_right`), and the base component at a coset `x`
+is the Schreier factor `t(x)⁻¹ γ t(γ⁻¹ x)` (`Subgroup.monomialHom_left`), which lies in `U` because
+`t` is a transversal. These two choices are the ones that make `Φ` multiplicative: the factor
+satisfies `a(γδ, x) = a(γ, x) a(δ, γ⁻¹ x)`, the multiplication law of the wreath product, while
+inverse translation `x ↦ γ⁻¹ x` is an anti-homomorphism into `Perm (G ⧸ U)` and cannot be the top
+component. This is Tau Ceti's `Subgroup.monomialHom`
+(`TauCeti/GroupTheory/Perm/WreathProduct/Monomial.lean`) at the bundled transversal whose
+representatives are `t.rep` (`Subgroup.leftTransversalRep_range`). -/
+noncomputable abbrev monomialHom (U : OpenSubgroup G) (t : CosetTransversal U) :
+    G →* TauCeti.WreathProduct U.toSubgroup (G ⧸ U.toSubgroup) :=
+  Subgroup.monomialHom U.toSubgroup ⟨Set.range t.rep, Subgroup.isComplement_range_left t.mk_rep⟩
 
-/-- **Layer 13, milestone 2: the monomial homomorphism is continuous,** for the topology
-`wreathTopology` fixes on the target. Openness of `U` is what makes the coset space discrete and
-the Schreier factors locally constant. -/
-theorem monomialHom_continuous (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
-    (t : CosetTransversal U) :
-    @Continuous G _ _ (wreathTopology U.toSubgroup (Equiv.Perm (G ⧸ U.toSubgroup))
-      (G ⧸ U.toSubgroup)) (monomialHom U t) :=
-  sorry
+/-- **Layer 13, milestone 2: the monomial homomorphism is continuous** for the coordinate topology
+of the wreath product. Openness of `U` makes the coset space discrete, so the permutation
+component is locally constant; the Schreier factors are only continuous, not locally constant: for
+`U = G = ℤ_p` the factor of `γ` is `γ` itself. Tau Ceti's `Subgroup.continuous_monomialHom`
+(`TauCeti/Topology/Algebra/Group/WreathProduct/Monomial.lean`). -/
+theorem monomialHom_continuous (U : OpenSubgroup G) (t : CosetTransversal U) :
+    Continuous (monomialHom U t) :=
+  Subgroup.continuous_monomialHom U.toSubgroup U.isOpen _
 
 /-- **Layer 13, milestone 3: the tensor-power coefficient object,** with the permutation action of
 the symmetric group and the induced wreath-product action, as an object of the canonical
@@ -5450,7 +5455,7 @@ noncomputable def evensDoubleCosetFactor (V : OpenSubgroup G) (g : G) :
           (V ⊓ conjOpenSubgroup g U) (conjOpenSubgroup_inf g U V) q).hom
         ((trivialF2ResLe G U (U ⊓ conjOpenSubgroup g⁻¹ V) inf_le_left q).hom x))
 
-/-- **Layer 13, milestone 8: the restriction and double-coset formula** (Evens §6 Prop. 3). The
+/-- **Layer 13, milestone 8: the restriction and double-coset formula** (Evens 1963, §6 Prop. 2, pp. 61-62). The
 restriction of a norm is the cup product of the norms over the double cosets. The degree hypothesis
 is the double-coset index identity `∑ [V : V ⊓ gUg⁻¹] = [G : U]`, restated so that the two sides
 are comparable without a rewrite inside the statement. -/
