@@ -8,13 +8,14 @@ Lefschetz inverse `Λ` and the `𝔰𝔩₂`-normalized lowering operator, the g
 Poincaré pairing. Layer 1 is the algebraic part of the conjectures in that setting: a ring `𝒜`
 of « algebraic » endomorphisms and a space `A` of « algebraic » classes over a subfield `F`, the
 abstract conditions `B`, `C`, `Hdg`, `D`, and the implications between them (`B ⇒ C`;
-`B ∧ Hdg ⇒ D`; the Cayley–Hamilton criterion for `B`). Layer 2 is Weil cohomology theories in
-Kleiman's axioms on smooth projective varieties over an algebraically closed field, on top of
-the Chow rings of SchemeAndStackFoundations Layer 5, with algebraic correspondences acting on
-cohomology, and the standard conjectures `B(X)`, `C(X)`, `Hdg(X)`, `D(X)` for a Weil cohomology
-theory as `def … : Prop`, with the implications of Layer 1 transported and the cases of curves
-proved. Constructing a Weil cohomology theory (`ℓ`-adic, de Rham or crystalline) and stating the
-conjectures for it is a roadmap for a roadmap.
+`B ∧ Hdg ⇒ D`; the Cayley–Hamilton criterion for `B`). Layer 2 connects Layer 1 to varieties: it
+extends MotivesAndAlgebraicCycles' minimal Weil cohomology theory by weak and hard Lefschetz data,
+equips `H(X)` with its Lefschetz structure and the algebraic structure given by all graded
+correspondences, and proves that the abstract conditions of Layer 1 on that structure are
+equivalent to MotivesAndAlgebraicCycles' standard-conjecture predicates. The predicates, the
+correspondences, homological and numerical equivalence and the known cases are consumed from
+MotivesAndAlgebraicCycles, not restated. Constructing a Weil cohomology theory (`ℓ`-adic, de
+Rham or crystalline) and stating the conjectures for it is a roadmap for a roadmap.
 
 The conjectures first appear in Grothendieck's notes in a letter to Serre of 27 August 1965
 (Montpellier fonds, folder 14, p. 44), and folder 16 (1966–67) works out the linear algebra of
@@ -32,27 +33,36 @@ Suggested homes: `TauCeti/LinearAlgebra/Lefschetz/` (Layers 0–1, mirroring Mat
 - Lefschetz structures and their linear algebra over a field of characteristic `0` (Layer 0);
 - algebraic structures on a Lefschetz structure and the abstract standard conditions with
   their implications (Layer 1);
-- the definition of a Weil cohomology theory, the action of correspondences, homological
-  equivalence, the algebraic classes, and the standard conjectures for a given Weil cohomology
-  theory, with their consequences and the cases of dimension at most `1` (Layer 2).
+- the Lefschetz extension of a minimal Weil cohomology theory, the Lefschetz and algebraic
+  structures it puts on `H(X)`, and the compatibility of Layer 1's abstract conditions with the
+  standard-conjecture predicates (Layer 2).
 
 **Out of scope, with owner.**
 
+- *Graded correspondences and their two actions, composition, graph, transpose and tensor; the
+  minimal classical Weil cohomology theory and the cohomological action of correspondences;
+  adequate and numerical relations, homological equivalence and the inclusion homological ⊆
+  numerical; the standard-conjecture predicates A, B, C, D and Hodge positivity, their general
+  implications (B ⇒ A, C; A(X×X) ⇒ B(X); D ⇒ A; A with positivity ⇒ D) and the known cases*:
+  [MotivesAndAlgebraicCycles](../MotivesAndAlgebraicCycles/README.md) (#1313), §§0.1–0.2, 0.5,
+  2.2–2.3 and 7.3–7.4, which states them in greater generality (componentwise degrees, disconnected
+  and empty schemes, arbitrary base field). Consumed by Layer 2 by name.
 - *Chow groups, rational equivalence, proper pushforward, flat and graph pullback, intersection
   products on smooth varieties, and numerical equivalence on surfaces*:
   [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) Layer 5 (§§5.1–5.6, 5.10).
-  Consumed by Layer 2, through Mathlib's `AlgebraicCycle` as it specifies.
+  Consumed through MotivesAndAlgebraicCycles, which builds correspondences on them; Layer 2 does
+  not call them directly.
 - *`ℓ`-adic cohomology, its cycle classes, Poincaré duality and hard Lefschetz*: the
   EtaleCohomologyFoundations, LefschetzPencilsAndVanishingCycles and DeligneWeightsAndPurity
   roadmaps (§F.6, §F.7 and §9.6 of those drafts). Named only in the last section.
 - *Hodge structures and polarizations*: [HodgeStructures](../../Completed/HodgeStructures/README.md).
   Named only in the last section.
-- *Motives (pure motives, the motivic Galois group)*: not in this roadmap.
+- *Motives (pure motives, the motivic Galois group)*: MotivesAndAlgebraicCycles; not used here.
 
 The boundary in one sentence: if a statement is about a graded vector space with a Lefschetz
 operator and distinguished subspaces, it is in Layers 0–1; if it is about varieties, it is in
-Layer 2 and consumes SchemeAndStackFoundations; if it needs a specific cohomology theory, it is
-in the roadmap for a roadmap.
+Layer 2, which only connects Layers 0–1 to MotivesAndAlgebraicCycles; if it needs a specific
+cohomology theory, it is in the roadmap for a roadmap.
 
 ## What Mathlib and Tau Ceti already have (consume)
 
@@ -86,18 +96,15 @@ in the roadmap for a roadmap.
   `Hdg(A)` (for `F ⊆ ℝ` ordered and the pairing `F`-valued on `A`): for `2i ≤ n`, the form
   `(x, y) ↦ (−1)^i ⟨L^{n−2i} x, y⟩` is positive definite on `A^i ∩ P^{2i}`; `D(A)`: the pairing
   `A^i × A^{n−i} → F` is nondegenerate for every `i`.
-- **Weil cohomology theory** (Kleiman 1968; Kleiman 1994): for an algebraically closed
-  field `k`, a contravariant functor `X ↦ H(X)` from smooth projective `k`-varieties to graded
-  commutative finite-dimensional `K`-algebras, with Poincaré duality (`H^{2d}(X) ≅ K` by a trace,
-  perfect cup pairing), Künneth (`H(X) ⊗ H(Y) ≅ H(X × Y)`), and a cycle class ring homomorphism
-  `γ_X : CH^*(X)_ℚ → H^{2*}(X)` compatible with pullback, pushforward (defined from Poincaré
-  duality) and the trace on points, together with weak and hard Lefschetz for a smooth hyperplane
-  section. `CH^*` is SchemeAndStackFoundations' `CH^p(X) := CH_{n−p}(X)` with rational
-  coefficients `CH_k(X)_ℚ`.
-- **The geometric conditions** for a Weil cohomology theory `W` and `X` of dimension `d` with an
-  ample class: `𝒜(X) :=` the image of `CH^d(X × X)_ℚ` acting on `H(X)` by correspondences, and
-  `A^i(X) := γ_X(CH^i(X)_ℚ)`. Then `B(X) := B(𝒜(X))`, `C(X) := C(𝒜(X))`, `Hdg(X) := Hdg(A(X))`,
-  `D(X)` := homological and numerical equivalence agree on `CH^*(X)_ℚ`.
+- **Weil cohomology theory with Lefschetz data**: MotivesAndAlgebraicCycles §2.2's minimal
+  classical Weil theory `H` over an algebraically closed field `k`, together with weak Lefschetz for
+  a smooth hyperplane section and hard Lefschetz for an ample class (Kleiman 1968; Kleiman 1994).
+  Hard Lefschetz is data added here, not a Weil axiom, as in MotivesAndAlgebraicCycles §7.3.
+- **The geometric structures** for `X` of dimension `d` with an ample rational class `ξ`:
+  `𝒜(X) :=` the image in `End H(X)` of *all* graded correspondences `Corr^*(X, X)` (all degrees,
+  MotivesAndAlgebraicCycles §0.1), acting by §2.3 there; `A^i(X) :=` the rational image of
+  `CH^i(X)` under the cycle class. Taking only `CH^d(X × X)_ℚ`, the degree-zero correspondences,
+  would give a ring containing neither `L = Δ_*ξ` (degree `1`) nor `Λ` (degree `−1`).
 
 ## The build, in layers
 
@@ -175,35 +182,51 @@ quaternion algebra with all structure constants `0`, so `i² = 0`) with its conj
 degree, while `Λ` does, and `π_0` is not of this form. This is the phenomenon of folder 16's
 example in dimension `1`: the ring generated by `L` alone does not see the grading.
 
-### Layer 2: Weil cohomology theories and the standard conjectures
+### Layer 2: Lefschetz data on a Weil cohomology theory, and compatibility
 
-**2.1 Weil cohomology theories.** The structure of the conventions over the category of smooth
-projective `k`-varieties, with `CH^*(−)_ℚ` from SchemeAndStackFoundations §§5.1–5.6. *Needs:*
-SchemeAndStackFoundations Layer 5 (`Chow.intersect`, `Chow.graphPullback`, proper pushforward,
-`CH_k(X)_ℚ`), Mathlib `Smooth`, `IsProper`, fibre products over `Spec k`.
+This layer states no new predicate on varieties. It consumes MotivesAndAlgebraicCycles' shared
+core by name and proves that Layers 0–1 say the same thing on `H(X)`.
 
-**2.2 Correspondences.** `Corr^r(X, Y) := CH^{dim X + r}(X × Y)_ℚ`, composition by the intersection
-product and pushforward, the action `γ(α)_* : H(X) → H(Y)` of degree `2r`, functoriality of the
-action (`(β ∘ α)_* = β_* ∘ α_*`). The diagonal acts as the identity. *Source:* Kleiman 1968.
+**2.1 Weil cohomology theories with Lefschetz data.** `structure WeilCohomologyLefschetz k K`
+extending MotivesAndAlgebraicCycles §2.2's minimal classical Weil theory by weak Lefschetz for a
+smooth hyperplane section and hard Lefschetz for every ample class. The forgetful map to the
+minimal theory keeps grading, cycle maps, traces and the Tate marking. *Needs:*
+MotivesAndAlgebraicCycles §2.2. *Check:* forgetting and re-adding the Lefschetz data is the
+identity on the underlying minimal theory.
+
+**2.2 Correspondences and the algebraic ring.** Import graded correspondences, composition and
+their cohomological action from MotivesAndAlgebraicCycles §§0.1–0.2 and 2.3. Define `𝒜(X)` as the
+image of all of `Corr^*(X, X)` in `End H(X)`. Prove that it is a `ℚ`-subalgebra containing
+`L = (Δ_*ξ)_*`. *Needs:* MotivesAndAlgebraicCycles §§0.1–0.2, 2.3. *Check:* on `ℙ¹`, `L` and the
+inverse of `L : H⁰ → H²` come from correspondences of degrees `1` and `−1`, so both lie in `𝒜(ℙ¹)`;
+the image of `CH¹(ℙ¹ × ℙ¹)_ℚ` alone (degree `0`) contains neither (MotivesAndAlgebraicCycles §2.3,
+third Check).
 
 **2.3 The Lefschetz structure of `X`.** For `X` of dimension `d` with an ample class `ξ`,
-`L = γ(ξ) ∪ −` makes `H(X)` a Lefschetz structure of weight `2d` (hard Lefschetz axiom);
-`𝒜(X)` contains `L` (the correspondence `Δ_*ξ`) and is a subring stable under `ℚ`; `A(X)` is an
-algebraic structure in the sense of Layer 1.
+`L = γ(ξ) ∪ −` makes `H(X)` a Lefschetz structure of weight `2d` by the hard Lefschetz datum of
+2.1, and `(𝒜(X), A(X))` is an algebraic structure in the sense of Layer 1. *Needs:* 2.1, 2.2,
+Layer 0.
 
-**2.4 Homological and numerical equivalence.** `ker γ_X ⊆` numerically trivial cycles; numerical
-equivalence via the degree of the intersection product on proper `X`.
+**2.4 Homological and numerical equivalence.** Import numerical equivalence from
+MotivesAndAlgebraicCycles §0.5 and the inclusion homological ⊆ numerical from its §2.3. Nothing is
+restated. *Needs:* MotivesAndAlgebraicCycles §§0.5, 2.3.
 
-**2.5 The conjectures.** `def StandardConjectureB (W) (X) : Prop`, `StandardConjectureC`,
-`StandardConjectureHdg`, `StandardConjectureD`, and their quantified forms over all `X`. Proved
-consequences: `B(X) ⇒ C(X)` and `B(X) ∧ Hdg(X) ⇒ D(X)` (Layer 1 transported); `B(X)` for `d ≤ 1`
-(for a curve, the inverse of `L : H^0 → H^2` is induced by `[pt × X]` up to the degree of `ξ`).
-*Check:* `D` holds in codimension `0` and `d`.
+**2.5 Compatibility with the standard-conjecture predicates.** Take the predicates `B_H(X)`,
+`C_ℚ,H(X)`, `D_ℚ,H(X)` and Hodge positivity from MotivesAndAlgebraicCycles §7.3. Prove the
+compatibility theorems: Layer 1's `B(𝒜(X))` holds iff `B_H(X)`; `C(𝒜(X))` iff `C_ℚ,H(X)`;
+`Hdg(A(X))` iff Hodge positivity; `D(A(X))` iff `D_ℚ,H(X)`. Then Layer 1's implications `B ⇒ C`
+and `B ∧ Hdg ⇒ D` transport along them, and agree with §7.3's `B ⇒ A, C` and `A` with positivity
+`⇒ D`. Import the curve case and the other known cases from §7.4 rather than proving them here.
+*Needs:* 2.3, 2.4, Layer 1, MotivesAndAlgebraicCycles §§7.3–7.4. *Check:* `D` holds in codimension
+`0` and `d`; for a curve, `Λ` on `H²` is `[pt × X]_*` divided by `deg ξ`, and the compatibility
+theorem turns §7.4's `B` for curves into `B(𝒜(X))`.
 
 ## Ordering
 
 Layer 0 first, then Layer 1 (both Mathlib-only, available now). Layer 2 waits on
-SchemeAndStackFoundations Layer 5 being implemented in Tau Ceti; within it, 2.1–2.2 first.
+MotivesAndAlgebraicCycles (#1313), which supplies its whole core: this pull request is meant to
+merge after #1313, which names this roadmap only as a downstream consumer, so there is no cycle.
+Within Layer 2, 2.1–2.2 first.
 
 ## Roadmap for a roadmap: the conjectures for actual cohomology theories
 
