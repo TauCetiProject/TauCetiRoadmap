@@ -278,6 +278,7 @@ Use the variational equation for its flow to obtain the ambient differential ide
 This strengthening requires full ambient tensor equality, not merely equality of
 the pulled-back forms on TQ.
 
+<a id="c4-relative-darboux-point-germs"></a>
 For an arbitrary embedded submanifold Q and p∈Q, prove the point-germ relative
 Darboux theorem: two symplectic forms on an ambient manifold of the same
 dimension with equal pullbacks to Q have symplectomorphic germs at p by a map
@@ -300,6 +301,44 @@ vanishes on Q, and the stationary trajectory at p gives a full-parameter flow
 on a smaller neighborhood. This local theorem uses no global normal-bundle
 identification along all of Q. The compact-submanifold global germ theorems
 below retain their specified normal-bundle data.
+
+[RelativeDarbouxTargets.lean](RelativeDarbouxTargets.lean) gives suggested
+linear extension signatures using Tau Ceti's symplectic-form carrier.
+
+<a id="c4-full-ambient-bundle-germs"></a>
+**Neighborhood germs with prescribed ambient derivative.** Let
+`i:Q→(M,ω_M)` and `j:Q′→(N,ω_N)` be smooth embeddings of compact
+submanifolds, and let f:Q→Q′ be a diffeomorphism. Given a smooth symplectic
+vector-bundle isomorphism `A:i*TM→j*TN` over f satisfying
+`A_q ∘ di_q = dj_(f(q)) ∘ df_q`, construct open neighborhoods U of i(Q)
+and V of j(Q′) and a symplectomorphism Φ:U→V with
+`Φ ∘ i = j ∘ f` and `dΦ_(i(q)) = A_q`. Conversely, differentiation of
+any such symplectomorphism gives these bundle data. No constant-rank
+hypothesis on the pulled-back two-form is required when A is supplied.
+
+Construct the extension of the prescribed derivative before applying Moser.
+Choose tubular splittings `TM|Q = TQ ⊕ ν_M` and `TN|Q′ = TQ′ ⊕ ν_N`.
+Write `A_q(v,n) = (df_q(v)+B_q(n), C_q(n))`; C is a normal-bundle
+isomorphism over f. On the source normal bundle, set
+`q′ = exp_(f(q))(B_q(n))` using an auxiliary metric on Q′, and transport
+`C_q(n)` in ν_N along `t↦exp_(f(q))(t B_q(n))`. Compose this map into ν_N
+with the target tubular map. Prove that its derivative along the zero
+section is A. The inverse function theorem, embeddedness and compactness
+then give a diffeomorphism of neighborhoods extending f. Its pulled-back
+form agrees with ω_M on all ambient tangent fibers along Q. Apply the
+full-ambient relative Moser theorem above; its zero-first-jet refinement
+preserves the derivative A.
+
+Define neighborhood germs by agreement after shrinking around the whole
+submanifold. Prove restriction, identity, inverse and composition laws, with
+prescribed derivatives composing as bundle maps. Two extensions obtained
+from the same (f,A), including those using different tubular maps, metrics
+or connections, differ by a symplectic germ fixing Q pointwise with full
+ambient derivative the identity. The point-germ theorem needs only an
+extension at one point; this compact-submanifold theorem requires the
+specified smooth bundle isomorphism along all of Q. Recover the
+symplectic and Lagrangian neighborhood theorems below by constructing their
+compatible ambient bundle isomorphisms from the stated normal data.
 
 For a compact symplectic submanifold, construct its symplectic normal bundle TQ^ω and prove the
 symplectic neighborhood theorem: a symplectic normal-bundle isomorphism over a symplectomorphism of
