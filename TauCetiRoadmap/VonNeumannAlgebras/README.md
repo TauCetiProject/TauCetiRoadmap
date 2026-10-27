@@ -222,6 +222,35 @@ absolutely convergent square-summable vector pairings. Establish the shared cont
 and closed-convex-set results by locally convex separation, including the hypotheses on
 subspaces. Prove weak compactness of the operator unit ball.
 
+<a id="v1-projection-weak-closure"></a>
+**Weak limits of projections.** On every infinite-dimensional complete complex
+Hilbert space H, prove that the WOT closure of the orthogonal projections in
+B(H) is exactly the positive contractions `0≤A≤1`; prove the same ultraweak
+closure statement using bounded-set agreement. Construct the approximating
+net, indexed by finite-dimensional subspaces F ordered by inclusion. Compress
+A to `C=P_F A|_F`, choose an isometric copy of F in F⊥, and on their orthogonal
+sum use the projection
+`[[C,sqrt(C(1−C))],[sqrt(C(1−C)),1−C]]`, extended by zero on the remaining
+orthogonal complement. Prove positivity of `C(1−C)`, the commuting-square-root
+identities and idempotence/self-adjointness of this block operator. Its
+compression to F equals C exactly. Hence every fixed pair of matrix
+coefficients agrees with A once F contains the two test vectors, giving WOT
+convergence without a separability assumption. Conversely, pass the positive
+contraction inequalities through those coefficients to identify the closure.
+Own this elementary block construction in V1; V12's general two-projection
+classification consumes it and is not a prerequisite here.
+
+Prove that the projections are SOT closed on every H, by bounded product
+continuity and preservation of self-adjointness under WOT convergence. For
+finite-dimensional H they are WOT closed too; when H≠0, `(1/2)I` is a positive
+contraction outside that closure. In the zero space both sets are `{0}`.
+For separable infinite-dimensional H extract an approximating sequence using
+the bounded-ball metrizability proved above. These hypotheses correct the
+unqualified projection-limit assertion in Jones's typed notes, physical13.
+[ProjectionClosureTargets.lean](ProjectionClosureTargets.lean) states the
+finite-test and closure endpoints using the native WOT wrapper and positive
+operator order.
+
 For every unital star subalgebra A of B(H), identify its WOT, SOT, ultraweak, and ultrastrong
 closures with A''. Consume the finite-dimensional double-centralizer theorem from
 RepresentationTheory/SemisimpleAlgebras and prove its operator-space specialization and the
@@ -656,6 +685,36 @@ vector functional. Prove state-preserving automorphisms are canonically
 unitarily implementable in GNS. Prove every normal star homomorphism is
 represented by amplification, reducing projection and spatial identification
 of its image, with kernel a central summand.
+
+<a id="v4-faithful-state-gns-extension"></a>
+**Faithful C*-states and normal GNS extensions.** Distinguish a faithful state
+on a C*-algebra, faithfulness of its GNS representation, and faithfulness of
+the vector state on the generated von Neumann algebra. Construct the following
+counterexample to preservation of the first property under that extension,
+as required by Jones's handwritten notes, physical22.
+
+Let `A=C([0,1],M₂(ℂ))`. Choose pairwise distinct points `x_n` such that the
+even and odd subsequences are each dense, put `w_n=2^(−n−1)`, and let `v_n`
+be the first standard basis vector for even n and the second for odd n.
+Construct `φ(a)=Σ_n w_n⟨v_n,a(x_n)v_n⟩`. Prove absolute convergence,
+positivity, `φ(1)=1` and faithfulness: `φ(a*a)=0` makes each corresponding
+column vanish on a dense subset, so both continuous columns vanish everywhere.
+On `H=⨁₂_nℂ²` define `π(a)=diag(a(x_n))` and
+`Ω=(sqrt(w_n)v_n)_n`. Prove this bounded unital star representation has
+vector state φ. Identify its strong closure with the bounded product
+`∏_n M₂(ℂ)` acting diagonally, using continuous disjoint bump functions to
+interpolate every finite coordinate list with the same operator-norm bound,
+then finite-support vector approximation. Show Ω is cyclic for this product
+and hence for π(A); use V0's GNS uniqueness to identify this model with GNS.
+The projection supported at coordinate0 onto the line orthogonal to v₀
+is nonzero and annihilates Ω. Thus the normal vector-state extension to
+`π(A)''` is not faithful although φ and π are faithful.
+
+Retain the separate finite-matrix distinction: for n≥2 the state `a↦a₁₁`
+on M_n is not faithful, while its defining GNS representation is faithful.
+For a faithful normal state on an already given von Neumann algebra, prove
+its GNS cyclic vector is separating for the represented image; the C*-state
+counterexample above does not remove that normality hypothesis.
 
 **V4.0 — Measurable fields, spectral representation and central decomposition.**
 
