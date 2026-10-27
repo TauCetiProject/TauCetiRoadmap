@@ -118,26 +118,24 @@ endpoint.
   limit/colimit comparisons needed below.  It does not silently use ordinary `TopCat` products
   or limits where compact generation is required for an exponential law.
 
-`Suggested.lean` keeps two supplier-interface mirrors only under
-`TauCetiRoadmap.HomotopySpheres.Internal`. The orientation mirror copies DifferentialGeometry
-Layer 2's `OrientationLift` with source-indexed signs and its diagonal-flip setoid exactly;
-its agreement and diffeomorphism predicates are derived conveniences. The collared-geometry
-mirror describes the GeometricTopology contract. These are compilation scaffolds, not exported
-carriers. Their integration gate is:
+`Suggested.lean` states the headline theorems: `orthogonalGroup_bottPeriodicity` (Stage 4B),
+`sphere_homotopyGroup_sixthStem` (Stage 9), `sphere_parallelizable_iff` (Section 3C, item 5), and
+`smoothPoincareSix_oriented` with its unoriented corollary `smoothPoincareSix` (Stage 10). There
+`Sphere n` is Mathlib's unit sphere of `EuclideanSpace ℝ (Fin (n+1))` with its smooth structure
+modelled on `EuclideanSpace ℝ (Fin n)`, `OrthogonalGroup n` is Mathlib's
+`Matrix.orthogonalGroup (Fin n) ℝ`, an orientation is given by an oriented atlas in the sense of
+Tau Ceti's `TauCeti.IsOrientedAtlas`, and `PreservesOrientedAtlases f A B` says that every
+coordinate change from a chart of `A` transported along the diffeomorphism `f` to a chart of `B`
+lies in `TauCeti.orientationPreservingGroupoid`. An oriented atlas and a chosen orientation in the
+sense of the DifferentialGeometry supplier determine each other, so this is the Stage 10 statement.
 
-1. import the DifferentialGeometry supplier providing `Manifold.Orientation`, `orientationAt`,
-   `Manifold.Orientation.neg` and `IsOrientationPreservingAt`, and the GeometricTopology supplier
-   providing
-   `CollaredOrientedManifold`, `SmoothEmbeddedClosedDisk`, `CollarOpen`, and `CollarSource`,
-   including the empty/disconnected bordism, boundary-model exterior and proper-tube
-   contracts specified below;
-2. replace the copied orientation carrier by the supplier carrier and rederive agreement and
-   preservation from `orientationAt` and `IsOrientationPreservingAt`. Check equality at points,
-   reversal, derivatives and the outward-normal boundary comparisons explicitly;
-3. replace the collared-geometry mirror by its supplier and delete the copied carriers. No
-   integration step may identify different orientation representations by a mere rename.
-
-No implementation module may export either mirror or retain it beside the supplier import.
+The implementation consumes the DifferentialGeometry supplier providing `Manifold.Orientation`,
+`orientationAt`, `Manifold.Orientation.neg` and `IsOrientationPreservingAt`, and the
+GeometricTopology supplier providing `CollaredOrientedManifold`, `SmoothEmbeddedClosedDisk`,
+`CollarOpen`, and `CollarSource`, including the empty/disconnected bordism, boundary-model
+exterior and proper-tube contracts specified below. It derives agreement and preservation from
+`orientationAt` and `IsOrientationPreservingAt`, checking equality at points, reversal,
+derivatives and the outward-normal boundary comparisons explicitly, and copies neither carrier.
 
 ## Encoding and convention choices
 
@@ -151,7 +149,7 @@ These choices are acceptance conditions for every stage.
   record whose fields assert these properties.  On a collared manifold, the boundary orientation
   is determined from the ambient orientation by the collar derivative and the outward-normal-first
   convention; an unrelated orientation on the boundary carrier is insufficient.
-- **Geometric quotients use a small skeleton.**  A `SmoothAtlasCode n` consists of finitely many
+- **Geometric quotients use a small skeleton.**  A smooth atlas code of dimension `n` consists of finitely many
   charts on `EuclideanSpace R (Fin n)`, transition maps in the smooth groupoid, finite
   triangulation or handle data, and the exact cover and cocycle laws.  Its realization is the
   quotient of the disjoint union of chart domains.  Prove that every compact Hausdorff
@@ -238,9 +236,9 @@ These choices are acceptance conditions for every stage.
   codimension of the displayed embedding `M -> R^(n+k)`, the collapse is the map determined by the
   displayed tubular diffeomorphism, and the augmentation is the pointed Thom equivalence followed
   by the standard suspended augmentation.  Arbitrary maps satisfying only continuity and a
-  basepoint equation are insufficient. A `SmoothTubularNeighborhood` has normal derivative
+  basepoint equation are insufficient. An allowed smooth tubular neighbourhood has normal derivative
   inducing the identity on the actual normal quotient and compresses the normal bundle onto its
-  disc domain by a strictly positive radial factor; the Thom equivalence `framedThomEquiv` is
+  disc domain by a strictly positive radial factor; the framed Thom equivalence is
   constructed from the displayed normal trivialization and is not a separately chosen pointed
   isomorphism. Each of these three requirements excludes a fibre reflection that would reverse
   the sign of the collapse with the framed cycle unchanged.
@@ -307,8 +305,7 @@ correctly scoped result directly.
 The consumer modules import the algebraic-topology modules containing the four declarations named
 above and literally `#check` them before defining any homotopy-sphere target. The import gate is
 part of the integration check: local substitutes, copied declarations, and a prose-only dependency
-do not satisfy it. `Suggested.lean` names this gate without placing algebraic-topology declarations
-in the homotopy-sphere namespace.
+do not satisfy it.
 
 ## Stage 1: h-cobordisms and the high-dimensional theorem
 
@@ -524,7 +521,9 @@ CW-type comparison for the loop-suspension model before using Whitehead upstairs
    in every dimension, rather than extrapolating from a finite stem table.
 
    For each n≥1 prove the smooth tangent bundle of the standard S^n is
-   trivial exactly when n∈{1,3,7}. Consume CharacteristicClasses C7.3's
+   trivial exactly when n∈{1,3,7} (`sphere_parallelizable_iff`, phrased as `n` smooth tangent
+   vector fields linearly independent at every point; it is false at `n = 0`, where the empty
+   frame trivializes the rank-zero bundle, so `n ≥ 1` is a hypothesis). Consume CharacteristicClasses C7.3's
    actual smooth isomorphism between the native sphere tangent bundle and
    the bundle with fibre x^⊥, including its inverse and radial-normal
    extension. From an arbitrary smooth tangent frame, use smooth
@@ -638,7 +637,9 @@ For the first-two-stem output of9.1, export its low unstable adapters explicitly
    attachments occur above that range.
 7. Pass through the stable-range comparison and obtain the seven loop equivalences
    `Omega R_i ~= R_(i+1)` and the closing equivalence `Omega R_7 ~= R_0`, with components
-   specified.  Compose them to prove eightfold real Bott periodicity.
+   specified.  Compose them to prove eightfold real Bott periodicity.  On the finite groups this
+   is `orthogonalGroup_bottPeriodicity`: for `n ≥ k + 11`, `π_(k+9)(O(n)) ≅ π_(k+1)(O(n))` at the
+   identity, the bound being the range `n ≥ i + 2` in which `O(n) → O(n+1)` is bijective on `π_i`.
 8. Derive the stable homotopy table of `O` and `SO`, not merely its two desired entries.  Check
    `pi_0(O)=Z/2`, `pi_1(SO)=Z/2`, `pi_2(SO)=0`, `pi_3(SO)=Z`,
    `pi_4(SO)=pi_5(SO)=pi_6(SO)=0`, and `pi_7(SO)=Z`, with period eight.
@@ -800,7 +801,7 @@ own scopes and consume these early computations where appropriate.
 3. Construct one-point compactification of a vector bundle and its Thom space.  If the rank-`k`
    normal bundle `nu` of `M` is framed, prove the pointed equivalences
    `Th(nu) ~= M_+ smash S^k ~= Sigma^k M_+`, natural under pullback and stabilization.
-   Construct this equivalence, `framedThomEquiv`, from the displayed normal trivialization `φ`:
+   Construct this equivalence, the framed Thom equivalence, from the displayed normal trivialization `φ`:
    for compact `M` identify `Th(nu)` with the one-point compactification of the normal total
    space and `Sigma^k M_+` with that of `M × R^k`, send the class of a finite normal vector `v`
    to the class of `φ(v) = (base(v), framing coordinate of v)`, and send infinity to the
@@ -819,7 +820,7 @@ own scopes and consume these early computations where appropriate.
    collapsed complement, independence under shrinking or changing the tubular neighbourhood,
    invariance under framed isotopy, and compatibility with disjoint union and stabilization.
    Pin the augmentation by `(x,v) ↦ v` in finite compactification coordinates and by the
-   basepoint at infinity. The composite `framedCollapse`, built from the normal framing and an
+   basepoint at infinity. The composite framed collapse, built from the normal framing and an
    allowed tube, is independent of the tube and compression up to homotopy relative to the
    ambient basepoint.
 
@@ -861,7 +862,7 @@ The sphere-source collapse has a compact source manifold as an explicit hypothes
 Use the chosen normal-disc quotient model of the Thom space: the tubular coordinate maps
 to its corresponding Thom class, the zero section maps to the zero-section class, and the
 complement of the open tube (including ambient infinity) maps to the Thom basepoint.
-State these as evaluation laws. The `FramedCycle` application supplies compactness; a
+State these as evaluation laws. The application to framed cycles supplies compactness; a
 noncompact source does not instantiate this classical collapse theorem.
 
 ## Stage 6: almost-framed groups, geometric `P_n`, and the exact sequence
@@ -896,7 +897,7 @@ noncompact source does not instantiate this classical collapse theorem.
    pullbacks equal the two displayed complement framings after one common stabilization.
 2. Prove independence of defect discs, collars, representatives, and stabilization.  Prove the
    bordism relation and connected-sum abelian-group laws in dimension `n ≥ 5`; call the
-   resulting exported group `AlmostFramedBordism n`. Filling-group instances and the maps
+   resulting exported group the almost-framed bordism group `A_n`. Filling-group instances and the maps
    consuming these groups carry their dimension range explicitly. No degree-zero group is
    asserted on a carrier that requires a positive-dimensional defect disc.
 3. Separately define the historical Kervaire--Milnor carrier: a closed oriented `n`-manifold with
@@ -914,7 +915,7 @@ noncompact source does not instantiate this classical collapse theorem.
 
 ### 6B. Parallelizable fillings and comparison
 
-1. Define a `StableFramedFillingCycle n` as a compact connected oriented smooth `n`-manifold whose
+1. Define a stably framed filling cycle of dimension `n` as a compact connected oriented smooth `n`-manifold whose
    boundary is identified orientation-preservingly with a homotopy `(n-1)`-sphere, together with a
    stable tangent framing product-compatible on a returned proper subcollar of the supplied
    collar. Call this carrier stably framed or s-parallelizable, not parallelizable.  The boundary carrier is identified with the actual
@@ -1008,7 +1009,7 @@ noncompact source does not instantiate this classical collapse theorem.
    jointly continuous evaluation alone are insufficient. Combine this global
    homotopy with the explicit normalization homotopy above. Package the honest
    frame and comparison with its normalized stabilization as
-   `CollarNormalizedParallelizableFillingCycle`. Retain the boundary path
+   a collar-normalized parallelizable filling cycle. Retain the boundary path
    obtained by pulling back the comparison to the collar, its endpoint laws and
    normal-line transport. No collar-fixed homotopy to the unmodified block
    stabilization is required. A separate relative lifting theorem with fixed
@@ -1039,7 +1040,7 @@ exterior using its product witness on the returned proper subcollar and prove th
 restriction recovers the given framing. Give the closed exterior its inherited orientation and prove the extended framing
 induces it. In dimension at least two, prove the exterior connected, and identify its
 boundary with the defect sphere with the reversed boundary orientation. Package these
-specific data as a `StableFramedFillingCycle`, then prove witness compatibility and the
+specific data as a stably framed filling cycle, then prove witness compatibility and the
 required Stage 6B normalization comparison before descending the map. Transport endpoint
 framings along its recorded boundary path when composing the deletion witness with a
 historical filling or gluing witness. No component is discarded.
@@ -1226,7 +1227,8 @@ as a field of a low-stem data record.
    and is nonzero by the indicated EHP/Toda calculation.  Show all other generators in the
    relevant unstable groups either desuspend to the computed `P` image or die under suspension.
    Freudenthal identifies the resulting colimit from `pi_(n+6)(S^n)` for `n>=8`, giving
-   `pi_6^S ~= Z/2{nu^2}`.
+   `pi_6^S ~= Z/2{nu^2}`; in unstable form, `sphere_homotopyGroup_sixthStem` states
+   `π_(n+6)(S^n, x) ≅ ℤ/2` for `n ≥ 8` and every base point `x`.
 4. Record the chain as one compatible table of groups, generators, and suspension maps for stems
    zero through six.  Each table entry links to the theorem calculating it; the table itself is
    generated documentation, not proof input.
@@ -1396,7 +1398,7 @@ models; none may be stored as an assumed field of a group/classification record.
    `h : M ~=_h S^6`.  Use `h` to prove connectedness and simple connectivity and to transport a
    chosen generator of top integral homology to an orientation of `M`.
 2. Apply the essential-surjectivity theorem of Stage 2 to choose a Type-0 finite-atlas code for
-   `M`.  Map it into the literal quotient with `homotopySphereClassOf`, prove independence of the
+   `M`.  Map it into the literal quotient by taking its class, prove independence of the
    code, and regard the result as the oriented class of `M` in `Theta_6`.  From `Theta_6=0`,
    construct an oriented h-cobordism from `M` to the standard sphere.
 3. Apply Stage 1's six-dimensional-boundary case of the h-cobordism theorem to obtain a
@@ -1406,8 +1408,8 @@ models; none may be stored as an assumed field of a group/classification record.
    the derivative equation for the composite.
 4. State the direct reusable theorem with every topology, manifold, and orientation hypothesis
    visible and return the subtype consisting of a diffeomorphism together with that derivative
-   equation.  State the un-oriented `Nonempty Diffeomorph` result only as a separate corollary
-   obtained by forgetting the equation.
+   equation (`smoothPoincareSix_oriented`).  State the un-oriented `Nonempty Diffeomorph` result
+   (`smoothPoincareSix`) only as a separate corollary obtained by forgetting the equation.
 
 ## Dependency order and parallel work
 
@@ -1439,10 +1441,10 @@ occurs in Stage 7 after the obstruction groups and surgery theorem have been con
 - The geometric quotients use a Type-0 finite-atlas/handle skeleton, with essential surjectivity
   for arbitrary universes and invariance under changing the code; its source/target, groupoid,
   cover, cocycle, and separation laws are present in the actual code.
-- `Suggested.lean` exposes the geometric h-cobordism witness relation, the literal
-  `HomotopySphereClass` quotient and `Theta_n`, framed/almost-framed/stable-filling witness
-  relations and quotients, the maps `Theta_n -> A_n -> P_n` and `P_(n+1) -> Theta_n`, exactness at
-  the displayed segment, and the resulting `Theta_6 = 0`. None is represented by an arbitrary
+- The geometric h-cobordism witness relation, the literal quotient `Theta_n`, the
+  framed/almost-framed/stable-filling witness relations and quotients, the maps
+  `Theta_n -> A_n -> P_n` and `P_(n+1) -> Theta_n`, exactness at the displayed segment, and the
+  resulting `Theta_6 = 0` are all constructed. None is represented by an arbitrary
   `AddCommGrpCat` with the intended answer hidden in its body.
 - The standard closed disc in the standard sphere instantiates the embedded-disc contract, and
   its exterior collar is checked in the closed complement of the disc interior rather than as an
