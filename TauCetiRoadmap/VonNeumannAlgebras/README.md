@@ -1475,6 +1475,47 @@ has a unique implementing unitary preserving J and P. Develop these objects befo
 Prove the
 finite-dimensional density-matrix formulas and the tracial specialization.
 
+**V10.FiniteComplexPowers — complex powers and their star locus.** On the same
+finite-dimensional algebra `M=∏_k M_(n_k)(ℂ)` and faithful state
+`φ(x)=Tr_M(hx)`, with every n_k≥1, h positive invertible and
+Tr_M(h)=1, construct the complex powers by the finite spectral formula
+`h^z=Σ_(μ∈spec h) exp(z log μ)e_μ`. Use the real logarithm of the
+strictly positive eigenvalues, so the formula has no logarithm-branch
+choice. Prove independence of diagonalization and compatibility with
+unitary changes of matrix coordinates, central summands and state-preserving
+star isomorphisms. Define the actual complex algebra automorphisms
+`β_z(x)=h^z x h^(−z)`, prove β_0=id, β_(z+w)=β_z∘β_w,
+β_z⁻¹=β_(−z), and entire dependence on z for each x. On the finite GNS
+space prove `Δ^z L_x Δ^(−z)=L_(β_z(x))`; the real modular parameter
+is `σ_t^φ=β_(it)`. These β_z use the complex exponent directly; they
+are distinct from writing the analytic continuation of σ with the same
+parameter name.
+
+Prove `β_z(x)*=β_(−conj z)(x*)` and the exact criterion
+`β_z is a star automorphism ↔ h^(2 Re z)∈Z(M)`.
+Consequently, if h is noncentral, this holds exactly when Re z=0.
+If h is central, equivalently φ is tracial, every β_z is the identity
+and every z satisfies it. Include one-dimensional and commutative
+summands and the trace state; do not impose the noncentral conclusion
+on these cases. In the GNS algebra model also prove
+`S L_x S=R_(x*)` and hence `SMS=JMJ=M′`, with the bounded antilinear
+operators and actual left/right actions in this finite-dimensional case.
+For `h=diag(2/3,1/3)` in M₂, β_1 sends e₁₂ to 2e₁₂ and e₂₁ to
+e₂₁/2 and is not star preserving; for the normalized trace all β_z=id.
+This is the operator-valued complex-time comparison in addition to the
+entire scalar KMS function already specified.
+
+Consume native `Complex.cpow` for the scalar spectral powers,
+`Matrix.diagonal` and the existing finite-dimensional spectral calculus.
+For the underlying algebra automorphisms use the units/conjugation action
+and `MulSemiringAction.toAlgEquiv`; on the imaginary axis compare with
+native `Unitary.conjStarAlgAut`. No new complex-power or inner-automorphism
+carrier is required. The source exercise's unqualified “star iff z∈iℝ”
+is retained as a source claim; its corrected form is the centrality
+criterion above, including the tracial exception.
+[FiniteComplexModularTargets.lean](FiniteComplexModularTargets.lean) pins
+the positive-diagonal model on native finite matrices.
+
 Compute J, Δ and modular automorphisms for faithful product states on infinite tensor
 products of finite matrix algebras. Identify every such ITPFI algebra with the nonsingular
 crossed product of its product diagonal algebra by the restricted direct sum of the finite
