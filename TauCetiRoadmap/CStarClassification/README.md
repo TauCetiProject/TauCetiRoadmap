@@ -251,7 +251,7 @@ projection equivalence: use G=ℚ⊕ℤ with positive cone
 `{(r,n):r>0}∪{0}` and order unit (1,0), whose unique state is
 the first coordinate, and compare (1/2,0) with (1/2,1) in its scale.
 
-For a UHF presentation with matrix sizes d_n dividing d_{n+1}, define
+For a UHF presentation with matrix sizes dₙ dividing dₙ₊₁, define
 its supernatural invariant `ν=⨆ₙ Supernatural.ofNat(d_n)`. Prove
 presentation independence and the normalized ordered-group formula
 `(K₀(A),K₀(A)⁺,[1])=(Q_ν,Q_ν∩ℚ≥0,1)`, where
@@ -409,11 +409,15 @@ by norm estimates at every stage and prove the unitalization and
 corner reductions.
 
 More precisely, establish the following lifting lemma for separable
-unital D,E and a nuclear closed ideal J⊲E. If a unital embedding
+unital D,E with D≠0 and a nuclear closed ideal J⊲E. If a unital embedding
 φ:D→E/J has the property that its algebraic tensor map extends
 continuously to
 `D⊗min B(ℓ²)→(E⊗min B(ℓ²))/(J⊗min B(ℓ²))`, then φ has a
-u.c.p. lift D→E. Build the extension-of-CP-maps argument, using
+u.c.p. lift D→E. For a unital embedding φ the hypothesis D≠0 is
+equivalent to J≠E, since φ(1)=1 is then nonzero exactly when E/J≠0.
+As a negative control, D=0, E=J=ℂ satisfies every other hypothesis
+(the zero map 0→0 is a unital embedding and both tensor quotients
+vanish), yet no linear map 0→ℂ sends 1=0 to 1. Build the extension-of-CP-maps argument, using
 the tensor-kernel criterion for arbitrary coefficient algebras
 and reduction to separable subalgebras. Apply it to the following
 crossed-product lifting problem: if D embeds unitally into a
@@ -737,10 +741,9 @@ for the inductive-limit inputs owned by CStarAlgebras C5; account
 for the limiting seminorm and completion when connecting maps
 are not injective. Use `CStarMatrix` for the resulting C*-norms.
 
-Follow [Mathlib PR #24106](https://github.com/leanprover-community/mathlib4/pull/24106)
-for the C*-class hierarchy and
-[PR #42095](https://github.com/leanprover-community/mathlib4/pull/42095)
-for continuous functional calculus in closed ideals. The existing
+Build on Mathlib's C*-class hierarchy
+(`NonUnitalCStarAlgebra`, `CStarAlgebra`) and on its continuous
+functional calculus, restricted to closed ideals where needed. The existing
 `TauCeti.Supernatural` implementation supplies UHF invariant
 arithmetic. Develop the missing classification mathematics in
 Tau Ceti with these interfaces, replacing it by Mathlib imports

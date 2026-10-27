@@ -2,11 +2,7 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.CStarAlgebra.Projection
-import Mathlib.Analysis.CStarAlgebra.Unitary.Connected
-import Mathlib.Algebra.Star.NonUnitalSubalgebra
-import Mathlib.Topology.Algebra.Module.FiniteDimension
-import Mathlib.Order.Directed
+import Mathlib
 import TauCeti.NumberTheory.Supernatural
 
 /-!
