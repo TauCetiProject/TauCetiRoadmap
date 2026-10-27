@@ -29,24 +29,24 @@ field is a triple of inertia indices. Prove orientation reversal,
 homeomorphism naturality, connected-sum additivity and generator changes.
 
 Generic collars, boundary gluing, handles, connected sums and surgery carriers
-come from [GeometricTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87f0ec5b86d9f2c8668d39f9dde23707c76ffac9/TauCetiRoadmap/GeometricTopology/README.md). Its comparison
+come from GeometricTopology. Its comparison
 item3 supplies topological tangent microbundles, Kister–Mazur representatives,
 stable BTOP/BPL and the Kirby–Siebenmann class; its high-dimensional PL existence
 theorem is not applied in dimension four. Ordinary chains, products, orientations,
 duality, CW comparison, obstruction theory and representability come from
-[AlgebraicTopology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/50af6084a401dffe3db1e50dac46fe4bca36f4fd/TauCetiRoadmap/AlgebraicTopology/README.md). Use the actual integral forms
-and boundary dictionaries of [IntegralLattices](https://github.com/TauCetiProject/TauCetiRoadmap/blob/350e970ce49f707a327909beac0b7b7c782cc7ee/TauCetiRoadmap/IntegralLattices/README.md),
+AlgebraicTopology. Use the actual integral forms
+and boundary dictionaries of IntegralLattices,
 without a second lattice carrier.
 
 Projective spaces and their smooth structures come from
-[ComplexKahlerGeometry K7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/13b2335ea038b439655df55654e71b19603d8ee1/TauCetiRoadmap/ComplexKahlerGeometry/README.md),
-[TopologicalKTheory T1/T6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f2c908debdefa440e7dfda339a54cb3b74cdc51c/TauCetiRoadmap/TopologicalKTheory/README.md) and
-[GeneralizedCohomology G4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/1565ccc1af9dce1ca554ea6bb133a07c461177ef/TauCetiRoadmap/GeneralizedCohomology/README.md).
-[CharacteristicClasses](https://github.com/TauCetiProject/TauCetiRoadmap/blob/76a0952b2687a743d384a9ba88769e71d3c9f55e/TauCetiRoadmap/CharacteristicClasses/README.md) supplies the common
+ComplexKahlerGeometry K7,
+TopologicalKTheory T1/T6 and
+GeneralizedCohomology G4.
+CharacteristicClasses supplies the common
 Euler, Chern, Pontryagin and Stiefel–Whitney classes and bundle comparisons.
-[SpinGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/312e1bbec838a044c0cd479374d1a62e7a2c1e2e/TauCetiRoadmap/SpinGeometry/README.md) supplies Spin frames and their native
+SpinGeometry supplies Spin frames and their native
 covering adapters. Generic cup-i, Steenrod squares and Thom–Wu theory are owned
-by [TangentialBordism B4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md); the four-dimensional
+by TangentialBordism B4; the four-dimensional
 consequences below consume that single operation theory.
 
 | Earlier supplier | Exact use and ownership here |
@@ -56,11 +56,11 @@ consequences below consume that single operation theory.
 | AT Stages2–4,6,8 | Native chains/cochains, normalized sphere generators, orientation-local-system duality, ordinary obstruction/EM comparisons and proper8.5 plus its end API for the early opened cobordism and product theorem. F1/F2 own the actual handle/link/intersection computations. |
 | IntegralLattices | Native integral symmetric lattices, inertia, parity, characteristic vectors and indefinite/unimodular classification. F3/F5/F7 prove manifold realizations/restrictions. |
 | CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
-| [AffineMorseLefschetz A4.0 and A0/A5/A6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a2a8d4fb7f0dde7344499dfbfca542c0aa998d0b/TauCetiRoadmap/AffineMorseLefschetz/README.md); GroebnerGeometry G1 | A4.0's generic noncompact boundary/BM/support duality precedes the early proper cobordism; single projective zero-locus carrier, weak hyperplane theorem and finite Veronese comparison; single elimination/saturation engine. F6/F7 own cubic/quartic discriminant and elliptic-example comparisons. |
+| AffineMorseLefschetz A4.0 and A0/A5/A6; GroebnerGeometry G1 | A4.0's generic noncompact boundary/BM/support duality precedes the early proper cobordism; single projective zero-locus carrier, weak hyperplane theorem and finite Veronese comparison; single elimination/saturation engine. F6/F7 own cubic/quartic discriminant and elliptic-example comparisons. |
 | CC C1.2a/C2/C3; TB B4.1–2 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; single ordinary characteristic/Thom and cup-i/Sq APIs. F4 owns the oriented4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
-| Spin G6.7; [Index I7.2/I7.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/592b12da97670f7eaea4fbed01def6b55554af66/TauCetiRoadmap/IndexTheory/README.md) | Untwisted quaternionic kernels, signature formula and analytic Rokhlin theorem. Early F7 derives the K3 analytic index; TB B3.4 alone supplies its KO genus. |
+| Spin G6.7; Index I7.2/I7.5 | Untwisted quaternionic kernels, signature formula and analytic Rokhlin theorem. Early F7 derives the K3 analytic index; TB B3.4 alone supplies its KO genus. |
 | StringOrientation S1 | Actual stable/finite-rank BString lift and H³ torsor; F4 owns the dimension≤4 consequences on its specified real vector-bundle Spin reduction. |
-| HomotopySpheres PR284 §3C/§4B/§6C/§9 | Open roadmap proposal: unstable link/Hopf, real stable-space and low-stem inputs to F2/GT3/F3; only its stated contracts are consumed. |
+| HomotopySpheres §3C/§4B/§6C/§9 | Unstable link/Hopf, real stable-space and low-stem inputs to F2/GT3/F3; only its stated contracts are consumed. |
 | SBC B1–4, CKG K5, PDO P5–7, Index I4/I7 and HF F0 | Shared principal/connection and Sobolev carriers, estimates/Fredholm theory and generic Sard–Smale. F5 constructs the nonlinear four-dimensional gauge slices, transversality, bubbling and gluing. |
 
 ## F1. Models, handles and intersection generators
@@ -128,7 +128,7 @@ an attaching map S³→∨ʳS².
 
 Compute π₃ of this wedge as a free abelian group on the Hopf maps ηᵢ and the
 pairwise Whitehead maps for i<j. Consume the generic Hopf/Whitehead operations
-of [HomotopySpheres §3C.1–2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
+of HomotopySpheres §3C.1–2
 and own this particular finite-wedge decomposition and its inverse. Normalize
 η by Hopf invariant +1. Normalize the off-diagonal map by the top-cell
 attachment of the product-oriented S²×S²; compare it with the supplier's
@@ -818,7 +818,7 @@ alone gives only divisibility by8, whereas the quaternionic comparison gives16.
 
 Own the Pontryagin-square refinement needed for dimension-four bundle data on
 the same AT cochains, with coefficient/reduction/naturality and quadratic sum
-formula. Pin `pontryaginSquareDegreeTwo`: H²(−;ℤ/2)→H⁴(−;ℤ/4),
+formula. Pin the degree-two Pontryagin square H²(−;ℤ/2)→H⁴(−;ℤ/4),
 also on CW pairs and by homotopy transport on CW-type spaces. For an integral
 cochain lift c, use c∪c+c∪₁dc mod4 with TB B4.1's integral signed
 higher diagonal and coefficient-reduction comparison with mod2 cup-i.
@@ -1308,8 +1308,8 @@ every smooth quartic to the elliptic model through this same family.
 This proves the oriented diffeomorphism E2≅K3; it does not assert every quartic
 is elliptic as a complex surface. Retain the fiber, section and form comparisons.
 
-Define `enriquesCover` on A0's same native projective zero-locus carrier
-by the three equations Σ_(i:Fin6)t_i^j z_i²=0 for j=0,1,2 and
+Define the Enriques K3 cover on A0's same native projective zero-locus carrier
+by the three quadrics `enriquesQuadric j`, Σ_(i:Fin6)t_i^j z_i²=0 for j=0,1,2 and
 t_i=i+1. Construct its free involution negating the first three coordinates. Prove regularity, freeness and
 simple connectivity, the canonical residue-form action−1 and the quotient
 manifold atlas. Compute its Enriques quotient's H₁=ℤ/2, torsion canonical

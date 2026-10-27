@@ -1,12 +1,31 @@
 import Mathlib
-import TauCeti.AlgebraicTopology.Cohomology.Relative
 
 /-!
-# Four-manifolds: target signatures
+# Four-dimensional manifolds, intersection forms and elliptic examples: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These signatures suggest Lean forms for load-bearing interfaces;
-proving them does not by itself complete a stage or the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states, against the
+pinned Mathlib and Tau Ceti, those headline statements of the roadmap that are
+statable there: the smoothness of the explicit projective models (the Fermat and
+elliptic quartic K3 surfaces and the Enriques K3 cover) on their punctured affine
+cones, and the involution of the Enriques cover.
+
+Not statable at the pins, and therefore not stated here:
+* Freedman's classification of closed simply connected topological four-manifolds
+  and the homotopy classification by intersection forms: there is no cup product on
+  singular cohomology, no fundamental class of a closed oriented topological
+  manifold, hence no intersection form of a four-manifold, and no
+  Kirby–Siebenmann invariant.
+* Donaldson's theorem that a definite intersection form of a closed simply
+  connected smooth oriented four-manifold is diagonal: it needs the same intersection
+  form, together with the moduli space of anti-self-dual SU(2) connections.
+* Rokhlin's theorem `16 ∣ σ(M)` for closed smooth Spin four-manifolds: there is no
+  Spin structure on a manifold and no signature of a manifold.
+* The degree-two Pontryagin square `H²(−;ℤ/2) → H⁴(−;ℤ/4)`: it is a construction
+  on cochains (cup-one products) that the pinned libraries lack, so it is a README
+  target rather than a declaration here.
+* The quartic and Enriques projective subtypes, the descended free involution and
+  the diffeomorphism `E(2) ≅ K3`: they live on AffineMorseLefschetz A0's
+  projective zero-locus carrier, which is not at the pins.
 -/
 
 namespace TauCetiRoadmap.FourManifolds
@@ -15,19 +34,22 @@ open scoped Manifold
 
 noncomputable section
 
-/-- The chosen Fermat polynomial is homogeneous of degree four. -/
+/-- The Fermat quartic `z₀⁴ + z₁⁴ + z₂⁴ + z₃⁴`. -/
 def fermatQuarticPolynomial : MvPolynomial (Fin 4) ℂ :=
   ∑ i : Fin 4, MvPolynomial.X i ^ 4
 
+/-- Evaluation of the Fermat quartic on the affine cone `ℂ⁴`. -/
 def fermatQuarticMap (v : Fin 4 → ℂ) : ℂ :=
   MvPolynomial.eval v fermatQuarticPolynomial
 
-/-- The affine-cone derivative precedes the induced projective regular-fiber charts. -/
+/-- The derivative of the Fermat quartic is `Σᵢ 4 vᵢ³ dzᵢ`. -/
 theorem fermatQuarticMap_fderiv (v : Fin 4 → ℂ) :
     fderiv ℂ fermatQuarticMap v =
       ∑ i : Fin 4, (4 * v i ^ 3) • ContinuousLinearMap.proj i := by
   sorry
 
+/-- The Fermat quartic has no critical point on the punctured cone, so its
+projective zero locus is a smooth quartic (K3) surface. -/
 theorem fermatQuarticMap_fderiv_surjective (v : Fin 4 → ℂ) (hv : v ≠ 0) :
     Function.Surjective (fderiv ℂ fermatQuarticMap v) := by
   sorry
@@ -39,6 +61,7 @@ def ellipticQuarticSeedPolynomial : MvPolynomial (Fin 4) ℂ :=
   MvPolynomial.X 1 ^ 3 * MvPolynomial.X 3 +
   MvPolynomial.X 3 ^ 3 * MvPolynomial.X 0
 
+/-- Evaluation of the elliptic quartic seed on the affine cone `ℂ⁴`. -/
 def ellipticQuarticSeedMap (v : Fin 4 → ℂ) : ℂ :=
   MvPolynomial.eval v ellipticQuarticSeedPolynomial
 
@@ -76,20 +99,9 @@ theorem enriquesQuadricJacobian_surjective (v : Fin 6 → ℂ) (hv : v ≠ 0)
         MvPolynomial.eval w (enriquesQuadric j)) v) := by
   sorry
 
+/-- The projective Enriques involution squares to the identity. -/
 theorem enriquesProjectiveInvolution_involutive :
     Function.Involutive enriquesProjectiveInvolution := by
-  sorry
-
-/- The quartic and Enriques projective subtypes, the descended involution,
-and its freeness are README targets on AffineMorseLefschetz A0's single
-`complexProjectiveZeroLocus` carrier. The polynomial/Jacobian targets above
-supply the affine-cone calculations used by that construction. -/
-
-/-- F4's degree-two quadratic refinement on ordinary CW cohomology.
-It consumes TB's single cup-i operators on the native AT cochains. -/
-noncomputable def pontryaginSquareDegreeTwo (X : TopCat.{0}) :
-    X.singularCohomology (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ (ZMod 2)) 2 →
-      X.singularCohomology (ModuleCat.of ℤ ℤ) ℤ (ModuleCat.of ℤ (ZMod 4)) 4 := by
   sorry
 
 end
