@@ -286,6 +286,41 @@ and KO kernel interfaces below.
    by its signature1 to obtain the integral generator and inverse.
    Neither B6 input uses this low-group table. Rational Hurewicz alone
    cannot establish the absence of2-torsion or an integral index.
+   <a id="b3-oriented-three-parallelization"></a>
+   **Oriented three-manifold parallelization.** Complete the tangent-bundle
+   exercise on physical87 of Kirby's notes: every oriented smooth Hausdorff
+   second-countable three-manifold, with boundary allowed and without a
+   compactness or connectedness assumption, has a smooth orientation-preserving
+   vector-bundle isomorphism `TM≃M×ℝ³`. Construct its actual three vector
+   fields, their pointwise basis and smooth inverse; for a chosen Riemannian
+   metric obtain an oriented orthonormal frame by smooth Gram–Schmidt.
+   This is an honest rank-three trivialization.
+
+   For a closed source use the preceding Wu/Spin conclusion. Extend w₂=0
+   to noncompact sources by testing against every mod2 singular two-cycle,
+   whose support is compact. Consume GT4's compact smooth codimension-zero
+   neighborhoods and collared doubles: place that support in the interior
+   of such a neighborhood and restrict the closed double's vanishing w₂
+   back to it. Field-coefficient UCT and naturality then give w₂(TM)=0.
+   Handle boundary by a collared oriented double of M and restriction;
+   prove the tangent-bundle comparisons through these collars. This uses
+   closed-manifold Wu duality only on the compact doubles.
+
+   Choose the actual Spin lift through SpinGeometry G4. Consume
+   SpinRepresentations L7's native Hamilton-quaternion comparison and its
+   topological refinement `Spin(3)≃S³`; derive π₀,π₁,π₂=0 using the sphere
+   homotopy/Hurewicz interfaces. On GT's at-most-three-dimensional CW model,
+   use CC's numerable-principal-bundle classification and AT8's relative
+   obstruction construction to build a section of this Spin principal bundle
+   over successive cells. Transport the trivialization back along the actual
+   CW homotopy equivalence, using bundle homotopy invariance. Its associated
+   SO(3) frame trivializes TM continuously. Smooth its three sections by
+   locally finite bundle-chart approximation, with a pointwise error bound
+   keeping the determinant positive; prove the resulting frame and inverse
+   smooth. Include componentwise assembly. This is a
+   consequence of the existing Spin and bundle constructions; SpinGeometry's
+   early lift criterion does not depend on this bordism application.
+
 2. First construct `finiteQuadraticArf` for a finite-dimensional F2 vector
    space with a quadratic refinement of a nonsingular alternating form.
    Consume Tau Ceti's implemented
