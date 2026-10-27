@@ -18,8 +18,9 @@ Suggested home: `TauCeti/NumberTheory/NumberField/Global/`, with subdirectories 
 `InfinityType/`, `Cyclotomic/`, and `Orders/`. Public declarations live in the namespace
 `GlobalNumberFields` or in the namespace of their principal carrier.
 
-[`Suggested.lean`](Suggested.lean) gives representative declaration shapes. The markdown roadmap
-is definitive. A dated, non-normative account of the source material and ecosystem is maintained
+[`Suggested.lean`](Suggested.lean) is the acceptance test: it states, against the pinned Mathlib
+and Tau Ceti, the headline theorems of this roadmap that the pinned Tau Ceti does not yet prove.
+The markdown roadmap is definitive. A dated, non-normative account of the source material and ecosystem is maintained
 in a private provenance ledger.
 
 ## Scope
@@ -79,13 +80,29 @@ The dependency is one-way. The exact declarations consumed here are:
 
 | Declaration | Use here |
 | --- | --- |
-| `idealsAway` | The group of fractional ideals whose valuations vanish at a finite set of primes. `idealsPrimeTo 𝔪` is a reducible abbreviation at `𝔪.support`, never another subgroup. |
+| `idealsAway` (implemented as `TauCeti.NumberFieldArithmetic.idealsAway`, `TauCeti/NumberTheory/NumberField/Ideal/Away.lean`) | The group of fractional ideals whose valuations vanish at a finite set of primes. `idealsPrimeTo 𝔪` is a reducible abbreviation at `𝔪.support`, never another subgroup. |
 | `idealsAwayInclusion` | Transition of prime-to ideal groups when the support grows. |
-| `integralIdealsAway`, `integralIdealsAwayHom` | Nonzero integral ideals prime to a finite set and their map to the fractional-ideal group. `integralIdealsPrimeTo 𝔪` is a reducible abbreviation at `𝔪.support`, and is the **domain of `idealClass`**; there is no second monoid of integral ideals prime to a modulus. |
+| `integralIdealsAway`, `integralIdealsAwayHom` (implemented in the same Tau Ceti file) | Nonzero integral ideals prime to a finite set and their map to the fractional-ideal group. `integralIdealsPrimeTo 𝔪` is a reducible abbreviation at `𝔪.support`, and is the **domain of `idealClass`**; there is no second monoid of integral ideals prime to a modulus. |
 | the finite-completion dictionary | Identification of `v.adicCompletion K` with the canonical nonarchimedean local-field data, including normalized valuation and residue cardinality. |
 
 No Artin symbol or Artin homomorphism is consumed in the construction of the carriers here.
 Class Field Theory consumes those maps separately when it builds reciprocity.
+
+### Tau Ceti
+
+The pinned Tau Ceti implements the carriers of Layers 0--11 in the namespace
+`TauCeti.GlobalNumberFields` under `TauCeti/NumberTheory/NumberField/Global/` (`RayClass/`,
+`Counting/`, `Adeles/`, `Ideles/`, `HeckeCharacter/`, `InfinityType/`, `Orders/`), with the names
+used in this README, and proves most of their headline theorems. The adelic extension maps are
+`NumberField.adeleExtension` and `NumberField.infiniteAdeleExtension`
+(`TauCeti/NumberTheory/NumberField/Global/Adeles/Extension.lean`), with the finite component in
+`TauCeti/RingTheory/DedekindDomain/FiniteAdeleRing/Extension.lean`. Where a pinned name differs
+from the name a section below uses, the section gives the pinned name. `Suggested.lean` consumes
+these carriers and restates none of them; it states only the targets still open at the pin: the
+Layer 3G regulator bounds and polydisc comparisons, `exists_adeleBaseChangeEquiv` (Layer 8), and
+the Layer 11 statements `NumberFieldOrder.isGorenstein_iff_forall_proper_isUnit`,
+`NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two`, `NumberFieldOrder.injective_orderAlgHom`,
+`NumberFieldOrder.existsUnique_hom_of_algHom` and `exists_cubic_proper_not_isUnit`.
 
 ### Interfaces supplied to Class Field Theory
 
@@ -108,8 +125,8 @@ narrowModulus
 IdeleGroup
 IdeleClassGroup
 IdeleClassGroup.normOne
-IdeleCongruenceSubgroup
-RaySubgroup
+ideleCongruenceSubgroup
+raySubgroup
 rayClassQuotient
 adeleExtension
 adeleBaseChangeEquiv
@@ -165,7 +182,7 @@ argument, which approximates vector coordinates at a mixed set of places.
 ### Interface supplied to Adelic Algebraic Groups
 
 This roadmap supplies `FiniteAdeleRing`, `AdeleRing`, their placewise projections, the diagonal
-embedding, `denseRange_algebraMap_finiteAdeleRing`, `IdeleGroup`, `IdeleClassGroup`, and the
+embedding, `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap`, `IdeleGroup`, `IdeleClassGroup`, and the
 normalized local/global absolute values. Adelic Algebraic Groups owns every construction involving
 `G(𝔸_K)`, restricted products of group points, quotient volumes, and Tamagawa numbers.
 
@@ -195,9 +212,9 @@ is exactly `NumberField.Units.regulator`, and its lattice is exactly
 `NumberField.Units.unitLattice`. The volume computations use the existing Mathlib
 `volume_normLeOne` and Dedekind-zeta residue, with the ray-domain specialization of 3C–3E.
 
-[Geometry of Numbers and Quadratic Arithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851)
-owns the generic successive-minima calculus and Minkowski's second theorem. Layer 3G constructs
-neither again: its arithmetic separation bound uses bounded powers of a unit, and its covolume
+[Successive Minima](../SuccessiveMinima/README.md) owns the generic successive-minima calculus
+(its Layer 1) and Minkowski's second theorem (lower half in its Layer 2; the upper half is the
+Tau Ceti result its Layer 3 consumes). Layer 3G constructs neither again: its arithmetic separation bound uses bounded powers of a unit, and its covolume
 step consumes Mathlib's first convex-body theorem directly. Arithmetic Dirichlet Series owns the
 series/Abel/Tauberian infrastructure; no such analytic theorem is an input to this elementary
 regulator estimate. Number Field Arithmetic keeps its rank-one unit certification and concrete
@@ -358,41 +375,104 @@ much stronger than finiteness of the ray class group, and stronger than Mathlib'
 class and no error term at all. The layer is therefore split into named milestones, and
 "geometry of numbers" is never a prerequisite standing in for the argument.
 
-**3A. Lattice-point counting with a power-saving error.** Build the Minkowski embedding and its
-lattice/covolume API on Mathlib's `NumberField.mixedEmbedding.idealLattice`,
-`NumberField.mixedEmbedding.covolume_idealLattice`, and `ZLattice.covolume`. Define
-`IsLipschitzParametrizable d S`: finitely many Lipschitz maps out of `[0,1]^d` cover `S`. Prove
+**3A. Lattice-point counting with a power-saving error.** The Minkowski embedding and its
+lattice/covolume API are Mathlib's `NumberField.mixedEmbedding.idealLattice`,
+`NumberField.mixedEmbedding.covolume_idealLattice`, and `ZLattice.covolume`. The generic count is
+consumed from the pinned Tau Ceti, not built here. Its boundary predicate is
+`TauCeti.IsLipschitzParametrizable d S`
+(`TauCeti/Topology/MetricSpace/LipschitzParametrizable.lean`): finitely many maps out of the cube
+`[0,1]^d`, Lipschitz on that cube with one common constant, cover `S`. A family of globally Lipschitz maps satisfies it by restriction. For a full lattice `L`
+in an `n`-dimensional real normed space, an additive Haar measure `μ` (a hypothesis, not the
+measure of a `MeasureSpace` instance), and a bounded `D` whose frontier is Lipschitz
+parametrizable in dimension `n-1`, `TauCeti/NumberTheory/GeometryOfNumbers/LatticePointCount.lean`
+supplies
 
 ```text
-card_inter_smul_isBigO :
-  # (c • D ∩ Λ) = volume D / covolume Λ * c^n + O(c^(n-1))
+TauCeti.isBigO_ncard_smul_inter_sub :
+  #(c • D ∩ L) = μ D / covolume L μ * c^n + O(c^(n-1))          (c → ∞),
+TauCeti.exists_abs_ncard_smul_inter_vadd_sub_le :
+  ∃ A ≥ 0, ∀ ξ, ∀ c ≥ 1,
+    |#(c • D ∩ (ξ + L)) - μ D / covolume L μ * c^n| ≤ A * c^(n-1).
 ```
 
-for a full lattice `Λ` in an `n`-dimensional real space and a bounded measurable `D` whose
-frontier is Lipschitz parametrizable in dimension `n-1`. Use an explicit additive Haar measure
-for both `volume D` and `covolume Λ`; the measure carried by a `MeasureSpace` alone is not a
-Haar hypothesis. The quotient is unchanged by positive rescaling of that Haar measure. Mathlib's
+The second is the form used below: its constant `A` is uniform over all translates `ξ + L`, which
+is what lets one constant serve every coset of the congruence lattice in 3D. Uniformity in `ξ` is
+not formal, since translates range over an unbounded set. Counts are `Set.ncard`; a consumer
+stating `Nat.card` of the subtype rewrites along `Nat.card_coe_set_eq`. Mathlib's
 `ZLattice.covolume.tendsto_card_le_div'` assumes only that the frontier is null, which yields the
-limit but no error term, so this theorem is built here rather than consumed.
+limit but no error term.
 
 **3B. The congruence sublattice.** Define `congruenceLattice 𝔪 I` inside the ideal lattice of `I`
 and prove `relIndex_congruenceLattice`: it has index `N 𝔪₀`, so its covolume is `N 𝔪₀` times the
 covolume of the ideal lattice. Congruence conditions on ray-class representatives are imposed by
 counting cosets of this sublattice, never as an unstructured side condition on the count.
 
-**3C. The unit action and a fundamental domain.** Prove `unitsCongruenceSubgroup_finiteIndex`:
-the units congruent to one modulo `𝔪` have finite index in `(𝓞 K)ˣ`. Define
-`rayFundamentalDomain 𝔪`, the subset of the Minkowski space meeting each orbit of that subgroup
-once and carrying the signs prescribed by `𝔪∞`; the trivial modulus recovers Mathlib's
-`NumberField.mixedEmbedding.fundamentalCone`. Prove
-`isLipschitzParametrizable_frontier_rayFundamentalDomain`: the norm-one section is bounded and
-measurable and its frontier is Lipschitz parametrizable in dimension `[K:ℚ] - 1`. The finite
-index is what makes the implied constants uniform in the class, since a fundamental domain for
-the smaller unit group is a finite union of translates of the cone.
+**3C. The unit action and a fundamental domain modulo torsion.** Prove
+`unitsCongruenceSubgroup_finiteIndex`: the group `E_𝔪` of units congruent to one modulo `𝔪` has
+finite index in `E = (𝓞 K)ˣ`. Mathlib's `NumberField.mixedEmbedding.fundamentalCone` is a
+fundamental domain for `E` only modulo the roots of unity `μ_K`: by
+`NumberField.mixedEmbedding.fundamentalCone.unit_smul_mem_iff_mem_torsion` a unit carries a point
+of the cone back into the cone exactly when it is torsion. The ray domain inherits this convention; it is not a strict
+fundamental domain for `E_𝔪`.
+
+The pinned construction is `TauCeti.GlobalNumberFields.rayFundamentalDomain 𝔪`
+(`TauCeti/NumberTheory/NumberField/Global/Counting/RayFundamentalDomain/Basic.lean`). Write
+`posRegion 𝔪` for the points of the mixed space whose coordinate is positive at every real place
+of `𝔪∞`, and `E_𝔪 μ_K` for the join
+`TauCeti.GlobalNumberFields.unitsCongruenceSubgroupSupTorsion 𝔪`. The domain is `posRegion 𝔪`
+intersected with the union, over the finitely many cosets of `E_𝔪 μ_K` in `E`, of
+one chosen unit translate of the cone, the identity coset contributing the cone itself.
+Indexing by cosets of `E_𝔪 μ_K` rather than of `E_𝔪` is forced: two translates by units differing
+by a root of unity coincide. Its contract, on the locus `posRegion 𝔪 ∩ {N(x) ≠ 0}` where the
+action is considered:
+
+- existence: every `x` in `posRegion 𝔪` with `N(x) ≠ 0` has a translate `u • x`, `u ∈ E_𝔪`,
+  in the domain
+  (`TauCeti.GlobalNumberFields.exists_unitsCongruenceSubgroup_smul_mem_rayFundamentalDomain`); a
+  nonzero point with a vanishing coordinate is excluded, and a point negative at a real place of
+  `𝔪∞` cannot be moved into the domain by `E_𝔪`, which preserves those signs;
+- uniqueness modulo torsion: for `x` in the domain and `u ∈ E_𝔪`, `u • x` lies in the domain if
+  and only if `u` is a root of unity
+  (`TauCeti.GlobalNumberFields.unitsCongruenceSubgroup_smul_mem_rayFundamentalDomain_iff_mem_torsion`).
+  Torsion acts freely on points with every coordinate nonzero, so each `E_𝔪`-orbit in that locus
+  meets the domain in exactly `w_𝔪 = #(E_𝔪 ∩ μ_K)` points, `E_𝔪 ∩ μ_K` being
+  `TauCeti.GlobalNumberFields.unitsCongruenceTorsion 𝔪`;
+- index: `[E : E_𝔪] · w_𝔪 = [E : E_𝔪 μ_K] · w_K` with `w_K = #μ_K`
+  (`TauCeti.GlobalNumberFields.index_unitsCongruenceSubgroup_mul_card_unitsCongruenceTorsion`);
+- volume: with `s = #𝔪∞`, the norm-at-most-one section has volume
+  `[E : E_𝔪 μ_K] · 2^r₁ π^r₂ R_K / 2^s`
+  (`TauCeti.GlobalNumberFields.measureReal_rayFundamentalDomain_inter_normLeOne`), which is
+  Mathlib's `volume_normLeOne` at the trivial modulus;
+- trivial modulus: `TauCeti.GlobalNumberFields.rayFundamentalDomain_one` is equality with
+  `fundamentalCone K`, so that case has `w_𝔪 = w_K` representatives per orbit;
+- boundary: `TauCeti.GlobalNumberFields.isLipschitzParametrizable_frontier_rayFundamentalDomain`,
+  the norm-at-most-one section is bounded and measurable and its frontier is
+  `TauCeti.IsLipschitzParametrizable` in dimension `[K:ℚ] - 1`.
+
+The finite index is what makes the implied constants uniform in the class, since the domain is a
+finite union of pieces of translates of the cone.
+
+**Checks.**
+
+- `K = ℚ`, trivial modulus: the cone is `ℝ ∖ {0}`, `E = μ_K = {±1}`, and `1` and `-1` are both in
+  the cone and in one orbit, so `w_𝔪 = 2`. The section `|a| ≤ x` meets `ℤ ∖ {0}` in `2⌊x⌋` points while
+  there are `⌊x⌋` ideals of norm at most `x`; a contract asking for one representative per orbit
+  is refuted here.
+- `K = ℚ`, `𝔪 = (3)`: `E_𝔪 = {1}`, so `w_𝔪 = 1` while `w_K = 2`, and `E_𝔪 μ_K = E` has index one.
+  The coset `1 + 3ℤ` meets the domain `ℝ ∖ {0}` in about `2x/3` points of norm at most `x`, which
+  is the number of ideals of norm at most `x` prime to `3`. Dividing by `w_K` instead of `w_𝔪`
+  gives `x/3`.
+- `K = ℚ`, `𝔪 = ∞`: `E_𝔪 = {1}`, `posRegion 𝔪 = (0, ∞)` is the domain, its norm-one section has
+  volume `1 · 2 / 2 = 1`, and `w_𝔪 = 1`.
 
 **3D. Assembly, uniformly in the class.** Combine 3A, 3B and 3C: an ideal of a fixed ray class
-prime to `𝔪` corresponds to a lattice point of a coset of `congruenceLattice` inside the cone,
-modulo the congruence units. Define `rayClassIdealCountingFunction 𝔪 c x` on
+prime to `𝔪` corresponds to the generators lying in one coset of `congruenceLattice` and in
+`posRegion 𝔪`, an `E_𝔪`-orbit, and by 3C that orbit has exactly `w_𝔪` points in the
+ray fundamental domain. So the class count is the coset count in the domain divided by `w_𝔪`,
+and the uniform coset estimate of 3A, applied to the domain's norm-at-most-one section, bounds
+every coset with one constant (pinned as
+`TauCeti.GlobalNumberFields.exists_abs_ncard_rayFundamentalDomain_inter_norm_le_inter_vadd_sub_le`).
+Define `rayClassIdealCountingFunction 𝔪 c x` on
 `integralIdealsPrimeTo 𝔪` restricted to `idealClass 𝔪 I = c`, and `rayClassIdealMainTerm 𝔪`, and
 prove the exact consumer export
 
@@ -547,7 +627,8 @@ signatures; the estimates do not assume that a chosen unit generates modulo tors
 
 **3G.4. Volume exports and arithmetic consumers.** Consume Mathlib's exact
 `volume_normLeOne` and `dedekindZeta_residue` formulas and the ray-fundamental-domain volume
-from 3C–3E, preserving their multiplicities, congruence-unit index and real-sign divisor.
+from 3C–3E, preserving their multiplicities, the index `[E : E_𝔪 μ_K]`, the representative
+count `w_𝔪` and the real-sign divisor `2^s`.
 Combine those equations with 3G.3 to export explicit positive lower bounds for the displayed
 fundamental-domain main terms. In particular `rayClassIdealMainTerm_ge_elementaryRegulatorBound`
 replaces the factor `R_K` in 3E's exact residue by `b(n)`, keeping
@@ -557,7 +638,7 @@ a consumer of 3E after the independent regulator proof, not a premise of that pr
 Never infer a regulator lower bound merely from positivity or
 from a rank-one evaluation. Keep the existing Layer1 class-number/discriminant/ideal/unit-square
 bounds and Layer2 effective Hermite count of Effective Bounds unchanged. Generic sharper
-successive-minima estimates retain PR851's owner; analytic continuation and zero-free estimates
+successive-minima estimates retain their owner, Successive Minima; analytic continuation and zero-free estimates
 retain the L-function owners. This elementary branch uses neither, and precedes analytic
 consumers, so it introduces no arithmetic/analytic dependency cycle.
 
@@ -584,10 +665,11 @@ translates cover.
 
 ### Layer 6: additive strong approximation and ideles
 
-Prove the separately named theorem
+Prove the separately named theorem, which the pinned Tau Ceti proves for every Dedekind domain
+and its fraction field:
 
 ```text
-denseRange_algebraMap_finiteAdeleRing :
+IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap (𝓞 K) K :
   DenseRange (algebraMap K (FiniteAdeleRing (𝓞 K) K)).
 ```
 
@@ -604,10 +686,10 @@ The full idele class group is not compact: its norm quotient contains `ℝ_{>0}`
 
 ### Layer 7: congruence subgroups and the ray-class dictionary
 
-Define one `IdeleCongruenceSubgroup 𝔪`. At a finite divisor of `𝔪` it uses principal units of the
+Define one `ideleCongruenceSubgroup 𝔪`. At a finite divisor of `𝔪` it uses principal units of the
 specified level; at other finite places it uses local units; at a selected real place it uses
 positive elements; and at all remaining infinite places it imposes no condition. Define its image
-`RaySubgroup 𝔪` in the idele class group.
+`raySubgroup 𝔪` in the idele class group.
 
 Prove openness, antitonicity, and
 
@@ -615,9 +697,9 @@ Prove openness, antitonicity, and
 rayClassQuotient : IdeleClassGroup K →* RayClassGroup 𝔪
 ```
 
-with surjectivity and kernel `RaySubgroup 𝔪`. Prove compatibility with `classMap`. Prove that every
+with surjectivity and kernel `raySubgroup 𝔪`. Prove compatibility with `classMap`. Prove that every
 open subgroup of the idele class group contains a ray subgroup and describe the identity component
-`D_K`, including `D_K ≤ RaySubgroup 𝔪` and the profiniteness of `C_K/D_K`.
+`D_K`, including `D_K ≤ raySubgroup 𝔪` and the profiniteness of `C_K/D_K`.
 
 ### Layer 8: finite extensions of adeles and ideles
 
@@ -636,16 +718,19 @@ continuous, and need images of open sets to be open. Concretely:
   `𝔸_K ⊗_K L` carries the **module topology** over `𝔸_K` — the product topology of any `K`-basis
   of `L` — recorded by Mathlib's `IsModuleTopology`. Every statement below is under that
   hypothesis, and the topology is never left to be guessed.
-- `adeleBaseChangeEquiv : 𝔸_K ⊗_K L ≃A[𝔸_K] 𝔸_L`, a `ContinuousAlgEquiv`, hence continuous both
-  ways; `isOpenMap_adeleBaseChangeEquiv` is the openness corollary. `L ⊗_K 𝔸_K` is the same
-  comparison written in the other order.
-- Compatibility with components: `finiteAdeleBaseChangeEquiv` and `infiniteAdeleBaseChangeEquiv`
-  are the two halves, and `adeleBaseChangeEquiv_apply_prod` says the full comparison is their
-  product under `AdeleRing = InfiniteAdeleRing × FiniteAdeleRing`.
-- Naturality: `adeleBaseChangeEquiv_tmul_one` identifies the comparison with `adeleExtension` on
-  `𝔸_K ⊗ 1`, `adeleExtension_comp` gives composition in a tower `K ⊆ L ⊆ M`, and
-  `adeleBaseChangeEquiv_tower` says base change from `K` to `M` factors through base change from
-  `K` to `L`.
+- Define `adeleBaseChangeEquiv : 𝔸_K ⊗_K L ≃A[𝔸_K] 𝔸_L`, a `ContinuousAlgEquiv`, hence continuous
+  both ways and open, sending `x ⊗ y` to `adeleExtension x · y`, where `𝔸_L` is an `𝔸_K`-algebra
+  through `adeleExtension`. Its construction is the content of the headline
+  `exists_adeleBaseChangeEquiv`, which asserts that such a continuous algebra equivalence exists;
+  pure tensors span the source, so the formula determines it. `L ⊗_K 𝔸_K` is the same comparison
+  written in the other order.
+- Compatibility with components: the infinite-adelic half is the pinned
+  `TauCeti.GlobalNumberFields.infiniteAdeleBaseChangeEquiv`; the finite-adelic half is the
+  analogous comparison for `FiniteAdeleRing`, and the full comparison is their product under
+  `AdeleRing = InfiniteAdeleRing × FiniteAdeleRing`.
+- Naturality: on `𝔸_K ⊗ 1` the comparison is `adeleExtension`, and with `adeleExtension_comp`
+  (composition in a tower `K ⊆ L ⊆ M`) the formula shows that base change from `K` to `M` factors
+  through base change from `K` to `L`.
 
 Prove composition in towers, compatibility with principal elements, the projection formula, and
 the local-degree formula for the global norm. These are carrier and functoriality theorems. Do not
@@ -733,12 +818,16 @@ Oᵗ = {x : K | ∀ y ∈ O, Tr_{K/ℚ}(x*y) ∈ ℤ}.
 ```
 
 Give its membership theorem and identify it as the `ℤ`-linear dual of `O` under the field-trace
-pairing; for `O = 𝓞_K` this is the codifferent. Define `O.IsGorenstein` by invertibility of this
-trace-dual ideal. Prove, for a number-field order, that this is equivalent to every nonzero
-fractional ideal with multiplier ring exactly `O` being invertible. This is the order-theoretic
+pairing; for `O = 𝓞_K` this is the codifferent. Define `NumberFieldOrder.IsGorenstein O` by
+invertibility of this trace-dual ideal, taken as Mathlib's `Submodule.traceDual ℤ ℚ 1` in the
+monoid of `O`-submodules of `K`. Prove, for a number-field order, that this is equivalent to every
+nonzero fractional ideal with multiplier ring exactly `O` being invertible
+(`NumberFieldOrder.isGorenstein_iff_forall_proper_isUnit`). This is the order-theoretic
 Gorenstein criterion, not a definition by an uninhabited proposition; its trace-dual formulation
 and equivalence are described in Marseglia, “Computing abelian varieties over finite fields
-isogenous to a power,” §2 (2019). Give the quadratic-order result as a named specialization.
+isogenous to a power,” §2 (2019). Give the quadratic-order result as a named specialization,
+`NumberFieldOrder.isProper_iff_isUnit_of_finrank_eq_two` (Cox, *Primes of the form x² + ny²*,
+Prop. 7.4).
 
 Define `NumberFieldOrder.invertibleProperFractionalIdeals` as the group of units in the
 fractional-ideal monoid and prove that every such ideal is proper. Define `Pic O` as this
@@ -757,9 +846,9 @@ Construct extension and contraction between **invertible** ideals prime to the c
 maximal-order ideals prime to the conductor. Put both restrictions in the carrier types of the
 maps, and prove they are inverse equivalences there. Likewise, the prime correspondence is only
 between primes away from the conductor: construct the canonical ring inclusion `O ↪ 𝓞_K` from
-integrality of elements of the finite `ℤ`-algebra, and define `conductorInOrder O` as the comap of
-the maximal-order conductor under this inclusion. For an order prime `p`, use `p.IsPrime` together
-with `¬ conductorInOrder O ≤ p`. Prove that contraction and extension carry this condition to the
+integrality of elements of the finite `ℤ`-algebra, and take the comap of the maximal-order
+conductor under this inclusion as the conductor of `O` inside `O`. For an order prime `p`, use
+`p.IsPrime` together with the condition that `p` does not contain this ideal. Prove that contraction and extension carry this condition to the
 corresponding noncontainment condition for maximal-order primes. Prove the ray-class-style
 congruence description and
 finiteness for the invertible Picard carrier; do not use noninvertible ideal classes in a
@@ -768,9 +857,9 @@ to the maximal order, where every nonzero fractional ideal is invertible. The wi
 comparison is the named canonical map
 `NumberFieldOrder.narrowToPic : NarrowPic O →* Pic O`: give its value on an ideal class, prove
 surjectivity, and identify its kernel through the exact sequence
-`Oˣ → {±1}^{r₁} → NarrowPic O → Pic O → 1`. State the commuting maximal-order specialization as
-`narrowClassToClass`; the existential `narrowPic_surjective` remains only as a corollary of the
-named map.
+`Oˣ → {±1}^{r₁} → NarrowPic O → Pic O → 1`. State the commuting maximal-order specialization,
+the map from the narrow class group to the class group, as the specialization of this named map;
+an existential surjectivity statement is only a corollary of it.
 
 Every ordinary unital `ℤ`-algebra map `f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra` between
 finite orders in number fields is injective and extends uniquely to a field homomorphism `K →+* K'`.
@@ -778,24 +867,28 @@ For injectivity, a nonzero element of the kernel would have a monic integral min
 nonzero constant term, forcing a nonzero integer into the kernel, contrary to unitality and
 characteristic zero. The orders span their ambient fields, so localization extends `f` by
 `a/b ↦ f(a)/f(b)`; the fraction-ring universal property gives this extension and uniqueness.
-Conversely, `NumberFieldOrder.Hom.toAlgHom` restricts an ambient map carrying `O` into `O'`, and
-`Hom.ofAlgHom` is its canonical extension. Prove the value-on-order and uniqueness equations and
-both inverse equations. Thus the existing `Hom` carrier is equivalent to ordinary order algebra
-maps; injectivity is proved, not added as a hypothesis.
+Injectivity is `NumberFieldOrder.injective_orderAlgHom`, and the unique extension is
+`NumberFieldOrder.existsUnique_hom_of_algHom`: there is exactly one morphism of orders
+`g : NumberFieldOrder.Hom O O'` whose field homomorphism agrees with `f` on `O`. Conversely, an
+ambient map carrying `O` into `O'` restricts to an order algebra map, and the two constructions are
+inverse. Thus the existing `Hom` carrier is equivalent to ordinary order algebra maps; injectivity
+is proved, not added as a hypothesis.
 
 `NumberFieldOrder.Hom O O'` remains the ambient ring map used to extend fractional ideals, and
 `Hom.ofLE` remains the same-field inclusion. Every real place of `K'` pulls back to a real place of
 `K` by Mathlib's `InfinitePlace.IsReal.comap`, so a totally positive generator maps to a totally
-positive generator. Retain `Hom.pos_of_totallyPos`, `Hom.mapPic`, `Hom.mapNarrowPic`, and
+positive generator. Retain `Hom.isTotallyPositive_map`, `Hom.mapPic`, `Hom.mapNarrowPic`, and
 `narrowToPic_natural`. Expose the Picard and narrow-Picard maps for an ordinary order algebra map by
-composing `Hom.ofAlgHom` with these existing maps, and prove the resulting narrow-to-wide square.
+composing its unique extension with these existing maps, and prove the resulting narrow-to-wide
+square.
 Include the identity/composition laws for the restriction/extension bridge; do not add a second
 morphism carrier or duplicate the fractional-ideal maps.
 
 Do not define `ringClassField O`. Class Field Theory consumes the congruence description and builds
 that field.
 
-Include the following regression example (and its named target): let
+Include the following regression example (its named target is
+`exists_cubic_proper_not_isUnit`): let
 `K = ℚ(∛2)`, `α = ∛2`, `O = ℤ + 2ℤα + 2ℤα²`, and
 `A = 8ℤ + 2ℤα + 2ℤα²`. Then the multiplier ring of `A` is `O`, while `A` is not
 invertible. Thus `A` gives a proper noninvertible ideal in a non-Gorenstein cubic order and must
@@ -853,7 +946,7 @@ produce a nonunit class in `IdealClassMonoid O`, never an element of `Pic O`.
     from the conductor. The maximal-order comparison does not erase these hypotheses before the
     actual maximal-order specialization.
 23. Every unital `O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra` extends uniquely to the ambient fields;
-    `Hom.ofAlgHom` and `Hom.toAlgHom` are inverse. The resulting ordinary-map Pic/NarrowPic maps
+    extension and restriction are inverse. The resulting ordinary-map Pic/NarrowPic maps
     retain the ambient-field extension contract and commute with `narrowToPic`.
 24. No declaration named `ringClassField`, `globalArtinMap`, or `reciprocity` is introduced here.
 
