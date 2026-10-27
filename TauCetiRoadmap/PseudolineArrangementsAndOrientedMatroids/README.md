@@ -297,6 +297,31 @@ with Euler characteristic `1`. Its *skeleton* is the edge-labelled multigraph wi
 edges of 2.5, each edge labelled by the unique element vanishing on it; isomorphic chirotopes have
 isomorphic skeletons.
 
+3.8 **Sylvester–Gallai and arrangements with no bigonal element.** For a simple rank-3 chirotope
+on at least three elements, a *vertex* is a rank-2 flat, and an element is *bigonal* if it lies on
+at most two vertices (Grothendieck's « bigonal » pseudoline; not a bigon tope, which 2.3 excludes).
+Theorem (Sylvester–Gallai for pseudolines): some vertex lies on exactly two elements (Kelly–Rottenberg 1972, Theorem 3.6; Bokowski–Pokora 2018,
+Theorem 1.3). Theorem: if no element is bigonal, there are four elements in general position (no
+three on a vertex), and the chirotope either has exactly four elements or contains one of: five
+elements in general position; a pencil of three and a pencil of two whose centres are not joined
+by an element (`II′_{3,2}`); a complete quadrangle (six elements, four vertices of three). The
+proof takes a simple vertex `a ∩ b`, two further vertices of `a` giving `c, d`, and then sorts a
+fifth element by how many of the six vertices of `{a, b, c, d}` it passes through (none, one, or an
+opposite pair). *Checks:* the complete quadrangle has no bigonal element and contains no five in
+general position; three elements in general position have every element bigonal; in a
+near-pencil (all elements but one through one vertex) every pencil element is bigonal.
+
+3.9 **Does the skeleton determine the arrangement?** The converse of 3.7, stated and not proved.
+`def SkeletonDetermines : Prop`: for simple rank-3 chirotopes `χ, χ'` with no bigonal element,
+every isomorphism of their edge-labelled skeletons is induced by a unique isomorphism of the
+chirotopes, up to reorientation. Faithfulness (uniqueness) and the case of *uniform* chirotopes
+(every vertex on exactly two elements) are proved, and belong here as theorems: in the uniform
+case each fourth element avoids the corners of a triangle and orients it. The open case is a
+triangle whose other elements all pass through one of its three corners. *Check:* in the complete
+quadrangle on `A, B, C, D`, the triangle `AB, AC, BC` has corners `A, B, C` and every other side
+passes through one of them, so it is of the open kind; the triangle `AB, AC, BD` has corners `A`,
+`B` and `AC ∩ BD`, and `CD` avoids all three and orients it.
+
 ## Layer 4 — Wiring diagrams, allowable sequences, signotopes, flips
 
 4.1 **Allowable sequences** (Goodman–Pollack): lists of permutations of `Fin n` from `1` to
@@ -524,6 +549,10 @@ cartographic group and every string Coxeter group act faithfully on `ℝ ^ (n + 
 - D. E. Knuth, *Axioms and Hulls*, Lecture Notes in Computer Science 606, Springer, 1992.
 - OEIS A006245 (commutation classes of reduced words of the longest permutation), A006248 (simple
   projective arrangements).
+- L. M. Kelly, R. Rottenberg, *Simple points in pseudoline arrangements*, Pacific J. Math. 40
+  (1972), 617–622.
+- J. Bokowski, P. Pokora, *On the Sylvester–Gallai and the orchard problem for pseudoline
+  arrangements*, Period. Math. Hungar. 77 (2018), 164–174, arXiv:1607.05864.
 - A. Grothendieck, *Esquisse d'un programme* (1984), §§2–3, in *Geometric Galois Actions 1*, LMS
   Lecture Note Series 242, Cambridge University Press, 1997, 5–48 (n-cartes, cartographic groups).
 - A. Vince, *Combinatorial maps*, J. Combin. Theory Ser. B 34 (1983), 1–21.
@@ -543,5 +572,10 @@ edited in the Grothendieck edition project, build these objects by hand: crucial
 pseudolines and a six-line counterexample (folder 80), relative positions of an added pseudoline
 (folder 154), the combinatorial icosahedron and hemi-icosahedron (folder 86), coset graphs and
 triangulations of `(ℤ/n)²` (folder 79), and realizations of the universal regular n-carte by
-reflections (folder 72). Their open questions are stated in terms of Layers 2.5, 3.7, 4, 5.4 and 9;
+reflections (folder 72). Folder 80, pp. 20–28, states the classification of 3.8 without proof (its
+proof there relies on a false lemma, the six-line counterexample above), and pp. 48–54 ask the
+question of 3.9; the proof of 3.8 from Sylvester–Gallai and the uniform case of 3.9 are the
+edition's (`lean/Grothendieck/Folder80Maps2.lean`, `map_dichotomy`;
+`lean/Grothendieck/Folder80Maps3.lean`, `full_simple`, in a model of maps rather than chirotopes).
+Their open questions are stated in terms of Layers 2.5, 3.7, 3.9, 4, 5.4 and 9;
 the edition's Lean files are not a specification for this roadmap.
