@@ -1,13 +1,4 @@
-import Mathlib.Topology.Sets.Compacts
-import Mathlib.Topology.Sheaves.Sheaf
-import Mathlib.CategoryTheory.Sites.SheafCohomology.Cech
-import Mathlib.CategoryTheory.Sites.SheafCohomology.Basic
-import Mathlib.Algebra.Category.ModuleCat.Basic
-import Mathlib.Algebra.Category.ModuleCat.Abelian
-import Mathlib.Algebra.Homology.ShortComplex.HomologicalComplex
-import Mathlib.CategoryTheory.GradedObject
-import Mathlib.CategoryTheory.Category.Preorder
-import Mathlib.Data.ZMod.Basic
+import Mathlib
 import TauCeti.Topology.Sheaves.Flasque
 import TauCeti.Algebra.Homology.Monoidal.Braiding
 
