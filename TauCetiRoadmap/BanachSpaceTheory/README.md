@@ -797,6 +797,38 @@ bases and preserve the actual scalar field. Finite-dimensional and zero
 spaces use their finite/empty bases separately. The following explicit
 Fourier equivalence remains a specified choice, with its own formulas.
 
+Prove the arbitrary-cardinality classification as well. For Hilbert bases
+`b : HilbertBasis ι 𝕜 H` and `c : HilbertBasis κ 𝕜 H`, prove
+`Cardinal.lift (#ι) = Cardinal.lift (#κ)` in a common universe. For each j,
+the coefficients of c_j in b have countable support. Prove that their union
+over j covers ι: an omitted b_i would be orthogonal to every c_j and hence
+zero. If κ is infinite this gives `#ι≤#κ·ℵ₀=#κ`; reverse the argument
+when both indices are infinite and use cardinal antisymmetry. If either index
+is finite, use `HilbertBasis.toOrthonormalBasis` and finite-dimensional
+orthonormal-family bounds to prove both finite with equal cardinality.
+Include empty indices and the zero space. Define the resulting basis-independent
+cardinal as the Hilbert dimension; it agrees with `finrank` in finite
+dimension. Its definition uses complete orthonormal bases; do not substitute
+algebraic Hamel dimension (`Module.rank`) in the infinite-dimensional case.
+
+For complete H and K over the same field and chosen Hilbert bases indexed
+by ι and κ, prove `Nonempty (H ≃ₗᵢ[𝕜] K)` iff their index cardinals agree,
+with universe lifts as above. Given an index equivalence e, construct the
+coordinate-reindexing isometry of the native lp spaces and compose it with
+the two `HilbertBasis.repr` maps; prove the resulting unitary sends b_i to
+c_(e i). Conversely transport a Hilbert basis along a unitary and use basis
+cardinality invariance. Deduce that the Hilbert dimension of lp(S,𝕜,2) is
+`#S`, and that separable spaces are classified by dimension 0, a positive
+finite integer, or ℵ₀. In particular the assertion that all separable Hilbert
+spaces are isomorphic requires equal dimension; ℝ and ℝ², or ℂ and ℂ²,
+are counterexamples over their respective fields.
+
+[HilbertBasisSuggested.lean](HilbertBasisSuggested.lean) records suggested
+forms for basis equivalence and the basis-preserving unitary statements.
+This Hilbert-basis layer uses only native inner-product and cardinal APIs
+and the lp support lemmas above, independently of the later measure-duality
+and spectral applications in B5.
+
 Construct the explicit complex unitary `ℓ²(ℕ,ℂ)≃L²([0,1],ℂ)` using native
 `fourierBasis` on UnitAddCircle, its a.e. unit-interval/Haar comparison,
 `HilbertBasis.repr` and a fixed enumeration ℕ≃ℤ. For the real unitary
