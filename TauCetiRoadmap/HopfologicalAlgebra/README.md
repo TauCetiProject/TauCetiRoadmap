@@ -73,6 +73,14 @@ do not assume a chosen basis.
 - `TauCeti.Algebra.Coalgebra.Comodule.Basic` provides right comodules and morphisms.  The
   finite-comodule development already supplies monoidal and rigid categories where its
   hypotheses apply.
+- `TauCeti.CategoryTheory.Exact.Abelian` defines `ExactStructure.abelian`, the exact structure of
+  all short exact sequences of an abelian category.  `TauCeti.CategoryTheory.Exact.Frobenius`
+  defines `ExactStructure.IsFrobenius` (enough relative projectives and injectives, and the two
+  classes agree), and `TauCeti.CategoryTheory.Exact.Stable` gives the stable category of a
+  Frobenius exact structure its triangulation.  Tau Ceti's `FGModuleCat.abelian_isFrobenius`
+  proves the finitely generated case for an algebra that is self-injective on both sides.  It
+  does not prove that a finite-dimensional Hopf algebra is self-injective, and it does not treat
+  modules that are not finitely generated.
 - Neither Mathlib nor Tau Ceti contains integrals of Hopf algebras, the finite-Hopf-to-Frobenius
   theorem, Hopf module algebras, smash products, the stable category of Hopf modules, or the
   relative hopfological category.  Those are real targets here.
@@ -88,7 +96,11 @@ factoring through the relative projectives of a named Frobenius exact structure,
 triangulations are Happel's, their Verdier quotients are Mathlib's `trW` localizations of thick
 subcategories, and their Grothendieck groups are the Grothendieck/Euler-forms roadmap's
 triangulated `K₀`.  Ring, module, and monoidal structures are added on top of those objects.
-`Suggested.lean` states the categorical targets against those imported declarations.
+Of the categorical targets, `Suggested.lean` states only that the abelian exact structure on
+`H-Mod` is Frobenius, `hMod_abelian_isFrobenius`, against Tau Ceti's `ExactStructure.abelian` and
+`ExactStructure.IsFrobenius`.  The monoidal structures, the relative categories `C(A,H)` and
+`D(A,H)`, and the graded Laugwitz--Qi categories are constructions that the pinned libraries lack,
+so they are targets of this README only.
 
 ## Layer 1: finite Hopf algebras are Frobenius
 
@@ -123,7 +135,8 @@ Build a usable theory of integrals before using the word Frobenius.
    this theorem, rather than adding bijectivity redundantly to every finite-Hopf result.
 5. Instantiate the Frobenius/self-injective interface from `StablePeriodicCurved`.  Prove for
    arbitrary left `H`-modules, not just finite-dimensional ones, that projective and injective
-   objects coincide.  Separate the finite-dimensional essentially small subcategory used for
+   objects coincide, and hence that the abelian exact structure on `H-Mod` is Frobenius
+   (`hMod_abelian_isFrobenius`).  Separate the finite-dimensional essentially small subcategory used for
    `K₀` from the large module category used for coproducts and compact generation.
 
 The main algebraic source for this layer is Larson--Sweedler.  Khovanov and Qi may be used for
@@ -180,7 +193,8 @@ two displayed unit and product equations from the convention table.  Supply:
 
 The prototype therefore bundles an actual `k`-algebra `B`, a linear equivalence
 `B ≃ₗ[k] A⊗H`, pure-tensor multiplication and unit theorems, the two algebra embeddings, a
-pure-tensor spanning theorem, and the covariance universal property.  A type synonym for
+pure-tensor spanning theorem, and the covariance universal property; its existence for every left
+module algebra is `smashProduct_nonempty`.  A type synonym for
 `A⊗H` which ignores the action is not a smash product.
 
 ### Right comodule algebras
@@ -196,7 +210,7 @@ prove that the smash product has the right
 
 Khovanov's original paper often starts with a left comodule algebra and also writes an example
 using a right module algebra.  Those are translated into the primary convention explicitly;
-there is no second overload of `smashProduct` with silently reversed sides.
+there is no second overload of the smash product with silently reversed sides.
 
 ### Finite-dual bridge
 
