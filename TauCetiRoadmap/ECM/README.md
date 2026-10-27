@@ -19,8 +19,11 @@ Use Mathlib's `WeierstrassCurve`, `WeierstrassCurve.IsElliptic`, and
 Do not introduce a second elliptic-curve group law or a private notion of divisibility.
 Tau Ceti's
 [`PointCount.lean`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean)
-provides `WeierstrassCurve.pointCount` and its comparison with `Nat.card` of the point
-group; consume that API for the group-order corollaries.
+provides `WeierstrassCurve.pointCount` (the projective count over a field, singular
+models included) and `WeierstrassCurve.pointCount_eq_card_point`, which identifies it
+with `Nat.card W.toAffine.Point` when the solution set of the affine equation is finite
+and `W.IsElliptic` holds; over `ZMod p` the finiteness is automatic. Consume that API
+for the group-order corollaries.
 
 The [elliptic-curves roadmap](../EllipticCurves/README.md) owns abstract elliptic-curve
 theory, including Hasse in Layer 3 and the quadratic degree form in Layer 1. Hasse is
