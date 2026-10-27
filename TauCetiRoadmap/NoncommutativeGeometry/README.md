@@ -168,7 +168,9 @@ Pin the Hochschild coboundary to
 `=Σ_(j=0)^n(−1)^j φ(a₀,…,a_j a_(j+1),…,a_(n+1))`
 ` +(−1)^(n+1)φ(a_(n+1)a₀,a₁,…,a_n)`.
 
-Prove b²=0 and preservation of the cyclic subcomplex. Construct cochain
+Prove b²=0 and preservation of the cyclic subcomplex. In degree two, a
+cyclic 2-cocycle `CyclicTwoCocycle` is a trilinear functional with
+`φ(c,a,b)=φ(a,b,c)` and `bφ=0` for this coboundary. Construct cochain
 pullbacks, addition, scalar multiplication, kernels, boundaries and cyclic
 cohomology. For unital A prove the Hochschild comparison with coefficients
 in its algebraic dual. In the unital Banach/bounded specialization consume
@@ -322,7 +324,10 @@ whose `(F−F*)π(a)` is compact, construct the self-adjoint replacement
 Define even
 and odd Fredholm modules with bounded representation π, F*=F,
 `[F,π(a)]` compact and `(F²−1)π(a)` compact; even modules carry the
-specified γ. Develop unitary equivalence, direct sums, degenerate cycles,
+specified γ. In the unital normalized case, `NormalizedEvenCycle` records
+on a separable Hilbert space a self-adjoint involution F, odd for a
+self-adjoint involutive grading commuting with π, with every `[F,π(a)]`
+compact. Develop unitary equivalence, direct sums, degenerate cycles,
 compact perturbation, homotopy and the K4 Fredholm compressions. Build
 normalization to F²=1 by first applying functional calculus to replace F
 by the self-adjoint contraction `sin(πF/2)`, preserving the essential
@@ -388,13 +393,30 @@ with K4's native index and, under K5–K6's separable C*-algebra
 hypotheses, the KK product. Construct both ordered reductions of the external product of the two
 smooth circle Fredholm modules. Write x⊠_u y for the unswapped
 Clifford tensor/Morita reduction and x×_K5 y for K5's fixed swapped
-period reduction. For the Hardy classes, each with circle index −1,
+period reduction. Represent each Hardy class by the unbounded circle
+operator `D_j=−iδ_j` on ℓ²(ℤ), with eigenvalue 2πm on e_m, whose phase
+with the zero mode sent to +1 is `2P_Hardy−1`. With K5's matrices
+`e₁=σ₁`, `e₂=−σ₂` on ℓ²(ℤ)⊗ℓ²(ℤ)⊗ℂ², x⊠_u y is represented by
+`D₁⊗1⊗σ₁−1⊗D₂⊗σ₂=−i(σ₁δ₁−σ₂δ₂)` with grading σ₃, which is N7's D,
+and x×_K5 y by `−D₁⊗1⊗σ₂+1⊗D₂⊗σ₁` with grading σ₃. The odd
+self-adjoint unitary `(σ₁−σ₂)/√2` conjugates σ₁ to −σ₂ and σ₂ to −σ₁,
+so it carries the second operator to the first with grading −σ₃.
+The bounded tensor `F₁⊗1⊗σ₁−1⊗F₂⊗σ₂` is not a Fredholm module for
+C(𝕋²): its commutator with z₁ is `[F₁,z₁]⊗1⊗σ₁`, rank one tensored
+with the identity of ℓ²(ℤ), hence not compact; the product is formed
+from the unbounded operators and their bounded transform. For the Hardy classes, each with circle index −1,
 identify x⊠_u y with N7's Fourier Dirac operator at θ=0 and x×_K5 y
 with its reversed grading. Prove `Ch(x⊠_u y)=Ch(x)#Ch(y)` and
 `Ch(x×_K5 y)=−Ch(x)#Ch(y)`, distinguishing the two reductions
 throughout the graded index-interchange comparison. For N2's fixed
 positive ordered Bott class β=[z₁]×[z₂], calculate the pairings +1
 and −1 respectively; the positive N7 Dirac has the first value.
+The arithmetic is: `τ₁=2ψ` on the circle and `λ₁=−(1+i)sqrt(π)/2`, so
+`Ch(x)=−(1+i)sqrt(π)ψ₁`; N2's value `1/(2πi)` of ψ₁#ψ₂ on β gives
+`⟨β,Ch(x)#Ch(y)⟩=((1+i)sqrt(π))²/(2πi)=+1`. Directly,
+`Tr₂(σ₃[D,a][D,b])=2i(δ₁aδ₂b−δ₂aδ₁b)`, and N5 with λ₂=−1 and N7's
+spin factor 1/(4π) gives the Hochschild class `(−1)(2i)/(4π)·τ(⋯)=φ`,
+which pairs +1 with β.
 Keep K5's matrices and swapped adapter and N2's Bott orientation
 unchanged. Point factors contribute no additional adapter sign. These
 computations concern the explicitly finitely summable point/circle
@@ -476,6 +498,10 @@ SelfAdjointSpectralTheory SA-E and its continuous calculus with H6.
 This supplies |D|, sign D, heat operators and inverse powers, including
 their kernel conventions, for the compact-resolvent triples here.
 
+A unital `SpectralTriple` on a separable Hilbert space consists of a
+self-adjoint `LinearPMap` D whose resolvent at i is compact, whose domain
+π(A) preserves, with `[D,π(a)]` agreeing on that domain with a bounded
+operator depending linearly on a.
 Develop spectral triples (𝒜,H,D), their even/odd versions, operator-domain
 invariance, bounded commutator extension, graph-norm estimates and
 unitary/smooth-algebra transport. Build `[D,ab]=[D,a]b+a[D,b]`
@@ -558,6 +584,10 @@ closed graded trace and its character
 
 `φ(a₀,a₁,a₂)=(2πi)⁻¹ τ(a₀(δ₁a₁ δ₂a₂−δ₂a₁ δ₁a₂))`.
 
+The same formula `torusTwoCochain` makes sense for any linear functional
+τ and two endomorphism-valued derivations of a unital algebra; prove
+(`exists_cyclicTwoCocycle_torusTwoCochain`) that it is a cyclic 2-cocycle
+when τ is a trace killed by both derivations and the derivations commute.
 Prove cyclicity, bφ=0 and gauge/parameter-isomorphism transport. Build
 connections on finite projective smooth right modules: ∇_j(ξa)=
 (∇_jξ)a+ξδ_j(a), curvature `[∇₁,∇₂]`, Hermitian compatibility,
