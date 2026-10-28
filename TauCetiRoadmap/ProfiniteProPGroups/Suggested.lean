@@ -1395,8 +1395,7 @@ section ExtensionLifting
 
 variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
   [TotallyDisconnectedSpace G]
-  {M : Type v} [CommGroup M] [TopologicalSpace M] [IsTopologicalGroup M]
-  [MulDistribMulAction G M] [ContinuousSMul G M] [CompactSpace M]
+  {M : Type v} [CommGroup M] [TopologicalSpace M] [MulDistribMulAction G M] [CompactSpace M]
   {N : Type w} [CommGroup N] [TopologicalSpace N] [IsTopologicalGroup N]
   [MulDistribMulAction G N] [ContinuousSMul G N] [CompactSpace N] [TotallyDisconnectedSpace N]
 
@@ -1617,6 +1616,7 @@ theorem isFree_of_cd_p_le_one (G : Type u) [Group G] [TopologicalSpace G] [IsTop
     (ULift.{u} (Fin (topologicalGeneratorRankNat G hfg))) hX
   exact ⟨e.trans (TauCeti.freeProP.uliftEquiv p (Fin (topologicalGeneratorRankNat G hfg)))⟩
 
+omit [Fact p.Prime] in
 /-- **Layer 6, `cd_p` of an open subgroup.** For `U` open in pro-`p` `G` with `cd_p G` finite,
 `cd_p U = cd_p G`. ⚠ The imported `cd_p_eq_of_index_not_dvd` is the prime-to-`p`-index case and
 does not cover an open subgroup of index divisible by `p`, which is the case used here. Tau
@@ -1843,5 +1843,31 @@ theorem not_injective_fromFreeProC_finiteGroupClassP (p : ℕ) [Fact p.Prime] (S
     [TopologicalSpace S] [DiscreteTopology S] [Infinite S] :
     ¬ Function.Injective (TauCeti.freeProCPointed.fromFreeProC (finiteGroupClassP.{u} p) S) :=
   TauCeti.freeProCPointed.not_injective_fromFreeProC p S
+
+/-! ### Tau Ceti inputs named in the README
+
+The README's supplier contracts and proof routes cite these pinned Tau Ceti declarations by name;
+each `#check` fails to elaborate if the pinned library no longer provides it. -/
+
+#check @TauCeti.IsProP.eq_top_of_forall_not_le_openNormalSubgroup_index_eq
+#check @TauCeti.IsProP.exists_continuousMulEquiv_pi_padicInt_prod_pi_zmod
+#check @TauCeti.IsProP.exists_convergesToOne_continuousMulEquiv_presentation_of_cohomologicalDimensionAt_le_one
+#check @TauCeti.IsProP.exists_finite_span_completedGroupAlgebraModule_topologicalAbelianization_ker_eq_top
+#check @TauCeti.IsProP.exists_pLowerCentralSeries_le
+#check @TauCeti.IsProP.isProjective_iff_exists_convergesToOne_continuousMulEquiv_presentation
+#check @TauCeti.IsProP.isTopologicallyFinitelyGenerated_iff_finite_quotient_proPFrattini
+#check @TauCeti.IsProP.natCard_quotient_proPFrattini
+#check @TauCeti.IsProP.surjective_iff_surjective_quotient_index_eq
+#check @TauCeti.IsProPSylow.exists_map_conj_eq
+#check @TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective
+#check @TauCeti.IsTopologicallyFinitelyGenerated.finite_gradedPiece
+#check @TauCeti.IsTopologicallyFinitelyGenerated.finite_levelSolution
+#check @TauCeti.IsTopologicallyFinitelyGenerated.isOpen_pLowerCentralSeries
+#check @TauCeti.completedGroupAlgebra.isMulCommutative_iff
+#check @TauCeti.freeProP.basisModificationDelta_apply
+#check @TauCeti.freeProP.finrank_gradedPiece_one
+#check @TauCeti.freeProP.fromFreeGroup_injective
+#check @TauCeti.freeProP.gradedMk_inv_mul_basisModification
+#check @TauCeti.freeProCPointed.convergesToOne_range_of_coe
 
 end TauCetiRoadmap.ProfiniteProPGroups
