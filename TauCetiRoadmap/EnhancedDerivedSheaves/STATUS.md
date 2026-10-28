@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"EnhancedDerivedSheaves","to_sha":"ddc3f9753f417f1da50c6e93cc2df70a735752ea","ts":"2026-10-23T22:40:07+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer E0","remaining":"the dg nerve and its comparisons, dg simplicial category, finality, stable fibre calculus, accessibility and presentability","state":"partial"},{"id":"Layer 0","remaining":"ringed-site replacements, the enhanced module-sheaf category, tensor-Hom, derived limits and functor coherence","state":"untouched"},{"id":"Layer E1","remaining":"everything except Frobenius-root ideals: the enhanced derived category, its operations, Kunz and Tor independence, Dqc and base change","state":"partial"},{"id":"Layer E3","state":"untouched"},{"id":"Layer E2","remaining":"coherent derived towers and Rlim, cohomological and stable pro-zero towers, the multiplicative lim1 part","state":"partial"},{"id":"Layer E5","state":"untouched"},{"id":"Layer E4","state":"untouched"}],"readme_sha":"ef2422dfb09e5675d69c75cd2a9c92f788b9a71ed6ef40410f69bc33b8a272f0","roadmap":"EnhancedDerivedSheaves","to_sha":"ddc3f9753f417f1da50c6e93cc2df70a735752ea"}-->
+# Status: EnhancedDerivedSheaves
+
+This file documents the status of the EnhancedDerivedSheaves roadmap up until `ddc3f97` (2026-10-23T22:40:07+11:00). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** No layer is complete, and the enhancement itself, from the dg nerve to `D∞(O)`, does not yet exist. What has landed is preparation: the monoidal structure of Dold–Kan and of good truncation that the dg-nerve enrichment needs, the ordinary pro-zero tower theory, and two self-contained targets (Frobenius-root ideals and full enhanced subcategories). The ringed-site layer, Kan extensions, the monoidal ∞-categorical baseline and derived completion are untouched.
+
+### Named results
+
+- **The lax monoidal Dold–Kan functor** — the inverse Dold–Kan functor Γ from chain complexes to simplicial objects is lax monoidal. Its structure is the mate of the Alexander–Whitney oplax structure on normalized chains, and it is one of the two inputs the README names for the simplicial enrichment of a dg category ([`laxMonoidalΓ`](https://taucetiproject.org/docs/TauCeti/AlgebraicTopology/DoldKan/Monoidal.html#CategoryTheory.Idempotents.DoldKan.laxMonoidalΓ)).
+- **Coassociativity of the Alexander–Whitney map** — the two ways of cutting a simplex into front, middle and back faces agree. This is what makes the alternating face map complex oplax monoidal ([`alexanderWhitney_coassoc`](https://taucetiproject.org/docs/TauCeti/AlgebraicTopology/SimplicialObject/AlexanderWhitney.html#CategoryTheory.SimplicialObject.alexanderWhitney_coassoc)).
+- **Lax monoidal good truncation** — the truncation `τ≥0` from ℤ-indexed cochain complexes to ℕ-indexed chain complexes is lax monoidal, so far only for modules over a ring (`CochainComplex.truncLE'FunctorLaxMonoidal`).
+- **Frobenius-root ideals are radical, idempotent and flat** — in a perfect ring, `⋃ₙ (f^{1/pⁿ}) = √(f)`, and it is flat even when the ring has zero divisors, via its presentation as a sequential colimit of free modules ([`frobeniusRootIdeal_eq_radical`](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfect/FrobeniusRootIdeal.html#TauCeti.frobeniusRootIdeal_eq_radical), [`flat_frobeniusRootIdeal`](https://taucetiproject.org/docs/TauCeti/RingTheory/Perfect/FrobeniusRootIdeal.html#TauCeti.flat_frobeniusRootIdeal)).
+- **The multiplication tower criterion** — the tower `R ← R ← ⋯` with transitions multiplication by `a` is pro-zero exactly when `a` is nilpotent. In particular `ℤ ←p ℤ ←p ⋯` is not pro-zero, although its limit vanishes ([`isProZero_multiplicationTower_iff`](https://taucetiproject.org/docs/TauCeti/Algebra/Category/ModuleCat/Tower/ProZero.html#TauCeti.ModuleTower.isProZero_multiplicationTower_iff)).
+
+### Notable definitions and infrastructure
+
+- [**Pro-zero diagrams**](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Functor/ProZero.html#CategoryTheory.Functor.IsProZero), defined in any abelian category, so they apply to module sheaves as well as modules. They form a Serre class, which makes the [pro-isomorphisms](https://taucetiproject.org/docs/TauCeti/CategoryTheory/Functor/ProZero.html#CategoryTheory.Functor.proIsomorphisms) closed under composition with two-out-of-three. They are invariant under cofinal reindexing, and on module towers they force `lim = lim¹ = 0`. This is the ordinary input to the replete-topos statement that pro-zero errors do not change `Rlim`.
+- [**Full enhanced subcategories**](https://taucetiproject.org/docs/TauCeti/AlgebraicTopology/Quasicategory/FullSubcategory.html#SSet.fullEnhancedSubcategory) of a simplicial set on a predicate on its vertices. Its inclusion is an inner fibration and it is a quasicategory when the ambient one is. On nerves it agrees with the ordinary full subcategory. Later layers use it whenever they cut out Cartesian sections, compact objects or local objects.
+
+### Roadmap coverage
+
+E0 is partial. Its own E0.3 target, full enhanced subcategories, is done, and the Dold–Kan and truncation monoidal structures for E0.6 are in place. The dg nerve, its horn filling, the comparisons with the homotopy category and with mapping spaces, the dg simplicial category, and the finality, stability and presentability targets have not started. E1 is partial only through the Frobenius-root ideal target of E1.6; nothing of the enhanced derived category, Kunz's theorem or Tor independence is there. In E2:towers, the ordinary pro-zero towers and pro-isomorphisms of E2:towers.2 are done. Coherent derived towers, `Rlim = fib(1 − s)`, cohomological pro-isomorphisms of derived towers, stable pro-zero towers and the multiplicative part have not started. Layer 0, E3, E5:abstract and E4 are untouched. The other layers (E5:presentability through E5:cotangent-export, the replete-topos E2 and the compatibility layer E5) have also not started.
+
+## The frontier
+
+- **The dg nerve** (`dgNerve`, `dgNerve_quasicategory`) — the definition with its simplicial identities, and inner horn filling. Nothing here depends on the rest of the roadmap beyond the DGAInfinity sign conventions, and every ringed-site layer waits on it.
+- **The simplicial enrichment of a dg category** (`dgSimplicialCategory`) — Γ and `τ≥0` are now lax monoidal. What remains is to compose them with the forgetful functor, check the unit and associativity of the resulting enriched composition, and show that simplicial abelian groups are Kan. Truncation is so far monoidal only over a ring, so a general dg category needs the abelian-group or base-ring case stated.
+- **Coherent derived towers** (`derivedTowerLimit`) — `Rlim` as the fibre of `1 − shift` on products. It is the stated prerequisite for cohomological pro-isomorphisms of derived towers and for `IsStableProZero`.
+- **Kunz's theorem and the global dimension of regular rings** (`frobenius_flat_of_isRegular`, `isRegularRing_projectiveDimension_le`) — the next commutative-algebra targets of E1.6. Together with the Frobenius-root ideals they feed Tor independence of perfect algebras.
+- **Ringed-site enhancement** (Layer 0) — K-injective and K-flat replacements and the enhanced module-sheaf category. These need the dg nerve and its homotopy-category comparison first.

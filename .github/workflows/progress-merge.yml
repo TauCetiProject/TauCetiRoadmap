@@ -58,6 +58,8 @@ jobs:
           # Quoted through env rather than interpolated into the script: everything from the event
           # payload is attacker-influenced, and this job holds a token.
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_OWNER: ${{ github.event.workflow_run.head_repository.owner.login }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
           # Through env, never interpolated into the script: attacker-controlled.
           PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
         run: |
@@ -83,36 +85,62 @@ jobs:
             workflow_run)
               # The open progress pull request for this head, if any.
               #
-              # Asked of the commit directly, not of a list of recent pull requests. `gh pr list`
-              # returns only the newest 30 by default, so anyone could open 30 newer pull requests and
-              # push the legitimate report out of the window -- its build would complete and this
-              # trigger would never find it.
+              # Asked of the head directly, not of a list of recent pull requests. `gh pr list`
+              # returns only the newest 30 by default, so anyone could open 30 newer pull requests
+              # and push the legitimate report out of the window -- its build would complete and
+              # this trigger would never find it.
               #
               # Fork heads are included. Anyone may publish a report, and an operator without push
               # access here publishes from their own fork, so excluding them would mean their build
-              # completing and this trigger never finding the pull request.
+              # completing and this trigger never finding the pull request. That is why there are
+              # two lookups: `commits/<sha>/pulls` finds a pull request whose head is in this
+              # repository but returns nothing when the head commit lives on a fork, so the run's
+              # head owner and branch are also asked of `pulls?head=<owner>:<branch>`, which finds
+              # both.
               #
-              # Every condition the gate itself would refuse on is filtered FIRST, and only then is
-              # one chosen. Sharing a head SHA means sharing a tree, but not a base branch, a draft
-              # flag, or a branch name: an older pull request at the same commit, retargeted or
-              # renamed, would otherwise be selected, refused forever, and the legitimate report
-              # never reconsidered once CI completed.
+              # The owner and branch come from the event payload and go into a URL, so they must
+              # match a GitHub login and a progress branch name before they are used; anything else
+              # is not a report and only the commit lookup runs.
               #
-              # `min` among what survives, so repeated runs agree with each other.
+              # The conditions the gate refuses on that can be read here are filtered FIRST, and
+              # only then is one chosen. Sharing a head SHA means sharing a tree, but not a base
+              # branch, a draft flag, or a branch name: an older pull request at the same commit,
+              # retargeted or renamed, would otherwise be selected, refused forever, and the
+              # legitimate report never reconsidered once CI completed. The head SHA itself must be
+              # the one whose CI just completed: a pull request that has since moved on gets its own
+              # run.
+              #
+              # Among what survives, the pull request on the run's own head owner and branch is
+              # preferred: two pull requests can share a commit under different progress branches,
+              # and only the one CI ran for is known to name the area that commit changes. Otherwise
+              # `min`, so repeated runs agree with each other. A `||` after each lookup, because
+              # `set -e` does not apply inside this command substitution and a failed lookup must
+              # not read as "no pull request".
               #
               # `--slurp` so the pages arrive as ONE array; the filter then runs over all of them.
               # Without it `--jq` is applied page by page: page one emits an empty line, and a
               # legitimate match on a later page is lost -- the same starvation the 30-item default
               # allowed, just moved. `--slurp` cannot be combined with `--jq`, hence the pipe.
-              pr="$(gh api --paginate --slurp "repos/$REPO/commits/$HEAD_SHA/pulls" \
-                    | jq -r --arg repo "$REPO" '
-                         [.[][]
+              branch_rx='^progress/[0-9a-f]{7}-[0-9a-f]{7}/[A-Za-z0-9]+$'
+              pr="$( {
+                    gh api --paginate --slurp "repos/$REPO/commits/$HEAD_SHA/pulls" || exit $?
+                    if [[ "$HEAD_OWNER" =~ ^[A-Za-z0-9-]+$ && "$HEAD_BRANCH" =~ $branch_rx ]]; then
+                      gh api --paginate --slurp \
+                        "repos/$REPO/pulls?state=open&per_page=100&head=$HEAD_OWNER:$HEAD_BRANCH" \
+                        || exit $?
+                    fi
+                  } | jq -rs --arg repo "$REPO" --arg sha "$HEAD_SHA" --arg rx "$branch_rx" \
+                         --arg owner "$HEAD_OWNER" --arg branch "$HEAD_BRANCH" '
+                         [.[][][]
                           | select(.state == "open")
                           | select(.draft | not)
                           | select(.base.ref == "main")
                           | select(.base.repo.full_name == $repo)
-                          | select(.head.ref | test("^progress/[0-9a-f]{7}-[0-9a-f]{7}/[A-Za-z0-9]+$"))
-                          | .number] | min // ""')"
+                          | select(.head.sha == $sha)
+                          | select(.head.ref | test($rx))]
+                         | (map(select(.head.repo.owner.login == $owner and .head.ref == $branch))
+                            | if length > 0 then . else empty end) // .
+                         | [.[].number] | min // ""')"
               echo "pr=$pr" >> "$GITHUB_OUTPUT" ;;
           esac
 
@@ -127,10 +155,10 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@b7d96c7a41cbfe11c1380cb7de70fff48298e9dc
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@2d7bd8b7636560a50acf1b419761186f247009b9
     with:
       pr: ${{ fromJSON(needs.resolve.outputs.pr) }}
-      progress_ref: b7d96c7a41cbfe11c1380cb7de70fff48298e9dc
+      progress_ref: 2d7bd8b7636560a50acf1b419761186f247009b9
       # There is deliberately no author allowlist. Anyone may publish a progress report, including
       # from a fork: what bounds this is the shape of the diff (two generated files, one roadmap,
       # append-only log, window ending in published history), not who sent it. See
