@@ -2477,6 +2477,22 @@ prove that `Δ_Q(t)=−t⁻⁵Q(t)` is symmetric, has `Δ_Q(1)=1` and
 changed knot. Recover the presentation from the marked diagram rather than
 completing overwritten page22 matrix cells by guessing.
 
+For the recorded first eight page22 rows, give the exact cofactor
+calculation in the [source-input note](source-inputs.md#page22-recorded-cofactor).
+Delete row9 and column9, retaining row8 column7 as an independent entry z.
+Prove `det M(t,z)=Q(t)+z(−2t⁴+3t⁵−2t⁶)` over every commutative ring.
+The retained eighth row has sum z and its deleted ninth entry is recorded
+as0. Thus, if these recorded entries match a meridionally specialized
+Alexander row, the Fox row-sum identity forces z=0; derive the cofactor
+Q without fitting z to the printed answer and without using the unreadable
+ninth row. At t=−1 the parameterized value is45−7z. Construct the generic
+Fox row-sum identity from the fundamental Fox formula and its Laurent
+specialization, and compare this minor with the actual presentation once
+the diagram is recovered. This conditional matrix calculation does not
+establish that the recorded rows describe the drawn knot or determine its
+A/B/C correspondence. [MarkedAlexanderMinorTargets.lean](MarkedAlexanderMinorTargets.lean)
+pins the full eight-by-eight matrix and its parameter dependence.
+
 Realize the later A/B/C-labelled diagram and give the crossing correspondence
 with the earlier drawings wherever it can be established. Construct the unknot
 movie for A and the nontriviality certificates for B and C, including the
