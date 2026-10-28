@@ -207,7 +207,18 @@ suspension-map comparison for sphere Freudenthal connectivity.
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
 4. Build smooth orthonormal geodesic frames at a point, including their induced
-   tensor frames. In a normal chart prove first derivatives of g vanish and
+   tensor frames. Pin their radial-parallel construction. Choose a star-shaped
+   normal ball B about 0 in T_pM and an orthonormal basis (e_i) at p. For v∈B set
+   `E_i(exp_p v)=P_(s↦exp_p(sv),0→1)(e_i)`, with E_i(p)=e_i.
+   Consume SBC B5's smooth parameter-dependent parallel transport to prove
+   this frame smooth jointly in v, including v=0, and orthonormal throughout
+   exp_p(B). Prove it is parallel along every radial geodesic and deduce
+   `∇_w E_i(p)=0` for every w∈T_pM, with the corresponding induced tensor-frame
+   identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
+   frame have the same value at p; they are not identified away from p.
+   Derive the vanishing covariant derivatives from radial parallelism, rather
+   than assuming d exp is parallel transport. In a normal chart prove first
+   derivatives of g vanish and
    characterize the quadratic/cubic jets by R and ∇R. With orthonormal vectors e_i at p,
    v in its tangent normal ball, pin
    `exp_p*g(e_i,e_j)=δ_ij−⅓⟨R(e_i,v)v,e_j⟩`
