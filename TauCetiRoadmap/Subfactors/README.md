@@ -9,8 +9,8 @@ rigid planar algebras, graph planar algebras and the analytic reconstruction of 
 planar algebras. The end theorems are:
 
 - Jones's index restriction `[M:N] ∈ {4cos²(π/m) : m ≥ 3} ∪ [4,∞]` for every II₁ subfactor,
-  deduced from TemperleyLiebOperatorAlgebras A4's independent positivity theorem for the
-  Temperley–Lieb closure trace (`markovTrace_nonneg_iff`).
+  proved through Jones's positivity theorem for the Temperley–Lieb closure trace
+  (`markovTrace_nonneg_iff`).
 - Realisation of every allowed index by a subfactor of the hyperfinite II₁ factor.
 - The Pimsner–Popa formula for relative entropy and its equality criteria.
 - Reconstruction of a subfactor from every subfactor planar algebra, and Burns's realisation of
@@ -26,8 +26,12 @@ This roadmap owns:
 
 - the inclusion theory of II₁ factors: basic constructions, bases, towers, minimal index,
   statistical dimension and relative entropy;
+- over ℂ, the Temperley–Lieb facts the index theory needs, proved from Tau Ceti's presentation:
+  the analytic adjoint, the normal form, uniqueness of the Markov trace, Jones–Wenzl
+  projections, Jones's positivity theorem for the closure trace, the positive path models, the
+  positive Jones quotients and their C*-tower (Layer 3);
 - the trace-preserving Temperley–Lieb action in the Jones tower, its kernel, and the index
-  restriction obtained from the independent TL positivity theorem (Layer 3);
+  restriction (Layer 3);
 - commuting squares and Ocneanu compactness;
 - standard invariants and principal graphs;
 - shaded, rigid and graph planar algebras and right planar modules;
@@ -35,11 +39,14 @@ This roadmap owns:
 - Popa's finite-depth classification and the classification below index 4;
 - the infinite-index cone and rotation calculus.
 
+It owns the Temperley–Lieb material of Layer 3 because Layer 3's index restriction and Layer 4's
+realisation need it, and every other roadmap that develops it comes later in the supply order.
+
 The roadmap leaves the following to named roadmaps:
 
-- The ordinary Temperley–Lieb algebra over a commutative ring belongs to TemperleyLieb
-  Layers 4–7: the diagram basis, the uniqueness of the Markov trace, cell modules and Gram
-  determinants, Jones–Wenzl projections, negligible ideals and the root-of-unity quotient.
+- The Temperley–Lieb algebra over a general commutative ring belongs to TemperleyLieb: the
+  diagram basis, cell modules and Gram determinants, and negligible ideals over arbitrary
+  coefficients. Layer 3 here uses none of it and works over ℂ only.
 - Normal representations, tracial L², coupling dimension, the unrestricted index `[M:N]`,
   modular theory and the hyperfinite II₁ factor belong to VonNeumannAlgebras V0–V8, V10–V11
   and V13. In particular, VonNeumannAlgebras V7.Index states the index definition, `[M:N] ≥ 1`,
@@ -54,15 +61,12 @@ The roadmap leaves the following to named roadmaps:
   to HilbertModules.
 - Q-systems, module categories, pivotal module C*-categories and planar-to-C*-algebra
   completions belong to CategoricalOperatorAlgebras.
-- The conjugate-linear TL adjoint, Hermitian trace-positivity classification, positive Jones
-  quotients, their C*-tower and trace representations belong to
-  [TemperleyLiebOperatorAlgebras A1–A5](../TemperleyLiebOperatorAlgebras/README.md). Its A6–A7
-  own the unitary TL category, affine diagrams and annular modules.
+- The unitary Temperley–Lieb category, affine diagrams and annular modules belong to
+  TemperleyLiebOperatorAlgebras.
 
-HilbertModules and CategoricalOperatorAlgebras consume this roadmap.
-TemperleyLiebOperatorAlgebras A1–A5 supply Layers 3–4 here and do not consume any Subfactors
-layer or the categorical interfaces used by A6. Those later interfaces are not prerequisites
-for the index restriction or the quotient-tower realisation.
+HilbertModules and CategoricalOperatorAlgebras consume this roadmap. TemperleyLieb,
+TemperleyLiebOperatorAlgebras, GeometricTopology and HilbertModules are not prerequisites of
+any layer.
 
 Outside the roadmap's conclusions:
 
@@ -135,6 +139,8 @@ No historical conjecture is a target.
 - `Real.negMulLog` (`Mathlib/Analysis/SpecialFunctions/Log/NegMulLog.lean`) takes the value 0
   at 0.
 - `Real.sqrt` is the positive square root. `Real.arccos` has values in `[0,π]`.
+- `FreeAlgebra`, `RingQuot` and `RingQuot.lift` underlie Tau Ceti's presentation and carry
+  the construction of the analytic adjoint in 3.1.
 - `StarRing`, `StarModule` and the `ComplexOrder` partial order on `ℂ` are used; in that order
   `0 ≤ z` means `z` is real and nonnegative.
 
@@ -173,37 +179,6 @@ algebra.
 **From TauCetiRoadmap.CStarAlgebras.** C5: spatial tensor products and C*-inductive limits of
 unital injective systems, with their universal property.
 
-**From TauCetiRoadmap.TemperleyLieb.**
-
-- Layer 4: `presentedTLEquiv` between the native presentation and the diagram algebra; the
-  diagram basis of rank `catalan n`; the predicate `IsMarkovTrace` and its uniqueness theorem
-  `existsUnique_isMarkovTrace`; and the closure expectation.
-- Layer 5: cell modules, their Gram determinants and the semisimplicity criterion.
-- Layer 6: `existsUnique_jonesWenzl`; `IsMarkovTrace.apply_jonesWenzl`, the Jones–Wenzl trace
-  `[n+1]`; the Wenzl recursion; and the Goodman–Wenzl theorem that at quantum order `ℓ` the
-  negligible ideal is generated by `f_(ℓ−1)`.
-- Layer 7: the root-of-unity quotient.
-- These are statements over a commutative ring, with no star or positivity.
-
-**From [TauCetiRoadmap.TemperleyLiebOperatorAlgebras](../TemperleyLiebOperatorAlgebras/README.md).**
-
-- A1: the analytic synonym `AnalyticTL`, its conjugate-linear adjoint fixing the generators,
-  and the comparison of `closureTrace` with the native signed `markovTrace`.
-- A2: the positive-weight path/block comparison, compatible with adjoints and traces.
-- A3: the uniform quotient `Q_n = AnalyticTL δ n / R_n`, where R_n is the full trace radical;
-  the negligible-ideal and truncated-path comparisons; injective strand maps and algebraic
-  last-strand expectations.
-- A4: `jonesLoopParameters`, `markovTrace_nonneg_iff`, the first-bad-level refinement
-  `markovTrace_nonneg_iff_lt_floor`, Cauchy–Schwarz, equality of the Hermitian null space and
-  R_n, and the trace-preserving pullback/factorisation criterion.
-- A5: the finite-dimensional faithful-trace C*-norm, UCP stage expectations, the C*-inductive
-  limit B_δ with faithful trace, its GNS weak closure and extended stage expectations.
-
-A1–A5 have no Subfactors, normal-correspondence, planar-reconstruction or unitary-category
-prerequisite. A6's use of CategoricalOperatorAlgebras CA1a/CA2a concerns only the elementary
-category and unitary-duality interfaces; no A6 conclusion is used in Layers 3–4 here. All
-factoriality, inclusion-index and standard-invariant claims remain Subfactors targets.
-
 **From TauCetiRoadmap.FreeProbability.** F3: scalar full Fock spaces and reduced free products.
 F4: tracial amalgamated free products.
 
@@ -219,9 +194,9 @@ S2a. The layers build up as follows.
   algebras.
 - **Layer 2** builds the basic construction, finite bases, the Jones tower, bifinite bimodules,
   the index of expectations and relative entropy.
-- **Layer 3** constructs the TL action in Layer 2's Jones tower and compares its trace with
-  TemperleyLiebOperatorAlgebras A1–A5. It deduces the index restriction and identifies the
-  action kernel with the supplied trace radical.
+- **Layer 3** proves Jones's positivity theorem for the Temperley–Lieb trace, builds the positive
+  path models, the positive Jones quotients and their C*-tower, and deduces the index restriction
+  from Layer 2's tower.
 - **Layer 4** develops commuting squares and Ocneanu compactness, and realises every allowed
   index in `R`.
 - **Layer 5** defines the standard invariant, extremality, depth and principal graphs.
@@ -544,55 +519,164 @@ asserted.
 
 Layer 1; VonNeumannAlgebras V6, V7, V8, V11.
 
-## Layer 3: Temperley–Lieb actions and Jones index restriction
+## Layer 3: Temperley–Lieb positivity and Jones index restriction
 
-### 3.1 The supplied analytic adjoint
+Everything in 3.1–3.3 is over ℂ and starts from Tau Ceti's presentation
+`TauCeti.TemperleyLieb ℂ δ n`. No diagram basis, cell module or Gram determinant is used. Write
+`TL_n` for this algebra, `ι` for `strandIncl` and `U_n` for the last generator on `n + 1` strands
+(`n ≥ 1`).
 
-Use TemperleyLiebOperatorAlgebras A1's `AnalyticTL δ n`, the synonym of the native complex
-presentation carrying the conjugate-linear adjoint `†`, and its comparison with coefficient
-conjugation followed by diagram reflection. Generator indices, strand maps and traces are the
-ones fixed in the conventions above. The adjoint is not the coefficient-fixing linear
-reflection of the algebraic roadmap. This layer consumes that construction; it does not build
-another analytic TL carrier or adjoint.
+### 3.1 The analytic adjoint
 
-*Needs:* TemperleyLiebOperatorAlgebras A1; Tau Ceti `lift`, `lift_e`, `hom_ext`.
+For real δ, define the analytic adjoint `†` on `TauCeti.TemperleyLieb ℂ δ n`. On
+`FreeAlgebra ℂ (Fin (n − 1))`, conjugate the coefficients and reverse the words, as a ring map
+into the opposite algebra. It descends through `RingQuot.lift` because conjugation fixes the
+relation `e_i² = δe_i` exactly when δ is real.
 
-### 3.2 The supplied positivity and pullback theorems
-
-Consume TemperleyLiebOperatorAlgebras A4's theorem `markovTrace_nonneg_iff`: for δ>0,
-`T_n(x†x)≥0` at every level exactly when
-`δ ∈ jonesLoopParameters = {2cos(π/m) : m≥3} ∪ [2,∞)`.
-Use its `markovTrace_nonneg_iff_lt_floor` refinement when a finite-level obstruction is needed.
-A4 owns the Jones–Wenzl negative witness, the trigonometric first-zero/sign argument, the
-positive path proof of sufficiency, and the pullback criterion. None is proved from a subfactor
-index restriction.
-
-The application here uses the positive normalized tower traces of 2.3 and the trace comparison
-proved in 3.4. It requires no injectivity of the unquotiented TL action. The subfactor index
-restriction is the conclusion of 3.5, not an input to the supplier's positivity theorem.
-
-*Needs:* TemperleyLiebOperatorAlgebras A4; 2.3, 3.4 for the application.
-
-### 3.3 The supplied positive Jones tower
-
-Use TemperleyLiebOperatorAlgebras A3–A5's uniform quotient
-`Q_n = AnalyticTL δ n / R_n`, where `R_n = {x : ∀y, T_n(xy)=0}`. Its quotient adjoint, faithful
-positive trace, path blocks, C*-norm, injective strand maps and UCP expectations are supplied
-there. At δ≥2, R_n=0 and the canonical comparison identifies Q_n with TL_n; at
-δ=2cos(π/m), R_n is the component of the negligible ideal generated by f_(m−1).
-A4 identifies R_n with the Hermitian null space; it is not the Jacobson radical.
-
-A5 supplies B_δ, its compatible faithful trace, its GNS weak closure and the extended stage
-expectations. Layer 4 here constructs the first-strand shift and proves the factoriality and
-index of the resulting inclusion. Those inclusion-theoretic conclusions are not part of the
-TL C*-tower construction.
+- `†` is involutive and additive, reverses products, and is conjugate-linear.
+- `†` fixes every generator `e δ i`, and it is the unique map with these properties.
+- `†` commutes with `strandIncl`.
 
 **Checks.**
 
-- At δ=1, the supplied Q_n is ℂ at every level; Layer 4 uses the identity inclusion for index1.
-- At δ=√2, the supplied path model has `dim Q_2=2` and `dim Q_3=4`, while `dim TL_3=5`.
+- On zero and one strands the algebra is ℂ, and `†` is complex conjugation.
+- `(i·e)† = −i·e` on two strands. A linear reflection gives `i·e`.
+- For non-real δ no such map exists. Applying it to `e² = δe` on two strands gives
+  `e² = conj(δ)e`, hence `(δ − conj δ)e = 0`, which contradicts `e_ne_zero_two`.
 
-*Needs:* TemperleyLiebOperatorAlgebras A3–A5. No A6 unitary-category result is required.
+*Needs:* Tau Ceti `e_ne_zero_two`, `strandIncl` and the presentation in the Tau Ceti supplier
+contract; Mathlib `FreeAlgebra`, `RingQuot.lift`, `MulOpposite`.
+
+### 3.2 Markov uniqueness, Jones–Wenzl projections and Jones's positivity theorem
+
+Prove the following structural facts from the three defining relations, for every δ ∈ ℂ unless a
+hypothesis is stated.
+
+- **Normal form.** Every element of `TL_(n+1)` is a sum of elements `ι(a)` and `ι(a) U_n ι(b)`
+  with `a, b ∈ TL_n` (Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4, Exercise 4.1.2,
+  printed p. 141). Hence `dim TL_n ≤ catalan n` (ibid., Exercise 4.1.3).
+- **Uniqueness of the Markov trace.** Let `φ_n` be linear functionals on `TL_n`, with
+  `φ_0(1) = 1`, each tracial, with `φ_(n+1) ∘ ι = δ φ_n` for `n ≥ 0` and
+  `φ_(n+1)(ι(x) U_n) = φ_n(x)` for `n ≥ 1`. Then `φ_n = T_n` for every n. The proof is induction
+  through the normal form: `φ_(n+1)(ι(a) U_n ι(b)) = φ_(n+1)(ι(ba) U_n) = φ_n(ba)`. The four
+  trace lemmas of Tau Ceti show that `markovTrace q hδ` is such a family, so `T_n` does not
+  depend on the choice of q.
+- **Quantum integers.** Put `[0] = 0`, `[1] = 1` and `[j+1] = δ[j] − [j−1]` (ibid.,
+  Exercise 4.3.3 and Lemma 4.3.4, printed pp. 146–147). For `δ = 2cos θ` with `sin θ ≠ 0`,
+  `[j] = sin(jθ)/sin θ`; at `δ = 2`, `[j] = j`; for `δ > 2` every `[j]` with `j ≥ 1` is positive.
+- **Jones–Wenzl projections.** If `[2], …, [k]` are nonzero, put `f_1 = 1` and
+  `f_(j+1) = ι(f_j) − ([j]/[j+1]) ι(f_j) U_j ι(f_j)` for `1 ≤ j < k` (ibid., Definition 4.3.10).
+  Then `f_k` is idempotent, `U_i f_k = f_k U_i = 0` for every generator, and `f_k − 1` lies in the
+  two-sided ideal generated by the generators; `f_k` is the unique element with these three
+  properties; for real δ, `f_k† = f_k`; and `T_k(f_k) = [k+1]` (ibid., Proposition 4.3.14 and
+  Exercises 4.3.15–4.3.16, printed pp. 148–149).
+
+For real δ define the Hermitian form `H_n(x, y) = T_n(x† y)`.
+
+- `T_n(x†) = conj T_n(x)`, since `x ↦ conj T_n(x†)` is again a Markov family; so `H_n` is
+  Hermitian.
+- `H_n` is natural under strand inclusion, with factor δ.
+- The trace radical `R_n = {x : T_n(xy) = 0 for all y}` is a two-sided ideal stable under `†`. It
+  is distinct from the Jacobson radical.
+
+The headline is Jones's theorem, `markovTrace_nonneg_iff`: for `δ > 0`, the value
+`T_n(x† x)` is real and nonnegative for every n and x exactly when δ lies in
+`jonesLoopParameters = {2cos(π/m) : m ≥ 3} ∪ [2,∞)` (ibid., Theorem 4.3.17, printed p. 150, for
+necessity). The refinement `markovTrace_nonneg_iff_lt_floor` covers inadmissible δ with
+`0 < δ < 2`. Write `δ = 2cos θ` with `0 < θ < π/2` and put `k = ⌊π/θ⌋`. Then `T_n` is positive
+semidefinite exactly when `n < k` (ibid., Lemma 4.3.8, printed p. 147, and §4.4).
+
+The proof route has three parts.
+
+- **Necessity.** The quantum integers `[j] = sin(jθ)/sin θ` are positive for `j ≤ k`, and
+  `[k+1] < 0`. So `f_k` exists, it is `†`-invariant, and `T_k(f_k† f_k) = T_k(f_k) = [k+1] < 0`.
+  Its image at level `n ≥ k` has trace `δ^(n−k)[k+1] < 0`. The trigonometric case analysis covers
+  rational `θ/π` that are not reciprocals of integers.
+- **Sufficiency.** For admissible δ, 3.3 gives a *-representation `π_n` of `TL_n` with a positive
+  trace `τ_n` and `τ_n ∘ π_n = T_n`, so `T_n(x† x) = τ_n(π_n(x)* π_n(x)) ≥ 0`. At `δ = 2` there is
+  no division by `q − q⁻¹`: the weights are `[t+1] = t+1`.
+- **Below the first bad level.** For `n < k` the same construction on paths of length at most n on
+  the half-line uses only the weights `[1], …, [n+1]`, all positive, and Markov uniqueness up to
+  level n identifies its trace with `T_n`.
+
+Prove the consequences used later.
+
+- Cauchy–Schwarz holds for `H_n`, and `{x : H_n(x,x) = 0} = R_n`.
+- **Pullback criterion.** Let `ρ_n` be compatible *-homomorphisms from `TL_n(ℂ,δ)` into
+  *-algebras `B_n` carrying positive tracial functionals `σ_n` with `σ_n ∘ ρ_n = δ⁻ⁿ T_n`. Then δ
+  is admissible. Injectivity of `ρ_n` is not needed.
+
+**Checks.**
+
+- At `δ = 1/2`, `f_2 = 1 − δ⁻¹e` is a self-adjoint idempotent with `T_2(f_2) = δ² − 1 = −3/4`.
+  Here `θ = arccos(1/4)` and `k = ⌊π/θ⌋ = 2`.
+- At `δ = 0`, `T_n = 0` for `n > 0` and `T_0` is the identity. So the forms are trivially
+  positive semidefinite while `0 ∉ jonesLoopParameters`, which is why the hypothesis `δ > 0` is
+  needed.
+- At negative δ, `T_1(1) = δ < 0`.
+- For δ just below `√2`, `k = 3`: `T_2(f_2) = δ² − 1 > 0`, while `T_3(f_3) = [4] = δ³ − 2δ < 0`.
+- At `δ = √2` (m = 4), `[4] = 0`, and the trace vanishes on `f_3` without becoming negative.
+- The recursion gives `f_2 = 1 − δ⁻¹U_1` and `T_2(f_2) = δ² − δ⁻¹·δ = δ² − 1 = [3]`. A
+  recursion with coefficient `[j+1]/[j]` instead gives `1 − δU_1`, which is not idempotent
+  unless `δ² = 1`.
+
+*Needs:* 3.1; 3.3 for sufficiency; Tau Ceti `markovTrace`, `markovTrace_one`,
+`markovTrace_mul_comm`, `markovTrace_strandIncl`, `markovTrace_strandIncl_mul_e_last`; Mathlib
+`Real.arccos`.
+
+### 3.3 Positive path models, Jones quotients and their C*-tower
+
+Let Γ be the half-line graph with vertices `0, 1, 2, …` when `δ ≥ 2`, and the Dynkin graph
+`A_(m−1)` with vertices `0, …, m−2` when `δ = 2cos(π/m)`, `m ≥ 3`. Vertex t has weight `[t+1]`,
+which is positive in both cases, and the weights satisfy `[t] + [t+2] = δ[t+1]` along Γ (with
+`[m] = 0` at the end of `A_(m−1)`). Let `P_n` be the set of n-step paths on Γ from 0, and
+`H_n = ℓ²(P_n)`. Define `π_n(U_i)` to be zero on paths whose vertices i−1 and i+1 differ. On
+paths with both equal to s it mixes the two possible values `s ± 1` of vertex i by the
+matrix `[s+1]⁻¹ v vᵀ`, where `v = (√[s], √[s+2])` and an absent vertex contributes 0. Prove the
+following.
+
+- The operators `π_n(U_i)` satisfy the three relations, so `π_n` lifts through
+  `TauCeti.TemperleyLieb.lift`. Each `π_n(U_i)` is self-adjoint, so `π_n` carries `†` to the
+  matrix adjoint. Extending paths by one step intertwines `π_n` with `π_(n+1) ∘ ι`.
+- The functional `τ_n(X) = Σ_t [t+1] Tr(X_t)`, with `X_t` the block of paths ending at t, is a
+  positive trace with `τ_n(1) = δⁿ`, and `τ_n ∘ π_n` is a Markov family. By 3.2,
+  `τ_n ∘ π_n = T_n`.
+- `ker π_n = R_n`: if `x ∈ R_n` then `τ_n(π_n(x) π_n(x)*) = T_n(x x†) = 0`, and `τ_n` is faithful.
+  So `Q_n = TL_n / R_n` is the image of `π_n`, a *-algebra with a faithful positive trace.
+- The image of `π_n` is the whole path algebra, so `Q_n ≅ ⊕_t M_(#paths(n,t))(ℂ)` with trace
+  weights `[t+1] > 0`. The same matrix units appear as Penneys's tree basis (ibid., §4.4,
+  (TB1)–(TB7), printed pp. 154–155, for `δ ≥ 2`; §4.5, Definition 4.5.1 and Facts 4.5.5, printed
+  pp. 158–159, at `δ = 2cos(π/m)`). At `δ ≥ 2`, `Σ_t #paths(n,t)² = catalan n ≥ dim TL_n`, so
+  `π_n` is injective and `R_n = 0`.
+- The strand maps `Q_n → Q_(n+1)` are injective, including at levels 0 and 1.
+- The normalised trace-preserving expectations `E_n : Q_(n+1) → Q_n` are given by the scaled
+  last-strand closure. They satisfy the Markov formula `τ_(n+1)(ι_n(x) p_n) = δ⁻² τ_n(x)`, where
+  `p_n = δ⁻¹ U_n`.
+
+Prove the reusable lemma: a finite-dimensional unital complex *-algebra with a faithful positive
+trace is a C*-algebra under the operator norm of left multiplication on its trace Hilbert space.
+For every admissible δ, apply it to `Q_n`, and prove the following.
+
+- The strand maps are isometric unital *-homomorphisms, and the expectations are unital
+  completely positive.
+- The C*-inductive limit `B_δ` (CStarAlgebras C5) carries a faithful normalised trace τ. Its
+  faithfulness follows from the norm convergence of the stage expectations.
+- The GNS representation on `L²(B_δ, τ)` is faithful. Its weak closure carries the normal
+  extension of τ and the extended expectations (VonNeumannAlgebras V1, V6).
+
+**Checks.**
+
+- At `δ = 1` (m = 3), Γ = `A_2` has vertices 0 and 1, there is one n-step path from 0 for each
+  n, and `Q_n = ℂ` for every n; `f_2 = 1 − e` spans `R_2`.
+- At `δ = √2` (m = 4), `dim Q_2 = 2` and `dim Q_3 = 4`, by paths on `A_3` with endpoints in
+  `{0, 2}` and `{1}`. By comparison `dim TL_3 = 5`.
+- At `δ = 2`, the two 2-step paths from 0 end at 0 and 2, so `τ_2(1) = 1·1 + 3·1 = 4 = δ²`. With
+  unit weights instead of `[t+1]` the value would be 2, and already `τ_1(1) = 1 ≠ δ`.
+- At `δ = 1`, `TL_2 = ℂ ⊕ ℂ` is semisimple, but `f_2` is a nonzero idempotent in the trace
+  radical. So the trace radical is not the Jacobson radical.
+
+*Needs:* 3.1 and the normal form, Markov uniqueness and quantum integers of 3.2; Tau Ceti
+`lift`, `lift_e`, `hom_ext`; CStarAlgebras C5; VonNeumannAlgebras V1, V6.
 
 ### 3.4 The Temperley–Lieb action in the Jones tower
 
@@ -603,7 +687,7 @@ Prove the following.
 
 - `ρ_n` commutes with `†` and the tower adjoint, and with the strand inclusions.
 - `τ ∘ ρ_n = δ⁻ⁿ T_n`. The proof uses the value on 1, strand inclusion, the Markov relation of
-  2.3 and the uniqueness of `IsMarkovTrace`.
+  2.3 and the uniqueness of the Markov trace (3.2), applied to the family `δⁿ τ ∘ ρ_n`.
 
 No extremality or irreducibility is needed.
 
@@ -614,8 +698,7 @@ No extremality or irreducibility is needed.
 - At index 1, `ρ_n(U_i) = U_i ↦ 1`. This is a representation of `TL_n(ℂ,1)` killing `f_2 = 1 − e`.
 - The image of `ρ_n` is generally not injective. At δ = 1 it is one-dimensional.
 
-*Needs:* 2.3; TemperleyLiebOperatorAlgebras A1; Tau Ceti `lift`, `lift_e`, `hom_ext`,
-`strandIncl_e`; TemperleyLieb Layer 4.
+*Needs:* 2.3, 3.1, 3.2; Tau Ceti `lift`, `lift_e`, `hom_ext`, `strandIncl_e`.
 
 ### 3.5 Index restriction and the kernel of the action
 
@@ -625,8 +708,8 @@ Prove Jones's index restriction
 [M:N] ∈ {4cos²(π/m) : m ≥ 3} ∪ [4,∞]
 ```
 
-for every II₁ subfactor, from TemperleyLiebOperatorAlgebras A4's pullback criterion applied
-to 3.4 (Jones–Sunder, Theorem 2.3.8 for the restriction clause). Infinite index lies in the extended interval, and only
+for every II₁ subfactor, from the pullback criterion of 3.2 applied to 3.4 (Jones–Sunder,
+Theorem 2.3.8 for the restriction clause). Infinite index lies in the extended interval, and only
 the finite case uses δ and the action. The restriction does not depend on realisation. At finite
 index prove the following.
 
@@ -644,7 +727,7 @@ index prove the following.
 - `δ² ∈ [4,∞)` exactly when `δ ≥ 2`. This matches the two clauses of `jonesLoopParameters`
   under `d = δ²`.
 
-*Needs:* 2.2, 3.4; TemperleyLiebOperatorAlgebras A3–A4.
+*Needs:* 2.2, 3.2, 3.4.
 
 ### Examples
 
@@ -654,8 +737,9 @@ index prove the following.
 
 ### Dependencies
 
-Layer 2; TemperleyLiebOperatorAlgebras A1–A5; Tau Ceti `TauCeti.TemperleyLieb`;
-TemperleyLieb Layer 4.
+Layer 2; Tau Ceti `lift`, `strandIncl`, `markovTrace` and its trace lemmas; Mathlib
+`FreeAlgebra`, `RingQuot`;
+CStarAlgebras C5; VonNeumannAlgebras V1, V6.
 
 ## Layer 4: Commuting squares and realisation of every index
 
@@ -736,7 +820,7 @@ Prove Ocneanu compactness with exact column indices (Jones–Sunder, §5.7):
 
 ### 4.3 Realisation of every allowed index
 
-For `m > 3`, use TemperleyLiebOperatorAlgebras A3–A5's quotient tower at `δ = 2cos(π/m)`.
+For `m > 3`, use 3.3's quotient tower at `δ = 2cos(π/m)`.
 Construct the trace-preserving first-strand shift `U_i ↦ U_(i+1)`, the weak closure `N_δ` of its image and the full closure
 `M_δ`, and prove that both are hyperfinite II₁ factors. Start the two-row square at `n₀ = m − 1`,
 after the path diagram has reached every allowed parity vertex, with
@@ -769,7 +853,7 @@ an irreducible model for every value.
 - At `m = 5` the realised index is `(3+√5)/2 ≈ 2.618`, and the shifted square has the `A_4`
   graph.
 
-*Needs:* 2.2, 2.6, 4.1, 4.2; TemperleyLiebOperatorAlgebras A3–A5; VonNeumannAlgebras V13.
+*Needs:* 2.2, 2.6, 3.3, 4.1, 4.2; VonNeumannAlgebras V13.
 
 ### Examples
 
@@ -778,7 +862,7 @@ an irreducible model for every value.
 
 ### Dependencies
 
-Layers 2–3; TemperleyLiebOperatorAlgebras A3–A5; VonNeumannAlgebras V13.
+Layers 2–3; VonNeumannAlgebras V13.
 
 ## Layer 5: The standard invariant and principal graphs
 
@@ -876,8 +960,8 @@ the whole shaded operad, and give normal forms. The relations are:
 
 A subfactor planar algebra is connected, finite-dimensional at each level, positive and
 spherical, with common circle value δ. Derive its finite C*-box algebras and Markov tower.
-Construct the universal Temperley–Lieb box action, compare its closure trace, and apply
-TemperleyLiebOperatorAlgebras A4's pullback criterion directly. Build the Temperley–Lieb and finite-group planar algebras as tangle
+Construct the universal Temperley–Lieb box action, compare its closure trace, and apply 3.2's
+pullback criterion directly. Build the Temperley–Lieb and finite-group planar algebras as tangle
 algebras.
 
 **Checks.**
@@ -1258,7 +1342,7 @@ This is a realisation theorem, and asserts no uniqueness.
 
 - For the Temperley–Lieb planar algebra at `δ > 1`, 8.1 gives an irreducible inclusion
   `W_0 ⊂ W_1` of index δ². Its relative commutants are `W_0′ ∩ W_k ≅ P_(k,+)`: this is `TL_k`
-  for `δ ≥ 2`, and TemperleyLiebOperatorAlgebras A3's quotient `Q_k` at `δ = 2cos(π/m)`.
+  for `δ ≥ 2`, and 3.3's quotient `Q_k` at `δ = 2cos(π/m)`.
 
 ### Dependencies
 
@@ -1503,9 +1587,14 @@ Layers 1, 2 and 6; VonNeumannAlgebras V8, V11; OperatorAlgebraDynamics D8.
   expectation and statistical dimension (2.4–2.5); Theorem 3.8, the Pimsner–Popa inequality
   (2.2).
 - Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4,
-  https://people.math.osu.edu/penneys.2/UQSL/PartI/UQSLPartIChapter4.pdf. Used for: Lemma 4.3.8
-  and Theorem 4.3.17, printed p. 150; §4.4, the tree bases and semisimplicity; §4.5, the
-  root-of-unity quotient (the TemperleyLiebOperatorAlgebras A2–A5 supplier used in Layer 3).
+  https://people.math.osu.edu/penneys.2/UQSL/PartI/UQSLPartIChapter4.pdf. Used for:
+  Exercises 4.1.2–4.1.3, printed p. 141, the normal form and the dimension bound (3.2–3.3);
+  Exercise 4.2.6, printed p. 146, the Markov property (3.2); Exercise 4.3.3 and Lemma 4.3.4,
+  printed pp. 146–147, the quantum integers (3.2); Definition 4.3.10, Proposition 4.3.14 and
+  Exercises 4.3.15–4.3.16, printed pp. 148–149, the Jones–Wenzl projections (3.2); Lemma 4.3.8
+  and Theorem 4.3.17, printed pp. 147 and 150 (3.2); §4.4, (TB1)–(TB7), printed pp. 154–155,
+  the tree bases and semisimplicity (3.3); §4.5, Definition 4.5.1 and Facts 4.5.5, printed
+  pp. 158–159, the root-of-unity quotient (3.3).
 - Jones, *Planar algebras I*, arXiv:math/9909027, §§1–4 and Theorems 4.2.1 and 4.3.1 (6.1, 6.4).
 - Jones–Shlyakhtenko–Walker, *An orthogonal approach to the subfactor of a planar algebra*,
   arXiv:0807.4146. Used for: Theorem 4.9 and Theorems 4.20–4.21 (8.1), and §5 (8.2).

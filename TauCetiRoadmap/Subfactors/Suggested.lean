@@ -3,15 +3,20 @@ Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
+import TauCeti.Algebra.TemperleyLieb.MarkovTrace
 
 /-!
 # Subfactors: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems that are statable against the pinned Mathlib and Tau Ceti. None is, so the file
-declares nothing. Jones's positivity theorem for the Temperley–Lieb closure trace, which the
-index restriction consumes, is a headline of TemperleyLiebOperatorAlgebras A4 and is stated
-there, not here.
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`.
+
+Stated here (Layer 3): Jones's positivity theorem for the Temperley–Lieb closure trace, in its
+all-level form and in its first-bad-level form. The trace is Tau Ceti's
+`TauCeti.TemperleyLieb.markovTrace`. The analytic adjoint is an argument of the statement, as a
+conjugate-linear star-ring structure fixing every generator. For real `δ` exactly one such
+structure exists, and Layer 3.1 constructs it. Sufficiency is proved through the positive path
+models of Layer 3.3, which need no further carrier at the pins.
 
 Not statable at the pins, because the carrier named in parentheses is missing:
 
@@ -36,3 +41,52 @@ Not statable at the pins, because the carrier named in parentheses is missing:
   relative-commutant example (Layer 10). There is no extended positive cone and no Connes
   fusion of bimodules over a II₁ factor.
 -/
+
+noncomputable section
+
+open scoped ComplexOrder
+
+namespace TauCetiRoadmap.Subfactors
+
+open TauCeti TauCeti.TemperleyLieb
+
+/-! ## Layer 3: Temperley–Lieb positivity and Jones index restriction -/
+
+/-- The admissible loop parameters `{2cos(π/m) : m ≥ 3} ∪ [2,∞)`. A positive real `δ` lies in
+this set exactly when the Temperley–Lieb closure trace with loop value `δ` is positive at every
+level. The Jones index values `4cos²(π/m)` and `[4,∞)` are the squares `δ²` of its members. -/
+def jonesLoopParameters : Set ℝ :=
+  {δ | (∃ m : ℕ, 3 ≤ m ∧ δ = 2 * Real.cos (Real.pi / m)) ∨ 2 ≤ δ}
+
+/-- **Jones's positivity theorem.** Let `δ > 0`, and let `q` be a unit with `δ = -(q + q⁻¹)`,
+the sign convention of `TauCeti.TemperleyLieb.markovTrace`. Give each Temperley–Lieb algebra
+`TL_n(ℂ, δ)` a conjugate-linear star-ring structure fixing the generators. Then the closure
+trace `T_n(x⋆x)` is real and nonnegative for every `n` and every `x` exactly when `δ` is
+admissible. Necessity is Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4,
+Theorem 4.3.17, printed p. 150. Sufficiency uses the positive path weights of §§4.4–4.5 there. -/
+theorem markovTrace_nonneg_iff {δ : ℝ} (hδ : 0 < δ) (q : ℂˣ)
+    (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)))
+    [∀ n, StarRing (TemperleyLieb ℂ (δ : ℂ) n)] [∀ n, StarModule ℂ (TemperleyLieb ℂ (δ : ℂ) n)]
+    (he : ∀ (n : ℕ) (i : Fin (n - 1)), star (e (δ : ℂ) i) = e (δ : ℂ) i) :
+    (∀ (n : ℕ) (x : TemperleyLieb ℂ (δ : ℂ) n), 0 ≤ markovTrace q hq (star x * x)) ↔
+      δ ∈ jonesLoopParameters := by
+  sorry
+
+/-- **The first bad level.** Let `0 < δ < 2` be inadmissible, write `δ = 2cos θ` with
+`0 < θ < π/2`, and put `k = ⌊π/θ⌋`. Then the closure trace on `TL_n(ℂ, δ)` is positive
+semidefinite exactly when `n < k`. The witness at level `k` is the Jones–Wenzl projection
+`f_k`, whose trace is the negative quantum integer `[k+1]`. Its image at every higher level stays
+negative, because adding a strand multiplies the trace by `δ > 0`. The value of `k` is
+Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4, Lemma 4.3.8, and positivity below `k`
+is the semisimple tree-basis trace of §4.4 there. -/
+theorem markovTrace_nonneg_iff_lt_floor {δ : ℝ} (hδ₀ : 0 < δ) (hδ₂ : δ < 2)
+    (hδ : δ ∉ jonesLoopParameters) (q : ℂˣ) (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)))
+    (n : ℕ) [StarRing (TemperleyLieb ℂ (δ : ℂ) n)] [StarModule ℂ (TemperleyLieb ℂ (δ : ℂ) n)]
+    (he : ∀ i : Fin (n - 1), star (e (δ : ℂ) i) = e (δ : ℂ) i) :
+    (∀ x : TemperleyLieb ℂ (δ : ℂ) n, 0 ≤ markovTrace q hq (star x * x)) ↔
+      n < ⌊Real.pi / Real.arccos (δ / 2)⌋₊ := by
+  sorry
+
+end TauCetiRoadmap.Subfactors
+
+end
