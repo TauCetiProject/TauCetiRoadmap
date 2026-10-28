@@ -127,7 +127,7 @@ comparisons to them and never a second carrier.
   (`TauCeti.brauerCohomologyEquiv`), continuous Galois cohomology, Hilbert 90 for fields and Kummer
   theory*: Tau Ceti, [ClassFieldTheory](../ClassFieldTheory/README.md),
   [ProfiniteCohomology](../ProfiniteCohomology/README.md) and
-  [QuadraticFormInvariants](../QuadraticFormInvariants/README.md) Layer 7B.
+  [QuadraticFormInvariants](../../Completed/QuadraticFormInvariants/README.md) Layer 7B.
 - *Exact categorical Grothendieck groups and resolution comparison*:
   [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) Layers 2–3,
   implemented by `TauCeti.ExactK0`, `TauCeti.ExactK0.lift` and the resolution API.

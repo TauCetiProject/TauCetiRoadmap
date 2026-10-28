@@ -1,6 +1,7 @@
 <!--tauceti-status:v1 {"roadmap":"QuadraticFormInvariants","to_sha":"e8ea0d187d0e20fa24ab5f68cfc27b2d40b876bd","ts":"2026-10-25T17:19:50Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","state":"done"},{"id":"Layer 8","state":"done"},{"id":"Layer 9","state":"done"}],"readme_sha":"5221c62cb98c724d5bc1ddbed7e55e96be4b6265450add8adacb88cabd4b418c","roadmap":"QuadraticFormInvariants","to_sha":"e8ea0d187d0e20fa24ab5f68cfc27b2d40b876bd"}-->
 # Status: QuadraticFormInvariants
+
+For the later source audit, see [Completion audit](README.md#completion-audit-2026-10-28).
 
 This file documents the status of the QuadraticFormInvariants roadmap up until `e8ea0d1` (2026-10-25T17:19:50Z). There may have been subsequent updates.
 

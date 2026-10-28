@@ -3,7 +3,7 @@ import TauCeti.FieldTheory.SquareClassGroup.Basic
 import TauCeti.LinearAlgebra.RootSystem.DynkinType
 import TauCeti.LinearAlgebra.RootSystem.NumberOfRoots
 import Completed.IntegralLattices.Suggested
-import TauCetiRoadmap.QuadraticFormInvariants.Suggested
+import Completed.QuadraticFormInvariants.Suggested
 import TauCetiRoadmap.GlobalQuadraticForms.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested

@@ -30,6 +30,59 @@ pairing. Class Field Theory owns that pairing and Hilbert reciprocity; this road
 derives the sign product formula from it. Hasse--Minkowski and every global
 classification or realization theorem belong to `GlobalQuadraticForms`.
 
+## Completion audit (2026-10-28)
+
+This archival change depends on the three independent implementation PRs
+[TauCeti#22016](https://github.com/TauCetiProject/TauCeti/pull/22016),
+[TauCeti#22020](https://github.com/TauCetiProject/TauCeti/pull/22020), and
+[TauCeti#22022](https://github.com/TauCetiProject/TauCeti/pull/22022).
+The audit checked every layer and the acceptance examples against Tau Ceti
+`cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with commits
+`506afb054d52ec8631644ab4bee59954502c80b1`,
+`3035d5bd1acf35ac0142d91d876ed5ab7ebe16b8`, and
+`cb80e3219e3d307c980a35a0447fb4885ffdae1b` from those PRs.
+
+| Layer | Native implementation and completion evidence |
+|---|---|
+| 0: diagonal descent and chains | `LinearAlgebra/QuadraticForm/Diagonal/Chain/`; the rational `BinaryStep` example in `Binary.lean` |
+| 1: hyperbolic and Witt decomposition | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/Decomposition.lean`, including explicit rational non-isometry |
+| 2: quaternion norm forms and splitting | `Algebra/Quaternion/SplittingCriterion.lean`, including the four-fold splitting criterion |
+| 3: discriminants | `LinearAlgebra/QuadraticForm/RegularFormClass/Discriminant.lean`; `Matrix.lean` gives full-polar matrix and determinant normalization; the multiplicative Gram adapters are in `Suggested.lean` |
+| 4: Witt ring and Pfister forms | `LinearAlgebra/QuadraticForm/Witt/`, including its `Pfister/` directory |
+| 5: Brauer-valued Hasse and Clifford invariants | `LinearAlgebra/QuadraticForm/RegularFormClass/Hasse.lean` and `Clifford.lean` |
+| 6: local symbols, defect, norm tables, classification and realization | `NumberTheory/LocalField/QuadraticForm/`; `Invariants.lean:172` is `localInvariantsEquiv`; `Invariant.lean` identifies the Hasse-class invariant; `Bimultiplicativity.lean` expands uniformizer-unit decompositions |
+| 7: Brauer comparison, Kummer cups and norm equations | `Algebra/CrossedProduct/`, `FieldTheory/GaloisCohomology/MuTwo/`; `CupProduct.lean` records product-to-cups compatibility and the final five `LocalSymbol.lean` comparisons are universe polymorphic |
+| 8: Stiefel–Whitney classes and invariant comparisons | `FieldTheory/QuadraticForm/StiefelWhitney/`, including class descent, base change, Hasse and Clifford comparisons |
+| 9: Scharlau and trace transfer, Evens norm and Kahn formula | `LinearAlgebra/QuadraticForm/Transfer/` and `FieldTheory/QuadraticForm/StiefelWhitney/`; the latter's `QuadraticExtension.lean:249` gives the degree-two relative formula |
+
+All paths in this table are below `TauCeti/`. The general quadratic trace diagonalization
+already applies to every radicand; `Transfer/Examples.lean` explicitly specializes it over
+`ℚ` and `ℚ₂` and compares its `ℂ/ℝ` instance with the EffectiveBounds trace discriminant.
+`Transfer/Discriminant.lean` now supplies `discr_traceTransfer` for every twisted line,
+including the trace-zero case.
+
+The explicit dyadic controls are in
+[NormControl.lean](https://github.com/TauCetiProject/TauCeti/blob/cb80e3219e3d307c980a35a0447fb4885ffdae1b/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NormControl.lean)
+and [NegOne/Norm.lean](https://github.com/TauCetiProject/TauCeti/blob/cb80e3219e3d307c980a35a0447fb4885ffdae1b/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NegOne/Norm.lean).
+The first proves that `1 + √2` is a unit norm for radicand `5` over the ramified base
+`ℚ₂(√2)`, proves the even-valuation norm criterion for that radicand, and excludes every
+integral square-root-coordinate representation and both incorrect integral families.
+The second verifies the depth-two norm containment for `ℚ₂(i)`, the sum-of-two-squares
+representatives `1` and `5`, and the depth-one nonnorm `3`.
+The earlier `DyadicSqrt/Five/` trace, square-class, Stiefel–Whitney and relative-formula
+examples remain the eight-unit-class acceptance suite.
+
+The changed native modules and their dependency closures were built with Lean `4.36.0-rc1`.
+Their source-style, header and axiom checks passed; the new comparison and obstruction theorems
+use only `propext`, `Classical.choice` and `Quot.sound`.
+
+This is a native-source completion inventory, separate from the prototype certificate.
+The repository dependency pin remains `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`;
+`Suggested.lean` retains its prototype proof holes and is not represented as a compiled
+certificate for the newer native implementation. The two added multiplicative Gram adapters
+were independently elaborated against that existing pin with minimal imports.
+Historical status and progress reports retain their original source dates.
+
 ## Suggested homes
 
 The homes below mirror Mathlib's directory conventions.
@@ -411,7 +464,7 @@ improvement through their own review rather than duplicating them.
   given ambient field.
 - **`TauCeti/NumberTheory/Multiquadratic/SquareClass/{Basic,Independence}.lean`**:
   square-class descent in towers, that is `sqrtTower` and `squareClass_of_sq_mem`. The
-  [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns multi-root towers. This
+  [multiquadratic roadmap](../Multiquadratic/README.md) owns multi-root towers. This
   roadmap owns the form theory of one quadratic step, and the shared language is the
   square-class group above.
 - **`TauCeti/NumberTheory/LegendreSymbol/SquareClass.lean`**: `legendreSym_mul_sq` and
@@ -445,17 +498,17 @@ improvement through their own review rather than duplicating them.
 ### From other roadmaps in this repository
 
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field: the normalized valuation, the unit filtration with its
   graded pieces, the Teichmüller section, the ramification and residue degrees, power
   and square classes, and unramified extensions with their norm groups. Layer 6A
   consumes those declarations rather than defining a second valuation or filtration.
-- The [class-field-theory roadmap](../ClassFieldTheory/README.md) owns local duality,
+- The [class-field-theory roadmap](../../TauCetiRoadmap/ClassFieldTheory/README.md) owns local duality,
   the invariant map, the cohomological Kummer-cup Hilbert pairing, and Hilbert
   reciprocity. Layers 6E and 7C compare this imported pairing with the
   norm-equation/quaternion symbol; the dependency is
   `ClassFieldTheory -> QuadraticFormInvariants`, never the reverse.
-- The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
+- The [profinite-cohomology roadmap](../../TauCetiRoadmap/ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations: the carrier, the cup product, restriction, inflation,
   corestriction, Kummer theory, the index-two Evens norm with the identities, the
   index-two exact sequence and the `D₁₆` pullback formula of the contract table below, the
@@ -468,7 +521,7 @@ improvement through their own review rather than duplicating them.
   its finite quotient. Neither builds a continuous-cohomology carrier, an inflation map,
   or a finite-quotient colimit of its own.
 - The [semisimple-algebras
-  roadmap](../RepresentationTheory/SemisimpleAlgebras/README.md) **Layer 4**: the tensor
+  roadmap](../../TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md) **Layer 4**: the tensor
   product of two central simple `K`-algebras is central simple, with `finrank K (A ⊗ B)
   = finrank K A · finrank K B`; and the opposite-algebra package `A ⊗_K Aᵒᵖ ≃ₐ[K] End_K
   A ≃ₐ[K] M_{finrank K A}(K)`.
@@ -479,7 +532,7 @@ improvement through their own review rather than duplicating them.
   - the quotient API for `Brauer.CSA_Setoid`;
   - the theorem that every central simple `K`-algebra is split by a finite separable
     extension.
-- The [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) for the square-class
+- The [multiquadratic roadmap](../Multiquadratic/README.md) for the square-class
   language of Layer 0, through the landed files listed above.
 
 Where this roadmap and the semisimple-algebras roadmap name the same fact, the
@@ -530,7 +583,7 @@ declaration column says so. Such a row is still a contract, because the mileston
 named and its owner is fixed; what this roadmap then states locally is the specialized
 shape its own layers consume, marked as such at the point of use.
 
-**From the [local-fields-ramification roadmap](../LocalFieldsRamification/README.md)**,
+**From the [local-fields-ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md)**,
 namespace `TauCetiRoadmap.LocalFieldsRamification`, over
 `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`. That
 roadmap re-exports Tau Ceti's local-field API under its own names, with the same explicit
@@ -557,7 +610,7 @@ Ceti's. This roadmap consumes the supplier's names.
 | Layer 6A, the unramified class; 6B's evaluation formula | 2 | `normGroup`, `map_norm_unitFiltration_zero`, `mem_normGroup_iff_dvd_normalizedValuation`; milestone *Existence and uniqueness* (no target signature) | the unramified norm group in norm-equation form, `x ∈ normGroup L/K ↔ f ∣ v_K(x)`, with `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`; and the unramified extension of each degree. At degree `2` the existence and the uniqueness halves are frozen here, extension-free, as `exists_unramified_class` and `unramified_class_unique` |
 | Layer 6, the `ℚ_p` acceptance suite | 0 | the non-vacuity milestone (worked example) | `IsNonarchimedeanLocalField ℚ_[p]` |
 
-**From the [class-field-theory roadmap](../ClassFieldTheory/README.md)**, namespace
+**From the [class-field-theory roadmap](../../TauCetiRoadmap/ClassFieldTheory/README.md)**, namespace
 `TauCetiRoadmap.ClassFieldTheory`. These declarations are imported; QFI supplies comparison
 theorems only.
 
@@ -595,7 +648,7 @@ the equality of signs. ⚠ This bridge does **not** factor through Layer 7B's co
 crossed-product comparison has `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that
 `localSymbol` is built from.
 
-**From the [profinite-cohomology roadmap](../ProfiniteCohomology/README.md)**, namespace
+**From the [profinite-cohomology roadmap](../../TauCetiRoadmap/ProfiniteCohomology/README.md)**, namespace
 `TauCetiRoadmap.ProfiniteCohomology`. That roadmap re-exports Tau Ceti's implementation under
 its own names, with the same explicit arguments. In the rows below, `AbsoluteGaloisGroup`,
 `trivialF2`, `res`, `infl`, `coeffMap`, the Kummer block (`KummerCoeff`, `powerClassQuotient`,
@@ -627,7 +680,7 @@ about Tau Ceti's objects and none is about a second copy of them.
 | Layer 7B, milestone 2(8), the finite-quotient description of `H²(G_K, Kˢˣ)` | 0, 4 | `Invariants`, `explicitFiniteQuotientSystem2`, `explicitFiniteQuotientComparison2`, `explicitFiniteQuotientCocone2`, `explicitFiniteQuotientColimit2` | the invariant coefficients `M^U`, the degree-two system over the open normal subgroups of `G_K`, its inflation-and-inclusion cocone into `H²(G_K, M)`, and universality of that cocone |
 
 **From the [semisimple-algebras
-roadmap](../RepresentationTheory/SemisimpleAlgebras/README.md).**
+roadmap](../../TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md).**
 
 | Consumer milestone | Supplier layer | Exact declaration | Mathematical type |
 |---|---|---|---|
@@ -1492,7 +1545,7 @@ is stated at the end of 6C, with its own prerequisites.
 #### 6A. The local-field substrate, consumed
 
 The general arithmetic of a nonarchimedean local field belongs to the
-[local-fields-ramification roadmap](../LocalFieldsRamification/README.md), and this sublayer consumes it. The
+[local-fields-ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), and this sublayer consumes it. The
 normalized valuation is that roadmap's `normalizedValuation`, the unit filtration is its
 `unitFiltration`, the level `e = v_K(2)` is its `natCastValuation K 2`, and the graded
 pieces, the power-class counts with the
@@ -2181,7 +2234,7 @@ mathematics, that is the theory of crossed products, and not a formality.
 
 The continuous cohomology of a profinite group, with its cup product, its Kummer theory,
 its restriction and corestriction, and its Evens norm, belongs to the
-[profinite-cohomology roadmap](../ProfiniteCohomology/README.md). This sublayer consumes
+[profinite-cohomology roadmap](../../TauCetiRoadmap/ProfiniteCohomology/README.md). This sublayer consumes
 those declarations. It defines no cup product, no restriction, no corestriction, no
 Kummer isomorphism and no Evens norm, because a second one of any of them would need a
 comparison theorem at every use site and would leave two theories that only prose says
@@ -3261,16 +3314,16 @@ subject matter belongs and built where its prerequisites are ready.
 ## Ownership and coordination
 
 - The [semisimple-algebras
-  roadmap](../RepresentationTheory/SemisimpleAlgebras/README.md) owns central simple
+  roadmap](../../TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md) owns central simple
   algebras, Skolem-Noether, the Brauer group, and splitting fields. Layer 5 here takes
   the quaternion case, the Clifford case, and the 2-torsion package. Layer 7B takes the
   crossed-product comparison. Where both roadmaps name the same fact, the
   semisimple-algebras statement is the statement of record.
-- The [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns multi-root towers of
+- The [multiquadratic roadmap](../Multiquadratic/README.md) owns multi-root towers of
   quadratic extensions. This roadmap owns the form theory of one quadratic step. The
   shared language is `TauCeti.SquareClassGroup`.
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field. Sublayer 6A consumes it through the exact contract above:
   the normalized valuation, the unit filtration and its graded pieces, the Teichmüller
   section, the ramification and residue degrees, the power-class counts, the unramified
@@ -3281,7 +3334,7 @@ subject matter belongs and built where its prerequisites are ready.
   to the binary form `b = x² − Δ y²` that 6B and 6C apply. The uniformizer predicate, the
   local square theorem in its sharp form and the odd square-class count are Tau Ceti's and
   are consumed under this roadmap's names.
-- The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
+- The [profinite-cohomology roadmap](../../TauCetiRoadmap/ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations. Sublayer 7A consumes it through the exact contract
   above: the carrier, the cup product, restriction, inflation, corestriction, Kummer
   theory, the multiplicative coefficients, the index-two Evens norm with the identities,
