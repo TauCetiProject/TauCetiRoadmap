@@ -148,8 +148,9 @@ end CanonicalAugmentationPowers
 /-- `(D, J', δ)` with `ι : B → D` is a divided power envelope of `J ⊆ B` relative to `(A, I, γ)`:
 `ι(J) ⊆ J'`, `A → D` is a divided power morphism, and every `A`-algebra map `B → C` sending `J` into
 a divided power ideal `K` with a specified divided power morphism `(A, I, γ) → (C, K, ε)`
-factors uniquely through a divided power morphism `D → C`. In particular, `K` contains the image
-of the base ideal `I`. -/
+factors uniquely through a divided power morphism `D → C`. Since `isDPMorphism` includes
+`I·D ⊆ J'`, the ideal `J'` contains `J·D + I·D`, and every test ideal `K` contains `I·C`; so `J` and
+`J + I·B` have the same envelopes. -/
 structure IsPDEnvelope {B D : Type u} [CommRing B] [CommRing D] [Algebra A B] [Algebra A D]
     (γ : DividedPowers I) (J : Ideal B) {J' : Ideal D} (δ : DividedPowers J') (ι : B →ₐ[A] D) :
     Prop where
@@ -159,9 +160,11 @@ structure IsPDEnvelope {B D : Type u} [CommRing B] [CommRing D] [Algebra A B] [A
     DividedPowers.IsDPMorphism γ ε (algebraMap A C) → ∀ g : B →ₐ[A] C, J.map g ≤ K →
       ∃! h : D →ₐ[A] C, DividedPowers.IsDPMorphism δ ε h.toRingHom ∧ h.comp ι = g
 
-/-- Existence of the universal divided power envelope (Stacks, Lemma 60.2.1 and Definition 60.2.2). -/
+/-- Existence of the universal divided power envelope of an arbitrary ideal `J`, with no
+containment `I·B ⊆ J` (README PD.6; Stacks, Lemma 60.2.1 with its representability proof, and
+Definition 60.2.2). -/
 theorem exists_isPDEnvelope {B : Type u} [CommRing B] [Algebra A B] (γ : DividedPowers I)
-    (J : Ideal B) (hJ : I.map (algebraMap A B) ≤ J) :
+    (J : Ideal B) :
     ∃ (D : Type u) (_ : CommRing D) (_ : Algebra A D) (J' : Ideal D) (δ : DividedPowers J')
       (ι : B →ₐ[A] D), IsPDEnvelope γ J δ ι := by
   sorry
