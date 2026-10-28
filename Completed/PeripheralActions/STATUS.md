@@ -1,6 +1,7 @@
 <!--tauceti-status:v1 {"roadmap":"PeripheralActions","to_sha":"1d095894ac25298eb2a23398826c0f867b6d3164","ts":"2026-10-05T01:07:53Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","remaining":"not a target here; it belongs to the arithmetic successor of BelyiMaps","state":"untouched"}],"readme_sha":"8c021ac61ad9bfe9be447af6c451d309c5ff67884b49e4524d06106b690778b5","roadmap":"PeripheralActions","to_sha":"1d095894ac25298eb2a23398826c0f867b6d3164"}-->
 # Status: PeripheralActions
+
+For the later source audit, see [Completion audit](README.md#completion-audit-2026-10-28).
 
 This file documents the status of the PeripheralActions roadmap up until `1d09589` (2026-10-05T01:07:53Z). There may have been subsequent updates.
 
