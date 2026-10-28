@@ -23,6 +23,38 @@ symmetries, and its continuous section over the principal units. The dyadic inst
 `p = 2` and `r = 2`, is stated in the exact shape a consumer needs: an automorphism and three
 conjugators, one for each of `P`, `T` and `C = (PT)⁻¹`.
 
+## Completion audit (2026-10-28)
+
+This archival change depends on [TauCeti#22013](https://github.com/TauCetiProject/TauCeti/pull/22013).
+The source audit checked Tau Ceti `cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with
+that PR's commit `8fd219cf8208e08c3979b25a93151e06d5bc0e95` against every layer and the
+worked-example checklist. The two remaining dyadic requirements are now represented together:
+one automorphism satisfies the equations for both `C` and `C′`, with
+`cC′ = P⁻¹ * cC * (φ P⁻¹)⁻¹`, and the native rank-two free pro-`2` group is instantiated with
+the identity marking.
+
+| Required output | Native source |
+|---|---|
+| Peripheral tuple, cusp, conjugacy and exponent uniqueness | `Peripheral/Basic.lean`, `Group.lean`, `RankOne.lean` |
+| Central-series correction and the separate compactness theorem | `Peripheral/Lifting.lean:138`, `Identity.lean:79,101` |
+| Automorphism and conjugated-cusp forms | `Peripheral/Automorphism.lean:68,87` |
+| Closedness and continuous exponent | `Peripheral/Topology.lean:81,141` |
+| Reflection, rank-two inversion, permutation symmetries and their boundaries | `Peripheral/Reflection.lean`, `Permutation.lean` |
+| Continuous homomorphic section over principal units | `Peripheral/Section.lean:94` |
+| Dyadic equations, opposite convention, identity form and standard-model example | [Peripheral/Dyadic.lean](https://github.com/TauCetiProject/TauCeti/blob/8fd219cf8208e08c3979b25a93151e06d5bc0e95/TauCeti/Topology/Algebra/Group/Profinite/Free/Peripheral/Dyadic.lean) |
+| Nonunit exponent and common-conjugator obstructions | `Peripheral/Nonunit.lean`, `Conjugator.lean` |
+
+The paths in the table are below `TauCeti/Topology/Algebra/Group/Profinite/Free/`.
+The changed dyadic module and its dependency closure were built with Lean `4.36.0-rc1`;
+source-style, header and axiom checks passed. The strengthened opposite-convention theorem
+uses only `propext`, `Classical.choice` and `Quot.sound`.
+
+This is a native-source completion inventory. The repository dependency pin remains
+`a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`, and this audit does not assert that the archived
+`Suggested.lean` is a compiled certificate for the newer source inventory. The historical
+status and progress reports retain their original source dates. Layer 5 remains assigned to
+the arithmetic successor of BelyiMaps and is outside this roadmap's scope.
+
 ## Scope and ownership
 
 The roadmap owns:

@@ -41,3 +41,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [The Chebotarev density theorem](Chebotarev/README.md)
   (declared complete 2026-10-07)
+- [peripheral actions on free pro-`p` groups](PeripheralActions/README.md)
+  (declared complete 2026-10-28)
