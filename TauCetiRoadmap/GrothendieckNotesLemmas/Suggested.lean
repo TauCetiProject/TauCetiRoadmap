@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.RingTheory.Flat.Pi
 
 /-!
 # General lemmas from the formalisation of Grothendieck's working notes: target signatures
@@ -11,8 +12,8 @@ these are targets, not implementations. Definitions keep the bodies of the first
 
 The signatures are those of the first formalisation, under their Mathlib names, in
 `lean/Grothendieck/Upstream/` of github.com/Commutator-IO/grothendieck-project (CC0), written
-against Mathlib `715a03a9` (2026-10-12). This file compiles against the Mathlib this repository
-pins.
+against Mathlib `715a03a9` (2026-10-12). This file is meant to compile against the Mathlib and
+Tau Ceti this repository pins (Mathlib `f6090c70`, Tau Ceti `358314d4`).
 -/
 
 
@@ -294,7 +295,8 @@ theorem pi_iff [Finite ι] : Flat R (Π i, M i) ↔ ∀ i, Flat R (M i) := by
   sorry
 
 /-- A finite product of flat `R`-modules is flat. -/
-instance pi [Finite ι] [∀ i, Flat R (M i)] : Flat R (Π i, M i) := pi_iff.mpr ‹_›
+-- The instance `Module.Flat.pi` (finite products) is Tau Ceti's
+-- (`TauCeti/RingTheory/Flat/Pi.lean`); only the converse direction is a target here.
 
 end DirectSum
 theorem prod_iff : Flat R (M × N) ↔ Flat R M ∧ Flat R N := by
@@ -723,54 +725,6 @@ theorem inv_mem_of_isIntegral {B : Subalgebra R A} {u : Aˣ} (hi : IsIntegral R 
   sorry
 
 end IsArtinianRing
-
-end
-/-! ### `SemilocalStableRange` -/
-section
-
-
-/-! ## From `Mathlib/RingTheory/LocalProperties/Semilocal.lean` -/
-
-section CommSemiring
-variable {R : Type*} [CommSemiring R] [Finite (MaximalSpectrum R)]
-variable (M : Type*) [AddCommMonoid M] [Module R M]
-variable
-  (Rₚ : ∀ (P : Ideal R) [P.IsMaximal], Type*)
-  [∀ (P : Ideal R) [P.IsMaximal], CommSemiring (Rₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], Algebra R (Rₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], IsLocalization.AtPrime (Rₚ P) P]
-  (Mₚ : ∀ (P : Ideal R) [P.IsMaximal], Type*)
-  [∀ (P : Ideal R) [P.IsMaximal], AddCommMonoid (Mₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], Module R (Mₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], Module (Rₚ P) (Mₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], IsScalarTower R (Rₚ P) (Mₚ P)]
-  (f : ∀ (P : Ideal R) [P.IsMaximal], M →ₗ[R] Mₚ P)
-  [∀ (P : Ideal R) [P.IsMaximal], IsLocalizedModule P.primeCompl (f P)]
-section IsLocalized
-end IsLocalized
-section Localized
-end Localized
-section IsLocalization
-end IsLocalization
-end CommSemiring
-section CommRing
-section IsLocalization
-variable {R : Type*} [CommRing R] [Finite (MaximalSpectrum R)]
-variable
-  (Rₚ : ∀ (P : Ideal R) [P.IsMaximal], Type*)
-  [∀ (P : Ideal R) [P.IsMaximal], CommRing (Rₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], Algebra R (Rₚ P)]
-  [∀ (P : Ideal R) [P.IsMaximal], IsLocalization.AtPrime (Rₚ P) P]
-end IsLocalization
-variable {R : Type*} [CommRing R] [Finite (MaximalSpectrum R)]
-
-/-- A semilocal ring has stable range one: if `a` and `b` are coprime, then `a + t * b` is a
-unit for some `t`. This is due to Bass, see [Bass, *K-theory and stable algebra*][bass1964]. -/
-theorem IsCoprime.exists_isUnit_add_mul {a b : R} (h : IsCoprime a b) :
-    ∃ t : R, IsUnit (a + t * b) := by
-  sorry
-
-end CommRing
 
 end
 /-! ### `FormallySmoothMapBaseChange` -/
@@ -1256,106 +1210,6 @@ namespace Function
 end Function
 end
 
-/-! ## From `Mathlib/Analysis/InnerProductSpace/KyFan.lean` (new file) -/
-
-section
-/-
-Copyright (c) 2026 Michel Hua. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Michel Hua
--/
-
-
-/-!
-# Ky Fan's inequality for singular values
-
-For linear maps `u v : E →ₗ[𝕜] F` between finite-dimensional inner product spaces, the sum of
-the `n` largest singular values is subadditive:
-`∑ j < n, s_j(u + v) ≤ ∑ j < n, s_j(u) + ∑ j < n, s_j(v)`.
-
-## Main statements
-
-* `sum_norm_inner_sq_le_norm_sq_of_orthogonal`: Bessel's inequality for a finite family of
-  pairwise orthogonal vectors of norm at most `1`.
-* `LinearMap.norm_sum_inner_le_sum_singularValues`: Ky Fan's maximum principle: for pairwise
-  orthogonal families `(x_i)` in `E` and `(y_i)` in `F` of vectors of norm at most `1`, indexed by
-  a finite set with at most `n` elements, `‖∑ i, ⟪y_i, T x_i⟫‖ ≤ ∑ j < n, s_j(T)`.
-* `LinearMap.sum_singularValues_add_le`: Ky Fan's inequality.
-* `LinearMap.sum_powersetCard_two_prod_singularValues_add_le`: the same for the second elementary
-  symmetric function `σ₂` of the `n` largest singular values:
-  `σ₂(u + v) ≤ σ₂(u) + (∑ j < n, s_j(u)) (∑ j < n, s_j(v)) + σ₂(v)`. The proof works with
-  `2 × 2` minors of the compressions `⟪y_i, T x_j⟫` instead of the second exterior power.
-
-## References
-
-* [K. Fan, *Maximum properties and inequalities for the eigenvalues of completely continuous
-  operators*][fan1951]: the maximum principle is the case `m = 1` of Theorem 1 (inequality (8)),
-  and Ky Fan's inequality is inequality (20) in the proof of Theorem 5
-* [R. Bhatia, *Matrix Analysis*][bhatia1997]
-
-## Tags
-
-singular values, Ky Fan
--/
-
-
-open Finset Module InnerProductSpace
-open scoped ComplexConjugate
-
-variable {𝕜 : Type*} [RCLike 𝕜]
-  {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E]
-  {F : Type*} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
-
-local notation "⟪" x ", " y "⟫" => inner 𝕜 x y
-
-/-- **Bessel's inequality** for a finite family of pairwise orthogonal vectors of norm at most
-`1`. See `Orthonormal.sum_inner_products_le` for orthonormal families. -/
-theorem sum_norm_inner_sq_le_norm_sq_of_orthogonal {ι : Type*} (s : Finset ι) {y : ι → E}
-    (horth : ∀ i ∈ s, ∀ j ∈ s, i ≠ j → ⟪y i, y j⟫ = 0) (hle : ∀ i ∈ s, ‖y i‖ ≤ 1)
-    (z : E) : ∑ i ∈ s, ‖⟪y i, z⟫‖ ^ 2 ≤ ‖z‖ ^ 2 := by
-  sorry
-
-/-! ### The second elementary symmetric function -/
-
-section Frames
-
-variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace 𝕜 H]
-
-end Frames
-
-namespace LinearMap
-
-variable [FiniteDimensional 𝕜 E] [FiniteDimensional 𝕜 F]
-
-/-- **Ky Fan's maximum principle.** For families `(x_i)` in `E` and `(y_i)` in `F`, indexed by
-a finite set with at most `n` elements, each pairwise orthogonal and made of vectors of norm at
-most `1`, `‖∑ i, ⟪y_i, T x_i⟫‖` is at most the sum of the `n` largest singular values of `T`. -/
-theorem norm_sum_inner_le_sum_singularValues {ι : Type*} (s : Finset ι) {x : ι → E}
-    {y : ι → F} (hx : ∀ i ∈ s, ∀ j ∈ s, i ≠ j → ⟪x i, x j⟫ = 0) (hx1 : ∀ i ∈ s, ‖x i‖ ≤ 1)
-    (hy : ∀ i ∈ s, ∀ j ∈ s, i ≠ j → ⟪y i, y j⟫ = 0) (hy1 : ∀ i ∈ s, ‖y i‖ ≤ 1)
-    (T : E →ₗ[𝕜] F) {n : ℕ} (hn : #s ≤ n) :
-    ‖∑ i ∈ s, ⟪y i, T (x i)⟫‖ ≤ ∑ j ∈ Finset.range n, T.singularValues j := by
-  sorry
-/-- **Ky Fan's inequality**: the sum of the `n` largest singular values is subadditive. -/
-theorem sum_singularValues_add_le (u v : E →ₗ[𝕜] F) (n : ℕ) :
-    ∑ j ∈ Finset.range n, (u + v).singularValues j ≤
-      ∑ j ∈ Finset.range n, u.singularValues j + ∑ j ∈ Finset.range n, v.singularValues j := by
-  sorry
-
-/-- Writing `σ₂(T)` for the second elementary symmetric function of the `n` largest singular
-values of `T`, `σ₂(u + v) ≤ σ₂(u) + (∑ j < n, s_j(u)) (∑ j < n, s_j(v)) + σ₂(v)`.
-Ky Fan's inequality `sum_singularValues_add_le` is the analogous statement for the first
-elementary symmetric function. -/
-theorem sum_powersetCard_two_prod_singularValues_add_le (u v : E →ₗ[𝕜] F) (n : ℕ) :
-    ∑ t ∈ (Finset.range n).powersetCard 2, ∏ i ∈ t, (u + v).singularValues i ≤
-      ∑ t ∈ (Finset.range n).powersetCard 2, ∏ i ∈ t, u.singularValues i +
-        (∑ j ∈ Finset.range n, u.singularValues j) * ∑ j ∈ Finset.range n, v.singularValues j +
-        ∑ t ∈ (Finset.range n).powersetCard 2, ∏ i ∈ t, v.singularValues i := by
-  sorry
-
-end LinearMap
-
-end
 
 end
 /-! ### `PolynomialIntegerValued` -/
