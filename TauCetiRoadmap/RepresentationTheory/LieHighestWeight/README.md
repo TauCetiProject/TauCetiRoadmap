@@ -615,6 +615,56 @@ Weyl-invariance, so that no later step silently assumes a decomposition that has
   `j(h)²+2ħ j(h)+4j(f)j(e)` is central and that its zero-fibre symbol
   is the Poisson-central polynomial `h²+4ef`. These examples check the
   parameter, sign and order conventions against the same concrete algebra.
+
+  <a id="affine-pbw-first-order-example"></a>
+  **Ordered and symmetrized first-order products, explicitly.** Let L be
+  the Lie R-algebra on the free module Rx⊕Ry with `[x,y]=y`. Realize it as
+  the matrix Lie subalgebra spanned by `H=E₀₀`, `N=E₀₁` in
+  `Matrix (Fin 2) (Fin 2) R`; prove the span/bracket/basis dictionary.
+  This is the affine Lie algebra. For every
+  commutative coefficient ring R, use Rees generators X=j(H), Y=j(N), so
+  `XY−YX=ħY`, with ordered PBW basis `Y^aX^b` over R[ħ]. Compare Sym(L)
+  with the native polynomial ring R[x,y] through this same basis.
+
+  Construct the ordered linear comparison S_ord(x^b y^a)=Y^a X^b and its
+  inverse. Inductively prove `X^bY^c=Y^c(X+cħ)^b`, and transport multiplication:
+
+  `(y^a x^b)⋆(y^c x^d)=Σ_(n=0)^b binom(b,n)c^n ħ^n y^(a+c)x^(b+d−n)`.
+
+  Prove this finite formula over R, its scalar/bilinear extension, unit,
+  associativity, parameter specialization and the literal comparison with
+  the Rees multiplication; no factorial division is used. At ħ²=0 its
+  first-order coefficient is `B_ord(p,q)=(∂_x p)y(∂_y q)`. Hence
+  `B_ord(x,y)=y`, `B_ord(y,x)=0` and
+  `B_ord(p,q)−B_ord(q,p)=y((∂_x p)(∂_y q)−(∂_y p)(∂_x q))`.
+  Identify this last expression with the positive Lie–Poisson bracket by
+  the preceding symmetric-generator comparison. Ordered first-order
+  multiplication is not alternating, including on the two generators.
+
+  When R is a ℚ-algebra, also construct the symmetrized PBW comparison by
+  averaging all permutations of each homogeneous tensor, with its degree
+  factorial inverse. Compare it with S_ord, retaining the identity at ħ=0.
+  Modulo ħ² the change is `S_sym=S_ord∘T`, where
+  `T=Id+ħD`, `D(p)=(1/2)y∂_x∂_y p`, and `T⁻¹=Id−ħD`.
+  Prove the monomial formula for this first-order change by counting the
+  mean number of XY interchanges. Transport the product by
+  `p⋆_sym q=T⁻¹(Tp⋆Tq)` and prove
+
+  `B_sym(p,q)=B_ord(p,q)+D(p)q+pD(q)−D(pq)=(1/2){p,q}`.
+
+  Thus even the symmetric splitting gives half the bracket as its product
+  coefficient; the full first-order commutator gives the bracket. State
+  the distinction for UEAlgebra10 p2's quasi-classical exercise with this
+  fixed parameter, rather than identifying its two coefficients. The
+  ordered integral construction remains valid in characteristic2; the
+  averaging/half-bracket comparison has its stated ℚ-algebra hypothesis.
+  This example uses only the preceding arbitrary-ring PBW/Rees construction
+  and native polynomial derivatives. General formal deformation quantization
+  and convergence are not prerequisites. For the symmetrization framework
+  see [Gutt, Deformation Quantization and Symmetries, Lecture1](https://simone.gutt.web.ulb.be/DQWurzOct2019Lect1%262.pdf).
+  Suggested first-order polynomial statements are in
+  [`AffinePBWFirstOrderTargets.lean`](AffinePBWFirstOrderTargets.lean).
+
 - **The Borel and the nilradicals.** Name the subalgebras the base determines, keeping `base` for the
   root-system base alone: `positiveNilradical base = n⁺ = ⨁_{α>0} Lα`, its opposite
   `negativeNilradical base = n⁻`, and `borelSubalgebra base = 𝔟 = H ⊕ n⁺`. Consume native `TauCeti.positiveNilradical H base`, `negativeNilradical H base` and
