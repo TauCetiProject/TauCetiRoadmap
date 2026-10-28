@@ -25,10 +25,10 @@ reusable without any field theory. The second half is Galois theory, stated agai
 One of those gaps is filled elsewhere. The factorization-type theorem is ramification theory of
 number fields, and the [Number Field Arithmetic](../NumberFieldArithmetic/README.md) roadmap owns
 it and states it in `Polynomial.Gal` vocabulary. The factorization layers consume that declaration.
-Separately, the worked number-field example consumes the named splitting-field number-field
-instance from Number Field Arithmetic Layer 3.8, the Gassmann fixed-field contract from Layer 8.4,
-and both the generic subgroup transports in Induction–Restriction Layer 2.1 and the finite
-almost-conjugate pair from Layer 2.2.
+Separately, the worked number-field example consumes Tau Ceti's splitting-field number-field
+instance, both the generic subgroup transports in Induction–Restriction Layer 2.1 and the finite
+almost-conjugate pair from Layer 2.2, and proves the arithmetic-equivalence conclusions it needs
+as targets of Layer 9.
 This roadmap proves the polynomial and permutation consequences: which cycle types a factorization exhibits,
 what those exhibitions recognize, and the three-prime
 realization of `Sₙ`. It does not develop a second route to the theorem.
@@ -132,12 +132,10 @@ No milestone depends on anything else. In particular, no milestone depends on an
 - an external repository;
 - a roadmap that does not exist yet.
 
-Dated information about the surrounding ecosystem is not part of the specification. It is
-maintained in a private provenance ledger.
+Dated information about the surrounding ecosystem is not part of the specification.
 
 "The pinned Mathlib" means the version in the repository's `lake-manifest.json`. Every claim
-below about what Mathlib has was checked against it. The date of that check is maintained in the
-private provenance ledger.
+below about what Mathlib has refers to it.
 
 ## What this roadmap consumes from arithmetic and representation theory
 
@@ -149,9 +147,11 @@ and proves the theorem in the form a polynomial roadmap can use, over a **reduci
 with the fixed points restored. This roadmap does not prove it a second time.
 
 Layer 5 consumes the factorization-type declaration from Number Field Arithmetic 3.10. Separately,
-Layer 9 consumes Number Field Arithmetic's named splitting-field number-field instance from 3.8,
-its Gassmann fixed-field declarations from 8.4, and Induction–Restriction 2.2's finite pair. It
-also consumes IR 2.1's subgroup transport. The Gassmann subgroup pair is transported along the
+Layer 9 consumes Tau Ceti's `Polynomial.SplittingField.instNumberField`
+(`TauCeti/NumberTheory/NumberField/SplittingField.lean`) and Induction–Restriction 2.2's finite
+pair. It also consumes IR 2.1's subgroup transport. Arithmetic equivalence of fixed fields is not
+supplied by Number Field Arithmetic, which lists arithmetic equivalence and Gassmann triples
+outside its milestones; the two conclusions the example needs are Layer 9 targets. The Gassmann subgroup pair is transported along the
 `galActionHom` equivalence using IR 2.1's
 `Gassmann.almostConjugate_comap` and `Gassmann.not_conj_comap`. These suppliers do not
 depend on this roadmap, so the merge graph remains acyclic.
@@ -159,44 +159,33 @@ depend on this roadmap, so the merge graph remains acyclic.
 | Consumer here | Supplier layer | Exact declaration | Statement relied on |
 |---|---|---|---|
 | 5, the membership statement, and through it Layers 6, 8 and 9 | 3.10 | `exists_gal_fullCycleType_eq_factorizationType` | for `f : ℤ[X]` monic and `p` prime with `¬ (p : ℤ) ∣ f.discr`, there is `σ : (f.map (Int.castRingHom ℚ)).Gal` with `(galActionHom (f.map (Int.castRingHom ℚ)) ℂ σ).cycleType + Multiset.replicate (Fintype.card (rootSet ℂ) − support.card) 1` equal to `Multiset.map natDegree (normalizedFactors (f.map (Int.castRingHom (ZMod p))))` |
-| Layer 9, worked S₁₆ number-field example | Number Field Arithmetic 3.8, 8.4; Induction–Restriction 2.1, 2.2 | `TauCetiRoadmap.NumberFieldArithmetic.numberField_splittingField`; `Gassmann.dedekindZeta_eq_of_almostConjugate_of_one_lt_re`, `Gassmann.dedekindZetaCoeff_eq_of_almostConjugate`, `Gassmann.dedekindZeta_eq_of_almostConjugate`, and `Gassmann.not_algEquiv_fixedFields_of_not_conj` in NFA 8.4; IR `Gassmann.exists_S16_gassmann_pair`, `Gassmann.almostConjugate_comap`, `Gassmann.not_conj_comap` | For the constructed splitting field `E = f.SplittingField`, use separability and splitting to obtain `IsGalois ℚ E` by Mathlib `IsGalois.of_separable_splitting_field`; the named NFA 3.8 instance gives `NumberField E`. Transport the pair to `Gal(E/ℚ)`. The fixed fields have degree `[E^H : ℚ] = [E^K : ℚ] = [Gal(E/ℚ) : H] = [Gal(E/ℚ) : K] = 15!`, by `IntermediateField.finrank_eq_fixingSubgroup_index` and `IntermediateField.fixingSubgroup_fixedField`, `|H| = |K| = 16`, and preservation of subgroup cardinality under the `MulEquiv` preimage. Their ideal-count coefficients and totalized zeta functions agree, and they are not isomorphic over ℚ. |
+| Layer 9, worked S₁₆ number-field example | Tau Ceti; Induction–Restriction 2.1, 2.2 | Tau Ceti `Polynomial.SplittingField.instNumberField`; IR `Gassmann.exists_S16_gassmann_pair`, `Gassmann.almostConjugate_comap`, `Gassmann.not_conj_comap` | For the constructed splitting field `E = f.SplittingField`, use separability and splitting to obtain `IsGalois ℚ E` by Mathlib `IsGalois.of_separable_splitting_field`; the Tau Ceti instance gives `NumberField E`. Transport the pair to `Gal(E/ℚ)`. The fixed fields have degree `[E^H : ℚ] = [E^K : ℚ] = [Gal(E/ℚ) : H] = [Gal(E/ℚ) : K] = 15!`, by `IntermediateField.finrank_eq_fixingSubgroup_index` and `IntermediateField.fixingSubgroup_fixedField`, `|H| = |K| = 16`, and preservation of subgroup cardinality under the `MulEquiv` preimage. That their ideal-count coefficients and totalized zeta functions agree, and that they are not isomorphic over ℚ, are Layer 9 targets. |
 
-The names below use two distinct namespaces: arithmetic declarations live in
-`TauCetiRoadmap.NumberFieldArithmetic.Gassmann`, while permutation-representation declarations
-from the supplier live in `TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann`.
-The factorization-type name lives in the namespace `TauCetiRoadmap.NumberFieldArithmetic`, in
-`TauCetiRoadmap/NumberFieldArithmetic/Suggested.lean`. The `NumberField` instance, the half-plane comparison target, and its three derived Gassmann
-declarations are separate consumer contracts: for a
-finite Galois `E/F` and almost-conjugate `H₁,H₂ ≤ Gal(E/F)`, they compare the fixed-field
-coefficients and totalized zeta functions, and prove nonisomorphism over `F` when the subgroups
-are not conjugate. The IR pair is transported to `Gal(E/F)` with the IR 2.1 equivalence-transport
-API; Layer 9 uses these contracts only after identifying that group with `S₁₆`.
+The permutation-representation declarations from the supplier live in
+`TauCetiRoadmap.RepresentationTheory.InductionRestriction.Gassmann`. The factorization-type name
+lives in the namespace `TauCetiRoadmap.NumberFieldArithmetic`. The IR pair is transported to
+`Gal(E/ℚ)` with the IR 2.1 equivalence-transport API; Layer 9 uses it only after identifying that
+group with `S₁₆`.
 
 ## What this roadmap exports to Belyi Maps
 
 The canonical objects are `Equiv.Perm.fullCycleType` and Tau Ceti's
 `numTransitiveGroups`, `TransitiveGroupIndex`, `referenceSubgroup`, and
 `TransitiveGroupLabel`. This roadmap consumes their native API; it builds no second
-cycle multiset, reference-group family, or conjugacy predicate. `Compatibility.lean`
-provides the five conservative abbreviations in namespace
-`TauCetiRoadmap.PolynomialGaloisGroups` used by Belyi's written and supplier-crossing
-contracts. Each abbreviation has a defining equality or iff to the native declaration,
-with the same `DecidableEq` argument for `fullCycleType` and the same finite index.
-Thus both spellings refer to the same objects, not merely isomorphic carriers.
+cycle multiset, reference-group family, or conjugacy predicate, and no alias of them: Belyi
+Maps consumes the native names directly.
 
 Layer 1C supplies the pure permutation comparison and classification through degree five;
 Layer 6 supplies the polynomial labels and certificates. These cuts also identify the
 older Belyi references to this roadmap's transitive-group layers. Branch cycles and
 peripheral-power theorems stay in `BelyiMaps` and create no reverse prerequisite here.
 
-At the pinned revision the native reference family is empty above degree five, and the
-aliases preserve that fact. The required **producer** for degrees6–11 is this roadmap's
+The native reference family has no rows above degree five. The required **producer** for degrees6–11 is this roadmap's
 pure Layer1D, with the fixed generator rows in
 [HighDegreeReferenceData.md](HighDegreeReferenceData.md), completeness, uniqueness and the
 native lower-degree comparison. BelyiMaps1.6/14 consumes that extension and the exact
-`6T6` comparison; it does not own another reference-group family. The aliases remain
-reducible names of the same evolved native objects. No theorem here treats today's empty
-`TransitiveGroupIndex 6` as a completed higher-degree contract or as inhabited data.
+`6T6` comparison; it does not own another reference-group family. No theorem here treats the
+empty `TransitiveGroupIndex 6` as a completed higher-degree contract or as inhabited data.
 
 The factorization-type row above is an exact contract, not a gesture at a subject.
 
@@ -362,8 +351,7 @@ Two properties are in use. They are never given the same name.
 - `IsSolvable f.Gal` is solvability of the Galois group. Every statement below about quintics
   uses this property. This includes the criterion of Layer 4 and the table of Layer 6.
 - Solvability by radicals is membership in the intermediate field `solvableByRad F E` of
-  `Mathlib/FieldTheory/AbelRuffini.lean`. The predicate `IsSolvableByRad` is deprecated there
-  since 2026-02-28.
+  `Mathlib/FieldTheory/AbelRuffini.lean`; Mathlib has no separate predicate for it.
 
 Mathlib proves the radical-to-group implication as `isSolvable_gal_of_irreducible`: if `q` is
 irreducible and some root lies in `solvableByRad F E`, then `IsSolvable q.Gal`. Layer 10 owns the
@@ -384,8 +372,7 @@ resolvent layer, `universalResolvent`, `esymmSubst`, `vietaHom`, `ResolventSpec`
 `tschirnhausPolynomial`, and `TschirnhausAdmissible`; for the certificates of Layer 6,
 `HasFactorDegrees`, `HasSexticRoot`, `HasSecondRootInRootField`, and `QuinticCertificate` with
 its `label`, `Verifies` and `check`; and for Layer 10,
-`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad` and
-`RadicalConverse.finiteGalois_solvable_implies_image_mem_solvableByRad`.
+`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad`.
 The normal-prime-index input is the existing native
 `Group.IsSolvable.exists_normal_index_prime` from `TauCeti.GroupTheory.Solvable`:
 for `(G : Type*) [Group G] [Finite G] [Group.IsSolvable G] [Nontrivial G]`, it gives
@@ -728,11 +715,10 @@ group action, in Mathlib's vocabulary. No statement mentions a field.
 - **Jordan's theorem for a `p`-cycle.** A primitive subgroup of `Sₙ` that contains a `p`-cycle,
   with `p` prime and `p + 3 ≤ n`, contains `Aₙ`.
 
-  - *Source:* Wielandt, Theorem 13.9. Mathlib's `GroupAction/Jordan.lean` records the same
-    statement as a `proof_wanted`, so the shape to use is fixed and is worth following. The Tau
-    Ceti deliverable is a theorem of its own, in the Tau Ceti namespace, named
-    `alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`. It is proved here, and it does not
-    use anything from Mathlib's `proof_wanted`.
+  - *Source:* Wielandt, Theorem 13.9. Mathlib's `GroupAction/Jordan.lean` names it in its
+    module docstring as a theorem to prove and does not state it.
+    The Tau Ceti deliverable is a theorem of its own, in the Tau Ceti namespace, named
+    `alternatingGroup_le_of_isPreprimitive_of_isCycle_mem`.
   - *Hypotheses:* primitivity, `p` prime, and `p + 3 ≤ n`.
   - *False generalizations:* the bound `p + 3 ≤ n` cannot be weakened to `p ≤ n` or to
     `p + 1 ≤ n`. Two groups show this.
@@ -887,10 +873,10 @@ displays as `nT(j+1)`.
 
 **Exact generators.** The six intrinsically defined references `3T2`, `4T2`, `4T4`,
 `4T5`, `5T4`, and `5T5` must equal the closures of the displayed permutations, not merely
-have the same order or abstract isomorphism type. `PrescribedGenerators.lean` gives the
-six explicit comparison proofs on the canonical reference subgroups. The remaining rows
-are already defined by their displayed generators. These comparisons precede polynomial
-consumers and do not introduce a second group family.
+have the same order or abstract isomorphism type. The six equalities are Checks of this layer,
+proved against the canonical reference subgroups. The remaining rows are already defined by
+their displayed generators. These comparisons precede polynomial consumers and do not introduce
+a second group family.
 
 ### Layer 1D: the single reference family in degrees six through eleven
 
@@ -918,10 +904,9 @@ index, subgroup family, label predicate or a `Prop` field standing for completen
 Prove the defining count equations, explicit comparison/transport equations for all
 `n≤5`, and preservation of every lower reference, alias and label theorem. Where the
 dependent index type is transported by a count equality, state that transport. The
-current theorem `numTransitiveGroups_eq_zero_of_five_lt` and its Compatibility alias
-express the old data boundary; on evolution replace them by the proved `11<n` boundary
-and refactor their uses. They are not retained as false equalities for degrees6–11.
-The conservative aliases themselves continue to unfold to the same native objects.
+theorem `numTransitiveGroups_eq_zero_of_five_lt` expresses the degree-five data boundary; on
+evolution replace it by the proved `11<n` boundary and refactor its uses. It is not retained as
+a false equality for degrees6–11.
 
 **Complete basic API for every new row.** Prove transitivity, the exact generator
 closure, order, parity, primitivity, solvability, cyclicity and normalizer/centralizer
@@ -1036,8 +1021,8 @@ Let `p` be irreducible and separable over `F`, with a root `α` in `L = p.Splitt
 
 - **The root-product formula.** For monic `f` of degree `n` that splits in `L`, with roots
   `r : Fin n → L` listed with multiplicity,
-  `algebraMap R L f.discr = ∏_{i < j} (r i − r j)²`. State it in the shape that Mathlib's own
-  TODO in `Resultant/Basic.lean` takes, which is the product form of the resultant. A later
+  `algebraMap R L f.discr = ∏_{i < j} (r i − r j)²`. State it in the product form of the resultant,
+  the statement Mathlib's resultant file leaves open. A later
   Mathlib version then replaces this milestone by a deletion and an import. State these
   consequences with it:
 
@@ -1675,18 +1660,17 @@ soundness theorem. A **search** for such evidence is neither of those, and is no
   8. Separate arguments for `n = 1`, and for any other value that the three patterns do not cover
      uniformly.
 
-  The Sₙ realization itself needs Layer 1 and Layer 5 only; the separate Gassmann worked example also needs Number Field Arithmetic 3.8/8.4 and Induction–Restriction 2.1/2.2. It does not need Layer 6.
+  The Sₙ realization itself needs Layer 1 and Layer 5 only; the separate Gassmann worked example also needs Tau Ceti's splitting-field number-field instance and Induction–Restriction 2.1/2.2. It does not need Layer 6.
 
 - **The Gassmann fixed-field example.** Consume Induction–Restriction Layer 2.2's finite
   nonconjugate almost-conjugate subgroups `A,B ≤ S₁₆`; do not reconstruct the finite group pair
   here. For the Layer 9 realization polynomial `f`, let `E = f.SplittingField`. Mathlib's
   `Polynomial.Gal f` is a plain semireducible `def` for `E ≃ₐ[ℚ] E` (with derived group and finite
-  instances); state the transported subgroups and the
-  NFA Gassmann inputs at this explicit automorphism-group type (or unfold `f.Gal` when applying
-  them), so the `Polynomial.Gal` abbreviation does not obscure the supplier's domain. Separability
-  and splitting give `IsGalois ℚ E` by Mathlib `IsGalois.of_separable_splitting_field`; consume
-  Number Field Arithmetic Layer 3.8's named instance
-  `TauCetiRoadmap.NumberFieldArithmetic.numberField_splittingField` to obtain `NumberField E`.
+  instances); state the transported subgroups and the arithmetic-equivalence targets at this
+  explicit automorphism-group type (or unfold `f.Gal` when applying them), so the
+  `Polynomial.Gal` abbreviation does not obscure the supplier's domain. Separability and splitting
+  give `IsGalois ℚ E` by Mathlib `IsGalois.of_separable_splitting_field`; Tau Ceti's
+  `Polynomial.SplittingField.instNumberField` gives `NumberField E`.
   Assemble the Galois-group equivalence from `galActionHom_injective` and the proved surjectivity
   of `galActionHom`, identifying the root set with `Fin 16`. Pull `A,B` back along this equivalence
   using Induction–Restriction Layer 2.1's `Gassmann.almostConjugate_comap` and
@@ -1696,19 +1680,23 @@ soundness theorem. A **search** for such evidence is neither of those, and is no
 
   State the resulting target explicitly: the fixed fields from the transported pair are
   nonisomorphic over ℚ, have equal `TauCeti.dedekindZetaCoeff` at every natural index, and have
-  equal totalized `NumberField.dedekindZeta` functions. Consume Number Field Arithmetic Layer 8.4
-  for those conclusions. This is a worked example, not a new inverse-Galois theorem or
-  minimum-degree claim.
+  equal totalized `NumberField.dedekindZeta` functions. Two general targets give those
+  conclusions. First (Gassmann's sufficient condition, Perlis 1977, Theorem 1): for a finite
+  Galois extension `E/ℚ` and subgroups `H, K ≤ Gal(E/ℚ)` that meet every conjugacy class in the
+  same number of elements, the fixed fields `E^H` and `E^K` have equal `TauCeti.dedekindZetaCoeff`
+  at every natural index, hence equal `NumberField.dedekindZeta`; the route counts, for each
+  rational prime `p` and each prime of `E` above it, the double cosets of the decomposition group,
+  which is where the almost-conjugacy is used, and treats ramified primes through the same count
+  on the decomposition group modulo inertia. Second (Galois correspondence): `E^H` and `E^K` are
+  isomorphic over ℚ exactly when `H` and `K` are conjugate in `Gal(E/ℚ)`. This is a worked
+  example, not a new inverse-Galois theorem or minimum-degree claim.
   *Needs:* (Layer 9) the `S₁₆` realization polynomial and its root-action Galois equivalence;
   (Mathlib) `IsGalois.of_separable_splitting_field`, `IsGalois.card_aut_eq_finrank`,
   `IntermediateField.finrank_eq_fixingSubgroup_index`,
   `IntermediateField.fixingSubgroup_fixedField`, and cardinality transport along a `MulEquiv`;
-  (R *Number Field Arithmetic*, `TauCetiRoadmap.NumberFieldArithmetic.numberField_splittingField`
-  in Layer 3.8);
-  (R *Number Field Arithmetic*, `Gassmann.dedekindZeta_eq_of_almostConjugate_of_one_lt_re`,
-  `Gassmann.dedekindZetaCoeff_eq_of_almostConjugate`,
-  `Gassmann.dedekindZeta_eq_of_almostConjugate`, and
-  `Gassmann.not_algEquiv_fixedFields_of_not_conj` in Layer 8.4); (R *Induction–Restriction*,
+  (Tau Ceti) `Polynomial.SplittingField.instNumberField`, `TauCeti.dedekindZetaCoeff`, and
+  Mathlib `NumberField.dedekindZeta` with the decomposition and inertia groups of
+  `Mathlib/NumberTheory/RamificationInertia`; (R *Induction–Restriction*,
   `Gassmann.exists_S16_gassmann_pair` in Layer 2.2 and `Gassmann.not_conj_comap` plus
   `Gassmann.almostConjugate_comap` in Layer 2.1).
 
@@ -1998,7 +1986,7 @@ Layer 1C names the earlier pure-permutation part of the former aggregate Layer 6
 | 4 | 0, 3, 1C for the quintic criterion | resolvents, quartic and quintic specifications; the group-side criterion consumes early classification |
 | 5 | 0, 1, 3, 4; Number Field Arithmetic 3.10 | factor degrees, good primes, finite-field orbit theorem and factorization membership |
 | 6 | 0, 1C; 1D for generic labels through11; 2,3,4,5 for the existing low-degree decision/certificate routes | polynomial labels, decision packages and sound certificates |
-| 9 | 1, 3, 5; 1C/6 for labelled alternating examples; NFA 3.8/8.4 and IR 2.1/2.2 for the fixed-field example | arbitrary-degree symmetric realization, the three alternating examples, and the S₁₆ Gassmann example |
+| 9 | 1, 3, 5; 1C/6 for labelled alternating examples; IR 2.1/2.2 for the fixed-field example | arbitrary-degree symmetric realization, the three alternating examples, and the S₁₆ Gassmann example |
 | 10 | Mathlib; Tau Ceti `Group.IsSolvable.exists_normal_index_prime` | characteristic-zero finite-Galois radical criterion and its all-roots/some-root polynomial consequences |
 
 The pure criterion `Group.IsSolvable G ↔ G ≤ conjugate(F₂₀)` is proved in Layer 1C
@@ -2026,9 +2014,8 @@ are complete library interfaces in their own right.
 This roadmap serves the LMFDB section `galois_groups`.
 
 - The [Number Field Arithmetic](../NumberFieldArithmetic/README.md) roadmap owns Dedekind's
-  factorization theorem and the ramification theory behind it. Its factorization theorem and
-  Layer 8.4 fixed-field theorem are upstream contracts; see §What this roadmap consumes. The
-  merge order for the worked example is Induction–Restriction, Number Field Arithmetic, then PGG.
+  factorization theorem and the ramification theory behind it. Its factorization theorem is an upstream contract; see §What this roadmap consumes. It does not
+  own arithmetic equivalence, which the fixed-field example proves in Layer 9.
 - Storing certificates, and searching for one, belong in a dedicated computational repository
   such as Hex. What stays here is the certificate type of Layer 6 with its soundness theorem,
   and the classification theorems it is built from; those are mathematics, and Hex consumes them
@@ -2058,7 +2045,7 @@ convention it fixes:
 | the solvability criterion | Dummit, Theorem 1 | a rational root of the sextic against solvability, for irreducible quintics |
 | the `nTj` reference generators | LMFDB `gps_transitive` | the representative of each conjugacy class, in 1-based cycle notation |
 | the three-prime realization of `Sₙ` | van der Waerden §61 | the shape of the construction; the three patterns are fixed in Layer 9 |
-| the fixed-field arithmetic-equivalence example | Gassmann, *Mathematische Zeitschrift* 25 (1926), 665–675; Perlis, *Journal of Number Theory* 9 (1977), 342–360 | the sufficient almost-conjugate fixed-field implication consumed from Number Field Arithmetic Layer 8.4; not an inverse-Galois construction or a minimum-degree result |
+| the fixed-field arithmetic-equivalence example | Gassmann, *Mathematische Zeitschrift* 25 (1926), 665–675; Perlis, *Journal of Number Theory* 9 (1977), 342–360 | the sufficient almost-conjugate fixed-field implication, a Layer 9 target (Perlis, Theorem 1); not an inverse-Galois construction or a minimum-degree result |
 
 - A. Hulpke, *Constructing transitive permutation groups*, J. Symbolic Comput. 39 (2005) 1-30.
   In the project's `references/`. The inflation and base-group method of §3 is the construction
@@ -2066,14 +2053,12 @@ convention it fixes:
 - J. D. Dixon and B. Mortimer, *Permutation Groups*, GTM 163, Springer, 1996. The traditional
   source for Layer 1, with blocks and imprimitivity in §1.5, wreath products in §2.6, and
   Jordan's theorems in §7.4. It is also the source for the tables in low degree in Appendix B.
-  *Not inspected for this pass.* The milestones that depend on it are grounded in two other
-  ways. Mathlib's `GroupAction/Blocks.lean`, `Primitive.lean`, and `Jordan.lean` state this
+  The milestones that depend on it are grounded in two other ways. Mathlib's `GroupAction/Blocks.lean`, `Primitive.lean`, and `Jordan.lean` state this
   material in the vocabulary used here. Layers 1 and 6 write out the proof routes.
 - H. Wielandt, *Finite Permutation Groups*, Academic Press, 1964. The original source for the
   material of Layer 1. Mathlib's `Blocks.lean` and `Jordan.lean` cite it. Theorems 7.5 and 13.9
-  are the two statements used here by number. *Not inspected for this pass.* Theorem 13.9 is
-  grounded in Mathlib's `proof_wanted` for it, and Theorem 7.5 in the lattice statement written
-  out in Layer 1.
+  are the two statements used here by number. Theorem 7.5 is the lattice statement written out
+  in Layer 1.
 - LMFDB, *Galois group labels* and the `gps_transitive` table,
   <https://www.lmfdb.org/GaloisGroup/>. The source of the reference generators and of the label
   semantics, under the discipline recorded in the conventions. The table in degree at most 5 was
@@ -2083,14 +2068,14 @@ convention it fixes:
   `⟨(0 1 2 3 4),(0 1 3 2)⟩ ≤ Equiv.Perm (Fin 5)`, which is `AGL(1,5)` under `Fin 5 = ℤ/5`, since
   `(0 1 3 2)` is `a ↦ 2a + 1`.
 - G. Butler and J. McKay, *The transitive groups of degree up to eleven*, Comm. Algebra 11 (1983)
-  863-911. The origin of the `T` numbering used for the low-degree table. *Not inspected for
-  this pass.* The low-degree entries were compared with the LMFDB.
+  863-911. The origin of the `T` numbering used for the low-degree table. The low-degree entries agree
+  with the LMFDB.
 - J. H. Conway, A. Hulpke, and J. McKay, *On transitive permutation groups*, LMS J. Comput. Math.
   1 (1998) 1-8. Names and properties in degrees up to 15, which is the name column of the LMFDB.
   Context only. This roadmap does not own names of abstract groups.
 - B. L. van der Waerden, *Algebra* I, §61, and J.-P. Serre, *Topics in Galois Theory*, 2nd
   edition, A K Peters, 2008. The traditional citations for the three-prime construction of
-  Layer 9. *Not inspected for this pass*, and no milestone depends on their wording: Layer 9
+  Layer 9. No milestone depends on their wording: Layer 9
   fixes the construction completely, by naming the three reductions it uses — irreducible modulo
   2, factor degrees `(1, n−1)` modulo 3, and one quadratic factor with all other factor degrees
   odd modulo 5 — and by listing all eight prerequisites, each an existence statement over a
@@ -2100,8 +2085,7 @@ convention it fixes:
   material on thin sets, Hilbert irreducibility, and the realization of `Aₙ` is what this roadmap
   places outside its scope.
 - H. Cohen, *A Course in Computational Algebraic Number Theory*, GTM 138, Springer, 1993, §6.3.
-  The resolvent method and the decision trees in degrees up to 7. *Not inspected for this pass*,
-  and no milestone depends on it: the quartic table is grounded in Conrad and Kappe–Warren below,
+  The resolvent method and the decision trees in degrees up to 7. No milestone depends on it: the quartic table is grounded in Conrad and Kappe–Warren below,
   the quintic criterion in Dummit below, and the generic resolvent theory is written out in
   Layer 4 with its proof routes. §6.3.2 is the traditional citation for Dedekind's theorem, which
   this roadmap does not prove; its source entry belongs to the supplier.
@@ -2132,8 +2116,8 @@ convention it fixes:
 
   - §2, p. 388 fixes `F₂₀ < S₅` by the generators `(1 2 3 4 5)` and `(2 3 5 4)`, and states that
     the stabilizer in `S₅` of
-    `θ₁ = x₁²x₂x₅ + x₁²x₃x₄ + x₂²x₁x₃ + x₂²x₄x₅ + x₃²x₁x₅ + x₃²x₂x₄ + x₄²x₁x₂ + x₄²x₃x₅ +
-    x₅²x₁x₄ + x₅²x₂x₃` is *precisely* `F₂₀`. Under the shift `xⱼ ↦ x_{j−1}`, which turns his
+    `θ₁ = x₁²x₂x₅ + x₁²x₃x₄ + x₂²x₁x₃ + x₂²x₄x₅ + x₃²x₁x₅ + x₃²x₂x₄ + x₄²x₁x₂ + x₄²x₃x₅ + x₅²x₁x₄ + x₅²x₂x₃`
+    is *precisely* `F₂₀`. Under the shift `x_j ↦ x_{j−1}`, which turns his
     wrap-around indexing of `{1,…,5}` into `ℤ/5` on `Fin 5`, his `θ₁` is term for term the
     invariant `Σ_a x_a²(x_{a+1}x_{a−1} + x_{a+2}x_{a−2})` of Layer 4, and his two generators
     become `a ↦ a + 1` and `a ↦ 2a`, which generate `AGL(1,5)`, the reference subgroup of `5T3`.
@@ -2160,5 +2144,3 @@ convention it fixes:
 - E. R. Berlekamp, *An analog of the discriminant over fields of characteristic two*, J. Algebra
   38 (1976) 315-317. Cited only to name what the exclusion of characteristic 2 excludes.
 
-Provenance of the data, comparisons with related repositories, and licensing are maintained in
-a private provenance ledger. That ledger is not part of the specification.

@@ -1,5 +1,3 @@
-import TauCetiRoadmap.PolynomialGaloisGroups.Compatibility
-import TauCetiRoadmap.PolynomialGaloisGroups.PrescribedGenerators
 import Mathlib
 import TauCeti.Algebra.Group.Action.End
 import TauCeti.Algebra.Polynomial.ChineseRemainder
@@ -94,12 +92,12 @@ import TauCeti.RingTheory.Polynomial.Vieta
 The statements here suggest Lean forms for the milestones, so that contributors and reviewers
 converge on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
 
-The native comparisons below retain the complete low-degree polynomial programme and its
-worked examples. `Compatibility.lean` preserves the reciprocal Belyi spellings as native
-abbreviations. `PrescribedGenerators.lean` supplies all six exact generator equalities.
-The additional canonical elementary-field and characteristic-zero radical targets remain
-explicit mathematical proof targets; their inherited `sorry` terms do not certify completion.
-A suggested signature file does not replace a milestone-by-milestone mathematical audit.
+The comparisons below are stated against the pinned Mathlib and Tau Ceti only. The
+characteristic-zero radical criterion `RadicalConverse.finiteGalois_iff_image_mem_solvableByRad`
+is the one statement with `sorry`. The classification of transitive subgroups of `Sₙ` in degrees
+`6 ≤ n ≤ 11` (Layer 1D) is not stated here, and the six equalities between the reference subgroups
+`3T2`, `4T2`, `4T4`, `4T5`, `5T4`, `5T5` and the closures of the README's generators are README
+Checks: the pinned Tau Ceti has no module comparing its reference subgroups with those closures.
 Dedekind's factorization theorem is consumed at its native declaration
 `TauCeti.NumberField.exists_gal_fullCycleType_eq_factorizationType`; the two statement
 comparisons retain the native proof status rather than creating a second arithmetic theorem.
@@ -149,10 +147,8 @@ earlier stated over `ℤ` with integer sextic roots, is stated over a general fi
 form survives in `HasSexticRoot` and the certificate routes). Every other earlier statement is
 kept, some in a stronger form.
 
-The prescribed-generator proofs are local conservative comparisons using the existing native
-reference subgroups. The discriminant computation `disc(x⁵ − x − 1) = 2869` and the group-side
-quintic solvability bridge remain complete proof terms in this file. Neither depends on
-adding the later native Generators module to the selected dependency pin.
+The discriminant computation `disc(x⁵ − x − 1) = 2869` and the group-side quintic solvability
+bridge are complete proof terms in this file.
 
 Not certified: Dedekind's cubic `x³ + x² − 2x + 8`, which the README cites as the false
 generalization of the imported theorem (its content is ramification theory, owned by Number
@@ -161,36 +157,6 @@ existence of an admissible Tschirnhaus transform is explicitly not a milestone.
 -/
 
 namespace TauCetiRoadmap.PolynomialGaloisGroups
-
-/-! ## Layer 0: transport across a base-field isomorphism -/
-
-/-- Cross-base splitting-field uniqueness, expressed as an algebra equivalence over `F` after
-pulling the `F̄`-algebra structure on `L` back along `η`. -/
-theorem splittingField_algEquiv_of_baseEquiv
-    {F Fbar E L : Type*} [Field F] [Field Fbar] [Field E] [Field L]
-    [Algebra F E] [Algebra Fbar L] (η : F ≃+* Fbar) (p : Polynomial F)
-    [Polynomial.IsSplittingField F E p]
-    [Polynomial.IsSplittingField Fbar L (Polynomial.map η.toRingHom p)] :
-    (letI : Algebra F L := ((algebraMap Fbar L).comp η.toRingHom).toAlgebra;
-     Nonempty (E ≃ₐ[F] L)) := by
-  letI : Algebra Fbar F := η.symm.toRingHom.toAlgebra
-  letI : Algebra F L := ((algebraMap Fbar L).comp η.toRingHom).toAlgebra
-  letI : IsScalarTower Fbar F L := IsScalarTower.of_algebraMap_eq fun x => by
-    change algebraMap Fbar L x =
-      ((algebraMap Fbar L).comp η.toRingHom) (η.symm x)
-    simp
-  have hmap : Polynomial.map (algebraMap Fbar F) (Polynomial.map η.toRingHom p) = p := by
-    rw [Polynomial.map_map]
-    ext x
-    simp [RingHom.algebraMap_toAlgebra]
-  haveI : Polynomial.IsSplittingField F L p := by
-    rw [← hmap]
-    infer_instance
-  let eE : E ≃ₐ[F] p.SplittingField := Polynomial.IsSplittingField.algEquiv E p
-  let eL : L ≃ₐ[F] p.SplittingField := Polynomial.IsSplittingField.algEquiv L p
-  exact ⟨eE.trans eL.symm⟩
-
-
 
 /-! ## Layer 0: the permutation representation of a polynomial -/
 
@@ -2278,9 +2244,6 @@ example : numTransitiveGroups 0 = 0 ∧ numTransitiveGroups 1 = 1 ∧ numTransit
     numTransitiveGroups 3 = 2 ∧ numTransitiveGroups 4 = 5 ∧ numTransitiveGroups 5 = 5 :=
   ⟨rfl, rfl, rfl, rfl, rfl, rfl⟩
 
-example {n : ℕ} (hn : 5 < n) : numTransitiveGroups n = 0 :=
-  numTransitiveGroups_eq_zero_of_five_lt hn
-
 /-- **A label index is valid by construction**: `TransitiveGroupIndex n` is
 `Fin (numTransitiveGroups n)`, and an index forces `0 < n`. -/
 example (n : ℕ) : TransitiveGroupIndex n = Fin (numTransitiveGroups n) := rfl
@@ -2411,33 +2374,6 @@ example {n : ℕ} (j : TransitiveGroupIndex n) :
     Group.IsSolvable (referenceSubgroup n j) ↔ n ≠ 5 ∨ (j : ℕ) < 3 :=
   isSolvable_referenceSubgroup_iff j
 
-/-! ### Exact prescribed generators, on the canonical native carriers -/
-
-example : referenceSubgroup 3 ⟨1, by simp⟩ =
-    Subgroup.closure {Equiv.swap (0 : Fin 3) 2, Equiv.swap (0 : Fin 3) 1} :=
-  PrescribedGenerators.referenceSubgroup_three_one_eq_closure
-
-example : referenceSubgroup 4 ⟨1, by simp⟩ =
-    Subgroup.closure {Equiv.swap (0 : Fin 4) 1 * Equiv.swap 2 3,
-      Equiv.swap (0 : Fin 4) 3 * Equiv.swap 1 2} :=
-  PrescribedGenerators.referenceSubgroup_four_one_eq_closure
-
-example : referenceSubgroup 4 ⟨3, by simp⟩ =
-    Subgroup.closure {[(1 : Fin 4), 2, 3].formPerm, [(0 : Fin 4), 2, 3].formPerm} :=
-  PrescribedGenerators.referenceSubgroup_four_three_eq_closure
-
-example : referenceSubgroup 4 ⟨4, by simp⟩ =
-    Subgroup.closure {finRotate 4, Equiv.swap 0 1} :=
-  PrescribedGenerators.referenceSubgroup_four_four_eq_closure
-
-example : referenceSubgroup 5 ⟨3, by simp⟩ =
-    Subgroup.closure {[(0 : Fin 5), 1, 2].formPerm, [(2 : Fin 5), 3, 4].formPerm} :=
-  PrescribedGenerators.referenceSubgroup_five_three_eq_closure
-
-example : referenceSubgroup 5 ⟨4, by simp⟩ =
-    Subgroup.closure {Equiv.swap 0 1, finRotate 5} :=
-  PrescribedGenerators.referenceSubgroup_five_four_eq_closure
-
 /-! ### The label API -/
 
 /-- **Every reference subgroup is transitive**, proved once. -/
@@ -2469,8 +2405,6 @@ example {n : ℕ} {j : TransitiveGroupIndex n} (G : Subgroup (Perm (Fin n))) (σ
 (and, more generally, does not depend on the numbering of any `n`-element set). -/
 example {n : ℕ} {j : TransitiveGroupIndex n} (G : Subgroup (Perm (Fin n))) (e : Fin n ≃ Fin n) :
     TransitiveGroupLabel j (G.map e.permCongrHom.toMonoidHom) ↔ TransitiveGroupLabel j G := by
-  change TauCeti.TransitiveGroupLabel j (G.map e.permCongrHom.toMonoidHom) ↔
-    TauCeti.TransitiveGroupLabel j G
   rw [Subgroup.transitiveGroupLabel_map_permCongrHom_iff G e (Equiv.refl _)]
   have : (Equiv.refl (Fin n)).permCongrHom.toMonoidHom = MonoidHom.id (Perm (Fin n)) := by
     ext; simp
@@ -3459,94 +3393,6 @@ example : HasFullSymmetricGaloisGroup (X : ℚ[X]) := by
 
 end Layer9
 
-/-! ## Additional canonical elementary-field and radical targets
-
-These preserve the independent canonical programme; proof admissions remain visible. -/
-
-section ElementaryEmbeddingExamples
-
-open IntermediateField Polynomial
-
-/-- The residual quadratic after adjoining the real cube root. -/
-noncomputable def cubicQuadratic (α : ℝ) : ℚ⟮α⟯[X] :=
-  X ^ 2 + C (AdjoinSimple.gen ℚ α) * X + C ((AdjoinSimple.gen ℚ α) ^ 2)
-
-theorem cubic_factor_after_adjoin (α : ℝ) (hα : α ^ 3 = 2) :
-    (X ^ 3 - 2 : ℚ[X]).map (algebraMap ℚ ℚ⟮α⟯) =
-      (X - C (AdjoinSimple.gen ℚ α)) * cubicQuadratic α := by
-  sorry
-
-theorem cubicQuadratic_irreducible (α : ℝ) (hα : α ^ 3 = 2) :
-    Irreducible (cubicQuadratic α) := by
-  sorry
-
-example (α : ℝ) (hα : α ^ 3 = 2) : Module.finrank ℚ ℚ⟮α⟯ = 3 := by
-  sorry
-
-/-- The quotient field carries the rational algebra through the cubic tower. -/
-example (α : ℝ) (hα : α ^ 3 = 2) [Fact (Irreducible (cubicQuadratic α))] :
-    IsSplittingField ℚ (AdjoinRoot (cubicQuadratic α)) (X ^ 3 - 2) := by
-  sorry
-
-example (α : ℝ) (hα : α ^ 3 = 2) [Fact (Irreducible (cubicQuadratic α))] :
-    Nat.card (ℚ⟮α⟯ →ₐ[ℚ] AdjoinRoot (cubicQuadratic α)) = 3 := by
-  sorry
-
-example (α : ℝ) (hα : α ^ 3 = 2) [Fact (Irreducible (cubicQuadratic α))] :
-    Module.finrank ℚ (AdjoinRoot (cubicQuadratic α)) = 6 := by
-  sorry
-
-example (α : ℝ) (hα : α ^ 2 = 2) : IsSplittingField ℚ ℚ⟮α⟯ (X ^ 2 - 2) := by
-  sorry
-
-example : Irreducible (X ^ 2 + 3 : ℚ[X]) := by
-  sorry
-
-example :
-    ((X ^ 2 + 3 : ℚ[X]).map (algebraMap ℚ (AdjoinRoot (X ^ 2 + 3 : ℚ[X])))).Splits := by
-  sorry
-
-example (α : ℝ) (hα : α ^ 2 = 2) (K : Type*) [Field K] [Algebra ℚ K]
-    (hsplit : ((X ^ 2 - 2 : ℚ[X]).map (algebraMap ℚ K)).Splits) :
-    Nonempty (ℚ⟮α⟯ →ₐ[ℚ] K) := by
-  sorry
-
-/-- The splitting-tower comparison is the existing universal-property equivalence. -/
-noncomputable def cubicTowerSplittingFieldEquiv (α : ℝ)
-    [Fact (Irreducible (cubicQuadratic α))]
-    [IsSplittingField ℚ (AdjoinRoot (cubicQuadratic α)) (X ^ 3 - 2)] :
-    AdjoinRoot (cubicQuadratic α) ≃ₐ[ℚ] (X ^ 3 - 2 : ℚ[X]).SplittingField :=
-  IsSplittingField.algEquiv (AdjoinRoot (cubicQuadratic α)) (X ^ 3 - 2)
-
-example : ¬ IsSplittingField ℚ ℝ (X ^ 2 - 2) := by
-  sorry
-
-/-- This consumes the existing cubic theorem instead of reproving its Galois group. -/
-example : Module.finrank ℚ (X ^ 3 - 2 : ℚ[X]).SplittingField = 6 := by
-  let : IsGalois ℚ (X ^ 3 - 2 : ℚ[X]).SplittingField :=
-    IsGalois.of_separable_splitting_field TauCeti.irreducible_X_pow_three_sub_two.separable
-  rw [← IsGalois.card_aut_eq_finrank ℚ (X ^ 3 - 2 : ℚ[X]).SplittingField]
-  exact TauCeti.natCard_gal_X_pow_three_sub_two
-
-/-- A real quadratic simple field has the two expected self-embeddings. -/
-example (α : ℝ) (hα : α ^ 2 = 2) :
-    Nat.card ((IntermediateField.adjoin ℚ ({α} : Set ℝ)) →ₐ[ℚ]
-      (IntermediateField.adjoin ℚ ({α} : Set ℝ))) = 2 := by
-  sorry
-
-/-- The real cubic field is not its normal closure: only one embedding lands back in it. -/
-example (α : ℝ) (hα : α ^ 3 = 2) :
-    Nat.card ((IntermediateField.adjoin ℚ ({α} : Set ℝ)) →ₐ[ℚ]
-      (IntermediateField.adjoin ℚ ({α} : Set ℝ))) = 1 := by
-  sorry
-
-/-- A quadratic field embedding must preserve the square-root relation. -/
-example (α β : ℝ) (hα : α ^ 2 = 2) (hβ : β ^ 2 = 3) :
-    IsEmpty ((IntermediateField.adjoin ℚ ({α} : Set ℝ)) →ₐ[ℚ]
-      (IntermediateField.adjoin ℚ ({β} : Set ℝ))) := by
-  sorry
-
-end ElementaryEmbeddingExamples
 
 /-! ## Finite Galois extensions and radicals in an algebraic closure
 
@@ -3564,15 +3410,6 @@ theorem finiteGalois_iff_image_mem_solvableByRad
     (ι : E →ₐ[F] AlgebraicClosure F) :
     Group.IsSolvable (E ≃ₐ[F] E) ↔
       ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F) := by
-  sorry
-
-/-- The finite solvable-group tower proves the forward direction in the ambient closure. -/
-theorem finiteGalois_solvable_implies_image_mem_solvableByRad
-    (F E : Type*) [Field F] [CharZero F] [Field E] [Algebra F E]
-    [FiniteDimensional F E] [IsGalois F E]
-    (ι : E →ₐ[F] AlgebraicClosure F)
-    (hG : Group.IsSolvable (E ≃ₐ[F] E)) :
-    ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F) := by
   sorry
 
 end RadicalConverse
