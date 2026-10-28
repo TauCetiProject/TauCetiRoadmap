@@ -291,3 +291,19 @@ native presented groups, the inverse-generator-map target, and exact Laurent
 Fox calculations. Its raw-word formula still requires the stated comparison
 with generic group-ring Fox differentiation and the geometric Wirtinger/PD
 module. An abstract presentation alone does not choose a chirality.
+
+
+<a id="problem67-surface-source"></a>
+## Problem67: the marked four-band surface
+
+Physical page11 of *Knot Theory - problems.pdf* (source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`)
+prints the four-by-four array [specified in GT4](README.md#gt4-problem67-seifert)
+and labels curves x₁,…,x₄ from left to right. Their lower-arc arrows point
+right. These mark the curve orientations, but no positive normal or push-off
+is drawn, and the finite signed band/attachment/crossing description is not
+specified in the print. Recover that geometric description and its convention
+comparison; fitting twists to the diagonal entries or realizing an unrelated
+surface with this matrix does not identify the pictured source surface.
+The literal matrix computations and the conditional genus/signature
+consequences are distinct from that still-required marked geometric comparison.

@@ -1518,6 +1518,44 @@ surface a disc, g=0, c=0 and Δ=1 of span0; the strict crossing inequality
 is not asserted for this branch. These comparisons use ordinary genus,
 while the displayed diagram count computes that diagram's canonical surface.
 
+<a id="gt4-problem67-seifert"></a>
+**Problem67: the four-band Seifert form.** In physical page11 of
+*Knot Theory - problems.pdf*, construct the pictured marked spanning surface
+and its four oriented curves x₁,…,x₄. Give its signed disc/band presentation,
+prove connectedness, orientability, one boundary component and that these
+curves form an integral homology basis. Pin the surface orientation, positive
+normal and actual push-offs before computing the source's literal array
+
+```text
+V67 = [ 2  1  0  0
+        0 -5  1  0
+        0  1  2 -1
+        0  0 -2 -2 ].
+```
+
+Identify its convention with the native `V_ij=lk(x_i,x_j⁺)`, explicitly
+transposing when translating a push-first convention. Keep that geometric
+comparison distinct from the following calculations on the printed array.
+Prove `V67ᵀ−V67` is the direct sum of two skew planes
+`[[0,-1],[1,0]]`, with determinant1, and `det(V67)=64`. Use the
+leading-principal-minor recurrence on the tridiagonal matrix to compute
+`det(tV67−V67ᵀ)=64(t−1)⁴−16t(t−1)²+t²`
+`=64t⁴−272t³+417t²−272t+64`. In the fixed native
+Conway normalization this gives
+`Δ(t)=64t²−272t+417−272t⁻¹+64t⁻²`, with Δ(1)=1 and span4.
+Transpose or simultaneous sign reversal leaves this even-rank determinant
+unchanged; this does not identify the marked geometric surface.
+Once the source-surface and push-off comparison is established, use the
+rank-four basis to give its genus2 upper bound and the span inequality for
+the matching genus2 lower bound on its boundary knot. Prove its determinant
+is `|Δ(−1)|=1089=33²`. For the real symmetric form V67+V67ᵀ give the
+explicit congruence to `diag(4,−41/4,180/41,−121/20)`, using the existing
+quadratic-form/inertia comparison, and conclude signature0.
+`FourBandSeifertTargets.lean` uses the native integral-matrix/Alexander carrier;
+its closed determinant calculations do not certify the source geometry.
+The [source qualification](source-inputs.md#problem67-surface-source) retains
+the exact marked-curve and normal-convention inputs.
+
 Compare the height-maxima definition of bridge number with the source's
 maximal-overpass definition. For a regular knot diagram with at least one crossing,
 record the cyclic over/under encounter word along its single component;
