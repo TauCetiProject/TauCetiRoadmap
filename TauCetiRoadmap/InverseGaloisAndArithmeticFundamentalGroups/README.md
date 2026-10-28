@@ -253,8 +253,9 @@ The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G �
 its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
 
 `Subgroup.exists_right_complement'_of_coprime` gives existence of a complement to a normal subgroup
-of coprime order and index; conjugacy of complements, and the profinite statement, are targets of
-Layer IG.4. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
+of coprime order and index; conjugacy of complements in finite groups, under the solvability
+alternatives, is LocalFiniteGroupTheory L1, and only the profinite statement is a target of Layer
+IG.4. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
 carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces the regular subring.
 
 ### From Tau Ceti
@@ -294,6 +295,8 @@ convention transport of Layer IG.6.
 | Field and multiplicative-group identifications | EtaleCohomologyFoundations §F.0.A0 / *The fundamental groups of a field and of `𝔾_m`* | Retain the intrinsic Tate module and the primitive-root coordinate convention. |
 | Cover decomposition and inertia | EtaleCohomologyFoundations §F.0.A1 / *Decomposition and inertia groups of a cover* | The normalisation is finite; keep residue separability and defectless ramification hypotheses. |
 | Arithmetic sequence | EtaleCohomologyFoundations §F.0.A2 / *The arithmetic fundamental-group sequence* | Exactness supplies the outer action; rational-point sections retain their path choices. |
+| Henselian-trait inertia and tame character | EtaleCohomologyFoundations §F.3a / `VanishingCycles.HenselianTrait`, `VanishingCycles.tameCharacter_kummer`, `VanishingCycles.tameCharacter_surjective`, `VanishingCycles.tameCharacter_conj` | IG.1.2 applies it to the strictly henselian branches of curves over algebraically closed fields, whose residue field is infinite, and keeps the adapter to `TauCeti.PrimeToPTateModule`. |
+| Continuous representations, stable lattices and integral models | Supplied by EtaleCohomologyFoundations §F.4.0 / `ContinuousRep`, `ContinuousRep.exists_stable_lattice_iff`, `GaloisLattice.IntegralModel` | IG.0.3 uses them for representations of `π₁^ét` and keeps the bounded lattice schemes, incidence, joins and isogeny descent. |
 | Tate twists | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.etaleTateTwists` | The annihilator is invertible; chosen primitive-root coordinates and peripheral orientation are retained. |
 | Constructible and ctf complexes | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | Use the common module-valued derived carrier, with finite Tor amplitude required separately from constructibility. |
 | Finite cohomology and coherent symmetry | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.finiteCoefficientCohomology` | Preserve the coefficient-module and finite-group actions, without averaging when the group order is not invertible. |
@@ -804,8 +807,10 @@ bounds; the integral-to-rational passage retains the whole finite-level tower.
 **Representations and bounded lattice schemes.** Let `X` be connected with geometric point `x̄`.
 Taking the fibre at `x̄` gives a tensor equivalence between `ℤ_p-Loc(X)` and continuous
 representations of `π₁^ét(X, x̄)` on finite free `ℤ_p`-modules, and between `ℤ_p-ILoc(X)` and
-continuous representations on finite-dimensional `ℚ_p`-vector spaces; a representation with compact
-image has a stable lattice. For `T ∈ ℤ_p-Loc(X)` and `m ≥ 0`, the lattices between `p^m T` and
+continuous representations on finite-dimensional `ℚ_p`-vector spaces. The representation carrier
+is `ContinuousRep` of EtaleCohomologyFoundations §F.4.0, and the stable lattice of a representation
+with compact image is its `ContinuousRep.exists_stable_lattice_iff`, with integral models
+`GaloisLattice.IntegralModel` on Mathlib's `Submodule.IsLattice`; no second carrier is built here. For `T ∈ ℤ_p-Loc(X)` and `m ≥ 0`, the lattices between `p^m T` and
 `p^{−m} T` are parametrised by a finite étale `X`-scheme `L_m(T)`; an incidence subscheme of
 `L_m(T) ×_X L_m(T)` records inclusion, and finite sums give a canonical join. Using the join,
 effective descent holds for isogeny local systems along a faithfully flat finite étale ring map, and
@@ -815,15 +820,17 @@ continuous representations, identifying fibre representations and all morphisms;
 `L_m(T_Y) = L_m(T) ×_X Y`; that the incidence locus is finite étale and
 represents inclusion of the two parametrised lattices; and that the join of a finite
 family is the least lattice containing each member. *Proof sketch.* Apply the classification of
-finite étale covers level by level; a compact image has bounded denominators, and the sum of the
-translates of one lattice is stable. Reduce `L_m` to a finite Grassmannian of submodules of
+finite étale covers level by level, and take stable lattices of compact-image representations from
+EtaleCohomologyFoundations §F.4.0. Reduce `L_m` to a finite Grassmannian of submodules of
 `p^{−m}T/p^m T` and build the incidence scheme after trivialising modulo `p^{4m}`. For descent, join
 the finitely many translated lattices to make the descent datum integral; one closure step
 stabilises locally and descends. Source: [Kedlaya–Liu, *Relative `p`-adic Hodge theory:
 foundations*](https://arxiv.org/pdf/1301.0792v5), Remark 1.4.4, Examples 1.4.5–1.4.6, Remark 1.4.7,
 Lemma 1.4.8 and Remark 1.4.9, pp. 21–23; the localisation in their argument is of the base ring only, since a finite étale
 covering ring may be semilocal. *Needs:* *Integral, isogeny and rational `ℤ_p`-local systems*;
-Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
+Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`;
+Supplied by EtaleCohomologyFoundations §F.4.0 / `ContinuousRep`,
+`ContinuousRep.exists_stable_lattice_iff`, `GaloisLattice.IntegralModel`.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -1003,10 +1010,13 @@ power maps for divisibility of indices, using the existing `TauCeti.PrimeToPTate
 whose indices satisfy `n ≠ 0 ∧ Nat.Coprime n p`. These are exactly the positive integers
 invertible in `K`; for `p = 1` every positive index is included. Injectivity is not part of the
 statement; it holds, for instance, when `U` is `ℙ¹` minus at least two points, where the composite to
-the prime-to-`p` quotient sends a generator to a member of a free basis. *Proof sketch.* Translate
-the local description of the tame quotient of the absolute
-Galois group of a local field (LocalFieldsRamification Layers 3–4) into the normalisation condition
-on covers; describe both global quotients as intersections of kernels of finite quotients and
+the prime-to-`p` quotient sends a generator to a member of a free basis. *Proof sketch.* The
+strictly henselian punctured branch at `P` has residue field `K`, which is infinite, so it is not a
+local field; its inertia, wild inertia and tame character come from the henselian-trait package of
+EtaleCohomologyFoundations §F.3a, whose surjectivity statement identifies inertia modulo wild
+inertia with `∏_{ℓ ≠ p} ℤ_ℓ(1)` over the residue field. The adapter here identifies that product
+with `TauCeti.PrimeToPTateModule p K`; the tame quotient description is then translated into the
+normalisation condition on covers; describe both global quotients as intersections of kernels of finite quotients and
 compare their categories of covers. Sources: [SGA 1](https://arxiv.org/pdf/math/0206203v2), Exposé
 XIII, §§2.1–2.4, pp. 277–285, §§2.10–2.12, pp. 289–290, and Corollary 5.3, p. 316
 (the local Kummer tower); [Stacks, Lemma 59.28.1 (03PL)](https://stacks.math.columbia.edu/tag/03PL)
@@ -1014,8 +1024,9 @@ XIII, §§2.1–2.4, pp. 277–285, §§2.10–2.12, pp. 289–290, and Corollar
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §5, pp. 8–11. In
 positive characteristic the free presentation on loops around the punctures describes only the
 prime-to-`p` quotient, not the full tame group. *Needs:* EtaleCohomologyFoundations §F.0.A1 *Decomposition and inertia groups of a cover*; Supplied by EtaleCohomologyFoundations §F.0 /
-`VanishingCycles.finiteEtaleGaloisCategory`; LocalFieldsRamification Layer 3; BelyiMaps Layers 12
-and 13.
+`VanishingCycles.finiteEtaleGaloisCategory`; EtaleCohomologyFoundations §F.3a (henselian traits,
+inertia, wild inertia and the tame character with its Kummer, surjectivity and conjugation
+statements); BelyiMaps Layers 12 and 13.
 Finite lisse coefficients require no invertibility; based `π₁` and paths use connected nonempty
 locally Noetherian schemes or the componentwise groupoid.
 
@@ -1035,6 +1046,10 @@ locally Noetherian schemes or the componentwise groupoid.
 - For `U = 𝔸¹_ℂ` with boundary `{∞}`, the local tame inertia at `∞` is `ẑ(1)` but `π₁^t(U)` is trivial,
   so the peripheral map has trivial image; identifying the global inertia subgroup with the Tate
   module would be false here.
+- For `U = 𝔾_m` over `𝔽̄_p`, the branch at `0` is the henselization of `𝔽̄_p[t]` at `(t)`, whose
+  residue field `𝔽̄_p` is infinite, so a theorem about local fields with finite residue field does
+  not apply; the henselian-trait tame character still gives local tame inertia
+  `∏_{ℓ ≠ p} ℤ_ℓ(1)`, and the same holds for `ℂ((t))` with all primes.
 
 **Tame tangential fibres at a boundary point.** Let `C/k` be a smooth curve, `P` a `k`-rational point
 of its smooth compactification outside `C`, and `v` a nonzero tangent vector at `P`. A local
@@ -1488,8 +1503,10 @@ The quotient calculation retains the shared fibre/deck convention.
 
 EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory` supplies the
 étale fundamental group and paths; EtaleCohomologyFoundations §§F.0.A0–F.0.A2 supply field and
-`𝔾_m` identifications, the arithmetic sequence, decomposition and inertia. LocalFieldsRamification Layers 2–4 supply Frobenius, local ramification and
-the tame quotient, and Mathlib the decomposition and inertia groups of primes; AlgebraicCurves Layers
+`𝔾_m` identifications, the arithmetic sequence, decomposition and inertia. EtaleCohomologyFoundations §F.3a supplies the inertia and tame character of the
+general henselian traits at the boundary of a curve over an algebraically closed field, with
+infinite residue field; LocalFieldsRamification Layers 2–4 supply Frobenius, local ramification and
+the tame quotient for finite-residue local fields, and Mathlib the decomposition and inertia groups of primes; AlgebraicCurves Layers
 8 and 12 the decomposition of places and the curve-place dictionary; BelyiMaps Layers
 12–13, ProfiniteArithmetic and PeripheralActions the Tate-module and peripheral conventions.
 SchemeAndStackFoundations Layers 0, 1, 3 and 4 supply limits, henselization, Popescu
@@ -4117,10 +4134,11 @@ splitting section, nilpotent kernel and a surjective solution.
   above infinity and `2`; these conditions are part of (i), not discarded by shrinking.
 
 **Fitting supplements for solvable groups.** Mathlib has the Frattini subgroup `frattini G` but no
-Fitting subgroup. For a finite group `G`, define the Fitting subgroup `F(G)` as the supremum of
-the nilpotent normal subgroups of `G`. Prove that `F(G)` is normal and characteristic, and nilpotent
-(Fitting's theorem: the product of two nilpotent normal subgroups is nilpotent). Hence `F(G)` is the
-largest nilpotent normal subgroup of `G`. There is one Fitting carrier: `F(G)` is the value at the
+Fitting subgroup. For a finite group `G`, the Fitting subgroup `F(G)` is the supremum of the
+nilpotent normal subgroups of `G`; that it is normal, characteristic and nilpotent (Fitting's
+theorem: the product of two nilpotent normal subgroups is nilpotent), hence the largest nilpotent
+normal subgroup, is consumed from the supplier below and not proved here. There is one Fitting
+carrier: `F(G)` is the value at the
 top subgroup of the relative Fitting subgroup of a subgroup `H ≤ G` (generated by the nilpotent
 normal subgroups of `H`) of LocalFiniteGroupTheory L2, whose nilpotence, characteristicity,
 maximality and Frattini inclusion are the first three API items below and the inclusion
@@ -4137,7 +4155,8 @@ is solvable. Let `U` act on `F(G)` by conjugation. Then the multiplication map `
 `(f, u) ↦ fu`, is a surjective homomorphism. In the induction of *Shafarevich solvable realization*,
 `F(G)` is the kernel of the embedding problem.
 
-The API:
+The API (the first three items are LocalFiniteGroupTheory L2 at the top subgroup, restated for
+use; the last two are the targets of this roadmap):
 - `F(G)` is normal and characteristic.
 - For finite `G`, `F(G)` is nilpotent.
 - Every nilpotent normal subgroup `N` of a finite `G` satisfies `N ≤ F(G)`.
@@ -4948,9 +4967,13 @@ over `c ∪ {1}`, let `z(f)` be defined as follows:
   uniqueness is Layer IG.3 *Conjugacy classes lift bijectively*;
 - if `f` lies over `1`, then `f ∈ A` is central and `z(f) = f`.
 
-For `u ∈ μ_L` and each finite place `v` of `L`, choose `β_v` in the inertia group at `v` that maps to
-`u` in the maximal tame abelian quotient of exponent `|S_c|` of the local Galois group, identified with
-roots of unity by local class field theory. Define
+For `u ∈ μ_L` and each finite place `v` of `L`, let `Q_v` be the maximal tame abelian quotient of
+exponent dividing `n = |S_c|` of `Γ_(L_v)`, with quotient maps `q_v : Γ_(L_v) → Q_v` and
+`q̄_v : Γ_(L_v)^ab → Q_v`, and let `rec_v : L_vˣ → Γ_(L_v)^ab` be the local Artin map. Choose `β_v`
+in the inertia group `I_v` with `q_v(β_v) = q̄_v(rec_v(u))`; such a lift exists because `u` is a unit,
+so every lift of `rec_v(u)` lies in inertia. The group `Q_v` is not a group of roots of unity in
+general: it has an unramified factor, and at places of residue characteristic dividing `n` the image
+of inertia in it can be smaller. Define
 
 ```text
 I(φ, u) = ∏_{v finite} z(φ̃(β_v)).
@@ -4977,11 +5000,17 @@ Lemmas 3.3–3.11.
 Source: [Wood, *Nonabelian Cohen–Lenstra moments*](https://par.nsf.gov/servlets/purl/10152050),
 Definition 3.1 and Lemmas 3.3–3.11 with full proofs, published pp. 388–393.
 *Needs:* *Tame central lift after adjoining roots*; Layer IG.3 *Conjugacy classes lift bijectively*,
-Layer IG.3 *The kernel of the universal marked extension*; ClassFieldTheory Layers 10 and 12.
+Layer IG.3 *The kernel of the universal marked extension*; ClassFieldTheory Layer 7 (`artinMap` and
+`mem_inertiaSubgroup_of_mk_eq_artinMap`: lifts of the Artin image of a unit lie in inertia),
+ClassFieldTheory Layers 10 and 12.
 
 **Checks.**
 
 - `I(φ, 1) = 1`: one may take `β_v = 1` at every place.
+- For `F = C₂`, `ε = id`, `c = {σ}`, `K = ℚ` and trivial `φ`, one has `n = 2` and `L = ℚ(ζ₈)`. At a
+  place over `17`, `L_v = ℚ₁₇` and `Q_v ≅ ℚ₁₇ˣ/(ℚ₁₇ˣ)² ≅ C₂ × C₂` is not cyclic, so it is not a group of
+  roots of unity; at a place over `2`, `Q_v` is the unramified `C₂`, inertia maps trivially, and
+  `q̄_v(rec_v(−1)) = 1`, so `β_v = 1` is allowed.
 - If every finite inertia image of the chosen lift is trivial, every factor is `1` and `I(φ, u) = 1`
   for all `u`.
 - Take `F = C₃` and `c = {a, a⁻¹}` with `a` of order three. There is no surjection `F → C₂`, and `c`
@@ -5244,8 +5273,10 @@ to, not a substitute for, formal patching of branched covers.
 
 **Ordered and unordered configurations.** For a Hausdorff space `T` and `n ≥ 0`, define `PConf_n(T)`
 as the space of injective maps `Fin n → T` with the subspace topology from `T^n`, and
-`Conf_n(T) = PConf_n(T)/S_n` with the quotient topology. For the open disc `𝔻` and for `ℂ`, fix a
-standard base configuration and a base point on the boundary (for `ℂ`, near `∞`). Algebraically,
+`Conf_n(T) = PConf_n(T)/S_n` with the quotient topology. Let `D` be the closed unit disc and
+`𝔻 = int D` the open disc; configurations are taken in `𝔻`, and for `ℂ` in the plane. Fix a
+standard base configuration in `𝔻` and a base point `* ∈ ∂D`, which is not a point of `𝔻` (for `ℂ`,
+a base point near `∞`). Algebraically,
 `PConf_n(A¹)` is the principal open subscheme of `A^n_ℤ` where `∏_{i<j}(x_i − x_j)` is invertible,
 so an `R`-point is a tuple whose pairwise differences are units of `R`, not merely distinct
 elements; `Conf_n(A¹)` is the open subscheme of the affine space of monic degree-`n` polynomials
@@ -5282,7 +5313,7 @@ standard adjacent exchanges of the base configuration correspond to the generato
 `TauCeti.BraidGroup.sigma i`, with the orientation convention of
 Layer IG.3 *The Hurwitz braid action*, and the `S_n`-cover `PConf_n(𝔻) → Conf_n(𝔻)` corresponds to
 `TauCeti.BraidGroup.permHom`, so that `π₁(PConf_n(𝔻))` is `TauCeti.BraidGroup.pureSubgroup`. The
-fundamental group of the `n`-punctured disc at a boundary base point is Mathlib's
+fundamental group at `* ∈ ∂D` of the closed disc `D` minus `n` points of `𝔻` is Mathlib's
 `FreeGroup (Fin n)`, freely generated by positively oriented small loops around the punctures. For
 the plane minus `n` points the ordered product of these loops is unconstrained; adding the loop
 around `∞` in `P¹` gives the single relation that the product of all `n + 1` loops is one. The
@@ -5353,11 +5384,11 @@ degree is `|G|^n`. For a conjugation-invariant subset `c ⊆ G`, restricting the
 to `c^n`, to the tuples generating `G`, or to both gives the subcovers `Hur^c_{G,n}` (fibre `c^n`),
 `CHur_{G,n}` (fibre the generating tuples of `G^n`) and `CHur^c_{G,n}` (fibre the generating tuples
 in `c^n`). No product-one condition is imposed: the boundary product is a locally constant function
-on `Hur_{G,n}`. A marked branched `G`-cover of `𝔻` branched at a configuration is a `G`-torsor over
-the complement of the branch points, extended over each of them by its normalized cyclic local
-model, together with a point over the boundary base point; it is connected exactly when its
+on `Hur_{G,n}`. A marked branched `G`-cover of `D` branched at a configuration in `𝔻` is a `G`-torsor over
+`D` minus the branch points, extended over each of them by its normalized cyclic local
+model, together with a point over the boundary base point `* ∈ ∂D`; it is connected exactly when its
 monodromy `FreeGroup (Fin n) → G` is surjective. Classifying marked covers by their monodromy tuples
-identifies `Hur_{G,n}` with the space of marked branched `G`-covers of `𝔻`, and `CHur_{G,n}` with
+identifies `Hur_{G,n}` with the space of marked branched `G`-covers of `D`, and `CHur_{G,n}` with
 the connected ones. Prove that the associated covering has exactly the
 stated fibre and projection, that the class and generating
 inclusions commute with the projections to `Conf_n(𝔻)`, that with fixed
@@ -5426,11 +5457,22 @@ allows `∞` to be a branch point. Prove that base change preserves the cover, i
 inertia is cyclic of order prime to the characteristic, with its Kummer model, that
 a section over an unramified `∞` is a marking of the torsor and that
 on covers unramified at `∞` the tangential marking agrees with the
-ordinary fibre. The family is defined on finite étale covers of the complement of `B` and their
-normalizations; the local Kummer conditions are checked to be stable under base change; and the two
-markings are defined by their fibre functors. Sources:
+ordinary fibre. Over an arbitrary base the family is not recovered from its restriction to the complement of `B`
+by normalization: integral closure is not finite and does not commute with base change over a
+nonreduced base. The cover is therefore the finite morphism with relative Kummer charts of the
+definition; its existence and uniqueness over complete local bases with lifted branch sections is
+the tame deformation theorem, and it is descended along étale charts using that isomorphisms of
+tame covers with the same branch divisor form a scheme finite étale over the base. Over a
+Noetherian normal integral base, and only there, the cover is the normalization of `D` in the
+torsor over the generic fibre of the complement. The local Kummer conditions are checked to be
+stable under base change, and the two markings are defined by their fibre functors. Sources:
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
 §7.1, published p. 765 (the genus-zero specialization and exact branch divisor);
+[Romagny–Wewers](https://imag.umontpellier.fr/~romagny/articles/hurwitz_spaces.pdf), Proposition
+4.5, Lemma 4.6(iii) and Remark 4.7, pp. 324–325 (tame deformations with moving branch points, the
+normal-base normalization description and the finite étale isomorphism scheme over arbitrary
+bases); [Stacks, Lemma 035O](https://stacks.math.columbia.edu/tag/035O) (absolute normalization
+factors through the reduction);
 [Chen, *Nonabelian level structures*](https://arxiv.org/pdf/2011.12940v2), Definition 2.1.4, Remark 2.1.5 and Definition 2.1.6,
 preprint pp. 14–15 (the smooth locus of general-genus marked covers);
 [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), §11.1, PDF pp. 41–42 (the marked and
@@ -5452,6 +5494,11 @@ locally Noetherian schemes or the componentwise groupoid.
   `m` at both; for `m = 1` it is the identity and has no branch point.
 - In characteristic `p`, the Artin–Schreier cover `y^p − y = x` is an `𝔽_p`-torsor étale over `A¹`
   but wildly ramified at `∞`, so it is not a tame cover (and `|G| = p` is not invertible).
+- Over `R = k[ε]/(ε²)` with `char k ≠ 2`, the cover `y ↦ y² = x` of `P¹_R` is a tame `C₂`-cover
+  branched at `0` and `∞`, with finite model `R[y]` over `R[x]`. The integral closure of `R[x]` in
+  `R[y, y⁻¹]` contains every `ε y⁻ᵐ`, since `(ε y⁻ᵐ)² = 0`, so it is not finite and is not `R[y]`;
+  absolute normalization discards `ε`. Neither recovers the family, which the definition by finite
+  maps with Kummer charts does.
 
 **Arithmetic Hurwitz stacks and schemes.** Let `G` be a finite group and `n ≥ 0`. Over `ℤ[1/|G|]`,
 construct the stack of tame `G`-covers of `P¹` (target fixed) with connected source and exactly `n`
@@ -5499,8 +5546,9 @@ SchemeAndStackFoundations Layer 4.
 
 **Marked moduli with arbitrary monodromy.** For a finite group `G` and `r ≥ 0`, define the groupoid
 of possibly disconnected tame `G`-torsors over `P¹` minus `r` specified distinct finite punctures,
-extended over the punctures by normalization, together with an ordinary marked point over an
-unramified `∞`. A listed puncture may carry trivial inertia, and the exact monodromy subgroup
+extended over the punctures as tame covers of *Tame G-covers in families* (finite maps with
+relative Kummer charts; by normalization only over Noetherian normal integral bases), together with
+an ordinary marked point over an unramified `∞`. A listed puncture may carry trivial inertia, and the exact monodromy subgroup
 `H ≤ G` is recorded. Over a complex configuration the marked fibre is the set of all tuples in `G^r`
 with product one; the full-monodromy locus, which is open and closed, is where the tuple generates
 `G`; and the connected components correspond to the braid orbits on the fibre. Before the marking is
