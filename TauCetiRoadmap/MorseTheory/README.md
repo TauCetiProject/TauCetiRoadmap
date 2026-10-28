@@ -679,6 +679,69 @@ isolation of the critical set supply finiteness on compact sets. Prove the
 proper/bounded-below and compact-trapped corollaries with these explicit
 hypotheses.
 
+### M6.1. Palais–Smale compactness without properness
+
+Supply the missing condition in Math240 Homework10 problem3
+(`0228_001`, physical page3). For a chosen smooth Riemannian metric g,
+define the Palais–Smale condition by sequences: whenever the real numbers
+f(x_j) are bounded and `‖grad_g f(x_j)‖→0`, some subsequence of x_j converges
+in M. Also give its restriction to each closed finite value band [a,b],
+and prove the global condition equivalent to satisfying it on every such
+band. Keep the metric in the condition; comparison under a change of metric
+requires uniform equivalence on the relevant band. Properness of a smooth
+f implies this condition by compactness of inverse images of bounded closed
+intervals. The converse is not asserted.
+
+For continuous gradient, prove the critical set in each finite closed value
+band is compact by the sequential condition and closedness. For a Morse
+function it is finite by isolation; isolation alone does not make an arbitrary
+subset of a compact space finite. On a band with no critical points, prove
+a uniform lower bound `‖grad_g f‖≥η>0` by applying Palais–Smale to a sequence
+violating the bound. On a complete Riemannian manifold use this bound to
+extend M2's regular critical-free-band deformation to bands that need not
+be compact. Construct the normalized field on a slightly larger critical-
+free band, its bounded speed, the required finite-time continuation, and
+the strong deformation retract M_b→M_a fixing M_a. Prove the regular-endpoint
+buffers exist from Palais–Smale; regularity at a and b alone does not give
+a uniform buffer by a compact-band argument when the band is noncompact.
+This is a new noncompact corollary of M2's construction, not a change to the
+compactness hypotheses of its handle/cobordism theorems.
+
+On a complete manifold, every maximal forward negative-gradient trajectory
+of a smooth bounded-below f has infinite forward lifetime: over a finite
+time interval, dissipation bounds the total length by the square root of
+time times the square root of the energy drop. Completeness gives an endpoint,
+and local ODE uniqueness/continuation extends the trajectory. This argument
+requires no global bound on the gradient and no Palais–Smale hypothesis.
+
+If f is additionally Morse and Palais–Smale, prove every such trajectory
+converges to one critical point, without assuming compact trapping. The
+energy has a finite limit c; dissipation supplies times tending to infinity
+with gradient norm tending to0. Palais–Smale supplies a subsequence
+converging to a critical point p of value c. Use M6's local gradient
+inequality and tail-length estimate to prove that, once sufficiently close
+to p with sufficiently small remaining energy, the orbit cannot leave a
+fixed small coordinate neighborhood. Only after proving this trapping apply
+the local exponential convergence argument. A critical subsequence alone
+does not prove convergence of the whole orbit. Deduce exponential convergence,
+finite forward tail length and the bounded-below Palais–Smale minimum-
+attainment corollary on every nonempty manifold in this Morse scope.
+
+As the hypothesis check, compute on the complete Euclidean line
+`f(x)=exp(−x)` and `γ(t)=log(exp(x₀)+t)` for t≥0. This is a bounded-below
+smooth function with no critical points and a forward negative-gradient
+trajectory escaping to infinity; x_j=j violates Palais–Smale. Its normalized
+negative-gradient field is `−grad f/‖grad f‖²=exp(x)`, whose trajectory from
+x₀ escapes in time exp(−x₀). Thus the source's constant rate of decrease
+of f along that reparametrization does not justify global existence.
+
+[`PalaisSmaleTargets.lean`](PalaisSmaleTargets.lean) suggests the sequential,
+critical-band and flow statements on the native finite-dimensional real
+inner-product-space specialization. The manifold and variable-metric
+comparisons above remain part of the definitive specification.
+For the sequence condition and critical-free deformation argument, see
+[Morgan, Lecture V A, §1.3](https://www.math.columbia.edu/~jmorgan/Condition_C.pdf).
+
 ## References and course targets
 
 - Milnor, *Morse Theory*, §§2–6 for local/deformation/CW/inequality proofs.
