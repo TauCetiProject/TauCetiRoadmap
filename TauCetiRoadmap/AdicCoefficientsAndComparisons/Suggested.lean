@@ -32,7 +32,7 @@ open CategoryTheory AlgebraicGeometry
 
 universe u
 
-namespace TauCeti.AdicCoefficientsAndComparisons
+namespace TauCetiRoadmap.AdicCoefficientsAndComparisons
 
 /-- A compactification expressed on its scheme maps, without choosing a category of
 compactifications. No density condition is imposed. -/
@@ -94,4 +94,4 @@ theorem vectorBundleExtension_strictRefinement {S Y C : Scheme.{u}}
         Nonempty ((Scheme.Modules.pullback j').obj F' ≅ F) := by
   sorry
 
-end TauCeti.AdicCoefficientsAndComparisons
+end TauCetiRoadmap.AdicCoefficientsAndComparisons
