@@ -17,7 +17,7 @@ merge before the next variation stage in #21067. All must finish normal review a
 archive is marked ready. Their refinements are tracked in the PR discussions.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
-`29c028be9e4fdda06134246fb297ee3887a6f753` proves joint native coefficient smoothness throughout
+`24916b1717eb99403ca74d0484be714025e78494` proves joint native coefficient smoothness throughout
 all chart domains, including corner-boundary points, and the inverse-matrix index formula using
 `fderivWithin` on the actual chart target. It uses native manifold derivatives, the joint Koszul
 expression and inverse coordinate metrics. Independent probes take both parameter and base to be
