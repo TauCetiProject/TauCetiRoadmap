@@ -1,12 +1,22 @@
-# LocalFieldsRamification: implementation review candidate
+# LocalFieldsRamification: completion audit
 
-This is preparation for archiving, contingent on three independent implementation PRs merging: [#22018](https://github.com/TauCetiProject/TauCeti/pull/22018) (tame-generator bridge and marked example, `5d2883167f8a0b24d9ea580342c683f7960277ca`), [#22046](https://github.com/TauCetiProject/TauCeti/pull/22046) (canonical finite-level wild inertia, `d9c5dce54b5fea21635e6da1a34cf5b53d03da64`), and [#22047](https://github.com/TauCetiProject/TauCeti/pull/22047) (the explicit dyadic boundary witness, `02a131ed10be0817018d4211f13c97771a665896`). The roadmap is not declared complete by this local preparation. Existing mathematics is reviewed at upstream [`36f24f5d94ccf25e167520cf4c0f1a028c064fb0`](https://github.com/TauCetiProject/TauCeti/tree/36f24f5d94ccf25e167520cf4c0f1a028c064fb0); the final archival review must record the merged upstream revision containing all prerequisites.
+All three independent implementation PRs are verified on actual upstream
+[`302238ea98ea621d689041f67e935f0b4eb1285e`](https://github.com/TauCetiProject/TauCeti/commit/302238ea98ea621d689041f67e935f0b4eb1285e):
+[#22018](https://github.com/TauCetiProject/TauCeti/pull/22018) (tame-generator bridge and marked
+example, `5d2883167f8a0b24d9ea580342c683f7960277ca`),
+[#22046](https://github.com/TauCetiProject/TauCeti/pull/22046) (canonical finite-level wild inertia,
+`d9c5dce54b5fea21635e6da1a34cf5b53d03da64`), and
+[#22047](https://github.com/TauCetiProject/TauCeti/pull/22047) (explicit dyadic boundary witness,
+`02a131ed10be0817018d4211f13c97771a665896`). Every changed source path is byte-identical to its
+reviewed head on that main revision, and the obsolete Teichmüller module is absent after its
+canonical relocation. The original inventory baseline is upstream
+`36f24f5d94ccf25e167520cf4c0f1a028c064fb0`; the final actual-main replay is recorded below.
 
 The review reads the whole normative README: Layers 0–4, their API lists and hypotheses, the Counting Totally Ramified Extensions consumer boundary, the acceptance examples, and the implementation-provenance appendix. The table groups implementations by mathematical requirement, rather than equating the admitted suggested forms with completion. `Suggested.lean` is retained at the roadmap repository's older `358314d4ab97` pin as a prototype; it contains target placeholders and old finite-extension aliases. It is not a proof certificate for current source.
 
 ## Whole-roadmap implementation inventory
 
-Paths in the tables link to the exact reviewed upstream baseline, except the three explicitly pending implementations linked at their candidate revisions. Unqualified neighboring paths refer to the same `TauCeti/NumberTheory/LocalField` directory. The Teichmüller construction uses Tau Ceti's `RingTheory/Henselian/Teichmuller.lean`; canonical local-field and cohomological carriers remain those of Mathlib/Tau Ceti.
+Paths in the tables link to the exact reviewed upstream baseline, except the three final implementations linked at their reviewed revisions. Unqualified neighboring paths refer to the same `TauCeti/NumberTheory/LocalField` directory. The Teichmüller construction uses Tau Ceti's `RingTheory/Henselian/Teichmuller.lean`; canonical local-field and cohomological carriers remain those of Mathlib/Tau Ceti.
 
 | Normative requirement | Source entry point | Implementation and supporting API |
 |---|---|---|
@@ -45,7 +55,7 @@ Paths in the tables link to the exact reviewed upstream baseline, except the thr
 | Contract | Source | Checked content |
 |---|---|---|
 | ℚ₂ and ℚ₅ Teichmüller values | [WorkedExamples/Padic/Teichmuller](https://github.com/TauCetiProject/TauCeti/blob/5d2883167f8a0b24d9ea580342c683f7960277ca/TauCeti/NumberTheory/LocalField/WorkedExamples/Padic/Teichmuller.lean) | The trivial ℚ₂ unit section and the specified ℚ₅ root values |
-| ℚ₂ square classes and sharp square depth | [WorkedExamples/Padic/Two/Units](https://github.com/TauCetiProject/TauCeti/blob/02a131ed10be0817018d4211f13c97771a665896/TauCeti/NumberTheory/LocalField/WorkedExamples/Padic/Two/Units.lean) | The pending source proves 5 belongs to U2; existing `Padic.not_isSquare_five` proves it is nonsquare. U3 containment is compiled directly from the generic square theorem below. `PowerSubgroup/Basic` specializes the generic count to eight classes |
+| ℚ₂ square classes and sharp square depth | [WorkedExamples/Padic/Two/Units](https://github.com/TauCetiProject/TauCeti/blob/02a131ed10be0817018d4211f13c97771a665896/TauCeti/NumberTheory/LocalField/WorkedExamples/Padic/Two/Units.lean) | The implementation proves 5 belongs to U2; existing `Padic.not_isSquare_five` proves it is nonsquare. U3 containment is compiled directly from the generic square theorem below. `PowerSubgroup/Basic` specializes the generic count to eight classes |
 | Unramified quadratic, Frobenius and norm equations | [WorkedExamples/DyadicSqrt/Five/Basic](https://github.com/TauCetiProject/TauCeti/blob/36f24f5d94ccf25e167520cf4c0f1a028c064fb0/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/Five/Basic.lean) | Explicit √5 arithmetic Frobenius, norm formula and even-valuation criterion; `WorkedExamples/UnramifiedQuadratic` gives an independent canonical construction |
 | ℚ₂(√2), its breaks and attained different bound | [WorkedExamples/DyadicSqrt/Two](https://github.com/TauCetiProject/TauCeti/blob/36f24f5d94ccf25e167520cf4c0f1a028c064fb0/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/Two.lean) | Existing e=2, d=3 and lower filtration; equality in d=e−1+vL(e) is the compiled calculation below; `DyadicSqrt/Herbrand` gives upper filtration, φ, ψ and ψℕ |
 | ℚ₂(i), the other wild endpoint | [WorkedExamples/DyadicSqrt/NegOne/Ramification](https://github.com/TauCetiProject/TauCeti/blob/36f24f5d94ccf25e167520cf4c0f1a028c064fb0/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NegOne/Ramification.lean) | d=e=2 and strictness of the wild upper bound |
@@ -63,7 +73,7 @@ The reviewed assertions use the hypotheses of the README: mixed characteristic a
 
 ## Source-pinned acceptance calculations
 
-The following exact input was compiled with `lake env lean` against the existing source at `36f24f5d94ccf25e167520cf4c0f1a028c064fb0` (Lean 4.36.0-rc1, Mathlib `2cabef97`). Its imported source and supporting API are unchanged by the three pending PRs. It proves the attained different bound and the U3 square example directly; no specialized public wrapper is needed. All four supporting endpoint axiom inspections reported only `propext`, `Classical.choice` and `Quot.sound`.
+The following exact input was compiled with `lake env lean` against the existing source at `36f24f5d94ccf25e167520cf4c0f1a028c064fb0` (Lean 4.36.0-rc1, Mathlib `2cabef97`). Its imported source and supporting API are unchanged by the three final PRs. It proves the attained different bound and the U3 square example directly; no specialized public wrapper is needed. All four supporting endpoint axiom inspections reported only `propext`, `Classical.choice` and `Quot.sound`.
 
 ```lean
 import TauCeti.NumberTheory.LocalField.WorkedExamples.DyadicSqrt.Two
@@ -97,8 +107,17 @@ example : unitFiltration ℚ_[2] 3 ≤ Subgroup.square ℚ_[2]ˣ := by
 
 ## Validation and limits
 
-A local integration of the exact three heads above, commit `587640b6e0154273a3d71f0a72c686e57017de01`, rebuilt all 41 source entry modules and their dependencies successfully (10,467 jobs). This includes the canonical `Padic/Teichmuller` relocation and the explicit continuous-hom coercion normalization. The source-pinned acceptance calculations, including the sharp different equality and the `U₃` square calculation, also compile in that integration. Axiom inspection of 19 key endpoints reports only `propext`, `Classical.choice` and `Quot.sound`. Fresh genuine CI and merged-source verification remain required; this local integration was not pushed.
+The final replay used a clean, unmodified actual-main checkout at `302238ea98ea`, with Lean
+`4.36.0-rc1` and Mathlib `2cabef97b63d`. All 84 expanded inventory modules and their dependencies
+built successfully (10,321 Lake jobs). The exact Lean block above was extracted verbatim and
+compiled with warnings treated as errors. A separate scope probe checked canonical wild inertia,
+tame intrinsic generation and the marked presentation, Hasse–Arf, all four graded-norm regimes,
+and the dyadic examples. All 26 axiom reports use only `propext`, `Classical.choice` and
+`Quot.sound`. This is actual merged source, with no integration-only proof changes.
 
-The tame, wild-inertia and dyadic-witness PRs independently passed targeted builds (7149, 7095 and 6595 jobs), all 13 trusted environment linters, endpoint axiom inspections and `git diff --check`. The combined source audit must be refreshed at the final merged revision before this archive becomes ready.
+
+A local integration of the exact three heads above, commit `587640b6e0154273a3d71f0a72c686e57017de01`, rebuilt all 41 source entry modules and their dependencies successfully (10,467 jobs). This includes the canonical `Padic/Teichmuller` relocation and the explicit continuous-hom coercion normalization. The source-pinned acceptance calculations, including the sharp different equality and the `U₃` square calculation, also compile in that integration. Axiom inspection of 19 key endpoints reports only `propext`, `Classical.choice` and `Quot.sound`. That earlier local integration was not pushed; it is superseded by the actual-main replay above.
+
+The tame, wild-inertia and dyadic-witness PRs independently passed targeted builds (7149, 7095 and 6595 jobs), all 13 trusted environment linters, endpoint axiom inspections and `git diff --check`. The combined source audit is refreshed on the actual merged revision above.
 
 This is a scope, signature and implementation review backed by the listed builds and kernel axiom checks. It is not a new independent line-by-line mathematical review of every imported library proof. The admitted prototype was not used as evidence that a target was proved. Source review and preparation: Codex (GPT-6), 2026-10-28.
