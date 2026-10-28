@@ -11,14 +11,14 @@ import TauCetiRoadmap.SuccessiveMinima.Suggested
 `README.md`. These statements give Lean forms for headline milestones; discharging them
 finishes neither a layer nor the roadmap. Each theorem is a proof target marked with `sorry`.
 
-The statements cover the intrinsic covolume identities (Layer 0), atomic normal
-forms over characteristic-zero DVRs (Layer 2), finite hermitian embedding counts (Layer 3),
+The statements cover the intrinsic covolume identities (Layer 0), the upper half of Minkowski's
+second theorem (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2), finite hermitian embedding counts (Layer 3),
 Henk's bound, Davenport's multiset estimate, Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke,
 Gauss's three-square formula, Siegel's three-square lower bound, Euclidean transference,
 Mahler compactness and critical-lattice existence, Dani–Margulis nondivergence and Siegel's mean value theorem (Layer 4), and the LLL
 short-vector approximation factor (Layer 5). The successive minima are SuccessiveMinima's
-`successiveMin`, whose `Suggested.lean` also states the Gram–Hadamard bound and Minkowski's
-second and linear forms theorems. The definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells, strong continuity, covering
+`successiveMin`, whose `Suggested.lean` also states the Gram–Hadamard bound, the lower half of
+Minkowski's second theorem and the linear forms theorem. The definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells, strong continuity, covering
 radius, star bodies and lattice transforms used in these statements.
 All have real bodies on native carriers; semialgebraicity, unitarity and Hurwitz class numbers
 use Tau Ceti.
@@ -36,8 +36,8 @@ Hermitian delooping (§6.7.19), derived localization (§6.9), periodicity, finit
 and integral L-theory (§§6.10–6.11) are deferred here because the pins have no hermitian
 Q/Grothendieck–Witt spaces, hermitian suspension, common spectrum category or Poincaré
 structures. Exact structures and DG categories alone do not supply those objects. The
-motivic comparisons and higher integer GW tables belong to the README's separate
-roadmap-for-a-roadmap.
+number-ring homotopy-limit comparison and the higher integer Grothendieck–Witt groups are
+outside this roadmap.
 -/
 
 noncomputable section
@@ -104,10 +104,10 @@ def IsAtomicIntegralQuadraticForm (q : QuadraticForm R (Fin n → R)) : Prop :=
     (IsUnit a ∨ IsUnit b) ∧
     ∀ x, q x = a * (e x 0) ^ 2 + b * (e x 0) * (e x 1) + c * (e x 1) ^ 2)
 
-/-- Every quadratic form on a finite projective module over a characteristic-zero DVR has
+/-- Every quadratic form on a finite projective module over a DVR, of any characteristic, has
 an integral orthogonal decomposition into ordered uniformizer powers of atomic blocks and
 a zero summand (2.6.11). The zero summand records the infinite exponents. -/
-theorem atomic_normal_form [CharZero R] {M : Type*} [AddCommGroup M] [Module R M]
+theorem atomic_normal_form {M : Type*} [AddCommGroup M] [Module R M]
     [Module.Finite R M] [Module.Projective R M] (q : QuadraticForm R M)
     (π : R) (hπ : Irreducible π) :
     ∃ (s z : ℕ) (size : Fin s → ℕ) (exponent : Fin s → ℕ)
@@ -145,7 +145,8 @@ theorem finite_hermitian_isometry_formula {F : Type*} [Field F] [StarRing F]
 end FiniteHermitianCounts
 
 /-- A bounded multiplicity function whose positive superlevels have uniformly bounded
-polynomial sign descriptions (4.1.13). The native semialgebraic predicate is retained. -/
+polynomial sign descriptions (4.1.13). The field `semialgebraic` follows from `format`; it records
+the superlevels in Tau Ceti's semialgebraic predicate for consumers of that API. -/
 structure SemialgebraicMultiset (n m k ell : ℕ) where
   multiplicity : (Fin n → ℝ) → ℕ
   bounded_support : Bornology.IsBounded (Function.support multiplicity)
@@ -179,6 +180,20 @@ theorem davenport_multiset_estimate (n m k ell : ℕ) (hn : 1 ≤ n) :
             (sSup {r : ℝ | ∃ s : Finset (Fin n), s.Nonempty ∧ s.card < n ∧
               r = volume.real ((fun x : Fin n → ℝ => fun i : s => x i) ''
                 Function.support M.multiplicity)}) := by sorry
+
+section MinkowskiSecondUpper
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+
+/-- **Minkowski's second theorem, upper half** (1.3.3): `(∏ λ_i) μ(K) ≤ 2^d covol_μ L` for any
+additive Haar measure and any centrally symmetric convex body, with no interior hypothesis. -/
+theorem prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume
+    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
+    (K : ConvexBody E) (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E) [μ.IsAddHaarMeasure] :
+    (∏ i : Fin (finrank ℝ E), SuccessiveMinima.successiveMin L K i) * μ.real (K : Set E) ≤
+      (2 : ℝ) ^ (finrank ℝ E) * ZLattice.covolume L μ := by sorry
+
+end MinkowskiSecondUpper
 
 section HenkProduct
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
@@ -374,22 +389,24 @@ end Transference
 section StarBodies
 variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
 
-/-- A compact star body, given by its continuous definite positively homogeneous gauge (4.5.1);
-convexity is not assumed. -/
-structure CompactStarBody where
+/-- A star body, given by its continuous nonnegative positively homogeneous gauge (4.5.1);
+convexity, boundedness and definiteness are not assumed. -/
+structure StarBody where
   gauge : E → ℝ
   continuous : Continuous gauge
   nonneg : ∀ x, 0 ≤ gauge x
-  zero_iff : ∀ x, gauge x = 0 ↔ x = 0
   homogeneous : ∀ (a : ℝ), 0 ≤ a → ∀ x, gauge (a • x) = a * gauge x
-  compact : IsCompact {x | gauge x ≤ 1}
-  originInterior : (0 : E) ∈ interior {x | gauge x ≤ 1}
 
 variable {E}
 
-/-- A lattice is admissible when the interior of the body contains no nonzero lattice point. -/
-def CompactStarBody.admissible (K : CompactStarBody E) (L : Submodule ℤ E) : Prop :=
+/-- A lattice is admissible when the open sublevel `gauge < 1` contains no nonzero lattice point
+(4.5.1). -/
+def StarBody.admissible (K : StarBody E) (L : Submodule ℤ E) : Prop :=
   ∀ x ∈ L, x ≠ 0 → 1 ≤ K.gauge x
+
+/-- A star body is of finite type when some full discrete lattice is admissible (4.5.1). -/
+def StarBody.IsFiniteType (K : StarBody E) : Prop :=
+  ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L), K.admissible L
 
 end StarBodies
 
@@ -398,13 +415,14 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
 /-- The critical determinant `Δ(K)`: the infimum of covolumes of admissible full lattices
-(4.5.2). -/
-def criticalDeterminant (K : CompactStarBody E) : ℝ :=
+(4.5.2); it is `0` for a body that is not of finite type. -/
+def criticalDeterminant (K : StarBody E) : ℝ :=
   sInf {d | ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L),
     K.admissible L ∧ d = ZLattice.covolume L}
 
-/-- **Mahler's theorem** (4.5.9): every compact star body has a critical lattice. -/
-theorem critical_lattice_exists (K : CompactStarBody E) :
+/-- **Mahler's theorem** (4.5.9): every star body of finite type, bounded or not, has a critical
+lattice. -/
+theorem critical_lattice_exists (K : StarBody E) (hK : K.IsFiniteType) :
     ∃ (L : Submodule ℤ E) (_ : DiscreteTopology L) (_ : IsZLattice ℝ L),
       K.admissible L ∧ ZLattice.covolume L = criticalDeterminant K := by sorry
 
@@ -427,8 +445,6 @@ section UnimodularLattices
 variable {n : ℕ} (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin n) ℝ))
   (hΓ : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
     g ∈ Γ ↔ ∀ i j, ∃ z : ℤ, (z : ℝ) = (g : Matrix (Fin n) (Fin n) ℝ) i j)
-  [MeasurableSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
-  [BorelSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
 
 include hΓ
 
@@ -457,6 +473,8 @@ theorem dani_margulis_nondivergence (hn : 2 ≤ n)
 integrable and has the same integral as the original integrable function on `ℝⁿ`.
 The quotient measure is the invariant probability, and `n ≥ 2`. -/
 theorem siegel_mean_value (hn : 2 ≤ n)
+    [MeasurableSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
+    [BorelSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
     (μ : Measure (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)) [IsProbabilityMeasure μ]
     (hμ : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
       MeasurePreserving (fun x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ => g • x) μ μ)
@@ -468,6 +486,8 @@ theorem siegel_mean_value (hn : 2 ≤ n)
 
 /-- The Tonelli form of Siegel's mean value theorem (4.6.1), including infinite values. -/
 theorem siegel_mean_value_nonneg (hn : 2 ≤ n)
+    [MeasurableSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
+    [BorelSpace (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)]
     (μ : Measure (Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ)) [IsProbabilityMeasure μ]
     (hμ : ∀ g : Matrix.SpecialLinearGroup (Fin n) ℝ,
       MeasurePreserving (fun x : Matrix.SpecialLinearGroup (Fin n) ℝ ⧸ Γ => g • x) μ μ)
