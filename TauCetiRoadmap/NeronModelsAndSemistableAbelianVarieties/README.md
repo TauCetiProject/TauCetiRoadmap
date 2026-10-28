@@ -189,13 +189,17 @@ It leaves to other roadmaps, and consumes from them:
   NoncommutativeAndEquivariantIwasawa §F.6's generic realization and its identification
   with this filtered-module construction, including at `p = 2`, and the geometric
   Raynaud realization and abelian-variety period comparison.
-- **InverseGaloisAndArithmeticFundamentalGroups**, §§IG.2.4, IG.2.6: Hilbertian fields,
-  full-group specialization of finite covers and its Frattini application for 6.0.
+- **InverseGaloisAndArithmeticFundamentalGroups**, §§IG.2.4, IG.2.6, IG.2.8: Hilbertian fields,
+  their finite-extension and finitely-generated permanence, full-group specialization of finite
+  covers and its Frattini application for 6.0.
 - **NumberFieldArithmetic**, Layer 5, and **LocalFieldsRamification**, Layer 2:
   finite places, completions and arithmetic Frobenius for 5.0b.
   LocalFieldsRamification Layers 3–4 supply the finite and absolute ramification filtrations,
-  lower and upper numbering, Herbrand functions and Hasse–Arf over perfect residue fields
-  for the conductor comparisons in 5.3a–5.7.
+  lower and upper numbering, Herbrand functions and Hasse–Arf over nonarchimedean local fields
+  (finite residue field). Over arbitrary perfect residue fields, including infinite ones such as
+  `F̄_p((t))`, the conductor comparisons in 5.3a–5.7 consume the filtration, breaks and Swan and
+  Artin conductors through ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which carries
+  that generality.
 - **AlgebraicVectorBundles**, L0C (finite-projective determinants), and
   **SchemeAndStackFoundations**, §2.6 (proper coherent cohomology), supply the
   determinant-of-cohomology construction in 5.3d; **StableReduction** Layer 2
@@ -534,7 +538,9 @@ rescaling isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image, a
 ArithmeticGaloisRepresentations Layer 2 (§§2.1–2.5) supplies local-field inertia, the arithmetic
 quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors.
 LocalFieldsRamification Layers 3–4 supply the finite and absolute ramification filtrations
-over complete discretely valued fields with perfect residue field, including infinite ones.
+over nonarchimedean local fields; over complete discretely valued fields with arbitrary perfect
+residue field, including infinite ones, the filtration, breaks and conductors are those of
+ArithmeticGaloisRepresentations §§3.1–3.2.
 ArithmeticGaloisRepresentations §§3.1–3.7 supplies Artin, Swan, global and residual
 conductor theory; §§6.1–6.2 supplies the Tate representation and pairing adapters, and
 §6.3 **Local Euler factors** supplies the generic factor on the cohomological dual with
@@ -1864,12 +1870,16 @@ AbelianSchemesAndArithmeticModuli A2–A3 (Poincaré duality and finite flat tor
 
 ### Examples
 
-- An elliptic curve with multiplicative reduction becomes split after an unramified quadratic
-  extension and is semistable before and after (3.1, 3.3).
+- An elliptic curve with multiplicative reduction becomes split after an unramified extension
+  of degree at most two and is semistable before and after (3.1, 3.3); over `ℂ((t))` every
+  multiplicative reduction is already split and no unramified quadratic extension exists.
 - The Jacobian of a curve with a regular semistable model is semistable (Layer 4) with toric
   rank the first Betti number of the dual graph (4.2), giving the ranks of 3.5 directly.
-- The elliptic curve `y² = x³ + p` over `ℚ_p` (`p ≥ 5`) has additive reduction, unipotent
-  inertia only after adjoining a sixth root of `p`, and good reduction there (3.10).
+- The elliptic curve `y² = x³ + p` over `ℚ_p` (`p ≥ 5`) has additive reduction and nonunipotent
+  inertia, and acquires good reduction after adjoining a sixth root of `p` (3.10). That field is
+  sufficient, not necessary: over `ℚ₅(α)` with `α⁶ = 10` the substitution `x = α²X`, `y = α³Y`
+  gives `Y² = X³ + 1/2` with unit discriminant `−108`, yet `ℚ₅(α)` contains no sixth root of `5`,
+  since `2` is not a sixth power in `𝔽₅`.
 
 ### Dependencies
 
@@ -3204,9 +3214,11 @@ For 5.3a–5.3e, `K` is complete for a discrete valuation `v_K` with
 `v_K(K^×) = ℤ`, `R = O_K`, perfect residue field `k` of characteristic `p > 0`,
 and `char K ∈ {0,p}`. The elliptic curve `E/K` is given by a Weierstrass curve `W`
 with `IsElliptic`; the coefficient prime `ℓ` is different from `p`. For finite `k`,
-`K` is a nonarchimedean local field. Use the finite and absolute ramification filtrations
-supplied by LocalFieldsRamification Layers 3–4 over perfect residue fields and the conductor
-conventions of ArithmeticGaloisRepresentations Layer 3; residue finiteness is not assumed.
+`K` is a nonarchimedean local field and the ramification filtrations are those of
+LocalFieldsRamification Layers 3–4. For arbitrary perfect `k`, for instance `K = F̄_p((t))`,
+use the ramification filtration, breaks and conductor conventions of
+ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which are stated over every perfect residue
+field; residue finiteness is not assumed.
 
 **The conductor exponent.** Define `f(E) := a(V_{ℓ₀}E)` with `ℓ₀` the least prime `≠ p`, the tame part
 `ε(E) := codim (V_{ℓ₀}E)^{I_K}`, the wild part `δ(E) := Sw(V_{ℓ₀}E)`, and over a number field
@@ -3219,7 +3231,7 @@ bare integral equation) has good, multiplicative or additive reduction
 reduction; and that `a((V_ℓE)^∨) = f(E)`. Its API is the comparison with the Artin conductor, `f = 0`
 iff good reduction, `f = 1` iff multiplicative reduction, invariance under unramified base change and
 under duality (Serre 1970, n° 2.4, cases b), c), p. 10; Brumer–Kramer 1994, §6, (6.1), p. 243).
-*Needs:* LocalFieldsRamification Layers 3–4; ArithmeticGaloisRepresentations §§3.2, 3.4, 3.6, 6.2;
+*Needs:* LocalFieldsRamification Layers 3–4 (finite `k`); ArithmeticGaloisRepresentations §§3.1, 3.2, 3.4, 3.6, 6.2;
 5.1a; EllipticCurves
 Layers 2–5; Mathlib `WeierstrassCurve.minimal`,
 `WeierstrassCurve.hasGoodReduction_or_hasMultiplicativeReduction_or_hasAdditiveReduction`.
@@ -3535,9 +3547,9 @@ irreducible variety over `F` with function field `K`, `X/S` an abelian scheme, `
 `D_σ ⊆ G_K` its decomposition group, `X_η[n](K̄) ≅ X_σ[n](F̄)` equivariantly for `D_σ`, so
 `T_ℓX_η ≅ T_ℓX_σ` and `ρ_{X_η,ℓ}(D_σ) = ρ_{X_σ,ℓ}(G_{F(σ)})`; and that there are closed points with
 `ρ_{X_σ,ℓ}(G_{F(σ)}) = ρ_{X_η,ℓ}(G_K)`, by Hilbert specialization of the single finite quotient `P/Φ(P)`, where
-`P = ρ_{X_η,ℓ}(G_K)` (Noot 1995, §§1.2–1.3, p. 163). First extend the Hilbertian-field input
-from number fields to finitely generated characteristic-zero fields, using its permanence under
-purely transcendental and finite extensions. For a connected finite étale cover of a normal
+`P = ρ_{X_η,ℓ}(G_K)` (Noot 1995, §§1.2–1.3, p. 163). Hilbertianity of `F` is imported: InverseGaloisAndArithmeticFundamentalGroups IG.2.4 supplies
+finite-extension permanence and Hilbertianity of rational function fields, and IG.2.8 combines them
+along a transcendence basis for fields finitely generated over `ℚ`. For a connected finite étale cover of a normal
 geometrically irreducible `S`, use a separating Noether normalization on a smooth dense open and
 Hilbert irreducibility of the composite finite cover to obtain a closed point with connected
 fibre. Applied to the `P/Φ(P)`-torsor, this gives surjectivity to that quotient, and Frattini
@@ -3547,9 +3559,11 @@ of the torsor and does not require an `F`-rational point on `S`
 *Needs:* 5.0a; ArithmeticGaloisRepresentations §6.1 (torsion and Tate representation),
 §7.6 (Zariski closures), §6.4a **Finite Frattini quotient of a compact matrix group**;
 InverseGaloisAndArithmeticFundamentalGroups IG.2.4 (Hilbertian fields and Hilbert
-irreducibility), IG.2.6 **Full-group specialization** and its specialization
-application of Frattini detection; SchemeAndStackFoundations finite normalization.
-The permanence and Noether-normalization bridge are subtargets here.
+irreducibility, finite-extension permanence, rational function fields), IG.2.6 **Full-group
+specialization** and its specialization application of Frattini detection, IG.2.8 (Hilbertianity
+of fields finitely generated over `ℚ`); SchemeAndStackFoundations finite normalization.
+The Noether-normalization bridge to closed points with connected fibre, the full-image
+specialization and the abelian-scheme comparison are subtargets here.
 
 **Checks.**
 
