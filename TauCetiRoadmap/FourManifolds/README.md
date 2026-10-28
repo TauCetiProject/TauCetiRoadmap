@@ -871,6 +871,11 @@ and stable triviality, beyond characteristic-number computations.
 
 ## F5. Anti-self-dual gauge theory and the definite-form theorem
 
+Consume [SmoothBundlesConnections B8](../SmoothBundlesConnections/README.md#b8-yangmills-energy-and-its-variational-calculus)
+for Yang–Mills stationarity, its Hessian, the linear gauge-fixed operator
+and four-dimensional conformal invariance, with the energy normalization below.
+The nonlinear slices and ASD moduli constructions remain here.
+
 Build principal SU(2) connections and gauge transformations on the existing
 bundle carriers, Sobolev affine connection spaces and gauge groups for s≥3,
 Coulomb slices, stabilizers, deformation complexes and the determinant
