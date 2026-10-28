@@ -1,12 +1,13 @@
 # Roadmap: effective arithmetic bounds and geometry of numbers
 
 **Completion evidence (2026-10-28).** The full normative inventory and checked native
-acceptance examples are in [NativeCompletion.md](NativeCompletion.md). This archive requires
-[Tau Ceti #22059](https://github.com/TauCetiProject/TauCeti/pull/22059),
-[#22064](https://github.com/TauCetiProject/TauCeti/pull/22064), and
-[#22092](https://github.com/TauCetiProject/TauCeti/pull/22092) to pass their normal review and CI
-gates and merge. They deliver the explicit positive-rank regulator bound, the full unit-log
-Euclidean covolume normalization, and Layer 0's required removal of the redundant box wrapper.
+acceptance examples are in [NativeCompletion.md](NativeCompletion.md). Layer 0's required
+removal of the redundant box wrapper (#22092) and the full unit-log Euclidean covolume
+normalization (#22064) are present on Tau Ceti main at
+[`40eaa661fe7a`](https://github.com/TauCetiProject/TauCeti/commit/40eaa661fe7abb44c5e87aac7bdd2ca66011e972).
+This archive still requires the explicit positive-rank regulator bound in
+[Tau Ceti #22059](https://github.com/TauCetiProject/TauCeti/pull/22059) to merge through normal
+review and CI, followed by a replay of the full native inventory on actual main.
 The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration.
 Historical reports and the older pinned prototype are retained as dated snapshots; they do not
 certify the newer source interfaces.
