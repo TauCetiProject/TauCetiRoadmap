@@ -543,8 +543,41 @@ correspondences F_CD send their pole generator to +[C]. The component-homology d
 ℤ²_(degree2)→ℤ_(degree1), (a,b)↦a+b; prove H₂=ℤ⟨(1,−1)⟩, H₁=0,
 H₀=ℤ and the comparison with an oriented sphere fundamental class.
 This two-cap example is separate from the torus arc and surgery-sphere models.
-Check symmetric and nonsymmetric torus differentials and the
-endpoint-map chain homotopy, and the surgery-sphere component differential.
+For the torus use angular coordinates (θ,φ), both modulo2π, and
+`f(θ,φ)=cos θ`, with minimum circle C₀={θ=π} and maximum C₁={θ=0}.
+The two negative orientation systems are trivial, with ranks0 and1. Fix
+0<A<2π and a smooth periodic a supported in the upper semicircle (0,π),
+with `∫₀^π a(θ)dθ=A`; construct it by normalizing a nonnegative bump.
+Choose smooth positive even periodic h so that
+`g=h(θ)dθ²+(dφ−a(θ)dθ)²` is standard in the signed Morse coordinates
+near C₀,C₁. Prove existence of this patching and positivity (the coordinate
+Gram determinant is h). Its negative gradient is
+`(sin θ/h(θ))(∂_θ+a(θ)∂_φ)`. Prove the complete flow, limits and M.6
+regularity, and parametrize the two trajectory components by their source φ.
+Since dφ/dθ=a(θ), the upper family ends at φ+A and the lower at φ.
+Thus the endpoint maps differ even though both critical circles are unchanged.
+Choose the maximum-circle orientation-line frame so that the signed
+correspondence is `F=(R_A)_*−id`, where `R_A(φ)=φ+A`. For a=0 the two
+contributions cancel already on chains, giving the symmetric example.
+
+On M.7's current chain carrier use the explicit rotation homotopy
+`H(s,φ)=φ+sA`, 0≤s≤1, and define `P c=H_*([0,1]×c)` with the interval
+factor first. Consume GC G3's interval product, pushforward and Stokes API;
+prove `∂P+P∂=F`, including the smooth-chain/current comparison. The total
+Bott differential is `D(x,y)=(∂x+Fy,−∂y)`. Construct the chain isomorphism
+`Φ(x,y)=(x+Py,y)` to `D₀(x,y)=(∂x,−∂y)`, with inverse `(x−Py,y)`.
+Check the intertwining with the actual degree shifts. The corresponding
+native linear-map sign calibration is suggested in
+[`TorusBottShearTargets.lean`](TorusBottShearTargets.lean).
+
+Compute H₀=ℤ, H₁=ℤ², H₂=ℤ and zero higher homology. A cycle y in the
+shifted maximum summand lifts as `(−Py,y)`; identify the resulting two H₁
+generators and the H₂ generator under the ordinary torus comparison,
+retaining the product-orientation sign. Extend the comparison to every
+regular metric covered by M.7's continuation theorem. The explicit shear
+metric supplies the nonsymmetric worked model, and the rotation prism
+explains why its nonzero chain correspondence induces zero on component
+homology. Check the surgery-sphere component differential separately.
 
 For the nontrivial-orientation-line exercise use the Klein bottle
 `K=([0,1]×S¹)/((1,e^(iθ))∼(0,e^(−iθ)))` and `f([t,θ])=cos θ`.
