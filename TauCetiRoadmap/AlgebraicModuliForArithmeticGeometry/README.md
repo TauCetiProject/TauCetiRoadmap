@@ -504,7 +504,7 @@ end ProjectiveBundles
 
 ### 1.2 Cohomology and multiplication
 
-Define `ProjectiveBundles.twistMultiplication`. Construct the natural cup maps `Hⁱ(O(a))×H^j(O(b))→H^{i+j}(O(a+b))`. In degree zero they agree with homogeneous polynomial multiplication. For `Hⁿ`, multiplication by a homogeneous polynomial is multiplication of Laurent representatives followed by discarding terms whose exponent vector is not all negative; equivalently it is dual to multiplication under the determinant-twisted top pairing.
+Define `ProjectiveBundles.twistMultiplication`. Construct the natural cup maps `Hⁱ(O(a))×H^j(O(b))→H^{i+j}(O(a+b))`. On `P^n_A` with `n ≥ 1`, in degree zero they agree with homogeneous polynomial multiplication, the sections of a negative twist being zero; and on `Hⁿ` multiplication by a homogeneous polynomial is multiplication of Laurent representatives followed by discarding terms whose exponent vector is not all negative, equivalently it is dual to multiplication under the determinant-twisted top pairing. For `n = 0`, `P⁰_A = Spec A` and `H⁰(O(m)) = A·T₀^m` for every integer `m`; multiplication, by a homogeneous polynomial or by a section of any twist, is multiplication of Laurent monomials with no term discarded.
 
 Here Projective bundles for the cup maps; on projective space use the preceding explicit basis.
 
@@ -519,6 +519,10 @@ The API gives `ProjectiveBundles.twistMultiplication.zero_left`: The cup map is 
 - `TwistMultiplicationTests.zero`: Zero section times any class is zero.
 - `TwistMultiplicationTests.unit`: The section 1 of `O(0)` acts as identity on `H⁰(O(1))`.
 - `TwistMultiplicationTests.topBoundary`: On `P¹`, `H¹(O(-2))` times `H⁰(O(1))` lands in zero `H¹(O(-1))`.
+- `TwistMultiplicationTests.pointUnit`: On `P⁰_A`, the section 1 of `O(0)` times the polynomial 1 is the
+  section 1, not zero.
+- `TwistMultiplicationTests.pointNegativeShift`: On `P⁰_A`, multiplication by `T₀` carries the basis
+  element `T₀⁻¹` of `H⁰(O(−1))` to the section 1 of `H⁰(O(0))`.
 
 Prove `ProjectiveBundles.projectiveBundle.projectiveSpaceCechComparison`. For a commutative ring `A`,
 integers `n ≥ 0`, `m` and `q ≥ 0`, the cohomology `H^q(P^n_A, O(m))` of the projective space
@@ -535,8 +539,13 @@ Here `A` an arbitrary commutative ring; the exponent set is the Laurent Čech ba
 ([Stacks](https://stacks.math.columbia.edu/download/coherent.pdf), §8, Lemmas 8.1–8.3, pp.16–20; tags 01XS, 01XT).
 
 For the proof, compute the Čech complex of the standard affine cover by Laurent monomials; the
-complex splits by multidegree, and the multidegree-`e` summand is the cochain complex of the
-simplex on the coordinates with `e_i < 0`, which is acyclic unless that set is empty or everything.
+complex splits by multidegree. For `N(e) = {i | e_i < 0}`, the multidegree-`e` summand has in degree
+`q` one copy of `A` for each subset `I ⊆ {0,…,n}` with `|I| = q+1` and `N(e) ⊆ I` (the monomial `T^e`
+lives on `D₊(T_I)` exactly when `I` contains `N(e)`), with the alternating Čech differential. If
+`N(e)` is nonempty and proper, inserting a fixed index outside `N(e)` is a contracting homotopy, so
+the summand is acyclic. If `N(e)` is empty the summand is the Čech complex of `A` for the cover of
+`Spec A` by `n+1` copies of itself and contributes `A` in degree `0`; if `N(e)` is everything it is
+`A` in degree `n`. For `n = 0` these two cases are both in degree `0`.
 Compare the cover of `P(O^{n+1})` with the standard cover of SchemeAndStackFoundations §2.6's projective space through
 the quotient description of §1.1.
 
@@ -549,6 +558,8 @@ the quotient description of §1.1.
 - `ProjectiveTwistCohomologyTests.topLine`: `H¹(P¹_A, O(−2)) = A`: the only basis vector is `(−1, −1)`.
 - `ProjectiveTwistCohomologyTests.lineBoundary`: `H¹(P¹_A, O(−1)) = 0`: no vector of sum `−1` has
   both entries negative.
+- `ProjectiveTwistCohomologyTests.mixedWeight`: on `P¹_A` the weight `(−1, 0)` summand is
+  `A → A` (from `D₊(T₀)` to `D₊(T₀T₁)`) with differential `±id`, hence acyclic.
 - `ProjectiveTwistCohomologyTests.globalSections`: `H⁰(P¹_A, O(2))` has the three basis vectors
   `(2,0)`, `(1,1)`, `(0,2)`.
 
