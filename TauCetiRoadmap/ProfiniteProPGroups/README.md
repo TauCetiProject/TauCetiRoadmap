@@ -103,14 +103,13 @@ local absolute Galois group from that of its Sylow subgroups.
 
 ## How to read the milestones
 
-`README.md` is normative; `Suggested.lean` pins useful Lean names and signatures. In prerequisite
+`README.md` is the roadmap; `Suggested.lean` is its acceptance test, stating the headline
+theorems against the pinned Mathlib and Tau Ceti with the few definitions they need. In prerequisite
 annotations, `M` means Mathlib at the repository pin, `TC` means Tau Ceti at that pin, `L0`
 through `L10` mean an earlier layer here, and `PC-<layer>` means an export of
 `ProfiniteCohomology`. No milestone depends on a branch, an unmerged external project,
 `LocalFieldsRamification`, or `ClassFieldTheory`. An *In Tau Ceti:* line names an available
-source declaration and the milestone component it supports. The explicit mathematical targets
-include the comparison proofs against that declaration's actual carriers and hypotheses;
-source availability alone does not discharge every theorem of the roadmap.
+source declaration and the milestone component it supports.
 
 Theorems use the unbundled profinite type-class stack except where a categorical limit or
 completion genuinely needs `ProfiniteGrp`. Pro-`p` means that every continuous finite
@@ -690,7 +689,7 @@ several Layer 9 module arguments use it. Ribes–Zalesskii §4.3 is the source o
 #### The coefficient objects, over the imported carrier
 
 **The carrier is Mathlib's, and its calculus is the Profinite Cohomology roadmap's.** At the
-pin, `Mathlib/Algebra/Category/ContinuousCohomology/Basic.lean` defines `continuousCohomology n`
+pin, `Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean` defines `continuousCohomology n`
 in every degree, as the homology of homogeneous cochains of a topological representation. That
 object is the carrier of every cohomological statement in this roadmap. This roadmap defines no
 second cohomology theory and no second cohomological operation: a private carrier would admit
@@ -1006,7 +1005,9 @@ proves the converse, 5.7, which needs a pro-`p` hypothesis.
   *Needs:* L5 rank interpretations.
   *Source:* NSW (3.9.4).
 - **The Golod–Shafarevich inequality.** For a nontrivial finite `p`-group, `4 r(G) > d(G)²`,
-  stated in that form over `ℕ`. It is the classical result on deficiency, and it explains
+  stated in that form over `ℕ`
+  (`sq_topologicalGeneratorRankNat_lt_four_mul_finrank_cohomFp_two`, closed by Tau Ceti's
+  `IsPGroup.sq_topologicalGeneratorRankNat_lt_four_mul_finrank_cohomFp_two`). It is the classical result on deficiency, and it explains
   why a finite `p`-group needs many relations.
   *Needs:* L5 rank interpretations.
   *Source:* NSW (3.9.7); Ribes–Zalesskii Thm. 7.8.5.
@@ -1018,21 +1019,14 @@ proves the converse, 5.7, which needs a pro-`p` hypothesis.
 
 `cd_p G` is `ProfiniteCohomology.cd_p p G`: the infimum, in `ℕ∞`, of the `n` for which
 `H^m(G, M)` vanishes for every `m > n` and every discrete `p`-primary torsion `G`-module `M`.
-That declaration belongs to the Profinite Cohomology roadmap, where it is Tau Ceti's
-`TauCeti.cohomologicalDimensionAt` at coefficient universe `0`, characterized by
-`TauCeti.cohomologicalDimensionAt_le_iff` through the vanishing predicate
-`TauCeti.CohomologicalDimensionLE`; this roadmap defines no second cohomological dimension.
-Tau Ceti's theorems about Demushkin groups compute `TauCeti.cohomologicalDimensionAt.{u}` for
-`G : Type u`, with the extra coefficient universe set to `u`. The coefficient types of the two
-tests are both `Type u`, but the two canonical cohomology objects are built at different universe
-parameters and are not identified by that coincidence. Wherever this roadmap transfers a bound
-from `cohomologicalDimensionAt.{u}` to `cd_p`, the transfer is a step of the proof that consumes
-it: reduce both tests to finite `p`-primary modules
-(`ProfiniteCohomology.cd_p_le_iff_finite_pPrimary` for `cd_p`, and the same filtered-colimit
-argument for the other), compare continuous cohomology in every degree along a continuous
-equivariant additive equivalence between a finite module in one family and its copy in the
-other, and conclude from the least-bound definition of both dimensions. This holds for every
-`G : Type u`, with no further hypothesis.
+That declaration belongs to the Profinite Cohomology roadmap (Layer 11), where for `G : Type u`
+it is Tau Ceti's `TauCeti.cohomologicalDimensionAt.{u} p G`, with coefficients in the universe of
+the group, characterized by `TauCeti.cohomologicalDimensionAt_le_iff` through the vanishing
+predicate `TauCeti.CohomologicalDimensionLE`; this roadmap defines no second cohomological
+dimension. Tau Ceti's theorems about `cd_p` (of free pro-`p` groups, of Demushkin groups, Serre's
+theorem) are stated at the same universe, so they are statements about `cd_p` itself. For the
+groups `freeProP p (Fin n)` and their closed subgroups, which live in `Type`, `cd_p` is
+`TauCeti.cohomologicalDimensionAt.{0}`.
 Three reduction theorems say when a smaller test suffices, and none of them is the definition:
 
 - testing only the **finite** discrete `p`-primary modules gives the same predicate, by
@@ -1095,9 +1089,9 @@ would not agree with the standard `cd_p`.
   *Needs:* L5 projectivity; L3 Burnside; L4 free objects.
   *In Tau Ceti:* `TauCeti.CohomologicalDimensionLE.isProjective` (step 1) and
   `TauCeti.IsProP.nonempty_continuousMulEquiv_freeProP_of_cohomologicalDimensionAt_le_one`, the
-  theorem itself, for a generating type of cardinality `d(G)` in the universe of `G` and with
-  `cd_p` taken at the coefficient universe of `G`. `isFree_of_cd_p_le_one` is that theorem read
-  at the generating type `Fin d(G)` and at the coefficient universe of `cd_p`.
+  theorem itself, for a generating type of cardinality `d(G)` in the universe of `G`.
+  `isFree_of_cd_p_le_one` is that theorem read at the generating type `Fin d(G)`, which lives in
+  `Type`.
   *Source:* NSW III §5; Serre, *Galois Cohomology* I §4.2; Ribes–Zalesskii Ch. 7.
   ⚠ The version without finite generation is a different theorem with a different proof. It
   is stated in Layer 10, once free objects on a basis that converges to `1` exist.
@@ -1208,8 +1202,11 @@ would not agree with the standard `cd_p`.
   - the identity `n(G) = finrank H¹(G, 𝔽_p)`;
   - `G` is a one-relator pro-`p` group, with relator in `Fᵖ[F,F]`.
 
-  Also proved here: `IsDemushkin` is invariant under topological isomorphism. Every
-  numerical statement below is about `demushkinRank`.
+  `IsDemushkin` is Tau Ceti's `TauCeti.IsDemushkin`. Like that predicate it is defined on every
+  topological group, with no compactness or total-disconnectedness binder: its `IsProP` field is
+  what confines it to pro-`p`, hence profinite, groups. Also proved here: `IsDemushkin` is
+  invariant under topological isomorphism. Every numerical statement below is about
+  `demushkinRank`.
   *Needs:* L5 the coefficient objects and `cupFp`; L5 rank interpretations; L3 Burnside.
   *Source:* Labute p. 106.
 
@@ -1252,7 +1249,9 @@ would not agree with the standard `cd_p`.
   `I(χ)/p^i` for `ℤ/p^i` with action `g · x = χ(g)x`; this is Tau Ceti's twisted module
   `TauCeti.ZModTwist χ i`, placed in the universe of `G`, with the scalar
   `TauCeti.charScalar χ i` and the reductions `TauCeti.ZModTwist.reduce`. When
-  `dim H¹(G, 𝔽_p) < ∞`, the following three conditions are equivalent (Labute Prop. 6):
+  `dim H¹(G, 𝔽_p) < ∞`, the following three conditions are equivalent; Labute Prop. 6 proves
+conditions 1 and 3 equivalent (his (1) and (3), through his intermediate prescription condition
+modulo `p^i`), and condition 2 is Tau Ceti's reformulation of condition 1:
   1. the reduction map `H¹(G, I(χ)/p^i) → H¹(G, I(χ)/p)` is surjective for every
      `i ≥ 1`;
   2. for every `i ≥ 1`, the map `H²(G, I(χ)/p^i) → H²(G, I(χ)/p^{i+1})` induced by the
@@ -1284,7 +1283,7 @@ would not agree with the standard `cd_p`.
   predicate and no comparison between two of them.
   *Needs:* L5 coefficient objects; PC-5 connecting maps and exactness; TC
   `TauCeti.ZModTwist`, `TauCeti.HasPrescriptionProperty`, `TauCeti.hasPrescriptionProperty_iff`.
-  *Source:* Labute Prop. 6.
+  *Source:* Labute Prop. 6 for 1 ⟺ 3; Tau Ceti, as cited above, for 1 ⟺ 2.
 - **The canonical character.** For `dim H¹(G, 𝔽_p) < ∞` the three prescription conditions
   above are equivalent, and a free pro-`p` group satisfies them for every `χ`
   (`TauCeti.freeProP.hasPrescriptionProperty`).
@@ -1362,45 +1361,31 @@ package of statements about finite discrete modules, and that package is stated 
   finite-module Tate duality target below for every finite discrete `𝔽_p[G]`-module, with
   `α₂ : H²(G, M) → Hom(H⁰(G, M^∨), H²(G, 𝔽_p))` the cup-evaluation map. Its bijectivity is the
   hypothesis of Tau Ceti's `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`;
-  that criterion obtains right exactness of `H²` on finite modules and then the bound at
-  coefficient universe `u`, and the universe comparison of Layer 6 carries it to `cd_p G ≤ 2`.
+  that criterion obtains right exactness of `H²` on finite modules and then `cd_p G ≤ 2`.
   The one-relator presentation and five-term sequence alone are not this upper-bound argument.
-  *Needs:* L6 `cd_p` and its universe comparison; PC-11 `cd_p_le_iff_finite_pPrimary`; L7
-  finite-module Tate duality and the explicit comparisons with Tau Ceti; L7 the predicate.
+  *Needs:* L6 `cd_p`; L7 finite-module Tate duality; L7 the predicate.
   *In Tau Ceti:* `TauCeti.IsDemushkin.cohomologicalDimensionAt_eq_two` and
-  `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`, after the
-  roadmap/native predicate and cup comparisons below.
+  `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`.
   *Source:* Tate, in Serre, *Structure de certains pro-p-groupes*, §9.1.
 - **The trace isomorphism.** Fix the isomorphism `tr : H²(G, 𝔽_p) ≅ 𝔽_p` determined by a
   choice of nonzero element. The choice is unique up to `𝔽_pˣ`; name a generator, and record
   that the statements below do not change under rescaling. Every pairing below is normalized
   through `tr`.
   *Needs:* L7 the predicate.
-- **Compare the roadmap predicate and cup with Tau Ceti.** `IsDemushkin` and `cupFp` are
-  separately defined against the Profinite Cohomology carrier; neither is a definitional alias
-  of Tau Ceti's predicate or cup. Before consuming native Demushkin duality, prove an explicit
-  equality of the two cup maps under the coefficient/carrier equivalences, using the
-  nonvacuous multiplication law for `fpPairing`, and prove both directions of
-  `IsDemushkin p G ↔ TauCeti.IsDemushkin p G` from the actual pro-`p`, finite-`H¹`,
-  one-dimensional-`H²`, and cup-separation clauses. This comparison is a named target, not an
-  assumption that matching names imply matching definitions.
-  *Needs:* L5 `trivialFp`, `cohomFp`, `fpPairing_bil`, `cupFp`; L7 the predicate.
-  *In Tau Ceti:* `TauCeti.IsDemushkin`, `TauCeti.cupFp`, and the actual cup/predicate clauses.
 - **Tate duality on every finite `𝔽_p[G]`-module.** For an infinite Demushkin group `G` and
   every finite discrete `G`-module `M` killed by `p`, let
   `M^∨ = Hom_{𝔽_p}(M, 𝔽_p)` with its contragredient action. Define the three cup-evaluation maps
   `α_j(M) : H^j(G,M) → Hom_{𝔽_p}(H^{2-j}(G,M^∨), H²(G,𝔽_p))`, for `j = 0,1,2`, and prove each
   bijective. State the evaluation pairing and module action explicitly; this is the finite-module
   Tate theorem needed by `cd_p`, not only duality for the special twists `I(χ)/p^i`.
-  The proof order is fixed: first compare the roadmap cup and predicate with Tau Ceti; then use the
-  trivial-module cup pairing as the `α₁` base case, one-dimensional `H²` for `α₀`, and the
+  The proof order is fixed: use the trivial-module cup pairing as the `α₁` base case, one-dimensional `H²` for `α₀`, and the
   universal degree-two scalar map for `α₂`; pass through finite-module filtrations by trivial
   `𝔽_p` factors using the exact-sequence duality lemmas. For infinite `G`, include the
   co-effacement argument that gives injectivity of `α₀` and the finite-cardinality/double-dual
   argument that makes `α₂` surjective. Only after all finite modules are covered may the
   right-exactness criterion in the dimension-two target be applied.
   *Needs:* L5 the coefficient and cup maps; L6 finite-module filtrations and exact sequences; L7
-  the comparison targets above and the finite-module Tate argument.
+  the predicate.
   *In Tau Ceti:* `TauCeti.IsDemushkin.dualityMap0_bijective`,
   `TauCeti.IsDemushkin.dualityMap1_bijective`, `TauCeti.IsDemushkin.dualityMap2_bijective`,
   and `TauCeti.IsProP.cohomologicalDimensionAt_le_two_of_forall_dualityMap2_bijective`.
@@ -1449,8 +1434,11 @@ package of statements about finite discrete modules, and that package is stated 
   that is the case the open-subgroup theorem uses.
   *Needs:* PC-7 Shapiro; PC-5 the long exact sequence; L6 trivial filtration.
 - **The open-subgroup theorem.** For `G` infinite Demushkin and `U ≤ G` open: `U` is
-  Demushkin; `n(U) - 2 = [G : U](n(G) - 2)` in `ℤ`; and
-  `demushkinCharacter U = (demushkinCharacter G) ∘ (inclusion U)`. Use the actual finite-index
+  Demushkin (`IsDemushkin.openSubgroup`); `n(U) - 2 = [G : U](n(G) - 2)` in `ℤ`
+  (`IsDemushkin.demushkinRank_openSubgroup_sub_two`); and
+  `demushkinCharacter U = (demushkinCharacter G) ∘ (inclusion U)`
+  (`IsDemushkin.demushkinCharacter_openSubgroup`). Each is closed by the Tau Ceti theorem of the
+  same name in the namespace `TauCeti.IsDemushkin`. Use the actual finite-index
   coinduced module `Coind_U^G 𝔽_p`: it is finite discrete, its dual is identified with the same
   permutation module, and Shapiro identifies its cohomology with that of `U`. The bijective
   `α₂` pairing computes `H²(U, 𝔽_p)` from `H⁰(U, 𝔽_p) = 𝔽_p`; the bijective `α₁` pairing and
@@ -1463,7 +1451,8 @@ package of statements about finite discrete modules, and that package is stated 
   `I(χ)/p^(i+1)` from `G` to `U` identifies it with `I(χ|_U)/p^(i+1)`. Shapiro is applied
   separately to this `α₂` map with its coinduced input, and descends injectivity to the map for
   `U` at level `i+1`, on the input `I(χ|_U)/p^i`. This is
-  exactly the exponent shift used by the native `demushkinCharacter_openSubgroup` proof. The
+  exactly the exponent shift used by Tau Ceti's proof of
+  `TauCeti.IsDemushkin.demushkinCharacter_openSubgroup`. The
   coinduced module need not be cyclic: for `G = ℤ_p²`, index-`p` `U`, and trivial `χ`, it is
   additively `(ℤ/p^i)^p`. Merely proving rank-one twisted duality or restricting the
   trivial-coefficient pairing is not enough.
@@ -1956,11 +1945,9 @@ of the two even-rank families in the abstract classification.
   Labute uses on p. 122; the general Weierstrass preparation theorem is not a target.
   ⚠ Division gives the quotient series, and with it scalar membership of the relator class; it
   is not by itself the basis correction of Layer 9. What makes the quotient usable as a new
-  generator is its constant term: if `ψ = (T - c) φ` then `ψ(0) = -c · φ(0)`
-  (`constantCoeff_of_eq_sub_C_mul`), so `v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. Without that
+  generator is its constant term: if `ψ = (T - c) φ` then `ψ(0) = -c · φ(0)`, so `v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. Without that
   computation the step is false: in `ℤ₂[[T]]²` the vector `(2, T)` has no nonunit common divisor
-  and lies in no basis, since its coordinate ideal `(2, T)` is proper
-  (`not_exists_complement_powerSeries_two_X`).
+  and lies in no basis, since its coordinate ideal `(2, T)` is proper.
   *Needs:* L9 evaluation.
   *In Tau Ceti:* `PadicInt.X_sub_C_dvd_iff_aeval_eq_zero` and `PadicInt.X_sub_C_mul_divXSubC`
   (`NumberTheory/Padics/PowerSeries.lean`).
@@ -1998,8 +1985,7 @@ of the two even-rank families in the abstract classification.
   decomposition over `ℤ₂` is the error that statement rules out. Labute's basis corrections in
   this branch are computed integrally (§4.2, the lemma on p. 127); an argument that reads the
   coefficients in the `ℚ₂`-eigenspaces has to clear the denominators afterwards. The coordinate
-  ring is not a domain: `(1 - S)(1 + S) = 0` with both factors nonzero
-  (`splitInvolution_isZeroDivisor`), so the procyclic argument, which cancels a common factor,
+  ring is not a domain: `(1 - S)(1 + S) = 1 - S² = 0` with both factors nonzero, so the procyclic argument, which cancels a common factor,
   does not transfer. Since `ℤ₂[C₂][[T]]` is free over `ℤ₂[[T]]` on `1, S`, divisibility by an
   element of the base such as `2^f + T` is coordinatewise divisibility in the domain `ℤ₂[[T]]`
   (`splitBase_dvd_iff`), and that is where the one division of this branch happens.
@@ -2125,11 +2111,9 @@ is in the branch named.
   `F₃` is `λ₂`), and `r̄` with its coefficients pinned to the corrected generators. A basis is
   recorded as the image of the standard generators under a continuous automorphism of `F`. Two
   criteria make a family a basis: an `n`-tuple that topologically generates the free pro-`p` group
-  of rank `n` is one (`exists_continuousMulEquiv_freeProPGen_of_generates`, by the Hopf property),
-  and so is a family congruent to a basis modulo `Φ(F)`
-  (`exists_continuousMulEquiv_freeProPGen_of_inv_mul_mem_proPFrattini`, by Burnside).
-  - *The branch `Im χ = U^[f]`* (`exists_labuteBasisCorrection_of_range_eq_procyclicClosure`,
-    §4.1, pp. 122–123). Here `f = v₂(α)` and `2 ≤ f < g ≤ ∞`, and the rank is even and at least
+  of rank `n` is one, by the Hopf property, and so is a family congruent to a basis modulo
+  `Φ(F)`, by Burnside.
+  - *The branch `Im χ = U^[f]`* (Labute §4.1, pp. 122–123). Here `f = v₂(α)` and `2 ≤ f < g ≤ ∞`, and the rank is even and at least
     two; at rank two the fourth generator is `1` and the character values force `g = ∞`. The
     result: `z ≡ x` modulo `Φ(F)`, `χ(z₂)(1 + 2^f) = -1` and `χ(z_i) = 1` otherwise,
     `r = z₁^{2+2^f}(z₁,z₂)(z₃,z₄)⋯ · e` with `e ∈ (X, X) ∩ F₃`, and `r̄ = (2 + 2^f + T) z̄₁` with
@@ -2144,8 +2128,7 @@ is in the branch named.
     of order `16` sending `x₁ ↦ t`, `x₂ ↦ s` and `x₃, x₄ ↦ 1` induces `ℓ : E → ℤ/8` on which every
     topological generator acts by `-1`, so `ℓ((1 + γ) z) = 0` for every `z`, while `ℓ(r̄) = 4`.
     The correct coefficient passes the same test, since `ℓ((5 + γ) x̄₁) = 4`.
-  - *The branch `Im χ = {±1} × U^(f)`* (`exists_labuteBasisCorrection_of_range_eq_unitsPlusMinus`,
-    §4.2, pp. 126–128). Here `2 ≤ f < ∞`, `2^f ∣ α`, and the rank is even and at least four. The
+  - *The branch `Im χ = {±1} × U^(f)`* (Labute §4.2, pp. 126–128). Here `2 ≤ f < ∞`, `2^f ∣ α`, and the rank is even and at least four. The
     result: `χ(z₂) = -1`, `χ(z₄)(1 - 2^f) = 1` and `χ(z_i) = 1` otherwise,
     `r = z₁²(z₁,z₂)z₃^{2^f}(z₃,z₄)⋯ · e` with `e ∈ (X, X) ∩ F₃`, and
     `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃` with `S` the class of `z₂` and `1 + T` that of `z₄`. The
@@ -2199,7 +2182,8 @@ homomorphisms. These are the milestones.
 
 - **The filtered kernel.** `X_k := X ∩ λ_k(F)` and `gr_k(X) := X_k / X_{k+1}`. Because
   `X_k ∩ λ_{k+1}(F) = X_{k+1}`, the inclusion identifies `gr_k(X)` with the image of `X_k` in
-  `gr_k(F)` (`gradedPieceOf`, `mem_gradedPieceOf_iff`), which is how Labute uses it (p. 123). It
+  `gr_k(F)` (Tau Ceti's `TauCeti.gradedPieceOf`, `TauCeti.mem_gradedPieceOf_iff`), which is how
+  Labute uses it (p. 123). It
   is an ideal of `gr(F)` for the bracket, and `π` maps `gr_k(X)` into `gr_{k+1}(X)`. Its
   complement is one-dimensional (Labute's Lemma 1 in §4.1 and in §4.2):
   `gr_k(F) = gr_k(X) ⊕ 𝔽₂ π^k ξ₂` for every `k ≥ 0` in the branch `U^[f]`, and
@@ -2211,7 +2195,7 @@ homomorphisms. These are the milestones.
 - **The restricted modification map `δ_j^X`.** For `j ≥ 2` and `w_i ∈ X_{j-1}`, the
   modification `θ_w : x_i ↦ x_i w_i` does not change `χ(x_i)`, so `r₀(x)⁻¹ r₀(θ_w x)` lies in
   `X_j`, and its class is `δ_j(w̄)`. Hence `δ_j` maps `gr_{j-1}(X)^{⊕ n}` into `gr_j(X)`, for every
-  continuous `χ` and every `ρ` (`basisModificationDelta_mem_gradedPieceOf_ker`). The restriction
+  continuous `χ` and every `ρ`. The restriction
   is the linear map `δ_j^X : gr_{j-1}(X)^{⊕ n} → gr_j(X)`, given by the `j ≥ 2` formula of
   Layer 8.
 - **The span statement in `gr(X)`** (Labute's Lemmas 2 and 3). For every `j ≥ 2`:
@@ -2228,7 +2212,8 @@ homomorphisms. These are the milestones.
   `δ_{j+1}^X ∘ π = π ∘ δ_j^X` and the Jacobi identity in degree two (Lemma 3).
 - **The detectors** (Labute's Lemma 4). `I(χ)` is `ℤ₂` with `F` acting through `χ`, and a
   continuous crossed homomorphism `D : F → I(χ)` satisfies `D(gh) = D(g) + χ(g) D(h)`. Then
-  `2^k ∣ D(g)` for every `g ∈ λ_k(F)` (`pow_dvd_crossedHom_of_mem_pLowerCentralSeries`), because
+  `2^k ∣ D(g)` for every `g ∈ λ_k(F)` (Tau Ceti's
+  `TauCeti.IsCrossedHom.pow_dvd_apply_of_mem_pLowerCentralSeries`), because
   `D(g²) = (1 + χ(g)) D(g)` with `1 + χ(g)` even, and
   `D((g, h)) = χ(g)⁻¹χ(h)⁻¹ ((χ(g) - 1) D(h) - (χ(h) - 1) D(g))` exactly, for
   `(g, h) = g⁻¹h⁻¹gh`, with the unit prefactor `χ(g)⁻¹χ(h)⁻¹` and `χ(λ_k(F)) ⊆ 1 + 2^{k+1}ℤ₂`. So
@@ -2236,7 +2221,8 @@ homomorphisms. These are the milestones.
   `𝔽₂`-linear functional. Labute takes `D` with values in
   `2I(χ)`, and his `Δ` lands in `2^{k+1}I / 2^{k+2}I`; that is the same functional after
   dividing by `2`. The continuous crossed homomorphisms are determined by their values on the
-  basis, and every family of values occurs (`existsUnique_crossedHom_freeProP`); `D_i` is the one
+  basis, and every family of values occurs (Tau Ceti's `TauCeti.freeProP.crossedHom`); `D_i` is
+  the one
   with `D_i(x_k) = δ_{ik}`. The statements, for `j ≥ 2`:
   1. `Δ_j(D) ∘ δ_j^X = 0` for every `D`. Indeed `D(r₀(y)) = 0` for every tuple `y` on which `χ`
      takes the values above (Labute pp. 126 and 129), `θ_w` preserves those values, and `D` is
@@ -2249,16 +2235,13 @@ homomorphisms. These are the milestones.
      at `f = 2`: twice a unit, not `±2`, and its half is odd, which is all the argument uses.
   3. **The image theorem.** `Im δ_j^X` is the set of `v ∈ gr_j(X)` with `Δ_j(D)(v) = 0` for every
      continuous crossed homomorphism `D`, and already the set of those with `Δ_j(D_i)(v) = 0`
-     for every `i ≠ 2`
-     (`exists_basisModificationDelta_eq_iff_forall_crossedHom_procyclic`,
-     `exists_basisModificationDelta_eq_iff_forall_crossedHom_unitsPlusMinus`). Proof: write `v`
+     for every `i ≠ 2`. Proof: write `v`
      by the span statement; the `Δ_j(D_i)`, `i ≠ 2`, read off the tail coefficients by 2, and
      vanish on `Im δ_j^X` by 1.
 - **The one-step correction** (Labute's induction, p. 126 and pp. 129–130). Let `j ≥ 2`, let `y`
   be a basis with `y_i ∈ x_i (X ∩ λ_1(F))` for every `i`, and let `r = r₀(y) e` with
   `e ∈ X ∩ λ_j(F)`. Then there are `t_i ∈ X ∩ λ_{j-1}(F)` such that `z_i = y_i t_i` gives
-  `r = r₀(z) e'` with `e' ∈ X ∩ λ_{j+1}(F)`
-  (`exists_labuteIterationStep_procyclic`, `exists_labuteIterationStep_unitsPlusMinus`). The new
+  `r = r₀(z) e'` with `e' ∈ X ∩ λ_{j+1}(F)`. The new
   family again has `z_i ∈ x_i (X ∩ λ_1(F))`, so `χ(z_i) = χ(x_i)`; it is congruent to `y` modulo
   `λ_{j-1}(F) ≤ Φ(F)`, so it is a basis by the Frattini-congruence criterion. Proof: every
   continuous crossed homomorphism `D` kills `r`: `D(r₀(x)) = 0` as in 1 above, and `D` kills
@@ -2286,8 +2269,7 @@ homomorphisms. These are the milestones.
   `λ_k(F)` changes `r₀` by an element of `λ_{k+1}(F)`, so `r₀(Φ(x)) ≡ r` modulo every
   `λ_{k+1}(F)`, and `Φ(r₀(x)) = r`. `Φ` is an automorphism by the Hopf property, and
   `Φ(x_i) ∈ x_i (X ∩ λ_1(F))` because that set is closed. This is the relator form of Labute's
-  Theorems 5 and 6 (`exists_continuousMulEquiv_labuteIteration_procyclic`,
-  `exists_continuousMulEquiv_labuteIteration_unitsPlusMinus`): composed with the initial
+  Theorems 5 and 6: composed with the initial
   corrections, an automorphism of `F` carries `r₀(x)` to the given relator and preserves the
   marked values of `χ`. It is what the even-rank marked statement
   `isDemushkin_marked_of_q_two_even` consumes in these two branches.
@@ -2311,8 +2293,11 @@ statement `gradedPieceOf_exponentSumKer_demushkinWordNeTwo_eq_map_basisModificat
 (`Demushkin/NormalForm/Two/Even/Approximation.lean`), all in the namespace `TauCeti.freeProP`.
 The constrained-span and iteration declarations take `X` to be the kernel of the specified
 exponent sum, which is `ker χ` here, respectively its intersection with `λ_1(F)`, by the complement
-computation above. Prove the roadmap's explicit comparison milestones against these native
-carriers and hypotheses.
+computation above. These Tau Ceti declarations take the iteration's hypotheses in their own
+form (a relator in the class of `r₀(x)` modulo `λ₂(F)`, lying in `X`, and killed by the `D_i`
+for `i ≠ 2`), which
+the basis corrections above put the relator into; the milestones of this subsection are the route
+to `isDemushkin_marked_of_q_two_even` and are not separate headline theorems.
 *Needs:* L9 the basis corrections; L8 `δ_j`, the comparison schema, openness and cofinality;
 L3 Burnside's basis theorem and the Hopf property; L4 free objects.
 *Source:* Labute §4.1, Lemmas 1–4 and the proof of Theorem 5 (pp. 123–126); §4.2, Lemmas 1–4
@@ -2451,8 +2436,8 @@ Layer 8.
   genuine parameters `α ∈ 4ℤ₂` and `f : ℕ∞` of the successive-approximation conclusion are
   `demushkinWordTwoOddPadic` and `demushkinWordTwoEvenPadic`, read on families in the free
   pro-`2` group through Tau Ceti's `p`-adic power, with `2^f` given by `twoPowENat` and
-  `2^∞ = 0`; they agree with the natural-parameter words at natural parameters
-  (`demushkinWordTwoOddPadic_natCast`, `demushkinWordTwoEvenPadic_natCast`). A natural number
+  `2^∞ = 0`; they agree with the natural-parameter words at natural parameters, by Tau Ceti's
+  `TauCeti.IsProP.padicPow_natCast`. A natural number
   does not stand for a general `α`: the word in the nonabelian group `F` depends on the actual
   exponent, not on its residue at one finite level. The character
   values are stated as equations in `ℤ_p`, for instance `χ(x₂)(1 - q) = 1` in place of
@@ -2473,8 +2458,8 @@ Layer 8.
   a generator that does not exist at the given rank is not vacuous but false: at `n = 2` the
   fourth generator is `1`, a clause `χ(x₄)(1 - 2^f) = 1` reads `1 - 2^f = 1` in `ℤ₂`, and the
   remaining hypotheses of the even statement are met there, by `⟨x₁, x₂ | x₁⁶(x₁,x₂)⟩` with
-  `α = 4`, `f = 3` and image `U^[2]`. That failure is `not_marked_fourth_generator_of_rank_two`,
-  with a closed proof, and it is why the even statement carries `n ≥ 4` and the odd one `n ≥ 3`.
+  `α = 4`, `f = 3` and image `U^[2]`. That failure is why the even statement carries `n ≥ 4` and
+  the odd one `n ≥ 3`.
   Rank two is its own statement: the relator is `x₁^{2+α}(x₁,x₂)`, the word
   `demushkinWordTwoRankTwo` with no level `f`, the marking is `χ(x₁) = 1` and
   `χ(x₂)(1 + α) = -1`, and the image is `U^[v₂(α)]`, which pins `v₂(α)` and leaves `α` free
@@ -2508,10 +2493,11 @@ Layer 8.
   change; quote the exact form of each source.
 - **The classification theorems.**
   - *Uniqueness:* two Demushkin groups with the same `n` and the same `Im χ` are isomorphic.
-  - *Uniqueness, marked form (Labute Thm 2).* An automorphism of `F` carries any Demushkin
-    relator to any other with the same invariants; in `Suggested.lean` this is
-    `exists_continuousMulEquiv_map_demushkinRelator`, stated as the equality of the two closed
-    normal closures. This is a milestone in its own right, and not a remark, because it is what
+  - *Uniqueness, marked form (Labute Thm 2, p. 107).* If `r, r' ∈ F` present Demushkin groups
+    `F/(r)` and `F/(r')` with the same orientation image, a continuous automorphism `φ` of `F`
+    has `φ(r) = r'` (`exists_continuousMulEquiv_map_demushkinRelator`). Labute assumes
+    `r, r' ∈ Fᵖ[F, F]`; that is implied, because a relator outside `Φ(F)` is part of a basis by
+    Burnside, and then the quotient is free pro-`p` with `H² = 0`. This is a milestone in its own right, and not a remark, because it is what
     turns "isomorphic" into "isomorphic by a basis change" and so makes the marked normal forms
     below a normalization rather than a choice.
   - *Existence:* let `A` be a closed subgroup of `ℤ_pˣ` that is **pro-`p`**. Then `(n, A)`
@@ -2527,9 +2513,8 @@ Layer 8.
     condition is `A ≤ 1 + pℤ_p`. For `p = 2` every closed subgroup of `ℤ₂ˣ` is pro-`2`, so
     the three families of Layer 7 are all admissible.
 
-  The small-rank cases are part of the statement. For the odd case cite Serre's Thm 3.2 only
-  for `n ≥ 3`, because its printed `n ≥ 1` degenerates at `n = 1`; handle `n = 1` through
-  NSW (3.9.10) and Labute Remark 2(iii).
+  The small-rank cases are part of the statement. For the odd case Serre's Thm 3.2 covers
+  `n = 2m + 1` with `m ≥ 1`; handle `n = 1` through NSW (3.9.10) and Labute Remark 2(iii).
   *Needs:* L9 normal forms and character values; L8 comparison schema; L3 Hopf property.
   *Source:* Labute Thms 1 and 2, and Remark 2.
 - **Consequences.** The open-subgroup theorem was proved in Layer 7 from the duality
@@ -2634,7 +2619,7 @@ Layers 0–3 establish the profinite and generator-rank substrate; Layers 4–6 
 objects and cohomological freeness; Layers 7–8 control one-relator quotients and finite
 approximations; Layers 9–10 complete the Demushkin classification and arbitrary-rank theory.
 
-## Material extracted from the former pro-`p` portfolio
+## Arithmetic applications owned by other roadmaps
 
 The arithmetic of `G_K(p)`—finite generation, the `[K : ℚ_p] + 2` dichotomy, roots of unity,
 the canonical orientation, and the local Demushkin presentation—now belongs to
@@ -2646,5 +2631,6 @@ they import this roadmap, while this roadmap imports none of them.
 
 The mathematical spine is Serre, *Galois Cohomology*; Ribes–Zalesskii, *Profinite Groups*;
 Neukirch–Schmidt–Wingberg, *Cohomology of Number Fields*; and the classification work of
-Demushkin, Labute, and Serre. Implementation and source details are maintained in a private
-provenance ledger.
+Demushkin, Labute, and Serre. The classification is cited from J. P. Labute, *Classification of
+Demushkin groups*, Canad. J. Math. 19 (1967), 106–132, and from J.-P. Serre, *Structure de
+certains pro-p-groupes (d'après Demuškin)*, Séminaire Bourbaki, exposé 252 (1962/63).
