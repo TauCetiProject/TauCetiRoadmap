@@ -51,8 +51,16 @@ Not statable at the pins:
   `S = k[G]` together with relative Koszulity: neither Mathlib nor Tau Ceti has relative tensor
   algebras over a noncommutative semisimple base, their right duals, or quadratic duals.
 * The FKS theorems of Layer 6 (the stable category of curved duplexes over the zigzag algebra and
-  the Weyl-group action by reflection functors): there are no curved modules, duplexes, curved
-  homotopy categories or stable categories of graded modules at the pins.
+  the Weyl-group action by reflection functors).  The pins do have curved DG algebras
+  (`TauCeti.IsCurvedDGAlgebra`), curved DG left modules with the left Leibniz rule
+  (`TauCeti.IsCurvedDGLeftModule`; FKS's `Com(A,c)` is the curved DG left modules over
+  `(A, 0, −c)`), the curved homotopy category of right modules, and curved duplexes of scalar
+  curvature in a linear category with their homotopy category, disks, Frobenius exact structure
+  and triangulation (`TauCeti.CurvedDuplex`, `TauCeti.CurvedDuplex.HomotopyCategory`).  What the
+  headline lacks is narrower: duplexes over a parity-graded algebra whose odd elements exchange
+  the two components, with a central non-scalar curvature; curved bimodule duplexes and the
+  reflection kernels; and the stable category of graded modules over the curved extension
+  algebra `Ã_c`.
 * The geometric McKay correspondence of Layer 7 (the exceptional curves of the minimal resolution
   of `ℂ² / G` and their intersection matrix, the `G`-Hilbert scheme and the tautological bundles):
   there is no minimal resolution of a surface singularity and no equivariant Hilbert scheme at the
@@ -309,7 +317,7 @@ is the zigzag algebra of the McKay graph.  The hypothesis `−1 ∈ G` is needed
 the corner is the zigzag algebra with opposite-backtrack ratio `−1` at every vertex, which is not
 isomorphic to the ordinary one, since the product of the rescaling equations around the odd cycle
 would give `1 = (−1)ⁿ = −1`. -/
-theorem exists_full_corner_equiv_zigzag {G : Type} [Group G] [Finite G] [Nontrivial G]
+theorem exists_full_corner_equiv_zigzag {G : Type} [Group G] [Finite G]
     (V : FDRep ℂ G) (hdim : Module.finrank ℂ V = 2) (hfaithful : Function.Injective V.ρ)
     (hdet : ∀ g : G, LinearMap.det (V.ρ g) = 1) (hneg : ∃ g : G, V.ρ g = -1)
     (t : TauCeti.AffineDynkinType) (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Fin t.nodes)

@@ -51,14 +51,19 @@ exceptional-lattice comparison and the fundamental cycle).
 
 Already in the libraries at the pins, and consumed rather than rebuilt: Mathlib's skew monoid
 algebra `SkewMonoidAlgebra` with its multiplication, ring and algebra structure and universal
-properties; Tau Ceti's representation ring `TauCeti.repRing`, affine Dynkin data
-`TauCeti.AffineDynkinType`, path, preprojective and zigzag algebras, idempotent corners and their
-Morita equivalence. The exact declarations are listed under the supplier contracts.
+properties, and its character scalar product as a Hom dimension; Tau Ceti's representation ring
+`TauCeti.repRing`, the character-recognition theorem (equal characters give isomorphic objects of
+`FDRep` for a finite group in characteristic zero), affine Dynkin data `TauCeti.AffineDynkinType`,
+path, preprojective and zigzag algebras, idempotent corners and their Morita equivalence, and the
+curved DG algebras, curved DG left modules and curved duplexes of scalar curvature with their
+homotopy categories. The exact declarations are listed under the supplier contracts.
 
 Left to other roadmaps, by section:
 
-- character completeness, primitive central idempotents, the sum-of-squares formula and the
-  complete finite family of irreducibles: [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md);
+- character completeness, primitive central idempotents, the Wedderburn decomposition with the
+  sum-of-squares formula, the indexing of irreducibles and the splitting of the centre of the group
+  algebra by central characters: [`CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md),
+  Layers 2–3;
 - compact, unitary and `SL₂` representation infrastructure: [`CompactGroups`](../RepresentationTheory/CompactGroups/README.md)
   and [`ClassicalGroups`](../RepresentationTheory/ClassicalGroups/README.md); the double cover
   `SU(2) → SO(3)` with kernel `{±I}`: [LieGroups' `SU(2)`, `SO(3)` example](../RepresentationTheory/LieGroups/README.md);
@@ -146,9 +151,12 @@ These choices are part of the statements, not implementation details.
   `Matrix.specialOrthogonalGroup`, `Quaternion`. Assumed: the unitary and special linear groups as
   submonoids and groups of matrices, with determinant and conjugate transpose.
 - Representations: `Representation`, `FDRep`, `FDRep.of`, `Representation.leftRegular`,
-  `FDRep.char_orthonormal`, `FDRep.char_tensor`, `Representation.asAlgebraHom`. Assumed:
-  orthonormality of irreducible characters of a finite group over an algebraically closed field of
-  characteristic zero, and multiplicativity of characters under tensor products.
+  `FDRep.char_orthonormal`, `FDRep.char_tensor`, `FDRep.scalar_product_char_eq_finrank_equivariant`,
+  `Representation.asAlgebraHom` (`Mathlib/RepresentationTheory/Character.lean`). Assumed:
+  orthonormality of irreducible characters of a finite group over an algebraically closed field
+  with `|G|` invertible, multiplicativity of characters under tensor products, and the Hom-dimension
+  formula `dim Hom(V, W) = |G|⁻¹ Σ_g χ_W(g) χ_V(g⁻¹)` for a finite group with `|G|` invertible in
+  `k`.
 - Algebras: `SymmetricAlgebra` (with `SymmetricAlgebra.lift`, `SymmetricAlgebra.ι`),
   `ExteriorAlgebra` (with `ExteriorAlgebra.map`), `TensorAlgebra` (with `TensorAlgebra.lift`,
   `TensorAlgebra.ι`), `MonoidAlgebra`, `Subalgebra.center`, `TwoSidedIdeal.span`,
@@ -176,9 +184,19 @@ These choices are part of the statements, not implementation details.
   `TauCeti.repRingCharacter` (`TauCeti/RepresentationTheory/RepresentationRing/Basic.lean`,
   `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`).
 - `TauCeti.irreducibleRepresentation`, the complete family of irreducibles indexed by
-  `Fin (Nat.card (ConjClasses G))` over an algebraically closed field
-  (`TauCeti/RepresentationTheory/CharacterTable/Table.lean`), and
+  `Fin (Nat.card (ConjClasses G))`, stated under `[Finite G] [IsAlgClosed k]
+  [Invertible (Nat.card G : k)]` (`TauCeti/RepresentationTheory/CharacterTable/Table.lean`), and
   `TauCeti.Representation.finrank_dvd_card` (`TauCeti/RepresentationTheory/CharacterTable/Degree.lean`).
+- Character recognition and multiplicities, for a finite group over a field of characteristic
+  zero: `FDRep.nonempty_iso_of_character_eq` (two objects of `FDRep k G` with equal characters are
+  isomorphic) and `FDRep.finrank_hom_eq_sum_of_character_eq` (a character identity
+  `χ_X = Σ_i a_i χ_{Y_i}` with natural coefficients gives `dim Hom(V, X) = Σ_i a_i dim Hom(V, Y_i)`
+  for every `V`), both in `TauCeti/RepresentationTheory/CharacterTable/Determined.lean`;
+  `FDRep.char_biprod`, additivity of the character on biproducts
+  (`TauCeti/RepresentationTheory/FDRep.lean`); `TauCeti.repRingCharacter_injective`
+  (`TauCeti/RepresentationTheory/RepresentationRing/Injective.lean`). These supply the regrouping
+  of finite direct sums and the Hom dimensions used in Layers 0–2; no character-recognition theorem
+  is built here.
 - `TauCeti.stdRep` and `TauCeti.SU2.toGL` for the defining representation.
 - `TauCeti.AffineDynkinType` with `Valid`, `IsGraphical`, `graph`, `cartanMatrix`, `marks`,
   `affineNode`, `finiteType`, `bourbakiNode`, `TauCeti.AffineDynkinType.cartanMatrix_mulVec_marks_eq_zero`
@@ -201,20 +219,45 @@ These choices are part of the statements, not implementation details.
   Path multiplication is later factor first.
 - `TauCeti.AffineInvariantQuotient` (`TauCeti/AlgebraicGeometry/Quotient/Affine.lean`) for the
   affine quotient `ℂ²/Γ`.
+- Curved homological algebra (`TauCeti/Algebra/Homology/Curved/`): `TauCeti.IsCurvedDGAlgebra`
+  (`Algebra/Defs.lean`), a curved DG algebra `(A, d, w)` with `d(da) = aw − wa`;
+  `TauCeti.IsCurvedDGLeftModule` (`Module/Defs.lean`), a `ℤ`-graded left module with
+  `d(a x) = (da) x + (−1)^|a| a (dx)` and `d² x = −(w x)`; the curved homotopy category of right
+  modules `TauCeti.DGHomotopyCategory R (TauCeti.CurvedDGRightModuleCat h)` with the left/right
+  comparison `TauCeti.isCurvedDGLeftModule_iff_gradedOppositeRight` (`Module/Right/DGCategory.lean`,
+  `Module/Opposite.lean`); `TauCeti.CurvedDuplex C w`, the duplexes `X₀ ⇄ X₁` of scalar curvature `w`
+  in an `R`-linear category, with the parity shift, the null-homotopic ideal, the homotopy category
+  `TauCeti.CurvedDuplex.HomotopyCategory C w` and the disks `TauCeti.CurvedDuplex.disk`
+  (`Duplex.lean`, `DiskFactorization.lean`); the Frobenius exact structure whose stable category is
+  that homotopy category, `TauCeti.ExactStructure.curvedDuplex_split_isFrobenius` and
+  `TauCeti.ExactStructure.curvedDuplexSplitStableHomotopyEquivalence` (`Frobenius.lean`); and its
+  triangulation (`Triangulated.lean`). Assumed: the left-module square is `−(w x)`, so FKS's
+  `d² = c` is the curved DG left modules over `(A, 0, −c)`; the pin's duplexes have a scalar
+  curvature and no odd algebra elements exchanging the components.
 
 ### From TauCetiRoadmap.CharacterTheory, CompactGroups, ClassicalGroups, LieGroups
 
-- CharacterTheory, Layer 3: the regrouping and Hom-dimension API for finite direct sums and the
-  character-recognition theorem in characteristic zero.
+- CharacterTheory, Layer 2: the Wedderburn decomposition `k[G] ≅ ⊕_i Mat_{n_i}(k)` with
+  `Σ n_i² = |G|`, the indexing `Irreps k G` of the irreducibles by the Wedderburn blocks, and the
+  splitting of the centre `Z(k[G]) ≃ₐ[k] (Irreps k G → k)` by evaluation of central characters.
+- CharacterTheory, Layer 3: completeness of the irreducible characters and the primitive central
+  idempotents `(χ(1)/|G|) Σ_g χ(g⁻¹) g` as the Wedderburn projectors. Hom dimensions and character
+  recognition are not taken from CharacterTheory: they are Mathlib's
+  `FDRep.scalar_product_char_eq_finrank_equivariant` and Tau Ceti's
+  `FDRep.nonempty_iso_of_character_eq` above.
 - LieGroups, the `SU(2)`, `SO(3)` example: a surjective homomorphism `SU(2) → SO(3)` with kernel
   `{I, −I}`.
 
 ### From TauCetiRoadmap.RootSystems, ReductiveGroups, ZigzagPreprojective, QuiverRepresentations
 
-- RootSystems: finite ADE classification of positive definite simply-laced generalized Cartan
-  matrices, Weyl orbits, chambers and dominant cone.
-- ReductiveGroups 9A.1a: the bijection between norm-two vectors of the integral ADE lattice and the
-  roots.
+- RootSystems, Layer 4: the dominant chamber as a strict fundamental domain for the Weyl group
+  (every Weyl orbit meets the closed dominant chamber in exactly one point); Layer 5: the finite
+  ADE classification of positive definite simply-laced generalized Cartan matrices.
+- ReductiveGroups 9A.1a: for a finite, possibly disconnected, simply-laced diagram, the norm-two
+  shell `Φ = {a : B(a,a) = 2}` of the root lattice is the root set, a positive root that is not
+  simple has a simple reflection lowering its height, and `a + b ∈ Φ` exactly when `B(a,b) = −1`.
+  Neither RootSystems nor ReductiveGroups states that the dominant root of a connected
+  simply-laced diagram is unique; that lemma is a target of 1.1.
 - ZigzagPreprojective: the ordinary zigzag algebra of a graph, its grading, projectives and
   Frobenius form; orientation independence of the preprojective algebra; the parameterized
   skew-zigzag algebra with a backtrack ratio at each vertex.
@@ -293,6 +336,8 @@ alternating form, and an `SL₂(ℂ)` copy.  Relate the coordinate and standard 
 generators so later computations can use either.  These are the explicit constructions in
 Conway--Smith [CS03, §6.5] and Choi--Lee [CL18, §§2--4, especially §2.1 and Thms. 1--2].  These named-model constructions supply the coordinate side of the complete classification
 and conjugacy target below; neither orders alone nor abstract presentation isomorphisms discharge it.
+*Needs:* Mathlib `Quaternion`, `Matrix.specialUnitaryGroup`, `Matrix.SpecialLinearGroup`,
+`QuaternionGroup`, `ZMod`; [CS03, §6.5]; [CL18, §§2–4].
 
 **Checks.**
 
@@ -317,8 +362,8 @@ Isomorphic finite subgroups of `SL₂(ℂ)` are conjugate in `SL₂(ℂ)`
 (`finite_subgroup_SL2_conjugate_of_mulEquiv`), and any two of order `48` that are neither cyclic
 nor isomorphic to `QuaternionGroup 12` are conjugate (`card_eq_48_conjugate`); conjugacy in
 `GL₂(ℂ)` becomes conjugacy in `SL₂(ℂ)` after scaling the conjugating matrix by a square root of
-its determinant. *Needs:* 0.1, LieGroups' `SU(2)`, `SO(3)` example, CharacterTheory Layer 3
-(character recognition), Mathlib `isCyclic_of_injective_ringHom`.
+its determinant. *Needs:* 0.1, LieGroups' `SU(2)`, `SO(3)` example, Tau Ceti
+`FDRep.nonempty_iso_of_character_eq` (character recognition), Mathlib `isCyclic_of_injective_ringHom`.
 
 
 Classify **every** finite subgroup of the native `SU(2)` carrier up to
@@ -379,8 +424,9 @@ permutation action on five letters and its identification with `A₅`. Match
 the two order-five classes, allowing the explicit outer relabelling. Prove
 that the rotation character is `3,-1,0,φ,1-φ`, and verify the same character
 for the projected 120-coordinate binary model, including its actual group
-and class identifications. Consume CharacterTheory's finite characteristic-zero
-character recognition to construct the complex intertwiner. Construct a real
+and class identifications. Consume Tau Ceti's character-recognition theorem
+`FDRep.nonempty_iso_of_character_eq` (finite group, characteristic zero) to construct the complex
+intertwiner. Construct a real
 intertwiner using a nonzero real or imaginary part and real irreducibility,
 then its orthogonal polar normalization; adjust its orientation to obtain an
 `SO(3)` conjugacy. Thus the coordinate model, its rotation image and the
@@ -444,8 +490,8 @@ subgroup of order three of the diagonal torus. `Q₈` is the binary dihedral mod
 
 ### Dependencies
 
-Mathlib matrix groups and quaternions; LieGroups' `SU(2)`, `SO(3)` example; CharacterTheory
-Layer 3; Mathlib `isCyclic_of_injective_ringHom`.
+Mathlib matrix groups and quaternions; LieGroups' `SU(2)`, `SO(3)` example; Tau Ceti
+`FDRep.nonempty_iso_of_character_eq`; Mathlib `isCyclic_of_injective_ringHom`.
 
 ## Layer 1: irreducibles, the McKay matrix and named affine ADE
 
@@ -471,8 +517,11 @@ M_ij = dimℂ Hom_Γ(ρ_j, V ⊗ ρ_i),    a_ji = M_ij,
 
 Thus `M` has source vertex first and target vertex second; the corner/path
 notation `a_ji` retains target first. Prove the natural multiplicities and
-actual finite direct-sum decompositions using CharacterTheory Layer 3's
-regrouping and Hom-dimension API. Tensor-Hom adjunction with the constructed
+actual finite direct-sum decompositions using Mathlib's Hom-dimension formula
+`FDRep.scalar_product_char_eq_finrank_equivariant`, Tau Ceti's additivity of the
+character on biproducts `FDRep.char_biprod` and its multiplicity theorem
+`FDRep.finrank_hom_eq_sum_of_character_eq` (a character identity with natural
+coefficients gives the Hom dimensions). Tensor-Hom adjunction with the constructed
 self-duality gives `M_ij=M_ji`; consequently the two transposed matrices agree.
 Prove `Mδ=2δ`, all `δ_i>0`, and `δ_trivial=1`. Give invariance under relabelling
 and under conjugation of the actual subgroup/defining representation.
@@ -521,10 +570,34 @@ simply-laced GCM. Use native finite-type classification componentwise. With
 `x=δ_rest` and `m_i=M_i,trivial`, prove `C′x=m` and `mᵀx=2`. The vector
 `θ=Σ_i x_i α_i` in the integral finite ADE lattice has norm two. Positivity
 and evenness show that it has only one connected component: every nonzero
-component would contribute at least two to that norm. Consume RG9A.1a's
-explicit norm-shell/root correspondence, native Weyl orbit/chamber and
-dominant-cone APIs, and the adjacent-simple-root orbit adapter to identify
-this dominant root as the highest root. Construct the marked extension
+component would contribute at least two to that norm. By ReductiveGroups
+9A.1a, `θ` is a root, and `C′x = m ≥ 0` says that it is dominant.
+
+Prove here the root-system lemma that identifies it. Let `Φ` be the norm-two
+shell of the root lattice of a finite simply-laced diagram that is
+**nonempty and connected** (ReductiveGroups 9A.1a), call a root `β` *dominant* when
+`B(β, α) ≥ 0` for every simple root `α`, and order roots by `β ≤ γ` when
+`γ − β` is a sum of simple roots. Then:
+
+- any two adjacent simple roots `α, β` (`B(α, β) = −1`) are Weyl-conjugate,
+  since `s_β(α) = α + β` and `s_α(α + β) = β`; connectedness makes all simple
+  roots conjugate, and 9A.1a's height induction makes every positive root
+  conjugate to a simple root (and `s_β(β) = −β`), so the Weyl group acts
+  transitively on `Φ`;
+- the closed dominant chamber is a strict fundamental domain (RootSystems
+  Layer 4), so `Φ`, a single orbit, contains exactly one dominant root `θ`;
+- a maximal root `γ` for `≤` is positive and dominant: `B(γ, α) < 0` for a
+  simple `α` forces `B(γ, α) = −1` (the values `±2` occur only at `γ = ±α`),
+  hence `γ + α ∈ Φ` by 9A.1a and `γ < γ + α`; so every maximal root equals
+  `θ`, which is therefore the unique maximal root, the **highest root**.
+
+The lemma is false without connectedness, and vacuous for the empty diagram,
+whose `Φ` is empty (see the Checks); the single-orbit step uses that the
+diagram is simply laced. Applying it to the deleted diagram, which has at
+least one vertex in this case and whose connectedness was just shown,
+identifies the dominant root `θ = Σ_i x_i α_i` with the highest root. *Needs:* ReductiveGroups 9A.1a
+(norm-two shell, height induction, `a + b ∈ Φ ↔ B(a,b) = −1`), RootSystems
+Layer 4 (strict fundamental domain). Construct the marked extension
 `α₀=-θ` with Gram matrix `C`, then its exact index equivalence to the native
 `TauCeti.AffineDynkinType` matrix, affine node and marks. Do not apply an
 unprovided arbitrary-matrix affine converse or treat a dependent `-θ` as a
@@ -569,6 +642,18 @@ character-eigenvector, positive-semidefinite, null-vector, and named affine-Cart
 - For the cyclic group of order `n = 1` the matrix is `M = [2]`, `C = [0]`, and for `n = 2` the
   off-diagonal multiplicity is `2`: in neither case is `M` the adjacency matrix of a simple graph,
   so no `Ã₀` and no simple-graph `Ã₁` is used.
+- For `C₃` the deleted diagram is `A₂`, with `x = δ_rest = (1, 1)`, `C′x = (1, 1) = m` and
+  `mᵀx = 2`; among the six roots `±α₁, ±α₂, ±(α₁ + α₂)` the only dominant one is `α₁ + α₂`
+  (`B(α₁ + α₂, α₁) = 2 − 1 = 1`, while `B(α₁, α₂) = −1` disqualifies `α₁` and `α₂`), and it is the
+  highest root `θ = α₁ + α₂`, as the lemma says.
+- For the disconnected diagram `A₁ × A₁` (Cartan matrix `diag(2, 2)`) both `α₁` and `α₂` are
+  dominant roots and lie in different Weyl orbits, so the uniqueness of the dominant root needs the
+  connected diagram, which is why the support argument precedes the lemma; for the non-simply-laced
+  `B₂` (long `α₁`, short `α₂`, `(α₁, α₂) = −1`) both `α₁ + 2α₂` and `α₁ + α₂` pair nonnegatively
+  with `α₁` and `α₂`, so the single-orbit step needs the simply-laced hypothesis. For the empty
+  diagram (the trivial group, `M = [2]`, no vertex deleted) `Φ` is empty and there is no dominant
+  root, which is why the singleton case is settled before the lemma and the lemma asks for a
+  nonempty diagram.
 
 ### 1.2 The McKay labelling
 
@@ -582,7 +667,8 @@ the dimension of each simple is its native mark; and the trivial representation 
 - Prove that every finite group with a faithful two-dimensional representation of determinant
   one, other than the trivial group, has a McKay labelling by a valid affine type
   (`exists_isMcKayLabelling`; McKay [McK80, Props. 1–2], Steinberg [Ste85, §1(1)–(5), (8)]).
-  *Needs:* 1.1, RootSystems (finite ADE classification), ReductiveGroups 9A.1a.
+  *Needs:* 1.1 (including its highest-root lemma), RootSystems Layers 4–5 (strict fundamental
+  domain, finite ADE classification), ReductiveGroups 9A.1a.
 - Prove that every valid affine type has a McKay labelling for some such group, the cyclic,
   binary dihedral, tetrahedral, octahedral and icosahedral models of Layer 0 realizing `Ãₙ`,
   `D̃ₙ`, `Ẽ₆`, `Ẽ₇`, `Ẽ₈` (`exists_isMcKayLabelling_of_valid`). *Needs:* 0.1, 1.1.
@@ -609,9 +695,11 @@ two-dimensional simple, `V ⊗ χ ≅ V` for each of the four characters `χ`, a
 
 ### Dependencies
 
-Layer 0; CharacterTheory Layer 3; Mathlib `FDRep.char_orthonormal`, `FDRep.char_tensor`; Tau Ceti
-`TauCeti.irreducibleRepresentation`, `TauCeti.Representation.finrank_dvd_card`,
-`TauCeti.AffineDynkinType`; RootSystems; ReductiveGroups 9A.1a.
+Layer 0; CharacterTheory Layers 2–3; Mathlib `FDRep.char_orthonormal`, `FDRep.char_tensor`,
+`FDRep.scalar_product_char_eq_finrank_equivariant`; Tau Ceti `TauCeti.irreducibleRepresentation`,
+`TauCeti.Representation.finrank_dvd_card`, `FDRep.char_biprod`,
+`FDRep.finrank_hom_eq_sum_of_character_eq`, `TauCeti.AffineDynkinType`; RootSystems Layers 4–5;
+ReductiveGroups 9A.1a.
 
 ## Layer 2: representation ring and root lattice
 
@@ -942,7 +1030,9 @@ algebras but are not passed through a simple-graph zigzag API: at the singleton
 ordinary `A₁` zigzag algebra; `C₂` has two degree-one arrows in each direction.
 The FKS reflection layer keeps its connected bipartite graph scope
 and does not extend to odd-cycle skew parameters by an unproved analogy.
-
+*Needs:* 3.2, 4.1 (the primitive idempotents and the arrow-corner formula), ZigzagPreprojective
+(the parameterized skew-zigzag algebra with a backtrack ratio at each vertex, and the ordinary
+zigzag algebra), Tau Ceti `TauCeti.nonisolatedZigzagQuotient`, `TauCeti.preprojectiveAlgebra`.
 
 **Checks.**
 
@@ -998,8 +1088,9 @@ Crawley-Boevey, *Preprojective algebras, differential operators and a Conze embe
 p. 3, immediately before Theorem 0.9, and in Tikaradze, [arXiv:2204.13647](https://arxiv.org/abs/2204.13647),
 §2, printed p. 4.  The two normalizations agree exactly when every irreducible is one-dimensional,
 so the cyclic families cannot distinguish them and the binary dihedral and `Ẽ₆`, `Ẽ₇`, `Ẽ₈` cases
-can.
-
+can. *Needs:* Tau Ceti `TauCeti.pathAlgebra`, `TauCeti.preprojectiveRelator`,
+`TauCeti.doubledVertexIdempotent`; CharacterTheory Layer 2 (the block scalars `f_i`, central
+characters); [CBH98, §§3–4]; Crawley-Boevey's Conze paper, printed p. 3; Tikaradze, §2.
 
 ### 5.2 The `Q₈` test of the normalization
 
@@ -1033,21 +1124,22 @@ Identify the actual `Q₈=binaryDihedral 2` named affine-`D₄` frame with this 
 centre2 is native node1, the four leaves have dimension one, and the centre has dimension two.
 Pin the relabel and the signs when reversing only the two incoming named arrows:
 `a↦a*`, `a*↦−a`; the other two edges are unchanged. Construct the actual central block element
-by the inverse of the block-scalar equivalence `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)` on the specified scalar
-vector, first proving that this equivalence evaluates to the scalar by which a central element acts
-on each simple. The trace-parameter CBH theorem identifies its full corner with the trace-weight
-star; combining it with the simple-dimension invariant rules out every corner equivalence to the
+by the inverse of CharacterTheory Layer 2's block-scalar equivalence `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)`,
+evaluation by central characters, on the specified scalar vector. The trace-parameter CBH theorem
+identifies its full corner with the trace-weight star; combining it with the simple-dimension invariant rules out every corner equivalence to the
 scalar-weight algebra. The vertex-compatible argument above is the weaker statement that no
 vertex-preserving equivalence exists. *Needs:* 5.3 (the CBH theorem), the dimension identity
 `∑ᵢ λᵢ dim(eᵢM) = 0`.
 
 ### 5.3 The centre and the Crawley-Boevey–Holland theorem
 
-Construct `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)` as the **block-scalar** map, which is the algebra equivalence; the
-trace-coordinate map `z ↦ (Tr_{ρ_i}(z))_i` is only linear once some `δ_i > 1`, so the centre's
-algebra equivalence keeps the scalars while the preprojective comparison uses the trace.  State the
-normalized relation calculation and the images of the vertex idempotents explicitly, so the factor
-`δ_i` is visible rather than absorbed.
+The algebra equivalence `Z(ℂ[Γ]) ≃ ℂ^(Irr Γ)` is CharacterTheory Layer 2's **block-scalar** map
+(the centre splits, evaluation by the central characters `z ↦ f_i`), consumed as it is. Built here
+are the **trace coordinates**: the linear map `z ↦ (Tr_{ρ_i}(z))_i` on `Z(ℂ[Γ])`, the identity
+`Tr_{ρ_i}(z) = δ_i f_i`, and the observation that the trace coordinates are only linear, not
+multiplicative, once some `δ_i > 1`; so the centre's algebra equivalence keeps the scalars while the
+preprojective comparison uses the trace.  State the normalized relation calculation and the images
+of the vertex idempotents explicitly, so the factor `δ_i` is visible rather than absorbed.
 
 Here `x,y` are the displayed defining representation's standard ordered coordinate basis, fixed
 so that its determinant pairing is exactly `1`.  A general change of basis is not silently
@@ -1080,13 +1172,18 @@ McKay quiver `Q`, a central `z` and the trace weights `λ` read through the bije
 `CBHAlgebra` has a full idempotent whose corner is `deformedPreprojectiveAlgebra` of `Q`
 (`exists_full_corner_equiv_deformedPreprojectiveAlgebra`; CBH98, Theorem 0.1 and §§3–4). The
 statement covers `Γ = C₂` through the Kronecker quiver and the trivial group through the one-loop
-quiver, where both sides are the first Weyl algebra for `z ≠ 0`. *Needs:* 4.1, 5.1, the block-scalar
-equivalence above, Tau Ceti `TauCeti.preprojectiveRelator`, `TauCeti.doubledVertexIdempotent`.
+quiver, where both sides are the first Weyl algebra for `z ≠ 0`. *Needs:* 4.1, 5.1, CharacterTheory
+Layer 2 (the block-scalar equivalence) and the trace identity above, Tau Ceti
+`TauCeti.preprojectiveRelator`, `TauCeti.doubledVertexIdempotent`.
 
 **Checks.**
 
 - At `λ = 0` the ideal is the preprojective ideal, so `deformedPreprojectiveAlgebra k Q 0` is
   `TauCeti.preprojectiveAlgebra k Q`; at `z = 0`, `CBHAlgebra` is isomorphic to `Sym(V) ⋊ Γ`.
+- For `Q₈` and `z = e_c`, the primitive central idempotent of the two-dimensional block, the block
+  scalars are `0` at the four leaves and `1` at the centre and the trace coordinates are `0` and
+  `2`; the block scalars are multiplicative (`1² = 1`, as `e_c² = e_c`) while the trace coordinates
+  are not (`Tr_{ρ_c}(e_c²) = 2 ≠ 2²`), so the trace map is not the algebra equivalence.
 - Uniform scaling is quadratic: on the star representation with `a = E₁₀`, `a* = E₀₁` the commutator
   `aa* − a*a` is `diag(−1, 1)`; scaling both arrows by `2` gives `diag(−4, 4)`, which is the relation
   at `4λ = 2²λ`, not at `2λ` (`diag(−2, 2)`).
@@ -1123,8 +1220,7 @@ Use DGAInfinity's actual internal-grading and graded-opposite APIs and StablePer
 algebra-valued-curvature data below are FKS-specific adapters: provide comparison functors,
 inverse natural isomorphisms and tensor/homotopy compatibility wherever the generic owner
 applies. Retain an explicit FKS construction when that owner's scalar/commutative duplex
-hypotheses do not apply, rather than asserting a nonexistent generic equivalence. Scope
-all typeclass workarounds to those declarations; do not globally remove imported instances.
+hypotheses do not apply, rather than asserting a nonexistent generic equivalence.
 
 Let `A` be a graded ring, graded by `ℤ` or by its parity `ℤ/2`, and `c` a central element of
 degree two.  Build, in [FKS05, §§2--4]:
@@ -1132,14 +1228,24 @@ degree two.  Build, in [FKS05, §§2--4]:
 - **Curved objects.**  An `(A,c)`-complex (for `ℤ`) or duplex (for `ℤ/2`) is a graded left
   `A`-module with a degree-one additive `d`, `d² = c`, and `d(a m) = (-1)^|a| a d(m)`.  Morphisms
   are degree-zero `A`-linear maps commuting with `d`; this is the concrete abelian category
-  `Com(A,c)` or `Com₂(A,c)`.  Construct the shift `X[1]` (grading shifted by one, `d` negated, action
+  `Com(A,c)` or `Com₂(A,c)`.  For the `ℤ`-grading `Com(A,c)` is defined as the category of curved
+  DG left modules `TauCeti.IsCurvedDGLeftModule` over the curved DG algebra `(A, 0, −c)` of
+  `TauCeti.IsCurvedDGAlgebra` (zero differential, curvature `−c`, central so that `d(da) = 0`
+  holds): the pin's left Leibniz rule is FKS's and its square `d² = −((−c) m) = c m`.  For the
+  parity grading, `Com₂(A,c)` is built here, because the pin's `TauCeti.CurvedDuplex C w` has a
+  scalar curvature `w` in an `R`-linear category and no odd algebra elements exchanging the two
+  components; when `A` is concentrated in even degrees and `c` lies in a central ground ring `R`
+  over which `A`-modules are linear, prove `Com₂(A,c) ≃ TauCeti.CurvedDuplex (Mod A) c` and
+  `K₂(A,c) ≃ TauCeti.CurvedDuplex.HomotopyCategory (Mod A) c`, matching shifts and cones, so that
+  the pin's triangulation is inherited there.  Construct the shift `X[1]` (grading shifted by one, `d` negated, action
   twisted by the parity involution), the shift functor, `[2] ≅ Id` for duplexes, and the mapping
   cone `Y ⊕ X[1]` with `d(y, x) = (dy + f x, -dx)`.
 - **Homotopy categories.**  `f` is null-homotopic when `f = h d + d h` for an additive `h`
   lowering degree by one with `h(a m) = (-1)^|a| a h(m)` (an `A`-map to the shifted object).
   These maps form an ideal, and `K(A,c)`, `K₂(A,c)` are the prerequisite's `MorphismIdeal`
-  quotients.  For `ℤ`, prove `K(A,c)` equivalent to the prerequisite's curved homotopy category of
-  `(A, 0, -c)` over its graded opposite, which supplies the triangulation.
+  quotients.  For `ℤ`, prove `K(A,c)` equivalent to the pin's curved homotopy category of right
+  modules over the Koszul-signed graded opposite of `(A, 0, -c)`, through
+  `TauCeti.isCurvedDGLeftModule_iff_gradedOppositeRight`; the triangulation is the prerequisite's.
 - **The curved extension algebra** `Ã_c = A ⊗ ℤ[d]/(d² - c)` with `d a = (-1)^|a| a d` and
   `deg d = 1`, on the carrier of pairs `a + b d`, with the multiplication
   `(a + b d)(a' + b' d) = (a a' + b σ(b') c) + (a b' + b σ(a')) d` for the parity involution `σ`.
@@ -1164,13 +1270,19 @@ degree two.  Build, in [FKS05, §§2--4]:
   `Mod(Ã_0)` (its restriction to `A` is not projective) but zero in `K(A,0)`, so `Φ₂` kills a
   nonzero object and is not an equivalence;
 - over `ℚ[u,u⁻¹]` with `deg u = 2` and `c = u`, every object of `K(A,c)` is contractible by
-  `h = u⁻¹ d / 2`, so `K(A,c)` is the zero category [FKS05, §3.2, Remark];
+  `h = u⁻¹ d / 2` (`dh + hd = u⁻¹ d² = 1`), so `K(A,c)` is the zero category [FKS05, §3.2, Remark];
+  here `A` is even and `c = u` is a scalar of the `A`-linear category of `A`-modules, so `K₂(A,c)`
+  is the pin's `TauCeti.CurvedDuplex.HomotopyCategory (Mod A) u`, and the same odd map contracts
+  every pinned duplex of curvature `u`; over `ℤ[u,u⁻¹]` the map `h` needs `1/2` and the argument
+  stops, which is why the Check is stated over `ℚ`;
 - for the zigzag algebra of a connected bipartite graph at `c = 0`, a simple module with zero
   differential is nonzero in `K₂(A,0)`, hence its preimage is a nonzero object of `Mod₂(Ã_0)`.
 
 
 *Needs:* DGAInfinity (internal gradings, graded opposite), StablePeriodicCurved (`MorphismIdeal`,
-factor-through ideal, curved homotopy category), [FKS05, §§2–4].
+factor-through ideal, curved homotopy category), Tau Ceti `TauCeti.IsCurvedDGAlgebra`,
+`TauCeti.IsCurvedDGLeftModule`, `TauCeti.CurvedDuplex`, `TauCeti.CurvedDuplex.HomotopyCategory`,
+[FKS05, §§2–4].
 
 ### 6.2 Reflection functors on bipartite zigzag algebras
 
@@ -1489,9 +1601,7 @@ separate source boundary, not a premise or a newly claimed geometric theorem her
 separately used torsion-free representative subcategory must keep its actual predicate and
 preservation proof; a stable isomorphism alone is not asserted to prove that property.
 
-Acceptance must recover both directions under e(-)/E, the native-coind comparison, the
-crossed action/μ_a formulas and **both** curvature components on named binary examples,
-including the binary-icosahedral input. Changing adapted matrix bases must give the explicit
+Changing adapted matrix bases must give the explicit
 conjugating kernel isomorphisms and parameter maps, not new unrelated reflection data. Odd
 cyclic groups keep their actual skew-corner/Koszul/geometric targets; no bipartite graph
 reflection is inferred. The singleton exterior algebra and C₂ double-edge boundary also
@@ -1715,7 +1825,8 @@ an action on the stable categories of the exterior skew-group algebra of `C₄`.
 ### Dependencies
 
 Layers 3–4; DGAInfinity; StablePeriodicCurved; ZigzagPreprojective; CharacterTheory; Tau Ceti
-`IsIdempotentElem.cornerEquivalence`; [FKS05, §§2–4, 6, 8.1–8.3, 9.3].
+`IsIdempotentElem.cornerEquivalence`, `TauCeti.IsCurvedDGAlgebra`, `TauCeti.IsCurvedDGLeftModule`,
+`TauCeti.CurvedDuplex`, `TauCeti.CurvedDuplex.HomotopyCategory`; [FKS05, §§2–4, 6, 8.1–8.3, 9.3].
 
 
 ## Layer 7: finite geometric McKay correspondence
@@ -1881,13 +1992,15 @@ Finite-group averaging gives `R ≅ ⊕_i ρ_i ⊗ T_i` with `T_i = Hom_Γ(ρ_i,
   adding curves with positive intersection, every step stays below every anti-nef cycle; in root
   coordinates each step adds a simple root `α` to a root `β` with `⟨β, α⟩ = −1`, so all steps are
   positive roots, and the process stops exactly at a dominant root, which is the highest root
-  (RootSystems: in an irreducible simply-laced root system the highest root is the only dominant
-  root). Its coefficients are the marks `δ_i` (Layer 1), so `Z_Γ` is below every nonzero effective
+  (the root-system lemma of 1.1: in the norm-two shell of a connected simply-laced diagram the
+  dominant root is unique and is the highest root; the deleted McKay diagram is connected by 1.1).
+  Its coefficients are the marks `δ_i` (Layer 1), so `Z_Γ` is below every nonzero effective
   anti-nef cycle. For `Γ = 1`
   the exceptional set is empty and no cycle is asserted.
 
-*Needs:* 7.4, Layer 2 (`rootLatticeQuotientMap` and the McKay form), AlgebraicVectorBundles L0
-(determinants), SchemeAndStackFoundations §5.1–5.3 (degrees on proper curves).
+*Needs:* 7.4, 1.1 (the highest-root lemma), Layer 2 (`rootLatticeQuotientMap` and the McKay
+form), AlgebraicVectorBundles L0 (determinants), SchemeAndStackFoundations §5.1–5.3 (degrees on
+proper curves).
 
 The root-lattice quotient is not a quotient of `K₀(Y)` by the class of `R`, which has rank `|Γ|`
 and is nonzero in `K₀(Y)`, and the assignment `[ρ_i] ↦ [T_i]` is additive, not asserted to be
