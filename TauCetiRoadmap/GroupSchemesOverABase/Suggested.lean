@@ -40,8 +40,9 @@ def geometricFiber (G : Grp (Over S)) {Ω : Type u} [Field Ω] [IsAlgClosed Ω]
     (x : Spec (CommRingCat.of Ω) ⟶ S) : Grp (Over (Spec (CommRingCat.of Ω))) :=
   (baseChange x).obj G
 
-/-- GS0.4: the identity component of a smooth group scheme of finite presentation
-(SGA 3, Exp. VI_B, 3.10). -/
+/-- GS0.4: the open subgroup scheme representing the fibrewise identity-component subfunctor
+(the subfunctor of AlgebraicModuliForArithmeticGeometry §7.9, applied through the adapter to
+group algebraic spaces), for `G` smooth over an arbitrary base (SGA 3, Exp. VI_B, 3.9--3.10). -/
 def identityComponent (G : Grp (Over S)) [Smooth G.X.hom] : Grp (Over S) := sorry
 
 /-- The identity component is an open subgroup scheme. -/
@@ -129,14 +130,30 @@ theorem IsMultiplicativeType.exists_etale_cover {G : Grp (Over S)}
       (∀ i, Etale (f i)) ∧ (∀ s : S, ∃ i, ∃ x : U i, f i x = s) ∧
         ∀ i, IsDiagonalizable ((baseChange (f i)).obj G) := sorry
 
-/-- GS2.5: tori over a locally noetherian normal base are isotrivial
-(SGA 3, Exp. X, 5.16). Normality is expressed through the stalks. -/
-theorem IsTorus.isotrivial_of_normal [IsLocallyNoetherian S]
+/-- GS2.5: `G` is isotrivial: after a finite étale surjective base change it is isomorphic to
+`D(M)` for one finitely generated `M` (SGA 3, Exp. IX, 1.1, recalled in Exp. X, §1). -/
+def IsIsotrivial (G : Grp (Over S)) : Prop :=
+  ∃ (S' : Scheme.{u}) (f : S' ⟶ S), IsFinite f ∧ Etale f ∧ Surjective f ∧
+    IsDiagonalizable ((baseChange f).obj G)
+
+/-- GS2.5: over a connected locally noetherian normal base, every group of multiplicative type
+(of finite type) is isotrivial (SGA 3, Exp. X, 5.16, stated there for geometrically unibranch
+bases, which normal bases are; its proof first reduces to a connected base). Normality is
+expressed through the stalks. Connectedness is needed: over a disjoint union of two fields, a
+torus of rank one on one point and rank two on the other is not isotrivial. -/
+theorem IsMultiplicativeType.isotrivial [ConnectedSpace S] [IsLocallyNoetherian S]
     (hS : ∀ s : S, IsDomain (S.presheaf.stalk s) ∧ IsIntegrallyClosed (S.presheaf.stalk s))
-    {G : Grp (Over S)}
-    (hG : IsTorus G) :
-    ∃ (S' : Scheme.{u}) (f : S' ⟶ S), IsFinite f ∧ Etale f ∧ Surjective f ∧
-      IsDiagonalizable ((baseChange f).obj G) := sorry
+    {G : Grp (Over S)} (hG : IsMultiplicativeType G) :
+    IsIsotrivial G := sorry
+
+/-- GS2.5, componentwise form: without connectedness, the restriction to every connected
+open and closed subscheme (for instance a connected component, these being open over a locally
+noetherian base) is isotrivial. -/
+theorem IsMultiplicativeType.isotrivial_component [IsLocallyNoetherian S]
+    (hS : ∀ s : S, IsDomain (S.presheaf.stalk s) ∧ IsIntegrallyClosed (S.presheaf.stalk s))
+    {G : Grp (Over S)} (hG : IsMultiplicativeType G) (U : S.Opens)
+    (hU : IsClopen (U : Set S)) [ConnectedSpace U] :
+    IsIsotrivial ((baseChange U.ι).obj G) := sorry
 
 end GS2
 
