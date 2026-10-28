@@ -2613,8 +2613,12 @@ prime restriction is unnecessary.
 The Satake labels of `HeckeFunctor` are opposite to those of Fargues–Scholze: here
 `T_{V_μ}` carries the trivial stratum into `B(G,μ⁻¹)`, there into `B(G,μ)`. Let `θ` be the
 Chevalley involution of `Ĝ` fixed by the pinning. It commutes with the pinned `Q`-action, so it
-extends to `Ĝ⋊Q`, and `θ*V_λ≅V_{−w₀λ}≅V_λ^∨` as `Ĝ`-representations; unlike `V↦V^∨`,
-`V↦θ*V` is covariant and monoidal. Apply this equivalence to the monoidal functor
+extends to `Ĝ⋊Q`. It sends highest weight `λ` to `−w₀λ`, so `θ*` carries the integral Weyl
+and dual Weyl modules of highest weight `λ` to those of highest weight `−w₀λ`. The further
+identification `θ*V_λ≅V_{−w₀λ}≅V_λ^∨` holds for characteristic-zero irreducibles and for
+minuscule `λ`, whose integral module is irreducible on every fibre; it is not asserted for
+arbitrary integral highest-weight lattices. Unlike `V↦V^∨`, `V↦θ*V` is covariant and monoidal,
+and the integral construction uses `θ*` itself. Apply this equivalence to the monoidal functor
 `V↦T_{θ*V}`, which is Fargues–Scholze's `V↦T_V`, on compact objects and extend by colimits
 to construct `geometricSpectralAction`, `excursionOperator` and `semisimpleParameter`.
 The raw action reconstructed from `V↦T_V` is the pullback of `geometricSpectralAction`
@@ -2654,6 +2658,10 @@ IX.4.1, Proposition IX.5.3 and Proposition IX.6.5, pp.327–333; Theorem I.10.1,
   evaluation and Weil elements `(γ,1)` with `γ↦11` under reciprocity acts on `χ` by `2` for
   `geometricSpectralAction`, but by `2⁻¹=3` for the raw action from `V↦T_V`. Here `d_μ=0`,
   so no shift or half-Tate twist reconciles the two.
+- For `G=PGL₂`, `Ĝ=SL₂`, `K=ℚ₁₇`, `ℓ=2` and `Λ=ℤ₂` (`17≡1 mod 8`, so `√17∈ℤ₂`), the lattice
+  `V=Sym²(Λ²)` has `θ*V≅V` after reduction to `𝔽̄₂`, where `θ` is inner, but `Sym²(𝔽̄₂²)` has
+  no nonzero invariant while its dual has one (the span of `x²,y²` is stable with trivial
+  quotient). So `θ*V≇V^∨` integrally, and only `θ*` enters the integral action.
 
 *Needs:* bundle and Hecke categories;
 LanglandsParameterStacks LP1.7–LP1.8 and LP4.1–LP4.3;
