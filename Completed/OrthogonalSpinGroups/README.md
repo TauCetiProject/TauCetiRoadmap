@@ -2,11 +2,13 @@
 
 The completion audit is supported by the native square-class codomain refactor in
 [Tau Ceti PR #22023](https://github.com/TauCetiProject/TauCeti/pull/22023), checked at
-[`6adf5a0d635`](https://github.com/TauCetiProject/TauCeti/commit/6adf5a0d63530ffdd127f8714fea695dd2242f5f),
-and the explicit acceptance examples and empty-away comparisons in
+[`037dfc4f42d3`](https://github.com/TauCetiProject/TauCeti/commit/037dfc4f42d34a2457a450301813858635f9cd51),
+and the empty-away comparisons in
 [PR #22024](https://github.com/TauCetiProject/TauCeti/pull/22024), checked at
-[`40b31072559e`](https://github.com/TauCetiProject/TauCeti/commit/40b31072559e63312f2d604497f9f4b9e900ced5).
+[`58fe1befe42f`](https://github.com/TauCetiProject/TauCeti/commit/58fe1befe42fef254a5bc6f438e3faf876c4f9a1).
 Both were checked with Lean 4.36.0-rc1 and Mathlib `2cabef97`.
+[Native completion checks](NativeCompletion.md) contain the compiled dimension-zero and real
+four-square acceptance proofs, derived directly from the existing APIs.
 
 The repository dependency pin remains Tau Ceti `a91d3aa` with Lean 4.35.0-rc3.
 `Suggested.lean` retains target prototypes, including `sorry` proofs; it is not a discharged
