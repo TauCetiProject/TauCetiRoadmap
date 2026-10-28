@@ -30,9 +30,10 @@ module density Mathlib already has; the theory of **central simple algebras** (`
 division `D`, so `finrank K A` is a perfect square and the **degree** `deg A` is its square root; tensor
 product of central simple algebras is central simple; `A ⊗ Aᵒᵖ ≅ M_{finrank K A}(K)`); **Skolem-Noether**
 and the **centralizer theorem** for finite-dimensional central simple subalgebras; and the **Brauer group
-as a group** together with **maximal subfields**, **splitting fields**, and the **index**. Mathlib's standing TODOs here
-(`proof_wanted IsSemiprimaryRing.mulOpposite` and the left-right symmetry of the Jacobson radical in
-`WedderburnArtin.lean`, and the "`D` in `Type u`" TODO) are folded into the layers below.
+as a group** together with **maximal subfields**, **splitting fields**, and the **index**. The left-right
+symmetry of the Jacobson radical and of semiprimarity (`IsSemiprimaryRing.mulOpposite`,
+`isSemiprimaryRing_mulOpposite_iff`, in Tau Ceti's `TauCeti/RingTheory/Jacobson/MulOpposite.lean`) and
+the "`D` in `Type u`" TODO are folded into the layers below.
 
 This roadmap is the algebra foundation beneath [character theory of finite groups](../CharacterTheory/README.md),
 which consumes the algebraically closed Wedderburn decomposition `k[G] ≅ ∏ Matₙᵢ(k)`, the
@@ -166,22 +167,24 @@ expressible.
 The ordering is the dependency order. Layers 0-3 are the general semisimple theory over a ring; Layers 4-6
 are the central-simple and Brauer theory over a field, resting on Layers 0-3.
 
-### Layer 0: the Jacobson radical and the semisimplicity criterion (supporting API, optional)
+### Layer 0: the Jacobson radical and the semisimplicity criterion (supporting API, off the critical path)
 
-This layer is supporting cleanup, not on the critical path: character theory and the central-simple/Brauer
-development need finite-dimensional semisimple structure, not the full left-right symmetry of semiprimary
-rings. Build it as general supporting API, or skip to Layer 1 and pull in only the radical facts a
-later theorem explicitly names.
+This layer is a required part of the roadmap, built in full, but it is off the critical path: no
+theorem of Layers 1-6 consumes it, since character theory and the central-simple/Brauer development
+need finite-dimensional semisimple structure, not the left-right symmetry of semiprimary rings. Its
+targets are the three finite-dimensional radical statements below; the left-right symmetry is consumed.
 
 - **The radical as an intersection and its quotient.** Consume `Ring.jacobson`, `jacobson_quotient_jacobson`,
   `IsSemisimpleRing.jacobson_eq_bot`, and `IsArtinianRing.isSemisimpleRing_iff_jacobson`. Build the
   convenience API for finite-dimensional algebras: `Ring.jacobson A` is a nilpotent two-sided ideal
   (from `IsArtinianRing.isNilpotent_jacobson_bot` via `FiniteDimensional → IsArtinianRing`), the quotient
   `A ⧸ Ring.jacobson A` is semisimple, and `A` is semisimple iff its radical is `⊥`.
-- **Left-right symmetry.** Prove the two statements Mathlib records as `proof_wanted` in
-  `WedderburnArtin.lean`, `IsSemiprimaryRing.mulOpposite` and `isSemiprimaryRing_mulOpposite_iff`,
-  giving `Ring.jacobson Aᵐᵒᵖ` the expected description and settling the "left Artinian ⇔ right
-  Artinian for these rings" `example` noted there.
+- **Left-right symmetry.** Consume Tau Ceti's `TauCeti/RingTheory/Jacobson/MulOpposite.lean`:
+  `TauCeti.Ring.coe_jacobson_mulOpposite` (the radical of `Aᵐᵒᵖ` is the `op`-image of the radical of `A`),
+  `TauCeti.isSemiprimaryRing_mulOpposite_iff` and the instance `TauCeti.IsSemiprimaryRing.mulOpposite`,
+  which discharge the two statements Mathlib's `WedderburnArtin.lean` once recorded as `proof_wanted`,
+  and `TauCeti.IsArtinianRing.isNoetherianRing_iff_isArtinianRing_mulOpposite` (for a left Artinian ring,
+  right Noetherian iff right Artinian), the `example` that file leaves open.
 
 ### Layer 1: simple modules, Schur, and isotypic components
 
@@ -246,15 +249,24 @@ a rename, and must be built before the Wedderburn invariants of Layer 2 can be c
   theorem in **module-internal** form: for a simple module `M` over a ring `R`, with `D = Module.End R M`
   and `M` **finite over `D`** (`[Module.Finite (Module.End R M) M]`, the honest hypothesis density needs,
   not "`M` finite over some unrelated base field `K`"), the natural map `R → End_D M` is surjective, and
-  when `M` is **faithful** it is a **ring isomorphism** `R ≃ End_D M ≃ Mₙ(D)`. A faithful simple module
+  when `M` is **faithful** it is a **ring isomorphism** `R ≃ End_D M ≃ Mₙ(Dᵐᵒᵖ)`, with `n` the dimension
+  of `M` over `D`. The opposite is forced: `M ≃ Dⁿ` as a left `D`-module, and the `D`-linear endomorphisms
+  of `Dⁿ` are right multiplications by `n × n` matrices over `D`, which compose as matrices over `Dᵐᵒᵖ`.
+  In the convention of Layer 2 this reads `R ≃ Mₙ((Module.End R M)ᵐᵒᵖ)`, the orientation of Mathlib's
+  `IsSimpleRing.exists_ringEquiv_matrix_end_mulOpposite`. Witness: for `R = Mₙ(Δ)` and its column module
+  `M = Δⁿ`, `D ≃ Δᵐᵒᵖ` (Tau Ceti's `TauCeti.Matrix.mulOppositeRingEquivEnd`: the endomorphisms are right
+  multiplications by scalars) and `Mₙ(Dᵐᵒᵖ) ≃ Mₙ(Δ) = R`; for `n = 1` and a division ring `Δ` not
+  isomorphic to its opposite (a cyclic division algebra of degree 3 over `ℚ`, whose Brauer class has
+  order 3, so `[Δᵐᵒᵖ] = [Δ]⁻¹ ≠ [Δ]`), the unopposed form `R ≃ M₁(D) = Δᵐᵒᵖ` is false. A faithful simple module
   makes `R` **primitive**, not necessarily simple; but when `R` **is** simple, any nonzero simple `R`-module
   is automatically faithful (its annihilator is a two-sided ideal, hence `⊥`), recovering Wedderburn for a
   simple ring intrinsically. Add a corollary specializing to a finite-dimensional `K`-algebra, deriving
   `[Module.Finite (Module.End R M) M]` from `FiniteDimensional K M`.
 - **Jacobson-Chevalley corollaries.** The density statement in the form: for finitely many `D`-independent
   `m₁, …, mₖ ∈ M` and any targets, some `r ∈ R` realizes them simultaneously; and the consequence that a
-  simple module over a finite-dimensional simple `K`-algebra is a faithful `Mₙ(D)`-module of the expected
-  dimension.
+  simple module `M` over a finite-dimensional simple `K`-algebra `R`, with `D = Module.End R M`, is through
+  `R ≃ Mₙ(Dᵐᵒᵖ)` the column module of that matrix algebra, so that `finrank K R = n · finrank K M`
+  (for `R = Mₙ(Δ)`, `M = Δⁿ`: `n² · finrank K Δ = n · (n · finrank K Δ)`).
 
 ### Layer 4: central simple algebras and their tensor products
 
@@ -271,7 +283,7 @@ a rename, and must be built before the Wedderburn invariants of Layer 2 can be c
   `Mₘ(K̄)` (Layer 2 alg-closed Wedderburn), so `finrank K A = finrank K̄ (A ⊗_K K̄) = m²`. This uses **no**
   maximal-subfield theory. **Define** `deg A` as the square root of `finrank K A`. Applied to a central
   division algebra `D` this already gives `finrank K D` a perfect square; the **index** `ind A = deg D` is
-  deferred to Layer 6, after maximal subfields, where it acquires its arithmetic meaning.
+  defined in Layer 6, after maximal subfields, where it acquires its arithmetic meaning.
 - **Tensor product of central simple is central simple.** Mathlib proves centrality of `A ⊗_K B`; build the
   missing **simplicity** of `A ⊗_K B` for `A, B` central simple over a field (so central simple algebras
   are closed under `⊗_K`), with `finrank K (A ⊗ B) = finrank K A · finrank K B`.
@@ -285,20 +297,40 @@ a rename, and must be built before the Wedderburn invariants of Layer 2 can be c
 
 - **Skolem-Noether.** Carry the hypotheses in full: `[Field K] [Ring A] [Algebra K A] [FiniteDimensional K A]
   [Algebra.IsCentral K A] [IsSimpleRing A]` for the target `A`, and `[Ring B] [Algebra K B]
-  [FiniteDimensional K B] [Algebra.IsCentral K B] [IsSimpleRing B]` for the source `B`. **Finite-dimensionality
-  of `B` is essential** and must not be dropped. Then two `K`-algebra homomorphisms `f, g : B →ₐ[K] A` are
+  [FiniteDimensional K B] [Algebra.IsCentral K B] [IsSimpleRing B]` for the source `B`. (Finite-dimensionality
+  of `B` is implied by the rest: `f` is injective because `B` is simple and `A` is nonzero, so `B` embeds in
+  the finite-dimensional `A`.) Then two `K`-algebra homomorphisms `f, g : B →ₐ[K] A` are
   **conjugate**: there is a unit `u ∈ Aˣ` with `g x = u · f x · u⁻¹` for all `x`. In particular every
-  `K`-algebra automorphism of a central simple algebra is **inner**. Proved via the module density of Layer 3
-  applied to the two `B ⊗ Aᵒᵖ`-module structures on `A`. (The classical theorem holds for merely simple `B`;
-  we pin the central-simple form, which is what the centralizer theorem and the downstream applications use,
-  and defer the center-sensitive noncentral generalization.)
+  `K`-algebra automorphism of a central simple algebra is **inner**.
+  The route is the classification of modules over a simple Artinian algebra, not density. Each of `f`, `g`
+  makes `A` a module over `R = B ⊗[K] Aᵐᵒᵖ` (`B` acting on the left through `f`, resp. `g`, and `A` on the
+  right by multiplication): Tau Ceti's `TauCeti.Bimodule f` (`TauCeti/Algebra/CentralSimple/Bimodule.lean`).
+  These modules need not be simple: for `B = K` and `A = M₂(K)`, `R ≃ Aᵐᵒᵖ` and `A` is its regular module,
+  of length 2. So the Layer 3 density theorem does not apply to them, and density alone produces no
+  invertible intertwiner. The steps are: (i) `R` is a simple ring (Layer 4 tensor simplicity, from `B`
+  central simple and `Aᵐᵒᵖ` simple) and finite-dimensional over `K`, hence Artinian; (ii) two `R`-modules
+  finite-dimensional over `K` with equal `K`-dimension are `R`-isomorphic, because every module over a
+  simple Artinian ring is a direct sum of copies of its unique simple module: Tau Ceti's
+  `TauCeti.IsSimpleRing.nonempty_linearEquiv_of_finrank_eq` (`TauCeti/RingTheory/Semisimple/SimpleArtinian.lean`,
+  hypotheses `[IsSimpleRing R] [Algebra K R] [FiniteDimensional K R]` and `M`, `N` finite-dimensional over
+  `K` with `[IsScalarTower K R M]`, `[IsScalarTower K R N]`), applied to `Bimodule f` and `Bimodule g`,
+  both of dimension `finrank K A`; (iii) an `R`-linear isomorphism `φ` is linear for the right action of
+  `A`, hence is left multiplication by `u = φ(1)`, and its linearity for the left action of `B` is
+  `u · f x = g x · u` (`TauCeti.Bimodule.symm_apply_one_mul_eq_mul_symm_apply_one`); surjectivity of `φ`
+  gives `u` a right inverse (`TauCeti.Bimodule.exists_symm_apply_one_mul_eq_one`), which is two-sided
+  because the Artinian ring `A` is Dedekind-finite. The pinned Tau Ceti assembles these as
+  `TauCeti.skolemNoether` (`TauCeti/Algebra/CentralSimple/SkolemNoether.lean`), under weaker hypotheses
+  than the target (`A` simple and finite-dimensional, not necessarily central; `B` central simple, with no
+  finiteness assumed), and the target is its specialization. Centrality of the source is not dropped: as an
+  `ℝ`-algebra map `ℂ → ℂ` with `A = ℂ` not central over `ℝ`, complex conjugation is not conjugation by a
+  unit. The form for a merely simple source `B` inside a central simple `A` is not a target of this roadmap.
 - **The centralizer theorem.** For a **central simple** `K`-subalgebra `B ⊆ A` (`[IsSimpleRing B]`,
   `[Algebra.IsCentral K B]`, `[FiniteDimensional K B]`) of a central simple `K`-algebra `A`, the centralizer
   `C = Subalgebra.centralizer K (B : Set A)` is **central simple** over `K`,
   `finrank K B · finrank K C = finrank K A`, and `C_A(C) = B` (double centralizer). Build on the
   tensor-centralizer identities Mathlib already has for the ambient `A ⊗_K Aᵒᵖ`. The general form for a
   merely simple subalgebra `B` (center `Z(B) ⊋ K`) needs a center-sensitive correction to the dimension
-  formula and is a **later** target, not this one.
+  formula and is not a target of this roadmap.
 
 ### Layer 6: the Brauer group and splitting fields
 
@@ -362,15 +394,17 @@ a rename, and must be built before the Wedderburn invariants of Layer 2 can be c
 
 ## Ordering
 
-Layer 0 (Jacobson radical convenience API and left-right symmetry) is optional supporting cleanup, off the
-critical path. Layer 1 (Schur assembly, isotypic counting) comes first and is mostly packaging. Layer 1.5
+Layer 0 (Jacobson radical convenience API and left-right symmetry) is required supporting API, off the
+critical path: no later layer consumes it. Layer 1 (Schur assembly, isotypic counting) comes first and is mostly packaging. Layer 1.5
 (every simple module is a minimal left ideal) is a genuine theorem, not bookkeeping, and precedes the
 Wedderburn invariants. Layer 2 (Wedderburn presentation, canonical invariants, uniqueness, dimension count)
 needs Layers 1 and 1.5. Layer 3 (double centralizer / density, stated with finiteness **over `D`**) needs
 Layer 1's Schur and Layer 2's simple-ring case. Layer 4 (`A ≅ Mₙ(D)` first, then square dimension and the
 degree by base change to the algebraic closure, tensor products, the opposite isomorphism) needs Layers 2-3
 and moves to a field base. Layer 5 (Skolem-Noether and the centralizer theorem, both for **finite-dimensional
-central simple** `B`) needs Layer 3's density and Layer 4's tensor theory. Layer 6 (Brauer group, base
+central simple** `B`) needs Layer 4's tensor simplicity and, for Skolem-Noether, the classification of
+finite-dimensional modules over a simple Artinian algebra (`TauCeti.IsSimpleRing.nonempty_linearEquiv_of_finrank_eq`),
+not Layer 3's density. Layer 6 (Brauer group, base
 change as central-simplicity-preserving, splitting fields, maximal subfields, and only then the index) needs
 Layers 4-5. The group-algebra and character-theory link is available from Layer 2 onward.
 

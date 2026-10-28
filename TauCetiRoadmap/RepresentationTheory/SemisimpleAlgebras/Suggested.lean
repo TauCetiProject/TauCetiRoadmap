@@ -119,7 +119,9 @@ theorem finrank_eq_sum_sq_of_isAlgClosed {k A : Type u} [Field k] [IsAlgClosed k
 /-- **The double-centralizer / density theorem**: for a simple module `M` over a simple ring `R` that
 is finite over its endomorphism ring, the natural map `R → End_D M` (`D = End R M`) is a **bijection**,
 sharpening `Module.Finite.toModuleEnd_moduleEnd_surjective` from surjective to bijective. This recovers
-Wedderburn for a simple ring intrinsically as `R ≃ Matₙ(D)`. -/
+Wedderburn for a simple ring intrinsically as `R ≃ Matₙ(Dᵐᵒᵖ)`, `n` the dimension of `M` over `D`: the
+`D`-linear endomorphisms of `M ≃ Dⁿ` are right multiplications by matrices over `D`, which compose as
+matrices over `Dᵐᵒᵖ` (for the column module of `R = Matₙ(Δ)`, `D ≃ Δᵐᵒᵖ`). -/
 theorem toModuleEnd_bijective {R : Type u} [Ring R] [IsSimpleRing R] {M : Type v}
     [AddCommGroup M] [Module R M] [IsSimpleModule R M] [Module.Finite (Module.End R M) M] :
     Function.Bijective (Module.toModuleEnd (Module.End R M) (S := R) M) := sorry
@@ -149,9 +151,12 @@ theorem tensorOp_algEquiv_matrix {K A : Type u} [Field K] [Ring A] [Algebra K A]
 
 /-- **Skolem-Noether**: two `K`-algebra homomorphisms from a **finite-dimensional central simple** algebra
 `B` into a central simple algebra `A` are conjugate by a unit of `A`. In particular every automorphism of a
-central simple algebra is inner. Finite-dimensionality of `B` is essential. Proved via the module density
-of Layer 3. (The classical theorem holds for merely simple `B`; the central-simple form pinned here is what
-the centralizer theorem and downstream applications use.) -/
+central simple algebra is inner. The route is not density (the two `B ⊗[K] Aᵐᵒᵖ`-module structures on `A`
+need not be simple) but the classification of finite-dimensional modules over the simple Artinian algebra
+`B ⊗[K] Aᵐᵒᵖ` by their `K`-dimension (`TauCeti.IsSimpleRing.nonempty_linearEquiv_of_finrank_eq`), which
+makes the two structures isomorphic; the isomorphism is left multiplication by the conjugating unit. Tau
+Ceti proves this as `TauCeti.skolemNoether`, with `A` only simple and without `FiniteDimensional K B`,
+which follows from the injectivity of `f`. -/
 theorem skolemNoether {K A B : Type u} [Field K] [Ring A] [Ring B] [Algebra K A] [Algebra K B]
     [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
     [Algebra.IsCentral K B] [IsSimpleRing B] [FiniteDimensional K B] (f g : B →ₐ[K] A) :
