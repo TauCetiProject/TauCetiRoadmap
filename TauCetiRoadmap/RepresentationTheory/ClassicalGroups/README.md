@@ -431,6 +431,37 @@ root/coroot and Weyl combinatorics; the lattice, dominant integral weights
 and rho comparison are constructed here with LieHighestWeight, not claimed
 as outputs of RootSystems.
 
+**Antidiagonal matrix and Borel adapter.** Order the SO isotropic basis as
+`(u₁,…,u_r,v_r,…,v₁)` in dimension2r and
+`(u₁,…,u_r,w,v_r,…,v₁)` in dimension2r+1, with the last norm-one
+coordinate w above. Let J_anti have entry1 exactly on the reverse diagonal.
+Prove that this ordered basis has Gram matrix J_anti and use its explicit
+change-of-basis matrix to identify the native I-form SO group with the
+same group in coordinates satisfying `Aᵀ J_anti A=J_anti`, det A=1.
+For every matrix define `A^R=J_anti⁻¹ Aᵀ J_anti` and prove its
+product-reversal and involution identities. For invertible A prove
+`Aᵀ J_anti A=J_anti ↔ A A^R=I`, with A^R=A⁻¹ in that case;
+retain det A=1 as the separate SO condition. No conjugation of complex
+entries occurs in this symmetric-form adjoint.
+The torus becomes `diag(t₁,…,t_r,t_r⁻¹,…,t₁⁻¹)` in even dimension,
+with a middle1 in odd dimension. In these antidiagonal coordinates identify
+the upper-triangular subgroup
+as the Borel for the positive roots ε_i−ε_j and ε_i+ε_j, i<j,
+and also ε_i in odd dimension. Its unipotent radical U consists of
+upper-triangular matrices with diagonal1. Prove unique diagonal/unipotent
+factorization, the action of T by conjugation, and the group isomorphism
+`U ⋊ T ≃* B`, `(u,t)↦u t`, with the specified conjugation action.
+Prove multiplication against this specified semidirect group law. Consume
+the native `TauCeti.GeneralLinear.UpperTriangular` and
+`TauCeti.SpecialLinear.UpperTriangular` coordinate Hopf algebras, point
+equivalences and diagonal tori for the GL_n/SL_n comparisons. For n≥1 use
+ReductiveGroups' PGL_n quotient to construct their PGL_n maps over ℂ,
+including the scalar kernels, diagonal tori and unipotent radicals. Retain the rank-zero and
+SO₂ torus branches below; generic Borel/root theory remains ReductiveGroups'
+owner, and this item supplies its concrete matrix comparisons.
+`AntidiagonalTargets.lean` prototypes the reverse-diagonal adjoint and its
+comparison with the form equation on the same invertible-matrix carrier.
+
 For `SO_(2r+1)`, the roots are `±ε_i±ε_j, ±ε_i`; for `SO_(2r)`,
 `±ε_i±ε_j`; for `Sp_(2r)`, `±ε_i±ε_j, ±2ε_i`.
 The SO odd and Sp group-dominant tuples are **integers**
