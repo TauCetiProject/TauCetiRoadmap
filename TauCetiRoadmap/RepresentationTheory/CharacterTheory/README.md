@@ -1215,6 +1215,39 @@ and nonzero rest vector `v`, derive the linearization of the pair force from
 the acceleration on particle `i` is `(κ/m) P_v(u_j-u_i)`, with
 `P_v(w)=⟪v,w⟫v/‖v‖²`. Pin the equal-mass and equal-stiffness convention.
 
+<a id="transverse-spring-zero-mode"></a>
+
+Make the two-particle transverse zero mode's nonlinear comparison explicit.
+Keep rest length1 and stiffness κ>0. For displacements
+`u₁=(0,ε)`, `u₂=(0,−ε)`, the relative vector is `r=(1,−2ε)` and
+its length is `ℓ(ε)=√(1+4ε²)`. Derive the exact potential and force on
+particle1 from the same pair-force convention:
+
+`E(ε)=(κ/2)(ℓ(ε)−1)²=8κε⁴/(ℓ(ε)+1)²`,
+
+`F₁(ε)=κ(1−1/ℓ(ε))(1,−2ε)`, with `F₂=−F₁`.
+
+Prove E(0)=E′(0)=E″(0)=0, E(ε)>0 for ε≠0, and
+`lim_(ε→0, ε≠0) E(ε)/ε⁴=2κ`. The first force coordinate is strictly
+positive when ε≠0. Although H kills `(0,1,0,−1)`, the affine paths
+`u₁(t)=(0,at)`, `u₂(t)=(0,−at)` for a≠0 therefore fail the exact Newton
+equation at every t≠0: their acceleration is zero and the exact force is
+not. Prove this pointwise comparison for every positive mass m, without
+needing a nonlinear existence or long-time stability theorem.
+
+Compare that straight displacement line with the genuinely rotated rest
+configurations
+`p₁(ε)=(1/2−cos(2ε)/2,sin(2ε)/2)` and
+`p₂(ε)=(1/2+cos(2ε)/2,−sin(2ε)/2)`.
+They have distance1, zero potential and the same tangent displacement
+`(0,1,0,−1)` at ε=0. These are configuration curves, not a claim that
+constant-speed rotation solves the unconstrained spring equation. This
+calculation explains the limitation of the linear approximation in
+[Knutson's tetrahedron handout, pp1–3](https://pi.math.cornell.edu/~allenk/courses/12spring/6500/notes1/tetrahedron.pdf).
+Use native real square-root, differentiation and filter-limit APIs;
+suggested scalar statements are in
+[`TransverseSpringTargets.lean`](TransverseSpringTargets.lean).
+
 For three particles on a line, construct
 `H=[[-1,1,0],[1,-2,1],[0,1,-1]]` and
 `r(x₁,x₂,x₃)=(-x₃,-x₂,-x₁)`.
