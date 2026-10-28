@@ -4,7 +4,7 @@ import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 set_option autoImplicit false
 
 /-!
-# Grothendieck ∞-groupoids and the homotopy hypothesis: target signatures
+# Grothendieck ∞-groupoids: globular theories, coherators and their models — target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The statements here suggest Lean forms for particular milestones, so that contributors and
@@ -18,15 +18,17 @@ contractible (2.11); ∞-groupoids of type `C` are presheaves sending globular s
 products (1.8, 2.5). Globular extensions are prototyped with objects indexed by tables (Ara 2013,
 Remark 2.6), which is the case for free ones.
 
-The only Tau Ceti declaration consumed is `HomotopyGroup.map`. Weak homotopy equivalences are
-spelled out in `weTop` with the two fields of Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence`
-(the AlgebraicTopology roadmap's), which is not yet in the Tau Ceti revision this repository pins;
-`weTop` is to be replaced by that predicate when the pin moves. Definitions have
-real bodies; only theorem statements are `sorry`. The universal property of a globular sum is
-stated directly (unique factorization of compatible families) rather than through Mathlib's
-`IsColimit` on an explicit diagram, which Layer 1.2 builds. Not prototyped: the cellular towers
-that make a pseudo-coherator a coherator (Layer 2.4), the homotopy groups and weak equivalences of
-∞-groupoids (Layer 4), and the elementary expansion theorem (Layer 6); the homotopy hypothesis is
+The globe category `Globe` is the carrier that HomotopyTheoryOfCategories (Layer 8.6) proves
+direct; this file states nothing about direct or Reedy categories. The only Tau Ceti declaration
+consumed is `HomotopyGroup.map`. Weak homotopy equivalences are spelled out in `weTop` with the
+two fields of Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence` (the AlgebraicTopology
+roadmap's), which is not yet in the Tau Ceti revision this repository pins; `weTop` is to be
+replaced by that predicate when the pin moves. Definitions have real bodies; only theorem
+statements are `sorry`. The universal property of a globular sum is stated directly (unique
+factorization of compatible families) rather than through Mathlib's `IsColimit` on an explicit
+diagram, which Layer 1.2 builds. Not prototyped: the cellular towers that make a
+pseudo-coherator a coherator (Layer 2.4), the homotopy groups and weak equivalences of
+∞-groupoids (Layer 4) and cellular ∞-groupoids (Layer 6); the localized functor of Layer 7.1 is
 therefore stated for an abstract weak-equivalence class `W`, to be instantiated by Layer 4.
 -/
 
@@ -37,6 +39,57 @@ open CategoryTheory Limits Opposite
 universe u v
 
 /-! ## Layer 0: globular sets -/
+
+/-- **Layer 0.1.** The objects of the globe category `𝔾`: the natural numbers, wrapped so that the
+category structure below is not confused with the order category of `ℕ`. -/
+structure Globe where
+  /-- The dimension `n` of the object `n` of `𝔾`. -/
+  dim : ℕ
+
+namespace Globe
+
+/-- The morphisms `m ⟶ n` of `𝔾`: the identity of `n`, and for `m < n` the two sides
+(`false` = source `σ`, `true` = target `τ`). A morphism `m ⟶ n` with `m < n` is determined by its
+side. -/
+inductive Hom : ℕ → ℕ → Type
+  /-- The identity of `n`. -/
+  | id (n : ℕ) : Hom n n
+  /-- The side `ε` from `m` to `n`, for `m < n`. -/
+  | side {m n : ℕ} (h : m < n) (ε : Bool) : Hom m n
+
+/-- Composition in `𝔾`: the composite of the side `ε` then the side `δ` is `ε`. -/
+def Hom.comp {l m n : ℕ} : Hom l m → Hom m n → Hom l n
+  | .id _, g => g
+  | .side h ε, .id _ => .side h ε
+  | .side h ε, .side h' _ => .side (h.trans h') ε
+
+/-- **Layer 0.1.** The globe category `𝔾`, the carrier HomotopyTheoryOfCategories (Layer 8.6)
+proves direct. -/
+instance : Category Globe where
+  Hom m n := Hom m.dim n.dim
+  id m := .id m.dim
+  comp := Hom.comp
+  id_comp _ := rfl
+  comp_id {X Y} f := by cases X; cases Y; cases f <;> rfl
+  assoc {W X Y Z} f g h := by
+    cases W; cases X; cases Y; cases Z
+    cases f <;> cases g <;> cases h <;> rfl
+
+/-- The source `σ_n : n ⟶ n + 1`. -/
+def σ (n : ℕ) : (⟨n⟩ : Globe) ⟶ ⟨n + 1⟩ := Hom.side (Nat.lt_succ_self n) false
+
+/-- The target `τ_n : n ⟶ n + 1`. -/
+def τ (n : ℕ) : (⟨n⟩ : Globe) ⟶ ⟨n + 1⟩ := Hom.side (Nat.lt_succ_self n) true
+
+theorem σ_comp_σ (n : ℕ) : σ n ≫ σ (n + 1) = σ n ≫ τ (n + 1) := rfl
+
+theorem τ_comp_σ (n : ℕ) : τ n ≫ σ (n + 1) = τ n ≫ τ (n + 1) := rfl
+
+end Globe
+
+/-- **Layer 0.1.** Globular sets as presheaves on `𝔾`; Layer 0.1 proves this category equivalent to
+the explicit description `GlobularSet`. -/
+abbrev GlobularPresheaf := Globeᵒᵖ ⥤ Type u
 
 /-- A globular set, in explicit form: cells in each dimension, with source and target maps
 satisfying the globular identities. -/
@@ -228,14 +281,15 @@ theorem piPresheaf_isGlobular (C : PseudoCoherator) (R : C.Obj ⥤ TopCat.{0})
     (X : TopCat.{0}) : IsGlobularPresheaf C.toGlobularExtension ((piPresheaf C R).obj X) := by
   sorry
 
-/-! ## Layer 7: the homotopy hypothesis -/
+/-! ## Layer 7: localizations -/
 
-/-- **Layer 7.3.** The homotopy hypothesis for a functor `Pi : TopCat ⥤ G` into a category with
-weak equivalences `W`, inverting weak homotopy equivalences: the induced functor
-`TopCat[W_Top⁻¹] ⥤ G[W⁻¹]` is an equivalence. For `G = ∞-Gpd_C`, `W` the weak equivalences of
-Layer 4 and `Pi = Π_∞^R`, this is Ara 2013, Conjecture 8.14. -/
-def HomotopyHypothesisFor {G : Type 1} [Category.{0} G] (W : MorphismProperty G)
-    (Pi : TopCat.{0} ⥤ G) (hPi : weTop.IsInvertedBy (Pi ⋙ W.Q)) : Prop :=
-  (Localization.lift (Pi ⋙ W.Q) hPi weTop.Q).IsEquivalence
+/-- **Layer 7.1.** The functor `TopCat[W_Top⁻¹] ⥤ G[W⁻¹]` induced, through Mathlib's
+`Localization.lift`, by a functor `Pi : TopCat ⥤ G` inverting weak homotopy equivalences. For
+`G = ∞-Gpd_C`, `W` the weak equivalences of Layer 4 and `Pi = Π_∞^R`, this is the functor
+`Hot ⥤ Ho(∞-Gpd_C)` of Ara 2013, 8.13; the hypothesis `hPi` is Layer 5.4. -/
+noncomputable def localizedFunctor {G : Type 1} [Category.{0} G] (W : MorphismProperty G)
+    (Pi : TopCat.{0} ⥤ G) (hPi : weTop.IsInvertedBy (Pi ⋙ W.Q)) :
+    weTop.Localization ⥤ W.Localization :=
+  Localization.lift (Pi ⋙ W.Q) hPi weTop.Q
 
 end TauCetiRoadmap.GrothendieckInfinityGroupoids

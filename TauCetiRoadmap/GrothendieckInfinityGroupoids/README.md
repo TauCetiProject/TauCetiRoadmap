@@ -1,23 +1,25 @@
-# Roadmap: Grothendieck ∞-groupoids and the homotopy hypothesis
+# Roadmap: Grothendieck ∞-groupoids: globular theories, coherators and their models
 
 **Summary.** Build Grothendieck's globular ∞-groupoids in the form Maltsiniotis and Ara gave to
-the definition of *Pursuing Stacks*: globular sets, tables of dimensions and globular sums, the
-category `Θ₀`, globular extensions, admissible pairs, contractibility, free extensions along
-admissible pairs, cellular towers and coherators; the category `∞-Gpd_C` of ∞-groupoids of type
-`C` (globular presheaves on `C` sending globular sums to globular products); their homotopy groups
-and weak equivalences; the fundamental ∞-groupoid `Π_∞(X)` of a topological space, with the
-canonical isomorphisms `π_n(Π_∞ X, x) ≅ π_n(X, x)`, so that `Π_∞` preserves and reflects weak
-equivalences; and the induced functor `Π_∞ : Hot → Ho(∞-Gpd_C)` between localizations. The
-homotopy hypothesis for Grothendieck ∞-groupoids, that this functor is an equivalence for every
-coherator `C` (Ara 2013, Conjecture 8.14), is stated as a `def … : Prop`. The elementary
-expansion theorem (pushouts along the disk inclusions `D_n → D_{n+1}` are weak equivalences
-between cellular ∞-groupoids) is a proved target of Layer 6. Deriving the homotopy hypothesis
-from it is recorded at the end as a roadmap for a roadmap: a refereed reduction exists only for
-Grothendieck `n`-groupoids with `n < ∞`, conditional on a semi-model structure (Henry–Lanari 2023).
+the definition of *Pursuing Stacks*: the globe category `𝔾` and globular sets, tables of
+dimensions and globular sums, the category `Θ₀`, globular extensions, admissible pairs,
+contractibility, free extensions along admissible pairs, cellular towers and coherators; the
+category `∞-Gpd_C` of ∞-groupoids of type `C` (globular presheaves on `C` sending globular sums to
+globular products); their homotopy groups and weak equivalences; the fundamental ∞-groupoid
+`Π_∞(X)` of a topological space, with the canonical isomorphisms `π_n(Π_∞ X, x) ≅ π_n(X, x)`, so
+that `Π_∞` preserves and reflects weak equivalences (Ara 2013, Theorem 8.7 and Corollaries
+8.9–8.11); cellular ∞-groupoids; and the functor `Π_∞ : Hot → Ho(∞-Gpd_C)` induced between the
+localizations, with the independence of its homotopy invariants from the choices made.
+
+**Research motivation.** These objects were introduced to model homotopy types: Grothendieck's
+homotopy hypothesis asks whether the functor `Hot → Ho(∞-Gpd_C)` is an equivalence of categories
+for every coherator `C` (Ara 2013, Conjecture 8.14). That question motivates the subject and is
+not a target of this roadmap; no item states it or depends on it. The section *Research context*
+records the recent work on it and the boundary between what is claimed and what is formalized.
 
 The « yoga » first appears in Grothendieck's notes in a 1975 letter to Breen (Montpellier fonds,
 folder 134-2, p. 42: an `n`-groupoid up to `n`-equivalence is « essentially the same thing » as
-a homotopy `n`-type); the statement specified here is the refereed one of Ara 2013, after
+a homotopy `n`-type); the definitions specified here are the refereed ones of Ara 2013, after
 *Pursuing Stacks* (ed. Maltsiniotis, 2022) and Maltsiniotis 2010.
 
 Suggested home: `TauCeti/AlgebraicTopology/GlobularGroupoid/` (globular sets, theories, models,
@@ -28,7 +30,7 @@ comparison).
 
 **In scope.** This roadmap owns:
 
-- globular sets and the globe category `𝔾`, coglobular objects of a category and their
+- the globe category `𝔾` and globular sets, coglobular objects of a category and their
   globular sums (Layers 0 and 1);
 - tables of dimensions, globular sums, the category `Θ₀`, globular extensions, admissible pairs,
   liftings, contractibility, free extensions `C[A]`, cellular towers and coherators, with the
@@ -39,27 +41,30 @@ comparison).
   (Layer 4);
 - the fundamental ∞-groupoid of a topological space and its comparison with homotopy groups of
   spaces (Layer 5);
-- cellular ∞-groupoids and the elementary expansion theorem (Layer 6);
-- the localizations and the statement of the homotopy hypothesis (Layer 7).
+- cellular ∞-groupoids (Layer 6);
+- the weak-equivalence classes as `MorphismProperty`, the functor `Hot ⥤ Ho(∞-Gpd_C)` they
+  induce, and the independence of homotopy invariants from the globular functor `R` (Layer 7).
 
-**Out of scope, with owner.**
+**Shared material: owner, interface, consumer.**
 
-- *Homotopy groups of spaces, their functoriality, weak homotopy equivalences, Whitehead's
-  theorem*: [AlgebraicTopology](../AlgebraicTopology/README.md), implemented in Tau Ceti
-  (`ContinuousMap.IsWeakHomotopyEquivalence`, `TauCeti/Topology/Homotopy/HomotopyGroup/`,
-  `TauCeti/AlgebraicTopology/Homotopy/Whitehead.lean`). Consumed.
-- *Simplicial sets, Kan complexes and their homotopy groups*: Mathlib
-  (`SSet`, `SSet.KanComplex`, `SSet.PtSimplex`) and Tau Ceti
-  (`TauCeti/AlgebraicTopology/SimplicialSet/KanComplex/HomotopyGroup.lean`). Not consumed except
-  as an alternative model of homotopy types named in the last section.
-- *Strict ∞-groupoids, crossed complexes, Batanin–Leinster ∞-categories, and the variant of
-  Grothendieck ∞-categories*: not in this roadmap.
-- *Model category structures*: Mathlib's `HomotopicalAlgebra.ModelCategory` is not needed; the
-  localizations of Layer 7 are Mathlib's `MorphismProperty.Localization`.
+| Material | Owner | Exact declaration or interface | Consumer |
+| --- | --- | --- | --- |
+| The globe category `𝔾` and globular sets | this roadmap, Layer 0.1 | `Globe`, `Globe.Hom`, `instance : Category Globe`, `Globe.σ`, `Globe.τ`, `GlobularPresheaf := Globeᵒᵖ ⥤ Type u` (`Suggested.lean`) | Layers 0–7 here; [HomotopyTheoryOfCategories](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1521), Layer 8.6, which proves `Globe` direct on this exact carrier |
+| Globular sums and theories, coherators, their models, homotopy groups and weak equivalences of models, `Π_∞^R` | this roadmap, Layers 1–7 | the declarations of `Suggested.lean` (`CoglobularObject`, `Table`, `GlobularExtension`, `PseudoCoherator`, `IsGlobularPresheaf`, `InfinityGroupoid`, `piPresheaf`, `localizedFunctor`) and the items of Layers 2.4, 4 and 6 | this roadmap |
+| Direct and inverse categories, Reedy structures, and the directness of `𝔾` | [HomotopyTheoryOfCategories](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1521), Layers 7–8, on Mathlib's [`HomotopicalAlgebra.ReedyStructure`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/Basic.lean) | `IsDirect`, `IsInverse`, `IsDirect.rank` (Layer 7.1–7.2 there); `IsDirect Globe` with degree `n` (Layer 8.6 there) | not consumed here: no layer of this roadmap states a direct, inverse or Reedy property, and none is defined here |
+| Homotopy groups of spaces, their functoriality, weak homotopy equivalences, Whitehead's theorem | [AlgebraicTopology](../AlgebraicTopology/README.md), implemented in Tau Ceti | `HomotopyGroup.map` (`TauCeti/Topology/Homotopy/HomotopyGroup/Map.lean`); `ContinuousMap.IsWeakHomotopyEquivalence` with `comp`, `of_postcomp`, `of_precomp` (`TauCeti/Topology/Homotopy/HomotopyGroup/WeakHomotopyEquivalence.lean`); `TauCeti/AlgebraicTopology/Homotopy/Whitehead.lean` | Layers 5.3–5.4 and 7.1 (`weTop` in `Suggested.lean` until the pin carries `IsWeakHomotopyEquivalence`) |
+| Ordinary localization of a category at a class of morphisms | Mathlib | `MorphismProperty.Localization`, `MorphismProperty.Q`, `MorphismProperty.IsInvertedBy`, `Localization.lift` | Layer 7.1, which supplies `W_Top`, `W_C`, the proof that `Π_∞^R` inverts `W_Top`, and the induced functor, and no localization construction of its own |
+| Simplicial sets, Kan complexes and their homotopy groups | Mathlib and Tau Ceti | `SSet`, `SSet.KanComplex`, `SSet.PtSimplex`; `TauCeti/AlgebraicTopology/SimplicialSet/KanComplex/HomotopyGroup.lean` | not consumed |
+| Model categories, the Kan–Quillen and Serre model structures and realization ⊣ `Sing` | Mathlib (`HomotopicalAlgebra.ModelCategory`); [GeneralizedCohomology](../GeneralizedCohomology/README.md), G2 item 1 | as specified there | not consumed: no item here asks for a model or semi-model structure on `∞-Gpd_C` |
+| Simplicially enriched categories, enriched diagrams, quasicategories and their categorical model | [BordismFormalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/BordismFormalGroups/README.md), F6.5 item 1 | as specified there | not consumed |
+
+*Not in this roadmap:* strict ∞-groupoids, crossed complexes, Batanin–Leinster ∞-categories, and
+the variant of Grothendieck ∞-categories.
 
 The boundary in one sentence: if a statement is about globular sets, globular theories or their
-models, it is here; if it is about spaces or simplicial sets alone, it is AlgebraicTopology's or
-Mathlib's.
+models, it is here; if it is about direct or Reedy categories, it is HomotopyTheoryOfCategories';
+if it is about spaces or simplicial sets alone, or about model structures, it is
+AlgebraicTopology's, GeneralizedCohomology's or Mathlib's.
 
 ## What Mathlib and Tau Ceti already have (consume)
 
@@ -76,7 +81,7 @@ Mathlib's.
 
 ## Conventions (pinned)
 
-- **Globular sets** are presheaves of types on the globe category `𝔾`, whose objects are the
+- **Globular sets** are presheaves of types on the globe category `𝔾` (`Globe`), whose objects are the
   natural numbers and whose non-identity morphisms `m → n` (`m < n`) are the two sides
   `σ, τ`, composites of `σ_k, τ_k : k → k + 1` subject to the globular identities
   `σ_{k+1} σ_k = τ_{k+1} σ_k` and `σ_{k+1} τ_k = τ_{k+1} τ_k`. A morphism `m → n` is determined by
@@ -119,10 +124,11 @@ Mathlib's.
 
 ### Layer 0: globular sets
 
-**0.1** The globe category `𝔾` (objects `ℕ`, sides `σ, τ`), globular sets as `𝔾ᵒᵖ ⥤ Type u`, with
-the equivalent explicit description (cells, source, target, globular identities) and its
-`Equivalence`. *Checks:* the globular set with one cell in each dimension is terminal; the
-representable `𝔾(−, n)` has two `k`-cells for `k < n` and one `n`-cell.
+**0.1** The globe category `𝔾` (objects `ℕ`, sides `σ, τ`; `Globe` with its `Category` instance,
+the single carrier, which HomotopyTheoryOfCategories' Layer 8.6 proves direct), globular sets as
+`𝔾ᵒᵖ ⥤ Type u` (`GlobularPresheaf`), with the equivalent explicit description (cells, source,
+target, globular identities; `GlobularSet`) and its `Equivalence`. *Checks:* the globular set
+with one cell in each dimension is terminal; the representable `𝔾(−, n)` has two `k`-cells for `k < n` and one `n`-cell.
 
 **0.2** Parallel cells, the boundary `∂ x = (s x, t x)`, the relation `Joined n x y` (there is an
 `(n+1)`-cell from `x` to `y`), the globular sphere `∂D_n` and the disk `D_n`.
@@ -203,68 +209,100 @@ the disks of Example 5.10).
 **5.4** `Π_∞^R f` is a weak equivalence iff `f` is a weak homotopy equivalence (Ara 2013,
 Corollaries 8.9–8.11).
 
-### Layer 6: cellular ∞-groupoids and elementary expansions
+### Layer 6: cellular ∞-groupoids
 
 **6.1** Cellular ∞-groupoids: transfinite composites of pushouts of the boundary inclusions
-`∂D_n → D_n` in `∞-Gpd_C`, starting from the initial object.
+`∂D_n → D_n` in `∞-Gpd_C`, starting from the initial object (Henry 2016, 5.3.2 and 5.3.4).
 
-**6.2** The elementary expansion theorem: for a coherator `C`, a cellular `X`, a map
-`a : D_n → X` and a pushout square of `J_n : D_n → D_{n+1}` along `a`, the map `X → X ⊔_{D_n}
-D_{n+1}` is a weak equivalence. This is Henry's pushout conjecture (Henry 2016, preprint). Its
-Lean proof in the openai/math repository (see Provenance) is a cited source; the roadmap
-specifies the statement, and an implementation may port that proof only on the terms of the
-Porting guidance below.
-
-### Layer 7: localizations and the homotopy hypothesis
+### Layer 7: localizations
 
 **7.1** `W_Top` and `W_C` as `MorphismProperty`; `Π_∞^R` inverts `W_Top` (5.4), hence the induced
-functor `Hot ⥤ Ho(∞-Gpd_C)` through `Localization.lift`.
+functor `Hot ⥤ Ho(∞-Gpd_C)` through Mathlib's `Localization.lift` (Ara 2013, 8.13). This item
+supplies the two classes, the inversion and the functor; the localizations are Mathlib's.
 
-**7.2** The weak-equivalence class of `Π_∞^R(X)` does not depend on `R`: the homotopy groups of
-`Π_∞(X)` depend only on `X` (Ara 2013, Corollary 8.8, and Remark 5.6 on the dependence on `R`);
-state that the induced functors for two choices of `R` are naturally isomorphic after
-localization.
-
-**7.3** `def HomotopyHypothesis (C : Coherator) : Prop` — the induced functor
-`Hot ⥤ Ho(∞-Gpd_C)` is an equivalence of categories (Ara 2013, Conjecture 8.14). Proved
-consequences, each an implication from `HomotopyHypothesis C`: `Ho(∞-Gpd_C)` and `Ho(∞-Gpd_{C'})`
-are equivalent for two coherators (Ara 2013, Remark 2.13); every ∞-groupoid of type `C` is weakly
-equivalent to some `Π_∞^R X`.
+**7.2** Independence of the homotopy invariants from `R`: for two globular functors
+`R, R' : C → TopCat`, `Π_∞^R(X)` and `Π_∞^{R'}(X)` have the same underlying globular set and the
+same groupoids `ϖ_n` for `n ≥ 1` (Ara 2013, 5.2 and Proposition 5.5), hence the same `π₀` and
+isomorphic groups `π_n`, all of them those of `X` by 5.3, whatever the coherator (Corollary 8.8).
+Consequently `Π_∞^R f` is a weak equivalence if and only if `Π_∞^{R'} f` is. The statement
+compares invariants only: the identity of the underlying globular sets is not a morphism of
+∞-groupoids (Ara 2013, Remark 5.6), and no morphism, zigzag or natural isomorphism between
+`Π_∞^R` and `Π_∞^{R'}`, before or after localization, is asked for.
 
 ## Ordering
 
-Layers 0–1 first; 2 needs 1; 3 needs 2; 4 needs 3; 5 needs 1, 2.5 and 4; 6 needs 4; 7 needs 5.
-Layers 5 and 6 are independent of each other.
+Layers 0–1 first; 2 needs 1; 3 needs 2; 4 needs 3; 5 needs 1, 2.5 and 4; 6 needs 3; 7 needs 4
+and 5. Layers 5 and 6 are independent of each other.
+
+## Research context: elementary expansions and the homotopy hypothesis
+
+Nothing in this section is a target of this roadmap.
+
+**The elementary expansion assertion.** For a coherator `C`, a cellular `X` (6.1), a map
+`a : D_n → X` and a pushout square of `J_n : D_n → D_{n+1}` (3.1) along `a`, the map
+`X → X ⊔_{D_n} D_{n+1}` is a weak equivalence (4.3). For finitely cellular `X` this is Henry's
+Conjecture 5.3.3 (Henry 2016), extended to retracts of cellular objects by his Lemma 5.3.4; Henry
+shows that it implies a canonical left semi-model structure on `∞-Gpd_C` (Theorem 5.3.5) and the
+homotopy hypothesis (Corollary 5.3.13). Henry and Lanari (2023) treat Grothendieck
+`3`-groupoids.
+
+**The openai/math preprint.** Source pinned at openai/math commit
+`7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a`: the preprint « The Grothendieck homotopy hypothesis via
+elementary expansions » (24 September 2026, not peer-reviewed;
+`preprints/The-Grothendieck-homotopy-hypothesis-via-elementary-expansions-September-24-2026/`),
+its formalization scope note `lean/docs/312.md`, the comparator statement
+`lean/ComparatorChallenges/GrothendieckElementaryExpansion.lean` with its `.json`, and the
+development `lean/OAI/CategoryTheory/Globular/` (58 files, 12,753 lines, solution module
+`OAI.CategoryTheory.Globular.Main`).
+
+- *Claimed in the paper.* For every Grothendieck coherator in the convention of Ara 2013 (2.3,
+  2.9–2.11) as fixed by Henry 2016 (5.3): the elementary expansion assertion for every cellular
+  `X` (Theorem 1.1); the canonical left semi-model structure (Corollary 5.1, after Henry's
+  Theorem 5.3.5); and, through Henry's cylinder-category comparison (Henry 2016, §§5.1 and 5.3),
+  a Quillen equivalence `|−| ⊣ Π_∞` between models of `C` and spaces, hence the full homotopy
+  hypothesis for these coherators (Corollary 5.2).
+- *Formalized.* Only the elementary expansion theorem, `OAI.Grothendieck.elementary_expansion`,
+  checked against the comparator statement with the axioms `propext`, `Quot.sound` and
+  `Classical.choice`. The semi-model structure and the comparison with spaces are not formalized
+  (`312.md`), and the Lean development defines neither `Π_∞` of a space nor any functor to or
+  from `TopCat`.
+- *Definition and hypothesis match with this roadmap.* Tables: `Table n` (`globe`, `attach`
+  gluing a new disk by its source face to the target face of the previous last disk, `b < last`,
+  `b < h`), the tables of Conventions. Globular theories: `GlobularTheory`, hom-types on
+  `Shape := Σ n, Table n` with a functor from the realized tables (`Θ₀`) preserving each
+  attaching pushout, the objects-indexed-by-tables form of 2.1. Admissible pairs: arity of height
+  `≤ n + 1` and parallel maps, as 2.2. Coherators: `IsCoherator` is a cellular presentation (an
+  initial stage, free extensions along families of admissible pairs indexed by a type, a
+  sequential colimit) together with a filler for every admissible pair, as 2.4. Models:
+  presheaves sending each attaching pushout to a pullback, as 3.1. `J_n`: the Yoneda image of the
+  source inclusion, as 3.1. Weak equivalences: bijection on `0`-cells modulo `Joined 0` and on
+  every `HomotopyGroup hC x n`, the `(n+1)`-cells from `1^n_x` to `1^n_x` modulo `Joined (n+1)`
+  with identities chosen by `Classical.choose`, which is Ara's `π_{n+1}(X, x)` as a set (4.1,
+  4.3). Cellular: a well-ordered transfinite composition from an initial model whose successor
+  steps attach families of cells along their boundaries, as 6.1. Universes: theories and models
+  in `Type v`, tables realized in `Type 0` globular presheaves. The Quillen equivalence of
+  Corollary 5.2 is stated for Henry's fundamental ∞-groupoid functor; the paper does not
+  identify it with `Π_∞^R` of Layer 5.
+
+Admitting the elementary expansion theorem as a target here is a theorem import, made by a
+reviewed revision of this roadmap that checks the match above at a pinned revision and states the
+theorem as an item of Layer 6. The semi-model structure and the comparison with spaces rest on
+Henry 2016 and on the paper's unformalized arguments, and are not targets of this roadmap.
 
 ## Porting guidance for the openai/math formalization
 
-The openai/math repository (Apache License 2.0, `lean/LICENSE`) contains
-`lean/OAI/CategoryTheory/Globular/` (58 files, about 12,750 lines): globular sets, tables,
-globular theories indexed by tables, admissible pairs, free extensions, cellular presentations,
-coherators, models, the homotopy groups of models and weak equivalences, cutoff models, and the
-elementary expansion theorem `OAI.Grothendieck.elementary_expansion`. It does not define `Π_∞` of
-a space and does not state the comparison with spaces. Its conventions match Ara 2013 (admissible
-pairs with arity of height `≤ n + 1`; coherator = cellular presentation and contractibility).
+The openai/math repository (Apache License 2.0, `lean/LICENSE`) contains, at the revision pinned
+above, `lean/OAI/CategoryTheory/Globular/`: globular sets, tables, globular theories indexed by
+tables, admissible pairs, free extensions, cellular presentations, coherators, models, the
+homotopy groups of models and weak equivalences, cutoff models, and the elementary expansion
+theorem. It does not define `Π_∞` of a space and does not state the comparison with spaces. Its
+conventions match Ara 2013 (admissible pairs with arity of height `≤ n + 1`; coherator = cellular
+presentation and contractibility).
 
 The Apache licence permits copying and adaptation with attribution and the licence notice.
 Following the README's porting rules, contact the authors and discuss the plan on Zulip before
 porting, treat the files as a cited source and not as the specification, and keep a file-by-file
 map only in a provenance note.
-
-## Roadmap for a roadmap: proving the homotopy hypothesis
-
-**Do not implement this section.** Henry (2016, preprint) reduces the homotopy hypothesis for a
-coherator to the pushout conjecture of Layer 6.2; an OpenAI preprint (24 September 2026, not
-peer-reviewed) announces the pushout conjecture for every coherator, with the Lean proof cited
-above. For finite `n` a reduction is refereed: Henry and Lanari (2023) prove that if the
-canonical left semi-model structure on Grothendieck `n`-groupoids exists (weak equivalences the
-maps inducing bijections on homotopy groups), it satisfies the homotopy hypothesis, its
-`(∞,1)`-category being that of homotopy `n`-types; their corollary for `n = 3` rests on the
-existence of that structure, proved in a preprint. Once a refereed account of the reduction for
-`n = ∞` exists, a successor roadmap would specify: the
-model structure on `∞-Gpd_C` transferred along `Π_∞`'s left adjoint (Henry's construction), the
-comparison with Kan complexes, and the proof of `HomotopyHypothesis C`. Until then
-`HomotopyHypothesis C` is open in this library and appears only as a hypothesis.
 
 ## References
 
@@ -285,8 +323,9 @@ All checked on zbMATH or arXiv.
 - C. Simpson, « Homotopy types of strict 3-groupoids », arXiv:math/9810059 (1998), preprint
   (strict models fail from dimension `3`; context for the scope).
 - OpenAI, « The Grothendieck homotopy hypothesis via elementary expansions », preprint,
-  24 September 2026, github.com/openai/math; Lean companion
-  `lean/OAI/CategoryTheory/Globular/` (Apache 2.0).
+  24 September 2026, github.com/openai/math, commit `7ef5c0cc5ca4b0e072b7a050fca09ab24bc6fa3a`;
+  formalization scope `lean/docs/312.md`; Lean companion `lean/OAI/CategoryTheory/Globular/`
+  (Apache 2.0).
 
 ## Provenance
 
