@@ -427,6 +427,45 @@ G-finite density.
   coefficients. State the block projections (averaging against `dim V_π · conj χ_π`, from Layer 6)
   and that they are the isotypic projectors.
 
+<a id="compact-dual-countability"></a>
+#### Layer5.2. Countability, metrizability and Haar L²
+
+For compact Hausdorff G prove the equivalence of: G is second countable; G is
+metrizable; the native complex unitary dual `TauCeti.IrrepClass ℂ G` is countable;
+and `Lp ℂ 2 (haarProb G)` is separable. These are consequences of Layer5, with
+no countability hypothesis in its general Peter–Weyl theorem. Prove invariance
+under topological group isomorphism and transport to every irreducible skeleton.
+
+In the second-countable case, compact metrizability makes C(G,ℂ) separable;
+its dense map into L² makes L² separable. The Peter–Weyl Hilbert basis then
+has countable index. Each irreducible has positive finite dimension, so this
+index is countable exactly when the unitary dual is countable. In the reverse
+direction, countably many irreducible models give the continuous homomorphism
+`g↦(π(g))_π` into a countable product of finite-dimensional unitary groups.
+Prove injectivity using Layer5's point-separating matrix coefficients. Compactness
+and the Hausdorff target make this a topological embedding; the product is
+metrizable. Consume the existing countable-product and compact metrization APIs,
+and [BanachSpaceTheory B5](../../BanachSpaceTheory/README.md#b5-function-spaces-and-weak-compactness)'s
+early ℓ²/Hilbert-basis countability and support unit. The metrization criterion
+is downstream of general Peter–Weyl.
+
+For every index type J, let G_J=∏_(j∈J) Circle with its product topology and
+normalized Haar measure. Construct the continuous one-dimensional characters
+χ_j(z)=z_j, prove they are pairwise distinct, and prove their complex-valued
+L² classes form an orthonormal family. For j≠k compute
+`∫ conj(χ_j)χ_k=0` by Haar translation in one coordinate, and hence
+`‖χ_j−χ_k‖₂=√2`. Thus uncountable J gives an uncountable unitary dual,
+nonseparable L² and a nonmetrizable compact group. For countable J the product
+is metrizable and all four conditions hold, including the empty product.
+For every G and every individual L² vector, prove that only countably many
+Peter–Weyl coefficients, and hence isotypic blocks, are nonzero, using the
+finite sum of squared norms. This per-vector statement holds even when the
+whole dual is uncountable.
+
+[CountabilityTargets.lean](CountabilityTargets.lean) gives suggested statements
+on the native unitary dual and Haar L². The countable-base Peter–Weyl formulation
+is also in [Etingof, §37](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec11.pdf).
+
 ### Layer 6: characters of compact groups
 
 - **The character.** `character π hπ : C(G, ℂ)`, `g ↦ trace (π g)`, with
