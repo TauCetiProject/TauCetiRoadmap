@@ -2,10 +2,10 @@ import TauCeti.GroupTheory.Coxeter.Geometric
 
 /-!
 Suggested forms for RootSystems 3G; README.md is definitive and this companion
-is nonexhaustive. Generic exchange/deletion is commissioned in RootSystems
-Layer 3 independently of finite root systems and of this representation's
-faithfulness. The native import constructs the representation and rank-two
-orders; the theorem below is additional future work.
+is nonexhaustive. The generic exchange, deletion, parabolic and dihedral
+theorems the proof consumes are already in the pinned Tau Ceti; the native
+import constructs the representation and the exact rank-two orders. The proof
+route (rank-two positivity, the right-descent sign criterion) is in README 3G.
 -/
 
 namespace TauCetiRoadmap.RootSystems

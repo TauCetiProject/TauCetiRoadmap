@@ -304,21 +304,78 @@ module `B →₀ ℝ`, their form is `-cos (π / M i j)`, and the simple-reflect
 is `v ↦ v − 2 B(αᵢ,v) αᵢ`. Native involutivity, orthogonality, braid relations and
 exact rank-two product orders are already inputs; do not rebuild them.
 
-Construct the standard real roots as the orbit of these same basis vectors.
-Prove the positive-or-negative coefficient alternative, exclusion of zero roots,
-the simple-reflection sign change, and the reduced-word/length sign criterion
-using the actual native length, inversions, rank-two formulas and generic
-exchange/deletion API. Positivity here means finitely supported nonnegative
+The generic Coxeter combinatorics around this argument is already proved at the
+pinned Tau Ceti, independently of the geometric representation, and is consumed
+as it stands, not rebuilt: the strong exchange, exchange and deletion conditions
+(`CoxeterSystem.strongExchange`, `exchangeCondition`, `exchangeCondition_right`,
+`deletionCondition` in `TauCeti/GroupTheory/Coxeter/StrongExchange.lean`), minimal
+coset representatives of standard parabolic subgroups with additivity of length
+(`CoxeterSystem.parabolic`, `exists_isMinimalCosetRep`, `isMinimalCosetRep_iff`,
+`length_mul_of_isMinimalCosetRep` in `TauCeti/GroupTheory/Coxeter/Parabolic.lean`),
+and the fact that every element of a rank-two standard parabolic subgroup is
+spelled by an alternating word of its own length
+(`CoxeterSystem.wordProd_alternatingWord_eq_of_mem_parabolic_pair` in
+`TauCeti/GroupTheory/Coxeter/Dihedral.lean`). The rank-two rotation and shear
+formulas inside `Geometric.lean` are private there; its public interface is the
+reflection formula `CoxeterMatrix.geometricReflection_apply`, the Gram entries
+`CoxeterMatrix.geometricForm_single_single`, and the exact orders
+`CoxeterSystem.orderOf_simple_mul_simple`. The new work of this section is the
+geometric sign theory below.
+
+**Rank-two positivity.** Let `i j : B`, and let `k : ℕ` satisfy `k < M i j` or
+`M i j = 0`. Prove that `cs.geometricRepresentation` applied to
+`cs.wordProd (CoxeterSystem.alternatingWord i j k)` sends `αᵢ` to `a αᵢ + b αⱼ`
+with real `a, b ≥ 0`. Explicitly, put `θ = π / M i j` and `S(n) = sin (n θ) / sin θ`
+when `M i j ≥ 2`, and `S(n) = n` when `M i j = 0`; then the image is
+`S(k+1) αᵢ + S(k) αⱼ` for `k` even and `S(k) αᵢ + S(k+1) αⱼ` for `k` odd, and both
+coefficients are nonnegative because `n θ ∈ [0, π]` for `n ≤ M i j`. (For `i = j`
+the hypothesis forces `k = 0` and the image is `αᵢ`.) Derive the formula by
+induction on `k` from the public reflection formula and Gram entries, not from the
+private rank-two lemmas. The strict bound is essential: in type `A₂` (`M i j = 3`)
+the word of length `3` sends `αᵢ` to `−αⱼ` (Humphreys, *Reflection Groups and
+Coxeter Groups*, §5.4, the dihedral step in the proof of the Theorem).
+*Needs:* Mathlib `CoxeterSystem.alternatingWord`, `CoxeterSystem.wordProd`; Tau Ceti
+`CoxeterMatrix.geometricReflection_apply`, `CoxeterMatrix.geometricForm_single_single`,
+`CoxeterSystem.geometricRepresentation_simple`.
+
+**Sign criterion.** Construct the standard real roots as the orbit of the basis
+vectors `αᵢ = Finsupp.single i 1`. Positivity means finitely supported nonnegative
 coordinates with at least one positive coordinate, not positive definiteness of
-the canonical form. Prove `Function.Injective cs.geometricRepresentation` by
-showing a nonidentity reduced word sends an actual positive simple root negative.
-The proof includes arbitrary degeneracy of the canonical form and needs no
-finite root pairing, classification, finite Weyl group, Enriques geometry or
-Coxeter fundamental-domain theorem as an early assumption.
+the canonical form. Prove that if `i` is not a right descent of `w`
+(`¬ cs.IsRightDescent w i`) then the image of `αᵢ` under `w` has nonnegative
+coordinates, by induction on `cs.length w` (Humphreys, §5.4, Theorem): for `w ≠ 1`
+pick a right descent `j` (`CoxeterSystem.exists_rightDescent_of_ne_one`; `j ≠ i`), write `w = u v` with `u` a minimal coset
+representative for `cs.parabolic {i, j}` and `v` in that subgroup, lengths adding;
+then `u` sends `αᵢ` and `αⱼ` to nonnegative vectors by induction, and `v` is
+spelled by an alternating word ending in `j` of length `k` with `k < M i j` or
+`M i j = 0`: a right descent `i` of `v` would be one of `w` because the lengths of
+`u` and `v` add, and for finite `M i j` the two alternating words of length `M i j`
+spell the same element (`CoxeterSystem.wordProd_braidWord_eq`), so `k = M i j` would make `i` a right descent of `v`;
+rank-two positivity finishes. Deduce, applying this to `w` and to
+`w * cs.simple i`, that `i` is a right descent of `w` if and only if the image of
+`αᵢ` is negative; hence every root is positive or negative, no root is zero, and
+the simple reflection `sᵢ` permutes the positive roots other than `αᵢ` (a root
+proportional to `αᵢ` is `±αᵢ`, the form being preserved and `B(αᵢ,αᵢ) = 1`).
+*Needs:* rank-two positivity above; Tau Ceti `exists_isMinimalCosetRep`,
+`isMinimalCosetRep_iff`, `length_mul_of_isMinimalCosetRep`,
+`wordProd_alternatingWord_eq_of_mem_parabolic_pair`; Mathlib
+`CoxeterSystem.IsRightDescent`, `CoxeterSystem.exists_rightDescent_of_ne_one`,
+`CoxeterSystem.wordProd_braidWord_eq`, `CoxeterSystem.length_mul_simple`.
+
+**Faithfulness.** Prove `Function.Injective cs.geometricRepresentation`: an element
+`w ≠ 1` has a right descent `i`, and by the sign criterion `w` sends the positive
+simple root `αᵢ` to a negative vector, so it does not act as the identity. The
+proof allows arbitrary degeneracy of the canonical form and needs no finite root
+pairing, classification, finite Weyl group, Enriques geometry or Coxeter
+fundamental-domain theorem.
 
 Export the actual coefficient/evaluation equations, word-composition and inverse
-laws, restriction to standard parabolics, real linear coordinate transport and
-comparison with a specified integral reflection representation. If a finite
+laws, real linear coordinate transport, and the parabolic comparison: for
+`J ⊆ B` and the Coxeter matrix `M_J` on `J` given by `M_J j j' = M j j'`, the
+extension-by-zero map `Finsupp.lmapDomain ℝ ℝ Subtype.val : (J →₀ ℝ) →ₗ[ℝ] (B →₀ ℝ)`
+intertwines the geometric reflection of `M_J` at `j ∈ J` with
+`M.geometricReflection j`, both forms having the same Gram entries on `J`. Export also the comparison with a specified integral
+reflection representation. If a finite
 integral Gram matrix is twice this native form in the stated basis, construct
 the actual scalar-extension intertwiner; injectivity of the integral scalar map
 and the faithful real representation then identify the subgroup generated by
@@ -328,15 +385,10 @@ infer faithfulness from pairwise product orders or from nondegeneracy alone.
 The T246 consumer in EnriquesSurfaces E5 uses this producer and owns its specific
 integral lattice, congruence quotient, ample-cone and geometric action.
 
-
-The generic exchange/deletion theorem used in this argument is the commissioned
-root-system-free producer in RootSystems Layer3. It is earlier mathematical work
-in that owner, not a theorem supplied by the native geometric-representation
-file. Native length, inversions and the rank-two action are available now; the
-generic exchange/deletion and sign/length criterion remain definite targets.
-The dependency direction is Layer3 exchange/deletion to3G sign/length to3G
-faithfulness, and then to integral reflection consumers. No finite-root
-positivity or Enriques theorem feeds backwards into those producers.
+The dependency direction is: the pinned Tau Ceti exchange, parabolic and dihedral
+theorems and the public interface of `Geometric.lean`, then rank-two positivity,
+then the sign criterion, then faithfulness, then integral reflection consumers.
+No finite-root positivity or Enriques theorem feeds backwards into these.
 
 `GeometricFaithfulnessTargets.lean` states the theorem on the actual native
 `CoxeterSystem.geometricRepresentation`, including arbitrary index universes and
