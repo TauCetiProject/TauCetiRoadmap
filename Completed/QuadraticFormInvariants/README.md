@@ -39,27 +39,27 @@ This archival change depends on the three independent implementation PRs
 The audit checked every layer and the acceptance examples against Tau Ceti
 `cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with commits
 `506afb054d52ec8631644ab4bee59954502c80b1`,
-`3035d5bd1acf35ac0142d91d876ed5ab7ebe16b8`, and
+`96bd0f474e68c05fd01274f26ff3f677f58302f5`, and
 `cb80e3219e3d307c980a35a0447fb4885ffdae1b` from those PRs.
 
 | Layer | Native implementation and completion evidence |
 |---|---|
-| 0: diagonal descent and chains | `LinearAlgebra/QuadraticForm/Diagonal/Chain/`; the rational `BinaryStep` example in `Binary.lean` |
-| 1: hyperbolic and Witt decomposition | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/Decomposition.lean`, including explicit rational non-isometry |
+| 0: diagonal descent and chains | `LinearAlgebra/QuadraticForm/Diagonal/Chain/`; the rational `BinaryStep` example in [the checked interfaces](NativeCompletion.md) |
+| 1: hyperbolic and Witt decomposition | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/Decomposition.lean`, the explicit rational non-isometry is checked in `NativeCompletion.md` |
 | 2: quaternion norm forms and splitting | `Algebra/Quaternion/SplittingCriterion.lean`, including the four-fold splitting criterion |
 | 3: discriminants | `LinearAlgebra/QuadraticForm/RegularFormClass/Discriminant.lean`; `Matrix.lean` gives full-polar matrix and determinant normalization; the multiplicative Gram adapters are in `Suggested.lean` |
 | 4: Witt ring and Pfister forms | `LinearAlgebra/QuadraticForm/Witt/`, including its `Pfister/` directory |
 | 5: Brauer-valued Hasse and Clifford invariants | `LinearAlgebra/QuadraticForm/RegularFormClass/Hasse/Basic.lean` and `Clifford.lean` |
-| 6: local symbols, defect, norm tables, classification and realization | `NumberTheory/LocalField/QuadraticForm/`; `Invariants.lean:172` is `localInvariantsEquiv`; `Invariant.lean` identifies the Hasse-class invariant; `Bimultiplicativity.lean` expands uniformizer-unit decompositions |
-| 7: Brauer comparison, Kummer cups and norm equations | `Algebra/CrossedProduct/`, `FieldTheory/GaloisCohomology/MuTwo/`; `CupProduct.lean` records product-to-cups compatibility and the final five `LocalSymbol.lean` comparisons are universe polymorphic |
+| 6: local symbols, defect, norm tables, classification and realization | `NumberTheory/LocalField/QuadraticForm/`; `Invariants.lean:172` is `localInvariantsEquiv`; `NativeCompletion.md` composes the Hasse-class invariant and uniformizer-unit decomposition formulas from the existing comparison and bimultiplicativity APIs |
+| 7: Brauer comparison, Kummer cups and norm equations | `Algebra/CrossedProduct/`, `FieldTheory/GaloisCohomology/MuTwo/`; `CupProduct.lean` identifies each symbol with its cup, and additivity yields the product-to-cups formula checked in `NativeCompletion.md`; the final five `LocalSymbol.lean` comparisons are universe polymorphic |
 | 8: Stiefel–Whitney classes and invariant comparisons | `FieldTheory/QuadraticForm/StiefelWhitney/`, including class descent, base change, Hasse and Clifford comparisons |
 | 9: Scharlau and trace transfer, Evens norm and Kahn formula | `LinearAlgebra/QuadraticForm/Transfer/` and `FieldTheory/QuadraticForm/StiefelWhitney/`; the latter's `QuadraticExtension.lean:249` gives the degree-two relative formula |
 
 All paths in this table are below `TauCeti/`. The general quadratic trace diagonalization
-already applies to every radicand; `Transfer/Examples.lean` explicitly specializes it over
-`ℚ` and `ℚ₂` and compares its `ℂ/ℝ` instance with the EffectiveBounds trace discriminant.
-`Transfer/Discriminant.lean` now supplies `discr_traceTransfer` for every twisted line,
-including the trace-zero case.
+already applies to every radicand. The complete proofs in `NativeCompletion.md` explicitly
+specialize it over `ℚ` and `ℚ₂` and compare its `ℂ/ℝ` instance with the EffectiveBounds trace
+discriminant. They also compose `discr_traceTransfer` for every twisted line, including the
+trace-zero case, from the existing generic Scharlau discriminant and quadratic trace APIs.
 
 The explicit dyadic controls are in
 [NormControl.lean](https://github.com/TauCetiProject/TauCeti/blob/cb80e3219e3d307c980a35a0447fb4885ffdae1b/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NormControl.lean)
