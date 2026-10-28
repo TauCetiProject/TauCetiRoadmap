@@ -1419,8 +1419,10 @@ not in [BS22], which gives it only for semiperfectoid quotients in Remark 7.5; i
 from the integral universality: a map `S⁺ → A⁺` into the plus ring of a perfectoid Tate pair,
 which is integral perfectoid and `ϖ`-adically complete, factors uniquely through
 `(S⁺_perfd)^∧_ϖ`, and `T⁺ → A⁺` follows because `A⁺` is integrally closed.) `T` may be the zero
-ring: for `S⁺ = R⁺/ϖ` every `ϖ^{1/p^n}` dies in `S⁺_perfd`, `T = 0`, and no map `S⁺ → A⁺` sends
-`ϖ` to a pseudouniformizer; for `S⁺ = R⁺`, `T = R`. In characteristic `p`, `S⁺_perfd` is the uncompleted perfection
+ring: for `S⁺ = R⁺/ϖ` every `ϖ^{1/p^n}` dies in `S⁺_perfd`, `T = 0`, and every map `S⁺ → A⁺` sending
+`ϖ` to a pseudouniformizer has target the zero pair (whose element `0 = 1` is a topologically
+nilpotent unit, as in `isTateAffinoid_zero`), since `ϖ = 0` in `S⁺` is sent to a unit; there is no
+such map to a nonzero perfectoid Tate pair; for `S⁺ = R⁺`, `T = R`. In characteristic `p`, `S⁺_perfd` is the uncompleted perfection
 and the `ϖ`-adic completion is necessary ([BS22] §1, Theorem 1.17(1), p. 9; §10, Theorem 10.11,
 p. 82; §8, Corollary 8.14, p. 70). Prove that for a map `(R, R⁺) → (S, S⁺)` of Tate–Huber pairs
 with `R` perfectoid and `R⁺ → S⁺` integral, `Spd(S, S⁺) ≅ Spa(T, T⁺)^◇` is represented by an affinoid perfectoid space,
@@ -2698,7 +2700,13 @@ any commutative ring `R` with a `MulSemiringAction G R` and any function `c : G 
 Its membership formula `γ • f = c(γ)⁻¹ f` holds by definition; a cocycle is required
 for the descent interpretation, not for closure under addition and invariant scalars.
 Coboundaries are `γ ↦ F/γ^*(F)` for units `F ∈ Γ(X_∞, F_A)^×`, and for `c′(γ) = c(γ)·F/γ^*(F)` multiplication by
-`F` is an isomorphism `ω_c ≅ ω_{c′}`; name this map `TwistedCharacterSheaf.congr_cocycle`.
+`F` is an isomorphism `ω_c ≅ ω_{c′}` of sheaves of algebraic twisted invariants; name this map
+`TwistedCharacterSheaf.congr_cocycle`. This change of cocycle is a statement about the
+unrestricted algebraic datum: an arbitrary unit `F` need not have Banach-continuous orbit maps, and
+then `c′` is not continuous even when `c` is (*twisted_change_not_continuous*). The continuous
+class is preserved when each orbit map `γ ↦ γ^*(F|U_∞)` into `(O(U_∞) ⊗̂ A)^×`, for qcqs `U`, is
+continuous for the Banach topology, since products and inverses of units are continuous in a
+Banach algebra.
 Define `TwistedCharacterSheaf` (the sheaf `ω_c` attached to
 the tower, `A` and `c`) and `TwistedCharacterSheaf.sections` (`ω_c(U)` is the set of
 sections `s ∈ Γ(U_∞, F_A)` with `γ^*s = c_U(γ)^{-1}s`, equal to the displayed subset of
@@ -2732,6 +2740,15 @@ AdicSpacesPartIV layer R5.
   then `ω_c = F·(O_X ⊗̂ A)`, matching `TwistedCharacterSheaf.congr_cocycle` with the trivial cocycle: `γ^*f = (γ^*F/F)f`
   iff `γ^*(f/F) = f/F`; and `γ ↦ F/γ^*F` is a cocycle because
   `(F/γ^*F)·γ^*(F/δ^*F) = F/γ^*δ^*F = F/(γδ)^*F`.
+- *twisted_change_not_continuous* (boundary, continuity of cocycle changes) — let
+  `X = Spa(ℂ_p, O_{ℂ_p})`, `G = ℤ_p`, the trivial tower `X × G` with finite stages `X × ℤ/p^m`,
+  and `A = ℤ_p[[Z]]`, so that the mixed tensor is `B⁺ = C(G, O_{ℂ_p})[[Z]]`, `B = B⁺[1/p]`, with
+  the supremum norm on coefficients (AdicSpacesPartIV R5.6). Put `e_n` for the indicator of
+  `p^n ℤ_p` and `F = 1 + p ∑_{n≥1} e_n Z^n`; then `F` and `F^{-1}` lie in `B⁺` and have norm one.
+  For the translations `g_m = p^m → 0` and every `n > m`, `e_n(0) = 1` and `e_n(p^m) = 0`, so
+  `‖g_m(F) − F‖ = |p|` and, multiplication by `g_m(F)^{-1}` being an isometry,
+  `‖F/g_m(F) − 1‖ = |p|`. Changing the trivial cocycle by `F` gives an algebraic cocycle that is
+  not Banach-continuous, although `ω_c ≅ ω_1` still holds algebraically.
 - `twisted_disjoint_components` (boundary, all opens) — let `C = ℂ_p`,
   `S = {0} ∪ {pⁿ : n ≥ 0} ⊂ ℤ_p` (profinite), `X = Spa(C, O_C) × S` (affinoid perfectoid by
   PerfectoidSpaces P6.8), the identity tower, `G = 1`, `A = ℤ_p` and `c = 1`. The open `U`
@@ -2790,7 +2807,9 @@ For a tower, `F` is the pushforward of the completed coefficient sheaf. Taking i
 integral version defines the integral twist by exactly the same construction.
 `module` supplies multiplication by invariant coefficients. A natural unit `e`
 changes the cocycle to `c'(g) = c(g)e/g(e)` via `change`; `congr_cocycle` is the
-sheaf isomorphism multiplying sections by `e`, pinned by `congr_cocycle_apply`.
+sheaf isomorphism multiplying sections by `e`, pinned by `congr_cocycle_apply`. These carry no
+topology: for a tower they apply to the algebraic datum, and the continuous subclass is preserved
+only under the orbit-continuity hypothesis on `e` stated above.
 
 Checks on this sheaf carrier are:
 
@@ -3445,4 +3464,4 @@ Locators are theorem and section numbers of the linked versions, with page numbe
 - [Hansen] David Hansen, Quotients of adic spaces by finite groups, Math. Res. Lett. 28 (2021); author manuscript. http://davidrenshawhansen.net/adicgpquotient.pdf.
 - [CGJ] Ana Caraiani, Daniel Gulotta and Christian Johansson, Vanishing theorems for Shimura varieties at unipotent level, J. Eur. Math. Soc. (2022); arXiv:1910.09214. https://arxiv.org/abs/1910.09214.
 - [BS22] Bhargav Bhatt and Peter Scholze, Prisms and prismatic cohomology, Ann. of Math. 196 (2022); arXiv:1905.08229v4. https://arxiv.org/abs/1905.08229.
-- [Rubin] Karl Rubin, Euler Systems, Annals of Mathematics Studies 147, Princeton University Press (2000); Appendix B, §2, pp. 151–152.
+- [Rubin] Karl Rubin, Euler systems, manuscript notes for the 1999 Arizona Winter School, https://swc-math.github.io/aws/1999/99RubinES.pdf; Appendix B, §2, pp. 151–152 (the page and numbered locators refer to this edition, not to the published Annals of Mathematics Studies 147 (2000), where Appendix B begins on p. 195).
