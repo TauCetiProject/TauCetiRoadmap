@@ -1803,15 +1803,15 @@ version (TeX source of 13 May 2026, compiled).
 
 ## Prior formalization
 
-The proposer has formalized Audin--Damian, *Morse Theory and Floer Homology*, in Lean 4 on Mathlib
-`v4.34.1`: [t4v1/damian_formalizare](https://github.com/t4v1/damian_formalizare), about 50 000
-lines across all sixteen chapters. One `sorry` remains, the Arnold conjecture on the torus. The
+Audin--Damian, *Morse Theory and Floer Homology*, is formalized in Lean 4 on Mathlib `v4.34.1` in
+[t4v1/damian_formalizare](https://github.com/t4v1/damian_formalizare), about 50 000
+lines across all sixteen chapters, with one `sorry`, the Arnold conjecture on the torus. The
 spaces of trajectories enter as explicit hypotheses, because there are no submanifolds with
 tubular neighbourhoods to build them from. So the Morse and Floer complexes satisfy `∂ ∘ ∂ = 0`
 *given* the broken-trajectory counts, and the moduli-space work of Lane M and Layer 7 item 2 is
 not done there.
 
-Material that is proved there and absent from Tau Ceti, and that this roadmap can port:
+Material that is proved there and absent from Tau Ceti, with the target here that it would serve:
 
 | There | Here |
 | --- | --- |
@@ -1821,8 +1821,7 @@ Material that is proved there and absent from Tau Ceti, and that this roadmap ca
 | `Part1/Ch3.lean`, `Ch4.lean`: algebra of the Morse complex from abstract trajectory counts, Künneth, duality | Layer 5 items 1--3, algebraic part |
 
 The Morse lemma and Sard's theorem are formalized there too, but Tau Ceti already has them, so they
-are not ported. Porting is ordinary Tau Ceti work: one claimed item at a time, adapted to Tau Ceti's
-Mathlib and conventions.
+are not targets here.
 
 
 ## References
