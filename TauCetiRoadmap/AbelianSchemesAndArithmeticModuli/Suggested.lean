@@ -13,7 +13,7 @@ The statements here give Lean forms for headline targets; discharging them finis
 layer nor the roadmap.
 
 The statements cover relative rigidity, seesaw, cube and Weil extension (A1), multiplication
-isogenies, finite-flat quotients and torsion density (A3), the rank of the geometric Tate module
+isogenies, finite-flat quotients, division by `n` and torsion density (A3), the rank of the geometric Tate module
 (A4), and Poincaré complete reducibility,
 finite-rank Hom, semisimplicity of rational endomorphisms, integral characteristic polynomials,
 their Tate-module comparison, normal-base extension of Hom, and the real positive-involution
@@ -100,11 +100,11 @@ theorem eq_of_restrict_nilpotent {A B : AbelianScheme S} {S₀ : Scheme.{u}} (i 
   sorry
 
 /-- Restriction to the generic fibre is bijective for maps from any smooth test scheme into an
-abelian scheme over a connected Dedekind base. The Dedekind condition is imposed on every nonempty
-affine open; no properness, separation or quasi-compactness of the source is required
+abelian scheme over an integral, locally Noetherian base with integrally closed stalks, of any
+dimension; no properness, separation or quasi-compactness of the source is required
 (README A1.8). -/
-theorem weilExtension [IsIntegral S]
-    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
+theorem weilExtension [IsIntegral S] [IsLocallyNoetherian S]
+    [∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s)]
     (A : AbelianScheme S) (X : Over S) [Smooth X.hom] :
     Function.Bijective (fun f : X ⟶ A.toOver =>
       (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by
@@ -127,6 +127,15 @@ theorem mulBy_isAbelianIsogeny (A : AbelianScheme S) (g : ℕ)
     [SmoothOfRelativeDimension g A.toOver.hom] (n : ℤ) (hn : n ≠ 0) :
     IsAbelianIsogeny (A.mulBy n) ∧
       ∀ x : A.toOver.left, (A.mulBy n).left.finrank x = n.natAbs ^ (2 * g) := by
+  sorry
+
+/-- **Division by `n`**: for `n ≠ 0`, a homomorphism `f : A → B` kills the scheme-theoretic
+`n`-torsion of `A`, tested on `T`-points for every `T` over `S`, exactly when `f = [n]_B ∘ h` for
+a unique homomorphism `h` (README A3.4). -/
+theorem torsionDivisibility {A B : AbelianScheme S} (n : ℤ) (hn : n ≠ 0)
+    (f : A.toOver ⟶ B.toOver) [IsMonHom f] :
+    (∀ (T : Over S) (x : T ⟶ A.toOver), x ^ n = 1 → x ≫ f = 1) ↔
+      ∃! h : A.toOver ⟶ B.toOver, IsMonHom h ∧ h ≫ B.mulBy n = f := by
   sorry
 
 /-- The theorem of the cube and integer multiplication pullbacks for a rigidified line
@@ -297,7 +306,9 @@ def IsRosatiPositive (t : E →ₗ[ℝ] ℝ) (s : E) : Prop :=
 /-- A finite-dimensional real algebra with a cyclic, involution-invariant trace strictly positive
 on `x * star x` has real, complex and quaternionic matrix factors carrying the standard adjoints.
 Intrinsic strict positivity agrees with positive definiteness in every factor (README A6.15).
-Quaternionic definiteness uses the real part of the Hermitian quadratic form. -/
+Quaternionic definiteness uses the real part of the Hermitian quadratic form. This is the abstract
+form of the Rosati normal form; the instance `E = ℝ ⊗_ℚ End⁰(A)` with the Rosati involution and
+geometric trace needs the represented dual and polarization, which the pins do not provide. -/
 theorem realRosatiDecomposition [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
     (hcyclic : ∀ x y : E, t (x * y) = t (y * x))
     (hstar : ∀ x : E, t (star x) = t x)
