@@ -183,8 +183,10 @@ def dominantChamber (b : P.Base) : Set M := {x | ∀ i ∈ b.support, 0 ≤ P.co
 theorem exists_mem_dominantChamber [Finite ι] [P.IsRootSystem] [P.IsCrystallographic] [P.IsReduced]
     (b : P.Base) (x : M) : ∃ w : P.weylGroup, w • x ∈ dominantChamber P b := sorry
 
-/-- **The closed dominant chamber is a fundamental domain**: a point of the open dominant chamber that
-is Weyl-conjugate into the closed dominant chamber is fixed by the conjugating element. -/
+/-- **Interior uniqueness**: a point of the open dominant chamber that is Weyl-conjugate into the
+closed dominant chamber is fixed by the conjugating element. This is the interior case only; the
+uniqueness of the dominant representative for every point of the closed chamber, walls included, is
+the pinned `TauCeti.smul_eq_self_of_smul_mem_dominantChamber`. -/
 theorem eq_of_mem_dominantChamber_interior [Finite ι] [P.IsRootSystem] [P.IsCrystallographic]
     [P.IsReduced] (b : P.Base) {x : M} (hx : ∀ i ∈ b.support, 0 < P.coroot' i x)
     (w : P.weylGroup) (hw : w • x ∈ dominantChamber P b) : w • x = x := sorry
