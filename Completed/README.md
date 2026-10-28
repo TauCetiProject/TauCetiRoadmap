@@ -67,3 +67,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-28)
 - [analytic toric geometry](AnalyticToricGeometry/README.md)
   (declared complete 2026-10-28)
+- [orthogonal and spin groups](OrthogonalSpinGroups/README.md)
+  (declared complete 2026-10-28)

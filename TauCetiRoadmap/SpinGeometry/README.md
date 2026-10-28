@@ -11,7 +11,7 @@ metrics, gradings and curvature formulas pinned. This README is definitive;
 The algebraic Clifford algebra, its real periodicity and the abstract spin
 representations are supplied by
 [SpinRepresentations L0–L4,L7,L9](../RepresentationTheory/SpinRepresentations/README.md)
-and [OrthogonalSpinGroups L0–L2](../OrthogonalSpinGroups/README.md).
+and [OrthogonalSpinGroups L0–L2](../../Completed/OrthogonalSpinGroups/README.md).
 Use Mathlib's `CliffordAlgebra`, `ExteriorAlgebra`, `CliffordAlgebra.equivExterior`,
 `equivBaseChange`, `equivOfIsometry`, `prodEquiv`, `evenOdd`, `involute` and
 `reverse`. Tau Ceti already has `TauCeti.spinAction`,

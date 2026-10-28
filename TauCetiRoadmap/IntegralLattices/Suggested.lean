@@ -8,7 +8,7 @@ import TauCetiRoadmap.GlobalQuadraticForms.Suggested
 import Completed.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import Completed.RestrictedProducts.Suggested
-import TauCetiRoadmap.OrthogonalSpinGroups.Suggested
+import Completed.OrthogonalSpinGroups.Suggested
 
 /-!
 # Integral quadratic forms and lattices: target signatures

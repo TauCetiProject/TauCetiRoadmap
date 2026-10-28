@@ -1,5 +1,20 @@
 # Roadmap: orthogonal and spin groups
 
+The completion audit is supported by the native square-class codomain refactor in
+[Tau Ceti PR #22023](https://github.com/TauCetiProject/TauCeti/pull/22023), checked at
+[`40bc1c43779d`](https://github.com/TauCetiProject/TauCeti/commit/40bc1c43779db5d437068c7c5c0250f535e22cec),
+and the empty-away comparisons in
+[PR #22024](https://github.com/TauCetiProject/TauCeti/pull/22024), checked at
+[`cc73ecf8668c`](https://github.com/TauCetiProject/TauCeti/commit/cc73ecf8668cb85f4f4f80a3c64db3ab3fc2a50c).
+Both were checked with Lean 4.36.0-rc1 and Mathlib `2cabef97`.
+[Native completion checks](NativeCompletion.md) contain the compiled dimension-zero and real
+four-square acceptance proofs, derived directly from the existing APIs.
+
+The repository dependency pin remains Tau Ceti `a91d3aa` with Lean 4.35.0-rc3.
+`Suggested.lean` retains target prototypes, including `sorry` proofs; it is not a discharged
+certificate for this completion audit. The generated status and progress reports are
+historical snapshots at their recorded revisions. The complete README is the specification.
+
 Mathlib has the Clifford algebra and nothing for it to act on. It has `CliffordAlgebra` over a
 commutative ring with the embedding `ι`, the grade involution `involute`, the anti-automorphism
 `reverse`, the `ZMod 2` grading and the even subalgebra; it has `lipschitzGroup` — defined as the
@@ -14,7 +29,7 @@ carries no topology; it has `RestrictedProduct` with its topology, the finite ad
 Dedekind domain and the adele ring of a number field. It has none of the spinor norm or the
 orthogonal-specific arithmetic developed here. Generic restricted-product
 packaging, componentwise maps, and rational diagonals are consumed from
-[RestrictedProducts](../../Completed/RestrictedProducts/README.md), not rebuilt in this roadmap.
+[RestrictedProducts](../RestrictedProducts/README.md), not rebuilt in this roadmap.
 
 This roadmap develops the arithmetic of the orthogonal and spin groups attached to a
 finite-dimensional nondegenerate quadratic space over a field of characteristic not two: the
@@ -33,26 +48,26 @@ that successor is a short interface, stated once under *Consumer contract* below
 
 **Scope exclusions** (choices, not omissions; each names its owner). The Mathlib Clifford,
 Lipschitz, Pin and Spin carriers and the accepted [SpinRepresentations
-roadmap](../RepresentationTheory/SpinRepresentations/README.md)'s algebraically closed structure
+roadmap](../../TauCetiRoadmap/RepresentationTheory/SpinRepresentations/README.md)'s algebraically closed structure
 theorems are inputs; this roadmap owns the general-field algebraic orthogonal/spin group API, the
 spinor norm, the image of `Spin → SO`, and the twisted rational forms of the low-rank
 isomorphisms. **Witt decomposition and cancellation, square classes, Hasse invariants, the Hilbert
 symbol, and classification over local fields** belong to
-[QuadraticFormInvariants](../QuadraticFormInvariants/README.md). **Hasse--Minkowski and global
+[QuadraticFormInvariants](../../TauCetiRoadmap/QuadraticFormInvariants/README.md). **Hasse--Minkowski and global
 classification of forms over number fields** belong to
-[GlobalQuadraticForms](../GlobalQuadraticForms/README.md). **Local ramification and power-class
-facts** belong to [LocalFieldsRamification](../LocalFieldsRamification/README.md), and Hilbert
-reciprocity belongs to [ClassFieldTheory](../ClassFieldTheory/README.md). Those global suppliers
+[GlobalQuadraticForms](../../TauCetiRoadmap/GlobalQuadraticForms/README.md). **Local ramification and power-class
+facts** belong to [LocalFieldsRamification](../../TauCetiRoadmap/LocalFieldsRamification/README.md), and Hilbert
+reciprocity belongs to [ClassFieldTheory](../../TauCetiRoadmap/ClassFieldTheory/README.md). Those global suppliers
 are inputs only to `OrthogonalTamagawaAndLatticeMass`, not current imports. **Generic compact-open families,
 restricted-product maps, finite/away/full adelic packaging, and rational diagonals** belong to
-[RestrictedProducts](../../Completed/RestrictedProducts/README.md). That roadmap explicitly does not own
+[RestrictedProducts](../RestrictedProducts/README.md). That roadmap explicitly does not own
 strong approximation, reduction theory, Tamagawa measures, central-isogeny volume formulas, or
 Tamagawa numbers. **Affine group schemes,
 representability, root data, and reductive structure theory** belong to
-[ReductiveGroups](../ReductiveGroups/README.md); the orthogonal specializations `O_Q`, `SO_Q` and
+[ReductiveGroups](../../TauCetiRoadmap/ReductiveGroups/README.md); the orthogonal specializations `O_Q`, `SO_Q` and
 `Spin_Q` stay here. **Lattice stabilizers and their arithmetic**, isometry classes, genera, spinor
 genera, Eichler's theorem for lattice classes, and local densities belong to
-[IntegralLattices](../IntegralLattices/README.md); the **mass formula** and the genus/spinor-genus
+[IntegralLattices](../../TauCetiRoadmap/IntegralLattices/README.md); the **mass formula** and the genus/spinor-genus
 comparison that needs strong approximation belong with the orthogonal Tamagawa computation, in
 `OrthogonalTamagawaAndLatticeMass`, and are milestones of neither this roadmap nor
 IntegralLattices. **Characteristic
@@ -233,17 +248,17 @@ re-check notes are maintained in the private migration and provenance ledger.
 
 The final portfolio dependencies are imports, not local interfaces.
 
-- **[QuadraticFormInvariants](../QuadraticFormInvariants/README.md)** owns the canonical
+- **[QuadraticFormInvariants](../../TauCetiRoadmap/QuadraticFormInvariants/README.md)** owns the canonical
   multiplicative square-class quotient `Kˣ ⧸ Subgroup.square Kˣ`, reflection and
   Cartan--Dieudonné input, Witt theory, `hilbertSymbol`, `localHasse`,
   `hasseInvariant_eq_localHasse`, and local classification. This roadmap uses the raw quotient
   directly and introduces no `SquareClass` alias or generic pushforward API.
-- **[LocalFieldsRamification](../LocalFieldsRamification/README.md)** owns normalized valuations,
+- **[LocalFieldsRamification](../../TauCetiRoadmap/LocalFieldsRamification/README.md)** owns normalized valuations,
   unit filtrations and the square-class finiteness/deep-squares inputs, including
   `unitFiltration_le_range_powMonoidHom_two` and its sharpness, and the **openness** of the square
   subgroup, `isOpen_range_powMonoidHom`, which 2E and 3C both consume and which does not follow
   from the module topology.
-- **[RestrictedProducts](../../Completed/RestrictedProducts/README.md)** owns generic compact-open
+- **[RestrictedProducts](../RestrictedProducts/README.md)** owns generic compact-open
   families, restricted-product maps, rational diagonals, and finite/away/full point packaging. Its
   Lean-level contracts consumed in
   `Suggested.lean` are `integralSubgroup`, `restrictedProductMap`,
@@ -253,11 +268,11 @@ The final portfolio dependencies are imports, not local interfaces.
   compact-open carrier, strong approximation, reduction theory, Tamagawa measure, or
   central-isogeny formula. This roadmap imports none of those names and supplies no placeholder
   replacement.
-- **[SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)** and Mathlib
+- **[SpinRepresentations](../../TauCetiRoadmap/RepresentationTheory/SpinRepresentations/README.md)** and Mathlib
   supply the Clifford-algebra representation theory and the algebraically closed low-rank
   exceptional isomorphisms. This roadmap owns their general-field orthogonal/spin arithmetic
   specialization.
-- **[IntegralLattices](../IntegralLattices/README.md)** is the downstream consumer, not a
+- **[IntegralLattices](../../TauCetiRoadmap/IntegralLattices/README.md)** is the downstream consumer, not a
   prerequisite.
 
 ### Dependencies, by milestone
