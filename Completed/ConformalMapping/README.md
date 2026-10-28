@@ -4,7 +4,7 @@ The narrative roadmap for the conformal-mapping / geometric-function-theory area
 analysis, with the **Riemann mapping theorem** as its summit; `Suggested.lean` states the
 selected milestone interfaces, closed by their Tau Ceti suppliers at the dependency pin.
 The full current specification additionally includes the general Jordan-separation result recorded
-in the archive PR; the historical interface certificate does not cover that later addition. Among its
+in [the completion audit](COMPLETION.md); the historical interface certificate does not cover that later addition. Among its
 applications: the modular-`λ` uniformization
 `ℍ/Γ(2) ≅ ℂ∖{0,1}` (hence Picard's little theorem and the elliptic/modular uniformization)
 and the boundary regularity of conformal maps — but the area is foundational complex analysis
@@ -93,7 +93,7 @@ way `#33505` does, and delete ours if theirs lands — see
   "bounded on each compact `K ⊆ Ω`".
 - **Reflection: real-axis first; conjugation is `starRingEnd ℂ`; explicit witness.** See L4.
 
-## Layers (each a discharge-gated milestone; the `sorry` goal in `Suggested.lean` is stated for the core layers L0–L4, with L5–L6 deferred)
+## Layers (each a discharge-gated milestone)
 
 - **L0 — the local-mapping engine** (consumes the sibling **ContourIntegration** roadmap,
   PR #35). The *argument principle*, residues, winding numbers, and the *global/homological
