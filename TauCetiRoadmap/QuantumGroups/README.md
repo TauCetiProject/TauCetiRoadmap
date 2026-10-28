@@ -1,4 +1,4 @@
-# Quantum groups: compact reconstruction and generic rank-one representations
+# Quantum groups: compact reconstruction and generic ribbon representations
 
 Build compact quantum groups from their C*-algebras and from their unitary
 representation categories. Develop Haar integration, arbitrary-Hilbert-space
@@ -9,10 +9,14 @@ dimensions, Haar laws and the full/reduced distinction.
 Develop the generic quantized enveloping algebra U_q(sl₂), its signed
 simple modules, complete reducibility, locally finite and type-1 module
 categories, and their precise comparison with the compact SUq(2) example.
+Construct the ribbon category of finite-dimensional type-1 representations of
+a generic finite-type Drinfeld–Jimbo quantum group, including its braiding,
+standard twist, pivotal traces and quantum dimensions.
 
 ## Scope, conventions and suppliers
 
-Algebras and Hilbert spaces are complex. Compact quantum groups have a nonzero
+Q1–Q8 use complex algebras and Hilbert spaces; Q9 uses the formal
+coefficient fields specified there. Compact quantum groups have a nonzero
 unital C*-algebra A and a unital star homomorphism
 `Δ:A→A⊗_min A`. Neither A nor the representation Hilbert space is assumed
 separable. Finite-dimensional coefficient matrices use orthonormal bases and
@@ -811,9 +815,145 @@ The order within Q8 is presentation/PBW/Hopf → weights/Verma/simple modules
 compact/classical comparisons. Item 6 additionally consumes Q5/Q7's compact
 coefficient core; Q1–Q7 have no dependency on Q8. Generic higher-rank and
 root-of-unity quantized enveloping algebras are separate from the rank-one
-classification specified here.
+classification specified here. Q9 consumes the general finite-type algebra
+and highest-weight modules from their named owners; Q1–Q8 do not depend on Q9.
+
+## Q9. Finite-type quantum representation categories are ribbon
+
+Construct `RepUqg` and its `RibbonCategory` structure. This is the algebraic
+input to quantum knot invariants: the output is a ribbon category with the
+simple object `V_q(λ)` for every dominant integral weight in the chosen
+lattice. The free-ribbon/tangle coherence theorem, the tangle evaluation
+functor and its isotopy invariance are outside this section's scope.
+
+**Suppliers and order.** Consume Q8.5's generic `FiniteHopfModuleCat` and its
+named monoidal, rigid and pivotal constructions over a field; consume
+[PivotalSpherical Layers 0–2 and 10](../PivotalSpherical/README.md#layer-10-the-synoptic-chart-of-tensor-categories-hpt-figure-2)
+for `PivotalCategory`, traces, `BalancedCategory` and `RibbonCategory` and
+their compatibility. The algebra and modules are supplied by
+[QuantumEnvelopingAlgebras QEA0–QEA1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d001c02ae7dc3226e33aa27ffccdae13913984d1/TauCetiRoadmap/QuantumEnvelopingAlgebras/README.md#qea1-generic-drinfeldjimbo-algebra-and-hopf-structure)
+(root datum, actual quotient/Hopf maps, root grading and nondegenerate
+positive/negative pairing) and
+[KacMoody KM5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d42952ae2f0e66d251ff3660c84416727432323e/TauCetiRoadmap/KacMoody/README.md#km5-quantum-integrable-modules-and-actual-crystal-bases)
+(type-1 highest modules, classical character comparison and complete
+reducibility), restricted to finite type. Their proposed roadmaps are
+[#1125](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1125) and
+[#1124](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1124).
+Q9 owns the remaining R-matrix construction and its categorical assembly;
+reuse KM5's quasi-R coefficients and pairing identities, with explicit
+transport to the coproduct below. QEA's algebra and Q8's generic Hopf-module
+category are built independently of this ribbon construction. Crystal/path
+comparison and root-of-unity specialization are not premises of Q9.
+
+1. **Datum, scalars and category.** Take a finite-type semisimple root datum
+   `(A,X,Y)` in QEA0's conventions, retaining its actual character and
+   cocharacter lattices, with rank X=rank Y=|I|, and allowing products
+   and the empty root datum.
+   On `X ⊗ ℚ` use the Weyl-invariant form with
+   `(αᵢ,λ)=dᵢ⟨λ,hᵢ⟩`; construct it from the nonsingular finite Cartan matrix.
+   Put `ρ=½Σ_(β>0)β`, in the rational weight space, not necessarily in X.
+   Choose N>0 clearing the denominators of this form on `X+ℤρ` and work
+   over `k(t)`, for any characteristic-zero field k, with `q=t^N` and
+   `qᵢ=q^{dᵢ}`. Define `q^r=t^(Nr)` for the rational exponents used here
+   and prove its multiplicative laws. This is a formal generic parameter.
+   Use the fixed Hopf convention
+   `ΔEᵢ=Eᵢ⊗1+Kᵢ⊗Eᵢ`, `ΔFᵢ=Fᵢ⊗Kᵢ⁻¹+1⊗Fᵢ`, with
+   `Kᵢ=K_(dᵢhᵢ)`. Define `RepUqg` as the full subcategory of
+   `FiniteHopfModuleCat k(t) U_q(A,X,Y)` with an X-weight decomposition
+   on which `K_y` acts at weight λ by `q^⟨λ,y⟩`. Prove closure under
+   tensor, unit and both antipode duals, with finite weight support and
+   locally nilpotent simple root operators. Restrict the actual monoidal
+   and rigid data and construct the monoidal forgetful functor to finite
+   base-field modules. Compare this finite category with KM5's integrable
+   category; prove its simples are the absolutely simple `V_q(λ)`, λ∈X⁺,
+   every object is a finite direct sum of them, and `End(𝟙)≃ₐ[k(t)]k(t)`.
+
+2. **The R operators and braiding.** Construct the root-graded canonical
+   tensors from QEA1's nondegenerate pairing, prove independence of dual
+   bases, and derive their intertwining and coproduct identities. Combine
+   them with the weight factor `q^(μ,ν)` to construct invertible linear
+   operators `R_(V,W)` on the underlying `V⊗W`. Pin the triangular
+   convention: on `V_μ⊗W_ν` the diagonal term is `q^(μ,ν)·id` and every
+   remaining term lands in `V_(μ−β)⊗W_(ν+β)` for β∈Q₊, β≠0. Derive the
+   coefficients for this coproduct rather than copying the opposite
+   convention. Prove each vector has only finitely many nonzero terms,
+   with finite-support bounds, naturality for intertwiners, and an actual
+   inverse. Thus no claim that R lies in the ordinary algebraic `U⊗U`
+   is needed. If completed algebra notation is used, construct its action
+   on these modules and its tensor/duality operations first.
+   Prove `R Δ(a)=Δᵒᵖ(a) R` for every a, both quasitriangular identities
+   on triple tensor products (with associators), and the unit identities.
+   Construct the intertwining isomorphisms `c_(V,W)=flip ∘ R_(V,W)` and
+   prove naturality and both hexagons, yielding `BraidedCategory RepUqg`.
+   Record the highest-vector normalization
+   `c(v_λ⊗v_μ)=q^(λ,μ)(v_μ⊗v_λ)` and the inverse braiding explicitly.
+
+3. **Standard pivot and ribbon twist.** Construct the toral element
+   `y_(2ρ)∈Y` determined by `⟨λ,y_(2ρ)⟩=(λ,2ρ)`; prove integrality by
+   writing it as the sum of the positive coroots weighted by
+   `d_β=(β,β)/2`. Prove `g=K_(−y_(2ρ))` is grouplike and
+   `S²=Ad(g)`, and use Q8.5 to construct the pivotal structure
+   `j_V(v)(φ)=φ(gv)` on the chosen rigid data. Construct a natural
+   U-linear automorphism θ of the identity with
+   `θ_(V_q(λ))=q^(λ,λ+2ρ)·id`. Give it as an operator on arbitrary
+   objects, prove independence of semisimple decomposition, and prove
+   `θ_𝟙=id`,
+   `θ_(V⊗W)=c_(W,V) ∘ c_(V,W) ∘ (θ_V⊗θ_W)` and
+   `θ_(V*)=(θ_V)*`. These identities construct the named
+   `RibbonCategory RepUqg` structure, against PivotalSpherical's API.
+   Identify its induced pivotal structure with j, not just an unrelated
+   spherical structure. For the standard ribbon-element convention write
+   `v=θ⁻¹`: recover its centrality, counit, antipode invariance and
+   `Δv=(v⊗v)(R₂₁R)⁻¹` as identities of the constructed operators.
+   Use the finite-duality formula for the Drinfeld isomorphism to compare
+   the balancing twist with θ. In particular retain the choice of
+   ribbon element: changing it by a central grouplike of order two can
+   change the pivot, dimensions and signs.
+
+4. **Traces, dimensions and scalar extension.** Identify the right and
+   left pivotal traces of an intertwiner f with `Tr(gf)` and `Tr(g⁻¹f)`
+   in Q8.5/PivotalSpherical's right-dual convention. Prove they agree,
+   that the dimension of `V_q(λ)` is the specialized Weyl character
+   `Σ_μ mult_λ(μ) q^(2ρ,μ)`, and the quantum Weyl product
+   `∏_(β>0) [⟨λ+ρ,β∨⟩]_(q_β)/[⟨ρ,β∨⟩]_(q_β)`, where
+   `q_β=q^{d_β}` and the brackets are symmetric quantum integers.
+   Derive its nonvanishing at the formal generic parameter, tensor
+   multiplicativity and dual invariance using the native trace API.
+   Construct compatibility of R, θ, pivot and traces with extensions
+   of k and with compatible enlargements of N, using explicit monoidal
+   base-change functors and comparisons of the transported duals and twists.
+   Evaluation at a complex
+   algebraic parameter is not a field map from `ℚ(t)`; do not assert
+   such a specialization or a root-of-unity ribbon category from this
+   formal-field result.
+
+5. **Convention checks.** In type A₁ compare to Q8's positive family,
+   with `(ω,ω)=½`. For `s=q^(1/2)`, on the fundamental basis `+,-`
+   require
+   `c(+⊗+)=s(+⊗+)`, `c(−⊗−)=s(−⊗−)`,
+   `c(+⊗−)=(s−s⁻³)(+⊗−)+s⁻¹(−⊗+)`, `c(−⊗+)=s⁻¹(+⊗−)`.
+   Prove these matrices intertwine Q8's coproduct, give the positive
+   highest-vector eigenvalue s and singlet eigenvalue `−s⁻³`, and
+   compute `θ_V=s³·id`, `dim_q(V)=q+q⁻¹`, and
+   `θ_(V_q(mω))=q^(m(m+2)/2)·id`. Verify the trivial and empty-datum
+   cases, and a nonsimply-laced rank-two case retaining its two qᵢ's.
+   Q8's pivot is `K⁻¹`, matching g here. The standard ribbon choice
+   has quantum dimension `[m+1]_q`; comparison with the signed
+   Kauffman/Temperley–Lieb convention must exhibit the parameter,
+   duality and ribbon-element changes rather than identify them silently.
 
 ## Sources and API evidence
+
+- Q9: Chari–Pressley, *A Guide to Quantum Groups*, §§4.2,5.3,8.3
+  (especially Corollary 8.3.16), and Kassel, *Quantum Groups*,
+  Chapters VIII and XIV: R-matrices, ribbon Hopf algebras and their
+  module categories. Match the stated coproduct and dual conventions.
+- Q9: Snyder–Tingley, [*The half-twist for U_q(g) representations*](https://arxiv.org/abs/0810.0084),
+  §§2,3.1,3.4 and Theorem 3.16, for completions, the standard ribbon
+  element and its alternatives. Their displayed coproduct is opposite
+  to Q8/QEA's: use `R_source,21` and transport the antipode/duality data;
+  our categorical twist is the inverse of the standard ribbon element.
+  These comparisons do not require constructing half-twists.
 
 - Timmermann, *An Invitation to Quantum Groups and Duality* (EMS,2008),
   Proposition 2.2.4 and Remark 2.2.2(iv)(c), pp.50–51, for algebraic
