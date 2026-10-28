@@ -48,8 +48,10 @@ open scoped RestrictedProduct Topology ENNReal NNReal NumberField Matrix Classic
 
 variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
 
-/-- The evaluation topology on the native convolution group of points. -/
-instance evaluationTopology (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] :
+/-- The evaluation topology on the native convolution group of points: the coarsest topology making
+every evaluation continuous. It restates the point topology of ReductiveGroupsPartII, RG2.0.1, and
+is scoped to this namespace so that the canonical instance remains RG2's. -/
+scoped instance evaluationTopology (R : Type) [CommRing R] [Algebra F R] [TopologicalSpace R] :
     TopologicalSpace (WithConv (H →ₐ[F] R)) :=
   ⨅ h : H, TopologicalSpace.induced (fun x => x.ofConv h) inferInstance
 
@@ -77,8 +79,10 @@ def normOne : Subgroup (AdelicPoints F H) :=
   ⨅ χ : GroupLike F H,
     (TauCeti.GlobalNumberFields.ideleNorm.comp (characterValue F H χ)).ker
 
-/-- The Borel measurable structure for adelic Haar measures. -/
-instance adelicBorel : MeasurableSpace (AdelicPoints F H) := borel _
+/-- The Borel σ-algebra of the evaluation topology on adelic points, under which adelic Haar
+measures are taken; the restricted-product Borel structure it realizes belongs to AA.0.1. It is
+scoped to this namespace. -/
+scoped instance adelicBorel : MeasurableSpace (AdelicPoints F H) := borel _
 
 namespace AdelicPoints
 
@@ -293,10 +297,11 @@ open _root_.RestrictedProduct
 variable {ι : Type*} {G : ι → Type*} [∀ i, Group (G i)] [∀ i, TopologicalSpace (G i)]
   {B : ∀ i, Subgroup (G i)}
 
-/-- The Borel σ-algebra on a restricted product. -/
-instance instMeasurableSpace : MeasurableSpace (Πʳ i, [G i, B i]) := borel _
+/-- The Borel σ-algebra on a restricted product (AA.0.1), scoped to this namespace. -/
+scoped instance instMeasurableSpace : MeasurableSpace (Πʳ i, [G i, B i]) := borel _
 
-instance instBorelSpace : BorelSpace (Πʳ i, [G i, B i]) := ⟨rfl⟩
+/-- The restricted product with its Borel σ-algebra is a Borel space (AA.0.1). -/
+scoped instance instBorelSpace : BorelSpace (Πʳ i, [G i, B i]) := ⟨rfl⟩
 
 /-- The box `{x | ∀ i, x i ∈ C i}` of a family of subsets `C i ⊆ G i`. -/
 def box (C : ∀ i, Set (G i)) : Set (Πʳ i, [G i, B i]) := {x | ∀ i, x i ∈ C i}
