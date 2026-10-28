@@ -29,7 +29,7 @@ The layers are:
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
-| CR.1 | Crystalline sites, structure sheaves and crystals | `PDScheme`, the crystalline sites, crystals, F-crystals and isocrystals, PD differentials, quasi-nilpotent connections, crystals ≃ connections |
+| CR.1 | Crystalline sites, structure sheaves and crystals | PD schemes, the crystalline sites, crystals, F-crystals and isocrystals, PD differentials, quasi-nilpotent connections, crystals ≃ connections |
 | CR.2 | The PD Poincaré lemma and de Rham computations | `Ru_{X/S,*}`, linearization, the PD Poincaré lemma, crystalline cohomology from an embedding, independence of the embedding, the étale crystalline site |
 | CR.DDR.4.1, CR.DDR.4.3–4.4, CR.DDR.5.8–5.10 | Derived de Rham and crystalline cohomology | comparison map, base-linear realization, lci comparison, p-adic comparison |
 | CR.3 | Descent, finiteness, base change and Frobenius | Čech and hypercover descent, derived base change, perfectness, cup products, Künneth, `c₁`, Frobenius, weak Lefschetz, curves and elliptic curves |
@@ -124,11 +124,11 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   compatibility. CR.4.5–CR.4.6 use its public ring-level interface in namespace
   `DiamondsAndVStacks` for the saturated de Rham–Witt residue, degree-zero identification
   and cusp comparison; the generic ring theory is supplied there.
-- **Ordinary algebraic connections.** CR.1.3 owns `Crystalline.Connection` over arbitrary
+- **Ordinary algebraic connections.** CR.1.3 owns the ordinary connection carrier over arbitrary
   commutative base rings and its extension, curvature, horizontal maps, coefficient de Rham
   complexes, base change, tensor and Hom/dual operations. ComplexComparisonPartII C5.2 and
   FormalConnectionsOpers F2 import, specialize and sheafify this carrier and its operations;
-  their ordinary connection interfaces are adapters to `Crystalline.Connection`. Tensor
+  their ordinary connection interfaces are adapters to this carrier. Tensor
   symmetry identifies `M ⊗ Ω¹` with `Ω¹ ⊗ M`; additivity and Leibniz imply linearity over the
   base field. FormalConnectionsOpers owns the continuous/formal extension, differential
   operators, jets/Atiyah sequences, Lie–Rinehart PBW and principal-group connections.
@@ -261,7 +261,10 @@ in Layer CR.5 uses the falling factorials `∏_{0 ≤ j < a_i}(∇_i − j)` alo
 **Witt vectors and the letters r and n.** `W(A)` and `W_r(A)` are Mathlib's `WittVector` and
 `TruncatedWittVector`. Layer CR.4 indexes truncation by `r` (`W_r(A)`, `W_rΩ`, the operators
 `F : W_{r+1} → W_r`, `V : W_r → W_{r+1}` and the restriction `R`); Layers CR.1, CR.3, CR.5 and CR.6
-write `W_n = W_n(k) = W(k)/pⁿ` for a perfect field `k`, with the canonical divided powers on `(p)`.
+write `W_n = W_n(k) = W(k)/pⁿ` for a perfect field `k` and positive length `n ≥ 1`, with the
+canonical divided powers on `(p)`. Compatible systems over these bases are indexed by positive
+lengths. The algebraic truncation `W_0(A) = 0` remains available in Layer CR.4; it is not a
+crystalline base thickening of a nonempty characteristic-p scheme.
 For a saturated Dieudonné complex `M`, `W_r(M) = M/(im V^r + im dV^r)` is a quotient complex, not a
 ring of Witt vectors. `σ` is the Witt Frobenius of `W(k)` throughout.
 
@@ -327,13 +330,6 @@ on `U₀∩U₁∩U₂`, the product is
 `−dlog t₁∧dlog(t₂/t₁)=−dlog t₁∧dlog t₂`.
 In particular the sign remains part of the integral convention at `p=2`.
 
-**Names.** Lean names in this README are suggested names for the mathematical targets to build,
-relative to `TauCetiRoadmap.CrystallineCohomology`; they do not assert declarations in
-`Suggested.lean`. That file states selected headline theorems on the pinned library's carriers.
-`Crystalline.*` holds the crystalline and de Rham–Witt material, `LogCrystalline.*` the logarithmic
-material, and `DerivedDeRham.*` the CR.DDR targets owned here, retaining the namespace of the
-DerivedDeRhamCohomology constructors they extend.
-
 ## Exact supplier contracts
 
 ### From Mathlib (pinned at `6b7abb3c7686292736be2955bd3eb9ebf63b456a`)
@@ -365,9 +361,7 @@ DerivedDeRhamCohomology constructors they extend.
   `StandardOneDimIsocrystal`
   and `isocrystal_classification` (dimension one over an algebraically closed field).
 - **Finite cyclic group cohomology.**
-  `Rep.FiniteCyclicGroup.groupCohomologyIsoEven` in
-  `Mathlib/RepresentationTheory/Homological/GroupCohomology/FiniteCyclic.lean`, lines 76–87,
-  identifies positive even cohomology with the homology of the norm / generator-minus-identity
+  Mathlib's `Rep.FiniteCyclicGroup.groupCohomologyIsoEven` identifies positive even cohomology with the homology of the norm / generator-minus-identity
   complex. For the trivial Z_p-representation of Z/p² this gives H²=Z_p/p².
 - **Infinite Witt identities and truncation.** In
   `Mathlib.RingTheory.WittVector.Identities`, `WittVector.frobenius_verschiebung` gives
@@ -430,10 +424,12 @@ DerivedDeRhamCohomology constructors they extend.
   equivalence, the base change `B ⊗_A Γ^d_A(M) ≅ Γ^d_B(B ⊗_A M)` for every `A`-algebra `B`, and
   `Γ^d_A(M) ≅ TSym^d_A(M)` for free `M`. §0.K.1: the Koszul complex of a sequence, exact in
   positive degrees with `H₀ = R/(f₁, …, f_r)` when the sequence is weakly regular.
-- **JacobianChallenge**, Layer B: for a geometrically connected smooth proper curve `C/k` of genus
-  `g`, `dim H⁰(O) = 1`, `dim H⁰(Ω¹) = g`, `dim H¹(Ω¹) = 1` (Serre duality with `ω = Ω¹`) and
-  Riemann–Roch. Layer C: proper flat finitely presented pushforward, flat base change and
-  cohomology and base change.
+- **JacobianChallenge**, Layer B: genus `g = dim H¹(O)`, Riemann–Roch and Serre duality
+  with the dualizing sheaf `ω` for a geometrically connected smooth proper curve `C/k`.
+  **SchemeAndStackFoundations**, §2.20, `relativeDualizingModule_smooth`, identifies
+  `ω = Ω¹` in relative dimension one. Together these give `dim H⁰(O) = 1`,
+  `dim H⁰(Ω¹) = g` and `dim H¹(Ω¹) = 1`. JacobianChallenge Layer C supplies proper flat
+  finitely presented pushforward, flat base change and cohomology and base change.
 - **EllipticCurves**, Layers 1 and 3: the Frobenius endomorphism `π` of an elliptic curve over `𝔽_q`
   with `deg(1 − π) = #E(𝔽_q)`, the trace `a = q + 1 − #E(𝔽_q)`, the relation `π² − [a]π + [q] = 0`,
   and the supersingularity criterion `p ∣ a`.
@@ -523,10 +519,12 @@ DerivedDeRhamCohomology constructors they extend.
   (Beck–Chevalley comparisons).
 - **SchemeAndStackFoundations**: §0.26 supplies `wittScheme n X`, `wittScheme_affine` and
   `wittScheme_one` for perfect `𝔽_p`-schemes and n≥1. CR.4.6 constructs
-  `Crystalline.wittScheme` for all schemes on which p is locally nilpotent, proves agreement
+  the Witt scheme construction for all schemes on which p is locally nilpotent, proves agreement
   with that perfect-scheme constructor, and supplies the differential module sheaves and descent
   on this carrier. CR.3:duality uses this same extended scheme.
-- **EtaleCohomologyFoundations**: §F.7, `VanishingCycles.etaleWeakLefschetz`, supplies
+- **EtaleCohomologyFoundations**: §0.7 supplies extension by zero `j_!` for open immersions
+  on étale module sheaves, its exactness and its termwise derived extension. §F.7,
+  `VanishingCycles.etaleWeakLefschetz`, supplies
   restriction isomorphisms below the middle degree and injection in the middle for smooth
   ample sections of smooth projective varieties, with finite coefficients of invertible
   annihilator and integral ℓ-adic coefficients for ℓ invertible in the base field.
@@ -543,8 +541,8 @@ DerivedDeRhamCohomology constructors they extend.
   for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
   perfect complexes and their biduality, a single perfect generator of `D_QCoh`, coherent
   Grothendieck duality with `(g∘f)^! ≅ f^!g^!`, the finite and smooth formulas, the proper trace
-  and Serre duality, the pro-étale site and `ν`, extension by zero `F_!`, étale lifting across
-  nilpotent thickenings and faithfully flat descent of quasi-coherent modules); Layer 4
+  and Serre duality, the pro-étale site and `ν`, étale lifting across nilpotent thickenings);
+  §1.1 (fpqc descent of quasi-coherent modules, `qcoh_fpqc_descent`); Layer 4
   (§4.6, deformations of smooth schemes and line bundles; §4.7, formal spectra and adic
   thickening systems).
 - **AdicSpacesPartIII**: §F0.3 (formal schemes and their adic systems), §F0.6
@@ -628,17 +626,17 @@ U=V(J).
 
 The API:
 
-- `Crystalline.PDScheme.affine`: On an affine open, J gives its ring ideal and the restricted
+- On an affine open, J gives its ring ideal and the restricted
   powers.
-- `Crystalline.PDScheme.localize`: The powers on a basic open D(s) are γ_n(x/sᵏ)=γ_n(x)/sᵏⁿ for
+- The powers on a basic open D(s) are γ_n(x/sᵏ)=γ_n(x)/sᵏⁿ for
   x∈I(Spec A), k≥0.
-- `Crystalline.PDScheme.map_comp`: Identity and composite PD morphisms preserve all powers.
-- `Crystalline.PDScheme.fiberProduct`: For morphisms of PD schemes f:(T,J,δ)→(S,I,γ) and
+- Identity and composite PD morphisms preserve all powers.
+- For morphisms of PD schemes f:(T,J,δ)→(S,I,γ) and
   f′:(T′,J′,δ′)→(S,I,γ) there are a PD scheme (T″,J″,δ″) and a cartesian square in the category of
   PD schemes; T″→T×_ST′ is a closed immersion and `T″₀→T₀×_{S₀}T′₀` is an isomorphism, where T₀=V(J)
   and similarly for the others (Stacks Lemma 60.7.4; affine-locally T″ is the spectrum of the
   pushout of PD rings, *Pushouts of divided power rings* (DerivedDeRhamCohomology §PD.6)).
-- `Crystalline.PDScheme.isThickening_iff`: For a PD scheme (T,J,γ) over ℤ_(p) with p locally
+- For a PD scheme (T,J,γ) over ℤ_(p) with p locally
   nilpotent on U=V(J): U→T is a thickening if and only if p is locally nilpotent on T.
 
 *Proof sketch.* A PD structure on a quasi-coherent ideal is determined by its values on affine
@@ -657,10 +655,10 @@ Mathlib `AlgebraicGeometry.Scheme.IdealSheafData`.
 
 **Checks.**
 
-- `test_pdScheme_zero`: An identity immersion has the zero PD ideal.
-- `test_pdScheme_affine`: Spec(A/I)→Spec A for a PD ideal recovers precisely the original affine PD
+- An identity immersion has the zero PD ideal.
+- Spec(A/I)→Spec A for a PD ideal recovers precisely the original affine PD
   ring.
-- `test_pdScheme_two`: Spec F₂→Spec ℤ/4, with the PD structure γ_n(2)=2ⁿ/n! on (2), is a PD
+- Spec F₂→Spec ℤ/4, with the PD structure γ_n(2)=2ⁿ/n! on (2), is a PD
   thickening on which 2 is nilpotent, although the ideal (2) is not PD-nilpotent.
 - On Spec ℤ/4 the ideal (2) carries exactly two PD structures, with γ₂(2)=2 and with γ₂(2)=0
   (Stacks, Divided Power Algebra, Lemma 23.5.3 and Remark 23.3.6); the identity of Spec ℤ/4 is not a
@@ -688,15 +686,15 @@ The downstream internal Ext construction belongs to AbelianSchemesAndArithmeticM
 restricted to Zariski or étale crystalline objects. Changing topology is part of that
 restriction; no equivalence of all sheaves or all Ext functors is asserted.
 
-For Dieudonné crystals on a general p-nilpotent X, also define the base-compatible variant
-`Crystalline.CrisCompatibleFppfSite`. Here X is an S-scheme to which γ extends, rather than
+For Dieudonné crystals on a general p-nilpotent X, also define the base-compatible fppf crystalline
+site. Here X is an S-scheme to which γ extends, rather than
 necessarily an S₀-scheme. An object has U→X, a p-nilpotent ambient S-scheme T and a closed immersion
 U→T with PD ideal (J,δ), where δ and γ extend to a common divided-power structure on J+IO_T
 (*Compatibility of divided powers with a base*, DerivedDeRhamCohomology §PD.5). Morphisms preserve δ
 and the structural maps. Use the Zariski, étale or fppf topology with cartesian closed fibres and
-the corresponding covering families on T; write `CrisCompatibleSite` for the small Zariski version
-(U open in X) and `CrisCompatibleEtaleSite` for its étale analogue. The big fppf version is
-`CrisCompatibleFppfSite`. Flat extension and gluing on the sum of ideals make these covers stable
+the corresponding covering families on T. The small Zariski version requires U open in X;
+its étale analogue requires U→X étale. The big fppf version allows arbitrary U→X. Flat extension
+and gluing on the sum of ideals make these covers stable
 under pullback and composition. When X→S₀, IO_T⊂J, so compatibility says exactly that T→S is a PD
 morphism; this variant then agrees with CRIS_fppf(X/S). Over (ℤ_p,(p),γ) every p-nilpotent scheme
 has the canonical divided powers on pO_X from DerivedDeRhamCohomology §PD.5. The base-compatible
@@ -711,32 +709,32 @@ group-sheaf construction assumes G commutative.
 
 The API:
 
-- `Crystalline.CrisCompatibleFppfSite.object`: A thickening with a common
+- A thickening with a common
   extension on J+IO_T is an object, without requiring IO_X=0.
-- `Crystalline.CrisCompatibleFppfSite.special_fibre`: If IO_X=0,
+- If IO_X=0,
   this category and its topology agree with CRIS_fppf(X/S).
-- `Crystalline.CrisCompatibleFppfSite.flat_cover`: Compatible flat extensions
+- Compatible flat extensions
   give the stated fppf covers and their pullbacks.
-- `Crystalline.CrisFppfSite.flat_cover`: Cartesian closed fibres and a jointly
+- Cartesian closed fibres and a jointly
   surjective fppf family of ambient schemes give a cover; flat extension
   supplies the PD structures and is compatible with composition and pullback.
-- `Crystalline.CrisFppfSite.group_sections`: For commutative G/X, the abelian group sheaf
+- For commutative G/X, the abelian group sheaf
   on (U,T) is G(U), with its usual fppf descent, whereas the structure sheaf evaluates on T.
-- `Crystalline.CrisFppfSite.restrict`: The topology-change restriction sends
+- The topology-change restriction sends
   the structure sheaf to the Zariski crystalline structure sheaf.
-- `Crystalline.CrisSite.object`: A compatible p-nilpotent PD thickening with U→X gives a big object;
+- A compatible p-nilpotent PD thickening with U→X gives a big object;
   U open gives a small object.
-- `Crystalline.CrisSite.cover_pullback`: The pullback of a jointly surjective family of opens of T
+- The pullback of a jointly surjective family of opens of T
   is a cover.
-- `Crystalline.CrisSite.small_inclusion`: The small-object inclusion preserves the displayed covers
+- The small-object inclusion preserves the displayed covers
   and composition of morphisms.
-- `Crystalline.CrisSite.finiteLimits`: CRIS(X/S) and Cris(X/S) have all finite nonempty limits, in
+- CRIS(X/S) and Cris(X/S) have all finite nonempty limits, in
   particular products of pairs and fibre products; the functor (U,T,δ)↦U to schemes over X and the
   inclusion Cris(X/S)→CRIS(X/S) commute with them (Stacks Lemmas 60.8.2 and 60.9.2).
-- `Crystalline.CrisSite.flat_baseChange`: In a fibre square of CRIS(X/S) with corners (U₃,T₃,δ₃),
+- In a fibre square of CRIS(X/S) with corners (U₃,T₃,δ₃),
   (U₂,T₂,δ₂), (U₁,T₁,δ₁) over (U,T,δ): if T₂→T is flat and U₂=T₂×_TU, then T₃=T₁×_TT₂ as schemes
   (Stacks Lemma 60.8.3).
-- `Crystalline.CrisSite.trivialThickening`: U↦(U,U,∅) is a functor from schemes over X to CRIS(X/S),
+- U↦(U,U,∅) is a functor from schemes over X to CRIS(X/S),
   and from X_Zar to Cris(X/S), left adjoint to (U,T,δ)↦U (Stacks, after Definitions 60.8.1 and
   60.9.1).
 
@@ -767,42 +765,42 @@ pp.13–14, immediately before Proposition 4.3.4.
 
 **Checks.**
 
-- `test_compatible_mixed_identity`: X=Spec ℤ/p² over (ℤ_p,(p),γ)
+- X=Spec ℤ/p² over (ℤ_p,(p),γ)
   has the identity object J=0 in the compatible site: the common extension
   is the canonical structure on (p). It is not an object of the
   S₀-scheme version, since pO_X≠0.
-- `test_compatible_special_fibre`: On X=Spec F_p, compatibility on
+- On X=Spec F_p, compatibility on
   J+pO_T is exactly δ|_(p)=γ, since pO_T⊂J. The W_n(k) object
   is therefore the same in both versions.
-- `test_compatible_conflict`: For p=2, U=Spec F₂⊂T=Spec ℤ/4,
+- For p=2, U=Spec F₂⊂T=Spec ℤ/4,
   δ₂(2)=0 is incompatible with the canonical base structure γ₂(2)=2.
   The compatible site rejects it even though its ideal has square zero.
-- `test_fppf_cover`: Over F_p with trivial PD ideals,
+- Over F_p with trivial PD ideals,
   Spec F_p[s]→Spec F_p[t], t↦s^p, is an fppf cover, finite free of rank p;
   it is not an étale cover. Taking the closed fibres equal to the ambient
   schemes gives a cover of the big fppf crystalline site.
-- `test_fppf_group`: On the trivial object Spec F_p[t], the constant
+- On the trivial object Spec F_p[t], the constant
   group Q_p/Z_p has its usual constant sections, while μ_p has only the
   identity section. On Spec F_p[ε]/(ε²), μ_p has the nonidentity
   section 1+ε, whose p-th power is 1.
-- `test_fppf_noncommutative`: Over `X = S = Spec F₂` with zero PD ideal, the constant
+- Over `X = S = Spec F₂` with zero PD ideal, the constant
   finite étale group scheme S₃ has sections S₃ on `(X,X)`. The transpositions `(12)` and
   `(23)` do not commute. The group functor on X-schemes already satisfies fppf descent,
   so sheafification leaves these noncommuting sections intact. The abelian specialization
   excludes this G.
-- `test_fppf_structure`: On (Spec F_p,Spec F_p[ε]/(ε²)) the structure
+- On (Spec F_p,Spec F_p[ε]/(ε²)) the structure
   sheaf is F_p[ε]/(ε²) but G_crys sees the closed fibre, so
   μ_p,crys has only the identity section. Replacing G(U) by G(T)
   changes the Ext input and fails this test.
-- `test_crisSite_identity`: If I=0, X=S₀=S and p is locally nilpotent on S, then (S,S,∅) is an
+- If I=0, X=S₀=S and p is locally nilpotent on S, then (S,S,∅) is an
   object of Cris(X/S) whose map to X is an isomorphism.
-- `test_crisSite_Wn`: For k a perfect field of characteristic p, n≥1 and S=Spec W_n(k) with the
+- For k a perfect field of characteristic p, n≥1 and S=Spec W_n(k) with the
   canonical PD structure γ_m(pa)=(pᵐ/m!)aᵐ on (p): (Spec k,Spec W_n(k),γ) is an object of Cris(Spec
   k/S), and it is a final object.
-- `test_crisSite_non_nilp`: No PD scheme with underlying scheme Spec ℤ_p is the thickening of an
+- No PD scheme with underlying scheme Spec ℤ_p is the thickening of an
   object of a crystalline site, because p is not nilpotent in ℤ_p. In particular (Spec F_p,Spec
   ℤ_p,γ) is not an object of Cris(Spec F_p/Spec ℤ_p).
-- `test_crisSite_product_Z4`: In Cris(Spec F₂/Spec ℤ_(2)) with the zero PD ideal on the base, the
+- In Cris(Spec F₂/Spec ℤ_(2)) with the zero PD ideal on the base, the
   product of (Spec F₂⊂Spec ℤ/4,δ) and (Spec F₂⊂Spec ℤ/4,δ′), where δ₂(2)=2 and δ′₂(2)=0, is (Spec
   F₂,Spec F₂,∅).
 
@@ -828,14 +826,14 @@ independent of the target PD scheme S′ in the first paragraph.
 
 The API:
 
-- `Crystalline.crisSiteMap_comp`: For composable squares X→Y→Z over (S,I,γ)→(S′,I′,γ′)→(S″,I″,γ″):
+- For composable squares X→Y→Z over (S,I,γ)→(S′,I′,γ′)→(S″,I″,γ″):
   (g∘f)_CRIS=g_CRIS∘f_CRIS, and id_CRIS=id.
-- `Crystalline.cris_u_sections`: For a sheaf F on Cris(X/S) and V⊂X open,
+- For a sheaf F on Cris(X/S) and V⊂X open,
   `Γ(V,u_{X/S,*}F)=Γ((V/S)_cris,F|_{Cris(V/S)})`, where Cris(V/S)⊂Cris(X/S) is the full subcategory of
   objects (U,T,δ) with U⊂V (Stacks Lemma 60.9.5).
-- `Crystalline.cris_small_big`: π∘i=id as morphisms of topoi, π_*=i⁻¹ and π⁻¹=i_!; consequently
+- π∘i=id as morphisms of topoi, π_*=i⁻¹ and π⁻¹=i_!; consequently
   Hⁿ((X/S)_CRIS,G)=Hⁿ((X/S)_cris,i⁻¹G) for every abelian sheaf G on CRIS(X/S) and every n.
-- `Crystalline.cris_u_inverse_eval`: For a Zariski sheaf G on X, u⁻¹G evaluated on (U,T,δ) is G(U),
+- For a Zariski sheaf G on X, u⁻¹G evaluated on (U,T,δ) is G(U),
   with sheafification understood. In particular (u⁻¹O_X^×)(U,T,δ)=Γ(U,O_U)^×; the homomorphism
   O_crys^×→u⁻¹O_X^× is restriction along U→T. This is the evaluation used in first-chern-class.
 
@@ -863,11 +861,11 @@ Rham cohomology*](https://arxiv.org/abs/1110.5001v1), §3.1, p.7, displayed char
 
 **Checks.**
 
-- `test_crisMap_identity`: For f=id_X over id_S: f_CRIS is the identity of (X/S)_CRIS and f_cris=π∘i
+- For f=id_X over id_S: f_CRIS is the identity of (X/S)_CRIS and f_cris=π∘i
   is the identity of (X/S)_cris.
-- `test_crisMap_open`: For X′⊂X open and S′=S, the morphism (X′/S)_cris→(X/S)_cris is the
+- For X′⊂X open and S′=S, the morphism (X′/S)_cris→(X/S)_cris is the
   localisation of (X/S)_cris at `u⁻¹h_{X′}`, and `u_{X/S}` restricts to `u_{X′/S}` (Stacks Lemma 60.9.5).
-- `test_crisMap_variants`: For X=S=Spec F_p with the zero PD ideal, the sheaf `G:(U,T,δ)↦Γ(U,Ω_{U/X})`
+- For X=S=Spec F_p with the zero PD ideal, the sheaf `G:(U,T,δ)↦Γ(U,Ω_{U/X})`
   on CRIS(X/S) has i⁻¹G=0 but G(𝔸¹_X,𝔸¹_X,∅)=F_p[t]dt≠0; hence π⁻¹i⁻¹G≠G and i∘π is not isomorphic
   to the identity.
 - For f the identity of X over the identity of S, f_CRIS=id and f_cris=π∘i=id (Stacks Lemma 60.9.2).
@@ -886,11 +884,11 @@ of an object is locally nilpotent, as in the existing crystalline site; étale p
 
 The API:
 
-- `Crystalline.etale_crystalline_site_toX`: The projection (U,T,δ)↦U takes values in X_ét on the
+- The projection (U,T,δ)↦U takes values in X_ét on the
   small site and pulls an étale cover of T back to a cover of U.
-- `Crystalline.etale_crystalline_site_structure`: O_crys,ét(U,T)=Γ(T,O_T) and
+- O_crys,ét(U,T)=Γ(T,O_T) and
   J_crys,ét(U,T)=ker(Γ(T,O_T)→Γ(U,O_U)); these are étale sheaves.
-- `Crystalline.etale_crystalline_site_change`: The identity on big-site objects from the finer étale
+- The identity on big-site objects from the finer étale
   topology gives ε to the big Zariski crystalline topos; ε⁻¹ is étale sheafification of the Zariski
   sheaf.
 
@@ -910,10 +908,10 @@ extension of PD envelopes* (DerivedDeRhamCohomology §PD.6); SchemeAndStackFound
 
 **Checks.**
 
-- `test_etale_crystalline_identity`: An identity of a thickening is an étale covering singleton.
-- `test_etale_crystalline_field_cover`: For X=Spec F_p, the object (Spec F_(p²),Spec F_(p²),0) is
+- An identity of a thickening is an étale covering singleton.
+- For X=Spec F_p, the object (Spec F_(p²),Spec F_(p²),0) is
   small étale over X but not small Zariski over X; the map to (X,X,0) is a covering.
-- `test_etale_crystalline_affine_descent`: For an affine thickening Spec B and a finite faithfully
+- For an affine thickening Spec B and a finite faithfully
   flat étale B-algebra B′, the equalizer B′⇉B′⊗_B B′ is B, and the equalizer of the pulled-back PD
   ideals is the original ideal.
 
@@ -929,21 +927,21 @@ or Cris(X/S) with the Zariski topology.
 
 The API:
 
-- `Crystalline.crisStructure_eval`: Evaluation gives O_T on the Zariski slice of a thickening.
-- `Crystalline.crisPDideal_kernel`: J_crys is the kernel sheaf of the displayed quotient map.
-- `Crystalline.crisPDideal_restrict`: Restriction maps preserve every divided power.
-- `Crystalline.crisRestrict`: For a sheaf F on the site and an object (U,T,δ), the restriction F_T
+- Evaluation gives O_T on the Zariski slice of a thickening.
+- J_crys is the kernel sheaf of the displayed quotient map.
+- Restriction maps preserve every divided power.
+- For a sheaf F on the site and an object (U,T,δ), the restriction F_T
   is the Zariski sheaf on T with F_T(W)=F(U∩W,W,δ|_W) for W⊂T open; F↦F_T is exact, and
   (O_crys)_T=O_T.
-- `Crystalline.crisComparison`: For a morphism f:(U,T,δ)→(U′,T′,δ′) the restriction maps of F define
+- For a morphism f:(U,T,δ)→(U′,T′,δ′) the restriction maps of F define
   c_f:f⁻¹F_T′→F_T and, for an O_crys-module F, an O_T-linear map c_f:f^*F_T′→F_T; c_f is an
   isomorphism when f:T→T′ is an open immersion with U=U′×_T′T (automatic on Cris(X/S), not on
   CRIS(X/S)), and `c_{g∘f}=c_f∘f^*(c_g)`.
-- `Crystalline.crisSheaf_ofRestrictions`: Zariski sheaves F_T for all objects (U,T,δ), with maps
+- Zariski sheaves F_T for all objects (U,T,δ), with maps
   c_f:f⁻¹F_T′→F_T for all morphisms f that are isomorphisms for open immersions f:T→T′ with
   U=U′×_T′T and satisfy `c_{g∘f}=c_f∘f⁻¹(c_g)`, define a sheaf on the site with these restrictions and
   comparison maps (Stacks §60.10).
-- `Crystalline.crisPDideal_pdPower`: For r≥0 the PD power `J_crys^{[r]}⊂O_crys` is the sheaf of ideals
+- For r≥0 the PD power `J_crys^{[r]}⊂O_crys` is the sheaf of ideals
   whose restriction to T is the quasi-coherent ideal `J_T^{[r]}` generated on affine opens by the
   products `γ_{e₁}(x₁)⋯γ_{e_t}(x_t)` with x_j in the ideal of U and Σe_j≥r (*Divided power filtration*
   (DerivedDeRhamCohomology §PD.4)); `J_crys^{[0]}=O_crys` and `J_crys^{[1]}=J_crys`.
@@ -957,9 +955,9 @@ the sequence `0→J_{X/S}→O_{X/S}→underline(G_a)→0`.) *Needs:* *Small and 
 
 **Checks.**
 
-- `test_crisStructure_affine`: For T=Spec B,U=Spec(B/J), the sequence evaluates to0→J→B→B/J→0.
-- `test_crisStructure_zero`: For an identity thickening the evaluated ideal is0.
-- `test_crisStructure_sheaf_epi`: For k a field of characteristic p, U=𝔸²_k∖{0} over S=Spec k with
+- For T=Spec B,U=Spec(B/J), the sequence evaluates to0→J→B→B/J→0.
+- For an identity thickening the evaluated ideal is0.
+- For k a field of characteristic p, U=𝔸²_k∖{0} over S=Spec k with
   the zero PD ideal, and T the first-order deformation of U over k[ε] glued from D(x)[ε] and D(y)[ε]
   by 1+ε·x⁻¹y⁻¹∂_x on D(xy)[ε], with γ_n=0 on εO_T for n≥2: (U,T,γ) is an object of Cris(U/S), and
   x∈Γ(U,O_U) has no lift to Γ(T,O_T). So O_crys(U,T,γ)→O_X^cris(U,T,γ) is not surjective although
@@ -990,14 +988,14 @@ to T is exact for every object (U,T,δ).
 
 The API:
 
-- `Crystalline.Crystal.pullback_iso`: The canonical f^*E_T′→E_T is O_T-linear and invertible.
-- `Crystalline.Crystal.tensor_eval`: Evaluation of E⊗F is E_T⊗_(O_T)F_T.
-- `Crystalline.Crystal.dual_eval`: For finite locally free E, evaluation of E∨ is
+- The canonical f^*E_T′→E_T is O_T-linear and invertible.
+- Evaluation of E⊗F is E_T⊗_(O_T)F_T.
+- For finite locally free E, evaluation of E∨ is
   Hom_(O_T)(E_T,O_T), with evaluation/coevaluation.
-- `Crystalline.Crystal.quasiCoherent_iff`: An O_crys-module is quasi-coherent on the ringed site if
+- An O_crys-module is quasi-coherent on the ringed site if
   and only if every restriction E_T is a quasi-coherent O_T-module and E is a crystal (Stacks Lemma
   60.11.2).
-- `Crystalline.Crystal.pullback`: For f_cris:(X/S)_cris→(Y/S′)_cris (*Morphisms and comparisons of
+- For f_cris:(X/S)_cris→(Y/S′)_cris (*Morphisms and comparisons of
   crystalline sites*) and a crystal E in quasi-coherent O_crys-modules on Cris(Y/S′), f_cris^*E is a
   crystal in quasi-coherent modules on Cris(X/S); for every object (U,T,δ) of Cris(X/S) and every
   morphism g of CRIS(Y/S′) from (U,T,δ) to an object (V,T′,δ′) of Cris(Y/S′), (f_cris^*E)_T≅g^*E_T′.
@@ -1020,14 +1018,14 @@ PD-ideal sheaves*; *Morphisms and comparisons of crystalline sites*; Mathlib `Sh
 
 **Checks.**
 
-- `test_crystal_structure`: O_crys with canonical comparisons is a rank-one crystal.
-- `test_crystal_constant`: The crystal from a finite free base module evaluates as its tensor
+- O_crys with canonical comparisons is a rank-one crystal.
+- The crystal from a finite free base module evaluates as its tensor
   extension to O_T.
-- `test_crystal_not_abelian`: For k a perfect field of characteristic p, X=Spec k and S=Spec W₂(k)
+- For k a perfect field of characteristic p, X=Spec k and S=Spec W₂(k)
   with the canonical PD structure on (p): the cokernel of p:O_crys→O_crys is a crystal in
   quasi-coherent modules whose value on (Spec k,Spec W₂(k),γ) is k, which is not a free
   W₂(k)-module; so crystals in finite locally free modules are not closed under cokernels.
-- `test_crystal_quotient_sheaf`: For `X=𝔸¹_{F_p}` over S=Spec F_p with the zero PD ideal,
+- For `X=𝔸¹_{F_p}` over S=Spec F_p with the zero PD ideal,
   O_X^cris:(U,T,δ)↦Γ(U,O_U) is an O_crys-module with quasi-coherent restrictions and with c_f an
   isomorphism for every open immersion f:T→T′ with U=U′×_T′T, but it is not a crystal: for the
   first-order thickening p₀:T′→T=X with `O_T′=O_X⊕Ω_{X/F_p}`, the map `c_{p₀}:O_T′→O_X` is not
@@ -1065,18 +1063,18 @@ of the definition of an F-crystal.
 
 The API:
 
-- `Crystalline.Isocrystal.hom`: For E, F in Crys(Z/W):
+- For E, F in Crys(Z/W):
   `Hom_{Isoc(Z/W)}(E,F)=Hom_{Crys(Z/W)}(E,F)⊗_ℤℚ`, with composition induced from Crys(Z/W).
-- `Crystalline.FCrystal.linearize`: Evaluation of Φ is linear from the Frobenius-twisted module; its
+- Evaluation of Φ is linear from the Frobenius-twisted module; its
   associated endomorphism is σ-semilinear.
-- `Crystalline.FCrystal.dual`: For a finite locally free rational crystal E with an isomorphism
+- For a finite locally free rational crystal E with an isomorphism
   Φ:F^*E≅E, define E^∨=Hom(E,O_crys)[1/p]. Its Frobenius is (Φ⁻¹)^∨:F^*(E^∨)≅E^∨ using
   F^*(E^∨)≅(F^*E)^∨. In a basis it is the inverse transpose of Φ, and evaluation E^∨⊗E→O_crys[1/p]
   commutes with Frobenius. This gives a dual in F-isocrystals, without asserting an integral
   F-crystal structure on E^∨.
-- `Crystalline.Isocrystal.frobeniusPullback`: For Z smooth over a perfect field k, pullback by
+- For Z smooth over a perfect field k, pullback by
   (F_Z)_cris preserves crystals of finite type and induces a ℚ-linear endofunctor F^* of Isoc(Z/W).
-- `Crystalline.FCrystal.nondegenerate_twoSided`: If (E,Φ) is a nondegenerate F-crystal with
+- If (E,Φ) is a nondegenerate F-crystal with
   V∘Φ=pⁱ·id and E has rank at most r, then for every N≥ri the map V′=pᴺV satisfies
   `V′∘Φ=Φ∘V′=p^{N+i}·id`; in particular Ker Φ and Coker Φ are killed by `p^{ri+i}` (Stacks Remark
   60.26.3).
@@ -1108,14 +1106,14 @@ Mathlib `TruncatedWittVector`; Mathlib `WittVector`.
 
 **Checks.**
 
-- `test_isocrystal_unit`: The unit W-crystal with Witt Frobenius gives the unit F-isocrystal.
-- `test_isocrystal_p`: For E in Crys(Z/W), multiplication by p on E is an isomorphism in Isoc(Z/W),
+- The unit W-crystal with Witt Frobenius gives the unit F-isocrystal.
+- For E in Crys(Z/W), multiplication by p on E is an isomorphism in Isoc(Z/W),
   with inverse id_E⊗p⁻¹ in Hom(E,E)⊗_ℤℚ; for E=O_crys and Z nonempty it is not an isomorphism in
   Crys(Z/W).
-- `test_isocrystal_zeroF`: For X=Spec k: over A=W(k) the pair (O_crys,Φ=0) is not a nondegenerate
+- For X=Spec k: over A=W(k) the pair (O_crys,Φ=0) is not a nondegenerate
   F-crystal; over A=W_e(k) it is nondegenerate in the sense of Stacks Definition 60.26.2, with V=0
   and i=e.
-- `test_fcrystal_p`: For X=Spec k and A=W(k), (O_crys,Φ=p·can) is a nondegenerate F-crystal with
+- For X=Spec k and A=W(k), (O_crys,Φ=p·can) is a nondegenerate F-crystal with
   V=can⁻¹ and i=1; Φ is not an isomorphism of crystals, and its image in Isoc(Spec k/W) is an
   isomorphism.
 
@@ -1138,24 +1136,24 @@ used. Exterior powers are alternating (ω∧ω=0 for ω of degree one), also whe
 
 The API:
 
-- `Crystalline.pdDifferentials_lift`: B-linear maps Ω¹_PD→M correspond bijectively to PD
+- B-linear maps Ω¹_PD→M correspond bijectively to PD
   A-derivations B→M.
-- `Crystalline.pdDifferentials_dpow`: dδ_n(x)=δ_(n−1)(x)dx for x∈J,n>0.
-- `Crystalline.pdDifferentials_map`: A compatible PD A-map gives its base-changed differential map,
+- dδ_n(x)=δ_(n−1)(x)dx for x∈J,n>0.
+- A compatible PD A-map gives its base-changed differential map,
   preserving wedges and d.
-- `Crystalline.pdDifferentials_adjoin`: (1) For the polynomial algebra B[x] with PD ideal JB[x] and
+- (1) For the polynomial algebra B[x] with PD ideal JB[x] and
   the extended divided powers, Ω¹_PD(B[x]/A)=Ω¹_PD(B/A)⊗_BB[x]⊕B[x]·dx. (2) For the PD polynomial
   algebra B⟨x⟩ with PD ideal JB⟨x⟩+B⟨x⟩₊, Ω¹_PD(B⟨x⟩/A)=Ω¹_PD(B/A)⊗_BB⟨x⟩⊕B⟨x⟩·dx, with
   `d(x^{[n]})=x^{[n−1]}dx` (Stacks Lemma 60.6.2(1)–(2)).
-- `Crystalline.pdDifferentials_quotient`: For an ideal K⊂J with δ_n(K)⊂K for all n≥1, B′=B/K and the
+- For an ideal K⊂J with δ_n(K)⊂K for all n≥1, B′=B/K and the
   induced divided powers on J/K: Ω¹_PD(B′/A) is the quotient of Ω¹_PD(B/A)⊗_BB′ by the B′-submodule
   generated by the dk, k∈K (Stacks Lemma 60.6.2(3)).
-- `Crystalline.pdDifferentials_diagonal`: For a PD homomorphism (A,I,γ)→(B,J,δ), let
+- For a PD homomorphism (A,I,γ)→(B,J,δ), let
   (B(1),J(1),δ(1)) be the coproduct of (B,J,δ) with itself over (A,I,γ) (*Pushouts of divided power
   rings* (DerivedDeRhamCohomology §PD.6)), s₀,s₁:B→B(1) the coprojections and K the kernel of
   B(1)→B. Then K∩J(1) is stable under the divided powers and `Ω¹_PD(B/A)=K/(K²+(K∩J(1))^{[2]})`, with
   d(b) the class of s₁(b)−s₀(b) (Stacks Lemma 60.6.3).
-- `Crystalline.pdDifferentials_completion`: Let p be a prime, A a ℤ_(p)-algebra and p nilpotent in
+- Let p be a prime, A a ℤ_(p)-algebra and p nilpotent in
   B/J. Then δ extends to B_e=B/pᵉB for e≫0 and to the p-adic completion B^∧, and
   lim_eΩ¹_PD(B_e/A)=lim_eΩ¹_PD(B/A)/pᵉ=lim_eΩ¹_PD(B^∧/A)/pᵉ (Stacks Lemma 60.6.10).
 
@@ -1188,10 +1186,10 @@ Mathlib `KaehlerDifferential`; Mathlib `DividedPowers`; Mathlib
 
 **Checks.**
 
-- `test_pdDifferentials_base`: If J=0 then `Ω¹_PD(B/A)=Ω_{B/A}`, the ordinary Kähler module; and
+- If J=0 then `Ω¹_PD(B/A)=Ω_{B/A}`, the ordinary Kähler module; and
   Ω¹_PD(A/A)=0 for every PD structure on an ideal of A.
-- `test_pdDifferentials_polynomial`: For A⟨t⟩, d(t^[n])=t^[n−1]dt and Ω¹_PD is free on dt.
-- `test_pdDifferentials_Fp`: Over F_p⟨t⟩ the relation d(t^[p])=t^[p−1]dt remains nonzero despite
+- For A⟨t⟩, d(t^[n])=t^[n−1]dt and Ω¹_PD is free on dt.
+- Over F_p⟨t⟩ the relation d(t^[p])=t^[p−1]dt remains nonzero despite
   d(t^p)=0.
 - Ω¹_PD(A⟨t⟩/A)=A⟨t⟩·dt with `d(t^{[n]})=t^{[n−1]}dt` (Stacks Lemma 60.6.2(2)); for A=F_p the ordinary
   Kähler module of F_p⟨t⟩≅F_p[y_0,y_1,…]/(y_iᵖ), `y_i=t^{[pⁱ]}`, is free on the infinitely many dy_i.
@@ -1240,7 +1238,7 @@ on a second-order thickening* (DerivedDeRhamCohomology §PD.5); Mathlib `AdicCom
 
 - For P=A[x] and J=IP+(x): D=A⟨x⟩ and Ω¹_PD(D/A)=D·dx with `d(x^{[n]})=x^{[n−1]}dx`.
 - Without IP⊂J: for A=ℤ_(p) with the canonical divided powers on I=(p), P=A[x] and J=(x)∌p, the
-  envelope is D_{P,γ}((p,x))=A⟨x⟩ with PD ideal pA⟨x⟩+A⟨x⟩₊ ∋ p, and again Ω¹_PD(D/A)=D·dx; the
+  envelope is `D_{P,γ}((p,x))=A⟨x⟩` with PD ideal pA⟨x⟩+A⟨x⟩₊ ∋ p, and again Ω¹_PD(D/A)=D·dx; the
   map `D⊗_PΩ_{P/A}→Ω¹_PD(D/A)` is the identity of D·dx.
 - No flatness: for A=ℤ_p, P=ℤ_p[x,y] and J=(x²,xy,y²,p) (Stacks Example 60.22.1), Ω¹_PD(D/A) is free
   on dx and dy although D is not flat over P: τ=γ̄_p(x²)γ̄_p(y²)−γ̄_p(xy)² is a nonzero element of D
@@ -1265,7 +1263,7 @@ sections over an affine open W⊂T mapping into an affine open V⊂S are Ω¹_PD
 `∇:F→F⊗_{O_crys}Ω_{X/S}` with ∇(fs)=f∇(s)+s⊗df; it is integrable if ∇∘∇=0, and then `F⊗Ω^•_{X/S}` is its
 de Rham complex on Cris(X/S) (Stacks §§60.14–60.15).
 
-`Crystalline.Connection` is the target carrier for the ordinary Kähler-differential case.
+the ordinary connection carrier of CR.1.3 is the target carrier for the ordinary Kähler-differential case.
 This is the shared algebraic carrier over arbitrary commutative base rings; no characteristic,
 integrability or quasi-nilpotence restriction enters its definition. Additivity and the Leibniz
 rule give `∇(am)=a∇(m)` for a∈A, since d kills base scalars. In characteristic zero this is the
@@ -1281,28 +1279,28 @@ small site Cris(X/S).
 
 The API:
 
-- `Crystalline.Connection.extend`: `∇:M⊗_BΩⁱ→M⊗_BΩ^{i+1}`, ∇(m⊗ω)=∇(m)∧ω+m⊗dω, is well defined, and
+- `∇:M⊗_BΩⁱ→M⊗_BΩ^{i+1}`, ∇(m⊗ω)=∇(m)∧ω+m⊗dω, is well defined, and
   ∇(η∧ω)=∇(η)∧ω+(−1)ⁱη∧dω for η∈M⊗_BΩⁱ and ω∈Ωʲ.
-- `Crystalline.Connection.curvature`: The curvature ∇∘∇:M→M⊗_BΩ² is B-linear and
+- The curvature ∇∘∇:M→M⊗_BΩ² is B-linear and
   (∇∘∇)(m⊗ω)=(∇∘∇)(m)∧ω; ∇ is integrable if and only if the curvature vanishes, and then ∇∘∇=0 on
   every M⊗_BΩⁱ.
-- `Crystalline.Connection.deRhamComplex`: For an integrable connection, (M⊗_BΩ^•,∇) is a cochain
+- For an integrable connection, (M⊗_BΩ^•,∇) is a cochain
   complex of A-modules in degrees ≥0; a horizontal B-linear map M→N induces a map of de Rham
   complexes.
-- `Crystalline.Connection.baseChange`: For a commutative square A→A′, B→B′ and φ:Ω→Ω′ compatible
+- For a commutative square A→A′, B→B′ and φ:Ω→Ω′ compatible
   with `Ω_{B/A}→Ω_{B′/A′}`: ∇′(m⊗b′)=Σm_i⊗b′φ(db_i)+m⊗db′ (where ∇(m)=Σm_i⊗db_i) is a connection on
   M⊗_BB′, integrable if ∇ is, and m⊗η↦m⊗φ(η) is a map of complexes M⊗_BΩ^•→M⊗_B(Ω′)^• (Stacks Remark
   60.6.9).
-- `Crystalline.Connection.tensor`: For connections on M and N, ∇(m⊗n)=∇(m)⊗n+m⊗∇(n) is a connection
+- For connections on M and N, ∇(m⊗n)=∇(m)⊗n+m⊗∇(n) is a connection
   on M⊗_BN; its curvature is R_M⊗1+1⊗R_N, so it is integrable if both are.
-- `Crystalline.Connection.hom`: For M finitely generated projective, (∇φ)(m)=∇_N(φ(m))−(φ⊗1)(∇_M(m))
+- For M finitely generated projective, (∇φ)(m)=∇_N(φ(m))−(φ⊗1)(∇_M(m))
   is a connection on Hom_B(M,N), integrable if both are; a B-linear map φ is horizontal if and only
   if ∇φ=0. With N=(B,d) this is the dual connection.
-- `Crystalline.crisDifferentials`: On Cris(X/S), `Ω_{X/S}` with `d_{X/S}:O_crys→Ω_{X/S}` is the
+- On Cris(X/S), `Ω_{X/S}` with `d_{X/S}:O_crys→Ω_{X/S}` is the
   universal PD S-derivation; `(Ω_{X/S})_T=Ω_{T/S,δ}` and `d_{X/S}` restricts to `d_{T/S,δ}`; `Ω_{X/S}` has
   quasi-coherent restrictions and `c_f:f^*(Ω_{X/S})_T′→(Ω_{X/S})_T` is surjective when f:T→T′ is a
   closed immersion, but `Ω_{X/S}` is in general not a crystal (Stacks Lemmas 60.12.3 and 60.12.6).
-- `Crystalline.Connection.ofCrystal`: A crystal F in O_crys-modules on Cris(X/S) carries a canonical
+- A crystal F in O_crys-modules on Cris(X/S) carries a canonical
   integrable connection: for an object (U,T,δ), with T′ the first-order thickening
   `O_T′=O_T⊕Ω_{T/S,δ}`, projections p₀,p₁:T′→T and `c=c_{p₁}⁻¹∘c_{p₀}:p₀^*F_T→p₁^*F_T`, one has
   ∇(s)=p₁^*s−c(p₀^*s) in `F_T⊗_{O_T}Ω_{T/S,δ}` (Stacks Lemma 60.15.1).
@@ -1328,13 +1326,13 @@ Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.6, Rema
 
 **Checks.**
 
-- `test_connection_unit`: (B,d) is an integrable connection on B, with de Rham complex (Ω^•,d); the
+- (B,d) is an integrable connection on B, with de Rham complex (Ω^•,d); the
   canonical connection of the structure crystal O_crys is `d_{X/S}`.
-- `test_connection_exponential`: For A=F_p, B=F_p[t], `Ω=Ω_{B/A}` and M=B·e with ∇(e)=e⊗dt:
+- For A=F_p, B=F_p[t], `Ω=Ω_{B/A}` and M=B·e with ∇(e)=e⊗dt:
   ∇(fe)=(f′+f)e⊗dt, the connection is integrable, and its de Rham complex is B→B·dt, f↦(f′+f)dt.
-- `test_connection_not_integrable`: For B=A[x,y] with A≠0, `Ω=Ω_{B/A}` and M=B·e with ∇(e)=e⊗x·dy:
+- For B=A[x,y] with A≠0, `Ω=Ω_{B/A}` and M=B·e with ∇(e)=e⊗x·dy:
   ∇(∇(e))=e⊗dx∧dy≠0, so ∇ is not integrable and M⊗_BΩ^• is not a complex.
-- `test_connection_pd`: For Ω=Ω¹_PD(B/A) with J=0, a connection is a connection relative to the
+- For Ω=Ω¹_PD(B/A) with J=0, a connection is a connection relative to the
   ordinary Kähler differentials `Ω_{B/A}`; for B=A⟨t⟩ with PD ideal B₊, Ω=B·dt and a connection on M
   is ∇(m)=θ(m)⊗dt for an additive map θ:M→M with θ(bm)=∂_t(b)m+bθ(m) for all b∈B, where ∂_t is the
   A-linear map with `∂_t(t^{[n]})=t^{[n−1]}` and ∂_t(1)=0.
@@ -1357,12 +1355,12 @@ set of variables, with a surjection P→C of A-algebras. M is a p-adically compl
 
 The API:
 
-- `Crystalline.PDStratification.diagonal`: Pulling ε to the diagonal gives id_M.
-- `Crystalline.PDStratification.cocycle`: q₀₂^*ε=q₁₂^*ε∘q₀₁^*ε as maps
+- Pulling ε to the diagonal gives id_M.
+- q₀₂^*ε=q₁₂^*ε∘q₀₁^*ε as maps
   `M⊗^∧_{D,q₀}D(2)→M⊗^∧_{D,q₂}D(2)`.
-- `Crystalline.PDStratification.from_crystal`: The crystal pullback isomorphisms on D(1) define ε
+- The crystal pullback isomorphisms on D(1) define ε
   and satisfy the cocycle.
-- `Crystalline.PDStratification.taylorCoefficients`: For a PD stratification ε and m∈M there are
+- For a PD stratification ε and m∈M there are
   unique elements θ_K(m)∈M, K running over the multi-indices of finite support, with
   `ε(m⊗1)=Σ_Kθ_K(m)⊗∏_iξ_i^{[k_i]}` in `M⊗^∧_{D,p₁}D(1)`, where ξ_i=x_i⊗1−1⊗x_i=p₀(x_i)−p₁(x_i); the sum
   converges p-adically. One has θ_0=id and `θ_K∘θ_L=θ_{K+L}`; so the `θ_i=θ_{e_i}` commute and
@@ -1389,12 +1387,12 @@ polynomial algebras* (DerivedDeRhamCohomology §PD.5); *Small and big crystallin
 
 **Checks.**
 
-- `test_stratification_unit`: The structure module has its canonical identity-after-base-change
+- The structure module has its canonical identity-after-base-change
   stratification.
-- `test_stratification_three`: For A=F_p with the zero PD ideal, C=P=F_p[t] and M=D=F_p[t] with ε
+- For A=F_p with the zero PD ideal, C=P=F_p[t] and M=D=F_p[t] with ε
   the identity of D(1)=F_p[t]⟨ξ⟩, ξ=t⊗1−1⊗t: `ε(f⊗1)=p₀(f)=Σ_kp₁(f^{(k)})·ξ^{[k]}` for every f, so θ_k
   is the k-th derivative.
-- `test_stratification_connection`: For A=F_p with the zero PD ideal and C=P=F_p[t], the module
+- For A=F_p with the zero PD ideal and C=P=F_p[t], the module
   M=F_p[t]·e with the integrable connection ∇e=e⊗dt has no PD stratification whose coefficient θ_1
   is the operator θ of ∇: such an ε would satisfy `ε(e⊗1)=Σ_kθᵏ(e)⊗ξ^{[k]}` with only finitely many
   nonzero terms, but θᵏ(e)=e for all k.
@@ -1426,10 +1424,10 @@ relative to γ. M is a p-adically complete D-module; ⊗^∧ is the p-adically c
 
 The API:
 
-- `Crystalline.QNConnection.operators`: ∇(m)=Σ_iθ_i(m)dx_i, and θ_i(fm)=∂_i(f)m+fθ_i(m) for f∈D and
+- ∇(m)=Σ_iθ_i(m)dx_i, and θ_i(fm)=∂_i(f)m+fθ_i(m) for f∈D and
   m∈M, where df=Σ_i∂_i(f)dx_i in Ω_D.
-- `Crystalline.QNConnection.commute`: Integrability implies θ_iθ_j=θ_jθ_i.
-- `Crystalline.QNConnection.finite_taylor`: If ∇ is integrable and topologically quasi-nilpotent,
+- Integrability implies θ_iθ_j=θ_jθ_i.
+- If ∇ is integrable and topologically quasi-nilpotent,
   then for every m∈M and e≥1 only finitely many multi-indices K of finite support have θ_K(m)∉pᵉM;
   hence `Σ_Kθ_K(m)⊗ξ^{[K]}` converges p-adically for every family of elements ξ_i of a PD ideal in a
   p-adically complete D-algebra.
@@ -1458,10 +1456,10 @@ Rham complex*); Mathlib `IsAdicComplete`.
 
 **Checks.**
 
-- `test_qn_trivial`: For A=F_p with the zero PD ideal and C=P=F_p[t], so D=F_p[t]: (D,d) is
+- For A=F_p with the zero PD ideal and C=P=F_p[t], so D=F_p[t]: (D,d) is
   integrable and topologically quasi-nilpotent, with θ=d/dt and θᵏ(f)=0 for k>deg f.
-- `test_qn_unipotent`: Over F_p[t], θ(e₁)=0,θ(e₂)=e₁ gives a nonzero rank-two connection with θ^p=0.
-- `test_qn_exponential`: Over F_p[t], ∇e=e⊗dt is integrable but θ^p(e)=e, so it is not
+- Over F_p[t], θ(e₁)=0,θ(e₂)=e₁ gives a nonzero rank-two connection with θ^p=0.
+- Over F_p[t], ∇e=e⊗dt is integrable but θ^p(e)=e, so it is not
   quasi-nilpotent.
 - A nontrivial connection satisfying the condition: for A=F_p with the zero PD ideal and C=P=F_p[t]
   (so D=F_p[t]), on M=De₁⊕De₂ with θ(e₁)=0, θ(e₂)=e₁ one has θ=∂+N with N²=0 and [∂,N]=0, hence
@@ -1551,7 +1549,7 @@ connection and their de Rham complexes*; *Relative divided power polynomial alge
 ### CR.1.4 Evaluation on Witt vectors
 
 **Finite-Witt evaluation and formal coefficient comparison.** Let k be a perfect field of
-characteristic p, W=W(k) with the canonical PD structure on (p), W_n=W/pⁿ, Z a smooth k-scheme of
+characteristic p, W=W(k) with the canonical PD structure on (p), n≥1 and W_n=W/pⁿ, Z a smooth k-scheme of
 finite type and Ẑ a smooth p-adic formal W-scheme with Ẑ⊗_Wk=Z; put Z_n=Ẑ⊗_WW_n. Then (Z,Z_n,γ) is
 an object of Cris(Z/Spec W_n). Let MIC(Z_n) be the category of `O_{Z_n}`-modules of finite type with
 an integrable connection `∇_n:E_n→E_n⊗Ω¹_{Z_n/W_n}`. Call (E_n,∇_n) quasi-nilpotent if for every
@@ -1563,10 +1561,10 @@ MIC(Z_n)^qn, compatible with reduction from `W_{n+1}` to W_n; crystals in finite
 correspond to the (E_n,∇_n) with E_n finite locally free. (2) (E_n,∇_n) in MIC(Z_n) is
 quasi-nilpotent if and only if its reduction `(E_1,∇_1)=(E_n,∇_n)⊗_{W_n}k` is. (3) Crys(Z/W) is
 equivalent to the category of coherent O_Ẑ-modules E with an integrable connection such that
-(E,∇)⊗_WW_n lies in MIC(Z_n)^qn for every n; such E satisfy E=lim_nE/pⁿE.
+(E,∇)⊗_WW_n lies in MIC(Z_n)^qn for every n≥1; such E satisfy E=lim_(n≥1)E/pⁿE.
 
 *Hypotheses.* k is a perfect field of characteristic p; W=W(k) carries the canonical PD structure on
-(p); W_n=W/pⁿ. Z is a smooth k-scheme of finite type and Ẑ a smooth p-adic formal scheme over W with
+(p); n≥1 and W_n=W/pⁿ. Z is a smooth k-scheme of finite type and Ẑ a smooth p-adic formal scheme over W with
 reduction Z; the lift Ẑ is part of the data and need not exist for every Z. Modules are of finite
 type and connections are integrable.
 
@@ -1585,9 +1583,9 @@ pair (M,∇) over D only involves M/pM, and the PD envelope over (W_n,(p),γ) re
 PD envelope over (k,0), since the kernel of the reduction is generated by the γ_m(pa)=(pᵐ/m!)aᵐ∈pD
 (Stacks Lemma 60.2.3). (3): every object of Cris(Z/Spec W) is Zariski locally an object of some
 Cris(Z/Spec W_n), so a crystal of finite type over W is a compatible system of crystals over the
-W_n; coherent modules on the noetherian formal scheme Ẑ are the compatible systems of coherent
+W_n for n≥1; coherent modules on the noetherian formal scheme Ẑ are the compatible systems of coherent
 modules on the Z_n (EGA I 10.11.3). ([Esnault–Groechenig, *Rigid connections and
-F-isocrystals*](https://page.mi.fu-berlin.de/esnault/preprints/helene/126_esn_gro.pdf), §2.6, p. 15
+F-isocrystals*](https://page.mi.fu-berlin.de/esnault/preprints/helene/126_esn_gro.pdf), §2.6, pp. 14–15
 of the author-hosted manuscript: the paragraph before Theorem 2.19 and the paragraph before
 Corollary 2.20; [Stacks Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.17,
 Lemma 60.17.5; §60.24, Remark 60.24.11(1)–(2).) *Needs:* *Crystals, stratifications and
@@ -1600,6 +1598,12 @@ schemes*).
 
 **Checks.**
 
+- For k=𝔽₂, Z=Spec k and Ẑ=Spf ℤ₂, length n=1 gives Z₁=Z; evaluation of the structure
+  crystal gives k, and reduction to k is the identity.
+- At n=2 the same data give the PD thickening Spec 𝔽₂→Spec(ℤ/4); the structure coefficient
+  is ℤ/4 with zero relative connection, and its reduction is 𝔽₂ with zero connection.
+- Length n=0 is excluded: W₀=0 and Z₀=∅, so there is no immersion Spec 𝔽₂→Z₀ and no unital
+  ring map W₀→𝔽₂. The algebraic zero truncation cannot be an evaluation object here.
 - For Z=𝔸¹_k and Ẑ=Spf W⟨t⟩: (O_Ẑ,d) corresponds to the structure crystal, and the connection
   ∇e=λe⊗dt on W⟨t⟩·e (λ∈W) corresponds to a crystal on Cris(Z/Spec W) if and only if p divides λ,
   because modulo p one has θ=∂+λ̄ and θᵖ=λ̄ᵖ.
@@ -1648,13 +1652,13 @@ with A a ℤ_(p)-algebra and p nilpotent in A/I, and F is any O_crys-module.
 
 The API:
 
-- `Crystalline.RΓcrys_comp`: `RΓ_crys(X/S,−)=RΓ(X_Zar,−)∘Ru_{X/S,*}` as functors
+- `RΓ_crys(X/S,−)=RΓ(X_Zar,−)∘Ru_{X/S,*}` as functors
   D((X/S)_cris,O_crys)→D(Γ(S,O_S)), where `Ru_{X/S,*}` takes values in D(X_Zar,f⁻¹O_S).
-- `Crystalline.RΓcrys_map`: For a square X→Y over (S,I,γ)→(S′,I′,γ′) as in *Morphisms and
+- For a square X→Y over (S,I,γ)→(S′,I′,γ′) as in *Morphisms and
   comparisons of crystalline sites* (Layer CR.1), an O_crys-module F′ on Cris(Y/S′) and a map
   f_cris⁻¹F′→F of sheaves on Cris(X/S) linear over `f_cris⁻¹O_{Y/S′}→O_{X/S}`, there is a map
   RΓ_crys(Y/S′,F′)→RΓ_crys(X/S,F), linear over Γ(S′,O_S′)→Γ(S,O_S).
-- `Crystalline.RΓcrys_limit`: For a PD ring (A,I,γ) with A a ℤ_(p)-algebra and p nilpotent in A/I,
+- For a PD ring (A,I,γ) with A a ℤ_(p)-algebra and p nilpotent in A/I,
   S=Spec A and S_e=Spec A/pᵉA (e≫0): `RΓ(Cris(X/S),F)≅Rlim_eRΓ(Cris(X/S_e),F|_{Cris(X/S_e)})` for
   every O_crys-module F (Stacks Remark 60.24.10).
 
@@ -1729,7 +1733,7 @@ ring with: a PD A-algebra endomorphism ε of B with ε∘ε=ε; an element ξ∈
 A-derivation ∂:B→B with ∂ξ=1 and ∂∘ε=0; and the Taylor property that every y∈B is a finite sum
 `Σ_k ξ^{[k]}ε(c_k)` with c_k∈B. Then for every closed ω∈Ωʲ_PD(B/A), ω−ε^*ω is exact, and ω=ε^*ω when
 j=0. Consequently, for B₀=ε(B) with PD ideal J∩B₀, the inclusion induces a quasi-isomorphism
-Ω^•_PD(B₀/A)→Ω^•_PD(B/A). No PD polynomial algebra and no linear independence of the ξ^{[k]} over B₀
+Ω^•_PD(B₀/A)→Ω^•_PD(B/A). No PD polynomial algebra and no linear independence of the `ξ^{[k]}` over B₀
 are assumed.
 
 *Hypotheses.* A is a commutative ring and W any set of variables. In (2): (B,I,δ) is a PD ring, B an
@@ -1754,9 +1758,9 @@ termwise linear maps and pass to completions. (4): `d(z^{[n]})=z^{[n−1]}dz`, s
 `dh(z^{[n]}dz)=z^{[n]}dz` and `hd(z^{[n]})=z^{[n]}` for n≥1, hd(1)=0. (5): J∩B₀ is stable under δ,
 since `δ_n(ε(x))=ε(δ_n(x))`. By the Taylor property and `d(ε(c))=ε^*(dc)`, every form is a sum
 `Σ_kξ^{[k]}(α_k+dξ∧β_k)` with α_k, β_k in the image of ε^*. Subtracting dη with
-`η=Σ_kξ^{[k+1]}β_k` leaves ω′=Σ_kξ^{[k]}ρ_k with ρ_k in the image of ε^*. Let ι be the contraction
+`η=Σ_kξ^{[k+1]}β_k` leaves `ω′=Σ_kξ^[k]ρ_k` with ρ_k in the image of ε^*. Let ι be the contraction
 with the B-linear form on Ω¹_PD(B/A) induced by ∂; it kills forms in the image of ε^* and sends dξ
-to 1, so `ι∘d` sends Σ_kξ^{[k]}ρ_k to Σ_kξ^{[k−1]}ρ_k, and `ρ_a=ε^*((ι∘d)^aω′)` because
+to 1, so `ι∘d` sends `Σ_kξ^[k]ρ_k` to `Σ_(k≥1)ξ^[k−1]ρ_k`, and `ρ_a=ε^*((ι∘d)^aω′)` because
 `ε(ξ^{[k]})=0` for k≥1. If ω is closed, so is ω′, hence ρ_a=0 for a≥1 and ω′=ρ₀=ε^*ω′; then
 ω−ε^*ω=d(η−ε^*η). For the consequence, the inclusion i:B₀→B and ε:B→B₀ are PD morphisms whose
 induced maps of complexes satisfy ε_*i_*=id and i_*ε_*=ε^*, the identity on cohomology by the
@@ -1785,7 +1789,7 @@ algebras* (DerivedDeRhamCohomology §PD.5); *Universal PD differentials and the 
   degree 0, the case N=A of (1) in one variable.
 - The Taylor property is needed in (5): over A=F_p let B=F_p⟨z⟩[w] with PD ideal F_p⟨z⟩₊[w], ε
   sending z and w to 0, ξ=z and ∂=∂/∂z. All other inputs hold, but `ω=w^{p−1}dw` is closed with
-  ε^*ω=0 and is not exact: df=ω forces ∂f/∂z=0, so f∈F_p[w], and w^{p−1} is not a derivative in
+  ε^*ω=0 and is not exact: df=ω forces ∂f/∂z=0, so f∈F_p[w], and `w^{p−1}` is not a derivative in
   F_p[w].
 
 **Crystalline cohomology from an embedding.** Setting for (1)–(4): Stacks Situation 60.5.1 with
@@ -1917,17 +1921,17 @@ in quasi-coherent O_crys-modules on Cris(X/S).
 
 The API:
 
-- `Crystalline.linearization_eval`: L(N)(U,T,δ)=Γ(D_T,pr_D^*Ñ) with (U,D_T,δ_T)=(U,T,δ)×(X,Spec
+- L(N)(U,T,δ)=Γ(D_T,pr_D^*Ñ) with (U,D_T,δ_T)=(U,T,δ)×(X,Spec
   D,γ̄); for T=Spec B affine and h:D→B a morphism of thickenings, D_T=Spec B⟨ξ_1,…,ξ_d⟩ with
   pr_D:x_i↦h(x_i)+ξ_i and L(N)(U,T,δ)=N⊗_DB⟨ξ_1,…,ξ_d⟩.
-- `Crystalline.linearization_map`: A D-linear map N→N′ induces a map of O_crys-modules L(N)→L(N′),
+- A D-linear map N→N′ induces a map of O_crys-modules L(N)→L(N′),
   compatibly with composition and with the restriction maps.
-- `Crystalline.linearization_augmentation`: For a crystal E in quasi-coherent O_crys-modules, the
+- For a crystal E in quasi-coherent O_crys-modules, the
   maps `E_T→pr_{T,*}pr_T^*E_T=pr_{T,*}pr_D^*Ẽ_D` define E→L(E_D), and `L(E_D⊗_DN)≅E⊗_{O_crys}L(N)` for
   every D-module N.
-- `Crystalline.linearization_cohomology`: RΓ(Cris(X/S),L(N))≅N in degree 0: Γ(Cris(X/S),L(N))=N and
+- RΓ(Cris(X/S),L(N))≅N in degree 0: Γ(Cris(X/S),L(N))=N and
   Hⁱ(Cris(X/S),L(N))=0 for i>0.
-- `Crystalline.linearization_resolution`: L(Ω^•_PD(D/A)), with
+- L(Ω^•_PD(D/A)), with
   `L(Ω^q_PD(D/A))_T=pr_{T,*}Ω^q_PD(D_T/T)` and the relative PD de Rham differentials, is a complex of
   O_crys-modules, and for every crystal E in quasi-coherent O_crys-modules the augmented complex
   `E→E⊗_{O_crys}L(Ω^•_PD(D/A))` is exact.
@@ -1956,11 +1960,11 @@ cohomology from an embedding*.
 
 **Checks.**
 
-- `test_linearization_zero`: L(0)=0.
-- `test_linearization_identity`: For A=F_p with the zero PD ideal and C=P=F_p[x], so that D=F_p[x]
+- L(0)=0.
+- For A=F_p with the zero PD ideal and C=P=F_p[x], so that D=F_p[x]
   and X=Spec D: L(D)(X,X,∅)=F_p[x]⟨ξ⟩, where the two maps from F_p[x] are x↦x and x↦x+ξ; this is
   free of infinite rank over F_p[x] and is not D. RΓ(Cris(X/S),L(D))=F_p[x] in degree 0.
-- `test_linearization_PD`: For the same data, L(D)(X,X,∅)=F_p[x]⟨ξ⟩ is not the polynomial ring
+- For the same data, L(D)(X,X,∅)=F_p[x]⟨ξ⟩ is not the polynomial ring
   F_p[x][ξ]: `ξᵖ=p!·ξ^{[p]}=0` in it, and `ξ^{[p]}` is not a polynomial in ξ.
 - For the same data the complex L(Ω^•_PD(D/A)) on (X,X,∅) is F_p[x]⟨ξ⟩→F_p[x]⟨ξ⟩dξ,
   `ξ^{[n]}↦ξ^{[n−1]}dξ`, linear over F_p[x]; its kernel is F_p[x] and it is surjective, so
@@ -1984,13 +1988,13 @@ hypotheses.
 
 The API:
 
-- `Crystalline.smooth_linearization_eval`: L_i(N)_T=a_*b^*N, with D_T the relative PD envelope of U
+- L_i(N)_T=a_*b^*N, with D_T the relative PD envelope of U
   in T×_SP; this formula defines the restriction maps.
-- `Crystalline.smooth_linearization_map`: An O_D-linear map N→N′ induces L_i(N)→L_i(N′); identity
+- An O_D-linear map N→N′ induces L_i(N)→L_i(N′); identity
   and composition are preserved.
-- `Crystalline.smooth_linearization_acyclic`: u_*L_i(N)=N and R^qu_*L_i(N)=0 for q>0 as base-module
+- u_*L_i(N)=N and R^qu_*L_i(N)=0 for q>0 as base-module
   sheaves on X.
-- `Crystalline.smooth_linearization_resolution`: The crystal transition isomorphisms identify
+- The crystal transition isomorphisms identify
   E⊗L_i(Ω^q_(P/S)|_D) with L_i(E_D⊗Ω^q_(P/S)|_D); the augmented relative PD de Rham complex is
   exact.
 
@@ -2014,10 +2018,10 @@ finite locally free crystals* (Layer CR.1); *Universal PD differentials and the 
 
 **Checks.**
 
-- `test_smooth_linearization_zero`: L_i(0)=0 on every object.
-- `test_smooth_linearization_line`: For X=P=A¹_(F_p), D=X and (U,T)=(X,X), L_i(O_X)_T=F_p[x]⟨ξ⟩ with
+- L_i(0)=0 on every object.
+- For X=P=A¹_(F_p), D=X and (U,T)=(X,X), L_i(O_X)_T=F_p[x]⟨ξ⟩ with
   the second coordinate x+ξ.
-- `test_smooth_linearization_etale_chart`: Restrict the preceding construction to X=P=G_m. The value
+- Restrict the preceding construction to X=P=G_m. The value
   is F_p[x,x⁻¹]⟨ξ⟩, and x+ξ is invertible since ξ^p=0; thus the two ambient maps respect the
   inverted coordinate.
 - The value at a trivial thickening of the affine line is O_X⟨ξ⟩, while Ru_*L(O_X)=O_X; evaluation
@@ -2231,15 +2235,15 @@ Layer 2.
 ### CR.DDR.4.1 The derived de Rham to crystalline map
 
 For a ring map `A → B` of `ℤ/p^n`-algebras, `n ≥ 1`, construct `Comp_(B/A) : dR_(B/A) →
-RΓ_crys((B/A)_crys, O_crys)`, `DerivedDeRham.crystallineComparisonMap`, as a natural map in `DF(A)`,
+RΓ_crys((B/A)_crys, O_crys)`, as a natural map in `DF(A)`,
 where the target is §CR.2.1's crystalline cohomology for the canonical divided powers on `p` with
-its PD filtration, using `Crystalline.CrisCompatibleSite` of §CR.1.1. On a polynomial resolution `P•
+its PD filtration, using the compatible crystalline site of §CR.1.1. On a polynomial resolution `P•
 → B`, the map `Ω•_(P•/A) → Ω•_(P•/A) ⊗_(P•) D_(P•)(ker(P• → B))` is a map of strict Hodge-filtered
 dg algebras into the envelope model. The PD Poincaré lemma (§CR.2.2) identifies the realization of
 that model with the target in `DF(A)`. The target is classical crystalline cohomology of `B`, whose
 products are the ringed-site cup products specified in *Crystalline cup products*. `Comp` is
 multiplicative in the sense of the Conventions: it intertwines the shuffle product of
-DerivedDeRhamCohomology §2.22 with these cup products in `D(A)` (`crystallineComparisonCup`). It is
+DerivedDeRhamCohomology §2.22 with these cup products in `D(A)`. It is
 not asserted to be a map of strict dg algebras into a strict model of the global target.
 
 [Bhatt12], Proposition 3.25 and Remark 3.26, p.12.
@@ -2248,28 +2252,28 @@ not asserted to be a map of strict dg algebras into a strict model of the global
 DerivedModuleAlgebra §0.1 (*Simplicial polynomial resolutions*); DerivedDeRhamCohomology §§PD.5–PD.6; §CR.1.1,
 §CR.2.1–§CR.2.2.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `crystallineComparisonNatural`: a base-compatible square induces a commuting square of comparison
+- a base-compatible square induces a commuting square of comparison
   maps.
-- `crystallineComparisonHodge`: the map carries the Hodge filtration to the crystalline PD
+- the map carries the Hodge filtration to the crystalline PD
   filtration.
-- `crystallineComparisonSmooth`: for a smooth map of flat `ℤ/p^n`-algebras this is the PD Poincaré
+- for a smooth map of flat `ℤ/p^n`-algebras this is the PD Poincaré
   equivalence.
-- `crystallineComparisonCup`: `Comp ∘ ∪_dR = ∪_crys ∘ (Comp ⊗^L Comp)` in `D(A)`, with `∪_crys` the
+- `Comp ∘ ∪_dR = ∪_crys ∘ (Comp ⊗^L Comp)` in `D(A)`, with `∪_crys` the
   cup ringed-site product specified in *Crystalline cup products*. Proof route: on the envelope
   model the map is a map of strict dg algebras. In each simplicial degree the identification of the
   envelope de Rham complex with crystalline cohomology (*Crystalline cohomology from an embedding*)
   carries its wedge product to the cup product, as in the proof of *Crystalline cup products* and in
-  `Crystalline.crysCup_deRham` for smooth lifts. The shuffle product on the realization is then
+  the multiplicative de Rham comparison of CR.3.4 for smooth lifts. The shuffle product on the realization is then
   compared with the cup product degreewise.
 
 **Checks.**
 
-- `test_crys_map_base`: for `A → A` over `ℤ/p^n`, `Comp` is the identity on `A`.
-- `test_crys_map_polynomial`: for `F_p → F_p[t]`, `Comp` identifies the ordinary complex with the
+- for `A → A` over `ℤ/p^n`, `Comp` is the identity on `A`.
+- for `F_p → F_p[t]`, `Comp` identifies the ordinary complex with the
   crystalline PD de Rham model.
-- `test_crys_map_nonlci`: for `F_p → F_p[x,y]/(x,y)²`, the map exists but cannot be an equivalence:
+- for `F_p → F_p[x,y]/(x,y)²`, the map exists but cannot be an equivalence:
   `H^−1` of the source is nonzero (DerivedDeRhamCohomology §3.11) and the classical target is
   coconnective.
 
@@ -2287,15 +2291,13 @@ envelope, flatness, tensor-discreteness and reduction facts of DerivedDeRhamCoho
 (*Regular quotient divided-power calculations*); DerivedDeRhamCohomology §2.23 (*Derived base change
 and Künneth*); DerivedDeRhamCohomology §PD.6; §CR.2.1–§CR.2.2.
 
-Lean: `DerivedDeRham.regularPdComparison`.
-
 **Checks.**
 
-- `test_regular_pd_zero`: for `I = 0`, `dR_(A/A) = A = D_A(0)`.
-- `test_regular_pd_line`: for `A = F_p[t]`, `B = F_p` (`n = 1`), `dR_(B/A) ≃ D_A((t)) = F_p⟨t⟩`, the
+- for `I = 0`, `dR_(A/A) = A = D_A(0)`.
+- for `A = F_p[t]`, `B = F_p` (`n = 1`), `dR_(B/A) ≃ D_A((t)) = F_p⟨t⟩`, the
   divided power polynomial algebra, in which `γ_p(t) ≠ 0` although `t^p = 0`; it is not the quotient
   ring `F_p`.
-- `test_regular_pd_hodge`: in the same example the Hodge filtration is the PD filtration: `γ_n(t) ∈
+- in the same example the Hodge filtration is the PD filtration: `γ_n(t) ∈
   Fil_H^n` and `γ_n(t) ∉ Fil_H^(n+1)`.
 
 ### CR.DDR.4.4 Frobenius on nilpotent-p derived de Rham
@@ -2311,21 +2313,19 @@ This construction does not identify the Hodge filtration with the conjugate or N
 Rham cohomology from polynomial resolutions*); DerivedDeRhamCohomology §2.26 (*p-completed derived
 de Rham*); DerivedDeRhamCohomology §3.3 (*The derived Frobenius twist*); §CR.2.1.
 
-Lean: `DerivedDeRham.deRhamFrobenius`.
+Prove the following laws.
 
-Prove the following named laws.
-
-- `deRhamFrobeniusNatural`: algebra maps over `ℤ/p^n` commute with `φ`.
-- `deRhamFrobeniusCrystalline`: `Comp` intertwines `φ` and crystalline Frobenius.
-- `deRhamFrobeniusLimit`: the finite `φ` maps induce the endomorphism of `Λ_p dR`.
-- `deRhamFrobeniusDegreeZero`: modulo `p`, degree-zero polynomial functions map by `b ↦ b^p`.
+- algebra maps over `ℤ/p^n` commute with `φ`.
+- `Comp` intertwines `φ` and crystalline Frobenius.
+- the finite `φ` maps induce the endomorphism of `Λ_p dR`.
+- modulo `p`, degree-zero polynomial functions map by `b ↦ b^p`.
 
 **Checks.**
 
-- `test_derham_frob_base`: on the base `ℤ/p^n`, the canonical Frobenius is the identity.
-- `test_derham_frob_coordinate`: modulo `p` on `F_p[t]`, `t` maps to `t^p` and the differential of
+- on the base `ℤ/p^n`, the canonical Frobenius is the identity.
+- modulo `p` on `F_p[t]`, `t` maps to `t^p` and the differential of
   `t^p` is zero.
-- `test_derham_frob_filtration_boundary`: for `F_p[t]/F_p`, polynomial Frobenius has `φ(t) = t^p`
+- for `F_p[t]/F_p`, polynomial Frobenius has `φ(t) = t^p`
   and `φ(dt) = 0`, while inverse Cartier sends `dt^(1)` to the nonzero class `[t^(p−1) dt]`, also at
   `p = 2` where it is `[t dt]`. A Frobenius endomorphism therefore cannot substitute for inverse
   Cartier or identify the two filtrations ([Bhatt12], Theorem 3.2, p.7).
@@ -2333,7 +2333,7 @@ Prove the following named laws.
 ### CR.DDR.5.8 Base-linear realization of crystalline direct image
 
 For a morphism `f : X → S` of schemes with the PD base and crystalline site of §CR.2.1, construct
-`DerivedDeRham.baseLinearSheafDerived.crystallineComparison`, comparing strict base-linear models
+comparing strict base-linear models
 of crystalline direct image and global sections with their enhanced models. Use the common
 coefficient categories and strict-model realization of DerivedDeRhamCohomology §5.8. For lci maps
 of flat `ℤ/p^n`-schemes, `n ≥ 1`, this adapter transports the raw sheaves, Hodge stages, finite
@@ -2359,12 +2359,12 @@ EnhancedDerivedSheaves §§0.1–0.3, E1.4 (`ClassicalDerived.enhancedCategory`,
 
 **Checks.**
 
-- `test_crystalline_realization_base`: on `X = S = Spec A`, the identity PD thickening realizes to
+- on `X = S = Spec A`, the identity PD thickening realizes to
   `A` in degree zero, with its base-linear structure.
-- `test_crystalline_realization_base_linear`: for a nonzero `A` and `B = A[t]`, the strict de Rham
+- for a nonzero `A` and `B = A[t]`, the strict de Rham
   model has `d(t·1) = dt ≠ 0 = t·d(1)`, including on `D(t)`. Restriction and the crystalline
   realization therefore use `f⁻¹O_S`-linear maps.
-- `test_crystalline_realization_tower`: a compatible tower of finite reductions has the same
+- a compatible tower of finite reductions has the same
   realized derived limit on both sides; its Milnor `lim¹` contribution is retained unless the
   cohomology tower is Mittag–Leffler.
 
@@ -2375,9 +2375,9 @@ regular immersion convention), the natural `Comp_f` from
 `DerivedDeRham.rawLciDeRhamSheaves` of DerivedDeRhamCohomology §5.8.1 to crystalline direct image
 is an isomorphism of Hodge-filtered objects of the base-linear filtered derived category (in
 `DF(A)` after global sections when `S = Spec A`). It is compatible with `rawLciDeRhamCup` of
-DerivedDeRhamCohomology §5.8.1 and *Crystalline cup products* (`crystallineComparisonCup`), with
+DerivedDeRhamCohomology §5.8.1 and *Crystalline cup products*, with
 base change in its Tor-independent crystalline range, and with Frobenius. The crystalline target
-uses `Crystalline.CrisCompatibleSite` of §CR.1.1 (compatible PD thickenings over the canonical PD
+uses the compatible crystalline site of §CR.1.1 (compatible PD thickenings over the canonical PD
 base). This is [Bhatt12] Theorem 3.27: the exclusions are failure of the relative lci condition or
 of flatness of either coefficient scheme over `ℤ/p^n`. The relative map need not be flat and its
 target may be singular.
@@ -2396,30 +2396,28 @@ crystalline direct image*).
 Construct the sheaf comparison using §CR.DDR.5.8 and the raw realization of
 DerivedDeRhamCohomology §5.8.1.
 
-- `crystallineComparisonSheaf`: the affine maps from raw `dR_(B/A)`, recovered by
+- the affine maps from raw `dR_(B/A)`, recovered by
   `rawLciDeRhamAffine`, glue from `rawLciDeRhamSheaves` in `D(X_Zar, f⁻¹O_S)` to crystalline
-  direct image from `CrisCompatibleSite`. The localization and descent laws of
+  direct image from the compatible crystalline site. The localization and descent laws of
   `rawLciDeRhamLocalization` and the refinement-independent `rawLciDeRhamRealization` give this
   filtered map and its derived global sections in `DF(A)` when `S = Spec A`, preserving
   `rawLciDeRhamCup` and the crystalline cup products in `D(A)`.
   The separate map to DerivedDeRhamCohomology §5.8 is Hodge completion on affine charts.
 
-Lean: `DerivedDeRham.lciCrystallineComparison`.
-
 **Checks.**
 
-- `test_lci_crys_polynomial`: a smooth polynomial algebra satisfies the hypothesis and the
+- a smooth polynomial algebra satisfies the hypothesis and the
   comparison is the PD Poincaré equivalence.
-- `test_lci_crys_regular_quotient`: a regular quotient of flat `ℤ/p^n`-algebras is lci and recovers
+- a regular quotient of flat `ℤ/p^n`-algebras is lci and recovers
   §CR.DDR.4.3. In particular `F_p[t] → F_p[t]/(t²)` lies in the theorem's scope: both coefficient
   algebras are flat over `F_p`, and `(t²)` is a regular immersion, although the relative map is
   nonflat and the target is singular.
-- `test_lci_crys_raw_source`: for `F_p[t] → F_p`, `t ↦ 0`, the comparison source and crystalline
+- for `F_p[t] → F_p`, `t ↦ 0`, the comparison source and crystalline
   target are the raw PD algebra `⊕_(j≥0) F_p·γ_j(t)`. The map to DerivedDeRhamCohomology §5.8
   instead has target `∏_(j≥0) F_p·γ_j(t)`; the sequence with all coefficients 1 is outside its
   image. Hodge completion therefore changes the source of the comparison ([Bhatt12], Lemma 3.29
   and Remark 3.33).
-- `test_lci_crys_square_zero`: `F_p[x,y]/(x,y)²` is not lci and the comparison fails (§CR.DDR.4.1),
+- `F_p[x,y]/(x,y)²` is not lci and the comparison fails (§CR.DDR.4.1),
   including `p = 2`.
 
 ### CR.DDR.5.10 p-adic crystalline comparison by derived limits
@@ -2441,15 +2439,13 @@ derived de Rham*); DerivedDeRhamCohomology §2.23 (*Derived base change and Kün
 (*The lci crystalline comparison theorem*); DerivedModuleAlgebra §1.1 (*Derived limits of towers*);
 DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
 
-Lean: `DerivedDeRham.pAdicCrystallineComparison`.
-
 **Checks.**
 
-- `test_padic_crys_identity`: for the identity of a p-complete algebra both sides are its
+- for the identity of a p-complete algebra both sides are its
   p-completion.
-- `test_padic_crys_smooth`: for `ℤ_p → ℤ_p⟨t⟩` the finite reductions compare levelwise.
-- `test_padic_crys_lim_one`: the inverse limit is derived; a `lim¹` term of the levelwise cohomology
-  is retained (as in `test_rlim_lim_one`).
+- for `ℤ_p → ℤ_p⟨t⟩` the finite reductions compare levelwise.
+- the inverse limit is derived; a `lim¹` term of the levelwise cohomology
+  is retained, as in the Milnor sequence of DerivedModuleAlgebra §1.T.1.
 
 ### CR.2.3 Smooth lifts and the formal comparison
 
@@ -2757,12 +2753,12 @@ for all e with p^eA′⊂I′ stable under γ′.
 
 The API:
 
-- `Crystalline.crysBaseChange_id`: For the identity of (A,I,γ) and the identity of X the base-change
+- For the identity of (A,I,γ) and the identity of X the base-change
   map K⊗^L_A A→K is the canonical isomorphism.
-- `Crystalline.crysBaseChange_comp`: For PD homomorphisms (A″,I″,γ″)→(A′,I′,γ′)→(A,I,γ) and
+- For PD homomorphisms (A″,I″,γ″)→(A′,I′,γ′)→(A,I,γ) and
   morphisms X→X′→X″ over them, the base-change map K″⊗^L_(A″)A→K is the composite of
   (K″⊗^L_(A″)A′)⊗^L_(A′)A→K′⊗^L_(A′)A with K′⊗^L_(A′)A→K.
-- `Crystalline.crysBaseChange_natural`: A homomorphism E′₁→E′₂ of O_crys-modules on X′/S′ induces a
+- A homomorphism E′₁→E′₂ of O_crys-modules on X′/S′ induces a
   commutative square of base-change maps; the base-change map is also natural for morphisms g:Y′→X′
   of schemes over A′/I′ and their base changes.
 
@@ -2903,21 +2899,21 @@ H¹_crys(X/W_n) have finite length.
 
 The API:
 
-- `Crystalline.crysChern_log`: log((1+x)(1+y))=log(1+x)+log(1+y) for local sections x, y of J_crys,
+- log((1+x)(1+y))=log(1+x)+log(1+y) for local sections x, y of J_crys,
   where log(1+x)=Σ_(n≥1)(−1)^(n−1)·(n−1)!·δ_n(x).
-- `Crystalline.crysChern_add`: c₁(L⊗M)=c₁(L)+c₁(M), c₁(O_X)=0 and c₁(L^∨)=−c₁(L) for invertible
+- c₁(L⊗M)=c₁(L)+c₁(M), c₁(O_X)=0 and c₁(L^∨)=−c₁(L) for invertible
   O_X-modules L, M.
-- `Crystalline.crysChern_pullback`: For a morphism g:X′→X over a morphism of PD schemes S′→S:
+- For a morphism g:X′→X over a morphism of PD schemes S′→S:
   g^*c₁(L)=c₁(g^*L) in H²_crys(X′/S′).
-- `Crystalline.crysChern_fil`: c₁(L) lies in the image of H²((X/S)_crys,J_crys)→H²_crys(X/S).
-- `Crystalline.crysChern_deRham`: If p is locally nilpotent on S, Y is a smooth lift of X over S and
+- c₁(L) lies in the image of H²((X/S)_crys,J_crys)→H²_crys(X/S).
+- If p is locally nilpotent on S, Y is a smooth lift of X over S and
   L̃ an invertible O_Y-module lifting L with trivialising sections s_λ, then under
   H²_crys(X/S)≅H²(Y,Ω^•_(Y/S)) of *Smooth-lift comparison and PD filtration* (Layer CR.2) c₁(L) is
   the class of the Čech 1-cocycle (dlog(s_μ/s_λ)) with values in Ω¹_(Y/S).
-- `Crystalline.crysChern_reduction`: For k perfect and X proper smooth over k, the reduction
+- For k perfect and X proper smooth over k, the reduction
   H²_crys(X/W(k))→H²_crys(X/W_n(k)) sends c₁(L) to c₁(L), and for n=1 the image is the de Rham class
   c₁^dR(L)∈H²_dR(X/k).
-- `Crystalline.crysChern_hyperplane`: h=c₁(O(1))∈H²_crys(P^d_k/W(k)) for a perfect field k of
+- h=c₁(O(1))∈H²_crys(P^d_k/W(k)) for a perfect field k of
   characteristic p and d≥1.
 
 *Proof sketch.* Exactness of (1): a unit of O_U lifts locally to a section of O_T, which is a unit
@@ -2957,7 +2953,7 @@ of the cover gives the same class. The comparison is one of classes, not of comp
 Ru_*O_crys^* is not represented by the multiplicative de Rham complex O_Y^*→Ω¹_(Y/S)→Ω²_(Y/S)→⋯,
 whose H¹ classifies line bundles with an arbitrary integrable connection, whereas invertible
 crystals correspond to those whose connection is quasi-nilpotent (*Crystals, stratifications and
-quasi-nilpotent connections* (Layer CR.1)); `test_crysChern_not_multiplicative` gives a connection
+quasi-nilpotent connections* (Layer CR.1)); the nonmultiplicativity Check below gives a connection
 in the difference. (6): for X proper smooth over k the groups H¹_crys(X/W_n) are W_n-modules of
 finite length (*Proper smooth crystalline perfectness and reductions*), so lim¹ vanishes and
 H²_crys(X/W)=lim_n H²_crys(X/W_n); the classes c₁(L) are compatible by naturality. ([Stacks
@@ -2981,16 +2977,16 @@ EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*).
 
 **Checks.**
 
-- `test_crysChern_P1`: For a perfect field k of characteristic p, H²_crys(P¹_k/W_n(k)) is free of
+- For a perfect field k of characteristic p, H²_crys(P¹_k/W_n(k)) is free of
   rank one over W_n(k) with basis h=c₁(O(1)); under H²_crys(P¹_k/W_n)≅H²(P¹_(W_n),Ω^•) the class h
   is that of the Čech 1-cocycle dt/t on U₀∩U₁, t=T₁/T₀.
-- `test_crysChern_twist`: c₁(O(m))=m·h in H²_crys(P^d_k/W(k)) for every integer m.
-- `test_crysChern_mod_p`: For k a perfect field of characteristic p and S=Spec k: c₁(O(p))=0 in
+- c₁(O(m))=m·h in H²_crys(P^d_k/W(k)) for every integer m.
+- For k a perfect field of characteristic p and S=Spec k: c₁(O(p))=0 in
   H²_crys(P¹_k/k)=H²_dR(P¹_k/k), although O(p) is not trivial and c₁(O(p))=p·h≠0 in
   H²_crys(P¹_k/W(k)); so c₁ is not injective, and the class over W(k) is not determined by its
   reduction modulo p.
-- `test_crysChern_trivial`: c₁(O_X)=0 in H²_crys(X/S).
-- `test_crysChern_not_multiplicative`: For S=Spec F_p (I=0) and X=Y=A¹_(F_p)=Spec F_p[t], the
+- c₁(O_X)=0 in H²_crys(X/S).
+- For S=Spec F_p (I=0) and X=Y=A¹_(F_p)=Spec F_p[t], the
   trivial line bundle with the integrable connection ∇=d+dt gives a nonzero class in H¹ of the
   multiplicative de Rham complex O_Y^*→Ω¹_(Y/S)→Ω²_(Y/S)→⋯ (dt is not dlog of a unit, as
   F_p[t]^*=F_p^*). For ∂=d/dt, ∇_∂=∂+1 and (∂+1)^p=∂^p+1=1 on F_p[t], so ∇ is not quasi-nilpotent
@@ -3016,29 +3012,29 @@ pr₁^*x∪pr₂^*y∈H^*(K_(X×Y)(pr₁^*E⊗pr₂^*F)), X×Y the fibre product
 *Hypotheses.* (A,I,γ) is a PD ring and A is a Z_(p)-algebra; X is a scheme over A/I on which p is
 locally nilpotent. E and F are O_crys-modules on the crystalline site of X/Spec A; E⊗F is their
 tensor product over O_crys. No flatness is assumed. In (4), Y is a second scheme over A/I on which p
-is locally nilpotent. The coefficient de Rham comparison `Crystalline.crysCup_deRham` additionally
+is locally nilpotent. The coefficient de Rham comparison the multiplicative de Rham comparison of CR.3.4 additionally
 requires E and F to be quasi-coherent crystals, p nilpotent in A and a smooth lift Y of X over A.
 
 The API:
 
-- `Crystalline.crysCup_unit`: The class 1∈H⁰_crys(X/S), image of 1 under the unit A→K(O_crys),
+- The class 1∈H⁰_crys(X/S), image of 1 under the unit A→K(O_crys),
   satisfies 1∪x=x=x∪1 for x∈H^*(K(E)), under O_crys⊗E≅E≅E⊗O_crys.
-- `Crystalline.crysCup_graded_comm`: For x∈H^i_crys(X/S) and y∈H^j_crys(X/S): x∪y=(−1)^(ij)·y∪x; for
+- For x∈H^i_crys(X/S) and y∈H^j_crys(X/S): x∪y=(−1)^(ij)·y∪x; for
   O_crys-modules E, F the same holds between K(E⊗F) and K(F⊗E) through the exchange isomorphism.
-- `Crystalline.crysCup_reduction`: For a homomorphism of PD rings (A′,I′,γ′)→(A,I,γ) and f:X→X′ over
+- For a homomorphism of PD rings (A′,I′,γ′)→(A,I,γ) and f:X→X′ over
   it, the base-change map K′(E′)⊗^L_(A′)A→K(f_crys^*E′) of *Derived crystalline base change* is
   compatible with cup products and units. In particular, for p^eA⊂I stable under γ, the reduction
   K(E)→RΓ_crys(X/Spec(A/p^e),E) carries cup products to cup products.
-- `Crystalline.crysCup_assoc`: (x∪y)∪z=x∪(y∪z) in H^*(K(E⊗F⊗G)) for x∈H^*(K(E)), y∈H^*(K(F)),
+- (x∪y)∪z=x∪(y∪z) in H^*(K(E⊗F⊗G)) for x∈H^*(K(E)), y∈H^*(K(F)),
   z∈H^*(K(G)); the same holds for the maps of complexes in D(A).
-- `Crystalline.crysCup_pullback`: For a morphism g:X′→X of schemes over a homomorphism of PD rings
+- For a morphism g:X′→X of schemes over a homomorphism of PD rings
   and O_crys-modules E, F on X: g^*(x∪y)=g^*x∪g^*y and g^*1=1.
-- `Crystalline.crysCup_deRham`: If p is nilpotent in A and Y is a smooth lift of X over A, then
+- If p is nilpotent in A and Y is a smooth lift of X over A, then
   under H^*_crys(X/S)≅H^*(Y,Ω^•_(Y/A)) of *Smooth-lift comparison and PD filtration* (Layer CR.2)
   the cup product is induced by the wedge product of Ω^•_(Y/A). For quasi-coherent crystals E,F,
   use the same comparisons for E,F and E⊗F, with their canonical integrable connections on Y;
   the product is induced by `(e⊗ω)∧(f⊗η)=(e⊗f)⊗(ω∧η)` on their coefficient de Rham complexes.
-- `Crystalline.crysCup_external`: For schemes X, Y over A/I and classes x∈H^*(K_X(E)),
+- For schemes X, Y over A/I and classes x∈H^*(K_X(E)),
   y∈H^*(K_Y(F)): x⊠y=pr₁^*x∪pr₂^*y∈H^*(K_(X×Y)(pr₁^*E⊗pr₂^*F)); on complexes, K_X(E)⊗^L_A
   K_Y(F)→K_(X×Y)(pr₁^*E⊗pr₂^*F).
 
@@ -3068,13 +3064,13 @@ EnhancedDerivedSheaves Layer E1.
 
 **Checks.**
 
-- `test_crysCup_point`: For X=Spec k, k a perfect field of characteristic p, and S=Spec W(k):
+- For X=Spec k, k a perfect field of characteristic p, and S=Spec W(k):
   K(O_crys)=W(k) in degree 0 and the cup product is the multiplication of W(k).
-- `test_crysCup_P1`: On P¹×P¹ over a perfect field k, with h_a=pr_a^*h and
+- On P¹×P¹ over a perfect field k, with h_a=pr_a^*h and
   h=c₁(O(1))∈H²_crys(P¹/W(k)): h₁∪h₂=h₂∪h₁ generates H⁴_crys(P¹×P¹/W(k))≅W(k), and h₁∪h₁=0=h₂∪h₂.
-- `test_crysCup_P2`: On P² over a perfect field k: h∪h generates H⁴_crys(P²/W(k))≅W(k) and h∪h∪h=0,
+- On P² over a perfect field k: h∪h generates H⁴_crys(P²/W(k))≅W(k) and h∪h∪h=0,
   for h=c₁(O(1)).
-- `test_crysCup_odd`: For a geometrically connected smooth proper curve C over a perfect field k and
+- For a geometrically connected smooth proper curve C over a perfect field k and
   x,y∈H¹_crys(C/W(k)): x∪y=−y∪x and x∪x=0 in H²_crys(C/W(k)).
 - For `S=Spec F_p` with zero PD ideal and `X=Y=Spec F_p[t]`, let `E=J_crys`, `F=O_crys`.
   Although `E_Y=0`, the exact sequence `0→J_crys→O_crys→O_crys/J_crys→0` has global-section
@@ -3109,24 +3105,24 @@ O_crys-modules and Φ:(F_X)_crys^*E→E is O_crys-linear. No nondegeneracy is as
 
 The API:
 
-- `Crystalline.crysFrobenius_semilinear`: The endomorphism F of H^*(K) induced by K→K⊗^L_(A,σ)A→K is
+- The endomorphism F of H^*(K) induced by K→K⊗^L_(A,σ)A→K is
   additive and satisfies F(ax)=σ(a)·F(x) for a∈A.
-- `Crystalline.crysFrobenius_linearize`: F_K:K⊗^L_(A,σ)A→K is an A-linear map in D(A), the composite
+- F_K:K⊗^L_(A,σ)A→K is an A-linear map in D(A), the composite
   of the base-change map for Spec(σ), the pullback along the relative Frobenius F_(X/S₀):X→X^(1) and
   the map induced by Φ.
-- `Crystalline.crysFrobenius_lift`: Assume p is nilpotent in A. Let Y be a smooth lift of X over A
+- Assume p is nilpotent in A. Let Y be a smooth lift of X over A
   and φ̃:Y→Y a morphism over Spec(σ) whose reduction modulo p is the absolute Frobenius of Y⊗_A A/p.
   Under RΓ_crys(X/S)≅RΓ(Y,Ω^•_(Y/A)) of *Smooth-lift comparison and PD filtration* (Layer CR.2) the
   semilinear Frobenius of the structure crystal is induced by φ̃^*:Ω^•_(Y/A)→Ω^•_(Y/A), and
   φ̃^*(Ω^q_(Y/A))⊂p^q·Ω^q_(Y/A) for every q≥0.
-- `Crystalline.crysFrobenius_natural`: For a morphism g:X′→X of schemes over A/I and a morphism of
+- For a morphism g:X′→X of schemes over A/I and a morphism of
   F-crystals g_crys^*(E,Φ)→(E′,Φ′), the induced map K→K′ commutes with the linearised Frobenius
   maps; in particular g^*∘F=F∘g^* on H^*_crys.
-- `Crystalline.crysFrobenius_cup`: For F-crystals (E,Φ_E), (E′,Φ_(E′)) and the F-crystal
+- For F-crystals (E,Φ_E), (E′,Φ_(E′)) and the F-crystal
   (E⊗E′,Φ_E⊗Φ_(E′)): F(x∪y)=F(x)∪F(y); and F(1)=1 in H⁰_crys(X/S).
-- `Crystalline.crysFrobenius_chern`: F(c₁(L))=p·c₁(L) in H²_crys(X/S) for every invertible
+- F(c₁(L))=p·c₁(L) in H²_crys(X/S) for every invertible
   O_X-module L, because F_X^*L≅L^(⊗p).
-- `Crystalline.crysFrobenius_finite_field`: For k=F_(p^f), A=W(k) and σ the Witt vector Frobenius,
+- For k=F_(p^f), A=W(k) and σ the Witt vector Frobenius,
   the iterate F^f is W(k)-linear on H^*_crys(X/W(k)).
 
 *Proof sketch.* The square formed by F_X, F_(S₀) and the structure map X→S₀ commutes and Spec(σ) is
@@ -3151,13 +3147,13 @@ CR.2); *Crystalline cup products*; *The crystalline first Chern class and the hy
 
 **Checks.**
 
-- `test_crysFrobenius_point`: For X=Spec k, k perfect of characteristic p, A=W(k), σ the Witt vector
+- For X=Spec k, k perfect of characteristic p, A=W(k), σ the Witt vector
   Frobenius: K=W(k) and F=σ; it is not W(k)-linear when k≠F_p.
-- `test_crysFrobenius_P1`: For P¹ over a perfect field k and A=W(k): F=σ on H⁰_crys=W and F(h)=p·h
+- For P¹ over a perfect field k and A=W(k): F=σ on H⁰_crys=W and F(h)=p·h
   for h=c₁(O(1))∈H²_crys(P¹/W(k)).
-- `test_crysFrobenius_Pd`: On H^(2i)_crys(P^d/W(k))=W·h^i, k perfect: F(a·h^i)=σ(a)·p^i·h^i for
+- On H^(2i)_crys(P^d/W(k))=W·h^i, k perfect: F(a·h^i)=σ(a)·p^i·h^i for
   0≤i≤d.
-- `test_crysFrobenius_singular`: For X=Spec F_p[x,y]/(x²,xy,y²), A=Z_p with I=(p) and σ=id: the
+- For X=Spec F_p[x,y]/(x²,xy,y²), A=Z_p with I=(p) and σ=id: the
   Frobenius F of H⁰_crys(X/Z_p) is not injective.
 - For P^d over k: F(h^i)=p^i·h^i on H^(2i)_crys(P^d/W(k))=W·h^i, 0≤i≤d.
 
@@ -3663,11 +3659,11 @@ integers.
 
 The API:
 
-- `Crystalline.pDecalage_degree`: E_p(M)^n is the kernel of d followed by reduction modulo p.
-- `Crystalline.pDecalage_d`: p·d_E(x)=d_M(x), so d_E²=0.
-- `Crystalline.pDecalage_map`: E_p(f)(x)=f(x), with E_p(id)=id and E_p(gf)=E_p(g)E_p(f).
-- `Crystalline.pDecalage_cohomology`: H^n(E_pM)=H^n(M)/H^n(M)[p].
-- `Crystalline.pDecalage_filtered_colimit`: colim E_p(M_j)≅E_p(colim M_j) for a filtered diagram of
+- E_p(M)^n is the kernel of d followed by reduction modulo p.
+- p·d_E(x)=d_M(x), so d_E²=0.
+- E_p(f)(x)=f(x), with E_p(id)=id and E_p(gf)=E_p(g)E_p(f).
+- H^n(E_pM)=H^n(M)/H^n(M)[p].
+- colim E_p(M_j)≅E_p(colim M_j) for a filtered diagram of
   termwise p-torsion-free complexes.
 
 *Proof sketch.* Existence and uniqueness of dx/p use the defining condition and injectivity. Its
@@ -3683,10 +3679,10 @@ pp.13–14; Proposition 7.2.1 and Corollary 7.2.2, p.84.) *Needs:* Mathlib `Coch
 
 **Checks.**
 
-- `test_pDecalage_zero`: E_p of the zero complex is zero.
-- `test_pDecalage_two_term`: For [Z --p--> Z] in degrees 0,1 the normalized E_p is [Z --1--> Z], so
+- E_p of the zero complex is zero.
+- For [Z --p--> Z] in degrees 0,1 the normalized E_p is [Z --1--> Z], so
   its cohomology vanishes.
-- `test_pDecalage_negative`: For Z in degree −1 with zero differential, E_p is Z in degree −1,
+- For Z in degree −1 with zero differential, E_p is Z in degree −1,
   identified with p^(−1)Z in η_p.
 - Negative cochain degrees use p^n in the localization, rather than a natural-degree truncation.
 
@@ -3705,21 +3701,21 @@ is not assumed in the definition of a Dieudonné complex.
 
 The API:
 
-- `Crystalline.DieudonneComplex.F_zero`: F is zero preserving in every degree.
-- `Crystalline.DieudonneComplex.F_add`: F is additive in every degree.
-- `Crystalline.DieudonneComplex.d_F`: The relation is dF=pFd, including negative cochain degrees.
-- `Crystalline.DieudonneComplex.alphaF`: For a termwise p-torsion-free Dieudonné complex M,
+- F is zero preserving in every degree.
+- F is additive in every degree.
+- The relation is dF=pFd, including negative cochain degrees.
+- For a termwise p-torsion-free Dieudonné complex M,
   α_F:M→η_pM is the cochain map with α_F(x)=p^nF(x) for x∈M^n; in the normalized coordinates of
   *Principal p-décalage on torsion-free complexes* it is F itself, regarded as a cochain map
   M→E_p(M).
-- `Crystalline.DieudonneComplex.ofAlpha`: For a termwise p-torsion-free cochain complex M of abelian
+- For a termwise p-torsion-free cochain complex M of abelian
   groups and a cochain map α:M→η_pM, the triple (M,d,F) with F(x)=p^(−n)α(x) for x∈M^n is a
   Dieudonné complex.
-- `Crystalline.DieudonneComplex.alphaF_ofAlpha`: The two constructions are mutually inverse: the map
+- The two constructions are mutually inverse: the map
   α_F of ofAlpha(α) is α, and ofAlpha(α_F) has Frobenius F.
-- `Crystalline.DieudonneComplex.alphaF_natural`: For termwise p-torsion-free Dieudonné complexes M,
+- For termwise p-torsion-free Dieudonné complexes M,
   N and a cochain map f:M→N with f∘F=F∘f, η_p(f)∘α_F=α_F∘f.
-- `Crystalline.DieudonneComplex.ofEnd`: For an abelian group A and any endomorphism F of A, the
+- For an abelian group A and any endomorphism F of A, the
   complex with A in degree 0 and zero elsewhere, with this F, is a Dieudonné complex (BLM Example
   2.5.6).
 
@@ -3737,11 +3733,11 @@ with footnote 1, Remark 2.1.4; pp.13–14 in arXiv v3 and in the published versi
 
 **Checks.**
 
-- `test_dieudonne_degree_zero`: Z concentrated in degree zero permits any Frobenius multiplication
+- Z concentrated in degree zero permits any Frobenius multiplication
   a.
-- `test_dieudonne_not_chain`: For p=2 there is a Dieudonné complex with dF≠Fd: Z→Z with d=id, F₀=2
+- For p=2 there is a Dieudonné complex with dF≠Fd: Z→Z with d=id, F₀=2
   and F₁=1.
-- `test_dieudonne_factor_p`: On the complex [Z --id--> Z] in degrees 0 and 1, the maps F_0=id,
+- On the complex [Z --id--> Z] in degrees 0 and 1, the maps F_0=id,
   F_1=id do not form a Dieudonné structure for any prime p: d(F_0(1))=1 while p·F_1(d(1))=p.
 - For the same T: (η_pT)^0={x∈Z : dx∈pZ}=pZ and (η_pT)^1=pZ, and α_F is x↦px in both degrees, a
   cochain map T→η_pT (here an isomorphism).
@@ -3757,11 +3753,11 @@ is stated for termwise p-torsion-free M, where α_F and η_pM are defined.
 
 The API:
 
-- `Crystalline.IsSaturated.p_injective`: Multiplication by p is injective in every degree.
-- `Crystalline.IsSaturated.F_injective`: The graded Frobenius is injective.
-- `Crystalline.IsSaturated.F_range`: The image of F in degree n consists exactly of elements whose
+- Multiplication by p is injective in every degree.
+- The graded Frobenius is injective.
+- The image of F in degree n consists exactly of elements whose
   differential is p-divisible.
-- `Crystalline.DieudonneComplex.IsSaturated.smul_mem_range`: For every integer n and x∈M^n,
+- For every integer n and x∈M^n,
   p·x belongs to the image of F_n, since d(p·x)=p·d(x).
 
 *Proof sketch.* Identify p^n times the target of F with (η_p M)^n. Use the established α_F
@@ -3771,13 +3767,13 @@ Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §2.2, Defi
 
 **Checks.**
 
-- `test_saturated_zero`: Every complex whose groups are zero is saturated.
-- `test_saturated_zero_d`: For zero differential and termwise p-torsionfree groups, saturation is
+- Every complex whose groups are zero is saturated.
+- For zero differential and termwise p-torsionfree groups, saturation is
   equivalent to bijectivity of F.
-- `test_saturated_multiplication_two`: The degree-zero group Z with F=2 is not saturated at p=2.
-- `test_saturated_two_term`: For every prime p, the complex [Z --id--> Z] in degrees 0 and 1 with
+- The degree-zero group Z with F=2 is not saturated at p=2.
+- For every prime p, the complex [Z --id--> Z] in degrees 0 and 1 with
   F_0=p and F_1=id is a saturated Dieudonné complex, although F_0 is not surjective.
-- `test_saturated_divisible_differential`: For every prime p, the complex [Z --p--> Z] (d is
+- For every prime p, the complex [Z --p--> Z] (d is
   multiplication by p) in degrees 0 and 1 with F_0=p and F_1=id is a termwise p-torsion-free
   Dieudonné complex with F injective in both degrees that is not saturated: every x∈M^0 has dx∈pM^1,
   but F_0(M^0)=pZ.
@@ -3789,22 +3785,19 @@ Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §2.2, Defi
 **Verschiebung and the differential.** On a saturated Dieudonné complex define V uniquely by
 F(Vx)=px. It is injective and satisfies FV=VF=p, FdV=d and Vd=p dV.
 
-The intended operator is `Crystalline.DieudonneComplex.verschiebung M hM n :
-Module.End ℤ (M.complex.X n)`, for `hM : M.IsSaturated`. Its defining equation is
+Construct the additive endomorphism `V_n : M^n → M^n` for saturated M. Its defining equation is
 `F_n(V_n x) = p • x`; existence, uniqueness, additivity and the differential identities
-are targets of this subsection. The intended theorem names are
-`Crystalline.DieudonneComplex.F_verschiebung`, `Crystalline.DieudonneComplex.verschiebung_F`
-and `Crystalline.DieudonneComplex.F_d_verschiebung`.
+are targets of this subsection.
 
 *Hypotheses.* The complex is saturated; in particular F is injective and M is p-torsion-free.
 
 The API:
 
-- `Crystalline.verschiebung_FV`: F(Vx)=px in every degree.
-- `Crystalline.verschiebung_VF`: V(Fx)=px in every degree.
-- `Crystalline.verschiebung_d`: Vd=p dV; V is not assumed to be a chain map.
-- `Crystalline.verschiebung_FdV`: FdV=d in each degree.
-- `Crystalline.verschiebung_injective`: V is injective in each degree.
+- F(Vx)=px in every degree.
+- V(Fx)=px in every degree.
+- Vd=p dV; V is not assumed to be a chain map.
+- FdV=d in each degree.
+- V is injective in each degree.
 
 *Proof sketch.* Since d(px) belongs to pM, saturation puts px in the image of F; injectivity gives
 existence and uniqueness of V. FV=p implies injectivity of V. Precompose with F and cancel F to
@@ -3816,10 +3809,10 @@ with proof, identities (4)–(6); arXiv v3 p.14; published p.14 (statement) and 
 
 **Checks.**
 
-- `test_V_F_identity`: If F is identity in a degree, V is multiplication by p there.
-- `test_V_F_p`: If F is multiplication by p in a degree, V is identity there; e.g. a rational
+- If F is identity in a degree, V is multiplication by p there.
+- If F is multiplication by p in a degree, V is identity there; e.g. a rational
   degree-zero group.
-- `test_V_not_chain`: On the saturated Dieudonné complex [Z --id--> Z] in degrees 0 and 1 with
+- On the saturated Dieudonné complex [Z --id--> Z] in degrees 0 and 1 with
   F_0=p, F_1=id one has V_0=id and V_1=p; hence V_1(d(1))=p=p·d(V_0(1)) and V_1∘d≠d∘V_0.
 - For a p-torsion-free group A in degree 0 with an automorphism F, V=p·F^(−1); for F=id, V=p, and
   for A=Q with F=p, V=id.
@@ -3928,16 +3921,16 @@ saturation is assumed.
 
 The API:
 
-- `Crystalline.DieudonneHom.id`: The identity cochain map with its Frobenius compatibility.
-- `Crystalline.DieudonneHom.comp`: For f:M→N and g:N→P, g.comp(f) has degree map g_n∘f_n.
-- `Crystalline.DieudonneHom.ext`: Two morphisms equal on all elements in every degree are equal.
-- `Crystalline.DieudonneHom.id_apply`: The identity evaluates to x in each degree.
-- `Crystalline.DieudonneHom.comp_apply`: Composition evaluates to g_n(f_n(x)).
-- `Crystalline.DieudonneComplex.category`: For a fixed prime p, Dieudonné complexes with
+- The identity cochain map with its Frobenius compatibility.
+- For f:M→N and g:N→P, g.comp(f) has degree map g_n∘f_n.
+- Two morphisms equal on all elements in every degree are equal.
+- The identity evaluates to x in each degree.
+- Composition evaluates to g_n(f_n(x)).
+- For a fixed prime p, Dieudonné complexes with
   DieudonneHom as morphisms, DieudonneHom.id and DieudonneHom.comp form a category DC.
-- `Crystalline.DieudonneHom.comm_F`: For a morphism f:M→N, every integer n and x∈M^n: f_n(F_M
+- For a morphism f:M→N, every integer n and x∈M^n: f_n(F_M
   x)=F_N(f_n x).
-- `Crystalline.DieudonneHom.isIso_iff_bijective`: A morphism f:M→N of Dieudonné complexes is an
+- A morphism f:M→N of Dieudonné complexes is an
   isomorphism in DC iff f_n:M^n→N^n is bijective for every integer n.
 
 *Proof sketch.* Bundle the ordinary cochain map and the displayed compatibility equation. Use
@@ -3950,10 +3943,10 @@ version.) *Needs:* *Dieudonné complexes*; Mathlib `HomologicalComplex.Hom`; Mat
 
 **Checks.**
 
-- `hom_test_zero`: The zero cochain map is a Dieudonné morphism.
-- `hom_test_scalar`: Multiplication by any integer a is a Dieudonné endomorphism.
-- `hom_test_composition`: Composition with the identity of the target returns the original morphism.
-- `hom_test_F_compatibility`: A morphism between degree-zero Z groups with F source identity and F
+- The zero cochain map is a Dieudonné morphism.
+- Multiplication by any integer a is a Dieudonné endomorphism.
+- Composition with the identity of the target returns the original morphism.
+- A morphism between degree-zero Z groups with F source identity and F
   target multiplication by2 has zero degree-zero map. Ordinary cochain maps alone would allow
   identity.
 - For M=Z in degree 0 with F=id and N=Z in degree 0 with F=p, the only morphism M→N is 0, because
@@ -4037,9 +4030,9 @@ exact sequence is multiplication by p.
 
 The API:
 
-- `Crystalline.pBockstein_lift`: If dx=py then β([x])=[y].
-- `Crystalline.pBockstein_square`: β∘β=0 in every degree.
-- `Crystalline.pBockstein_decalage`: x↦[x] gives E_p(M)/p≃(H^*(M/p),β), naturally in M.
+- If dx=py then β([x])=[y].
+- β∘β=0 in every degree.
+- x↦[x] gives E_p(M)/p≃(H^*(M/p),β), naturally in M.
 
 *Proof sketch.* Changing a lift x changes y by a boundary or a multiple of p. Since p·dy=d²x=0, dy=0
 and β²=0. The formula gives a chain map from E_p/p. It is degreewise surjective: every mod-p cocycle
@@ -4052,10 +4045,10 @@ Proposition 2.4.5 with proof, pp.17–18.) *Needs:* *Principal p-décalage on to
 
 **Checks.**
 
-- `test_pBockstein_p`: For [Z --p--> Z], both mod-p cohomology groups are F_p and β:F_p→F_p is the
+- For [Z --p--> Z], both mod-p cohomology groups are F_p and β:F_p→F_p is the
   identity.
-- `test_pBockstein_p_squared`: For [Z --p²--> Z], β=0 although the integral differential is nonzero.
-- `test_pBockstein_degree_zero`: For Z in degree zero, β is zero and E_p/p=F_p in degree zero.
+- For [Z --p²--> Z], β=0 although the integral differential is nonzero.
+- For Z in degree zero, β is zero and E_p/p=F_p in degree zero.
 - The target differential is β, not zero.
 
 **Derived p-décalage and completion.** The functor E_p on termwise p-torsion-free complexes descends
@@ -4068,10 +4061,10 @@ preserves arbitrary limits.
 
 The API:
 
-- `Crystalline.derivedPDecalage_model`: For a torsion-free model M of K, Lη_pK is represented by
+- For a torsion-free model M of K, Lη_pK is represented by
   E_p(M).
-- `Crystalline.derivedPDecalage_cohomology`: H^n(Lη_pK)≅H^n(K)/H^n(K)[p], naturally.
-- `Crystalline.derivedPDecalage_completion`: (Lη_pK)^∧_p≅Lη_p(K^∧_p), naturally in K.
+- H^n(Lη_pK)≅H^n(K)/H^n(K)[p], naturally.
+- (Lη_pK)^∧_p≅Lη_p(K^∧_p), naturally in K.
 
 *Proof sketch.* Resolve K by a complex of free abelian groups. principal-p-decalage computes
 cohomology and therefore preserves quasi-isomorphisms between torsion-free models; localize this
@@ -4086,9 +4079,9 @@ torsion-free complexes*; EnhancedDerivedSheaves Layer E1.
 
 **Checks.**
 
-- `test_derivedPDecalage_p`: Lη_p(Z/p[0])=0, computed on [Z --p--> Z] in degrees −1,0.
-- `test_derivedPDecalage_p_squared`: H⁰(Lη_p(Z/p²[0]))=Z/p and all other cohomology is zero.
-- `test_derivedPDecalage_complete`: Lη_p(Z_p[0])=Z_p[0] and its derived p-completion map is an
+- Lη_p(Z/p[0])=0, computed on [Z --p--> Z] in degrees −1,0.
+- H⁰(Lη_p(Z/p²[0]))=Z/p and all other cohomology is zero.
+- Lη_p(Z_p[0])=Z_p[0] and its derived p-completion map is an
   isomorphism.
 - For K=Z/p in degree zero, Lη_pK=0; this functor is not an exact triangulated functor.
 
@@ -4102,17 +4095,17 @@ quotient take the direct limit of the sequence M*→(η_pM)*→(η_pη_pM)*→�
 
 The API:
 
-- `Crystalline.Saturation.unit`: The canonical morphism M→Sat(M) commutes with d and F.
-- `Crystalline.Saturation.lift`: For every saturated K, composition with the unit bijects
+- The canonical morphism M→Sat(M) commutes with d and F.
+- For every saturated K, composition with the unit bijects
   Hom(Sat(M),K) with Hom(M,K).
-- `Crystalline.Saturation.idempotent`: The unit is an isomorphism when M is saturated; hence
+- The unit is an isomorphism when M is saturated; hence
   saturation is idempotent.
-- `Crystalline.Saturation.saturated`: Sat(M) is a saturated Dieudonné complex, for every Dieudonné
+- Sat(M) is a saturated Dieudonné complex, for every Dieudonné
   complex M.
-- `Crystalline.Saturation.isColimit`: For termwise p-torsion-free M, Sat(M) is the colimit in
+- For termwise p-torsion-free M, Sat(M) is the colimit in
   cochain complexes of M --α_F--> η_pM --η_p(α_F)--> η_pη_pM --> ⋯, its Frobenius is induced by
   those of the stages, and the unit M→Sat(M) is the canonical map from the first term.
-- `Crystalline.Saturation.map`: A morphism f:M→N of Dieudonné complexes induces Sat(f):Sat(M)→Sat(N)
+- A morphism f:M→N of Dieudonné complexes induces Sat(f):Sat(M)→Sat(N)
   with Sat(f)∘unit_M=unit_N∘f, Sat(id)=id and Sat(g∘f)=Sat(g)∘Sat(f).
 
 *Proof sketch.* Let T⊆M be the graded subgroup of elements killed by a power of p. T is stable under
@@ -4135,11 +4128,11 @@ on torsion-free complexes*; *Derived p-décalage and completion*.
 
 **Checks.**
 
-- `test_saturation_Z_identity`: The degree-zero complex Z with F=id is already saturated at each
+- The degree-zero complex Z with F=id is already saturated at each
   prime p, so its saturation unit is an isomorphism.
-- `test_saturation_p_torsion`: The degree-zero group Z/p with F=0 has zero saturation because every
+- The degree-zero group Z/p with F=0 has zero saturation because every
   map to a p-torsionfree group kills it.
-- `test_saturation_invert_p`: For Z in degree zero with F multiplication by p, saturation is Z[1/p]
+- For Z in degree zero with F multiplication by p, saturation is Z[1/p]
   in degree zero with the same Frobenius.
 - Sat of Z in degree 0 with F=p is Z[1/p] with F=p: the sequence is Z --p--> Z --p--> ⋯.
 - Sat of Z/p in degree 0 (any F) is 0, and the unit M→Sat(M) is an isomorphism for saturated M, e.g.
@@ -4185,20 +4178,18 @@ complex*](https://arxiv.org/abs/1805.05501v3), arXiv v3, §2.4, Definition 2.4.1
 existing Z-submodules of M^n. The endomorphism exponent is composition. The zeroth level is all of
 M^n.
 
-The intended signature is `Crystalline.DieudonneComplex.vFiltration M hM r n :
-Submodule ℤ (M.complex.X n)`, using the additive operator constructed in CR.4.1.
-The intended zeroth-level theorem is `Crystalline.DieudonneComplex.vFiltration_zero`.
+This is a ℤ-submodule of M^n, using the additive operator constructed in CR.4.1.
 
 *Hypotheses.* p is a prime; M is a saturated Dieudonné complex; n is any integer and r≥0 is an
 integer.
 
 The API:
 
-- `Crystalline.mem_vFiltration`: x belongs to N_r^n iff x=V_n^r(a)+d V_(n−1)^r(b), for a in M^n and
+- x belongs to N_r^n iff x=V_n^r(a)+d V_(n−1)^r(b), for a in M^n and
   b in M^(n−1).
-- `Crystalline.vFiltration_zero`: N_0^n=M^n because V^0 is identity.
-- `Crystalline.vFiltration_antitone`: For r≤s, N_s^n is contained in N_r^n.
-- `Crystalline.vFiltration_d`: d(N_r^n) is contained in N_r^(n+1).
+- N_0^n=M^n because V^0 is identity.
+- For r≤s, N_s^n is contained in N_r^n.
+- d(N_r^n) is contained in N_r^(n+1).
 
 *Proof sketch.* N_r^n is the sum of the image of V^r:M^n→M^n and the image of d∘V^r:M^(n−1)→M^n,
 formed with LinearMap.range and the supremum of submodules; V^r is the r-fold composite. The second
@@ -4211,11 +4202,11 @@ differential*; Mathlib `LinearMap.range`; Mathlib `Submodule.mem_sup`; Mathlib
 
 **Checks.**
 
-- `filtration_test_zero`: Zero belongs to N_7^n.
-- `filtration_test_V_identity`: If V_n is identity and the incoming differential is zero, N_3^n=M^n.
-- `filtration_test_zero_d_F_identity`: If the incoming differential is zero and F_n is identity,
+- Zero belongs to N_7^n.
+- If V_n is identity and the incoming differential is zero, N_3^n=M^n.
+- If the incoming differential is zero and F_n is identity,
   N_r^n=p^r M^n.
-- `filtration_test_d_summand`: At p=2 there is a saturated M and an element of N_1^1 outside
+- At p=2 there is a saturated M and an element of N_1^1 outside
   im(V_1): for M=[Z --id--> Z] in degrees 0 and 1 with F_0=2, F_1=id (so V_0=id, V_1=2), N_1^1=M^1
   while im(V_1)=2M^1, and dV_0(1)=1 is such an element. The same holds for every prime p with F_0=p.
 - For M=Z in degree 0 with F=id: N_r^0=p^rZ.
@@ -4384,10 +4375,10 @@ integer.
 
 The API:
 
-- `Crystalline.Wmk`: The canonical linear quotient projection M^n→W_r(M)^n.
-- `Crystalline.Wmk_surjective`: Every class in W_r(M)^n is represented by an element of M^n.
-- `Crystalline.Wmk_eq_zero`: The class of x is zero iff x∈N_r^n.
-- `Crystalline.Wcomplex_d_mk`: The quotient differential sends the class of x to the class of dx.
+- The canonical linear quotient projection M^n→W_r(M)^n.
+- Every class in W_r(M)^n is represented by an element of M^n.
+- The class of x is zero iff x∈N_r^n.
+- The quotient differential sends the class of x to the class of dx.
 
 *Proof sketch.* d maps N_r^n into N_r^(n+1) (*Differential stability of the filtration*), so it
 induces a map of quotients by Submodule.mapQ; the induced map squares to zero because d does,
@@ -4400,11 +4391,11 @@ of the filtration*; Mathlib `CochainComplex.of`; Mathlib `ModuleCat.ofHom`; Math
 
 **Checks.**
 
-- `Wcomplex_test_zero_level`: Every group of W_0(M) is zero.
-- `Wcomplex_test_zero_complex`: If M is degreewise zero, so is every W_r(M).
-- `Wcomplex_test_V_surjective`: If V is surjective in every degree, all W_r(M) vanish, including
+- Every group of W_0(M) is zero.
+- If M is degreewise zero, so is every W_r(M).
+- If V is surjective in every degree, all W_r(M) vanish, including
   rational degree-zero M with F identity.
-- `Wcomplex_test_Z8`: For M^0 identified with Z, zero incoming differential and F_0 identity at p=2,
+- For M^0 identified with Z, zero incoming differential and F_0 identity at p=2,
   W_3(M)^0 is Z/8 as a Z-module.
 - For M=Z in degree 0 with F=id: W_r(M) is Z/p^r in degree 0 (Z/8 for p=2, r=3).
 - W_0(M)=0 for every saturated M; for Q in degree 0 with F=id, W_r=0 for all r.
@@ -4467,9 +4458,9 @@ integer.
 
 The API:
 
-- `Crystalline.Wprojection_apply`: Its degree-n component sends x to Wmk(x).
-- `Crystalline.Wprojection_surjective`: Every component is surjective.
-- `Crystalline.Wprojection_kernel`: The degree-n kernel is N_r^n.
+- Its degree-n component sends x to Wmk(x).
+- Every component is surjective.
+- The degree-n kernel is N_r^n.
 
 *Proof sketch.* The components are the maps Wmk; the cochain-map condition is d[x]=[dx]
 (*Differential of a quotient representative*). ([Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt
@@ -4481,9 +4472,9 @@ Mathlib `Submodule.mkQ`.
 
 **Checks.**
 
-- `projection_test_level_zero`: The projection to W_0 is zero.
-- `projection_test_V_power`: The projection kills V^r(x).
-- `projection_test_dV_power`: The projection also kills dV^r(y), even when this element is not in
+- The projection to W_0 is zero.
+- The projection kills V^r(x).
+- The projection also kills dV^r(y), even when this element is not in
   im(V^r).
 - For M=Z in degree 0 with F=id the projection is the reduction Z→Z/p^r, with kernel p^rZ.
 
@@ -4495,9 +4486,9 @@ integer.
 
 The API:
 
-- `Crystalline.Wrestriction_mk`: R_r([x]_(r+1))=[x]_r.
-- `Crystalline.Wrestriction_surjective`: R_r is surjective in each degree.
-- `Crystalline.Wprojection_restriction`: Projection to level r+1 followed by R_r equals projection
+- R_r([x]_(r+1))=[x]_r.
+- R_r is surjective in each degree.
+- Projection to level r+1 followed by R_r equals projection
   to level r.
 
 *Proof sketch.* Apply mapQ to identity degreewise and use d-stability; compatibility with
@@ -4509,9 +4500,9 @@ a quotient representative*; Mathlib `Submodule.mapQ`; Mathlib `CochainComplex.of
 
 **Checks.**
 
-- `restriction_test_zero`: R_0 has zero target and sends every class to zero.
-- `restriction_test_two_steps`: R_r R_(r+1)([x]_(r+2))=[x]_r.
-- `restriction_test_d`: Restriction commutes with the quotient differential.
+- R_0 has zero target and sends every class to zero.
+- R_r R_(r+1)([x]_(r+2))=[x]_r.
+- Restriction commutes with the quotient differential.
 - For M=Z in degree 0 with F=id, R_r is the reduction Z/p^(r+1)→Z/p^r.
 - R_0:W_1(M)→W_0(M)=0 is zero.
 
@@ -4537,9 +4528,9 @@ integer.
 
 The API:
 
-- `Crystalline.WF_mk`: F_r([x]_(r+1))=[Fx]_r.
-- `Crystalline.WF_d`: d F_r=p F_r d, with the degree and level indices shown.
-- `Crystalline.WF_restriction`: R_r F_(r+1)=F_r R_(r+1) from level r+2 to r.
+- F_r([x]_(r+1))=[Fx]_r.
+- d F_r=p F_r d, with the degree and level indices shown.
+- R_r F_(r+1)=F_r R_(r+1) from level r+2 to r.
 
 *Proof sketch.* Apply Submodule.mapQ to F, using F(N_(r+1)^n)⊆N_r^n (*Frobenius lowers the
 filtration*). The relation d∘F_r=p·F_r∘d follows on representatives from dF=pFd, and
@@ -4553,9 +4544,9 @@ projection*; *Differential of a quotient representative*; *Restriction on repres
 
 **Checks.**
 
-- `WF_test_zero_level`: F_0 has zero target.
-- `WF_test_identity`: If F is identity on M, F_r equals R_r.
-- `WF_test_non_chain`: At p=2 there is a saturated M for which F_1:W_2(M)→W_1(M) does not commute
+- F_0 has zero target.
+- If F is identity on M, F_r equals R_r.
+- At p=2 there is a saturated M for which F_1:W_2(M)→W_1(M) does not commute
   with d: for M the free strict Dieudonné complex on one generator x in degree 0 (BLM Example
   2.5.7), d(F_1[x]_2)=[2F dx]_1=0 while F_1(d[x]_2)=[F dx]_1≠0 in W_1(M)^1. The same M works for
   every prime p.
@@ -4587,9 +4578,9 @@ integer.
 
 The API:
 
-- `Crystalline.WV_mk`: V_r([x]_r)=[Vx]_(r+1).
-- `Crystalline.WV_d`: V_r∘d=p·d∘V_r as maps W_r(M)^n→W_(r+1)(M)^(n+1), for every integer n.
-- `Crystalline.WV_restriction`: R_(r+1) V_(r+1)=V_r R_r from level r+1 to itself.
+- V_r([x]_r)=[Vx]_(r+1).
+- V_r∘d=p·d∘V_r as maps W_r(M)^n→W_(r+1)(M)^(n+1), for every integer n.
+- R_(r+1) V_(r+1)=V_r R_r from level r+1 to itself.
 
 *Proof sketch.* Apply Submodule.mapQ to V, using V(N_r^n)⊆N_(r+1)^n (*Verschiebung raises the
 filtration*). The relation V_r∘d=p·d∘V_r follows on representatives from Vd=p dV, and
@@ -4602,9 +4593,9 @@ representative*; *Restriction on representatives*; Mathlib `Submodule.mapQ`.
 
 **Checks.**
 
-- `WV_test_zero_level`: V_0 has zero source.
-- `WV_test_identity_frobenius`: If F is identity, V_r([x])=p[x] at level r+1.
-- `WV_test_non_chain`: At p=2 there is a saturated M for which V_1:W_1(M)→W_2(M) does not commute
+- V_0 has zero source.
+- If F is identity, V_r([x])=p[x] at level r+1.
+- At p=2 there is a saturated M for which V_1:W_1(M)→W_2(M) does not commute
   with d: for M the free strict Dieudonné complex on one generator x in degree 0 (BLM Example
   2.5.7), d(V_1[x]_1)=[dVx]_2≠0 while V_1(d[x]_1)=[2dVx]_2=0 in W_2(M)^1, because 2dVx=dV²(Fx). The
   same M works for every prime p.
@@ -4735,15 +4726,15 @@ Dieudonné complexes; r≥0 is an integer.
 
 The API:
 
-- `Crystalline.DieudonneHom.Wmap_mk`: W_r(f)([x])=[f(x)].
-- `Crystalline.DieudonneHom.Wmap_restriction`: R_N∘W_(r+1)(f)=W_r(f)∘R_M as cochain maps
+- W_r(f)([x])=[f(x)].
+- R_N∘W_(r+1)(f)=W_r(f)∘R_M as cochain maps
   W_(r+1)(M)→W_r(N), where R_M, R_N are the restriction maps R_r of M and N.
-- `Crystalline.DieudonneHom.Wmap_F`: W_r(f)∘F_r=F_r∘W_(r+1)(f) in every degree, as maps
+- W_r(f)∘F_r=F_r∘W_(r+1)(f) in every degree, as maps
   W_(r+1)(M)^n→W_r(N)^n.
-- `Crystalline.DieudonneHom.Wmap_V`: W_(r+1)(f)∘V_r=V_r∘W_r(f) in every degree, as maps
+- W_(r+1)(f)∘V_r=V_r∘W_r(f) in every degree, as maps
   W_r(M)^n→W_(r+1)(N)^n.
-- `Crystalline.DieudonneHom.Wmap_id`: W_r of the identity is identity.
-- `Crystalline.DieudonneHom.Wmap_comp`: W_r(g∘f)=W_r(g)∘W_r(f).
+- W_r of the identity is identity.
+- W_r(g∘f)=W_r(g)∘W_r(f).
 
 *Proof sketch.* Commutation with V gives fV^r=V^r f; the existing cochain-map identity gives f
 dV^r=dV^r f. Hence f maps each N_r(M) into N_r(N). Use mapQ and the ordinary cochain-map
@@ -4758,10 +4749,10 @@ representatives*; *Frobenius on representatives*; *Verschiebung on representativ
 
 **Checks.**
 
-- `Wmap_test_identity`: The induced identity map fixes each quotient class.
-- `Wmap_test_zero`: A morphism with zero underlying cochain map induces the zero map.
-- `Wmap_test_level_zero`: Every induced map at level zero is zero.
-- `Wmap_test_scalar`: For M=N=Z in degree 0 with F=id and f multiplication by an integer a, W_r(f)
+- The induced identity map fixes each quotient class.
+- A morphism with zero underlying cochain map induces the zero map.
+- Every induced map at level zero is zero.
+- For M=N=Z in degree 0 with F=id and f multiplication by an integer a, W_r(f)
   is multiplication by a on W_r(M)^0=Z/p^r, for every r≥0.
 - For the inclusion Z→Z_p (both in degree 0 with F=id), W_r(f) is the isomorphism Z/p^r→Z_p/p^rZ_p.
 
@@ -4824,26 +4815,26 @@ map ρ_M:M*→W(M)* is a map of Dieudonné complexes (Remark 2.5.3).
 
 The API:
 
-- `Crystalline.Completion.restriction`: Res:W_(r+1)(M)→W_r(M) is the cochain map R_r of *Restriction
+- Res:W_(r+1)(M)→W_r(M) is the cochain map R_r of *Restriction
   between finite quotients*: it is surjective in every degree and Res([x]_(r+1))=[x]_r.
-- `Crystalline.Completion.F`: F descends from `W_{r+1}M` to W_rM; on the inverse limit it satisfies
+- F descends from `W_{r+1}M` to W_rM; on the inverse limit it satisfies
   dF=pFd.
-- `Crystalline.Completion.V`: V descends to V_r:W_r(M)→W_(r+1)(M) with V_r∘d=p·d∘V_r; on W(M)^n,
+- V descends to V_r:W_r(M)→W_(r+1)(M) with V_r∘d=p·d∘V_r; on W(M)^n,
   viewed as compatible families (x_r)_r, it defines V(x) by V(x)_(r+1)=V_r(x_r) and V(x)_0=0.
-- `Crystalline.Completion.unit`: The natural map ρ:M→lim_r W_rM is a morphism of Dieudonné
+- The natural map ρ:M→lim_r W_rM is a morphism of Dieudonné
   complexes.
-- `Crystalline.Completion.projection`: For every r≥0 there is a cochain map π_r:W(M)→W_r(M), with
+- For every r≥0 there is a cochain map π_r:W(M)→W_r(M), with
   Res∘π_(r+1)=π_r.
-- `Crystalline.Completion.unit_projection`: π_r∘ρ_M is the quotient map M→W_r(M) of *Projection to
+- π_r∘ρ_M is the quotient map M→W_r(M) of *Projection to
   the finite quotient*, for every r≥0.
-- `Crystalline.Completion.ext`: Two elements x, y of W(M)^n are equal iff π_r(x)=π_r(y) for every
+- Two elements x, y of W(M)^n are equal iff π_r(x)=π_r(y) for every
   r≥0.
-- `Crystalline.Completion.lift`: For a cochain complex K of abelian groups and cochain maps
+- For a cochain complex K of abelian groups and cochain maps
   g_r:K→W_r(M) with Res∘g_(r+1)=g_r for all r, there is a unique cochain map g:K→W(M) with π_r∘g=g_r
   for all r.
-- `Crystalline.Completion.F_coordinate`: π_r(F x)=F_r(π_(r+1) x) for x∈W(M)^n and r≥0, where
+- π_r(F x)=F_r(π_(r+1) x) for x∈W(M)^n and r≥0, where
   F_r:W_(r+1)(M)→W_r(M) is the map of *Frobenius on finite quotients*.
-- `Crystalline.Completion.map`: A morphism f:M→N of saturated Dieudonné complexes induces a morphism
+- A morphism f:M→N of saturated Dieudonné complexes induces a morphism
   of Dieudonné complexes W(f):W(M)→W(N) with π_r∘W(f)=W_r(f)∘π_r for all r; W(id)=id,
   W(g∘f)=W(g)∘W(f), and W(f)∘ρ_M=ρ_N∘f.
 
@@ -4858,9 +4849,9 @@ quotients*; *Verschiebung on finite quotients*; *Functorial finite quotients*.
 
 **Checks.**
 
-- `test_completion_W0`: W₀M is the zero complex, since V⁰ is identity.
-- `test_completion_Z`: For M=Z in degree zero with F=id, V=p, W_rM=Z/p^r and W(M)=Z_p.
-- `test_completion_rational`: For M=Q in degree zero with F=id, V=p is bijective, all W_rM vanish
+- W₀M is the zero complex, since V⁰ is identity.
+- For M=Z in degree zero with F=id, V=p, W_rM=Z/p^r and W(M)=Z_p.
+- For M=Q in degree zero with F=id, V=p is bijective, all W_rM vanish
   and the completion is zero.
 - For M=Z in degree 0 with F=id: W_r(M)=Z/p^r, Res and F are the reduction Z/p^(r+1)→Z/p^r, V is
   multiplication by p from Z/p^r to Z/p^(r+1), W(M)=Z_p and ρ_M is Z→Z_p.
@@ -4876,15 +4867,15 @@ defined for saturated M, so saturation is part of the definition.
 
 The API:
 
-- `Crystalline.IsStrict.unit_bijective`: A saturated Dieudonné complex M is strict iff
+- A saturated Dieudonné complex M is strict iff
   ρ_M:M^n→W(M)^n is bijective for every integer n; equivalently, iff ρ_M is an isomorphism in DC.
-- `Crystalline.IsStrict.iff_separated_complete`: For saturated M and every integer n, ker(ρ_M) in
+- For saturated M and every integer n, ker(ρ_M) in
   degree n is ⋂_(r≥0) N_r^n, and ρ_M is surjective in degree n iff every sequence (x_r)_r in M^n
   with x_(r+1)−x_r∈N_r^n for all r has an x∈M^n with x−x_r∈N_r^n for all r. So M is strict iff every
   M^n is separated and complete for the filtration (N_r^n)_r.
-- `Crystalline.IsStrict.of_iso`: If f:M→N is an isomorphism of saturated Dieudonné complexes and M
+- If f:M→N is an isomorphism of saturated Dieudonné complexes and M
   is strict, then N is strict.
-- `Crystalline.IsStrict.degreeZero_iff`: For an abelian group A with an endomorphism F, the
+- For an abelian group A with an endomorphism F, the
   Dieudonné complex with A in degree 0 and zero elsewhere is saturated iff A is p-torsion-free and F
   is an automorphism; if so, it is strict iff A is p-adically complete, i.e. A→lim_r A/p^rA is an
   isomorphism (BLM Example 2.5.6).
@@ -4907,13 +4898,13 @@ quotients*.
 
 **Checks.**
 
-- `test_strict_Zp`: Z_p in degree 0 with F=id is strict: V=p, W_r=Z_p/p^rZ_p=Z/p^r, and ρ:Z_p→lim_r
+- Z_p in degree 0 with F=id is strict: V=p, W_r=Z_p/p^rZ_p=Z/p^r, and ρ:Z_p→lim_r
   Z/p^r is an isomorphism.
-- `test_strict_Z`: Z in degree 0 with F=id is saturated and not strict: ρ:Z→W(Z)=Z_p is injective
+- Z in degree 0 with F=id is saturated and not strict: ρ:Z→W(Z)=Z_p is injective
   and not surjective.
-- `test_strict_Q`: Q in degree 0 with F=id is saturated and not strict: V=p is bijective, W(Q)=0,
+- Q in degree 0 with F=id is saturated and not strict: V=p is bijective, W(Q)=0,
   and ρ:Q→0 is not injective.
-- `test_strict_unit`: For a p-adic unit u, Z_p in degree 0 with F multiplication by u is strict;
+- For a p-adic unit u, Z_p in degree 0 with F multiplication by u is strict;
   with F multiplication by p it is not saturated, hence not strict.
 - For a p-torsion-free group A in degree 0 with an automorphism F, strictness is p-adic completeness
   of A (BLM Example 2.5.6).
@@ -4949,28 +4940,28 @@ Dieudonné complexes in the category of Dieudonné complexes.
 
 The API:
 
-- `Crystalline.StrictDieudonneTower.ofSaturated`: For a saturated Dieudonné complex M, the complexes
+- For a saturated Dieudonné complex M, the complexes
   W_r(M) (r≥0) with Res:W_(r+1)(M)→W_r(M), F:W_(r+1)(M)→W_r(M) and V:W_r(M)→W_(r+1)(M) form a strict
   Dieudonné tower (BLM Proposition 2.6.2).
-- `Crystalline.StrictDieudonneTower.limit`: For a strict Dieudonné tower X, the inverse limit lim_r
+- For a strict Dieudonné tower X, the inverse limit lim_r
   X_r with (Fx)_r=F(x_(r+1)) is a saturated Dieudonné complex, and its Verschiebung is given by
   (Vx)_(r+1)=V(x_r), (Vx)_0=0 (BLM Proposition 2.6.5).
-- `Crystalline.StrictDieudonneTower.limitWIso`: For a strict Dieudonné tower X and every r≥0, the
+- For a strict Dieudonné tower X and every r≥0, the
   projection lim_s X_s→X_r is surjective with kernel im V^r+im dV^r; so it induces an isomorphism of
   cochain complexes W_r(lim_s X_s)≅X_r, and these isomorphisms commute with R, F and V (BLM
   Proposition 2.9.1, Corollary 2.9.2).
-- `Crystalline.StrictDieudonneTower.limit_isStrict`: For a strict Dieudonné tower X, lim_r X_r is a
+- For a strict Dieudonné tower X, lim_r X_r is a
   strict Dieudonné complex in the sense of *Strict Dieudonné complexes* (BLM Corollary 2.9.3).
-- `Crystalline.StrictDieudonneTower.Hom`: A morphism X→Y of strict Dieudonné towers is a family of
+- A morphism X→Y of strict Dieudonné towers is a family of
   maps of cochain complexes f_r:X_r→Y_r with R∘f_(r+1)=f_r∘R, F∘f_(r+1)=f_r∘F and V∘f_r=f_(r+1)∘V.
   It induces a morphism of Dieudonné complexes lim f:lim_r X_r→lim_r Y_r, with lim(id)=id and
   lim(g∘f)=lim(g)∘lim(f); a morphism f:M→N of saturated Dieudonné complexes induces the morphism
   (W_r(f))_r of towers, compatibly with identities and composition.
-- `Crystalline.StrictDieudonneTower.equivalence`: M↦(W_r(M))_r, from strict Dieudonné complexes to
+- M↦(W_r(M))_r, from strict Dieudonné complexes to
   strict Dieudonné towers, and X↦lim_r X_r are inverse equivalences of categories: ρ_M:M→lim_r
   W_r(M) is a natural isomorphism for strict M, and W_r(lim_s X_s)≅X_r is a natural isomorphism of
   towers (BLM Corollary 2.9.4).
-- `Crystalline.StrictDieudonneTower.relations`: In a strict Dieudonné tower: p^r·X_r=0 for every r≥0
+- In a strict Dieudonné tower: p^r·X_r=0 for every r≥0
   (by (1) and (7), by induction on r); and V∘d=p·d∘V:X_r^n→X_(r+1)^(n+1) and
   F∘d∘V=d:X_r^n→X_r^(n+1). The last two are not axioms; they follow from X_r≅W_r(lim X) and the
   identities Vd=p·dV, FdV=d on the saturated complex lim X.
@@ -5021,20 +5012,20 @@ p-torsion*; *Functorial finite quotients*; *Strict Dieudonné complexes*.
 
 **Checks.**
 
-- `test_tower_Zp`: The tower of Z_p (degree 0, F=id) is X_r=Z/p^r with R and F the projections
+- The tower of Z_p (degree 0, F=id) is X_r=Z/p^r with R and F the projections
   Z/p^(r+1)→Z/p^r and V multiplication by p, Z/p^r→Z/p^(r+1). It satisfies the eight axioms:
   ker(R:X_(r+1)→X_r)=p^r·Z/p^(r+1)=X_(r+1)[p]=V^r(X_1), and F is surjective. Its limit is Z_p with
   F=id and V=p.
-- `test_tower_constant_Fp`: Let X_0=0 and X_r=F_p in degree 0 for r≥1, with R:X_(r+1)→X_r and
+- Let X_0=0 and X_r=F_p in degree 0 for r≥1, with R:X_(r+1)→X_r and
   F:X_(r+1)→X_r the identity for r≥1 and zero for r=0, and V=0. Axioms (1)–(6) and (8) hold, and (7)
   fails: for r≥1, ker(R:X_(r+1)→X_r)=0 and X_(r+1)[p]=F_p. The limit F_p is not p-torsion-free.
-- `test_tower_rational`: The zero tower (X_r=0 for all r) is a strict Dieudonné tower with limit 0.
+- The zero tower (X_r=0 for all r) is a strict Dieudonné tower with limit 0.
   It is the tower of the saturated complex Q (degree 0, F=id), for which V=p is bijective and
   W_r(Q)=0; so lim_r W_r(M)≅M fails for the non-strict saturated complex M=Q.
-- `test_tower_localization`: The saturated complexes Z_(p) and Z_p (degree 0, F=id) have the same
+- The saturated complexes Z_(p) and Z_p (degree 0, F=id) have the same
   tower (Z/p^r)_r, and its limit Z_p is the completion W(Z_(p)) of *Completion of a saturated
   Dieudonné complex*; for a saturated M, lim_r of the tower (W_r(M))_r is W(M).
-- `test_tower_free`: Let X_r⁰=⊕_(m≥0)(Z/p^r)·e_m ⊕ ⊕_(0<n<r)(Z/p^(r−n))·v_n and
+- Let X_r⁰=⊕_(m≥0)(Z/p^r)·e_m ⊕ ⊕_(0<n<r)(Z/p^(r−n))·v_n and
   X_r¹=⊕_(m≥0)(Z/p^r)·f_m ⊕ ⊕_(0<n<r)(Z/p^(r−n))·w_n, with d(e_m)=p^m·f_m, d(v_n)=w_n, R the
   projections, F(e_m)=e_(m+1), F(v_n)=p·v_(n−1), F(f_m)=f_(m+1), F(w_n)=w_(n−1), V(e_m)=p·e_(m−1)
   for m≥1, V(e_0)=v_1, V(v_n)=v_(n+1), V(f_m)=p·f_(m−1) for m≥1, V(f_0)=p·w_1, V(w_n)=p·w_(n+1),
@@ -5165,8 +5156,8 @@ quotients compute cohomology modulo p^r*.
 
 **Finite-length Witt operators and their identities.** On Mathlib's
 `TruncatedWittVector p r R`, construct the induced ring map
-`Crystalline.truncatedFrobenius : W_(r+1)(R) →+* W_r(R)` and additive map
-`Crystalline.truncatedVerschiebung : W_r(R) →+ W_(r+1)(R)`. The latter is the coordinate shift;
+`F_r : W_(r+1)(R) → W_r(R)` and additive map
+`V_r : W_r(R) → W_(r+1)(R)`. The latter is the coordinate shift;
 restriction is the existing `TruncatedWittVector.truncate`. Prove that finite Verschiebung is
 injective, `F_r V_r = p`, and `V_r(x) y = V_r(x F_r(y))`. The kernel of restriction
 `W_(r+1)(R) → W_r(R)` is the image of the r-fold shift from `W_1(R) = R`. For `R` of
@@ -5180,12 +5171,14 @@ For p-torsion-free R, prove joint injectivity of the first r ghost components on
 `CharP R p` and reduced R. Ghost injectivity requires injectivity of multiplication by p on R.
 The finite projection identities have no characteristic-p hypothesis.
 
-The API comprises `Crystalline.truncatedFrobenius_truncate` and
-`Crystalline.truncatedVerschiebung_truncate` (agreement with the infinite operators),
-`Crystalline.truncatedVerschiebung_injective`, `Crystalline.truncatedFrobenius_V`,
-`Crystalline.truncatedVerschiebung_projection`, `Crystalline.truncatedRestriction_kernel`,
-`Crystalline.truncatedVerschiebung_F_charP`, `Crystalline.wittFrobenius_injective_of_reduced`
-and `Crystalline.witt_p_torsionFree_of_reduced`.
+The API:
+
+- Finite Frobenius and Verschiebung commute with truncation of the infinite operators.
+- Finite Verschiebung is injective; `F_r V_r = p` and `V_r(x)y = V_r(xF_r(y))`.
+- The kernel of restriction is the image of the r-fold Verschiebung from R.
+- For characteristic-p R, `V_(r−1)F_(r−1) = p` on W_r(R) when r≥1.
+- For reduced characteristic-p R, Witt Frobenius is injective and W(R) is p-torsion-free.
+
 The ghost-injectivity target is injectivity of
 x↦(WittVector.ghostComponent i x.out)_(i<r) under the p-torsion-free hypothesis.
 
@@ -5258,18 +5251,18 @@ WittVector.verschiebung, as constructed in *Finite-length Witt operators and the
 
 The API:
 
-- `Crystalline.wittVerschiebungIdeal`: I_r=V W_(r−1)(R), the ideal of W_r(R) equal to the kernel of
+- I_r=V W_(r−1)(R), the ideal of W_r(R) equal to the kernel of
   W_r(R)→R (for every commutative ring R).
-- `Crystalline.wittVerschiebung_pow`: For every commutative ring R, ξ∈W_(r−1)(R) and n≥1:
+- For every commutative ring R, ξ∈W_(r−1)(R) and n≥1:
   (Vξ)^n=p^(n−1)·V(ξ^n) in W_r(R).
-- `Crystalline.wittVerschiebungDividedPowers_dpow`: For a Z_(p)-algebra R:
+- For a Z_(p)-algebra R:
   γ_n(Vξ)=(p^(n−1)/n!)·V(ξ^n) for n≥1; in particular (p−1)!·γ_p(Vξ)=p^(p−2)·V(ξ^p).
-- `Crystalline.wittVerschiebungDividedPowers_map`: The restriction W_(r+1)(R)→W_r(R) and
+- The restriction W_(r+1)(R)→W_r(R) and
   W_r(f):W_r(R)→W_r(R′) for a homomorphism f of Z_(p)-algebras are divided power morphisms (Mathlib
   `DividedPowers.IsDPMorphism`).
-- `Crystalline.wittVerschiebungDividedPowers_unique`: If R is a p-torsion-free Z_(p)-algebra, any
+- If R is a p-torsion-free Z_(p)-algebra, any
   divided power structure on I_r equals γ.
-- `Crystalline.wittVerschiebungDividedPowers_Fp`: Under Z/p^r≅W_r(F_p) (Mathlib
+- Under Z/p^r≅W_r(F_p) (Mathlib
   `TruncatedWittVector.zmodEquivTrunc`) the ideal I_r is (p) and γ_n(px)=p^n·x^n/n!, the canonical
   divided powers on (p).
 
@@ -5302,11 +5295,11 @@ Mathlib `WittVector.verschiebung`; Mathlib `WittVector.frobenius_verschiebung`; 
 
 **Checks.**
 
-- `test_wittPD_Fp`: For R=F_p and r=2: W_2(F_p)=Z/p², I_2=(p) and γ_n(p)=p^n/n! in Z/p² for all n≥1;
+- For R=F_p and r=2: W_2(F_p)=Z/p², I_2=(p) and γ_n(p)=p^n/n! in Z/p² for all n≥1;
   these are the canonical divided powers on (p).
-- `test_wittPD_two`: For p=2, in W_2(F_2)=Z/4: γ_2(2)=2, γ_3(2)=0 and γ_(2^k)(2)=2 for every k≥0.
-- `test_wittPD_factorial`: For a Z_(p)-algebra R, ξ∈W_(r−1)(R) and n≥1: n!·γ_n(Vξ)=(Vξ)^n.
-- `test_wittPD_integers`: For p=3 and R=Z: in W_2(Z)⊂Z×Z (ghost components) (V1)²=3·V(1)=(0,9) is
+- For p=2, in W_2(F_2)=Z/4: γ_2(2)=2, γ_3(2)=0 and γ_(2^k)(2)=2 for every k≥0.
+- For a Z_(p)-algebra R, ξ∈W_(r−1)(R) and n≥1: n!·γ_n(Vξ)=(Vξ)^n.
+- For p=3 and R=Z: in W_2(Z)⊂Z×Z (ghost components) (V1)²=3·V(1)=(0,9) is
   not 2·y for any y∈W_2(Z), so the ideal V W_1(Z) admits no divided power structure.
 
 **Finite Witt base change for integral perfectoid rings.** Let S→S′ be a map of integral perfectoid
@@ -5370,21 +5363,21 @@ saturated Dieudonné algebras.
 
 The API:
 
-- `Crystalline.DieudonneAlgebra.odd_sq`: An odd homogeneous element has square0, even for p=2.
-- `Crystalline.DieudonneAlgebra.projection`: x·V(y)=V(F(x)·y) on a saturated algebra.
-- `Crystalline.DieudonneAlgebra.W_mul`: Finite-quotient projections and restriction preserve
+- An odd homogeneous element has square0, even for p=2.
+- x·V(y)=V(F(x)·y) on a saturated algebra.
+- Finite-quotient projections and restriction preserve
   products, d and units.
-- `Crystalline.DieudonneAlgebra.ofDeRham`: For a p-torsion-free ring R with a ring endomorphism φ,
+- For a p-torsion-free ring R with a ring endomorphism φ,
   φ(x)≡x^p mod p: the absolute de Rham complex Ω^*_R with F(x)=φ(x) and
   F(dx)=x^(p−1)dx+d((φ(x)−x^p)/p) is a Dieudonné algebra; the same holds for the p-completed de Rham
   complex Ω̂^*_R=lim_n Ω^*_R/p^n (BLM Proposition 3.2.1, Variant 3.3.1).
-- `Crystalline.DieudonneAlgebra.ofDeRham_lift`: For a p-torsion-free Dieudonné algebra A,
+- For a p-torsion-free Dieudonné algebra A,
   restriction to degree 0 is a bijection from maps of Dieudonné algebras Ω^*_R→A to ring maps f:R→A⁰
   with f∘φ=F∘f; if A is moreover termwise p-adically complete, the same holds for Ω̂^*_R (BLM
   Proposition 3.2.3, Variant 3.3.1).
-- `Crystalline.DieudonneAlgebra.sat_lift`: A→Sat(A) is a map of Dieudonné algebras, and every map
+- A→Sat(A) is a map of Dieudonné algebras, and every map
   from A to a saturated Dieudonné algebra factors uniquely through it (BLM Proposition 3.4.3).
-- `Crystalline.DieudonneAlgebra.W_lift`: For saturated A, ρ_A:A→W(A) is a map of Dieudonné algebras
+- For saturated A, ρ_A:A→W(A) is a map of Dieudonné algebras
   into a strict one, and every map from A to a strict Dieudonné algebra factors uniquely through it;
   hence W∘Sat is left adjoint to the inclusion of strict Dieudonné algebras (BLM Propositions 3.5.5,
   3.5.8, Corollaries 3.5.9, 3.5.10).
@@ -5417,11 +5410,11 @@ and the differential*; *Frobenius lifting after a divided differential*; Mathlib
 
 **Checks.**
 
-- `test_DA_Zp`: Z_p in degree0 with F=id is strict, with V multiplication by p.
-- `test_DA_p2_exterior`: For p=2 every element x of degree 1 of a Dieudonné algebra satisfies x²=0.
+- Z_p in degree0 with F=id is strict, with V multiplication by p.
+- For p=2 every element x of degree 1 of a Dieudonné algebra satisfies x²=0.
   The graded-commutative F_2-algebra F_2[x] with x in degree 1, d=0 and F=id satisfies all the other
   axioms and has x²≠0, so it is not a Dieudonné algebra.
-- `test_DA_Fd`: For a saturated Dieudonné algebra A and x∈A⁰ with F(x)=x^p: F(dx)=x^(p−1)·dx and
+- For a saturated Dieudonné algebra A and x∈A⁰ with F(x)=x^p: F(dx)=x^(p−1)·dx and
   d(F(x))=p·F(dx). Example: A=Sat(Ω^*_(Z[t])) with φ(t)=t^p and x=t.
 - W(k) in degree 0 with the Witt vector Frobenius is a Dieudonné algebra for every F_p-algebra k; it
   is saturated, and then strict, exactly when k is perfect (BLM Example 3.1.8).
@@ -5450,21 +5443,21 @@ strict Dieudonné algebras. For μ: B is a p-torsion-free ring with a ring endom
 
 The API:
 
-- `Crystalline.satDRW_lift`: For every strict Dieudonné algebra A and every ring map g:R→A⁰/VA⁰
+- For every strict Dieudonné algebra A and every ring map g:R→A⁰/VA⁰
   there is a unique map of Dieudonné algebras f:WsatΩ_R→A such that the map S_R→A⁰/VA⁰ induced by f,
   composed with e_R:R→S_R, equals g.
-- `Crystalline.satDRW_degree0`: A ring isomorphism WsatΩ_R⁰≅W(S_R), S_R=WsatΩ_R⁰/V WsatΩ_R⁰, whose
+- A ring isomorphism WsatΩ_R⁰≅W(S_R), S_R=WsatΩ_R⁰/V WsatΩ_R⁰, whose
   Witt coordinate of index 0 is the projection WsatΩ_R⁰→S_R (BLM Proposition 3.6.2).
-- `Crystalline.satDRW_map`: Ring maps induce maps preserving d,F,V and all finite quotients.
-- `Crystalline.satDRW_degree0_F`: The isomorphism WsatΩ_R⁰≅W(S_R) carries F and V of WsatΩ_R⁰ to the
+- Ring maps induce maps preserving d,F,V and all finite quotients.
+- The isomorphism WsatΩ_R⁰≅W(S_R) carries F and V of WsatΩ_R⁰ to the
   Witt vector Frobenius and Verschiebung of W(S_R).
-- `Crystalline.satDRW_unit`: e_R:R→S_R, the unit of the adjunction; e_R factors through R_red.
-- `Crystalline.satDRW_residue_seminormal`: `DiamondsAndVStacks.IsSeminormalRing S_R`;
+- e_R:R→S_R, the unit of the adjunction; e_R factors through R_red.
+- `DiamondsAndVStacks.IsSeminormalRing S_R`;
   thus S_R is reduced and x³=y² has a unique root t with x=t² and y=t³
   (BLM Lemma 3.6.1, Proposition 6.5.1; DiamondsAndVStacks D6.9).
-- `Crystalline.satDRW_red`: WsatΩ_R→WsatΩ_(R_red) is an isomorphism of strict Dieudonné algebras
+- WsatΩ_R→WsatΩ_(R_red) is an isomorphism of strict Dieudonné algebras
   (BLM Warning 4.1.3).
-- `Crystalline.satDRW_ofLift`: For a p-torsion-free ring B with an endomorphism φ lifting Frobenius:
+- For a p-torsion-free ring B with an endomorphism φ lifting Frobenius:
   maps of Dieudonné algebras Ω̂^*_B→A into a strict A correspond bijectively to ring maps B→A⁰/VA⁰;
   the map μ:Ω̂^*_B→WsatΩ_(B/pB) corresponding to B→B/pB→S_(B/pB) induces W(Sat Ω̂^*_B)≅WsatΩ_(B/pB)
   (BLM Proposition 4.2.1, Corollary 4.2.3).
@@ -5506,12 +5499,12 @@ Mathlib `WittVector.verschiebung_frobenius`.
 
 **Checks.**
 
-- `test_satDRW_perfect`: For perfect k, WsatΩ_k=W(k) in degree0 with higher forms0.
-- `test_satDRW_polynomial`: For R=F_p[t]: d[t]≠0 in WsatΩ¹_R and F(d[t])=[t]^(p−1)·d[t], where
+- For perfect k, WsatΩ_k=W(k) in degree0 with higher forms0.
+- For R=F_p[t]: d[t]≠0 in WsatΩ¹_R and F(d[t])=[t]^(p−1)·d[t], where
   [t]∈WsatΩ⁰_R=W(S_R) is the Teichmüller lift of e_R(t).
-- `test_satDRW_dual_numbers`: For R=F_p[ε]/ε²: e_R(ε)=0 in S_R and the map WsatΩ_R→WsatΩ_(F_p)=Z_p
+- For R=F_p[ε]/ε²: e_R(ε)=0 in S_R and the map WsatΩ_R→WsatΩ_(F_p)=Z_p
   induced by ε↦0 is an isomorphism, whereas the Teichmüller lift [ε] is nonzero in W(R).
-- `test_satDRW_cusp`: For R=F_p[t²,t³]⊂F_p[t] the inclusion induces an isomorphism
+- For R=F_p[t²,t³]⊂F_p[t] the inclusion induces an isomorphism
   WsatΩ_R≅WsatΩ_(F_p[t]); in particular WsatΩ²_R=0, although Ω²_R≠0 (dx∧dy≠0 for x=t³, y=t²), and
   there is s∈S_R, mapping to e(t) under S_R≅S_(F_p[t])=F_p[t], with e_R(x)=s³ and e_R(y)=s².
 - Singular inputs: for R=F_p[ε]/ε², WsatΩ_R=WsatΩ_(F_p)=Z_p although [ε]≠0 in W(R); for the cusp
@@ -5552,24 +5545,24 @@ R and F, and the projection formula for V.
 
 The API:
 
-- `Crystalline.RelativeWittComplex.FdV`: F_r(d(V_r x))=dx with the correct form degree.
-- `Crystalline.RelativeWittComplex.VF`: V_r(F_r y)=V_r(1)·y; p·y follows only under the extra
+- F_r(d(V_r x))=dx with the correct form degree.
+- V_r(F_r y)=V_r(1)·y; p·y follows only under the extra
   characteristic-p identity.
-- `Crystalline.RelativeWittComplex.dlog`: For a unit u, dlog[u]=[u]⁻¹d[u] is closed and
+- For a unit u, dlog[u]=[u]⁻¹d[u] is closed and
   F(dlog[u])=dlog[u].
-- `Crystalline.finiteWittF`: F:W_(r+1)(R)→W_r(R), x↦truncate_r(frobenius(x̃)) for any lift x̃∈W(R)
+- F:W_(r+1)(R)→W_r(R), x↦truncate_r(frobenius(x̃)) for any lift x̃∈W(R)
   of x; it is independent of the lift, a ring homomorphism, commutes with restriction, and is the
-  operator Crystalline.truncatedFrobenius of *Finite-length Witt operators and their identities*,
+  finite Frobenius operator of *Finite-length Witt operators and their identities*,
   with W_(r+1)(R)=TruncatedWittVector p (r+1) R.
-- `Crystalline.finiteWittV`: V:W_r(R)→W_(r+1)(R), x↦truncate_(r+1)(verschiebung(x̃)); it is
+- V:W_r(R)→W_(r+1)(R), x↦truncate_(r+1)(verschiebung(x̃)); it is
   independent of the lift, additive and injective, commutes with restriction, and satisfies
   F(V(x))=p·x and V(x·F(y))=V(x)·y for x∈W_r(R), y∈W_(r+1)(R).
-- `Crystalline.finiteTeich`: [·]:R→W_r(R), the truncation of the Teichmüller lift; it is
+- [·]:R→W_r(R), the truncation of the Teichmüller lift; it is
   multiplicative, commutes with restriction, and F([x])=[x]^p=[x^p].
-- `Crystalline.RelativeWittComplex.d_F`: d(F(x))=p·F(dx) for x∈P_(r+1).
-- `Crystalline.RelativeWittComplex.V_d`: V(dx)=p·dV(x) and V(x·dy_1⋯dy_n)=V(x)·dV(y_1)⋯dV(y_n) for
+- d(F(x))=p·F(dx) for x∈P_(r+1).
+- V(dx)=p·dV(x) and V(x·dy_1⋯dy_n)=V(x)·dV(y_1)⋯dV(y_n) for
   x, y_i∈P_r.
-- `Crystalline.RelativeWittComplex.d_pd`: dλ(V(ξ^p))=λ(V(ξ^(p−1)))·dλ(V(ξ)) for ξ∈W_r(R); hence
+- dλ(V(ξ^p))=λ(V(ξ^(p−1)))·dλ(V(ξ)) for ξ∈W_r(R); hence
   d∘λ_(r+1):W_(r+1)(R)→P_(r+1)¹ is a PD derivation over W_(r+1)(A) for the canonical divided powers
   on V W_r(R) (*Canonical divided powers on the Verschiebung ideal of W_r(R)*).
 
@@ -5599,13 +5592,13 @@ Rham complex*); Mathlib `TruncatedWittVector`; Mathlib `TruncatedWittVector.trun
 
 **Checks.**
 
-- `test_relativeWitt_units`: On A[t,t⁻¹], dlog[t] is a closed degree-one form fixed by graded F.
-- `test_relativeWitt_V1`: Over A=Z/p², V(1) and p differ in W_2(A): the Witt coordinate of index 0
+- On A[t,t⁻¹], dlog[t] is a closed degree-one form fixed by graded F.
+- Over A=Z/p², V(1) and p differ in W_2(A): the Witt coordinate of index 0
   of V(1) is 0 and that of p is p≠0; so V∘F=V(1)· is not multiplication by p.
-- `test_relativeWitt_constant`: For every Z_(p)-algebra A, the tower {W_r(A)}_r placed in degree 0,
+- For every Z_(p)-algebra A, the tower {W_r(A)}_r placed in degree 0,
   with d=0, λ=id and the Witt vector F, V and restriction, is an F–V procomplex for A/A; if A is an
   F_p-algebra then VF=FV=p on it.
-- `test_relativeWitt_base_compatibility`: For `A = R = F_p[t]` with identity base map, take
+- For `A = R = F_p[t]` with identity base map, take
   `P_r = W_rΩ^*_(F_p[t]/F_p)` with its usual λ and operators, but let `W_r(A)` act through
   evaluation `t ↦ 0` and the constant `W_r(F_p)` action. This has a base-linear differential
   and satisfies the displayed operator relations, but λ is not a `W_r(A)`-algebra map:
@@ -5637,22 +5630,22 @@ W_(r−1)(R) are those of *Canonical divided powers on the Verschiebung ideal of
 
 The API:
 
-- `Crystalline.relativeDRW_lift`: Every F–V procomplex P for R/A, with
+- Every F–V procomplex P for R/A, with
   `λ_r ∘ W_r(A → R) = algebraMap(W_r(A), P_r⁰)`, receives a unique morphism of F–V
   procomplexes from {W_rΩ^*_(R/A)}_r (maps of differential graded W_r(A)-algebras commuting with R,
   F, V and λ).
-- `Crystalline.relativeDRW_zero`: W_rΩ⁰_(R/A)=W_r(R) and W₁Ω^*_(R/A)=Ω^*_(R/A).
-- `Crystalline.relativeDRW_map`: A commutative square of ring maps (a:A→A′, f:R→R′ with
+- W_rΩ⁰_(R/A)=W_r(R) and W₁Ω^*_(R/A)=Ω^*_(R/A).
+- A commutative square of ring maps (a:A→A′, f:R→R′ with
   f∘(A→R)=(A′→R′)∘a, all Z_(p)-algebras) induces maps W_rΩ^*_(R/A)→W_rΩ^*_(R′/A′) of differential
   graded algebras over W_r(f), equal to W_r(f) in degree 0 and commuting with restriction, F and V.
-- `Crystalline.relativeDRW_generated`: The map of differential graded algebras
+- The map of differential graded algebras
   Ω^*_(W_r(R)/W_r(A))→W_rΩ^*_(R/A) is surjective (it factors through the PD de Rham complex); hence
   every element of W_rΩ^q_(R/A) is a sum of elements ξ·dη_1⋯dη_q with ξ, η_i∈W_r(R), and restriction
   W_(r+1)Ω^q_(R/A)→W_rΩ^q_(R/A) is surjective.
-- `Crystalline.relativeDRW_base_quotient`: If A→A′ is a surjective map of Z_(p)-algebras and R is an
+- If A→A′ is a surjective map of Z_(p)-algebras and R is an
   A′-algebra, then W_rΩ^*_(R/A)=W_rΩ^*_(R/A′), because W_r(A)→W_r(A′) is surjective and the two
   categories of F–V procomplexes coincide.
-- `Crystalline.relativeDRW_lift_noRestriction`: Let Q be a family of commutative differential graded
+- Let Q be a family of commutative differential graded
   W_r(A)-algebras Q_r (r≥1) with maps F:Q_(r+1)→Q_r, V:Q_r→Q_(r+1) and
   `W_r(A)`-algebra maps `λ_r : W_r(R) → Q_r⁰`, so
   `λ_r ∘ W_r(A → R) = algebraMap(W_r(A), Q_r⁰)`, satisfying all axioms of an F–V procomplex
@@ -5687,13 +5680,13 @@ PD de Rham complex* (Layer CR.1); *Canonical divided powers on the Verschiebung 
 
 **Checks.**
 
-- `test_relativeDRW_identity`: For R=A all positive forms vanish and degree0 is W_r(A).
-- `test_relativeDRW_torus`: For R=A[t,t⁻¹] with A≠0: dlog[t]=[t]⁻¹·d[t]∈W_rΩ¹_(R/A) is nonzero (its
+- For R=A all positive forms vanish and degree0 is W_r(A).
+- For R=A[t,t⁻¹] with A≠0: dlog[t]=[t]⁻¹·d[t]∈W_rΩ¹_(R/A) is nonzero (its
   image in W_1Ω¹=Ω¹_(R/A) is dt/t), F(dlog[t])=dlog[t] and d(dlog[t])=0.
-- `test_relativeDRW_nonsmooth`: For R=F_p[ε]/ε² over A=F_p the relative de Rham–Witt complex has
+- For R=F_p[ε]/ε² over A=F_p the relative de Rham–Witt complex has
   W_rΩ⁰=W_r(R) with [ε]≠0 and W_1Ω¹=Ω¹_(R/F_p)≠0; it is therefore not the saturated complex
   WsatΩ_R=Z_p.
-- `test_relativeWitt_length1`: For every map A→R of Z_(p)-algebras, the length-one term of the
+- For every map A→R of Z_(p)-algebras, the length-one term of the
   initial F–V procomplex of R/A (*Initial relative de Rham–Witt complex*) is the de Rham complex
   Ω^*_(R/A); in particular its degree-zero ring is R.
 - W_rΩ⁰_(R/A)=W_r(R) and W_1Ω^*_(R/A)=Ω^*_(R/A); for R=A, W_rΩ^q_(A/A)=0 for q>0.
@@ -5718,23 +5711,23 @@ not part of the structure of an R-framed V-pro-complex.
 
 The API:
 
-- `Crystalline.classicalDRW_lift`: Every R-framed V-pro-complex {A_r} receives a unique morphism of
+- Every R-framed V-pro-complex {A_r} receives a unique morphism of
   R-framed V-pro-complexes from {W_rΩ^*_R}.
-- `Crystalline.classicalDRW_zero`: β_r induces a ring isomorphism W_r(R)≅W_rΩ⁰_R for r≥1, and
+- β_r induces a ring isomorphism W_r(R)≅W_rΩ⁰_R for r≥1, and
   W_0Ω^*_R=0.
-- `Crystalline.classicalDRW_one`: The map Ω^*_R→W_1Ω^*_R extending R=W_1(R)→W_1Ω⁰_R is an
+- The map Ω^*_R→W_1Ω^*_R extending R=W_1(R)→W_1Ω⁰_R is an
   isomorphism of differential graded algebras.
-- `Crystalline.classicalDRW_generated`: Ω^*_(W_r(R))→W_rΩ^*_R is surjective, and
+- Ω^*_(W_r(R))→W_rΩ^*_R is surjective, and
   Res:W_(r+1)Ω^*_R→W_rΩ^*_R is surjective.
-- `Crystalline.classicalDRW_map`: A homomorphism f:R→R′ of F_p-algebras induces maps
+- A homomorphism f:R→R′ of F_p-algebras induces maps
   W_rΩ^*_R→W_rΩ^*_(R′) of differential graded algebras commuting with Res, V and W(f); identities
   and composites are respected.
-- `Crystalline.classicalDRW_toRelative`: The tower {W_rΩ^*_(R/F_p)}_r of *Initial relative de
+- The tower {W_rΩ^*_(R/F_p)}_r of *Initial relative de
   Rham–Witt complex* is an R-framed V-pro-complex, and the resulting maps W_rΩ^*_R→W_rΩ^*_(R/F_p)
   are isomorphisms of differential graded algebras commuting with V and restriction, for every
   F_p-algebra R; they carry Illusie's Frobenius F:W_(r+1)Ω^*_R→W_rΩ^*_R (Illusie I.2.17) to the
   Frobenius of the F–V procomplex.
-- `Crystalline.classicalDRW_lift_degreeZero`: Illusie's universal property. Let M_• be an inverse
+- Illusie's universal property. Let M_• be an inverse
   system of commutative differential graded algebras with M_r=0 for r≤0 and M⁰_r=W_r(M⁰_1) for an
   F_p-algebra M⁰_1 (the restriction maps being the restriction of Witt vectors in degree 0), with
   additive maps V:M_r→M_(r+1) that commute with restriction, are the Verschiebung of Witt vectors in
@@ -5798,13 +5791,13 @@ Frobenius–Verschiebung procomplexes*; Mathlib `WittVector`; Mathlib `Truncated
 
 **Checks.**
 
-- `test_classicalDRW_perfect`: For a perfect F_p-algebra k and r≥1: W_rΩ⁰_k=W_r(k) and W_rΩ^n_k=0
+- For a perfect F_p-algebra k and r≥1: W_rΩ⁰_k=W_r(k) and W_rΩ^n_k=0
   for all n>0.
-- `test_classicalDRW_length_one`: For R=F_p[t]: W_1Ω⁰_R=F_p[t], W_1Ω¹_R=F_p[t]·dt≠0 and W_1Ω^n_R=0
+- For R=F_p[t]: W_1Ω⁰_R=F_p[t], W_1Ω¹_R=F_p[t]·dt≠0 and W_1Ω^n_R=0
   for n≥2.
-- `test_classicalDRW_dual_numbers`: For R=F_p[ε]/ε²: [ε]≠0 in W_rΩ⁰_R=W_r(R) and W_1Ω¹_R=Ω¹_R≠0, so
+- For R=F_p[ε]/ε²: [ε]≠0 in W_rΩ⁰_R=W_r(R) and W_1Ω¹_R=Ω¹_R≠0, so
   W_rΩ^*_R→W_rΩ^*_(F_p) is not an isomorphism, unlike WsatΩ_R→WsatΩ_(F_p).
-- `test_classicalDRW_cusp`: For R=F_p[t²,t³] with x=t³, y=t²: dx∧dy≠0 in W_1Ω²_R=Ω²_R, whereas
+- For R=F_p[t²,t³] with x=t³, y=t²: dx∧dy≠0 in W_1Ω²_R=Ω²_R, whereas
   WsatΩ²_R=0.
 - For a perfect F_p-algebra k: W_rΩ⁰_k=W_r(k) and W_rΩ^n_k=0 for n>0, because every element of
   W_r(k) is a sum of V^i[a]=p^i[a^(1/p^i)] and d[c]=d([c^(1/p^r)]^(p^r)) is divisible by p^r=0.
@@ -5927,10 +5920,10 @@ DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de Rham complex*
   cokernel of f↦f′ on (Z/p²)[T], the de Rham cohomology of the lift.
 
 **Witt schemes on locally p-nilpotent schemes.** For a prime p, `r≥1` and a scheme X on which
-p is locally nilpotent, define `Crystalline.wittScheme r X`, written `W_rX`, with ringed-space
-carrier `(|X|,W_r(O_X))`. Prove `Crystalline.wittScheme_affine`: on an affine open `Spec R` this
-is `Spec W_r(R)`. Prove `Crystalline.wittScheme_one`: `W₁X=X`, and
-`Crystalline.wittScheme_perfect`: on perfect `𝔽_p`-schemes it agrees canonically with
+p is locally nilpotent, define the Witt scheme `W_rX`, with ringed-space
+carrier `(|X|,W_r(O_X))`. Prove that on an affine open `Spec R` this
+is `Spec W_r(R)`. Prove that `W₁X=X`, and
+that on perfect `𝔽_p`-schemes it agrees canonically with
 SchemeAndStackFoundations §0.26's `wittScheme`. Give functoriality for morphisms and compatibility
 of these identifications with open restriction and composition.
 
@@ -5969,7 +5962,7 @@ W_r(A)[s̄⁻¹]→W_r(A[s⁻¹]) is an isomorphism of differential graded algeb
 R and s∈R, W_r(WsatΩ_R)[[s]⁻¹]≅W_r(WsatΩ_(R[1/s])), and WsatΩ_(R[1/s]) is the strict completion
 W(WsatΩ_R[[s]⁻¹]); the localisation WsatΩ_R[[s]⁻¹] itself is in general not strict. For an étale map
 R→S of F_p-algebras, W_r(WsatΩ_R)⊗_(W_r(R))W_r(S)≅W_r(WsatΩ_S) for every r. (4) Let X be a scheme
-over a Z_(p)-algebra A, with p locally nilpotent on X. Use W_rX=`Crystalline.wittScheme r X`
+over a Z_(p)-algebra A, with p locally nilpotent on X. Use the Witt scheme W_rX
 of *Witt schemes on locally p-nilpotent schemes*, with its affine identifications and
 length-one law. On its affine opens Spec W_r(R),
 U↦W_rΩ^q_(O(U)/A) is a quasi-coherent sheaf on W_rX and a sheaf for the étale topology. For an F_p-scheme X,
@@ -6075,7 +6068,7 @@ Mathlib `Algebra.Etale`.
 - For an F_p-algebra R and s∈R: W_r(WsatΩ_(R[1/s]))=W_r(WsatΩ_R)[[s]⁻¹] for every r.
 - For an F_p-algebra R: H⁰(Spec R,WsatΩ^q)=WsatΩ^q_R and H^n(Spec R,WsatΩ^q)=0 for n>0 (BLM
   Proposition 5.2.4).
-- For X=Spec F_p, W_rX=`Crystalline.wittScheme r X`=Spec Z/p^r: one point with local ring
+- For X=Spec F_p, W_rX=Spec Z/p^r: one point with local ring
   W_r(F_p)=Z/p^r; at r=2 this is the same Spec Z/p² as the perfect-scheme constructor of
   SchemeAndStackFoundations §0.26. At r=1 its module sheaves are the ordinary relative forms.
 - For `X=Spec 𝔽_p[t]`, which is smooth over `𝔽_p` but not perfect, the shared carrier has
@@ -6154,18 +6147,18 @@ groups in each degree q.
 
 The API:
 
-- `Crystalline.continuousWitt_eval`: For q≥0, r≥1 and s≥1,
+- For q≥0, r≥1 and s≥1,
   ev_s:W_rΩ^(q,cont)_(R/A)→W_rΩ^q_((R/p^s)/(A/p^s)) is the projection. Its image coordinates satisfy
   res_(s+1,s)∘ev_(s+1)=ev_s, and a compatible family of coordinates defines exactly one element of
   the limit.
-- `Crystalline.continuousWitt_map`: For ring maps a:A→A′ and b:R→R′ with b∘(A→R)=(A′→R′)∘a, the map
+- For ring maps a:A→A′ and b:R→R′ with b∘(A→R)=(A′→R′)∘a, the map
   b_*:W_rΩ^(q,cont)_(R/A)→W_rΩ^(q,cont)_(R′/A′) is induced by the maps modulo p^s and satisfies
   ev_s∘b_*=(b mod p^s)_*∘ev_s. Identity and composition agree coordinatewise.
-- `Crystalline.continuousWitt_operators`: For r≥1, restriction and F map
+- For r≥1, restriction and F map
   W_(r+1)Ω^(q,cont)→W_rΩ^(q,cont), V maps W_rΩ^(q,cont)→W_(r+1)Ω^(q,cont), and d maps degree q to
   q+1 at fixed r. Every ev_s intertwines these operators with the operator at base (R/p^s)/(A/p^s).
   Hence FV=p, FdV=d, d²=0 and dF=pFd hold with these domains.
-- `Crystalline.continuousWitt_fromRelative`: The unique map of F–V procomplexes
+- The unique map of F–V procomplexes
   W_rΩ^*_(R/A)→W_rΩ^(*,cont)_(R/A); in each degree it is the map to the p-adic completion, and it is
   an isomorphism when p is nilpotent in A.
 
@@ -6183,10 +6176,10 @@ Rham–Witt complex*; Mathlib `AdicCompletion`.
 
 **Checks.**
 
-- `test_continuousWitt_p_nilpotent`: If p^N=0 on A and R, the defining tower is eventually constant
+- If p^N=0 on A and R, the defining tower is eventually constant
   and recovers W_rΩ_(R/A).
-- `test_continuousWitt_identity`: For R=A the result has only degree0, the p-completion of W_r(A).
-- `test_continuousWitt_length_one`: At r=1 it is the degreewise p-completed ordinary relative de Rham
+- For R=A the result has only degree0, the p-completion of W_r(A).
+- At r=1 it is the degreewise p-completed ordinary relative de Rham
   complex.
 - For R=A only degree 0 remains: W_rΩ^(0,cont)_(A/A)=lim_s W_r(A)/p^s.
 
@@ -6272,12 +6265,12 @@ The assertions about infinite operators are distinct from their finite-level cou
 
 The API:
 
-- `Crystalline.classicalDRW_injective`: Multiplication by p and the infinite F and V are injective.
-- `Crystalline.classicalDRW_saturated`: The displayed preimage under d equals the image of F.
-- `Crystalline.classicalDRW_restriction_kernel`: The displayed sum is the kernel of restriction.
-- `Crystalline.classicalDRW_strict`: The classical inverse limit is a strict Dieudonné algebra
+- Multiplication by p and the infinite F and V are injective.
+- The displayed preimage under d equals the image of F.
+- The displayed sum is the kernel of restriction.
+- The classical inverse limit is a strict Dieudonné algebra
   with the stated finite quotients.
-- `Crystalline.classicalDRW_derived_limit`: Ordinary and derived limits of the finite Witt
+- Ordinary and derived limits of the finite Witt
   q-form sheaves agree, by the affine-basis comparison.
 
 *Proof sketch.* Use the polynomial basic Witt differential expansions and étale descent to prove
@@ -6483,7 +6476,7 @@ DiamondsAndVStacks D6.9 (`IsSeminormalRing`, `IsSubintegral`, `subintegral_lift`
 [0EUR](https://stacks.math.columbia.edu/tag/0EUR),
 [0H3G](https://stacks.math.columbia.edu/tag/0H3G)).
 
-The local comparison includes `Crystalline.cuspSeminormalComparison`: for every prime p, the
+The local comparison includes the following: for every prime p, the
 `F_p`-algebra isomorphism `DiamondsAndVStacks.snRing(F_p[t²,t³]) ≅ F_p[t]` carrying
 `DiamondsAndVStacks.snMap` to the inclusion.
 Identify `F_p[X,Y]/(Y²−X³)` with the subring `F_p[t²,t³]` by `X ↦ t²`, `Y ↦ t³`:
@@ -6675,9 +6668,9 @@ FV=VF=p and preserve T. These assertions do not make H itself finite over W.
 
 The API:
 
-- `Crystalline.wittCohomology_bounded_torsion`: There is an N with p^N T=0.
-- `Crystalline.wittCohomology_free_quotient`: H/T is finite free over W.
-- `Crystalline.wittCohomology_V_complete`: H≅lim_n H/V^nH, in particular ∩_n V^nH=0;
+- There is an N with p^N T=0.
+- H/T is finite free over W.
+- H≅lim_n H/V^nH, in particular ∩_n V^nH=0;
   the analogous p-adic assertion also holds.
 
 *Proof sketch.* Prove the canonical-limit and closed-image assertions from the finite-level
@@ -6777,19 +6770,19 @@ over a perfect field k, respectively X a smooth k-scheme.
 
 The API:
 
-- `Crystalline.Nygaard.degree`: For q<i, N≥i in degreeq is p^(i−q−1)imV; in degreeq≥i it is all
+- For q<i, N≥i in degreeq is p^(i−q−1)imV; in degreeq≥i it is all
   forms.
-- `Crystalline.Nygaard.dividedF`: p^iφ_i is the restriction of φ and φ_i is a cochain map.
-- `Crystalline.Nygaard.decalage`: For a saturated Dieudonné complex M, α_F maps N^(≥i)M
+- p^iφ_i is the restriction of φ and φ_i is a cochain map.
+- For a saturated Dieudonné complex M, α_F maps N^(≥i)M
   isomorphically onto p^iM∩η_pM (BLM Proposition 8.2.1(2)); for M=WΩ^*_R this is BMS2 Proposition
   8.5.
-- `Crystalline.Nygaard.mem_iff`: For x∈M^q: x∈N^(≥i)M^q if and only if p^q·F(x)∈p^i·M^q.
-- `Crystalline.Nygaard.map`: A map f:M→M′ of saturated Dieudonné complexes satisfies
+- For x∈M^q: x∈N^(≥i)M^q if and only if p^q·F(x)∈p^i·M^q.
+- A map f:M→M′ of saturated Dieudonné complexes satisfies
   f(N^(≥i)M)⊂N^(≥i)M′ and f∘φ_i=φ_i∘f; in particular this holds for WΩ^*_R→WΩ^*_(R′) induced by a
   homomorphism of smooth algebras over a perfect field.
-- `Crystalline.Nygaard.mul`: For a saturated Dieudonné algebra: N^(≥i)M·N^(≥j)M⊂N^(≥i+j)M and
+- For a saturated Dieudonné algebra: N^(≥i)M·N^(≥j)M⊂N^(≥i+j)M and
   φ_(i+j)(xy)=φ_i(x)·φ_j(y).
-- `Crystalline.Nygaard.gr_iso`: x↦p^(−i)·α_F(x) induces an isomorphism of complexes gr^i_N
+- x↦p^(−i)·α_F(x) induces an isomorphism of complexes gr^i_N
   M≅τ^(≤i)(M/pM), and gr^i_N M vanishes in degrees >i (BLM Proposition 8.2.1(1),(4)).
 
 *Proof sketch.* Subcomplex: for q+1<i, d(p^(i−q−1)·V(y))=p^(i−q−2)·V(dy) by Vd=p·dV; for q+1=i,
@@ -6818,9 +6811,9 @@ and infinite crystalline de Rham–Witt comparison*.
 
 **Checks.**
 
-- `test_nygaard_zero`: N≥0=WΩ.
-- `test_nygaard_perfect`: For a perfect field k in degree zero and i≥0, N≥iW(k)=p^iW(k).
-- `test_nygaard_boundary`: At degreeq=i−1, N≥i=imV with no extra factor p; at degreeq=i it is the
+- N≥0=WΩ.
+- For a perfect field k in degree zero and i≥0, N≥iW(k)=p^iW(k).
+- At degreeq=i−1, N≥i=imV with no extra factor p; at degreeq=i it is the
   whole module.
 - N^(≥0)M=M for M in degrees ≥0; for a perfect F_p-algebra k, M=W(k) and i≥0: N^(≥i)W(k)=p^i·W(k) (BLM
   Example 8.1.3).
@@ -6879,7 +6872,7 @@ Mathlib `HomologicalComplex.stupidTrunc`.
 ### CR.DDR.4.5 Derived de Rham–Witt with Nygaard filtration
 
 From the classical de Rham–Witt complex `WΩ•_P` of a polynomial `F_p`-algebra and its Nygaard
-filtration (§CR.4.6–§CR.4.7), construct `LWΩ_S`, `DerivedDeRham.derivedDeRhamWitt`, for an
+filtration (§CR.4.6–§CR.4.7), construct `LWΩ_S` for an
 `F_p`-algebra `S` as the derived p-completion of the realization `|WΩ•_(P•)|` over a polynomial
 resolution `P• → S`, with Nygaard filtration `N^(≥i)` realized levelwise; independence of the
 resolution is DerivedModuleAlgebra §0.1 applied to the functors `P ↦ WΩ•_P / N^(≥i)` and `P ↦
@@ -6895,20 +6888,20 @@ DerivedDeRhamCohomology §1.17 (*Completed filtered tensor products*); DerivedMo
 polynomial resolutions*); DerivedDeRhamCohomology §3.2 (*The conjugate filtration*);
 DerivedModuleAlgebra §0.1 (*Simplicial polynomial resolutions*)
 
-Prove the following named laws.
+Prove the following laws.
 
-- `derivedWittSmooth`: on a smooth `F_p`-algebra, `LWΩ` is the classical `WΩ` with its Nygaard
+- on a smooth `F_p`-algebra, `LWΩ` is the classical `WΩ` with its Nygaard
   filtration.
-- `derivedWittModP`: `LWΩ_S ⊗^L_(ℤ_p) F_p ≃ dR_(S/F_p)`.
-- `derivedWittDividedFrobenius`: `φ_i : N^(≥i)LWΩ → LWΩ` has the displayed modulo-p fibre sequence.
-- `derivedWittHodgeQuotient`: multiplication by `p` on Nygaard quotients has cofibre
+- `LWΩ_S ⊗^L_(ℤ_p) F_p ≃ dR_(S/F_p)`.
+- `φ_i : N^(≥i)LWΩ → LWΩ` has the displayed modulo-p fibre sequence.
+- multiplication by `p` on Nygaard quotients has cofibre
   `dR/Fil_H^(i+1)`.
 
 **Checks.**
 
-- `test_derived_witt_perfect`: for perfect `S`, `LWΩ_S = W(S)`, with Nygaard level `p^i W(S)` for `i≥0`.
-- `test_derived_witt_fp`: for `S = F_p`, `LWΩ = ℤ_p` and its reduction is `F_p`.
-- `test_derived_witt_singular_boundary`: for `S = F_p[x,y]/(x,y)²`, `LWΩ_S ⊗^L_(ℤ_p) F_p ≃
+- for perfect `S`, `LWΩ_S = W(S)`, with Nygaard level `p^i W(S)` for `i≥0`.
+- for `S = F_p`, `LWΩ = ℤ_p` and its reduction is `F_p`.
+- for `S = F_p[x,y]/(x,y)²`, `LWΩ_S ⊗^L_(ℤ_p) F_p ≃
   dR_(S/F_p)` has `H^−1 ⊇ H^−2(L_(S/F_p)) ≅ F_p` (DerivedDeRhamCohomology §3.11), including `p = 2`,
   whereas for smooth `S` the reduction is the de Rham complex in degrees `[0, dim S]`; the derived
   object of a singular algebra is not the classical de Rham–Witt complex ([Bhatt12], Example 3.21,
@@ -6927,14 +6920,12 @@ graded term; it is not an injectivity claim for `φ_i mod p` on the whole level 
 (*Quasiregular semiperfectoid rings*); DerivedDeRhamCohomology §3.5 (*Derived Cartier graded
 pieces*); DerivedModuleAlgebra §1.7 (*Complete flatness and complete faithful flatness*); DerivedDeRhamCohomology §PD.6.
 
-Lean: `DerivedDeRham.qrspWittControl`.
-
 **Checks.**
 
-- `test_qrsp_witt_perfect`: for perfect `S`, `LWΩ_S = W(S)` with Nygaard levels `p^i W(S)` for `i≥0`.
-- `test_qrsp_witt_degree_zero`: for `S = F_p[t^(1/p^∞)]/(t)`, `LWΩ_S` is a p-torsion-free module in
+- for perfect `S`, `LWΩ_S = W(S)` with Nygaard levels `p^i W(S)` for `i≥0`.
+- for `S = F_p[t^(1/p^∞)]/(t)`, `LWΩ_S` is a p-torsion-free module in
   degree zero.
-- `test_qrsp_witt_singular_boundary`: for the non-semiperfect `F_p[x,y]/(x,y)²`, `LWΩ` is not in
+- for the non-semiperfect `F_p[x,y]/(x,y)²`, `LWΩ` is not in
   degree zero (§CR.DDR.4.5); the left Kan extension does not make an arbitrary singular `S`
   discrete.
 
@@ -6958,16 +6949,14 @@ DerivedDeRhamCohomology §4.2 (*The conjugate filtration of a PD envelope*); §C
 Rham–Witt with Nygaard filtration*); DerivedDeRhamCohomology §5.19 (*A_crys of perfect-ring
 quotients by Teichmüller regular sequences*); DerivedDeRhamCohomology §PD.6.
 
-Lean: `DerivedDeRham.qrspPdDerham`.
-
 **Checks.**
 
-- `test_qrsp_pd_perfect`: perfect `S = F_p` has `I = 0` and `dR = F_p`.
-- `test_qrsp_pd_root_quotient`: put `P = F_p[t^(1/p^∞)]` and `S = P/(t)`. Inverse Frobenius on `P`
+- perfect `S = F_p` has `I = 0` and `dR = F_p`.
+- put `P = F_p[t^(1/p^∞)]` and `S = P/(t)`. Inverse Frobenius on `P`
   identifies `S^♭` with `lim_n P/(t^(p^n))`, the t-adic completion of `P`. Division by the
   nonzerodivisor `t` in this completion gives `I = (t)` and `I/I² ≃ S`. Then `dR_(S/F_p)` is the
   degree-zero PD envelope of this principal ideal, with divided powers of `t`.
-- `test_qrsp_pd_infinite_kernel`: put `P∞ = F_p[x_i^(1/p^∞) : i ∈ ℕ]` and `S∞ = P∞/(x_i : i ∈ ℕ)`.
+- put `P∞ = F_p[x_i^(1/p^∞) : i ∈ ℕ]` and `S∞ = P∞/(x_i : i ∈ ℕ)`.
   Frobenius is surjective on `S∞`. Every finite subset of the ordinary generators `x_i` is a regular
   sequence in the perfect ring `P∞`, as seen on the monomial basis modulo the preceding ordinary
   generators. Applying DerivedModuleAlgebra §0.13 to these finite quotients and DerivedModuleAlgebra
@@ -6980,7 +6969,7 @@ Lean: `DerivedDeRham.qrspPdDerham`.
   envelope and its conjugate graded pieces with `Γ^*_(S∞)(⊕_i S∞)`, exercising its
   no-finite-generation generality ([BMS19], Definition 8.8 and the filtered-colimit argument in
   Proposition 8.12).
-- `test_qrsp_pd_not_semiperfect`: `F_p[t]` is not semiperfect and `dR_(F_p[t]/F_p)` has `H¹ ≠ 0`.
+- `F_p[t]` is not semiperfect and `dR_(F_p[t]/F_p)` has `H¹ ≠ 0`.
 
 ### CR.DDR.5.21 The structure theorem for A_crys(S)
 
@@ -6999,21 +6988,19 @@ filtration*); DerivedDeRhamCohomology §4.2 (*The conjugate filtration of a PD e
 DerivedDeRhamCohomology §5.19 (*A_crys of perfect-ring quotients by Teichmüller regular sequences*);
 DerivedDeRhamCohomology §PD.7.
 
-Lean: `DerivedDeRham.acrysStructure`.
-
 **Checks.**
 
-- `test_acrys_structure_fp`: for `S = F_p`, `A_crys = ℤ_p`, `φ = id` and
+- for `S = F_p`, `A_crys = ℤ_p`, `φ = id` and
   `N^(≥i) = p^max(i,0) ℤ_p` for every integer i. At i=−1 this is ℤ_p, whereas
   p⁻¹ℤ_p strictly contains ℤ_p inside ℚ_p.
-- `test_acrys_structure_divided_frobenius`: on `N^(≥i+1)` one has `φ_i = p φ_(i+1)`, so `φ_i mod p`
+- on `N^(≥i+1)` one has `φ_i = p φ_(i+1)`, so `φ_i mod p`
   on `N^(≥i)` factors through `gr_N^i`. Its image, on the level `N^(≥i)` as on `gr_N^i`, is exactly
   `Fil_i^conj(A_crys/p)`; surjectivity holds onto this image only.
-- `test_acrys_structure_not_surjective`: for the nonperfect `S = F_p[t^(1/p^∞)]/(t)`, `I/I²` is free
+- for the nonperfect `S = F_p[t^(1/p^∞)]/(t)`, `I/I²` is free
   of rank one over `S`, so `gr_(i+1)^conj(A_crys/p) ≅ Γ^(i+1)_S(I/I²) ≠ 0` (§CR.DDR.5.20). Hence
   `Fil_i^conj` is a proper submodule of `A_crys/p` and `φ_i mod p` is not surjective onto
   `A_crys/p`.
-- `test_acrys_structure_p_two`: at `p = 2`, completion at the PD ideal `(2)` of `ℤ₂` with its
+- at `p = 2`, completion at the PD ideal `(2)` of `ℤ₂` with its
   divided powers is not the Nygaard completion; `γ_(2^a)(2)` has valuation 1 for all `a`.
 
 ### CR.DDR.5.22 The canonical crystalline Čech complex
@@ -7042,14 +7029,12 @@ filtered colimits of cotangent complexes*); §CR.2.1, §CR.4.6–§CR.4.7; Schem
 §0.15; EnhancedDerivedSheaves §E1.6 `frobenius_flat_of_isRegular` for the perfection cover and
 `isRegular_of_frobenius_flat` for its singular negative Check.
 
-Lean: `DerivedDeRham.regularFpCrystallineCech`.
-
 **Checks.**
 
-- `test_crys_cech_perfect`: for a perfect `A`, `S = A` and the complex is `W(A)` in degree zero.
-- `test_crys_cech_line`: for `A = F_p[t]`, perfection is flat and its Čech terms are semiperfect;
+- for a perfect `A`, `S = A` and the complex is `W(A)` in degree zero.
+- for `A = F_p[t]`, perfection is flat and its Čech terms are semiperfect;
   the complex computes `H⁰ = ℤ_p` and the crystalline `H¹` of the affine line.
-- `test_crys_cech_singular`: for `A = F_p[x,y]/(x,y)²`, the converse of Kunz's theorem
+- for `A = F_p[x,y]/(x,y)²`, the converse of Kunz's theorem
   (`isRegular_of_frobenius_flat`) shows Frobenius is not flat. Its perfection is `F_p`, which is not
   flat over `A`: for `m = (x,y)`, the nonzero module `m ⊗_A F_p ≅ m` maps to zero in `F_p`. Thus the
   perfection map is not a cover and the formula is not asserted.
@@ -7072,14 +7057,14 @@ field k, and the limit is taken on the pro-étale site.
 
 The API:
 
-- `Crystalline.LogWitt.symbol`: For V→X étale and units u₁,…,u_q∈O_X(V)^×,
+- For V→X étale and units u₁,…,u_q∈O_X(V)^×,
   symbol_V(u₁,…,u_q)∈W_rΩ^q_(X,log)(V) has image ∧_(i=1)^q([u_i]⁻¹d[u_i]) in W_rΩ^q_X(V). The empty
   tuple maps to 1. The symbol is additive in each unit under multiplication, and commutes with étale
   restriction and length restriction.
-- `Crystalline.LogWitt.closed_fixed`: Every local section ω of W_rΩ^q_(X,log) satisfies dω=0. For
+- Every local section ω of W_rΩ^q_(X,log) satisfies dω=0. For
   every local section ω̃ of W_(r+1)Ω^q_(X,log) with restriction ω to level r, F(ω̃)=ω in W_rΩ^q_X,
   where F:W_(r+1)Ω^q_X→W_rΩ^q_X; indeed F(dlog[u])=dlog[u].
-- `Crystalline.LogWitt.map`: Pullback of schemes sends a unit symbol to the symbol of its
+- Pullback of schemes sends a unit symbol to the symbol of its
   pulled-back units.
 
 *Proof sketch.* dlog[u]=[u]⁻¹·d[u] is additive in u because the Teichmüller lift is multiplicative,
@@ -7106,9 +7091,9 @@ Rham–Witt comparison*; *Witt localization and étale descent*; SchemeAndStackF
 
 **Checks.**
 
-- `test_logWitt_zero_degree`: W_rΩ⁰_log is the constant Z/p^r generated by1.
-- `test_logWitt_torus`: On G_m, the symbol of t is dlog[t], a closed degree-one section.
-- `test_logWitt_not_all`: On Spec F_p[t] at length1, dt is not a logarithmic section on the whole
+- W_rΩ⁰_log is the constant Z/p^r generated by1.
+- On G_m, the symbol of t is dlog[t], a closed degree-one section.
+- On Spec F_p[t] at length1, dt is not a logarithmic section on the whole
   scheme: its Cartier image is0 whereas logarithmic forms are Cartier fixed.
 - On the torus G_m=Spec F_p[t,t⁻¹], dlog[t] is a section of W_rΩ¹_log; it is closed and
   F(dlog[t])=dlog[t].
@@ -7208,7 +7193,7 @@ Gysin maps and the diagonal class.
 ### CR.3:duality.1 The trace, duality and Gysin maps
 
 **Proper smooth crystalline trace.** Let k be a perfect field of characteristic p, W_n=W_n(k), X a
-proper smooth k-scheme of pure dimension d, W_nX=`Crystalline.wittScheme n X` of
+proper smooth k-scheme of pure dimension d, the Witt scheme W_nX of
 CR.4.6 with carrier (|X|,W_nO_X), and f_n:W_nX→Spec W_n its
 structure map; f_n^! denotes the exceptional inverse image of coherent duality. Let n≥1 and
 σ be Witt Frobenius. For an integer r, `σ_*^r M` has the underlying additive group of M and
@@ -7241,30 +7226,30 @@ products* (Layer CR.3).
 
 The API:
 
-- `Crystalline.cechTraceSign`: The integer `(−1)^{d(d−1)/2}`;
-  `cechTraceSign_zero=1`, `cechTraceSign_one=1`, `cechTraceSign_two=−1`,
-  and `cechTraceSign_add` gives `ε_(d+e)=(−1)^{de}ε_dε_e`.
-- `Crystalline.crysTrace_projective`: Tr_(P^d)(h^d)=1 in W(k), for h=c₁(O(1)) and every d≥0; the
+- The integer `(−1)^{d(d−1)/2}`;
+  its values in dimensions 0, 1 and 2 are 1, 1 and −1, and
+  `ε_(d+e)=(−1)^{de}ε_dε_e`.
+- Tr_(P^d)(h^d)=1 in W(k), for h=c₁(O(1)) and every d≥0; the
   same holds over W_n(k).
-- `Crystalline.crysTrace_reduction`: Tr_X⊗^L_W W_n=Tr_(X,n) under RΓ_crys(X/W)⊗^L_W
+- Tr_X⊗^L_W W_n=Tr_(X,n) under RΓ_crys(X/W)⊗^L_W
   W_n≅RΓ_crys(X/W_n), and Tr_(X,1):H^d(X,Ω^d_X)→k is ε_d times the trace of coherent duality.
-- `Crystalline.crysTrace_etale_local`: For an étale morphism g:U→X of smooth k-schemes of pure
+- For an étale morphism g:U→X of smooth k-schemes of pure
   dimension d, g^*(Tr^Ek_X)=Tr^Ek_U under the identifications g^*W_nΩ^d_X≅W_nΩ^d_U and
   g^*f_(X,n)^!W_n≅f_(U,n)^!W_n (Ekedahl I, (2.11)).
-- `Crystalline.crysTrace_iso`: Tr^Ek:W_nΩ^d_X→f_n^!W_n[−d] is an isomorphism of W_nO_X-modules, for
+- Tr^Ek:W_nΩ^d_X→f_n^!W_n[−d] is an isomorphism of W_nO_X-modules, for
   X smooth of pure dimension d over k (Ekedahl I, Theorem 4.1).
-- `Crystalline.crysTrace_ekedahl`: Tr_(X,n)=ε_d·Tr^Ek_(X,n), where Tr^Ek is induced by Ekedahl's map
+- Tr_(X,n)=ε_d·Tr^Ek_(X,n), where Tr^Ek is induced by Ekedahl's map
   (2.11) by the stated σ_*^n restriction and σ_*^(−n) transport; on underlying top-degree
   classes, `Tr^Ek_(X,n)(x)=σ^n(t_tw,n(x))`. This map is W_n-linear.
   Tr^Ek_(P^d,n)([ω])=1 for the Čech class [ω] of dlog[t₁]∧…∧dlog[t_d], and ε_d∈{1,−1} is
   given by `ε_d=(−1)^{d(d−1)/2}`, so h^d=ε_d·[ω].
-- `Crystalline.crysTrace_frobenius`: Tr_X(F(x))=p^d·σ(Tr_X(x)) for x∈H^(2d)_crys(X/W), F the
+- Tr_X(F(x))=p^d·σ(Tr_X(x)) for x∈H^(2d)_crys(X/W), F the
   semilinear Frobenius of *Semilinear crystalline Frobenius and linearization* (Layer CR.3) and σ
   the Frobenius of W(k); equivalently Tr_X is a map RΓ_crys(X/W)→W(−d)[−2d] compatible with
   Frobenius, W(−d) being W with Frobenius p^d·σ.
 - The coherent external-product isomorphism and its counit and shift-sign identities are
   constructed from SchemeAndStackFoundations Layer 2 before the crystalline product trace.
-- `Crystalline.crysTrace_product`: For proper smooth X,Y of pure dimensions d,e over k, under
+- For proper smooth X,Y of pure dimensions d,e over k, under
   derived Künneth K(X×Y)≅K(X)⊗^L_W K(Y), Tr_(X×Y)=Tr_X⊗^L Tr_Y as morphisms to W[−2(d+e)], with the
   canonical shift and Koszul symmetry identifications. This holds at finite W_n levels and commutes
   with reduction. In particular Tr_(X×Y)(pr₁^*x∪pr₂^*y)=Tr_X(x)Tr_Y(y) for x,y of top degree.
@@ -7326,14 +7311,14 @@ CR.3).
 
 **Checks.**
 
-- `test_crysTrace_point`: For X=Spec k (d=0): Tr_X is the identity of W(k)=H⁰_crys(Spec k/W(k)).
+- For X=Spec k (d=0): Tr_X is the identity of W(k)=H⁰_crys(Spec k/W(k)).
   At n=1 over k=F_(p²), C^(−1)(a)=σ(a)=a^p, so the underlying t_tw,1 sends a to σ^(−1)(a).
   The final transport sends this to a, including for a∉F_p; omitting it gives a non-k-linear map.
-- `test_crysTrace_P1`: For P¹ over k: Tr(h)=1 for h=c₁(O(1))∈H²_crys(P¹/W(k)).
-- `test_crysTrace_P2_sign`: In Čech bidegree (1,1), the product sign is −1,
+- For P¹ over k: Tr(h)=1 for h=c₁(O(1))∈H²_crys(P¹/W(k)).
+- In Čech bidegree (1,1), the product sign is −1,
   so h²=−[dlog t₁∧dlog t₂]. Thus Tr^Ek(h²)=−1 and ε₂Tr^Ek(h²)=1;
   omitting ε₂ fails already over W(F₂), where −1 differs from 1.
-- `test_crysTrace_finite_extension`: For X=Spec k′ with k′/k a finite extension (d=0):
+- For X=Spec k′ with k′/k a finite extension (d=0):
   Tr_X:W(k′)→W(k) is the trace of the finite étale W(k)-algebra W(k′).
 - On P^d: Tr(h^d)=1, and Tr^Ek([ω])=1 for the Čech class of dlog[t₁]∧…∧dlog[t_d] (Ekedahl I, Lemma
   3.2).
@@ -7406,9 +7391,9 @@ W=W(k), k perfect.
 
 The API:
 
-- `Crystalline.finiteEtaleTransfer_scalar`: g_!g^*=m·id on RΓ_crys(X/W).
-- `Crystalline.finiteEtaleTransfer_projection`: g_!(g^*a∪b)=a∪g_!b.
-- `Crystalline.finiteEtaleTransfer_trace`: Tr_X∘g_!=Tr_Y, and transfer composes for finite étale
+- g_!g^*=m·id on RΓ_crys(X/W).
+- g_!(g^*a∪b)=a∪g_!b.
+- Tr_X∘g_!=Tr_Y, and transfer composes for finite étale
   maps.
 
 *Proof sketch.* Finite étale maps lift uniquely across nil PD thickenings. On every affine
@@ -7429,10 +7414,10 @@ Poincaré duality*; SchemeAndStackFoundations Layer 2 (*Proper coherent trace*).
 
 **Checks.**
 
-- `test_finiteEtaleTransfer_identity`: The identity cover has transfer id.
-- `test_finiteEtaleTransfer_split`: For Y=⊔_(i=1)^mX the transfer is the sum of the m coordinates
+- The identity cover has transfer id.
+- For Y=⊔_(i=1)^mX the transfer is the sum of the m coordinates
   and g_!g^*=m.
-- `test_finiteEtaleTransfer_field`: For Spec F_(p^r)→Spec F_p transfer in degree zero is the trace
+- For Spec F_(p^r)→Spec F_p transfer in degree zero is the trace
   W(F_(p^r))→Z_p and sends 1 to r.
 - The statement requires constant degree; for a disconnected base it is componentwise.
 
@@ -7451,14 +7436,14 @@ k-schemes of pure dimensions d_X, d_Y (and d_Z); f:X→Y (and g:Y→Z) are morph
 
 The API:
 
-- `Crystalline.crysGysin_comp`: (g∘f)_*=g_*∘f_* with the corresponding summed dimension shifts.
-- `Crystalline.crysGysin_projection`: As morphisms K(X)⊗^L_W K(Y)→K(Y)[2(d_Y−d_X)],
+- (g∘f)_*=g_*∘f_* with the corresponding summed dimension shifts.
+- As morphisms K(X)⊗^L_W K(Y)→K(Y)[2(d_Y−d_X)],
   f_*∘μ_X∘(id⊗f^*)=μ_Y∘(f_*⊗id), using the even dimension shift. Hence f_*(x·f^*y)=f_*x·y on
   cohomology; no torsion-free hypothesis is imposed.
-- `Crystalline.crysGysin_trace`: For the structural map X→Spec k, f_*=Tr_X.
-- `Crystalline.crysGysin_adjoint`: Tr_Y(f_*x∪y)=Tr_X(x∪f^*y) for x∈H^i_crys(X/W) and
+- For the structural map X→Spec k, f_*=Tr_X.
+- Tr_Y(f_*x∪y)=Tr_X(x∪f^*y) for x∈H^i_crys(X/W) and
   y∈H^(2d_X−i)_crys(Y/W); on complexes, f_* is the transpose of f^* under the duality isomorphisms.
-- `Crystalline.crysGysin_frobenius`: p^(d_Y)·f_*(F_X x)=p^(d_X)·F_Y(f_*x) in H^*_crys(Y/W)[1/p] for
+- p^(d_Y)·f_*(F_X x)=p^(d_X)·F_Y(f_*x) in H^*_crys(Y/W)[1/p] for
   x∈H^*_crys(X/W)[1/p]; for a closed immersion of codimension c, F_Y(f_*x)=p^c·f_*(F_X x).
 
 *Proof sketch.* Define f_* by transposition through the isomorphisms K(X)≅RHom_W(K(X),W)[−2d_X] and
@@ -7471,7 +7456,7 @@ identify both with Tr_X∘μ_X∘(id⊗f^*∘μ_Y), with the prescribed shifts a
 therefore identifies the morphisms, including integral torsion. The class formula follows on
 cohomology. Composition follows by contravariant transposition of (g∘f)^*=f^*∘g^*; transposition of
 the unit W→K(X) gives Tr_X. For a closed immersion `i:Z↪Y` of smooth pure-dimensional
-k-schemes with `dim Y=d`, `dim Z=d−c`, use `W_nY=Crystalline.wittScheme n Y`, `n≥1`.
+k-schemes with `dim Y=d`, `dim Z=d−c`, use the Witt scheme W_nY, `n≥1`.
 Write `R𝒢_Z` for derived sheaf sections supported on Z in the Zariski topos of W_nY,
 and `ℋ_Z^q` for its cohomology sheaves. The supported top-form object is
 `R𝒢_Z(W_nΩ_Y^d) ≅ ℋ_Z^c(W_nΩ_Y^d)[−c]`; it is distinct from the full supported
@@ -7524,12 +7509,12 @@ closed-immersion comparison; *Tor-independent base change for quasi-coherent com
 
 **Checks.**
 
-- `test_crysGysin_identity`: For id_X, pushforward is the identity.
-- `test_crysGysin_hyperplane`: For a hyperplane i:P^(d−1)→P^d over k: i_*(1)=h and i_*(h^j)=h^(j+1)
+- For id_X, pushforward is the identity.
+- For a hyperplane i:P^(d−1)→P^d over k: i_*(1)=h and i_*(h^j)=h^(j+1)
   for 0≤j≤d−1, h=c₁(O(1)).
-- `test_crysGysin_shift`: For the structure map a:P^d→Spec k: a_*(h^d)=1 in W=H⁰_crys(Spec k/W) and
+- For the structure map a:P^d→Spec k: a_*(h^d)=1 in W=H⁰_crys(Spec k/W) and
   a_*(h^j)=0 for j<d; the target of a_* is K(Spec k)[−2d]=W[−2d].
-- `test_crysGysin_finite_etale`: For π:X′→X finite étale of constant degree n between proper smooth
+- For π:X′→X finite étale of constant degree n between proper smooth
   k-schemes of pure dimension d: π_*(1)=n in H⁰_crys(X/W) and π_*π^*x=n·x.
 - For the structure map a:X→Spec k: a_*=Tr_X.
 - On `Z=(t=0)⊂A¹_k`, replacing t by ut for a unit u and changing the lift of a
@@ -7557,10 +7542,10 @@ H^*_crys(X×X/W)[1/p].
 
 The API:
 
-- `Crystalline.crysDiagonal_action`: The diagonal correspondence acts as id_K.
-- `Crystalline.crysDiagonal_triangles`: Evaluation and coevaluation satisfy both triangular
+- The diagonal correspondence acts as id_K.
+- Evaluation and coevaluation satisfy both triangular
   identities.
-- `Crystalline.crysDiagonal_projective`: On P^d, [Δ]=Σh₁^i h₂^(d−i).
+- On P^d, [Δ]=Σh₁^i h₂^(d−i).
 
 *Proof sketch.* [Δ_X]=Δ_*(1). By the projection formula and (pr₂∘Δ)_*=id:
 pr_(2*)([Δ_X]∪pr₁^*x)=pr_(2*)Δ_*(Δ^*pr₁^*x)=x. Under derived Künneth, Δ^* is μ:K⊗^L K→K. Gysin
@@ -7587,12 +7572,12 @@ EnhancedDerivedSheaves Layer E1 (*Derived sheaf tensor*).
 
 **Checks.**
 
-- `test_crysDiagonal_point`: For the point the diagonal class and coevaluation are 1.
-- `test_crysDiagonal_P1`: For P¹, [Δ]=h₁+h₂.
-- `test_crysDiagonal_curve`: For a geometrically connected smooth proper curve C of genus g over k,
+- For the point the diagonal class and coevaluation are 1.
+- For P¹, [Δ]=h₁+h₂.
+- For a geometrically connected smooth proper curve C of genus g over k,
   with pt∈H²_crys(C/W) of trace 1 and a basis a₁,…,a_g,b₁,…,b_g of H¹_crys(C/W) with
   Tr(a_i∪b_j)=δ_ij and Tr(a_i∪a_j)=0=Tr(b_i∪b_j): [Δ_C]=pt⊗1+1⊗pt+Σ_i(b_i⊗a_i−a_i⊗b_i).
-- `test_crysDiagonal_euler`: Tr_(X×X)([Δ_X]∪[Δ_X])=Σ_i(−1)^i·rank_W H^i_crys(X/W); this is d+1 for
+- Tr_(X×X)([Δ_X]∪[Δ_X])=Σ_i(−1)^i·rank_W H^i_crys(X/W); this is d+1 for
   P^d and 2−2g for a curve of genus g.
 - For P^d: [Δ]=Σ_(i=0)^d h₁^i∪h₂^(d−i), and Tr_(P^d×P^d)([Δ]∪[Δ])=d+1.
 - For every X: pr_(2*)([Δ_X]∪pr₁^*x)=x.
@@ -7623,7 +7608,7 @@ semistable formal charts.
 **Prelog rings.** Use the prelog category of DerivedDeRhamCohomology §6.20: its data are a
 commutative ring A, a commutative monoid P and a homomorphism α:P→(A,×), including elements
 mapping to zero. A morphism consists of compatible ring and monoid maps. The fixed-ring chart
-presentation `LogCrystalline.PrelogRing` uses these same data for geometric log structures.
+prelog-ring presentation uses these same data for geometric log structures.
 Identify this presentation with the fibre of the supplied category over A by the identity
 on P and α; the displayed morphism laws are transported through that identification.
 Resolutions and derived functors are formed in the supplied category. Additive notation for
@@ -7631,9 +7616,9 @@ charts corresponds to multiplication in A.
 
 The API:
 
-- `LogCrystalline.PrelogRing.alpha`: The structure homomorphism P→(A,×).
-- `LogCrystalline.PrelogRing.hom_ext`: Morphisms agreeing on the ring and monoid components agree.
-- `LogCrystalline.PrelogRing.map_comp`: Composition acts by composition on both components.
+- The structure homomorphism P→(A,×).
+- Morphisms agreeing on the ring and monoid components agree.
+- Composition acts by composition on both components.
 
 *Proof sketch.* Use the multiplicative monoid of the ring, not its unit group. Define morphisms by
 the commuting square and componentwise composition. ([Kato, *Logarithmic structures of
@@ -7643,9 +7628,9 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `zero_chart`: For the chart ℕ→k with 1↦0, every positive exponent maps to zero.
-- `trivial_chart`: The one-element monoid gives the trivial prelog structure.
-- `units_only_failure`: The chart ℕ→k with 1↦0 cannot factor through k×.
+- For the chart ℕ→k with 1↦0, every positive exponent maps to zero.
+- The one-element monoid gives the trivial prelog structure.
+- The chart ℕ→k with 1↦0 cannot factor through k×.
 - The standard chart ℕ→A sends n to tⁿ, including t=0.
 
 **Étale log structures.** On the pinned small étale site X_et, a log structure is a sheaf M of
@@ -7654,9 +7639,9 @@ sheaves. A log scheme is the pair (X,M); no finite-generation assumption is impl
 
 The API:
 
-- `LogCrystalline.LogStructure.units`: The submonoid mapping to O_X× is canonically O_X×.
-- `LogCrystalline.LogStructure.hom_ext`: Maps over O_X equal on M are equal.
-- `LogCrystalline.LogStructure.stalk_is_log`: The unit condition holds if and only if it holds at
+- The submonoid mapping to O_X× is canonically O_X×.
+- Maps over O_X equal on M are equal.
+- The unit condition holds if and only if it holds at
   every geometric stalk.
 
 *Proof sketch.* Form the multiplicative monoid sheaf of the étale structure sheaf. Impose the
@@ -7667,9 +7652,9 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `trivial_units`: For O_X× the characteristic monoid is the one-element monoid.
-- `standard_log_point`: The logification of ℕ→k, 1↦0 has monoid k×⊕ℕ.
-- `prelog_is_not_log`: The prelog monoid {1}→k is not a log structure when k× is nontrivial.
+- For O_X× the characteristic monoid is the one-element monoid.
+- The logification of ℕ→k, 1↦0 has monoid k×⊕ℕ.
+- The prelog monoid {1}→k is not a log structure when k× is nontrivial.
 - The trivial log structure is O_X×→O_X.
 
 **Associated log structures.** For α:M→O_X, define Mᵃ as the sheafified pushout `M⊔_{α⁻¹O_X×}O_X×` in
@@ -7678,9 +7663,9 @@ over O_X and logification is left adjoint to forgetting the unit condition.
 
 The API:
 
-- `LogCrystalline.associatedLog.of`: The canonical map M→Mᵃ commutes with α.
-- `LogCrystalline.associatedLog.lift`: Any map from M to a log structure extends uniquely across Mᵃ.
-- `LogCrystalline.associatedLog.idempotent`: (Mᵃ)ᵃ≅Mᵃ, naturally.
+- The canonical map M→Mᵃ commutes with α.
+- Any map from M to a log structure extends uniquely across Mᵃ.
+- (Mᵃ)ᵃ≅Mᵃ, naturally.
 
 *Proof sketch.* Take the pushout presheaf and sheafify. Check the unit condition on stalks and the
 adjunction by the pushout universal property. ([Kato, *Logarithmic structures of
@@ -7689,9 +7674,9 @@ and pushout remark, p.193.) *Needs:* *Étale log structures*.
 
 **Checks.**
 
-- `already_log`: Logification of O_X×→O_X is O_X×.
-- `zero_log_point`: For ℕ→k with 1↦0, Mᵃ=k×⊕ℕ.
-- `invertible_generator`: For ℕ→A with 1↦t∈A×, Mᵃ= A×.
+- Logification of O_X×→O_X is O_X×.
+- For ℕ→k with 1↦0, Mᵃ=k×⊕ℕ.
+- For ℕ→A with 1↦t∈A×, Mᵃ= A×.
 - Logifying a log structure changes nothing.
 
 **Inverse image log structures.** For f:X→Y and (N,β) on Y, f*N is the logification of
@@ -7700,10 +7685,10 @@ morphism of log schemes over f is a map f*N→M compatible with O_X.
 
 The API:
 
-- `LogCrystalline.logPullback.of`: The prelog pullback maps canonically to f*N.
-- `LogCrystalline.logPullback.comp`: (f∘g)*N≅g*(f*N), satisfying the identity and composition
+- The prelog pullback maps canonically to f*N.
+- (f∘g)*N≅g*(f*N), satisfying the identity and composition
   coherence.
-- `LogCrystalline.logPullback.units`: f*(O_Y×)≅O_X×.
+- f*(O_Y×)≅O_X×.
 
 *Proof sketch.* Apply inverse image to the prelog structure, then logify. Use the logification
 adjunction to prove the composition isomorphism. ([Kato, *Logarithmic structures of
@@ -7712,9 +7697,9 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `identity`: Identity pullback is the given log structure.
-- `punctured_line`: Pullback of the t-chart to A[t⁻¹] is trivial.
-- `special_fibre`: Reduction of ℕ→O_K, 1↦π, gives ℕ→k, 1↦0, not a trivial log structure.
+- Identity pullback is the given log structure.
+- Pullback of the t-chart to A[t⁻¹] is trivial.
+- Reduction of ℕ→O_K, 1↦π, gives ℕ→k, 1↦0, not a trivial log structure.
 
 **Characteristic monoids.** The characteristic sheaf M̄ of a log structure is the sheaf quotient
 M/O_X×. At a geometric point it is a sharp monoid; M→M̄ is the quotient by units, not the image of
@@ -7723,11 +7708,11 @@ necessary.
 
 The API:
 
-- `LogCrystalline.characteristicMonoid.quotient`: The map M→M̄ kills precisely the unit subgroup.
-- `LogCrystalline.characteristicMonoid.gp_quotient`: The characteristic groupification is
+- The map M→M̄ kills precisely the unit subgroup.
+- The characteristic groupification is
   canonically M^gp modulo the image of O_X^×→M^gp. No injectivity of the unit map after
   groupification is assumed.
-- `LogCrystalline.characteristicMonoid.sharp`: The only unit of each stalk of M̄ is the identity.
+- The only unit of each stalk of M̄ is the identity.
 
 *Proof sketch.* Quotient the units action and sheafify. Apply the pinned universal groupification to
 stalks and compare with the quotient of M^gp by O_X×. ([Kato, *Logarithmic structures of
@@ -7737,9 +7722,9 @@ Mathlib `Algebra.GrothendieckGroup`; Mathlib `Algebra.GrothendieckGroup.lift`.
 
 **Checks.**
 
-- `trivial`: The trivial log structure has zero characteristic group.
-- `log_point`: The characteristic of k×⊕ℕ is ℕ.
-- `same_alpha_image`: The log points k×⊕ℕ and k×⊕ℕ² have different characteristic monoids although α
+- The trivial log structure has zero characteristic group.
+- The characteristic of k×⊕ℕ is ℕ.
+- The log points k×⊕ℕ and k×⊕ℕ² have different characteristic monoids although α
   has the same image in k.
 - At the standard log point, M̄=ℕ and M̄^gp=ℤ.
 
@@ -7749,10 +7734,10 @@ mathematical predicate on the existing groupification, not a second group constr
 
 The API:
 
-- `LogCrystalline.IsIntegralMonoid.cancel`: Integrality is equivalent to ab=ac⇒b=c.
-- `LogCrystalline.IsIntegralMonoid.of_injective`: The canonical map to the pinned GrothendieckGroup
+- Integrality is equivalent to ab=ac⇒b=c.
+- The canonical map to the pinned GrothendieckGroup
   is injective.
-- `LogCrystalline.IsIntegralMonoid.characteristic`: An integral log structure has integral
+- An integral log structure has integral
   characteristic stalks. Integral characteristic alone does not force an arbitrary log monoid to be
   integral.
 
@@ -7765,9 +7750,9 @@ and §2.4(2)–(3), p.197.) *Needs:* *Characteristic monoids*; Mathlib
 
 **Checks.**
 
-- `nat`: The additive monoid ℕ is integral.
-- `rational`: The additive monoid ℚ≥0 is integral without being finitely generated.
-- `idempotent`: The two-element monoid with a²=a and a≠1 is not integral.
+- The additive monoid ℕ is integral.
+- The additive monoid ℚ≥0 is integral without being finitely generated.
+- The two-element monoid with a²=a and a≠1 is not integral.
 - ℕ and ℚ≥0 are integral.
 
 **Fine monoids.** A commutative monoid is fine if it is integral and finitely generated. A log
@@ -7776,9 +7761,9 @@ additionally integral. Fine does not mean saturated.
 
 The API:
 
-- `LogCrystalline.IsFineMonoid.integral`: Fine implies integral.
-- `LogCrystalline.IsFineMonoid.finite_generators`: A fine chart admits a finite generating family.
-- `LogCrystalline.IsFineMonoid.logification`: A fine prelog chart gives a fine associated log
+- Fine implies integral.
+- A fine chart admits a finite generating family.
+- A fine prelog chart gives a fine associated log
   structure.
 
 *Proof sketch.* Combine cancellation with a finite generating family. Define fine log structures by
@@ -7788,9 +7773,9 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `nat`: ℕ is fine and saturated.
-- `cusp`: ⟨2,3⟩ is fine and 1 is missing although 2·1 lies in the monoid.
-- `rational_not_fine`: ℚ≥0 is saturated but not finitely generated and hence not fine.
+- ℕ is fine and saturated.
+- ⟨2,3⟩ is fine and 1 is missing although 2·1 lies in the monoid.
+- ℚ≥0 is saturated but not finitely generated and hence not fine.
 - The cusp monoid ⟨2,3⟩⊂ℕ is fine but not saturated.
 
 **Saturated monoids.** An integral monoid P is saturated when for every g∈P^gp and integer n>0, gⁿ∈P
@@ -7799,11 +7784,11 @@ geometric stalks; saturation is stronger than integrality.
 
 The API:
 
-- `LogCrystalline.IsSaturatedMonoid.root_closed`: Positive powers lying in P force the element to
+- Positive powers lying in P force the element to
   lie in P.
-- `LogCrystalline.IsSaturatedMonoid.saturation_lift`: Maps from P to saturated integral monoids
+- Maps from P to saturated integral monoids
   extend through its saturation.
-- `LogCrystalline.IsSaturatedMonoid.fs_integral`: Every fs log structure is integral.
+- Every fs log structure is integral.
 
 *Proof sketch.* Use the existing groupification and define the power condition. Saturation is the
 submonoid of P^gp of elements having a positive power in P; localize and glue. ([Thompson, *Toric
@@ -7812,9 +7797,9 @@ singularities revisited*](https://arxiv.org/abs/math/0305441v2), §1.2, Definiti
 
 **Checks.**
 
-- `nat`: ℕ⊂ℤ is saturated.
-- `cusp`: ⟨2,3⟩⊂ℤ is not saturated.
-- `rational`: ℚ≥0 is saturated and integral but not fine.
+- ℕ⊂ℤ is saturated.
+- ⟨2,3⟩⊂ℤ is not saturated.
+- ℚ≥0 is saturated and integral but not fine.
 - Saturation of ⟨2,3⟩ inside ℤ is ℕ.
 
 **Log charts.** A chart of M on U is a monoid P and P→Γ(U,M) whose associated log structure on U is
@@ -7824,9 +7809,9 @@ required to equal the characteristic monoid.
 
 The API:
 
-- `LogCrystalline.LogChart.associated_iso`: The chart carries an isomorphism Pᵃ≅M|_U.
-- `LogCrystalline.LogChart.characteristic_stalk`: M̄_x=P/{elements whose α-image is a unit at x}.
-- `LogCrystalline.LogChart.restrict`: A chart restricts along any étale map.
+- The chart carries an isomorphism Pᵃ≅M|_U.
+- M̄_x=P/{elements whose α-image is a unit at x}.
+- A chart restricts along any étale map.
 
 *Proof sketch.* Logify the constant sheaf chart map. Use the associated-log isomorphism as chart
 data; transport charts over étale neighborhoods. ([Kato, *Logarithmic structures of
@@ -7836,9 +7821,9 @@ structures*; *Fine monoids*.
 
 **Checks.**
 
-- `toric_origin`: At the origin of A^r with coordinate chart, M̄=ℕ^r.
-- `torus`: On the torus all chart generators become units and M̄=0.
-- `chart_not_sharp`: Chart ℤˣ→ℤ contains the nonidentity unit −1, while its associated log structure
+- At the origin of A^r with coordinate chart, M̄=ℕ^r.
+- On the torus all chart generators become units and M̄=0.
+- Chart ℤˣ→ℤ contains the nonidentity unit −1, while its associated log structure
   has trivial characteristic.
 - The toric chart ℕ^r on affine r-space is fine.
 
@@ -7850,8 +7835,8 @@ equality of arbitrary chart monoids.
 
 The API:
 
-- `LogCrystalline.IsStrict.pullback_iso`: Strictness supplies f*N≅M.
-- `LogCrystalline.IsStrict.comp`: Composites of strict morphisms are strict.
+- Strictness supplies f*N≅M.
+- Composites of strict morphisms are strict.
 
 *Proof sketch.* Use the canonical map from the log pullback; functoriality of inverse image
 identifies the pullback for a composite with the iterated pullback. ([Kato, *Logarithmic structures of
@@ -7861,9 +7846,9 @@ log structures*; *Log charts*.
 
 **Checks.**
 
-- `identity`: Every log identity is strict.
-- `open_torus`: The torus restriction of a toric log scheme is strict for the induced log structure.
-- `forget_log_point`: The standard log point over the trivial log point is not strict.
+- Every log identity is strict.
+- The torus restriction of a toric log scheme is strict for the induced log structure.
+- The standard log point over the trivial log point is not strict.
 
 **Exact morphisms.** For integral monoids q:Q→P, exact means the square Q→P over Q^gp→P^gp is
 cartesian. For log schemes this holds on geometric characteristic stalks. For a closed log immersion
@@ -7872,9 +7857,9 @@ immersions are strict.
 
 The API:
 
-- `LogCrystalline.IsExact.gp_square`: Exactness is Q=(q^gp)⁻¹(P).
-- `LogCrystalline.IsExact.comp`: Exact morphisms compose.
-- `LogCrystalline.IsExact.closed_strict`: An exact closed immersion of integral log schemes is
+- Exactness is Q=(q^gp)⁻¹(P).
+- Exact morphisms compose.
+- An exact closed immersion of integral log schemes is
   strict.
 
 *Proof sketch.* Use the pullback square in existing groupifications. Pass between log stalks and
@@ -7885,9 +7870,9 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `nat_multiple`: The map ℕ→ℕ, a↦na is exact for n>0.
-- `identity`: Identity monoid maps are exact.
-- `diagonal_immersion`: The chart map ℕ²→ℕ, (a,b)↦a+b of a log diagonal is not exact.
+- The map ℕ→ℕ, a↦na is exact for n>0.
+- Identity monoid maps are exact.
+- The chart map ℕ²→ℕ, (a,b)↦a+b of a log diagonal is not exact.
 - Multiplication n:ℕ→ℕ is exact without being strict for n>1 at a log point.
 
 **Integral morphisms.** For integral monoids Q→P, integrality means every pushout with an integral
@@ -7897,11 +7882,11 @@ b₂=q(a₄)b and a₁a₃=a₂a₄. Log morphisms satisfy this stalkwise. For i
 
 The API:
 
-- `LogCrystalline.IsIntegralMorphism.pushout`: Integral chart maps preserve integrality of arbitrary
+- Integral chart maps preserve integrality of arbitrary
   integral pushouts.
-- `LogCrystalline.IsIntegralMorphism.exact`: An integral local map of integral characteristic
+- An integral local map of integral characteristic
   monoids is exact; locality means the inverse image of units is the unit submonoid.
-- `LogCrystalline.IsIntegralMorphism.base_change`: Integral morphisms remain integral under integral
+- Integral morphisms remain integral under integral
   log base change.
 
 *Proof sketch.* Prove the chart factorization criterion by comparison with groupified pushouts. Use
@@ -7912,9 +7897,9 @@ Proposition 4.1; Definition 4.3; Corollaries 4.4–4.5, pp.206–209.) *Needs:* 
 
 **Checks.**
 
-- `diagonal`: The diagonal ℕ→ℕ^r is integral.
-- `identity`: Identity morphisms are integral.
-- `cusp_inclusion`: ⟨2,3⟩→ℕ is injective but not integral: k[t²,t³]→k[t] is not flat.
+- The diagonal ℕ→ℕ^r is integral.
+- Identity morphisms are integral.
+- ⟨2,3⟩→ℕ is injective but not integral: k[t²,t³]→k[t] is not flat.
 
 **Kummer morphisms.** A homomorphism of integral monoids Q→P is Kummer if it is injective and every
 p∈P has a positive power in the image of Q. A morphism of fs log schemes is Kummer when all
@@ -7922,11 +7907,11 @@ characteristic stalk maps are Kummer. Every positive-power map ℕ→ℕ is Kumm
 
 The API:
 
-- `LogCrystalline.IsKummer.injective`: A Kummer characteristic map is injective.
-- `LogCrystalline.IsKummer.power_lift`: Every target characteristic element has a positive power
+- A Kummer characteristic map is injective.
+- Every target characteristic element has a positive power
   from the source.
-- `LogCrystalline.IsKummer.comp`: Kummer morphisms compose.
-- `LogCrystalline.IsKummer.identity`: Identity morphisms are Kummer.
+- Kummer morphisms compose.
+- Identity morphisms are Kummer.
 
 *Proof sketch.* State injectivity and the power-surjectivity condition on characteristic stalks.
 Use injectivity and successive positive powers to prove composition; identities use power one.
@@ -7936,10 +7921,10 @@ p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186
 
 **Checks.**
 
-- `positive_power`: For every n≥1, ℕ→ℕ, 1↦n is Kummer, independently of the base characteristic.
-- `identity`: The identity is Kummer.
-- `p_power`: The p-power chart is Kummer in characteristic p as well.
-- `zero_power`: The map ℕ→ℕ, 1↦0 sends 0 and 1 to the same element, so it is not Kummer.
+- For every n≥1, ℕ→ℕ, 1↦n is Kummer, independently of the base characteristic.
+- The identity is Kummer.
+- The p-power chart is Kummer in characteristic p as well.
+- The map ℕ→ℕ, 1↦0 sends 0 and 1 to the same element, so it is not Kummer.
 
 **Log fiber products.** An ordinary log fiber product uses the underlying scheme fiber product with
 the associated log structure of the pushout of the two pulled-back log sheaves. The integral log
@@ -7949,10 +7934,10 @@ properties are distinct.
 
 The API:
 
-- `LogCrystalline.logFiberProduct.projections`: The two projections commute over the base.
-- `LogCrystalline.logFiberProduct.lift`: Maps from a log scheme, integral log scheme or fs log
+- The two projections commute over the base.
+- Maps from a log scheme, integral log scheme or fs log
   scheme factor uniquely through the respective fiber product.
-- `LogCrystalline.logFiberProduct.strict_underlying`: A base change along a strict map has the
+- A base change along a strict map has the
   ordinary underlying fiber product and pulled-back log structure.
 
 *Proof sketch.* Form ordinary pushouts and logify. Integralize using the image in groupification;
@@ -7966,9 +7951,9 @@ monoids*.
 
 **Checks.**
 
-- `over_trivial`: Products of toric charts over the trivial base use the product monoid.
-- `identity`: Base change along the identity gives the original log scheme.
-- `saturation_changes`: The pushout of two root charts ℕ→ℕ need not be saturated; saturation can
+- Products of toric charts over the trivial base use the product monoid.
+- Base change along the identity gives the original log scheme.
+- The pushout of two root charts ℕ→ℕ need not be saturated; saturation can
   change the underlying scheme.
 - Fine log fiber products need not be saturated.
 
@@ -7981,10 +7966,10 @@ smoothness by fine models*), not the finite chart hypothesis on the non-fine bas
 
 The API:
 
-- `LogCrystalline.IsLogSmooth.lift`: Every exact square-zero lifting diagram admits an étale-local
+- Every exact square-zero lifting diagram admits an étale-local
   lift.
-- `LogCrystalline.IsLogSmooth.strict_iff`: For strict morphisms log smooth equals ordinary smooth.
-- `LogCrystalline.IsLogSmooth.compose`: Log smooth morphisms compose.
+- For strict morphisms log smooth equals ordinary smooth.
+- Log smooth morphisms compose.
 
 *Proof sketch.* Specify exact square-zero test immersions and the étale-local lifting diagram.
 Verify independence of charts and reduce strict cases to the ordinary lifting property. ([Kato,
@@ -7995,9 +7980,9 @@ morphisms*; *Log fiber products*; Mathlib `CategoryTheory.HasLiftingProperty`.
 
 **Checks.**
 
-- `semistable`: The standard chart x₁⋯x_r=π with diagonal ℕ→ℕ^r is log smooth.
-- `identity`: A log identity is log smooth and log étale.
-- `torsion_obstruction`: The p-th-root chart in characteristic p fails the log smooth criterion.
+- The standard chart x₁⋯x_r=π with diagonal ℕ→ℕ^r is log smooth.
+- A log identity is log smooth and log étale.
+- The p-th-root chart in characteristic p fails the log smooth criterion.
 - Standard semistable charts are log smooth.
 
 **Kato chart criterion.** A fine morphism f:X→Y is log smooth (respectively log étale) exactly when
@@ -8029,9 +8014,9 @@ the base. Log étaleness uses the finite cokernel ℤ/n and the identity map to 
 
 The API:
 
-- `LogCrystalline.IsKummerEtale.kummer`: A Kummer étale map has Kummer characteristic maps.
-- `LogCrystalline.IsKummerEtale.logEtale`: It is log étale.
-- `LogCrystalline.IsKummerEtale.root_chart`: The standard root chart is Kummer étale under the
+- A Kummer étale map has Kummer characteristic maps.
+- It is log étale.
+- The standard root chart is Kummer étale under the
   invertibility hypothesis.
 
 *Proof sketch.* Apply the Kato chart criterion to the root chart and its finite groupified
@@ -8044,9 +8029,9 @@ p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186
 
 **Checks.**
 
-- `root_prime_to_p`: In characteristic p the n-root chart is Kummer étale for n prime to p.
-- `p_root`: The p-root chart in characteristic p is Kummer and fails log étaleness.
-- `identity`: The n=1 root chart is the log identity, hence Kummer étale.
+- In characteristic p the n-root chart is Kummer étale for n prime to p.
+- The p-root chart in characteristic p is Kummer and fails log étaleness.
+- The n=1 root chart is the log identity, hence Kummer étale.
 
 **Base change of logarithmic morphisms.** Strict, log smooth and log étale morphisms are stable
 under log base change; integral morphisms are stable under integral base change, exact fine
@@ -8080,10 +8065,10 @@ invariance.
 
 The API:
 
-- `LogCrystalline.divisorialLog.sections`: M_D(V) consists of regular functions on V invertible on
+- M_D(V) consists of regular functions on V invertible on
   V∩U.
-- `LogCrystalline.divisorialLog.boundary_chart`: Boundary local equations yield the chart ℕ^s→O_X.
-- `LogCrystalline.divisorialLog.unit_change`: Replacing each local equation by a unit multiple
+- Boundary local equations yield the chart ℕ^s→O_X.
+- Replacing each local equation by a unit multiple
   yields the same associated log structure.
 
 *Proof sketch.* Use the local equations of D and the open complement U. Use regular local
@@ -8098,9 +8083,9 @@ Morphisms of Schemes, Definition 41.21.1 (tag 0BI9), strict normal crossings div
 
 **Checks.**
 
-- `empty_boundary`: For D empty, M_D=O_X×.
-- `coordinate_crossing`: For xy=0 as boundary in A², the origin has characteristic ℕ².
-- `cusp_failure`: On Spec k[t²,t³] the boundary log structure at t=0 is not the regular SNC fs
+- For D empty, M_D=O_X×.
+- For xy=0 as boundary in A², the origin has characteristic ℕ².
+- On Spec k[t²,t³] the boundary log structure at t=0 is not the regular SNC fs
   construction.
 - Changing local boundary equations by units leaves M_D canonically unchanged.
 
@@ -8111,11 +8096,11 @@ the trivial log structure; the hypotheses are part of the definition.
 
 The API:
 
-- `LogCrystalline.IsLogRegular.boundary_ideal`: The defining ideal is generated by nonunit log
+- The defining ideal is generated by nonunit log
   sections.
-- `LogCrystalline.IsLogRegular.dimension`: Log regularity supplies the regular quotient and the
+- Log regularity supplies the regular quotient and the
   displayed rank formula.
-- `LogCrystalline.IsLogRegular.trivial_iff`: With the trivial log structure, log regularity is
+- With the trivial log structure, log regularity is
   ordinary regularity.
 
 *Proof sketch.* Use the characteristic group rank and the ideal of nonunit log sections. Check the
@@ -8126,9 +8111,9 @@ Proposition 2.6, p.5.) *Needs:* *Characteristic monoids*; *Saturated monoids*.
 
 **Checks.**
 
-- `regular_trivial`: A regular scheme with trivial log structure is log regular.
-- `coordinate_crossing`: For the standard toric chart on A² at the origin, dim=0+2.
-- `nodal_trivial`: The nodal ring k[x,y]/xy with trivial log structure is not log regular.
+- A regular scheme with trivial log structure is log regular.
+- For the standard toric chart on A² at the origin, dim=0+2.
+- The nodal ring k[x,y]/xy with trivial log structure is not log regular.
 
 **Log smoothness over log regular schemes.** Let f:(X,M)→(Y,N) be a log smooth morphism of fs log
 schemes whose underlying schemes are locally noetherian. If (Y,N) is log regular, then (X,M) is log
@@ -8155,7 +8140,7 @@ singularities, Theorem 8.2.) *Needs:* *Log regular schemes*; *Kato chart criteri
 - The toric coordinate crossing boundary on smooth affine space satisfies the rank formula after the
   log smooth chart.
 
-**Componentwise branch purity.** Prove `Crystalline.etale_of_genericallyEtale_codimOne`, the
+**Componentwise branch purity.** Prove the
 componentwise adapter to PurityOfBranchLocus §2.2 `Scheme.Hom.etale_of_etaleAt_codimOne`: let
 `f:X→Y` be a finite morphism from a normal scheme X to a regular integral locally noetherian
 scheme Y such that every irreducible component of X dominates Y and is étale over Y at its generic
@@ -8243,13 +8228,13 @@ tame covers, regular-divisor local structure and normalization).
 
 **Checks.**
 
-- `abhyankar_root_cover_regular`: for A = k⟦x, y⟧ with D = div(x), n = 2 and p ≠ 2, X′ = Spec k⟦t,
+- for A = k⟦x, y⟧ with D = div(x), n = 2 and p ≠ 2, X′ = Spec k⟦t,
   y⟧ with t² = x has maximal ideal (t,y), dimension two, and is regular; U′ → U is a
   degree-two étale cover. The boundary parameter t alone does not generate the maximal ideal.
-- `abhyankar_wild_fails`: for A = 𝔽_p⟦x⟧ and the Artin–Schreier cover V : z^p − z = 1/x of U = Spec
+- for A = 𝔽_p⟦x⟧ and the Artin–Schreier cover V : z^p − z = 1/x of U = Spec
   𝔽_p((x)), the inertia order is p, so V is not tamely ramified and no root cover T^n = x with n
   prime to p makes V ×_U U′ extend to an étale cover; tameness cannot be dropped.
-- `abhyankar_tame_pi1`: for X strictly local of dimension one (a strictly henselian discrete
+- for X strictly local of dimension one (a strictly henselian discrete
   valuation ring) and r = 1, the tame fundamental group of the punctured spectrum is `∏_{ℓ≠p} ℤ_ℓ(1)`.
 - For `A = k⟦x,y⟧` with `k` separably closed of characteristic `p` and `D = V(xy)`, the compatible
   prime-to-p root covers of `x` and `y` give `∏_{ℓ≠p} ℤ_ℓ(1)^2`. The divisor `D` is singular at the
@@ -8289,9 +8274,9 @@ be approximated by fine submonoids.
 
 The API:
 
-- `LogCrystalline.QCLogScheme.chart`: Étale locally there is an arbitrary integral chart.
-- `LogCrystalline.QCLogScheme.fine_inclusion`: Every fine log scheme is integral quasi-coherent.
-- `LogCrystalline.QCLogScheme.integral_limits`: Finite limits exist after applying integralization
+- Étale locally there is an arbitrary integral chart.
+- Every fine log scheme is integral quasi-coherent.
+- Finite limits exist after applying integralization
   to the ordinary log limit.
 
 *Proof sketch.* Use arbitrary integral charts and the same associated-log construction. For formal
@@ -8304,11 +8289,11 @@ pp.5–6.) *Needs:* *Integral monoids*; *Log charts*; *Log fiber products*; Adic
 
 **Checks.**
 
-- `fine_case`: The fine log point embeds in the quasi-coherent category without changing its log
+- The fine log point embeds in the quasi-coherent category without changing its log
   structure.
-- `rational_log_point`: ℚ≥0→k, positive elements↦0, defines a non-fine integral quasi-coherent log
+- ℚ≥0→k, positive elements↦0, defines a non-fine integral quasi-coherent log
   structure.
-- `coherence_failure`: The rational log point has no finitely generated characteristic chart.
+- The rational log point has no finitely generated characteristic chart.
 - The characteristic monoid ℚ≥0 gives an integral quasi-coherent log point that is not fine.
 
 **Vertical logarithmic morphisms.** A morphism f:X→S of integral log schemes is vertical if the
@@ -8318,9 +8303,9 @@ from strict and from saturated.
 
 The API:
 
-- `LogCrystalline.IsVertical.cokernel_group`: The quotient by the base monoid is a group.
-- `LogCrystalline.IsVertical.comp`: Vertical morphisms compose.
-- `LogCrystalline.IsVertical.base_change`: Verticality is stable under integral pullback and
+- The quotient by the base monoid is a group.
+- Vertical morphisms compose.
+- Verticality is stable under integral pullback and
   generic-fiber restriction.
 
 *Proof sketch.* Form the monoid cokernel by killing the base image. Use the group criterion p+p′
@@ -8331,10 +8316,10 @@ varieties*](https://arxiv.org/abs/2207.00369v2), Definition 2.3 and Remark 2.4, 
 
 **Checks.**
 
-- `diagonal`: For ℕ→ℕ^r diagonal, each vector has a complementary vector making all coordinates
+- For ℕ→ℕ^r diagonal, each vector has a complementary vector making all coordinates
   equal.
-- `identity`: Identity morphisms are vertical.
-- `horizontal_boundary`: The chart 0→ℕ is not vertical; its quotient is ℕ, not a group.
+- Identity morphisms are vertical.
+- The chart 0→ℕ is not vertical; its quotient is ℕ, not a group.
 - The semistable diagonal ℕ→ℕ^r is vertical.
 
 **Log smoothness by fine models.** A morphism of integral quasi-coherent log (formal) schemes is log
@@ -8344,10 +8329,10 @@ condition, not a claim that arbitrary infinite charts satisfy Kato finite-presen
 
 The API:
 
-- `LogCrystalline.QCLogSmooth.fine_model`: Étale locally the morphism has the stated fine model.
-- `LogCrystalline.QCLogSmooth.fine_compatibility`: In the fine category this notion agrees with fine
+- Étale locally the morphism has the stated fine model.
+- In the fine category this notion agrees with fine
   log smoothness.
-- `LogCrystalline.QCLogSmooth.base_change`: Integral quasi-coherent base change preserves this
+- Integral quasi-coherent base change preserves this
   finite-model log smoothness.
 
 *Proof sketch.* Choose a fine base log structure and a fine log smooth model. Take integral log base
@@ -8358,10 +8343,10 @@ quasi-coherent log schemes*; *Log smooth morphisms*; *Log fiber products*.
 
 **Checks.**
 
-- `identity`: The identity on a quasi-coherent log scheme has a fine identity model locally.
-- `valuation_base_change`: Base-changing ℕ→ℕ^r to ℚ≥0 gives a log smooth integral quasi-coherent
+- The identity on a quasi-coherent log scheme has a fine identity model locally.
+- Base-changing ℕ→ℕ^r to ℚ≥0 gives a log smooth integral quasi-coherent
   chart.
-- `infinite_chart_warning`: The strict projection Spec(k[ε]/ε²) with pulled-back ℚ≥0 log structure
+- The strict projection Spec(k[ε]/ε²) with pulled-back ℚ≥0 log structure
   to the ℚ≥0 log point is not log smooth: its underlying dual-number algebra is not smooth.
 - Semistable diagonal charts survive integral base change to the valuation monoid.
 
@@ -8393,10 +8378,10 @@ closure of a discretely valued field, this characteristic is ℚ≥0 after fixin
 
 The API:
 
-- `LogCrystalline.valuationLog.characteristic`: The characteristic is the monoid of nonnegative
+- The characteristic is the monoid of nonnegative
   values.
-- `LogCrystalline.valuationLog.tilt_chart`: The sharp map gives the stated tilt chart.
-- `LogCrystalline.valuationLog.residue_iso`: The K and K♭ residue log structures are canonically
+- The sharp map gives the stated tilt chart.
+- The K and K♭ residue log structures are canonically
   isomorphic.
 
 *Proof sketch.* Quotient nonzero integral elements by units to obtain the valuation monoid. Take the
@@ -8406,13 +8391,13 @@ weight-monodromy conjecture for complete intersections in toric
 varieties*](https://arxiv.org/abs/2207.00369v2), Notation 2.5 and Lemma 2.6, p.7.) *Needs:*
 *Integral quasi-coherent log schemes*; *Inverse image log structures*; PerfectoidSpaces Layer P1
 (*Fontaine's θ: W(S♭+) → S+ is surjective with kernel generated by a primitive nonzerodivisor*,
-§1.18).
+§P1.18).
 
 **Checks.**
 
-- `dvr`: For a DVR with chosen π, the valuation chart is ℕ, 1↦π.
-- `completed_algebraic_closure`: For C the residue characteristic monoid is ℚ≥0.
-- `residue_not_trivial`: Reduction of the valuation log structure retains its positive-value
+- For a DVR with chosen π, the valuation chart is ℕ, 1↦π.
+- For C the residue characteristic monoid is ℚ≥0.
+- Reduction of the valuation log structure retains its positive-value
   characteristic.
 - The residue log structure is nontrivial even though every positive-valuation element maps to zero.
 
@@ -8424,11 +8409,11 @@ invertible on the generic fiber on the stated regular semistable models.
 
 The API:
 
-- `LogCrystalline.formalSemistableLog.chart`: The source and base charts have the displayed diagonal
+- The source and base charts have the displayed diagonal
   structural map.
-- `LogCrystalline.formalSemistableLog.special_fibre`: Reduction gives the same diagonal chart with
+- Reduction gives the same diagonal chart with
   x₁⋯x_r=0 and base generator mapping to zero.
-- `LogCrystalline.formalSemistableLog.base_change`: Integral base change to O_C retains log
+- Integral base change to O_C retains log
   smoothness and verticality.
 
 *Proof sketch.* Build the diagonal chart and use the chart criterion. Apply the formal site and
@@ -8448,10 +8433,10 @@ O_K-schemes*).
 
 **Checks.**
 
-- `smooth_case`: For r=1 the relation x₁=π leaves the pulled-back base log structure and ordinary
+- For r=1 the relation x₁=π leaves the pulled-back base log structure and ordinary
   smooth remaining coordinates.
-- `node`: For xy=π the closed-fiber crossing has characteristic ℕ² over the diagonal ℕ.
-- `forget_log`: The nodal reduction with trivial log structure does not have the semistable log
+- For xy=π the closed-fiber crossing has characteristic ℕ² over the diagonal ℕ.
+- The nodal reduction with trivial log structure does not have the semistable log
   smooth map.
 - Changing a local chart by multiplying a parameter by a unit preserves the associated log
   structure.
@@ -8492,9 +8477,9 @@ the usual base-change isomorphism is the supplied one. Logification leaves the m
 
 The API:
 
-- `LogCrystalline.logDifferentials.dlog_mul`: dlog(pq)=dlog(p)+dlog(q).
-- `LogCrystalline.logDifferentials.d_alpha`: d(α(p))=α(p)dlog(p).
-- `LogCrystalline.logDifferentials.lift`: Log derivation pairs correspond uniquely to B-linear maps
+- dlog(pq)=dlog(p)+dlog(q).
+- d(α(p))=α(p)dlog(p).
+- Log derivation pairs correspond uniquely to B-linear maps
   from Ω¹_log.
 
 *Proof sketch.* Transport the universal affine module along the prelog-category identification
@@ -8510,9 +8495,9 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `trivial_log`: With trivial log structures Ω¹_log is the ordinary Kähler module.
-- `toric_line`: For A[t] with t-chart over trivial A, Ω¹_log=A[t]dlog(t) and dt=t dlog(t).
-- `log_point`: The standard log point over the trivial log point has Ω¹_log=k, although `Ω¹_{k/k}=0`.
+- With trivial log structures Ω¹_log is the ordinary Kähler module.
+- For A[t] with t-chart over trivial A, Ω¹_log=A[t]dlog(t) and dt=t dlog(t).
+- The standard log point over the trivial log point has Ω¹_log=k, although `Ω¹_{k/k}=0`.
 - For a toric chart A[Q]→A[P], Ω¹_log=A[P]⊗ℤ(P^gp/Q^gp).
 - On `(A,0)→(A[t,x],ℕ→x)`, the affine-chart identification sends the supplied generators to
   `dt,dlog x` and sends `dx` to `x dlog x`; after any base change `A→A′` the same formulas hold.
@@ -8532,9 +8517,9 @@ extension; continuous forms and residues are the extensions specified below in C
 
 The API:
 
-- `LogCrystalline.logDeRham.degree_zero`: Ω⁰_log=O_X.
-- `LogCrystalline.logDeRham.dlog_closed`: d(dlog m)=0.
-- `LogCrystalline.logDeRham.base_change`: Log pullback induces a map of differential graded
+- Ω⁰_log=O_X.
+- d(dlog m)=0.
+- Log pullback induces a map of differential graded
   algebras.
 
 *Proof sketch.* Sheafify the supplied ordinary affine dg model using the natural affine-chart
@@ -8552,9 +8537,9 @@ Mathlib `ExteriorAlgebra`; Mathlib `ExteriorAlgebra.ι_sq_zero`.
 
 **Checks.**
 
-- `trivial_log`: For trivial log structures this is the ordinary de Rham complex.
-- `relative_log_point`: The identity log point has only degree zero.
-- `char_p_torus`: Over F_p the class dlog t on the torus is not the differential of a Laurent
+- For trivial log structures this is the ordinary de Rham complex.
+- The identity log point has only degree zero.
+- Over F_p the class dlog t on the torus is not the differential of a Laurent
   polynomial.
 - The logarithmic generator dlog t is closed.
 - On `(F₂,0)→(F₂[t,x],ℕ→x)`, the affine-chart identification preserves
@@ -8590,10 +8575,10 @@ component log forms and the signed wedge convention.
 
 The API:
 
-- `LogCrystalline.semistableResidue.coordinate`: res_i(dlog x_j)=δ_ij.
-- `LogCrystalline.semistableResidue.ordinary`: res_i annihilates ordinary differentials dx_j,
+- res_i(dlog x_j)=δ_ij.
+- res_i annihilates ordinary differentials dx_j,
   including dx_i=x_i dlog x_i.
-- `LogCrystalline.semistableResidue.relative_obstruction`: res_i(Σ_j dlog x_j)=1; hence there is no
+- res_i(Σ_j dlog x_j)=1; hence there is no
   induced individual residue on the relative log quotient.
 
 *Proof sketch.* Retain the absolute relation πΣe_i instead of killing Σe_i. Define component
@@ -8609,9 +8594,9 @@ complexes*.
 
 **Checks.**
 
-- `node_absolute`: For xy=π, absolute res_x sends dlog x to 1 and dlog y to 0.
-- `ordinary_zero`: An ordinary differential has zero residue.
-- `relative_nonexample`: The proposed relative map dlog x↦1,dlog y↦0 violates dlog x+dlog y=0.
+- For xy=π, absolute res_x sends dlog x to 1 and dlog y to 0.
+- An ordinary differential has zero residue.
+- The proposed relative map dlog x↦1,dlog y↦0 violates dlog x+dlog y=0.
 
 **Log structures under reduction and completion.** Reduction of a chart and adic completion mean
 pullback of its actual associated log structure along the underlying ring or scheme map. For finite
@@ -8641,9 +8626,9 @@ multiplication by p on M. Log smoothness alone does not imply Cartier type.
 
 The API:
 
-- `LogCrystalline.IsCartierType.integral`: Cartier type implies the structural morphism is integral.
-- `LogCrystalline.IsCartierType.relative_frobenius_exact`: The relative log Frobenius is exact.
-- `LogCrystalline.IsCartierType.base_change`: Cartier type is stable under fine log base change.
+- Cartier type implies the structural morphism is integral.
+- The relative log Frobenius is exact.
+- Cartier type is stable under fine log base change.
 
 *Proof sketch.* Use the supplied absolute and relative scheme Frobenius maps, and equip them
 with the p-power map on log monoids and the integral log fibre-product structure.
@@ -8658,9 +8643,9 @@ CR.5:log-algebra); *Exact morphisms* (Layer CR.5:log-algebra); *Log fiber produc
 
 **Checks.**
 
-- `semistable`: The diagonal ℕ→ℕ^r in characteristic p is of Cartier type.
-- `smooth_trivial`: A smooth morphism with trivial log structures is of Cartier type.
-- `root_counterexample`: For r>1 prime to p, the log smooth integral chart ℕ→ℕ, 1↦r over the log
+- The diagonal ℕ→ℕ^r in characteristic p is of Cartier type.
+- A smooth morphism with trivial log structures is of Cartier type.
+- For r>1 prime to p, the log smooth integral chart ℕ→ℕ, 1↦r over the log
   point on k[t]/t^r is not Cartier type.
 
 **Logarithmic Cartier isomorphism.** Let f:X→S be fine log smooth of Cartier type in characteristic
@@ -8691,11 +8676,11 @@ closed fiber; it is only locally canonical up to the refinements used by descent
 
 The API:
 
-- `LogCrystalline.logExactification.factor`: The immersion factors through an exact closed immersion
+- The immersion factors through an exact closed immersion
   followed by a log étale map.
-- `LogCrystalline.logExactification.source_log`: The log pullback to X agrees with its original log
+- The log pullback to X agrees with its original log
   structure.
-- `LogCrystalline.logExactification.refinement`: Two local exactifications admit common log étale
+- Two local exactifications admit common log étale
   refinements for PD descent.
 
 *Proof sketch.* Construct the chart pullback P^ex and the monoid-algebra localization. Use the log
@@ -8708,10 +8693,10 @@ CR.5:log-algebra).
 
 **Checks.**
 
-- `already_exact`: An already exact immersion can use Y itself.
-- `log_diagonal`: For the log affine-line diagonal the exactifying neighborhood contains the unit
+- An already exact immersion can use Y itself.
+- For the log affine-line diagonal the exactifying neighborhood contains the unit
   t₂/t₁ with value 1 on X.
-- `ordinary_diagonal_failure`: The ordinary equation t₂−t₁ without a unit ratio does not model the
+- The ordinary equation t₂−t₁ without a unit ratio does not model the
   logarithmic diagonal near the origin.
 - The diagonal of the logarithmic affine line acquires the unit ratio t₂/t₁.
 
@@ -8729,11 +8714,11 @@ Theorem 2.1(2) and footnote 2, pp.5–6.
 
 The API:
 
-- `LogCrystalline.logPDEnvelope.factor`: Under the source PD-extension hypothesis, the original
+- Under the source PD-extension hypothesis, the original
   source X embeds exactly into its log PD envelope.
-- `LogCrystalline.logPDEnvelope.lift`: Every compatible exact PD thickening mapping to Y factors
+- Every compatible exact PD thickening mapping to Y factors
   uniquely through the envelope.
-- `LogCrystalline.logPDEnvelope.exact_case`: For an exact immersion the log envelope is the ordinary
+- For an exact immersion the log envelope is the ordinary
   PD envelope with pulled-back log structure.
 
 *Proof sketch.* Exactify and apply *Compatible-base envelopes with fixed quotient*
@@ -8748,13 +8733,13 @@ Mathlib `DividedPowers`.
 
 **Checks.**
 
-- `identity`: If the base PD structure already extends to X, the envelope of X→X is X.
-- `ambient_not_source`: Take A=F₂[e,h]/(e²,eh,h²), I=(e,h) and
+- If the base PD structure already extends to X, the envelope of X→X is X.
+- Take A=F₂[e,h]/(e²,eh,h²), I=(e,h) and
   γ₂(ae+bh)=a²h, γ_n=0 for n≥3. With trivial log structures, Y=Spec A and X=V(e),
   the base powers extend to Y and cannot extend to X. Any compatible source-preserving envelope
   would have h=γ₂(e) in its defining ideal, although h is nonzero on X.
-- `log_diagonal`: The log affine-line diagonal uses the divided powers of t₂/t₁−1.
-- `ordinary_wrong`: The ordinary PD envelope using only t₂−t₁ is not the log envelope at t=0.
+- The log affine-line diagonal uses the divided powers of t₂/t₁−1.
+- The ordinary PD envelope using only t₂−t₁ is not the log envelope at t=0.
 - For the log affine-line diagonal, the envelope is locally the PD polynomial ring k[t]⟨v⟩ with
   v=t₂/t₁−1.
 
@@ -8770,10 +8755,10 @@ extended base ideals.
 
 The API:
 
-- `LogCrystalline.qcLogPDEnvelope.exact_source`: The envelope has an exact PD source immersion.
-- `LogCrystalline.qcLogPDEnvelope.lift`: Compatible exact integral quasi-coherent PD test
+- The envelope has an exact PD source immersion.
+- Compatible exact integral quasi-coherent PD test
   thickenings have a unique factorization.
-- `LogCrystalline.qcLogPDEnvelope.fine_case`: On fine charts this agrees with the fine log PD
+- On fine charts this agrees with the fine log PD
   envelope.
 
 *Proof sketch.* Reduce étale locally to chart embeddings and finite fine approximations. Construct
@@ -8788,9 +8773,9 @@ of finite data to a fine model* (Layer CR.5:log-algebra); *Fine log PD envelopes
 
 **Checks.**
 
-- `fine_diagonal`: For a fine log diagonal the Beilinson and Kato envelopes coincide.
-- `identity`: An identity embedding with compatible base PD structure has its identity envelope.
-- `uncompleted_scope`: Over ZMod p with its zero PD ideal, the identity embedding of the integral
+- For a fine log diagonal the Beilinson and Kato envelopes coincide.
+- An identity embedding with compatible base PD structure has its identity envelope.
+- Over ZMod p with its zero PD ideal, the identity embedding of the integral
   quasi-coherent ℚ≥0 log point has that same non-fine log point as its envelope.
 - At each p^n level the envelope extends the fine envelope on finite charts.
 
@@ -8802,10 +8787,10 @@ ordinary nilpotence bound absent in the source. Fine thickenings form the Kato s
 
 The API:
 
-- `LogCrystalline.LogPDThickening.ideal`: The thickening carries its actual defining PD ideal J.
-- `LogCrystalline.LogPDThickening.exact_log`: The log structure pulled back to U is its given log
+- The thickening carries its actual defining PD ideal J.
+- The log structure pulled back to U is its given log
   structure.
-- `LogCrystalline.LogPDThickening.pd_base`: The divided powers on J and IO_T have a common extension
+- The divided powers on J and IO_T have a common extension
   to J+IO_T; their restrictions agree on the intersection.
 
 *Proof sketch.* Use the existing DividedPowers API on affine PD ideals and descend it. Impose
@@ -8817,10 +8802,10 @@ DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7 and DerivedModuleAlgebra §
 
 **Checks.**
 
-- `zero_ideal`: U=T with zero PD ideal is an exact PD thickening.
-- `square_zero`: For the square-zero ideal (ε) in F_p[ε]/(ε²), the specified structure γ₁(ε)=ε and
+- U=T with zero PD ideal is an exact PD thickening.
+- For the square-zero ideal (ε) in F_p[ε]/(ε²), the specified structure γ₁(ε)=ε and
   γ_n(ε)=0 for n≥2 gives a valid exact PD object over the trivial-log base.
-- `nonexact_rejected`: The unexactified log affine-line diagonal is not an object of the site.
+- The unexactified log affine-line diagonal is not an object of the site.
 - Base PD operations agree after restriction to every affine object.
 
 **PD smooth log thickenings.** An integral quasi-coherent log PD thickening (Z,T) over a p-nilpotent
@@ -8832,9 +8817,9 @@ source explicitly leaves that question open.
 
 The API:
 
-- `LogCrystalline.IsPDSmooth.affine_lift`: The affine PD test lifting property is the definition.
-- `LogCrystalline.IsPDSmooth.coordinate`: Coordinate PD thickenings are PD smooth.
-- `LogCrystalline.IsPDSmooth.retract`: Retracts of PD smooth thickenings are PD smooth.
+- The affine PD test lifting property is the definition.
+- Coordinate PD thickenings are PD smooth.
+- Retracts of PD smooth thickenings are PD smooth.
 
 *Proof sketch.* Specify the affine PD lifting property over the base. Lift ordinary coordinates
 arbitrarily and logarithmic coordinates with the unit adjustment; use the envelope universal
@@ -8846,10 +8831,10 @@ envelopes*; *Log smooth morphisms* (Layer CR.5:log-algebra); Mathlib
 
 **Checks.**
 
-- `base_object`: The base PD thickening S₀→S is PD smooth: every test thickening already has its
+- The base PD thickening S₀→S is PD smooth: every test thickening already has its
   structural map to S.
-- `coordinate_envelope`: The PD envelope of an affine coordinate embedding is PD smooth.
-- `singular_identity`: Over F₃ with trivial logs the identity thickening of
+- The PD envelope of an affine coordinate embedding is PD smooth.
+- Over F₃ with trivial logs the identity thickening of
   Z=Spec F₃[x]/(x²) is not PD smooth. Test against
   Z′=Spec F₃[t]/(t²)⊂T′=Spec F₃[t]/(t³), with square-zero PD ideal (t²)
   and x↦t on Z′. Every putative lift sends x to t+a t² and has x²↦t²≠0.
@@ -8867,10 +8852,10 @@ recover the Kato site.
 
 The API:
 
-- `LogCrystalline.logCrystallineSite.structure_sections`: O_crys(U,T)=Γ(T,O_T).
-- `LogCrystalline.logCrystallineSite.pullback`: A compatible diagram of source log schemes and log
+- O_crys(U,T)=Γ(T,O_T).
+- A compatible diagram of source log schemes and log
   PD bases induces the crystalline pullback map.
-- `LogCrystalline.logCrystallineSite.trivial_log`: With trivial log structures the fine site is the
+- With trivial log structures the fine site is the
   ordinary crystalline site.
 
 *Proof sketch.* Define the category of exact PD objects and its étale coverings. Use log PD
@@ -8885,10 +8870,10 @@ Mathlib `CategoryTheory.GrothendieckTopology`.
 
 **Checks.**
 
-- `identity_object`: If Z is itself a compatible PD base object, its zero-ideal thickening is an
+- If Z is itself a compatible PD base object, its zero-ideal thickening is an
   object.
-- `log_diagonal_envelope`: The exactified PD log diagonal is a valid site object.
-- `nonexact_excluded`: An ordinary closed immersion whose log map is nonexact is excluded until
+- The exactified PD log diagonal is a valid site object.
+- An ordinary closed immersion whose log map is nonexact is excluded until
   exactified.
 - For trivial log structures and fine objects this specializes to the ordinary crystalline site.
 
@@ -8902,10 +8887,10 @@ evaluations.
 
 The API:
 
-- `LogCrystalline.LogCrystal.transition`: Evaluation gives g*F_T≅F_T′, coherent for identity and
+- Evaluation gives g*F_T≅F_T′, coherent for identity and
   composition.
-- `LogCrystalline.LogCrystal.tensor`: The tensor product of crystals is a crystal.
-- `LogCrystalline.LogCrystal.dual`: For finite locally free F, evaluation of F∨ is the O_T-linear
+- The tensor product of crystals is a crystal.
+- For finite locally free F, evaluation of F∨ is the O_T-linear
   dual of F_T.
 
 *Proof sketch.* Use the module-sheaf category on the log crystalline site and restrict along the
@@ -8927,9 +8912,9 @@ Mathlib `PresheafOfModules.sheafification`; Mathlib `ModuleCat.restrictScalars`.
 
 **Checks.**
 
-- `structure_sheaf`: O_crys has its canonical cartesian transitions.
-- `zero`: The zero sheaf is a crystal.
-- `closed_fibre_sheaf`: With trivial logs on X=Spec F_p, the quotient module
+- O_crys has its canonical cartesian transitions.
+- The zero sheaf is a crystal.
+- With trivial logs on X=Spec F_p, the quotient module
   O_X^crys(U,T)=O_U is a sheaf but is not a crystal. Along the map from
   (X,Spec F_p[ε]/(ε²)) to (X,X), its cartesian comparison is
   `F_p[ε]/(ε²)⊗_{F_p}F_p→F_p`; its kernel is the nonzero ideal (ε).
@@ -8944,9 +8929,9 @@ PD order produces a sheaf log connection on this same M.
 
 The API:
 
-- `LogCrystalline.LogPDStratification.diagonal`: Diagonal pullback of ε is the identity.
-- `LogCrystalline.LogPDStratification.cocycle`: The triple diagonal satisfies the stated cocycle.
-- `LogCrystalline.LogPDStratification.first_order`: The first infinitesimal difference of ε is a
+- Diagonal pullback of ε is the identity.
+- The triple diagonal satisfies the stated cocycle.
+- The first infinitesimal difference of ε is a
   Leibniz log connection.
 
 *Proof sketch.* Exactify and PD-envelope the double and triple ambient diagonals over the same base.
@@ -8963,9 +8948,9 @@ cohomology with logarithmic poles*](https://www.numdam.org/item/AST_1994__223__2
 
 **Checks.**
 
-- `structure`: The structure crystal has the canonical multiplication-compatible stratification.
-- `zero`: The zero module has its unique stratification.
-- `failed_cocycle`: On the trivial-log affine line over F₃, a rank-one
+- The structure crystal has the canonical multiplication-compatible stratification.
+- The zero module has its unique stratification.
+- On the trivial-log affine line over F₃, a rank-one
   double-diagonal isomorphism given by multiplication by 1+γ₂(ξ) restricts
   to 1 on the diagonal. On the triple PD diagonal set ξ=x₁−x₀ and η=x₂−x₁.
   Modulo total PD degree 3, its composite is 1+γ₂(ξ)+γ₂(η), whereas
@@ -8980,9 +8965,9 @@ connections.
 
 The API:
 
-- `LogCrystalline.LogConnection.leibniz`: ∇(am)=a∇m+m⊗da.
-- `LogCrystalline.LogConnection.curvature`: Integrability is vanishing of the degree-two composite.
-- `LogCrystalline.LogConnection.horizontal`: A horizontal linear map induces a map of coefficient
+- ∇(am)=a∇m+m⊗da.
+- Integrability is vanishing of the degree-two composite.
+- A horizontal linear map induces a map of coefficient
   log complexes.
 
 *Proof sketch.* Use the universal log differential module in the Leibniz rule. Extend ∇ to the
@@ -8994,9 +8979,9 @@ crystalline connection, pp.19–21.) *Needs:* *Logarithmic differentials*; *Log 
 
 **Checks.**
 
-- `structure`: The connection on O_D is ordinary d valued in log forms.
-- `zero`: The zero module has the zero integrable connection.
-- `nonintegrable`: On a two-variable smooth chart, the rank-one connection d+x dy has curvature
+- The connection on O_D is ordinary d valued in log forms.
+- The zero module has the zero integrable connection.
+- On a two-variable smooth chart, the rank-one connection d+x dy has curvature
   dx∧dy and is not integrable.
 
 **Logarithmic quasi-nilpotence.** Choose a local basis dlog t_i for log differentials and write ∇_i
@@ -9009,11 +8994,11 @@ log criterion.
 
 The API:
 
-- `LogCrystalline.LogQuasiNilpotent.falling_factorial`: The local condition is eventual vanishing of
+- The local condition is eventual vanishing of
   the displayed falling factorial operators.
-- `LogCrystalline.LogQuasiNilpotent.coordinate_independent`: Equivalent logarithmic coordinate bases
+- Equivalent logarithmic coordinate bases
   give the same property.
-- `LogCrystalline.LogQuasiNilpotent.formal_mod_pn`: Formal quasi-nilpotence is the finite-level
+- Formal quasi-nilpotence is the finite-level
   condition modulo each p^n.
 
 *Proof sketch.* Express logarithmic PD Taylor coefficients in unit ratios u_i−1. Their coefficients
@@ -9027,10 +9012,10 @@ stratifications*.
 
 **Checks.**
 
-- `zero_residue`: The constant zero logarithmic operator is quasi-nilpotent.
-- `integer_residue`: A scalar operator λ=1 has ∇(∇−1)=0, though its positive powers are not zero in
+- The constant zero logarithmic operator is quasi-nilpotent.
+- A scalar operator λ=1 has ∇(∇−1)=0, though its positive powers are not zero in
   characteristic zero.
-- `unramified_residue`: Take O=W(F₄), p=2 and λ=[a] with a²+a+1=0.
+- Take O=W(F₄), p=2 and λ=[a] with a²+a+1=0.
   On the rank-one module over O with logarithmic residue λ, each factor λ−j
   reduces to either a or a−1, both nonzero in F₄. Every falling factorial
   is a unit, so the connection fails formal log quasi-nilpotence even though
@@ -9082,9 +9067,9 @@ modules computes these terms only under a justified affine quasi-coherent hypoth
 
 The API:
 
-- `LogCrystalline.logPDDeRham.pd_derivative`: `dγ_n(x)=γ_{n−1}(x)dx` for n≥1.
-- `LogCrystalline.logPDDeRham.filtration_degree`: F^mΩ^a=J^[m−a]Ω^a for structure coefficients.
-- `LogCrystalline.logPDDeRham.coefficient_tensor`: The degree-q coefficient sheaf is M⊗Ω^q with its
+- `dγ_n(x)=γ_{n−1}(x)dx` for n≥1.
+- F^mΩ^a=J^[m−a]Ω^a for structure coefficients.
+- The degree-q coefficient sheaf is M⊗Ω^q with its
   extended connection differential. Evaluation on U gives Γ(U,M⊗Ω^q); no unqualified isomorphism
   with Γ(U,M)⊗Γ(U,Ω^q) is asserted.
 
@@ -9102,11 +9087,11 @@ pp.8–11; §1.8, pp.11–12.) *Needs:* *Fine log PD envelopes*; *Integrable log
 
 **Checks.**
 
-- `degree_zero`: F^mΩ⁰=J^[m].
-- `zero_pd_ideal`: For J=0, F^mΩ^a is zero when m>a and the full term when m≤a.
-- `ordinary_power_failure`: In the existing divided-power algebra `Γ_{F_p}(F_p)`, x=γ₁(1) satisfies
+- F^mΩ⁰=J^[m].
+- For J=0, F^mΩ^a is zero when m>a and the full term when m≤a.
+- In the existing divided-power algebra `Γ_{F_p}(F_p)`, x=γ₁(1) satisfies
   x^p=0 while γ_p(1)≠0. Replacing the PD filtration by ordinary powers loses this generator.
-- `section_tensor_failure`: For the identity PD thickening of P1 over F_p, p prime, with trivial log
+- For the identity PD thickening of P1 over F_p, p prime, with trivial log
   and the canonical Cartier connection on Frob*O(1)=O(p), Ω¹=O(−2). Its section tensor Γ(O(p))⊗Γ(Ω¹)
   is zero, but Γ(O(p)⊗Ω¹)=Γ(O(p−2)) has dimension p−1 and is nonzero. The coefficient-form sheaf
   must retain the latter term.
@@ -9166,11 +9151,11 @@ completion and reduction comparison hypotheses are part of the statement.
 
 The API:
 
-- `LogCrystalline.pAdicLogCrystalline.level_maps`: There are coherent maps to every finite-level
+- There are coherent maps to every finite-level
   complex.
-- `LogCrystalline.pAdicLogCrystalline.derived_limit`: The defining object is Rlim of the
+- The defining object is Rlim of the
   finite-level log crystalline complexes.
-- `LogCrystalline.pAdicLogCrystalline.continuous_model`: For a compatible chain-level PD de Rham
+- For a compatible chain-level PD de Rham
   resolution with degreewise surjective transition maps, Rlim is the derived class of its degreewise
   continuous limit. A flat PD-smooth embedding supplies such a resolution under its completeness
   hypotheses; flatness alone does not make arbitrary chosen complexes surjective.
@@ -9194,10 +9179,10 @@ completion reflector*); DerivedModuleAlgebra §§1.4–1.5; Mathlib `DerivedCate
 
 **Checks.**
 
-- `witt_point`: For the standard log Witt point over itself, the completed structure cohomology is
+- For the standard log Witt point over itself, the completed structure cohomology is
   W(k) in degree zero.
-- `zero_coefficients`: Zero coefficients give the zero complex.
-- `lim_one`: For the auxiliary inverse system ℤ with transitions multiplication by p, the derived
+- Zero coefficients give the zero complex.
+- For the auxiliary inverse system ℤ with transitions multiplication by p, the derived
   inverse limit has H¹=ℤ_p/ℤ although the ordinary inverse limit is zero. The completion retains
   this derived-limit degree.
 - Nonzero lim¹ is retained for inverse systems without exact inverse limit.
@@ -9238,7 +9223,7 @@ rank-one valued field preserves the values of nonzero elements. Take A_cris=A_cr
 p-adic completion of `periodPDEnvelope` from PadicPeriodRings §3, with its finite PD quotients
 A_cris/pⁿ and the θ_cris and Frobenius of §§3, 4.1. DerivedDeRhamCohomology §PD.7 identifies its
 general A_cris(O_C) construction with this carrier by
-`Crystalline.fontaineEnvelope_periodPDEnvelope`, preserving the structure map, divided powers,
+*Specialization to the ordinary period envelope*, preserving the structure map, divided powers,
 completion, θ_cris and functorial maps. This target constructs the log structure on that carrier.
 
 On each A_cris/pⁿ use the log structure induced by `O_{C♭} ∖ {0}` through the Teichmüller chart
@@ -9248,11 +9233,11 @@ base, with Frobenius acting by p on the characteristic.
 
 The API:
 
-- `LogCrystalline.aCrisLog.finite_lift`: For C=C_K as above, the reduction to O_C/p is the valuation
+- For C=C_K as above, the reduction to O_C/p is the valuation
   log structure and the immersion is exact.
-- `LogCrystalline.aCrisLog.frobenius`: For the same C, Frobenius on the characteristic is
+- For the same C, Frobenius on the characteristic is
   multiplication by p.
-- `LogCrystalline.aCrisLog.fine_chart_comparison`: For a semistable chart descended from `O_{K′}`,
+- For a semistable chart descended from `O_{K′}`,
   K′/K finite, the log crystalline computation over A_cris/pⁿ agrees with the computation from
   a fine chart model after integral log base change.
 
@@ -9272,20 +9257,20 @@ p-divisible log structures*; *Valuation log structures and tilt charts* (Layer C
 *Log structures on semistable formal charts* (Layer CR.5:log-algebra); *Derived p-adic log
 crystalline cohomology*; PadicPeriodRings §2 (`PadicFieldCompletion`), §3 (`periodPDEnvelope`,
 completion and θ_cris), §4.1 (Frobenius); PerfectoidSpaces §§P1.17–P1.18 (tilt and Fontaine's θ);
-DerivedDeRhamCohomology §PD.7 (`Crystalline.fontaineEnvelope_periodPDEnvelope`); Mathlib
+DerivedDeRhamCohomology §PD.7 (*Specialization to the ordinary period envelope*); Mathlib
 `WittVector.teichmuller`.
 
 **Checks.**
 
-- `rational_characteristic`: For C=C_K with K as above, the sharp monoid remains ℚ≥0 at every
+- For C=C_K with K as above, the sharp monoid remains ℚ≥0 at every
   A_cris/p^n level, with v(p)=1.
-- `irrational_value_group`: On ℚ_p(T), the valuation with v(p)=1 and v(T)=α for a positive
+- On ℚ_p(T), the valuation with v(p)=1 and v(T)=α for a positive
   irrational α extends to an algebraic closure and its completion. Its value group contains
   ℚ+ℚα and its valuation characteristic is therefore not ℚ≥0. This field lies outside the
   C=C_K specialization; the uniquely p-divisible lifting theorem still applies to its actual
   valuation characteristic.
-- `trivial_units`: Units give the trivial characteristic part of the chart.
-- `not_fine`: The valuation characteristic ℚ≥0 cannot be replaced by a finite ℕ chart in the
+- Units give the trivial characteristic part of the chart.
+- The valuation characteristic ℚ≥0 cannot be replaced by a finite ℕ chart in the
   canonical A_cris log base.
 - The log structure is integral quasi-coherent, generally non-fine.
 
@@ -9305,10 +9290,10 @@ pp.23–26; [KY], §2.1, Notation 2.4 and Remark 2.8, pp.12–14.
 
 **Checks.**
 
-- `test_prelog_free_empty`: with both generator sets empty the free object is `(A, M)`.
-- `test_prelog_free_two_generators`: one ordinary `t` and one monoid `x` give `(A[t, x], M ⊕ ℕ)`,
+- with both generator sets empty the free object is `(A, M)`.
+- one ordinary `t` and one monoid `x` give `(A[t, x], M ⊕ ℕ)`,
   with `x` the image of the monoid generator.
-- `test_prelog_free_no_identification`: the monoid generator `x` is not freely mapped independently
+- the monoid generator `x` is not freely mapped independently
   of its ring image; forgetting this compatibility gives the wrong adjunction.
 
 ### CR.DDR.6.2 Homotopy pushouts of prelog rings
@@ -9327,17 +9312,17 @@ DerivedModuleAlgebra §1.6 (*Completion of simplicial commutative algebras*).
 
 **Checks.**
 
-- `test_prelog_pushout_trivial_monoids`: for trivial monoids it is the derived tensor product of
+- for trivial monoids it is the derived tensor product of
   rings.
-- `test_prelog_pushout_monoid`: for `ℕ ← ℕ → ℕ` with both maps multiplication by 2 (`x ↦ x²` on
+- for `ℕ ← ℕ → ℕ` with both maps multiplication by 2 (`x ↦ x²` on
   monoid algebras), the homotopy pushout of monoids has `π₀ = ⟨a, b | 2a = 2b⟩`. It is integral: `na
   + mb ↦ (n + m, m mod 2)` embeds it into `ℤ ⊕ ℤ/2`. Its group completion has the 2-torsion element
   `a − b`, which does not lie in `π₀` although `2(a − b) = 0` does, so `π₀` is neither saturated nor
   has torsion-free group completion.
-- `test_prelog_pushout_nonintegral`: for `ℕ ← ℕ² → ℕ` with maps `(i, j) ↦ i + j` and `(i, j) ↦ i +
+- for `ℕ ← ℕ² → ℕ` with maps `(i, j) ↦ i + j` and `(i, j) ↦ i +
   2j`, `π₀ = ⟨a, b | a = b, a = 2b⟩ = {0, e}` with `e = 2e ≠ 0`. It is not integral, since `e + e =
   e + 0` while `e ≠ 0`. The homotopy pushout of integral monoids need not be integral.
-- `test_prelog_pushout_completion`: p-completing `(ℤ[ℕ], ℕ)` gives `(ℤ_p⟨x⟩, ℕ)`; the monoid is not
+- p-completing `(ℤ[ℕ], ℕ)` gives `(ℤ_p⟨x⟩, ℕ)`; the monoid is not
   completed.
 
 ### CR.DDR.6.3 Derived logarithmic derivations
@@ -9346,7 +9331,7 @@ For a map `(A, M) → (B, N)` and a `B`-module `P`, define log derivations as ba
 of `(B ⊕ P, N ⊕ P) → (B, N)`. The ring is the split square-zero extension, the monoid operation is
 `(n, u)(n′, u′) = (nn′, u + u′)`, and its structure sends `(n, u)` to `(α(n), α(n)u)`. Sections are
 a ring derivation `D : B → P` and an additive log derivative `δ : N → P` with `D(α(n)) = α(n)δ(n)`,
-both zero on the base, `DerivedDeRham.logDerivedDerivations`. The higher structure is recorded by
+both zero on the base. The higher structure is recorded by
 `Ext` groups against the log cotangent complex, as in DerivedModuleAlgebra §0.6.
 
 [Bhatt12], Remark 6.6 and displayed equivalence (6), pp.25–26.
@@ -9354,24 +9339,24 @@ both zero on the base, `DerivedDeRham.logDerivedDerivations`. The higher structu
 *Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); DerivedModuleAlgebra §0.5 (*Square-zero extensions
 and their classes*); §CR.5:log-algebra.1.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `logDerivationsDiscrete`: log derivations into a module are the compatible pairs `(D, δ)` with `Dα
+- log derivations into a module are the compatible pairs `(D, δ)` with `Dα
   = αδ`.
-- `logDerivationsModuleMap`: a `B`-linear `P → P′` induces the map of log derivations.
-- `logDerivationsFree`: for finite free prelog generators the derivations are freely specified by
+- a `B`-linear `P → P′` induces the map of log derivations.
+- for finite free prelog generators the derivations are freely specified by
   ordinary `D(t)` and logarithmic `δ(x)`.
 
 **Checks.**
 
-- `test_log_derivations_identity`: for the identity prelog map there are no nonzero log derivations.
-- `test_log_derivations_coordinate`: for `(A, 0) → (A[x], ℕ)`, a log derivation has `D(x) = x δ(1)`.
-- `test_log_derivations_log_point`: for `(k, 0) → (k, ℕ → 0)`, log derivations have `D = 0` and
+- for the identity prelog map there are no nonzero log derivations.
+- for `(A, 0) → (A[x], ℕ)`, a log derivation has `D(x) = x δ(1)`.
+- for `(k, 0) → (k, ℕ → 0)`, log derivations have `D = 0` and
   arbitrary `δ(1) ∈ P`; the representing object still has an additional negative cotangent term.
 
 ### CR.DDR.6.3.1 Log square-zero extension classes
 
-For `(A, M) → (B, N)` and a `B`-module `P`, construct `DerivedDeRham.LogSquareZeroExtension`: a
+For `(A, M) → (B, N)` and a `B`-module `P`, construct the category of log square-zero extensions: a
 prelog `(A, M)`-algebra `(B′, N′)` with surjective projection to `(B, N)` and an identified
 square-zero ring kernel `i : P → B′` with its given `B`-action. Require a compatible additive action
 of `P` on `N′`, written `n′ · u`, with every fibre of `N′ → N` a nonempty free transitive `P`-set,
@@ -9381,7 +9366,7 @@ unit is identified with `P` by `u ↦ 1 · u`; its elements are units and their 
 the split module object `(B ⊕ P, N ⊕ P)` of §CR.DDR.6.3, rather than an arbitrary monoid surjection.
 
 Morphisms fix the base, projections, ring-kernel identification and the `P`-action. Define their
-isomorphism relation and `DerivedDeRham.LogExal` as the quotient. Construct its abelian group law by
+isomorphism relation and the set of isomorphism classes as the quotient. Construct its abelian group law by
 taking the fibre product over `(B,N)` and pushing its kernel `P ⊕ P` out by addition: on rings
 quotient by the antidiagonal, and on monoids quotient by the antidiagonal `P`-action. The split
 extension is zero; kernel negation gives the inverse. Prove well-definedness, the group laws,
@@ -9399,13 +9384,13 @@ maps and units).
 
 **Checks.**
 
-- `test_log_extension_zero_kernel`: for `P = 0`, both projections are isomorphisms and `LogExal` is
+- for `P = 0`, both projections are isomorphisms and the group of log square-zero extension classes is
   zero.
-- `test_log_extension_log_point`: over `(ℚ,0)`, extend `(ℚ,ℕ → 0)` by `P = ℚ` with `B′ = ℚ[ε]/ε²`,
+- over `(ℚ,0)`, extend `(ℚ,ℕ → 0)` by `P = ℚ` with `B′ = ℚ[ε]/ε²`,
   `N′ = ℕ × ℚ` and `α′(n,u) = ε^n(1+uε)`. This has no prelog section: every lift of the monoid
   generator has ring image `ε`, whereas a section of the ring sends its zero image to zero. Its
   class is nonzero.
-- `test_log_extension_baer_sign`: for the same log point, replace `ε^n` by `(cε)^n`. Classes add by
+- for the same log point, replace `ε^n` by `(cε)^n`. Classes add by
   `c+d`, the split class has `c=0`, and `c=1` and `c=−1` are distinct inverse classes. This
   distinguishes addition from the zero or sign-reversed operation.
 
@@ -9420,12 +9405,12 @@ morphisms of integral prelog rings, not for all log smooth maps.
 
 On this supplied carrier prove the derivation and extension classifiers:
 
-- `logCotangentUniversal`: for a discrete `B`-module `P`, `Hom_(D(B))(L_log, P)` is the
+- for a discrete `B`-module `P`, `Hom_(D(B))(L_log, P)` is the
   log derivation module of §CR.DDR.6.3, and `Hom_(D(B))(L_log, P[1])` is additively
   `LogExal_(A,M)((B,N), P)`. The extension class is its ring-and-monoid resolution cocycle;
   the split class is zero and the log-point extension of §CR.DDR.6.3.1 has its nonzero
   conormal coefficient.
-- `logDerivationsRepresented`: the degree-zero classifier identifies the universal `d`,
+- the degree-zero classifier identifies the universal `d`,
   `d log` with the compatible derivation pair of §CR.DDR.6.3.
 
 [Bhatt12], Definition 6.3, Remark 6.4, Proposition 6.5 and Remark 6.6, pp.24–26;
@@ -9438,10 +9423,10 @@ classes*); §CR.5.1 (log differentials); DerivedModuleAlgebra §0.5.
 
 **Checks.**
 
-- `test_log_cotangent_identity`: an identity prelog map has zero cotangent complex.
-- `test_log_cotangent_free`: for `(A, 0) → (A[t, x], ℕ)`, `L_log` is free in degree zero on `dt` and
+- an identity prelog map has zero cotangent complex.
+- for `(A, 0) → (A[t, x], ℕ)`, `L_log` is free in degree zero on `dt` and
   `d log x`, with `dx = x d log x`.
-- `test_log_cotangent_nonintegral`: [KY] Remark 2.13, with `P` generated by `(2,0), (0,2), (1,1)`
+- [KY] Remark 2.13, with `P` generated by `(2,0), (0,2), (1,1)`
   inside `ℕ²` and `char(k) ≠ 2`, is log étale but has nonzero Gabber cotangent complex (unbounded on
   the left, [Ols05] 7.3).
 
@@ -9467,12 +9452,12 @@ integral log smooth maps.
 
 **Checks.**
 
-- `test_log_transitivity_identity`: identity maps have zero relative `L_log`.
-- `test_log_transitivity_strict`: for identical monoids the triangle is the ordinary transitivity
+- identity maps have zero relative `L_log`.
+- for identical monoids the triangle is the ordinary transitivity
   triangle.
-- `test_log_base_change_pushout`: the homotopy prelog pushout includes ring and monoid terms; for
+- the homotopy prelog pushout includes ring and monoid terms; for
   trivial monoids it is DerivedModuleAlgebra §0.10.
-- `test_log_cotangent_integral_smooth`: for `(k,0) → (k[x],ℕ → x)`, the integral log smooth
+- for `(k,0) → (k[x],ℕ → x)`, the integral log smooth
   comparison gives `L_log = k[x] d log x` in degree zero, with `dx ↦ x d log x`.
 
 ### CR.DDR.6.6 Homological logarithmic flatness
@@ -9481,8 +9466,7 @@ A prelog map `R → S` is homologically log flat (hlf) if for every prelog map `
 pushout `S′ ⊔^L_R S` (§CR.DDR.6.2) is equivalent to the ordinary pushout. It is hlf faithfully flat
 if moreover the underlying ring map is faithfully flat. Equivalently, the ring map is flat and the
 monoid map is flat in the homotopy-pushout sense of [Bhatt12] Definition 4.8. This differs from Kato
-log flatness in both directions. Covers define the hlf topology on prelog algebras,
-`DerivedDeRham.homologicalLogFlatness`.
+log flatness in both directions. Covers define the hlf topology on prelog algebras.
 
 [KY], Definition 2.44 and Remarks 2.45–2.46, pp.23–24; [Bhatt12], Definition 4.8 and Proposition
 4.9, pp.20–21.
@@ -9490,26 +9474,26 @@ log flatness in both directions. Covers define the hlf topology on prelog algebr
 *Needs:* §CR.DDR.6.1 (*Free prelog resolutions*); §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*);
 §CR.DDR.6.5 (*Log cotangent transitivity, base change and invariance*); §CR.5:log-algebra.1.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `hlfUnderlyingCriteria`: hlf iff ring-flat and monoid homotopy-pushout-flat.
-- `hlfPushoutOrdinary`: every base change has the displayed derived-to-ordinary pushout equivalence.
-- `hlfCompositionBaseChange`: hlf and hlf faithfully flat maps are stable under composition and base
+- hlf iff ring-flat and monoid homotopy-pushout-flat.
+- every base change has the displayed derived-to-ordinary pushout equivalence.
+- hlf and hlf faithfully flat maps are stable under composition and base
   change.
-- `hlfIntegralSufficient`: an underlying flat ring map with injective integral map of integral
+- an underlying flat ring map with injective integral map of integral
   monoids is hlf ([KY] Remark 2.45).
 
 **Checks.**
 
-- `test_hlf_identical_monoids`: a prelog map with isomorphic chart monoids and flat underlying ring
+- a prelog map with isomorphic chart monoids and flat underlying ring
   is hlf.
-- `test_hlf_strict_logification`: `(F₂, C₂ → 1) → (F₂, 0)` has flat underlying ring and both
+- `(F₂, C₂ → 1) → (F₂, 0)` has flat underlying ring and both
   logifications are trivial, so the associated log map is strict. Its chart-monoid pushout along
   `C₂ → 0` is nondiscrete: the corresponding monoid-algebra derived tensor has
   `Tor₁^{ℤ[C₂]}(ℤ, ℤ) = ℤ/2` ([Bhatt12] Propositions 4.4, 4.7–4.9). Log strictness (§CR.5:log-algebra.2) does not identify
   the chart monoids.
-- `test_hlf_diagonal`: the diagonal `(k, ℕ → 0) → (k, ℕ² → 0)` is hlf but not Kato log flat.
-- `test_hlf_nonintegral_kato`: for `P` generated by `(2,0), (0,2), (1,1)` in `Q = ℕ²`, `(k[P], P) →
+- the diagonal `(k, ℕ → 0) → (k, ℕ² → 0)` is hlf but not Kato log flat.
+- for `P` generated by `(2,0), (0,2), (1,1)` in `Q = ℕ²`, `(k[P], P) →
   (k[Q], Q)` is Kato log flat but not hlf.
 
 ### CR.DDR.6.7 Logarithmic derived de Rham
@@ -9539,11 +9523,11 @@ pp.34–38; [KY], Construction 2.6, p.13.
 
 **Checks.**
 
-- `test_log_derham_identity`: an identity prelog map gives the base ring with no positive Hodge
+- an identity prelog map gives the base ring with no positive Hodge
   pieces.
-- `test_log_derham_free_coordinate`: for `(F_p, 0) → (F_p[x], ℕ)`, `d(x) = x d log x` and `d(d log
+- for `(F_p, 0) → (F_p[x], ℕ)`, `d(x) = x d log x` and `d(d log
   x) = 0`.
-- `test_log_derham_rational_logification`: [Bhatt12] Example 6.15: strict `ℚ → ℚ[x, x⁻¹]` gives
+- [Bhatt12] Example 6.15: strict `ℚ → ℚ[x, x⁻¹]` gives
   uncompleted `dR = ℚ`, while logifying the units adds a degree-one conjugate class.
 - On the supplied period inputs, the identity root system gives zero `d log`; a Tate
   generator has the nonzero first graded boundary of §6.20, also at `p=2` with
@@ -9563,13 +9547,11 @@ tensor printed in [KY] Theorem 2.11 is not used.
 rings*); §CR.DDR.6.6 (*Homological logarithmic flatness*); DerivedDeRhamCohomology §2.23 (*Derived
 base change and Künneth*); DerivedDeRhamCohomology §1.17 (*Completed filtered tensor products*)
 
-Lean: `DerivedDeRham.logDeRhamBaseChange`.
-
 **Checks.**
 
-- `test_log_kunneth_identity`: base change along the identity preserves the value.
-- `test_log_kunneth_free`: free ring and log variables tensor with the signed differential.
-- `test_log_kunneth_non_hlf`: for a non-hlf map the ordinary pushout does not compute the homotopy
+- base change along the identity preserves the value.
+- free ring and log variables tensor with the signed differential.
+- for a non-hlf map the ordinary pushout does not compute the homotopy
   prelog pushout (§CR.DDR.6.6).
 
 ### CR.DDR.6.9 Derived logarithmic Cartier theory
@@ -9588,14 +9570,14 @@ the supplied inverse Cartier map sends `dy` to `[y^(p−1)dy]` and `d log x` to 
 
 **Checks.**
 
-- `test_log_cartier_ordinary`: `C⁻¹(dy^(1)) = [y^(p−1) dy]`.
-- `test_log_cartier_log`: `C⁻¹(d log x^(1)) = [d log x]`, including `p = 2`.
-- `test_log_cartier_twist_monoid`: the twisted monoid map is multiplication by `p`.
+- `C⁻¹(dy^(1)) = [y^(p−1) dy]`.
+- `C⁻¹(d log x^(1)) = [d log x]`, including `p = 2`.
+- the twisted monoid map is multiplication by `p`.
 
 ### CR.DDR.6.9.1 Log relative conjugate transitivity
 
 For composable characteristic-p prelog maps `R = (A,M) → S = (B,N) → T = (C,P)`, construct
-`DerivedDeRham.logRelativeConjugateTransitivity`, an increasing relative conjugate filtration on
+an increasing relative conjugate filtration on
 `dR_log(T/R)`, with `Fil_−1 = 0`, natural transitions, exhaustiveness and multiplication `Fil_i
 ⊗^L_A Fil_j → Fil_(i+j)`. Choose compatible free prelog resolutions `S_k = (B_k,N_k)` over `R` and
 `T_k = (C_k,P_k)` over `S_k`. Write `S_k^(1) = S_k ⊔^L_(R,Frob_R) R`, whose ring is `B_k^(1)`. Its
@@ -9619,10 +9601,10 @@ operations*)
 
 **Checks.**
 
-- `test_log_relative_identity_top`: for `S = T`, only weight zero remains, `dR_log(S/R)`.
-- `test_log_relative_identity_base`: for `R = S`, this is the absolute log conjugate filtration with
+- for `S = T`, only weight zero remains, `dR_log(S/R)`.
+- for `R = S`, this is the absolute log conjugate filtration with
   graded pieces `L∧^n L_log(T^(1)/R)[−n]` from §CR.DDR.6.9.
-- `test_log_relative_coordinate`: for `(F_p,0) → (F_p[t],0) → (F_p[t,x],ℕ → x)`, the relative
+- for `(F_p,0) → (F_p[t],0) → (F_p[t,x],ℕ → x)`, the relative
   weight-one class is `d log x`, including `p=2`, and `dx = x d log x`. With trivial target monoid
   the relative class instead is `x^(p−1) dx` as in DerivedDeRhamCohomology §3.6.1.
 
@@ -9642,11 +9624,11 @@ not extend raw de Rham invariance to characteristic zero.
 
 **Checks.**
 
-- `test_logification_char_p`: over `F_p`, the prelog chart `ℕ → F_p[x]` and its logification give
+- over `F_p`, the prelog chart `ℕ → F_p[x]` and its logification give
   the same log derived de Rham complex.
-- `test_logification_rational_counterexample`: over `ℚ`, [Bhatt12] Example 6.15 shows the
+- over `ℚ`, [Bhatt12] Example 6.15 shows the
   uncompleted invariance fails.
-- `test_logification_cotangent_range`: the cotangent complex is logification-invariant also over
+- the cotangent complex is logification-invariant also over
   `ℚ`, while the de Rham statement is not.
 
 ### CR.DDR.6.11 Integral log smooth Cartier-type comparison
@@ -9663,21 +9645,18 @@ inferred from fs log smoothness alone.
 (*Derived logarithmic Cartier theory*); §CR.DDR.6.10 (*The boundary of logification invariance*);
 §CR.5.1, §CR.5:log-algebra.3.
 
-Lean: `DerivedDeRham.logSmoothCartierComparison`.
-
 **Checks.**
 
-- `test_log_smooth_identity`: the identity chart gives the base.
-- `test_log_smooth_free_coordinate`: a free log coordinate satisfies the integral Cartier-type
+- the identity chart gives the base.
+- a free log coordinate satisfies the integral Cartier-type
   criterion.
-- `test_log_smooth_nonintegral`: a log-étale nonintegral monoid map (§CR.DDR.6.4) has nonzero Gabber
+- a log-étale nonintegral monoid map (§CR.DDR.6.4) has nonzero Gabber
   cotangent complex; integrality cannot be dropped.
 
 ### CR.DDR.6.12 The log crystalline comparison map
 
 **Integral free-resolution envelopes.** For `n ≥ 1` and a prelog `ℤ/p^n`-map
-`f : (A, M) → (B, N)` with integral monoids `M` and `N`, prove
-`DerivedDeRham.logCrystallineIntegralResolution`: every term of the standard free prelog
+`f : (A, M) → (B, N)` with integral monoids `M` and `N`, prove that every term of the standard free prelog
 resolution has the form `(A[T_i, S_i], M ⊕ ℕ^(S_i))`, hence has integral chart monoid and
 integral quasi-coherent logification. The augmentation is surjective on rings and monoids,
 so its logification embeds the original integral quasi-coherent log scheme of `(B, N)` into
@@ -9700,21 +9679,21 @@ invariance*); §CR.5.2–§CR.5.4.
 
 **Checks.**
 
-- `test_log_crys_free_integral`: adjoining any sets of ordinary and log generators to an
+- adjoining any sets of ordinary and log generators to an
   integral chart preserves cancellation; the logification is integral quasi-coherent.
-- `test_log_crys_fine_envelope`: for the fine log affine-line diagonal the envelope contains
+- for the fine log affine-line diagonal the envelope contains
   the unit ratio and divided powers of `t₂/t₁ − 1`, with the original log structure on the fibre.
-- `test_log_crys_nonfine_envelope`: the identity embedding of the integral chart
+- the identity embedding of the integral chart
   `(F_p, ℚ≥0)` sending positive elements to zero has its identity envelope, although the chart
   is not fine.
 
 **The integral log crystalline comparison map.** For `n ≥ 1` and a prelog `ℤ/p^n`-map
 `f : (A, M) → (B, N)` with integral `M` and `N`, let `f_log-crys` be the site of §CR.5.3 for
 the associated log schemes over `(Spec A, Mᵃ)` with zero base PD ideal. Use
-`logCrystallineIntegralResolution` to form its envelope model `D_log(P• → (B, N))`.
+the integral free-resolution envelopes above to form its envelope model `D_log(P• → (B, N))`.
 The natural map `Ω•_log(P•/(A, M)) → Ω•_log(P•/(A, M)) ⊗ D_log(P• → (B, N))` yields
 `Comp_log : dR_log(f) → RΓ(f_log-crys, O_crys)`,
-`DerivedDeRham.logCrystallineComparisonMap`, via the log PD Poincaré lemma (§CR.5.4).
+via the log PD Poincaré lemma (§CR.5.4).
 It is natural in `DF(A)`, respects Hodge/PD filtrations, and is multiplicative in the sense
 of §CR.DDR.4.1: a map of strict dg algebras into the envelope model, compatible with cup products
 in `D(A)`. The derived prelog source and its shared constructors retain the general domain of
@@ -9729,22 +9708,22 @@ DerivedDeRhamCohomology §6.20; this crystalline comparison uses the integral ra
 
 Prove the following named laws, all for `n ≥ 1` and integral source and target chart monoids.
 
-- `logCrystallineComparisonNatural`: prelog base squares whose four chart monoids are integral
+- prelog base squares whose four chart monoids are integral
   induce commuting comparison-map squares.
-- `logCrystallineComparisonFiltered`: Hodge terms map to the log crystalline PD filtration.
-- `logCrystallineComparisonStrict`: for strict maps with fixed log structure the map is the ordinary
+- Hodge terms map to the log crystalline PD filtration.
+- for strict maps with fixed log structure the map is the ordinary
   `Comp`.
-- `logCrystallineComparisonExactification`: on fine models the target uses exactification followed
+- on fine models the target uses exactification followed
   by the strict PD envelope; their descended model is the universal integral quasi-coherent
   envelope, functorially, retaining the given source log structure.
 
 **Checks.**
 
-- `test_log_crys_identity`: for an identity prelog map with integral chart over `ℤ/p^n`, `n ≥ 1`,
+- for an identity prelog map with integral chart over `ℤ/p^n`, `n ≥ 1`,
   `Comp` is the base identity.
-- `test_log_crys_strict_regular`: a strict regular quotient with integral charts in the
+- a strict regular quotient with integral charts in the
   nilpotent-p flat range agrees with the PD comparison of §CR.DDR.4.3.
-- `test_log_crys_noncartier`: [Bhatt12] Example 7.23 has integral chart monoids and a comparison
+- [Bhatt12] Example 7.23 has integral chart monoids and a comparison
   map, but its relative Frobenius-twisted source and ordinary crystalline target differ.
 - Let `E = {1, e}` with `e² = e ≠ 1` and map it
   to `F₂` by `e ↦ 0`. This is already a log ring, since only `1` maps to a unit, but
@@ -9755,7 +9734,7 @@ Prove the following named laws, all for `n ≥ 1` and integral source and target
 ### CR.DDR.6.13 The corrected logarithmic lci condition
 
 For `n ≥ 1`, a prelog `ℤ/p^n`-map `(A, M) → (B, N)` with integral `M` and `N` and with `A` and `B`
-flat over `ℤ/p^n` is *corrected G-lci*, `DerivedDeRham.correctedLogLciCondition`, if it factors as
+flat over `ℤ/p^n` is *corrected G-lci* if it factors as
 `(A, M) → (P, Q) → (B, N)` with integral `Q`, the first map integral and log smooth of Cartier type
 modulo `p` and the second a strict surjection whose kernel is generated by a finite regular sequence.
 It is *ind-corrected G-lci* if it is a filtered colimit of corrected G-lci maps with compatible
@@ -9771,15 +9750,15 @@ crystalline comparison map*); DerivedModuleAlgebra §0.13 (*Regular quotients an
 §CR.5.1, §CR.5:log-algebra.3; Mathlib `RingTheory.Sequence.IsWeaklyRegular`,
 `RingTheory.Sequence.IsRegular`.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `correctedGLciFactorization`: the condition returns the chosen factorization with its regular
+- the condition returns the chosen factorization with its regular
   quotient and modulo-p Cartier witnesses.
-- `correctedGLciStrictRegular`: a strict regular quotient of flat `ℤ/p^n`-algebras with integral
+- a strict regular quotient of flat `ℤ/p^n`-algebras with integral
   charts is in the condition, with identity first factor.
-- `correctedGLciLocalFiltered`: the ind-corrected condition is stable under filtered colimits of
+- the ind-corrected condition is stable under filtered colimits of
   compatible factorizations.
-- `correctedGLciExample721`: for every `n ≥ 1`, the reductions modulo `p^n` of source examples (i)
+- for every `n ≥ 1`, the reductions modulo `p^n` of source examples (i)
   and (iii) are corrected G-lci with the following factorizations reduced modulo `p^n`: (i) for `O_K
   = W[t]/(E(t))` with Eisenstein `E` and uniformizer `π`, the factorization `(0 → W) → (ℕ → W[t], 1
   ↦ t) → (ℕ → O_K, 1 ↦ π)` has a log smooth Cartier-type first map and kernel `(E(t))`, and
@@ -9792,13 +9771,13 @@ Prove the following named laws.
 
 **Checks.**
 
-- `test_corrected_glci_identity`: the identity map of a flat `ℤ/p^n`-algebra with integral chart has
+- the identity map of a flat `ℤ/p^n`-algebra with integral chart has
   empty regular sequence and Cartier-type first factor.
-- `test_corrected_glci_characteristic_zero`: for `k = F_p`, `W = ℤ_p` has no unital `ℤ/p^n`-algebra
+- for `k = F_p`, `W = ℤ_p` has no unital `ℤ/p^n`-algebra
   structure for `n ≥ 1`, whereas its finite reductions admit the Eisenstein factorization above.
-- `test_corrected_glci_hypersurface`: the strict quotient `F_p[t] → F_p` by the regular element `t`
+- the strict quotient `F_p[t] → F_p` by the regular element `t`
   qualifies.
-- `test_corrected_glci_square_zero`: `F_p → F_p[x,y] → F_p[x,y]/(x,y)²` with trivial logs satisfies
+- `F_p → F_p[x,y] → F_p[x,y]/(x,y)²` with trivial logs satisfies
   the printed condition of [Bhatt12] Definition 7.20 but fails the corrected regular quotient
   condition.
 
@@ -9827,15 +9806,13 @@ and classical PD envelopes*); §CR.DDR.5.9 (*The lci crystalline comparison theo
 (*Derived limits of towers*); DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of
 complexes*.
 
-Lean: `DerivedDeRham.logLciCrystallineComparison`.
-
 **Checks.**
 
-- `test_log_crys_thm_regular`: a finite strict regular quotient gives the corrected positive case,
+- a finite strict regular quotient gives the corrected positive case,
   including `p = 2`.
-- `test_log_crys_thm_square_zero`: the nonregular square-zero quotient is a negative case even with
+- the nonregular square-zero quotient is a negative case even with
   trivial monoids (§CR.DDR.4.1).
-- `test_log_crys_thm_eisenstein`: example (i) of §CR.DDR.6.13 over `ℤ/p^n` gives an equivalence.
+- example (i) of §CR.DDR.6.13 over `ℤ/p^n` gives an equivalence.
 
 ### CR.DDR.6.15 Log quasisyntomic sites and QRSP bases
 
@@ -9844,8 +9821,7 @@ A log-quasisyntomic prelog ring `(R, P)` has `R` p-complete with bounded p-torsi
 3.2). A map `A → B` of bounded-torsion p-complete prelog rings is p-completely homologically log
 flat when `B ⊗^L_A A/p ≃ B/p` is discrete and `A/p → B/p` is hlf. It is log-quasisyntomic when
 moreover `L_log(B/A) ⊗^L_B B/p` has Tor amplitude `[−1, 0]`, and a cover when the mod-p map is hlf
-faithfully flat. These covers define `QSyn_prelog` and the relative `qSyn_(R,P)`,
-`DerivedDeRham.logQuasisyntomicSites`. Integral monoids are an additional restriction of the
+faithfully flat. These covers define `QSyn_prelog` and the relative `qSyn_(R,P)`. Integral monoids are an additional restriction of the
 log-smooth and prismatic applications, not part of the general site definition.
 
 [KY], Definitions 3.1–3.3, Lemmas 3.5–3.6, Corollary 3.7 and Remarks 3.8–3.9, pp.27–28.
@@ -9855,19 +9831,19 @@ cotangent complex*); §CR.DDR.6.5 (*Log cotangent transitivity, base change and 
 §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*); DerivedDeRhamCohomology §5.1 (*The quasisyntomic
 sites*); DerivedModuleAlgebra §1.7 (*Complete flatness and complete faithful flatness*)
 
-Prove the following named laws.
+Prove the following laws.
 
-- `logQSynCover`: a cover retains complete faithful flatness, completed hlf and relative log
+- a cover retains complete faithful flatness, completed hlf and relative log
   cotangent amplitude `[−1, 0]`.
-- `logQSynBaseChange`: the completed homotopy prelog base change preserves covers ([KY] Lemma 3.6).
+- the completed homotopy prelog base change preserves covers ([KY] Lemma 3.6).
 
 **Checks.**
 
-- `test_log_qsyn_strict`: with identical monoids and the strict conventions, the ordinary `QSyn`
+- with identical monoids and the strict conventions, the ordinary `QSyn`
   condition is recovered.
-- `test_log_qsyn_semistable`: the p-complete integral semistable chart is log quasisyntomic over its
+- the p-complete integral semistable chart is log quasisyntomic over its
   logarithmic `O_K` base.
-- `test_log_qsyn_hlf_boundary`: a Kato log-flat map that is not hlf fails the log `QSyn` cover
+- a Kato log-flat map that is not hlf fails the log `QSyn` cover
   condition, even if its ring reduction is flat.
 
 ### CR.DDR.6.16 Log quasiregular semiperfectoid objects
@@ -9875,8 +9851,7 @@ Prove the following named laws.
 For a p-complete prelog ring `(S, P)`, let `P^♭ = lim_(×p) P` and `P^×` its units. It is log
 semiperfectoid ([KY] Definition 3.11) if (1) `S` admits a map from an integral perfectoid ring
 (PerfectoidSpaces §P1.24), (2) Frobenius on `S/p` is surjective, and (3) `P^♭ → P/P^×` is
-surjective. It is log quasiregular semiperfectoid if also `(S, P)` is log quasisyntomic,
-`DerivedDeRham.logQuasiregularSemiperfectoid`. Integrality of `P` is a separate hypothesis. The
+surjective. It is log quasiregular semiperfectoid if also `(S, P)` is log quasisyntomic. Integrality of `P` is a separate hypothesis. The
 tilt-surjectivity clause is stronger than p-divisibility of `P/P^×` and weaker than p-divisibility
 of `P`. Such objects have `Λ_p L_log((S, P)/ℤ_p)[−1]` complete-flat; equivalently, under the log
 semiperfect assumptions, the shifted relative cotangent of `(S, P)` over a perfectoid ring with
@@ -9888,24 +9863,24 @@ trivial prelog structure is complete-flat ([KY] Lemma 3.16).
 logarithmic cotangent complex*); §CR.DDR.6.5 (*Log cotangent transitivity, base change and
 invariance*); PerfectoidSpaces §P1.24.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `logQrspTiltCondition`: `P^♭ → P/P^×` is surjective, with the ring perfectoid-source and
+- `P^♭ → P/P^×` is surjective, with the ring perfectoid-source and
   semiperfectness conditions.
-- `logQrspCotangent`: under log semiperfectness, the shifted relative log cotangent is complete-flat
+- under log semiperfectness, the shifted relative log cotangent is complete-flat
   exactly in the log QRSP range.
-- `logQrspPerfectoidSource`: the completed source prelog ring surjects on rings and modulo monoid
+- the completed source prelog ring surjects on rings and modulo monoid
   units.
-- `logQrspDivisibilityRelations`: `P` p-divisible implies tilt-surjectivity, which implies `P/P^×`
+- `P` p-divisible implies tilt-surjectivity, which implies `P/P^×`
   p-divisible; for sharp monoids the three conditions agree.
 
 **Checks.**
 
-- `test_log_qrsp_trivial`: for trivial monoids the condition reduces to the ordinary QRSP ring
+- for trivial monoids the condition reduces to the ordinary QRSP ring
   condition.
-- `test_log_qrsp_divisible`: if `S` is ordinary QRSP and `P` is uniquely p-divisible, then `(S, P)`
+- if `S` is ordinary QRSP and `P` is uniquely p-divisible, then `(S, P)`
   is log QRSP ([KY] Example 3.15(1)).
-- `test_log_qrsp_missing_ring_source`: `(ℤ_p, 0)` has semiperfect reduction and the tilt condition,
+- `(ℤ_p, 0)` has semiperfect reduction and the tilt condition,
   but lacks a perfectoid ring map (DerivedDeRhamCohomology §5.2) and is excluded.
 
 ### CR.DDR.6.17 Compatible-root covers of prelog rings
@@ -9917,7 +9892,7 @@ compatible-root cover `(O⟨X_i^(1/p^∞), Y_j^(1/p^∞)⟩, ℕ[1/p]^(J))` over
 p-completed homotopy prelog base change (§CR.DDR.6.2) to `(R, P)` gives a log `QSyn` cover by log
 QRSP objects, and its target monoid is p-divisible. The target need not be integral. All completed
 Čech terms are log QRSP; restriction to this basis and Čech totalization are inverse descent
-constructions, `DerivedDeRham.logCompatibleRootCovers`.
+constructions.
 
 [KY], Lemmas 3.17–3.19 and Corollary 3.20 with proof, pp.31–32.
 
@@ -9927,27 +9902,27 @@ logarithmic flatness*); §CR.DDR.6.2 (*Homotopy pushouts of prelog rings*); Deri
 §5.3 (*Compatible-root quasisyntomic covers*); DerivedDeRhamCohomology §5.5 (*Sheaves and unfolding
 from the QRSP basis*); PerfectoidSpaces §P1.24–§P1.25.
 
-Prove the following named laws.
+Prove the following laws.
 
-- `logRootCover`: the displayed completed two-sort pushout gives a log `QSyn` cover with log QRSP
+- the displayed completed two-sort pushout gives a log `QSyn` cover with log QRSP
   target.
-- `logRootCoverMonoid`: the target monoid is p-divisible and satisfies the tilt-surjectivity
+- the target monoid is p-divisible and satisfies the tilt-surjectivity
   condition.
-- `logRootCoverCech`: every completed Čech term is log QRSP ([KY] Lemma 3.19).
-- `logRootCoverUnfolding`: general prelog log QRSP basis functors unfold by the corresponding Čech
+- every completed Čech term is log QRSP ([KY] Lemma 3.19).
+- general prelog log QRSP basis functors unfold by the corresponding Čech
   totalization, independently of the cover.
-- `logQSynQrspBasis`: log QRSP objects form a basis of `QSyn_prelog`; integrality of an output is
+- log QRSP objects form a basis of `QSyn_prelog`; integrality of an output is
   checked separately when an application needs it.
-- `logQSynUnfolding`: restriction to the general prelog QRSP basis and Čech totalization are inverse
+- restriction to the general prelog QRSP basis and Čech totalization are inverse
   descent constructions.
 
 **Checks.**
 
-- `test_log_root_cover_trivial`: with no monoid generators, the construction specializes to the
+- with no monoid generators, the construction specializes to the
   ordinary ring compatible-root cover of DerivedDeRhamCohomology §5.3.
-- `test_log_root_cover_coordinate`: a free monoid coordinate `x` acquires compatible monoid roots
+- a free monoid coordinate `x` acquires compatible monoid roots
   and matching ring roots `x^(1/p^n)`.
-- `test_log_root_cover_finite`: one finite root stage does not make the monoid p-divisible or the
+- one finite root stage does not make the monoid p-divisible or the
   ring reduction semiperfect.
 
 ### CR.DDR.6.18 Log cotangent powers and completed de Rham descent
@@ -9971,14 +9946,12 @@ DerivedDeRhamCohomology §5.7 (*Descent of Hodge quotients and completion*); Der
 exchanges of completion and derived operations*); DerivedModuleAlgebra §1.1 (*Derived limits of
 towers*); DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
 
-Lean: `DerivedDeRham.logPowerDeRhamDescent`.
-
 **Checks.**
 
-- `test_log_descent_trivial_monoids`: trivial monoids give the ordinary descent of
+- trivial monoids give the ordinary descent of
   DerivedDeRhamCohomology §5.6–5.7.
-- `test_log_descent_identity`: the identity cover is constant.
-- `test_log_descent_root_cover`: a root cover uses both monoid and ring coordinates in its Čech
+- the identity cover is constant.
+- a root cover uses both monoid and ring coordinates in its Čech
   nerve.
 
 ### CR.DDR.6.19 The log point and its full cotangent complex
@@ -9999,13 +9972,11 @@ transitivity, base change and invariance*); §CR.DDR.6.7 (*Logarithmic derived d
 (*Derived logarithmic Cartier theory*); DerivedModuleAlgebra §0.13 (*Regular quotients and two-term
 models*)
 
-Lean: `DerivedDeRham.logPointExample`.
-
 **Checks.**
 
-- `test_log_point_trivial_base`: over `(k, 0)` the complex is `[k → k]` with zero map.
-- `test_log_point_identity`: over itself the relative complex is zero.
-- `test_log_point_char_two`: at `p = 2` there is no hidden invertibility-of-2 hypothesis; both
+- over `(k, 0)` the complex is `[k → k]` with zero map.
+- over itself the relative complex is zero.
+- at `p = 2` there is no hidden invertibility-of-2 hypothesis; both
   degrees survive.
 
 ### CR.DDR.6.20 The semistable chart with its monoid map
@@ -10026,13 +9997,11 @@ log crystalline comparison theorem*); §CR.DDR.6.7 (*Logarithmic derived de Rham
 (*Derived logarithmic Cartier theory*); DerivedDeRhamCohomology §2.27 (*The de Rham algebra of a
 completely smooth formal algebra*); §CR.5:log-algebra.6.
 
-Lean: `DerivedDeRham.semistableChartExample`.
-
 **Checks.**
 
-- `test_semistable_rank_one`: `r = d = 1` gives rank `0`.
-- `test_semistable_rank_two`: `r = d = 2` gives the relation `d log x₁ + d log x₂ = 0` and rank `1`.
-- `test_semistable_ramified`: for a ramified `O_K` use `π`, not `p`, with base `1 ↦ π`; `r = 0` is
+- `r = d = 1` gives rank `0`.
+- `r = d = 2` gives the relation `d log x₁ + d log x₂ = 0` and rank `1`.
+- for a ramified `O_K` use `π`, not `p`, with base `1 ↦ π`; `r = 0` is
   excluded.
 
 ### Examples
@@ -10065,10 +10034,10 @@ chart; reductions preserve the chart. This is different from the chart 1↦p.
 
 The API:
 
-- `LogCrystalline.logWittBase.chart`: The chart generator maps to zero.
-- `LogCrystalline.logWittBase.frobenius`: The ring part is the pinned Witt Frobenius and the monoid
+- The chart generator maps to zero.
+- The ring part is the pinned Witt Frobenius and the monoid
   part multiplies by p.
-- `LogCrystalline.logWittBase.reduce`: `W_{n+1}→W_n` preserves the chart and the PD structure.
+- `W_{n+1}→W_n` preserves the chart and the PD structure.
 
 *Proof sketch.* Use Mathlib’s Witt vectors with their Frobenius and the finite quotients of Layer
 CR.4. Logify the zero chart at every level and apply the canonical PD structure on (p).
@@ -10080,9 +10049,9 @@ DerivedModuleAlgebra §0.DP.3; Mathlib `WittVector`; Mathlib `WittVector.frobeni
 
 **Checks.**
 
-- `length_one`: W₁(k)^log=k with 1↦0.
-- `relative_identity`: The identity of the log Witt base has zero relative log differentials.
-- `not_p_chart`: At lengths n>1 the chart 1↦0 differs from the chart 1↦p.
+- W₁(k)^log=k with 1↦0.
+- The identity of the log Witt base has zero relative log differentials.
+- At lengths n>1 the chart 1↦0 differs from the chart 1↦p.
 - The characteristic remains ℕ at every Witt level.
 
 **Integral Hyodo–Kato complexes.** Let O_K be a complete mixed-characteristic DVR with perfect
@@ -10093,10 +10062,10 @@ the cohomology can have p-torsion.
 
 The API:
 
-- `LogCrystalline.integralHK.finite_level`: There are coherent maps to RΓ_logcrys(Y/W_n(k)^log).
-- `LogCrystalline.integralHK.embedding_model`: A compatible log PD embedding system computes the
+- There are coherent maps to RΓ_logcrys(Y/W_n(k)^log).
+- A compatible log PD embedding system computes the
   same integral complex.
-- `LogCrystalline.integralHK.pullback`: A map of proper semistable models induces a contravariant
+- A map of proper semistable models induces a contravariant
   map of integral HK complexes.
 
 *Proof sketch.* Apply the completed log crystalline construction to the standard Witt log base.
@@ -10108,12 +10077,12 @@ on semistable formal charts* (Layer CR.5:log-algebra); Layer CR.3; Mathlib `Deri
 
 **Checks.**
 
-- `point`: The relative log point has integral HK=W(k) in degree zero.
-- `zero_cohomology`: Its positive-degree cohomology vanishes.
-- `projective_line`: For the good-reduction model `P¹_{O_K}`, integral HK has
+- The relative log point has integral HK=W(k) in degree zero.
+- Its positive-degree cohomology vanishes.
+- For the good-reduction model `P¹_{O_K}`, integral HK has
   H⁰=W(k), H²=W(k)(−1) and all other cohomology zero. In degree 2,
   Frobenius is pσ, so this integral module cannot be replaced by K₀(−1).
-- `two_points`: A disjoint union of two good-reduction points has H⁰=W(k)²,
+- A disjoint union of two good-reduction points has H⁰=W(k)²,
   distinguishing the construction from an always-rank-one object.
 - For Y the log point over itself, C_HK,ℤ=W(k).
 
@@ -10124,10 +10093,10 @@ and does not identify integral cohomology lattices with torsion-free ones.
 
 The API:
 
-- `LogCrystalline.rationalHK.cohomology`: Rational cohomology is integral cohomology tensored with
+- Rational cohomology is integral cohomology tensored with
   K₀.
-- `LogCrystalline.rationalHK.map`: Pullback maps commute with rationalization.
-- `LogCrystalline.rationalHK.torsion_killed`: Every p-power torsion class maps to zero.
+- Pullback maps commute with rationalization.
+- Every p-power torsion class maps to zero.
 
 *Proof sketch.* Invert p by the derived scalar extension, which is flat. Transport the finite-level
 operators and their coherent identities to the rational complex. ([Hyodo–Kato, *Semi-stable
@@ -10137,10 +10106,10 @@ pp.262–263.) *Needs:* *Integral Hyodo–Kato complexes*; EnhancedDerivedSheave
 
 **Checks.**
 
-- `point`: For the relative log point the rational complex is K₀ in degree zero.
-- `projective_line`: For the good-reduction projective line, H⁰=K₀ and H²=K₀(−1), with
+- For the relative log point the rational complex is K₀ in degree zero.
+- For the good-reduction projective line, H⁰=K₀ and H²=K₀(−1), with
   all other cohomology zero.
-- `two_points`: For two disjoint good-reduction points, H⁰=K₀² and higher cohomology vanishes.
+- For two disjoint good-reduction points, H⁰=K₀² and higher cohomology vanishes.
 
 **Hyodo–Kato Frobenius.** Absolute Frobenius of the special log fiber, together with Witt Frobenius
 σ and multiplication by p on the base chart, gives a σ-semilinear chain endomorphism φ of integral
@@ -10150,10 +10119,10 @@ Frobenius-lift comparisons supplied by descent.
 
 The API:
 
-- `LogCrystalline.hkFrobenius.semilinear`: φ(ax)=σ(a)φ(x).
-- `LogCrystalline.hkFrobenius.linearization`: The associated σ-twisted linear map is the
+- φ(ax)=σ(a)φ(x).
+- The associated σ-twisted linear map is the
   linearization, not an ordinary K₀-linear φ.
-- `LogCrystalline.hkFrobenius.forms`: On q-fold logarithmic generators the Frobenius multiplier is
+- On q-fold logarithmic generators the Frobenius multiplier is
   p^q.
 
 *Proof sketch.* Use the absolute log Frobenius and the base σ to induce the crystalline map. Compute
@@ -10169,9 +10138,9 @@ Hyodo–Kato complexes*; *Rational Hyodo–Kato complexes*; *Logarithmic embeddi
 
 **Checks.**
 
-- `point`: On W(k) in degree zero, φ=σ.
-- `log_one_form`: A logarithmic one-form acquires the factor p.
-- `not_linear`: For `k=F_{p²}` and a∈k with a^p≠a, on degree-zero W(k) the Teichmüller element
+- On W(k) in degree zero, φ=σ.
+- A logarithmic one-form acquires the factor p.
+- For `k=F_{p²}` and a∈k with a^p≠a, on degree-zero W(k) the Teichmüller element
   satisfies φ([a])=[a^p]≠[a]φ(1).
 - On H⁰ of the log point φ is σ.
 
@@ -10183,9 +10152,9 @@ convention throughout.
 
 The API:
 
-- `LogCrystalline.hkMonodromy.boundary`: N is the connecting morphism of the signed θ triangle, with `d_{C[−1]}=−d_C`.
-- `LogCrystalline.hkMonodromy.linear`: N is W(k)-linear integrally and K₀-linear rationally.
-- `LogCrystalline.hkMonodromy.embedding_independence`: Common embedding refinements preserve the
+- N is the connecting morphism of the signed θ triangle, with `d_{C[−1]}=−d_C`.
+- N is W(k)-linear integrally and K₀-linear rationally.
+- Common embedding refinements preserve the
   connecting endomorphism.
 
 *Proof sketch.* Use the embedding system over W_n[t]^log and form absolute and relative PD log
@@ -10198,12 +10167,12 @@ EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*).
 
 **Checks.**
 
-- `point`: For the relative log point N=0.
-- `tate_block`: In the geometric Tate model’s unscaled slope basis, N(e₁)=v_K(q)e₀ and N(e₀)=0.
+- For the relative log point N=0.
+- In the geometric Tate model’s unscaled slope basis, N(e₁)=v_K(q)e₀ and N(e₀)=0.
   Scaling e₁ by v_K(q)⁻¹ gives the normalized unit block.
-- `shift_chain_map`: For x↦dx, the coefficients in dι_θ^1(x) and
+- For x↦dx, the coefficients in dι_θ^1(x) and
   `ι_θ^2(d_{C[−1]}x)` are both +1; raw right wedge gives +1 and −1.
-- `wedge_sign`: On the normalized Tate block, reversing the connecting-map sign gives N′(e₁)=−e₀,
+- On the normalized Tate block, reversing the connecting-map sign gives N′(e₁)=−e₀,
   whereas the fixed convention gives N(e₁)=e₀.
 - N vanishes on the relative log point and is compatible with base change.
 
@@ -10235,7 +10204,7 @@ finite-level length and completed finiteness. Use the Cartier comparison and bou
 rank to construct Frobenius inverses up to a bounded power of p on the pro-system. Invert p to
 obtain the linearized isomorphism. ([Hyodo–Kato, *Semi-stable reduction and crystalline cohomology
 with logarithmic poles*](https://www.numdam.org/item/AST_1994__223__221_0.pdf), §2.22–2.24 and
-§3.2–3.4, pp.240–244.) *Needs:* *Integral Hyodo–Kato complexes*; *Hyodo–Kato Frobenius*;
+§3.2–3.4, pp.238–244.) *Needs:* *Integral Hyodo–Kato complexes*; *Hyodo–Kato Frobenius*;
 *Logarithmic Cartier isomorphism* (Layer CR.5); *Logarithmic embedding-system descent* (Layer CR.5);
 Layer CR.3.
 
@@ -10314,19 +10283,19 @@ Cartier-type Y no absolute–relative sequence is asserted.
 
 The API:
 
-- `LogCrystalline.logDeRhamWitt.operators`: d, F, V and R on W_nω_Y with d²=0, FV=VF=p, dF=pFd,
+- d, F, V and R on W_nω_Y with d²=0, FV=VF=p, dF=pFd,
   Vd=pdV, FdV=d, and R commuting with d, F, V.
-- `LogCrystalline.logDeRhamWitt.dlog_relative`: dlog:M^gp→W_nω¹_Y is a homomorphism with
+- dlog:M^gp→W_nω¹_Y is a homomorphism with
   d[α(m)]=[α(m)]·dlog m, F(dlog m)=dlog m, and dlog m=0 for m in the image of f^(−1)L^gp.
-- `LogCrystalline.logDeRhamWitt.presentation`: W_nω_Y is the quotient of the log de Rham complex of
+- W_nω_Y is the quotient of the log de Rham complex of
   (W_nY,W_n(M)) over W_n(k)^log by the ideal generated by the displayed elements.
-- `LogCrystalline.logDeRhamWitt.restriction`: The maps on cycles and boundaries through E_n
+- The maps on cycles and boundaries through E_n
   give canonical R; R([a])=[a] and R(dlog m)=dlog m.
-- `LogCrystalline.logDeRhamWitt.cartier`: Inverse Cartier identifies the degree-q cohomology
+- Inverse Cartier identifies the degree-q cohomology
   sheaf with forms on the relative Frobenius twist; after transporting coefficients W_1ω^•
   has the ordinary log de Rham differential. R is surjective with kernel
   V^nW_1ω+dV^nW_1ω, and lim_n W_nω_Y is p-torsion-free.
-- `LogCrystalline.logDeRhamWitt.absolute_sequence`: In the semistable case
+- In the semistable case
   0→W_nω_Y[−1]→W_nω̃_Y→W_nω_Y→0 is exact, with first map ι_θ and φ(θ)=pθ.
 
 *Proof sketch.* The statements are étale local, so use embedding systems whose terms are constant
@@ -10385,7 +10354,7 @@ descent* (Layer CR.4); Mathlib `TruncatedWittVector`.
 Cartier-type hypotheses of *Logarithmic de Rham–Witt complexes*, let m>n≥1. Multiplication
 by p^n on W_mω^• factors through R^n:W_mω^•→W_(m−n)ω^•. Its induced map
 μ_(m,n):W_(m−n)ω^•→W_mω^• is injective in every degree and commutes with d.
-Define Q_(m,n)=`LogCrystalline.logWittQuotient` as its cokernel complex, giving the genuine
+Define Q_(m,n) as its cokernel complex, giving the genuine
 short exact sequence 0→W_(m−n)ω^•→W_mω^•→Q_(m,n)→0.
 Restriction R^(m−n) induces a quasi-isomorphism Q_(m,n)→W_nω^•, functorial in Y and
 compatible with Frobenius and restriction. Thus this quotient yields the corresponding
@@ -10414,8 +10383,7 @@ Corollary 4.5(1), pp.248–249.) *Needs:* *Logarithmic de Rham–Witt complexes*
 Witt divided powers γ. The presentation map from the ordinary log de Rham complex of
 (W_nY,W_n(M)) to W_nω^• kills
 `dγ_j(a) − γ_(j−1)(a) da` for every local a∈I_n and j≥1. It therefore factors through the
-quotient by the differential graded ideal generated by these relations, denoted
-`LogCrystalline.logWittPDDifferentials`. For an embedding system admitting
+quotient by the differential graded ideal generated by these relations. For an embedding system admitting
 (W_nY^•,W_n(M^•))→(Z^•,N^•), the induced ring/log map from its PD envelope to Witt vectors
 then gives a map from the log PD de Rham complex to this quotient and hence to W_nω^•.
 This factorisation defines the crystalline comparison map. In the semistable case it also
@@ -10494,9 +10462,9 @@ uniformizer; no value log(π) is prescribed by this definition.
 
 The API:
 
-- `LogCrystalline.unitLog.mul`: log_K(uv)=log_K(u)+log_K(v).
-- `LogCrystalline.unitLog.teichmuller`: log_K([a])=0 for a∈k×.
-- `LogCrystalline.unitLog.principal_series`: On 1+m_K the value is the displayed convergent series.
+- log_K(uv)=log_K(u)+log_K(v).
+- log_K([a])=0 for a∈k×.
+- On 1+m_K the value is the displayed convergent series.
 
 *Proof sketch.* Divide the unit by its supplied multiplicative representative to obtain a
 principal unit. Apply PadicFunctionalAnalysis §4.5 to the native `NormedSpace.logOneAdd` series
@@ -10514,12 +10482,12 @@ Tau Ceti `NormedSpace.logOneAdd` and `NormedSpace.logOneAdd_eq_tsum` in
 
 **Checks.**
 
-- `one`: log_K(1)=0.
-- `torsion`: For a torsion unit ζ, log_K(ζ)=0.
-- `principal_unit`: In Q₃, log_K(4)=3−3²/2+3³/3−⋯ has valuation 1:
+- log_K(1)=0.
+- For a torsion unit ζ, log_K(ζ)=0.
+- In Q₃, log_K(4)=3−3²/2+3³/3−⋯ has valuation 1:
   after division by 3 its residue modulo 3 is 1. Thus the unit logarithm
   does not vanish on all units.
-- `branch_warning`: Adding c v to an extension of the logarithm changes its value on
+- Adding c v to an extension of the logarithm changes its value on
   a uniformizer by c and leaves its values on units unchanged, since v(u)=0.
 - log_K(uv)=log_K(u)+log_K(v).
 
@@ -10531,11 +10499,11 @@ and t=π; it is not defined as an integral comparison or a choice-free map.
 
 The API:
 
-- `LogCrystalline.hkComparisonMap.pullback`: ρ_π is natural for morphisms of the proper semistable
+- ρ_π is natural for morphisms of the proper semistable
   models.
-- `LogCrystalline.hkComparisonMap.rational_domain`: Its domain is the explicitly rationalized HK
+- Its domain is the explicitly rationalized HK
   complex extended from K₀ to K.
-- `LogCrystalline.hkComparisonMap.generic_log`: For vertical semistable boundary its target is
+- For vertical semistable boundary its target is
   ordinary generic-fiber de Rham.
 
 *Proof sketch.* Use the PD envelope of the uniformizer relation in W_n[t]^log and its two base
@@ -10550,10 +10518,10 @@ under reduction and completion* (Layer CR.5).
 
 **Checks.**
 
-- `point`: For the base point the map is the canonical K₀⊗K→K identification.
-- `good_reduction`: For the same actual good-reduction model, its comparison maps for any two
+- For the base point the map is the canonical K₀⊗K→K identification.
+- For the same actual good-reduction model, its comparison maps for any two
   uniformizers agree, since its geometric N vanishes.
-- `integral_warning`: Already on the base point, the rational domain contains p⁻¹∈K₀ while the
+- Already on the base point, the rational domain contains p⁻¹∈K₀ while the
   integral degree-zero HK lattice W(k) does not contain p⁻¹.
 - Good reduction specializes to the crystalline–de Rham map independent of the uniformizer.
 
@@ -10705,11 +10673,11 @@ hypothesis on X is imposed. These are convergent rather than overconvergent j†
 
 The API:
 
-- `LogCrystalline.convergentLogComplex.relative`: The relative complex uses the W^log differential
+- The relative complex uses the W^log differential
   quotient on Y^⋆ and its realization C_rel on T^⋆.
-- `LogCrystalline.convergentLogComplex.absolute`: The absolute variant uses the trivial-log Witt
+- The absolute variant uses the trivial-log Witt
   base on Z^⋆, restricts to the same T^⋆, and retains dlog t.
-- `LogCrystalline.convergentLogComplex.site_compare`: On the separated embedding basis,
+- On the separated embedding basis,
   identify the Berkovich quasi-étale and adic étale ringed topoi, carrying analytic functions
   and the tube form complexes to their counterparts. For the complementary tube inclusion g,
   the comparison intertwines g*, g_* and their adjunction unit, and identifies specialization
@@ -10717,7 +10685,7 @@ The API:
   all module sheaves and bounded-below complexes, their inclusions and special-fibre maps,
   and the signed monodromy triangle with its connecting map. These identifications commute
   with embedding refinements and their cocycles.
-- `LogCrystalline.convergentLogComplex.refinement`: Common embedding refinements induce canonical
+- Common embedding refinements induce canonical
   quasi-isomorphisms.
 
 *Proof sketch.* Take tubes and specialisation from AdicSpacesPartIII Layer R2 and AdicSpacesPartIV
@@ -10738,22 +10706,22 @@ carriers*).
 
 **Checks.**
 
-- `point`: For k=F_p and X=k^log↪Z=Spec W[t] with chart 1↦t, the zero fibre
+- For k=F_p and X=k^log↪Z=Spec W[t] with chart 1↦t, the zero fibre
   is Y=W^log and T=Sp K₀. Thus ω_X=K₀ in degree zero and ω̃_X has K₀ and
   K₀·dlog t in degrees zero and one, with zero differential. Completing Z along (p),
   or along (p,t), and taking the tube of X instead gives |t|<1. Relative forms over
   W[t]^log would then give O(|t|<1) in degree zero, including the nonconstant t.
   These distinctions hold also at p=2.
-- `site_complement`: For X=X₁⊔X₂ two log points and U=X₁, both sites identify restriction
+- For X=X₁⊔X₂ two log points and U=X₁, both sites identify restriction
   with K₀²→K₀ onto the second factor and support with K₀⊕0; no coherence of a general
   supported sheaf is required.
-- `site_specialization`: For U=X the transported special-fibre map is the identity on Rs_*;
+- For U=X the transported special-fibre map is the identity on Rs_*;
   for U empty both its source and target vanish.
-- `site_signed_boundary`: Put θ=dlog t and β=x dy on a smooth chart. The degree-two
+- Put θ=dlog t and β=x dy on a smooth chart. The degree-two
   shifted injection is −x dy∧θ, and its differential is −dx∧dy∧θ, the image of −dβ.
   Both sites give this same chain map and hence the same connecting N.
-- `identity_refinement`: An identity embedding refinement induces the identity comparison.
-- `not_overconvergent_by_name`: The unit-disc series with coefficients `p^{⌊√n⌋}` is convergent and
+- An identity embedding refinement induces the identity comparison.
+- The unit-disc series with coefficients `p^{⌊√n⌋}` is convergent and
   has no radius greater than one. Its existence distinguishes the convergent tube-function object
   from the dagger object; the absolute log point also retains the extra dlog(t) direction.
 - For a strict semistable special fiber the resulting complexes admit the stated rational log Witt
@@ -10763,17 +10731,17 @@ carriers*).
 g:]X^⋆∖U^⋆[_(Y^⋆)→T^⋆ be the complementary open analytic tube inclusion termwise,
 using the same zero fibres Y^⋆ and tubes T^⋆ as above. On their adic étale sites define
 f_!F=ker(F→g_*g*F) on module sheaves. The functors g*, g_* and f_! are exact
-(DL Remark B.2), transported by `LogCrystalline.convergentLogComplex.site_compare`.
+(DL Remark B.2), transported by the site comparison of *Convergent logarithmic embedding complexes*.
 Define ω_(U,X)=Ru_*Rs_*f_!C_rel and ω̃_(U,X)=Ru_*Rs_*f_!C_abs. This is analytic-tube support. There is a
 natural map from special-fiber F_!F*Rs_* to Rs_*f_!, which need not be a categorical factorization
 or an isomorphism in general.
 
 The API:
 
-- `LogCrystalline.tubeProperSupport.kernel`: The supported sheaf is the kernel of restriction to
+- The supported sheaf is the kernel of restriction to
   ]X∖U[.
-- `LogCrystalline.tubeProperSupport.whole`: For U=X, f_! is the identity.
-- `LogCrystalline.tubeProperSupport.special_fibre_map`: There is the source natural map
+- For U=X, f_! is the identity.
+- There is the source natural map
   F_!F*Rs_*→Rs_*f_!, without a general isomorphism claim.
 
 *Proof sketch.* Define the support kernel f_!F = ker(F → g_*g^*F) on the adic étale site of the tube
@@ -10789,9 +10757,9 @@ complexes*; AdicSpacesPartIV Layer R4 (*The étale site on the analytic carriers
 
 **Checks.**
 
-- `whole_space`: Taking U=X recovers the unsupported complex.
-- `empty_open`: Taking U empty gives the zero support kernel.
-- `two_components`: For X=X₁⊔X₂ consisting of two smooth points, U=X₁
+- Taking U=X recovers the unsupported complex.
+- Taking U empty gives the zero support kernel.
+- For X=X₁⊔X₂ consisting of two smooth points, U=X₁
   and the constant coefficient K₀, restriction to the complementary tube is
   the projection K₀²→K₀ onto the second factor. Its kernel is K₀⊕0.
   The full complex K₀² and the zero complex both give the wrong support.
@@ -10801,7 +10769,7 @@ complexes*; AdicSpacesPartIV Layer R4 (*The étale site on the analytic carriers
 CR.6.4 owns the convergent relative and absolute realizations, tube support kernel and signed
 monodromy triangle. The quasi-étale `TubeProperSupport` and `SupportedLogComplex` interfaces
 of PadicDifferentialEquationsAndRigidCohomology RD.4.42/RD.4.45 are transport adapters of
-these objects through `LogCrystalline.convergentLogComplex.site_compare`; their coefficient
+these objects through the site comparison of *Convergent logarithmic embedding complexes*; their coefficient
 extensions use the same constant-coefficient specialization. This is a downstream use of
 CR.6.4, not an input to it.
 
@@ -10831,15 +10799,15 @@ the comparison with ω_X, ω̃_X are statements in D⁺(X_ét,K₀), after Rlim 
 
 The API:
 
-- `Crystalline.LogWittModel.envelope_eval`: For an admissible embedding system, Wω_X and Wω̃_X are
+- For an admissible embedding system, Wω_X and Wω̃_X are
   represented by Ru_* of the complexes Ω^*_((Y^⋆,M^⋆)/W°)⊗O_(D_l^⋆) and
   Ω^*_((Z^⋆,N^⋆)/W^triv)⊗O_(D_l^⋆), l≥1, on the hypercovering X^⋆.
-- `Crystalline.LogWittModel.embedding_independence`: The product-embedding maps are compatible
+- The product-embedding maps are compatible
   quasi-isomorphisms and satisfy the cocycle.
-- `Crystalline.LogWittModel.rational_compare`: There are natural equivalences ω_X≃Wω_(X,K₀) and
+- There are natural equivalences ω_X≃Wω_(X,K₀) and
   ω̃_X≃Wω̃_(X,K₀) in D⁺(X_ét,K₀) (Disegni–Liu (B.5)) carrying the triangle (B.1) of the convergent
   complexes to the triangle (B.4); in particular they commute with the maps ∧dlog t.
-- `Crystalline.LogWittModel.monodromy_triangle`: Wω_(X,K₀)[−1]--∧dlog
+- Wω_(X,K₀)[−1]--∧dlog
   t→Wω̃_(X,K₀)→Wω_(X,K₀)--N→Wω_(X,K₀) is a distinguished triangle in D⁺(X_ét,K₀), and N is its
   connecting map (Disegni–Liu (B.4)).
 
@@ -10862,13 +10830,13 @@ CR.2); Layer CR.5:log-algebra; Layer CR.5; *Convergent logarithmic embedding com
 
 **Checks.**
 
-- `test_logWittModel_point`: For X=κ° with the embedding κ°↪W[t]° (Z=Spec W[t], Y=W°, D_l=Spec
+- For X=κ° with the embedding κ°↪W[t]° (Z=Spec W[t], Y=W°, D_l=Spec
   W/p^l): Wω_X=(W/p^l)_l in degree 0, Wω̃_X=(W/p^l⊕W/p^l·dlog t)_l in degrees 0 and 1 with zero
   differential, and the connecting map N of the triangle is 0.
-- `test_logWittModel_diagonal_embedding`: For an admissible embedding system E of (X,L), the
+- For an admissible embedding system E of (X,L), the
   isomorphisms Wω_X(E)≅Wω_X(E) and Wω̃_X(E)≅Wω̃_X(E) obtained by comparing E with itself through the
   product system E×E and its two projections are the identity maps.
-- `test_logWittModel_rational_scope`: For X=κ° with the embedding κ°↪W[t]°: the tube of X in the
+- For X=κ° with the embedding κ°↪W[t]°: the tube of X in the
   generic fibre of the formal completion of Y=W° is the point Sp K₀, so ω_X=K₀ in degree 0 and
   ω̃_X=K₀⊕K₀·dlog t in degrees 0 and 1 with zero differential; Wω_(X,K₀) and Wω̃_(X,K₀) are the same
   complexes, and the equivalences of (B.5) are the identity maps.
@@ -10894,12 +10862,12 @@ Prove that ∂ corresponds to that quotient map ω̃_X→ω⁺_X[−1].
 
 The API:
 
-- `Crystalline.SatoWitt.residue`: The displayed sequence on P_ét is exact, with quotient i_*W_rΞ^q_X.
-- `Crystalline.SatoWitt.ordered_gr`: The stratum identifications of gr_a carry the ordered
+- The displayed sequence on P_ét is exact, with quotient i_*W_rΞ^q_X.
+- The stratum identifications of gr_a carry the ordered
   residue signs; swapping two component labels changes the corresponding iterated residue sign.
-- `Crystalline.SatoWitt.absolute_map`: The map ∂ has domain Wω̃_X and target WΞ_X[−1], with
+- The map ∂ has domain Wω̃_X and target WΞ_X[−1], with
   the p-scaled Frobenius identity, restriction compatibility and the signed shifted differential.
-- `Crystalline.SatoWitt.rational_compare`: The equivalence ω⁺_X≃WΞ_(X,K₀) carries the quotient
+- The equivalence ω⁺_X≃WΞ_(X,K₀) carries the quotient
   of absolute log forms to ∂, and respects the WΛ-module action and ordered residues.
 
 *Proof sketch.* Construct the generic logarithmic residue kernel ν and its W_rO_X-span.
@@ -10955,11 +10923,11 @@ The Frobenius-equivariant form of ∂ includes the twist (−1) on its target.
 
 The API:
 
-- `Crystalline.LogWittSupport.compare`: Natural maps F_!F^*Wω̃_(X,K₀)→ω̃_(U,X) and
+- Natural maps F_!F^*Wω̃_(X,K₀)→ω̃_(U,X) and
   F_!F^*WΞ_(X,K₀)→ω⁺_(U,X) in D⁺(X_ét,K₀) (Disegni–Liu (B.6), (B.9)).
-- `Crystalline.LogWittSupport.open_identity`: For U=X, the tube support functor is the identity and
+- For U=X, the tube support functor is the identity and
   the comparison recovers the full rational model comparison.
-- `Crystalline.LogWittSupport.dlog_square`: Using the compatibility of clause (3), the
+- Using the compatibility of clause (3), the
   maps (B.6) and (B.9) form the square (B.10), whose vertical arrows are the support comparison maps
   and whose horizontal arrows are induced respectively by Sato’s map and by the quotient of forms.
   Naturality of the tube support transformation proves the square.
@@ -10983,12 +10951,12 @@ analytic tubes*.
 
 **Checks.**
 
-- `test_logWittSupport_empty`: For U=∅: g is the identity of the tube of X^⋆,
+- For U=∅: g is the identity of the tube of X^⋆,
   f^!_(∅,X)=ker(id→id)=0, so ω̃_(∅,X)=ω⁺_(∅,X)=0, and the sources F_!F^*(−) of (B.6) and (B.9) are
   0.
-- `test_logWittSupport_full`: For U=X: the tube of X∖U is empty, f^!_(X,X) is the identity,
+- For U=X: the tube of X∖U is empty, f^!_(X,X) is the identity,
   ω̃_(X,X)=ω̃_X, and (B.6) is the inverse of the equivalence ω̃_X≃Wω̃_(X,K₀) of (B.5).
-- `test_logWittSupport_map`: Let X=X₁⊔X₂ be a disjoint union of two smooth points over κ°, with the
+- Let X=X₁⊔X₂ be a disjoint union of two smooth points over κ°, with the
   standard semistable log structures, and U=X₁. The source and target of (B.6) restrict on X₁ to the
   full comparison and on X₂ to zero. The support map is the full comparison on X₁ and zero on X₂;
   replacing support by the full complex or by zero fails this test.
@@ -11092,11 +11060,11 @@ closed disc is inferred. Only this smooth-stratum rigid theory is in scope.
 
 The API:
 
-- `Crystalline.smoothStratumRigid.frame_independence`: Product frames and common cover
+- Product frames and common cover
   refinements give compatible quasi-isomorphisms of the overconvergent complexes.
-- `Crystalline.smoothStratumRigid.finiteDimensional`: Each H^i_rig(Z/K₀) is finite-dimensional.
-- `Crystalline.smoothStratumRigid.frobenius`: Over perfect k its semilinear Frobenius is bijective.
-- `Crystalline.smoothStratumRigid.proper_comparison`: For proper smooth Z, the rigid,
+- Each H^i_rig(Z/K₀) is finite-dimensional.
+- Over perfect k its semilinear Frobenius is bijective.
+- For proper smooth Z, the rigid,
   convergent and rational crystalline complexes are canonically identified.
 
 *Proof sketch.* The overconvergent Poincaré homotopy on product frames proves independence and
@@ -11162,11 +11130,11 @@ RΓ_crys(Y/W(k)^log) ⊗ K₀ of Layer CR.6.
 
 The API:
 
-- `LogRigidHK.complex`: RΓ_rig(Y/S₀, E) on the simplicial dagger tube site.
-- `LogRigidHK.monodromy`: N as the connecting map of the ∧θ sequence.
-- `LogRigidHK.frobenius`: φ from a Frobenius lift, with Nφ = qφN.
-- `LogRigidHK.finiteDimensional`: finiteness for quasi-compact Y.
-- `LogRigidHK.crystallineComparison`: the identification with rational log crystalline cohomology
+- RΓ_rig(Y/S₀, E) on the simplicial dagger tube site.
+- N as the connecting map of the ∧θ sequence.
+- φ from a Frobenius lift, with Nφ = qφN.
+- finiteness for quasi-compact Y.
+- the identification with rational log crystalline cohomology
   for proper Y over a perfect field.
 
 *Proof sketch.* Independence of the choices uses common refinements of coverings and of lifts. The
@@ -11193,13 +11161,13 @@ complexes* (Layer CR.5); *Integral Hyodo–Kato complexes*; *Hyodo–Kato monodr
 - For `A₀=ℤ_p`, the series `Σ_(n≥0) p^(⌊√n⌋) t^n` lies in `ℤ_p⟨t⟩` but not `ℤ_p[t]†`:
   its coefficient valuations tend to infinity and have no positive linear lower bound in n.
   The rigid generic fibre of `Ŝ` is the completion of the dagger generic fibre of `S†`.
-- `logRigidHK_good_reduction`: if Y is smooth (one component, empty boundary), N = 0 and
+- if Y is smooth (one component, empty boundary), N = 0 and
   H*_rig(Y/S₀) is ordinary rigid cohomology of Y.
-- `logRigidHK_two_lines`: for Y = {xy = 0} ⊂ 𝔸²_k, the special fibre of xy = t, the weight spectral
+- for Y = {xy = 0} ⊂ 𝔸²_k, the special fibre of xy = t, the weight spectral
   sequence gives H⁰_rig(Y/S₀) = K₀ and H¹_rig(Y/S₀) = K₀, spanned by the class of dlog x with φ = q
   and N = 0; this matches the de Rham cohomology of the annulus |t| ≤ |x| ≤ 1. A definition that
   drops the log structure would give H¹ = 0 here.
-- `logRigidHK_cycle`: let `k=𝔽_q`, `A₀=W(k)` and `φ` be the linear `q`-power Frobenius. For `Y`
+- let `k=𝔽_q`, `A₀=W(k)` and `φ` be the linear `q`-power Frobenius. For `Y`
   consisting of two copies of `ℙ¹_k` glued transversely at two distinct `k`-rational nodes,
   `H¹_rig(Y/S₀)` is two-dimensional, with Frobenius eigenvalues `1` (from the cycle of the dual
   graph) and `q` (from the residues at the nodes). Monodromy `N` maps the `q`-eigenline
@@ -11285,10 +11253,10 @@ system and invert p on morphisms, giving K₀-linear Hom spaces.
 
 The API:
 
-- `LogCrystalline.coefficientInterface.evaluate`: Evaluation at T returns the actual finite locally
+- Evaluation at T returns the actual finite locally
   free O_T-module sheaf F_T; on affine T its section module is finite projective.
-- `LogCrystalline.coefficientInterface.pullback`: For a compatible PD map g, g*F_T≅F_T′.
-- `LogCrystalline.coefficientInterface.tensor_dual`: Evaluation and connection commute with tensor
+- For a compatible PD map g, g*F_T≅F_T′.
+- Evaluation and connection commute with tensor
   products and finite locally free duals.
 
 *Proof sketch.* Reuse the CR.1/Layer CR.5 module-sheaf crystal category and add finite local
@@ -11308,9 +11276,9 @@ sheaf tensor*); Mathlib `ModuleCat`; Mathlib `SheafOfModules`; Mathlib `SheafOfM
 
 **Checks.**
 
-- `structure`: For the structure crystal, evaluation is O_T and ∇=d.
-- `zero`: The zero crystal gives the zero finite projective module.
-- `nonflat_failure`: The evaluation ℤ_p/pℤ_p over ℤ_p is not flat and therefore cannot be a finite
+- For the structure crystal, evaluation is O_T and ∇=d.
+- The zero crystal gives the zero finite projective module.
+- The evaluation ℤ_p/pℤ_p over ℤ_p is not flat and therefore cannot be a finite
   projective coefficient evaluation.
 
 **Filtered Frobenius coefficients on semistable models.** On a semistable O-model M, a rational
@@ -11330,10 +11298,10 @@ by p^(−r), retains N and shifts Fil^i to Fil^(i+r). The twist convention is th
 
 The API:
 
-- `LogCrystalline.arithmeticCoefficientInterface.frobenius`: The horizontal linearization F_S^*F→F.
-- `LogCrystalline.arithmeticCoefficientInterface.twist`: On F(r), `φ_r=p^{−r}φ` and
+- The horizontal linearization F_S^*F→F.
+- On F(r), `φ_r=p^{−r}φ` and
   `Fil^i(F(r))=Fil^{i+r}F`.
-- `LogCrystalline.arithmeticCoefficientInterface.base_change`: Compatible model pullback is
+- Compatible model pullback is
   levelwise crystalline pullback, commutes with Frobenius and transports N. On the specified
   algebraization its generic realization is sheaf pullback, with the pulled-back connection and
   sheaf filtration; the comparison preserves Griffiths transversality.
@@ -11361,14 +11329,14 @@ pp.262–263.) *Needs:* *Finite projective crystalline coefficients*; *Frobenius
 
 **Checks.**
 
-- `twist_zero`: Twist by zero is the original coefficient package.
-- `twist_minus_one`: The twist F(−1) multiplies Frobenius by p and has `Fil^i(F(−1)) = Fil^{i−1}F`, so
+- Twist by zero is the original coefficient package.
+- The twist F(−1) multiplies Frobenius by p and has `Fil^i(F(−1)) = Fil^{i−1}F`, so
   a filtration jump in degree 0 moves to degree 1.
-- `crystal_not_filtered`: On any nonempty generic model, the same constant rank-one rational crystal
+- On any nonempty generic model, the same constant rank-one rational crystal
   with its specified de Rham realization admits distinct exhaustive separated locally split
   transverse sheaf filtrations with jumps in degrees 0 and 1. Thus the crystal does not determine
   its filtration.
-- `local_split_not_global`: On P1 over a field, the Euler sequence 0→O(−1)→O²→O(1)→0 gives a
+- On P1 over a field, the Euler sequence 0→O(−1)→O²→O(1)→0 gives a
   subbundle that has complements on the two standard affine charts but has no global sheaf
   complement. It must satisfy the local splitting predicate.
 
@@ -11424,11 +11392,11 @@ individual H^i require the extra hypotheses of *Relative Gauss–Manin connectio
 
 The API:
 
-- `LogCrystalline.relativeCrystallineImage.evaluate`: On (V,T), evaluation is the displayed
+- On (V,T), evaluation is the displayed
   sheaf-valued crystalline direct image; its derived global sections give crystalline cohomology.
-- `LogCrystalline.relativeCrystallineImage.base_change_map`: A PD map T′→T gives the canonical
+- A PD map T′→T gives the canonical
   derived tensor-to-evaluation arrow, compatible with composition.
-- `LogCrystalline.relativeCrystallineImage.identity`: For f=id, K_T=F_T in degree zero.
+- For f=id, K_T=F_T in degree zero.
 
 *Proof sketch.* Localize the crystalline topos over (V,T) and derive its structure-map
 pushforward using EnhancedDerivedSheaves Layer E1. Apply *Proper smooth crystalline base change*
@@ -11446,12 +11414,12 @@ Mathlib `DerivedCategory`.
 
 **Checks.**
 
-- `identity`: For f=id and any (V,T), the evaluated image is F_T concentrated in degree zero.
+- For f=id and any (V,T), the evaluated image is F_T concentrated in degree zero.
   For nonaffine T this assertion concerns the module sheaf; RΓ(T,F_T) may have positive degrees.
-- `closed_fibre`: For Y=Spec F_p, T=Spec ℤ/p² and V=Y, no T→Y exists. The formula still gives
+- For Y=Spec F_p, T=Spec ℤ/p² and V=Y, no T→Y exists. The formula still gives
   X_V=X, and for f=id and structure coefficients the evaluation is ℤ/p² in degree zero.
-- `point`: A proper point over itself gives the coefficient module in degree zero.
-- `no_local_freeness`: The bounded perfect complex [ℤ_p --p→ ℤ_p] has cohomology ℤ_p/pℤ_p, which is
+- A proper point over itself gives the coefficient module in degree zero.
+- The bounded perfect complex [ℤ_p --p→ ℤ_p] has cohomology ℤ_p/pℤ_p, which is
   not locally free; perfectness alone does not make its individual cohomology finite projective.
 - The structure coefficient pushforward of the identity morphism is its original coefficient.
 
@@ -11466,10 +11434,10 @@ absolute coefficient de Rham complex.
 
 The API:
 
-- `LogCrystalline.gaussManin.boundary`: The connection is the boundary map of the first-step
+- The connection is the boundary map of the first-step
   base-form filtration.
-- `LogCrystalline.gaussManin.leibniz`: ∇_GM(ah)=a∇_GM(h)+h⊗da.
-- `LogCrystalline.gaussManin.integrable`: The extracted connection has zero curvature and is
+- ∇_GM(ah)=a∇_GM(h)+h⊗da.
+- The extracted connection has zero curvature and is
   quasi-nilpotent under the source PD hypotheses.
 
 *Proof sketch.* Use the derived crystal evaluation over the base PD diagonal. Under the explicit
@@ -11486,12 +11454,12 @@ connections* (Layer CR.5); Layer CR.1; Layer CR.3; EnhancedDerivedSheaves Layer 
 
 **Checks.**
 
-- `constant_family`: For the actual constant proper smooth family X×_S Y→Y, assume its base
+- For the actual constant proper smooth family X×_S Y→Y, assume its base
   cohomology modules are projective and the stated cohomology base-change hypotheses hold. The
   canonical tensor comparison identifies ∇_GM with d on the O_T factor and zero on H^q_crys(X/S).
-- `identity`: For f the identity and structure coefficients, H⁰=O_Y with d and higher degrees
+- For f the identity and structure coefficients, H⁰=O_Y with d and higher degrees
   vanish.
-- `torsion_warning`: The perfect complex [ℤ_p --p→ ℤ_p] has nonflat cohomology ℤ_p/pℤ_p and fails
+- The perfect complex [ℤ_p --p→ ℤ_p] has nonflat cohomology ℤ_p/pℤ_p and fails
   the additional locally free cohomology hypothesis.
 - A constant proper family has the tensor product of constant cohomology with O_Y and its ordinary d
   connection.
@@ -11561,8 +11529,8 @@ DerivedDeRhamCohomology (Layer 1); Mathlib.
   CR.3:Frobenius-isogeny, CR.3:duality, §CR.4.7, §§CR.5.1–CR.5.4 and Layer CR.6;
   **FiniteFlatGroupsAndIntegralPadicHodgeTheory** imports §CR.4.7 and §§CR.7.1, CR.7.3;
   **VectorBundlesAndIsocrystals** imports §CR.4.7.
-- **ComplexComparisonPartII** imports `Crystalline.Connection` (CR.1.3),
-  `LogCrystalline.PrelogRing`, CR.5:log-algebra.1–CR.5:log-algebra.4 and CR.5.1.
+- **ComplexComparisonPartII** imports the ordinary connection carrier of CR.1.3,
+  prelog rings, CR.5:log-algebra.1–CR.5:log-algebra.4 and CR.5.1.
   **FormalConnectionsOpers** imports the shared ordinary connection carrier (CR.1.3).
   **AbelianSchemesAndArithmeticModuli** imports the base-compatible big fppf crystalline site
   (CR.1.1) and the coefficient calculus (CR.7.1).
@@ -11595,13 +11563,10 @@ and printed page (or PDF page where stated).
 - [Stacks Project](https://stacks.math.columbia.edu), Descent.
 - [Bhatt–Lurie–Mathew, *Revisiting the de Rham–Witt complex*](https://arxiv.org/abs/1805.05501v3),
   arXiv v3.
-- [Bhatt, *p-adic derived de Rham cohomology*](https://arxiv.org/abs/1204.6560).
 - [Langer–Zink, *De Rham–Witt cohomology for a proper and smooth
   morphism*](https://www.math.uni-bielefeld.de/~zink/dRW.pdf).
 - [Bhatt–Morrow–Scholze, *Integral p-adic Hodge
   theory*](https://people.mpim-bonn.mpg.de/scholze/integralpadicHodge.pdf).
-- [Bhatt–Morrow–Scholze, *Topological Hochschild homology and integral p-adic Hodge
-  theory*](https://www.numdam.org/item/10.1007/s10240-019-00106-9.pdf).
 - [Esnault–Groechenig, *Rigid connections and
   F-isocrystals*](https://page.mi.fu-berlin.de/esnault/preprints/helene/126_esn_gro.pdf).
 - [Berthelot–Ogus, erratum to *Notes on crystalline
@@ -11665,23 +11630,9 @@ and printed page (or PDF page where stated).
 - [Thompson, *Toric singularities revisited*](https://arxiv.org/abs/math/0305441v2).
 - [SGA 1] A. Grothendieck, M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*, Documents
   Mathématiques 3, SMF 2003; [arXiv:math/0206203](https://arxiv.org/abs/math/0206203).
-- [Illusie, *Grothendieck and the theory of crystals*](https://www.imo.universite-paris-saclay.fr/~luc.illusie/Illusie-Pisa5.pdf).
-- [Scholze–Weinstein, *Berkeley lectures on p-adic geometry*](https://www.math.uni-bonn.de/people/scholze/Berkeley.pdf), March 2020 author version.
-- [Panny–Robert–Sferlazza, *Hensel-lifting black-box algorithms and fast trace computation
-  for elliptic-curve endomorphisms*](https://www.math.u-bordeaux.fr/~damienrobert/pro/publications/articles/lifting_traces.pdf), 28 September 2026 author version.
 - [Madapusi–Mondal, *Perfect F-gauges and finite flat group schemes*](https://www.keerthimadapusi.com/assets/preprints/fflat.pdf), Remark 4.3.3.
-- [BBM] P. Berthelot, L. Breen, W. Messing, *Théorie de Dieudonné cristalline II*, Lecture Notes in
-  Math. 930, Springer 1982.
 - [Messing] W. Messing, *The crystals associated to Barsotti–Tate groups, with applications to
   abelian schemes*, Lecture Notes in Math. 264, Springer 1972.
-- [Demazure] M. Demazure, *Lectures on p-divisible groups*, Lecture Notes in Math. 302, Springer
-  1972.
-- [Serre] J.-P. Serre, *Local Fields*, Graduate Texts in Math. 67, Springer 1979.
-- [Berthelot] P. Berthelot, *Cohomologie cristalline des schémas de caractéristique p > 0*, Lecture
-  Notes in Math. 407, Springer 1974.
-- [Swan] R. G. Swan, *On seminormality*, J. Algebra 67 (1980), 210–229.
-
-
 - **BL22**: Bhargav Bhatt and Jacob Lurie, *Absolute prismatic cohomology*. arXiv:2201.06120v1.
 
 [BL22]: https://arxiv.org/pdf/2201.06120v1

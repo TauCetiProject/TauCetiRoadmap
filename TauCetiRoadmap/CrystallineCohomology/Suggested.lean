@@ -1,11 +1,10 @@
 import Mathlib
 
 /-!
-# Crystalline cohomology: headline theorem signatures
+# Crystalline cohomology: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for selected headline theorems;
-proving them does not complete a layer or the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems that are expressible against the pinned Mathlib and Tau Ceti APIs.
 
 Two results can be stated on Mathlib's `WittVector.Isocrystal`: the Dieudonné–Manin
 standard-block decomposition over an algebraically closed field (CR.4.7), in every finite
@@ -31,10 +30,14 @@ The other headline signatures require objects absent from the pinned Mathlib and
   comparisons also need analytic tubes and dagger spaces.
 - CR.7's relative base change and Gauss–Manin theorems need relative crystalline direct
   images and coefficient crystals.
-These signatures are deferred until their mathematical objects are available.
+These headlines cannot be stated against the pins without those constructions.
 -/
 
-namespace TauCetiRoadmap.CrystallineCohomology.Crystalline
+namespace TauCetiRoadmap.CrystallineCohomology
+
+/-! ## Layer CR.4: Ordinary and relative de Rham–Witt complexes -/
+
+namespace Crystalline
 
 open WittVector
 open scoped Isocrystal
@@ -54,9 +57,11 @@ theorem exists_frobenius_block_basis (p : ℕ) [Fact p.Prime] (k : Type*) [Field
           else (p : K(p, k)) ^ (slope i).num • b ⟨i, ⟨0, (slope i).den_pos⟩⟩ := by
   sorry
 
-end TauCetiRoadmap.CrystallineCohomology.Crystalline
+end Crystalline
 
-namespace TauCetiRoadmap.CrystallineCohomology.LogCrystalline
+/-! ## Layer CR.6: Hyodo–Kato complexes and semistable structure -/
+
+namespace LogCrystalline
 
 open WittVector
 open scoped Isocrystal
@@ -79,4 +84,6 @@ theorem PhiNModule.N_pow_finrank_eq_zero {V : Type*} [AddCommGroup V] [Isocrysta
     D.N ^ Module.finrank K(p, k) V = 0 := by
   sorry
 
-end TauCetiRoadmap.CrystallineCohomology.LogCrystalline
+end LogCrystalline
+
+end TauCetiRoadmap.CrystallineCohomology
