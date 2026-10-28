@@ -18,9 +18,10 @@ three complements on the native carriers (Layer 0). The end theorems are
 **Owned here.** The targets of Layers 0–2: the comparison of `U(ℚ_p, i)` with congruences in
 `ℤ_p`, the unshifted norm inclusion on the unit filtration and the dyadic square-class count in
 degree form (Layer 0); the lower-break list, Sen's congruence and the integrality of upper breaks
-of a totally ramified cyclic `p`-power extension (Layer 1); the reduction of a positive upper
-break of a cyclic extension to its totally ramified `p`-part, and the Hasse–Arf theorem (Layer 2).
-No roadmap on main or among the open roadmap proposals states Sen's congruence or the general
+of a totally ramified cyclic `p`-power extension (Layer 1); detection of abelian upper breaks in
+cyclic subextensions, reduction of a positive cyclic break to the totally ramified `p`-part, and
+the Hasse–Arf theorem (Layer 2).
+No other roadmap on main or among the open roadmap proposals owns Sen's congruence or the general
 Hasse–Arf theorem; the consumers listed under *Downstream consumers* import Hasse–Arf from here.
 
 **Already in the library.** The rest of the subject is proved in the pinned Tau Ceti, and the exact declarations are listed under *Exact supplier contracts*:
@@ -41,15 +42,16 @@ Hasse–Arf theorem; the consumers listed under *Downstream consumers* import Ha
   Frobenius twist, the Herbrand functions, the upper numbering with the quotient and tower
   theorems, the integral depth `ψℕ`, the Herbrand-shifted norm inclusion, the five regimes of the
   graded norm of a cyclic extension of prime degree with their index and conductor consequences,
-  and Hasse–Arf for elementary abelian extensions;
+  and Hasse–Arf for extensions of prime degree;
 - the different and the discriminant, Hilbert's different formula, the tame criterion, the wild
   bounds and invariance under `K`-isomorphism;
 - inertia, arithmetic Frobenius lifts, wild inertia and its pro-`p` Sylow identification, the
   maximal tamely ramified extension, the tame character `I_K/P_K ≃ Ẑ^{(p')}(1)` with its twist,
   and the marked Iwasawa presentation of `G_K/P_K` in its arithmetic and geometric forms.
 
-**Left to other roadmaps.** Finite-group Tate cohomology, class formations, local reciprocity and
-local duality are **ClassFieldTheory**'s (Layers 5–8). The maximal pro-`p` quotient `G_K(p)`, its
+**Left to other roadmaps.** Finite-group Tate cohomology has its baseline in Mathlib; its
+supplements belong to **ClassFieldTheory** Layer 0, class formations to Layer 2, local duality to
+Layer 5, and local reciprocity and existence to Layers 6–8. The maximal pro-`p` quotient `G_K(p)`, its
 generator rank and its Demushkin presentation are **LocalGaloisGroups**'. Completion maps from
 number fields, comparison with decomposition groups and the global different and discriminant are
 **NumberFieldArithmetic**'s. Families of totally ramified extensions, their counting and Serre's
@@ -124,6 +126,9 @@ residue field `𝓀[K]` of order `q` and residue characteristic `p`. A finite ex
 - `IsGalois`, `IsAbelianGalois` (Galois with commutative group), `AlgEquiv.restrictNormalHom`,
   `IsGalois.normalAutEquivQuotient`, `IntermediateField.fixedField`, `Subgroup.zpowers`,
   `Module.finrank`, `Field.absoluteGaloisGroup`, `AlgebraicClosure`.
+- `CommGroup.equiv_prod_multiplicative_zmod_of_finite`
+  (`Mathlib/GroupTheory/FiniteAbelian/Basic.lean`): every finite commutative group is a product
+  of finite cyclic groups; a nonidentity element has a nonidentity cyclic coordinate.
 - `PadicInt`, `Padic`, `PadicInt.toZMod`, `padicValNat`, `powMonoidHom`, `Algebra.norm`.
 
 ### From Tau Ceti
@@ -184,11 +189,18 @@ unless another directory is given. Hypotheses are as at the pin.
   `TauCeti.LocalFieldsRamification.mem_lowerRamificationGroup_iff_le_lowerIndex`,
   `TauCeti.LocalFieldsRamification.lowerIndex_restrictScalars` (lower indices of a subgroup agree),
   `TauCeti.isPGroup_ramificationGroup` (positive lower groups are `p`-groups),
-  `TauCeti.ramificationGroupGradedToResidueField`, `TauCeti.tameCharacter`,
+  `TauCeti.LocalFieldsRamification.lowerRamificationGroup_zero_eq_top_iff`,
+  `TauCeti.LocalFieldsRamification.exists_forall_lowerRamificationGroup_eq_bot`,
+  `TauCeti.LocalFieldsRamification.lowerJump_eq_intCast`,
+  `TauCeti.ramificationGroupGradedToResidueField`,
+  `TauCeti.ramificationGroupGradedToResidueField_injective` (positive graded quotients embed
+  additively in the residue field),
+  `TauCeti.card_ramificationGroupGraded_zero_dvd_card_residueField_sub_one` (the tame quotient
+  has order dividing `q_L − 1`), `TauCeti.tameCharacter`,
   `TauCeti.tameCharacter_conj_of_smul_eq_pow`.
 - *Herbrand functions and upper numbering* (`Herbrand/Basic.lean`, `Herbrand/Tower.lean`,
   `Herbrand/UpperQuotient.lean`, `Herbrand/Jump.lean`, `Herbrand/Unramified.lean`,
-  `Herbrand/HasseArf.lean`, `Herbrand/CyclicReduction.lean`):
+  `Herbrand/HasseArf.lean`):
   `TauCeti.LocalFieldsRamification.RamificationIndexDomain`,
   `TauCeti.LocalFieldsRamification.herbrandOrderIso`, `TauCeti.LocalFieldsRamification.herbrand`,
   `TauCeti.LocalFieldsRamification.inverseHerbrand`,
@@ -200,12 +212,8 @@ unless another directory is given. Hypotheses are as at the pin.
   `Subgroup.upperRamificationGroup_fixedField`, `TauCeti.LocalFieldsRamification.UpperJump`,
   `TauCeti.LocalFieldsRamification.upperJump_herbrand_iff`,
   `TauCeti.LocalFieldsRamification.lowerRamificationGroup_eq_bot_of_isUnramified`,
-  `TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_finrank_prime`,
-  `TauCeti.LocalFieldsRamification.upperJump_iff_exists_isCyclic_intermediateField`,
-  `TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_exponent_prime`. The last three
-  are Hasse–Arf for prime degree, the detection of an upper break of an abelian extension in a
-  cyclic subextension whose later upper groups are trivial, and Hasse–Arf for elementary abelian
-  groups; none of them covers a cyclic group of order `p²`.
+  `TauCeti.LocalFieldsRamification.UpperJump.exists_eq_intCast_of_finrank_prime`
+  (Hasse–Arf for prime degree).
 - *Norms* (`Norm/Basic.lean`, `Norm/Herbrand.lean`, `Norm/Graded.lean`, `Norm/AfterBreak.lean`,
   `Norm/Surjectivity.lean`, `Norm/Conductor.lean`): `TauCeti.normalizedValuation_norm`,
   `TauCeti.map_normUnits_unitFiltration_psiNat_le`, `TauCeti.normGradedMap`,
@@ -228,7 +236,7 @@ unless another directory is given. Hypotheses are as at the pin.
   `TauCeti.maximalTameExtension_eq_sup_adjoin`, `TauCeti.le_maximalTameExtension_iff`,
   `TauCeti.map_wildInertiaSubgroup_restrictNormalHom`, `TauCeti.isProPSylow_wildInertiaSubgroup`,
   `TauCeti.tameQuotient`, `TauCeti.inertiaTameCharacter`, `TauCeti.tameInertiaHom`,
-  `TauCeti.toTameQuotient_mul_tameInertiaHom_mul_inv`, `TauCeti.IwasawaGroup`,
+  `TauCeti.IsArithFrobeniusLift.toTameQuotient_mul_tameInertiaHom_mul_inv`, `TauCeti.IwasawaGroup`,
   `TauCeti.iwasawaCoordinate`, `TauCeti.ker_iwasawaCoordinate`, `TauCeti.tameQuotientEquiv`,
   `TauCeti.eq_tameQuotientEquiv`, `TauCeti.iwasawaCoordinate_tameQuotientEquiv`,
   `TauCeti.iwasawaGeometricEquiv`, `TauCeti.tameQuotientGeometricEquiv`.
@@ -327,12 +335,22 @@ characteristic, and `σ` generates `G`. For an integer `k` with `σ^k ≠ 1` put
 Prove that the lower breaks of `L/F` are exactly `b_j = c_{p^j}` for `0 ≤ j < r`, that
 `b_0 < b_1 < … < b_{r−1}`, that `G_{b_j} = ⟨σ^{p^j}⟩` has order `p^{r−j}`, and that `c_k = c_{p^j}`
 whenever `σ^k ≠ 1` and `v_p(k) = j`. The last statement holds because `σ^k` and `σ^{p^j}` generate
-the same subgroup and each `G_i` is a subgroup; the rest follows since `G = G_1` (the extension is
-totally and wildly ramified) and the subgroups of a cyclic `p`-group form a chain (Fesenko–Vostokov,
-*Local Fields and Their Extensions*, 2nd ed., III (4.3), Proposition, part (1), p. 92).
+the same subgroup and each `G_i` is a subgroup (Fesenko–Vostokov, *Local Fields and Their
+Extensions*, 2nd ed., III (4.3), Proposition, part (1), p. 92). For strictness and completeness,
+use total ramification to obtain `G_0 = G`; the order of `G_0/G_1` divides both `pʳ` and
+`q_L − 1`, which is prime to `p`, so `G_1 = G`. For every integer `i ≥ 1`, the positive graded
+quotient `G_i/G_{i+1}` embeds into the additive residue field of characteristic `p`. Each
+nontrivial such quotient is cyclic and killed by `p`, hence has order exactly `p`. Since the
+lower filtration is eventually trivial, each drop removes exactly one factor of `p`, and
+every subgroup of the cyclic `p`-group occurs (Fesenko–Vostokov, II (4.3), Proposition,
+pp. 57–58, and (4.4), Proposition and Corollary 1, pp. 58–59).
 *Needs:* Tau Ceti `TauCeti.IsLocalRing.lowerIndex`,
 `TauCeti.LocalFieldsRamification.mem_lowerRamificationGroup_iff_le_lowerIndex`,
-`TauCeti.isPGroup_ramificationGroup`.
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup_zero_eq_top_iff`,
+`TauCeti.card_ramificationGroupGraded_zero_dvd_card_residueField_sub_one`,
+`TauCeti.ramificationGroupGradedToResidueField`,
+`TauCeti.ramificationGroupGradedToResidueField_injective`,
+`TauCeti.LocalFieldsRamification.exists_forall_lowerRamificationGroup_eq_bot`.
 
 - The finite lower breaks are the `r` integers `c_{p^j}`, `0 ≤ j < r`, strictly increasing; there is
   no break attached to `σ^{p^r} = 1`.
@@ -344,6 +362,10 @@ totally and wildly ramified) and the subgroups of a cyclic `p`-group form a chai
   `v(σ(√2) − √2) = v(2√2) = 3`.
 - `ℚ_2(ζ_16 + ζ_16⁻¹)/ℚ_2` (`r = 2`): the breaks are `2 < 4`; listing `c_{p^r}` would add a spurious
   infinite break.
+- In that cyclic quartic, the nontrivial positive graded quotients at depths `2` and `4`
+  both have order `2`. The abstract filtration `H_0 = H_1 = C₄`, `H_2 = 1` instead has a quotient
+  of exponent `4`, which cannot embed into an additive field of characteristic `2`; its
+  repeated values `c_1 = c_2 = 1` fail the required strictness.
 - Non-example: `ℚ_3(√3)/ℚ_3` is cyclic of degree `2 ≠ 3`, tame, with single break `0`; the layer's
   hypothesis that the order is a power of the residue characteristic excludes it.
 
@@ -407,7 +429,49 @@ Tau Ceti lower index, lower ramification groups and Herbrand functions; 1.1 → 
 
 ## Layer 2: the Hasse–Arf theorem
 
-### 2.1 Reduction of a positive break to the totally ramified `p`-part
+### 2.1 Detection in a cyclic subextension
+
+Let `L/K` be finite abelian and `u ∈ [−1, ∞)`. Prove that `u` is an upper break of `L/K` if and
+only if there is an intermediate field `F` with `F/K` cyclic, `u` an upper break of `F/K`, and
+`Gal(F/K)^v = 1` for every `v > u`. The local-field structures on `F` are those induced from
+`K`. This follows from the upper quotient theorem and finite abelian group decomposition
+(Fesenko–Vostokov, III (3.5), Theorem (Herbrand), pp. 85–86, for nonnegative indices; at `−1`
+the quotient map is surjective on the full groups).
+
+A route is to write `ψ_{L/K}(u) = i ∈ ℤ`, so `G_{i+1} ⊊ G_i`. Choose `g ∈ G_i ∖ G_{i+1}`.
+In the finite abelian group `G/G_{i+1}`, a cyclic coordinate of `g` is nonidentity. Composing
+that coordinate projection with `G → G/G_{i+1}` gives a surjection onto a finite cyclic group.
+Its kernel `H` contains `G_{i+1}` but not `g`; thus `G/H` is cyclic. For every `v > u`,
+`⌈ψ(v)⌉ ≥ i + 1`, so `G^v ⊆ H`, whereas `G^u ⊈ H`. The upper quotient theorem for the fixed
+field `F = L^H` gives the asserted last break. Conversely, a strict drop in the quotient
+forces a strict drop in `G`, by antitonicity and the same quotient theorem. This argument uses
+no integrality of upper breaks. *Needs:* Mathlib
+`CommGroup.equiv_prod_multiplicative_zmod_of_finite`, `IntermediateField.fixedField`,
+`IsGalois.normalAutEquivQuotient`; Tau Ceti
+`TauCeti.LocalFieldsRamification.upperJump_herbrand_iff`,
+`TauCeti.LocalFieldsRamification.lowerJump_eq_intCast`,
+`TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup` and the finite
+intermediate-field structures in the supplier contracts.
+
+- Every upper break is the last upper break of some cyclic subextension, and every upper
+  break of a cyclic subextension is an upper break of the original extension.
+
+**Checks.**
+
+- For `ℚ_2(ζ_8)/ℚ_2`, the upper breaks `1` and `2` are the last breaks of `ℚ_2(i)` and
+  `ℚ_2(√2)` respectively; each quotient group has order `2` at its indicated break and order
+  `1` at every later index.
+- For the cyclic quartic `ℚ_2(ζ_16 + ζ_16⁻¹)/ℚ_2`, upper breaks `2, 3` are detected by its
+  quadratic subfield `ℚ_2(√2)` and by the quartic itself. The quartic has upper group of order
+  `2` after `2` and through `3`, so merely taking `F = L` does not give a last-break witness
+  for `u = 2`.
+- The identity extension has no upper break and no witnessing subextension. An unramified
+  quadratic has group orders `2` at `−1` and `1` afterwards, so it witnesses its break `−1`.
+- In `S₃`, every cyclic quotient kills the order-three subgroup, since it is the commutator
+  subgroup; the images of `1` and a three-cycle are both `1`. Thus cyclic coordinates cannot
+  separate that element without the abelian hypothesis.
+
+### 2.2 Reduction of a positive break to the totally ramified `p`-part
 
 Let `F/K` be a finite cyclic extension and `u > 0` an upper break of `F/K`. Let `F₀` be the maximal
 unramified subextension and let `E` be the fixed field in `F` of the prime-to-`p` part of
@@ -435,21 +499,19 @@ III (4.3), first paragraph of the proof, p. 91). *Needs:* Tau Ceti
 - `F = ℚ_3(ζ_9)/ℚ_3` (cyclic of order `6`): the break `1` survives in the degree-`3` subfield, while
   the tame break `0` is not positive and is excluded.
 
-### 2.2 Hasse–Arf
+### 2.3 Hasse–Arf
 
 Prove that every upper break of a finite abelian extension `L/K` of nonarchimedean local fields is
-an integer (`hasseArf`). Route: an upper break `u` is detected in a cyclic subextension
-(`TauCeti.LocalFieldsRamification.upperJump_iff_exists_isCyclic_intermediateField`). If `u ≤ 0`,
-then `u ∈ {−1, 0}`, because the upper filtration is constant on `(−1, 0]`. If `u > 0`, 2.1 moves it
+an integer (`hasseArf`). Route: 2.1 detects an upper break `u` in a cyclic subextension. If `u ≤ 0`,
+then `u ∈ {−1, 0}`, because the upper filtration is constant on `(−1, 0]`. If `u > 0`, 2.2 moves it
 to a totally ramified cyclic `p`-power extension, where 1.3 makes it integral (Serre, *Local
 Fields*, V §7; Fesenko–Vostokov, 2nd ed., III (4.3), Theorem (Hasse–Arf), pp. 91–92).
-Neither local reciprocity nor the prime-degree norm computations enter. *Needs:* 1.3, 2.1; Tau Ceti
-`TauCeti.LocalFieldsRamification.UpperJump`,
-`TauCeti.LocalFieldsRamification.upperJump_iff_exists_isCyclic_intermediateField`; Mathlib
-`IsAbelianGalois`.
+Neither local reciprocity nor the prime-degree norm computations enter. *Needs:* 1.3, 2.1, 2.2;
+Tau Ceti `TauCeti.LocalFieldsRamification.UpperJump`; Mathlib `IsAbelianGalois`.
 
 - For finite abelian `L/K`, every `u` with `G^v ⊊ G^u` for all `v > u` is an integer.
-- Consequently the jumps of `v ↦ G^v` are among `−1, 0, 1, 2, …`.
+- Consequently the jumps of `v ↦ G^v` are among `−1, 0, 1, 2, …`; in particular this includes
+  elementary abelian extensions of every finite rank.
 
 **Checks.**
 
@@ -468,7 +530,8 @@ Neither local reciprocity nor the prime-degree norm computations enter. *Needs:*
 
 ### Dependencies
 
-Layer 1 (1.3); Tau Ceti upper numbering, its quotient theorem and cyclic detection; 2.1 → 2.2.
+Layer 1 (1.3); Mathlib finite abelian group decomposition; Tau Ceti upper numbering and its
+quotient theorem. Sections 2.1 and 2.2 are independent reductions; together with 1.3 they supply 2.3.
 
 ## Downstream consumers
 
@@ -485,8 +548,9 @@ Layer 1 (1.3); Tau Ceti upper numbering, its quotient theorem and cyclic detecti
 ## References
 
 - I. B. Fesenko, S. V. Vostokov, *Local Fields and Their Extensions*, 2nd ed., American
-  Mathematical Society, 2002; author-hosted copy. Chapter III, §4, (4.3): the Hasse–Arf theorem
-  (p. 91) and Sen's proposition with its proof (pp. 92–93).
+  Mathematical Society, 2002; author-hosted copy. Chapter II (4.3)–(4.4), ramification groups
+  and residue embeddings (pp. 57–59); Chapter III (3.5), Theorem (Herbrand), pp. 85–86, and
+  (4.3), the Hasse–Arf theorem (p. 91) and Sen's proposition with its proof (pp. 92–93).
 - J.-P. Serre, *Local Fields*, Graduate Texts in Mathematics 67, Springer, 1979. Chapter IV, §§1–3
   (ramification groups, Herbrand functions, upper numbering, Exercise 3 of §3), Chapter V, §6
   (norms and the unit filtration) and §7 (the Hasse–Arf theorem).
