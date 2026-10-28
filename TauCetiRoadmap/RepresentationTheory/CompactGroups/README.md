@@ -509,6 +509,58 @@ whole dual is uncountable.
 on the native unitary dual and Haar L². The countable-base Peter–Weyl formulation
 is also in [Etingof, §37](https://ocw.mit.edu/courses/18-755-lie-groups-and-lie-algebras-ii-spring-2024/mit18_755_s24_lec11.pdf).
 
+<a id="compact-product-dual"></a>
+#### Layer5.3. Characters of arbitrary products
+
+For an arbitrary family of compact Hausdorff abelian groups G_i, use the
+product topology on G=∏_i G_i and native `PontryaginDual` with its compact-open
+topology. Construct the canonical topological group isomorphism
+
+`Multiplicative (⨁ i, Additive (PontryaginDual G_i)) ≃ₜ* PontryaginDual G`.
+
+The direct sum has the **discrete** topology. It is not given the subspace
+topology from the product of the coordinate duals. On a finitely supported
+family (χ_i), the forward map sends x to `∏_i χ_i(x_i)`; the inverse restricts
+χ along the continuous coordinate inclusions `ι_i:G_i→G`, which are identity
+in all other coordinates. Prove these restrictions have finite support and
+both maps are inverse homomorphisms. Supply evaluation, coordinate-inclusion,
+coordinate-projection, support, finite/empty-product, reindexing and
+coordinatewise pullback formulas. Reindexing is by actual index equivalences;
+coordinatewise pullback preserves finite support.
+
+Own the finite-coordinate lemma first for arbitrary families of topological
+groups, without compactness or commutativity assumptions on the factors.
+Continuity of χ at1 gives a basic identity cylinder restricting only finitely
+many coordinates and mapped into `Circle.centeredArc (π/2)`. The subgroup
+whose restricted coordinates are1 lies in that cylinder. All positive powers
+of each of its elements still lie there; use native
+`Circle.eq_one_of_forall_pow_mem_centeredArc_pi_div_two` to show χ is1 on
+this tail subgroup. Decompose x into its finitely supported coordinate part
+and a tail element. This proves the finite product formula and the exact
+support characterization, with no countability or sequential argument.
+Conversely finite products of coordinate characters are continuous. For
+compact factors, consume Mathlib's existing discreteness instance for the
+Pontryagin dual of a compact group; the product is compact by Tychonoff.
+The algebraic isomorphism is therefore a topological one. This elementary
+construction precedes its Peter–Weyl applications and requires no general
+Pontryagin biduality theorem.
+
+For G=Circle^J deduce that every character has a unique finite integer
+multi-index n and is `z↦∏_j z_j^(n_j)`, giving the discrete dual
+`Multiplicative (J →₀ ℤ)`. Consume native
+`TauCeti.fourierPontryaginDualEquiv` and `AddCircle.homeomorphCircle` at period
+2π for the single-circle computation. This input is independent of the product
+theorem. Include the empty index type and negative exponents.
+For J=ℕ, the coordinate-restriction tuples of the characters χ_n(z)=z_n
+converge coordinatewise to the all-trivial tuple in the product of the discrete
+coordinate duals. The characters do not converge to1 in the compact-open dual
+of Circle^ℕ, which is discrete. They also do not converge pointwise to1 on Circle^ℕ:
+evaluate them on the constant tuple −1. Prove these topology distinctions.
+
+This is Conway, *A Course in Functional Analysis*, second edition, VII.9,
+exercise11, with the maps and topologies fixed explicitly.
+[ProductDualTargets.lean](ProductDualTargets.lean) gives selected signatures.
+
 ### Layer 6: characters of compact groups
 
 - **The character.** `character π hπ : C(G, ℂ)`, `g ↦ trace (π g)`, with
