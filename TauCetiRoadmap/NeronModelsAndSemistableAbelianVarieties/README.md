@@ -200,9 +200,10 @@ It leaves to other roadmaps, and consumes from them:
   `F̄_p((t))`, the conductor comparisons in 5.3a–5.7 consume the filtration, breaks and Swan and
   Artin conductors through ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which carries
   that generality.
-- **AlgebraicVectorBundles**, L0C (finite-projective determinants), and
-  **SchemeAndStackFoundations**, §2.6 (proper coherent cohomology), supply the
-  determinant-of-cohomology construction in 5.3d; **StableReduction** Layer 2
+- **PadicMeasuresIwasawaAlgebras**, §5.1 (determinant lines of perfect complexes over any
+  commutative ring, with quasi-isomorphism, short-exact-sequence and base-change isomorphisms),
+  and **SchemeAndStackFoundations**, §2.6 (proper coherent cohomology), supply the algebraic and
+  coherent inputs to the determinant of cohomology in 5.3d; **StableReduction** Layer 2
   supplies the relative dualizing line.
 - **CrystallineCohomology**, CR.2.1 (crystalline cohomology), CR.2.3 (proper smooth formal
   comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization): the
@@ -1085,9 +1086,14 @@ subgroup `L`, with `M_k⁰ / L` an abelian variety `B`; the commutative group `L
 over `k` of its maximal torus `T` and its unipotent radical `U`; record the toric rank
 `t = dim T`, the abelian rank `a = dim B` and the unipotent rank `u = dim U`, with
 `t + a + u = g` (Conrad, §2, Theorem 2.6, pp. 3–4; Proposition 2.16, p. 6; §3, Theorem 3.1,
-pp. 7–8). The structure theorem for connected smooth groups over a perfect field is applied to
-the identity component, not to the disconnected fibre, and is part of this target; over an
-imperfect field the exact smooth form is not asserted, and 2.4 records what descends. Tau Ceti's
+pp. 7–8). The structure theorem is applied to the identity component, not to the disconnected
+fibre. Its commutative case, for every smooth connected commutative group over a perfect field,
+is part of this target and is stated for such groups in general, not only for Néron fibres, so
+that the canonical subgroup `L` and quotient `B` have one construction: a general Chevalley
+theorem for possibly noncommutative groups, such as GroupSchemesOverABase GS4.2, restricts to
+this construction on commutative groups through its comparison theorem rather than choosing a
+second `L`. Over an imperfect field the exact smooth form is not asserted, and 2.4 records what
+descends. Tau Ceti's
 `TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical` and `TauCeti.HopfIdeal.IsMaximalTorus` (affine groups) are the suppliers for
 `U` and `T` inside `L`. *Needs:* 2.1; Tau Ceti `unipotentRadical`, `IsMaximalTorus`.
 
@@ -3306,11 +3312,15 @@ A3.5 and A4.1 (torsion pairing and Tate module).
 **Determinant of cohomology and the discriminant valuation.** For a proper flat regular curve
 `f : X → Spec R`, with `R` a complete DVR, perfect residue field, smooth projective geometrically
 connected generic fibre `C` of genus at least one, and relative dualizing line `ω`, prove that
-`Rf_*ω` and `Rf_*ω²` are perfect. Construct their determinant lines over `R` from bounded finite
-free resolutions, with quasi-isomorphism, exact-sequence and flat-base-change compatibility.
-This determinant-of-cohomology construction is owned here, using finite-projective determinants
-from AlgebraicVectorBundles L0C and coherent finiteness from SchemeAndStackFoundations §2.6.
-Use the canonical generic-fibre Mumford isomorphism
+`Rf_*ω` and `Rf_*ω²` are perfect and represented by bounded complexes of finite free
+`R`-modules, and define `λ_n` as the determinant line of such a representative of `Rf_*ω^n` for
+`n = 1, 2`. The determinant functor on bounded finite-projective complexes over any commutative
+ring, with its quasi-isomorphism invariance and transitivity, short-exact-sequence, dual, shift
+and ring-base-change isomorphisms, is imported from PadicMeasuresIwasawaAlgebras §5.1; it makes
+`λ_n` independent of the representative. Its graded signs are kept through every comparison and
+the parity is forgotten only for the final ungraded lines. The geometric part is proved here:
+the comparison of `λ_n` with cohomology and flat base change of `R`, using coherent finiteness
+from SchemeAndStackFoundations §2.6. Use the canonical generic-fibre Mumford isomorphism
 `det Rf_*ω² ≅ (det Rf_*ω)^13` to define the rational discriminant section `Δ_{X/R}` of
 `(det Rf_*ω)^13 ⊗ (det Rf_*ω²)^−1`. Define its order by writing the section as `a` times an
 `R`-basis and taking `v_K(a)`; prove basis independence and compatibility with unramified base
@@ -3320,12 +3330,13 @@ invariant-differential line and its section with the minimal Weierstrass discrim
 (Saito 1988, §1 and Theorem 1; Knudsen–Mumford 1976, §I, Theorem 1;
 Deligne, *Le discriminant d'une courbe*, Appendix 3 to *Lettre à Quillen*;
 Liu 1994, §2.1, pp. 58–59, for the determinant-line formulation).
-*Needs:* AlgebraicVectorBundles L0C (determinants of finite projective modules);
-SchemeAndStackFoundations §2.6 (proper coherent cohomology);
+*Needs:* PadicMeasuresIwasawaAlgebras §5.1 (determinant lines of perfect complexes and their
+coherence isomorphisms); SchemeAndStackFoundations §2.6 (proper coherent cohomology);
 StableReduction Layer 2 (relative dualizing line) and Layers 4–5 (regular models);
-Mathlib DVRs, valuations, finite modules and complexes. Construct the finite free resolutions
-over the DVR in this target. The determinant-line and generic Mumford
-isomorphism constructions are subtargets here, before the conductor–discriminant theorem.
+Mathlib DVRs, valuations, finite modules and complexes. The perfectness and finite free
+representatives over the DVR, the base-change comparison, the generic Mumford isomorphism, the
+discriminant section and its elliptic identification are subtargets here, before the
+conductor–discriminant theorem.
 
 **Checks.**
 
