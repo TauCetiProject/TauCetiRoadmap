@@ -49,7 +49,7 @@ The audit checked every layer and the acceptance examples against Tau Ceti
 | 2: quaternion norm forms and splitting | `Algebra/Quaternion/SplittingCriterion.lean`, including the four-fold splitting criterion |
 | 3: discriminants | `LinearAlgebra/QuadraticForm/RegularFormClass/Discriminant.lean`; `Matrix.lean` gives full-polar matrix and determinant normalization; the multiplicative Gram adapters are in `Suggested.lean` |
 | 4: Witt ring and Pfister forms | `LinearAlgebra/QuadraticForm/Witt/`, including its `Pfister/` directory |
-| 5: Brauer-valued Hasse and Clifford invariants | `LinearAlgebra/QuadraticForm/RegularFormClass/Hasse.lean` and `Clifford.lean` |
+| 5: Brauer-valued Hasse and Clifford invariants | `LinearAlgebra/QuadraticForm/RegularFormClass/Hasse/Basic.lean` and `Clifford.lean` |
 | 6: local symbols, defect, norm tables, classification and realization | `NumberTheory/LocalField/QuadraticForm/`; `Invariants.lean:172` is `localInvariantsEquiv`; `Invariant.lean` identifies the Hasse-class invariant; `Bimultiplicativity.lean` expands uniformizer-unit decompositions |
 | 7: Brauer comparison, Kummer cups and norm equations | `Algebra/CrossedProduct/`, `FieldTheory/GaloisCohomology/MuTwo/`; `CupProduct.lean` records product-to-cups compatibility and the final five `LocalSymbol.lean` comparisons are universe polymorphic |
 | 8: Stiefel–Whitney classes and invariant comparisons | `FieldTheory/QuadraticForm/StiefelWhitney/`, including class descent, base change, Hasse and Clifford comparisons |
