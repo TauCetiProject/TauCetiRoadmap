@@ -32,11 +32,28 @@ classification or realization theorem belong to `GlobalQuadraticForms`.
 
 ## Completion audit (2026-10-28)
 
+**Audit status: incomplete. This is a prepared archival draft, not a completion declaration.**
+The three implementation PRs below close specific examples and comparison gaps, but they do
+not implement the actual upward-`ULift` transport and naturality square required by stage 2
+of the retained three-stage universe programme. The roadmap must remain active until that
+square is proved on the transported field, CSA/Brauer classes, absolute Galois group and
+coefficient/cohomology objects.
+
+The existing native `BrauerGroup.baseChange` and crossed-product naturality bind both fields
+to the same universe, and `ContinuousMulEquiv.continuousCohomologyIso` likewise binds the two
+groups to one universe. These cannot specialize directly to an actual larger-universe
+`ULift`. Direct polymorphic constructions at arbitrary `u` do not discharge that separate
+transport obligation. Defining a new transport by conjugating the comparison isomorphisms
+would make the square tautological and would not supply the required underlying maps.
+
+The inventory and checked proofs below describe only the covered targets. They do not claim
+this outstanding square or any equivalent cross-universe transport has been implemented.
+
 This archival change depends on the three independent implementation PRs
 [TauCeti#22016](https://github.com/TauCetiProject/TauCeti/pull/22016),
 [TauCeti#22020](https://github.com/TauCetiProject/TauCeti/pull/22020), and
 [TauCeti#22022](https://github.com/TauCetiProject/TauCeti/pull/22022).
-The audit checked every layer and the acceptance examples against Tau Ceti
+The audit compared the layers and acceptance examples with Tau Ceti
 `cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with commits
 `506afb054d52ec8631644ab4bee59954502c80b1`,
 `96bd0f474e68c05fd01274f26ff3f677f58302f5`, and

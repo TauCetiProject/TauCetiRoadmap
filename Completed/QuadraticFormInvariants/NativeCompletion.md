@@ -1,12 +1,19 @@
 # Checked native completion interfaces
 
-These are complete Lean proofs of the remaining acceptance examples and adapter formulas,
+These are complete Lean proofs of specific acceptance examples and adapter formulas,
 composed from the existing native APIs. They are kept here rather than exported as redundant
 library wrappers. The code below was checked against Tau Ceti
 `cd83a3c6850b205de9e19206736a37bbdb7e79f8` with Lean `4.36.0-rc1` and the source's pinned
 Mathlib `2cabef97b63d3275776b8b060d802de6a6fa1055`. No declaration from the three completion
 PRs is used by these proofs. The separately added full-polar matrix comparison and dyadic
 control suite are linked in the [completion audit](README.md#completion-audit-2026-10-28).
+
+**Outstanding:** these checks do not prove the roadmap's actual upward-`ULift` transport or
+its Brauer/cohomology naturality square. That requires concrete transports of the field,
+CSA/Brauer classes, absolute Galois group and coefficients/cohomology across universes.
+The current same-universe base-change and cohomology-isomorphism interfaces do not provide
+it. This document is evidence for the covered targets only, not a certificate of completion
+of the full roadmap.
 
 To reproduce, extract the sole Lean block below into a temporary `.lean` file, then run
 `lake env lean /absolute/path/to/that/file.lean` from a checkout of that Tau Ceti revision
