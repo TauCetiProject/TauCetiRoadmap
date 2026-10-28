@@ -24,7 +24,15 @@ and its opposite-algebra convention: a right A-module is represented by
 inner product `MulOpposite.unop (inner Aᵐᵒᵖ x y)`. The underlying class has a
 left scalar action; replacing Aᵐᵒᵖ by A reverses the multiplication convention.
 Use `WithCStarModule` where the module norm differs from a pre-existing product
-or function-space norm. Retain `NormedAddCommGroup`, `NormedSpace ℂ`, and
+or function-space norm. Mathlib's constructions on that synonym apply verbatim
+with `Aᵐᵒᵖ` in place of the coefficient algebra, since the opposite of a
+C*-algebra carries the order and star-order instances: the product
+`C⋆ᵐᵒᵈ(Aᵐᵒᵖ, E × F)` with inner product `⟨x,y⟩=⟨x₁,y₁⟩+⟨x₂,y₂⟩`, the finite
+product `C⋆ᵐᵒᵈ(Aᵐᵒᵖ, Π i, E i)` over a `Fintype` with the summed inner product,
+and `WithCStarModule.instCStarModuleComplex`, the `CStarModule ℂ H` structure of a
+complex inner product space H. Consume these for finite orthogonal sums and for
+the Hilbert-space case; H1 constructs only the infinite Hilbert direct sum.
+Retain `NormedAddCommGroup`, `NormedSpace ℂ`, and
 `CompleteSpace`, and use Mathlib's C*-algebra, order, star-homomorphism,
 continuous-linear-map, quotient, and completion APIs.
 
@@ -46,38 +54,53 @@ of module rank-one maps, not the Banach-space compact operators.
   [BanachAlgebras A4](../BanachAlgebras/README.md) supplies
   module factorization; use it for essential actions and completion arguments.
 - [VonNeumannAlgebras V0](../VonNeumannAlgebras/README.md) supplies states and
-  GNS. Its V7 modules are Hilbert spaces carrying normal representations,
-  used for coupling dimension; they are distinct from the A-valued modules
-  developed here. H3 and H7 construct the comparison by interior
+  GNS; its unit V4.Core supplies the trace class and the extended positive
+  trace `Tr` on B(H), and V4.Normality the normality of representations. Its
+  unit V7.StandardAmplifications
+  defines the normal Hilbert N-modules of a finite factor N: Hilbert spaces
+  carrying a normal unital star representation of N, with a right action
+  recorded as a left action of the opposite algebra; they are used for coupling
+  dimension and are distinct from the A-valued modules developed here. The
+  finite-factor comparison below consumes that unit for its module carrier and
+  sidedness convention. H3 and H7 construct the comparison by interior
   tensoring with a GNS representation. For a finite factor M with faithful
   normal tracial state τ and a right Hilbert M-module E, the model is the
   Hilbert space `E⊗_M L²(M,τ)`: the commuting right M-action is inherited
   from the right action of M on tracial `L²(M,τ)`, which makes it a normal
-  representation of the opposite algebra, transported to V7's sidedness
-  convention. H3's second-factor intertwiners and the elementary-tensor
-  coefficient formula give the construction. Prove normality of this
-  representation wherever V7 applies (a left action induced on `E⊗_M L²(M,τ)`
-  from an arbitrary left action on E is not asserted to be normal), and
-  identify induced intertwiners and tensor associators. Dimension
-  theory remains confined to V7's normal Hilbert-space representations.
+  representation of the opposite algebra, transported to the sidedness
+  convention of V7.StandardAmplifications. H3's second-factor intertwiners and
+  the elementary-tensor coefficient formula give the construction. Prove
+  normality of this representation in the sense of V4.Normality (a left action
+  induced on `E⊗_M L²(M,τ)` from an arbitrary left action on E is not asserted
+  to be normal), and identify induced intertwiners and tensor associators.
+  Dimension theory remains confined to the normal modules of
+  V7.StandardAmplifications.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   supplies the Hilbert-space specialization of partial operators, closed graphs,
   adjoints, and resolvents. Reuse `LinearPMap` and the `zI-T` resolvent convention.
   H6 builds the module-valued adjoint and regularity theory; the Hilbert-space
   Riesz representation theorem does not give that adjoint.
 - [TopologicalKTheory T1](../TopologicalKTheory/README.md) supplies continuous
-  finite-rank vector bundles, morphisms, pullbacks, and Hermitian metrics.
+  finite-rank vector bundles, morphisms, pullbacks, and Hermitian metrics
+  (T1.1, T1.3), homotopy invariance (T1.4), and in T1.5 the section-extension
+  theorem on finite-dimensional CW pairs with its connectivity bounds, with the
+  connectivity of spheres in T1.5a.
   H5 constructs their continuous section modules and supplies Hilbert fields,
   compact-operator bundles, and the analytic section-algebra comparison.
   [CharacteristicClasses C1.2](../CharacteristicClasses/README.md) supplies
-  the good-cover constant-coefficient Čech–singular comparison used for S³;
+  the constant-coefficient Čech cohomology of paracompact Hausdorff spaces of
+  CW type and its comparison with singular cohomology, used for S³, and C1.6
+  the classification of complex line bundles by the first Chern class;
   [AlgebraicTopology Stage 6](../AlgebraicTopology/README.md) supplies its
-  ordinary cohomology. [TopologicalSheafCohomology TS1.1–TS1.2](../TopologicalSheafCohomology/README.md#ts1-compact-space-čech-cohomology-and-bounded-hypercohomology)
-  supplies the generic fixed-cover abelian cochains, refinement maps and
-  homotopies, and small cofinal cover/filtered-cohomology-colimit interfaces
-  used in H5. Specialize its coefficient ring to ℤ. H5 owns the
-  continuous-function exponential sequence and its Čech connecting map on
-  paracompact locally compact Hausdorff bases.
+  ordinary cohomology, and Stage 4.5 the relative CW pairs, homotopy extension
+  and CW products that give T² its finite CW structure. H5 owns the open-cover
+  Čech cohomology of the three abelian sheaves it uses, continuous real-valued
+  functions, continuous circle-valued functions and locally constant
+  integer-valued functions, on paracompact locally compact Hausdorff bases:
+  the fixed-cover cochains on Mathlib's `cechComplexFunctor`, the refinement
+  cochain maps and homotopies, the point-neighborhood cover system and its
+  cohomological colimit, pullbacks along base maps, and the
+  continuous-function exponential sequence with its Čech connecting map.
   The general derived sheaf-cohomology and fine-sheaf comparison targets remain
   in [ComplexKahlerGeometry K2](../ComplexKahlerGeometry/README.md), and the
   smooth-function exponential sequence in
@@ -123,11 +146,16 @@ is A with a right-module instance `CStarModule Aᵐᵒᵖ A`; do not reuse
 Mathlib's left self-module inner product on that carrier. Construct the
 instance explicitly, or transport the left self-module of Aᵐᵒᵖ along
 `MulOpposite.unop`, and prove the action and inner-product formulas.
-Construct closed right ideals as submodules of this right self-module,
-orthogonal finite sums, and Hilbert direct sums
-`⊕_i E_i`. For the last construction require norm convergence of the net of
+Construct closed right ideals as submodules of this right self-module.
+Finite orthogonal sums `E⊕F` and `⊕_(i∈ι)E_i` for finite ι are Mathlib's
+product and finite-product `CStarModule` instances at `Aᵐᵒᵖ`; prove that their
+coordinate inclusions and projections preserve inner products in the
+appropriate sense and that the two-factor and finite-family forms agree.
+Construct Hilbert direct sums `⊕_i E_i` over arbitrary index sets, requiring
+norm convergence of the net of
 finite sums `Σ_i⟨x_i,x_i⟩`, and prove the coordinate, inclusion, projection,
-and finite-support density statements. The standard module
+and finite-support density statements, and the agreement with the finite
+instances when the index set is finite. The standard module
 `H_A=ℓ²(ℕ,A)` uses this norm-summability condition. It is not the Banach space
 of sequences for which `Σ_n‖a_n‖²<∞`; prove that the latter embeds densely.
 For A=K(ℓ²), use orthogonal rank-one projections p_n and the sequence
@@ -181,7 +209,11 @@ spatial-norm comparison, naturality under Hilbert unitaries and coefficient
 star maps, and its extension
 `L_A(H⊗A)≅M(K(H)⊗min A)` with the strict topology on bounded sets.
 This specializes to the H_A comparison and includes H=0.
-For A=ℂ transport along the commutative opposite-algebra identification
+For A=ℂ the right Hilbert ℂ-module structure of a complex Hilbert space H is
+Mathlib's `WithCStarModule.instCStarModuleComplex`, whose inner product is the
+Hilbert-space inner product, conjugate-linear in the first slot, transported
+along the commutative identification of `ℂᵐᵒᵖ` with ℂ; prove this transport
+is an identification of right modules,
 and prove `L_ℂ(H)≅B(H)` and `K_ℂ(H)≅K(H)`, compatibly with adjoints,
 operator norm, rank-one operators, positivity and strict/strong-star topology
 on bounded sets. Here K(H) is the Banach-space compact-operator ideal
@@ -341,7 +373,6 @@ which the total-space norm is continuous, from a general C₀(X)-algebra;
 prove continuity is equivalent to openness of Prim(A)→X. Use the
 Dauns–Hofmann action when X is the Hausdorff primitive spectrum.
 
-<a id="h5-commutative-fiber-example"></a>
 **H5.CommutativeFiberExample.** For a continuous surjection h:Y→X between
 compact Hausdorff spaces, view C(Y) as a C(X)-algebra through h*. Prove its
 fiber at x is canonically C(h⁻¹{x}), by restriction with kernel the closed
@@ -352,10 +383,17 @@ maps of such compact spaces. The fiber-norm functions are upper semicontinuous;
 prove they are continuous for every f iff h is open. In the reverse direction
 use functions supported inside a chosen open subset of Y to show its image
 is open; a continuous compact surjection alone does not ensure a continuous
-field. Include the empty-space case. This direct commutative calculation uses
-the commutative ideal description and continuous extension and precedes the
-general primitive-space criterion. Compare the two criteria afterwards on this
-same algebra.
+field: for `Y=[0,1]⊔{p}` mapping onto `X=[0,1]` by the identity on `[0,1]`
+and `p↦0`, the indicator function of p has fiber norm 1 at 0 and 0 at every
+other point. Include the empty-space case. This direct commutative calculation
+is proved here from Mathlib's description of the closed ideals of C(Y) for
+compact Hausdorff Y by their open vanishing sets (`ContinuousMap.idealOfSet`,
+`ContinuousMap.idealOfSet_ofIdeal_eq_closure`), which identifies the closure
+of the ideal generated by the pullbacks with the functions vanishing on
+`h⁻¹{x}`, and from the Tietze extension theorem
+(`ContinuousMap.exists_restrict_eq`) for surjectivity of restriction; it
+precedes the general primitive-space criterion. Compare the two criteria
+afterwards on this same algebra.
 
 For a Hilbert C₀(X)-module E, construct Hilbert-space fibers E_x using H1,
 the continuous field determined by the sections x↦ξ(x), and the unitary
@@ -383,7 +421,6 @@ projective modules of H2, including morphisms, tensor products, and pullbacks.
 This is the analytic section-module comparison; group completion and
 K-theoretic Bott maps belong to TopologicalKTheory and OperatorKTheory.
 
-<a id="h5-torus-line-sections"></a>
 **H5.TorusLineSections.** Let `T²=AddCircle (1:ℝ)×AddCircle (1:ℝ)` and
 `A=C(T²,ℂ)`, with orientation ds∧dt on its period-one coordinates. For k∈ℤ
 construct the Hermitian line bundle L_k as the lattice quotient of ℝ²×ℂ by
@@ -411,8 +448,9 @@ connection descends from
 Verify both lattice transformation laws for both derivatives, the A-Leibniz and
 Hermitian identities, and `[∇_s,∇_t]v=2πikv`. Thus its curvature is
 `F=2πik ds∧dt`. Use SmoothBundlesConnections B3/B6's rank-one
-connection/integral-class comparison and DifferentialGeometry's torus integration
-with `∫_T² ds∧dt=1` to prove
+connection/integral-class comparison and DifferentialGeometry Layer 5.2's
+integration of top forms on the oriented torus,
+with `∫_T² ds∧dt=1`, to prove
 `⟨c₁(L_k),[T²]⟩=−k`, in CharacteristicClasses' normalization
 `c₁(L)=[iF/(2π)]`. Keep this line class distinct from SBC's principal-circle
 class defined using the dual-character line; the standard-character associated
@@ -425,18 +463,13 @@ module dual `M_k*` by `v↦(w↦vw)`, and prove the Hermitian-dual and
 connection/curvature comparisons. Use H3's existing tensor carrier; no second
 tensor completion is introduced.
 
-The explicit period-one example in Rieffel's C*-algebra notes p7 is k=1.
-The main-source p7 transcript has an uncertain a,b translation formula; this
-construction does not resolve those glyphs. It is an ordinary commutative-torus
-section module, separately constructed from the θ≠0 Schwartz imprimitivity
-model in HeisenbergImprimitivity H6. [TorusLineTargets.lean](TorusLineTargets.lean)
-records the lattice-action, covariant-derivative and curvature signatures.
+M_k is an ordinary commutative-torus section module, constructed separately
+from the θ≠0 Schwartz imprimitivity model in HeisenbergImprimitivity H6.
 The generic bundle/connection theory remains with T1 and SBC; K-group
 calculations remain with TopologicalKTheory and OperatorKTheory.
 
-<a id="h5-torus-finite-rank-sections"></a>
 **H5.TorusFiniteRankSections.** For a∈ℤ and an integer b≥1, construct
-Rieffel's ordinary-torus module
+the averaged torus module
 
 `Γ_(a,b)={ξ∈C(ℝ²,ℂ):ξ(r+1,s)=ξ(r,s), ξ(r,s+b)=exp(2πiar)ξ(r,s)}`.
 
@@ -471,15 +504,20 @@ endomorphisms with Γ(T²,End(E_(a,b))) and their fiber adjoints.
 Compute `det C_a(r)=(-1)^(b−1)exp(2πiar)`. Trivialize the constant-phase
 factor to give an actual determinant-line isomorphism
 `det E_(a,b)≃L_a`; hence its Chern number is −a in TorusLineSections'
-orientation and normalization. Prove the following unstable classification,
-including its prerequisite argument here. For every complex rank b≥2 bundle
-on T², construct a nowhere-zero section over its standard finite CW structure:
-extend unit sections across the 1- and 2-cells using path connectedness and
-simple connectedness of S^(2b−1), then use a Hermitian orthogonal complement
-to split a trivial line. Iterate to split off b−1 trivial lines. Consume
-TopologicalKTheory T1's local trivializations, metrics and homotopy invariance,
-and AlgebraicTopology's CW attaching and sphere-connectivity theory for these
-cell extensions. CharacteristicClasses C1.6 classifies the remaining line by
+orientation and normalization. Prove the following unstable classification.
+Give T² the finite two-dimensional CW structure of AlgebraicTopology
+Stage 4.5's CW product of two circles. For every complex rank b≥2 bundle on
+T², obtain a nowhere-zero section from TopologicalKTheory T1.5's
+section-extension theorem on finite-dimensional CW pairs, applied to the
+bundle of surjections `E→ℂ`, which a Hermitian metric (T1.3) identifies with
+the bundle of nonzero vectors: its fibre `ℂ^b∖0≃S^(2b−1)` is (2b−2)-connected
+(T1.5a), hence at least 2-connected when b≥2, so a section over the empty
+subcomplex extends across the 1- and 2-cells. For b=1 the fibre is `ℂ∖0≃S¹`
+and the extension across 2-cells can fail, as L_k with k≠0 shows. Then use
+the Hermitian orthogonal
+complement to split a trivial line, and iterate to split off b−1 trivial
+lines; T1.1's local trivializations and T1.4's homotopy invariance enter
+these steps. CharacteristicClasses C1.6 classifies the remaining line by
 its first Chern class. Thus every rank-b bundle on T² is isomorphic to
 `1^(b−1)⊕det E`, and in particular
 `E_(a,b)≃1^(b−1)⊕L_a`. This is a bundle isomorphism before group completion.
@@ -501,14 +539,12 @@ projective modules from rank and determinant. These are module/bundle results;
 the resulting K-group and ring calculations remain with TopologicalKTheory
 and OperatorKTheory.
 
-This specifies the averaged construction and the "gives all of them" assertion
-in Rieffel's main notebook, physical79, with the positive integral b and
-integral a hypotheses explicit. It does not identify the partly obscured
-Heisenberg-lattice coordinates on that page. For the section-extension and
-line-classification background see Hatcher,
-[*Vector Bundles and K-Theory*, §§1.1–1.2 and §3.1](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf).
-[TorusFiniteRankTargets.lean](TorusFiniteRankTargets.lean) pins the cyclic
-transition, its determinant and the averaged pairing on actual functions.
+The hypotheses are an integer a and a positive integer b, with no coprimality
+assumption. The line classification used is Hatcher,
+[*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
+Proposition 3.10: the first Chern class is an isomorphism from isomorphism
+classes of complex line bundles to `H²(X;ℤ)` for X of the homotopy type of a
+CW complex; §§1.1–1.2 of the same text give the bundle background.
 
 Construct the unitary dual Â as pure states modulo unitary equivalence
 of their cyclic GNS representations, using
@@ -518,7 +554,8 @@ universe of arbitrary Hilbert spaces. Prove independence of the cyclic
 representative, and equip it with the topology induced by `[π]↦ker π`
 into Prim(A); describe closed hulls and restrictions to ideals and quotients.
 Prove this kernel map surjective, and a homeomorphism for CCR algebras.
-For positive operators use V4's extended trace on B(H), including nonseparable
+For positive operators use the extended positive trace `Tr` on B(H) of
+VonNeumannAlgebras V4.Core, including nonseparable
 H, and prove invariance under unitary equivalence and compatibility with
 rank-one operators. Thus `[π]↦Tr(π(a))` is well-defined in `ℝ≥0∞`.
 Use this unitary dual to formulate Fell's condition: each `[π]` has a
@@ -543,31 +580,38 @@ Morita equivalent over F to C(F). Supply the rank-one corner and localized
 imprimitivity constructions, and prove Morita invariance of continuous trace.
 
 For the classification assume X is also paracompact. Write ČHⁿ(X,𝓕)
-for open-cover Čech cohomology of the indicated abelian sheaf. Consume
-[TopologicalSheafCohomology TS1.1–TS1.2](../TopologicalSheafCohomology/README.md#ts1-compact-space-čech-cohomology-and-bounded-hypercohomology)
-with coefficient ring ℤ for the generic fixed-cover complexes on actual tuple
-intersections, ordered/tuple comparison and signs, raw refinement maps and
-homotopies, and the small cofinal-cover filtered colimit of cohomology.
-For locally compact Hausdorff X use its general point-neighborhood-cover
-system and common-refinement/cofinality maps; compactness or finite covers
-are not required here. Retain raw refinement functions until their maps
-are proved equal on cohomology, and use the directed refinement preorder
-only at that stage. The category of all raw refinement functions is not
-assumed filtered. Reuse its native `cechComplexFunctor`/sites complexes and
-`TauCeti.TopCat.cechOpenDiagram`, `cechTopDiagram` and
-`cechRefinementNatTrans` intersections and refinement adapters. Prove the
-concrete continuous-function-sheaf specializations commute with those
-comparisons, coefficient maps, restrictions and refinements, rather than
-constructing a second generic Čech theory. Regard the continuous real,
-circle and locally constant integer sheaves as abelian ℤ-module sheaves;
-identify the circle's additive module notation with its multiplicative
-cocycle notation. H5 constructs the induced cocycle pullbacks along the
-stated continuous base maps, their compatibility with these coefficient
-specializations and common refinements, and the nonabelian H¹ equivalence
-relation used below. That pointed-set cocycle/lifting theory is not an
-application of the abelian cochain differential to a nonabelian group.
-No compact-only TS1.3 Čech/derived comparison or arbitrary Čech/singular
-comparison is used for this paracompact locally compact classification.
+for open-cover Čech cohomology of the indicated abelian sheaf; construct it
+here for the three sheaves used below, the continuous real-valued functions,
+the continuous circle-valued functions and the locally constant
+integer-valued functions, regarded as abelian ℤ-module sheaves, each with
+value 0 on the empty open set. For an indexed open cover U of X the
+fixed-cover cochain complex `C•(U,𝓕)` is Mathlib's `cechComplexFunctor`
+applied to 𝓕, evaluated on the actual tuple intersections of
+`TauCeti.TopCat.cechOpenDiagram` and `cechTopDiagram`; repeated indices and
+empty intersections are retained, and `Hⁿ(U,𝓕)` is its cohomology. For
+covers U, V and a raw refinement function r, a map of index sets with
+`V_j⊆U_(r j)`, construct from `cechRefinementNatTrans` the refinement cochain
+map `C•(U,𝓕)→C•(V,𝓕)` and prove its identity and composition laws, its
+compatibility with sheaf maps and with restriction to open subsets, and an
+explicit cochain homotopy between the maps of any two refinement functions
+for the same pair of covers, so that both induce the same map on
+cohomology. The two maps need not agree on cochains: on the discrete
+two-point space, for the cover `({a},{b})` refining the cover `({a},{b},{b})`,
+the two refinement functions pick the second or the third coordinate of a
+0-cochain and agree on `H⁰`. Use the point-neighborhood cover system, covers
+indexed by X itself with `x∈U_x`: every open cover is refined by one of
+them, and two of them have a common refinement in the system. Compactness
+and finite covers are not required. Only after the homotopy statement,
+order these covers by existence of a refinement function and define
+`ČHⁿ(X,𝓕)` as the colimit of `Hⁿ(U,𝓕)` over this directed preorder; the
+category of all raw refinement functions is not asserted to be filtered.
+Prove independence of the small cofinal system, naturality in the sheaf,
+and pullback along a continuous map of such bases: cocycles pull back along
+the preimage cover, compatibly with sheaf maps, refinements and common
+refinements. Identify the circle's additive module notation with its
+multiplicative cocycle notation. H5 also constructs the nonabelian H¹
+equivalence relation used below; that pointed-set cocycle/lifting theory is
+not an application of the abelian cochain differential to a nonabelian group.
 
 Construct the sheaves of continuous real-valued and circle-valued functions
 and the locally constant integer sheaf. Prove local exactness of
@@ -577,8 +621,18 @@ prove their independence, exactness, and naturality. Use locally finite
 partitions of unity and the resulting cochain contraction to prove
 `ČHⁿ(X,C(-,ℝ))=0` for n>0. Deduce the natural isomorphism
 `ČH²(X,C(-,𝕋))≅ČH³(X,Z)`. Every H³ in this classification means this
-Čech group. Consume the good-cover constant-coefficient comparison for
-the finite-CW S³ example; no identification with singular cohomology
+Čech group. For the S³ example compare it with CharacteristicClasses C1.2's
+constant-coefficient Čech group and its singular comparison
+`ČH³(S³;ℤ)≅H³(S³;ℤ)≅ℤ`: the inclusion of constants is a map from the constant
+presheaf ℤ to the sheaf Z, it induces cochain maps of fixed-cover complexes
+compatible with refinement, hence a map of the colimits; on a cover whose
+nonempty finite intersections are connected the two complexes coincide on
+the tuples with nonempty intersection, and SmoothBundlesConnections B6.0's
+finite smooth good covers refine every open cover of S³, so the colimit map
+is an isomorphism. The value on empty intersections must be 0 on both
+sides: with the value ℤ on the empty set the tuple complex is the cochain
+complex of a full simplex on the index set and has the cohomology of a
+point. No identification with singular cohomology
 on arbitrary paracompact spaces is asserted.
 
 Construct U(H), H=ℓ²(ℕ), as the group of surjective complex-linear
@@ -798,6 +852,10 @@ adjointability or a common-core assumption alone.
   compact operators, tensor products, multipliers and Morita equivalence.
 - Roe, [*Lectures on K-Theory and Operator Algebras*](https://bpb-us-e1.wpmucdn.com/sites.psu.edu/dist/1/4020/files/2017/12/KTheoryNotes-1uvuwyz.pdf),
   Proposition 10.2, for the compact-identity and finite-projectivity criterion.
+- Hatcher, [*Vector Bundles and K-Theory*](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf),
+  Proposition 3.10, for the classification of complex line bundles over spaces
+  of CW homotopy type by the first Chern class, and §§1.1–1.2 for bundle
+  background.
 - Teschl, [*Mathematical Methods in Quantum Mechanics*, second edition](https://www.mat.univie.ac.at/~gerald/ftp/book-schroe/schroe2.pdf),
   §2.6, Theorem 2.27, for the Hilbert-space deficiency extension API; the
   convention U=−V translates his Cayley unitary to the displayed domain.
@@ -821,11 +879,11 @@ of the neighboring sheaf-comparison developments cited above.
 The [sheaf-cohomology design discussion](https://leanprover.zulipchat.com/#narrow/stream/335062-homology/topic/Roadmap%20for%20sheaf%20cohomology)
 specifies the Ext-based cohomology and the comparison from cover complexes.
 Identify the concrete abelian-group Čech cochains on open covers with
-Mathlib's `cechComplexFunctor`. Consume TS1.1–TS1.2's generic
-fixed-cover/refinement and cohomological-colimit interfaces in that shape.
-H5 builds their continuous-function-sheaf specialization, continuous
-exponential-sequence computations and nonabelian/DD lifting and gluing,
-while consuming the good-cover comparison for S³.
+Mathlib's `cechComplexFunctor`. H5 builds, for its three sheaves, the
+fixed-cover, refinement and cohomological-colimit interface in that shape,
+the continuous exponential-sequence computations and the nonabelian/DD
+lifting and gluing, while consuming CharacteristicClasses C1.2's
+constant-coefficient comparison for S³.
 Build the missing adjointable, tensor, and cohomological comparison material
 in Tau Ceti in those shapes; replace it by imports when matching Mathlib
 implementations become available.
