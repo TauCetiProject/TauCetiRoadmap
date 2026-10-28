@@ -307,3 +307,18 @@ comparison; fitting twists to the diagonal entries or realizing an unrelated
 surface with this matrix does not identify the pictured source surface.
 The literal matrix computations and the conditional genus/signature
 consequences are distinct from that still-required marked geometric comparison.
+
+
+<a id="problem80-source"></a>
+## Problem80: two-generator scope
+
+Physical page13 of *Knot Theory - problems.pdf* (source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`)
+asks for two-generator presentations for “each knot with less than eight
+crossings,” without a printed prime restriction. The
+[explicit two-trefoil composite and quotient](README.md#problem80-composite-generators)
+show why that wording cannot include every composite knot: it has a
+six-crossing diagram but its group needs three ordinary generators.
+The prime-table task remains, together with the required larger composite
+presentations. This is a mathematical scope correction, not a claim that
+the source itself stated the prime qualification.

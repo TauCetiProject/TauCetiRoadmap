@@ -1781,6 +1781,43 @@ Consume GT4 Wirtinger/Fox/Alexander target and native fundamental-group maps/van
 
 Pin Fox derivative D_i on the free GROUP RING, augmentation ε and D_i(uv)=D_i(u)ε(v)+uD_i(v), D_i(x_j)=δij and D_i(x_j⁻¹)=−x_j⁻¹δij. The printed ordinary Leibniz with that inverse rule is inconsistent. Prove the fundamental formula, presentation naturality, meridional specialization and GT4 infinite-cyclic/Fitting dictionary. Give all source finite two-generator PRIME-under8 presentations and polynomial certificates; include composites with correct larger presentations and retain the source's false universal two-generator wording separately.
 
+<a id="problem80-composite-generators"></a>
+**Problem80: the composite-knot qualification.** Construct the connected sum
+of two right-handed trefoils by joining their marked three-crossing diagrams
+away from the crossings. This gives a six-crossing diagram, sufficient for
+crossing number less than8 without a minimality claim. Derive by the actual
+Wirtinger/van Kampen and Tietze maps the presentation
+`Γ=⟨t,a,b | tat=ata, tbt=btb⟩`, with t the common meridian. Give inverse
+generator maps to the geometric knot group, including basepoint paths and
+the meridian identifications across the connected-sum annulus.
+
+Prove Γ needs exactly three ordinary abstract group generators. Construct
+`D=(F₃²) ⋊ C₂` with inversion action, using native `SemidirectProduct` on
+`Multiplicative (ZMod 3 × ZMod 3)` and `Multiplicative (ZMod 2)`.
+The nontrivial C₂ element acts by negation. In additive coordinates the
+product is `(v,ε)(w,η)=(v+(−1)^ε w,ε+η)`, with ε represented by0 or1.
+Prove its order is18 and define the quotient map by
+`t↦(0,1)`, `a↦(e₁,1)`, `b↦(e₂,1)` for the standard F₃ basis.
+Check both braid relations in characteristic3 and construct the map with
+native `PresentedGroup.toGroup`. Products at and bt give the basis
+translations, so the map is onto.
+
+For any two elements of D, if both lie in F₃² their generated subgroup
+misses the C₂ quotient. Otherwise one is a reflection; the other is a
+translation or another reflection. In the latter case replace it by their
+product, a translation. Prove the generated subgroup lies in one translation
+line and its reflection coset, hence has order at most6. Thus no pair
+of elements generates D, and surjectivity excludes every pair of generators
+of Γ. Its three displayed generators do generate, by native
+`PresentedGroup.closure_range_of`; this proves exact generator number3.
+The argument concerns arbitrary generators, rather than only meridians.
+
+This six-crossing composite witnesses failure of problem80's literal
+unrestricted wording. Keep the prime-under8 two-generator/Fox targets and
+the larger composite presentations. `CompositeKnotGeneratorTargets.lean`
+uses the literal native presentation; the marked geometric comparison above
+is required before assigning this obstruction to the source knot example.
+
 Own group-Z⇒unknot with its actual loop theorem/Dehn lemma and compressible-boundary argument, not just the native complement-group carrier. State the exact knot-complement theorem for tame knots in oriented S3, including what homeomorphisms/peripheral orientation/meridian data give ambient isotopy, mirror or orientation reversal. Do not assert that abstract groups distinguish a chiral knot from its mirror. Any prime-knot-group reconstruction result must include the precise needed peripheral, orientation and exceptional torus/composite data; the source's unmarked implication remains qualified until that exact result is specified/proved. It is acceptable to prove an appropriately marked group recognition theorem and explicitly leave the broader source assertion as a corrected-source hold; do not claim a narrower theorem closes it.
 
 For each finite strand number n, consume native Artin braid groups/words and construct the positive braid monoid, its embedding into B_n and its group-of-fractions comparison. Construct the Garside half twist Δ, its finite simple divisors identified with permutations, left/right gcd/lcm and the greedy normal form Δ^k s₁⋯s_r with each adjacent pair left-weighted. Prove existence, uniqueness and executable multiplication/inversion/reduction; thus decide equality of finite braid words. For the conjugacy theorem cited on source090, construct super-summit representatives with maximal infimum and minimal supremum in the conjugacy class, an effective terminating procedure finding one, and the finite graph of simple-element conjugations staying in that set. Prove its nonemptiness, finiteness and connectedness within one conjugacy class, including central/periodic and n=0/1/2 cases. The algorithm decides conjugacy iff the two complete finite reachable sets intersect, returning an actual conjugator on success and an exhaustive certificate on failure. A normal form alone does not decide conjugacy, and cycling alone is not asserted complete. This mathematical target is not a Markov-equivalence algorithm; the source's historical absence-of-known-Markov-algorithm sentence stays dated provenance.
