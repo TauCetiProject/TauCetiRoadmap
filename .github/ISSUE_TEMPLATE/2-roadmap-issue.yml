@@ -16,7 +16,6 @@ body:
       options:
         - AbhyankarLemma
         - AdicEtaleGeometry
-        - AdicSpaces
         - AdicSpacesPartII
         - AdicSpacesPartIII
         - AdicSpacesPartIV
@@ -35,6 +34,7 @@ body:
         - CFSGBasicProperties
         - CFSGStatement
         - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
@@ -49,7 +49,6 @@ body:
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
         - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
@@ -112,9 +111,11 @@ body:
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
+        - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
