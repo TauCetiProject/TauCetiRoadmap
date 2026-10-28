@@ -58,7 +58,7 @@ graph symmetry that underlies triality. Layer2's separate general-field consumer
 [OrthogonalSpinGroups1A–1E](../../OrthogonalSpinGroups/README.md#layer-1-the-lipschitz-group-and-the-spinor-norm):
 1A for reverse/star norm comparison, 1B–1C for the generated carrier and vector map,
 and 1D–1E for the spinor-norm/image-kernel contract.
-[QuadraticFormInvariants1](../../../Completed/QuadraticFormInvariants/README.md#layer-1-hyperbolic-planes-and-witt-theory)
+[QuadraticFormInvariants1](../../QuadraticFormInvariants/README.md#layer-1-hyperbolic-planes-and-witt-theory)
 records the native reflection and Cartan–Dieudonné suppliers. The complex Fock and
 algebraic Lie-module core precede this consumer. The separate group-differential
 branch consumes [LieGroups0–3](../LieGroups/README.md#the-build-in-layers), including

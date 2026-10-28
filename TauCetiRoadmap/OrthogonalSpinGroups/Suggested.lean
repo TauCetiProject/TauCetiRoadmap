@@ -1,7 +1,7 @@
 import Mathlib
 import Completed.RestrictedProducts.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
-import Completed.QuadraticFormInvariants.Suggested
+import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 
 /-!
 # Orthogonal and spin groups: target signatures

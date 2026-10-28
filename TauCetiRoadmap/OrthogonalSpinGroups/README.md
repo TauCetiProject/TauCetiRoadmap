@@ -38,7 +38,7 @@ theorems are inputs; this roadmap owns the general-field algebraic orthogonal/sp
 spinor norm, the image of `Spin → SO`, and the twisted rational forms of the low-rank
 isomorphisms. **Witt decomposition and cancellation, square classes, Hasse invariants, the Hilbert
 symbol, and classification over local fields** belong to
-[QuadraticFormInvariants](../../Completed/QuadraticFormInvariants/README.md). **Hasse--Minkowski and global
+[QuadraticFormInvariants](../QuadraticFormInvariants/README.md). **Hasse--Minkowski and global
 classification of forms over number fields** belong to
 [GlobalQuadraticForms](../GlobalQuadraticForms/README.md). **Local ramification and power-class
 facts** belong to [LocalFieldsRamification](../LocalFieldsRamification/README.md), and Hilbert
@@ -233,7 +233,7 @@ re-check notes are maintained in the private migration and provenance ledger.
 
 The final portfolio dependencies are imports, not local interfaces.
 
-- **[QuadraticFormInvariants](../../Completed/QuadraticFormInvariants/README.md)** owns the canonical
+- **[QuadraticFormInvariants](../QuadraticFormInvariants/README.md)** owns the canonical
   multiplicative square-class quotient `Kˣ ⧸ Subgroup.square Kˣ`, reflection and
   Cartan--Dieudonné input, Witt theory, `hilbertSymbol`, `localHasse`,
   `hasseInvariant_eq_localHasse`, and local classification. This roadmap uses the raw quotient
