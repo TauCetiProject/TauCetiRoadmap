@@ -3,11 +3,15 @@
 This is a compiled acceptance check for the full-cone complex point, including the full line, and the two scheme-action comparison declarations in the [definitive README](README.md).
 It uses the implemented Tau Ceti APIs directly and contains no admitted targets.
 
-The block below was extracted verbatim to a Lean file and checked with
-`lake env lean -DwarningAsError=true` at Tau Ceti
-[`1c14e0ea516a73fe31c89c429c63b2f0bd51cee8`](https://github.com/TauCetiProject/TauCeti/commit/1c14e0ea516a73fe31c89c429c63b2f0bd51cee8),
-with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The axiom reports contain only
-`propext`, `Classical.choice`, and `Quot.sound`.
+The block below was extracted verbatim and checked with
+`lake env lean -DwarningAsError=true` on actual upstream Tau Ceti
+[`302238ea98ea621d689041f67e935f0b4eb1285e`](https://github.com/TauCetiProject/TauCeti/commit/302238ea98ea621d689041f67e935f0b4eb1285e),
+with Lean 4.36.0-rc1 and Mathlib `2cabef97`. Both source files of
+[PR #22017](https://github.com/TauCetiProject/TauCeti/pull/22017) are byte-identical to their
+reviewed head `1c14e0ea516a`. All 143 modules under `TauCeti/Geometry/Toric/` built on that
+merged revision (8,063 Lake jobs). A separate broad API replay checked 17 declarations and nine
+axiom reports; the block below adds three axiom reports. Every report contains only `propext`,
+`Classical.choice`, and `Quot.sound`.
 
 This evidence is separate from the roadmap repository's historical Tau Ceti `358314d4ab97` /
 Lean 4.35.0-rc3 pin and from the target prototypes retained in `Suggested.lean`.

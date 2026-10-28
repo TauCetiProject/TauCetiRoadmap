@@ -3,8 +3,10 @@
 The completion audit is supported by the scheme-action comparison in
 [Tau Ceti PR #22017](https://github.com/TauCetiProject/TauCeti/pull/22017), checked at
 [`1c14e0ea516a73fe31c89c429c63b2f0bd51cee8`](https://github.com/TauCetiProject/TauCeti/commit/1c14e0ea516a73fe31c89c429c63b2f0bd51cee8)
-with Lean 4.36.0-rc1 and Mathlib `2cabef97`. [Native completion checks](NativeCompletion.md)
-contain the compiled full-line acceptance proof. The complete README is the specification.
+with Lean 4.36.0-rc1 and Mathlib `2cabef97`. Both changed source files are present verbatim on
+upstream `302238ea98ea621d689041f67e935f0b4eb1285e`, where all 143 toric modules and the
+native acceptance checks pass. [Native completion checks](NativeCompletion.md) contain the
+compiled full-line acceptance proof. The complete README is the specification.
 
 The repository dependency pin remains Tau Ceti `358314d4ab97` with Lean 4.35.0-rc3.
 `Suggested.lean` retains target prototypes, including `sorry` proofs; it is not a discharged
