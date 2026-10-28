@@ -718,6 +718,69 @@ Definition9 and Theorem14. Prove the finite-word construction, general
 operator estimate and unique-trace corollary specified here; the source's
 self-adjoint ideal proof alone does not substitute for those interfaces.
 
+**D2.BoundedSequenceTranslation.** Take the coefficient algebra exactly as
+`B=ℓ∞(ℤ,ℂ)`, using native `lp (fun _ : ℤ=>ℂ) ∞`, and
+`α_k(f)(n)=f(n−k)`. Construct its unital C*-structure and translation action
+with the supremum norm. On `H=ℓ²(ℤ,ℂ)` construct diagonal M_f and the
+bilateral shift `Uδ_n=δ_(n+1)`, and prove covariance, `‖M_f‖=‖f‖∞`
+and the coordinate/matrix-coefficient formulas. Prove the integrated
+representation of `R=B⋊αℤ` is faithful. Use D2's amenable full/reduced
+comparison and the circle gauge action implemented by
+`V_zδ_n=z^nδ_n`; averaging this action is the coefficient expectation
+and is faithful. This works for the nonseparable coefficient algebra B.
+
+Identify the image with the operator-norm closure of the bounded finite-band
+operators on H: T has bandwidth at most N when
+`⟨δ_i,Tδ_j⟩=0` for `|i−j|>N`. For such a T construct the bounded sequences
+`f_k(i)=⟨δ_i,Tδ_(i−k)⟩`, with `‖f_k‖∞≤‖T‖`, and prove the actual equality
+`T=Σ_(k=−N)^N M_(f_k)U^k`. Prove equality first on the coordinate vectors
+and then by finite-support density. Conversely every finite integrated sum
+has finite bandwidth. Give the resulting isometric star-algebra isomorphism;
+this concrete closure is the uniform Roe algebra of the integer line.
+Only this explicitly defined model is in this target.
+
+The elements `E_ij=M_(1_{i})U^(i−j)` are actual matrix units and rank-one
+operators. Prove their finite span is the finite-support matrix algebra,
+its norm closure is K(H), and that the inclusion
+`c₀(ℤ)⋊ℤ→R` has exactly this image, using D3's translation model.
+Thus K(H) is an essential simple closed ideal in R: if T≠0 choose a
+coordinate vector δ_j with Tδ_j≠0, then some E_ii T E_jj is a nonzero
+multiple of E_ij. Use this also to prove irreducibility of the faithful
+representation, its scalar commutant, and `Z(R)=ℂ1`. Its image contains
+1_H and H is infinite-dimensional, so R is not CCR. No singleton
+characteristic function is identified with the coefficient identity.
+
+Construct the nonzero unital quotient
+`Q=(ℓ∞(ℤ)/c₀(ℤ))⋊ℤ` and the exact sequence
+`0→K(H)→R→Q→0`, using D1's full exactness and amenability.
+Give its quotient maps on f and U and prove the kernel assertion.
+Every nonzero irreducible representation of R is either the faithful
+standard representation or an irreducible representation of Q pulled
+back through the quotient. Prove this by restriction to the compact ideal
+and unique nondegenerate multiplier extension, with equivalence and kernel
+comparisons. Every nonzero closed ideal of R contains K(H); hence the
+closed ideals are0 and the inverse images of the closed ideals of Q.
+Identify `Prim(R)={η}⊔Prim(Q)`, η=0, with opens ∅ and
+`{η}∪O` for O open in Prim(Q). In particular η is open and dense;
+Prim(Q) is its closed complement. This is a quotient-spectrum description,
+without identifying the boundary with the circle of SequenceToeplitz.
+
+Prove R and Q have no unital complex characters. For the even-integer
+projection p, covariance gives `UpU*=1−p`; a character would send p
+to an idempotent scalar equal to1 minus itself, which is impossible.
+The same relation holds in Q. Construct the faithful inclusion of
+SequenceToeplitz's C₊⋊ℤ in R from its translation-invariant coefficient
+inclusion, respecting the common compact ideal and quotient maps.
+The C₊ example's circle characters need not extend to R.
+
+This treats the literal ℓ∞-coefficient setup in Rieffel main physical138;
+its conflicting input readings remain unresolved. It supplies corrected
+mathematics for that specified input, independently of pp139–142's c₀
+and asymmetric-sequence models. The page's unsupported singleton-projection
+argument and claimed circle spectrum/CCR conclusion are retained as source
+claims, rather than imposed on R. [BoundedSequenceTargets.lean](BoundedSequenceTargets.lean)
+records the matrix-unit, finite-band and character-obstruction signatures.
+
 **D2.SequenceToeplitz — an asymmetric sequence algebra and its crossed product.**
 Inside native `lp (fun _ : ℤ=>ℂ) ∞` construct the closed nonunital
 star subalgebra
