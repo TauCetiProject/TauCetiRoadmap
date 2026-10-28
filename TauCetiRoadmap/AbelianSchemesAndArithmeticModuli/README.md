@@ -107,8 +107,11 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   and `AbelianVariety.Hom.equivPointed`; the Albanese predicate `AbelianVariety.IsAlbanese`; Riemann
   forms `TauCeti.AlmostComplexStructure.IsRiemannForm`, with the weight-one Hodge structure
   `latticeHodgeStructure` of a complex structure on a lattice, `latticeHodgeStructureEquiv`,
-  `IsRiemannForm.polarization` and `isRiemannForm_iff_isPolarization`; and symplectic bases of
-  nondegenerate alternating forms over a field, `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`.
+  `IsRiemannForm.polarization` and `isRiemannForm_iff_isPolarization`; symplectic bases of
+  nondegenerate alternating forms over a field, `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`;
+  and Frobenius' theorem for central real division algebras,
+  `TauCeti.nonempty_algEquiv_real_or_quaternion` (a finite-dimensional real division algebra with
+  centre `ℝ` is `ℝ` or `ℍ[ℝ]`), in `TauCeti/Algebra/CentralSimple/Real`.
 - *JacobianChallenge, Layers D, E and F.* Over a field: the relative Picard functor of a pointed
   curve, its rigidification by the Poincaré bundle and the Jacobian `Pic⁰` (Layer D); the dual
   abelian variety, the theorem of the cube and the square, polarizations (with the principal
@@ -141,9 +144,10 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   varieties; A5.6 supplies the polarized Hodge interpretation and extensions to singular or
   nonreduced analytic bases; A5.8 supplies the Siegel period and symplectic formulas.
 - *RepresentationTheory/SemisimpleAlgebras.* Layers 4–5 supply Skolem–Noether.
-  The real division-algebra classification is `realCentralDivisionAlgebra` in A6.15 here;
-  together with Mathlib's algebraically closed Wedderburn theorem over `ℂ`, it supplies the
-  division-algebra factors. The positive-involution normal form and its Rosati adapter
+  The central real case of the division-algebra classification is Tau Ceti's
+  `TauCeti.nonempty_algEquiv_real_or_quaternion`; `realCentralDivisionAlgebra` in A6.15 here is
+  only the reduction of the general case to it and to the algebraically closed case over `ℂ`,
+  and supplies the division-algebra factors. The positive-involution normal form and its Rosati adapter
   are also A6.15 here.
 - *AlgebraicModuliForArithmeticGeometry.* Layer 1: relative Serre generation and vanishing
   (`relativeSerre`, `serreGeneration`) and relative very ampleness (`amplePowersAndFixedTwists`).
@@ -195,7 +199,9 @@ algebra. These targets use no cohomological trace formula. The abelian cohomolog
   `properDeRhamBetti`); C5.2 Betti local systems and the Gauss–Manin comparison
   (`relativeBettiLocalSystem`, `GaussManin`, `relativeDeRhamBetti`); C5.4 the Chern normalization
   `c₁ = [(i/2π)Θ]` with the complex orientation (`chernFubiniStudyIntersection`).
-- *EtaleCohomologyFoundations.* Supplied by EtaleCohomologyFoundations §F.3 /
+- *EtaleCohomologyFoundations.* Supplied by EtaleCohomologyFoundations §F.0.2 /
+  `VanishingCycles.finiteEtaleGaloisCategory` (finite étale covers and `π₁`, used in A6.25).
+  Supplied by EtaleCohomologyFoundations §F.3 /
   `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.etaleFiniteness`.
   A4.4 uses the geometric bound `q > 2g` and proper finiteness for an abelian variety of
   dimension `g` over algebraically closed `k`, with finite coefficients `ℤ/ℓ^r` and `ℓ`
@@ -421,6 +427,11 @@ For finite-type `X` over separably closed `k`, torsion invertible in `k` gives
 `H^q_et(X, F) = 0` for `q > 2 dim X`, and proper `X` with finite constructible coefficients
 has finite cohomology; A4.4 uses `X = A` over algebraically closed `k`, `dim A = g` and
 `Λ = ℤ/ℓ^r` with `ℓ` invertible in `k`.
+
+Supplied by EtaleCohomologyFoundations §F.0.2 / `VanishingCycles.finiteEtaleGaloisCategory`.
+The Galois category of finite étale covers of a connected scheme, its fibre functors and `π₁`, with
+finite covers corresponding to finite continuous `π₁`-sets; A6.25 combines it with surjectivity of
+`π₁(U) → π₁(S)` for dense open `U` in a normal integral `S` to prove `finiteEtaleHomExtension`.
 
 Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`.
 The finite-type, separably closed-field theorem applies to bounded constructible finite-Tor
@@ -3100,15 +3111,20 @@ and polynomial evaluation gives commutant compatibility. The same argument with 
 
 **Real division algebras.** Prove `realCentralDivisionAlgebra`: every associative
 finite-dimensional real division algebra is isomorphic as a real algebra to `ℝ`, `ℂ` or
-`ℍ[ℝ]`. If its centre is `ℝ`, only `ℝ` and `ℍ[ℝ]` occur; a finite-dimensional central
-division algebra over `ℂ` is `ℂ`. For the proof, the minimal polynomial of each element is
-irreducible over `ℝ`, so has degree at most two. A nonreal element gives a copy of `ℂ`;
-decomposition under conjugation by its imaginary unit separates commuting and anticommuting
-parts. The commuting part is `ℂ`, and the anticommuting part, when nonzero, is one-dimensional
-over `ℂ`. A generator has negative real square, so rescaling gives the Hamilton relations
-(Voight, v0.9.15, Theorem 3.5.1 and Corollary 3.5.9, pp. 36–37).
-*Needs:* Mathlib real-closedness of `ℝ`, finite-dimensional algebra and quaternion APIs;
-`IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed` for the complex-central case.
+`ℍ[ℝ]`. The central case is not reproved here: Tau Ceti's
+`TauCeti.nonempty_algEquiv_real_or_quaternion` already gives `ℝ` or `ℍ[ℝ]` when the centre is `ℝ`,
+by the quadratic minimal-polynomial and anticommuting-partner argument
+(Voight, v0.9.15, Theorem 3.5.1 and Corollary 3.5.9, pp. 36–37). The target is the reduction to it.
+The centre `Z` of `D` is a field, finite over `ℝ`, so Mathlib `Real.nonempty_algEquiv_or` gives
+`Z ≅ ℝ` or `Z ≅ ℂ` as real algebras. If `Z ≅ ℝ`, the real structure is central and the Tau Ceti
+theorem applies. If `Z ≅ ℂ`, view `D` as an algebra over `ℂ` through `Z`; it is finite-dimensional,
+hence integral, over the algebraically closed field `ℂ`, and a domain, so Mathlib
+`IsAlgClosed.algebraMap_bijective_of_isIntegral` makes `ℂ → D` bijective. Since `Z ≅ ℂ` is
+`ℝ`-linear, restricting scalars gives `D ≅ ℂ` as real algebras; in particular a
+finite-dimensional central division algebra over `ℂ` is `ℂ`.
+*Needs:* Tau Ceti `TauCeti.nonempty_algEquiv_real_or_quaternion`; Mathlib
+`Real.nonempty_algEquiv_or`, `IsAlgClosed.algebraMap_bijective_of_isIntegral` and the
+finite-dimensional algebra and quaternion APIs.
 
 **Checks.**
 
@@ -3117,6 +3133,8 @@ over `ℂ`. A generator has negative real square, so rescaling gives the Hamilto
   hypothesis.
 - `ℂ` has centre `ℂ` and real dimension `2`; it occurs in the general classification but
   is not central over `ℝ`.
+- `ℂ ⊗_ℝ ℍ[ℝ] ≅ M₂(ℂ)` is finite-dimensional over `ℝ` with centre `ℂ` but has zero divisors; the
+  complex-centre branch applies only under the division hypothesis, where it forces commutativity.
 
 **The real Rosati normal form and positivity comparison.** Prove `realRosatiDecomposition`:
 for `E` and `t` as above, construct a real-algebra isomorphism
@@ -3131,7 +3149,8 @@ self-adjoint matrix factor. On quaternionic columns, positive definiteness means
 In noncommutative applications, “totally positive” means this condition in every factor.
 
 The positive-involution normal form is proved here, using RepresentationTheory/SemisimpleAlgebras
-Layers 4–5 for Skolem–Noether, `realCentralDivisionAlgebra` for the real classification, and Mathlib
+Layers 4–5 for Skolem–Noether, `realCentralDivisionAlgebra` (over Tau Ceti's central case) for the
+real classification, and Mathlib
 `IsSimpleRing.exists_algEquiv_matrix_of_isAlgClosed` for complex central factors. The faithful regular
 representation carries `†` to the operator adjoint, so its regular trace is positive on `x x^†`;
 positivity forces semisimplicity and prevents the involution from exchanging simple factors.
@@ -3394,6 +3413,28 @@ p. 35). *Needs:* A3.9, A6.15 (`rosatiRegularRepresentation`, `rosatiPositiveSqua
 
 ### A6.25 Relative Hom and normal-base extension
 
+**Finite étale morphisms over normal bases.** Prove `finiteEtaleHomExtension`: if `S` is a normal
+integral scheme, `U ⊆ S` a nonempty open subscheme and `F, G` finite étale `S`-schemes, restriction
+`Hom_S(F, G) → Hom_U(F_U, G_U)` is bijective. For `F, G` finite étale commutative group schemes the
+same holds for group homomorphisms, since the group-law identities are equalities of morphisms
+`F ×_S F → G` between finite étale schemes and are detected over `U`. A normal integral scheme is
+geometrically unibranch, so `π₁(U) → π₁(S)` is surjective for every choice of geometric base point
+in `U` (Stacks, Lemma 58.10.7, tag 0BQI), and surjectivity is equivalent to full faithfulness of
+pullback of finite étale covers (Stacks, Lemma 58.4.1, tag 0BN6). Equivalently, the closure of the
+graph of a `U`-morphism in `F ×_S G` is finite and birational over a connected component of the normal
+`F`, hence is that component. This is independent of the abelian-scheme statements below.
+*Needs:* EtaleCohomologyFoundations §F.0.2 / `VanishingCycles.finiteEtaleGaloisCategory`; Mathlib normality and `IsIntegral` for schemes.
+
+**Checks.**
+
+- Over `S = Spec ℤ[1/n]` with `U = Spec ℚ`, restriction `End_S(μ_n) → End_ℚ(μ_n) = ℤ/n` is a
+  bijection of finite étale group-scheme endomorphisms.
+- Normality cannot be dropped: on the nodal plane cubic `S` with `U` the complement of the node, the
+  connected finite étale double cover `F` glued crosswise from two copies of the normalization
+  `ℙ¹` has no section over `S`, but `F_U` is two copies of `U`, so `Hom_U(U, F_U)` has two elements.
+- Finiteness cannot be dropped: for `U ≠ S`, the étale open immersion `U → S` has the identity
+  section over `U` and no section over `S`.
+
 Prove `relativeHom`. Let `A, B` be abelian schemes over `S`. (1) Over an arbitrary `S` the Hom functor
 is an fppf sheaf of groups, rigid under nilpotent thickenings (formally unramified), and for connected
 locally Noetherian `S` it embeds into the Hom of a geometric fibre (A1.2(3)–(4)). (2) If `S` is locally
@@ -3411,12 +3452,19 @@ arbitrary smooth sources fails on normal bases. Its proof is the graph argument 
 I.2.7, pp. 9–11. Uniqueness follows from separatedness of `B` and schematic density of `A_U` in
 the flat `A`. For existence work on a connected component of `S`, which is integral, so that `A`
 is integral and normal. Let `Γ ⊆ A ×_S B` be the scheme-theoretic closure of the graph of `φ_U`.
-Its first projection `p₁ : Γ → A` is proper by the valuative criterion: over a discrete valuation ring mapping to `S`
-with generic point in `U`, the generic homomorphism extends by A1.8(2). It is birational, being an
-isomorphism over `U`. Its fibres are single points: at a point `z` over `a ∈ A_s`, choose such a
-discrete valuation ring through `z`; the extended homomorphism on the geometric special fibre is
-determined by its values on prime-to-`p` torsion (A3.2), which are specializations of torsion points
-of `B_U` and do not depend on the choice, so `z = (a, φ_s(a))`. By Zariski's main theorem, a proper
+Its first projection `p₁ : Γ → A` is proper, since `Γ` is closed in `A ×_S B` and
+`A ×_S B → A` is a base change of the proper `B → S`. It is birational, being an isomorphism over
+`U`. Its fibres are single points. Fix `s ∈ S` with residue characteristic exponent `p` and replace
+`S` by `Spec 𝒪_{S,s}`, which is normal integral with every `n` prime to `p` invertible. For such `n`,
+`A[n]` and `B[n]` are finite étale (A3.2), so `finiteEtaleHomExtension` extends `φ_U[n]` uniquely to
+`ψ_n : A[n] → B[n]`. Let `z, z′` be points of `Γ` over `a ∈ A_s`. Choose discrete valuation rings
+`R, R′` mapping to `Γ` with closed points to `z, z′` and generic points to `Γ_U`. Over each, the generic
+homomorphism extends by A1.8(2), and its restriction to `n`-torsion equals the pullback of `ψ_n`, both
+extending `φ_U[n]` to a separated finite étale target. Pass to an algebraically closed field `Ω`
+containing both residue fields over `κ(a)`, with geometric point `ā` of `A_s` over `a`: the two
+special-fibre homomorphisms agree on all prime-to-`p` torsion, since both are pullbacks of the `ψ_n`,
+so they are equal by torsion density (A3.2). The images of `z, z′` in `B_s` are their values at `ā`,
+so `z = z′`. By Zariski's main theorem, a proper
 birational quasi-finite morphism onto the normal integral `A` is an isomorphism, so `Γ` is the graph
 of a morphism `A → B` extending `φ_U`; it is a homomorphism by uniqueness on `S` and `A ×_S A`.
 For (3), A0.3(4) applies on affine opens of `S`, homomorphisms are cut out by the group-law equations,
@@ -3434,7 +3482,8 @@ contains infinitely many `[n]`, with graphs of distinct Hilbert polynomials, so 
 fail; for elliptic curves `E`, `E′` over a field with no homomorphism between them over an algebraic
 closure, the Hom functor is the zero group, represented by the base, and is finite. A jump of the
 endomorphism ring of a special fibre does not lift every special homomorphism. *Needs:* A0.3, A1.2,
-A1.8, A2.6, A2.8, A3.2, A5.6, A6.7; AlgebraicModuli Layer 2 §2.1, Layer 3 §3.4.
+A1.8, A2.6, A2.8, A3.2, A5.6, A6.7, `finiteEtaleHomExtension` above; AlgebraicModuli Layer 2 §2.1,
+Layer 3 §3.4.
 
 **Checks.**
 
