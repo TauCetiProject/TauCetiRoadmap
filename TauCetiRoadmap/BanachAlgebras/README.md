@@ -222,6 +222,36 @@ Thus algebraic positivity on an arbitrary normed *-algebra does not give
 a representation by bounded operators. No C*-order structure on A is
 assumed in these Banach *-algebra statements.
 
+**A1.SwappedStarExample.** On a distinct type copy S of the coordinatewise
+algebra ℂ×ℂ put `star(z,w)=(conj(w),conj(z))` and
+`‖(z,w)‖=max(|z|,|w|)`. Transport the native product ring, complex algebra
+and Banach-space structures to this copy, then install the displayed
+isometric involution. Prove the star laws, completeness and submultiplicative
+norm. The default coordinatewise star on ℂ×ℂ is a different structure;
+the example must not replace that native instance. This is Rieffel's
+C*-algebra notes p27 example of a *-algebra with no nonzero positive functionals
+or *-representations.
+
+For `e₁=(1,0)`, `e₂=(0,1)` prove `star(e₁)=e₂`, `star(e₂)=e₁`,
+`e₁e₂=e₂e₁=0` and `e₁+e₂=1`. Every algebraic complex-linear functional
+positive on star-squares is zero. One proof uses `h=(1,−1)`, with
+`star(h)h=−1`, to force φ(1)=0 and then applies the algebraic
+Cauchy–Schwarz inequality. Hence the state space is empty and every
+positive-functional GNS quotient is the zero Hilbert space.
+
+Prove every possibly nonunital algebraic *-homomorphism from S into any
+complex C*-algebra is zero, without a continuity premise. Its images of e₁,e₂
+have zero adjoint-square, so vanish, and complex linearity kills the whole
+algebra. In particular it has no faithful Hilbert-space *-representation.
+For any native `RingSeminorm S` satisfying `q(star(a)a)=q(a)²`, prove q=0:
+first apply the identity to `(z,0)` and `(0,w)`, then use the triangle
+inequality. Consequently S admits no C*-norm; the zero map S→0 has the
+universal property for maps to C*-algebras when morphisms need not preserve1.
+This gives an explicit zero C*-envelope of a nonzero complete Banach *-algebra.
+[SwappedStarTargets.lean](SwappedStarTargets.lean) states the functional,
+representation and seminorm targets on the native product algebra with the
+involution written explicitly, before transporting it to the type copy.
+
 ## A2. Holomorphic functional calculus
 
 Reuse Tau Ceti's Banach-valued `Contour.Cycle.integral`, Mathlib's
