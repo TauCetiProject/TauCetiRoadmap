@@ -482,6 +482,62 @@ not the identity, and need not generate every simple: the trivial module of
 the general finite-complex supplier; McKay matrices, walks, affine root graphs
 and finite `SU(2)` geometry are consumers with their own additional data.
 
+<a id="tensor-multiplicity-generating-series"></a>
+**Tensor-multiplicity generating series and positive powers.** For arbitrary
+`U,X : FDRep ℂ G`, put `m_n=finrank ℂ (X ⟶ U^⊗n)` and construct the native
+formal power series `F_X(z)=Σ_(n≥0)m_n z^n`. Prove, using the existing
+pairing-to-Hom and tensor-character identities,
+
+`F_X(z)=|G|⁻¹ Σ_(g∈G) χ_X(g⁻¹)/(1−χ_U(g)z)`.
+
+Every denominator has constant coefficient1, so its inverse is a native
+formal power series; no analytic convergence hypothesis enters this identity.
+Group the sum by S_U, with `b_a=Σ_(g:χ_U(g)=a)χ_X(g⁻¹)`. In ℂ[z] construct
+`Q(z)=∏_(a∈S_U)(1−az)` and
+`N_X(z)=|G|⁻¹ Σ_(a∈S_U)b_a ∏_(b∈S_U\{a})(1−bz)`.
+Prove `Q(0)=1` and the actual identity `Q F_X=N_X` after the native
+polynomial-to-power-series map. Supply coefficient, constant-term, reindexing,
+representation-isomorphism and group-isomorphism comparisons. For
+`R(T)=∏_(a∈S_U)(T−a)=Σ_(j=0)^(r_U)c_jT^j`, prove the recurrence
+`Σ_(j=0)^(r_U)c_j m_(n+j)=0` for every n≥0. A zero character value remains a
+node of R and contributes the factor1 to Q; include the zero-dimensional U.
+
+When U is faithful and d=dim U>0, the earlier kernel criterion gives
+`b_d=dim X` and `χ_U(g)≠d` for g≠1. For nonzero X prove
+
+`N_X(1/d)=(dim X/|G|) ∏_(a∈S_U\{d})(1−a/d) ≠ 0`, while `Q(1/d)=0`.
+
+Consequently F_X cannot be a polynomial: a polynomial equality `Q F_X=N_X`
+would contradict evaluation at1/d. This is the finite-denominator content of
+the noncancelling identity pole. For simple X deduce that for every B there
+exists n≥B with m_n>0. In particular a positive tensor power contains X.
+Also prove the sharp positive-power bound `1≤n≤r_U` by replacing the earlier
+identity-fibre polynomial P_U(T) with `(T/d)P_U(T)`, which has zero constant
+term and degree r_U. Construct the nonzero/injective intertwiner and summand
+forms as above. If all positive coefficients vanished, the constant series
+would have value `m_0=dim Hom_G(X,1)`, equal to0 for a nontrivial simple X
+and1 for the trivial simple. The assumption d>0 is essential: the zero
+representation of the trivial group is faithful, but all its positive tensor
+powers are zero.
+
+As a worked comparison take `G=Multiplicative (ZMod 4)` with generator g,
+`χ_j(g^a)=i^(ja)` for j=0,1,2,3, and `U=χ_1⊕χ_3`. Construct its diagonal
+action and prove faithfulness. Its character on `1,g,g²,g³` is `(2,0,−2,0)`,
+so S_U has3 elements although G has4 conjugacy classes. Construct
+`U^⊗0≃χ_0`, `U≃χ_1⊕χ_3` and `U^⊗2≃χ_0^⊕2⊕χ_2^⊕2` with actual
+intertwiners. Thus every irreducible occurs despite the repeated character
+value. Prove that the span of the characters of all tensor powers is exactly
+the three-dimensional subspace of class functions taking equal values at g
+and g³. Distinguish this spanning assertion from occurrence of individual
+irreducible summands. Check the exact series
+`F_0=(1−2z²)/(1−4z²)`, `F_2=2z²/(1−4z²)` and
+`F_1=F_3=z/(1−4z²)`, their nonnegative integral coefficients and recurrence
+`m_(n+3)=4m_(n+1)`. Here m_n is the multiplicity of the indicated χ_j.
+[TensorMultiplicitySeriesTargets.lean](TensorMultiplicitySeriesTargets.lean)
+gives suggested statements on actual tensor powers, Hom spaces and power series.
+For the finite-character-value bound, see
+[Steinberg, *On the Burnside–Brauer–Steinberg theorem*](https://arxiv.org/abs/1409.7632).
+
 ### Layer 4: the arithmetic of character values
 
 - **Diagonalizability, per arena.** *Over general `k`* (`char ∤ |G|`): `ρ g` annihilates the squarefree
