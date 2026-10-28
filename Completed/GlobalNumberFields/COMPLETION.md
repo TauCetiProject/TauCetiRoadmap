@@ -19,9 +19,9 @@ Paths below are relative to `TauCeti/NumberTheory/NumberField/Global/`.
 | 1: weak approximation | `Approximation/Weak.lean` supplies mixed finite/infinite completion density, unit-valued approximation and signs; no local reciprocity is assumed. |
 | 2: ray-class carriers | `RayClass/{Modulus,Basic,Integral,Exact,Finite,ClassNumber}.lean` retain the coprime integral-ideal source, intrinsic fractional-generator triviality criterion, integral corollary, transitions and unit/sign obstruction. `RayClass/Narrow/` supplies the narrow/wide comparison. |
 | 3: uniform ideal counting | `Counting/RayFundamentalDomain/` and `RayClass/Count/Asymptotic.lean` prove the lattice estimate and one power-saving estimate uniform over ray classes. `RayClass/MainTerm.lean` retains all finite Euler factors; `RayClass/Character/PartialSums.lean` cancels the main term only for a nontrivial character. |
-| 4: finite adeles | `Adeles/Basic.lean` and the existing Mathlib finite-adele API use the canonical restricted-product carrier and dense diagonal embedding. |
+| 4: finite adeles | `Adeles/Basic.lean`, `Ideles/FiniteIdeal.lean` and the existing Mathlib finite-adele API use the canonical restricted-product carrier, projections, local compactness and the finite-idele ideal-class dictionary. |
 | 5: full adeles | `Adeles/{LocallyCompact,Discrete,CompactQuotient}.lean` give local compactness, discrete full diagonal and compact additive quotient, with no false discreteness claim for finite adeles. |
-| 6: ideles and norm one | `Ideles/{Basic,LocallyCompact}.lean` and `Ideles/Norm/` use the units topology, principal-norm-one identity, norm splitting and compact norm-one quotient. |
+| 6: strong approximation, ideles and norm one | `Ideles/{Basic,LocallyCompact}.lean` and `Ideles/Norm/` use the units topology, principal-norm-one identity, norm splitting and compact norm-one quotient. Mathlib’s `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap` supplies the named omitted-archimedean strong approximation. |
 | 7: ray dictionary | `Ideles/{Congruence,IdentityComponent}.lean` and `Ideles/Ray/{Subgroup,ClassQuotient,OpenSubgroup}.lean` supply the open congruence subgroups, surjective quotient with exact kernel, transition compatibility and cofinality among open subgroups. |
 | 8: extension and norm | `Adeles/{BaseChange,Extension,GaloisAction,GaloisDescent}.lean`, `Adeles/Norm/`, and `Ideles/{Extension,GaloisAction,GaloisDescent}.lean` retain the continuous adelic algebra equivalence, tower, Galois and norm comparisons. |
 | 9: characters | `RayClass/Character/` and `HeckeCharacter/` supply finite ray and continuous idele-class characters, conductors, finite-order correspondence and unique real norm shift. |
@@ -36,7 +36,9 @@ an order as invertible. Local/global reciprocity and ring-class fields remain ou
 roadmap, with the named downstream owners unchanged.
 
 The source-presence verification is independent of the roadmap's older Tau Ceti
-`358314d4ab97` / Mathlib `f6090c7095e1` / Lean `4.35.0-rc3` prototype build. Final archival
-verification also replays the selected native entry modules on actual merged source.
+`358314d4ab97` / Mathlib `f6090c7095e1` / Lean `4.35.0-rc3` prototype build. A fresh actual-main build at `f5604a970624` checked 88 native entry modules across global
+arithmetic, conformal mapping and heights (10,659 Lake jobs), including 31 global entry points
+covering all twelve layers. Final archival verification records the merged source revision
+containing all nine roadmaps’ prerequisites.
 
 AI assistance: scope and source audit with Codex (GPT-6), 2026-10-28.
