@@ -434,6 +434,82 @@ records the lattice-action, covariant-derivative and curvature signatures.
 The generic bundle/connection theory remains with T1 and SBC; K-group
 calculations remain with TopologicalKTheory and OperatorKTheory.
 
+<a id="h5-torus-finite-rank-sections"></a>
+**H5.TorusFiniteRankSections.** For a∈ℤ and an integer b≥1, construct
+Rieffel's ordinary-torus module
+
+`Γ_(a,b)={ξ∈C(ℝ²,ℂ):ξ(r+1,s)=ξ(r,s), ξ(r,s+b)=exp(2πiar)ξ(r,s)}`.
+
+Its right A=C(T²,ℂ) action is pointwise multiplication by period-one
+functions, and its inner product is
+`⟨ξ,η⟩([r,s])=(1/b)Σ_(j=0)^(b−1)conj(ξ(r,s+j))η(r,s+j)`.
+Prove continuity and period-one descent of this average in both variables,
+positivity, definiteness, the A-module identities and completeness for its
+supremum norm. In particular the norm is the supremum over [0,1]² of the
+square root of the displayed averaged sum of |ξ|², rather than the scalar
+supremum norm on an unbounded plane. There is no coprimality assumption on a,b.
+
+Construct the Hermitian rank-b bundle E_(a,b) by the actual vector coordinates
+`F_ξ(r,s)=(ξ(r,s),…,ξ(r,s+b−1))`. Their transition laws are
+`F(r+1,s)=F(r,s)` and `F(r,s+1)=C_a(r)F(r,s)`, where
+`C_a(r)(z₀,…,z_(b−1))=(z₁,…,z_(b−1),exp(2πiar)z₀)`.
+Verify this is a unitary transition for the fiber metric
+`(1/b)Σ conj(z_j)w_j`, construct local lift charts on T² with T1's bundle
+carrier, and prove that the first coordinate recovers ξ from every covariant
+F. This yields the onto unitary section-module comparison
+`Γ_(a,b)≃Γ(T²,E_(a,b))`, including its inverse and independence of lifts.
+Equivalently, construct E_(a,b) as the fiberwise direct sum of the line over
+the b points of the covering
+`q_b:(ℝ/ℤ)×(ℝ/bℤ)→T²`, with line transition
+`ξ(r,s+b)=exp(2πiar)ξ(r,s)` and the averaged metric. Prove this comparison
+on the local sheets of q_b; no K-theoretic transfer is assumed. Use H2 and
+H5's section-module theorem to obtain fullness, a finite Parseval frame,
+the actual projection p∈M_N(A) and `Γ_(a,b)≃pA^N`, with
+`rank p(x)=b` for every x. Identify its adjointable and compact module
+endomorphisms with Γ(T²,End(E_(a,b))) and their fiber adjoints.
+
+Compute `det C_a(r)=(-1)^(b−1)exp(2πiar)`. Trivialize the constant-phase
+factor to give an actual determinant-line isomorphism
+`det E_(a,b)≃L_a`; hence its Chern number is −a in TorusLineSections'
+orientation and normalization. Prove the following unstable classification,
+including its prerequisite argument here. For every complex rank b≥2 bundle
+on T², construct a nowhere-zero section over its standard finite CW structure:
+extend unit sections across the 1- and 2-cells using path connectedness and
+simple connectedness of S^(2b−1), then use a Hermitian orthogonal complement
+to split a trivial line. Iterate to split off b−1 trivial lines. Consume
+TopologicalKTheory T1's local trivializations, metrics and homotopy invariance,
+and AlgebraicTopology's CW attaching and sphere-connectivity theory for these
+cell extensions. CharacteristicClasses C1.6 classifies the remaining line by
+its first Chern class. Thus every rank-b bundle on T² is isomorphic to
+`1^(b−1)⊕det E`, and in particular
+`E_(a,b)≃1^(b−1)⊕L_a`. This is a bundle isomorphism before group completion.
+Use H2's polar normalization to obtain the corresponding Hilbert-module unitary.
+
+Every nonzero finitely generated projective right A-module is therefore
+isomorphic to exactly one Γ_(a,b), with b≥1 and a∈ℤ; two such modules are
+isomorphic iff both parameters agree. Include the zero module separately;
+it has rank0 and Chern number0, and there is no Γ_(a,0) averaged formula.
+Prove `Γ_(a,1)≃M_a`, `Γ_(a,b)≃A^(b−1)⊕M_a`, and freeness iff a=0.
+For a=0 exhibit the orthonormal A-basis `ξ_k(r,s)=exp(2πiks/b)`,
+0≤k<b, using the averaged inner product. Construct the direct-sum, dual and
+balanced-tensor comparison unitaries, with the commuting pointwise left
+A-action explicit for tensors:
+`Γ_(a,b)⊕Γ_(c,d)≃Γ_(a+c,b+d)`,
+`Γ_(a,b)*≃Γ_(-a,b)` and
+`Γ_(a,b)⊗_AΓ_(c,d)≃Γ_(da+bc,bd)` for b,d≥1. Derive cancellation for these
+projective modules from rank and determinant. These are module/bundle results;
+the resulting K-group and ring calculations remain with TopologicalKTheory
+and OperatorKTheory.
+
+This specifies the averaged construction and the "gives all of them" assertion
+in Rieffel's main notebook, physical79, with the positive integral b and
+integral a hypotheses explicit. It does not identify the partly obscured
+Heisenberg-lattice coordinates on that page. For the section-extension and
+line-classification background see Hatcher,
+[*Vector Bundles and K-Theory*, §§1.1–1.2 and §3.1](https://pi.math.cornell.edu/~hatcher/VBKT/VB.pdf).
+[TorusFiniteRankTargets.lean](TorusFiniteRankTargets.lean) pins the cyclic
+transition, its determinant and the averaged pairing on actual functions.
+
 Construct the unitary dual Â as pure states modulo unitary equivalence
 of their cyclic GNS representations, using
 [CStarAlgebras C2](../CStarAlgebras/README.md)'s pure-state/irreducible-GNS
