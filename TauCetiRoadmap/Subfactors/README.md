@@ -1,7 +1,9 @@
 # Roadmap: subfactors, Jones index and planar standard invariants
 
-**Summary.** This roadmap builds the theory of inclusions of II₁ factors from the von Neumann
-algebra foundations of VonNeumannAlgebras and the native Temperley–Lieb presentation of Tau Ceti.
+**Summary.** This roadmap builds the theory of inclusions of II₁ factors from Mathlib's von Neumann
+algebras, through a layer of von Neumann algebra prerequisites (normal states, modular theory,
+traces, coupling dimension, weights and the hyperfinite factor), and the native Temperley–Lieb
+presentation of Tau Ceti.
 It covers normal correspondences and Connes fusion, the basic construction, Pimsner–Popa bases,
 the index of conditional expectations, relative inclusion entropy, the Jones tower and its
 Temperley–Lieb projections, and commuting squares. It then covers standard invariants, shaded and
@@ -41,17 +43,18 @@ This roadmap owns:
 
 It owns the Temperley–Lieb material of Layer 3 because Layer 3's index restriction and Layer 4's
 realisation need it, and every other roadmap that develops it comes later in the supply order.
+For the same reason it owns Layer 0's von Neumann algebra prerequisites: normal functionals and
+GNS, Tomita–Takesaki theory and the standard form, finite factors and tracial L², group von
+Neumann algebras and crossed products, coupling dimension and the index `[M:N]`, weights,
+operator-valued weights and spatial derivatives, and the hyperfinite II₁ factor. Layer 0 states
+only what the later layers use; the type classification, Connes's invariants and the injective
+classification belong to VonNeumannAlgebras, which is not a prerequisite of any layer.
 
 The roadmap leaves the following to named roadmaps:
 
 - The Temperley–Lieb algebra over a general commutative ring belongs to TemperleyLieb: the
   diagram basis, cell modules and Gram determinants, and negligible ideals over arbitrary
   coefficients. Layer 3 here uses none of it and works over ℂ only.
-- Normal representations, tracial L², coupling dimension, the unrestricted index `[M:N]`,
-  modular theory and the hyperfinite II₁ factor belong to VonNeumannAlgebras V0–V8, V10–V11
-  and V13. In particular, VonNeumannAlgebras V7.Index states the index definition, `[M:N] ≥ 1`,
-  the index-one criterion, multiplicativity and the restriction-of-scalars law, and they are not
-  restated here.
 - C*-tensor products and C*-inductive limits belong to CStarAlgebras C5.
 - Scalar Fock spaces and tracial amalgamated free products belong to FreeProbability F3–F4.
 - CAR algebras, quasi-free states and Bogoliubov functoriality belong to
@@ -85,9 +88,9 @@ No historical conjecture is a target.
   where it is stated, namely in two places. The first is Layer 9's local quantisation and
   generation arguments, and with them Popa's classification theorem. The second is Layer 10's
   type III example, whose input factor acts on a separable Hilbert space. The hyperfinite II₁
-  factor `R` of VonNeumannAlgebras V13 has separable predual.
+  factor `R` of 0.7 has separable predual.
 - **Traces and index.** The normalised traces are `τ_N` and `τ_M`, and `τ_M` restricts to `τ_N`.
-  The index is `[M:N] = dim_N L²(M)` in `[0,∞]` (VonNeumannAlgebras V7.Index). Finite index is
+  The index is `[M:N] = dim_N L²(M)` in `[1,∞]` (0.5). Finite index is
   an extra hypothesis wherever it is used.
 - **Jones tower.** The tower is `M_(−1) = N`, `M_0 = M`, `M_(k+1) = ⟨M_k, e_(k+1)⟩` for `k ≥ 0`.
   The projection `e_(k+1)` implements the trace-preserving expectation `M_k → M_(k−1)`. Every
@@ -160,22 +163,6 @@ algebra.
   `δ`) and `markovTrace_strandIncl_mul_e_last` (the Markov property).
 - No star structure, positivity or quotient is supplied.
 
-**From TauCetiRoadmap.VonNeumannAlgebras.**
-
-- V0–V1: GNS representations, operator topologies and the bicommutant theorem.
-- V4: preduals and normal representations.
-- V5–V6: finite factors, tracial standard form and `L²(M)`.
-- V7: coupling dimension of arbitrary normal modules, with no separability premise.
-  - V7.Index: the index `[M:N]`, `[M:N] ≥ 1`, index one iff `N = M`, the trace-preserving
-    expectation `E_N` built from the L² projection, the restriction-of-scalars law
-    `dim_N H = [M:N] dim_M H`, multiplicativity, and `[N ⊗̄ M_n : N] = n²`.
-  - V7.GroupApplications: subgroup indices.
-- V8: normal discrete crossed products and group von Neumann algebras.
-- V10–V11: Tomita–Takesaki theory, weights, general standard forms, extended positive cones,
-  spatial derivatives and Takesaki's expectation theorem.
-- V13: the hyperfinite II₁ factor `R`, its corner isomorphisms, the L² matrix perturbation lemmas
-  and the injectivity and hypertrace theorem.
-
 **From TauCetiRoadmap.CStarAlgebras.** C5: spatial tensor products and C*-inductive limits of
 unital injective systems, with their universal property.
 
@@ -190,6 +177,10 @@ antisymmetric Fock space, quasi-free states and Bogoliubov functoriality for uni
 Layer k is the section that consumers cite as Sk. Section 2.6 on relative entropy is cited as
 S2a. The layers build up as follows.
 
+- **Layer 0** states the von Neumann algebra prerequisites over Mathlib's `VonNeumannAlgebra`:
+  normality and GNS, modular theory and the standard form, traces and tracial L², group algebras
+  and crossed products, coupling dimension and the index, weights and spatial derivatives, and
+  the hyperfinite II₁ factor.
 - **Layer 1** builds normal correspondences and Connes fusion for arbitrary von Neumann
   algebras.
 - **Layer 2** builds the basic construction, finite bases, the Jones tower, bifinite bimodules,
@@ -208,6 +199,256 @@ S2a. The layers build up as follows.
 - **Layer 9** proves Popa's finite-depth classification and the classification below index 4.
 - **Layer 10** treats bimodules of infinite index.
 
+## Layer 0: Von Neumann algebra prerequisites
+
+Mathlib's `VonNeumannAlgebra H` is a star-subalgebra of `H →L[ℂ] H` equal to its double
+commutant, with `VonNeumannAlgebra.centralizer_centralizer` as its defining law. It has no
+normality, predual, trace, weight, dimension or factor data. This layer states over it the
+general theory that the inclusion theory of the later layers uses, at the generality those
+layers need. Throughout, M and N are von Neumann algebras on complex Hilbert spaces, `M′` is the
+commutant (`StarSubalgebra.centralizer`), and no separability is assumed unless a statement says
+so.
+
+### 0.1 Normal functionals, normal representations and GNS
+
+Define a positive linear functional ω on M to be normal when `ω(sup_i x_i) = sup_i ω(x_i)` for
+every bounded increasing net of self-adjoint elements, and define the predual `M_*` as the
+norm-closed span of the normal positive functionals in the dual of M. Define a unital
+*-homomorphism `π : M → B(K)` to be normal when it preserves suprema of bounded increasing nets
+of self-adjoint elements.
+
+- For a positive functional ω on M the following are equivalent: ω is normal; ω is completely
+  additive on families of orthogonal projections; the restriction of ω to the unit ball is
+  weak-operator continuous; that restriction is strong-operator continuous (Anantharaman–Popa,
+  Theorem 2.5.5).
+- Von Neumann's bicommutant theorem: a unital *-subalgebra of `B(H)` equals its double commutant
+  if and only if it is weak-operator closed (Anantharaman–Popa, Theorem 2.1.3). So Mathlib's
+  `VonNeumannAlgebra` is exactly a weak-operator closed unital *-subalgebra, in the topology of
+  `ContinuousLinearMapWOT`.
+- Every *-isomorphism of von Neumann algebras is normal (Anantharaman–Popa, Corollary 2.5.9), and
+  the range of a normal unital *-homomorphism is a von Neumann algebra on its target space
+  (Anantharaman–Popa, Proposition 2.5.12).
+- For a state φ on M with GNS triple `(π_φ, H_φ, ξ_φ)`, `π_φ` is normal exactly when φ is
+  normal, and then `π_φ(M)` is a von Neumann algebra on `H_φ` (Anantharaman–Popa,
+  Theorem 2.6.1).
+
+**Checks.**
+
+- On `M = ℓ^∞(ℕ)` acting on `ℓ²(ℕ)`, `ω(x) = Σ_n 2^(−n−1) x_n` is normal. A Banach limit is a
+  state that is not normal: it vanishes on every finite projection `1_[0,n]`, while their
+  supremum 1 has value 1. A definition by norm continuity alone would accept it.
+- For `M = M₂(ℂ)` and the vector state `φ(x) = x₁₁`, the GNS space has dimension 2, not 4: the
+  null space `{x : φ(x*x) = Σ_i |x_(i1)|² = 0}` is the matrices with zero first column. For the
+  faithful state `Tr(diag(1/3, 2/3)·)` the dimension is 4.
+- The upper triangular 2×2 matrices form a weak-operator closed unital algebra whose commutant is
+  `ℂ1`, so its double commutant is `M₂(ℂ)`. The bicommutant theorem needs closure under `*`.
+
+*Needs:* Mathlib `VonNeumannAlgebra`, `StarSubalgebra.centralizer`, `ContinuousLinearMapWOT`,
+`StarAlgHom`.
+
+### 0.2 Modular theory and the standard form
+
+For a faithful normal semifinite weight φ on M, with GNS map `Λ_φ` on
+`n_φ = {x : φ(x*x) < ∞}`, define `S_φ : Λ_φ(x) ↦ Λ_φ(x*)` for `x ∈ n_φ ∩ n_φ*`. Prove that it is
+closable, write `S̄_φ = J_φ Δ_φ^(1/2)` for the polar decomposition of its closure, and prove the
+following (Kosaki, §2.1 and Example 2.1):
+
+- `J_φ` is an antiunitary involution and `J_φ Δ_φ J_φ = Δ_φ⁻¹`;
+- Tomita's theorem: `J_φ M J_φ = M′` and `Δ_φ^(it) M Δ_φ^(−it) = M` for real t;
+- the modular group `σ_t^φ = Ad Δ_φ^(it)` restricted to M satisfies the KMS condition for φ at
+  inverse temperature 1, and is the only one-parameter automorphism group that does.
+
+Every von Neumann algebra has a faithful normal semifinite weight: sum a maximal family of normal
+positive functionals with mutually orthogonal supports. Define the standard form of M as
+`(L²(M), J, P)` built from such a weight, with `L²(M) = H_φ`, `J = J_φ` and P the closure of
+`{Δ_φ^(1/4) Λ_φ(x) : x ∈ n_φ ∩ n_φ*, x ≥ 0}`. Prove that for two
+such weights there is a unique unitary between the GNS spaces that intertwines the left actions
+of M, the two conjugations and the two cones; the route is Connes's 2×2 matrix trick and the
+Radon–Nikodym cocycle `(Dφ : Dφ₀)_t` (Kosaki, Appendix A §1).
+
+**Checks.**
+
+- For `M = M₂(ℂ)` on `H = M₂(ℂ)` with `⟨x, y⟩ = Tr(x* y)` and `φ = Tr(h·)`, `h = diag(1/5, 4/5)`:
+  `Δ x = h x h⁻¹`, `J x = x*`, and `Δ E₁₂ = (1/5)(4/5)⁻¹ E₁₂ = (1/4) E₁₂`, so
+  `σ_t(E₁₂) = 4^(−it) E₁₂` (Kosaki, Example 2.1). The inverse convention `Δ x = h⁻¹ x h` gives 4.
+- A trace has trivial modular data: for `h = (1/2)·1` on `M₂(ℂ)`, `Δ = 1` and `σ_t = id`.
+- Faithfulness is needed: for the vector state `φ(x) = x₁₁` on `M₂(ℂ)`, `Λ_φ(E₂₂) = 0` while
+  `E₂₂ ≠ 0`, so `S_φ` is not well defined on `Λ_φ(M)`.
+- For `M = ℂ` on `ℂ`, J is complex conjugation and `JMJ = ℂ = M′`.
+
+*Needs:* 0.1.
+
+### 0.3 Finite factors, traces and tracial L²
+
+Define a tracial von Neumann algebra as a pair `(M, τ)` with τ a faithful normal tracial state,
+and a II₁ factor as an infinite-dimensional factor admitting such a τ (Anantharaman–Popa,
+Definitions 1.3.3 and 1.3.14). Build `L²(M, τ)` as the GNS space of τ, with `x ↦ x̂`, and the
+conjugation `J x̂ = (x*)^`.
+
+- A factor has at most one tracial state; a factor has a normal tracial state if and only if 1 is
+  a finite projection, and the trace is then faithful (Anantharaman–Popa, Proposition 4.1.3 and
+  Theorem 6.3.5).
+- In `L²(M, τ)` the left and right multiplication algebras are each other's commutants and
+  `J L(M) J = R(M) = L(M)′` (Anantharaman–Popa, Theorem 7.1.1). This is 0.2's standard form with
+  `Δ = 1`.
+- For a unital von Neumann subalgebra `B ⊆ M` there is a unique τ-preserving conditional
+  expectation `E_B : M → B`; it is normal, faithful and B-bimodular, and the orthogonal
+  projection `e_B` of `L²(M)` onto `L²(B)` satisfies `e_B x̂ = E_B(x)^` (Anantharaman–Popa,
+  Theorem 9.1.2). For `P ⊆ B ⊆ M`, uniqueness gives `E_P ∘ E_B = E_P`.
+
+**Checks.**
+
+- In `M₂(ℂ)` with `τ = Tr/2`, `‖Ê₁₁‖₂² = 1/2` and `J Ê₁₂ = Ê₂₁`. The unnormalised trace gives
+  `‖Ê₁₁‖₂² = 1`, and its `L²` would not contain `1̂` as a unit vector.
+- For the diagonal `D₂ ⊂ M₂(ℂ)`, `E_(D₂)` is the diagonal compression, so `E(E₁₂) = 0` and
+  `E([[a, b], [c, d]]) = diag(a, d)`. For `ℂ1 ⊂ M₂(ℂ)` the vector state `x ↦ x₁₁` is a
+  conditional expectation that is not τ-preserving: it sends `E₁₁` to 1 instead of 1/2.
+- `B(ℓ²(ℕ))` is a factor with no normal tracial state, and the trace of `M_n(ℂ)` is `Tr/n` with
+  `τ(E₁₁) = 1/n`.
+
+*Needs:* 0.1, 0.2.
+
+### 0.4 Group von Neumann algebras, tensor products and crossed products
+
+For a discrete group G define `L(G)` as the von Neumann algebra on `ℓ²(G)` generated by the left
+regular representation λ, with trace `τ(x) = ⟨δ_e, x δ_e⟩`. For von Neumann algebras `M_i` on
+`H_i` define the spatial tensor product `M₁ ⊗̄ M₂` on `H₁ ⊗ H₂`. For an action σ of a discrete
+group G on a von Neumann algebra `B ⊆ B(H)` define the crossed product `B ⋊_σ G` on
+`H ⊗ ℓ²(G)` generated by `π_σ(b)(ξ ⊗ δ_h) = σ_(h⁻¹)(b)ξ ⊗ δ_h` and `1 ⊗ λ_g`.
+
+- `L(G) = R(G)′` and `R(G) = L(G)′` (Anantharaman–Popa, Theorem 1.3.6); `L(G)` is a factor
+  exactly when every nontrivial conjugacy class of G is infinite (Anantharaman–Popa,
+  Proposition 1.3.9).
+- `M₁ ⊗̄ M₂` is a factor when both are factors, and the tracial tensor product is the unique
+  tracial von Neumann algebra containing the algebraic tensor product densely with
+  `τ(x₁ ⊗ x₂) = τ₁(x₁) τ₂(x₂)` (Anantharaman–Popa, Propositions 5.1.2 and 5.1.4).
+- The covariance relation `(1 ⊗ λ_g) π_σ(b) (1 ⊗ λ_g)* = π_σ(σ_g(b))` holds, π_σ is normal and
+  injective, and the coefficient of `δ_e` is a faithful normal conditional expectation onto
+  `π_σ(B)`. For a trace-preserving action on a tracial `(B, τ)`, `B′ ∩ (B ⋊ G) = Z(B)` exactly
+  when the action is properly outer, and then `B ⋊ G` is a factor exactly when the action on
+  `Z(B)` is ergodic (Anantharaman–Popa, §5.2 and Proposition 5.2.3).
+
+**Checks.**
+
+- The covariance relation fixes the convention. Applied to `ξ⊗δ_h`, the operator
+  `(1⊗λ_g)π_σ(b)(1⊗λ_g)*` gives `σ_(h⁻¹g)(b)ξ⊗δ_h`, which is `π_σ(σ_g(b))(ξ⊗δ_h)`. With
+  `σ_h(b)` in place of `σ_(h⁻¹)(b)` the two sides are `σ_(g⁻¹h)(b)ξ⊗δ_h` and `σ_(hg)(b)ξ⊗δ_h`.
+  For the translation action of `S₃` on `ℓ^∞(S₃)` with `g = (12)` and `h = (23)` they differ,
+  since `g⁻¹h ≠ hg`.
+- `L(S₃) ≅ ℂ ⊕ ℂ ⊕ M₂(ℂ)` has dimension 6 and is not a factor, while the group of finitary
+  permutations of ℕ has infinite nontrivial conjugacy classes and gives a II₁ factor.
+  `τ(λ_g) = 0` for `g ≠ e`.
+- `ℓ^∞(ℤ/2) ⋊ ℤ/2` for the swap is `M₂(ℂ)`, a factor; the trivial action on `ℂ²` gives the
+  abelian algebra `ℂ² ⊗ L(ℤ/2)`, also of dimension 4.
+
+*Needs:* 0.1, 0.3.
+
+### 0.5 Coupling dimension and the index
+
+For a tracial `(M, τ)`, a right M-module is a Hilbert space with a normal unital
+*-representation of `Mᵐᵒᵖ`. Prove that every right M-module is isomorphic to `p(ℓ²(I) ⊗ L²(M))`
+for some set I and some projection p in the commutant of the right action
+(Anantharaman–Popa, Proposition 8.2.3, stated there for separable spaces; the proof with a
+maximal orthogonal family of cyclic submodules, Lemma 8.2.1, works for any I). Define
+`dim(H_M) = (Tr ⊗ τ)(p)` in `[0, ∞]` (Anantharaman–Popa, Definition 8.5.4), and for a unital
+inclusion `N ⊆ M` of II₁ factors define the index `[M:N] = dim(L²(M)_N)` (Anantharaman–Popa,
+Definition 9.4.9, there for separable M).
+
+- `dim` is independent of the presentation, additive on direct sums, and `dim(L²(M)_M) = 1`
+  (Anantharaman–Popa, equation (8.6)).
+- Over a II₁ factor, `dim(H_M) < ∞` exactly when H is finitely generated, exactly when the
+  commutant of the right action is finite (Anantharaman–Popa, Propositions 8.5.5 and 8.6.1). For
+  separable M, dim classifies separable right modules, with every value in `[0, ∞]` attained
+  (Anantharaman–Popa, Proposition 8.6.2).
+- `[M:N] ≥ 1`, with equality exactly when `N = M` (Anantharaman–Popa, Remark 9.4.10).
+- Restriction of scalars: for a finite right M-module H, `dim(H_N) < ∞` exactly when
+  `[M:N] < ∞`, and then `dim(H_N) = [M:N] dim(H_M)` (Anantharaman–Popa, Exercise 9.15).
+  Multiplicativity `[M:P] = [M:N][N:P]` in `[1, ∞]` for II₁ factors `P ⊆ N ⊆ M` with
+  `[M:N] < ∞` follows by applying this to `P ⊆ N` and the finite right N-module `L²(M)`.
+- `[N ⊗ M_n(ℂ) : N ⊗ 1] = n²` (Anantharaman–Popa, Exercise 9.14), and for a subgroup H of a
+  group G, `dim(ℓ²(G)_(L(H))) = [G:H]` (Anantharaman–Popa, Exercise 9.13).
+
+**Checks.**
+
+- For `M = M_n(ℂ)` with `τ = Tr/n`, the row space `ℂⁿ` is a right M-module of dimension `1/n`,
+  since `L²(M)` is n copies of it and has dimension 1. The unnormalised trace would give 1.
+- `[N ⊗ M₂(ℂ) : N ⊗ 1] = 4`, not 2: the index squares the matrix size.
+- For `G = S₃` and `H = ⟨(12)⟩`, `dim(ℓ²(S₃)_(L(H))) = 3`, and for the trivial subgroup it is 6.
+- The identity inclusion has index 1, and a proper inclusion has index greater than 1.
+
+*Needs:* 0.1, 0.3, 0.4.
+
+### 0.6 Weights, operator-valued weights and spatial derivatives
+
+Define the extended positive part `M̂₊` as the lower semicontinuous additive positively
+homogeneous maps `M_*⁺ → [0, ∞]` (Kosaki, Appendix A §2), an operator-valued weight
+`T : M₊ → N̂₊` for `N ⊆ M` as an additive, positively homogeneous map with
+`T(y* x y) = y* T(x) y` for `y ∈ N` (Kosaki, Appendix A §4), and, for a faithful normal
+semifinite weight φ on M and ψ′ on `M′` acting on K, Connes's spatial derivative `dφ/dψ′` as the
+positive self-adjoint operator of the closed quadratic form built from φ and ψ′ (Kosaki, §3.1,
+first part).
+
+- `dψ′/dφ = (dφ/dψ′)⁻¹`, `(dφ/dψ′)^(it) x (dφ/dψ′)^(−it) = σ_t^φ(x)` for `x ∈ M`, and
+  `(dφ₁/dψ′)^(it)(dφ/dψ′)^(−it) = (Dφ₁ : Dφ)_t` (Kosaki, §3.1, properties after Remark 3.3).
+- Haagerup's theorem: for faithful normal semifinite weights φ on M and ψ on N with
+  `σ_t^φ|_N = σ_t^ψ`, there is a unique normal semifinite faithful operator-valued weight
+  `F : M₊ → N̂₊` with `φ = ψ ∘ F` (Kosaki, Appendix A §4).
+- Takesaki's theorem: if `φ|_N` is semifinite and `σ_t^φ(N) = N` for all t, there is a unique
+  normal conditional expectation `E : M → N` with `φ ∘ E = φ` (Kosaki, Appendix A §3). For a
+  tracial `(M, τ)` the modular group is trivial and this is 0.3's `E_N`.
+- For a faithful normal conditional expectation `E : M → N`, there is a unique operator-valued
+  weight `E⁻¹ : N′ → M′` with `d(ψ′ ∘ E⁻¹)/dφ = dψ′/d(φ ∘ E)` for faithful normal semifinite
+  weights φ on N and ψ′ on `M′`, and it does not depend on ψ′ (Kosaki, §3.1, construction of
+  `E⁻¹`).
+
+**Checks.**
+
+- For `M = ℂ` on `K = ℂ²`, `M′ = M₂(ℂ)`, `ψ′ = Tr(h·)` with `h = diag(1/5, 4/5)` and φ the
+  identity functional on ℂ, `dφ/dψ′ = h⁻¹ = diag(5, 5/4)` (Kosaki, Remark 3.3(iii)). The
+  inverse convention gives `diag(1/5, 4/5)`.
+- For `ℂ ⊂ M_n(ℂ)` and the expectation `E = Tr(h·)`, `E⁻¹(1) = Tr(h⁻¹)`. For
+  `h = diag(1/5, 4/5)` this is `5 + 5/4 = 25/4`, and the minimum over states, `n² = 4`, is
+  attained exactly at `h = 1/2` (Kosaki, §3.3, first example).
+- For `M = B(K)` and `ψ′ = 1` on `M′ = ℂ`, `d(Tr(k·))/dψ′ = k`, so the spatial derivative is the
+  density.
+
+*Needs:* 0.1, 0.2.
+
+### 0.7 The hyperfinite II₁ factor
+
+Define R as the weak closure of `⋃_n M_(2ⁿ)(ℂ)`, with the unital trace-preserving embeddings
+`x ↦ diag(x, x)`, in the GNS representation of its trace (Anantharaman–Popa, §1.6).
+
+- R is a II₁ factor with separable predual (Anantharaman–Popa, §1.6).
+- For a separable II₁ factor M the following are equivalent: M is amenable; M is approximately
+  finite-dimensional; M is generated by an increasing sequence of finite-dimensional unital
+  *-subalgebras; `M ≅ R` (Anantharaman–Popa, Theorem 11.2.2).
+- Every nonzero corner `pRp` and every infinite-dimensional subfactor of R is isomorphic to R;
+  in particular `R ⊗ M_n(ℂ) ≅ R` and `R ⊗̄ R ≅ R` (Anantharaman–Popa, Remark 11.2.3 and
+  Theorem 11.2.2).
+
+**Checks.**
+
+- The embedding `x ↦ diag(x, x)` keeps `τ(E₁₁) = 1/2` at every level. The non-unital embedding
+  `x ↦ diag(x, 0)` sends `E₁₁` to a projection of trace 1/4 and does not define a trace on the
+  union.
+- For a projection p of trace 1/3, `pRp ≅ R` with normalised trace `3τ`.
+- `L(F₂)` is a separable II₁ factor that is not amenable, so it is not isomorphic to R; the
+  uniqueness theorem needs amenability, not only separability.
+
+*Needs:* 0.3, 0.4, 0.5.
+
+### Examples
+
+- `L²(M₂(ℂ), Tr/2)` is the standard form of `M₂(ℂ)`, with `J x̂ = (x*)^` and `Δ = 1`.
+- `L(ℤ) ≅ L^∞(S¹)` is a tracial abelian von Neumann algebra, not a factor; `L(S_∞)` for the
+  finitary permutation group is a model of R.
+
+### Dependencies
+
+Mathlib `VonNeumannAlgebra`, `StarSubalgebra.centralizer`, `ContinuousLinearMapWOT`,
+`StarAlgHom`. No other layer.
+
 ## Layer 1: Normal correspondences and Connes fusion
 
 ### 1.1 Correspondences
@@ -222,7 +463,7 @@ and compare the right-action notation with Mathlib's `MulOpposite` convention.
 - the conjugate correspondence H̄, which exchanges the two actions and conjugates the scalars.
 
 Construct `L²(M)` as the identity correspondence from the general standard form, including for
-M that is not σ-finite (VonNeumannAlgebras V11; Anantharaman–Popa, Chapter 8).
+M that is not σ-finite (0.2).
 
 - The conjugate of the conjugate is canonically H, and the adjoint of an intertwiner is an
   intertwiner.
@@ -239,7 +480,7 @@ M that is not σ-finite (VonNeumannAlgebras V11; Anantharaman–Popa, Chapter 8)
   Hilbert–Schmidt inner product, and J is `x ↦ x*`. The right action of `y` is `ξ ↦ ξy`, and J
   intertwines it with left multiplication by `y*`.
 
-*Needs:* VonNeumannAlgebras V4, V11; Mathlib `MulOpposite`, `StarAlgHom`.
+*Needs:* 0.1, 0.2; Mathlib `MulOpposite`, `StarAlgHom`.
 
 ### 1.2 Bounded vectors and Connes fusion
 
@@ -274,7 +515,7 @@ outer normal actions (Anantharaman–Popa, Chapter 13; Burns, §2.1.2, Definitio
 - `L²(N) ⊗_N K ≅ K` through the left unitor. For `N = ℂ` the fusion is the Hilbert tensor product
   `H ⊗ K`, and its dimension is the product of the dimensions.
 
-*Needs:* 1.1; VonNeumannAlgebras V10, V11.
+*Needs:* 1.1; 0.2, 0.6.
 
 ### Examples
 
@@ -283,14 +524,14 @@ outer normal actions (Anantharaman–Popa, Chapter 13; Burns, §2.1.2, Definitio
 
 ### Dependencies
 
-VonNeumannAlgebras V4, V10, V11. No other layer.
+Layer 0 (0.1, 0.2, 0.6). No other layer.
 
 ## Layer 2: Expectations, bases and the Jones tower
 
 ### 2.1 The basic construction
 
 Consume the trace-preserving expectation `E_N` and the orthogonal projection `e_N` on `L²(M)` from
-VonNeumannAlgebras V7.Index. Prove their basic properties:
+0.3, and the index `[M:N]` from 0.5. Prove their basic properties:
 
 - `e_N x e_N = E_N(x) e_N` for `x ∈ M`, and `e_N ∈ N′`;
 - `⟨M, e_N⟩ = J N′ J`, and this algebra is identified with the bounded right-N-linear operators
@@ -310,7 +551,7 @@ without assuming that relative commutants are finite-dimensional.
 - For the identity inclusion `N = M`, `e_N = 1`, `⟨M, e_N⟩ = M` and `Tr(1) = 1`.
 - `R ⊗ 1 ⊂ R ⊗̄ R` has `Tr(1) = ∞`. The canonical trace is then semifinite and not finite.
 
-*Needs:* VonNeumannAlgebras V6, V7.
+*Needs:* 0.3, 0.5.
 
 ### 2.2 Finite bases and the Pimsner–Popa inequality
 
@@ -341,7 +582,7 @@ The traces `τ_M` and `tr_(N′)` on `N′ ∩ M` are not identified when the in
 - For the diagonal corner inclusion of Layer 4 with parameter t, `N′ ∩ M = ℂp ⊕ ℂ(1−p)`. The
   local index at p is 1, and `tr_(N′)(p) τ_M(p) [M:N] = (1−t) t (t⁻¹ + (1−t)⁻¹) = 1`.
 
-*Needs:* 2.1; VonNeumannAlgebras V7.Index.
+*Needs:* 2.1; 0.5.
 
 ### 2.3 The Jones tower
 
@@ -368,12 +609,12 @@ the two examples (Jones–Sunder, §§3.1–3.3).
   `M^G′ ∩ M₁ ≅ ℂ²`.
 - At index 1 every `e_k = 1`, and the tower is constant.
 
-*Needs:* 2.1, 2.2; VonNeumannAlgebras V7, V8.
+*Needs:* 2.1, 2.2; 0.4, 0.5.
 
 ### 2.4 Bifinite bimodules and statistical dimension
 
 For finite factors compare the left and right von Neumann dimensions, the standard module
-realisations and the commutant traces of VonNeumannAlgebras V7. Define a bimodule to be bifinite
+realisations and the commutant traces of 0.5. Define a bimodule to be bifinite
 when both dimensions are finite. Construct the conjugate and the evaluation and coevaluation maps
 of a bifinite correspondence. Prove the following (Kosaki, §3.3):
 
@@ -414,7 +655,7 @@ Layer 5 uses this to prove that finite depth forces extremality.
 ### 2.5 The index of a conditional expectation and the minimal index
 
 Build the index of a faithful normal finite-index expectation E from its dual operator-valued
-weight and the spatial derivative of VonNeumannAlgebras V11. For factors `Ind(E) = E⁻¹(1)` is a
+weight and the spatial derivative of 0.6. For factors `Ind(E) = E⁻¹(1)` is a
 scalar. Prove `Ind(E_N) = [M:N]`.
 
 For positive invertible `h ∈ N′ ∩ M` with `E_N(h) = 1`, put `E_h(x) = E_N(h^(1/2) x h^(1/2))`,
@@ -448,12 +689,12 @@ towers.
 - For `N = R ⊗ 1 ⊂ M = R ⊗ M₂(ℂ)` and `h = diag(2/5, 8/5)`, `Ind(E_h) = 4·tr(diag(5/2, 5/8)) =
   25/4`. A plausible wrong formula `[M:N] tr(h)` gives 4.
 
-*Needs:* 2.1–2.4; VonNeumannAlgebras V11.
+*Needs:* 2.1–2.4; 0.6.
 
 ### 2.6 Relative entropy of finite tracial inclusions
 
 For a unital inclusion `N ⊆ M` of finite von Neumann algebras with a faithful normal normalised
-trace `τ_M`, consume VonNeumannAlgebras V6's trace and L² construction and V11's tracial
+trace `τ_M`, use 0.3's trace and L² construction and 0.6's tracial
 specialisation of Takesaki's theorem. Together they give the unique normal trace-preserving
 conditional expectation `E_N`, with its positivity, bimodularity, projection and composition
 laws. No factor hypothesis is imposed. For finite positive partitions of unity
@@ -506,7 +747,7 @@ asserted.
 - The identity inclusion has `H = 0`. A partition by a projection p of trace t in `M = N` gives
   `η(t) − η(t) = 0`.
 
-*Needs:* 2.1, 2.2, 2.5; VonNeumannAlgebras V6, V11; Mathlib `Real.negMulLog`, `cfc`.
+*Needs:* 2.1, 2.2, 2.5; 0.3, 0.6; Mathlib `Real.negMulLog`, `cfc`.
 
 ### Examples
 
@@ -517,7 +758,7 @@ asserted.
 
 ### Dependencies
 
-Layer 1; VonNeumannAlgebras V6, V7, V8, V11.
+Layers 0 and 1.
 
 ## Layer 3: Temperley–Lieb positivity and Jones index restriction
 
@@ -662,7 +903,7 @@ For every admissible δ, apply it to `Q_n`, and prove the following.
 - The C*-inductive limit `B_δ` (CStarAlgebras C5) carries a faithful normalised trace τ. Its
   faithfulness follows from the norm convergence of the stage expectations.
 - The GNS representation on `L²(B_δ, τ)` is faithful. Its weak closure carries the normal
-  extension of τ and the extended expectations (VonNeumannAlgebras V1, V6).
+  extension of τ and the extended expectations (0.1, 0.3).
 
 **Checks.**
 
@@ -676,7 +917,7 @@ For every admissible δ, apply it to `Q_n`, and prove the following.
   radical. So the trace radical is not the Jacobson radical.
 
 *Needs:* 3.1 and the normal form, Markov uniqueness and quantum integers of 3.2; Tau Ceti
-`lift`, `lift_e`, `hom_ext`; CStarAlgebras C5; VonNeumannAlgebras V1, V6.
+`lift`, `lift_e`, `hom_ext`; CStarAlgebras C5; 0.1, 0.3.
 
 ### 3.4 The Temperley–Lieb action in the Jones tower
 
@@ -739,7 +980,7 @@ index prove the following.
 
 Layer 2; Tau Ceti `lift`, `strandIncl`, `markovTrace` and its trace lemmas; Mathlib
 `FreeAlgebra`, `RingQuot`;
-CStarAlgebras C5; VonNeumannAlgebras V1, V6.
+CStarAlgebras C5; Layer 0 (0.1, 0.3).
 
 ## Layer 4: Commuting squares and realisation of every index
 
@@ -816,7 +1057,7 @@ Prove Ocneanu compactness with exact column indices (Jones–Sunder, §5.7):
   necessary.
 - The non-symmetric commuting square of 4.1 gives `R_0′ ∩ R_1` different from `A_1′ ∩ B_0`.
 
-*Needs:* 4.1; Layer 2; VonNeumannAlgebras V13.
+*Needs:* 4.1; Layer 2; 0.7.
 
 ### 4.3 Realisation of every allowed index
 
@@ -834,7 +1075,7 @@ The small initial levels need not carry Markov weights and are not used. Realise
 R for every `m ≥ 3`; m = 3 is the identity inclusion.
 
 For each real `d ≥ 4`, choose `t ∈ (0, 1/2]` with `d = t⁻¹ + (1−t)⁻¹`, a projection `p ∈ R` of
-trace t, and an isomorphism `θ : pRp → (1−p)R(1−p)` (VonNeumannAlgebras V13). Show that
+trace t, and an isomorphism `θ : pRp → (1−p)R(1−p)` (0.7). Show that
 `N = {x + θ(x) : x ∈ pRp}` is a unital II₁ subfactor of index d, by the local-index formula. It
 may be reducible. For `t ≠ 1/2`:
 
@@ -853,7 +1094,7 @@ an irreducible model for every value.
 - At `m = 5` the realised index is `(3+√5)/2 ≈ 2.618`, and the shifted square has the `A_4`
   graph.
 
-*Needs:* 2.2, 2.6, 3.3, 4.1, 4.2; VonNeumannAlgebras V13.
+*Needs:* 2.2, 2.6, 3.3, 4.1, 4.2; 0.7.
 
 ### Examples
 
@@ -862,7 +1103,7 @@ an irreducible model for every value.
 
 ### Dependencies
 
-Layers 2–3; VonNeumannAlgebras V13.
+Layers 0, 2 and 3.
 
 ## Layer 5: The standard invariant and principal graphs
 
@@ -1420,7 +1661,7 @@ isomorphic.
   isomorphic, as the theorem predicts.
 - The identity inclusion is handled separately: its tunnel is constant.
 
-*Needs:* 9.1; 2.2; VonNeumannAlgebras V13.
+*Needs:* 9.1; 2.2; 0.7.
 
 ### 9.3 Index below 4
 
@@ -1462,7 +1703,7 @@ Apply 9.2 only to the finite-depth hyperfinite realisations.
 
 ### Dependencies
 
-Layers 2, 4 and 5; VonNeumannAlgebras V13.
+Layers 0, 2, 4 and 5.
 
 ## Layer 10: Bimodules of infinite index
 
@@ -1487,7 +1728,7 @@ planar algebra of Penneys, Theorem 3.18, and its action on the extended cones `Q
 - For a coarse `H = L²(A) ⊗ L²(A)`, `P_1 = 0` while `Q_1` is infinite-dimensional.
 - The extended cone `Q̂_0⁺` of the centre is `[0, ∞]`.
 
-*Needs:* Layer 1; VonNeumannAlgebras V11.
+*Needs:* Layer 1; 0.6.
 
 ### 10.2 Burns rotations
 
@@ -1538,7 +1779,7 @@ when `u − 1` is Hilbert–Schmidt. For `N = L(F_∞) ⊂ M = R ⋊_α F_∞`, 
   isometry `ι(ξ) = √2 (a(ξ)*)^` intertwines w with W, and Lemma 3.4.2 gives factoriality.
 
 Show why central L² data misses this summand. OperatorAlgebraDynamics D8 supplies the CAR Fock
-space, quasi-free states and Bogoliubov functoriality, and VonNeumannAlgebras V8 the normal
+space, quasi-free states and Bogoliubov functoriality, and 0.4 the normal
 crossed products. The repeated-word construction, the fibre lemma, the Blattner criterion and the
 coefficient argument are targets here. No reconstruction or completeness theorem for standard
 invariants of infinite index is asserted.
@@ -1551,7 +1792,7 @@ invariants of infinite index is asserted.
   parity automorphism is outer.
 - `τ(a(ξ) a(ξ)*) = ‖ξ‖²/2` at covariance 1/2, so `ι` is isometric exactly with the factor `√2`.
 
-*Needs:* 10.1; Layer 2; OperatorAlgebraDynamics D8; VonNeumannAlgebras V8.
+*Needs:* 10.1; Layer 2; OperatorAlgebraDynamics D8; 0.4.
 
 ### Examples
 
@@ -1560,7 +1801,7 @@ invariants of infinite index is asserted.
 
 ### Dependencies
 
-Layers 1, 2 and 6; VonNeumannAlgebras V8, V11; OperatorAlgebraDynamics D8.
+Layers 0, 1, 2 and 6; OperatorAlgebraDynamics D8.
 
 ## Downstream consumers
 
@@ -1581,9 +1822,21 @@ Layers 1, 2 and 6; VonNeumannAlgebras V8, V11; OperatorAlgebraDynamics D8.
 - Jones–Sunder, *Introduction to Subfactors*, LMS Lecture Note Series 234, 1997. Used for:
   §§3.1–3.3 (2.1, 2.3), Theorem 2.3.8 (3.5), and §§5.1–5.7 (4.1–4.2), including 5.3.4(b) and
   5.3.6.
-- Anantharaman–Popa, *An Introduction to II₁ Factors*, Chapters 8–9 and 13 (1.1–1.2, 2.1–2.2).
+- Anantharaman–Popa, *An Introduction to II₁ Factors*, author's draft,
+  https://www.math.ucla.edu/~popa/Books/IIun.pdf. Used for:
+  - Theorems 2.1.3, 2.5.5 and 2.6.1, Corollary 2.5.9 and Proposition 2.5.12 (0.1);
+  - Definitions 1.3.3 and 1.3.14, Proposition 4.1.3, Theorems 6.3.5, 7.1.1 and 9.1.2 (0.3);
+  - Theorem 1.3.6, Proposition 1.3.9, Propositions 5.1.2 and 5.1.4, §5.2 and
+    Proposition 5.2.3 (0.4);
+  - Lemma 8.2.1, Proposition 8.2.3, Definition 8.5.4 and equation (8.6), Propositions 8.5.5,
+    8.6.1 and 8.6.2, Definition 9.4.9, Remark 9.4.10 and Exercises 9.13–9.15 (0.5);
+  - §1.6, Theorem 11.2.2 and Remark 11.2.3 (0.7);
+  - Chapter 13 (1.2) and Chapter 9 (2.1–2.2).
 - Kosaki, *Type III factors and index theory*, lecture notes, Seoul 1993,
-  https://pages.uoregon.edu/njp/lec-f.pdf. Used for: §3.3 and Theorem 3.7, the minimal
+  https://pages.uoregon.edu/njp/lec-f.pdf. Used for: §2.1 and Example 2.1, Tomita's theorem
+  and the KMS condition (0.2); Appendix A §1, the Radon–Nikodym cocycle (0.2); §3.1 with
+  Remark 3.3 and the construction of `E⁻¹`, and Appendix A §§2–4, the extended positive part,
+  Takesaki's theorem and Haagerup's operator-valued weights (0.6); §3.3 and Theorem 3.7, the minimal
   expectation and statistical dimension (2.4–2.5); Theorem 3.8, the Pimsner–Popa inequality
   (2.2).
 - Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4,
