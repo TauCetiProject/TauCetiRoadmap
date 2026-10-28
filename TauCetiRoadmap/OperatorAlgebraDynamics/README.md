@@ -520,6 +520,62 @@ For compact G
 also identify the regular decomposition through Peter–Weyl, reusing
 [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md).
 
+### D2.OrbitRepresentations. Discrete orbits and irrational rotations
+
+Let a discrete group G act by homeomorphisms on a locally compact Hausdorff X.
+For p∈X use the actual orbit O=G·p as an index set and form
+`H_p=lp (fun _ : O => ℂ) 2`. The orbit's subspace topology in X may be
+nondiscrete; it is its underlying set that indexes this Hilbert sum. Construct
+`(π_p(f)ξ)(x)=f(x)ξ(x)` for f∈C₀(X) and
+`(U_gξ)(x)=ξ(g⁻¹x)`. Prove π_p is a nondegenerate *-representation, U is
+unitary and strongly continuous for discrete G, and covariance holds for
+`α_g(f)(x)=f(g⁻¹x)`. Prove
+`‖π_p(f)‖=sup_(x∈O)|f(x)|` and
+`ker π_p={f:f|_(closure O)=0}`; thus its coefficient representation is
+faithful exactly when O is dense. Nondegeneracy follows by local compactly
+supported functions on each finite set of orbit points and Hilbert-sum density.
+
+Prove the integrated full crossed-product representation Π_p is irreducible.
+For a bounded operator T commuting with π_p(C₀(X)), its matrix coefficients
+between δ_x and δ_y satisfy `(f(x)−f(y))T_xy=0`. Separation of distinct
+points by C₀(X) makes every off-diagonal coefficient zero; the native ℓ² basis
+then gives `Tξ(x)=d(x)ξ(x)`, with `sup_x|d(x)|≤‖T‖`. Commutation with U
+makes d constant on O, so the common commutant is ℂI. Apply D1's integrated
+intertwiner dictionary and CStarAlgebras C2's nonzero Schur criterion.
+No discrete-subspace hypothesis on O or countability of G or O is required.
+Prove Π_p and Π_q are unitarily equivalent exactly when p,q lie in the same
+orbit. For different orbits, use the same point-separation argument to show
+every intertwiner has all matrix coefficients zero. Equivariant homeomorphisms
+of systems induce the corresponding orbit-index unitary comparisons.
+
+If the action is free at p, identify H_p with ℓ²(G) by g↦g·p and prove this
+is exactly D1/D2's regular covariant representation induced from evaluation at p.
+Consequently Π_p factors through the reduced crossed product; prove that this
+reduced representation is faithful exactly when O is dense. For the forward
+criterion use its diagonal coefficients
+`⟨δ_g,Π_p(a)δ_g⟩=E(a)(g·p)`, applied to a*a, continuity and faithfulness of E.
+For necessity use a nonzero coefficient function vanishing on closure O.
+Arbitrary stabilizers still give the full representation above. For a fixed
+point and a nonamenable G its group representation is trivial and does not
+factor through C*_r(G); this is the scalar test preventing an unrestricted
+reduced-factorization claim.
+
+For θ∉ℚ take `X=AddCircle (1:ℝ)`. To match OperatorKTheory K7's
+`α_n(f)(x)=f(x+nθ)`, use the geometric action n·x=x−nθ. Every orbit is free
+and dense. In the integer index of H_x the generators are
+`(uξ)(n)=ξ(n−1)` and `(vξ)(n)=exp(2πi(x−nθ))ξ(n)`;
+prove `uv=exp(2πiθ)vu`, matching K7's ordered generators. The positive
+geometric rotation instead gives the parameter −θ with this covariance
+convention. Prove all these representations are faithful and irreducible,
+while the representations at x,y are unitarily equivalent iff
+`x−y∈θℤ+ℤ` for real lifts. Their common primitive kernel is0, even when the
+representations are inequivalent. Prove the orbit quotient is indiscrete by
+density of every orbit. This supplies Rieffel main pp47–48's concrete example;
+it does not identify the orbit quotient with the primitive ideal space.
+[OrbitRepresentationTargets.lean](OrbitRepresentationTargets.lean) records
+the point-separating diagonal-commutant adapter, transitive scalar conclusion
+and rotation phase on native ℓ² and bounded-operator carriers.
+
 ### D2.CentralTwists. Reduced central twisted products
 
 For each D1.CentralTwists system complete `C_c(G,A)` with the same right
