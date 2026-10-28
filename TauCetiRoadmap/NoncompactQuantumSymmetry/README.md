@@ -36,6 +36,7 @@ Their generic theories remain in the supplying roadmaps.
 | UnboundedOperators UO-B04/B05 | Strongly commuting joint PVM and multiparameter Stone theorem | M4’s joint translation spectrum |
 | HilbertModules H5 | C₀(base)-algebra fibers and upper semicontinuous bundles | M5’s deformation algebra |
 | [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; CompactGroups Layers 1/4 supply unitarization/coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
+| MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
 | LaguerreJacobi A/B contract | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
 
 ## Shared group C*-algebra and weak-support comparisons
@@ -250,20 +251,31 @@ The adapters are algebraic; the topology of an extension built from a merely
 Borel multiplier is M1's Mackey–Weil reconstruction, never the product
 topology.
 
-Prove the topological extension theorem. For a normalized locally continuous
-multiplier ω there is a unique group topology on `TauCeti.FactorSet.Extension`
-for which 𝕋 is a closed subgroup, the projection to G is continuous and open,
+Prove the topological extension theorem for Hausdorff G. For a normalized
+locally continuous multiplier ω there is a unique group topology on `TauCeti.FactorSet.Extension`
+for which the inclusion of 𝕋 is a topological embedding (𝕋 with its usual
+topology) onto a closed subgroup, the projection to G is continuous and open,
 and the canonical section is continuous on an identity neighbourhood.
-Conversely every extension `1→𝕋_ε→E→G→1` of topological groups with open
-projection, in which odd elements conjugate 𝕋 by z↦z̄ and which admits a
+Hausdorffness of G is necessary, not a convenience: a continuous open
+surjective homomorphism with closed kernel identifies G with the quotient of
+E by a closed normal subgroup, which is T1 and hence Hausdorff. In Lean the
+hypothesis is carried as `[T2Space G]`, which `[IsTopologicalGroup G]` does not
+supply. Conversely every extension `1→𝕋_ε→E→G→1` of topological groups with
+G Hausdorff, 𝕋 embedded topologically and open projection, in which odd elements conjugate 𝕋 by z↦z̄ and which admits a
 section continuous near 1 with σ(1)=1, is isomorphic to one of these, and two
 multipliers give isomorphic extensions exactly when they differ by a
-coboundary. Hence `H²_lc(G,𝕋_ε)` classifies extensions that are locally
+coboundary. Hence, for Hausdorff G, `H²_lc(G,𝕋_ε)` classifies extensions that are locally
 trivial principal 𝕋-bundles (Neeb2004 Proposition II.6, whose proof applies
 verbatim with continuous for smooth; for connected G, WagemannWockel2015
-Remark I.3). Prove that `H¹` with these conventions equals the group of
-continuous crossed homomorphisms, because a crossed homomorphism continuous
-near 1 is continuous (WagemannWockel2015 Remark I.4). For second-countable G,
+Remark I.3). In degree one, a crossed homomorphism is a map `f:G→𝕋_ε` with
+`f(gh)=f(g)(g·f(h))`, and the principal ones are `f_z(g)=(g·z)z⁻¹` for z∈𝕋.
+Prove that a crossed homomorphism continuous near 1 is continuous
+(WagemannWockel2015 Remark I.4), so that the locally continuous 1-cocycles
+`Z¹_lc(G,𝕋_ε)` are exactly the continuous crossed homomorphisms, and define
+`H¹_lc(G,𝕋_ε)=Z¹_lc(G,𝕋_ε)/B¹(G,𝕋_ε)`, with `B¹` the principal crossed
+homomorphisms (WagemannWockel2015 Remark I.3). For the trivial grading every
+`f_z` is 1, so `H¹_lc(G,𝕋)` is the group of continuous characters `G→𝕋`; this
+is the form P.4 uses. For second-countable G,
 prove the countable patching construction: given a section σ continuous on an
 open identity neighbourhood V with σ(1)=1, cover G by countably many translates
 `g_nV` with `g₀=1`, choose lifts `ĝ_n` with `ĝ₀=1`, and on the Borel piece
@@ -273,8 +285,8 @@ agrees with the original one on V.
 *Needs:* Tau Ceti `TauCeti.FactorSet` and `isProjectiveRepEquivExtensionHom`;
 Mathlib `groupCohomology.IsMulCocycle₂`; P.1 for the operator realization.
 
-- A normalized locally continuous multiplier determines a topological
-  extension, unique up to isomorphism, with a section continuous near 1, and
+- For Hausdorff G, a normalized locally continuous multiplier determines a
+  topological extension, unique up to isomorphism, with a section continuous near 1, and
   every such extension arises this way.
 - Cohomologous multipliers give isomorphic extensions, and conversely.
 - The Borel-multiplier and graded-multiplier adapters to `TauCeti.FactorSet`
@@ -291,6 +303,14 @@ Mathlib `groupCohomology.IsMulCocycle₂`; P.1 for the operator realization.
   `ω_θ(x,y)ω_θ(y,x)⁻¹=exp(iθ(ab′−a′b))`, which no coboundary changes, so
   θ≠0 gives a nontrivial class of a simply connected group; simple
   connectivity alone never kills a multiplier.
+- `H¹` keeps the principal quotient. For G=ℤ/2={1,t} with the odd grading,
+  `f(t²)=f(t)·conj(f(t))=1` holds for every `f(t)∈𝕋`, so `Z¹≅𝕋`; the principal
+  `f_z(t)=z̄/z=z⁻²` reaches every point of 𝕋 because squaring is surjective, so
+  `H¹=0`. With the even grading `Z¹={f : f(t)²=1}≅ℤ/2` and `B¹=1`, so `H¹=ℤ/2`.
+  Identifying `H¹` with `Z¹` would give 𝕋 in the odd case.
+- Hausdorffness of G cannot be dropped: for `G=ℚ×C₂`, with `C₂` indiscrete,
+  ε=0 and ω≡1, the cocycle conditions hold but no extension has 𝕋 closed and
+  open projection onto G, since `{1}` is not closed in G.
 - For a discrete G every map is continuous near 1, so `H²_lc` is the abstract
   `H²(G,𝕋_ε)`; for G=ℤ/2×ℤ/2 ungraded the commutator pairing gives the
   nontrivial class realized by the Pauli matrices σ_x,σ_z.
@@ -5602,13 +5622,18 @@ M(Λ,a,b,σ)⁻¹ = M(Λ⁻¹, −Λ⁻¹a+Λ⁻¹bσ, −Λ⁻¹b, −σ).
 ```
 Check the action, identity, inverses and dimension `6+4+4+1=15`. Identify its normal 9-dimensional affine radical and Lorentz quotient. The Poincaré subgroup has `b=0,σ=0`; the Galilei subgroup has `Λ=diag(R,1), a=(𝐚,0), b=(𝐯,0)`, with `σ` the time translation on the extra affine coordinate and the fourth coordinate of `W` inert. The affine group called `ISO(3,2)` in the source is `ℝ^{3,2}⋊O(3,2)`, not `O(3,2)`; do not identify it with this `G₅` or a de Sitter group. The connected Lie algebra of `G₅` has a 9-dimensional solvable radical and quotient `𝔰𝔬(3,1)`, so it cannot contain either 10-dimensional simple algebra `𝔰𝔬(3,2)` or `𝔰𝔬(4,1)` as a Lie subalgebra: its intersection with the solvable radical would be an ideal in that simple algebra, hence zero, forcing an injection into the six-dimensional quotient. Preserve the source claim of containing a de Sitter group separately from this obstruction.
 
-For the contraction, define `L_μ∈𝔰𝔬(3,2)` by `L_μe₅=e_μ`, `L_μe_ν=η_{μν}e₅`; let `P_μ,S` be translations by `e_μ,e₅`, and `J_{μν}=[L_μ,L_ν]`. In the affine Lie algebra with bracket `[(A,u),(B,v)]=([A,B],Av−Bu)`, verify `[L_μ,S]=P_μ`, `[L_μ,P_ν]=η_{μν}S`, `[L_μ,L_ν]=J_{μν}`. On the fixed real 15-dimensional vector space `E=𝔰𝔬(η)⊕W_Q⊕W_P⊕ℝS`, for each `t>0` define the invertible linear map `D_t:E→𝔦𝔰𝔬(3,2)` by `J↦J`, `Q_μ↦tL_μ`, `P_μ↦tP_μ`, `S↦S`. Pull back the affine bracket by `D_t`: `[x,y]_t=D_t⁻¹[D_tx,D_ty]`. Derive `[Q_μ,S]_t=P_μ`, `[Q_μ,P_ν]_t=t²η_{μν}S`, `[Q_μ,Q_ν]_t=t²J_{μν}`, the unchanged Lorentz action on both W copies, and the other vanishing brackets. Extend these polynomial structure coefficients to `t=0` on the same vector space; prove Jacobi and identify the limiting Lie algebra with `Lie(G₅)`. This is a Lie-algebra contraction of `ISO₀(3,2)=ℝ^{3,2}⋊SO₀(3,2)`, not a global group limit or subgroup identification. At `t=0` the abstract Q/P basis vectors remain independent; no assertion treats vanishing scaled matrices inside the original matrix algebra as a basis. For the central extension, own the Heisenberg semidirect-product construction and normalized cocycle
+For the contraction, define `L_μ∈𝔰𝔬(3,2)` by `L_μe₅=e_μ`, `L_μe_ν=η_{μν}e₅`; let `P_μ,S` be translations by `e_μ,e₅`, and `J_{μν}=[L_μ,L_ν]`. In the affine Lie algebra with bracket `[(A,u),(B,v)]=([A,B],Av−Bu)`, verify `[L_μ,S]=P_μ`, `[L_μ,P_ν]=η_{μν}S`, `[L_μ,L_ν]=J_{μν}`. On the fixed real 15-dimensional vector space `E=𝔰𝔬(η)⊕W_Q⊕W_P⊕ℝS`, for each `t>0` define the invertible linear map `D_t:E→𝔦𝔰𝔬(3,2)` by `J↦J`, `Q_μ↦tL_μ`, `P_μ↦tP_μ`, `S↦S`. Pull back the affine bracket by `D_t`: `[x,y]_t=D_t⁻¹[D_tx,D_ty]`. Derive `[Q_μ,S]_t=P_μ`, `[Q_μ,P_ν]_t=t²η_{μν}S`, `[Q_μ,Q_ν]_t=t²J_{μν}`, the unchanged Lorentz action on both W copies, and the other vanishing brackets. Extend these polynomial structure coefficients to `t=0` on the same vector space; prove Jacobi and identify the limiting Lie algebra with `Lie(G₅)`. This is a Lie-algebra contraction of `ISO₀(3,2)=ℝ^{3,2}⋊SO₀(3,2)`, not a global group limit or subgroup identification. At `t=0` the abstract Q/P basis vectors remain independent; no assertion treats vanishing scaled matrices inside the original matrix algebra as a basis. For the central extension, own the semidirect-product construction over the Heisenberg group and the normalized cocycle
 ```
 c(g₂,g₁) = ½ (η(a₂+σ₁b₂, Λ₂b₁) − η(Λ₂a₁, b₂)),
 ```
 derived from the alternating form `ω((a₂,b₂),(a₁,b₁))=η(a₂,b₁)−η(a₁,b₂)`.
-Build the Heisenberg law `(x₂,z₂)(x₁,z₁)=(x₂+x₁,z₂+z₁+ω(x₂,x₁)/2)`;
-the shear `(a,b)↦(a+σb,b)` and the diagonal Lorentz action preserve `ω`.
+The Heisenberg law `(x₂,z₂)(x₁,z₁)=(x₂+x₁,z₂+z₁+ω(x₂,x₁)/2)` on `W⊕W` with
+centre ℝ is MetaplecticAutomorphicForms 0.1 for the real bilinear form
+`B((a,b),(a′,b′))=(η(a,b′)−η(a′,b))/2=ω/2`, with its centre from 0.5–0.6.
+Prove here that the shear `(a,b)↦(a+σb,b)` and the diagonal Lorentz action
+preserve `ω` (the shear changes ω by `σ(η(b₂,b₁)−η(b₁,b₂))=0` because η is
+symmetric), so that both act on it through the isometry action of
+MetaplecticAutomorphicForms 0.7–0.8, jointly continuously by 0.13.
 Use the factorization `g=S(σ)H(a,b)Λ` to derive the displayed cocycle. Prove
 normalization and `c(g₃,g₂)+c(g₃g₂,g₁)=c(g₂,g₁)+c(g₃,g₂g₁)`;
 for each fixed real `κ`, use phase `exp(iκc)` in the central group law.
@@ -5616,7 +5641,7 @@ Its infinitesimal normalization is `[P_μ,Q_ν]=η_{μν}Z`, alongside `[Q_μ,S]
 
 Use the product manifold and the displayed smooth law/inverse to obtain the connected unextended real Lie group G₅. Prove its nine-dimensional radical is connected and two-step nilpotent, and identify it as the entire solvable radical using the semisimple Lorentz quotient. For the normalized real central extension, prove that its radical is three-step nilpotent: its successive commutator ideals are `span{P_μ,Z}`, `ℝZ` and zero, using `[Q_μ,S]=P_μ` and `[P_μ,Q_ν]=η_{μν}Z`. Prove the Poincaré/Galilei subgroup embeddings into unextended G₅ and the law comparisons, not just their set descriptions. In the circle central extension the infinitesimal central bracket is scaled by κ: its radical has the same three-step Lie-algebra series when κ≠0, while κ=0 gives the unextended two-step radical plus the central circle. The displayed real central-extension normalization has coefficient1.
 
-Reuse native matrix multiplication/commutator and `LieAlgebra.so'` or `skewAdjointMatricesLieSubalgebra`, with the explicit coordinate equivalence for η and `η⊕(−1)`; use `SemidirectProduct` for the Heisenberg/shear/Lorentz constructions after supplying their action homomorphisms. TauCeti’s scalar `HeisenbergGroup ℝ`, its product-topology API and three-dimensional `heisenberg ℝ` calibrate the one-coordinate normalization; they do not already supply this 9-dimensional η-pairing group. Build the required bilinear adapter with one scalar center, not `HeisenbergGroup (ℝ⁴)`, whose center has the wrong dimension. LieGroups supplies matrix Lie groups, differentials and covering transport; Consume M1’s normalized central-extension, section and coboundary interface, on the Layer P projective carriers it already uses; the generic Weyl algebra remains D8-owned.
+Reuse native matrix multiplication/commutator and `LieAlgebra.so'` or `skewAdjointMatricesLieSubalgebra`, with the explicit coordinate equivalence for η and `η⊕(−1)`; use `SemidirectProduct` for the Heisenberg/shear/Lorentz constructions after supplying their action homomorphisms. TauCeti’s scalar `HeisenbergGroup ℝ`, its product-topology API and three-dimensional `heisenberg ℝ` calibrate the one-coordinate normalization; they do not supply this 9-dimensional η-pairing group. The bilinear extension with one scalar centre is MetaplecticAutomorphicForms Layer 0, not `HeisenbergGroup (ℝ⁴)`, whose centre has the wrong dimension; this section owns only the η specialization and its coordinate comparison. LieGroups supplies matrix Lie groups, differentials and covering transport; Consume M1’s normalized central-extension, section and coboundary interface, on the Layer P projective carriers it already uses; the generic Weyl algebra remains D8-owned.
 
 ### M5.KinematicClassification — ordered rotation-equivariant kinematics
 
@@ -7055,7 +7080,8 @@ Res_(H_s) Λ_s
 ```
 
 There is no atom at s=1/2, ν=0, and no discrete/limit/trivial atom.
-Compare [Möllers–Oshima, arXiv:1209.2312, Theorem4.1 and Eq.3.6](https://arxiv.org/html/1209.2312#S4),
+Compare [Möllers–Oshima, arXiv:1209.2312v3, Theorem 4.1 and the measure `dm_(σ,μ)` defined before Corollary 3.5](https://arxiv.org/abs/1209.2312v3)
+(§3.5, p.26 of arXiv v3),
 with source n=2, m=1, σ_source=2s. The degree k=0,1 harmonics
 on ℝ¹ give two continuous channels, μ=2k+1; higher harmonics vanish.
 Their disconnected orthogonal-group signs restrict to the same even
@@ -7063,7 +7089,8 @@ principal family of the connected double cover. Only k=0 has an atom,
 with parameter 2s−1>0. Prove the group-cover/parameter and Hilbert-model
 comparisons, the source hypergeometric-transform unitary and its dense-domain
 extension, before consuming this adapter. Its density is positive for ν>0;
-transport Eq.3.6 including its atom weight and normalizations. The source's
+transport that measure `dm_(σ,μ)` (§3.5, display before Corollary 3.5)
+including its atom weight and normalizations. The source's
 strict discrete index range excludes an atom at s=1/2.
 
 For τ=1 this immediately gives the complete row
