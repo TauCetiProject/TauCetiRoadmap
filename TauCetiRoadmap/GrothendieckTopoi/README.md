@@ -27,23 +27,59 @@ file split is an implementation choice; the dependency order below is not.
 In scope: Grothendieck topoi in a fixed universe, geometric morphisms between them, and the
 constructions and classes of morphisms listed in Layers 1–8. A statement belongs here exactly when
 it is about Grothendieck topoi and geometric morphisms in general, or about the topoi of
-topological spaces and locales.
+topological spaces and locales, and is not already owned by one of the suppliers below. Several of
+those suppliers state their material for arbitrary small sites or topoi; that generality does not
+move it here. What this roadmap adds to their material is the passage from a sheaf category on a
+chosen site to a topos given without a site, and the comparisons with geometric morphisms.
+
+| Interface | Owner | Contribution here |
+|---|---|---|
+| Sites, sheaves, sheafification, continuous and cocontinuous functors and their sheaf adjunctions | Mathlib | Layer 2 packages them as geometric morphisms; no underlying sheaf functor is rebuilt |
+| Points of a site, fibre and skyscraper functors, `HasEnoughPoints` | Mathlib (`Sites/Point/`) | Layer 6 compares them with geometric morphisms from `Type u`, keeping Mathlib's category of points and its variance |
+| Subobject classifier of a sheaf category | Mathlib (`Subobject.Classifier`, `Sheaf.classifier`) | Layer 1 transports it to every Grothendieck topos |
+| Power objects in a cartesian monoidal category | mathlib4#26757, ported under its names (see *Ported from open Mathlib pull requests*) | Layer 1: every object of a Grothendieck topos has one |
+| Locally connected sites and their `π₀` | mathlib4#41216, ported under its names | Layer 5: a locally connected site gives a locally connected topos |
+| Quasicompact and quasiseparated objects and morphisms, algebraic topoi | AdicSpacesPartII R0.19.10 | Layer 6: invariance under change of site, coherent topoi, Deligne's theorem |
+| Stacks on a site, stackification, 2-fibre products of stacks | SchemeAndStackFoundations §1.18 | none; the fibre products of topoi of Layer 8 are pseudo-pullbacks of topoi, not 2-fibre products of stacks |
+| Cohomology on sites and its spectral sequences | Mathlib, Tau Ceti, SchemeAndStackFoundations §§2.1–2.5 | none |
+| Topoi of schemes and algebraic spaces, their comparison morphisms, repleteness | SchemeAndStackFoundations §§1.10, 2.9–2.17 | none; their morphisms of topoi are bundled by Layer 2 when needed |
+| Ringed and derived topoi, enhanced pullback and pushforward | EnhancedDerivedSheaves, SchemeAndStackFoundations, AdicSpacesPartII, RigidAnalyticGeometry §8.3 | none; bundled, the underlying morphism of topoi is a `GeometricMorphism` of Layer 2 |
+| General geometric morphisms, their 2-cells and bicategory, subtopoi, the localic factorization | this roadmap | Layers 2–5 and 7 |
 
 Owned elsewhere and consumed here, never restated:
 
 - *Topoi of schemes and algebraic spaces* (small and big étale, Nisnevich, fppf and pro-étale
   sites, replete topoi, ringed topoi of schemes and algebraic spaces):
-  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §§1.10, 2.9–2.17.
+  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §§1.10, 2.9–2.17. Its
+  morphisms of topoi (`smallEtale_map`, `epsilonFppfEtale` and the other comparison morphisms of
+  §2.10) keep their constructions there; where they come from a continuous, finite-limit-preserving
+  or a cocontinuous functor of small sites, their bundled form is `GeometricMorphism.ofContinuous`
+  or `GeometricMorphism.ofCocontinuous` applied to that functor, with no further construction.
+- *Stacks and stackification on a site*: SchemeAndStackFoundations §1.18, which owns the generic,
+  site-level `Stack.stackification` and `Stack.twoFibreProduct` for every small site, not only their
+  fppf specialisations.
 - *Cohomology on sites* (Mathlib's `Sheaf.H`, pullback and higher direct images, Leray and Čech
   spectral sequences, torsors): Mathlib, Tau Ceti's
   `TauCeti/CategoryTheory/Sites/SheafCohomology/`, and SchemeAndStackFoundations §§2.1–2.5. No
   cohomology appears in this roadmap.
 - *Quasicompact and quasiseparated objects and morphisms of a topos, algebraic topoi*:
   [AdicSpacesPartII](../AdicSpacesPartII/README.md) R0.19.10, namespace
-  `TauCetiRoadmap.AdicSpacesPartII.Topos`. Layer 6 uses `Topos.IsQuasicompact`,
-  `Topos.IsQuasiseparated` and `Topos.IsAlgebraic` as defined there and defines nothing parallel.
+  `TauCetiRoadmap.AdicSpacesPartII.Topos`, stated there for an arbitrary small site with its
+  permanence lemmas. Layer 6 uses `Topos.IsQuasicompact`, `Topos.IsQuasiseparated`,
+  `Topos.Hom.IsQuasicompact`, `Topos.Hom.IsQuasiseparated` and `Topos.IsAlgebraic` as defined there,
+  adds their invariance under equivalences of sheaf categories, and defines no second qcqs notion.
+- *Enhanced and derived categories of sheaves on ringed sites and topoi*, their pullback and
+  pushforward along morphisms of ringed topoi, and the inverse-limit theory of replete topoi:
+  [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md).
 - *Ringed topoi of rigid and adic spaces and their comparison*: AdicSpacesPartII and
   [RigidAnalyticGeometry](../RigidAnalyticGeometry/README.md) §8.3.
+
+Neighbouring subjects that share words with this one: the classifying topos `B G` of a group
+(Examples and checks) is not the topological classifying space of
+[ClassifyingSpaces](../ClassifyingSpaces/README.md), and the 2-category of topoi of Layer 2 is not
+the homotopy theory of small categories of
+[HomotopyTheoryOfCategories](../HomotopyTheoryOfCategories/README.md), which uses sites only as
+bases of coefficient stacks.
 
 Outside every layer: elementary topoi axiomatized without a site (the subobject classifier of a
 sheaf category is used, from Mathlib, as a property of that category); ringed and
@@ -103,11 +139,8 @@ fibre functors, never through models of theories.
 9. **Names.** Topos-level declarations live in the namespace `CategoryTheory` with the prefix
    `GeometricMorphism.` or `IsGrothendieckTopos.`; frame and locale declarations live under
    `Order.Frame` and `Locale`. Mathlib's names are used unchanged for everything Mathlib already
-   has, and a new name agrees with an open Mathlib PR where one exists: the class
-   `GrothendieckTopology.IsLocallyConnectedSite` and the functor `π₀` of
-   [mathlib4#41216](https://github.com/leanprover-community/mathlib4/pull/41216), and the power
-   objects of [mathlib4#26757](https://github.com/leanprover-community/mathlib4/pull/26757) where
-   Layer 1 needs exponentials of subobject classifiers.
+   has, and the declarations ported from open Mathlib pull requests keep those pull requests' names,
+   namespaces and signatures (see *Ported from open Mathlib pull requests*).
 
 ## Existing foundations
 
@@ -138,7 +171,10 @@ fibre functors, never through models of theories.
   (`Sites/LocalSite`); `Precoherent` and `coherentTopology` (`Sites/Coherent/`).
 - **Category theory.** `CoproductDisjoint`, `IsUniversalColimit`, `ObjectProperty.IsSeparating`,
   `ObjectProperty.Small`, `Subobject` with `Subobject.pullback`, `Over.star`,
-  `Over.forgetAdjStar`, `conjugateEquiv`, `Bicategory`, `Comma`.
+  `Over.forgetAdjStar`, `Over.post`, `Over.pullback`, `Over.iteratedSliceEquiv`,
+  `ExponentiableMorphism`, `MonoidalClosed` with `ihom` (`Sites/CartesianClosed` gives
+  `MonoidalClosed (Sheaf J A)`), `conjugateEquiv`, `mateEquiv`, `Bicategory`, `Comma`, and
+  `Action.functorCategoryEquivalence` (`Action V G ≌ SingleObj G ⥤ V`).
 - **Order and topology.** `Order.Frame`, `FrameHom`, `Frm`, `Locale`, `topToLocale`, the points
   functor `Locale.pt` with `adjunctionTopToLocalePT` (`Topology/Order/Category/FrameAdjunction`),
   `Nucleus`, `Sublocale`, `nucleusIsoSublocale`, `TopologicalSpace.Opens` with its frame instance
@@ -149,16 +185,70 @@ fibre functors, never through models of theories.
   (`Order/CompactlyGenerated/Basic`). Mathlib has no way-below relation, no core-compact spaces,
   no scattered spaces, and no instance making a product of quasi-sober spaces quasi-sober; Layer 8
   builds them.
-- **Open Mathlib PRs whose shape is followed.** mathlib4#41216 (locally connected sites: the class
-  `IsLocallyConnectedSite`, `π₀`, `π₀ConstantSheafAdj`) and mathlib4#26757 (elementary topoi and
-  power objects). Both are built here as Layer 5 and Layer 1 targets respectively, named and shaped
-  as in those PRs, and replaced by Mathlib's declarations when they land.
+
+### Ported from open Mathlib pull requests
+
+Two pieces of infrastructure more general than topoi are open Mathlib pull requests and are absent
+from the pinned Mathlib. They are not developed independently here. Their declarations
+are ported into Tau Ceti once, with the names, namespaces and signatures of the pull request at the
+head named below, in coordination with the authors of those pull requests (both are Apache 2.0, as
+is Tau Ceti); this roadmap's own targets are only the Grothendieck-topos instances and comparisons
+built on them.
+
+- [mathlib4#26757](https://github.com/leanprover-community/mathlib4/pull/26757), head `865008d`,
+  file `Mathlib/CategoryTheory/Closed/PowerObjects.lean`: for `ℰ` with a
+  `CartesianMonoidalCategory` structure and pullbacks, `subobjProd` (the bifunctor
+  `(B, A) ↦ Subobject (B ⊗ A)`), `IsPowerObjectOf B P` (`P` represents `A ↦ Subobject (B ⊗ A)`),
+  `PowerObject.map`, `PowerObject.compose`, `PowerObject.functor`, `PowerObject.singleton` with the
+  instance `PowerObject.singleton_is_mono`, the `LeftRepresentable` lemmas they rest on, and the
+  supporting lemmas that pull request adds to existing files. Its `Topos/Classifier.lean` is not
+  ported: subobject classifiers are Mathlib's `Subobject.Classifier` and `HasSubobjectClassifier`.
+  Contribution here: Layer 1, *Power objects*.
+- [mathlib4#41216](https://github.com/leanprover-community/mathlib4/pull/41216), head `b2e6c5d`,
+  file `Mathlib/CategoryTheory/Sites/LocallyConnectedSite.lean`: the class
+  `GrothendieckTopology.IsLocallyConnectedSite` (field `isConnected_of_mem`: every covering sieve is
+  connected as a full subcategory of the slice) with its instance on `trivial C`, and in the
+  namespace `GrothendieckTopology.IsLocallyConnectedSite` the lemma `isSheaf_const_obj`,
+  `constantSheafToPresheafIsoConst`, `π₀ J A := sheafToPresheaf J A ⋙ colim`, the adjunction
+  `π₀ConstantSheafAdj : π₀ J A ⊣ constantSheaf J A`, `uniqueπ₀ObjOfIsRepresentable`, and the
+  instances for connected and cosifted sites; with the helpers that pull request adds to
+  `Limits/Sifted` and `Limits/Types/Colimits` (`colim_preservesFiniteProducts_of_isSifted'`,
+  `uniqueColimitOfIsRepresentable`). Contribution here: Layer 5, *Locally connected*.
+
+Migration: when either pull request is merged into the Mathlib that Tau Ceti pins, the ported file
+is deleted and Mathlib's is imported. If the merged names or signatures differ from the head named
+above, the port is first renamed to the merged form, so that the deletion changes no statement of
+this roadmap. A change in either direction is coordinated with the pull request's authors.
 
 ### Sibling-roadmap material consumed
 
-- AdicSpacesPartII R0.19.10: `Topos.IsQuasicompact`, `Topos.IsQuasiseparated`,
-  `Topos.Hom.IsQuasicompact`, `Topos.Hom.IsQuasiseparated`, `Topos.IsAlgebraic` for
-  `Sheaf J (Type u)` on a small site. Layer 6 transports them along equivalences of topoi.
+- AdicSpacesPartII R0.19.10, namespace `TauCetiRoadmap.AdicSpacesPartII.Topos`, for
+  `Sheaf J (Type u)` on a small site `C : Type u`, `[Category.{u} C]`: the predicates
+  `Topos.IsQuasicompact`, `Topos.IsQuasiseparated`, `Topos.Hom.IsQuasicompact`,
+  `Topos.Hom.IsQuasiseparated`, `Topos.IsAlgebraic`, and the permanence lemmas
+  `Topos.Hom.isQuasiseparated_iff_diagonal`, `Topos.Hom.isQuasicompact_comp`,
+  `Topos.Hom.isQuasicompact_pullback`, `Topos.Hom.isQuasiseparated_comp`,
+  `Topos.Hom.isQuasiseparated_pullback`, `Topos.isQuasiseparated_iff_of_cover`,
+  `Topos.isQuasicompact_of_isQuasicompact_terminal`. These are the public predicates every consumer
+  uses; Layer 6 proves their invariance under equivalences of sheaf categories and states the
+  coherent-topos results with them.
+
+### What exists and what is new
+
+Against the Mathlib and Tau Ceti pinned by this repository (Mathlib `f6090c7`, Tau Ceti
+`358314d`):
+
+- *In Mathlib*: every declaration named in *Mathlib material consumed*.
+- *In neither, ported*: the declarations of the two pull requests above.
+- *Specified in a sibling roadmap, not yet in Tau Ceti*: the AdicSpacesPartII R0.19.10 predicates
+  and lemmas above.
+- *In neither, new here*: `IsGrothendieckTopos`, `GiraudAxioms` and the structure theorems of
+  Layer 1; `GeometricMorphism`, its 2-cells, `GrothendieckToposCat` and its bicategory; étale
+  morphisms; `Subtopos`, universal closure operators, Lawvere–Tierney topologies, gluing and the
+  factorizations; the classes of morphisms of Layer 5; points of a topos as geometric morphisms;
+  `Frame.grothendieckTopology` and localic topoi; fibre products of topoi; the frame coproduct,
+  the way-below relation, `CoreCompactSpace`, `ScatteredSpace`, and `QuasiSober` instances for
+  products. Tau Ceti has no topos-level declaration.
 
 ## The build, in layers
 
@@ -181,7 +271,7 @@ fibre functors, never through models of theories.
   `C : Type (u+1)` with `[Category.{u} C]` and `EssentiallySmall.{u} C`, through Mathlib's
   `Sites/Equivalence`.
 - **Structure of a topos.** For `hE : IsGrothendieckTopos E` prove: `HasLimits E`, `HasColimits E`
-  (both of size `u`), `CartesianClosed E` for the cartesian monoidal structure
+  (both of size `u`), `MonoidalClosed E` for the cartesian monoidal structure
   `CartesianMonoidalCategory.ofHasFiniteProducts`, `HasSubobjectClassifier E`, `WellPowered.{u} E`,
   `Balanced E`; every epimorphism is regular (`IsRegularEpiCategory E`); a family of maps into `X`
   is jointly epimorphic if and only if it is an effective epimorphic family; for each `X : E` the
@@ -189,9 +279,11 @@ fibre functors, never through models of theories.
   frame homomorphism with left adjoint `Subobject.exists f` and right adjoint the universal
   quantifier along `f`. Each is transported from `Sheaf J (Type u)` along the equivalence and is a
   lemma about `Sheaf J (Type u)` first.
-- **Power objects.** In a Grothendieck topos every object `X` has a power object `P X`, the
-  exponential of `Ω` by `X`, representing `Subobject (Y ⨯ X)` naturally in `Y`. Name and shape the
-  representing data as mathlib4#26757 does.
+- **Power objects.** In a Grothendieck topos, with the cartesian monoidal structure above, every
+  object `X` has a power object: `IsPowerObjectOf X ((ihom X).obj Ω)` for a subobject classifier
+  `Ω`, in the sense of the port of mathlib4#26757, so `Y ⟶ (ihom X).obj Ω` corresponds to
+  `Subobject (X ⊗ Y)` naturally in `Y`; `PowerObject.functor` then gives the power-object functor
+  `Eᵒᵖ ⥤ E`.
 - **Giraud's axioms.** Define `GiraudAxioms E : Prop` for `E : Type (u+1)`, `[Category.{u} E]`, as
   the conjunction of: `HasFiniteLimits E`; `HasCoproducts.{u} E`; every `u`-small coproduct is
   disjoint (`CoproductDisjoint`) and universal (`IsUniversalColimit` of its colimit cocone); every
@@ -360,8 +452,10 @@ this layer.
   isomorphism above, a natural transformation
   `Over.pullback u' ⋙ (f/Y)_! ⟶ (f/X)_! ⋙ Over.pullback u`, is an isomorphism: `f.inverse` has an
   `F`-indexed left adjoint (Elephant B1.4 for indexed adjunctions, C3.3.1). Prove that for
-  `F = Type u` this holds if and only if the constant functor has a left adjoint `π₀`; that locally
-  connected sites in the sense of mathlib4#41216 give locally connected topoi with that `π₀`; that
+  `F = Type u` this holds if and only if the constant functor has a left adjoint `π₀`; that
+  for a small site with `[J.IsLocallyConnectedSite]` (the port of mathlib4#41216), the global
+  sections morphism of `Sheaf J (Type u)` is locally connected with left adjoint
+  `GrothendieckTopology.IsLocallyConnectedSite.π₀ J (Type u)`, through `π₀ConstantSheafAdj`; that
   étale morphisms are locally connected; that `Sh(X)` is locally connected if and only if `X` is
   locally connected (`LocallyConnectedSpace`); and that a locally connected `f` is connected if and
   only if `f_!` preserves the terminal object.
@@ -402,13 +496,21 @@ this layer.
   `Nucleus`, with sublocale `Nucleus.toSublocale`). Prove that `Sh(L)` is
   not equivalent to the category with one object and one morphism and has no point (Elephant C1.2;
   Mac Lane–Moerdijk IX.2).
+- **Change of site for the qcqs vocabulary.** For small sites `(C, J)`, `(D, K)` in universe
+  `u` and an equivalence `Φ : Sheaf J (Type u) ≌ Sheaf K (Type u)`, prove that `Φ.functor` preserves
+  and reflects `Topos.IsQuasicompact` and `Topos.IsQuasiseparated` of objects and
+  `Topos.Hom.IsQuasicompact` and `Topos.Hom.IsQuasiseparated` of morphisms, and that
+  `Topos.IsAlgebraic` holds for one sheaf category exactly when it holds for the other. For
+  `hE : IsGrothendieckTopos E`, an object or morphism of `E` is quasicompact or quasiseparated when
+  its image under some presentation `e : E ≌ Sheaf J (Type u)` is; by the invariance this does not
+  depend on `e`, and these are the only topos-level forms of the AdicSpacesPartII predicates.
 - **Coherent topoi.** A Grothendieck topos is *coherent* when, for a site `(C, J)` with an
   equivalence to `Sheaf J (Type u)`, the sheaf topos is `Topos.IsAlgebraic` and its terminal
   object is `Topos.IsQuasicompact` and `Topos.IsQuasiseparated` (AdicSpacesPartII R0.19.10; SGA 4
   VI 2.3), and *locally coherent* when it is algebraic. Prove that both are independent of the
-  site, that `Sheaf (coherentTopology C) (Type u)` is locally coherent for small `C` with
-  `[Precoherent C]` and `[HasPullbacks C]`, and that it is coherent when `C` moreover has a terminal
-  object.
+  site (by the previous item), that `Sheaf (coherentTopology C) (Type u)` is locally coherent for
+  small `C` with `[Precoherent C]` and `[HasPullbacks C]`, and that it is coherent when `C`
+  moreover has a terminal object.
 - **Deligne's theorem.** A locally coherent topos has enough points (SGA 4 VI 9.0, proved in VI §9;
   Mac Lane–Moerdijk IX.11). In particular `HasEnoughPoints.{u} (coherentTopology C)` for every
   small `C` with `[Precoherent C]` and `[HasPullbacks C]`.
@@ -463,7 +565,7 @@ this layer.
 - **Coproducts of frames.** For frames `L, M : Type u`, construct the frame coproduct `L ⊗ M` as
   the frame of C-ideals of `L × M` (down-sets closed under the two one-sided joins
   `(⨆ Uᵢ, V)` and `(U, ⨆ Vⱼ)`), with frame homomorphisms `inl`, `inr` and the universal property
-  `Order.Frame.IsCoproduct inl inr`. Prove that the product of localic topoi is localic and
+  `IsFrameCoproduct inl inr`. Prove that the product of localic topoi is localic and
   `Sh(L) × Sh(M) ≃ Sh(L ⊗ M)` (Elephant C1.6; Stone Spaces II.2).
 - **Way-below and core-compactness.** For a complete lattice `L`, `CompleteLattice.WayBelow a b`
   (`a ≪ b`) holds when every nonempty directed `s` with `b ≤ sSup s` has a member above `a`, the
@@ -516,6 +618,15 @@ this layer.
 - `Sh(ℝ)` is connected, locally connected, has enough points, is localic and is not local; the
   presheaf topos on a small category with a terminal object is local.
 - `Opens (ℝ × ℝ)` is the frame coproduct of two copies of `Opens ℝ`; `Opens (ℚ × ℚ)` is not.
+- For a group `G : Type u`, the classifying topos `B G` is `Action (Type u) G`, the category of
+  `G`-sets. It is a Grothendieck topos, being equivalent through
+  `Action.functorCategoryEquivalence` to `SingleObj G ⥤ Type u`, the presheaves on the opposite of
+  the one-object category `SingleObj G` (Layer 1, presheaf topoi; the objects of `SingleObj G` lie
+  in `Type`, so the small site is `AsSmall.{u}` of it). It is connected and locally connected. For `G`
+  acting on itself by left multiplication, `Over G` is equivalent to `Type u` (the fibre over `1`),
+  so the corresponding étale morphism is a point of `B G` whose inverse image is the forgetful
+  functor; the points of `B G` form a connected groupoid in which each object has automorphism
+  group isomorphic to `G` (the `G`-torsors, by Diaconescu's theorem).
 
 ## Dependency order
 
@@ -523,7 +634,9 @@ Layer 1 rests on Mathlib's sites and the classifier. Layer 2 needs Layer 1 for t
 global sections and is otherwise site-level. Layer 3 needs Layers 1–2. Layer 4 needs Layers 1–3
 (open subtopoi use the open embeddings of Layer 3). Layer 5 needs Layers 2–4 (hyperconnected
 morphisms use the subobject closure of Layer 4, localic ones the factorization). Layer 6 needs
-Layer 2 for points, Layer 4 for subtopoi, and AdicSpacesPartII R0.19.10 for coherence. Layer 7
+Layer 2 for points, Layer 4 for subtopoi, and AdicSpacesPartII R0.19.10 for coherence. The power
+objects of Layer 1 and the locally connected sites of Layer 5 need the ports of mathlib4#26757 and
+mathlib4#41216. Layer 7
 needs Layers 4–5. Layer 8 needs Layers 2, 3, 5 and 7. Diaconescu's theorem (Layer 2) is proved
 before the identification of points in Layer 6, which is its special case.
 
