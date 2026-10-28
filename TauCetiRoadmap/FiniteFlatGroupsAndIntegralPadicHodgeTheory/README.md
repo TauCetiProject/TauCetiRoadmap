@@ -116,11 +116,14 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   field, Frobenius and Verschiebung of elliptic curves, supersingular Frobenius kernels and the two
   `p`-divisible groups of an elliptic curve over an algebraically closed field). ModularCurves
   schedules neither Dieudonné theory nor the Oort–Tate classification; both are owned here.
-- TauCetiRoadmap.LocalFieldsRamification: Layers 3–4 own the finite and absolute ramification
-  package over complete discretely valued fields with arbitrary perfect residue field in equal
-  and mixed characteristic: lower and upper numbering, Herbrand functions, the different,
-  normal-quotient and open-subgroup identities, full Hasse–Arf and completed maximal unramified
-  comparison, as specified in §R07.6.1a. Layer 4 also supplies
+- TauCetiRoadmap.LocalFieldsRamification: Layers 3–4 own the ramification package over
+  nonarchimedean local fields, whose residue fields are finite: lower and upper numbering,
+  Herbrand functions with their tower and quotient compatibilities, the different and
+  Hasse–Arf. Its filtration carriers assume `IsNonarchimedeanLocalField`, which includes local
+  compactness. The extension to complete discretely valued fields with arbitrary perfect residue
+  field, in equal and mixed characteristic, including absolute upper numbering and completed
+  maximal unramified comparison, is the target §R07.6.1a of this roadmap; it restricts to the
+  supplied objects on their common domain. Layer 4 also supplies
   the finite-residue tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
   `TauCeti.quotientWildInertiaSubgroupEquiv`. §R07.1.26 keeps only what lies beyond Layer 4:
@@ -129,14 +132,14 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   Frobenius, norm and cyclotomic facts; §R07.1.26 supplies their perfect-residue generalisation
   and agreement theorem.
 - TauCetiRoadmap.PadicLocalLanglandsForGL2Qp: §0.2 (the filtered `(φ, N)`-module carrier,
-  weak admissibility and the semistable equivalence), §0.3 (finite-residue fundamental
+  weak admissibility and the semistable equivalence; the Sen operator on `D_dif`, its labelled
+  decomposition and the local-algebraicity criterion for characters), §0.3 (finite-residue fundamental
   characters and the `ℚ_p` unit-Kummer subspace and peu/très ramifiée predicates) and §§2.7–2.8
   (the `ℚ_p` Serre weights, compact inductions and spherical Hecke operator); the exact contracts
   are listed under *Exact supplier contracts*.
 - TauCetiRoadmap.EllipticCurves Layer 4 (the Tate curve), TauCetiRoadmap.ProfiniteCohomology Layer 9
   (Hilbert `90` and Kummer theory) and TauCetiRoadmap.ClassFieldTheory Layers 5, `7` and `11` (local Tate
-  duality and the local and global Artin maps), including Layer 7's unit-filtration reciprocity
-  for nonarchimedean local fields; ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
+  duality and the local and global Artin maps); ClassFieldTheory Layer 11 (global Artin reciprocity) and GlobalNumberFields
   Layers 9–10 supply the global character and Hecke infinity-type inputs of §R07.P7.3.
 
 **Imported from the arithmetic-geometry and representation-theory roadmaps.**
@@ -171,9 +174,7 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   the principal `O_C` envelope, presentation, completion, `θ_cris` and logarithm (§3),
   and the general-base topological period carriers, actions, invariant functors, rational
   predicates, fixed fields, regularity and underlying fundamental sequence (§§4.1–4.3).
-  Its §§1.3 and 2 own the trace-ideal formula, upper-break spacing and Sen tower estimates,
-  consuming LocalFieldsRamification Layers 3–4's ramification and different package and
-  ClassFieldTheory Layer 7's unit-filtration reciprocity on its local-field domain.
+  Its §§1.3 and 2 own the trace-ideal formula, upper-break spacing and Sen tower estimates.
   Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the
   crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
   both period-sequence long exact sequences and `blochKatoExp` supplied by
@@ -182,7 +183,8 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   (the Cohen-ring étale equivalence and the Robba carriers) and stage 2 (degrees, slopes,
   Dieudonné–Manin and the slope filtration) at the Kummer frame.
   Section R07.P5a owns the integral coefficient predicates. Sections R07.P7.1–R07.P7.5 give finite-coefficient de Rham and
-  Hodge–Tate adapters, labelled Sen theory, character criteria and lifting applications.
+  Hodge–Tate adapters, the Hodge–Tate criterion and weight formulas for the labelled Sen
+  operators of PadicLocalLanglandsForGL2Qp §0.2, character criteria and lifting applications.
   Section R07.3.3a owns the general-ring filtered Frobenius carrier; §R07.3.4 specializes its
   generating objects to `W(k)`, with Fontaine–Laffaille's contravariant realization in §R07.3.7.
   Section R07.3.0 compares the finite-`K` crystalline and semistable realizations with
@@ -384,19 +386,15 @@ laws) with `FormalGroup.IsComm`.
   the finite-level connected–étale sequence of `7E` is used over henselian local rings, and its
   splitting only on the special fibre over a perfect residue field.
 - **LocalFieldsRamification.** Layers 3–4 supply lower and upper numbering, Herbrand functions,
-  the different, absolute upper numbering by inverse limit, normal-quotient and open-subgroup
-  identities, full Hasse–Arf and completed maximal unramified comparison for complete discretely
-  valued fields with arbitrary perfect residue field, in equal and mixed characteristic
-  (§R07.6.1a). Layer 4 also supplies the finite-residue tame character
-  `I_K/P_K ≅ lim μ_m` and its Frobenius twist.
+  normal-quotient compatibility, the different and Hasse–Arf for nonarchimedean local fields
+  (finite residue field). Their extension to complete discretely valued fields with arbitrary
+  perfect residue field, in equal and mixed characteristic, is §R07.6.1a here. Layer 4 also
+  supplies the finite-residue tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist.
 - **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion).
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
 - **ClassFieldTheory.** Layer 5 (local Tate duality, its target `tateDualityPairing_perfect_mixed`),
-  Layer 7 (the local Artin map and unit-filtration reciprocity: for a nonarchimedean local field
-  `K` and finite abelian `L/K`, `U_K^n` maps onto `Gal(L/K)^n`, including `n=0`; its absolute
-  image is dense in the abelianized image of `G_K^n`, Serre, *Local Fields*, XV §2,
-  Theorem 2 and Corollary 3) and Layer 11 (global Artin reciprocity), used in §R07.1.35 and
-  §R07.5.14; Layer 11 (global Artin reciprocity) supplies the global character input of §R07.P7.3.
+  Layer 7 (the local Artin map, its normalizations and local conductors) and Layer 11 (global
+  Artin reciprocity), used in §R07.1.35 and §R07.5.14; Layer 11 (global Artin reciprocity) supplies the global character input of §R07.P7.3.
 - **GlobalNumberFields.** Layers 9–10 supply Hecke characters, algebraic infinity types and
   unit relations for §R07.P7.3.
 
@@ -409,7 +407,10 @@ laws) with `FormalGroup.IsComm`.
   `t_H ≤ t_N` on `φ,N`-stable subobjects; the tensor, dual, twist, exact-category,
   scalar-change and descent API; and the theorem that `D_st` is a fully faithful equivalence from
   semistable representations onto weakly admissible objects, in every rank. Used in
-  §§R07.3.1–R07.3.3 and R07.4.13.
+  §§R07.3.1–R07.3.3 and R07.4.13. For finite `K/ℚ_p`, also the Sen operator on `D_dif(V)` with
+  its generalized Hodge–Tate weights, its labelled decomposition over the coefficient tensor
+  product, its compatibility with finite field and coefficient extensions, and the
+  local-algebraicity criterion for characters. Used in §§R07.P7.2–R07.P7.3.
 - **§0.3.** For every nonarchimedean local field with finite residue field, including equal
   characteristic, the `fundamentalCharacter` at every niveau on the tame inertia quotient, with
   residue embedding, independence of the uniformiser, Teichmüller lift, least niveau,
@@ -455,11 +456,9 @@ laws) with `FormalGroup.IsComm`.
   `B_dR^+`, `B_dR`, the period `t` with `g(t) = χ(g)t`, the continuous Galois action,
   `padicComplex_fixed_eq`, `tate_normalizedTrace`, `tate_almostEtale`,
   `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist`.
-  Sections 1.3 and 2 supply `periodTraceIdeal`, `senUpperBreaks` and `senTowerEstimates`,
-  consuming LocalFieldsRamification Layers 3–4's general perfect-residue ramification and
-  different package, including completed maximal unramified comparison, and ClassFieldTheory
-  Layer 7's unit-filtration reciprocity on its local-field domain. Section 2 owns the separate
-  geometric reciprocity input over algebraically closed residue fields used in these estimates.
+  Sections 1.3 and 2 supply `periodTraceIdeal`, `senUpperBreaks` and `senTowerEstimates`.
+  Section 2 owns the separate geometric reciprocity input over algebraically closed residue
+  fields used in these estimates.
   Section `3` supplies the principal `O_C` envelope, its presentation and completion, `θ_cris`
   and logarithm. Sections 4.1–4.3 supply the crystalline and semistable carriers, actions,
   period maps, invariant functors, rational predicates, fixed fields, regularity and underlying
@@ -635,11 +634,11 @@ Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Tau Ceti
 - Over `F_p`, the Frobenius of the base is the identity, so
   `G^{(p)} ≅ G` for every finite flat commutative `G`.
 - A finite constant group `Γ_k` has `Γ_k^{(p)} ≅ Γ_k`.
-- `frobenius_constZModP_iso`: For `G = ℤ/pℤ, F_G` is an isomorphism and `V_G = 0`.
-- `verschiebung_muP_iso`: For `G = μ_p, F_G = 0` and `V_G` is an isomorphism.
-- `frobenius_alphaP_zero`: For `G = α_p, F_G = V_G = 0` although `α_p ≠ 0`.
-- `verschiebung_not_inverse`: `V_G` is not an inverse of `F_G`: on `μ_p, F_G = 0` while `V_G ≠ 0`, and `V_G ∘ F_G = p = 0`.
-- `frobenius_Ga_Gm`: on `𝔾_a: F(x) = x^p` and `V = 0`; on `𝔾_m: F(x) = x^p` and `V = id` after identifying
+- For `G = ℤ/pℤ, F_G` is an isomorphism and `V_G = 0`.
+- For `G = μ_p, F_G = 0` and `V_G` is an isomorphism.
+- For `G = α_p, F_G = V_G = 0` although `α_p ≠ 0`.
+- `V_G` is not an inverse of `F_G`: on `μ_p, F_G = 0` while `V_G ≠ 0`, and `V_G ∘ F_G = p = 0`.
+- On `𝔾_a: F(x) = x^p` and `V = 0`; on `𝔾_m: F(x) = x^p` and `V = id` after identifying
   `𝔾_m^{(p)} = 𝔾_m`.
 - For `p = 2` and `A = F₂ × F₂`, the invariant tensor space has dimension `3`, while the
   quotient by the norm image has dimension `2`, equal to the Frobenius twist of `A`.
@@ -754,7 +753,7 @@ the special fibre. Here connectedness and unipotence refer to the integral group
 special fibre; the characteristic-zero generic fibre is étale. Over an algebraically closed
 residue field, the unipotent simple groups are `ℤ/p` and `α_p`, whereas `μ_p` is not
 unipotent. Use the connected–étale sequence and its Cartier dual (Stix 2012,
-§§8.1–8.4, Propositions 37, 40 and 44, pp.38–42; §8.5, Theorem 54, p.46).
+§§8.1–8.4, Propositions 37 and 40 and Theorem 44, pp.38–42; §8.5, Theorem 54, p.48).
 
 Prove `card_points_quot_multiplicativePart`. Let `R` be a complete mixed-characteristic
 DVR with perfect residue field `k`, fraction field `K`, and `e < p−1`. Let `G/R` be finite
@@ -1575,21 +1574,22 @@ these properties and weight multisets, independently of the model
 
 ### R07.P7.2 Labelled Sen operators
 
-For the finite-coefficient inputs above, use the normalized traces
-of PadicPeriodRings §§1–2 to construct the finite-dimensional Sen module over
-`K_∞ = K(μ_{p^∞})`, with a model stable under a small cyclotomic subgroup at a sufficiently
-large finite layer, and its operator given by
-`log(ρ(γ))/log(χ_p(γ))` for sufficiently small cyclotomic `γ` on the Sen module.
-Prove recovery after extension to `ℂ_p`, independence of the layer, model and generator,
-functoriality under maps, and insensitivity to finite restriction. For an embedding
-`ι : ℚ̄_p → ℂ_p`, descend to `E` and restrict to `G_{Kι(E)}` before constructing the operator;
-the induced label is `τ = ι⁻¹|_K`. Define Hodge–Tate–Sen weights as its eigenvalues with
-multiplicity. Prove that Hodge–Tate is equivalent to semisimplicity of every labelled Sen operator
-with integer eigenvalues, with eigenvalues equal to `HT_τ`. Prove the direct-sum, tensor
+For the finite-coefficient inputs above, use the Sen operator of PadicLocalLanglandsForGL2Qp
+§0.2, constructed from `D_dif(V)` on the Sen module over `K_∞ = K(μ_{p^∞})`, with its
+labelled decomposition over
+`K ⊗_{ℚ_p} E`, one factor for each embedding, its functoriality and its compatibility with
+finite field and coefficient extensions; that roadmap constructs these objects and this
+target does not construct a second Sen module. For an embedding `ι : ℚ̄_p → ℂ_p` the label
+is `τ = ι⁻¹|_K`, and the labelled Sen operator `Θ_τ` is the `τ`-factor. Define Hodge–Tate–Sen
+weights as its eigenvalues with multiplicity. Prove that Hodge–Tate in the sense of §R07.P7.1
+is equivalent to semisimplicity of every `Θ_τ` with integer eigenvalues, with eigenvalues
+equal to `HT_τ`; this fixes the sign transport between the two conventions, `χ_p` having
+weight `+1`. Prove the direct-sum, tensor
 (`Θ_{V⊗W} = Θ_V ⊗ 1 + 1 ⊗ Θ_W`), dual and symmetric-power formulas, hence the weight
 formulas used below (Patrikis 2019, §2.2.2, Lemmas 2.2.4–2.2.6, pp. 23–24; Brinon–Conrad,
 §15.1, Corollary 15.1.6 and Theorem 15.1.7). *Needs:* §R07.P7.1;
-ArithmeticGaloisRepresentations §1.5; PadicPeriodRings §§1.3–1.4, `2` (normalized traces).
+PadicLocalLanglandsForGL2Qp §0.2 (Sen operator, labelled decomposition, field and coefficient
+extensions); ArithmeticGaloisRepresentations §1.5.
 
 **Checks.**
 
@@ -1603,10 +1603,13 @@ ArithmeticGaloisRepresentations §1.5; PadicPeriodRings §§1.3–1.4, `2` (norm
 
 For `K/ℚ_p`, `E/ℚ_p` finite, with `E`
 containing all embeddings of `K`, and a continuous
-`χ : G_K → E^×`, prove that Hodge–Tate is equivalent to de Rham and to being locally algebraic
+`χ : G_K → E^×`, use PadicLocalLanglandsForGL2Qp §0.2's local-algebraicity criterion for
+characters and its implication from algebraicity on an open subgroup of units to de Rhamness;
+deduce here that Hodge–Tate is equivalent to de Rham and to being locally algebraic
 under local reciprocity: on some open subgroup of `O_K^×` the character is
 `x ↦ ∏_τ τ(x)^{m_τ}`, with integer exponents, with `HT_τ = −m_τ`: arithmetic reciprocity gives
-`χ_p(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹` for units, as in ClassFieldTheory Layer 7. Prove that all labelled Sen operators vanish
+`χ_p(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹` for units, as in ClassFieldTheory Layer 7, and the supplier's
+geometric convention is transported by inversion. Prove that all labelled Sen operators vanish
 iff the inertia image is finite; unramified characters may still have infinite image.
 For `F` totally real and a continuous global character unramified almost everywhere, prove that
 rational labelled Sen weights are all equal, hence a de Rham character has one common integer
@@ -1615,7 +1618,7 @@ of GlobalNumberFields Layers 9–10 (`HeckeCharacter`, `AlgebraicInfinityType`, 
 prove the local-to-global identification of labels and infinity exponents here. For `x ∈ ℤ`,
 `d ≥ 1`, construct a character with every Sen weight `x/d` by ArithmeticGaloisRepresentations §7.6 (Roots of characters);
 it is Hodge–Tate iff `d | x` (Patrikis 2019, Theorem 2.3.13, Remark 2.3.14 and Lemmas 2.3.15, 2.3.17, pp. 30–32;
-Brinon–Conrad, Example 6.3.9, pp. 81–82, for the zero-weight character case). *Needs:* §R07.P7.2; ArithmeticGaloisRepresentations §7.6 (Roots of characters); ClassFieldTheory Layers 7 and 11 (global Artin reciprocity);
+Brinon–Conrad, Example 6.3.9, pp. 81–82, for the zero-weight character case). *Needs:* §R07.P7.2; PadicLocalLanglandsForGL2Qp §0.2 (local-algebraicity criterion for characters); ArithmeticGaloisRepresentations §7.6 (Roots of characters); ClassFieldTheory Layers 7 and 11 (global Artin reciprocity);
 GlobalNumberFields Layers 9–10 (Hecke-character infinity types and unit relations).
 
 **Checks.**
@@ -2120,9 +2123,10 @@ are invertible `O_S`-modules. Its rank is then `q`.
 Here `S` is a scheme over Raynaud's ring `D` and `F` has `q = p^r` elements. A henselian local ring
 whose residue field contains `𝔽_q` is a `D`-scheme (Raynaud §1.2, Exemples `(a)`).
 
-*Construction.* Definition as displayed (Raynaud §1.2); the condition `(**)` holds automatically
-when `S` is connected with an étale or multiplicative fibre, in particular when `S` is integral with
-fraction field of characteristic `0` (Proposition 1.2.2). Cartier duality preserves `F`-vector schemes
+*Construction.* Definition as displayed (Raynaud §1.2); for a finite locally free commutative `G`
+of rank `q` with an `F`-action, the condition `(**)` holds automatically when `S` is connected and
+`G` has an étale or multiplicative fibre, in particular when `S` is integral with fraction field of
+characteristic `0` (Proposition 1.2.2). The rank hypothesis cannot be dropped. Cartier duality preserves `F`-vector schemes
 (Remark 1.5.3): the dual of the system `(𝓛_i, c_i, d_i)` is `(𝓛_i^{-1}, d_i^t, c_i^t)`. (Raynaud 1974,
 §1.2, condition `(**)` and Proposition 1.2.2, pp. 246–247: the condition and when it holds.)
 
@@ -2149,7 +2153,10 @@ Layer 0B.
   `𝔽_{p²}`-vector scheme (rank `p²`).
 - `FVectorScheme.not_of_rank`: `ℤ/pℤ × ℤ/pℤ` with the diagonal `𝔽_p`-action is not an `𝔽_p`-vector scheme
   in Raynaud's sense (rank `p² ≠ p`): `𝔽_p^×` acts freely on the `p² − 1` nonzero points with `p + 1`
-  orbits, so each eigen-sheaf of the augmentation ideal has rank `p + 1`, not `1`.
+  orbits, so each eigen-sheaf of the augmentation ideal has rank `p + 1`, not `1`. This holds over
+  an integral base with fraction field of characteristic `0`, where the generic fibre is étale, so
+  Proposition 1.2.2 needs its rank-`q` hypothesis; for `p = 3` the eigenranks are `4`, whereas
+  constant `𝔽₃` has one scalar orbit and eigenrank `1`.
 - `FVectorScheme.cartierDual_zModP`: The Cartier dual of the `𝔽_p`-vector scheme `ℤ/pℤ` is `μ_p`.
 - `FVectorScheme.fp_eq_order_p`: for `F = 𝔽_p` the `F`-vector schemes are exactly the group schemes of
   order `p` of Oort–Tate (§R07.1.34).
@@ -2702,8 +2709,6 @@ Jacobians with Hecke action uses additional hypotheses belonging to the applicat
 
 ### R07.G1 Admissible groups and their marked global models
 
-<a id="admissible-global-models"></a>
-
 **Admissible global models (`admissible-global-models`).** An admissible group over `U`
 is finite flat, killed by a power of `ℓ`, with a filtration by finite flat closed
 subgroups whose successive quotients are `ℤ/ℓ` or `μ_ℓ`. An admissible model over `S`
@@ -2742,8 +2747,6 @@ ModularCurves Layers 0C–0E; SchemeAndStackFoundations §1.2 (quasi-finite desc
 
 ### R07.G2 Geometric-fibre lengths
 
-<a id="admissible-geometric-lengths"></a>
-
 **Admissible geometric lengths (`admissible-geometric-lengths`).** For a marked
 admissible `G/S` define `length(G) = log_ℓ #G(ℚ̄)`,
 `δ(G) = length(G) − log_ℓ #G(𝔽̄_P)` and `α(G) = log_ℓ #G(𝔽̄_ℓ)`.
@@ -2770,8 +2773,6 @@ connected–étale sequences).
   is `1`. For the zero group all three invariants are zero.
 
 ### R07.G3 The global cohomology bound
-
-<a id="admissible-cohomology-bound"></a>
 
 **Admissible cohomology bound (`admissible-cohomology-bound`).** Prove finiteness of
 `Hⁱ_fppf(S,G)` for `i = 0,1` and every marked admissible `G/S`. Set
@@ -2807,8 +2808,6 @@ ClassFieldTheory Layers 11–13 (global reciprocity and unramified abelian exten
 
 ### R07.G4 Rank-one groups over the global base
 
-<a id="admissible-rank-one-global"></a>
-
 **Global rank-one classification (`admissible-rank-one-global`).** For every finite
 field `k` of characteristic `ℓ`, a finite flat `k`-vector group scheme `V/S` with
 `dim_k V(ℚ̄) = 1` is `k`-linearly isomorphic to
@@ -2838,8 +2837,6 @@ ClassFieldTheory Layers 11–13 (including Kronecker–Weber).
   global base does not give the classification asserted over `S`.
 
 ### R07.G5 The cyclotomic class-group input and global Ext vanishing
-
-<a id="admissible-cyclotomic-class-obstruction"></a>
 
 **Cyclotomic class-group obstruction (`admissible-cyclotomic-class-obstruction`).**
 For odd `ℓ`, put `K = ℚ(ζ_ℓ)`, let `Y` be the `ℓ`-primary ideal class group of `K`,
@@ -2895,8 +2892,6 @@ Mathlib's Bernoulli numbers, `PadicInt` and finite group actions.
 - For `ℓ = 5`, `5L_1 ≡ −1 mod 5`, so `L_1` is not integral. The exceptional
   vanishing uses the unit `5L_1`, whereas `L_3` itself is an integral unit.
 
-<a id="admissible-global-ext-vanishing"></a>
-
 **Global Ext vanishing (`admissible-global-ext-vanishing`).** For every prime `ℓ`,
 prove `Ext¹_S(μ_ℓ,ℤ/ℓ) = 0`, for extensions
 `0 → ℤ/ℓ → E → μ_ℓ → 0` of finite flat commutative groups.
@@ -2937,8 +2932,6 @@ ClassFieldTheory Layers 11–13.
 
 ### R07.G6 Global purity at odd primes
 
-<a id="admissible-global-purity"></a>
-
 **Odd global purity (`admissible-global-purity`).** For odd `ℓ` and admissible `G/U`,
 prove `odd_purity`: the following are equivalent: `G` is a product of a constant
 and a μ-type group; its generic module is the direct sum of a trivial module and
@@ -2963,8 +2956,6 @@ SchemeAndStackFoundations §2.11; ClassFieldTheory Layers 11–13.
   pure. The equivalences require `ℓ ≠ 2`.
 
 ### R07.G7 The dyadic D-model
-
-<a id="dyadic-D-model"></a>
 
 **Dyadic D-model (`dyadic-D-model`).** Construct `dyadic_D` as `katzMazur 2 (−1)`
 over `S`. It has rank four, is killed by `2`, and represents the unique nonzero
@@ -2994,8 +2985,6 @@ pp.58–59; §R07.1.36 identifies the explicit model.
 
 ### R07.G8 Finite-flat dyadic amalgams
 
-<a id="dyadic-finite-flat-amalgam"></a>
-
 **Dyadic finite-flat amalgam (`dyadic-finite-flat-amalgam`).** Let `P` be odd and
 `M/U` a finite flat admissible `2`-group of multiplicative type with a specified
 closed immersion `μ₂ ↪ M`. Construct `dyadic_amalgam`
@@ -3023,6 +3012,29 @@ ModularCurves Layer 0C supplies the finite-flat quotient used in this constructi
   amalgam still has the stated connected subgroup and order-two étale quotient.
 - `M = 0` has no `μ₂` closed subgroup, so it is outside the domain of the pushout.
   For every allowed `M`, the special geometric étale fibre of `G` has order two.
+
+### Examples
+
+- **Groups of prime order over `ℤ`.** `ℤ/ℓ` and `μ_ℓ` are the only finite flat groups of rank
+  `ℓ` over `ℤ` (§R07.G4). At `ℓ = 2` their generic fibres are isomorphic, and only the
+  special fibre at `2` separates them: `ℤ/2` has two geometric points there and `μ₂` one.
+- **The two dyadic extension directions.** Every extension of `μ₂` by `ℤ/2` over `ℤ` splits
+  (§R07.G5), whereas `D` of §R07.G7 is a nonsplit extension of `ℤ/2` by `μ₂`, split by
+  `ℚ(i)`. It is unramified at every odd `P` but is not a product, so the odd purity of
+  §R07.G6 has no analogue at `ℓ = 2`; §R07.G8 builds the larger dyadic amalgams from it.
+- **A ramified admissible group.** Over `ℤ[1/7]`, the unipotent two-dimensional
+  `𝔽₃`-representation through the cubic subfield of `ℚ(ζ₇)` defines an admissible finite
+  étale group with constant subgroup and quotient `ℤ/3`; its inertia at `7` is nontrivial, so
+  it has no finite flat extension over `ℤ` (§§R07.G1, R07.G6).
+
+### Dependencies
+
+Layer R07.1 (§§R07.1.2, R07.1.9, R07.1.20, R07.1.24, R07.1.30, R07.1.34–R07.1.36 and
+R07.1.38–R07.1.39); TauCetiRoadmap.ModularCurves Layers 0B–0E and `7E`;
+SchemeAndStackFoundations §§1.2, 2.1, 2.3 and 2.10–2.11; EtaleCohomologyFoundations §0.7;
+TauCetiRoadmap.ClassFieldTheory Layers 11–13; CyclotomicClassGroupsAndStickelberger
+§§0.2–0.3, 2.1–2.5, 3.1–3.2 and 8.1–8.3; GlobalNumberFields (ideal classes and cyclotomic
+fields); Mathlib's Bernoulli numbers, `PadicInt` and finite group actions.
 
 ## Layer R07.2: Dieudonné theory
 
@@ -5565,17 +5577,17 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3.
 
 ### R07.4.4 Fontaine's equivalence for étale `φ`-modules over a Cohen ring
 
-State `etalePhiModulesCohenRing` as the adapter of NoncommutativeAndEquivariantIwasawa §F.6
-stage 1 (*Field Robba and étale prefix*): for every field `F` of characteristic `p` with separable
-closure `F^s`, `H = Gal(F^s/F)`, every Cohen ring `𝒪_ℰ` of `F` with Frobenius lift `φ`, and
-`𝒪̂_{ℰ^ur}` the `p`-adic completion of its strict henselisation, the supplier proves that the
-fixed-vector functor `M ↦ (𝒪̂_{ℰ^ur} ⊗_{𝒪_ℰ} M)^{φ=1}` and its inverse
+State `etalePhiModulesCohenRing` as the Kummer-frame instance of the general theorem of
+NoncommutativeAndEquivariantIwasawa §F.6 stage 1 (*Field Robba and étale prefix*). There, for
+every field `F` of characteristic `p` with separable closure `F^s`, `H = Gal(F^s/F)`, every Cohen
+ring `𝒪_ℰ` of `F` with Frobenius lift `φ`, and `𝒪̂_{ℰ^ur}` the `p`-adic completion of its strict
+henselisation, the fixed-vector functor `M ↦ (𝒪̂_{ℰ^ur} ⊗_{𝒪_ℰ} M)^{φ=1}` and its inverse
 `T ↦ (𝒪̂_{ℰ^ur} ⊗_{ℤ_p} T)^{H}` are quasi-inverse exact tensor equivalences between finitely
 generated étale `φ`-modules over `𝒪_ℰ` and finitely generated `ℤ_p`-modules with continuous
 `H`-action, with unit and counit the comparison isomorphisms, compatible with ranks, lengths, duals
 and tensor products and with reduction modulo every `pⁿ`, and equal to the Artin–Schreier
-equivalence on `p`-torsion objects. This target restates those statements; the instance used in
-this layer is `F = k((u))`, the field of norms of §R07.4.3, with `𝒪_ℰ` the `p`-adic completion of
+equivalence on `p`-torsion objects. This target states only the instance
+`F = k((u))`, the field of norms of §R07.4.3, with `𝒪_ℰ` the `p`-adic completion of
 `𝔖[1/u]` (§R07.4.1) and `φ(u) = u^p`. The Kummer frame and the Checks below are this roadmap's.
 (Fontaine, A.1.2.6–A.1.2.7, as cited by Kisin 2006, §2.1, Lemma (2.1.2) and Corollary (2.1.4),
 p. 21, and Kisin 2009, §1.1.12, pp. 8–9.)
@@ -5589,8 +5601,9 @@ Layer 9.
 - `etalePhiModules_unit`: the unit object `𝒪_ℰ` with `φ` gives `ℤ_p` with trivial action; a rank-one `φ(e) = ae, a ∈ W^×`, gives an unramified character (Lang).
 - `etalePhiModules_not_etale`: a `φ`-module whose linearised `φ` is not an isomorphism `(φ(e) = pe)` is
   not étale and has `(𝒪̂ ⊗ M)^{φ=1} = 0`.
-- For `F = F_p(t), φ(x,y) = (x^p + t y^p,0)` is injective because `1` and `t` are
-  independent over `F^p`. Its linearisation has rank `1` on `F²`, so it is not étale.
+- In the Kummer frame, `φ(e) = u e` is étale over `𝒪_ℰ`, since `u` is a unit there, although over
+  `𝔖` the same formula has linearisation with cokernel `𝔖/u𝔖`; inverting `u` is what makes a
+  finite-height Kisin module étale after base change.
 
 ### R07.4.5 Étale `φ`-modules over `𝒪_ℰ` and representations of `G_{K∞}`
 
@@ -6172,7 +6185,7 @@ The API:
 - `BreuilModule`: An object of `BT^φ_{/S}: (𝓜, Fil¹𝓜, φ₁)`.
 - `BreuilModule.ofKisin`: `𝔐 ↦ S ⊗_{φ,𝔖} 𝔐` with `Fil¹` and `φ₁`.
 - `BreuilModule.ofPDivisible`: `G ↦ 𝔻(G)(S)`, exact and contravariant.
-- `BreuilModule.frob`: `φ(x) = φ₁(E(u))⁻¹φ₁(E(u)x)`.
+- The Frobenius of a Breuil module: `φ(x) = φ₁(E(u))⁻¹φ₁(E(u)x)`.
 
 *Needs:* §R07.4.1; §R07.4.2; §R07.1.6; AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (the crystalline Dieudonné
 crystal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing deformation theory).
@@ -8205,18 +8218,20 @@ abelian scheme.)
 - `abelianTorsion_rank`: `A[n]` has rank `n^{2g}`, not `n^g`: for an elliptic curve, `E[2]` has rank
   `4`, with three nonzero points of order `2` over `K̄` when `2` is invertible.
 
-### R07.6.1a Supplied Herbrand theory over complete DVRs with perfect residue field
+### R07.6.1a Herbrand theory over complete DVRs with perfect residue field
 
-Consume LocalFieldsRamification Layers 3–4's input contract `perfectResidueHerbrand`.
+Prove `perfectResidueHerbrand`.
 Let `K` be complete discretely valued with arbitrary perfect residue field of characteristic
-`p>0`, and `L/K` finite Galois. The same supplier owns the following package in both equal
-and mixed characteristic.
+`p>0`, and `L/K` finite Galois. The following package, in both equal and mixed
+characteristic, is a target of this roadmap. LocalFieldsRamification Layers 3–4 supply it
+only for nonarchimedean local fields: their filtration carriers assume
+`IsNonarchimedeanLocalField`, hence local compactness and a finite residue field.
 
 Use the existing congruence carrier `Ideal.ramificationGroup` for the maximal ideal of `O_L`
 and its real-indexed ceiling extension `TauCeti.IsLocalRing.ramificationGroupReal`.
 Use Serre's normalization
 `φ(s)=∫₀ˢ [G₀:G_t]⁻¹ dt` for `s≥0`, extended by `φ(s)=s` on `[-1,0]`, and its inverse `ψ`.
-The contract comprises strict monotonicity, continuity, the inverse identities, subgroup
+Prove strict monotonicity, continuity, the inverse identities, subgroup
 compatibility of lower numbering, tower compatibility of the Herbrand functions and quotient
 compatibility of upper numbering for every normal subgroup, and the different formula
 `v_L(𝒟_{L/K})=Σ_{j≥0} (|G_j|−1)`, with `v_L` normalized to have value group `ℤ`.
@@ -8231,22 +8246,31 @@ different `v_K(𝒟_{L/K})=v_L(𝒟_{L/K})/e_{L/K}` after completed maximal unra
 with the finite extension there obtained by compositum. This supplies the algebraically
 closed residue reduction used in §R07.6.5.
 
-All groups, functions and different ideals agree with LocalFieldsRamification's
+Prove that all groups, functions and different ideals agree with LocalFieldsRamification's
 finite-local-field API on the common domain. Use
 `TauCeti.IsLocalRing.lowerIndex` for the local-ring index, without assuming local compactness.
 (Serre, *Local Fields*, IV §§1–3, especially Propositions 4 and 14, and V §7, Theorem 1;
 Fontaine 1985, §§1.1–1.3, pp.517–518 and §2.1, p.525;
 Brinon–Conrad 2009, Exercise 1.4.4(3), p.10 and §13.1, pp.200–201.)
 
-*Needs:* LocalFieldsRamification Layers 3–4 (the full perfect-residue finite and absolute
-ramification package in both characteristics); Mathlib `differentIdeal`;
+*Construction.* Serre's arguments in IV §§1–3 use only the complete discrete valuation and
+the separability of the residue extension, so they run on the local-ring carriers below
+without local compactness. Completed maximal unramified base change preserves the inertia
+group with its lower filtration and the normalized different; Hasse–Arf and the absolute
+statements are then proved over an algebraically closed residue field and descended.
+
+*Needs:* LocalFieldsRamification Layers 3–4 (the finite-residue ramification package, used
+for the agreement statement); Mathlib `differentIdeal`;
 Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) and
 `TauCeti.IsLocalRing.lowerIndex` (`RingTheory/LocalRing/RamificationGroup.lean`).
 
 **Checks.**
 
 - `K=Frac W(𝔽̄_p)` is permitted despite its infinite residue field. For odd `p`,
-  `K(ζ_p)/K` is tame of degree `p−1`, with `G₀=G`, `G₁=1` and different exponent `p−2`.
+  `K(ζ_p)/K` is tame of degree `p−1`, with `G₀=G`, `G₁=1` and different exponent `p−2`;
+  its only upper jump is `0`. For `p=3` this is `e=2` with different exponent `1`. The residue
+  field is already algebraically closed, so completed maximal unramified base change leaves
+  this extension and all these invariants unchanged.
 - On finite extensions of `ℚ_p`, the groups and `φ,ψ` are the supplied LocalFieldsRamification
   objects, including the tame slope `1/e` after the last lower break.
 - A finite unramified extension has `G₀=1` and unit different; after completed maximal
@@ -8274,7 +8298,7 @@ normalised by `v_K(K^*) = ℤ` and extended to `K̄`; for `L/K` finite Galois wi
 ramification index and `a^m_{L/K} = {x ∈ O_L : v_K(x) ≥ m}` (Fontaine 1985, §1). Serre's lower and
 upper numbering, Herbrand's functions, compatibility with quotients (Local Fields IV, Prop. `14`) and
 `v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality by
-LocalFieldsRamification Layers 3–4 in both characteristics, with the contract of §R07.6.1a. This
+§R07.6.1a in both characteristics, extending LocalFieldsRamification Layers 3–4. This
 target adds Fontaine's shifted normalisation and the invariants `u_{L/K}, i_{L/K}`.
 
 *Construction.* Fontaine's `i_{L/K}(g)` is Serre's `i_G(g)` divided by `e_{L/K}` (`v_K` rather than `v_L`),
@@ -8292,9 +8316,9 @@ The API:
 - `fontaineUpper_eq_serreUpper`: `G^(u) = G^{u−1}` in Serre's upper numbering.
 - `valuation_different_eq`: `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}`.
 
-*Needs:* Mathlib `differentIdeal`; LocalFieldsRamification Layers 3–4
+*Needs:* Mathlib `differentIdeal`; §R07.6.1a
 (Serre numbering, Herbrand functions, quotient compatibility, different and absolute upper
-filtration, as specified in §R07.6.1a).
+filtration over perfect residue fields).
 
 **Checks.**
 
@@ -8415,7 +8439,7 @@ locaux*, Astérisque `47`–`48, n`° 4.3), which is part of this target. For `e
 SmallRamificationAndAbelianVarietyBaseCases uses, the embedding is not needed (Fontaine 1985,
 2.2(a)).
 
-*Proof sketch.* Reduce to `k` algebraically closed using LocalFieldsRamification Layers 3–4's
+*Proof sketch.* Reduce to `k` algebraically closed using §R07.6.1a's
 completed maximal unramified comparison, preserving inertia, nonnegative upper numbering and
 the normalized different (Fontaine 1985, 2.1). `(a) ω_J` free over `O_K/pⁿ: J_k`
 is the product of an étale group and a connected group with affine algebra `k[X₁, …, X_h]/(X₁^{p^{r₁}}, …, X_h^{p^{r_h}})` (Dieudonné), so `B` is a local complete intersection, and
@@ -8427,8 +8451,8 @@ gets `0 → ω_Γ → ω_Γ → ω_{Γ_{pⁿ}} → 0` with `ω_Γ` free over `O_
 Introduction, Théorème A, p. 515: Théorème A; Fontaine 1985, §2.1, Théorème 1, p. 525: Théorème 1;
 Fontaine 1985, §2.2, Remarque a), p. 526: the case `e = n = 1`.)
 
-*Needs:* §R07.6.4; LocalFieldsRamification Layers 3–4 (perfect-residue Herbrand theory,
-different and completed maximal unramified comparison, as specified in §R07.6.1a);
+*Needs:* §R07.6.4; §R07.6.1a (perfect-residue Herbrand theory,
+different and completed maximal unramified comparison);
 §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
 
 **Checks.**
@@ -8701,8 +8725,8 @@ reductions, using complete-local flatness and Nakayama. Section R07.1.6's
 For every marked `X/R`, construct the continuous local `R`-algebra map
 `s_X : 𝒪 → R`; its pullback family is isomorphic to `X`, with the given
 marking, compatibly at every level. This gives the marked section used below.
-Source: Illusie 1985, Theorem 4.4 and Corollary 4.7, pp.171–179
-(full-BT lifting and rigidity); Corollary 4.8, pp.179–180, for perfect `k`.
+Source: Illusie 1985, Theorem 4.4 and Corollary 4.7, pp.171–180
+(full-BT lifting and rigidity); Corollary 4.8, pp.180–181, for perfect `k`.
 For arbitrary `k`, use the same full-BT small-extension calculation and
 Schlessinger, over the given coefficient ring `R`; no Witt lift of `k` is
 assumed. The effectivity is Stacks Tag 087W applied to the finite-level Hopf
@@ -8808,8 +8832,8 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 ### Dependencies
 
 Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
-TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (general perfect-residue finite and absolute
-ramification, different and completed maximal unramified comparison);
+TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (finite-residue ramification, extended to
+perfect residue fields in §R07.6.1a);
 PurityOfBranchLocus §§2.1–2.2 (purity for finite normal covers of regular bases);
 Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.

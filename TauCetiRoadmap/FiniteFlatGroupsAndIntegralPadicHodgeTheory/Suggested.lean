@@ -43,6 +43,8 @@ universe u
 
 namespace TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
+/-! ## Layers R07.1 and R07.G: finite flat group schemes and their models -/
+
 namespace FiniteFlat
 
 open TauCeti
@@ -117,15 +119,17 @@ theorem globalPrimeOrderClassification (p : ℕ) [Fact p.Prime] (G : FLF ℤ)
 
 end FiniteFlat
 
+/-! ## Layer R07.2: Dieudonné theory -/
+
 namespace Dieudonne
 
 open FiniteFlat
 
 variable (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectRing k p]
 
-/-- A Dieudonné module over `k`: a `W(k)`-module with a `σ`-linear `F`, a `σ⁻¹`-linear `V` and
+/-- A Dieudonné module over a perfect field `k` of characteristic `p`: a `W(k)`-module with a `σ`-linear `F`, a `σ⁻¹`-linear `V` and
 `F V = V F = p`; equivalently a left module over the Dieudonné ring `W(k)[F, V]`. -/
-structure DieudonneModule where
+structure DieudonneModule [CharP k p] [PerfectRing k p] where
   /-- The underlying `W(k)`-module. -/
   M : Type u
   [addCommGroup : AddCommGroup M]
@@ -175,17 +179,20 @@ theorem dieudonneEquivalenceFinite :
 
 end Dieudonne
 
+/-! ## Layer R07.3: Fontaine–Laffaille theory -/
+
 namespace FontaineLaffaille
 
 open FiniteFlat
 
 variable (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] [PerfectRing k p]
 
-/-- A Fontaine–Laffaille filtered module over `W(k)`: a decreasing filtration indexed by `ℤ` with
+/-- A Fontaine–Laffaille filtered module over `W(k)`, for a perfect field `k` of characteristic `p`:
+a decreasing filtration indexed by `ℤ` with
 `σ`-semilinear `φ^i : Fil^i → M` and `φ^i = p φ^{i+1}` on `Fil^{i+1}`. Realization on a
 small-width interval `[a,b]` uses `U_[a,b](M) = U_S(M(-a))(a)`, with raw `U_S` applied in the
 effective range; the covariant realization is its integral or torsion Pontryagin dual. -/
-structure FLModule where
+structure FLModule [CharP k p] [PerfectRing k p] where
   /-- The underlying `W(k)`-module. -/
   M : Type u
   [addCommGroup : AddCommGroup M]
@@ -252,6 +259,8 @@ theorem flFiniteFlatDictionary (hp : 2 < p) :
 
 end FontaineLaffaille
 
+/-! ## Layer R07.4: Breuil–Kisin modules -/
+
 namespace BreuilKisin
 
 open FiniteFlat
@@ -265,9 +274,11 @@ abbrev Sfrak := PowerSeries (WittVector p k)
 def frob : Sfrak p k →+* Sfrak p k :=
   (PowerSeries.expand p hp.out.ne_zero).toRingHom.comp (PowerSeries.map WittVector.frobenius)
 
-/-- A finite `p`-power-torsion Kisin module of height at most one.
+/-- A finite `p`-power-torsion Kisin module of height at most one over `W(k)⟦u⟧`, for a perfect
+field `k` of characteristic `p`.
 The injectivity of `u` is the finite-resolution condition of §R07.4.2. -/
-structure TorsionKisinModule (E : Polynomial (WittVector p k)) where
+structure TorsionKisinModule [CharP k p] [PerfectRing k p]
+    (E : Polynomial (WittVector p k)) where
   M : Type u
   [addCommGroup : AddCommGroup M]
   [module : Module (Sfrak p k) M]
@@ -308,6 +319,8 @@ theorem finiteFlatClassification (E : Polynomial (WittVector p k)) (hmonic : E.M
   sorry
 
 end BreuilKisin
+
+/-! ## Layer R07.6: ramification of finite flat torsion -/
 
 namespace FiniteFlat
 
