@@ -294,8 +294,7 @@ variable {ι : Type v} {M : ι → Type w} [Π i, AddCommMonoid (M i)] [Π i, Mo
 theorem pi_iff [Finite ι] : Flat R (Π i, M i) ↔ ∀ i, Flat R (M i) := by
   sorry
 
-/-- A finite product of flat `R`-modules is flat. -/
--- The instance `Module.Flat.pi` (finite products) is Tau Ceti's
+-- A finite product of flat `R`-modules is flat: the instance `Module.Flat.pi` is Tau Ceti's
 -- (`TauCeti/RingTheory/Flat/Pi.lean`); only the converse direction is a target here.
 
 end DirectSum
