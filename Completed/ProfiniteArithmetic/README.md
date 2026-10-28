@@ -119,6 +119,10 @@ Two targets change existing Tau Ceti declarations instead of adding new ones.
 roadmap's namespace (`zHat.toZMod`, …). The theorem `zHat.lift_eq_tauCeti` records that on targets
 in `Type` the generalized lift is the one into the universe of `TauCeti.zHat`.
 
+*Archived: this roadmap was declared complete on 2026-10-28. Tau Ceti carries out both changes in
+place, and the ring API lives in its `TauCeti.zHat` namespace. `Suggested.lean` certifies the milestones available at its dependency pin with no `sorry`;
+its header separately identifies the three interfaces implemented after that pin.*
+
 ## Conventions
 
 - **The profinite type-class stack** is unbundled, as in Tau Ceti:
@@ -551,9 +555,15 @@ about `TauCeti.zHat` itself.
   *Source:* Gorenstein, *Finite Groups*, Chapter 5 §1; Huppert, *Endliche Gruppen I*, III §3.
 - **The pro-`p` theorem.** For a topologically finitely generated pro-`p` group `G`, the kernel of
   `ContinuousAut G →* MulAut (G ⧸ proPFrattini p G)` is an open pro-`p` subgroup of
-  `ContinuousAut G`, so `ContinuousAut G` is virtually pro-`p`. It is the inverse limit of the
-  finite kernels of 2.4 over the characteristic open normal subgroups of `G` contained in
-  `proPFrattini p G`.
+  `ContinuousAut G`, so `ContinuousAut G` is virtually pro-`p`. Identify this kernel,
+  with its congruence topology, with the closed subgroup of the product of finite kernels
+  consisting of compatible families. Index by the topologically characteristic open normal
+  subgroups `N ≤ proPFrattini p G`. A coordinate is an automorphism of `G/N` acting trivially
+  on its Frattini quotient; for `N ≤ M`, compatibility is the equation
+  `q_NM ∘ α_N = α_M ∘ q_NM`. Prove the coordinate map is a topological embedding onto
+  exactly these families and prove cofinality below the open subgroup `proPFrattini p G`.
+  This description does not require an arbitrary element of each full finite kernel to
+  descend to every larger quotient.
   *Needs:* L2.2; TC `TauCeti.proPFrattini`; the finite theorem.
   *Source:* Ribes–Zalesskii §4.4 and §4.5; Dixon–du Sautoy–Mann–Segal, *Analytic pro-p groups*,
   Chapter 5.

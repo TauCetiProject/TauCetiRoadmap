@@ -839,8 +839,8 @@ a definition and not a theorem; and for a finite set `S` of places with `∞ ∈
 restricted product over the finite places outside `S`. At `S = {∞}`, the canonical reindexing
 which forgets the vacuous exclusion proofs identifies it with `G(𝔸_f)` as a topological group,
 preserving every local coordinate and the rational diagonal. For **each** of `O`, `SO` and `Spin`,
-relative to a compatible tuple: finite adelic points, points away from `S`, and full adelic points. Then the
-restrictions `G(𝔸_f) → G(𝔸^S)`, the projections out of `G(𝔸)`, and the componentwise maps
+relative to a compatible tuple: finite adelic points, points away from `S`, and full adelic points.
+Then the restrictions `G(𝔸_f) → G(𝔸^S)`, the projections out of `G(𝔸)`, and the componentwise maps
 `Spin(V)(𝔸_•) → SO(V)(𝔸_•) → O(V)(𝔸_•)` in all three flavours, obtained from 3B's functoriality
 applied to `spinToSpecialOrthogonal` and `specialOrthogonalToOrthogonal` with 3C's compatibility.
 ⚠ All three groups are built and not just `O`. The approximation application in

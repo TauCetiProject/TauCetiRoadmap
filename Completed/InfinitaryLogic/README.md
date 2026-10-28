@@ -519,8 +519,8 @@ compare tuples of `M` with tuples of `M`. Build:
   `SelfStabilizesCompletely M α` holds. The relation "`BFEquiv α` between tuples of `M`" is
   antitone in `α` and lives on the countable set `Σ n, (Fin n → M) × (Fin n → M)`. If it changed at
   uncountably many successor stages below `ω₁`, choosing a pair lost at each such stage would give
-  uncountably many distinct elements of that countable set. This needs only `[Countable M]`: no
-  relational hypothesis and no countable language;
+  uncountably many distinct elements of that countable set. Within the standing relational-language
+  scope this needs only `[Countable M]`, with no countability hypothesis on the language;
 * `exists_selfStabilizesCompletely`: **every** structure `M : Type w`, countable or not, stabilizes
   at some ordinal of `Ordinal.{w}`. The pairs of tuples that are `BFEquiv` at some level but not at
   every level are `w`-small many, so their least failure levels have a supremum in `Ordinal.{w}`,

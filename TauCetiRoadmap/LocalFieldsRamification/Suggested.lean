@@ -20,7 +20,7 @@ import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
 import TauCeti.NumberTheory.LocalField.UnitsDecomposition
 import TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
-import TauCetiRoadmap.ProfiniteProPGroups.Suggested
+import Completed.ProfiniteProPGroups.Suggested
 
 set_option autoImplicit false
 
