@@ -1,28 +1,26 @@
-# Roadmap: periods of elliptic curves and the Grothendieck period conjecture (elliptic case)
+# Roadmap: elliptic functions, periods and complex multiplication
 
 **Summary.** Build the complex-analytic theory of a lattice `Λ ⊂ ℂ` that the transcendence of
 elliptic periods needs, on Mathlib's `PeriodPair` and Weierstrass `℘`: elliptic functions and
-their Laurent algebra, the Weierstrass `ζ` function and the quasi-periods `η`, Legendre's
-relation, the dictionary with Mathlib's Eisenstein series `E₂, E₄, E₆`, the period matrix and
-the period field `ℚ(ω₁, ω₂, η₁, η₂)`, and complex multiplication of lattices. Prove the
-unconditional bounds: the period field has transcendence degree at most `4`, at most `2` with
-complex multiplication, and at least `2` always (Chudnovsky's theorem, derived from
-Nesterenko's theorem, which DiophantineApproximationAndTranscendence proves), so exactly `2` in
-the CM case. State the remaining case, transcendence degree `4` without complex
-multiplication, as a `def … : Prop`: this is the elliptic case of the Grothendieck period
-conjecture in the form of Bost–Charles, Conjecture 2.12.
+their Laurent algebra, the Weierstrass `ζ` function, the dictionary with Mathlib's Eisenstein
+series `E₂, E₄, E₆`, the period matrix and the period field `ℚ(ω₁, ω₂, η₁, η₂)`, and complex
+multiplication of lattices. Prove the unconditional bounds: the period field has transcendence
+degree at most `4`, at most `2` with complex multiplication, and at least `2` always
+(Chudnovsky's theorem, derived from DiophantineApproximationAndTranscendence's `nesterenko`), so
+exactly `2` in the CM case. The `σ` function, the quasi-period map and Legendre's relation are
+consumed from ModularCurvesPartII (#913).
 
-The question first appears in Grothendieck's notes in 1965 (Montpellier fonds, folder 13,
-pp. 47–48: is the de Rham–Betti realisation fully faithful over algebraic extensions of `ℚ`?).
-Folder 18 (from 1969 to about 1972), pp. 10–12, states it in torsor form, the transcendence
-degree of the field of periods being the dimension of the torsor that carries them, and asks for
-an elliptic curve whether the transcendence degree of the comparison point is `dim G`, that is
-`4` for `G = GL₂` without complex multiplication, or `2`, and whether its locus generates `G`.
-The statement specified here is the refereed one, Bost–Charles 2016.
+Research context, not a target: for a lattice with algebraic invariants and no complex
+multiplication, the transcendence degree is expected to be `4`; this is the elliptic case of
+Grothendieck's period conjecture (Bost–Charles 2016, Conjecture 2.12). Grothendieck asked the
+question in his notes (Montpellier fonds, folder 13, 1965, pp. 47–48, the full faithfulness of
+the de Rham–Betti realisation), and folder 18 (from 1969 to about 1972), pp. 10–12, states it in
+torsor form and asks for an elliptic curve whether the transcendence degree of the comparison
+point is `4` or `2`. Nothing in this roadmap assumes or formalises the conjecture.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Elliptic/` (mirroring Mathlib's
 `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`) for Layers 0–2 and 4, and
-`TauCeti/NumberTheory/Transcendental/EllipticPeriods/` for Layers 3, 5 and 6.
+`TauCeti/NumberTheory/Transcendental/EllipticPeriods/` for Layers 3 and 5.
 
 ## Scope and ownership
 
@@ -34,13 +32,13 @@ them. This roadmap owns:
   balance over a period parallelogram, even elliptic functions as rational functions of `℘`,
   `g₂³ − 27g₃² ≠ 0`, the Laurent expansion of `℘` and the polynomiality of `G_{2k}` in
   `g₂, g₃`;
-- the Weierstrass `ζ` function, the quasi-period homomorphism `η : Λ → ℂ`, Legendre's relation
-  and the homogeneity of all lattice functions under `Λ ↦ cΛ` (Layers 0 and 2);
+- the Weierstrass `ζ` function as a series, its identification with `σ′/σ`, and the homogeneity
+  of `G_k` for all `k` under `Λ ↦ cΛ` (Layers 0 and 2);
 - the dictionary between the lattice invariants `g₂, g₃, η(1)` of `ℤ + ℤτ` and Mathlib's
   `ModularForm.E₄`, `ModularForm.E₆`, `EisensteinSeries.E2` (Layer 2);
 - the period matrix, the period field and its transcendence degree (Layers 3, 5);
-- complex multiplication of a lattice and the CM relation between quasi-periods (Layer 4);
-- the statement of the conjecture, its equivalent forms and consequences (Layer 6).
+- complex multiplication of a lattice, as an analytic property `HasCM`, and the CM relation
+  between quasi-periods (Layer 4).
 
 **Out of scope, with owner.**
 
@@ -53,12 +51,29 @@ them. This roadmap owns:
 - *The residue theorem on null-homologous cycles and winding numbers of polygonal curves*:
   [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
   (`TauCeti.Contour.classicalResidueTheorem_nullHomologous`, `TauCeti.Contour.residue`).
-- *The Weierstrass `σ` function and the analytic uniformisation `ℂ/Λ ≅ W_Λ(ℂ)`*: the
-  ModularCurves part II roadmap (§§1.1–1.4a). Its `latticeQuasiPeriod` is the `quasiPeriod` of
-  Layer 2 (both are defined by `ζ(z + l) − ζ(z)`, `ζ = σ′/σ`), and its
-  `latticeQuasiPeriod_legendre` is `legendre` here, with the same orientation convention.
-- *Algebraic de Rham cohomology and the de Rham–Betti comparison of a variety*: the
-  ComplexComparison part II roadmap. See the last section.
+- *Supplied by ModularCurvesPartII (#913), and consumed here; this roadmap constructs none of
+  them.* §1.4a: `latticeSigma`, the quasi-period map `latticeQuasiPeriod : Λ → ℂ` with
+  `(σ′/σ)(z + λ) − (σ′/σ)(z) = η(λ)`, `latticeSigma_quasiPeriod` and
+  `latticeQuasiPeriod_legendre` (`η(ω₁)ω₂ − η(ω₂)ω₁ = 2πi` for a positive basis). §1.1: the
+  Laurent leading terms of `℘` and `℘′`, the distinct half-period values and
+  `g₂³ − 27g₃² ≠ 0`. §1.3: `g₂(uΛ) = u⁻⁴g₂(Λ)`, `g₃(uΛ) = u⁻⁶g₃(Λ)` and the reindexing of the
+  `℘` series under `z ↦ uz`. The dependence is one-way: #913's pure lattice analysis first,
+  this roadmap after it; #913's uniformisation, Weierstrass coordinates and level structures
+  consume nothing from here. In this README, `quasiPeriod L` and `η` denote
+  `latticeQuasiPeriod`, and `legendre` denotes `latticeQuasiPeriod_legendre`.
+- *Complex tori `ℂ/Λ` and their maps*: [ComplexTori](../ComplexTori/README.md); abelian-variety
+  uniformisation and the analytic–algebraic `Hom` comparison: #849, A5.1, with #913's
+  Weierstrass specialisation. The multiplier ring of a rank-two lattice (Layer 4) is the
+  analytic specialisation kept here.
+- *Algebraic complex multiplication* (`EndOver`, `CMAction`, `HasGeometricCM`):
+  [EllipticCurves](../EllipticCurves/README.md); CM reciprocity and higher-dimensional CM periods:
+  #1254. `HasCM L` here is the lattice property; an adapter to `HasGeometricCM` is proved once the
+  geometric comparison exists.
+- *Realisations, the de Rham–Betti comparison and determinant lines*: #848 (C5), #1313, and
+  PeriodsAndSpecialValues (#1496, PS.0.1, with the elliptic example PS.0.5). Layer 3's period
+  matrix is numerical; its geometric interpretation consumes those contracts. Orientation: here
+  forms are rows and cycles columns; #1496's integration matrix has cycles as rows, and Deligne's
+  comparison is its inverse.
 
 The boundary in one sentence: if a statement is about a lattice in `ℂ` and functions or
 numbers attached to it, it is here; if it is about a Weierstrass equation over a field, it is
@@ -94,8 +109,8 @@ in EllipticCurves; if it is about modular values, it is in DiophantineApproximat
   (`TauCeti/Analysis/Contour/Winding/Number/Segment/`); the dimension–transcendence-degree
   comparison `ringKrullDim_eq_toNat_trdeg` used by DiophantineApproximation.
 
-Tau Ceti has no Weierstrass `ζ`, no quasi-periods, no elliptic-function theory on `PeriodPair`
-and no CM for lattices; Mathlib has none of these either.
+Checked at this repository's pins (Mathlib `f6090c70`, Tau Ceti `358314d4`): neither has the
+Weierstrass `ζ`, an elliptic-function theory on `PeriodPair`, or CM for lattices.
 
 ## Conventions (pinned)
 
@@ -106,10 +121,11 @@ and no CM for lattices; Mathlib has none of these either.
   `0 < (L.ω₂ / L.ω₁).im`; this hypothesis is written out where needed, never wrapped in a
   predicate. `ofUpperHalfPlane τ = (1, τ)` is positive.
 - **Quasi-periods.** `ζ(z) = 1/z + ∑'_{l ≠ 0} (1/(z − l) + 1/l + z/l²)` (DLMF 23.2.5), so
-  `ζ′ = −℘` and `ζ` is odd. `η(l)` is defined by `ζ(z + l) = ζ(z) + η(l)` for `z ∉ Λ`: the
-  quasi-period of the *full* period `l`. ⚠ DLMF writes the lattice as `2ω₁ℤ + 2ω₃ℤ` and
+  `ζ′ = −℘` and `ζ` is odd; `ζ = σ′/σ` with #913's `latticeSigma`. `η` is #913's
+  `latticeQuasiPeriod`, so `ζ(z + l) = ζ(z) + η(l)` for `z ∉ Λ`: the quasi-period of the *full*
+  period `l`. ⚠ DLMF writes the lattice as `2ω₁ℤ + 2ω₃ℤ` and
   `η_j = ζ(ω_j)`, so its `η_j` is half of `η(2ω_j)` here.
-- **Legendre.** For a positive basis, `η(ω₁) ω₂ − η(ω₂) ω₁ = 2πi` (DLMF 23.2.14 in full-period
+- **Legendre** (#913, `latticeQuasiPeriod_legendre`). For a positive basis, `η(ω₁) ω₂ − η(ω₂) ω₁ = 2πi` (DLMF 23.2.14 in full-period
   form; Bost–Charles' sign conventions are irrelevant here). Reversing the basis changes the
   sign. In matrix form: the period matrix `P = [[ω₁, ω₂], [η(ω₁), η(ω₂)]]` has
   `det P = −2πi`.
@@ -133,15 +149,15 @@ The order is the dependency order. Every item below is a target.
 ### Layer 0: period pairs — scaling and the upper half-plane
 
 - **Scaling.** The action `SMul ℂˣ PeriodPair` (defined in `Suggested.lean`), with
-  `lattice_smul : (c • L).lattice = c · L.lattice`, `G_smul`, `g₂_smul`, `g₃_smul`,
-  `weierstrassP_smul`, `derivWeierstrassP_smul`, and `smul_smul`, `one_smul`.
+  `lattice_smul : (c • L).lattice = c · L.lattice`, `smul_smul`, `one_smul`, and `G_smul` for all
+  `k`. The cases `g₂`, `g₃` and `℘` are #913's §1.3 and are not restated.
 - **Lattice invariance.** `weierstrassP_congr`, `G_congr`: `℘` and `G_k` depend only on
   `L.lattice` (immediate from the definitions as sums over the lattice; state them so that
   later layers never unfold).
 - **The upper half-plane.** `ofUpperHalfPlane τ = (1, τ)`; every positive `L` is
   `L.ω₁ • ofUpperHalfPlane (L.ω₂ / L.ω₁)` up to equality of lattices (`eq_smul_ofUpperHalfPlane`),
   and `L.swap` (exchange of `ω₁, ω₂`) has the same lattice.
-- *Checks.* `(2 : ℂˣ) • L` has `g₂` divided by `16`; `ofUpperHalfPlane I` and
+- *Checks.* `(2 : ℂˣ) • L` has `G 4` divided by `16`; `ofUpperHalfPlane I` and
   `I • ofUpperHalfPlane I` have the same lattice.
 - *Needs:* Mathlib only.
 
@@ -169,10 +185,9 @@ The order is the dependency order. Every item below is a target.
   the rational functions can be taken with coefficients algebraic over `K`
   (state it as: the linear system on coefficients has a nonzero solution over `K̄ ∩ ℂ`, since
   its solution space over `ℂ` is the base change of that over `K`).
-- **The half-period values.** `℘′(ω/2) = 0` for `ω ∈ Λ ∖ 2Λ`; the three values
-  `e₁, e₂, e₃` at `ω₁/2, ω₂/2, (ω₁+ω₂)/2` are distinct (each is a double zero of `℘ − e_i`),
-  `4X³ − g₂X − g₃ = 4∏(X − e_i)`, and
-  `discriminant_ne_zero : g₂³ − 27g₃² ≠ 0` (it is `16∏_{i<j}(e_i − e_j)²`).
+- **The half-period values.** Consumed from #913 §1.1: distinct values `e₁, e₂, e₃` at the
+  half-periods and `g₂³ − 27g₃² ≠ 0`. Added here: `4X³ − g₂X − g₃ = 4∏(X − e_i)` and
+  `g₂³ − 27g₃² = 16∏_{i<j}(e_i − e_j)²`.
 - **Laurent algebra.** `℘(z) = z⁻² + ∑_{k≥1} (2k+1) G_{2k+2} z^{2k}` near `0`
   (`hasSum_weierstrassP_laurent`, from Mathlib's power series of `℘ − z⁻²` at `0`); with
   `c_k = (2k+1)G_{2k+2}`: `c₁ = g₂/20`, `c₂ = g₃/28`, and for `n ≥ 3`,
@@ -181,7 +196,7 @@ The order is the dependency order. Every item below is a target.
 - *Checks.* `c₃ = g₂²/1200` and `c₄ = 3g₂g₃/6160`; `G 2` is Mathlib's junk `0` (the sum is not
   absolutely summable) and appears in no statement; for `Λ = ℤ[i]`, `g₃ = 0` and `g₂ ≠ 0`; for
   `Λ = ℤ[e^{2πi/3}]`, `g₂ = 0` and `g₃ ≠ 0`.
-- *Needs:* Layer 0; Mathlib `Weierstrass.lean`; Tau Ceti `TauCeti.Contour` (ContourIntegration
+- *Needs:* Layer 0; #913 §1.1; Mathlib `Weierstrass.lean`; Tau Ceti `TauCeti.Contour` (ContourIntegration
   Layers 2–3). (Silverman, AEC, ch. VI; DLMF §23.3.)
 
 ### Layer 2: the Weierstrass ζ function, quasi-periods, Legendre, Eisenstein
@@ -191,15 +206,11 @@ The order is the dependency order. Every item below is a target.
   of residue `1` at `Λ`, oddness, `hasDerivAt_weierstrassZeta : ζ′ = −℘` off `Λ`, the Laurent
   expansion `ζ(z) = 1/z − ∑_{k≥1} G_{2k+2} z^{2k+1}`, `weierstrassZeta_smul`,
   `weierstrassZeta_congr`.
-- **Quasi-periods.** `quasiPeriod L l` (defined at the base point `ω₁/2`), with
-  `weierstrassZeta_add_coe` (any base point off `Λ`), additivity on `Λ` (`quasiPeriod_add`), so
-  `η` restricts to an additive map `L.lattice →+ ℂ` (`quasiPeriodHom`), `η(−l) = −η(l)`,
-  `η(ω) = 2ζ(ω/2)` for `ω ∈ Λ ∖ 2Λ`, `quasiPeriod_smul`, `quasiPeriod_congr`.
-- **Legendre's relation** (`legendre`). For a positive basis,
-  `η(ω₁)ω₂ − η(ω₂)ω₁ = 2πi`. Integrate `ζ` over the boundary of the parallelogram with vertices
-  `−(ω₁+ω₂)/2 + {0, ω₁, ω₁+ω₂, ω₂}`: no lattice point on it, only `0` inside, winding number `1`
-  for a positive basis; pairs of opposite sides give `η(ω₁)ω₂` and `−η(ω₂)ω₁`; the residue is
-  `1`. Corollary: `η(ω₁), η(ω₂)` are not both `0`, and `ω ↦ η(ω)` is not `ℂ`-linear on `Λ`.
+- **Compatibility with #913** (`weierstrassZeta_eq_logDeriv_latticeSigma`): `ζ = σ′/σ` off `Λ`,
+  hence `weierstrassZeta_add_coe : ζ(z + l) = ζ(z) + latticeQuasiPeriod L l` for `z ∉ Λ`, and
+  `η(ω) = 2ζ(ω/2)` for `ω ∈ Λ ∖ 2Λ`, `quasiPeriod_smul`, `quasiPeriod_congr`. Legendre is
+  #913's `latticeQuasiPeriod_legendre`; its corollaries used here: `η(ω₁), η(ω₂)` are not both
+  `0`, and `ω ↦ η(ω)` is not `ℂ`-linear on `Λ`.
 - **The Eisenstein dictionary.** For `τ` in the upper half-plane and `L = ofUpperHalfPlane τ`:
   `g₂ = (4π⁴/3) E₄(τ)`, `g₃ = (8π⁶/27) E₆(τ)` (from `G_k = 2ζ(k)E_k` and
   `ζ(4) = π⁴/90`, `ζ(6) = π⁶/945`), and `η(1) = G₂(τ) = (π²/3) E₂(τ)` with Mathlib's `G2`
@@ -216,16 +227,17 @@ The order is the dependency order. Every item below is a target.
   `eisenstein_values_at_i`); `G₂(−1/τ) = τ²G₂(τ) − 2πiτ` is recovered from Legendre and agrees
   with Mathlib's `G2` transformation (`D2`); reversing the basis flips the sign of the Legendre
   determinant.
-- *Needs:* Layers 0–1; Tau Ceti `TauCeti.Contour.classicalResidueTheorem_nullHomologous`;
+- *Needs:* Layers 0–1; #913 §1.4a; Tau Ceti `TauCeti.Contour.classicalResidueTheorem_nullHomologous`;
   Mathlib `EisensteinSeries.G2`, `E2`, `ModularForm.E₄`, `E₆`, `riemannZeta_two`,
   `riemannZeta_four`, `riemannZeta_two_mul_nat` (for `ζ(6)`). (DLMF 23.2.5–23.2.14, 23.8.5; Silverman, ATAEC, ch. I.)
 
 ### Layer 3: the period matrix and the period field
 
-- **Period matrix.** `periodMatrix L = !![ω₁, ω₂; η(ω₁), η(ω₂)]`: the comparison isomorphism
-  between Betti and de Rham `H¹`, in the bases `(γ₁, γ₂)` and `(dx/y, x dx/y)` read through the
-  uniformisation. `det_periodMatrix : det P = −2πi` for a positive basis (Legendre), the
-  elliptic form of the normalisation of the Tate motive: on `H² = ℚ(−1)` the period is `2πi`.
+- **Period matrix.** `periodMatrix L = !![ω₁, ω₂; η(ω₁), η(ω₂)]`, a numerical `2 × 2` matrix.
+  With `x = ℘(z)`, `y = ℘′(z)`, `dx/y = dz` and `x dx/y = ℘ dz = −dζ`, so its rows are the periods
+  of `dx/y` and of `−x dx/y` on `γ₁, γ₂` (forms in rows, cycles in columns). Its identification
+  with a de Rham–Betti comparison is #848's and #1496's, not built here.
+  `det_periodMatrix : det P = −2πi` for a positive basis (Legendre).
   Change of basis of the same lattice by `γ ∈ GL₂(ℤ)` multiplies `P` on the right by `γ`.
 - **Period field.** `periodField L = ℚ(Λ ∪ η(Λ))`, equal to
   `ℚ(ω₁, ω₂, η(ω₁), η(ω₂))` (`periodField_eq_adjoin`), lattice-invariant
@@ -234,9 +246,10 @@ The order is the dependency order. Every item below is a target.
 - **Upper bound.** `trdeg_periodField_le : trdeg ≤ 4` (four generators).
 - **Zariski closure.** `periodIdeal L`, the kernel of evaluation `ℚ[X₁₁, X₁₂, X₂₁, X₂₂] → ℂ` at
   `P`, is prime, and
-  `ringKrullDim_periodIdeal : dim ℚ[X]/periodIdeal = trdeg (periodField L)`. This is the
-  dimension of the Zariski closure of the comparison point, the `Z_X` of Bost–Charles
-  restricted to `H¹`.
+  `ringKrullDim_periodIdeal : dim ℚ[X]/periodIdeal = trdeg (periodField L)`, through Tau Ceti's
+  `ringKrullDim_eq_toNat_trdeg`. Equivalences (`trdeg_periodField_eq_four_iff`): `trdeg = 4` iff
+  the four entries are algebraically independent iff `periodIdeal L = ⊥` iff `ω₁, ω₂, η(ω₁), π`
+  are algebraically independent.
 - **Homotheties.** `trdeg_periodField_smul`: scaling by an algebraic `c` preserves the
   transcendence degree. `isAlgebraic_of_smul`: if `L` and `c • L` both have algebraic
   invariants then `c` is algebraic (one of `g₂, g₃` is nonzero by `discriminant_ne_zero`, and
@@ -278,85 +291,43 @@ The order is the dependency order. Every item below is a target.
 
 ### Layer 5: lower bounds — Chudnovsky from Nesterenko
 
-- **The bridge** (`chudnovsky_of_nesterenko`). Assume Nesterenko's statement
-  (`NesterenkoStatement`, literally the statement of DiophantineApproximation's `nesterenko`).
-  Let `L` have algebraic invariants and `l ∈ Λ ∖ {0}`. Then `l/π` and `η(l)/π` are
-  algebraically independent over `ℚ`. Proof: reduce to `l` primitive (`η(nl) = nη(l)`) and
+- **Chudnovsky's theorem** (`chudnovsky`). Let `L` have algebraic invariants and
+  `l ∈ Λ ∖ {0}`. Then `l/π` and `η(l)/π` are algebraically independent over `ℚ`. It consumes
+  DiophantineApproximationAndTranscendence §5.6's `nesterenko`, the single owner of that
+  statement. Proof: reduce to `l` primitive (`η(nl) = nη(l)`) and
   complete it to a positive basis `(l, ω)`, `τ = ω/l`; by the scaled Eisenstein dictionary,
   `E₄(τ) = (3g₂/4)(l/π)⁴`, `E₆(τ) = (27g₃/8)(l/π)⁶`, `E₂(τ) = 3(l/π)(η(l)/π)`, so
   `ℚ(E₂, E₄, E₆) ⊆ ℚ̄(l/π, η(l)/π)`; Nesterenko gives `trdeg ℚ(q, E₂, E₄, E₆) ≥ 3`, hence
-  `trdeg ℚ(E₂, E₄, E₆) ≥ 2`. The bridge is a theorem now, independent of the status of
-  `nesterenko`.
-- **Chudnovsky's theorem** (`chudnovsky`), unconditional: the bridge applied to
-  DiophantineApproximation §5.6 `nesterenko`.
+  `trdeg ℚ(E₂, E₄, E₆) ≥ 2`.
 - **Lower bound** (`two_le_trdeg_periodField`): `2 ≤ trdeg` for every `L` with algebraic
   invariants (`ω₁/π, η(ω₁)/π` lie in `periodField L(i)`, and adjoining `i` does not change the
   transcendence degree).
 - **The CM case** (`trdeg_periodField_eq_two_of_hasCM`): `trdeg = 2`. With
   `ringKrullDim_periodIdeal`: the Zariski closure of the period matrix has dimension `2`, the
-  dimension of the CM torus. This is the case of Bost–Charles' Conjecture 2.12 they attribute to
-  Chudnovsky.
+  dimension of the CM torus (the CM case attributed to Chudnovsky by Bost–Charles, §2.2.2).
 - **Corollaries.** With CM, `ω₁` and `π` are algebraically independent; for `L = c · ℤ[i]` or
   `c · ℤ[e^{2πi/3}]` with algebraic invariants, `c` and `π` are algebraically independent.
-- *Checks.* The bridge uses only `trdeg ≥ 2` of `ℚ(E₂, E₄, E₆)`, not the transcendence of `q`;
+- **A CM example** (`exists_hasCM_g₂_eq_one`): `L₀ = ofUpperHalfPlane I` has `g₃ = 0` (from
+  `iΛ = Λ` and `G₆(iΛ) = −G₆(Λ)`), so `g₂ ≠ 0`; with `c⁴ = g₂(L₀)`, `c • L₀` has
+  `g₂(c • L₀) = c⁻⁴g₂(L₀) = 1`, `g₃ = 0`, CM by `i`, and `trdeg = 2`.
+- *Checks.* The proof of `chudnovsky` uses only `trdeg ≥ 2` of `ℚ(E₂, E₄, E₆)`, not the transcendence of `q`;
   `E₆(i) = 0` is compatible (for `ℤ[i]` the dictionary gives `g₃ = 0`).
 - *Needs:* Layers 2–4; DiophantineApproximationAndTranscendence §5.6 (`nesterenko`) for the
   unconditional statements only.
 
-### Layer 6: the conjecture
-
-- **Statement.** `EllipticPeriodConjecture : Prop`: for every `L` with algebraic invariants and
-  `¬ HasCM L`, `trdeg (periodField L) = 4`. Never assumed except as an explicit hypothesis.
-- **Equivalent forms, proved.**
-  `ellipticPeriodConjecture_iff_algebraicIndependent` (the four numbers
-  `ω₁, ω₂, η(ω₁), η(ω₂)` are algebraically independent); the Zariski-closure form (the
-  `periodIdeal` has height `0`, i.e. is `⊥`: no polynomial relation over `ℚ` among the entries of
-  the period matrix, for non-CM `L`); the form with `π`: `ω₁, ω₂, η(ω₁), π` algebraically
-  independent; the form for one lattice in each homothety class (by `trdeg_periodField_smul`
-  and `isAlgebraic_of_smul`).
-- **Consequences, proved.** `EllipticPeriodConjecture.trdeg_eq`: under the conjecture,
-  `trdeg = if HasCM L then 2 else 4` (Layers 4–5 for the CM half);
-  `EllipticPeriodConjecture.algebraicIndependent_pi`.
-- **The hypothesis is needed** (`exists_hasCM_g₂_eq_one`, `not_forall_trdeg_periodField_eq_four`):
-  `L₀ = ofUpperHalfPlane I` has `g₃ = 0` (from `iΛ = Λ` and `G₆(iΛ) = −G₆(Λ)`), so `g₂ ≠ 0`;
-  with `c⁴ = g₂(L₀)`, `c⁻¹ • L₀` has `g₂ = 1`, `g₃ = 0`, CM by `i`, and `trdeg ≤ 2` (Layer 4 only).
-- *Checks.* The conjecture is consistent with every theorem above: `2 ≤ trdeg ≤ 4`,
-  `trdeg ≤ 2` with CM. The variant "for all `L`" is false (previous item); the variant without
-  algebraic invariants is false (`ofUpperHalfPlane τ` with `τ` algebraic of degree `3` has no
-  CM, and its periods `1, τ` are algebraic, so `trdeg ≤ 2`).
-- *Needs:* Layers 3–5.
-
 ## Ordering
 
-Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4 → Layer 5 → Layer 6. Within Layer 1, the residue
+#913 (§§1.1, 1.3, 1.4a) → Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4 → Layer 5. Within Layer 1, the residue
 balance precedes the structure theorem; within Layer 2, Legendre precedes the dictionary for
-`η(τ)`. Layer 5's bridge needs only Layers 2–4; its unconditional corollaries need
-DiophantineApproximation §5.6. Layer 6's non-example needs only Layer 4.
+`η(τ)`. Layer 5 needs Layers 2–4 and DiophantineApproximation §5.6.
 
-## Roadmap for a roadmap: the de Rham–Betti formulation
+## Research context
 
-*This section is a roadmap-for-a-roadmap: it sketches the general statement beyond this entry,
-and contributors should not work from it now — take targets from Layers 0–6 above.*
-
-- **Elliptic curves over `ℚ̄` as varieties.** Identify `periodMatrix` with the comparison
-  isomorphism `H¹_dR(E/ℚ̄) ⊗ ℂ ≅ H¹_B(E(ℂ), ℚ) ⊗ ℂ` for `E : y² = 4x³ − g₂x − g₃`; this needs
-  algebraic de Rham cohomology and the comparison (ComplexComparison part II) and the analytic
-  uniformisation (ModularCurves part II §§1.2–1.4), and the existence of a lattice with given
-  algebraic `g₂, g₃` (surjectivity of `j`). Then state the conjecture for every
-  `E : WeierstrassCurve ℚ̄` with `[E.IsElliptic]` and identify `HasCM` with EllipticCurves'
-  `HasGeometricCM`.
-- **The torsor of periods.** For a smooth projective `X/ℚ̄`, Bost–Charles' Conjecture 2.12
-  (`Z_X = Ω_X^mot`) and the weaker conjectures `GPC^k(X)`; for `X = E`, identification of
-  `Ω_E^mot` with a torsor under `GL₂` (no CM) or the CM torus, which turns Conjecture 2.12 into
-  `EllipticPeriodConjecture` and Layer 5's CM theorem.
-- **Full faithfulness.** Grothendieck's 1965 question: full faithfulness of
-  `M ↦ (T_dR(M), T_B(M), φ)` over algebraic extensions of `ℚ`, its reduction to `ℚ̄`, and its
-  group form `V^G = V ∩ g(V̄)`; in rank one (the Tate motives `ℚ(n)`) it holds because `π` is
-  transcendental: a de Rham–Betti morphism `ℚ(0) → ℚ(n)` with `n ≠ 0` would make `(2πi)^n`
-  algebraic. `det_periodMatrix` is the elliptic instance of the period it uses: `∧²H¹(E) ≅ ℚ(−1)`
-  has period `−2πi`.
-- **Higher dimension.** Abelian varieties (Wüstholz's analytic subgroup theorem, `GPC¹` for
-  abelian varieties, Bost–Charles §3), and André's generalised period conjecture for 1-motives.
+Not targets. The elliptic case of Grothendieck's period conjecture (transcendence degree `4`
+without complex multiplication) is open; Bost–Charles (2016, §2) relate the torsor form of the
+conjecture to the statements `GPCᵏ` in each codimension, and prove `GPC¹` for abelian varieties
+and products of curves (§3). The established CM case, `trdeg = 2` (Layer 5), is used downstream,
+for instance by Kawabe (arXiv:2303.05030, §2.3) for CM Kummer surfaces.
 
 ## References
 
@@ -389,6 +360,6 @@ and contributors should not work from it now — take targets from Layers 0–6 
 
 ## Provenance
 
-None: this is a greenfield development. The statement of the conjecture follows Bost–Charles;
-the elliptic formulation (lattice with algebraic invariants, `trdeg ∈ {2, 4}`) is the one used in
-the transcendence literature cited above.
+Greenfield, on Mathlib's `PeriodPair`. The question that motivates it is Grothendieck's, in the
+Montpellier folders cited in the summary; the established statements are those of the
+transcendence literature cited above.

@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Periods of elliptic curves and the Grothendieck period conjecture: target signatures
+# Elliptic functions, periods and complex multiplication: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The statements here suggest Lean forms for particular milestones, so that contributors and
@@ -10,26 +10,24 @@ the roadmap.
 
 Everything is stated on Mathlib's `PeriodPair` (a pair of `ℝ`-linearly independent complex
 numbers, `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`) and its `lattice`,
-`weierstrassP`, `derivWeierstrassP`, `G`, `g₂`, `g₃`. The new objects — the Weierstrass `ζ`
-function, the quasi-period map, the period field, complex multiplication of a lattice and the
-conjecture itself — are **defined outright** below, since their Mathlib vocabulary exists. Only
-theorem statements are `sorry`. The conjecture is a `def … : Prop` and is never assumed by a
-theorem of this roadmap except as an explicit hypothesis.
+`weierstrassP`, `derivWeierstrassP`, `G`, `g₂`, `g₃`. Only theorem statements are `sorry`.
+
+**Supplied by ModularCurvesPartII (#913), not constructed here.** The Weierstrass `σ` function
+`latticeSigma`, the quasi-period map `latticeQuasiPeriod` and Legendre's relation
+`latticeQuasiPeriod_legendre` (§1.4a), the nonvanishing of `g₂³ − 27g₃²` (§1.1) and the scaling
+of `g₂`, `g₃`, `℘` under homotheties (§1.3). Until those are implemented in Tau Ceti, the name
+`quasiPeriod` below is defined from `weierstrassZeta_sub_periodic` by choice, only so that this
+file compiles; the implementation uses `latticeQuasiPeriod` and does not construct a second
+quasi-period map. `weierstrassZeta` is identified with `σ′/σ` by
+`weierstrassZeta_eq_logDeriv_latticeSigma` (README, Layer 2).
 
 Conventions (README §Conventions): a basis `(ω₁, ω₂)` is *positive* when `0 < (ω₂ / ω₁).im`;
-the quasi-period map `η` satisfies `ζ(z + l) = ζ(z) + η(l)`; Legendre's relation reads
-`η(ω₁) ω₂ − η(ω₂) ω₁ = 2πi` for a positive basis; transcendence degrees are taken over `ℚ`
-(they agree with those over `ℚ̄`); "algebraic" means `IsAlgebraic ℚ` inside `ℂ`.
-
-The Nesterenko statement used in Layer 5 is owned and proved by the
-DiophantineApproximationAndTranscendence roadmap (§5.6, `nesterenko`); it is restated here as
-`NesterenkoStatement` only so that the bridge theorem `chudnovsky_of_nesterenko` can be stated
-without importing that roadmap's file.
+transcendence degrees are taken over `ℚ`; "algebraic" means `IsAlgebraic ℚ` inside `ℂ`.
 -/
 
 open Complex
 
-namespace TauCetiRoadmap.GrothendieckPeriodConjecture
+namespace TauCetiRoadmap.EllipticPeriods
 
 /-! ## Layer 0: period pairs — scaling and the upper half-plane -/
 
@@ -71,13 +69,6 @@ lemma lattice_smul (c : ℂˣ) (L : PeriodPair) :
 
 lemma G_smul (c : ℂˣ) (L : PeriodPair) (k : ℕ) : (c • L).G k = (c : ℂ)⁻¹ ^ k * L.G k := sorry
 
-lemma g₂_smul (c : ℂˣ) (L : PeriodPair) : (c • L).g₂ = (c : ℂ)⁻¹ ^ 4 * L.g₂ := sorry
-
-lemma g₃_smul (c : ℂˣ) (L : PeriodPair) : (c • L).g₃ = (c : ℂ)⁻¹ ^ 6 * L.g₃ := sorry
-
-lemma weierstrassP_smul (c : ℂˣ) (L : PeriodPair) (z : ℂ) :
-    (c • L).weierstrassP (c * z) = (c : ℂ)⁻¹ ^ 2 * L.weierstrassP z := sorry
-
 /-- `℘` depends only on the lattice. -/
 lemma weierstrassP_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) :
     L.weierstrassP = L'.weierstrassP := sorry
@@ -107,9 +98,6 @@ theorem IsEllipticFunction.exists_eq_div_weierstrassP {L : PeriodPair} {f : ℂ 
     ∃ P Q : Polynomial ℂ, Q ≠ 0 ∧ ∀ᶠ z in Filter.codiscrete ℂ,
       f z * Q.eval (L.weierstrassP z) = P.eval (L.weierstrassP z) := sorry
 
-/-- The cubic `4X³ − g₂X − g₃` has distinct roots. -/
-theorem discriminant_ne_zero (L : PeriodPair) : L.g₂ ^ 3 - 27 * L.g₃ ^ 2 ≠ 0 := sorry
-
 /-- The Laurent expansion `℘(z) = z⁻² + ∑_{k ≥ 1} (2k + 1) G_{2k+2} z^{2k}` near `0`. -/
 theorem hasSum_weierstrassP_laurent (L : PeriodPair) :
     ∀ᶠ z in nhdsWithin (0 : ℂ) {0}ᶜ,
@@ -128,11 +116,15 @@ open Classical in
 noncomputable def weierstrassZeta (L : PeriodPair) (z : ℂ) : ℂ :=
   z⁻¹ + ∑' l : L.lattice, if (l : ℂ) = 0 then 0 else (z - l)⁻¹ + (l : ℂ)⁻¹ + z / (l : ℂ) ^ 2
 
-/-- The quasi-period map: `η(l) = ζ(z + l) − ζ(z)`, evaluated at the base point `ω₁ / 2`, which
-is not a lattice point (`PeriodPair.ω₁_div_two_notMem_lattice`); `weierstrassZeta_add_coe`
-shows that any base point off the lattice gives the same value. -/
+/-- `ζ` is quasi-periodic: translating by a lattice vector adds a constant. -/
+theorem weierstrassZeta_sub_periodic (L : PeriodPair) (l : ℂ) :
+    ∃ c : ℂ, l ∈ L.lattice → ∀ z, z ∉ L.lattice →
+      weierstrassZeta L (z + l) = weierstrassZeta L z + c := sorry
+
+/-- Stands for ModularCurvesPartII's `latticeQuasiPeriod` (§1.4a); defined by choice from
+`weierstrassZeta_sub_periodic` only so that this file compiles. Not a second construction. -/
 noncomputable def quasiPeriod (L : PeriodPair) (l : ℂ) : ℂ :=
-  weierstrassZeta L (L.ω₁ / 2 + l) - weierstrassZeta L (L.ω₁ / 2)
+  Classical.choose (weierstrassZeta_sub_periodic L l)
 
 theorem weierstrassZeta_neg (L : PeriodPair) (z : ℂ) :
     weierstrassZeta L (-z) = -weierstrassZeta L z := sorry
@@ -156,10 +148,6 @@ theorem quasiPeriod_smul (c : ℂˣ) (L : PeriodPair) {l : ℂ} (hl : l ∈ L.la
 theorem quasiPeriod_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) {l : ℂ}
     (hl : l ∈ L.lattice) : quasiPeriod L l = quasiPeriod L' l := sorry
 
-/-- **Legendre's relation** for a positive basis. -/
-theorem legendre (L : PeriodPair) (hL : 0 < (L.ω₂ / L.ω₁).im) :
-    quasiPeriod L L.ω₁ * L.ω₂ - quasiPeriod L L.ω₂ * L.ω₁ = 2 * π * I := sorry
-
 /-- The Eisenstein dictionary at `(1, τ)`: `g₂ = (4π⁴/3) E₄(τ)`. -/
 theorem g₂_ofUpperHalfPlane (τ : UpperHalfPlane) :
     (ofUpperHalfPlane τ).g₂ = 4 * (π : ℂ) ^ 4 / 3 * ModularForm.E₄ τ := sorry
@@ -180,8 +168,9 @@ theorem quasiPeriod_ofUpperHalfPlane_one (τ : UpperHalfPlane) :
 noncomputable def periodField (L : PeriodPair) : IntermediateField ℚ ℂ :=
   IntermediateField.adjoin ℚ ((L.lattice : Set ℂ) ∪ quasiPeriod L '' L.lattice)
 
-/-- The period matrix: the comparison between the de Rham basis `(dx/y, x dx/y)` and the Betti
-basis `(γ₁, γ₂)` of `H¹`, read through the uniformisation, rows `(ω₁, ω₂)` and `(η₁, η₂)`. -/
+/-- The numerical period matrix of the lattice: rows `(ω₁, ω₂)` and `(η(ω₁), η(ω₂))`. Read
+through `x = ℘(z)`, `y = ℘′(z)`, the rows are the periods of `dx/y = dz` and of
+`−x dx/y = dζ` on the cycles `γ₁, γ₂`: forms in rows, cycles in columns. -/
 noncomputable def periodMatrix (L : PeriodPair) : Matrix (Fin 2) (Fin 2) ℂ :=
   !![L.ω₁, L.ω₂; quasiPeriod L L.ω₁, quasiPeriod L L.ω₂]
 
@@ -210,6 +199,12 @@ theorem periodField_congr {L L' : PeriodPair} (h : L.lattice = L'.lattice) :
 theorem two_pi_I_mem_periodField (L : PeriodPair) : 2 * (π : ℂ) * I ∈ periodField L := sorry
 
 theorem trdeg_periodField_le (L : PeriodPair) : Algebra.trdeg ℚ (periodField L) ≤ 4 := sorry
+
+/-- The four entries of the period matrix are algebraically independent iff the period field
+has transcendence degree `4`, iff there is no polynomial relation among them. -/
+theorem trdeg_periodField_eq_four_iff (L : PeriodPair) :
+    Algebra.trdeg ℚ (periodField L) = 4 ↔
+      AlgebraicIndependent ℚ ![L.ω₁, L.ω₂, quasiPeriod L L.ω₁, quasiPeriod L L.ω₂] := sorry
 
 theorem trdeg_periodField_smul (L : PeriodPair) {c : ℂˣ} (hc : IsAlgebraic ℚ (c : ℂ)) :
     Algebra.trdeg ℚ (periodField (c • L)) = Algebra.trdeg ℚ (periodField L) := sorry
@@ -249,20 +244,6 @@ theorem trdeg_periodField_le_two_of_hasCM {L : PeriodPair} (h₂ : IsAlgebraic �
 
 /-! ## Layer 5: lower bounds — Chudnovsky's theorem from Nesterenko's -/
 
-/-- Nesterenko's theorem as stated by DiophantineApproximationAndTranscendence §5.6
-(`nesterenko`), restated so that the bridge below needs no import of that file. -/
-def NesterenkoStatement : Prop :=
-  ∀ τ : UpperHalfPlane, ∃ s : Finset (Fin 4), s.card = 3 ∧ AlgebraicIndependent ℚ fun i : s =>
-    (![Function.Periodic.qParam 1 τ, EisensteinSeries.E2 τ, ModularForm.E₄ τ, ModularForm.E₆ τ] :
-      Fin 4 → ℂ) i
-
-/-- The bridge: Nesterenko's theorem implies Chudnovsky's — for algebraic invariants and a
-nonzero period `l`, the numbers `l / π` and `η(l) / π` are algebraically independent. -/
-theorem chudnovsky_of_nesterenko (hN : NesterenkoStatement) {L : PeriodPair}
-    (h₂ : IsAlgebraic ℚ L.g₂) (h₃ : IsAlgebraic ℚ L.g₃) {l : ℂ} (hl : l ∈ L.lattice)
-    (hl0 : l ≠ 0) :
-    AlgebraicIndependent ℚ ![l / (π : ℂ), quasiPeriod L l / (π : ℂ)] := sorry
-
 /-- **Chudnovsky's theorem** (unconditional, consuming DiophantineApproximationAndTranscendence
 §5.6 `nesterenko`). -/
 theorem chudnovsky {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂) (h₃ : IsAlgebraic ℚ L.g₃)
@@ -272,42 +253,14 @@ theorem chudnovsky {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂) (h₃ : IsAl
 theorem two_le_trdeg_periodField {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
     (h₃ : IsAlgebraic ℚ L.g₃) : 2 ≤ Algebra.trdeg ℚ (periodField L) := sorry
 
-/-- The CM case of the period conjecture (Chudnovsky). -/
+/-- The CM case: transcendence degree `2` (Chudnovsky). -/
 theorem trdeg_periodField_eq_two_of_hasCM {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
     (h₃ : IsAlgebraic ℚ L.g₃) (hL : HasCM L) : Algebra.trdeg ℚ (periodField L) = 2 := sorry
 
-/-! ## Layer 6: the conjecture -/
 
-/-- **The Grothendieck period conjecture for elliptic curves, transcendence-degree form.**
-For a lattice with algebraic invariants and no complex multiplication, the periods and
-quasi-periods generate a field of transcendence degree `4`. Never assumed. -/
-def EllipticPeriodConjecture : Prop :=
-  ∀ L : PeriodPair, IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ → ¬ HasCM L →
-    Algebra.trdeg ℚ (periodField L) = 4
-
-theorem ellipticPeriodConjecture_iff_algebraicIndependent :
-    EllipticPeriodConjecture ↔ ∀ L : PeriodPair, IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ →
-      ¬ HasCM L →
-        AlgebraicIndependent ℚ ![L.ω₁, L.ω₂, quasiPeriod L L.ω₁, quasiPeriod L L.ω₂] := sorry
-
-open Classical in
-/-- Under the conjecture the transcendence degree is `2` or `4` according to CM. -/
-theorem EllipticPeriodConjecture.trdeg_eq (h : EllipticPeriodConjecture) {L : PeriodPair}
-    (h₂ : IsAlgebraic ℚ L.g₂) (h₃ : IsAlgebraic ℚ L.g₃) :
-    Algebra.trdeg ℚ (periodField L) = if HasCM L then 2 else 4 := sorry
-
-/-- Under the conjecture, `ω₁, ω₂, η(ω₁)` and `π` are algebraically independent (no CM). -/
-theorem EllipticPeriodConjecture.algebraicIndependent_pi (h : EllipticPeriodConjecture)
-    {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂) (h₃ : IsAlgebraic ℚ L.g₃) (hL : ¬ HasCM L) :
-    AlgebraicIndependent ℚ ![L.ω₁, L.ω₂, quasiPeriod L L.ω₁, (π : ℂ)] := sorry
-
-/-- The non-CM hypothesis cannot be dropped: a CM lattice with `g₂ = 1`, `g₃ = 0`. -/
+/-- A CM lattice with `g₂ = 1`, `g₃ = 0`: `c • ofUpperHalfPlane I` with `c⁴ = g₂(ofUpperHalfPlane I)`. -/
 theorem exists_hasCM_g₂_eq_one :
     ∃ L : PeriodPair, L.g₂ = 1 ∧ L.g₃ = 0 ∧ HasCM L ∧ Algebra.trdeg ℚ (periodField L) ≤ 2 :=
   sorry
 
-theorem not_forall_trdeg_periodField_eq_four :
-    ¬ ∀ L : PeriodPair, IsAlgebraic ℚ L.g₂ → IsAlgebraic ℚ L.g₃ →
-      Algebra.trdeg ℚ (periodField L) = 4 := sorry
-
-end TauCetiRoadmap.GrothendieckPeriodConjecture
+end TauCetiRoadmap.EllipticPeriods
