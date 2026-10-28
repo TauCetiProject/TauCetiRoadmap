@@ -129,10 +129,11 @@ A different knot with the same Seifert matrix does not discharge this obligation
 `KP-E020` asks for linking numbers of the four illustrated Hopf, King Solomon,
 Whitehead and Borromean links. `KP-E030` asks for three-coloring decisions for the
 four links of question20 and its pictured diagrams; the existing description has
-six pictured occurrences, four above and two below. Keep **every occurrence** and
-the reference to all four earlier links. It remains unresolved whether the six
-include the earlier four or are six additional examples: do not choose a total of
-six or ten distinct diagrams.
+six pictured occurrences, four above and two below. The printed prompt says
+“Consider the four links of question20 and the following links”: there are
+four page4 occurrences and six additional page5 occurrences, ten in total.
+Keep **every occurrence**. This does not assert ten distinct link types;
+identify repeated types only by explicit diagram comparisons.
 
 For each occurrence obtain the exact signed crossing/component/arc data, the
 correspondence to its source picture and any named link, every coloring equation,
@@ -141,6 +142,68 @@ requires Whitehead nonsplitting from its actual three-coloring count; linking
 number0 or a guessed drawing is not a substitute. Preserve its superscript
 footnote marker after “number”: no corresponding footnote text is currently
 specified.
+
+### Two recovered Fox systems
+
+Use the following location and arc markings on the actual problem20 drawings.
+The pictures have no component orientations; the traversal choices below fix
+arc names. Fox3 equations are independent of reversing those traversals.
+Every row means `2·over = under-in + under-out` in Z/3.
+
+For **King Solomon's knot**, the pictured link has two components H and V,
+with four crossings K1 upper-left, K2 upper-right, K3 lower-right and K4
+lower-left. H traverses K1,K2,K3,K4 and V traverses K4,K1,K2,K3 cyclically.
+Cut H at K1,K3 and V at K2,K4. Let h1 run K1 through K2 to K3, h2 run
+K3 through K4 to K1, v1 run K4 through K1 to K2, and v2 run K2 through K3
+to K4. The crossing data are:
+
+| Crossing | Overarc | Under-in | Under-out |
+| --- | --- | --- | --- |
+| K1 | v1 | h2 | h1 |
+| K2 | h1 | v1 | v2 |
+| K3 | v2 | h1 | h2 |
+| K4 | h2 | v2 | v1 |
+
+In column order h1,h2,v1,v2 the integral Fox rows are
+`[-1,-1,2,0]`, `[2,0,-1,-1]`, `[-1,-1,0,2]`, `[0,2,-1,-1]`.
+Identify this system with the coloring space of the realized source diagram;
+prove its kernel modulo3 is exactly the constant functions, of cardinality3.
+Construct the oriented crossing-sign comparison for the linking-number
+calculation separately; no signed linking value is inferred from absent arrows.
+
+For the **Whitehead link**, use W1 upper-left, W2 lower-left, W3 central,
+W4 upper-right and W5 lower-right. The outer oval component V traverses
+W1,W2,W5,W4 cyclically. The winding component H traverses
+W1,W3(over diagonal),W5,W4,W3(under curved branch),W2. W3 is its self-crossing.
+Cut V at W2,W4 and H at W1,W3's under-visit,W5. Let v1 run W2 through W5
+to W4, v2 run W4 through W1 to W2; let h1 run W1 through W3's over-visit
+to W5, h2 run W5 through W4 to W3's under-visit, and h3 run that under-visit
+through W2 to W1. The crossing data are:
+
+| Crossing | Overarc | Under-in | Under-out |
+| --- | --- | --- | --- |
+| W1 | v2 | h3 | h1 |
+| W2 | h3 | v2 | v1 |
+| W3 | h1 | h2 | h3 |
+| W4 | h2 | v1 | v2 |
+| W5 | v1 | h1 | h2 |
+
+In column order h1,h2,h3,v1,v2 the integral Fox rows are
+`[-1,0,-1,0,2]`, `[0,0,2,-1,-1]`, `[2,-1,-1,0,0]`,
+`[0,2,0,-1,-1]`, `[-1,-1,0,2,0]`. Identify this system with the
+coloring space of the realized source diagram. Its kernel modulo3 is
+exactly the constant functions, of cardinality3; thus it has no nonconstant
+three-coloring. For a split two-component link, a separated diagram admits
+nine distinct assignments of independent constant colors to its components.
+Transport them injectively through the Reidemeister coloring bijections.
+Consequently the count3 proves Whitehead nonsplitting. No nonconstant
+coloring is needed for this obstruction.
+
+[Problem20FoxTargets.lean](Problem20FoxTargets.lean) proves the two literal
+matrix-kernel and cardinality calculations. The diagram-to-matrix comparison
+and the geometric splitting argument remain the corresponding README targets.
+The Hopf and Borromean crossing data and all six page5 diagrams still require
+their own source correspondences and calculations.
 
 State the course's splitting convention explicitly. Comparing its half-space
 representative with a locally flat separating-sphere definition uses the **GT4
@@ -182,7 +245,7 @@ conclusions as source obligations until the exact pattern is checked. A generic
 | Required input | What would resolve its hold |
 | --- | --- |
 | Page76 repeated oriented band/closure family, marked crossing and `2k` basis correspondence | An intrinsic signed band/diagram table or a defining source giving every attaching/crossing/orientation choice and the basis map; then actual matrix, surface and unknotting comparisons. |
-| Problem20/30 pictured data and occurrence relationship | Exact signed crossing/component codes with picture correspondences, and clarification of whether the six pictures include or augment the four earlier links; retain every occurrence meanwhile. |
+| Problem20/30 remaining pictured data | Signed linking-number comparisons, the Hopf/Borromean Fox data, and all six additional page5 diagram codes and calculations. The two systems above supply the King Solomon/Whitehead Fox inputs; the ten occurrence positions are fixed, while repeated link types need explicit comparisons. |
 | Problem30 missing footnote and splitting convention | The footnote's actual text, or explicit source qualification that it remains unavailable, and the precise splitting convention/category needed for the stated comparison. |
 | Page177 mixed `S₅` example | Complete interior labels and oriented crossing data, with crossing and generated-subgroup certificates. |
 | Page106 indexed doubling/bridge pattern | An actual indexed diagram/construction with multiplication order, twist corrections, source-index comparison and the generation/bridge proof. |
