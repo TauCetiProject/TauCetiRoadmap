@@ -140,7 +140,8 @@ The supplier contracts include positive convergent products of reals with summab
 `Real.multipliable_one_add_of_summable`, `Real.rexp_tsum_eq_tprod` and
 `Multipliable.prod_mul_tprod_compl`. The extension to factor masses that are only summably close
 to one is this roadmap's deduction from these lemmas; [Sutherland], §23.3, p. 6, supplies the
-normalized product of local Haar measures on boxes whose almost-all factors have mass one. Integral points of a model are compact open in `G(F_v)`:
+normalized product of local Haar measures on boxes whose almost-all factors have mass one.
+Integral points of a model are compact open in `G(F_v)`:
 ReductiveGroupsPartII, RG2.0.3 (integral points compact open). Closed subgroups give closed
 embeddings of adelic points, and `(G × G′)(𝔸_F) ≃ G(𝔸_F) × G′(𝔸_F)`: ReductiveGroupsPartII,
 RG2.0.1 (functoriality of the point topology, for every topological ring), with Tau Ceti
@@ -255,10 +256,10 @@ one, and a single weight of multiplicity two contributes the square.
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. |
-| Linear Haar scaling | [MassFormula, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
-| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**; use `TauCeti.height2`, `TauCeti.arakelovMulHeight` and `TauCeti.arakelovMulHeight_eq_height2`, with `[Finite ι]`, from [TauCeti/NumberTheory/Height/Arakelov/Basic.lean](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/NumberTheory/Height/Arakelov/Basic.lean). DAT supplies `height2_baseExtension` and relative extension-power transport; its `Suggested.lean` gives prototype signatures in `TauCetiRoadmap.DiophantineApproximationAndTranscendence.DiophantineApproximation`. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
+| Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
+| Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Brauer and monomial character induction | RepresentationTheory/InductionRestriction, layer 6; pinned `TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`: `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`, `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`; `TauCeti/GroupTheory/Elementary.lean`: `TauCeti.IsElementary.isNilpotent`; `TauCeti/RepresentationTheory/Induction/Monomial.lean`: `FDRep.exists_character_eq_indClassFun_of_isNilpotent`; `TauCeti/RepresentationTheory/Induction/ClassFunction.lean`: `TauCeti.indClassFun_indClassFun_subgroupOf` | For a finite group over an algebraically closed characteristic-zero field, write every character as an integral combination of characters induced from linear characters of subgroups. AA.2.4 owns the ramified local Artin-factor induction identity, one-dimensional Artin–Hecke comparison and analytic assembly. |
-| Finite-order Hecke analysis | [LFunctions, Layer 5 for continuation and Layer 7 for nonvanishing](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
+| Finite-order Hecke analysis | LFunctions, Layer 5 for continuation and Layer 7 for nonvanishing: `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
 | One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
@@ -274,7 +275,7 @@ one, and a single weight of multiplicity two contributes the square.
 | Connected reductivity | `TauCeti.reductiveCommHopfAlgProperty`; `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean` | The reductive groups with finite component groups of AA.3.3 drop connectedness in characteristic zero for the Borel–Harish-Chandra statements. |
 | Homogeneous quotient sheaf | `CommHopfAlgCat.fppfHomogeneousQuotient`; `TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean` | The affine quotients of AA.3.3 add an affine faithfully flat realization with exact scheme fibres. Inversion identifies the supplier’s `G/H` convention with `H\G` here. |
 | Matrix points | `TauCeti.GeneralLinear.pointsMulEquiv`, `TauCeti.AlgHom.mapDomain`; `TauCeti/Algebra/AlgebraicGroup/GeneralLinear/FunctorOfPoints.lean`, `TauCeti/Algebra/AlgebraicGroup/Hopf/Map.lean` | The matrix points of a rational representation in AA.3.3 are their composition for a specified coordinate representation, not a separate point construction. |
-| Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`; `TauCeti/Algebra/Quaternion/NormForm.lean` | The norm-image theorems use this quadratic form directly. |
+| Quaternion reduced norm | `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_apply`, `QuaternionAlgebra.normForm_mul`; `TauCeti/Algebra/Quaternion/NormForm.lean`. `QuaternionAlgebra.normForm_eq_of_algEquiv`; `TauCeti/Algebra/Quaternion/AlgEquiv.lean`. `TauCeti.QuaternionAlgebra.baseChange`; `TauCeti/Algebra/Quaternion/BaseChange.lean` | The norm-image theorems use this quadratic form directly. For a presentation `D ≃ ℍ[F,a,b]` and a commutative `F`-algebra `A`, the unit norm `Nrd_A : (D ⊗[F] A)^× → A^×` is `normForm` over `A` transported along `baseChange`; it is multiplicative by `normForm_mul` and independent of the presentation by `normForm_eq_of_algEquiv`, since `2` is invertible in `F`. AA.4.6 (*quaternion-norm-images*) owns its naturality in `A` and the determinant comparison under a splitting. |
 | Idele norm | `TauCeti.GlobalNumberFields.ideleNorm`, `TauCeti.GlobalNumberFields.continuous_ideleNorm`, `TauCeti.GlobalNumberFields.ideleNorm_unitEmbedding`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Basic.lean` | `H_G` takes the real logarithm of this norm; multiplicativity and positivity come from the supplier's homomorphism into positive units. |
 | Compact norm-one idele classes | `TauCeti.GlobalNumberFields.IdeleClassGroup.isCompact_normOne`; `TauCeti/NumberTheory/NumberField/Global/Ideles/Norm/Compact.lean` | Supplies the compactness assertion in Layer 5 directly. |
 | Finite-factor decomposition | `TauCeti.awayDecomposition`, `TauCeti.continuous_awayDecomposition`, `TauCeti.continuous_awayDecomposition_symm`; `TauCeti/Topology/Algebra/RestrictedProduct/Away/Decomposition.lean` | The finite splitting of AA.0.3 and AA.1.2 bundles these as a topological group equivalence on finset-indexed factors; the new assertion is measure compatibility. |
@@ -287,13 +288,6 @@ one, and a single weight of multiplicity two contributes the square.
 
 All names in this section are part of the dependency contract. Each is cited again in the
 *Needs* clause of the target that consumes it.
-
-### Definite quaternion supplier
-
-| Object | Exact supplier and declaration | Use here |
-|---|---|---|
-| Reduced norm on quaternion units | [QuaternionicModularForms](https://github.com/WilliamCoram/TauCetiRoadmap/blob/f0be7f1/TauCetiRoadmap/QuaternionicModularForms/README.md), §0.1, **Reduced norm and definiteness** | Consume the presentation-independent reduced norm and its base-change and split-determinant comparisons. Use its multiplicativity to form `Nrd_A : (D ⊗[F] A)^× → A^×` for every commutative `F`-algebra `A`, natural under coefficient maps. AA.4.2 and AA.4.6 use this same norm for local, rational and adelic units. |
-| Definite quaternion class sets and stabilizers | [QuaternionicModularForms](https://github.com/WilliamCoram/TauCetiRoadmap/blob/f0be7f1/TauCetiRoadmap/QuaternionicModularForms/README.md), §0.2: `TauCetiRoadmap.QuaternionicModularForms.Dfx`, `TauCetiRoadmap.QuaternionicModularForms.unitsIncl`, `TauCetiRoadmap.QuaternionicModularForms.globalUnits`; §0.3: `TauCetiRoadmap.QuaternionicModularForms.classSet`, `TauCetiRoadmap.QuaternionicModularForms.finite_classSet`, `TauCetiRoadmap.QuaternionicModularForms.DefiniteQuaternion.finite_stab` | For totally definite `D` over totally real `F`, consume finite class sets at open levels and stabilizers finite modulo diagonal `F^×` at compact levels, with the finite-adele module topology and native units topology. AA.5.3 deduces finite-adelic quotient compactness from the class-set theorem and a compact open level, specializes whole-stabilizer finiteness to `F = ℚ`, and conjugates `U ∩ x⁻¹ D^× x` to `D^× ∩ xUx⁻¹` for volume comparison. Full-adelic norm-one compactness comes from AA.3.4. |
 
 ### Local analytic and parabolic suppliers
 
@@ -584,7 +578,7 @@ handles the non-unit local volumes needed for Tamagawa measure.
     of the boxes with factor `{0}` at the indices below `n` and `B i` elsewhere.
   - A σ-algebra generated by the open subgroups `U_S` and their cosets alone would not contain
     that singleton; a definition built from them fails this test.
-- **Normalized local Haar measures and their character.** <a id="local-haar-character"></a>
+- **Normalized local Haar measures and their character.** (*local-haar-character*)
   For any field `E` with `IsNonarchimedeanLocalField E`, let `q = Nat.card 𝓀[E]` and let
   `v_E : E^× → ℤ` be the additive reading of `TauCeti.normalizedValuation E`, with
   `v_E(ϖ) = 1`. Prove uniqueness of regular additive Haar measure `μ_E` with
@@ -605,7 +599,7 @@ handles the non-unit local volumes needed for Tamagawa measure.
   - At a prime of residue degree `f` in a number field, a uniformizer has character
     `p^{−f}`, rather than `p⁻¹` when `f > 1`.
 
-- **Linear Haar change of variables on module spaces.** <a id="linear-haar-change-of-variables"></a>
+- **Linear Haar change of variables on module spaces.** (*linear-haar-change-of-variables*)
   Let `E` be as above, `V` a finite-dimensional `E`-vector space with its module topology,
   `μ` a regular additive Haar measure on `V`, and `T : V ≃ₗ[E] V`. Prove
   `map T μ = |det T|_E⁻¹ • μ`, where `|·|_E = TauCeti.normalizedAbsoluteValue E`.
@@ -843,7 +837,7 @@ handles the non-unit local volumes needed for Tamagawa measure.
 
 ### 0.4 Adeles and ideles
 
-- **Second countability and the adelic Borel structure.** <a id="adelic-borel-structure"></a>
+- **Second countability and the adelic Borel structure.** (*adelic-borel-structure*)
   For every number field `K`, prove and register `SecondCountableTopology` for
   `𝔸_{K,f}`, `K_∞`, `𝔸_K`, their native units groups, and `GL_n` over each ring for every
   finite `n`. Give the finite and infinite adeles their Borel σ-algebras and the full
@@ -917,7 +911,7 @@ handles the non-unit local volumes needed for Tamagawa measure.
     normalization) whenever `|d_K| > 1`; omitting the factor `2` at complex places would give
     `2^{−r₂} |d_K|^{1/2}`. At the complex place of an imaginary quadratic field the unit square
     has mass `2`, where `dx dy` would give `1`.
-- **The idele norm is the additive Haar character.** <a id="idele-haar-character"></a>
+- **The idele norm is the additive Haar character.** (*idele-haar-character*)
   For a number field `K` and `x ∈ 𝔸_K^×`, prove
   `MeasureTheory.distribHaarChar 𝔸_K x = TauCeti.GlobalNumberFields.ideleNorm x` (coerced to
   `ℝ≥0`), and hence `map (x * ·) μ_𝔸 = ‖x‖⁻¹ • μ_𝔸`. The norm-one subgroup is
@@ -1013,7 +1007,8 @@ every comparison.
   the continuous homomorphism `p_v : AdelicPoints H →* G(F_v)` given by the coefficient map
   along the projection `𝔸_F → F_v`; the finite and archimedean components are
   `AdelicPoints.finiteProjection` and `AdelicPoints.infiniteProjection`, and the diagonals into
-  `G(𝔸_{F,f})` and `G(F_∞)` are `AdelicPoints.finiteDiagonal` and `infiniteDiagonal`.
+  `G(𝔸_{F,f})` and `G(F_∞)` are `AdelicPoints.finiteDiagonal` and the coefficient map along
+  `F → F_∞`.
   Prove that for `h ∈ H`,
   `x ↦ x h` is continuous `AdelicPoints H → 𝔸_F`, and that
   `p_v (diagonal g)` is the image of `g` in `G(F_v)`. Define `finiteEmbed`, the
@@ -1391,14 +1386,14 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   AA.1.2; AA.1.5.
   *Lean:* none; specified in the README only.
 
-- **Local factors of number-field congruence levels.** <a id="local-congruence-levels"></a>
+- **Local factors of number-field congruence levels.** (*local-congruence-levels*)
   Let `F` be a number field, `N ≠ 0` an ideal of `𝒪_F`, and `v` an explicitly specified
   finite place. Extend matrices in `GL₂(F_v)` by the identity away from `v`, giving a
-  continuous homomorphism `ι_v : GL₂(F_v) → GL₂(𝔸_{F,f})`. Define the local `level0`,
-  `level1` and `principalLevel` as the subgroup comaps of AA.5.2's number-field levels
+  continuous homomorphism `ι_v : GL₂(F_v) → GL₂(𝔸_{F,f})`. Define the local level-zero,
+  level-one and principal levels as the subgroup comaps of AA.5.2's number-field levels
   along `ι_v`. Prove that they are compact open and have the entry descriptions
   `c ∈ N𝒪_v`, respectively `c ∈ N𝒪_v, d−1 ∈ N𝒪_v`, respectively every entry of `g − I₂`
-  in `N𝒪_v`, in each case inside `GL₂(𝒪_v)`. Prove that the global `level1` is the product of
+  in `N𝒪_v`, in each case inside `GL₂(𝒪_v)`. Prove that the global level-one group is the product of
   these local subgroups, with full `GL₂(𝒪_v)` at `v ∤ N`, and similarly for the other
   two levels. This is an entrywise deduction from the restricted-product comparison and
   AA.5.2's completed-ideal comparison; no choice of a place above a rational prime occurs
@@ -1411,7 +1406,8 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   - If `N = 𝒪_F`, all three local subgroups are `GL₂(𝒪_v)`.
   - If `v ∤ N`, the local factor is full even when the level is proper elsewhere.
   - If `N𝒪_v = ϖ_vⁿ𝒪_v` with `n > 0`, the upper unipotent with entry `1` belongs
-    to `level1` but not `principalLevel`; the lower unipotent with entry `1` belongs to neither.
+    to the level-one group but not the principal level; the lower unipotent with entry `1`
+    belongs to neither.
   - Two distinct places above the same rational prime have independent local factors.
 
 ### Examples
@@ -2716,12 +2712,12 @@ integral factorization has `K_v ∩ P` on the left, not all of `K_v`.
   *Lean:* none; specified in the README only.
 - **Reduced positive forms.** For a finite-dimensional `ℚ`-vector space `V` with an ordered
   basis `e = (e_i)` of `V_ℚ` (integral bases of `V_ℤ` in BKT), `C > 0` and a positive definite
-  symmetric form `b` on `V_ℝ`, define `RealSiegel.IsReduced e C b : Prop` for the positive
-  definite matrix `b` in the basis `e`: `b` is `(e, C)`-reduced if (1) `|b(e_i, e_j)| < C b(e_i, e_i)`
-  for all `i, j`; (2) `b(e_i, e_i) < C b(e_j, e_j)` for `i < j`; (3) `∏_i b(e_i, e_i) < C det(b)`, the
-  Gram determinant in `e`. Prove
-  `IsReduced e C b → C ≤ C′ → IsReduced e C′ b`, and
-  `IsReduced e C b ↔ IsReduced e C (λ • b)` for `λ > 0`; prove that for
+  symmetric form `b` on `V_ℝ`, call `b` `(e, C)`-reduced when its Gram matrix
+  `B = (b(e_i, e_j))_{i,j}` in the basis `e` satisfies `RealSiegel.IsReduced C B`, that is,
+  (1) `|b(e_i, e_j)| < C b(e_i, e_i)` for all `i, j`; (2) `b(e_i, e_i) < C b(e_j, e_j)` for `i < j`;
+  (3) `∏_i b(e_i, e_i) < C det(B)`. Prove
+  `IsReduced C B → C ≤ C′ → IsReduced C′ B`, and
+  `IsReduced C B ↔ IsReduced C (λ • B)` for `λ > 0`; prove that for
   fixed dimension `n` and `C > 0` there is a constant `R(n, C) > 0` such that every `C`-reduced
   positive Gram matrix `b = Nᵀ diag(d) N` with `N` unit upper triangular and `d_i > 0` satisfies
   `|N_ij| ≤ R` for `i < j` and `d_i ≤ R d_{i+1}` for `0 ≤ i < n − 1` (the bound is uniform over
@@ -3110,7 +3106,7 @@ in the standard integral level.
   subgroup is commensurable with such a `Γ_W`. In particular the `levelArithmetic`
   groups below are congruence-type arithmetic examples, not a definition of all arithmetic
   subgroups ([Conrad], Theorem 3.4(3), p. 5; [Milne], §3, p. 33 and §4,
-  pp. 42–43, Proposition 4.1; [PR94], §4.4, pp. 205–206).
+  pp. 42–43, Proposition 4.1; [Platonov–Rapinchuk], §4.4, pp. 205–206).
   *Needs:* AA.1.1 (global integral points and existence of a model over `𝒪_F`);
   AA.1.2; ReductiveGroupsPartII, RG2.0.3 (compact open local integral points).
   *Lean:* `Reduction.IsSArithmetic` (the definition used in the arithmetic covolume criterion).
@@ -3378,8 +3374,8 @@ cannot replace the reduced norm in the defining equation.
   `height2_baseExtension`: for an embedding `f : F → E` of number fields and any finite tuple `y`,
   `arakelovMulHeight (f ∘ y) = arakelovMulHeight y ^ [E:F]`, including at zero.
   The supplier is DiophantineApproximationAndTranscendence §2.5,
-  **Relative Euclidean projective normalization**. Use the `TauCeti` tuple-height carrier
-  and `[Finite ι]` interface in the supplier table; DAT supplies the extension transport.
+  **Relative Euclidean projective normalization**, which owns the tuple-height carrier on
+  finite index types and the extension transport; no tuple height is pinned in Tau Ceti.
   This comparison uses its relative height and the formula of *adelic-height*.
   *Needs:* DiophantineApproximationAndTranscendence §2.5, **Relative Euclidean projective
   normalization**; AA.3.5 (*adelic-height*).
@@ -3392,6 +3388,8 @@ cannot replace the reduced norm in the defining equation.
     height two, including over quadratic `F`.
   - The rational `GL₁` point 2 gives `sqrt(17)`: the tuple `(2,1/2)` has archimedean
     factor `sqrt(17)/2` and 2-adic factor 2.
+  - After base change of the same point to a quadratic field `E`, the relative height of
+    `(2,1/2)` is `sqrt(17)² = 17`, while the absolute height stays `sqrt(17)`.
 
 - **Local polynomial comparison for algebraic heights.** Define the local height at a finite
   place as the maximum of the normalized absolute values of entries of `r(g)` and its inverse,
@@ -3607,11 +3605,13 @@ Cartan involution stabilises `S_H`. Full-torus intersections can have finite com
 outside `S_H`; character restriction uses the inclusion alone.
 [Orr], §§4.B–4.C, pp. 17–22; [Orr–Schnell], §§A,E.
 
-**Checks.** The identity embedding is the identity on every coefficient algebra; a
-closed embedding is injective on points; the identity group has trivial image.
-For `H=G` the character restriction is the identity;
-a vanishing restriction evaluates to `1`;
-for `H=G_m` the root system is empty.
+**Checks.**
+
+- The identity embedding is the identity on every coefficient algebra.
+- A closed embedding is injective on points, and the identity group has trivial image.
+- For `H=G` the character restriction is the identity.
+- A vanishing restriction evaluates to `1`.
+- For `H=G_m` the root system is empty.
 
 **Checks for the compact norm-one torus.** Take `G=SL₂/ℚ` and
 `H=ker(N_{ℚ(i)/ℚ}:Res_{ℚ(i)/ℚ}G_m→G_m)`, embedded as
@@ -3656,10 +3656,13 @@ linear subspace. The carrier theorem assumes connected reductivity, faithfulness
 the determinant equation and positive definiteness. [BKT], §4.5, pp. 17–18;
 [BKT erratum], §1.5, p. 3.
 
-**Checks.** `value(1)=b₀`, and its determinant is `det(b₀)`;
-the `G_m→SL₂` orbit takes `diag(a,a⁻¹)` to `diag(a⁻²,a²)`
-with `b₀=1`. The quotient map gives the base form, distinguishes distinct compact cosets, and
-excludes degenerate forms from its image.
+**Checks.**
+
+- `value(1)=b₀`, and its determinant is `det(b₀)`.
+- With `b₀=1`, the `G_m→SL₂` orbit takes `diag(a,a⁻¹)` to `diag(a⁻²,a²)`.
+- The quotient map sends the base coset to the base form and distinguishes distinct compact
+  cosets.
+- Degenerate forms are not in its image.
 
 Three explicit Hopf ideals fix the failure cases on every coefficient algebra.
 The tilted torus in `SL₂` has points `[[x,x⁻¹−x],[0,x⁻¹]]`, for a unit `x`.
@@ -3671,10 +3674,12 @@ Its rational split torus is trivial, so it meets the torus-stability condition
 while the standard ambient Cartan involution does not preserve the group.
 [Orr–Schnell], Remark 2 and §B, pp. 1231–1233.
 
-**Checks.** The tilted torus contains `1` and
-`[[2,−3/2],[0,1/2]]`, and excludes the transpose of the latter; its image is
-the upper half-plane ray above. The nonsplit torus contains `1` and `[[3,4],[2,3]]`,
-and excludes `[[3,2],[4,3]]`.
+**Checks.**
+
+- The tilted torus contains `1` and `[[2,−3/2],[0,1/2]]` (the point `x=2`).
+- It excludes the transpose `[[2,0],[−3/2,1/2]]`, and its image is the ray `(1−y)+iy`.
+- The nonsplit torus contains `1` and `[[3,4],[2,3]]` (`9−2·4=1`).
+- It excludes `[[3,2],[4,3]]`.
 
 For the semisimple example, set
 `η=[[3/2,0,−1/2],[0,1,0],[−1/2,0,3/2]]` and
@@ -3686,9 +3691,12 @@ union of rational translates of any fixed-`SO₃` ambient triple domain.
 Every `SL_n` has a triple with the standard orthogonal compact.
 [Orr–Schnell], §C, pp. 1233–1234.
 
-**Checks.** The twisted group contains `1` and
-`η diag(2,1,1/2)η⁻¹=[[35/16,0,9/16],[0,1,0],[−9/16,0,5/16]]`,
-and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstruction.
+**Checks.**
+
+- The twisted group contains `1`.
+- It contains `η diag(2,1,1/2)η⁻¹=[[35/16,0,9/16],[0,1,0],[−9/16,0,5/16]]`.
+- It excludes the transpose of that matrix.
+- `(ηᵀη)₁₃=−3/2`, the off-diagonal obstruction.
 
 - **Compatible parabolic and torus for a subgroup.** (*containment-parabolic-torus*) For
   `H ⊂ G` reductive `ℚ`-groups, a Siegel triple `(P_H, S_H, K_H)` for `H` with `S_H` `ℚ`-split
@@ -3699,9 +3707,11 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   `N_H ⊂ N_G` ([Orr], §4.B, Lemmas 4.2–4.5, pp. 17–19; [Orr–Schnell], §§A,E,
   pp. 1232, 1236). *Needs:* AA.3.1; AA.3.2; ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
-  **Checks.** For `H=G`, choose the original triple and `Q=P_H`; for the trivial subgroup,
-  take `Q=G` and any ambient minimal parabolic; for the compact norm-one torus above,
-  `Q=G`, `S_H=N_H=1`, and `S_G∩H=μ₂`.
+
+  **Checks.**
+  - For `H=G`, choose the original triple and `Q=P_H`.
+  - For the trivial subgroup, take `Q=G` and any ambient minimal parabolic.
+  - For the compact norm-one torus above, `Q=G`, `S_H=N_H=1`, and `S_G∩H=μ₂`.
 - **Finite root-cone comparison.** (*containment-finite-root-cones*) In the notation and under
   the hypotheses of *containment-parabolic-torus* (`S_H` `ℚ`-split, `K_H ⊂ K_G`, Cartan
   involution of `K_G` stabilising `S_H`), with `Z = Z_G(S_H)`, `N_Z = R_u(P_G ∩ Z)` and `t > 0`,
@@ -3711,9 +3721,12 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   §4.C, Proposition 4.7 and Lemmas 4.8–4.9, pp. 19–22; [Orr–Schnell], §§A,E, pp. 1232, 1236).
   *Needs:* AA.3.7; ReductiveGroups, layer 7.
   *Lean:* none; specified in the README only.
-  **Checks.** For `H=G`, the identity Weyl element works with `t′=min(t,1)`;
-  for the trivial subgroup, `a=1` lies in every ambient cone with `t′≤1`;
-  for the compact norm-one torus, all ambient roots restrict trivially and take value `1` on `A_H={1}`.
+
+  **Checks.**
+  - For `H=G`, the identity Weyl element works with `t′=min(t,1)`.
+  - For the trivial subgroup, `a=1` lies in every ambient cone with `t′≤1`.
+  - For the compact norm-one torus, all ambient roots restrict trivially and take value `1`
+    on `A_H={1}`.
 - **Rational and compact Weyl representatives.** (*containment-weyl-representatives*) In the
   notation and under the hypotheses of *containment-finite-root-cones*, with `w` ranging over
   the finite set of Weyl elements of `S_G` with `N_H, N_Z ⊂ w N_G w⁻¹`, `u ∈ N_Z(ℝ)` with
@@ -3724,10 +3737,13 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   of `Z_G(S_G)(ℝ)` ([Orr], §4.D, Lemmas 4.10–4.11, pp. 22–23; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; ReductiveGroups, layer 7; RepresentationTheory/LieGroups, layer 9.
   *Lean:* none; specified in the README only.
-  **Checks.** The identity Weyl element has `w′_Q=w_Q=w_K=1`;
-  in standard `SL₂`, the nonidentity Weyl element has rational compact representative
-  `[[0,−1],[1,0]]` when `H` is the diagonal split torus; for the compact norm-one torus, `N_Z=N_G`
-  leaves only the identity Weyl element admissible and the connected-centralizer quotient is `1`.
+
+  **Checks.**
+  - The identity Weyl element has `w′_Q=w_Q=w_K=1`.
+  - In standard `SL₂` with `H` the diagonal split torus, the nonidentity Weyl element has
+    rational compact representative `[[0,−1],[1,0]]`.
+  - For the compact norm-one torus, `N_Z=N_G` leaves only the identity Weyl element
+    admissible, and the connected-centralizer quotient is `1`.
 - **Uniform compact factors for subgroup Siegel sets.** In the notation and under the
   hypotheses of *containment-weyl-representatives*, with `Ω_H ⊆ N_H M_H⁰` compact and
   `K_Z = K_G ∩ Z_G(S_H)(ℝ)` (maximal compact in `Z_G(S_H)(ℝ)` by the Cartan hypothesis), prove
@@ -3736,11 +3752,14 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   finite Weyl set ([Orr], §4.E, Lemmas 4.12–4.13, pp. 23–24; [Orr–Schnell], §§A,E, pp. 1232,
   1236). *Needs:* AA.3.7; AA.3.2.
   *Lean:* none; specified in the README only.
-  **Checks.** For trivial groups take every compact factor to be `{1}`;
-  for `H=G` and the identity representative take `Ω_G=Ω_H`, `B_w={1}`;
-  for the compact norm-one torus take `Ω_G=B_w={1}` and `K_Z=SO₂(ℝ)` for its full compact window.
-  For `H=G=SL₂` with the standard upper-Borel triple, `M_H⁰=M_G⁰={I}`; the singleton `{-I}`
-  is not a window in either group, while `-I ∈ K_G=SO₂(ℝ)`.
+
+  **Checks.**
+  - For trivial groups take every compact factor to be `{1}`.
+  - For `H=G` and the identity representative take `Ω_G=Ω_H`, `B_w={1}`.
+  - For the compact norm-one torus take `Ω_G=B_w={1}` and `K_Z=SO₂(ℝ)` for its full compact
+    window.
+  - For `H=G=SL₂` with the standard upper-Borel triple, `M_H⁰=M_G⁰={I}`; the singleton `{-I}`
+    is not a window in either group, while `-I ∈ K_G=SO₂(ℝ)`.
 - **Containment of subgroup Siegel sets.** (*orr-schnell-containment*) Let `𝐇 ⊂ 𝐆` be
   reductive `ℚ`-groups, `(𝐏_H, 𝐒_H, K_H)` a Siegel triple for `𝐇` and `𝔖_H = Ω A_t K_H` a Siegel
   set. Let `K_G ⊂ 𝐆(ℝ)` be maximal compact with `K_H ⊂ K_G` and whose Cartan involution
@@ -3749,10 +3768,13 @@ and excludes its transpose; `(ηᵀη)₁₃=−3/2`, the off-diagonal obstructi
   `𝐒_H ⊆ 𝐒_G` ([Orr–Schnell], Theorem 1, pp. 1231–1232; §§A,E; [Orr], §4.F, Proposition 4.14,
   p. 24; [Orr], §4, Theorem 4.1, p. 15). *Needs:* AA.3.7; AA.3.6.
   *Lean:* none; specified in the README only.
-  **Checks.** For `H=G`, take the original domain and `C={1}`; for the trivial
-  subgroup its nonempty domain is `{1}`, contained in an ambient domain with threshold `1`;
-  for the compact norm-one torus the domain `SO₂(ℝ)` is contained with `C={1}`
-  although the full-torus intersection is `μ₂`.
+
+  **Checks.**
+  - For `H=G`, take the original domain and `C={1}`.
+  - For the trivial subgroup, its nonempty domain is `{1}`, contained in an ambient domain
+    with threshold `1`.
+  - For the compact norm-one torus, the domain `SO₂(ℝ)` is contained with `C={1}`,
+    although the full-torus intersection is `μ₂`.
 - **Stability of the subgroup under the Cartan involution suffices.** In the setting of
   *orr-schnell-containment* with `K_H ⊂ K_G`, prove that if the Cartan involution `Θ` of `𝐆` for
   `K_G` stabilises `𝐇`, then `Θ|_𝐇` is the Cartan involution of `𝐇` for `K_H` and `Θ` stabilises
@@ -3966,7 +3988,7 @@ quaternion norms and compact abelian Fourier limits.
 
 - **Local H¹ vanishing.** For connected semisimple simply connected `G` over a
   characteristic-zero nonarchimedean local field, prove
-  `H¹(E,G)=1`. The source is [PR94], Theorem 6.4, pp. 284–285, with proofs in
+  `H¹(E,G)=1`. The source is [Platonov–Rapinchuk], Theorem 6.4, pp. 284–285, with proofs in
   §§6.7–6.8. Reduce by restriction of scalars and products to absolutely simple groups;
   construct twisting and central isogeny sequences, reduced norms and Hermitian-form
   invariants for classical types, and the exceptional-type arguments, including `E₈`.
@@ -3976,7 +3998,7 @@ quaternion norms and compact abelian Fourier limits.
   *Lean:* none; specified in the README only.
 - **Hasse kernel and injectivity.** Prove, over number
   fields for semisimple simply connected `G`, that a torsor is trivial iff it is trivial at every
-  real place. [PR94], Theorem 6.6, p. 286 and §§6.7–6.8
+  real place. [Platonov–Rapinchuk], Theorem 6.6, p. 286 and §§6.7–6.8
   supplies the Hasse kernel; local vanishing removes finite places and algebraic
   closedness removes complex places. To compare *two* classes, twist by one torsor and
   apply the kernel theorem to the resulting simply connected inner form. The target
@@ -3987,15 +4009,16 @@ quaternion norms and compact abelian Fourier limits.
   class comparison; it does not prove full bijectivity or construct the canonical carrier.
   *Lean:* none; specified in the README only.
 - **Real-class realization.** Prove that every family of real
-  torsors is realized by a global torsor. Use [PR94], Proposition 6.17, pp. 337–339: represent real
-  classes in maximal tori, approximate those tori globally, then use real-localization
-  surjectivity for tori (§7.3, Corollary 2). Combined with twisting injectivity this gives
-  bijectivity of real localization on SchemeAndStackFoundations's canonical fppf class set.
+  torsors is realized by a global torsor. Use [Platonov–Rapinchuk], Proposition 6.17,
+  pp. 337–339: represent real classes in maximal tori, approximate those tori globally, then
+  use real-localization surjectivity for tori (§7.3, Corollary 2). Combined with twisting
+  injectivity this gives bijectivity of real localization on SchemeAndStackFoundations's
+  canonical fppf class set.
   The affine comparison uses SchemeAndStackFoundations's `torsorClasses.surjective_mk`,
   `torsorClasses.mk_eq_base_iff`, representability and natural base change.
   *Lean:* none; specified in the README only.
 - **Weak approximation.** `Approximation.hasWeakApproximation_of_simplyConnected` holds
-  for every finite set of places. [PR94], Theorem 7.8, p. 415, proof in §7.3, uses
+  for every finite set of places. [Platonov–Rapinchuk], Theorem 7.8, p. 415, proof in §7.3, uses
   reduction theory, local Kneser–Tits, the Hasse principle, and weak approximation for
   suitable tori. Build these inputs separately; strong approximation is not an input.
   A torsor trivial at real places has a global point by the kernel theorem; translation
@@ -4014,7 +4037,7 @@ quaternion norms and compact abelian Fourier limits.
 ### 4.2 Strong approximation and arithmetic closures
 
 - **Quaternion norm-one strong approximation at a split place.**
-  <a id="quaternion-norm-one-strong-approximation"></a>
+  (*quaternion-norm-one-strong-approximation*)
   Let `D` be a quaternion algebra over a number field `F` and `v` a specified finite
   place where `D` splits. For the algebraic group `D¹ = ker Nrd`, prove strong
   approximation away from `S = ∞ ∪ {v}`. In particular, for any compact open
@@ -4023,9 +4046,11 @@ quaternion norms and compact abelian Fourier limits.
   two factors. The splitting identifies `D¹(F_v)` with the noncompact `SL₂(F_v)`;
   geometrically `D¹` is simply connected and absolutely almost simple. This is the
   quaternion specialization of the strong approximation theorem below
-  ([Rapinchuk], Theorem 2.3, p. 12). The norm is the base-change-natural unit norm of
-  QuaternionicModularForms §0.1; total definiteness is not required.
-  *Needs:* AA.4.2 strong approximation criterion; AA.1.2; QuaternionicModularForms §0.1;
+  ([Rapinchuk], Theorem 2.3, p. 12). The norm is the base-change-natural unit norm `Nrd_A` of
+  the supplier table, built on the pinned `QuaternionAlgebra.normForm`; total definiteness is not
+  required.
+  *Needs:* AA.4.2 strong approximation criterion; AA.1.2; Tau Ceti `QuaternionAlgebra.normForm`
+  and `TauCeti.QuaternionAlgebra.baseChange`;
   ReductiveGroups, layer 6, simply connected forms of `SL₂`.
   *Lean:* none; specified in the README only.
 
@@ -4187,7 +4212,7 @@ quaternion norms and compact abelian Fourier limits.
   algebra. First establish that
   `Γ(M,S ∪ S₁)` is `ℚ`-Zariski dense in `Res_{F/ℚ} G`, including when `S`
   contains only some places over a rational prime. Prove that `Δ` is open and of finite index.
-  Establish density by a commensurator argument, extending the proof of [PR94],
+  Establish density by a commensurator argument, extending the proof of [Platonov–Rapinchuk],
   §4.4, pp. 205–206. Put `R=Res_{F/ℚ}G`, which is `ℚ`-simple, and let `Γ` be the
   actual partial-place group `Γ(M,S ∪ S₁)`. Reduction theory and `G_S` noncompact
   make `Γ` infinite. The commensuration target says that every element
@@ -4195,7 +4220,7 @@ quaternion norms and compact abelian Fourier limits.
   only finitely many integral compact opens, whose intersections have finite index.
   Thus the identity component `J` of the `ℚ`-Zariski closure of `Γ` is positive
   dimensional and normalized by `R(ℚ)`. Rational-point Zariski density in connected
-  groups ([PR94], Theorem 2.2) makes `J` normal in `R`; `ℚ`-simplicity gives `J=R`.
+  groups ([Platonov–Rapinchuk], Theorem 2.2) makes `J` normal in `R`; `ℚ`-simplicity gives `J=R`.
   This proves the Zariski density without enlarging `S` or asserting
   finite index in a rational-prime-saturated group.
   After base change to `ℚ_p`, the algebraic stabilizer of the closure Lie algebra
@@ -4494,7 +4519,7 @@ quaternion norms and compact abelian Fourier limits.
 
 ### 4.4 Double cosets and level topology
 
-- **S-arithmetic decomposition at a finite place.** <a id="s-arithmetic-double-cosets"></a>
+- **S-arithmetic decomposition at a finite place.** (*s-arithmetic-double-cosets*)
   Let `G` be an affine finite-type group over a number field `F`, `v` a specified finite
   place, and `U = U_v × U^v` under
   `G(𝔸_{F,f}) ≃ G(F_v) × G(𝔸_{F,f}^v)`, with `U_v` and `U^v` compact open. Choose
@@ -4823,19 +4848,22 @@ quaternion norms and compact abelian Fourier limits.
 
 ### 4.6 Compact abelian quotients and quaternion norms
 
-- **Reduced norms of a quaternion algebra over a number field.** <a id="quaternion-norm-images"></a>
-  For a quaternion algebra `D` over a number field `F`, consume QuaternionicModularForms
-  §0.1's presentation-independent reduced norm, multiplicative on units, natural for
-  `D ⊗[F] A` under commutative coefficient-algebra maps, and equal to determinant under
-  every splitting. Prove that `Nrd(D_v^×) = F_v^×` at every finite place and every complex
-  place; at a real place the image is `ℝ^×` when split and `ℝ_{>0}` when ramified.
+- **Reduced norms of a quaternion algebra over a number field.** (*quaternion-norm-images*)
+  For a quaternion algebra `D` over a number field `F`, take the reduced norm `Nrd_A` of the
+  supplier table on a presentation `D ≃ ℍ[F,a,b]`; it is multiplicative on units and
+  independent of the presentation by the pinned `normForm_mul` and `normForm_eq_of_algEquiv`.
+  Prove that it is natural for `D ⊗[F] A` under commutative coefficient-algebra maps and equal
+  to the determinant under every splitting `D ⊗[F] A ≃ M₂(A)`. Prove that `Nrd(D_v^×) = F_v^×`
+  at every finite place and every complex place; at a real place the image is `ℝ^×` when split
+  and `ℝ_{>0}` when ramified.
   Prove the global image formula
   `Nrd(D^×) = {a ∈ F^× | τ(a) > 0 at every real place τ ramified in D}`
   (Hasse–Schilling–Maass). For quaternion algebras the local–global step is the
   representation theorem for their quadratic norm forms
   ([Platonov–Rapinchuk–Rapinchuk], Theorem 1.34, pp. 43–44, with the split matrix case;
   [Khayutin], §2.3, arXiv v3 pp. 15–16, for `ℚ`).
-  *Needs:* QuaternionicModularForms §0.1; Tau Ceti `QuaternionAlgebra.normForm`;
+  *Needs:* Tau Ceti `QuaternionAlgebra.normForm`, `QuaternionAlgebra.normForm_mul`,
+  `QuaternionAlgebra.normForm_eq_of_algEquiv`, `TauCeti.QuaternionAlgebra.baseChange`;
   GlobalQuadraticForms, layer 5; AA.4.1.
   *Lean:* `QuaternionNorms.nrd_image` (the global norm-image formula over every number field,
   on Mathlib’s `QuaternionAlgebra` carrier).
@@ -4981,7 +5009,7 @@ preceding layers; each item is a target with its own locator.
   **Checks.**
   - Over `ℚ` the level `ℤ̂^×` gives `{±1}`.
   - Over `ℚ` the principal level `{x ∈ ℤ̂^× : x ≡ 1 mod 3}` gives `⊥`, since `−1 ≢ 1 mod 3`.
-  - `levelUnits F ⊤ = ⊤`.
+  - At the full level `U = Ô^×`, `Γ_U = 𝒪_F^×`.
 - **Canonical logarithmic torus at `GL₁` level.** For `F` a number field with `r₁` real and `r₂`
   complex places, `Q` a finite set of finite places, `p` a prime and `n ≥ 1` with
   `N(v) ≡ 1 mod p^n` for `v ∈ Q`, and `U_Q = K_∞ × ∏_v U_{Q,v}` with `K_∞` and `A_∞^0` as in
@@ -5045,22 +5073,20 @@ preceding layers; each item is a target with its own locator.
 
 ### 5.2 `GL₂` over `ℚ` and principal levels
 
-- **Number-field congruence levels and membership.** <a id="number-field-congruence-levels"></a>
+- **Number-field congruence levels and membership.** (*number-field-congruence-levels*)
   For a number field `F`, put `Ô_F = ∏_{v finite} 𝒪_v ⊂ 𝔸_{F,f}`, and let `N ≠ 0`
   be an integral ideal of `𝒪_F`. Define `NÔ_F` as the image of `N ⊗[𝒪_F] Ô_F`.
   Prove `NÔ_F = ∏_v N𝒪_v` and the diagonal ring isomorphism
   `𝒪_F/N ≃ Ô_F/NÔ_F`, using ideal factorization and the Chinese remainder theorem.
-  Thus the quotient is finite. Define `principalLevel N`, `level0 N` and `level1 N`
-  as subgroups of `GL₂(𝔸_{F,f})` inside `GL₂(Ô_F)`, with respectively
+  Thus the quotient is finite. Define the principal level `K(N)`, the level `K₀(N)` and the
+  level `K₁(N)` as subgroups of `GL₂(𝔸_{F,f})` inside `GL₂(Ô_F)`, with respectively
   `g − I₂ ∈ M₂(NÔ_F)`, `c ∈ NÔ_F`, and `c ∈ NÔ_F, d−1 ∈ NÔ_F`.
-  Express membership by Prop-valued structures `PrincipalLevelMembership N g`,
-  `Level0Membership N g` and `Level1Membership N g`. All three have fields
-  `entries_integral` and `inverse_entries_integral`; the first has `entries_congruent`,
-  the second has `lower_left`, and the third has `lower_left` and `lower_right` for
-  the stated congruences. Prove equivalence with the subgroup membership predicates. Ring maps
+  Express membership entrywise: integral entries, integral inverse entries, and the stated
+  congruence conditions on all entries, on `c`, and on `c` and `d − 1` respectively. Prove
+  equivalence with the subgroup membership predicates. Ring maps
   `Ô_F → R` carrying `NÔ_F` into an ideal `J` carry these entry conditions to their
   counterparts modulo `J`. Prove compactness, openness, the inclusions
-  `principalLevel N ≤ level1 N ≤ level0 N`, the inclusion of each `M`-level in the
+  `K(N) ≤ K₁(N) ≤ K₀(N)`, the inclusion of each `M`-level in the
   corresponding `N`-level whenever `M ⊆ N`,
   and the local comap and product formulas of AA.1.5. No generator of `N` is chosen.
   These levels extend the congruence-subgroup convention of [Milne], §4, p. 42, and
@@ -5072,14 +5098,14 @@ preceding layers; each item is a target with its own locator.
 
   **Checks.**
   - For `N = 𝒪_F`, all three groups are `GL₂(Ô_F)`.
-  - For `N` proper, `[[1,1],[0,1]]` lies in `level1 N` but not `principalLevel N`.
+  - For `N` proper, `[[1,1],[0,1]]` lies in `K₁(N)` but not `K(N)`.
   - A nonprincipal nonzero ideal defines the same entrywise subgroups without any
     principal-ideal hypothesis; over `ℚ`, `N = (n)` gives the existing natural-number levels.
   - At the zero ideal the entry conditions still make sense, but the principal level is
     `{I₂}` and is not open; compact openness is asserted only for `N ≠ 0`.
 
 - **Integral adelic congruence.** For `N : ℕ` and finite adeles `x,y`, define
-  `CongrMod N x y` by `x − y ∈ Nℤ̂`. For `N > 0` this is
+  congruence of `x` and `y` modulo `N` by `x − y ∈ Nℤ̂`. For `N > 0` this is
   equivalent to `(x − y)/N ∈ ℤ̂` ([Milne], §4, definition of congruence subgroups,
   p. 42). The `N = 0` extension is an owned deduction from divisibility: `0ℤ̂ = {0}`.
   *Lean:* none; specified in the README only.
@@ -5216,28 +5242,64 @@ preceding layers; each item is a target with its own locator.
 
 ### 5.3 Definite quaternion groups
 
-- **Compactness for a definite quaternion algebra.** For a totally definite quaternion algebra
-  `D` over a totally real number field `F`, consume the adelic group and topology comparisons
-  of QuaternionicModularForms §0.2 and its §0.3 theorems: `finite_classSet` at every open
-  level and `DefiniteQuaternion.finite_stab` at every compact level. The latter gives
-  finiteness modulo the intersection with diagonal `F^×`, and whole-stabilizer finiteness
-  over `F = ℚ`. These supplier theorems use the canonical finite-adele module topology
-  and native units topology.
-  Deduce compactness of `D^× \ (D ⊗_F 𝔸_{F,f})^×`: for a compact open level, finitely many
-  double-coset representatives give a finite union of images of translates of that compact
-  level in the rational quotient (Fujisaki's lemma, as used in QuaternionicModularForms
-  §0.3). Conjugate `U ∩ x⁻¹ D^× x` to `D^× ∩ xUx⁻¹` for the stabilizers in the volume
-  formula below. Full-adelic norm-one compactness uses AA.3.4.
-  *Needs:* QuaternionicModularForms §§0.2–0.3; AA.1.5; AA.3.4.
+- **Class sets and compactness for a quaternion algebra.** (*quaternion-class-sets*) For a
+  quaternion algebra `D` over a number field `F`, realize `GL_1(D)` as the closed subgroup of the
+  left-regular `GL(D)` cut out by commuting with right multiplication by a basis of `D`, so that
+  its points in every commutative `F`-algebra `A` are `(D ⊗[F] A)^×`, naturally in `A`. At
+  `A = 𝔸_{F,f}` identify the point topology of AA.1.2 with the units topology of the finite free
+  `𝔸_{F,f}`-algebra `D ⊗[F] 𝔸_{F,f}`, and the diagonal with the inclusion of `D^×`. For every
+  compact open `U ⊂ (D ⊗_F 𝔸_{F,f})^×`, deduce from *class-number-finite*
+  (`Reduction.finite_classes`) for this group that `Cl(U) = D^× \ (D ⊗_F 𝔸_{F,f})^× / U` is
+  finite, with representatives `x_1, …, x_h` and factorizations `g = γ x_i u`, and that the
+  refinement map `Cl(U′) → Cl(U)` is surjective for `U′ ⊂ U`. Deduce compactness of
+  `D^× \ (D ⊗_F 𝔸_{F,f})^×` as the finite union of the images of the compact sets `x_i U`.
+  Neither a division hypothesis nor definiteness is used. Full-adelic norm-one compactness uses
+  AA.3.4. *Needs:* AA.1.2; AA.1.5; AA.3.4 (*class-number-finite*); Mathlib `DoubleCoset`.
   *Lean:* none; specified in the README only.
 
   **Checks.**
-  - For Hamilton's algebra over `ℚ`, the reduced norm is a sum of four squares and cannot be
-    `−1`; its rational stabilizer at every compact level is finite.
-  - For `U = ⊤`, the stabilizer is a conjugate of all of `D^×` and contains `ℚ^×`, so it is
-    infinite; this level is not compact.
-  - Over a real quadratic field, the maximal order level contains the infinite central unit
-    group. Its stabilizer modulo central scalars is finite, although its whole stabilizer is not.
+  - For Hamilton's algebra over `ℚ` at the Hurwitz maximal-order level, `Cl(U)` has one element:
+    every right ideal of the Hurwitz order is principal ([Voight], Lemma 11.2.1 and
+    Proposition 11.3.4).
+  - For `D = M₂(ℚ)` and `U = GL₂(ℤ̂)`, `Cl(U)` has one element, since
+    `GL₂(𝔸_{ℚ,f}) = GL₂(ℚ) GL₂(ℤ̂)`; the theorem is the `GL₂` case of *class-number-finite*.
+  - Openness cannot be dropped: at `U = {1}`, which is compact, the class set is
+    `D^× \ (D ⊗ 𝔸_{ℚ,f})^×`, a quotient of an uncountable group by a countable one, so it is
+    infinite.
+- **Stabilizers at compact levels for a totally definite quaternion algebra.**
+  (*definite-quaternion-stabilizers*) Let `F` be totally real, `D` totally definite (ramified
+  at every real place), `U ⊂ (D ⊗_F 𝔸_{F,f})^×` a compact subgroup and `x` a finite adelic
+  unit. Put `Γ_x = D^× ∩ xUx⁻¹`, the group `Reduction.levelArithmetic x U` of `GL_1(D)`, and
+  `Z_x = Γ_x ∩ F^×`, which equals `F^× ∩ U` because `F^×` is central. Prove that `Z_x` is
+  central in `Γ_x`, that `Γ_x / Z_x` is finite, and that `Γ_x` is finite when `F = ℚ`. Conjugation
+  by `x` identifies `Γ_x` with `x⁻¹D^×x ∩ U`.
+  The proof is owned here. A compact subgroup lies in a compact open subgroup `U′` (intersect the
+  finitely many `U`-conjugates of a compact open subgroup and multiply by `U`), and
+  `Γ_x ∩ F^× = Z_x`, so `Γ_x / Z_x` injects into the quotient for `U′`; assume `U` compact open.
+  The norm-one group `D¹(F ⊗ ℝ)` is a product of copies of the Hamilton norm-one group, hence
+  compact, and `D¹(F)` is discrete in `D¹(𝔸_F)` (AA.1.3), so `Γ_x ∩ D¹` is finite. The reduced
+  norm sends `Γ_x` into `𝒪_F^×` and `Z_x` onto `Z_x²`; `Z_x` has finite index in `𝒪_F^×`
+  (AA.5.1), so `Z_x²` has finite index in the finitely generated group `𝒪_F^×`. If
+  `Nrd(γ) = Nrd(z)` with `z ∈ Z_x`, then `γz⁻¹ ∈ Γ_x ∩ D¹`; hence `Γ_x / Z_x` is finite. Over
+  `ℚ`, `ℚ^× ∩ U` lies in the compact subgroup `U ∩ 𝔸_{ℚ,f}^×` of `𝔸_{ℚ,f}^×`, hence in `ℤ̂^×`,
+  so it lies in `ℚ^× ∩ ℤ̂^× = {±1}`
+  ([Loeffler], Proposition 3.1.4, arXiv v3 p. 15, for compact open levels of a group that is
+  compact modulo its centre at infinity).
+  *Needs:* *quaternion-class-sets*; AA.1.3; AA.4.6 (*quaternion-norm-images*); AA.5.1
+  (units at level `U_Q`); Mathlib `NumberField.Units.rank`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For Hamilton's algebra over `ℚ` at the Hurwitz maximal-order level, the stabilizer of the
+    single class is the unit group of the Hurwitz order, of order 24 ([Voight], Lemma 11.2.1 and
+    Proposition 11.3.4),
+    with `Z_x = {±1}` and quotient of order 12.
+  - For `D = ℍ ⊗ ℚ(√2)`, totally definite over the real quadratic field `ℚ(√2)`, the maximal-order
+    level gives `Z_x = 𝒪_F^×`, which contains `1 + √2` of infinite order, so `Γ_x` is infinite;
+    `Γ_x / Z_x` is still finite. The finiteness of the whole stabilizer is special to `ℚ`.
+  - Compactness cannot be dropped: for Hamilton's algebra at the noncompact level
+    `U = (D ⊗ 𝔸_{ℚ,f})^×`, `Γ_x = D^×` contains `ℚ^×`, and `D^× / ℚ^×` is infinite because the
+    units `1 + n i`, `n ∈ ℕ`, are pairwise non-proportional over `ℚ`.
 - **Volume comparison under level change for a definite quaternion algebra.** For `D` definite
   over `ℚ` and compact open `U′ ⊂ U ⊂ (D ⊗ 𝔸_f)^×`, with `Γ_x = (D^× ∩ xUx⁻¹)/(ℚ^× ∩ U)` the
   finite stabilizers and `Cl(U) = D^× \ (D ⊗ 𝔸_f)^×/U`, prove
@@ -5245,9 +5307,8 @@ preceding layers; each item is a target with its own locator.
   `∑_{x ∈ Cl(U′)} 1/|Γ′_x| = ([U : U′] / [ℚ^× ∩ U : ℚ^× ∩ U′]) · ∑_{x ∈ Cl(U)} 1/|Γ_x|`
 
   ([Arthur], §2, p. 12, with the central quotient and its index factor obtained from
-  AA.4.5). *Needs:* QuaternionicModularForms §§0.2–0.3, `finite_classSet` and
-  `DefiniteQuaternion.finite_stab`, specialized to `F = ℚ` and conjugated as above;
-  AA.4.5; AA.4.4.
+  AA.4.5). *Needs:* *quaternion-class-sets*; *definite-quaternion-stabilizers*, specialized to
+  `F = ℚ`; AA.4.5; AA.4.4.
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -5280,8 +5341,7 @@ stabilizers at compact open levels are finite modulo their intersection with the
 Layers AA.1–AA.4; Mathlib's idele class group, unit lattice, upper half-plane action, arithmetic
 subgroups, congruence subgroups and quaternion algebras; Tau Ceti's `G_m` and `SL_2` comparison
 lemmas; GlobalNumberFields, layers 4 and 6; AlgebraicTopology, stage 6; FuchsianOrbifolds,
-layers 0, 1, 4 and 5; QuaternionicModularForms §§0.2–0.3,
-`finite_classSet` and `DefiniteQuaternion.finite_stab`.
+layers 0, 1, 4 and 5; Tau Ceti's quaternion norm form and its base change.
 
 ## Downstream consumers
 
@@ -5355,9 +5415,6 @@ finite-image targets, rather than all subjects envisaged under either successor 
 
 ## References
 
-- **[PR94]** V. Platonov and A. Rapinchuk, *Algebraic Groups and Number Theory*,
-  Academic Press, 1994.
-
 The locators above refer to the following editions. Rosengarten is cited for statements that
 hold over number fields as well as function fields; the analytic normalizations of AA.2 use the
 number-field sources named there.
@@ -5373,6 +5430,8 @@ number-field sources named there.
 - **Conrad RGS**: Brian Conrad, *Reductive group schemes*. In *Autour des schémas en groupes*,
   Panoramas et Synthèses 42–43 (2014), pp. 93–444; locators use the author's preprint.
   <https://math.stanford.edu/~conrad/papers/luminysga3.pdf>
+- **Platonov–Rapinchuk**: V. Platonov and A. Rapinchuk, *Algebraic Groups and Number Theory*,
+  Pure and Applied Mathematics 139, Academic Press, 1994. Locators use printed pages.
 - **Platonov–Rapinchuk–Rapinchuk**: V. Platonov, A. Rapinchuk and I. Rapinchuk,
   *Algebraic Groups and Number Theory*, Volume I, second edition, Cambridge Studies
   in Advanced Mathematics 205, Cambridge University Press, 2023. Locators use printed pages.
@@ -5431,6 +5490,9 @@ number-field sources named there.
 - **Orr**: Martin Orr, *Height bounds and the Siegel property*. arXiv:1609.01315v6, 19 July 2023,
   with the Orr–Schnell 2023 corrections; locators use its lettered subsections and pagination.
   <https://arxiv.org/abs/1609.01315v6>
+- **Loeffler**: David Loeffler, *Overconvergent algebraic automorphic forms*. Proceedings of
+  the London Mathematical Society 102 (2011), pp. 193–228; locators use arXiv:0901.2279v3.
+  <https://arxiv.org/abs/0901.2279v3>
 - **Voight**: John Voight, *Quaternion Algebras*, Graduate Texts in Mathematics 288,
   Springer, 2021, Chapter 11, §§11.2–11.3. Locators use printed numbering.
 - **BHV**: Bachir Bekka, Pierre de la Harpe and Alain Valette, *Kazhdan's Property (T)*. Author

@@ -9,11 +9,11 @@ import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 
 /-!
-# Adelic algebraic groups and arithmetic quotients: headline targets
+# Adelic algebraic groups and arithmetic quotients: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. These statements suggest Lean forms for headline milestones; discharging them
-finishes neither a layer nor the roadmap.
+finishes neither a layer nor the roadmap. The declarations follow the README layers.
 
 The targets are restricted and convergent Haar products (AA.0), the integral-model restricted
 product comparison (AA.1), homogeneous quotient integration (AA.2), real reduction and general
@@ -24,19 +24,16 @@ the GL₂ level space (AA.5). The auxiliary definitions have real bodies on Math
 point, character, measure, matrix and quotient carriers. The norm-one subgroup is the intersection
 of character-norm kernels, so no Harish-Chandra logarithm is needed to state it.
 
-Tamagawa normalization and restriction of scalars require local gauge measures and finite-image
-Artin L-functions absent from the pins. Siegel covering, finite overlap, cusps and Orr–Schnell
-containment require compatible rational parabolic, relative-root and Cartan–Siegel data absent
-there. Weil-restriction transport requires the coefficient-natural Weil-restriction interface.
-The disconnected finite-volume criterion needs the number-field geometric identity-component
-subgroup. These statements are deferred until those objects are available; the connected
-finite-volume criterion is stated below.
-
-The torsor Hasse principle requires the affine/fppf torsor-class and scalar-extension comparison.
-The GL₁ component-class and cohomology identifications require the ray-class comparison and torus
-cohomology interfaces; the torus homeomorphism is stated below. The GL₂ Riemann-surface comparison
-needs the Fuchsian quotient complex structure. These objects are absent from the pins, so their
-targets remain in the README.
+The following headlines are not stated here, because their objects are not carried by the pins:
+Tamagawa normalization and restriction of scalars (local gauge measures and finite-image Artin
+L-functions); Siegel covering, finite overlap, cusps and Orr–Schnell containment (compatible
+rational parabolic, relative-root and Cartan–Siegel data); Weil-restriction transport (the
+coefficient-natural Weil-restriction interface); the disconnected finite-volume criterion (the
+number-field geometric identity-component subgroup); the torsor Hasse principle (the affine/fppf
+torsor-class and scalar-extension comparison); the GL₁ component-class and cohomology
+identifications (the ray-class comparison and torus cohomology interfaces); and the GL₂
+Riemann-surface comparison (the Fuchsian quotient complex structure). The connected finite-volume
+criterion and the GL₁ torus homeomorphism are stated below.
 -/
 
 namespace TauCetiRoadmap.AdelicAlgebraicGroups
@@ -45,6 +42,61 @@ noncomputable section
 
 open MeasureTheory Filter Set
 open scoped RestrictedProduct Topology ENNReal NNReal NumberField Matrix Classical TensorProduct
+
+/-! ## Layer 0: restricted products of Haar measures -/
+
+namespace RestrictedHaar
+
+open _root_.RestrictedProduct
+
+variable {ι : Type*} {G : ι → Type*} [∀ i, Group (G i)] [∀ i, TopologicalSpace (G i)]
+  {B : ∀ i, Subgroup (G i)}
+
+/-- The Borel σ-algebra on a restricted product (AA.0.1), scoped to this namespace. -/
+scoped instance instMeasurableSpace : MeasurableSpace (Πʳ i, [G i, B i]) := borel _
+
+/-- The restricted product with its Borel σ-algebra is a Borel space (AA.0.1). -/
+scoped instance instBorelSpace : BorelSpace (Πʳ i, [G i, B i]) := ⟨rfl⟩
+
+/-- The box `{x | ∀ i, x i ∈ C i}` of a family of subsets `C i ⊆ G i`. -/
+def box (C : ∀ i, Set (G i)) : Set (Πʳ i, [G i, B i]) := {x | ∀ i, x i ∈ C i}
+
+/-- The restricted product of Haar measures. For left Haar measures `μ i` with `μ i (B i) = 1` for
+all but finitely many `i`, and `B i` compact for all but finitely many `i`, there is a unique Borel
+measure on `Πʳ i, [G i, B i]` giving every measurable box whose factors are cofinitely `B i` the
+mass `∏ᶠ i, μ i (C i)`; it is a left Haar measure ([Borel], §5.5, p. 21;
+[Platonov–Rapinchuk–Rapinchuk], Lemma 3.63 and the construction after it, pp. 188–189). -/
+theorem exists_unique_haarProduct [Countable ι] [∀ i, IsTopologicalGroup (G i)]
+    [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, SecondCountableTopology (G i)]
+    [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (hB : ∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))
+    (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
+    (hμ : ∀ᶠ i in cofinite, μ i (B i) = 1) :
+    ∃! ν : Measure (Πʳ i, [G i, B i]), ν.IsHaarMeasure ∧
+      ∀ C : ∀ i, Set (G i), (∀ i, MeasurableSet (C i)) → (∀ᶠ i in cofinite, C i = B i) →
+        ν (box C) = ∏ᶠ i, μ i (C i) := by
+  sorry
+
+/-- Summably perturbed integral masses determine a unique convergent restricted Haar product.
+A box with exceptional set `T` has its finite product of local masses times the infinite tail
+product; exceptional factors retain their original normalization
+([Platonov–Rapinchuk–Rapinchuk], Lemma 3.63 and the construction after it, pp. 188–189). -/
+theorem exists_unique_convergentHaarProduct [Countable ι] [∀ i, IsTopologicalGroup (G i)]
+    [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, SecondCountableTopology (G i)]
+    [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
+    (S : Finset ι) (hB : ∀ i ∉ S, IsCompact (B i : Set (G i)))
+    (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
+    (hsum : Summable (fun i : {i // i ∉ S} => |(μ i (B i)).toReal - 1|)) :
+    ∃! ν : Measure (Πʳ i, [G i, B i]), ν.IsHaarMeasure ∧
+      ∀ (T : Finset ι), S ⊆ T → ∀ C : ∀ i, Set (G i),
+        (∀ i, MeasurableSet (C i)) → (∀ i ∉ T, C i = B i) →
+        ν (box C) = (∏ i ∈ T, μ i (C i)) *
+          ENNReal.ofReal (∏' i : {i // i ∉ T}, (μ i (B i)).toReal) := by
+  sorry
+
+end RestrictedHaar
+
+/-! ## Layer 1: adelic points of algebraic groups -/
 
 variable (F : Type) [Field F] (H : Type) [CommRing H] [HopfAlgebra F H]
 
@@ -73,11 +125,6 @@ variable [NumberField F]
 
 /-- Adelic points on the native Hopf-algebra point carrier. -/
 abbrev AdelicPoints := WithConv (H →ₐ[F] NumberField.AdeleRing (𝓞 F) F)
-
-/-- The simultaneous kernels of all rational-character norms, namely `G(𝔸_F)^1`. -/
-def normOne : Subgroup (AdelicPoints F H) :=
-  ⨅ χ : GroupLike F H,
-    (TauCeti.GlobalNumberFields.ideleNorm.comp (characterValue F H χ)).ker
 
 /-- The Borel σ-algebra of the evaluation topology on adelic points, under which adelic Haar
 measures are taken; the restricted-product Borel structure it realizes belongs to AA.0.1. It is
@@ -168,6 +215,39 @@ theorem exists_restrictedProductEquiv [Algebra.FiniteType F H] (M : IntegralMode
 
 end IntegralModel
 
+/-! ## Layer 2: characters, quotient measures and Tamagawa measures -/
+
+/-- The simultaneous kernels of all rational-character norms, namely `G(𝔸_F)^1`. -/
+def normOne : Subgroup (AdelicPoints F H) :=
+  ⨅ χ : GroupLike F H,
+    (TauCeti.GlobalNumberFields.ideleNorm.comp (characterValue F H χ)).ker
+
+namespace HomogeneousMeasure
+
+variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [LocallyCompactSpace G] [T2Space G] [SecondCountableTopology G]
+  [MeasurableSpace G] [BorelSpace G]
+
+/-- Matching modular characters give the unique right-invariant homogeneous measure satisfying
+Weil's formula for the chosen right Haar measures on `G` and its closed subgroup `H`
+([Platonov–Rapinchuk–Rapinchuk], Theorem 3.64 and (3.26), pp. 189–190, after inversion). -/
+theorem exists_unique_quotientMeasure (H : Subgroup G) (hH : IsClosed (H : Set G))
+    [LocallyCompactSpace H] [MeasurableSpace H] [BorelSpace H]
+    (μG : Measure G) [μG.inv.IsHaarMeasure] (μH : Measure H) [μH.inv.IsHaarMeasure]
+    (hmod : ∀ h : H, Measure.modularCharacter (G := G) h =
+      Measure.modularCharacter (G := H) h) :
+    letI : MeasurableSpace (MulAction.orbitRel.Quotient H G) := borel _
+    ∃! ν : Measure (MulAction.orbitRel.Quotient H G), IsFiniteMeasureOnCompacts ν ∧
+      (∀ g : G, Measure.map (fun q : MulAction.orbitRel.Quotient H G =>
+        Quotient.mk'' (q.out * g)) ν = ν) ∧
+      ∀ f : G → ℝ, Continuous f → HasCompactSupport f →
+        (∫ g, f g ∂μG) = ∫ q, (∫ h : H, f ((h : G) * q.out) ∂μH) ∂ν := by
+  sorry
+
+end HomogeneousMeasure
+
+/-! ## Layer 3: reduction and arithmetic quotients -/
+
 namespace Reduction
 
 open AdelicPoints
@@ -248,124 +328,6 @@ theorem exists_compact_normOne_iff [Algebra.FiniteType F H]
 
 end Reduction
 
-namespace Approximation
-
-open AdelicPoints IsDedekindDomain
-
-/-- Strong approximation away from `∞ ∪ S_f`, expressed by density on the full adeles. -/
-def HasStrongApproximation (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
-  Dense {x : AdelicPoints F H | ∃ g : WithConv (H →ₐ[F] F), ∃ y : AdelicPoints F H,
-    (∀ v ∉ Sf, ∀ h : H,
-      (finiteProjection F H y).ofConv h v = (1 : FiniteAdelicPoints F H).ofConv h v) ∧
-    x = diagonal F H g * y}
-
-/-- Weak approximation at a finite set of infinite and finite places. -/
-def HasWeakApproximation (Sinf : Finset (NumberField.InfinitePlace F))
-    (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
-  DenseRange (fun g : WithConv (H →ₐ[F] F) =>
-    ((fun w : Sinf => TauCeti.AlgHom.mapValue (Algebra.ofId F w.val.Completion) g),
-      fun v : Sf => TauCeti.AlgHom.mapValue (Algebra.ofId F (v.val.adicCompletion F)) g))
-
-/-- Connected semisimple simply connected groups have weak approximation for every finite set of
-places ([PR94], Theorem 7.8, p. 415). -/
-theorem hasWeakApproximation_of_simplyConnected (G : TauCeti.SemisimpleCommHopfAlgCat F)
-    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
-    (Sinf : Finset (NumberField.InfinitePlace F)) (Sf : Finset (HeightOneSpectrum (𝓞 F))) :
-    HasWeakApproximation F (G.obj : Type) Sinf Sf := by
-  sorry
-
-/-- A simply connected semisimple group has strong approximation away from a finite set
-containing infinity when every nontrivial semisimple quotient has noncompact points over that
-set. This is the simple-factor condition expressed through injective coordinate morphisms
-([Arthur], Theorem 2.1(a), p. 12; [PR94], Theorem 7.12, p. 427). -/
-theorem hasStrongApproximation_of_simplyConnected
-    (F : Type) [Field F] [NumberField F] (G : TauCeti.SemisimpleCommHopfAlgCat F)
-    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
-    (Sf : Finset (HeightOneSpectrum (𝓞 F)))
-    (hS : ∀ (Q : TauCeti.SemisimpleCommHopfAlgCat F) (f : Q.obj →ₐc[F] G.obj),
-      Function.Injective f → ¬ Function.Surjective (algebraMap F Q.obj) →
-        ¬ IsCompact (Set.univ : Set (InfinitePoints F Q.obj × ∀ v : Sf, LocalPoints F Q.obj v))) :
-    HasStrongApproximation F (G.obj : Type) Sf := by
-  sorry
-
-end Approximation
-
-namespace RestrictedHaar
-
-open _root_.RestrictedProduct
-
-variable {ι : Type*} {G : ι → Type*} [∀ i, Group (G i)] [∀ i, TopologicalSpace (G i)]
-  {B : ∀ i, Subgroup (G i)}
-
-/-- The Borel σ-algebra on a restricted product (AA.0.1), scoped to this namespace. -/
-scoped instance instMeasurableSpace : MeasurableSpace (Πʳ i, [G i, B i]) := borel _
-
-/-- The restricted product with its Borel σ-algebra is a Borel space (AA.0.1). -/
-scoped instance instBorelSpace : BorelSpace (Πʳ i, [G i, B i]) := ⟨rfl⟩
-
-/-- The box `{x | ∀ i, x i ∈ C i}` of a family of subsets `C i ⊆ G i`. -/
-def box (C : ∀ i, Set (G i)) : Set (Πʳ i, [G i, B i]) := {x | ∀ i, x i ∈ C i}
-
-/-- The restricted product of Haar measures. For left Haar measures `μ i` with `μ i (B i) = 1` for
-all but finitely many `i`, and `B i` compact for all but finitely many `i`, there is a unique Borel
-measure on `Πʳ i, [G i, B i]` giving every measurable box whose factors are cofinitely `B i` the
-mass `∏ᶠ i, μ i (C i)`; it is a left Haar measure ([Borel], §5.5, p. 21;
-[Platonov–Rapinchuk–Rapinchuk], Lemma 3.63 and the construction after it, pp. 188–189). -/
-theorem exists_unique_haarProduct [Countable ι] [∀ i, IsTopologicalGroup (G i)]
-    [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, SecondCountableTopology (G i)]
-    [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
-    (hB : ∀ᶠ i in cofinite, IsCompact (B i : Set (G i)))
-    (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
-    (hμ : ∀ᶠ i in cofinite, μ i (B i) = 1) :
-    ∃! ν : Measure (Πʳ i, [G i, B i]), ν.IsHaarMeasure ∧
-      ∀ C : ∀ i, Set (G i), (∀ i, MeasurableSet (C i)) → (∀ᶠ i in cofinite, C i = B i) →
-        ν (box C) = ∏ᶠ i, μ i (C i) := by
-  sorry
-
-/-- Summably perturbed integral masses determine a unique convergent restricted Haar product.
-A box with exceptional set `T` has its finite product of local masses times the infinite tail
-product; exceptional factors retain their original normalization
-([Platonov–Rapinchuk–Rapinchuk], Lemma 3.63 and the construction after it, pp. 188–189). -/
-theorem exists_unique_convergentHaarProduct [Countable ι] [∀ i, IsTopologicalGroup (G i)]
-    [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, SecondCountableTopology (G i)]
-    [∀ i, MeasurableSpace (G i)] [∀ i, BorelSpace (G i)] [Fact (∀ i, IsOpen (B i : Set (G i)))]
-    (S : Finset ι) (hB : ∀ i ∉ S, IsCompact (B i : Set (G i)))
-    (μ : ∀ i, Measure (G i)) [∀ i, (μ i).IsHaarMeasure]
-    (hsum : Summable (fun i : {i // i ∉ S} => |(μ i (B i)).toReal - 1|)) :
-    ∃! ν : Measure (Πʳ i, [G i, B i]), ν.IsHaarMeasure ∧
-      ∀ (T : Finset ι), S ⊆ T → ∀ C : ∀ i, Set (G i),
-        (∀ i, MeasurableSet (C i)) → (∀ i ∉ T, C i = B i) →
-        ν (box C) = (∏ i ∈ T, μ i (C i)) *
-          ENNReal.ofReal (∏' i : {i // i ∉ T}, (μ i (B i)).toReal) := by
-  sorry
-
-end RestrictedHaar
-
-
-namespace HomogeneousMeasure
-
-variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [LocallyCompactSpace G] [T2Space G] [SecondCountableTopology G]
-  [MeasurableSpace G] [BorelSpace G]
-
-/-- Matching modular characters give the unique right-invariant homogeneous measure satisfying
-Weil's formula for the chosen right Haar measures on `G` and its closed subgroup `H`
-([Platonov–Rapinchuk–Rapinchuk], Theorem 3.64 and (3.26), pp. 189–190, after inversion). -/
-theorem exists_unique_quotientMeasure (H : Subgroup G) (hH : IsClosed (H : Set G))
-    [LocallyCompactSpace H] [MeasurableSpace H] [BorelSpace H]
-    (μG : Measure G) [μG.inv.IsHaarMeasure] (μH : Measure H) [μH.inv.IsHaarMeasure]
-    (hmod : ∀ h : H, Measure.modularCharacter (G := G) h =
-      Measure.modularCharacter (G := H) h) :
-    letI : MeasurableSpace (MulAction.orbitRel.Quotient H G) := borel _
-    ∃! ν : Measure (MulAction.orbitRel.Quotient H G), IsFiniteMeasureOnCompacts ν ∧
-      (∀ g : G, Measure.map (fun q : MulAction.orbitRel.Quotient H G =>
-        Quotient.mk'' (q.out * g)) ν = ν) ∧
-      ∀ f : G → ℝ, Continuous f → HasCompactSupport f →
-        (∫ g, f g ∂μG) = ∫ q, (∫ h : H, f ((h : G) * q.out) ∂μH) ∂ν := by
-  sorry
-
-end HomogeneousMeasure
-
 namespace RealSiegel
 
 variable {n : ℕ}
@@ -385,6 +347,50 @@ theorem exists_reduced_GLZ : ∃ C : ℝ, 0 < C ∧ ∀ b : Matrix (Fin n) (Fin 
   sorry
 
 end RealSiegel
+
+/-! ## Layer 4: approximation, neat levels and Hecke maps -/
+
+namespace Approximation
+
+open AdelicPoints IsDedekindDomain
+
+/-- Strong approximation away from `∞ ∪ S_f`, expressed by density on the full adeles. -/
+def HasStrongApproximation (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
+  Dense {x : AdelicPoints F H | ∃ g : WithConv (H →ₐ[F] F), ∃ y : AdelicPoints F H,
+    (∀ v ∉ Sf, ∀ h : H,
+      (finiteProjection F H y).ofConv h v = (1 : FiniteAdelicPoints F H).ofConv h v) ∧
+    x = diagonal F H g * y}
+
+/-- Weak approximation at a finite set of infinite and finite places. -/
+def HasWeakApproximation (Sinf : Finset (NumberField.InfinitePlace F))
+    (Sf : Finset (HeightOneSpectrum (𝓞 F))) : Prop :=
+  DenseRange (fun g : WithConv (H →ₐ[F] F) =>
+    ((fun w : Sinf => TauCeti.AlgHom.mapValue (Algebra.ofId F w.val.Completion) g),
+      fun v : Sf => TauCeti.AlgHom.mapValue (Algebra.ofId F (v.val.adicCompletion F)) g))
+
+/-- Connected semisimple simply connected groups have weak approximation for every finite set of
+places ([Platonov–Rapinchuk], Theorem 7.8, p. 415). -/
+theorem hasWeakApproximation_of_simplyConnected (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (Sinf : Finset (NumberField.InfinitePlace F)) (Sf : Finset (HeightOneSpectrum (𝓞 F))) :
+    HasWeakApproximation F (G.obj : Type) Sinf Sf := by
+  sorry
+
+/-- A simply connected semisimple group has strong approximation away from a finite set
+containing infinity when every nontrivial semisimple quotient has noncompact points over that
+set. This is the simple-factor condition expressed through injective coordinate morphisms
+([Arthur], Theorem 2.1(a), p. 12; [Platonov–Rapinchuk], Theorem 7.12, p. 427). -/
+theorem hasStrongApproximation_of_simplyConnected
+    (F : Type) [Field F] [NumberField F] (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (Sf : Finset (HeightOneSpectrum (𝓞 F)))
+    (hS : ∀ (Q : TauCeti.SemisimpleCommHopfAlgCat F) (f : Q.obj →ₐc[F] G.obj),
+      Function.Injective f → ¬ Function.Surjective (algebraMap F Q.obj) →
+        ¬ IsCompact (Set.univ : Set (InfinitePoints F Q.obj × ∀ v : Sf, LocalPoints F Q.obj v))) :
+    HasStrongApproximation F (G.obj : Type) Sf := by
+  sorry
+
+end Approximation
 
 namespace Neat
 
@@ -534,6 +540,8 @@ theorem isMulLeftInvariant_of_tendsto (χ : ℕ → C →ₜ* ℂˣ) (hχ : Func
   sorry
 
 end CompactFourier
+
+/-! ## Layer 5: worked examples -/
 
 namespace AdelicExamples.GL1
 
