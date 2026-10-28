@@ -63,6 +63,39 @@ ball theorem. Thus `P⊕R≅R²⊕R` but `P≄R²`, while `[P]=2[R]` in
 K₀(R). Supply this direct section/idempotent comparison rather than
 assuming a complex Serre–Swan theorem applies to real coefficients.
 
+### A0.SphereComplexification. Real cancellation and complex frames
+
+Resolve the scalar distinction in Rieffel's p87 tangent-section example.
+For `R_ℂ=C(S²,ℂ)` let `p_ℂ(x)=I₃−xxᵀ` be the entrywise complexification
+of the real projection above, and `P_ℂ=p_ℂ R_ℂ³`. Construct
+`P⊗_R R_ℂ≃P_ℂ` for pointwise scalar inclusion using A0's finite-idempotent
+base-change maps, with the formula `v⊗f↦(x↦f(x)v(x))`.
+Identify P_ℂ with the continuous complex vectors z(x) satisfying x·z(x)=0.
+This is a complex rank-two module; build its free basis explicitly, without
+assuming cancellation or a complex bundle-classification theorem.
+
+Use coordinates x=(x₀,x₁,x₂) with x·x=1, set a=(1,i,0),
+`w(x)=a−(x₀+i x₁)x`, `d(x)=sqrt(1+x₂²)`,
+`u(x)=w(x)/d(x)` and `v(x)=x×conj(u(x))`, where × is the complex-bilinear
+extension of the native real cross product. Prove x·w=0 and
+`conj(w)·w=1+x₂²>0`, then that the columns u,v,x form a continuous
+unitary matrix. In particular u,v are an orthonormal basis of x's complex
+orthogonal complement. Give the inverse module maps
+`R_ℂ²→P_ℂ`, `(f,g)↦fu+gv`, and
+`z↦(conj(u)·z,conj(v)·z)`, including continuity, the reconstruction
+identity and compatibility with the pointwise Hermitian pairing.
+Thus this real cancellation counterexample becomes free after complex
+scalar extension. It cannot be used as a complex cancellation counterexample.
+
+As a terminal comparison, distinguish this complexification from the complex
+line obtained on the real tangent plane by `J_x(y)=x×y`. Use
+DifferentialGeometry's outward sphere orientation and CharacteristicClasses
+C7's sphere Euler number and oriented-plane `e=c₁` comparison to give this
+line Chern number +2 and hence nontriviality. That characteristic-class
+comparison is downstream of A0's explicit frame and is not a prerequisite
+for the algebraic K₀/K₁ constructions. [SphereComplexificationTargets.lean](SphereComplexificationTargets.lean)
+pins the native cross-product and matrix formulas.
+
 ### A0.Mobius. Antiperiodic sections and scalar extension
 
 Let `T=AddCircle (1:ℝ)`, `R_ℝ=C(T,ℝ)` and `R_ℂ=C(T,ℂ)`, and write [t] for
