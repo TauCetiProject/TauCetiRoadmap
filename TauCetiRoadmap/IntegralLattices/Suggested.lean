@@ -5,7 +5,7 @@ import TauCeti.LinearAlgebra.RootSystem.NumberOfRoots
 import Completed.IntegralLattices.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 import TauCetiRoadmap.GlobalQuadraticForms.Suggested
-import TauCetiRoadmap.GlobalNumberFields.Suggested
+import Completed.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import Completed.RestrictedProducts.Suggested
 import TauCetiRoadmap.OrthogonalSpinGroups.Suggested
