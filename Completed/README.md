@@ -65,3 +65,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-08)
 - [peripheral actions on free pro-`p` groups](PeripheralActions/README.md)
   (declared complete 2026-10-28)
+- [analytic toric geometry](AnalyticToricGeometry/README.md)
+  (declared complete 2026-10-28)
