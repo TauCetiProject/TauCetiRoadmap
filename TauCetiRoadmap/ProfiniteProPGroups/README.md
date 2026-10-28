@@ -56,11 +56,16 @@ roadmap name is a statement about the Tau Ceti object and every Tau Ceti lemma a
 | `topAbelianization` | Mathlib's `TopologicalAbelianization` |
 | `trivialFp`, `cohomFp` | `TauCeti.trivialFp`, `TauCeti.cohomFp` |
 | `HasPrescriptionProperty` | `TauCeti.HasPrescriptionProperty`, on continuous characters `G →ₜ* ℤ_[p]ˣ` |
+| `demushkinQ` | `TauCeti.demushkinQ` |
+| `labuteRelatorClass`, `demushkinRelatorCharacter` | `TauCeti.labuteRelatorClass`, with values in `TauCeti.labuteE χ`, and `TauCeti.demushkinRelatorCharacter` |
+| `labuteComm`, `freeProPGen`, `presentedProPGen` | the `TauCeti` declarations of the same names |
+| `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo` | the `TauCeti` declarations of the same names |
 | `d0Relator`, `demushkinD0`, `d0A`, `d0S`, `d0Y`, `negThreeUnit`, `standardD0Orientation` | the `TauCeti` declarations of the same names |
 | `completedGroupAlgebra p Γ`, `IsCompactModule p Γ M` | `TauCeti.completedGroupAlgebra ℤ_[p] Γ`, and `TauCeti.IsCompactModule` over it |
 
-Every milestone about these carriers that Tau Ceti proves is a closed proof in `Suggested.lean`
-whose body is the Tau Ceti theorem, cited by name in the milestone below. The universal
+Every headline theorem stated in `Suggested.lean` is proved in Tau Ceti at the pin, so each is a
+closed proof there whose body is the Tau Ceti theorem, and the file carries no `sorry`. Every
+other milestone that Tau Ceti proves is cited by its Tau Ceti name in the milestone below. The universal
 properties of the free and presented objects are used directly under their Tau Ceti names, and so
 are the Tau Ceti objects that no downstream roadmap cites under a roadmap spelling: the finite
 embedding problems and projectivity (Layer 5), the graded pieces of the lower `p`-series with their
@@ -164,7 +169,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 - **Profinite completion.** Consume `ProfiniteGrp.ProfiniteCompletion`. Add the unbundled
   universal property: continuous homomorphisms from the completion to a profinite `P`
   correspond to abstract homomorphisms from `G`. Add that the unit is bijective on a finite
-  group (`Suggested.lean`).
+  group.
   *Needs:* M `ProfiniteGrp.profiniteCompletion`, M `ProfiniteGrp.ProfiniteCompletion.lift`.
   *In Tau Ceti:* `TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`,
   `TauCeti.ProfiniteCompletion.etaFn_bijective_of_finite`.
@@ -203,7 +208,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
     `¬ p ∣ profiniteIndex P G` in the Sylow definition of Layer 2.
 - **The order of a profinite group.** `profiniteOrder G : Supernatural` takes at each prime
   the supremum of the valuations of the orders of the finite quotients. On a finite discrete
-  group it is the factorization of `Nat.card G` (`Suggested.lean`).
+  group it is the factorization of `Nat.card G`.
   *Needs:* L1 `Supernatural`, M `Nat.card`, M `OpenNormalSubgroup`.
   *In Tau Ceti:* `TauCeti.profiniteOrder`, `TauCeti.profiniteOrder_apply_of_finite`.
 - **The index of a closed subgroup.** The definition is primewise through the finite
@@ -237,7 +242,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `Subgroup.profiniteOrder_eq_mul_profiniteIndex`, `OpenSubgroup.profiniteIndex_eq_ofNat_index`.
   *Source:* Ribes–Zalesskii §2.3, Prop. 2.3.2 for Lagrange.
 - **Pro-`p` in supernatural terms.** `G` is pro-`p` if and only if `profiniteOrder G` is
-  supported at `p` (`Suggested.lean`). `H` is open if and only if it is closed of
+  supported at `p`. `H` is open if and only if it is closed of
   natural-number index.
   *Needs:* L1 order and index; L0 open-versus-closed.
   *In Tau Ceti:* `TauCeti.isProP_iff_profiniteOrder_apply_eq_zero`.
@@ -245,7 +250,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 ### Layer 2: profinite Sylow theory
 
 - **Definition.** `IsProPSylow p P` says that `P` is closed, is pro-`p` in the subspace
-  topology, and has index prime to `p`. `Suggested.lean` has the per-quotient form. The
+  topology, and has index prime to `p`, in the per-quotient form of Tau Ceti's definition. The
   supernatural form `¬ p ∣ profiniteIndex P G` is proved equivalent to it here.
   *Needs:* L1 index, L0 closed subgroups, M `IsPGroup`.
   *In Tau Ceti:* `TauCeti.IsProPSylow`, with `TauCeti.isProPSylow_iff`, the projections
@@ -295,7 +300,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `cor ∘ res = [G : U]`.
   *Needs:* L2 definition; M `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`,
   M `Subgroup.index_map_eq`, M `Subgroup.index_dvd_of_le`.
-- **Worked instances** (`Suggested.lean`). Every `p`-Sylow subgroup of `ℤ̂` is
+- **Worked instances.** Every `p`-Sylow subgroup of `ℤ̂` is
   topologically isomorphic to `ℤ_p`. This is stated here and proved in Layer 4, where the
   universal properties it
   uses are available. Its proof does **not** use a product decomposition `ℤ̂ ≅ ∏_ℓ ℤ_ℓ`,
@@ -453,7 +458,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `ℤ² × 0` is open of infinite index, whose natural-number index is `0`, and needs two generators.
   *Source:* Ribes–Zalesskii Cor. 3.6.3. Layer 6 proves equality in the free case.
 - **Hopf property.** A continuous surjective endomorphism of a topologically finitely
-  generated profinite group is an isomorphism (`Suggested.lean`). This is the last step of
+  generated profinite group is an isomorphism. This is the last step of
   every two-sided comparison in Layer 8.
   *Needs:* L3 finitely many open subgroups of each index; L0 compactness.
   *In Tau Ceti:* `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective`.
@@ -462,8 +467,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   a continuous surjective endomorphism that is not injective, namely the shift.
 - **Gaschütz lifting.** Along a continuous surjection of profinite groups, an `n`-tuple that
   topologically generates the target lifts to an `n`-tuple that topologically generates the
-  source, provided the source is topologically generated by `n` elements
-  (`Suggested.lean`). Corollary: for a quotient map whose kernel lies in `Φ(G)`, generators
+  source, provided the source is topologically generated by `n` elements. Corollary: for a quotient map whose kernel lies in `Φ(G)`, generators
   lift.
   *Needs:* L3 generation API; L0 compactness lemma.
   *In Tau Ceti:* `TauCeti.exists_comp_eq_and_topologicalClosure_closure_range_eq_top`.
@@ -472,10 +476,11 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   of index `p`; the finite input is that a maximal subgroup of a finite `p`-group is normal
   of index `p`. `proPFrattini p G`, in the index-`p` form, is closed, normal and
   characteristic, and it equals both the intersection of the maximal open subgroups and
-  `closure (Gᵖ[G,G])` (`Suggested.lean`). The Frattini quotient `G/Φ(G)` is elementary
+  `closure (Gᵖ[G,G])`. The Frattini quotient `G/Φ(G)` is elementary
   abelian, hence an `𝔽_p`-vector space.
-  *Needs:* M `frattini`, M `IsPGroup.exists_maximal_subgroup_normal` and the finite Frattini
-  lemmas; L3 `IsProP` API; L0 quotients.
+  *Needs:* M `frattini`, M `Subgroup.isCoatom_iff_index_eq_prime` (a maximal subgroup of a
+  finite `p`-group has index `p`, under `Group.IsNilpotent`, which M `IsPGroup.isNilpotent`
+  supplies) and the finite Frattini lemmas; L3 `IsProP` API; L0 quotients.
   *In Tau Ceti:* `TauCeti.proPFrattini` with `TauCeti.isClosed_proPFrattini`,
   `ContinuousMulEquiv.map_proPFrattini_eq`, `TauCeti.proPFrattini_eq_topologicalClosure`,
   `TauCeti.IsProP.proPFrattini_eq_iInf_isCoatom`, `TauCeti.IsProP.normal_of_isCoatom`,
@@ -496,8 +501,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   - Downstream interfaces: Burnside below and the abstract rank formulas.
 - **Burnside basis theorem.** A subset generates `G` topologically if and only if its image
   generates `G/Φ(G)` topologically. The closure on the quotient side is needed: at infinite
-  rank the image of a generating set spans only a dense subspace. Two further forms are in
-  `Suggested.lean`:
+  rank the image of a generating set spans only a dense subspace. Two further forms:
   - a closed subgroup that lies in no open normal subgroup of index `p` is the whole group;
   - a continuous homomorphism that is surjective onto every index-`p` quotient is
     surjective.
@@ -608,11 +612,10 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `hom_ext`, `map` and `existsUnique_continuousMulEquiv`, and the same names in the namespaces
   `TauCeti.freeProC` and `TauCeti.freeProP`.
 - **Basics.** `freeProP p X` is pro-`p`. For finite `X` it is topologically finitely
-  generated (`Suggested.lean`), of rank `#X`, through the Frattini quotient `(ℤ/p)^X` of
+  generated, of rank `#X`, through the Frattini quotient `(ℤ/p)^X` of
   Layer 3, with the natural-number form
   `topologicalGeneratorRankNat (freeProP p (Fin n)) h = n`. The generators are a basis: free
-  groups are residually `p`, so `FreeGroup X → freeProP p X` is injective
-  (`Suggested.lean`).
+  groups are residually `p`, so `FreeGroup X → freeProP p X` is injective.
   *Needs:* L3 Burnside; L4 universal property; M `FreeGroup`.
   *In Tau Ceti:* `TauCeti.isProP_freeProP`, `TauCeti.isTopologicallyFinitelyGenerated_freeProP`,
   `TauCeti.topologicalGeneratorRank_freeProP`, `TauCeti.topologicalGeneratorRankNat_freeProP`,
@@ -775,8 +778,8 @@ about the substrate.
     and the closed normal closure.
   - Downstream interfaces: minimal presentations, the relation rank below, and the Layer 9
     normal forms.
-- **Non-vacuity, with the map named.** `D₀ = ⟨A, S, Y ∣ A²S⁴(S,Y)⟩`, defined in
-  `Suggested.lean`, is nontrivial, pro-`2` and topologically finitely generated. The proof
+- **Non-vacuity, with the map named.** `D₀ = ⟨A, S, Y ∣ A²S⁴(S,Y)⟩`, Tau Ceti's
+  `TauCeti.demushkinD0`, is nontrivial, pro-`2` and topologically finitely generated. The proof
   is not "map it onto some finite `2`-group". The map is `φ : freeProP 2 (Fin 3) → ℤ/2` with
   `φ(A) = 0`, `φ(S) = 1`, `φ(Y) = 0`, given by the universal property of Layer 4. The
   relator maps to `0·2 + 1·4 + 0 = 0`, because the commutator vanishes in an abelian group,
@@ -871,8 +874,8 @@ about the substrate.
 
 The passage from the extension dictionary to projectivity is six statements, and each one is a
 milestone of its own below rather than a line in a proof of the last. All six are Tau Ceti's, used
-under their Tau Ceti names; `Suggested.lean` has a closed proof of each theorem among them, and
-proves the converse, 5.7, which needs a pro-`p` hypothesis.
+under their Tau Ceti names, and `Suggested.lean` states the converse, 5.7, which needs a pro-`p`
+hypothesis, as a closed proof from Tau Ceti's API.
 
 - **5.1 The finite embedding problem.** A finite embedding problem for `G` is a continuous
   surjection `π : G ↠ Q` onto a finite group together with a surjection `α : E ↠ Q` of finite
@@ -952,7 +955,7 @@ proves the converse, 5.7, which needs a pro-`p` hypothesis.
   `G` projectivity and 5.4 are equivalent (`isProjective_iff_hasPGroupSolutions`). `Q` is a
   continuous finite quotient of the pro-`p` group `G`, hence a `p`-group; so `E`, an extension of
   `Q` by the `p`-group `ker α`, is a finite `p`-group, hence pro-`p`, and the problem is a lifting
-  problem against `α`. `Suggested.lean` proves both statements.
+  problem against `α`. `Suggested.lean` proves both statements from Tau Ceti's API.
   *Needs:* L5.6; L3 the `IsProP` API; M `IsPGroup.of_subgroup_of_quotient`.
   ⚠ The pro-`p` hypothesis is needed, and a `p`-group kernel does not make `E` and `Q`
   `p`-groups. `G = PSL₂(𝔽₅)` is perfect, so every continuous homomorphism from it to a pro-`2`
@@ -1238,8 +1241,8 @@ would not agree with the standard `cd_p`.
   `topAbelianization G`, together with the one-relator presentation. The torsion subgroup is
   finite and cyclic, which is what makes `demushkinQ G` well defined from the predicate
   alone: it is `0` when the torsion is trivial, and the order of the torsion otherwise.
-  Worked instance: `D₀^{ab} ≅ ℤ₂² × ℤ/2`, its torsion is finite, and `q(D₀) = 2`
-  (`Suggested.lean`). That instance is a computation with the presentation, and it does not
+  Worked instance: `D₀^{ab} ≅ ℤ₂² × ℤ/2`, its torsion is finite, and `q(D₀) = 2`.
+  That instance is a computation with the presentation, and it does not
   use the classification; it is Tau Ceti's `TauCeti.d0AbelianizationEquiv` and
   `TauCeti.nat_card_torsion_topologicalAbelianization_demushkinD0`. `topAbelianization` is
   Mathlib's `TopologicalAbelianization`.
@@ -1313,13 +1316,13 @@ modulo `p^i`), and condition 2 is Tau Ceti's reformulation of condition 1:
     image of `χ` for a free pro-`2` group. Route: `ℤ₂ˣ = {±1} × (1 + 4ℤ₂)`, with
     `1 + 4ℤ₂ ≅ ℤ₂` through the logarithm, so the closed subgroups of the second factor are
     the `1 + 2^fℤ₂`; the three families are the three ways a closed subgroup sits over
-    `{±1}`. In `Suggested.lean` the families are indexed by `f : ℕ`, and the members at
+    `{±1}`. The families are indexed by `f : ℕ`, and the members at
     `f = ∞` are written separately, because an `ℕ∞`-indexed definition would carry a junk
     value at `∞`.
   - **Procyclicity.** `U^(f)` and `U^[f]` are procyclic. `V^(f)` with `f < ∞` is not,
     because its Frattini quotient is `(ℤ/2)²`. Equivalently, a closed subgroup is procyclic
     if and only if it does not contain `-1` together with a nontrivial element of `1 + 4ℤ₂`;
-    that is the form in `Suggested.lean`.
+    that is the form Tau Ceti states.
   - **Indices and intersections.** `profiniteIndex U^(f) ℤ₂ˣ = 2^{f-1}`,
     `profiniteIndex V^(f) ℤ₂ˣ = 2^{f-2}`, `profiniteIndex U^[f] ℤ₂ˣ = 2^{f-1}`, and
     `U^[f] ∩ (1 + 4ℤ₂) = U^(f+1)`. For the last one, the generator `g = -1 + 2^f` has
@@ -1516,7 +1519,6 @@ differs, the translation is stated once.
   in degree zero). A continuous homomorphism induces `TauCeti.gradedMap`, compatible with both
   operations by `TauCeti.gradedMap_gradedBracket` and `TauCeti.gradedMap_gradedPow`, and
   surjective in each degree for a continuous surjection (`TauCeti.gradedMap_surjective`).
-  `Suggested.lean` has a closed proof of each of these laws from the Tau Ceti theorem.
   *Source:* Labute Prop. 1 and Prop. 2, in our indexing.
   *In Tau Ceti:* `Topology/Algebra/Group/LowerCentralSeries/Graded/Basic.lean`.
 - **`π` against the bracket, and the dyadic failure.** For every `p` the bracket is
@@ -1548,7 +1550,7 @@ differs, the translation is stated once.
   *Needs:* L8 the graded object; M the commutator identities.
   *In Tau Ceti:* `Topology/Algebra/Group/LowerCentralSeries/Graded/Basic.lean` and `Pow.lean`;
   `Topology/Algebra/Group/Profinite/Free/Graded.lean`.
-- **Openness and cofinality** (`Suggested.lean`). In a topologically finitely generated
+- **Openness and cofinality.** In a topologically finitely generated
   pro-`p` group every `λ_k` is open, by induction, and the series is a neighbourhood basis
   of `1`, so `G ≅ lim_k G/λ_k` with finite `p`-group levels and any comparison runs level by
   level. Each `λ_k` is closed, normal and characteristic, with `λ_{k+1} ≤ λ_k`. A continuous
@@ -1671,7 +1673,7 @@ differs, the translation is stated once.
 #### Finite-quotient determinacy
 
 - **Occurring as a quotient.** `IsFiniteContinuousQuotient G Q`, for a finite group `Q`,
-  says that there is a surjection `f : G →* Q` with open kernel (`Suggested.lean`). Phrasing
+  says that there is a surjection `f : G →* Q` with open kernel. Phrasing
   it through the kernel, and not through a topology on `Q`, lets statements quantify over
   `Q` bundled as a `FiniteGrp`, and not over arbitrary types with an unspecified topology.
   For a finite discrete `Q` the two conditions agree, and that agreement is a lemma here.
@@ -1866,7 +1868,6 @@ of the two even-rank families in the abstract classification.
   `TauCeti.completedGroupAlgebra.of ℤ_[p] Γ : Γ →* Λ`, which is continuous and, for profinite `Γ`,
   injective. Functoriality is `TauCeti.completedGroupAlgebra.map` with `map_id`, `map_comp`,
   `map_of` and `map_surjective`, and a topological isomorphism induces `domCongr`.
-  `Suggested.lean` has a closed proof of each of these from the Tau Ceti theorem.
   *Needs:* L0 inverse limits; M `MonoidAlgebra`, M `PadicInt`.
   *In Tau Ceti:* `TauCeti.completedGroupAlgebra` with `proj`, `proj_surjective`, `ext`, `of`,
   `proj_of`, `continuous_of`, `of_injective`, `isMulCommutative_iff`, `lift` and `algHom_ext`
@@ -1920,7 +1921,7 @@ of the two even-rank families in the abstract classification.
   levels of `Λ` are the ideals `(ω_m)`, `ω_m = (1 + T)^(p^m) - 1`, of Iwasawa theory. The
   dependence on `γ` is part of the statement: a different generator changes the isomorphism by
   the substitution `T ↦ (1 + T)^u - 1` with `u ∈ ℤ_pˣ`, and every statement below is invariant
-  under it. `Suggested.lean` has a closed proof of each of these from the Tau Ceti theorem.
+  under it.
   *Needs:* L9 the algebra; M `PowerSeries`, M `PowerSeries.aeval`, M Weierstrass division.
   *In Tau Ceti:* `TauCeti.completedGroupAlgebra.powerSeriesCoordinate` with
   `powerSeriesCoordinate_X`, `powerSeriesCoordinate_one_add_X`, `continuous_powerSeriesCoordinate`,
@@ -1987,8 +1988,9 @@ of the two even-rank families in the abstract classification.
   coefficients in the `ℚ₂`-eigenspaces has to clear the denominators afterwards. The coordinate
   ring is not a domain: `(1 - S)(1 + S) = 1 - S² = 0` with both factors nonzero, so the procyclic argument, which cancels a common factor,
   does not transfer. Since `ℤ₂[C₂][[T]]` is free over `ℤ₂[[T]]` on `1, S`, divisibility by an
-  element of the base such as `2^f + T` is coordinatewise divisibility in the domain `ℤ₂[[T]]`
-  (`splitBase_dvd_iff`), and that is where the one division of this branch happens.
+  element of the base such as `2^f + T` is coordinatewise divisibility in the domain `ℤ₂[[T]]`:
+  `2^f + T` divides `ψ₀ + S ψ₁` in `ℤ₂[C₂][[T]]`, for `ψ₀, ψ₁ ∈ ℤ₂[[T]]`, exactly when it divides
+  both `ψ₀` and `ψ₁` in `ℤ₂[[T]]`, and that is where the one division of this branch happens.
   *Needs:* L9 the procyclic package; L7 the closed subgroups of `ℤ₂ˣ`; L1 index.
   *In Tau Ceti:* `TauCeti.completedGroupAlgebra.dyadicCoordinate` with `dyadicCoordinate_X`,
   `dyadicCoordinate_C_single`, the values of its inverse, the levels `dyadicLevel`, their kernels
@@ -2050,12 +2052,11 @@ no second scalar multiplication. The points that fix the object are these.
    even. Labute's Thm 5 is the branch `Im χ = U₂[f]` with `f ≠ ∞`, and his Thm 6 the branch
    `Im χ = {±1} × U₂(f)` with `2 ≤ f < ∞`.
 
-The milestones are the existing structure, checked in `Suggested.lean` by closed proofs from the
-Tau Ceti and Mathlib theorems: the action in Labute's form, the module structure with its
+The milestones are the existing structure, proved in Tau Ceti and Mathlib: the action in Labute's form, the module structure with its
 continuity, the map from `R^{ab}`, and finite generation of `E` over `Λ` by the classes of finitely
 many elements of `X`, for `F` topologically finitely generated pro-`p` and `χ` continuous. The
-roadmap's own declarations here are `demushkinRelatorCharacter`, `demushkinRelatorCharacter_mem_ker`
-and the relator class `labuteRelatorClass`.
+roadmap names here are `demushkinRelatorCharacter`, `demushkinRelatorCharacter_mem_ker` and the
+relator class `labuteRelatorClass`, aliases of the Tau Ceti declarations of the same names.
 *Needs:* L5 presentations; L7 canonical character; L9 the algebra and its compact modules; L4
 abelian pro-`p` structure theory.
 *In Tau Ceti:* `TopologicalAbelianization.instMulDistribMulActionQuotient`, `mk_smul_mk`,
@@ -2072,12 +2073,12 @@ and `module_finite_completedGroupAlgebraModule_topologicalAbelianization_ker`
 
 With `E`, `Γ` and `Λ` as above, these are the statements Labute's Theorems 5 and 6 run on. The two
 branch statements carry Labute's hypotheses: `F` is free pro-`2` of even rank `n`,
-`r ∈ F²(F, F)` is a Demushkin relation with `q = 2`, `χ` is its associated character, and `Im χ`
-is in the branch named.
+`r ∈ F²(F, F)` is a Demushkin relation, `χ` is its associated character, and `Im χ` is in the
+branch named. Labute's hypothesis `q = 2` follows and is not assumed: either branch puts a unit
+`≡ 3 mod 4` into `Im χ`, while for `q ≠ 2` the image is `U^(f)` with `2^f = q ≥ 4`, or trivial.
 
 - **The relator class in a spanning family.** If finitely many `b_i` span `E` over `Λ`, then `r̄`
-  is a `Λ`-combination of them (`labuteRelatorClass_eq_sum`, from Mathlib's
-  `Submodule.mem_span_range_iff_exists_fun`). ⚠ The spanning hypothesis is needed: with no
+  is a `Λ`-combination of them (Mathlib's `Submodule.mem_span_range_iff_exists_fun`). ⚠ The spanning hypothesis is needed: with no
   generators, `F ≅ ℤ_p`, `χ` trivial and `r` a generator, the nonzero `r̄` is not the empty sum.
   Labute's content is the explicit coefficients in a normalized basis. In the branch
   `Im χ = U^[f]` (§4.1) the normal form `r = w₁^{2+α}(w₁, w₂)w₃^{2^g}(w₃, w₄)⋯`, with
@@ -2428,7 +2429,10 @@ Layer 8.
   character takes the values of the table above on the marked generators. The four statements
   are `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd` for `n ≥ 3`,
   `isDemushkin_marked_of_q_two_even` for `n ≥ 4`, and `isDemushkin_marked_of_q_two_rank_two`
-  for `n = 2`, and the relator words are the named terms `demushkinWordNeTwo`,
+  for `n = 2`. The `q ≠ 2` statement carries no rank hypothesis, because the one Demushkin group
+  of rank `1`, `ℤ/2` at `p = 2`, has `q = 2`; the three `q = 2` statements do not assume `q = 2`,
+  because their image equation puts `-1` or a unit `≡ 3 mod 4` into `Im χ`, which forces it. The
+  relator words are the named terms `demushkinWordNeTwo`,
   `demushkinWordTwoOdd`, `demushkinWordTwoEven` and `demushkinWordTwoRankTwo`, each written on
   a tuple of group elements so that the same word can be read in `F` and in `G`. Their
   parameters are natural numbers, which is all the marked statements need, since the image
