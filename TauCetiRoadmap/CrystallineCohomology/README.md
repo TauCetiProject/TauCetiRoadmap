@@ -234,6 +234,9 @@ of divided powers with a base is Stacks Definition 60.4.1: there is a divided po
 
 **Envelopes and filtrations.** `D_{B,γ}(J)` is the divided power envelope of an ideal `J ⊇ IB` of
 an `A`-algebra `B` relative to `(A, I, γ)`, with divided power ideal `J̄`;
+for an arbitrary ideal `J ⊂ B` we write `D_{B,γ}(J)` for `D_{B,γ}(J + IB)`, which is initial among PD
+algebras `(C, K, δ)` over `(A, I, γ)` with an `A`-algebra map `B → C` sending `J` into `K`, because a
+PD morphism `(A, I, γ) → (C, K, δ)` already sends `I` into `K`;
 `A⟨x_w : w ∈ W⟩ = Γ_A(A^{(W)})` is the divided power polynomial algebra, with
 `x_w^{[n]} = dp_n(e_w)`. `Fⁿ_γ I = I^{[n]}` is the divided power filtration. PD nilpotence
 (`Fⁿ_γ I = 0` for some `n`), nilpotence of `I`, local nilpotence of `p` and p-adic completeness are
@@ -1169,7 +1172,14 @@ commutes with d since both differentials are derivations that agree on b and db.
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.6, Definition 60.6.1, Lemma
 60.6.2 and Remark 60.6.7 (Lemmas 60.6.3 and 60.6.10 for the API); [Langer–Zink, *De Rham–Witt
 cohomology for a proper and smooth morphism*](https://www.math.uni-bielefeld.de/~zink/dRW.pdf),
-§1.1, Definition 1.1 (p. 11) and the paragraph after Lemma 1.2 (p. 13).) *Needs:* *Relative divided
+§1.1, Definition 1.1 (p. 11) and the paragraph after Lemma 1.2 (p. 13). Existing formalisation at
+an older Mathlib pin: D'Addezio, *Affine crystalline cohomology and de Rham cohomology in Lean 4*
+(References), `PDDifferentials.lean`, where `IsPDDerivation`, `pdRelations`, `PDKaehler`, `pdD`,
+`PDKaehler.lift` and `PDKaehler.lift_unique` construct Ω¹_PD(B/A) as the quotient above with its
+universal PD derivation, and `PDDifferentials/Representability.lean`, where
+`PDDifferentials.pdKaehlerDerivationEquiv` is the degree-one universal property, with no PD
+structure on A; the initiality among differential graded algebras and the adjoining, quotient,
+diagonal and completion items are not covered there.) *Needs:* *Relative divided
 power polynomial algebras* (DerivedDeRhamCohomology §PD.5); *Pushouts of divided power rings*
 (DerivedDeRhamCohomology §PD.6); DerivedDeRhamCohomology Layer 2 (§2.12 *The ordinary algebraic de
 Rham complex*); DerivedDeRhamCohomology Layer 2 (§2.21 *The universal differential graded algebra*);
@@ -1191,8 +1201,9 @@ Mathlib `KaehlerDifferential`; Mathlib `DividedPowers`; Mathlib
   differential graded algebras `Ω^•_{B/A}→P` extending the identity of B, which is why ω²=0 in odd
   degree is required.
 
-**Differentials of a smooth envelope.** Let (A,I,γ) be a PD ring, A→P a ring map, J⊂P an ideal with
-IP⊂J, and `(D,J̄,γ̄)=D_{P,γ}(J)` the PD envelope. The canonical map `Ω_{P/A}⊗_PD→Ω¹_PD(D/A)` is an
+**Differentials of a smooth envelope.** Let (A,I,γ) be a PD ring, A→P a ring map, J⊂P any ideal,
+and `(D,J̄,γ̄)=D_{P,γ}(J)=D_{P,γ}(J+IP)` the PD envelope (Conventions). The
+canonical map `Ω_{P/A}⊗_PD→Ω¹_PD(D/A)` is an
 isomorphism (Stacks Lemma 60.6.6); no flatness of D over P is needed. Hence
 `Ω^q_PD(D/A)=Ω^q_{P/A}⊗_PD` for every q≥0. If P is smooth over A these D-modules are finite locally
 free. If p is a prime, A is a ℤ_(p)-algebra and p is nilpotent in P/J, then with D_e=D/pᵉD the
@@ -1200,28 +1211,37 @@ p-adic completion of Ω¹_PD(D/A) is lim_eΩ¹_PD(D_e/A) (Stacks Lemma 60.6.10);
 consists of the sums Σf_idx_i with f_i in the p-adic completion D^∧ of D and, for every e, f_i∈pᵉD^∧
 for all but finitely many i.
 
-*Hypotheses.* (A,I,γ) is a PD ring, P an A-algebra and J⊂P an ideal containing IP. Smoothness of P
-over A is used only for finite local freeness. For the completed statement: p is a prime, A is a
+*Hypotheses.* (A,I,γ) is a PD ring, P an A-algebra and J⊂P any ideal; no containment IP⊂J is
+needed, since the envelope of J is that of J+IP. Smoothness of P over A is used only for finite
+local freeness. For the completed statement: p is a prime, A is a
 ℤ_(p)-algebra and p is nilpotent in P/J.
 
 *Proof sketch.* For a D-module M, the square-zero extension D⊕M carries the PD structure
 `δ_n(x+m)=γ̄_n(x)+γ̄_{n−1}(x)m` on J̄⊕M (*Divided powers on a second-order thickening*
 (DerivedDeRhamCohomology §PD.5)). An A-derivation ϑ:P→M gives the A-algebra map P→D⊕M, b↦(b,ϑ(b)),
-which sends J into J̄⊕M; by the universal property of the envelope it extends uniquely to a PD
+which sends J+IP into J̄⊕M; by the universal property of the envelope it extends uniquely to a PD
 homomorphism D→D⊕M, whose second component is a PD A-derivation D→M restricting to ϑ. So
 A-derivations P→M correspond to PD A-derivations D→M, and the Yoneda lemma gives the isomorphism
 (first proof of Stacks Lemma 60.6.6). Exterior powers commute with base change. Completion: the
 kernel of Ω¹_PD(D/A)→Ω¹_PD(D_e/A) is pᵉΩ¹_PD(D/A) by the quotient formula of *Universal PD
 differentials and the PD de Rham complex* and d(pᵉ)=0 (proof of Stacks Lemma 60.6.10). ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.6, Lemma 60.6.6 (tag 07HW),
-first proof, and Lemma 60.6.10; §60.3, Lemma 60.3.1.) *Needs:* *Universal PD differentials and the
-PD de Rham complex*; *Universal base-compatible divided power envelope* (DerivedDeRhamCohomology
+first proof, applied to J+IP, and Lemma 60.6.10; §60.3, Lemma 60.3.1. Existing formalisation at an
+older Mathlib pin: D'Addezio, *Affine crystalline cohomology and de Rham cohomology in Lean 4*
+(References), `PDDifferentials.lean`, `pdKaehler_dpEnvelope`: bijectivity of the canonical map
+`D⊗_PΩ_{P/A}→Ω¹_PD(D/A)` for every A-algebra P and every ideal J, the envelope being initial for PD
+ideals containing JD+ID; the Ω^q, local freeness and completion statements are not covered there.)
+*Needs:* *Universal PD differentials and the PD de Rham complex*; *Universal base-compatible
+divided power envelope* (DerivedDeRhamCohomology
 §PD.6); *Divided powers on a square-zero extension* (DerivedDeRhamCohomology §PD.5); *Divided powers
 on a second-order thickening* (DerivedDeRhamCohomology §PD.5); Mathlib `AdicCompletion`.
 
 **Checks.**
 
 - For P=A[x] and J=IP+(x): D=A⟨x⟩ and Ω¹_PD(D/A)=D·dx with `d(x^{[n]})=x^{[n−1]}dx`.
+- Without IP⊂J: for A=ℤ_(p) with the canonical divided powers on I=(p), P=A[x] and J=(x)∌p, the
+  envelope is D_{P,γ}((p,x))=A⟨x⟩ with PD ideal pA⟨x⟩+A⟨x⟩₊ ∋ p, and again Ω¹_PD(D/A)=D·dx; the
+  map `D⊗_PΩ_{P/A}→Ω¹_PD(D/A)` is the identity of D·dx.
 - No flatness: for A=ℤ_p, P=ℤ_p[x,y] and J=(x²,xy,y²,p) (Stacks Example 60.22.1), Ω¹_PD(D/A) is free
   on dx and dy although D is not flat over P: τ=γ̄_p(x²)γ̄_p(y²)−γ̄_p(xy)² is a nonzero element of D
   with pτ=0.
@@ -1704,12 +1724,19 @@ D′ the p-adic completions of B and P and Ωⁱ_D, `Ωⁱ_{D′}` the p-adic co
 D-module M with an integrable connection ∇:M→M⊗^∧_DΩ¹_D. (4) For one variable z over B the
 contraction is explicit: on Ω^•_PD(B⟨z⟩/B), the B-linear map h with `h(z^{[n]}dz)=z^{[n+1]}` and h=0
 in degree 0 satisfies dh+hd=id−ev₀, where ev₀ is evaluation at z=0 in degree 0 and zero in degree 1
-(Stacks Example 60.25.2).
+(Stacks Example 60.25.2). (5) (One variable, axiomatic form.) Let A→B be a ring map and (B,J,δ) a PD
+ring with: a PD A-algebra endomorphism ε of B with ε∘ε=ε; an element ξ∈J with ε(ξ)=0; a PD
+A-derivation ∂:B→B with ∂ξ=1 and ∂∘ε=0; and the Taylor property that every y∈B is a finite sum
+`Σ_k ξ^{[k]}ε(c_k)` with c_k∈B. Then for every closed ω∈Ωʲ_PD(B/A), ω−ε^*ω is exact, and ω=ε^*ω when
+j=0. Consequently, for B₀=ε(B) with PD ideal J∩B₀, the inclusion induces a quasi-isomorphism
+Ω^•_PD(B₀/A)→Ω^•_PD(B/A). No PD polynomial algebra and no linear independence of the ξ^{[k]} over B₀
+are assumed.
 
 *Hypotheses.* A is a commutative ring and W any set of variables. In (2): (B,I,δ) is a PD ring, B an
 A-algebra, and M a B-module with an integrable connection relative to Ω¹_PD(B/A). In (3): p is a
 prime number, the modules N and M are p-adically complete, and ⊗^∧ is the p-adically completed
-tensor product.
+tensor product. In (5): (B,J,δ) is a PD ring with a ring map A→B and the data ε, ξ, ∂ with the
+stated properties; no PD structure on A is used.
 
 *Proof sketch.* (1): for N=A the complex is a direct sum, over the multi-indices K of finite
 support, of subcomplexes E(K) spanned by the forms
@@ -1724,9 +1751,25 @@ grⁱ_F(M⊗_BΩ^•_PD(P/A))=M⊗_BΩⁱ_PD(B/A)⊗_BΩ^•_PD(P/B), which by (
 M⊗_BΩⁱ_PD(B/A) in degree 0; the filtration is finite in each degree, so the map is a
 quasi-isomorphism. (3): the same arguments after p-adic completion; the homotopies of (1) are
 termwise linear maps and pass to completions. (4): `d(z^{[n]})=z^{[n−1]}dz`, so
-`dh(z^{[n]}dz)=z^{[n]}dz` and `hd(z^{[n]})=z^{[n]}` for n≥1, hd(1)=0. ([Stacks
+`dh(z^{[n]}dz)=z^{[n]}dz` and `hd(z^{[n]})=z^{[n]}` for n≥1, hd(1)=0. (5): J∩B₀ is stable under δ,
+since `δ_n(ε(x))=ε(δ_n(x))`. By the Taylor property and `d(ε(c))=ε^*(dc)`, every form is a sum
+`Σ_kξ^{[k]}(α_k+dξ∧β_k)` with α_k, β_k in the image of ε^*. Subtracting dη with
+`η=Σ_kξ^{[k+1]}β_k` leaves ω′=Σ_kξ^{[k]}ρ_k with ρ_k in the image of ε^*. Let ι be the contraction
+with the B-linear form on Ω¹_PD(B/A) induced by ∂; it kills forms in the image of ε^* and sends dξ
+to 1, so `ι∘d` sends Σ_kξ^{[k]}ρ_k to Σ_kξ^{[k−1]}ρ_k, and `ρ_a=ε^*((ι∘d)^aω′)` because
+`ε(ξ^{[k]})=0` for k≥1. If ω is closed, so is ω′, hence ρ_a=0 for a≥1 and ω′=ρ₀=ε^*ω′; then
+ω−ε^*ω=d(η−ε^*η). For the consequence, the inclusion i:B₀→B and ε:B→B₀ are PD morphisms whose
+induced maps of complexes satisfy ε_*i_*=id and i_*ε_*=ε^*, the identity on cohomology by the
+first part. Taking B=B′⟨z⟩, ε the evaluation at z=0, ξ=z and ∂=∂/∂z recovers (2) for one PD
+variable with M=B′. ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.20, Lemmas 60.20.1 and
-60.20.2; §60.25, Lemma 60.25.1 and Example 60.25.2.) *Needs:* *Relative divided power polynomial
+60.20.2; §60.25, Lemma 60.25.1 and Example 60.25.2. Existing formalisation at an older Mathlib pin:
+D'Addezio, *Affine crystalline cohomology and de Rham cohomology in Lean 4* (References),
+`DeRham/OneVariablePoincare.lean`, where `DeRham.OneVariable` bundles the data of (5) and
+`OneVariable.isBd_sub` proves its first sentence, and `Ocris/CechPoincare.lean`, where
+`EnvelopeFamily.firstVertexQuasiIso` proves (2) for the first-vertex maps of the Čech nerve of PD
+envelopes with trivial coefficients; (1) for general N, (3) and the homotopy of (4) are not covered
+there.) *Needs:* *Relative divided power polynomial
 algebras* (DerivedDeRhamCohomology §PD.5); *Universal PD differentials and the PD de Rham complex*
 (Layer CR.1); *Modules with integrable connection and their de Rham complexes* (Layer CR.1); Mathlib
 `AdicCompletion`; Mathlib `AdicCompletion.map`.
@@ -1738,6 +1781,12 @@ algebras* (DerivedDeRhamCohomology §PD.5); *Universal PD differentials and the 
   and not exact.
 - A constant crystal: for (B,I,δ)=(A,0,∅) and M=N with the zero connection, (2) says that
   N→N⊗_AΩ^•_PD(A⟨x_i⟩/A) is a quasi-isomorphism, which is (1).
+- (5) on A⟨z⟩ with ε the evaluation at 0, ξ=z and ∂=d/dz: B₀=A and Ω^•_PD(A⟨z⟩/A) has cohomology A in
+  degree 0, the case N=A of (1) in one variable.
+- The Taylor property is needed in (5): over A=F_p let B=F_p⟨z⟩[w] with PD ideal F_p⟨z⟩₊[w], ε
+  sending z and w to 0, ξ=z and ∂=∂/∂z. All other inputs hold, but `ω=w^{p−1}dw` is closed with
+  ε^*ω=0 and is not exact: df=ω forces ∂f/∂z=0, so f∈F_p[w], and w^{p−1} is not a derivative in
+  F_p[w].
 
 **Crystalline cohomology from an embedding.** Setting for (1)–(4): Stacks Situation 60.5.1 with
 X=Spec C and S=Spec A, P=A[x_i]→C a surjection from a polynomial algebra, D(n) the p-adically
@@ -1776,11 +1825,25 @@ objects (Stacks Lemma 60.18.1), so RΓ(Cris(X/S),F) is the cohomology of the cat
 (X,T,δ) with the chaotic topology (Lemma 60.18.2). The surjectivity hypothesis makes the transition
 maps `F(B_{e+1})→F(B_e)` surjective, so passing to the category Cris^∧(C/A) of complete thickenings
 does not change cohomology (Lemma 60.18.3). There D is weakly final (Lemma 60.5.7) with D×⋯×D=D(n)
-(Lemma 60.17.2), and Lemma 60.18.4 gives the complex. (2): the cosimplicial module `Ω_{D(•)}` is
+(Lemma 60.17.2), and Lemma 60.18.4 gives the complex. When n!=0 in A for some n≥1 (for a
+ℤ_(p)-algebra A this is equivalent to p being nilpotent in A), every x in a PD ideal over A
+satisfies `xⁿ=n!·γ_n(x)=0`; so every affine thickening has ideal killed by one bounded exponent, D
+itself is an object of the site, and the passage to complete thickenings is not needed. Nilpotence
+enters only as this property, never as chosen exponent data. RΓ over the chaotic site is the derived
+limit over the category of affine thickenings, and Čech nerve data (D weakly final with self-products
+D(n)) identify it with the cohomology of the complex of (1); this uses enough injectives for
+module-valued functors on a large index category, which Mathlib at the pin provides only for small
+or essentially small index categories. The identification in (1) is the canonical map in D(A)
+induced by the augmentation, not an abstract isomorphism of cohomology groups. (2): the cosimplicial
+module `Ω_{D(•)}` is
 homotopic to zero (Example 60.19.1, Lemma 60.19.2), and homotopies are preserved by exterior powers,
 tensor products and completion (Lemma 60.16.1), so `M(•)⊗^∧Ωⁱ_{D(•)}` is homotopic to zero for i>0
 (Lemma 60.19.3); apply (1) to `F⊗Ωⁱ_{X/S}`. (3): the double complex `K^{a,b}=M⊗^∧_DΩ^a_{D(b)}` has
-acyclic columns for a>0 by (2), and its column a=0 computes RΓ by (1). Each row is quasi-isomorphic
+acyclic columns for a>0 by (2), and its column a=0 computes RΓ by (1). The comparison factors
+through two inputs: the first-vertex maps `M⊗^∧_DΩ^•_D→M⊗^∧_{D(b)}Ω^•_{D(b)}` are
+quasi-isomorphisms (Bhatt–de Jong Lemma 2.13), and the positive-form rows are acyclic (Bhatt–de Jong
+Lemma 2.17, which gives (2)); the double-complex argument of the proof of Bhatt–de Jong Theorem 2.12
+turns them into the comparison. Each row is quasi-isomorphic
 to M⊗^∧_DΩ^•_D by *The relative PD Poincaré lemma*, because D(b) is the completion of a PD
 polynomial algebra over D (Lemma 60.17.1), and the b+1 coprojections induce the same map on
 cohomology; compare the two spectral sequences. (4): with a:D→D′ and b:D′→D as in *Crystals,
@@ -1796,8 +1859,27 @@ Crystalline Cohomology, §60.21, Propositions 60.21.1 and 60.21.3, Lemmas 60.21.
 (hint) for part (6); [Illusie, *Complexe de de Rham–Witt et cohomologie
 cristalline*](http://www.numdam.org/item/ASENS_1979_4_12_4_501_0.pdf), Part 0, §3.2 (Calcul de la
 cohomologie cristalline): 3.2.1–3.2.3, Théorème 3.2.4 ((3.2.4.1), (3.2.4.2)) and 3.2.5, printed pp.
-536–539.) *Needs:* *Enhanced crystalline direct image and global sections*; *The relative PD
-Poincaré lemma*; *Differentials of a smooth envelope* (Layer CR.1); *Universal PD differentials and
+536–539; [Bhatt–de Jong, *Crystalline cohomology and de Rham
+cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Lemmas 2.13 and 2.17 and proof of Theorem 2.12,
+pp. 4–6. Existing formalisation at an older Mathlib pin: D'Addezio, *Affine crystalline cohomology
+and de Rham cohomology in Lean 4* (References), `MainTheorems.lean`, namespace
+`AffineCrystalline.InfinitesimalSite`: `crystallineCohomologyIsoCechAlexander`,
+`crystallineCohomologyIsoDeRham` and `affineDeRhamComparison` prove the affine trivial-coefficient
+cases of (1) and (3) for n!=0 in A, on the site of surjections B→C of A-algebras whose kernel is
+killed by a bounded exponent, with the chaotic topology and the PD envelope of the kernel as
+structure sheaf, and for the single presentation `A[x_c : c∈C]→C`; the first two give abstract
+degreewise isomorphisms. There `EnvelopeFamily.positiveCechExact` (`Ocris/CechVanishing.lean`),
+with the cosimplicial contraction of `Homology/CosimplicialContraction.lean`, is the affine
+trivial-coefficient case of (2) and the cosimplicial step of (5); `RawBi.bhattDeJong_column` and
+`RawBi.bhattDeJong_row` (`Homology/CosimplicialTot.lean`) are the double-complex argument of (3);
+exponent levels with truncation left adjoint to inclusion (`Level.truncationAdjunction`), invariance
+of derived limits along a left adjoint (`Cohomology.derivedLimitIsoOfAdjunction`), Čech nerve data
+(`Cohomology.Cech.CechNerveData`, `Cohomology.Cech.rightDerivedLimIsoCech`) and enough injectives
+on large functor categories (`Cohomology.hasEnoughInjectivesFunctorCategory`) carry its proof of
+(1). Its site is a proof device: Cris(X/S), arbitrary polynomial or smooth presentations,
+coefficients, completions, (4), (6) and the sheaf form of (5) are not covered there.)
+*Needs:* *Enhanced crystalline direct image and global sections*; *The relative PD Poincaré
+lemma*; *Differentials of a smooth envelope* (Layer CR.1); *Universal PD differentials and
 the PD de Rham complex* (Layer CR.1); *Crystals, stratifications and quasi-nilpotent connections*
 (Layer CR.1); *PD stratifications on a smooth lift* (Layer CR.1); *Modules with integrable
 connection and their de Rham complexes* (Layer CR.1); *Morphisms and comparisons of crystalline
@@ -1979,8 +2061,13 @@ identifications with RΓ of *Crystalline cohomology from an embedding* (1) and (
 presentation P→C. (5): g and h define (g,h):D₂(1)→D₁ with g=(g,h)∘p₀ and h=(g,h)∘p₁, and p₀, p₁
 induce the same map in the derived category by (3). ([Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.21, proof of Lemma 60.21.4
-and proof of Proposition 60.21.3; §60.17, Lemma 60.17.1; §60.2, Lemma 60.2.5.) *Needs:* *Crystalline
-cohomology from an embedding*; *The relative PD Poincaré lemma*; *Crystals, stratifications and
+and proof of Proposition 60.21.3; §60.17, Lemma 60.17.1; §60.2, Lemma 60.2.5. Existing formalisation
+at an older Mathlib pin: D'Addezio, *Affine crystalline cohomology and de Rham cohomology in Lean 4*
+(References), `Ocris/CechAlexander.lean`, `EnvelopeFamily.cechAlexander_homology_independent`:
+independence of the Čech–Alexander cohomology from the nilpotence exponent n with n!=0, for O and
+the single presentation by all of C; independence of the presentation and of the embedding is not
+covered there.) *Needs:* *Crystalline cohomology from an embedding*; *The relative PD Poincaré
+lemma*; *Crystals, stratifications and
 quasi-nilpotent connections* (Layer CR.1); *PD stratifications on a smooth lift* (Layer CR.1);
 *Relative divided power polynomial algebras* (DerivedDeRhamCohomology §PD.5); *Universal
 base-compatible divided power envelope* (DerivedDeRhamCohomology §PD.6).
@@ -2054,8 +2141,13 @@ category. Derived inverse limit preserves the compatible comparison equivalences
 *Crystalline cohomology and de Rham cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Lemmas
 2.13–2.17 and proof of Theorem 2.12, pp.5–6; §3, proof of Theorem 3.6, pp.8–9; [Stacks
 Project](https://stacks.math.columbia.edu), Crystalline Cohomology, §60.24, Remarks
-60.24.3–60.24.4.) *Needs:* *Crystalline cohomology from an embedding*; *De Rham computation in a
-smooth ambient embedding*; *Enhanced crystalline direct image and global sections*;
+60.24.3–60.24.4. Existing formalisation at an older Mathlib pin: D'Addezio, *Affine crystalline
+cohomology and de Rham cohomology in Lean 4* (References), `Homology/CosimplicialTot.lean`,
+`RawBi.bhattDeJong_column` and `RawBi.bhattDeJong_row`: the affine bicomplex step, comparing the
+total complex of a cosimplicial complex with its first column and with its bottom row; hypercovers,
+alternating models and refinements are not covered there.) *Needs:* *Crystalline cohomology from an
+embedding*; *De Rham computation in a smooth ambient embedding*; *Enhanced crystalline direct image
+and global sections*;
 EnhancedDerivedSheaves Layer E2 (*Hypercover in a topos*);
 EnhancedDerivedSheaves Layer E2 (*Bounded-below hypercover descent*).
 
@@ -2084,7 +2176,12 @@ module and completed limits of the explicit homotopy preserve this contraction. 
 positive-form row has zero cohomology. The first-quadrant bicomplex spectral sequence proves the
 projection assertion; Zariski localisation proves the Ru_* statement. ([Bhatt–de Jong, *Crystalline
 cohomology and de Rham cohomology*](https://arxiv.org/abs/1110.5001v1), §2, Lemmas 2.14–2.17 and
-Example 2.16, pp.5–6; §3, Theorem 3.2, p.7.) *Needs:* *Universal PD differentials and the PD de Rham
+Example 2.16, pp.5–6; §3, Theorem 3.2, p.7. Existing formalisation at an older Mathlib pin:
+D'Addezio, *Affine crystalline cohomology and de Rham cohomology in Lean 4* (References),
+`Ocris/CechVanishing.lean`, `EnvelopeFamily.positiveCechExact`, with the cosimplicial contraction
+of `Homology/CosimplicialContraction.lean`: exactness of the alternating complex of n↦Ω^q of the
+n-th Čech envelope for q≥1, the affine trivial-coefficient cosimplicial step; coefficients, the
+completed form and Ru_* are not covered there.) *Needs:* *Universal PD differentials and the PD de Rham
 complex* (Layer CR.1); *Crystalline cohomology from an embedding*; *Čech–Alexander totalization and
 refinements*; *Quasi-coherent and finite locally free crystals* (Layer CR.1);
 DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*).
@@ -11525,6 +11622,15 @@ and printed page (or PDF page where stated).
   cohomology*](https://arxiv.org/abs/1110.5001v1).
 - [Le Stum–Quirós, *The filtered Poincaré lemma in higher
   level*](https://arxiv.org/abs/math/0409564v1).
+- [D'Addezio, *Affine crystalline cohomology and de Rham cohomology in Lean
+  4*](https://github.com/daddeziomath/affine-crystalline), version 1.0.0, DOI
+  [10.5281/zenodo.23573534](https://doi.org/10.5281/zenodo.23573534), Apache-2.0. An existing Lean
+  formalisation at an older Mathlib pin, cited at the targets it covers: universal PD differentials
+  and their base change along a PD envelope, the one-variable PD Poincaré lemma in axiomatic form,
+  and the affine trivial-coefficient comparisons of crystalline with PD de Rham and Čech–Alexander
+  cohomology for n!=0 in the base, on a site of nilpotent thickenings with the chaotic topology and
+  one fixed presentation. It is cited, not imported, and proves parts or special cases of the targets
+  named.
 - [Le Stum–Quirós, *Transversal crystals of finite
   level*](https://www.numdam.org/article/AIF_1997__47_1_69_0.pdf).
 - [Lurie, *Lecture 26:
