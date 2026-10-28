@@ -1,7 +1,5 @@
-import Mathlib.Topology.Homotopy.HomotopyGroup
-import Mathlib.Topology.CompactOpen
+import Mathlib
 import TauCeti.Algebra.Homology.DG.Module.Right.Defs
-import TauCeti.Topology.Homotopy.HomotopyGroup.LoopSpace
 
 /-!
 # Morse and Floer homology with DG coefficients: target signatures
@@ -17,12 +15,12 @@ resolution, its path-space augmentation comparison and the resulting derived ten
 Those topological and infinite-basis targets are specified in README.md; neither finite
 matrix Maurer--Cartan data nor the finite `P → M` prototype supplies their resolution proof.
 
-Only Layer 0 (singular cubes), Layer 2 (Moore paths) and Layer 4 (twisting cocycles over a
-DG algebra) are prototyped: they rest on material that exists in Mathlib and Tau Ceti today.
-The Moore-path carrier is the strict-concatenation model; it is not homeomorphic to the
-fixed-interval loop space, and the two are compared by a homotopy equivalence (README, standing
-conventions). In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted complex of
-free left modules of the README; the coefficient `m x y` acts on the right of `α`.
+Only the degree-one Hurewicz theorem (Layer 1) and the twisted square-zero theorem (Layer 4, over
+a DG algebra) are stated: they rest on material that exists in Mathlib and Tau Ceti today. The
+other headlines need carriers that do not exist yet (Moore paths and loop spaces, Serre
+fibrations and their spectral sequences, Liouville domains, Floer chain complexes); they are
+specified in README.md. In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted
+complex of free left modules of the README; the coefficient `m x y` acts on the right of `α`.
 The twisting equation is written in the source's homological sign convention on a
 cohomologically graded algebra, through the grading bridge `C^{-n} = C_n` of the README; its
 comparison with the DG roadmap's `(MC)` is acceptance criterion 2.
@@ -30,76 +28,16 @@ comparison with the DG roadmap's `(MC)` is acceptance criterion 2.
 
 namespace TauCetiRoadmap.DGFloer
 
-open scoped unitInterval
+/-! ## Layer 1: the Hurewicz theorem in degree one -/
 
-/-! ## Layer 0: cubical singular chains -/
-
-/-- A **singular `n`-cube** in `X`: a continuous map from the cube `Iⁿ`. -/
-abbrev SingularCube (X : Type*) [TopologicalSpace X] (n : ℕ) := C(Fin n → I, X)
-
-namespace SingularCube
-
-variable {X Y : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-
-/-- A singular cube is **degenerate** when it does not depend on at least one coordinate
-(Massey's convention; it is closed under the cross product, unlike Serre's). -/
-def IsDegenerate {n : ℕ} (s : SingularCube X n) : Prop :=
-  ∃ i : Fin n, ∀ x y : Fin n → I, (∀ j, j ≠ i → x j = y j) → s x = s y
-
-/-- The **cross product** of singular cubes: the first `p` coordinates feed `s`, the last `q`
-feed `t`. It is strictly associative up to the canonical identification of index types. -/
-def prod {p q : ℕ} (s : SingularCube X p) (t : SingularCube Y q) :
-    SingularCube (X × Y) (p + q) :=
-  ⟨fun x ↦ (s fun i ↦ x (Fin.castAdd q i), t fun j ↦ x (Fin.natAdd p j)), by fun_prop⟩
-
-/-- The cross product of a degenerate cube with any cube is degenerate. -/
-theorem IsDegenerate.prod_left {p q : ℕ} {s : SingularCube X p} (hs : s.IsDegenerate)
-    (t : SingularCube Y q) : (s.prod t).IsDegenerate := sorry
-
-/-- The cross product of any cube with a degenerate cube is degenerate. -/
-theorem IsDegenerate.prod_right {p q : ℕ} (s : SingularCube X p) {t : SingularCube Y q}
-    (ht : t.IsDegenerate) : (s.prod t).IsDegenerate := sorry
-
-end SingularCube
-
-/-! ## Layer 2: Moore paths -/
-
-/-- A **Moore path** in `X`: a length `L ≥ 0` and a path on `[0, ∞)` that is stopped at time
-`L`. Concatenation of Moore paths is strictly associative with strict units. -/
-structure MoorePath (X : Type*) [TopologicalSpace X] where
-  /-- The length of the path. -/
-  length : ℝ
-  length_nonneg : 0 ≤ length
-  /-- The path, parametrized by `[0, ∞)`. -/
-  toFun : C(Set.Ici (0 : ℝ), X)
-  /-- The path is stopped from time `length` on. -/
-  stopped : ∀ t : Set.Ici (0 : ℝ), length ≤ t →
-    toFun t = toFun ⟨length, length_nonneg⟩
-
-namespace MoorePath
-
-variable {X : Type*} [TopologicalSpace X]
-
-/-- The starting point of a Moore path. -/
-def source (γ : MoorePath X) : X := γ.toFun ⟨0, Set.mem_Ici.2 le_rfl⟩
-
-/-- The end point of a Moore path. -/
-def target (γ : MoorePath X) : X := γ.toFun ⟨γ.length, γ.length_nonneg⟩
-
-/-- Concatenation of Moore paths: lengths add, and the second path starts where the first
-stops. -/
-def trans (γ δ : MoorePath X) (h : γ.target = δ.source) : MoorePath X := sorry
-
-theorem length_trans (γ δ : MoorePath X) (h : γ.target = δ.source) :
-    (γ.trans δ h).length = γ.length + δ.length := sorry
-
-/-- Concatenation of Moore paths is strictly associative. -/
-theorem trans_assoc (γ δ ε : MoorePath X) (h₁ : γ.target = δ.source)
-    (h₂ : δ.target = ε.source) (h₁₂ : (γ.trans δ h₁).target = ε.source)
-    (h₂₃ : γ.target = (δ.trans ε h₂).source) :
-    (γ.trans δ h₁).trans ε h₁₂ = γ.trans (δ.trans ε h₂) h₂₃ := sorry
-
-end MoorePath
+/-- **Hurewicz in degree one**: for a path-connected space, the abelianization of the fundamental
+group is isomorphic to the first singular homology group. This states only the existence of an
+isomorphism; the canonical natural comparison is a target of README.md, Layer 1 item 1. -/
+theorem hurewiczOne (X : Type) [TopologicalSpace X] [PathConnectedSpace X] (x : X) :
+    Nonempty (Additive (Abelianization (FundamentalGroup X x)) ≃+
+      ((AlgebraicTopology.singularHomologyFunctor.{0, 0, 1}
+        (ModuleCat.{0} ℤ) 1).obj (ModuleCat.of ℤ ℤ)).obj (TopCat.of X)) := by
+  sorry
 
 /-! ## Layer 4: twisting cocycles and the twisted complex -/
 
@@ -114,8 +52,7 @@ grading bridge it lies in cohomological degree `ind y - ind x + 1`. The twisting
 source's `∂m_{x,y} = Σ_z (-1)^{ind x - ind z} m_{x,z} m_{z,y}`.
 
 The one-sidedness condition is part of the data: it does not follow from the degree and the
-twisting equation over an arbitrary DG algebra (README, Layer 4 item 1), but it is automatic over
-a cohomologically nonpositive algebra (`TwistingCocycle.one_sided_of_nonpos`). -/
+twisting equation over an arbitrary DG algebra (README, Layer 4 item 1). -/
 structure TwistingCocycle (h : TauCeti.IsDGAlgebra 𝒜 d) (P : Type*) [Fintype P] (ind : P → ℤ)
     where
   /-- The coefficient of `y` in the twisted differential of `x`. -/
@@ -125,25 +62,13 @@ structure TwistingCocycle (h : TauCeti.IsDGAlgebra 𝒜 d) (P : Type*) [Fintype 
   /-- Strict upper-triangularity for the order by `ind`. -/
   one_sided : ∀ x y, ind x ≤ ind y → m x y = 0
 
-omit [GradedAlgebra 𝒜] in
-/-- Over a cohomologically nonpositive algebra (for instance `C_*(ΩB)` through the grading
-bridge), the degree condition alone forces one-sidedness. -/
-theorem TwistingCocycle.one_sided_of_nonpos {P : Type*} {ind : P → ℤ} (m : P → P → A)
-    (hm : ∀ x y, m x y ∈ 𝒜 (ind y - ind x + 1)) (h𝒜 : ∀ n, 0 < n → 𝒜 n = ⊥) :
-    ∀ x y, ind x ≤ ind y → m x y = 0 := by
-  intro x y hxy
-  have h := hm x y
-  rw [h𝒜 _ (by omega)] at h
-  exact (Submodule.mem_bot R).1 h
-
 variable {M : Type*} [AddCommGroup M] [Module R M] [Module Aᵐᵒᵖ M] [IsScalarTower R Aᵐᵒᵖ M]
 
 /-- The **grading involution** `α ↦ (-1)^{|α|} α` of an internally graded module, which carries
 the Koszul sign of the twisted differential. -/
-def gradingInvolution (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] : M →ₗ[R] M := sorry
-
-theorem gradingInvolution_of_mem (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] {q : ℤ}
-    {α : M} (hα : α ∈ ℳ q) : gradingInvolution ℳ α = q.negOnePow • α := sorry
+def gradingInvolution (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] : M →ₗ[R] M :=
+  DirectSum.toModule R ℤ M (fun q ↦ ((q.negOnePow : ℤˣ) : ℤ) • (ℳ q).subtype) ∘ₗ
+    (DirectSum.decomposeLinearEquiv ℳ).toLinearMap
 
 /-- The twisted complex `M ⊗_A K_m`, with `M ⊗ ⟨P⟩` identified with `P → M`, is graded in total
 degree `n` by `f x ∈ ℳ (n + ind x)`: the generator `x` sits in cohomological degree `-ind x`. -/
@@ -161,8 +86,8 @@ variable {h : TauCeti.IsDGAlgebra 𝒜 d} {P : Type*} [Fintype P] [DecidableEq P
 
 /-- The twisted differential on `M ⊗_A K_m`, identified with `P → M`. Its `y`-component is
 `(D f) y = ∂(f y) + Σ_x (m_{x,y} acting on the right) (ε (f x))`, where `ε = gradingInvolution ℳ`
-carries the Koszul sign. On a homogeneous elementary tensor this is
-`D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y` (`twistedDifferential_single`). The right
+carries the Koszul sign.  On a homogeneous elementary tensor this is
+`D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y`. The right
 `A`-action on `M` enters the construction itself, so the map depends on it: for `A = ℚ × ℚ` acting
 on `M = ℚ` through either projection, with `ind x = 1`, `ind y = 0` and `m x y = (1, 0)`, the two
 actions give `D(1 ⊗ x) = 1 ⊗ y` and `D(1 ⊗ x) = 0` (acceptance criterion 2).
@@ -180,18 +105,6 @@ def twistedDifferential [SMulCommClass R Aᵐᵒᵖ M] (m : TwistingCocycle h P 
   map_smul' r f := by
     funext y
     simp only [Pi.smul_apply, map_smul, RingHom.id_apply, smul_add, Finset.smul_sum, smul_comm r]
-
-/-- Evaluation on a homogeneous elementary tensor `α ⊗ x`, with `α` of degree `q`. -/
-theorem twistedDifferential_single (m : TwistingCocycle h P ind) (dM : M →ₗ[R] M) (x : P)
-    {q : ℤ} {α : M} (hα : α ∈ ℳ q) :
-    twistedDifferential m ℳ dM (Pi.single x α) =
-      Pi.single x (dM α) + ∑ y, Pi.single y (q.negOnePow • (MulOpposite.op (m.m x y) • α)) :=
-  sorry
-
-/-- The twisted differential raises the total degree by one. -/
-theorem twistedDifferential_mem_totalGrading (m : TwistingCocycle h P ind) {dM : M →ₗ[R] M}
-    (hM : TauCeti.IsDGRightModule h ℳ dM) {n : ℤ} {f : P → M} (hf : f ∈ totalGrading ℳ ind n) :
-    twistedDifferential m ℳ dM f ∈ totalGrading ℳ ind (n + 1) := sorry
 
 /-- The twisted differential squares to zero when `M` is a DG right module. -/
 theorem twistedDifferential_sq (m : TwistingCocycle h P ind) {dM : M →ₗ[R] M}
