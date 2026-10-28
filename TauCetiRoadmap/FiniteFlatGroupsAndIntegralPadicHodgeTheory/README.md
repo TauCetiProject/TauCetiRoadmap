@@ -2422,7 +2422,7 @@ the action of `𝔽_p^× ⊂ Λ` into eigensheaves `I_j = I_1^{⊗j}` (Oort–Ta
 `a ⊗ a′ = w_p` (Theorem 2 and its proof), the group law being recovered from the Cartier pairing;
 every triple arises, by the universal construction over `Λ[A, B]/(AB − w_p)`. Over a local ring (Stix
 Theorem 60): `L` is free, giving `(a, b)` with `ab = w_p` up to `(u^{p−1}a, u^{1−p}b)`; duality swaps `a` and
-`b`. (Oort–Tate 1970, §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Stix 2012, §8.4, Theorem 60, p. 53: the local
+`b`. (Oort–Tate 1970, §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Stix 2012, §8.6.2, Theorem 60, p. 53: the local
 form, with duality in part `(4)`; Schröer 2023, §5, the paragraph after Proposition 5.3, p. 14 (arXiv
 `v3`): the rank-two groups `G^L_{a,b}` with `a ⊗ b = 2`, the special cases `ℤ/2` and `µ₂`, and Cartier duality
 `(L, a, b) ↦ (L^{⊗−1}, b, a)`; the printed group law has a sign misprint; Pilloni 2020, proof of Lemma
@@ -3645,10 +3645,12 @@ is injective on coordinates. (Lipnowski–Tsimerman 2018, §3, the Dieudonné-mo
 Prove `exists_padic_charpoly`. Let `k` be a perfect field of characteristic `p, W = W(k), L = W[1/p]`
 and `σ` the Witt Frobenius. If `T ∈ M_n(W)` and `B ∈ GL_n(L)` satisfy `T = B σ(T) B^{−1}` in `M_n(L)`, there
 is a unique monic `P ∈ ℤ_p[X]` of degree `n` with `ι_k(P) = charpoly_W(T)`. Applied to the linear
-Frobenius `F^a` of a Dieudonné module over `F_{p^a}` (`F` is `σ`-semilinear and `σ^a = 1`, so `F^a`
-is `W(F_{p^a})`-linear),
-the characteristic polynomial of `F^a` has `ℤ_p` coefficients (it is the characteristic polynomial of
-the `q`-Frobenius of an abelian variety over `F_q, q = p^a`).
+Frobenius `F^a` of a Dieudonné module `M` over `F_{p^a}` that is finite free of rank `n` over
+`W(F_{p^a})` (`F` is `σ`-semilinear and `σ^a = 1`, so `F^a` is `W(F_{p^a})`-linear),
+the characteristic polynomial of `F^a` has `ℤ_p` coefficients. When `M = M(A[p^∞])` for an
+abelian variety `A` over `F_q, q = p^a`, it is the characteristic polynomial of the `q`-Frobenius
+of `A`; for a general Dieudonné module it need not be the Frobenius polynomial of any abelian
+variety.
 
 The case `n = 0` gives `P = 1`.
 
@@ -3668,7 +3670,9 @@ Dieudonné module; the `ℤ_p`-integrality of the characteristic polynomial is d
 - The empty matrix has characteristic polynomial `1`, which descends as `1`.
 - `charpolyDescent_needs_conjugation`: without the conjugation hypothesis, `T = (ζ)` with `ζ ∈ W(F_{p²})` a primitive `(p² − 1)`-th root of unity has `charpoly X − ζ ∉ ℤ_p[X]`.
 - For the constant group `ℚ_p/ℤ_p` over `F_{p²}`, `F = σ` is not Witt-linear,
-  while `F² = 1` is Witt-linear and has characteristic polynomial `X − 1`.
+  while `F² = 1` is Witt-linear and has characteristic polynomial `X − 1`. Its degree is odd,
+  whereas the Frobenius polynomial of an abelian variety `A` has degree `2 dim A`, so this
+  polynomial is not the Frobenius polynomial of an abelian variety.
 
 ### R07.2.20 The covariant Dieudonné module and the comparison of conventions
 
@@ -3851,7 +3855,7 @@ The API:
 
 ### R07.2.22 The Hasse–Witt maps of a `BT₁` and of its dual: the exact sequence of complexes
 
-Prove `bt1HasseWittDuality`. Let `S` be an `F_p`-scheme, `G` a `BT₁` over `S` and `𝓔 = D(G)_S` the evaluation on
+Prove `bt1DieudonneHodgeExact` and `bt1HasseWittDuality`. Let `S` be an `F_p`-scheme, `G` a `BT₁` over `S` and `𝓔 = D(G)_S` the evaluation on
 `S` of the contravariant crystalline Dieudonné crystal (AbelianSchemesAndArithmeticModuli §A4.CR.7.2), locally free with
 Hodge filtration `0 → ω_G → 𝓔 → ω_{G^D}^∨ → 0`. The linearised `F* : 𝓔^{(p)} → 𝓔` and `V* : 𝓔 → 𝓔^{(p)}`
 satisfy `ker F* = ω_G^{(p)} = im V*` and `ker V* = im F*`, so the complex `(ω_{G^D}^∨)^{(p)} →F* 𝓔 →V* ω_G^{(p)}` is exact, and the rows `[ω_G →V*_G ω_G^{(p)}], [(ω_{G^D}^∨)^{(p)} → 𝓔 → ω_G^{(p)}], [(ω_{G^D}^∨)^{(p)} →F* ω_{G^D}^∨]` form a short exact sequence of complexes in which `F*` on
@@ -3865,12 +3869,31 @@ are locally free, this gives `ker V*_G ≅ (coker V*_{G^D})^∨` and
 
 For a `BT₁` `G`, `D(G)` is defined from a resolution `0 → G → H → H′ → 0` by Barsotti–Tate groups
 (Raynaud's embedding, §R07.1.40) as the cokernel of `D(H′) → D(H)` for the crystal of
-AbelianSchemesAndArithmeticModuli §A4.CR.7.2, independently of the resolution (Berthelot–Breen–Messing); this
-extension of the crystal to truncated groups is part of this target. Its local freeness for a `BT₁`
-and the exactness of `F*, V*` hold after base change to perfect fields and hence on `S` (Cais–Lau,
-(2.4.2)).
+AbelianSchemesAndArithmeticModuli §A4.CR.7.2; this extension of the crystal to truncated groups is
+part of this target. The first statement, `bt1DieudonneHodgeExact`, comes before any fibrewise
+argument: for a `BT₁` `G` of height `h` over `S`,
 
-*Proof sketch.* Over a perfect field the claims are Dieudonné-module linear algebra: for `M = M(G)`
+- `D(G)` is independent of the resolution, functorial in `G` and compatible with base change
+  `S′ → S`, and for any Barsotti–Tate group `H` over an open `U ⊆ S` with `H[p] ≅ G|_U` it is
+  `D(H)/pD(H)` on `U`;
+- `D(G)_S` is a finite locally free `O_S`-module of rank `h`;
+- the Hodge sequence `0 → ω_G → D(G)_S → ω_{G^D}^∨ → 0` is exact with locally free terms, hence
+  locally split.
+
+Only then are the images of `F*` and `V*` known to be locally free, and their exactness is
+checked on perfect-field fibres (Cais–Lau, (2.4.2)). Constancy of fibre ranks alone does not give
+local freeness over a non-reduced base.
+
+*Proof sketch.* `bt1DieudonneHodgeExact`: locally on `S` a `BT₁` is the `p`-torsion `H[p]` of a
+Barsotti–Tate group `H` (Illusie 1985, Theorem 4.4). The functor `D` on Barsotti–Tate groups is
+exact (Berthelot–Breen–Messing, Proposition 4.3.1 and Théorème 3.3.3, as cited by Cais–Lau §2.4),
+and the long exact `𝓔xt` sequence of `0 → H[p] → H →p H → 0` identifies the cokernel construction
+with `D(H)/pD(H)`; two resolutions or two local lifts are compared through their fibre product,
+which gives independence and gluing. `D(H)_S` is locally free of rank `h` (AbelianSchemesAndArithmeticModuli
+§A4.CR.7.2, Berthelot–Breen–Messing 3.3.10), so `D(G)_S = D(H)_S/p` is locally free of rank `h`
+over the `F_p`-scheme `S`. In characteristic `p`, `ω_{H[p]} = ω_H` and `Lie(H^D[p]) = Lie(H^D)`,
+so the Hodge sequence of `H` (Berthelot–Breen–Messing, Corollaire 3.3.5) reduces to that of `G`.
+`bt1HasseWittDuality`: over a perfect field the claims are Dieudonné-module linear algebra: for `M = M(G)`
 killed by `p, ker F = im V` and `ker V = im F` (§R07.2.8; AbelianSchemesAndArithmeticModuli §A4.5a). Over `S`, the complex `𝓔 → 𝓔^{(p)} → 𝓔` of locally free modules is exact because it is exact at all perfect points and its images are
 locally free (Cais–Lau, discussion of (2.4.2)). Identify `F*` on the quotient `ω_{G^D}^∨` with the dual
 of `V*_{G^D}` through Cartier duality `D(G^D) ≅ D(G)^∨(−1)` (CR.`7`, variance and twists). The long exact
@@ -3895,6 +3918,15 @@ Dieudonné crystal, variance and Tate twists).
   not identify the two Hasse–Witt maps; for a non-`BT₁` group such as `α_p` the middle row is not exact.
 - For `G = μ_p × (ℤ/p)², dim G = 1` and `dim G^D = 2`; both Hasse–Witt maps
   are invertible, with ranks `1` and `2` and corank `0`. Equality of rank is not the duality invariant.
+- `bt1DieudonneHodgeExact_muP`: for `G = μ_p` over any `F_p`-scheme, `D(G)_S = O_S` with
+  `ω_G = O_S` and `ω_{G^D}^∨ = Lie(ℤ/p) = 0`; for `G = E[p]`, `E` an elliptic curve over `S`,
+  `D(G)_S` has rank `2` with `ω_G` and `ω_{G^D}^∨` of rank `1`.
+- Over `R = F_p[ε]/(ε²)` the cokernel of `R →ε R` is `R/(ε)`: its fibre at the only perfect point
+  has dimension `1`, but it is not flat over `R`. Local freeness of `D(G)_S` therefore needs the
+  local lift to a Barsotti–Tate group, not a fibrewise rank count.
+- The `BT₁` hypothesis is needed: `α_p` over a perfect field `k` has Dieudonné module `k` with
+  `F = V = 0`, while `ω_{α_p}` and `Lie(α_p^D) = Lie(α_p)` are both one-dimensional, so no
+  exact Hodge sequence `0 → ω → D → Lie(G^D) → 0` exists for it.
 
 ### R07.2.23 Smoothness of the stacks of truncated Barsotti–Tate groups
 
@@ -6020,16 +6052,40 @@ isomorphism `φ_M : (𝔖 ⊗_{φ,𝔖} M)[1/E] ≅ M[1/E]`; with the obvious mo
 module sits in a canonical exact sequence of Breuil–Kisin modules `0 → M_tor → M → M_free → M̄ → 0`,
 where `M_tor` is the torsion submodule and is killed by a power of `p, M_free` is finite free over `𝔖`,
 and `M̄` is killed by a power of `(p, u)`. In particular `M[1/p] ≅ M_free[1/p]` is finite free over
-`𝔖[1/p]`. The Breuil–Kisin twist `𝔖{1} = lim_r (𝔖/E_r){1}` is a rank-one Breuil–Kisin module, and `M{n} = M ⊗ 𝔖{1}^{⊗n}`.
+`𝔖[1/p]`.
+
+The Breuil–Kisin twist is built from conormal lines. For `r ≥ 1` put
+`E_r = E·φ(E)⋯φ^{r−1}(E)` (so `E_1 = E`) and `(𝔖/E_r){1} = E_r𝔖/E_r²𝔖`, the conormal module of
+`𝔖 → 𝔖/E_r`, free of rank one over `𝔖/E_r`. For `r > s`, `E_r/E_s` is congruent modulo `E_s` to a
+unit times `p^{r−s}`, so the inclusion `E_r𝔖/E_r²𝔖 → E_s𝔖/E_s²𝔖` has image `p^{r−s}(𝔖/E_s){1}`.
+The transition map is this inclusion divided by `p^{r−s}`; it induces
+`(𝔖/E_r){1} ⊗_{𝔖/E_r} 𝔖/E_s ≅ (𝔖/E_s){1}`. Along these divided transitions
+`𝔖{1} = lim_r (𝔖/E_r){1}` is free of rank one over `𝔖 = lim_r 𝔖/E_r`; its elements are the
+sequences `(a_rE_r)_r` with `a_{r+1}E_{r+1} ≡ p a_r E_r mod E_r²`. The same limit is computed by the
+quotients `E_r𝔖/E_rφ(E_{r−1})𝔖`. In that description
+`(a_1E_1, a_2E_2, …) ↦ (0, φ(a_1)E_2, φ(a_2)E_3, …)` defines `Eφ_{𝔖{1}} : 𝔖{1} → 𝔖{1}`.
+Linearising and inverting `E` gives the Frobenius
+`φ_{𝔖{1}} : (𝔖 ⊗_{φ,𝔖} 𝔖{1})[1/E] ≅ 𝔖{1}[1/E]`; in a basis it is `x ↦ c_E Eφ(x)` for a unit
+`c_E ∈ 𝔖^×` depending on `E`. Thus `𝔖{1}` is a rank-one Breuil–Kisin module. It is
+`⊗`-invertible: `𝔖{−1}` is its `𝔖`-dual with the inverse Frobenius, and
+`M{n} = M ⊗ 𝔖{1}^{⊗n}` for every `n ∈ ℤ`.
 
 The setting is the Kummer frame of §R07.4.1. `𝔖` is a two-dimensional regular local ring; the Iwasawa
 classification of finitely generated `𝔖[1/p]`-modules is used for the torsion bound.
 
 *Proof sketch.* `M′ = M/M_tor` is torsion-free, hence locally free on the punctured spectrum `Spec 𝔖 ∖ {s}`; `M_free = H⁰(Spec 𝔖 ∖ {s}, M′)` is finite free (`𝔖` regular of dimension two) and `M′ → M_free` is
 injective with cokernel supported at `s` (BMS, Proposition 4.3, proof). Functoriality gives Frobenii
-on all terms. `M_tor` is killed by a power of `p`: for a nonzero Fitting ideal `I, φ`-stability gives
-`(𝔖/I)[1/E] = (𝔖/φ*I)[1/E]`; by the Iwasawa classification the zeros of `I[1/p]` in the open unit `disc`
-would form a `φ`-stable finite set accumulating at the boundary unless empty. (Bhatt–Morrow–Scholze
+on all terms. `M_tor` is killed by a power of `p`: for a nonzero Fitting ideal `I`, base change of
+Fitting ideals along `φ_M` gives `(𝔖/I)[1/E] = (𝔖/φ*I)[1/E]`. By the Iwasawa classification,
+`A = (𝔖/I)[1/p]` is a finite product of `K₀[u]/(f_i^{n_i})` with `f_i` distinguished, so its set `Z`
+of `C`-points is a finite subset of the open unit disc. The displayed equality says that `Z` and
+`Z′ = {x : x^p ∈ Z}` agree off the roots of `E`. If `x ∈ Z` has maximal absolute value and
+`|x| ≥ |π|`, a `p`-th root `y` of `x` lies in `Z′` off the roots of `E`, hence in `Z`, with `|y| > |x|`;
+so every point of `Z` has `|x| < |π|`, and then `x^{p^m} ∈ Z` for all `m`, forcing `x = 0`. Hence
+`Z ⊆ {0}` and `A ≅ K₀[u]/(u^d)`. The case `Z = {0}` is excluded by length: the displayed equality
+gives `K₀[u]/(u^d) ≅ K₀[u]/(u^{pd})`, so `d = pd` and `d = 0`. Thus `A = 0` and a power of `p` lies in
+`I`. For the twist: the divided transitions and the rank-one limit are BMS Example 4.2; the
+Frobenius is defined on the second description of the limit there. (Bhatt–Morrow–Scholze
 2018, §4.1, Definition 4.1, p. 31; Proposition 4.3 and its proof, p. 32 (arXiv:1602.03148v3):
 Breuil–Kisin modules as finitely generated `𝔖`-modules with `φ_M` an isomorphism after inverting `E`, and
 the structure sequence `0 → M_tor → M → M_free → M̄ → 0`; Bhatt–Morrow–Scholze 2018, §4.1, Example 4.2
@@ -6044,6 +6100,12 @@ the structure sequence `0 → M_tor → M → M_free → M̄ → 0`; Bhatt–Mor
   `M̄ ≠ 0` can occur.
 - `bkModule_ainf`: the analogous statement over `A_inf` fails without assuming `M[1/p]` free, which is
   why Breuil–Kisin–Fargues modules are defined with that hypothesis.
+- `𝔖/u𝔖` carries no Breuil–Kisin structure: `φ*(𝔖/u) = 𝔖/u^p`, and since `E ≡ E(0) ∈ pW(k)^×`
+  modulo `u`, inverting `E` on these quotients inverts `p`, giving `K₀`-lengths `p` and `1`. This
+  is the length step that excludes the `φ`-stable support `Z = {0}`.
+- The undivided inclusions `E_r𝔖/E_r²𝔖 → E_s𝔖/E_s²𝔖` have image `p^{r−s}(𝔖/E_s){1}`. Since
+  `𝔖/E_s` is finite free over `W(k)`, hence `p`-adically separated, the inverse limit along the
+  undivided maps is `0`; the division by `p^{r−s}` is what makes `𝔖{1}` free of rank one.
 
 ### R07.4.16 Kisin's functor on crystalline lattices of all weights
 
@@ -6916,17 +6978,29 @@ Construct `StronglyDivisibleModule`. Let `R = O_F` with ramification `e, S = S_R
 of `W(k)[u, u^{ie}/i!]`, with `φ(u) = u^p, N(u) = −u` and `c = φ₁(E(u))`. Use
 `I_N=breuilMonodromyIdeal` of §R07.4.1, generated by `u^i/⌊i/e⌋!` for `i≥1`.
 The ring divisibility `φ(Fil^{k−1}S) ⊆ p^{k−1}S` defines `φ_{k−1} = φ/p^{k−1}`
-for `1 ≤ k ≤ p`. For the module categories assume `1 ≤ k ≤ p−1`. `Mod^{k−1}_0`
-(strongly divisible modules of weight `k`) consists of finite free `S`-modules `M` with
+for `1 ≤ k ≤ p`. For the module categories assume `1 ≤ k ≤ p−1`. Three categories are kept apart.
+The ambient category `′Mod^{k−1}` has objects `S`-modules `M` with a submodule
+`Fil^{k−1}M ⊇ (Fil^{k−1}S)M` and a `φ`-semilinear `φ_{k−1} : Fil^{k−1}M → M`, with no finiteness
+condition; its morphisms are `S`-linear maps preserving `Fil^{k−1}` and commuting with `φ_{k−1}`
+(and with `N` and `ĝ` when these are present). The period rings `Â_cris`, `Â_st`, `Â_{st,∞}` and the
+values `O^cris_{n,π}(A)` are objects of `′Mod^{k−1}`. The finite torsion category `Mod^{k−1}_tor`
+is the full subcategory of objects whose underlying module is a finite direct sum
+`⊕_i S/p^{n_i}S` (`n_i ≥ 1`) and with `φ_{k−1}(Fil^{k−1}M)` generating `M`.
+`Mod^{k−1}_0`
+(strongly divisible modules of weight `k`) is the full subcategory of `′Mod^{k−1}` of finite free `S`-modules `M` with
 `Fil^{k−1}M ⊇ (Fil^{k−1}S)M, Fil^{k−1}M ∩ pM = p Fil^{k−1}M`, and `φ_{k−1} : Fil^{k−1}M → M` semilinear
 with `φ_{k−1}(Fil^{k−1}M)` generating `M`; `Mod^{k−1}_{cris}` adds a `W(k)`-linear derivation `N` with `N(M) ⊆ I_N M, E(u)N(Fil^{k−1}M) ⊆ Fil^{k−1}M` and
 `φ_{k−1}(E(u)N(x)) = cN(φ_{k−1}(x))` for `x ∈ Fil^{k−1}M`.
-For general `k` this `N` is structure data. Under
+For general `k` this `N` is structure data. Reduction `M ↦ M/pⁿM` with the image filtration
+and the induced `φ_{k−1}` is a functor `Mod^{k−1}_0 → Mod^{k−1}_tor`; the condition
+`Fil^{k−1}M ∩ pM = p Fil^{k−1}M` makes the image filtration of `M/pⁿM` equal to
+`Fil^{k−1}M/pⁿFil^{k−1}M`. Under
 Hypotheses 3.5, `Mod_dd` adds additive bijections `ĝ, g ∈ Gal(F/F′)`, with `ĝ(sx) = ĝ(s)ĝ(x)`, preserving
 `Fil^{k−1}` and commuting with `φ_{k−1}` (and `N`), and `ĝ₁ ∘ ĝ₂ = (g₁g₂)^. Mod^1_{0,dd}` (`≅ Mod^1_{cris,dd}`
 with its canonical `N`) is the category of strongly divisible modules with tame descent data (of
-weight `2`). For a `p`-divisible group `G` over `O_F, M_π(G) = lim_n Hom_{(Ab/R)}(G(n), O^cris_{n,π})` with
-`Fil¹` from `J^cris` and `φ₁` is a strongly divisible module `(p ≠ 2)`, and descent data on `G` relative to `F′`
+weight `2`). For a `p`-divisible group `G` over `O_F` of height `h`, `M_π(G(n)) = Hom_{(Ab/R)}(G(n), O^cris_{n,π})`
+with `Fil¹` from `J^cris` and `φ₁` is an object of `Mod¹_tor`, free of rank `h` over `S/pⁿS`, and
+`M_π(G) = lim_n M_π(G(n))` is a strongly divisible module `(p ≠ 2)`, and descent data on `G` relative to `F′`
 is equivalent to descent data `ĝ` on `M_π(G)`.
 
 The setting is Savitt's setting of §R07.4.27. Savitt's Hypotheses 3.5: `F/F′` is tamely ramified, `π` is
@@ -6937,7 +7011,7 @@ Savitt uses are Théorèmes 4.2.1.6, 4.2.2.5, 4.2.2.9 `(p ≠ 2)` and 5.3.2, Cor
 construction `M_π` are Breuil's (Breuil 2000, §§2.3, 4.2); the comparison with the Dieudonné crystal
 of §R07.4.18 is not used.
 
-*Construction.* Breuil's functor: `M_π(G(n)) ∈ Mod^1_0` and `M_π(G)` is a strongly divisible module
+*Construction.* Breuil's functor: `M_π(G(n)) ∈ Mod¹_tor` and `M_π(G)` is a strongly divisible module
 (Breuil 2000, Cor. 4.2.2.7 and Lemme 4.2.2.8), and `G ↦ M_π(G)` is an anti-equivalence with strongly
 divisible modules for `p ≠ 2` (Th. 4.2.2.9). Base change: for `g` with `g(π) = h_g π, M_π(G) ⊗_{S,ĝ} S ≅ M_π(ᵍG)` compatibly with `Fil¹, φ₁` and morphisms, and cocycles compose (Savitt, Proposition 3.3, after
 BCDT01 Cor. 5.4.5). A `g`-semilinear `⟨g⟩ : G → G` with `[g]` a morphism over `R` is the same as an additive
@@ -6985,12 +7059,15 @@ The API:
   Frobenius relations, but is excluded by finite rank and cannot represent a finite-height
   `p`-divisible group. The canonical-monodromy assertion applies only at `k = 2`.
 - `StronglyDivisibleModule.zero`: The zero module, corresponding to the trivial `p`-divisible group.
+- For `p = 3`, `F = ℚ₃` and `G = ℚ₃/ℤ₃`, the level-one module `M_π(G(1))` is free of rank one
+  over `S/3S`. It is a nonzero object of `Mod¹_tor` killed by `3`, so it is not finite free over the
+  `3`-torsion-free ring `S` and is not an object of `Mod¹_0`; only the limit `M_π(G)` is.
 
 ### R07.4.32 Strongly divisible modules with descent data classify potentially Barsotti–Tate lattices
 
 Prove `descentDataLatticeClassification`. Assume Hypotheses 3.5, `k = 2` and `p > 2`. `(1)` If `G` is a `p`-divisible group
 over `O_F` with descent data relative to `F′` and `M` its strongly divisible module with descent data,
-`T_p(G) ≅ Hom_{′Mod^1_0}(M, Â_cris)` as `G_{F′}`-lattices, and `Â_cris ⊂ Â_st` induces `Hom_{′Mod^1}(M, Â_cris) = Hom_{′Mod^1}(M, Â_st)`. `(2)` Every strongly divisible module `M` with tame descent data is
+`T_p(G) ≅ Hom_{′Mod¹}(M, Â_cris)` as `G_{F′}`-lattices, and `Â_cris ⊂ Â_st` induces `Hom_{′Mod¹}(M, Â_cris) = Hom_{′Mod¹}(M, Â_st)`. `(2)` Every strongly divisible module `M` with tame descent data is
 contained in `S[1/p] ⊗_{F₀} D` for a filtered `(φ, N, F/F′, ℚ_p)`-module `D` with `N = 0, Fil⁰D_F = D_F` and
 `Fil²D_F = 0`. `(3)` If `ρ : G_{F′} → GL(V)` becomes crystalline over `F` with Hodge–Tate weights in `{0, 1}`,
 then `T^{F′}_{st,2}(M) = lim_n (H_n(M)^∧(1))`, where
@@ -7007,7 +7084,7 @@ strongly divisible modules with tame descent data contained in `S[1/p] ⊗_{F₀
 The setting and the tameness hypotheses are those of §R07.4.27 and §R07.4.31. Breuil's period rings
 `Â_cris ⊂ Â_st` (Breuil 1999b, §2.2.2, as described in Savitt §3.2) are used as Savitt describes them; Savitt's "filtered `(φ, N, F/F′, ℤ_p)`-module" in §3.5 means the module with `ℚ_p`-coefficients.
 
-*Proof sketch.* `G(n)(O_{ℚ̄_p}) = Hom_{′Mod^1_0}(M/pⁿM, O^cris_{n,π}(O_{ℚ̄_p}))` as `G_F`-modules
+*Proof sketch.* `G(n)(O_{ℚ̄_p}) = Hom_{′Mod¹}(M/pⁿM, O^cris_{n,π}(O_{ℚ̄_p}))` as `G_F`-modules
 (Breuil 2000, Th. 4.2.2.9 and §4.2.1); it is `G_{F′}`-equivariant: for `A` with a `Gal(F/F′)`-semilinear
 `G_{F′}`-action, the bijection `G(n)(A) ≅ Hom_{(φ₁,Fil¹)}(M(G(n)), O^cris_{n,π}(A))` commutes with `g̃` by
 a diagram of functorial squares and untwisting maps; pass to the limit (Savitt, Theorem 3.10).
@@ -7061,7 +7138,7 @@ and 3.2.3.1, Prop. 3.2.3.2; Breuil 1999b, Lemmes 2.3.1.1–2.3.1.3) are steps of
 
 *Construction.* `IS_R ∩ Fil^{k−1}S_R = I Fil^{k−1}S_R`, using the unique expansion `Σ r_j(u)E(u)^j/j!`
 with deg `r_j < e` (Savitt, §4). Reduction: for `I ⊇ m_R^n, M/IM` with the image filtration is an object
-of `Mod^{k−1}_dd` with `R/I`-action; base change to Artinian `R′` is allowed if `N = M/IM` or `R′` is free
+of `Mod^{k−1}_tor` with descent data and `R/I`-action; base change to Artinian `R′` is allowed if `N = M/IM` or `R′` is free
 over `R/(p^r, I)` (Lemma 4.6); finite local `R → R′` surjective, or with every ideal of `R′` having a
 power `(p^r)`, preserves strong divisibility (Corollary 4.7). `T^{F′}_{st,k}(M/IM) → T^{F′}_{st,k}(M/I′M)` is surjective and `T^{F′}_{st,k}(M/IM)` is free of rank `d` over `R/I` (Lemma 4.9),
 with base change (Lemma 4.10); pass to the limit (Definition 4.11, Corollary 4.12). Every
@@ -7100,7 +7177,7 @@ The API:
 Define `BreuilModuleModP`. A Breuil module over `O_F` is a triple `(M′, Fil¹M′, φ₁)` with `M′` a free
 `k_F[u]/u^{ep}`-module of finite rank, `Fil¹M′ ⊇ u^e M′` a submodule and `φ₁ : Fil¹M′ → M′` additive with
 `φ₁(hv) = h^p φ₁(v)` and `φ₁(Fil¹M′)` generating `M′`. `M ↦ M ⊗_{S₁} k_F[u]/u^{ep}` is an equivalence `T₀`
-from objects of `Mod¹` killed by `p` to Breuil modules (quasi-inverse `M′ ↦ M′ ⊗ S₁`), extending to
+from objects of `Mod¹_tor` killed by `p` to Breuil modules (quasi-inverse `M′ ↦ M′ ⊗ S₁`), extending to
 descent data and to `R/I`-actions. If `M′` has `Fil¹M′ = u^e M′`, then for every `M″` and
 identification `α : T^{F′}_{st,2}(M′) ≅ T^{F′}_{st,2}(M″)`, there is a unique morphism
 `f : M″ → M′` with `T^{F′}_{st,2}(f) = α.symm` on underlying morphisms. The realization is
@@ -7130,7 +7207,7 @@ The API:
 
 - `BreuilModuleModP`: A Breuil module over `k_F[u]/u^{ep}`, with descent data and `R/I`-action as extra
   structure.
-- `BreuilModuleModP.T0`: Objects of `Mod¹` killed by `p ≃` Breuil modules.
+- `BreuilModuleModP.T0`: Objects of `Mod¹_tor` killed by `p ≃` Breuil modules.
 - `BreuilModuleModP.IsMaximal`: `Fil¹M′ = u^e M′`.
 - `BreuilModuleModP.IsMinimal`: `Fil¹M′ = M′`.
 - `BreuilModuleModP.exists_hom_to_maximal`: For maximal `M′` and any fixed isomorphism
@@ -8923,6 +9000,8 @@ Mathlib `differentIdeal`, `IsKrasner.krasner`,
   abelian surfaces*, arXiv:2502.20645v1. <https://arxiv.org/abs/2502.20645v1>
 - **Berthelot 1980.** Pierre Berthelot, *Théorie de Dieudonné sur un anneau de valuation parfait*,
   Ann. Sci. ÉNS (4) 13 (1980), 225–268. <https://www.numdam.org/item/ASENS_1980_4_13_2_225_0/>
+- **Berthelot–Breen–Messing 1982.** Pierre Berthelot, Lawrence Breen, William Messing, *Théorie
+  de Dieudonné cristalline II*, Lecture Notes in Math. 930, Springer (1982); §§3.1–3.3 and §4.3.
 - **Bhatt–Morrow–Scholze 2018.** Bhargav Bhatt, Matthew Morrow, Peter Scholze, *Integral p-adic
   Hodge theory*, Publ. Math. IHÉS 128 (2018). <https://arxiv.org/abs/1602.03148>
 - **Breuil 1999.** Christophe Breuil, *Une application du corps des normes*, Compositio Math. 117
