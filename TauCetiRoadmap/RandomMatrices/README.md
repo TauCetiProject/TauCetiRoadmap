@@ -1348,4 +1348,3 @@ Layers 0–5.
   [arXiv:math/0002099](https://arxiv.org/abs/math/0002099).
 - K. Johansson, *On fluctuations of eigenvalues of random Hermitian matrices*, Duke Math. J. 91
   (1998).
-- [Provenance and acknowledgments](SOURCES.md).
