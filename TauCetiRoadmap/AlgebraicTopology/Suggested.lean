@@ -19,6 +19,7 @@ import TauCeti.AlgebraicTopology.Singular.EilenbergZilber
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.Singular
 import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 import TauCeti.Topology.Homotopy.HomotopyGroup.Product
+import TauCeti.Topology.Homotopy.HomotopyGroup.FundamentalGroupAction
 import TauCeti.Topology.Homotopy.Extension.CWComplex
 import TauCeti.Topology.Homotopy.Extension.DeformationRetract
 import TauCeti.Topology.Homotopy.Extension.MappingCylinder
@@ -41,6 +42,7 @@ noncomputable section
 
 #check HomotopyGroup.prodEquiv
 #check HomotopyGroup.prodMulEquiv
+#check TauCeti.map_fundamentalGroup_smul
 #check TauCeti.HasHomotopyExtensionProperty.exists_strong_deformation_retraction
 #check TauCeti.MappingCylinder.homotopyEquiv
 #check TauCeti.MappingCylinder.hasHomotopyExtensionProperty_range_incl

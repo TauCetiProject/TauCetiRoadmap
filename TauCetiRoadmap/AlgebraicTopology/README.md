@@ -1754,6 +1754,52 @@ items 1–7 are independent of those later constructions.
 5. Prove Whitehead's theorem for Hausdorff CW complexes using cellular approximation and skeletal
    induction.  Combine relative Hurewicz with the mapping cylinder to prove homological
    Whitehead for simply connected CW complexes, then extend both results to spaces of CW type.
+   **Abstract homotopy groups and the inducing-map hypothesis.** Construct
+   the finite based CW spaces X=RP²×S³ and Y=S²×RP³ on the Stage4.6
+   projective and native sphere carriers, with the standard unit-vector
+   basepoints. Prove both path connected, with π₁≃Z/2. Construct their
+   based universal covers from S²×S³, using respectively the antipodal
+   quotient on the first or second factor. Use covering lifting and
+   `HomotopyGroup.prodMulEquiv` to give explicit group isomorphisms
+   π_k(X)≃π_k(S²)×π_k(S³)≃π_k(Y) for every k>=2. Include the unique
+   component comparison in degree0. No values of the remaining sphere
+   homotopy groups are needed for these comparisons.
+
+   Compute H₂(X;Z)=0 and H₂(Y;Z)≃Z by the actual product Kunneth maps
+   and the finite projective cellular complexes; prove that all Tor
+   terms in this degree vanish. Homotopy invariance of singular homology
+   then proves X and Y are not homotopy equivalent. This example uses
+   Stage5.1's product-chain and integral Kunneth comparisons, with their
+   earlier Stage2–4 free-chain and cellular inputs; it requires neither
+   a bundle spectral sequence, manifold duality nor EM representability.
+
+   Also compute the extra structure forgotten by those abstract group
+   isomorphisms. Identify both π₂ groups with Z using sphere connectivity,
+   covering lifting and the natural degree-two Hurewicz map. The nonzero
+   element of π₁ acts by −1 for X and by +1 for Y. To obtain these actions,
+   compare deck transformations with native fundamental-group transport,
+   including a path from the transformed lift of the basepoint back to
+   the chosen lift; simple connectivity makes the comparison independent
+   of that path. For the S² antipodal map compute the homology coefficient
+   −1 from reversal of all three coordinates on (D³,S²): Stage2.5's
+   interval-product class has coefficient (−1)³, and the pair connecting
+   map and odd radial comparison transport it to S². Hurewicz naturality
+   gives the same action on π₂. For Y the deck transformation fixes the
+   S² factor and π₂(S³)=0. Keep the loop/deck convention in this comparison;
+   inversion does not change the unique order-two element.
+
+   Consume `TauCeti.map_fundamentalGroup_smul` for equivariance of every
+   induced map. For a map not preserving the reference basepoints, transport
+   its target image point along a chosen path to the reference point;
+   prove the following obstruction independent of that choice. Prove that
+   no map in either direction induces isomorphisms
+   on both π₁ and π₂: the automorphism of Z/2 fixes its nonzero element,
+   while an isomorphism of Z cannot intertwine negation with the trivial
+   action. Thus the abstract group comparisons are not induced together
+   by a weak equivalence. These finite computations are a consequence
+   and boundary example for ordinary Whitehead, not a premise for its
+   general proof or for the proper Whitehead extension below.
+
    First own the single predicate `SimplyConnectedAtInfinity`: for every
    compact K⊂X there is a compact L⊃K such that every continuous circle in
    X\L is nullhomotopic in X\K. A nullhomotopy stays in that complement;
