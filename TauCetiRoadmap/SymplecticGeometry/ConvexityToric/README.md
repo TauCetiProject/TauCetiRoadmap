@@ -352,11 +352,37 @@ presentation of the equivariant ring first, then quotient by the linear lattice 
 and small corner chops/symplectic blowups are worked acceptance models with exact volume and lattice
 checks; the algebraic fan dictionary consumes AnalyticToricGeometry’s `Toric.IsIntegralLattice` and integral cone/fan API.
 
-For the weighted circle action with coprime positive weights a,b on C² and fixed positive quadratic
-level, compute S³/ellipsoid quotient, topological sphere, axial stabilizers of orders a,b and local
-orbifold charts/cone angles 2π/a,2π/b. Use z_j↦e^(-ia_jθ)z_j, μ=(a|z₁|²+b|z₂|²)/2 and reduction at ε>0;
-the orbifold area is 2πε/(ab). General weighted
-projective spaces and labeled rational simple polytopes extend Delzant to effective toric orbifolds
+For the weighted oscillator take coprime positive integers a,b, ε>0,
+`ω=dx₁∧dy₁+dx₂∧dy₂`, and `μ=(a|z₁|²+b|z₂|²)/2` on C².
+The negative rotations `θ·(z₁,z₂)=(e^(−iaθ)z₁,e^(−ibθ)z₂)` are its
+Hamiltonian flow in the fixed convention. Prove that their least period is
+2π when both coordinates are nonzero, and 2π/a or 2π/b on the respective
+axes. Construct the equivariant diffeomorphism from the ellipsoid E_ε=μ⁻¹(ε)
+to the unit S³ by `(z₁,z₂)↦(√(a/(2ε))z₁,√(b/(2ε))z₂)`.
+
+Give the reduced orbifold two actual slice charts. Over z₁≠0 use
+`w↦(√((2ε−b|w|²)/a),w)` on `|w|<√(2ε/b)`, with residual group ℤ/a
+acting by `w↦e^(−2πibk/a)w`. Over z₂≠0 use
+`u↦(u,√((2ε−a|u|²)/b))` on `|u|<√(2ε/a)`, with residual ℤ/b action
+`u↦e^(−2πiak/b)u`. Prove these identify the slice quotients with the
+indicated open quotient sets and construct their compatible changes of charts
+on the overlap, retaining the finite groups. Coprimality makes each residual
+action effective, free away from its center. The axial stabilizers have
+orders a,b; an order-one chart is an ordinary smooth point. Compare the
+rotation representations with the standard cone charts of angles 2π/a,2π/b.
+Construct the coarse homeomorphism to CP¹ by
+`[(z₁,z₂)]↦[z₁^b:z₂^a]`, including orbit separation and the two poles.
+
+Pull the reduced form back to each slice and prove it is respectively
+`d(Re w)∧d(Im w)` and `d(Re u)∧d(Im u)`. Using T4's inverse-stabilizer
+integration, the first chart, whose omitted pole has measure zero, gives
+`area(E_ε/S¹)=(1/a)π(2ε/b)=2πε/(ab)`.
+At the notes' level ε=1/2 this is π/(ab). Compare the a=b=1 case with
+T4's Hopf reduction and its curvature convention. These slice calculations
+consume R3's locally-free reduction and T4's orbifold forms/integration;
+they do not require the general classification below.
+
+General weighted projective spaces and labeled rational simple polytopes extend Delzant to effective toric orbifolds
 (Lerman–Tolman), with facet multiplicity labels; prove orbifold convexity and reconstruction/uniqueness in that model;
 smoothness is equivalent to unit labels **and** unimodular vertex cones.
 Do not erase finite stabilizers or identify unequal weights with an ordinary smooth CP¹ symplectically.
