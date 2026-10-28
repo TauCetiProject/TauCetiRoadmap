@@ -138,8 +138,9 @@ extensions are listed below.
 
 The supplier contracts include positive convergent products of reals with summable error: Mathlib
 `Real.multipliable_one_add_of_summable`, `Real.rexp_tsum_eq_tprod` and
-`Multipliable.prod_mul_tprod_compl` (the summable-series-and-logarithm reading of
-[Sutherland], §23.3, p. 6). Integral points of a model are compact open in `G(F_v)`:
+`Multipliable.prod_mul_tprod_compl`. The extension to factor masses that are only summably close
+to one is this roadmap's deduction from these lemmas; [Sutherland], §23.3, p. 6, supplies the
+normalized product of local Haar measures on boxes whose almost-all factors have mass one. Integral points of a model are compact open in `G(F_v)`:
 ReductiveGroupsPartII, RG2.0.3 (integral points compact open). Closed subgroups give closed
 embeddings of adelic points, and `(G × G′)(𝔸_F) ≃ G(𝔸_F) × G′(𝔸_F)`: ReductiveGroupsPartII,
 RG2.0.1 (functoriality of the point topology, for every topological ring), with Tau Ceti
@@ -2551,7 +2552,9 @@ subgroup orbit maps.
   translation by `G(𝔸)` (left `P`-invariance and right `K`-invariance are immediate); since
   `G(𝔸)` is unimodular it is the Haar measure of `G(𝔸)`. Equivalently use the compact
   homogeneous space `(P ∩ K)\K`, whose measure is quasi-invariant under `G` with the parabolic
-  Radon–Nikodym cocycle. No invariant measure on `P\G` is asserted ([Arthur], §4, pp. 21–23).
+  Radon–Nikodym cocycle. No invariant measure on `P\G` is asserted ([Arthur], §7, p. 32, for the
+  compatible-measure formula in `mnk` order, from which the substitution `n ↦ m n m⁻¹` gives the
+  `nmk` order with `δ_P(m)^{−1}`; [Arthur], §4, pp. 21–23, carries out the `GL₂` case).
   *Needs:* AA.3.1; AA.0.3; ReductiveGroupsPartII, RG2.4; RepresentationTheory/LieGroups, layer 9;
   AA.1.5.
   *Lean:* none; specified in the README only.
@@ -2561,7 +2564,10 @@ subgroup orbit maps.
 
   `∫_{G(𝔸)} f(x) dx = ∫_K ∫_{M_P(𝔸)} ∫_{N_P(𝔸)} f(nmk) δ_P(m)^{−1} dn dm dk`
 
-  for compatible Haar measures ([Arthur], §4, p. 24). *Needs:* AA.3.1.
+  for compatible Haar measures ([Arthur], §4, p. 24, for the decomposition; [Arthur], §7, p. 32,
+  for the integration formula and its measure normalization, stated in `mnk` order, the
+  substitution `n ↦ m n m⁻¹` giving the `nmk` order with `δ_P(m)^{−1}`). Arthur works over `ℚ`;
+  the statement over `F` passes through *base-change-adelic*. *Needs:* AA.3.1; AA.1.4.
   *Lean:* none; specified in the README only.
 - **The map `H_P`.** For a connected reductive group `G` over `F`, standard `P` and admissible `K`,
   define `H_P : AdelicPoints H → a_P`, `H_P(nmk) = H_{M_P}(m)` for `n ∈ N_P(𝔸)`,
@@ -3904,6 +3910,11 @@ quaternion norms and compact abelian Fourier limits.
   **Coordinate/geometric comparison.** AA owns the equivalence
   between coordinate torsors (with equivariant algebra isomorphisms reversed)
   and geometric torsors for `Spec H` on the fppf site of `Spec k`.
+  The coaction presents a right action, while the owner's actions are on the left; the comparison
+  uses the left action `g · x := x · g⁻¹`, whose coaction is the right coaction followed by the
+  antipode `S` on the `H` factor and the tensor swap. Inversion `x ↦ x⁻¹` identifies `G` acting
+  on itself by this rule with the owner's trivial torsor. The comparison of base change and of
+  equivariant isomorphisms is stated in this convention.
   It compares tensor extension with the owner's
   `Torsor.baseChange`, identifies algebra maps
   `A →ₐ[k] k` with sections and hence with `Torsor.trivial_iff_section`,
@@ -3928,6 +3939,9 @@ quaternion norms and compact abelian Fourier limits.
   - The algebra `ℚ[x]/(x² − 2)` with coaction `x ↦ x ⊗ g` is a nontrivial `μ₂`-torsor: a rational point would give a rational square root of `2`.
   - Its base change along `ℚ → ℚ` is still nontrivial and its base change along `ℚ → ℝ` is trivial;
     a base change returning `G_{k′}` fails the first clause.
+  - For the constant group `S₃` acting on itself on the right, the swapped rule `g · x := x · g`
+    fails the left action law `(gh) · x = g · (h · x)` at two non-commuting transpositions, while
+    `g · x := x · g⁻¹` satisfies it.
   - Under the class comparison, the square-root torsor has nontrivial class,
     its identity base change still has nontrivial class, and its real base
     change has the distinguished class.
@@ -4972,12 +4986,23 @@ preceding layers; each item is a target with its own locator.
   complex places, `Q` a finite set of finite places, `p` a prime and `n ≥ 1` with
   `N(v) ≡ 1 mod p^n` for `v ∈ Q`, and `U_Q = K_∞ × ∏_v U_{Q,v}` with `K_∞` and `A_∞^0` as in
   *gl1-XQ-components*, prove that the identity component is the logarithmic quotient `W/Λ_Q`,
-  where `W = ℝ^{r₁+r₂}/ℝ·(1, …, 1)` and `Λ_Q` is the image of the totally positive congruence
-  units `F^× ∩ U_{Q,f}`; it is a compact real torus of dimension `r₁ + r₂ − 1`. The complex
+  where `W = ℝ^{r₁+r₂}/ℝ·(1, …, 1)`, `F_+^×` is the group of totally positive elements of `F^×`,
+  `Γ_Q⁺ = F_+^× ∩ U_{Q,f}` is the group of totally positive congruence units and
+  `Λ_Q = log(Γ_Q⁺)`; it is a compact real torus of dimension `r₁ + r₂ − 1`. The complex
   circle factors have already been divided out by `K_∞` ([CG], §8.2, pp. 78–79). The statement
   asserts a homeomorphism, without
   naming one. *Needs:* AA.5.1.
   *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `F = ℚ(√2)` and `Q = ∅`, the unit `ε = 1 + √2` has norm `−1`, so `Γ_Q⁺ = ⟨ε²⟩` and
+    `Λ_Q` is generated by the image of `(2 log ε, −2 log ε)`; the logarithmic image of all units
+    `F^× ∩ U_{Q,f} = ⟨−1, ε⟩` contains it with index two, so dropping total positivity gives the
+    wrong lattice.
+  - For `F = ℚ(√3)` and `Q = ∅`, the fundamental unit `2 + √3` is totally positive, and `Λ_Q` is
+    the full logarithmic unit lattice.
+  - For `F = ℚ` or `F` imaginary quadratic, `r₁ + r₂ − 1 = 0` and the identity component is a
+    point.
 - **Geometry of the `GL_1` arithmetic quotients `X_Q`.** (*gl1-XQ-components*) For a finite set `Q`
   of finite places with `N(v) ≡ 1 mod p^n`, let `U_Q = K_∞ × ∏_v U_{Q,v}`, where
   `K_∞ ≅ (S¹)^{r₂}` is the identity component of the maximal compact subgroup of `(F ⊗ ℝ)^×`,
