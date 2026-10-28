@@ -11,9 +11,9 @@ the file states nothing. The headline theorems, and what each lacks, are:
   (Layer V3.4) and the virtual fundamental class with its finite-subatlas independence (Layer
   V4.3). Both need the implicit-atlas structure of Layer V1 (equivariant thickenings,
   coordinate changes on zero fibers, quotient, freeness, product-projection and covering
-  axioms), the virtual cochain complex of Layer V2 (TopologicalSheafCohomology TS5's flag total
-  of relative invariant singular chains on deformation spaces) and cover-colimit Čech cohomology
-  with sheaf coefficients on compact Hausdorff spaces (TopologicalSheafCohomology TS1). None
+  axioms), the virtual cochain complex of Layer V2 (the finite interval/flag total of Layer
+  V0.11 applied to relative invariant singular chains on deformation spaces) and cover-colimit
+  Čech cohomology with sheaf coefficients on compact Hausdorff spaces (Layer V0.7). None
   exists at the pins: Mathlib's `CategoryTheory.cechComplexFunctor` is the Čech complex of one
   fixed cover, and the virtual class is a functional constructed from these complexes.
 * The boundary law, cobordism and refinement invariance, regular-manifold normalization and the

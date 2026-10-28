@@ -6,7 +6,7 @@
 
 This roadmap owns:
 
-- finite-index group products, obstruction sums, integral orientation lines of real vector spaces and their sign conventions, finite-group invariant chains and the parity adapters used by the engine (Layer 0);
+- finite-index group products, obstruction sums, integral orientation lines of real vector spaces and their sign conventions, finite-group invariant chains and the independent-parity adapters used by the engine, together with the sheaf theory on locally compact Hausdorff spaces that the engine runs on: K-sheaves and homotopy K-sheaves, Čech cohomology with sheaf coefficients on compact Hausdorff spaces, pure homotopy K-sheaves, extension by zero and finite quotients, manifold orientation sheaves with closed-subset duality, and finite interval diagrams with pure gluing (Layer 0);
 - topological implicit atlases with and without boundary, their smooth enhancement, subatlases, restrictions and reindexing (Layer 1);
 - deformation spaces, partial and global virtual cochain complexes and their interval diagrams (Layer 2);
 - local orientability, the virtual orientation sheaf, partial and global purity and the virtual/Čech comparison (Layer 3);
@@ -17,7 +17,6 @@ This roadmap owns:
 
 What it builds on, and does not plan again:
 
-- **TopologicalSheafCohomology, TS0–TS5.** Independent-parity complexes (TS0), cover-colimit Čech cohomology on compact Hausdorff spaces and its comparison with derived cohomology (TS1), K-sheaves and pure homotopy K-sheaves (TS2), extension by zero and finite quotient descent (TS3), local orientations and closed-subset duality on Hausdorff topological manifolds (TS4), and the finite interval/flag total and pure gluing (TS5).
 - **AlgebraicTopology.** Relative singular chains and local coefficients (Stage 2), subdivision, excision and Mayer–Vietoris (Stage 3), cochains, cup and cap products and the Eilenberg–Zilber comparison (Stage 6).
 - **CharacteristicClasses.** The constant-coefficient Čech/singular comparison on paracompact Hausdorff spaces of CW type (§C1.2b) and the Thom class of an oriented vector bundle (§C2, item 1).
 - **DGAInfinity, Layer 0.** Signed graded tensor and Koszul-sign conventions for complexes.
@@ -37,7 +36,7 @@ The engine takes an implicit atlas as input. It does not construct nodal curve d
 | Coefficients | The principal class is over ℚ; chain and sheaf constructions are also stated over a commutative ring R in which every relevant group order is a unit |
 | Chains | Native ordinary singular simplicial chains, relative quotients and local coefficients; zero in negative homological degrees |
 | Complexes | Cochain degree q ∈ ℤ, differential of degree +1; native shift `C[k]^q = C^(q+k)` with differential `(−1)^k d` |
-| Parity | The source differential is odd; the independent parity τ = σ − q of TS0 is retained, not only the native cochain sign |
+| Parity | The source differential is odd; the independent parity τ = σ − q of §0.5 is retained, not only the native cochain sign |
 | Orientation hypothesis | Every statement involving the virtual orientation sheaf, the Čech comparison, the virtual class or its laws assumes the atlas is locally orientable (§3.1); Layers 1 and 2 and the chain-level constructions do not |
 | Class | A functional on degree-d Čech cohomology with coefficients in the virtual orientation sheaf, relative to the boundary where present |
 | Naturality | Dual pullback along continuous maps with stated coefficient data; no atlas-to-atlas degree formula |
@@ -51,8 +50,8 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 - `TopPair` and `TopPair.ofSubset` (Mathlib/Topology/Category/TopPair.lean): a pair is an embedding A → X; the subset constructor gives the pair (X, A) for A ⊆ X. No compactness, Hausdorffness or nonemptiness is part of the structure. Used for (D, D∖Z_K) in Layer 2 and (E, E∖0) in Layer 0 and Layer 4.
 - `Representation`, `Representation.invariants`, `GroupAlgebra.average`, `Representation.averageMap` and `Representation.isProj_averageMap` (Mathlib/RepresentationTheory/Invariants.lean): fixed vectors of a representation and the averaging projection, which requires the group order to be invertible in the ground ring. Used in §0.3.
 - `CochainComplex.shiftFunctor` (Mathlib/Algebra/Homology/HomotopyCategory/Shift.lean): the shift `K[n]^i = K^(i+n)` with differential multiplied by `(−1)^n`. Used for every reindexing comparison in Layer 2, Layer 4 and Layer 7.
-- `CategoryTheory.cechComplexFunctor` (Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean): the Čech complex of a presheaf on a fixed cover. Used through TS1 in §6.5.
-- `CategoryTheory.Sheaf.H` (Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean): derived sheaf cohomology of an abelian sheaf. Used through TS1's Čech/derived comparison.
+- `CategoryTheory.cechComplexFunctor` (Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean): the Čech complex of a presheaf on a fixed cover. Used in §0.7 on a fixed cover and through §0.7 in §6.5.
+- `TopCat.Sheaf` (Mathlib/Topology/Sheaves/Sheaf.lean), `TopCat.Presheaf.stalk` (Mathlib/Topology/Sheaves/Stalks.lean), `TopCat.Sheaf.pushforward` and `TopCat.Sheaf.pullback` (Mathlib/Topology/Sheaves/Functors.lean): sheaves on a topological space, stalks, and pushforward and pullback along a continuous map. Mathlib has no extension by zero, no K-sheaves and no colimit-over-covers Čech cohomology; §0.6–§0.9 construct them.
 - `TopologicalSpace.Compacts`: compact subsets, the index category of K-presheaves in Layer 2 and Layer 3.
 - `ModuleCat`, `TopCat`, `Module.finrank`, `EuclideanSpace` and `Topology.IsOpenEmbedding`: the carriers of coefficients, spaces, obstruction dimensions, local models and open embeddings.
 
@@ -61,16 +60,7 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 - `TopPair.singularChainComplexFunctor` (TauCeti/AlgebraicTopology/Singular/Relative.lean): relative singular chains of a pair with coefficients in an object of a preadditive category, in natural-number homological degrees. It carries no orientation twist, group action or reindexing. Used in §0.4.
 - `TopPair.twistedChainComplex` (TauCeti/AlgebraicTopology/Singular/Twisted/Relative.lean): relative chains with coefficients in a local system on the ambient space, as the cokernel of the subspace chain map. Used for the orientation-dual coefficients of Layer 2 and Layer 4.
 - `TopCat.eilenbergZilberHomotopyEquiv` (TauCeti/AlgebraicTopology/Singular/EilenbergZilber.lean): the absolute Alexander–Whitney/shuffle homotopy equivalence with coefficient tensors. Relative, twisted and invariant versions are constructed in §0.4.
-- `TauCeti.koszulBraidingSummand` (TauCeti/Algebra/Homology/Monoidal/Braiding.lean): the Koszul factor `(−1)^(pq)` on the degree-(p, q) summand. It does not carry the independent parity; §0.5 adds it through TS0.
-
-### From TauCetiRoadmap.TopologicalSheafCohomology
-
-- TS0: the independent-super-parity adapter with conjugation sign `(−1)^(τ_A r)`, the ambient-n reindexing comparison, and the compact/open indexing functors. Used in §0.5, Layer 2 and Layer 4.
-- TS1: cover-colimit Čech cohomology of sheaves of R-modules on compact Hausdorff spaces, its comparison with derived cohomology, finite-cover double complexes and refinement homotopies. Used in Layer 3, §6.5 and Layer 7.
-- TS2: K-presheaves, the K-sheaf/sheaf equivalence `alphaCompact ⊣ alphaOpen`, homotopy K-sheaves, purity and the total-complex comparison for cones. Used in Layer 3 and §5.1.
-- TS3: extension by zero, support enlargement and finite quotient descent for nonfree and ineffective actions with invertible group order. Used in §3.3.
-- TS4: local orientations and closed-subset duality on Hausdorff topological manifolds with boundary, without second countability or smooth structure, with upper vanishing. Used in §0.2, §3.2 and §3.3.
-- TS5: the finite interval/flag total of a finite interval diagram, its product total, and pure gluing. Used in §2.3, §3.4, §4.3 and §6.4.
+- `TauCeti.koszulBraidingSummand` (TauCeti/Algebra/Homology/Monoidal/Braiding.lean): the Koszul factor `(−1)^(pq)` on the degree-(p, q) summand. It does not carry the independent parity; §0.5 adds it.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
@@ -93,9 +83,9 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 
 ## How to read the build
 
-Layer 0 fixes the coefficient, orientation-line, invariant and parity conventions. Layer 1 states the atlas axioms on topological data only. Layer 2 builds deformation spaces from the atlas and their chain complexes; nothing there needs an orientation hypothesis. Layer 3 introduces local orientability, constructs the virtual orientation sheaf and proves that the virtual complex computes Čech cohomology with coefficients in it. Layer 4 defines the global relative trace and composes it with the Layer 3 comparison to obtain the virtual class, then proves it is independent of the finite subatlas. Layer 5 proves the standard laws of that class. Layer 6 adds cell-like strata and products; Layer 7 constructs fiber-product atlases and identifies the virtual class of a fiber product with a supported Gysin pairing. Every layer after Layer 0 is built only from earlier layers and the suppliers above.
+Layer 0 fixes the coefficient, orientation-line, invariant and parity conventions and builds the sheaf theory the engine runs on: K-sheaves, Čech cohomology on compact Hausdorff spaces, purity, extension by zero and finite quotients, manifold duality for closed subsets and finite interval diagrams with pure gluing. Layer 1 states the atlas axioms on topological data only. Layer 2 builds deformation spaces from the atlas and their chain complexes; nothing there needs an orientation hypothesis. Layer 3 introduces local orientability, constructs the virtual orientation sheaf and proves that the virtual complex computes Čech cohomology with coefficients in it. Layer 4 defines the global relative trace and composes it with the Layer 3 comparison to obtain the virtual class, then proves it is independent of the finite subatlas. Layer 5 proves the standard laws of that class. Layer 6 adds cell-like strata and products; Layer 7 constructs fiber-product atlases and identifies the virtual class of a fiber product with a supported Gysin pairing. Every layer after Layer 0 is built only from earlier layers and the suppliers above.
 
-## Layer 0: Coefficients, local orientations and chain interfaces (V0)
+## Layer 0: Coefficients, local orientations, sheaf cohomology and chain interfaces (V0)
 
 ### 0.1 Finite-index groups and obstruction sums
 
@@ -115,7 +105,7 @@ Define, for a finite subset I of the index type A, the group Γ_I = ∏_(α∈I)
 
 ### 0.2 Orientation lines of real vector spaces
 
-Define the integral orientation line of a finite-dimensional real vector space E of dimension m as `o_E = H_m(E, E∖0; ℤ)`, its scalar extension to R and its dual, and the action of a real linear automorphism by the sign of its determinant (Pardon, Definition 4.1.1, p. 34). Its independent parity is m mod 2. Construct the ordered direct-sum, tensor, dual and permutation comparisons, using AlgebraicTopology Stage 2 generators and TS4's coefficient-extension maps. For a rank-one integral line use the canonical pairing `o_E ⊗ o_E^∨ → ℤ` after forgetting parity. On each regular topological manifold construct the orientation sheaf/local-system dictionary, including `j_*` of the interior orientation and `j_!` for the relative version at a boundary; a boundary point's absolute local top homology is zero and is not identified with its orientation fiber.
+Define the integral orientation line of a finite-dimensional real vector space E of dimension m as `o_E = H_m(E, E∖0; ℤ)`, its scalar extension to R and its dual, and the action of a real linear automorphism by the sign of its determinant (Pardon, Definition 4.1.1, p. 34). Its independent parity is m mod 2. Construct the ordered direct-sum, tensor, dual and permutation comparisons, using AlgebraicTopology Stage 2 generators and scalar extension of local homology classes. For a rank-one integral line use the canonical pairing `o_E ⊗ o_E^∨ → ℤ` after forgetting parity. On each regular topological manifold construct the orientation sheaf/local-system dictionary, including `j_*` of the interior orientation and `j_!` for the relative version at a boundary; a boundary point's absolute local top homology is zero and is not identified with its orientation fiber.
 
 - `o_E` is free of rank one, and a linear automorphism acts by the sign of its determinant.
 - The ordered identification `o_(E⊕F) ≅ o_E ⊗ o_F` is natural in isomorphisms and associative; exchanging the summands acts by `(−1)^(dim E · dim F)`.
@@ -127,7 +117,7 @@ Define the integral orientation line of a finite-dimensional real vector space E
 - For E = ℝ: the reflection x ↦ −x acts on `o_ℝ = H_1(ℝ, ℝ∖0) ≅ ℤ` by −1 and the scaling x ↦ 2x acts by +1; a model acting by the determinant itself would give 2.
 - For E = ℝ ⊕ ℝ: exchanging the two odd factors of `o_ℝ ⊗ o_ℝ` acts by −1, while −id on ℝ² acts by +1 and −id on ℝ³ acts by −1.
 
-*Needs:* AlgebraicTopology Stage 2; TS4.
+*Needs:* AlgebraicTopology Stage 2; §0.10 for the manifold dictionary.
 
 ### 0.3 Finite-group invariants
 
@@ -162,7 +152,7 @@ Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChain
 
 ### 0.5 Parity normalization
 
-Apply TS0's independent-parity normalization to these relative chains, orientation factors, shifts and boundary cones. Every integer sign exponent is read in ℤ/2, including for negative virtual dimension. State each tensor order, retaining the orientation lines of the nonnegative deformation parameters. A pure virtual complex of dimension d has orientation parity d; the obstruction-relative complex after reindexing by m has parity 0 in its homology. The reindexing/shift comparison is constructed in §4.2.
+Define a complex with independent parity as a ℤ-graded complex whose terms also carry a ℤ/2-grading, with odd differential of degree +1 and even chain maps; the ℤ/2-grading is often, but not always, the degree mod 2, and the independent parity is τ = σ − q mod 2 (Pardon, Convention A.0.3, p. 114). Tensor products use the super sign: the symmetry sends a ⊗ b to (−1)^(|a||b|) b ⊗ a in parity, and (f ⊗ g)(a ⊗ b) = (−1)^(|g||a|) f(a) ⊗ g(b). Apply this normalization to these relative chains, orientation factors, shifts and boundary cones. Every integer sign exponent is read in ℤ/2, including for negative virtual dimension. State each tensor order, retaining the orientation lines of the nonnegative deformation parameters. A pure virtual complex of dimension d has orientation parity d; the obstruction-relative complex after reindexing by m has parity 0 in its homology. The reindexing/shift comparison is constructed in §4.2.
 
 - The conjugation sign comparing super and native tensor differentials is `(−1)^(τ_A r)` on an A-component of parity τ_A and a B-component of degree r.
 - Raw reindexing and native shift by k differ by an explicit sign and by the parity change Π^k.
@@ -173,7 +163,110 @@ Apply TS0's independent-parity normalization to these relative chains, orientati
 - ℚ concentrated in degree 0, shifted by `CochainComplex.shiftFunctor` with n = 1, sits in degree −1 with differential multiplied by −1.
 - For d = −1 the orientation parity is odd: (−1)^d = −1 in ℤ/2, whereas `Int.toNat` would give exponent 0 and sign +1.
 
-*Needs:* TS0; DGAInfinity Layer 0; Mathlib `CochainComplex.shiftFunctor`; Tau Ceti `TauCeti.koszulBraidingSummand`.
+*Needs:* DGAInfinity Layer 0; Mathlib `CochainComplex.shiftFunctor`; Tau Ceti `TauCeti.koszulBraidingSummand`.
+
+### 0.6 K-sheaves and homotopy K-sheaves
+
+Throughout §0.6–§0.11 a space is locally compact Hausdorff (Pardon, Convention A.0.1, p. 113); compact Hausdorff bases and the deformation spaces of Layer 2 are examples. Define a K-presheaf of R-modules on X as a contravariant functor on `TopologicalSpace.Compacts X`, the empty compact set included, with stalk F_p = F({p}) (Pardon, Definitions A.1.1–A.1.2, p. 114). A K-sheaf is a K-presheaf with F(∅) = 0, with `0 → F(K₁ ∪ K₂) → F(K₁) ⊕ F(K₂) → F(K₁ ∩ K₂)` exact for all compact K₁, K₂, and with F(K) the colimit of F(K') over the compact neighbourhoods K' of K (Pardon, Definition A.1.4, p. 114). Define the restriction from presheaves on opens to K-presheaves by the colimit over open neighbourhoods, and the reverse functor by the limit over compact subsets of an open set (Pardon, Definition A.1.6, p. 114); these are the compact/open indexing functors used in Layers 2 and 3. A homotopy K-sheaf is a complex of K-presheaves with F(∅) acyclic, the total complex `[F(K₁ ∪ K₂) → F(K₁) ⊕ F(K₂) → F(K₁ ∩ K₂)]` acyclic for all compact K₁, K₂, and F(K) → colim F(K') a quasi-isomorphism over compact neighbourhoods K' of K (Pardon, Definition A.2.5, p. 117).
+
+- The two indexing functors restrict to inverse equivalences between sheaves (in Mathlib's `TopCat.Sheaf`) and K-sheaves on X (Pardon, Lemma A.1.8, p. 115).
+- Pushforward along a proper map preserves K-sheaves and homotopy K-sheaves and commutes with the equivalence (Pardon, Lemma A.3.3 and Definition A.3.4, pp. 118–119); restriction along an injective map preserves homotopy K-sheaves (Pardon, Definition A.3.6, p. 119).
+- The total complex of a finite sequence of homotopy K-sheaves whose adjacent maps compose to zero, in particular a mapping cone, is a homotopy K-sheaf (Pardon, Lemma A.2.11, p. 118).
+- If a homotopy K-sheaf F has H^i F = 0 for i < i₀, then H^(i₀) F is a K-sheaf (Pardon, Lemma A.2.12, p. 118).
+- For every topological space Y the relative singular chains K ↦ C_*(Y, Y∖K) on closed subsets satisfy the three axioms: C_*(Y, Y) is acyclic, the Mayer–Vietoris total complex for two closed sets is acyclic, and the colimit over a filtered decreasing family of closed sets maps quasi-isomorphically to the intersection (Pardon, Lemma A.6.3, p. 126).
+
+**Checks.**
+
+- On X = {a, b} with the discrete topology, K ↦ (ℤ if K ≠ ∅, 0 if K = ∅), with identity restrictions, fails the exactness axiom for K₁ = {a}, K₂ = {b}: F(K₁ ∪ K₂) = ℤ maps diagonally to the kernel ℤ ⊕ ℤ of the map to F(∅) = 0 and is not onto; the locally constant functions K ↦ ℤ^(π₀ K) give ℤ² and satisfy it.
+- On X = ℝ, K ↦ {all functions K → ℤ} satisfies the first two axioms but not the third at K = {0}: the colimit over compact neighbourhoods is the module of germs at 0 of arbitrary functions, which maps onto F({0}) = ℤ with nonzero kernel (the germ of the indicator function of ℚ ∖ {0} is nonzero and has value 0 at 0).
+- On X = ℝ, K ↦ H_1(ℝ, ℝ∖K) has values ℤ at {0}, ℤ at [0, 1] and ℤ² at {0, 1} (ℝ ∖ {0, 1} has three components), consistent with the exact sequence `0 → ℤ² → ℤ ⊕ ℤ → 0` for K₁ = {0}, K₂ = {1}.
+
+*Needs:* Mathlib `TopologicalSpace.Compacts`, `TopCat.Sheaf`, `TopCat.Presheaf.stalk`, `TopCat.Sheaf.pushforward`; Tau Ceti `TopPair.singularChainComplexFunctor`.
+
+### 0.7 Čech cohomology on compact Hausdorff spaces
+
+For a sheaf F of R-modules on X define Ȟ^•(X; F) as the colimit over open covers of the cohomology of the Čech complex, with refinements as transition maps, Ȟ^•_K(X; F) with supports in a compact K by replacing F(U) with the kernel of F(U) → F(U∖K), and Ȟ^•_c(X; F) as the colimit over K (Pardon, Definition A.4.3, p. 119). On a fixed cover use Mathlib's `CategoryTheory.cechComplexFunctor`; orient each Čech simplex through its orientation line, so that the differential is defined without a vertex order. For a complex of K-presheaves on compact X define Ȟ^• as the colimit over finite compact covers of the total Čech complex (Pardon, Definition A.4.10, p. 121). Define pullback along a continuous map, and along a proper map for compact supports (Pardon, Definitions A.4.6, p. 120, and A.4.21, p. 124).
+
+- Different refinement maps between two covers induce the same map on Čech cohomology (Pardon, Remark A.4.1, p. 119).
+- On compact X, finite open covers compute Ȟ^• and Ȟ^•_c = Ȟ^• (Pardon, Lemmas A.4.4–A.4.5, p. 120); for a sheaf, the open-cover and compact-cover definitions agree through the equivalence of §0.6 (Pardon, Lemma A.4.11, p. 122).
+- A quasi-isomorphism of complexes of K-presheaves induces an isomorphism on Ȟ^•, and a bounded-below complex has the convergent Čech hypercohomology spectral sequence (Pardon, Lemmas A.4.12–A.4.13, p. 122).
+- For a complex satisfying the first two homotopy K-sheaf axioms the map H^•F(X) → Ȟ^•(X; F) is an isomorphism, and for a K-presheaf satisfying the first two K-sheaf axioms F(X) → Ȟ^0(X; F) is an isomorphism (Pardon, Proposition A.4.14, p. 122; Lemma A.4.15, p. 123).
+- For complexes satisfying the third homotopy K-sheaf axiom with homology vanishing in sufficiently negative degrees, a map that is a quasi-isomorphism on all stalks induces an isomorphism on Ȟ^•; for two such homotopy K-sheaves, a map is a quasi-isomorphism if and only if it is one on all stalks (Pardon, Proposition A.4.18 and Corollary A.4.19, p. 123).
+- A sequence `0 → F → G → H → 0` of K-presheaves satisfying the third K-sheaf axiom and exact on stalks induces a long exact sequence on Ȟ^• (Pardon, Lemma A.4.20, p. 124).
+
+**Checks.**
+
+- For S¹ covered by two open arcs whose intersection has two components, the Čech complex with constant coefficients ℤ is `ℤ² → ℤ²`, (a, b) ↦ (b − a, b − a), so Ȟ^0 = ℤ and Ȟ^1 = ℤ; the one-set cover {S¹} gives Ȟ^1 = 0, so a definition by one fixed cover rather than the colimit is wrong.
+- For the Warsaw circle W, Ȟ^1(W; ℤ) = ℤ while singular H^1(W; ℤ) = 0 (W is path connected with trivial singular homology in positive degrees); a definition by singular cochains would lose the class that Layer 4 pairs against.
+- For X = ∅ the empty cover is final and Ȟ^•(∅; F) = 0 (Pardon, Remark A.4.2, p. 119), in agreement with the Layer 4 class of the empty atlas.
+
+*Needs:* §0.6; Mathlib `CategoryTheory.cechComplexFunctor`, `TopCat.Sheaf.pullback`.
+
+### 0.8 Pure homotopy K-sheaves
+
+Call a homotopy K-sheaf F pure if its stalk cohomology H^i(F_p) vanishes for i ≠ 0 and every p, and if every point has an open neighbourhood U and an integer N with H^i F(K) = 0 for all compact K ⊆ U and i ≤ N (Pardon, Definition A.5.1, p. 124).
+
+- A pure homotopy K-sheaf has H^i F = 0 for all i < 0, and H^0 F is a K-sheaf (Pardon, Lemma A.5.3, p. 124).
+- For a pure homotopy K-sheaf on compact X there is a canonical isomorphism `H^•F(X) ≅ Ȟ^•(X; H^0 F)`; for a finite sequence of pure homotopy K-sheaves with adjacent composites zero, the cohomology of the total complex of global sections is the Čech hypercohomology of the corresponding sequence of H^0 sheaves, each shifted by its position (Pardon, Proposition A.5.4, pp. 124–125).
+- If X = U ∪ Z with U open and Z closed and the restrictions of a homotopy K-sheaf to U and to Z are pure, then it is pure (Pardon, Lemma A.5.5, p. 125).
+
+**Checks.**
+
+- On X = [0, 1] ⊆ ℝ, F(K) = C_(1−•)(ℝ, ℝ∖K) is pure with stalks ℤ in degree 0, and H^•F(X) = H_(1−•)(ℝ, ℝ∖[0, 1]) is ℤ in degree 0, matching Ȟ^0([0, 1]; o_ℝ) = ℤ and Ȟ^(q>0) = 0.
+- The constant K-sheaf ℤ placed in degree 1 has stalk cohomology in degree 1 and is not pure; the purity formula would predict H^1 = Ȟ^1(X; 0) = 0, whereas on X a point its global sections have H^1 = ℤ.
+- On a finite discrete X with n points, a pure F has H^0 F(X) equal to the direct sum of the n stalk cohomologies and H^(q≠0) F(X) = 0, since Ȟ^(q>0) of a finite discrete space vanishes.
+
+*Needs:* §0.6, §0.7.
+
+### 0.9 Extension by zero, finite fibers and finite quotients
+
+For an open inclusion j : U → X define j_! F as the subsheaf of j_* F of sections vanishing near X∖U, and use Mathlib's `TopCat.Sheaf.pullback` for f^* (Pardon, Definition A.3.5, p. 119). Define support enlargement Ȟ^•_K → Ȟ^•_(K') for compact K ⊆ K'.
+
+- For an open inclusion j : U → X there is a natural isomorphism `Ȟ^•_c(U; F) ≅ Ȟ^•_c(X; j_! F)` (Pardon, Lemma A.4.7, p. 120).
+- For a proper map f with finite fibers, pullback `Ȟ^•(Y; f_* F) → Ȟ^•(X; F)` and its compactly supported version are isomorphisms (Pardon, Lemma A.4.8, p. 121).
+- For a finite group Γ acting on X, not necessarily freely or effectively, with quotient π : X → X/Γ, and a sheaf F of modules over R with |Γ| invertible in R, the maps `Ȟ^•(X/Γ; F) → Ȟ^•(X/Γ; (π_* π^* F)^Γ) → Ȟ^•(X/Γ; π_* π^* F)^Γ → Ȟ^•(X; π^* F)^Γ` are isomorphisms, and likewise with compact supports (Pardon, Lemma A.4.9, p. 121).
+
+**Checks.**
+
+- For j : (0, 1) → [0, 1], Ȟ^•([0, 1]; j_! ℤ) = Ȟ^•_c((0, 1); ℤ) is ℤ in degree 1 and zero otherwise, while Ȟ^•([0, 1]; j_* ℤ) is ℤ in degree 0: j_! and j_* are not interchangeable.
+- For ℤ/2 acting on S¹ by the reflection (x, y) ↦ (x, −y), the quotient is an interval with Ȟ^1 = 0, and the reflection acts on Ȟ^1(S¹; ℚ) = ℚ by −1, so the invariants are 0; for the antipodal action the quotient is a circle and the invariants are ℚ.
+- Over ℤ, where 2 is not invertible, the antipodal double cover S¹ → S¹ pulls Ȟ^1(S¹; ℤ) = ℤ back by multiplication by 2 onto the invariants ℤ, with cokernel ℤ/2: the invertibility hypothesis is needed.
+
+*Needs:* §0.7; §0.3; Mathlib `TopCat.Sheaf.pushforward`, `TopCat.Sheaf.pullback`.
+
+### 0.10 Local orientations and closed-subset duality
+
+For a topological manifold M of dimension n, with no second countability or paracompactness assumed (Pardon, Convention A.6.1, p. 125), define the orientation sheaf o_M as the sheaf whose K-sections are H_n(M, M∖K), of parity n (Pardon, Definition A.6.2, p. 126). For M with boundary, inclusion j of the interior and i of the boundary, define `o_M = j_* o_(M∖∂M)` and `o_(M rel∂) = j_! o_(M∖∂M)`.
+
+- o_M and o_(M rel∂) on the interior are locally isomorphic to the constant sheaf ℤ, and `0 → o_(M rel∂) → o_M → i_* o_(∂M) → 0`, whose last map is the boundary map of the pair (M, ∂M), is exact on stalks (Pardon, Definition A.6.2, p. 126).
+- For compact K ⊆ M, H_q(M, M∖K) = 0 for q > n, uniformly in K. Route: Mayer–Vietoris induction over compact convex pieces of charts (Hatcher, Lemma 3.27(b), p. 236) with the half-space model added, where H∖K is contractible for a compact convex K meeting the boundary hyperplane.
+- For a closed subset i : Z → M and a closed tamely embedded codimension-0 submanifold with boundary N ⊆ ∂M, with j : M° ∪ N° → M, there is a canonical isomorphism `H^•[C_(n−1−•)(N, N∖Z) → C_(n−•)(M, M∖Z)] ≅ Ȟ^•_c(Z; i^* j_! j^* o_M)`, and for N = ∅ `H_(n−•)(M, M∖Z) ≅ Ȟ^•_c(Z; i^* o_(M rel∂))` (Pardon, Lemma A.6.4, p. 127). The route is §0.6 Lemma A.6.3, purity (§0.8) on the one-point compactification of Z and §0.9.
+
+**Checks.**
+
+- For M = ℝ and Z = {0}: H_(1−q)(ℝ, ℝ∖0) is ℤ at q = 0, and Ȟ^0_c(point; ℤ) = ℤ; for Z = ℝ: H_(1−q)(ℝ) is ℤ at q = 1, and Ȟ^1_c(ℝ; ℤ) = ℤ.
+- For M = Z = [0, ∞) and N = ∅: H_(1−q)([0, ∞)) is ℤ at q = 1 and Ȟ^1_c([0, ∞); o_(M rel∂)) = Ȟ^1_c((0, ∞); ℤ) = ℤ, whereas Ȟ^•_c([0, ∞); o_M) = 0 in every degree: o_M in place of o_(M rel∂) is wrong.
+- For M = [0, ∞) and K = {0}: H_q(M, M∖0) = 0 for all q, so the boundary stalk of o_M is not the absolute local homology there; the stalk ℤ of o_M at 0 comes from j_*.
+
+*Needs:* §0.6, §0.8, §0.9; AlgebraicTopology Stage 2.
+
+### 0.11 Finite interval diagrams and pure gluing
+
+For a finite poset S define an interval diagram as complexes A_(s,t) for s ≤ t with compatible maps A_(s,t) → A_(s',t') for s ≤ s' ≤ t' ≤ t (Pardon, Definition A.7.1, p. 128), and its total as `⊕_(p≥0) ⊕_(s₀<…<s_p) A_(s₀,s_p)^(•+p)` with differential the internal one plus the alternating sum of the maps deleting one s_i (Pardon, Definition A.7.2, p. 128), each flag weighted by the orientation line of its simplex and normalized by §0.5. For posets S and T define the product total map from the tensor product of the totals to the total of the tensor diagram over S × T through the simplicial subdivision of the product of nerves (Pardon, Definition A.7.5, p. 128).
+
+- If S has a unique maximal element s_top and every map A_(s,t) → A_(s,t') is a quasi-isomorphism, then A_(s_top,s_top) → total is a quasi-isomorphism (Pardon, Lemma A.7.3, p. 128).
+- A compatible family of quasi-isomorphisms of interval diagrams induces a quasi-isomorphism of totals (Pardon, Lemma A.7.4, p. 128).
+- The product total map is a quasi-isomorphism, by the subdivision of the product of nerves (Pardon, Definition A.7.5 and footnote 46, p. 128).
+- The total of an interval diagram of homotopy K-sheaves is a homotopy K-sheaf (Pardon, Lemma A.8.1, p. 129).
+- Pure gluing: for a finite set A, an open cover {U_I} of X indexed by subsets of A with U_I ∩ U_K ⊆ U_J for I ⊆ J ⊆ K and U_I ∩ U_I' ⊆ U_(I∪I'), a sheaf G, and an interval diagram of pure homotopy K-sheaves F_IJ over the subsets of A with compatible isomorphisms `(j_IJ)_! (j_IJ)^* G ≅ H^0 F_IJ`, where j_IJ is the inclusion of U_I ∩ U_J, the total is pure with a canonical isomorphism G ≅ H^0 (Pardon, Lemma A.8.2, p. 129).
+
+**Checks.**
+
+- For S = {0 < 1} with A_00 = A_11 = A_01 = ℚ and identity maps, the total is `ℚ → ℚ ⊕ ℚ`, x ↦ (−x, x) in the deletion order (delete s₀ with sign +, s₁ with sign −), with cohomology ℚ in degree 0, as the terminal-object statement requires.
+- For the same S with zero maps, the cohomology is ℚ² in degree 0 and ℚ in degree −1, so the quasi-isomorphism hypothesis of the terminal-object statement cannot be dropped.
+- For A = ∅ the cover is the single set U_∅ = X, the total is F_∅∅ and pure gluing reduces to G ≅ H^0 F_∅∅.
+
+*Needs:* §0.5, §0.6, §0.8, §0.9; DGAInfinity Layer 0.
 
 ### Examples
 
@@ -181,7 +274,7 @@ The orientation line of ℝ with its reflection, the swap of two odd lines, the 
 
 ### Dependencies
 
-TopologicalSheafCohomology TS0 and TS4; AlgebraicTopology Stages 2 and 6; DGAInfinity Layer 0; Mathlib and Tau Ceti as listed.
+AlgebraicTopology Stages 2 and 6; DGAInfinity Layer 0; Mathlib and Tau Ceti as listed.
 
 ## Layer 1: Topological implicit atlases (V1)
 
@@ -292,7 +385,7 @@ for I ⊆ I' ⊆ J' ⊆ J ⊆ B ⊆ B', with new t-coordinates zero, the evident
 - For B = I = J = {α}, X_α = ℝ, s_α(x) = x, trivial Γ_α, d = 0: D = {(e, t, x) : x = t e, t ≥ 0} ≅ ℝ × ℝ_≥0 by (e, t), of dimension 0 + 1 + 1 = 2, and Z_X = {(0, t, 0) : t ≥ 0} is a closed noncompact half-line.
 - For B = J = {α}, I = ∅ and X_∅^reg = ∅: the condition ψ_∅α(x) ∈ X_∅^reg is never satisfied, so D_(∅,α,α) = ∅.
 
-*Needs:* §1.1, §1.2; TS4 for the tame-pair statements.
+*Needs:* §1.1, §1.2; §0.10 for the tame-pair statements.
 
 ### 2.2 Partial virtual complexes
 
@@ -316,7 +409,7 @@ Let N_IJ(K)^q use ∂ₓD with homological index d + m_B − 1 − q and support
 
 ### 2.3 The virtual cochain complex
 
-Apply TS5's finite interval/flag total on the poset of subsets of B to obtain C_vir(K; B) and C_vir(K rel∂; B) (Pardon, Definition 4.2.6, p. 36, with the homotopy colimit of Definition A.7.2, p. 128). Preserve the deletion and super-to-native sign conventions, endpoint maps and finite filtrations. Define H_vir by native cohomology. The notation C_vir(K; B) at a proper compact K ⊆ X does not assert that B is an atlas on K. For every comparison B ⊆ B' and every product map, state the reindexed shuffle chain map conjugated by TS0's sign `(−1)^(τ r)` with the actual degree r, and prove the squares with the inclusion of the smaller atlas and its support maps commute. The induced map on H^0 of a finite quotient is the plain pullback, as in Pardon, Lemma A.4.9, p. 121; the normalization sits on the chain arrows only.
+Apply the finite interval/flag total of §0.11 on the poset of subsets of B to obtain C_vir(K; B) and C_vir(K rel∂; B) (Pardon, Definition 4.2.6, p. 36, with the homotopy colimit of Definition A.7.2, p. 128). Preserve the deletion and super-to-native sign conventions, endpoint maps and finite filtrations. Define H_vir by native cohomology. The notation C_vir(K; B) at a proper compact K ⊆ X does not assert that B is an atlas on K. For every comparison B ⊆ B' and every product map, state the reindexed shuffle chain map conjugated by the §0.5 sign `(−1)^(τ r)` with the actual degree r, and prove the squares with the inclusion of the smaller atlas and its support maps commute. The induced map on H^0 of a finite quotient is the plain pullback, as in Pardon, Lemma A.4.9, p. 121; the normalization sits on the chain arrows only.
 
 - C_vir(−; B) and C_vir(− rel∂; B) are complexes of K-presheaves, with restriction, coefficient change, finite sums, cones and homotopies.
 - There is no ordinary-colimit replacement for the flag total: the flag total is a finite direct sum with flag length p in cochain degree −p and parity p.
@@ -327,7 +420,7 @@ Apply TS5's finite interval/flag total on the poset of subsets of B to obtain C_
 - For B = {α}: the pairs I ⊆ J ⊆ B are (∅, ∅), (∅, α), (α, α), and the flags of subsets are ∅, {α} and ∅ ≺ {α}; the flag total is the (∅, ∅) and (α, α) complexes in flag length 0 plus the (∅, α) complex in flag length 1, shifted to cochain degree −1, glued by the arrows (∅, α) → (∅, ∅) and (∅, α) → (α, α) (Pardon, Definition A.7.2, p. 128). A total that also placed the (∅, α) complex in flag length 0 would have Euler characteristic changed by twice that complex's.
 - For X = ∅ every deformation space is empty and C_vir(X; B) = 0.
 
-*Needs:* §2.2; TS0; TS5; Mathlib `CochainComplex.shiftFunctor`.
+*Needs:* §2.2; §0.5; §0.11; Mathlib `CochainComplex.shiftFunctor`.
 
 ### Examples
 
@@ -335,7 +428,7 @@ The single chart s(x) = x on ℝ gives a deformation half-plane whose relative h
 
 ### Dependencies
 
-Layers 0 and 1; TopologicalSheafCohomology TS0, TS4, TS5; Tau Ceti `TopPair.twistedChainComplex`.
+Layers 0 and 1; Tau Ceti `TopPair.twistedChainComplex`.
 
 ## Layer 3: Orientation sheaf, partial purity and global Čech comparison (V3)
 
@@ -355,13 +448,13 @@ Define an atlas to be locally orientable when for every finite I and every regul
 - For the manifold atlas on the real projective plane (A = ∅), o_X is the nontrivial orientation local system: the atlas is locally orientable without a global orientation.
 - At a boundary point of X = [0, 1] the stalk of o_(X rel∂) = j_! j^* o_X is 0, whereas `j_*` would give ℤ.
 
-*Needs:* §0.2, §1.1, §1.2; TS4.
+*Needs:* §0.2, §0.10, §1.1, §1.2.
 
 ### 3.2 Partial purity
 
-Prove that the relative and absolute partial complexes are homotopy K-sheaves, using open-complement Mayer–Vietoris, closed-support continuity by compact simplex images, finite-group exactness and TS2's stability. Prove the weak local lower bound q ≤ −|I| − 2 for the displayed reindexing from TS4's manifold bound in ambient dimension d + m_B + |I|; the finite poset and flag length give a uniform bound before purity is applied, and the bound is not derived from the duality theorem it serves. For a locally orientable atlas, apply TS4 closed-subset duality to D and ∂ₓD, reduce through compactly supported cohomology in the |I| positive deformation directions and their fundamental generator, and then through TS3 finite quotient descent on ψ_∅J, to obtain for j_IJ : V_I ∩ V_J → X
+Prove that the relative and absolute partial complexes are homotopy K-sheaves, using open-complement Mayer–Vietoris, closed-support continuity by compact simplex images, finite-group exactness and the cone stability of §0.6. Prove the weak local lower bound q ≤ −|I| − 2 for the displayed reindexing from the manifold bound of §0.10 in ambient dimension d + m_B + |I|; the finite poset and flag length give a uniform bound before purity is applied, and the bound is not derived from the duality theorem it serves. For a locally orientable atlas, apply the closed-subset duality of §0.10 to D and ∂ₓD, reduce through compactly supported cohomology in the |I| positive deformation directions and their fundamental generator, and then through the finite quotient descent of §0.9 on ψ_∅J, to obtain for j_IJ : V_I ∩ V_J → X
 
-`H^0(R_IJ) = alphaCompact(j_IJ! j_IJ^* o_(X rel∂))`, and `H^0 = alphaCompact(j_IJ! j_IJ^* o_X)` for the absolute cone,
+`H^0(R_IJ) = (j_IJ! j_IJ^* o_(X rel∂))^K`, and `H^0 = (j_IJ! j_IJ^* o_X)^K` for the absolute cone, where `(−)^K` is the K-sheaf of §0.6,
 
 with vanishing higher singleton cohomology (Pardon, Lemma 4.3.1, pp. 37–38; Lemma 4.3.2, p. 38). Construct the suspension isomorphism `H_c^(q+k)(Y × ℝ^k; p⁻¹F ⊗ o_ℝ^(⊗k)) ≅ H_c^q(Y; F)` for every locally compact Hausdorff Y and sheaf F: for k = 1 compactify Y to Y⁺, use the pair `(Y⁺ × [−1, 1], (Y⁺ × {−1, 1}) ∪ ({∞} × [−1, 1]))`, the interval comparison of pulled-back sheaves and the relative long exact sequence, and iterate over the ordered factors.
 
@@ -375,7 +468,7 @@ with vanishing higher singleton cohomology (Pardon, Lemma 4.3.1, pp. 37–38; Le
 - For K disjoint from V_I ∩ V_J, H^0(R_IJ)(K) = 0.
 - For Y = pt and k = 1: H_c^1(ℝ) = ℤ and H_c^0(ℝ) = 0, so the suspension shifts degree by exactly 1.
 
-*Needs:* §2.2, §3.1; TS2, TS3, TS4; AlgebraicTopology Stage 3.
+*Needs:* §2.2, §3.1; §0.6, §0.9, §0.10; AlgebraicTopology Stage 3.
 
 ### 3.3 Footprint conditions
 
@@ -393,7 +486,7 @@ Derive from the atlas axioms that V_I ∩ V_K ⊆ V_J for I ⊆ J ⊆ K and V_I 
 
 ### 3.4 Global purity and the Čech comparison
 
-For a finite locally orientable atlas apply TS5 pure gluing to the weighted interval diagram over the open cover {V_I} to obtain pure global K-complexes with H^0 equal to o_X and o_(X rel∂), and the canonical isomorphisms (Pardon, Proposition 4.3.3, p. 38; Theorem 4.3.4, p. 39)
+For a finite locally orientable atlas apply the pure gluing of §0.11 to the weighted interval diagram over the open cover {V_I} to obtain pure global K-complexes with H^0 equal to o_X and o_(X rel∂), and the canonical isomorphisms (Pardon, Proposition 4.3.3, p. 38; Theorem 4.3.4, p. 39)
 
 `H_vir^q(X; B) ≅ Čech^q(X; o_X)`, `H_vir^q(X rel∂; B) ≅ Čech^q(X; o_(X rel∂))`.
 
@@ -408,7 +501,7 @@ For I = J construct the local comparison from E_(B∖I) × X_I^reg with its supp
 - For X = {0} with s(x) = x on ℝ: H_vir^0 = ℚ = Čech^0(pt; ℚ) and all other groups vanish.
 - For the reflection atlas of §1.1 the comparison is not asserted: its rational H_vir^0 at the point is the invariant part of the sign representation, which is 0, while any rank-one coefficient sheaf on a point has Čech^0 = ℚ.
 
-*Needs:* §3.1, §3.2, §3.3; TS1, TS2, TS5.
+*Needs:* §3.1, §3.2, §3.3; §0.7, §0.8, §0.11.
 
 ### Examples
 
@@ -416,7 +509,7 @@ For the manifold atlas, Layer 3 recovers Poincaré duality with the orientation 
 
 ### Dependencies
 
-Layers 0–2; TopologicalSheafCohomology TS1–TS5; AlgebraicTopology Stage 3.
+Layers 0–2; AlgebraicTopology Stage 3.
 
 ## Layer 4: Global obstruction trace and the rational virtual class (V4)
 
@@ -437,7 +530,7 @@ Define `B_B^k = C_(m_B−k)(E_B, E_B∖0; o_(E_B)^∨)^(Γ_B)` with the singular
 
 ### 4.2 The global relative trace
 
-Construct a chain map from the global relative virtual complex to `T_B^q = C_(d+m_B−q)(E_B, E_B∖0; o_(E_B)^∨)^(Γ_B)` (Pardon, equation (4.2.12), p. 36, defined on the global object only, footnote 17, p. 34). On the interval object (I, J) use the weighted obstruction pushforward `|Γ_J|⁻¹ · pr_e*`, and zero on positive flag lengths. Pardon's (4.2.12) takes the unweighted pushforward on the flag-length-0 part; with the arrows of §2.2 weighted by `|Γ_(J∖J')|⁻¹`, the unweighted family is not a cocone, and the weights here repair this: for J' ⊆ J the identity `|Γ_J'|⁻¹ · |Γ_(J∖J')|⁻¹ = |Γ_J|⁻¹` makes the weighted family compatible, which cancels the flag-boundary term. The pair map exists because Z_X = e⁻¹(0); for a proper K ⊆ X a point with e = 0 over X∖K lies outside Z_K but maps to 0, so there is no such map, and the absolute boundary cone has no trace either. Compare T_B with the native shift `B_B[−d]` by the degreewise sign `(−1)^(d(q−d))` on T_B^q, and construct the independent-parity change Π^d through TS0.
+Construct a chain map from the global relative virtual complex to `T_B^q = C_(d+m_B−q)(E_B, E_B∖0; o_(E_B)^∨)^(Γ_B)` (Pardon, equation (4.2.12), p. 36, defined on the global object only, footnote 17, p. 34). On the interval object (I, J) use the weighted obstruction pushforward `|Γ_J|⁻¹ · pr_e*`, and zero on positive flag lengths. Pardon's (4.2.12) takes the unweighted pushforward on the flag-length-0 part; with the arrows of §2.2 weighted by `|Γ_(J∖J')|⁻¹`, the unweighted family is not a cocone, and the weights here repair this: for J' ⊆ J the identity `|Γ_J'|⁻¹ · |Γ_(J∖J')|⁻¹ = |Γ_J|⁻¹` makes the weighted family compatible, which cancels the flag-boundary term. The pair map exists because Z_X = e⁻¹(0); for a proper K ⊆ X a point with e = 0 over X∖K lies outside Z_K but maps to 0, so there is no such map, and the absolute boundary cone has no trace either. Compare T_B with the native shift `B_B[−d]` by the degreewise sign `(−1)^(d(q−d))` on T_B^q, and construct the independent-parity change Π^d through §0.5.
 
 - The weighted pushforward is a chain map from the global relative virtual complex to T_B.
 - The reindexing comparison sends the degree-d generator to the degree-0 generator of B_B.
@@ -449,7 +542,7 @@ Construct a chain map from the global relative virtual complex to `T_B^q = C_(d+
 - For d = 1 and q = 2 the reindexing sign is (−1)^(1·1) = −1, and for q = d it is +1.
 - For the chart s_α(x) = x on X = {0} and K = ∅: Z_∅ = ∅, so the pair is (D, D), and a map of pairs to (E_B, E_B∖0) would have to send D into E_B∖0; the points (0, t, 0) of D have e = 0, so no map of pairs exists.
 
-*Needs:* §2.3, §4.1; TS0.
+*Needs:* §2.3, §4.1; §0.5.
 
 ### 4.3 The virtual class and finite-subatlas independence
 
@@ -457,7 +550,7 @@ For a locally orientable atlas with finite subatlas B, let κ_B : H_vir^d(X rel�
 
 `C_vir(− rel∂; B) ⊗ B_(B'∖B) → C_vir(− rel∂; B')`
 
-and its absolute version through the deformation-space maps, the shuffle map and TS5's product total (Pardon, Definition 4.2.7, p. 37), with the same weights |Γ_(J∖J')|⁻¹ on the interval arrows. Prove compatibility with the Čech comparison and the trace before passing to cohomology, and identity, composition, finite union and reindexing laws.
+and its absolute version through the deformation-space maps, the shuffle map and the product total of §0.11 (Pardon, Definition 4.2.7, p. 37), with the same weights |Γ_(J∖J')|⁻¹ on the interval arrows. Prove compatibility with the Čech comparison and the trace before passing to cohomology, and identity, composition, finite union and reindexing laws.
 
 - For finite subatlases B ⊆ B' of one locally orientable atlas, Φ_B = Φ_B'; hence Φ is independent of the finite subatlas, since any two lie in their union (Pardon, Definition 5.1.1 and Lemma 5.2.1, pp. 41–42).
 - The class is a functional on cohomology; no canonical chain-level functional to ℚ is asserted, and an internal chain-level representative must come with its splitting and its independence up to homotopy.
@@ -471,7 +564,7 @@ and its absolute version through the deformation-space maps, the shuffle map and
 - For the ineffective ℤ/2 point of §1.1 the class is 1/2 (Pardon, §2.3.3, p. 20); inserting a second factor 1/|Γ| into the quotient pullback on H^0 would give 1/4, and omitting the trace weight would give 1.
 - For the atlas X = X_α = {pt}, d = −1, E_α = ℝ of §1.1 the class is the zero functional on Čech^(−1) = 0, although X ≠ ∅.
 
-*Needs:* §3.4, §4.2; TS5.
+*Needs:* §3.4, §4.2; §0.11.
 
 ### Examples
 
@@ -479,7 +572,7 @@ For the manifold atlas the class is the fundamental class (§5.6); for zⁿ on �
 
 ### Dependencies
 
-Layers 0–3; TopologicalSheafCohomology TS0 and TS5.
+Layers 0–3.
 
 ## Layer 5: Boundary, refinement, pushforward and normalization (V5)
 
@@ -487,7 +580,7 @@ Throughout this layer atlases are locally orientable.
 
 ### 5.1 The boundary exact triangle
 
-Construct the boundary-atlas/absolute/relative exact triangle of virtual complexes and its comparison with the Čech long exact sequence of `0 → o_(X rel∂) → o_X → i_* o_(∂X) → 0` (Pardon, Proposition 4.4.2, pp. 39–40). The last map is odd; its even form uses the normal line o_ℝ or the parity change Π, and the boundary complex is compared through the shifted cone and minus differential of §2.2. Use the local I = J calculation for the first two squares and TS2's total-complex comparison for the connecting square.
+Construct the boundary-atlas/absolute/relative exact triangle of virtual complexes and its comparison with the Čech long exact sequence of `0 → o_(X rel∂) → o_X → i_* o_(∂X) → 0` (Pardon, Proposition 4.4.2, pp. 39–40). The last map is odd; its even form uses the normal line o_ℝ or the parity change Π, and the boundary complex is compared through the shifted cone and minus differential of §2.2. Use the local I = J calculation for the first two squares and the total-complex comparison of §0.8 (Proposition A.5.4 for finite sequences) for the connecting square.
 
 - The two long exact sequences are isomorphic through the comparisons of §3.4, including the connecting square with its normal-line parity.
 
@@ -497,7 +590,7 @@ Construct the boundary-atlas/absolute/relative exact triangle of virtual complex
 - For X with ∂X = ∅ the triangle degenerates to the identity of o_X.
 - For the opposite (inward-first) normal convention the connecting map is (a, b) ↦ a − b; the convention is fixed by this value.
 
-*Needs:* §3.4, §1.2; TS2.
+*Needs:* §3.4, §1.2; §0.8.
 
 ### 5.2 Boundary law and cobordism
 
@@ -541,7 +634,7 @@ For every continuous f : X → Y construct dual pullback on Čech cohomology wit
 - For the zⁿ atlas and any f : {0} → Y, f_*[X](1) = n on Čech^0.
 - For the identity map f_* is the identity on functionals.
 
-*Needs:* §4.3; TS1.
+*Needs:* §4.3; §0.7.
 
 ### 5.5 Finite-CW realization
 
@@ -578,7 +671,7 @@ The interval [0, 1] tests the boundary triangle, the boundary law and its sign; 
 
 ### Dependencies
 
-Layers 0–4; TopologicalSheafCohomology TS1 and TS2; CharacteristicClasses §C1.2b and §C2; AlgebraicTopology Stage 6.
+Layers 0–4; CharacteristicClasses §C1.2b and §C2; AlgebraicTopology Stage 6.
 
 ## Layer 6: Cell-like strata and products (V6)
 
@@ -615,7 +708,7 @@ Supply integral rank-one graded normal lines o_s, odd incidence maps for codimen
 
 ### 6.3 The stratified virtual complex
 
-Form the finite stratified virtual complex `⊕_s C_vir(K ∩ X^≤s rel∂; A|≤s) ⊗ o_s`, with differential the internal one plus the degree +1 pushforward on each codimension-1 incidence tensored with its odd normal map (Pardon, Definition 6.2.2, pp. 49–50). Construct the TS0 normalization and prove d² = 0. Construct the map to the unstratified complex by summing the dimension-d terms and the physical boundary dimension-(d − 1) terms with the normal identifications.
+Form the finite stratified virtual complex `⊕_s C_vir(K ∩ X^≤s rel∂; A|≤s) ⊗ o_s`, with differential the internal one plus the degree +1 pushforward on each codimension-1 incidence tensored with its odd normal map (Pardon, Definition 6.2.2, pp. 49–50). Construct the §0.5 normalization and prove d² = 0. Construct the map to the unstratified complex by summing the dimension-d terms and the physical boundary dimension-(d − 1) terms with the normal identifications.
 
 - For a finite locally orientable stratified atlas this map is a quasi-isomorphism compatible with the sheaf identifications and restrictions (Pardon, Proposition 6.2.3, p. 50), proved by a finite dimension filtration, homotopy K-descent and local generator cycles across incident strata.
 
@@ -625,11 +718,11 @@ Form the finite stratified virtual complex `⊕_s C_vir(K ∩ X^≤s rel∂; A|�
 - For [0, 1] with three strata, the complex is `C_vir([0,1] rel∂) ⊕ C_vir({0}) ⊗ o ⊕ C_vir({1}) ⊗ o` with the two incidence maps, and its cohomology is that of C_vir([0, 1]).
 - Equality of Euler characteristics alone does not give the quasi-isomorphism: a complex ℚ → ℚ with zero differential and one with the identity have equal Euler characteristic and different cohomology.
 
-*Needs:* §6.2, §4.3; TS0, TS2.
+*Needs:* §6.2, §4.3; §0.5, §0.8.
 
 ### 6.4 Product atlases
 
-Construct product atlases on X₁ × X₂ indexed by A₁ ⊔ A₂, with products of thickenings, obstruction sums, group products, products of regular loci and product charts (Pardon, Definition 6.3.1, pp. 50–51). The product boundary is the union of the two boundaries with its cell-like face refinement; for stratified factors stratify by S₁ × S₂ with dimension dim(s₁) + dim(s₂), and prove the zero-fiber compatibility and normal-line identifications from those of the factors. Construct the product virtual chain map by relative shuffle and TS5's product total, with order and parity signs (Pardon, Definition 6.3.2, p. 51).
+Construct product atlases on X₁ × X₂ indexed by A₁ ⊔ A₂, with products of thickenings, obstruction sums, group products, products of regular loci and product charts (Pardon, Definition 6.3.1, pp. 50–51). The product boundary is the union of the two boundaries with its cell-like face refinement; for stratified factors stratify by S₁ × S₂ with dimension dim(s₁) + dim(s₂), and prove the zero-fiber compatibility and normal-line identifications from those of the factors. Construct the product virtual chain map by relative shuffle and the product total of §0.11, with order and parity signs (Pardon, Definition 6.3.2, p. 51).
 
 - The product of implicit atlases is an implicit atlas of dimension d₁ + d₂; the product of locally orientable atlases is locally orientable, because (Γ_I × Γ_J)_(x,y) = (Γ_I)_x × (Γ_J)_y acts on the tensor product factorwise; and `p₁⁻¹o₁ ⊗ p₂⁻¹o₂ ≅ o_(X₁×X₂)` by the local diagonal calculation.
 - The product chain map is associative, unital, compatible with finite subatlases and with the global traces and ordered obstruction generators.
@@ -640,7 +733,7 @@ Construct product atlases on X₁ × X₂ indexed by A₁ ⊔ A₂, with product
 - The product of the ineffective ℤ/2 point with itself has group ℤ/2 × ℤ/2 and class 1/4.
 - The product of two manifold atlases on [0, 1] has boundary the four edges with the corner stratification of the square.
 
-*Needs:* §4.3, §6.1, §6.2; TS5.
+*Needs:* §4.3, §6.1, §6.2; §0.11.
 
 ### 6.5 Čech external product and the product class
 
@@ -655,7 +748,7 @@ Construct the compact rational Čech external product for virtual orientation li
 - For the Warsaw circle W and a point: Čech^1(W × pt) = Čech^1(W) = ℚ, although singular H^1(W) = 0, so a singular Künneth theorem would give the wrong answer.
 - For d₁ = d₂ = 1 the factor swap X₁ × X₂ → X₂ × X₁ changes the product class on a (1, 1) class a ⊠ b by (−1)^(1·1) = −1.
 
-*Needs:* §6.4, §3.4; TS1; AlgebraicTopology Stage 6.
+*Needs:* §6.4, §3.4; §0.7; AlgebraicTopology Stage 6.
 
 ### Examples
 
@@ -663,7 +756,7 @@ The square [0, 1]² as a product of two interval atlases tests the corner strati
 
 ### Dependencies
 
-Layers 0–5; TopologicalSheafCohomology TS0, TS1, TS2, TS5; AlgebraicTopology Stage 6; AbelianSchemesAndArithmeticModuliPartII §B2.9.
+Layers 0–5; AlgebraicTopology Stage 6; AbelianSchemesAndArithmeticModuliPartII §B2.9.
 
 ## Layer 7: Transverse fiber products and application interfaces (V7)
 
@@ -726,7 +819,7 @@ API:
 - In the same example ū = 0, since it is pulled back from H¹(ℝ²) = 0; defining H(ι_*) as cup product with ū would give 0 ≠ i_!(1, 0). The class (1, 0) is not restricted from any neighborhood of f(Z) = {0} in M, but it is restricted from two disjoint arcs around Z in S¹, which is why a extends in P.
 - In the same example i^*(1) = (1, 1) and i_!(1, 1) = η − η = 0 = 1 ⌣ ū, as `i_!(i^*b) = b ⌣ ū` requires.
 
-*Needs:* §7.1, §7.2, §3.4, §4.3; TS1; CharacteristicClasses §C2 item 1; AlgebraicTopology Stage 6.
+*Needs:* §7.1, §7.2, §3.4, §4.3; §0.7; CharacteristicClasses §C2 item 1; AlgebraicTopology Stage 6.
 
 ### 7.4 Application interface
 
@@ -748,7 +841,7 @@ Two transverse zeros of sin θ on S¹ over ℝ give a nonzero supported Gysin ma
 
 ### Dependencies
 
-Layers 0–6; TopologicalSheafCohomology TS1; CharacteristicClasses §C2; AlgebraicTopology Stage 6.
+Layers 0–6; CharacteristicClasses §C2; AlgebraicTopology Stage 6.
 
 ## Downstream consumers
 
@@ -756,4 +849,5 @@ AnalyticStableMaps, GromovWittenTheory, SymplecticFieldTheory, DGFloer and Hamil
 
 ## References
 
-- [Pardon] J. Pardon, *An algebraic approach to virtual fundamental cycles on moduli spaces of pseudo-holomorphic curves*, Geometry & Topology 20 (2016), arXiv:1309.2370v6. Page numbers above are the printed pages of arXiv v6. Cited for: Remark 2.1.5, p. 14 (specified equivalence of atlases); Example 2.3.2, p. 20 and §2.3.3, p. 20 (single-chart weights); Definitions 3.1.1, 3.1.3, Remark 3.1.5, pp. 31–33; Definitions 3.2.1, 3.2.3, p. 33; Definitions 4.1.1–4.1.3, pp. 34–35, with footnote 17, p. 34; Definitions 4.2.1, 4.2.4–4.2.7, pp. 35–37; Lemmas 4.3.1–4.3.2, Proposition 4.3.3 and Theorem 4.3.4, pp. 37–39; Proposition 4.4.2, pp. 39–40; §5 introduction, p. 40; Definition 5.1.1 and Lemmas 5.2.1–5.2.6, pp. 41–43; Definition 5.3.1 and Proposition 5.3.4, pp. 44–45; Definition 5.4.2, p. 46; Definitions 6.1.1–6.1.6, Example 6.1.4 and Lemma 6.1.5, pp. 47–48; Definition 6.2.2 and Proposition 6.2.3, pp. 49–50; Definitions 6.3.1–6.3.2, pp. 50–51; Lemma A.4.9, p. 121; Definition A.7.2, p. 128.
+- [Pardon] J. Pardon, *An algebraic approach to virtual fundamental cycles on moduli spaces of pseudo-holomorphic curves*, Geometry & Topology 20 (2016), arXiv:1309.2370v6. Page numbers above are the printed pages of arXiv v6. Cited for: Remark 2.1.5, p. 14 (specified equivalence of atlases); Example 2.3.2, p. 20 and §2.3.3, p. 20 (single-chart weights); Definitions 3.1.1, 3.1.3, Remark 3.1.5, pp. 31–33; Definitions 3.2.1, 3.2.3, p. 33; Definitions 4.1.1–4.1.3, pp. 34–35, with footnote 17, p. 34; Definitions 4.2.1, 4.2.4–4.2.7, pp. 35–37; Lemmas 4.3.1–4.3.2, Proposition 4.3.3 and Theorem 4.3.4, pp. 37–39; Proposition 4.4.2, pp. 39–40; §5 introduction, p. 40; Definition 5.1.1 and Lemmas 5.2.1–5.2.6, pp. 41–43; Definition 5.3.1 and Proposition 5.3.4, pp. 44–45; Definition 5.4.2, p. 46; Definitions 6.1.1–6.1.6, Example 6.1.4 and Lemma 6.1.5, pp. 47–48; Definition 6.2.2 and Proposition 6.2.3, pp. 49–50; Definitions 6.3.1–6.3.2, pp. 50–51; Conventions A.0.1 and A.0.3, pp. 113–114; Definitions A.1.1–A.1.6 and Lemma A.1.8, pp. 114–115; Definition A.2.5 and Lemmas A.2.11–A.2.12, pp. 117–118; Lemma A.3.3 and Definitions A.3.4–A.3.6, pp. 118–119; Remarks A.4.1–A.4.2 and Definition A.4.3, p. 119; Lemmas A.4.4–A.4.5 and Definition A.4.6, p. 120; Lemmas A.4.7–A.4.9 and Definition A.4.10, pp. 120–121; Lemmas A.4.11–A.4.13 and Proposition A.4.14, p. 122; Lemma A.4.15, Proposition A.4.18 and Corollary A.4.19, p. 123; Lemma A.4.20 and Definition A.4.21, p. 124; Definition A.5.1, Lemma A.5.3 and Proposition A.5.4, pp. 124–125; Lemma A.5.5, p. 125; Convention A.6.1, Definition A.6.2 and Lemma A.6.3, pp. 125–126; Lemma A.6.4, p. 127; Definitions A.7.1, A.7.2, A.7.5, Lemmas A.7.3–A.7.4 and footnote 46, p. 128; Lemmas A.8.1–A.8.2, p. 129.
+- [Hatcher] A. Hatcher, *Algebraic Topology*, Cambridge University Press, 2002, author's online edition. Cited for: Lemma 3.27(b), p. 236 (vanishing of local homology above the dimension, §0.10).
