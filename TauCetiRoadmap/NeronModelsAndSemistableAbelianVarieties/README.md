@@ -210,6 +210,11 @@ It leaves to other roadmaps, and consumes from them:
   roadmap.
 - **JacobianChallenge Part II**: the comparison of the Hodge line `det e^*Ω¹` of the Picard
   scheme of a stable family with `det π_*ω`; it consumes 4.13.
+- **RelativeJacobiansAndIntegralCurveModels**, §§3.2–3.5: Raynaud's representability of
+  `Pic⁰` for normal models with multiplicity gcd one, the Néron comparison of the quotient
+  `P/E` for regular models over an arbitrary Dedekind base with perfect residue field or an
+  étale quasi-section, and the gluing of the Picard-computed global Néron model. This roadmap keeps the strictly henselian, algebraically closed residue-field case of
+  3.9 and 4.7, which that roadmap consumes.
 - **ModularCurvesPartII**, **SerreWeightAndLevelOptimisation**, **ArakelovGeometryAndAbelianHeights**,
   **FaltingsFinitenessAndIsogenyTheorems**, **SmallRamificationAndAbelianVarietyBaseCases**,
   **HeegnerPointEulerSystems**, **GrossZagierAndArithmeticHeights**,
@@ -1302,10 +1307,11 @@ abelian rank `a`, `g = t + a`), `isogeny` (3.2), `dual` (`A` is semistable if an
 dual is), `finite_basechange` (3.3), `identity_basechange` (3.3), `toric_zero` (for semistable
 `A`, toric rank zero is equivalent to good reduction) and `product` (a product is semistable if
 and only if both factors are, via the product model and its connected special fibre).
-For an excellent `R`, prove `SemistableReduction.henselization_iff`: semistability over
-`R` is equivalent to semistability over its henselisation. Extend 1.10 to this filtered
-étale limit using finite presentation, and descend the semi-abelian special fibre by
-2.4; the residue field is unchanged (Conrad, §4, p. 9; the limit construction is
+For every discrete valuation ring `R`, prove `SemistableReduction.henselization_iff`:
+semistability over `R` is equivalent to semistability over its henselisation. Extend 1.10 to
+this filtered limit of local étale `R`-algebras using finite presentation, and descend the
+semi-abelian special fibre by 2.4; the residue field is unchanged, and no excellence of `R`
+enters (Conrad, §4, p. 9; the limit construction is
 SchemeAndStackFoundations §§0.12–0.14). Good
 reduction is not a consequence of semistability; it requires the abelian-scheme model of 1.8.
 *Needs:* 1.10, 2.1, 2.3, 2.4; SchemeAndStackFoundations §§0.12–0.14;
@@ -2044,8 +2050,6 @@ Mathlib `Finsupp.linearCombination`, `LinearMap.ker`, `TensorProduct`.
   `[[2,−1],[−1,2]]` and the component group is `ℤ/3`. For two components meeting twice,
   the corresponding formulas are `1 + 2 = 2 + 1` and Gram matrix `[2]`.
 
-<a id="weighted-graph"></a>
-
 **Weighted graphs and their discriminant groups.** Define `WeightedGraph V E` on arbitrary
 vertex and edge types, with endpoint maps `src, tgt : E → V` and positive integral
 `thickness : E → ℕ+`. The edge form, Gram map and finite discriminant group assume finite
@@ -2070,8 +2074,7 @@ thicknesses, and endpoints `inl ∘ src`, `inr ∘ tgt`. Prove
 exactly when both endpoint pushforwards vanish separately. This is an application of
 signed incidence on the disjoint vertex sets, not an identification with `H1` of the
 original graph. The double is used when the geometric fibre has two labelled families
-of components; a graph identification with that fibre is required. This interface follows
-the geometry-free graph and torsion organization of the Imperial College London FLT project.
+of components; a graph identification with that fibre is required.
 
 **Checks.**
 
@@ -2088,8 +2091,6 @@ the geometry-free graph and torsion organization of the Imperial College London 
 - Three cyclically oriented edges forming a triangle have ordinary cycle `(1,1,1)`;
   neither endpoint pushforward vanishes. Positivity of thickness is essential to finite
   cokernel: a zero-weight loop would give the infinite quotient `ℤ`.
-
-<a id="hecke-family"></a>
 
 **Hecke families and adjoint functoriality.** Define `HeckeFamily` on a weighted graph:
 for an index type of places, commuting integral endomorphisms of the edge module and of
@@ -2117,8 +2118,6 @@ and 4.3, 4.6, 6.1. No automorphic Hecke algebra is defined here.
   induced component map is multiplication by `m` from `ℤ/n` to `ℤ/(mn)`.
 - A commuting edge operator alone need not preserve cycles: on two parallel edges,
   `diag(1,2)` takes `(1,−1)` to `(1,−2)`. Stability at an exceptional index is substantive.
-
-<a id="graph-matching"></a>
 
 **Matchings.** Define `Matching` between two `HeckeFamily` objects to consist of edge
 and vertex bijections preserving both endpoints and thickness, with the induced coordinate
@@ -2596,8 +2595,6 @@ ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2; StableReduction Lay
 
 ### 4.14 Semistable torsion with commuting coefficient actions
 
-<a id="semistable-torsion-datum"></a>
-
 **The torsion datum and specialization laws.** Define `SemistableTorsionDatum` over an
 arbitrary commutative ring `𝕋`, a prime `ℓ`, a henselian discrete valuation field `K`
 of residue characteristic different from `ℓ`, and a finite weighted graph `G` as in 4.2.
@@ -2643,8 +2640,6 @@ AbelianSchemesAndArithmeticModuli A3 for torsion and quotient group schemes.
 - At the residue prime, geometric points and scheme ranks differ already for `μ_p`;
   this point-module datum requires `ℓ ≠ char k`, whereas 3.5 retains finite flat group schemes.
 
-<a id="semistable-torsion-frobenius"></a>
-
 **Frobenius and good-place laws.** Over finite residue field of cardinality `q_r`,
 with a distinguished element `t_r ∈ 𝕋`, define the separate Prop structure
 `SemistableTorsionFrobeniusLaws`: arithmetic Frobenius acts by `q_r t_r` on `Tᵗ`
@@ -2684,8 +2679,6 @@ pp. 74–75, for the Hecke normalization). *Needs:* 3.13–3.14,
   requires a Hecke realization. A nontrivial diamond action retains `s_v`.
 - A place above `ℓ` is excluded even when reduction is good; good reduction alone
   does not make the residual `ℓ`-torsion representation unramified there.
-
-<a id="semistable-jacobian-torsion"></a>
 
 **Jacobian realization and two places.** Prove `SemistableJacobianTorsion`: for the
 Jacobian of a proper regular semistable curve over a henselian DVR, with `ℓ ≠ char k`
@@ -3650,8 +3643,6 @@ Theorems 1–2, p. 2); that erratum supplies the warning against exactness of N�
 - At a place prime to the degree with good reduction, `f^*` is an isomorphism.
 - The ranks of `ω_A` and `ω_B` are equal, so the cokernel is torsion.
 
-<a id="connected-neron-kummer"></a>
-
 ### 6.4a Kummer theory of the connected Néron model
 
 **Connected Néron Kummer sequence.** Let `S` be a Dedekind scheme with function field `K`,
@@ -3690,8 +3681,6 @@ Mathlib `Sheaf.H.longSequence_exact` and `Sheaf.H.δ_naturality`.
   be omitted when the multiplication integer is divisible by the residue characteristic.
 - A nonzero image in a rational component group gives `G(S) ⊊ A(K)`; replacing `G(S)`
   by all generic points changes the left term of the Kummer sequence.
-
-<a id="connected-neron-localization"></a>
 
 ### 6.4b Connected Néron torsors and localization
 
@@ -3749,8 +3738,6 @@ height and Selmer consumers identify their abelian Sha carriers with them.
   calculation alone does not assert a global torsor violating it. At odd primes the real
   target vanishes on primary parts.
 
-<a id="neron-isogeny-component-defects"></a>
-
 ### 6.4c Isogenies and component defects
 
 **Néron isogeny component defects.** Let `S` be a Dedekind scheme, and let `f : A → B` be any
@@ -3792,8 +3779,6 @@ SchemeAndStackFoundations §§2.1–2.4; Mathlib's snake lemma and sheaf cohomol
 - For multiplication by `p` on an additive elliptic identity fibre in characteristic `p`,
   the map on `𝔾_a` is zero. The identity cokernel `Q⁰` has a nonzero special-fibre quotient,
   so the semistable component-only cokernel formula cannot be extended to this case.
-
-<a id="semistable-quotient-cotangent"></a>
 
 ### 6.4d Exact cotangents of semistable quotients
 
@@ -4282,9 +4267,9 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   and its successors): the compatible system 6.10, the ordinary adapters 6.11–6.13 and the
   unramified-`3`-torsion example of 3.12.
 
-- **EisensteinIdealAndRationalTorsion**: `connected-neron-kummer` (6.4a),
-  `connected-neron-localization` (6.4b), `neron-isogeny-component-defects` (6.4c) and
-  `semistable-quotient-cotangent` (6.4d). Its Eisenstein-specific kernels, component maps,
+- **EisensteinIdealAndRationalTorsion**: Kummer theory of the connected Néron model (6.4a),
+  connected Néron torsors and localization (6.4b), isogenies and component defects (6.4c) and
+  exact cotangents of semistable quotients (6.4d). Its Eisenstein-specific kernels, component maps,
   integral modular differential comparison and formal-immersion theorem remain with the consumer.
 
 ## References
