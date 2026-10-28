@@ -1491,97 +1491,6 @@ actual oriented crossing/arc data and check every conjugation equation to
 certify the pictured knot coloring; group generation alone does not certify
 that coloring. The mandatory mixed-cycle example remains. For page106 use [the explicit indexed cinquefoil-double construction](#indexed-cinquefoil-doubles) below: the braid, incoming 3-cycles, transposition tree, cable blocks and bounded full-twist correction are specified there. Its geometric clasp/port and bridge comparisons are required proof targets. Do not replace that family by generic colorability or assert a uniquely printed signed variant of the source's schematic double. The exact outstanding data and semantic conditions for resolving all these holds are specified in [the owned source-input note](source-inputs.md#remaining-input-holds-and-resolution-criteria). This input specification does not claim that the missing data have been recovered.
 
-<a id="indexed-cinquefoil-doubles"></a>
-#### GT4: The indexed cinquefoil doubles and their bridge numbers
-
-For the page106 construction take k≥1 and N=2k+3. Define K_k as the
-closure of the positive braid `β_k=σ₁⁵σ₂⁵⋯σ_k⁵` on k+1 strands,
-with braid letters read from top to bottom. Construct its finite realized
-crossing code, its single component and its connected-sum comparison with
-k copies of the already specified positive T(2,5). Give the corresponding
-(k+1)-bridge position. Number source letters1,…,N and assign the incoming
-strand labels
-
-```text
-c₀=(1 2 3),     c_j=(3,2j+2,2j+3) for 1≤j≤k.
-```
-
-Use right-to-left permutation composition. Adjacent c_j,c_(j+1) have
-three-element supports meeting in exactly one letter. Prove the exact
-relation `c_j c_(j+1) c_j c_(j+1) c_j =
-c_(j+1) c_j c_(j+1) c_j c_(j+1)` and invariance of that ordered label
-pair under the fifth power of the positive Hurwitz crossing map
-`H(s,t)=(s t s⁻¹,s)`. Thus each braid block preserves its two incoming
-labels and the whole tuple closes. Compare this action with the geometric
-Wirtinger crossing convention, including the inverse crossing. The label
-group acts transitively: c₀ reaches1,2,3 and each c_j reaches its two
-new letters from3. The labels are even permutations; transitivity here
-is not a claim that they generate S_N.
-
-Factor the bridge labels using the ordered strand pairs
-`((1 3),(1 2))` and `((3,2j+3),(3,2j+2))`, respectively. Their products
-are the displayed 3-cycles. The source writes `(a b)` then `(a c)`;
-our right-to-left product order is `(a c)(a b)=(a b c)`. Its text and
-unoriented schematic figure do not select a contrary ordered-track
-convention. The resulting transposition edges are exactly
-`{1,2},{1,3}` and `{3,ℓ}` for4≤ℓ≤N: a tree with N−1=2k+2 edges.
-Prove their generated subgroup is S_N using the existing connected
-transposition-graph criterion.
-
-Make the doubling itself a finite construction on this realized diagram.
-For a positive crossing of two ordered pairs, cable it by the four-crossing
-word `σ₂σ₁σ₃σ₂`, shifted to the appropriate four strand indices.
-On input `(s,t,u,v)` its Hurwitz action must be
-`((st)u(st)⁻¹,(st)v(st)⁻¹,s,t)`; prove all four equations and the
-negative-crossing inverse. This transports the product of each under-pair
-by conjugation with the original over-label. Close by the existing
-marked Whitehead clasp pattern W_(+,m), with the Seifert-framed companion
-embedding, and supply the actual finite clasp/cap crossing code and
-its port equations. These are required geometric constructions, not
-consequences of the factor-tree calculation alone.
-
-Prove the local twist correction explicitly. For a fixed 3-cycle P,
-its ordered transposition factorizations are exactly three pairs. The
-Hurwitz map preserves their product and cycles these pairs; consequently
-H², one full twist, also cycles them. Compute EVERY bottom return pair
-of the cabled braid and its original product c_j. Choose separately for
-each marked return port a correction q_j∈{0,1,2} matching its required
-factor pair. The raw cable need not close, and a single arbitrary pair
-check is insufficient. Insert the chosen clasp at the marked cut and
-prove its port-product comparison and cap equations; retain its own
-correction by at most two full twists. Verify all crossing and cap
-relations on the resulting realized diagram, with the full generated
-subgroup S_N visible from the unmodified bridge labels.
-
-Compute the signed annulus framing and transport these distributed twists
-to the existing marked pattern W_(+,m) by an explicit diagram movie,
-including the preferred-longitude comparison and coloring transport.
-Adding or removing THREE full twists at a fixed regular pair changes
-the chosen double but preserves that pair's labels because H⁶=1;
-prove it preserves the full generated subgroup as well. Thus one may
-reduce m modulo3, obtaining a consistently colored W_(+,m)(K_k) for
-some m∈{0,1,2}. The transported bridge labels need not remain the literal
-initial tuple; retain their actual coloring correspondence. Give a finite
-algorithm selecting the least valid m and its coloring, and set D_k to
-that particular double. Do not infer clasp compatibility merely from
-transitivity or permit unspecified twists outside the marked pattern.
-
-The source asserts existence of *some* double and supplies no signed
-framing or twist number in Figure7.12. This specifies that existential
-construction by an explicit choice; it does not claim our markings were
-printed in that schematic figure. Its N=3+2k index is retained exactly.
-The surjective transposition coloring gives `b(D_k)≥N−1=2k+2`.
-Construct the doubled (k+1)-bridge position with the clasp and selected
-twists on monotone strands, giving the opposite inequality. Thus prove
-`b(D_k)=2k+2`, without using the general satellite lower-bound theorem.
-The existing once-punctured-torus surface and one-clasp-change witness
-give `g(D_k)≤1` and `u(D_k)≤1`; the bridge lower bound proves
-nontriviality, hence `g(D_k)=u(D_k)=1`. This realizes the source's
-unbounded-bridge/genus-one/unknotting-one family with its exact indices.
-The finite group companion [IndexedDoublingTargets.lean](IndexedDoublingTargets.lean)
-records the indexed cycles, relations, factor tree and full-twist orbit;
-the geometric realization and clasp comparisons remain mandatory here.
-
 #### GT4: Embedded surfaces, ordinary genus and satellite families
 
 Consume GT1's actual smooth compact-surface comparison and its existing PlanarTopology/SurfaceTopology classification/triangulation suppliers. Do not duplicate generic surface classification. Own the embedded finite disc-band presentation: discs and bands with signed boundary attaching intervals, finite cyclic attachment order, twists, height/crossing data and chosen boundary/orientation marking. Construct its embedding, boundary-cycle permutation and deformation retraction to the incidence graph; prove χ=d−b including isolated discs. Connected orientable case gives2g=2−d+b−r; connected nonorientable case gives crosscap number k=2−d+b−r. No orientable genus formula is asserted without orientability. Compare the graph/triangulation Euler characteristics and classification invariants. A disc-and-bands model of an arbitrary compact connected surface requires nonempty boundary; empty, disconnected and closed branches are separate.
@@ -2373,6 +2282,102 @@ with its induced longitude/meridian signs, to prove invertibility. An
 amphichirality comparison alone is not the orientation-reversal construction.
 Prove naturality of both maps under the standard marked-model identification.
 
+
+<a id="indexed-cinquefoil-doubles"></a>
+#### GT4: The indexed cinquefoil doubles and their bridge numbers
+
+Use the preceding GT4 coloring, realized braid/Wirtinger, marked Whitehead
+pattern, punctured-torus/clasp and bridge-upper-bound constructions. Only
+the independently constructed upper bound is consumed from the satellite
+package; its general satellite lower bound is not a premise here.
+
+For the page106 construction take k≥1 and N=2k+3. Define K_k as the
+closure of the positive braid `β_k=σ₁⁵σ₂⁵⋯σ_k⁵` on k+1 strands,
+with braid letters read from top to bottom. Construct its finite realized
+crossing code, its single component and its connected-sum comparison with
+k copies of the already specified positive T(2,5). Give the corresponding
+(k+1)-bridge position. Number source letters1,…,N and assign the incoming
+strand labels
+
+```text
+c₀=(1 2 3),     c_j=(3,2j+2,2j+3) for 1≤j≤k.
+```
+
+Use right-to-left permutation composition. Adjacent c_j,c_(j+1) have
+three-element supports meeting in exactly one letter. Prove the exact
+relation `c_j c_(j+1) c_j c_(j+1) c_j =
+c_(j+1) c_j c_(j+1) c_j c_(j+1)` and invariance of that ordered label
+pair under the fifth power of the positive Hurwitz crossing map
+`H(s,t)=(s t s⁻¹,s)`. Thus each braid block preserves its two incoming
+labels and the whole tuple closes. Compare this action with the geometric
+Wirtinger crossing convention, including the inverse crossing. The label
+group acts transitively: c₀ reaches1,2,3 and each c_j reaches its two
+new letters from3. The labels are even permutations; transitivity here
+is not a claim that they generate S_N.
+
+Factor the bridge labels using the ordered strand pairs
+`((1 3),(1 2))` and `((3,2j+3),(3,2j+2))`, respectively. Their products
+are the displayed 3-cycles. The source writes `(a b)` then `(a c)`;
+our right-to-left product order is `(a c)(a b)=(a b c)`. Its text and
+unoriented schematic figure do not select a contrary ordered-track
+convention. The resulting transposition edges are exactly
+`{1,2},{1,3}` and `{3,ℓ}` for4≤ℓ≤N: a tree with N−1=2k+2 edges.
+Prove their generated subgroup is S_N using the existing connected
+transposition-graph criterion.
+
+Make the doubling itself a finite construction on this realized diagram.
+For a positive crossing of two ordered pairs, cable it by the four-crossing
+word `σ₂σ₁σ₃σ₂`, shifted to the appropriate four strand indices.
+On input `(s,t,u,v)` its Hurwitz action must be
+`((st)u(st)⁻¹,(st)v(st)⁻¹,s,t)`; prove all four equations and the
+negative-crossing inverse. This transports the product of each under-pair
+by conjugation with the original over-label. Close by the existing
+marked Whitehead clasp pattern W_(+,m), with the Seifert-framed companion
+embedding, and supply the actual finite clasp/cap crossing code and
+its port equations. These are required geometric constructions, not
+consequences of the factor-tree calculation alone.
+
+Prove the local twist correction explicitly. For a fixed 3-cycle P,
+its ordered transposition factorizations are exactly three pairs. The
+Hurwitz map preserves their product and cycles these pairs; consequently
+H², one full twist, also cycles them. Compute EVERY bottom return pair
+of the cabled braid and its original product c_j. Choose separately for
+each marked return port a correction q_j∈{0,1,2} matching its required
+factor pair. The raw cable need not close, and a single arbitrary pair
+check is insufficient. Insert the chosen clasp at the marked cut and
+prove its port-product comparison and cap equations; retain its own
+correction by at most two full twists. Verify all crossing and cap
+relations on the resulting realized diagram, with the full generated
+subgroup S_N visible from the unmodified bridge labels.
+
+Compute the signed annulus framing and transport these distributed twists
+to the existing marked pattern W_(+,m) by an explicit diagram movie,
+including the preferred-longitude comparison and coloring transport.
+Adding or removing THREE full twists at a fixed regular pair changes
+the chosen double but preserves that pair's labels because H⁶=1;
+prove it preserves the full generated subgroup as well. Thus one may
+reduce m modulo3, obtaining a consistently colored W_(+,m)(K_k) for
+some m∈{0,1,2}. The transported bridge labels need not remain the literal
+initial tuple; retain their actual coloring correspondence. Give a finite
+algorithm selecting the least valid m and its coloring, and set D_k to
+that particular double. Do not infer clasp compatibility merely from
+transitivity or permit unspecified twists outside the marked pattern.
+
+The source asserts existence of *some* double and supplies no signed
+framing or twist number in Figure7.12. This specifies that existential
+construction by an explicit choice; it does not claim our markings were
+printed in that schematic figure. Its N=3+2k index is retained exactly.
+The surjective transposition coloring gives `b(D_k)≥N−1=2k+2`.
+Construct the doubled (k+1)-bridge position with the clasp and selected
+twists on monotone strands, giving the opposite inequality. Thus prove
+`b(D_k)=2k+2`, without using the general satellite lower-bound theorem.
+The existing once-punctured-torus surface and one-clasp-change witness
+give `g(D_k)≤1` and `u(D_k)≤1`; the bridge lower bound proves
+nontriviality, hence `g(D_k)=u(D_k)=1`. This realizes the source's
+unbounded-bridge/genus-one/unknotting-one family with its exact indices.
+The finite group companion [IndexedDoublingTargets.lean](IndexedDoublingTargets.lean)
+records the indexed cycles, relations, factor tree and full-twist orbit;
+the geometric realization and clasp comparisons remain mandatory here.
 
 #### GT4: finite framed-link bordisms and calibrated normal form
 
