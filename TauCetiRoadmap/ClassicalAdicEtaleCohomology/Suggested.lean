@@ -7,10 +7,11 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDime
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 
-Three deep inputs can be stated against the pinned libraries: Huber's constant-torsion
-Zariski–Riemann vanishing theorem (§2.4), lifting residue-field sections over valuation rings
-with algebraically closed fraction fields (§9.2), and the transcendence-degree bound for
-field cohomological dimension (§11.2). The Zariski–Riemann locus below uses Tau Ceti's actual
+Four deep inputs can be stated against the pinned libraries: Huber's constant-torsion
+Zariski–Riemann vanishing theorem (§2.4), transfer of finite polynomial and valuation conditions
+along embeddings of algebraically closed nontrivially valued fields and lifting residue-field
+sections over valuation rings with algebraically closed fraction fields (§9.2), and the
+transcendence-degree bound for field cohomological dimension (§11.2). The Zariski–Riemann locus below uses Tau Ceti's actual
 valuation spectrum and its topology; its cohomology is Mathlib's sheaf cohomology of the
 sheafification of the constant presheaf. The field bound uses Tau Ceti's continuous
 cohomological dimension of Mathlib's absolute Galois group, with infinite bounds allowed.
@@ -51,6 +52,8 @@ open CategoryTheory TopologicalSpace
 
 universe u v
 
+/-! ## Layer 2: Henselian comparison and perfectoid approximation -/
+
 namespace ValuationSpectrum
 
 /-- Valuation rings containing `E` and whose maximal ideals contain `F`, with the subspace
@@ -74,6 +77,29 @@ theorem zariskiRiemann_cohomology_eq_zero {K : Type u} [Field K] [IsSepClosed K]
 
 end ValuationSpectrum
 
+/-! ## Layer 9: Berkovich comparison, traces and duality -/
+
+/-- An embedding of algebraically closed nontrivially valued fields that preserves and reflects
+the valuation order preserves and reflects solvability of finitely many polynomial equations,
+weak valuation inequalities and strict valuation inequalities with coefficients in the smaller
+field (README §9.2). Value groups may have arbitrary rank.
+(Huber (1996), proof of Lemma 7.2.3, p. 371; A. Prestel, *Einführung in die mathematische
+Logik und Modelltheorie*, 4.17.) -/
+theorem aic_valuation_finite_conditions_transfer {K L : Type u} [Field K] [Field L]
+    [IsAlgClosed K] [IsAlgClosed L] {Γ₀ Γ₁ : Type v}
+    [LinearOrderedCommGroupWithZero Γ₀] [LinearOrderedCommGroupWithZero Γ₁]
+    (v : Valuation K Γ₀) (w : Valuation L Γ₁) [v.IsNontrivial] [w.IsNontrivial]
+    (ι : K →+* L) (hι : ∀ a b : K, w (ι a) ≤ w (ι b) ↔ v a ≤ v b) {n : ℕ}
+    (E : Finset (MvPolynomial (Fin n) K))
+    (W S : Finset (MvPolynomial (Fin n) K × MvPolynomial (Fin n) K)) :
+    (∃ x : Fin n → K, (∀ f ∈ E, MvPolynomial.eval x f = 0) ∧
+        (∀ g ∈ W, v (MvPolynomial.eval x g.1) ≤ v (MvPolynomial.eval x g.2)) ∧
+        ∀ g ∈ S, v (MvPolynomial.eval x g.1) < v (MvPolynomial.eval x g.2)) ↔
+      ∃ y : Fin n → L, (∀ f ∈ E, MvPolynomial.eval₂ ι y f = 0) ∧
+        (∀ g ∈ W, w (MvPolynomial.eval₂ ι y g.1) ≤ w (MvPolynomial.eval₂ ι y g.2)) ∧
+        ∀ g ∈ S, w (MvPolynomial.eval₂ ι y g.1) < w (MvPolynomial.eval₂ ι y g.2) := by
+  sorry
+
 /-- Every residue-field section of a flat finite-type algebra over a valuation domain with
 algebraically closed fraction field lifts to the valuation domain (README §9.2).
 (Huber (1996), proof of Lemma 7.2.3, pp. 370–371.) -/
@@ -83,6 +109,8 @@ theorem aic_valuation_section_lift {V B : Type*} [CommRing V] [IsDomain V]
     (s : B →ₐ[V] IsLocalRing.ResidueField V) :
     ∃ t : B →ₐ[V] V, ∀ b : B, IsLocalRing.residue V (t b) = s b := by
   sorry
+
+/-! ## Layer 11: Analytification, compactification and boundary duality -/
 
 /-- Transcendence degree bounds the increase in field cohomological dimension (README §11.2).
 Both cohomological dimensions and transcendence degree may be infinite. -/
