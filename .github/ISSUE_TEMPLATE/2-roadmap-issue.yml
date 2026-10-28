@@ -53,11 +53,11 @@ body:
         - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - EffectiveBounds
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
-        - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
         - FreeGroupsAndLimitGroups
@@ -79,14 +79,12 @@ body:
         - HopfRinow
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
-        - InfinitaryLogic
         - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
         - KhovanovHomology
         - LocalFieldsRamification
-        - LocalGaloisGroups
         - LocalPurity
         - MarkovChainsAndRenewal
         - MassFormula
@@ -98,7 +96,6 @@ body:
         - NewtonPolygons
         - NilpotentOrbits
         - NoncommutativeGeometry
-        - OneParameterSemigroups
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
@@ -110,11 +107,8 @@ body:
         - PerfectoidSpaces
         - PeripheralActions
         - PivotalSpherical
-        - PolynomialGaloisGroups
         - PositiveScalarCurvature
-        - ProfiniteArithmetic
         - ProfiniteCohomology
-        - ProfiniteProPGroups
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
