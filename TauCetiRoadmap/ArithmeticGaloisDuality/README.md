@@ -115,12 +115,14 @@ and Khare–Wintenberger numerics of Layer R02.6.
   groups, Layer 6; the connected component and ray
   classes, Layer 7; norms of ideles, Layer 8), *NumberFieldArithmetic* (unramified sets of primes,
   Layer 1; relative discriminants, Layer 4; different exponents, Layer 6), *Chebotarev* (Layer 10),
-  *ProfiniteProPGroups* (supernatural orders, Layer 1), *RepresentationTheory/ModularInduction*
+  *RepresentationTheory/ModularInduction*
   (the Grothendieck group `modRepK0 k G` of finitely generated `k[G]`-modules with its induction
   and base change, Layers 0–1, and the modular Artin theorem, Layer 4), *ReductiveGroups* (Layers 4–7, tori and their character lattices `X*(T)`, used
-  for torus duality) and *AlgebraicCurves* (function-field divisors, the product formula and the
-  finiteness of `Cl⁰` over a finite field, Layers 3 and 5; the regular projective model of a
-  function field with its closed points as places, Layer 12).
+  for torus duality) and *AlgebraicCurves* (the regular projective model of a function field with
+  its closed points as places, Layer 12). Supernatural orders of profinite groups, the product
+  formula of a function field and the finiteness of `Cl⁰` over a finite field are in Tau Ceti at
+  the pin (`TauCeti.profiniteOrder`, `TauCeti.Divisor.degree_principal`,
+  `TauCeti.Divisor.finite_ker_degreeClass`).
 
 **Further roadmaps this roadmap builds on.**
 
@@ -325,8 +327,9 @@ as inputs; and Galois representations attached to automorphic forms.
   (*d₂ as cup product with the extension class*).
 - **The coefficient-prime hypothesis.** Write `(P)` for: `p` is odd, or `K` has no real places.
   For discrete `p`-primary `G_S`-modules, if `S` contains every place above `p`, then under `(P)`
-  global cohomology vanishes above degree two. For finite `S` and finite `p`-primary coefficients,
-  modified compactly supported cohomology lives in degrees `0` to `3`. Finiteness and perfectness
+  global cohomology vanishes above degree two. Under `(P)`, for finite `S` containing every place
+  above `p` and finite `p`-primary coefficients, modified compactly supported cohomology lives in
+  degrees `0` to `3`. Finiteness and perfectness
   require the separate coefficient and finite-`S` hypotheses of their targets. At `p = 2` with real places, ordinary global
   cohomology can be unbounded and the modified compactly supported complex can have negative
   cohomology. For finite `2`-primary coefficients with all places above `2` in `S`, the global
@@ -473,7 +476,7 @@ as inputs; and Galois representations attached to automorphic forms.
   is induced from cyclic subgroups of order prime to `p`. Section R02.4.4 consumes these and keeps
   the decomposition map, which that roadmap excludes.
 - `GlobalNumberFields` Layers 1 and 6–8, `NumberFieldArithmetic` Layers 1, 4 and 6, `Chebotarev`
-  Layer 10, `ProfiniteProPGroups` Layer 1, `AlgebraicCurves` Layers 3, 5 and 12, and the tori of `ReductiveGroups`, as listed under *Scope and
+  Layer 10, `AlgebraicCurves` Layer 12, and the tori of `ReductiveGroups`, as listed under *Scope and
   ownership*.
 
 ### From further roadmaps
@@ -1271,9 +1274,7 @@ Hochschild–Serre spectral sequence*.
    degenerates at `E₂` and `Hⁿ(G, A) ≅ ⊕_{p+q=n} Hᵖ(G₁, H^q(H, A))`; this isomorphism is not
    canonical and is not claimed to be functorial in `A`.
 4. If `H^q(H, A) = 0` for `q > 1`, there is a long exact sequence
-   ```text
-   ⋯ → Hⁿ(G/H, A^H) → Hⁿ(G, A) → H^{n−1}(G/H, H¹(H, A)) → H^{n+1}(G/H, A^H) → ⋯.
-   ```
+   `⋯ → Hⁿ(G/H, A^H) → Hⁿ(G, A) → H^{n−1}(G/H, H¹(H, A)) → H^{n+1}(G/H, A^H) → ⋯`.
    If `A` is a torsion module and `cd(G/H) ≤ 1`, then for `n ≥ 1` the sequence
    `0 → H¹(G/H, H^{n−1}(H, A)) → Hⁿ(G, A) → Hⁿ(H, A)^{G/H} → 0` is exact.
 
@@ -1469,10 +1470,7 @@ generated `ℤ_p`-module or a finite-dimensional `ℚ_p`-vector space.
 1. `0 → H¹(G/H, T^H) → H¹(G, T) → H¹(H, T)` is exact.
 2. If moreover `H¹(G, S)`, `H²(G, S)` and `H¹(H, S)` are finite for every `G`-module (resp.
    `H`-module) `S` of finite `p`-power order, then
-   ```text
-   0 → H¹(G/H, T^H) → H¹(G, T) → H¹(H, T)^{G/H} → H²(G/H, T^H) → H²(G, T)
-   ```
-   is exact.
+   `0 → H¹(G/H, T^H) → H¹(G, T) → H¹(H, T)^{G/H} → H²(G/H, T^H) → H²(G, T)` is exact.
 
 The full spectral sequence for compact coefficients is *Relative compact Hochschild–Serre*
 (Layer D7), whose `E₂` term uses derived relative invariants rather than `H_cts(H, T)`.
@@ -1912,11 +1910,13 @@ unramified outside `S`. `S ⊆ S′` gives `K_S ⊆ K_{S′}` and a continuous s
 `G_{S′} → G_S`; if `S` is the set of all places, `K_S = K^s`. For `F ⊆ K_S` finite, an extension of
 `F` unramified outside `S_F` is unramified outside `S` over `K`, so `F_S = K_S`. If `ℓ` is a unit in
 `R_{K,S}`, then `S` contains the places above `ℓ`, and `K(μ_{ℓⁿ})` is unramified outside `ℓ` and
-`∞`; so `K(μ_{ℓ^∞}) ⊆ K_S` and `ℓ^∞` divides `[K_S : K]` (ProfiniteProPGroups Layer 1).
+`∞`; so `K(μ_{ℓ^∞}) ⊆ K_S` and `ℓ^∞` divides `[K_S : K]` (the exponent of `ℓ` in
+`TauCeti.profiniteOrder G_S` is infinite by `TauCeti.profiniteOrder_apply_eq_top_iff`).
 (Milne, *Arithmetic Duality Theorems*, Chapter I,
 §4, opening paragraph, p. 48 (PDF p. 56); Milne, *Arithmetic Duality
 Theorems*, Chapter I, §4, definition of `P`, p. 48
-(PDF p. 56).) *Needs:* NumberFieldArithmetic Layer 1; ProfiniteProPGroups Layer 1; Mathlib
+(PDF p. 56).) *Needs:* NumberFieldArithmetic Layer 1; Tau Ceti `TauCeti.profiniteOrder`,
+`TauCeti.profiniteOrder_apply_eq_top_iff`; Mathlib
 `Field.absoluteGaloisGroup`; Mathlib `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`; Mathlib
 `Set.integer`. The lattice and inertia comparisons also use NumberFieldArithmetic §§1.3–1.5
 and ArithmeticGaloisRepresentations §2.1. For the local unramified closure and inertia criterion
@@ -2098,9 +2098,12 @@ quotient of the divisor group by principal divisors and divisors supported on `S
   The product defining `J_{F,S}` is restricted even when `S` is infinite.
 
 *Proof sketch.* The product formula and the finiteness of the degree-zero divisor class group
-over a finite constant field are TauCetiRoadmap AlgebraicCurves Layers 3 and 5; finiteness of
-`Cl_S(F)` follows because a place of `S` has positive degree, so `Cl_S(F)` is a quotient of
-`Cl(F)/⟨[v]⟩`, an extension of a finite group by a finite cyclic group. Surjectivity of the
+over a finite constant field are `TauCeti.Divisor.degree_principal` and
+`TauCeti.Divisor.finite_ker_degreeClass`. For nonempty `S` the ring of `S`-integers is a Dedekind
+domain with fraction field `F`, so `Cl_S(F)` is its ideal class group and is finite by
+`TauCeti.Divisor.finite_classGroup_of_finite`; concretely a place `v ∈ S` has positive degree, so
+`Cl_S(F)` is a quotient of `Cl(F)/⟨[v]⟩`, an extension of a finite group by a finite cyclic
+group. Surjectivity of the
 degree is F. K. Schmidt's theorem; compactness of the degree-zero classes is the function-field
 case of the compactness of norm-one idele classes (Neukirch–Schmidt–Wingberg, *Cohomology of
 Number Fields*, VIII §1, (8.1.26), p. 443, which records the degree sequence and its profinite
@@ -2108,8 +2111,9 @@ completion; VIII §3, pp. 452–455, for `C_S`, `Cl_S` and the finiteness of `Cl
 (8.3.5), p. 455; Milne, *Arithmetic Duality Theorems*,
 I §4, pp. 49–50, Lemma 4.1, for the restricted product and exact sequence). *Needs:* Tau Ceti
 `TauCeti.Place`, `TauCeti.Place.degree`; Mathlib
-`FunctionField`, `RestrictedProduct`; TauCetiRoadmap AlgebraicCurves Layers 3 and 5 (divisors,
-the product formula, finiteness of `Cl⁰`).
+`FunctionField`, `RestrictedProduct`; Tau Ceti `TauCeti.Divisor.degree_principal` (the product
+formula), `TauCeti.Divisor.finite_ker_degreeClass` (finiteness of `Cl⁰`),
+`TauCeti.Divisor.finite_classGroup_of_finite` (finiteness of the class group of an affine model).
 
 **Checks.**
 
@@ -2453,10 +2457,11 @@ bijective is a `P`-class formation for every `P`. For `H` closed and normal in `
 a `P`-class formation with `P = {ℓ : ℓ^∞ divides (G : H)}`: since `H¹(H, C) = 0`, inflation
 identifies `H²(U/H, C^H)` with the colimit of the `H²(U/V, C^V)` over open `V ⊇ H`, which `inv_U`
 maps onto the elements of `ℚ/ℤ` whose order divides the supernatural index `(U : H)`
-(ProfiniteCohomology Layer 10, ProfiniteProPGroups Layer 1). (Milne, *Arithmetic Duality
+(ProfiniteCohomology Layer 10; the supernatural index through `TauCeti.profiniteOrder` and
+`TauCeti.profiniteOrder_quotient_le`). (Milne, *Arithmetic Duality
 Theorems*, Chapter I, §1, a generalization, p. 25
-(PDF p. 33).) *Needs:* ClassFieldTheory Layer 2; ProfiniteCohomology Layer 10; ProfiniteProPGroups
-Layer 1.
+(PDF p. 33).) *Needs:* ClassFieldTheory Layer 2; ProfiniteCohomology Layer 10; Tau Ceti
+`TauCeti.Supernatural`, `TauCeti.profiniteOrder`, `TauCeti.profiniteOrder_quotient_le`.
 
 **Checks.**
 
@@ -2843,7 +2848,6 @@ ClassFieldTheory Layers 7, 12 and 13.
 
 - Earlier layers of this roadmap: R02.2.
 - TauCetiRoadmap NumberFieldArithmetic: Layers 1, 4, 6.
-- TauCetiRoadmap ProfiniteProPGroups: Layer 1.
 - TauCetiRoadmap ProfiniteCohomology: Layers 1, 2, 3, 4, 5, 7, 8, 9, 10, 11.
 - ArithmeticGaloisRepresentations: Layer 2, §2.1 (decomposition, inertia and wild inertia groups;
   local restriction and change of embedding); §5.13 / **Restricted-ramification function-field
@@ -2855,8 +2859,11 @@ ClassFieldTheory Layers 7, 12 and 13.
 - Libraries: Mathlib `Field.absoluteGaloisGroup`, Mathlib
   `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, Mathlib `Set.integer`, Mathlib
   `NumberField.finite_of_discr_bdd`, Mathlib `tateCohomology`, Mathlib `Set.unit`, Mathlib
-  `RestrictedProduct`, Mathlib `ClassGroup`, Tau Ceti `TauCeti.kummerShortExact`.
-- TauCetiRoadmap AlgebraicCurves: Layers 3, 5 and 12, and TauCetiRoadmap ClassFieldTheory: Layers 3–5, for the
+  `RestrictedProduct`, Mathlib `ClassGroup`, Tau Ceti `TauCeti.kummerShortExact`, Tau Ceti `TauCeti.Supernatural`,
+  `TauCeti.profiniteOrder`, `TauCeti.profiniteOrder_apply_eq_top_iff`,
+  `TauCeti.profiniteOrder_quotient_le`, `TauCeti.Divisor.degree_principal`,
+  `TauCeti.Divisor.finite_ker_degreeClass`, `TauCeti.Divisor.finite_classGroup_of_finite`.
+- TauCetiRoadmap AlgebraicCurves: Layer 12, and TauCetiRoadmap ClassFieldTheory: Layers 3–5, for the
   global function-field targets of R02.3.2; Tau Ceti `TauCeti.Place`, `TauCeti.Place.degree` and Mathlib
   `FunctionField` there as well.
 
@@ -7102,7 +7109,7 @@ dual, and substitute the local and global invariant dimensions of KW Lemma 4.3. 
 bound, take dimensions in the given injection `Hom(J/𝔪J, k) ↪ H¹_{L⊥}((ad⁰)*(1))`.
 ([Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1–4.2 and Lemmas 4.3–4.4,
-pp. 39–43; Lemma 4.6, pp. 44–45.) *Needs:* *The Greenberg–Wiles formula* (Layer R02.5); *Trace-zero
+pp. 39–43; Lemma 4.6, statement p. 43, proof pp. 43–45.) *Needs:* *The Greenberg–Wiles formula* (Layer R02.5); *Trace-zero
 adjoint duality without division by `n`* (Layer D8); *First-order Galois cocycle comparison* (Layer
 D8).
 
