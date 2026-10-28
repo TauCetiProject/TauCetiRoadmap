@@ -51,7 +51,7 @@ immersions use trace B=0 and are treated separately from the average formula.
 
 Consume these exact suppliers:
 
-- [HopfRinow](../HopfRinow/README.md), Layers 0–4: the reconciled distance and
+- [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4: the reconciled distance and
   piecewise smooth length, Levi-Civita existence/uniqueness/regularity, intrinsic
   covariant differentiation along curves, geodesic spray/flow, natural-domain
   `TauCeti.Manifold.riemannianExp`, normal balls/logarithms, Gauss lemma, first

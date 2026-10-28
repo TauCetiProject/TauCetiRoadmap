@@ -32,7 +32,7 @@ For the remaining suppliers:
   multiplication and module data to those bundles; G4 adds a spin lift of the
   oriented frame bundle. B3 supplies the invariant-vector parallel-section
   theorem used in G3.
-- [HopfRinow L1](../HopfRinow/README.md) supplies the actual Levi-Civita
+- [HopfRinow L1](../../Completed/HopfRinow/README.md) supplies the actual Levi-Civita
   covariant derivative. [RiemannianGeometry R1,R5,R7](../RiemannianGeometry/README.md)
   supplies curvature identities, pullback/normal connections and the real
   Weitzenböck comparison. The metric uses Mathlib's `RiemannianBundle` and

@@ -43,3 +43,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [Real algebraic geometry: sign determination and cylindrical decomposition](RealAlgebraicGeometry/README.md)
   (declared complete 2026-10-28)
+- [geodesics, the exponential map, and the Hopf–Rinow theorem](HopfRinow/README.md)
+  (declared complete 2026-10-28)
