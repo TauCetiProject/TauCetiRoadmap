@@ -231,14 +231,24 @@ established, the preceding certificate proves its labels generate S₅. Neither
 invented intermediate labels nor a different labeled diagram settles the source
 example; the diagram-coloring assertion remains distinct from group generation.
 
-At `KM-P106-B004–B007`, the construction starts with consistent3-cycle labels,
-uses two transpositions on doubled strands and corrects bottom mismatches by
-twists. Pin the permutation multiplication order, every local label equation,
-finite twist correction, and transitivity/generation comparison for the **actual
-indexed source pattern**. The printed claim uses a connected sum of `k`
-`(2,5)`-torus knots and the index `S_(3+2k)`; retain that index and all family/bridge
-conclusions as source obligations until the exact pattern is checked. A generic
-3-cycle factorization or generic colorability result does not supply that input.
+At `KM-P106-B004–B007`, the printed claim uses k copies of T(2,5) and
+S_(3+2k), with a consistent transitive3-cycle coloring and some double obtained
+by adding twists. The [indexed construction](README.md#indexed-cinquefoil-doubles)
+fixes the positive braid σ₁⁵⋯σ_k⁵, cycles(123) and(3,2j+2,2j+3), their
+right-to-left factor pairs and the N−1-edge transposition tree. It also
+specifies the four-crossing cable blocks, full-twist orbit and finite choice
+of a marked Whitehead double, with every clasp/port, framing and bridge
+comparison a mandatory proof target. These intrinsic data supply the
+mathematical construction; a generic colorability theorem is insufficient.
+
+Figure7.12 on physical page105 has no orientation markers or signed
+framing/twist count, and does not specify
+all over/under data in its short joining detail. Page106 states no composition
+convention and says only that twists correct the mismatch. Thus no unique
+signed double is asserted to have been recovered from the drawing. The
+explicit choice above realizes the source's existential construction and
+retains its exact k and symmetric-group indices; its geometric and coloring
+proofs remain work to build.
 
 ## Remaining input holds and resolution criteria
 
@@ -248,7 +258,7 @@ conclusions as source obligations until the exact pattern is checked. A generic
 | Problem20/30 remaining pictured data | Signed linking-number comparisons, the Hopf/Borromean Fox data, and all six additional page5 diagram codes and calculations. The two systems above supply the King Solomon/Whitehead Fox inputs; the ten occurrence positions are fixed, while repeated link types need explicit comparisons. |
 | Problem30 missing footnote and splitting convention | The footnote's actual text, or explicit source qualification that it remains unavailable, and the precise splitting convention/category needed for the stated comparison. |
 | Page177 mixed `S₅` example | Complete interior labels and oriented crossing data, with crossing and generated-subgroup certificates. |
-| Page106 indexed doubling/bridge pattern | An actual indexed diagram/construction with multiplication order, twist corrections, source-index comparison and the generation/bridge proof. |
+| Page106 indexed doubling/bridge construction | The explicit indexed braid/cycles/cable and finite-twist targets are specified above and in the README. Build their realized clasp/port equations, framing comparison and bridge proof; the schematic source fixes no unique signed twist variant. |
 
 These holds retain the full original programme. The note supplies explicit
 algebraic inputs and source locators, not the missing geometry, source proof,
