@@ -561,6 +561,54 @@ This is Conway, *A Course in Functional Analysis*, second edition, VII.9,
 exercise11, with the maps and topologies fixed explicitly.
 [ProductDualTargets.lean](ProductDualTargets.lean) gives selected signatures.
 
+<a id="compact-abelian-fourier"></a>
+#### Layer5.4. Compact abelian Fourier theory
+
+For every compact Hausdorff abelian group G, identify the native unitary dual
+`TauCeti.IrrepClass ℂ G` with `PontryaginDual G`. Prove that each complex
+irreducible has dimension1: commutativity makes every action operator an
+intertwiner, so Schur's lemma makes it scalar; irreducibility then forces
+dimension1. Its scalar action is a continuous circle-valued character,
+independent of the unit vector used to read it. Conversely a continuous
+circle character acts on ℂ by scalar multiplication and is irreducible.
+Prove these constructions inverse on unitary-equivalence classes, with the
+scalar-action formula on each native irreducible model.
+
+For χ in `PontryaginDual G`, write `c_χ∈C(G,ℂ)` for `g↦(χ(g):ℂ)`.
+Identify the representative-function star-algebra with the finite complex
+linear span of the c_χ, using `c_χ c_ψ=c_(χψ)`, `star(c_χ)=c_(χ⁻¹)`
+and the trivial character for1. Deduce point separation and uniform density
+from Layer5's Peter–Weyl theorem. This is the compact abelian specialization
+of that construction; it uses neither the general LCA Fourier-inversion
+engine nor Pontryagin biduality.
+
+Construct
+`characterBasis : HilbertBasis (PontryaginDual G) ℂ (Lp ℂ 2 (haarProb G))`
+with the exact equation
+`characterBasis χ = ContinuousMap.toLp 2 (haarProb G) ℂ c_χ`.
+The normalized Haar measure makes these vectors have norm1. Fix the
+comparison with the native Peter–Weyl basis explicitly: its coefficient
+`g↦⟪π(g)v,w⟫` is conjugate-linear in π(g)v, so the character vector c_χ
+corresponds to the one-dimensional scalar representation χ⁻¹, not χ.
+Reindex the standard basis using that inverse-character correspondence
+and the unique row/column indices. Prove orthonormality, completeness and
+agreement with the displayed continuous representatives under this reindexing.
+
+For f in Haar L², identify the basis coordinate with
+`f̂(χ)=∫_G conj(χ(g)) f(g) d(haarProb G)`; prove integrability and
+independence of the a.e. representative. Obtain Parseval
+`Σ_χ |f̂(χ)|²=‖f‖₂²` and the unconditional L² expansion
+`f=Σ_χ f̂(χ) c_χ` from this same Hilbert basis. No pointwise or uniform
+convergence of the Fourier expansion is asserted. Transport Layer5.2 through
+the irreducible-class/character bijection to obtain
+`MetrizableSpace G ↔ Countable (PontryaginDual G)`, with its second-countable
+and separable-L² equivalents. Include the trivial group and arbitrary
+uncountable duals; every individual expansion has countable support.
+
+These are Conway VII.9 exercises8–10, assigned by Banach course notes p136.
+[AbelianFourierTargets.lean](AbelianFourierTargets.lean) gives selected native
+comparison, uniform-density and basis-element signatures.
+
 ### Layer 6: characters of compact groups
 
 - **The character.** `character π hπ : C(G, ℂ)`, `g ↦ trace (π g)`, with
