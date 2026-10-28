@@ -154,7 +154,8 @@ It does not own, and consumes by name:
   over a field and finite torsors (**ModularCurves**, Layers 0c–0d); affine group schemes, their
   quotients and semisimple groups (**ReductiveGroups**, Layers 0, 3 and 6); representation groups of
   finite groups (**RepresentationTheory/InductionRestriction**, Layer 7); fibrations and homotopy
-  groups (**AlgebraicTopology**, Stages 5 and 8); semistable reduction of curves
+  groups (the fibration homotopy long exact sequence of **DGFloer**, Layer 1 item 2, and the
+  homotopy groups of **AlgebraicTopology**, Stage 8); semistable reduction of curves
   (**StableReduction**, Layer 7);
 - schemes, descent, stacks, sites, étale and pro-étale cohomology, Brauer groups of schemes, curves,
   stable pointed curves, Popescu desingularization, Grothendieck existence and algebraization
@@ -271,6 +272,7 @@ carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces th
 | `Sₙ` as a Galois group over `ℚ` | `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv` | IG.6 |
 | Galois groups of small cubics and quartics over `ℚ` by transitive-group label | `TauCeti.HasGaloisLabel`, `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub_one`, `TauCeti.hasGaloisLabel_X_pow_four_sub_two`, `TauCeti.natCard_gal_X_pow_four_sub_two`, `TauCeti.hasGaloisLabel_X_pow_four_add_X_pow_three_add_X_sq_add_X_add_one` | IG.6 |
 | Aspherical spaces | `TauCeti.IsAspherical` | IG.3 |
+| The local Artin map and inertia lifts of unit symbols | `TauCeti.ClassFieldTheory.artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`), `TauCeti.ClassFieldTheory.mem_inertiaSubgroup_of_mk_eq_artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/Unramified.lean`) | IG.4 |
 
 ### From TauCetiRoadmap.BelyiMaps
 
@@ -390,8 +392,8 @@ GlobalNumberFields Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Che
 Layers 2, 3 and 4; AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
 ReductiveGroups Layers 0, 3 and 6; RepresentationTheory/InductionRestriction Layer 7, whose Schur
 multiplier is `H²(G, k^×)` over an algebraically closed field, so the comparison with `H₂(G, ℤ)` used
-in Layer IG.3 is part of the target *Reduced Schur covers* there; AlgebraicTopology Stages
-5 and 8; StableReduction Layer 7 (semistable reduction of curves). The BelyiMaps Layers 11–13 used
+in Layer IG.3 is part of the target *Reduced Schur covers* there; DGFloer Layer 1 item 2
+(fibration homotopy long exact sequence) and AlgebraicTopology Stage 8; StableReduction Layer 7 (semistable reduction of curves). The BelyiMaps Layers 11–13 used
 here are the retained dependency specifications of that roadmap, whose ownership passes to its named
 successors.
 
@@ -521,8 +523,8 @@ finite-field extensions. (Stacks §§64.16–64.17, with §64.14 for curves; SGA
 (finite-level frobeniusFixedPoints and frobeniusCohomology); EtaleCohomologyFoundations §F.10.3 PerfectComplex trace/additivity;
 §IG.0.T1 / curveEndomorphismTrace; EtaleCohomologyFoundations §§F.10.4–F.10.5 /
 freeTorsorEquivariantPerfectness and freeTorsorCoefficientDescent;
-SchemeAndStackFoundations Noether normalization and dimension
-lemmas, building any missing fibre-dimension steps here. The geometric proof uses finite coefficients.
+Mathlib Noether normalization (`Algebra.exists_finite_inj_algHom_of_fg`) and the dimension
+lemmas of SchemeAndStackFoundations §0.7, building any missing fibre-dimension steps here. The geometric proof uses finite coefficients.
 
 **Checks.**
 
@@ -1062,8 +1064,9 @@ covers tame at `P`, its cyclic inertia (the prime-to-characteristic Tate module)
 `k`-rational, a section of the arithmetic sequence on the tame branch. In positive characteristic it
 concerns tame covers only. Define the tame tangential fibre functor at `(P, v)` on
 objects, as the lifts into the parameter tower; the natural isomorphism for a
-change of normalised parameter; the local inertia with the peripheral
-character convention of PeripheralActions; and the arithmetic section
+change of normalised parameter; the local inertia, with the exponent convention of the peripheral-power
+theorem of PeripheralActions (an automorphism of exponent `u` sends each peripheral generator to a
+conjugate of its `u`-th power, and the exponent character on the group of peripheral automorphisms records `u`); and the arithmetic section
 attached to a `k`-rational tangent vector. *Proof sketch.* Use the Kummer classification of tame
 covers of a strictly henselian punctured disc with invertible indices; identify the towers for two
 normalised parameters by henselian roots of units; verify the fibre-functor axioms by tame descent.
@@ -1094,7 +1097,8 @@ the chosen paths. For a rational boundary point this is the `q`-power action on 
 conjugacy class; over a closed point of degree `f`, `Frob_q^f` stabilizes the geometric point
 and has factor `q^f`. Images of local inertia in the global group retain its relations. This one convention is used in every lifting-invariant twist and
 component count of Layers IG.3–IG.5. For the punctured projective line it agrees with BelyiMaps
-Layer 12 and with PeripheralActions after restriction to the prime-to-`q` part. *Proof sketch.*
+Layer 12 and, after restriction to the prime-to-`q` part, with the exponent character of the
+peripheral-power theorem of PeripheralActions: arithmetic Frobenius has exponent `q`. *Proof sketch.*
 Combine the arithmetic exact sequence with the identification of `Γ_{𝔽_q}`; compute the action on
 each `μ_n` with `n` prime to `q` and pass to the limit. Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), Theorem 5.2 and §6.1,
@@ -2003,7 +2007,8 @@ number fields and the thin-set formulation. *Needs:* *Hilbert subsets and Hilber
 GlobalNumberFields Layer 0.
 
 *Lean:* `isHilbertian_of_numberField`, `hilbert_irreducibility` (the several-parameter form with an
-arbitrary nonzero guard).
+arbitrary nonzero guard; it also allows `r = 0`, where `t` is the empty point and the statement is
+trivial).
 
 **Checks.**
 
@@ -2395,6 +2400,9 @@ Proposition 2.5 and its proof, pp. 7–8. *Needs:* *Hilbert subsets and Hilberti
 *Hilbert irreducibility over number fields*, IG.2.4 *Finite-extension permanence of Hilbertianity*;
 Mathlib finite-extension, primitive-element and infinite Galois theory.
 
+*Lean:* `IsHilbertian.of_isGalois_of_one_lt_finrank`, with `M` and `L` inside an algebraic closure
+of `K`.
+
 **Checks.**
 
 - With `M = K = ℚ` and `L = ℚ(√2)`, this gives the finite-extension permanence theorem.
@@ -2419,6 +2427,8 @@ Sources: Fried–Jarden, *Field Arithmetic*, third edition, Proposition 16.11.6 
 Mathlib Kummer and finite Galois theory. *Needs:* *Hilbert subsets and Hilbertian fields*;
 Layer IG.0 *Finite Galois algebras and torsors*; ProfiniteProPGroups Layer 3 (topological generators).
 
+*Lean:* `IsHilbertian.not_isTopologicallyFinitelyGenerated` states the consequence for `Γ_F`.
+
 **Checks.**
 
 - In `ℚ`, any finite list of distinct primes has independent square classes.
@@ -2426,14 +2436,14 @@ Layer IG.0 *Finite Galois algebras and torsors*; ProfiniteProPGroups Layer 3 (to
   it is not restricted to number fields or fields finitely generated over `ℚ`.
 - In `ℝ`, only two square classes occur and `Γ_ℝ = C₂` is finitely generated; `ℝ` is not Hilbertian.
 
-**Normal subgroups of absolute Galois groups.** Let `k` be a field finitely generated over `ℚ` and
-`Γ_k` its absolute Galois group. Every closed normal subgroup `N ⊴ Γ_k` that is topologically finitely
-generated is trivial. Choose a transcendence basis of `k/ℚ`; `k` is finite over the resulting
-rational function field. Its Hilbertianity follows from *Rational function fields are Hilbertian*
-when the basis is nonempty, from *Hilbert irreducibility over number fields* when it is empty,
-and from *Finite-extension permanence of Hilbertianity*. The conclusion is the case of fields
-finitely generated over `ℚ` of Fried–Jarden,
-Proposition 16.11.6; Hilbert irreducibility alone is not its proof.
+**Normal subgroups of absolute Galois groups.** Let `k` be a Hilbertian field of characteristic zero
+and `Γ_k` its absolute Galois group. Every closed normal subgroup `N ⊴ Γ_k` that is topologically
+finitely generated is trivial (Fried–Jarden, Proposition 16.11.6); Hilbert irreducibility alone is
+not its proof. Fields finitely generated over `ℚ` are covered: choose a transcendence basis of
+`k/ℚ`, so that `k` is finite over the resulting rational function field, and obtain Hilbertianity
+from *Rational function fields are Hilbertian* when the basis is nonempty, from *Hilbert
+irreducibility over number fields* when it is empty, and from *Finite-extension permanence of
+Hilbertianity*.
 
 *Proof sketch.* Suppose `N ≠ 1`. A finite continuous quotient separating a nonidentity element
 provides a proper open subgroup `H < N`. Put `M = (k^sep)^N` and `L = (k^sep)^H`. Infinite
@@ -2454,8 +2464,7 @@ Fried–Jarden, Theorem 13.9.1(b). *Needs:* *Rational function fields are Hilber
 *Independent quadratic characters of Hilbertian fields*; Mathlib infinite Galois correspondence;
 ProfiniteProPGroups Layers 0 and 3, with the pinned open-subgroup theorem above.
 
-*Lean:* `normal_subgroup_absoluteGaloisGroup_eq_bot`, with `Algebra.EssFiniteType ℚ K` expressing
-finite generation of the field extension.
+*Lean:* `normal_subgroup_absoluteGaloisGroup_eq_bot`, for `CharZero K` and `IsHilbertian K`.
 
 **Checks.**
 
@@ -2464,8 +2473,11 @@ finite generation of the field extension.
   but `ℚ(i)^×/ℚ(i)^{×2}` is infinite, so it is not topologically finitely generated.
 - Normality is needed: the subgroup of `Γ_ℚ` generated by a complex conjugation is closed, of order
   two, and not normal.
-- The hypothesis on `k` is needed: `ℝ` is not finitely generated over `ℚ`, and `Γ_ℝ ≅ ℤ/2` is a
-  nontrivial finitely generated closed normal subgroup of itself.
+- The Hilbertian hypothesis is needed: `ℝ` is not Hilbertian, and `Γ_ℝ ≅ ℤ/2` is a nontrivial
+  finitely generated closed normal subgroup of itself.
+- Fields finitely generated over `ℚ`, such as `ℚ(T)` and `ℚ(√2)(T₁, T₂)`, satisfy the hypothesis by
+  the reduction above; so does the field `ℚ(μ_{2^∞})(∛2)` of *Weissauer's Hilbertian extension
+  theorem*, which is not finitely generated over `ℚ`.
 
 ### Examples
 
@@ -2625,7 +2637,8 @@ curves with contractible universal covers. Source: [Landesman–Litt](https://ar
 proof of Lemma 2.3.3, p. 16, which uses SGA 4, Exposé XI, §4.6 for the neighbourhood construction.
 *Needs:* Supplied by ComplexComparisonPartII §§C6.0, C6.3 / `complexAlgebraicTopology`, `artinComparison`;
 ComplexComparisonPartII §C−1.1;
-SchemeAndStackFoundations Layer 3; AlgebraicTopology Stages 5 and 8 (fibrations and homotopy groups);
+SchemeAndStackFoundations Layer 3; DGFloer Layer 1 item 2 (fibration homotopy long exact sequence)
+and AlgebraicTopology Stage 8 (homotopy groups);
 Tau Ceti `TauCeti.IsAspherical`; the group/topological comparison in
 *Exact supplier contracts / From topology roadmaps* and the finite-coefficient
 Artin comparison in *Exact supplier contracts / From ComplexComparisonPartII*.
@@ -2900,7 +2913,9 @@ Theorem 8.1.1 and Lemma 8.1.3, pp. 81–83. *Needs:* *Realizing generating spher
 SchemeAndStackFoundations Layer 1; BelyiMaps Layer 11.
 
 *Lean:* `hasRegularRealization_of_rigid` states the regular field-realization consequence using
-`IsRationalClass`, `IsRigid` and `HasRegularRealization`.
+`IsRationalClass`, `IsRigid` and `HasRegularRealization`. Nontriviality of the classes is not
+needed for it: deleting identity classes leaves a rigid rational tuple with the same generating
+tuples, and an identity entry only marks an unramified point.
 
 **Checks.**
 
@@ -3582,8 +3597,8 @@ ComplexComparisonPartII §§C6.0, C6.2–C6.3 / `complexAlgebraicTopology`, `rie
 `artinComparison` supply finite CW type, Riemann existence and elementary
 fibrations with the Artin comparison; ComplexComparisonPartII §C−1.1 supplies
 analytic spaces and scheme analytification, and ComplexComparisonPartII §C4.5 supplies the
-completion and connectedness interfaces for curves; AlgebraicTopology Stages 5 and 8 fibrations and
-homotopy groups. EtaleCohomologyFoundations §§F.0.A1–F.0.A2 supply the arithmetic sequence
+completion and connectedness interfaces for curves; DGFloer Layer 1 item 2 supplies the fibration
+homotopy long exact sequence and AlgebraicTopology Stage 8 the homotopy groups. EtaleCohomologyFoundations §§F.0.A1–F.0.A2 supply the arithmetic sequence
 and inertia; Layer IG.1 supplies tangential base points and the Frobenius normalisation;
 Layer IG.0 Galois algebras. The braid group is Tau Ceti `TauCeti.BraidGroup`; free groups,
 presented groups, group extensions, group homology, Schur–Zassenhaus and finitely supported functions
@@ -4636,6 +4651,14 @@ Brauer classes of finite quotients of `SL_n`* (part (1)), *Approximation and non
 localization*, *Auxiliary cyclic prescriptions force full image*, *Proper solutions with local
 prescriptions*, Layer IG.0 *Finite Galois algebras and torsors*.
 
+*Lean:* `exists_galois_with_local_prescriptions_of_supersolvable`, the field form. Supersolvability
+is `IsSupersolvable` (a chain of normal subgroups of `G` from `1` to `G`, each obtained from the
+previous one by adjoining one element), since Mathlib has no supersolvable groups at the pin. The
+finite places of `S` are height-one primes of `𝓞_k` with completions `adicCompletion`, the
+residue-characteristic condition is `|G| ∉ v`, the archimedean places carry
+`NumberField.InfinitePlace.Completion`, and the local conclusion is an isomorphism of
+`k_v`-algebras `L ⊗_k k_v ≅ L_v^m`.
+
 **Checks.**
 
 - For `G = C₃`, prescribed cyclic extensions at places of residue characteristic other than `3` are
@@ -5000,9 +5023,10 @@ Lemmas 3.3–3.11.
 Source: [Wood, *Nonabelian Cohen–Lenstra moments*](https://par.nsf.gov/servlets/purl/10152050),
 Definition 3.1 and Lemmas 3.3–3.11 with full proofs, published pp. 388–393.
 *Needs:* *Tame central lift after adjoining roots*; Layer IG.3 *Conjugacy classes lift bijectively*,
-Layer IG.3 *The kernel of the universal marked extension*; ClassFieldTheory Layer 7 (`artinMap` and
-`mem_inertiaSubgroup_of_mk_eq_artinMap`: lifts of the Artin image of a unit lie in inertia),
-ClassFieldTheory Layers 10 and 12.
+Layer IG.3 *The kernel of the universal marked extension*; ClassFieldTheory Layer 7 (the local
+Artin map), with the pinned Tau Ceti `TauCeti.ClassFieldTheory.artinMap` and
+`TauCeti.ClassFieldTheory.mem_inertiaSubgroup_of_mk_eq_artinMap` (lifts of the Artin image of a
+unit lie in inertia); ClassFieldTheory Layers 10 and 12.
 
 **Checks.**
 
@@ -6303,8 +6327,9 @@ The proof applies repeated extraction of class elements and removal of order blo
 core in its exact subgroup `H`; bounds the remaining core uniformly over the finitely many subgroups
 `H` and uses the nested-image product theorem; and, since there are finitely many components in the
 bounded core degrees, intersects their stabilizers to obtain one finite Galois quotient
-([Seguin](https://beranger-seguin.fr/assets/pdf/articles/fielddef.pdf), Corollary 2.13(iii), PDF pp. 10–11, and
-Proposition 6.1 with its preceding proof, PDF p. 23). *Needs:*
+([Seguin](https://beranger-seguin.fr/assets/pdf/articles/fielddef.pdf), Proposition 6.1 with the
+reduction preceding it, PDF p. 23: the bound is `ψ(G) = Σ_{g∈G} ord(g)`, and `σ` acts on an order
+block through `g ↦ g^{χ(σ⁻¹)}` by Theorem 3.3(ii) and Corollary 2.13(i)). *Needs:*
 *The product-one component monoid*, Layer IG.3 *Stable classification of generating braid orbits*.
 
 **Checks.**
@@ -7387,12 +7412,17 @@ Sources and the editions or versions to which the locators refer.
 
 - B. Bhatt and P. Scholze, *The pro-étale topology for schemes*, Astérisque 369 (2015);
   arXiv:1309.1198v2. <https://arxiv.org/pdf/1309.1198v2>
+- M. Brion and T. Szamuely, *Prime-to-`p` étale covers of algebraic groups and homogeneous
+  spaces*, Bull. London Math. Soc. 45 (2013); arXiv:1109.2802v4 (locators refer to this version).
+  <https://arxiv.org/abs/1109.2802v4>
 - C. Breuil, B. Conrad, F. Diamond and R. Taylor, *On the modularity of elliptic curves over `ℚ`:
   wild 3-adic exercises*, J. Amer. Math. Soc. 14 (2001), 843–939; author final copy.
   <https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf>
 - A. Caraiani and P. Scholze, *On the generic part of the cohomology of compact unitary Shimura
   varieties*, Ann. of Math. 186 (2017), 649–766.
   <https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf>
+- K. Česnavičius, *Purity for the Brauer group*, Duke Math. J. 168 (2019); arXiv:1711.06456v4
+  (locators refer to this version). <https://arxiv.org/abs/1711.06456v4>
 - W. Y. Chen, *Nonabelian level structures, Nielsen equivalence, and Markoff triples*,
   arXiv:2011.12940v2 (locators refer to this preprint). <https://arxiv.org/pdf/2011.12940v2>
 - B. Conrad, *Lifting global representations with local properties*, author's preprint (locators
@@ -7417,11 +7447,16 @@ Sources and the editions or versions to which the locators refer.
   statements. <https://arxiv.org/pdf/1212.0923v1>
 - M. Emsalem, *Familles de revêtements de la droite projective*, Bull. Soc. Math. France 123 (1995),
   47–85. <https://www.numdam.org/item/10.24033/bsmf.2250.pdf>
+- M. D. Fried and M. Jarden, *Field Arithmetic*, third edition, Ergebnisse der Mathematik und ihrer
+  Grenzgebiete (3) 11, Springer, 2008. Printed numbering.
 - Z. Gao and P. Habegger, *Heights in families of abelian varieties and the geometric Bogomolov
   conjecture*, arXiv:1801.05762v3. <https://arxiv.org/pdf/1801.05762v3>
 - A. Grothendieck and M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*, recomposed
   edition, arXiv:math/0206203v2 (printed page numbers of that edition).
   <https://arxiv.org/pdf/math/0206203v2>
+- T. Graber, J. Harris and J. Starr, *Families of rationally connected varieties*, J. Amer. Math.
+  Soc. 16 (2003), 57–67; arXiv:math/0109220v1 (locators refer to this version).
+  <https://arxiv.org/pdf/math/0109220v1>
 - D. Harbater and J. Hartmann, *Patching over fields*, arXiv:0710.1392v1.
   <https://arxiv.org/pdf/0710.1392v1>
 - D. Harbater, A. Obus, R. Pries and K. Stevenson, *Abhyankar's conjectures in Galois theory*,
@@ -7430,8 +7465,14 @@ Sources and the editions or versions to which the locators refer.
   inverse*, J. Amer. Math. Soc. 33 (2020); arXiv:1802.09605v2. <https://arxiv.org/pdf/1802.09605v2>
 - Y. Harpaz and O. Wittenberg, *The Massey vanishing conjecture for number fields*, Duke Math. J.
   172 (2023), 1–41; author final copy. <https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf>
+  The PDF page locators of *Two independent cyclic degree-eight lifts* follow arXiv:1904.06512v2.
+  <https://arxiv.org/pdf/1904.06512v2>
+- M. Jarden, *Almost locally free fields*, author's preprint dated 25 September 2010 (locators
+  refer to this copy). <https://www.math.tau.ac.il/~jarden/Articles/paper99.pdf>
 - V. Kanev, *Hurwitz moduli varieties parameterizing pointed covers of an algebraic curve*,
   arXiv:2403.12756v2. <https://arxiv.org/pdf/2403.12756v2>
+- J. Kollár, *Rational curves on algebraic varieties*, Ergebnisse der Mathematik und ihrer
+  Grenzgebiete (3) 32, Springer, 1996.
 - K. S. Kedlaya and R. Liu, *Relative `p`-adic Hodge theory: foundations*, Astérisque 371 (2015);
   arXiv:1301.0792v5. <https://arxiv.org/pdf/1301.0792v5>
 - A. Landesman and D. Litt, *Canonical representations of surface groups*, arXiv:2205.15352v4.
@@ -7447,6 +7488,8 @@ Sources and the editions or versions to which the locators refer.
 - D. McCullough and M. Wanderley, *Nielsen equivalence of generating pairs of `SL(2, q)`*, Glasgow
   Math. J. 55 (2013), 481–509.
   <https://www.cambridge.org/core/services/aop-cambridge-core/content/view/12B5FCFADCAFE740B31DEE5BB112DB85/S0017089512000675a.pdf/nielsen_equivalence_of_generating_pairs_of_sl2q.pdf>
+- J. S. Milne, *Arithmetic Duality Theorems*, second edition, BookSurge, 2006; printed page numbers,
+  with PDF pages of the author's electronic edition. <https://www.jmilne.org/math/Books/ADTnot.pdf>
 - A. Merkurjev and F. Scavia, *Galois representations modulo `p` that do not lift modulo `p²`*,
   arXiv:2410.12560v1. <https://arxiv.org/pdf/2410.12560v1>
 - B. Poonen, *Rational points on varieties*, Graduate Studies in Math. 186, Amer. Math. Soc., 2017.
@@ -7481,12 +7524,18 @@ Grunwald's theorem*, Ann. of Math. 49 (1948) (through Harpaz–Wittenberg); C. D
 Brauer non ramifié d'espaces homogènes à stabilisateurs finis*, Math. Ann. 346 (2010),
 J.-L. Colliot-Thélène, A. Pál and A. N. Skorobogatov, *Pathologies of the Brauer–Manin obstruction*,
 Math. Z. 282 (2016), Proposition 6.1(iii), and V. Platonov and A. Rapinchuk, *Algebraic groups and
-number theory*, Academic Press, 1994, Theorems 6.6 and 7.8 (through Harpaz–Wittenberg); R. G. Swan,
+number theory*, Academic Press, 1994, Theorems 6.6 and 7.8, A. N. Skorobogatov, *Torsors and
+rational points*, Cambridge Tracts in Math. 144, Cambridge Univ. Press, 2001, J. Neukirch,
+A. Schmidt and K. Wingberg, *Cohomology of number fields*, second edition, Grundlehren 323,
+Springer, 2008, D. Harari, *Flèches de spécialisations en cohomologie étale et applications
+arithmétiques*, Bull. Soc. Math. France 125 (1997), D. Harari, *Le défaut d'approximation forte
+pour les groupes algébriques commutatifs*, Algebra Number Theory 2 (2008), and J.-L. Colliot-Thélène
+and A. N. Skorobogatov, *Descent on fibrations over `ℙ¹_k` revisited*, Math. Proc. Cambridge
+Philos. Soc. 128 (2000) (through Harpaz–Wittenberg); R. G. Swan,
 *Induced representations and projective modules*, Ann. of Math. 71 (1960) (through Raynaud);
 M. J. Dunwoody, *Nielsen transformations* (1970), and S. Garion, *Connectivity of
 the product replacement algorithm graph of `PSL(2, q)`*, J. Group Theory 11 (2008) (through Chen);
 T. Ekedahl's effective Hilbert irreducibility theorem (through Breuil–Conrad–Diamond–Taylor);
-M. Fried and M. Jarden, *Field Arithmetic*, third edition, Springer, 2008 (through Schmidt–Stix);
 M. Fried and H. Völklein, *The inverse Galois problem and rational points on moduli spaces*, Math.
 Ann. 290 (1991), appendix (through Wood); B. Huppert, *Endliche Gruppen I*, Springer, 1967 (through
 Schmidt–Wingberg); L. Ribes and P. Zalesskii, *Profinite Groups*, second edition, Theorem 2.3.15

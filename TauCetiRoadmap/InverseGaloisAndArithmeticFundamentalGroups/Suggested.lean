@@ -12,10 +12,11 @@ The statements here suggest Lean forms for headline results; discharging them fi
 layer nor the roadmap.
 
 Layer IG.2 is represented by Hilbert irreducibility, including several parameters, full polynomial
-Galois groups, disjoint realizations and the normal-subgroup theorem for absolute Galois groups.
+Galois groups, disjoint realizations, Weissauer's theorem, the failure of finite generation for
+absolute Galois groups of Hilbertian fields and the normal-subgroup theorem.
 Layer IG.3 contributes rational rigidity and the stable classification of generating braid orbits.
-Layer IG.4 contributes split nilpotent embedding problems, Shafarevich's theorem and realizations
-over extensions of collectively coprime degrees. Layer IG.5's Abhyankar theorem is stated in the equivalent function-field language, using Tau Ceti's genus,
+Layer IG.4 contributes split nilpotent embedding problems, Shafarevich's theorem, supersolvable
+Grunwald prescriptions and realizations over extensions of collectively coprime degrees. Layer IG.5's Abhyankar theorem is stated in the equivalent function-field language, using Tau Ceti's genus,
 places and ramification indices. Layer IG.6 contributes specialization of regular realizations and
 the implication between the named open inverse Galois problems.
 
@@ -25,10 +26,9 @@ alone does not supply these objects. Integral and rational local-system categori
 reconstruction, the pro-étale fundamental group and the tame specialization maps of IG.0–IG.1
 are not supplied by the pinned sites and finite Galois categories. Those headlines have no
 signatures here. Likewise the Hurwitz schemes, admissible covers, component invariants and their
-Frobenius actions needed for the comparisons and counts of IG.5 are absent. Brauer–Manin density,
-local prescriptions and Property E require the homogeneous-space Brauer pairing, the system of
-local Galois embeddings and the maximal unramified extension with its operator action,
-respectively; these structures are not available at the pins. The geometric Hilbert-subset and
+Frobenius actions needed for the comparisons and counts of IG.5 are absent. Brauer–Manin density and
+Property E require the homogeneous-space Brauer pairing and the maximal unramified extension with
+its operator action, respectively; these structures are not available at the pins. The geometric Hilbert-subset and
 thin-set formulations need the cover/residue-fibre interfaces of IG.0–IG.2; the cover form of
 rigidity and its moduli obstruction need marked branched covers. Field and cover patching need
 the compatible completed patch rings and normalized covers, which are not supplied by the pins.
@@ -77,11 +77,12 @@ theorem isHilbertian_ratFunc (K : Type*) [Field K] : IsHilbertian (RatFunc K) :=
 theorem isHilbertian_of_numberField (K : Type*) [Field K] [NumberField K] : IsHilbertian K :=
   sorry
 
-/-- Hilbert irreducibility over a number field in any positive number of parameters.
-Clearing coefficient denominators gives polynomial families over the multivariate polynomial ring;
-the arbitrary nonzero guard expresses Zariski density as well as finite avoidance. -/
+/-- Hilbert irreducibility over a number field in any number of parameters (the case `r = 0` is
+trivial). Clearing coefficient denominators gives polynomial families over the multivariate
+polynomial ring; the arbitrary nonzero guard expresses Zariski density as well as finite
+avoidance. -/
 theorem hilbert_irreducibility (K : Type*) [Field K] [NumberField K]
-    (r : ℕ) (hr : 0 < r) (s : Finset (Polynomial (MvPolynomial (Fin r) K)))
+    (r : ℕ) (s : Finset (Polynomial (MvPolynomial (Fin r) K)))
     (hs : ∀ f ∈ s,
       Irreducible (f.map (algebraMap _ (FractionRing (MvPolynomial (Fin r) K)))) ∧
       (f.map (algebraMap _ (FractionRing (MvPolynomial (Fin r) K)))).Separable ∧
@@ -101,10 +102,25 @@ theorem IsHilbertian.infinite_full_group {K : Type*} [Field K] [CharZero K]
       (specialize t f).natDegree = f.natDegree ∧ (specialize t f).Separable ∧
       Nonempty ((specialize t f).Gal ≃* f.Gal)}.Infinite := sorry
 
-/-- A closed normal subgroup of the absolute Galois group of a field finitely generated over
-`ℚ` is trivial if it is topologically finitely generated. -/
+/-- Weissauer's theorem (Fried–Jarden, Theorem 13.9.1(b)): a proper finite extension of a Galois
+extension, possibly infinite, of a Hilbertian field of characteristic zero is Hilbertian. -/
+theorem IsHilbertian.of_isGalois_of_one_lt_finrank {K : Type*} [Field K] [CharZero K]
+    (hK : IsHilbertian K) (M : IntermediateField K (AlgebraicClosure K)) [IsGalois K M]
+    (L : IntermediateField M (AlgebraicClosure K)) [FiniteDimensional M L]
+    (hL : 1 < Module.finrank M L) : IsHilbertian L := sorry
+
+/-- The absolute Galois group of a Hilbertian field of characteristic zero is not topologically
+finitely generated: it has continuous quotients `C₂^r` for every `r`. -/
+theorem IsHilbertian.not_isTopologicallyFinitelyGenerated {F : Type*} [Field F] [CharZero F]
+    (hF : IsHilbertian F) :
+    ¬ TauCeti.IsTopologicallyFinitelyGenerated (Field.absoluteGaloisGroup F) := sorry
+
+/-- A closed normal subgroup of the absolute Galois group of a Hilbertian field of characteristic
+zero is trivial if it is topologically finitely generated; fields finitely generated over `ℚ` are
+covered through `isHilbertian_ratFunc`, `isHilbertian_of_numberField` and finite-extension
+permanence. -/
 theorem normal_subgroup_absoluteGaloisGroup_eq_bot (K : Type*) [Field K] [CharZero K]
-    [Algebra.EssFiniteType ℚ K] (N : Subgroup (Field.absoluteGaloisGroup K)) [N.Normal]
+    (hK : IsHilbertian K) (N : Subgroup (Field.absoluteGaloisGroup K)) [N.Normal]
     (hclosed : IsClosed (N : Set (Field.absoluteGaloisGroup K)))
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated N) : N = ⊥ := sorry
 
@@ -153,11 +169,11 @@ def HasRegularRealization (K : Type u) [Field K] (G : Type*) [Group G] : Prop :=
       IsIntegrallyClosedIn K L
 
 /-- Rational rigidity (Serre, *Topics in Galois Theory*, Theorem 8.1.1): a centreless finite group
-with a rigid tuple of nontrivial rational classes is the Galois group of a regular extension of
-`K(T)` for every field `K` of characteristic zero. -/
+with a rigid tuple of rational classes is the Galois group of a regular extension of `K(T)` for
+every field `K` of characteristic zero. An identity class only marks an unramified point. -/
 theorem hasRegularRealization_of_rigid (K : Type u) [Field K] [CharZero K] (G : Type*) [Group G]
     [Finite G] (hZ : Subgroup.center G = ⊥) {r : ℕ} (C : Fin r → ConjClasses G)
-    (hrat : ∀ i, IsRationalClass (C i)) (hne : ∀ i, C i ≠ ConjClasses.mk 1) (hrig : IsRigid C) :
+    (hrat : ∀ i, IsRationalClass (C i)) (hrig : IsRigid C) :
     HasRegularRealization K G := sorry
 
 namespace ReducedSchur
@@ -239,6 +255,37 @@ theorem shafarevich (K : Type u) [Field K] [NumberField K] (G : Type*) [Group G]
     [Group.IsSolvable G] :
     ∃ (L : Type u) (_ : Field L) (_ : Algebra K L),
       FiniteDimensional K L ∧ IsGalois K L ∧ Nonempty ((L ≃ₐ[K] L) ≃* G) := sorry
+
+/-- `G` is supersolvable: a chain `1 = H₀ ≤ ⋯ ≤ Hₙ = G` of normal subgroups of `G` in which each
+step adjoins one element, so that the successive quotients are cyclic. -/
+def IsSupersolvable (G : Type*) [Group G] : Prop :=
+  ∃ (n : ℕ) (H : Fin (n + 1) → Subgroup G), H 0 = ⊥ ∧ H (Fin.last n) = ⊤ ∧
+    (∀ i, (H i).Normal) ∧ ∀ i : Fin n, ∃ g : G, H i.succ = H i.castSucc ⊔ Subgroup.zpowers g
+
+open IsDedekindDomain NumberField in
+/-- Grunwald prescriptions for supersolvable groups (Harpaz–Wittenberg, corollary of Théorème B):
+away from finite places whose residue characteristic divides `|G|`, local Galois extensions whose
+groups embed in `G` are the completions of one global `G`-extension; the tensor product with each
+completion is a power of the prescribed local field. -/
+theorem exists_galois_with_local_prescriptions_of_supersolvable (K : Type u) [Field K]
+    [NumberField K] (G : Type*) [Group G] [Finite G] (hG : IsSupersolvable G)
+    (Sf : Finset (HeightOneSpectrum (𝓞 K)))
+    (hSf : ∀ v ∈ Sf, (Nat.card G : 𝓞 K) ∉ v.asIdeal) (Si : Finset (InfinitePlace K))
+    (Lf : HeightOneSpectrum (𝓞 K) → Type u) [∀ v, Field (Lf v)]
+    [∀ v, Algebra (v.adicCompletion K) (Lf v)]
+    (hLf : ∀ v ∈ Sf, FiniteDimensional (v.adicCompletion K) (Lf v) ∧
+      IsGalois (v.adicCompletion K) (Lf v) ∧
+      ∃ φ : (Lf v ≃ₐ[v.adicCompletion K] Lf v) →* G, Function.Injective φ)
+    (Li : InfinitePlace K → Type u) [∀ v, Field (Li v)] [∀ v, Algebra v.Completion (Li v)]
+    (hLi : ∀ v ∈ Si, FiniteDimensional v.Completion (Li v) ∧ IsGalois v.Completion (Li v) ∧
+      ∃ φ : (Li v ≃ₐ[v.Completion] Li v) →* G, Function.Injective φ) :
+    ∃ (L : Type u) (_ : Field L) (_ : Algebra K L),
+      FiniteDimensional K L ∧ IsGalois K L ∧ Nonempty ((L ≃ₐ[K] L) ≃* G) ∧
+      (∀ v ∈ Sf, ∃ m : ℕ, Nonempty
+        (TensorProduct K (v.adicCompletion K) L ≃ₐ[v.adicCompletion K] (Fin m → Lf v))) ∧
+      ∀ v ∈ Si, ∃ m : ℕ, Nonempty
+        (TensorProduct K v.Completion L ≃ₐ[v.Completion] (Fin m → Li v)) := by
+  sorry
 
 /-- Every finite group is realizable over finitely many extensions of a number field whose
 degrees have greatest common divisor one (Harpaz–Wittenberg, Remark 7.11). -/
