@@ -80,10 +80,11 @@ planar algebra it needs in CA8 directly from Subfactors S6.
   semisimple and grading theory. CA2a adds analytic unitary choices and
   their classification and does not duplicate that categorical API.
 - [CStarAlgebras C1–C5](../CStarAlgebras/README.md) supplies C* order,
-  representations and CP/CB maps. [HilbertModules H1–H4](../HilbertModules/README.md)
-  supplies adjointable operators, linking algebras, C*-correspondences,
-  interior tensor product, imprimitivity and Morita equivalence, including
-  H3's Morita invariance of simplicity. CA1–CA4 assemble the associated
+  representations and CP/CB maps. The Hilbert C*-module operator theory
+  used here (adjointable and module compact operators, linking algebras,
+  interior tensor products, imprimitivity bimodules, the Rieffel
+  correspondence and Morita invariance of simplicity) is built in
+  CA1a–CA1b on Mathlib `CStarModule`, and CA1–CA4 assemble the associated
   categories and internal versions.
 - [VonNeumannAlgebras V4–V6,V11–V13](../VonNeumannAlgebras/README.md)
   supplies normality and normal representations (V4), projection
@@ -130,7 +131,8 @@ records which headline theorems are statable at the pins.
 
 ### CA1a. Elementary analytic category interfaces
 
-The C*-category layer consumes CStarAlgebras and HilbertModules H1–H2.
+The C*-category layer consumes CStarAlgebras and builds its Hilbert
+C*-module examples on Mathlib `CStarModule`.
 The W*-category portion also consumes VonNeumannAlgebras V4 for preduals,
 normality and Sakai's theorem. These interfaces are independent of normal
 correspondences and subfactor theory; TemperleyLiebOperatorAlgebras A6
@@ -160,6 +162,24 @@ self-adjoint projections. Prove the completion's universal property for
 linear dagger functors, with unitary natural transformations and
 independence of chosen splittings. Build examples from finite Hilbert
 spaces and Hilbert C*-modules with adjointable maps.
+
+Hilbert C*-modules enter through Mathlib `CStarModule`, whose axiom
+`⟪x,a•y⟫=a⟪x,y⟫` is a left-module convention. A right Hilbert B-module is
+a `CStarModule` over `Bᵐᵒᵖ` read through `MulOpposite.unop`, so that
+`⟨x,yb⟩=⟨x,y⟩b`; B itself carries `⟨a,b⟩=a*b`, not Mathlib's left
+self-module structure. For right Hilbert B-modules E and F call a function
+T:E→F adjointable when some S:F→E satisfies `⟨Tx,y⟩=⟨x,Sy⟩` for all x, y.
+Prove S is unique and that T and S are automatically complex linear,
+B-linear and bounded, by the closed graph theorem once linearity is
+proved (Lance, Ch. 1). Build the spaces `L_B(E,F)` with composition,
+adjoint and operator norm, prove they form a C*-category in the sense
+above, and that each `L_B(E)` is a unital C*-algebra (the zero algebra
+for E=0). Define `θ_(x,y)z=x⟨y,z⟩` and prove `θ_(x,y)†=θ_(y,x)` and
+`Tθ_(x,y)S=θ_(Tx,S†y)` for adjointable T and S. Let `K_B(E,F)` be the
+closed span of the θ's; prove these spaces form a closed two-sided ideal
+of the C*-category and identify `K_B(B)≅B` through left multiplication,
+`θ_(a,b)↦ab*`. The linking algebra of E is `K_B(E⊕B)`, whose corners are
+`K_B(E)`, E, the conjugate of E and B.
 
 A W*-category has dual Banach Hom spaces with separately weak-* continuous
 composition and weak-* continuous dagger. Prove equivalence with the
@@ -193,9 +213,17 @@ additive Karoubi completion alone does not supply infinite W* sums.
   many copies of ℂ is ℓ². The column ℂ→ℓ² with components `1/n` is a
   morphism (`Σ1/n²=π²/6`), while components `1/√n` give none (`Σ1/n`
   diverges); finite partial sums of the first converge in norm.
+- In `B=C([0,1])` the inclusion of the ideal `J={f:f(0)=0}` is bounded and
+  B-linear but not adjointable: an adjoint S would satisfy
+  `j̄(b−Sb)=0` for all j∈J, forcing `Sb=b` by continuity, and `S1=1∉J`.
+  A definition of morphisms as all bounded module maps admits it.
+- For the right self-module of `B=M₂(ℂ)`, `θ_(e₁₁,e₂₁)=e₁₁e₁₂`, left
+  multiplication by `e₁₂`, whose adjoint `θ_(e₂₁,e₁₁)` is left
+  multiplication by `e₂₁`; the θ's span all of `K_B(B)≅M₂(ℂ)`.
 
 *Needs:* Mathlib `Category`, `Preadditive`, `Linear`, biproducts,
-`Karoubi`; CStarAlgebras C1–C5; HilbertModules H1–H2; VonNeumannAlgebras V4.
+`Karoubi`, `CStarModule`, `MulOpposite`; CStarAlgebras C1–C5;
+VonNeumannAlgebras V4.
 
 ### CA1b. Analytic bicategories and correspondences
 
@@ -207,18 +235,41 @@ pseudofunctors, bounded unitary pseudonatural comparisons and
 modifications; prove whiskering/interchange and the normal composition
 laws. Use `EndMonoidal b` for the monoidal endomorphism category at b.
 
+For a right Hilbert B-module E and a B–C correspondence F, that is a right
+Hilbert C-module with a *-homomorphism `φ:B→L_C(F)`, construct the
+interior tensor product `E⊗_B F`: quotient the complex algebraic tensor
+product by the null space of `⟨x⊗y,x′⊗y′⟩=⟨y,φ(⟨x,x′⟩)y′⟩` and complete.
+Prove positivity of this form from positivity of the Gram matrices
+`(⟨x_i,x_j⟩)` in `M_n(B)`, the balancing `xb⊗y=x⊗φ(b)y`, density of
+elementary tensors, adjointability of `T⊗1` with `‖T⊗1‖≤‖T‖` for
+`T∈L_B(E)`, and adjointability of `1⊗S` for `S∈L_C(F)` commuting with
+φ(B). Construct the associator unitaries, the unitor `E⊗_B B≅E` and, for
+nondegenerate φ, the unitor `B⊗_B F≅F`, and prove the pentagon and
+triangle identities (Lance, Ch. 4). An A–B imprimitivity bimodule is a
+full right Hilbert B-module E with a *-isomorphism `A≅K_B(E)`. Construct
+its left inner product `_A⟨x,y⟩=θ_(x,y)`, prove `_A⟨x,y⟩z=x⟨y,z⟩_B`,
+and construct the conjugate B–A bimodule Ē and the unitaries
+`E⊗_B Ē≅A`, `x⊗ȳ↦_A⟨x,y⟩`, and `Ē⊗_A E≅B`, `x̄⊗y↦⟨x,y⟩_B`. Call A and B
+strongly Morita equivalent when such an E exists. Prove this is an
+equivalence relation, and that for a projection p in the multiplier
+algebra of A with `closure(span(ApA))=A` the corner pAp is strongly
+Morita equivalent to A through the bimodule Ap. Prove the Rieffel
+correspondence: `J↦closure(span(_A⟨EJ,E⟩))` is a lattice isomorphism from
+the closed two-sided ideals of B to those of A, sending 0 to 0 and B to A.
+Deduce that A is simple if and only if B is (Raeburn–Williams, Ch. 3).
+
 Construct C*- and W*-bicategories from right C*-correspondences and
 normal Hilbert correspondences respectively, with nondegenerate left
 actions and adjointable/bounded bimodule intertwiners. The nondegeneracy
 hypothesis supplies the left unitors; include it in the carriers rather
 than silently using it for arbitrary adjointable actions. Prove linear/dagger hom-category structure,
 unitors, associators, interchange and pentagon/triangle identities from
-H3 and S1's tensor constructions. Use M–N correspondences and compose
+the interior tensor product above and S1's tensor constructions. Use M–N correspondences and compose
 H:M–N, K:N–P by H⊗_N K. On normal scalar-Hilbert correspondences,
 construct conjugate bimodules as the bi-involution, including its
 reversed tensor coherence. The general right C*-correspondence
 bicategory carries the dagger on 2-cells. Construct reversed
-C*-correspondences on H3's imprimitivity subbicategory using both
+C*-correspondences on the imprimitivity subbicategory above using both
 inner products, with conjugation and reversed tensor coherence.
 
 **Checks.**
@@ -233,8 +284,14 @@ inner products, with conjugation and reversed tensor coherence.
 - For `M=M₂(ℂ)` with its normalized trace, `L²(M)=M₂(ℂ)` and `J(ξ)=ξ*`
   intertwines the conjugate bimodule with the original:
   `J(b*ξa*)=aξ*b`.
+- `ℂ²` is an `M₂(ℂ)`–ℂ imprimitivity bimodule with `_A⟨x,y⟩=xy*` and
+  `⟨x,y⟩_ℂ=x*y`, and `_A⟨x,y⟩z=xy*z=x⟨y,z⟩_ℂ`; the ideal lattices of ℂ
+  and `M₂(ℂ)` are both `{0,whole}`, matching the Rieffel correspondence.
+  The module `E=ℂ⊕0` over `ℂ²` has `K(E)≅ℂ` but `⟨E,E⟩=ℂ⊕0`, so it is not
+  full; dropping fullness would make the simple ℂ Morita equivalent to the
+  non-simple `ℂ²`.
 
-*Needs:* CA1a; Mathlib `Bicategory`; HilbertModules H3; Subfactors S1.
+*Needs:* CA1a; Mathlib `Bicategory`, `CStarModule`; Subfactors S1.
 
 ## CA2. Unitary tensor duality and shaded planar algebras
 
@@ -518,7 +575,7 @@ supplies the dual pair; constructing its Q-system is owned here.
 - `M_n(ℂ)` splits as `ℂⁿ⊗(ℂⁿ)‾` with multiplication `1⊗ev⊗1` and unit coev.
 
 *Needs:* CA1a, CA1b, CA2a; Mathlib `MonObj`, `Mon`, `EndMonoidal`;
-HilbertModules H3; Subfactors S2, S5.
+Subfactors S2, S5.
 
 ## CA4. Internal C*/W* algebra objects
 
@@ -835,7 +892,7 @@ so the planar quotient comparison in CA8 is faithful.
 - Rescaling the one-edge weighting by `c=3` leaves `a=2` and `T_ε`
   unchanged and gives `τ_(3μ)(p_v)=48`.
 
-*Needs:* HilbertModules H1–H3; FreeProbability F3–F4; CStarAlgebras C1;
+*Needs:* CA1a, CA1b; FreeProbability F3–F4; CStarAlgebras C1;
 OperatorKTheory K1–K2, K4–K6.
 
 ## CA8. Canonical planar C*-algebras and their towers
@@ -951,7 +1008,7 @@ a Pimsner–Popa basis has v_i=u_i*. Prove basis independence,
 positivity/centrality of index, composition and corner transport.
 For every planar tower inclusion above, without a finite-depth hypothesis,
 derive simplicity at every level from the proved corner Morita
-equivalences and HilbertModules H3's Morita invariance of simplicity,
+equivalences and CA1b's Morita invariance of simplicity,
 and construct a finite quasi-basis from simplicity, fullness of the Jones
 projection and the pull-down identity. Prove its Watatani index is δ².
 Construct a Pimsner–Popa basis with
@@ -984,7 +1041,7 @@ examples with their corner/K-theory data.
   `(1,√2,1)`; the eigenvector relation holds (`√2=δ·1`, `1+1=δ·√2`), and
   `K₀(A_k)=ℤ³`.
 
-*Needs:* CA2a, CA2b, CA7; Subfactors S2, S6, S7, S8; HilbertModules H3;
+*Needs:* CA1b, CA2a, CA2b, CA7; Subfactors S2, S6, S7, S8;
 FreeProbability F4; OperatorKTheory K1–K2.
 
 ## CA9. Complete W*-categories and fusion commutants
@@ -1509,8 +1566,18 @@ CA6 category equivalence supplying the required morphism comparisons.
 ## Downstream consumers
 
 QuantumGroups and TemperleyLiebOperatorAlgebras A6 consume CA1a and CA2a.
+HilbertModules consumes the adjointable and module compact operators of
+CA1a and the interior tensor products, imprimitivity bimodules and
+Rieffel correspondence of CA1b.
 
 ## Sources and API evidence
+
+- Lance, *Hilbert C*-modules: a toolkit for operator algebraists*
+  (Cambridge, 1995), Ch. 1 and Ch. 4, for adjointable and module compact
+  operators and interior tensor products.
+- Raeburn–Williams, *Morita equivalence and continuous-trace
+  C*-algebras* (AMS, 1998), Ch. 3, for imprimitivity bimodules, full
+  corners and the Rieffel correspondence.
 
 - Jones–Penneys, [*Operator algebras in rigid C*-tensor categories*](https://arxiv.org/abs/1611.04620),
   §§2–4, Theorems 3.8,3.20 and 4.28, for internal algebra/module
