@@ -19,7 +19,7 @@ Wronskians, Roth's lemma) and the Siegel lemma are
 (DAT below), and so are the theorems of Diophantine approximation over `ℚ` at integer points in
 Evertse's lecture-notes form and the absolute quantitative Subspace Theorem. The affine height,
 the Northcott instances, Kronecker's theorem, the heights of units and the `S`-unit lattice are
-[HeightsAndUnits](../HeightsAndUnits/README.md)'s (HAU below). The places of a number field with
+[HeightsAndUnits](../../Completed/HeightsAndUnits/README.md)'s (HAU below). The places of a number field with
 their normalized absolute values and the local extension formulas are
 [GlobalNumberFields](../../Completed/GlobalNumberFields/README.md)'s Layer 0. Successive minima, Minkowski's
 second theorem and the Gram–Hadamard bound are [SuccessiveMinima](../SuccessiveMinima/README.md)'s

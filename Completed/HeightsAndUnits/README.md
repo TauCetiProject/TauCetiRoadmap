@@ -1,5 +1,14 @@
 # Roadmap: heights, units and S-units of number fields
 
+**Archive candidate, 2026-10-28.** This draft move awaits the existing implementation PRs
+[TauCeti#20658](https://github.com/TauCetiProject/TauCeti/pull/20658),
+[TauCeti#19468](https://github.com/TauCetiProject/TauCeti/pull/19468), and
+[TauCeti#20707](https://github.com/TauCetiProject/TauCeti/pull/20707).
+[COMPLETION.md](COMPLETION.md) records the whole-roadmap implementation inventory, acceptance
+examples and exact candidate revisions. It must be updated to merged upstream source before this
+archive is declared complete. The retained `Suggested.lean` is an admitted old-pin prototype,
+not the completion certificate.
+
 Dirichlet's unit theorem says that the units of a number field form a lattice of rank `r₁ + r₂ − 1`
 modulo torsion, and Mathlib proves it. The height of an algebraic number says how large it is
 arithmetically. This roadmap writes the dictionary between the two. A unit's height is the ℓ¹ norm
@@ -27,7 +36,7 @@ a convex body, or an integer kernel basis of bounded sup norm finds each one sta
 natural generality, with its basic API, in Mathlib's vocabulary.
 
 Suggested home: `TauCeti/NumberTheory/Height/` for Layers 0–1, beside the height foundation of
-[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md);
+[DiophantineApproximationAndTranscendence](../../TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md);
 `TauCeti/NumberTheory/GeometryOfNumbers/` for Layer 2; `TauCeti/NumberTheory/NumberField/Units/`
 for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
 `TauCeti/NumberTheory/NumberField/SUnits/` for Layer 4.
@@ -74,14 +83,14 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
 - **Tau Ceti.** `NumberField.Units.regulator_eq_one_of_rank_eq_zero`, with
   `regulator_rat_eq_one` and `regulator_eq_one_of_isTotallyComplex_of_finrank_eq_two`
   (`TauCeti/NumberTheory/EffectiveBounds/Regulator.lean`).
-- **[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)**
+- **[DiophantineApproximationAndTranscendence](../../TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md)**
   (DAT below) owns the height foundation, and every height here that it defines is its, never
   a second one:
   - §0.2: `absoluteProjectiveTupleHeight` with `absoluteProjectiveTupleHeight_eq` and
     `absMulHeight₁_eq_absoluteProjectiveTupleHeight`; `mahlerMeasure_eq_one_iff` and
     `mahlerMeasure_eq_absMulHeight₁_pow`.
   - §0.3: bounded-degree Northcott, `finite_setOf_absMulHeight₁_le`.
-  - §1.3: `matrixMulHeight` and `matrixMulHeight_mul_le`; the tuple sum bound
+  - §1.3: `Matrix.mulHeight` and `Matrix.mulHeight_mul_le`; the tuple sum bound
     `Height.mulHeight_sum_comp_le` and its signed form `Height.mulHeight_sum_sign_comp_le`.
   - §2.4: `absoluteLogHeightAff`.
   - §2.5: `height2`, `arakelovMulHeight`, `arakelovMulHeight_sup_comparison`, `plucker`,
@@ -92,8 +101,9 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
     product bound for independent kernel vectors.
   - §4.5: the identity `logHeight₁ y = Σ max(0, ℓ) = ½ Σ |ℓ|` for the full vector `ℓ` of
     weighted logarithms of a unit outside a finite `S`, over `S ∪ S_∞` (BG96 (12)).
-- **GeometryOfNumbersAndQuadraticArithmetic** (GoN below; an open TauCetiRoadmap pull request by
-  CBirkbeck, #851) owns the successive minima and Minkowski's second theorem:
+- **[GeometryOfNumbersAndQuadraticArithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851)**
+  (GoN below; open roadmap proposal #851) specifies the following supplier interfaces for
+  successive minima and Minkowski's second theorem:
   - §1.2.1: `successiveMin L K i`, zero-based, `i : Fin (finrank ℝ E)`, for `K : ConvexBody E`.
   - §1.2.3–1.2.11 and §1.2.12: its calculus.
   - §1.2.7: `exists_successiveMin_witnesses`.
@@ -101,6 +111,11 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
     bound on its vectors**.
   - §1.5.21: `minkowski_second_upper`, for any additive Haar measure on a finite-dimensional real
     inner-product space.
+
+The existing implementations of these supplier interfaces are recorded in [COMPLETION.md](COMPLETION.md).
+The approved [SuccessiveMinima](../../TauCetiRoadmap/SuccessiveMinima/README.md) roadmap uses the
+same canonical lattice and convex-body carriers; the GoN section numbers above retain their
+original proposal references.
 
 ### Not owned here
 
@@ -163,7 +178,7 @@ alone.
 - `mulHeight₁ A.det ≤ (#n)! ^ totalWeight K · ∏ j, mulHeightAff (fun i ↦ A i j)`, columnwise,
   from the Leibniz expansion and DAT §1.3's signed tuple sum bound
   `Height.mulHeight_sum_sign_comp_le`. Also the corollary `mulHeight₁ A.det ≤ (#n)! ^ totalWeight K · mulHeightAff (entries A) ^ #n`.
-- The rejection test `exists_not_mulHeight₁_det_le`: a `1 × 1` matrix has `matrixMulHeight A = 1`
+- The rejection test `exists_not_mulHeight₁_det_le`: a `1 × 1` matrix has `Matrix.mulHeight A = 1`
   and determinant its entry.
 - Sharpness: `a = x = ![1, 1]` attains the linear-form constant.
 
@@ -174,11 +189,11 @@ applied to the tuple of entries `fun p : m × n ↦ A p.1 p.2`, prove:
 - Their logarithmic forms.
 
 These need no `Nonempty` hypothesis and carry no cardinality. That is the contrast with DAT's
-`matrixMulHeight_mul_le`, whose constant is `(card n) ^ totalWeight K` and which needs a nonempty
+`Matrix.mulHeight_mul_le`, whose constant is `(card n) ^ totalWeight K` and which needs a nonempty
 inner index. At an infinite place the local factor is the Frobenius norm, and Cauchy–Schwarz makes
 it submultiplicative; at a finite place the ultrametric inequality does the same. The
 linear-map bound is the one-column case of the matrix bound. Test: over `ℚ`, `A = [1 1]`,
-`B = [[1, 0], [1, 1]]` give `matrixMulHeight (A B) = 2` against `matrixMulHeight A = matrixMulHeight B = 1`,
+`B = [[1, 0], [1, 1]]` give `Matrix.mulHeight (A B) = 2` against `Matrix.mulHeight A = Matrix.mulHeight B = 1`,
 so the sup-norm constant `2 ^ totalWeight K` is attained, while the Arakelov bound holds with
 constant `1`.
 

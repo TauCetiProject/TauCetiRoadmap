@@ -71,3 +71,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-28)
 - [Local fields and ramification](LocalFieldsRamification/README.md)
   (archive candidate 2026-10-28; awaiting implementation PRs #22018, #22046 and #22047)
+- [Heights, units and S-units of number fields](HeightsAndUnits/README.md)
+  (archive candidate 2026-10-28; awaiting implementation PRs #20658, #19468 and #20707)

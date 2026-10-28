@@ -5,6 +5,10 @@ import TauCetiRoadmap.DiophantineApproximationAndTranscendence.Suggested
 /-!
 # Heights, units and S-units of number fields: target signatures
 
+This is the historical prototype checked at the roadmap repository's older dependency pin.
+Its admitted targets are not completion evidence. `COMPLETION.md` separately records the
+current-source implementations and the remaining merge prerequisites.
+
 **This file is not the roadmap and is not exhaustive.** The definitive specification is
 `README.md`, which numbers the milestones as Layer `n.m`. The declarations below suggest Lean forms
 for particular milestones, so that contributors and reviewers converge on names and signatures;
