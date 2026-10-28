@@ -756,6 +756,67 @@ is independent of the universal-cover/asphericity and complexification construct
 - **Compact real roots and the Weyl comparison.** For compact connected G and maximal torus T, consume Layer5A’s real Ad-invariant positive inner product and orthogonal splitting g=z(g)⊕[g,g], with their actual invariance and bracket equations. Construct t=z(g)⊕t_ss by restriction; the center lies in every maximal toral Lie algebra. Simultaneously diagonalize the commuting unitary adjoint action of T on g_C, form its actual nonzero root characters χ_α:T→S¹ and real root planes, and prove dχ_α=iα. Identify the zero weight with t_C. Prove t_ss,C is a Cartan subalgebra of the complexified semisimple summand and match the actual weight and root spaces. Consume LieHighestWeight Layer0's sl₂ strings/integrality and the native one-dimensional semisimple-root-space theorem with these hypotheses. Prove complex root multiplicity1 and real root-plane dimension2, then that roots vanish on z(g), span t_ss*, and give the finite reduced crystallographic root/coroot pairing. Establish the root-space bracket/rank-one normalization needed for the comparison, not just a list of weights. With the invariant metric put α∨=2α♯/‖α‖² and prove the root reflections act as X↦X−α(X)α∨. Export its actual root-pairing isomorphism with LieHighestWeight’s `rootSystem` on t_ss,C, preserving roots, coroots, reflections and the center-fixed Weyl action. This is the compact REAL realization of RootSystems’ abstract carrier; character PERIODS and integral lattice/isogeny refinements are consumed later by ConvexityToric T1.
 - **Rank-one representatives.** For each root build the compact su(2) subalgebra from its real root plane and coroot, with its normalized brackets. Consume Layer4’s integration of Lie homomorphisms out of the simply-connected SU(2) source to obtain SU(2)→G, and prove the derivative and torus/normalizer equations. Its image is compact and connected; its standard normalizer element gives n_α∈N_G(T) inducing the displayed reflection. For X∈t with α(X)=0, show the rank-one Lie algebra centralizes X and, by connectedness, its group image and n_α lie in Z_G(X)⁰. Prove restriction and conjugation laws. This assertion supplies actual representatives, not merely an abstract reflection name. For the compact rank-one map pin dφ(diag(i,−i))=α∨. With dχ_α=iα and α(α∨)=2, export the calibration for a later algebraic cocharacter ν_alg extending this compact circle: dν_alg(1)=−iα∨ and d(ν_alg|S¹)(i)=α∨. Its root pairing is therefore dα_alg(dν_alg(1))=2. The later pinned-algebraic comparison proves the extension and matches root maps; the compact construction here assumes no FCO or algebraic-group theorem.
 - **The Weyl group.** Construct weylGroup T=N_G(T)/T, prove finiteness and faithful action on T and t, and identify its action on t_ss with the root-pairing Weyl group, fixing the center. Prove both inclusions in the geometric/abstract action comparison: rank-one representatives realize the abstract reflection subgroup, while the converse requires the compact normalizer/root-crossing argument showing every geometric normalizer action is a product of root reflections. Supply the actual regular-chamber comparison here. For t_reg={X:α(X)≠0 for every root}, define g_reg=Ad(G)·t_reg. Prove every element of g is conjugate into t and use the centralizer-dimension formula to identify this with the minimal-centralizer locus and the complement of the displayed singular images. In the zero-root case g_reg=g and the singular union is empty. Construct the proper local-diffeomorphism covering q:G/T×t_reg→g_reg, q([g],X)=Ad_gX, using the root-plane derivative, maximal-torus conjugacy and invariant norm. For each root form the compact subgroup H_α=T·image(SU(2)_α), of dimension dim T+2; prove it centralizes ker α and that the singular set is the finite union of the images of G/H_α×ker α, each domain of dimension dim g−3. Use DifferentialGeometry 10.2 for finite-dimensional Sard. In this Layer6 milestone, construct and justify the smooth perturbation families relative to fixed boundary collars (including the interior evaluation/submersion and finite-dimensional parameter argument); do not assume a separate relative-genericity theorem from DifferentialGeometry. First approximate continuous paths/discs in g by smooth maps, preserving a compact avoidance reserve on the designated already-regular subset, in particular the endpoint/boundary collars; prove the straight-line homotopy there remains in g_reg. No avoidance is assumed on an initial filling disc away from that subset. Fix data already smooth near the collars; smooth arbitrary continuous boundary data before fixing a smooth collar. Prove the finite-family path/disc avoidance application in dimensions1 and2 with those fixed smooth boundary data in g_reg, so `g_reg` is connected and simply connected. A bare dimension label on an arbitrary singular set does not supply this application. Identify the connected components of t_reg with the nonempty root-sign cones: signs are constant on connected sets, and each such cone is open and convex. Under the compact real realization identify them with the W-translates of the abstract open dominant chamber on the dual Cartan carrier, including the unrestricted z(g) factor. Prove the reflection/action and cone-intersection comparisons before applying abstract transitivity to these components. Each component G/T×C then covers g_reg diffeomorphically. Thus the geometric Weyl action on chambers is free; the abstract reflection group acts transitively, giving the reverse inclusion. For the zero-root case prove both Weyl groups trivial directly. No HR chamber/centralizer endpoint, CT period theorem, Layer7 complexification or later flag theorem is an input. For the kernel prove C_G(T)=T using only the earlier compact maximal-torus theorems: if g centralizes T, choose a maximal torus S containing g; both S and T lie in C_G(g)⁰ and are maximal there. Conjugate S to T inside C_G(g)⁰; that conjugation fixes g, hence g∈T. This avoids using HR’s later full Lie-algebra-centralizer theorem. Export the equivariant linear/root/coroot maps and reflection evaluations. The abstract closed-wall/stabilizer theorem belongs to RootSystems; the compact coadjoint chamber and centralizer application belongs to HamiltonianReduction R2. No integral T1 or downstream convexity endpoint is a premise of this real comparison.
+<a id="space-of-maximal-tori"></a>
+
+- **The space of maximal tori and its universal cover.** For compact connected
+  K and maximal torus T, put N=N_K(T), W=N/T and `Tor(K)=K/N`, with the native
+  homogeneous quotient topology and basepoint N. Construct the bijection
+  `[k]↦kTk⁻¹` with the set of maximal torus subgroups and its inverse; give that
+  set the orbit quotient topology. Prove the stabilizer is exactly N, identify
+  the conjugation action of K with left translation on K/N, and prove that
+  changing the reference maximal torus gives the same topology on this set.
+  Use the closed-subgroup homogeneous-space construction from Layer2 and
+  [SmoothBundlesConnections B1.4](../../SmoothBundlesConnections/README.md)
+  for the actual smooth quotient structures and projection maps.
+
+  Construct `p:K/T→K/N`, `[k]_T↦[k]_N`, with the commuting quotient square.
+  First export `SimplyConnectedSpace (K/T)` from the preceding regular-chamber
+  argument: its diffeomorphism `K/T×C≃g_reg`, the convex chamber C and the
+  proved simple connectedness of g_reg give this result without a hypothesis
+  that K is simply connected. Then construct the free right action
+  `[k]_T·[n]_T=[kn]_T` of W, proving independence of both representatives,
+  continuity, and that its orbits are exactly the fibres of p. Give finite
+  evenly covered neighbourhoods and the homeomorphism `(K/T)/W≃K/N`.
+  Thus p is the universal covering, with |W| sheets. Identify its whole native
+  `deck p` group with `Wᵐᵒᵖ` by `[n]↦([k]↦[kn])`, including surjectivity
+  from uniqueness of deck transformations on the connected total space.
+
+  With chosen lift `[1]_T` over N, construct
+  `FundamentalGroup (K/N) N ≃* W`. Characterize it by lifted endpoints:
+  a loop class maps to `[n]` exactly when its lift from `[1]_T` ends at
+  `[n]_T`. Pin the multiplication convention using native
+  `FundamentalGroup.mul_def`, where `a*b=b.trans a`; the right deck action
+  and its opposite group then give the displayed group isomorphism. Reuse
+  native `IsCoveringMap.monodromy` and
+  `TauCeti.Deck.IsRegular.fundamentalGroupEquiv` from
+  `TauCeti.AlgebraicTopology.UniversalCover.Deck.FundamentalGroup.Basic`.
+  Do not replace either covering theory or the fundamental group by a
+  private carrier. Export the inverse loop construction, homotopy invariance,
+  and change-of-torus/basepoint-path squares, with the resulting inner
+  conjugacy ambiguity when a basepoint path changes.
+
+  Construct the associated bundles of Lie algebras, character and cocharacter
+  lattices of these maximal tori from N's conjugation action; T acts trivially
+  on these fibres, so the structural action factors through W. Prove their
+  monodromy through the displayed isomorphism is the actual Weyl action:
+  `X↦Ad_n X`, `χ↦(t↦χ(n⁻¹tn))` and `ν↦(z↦nν(z)n⁻¹)`, respectively.
+  The root/coroot subsets are preserved. This supplies transport of the root
+  datum around torus loops without asserting that every root-system
+  automorphism is a Weyl element. The lattice construction consumes Layer7F's
+  later period dictionary; the quotient, cover and fundamental-group result
+  above use only Layer6 and the native covering API. Treat a torus K directly:
+  N=K, W=1 and both quotients are points. For SU2 and SO3 construct the
+  respective identifications `K/T≃S²`, `Tor(K)≃ℝP²`, p with the antipodal
+  cover, and the endpoint isomorphism with C2. In U(n), identify K/T with
+  ordered orthogonal complex-line decompositions and K/N with their unordered
+  versions; the fundamental group is S_n, including n=0,1.
+  [Knutson, Construction11 p1](https://pi.math.cornell.edu/~allenk/courses/16spring/Construction11.pdf)
+  is the source passage for this specification. For generic covering APIs,
+  follow the [Mathlib universal-cover work](https://github.com/leanprover-community/mathlib4/pull/44186)
+  and the [homotopy-lifting discussion](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/How.20to.20deal.20with.20fundamental.20group.20.28homotopy.20class.29/near/507388894),
+  using the implemented native comparison cited above. Suggested forms are in
+  [`MaximalTorusSpaceTargets.lean`](MaximalTorusSpaceTargets.lean).
+
 - **Invariant volume and Haar.** Construct the left-invariant Riemannian volume
   from Layer5A's Ad-invariant form, prove bi-invariance and identify its normalized
   measure with CompactGroups Layer0's Haar probability by uniqueness. Prove the
