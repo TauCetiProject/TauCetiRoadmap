@@ -7,9 +7,10 @@ constructs:
 - three categorical prerequisites: idempotent adjunctions and the equivalence between their
   fixed subcategories, additive functors out of a Karoubi envelope, and Beck's (co)monadicity
   theorem as a characterization;
-- the 1-truncated layer: connected components and the fundamental groupoid of a small category,
-  the classes `W₀` and `W₁` of functors inducing bijections on `π₀` and equivalences of
-  fundamental groupoids, action groupoids, fibrations of groupoids and their exact sequences;
+- the 1-truncated layer: on Mathlib's connected components and free groupoid of a category, the
+  classes `W₀` and `W₁` of functors inducing bijections on `π₀` and equivalences of fundamental
+  groupoids, the comparison of categories of elements over `SingleObj G` with Mathlib's action
+  categories, fibrations of groupoids and their exact sequences;
 - **basic localizers** (Grothendieck's *localisateurs fondamentaux*), aspherical categories and
   functors, Quillen's Theorem A for an arbitrary basic localizer, the minimal basic localizer
   `W∞`, and Cisinski's theorem that `W∞` is the class of **Thomason equivalences**, the functors
@@ -29,8 +30,9 @@ constructs:
   category and of a cofibration category;
 - Baues **cofibration categories** with Brown's factorization lemma and their homotopy category;
 - **2-groups**: gr-categories, crossed modules, Sính's classification by `π₀`, `π₁` and the
-  `k`-invariant in `H³`, braided and Picard categories, the symmetry sign, Deligne's equivalence
-  of strictly commutative Picard categories with two-term complexes, the fundamental 2-groups of
+  `k`-invariant in `H³`, braided gr-categories and Picard groupoids (on SchemeAndStackFoundations'
+  generic `PicardGroupoid`), the symmetry sign, Deligne's equivalence
+  of strictly commutative Picard groupoids with two-term complexes, the fundamental 2-groups of
   a topological group and of a pointed space, and extensions of groups by a crossed module;
 - **Picard stacks** on an arbitrary site as coefficients, with Deligne's equivalence between
   strictly commutative Picard stacks and complexes of abelian sheaves in degrees `[-1, 0]`.
@@ -60,12 +62,14 @@ stated for arbitrary categories and ask for no smallness (convention 16).
 
 | Material | Owner | Use here |
 | --- | --- | --- |
-| Latching and matching objects, Reedy weak factorization systems, the Reedy model structure | Joël Riou's Mathlib project ([leanprover-community/project-intentions#5](https://github.com/leanprover-community/project-intentions/issues/5)), announced in the TODO of Mathlib's [`Mathlib/AlgebraicTopology/Reedy/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/Basic.lean) | not used: Layers 7–9 state nothing about them, and every Reedy structure here is a Mathlib `ReedyStructure`, so that they combine with that work |
+| Latching and matching objects, Reedy weak factorization systems, the Reedy model structure | Joël Riou's Mathlib project ([leanprover-community/project-intentions#5](https://github.com/leanprover-community/project-intentions/issues/5)), announced in the TODO of Mathlib's [`Mathlib/AlgebraicTopology/Reedy/Basic.lean`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/Basic.lean); [BordismFormalGroups](../BordismFormalGroups/README.md), F6.5, builds them on its Bergner and projective diagram models from the same native `ReedyStructure` | not used: Layers 7–9 state nothing about them, and every Reedy structure here is a Mathlib `ReedyStructure`, so that they combine with that work |
 | Kan–Quillen model structure on `SSet`, simplicial weak equivalences, `sd ⊣ Ex` comparisons, geometric realization | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G2 item 1; Mathlib (`SSet.sd`, `SSet.ex`, `SSet.sdExAdjunction`) | consumed in Layers 4–6 |
+| Classifying spaces `BC` of small categories (realised nerves), homotopies from natural transformations, coverings of `BC` and the comparison of Mathlib's `FreeGroupoid C` with `Π₁(BC)` (§1.21), realisation of `ActionCategory.π` as a covering (§1.28), Quillen's Theorems A and B for classifying spaces with the mapping-path homotopy fibre (§§2.11, 2.31, 2.34), plus constructions and K-theory | [StableHomotopyKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1227) | not used: nothing here realises a nerve. That roadmap consumes Layers 1, 2 and 4 through the declarations listed under *Exports to consumers* |
+| Bergner and Joyal model structures, enriched localization and coherent diagram categories | [BordismFormalGroups](../BordismFormalGroups/README.md), F6.5 | not used: Thomason's model structure (Layer 5) is on the ordinary category `Cat.{u, u}`, and the derivator examples of Layer 10 localize ordinary diagram categories `J ⥤ M` at levelwise weak equivalences, with no enriched adapter |
 | Homotopy groups of spaces, weak homotopy equivalences, Hurewicz and Whitehead | [AlgebraicTopology](../AlgebraicTopology/README.md), Stage 8; Tau Ceti `TauCeti/Topology/Homotopy/HomotopyGroup/` | consumed in Layer 12 |
 | `K(G, 1)` spaces and group cohomology of classifying spaces | [ClassifyingSpaces](../ClassifyingSpaces/README.md) | not used |
 | Grothendieck topoi, their points and morphisms, the classifying topos `B_G` | the [Grothendieck topoi roadmap](../GrothendieckTopoi/README.md) | not used: sites appear here only as bases of coefficient stacks |
-| Stacks in groupoids on schemes, gerbes, site-level stackification `Stack.stackification`, torsors, the Picard groupoid and Picard stack of a curve | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md), §§1.15, 1.18, 3.4, 3.7 | `Stack.stackification` consumed in Layer 13 |
+| Stacks in groupoids on schemes, gerbes, torsors; the generic site-level stackification `Stack.stackification` with `Stack.toStackification` and `Stack.stackificationUniversal` (§1.18); the generic `PicardGroupoid C` on a symmetric monoidal category with `pi0 C = Skeleton C` and `pi1 C = Aut(𝟙_C)`, and the (graded) Picard groupoids of line bundles with pullback and descent (§3.4); the Picard stack, gerbes and Abel maps of a curve (§3.7) | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md), §§1.15, 1.18, 3.4, 3.7 | `PicardGroupoid`, `pi0`, `pi1` consumed unchanged in Layer 12 (no second Picard class or invariants are defined here); `Stack.stackification` consumed in Layer 13 |
 | The globe category `𝔾` (Layer 0.1 there), globular sets, Grothendieck ∞-groupoids, the homotopy hypothesis | [GrothendieckInfinityGroupoids](../GrothendieckInfinityGroupoids/README.md) | `𝔾` consumed in 8.6, which proves it direct; globular sets stay there |
 | Quillen exact categories and Grothendieck groups | [GrothendieckEulerForms](../GrothendieckEulerForms/README.md) | not used |
 | Spectra and stable homotopy | [GeneralizedCohomology](../GeneralizedCohomology/README.md) | not used |
@@ -73,22 +77,24 @@ stated for arbitrary categories and ask for no smallness (convention 16).
 Not in this roadmap either: generalized, elegant and Eilenberg–Zilber Reedy categories; weighted
 (co)limits, boundaries of representables, the inductive construction of diagrams and skeletal
 filtrations; geometric realisation and sphericity of non-singular presheaves; regular CW
-complexes. [BordismFormalGroups](https://github.com/TauCetiProject/TauCetiRoadmap/pull/947) and
-[GrothendieckInfinityGroupoids](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1060) consume
-Layers 7–8 and own none of their targets; the Reedy model structures BordismFormalGroups uses come
-from Riou's project, not from here.
+complexes. GrothendieckInfinityGroupoids owns the globe category and its globular sets; Layer 8.6
+adds only the direct structure on it.
 
 The boundary in one sentence: apart from the three categorical prerequisites of Layer 0, if a
-statement is about small categories up to a class of weak
-equivalences, presheaves on a small category, diagrams of shape a small category in a derivator,
-direct and inverse categories and their Reedy structures, non-singular presheaves on a direct
-category, or monoidal groupoids, it is here; if it is about simplicial sets or spaces alone, about
+statement is about small categories up to a class of weak equivalences defined categorically or
+through nerves in `SSet` (basic localizers, `W∞`, Thomason equivalences), presheaves on a small
+category, diagrams of shape a small category in a derivator, direct and inverse categories and
+their Reedy structures, non-singular presheaves on a direct category, or monoidal groupoids, it is
+here; if it passes through the topological realisation of a nerve (classifying spaces, their
+coverings and homotopy fibres, CW Whitehead), or is about simplicial sets or spaces alone, about
 latching and matching objects or the Reedy model structure, about topoi, or about stacks on
-schemes, it belongs to the owner named above.
+schemes, it belongs to the owner named above. A shared carrier has one owner: where Mathlib or a
+roadmap named above supplies it, this roadmap imports it and states only the extensions and the
+comparison maps.
 
 ## What exists (consume)
 
-**Mathlib**, at the revision Tau Ceti pins:
+**Mathlib**, at the revision this repository pins (`f6090c7095e1e56b3464c1daba5f24631f1290d2`):
 
 - `CategoryTheory.Cat` with `Cat.of`, `Cat.Hom` (`F.toFunctor`), `Functor.toCatHom`, the strict
   bicategory instance `Cat.bicategory`; `Bicategory.Opposite` (`Bᵒᵖ` reverses 1-cells only),
@@ -101,6 +107,16 @@ schemes, it belongs to the owner named above.
   `costructuredArrowYonedaEquivalence`, `CategoryTheory.Grothendieck`, `Functor.star`,
   `ConnectedComponents` with `Functor.mapConnectedComponents`, `IsConnected`, `Groupoid`,
   `SingleObj`, `Functor.Final`, `IsPushout`, `HasTerminal`, `HasZeroObject`.
+- The free groupoid of a category (`Mathlib/CategoryTheory/Groupoid/FreeGroupoidOfCategory.lean`):
+  `FreeGroupoid C` with its `Groupoid` instance, `FreeGroupoid.of`, `lift`, `lift_spec`,
+  `lift_unique`, `lift_id_comp_of`, `map`, `map_id`, `map_comp`, the instance
+  `(FreeGroupoid.of C).IsLocalization ⊤` (it is the localization at all morphisms), `Grpd.free` and
+  `Grpd.freeForgetAdjunction`. Action categories (`Mathlib/CategoryTheory/Action.lean`):
+  `ActionCategory M X` with `ActionCategory.π`, `objEquiv`, `stabilizerIsoEnd`, its `Groupoid`
+  instance for a group, `endMulEquivSubgroup` and `homOfPair`.
+- `Skeleton C` with `Skeleton.instMonoidalCategory`, `Skeleton.instMonoid`,
+  `Skeleton.instCommMonoid` (braided case) and `Skeleton.monoidHom` for monoidal functors
+  (`Mathlib/CategoryTheory/Monoidal/Skeleton.lean`).
 - `nerve`, `nerveFunctor`, `nerveMap`, `SSet.hoFunctor ⊣ nerveFunctor` (`NerveAdjunction`),
   `SSet.sd`, `SSet.ex`, `SSet.sdExAdjunction`, `SSet.KanComplex`, the generating maps
   `SSet.modelCategoryQuillen.I`, `J`, and simplicial homology
@@ -120,7 +136,8 @@ schemes, it belongs to the owner named above.
   `deg_eq_of_iso`, `prop₁_of_iso`, `prop₂_of_iso` and `skeletal`.
 - [`SimplexCategory.reedyStructure`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/AlgebraicTopology/Reedy/SimplexCategory.lean)
   (mathlib4#44778): `ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ` with degree
-  `len`. It is on Mathlib `master` but not in the Mathlib that TauCetiRoadmap currently pins; see 8.3.
+  `len`. It is on Mathlib `master` but not at the pinned revision (whose `Mathlib/AlgebraicTopology/Reedy/`
+  has only `Basic.lean`); see 8.3.
 - `SemiSimplexCategory` (objects `⦋n⦌ₛ`, morphisms order embeddings, the faithful functor
   `toSimplexCategory`, `Mono` instances, `homOfMono`); its docstring leaves semi-simplicial objects
   as a TODO. `AugmentedSimplexCategory := WithInitial SimplexCategory`, `SimplexCategory.Truncated`.
@@ -140,19 +157,35 @@ schemes, it belongs to the owner named above.
   `Preorder.smallCategory`, `WalkingParallelPair`, `WalkingSpan`, `WellFounded.rank` with
   `WellFounded.rank_eq` and `WellFounded.rank_lt_of_rel`.
 
-Mathlib has no idempotent adjunctions or fixed subcategories of an adjunction, no equivalence
-between additive functors on `C` and on `Karoubi C`, and no converse to Beck's theorem. It has no
-weak equivalences of `Cat`, no basic localizers, test categories, derivators,
-cofibration categories in Baues' sense, gr-categories, crossed modules or Picard stacks; no
-direct or inverse categories, no semi-simplicial objects, no semi-cubical category, no
-non-singular presheaves on a general category and no discrete fibrations.
+**Missing at the pinned Mathlib, built here.** Idempotent adjunctions and the fixed
+subcategories of an adjunction (the TODOs in `Adjunction/Reflective.lean` and
+`Monad/Adjunction.lean` ask for them), the equivalence between additive functors on `C` and on
+`Karoubi C`, and the converse to Beck's theorem. The classes `W₀`, `W₁` and the comparison
+`ConnectedComponents (FreeGroupoid A) ≃ ConnectedComponents A`; basic localizers, test
+categories, derivators, cofibration categories in Baues' sense, gr-categories, crossed modules
+and Picard stacks; direct and inverse categories, semi-simplicial objects, the semi-cubical
+category, non-singular presheaves on a general category and discrete fibrations.
 
-**Tau Ceti**: `TauCeti/CategoryTheory/Groupoid/ConnectedFunctor.lean` and `SingleObj.lean`
-(natural isomorphisms out of connected groupoids, the equivalence of a connected groupoid with
-`SingleObj` of a vertex group), `TauCeti/Topology/Homotopy/HomotopyGroup/` (functoriality of
-`π_n`, `LoopSpace.lean` identifying `π_{n+1}(X, x)` with `π_n` of the loop space,
-`ContinuousMap.IsWeakHomotopyEquivalence`), `TauCeti/CategoryTheory/Monoidal/Grp/`. No Tau Ceti
-file mentions Reedy structures or direct categories.
+**Missing at the pinned Mathlib, supplied by another owner.** The Kan–Quillen model structure
+(Mathlib has `SSet.modelCategoryQuillen.I`, `J` and the induced fibration and cofibration classes,
+not a `ModelCategory SSet` instance): GeneralizedCohomology G2 item 1. `SimplexCategory.reedyStructure`:
+see 8.3. `PicardGroupoid`: SchemeAndStackFoundations §3.4. `Stack.stackification`:
+SchemeAndStackFoundations §1.18.
+
+**Adapters stated here**, and nothing more, between supplied carriers: the isomorphism of the
+category of elements of a presheaf on `SingleObj G` with Mathlib's `ActionCategory` (Layer 1);
+homotopy Cartesian squares of simplicial sets for the Kan–Quillen structure (Layer 4); the passage
+from `PicardGroupoid C` to `IsGrCategory C` (Layer 12); the specialization of Brown's lemma to
+Mathlib's `CofibrantBrownFactorization` (Layer 11).
+
+**Tau Ceti**, at the revision this repository pins (`358314d4ab97483df4fc4cb8adcc02e74a8d9f5a`):
+`TauCeti/CategoryTheory/Groupoid/ConnectedFunctor.lean` and `SingleObj.lean` (natural
+isomorphisms out of connected groupoids, `natIsoOfEnd`; the fully faithful `singleObjFunctor` from
+`SingleObj` of a vertex group), `TauCeti/Topology/Homotopy/HomotopyGroup/` (functoriality of `π_n`
+in `Map.lean`, `LoopSpace.lean` with `HomotopyGroup.loopSpaceMulEquiv` identifying `π_{n+1}(X, x)`
+with `π_n` of the loop space, and `zerothHomotopyLoopSpaceEquivFundamentalGroup`). Tau Ceti has no
+weak homotopy equivalences of spaces, no nerves, and no file mentioning Reedy structures, direct
+categories, free groupoids, action categories, gr-categories or Picard groupoids.
 
 Nothing on this roadmap waits for Mathlib, and no target is discharged by a Mathlib pull request.
 
@@ -177,9 +210,9 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
    intrinsically; its identification with Thomason equivalences is a theorem (Layer 4), not a
    definition. **Thomason equivalences** `W_N` are the `F` with `nerveMap F` a simplicial weak
    equivalence in the sense of GeneralizedCohomology G2 item 1.
-5. **Fundamental groupoid of a category.** `Π₁ A := (⊤ : MorphismProperty A).Localization`,
-   the localization at all morphisms; `Π₁ F` is the functor induced by
-   `Localization.Construction.lift`. `W₀` is the class of `F` with
+5. **Fundamental groupoid of a category.** `Π₁ A := FreeGroupoid A`, Mathlib's free groupoid of a
+   category, which is the localization at all morphisms (`(FreeGroupoid.of A).IsLocalization ⊤`);
+   `Π₁ F := FreeGroupoid.map F`. No second carrier is introduced. `W₀` is the class of `F` with
    `F.mapConnectedComponents` bijective; `W₁` the class of `F` with `Π₁ F` an equivalence.
 6. **Presheaves.** `Â := Aᵒᵖ ⥤ Type u`. `i_A X := CostructuredArrow yoneda X` (the category
    `A/X`; Mathlib's `costructuredArrowYonedaEquivalence` identifies it with
@@ -210,17 +243,24 @@ Nothing on this roadmap waits for Mathlib, and no target is discharged by a Math
     is a weak equivalence if `i` is, and the map parallel to a weak equivalence is a weak
     equivalence (C2); every map factors as a cofibration followed by a weak equivalence (C3).
 11. **Gr-categories** are monoidal structures (`MonoidalCategory`) on a `Groupoid` in which every
-    object `X` has some `Y` with `X ⊗ Y ≅ 𝟙_`. `π₀ C` is the group of isomorphism classes,
+    object `X` has some `Y` with `X ⊗ Y ≅ 𝟙_`. `π₀ C := Skeleton C`, the group of isomorphism
+    classes, whose multiplication and unit are Mathlib's `Skeleton.instMonoid` (the group structure
+    adds only inverses, so it is compatible with `Skeleton.monoidHom`);
     `π₁ C := Aut(𝟙_ C)`, abelian by Eckmann–Hilton; `π₀` acts on `π₁` through
     `a ↦ λ_X ∘ (a ▷ X) ∘ λ_X⁻¹` followed by the inverse of the analogous right-unitor map. The
     `k`-invariant is the class in `groupCohomology` of degree 3 of the normalized 3-cocycle of the
     associator of a skeletal model, normalized as in Baez–Lauda 2004, Theorem 43.
-12. **Picard categories** are gr-categories with a `SymmetricCategory` structure. The **sign**
+12. **Picard groupoids** are SchemeAndStackFoundations §3.4's `PicardGroupoid C`, consumed
+    unchanged: a symmetric monoidal category in which every morphism is an isomorphism and every
+    object has a tensor inverse up to isomorphism, with `pi0 C := Skeleton C` and
+    `pi1 C := Aut(𝟙_C)`, the same carriers as the `π₀` and `π₁` of convention 11. No second
+    Picard class and no second pair of invariants is defined here. The **sign**
     `ε(X) ∈ π₁` is the symmetry `β_{X,X}` transported to `Aut(𝟙_)`; it is a homomorphism
     `π₀ → π₁` with `2ε = 0`. **Strictly commutative** means `β_{X,X} = 𝟙` for every `X`
-    (Deligne, SGA 4 XVIII, §1.4).
+    (Deligne, SGA 4 XVIII, §1.4); it is a property of a Picard groupoid, never part of the
+    definition, so the sign stays a nontrivial invariant.
 13. **Two-term complexes** are additive maps `d : K⁻¹ →+ K⁰`, placed in degrees `-1` and `0`.
-    `ch(d)` is the strictly commutative Picard category with objects `K⁰`, morphisms
+    `ch(d)` is the strictly commutative Picard groupoid with objects `K⁰`, morphisms
     `x ⟶ y` the `k : K⁻¹` with `x + d k = y`, tensor `+`, and identity symmetry. Then
     `π₀ = coker d` and `π₁ = ker d`.
 14. **Fibrations of groupoids** are star-surjective functors (Brown–Heath–Kamps 1983, §2).
@@ -287,18 +327,28 @@ instance `reflectsIsomorphisms_of_monadicRightAdjoint`. Dually
 
 ### Layer 1: the 1-truncated layer
 
-- **Fundamental groupoid.** Construct `Π₁ A`, prove that it is a groupoid, its universal
-  property (functors `Π₁ A ⥤ G` into a groupoid `G` are functors `A ⥤ G`), functoriality and
-  `Π₁ G ≌ G` for a groupoid `G`. Prove `ConnectedComponents (Π₁ A) ≃ ConnectedComponents A`.
+- **Fundamental groupoid.** The carrier, its universal property and its functoriality are
+  Mathlib's `FreeGroupoid` (convention 5). Prove `Π₁ G ≌ G` for a groupoid `G`, through
+  `FreeGroupoid.lift (𝟭 G)` and `FreeGroupoid.of G` (`lift_spec`, `lift_id_comp_of`), and
+  `ConnectedComponents (Π₁ A) ≃ ConnectedComponents A`, natural in `A`.
 - **The classes `W₀` and `W₁`.** Prove that `F ∈ W₁` iff `F ∈ W₀` and for every `a` the map
   `Aut_{Π₁ A}(a) → Aut_{Π₁ B}(F a)` is bijective; that for a functor between groupoids, `W₁` is
   the class of equivalences of categories; and `W₁ ⊆ W₀`. Prove that `A` is `W₁`-aspherical iff
   `Π₁ A` is equivalent to `e`.
 - **Action groupoids.** For a group `G`, prove that presheaves on `SingleObj G` are right
-  `G`-sets (an equivalence of categories, naturally in `G`), and that `i_{BG} X` is equivalent to
-  the action groupoid of `X`: its components are the orbits and the automorphism group of `x` is
-  the stabilizer. Deduce that a map of `G`-sets lies in `W_Â` for `W = W₁` iff it is bijective,
-  and that `X` is `W₁`-aspherical iff the action is simply transitive.
+  `G`-sets, `x · g := X.map g.op x` (an equivalence of categories, naturally in `G`). The action
+  groupoid is Mathlib's `ActionCategory G X`, for the left action `g • x := x · g⁻¹` that this
+  right action determines; no second carrier is introduced to reverse the action. Prove
+  `iA_singleObj_iso : i_{BG} X ≅ ActionCategory G X`, an isomorphism of categories over
+  `SingleObj G` (it commutes with `CostructuredArrow.proj` and `ActionCategory.π`), identity on
+  the underlying points and on the labels of arrows: an arrow `x ⟶ y` of `i_{BG} X` is a `g`
+  with `y · g = x`, that is `y = g • x`, and composites agree because `f ≫ g = g * f` in
+  `SingleObj G` on both sides. Hence the components of `i_{BG} X` are the orbits and the
+  automorphism group of `x` is its stabilizer (Mathlib's `ActionCategory.stabilizerIsoEnd`).
+  Deduce that a map of `G`-sets lies in `W_Â` for `W = W₁` iff it is bijective, and that `X` is
+  `W₁`-aspherical iff the action is simply transitive. These groupoid-theoretic statements are
+  owned here; the realisation of `ActionCategory.π` as a covering of `BG` is StableHomotopyKTheory
+  §1.28.
 - **Fibrations of groupoids.** For a fibration `p : E ⥤ B` of groupoids and `x : E`, construct
   the exact sequence of groups and pointed sets
   `1 → Aut_F(x) → Aut_E(x) → Aut_B(p x) → π₀ F → π₀ E → π₀ B` (`F` the fibre over `p x`), with
@@ -326,7 +376,9 @@ instance `reflectsIsomorphisms_of_monadicRightAdjoint`. Dually
   categories cofibred over `S` that is fibrewise in `W` is in `W` (Proposition 1.1.13).
 - **Theorem A.** Every `W`-aspherical functor is in `W`, and the relative version: a functor over
   `C` with every `A/c → B/c` in `W` is in `W` (Cisinski 2004, Remark 1.1.4, after Quillen 1973,
-  §1, Theorem A). The dual statement for `b\A` is proved for `W∞` in Layer 4 by op-invariance.
+  §1, Theorem A), as `mem_of_isAsphericalFunctor`. This is the general owner of Theorem A: its
+  nerve instance (Layer 4) is the form StableHomotopyKTheory §2.31 consumes. The dual statement
+  for `b\A` is proved for `W∞` in Layer 4 by op-invariance.
 - **Integration.** For `F ⟶ G` in `I ⥤ Cat` objectwise in `W`, the induced functor of Mathlib
   Grothendieck constructions is in `W` (Cisinski 2004, Proposition 1.2.4).
 - **Locally constant functors.** Define `F` to be `W`-locally constant when every `A/b → A/b'`
@@ -350,21 +402,36 @@ instance `reflectsIsomorphisms_of_monadicRightAdjoint`. Dually
 
 ### Layer 4: Thomason equivalences and the minimal localizer
 
-- **Thomason equivalences are a basic localizer.** Prove LF1–LF3 for `W_N`, LF3 by Quillen's
-  Theorem A (Cisinski 2004, Theorem 2.1.13, through bisimplicial sets, Theorem 2.1.5 and
-  Proposition 2.1.7). Prove `W_N` is stable under `A ↦ Aᵒᵖ`.
-- **Minimality.** Prove `W∞ = W_N` (Cisinski 2004, Theorem 2.2.11, via Lemmas 2.2.6, 2.2.8 and
-  Proposition 2.2.9). Consequences: `W∞` is stable under opposites; the dual Theorem A for
-  `b\A`; `W∞ ≤ W₁ ≤ W₀`; `W∞`-equivalences induce isomorphisms on simplicial homology of
-  nerves.
+- **Thomason equivalences are a basic localizer.** Prove `isBasicLocalizer_thomason`: LF1–LF3
+  for `W_N`, LF3 by Quillen's Theorem A (Cisinski 2004, Theorem 2.1.13, through bisimplicial
+  sets, Theorem 2.1.5 and Proposition 2.1.7). Prove `W_N` is stable under `A ↦ Aᵒᵖ`.
+- **Minimality.** Prove `Winfty_eq_thomason : W∞ = W_N` (Cisinski 2004, Theorem 2.2.11, via
+  Lemmas 2.2.6, 2.2.8 and Proposition 2.2.9). Consequences: `W∞` is stable under opposites; the
+  dual Theorem A for `b\A`; `W∞ ≤ W₁ ≤ W₀`; `W∞`-equivalences induce isomorphisms on simplicial
+  homology of nerves.
+- **Theorem A for nerves.** `quillenTheoremA_nerve`: for `F : A ⥤ B` such that every
+  `nerve (A/b) ⟶ Δ[0]` is a simplicial weak equivalence, `nerveMap F` is one; and its dual for
+  `b\A`. It is `mem_of_isAsphericalFunctor` (Layer 2) at `isBasicLocalizer_thomason`, with no
+  second proof.
 - **Homological localizers.** Prove that, for every abelian group `M`, the class of functors
   whose nerve induces isomorphisms on simplicial homology with coefficients in `M` is a basic
   localizer; hence it contains `W∞`.
-- **Theorem B.** For a `W∞`-locally constant `F`, the square comparing `A/b` with the homotopy
-  fibre is homotopy Cartesian in `SSet` (Cisinski 2004, Theorem 2.3.2, after Quillen 1973, §1,
-  Theorem B); a `W∞`-locally constant functor is in `W∞` iff it is aspherical
-  (Corollary 2.3.3). Prove the characterization: a basic localizer `W ≤ W₀` such that every
-  `W`-locally constant functor in `W` is `W`-aspherical equals `W∞` (Theorem 2.3.6).
+- **Theorem B.** A square of simplicial sets is *homotopy Cartesian* when its comparison map to
+  the homotopy pullback in the Kan–Quillen model structure (GeneralizedCohomology G2 item 1) is a
+  weak equivalence; this adapter is the only homotopy-pullback notion defined here.
+  `quillenTheoremB_Winfty`: for a `W∞`-locally constant `F : A ⥤ B` and every `b : B`, the nerve
+  of the square `A/b ⟶ A` over `B/b ⟶ B` (horizontal maps `CostructuredArrow.proj`, vertical
+  maps `F` and the functor `A/b ⥤ B/b` it induces; `B/b` has a terminal object, so its nerve is
+  contractible) is homotopy Cartesian (Cisinski 2004, Theorem 2.3.2,
+  after Quillen 1973, §1, Theorem B); a `W∞`-locally constant functor is in `W∞` iff it is
+  aspherical (Corollary 2.3.3). The bridge to the simplicial hypothesis is
+  `isLocallyConstant_Winfty_iff`: `F` is `W∞`-locally constant iff `nerveMap` of every
+  `CostructuredArrow.map g : A/b ⥤ A/b'` is a simplicial weak equivalence (from
+  `Winfty_eq_thomason`); with it, `quillenTheoremB_Winfty` is the categorical statement that
+  StableHomotopyKTheory §2.34 realises into its mapping-path homotopy fibre, so the two
+  formulations are one theorem and one specialization. Prove the characterization: a basic
+  localizer `W ≤ W₀` such that every `W`-locally constant functor in `W` is `W`-aspherical
+  equals `W∞` (Theorem 2.3.6).
 - **The homotopy category.** `Hot := Cat[W∞⁻¹]`; prove `Hot ≌ SSet[W⁻¹]` through `nerve` and
   `i_Δ`.
 
@@ -476,9 +543,11 @@ lowering and the other raising the degree (2.3–2.4 there); both are constructe
 neither direct nor inverse.
 
 8.3 **The simplex categories.** `SimplexCategory.reedyStructure` is Mathlib's (mathlib4#44778).
-If the Mathlib pinned by Tau Ceti predates that pull request, this item builds it here with exactly
-Mathlib's name and statement (`ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ`,
-degree `len`), replaced by deletion plus import when the pin moves. On top of it: its opposite on
+The pinned Mathlib predates that pull request, and BordismFormalGroups F6.5 already constructs the
+simplex Reedy structure from the native epi–mono factorization following Mathlib's design; this
+item uses that construction, under exactly Mathlib's name and statement
+(`ReedyStructure (epimorphisms SimplexCategory) (monomorphisms _) ℕ`, degree `len`), and builds no
+second copy, so that the pin move is a deletion plus an import. On top of it: its opposite on
 `Δᵒᵖ` (`ReedyStructure.op`), its truncations to `SimplexCategory.Truncated n` (7.5), and a Reedy
 structure on `AugmentedSimplexCategory` with epimorphisms and monomorphisms and degree `len + 1`,
 `0` for the initial object (Riehl–Verity, TAC 2014, 2.6).
@@ -575,10 +644,13 @@ these hypotheses without being direct.
   Propositions 3.23–3.25); stable derivators (Definition 4.1, Propositions 4.3–4.7,
   Corollary 4.8), additivity of `D(J)` (Corollary 4.14), and the canonical triangulated structure
   on every `D(J)` as a Mathlib `Pretriangulated` and `IsTriangulated` category (Theorem 4.15),
-  compatible with restrictions and homotopy Kan extensions.
-- **Examples.** The derivator `J ↦ Ho(M^J)` of a Mathlib model category `M` (Groth 2013,
-  Theorem 1.38; Cisinski 2003); in particular the derivator `HOT := J ↦ Ho(Cat^J)` of Thomason's
-  model structure (Layer 5). The derivator of a cofibration category is Layer 11.
+  with restrictions and homotopy Kan extensions exact functors (Corollary 4.19).
+- **Examples.** For an arbitrary Mathlib model category `M`, with no combinatorial hypothesis,
+  the derivator `J ↦ (J ⥤ M)[W_J⁻¹]`, the localization (`MorphismProperty.Localization`) of the
+  diagram category at the levelwise weak equivalences `W_J`, which needs no model structure on
+  `J ⥤ M` (Groth 2013, Theorem 1.38; Cisinski 2003); it is strong when `M` is combinatorial
+  (Groth 2013, Proposition 1.36). In particular the derivator `HOT := J ↦ (J ⥤ Cat)[W_J⁻¹]` of
+  Thomason's model structure (Layer 5). The derivator of a cofibration category is Layer 11.
 
 ### Layer 11: cofibration categories
 
@@ -588,22 +660,26 @@ these hypotheses without being direct.
 - **Brown's factorization lemma.** Every map between cofibrant objects factors as a cofibration
   followed by a retraction of a trivial cofibration; consequently a functor sending trivial
   cofibrations between cofibrant objects to isomorphisms sends all weak equivalences between
-  cofibrant objects to isomorphisms (Brown 1973, §1, Factorization lemma, dualized). Compare
-  with Mathlib's `CofibrantBrownFactorization` on model categories.
+  cofibrant objects to isomorphisms (Brown 1973, §1, Factorization lemma, dualized).
 - **The homotopy category.** The inclusion of cofibrant objects induces an equivalence of
   localizations, and every morphism of `Ho(C)` between cofibrant objects is a fraction
   `γ(s)⁻¹ γ(f)` with `s` a trivial cofibration.
 - **Model categories.** The cofibrant objects of a Mathlib model category form a cofibration
-  category.
+  category. On them, Brown's factorization is Mathlib's: `brown_factorization_of_modelCategory`
+  derives the conclusion of `brown_factorization` from Mathlib's instance
+  `Nonempty (CofibrantBrownFactorization f)` (take `r := p` and `j := s`; `s` is a cofibration and
+  a weak equivalence, `s ≫ p = 𝟙`), and nothing in this layer reproves the model-category case or
+  introduces a second model-category API.
 - **Derivator.** A cofibration category is a right derivable category in the sense of
   Cisinski 2010, 2.22, and the prederivator `E ↦ Ho(C^E)` on finite direct categories `E`
   (`IsDirect` of 7.1, finite) is a weak right derivator of domain `Dir_f`
   satisfying Der5 (Cisinski 2010, Corollary 2.24, Definition A.5 dualized).
 
-### Layer 12: gr-categories, crossed modules and Picard categories
+### Layer 12: gr-categories, crossed modules and Picard groupoids
 
 - **Gr-categories** (convention 11): monoidal functors and monoidal natural transformations
-  between them; `π₀`, `π₁`, the action, functoriality of these invariants; every gr-category is
+  between them; `π₀`, `π₁`, the action, functoriality of these invariants (on `π₀` through
+  Mathlib's `Skeleton.monoidHom`); every gr-category is
   monoidally equivalent to a skeletal one and to a strict one (Baez–Lauda 2004,
   Propositions 39 and 45).
 - **Classification** (Sính 1975; Baez–Lauda 2004, Theorem 43 and Corollary 44): monoidal
@@ -619,17 +695,24 @@ these hypotheses without being direct.
   then form a torsor under `H²(Q, Z(N))` (Brown 1982, Chapter IV, §6). Identify the obstruction
   with the `k`-invariant of the gr-category pulled back from the crossed module
   `N → Aut N` along `ψ`.
-- **Braided and Picard categories.** Braided gr-categories are classified by
-  `(π₀, π₁, q)` with `q(x) = β_{x,x}` a quadratic map (Joyal–Street 1993, §3); for Picard
-  categories the sign `ε` is a homomorphism killed by `2` and Picard categories are classified
-  by `(π₀, π₁, ε)` (Sính 1975, Chapter II, §2; Johnson–Osorno 2012, Proposition 2.5 and
-  Corollary 2.8). A Picard category is strictly commutative iff `ε = 0`.
-- **Deligne over a point.** Every strictly commutative Picard category is equivalent to
+- **Braided gr-categories and Picard groupoids.** Braided gr-categories are classified by
+  `(π₀, π₁, q)` with `q(x) = β_{x,x}` a quadratic map (Joyal–Street 1993, §3). Picard groupoids
+  are SchemeAndStackFoundations' `PicardGroupoid` (convention 12): prove
+  `PicardGroupoid.isGrCategory` (with the `Groupoid` structure given by the inverses of its
+  morphisms) and that its `pi0` and `pi1` are the `π₀` and `π₁` of convention 11 as groups. For
+  Picard groupoids the sign `ε` is a homomorphism killed by `2` and Picard groupoids are
+  classified by `(π₀, π₁, ε)` (Sính 1975, Chapter II, §2; Johnson–Osorno 2012, Proposition 2.5
+  and Corollary 2.8). A Picard groupoid is strictly commutative iff `ε = 0`. *Check:* the graded
+  Picard groupoid `gradedPicardGroupoid (Spec ℚ)` of SchemeAndStackFoundations §3.4 has
+  `ε(𝒪, 1) = −1 ≠ 1` in `π₁ = ℚ^×`, since its symmetry on `(𝒪, 1) ⊗ (𝒪, 1)` is the swap of
+  `𝒪 ⊗ 𝒪` (the identity under `𝒪 ⊗ 𝒪 ≅ 𝒪`) times `(−1)^{1·1}`; so it is a Picard groupoid that
+  is not strictly commutative, and Deligne's equivalence below does not apply to it.
+- **Deligne over a point.** Every strictly commutative Picard groupoid is equivalent to
   `ch(d)` (convention 13), and `d ↦ ch(d)` induces an equivalence between the full subcategory of
   `DerivedCategory (ModuleCat ℤ)` of complexes with cohomology in degrees `-1, 0` and the
-  category of strictly commutative Picard categories with isomorphism classes of symmetric
+  category of strictly commutative Picard groupoids with isomorphism classes of symmetric
   monoidal functors (Deligne, SGA 4 XVIII, 1.4.15, for the punctual site). Over a point, every
-  strictly commutative Picard category is equivalent to `ch(0 : π₁ → π₀)`.
+  strictly commutative Picard groupoid is equivalent to `ch(0 : π₁ → π₀)`.
 - **Topological realizations.** For a topological group `G`, the fundamental groupoid of `G`
   (Mathlib `FundamentalGroupoid`) is a group object in groupoids, hence a crossed module
   (Brown–Spencer 1976), with `π₀ = π₀(G)`, `π₁ = π₁(G, 1)` and the action of `π₀(G)` induced by
@@ -641,14 +724,19 @@ these hypotheses without being direct.
 ### Layer 13: Picard stacks over a site
 
 - **Picard stacks.** For a small site `(C, J)`, a Picard stack is a
-  `F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat` with `F.IsStack J`, groupoid values, a Picard structure on each
-  value (convention 12) and symmetric monoidal restriction functors with coherent structure
-  isomorphisms; morphisms are pseudonatural transformations that are symmetric monoidal
-  objectwise. Gr-stacks are the same without symmetry. Define `π₀` (the sheafification of the
+  `F : LocallyDiscrete Cᵒᵖ ⥤ᵖ Cat` with `F.IsStack J`, a symmetric monoidal structure on each
+  value making it a `PicardGroupoid` (convention 12) and symmetric monoidal restriction functors
+  with coherent structure isomorphisms; morphisms are pseudonatural transformations that are
+  symmetric monoidal objectwise. The stack condition and the stackification are those of
+  SchemeAndStackFoundations §1.18 on the same carrier; this layer adds only the Picard
+  structure and Deligne's comparison, on an arbitrary small site. Gr-stacks are the same with a
+  monoidal structure making each value a gr-category (convention 11) in place of the symmetric
+  one. Define `π₀` (the sheafification of the
   presheaf of `π₀`) and `π₁` (the sheaf `Aut(𝟙)`) as abelian sheaves.
 - **Deligne's construction.** For a complex `d : K⁻¹ ⟶ K⁰` of sheaves of abelian groups on
   `(C, J)`, `ch(d)` is `Stack.stackification J` (SchemeAndStackFoundations §1.18) of the prestack
-  `U ↦ ch(d(U))`, with its induced strictly commutative Picard structure.
+  `U ↦ ch(d(U))`, with its induced strictly commutative Picard structure. The Picard stack,
+  gerbes and Abel maps of a curve stay at SchemeAndStackFoundations §3.7.
 - **Deligne's theorem** (SGA 4 XVIII, 1.4.15): every strictly commutative Picard stack is
   equivalent to some `ch(d)`, and `ch` induces an equivalence between the full subcategory of
   `DerivedCategory (Sheaf J AddCommGrpCat)` of complexes with cohomology in degrees `-1, 0` and
@@ -659,17 +747,34 @@ these hypotheses without being direct.
 
 ## Dependency order
 
-Layer 0 uses Mathlib only and comes first; Layer 10 uses 0.1. Layer 1 is foundational and uses
-Mathlib only. Layer 2 uses Layer 1 for its examples. Layer 3
-uses Layer 2. Layer 4 uses Layers 2–3 and the Kan–Quillen model structure of
-GeneralizedCohomology. Layer 5 uses Layer 4. Layer 6 uses Layers 3–4. Layer 7 uses Mathlib's
-`ReedyStructure` only. Layer 8 uses Layer 7, and GrothendieckInfinityGroupoids' globe category
-for 8.6. Layer 9 uses Layers 7–8 and Mathlib's `SSet.Nonsingular`. Layer 10 uses Mathlib's model
-categories and Layer 5 for the example `HOT`. Layer 11 uses Layer 10 and Layer 7's `IsDirect`.
-Layer 12 uses Mathlib, Tau Ceti's homotopy groups and Layer 1. Layer 13 uses Layer 12 and
-SchemeAndStackFoundations' `Stack.stackification`. Layers 7–9 use none of Layers 1–6 and can
-start at once, as can Layer 0; Layers 1–3, 10 and 12 can proceed in parallel once Layer 1's fundamental
-groupoid exists.
+Layer 0 uses Mathlib only and comes first; Layer 10 uses 0.1. Layer 1 uses Mathlib only
+(`FreeGroupoid`, `ActionCategory`, `ConnectedComponents`). Layer 2 uses Layer 1 for its
+examples. Layer 3 uses Layer 2. Layer 4 uses Layers 2–3 and the Kan–Quillen model structure of
+GeneralizedCohomology G2 item 1. Layer 5 uses Layer 4. Layer 6 uses Layers 3–4. Layer 7 uses
+Mathlib's `ReedyStructure` only. Layer 8 uses Layer 7, BordismFormalGroups F6.5's simplex Reedy
+structure for 8.3–8.4, and GrothendieckInfinityGroupoids' globe category for 8.6. Layer 9 uses
+Layers 7–8 and Mathlib's `SSet.Nonsingular`. Layer 10 uses Mathlib's model categories and
+Layer 5 for the example `HOT`. Layer 11 uses Layer 10, Layer 7's `IsDirect` and Mathlib's
+`CofibrantBrownFactorization`. Layer 12 uses Mathlib, Tau Ceti's homotopy groups, Layer 1 and the
+generic `PicardGroupoid` definition of SchemeAndStackFoundations §3.4, which has no scheme
+prerequisite and precedes the line-bundle part of that section. Layer 13 uses Layer 12 and
+SchemeAndStackFoundations §1.18's generic `Stack.stackification`, which precedes it; §3.7 there
+needs nothing from Layer 13, so there is no cycle. Layers 7–9 use none of Layers 1–6 and can
+start at once, as can Layer 0; Layers 1–3, 10 and 12 can proceed in parallel.
+
+Nothing here uses StableHomotopyKTheory. In the other direction, its §§2.31 and 2.34 come after
+Layer 4 of this roadmap, and its §§1.21 and 1.28 use Mathlib's `FreeGroupoid` and
+`ActionCategory`, the carriers of Layer 1.
+
+## Exports to consumers
+
+| Consumer | Uses | Declarations |
+| --- | --- | --- |
+| [StableHomotopyKTheory](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1227) §1.21 | the categorical fundamental groupoid; it owns the comparison with `Π₁(BC)` | Mathlib's `FreeGroupoid`, `FreeGroupoid.of`, `FreeGroupoid.lift` (convention 5); no carrier from here |
+| StableHomotopyKTheory §1.28 | action groupoids for this roadmap's right-action convention; it owns the covering `B(ActionCategory.π)` | `iA_singleObj_iso` (Layer 1) on Mathlib's `ActionCategory` |
+| StableHomotopyKTheory §2.31 | Theorem A; it keeps the classifying-space consequence by CW Whitehead | `mem_of_isAsphericalFunctor` (Layer 2), `isBasicLocalizer_thomason`, `quillenTheoremA_nerve` (Layer 4) |
+| StableHomotopyKTheory §2.34 | Theorem B; it owns the realisation into `TauCeti.MappingPathFiber` through `costructuredArrowToHomotopyFiber`, the paths, the projection homotopy, the `StructuredArrow` form by opposites and naturality | `quillenTheoremB_Winfty`, `isLocallyConstant_Winfty_iff`, `Winfty_eq_thomason` (Layer 4) |
+| [GrothendieckNotesLemmas](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1431), which names this roadmap as their owner | idempotent adjunctions, additive functors on a Karoubi envelope, Beck's theorem as a characterization, the semi-simplex category | Layer 0 (0.1–0.3) and 8.4 |
 
 ## Provenance
 
@@ -745,8 +850,8 @@ Existing formalizations of Layers 7–9 to port or consult (cited sources, not s
 - M. Groth, « Derivators, pointed derivators and stable derivators », *Algebr. Geom. Topol.* 13
   (2013), 313–374 (arXiv:1112.3840): Definitions 1.1, 1.9, 1.10, 1.13, 1.15, 1.21, 1.28, 3.1,
   3.4, 3.9, 3.10, 3.19, 3.21, 4.1; Example 1.11; Lemmas 1.18–1.20, 1.23, 1.27, 3.7;
-  Propositions 1.12, 1.24, 1.26, 1.29, 1.30, 3.2, 3.6, 3.11, 3.13, 3.14, 3.20, 3.23–3.25,
-  4.3–4.7; Theorems 1.31, 1.38, 4.15; Corollaries 3.8, 4.8, 4.14.
+  Propositions 1.12, 1.24, 1.26, 1.29, 1.30, 1.36, 3.2, 3.6, 3.11, 3.13, 3.14, 3.20,
+  3.23–3.25, 4.3–4.7; Theorems 1.31, 1.38, 4.15; Corollaries 3.8, 4.8, 4.14, 4.19.
 - H.-J. Baues, *Algebraic Homotopy*, Cambridge Studies in Adv. Math. 15 (1989), Chapter I,
   (1.1) (cofibration categories).
 - K. S. Brown, « Abstract homotopy theory and generalized sheaf cohomology », *Trans. AMS* 186

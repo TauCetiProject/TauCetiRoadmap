@@ -186,18 +186,16 @@ section OneTruncated
 
 variable {A B : Type u} [SmallCategory A] [SmallCategory B]
 
-/-- The fundamental groupoid `Π₁ A` of a category: its localization at all morphisms. -/
-abbrev PiOne (A : Type u) [Category.{v} A] : Type u :=
-  (⊤ : MorphismProperty A).Localization
+/-! The fundamental groupoid `Π₁ A` of a category is Mathlib's `FreeGroupoid A`, the
+localization at all morphisms (`(FreeGroupoid.of A).IsLocalization ⊤`), and `Π₁ F` is
+`FreeGroupoid.map F`; no second carrier is introduced. -/
 
-theorem isGroupoid_piOne (A : Type u) [Category.{v} A] : IsGroupoid (PiOne A) := sorry
+/-- `Π₁ G ≌ G` for a groupoid `G`. -/
+def freeGroupoidEquivOfGroupoid (G : Type u) [Groupoid.{v} G] : FreeGroupoid G ≌ G := sorry
 
-theorem top_isInvertedBy (F : A ⥤ B) :
-    (⊤ : MorphismProperty A).IsInvertedBy (F ⋙ (⊤ : MorphismProperty B).Q) := sorry
-
-/-- The functor `Π₁ F : Π₁ A ⥤ Π₁ B`. -/
-def piOneMap (F : A ⥤ B) : PiOne A ⥤ PiOne B :=
-  Localization.Construction.lift _ (top_isInvertedBy F)
+/-- Connected components of `Π₁ A` are those of `A`. -/
+def connectedComponentsFreeGroupoidEquiv (A : Type u) [Category.{v} A] :
+    ConnectedComponents (FreeGroupoid A) ≃ ConnectedComponents A := sorry
 
 /-- `W₀`: functors inducing a bijection on connected components. -/
 def W₀ : MorphismProperty Cat.{u, u} :=
@@ -205,7 +203,7 @@ def W₀ : MorphismProperty Cat.{u, u} :=
 
 /-- `W₁`: functors inducing an equivalence of fundamental groupoids. -/
 def W₁ : MorphismProperty Cat.{u, u} :=
-  fun _ _ F => (piOneMap F.toFunctor).IsEquivalence
+  fun _ _ F => (FreeGroupoid.map F.toFunctor).IsEquivalence
 
 /-- `W₋₁`: functors `F : A ⥤ B` with `A` nonempty iff `B` is. -/
 def WNeg₁ : MorphismProperty Cat.{u, u} :=
@@ -633,15 +631,18 @@ class IsGrCategory (C : Type u) [Groupoid.{v} C] [MonoidalCategory C] : Prop whe
 
 variable (C : Type u) [Groupoid.{v} C] [MonoidalCategory C]
 
-/-- `π₀`: isomorphism classes of objects. -/
-abbrev PiZero : Type u := Quotient (isIsomorphicSetoid C)
-
-instance [IsGrCategory C] : Group (PiZero C) := sorry
+/-- `π₀ C` is Mathlib's `Skeleton C`, the isomorphism classes of objects, with the monoid
+structure `Skeleton.instMonoid` induced by `⊗`. In a gr-category every element is invertible;
+the group structure adds only the inverse, so it agrees with Mathlib's monoid structure. -/
+noncomputable instance [IsGrCategory C] : Group (Skeleton C) :=
+  { (inferInstance : Monoid (Skeleton C)) with
+    inv := sorry
+    inv_mul_cancel := sorry }
 
 theorem aut_unit_mul_comm (a b : Aut (𝟙_ C)) : a * b = b * a := sorry
 
 /-- `π₁ = Aut(𝟙)` as a representation of `π₀` over `ℤ`. -/
-def piOneRep [IsGrCategory C] : Rep (ULift.{u} ℤ) (PiZero C) := sorry
+def piOneRep [IsGrCategory C] : Rep (ULift.{u} ℤ) (Skeleton C) := sorry
 
 /-- The `k`-invariant in `H³(π₀, π₁)`. -/
 def kInvariant [IsGrCategory C] : groupCohomology (piOneRep C) 3 := sorry
