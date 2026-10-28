@@ -2421,6 +2421,42 @@ Prove its actual reduced-Burau/Hecke-block and trace-weight decomposition; test 
 
 All Table1/Table2 occurrences, including braid words, compact signed coefficient strings, W, root values and seven explanatory notes, are exact finite targets with native polynomial certificates AND geometric named-link/diagram identification. Preserve orphan−5/2, clipped8_15 braid exponents, trefoil root connector and A/B narrow strokes as source holds. Construct explicit Jones mirror-detection counterexamples with realized chiral knots and matching polynomials; do not assert the historical chirality conjecture. Prove the source's same-invariant/different genus or signature examples with independent geometric invariants rather than polynomial inequality alone.
 
+**Table 2: the Kinoshita–Terasaka and Conway rows.** Use the following
+explicit four-strand models, with one-based generators,
+
+`b_KT = σ₁³ σ₃² σ₂ σ₃⁻¹ σ₁⁻² σ₂ σ₁⁻¹ σ₃⁻¹ σ₂⁻¹`,
+`b_C = σ₂³ σ₁ σ₃⁻¹ σ₂⁻² σ₁ σ₂⁻¹ σ₁ σ₃⁻¹`.
+
+For b_KT the initial exponent is3. Keep the exact length of the scan's
+initial run as a source qualification: inserting one additional initial σ₁
+gives a two-component closure. This variant cannot share the printed knot
+polynomial. Preserve the literal reading separately from this mathematical
+model and its required named-knot identification.
+
+Translate the two models into native `BraidWord 4` and its actual oriented
+PD-code closure, retaining the displayed word order and crossing signs. Prove that each
+endpoint permutation is a four-cycle and that both exponent sums are1.
+Construct finite diagram/isotopy certificates identifying these closures
+with the named source diagrams, including their orientation and mirror
+choices. Equality of polynomial values is not that identification.
+
+For both closures prove the explicit table values
+
+`V(t)=t⁻⁴(-1+2t−2t²+2t³+t⁶−2t⁷+2t⁸−2t⁹+t¹⁰)`,
+`W(t)=t⁻⁴(1−t+t²−t⁴+t⁵−t⁶)`.
+
+Include the zero coefficients at degrees0 and1 of V and degree−1 of W
+when comparing with the compact printed coefficient strings. Verify
+`1−V=(1−t)(1−t³)W`, V(1)=1 and V(exp(πi/3))=1. The native Jones
+carrier has variable T=t^(1/2), so every displayed t-exponent doubles in
+that carrier. Compare the direct finite state sums with the earlier Markov
+trace and oriented-mutation computations. The separate Alexander-one,
+genus and smooth-concordance claims about these named knots use their
+existing geometric targets and cannot be inferred from this common Jones
+polynomial. [`JonesMutantTableTargets.lean`](JonesMutantTableTargets.lean)
+gives the two explicit native words, their coefficient values and suggested
+state-sum identities.
+
 #### GT4: Controlled moves and polynomial proof routes
 
 <a id="gt4-two-marked-crossing-changes"></a>
