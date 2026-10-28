@@ -599,12 +599,42 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    `h(i,n)=|λ|+Σ_(r≤i)μ_r`, with `h(0,0)=0`, in product convention.
    Specify and prove its rotation/gauge conversion with H1's cyclic triple.
    The chart map is `(i,j)↦(n−j,j−i,i)` in H1’s coordinates.
-   The two appropriate rhombus families are precisely GT interlacing; export
-   the **remaining** rhombus-family image condition, top-row and successive
-   row-sum weight identities. Partial sums reconstruct the hive from the pattern
-   and one boundary, proving injectivity and the exact image equivalence.
-   The handout's orientation gives native `topRow` λ (its long row drawn below) and pattern weight μ*−ν; the
-   product chart rotates this to an equivalent formula. Prove these agree.
+   Pin the actual difference map in this chart. Write native entries with
+   zero-indexed columns and row length j:
+   `P.entry(i,j)=h(i+1,j)−h(i,j)` for `0≤i<j≤n`, and zero elsewhere.
+   Its native `topRow` is μ. Put `S_j=Σ_(i<j)P.entry(i,j)`, with `S_0=0`;
+   the weight is `wt(P)_r=S_r−S_(r−1)=γ_r−λ_r` for `1≤r≤n`.
+   Prove the inverse formula
+   `h(i,j)=Σ_(r=1..j)λ_r+Σ_(k<i)P.entry(k,j)`.
+   These formulas pin the boundary and native off-triangle conventions.
+
+   For `0≤i<j<n`, the two GT rhombus families are respectively
+   `h(i,j)+h(i+1,j+1)≥h(i+1,j)+h(i,j+1)` and
+   `h(i+1,j)+h(i+1,j+1)≥h(i,j)+h(i+2,j+1)`.
+   They give exactly `P.entry(i,j+1)≥P.entry(i,j)≥P.entry(i+1,j+1)`.
+   The remaining family, for `0≤i≤j` and `j+2≤n`, is
+   `h(i,j+1)+h(i+1,j+1)≥h(i,j)+h(i+1,j+2)`.
+   After reconstruction it is precisely
+   `λ_(j+1)−λ_(j+2)+Σ_(k<i)(P.entry(k,j+1)−P.entry(k,j))`
+   `≥Σ_(k≤i)(P.entry(k,j+2)−P.entry(k,j+1))`.
+   Construct the equivalence between fixed-boundary hives and the native GT
+   fibre with top row μ, weight γ−λ and these remaining inequalities; prove
+   both inverse laws from the displayed formulas. Do not replace this image
+   condition by equality of counts. Reproduce the handout's top-row λ and
+   weight μ*−ν statement in its own cyclic orientation, with the explicit
+   orientation/dual conversion to this product chart.
+
+   In this chart a sufficient uniform gap is on the input λ:
+   `λ_r−λ_(r+1)≥μ_1−μ_n` for every `1≤r<n`. Prove that it makes the
+   remaining family automatic: its added left sum is nonnegative, and its
+   right sum is at most
+   `Σ_(k≤i)(P.entry(k,j+2)−P.entry(k+1,j+2))`
+   `=P.entry(0,j+2)−P.entry(i+1,j+2)≤μ_1−μ_n`.
+   Thus the same difference/reconstruction maps give an equivalence with
+   the whole weight-(γ−λ) GT fibre over μ. This input-gap construction and
+   item 3's output-gap multiplicity statement retain their different
+   hypotheses. For n=1 the rhombus and gap families are empty; for n=0 use
+   the unique empty pattern and normalized hive, without first/last entries.
 2. Build the explicit hive-to-LR equivalence on H0's `LRTableau λ γ μ`.
    In the product chart write `a_(i,j)` for the number of zero-indexed letter i−1
    in skew row j−1. Its forward map is
@@ -625,7 +655,7 @@ targets on the actual carriers, not conclusions obtained solely by citation.
    prove the invariant dimension and tensor-multiplicity hive formulas. Prove
    affine determinant-shift covariance, cyclic/dual symmetry, symmetry in the
    two inputs, and coefficient change/stable finite-alphabet compatibility.
-   Stable range: for the cyclic triple (λ,μ,ν) of item 1 the hive count is
+   In the handout's own cyclic convention (λ,μ,ν), the hive count is
    the product coefficient `c^π_(λ,ν)` with output weight `π=μ*`, and the GT
    fibre has top row λ and weight `μ*−ν`. If every adjacent gap of μ satisfies
    `μ_j−μ_(j+1)≥λ₁−λₙ` (equivalently `π_i−π_(i+1)≥λ₁−λₙ` for π=μ*, since
