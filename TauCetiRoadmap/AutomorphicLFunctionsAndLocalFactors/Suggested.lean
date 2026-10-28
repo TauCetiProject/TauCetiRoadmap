@@ -40,7 +40,11 @@ noncomputable section
 open MeasureTheory
 open scoped Topology NNReal ENNReal NumberField
 
-namespace TauCeti.AutomorphicLFunctions.AL0
+namespace TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+/-! ## Layer AL.0: local and adelic Fourier analysis -/
+
+namespace AL0
 
 /-- Half-integral adapter to AutomorphicFormsOnReductiveGroups §4.5's cosh Bessel kernel,
     with complex order and positive real argument in the public API. -/
@@ -73,9 +77,11 @@ theorem pointSupported_finiteJet {E : Type*} [NormedAddCommGroup E] [NormedSpace
     ∃ N : ℕ, ∀ f : SchwartzMap E ℂ,
       (∀ k ≤ N, iteratedFDeriv ℝ k f 0 = 0) → T f = 0 := by sorry
 
-end TauCeti.AutomorphicLFunctions.AL0
+end AL0
 
-namespace TauCeti.TateZeta
+/-! ## Layer AL.1: local eigendistributions and Hecke L-functions -/
+
+namespace TateZeta
 
 /-- Inverse scalar multiplication on an archimedean field, as a real linear homeomorphism. -/
 def inverseScalar {F : Type*} [RCLike F] (a : Fˣ) : F ≃L[ℝ] F :=
@@ -252,9 +258,11 @@ theorem heckeContinuation
           fun s => (heckeConductorScale χ : ℂ)^(-t/2) * Λ χ (s+t)) := by
   sorry
 
-end TauCeti.TateZeta
+end TateZeta
 
-namespace TauCeti.AutomorphicLFunctions.AL2
+/-! ## Layer AL.2: Godement–Jacquet standard functions and newforms -/
+
+namespace AL2
 
 /-- Entire centered growth in the equivalent epsilon-bound form of the OrderLE predicate
 supplied by ZerosOfLFunctions layer 0. -/
@@ -357,9 +365,11 @@ theorem genericNewform {F V : Type*} [Field F] [ValuativeRel F]
       ∃ v : Representation.invariants (π.comp (newformLocalK1 F n c).subtype), ell v.val ≠ 0 := by
   sorry
 
-end TauCeti.AutomorphicLFunctions.AL2
+end AL2
 
-namespace TauCeti.GL2Blueprint
+/-! ### Layer AL.2: GL₂ newvectors -/
+
+namespace GL2Blueprint
 open _root_.Matrix
 open scoped ValuativeRel
 variable {R : Type*} [CommRing R]
@@ -383,7 +393,7 @@ def k0 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
 abbrev localK1 (F : Type*) [Field F] [ValuativeRel F]
     [TopologicalSpace F] [IsNonarchimedeanLocalField F] (c : ℕ) :
     Subgroup (GeneralLinearGroup (Fin 2) F) :=
-  TauCeti.AutomorphicLFunctions.AL2.newformLocalK1 F 1 c
+  AL2.newformLocalK1 F 1 c
 
 /-- The least nonzero fixed level of a representation with an explicitly nonempty level set. -/
 def conductorExponent (ρ : Representation ℂ G V) (K : ℕ → Subgroup G)
@@ -450,4 +460,6 @@ theorem casselmanNewvector_k0_character
     π (GeneralLinearGroup.map (algebraMap 𝒪[F] F) g) v.val =
       (ω (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) : ℂ) • v.val := by sorry
 
-end TauCeti.GL2Blueprint
+end GL2Blueprint
+
+end TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
