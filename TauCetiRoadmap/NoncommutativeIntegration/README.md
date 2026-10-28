@@ -50,6 +50,9 @@ Use these prerequisite developments:
   Prove the B(H) comparisons with that construction for p≥1. I1 owns
   the smaller-exponent Schatten quasi-ideal extension. For p=∞ our space
   is B(H), even when a compact-operator ideal uses a different endpoint.
+- [OperatorTheory/Majorization](../OperatorTheory/Majorization/README.md)
+  MAJ-A28 and MAJ-A31 for the finite-dimensional Ky Fan maximum principle
+  and triangle inequality used in the I1 matrix Check.
 - [PDE](../PDE/README.md) owns scalar Riesz–Thorin and Marcinkiewicz.
   Reuse its classical Lp interpolation bounds, Mathlib's Hadamard
   three-lines theorem and measure-theoretic Lp APIs. The general Banach
@@ -123,7 +126,10 @@ Check it on `M=M_d(ℂ)` with the unnormalized trace: there
 s₀≥s₁≥…, which is the indexing of Mathlib's `LinearMap.singularValues`,
 so for g the identity and integer t=k the estimate is Ky Fan's
 singular-value inequality `∑_(j<k) s_j(x+y)≤∑_(j<k) s_j(x)+∑_(j<k) s_j(y)`
-(Fan 1951; see Moslehian, *Ky Fan inequalities*, §3). For x=e₁₁, y=e₂₂
+(Fan 1951; see Moslehian, *Ky Fan inequalities*, §3), which
+[OperatorTheory/Majorization](../OperatorTheory/Majorization/README.md)
+owns as MAJ-A31 with the maximum principle MAJ-A28; the Check consumes it
+from there and does not reprove it. For x=e₁₁, y=e₂₂
 in M₂(ℂ) both sides are 1≤2 at k=1 and 2≤2 at k=2, while the pointwise
 bound `s_1(x+y)≤s_1(x)+s_1(y)` fails (1>0): the integrated form, or the
 shifted pointwise form `μ_(s+t)(x+y)≤μ_s(x)+μ_t(y)`, is what holds.
