@@ -181,8 +181,8 @@ older Belyi references to this roadmap's transitive-group layers. Branch cycles 
 peripheral-power theorems stay in `BelyiMaps` and create no reverse prerequisite here.
 
 The native reference family has no rows above degree five. The required **producer** for degrees6–11 is this roadmap's
-pure Layer1D, with the fixed generator rows in
-[HighDegreeReferenceData.md](HighDegreeReferenceData.md), completeness, uniqueness and the
+pure Layer1D, with the fixed generator rows of the
+[GAP TransGrp library](https://github.com/hulpke/transgrp/tree/165fc21ff497b24b7a5975582b331e6692ba04f1), completeness, uniqueness and the
 native lower-degree comparison. BelyiMaps1.6/14 consumes that extension and the exact
 `6T6` comparison; it does not own another reference-group family. No theorem here treats the
 empty `TransitiveGroupIndex 6` as a completed higher-degree contract or as inhabited data.
@@ -885,8 +885,9 @@ resolvent, arithmetic, cohomology or analytic prerequisite**. Its consumers are 
 roadmap's generic Layer6 label corollary and BelyiMaps1.6/14. The current polynomial
 certificate searches are not extended by this contract.
 
-**Fixed inputs and values.** The160 rows in
-[HighDegreeReferenceData.md](HighDegreeReferenceData.md) specify every generator as a
+**Fixed inputs and values.** The160 rows of the
+[GAP TransGrp library](https://github.com/hulpke/transgrp/tree/165fc21ff497b24b7a5975582b331e6692ba04f1) (`lib/trans.grp` for degrees 6–7, `data/trans8.grp`
+through `data/trans11.grp` for degrees 8–11) specify every generator as a
 permutation of `Fin n`, in standard `nTj` order. The row counts for `n=6,…,11` are
 `16,7,50,34,45,8`. For each row form its subgroup by `Subgroup.closure` of those actual
 permutations; prove the displayed generators equal the resulting reference subgroup,
