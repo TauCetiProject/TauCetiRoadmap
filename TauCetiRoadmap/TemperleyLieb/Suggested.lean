@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Algebra.TemperleyLieb.MarkovTrace
+import TauCeti.Combinatorics.Enumerative.PerfectMatching
 
 /-!
 # Temperley–Lieb diagrams, categories, and algebras: target signatures
@@ -7,7 +8,8 @@ import TauCeti.Algebra.TemperleyLieb.MarkovTrace
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
 with the three definitions they need: the quantum integer `qInt`, the carrier `PlanarMatching` of
-planar matchings, and the predicate `IsMarkovTrace`. The algebraic headlines are stated on Tau
+planar matchings (the non-crossing elements of Tau Ceti's `TauCeti.PerfectMatching`), and the
+predicate `IsMarkovTrace`. The algebraic headlines are stated on Tau
 Ceti's presented algebra `TauCeti.TemperleyLieb R δ n` on `n` strands, which Layer 4 of the README
 identifies with the diagram algebra; through that identification they are the README's statements
 about the diagram algebra.
@@ -24,10 +26,12 @@ Headline theorems of the README that are not statable at the pins, with the miss
   closure pairings `Hom(n, m) × Hom(m, n) → R` (Layer 5): no cell modules, cell forms or
   hom-pairings of a linear Temperley–Lieb category;
 * Goodman–Wenzl, the uniqueness of the proper nonzero tensor ideal at a root of unity (Layer 6):
-  no tensor ideals of a linear Temperley–Lieb category;
+  no linear Temperley–Lieb category whose whiskering-closed `TauCeti.MorphismIdeal`s it would
+  classify;
 * the generic classification of the Karoubi envelope, Clebsch–Gordan, and the root-of-unity
   fusion quotients (Layer 7): no monoidal structure on `Mat_ C` or `Karoubi C`, no monoidal
-  quotient by a tensor ideal, and no semisimple-category predicate at the pins.
+  structure on Tau Ceti's quotient `TauCeti.MorphismIdeal.Quotient`, and no semisimple-category
+  predicate at the pins.
 
 Conventions (see `README.md`): the loop parameter is `δ = q + q⁻¹`, a closed circle evaluates to
 `δ`; the Markov trace is unnormalized, `tr 1 = δ ^ n` on `n` strands. Tau Ceti's spin-model trace
@@ -56,22 +60,23 @@ theorem exists_qInt_eq_zero_iff (K : Type*) [Field K] [IsAlgClosed K] [CharZero 
 
 /-! ## Layer 1: planar matchings -/
 
-/-- A **planar matching** on `k` boundary points: a fixed-point-free involution `σ` of `Fin k`
-whose pairs do not interleave, that is, whenever `a < b < σ a` the partner `σ b` also lies strictly
-between `a` and `σ a`. -/
+/-- A **planar matching** on `k` boundary points: a perfect matching of `Fin k` in Tau Ceti's
+sense (`TauCeti.PerfectMatching`, a fixed-point-free involution) whose pairs do not interleave,
+that is, whenever `a < b < σ a` the partner `σ b` also lies strictly between `a` and `σ a`. -/
 def PlanarMatching (k : ℕ) : Type :=
-  {σ : Equiv.Perm (Fin k) // Function.Involutive σ ∧ (∀ i, σ i ≠ i) ∧
-    ∀ a b : Fin k, a < b → b < σ a → a < σ b ∧ σ b < σ a}
+  {σ : TauCeti.PerfectMatching (Fin k) //
+    ∀ a b : Fin k, a < b → b < σ.1 a → a < σ.1 b ∧ σ.1 b < σ.1 a}
 
 /-- The non-interleaving condition admits the nested pairing `{0, 3}, {1, 2}` of four points and
-excludes the crossing pairing `{0, 2}, {1, 3}`. -/
+excludes the crossing pairing `{0, 2}, {1, 3}`, which is a perfect matching. -/
 example :
     (∃ x : PlanarMatching 4,
-        x.1 = (Equiv.swap (0 : Fin 4) 3 * Equiv.swap 1 2 : Equiv.Perm (Fin 4))) ∧
+        x.1.1 = (Equiv.swap (0 : Fin 4) 3 * Equiv.swap 1 2 : Equiv.Perm (Fin 4))) ∧
       ¬ ∃ x : PlanarMatching 4,
-        x.1 = (Equiv.swap (0 : Fin 4) 2 * Equiv.swap 1 3 : Equiv.Perm (Fin 4)) := by
-  refine ⟨⟨⟨_, fun x ↦ by revert x; decide, by decide, by decide⟩, rfl⟩, ?_⟩
-  rintro ⟨⟨σ, -, -, h⟩, rfl⟩
+        x.1.1 = (Equiv.swap (0 : Fin 4) 2 * Equiv.swap 1 3 : Equiv.Perm (Fin 4)) := by
+  refine ⟨⟨⟨⟨_, by decide⟩, by decide⟩, rfl⟩, ?_⟩
+  rintro ⟨⟨σ, h⟩, hσ⟩
+  rw [hσ] at h
   exact absurd h (by decide)
 
 /-- **Catalan count.** The planar matchings on `2k` points are counted by the Catalan number

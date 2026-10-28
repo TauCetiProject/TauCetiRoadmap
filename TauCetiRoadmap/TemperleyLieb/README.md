@@ -41,7 +41,8 @@ Suggested homes: `TauCeti/TemperleyLieb/` for everything specific to Temperley�
 of deliberately reusable infrastructure elsewhere: monoidal categories presented by
 generators and relations in `TauCeti/CategoryTheory/Monoidal/Presentation/`, cellular
 algebras in `TauCeti/Algebra/Cellular/`, and the monoidal, linear and rigid structure of the
-additive-and-idempotent envelope, together with quotients by tensor ideals, in
+additive-and-idempotent envelope, together with the monoidal structure on quotients by tensor
+ideals, in
 `TauCeti/CategoryTheory/Monoidal/Envelope/` (Layer 7 spells out what that means). The general
 pivotal, spherical, balanced, and ribbon API is **not** built here: it is the target of the
 [pivotal and spherical categories roadmap](../PivotalSpherical/README.md) (home
@@ -147,8 +148,9 @@ semisimple-category API, **no** fusion categories, and **no** braid groups (a gr
 pinned toolchain finds nothing usable for any of these). ⚠ It also has **no** monoidal and
 **no** `Linear` structure on `Mat_` or on `Karoubi`: those constructions are supplied as bare
 categories only, which is much less than Layer 7 needs. Monoidal presentations, cellular
-algebras, and the monoidal/linear/rigid structure of the envelope together with quotients by
-tensor ideals are targets here; the pivotal/spherical/ribbon API **and the finite-semisimple
+algebras, and the monoidal/linear/rigid structure of the envelope together with the monoidal
+structure on quotients by tensor ideals are targets here (the additive and linear quotient by an
+ideal is Tau Ceti's, see the next section); the pivotal/spherical/ribbon API **and the finite-semisimple
 category predicate with its decomposition API** belong to the
 [pivotal and spherical categories roadmap](../PivotalSpherical/README.md) and are consumed,
 not rebuilt; braid groups come from Tau Ceti (see the next section and Non-goals).
@@ -176,14 +178,44 @@ not rebuilt; braid groups come from Tau Ceti (see the next section and Non-goals
   `TauCeti.TemperleyLieb.jones` into the units of `TemperleyLieb R δ n` at
   `δ = -(a² + a⁻²)` together with the writhe-normalized Markov trace invariant
   `TauCeti.MarkovEquiv.jonesTrace_eq`.
+- **Perfect matchings and Brauer stacking:** `TauCeti.IsPerfectMatching` and
+  `TauCeti.PerfectMatching α` (`TauCeti/Combinatorics/Enumerative/PerfectMatching.lean`), the
+  fixed-point-free involutions of a type, with `Fintype` and `DecidableEq` instances, transport
+  `TauCeti.PerfectMatching.congr` along an equivalence, and the arc restriction/extension
+  bijection `TauCeti.PerfectMatching.fiberEquiv`. On top of it, `TauCeti.BrauerDiagram k`
+  (perfect matchings of `Fin k ⊕ Fin k`, `TauCeti/Combinatorics/Brauer/Diagram.lean`), vertical
+  stacking `TauCeti.composeDiagram D₁ D₂` (`D₁` above `D₂`, `…/Brauer/Compose.lean`), its
+  associativity `TauCeti.composeDiagram_assoc` (`…/Brauer/Associativity.lean`), whose proof does
+  not use planarity, and the middle-loop count `TauCeti.middleLoopCount`
+  (`…/Brauer/LoopCount.lean`). All of it is for endomorphism diagrams of a fixed size `k`: there
+  is no gluing of an `n → m` diagram with an `m → p` diagram, and no associativity of the total
+  loop count.
+- **Two-sided ideals of a preadditive category and their quotients:** `TauCeti.MorphismIdeal C`
+  (`TauCeti/CategoryTheory/Preadditive/MorphismIdeal/Basic.lean`), an additive subgroup
+  `I.hom X Y` of each hom group closed under pre- and postcomposition, with automatic scalar
+  stability `TauCeti.MorphismIdeal.smul_mem` in an `R`-linear category; the quotient category
+  `TauCeti.MorphismIdeal.Quotient` and quotient functor `TauCeti.MorphismIdeal.quotientFunctor`
+  (Mathlib's `CategoryTheory.Quotient`, so full and essentially surjective), its `Preadditive`
+  and `Linear R` instances with additive and `R`-linear quotient functor,
+  `TauCeti.MorphismIdeal.quotientFunctor_map_eq_zero_iff` (a morphism becomes zero exactly when
+  it lies in `I`), and the additive/linear factorization `TauCeti.MorphismIdeal.lift`; in
+  `…/MorphismIdeal/Additive.lean`, zero objects and finite biproducts of the quotient. A tensor
+  ideal of Layer 6 is such an ideal with two whiskering closure conditions, and Layer 7's
+  quotient is this quotient; what is missing at the pins is only the monoidal (and rigid,
+  pivotal, braided) part.
 
 **Boundary with Schur–Weyl.** The
 [Schur–Weyl roadmap](../RepresentationTheory/SchurWeyl/README.md) builds the Brauer algebra
 `B_k(δ)` in its Layer 9, and the two roadmaps meet twice. The **cellular-algebra
 infrastructure of Layer 5 is built here** and consumed there, as that roadmap says. The
-**Brauer diagram combinatorics and gluing are built there**, not here: Brauer diagrams are not
-planar and the associativity argument does not transfer, so Layer 2's gluing is deliberately
-TL-private.
+**Brauer diagram combinatorics** are that roadmap's, and their fixed-size part is already in Tau
+Ceti (previous bullet); this roadmap consumes them. Planar matchings are defined as the perfect
+matchings whose arcs do not cross (Layer 1), and the endomorphism diagrams of `n` strands embed
+into `TauCeti.BrauerDiagram n` compatibly with stacking (Layer 2), so that the matching part of
+associativity on `End(n)` is `TauCeti.composeDiagram_assoc` restricted along that embedding. What
+stays here is what the Brauer API does not cover: gluing between different boundary sizes
+`n → m → p`, the cyclic (rotation) encoding, the Dyck model, and associativity of the circle
+count.
 
 ## What is missing (build here)
 
@@ -195,9 +227,11 @@ the general API of the
 algebras, their comparison with Tau Ceti's presented algebra `TauCeti.TemperleyLieb R δ n`, and
 the diagrammatic Markov trace at every `δ`; cellular algebras in general and the TL cell theory
 with Gram determinants; the semisimplicity and nondegeneracy classifications; Jones–Wenzl
-projections; tensor ideals, negligibles, and Goodman–Wenzl; the monoidal, linear and rigid
-structure of the additive-and-idempotent envelope and quotients by tensor ideals, both in
-general; the Karoubi envelope classification and the root-of-unity fusion quotients.
+projections; tensor ideals (as whiskering-closed `TauCeti.MorphismIdeal`s), negligibles, and
+Goodman–Wenzl; the monoidal, linear and rigid structure of the additive-and-idempotent envelope
+and the monoidal structure on Tau Ceti's quotient by a tensor ideal, both in general; the bridge
+from the Temperley–Lieb Hom computations to an abelian, Hom-finite category; the Karoubi envelope
+classification and the root-of-unity fusion quotients.
 
 `Suggested.lean` is the acceptance test: it states, with `sorry`, the headline theorems that are
 statable at the pins, using only `qInt`, `PlanarMatching` and `IsMarkovTrace` as definitions, and
@@ -249,7 +283,10 @@ previous layers land.
 ### Layer 1: planar matchings, encodings, counting, operations
 
 - **The definitional model:** `PlanarMatching k`, a fixed-point-free involution of `Fin k`
-  whose pairs do not interleave in the linear order; prove that non-interleaving is a
+  whose pairs do not interleave in the linear order, defined as the subtype of Tau Ceti's
+  `TauCeti.PerfectMatching (Fin k)` cut out by the non-interleaving condition, so that the
+  perfect-matching API (finiteness, decidability, transport, arc restriction) applies unchanged
+  and the forgetful map to perfect matchings is the subtype inclusion; prove that non-interleaving is a
   cyclic-order condition (invariant under rotation), so the circular picture of the standing
   conventions is theorem, not decree. `DecidableEq`, `Fintype`, and a `decide`/`#eval`-able
   API are required, not nice-to-haves: this layer is the computational bedrock. The
@@ -303,6 +340,26 @@ previous layers land.
   `SimpleGraph` connectivity machinery, or a direct path-following induction on the Dyck
   encoding). **Associativity is the hard theorem of this layer**; plan for it, do not
   discover it.
+- **The comparison with Brauer stacking.** For endomorphism diagrams of `n` strands, relabel the
+  cyclic boundary `Fin (n + n)` as `Fin n ⊕ Fin n` by sending the bottom point `i < n` to
+  `Sum.inl i` and the top point `n + j` to `Sum.inr (n − 1 − j)` (the top is read right to left
+  in the cyclic convention and left to right by `TauCeti.BrauerDiagram`), and transport the
+  matching along this equivalence with `TauCeti.PerfectMatching.congr`. Prove that this map
+  from `TLDiagram n n` (forgetting the stored circles) to `TauCeti.BrauerDiagram n` is injective,
+  that its image is exactly the non-crossing Brauer diagrams, and that it intertwines composition
+  with stacking in the reverse order: the matching of `f ≫ g` is sent to
+  `TauCeti.composeDiagram` of the image of `g` (above) and the image of `f` (below), and the
+  number of circles closed in forming `f ≫ g` is `TauCeti.middleLoopCount` of the same pair. Then
+  the matching part of associativity on `End(n)` follows from `TauCeti.composeDiagram_assoc`.
+  The Brauer API does not reach the rest, which stays a target of this layer: gluing between
+  different sizes `n → m → p` (reduce it to the fixed-size case by corner-dragging, or prove it
+  directly), and associativity of the **total** circle count, which needs
+  `c(f, g) + c(f ≫ g, h) = c(g, h) + c(f, g ≫ h)` for the circles `c` closed at each gluing and is
+  not in Tau Ceti for any size. *Checks.* `e₁ ∈ TLDiagram 2 2` maps to the Brauer diagram with the
+  cap `{inl 0, inl 1}` and the cup `{inr 0, inr 1}`; `e₁ ≫ e₁` maps to the stack of that diagram
+  on itself, with middle-loop count `1`, matching the one closed circle; the crossing Brauer
+  diagram on two strands (`inl 0 ↔ inr 1`, `inl 1 ↔ inr 0`) is not in the image, so a comparison
+  that silently allowed crossings would be detected there.
 - **Monoidal structure:** juxtaposition (`+` on objects, index-shifting on matchings), with
   the strictness handled once: tensor adds the underlying point counts, and the associators
   are equality-induced isomorphisms.
@@ -322,7 +379,7 @@ previous layers land.
   produces a monoidal functor out of the free monoidal category into any monoidal `D`.
   Relations are imposed as a **congruence** on the hom-sets of the free monoidal category,
   closed under composition and whiskering on both sides — the same closure conditions as the
-  tensor ideals Layer 6 defines for a general monoidal linear category, so build the two
+  tensor ideals Layer 6 defines on a general monoidal preadditive category, so build the two
   together rather than twice.
 - **The presentation theorem for `TLDiagCat` (the universal property):** the monoidal category
   freely presented by one generating object with `cup : 0 → 2`, `cap : 2 → 0` and exactly the two
@@ -440,8 +497,9 @@ previous layers land.
   transported through `diagBasis`, sphericality is a closure computation, and the quantum
   dimension of the object `n` is `δⁿ`.
 - **The reflection involutions:** vertical reflection is a contravariant monoidal involution
-  (on endomorphism algebras this is the `StarRing` structure of Layer 4). Horizontal (left–right)
-  reflection is covariant on composition but **reverses juxtaposition**,
+  (on endomorphism algebras this is the `StarRing` structure of Layer 4, and it fixes every
+  `e_i`). Horizontal (left–right) reflection, written `reflect` throughout, sends `e_i` to
+  `e_{n−i}` on `n` strands (one-based indices) and is covariant on composition but **reverses juxtaposition**,
   `reflect (f ⊗ g) = reflect g ⊗ reflect f`, so it is not an ordinary monoidal involution of the
   category: state it as a monoidal functor into the monoidal opposite, or give the anti-monoidal
   comparison explicitly. ⚠ The distinction is already visible on the two distinct diagrams
@@ -548,9 +606,13 @@ previous layers land.
 ### Layer 5: cellular algebras, Gram determinants, semisimplicity
 
 - **Cellular algebras (reusable infrastructure):** the Graham–Lehrer definition, cell
-  modules, the bilinear form on each cell, and the two general theorems this roadmap
-  consumes: the classification of simples as quotients of cells with nonzero form, and the
-  criterion *semisimple iff every cell form is nondegenerate*. Built in general in
+  modules, the bilinear form on each cell, and base change, all over a commutative ring; and,
+  **over a field**, the two general theorems this roadmap consumes: the classification of simples
+  as quotients of cells with nonzero form, and the criterion *semisimple iff every cell form is
+  nondegenerate* (Graham–Lehrer, §3, where the base ring is a field). ⚠ Neither is
+  ring-general: `ℤ` is cellular with one cell, one basis element and the perfect form
+  `(u, v) ↦ uv`, yet `ℤ` is not a semisimple ring, so the criterion is false over `ℤ`; keep that as
+  the negative test. Built in general in
   `TauCeti/Algebra/Cellular/`: Hecke, Brauer, and partition algebras will reuse it, and the
   general proofs are no harder than the TL-specific ones.
 - **The TL cell structure:** the through-strand filtration is a cell structure with cells
@@ -648,20 +710,56 @@ previous layers land.
   trace
   `condExp f_{n+1} = ([n+2]/[n+1]) · f_n`; absorption `f_n · incl(f_{n-1}) = f_n` and its
   tensor variants.
-- **Tensor ideals and negligibles:** the definition of a tensor ideal (hom-submodules closed
-  under composition and whiskering on both sides), stated for a general monoidal `R`-linear
-  category and not for `TL(R, δ)` alone — Layer 7 has to push one along `Mat_` and `Karoubi`
-  and quotient by it, and the same shape imposes the relations on a presented monoidal category
-  in Layer 2; the negligible ideal of `TL(R, δ)` (`f` with `tr̂(f ≫ g) = 0` for all `g`) is the
-  instance that matters here. Then: over a field of **characteristic zero**,
+- **Tensor ideals and negligibles:** a tensor ideal of a monoidal preadditive category `C` is a
+  `TauCeti.MorphismIdeal C` (see the Tau Ceti consume list) that is in addition closed under
+  whiskering on both sides, `W ◁ f` and `f ▷ W` for `f` in the ideal. Over an `R`-linear `C` its
+  hom-groups are automatically `R`-submodules by `TauCeti.MorphismIdeal.smul_mem`, so no separate
+  linear notion is introduced. State it for a general monoidal preadditive category and not for
+  `TL(R, δ)` alone — Layer 7 has to push one along `Mat_` and `Karoubi` and quotient by it, and
+  the same closure conditions impose the relations on a presented monoidal category in Layer 2;
+  the negligible ideal of `TL(R, δ)` (`f` with `tr̂(f ≫ g) = 0` for all `g`) is the instance that
+  matters here. Then: over a field of **characteristic zero**,
   at quantum order `ℓ`, `f_{ℓ−1}` exists, is negligible (`tr̂ f_{ℓ−1} = [ℓ] = 0`), and
   **generates the negligible ideal, which is the unique proper nonzero tensor ideal**
-  (Goodman–Wenzl). Generic complement: when `[k] ≠ 0` for all `k ≥ 1`, the only tensor ideals
-  are `0` and everything. Follow Goodman–Wenzl's §2 and expose its inputs as named lemmas here
-  rather than inside one proof: the path and block idempotents it evaluates, and its
-  constant-dimension statement. Its Hom-to-End retractions divide by `δ`, so the included case
-  `δ = 0` (quantum order `ℓ = 2`) is a separate sub-target with its own argument, not a verbatim
-  specialization. The characteristic hypothesis is carried deliberately: Goodman–Wenzl
+  (Goodman–Wenzl, Theorem 3.3, pp. 10–11). Generic complement: when `[k] ≠ 0` for all `k ≥ 1`,
+  the only tensor ideals are `0` and everything. Follow Goodman–Wenzl's §§1–3 and expose its
+  inputs as named lemmas here rather than inside one proof: the path and block idempotents it
+  evaluates (§2.4), and the two specialization statements below. Its Hom-to-End retractions
+  divide by `δ`, so the included case `δ = 0` (quantum order `ℓ = 2`) is a separate sub-target
+  with its own argument, not a verbatim specialization.
+
+  *Constancy of dimension, in the form that is true.* Let `𝒪` be the local ring of rational
+  functions in the generic parameter that are regular at the specialization point, with fraction
+  field the generic coefficients and residue field the specialized ones. For an `𝒪`-linear
+  idempotent endomorphism `E` of a finite free `𝒪`-module `L`, the image of `E` is a direct
+  summand of `L`, hence free, so the rank of `E` after extending to the fraction field equals the
+  rank of `E` after reducing to the residue field. Applied to `L` the `𝒪`-span of the diagrams
+  `m → n` and `E(x) = e x f` for evaluable idempotents `e`, `f`, it gives
+  `dim e·Hom(m,n)·f = dim e(τ)·Hom(m,n)(τ)·f(τ)`, and likewise for any finite free `𝒪`-lattice
+  that `e` and `f` preserve on the left and right. ⚠ Goodman–Wenzl's Proposition 1.1 (p. 4)
+  asserts this for the span `A` of an **arbitrary** set of diagrams, and that is false: its proof
+  sums the four corners `eAf`, `eA(1−f)`, `(1−e)Af`, `(1−e)A(1−f)` to `A`, which needs
+  `eA ⊆ A` and `Af ⊆ A`. Negative test: in `TL₃` at generic `δ = t + t⁻¹`, specialized at
+  `τ = exp(πi/3)` so that `δ(τ) = 1`, put `p = e₁/δ`, `r = 1 − p`, `x = p e₂ r = e₁e₂/δ − e₁/δ²`.
+  The relations give `px = x = xr` and `xp = x² = 0`, so `E = p + (t − τ)x` and `F = r` are
+  evaluable idempotents; with `A` the span of the identity diagram, `EAF` is spanned by
+  `(t − τ)x ≠ 0` (dimension `1`) while `E(τ)A(τ)F(τ) = p(τ)r(τ)·ℂ = 0` (dimension `0`). Keep this
+  instance as the acceptance test of the stated lemma's hypotheses.
+
+  *Specialization-injectivity of the critical-block tower map, a separate target.* In the proof
+  of Theorem 3.3 the element `b ≠ 0` lies in `e(τ)T_n(τ)f(τ)` for evaluable idempotents `e`, `f`
+  with `e T_n f` inside the block of a diagram `μ`, and for a diagram `α` on the first critical
+  line, of size `n + m` and connected to `μ` in the generic Bratteli diagram, one needs
+  `x ↦ z_α(τ)·(x ⊗ 1_m)` to be injective on `e(τ)T_n(τ)f(τ)`. Generically `x ↦ z_α·(x ⊗ 1_m)` is
+  injective on `e T_n f`, and constancy above gives `dim e T_n f = dim e(τ)T_n(τ)f(τ)`. The first
+  equality of the source's chain is not an instance of constancy: it is about the image of the
+  `𝒪`-lattice `e T_n^𝒪 f` under `x ↦ z_α (x ⊗ 1_m)` inside `T_{n+m}^𝒪`, and multiplication by
+  `z_α` need not preserve `T_n ⊗ 1_m`. Reduction only bounds the specialized rank above by the
+  generic one; equality needs the image to be saturated (a direct summand of `T_{n+m}^𝒪`), for
+  example from an `𝒪`-linear left inverse built from an evaluable adapted basis of the block.
+  State the injectivity at `τ` as its own lemma with that saturation input as a named step, or
+  replace it by another proof of the ideal theorem; either way the Goodman–Wenzl classification
+  does not rest on the unrestricted Proposition 1.1. The characteristic hypothesis is carried deliberately: Goodman–Wenzl
   is a characteristic-zero theorem, and in characteristic `p` both the Jones–Wenzl projections
   and the ideal lattice genuinely differ — the modular Temperley–Lieb algebra and the
   mixed-case `SL₂` tilting picture are separate subjects, out of scope here (see Non-goals).
@@ -702,46 +800,83 @@ previous layers land.
   quotient needs exactly this.
 - **Quotients by tensor ideals, as reusable infrastructure.** Layer 6's `negligibleIdeal` is a
   tensor ideal of `TL(K, δ)`, but the quotient below is taken in `TLKar K δ`, and the passage
-  is not automatic. Targets: extension of a tensor ideal of `C` along `Mat_` and `Karoubi`; the
-  additive/`R`-linear quotient of a category by a tensor ideal; descent of the tensor product
-  for `C` monoidal preadditive, with the quotient functor strong monoidal so that the quotient
-  tensor is the descended one, and `R`-linear for `C` monoidal linear; descent of the rigid,
-  pivotal, spherical, braided and ribbon structure to that quotient; and idempotent
-  completeness of the result (or its idempotent completion, if the quotient loses it). Mathlib
-  has general categorical quotients but no monoidal quotient, so this is built here. ⚠ The
-  additivity of whiskering is used: descent asks for `W ◁ f - W ◁ g ∈ I` when `f - g ∈ I`, and
-  ideal closure only gives `W ◁ (f - g) ∈ I`. Negative test: the `ℤ`-linear category with objects
-  `ℕ`, `End n = ℤ` and no other nonzero morphisms, with tensor `n + m` on objects and
-  `f ⊗ g = f ^ (2 ^ m) * g ^ (2 ^ n)` on endomorphisms (monoidal, not monoidal preadditive), and
-  the ideal `I (n, n) = 3 ^ (2 ^ n) ℤ`, closed under composition and both whiskerings. Then
-  `1 = 4` in `End 0 / I = ℤ/3`, while whiskering by `1` gives `1 ≠ 16` in `End 1 / I = ℤ/9`, so the
-  tensor does not descend. The intended signatures, with the tensor ideal a structure
-  `MonoidalIdeal S C` of hom-submodules closed under composition on both sides and under both
-  whiskerings (for `[Preadditive C] [MonoidalCategory C] [Linear S C]`):
+  is not automatic. The additive and linear quotient is not built here: a tensor ideal is a
+  `TauCeti.MorphismIdeal` with whiskering closure, and its quotient category, quotient functor,
+  `Preadditive` and `Linear S` instances, zero detection
+  (`TauCeti.MorphismIdeal.quotientFunctor_map_eq_zero_iff`), factorization
+  (`TauCeti.MorphismIdeal.lift`), zero objects and finite biproducts are Tau Ceti's, used
+  unchanged. Targets: extension of a tensor ideal of `C` along `Mat_` and `Karoubi`; descent of
+  the tensor product to `TauCeti.MorphismIdeal.Quotient` for `C` monoidal preadditive, with the
+  existing quotient functor strong monoidal so that the quotient tensor is the descended one, and
+  monoidally `S`-linear for `C` monoidal linear; descent of the rigid, pivotal, spherical, braided
+  and ribbon structure to that quotient; and idempotent completeness of the result (or its
+  idempotent completion, if the quotient loses it). Neither Mathlib nor Tau Ceti has a monoidal
+  quotient, so that part is built here. ⚠ The additivity of whiskering is used: descent asks for
+  `W ◁ f - W ◁ g ∈ I` when `f - g ∈ I`, and ideal closure only gives `W ◁ (f - g) ∈ I`. Negative
+  test: the `ℤ`-linear category with objects `ℕ`, `End n = ℤ` and no other nonzero morphisms,
+  with tensor `n + m` on objects and `f ⊗ g = f ^ (2 ^ m) * g ^ (2 ^ n)` on endomorphisms
+  (monoidal, not monoidal preadditive), and the ideal `I (n, n) = 3 ^ (2 ^ n) ℤ`, closed under
+  composition and both whiskerings. Then `1 = 4` in `End 0 / I = ℤ/3`, while whiskering by `1`
+  gives `1 ≠ 16` in `End 1 / I = ℤ/9`, so the tensor does not descend. The intended signatures,
+  for `C : Type u₁` with `[Category.{v} C] [Preadditive C] [MonoidalCategory C]`, every binder
+  carried by each declaration:
 
   ```lean
-  def MonoidalQuotient (I : MonoidalIdeal S C) : Type u₁        -- same objects
-  instance : Category.{v} (MonoidalQuotient S C I)               -- also Preadditive, Linear S
-  def toMonoidalQuotient (I : MonoidalIdeal S C) : C ⥤ MonoidalQuotient S C I
-  theorem toMonoidalQuotient_map_eq_zero_iff {X Y : C} (f : X ⟶ Y) :
-      (toMonoidalQuotient S C I).map f = 0 ↔ f ∈ I.submod X Y
-  instance [MonoidalPreadditive C] : MonoidalCategory (MonoidalQuotient S C I)
-  instance [MonoidalPreadditive C] : (toMonoidalQuotient S C I).Monoidal
-  instance [MonoidalPreadditive C] [MonoidalLinear S C] :
-      MonoidalLinear S (MonoidalQuotient S C I)
+  structure MonoidalIdeal (C : Type u₁) [Category.{v} C] [Preadditive C] [MonoidalCategory C]
+      extends TauCeti.MorphismIdeal C where
+    whiskerLeft_mem (W : C) {X Y : C} {f : X ⟶ Y} :
+      f ∈ hom X Y → W ◁ f ∈ hom (W ⊗ X) (W ⊗ Y)
+    whiskerRight_mem {X Y : C} {f : X ⟶ Y} (W : C) :
+      f ∈ hom X Y → f ▷ W ∈ hom (X ⊗ W) (Y ⊗ W)
+  abbrev MonoidalQuotient (I : MonoidalIdeal C) : Type u₁ := I.toMorphismIdeal.Quotient
+  abbrev toMonoidalQuotient (I : MonoidalIdeal C) : C ⥤ MonoidalQuotient I :=
+    I.toMorphismIdeal.quotientFunctor
+  instance [MonoidalPreadditive C] (I : MonoidalIdeal C) :
+      MonoidalCategory (MonoidalQuotient I)
+  instance [MonoidalPreadditive C] (I : MonoidalIdeal C) : (toMonoidalQuotient I).Monoidal
+  instance [MonoidalPreadditive C] [Linear S C] [MonoidalLinear S C] (I : MonoidalIdeal C) :
+      MonoidalLinear S (MonoidalQuotient I)
   ```
 
-  The quotient functor is full and surjective on objects, so its monoidal comparison determines
-  the quotient tensor as the descended one. `[MonoidalPreadditive C]` is a binder of the tensor and
-  of the strong monoidal structure, never a section variable. There is no instance
-  `IsIdempotentComplete (MonoidalQuotient S C I)`: finite-rank free abelian groups modulo the
-  morphisms divisible by `6` have matrices over `ℤ/6` as morphisms, and the idempotent `3` of the
-  rank-one object does not split (its image would have ranks `(1, 0)` under
-  `ℤ/6 ≅ 𝔽₂ × 𝔽₃`, while every object has ranks `(n, n)`), so the layer uses
-  `Karoubi (MonoidalQuotient S C I)`.
+  The `Preadditive` and `Linear S` structures of `MonoidalQuotient I`, and the zero detection
+  `(toMonoidalQuotient I).map f = 0 ↔ f ∈ I.hom X Y`, are the Tau Ceti instances and theorem
+  through the abbreviation, not new declarations. The quotient functor is full and surjective on
+  objects, so its monoidal comparison determines the quotient tensor as the descended one.
+  `[MonoidalPreadditive C]` is a binder of the tensor and of the strong monoidal structure, never
+  a section variable. There is no instance `IsIdempotentComplete (MonoidalQuotient I)`:
+  finite-rank free abelian groups modulo the morphisms divisible by `6` have matrices over `ℤ/6`
+  as morphisms, and the idempotent `3` of the rank-one object does not split (its image would have
+  ranks `(1, 0)` under `ℤ/6 ≅ 𝔽₂ × 𝔽₃`, while every object has ranks `(n, n)`), so the layer uses
+  `Karoubi (MonoidalQuotient I)`.
+- **From Hom computations to an abelian, Hom-finite category (the bridge to the fusion
+  hypotheses).** The pivotal and spherical categories roadmap states `IsFiniteSemisimpleCategory`
+  on a `K`-linear **abelian** category (its Layer 3) and its fusion results under
+  `[Abelian C]` and finite-dimensional Hom spaces (its Layer 4). The envelope and the quotient
+  above are additive and, after `Karoubi`, idempotent complete; that does not make them abelian.
+  Target, in general and in `TauCeti/CategoryTheory/Monoidal/Envelope/`: a `K`-linear additive
+  idempotent-complete category with a family of objects `X_i` such that `End(X_i) ≃ₐ[K] K`,
+  `Hom(X_i, X_j) = 0` for `i ≠ j`, and every object a finite biproduct of the `X_i`, is abelian and
+  has finite-dimensional Hom spaces: morphisms between two decompositions are block matrices of
+  scalars, so kernels and cokernels are computed by finite-dimensional linear algebra in each
+  block, and each `X_i` is simple. For the Temperley–Lieb envelope the inputs are the
+  Jones–Wenzl Hom computations below: off-diagonal vanishing `Hom(X_a, X_b) = 0` for `a ≠ b`,
+  `End(X_a) ≃ₐ[K] K`, and the finite Jones–Wenzl decomposition of every object (generically for
+  all `a`, and for `0 ≤ a ≤ ℓ − 2` in the root-of-unity quotient). *Checks.* `Mat_` of the
+  one-object category `K` (finite-dimensional vector spaces with chosen bases) satisfies the
+  hypotheses with one `X_i` and is abelian. Dropping `Hom(X_i, X_j) = 0` fails on the finitely
+  generated projective modules over the path algebra of the quiver `• → •`: both indecomposable
+  projectives have endomorphism ring `K` and every object is a finite biproduct of them, but the
+  nonzero map `P₂ → P₁` is mono and epi there without being an isomorphism, so the category is not
+  abelian. Dropping `End(X_i) ≃ₐ[K] K` fails on the finite free modules over `K[ε]/(ε²)`
+  (additive, and idempotent complete since the ring is local), where `ε : X → X` has no kernel:
+  `ε ≠ 0` and `ε ≫ ε = 0`, while every morphism into `X` killed by `ε` has entries in `(ε)` and
+  so is not mono unless its source is `0`.
 - **The generic classification:** when `[k] ≠ 0` for all `k ≥ 1`: the images of the
   Jones–Wenzl projections are simple, pairwise non-isomorphic, every simple is one of them,
-  and every object is a finite biproduct of them (semisimplicity). ⚠ Mathlib has no
+  and every object is a finite biproduct of them. Feed exactly these facts (off-diagonal Hom
+  vanishing, `End(X_a) ≃ₐ[K] K`, finite decompositions) into the bridge above to obtain
+  `Abelian` and finite-dimensional Hom spaces on `TLKar K δ`, and only then state semisimplicity
+  as `IsFiniteSemisimpleCategory`, whose ambient hypothesis is an abelian category. ⚠ Mathlib has no
   semisimple-category API, but defining that predicate is **not** part of this layer: the
   pivotal/spherical roadmap owns `IsFiniteSemisimpleCategory` and its decomposition API, and this
   layer consumes it. Two general semisimplicity classes in Tau Ceti would be exactly the drift
@@ -752,16 +887,22 @@ previous layers land.
   fusion ring is `ℤ[X]` with `X_n ↦ S_n`. This is the semisimple representation theory of
   `U_q(sl₂)` with no quantum group defined.
 - **The root-of-unity quotient:** over an algebraically closed field `K` of characteristic
-  zero, at quantum order `ℓ`, the quotient of `TLKar K δ` by the negligible ideal (via the two
+  zero, at quantum order `ℓ`, the quotient of `TLKar K δ` by the negligible ideal (via the three
   infrastructure bullets above): semisimple with simples `X_0, …, X_{ℓ−2}`, truncated fusion
   rules (the `A_{ℓ−1}` fusion rules), spherical with dimensions `[k+1]`, and braided/ribbon
   when the braiding descends. Following the
   [pivotal and spherical categories roadmap](../PivotalSpherical/README.md)'s convention,
-  "fusion" is stated as explicit hypotheses rather than a bundled class until a refactor earns
-  one, and the hypotheses are that roadmap's, verbatim, so that its results apply to these
-  categories: `K`-linear, rigid, semisimple, finitely many simple objects, and
-  `End 𝟙 ≅ K` (which is what "simple unit" has to mean here; over a general field the two are
-  not the same condition). Prove the quotients satisfy every one of them, making them the first
+  "fusion" is stated as explicit hypotheses rather than a bundled class, namely the fusion
+  hypotheses of that roadmap's Layer 4, so that its results apply to these categories:
+  `[RigidCategory C]`, `[Abelian C]`, `[Linear K C]`, `[MonoidalPreadditive C]`,
+  `[MonoidalLinear K C]`, `IsFiniteSemisimpleCategory C`, `[Fintype (SimpleClasses C)]`,
+  `[Simple (𝟙_ C)]`, and finite-dimensional Hom spaces over `K`. `Abelian` and Hom-finiteness come
+  from the bridge above, applied to `X_0, …, X_{ℓ−2}` with the root-of-unity Hom computations
+  (the images of `f_a` for `a ≤ ℓ − 2` are non-negligible, pairwise orthogonal, with
+  endomorphism ring `K`, and every object decomposes into them); `MonoidalPreadditive` and
+  `MonoidalLinear` come from the envelope and quotient instances; `Simple (𝟙_ C)` from
+  `End 𝟙 ≃ₐ[K] K` in a semisimple category (a unit with two nonzero summands would have an
+  endomorphism algebra of dimension at least `2`). Prove the quotients satisfy every one of them, making them the first
   fusion categories in a proof assistant, and the entry point to the world mapped in
   C. Edie-Michell and S. Morrison,
   [*A field guide to categories with `Aₙ` fusion rules*
@@ -778,7 +919,11 @@ previous layers land.
 - **Composition counts circles:** `e₁ ≫ e₁` in the diagram category is `e₁`'s matching with
   circle count `1`; in `TL(R, δ)`, `e₁² = δ·e₁`.
 - **Rotation and reflection:** `rotate⁶ = 1` on `PlanarMatching 6`; rotating `e_i` by one
-  click gives the corner-dragged cup/cap diagram; `reflect` fixes every `e_i`.
+  click gives the corner-dragged cup/cap diagram. With one-based generators `e_1, …, e_{n−1}` on
+  `n` strands, vertical reflection (the `star` of Layer 4) fixes every `e_i`, while the
+  left–right reflection `reflect` of Layer 3 sends `e_i` to `e_{n−i}`; on three strands it
+  exchanges the distinct basis diagrams `e₁` and `e₂`, so a test that `reflect` fixes the
+  generators would accept the wrong reflection.
 - **Jones–Wenzl:** `f_2 = 1 − [2]⁻¹·e₁`; `f_3 = 1 − ([2]/[3])(e₁ + e₂) + [3]⁻¹(e₁e₂ + e₂e₁)`;
   `tr̂ f_2 = [3]`, `tr̂ f_3 = [4]`; the coefficient formula reproduces both.
 - **Gram anchors:** `G_{3,1} = [[δ, 1], [1, δ]]` with determinant `[3]`;
@@ -805,7 +950,8 @@ Layer 3, whose pivotal and spherical instances additionally wait on the
 infrastructure can start any time, but the TL instance needs Layer 4. Layer 6 needs Layers 4 and 0 only (the recursions live in the algebras), with the
 ideal-theoretic half needing Layer 5's pairings. Layer 7 is the summit and consumes
 everything — except its two infrastructure milestones (the monoidal/linear/rigid structure of
-the envelope, and quotients by tensor ideals), which are general category theory, depend on
+the envelope, and the monoidal structure on quotients by tensor ideals), which are general
+category theory, depend on
 nothing else here, and can be started as early as Layers 0 and 1. They are on the critical
 path to the fusion summit, so starting them early is worth doing.
 
