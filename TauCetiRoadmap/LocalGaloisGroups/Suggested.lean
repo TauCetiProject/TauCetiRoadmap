@@ -6,7 +6,7 @@ import TauCeti.Topology.Algebra.Group.Profinite.Free.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
+import Completed.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 
 set_option autoImplicit false

@@ -1,5 +1,10 @@
 # Roadmap: local fields and ramification
 
+**Archive candidate, 2026-10-28.** This move is draft preparation and awaits implementation
+[PR #22018](https://github.com/TauCetiProject/TauCeti/pull/22018). The implementation evidence
+below records the tested candidate and must be updated to merged upstream source before this
+archive is declared complete.
+
 This roadmap owns the local-field substrate: normalized valuations, unit filtrations,
 unramified extensions, lower and upper ramification groups, Herbrand functions, wild inertia,
 and tame quotients. It stops before local reciprocity and before the arithmetic structure of the
@@ -9,7 +14,7 @@ The boundary is deliberate. The **Class Field Theory** roadmap consumes these ob
 finite-group Tate cohomology, class formations, local reciprocity, and duality. The **Local
 Galois Groups** roadmap consumes them, together with abstract pro-`p` group theory, to determine
 `G_K(p)` and its Demushkin presentation. This roadmap in turn depends on [**Profinite and
-Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
+Pro-`p` Groups**](../../TauCetiRoadmap/ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
 imports its `Suggested.lean` directly, and on Tau Ceti's free profinite groups and profinite
 presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
 redeclare any of those group-theoretic suppliers.
@@ -1399,8 +1404,8 @@ generic theorems.
 ## Dependency order
 
 The external abstract dependency order is **[Continuous Cohomology of Profinite
-Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
+Groups](../../TauCetiRoadmap/ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
+Groups](../../TauCetiRoadmap/ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
 roadmap**. Within this roadmap the intended order is
 Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Later work may proceed against explicit
 hypotheses, but the accepted exports use the canonical objects produced by the preceding layers.

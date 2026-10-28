@@ -1,6 +1,6 @@
 import Mathlib
 import Completed.RestrictedProducts.Suggested
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
+import Completed.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 
 /-!

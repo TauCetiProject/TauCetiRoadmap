@@ -41,7 +41,7 @@ symbol, and classification over local fields** belong to
 [QuadraticFormInvariants](../QuadraticFormInvariants/README.md). **Hasse--Minkowski and global
 classification of forms over number fields** belong to
 [GlobalQuadraticForms](../GlobalQuadraticForms/README.md). **Local ramification and power-class
-facts** belong to [LocalFieldsRamification](../LocalFieldsRamification/README.md), and Hilbert
+facts** belong to [LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md), and Hilbert
 reciprocity belongs to [ClassFieldTheory](../ClassFieldTheory/README.md). Those global suppliers
 are inputs only to `OrthogonalTamagawaAndLatticeMass`, not current imports. **Generic compact-open families,
 restricted-product maps, finite/away/full adelic packaging, and rational diagonals** belong to
@@ -238,7 +238,7 @@ The final portfolio dependencies are imports, not local interfaces.
   Cartan--Dieudonné input, Witt theory, `hilbertSymbol`, `localHasse`,
   `hasseInvariant_eq_localHasse`, and local classification. This roadmap uses the raw quotient
   directly and introduces no `SquareClass` alias or generic pushforward API.
-- **[LocalFieldsRamification](../LocalFieldsRamification/README.md)** owns normalized valuations,
+- **[LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md)** owns normalized valuations,
   unit filtrations and the square-class finiteness/deep-squares inputs, including
   `unitFiltration_le_range_powMonoidHom_two` and its sharpness, and the **openness** of the square
   subgroup, `isOpen_range_powMonoidHom`, which 2E and 3C both consume and which does not follow
