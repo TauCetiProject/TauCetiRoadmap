@@ -5,7 +5,7 @@ import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
 # Locally analytic distributions, growth and character spaces: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline results; discharging them
+`README.md`. This file states the roadmap’s headline theorems against the pinned APIs; discharging them
 finishes neither a layer nor the roadmap.
 
 The statements are the closed-disc maximum principle (§0.1), nonarchimedean Hahn–Banach
@@ -50,6 +50,8 @@ noncomputable section
 
 open Filter Topology
 
+/-! ## Layer 0: analytic Banach stages, locally analytic functions and their strong duals -/
+
 namespace AnalyticDistributions
 
 section DiscRealization
@@ -93,6 +95,8 @@ theorem naFrechet_openMapping {K V W ι κ : Type*}
     (f : V →L[K] W) (hf : Function.Surjective f) : IsOpenMap f := by sorry
 
 end AnalyticDistributions
+
+/-! ## Layer 4: analytic families, Fredholm theory and finite-slope complexes -/
 
 namespace NonarchimedeanFredholm
 
