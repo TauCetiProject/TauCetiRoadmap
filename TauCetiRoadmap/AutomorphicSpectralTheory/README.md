@@ -41,8 +41,8 @@ For cohomology, `V=V_λ` is a finite-dimensional algebraic coefficient module an
 | AutomorphicLFunctionsAndLocalFactors | Representation prerequisites, `isobaric-construction`, `archimedean-smooth-representations`, `restricted-tensor-realizations`; AL.0 local Fourier/Bessel analysis and vector-space adelic extensions; AL.1 [Rank-one local zeta integral and functional equation](../AutomorphicLFunctionsAndLocalFactors/README.md#rank-one-local-functional-equation) (the local integral, gamma factor and comparison with the arithmetic constant) and number-field normalization adapters; AL.2 [The global standard L-function](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet), standard-factor analysis and generic paired Hadamard theory; AL.3 cuspidal pair factors, continuation, functional equations, poles, `isobaric-strong-multiplicity-one`, curve additive analysis, pure realization and tensor determinant. |
 | AutomorphicLFunctionsAndLocalFactors, canonical Hecke endpoint | AL.1 [Hecke continuation and functional equation](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation) supplies the canonical conductor-balanced completion for every continuous unitary idele-class character over every number field, its inverse-character equation and norm-character polar divisor; [Canonical rank-one comparison](../AutomorphicLFunctionsAndLocalFactors/README.md#canonical-rank-one-comparison) supplies the conductor and algebraic-normalization adapters. Section 1.15c owns the scattering/Whittaker comparison with this supplied equation; equality of the full primitive Euler product, archimedean factors and conductor power fixes its scalar normalization. |
 | AutomorphicLFunctionsAndLocalFactors, canonical Rankin–Selberg endpoint | AL.3 [Hecke, eigensystem and Rankin–Selberg data](../AutomorphicLFunctionsAndLocalFactors/README.md#automorphic-l-data) supplies the canonical completed pair function for all positive ranks, its full local factors, scalar niceness outside the contragredient norm-twist pole case, and completed-function strip bounds away from poles; [Niceness with specified root number and conductor](../AutomorphicLFunctionsAndLocalFactors/README.md#pinned-niceness) fixes its conductor, dual and root number, with [Continuation and the Rankin–Selberg pole criterion](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-global-poles) covering polar cases. [Archimedean realization of holomorphic multiples](../AutomorphicLFunctionsAndLocalFactors/README.md#rs-archimedean-realization) supplies the local completed-tensor realization under its strip-boundedness hypotheses. Section 3.6a owns the global Eisenstein/intertwining strip estimates and identification with this same completed function. |
-| VonNeumannAlgebras | [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1041): measurable separable Hilbert fields on standard `σ`-finite bases, complete direct integrals, decomposable operators and measure transport; V4.Core: generic complex traces on OperatorIdeals carriers. Sections 0.1–0.3 and 0.9 consume these contracts; §0.7 identifies them with SA-B85's supplied representation-to-multiplicity model. |
-| OperatorTheory/SelfAdjointSpectralTheory | SA-B85 on main: cyclic multiplication models, the nondegenerate `C₀(X)` specialization, finite control measures, measurable multiplicity, onto unitaries, PVM-null-set equivalence and independence of choices. Section 0.7 supplies the automorphic normalization adapter. |
+| VonNeumannAlgebras | V4.0.Fields: measurable separable Hilbert fields on standard `σ`-finite bases, complete direct integrals, decomposable operators and measure transport; V4.Core: generic complex traces on OperatorIdeals carriers. Sections 0.1–0.3 and 0.9 consume these contracts; §0.7 identifies them with SA-B85's supplied representation-to-multiplicity model. |
+| OperatorTheory/SelfAdjointSpectralTheory | SA-B85: cyclic multiplication models, the nondegenerate `C₀(X)` specialization, finite control measures, measurable multiplicity, onto unitaries, PVM-null-set equivalence and independence of choices. Section 0.7 supplies the automorphic normalization adapter. |
 | OperatorTheory/UnboundedOperators | OperatorTheory/UnboundedOperators Part A, UO-A01–UO-A02: the unbounded PVM integral, exact second-moment domain, polarized action and recovery of a self-adjoint partial operator with its actual domain. This prefix uses SelfAdjointSpectralTheory independently of V10 multiplier models. |
 
 | Shared mathematics | Canonical owner and boundary |
@@ -207,7 +207,7 @@ Prove `unbounded_selfadjoint_spectral`, the domain and resolvent-convention tran
 
 ### 0.7 Spectral representations and bounded normal models
 
-Prove `spectral_representation`, the automorphic specialization and normalization adapter for OperatorTheory/SelfAdjointSpectralTheory SA-B85 on main. For a second-countable locally compact Hausdorff `X` with its Borel σ-algebra and a nondegenerate complex star representation `π:C₀(X)→B(H)` on separable complete `H`, consume its finite regular control measure `μ`, measurable multiplicity `m:X→ℕ∪{∞}`, standard field `K_x=ℓ²({j∈ℕ:j<m(x)})` and onto unitary `U:H→∫⊕K_x dμ(x)`. The supplier gives `Uπ(f)U⁻¹=M_f`, the normalized regular representation PVM `E`, `μ(B)=0` iff `E(B)=0`, indicator and bounded-Borel multiplier identities, and independence of the model's choices. Compactification, the zero infinity projection, cyclic decomposition and Radon–Nikodym multiplicity construction belong to SA-B85.
+Prove `spectral_representation`, the automorphic specialization and normalization adapter for OperatorTheory/SelfAdjointSpectralTheory SA-B85. For a second-countable locally compact Hausdorff `X` with its Borel σ-algebra and a nondegenerate complex star representation `π:C₀(X)→B(H)` on separable complete `H`, consume its finite regular control measure `μ`, measurable multiplicity `m:X→ℕ∪{∞}`, standard field `K_x=ℓ²({j∈ℕ:j<m(x)})` and onto unitary `U:H→∫⊕K_x dμ(x)`. The supplier gives `Uπ(f)U⁻¹=M_f`, the normalized regular representation PVM `E`, `μ(B)=0` iff `E(B)=0`, indicator and bounded-Borel multiplier identities, and independence of the model's choices. Compactification, the zero infinity projection, cyclic decomposition and Radon–Nikodym multiplicity construction belong to SA-B85.
 
 Identify these supplied fields, direct integrals and measure-change unitaries with the interfaces of §§0.1–0.3. In the automorphic realizations, identify the diagonal measures by `dμ_v(x)=‖(Uv)(x)‖²dμ(x)` and transport the supplied spectral indicators and bounded Borel symbols. If a spectral normalization uses an equivalent measure `ν`, the transported section is `√(dμ/dν)Uv`; prove agreement of the indicator actions and scalar pairings in these conventions. Given an onto unitary wave-packet map `W:∫⊕H_x dν→L²([G]¹)` in the Borel orbit-domain model and the action `π(f)=W M_f W⁻¹`, identify `E(B)=W M_(1_B) W⁻¹`. Preserve the reciprocal Weyl and orbit/stabilizer measure factors in the fibre norms. The Eisenstein spectral map of §§4.1–4.3 meets this adapter's onto hypothesis only after its separate completeness theorem.
 
@@ -224,7 +224,7 @@ For bounded normal `N`, apply SA-B85 to its continuous calculus on `X=spec N⊂�
 
 (Source: OperatorTheory/SelfAdjointSpectralTheory [SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md), cyclic multiplication models and multiplicity, including its `C₀(X)` specialization; [Tes09], §3.1, Lemmas 3.3–3.4, (3.31)–(3.37), pp.92–94, §3.3, Lemma 3.16 and Theorem 3.17, pp.104–105; [Art05], §7 Theorem 7.2(b), pp.32–35, for the automorphic normalization.)
 
-*Needs:* OperatorTheory/SelfAdjointSpectralTheory SA-B85 on main; VonNeumannAlgebras V4.0.Fields; §§0.1–0.3. The spectral-map specialization carries an onto unitary as a hypothesis.
+*Needs:* OperatorTheory/SelfAdjointSpectralTheory SA-B85; VonNeumannAlgebras V4.0.Fields; §§0.1–0.3. The spectral-map specialization carries an onto unitary as a hypothesis.
 
 
 ### 0.8 Measurable Hilbert–Schmidt kernels
@@ -336,9 +336,9 @@ The API identifies elementary tensors pointwise, proves uniqueness from point ev
 
 ### 0.14 Vector-valued Schwartz spaces
 
-Define `vector_schwartz` as follows. For finite-dimensional real `V` and quasi-complete locally convex `E`, define `𝓢(V,E)` by smoothness and finiteness of `sup_v(1+‖v‖)^N p(Df(v))` for every `N`, constant-coefficient differential operator `D` and continuous seminorm `p`; these define its topology. For complete nuclear `E`, identify it with `𝓢(V)⊗̂πE` under the completeness hypotheses of A.0.9. The normed-target and continuous-postcomposition cases consume Mathlib's SchwartzMap.
+Define `vector_schwartz` as follows. For finite-dimensional real `V` and quasi-complete locally convex `E`, define `𝓢(V,E)` by smoothness and finiteness of `sup_v(1+‖v‖)^N p(Df(v))` for every `N`, constant-coefficient differential operator `D` and continuous seminorm `p`; these define its topology. For complete `E`, identify it with the completed projective tensor product `𝓢(V)⊗̂πE`; nuclearity of `𝓢(V)` makes the projective and injective completions agree, so no nuclearity of `E` is needed. The normed-target and continuous-postcomposition cases consume Mathlib's SchwartzMap.
 
-*Standing hypotheses:* `V` finite dimensional; `E` Hausdorff quasi-complete; tensor identification assumes the stronger stated completeness/nuclearity.
+*Standing hypotheses:* `V` finite dimensional; `E` Hausdorff quasi-complete; the tensor identification assumes `E` complete.
 
 Prove the following API statements.
 - `tensor_apply`: `(φ⊗e)(v)=φ(v)e`.
@@ -349,8 +349,9 @@ Prove the following API statements.
 - For `E=ℂ` this agrees with Mathlib SchwartzMap.
 - The transform of `e^(−π‖v‖²)e` is the same Gaussian times `e` for self-dual Euclidean measure.
 - A nonzero constant `E`-valued map on `ℝ` is not Schwartz.
+- For the non-nuclear Banach space `E=ℓ²(ℕ)` the identification still holds: `v↦(e^(−πv²)/(n+1)²)_n` is the image of the absolutely convergent sum `Σ_n (n+1)^(−2) e^(−πv²)⊗δ_n`.
 
-([BPCZ22], Appendix A.0.8–A.0.9 and Lemma A.0.9.1, pp.331–332.)
+([BPCZ22], Appendix A.0.8–A.0.9 and Lemma A.0.9.1, pp.331–332, for the definition; [Tre67], Chapters 44 and 50–51, for the tensor identification and the nuclearity of `𝓢(V)`.)
 
 *Needs:* NoncommutativeGeometry N1 (completed projective tensors); §0.13; §0.12; `SchwartzMap`; `SchwartzMap.postcompCLM`.
 
@@ -972,7 +973,7 @@ Prove `cuspidal_constant_term`, identifying AutomorphicFormsOnReductiveGroups §
 
 ([Lan66], §3, Lemma 3 and the following Bruhat computation, transcription pp.3–4.)
 
-*Needs:* §1.2; §1.4; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal Bruhat constant terms); ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); SmoothRepresentationsOfLocalGroups Layer 2.
+*Needs:* §1.2; §1.4; AutomorphicFormsOnReductiveGroups §3.2 (cuspidal Bruhat constant terms); ArithmeticLocallySymmetricSpaces ALS.F.6 (constant terms); SmoothRepresentationsOfLocalGroups SR.2.
 
 
 ### 1.6 Paley–Wiener pseudo-Eisenstein series
@@ -1000,7 +1001,7 @@ The construction rests on the Euclidean Paley–Wiener theorem, recorded here as
 
 ([Art05], §12 preceding Lemma 12.2, pp.64–66.)
 
-*Needs:* §1.1; §1.2; §1.4; AutomorphicLFunctionsAndLocalFactors Layer 0 (Fourier inversion and self-dual measures); `euclidean_paley_wiener` above.
+*Needs:* §1.1; §1.2; §1.4; AutomorphicLFunctionsAndLocalFactors AL.0 (Fourier inversion and self-dual measures); `euclidean_paley_wiener` above.
 
 
 ### 1.7 Square-integrability of pseudo-Eisenstein series
@@ -1549,7 +1550,7 @@ Prove the following API statements.
 
 ([Art05], §21 pp.134–135 preceding Theorem 21.4.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups Layer 2; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations); §0.15. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; §0.48 (real reductive representation foundations); §0.15. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.2 Harish-Chandra `μ`-function
@@ -1581,7 +1582,7 @@ Prove `local_normalization`. There exist scalar meromorphic `r_Q|P(π_λ)`, prod
 
 ([Art89W], §2, Theorem 2.1, pp.28–29; its real and nonarchimedean constructions occupy §§3–4, pp.32–44.)
 
-*Needs:* §2.2; §2.1; SmoothRepresentationsOfLocalGroups Layer 4.
+*Needs:* §2.2; §2.1; SmoothRepresentationsOfLocalGroups SR.4.
 
 
 ### 2.3a `GLₙ` normalized intertwining estimates
@@ -1674,7 +1675,7 @@ Define `generic_packet` as follows. Let `F` be a local field of characteristic z
 *Standing hypotheses:* the tempered packets and the general-linear correspondence are given data with three properties: members of tempered packets are irreducible and tempered; the quasi-split tempered packet of a generic parameter has a generic member; and the Langlands–Shahidi factors of that member equal the Artin factors of the parameter.
 
 Prove the following API statements.
-- `mem_iff`: `σ∈Π_φ(H_m)` iff `σ` is the Langlands quotient of one of the displayed standard modules (Langlands classification: SmoothRepresentationsOfLocalGroups Layer 3, and §0.48 (real reductive representation foundations), real Langlands classification for archimedean `F`).
+- `mem_iff`: `σ∈Π_φ(H_m)` iff `σ` is the Langlands quotient of one of the displayed standard modules (Langlands classification: SmoothRepresentationsOfLocalGroups SR.3, and §0.48 (real reductive representation foundations), real Langlands classification for archimedean `F`).
 - `tempered`: for `t=0`, `Π_φ(H_m)=Π_{φ₀}(H_m)`.
 - `local_factor`: For generic `φ` and a chosen quasi-split generic member `σ°`, `L(s,τ×σ)=L(s,τ×σ°)` and `ε(s,τ×σ,ψ)=ε(s,τ×σ°,ψ)` for every member `σ`.
 
@@ -1686,7 +1687,7 @@ Prove the following API statements.
 
 ([JZ20], Appendix B (B.1)–(B.2), pp.84–85; the generic member, proof of Theorem B.2, p.86, citing Arthur's and Mok's endoscopic classifications.)
 
-*Needs:* SmoothRepresentationsOfLocalGroups Layer 2; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations), real Langlands classification; §2.1. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
+*Needs:* SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; §0.48 (real reductive representation foundations), real Langlands classification; §2.1. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.8 Classical-group Shahidi normalization
@@ -1718,7 +1719,7 @@ Prove `generic_standard_module`. For the relevant generic local parameter `φ⁺
 
 ([JZ20], Appendix B Proposition B.1, p.85; (B.5)–(B.6), p.86.)
 
-*Needs:* §2.7; SmoothRepresentationsOfLocalGroups Layer 3; §0.48 (real reductive representation foundations). AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
+*Needs:* §2.7; SmoothRepresentationsOfLocalGroups SR.3; §0.48 (real reductive representation foundations). AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.10 Tempered GL intertwiner half-plane
@@ -1729,7 +1730,7 @@ Prove `tempered_gl_intertwiner`. For unitary tempered `τ,τ′` on general line
 
 ([JZ20], Appendix B (B.7)–(B.9), pp.86–87, citing `[66].`)
 
-*Needs:* §2.3; SmoothRepresentationsOfLocalGroups Layer 3.
+*Needs:* §2.3; SmoothRepresentationsOfLocalGroups SR.3.
 
 
 ### 2.11 Tempered classical standard integral half-plane
@@ -1740,7 +1741,7 @@ Prove `tempered_standard_intertwiner`. For unitary tempered GL data `τ` and a t
 
 ([JZ20], Appendix B p.87.)
 
-*Needs:* §2.7; §2.8; §0.48 (real reductive representation foundations); SmoothRepresentationsOfLocalGroups Layer 3. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
+*Needs:* §2.7; §2.8; §0.48 (real reductive representation foundations); SmoothRepresentationsOfLocalGroups SR.3. AutomorphicFormsOnReductiveGroups §§2.1–2.4 supplies the shared constructions used by these adapters.
 
 
 ### 2.12 Generic classical normalized intertwiner bound
@@ -1811,7 +1812,7 @@ Prove `spherical_scalar_intertwiner`. Let `(P,π)` be a good everywhere-unramifi
 
 ([Yu22], Proposition 5.3.4, p.39.)
 
-*Needs:* §1.10b; §1.12; §2.15; §4.15d (residual normalizing scalar); AutomorphicLFunctionsAndLocalFactors AL.3 (cuspidal pair factors); SmoothRepresentationsOfLocalGroups Layer 4.
+*Needs:* §1.10b; §1.12; §2.15; §4.15d (residual normalizing scalar); AutomorphicLFunctionsAndLocalFactors AL.3 (cuspidal pair factors); SmoothRepresentationsOfLocalGroups SR.4.
 
 
 ### 2.17 Eisenstein Fourier expansion
@@ -2400,7 +2401,7 @@ Prove `hecke_central_compatibility`. For an `L¹` compactly supported finite Hec
 
 ([Art05], §7 Theorem 7.2(b) and its representation interpretation, pp.35–36; §12 (12.5)–(12.6), p.66; §15 unitary-axis intertwiner normalization, pp.85–87.)
 
-*Needs:* §4.3; §4.4; §0.3; SmoothRepresentationsOfLocalGroups Layer 1; AdelicAlgebraicGroups §§2.1–2.3 (split-centre quotient comparison).
+*Needs:* §4.3; §4.4; §0.3; SmoothRepresentationsOfLocalGroups SR.1; AdelicAlgebraicGroups §§2.1–2.3 (split-centre quotient comparison).
 
 
 ### 4.7 Compact quotient discrete spectral specialization
@@ -3547,7 +3548,7 @@ Prove `regularized_family_value`. (a) Let `(c_Q)_{Q in P(M)}` be meromorphic on 
 
 ([Yu22], §4.2.1–4.2.2, p. 23, Théorème 4.2.2 and (4.2.2)–(4.2.5).)
 
-The API is `regularized_family_value.regular` for cancellation near `λ₀`, `regularized_family_value.levi` for partial values, and `regularized_family_value.parabolic_independent` for restriction to `X_L^G`.
+The API records regularity of the cancelled sum near `λ₀`, the partial values of the induced `(L,M)`-families, and independence of the parabolic for the restriction to `X_L^G`.
 
 **Checks.**
 
@@ -3656,7 +3657,7 @@ Prove `twisted_truncated_trace`. Let `n≥1`, `ζ` an n-th root of unity and `η
 
 ([Yu22], §5.2.3, p. 33, equation (5.2.8); p. 36, displays before Corollaire 5.2.3.)
 
-The API is `twisted_truncated_trace.descend` (invariance under `Ξ_G`), `twisted_truncated_trace.degree_sum`, and `twisted_truncated_trace.fourier_inverse`.
+The API records invariance of the truncated diagonal kernel under `Ξ_G`, the decomposition of `J^T_η` as a sum over degree classes, and Fourier inversion over the degree characters.
 
 **Checks.**
 
@@ -3915,9 +3916,10 @@ Layer 5 supplies `LocallySymmetric.FrankeInput` to ArithmeticLocallySymmetricSpa
 - **[CGH20]**: Frank Calegari, David Geraghty and Michael Harris, [Bloch–Kato Conjectures for Automorphic Motives](https://arxiv.org/pdf/1907.08694). arXiv:1907.08694v1, July2019.
 - **[BCG25]**: George Boxer, Frank Calegari and Toby Gee, [Cuspidal Cohomology of GLₙ(Z) and SLₙ(Z)](https://math.uchicago.edu/~fcale/papers/WeightZero.pdf). author WeightZero PDF.
 - **[BPCZ22]**: Raphaël Beuzart-Plessis, Pierre-Henri Chaudouard and Michał Zydor, [The Global Gan–Gross–Prasad Conjecture for Unitary Groups: the Endoscopic Case](https://pmihes.centre-mersenne.org/item/10.1007/s10240-021-00129-1.pdf). Publ. Math. IHES 135 (2022), 183–337.
+- **[Tre67]**: François Trèves, *Topological Vector Spaces, Distributions and Kernels*. Academic Press, 1967; Chapter 44 (vector-valued smooth and Schwartz functions as completed tensor products), Chapters 50–51 (nuclear spaces, agreement of the projective and injective completions, and nuclearity of `𝓢`).
 - **[Tai17]**: Olivier Taïbi, [Dimensions of Spaces of Level One Automorphic Forms for Split Classical Groups Using the Trace Formula](https://www.numdam.org/item/10.24033/asens.2321.pdf). Ann. ENS 50 (2017), 269–344, §3.1.3, (3.1.1), p.280.
 - **[CT20]**: Gaëtan Chenevier and Olivier Taïbi, [Discrete Series Multiplicities for Classical Groups over Z and Level 1 Algebraic Cusp Forms](https://pmihes.centre-mersenne.org/item/10.1007/s10240-020-00115-z.pdf). Publ. Math. IHES 131 (2020), 261–323.
-- **[GZ86]**: Benedict H. Gross and Don B. Zagier, [Heegner Points and Derivatives of L-Series](https://wstein.org/papers/bib/Gross-Zagier_Heegner_points_and_derivatives_of_Lseries.pdf). Invent. Math. 84 (1986), 225–320.
+- **[GZ86]**: Benedict H. Gross and Don B. Zagier, Heegner Points and Derivatives of L-Series. Invent. Math. 84 (1986), 225–320, [doi:10.1007/BF01388809](https://doi.org/10.1007/BF01388809).
 - **[Sha25]**: Jacob Shapiro, [Functional Analysis: Princeton University MAT520 Lecture Notes](https://web.math.princeton.edu/~js129/PDFs/teaching/MAT520_fall_2025/MAT520_Lecture_Notes.pdf). Fall 2025; last typeset 10 December 2025.
 - **[ACC+23]**: Patrick Allen et al., [Potential automorphy over CM fields](https://annals.math.princeton.edu/2023/197-3/p02). Annals of Math. 197 (2023), 897–1113; freely available as [arXiv:1812.09999](https://arxiv.org/abs/1812.09999). Locators use the Annals pagination.
 - **[Mun]**: Sam Mundy, [Automorphic Cohomology, Arthur's Conjectures and Applications to G₂](https://web.math.princeton.edu/~sm7928/G2CohArt.pdf). Author version; locators use its printed pagination. Sections 2.1–2.2 treat general reductive groups, before the G₂ application in §2.3.
