@@ -9,7 +9,7 @@ The block below was extracted verbatim to a Lean file and checked with
 with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The axiom reports contain only
 `propext`, `Classical.choice`, and `Quot.sound`.
 
-This evidence is separate from the roadmap repository's historical Tau Ceti `a91d3aa` /
+This evidence is separate from the roadmap repository's historical Tau Ceti `358314d4ab97` /
 Lean 4.35.0-rc3 pin and from the target prototypes retained in `Suggested.lean`.
 
 ```lean

@@ -214,7 +214,8 @@ cf. Paulson's Isabelle/HOL `Riemann_Mapping`. New Lean formalization; credit non
 
 ---
 
-*Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
-milestone of L0 to L6 against Tau Ceti and closes it with no `sorry`. The heading of the Layers
-section above describes the file as it stood before archiving, when it carried `sorry` goals for
-L0 to L4 only.*
+*The 2026-10-08 milestone-interface certificate closes the selected L0–L6 interfaces without
+`sorry`. The complete current specification also requires the general Jordan-separation result;
+its native implementation is supplied by [Tau Ceti #21991](https://github.com/TauCetiProject/TauCeti/pull/21991).
+The archive audit checks the full specification, including that result, rather than treating the
+historical interface certificate as exhaustive.*

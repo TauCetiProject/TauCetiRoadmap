@@ -353,7 +353,7 @@ pro-`p` quotient.
   commutes with automorphisms of a finite extension (`AlgEquiv.smul_teichmullerLift`) and with
   Frobenius (`TauCeti.frobeniusAlgEquiv_teichmullerLift`). This roadmap's `teichmuller` is a
   reducible alias of `TauCeti.teichmuller 𝒪[K]`, and `teichmuller_section` is a closed proof; the
-  worked values are in `WorkedExamples/PadicTeichmuller.lean`.
+  worked values are in `WorkedExamples/Padic/Teichmuller.lean`.
   - *Prerequisites:*
     - `Mathlib: Perfection.teichmuller₀`, `HenselianLocalRing`, `IsAdicComplete 𝓂[K] 𝒪[K]`;
     - `Layer 1: graded pieces`.
@@ -440,7 +440,7 @@ pro-`p` quotient.
   `finiteIndex_range_powMonoidHom_of_isUnit`, `card_squareClasses_of_isUnit` and
   `square_eq_range_powMonoidHom` are closed proofs of them. Regime 2, the dyadic count and the
   worked example are implemented by `PowerSubgroup/Basic.lean`, `Squares.lean`, and
-  `WorkedExamples/PadicTwoUnits.lean`.
+  `WorkedExamples/Padic/Two/Units.lean`.
   - *Prerequisites:*
     - `Layer 1: structure of Kˣ`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);

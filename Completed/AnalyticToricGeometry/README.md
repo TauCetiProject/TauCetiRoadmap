@@ -6,7 +6,7 @@ The completion audit is supported by the scheme-action comparison in
 with Lean 4.36.0-rc1 and Mathlib `2cabef97`. [Native completion checks](NativeCompletion.md)
 contain the compiled full-line acceptance proof. The complete README is the specification.
 
-The repository dependency pin remains Tau Ceti `a91d3aa` with Lean 4.35.0-rc3.
+The repository dependency pin remains Tau Ceti `358314d4ab97` with Lean 4.35.0-rc3.
 `Suggested.lean` retains target prototypes, including `sorry` proofs; it is not a discharged
 certificate for this completion audit. The generated status and progress reports are
 historical snapshots at their recorded revisions.

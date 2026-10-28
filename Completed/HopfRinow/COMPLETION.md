@@ -17,10 +17,10 @@ merge before the next variation stage in #21067. All must finish normal review a
 archive is marked ready. Their refinements are tracked in the PR discussions.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
-`24916b1717eb99403ca74d0484be714025e78494` proves joint native coefficient smoothness throughout
+`b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
 all chart domains, including corner-boundary points, and the inverse-matrix index formula using
-`fderivWithin` on the actual chart target. It uses native manifold derivatives, the joint Koszul
-expression and inverse coordinate metrics. Independent probes take both parameter and base to be
+`fderivWithin` on the actual chart target. It reuses main’s native joint covariant-derivative regularity, finite-dimensional coefficient
+smoothness and inverse coordinate metrics. Independent probes take both parameter and base to be
 `EuclideanHalfSpace 1` and prove that the base origin is outside the model interior. Both the native
 coefficient theorem and the native index formula apply there. The ordinary unrestricted-derivative
 formulas remain the distinct interior corollaries. This closes the previously recorded boundary
@@ -50,8 +50,8 @@ Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise 
 | Open-unit-ball rejection test | `Riemannian/Geodesic/Examples/OpenUnitBall.lean` computes the finite-time boundary behavior and radial minimizing segments. The associated `RealOpenUnitBall` API proves non-completeness/non-compactness, so the existence of minimizing segments does not imply properness. |
 
 The full corner-family/index implementation and its variation, curvature-jet and Hopf–Rinow
-consumers built together in 6,751 Lake jobs. All fourteen trusted environment linters pass on
-159 declarations plus 164 generated declarations. The ten probed derivative, coefficient and
+consumers built together in 6,763 Lake jobs after rebasing onto canonical main. All fourteen
+trusted environment linters pass on 156 declarations plus 155 generated declarations. The ten probed derivative, coefficient and
 index endpoints have only `propext`, `Classical.choice` and `Quot.sound`. The restricted-metric and connection comparisons built in 5,907 jobs and have the
 same axiom profile. The intrinsic curve-variation comparison also passed its endpoint probes.
 Later review refinements receive their own fresh builds. This is a source/API and key-proof
