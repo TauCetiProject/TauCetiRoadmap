@@ -57,7 +57,7 @@ The audit compared the layers and acceptance examples with Tau Ceti
 `cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with commits
 `506afb054d52ec8631644ab4bee59954502c80b1`,
 `96bd0f474e68c05fd01274f26ff3f677f58302f5`, and
-`5c3232d4780ee91dee38144eb8ceb5397b2d4f67` from those PRs.
+`9dc4ca19939fd9bb9f93cdf7d89eac9ae0bfebc6` from those PRs.
 
 | Layer | Native implementation and completion evidence |
 |---|---|
@@ -79,8 +79,8 @@ discriminant. They also compose `discr_traceTransfer` for every twisted line, in
 trace-zero case, from the existing generic Scharlau discriminant and quadratic trace APIs.
 
 The explicit dyadic controls are in
-[NormControl.lean](https://github.com/TauCetiProject/TauCeti/blob/5c3232d4780ee91dee38144eb8ceb5397b2d4f67/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NormControl.lean)
-and [NegOne/Norm.lean](https://github.com/TauCetiProject/TauCeti/blob/5c3232d4780ee91dee38144eb8ceb5397b2d4f67/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NegOne/Norm.lean).
+[NormControl.lean](https://github.com/TauCetiProject/TauCeti/blob/9dc4ca19939fd9bb9f93cdf7d89eac9ae0bfebc6/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NormControl.lean)
+and [NegOne/Norm.lean](https://github.com/TauCetiProject/TauCeti/blob/9dc4ca19939fd9bb9f93cdf7d89eac9ae0bfebc6/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NegOne/Norm.lean).
 The first proves that `1 + √2` is a unit norm for radicand `5` over the ramified base
 `ℚ₂(√2)`, proves the even-valuation norm criterion for that radicand, and excludes every
 integral square-root-coordinate representation and both incorrect integral families.
