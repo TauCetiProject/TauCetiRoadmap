@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.GroupTheory.Coxeter.Geometric
 
 /-!
 # Pseudoline arrangements, oriented matroids, and combinatorial maps: target signatures
@@ -13,8 +14,15 @@ What is prototyped here are the carriers whose shape fixes everything above them
 as plain functions `E → SignType`; the chirotope with its three-term Grassmann–Plücker field and
 its matroid of bases; covector oriented matroids; the x-monotone model of pseudoline
 arrangements with the line at infinity as `none`; wiring diagrams as words of adjacent swaps;
-`n`-cartes as tuples of involutions, with the cartographic group as a string Coxeter group in
-Mathlib's sense (`0` means `∞`); and the geometric representation of a Coxeter group.
+triangle flips carrying the triangle that certifies them; and the cartographic group as a string
+Coxeter group in Mathlib's sense (`0` means `∞`).
+
+Two carriers are not owned here. The flag carrier `GMap n D` and its finite-surface API are
+SurfaceTopology's (#271, Layer 1); the section *Stand-ins for SurfaceTopology* below restates the
+few declarations this file needs, under #271's names and in the arbitrary-dart form agreed with
+that roadmap, and is deleted when #271 lands. The geometric representation of a Coxeter system is
+Tau Ceti's `CoxeterSystem.geometricRepresentation` (imported), and its faithfulness is
+RootSystems §3G (#1278); Layer 10 only transports and specializes them.
 
 One indexing difference with the prose: a wiring diagram on `n + 1` wires is a word in `Fin n`
 here, so that `Fin.castSucc` and `Fin.succ` name the two swapped positions without subtraction.
@@ -285,7 +293,66 @@ theorem exists_monotoneArrangement {n : ℕ} (hn : 2 ≤ n) (χ : Chirotope 3 (O
     ∃ (σ : Perm (Fin n)) (A : MonotoneArrangement n) (R : Set (Option (Fin n))),
       (A.chirotope hn).reorient R = χ.relabel (Equiv.optionCongr σ) := sorry
 
-/-! ## Layer 4: wiring diagrams and signotopes -/
+/-! ## Layer 4: triangle flips, wiring diagrams and signotopes -/
+
+namespace Chirotope
+
+variable {E : Type*}
+
+open scoped Classical in
+/-- The raw sign flip at `{a, b, c}`: negate the values on the tuples enumerating it. This is only
+a function. For an arbitrary triple it is not a chirotope: on the alternating chirotope of
+`(1, i, i²)`, `i = 1, …, 5`, flipping `{1, 3, 5}` makes the three Grassmann–Plücker terms
+`χ123 χ145`, `-χ124 χ135`, `χ125 χ134` all positive. -/
+def flipFun (χ : Chirotope 3 E) (a b c : E) : (Fin 3 → E) → SignType :=
+  fun t => if Set.range t = {a, b, c} then -χ t else χ t
+
+/-- A triangle of a rank-3 chirotope: a tope of its covector oriented matroid with exactly three
+walls. It is the certificate that makes a flip legal. -/
+structure Triangle (χ : Chirotope 3 E) where
+  tope : E → SignType
+  isTope : χ.toOrientedMatroid.IsTope tope
+  a : E
+  b : E
+  c : E
+  walls_eq : χ.toOrientedMatroid.walls tope = {a, b, c}
+
+/-- The mutation (triangle flip) of a uniform rank-3 chirotope at a certified triangle. The fields
+are the theorem that a flip at a triangular cell is again a chirotope (Ringel 1956;
+Roudneff–Sturmfels 1988); nothing is claimed for an uncertified triple. -/
+def mutate (χ : Chirotope 3 E) (hχ : χ.IsUniform) (Δ : χ.Triangle) : Chirotope 3 E where
+  toFun := χ.flipFun Δ.a Δ.b Δ.c
+  exists_ne_zero := sorry
+  eq_zero_of_not_injective := sorry
+  comp_perm := sorry
+  isBase_exchange := sorry
+  grassmannPlucker := sorry
+
+theorem mutate_apply (χ : Chirotope 3 E) (hχ : χ.IsUniform) (Δ : χ.Triangle) (t : Fin 3 → E) :
+    χ.mutate hχ Δ t = χ.flipFun Δ.a Δ.b Δ.c t := rfl
+
+theorem mutate_isUniform (χ : Chirotope 3 E) (hχ : χ.IsUniform) (Δ : χ.Triangle) :
+    (χ.mutate hχ Δ).IsUniform := sorry
+
+/-- The converse: if the flip of a uniform chirotope at three distinct elements is a chirotope,
+the three elements are the walls of a triangle (Roudneff–Sturmfels 1988). -/
+theorem exists_triangle_of_flipFun [Finite E] (χ : Chirotope 3 E) (hχ : χ.IsUniform)
+    (a b c : E) (hab : a ≠ b) (hac : a ≠ c) (hbc : b ≠ c) (χ' : Chirotope 3 E)
+    (h : ⇑χ' = χ.flipFun a b c) :
+    ∃ Δ : χ.Triangle, ({Δ.a, Δ.b, Δ.c} : Set E) = {a, b, c} := sorry
+
+/-- An edge of the flip graph: a mutation at some certified triangle. -/
+def MutationStep (χ χ' : Chirotope 3 E) : Prop :=
+  ∃ (hχ : χ.IsUniform) (Δ : χ.Triangle), χ' = χ.mutate hχ Δ
+
+/-- Ringel's theorem: uniform rank-3 chirotopes on a finite `E` are connected by legal mutations
+and reorientations. -/
+theorem reflTransGen_mutationStep [Finite E] (χ χ' : Chirotope 3 E) (hχ : χ.IsUniform)
+    (hχ' : χ'.IsUniform) :
+    Relation.ReflTransGen (fun χ₁ χ₂ => MutationStep χ₁ χ₂ ∨ ∃ A, χ₂ = χ₁.reorient A) χ χ' :=
+  sorry
+
+end Chirotope
 
 namespace Wiring
 
@@ -312,6 +379,34 @@ theorem reflTransGen_of_isWiringDiagram {w w' : List (Fin n)} (hw : IsWiringDiag
     Relation.ReflTransGen (fun u v => CommutationStep u v ∨ BraidStep u v ∨ BraidStep v u) w w' :=
   sorry
 
+/-- The piecewise-linear arrangement drawn from a wiring diagram (letter `t` on `[t, t + 1]`). -/
+def wiringArrangement (w : List (Fin n)) (hw : IsWiringDiagram w) :
+    MonotoneArrangement (n + 1) := sorry
+
+theorem wiringArrangement_isSimple (w : List (Fin n)) (hw : IsWiringDiagram w) :
+    (wiringArrangement w hw).IsSimple := sorry
+
+/-- The uniform chirotope of a wiring diagram (`n + 1 ≥ 2` wires). -/
+def chirotope (hn : 1 ≤ n) (w : List (Fin n)) (hw : IsWiringDiagram w) :
+    Chirotope 3 (Option (Fin (n + 1))) :=
+  (wiringArrangement w hw).chirotope (by omega)
+
+theorem chirotope_isUniform (hn : 1 ≤ n) (w : List (Fin n)) (hw : IsWiringDiagram w) :
+    (chirotope hn w hw).IsUniform :=
+  ((wiringArrangement w hw).chirotope_isUniform_iff (by omega)).2 (wiringArrangement_isSimple w hw)
+
+/-- A commutation does not change the chirotope. -/
+theorem chirotope_eq_of_commutationStep (hn : 1 ≤ n) {w w' : List (Fin n)}
+    (hw : IsWiringDiagram w) (hw' : IsWiringDiagram w') (h : CommutationStep w w') :
+    chirotope hn w' hw' = chirotope hn w hw := sorry
+
+/-- A braid move is a legal mutation: the three wires it reverses bound a triangle of the
+arrangement, and the new chirotope is the mutation at that certified triangle. -/
+theorem exists_triangle_of_braidStep (hn : 1 ≤ n) {w w' : List (Fin n)}
+    (hw : IsWiringDiagram w) (hw' : IsWiringDiagram w') (h : BraidStep w w') :
+    ∃ Δ : (chirotope hn w hw).Triangle,
+      chirotope hn w' hw' = (chirotope hn w hw).mutate (chirotope_isUniform hn w hw) Δ := sorry
+
 /-- Commutation classes on five wires: 62 (OEIS A006245). -/
 theorem card_commutationClasses_five :
     Nat.card (Quot fun w w' : {w : List (Fin 4) // IsWiringDiagram w} =>
@@ -328,22 +423,6 @@ def IsSignotope {m : ℕ} (s : Fin m → Fin m → Fin m → SignType) : Prop :=
       AtMostOneSignChange [s i j k, s i j l, s i k l, s j k l]
 
 end Wiring
-
-namespace Chirotope
-
-variable {E : Type*}
-
-open scoped Classical in
-/-- The mutation (triangle flip) at `{a, b, c}`: negate the values on tuples enumerating it. -/
-def mutate (χ : Chirotope 3 E) (a b c : E) : Chirotope 3 E where
-  toFun t := if Set.range t = {a, b, c} then -χ t else χ t
-  exists_ne_zero := sorry
-  eq_zero_of_not_injective := sorry
-  comp_perm := sorry
-  isBase_exchange := sorry
-  grassmannPlucker := sorry
-
-end Chirotope
 
 /-! ## Layer 5: single-element extensions -/
 
@@ -389,7 +468,47 @@ theorem nonPappus_isSimple : nonPappus.IsSimple := sorry
 theorem nonPappus_not_isRealizable (𝕜 : Type*) [Field 𝕜] [LinearOrder 𝕜]
     [IsStrictOrderedRing 𝕜] : ¬ nonPappus.IsRealizable 𝕜 := sorry
 
-/-! ## Layer 7: n-cartes -/
+/-! ## Stand-ins for SurfaceTopology (#271, Layer 1)
+
+`GMap n D`, its cells, connectivity, closedness, Euler characteristic and orientability are
+SurfaceTopology's. They are restated here under #271's names, in the form agreed with that
+roadmap: the structure carries no `Fintype D` or `DecidableEq D`, and finiteness is a hypothesis
+only of the counting and finite-surface results. This section is deleted when #271 lands. -/
+
+/-- The flag carrier: `n + 1` involutions, distant ones commuting. Grothendieck's `n`-cartes are
+exactly these objects. -/
+structure GMap (n : ℕ) (D : Type*) where
+  adj : Fin (n + 1) → Perm D
+  involutive : ∀ i, Function.Involutive (adj i)
+  commute_of_far : ∀ i j : Fin (n + 1), i.1 + 2 ≤ j.1 → Commute (adj i) (adj j)
+
+namespace GMap
+
+variable {n : ℕ} {D : Type*} (G : GMap n D)
+
+/-- The `i`-cells: orbits of the subgroup generated by the `adj j`, `j ≠ i`. -/
+def Cell (i : Fin (n + 1)) : Type _ :=
+  MulAction.orbitRel.Quotient (Subgroup.closure {g | ∃ j, j ≠ i ∧ G.adj j = g}) D
+
+def IsConnected : Prop :=
+  MulAction.IsPretransitive (Subgroup.closure (Set.range G.adj)) D
+
+end GMap
+
+abbrev GMap2 (D : Type*) := GMap 2 D
+
+/-- No dart fixed by any involution and no folded edge. -/
+def IsClosedSurfaceGMap {D : Type*} (G : GMap2 D) : Prop :=
+  (∀ d, G.adj 0 d ≠ d) ∧ (∀ d, G.adj 1 d ≠ d) ∧ (∀ d, G.adj 2 d ≠ G.adj 0 d) ∧ ∀ d, G.adj 2 d ≠ d
+
+def GMap2.eulerChar {D : Type*} (G : GMap2 D) : ℤ :=
+  Nat.card (G.Cell 0) - Nat.card (G.Cell 1) + Nat.card (G.Cell 2)
+
+/-- Orientability as a bipartition in which every non-fixed adjacency changes side. -/
+def GMap2.IsOrientable {D : Type*} (G : GMap2 D) : Prop :=
+  ∃ S : Set D, ∀ i d, G.adj i d ≠ d → (d ∈ S ↔ G.adj i d ∉ S)
+
+/-! ## Layer 7: the cartographic group acting on flags -/
 
 /-- The string Coxeter matrix with `M i (i + 1) = p i` (`0` meaning `∞`) and `2` between
 non-adjacent generators. -/
@@ -408,94 +527,85 @@ def stringCoxeterMatrix (n : ℕ) (p : Fin n → ℕ) (hp : ∀ i, p i ≠ 1) :
 abbrev cartographicGroup (n : ℕ) : Type :=
   (stringCoxeterMatrix n 0 (fun _ => by simp)).Group
 
-/-- An `n`-carte on a type of flags. -/
-structure Carte (n : ℕ) (Φ : Type*) where
-  r : Fin (n + 1) → Perm Φ
-  r_mul_self : ∀ i, r i * r i = 1
-  commute_far : ∀ i j : Fin (n + 1), (i : ℕ) + 2 ≤ j → (r i * r j) ^ 2 = 1
+namespace GMap
 
-namespace Carte
+variable {n : ℕ} {D : Type*} (G : GMap n D)
 
-variable {n : ℕ} {Φ : Type*} (C : Carte n Φ)
+/-- The two presentations of the axioms agree: involutive and distant-commuting is the same as
+satisfying the relations of the cartographic group. -/
+theorem isLiftable : (stringCoxeterMatrix n 0 (fun _ => by simp)).IsLiftable G.adj := sorry
 
-def monodromyHom : cartographicGroup n →* Perm Φ :=
-  (stringCoxeterMatrix n 0 (fun _ => by simp)).toCoxeterSystem.lift ⟨C.r, sorry⟩
+/-- A family satisfying the cartographic relations is a flag carrier. -/
+def ofIsLiftable (r : Fin (n + 1) → Perm D)
+    (hr : (stringCoxeterMatrix n 0 (fun _ => by simp)).IsLiftable r) : GMap n D where
+  adj := r
+  involutive := sorry
+  commute_of_far := sorry
 
-def monodromyGroup : Subgroup (Perm Φ) := Subgroup.closure (Set.range C.r)
+def monodromyHom : cartographicGroup n →* Perm D :=
+  (stringCoxeterMatrix n 0 (fun _ => by simp)).toCoxeterSystem.lift ⟨G.adj, G.isLiftable⟩
 
-theorem range_monodromyHom : C.monodromyHom.range = C.monodromyGroup := sorry
+def monodromyGroup : Subgroup (Perm D) := Subgroup.closure (Set.range G.adj)
 
-def IsConnected : Prop := MulAction.IsPretransitive C.monodromyGroup Φ
+theorem range_monodromyHom : G.monodromyHom.range = G.monodromyGroup := sorry
 
-def IsWithoutBoundary : Prop := ∀ i φ, C.r i φ ≠ φ
-
-/-- The automorphisms: permutations commuting with every `r i`. -/
-def Aut : Subgroup (Perm Φ) := Subgroup.centralizer (Set.range C.r)
+/-- The automorphisms: permutations commuting with every `adj i`. -/
+def Aut : Subgroup (Perm D) := Subgroup.centralizer (Set.range G.adj)
 
 def IsRegular : Prop :=
-  C.IsConnected ∧ ∀ g : C.monodromyGroup, ∀ φ : Φ, g • φ = φ → g = 1
+  G.IsConnected ∧ ∀ g : G.monodromyGroup, ∀ φ : D, g • φ = φ → g = 1
 
-/-- `J`-residues: orbits of the subgroup generated by the `r j`, `j ∈ J`. -/
-def residueRel (J : Set (Fin (n + 1))) : Setoid Φ :=
-  MulAction.orbitRel (Subgroup.closure (C.r '' J)) Φ
+/-- `J`-residues for an arbitrary `J`: orbits of the subgroup generated by the `adj j`, `j ∈ J`.
+The cells of #271 are the case `J = {j | j ≠ i}`. -/
+def residueRel (J : Set (Fin (n + 1))) : Setoid D :=
+  MulAction.orbitRel (Subgroup.closure (G.adj '' J)) D
 
-/-- The `i`-faces. -/
-def face (i : Fin (n + 1)) : Type _ := Quotient (C.residueRel {j | j ≠ i})
+theorem isRegular_iff_card_aut [Finite D] (hG : G.IsConnected) :
+    G.IsRegular ↔ Nat.card G.Aut = Nat.card D := sorry
 
-theorem isRegular_iff_card_aut [Finite Φ] (hC : C.IsConnected) :
-    C.IsRegular ↔ Nat.card C.Aut = Nat.card Φ := sorry
+end GMap
 
-end Carte
+/-- The coset flag system of a subgroup of the cartographic group. -/
+def cosetGMap (n : ℕ) (H : Subgroup (cartographicGroup n)) : GMap n (cartographicGroup n ⧸ H) :=
+  GMap.ofIsLiftable
+    (fun i => MulAction.toPerm ((stringCoxeterMatrix n 0 (fun _ => by simp)).simple i)) sorry
 
-/-- The coset carte of a subgroup of the cartographic group. -/
-def cosetCarte (n : ℕ) (H : Subgroup (cartographicGroup n)) : Carte n (cartographicGroup n ⧸ H) where
-  r i := MulAction.toPerm ((stringCoxeterMatrix n 0 (fun _ => by simp)).simple i)
-  r_mul_self := sorry
-  commute_far := sorry
+/-- The regular flag system of a group with string involutions: flags `G`, `adj i g = ρ i * g`. -/
+def regularGMap {n : ℕ} (G : Type*) [Group G] (ρ : Fin (n + 1) → G)
+    (hρ : (stringCoxeterMatrix n 0 (fun _ => by simp)).IsLiftable ρ) : GMap n G :=
+  GMap.ofIsLiftable (fun i => MulAction.toPerm (ρ i)) sorry
 
-/-- The regular carte of a group with string involutions: flags `G`, `r i g = ρ i * g`. -/
-def regularCarte {n : ℕ} (G : Type*) [Group G] (ρ : Fin (n + 1) → G)
-    (h1 : ∀ i, ρ i * ρ i = 1) (h2 : ∀ i j : Fin (n + 1), (i : ℕ) + 2 ≤ j → (ρ i * ρ j) ^ 2 = 1) :
-    Carte n G where
-  r i := MulAction.toPerm (ρ i)
-  r_mul_self := sorry
-  commute_far := sorry
-
-theorem regularCarte_aut {n : ℕ} (G : Type*) [Group G] (ρ : Fin (n + 1) → G)
-    (h1 : ∀ i, ρ i * ρ i = 1) (h2 : ∀ i j : Fin (n + 1), (i : ℕ) + 2 ≤ j → (ρ i * ρ j) ^ 2 = 1)
+theorem regularGMap_aut {n : ℕ} (G : Type*) [Group G] (ρ : Fin (n + 1) → G)
+    (hρ : (stringCoxeterMatrix n 0 (fun _ => by simp)).IsLiftable ρ)
     (hgen : Subgroup.closure (Set.range ρ) = ⊤) :
-    Nonempty ((regularCarte G ρ h1 h2).Aut ≃* Gᵐᵒᵖ) := sorry
+    Nonempty ((regularGMap G ρ hρ).Aut ≃* Gᵐᵒᵖ) := sorry
 
-/-! ## Layer 8: maps -/
+/-! ## Layer 8: maps, consumed from SurfaceTopology -/
 
-namespace Carte
+namespace GMap
 
-variable {Φ : Type*} (C : Carte 2 Φ)
-
-def IsMap : Prop :=
-  C.IsConnected ∧ (∀ i φ, C.r i φ ≠ φ) ∧ ∀ φ, (C.r 0 * C.r 2) φ ≠ φ
-
-def eulerChar : ℤ := Nat.card (C.face 0) - Nat.card (C.face 1) + Nat.card (C.face 2)
+variable {D : Type*} (G : GMap2 D)
 
 /-- The even part of the monodromy group: the image of the words of even length. -/
-def evenMonodromy : Subgroup (Perm Φ) :=
+def evenMonodromy : Subgroup (Perm D) :=
   (stringCoxeterMatrix 2 0 (fun _ => by simp)).toCoxeterSystem.lengthParity.ker.map
-    C.monodromyHom
+    G.monodromyHom
 
-def IsOrientable : Prop := ¬ MulAction.IsPretransitive C.evenMonodromy Φ
+/-- #271's orientability, read in the cartographic group: a connected closed surface map is
+orientable iff the even part of its monodromy group is not transitive. -/
+theorem isOrientable_iff_evenMonodromy (hG : G.IsConnected) (hc : IsClosedSurfaceGMap G) :
+    G.IsOrientable ↔ ¬ MulAction.IsPretransitive G.evenMonodromy D := sorry
 
-/-- The orientable double cover on `Φ × ZMod 2`. -/
-def doubleCover : Carte 2 (Φ × ZMod 2) where
-  r i := (C.r i).prodCongr (Equiv.addRight 1)
-  r_mul_self := sorry
-  commute_far := sorry
+/-- The skeleton as a Mathlib multigraph on vertices and edges, loops and parallel edges kept. -/
+def skeleton : Graph (G.Cell 0) (G.Cell 1) where
+  vertexSet := Set.univ
+  IsLink e x y := ∃ d, (Quotient.mk _ d : G.Cell 1) = e ∧ (Quotient.mk _ d : G.Cell 0) = x ∧
+    (Quotient.mk _ (G.adj 0 d) : G.Cell 0) = y
+  isLink_symm := sorry
+  eq_or_eq_of_isLink_of_isLink := sorry
+  left_mem_of_isLink := fun _ _ _ _ => trivial
 
-theorem eulerChar_le_two [Finite Φ] (hC : C.IsMap) (ho : C.IsOrientable) : C.eulerChar ≤ 2 := sorry
-
-theorem eulerChar_le_one [Finite Φ] (hC : C.IsMap) (ho : ¬ C.IsOrientable) :
-    C.eulerChar ≤ 1 := sorry
-
-end Carte
+end GMap
 
 /-! ## Layer 9: regular polytopes and examples -/
 
@@ -515,10 +625,12 @@ theorem hemiW₀_mem_center : hemiW₀ ∈ Subgroup.center CoxeterMatrix.H₃.Gr
 instance : (Subgroup.zpowers hemiW₀).Normal := sorry
 
 /-- The hemi-icosahedron. -/
-def hemiIcosahedron : Carte 2 (CoxeterMatrix.H₃.Group ⧸ Subgroup.zpowers hemiW₀) :=
-  regularCarte _ (fun i => QuotientGroup.mk (CoxeterMatrix.H₃.simple i)) sorry sorry
+def hemiIcosahedron : GMap2 (CoxeterMatrix.H₃.Group ⧸ Subgroup.zpowers hemiW₀) :=
+  regularGMap _ (fun i => QuotientGroup.mk (CoxeterMatrix.H₃.simple i)) sorry
 
-theorem hemiIcosahedron_isMap : hemiIcosahedron.IsMap := sorry
+theorem hemiIcosahedron_isClosedSurface : IsClosedSurfaceGMap hemiIcosahedron := sorry
+
+theorem hemiIcosahedron_isConnected : hemiIcosahedron.IsConnected := sorry
 
 theorem hemiIcosahedron_eulerChar : hemiIcosahedron.eulerChar = 1 := sorry
 
@@ -540,36 +652,47 @@ abbrev torusGroup (n : ℕ) : Subgroup (Perm (ZMod n × ZMod n)) :=
 theorem card_torusGroup (n : ℕ) (hn : 3 ≤ n) : Nat.card (torusGroup n) = 12 * n ^ 2 := sorry
 
 /-- The regular map `{3,6}` on the torus with vertex set `(ZMod n)²`. -/
-def torusTriangulation (n : ℕ) : Carte 2 (torusGroup n) :=
-  regularCarte _ (fun i => ⟨torusInvolution n i, Subgroup.subset_closure (Set.mem_range_self i)⟩)
-    sorry sorry
+def torusTriangulation (n : ℕ) : GMap2 (torusGroup n) :=
+  regularGMap _ (fun i => ⟨torusInvolution n i, Subgroup.subset_closure (Set.mem_range_self i)⟩)
+    sorry
 
 theorem torusTriangulation_eulerChar (n : ℕ) (hn : 3 ≤ n) :
     (torusTriangulation n).eulerChar = 0 := sorry
 
-/-! ## Layer 10: the geometric representation -/
+/-! ## Layer 10: applications of the geometric representation
 
-/-- The bilinear form `-cos (π / m)`, and `-1` for `m = 0` (that is, `∞`). -/
-def cosForm {B : Type*} (M : CoxeterMatrix B) (i j : B) : ℝ :=
-  if M i j = 0 then -1 else -Real.cos (Real.pi / M i j)
+The representation, its form, its reflections and the exact orders of products of two simple
+reflections are Tau Ceti's (`TauCeti/GroupTheory/Coxeter/Geometric.lean`); faithfulness for every
+Coxeter system is RootSystems §3G (#1278). What is added here is the transport to function
+coordinates for a finite index type and the string and cartographic specializations. -/
 
-/-- The reflection `v ↦ v - 2 B(αᵢ, v) αᵢ`. -/
-def geomReflection {B : Type*} [Fintype B] [DecidableEq B] (M : CoxeterMatrix B) (i : B) :
-    Module.End ℝ (B → ℝ) :=
-  LinearMap.id - (2 : ℝ) • LinearMap.smulRight
-    (∑ j, cosForm M i j • (LinearMap.proj j : (B → ℝ) →ₗ[ℝ] ℝ))
-    (Pi.single i 1 : B → ℝ)
+/-- The geometric representation in function coordinates `B → ℝ`, for a finite `B`, transported
+from Tau Ceti's `B →₀ ℝ` along `Finsupp.linearEquivFunOnFinite`. -/
+noncomputable def geometricRepresentationFun {B W : Type*} [Finite B] [Group W]
+    {M : CoxeterMatrix B} (cs : CoxeterSystem M W) : Representation ℝ W (B → ℝ) :=
+  (MonoidHom.ofClass
+    ((Finsupp.linearEquivFunOnFinite ℝ ℝ B).conjAlgEquiv ℝ)).comp cs.geometricRepresentation
 
-def geometricRepresentation {B : Type*} [Fintype B] [DecidableEq B] (M : CoxeterMatrix B) :
-    M.Group →* Module.End ℝ (B → ℝ) :=
-  M.toCoxeterSystem.lift ⟨geomReflection M, sorry⟩
+theorem geometricRepresentationFun_simple {B W : Type*} [Finite B] [Group W]
+    {M : CoxeterMatrix B} (cs : CoxeterSystem M W) (i : B) :
+    geometricRepresentationFun cs (cs.simple i) =
+      (Finsupp.linearEquivFunOnFinite ℝ ℝ B).conjAlgEquiv ℝ (M.geometricReflection i) := by
+  simp [geometricRepresentationFun]
 
-/-- Tits' theorem (Humphreys, Corollary 5.4). -/
-theorem geometricRepresentation_injective {B : Type*} [Fintype B] [DecidableEq B]
-    (M : CoxeterMatrix B) : Function.Injective (geometricRepresentation M) := sorry
+/-- The cartographic group acts faithfully on `ℝ ^ (n + 1)` by reflections: RootSystems §3G's
+faithfulness at the string matrix, transported. -/
+theorem geometricRepresentationFun_cartographic_injective (n : ℕ) :
+    Function.Injective
+      (geometricRepresentationFun (stringCoxeterMatrix n 0 (fun _ => by simp)).toCoxeterSystem) :=
+  sorry
 
-theorem orderOf_simple_mul_simple {B : Type*} [Finite B] (M : CoxeterMatrix B) (i j : B) :
-    orderOf (M.simple i * M.simple j) = M i j := sorry
+/-- Adjacent generators of the cartographic group have product of infinite order: Tau Ceti's
+exact orders at the entry `0`. -/
+theorem orderOf_cartographic_simple_mul_simple_succ (n : ℕ) (i : Fin n) :
+    orderOf ((stringCoxeterMatrix n 0 (fun _ => by simp)).simple i.castSucc *
+      (stringCoxeterMatrix n 0 (fun _ => by simp)).simple i.succ) = 0 := by
+  rw [← CoxeterMatrix.toCoxeterSystem_simple, CoxeterSystem.orderOf_simple_mul_simple]
+  simp [stringCoxeterMatrix, Fin.ext_iff]
 
 end
 
