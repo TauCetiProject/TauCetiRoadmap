@@ -1303,7 +1303,7 @@ using it.
 9. Prove energy dissipation, mass preservation, positivity, and contraction/uniqueness
    where EVI applies.  Express each linear flow through the abstract C₀/contraction-
    semigroup API of the
-   [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md), and prove that
+   [one-parameter-semigroups roadmap](../../Completed/OneParameterSemigroups/README.md), and prove that
    the entropy flow agrees with the concrete heat semigroup built in the
    [PDE roadmap](../PDE/README.md), Lane F.  Construct the Ornstein--Uhlenbeck/
    Fokker--Planck semigroup and its generator here unless an explicit upstream dependency
@@ -1965,7 +1965,7 @@ guardrails.
 * The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes the
   Levi-Civita connection and builds Riemannian volume, curvature, and related manifold geometry.
   Layers 7 and 14 consume it and supply transport/synthetic-curvature bridges in return.
-* The [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md) supplies the
+* The [one-parameter-semigroups roadmap](../../Completed/OneParameterSemigroups/README.md) supplies the
   abstract C₀/contraction-semigroup, generator, and resolvent API.  The PDE roadmap supplies
   the concrete heat semigroup.  Layer 11 constructs any remaining concrete linear Markov
   semigroups it names and proves that the linear Wasserstein gradient flows agree with

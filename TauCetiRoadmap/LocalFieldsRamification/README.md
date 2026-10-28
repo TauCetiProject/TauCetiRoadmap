@@ -9,7 +9,7 @@ The boundary is deliberate. The **Class Field Theory** roadmap consumes these ob
 finite-group Tate cohomology, class formations, local reciprocity, and duality. The **Local
 Galois Groups** roadmap consumes them, together with abstract pro-`p` group theory, to determine
 `G_K(p)` and its Demushkin presentation. This roadmap in turn depends on [**Profinite and
-Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
+Pro-`p` Groups**](../../Completed/ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
 imports its `Suggested.lean` directly, and on Tau Ceti's free profinite groups and profinite
 presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
 redeclare any of those group-theoretic suppliers.
@@ -22,7 +22,7 @@ extensions and Frobenius, the ramification filtrations and Herbrand transition, 
 the tame character, and the Iwasawa presentation of the tame quotient. Downstream roadmaps
 import those declarations directly; they do not reconstruct private local-field toolkits.
 
-In particular, [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md) is a
+In particular, [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md) is a
 downstream consumer of this roadmap. This roadmap owns the intrinsic local extension,
 normalized valuations and `(e,f)`, the integer-ring/integral-closure theory, local
 monogenicity, the canonical lower filtration, and the local different theorems. Number-Field
@@ -756,7 +756,7 @@ pro-`p` quotient.
   `Algebra.adjoin 𝒪[K] {x} = ⊤`. Package the induced integral-basis and field-generation
   consequences so consumers do not have to reconstruct them from the primitive-element theorem.
   This is a local theorem: [the Number-Field Arithmetic
-  roadmap](../NumberFieldArithmetic/README.md) consumes it only after passing to a completion.
+  roadmap](../../Completed/NumberFieldArithmetic/README.md) consumes it only after passing to a completion.
   For an Eisenstein generator `ξ` of degree `n`, also prove the orthogonality of its power
   basis. If `c_i ∈ 𝒪[K]`, then
 
@@ -1079,7 +1079,7 @@ nonarchimedean local field, while [Counting Totally Ramified Extensions
 of families of such extensions. The dependency is one-way:
 
 ```text
-LocalFieldsRamification (this roadmap) → TotallyRamified (#226)
+LocalFieldsRamification (this roadmap) → MassFormula (#226)
 ```
 
 This roadmap owns the canonical induced local-field structure, `e` and `f`, total/tame/wild
@@ -1132,7 +1132,7 @@ temporary arithmetic declarations with the canonical exports above.
 ### Layer 4: the tame quotient of the absolute Galois group
 
 **Suppliers.** For the group theory of this layer, `Suggested.lean` imports
-`TauCetiRoadmap.ProfiniteProPGroups.Suggested` and Tau Ceti's
+`Completed.ProfiniteProPGroups.Suggested` and Tau Ceti's
 `TauCeti.Topology.Algebra.Group.Profinite.Presentation` and
 `TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly. No supplied group-theoretic
 declaration is restated: there is no `Supplied.*` alias and no private replacement carrier for the
@@ -1383,7 +1383,7 @@ generic theorems.
 
 The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
+Groups](../../Completed/ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
 roadmap**. Within this roadmap the intended order is
 Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Later work may proceed against explicit
 hypotheses, but the accepted exports use the canonical objects produced by the preceding layers.
@@ -1423,7 +1423,7 @@ The declaration-level overlap is:
 | `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
 | `mono_exists_primitive` and its supporting Newton-lift declarations | Adapt to `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]`; do not expose the generic helper namespace as a second local-field API. |
 | `TraceFiltration.intTrace_residue_scaling` | Reuse or adapt as the residue-trace input to tame/wild different bounds, behind the public different theorems. |
-| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md). |
+| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md). |
 
 For every adapted proof, the implementation record must identify the LeanBridge declaration and
 revision or say explicitly that the proof was replaced. Regardless of implementation source,
