@@ -250,6 +250,49 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   intertwiner is a scalar. This is stated through `ContIntertwiningMap` and the `FDRep` mirror, not
   reproved.
 
+<a id="invariant-hermitian-metrics"></a>
+#### Layer2.1. Invariant Hermitian metrics and multiplicity spaces
+
+Fix a finite-dimensional unitary complex representation π with its given inner
+product, conjugate-linear in the first variable. Represent every Hermitian form
+h by the unique self-adjoint continuous linear Gram operator T with
+`h(v,w)=⟪v,Tw⟫`. Prove the representation and uniqueness, and that positive
+definiteness of h is equivalent to `re⟪v,Tv⟫>0` for every v≠0. Invariance
+`h(π(g)v,π(g)w)=h(v,w)` is equivalent to `Tπ(g)=π(g)T` for every g.
+Prove these comparisons and their transport under unitary intertwiners. The
+map `v↦h(v,−)` into the complex linear dual is conjugate-linear; construct
+the comparison by the stated Gram operators with that scalar convention.
+
+For irreducible π, apply Layer2's native scalar Schur lemma to T. Self-adjointness
+makes its scalar real and positivity makes it strictly positive. Prove that the
+invariant positive Hermitian forms are exactly `c⟪−,−⟫` with a unique real c>0.
+For two such forms, construct the identity-times-`1/√c` equivariant isometry
+from the first metric to the second when `h₂=c h₁`, and prove both metric and
+inverse identities. Consume the native
+`TauCeti.ContRepresentation.exists_linearIsometryEquiv_congr_eq` theorem and
+compare its normalization with this particular scalar map. For an initially
+nonunitary representation, use Layer1's Gram conjugacy to transport this
+classification; no extra choice of an inner-product instance is implicit.
+
+For a supplied finite unitary decomposition `V≃⊕_i(S_i⊗ℂ^{m_i})`, with the S_i
+pairwise inequivalent unitary irreducibles and m_i>0, construct the *-algebra
+identification of the commuting operators with `∏_i Matrix (Fin m_i) (Fin m_i) ℂ`.
+Pin it by `T|_(S_i⊗ℂ^{m_i})=id_(S_i)⊗A_i`. Prove addition, multiplication,
+complex scalars, adjoints and both inverse-map identities; for units prove
+compatibility with operator and matrix inversion. Invariant positive metrics
+correspond exactly to positive-definite Hermitian A_i. Under a decomposition
+change `d'=(⊕_i(id⊗U_i))d`, with each U_i unitary, prove
+`A_i'=U_i A_i U_i†`, and prove compatibility with reindexing. For the trivial representation
+on ℂ², the Gram operator diag(1,2) gives an invariant positive metric that is
+not a scalar multiple of the standard one. Thus scalar uniqueness uses the
+irreducibility hypothesis; repeated copies retain their full matrix freedom.
+
+Specialize to finite discrete groups and compare Layer1's Haar average with
+`|G|⁻¹ Σ_g⟪π(g)v,π(g)w⟫`; the unnormalized sum is |G| times that form.
+[InvariantMetricTargets.lean](InvariantMetricTargets.lean) gives suggested
+native operator statements. This unit consumes Layers1–2 and finite-dimensional
+Hilbert linear algebra; matrix coefficients and Peter–Weyl are subsequent users.
+
 ### Layer 3: matrix coefficients
 
 - **Definition.** `matrixCoeff π v w : C(G, ℂ)`, `g ↦ ⟪π g v, w⟫` for `v w : V`; continuous because
