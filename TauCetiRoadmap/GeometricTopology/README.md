@@ -2372,7 +2372,42 @@ Suggested native braid-family, ordered word-evaluation and endpoint-permutation 
 
 For n=3 separately prove that all but finitely many powers of σ₁⁻¹σ₂σ₃ give the stated nonexchange examples, with an explicit excluded finite set. That particular B₄ family is an additional target; the c_m^(mp) construction does not identify its powers or supply their obstruction. No Jones-kernel or full TypeA estimate is needed for the c_m^(mp) proof. For the actual native reduced Burau representation of B₅ at t=exp(πi/3), construct its comparison with the faithful four-dimensional Coxeter representation of the cubic quotient B₅/⟨⟨σ_i³⟩⟩. Prove this quotient has order155520, identify its scalar centre of order6, and identify the projective image with PSp₄(𝔽₃), proving simplicity and order25920. Give exact matrix/generator, kernel and finite enumeration certificates. Distinguish the full linear image from its simple projective quotient. Track the scalar phase in the Burau/Jones block comparison: a projective-kernel witness supplies a Jones-kernel witness only after its actual scalar is proved to be1 in the pinned normalization. Proving this precise representation theorem does not identify a clipped historical representation citation without the separate source crosswalk.
 
-Prove V_K(exp(2πi/3))=1, V_L(1)=(−2)^(μ−1), V'_K(1)=0, and the chosen-square-root V_L(−1)=Conway-normalized Δ_L(−1) comparison on the actual coefficient rings. Formal Laurent derivative/evaluation and analytic derivative near1 agree. Deduce DIVISIBILITY of1−V_K by(1−t³)(1−t) in Z[t±1], with the double root at1, and define W_K as the unique Laurent quotient. Prove mirror and connected-sum identities and all source normalized examples, including unknot0/trefoil1. Use the signed symmetric knot normalization Δ(1)=1 for the modulo8 theorem (values1 or5), not the absolute determinant. Consume GT4's existing quadratic-Arf interface and Clifford representations to prove V_K(i)=(−1)^Arf(K), hence W_K(i) is exactly0 or1 and agrees with the mod2 Arf class. Link root values require the actual properness/component/square-root phases; do not transplant the knot statement unchanged. The sixth-root arithmetic statement requires its exact knot/link hypotheses and algebraic-integer ring.
+Prove V_K(exp(2πi/3))=1, V_L(1)=(−2)^(μ−1), V'_K(1)=0, and the chosen-square-root V_L(−1)=Conway-normalized Δ_L(−1) comparison on the actual coefficient rings. Formal Laurent derivative/evaluation and analytic derivative near1 agree. Deduce DIVISIBILITY of1−V_K by(1−t³)(1−t) in Z[t±1], with the double root at1, and define W_K as the unique Laurent quotient. Prove mirror and connected-sum identities and all source normalized examples, including unknot0/trefoil1. Use the signed symmetric knot normalization Δ(1)=1 for the modulo8 theorem (values1 or5), not the absolute determinant. Consume GT4's existing quadratic-Arf interface and Clifford representations to prove V_K(i)=(−1)^Arf(K), hence W_K(i) is exactly0 or1 and agrees with the mod2 Arf class. Link root values require the actual properness/component/square-root phases; do not transplant the knot statement unchanged.
+
+**Cube- and sixth-root phases.** Put ω=exp(2πi/3), u₃=exp(πi/3),
+ζ=exp(πi/3) and u₆=exp(πi/6), so u₃²=ω and u₆²=ζ. For every
+nonempty oriented link with μ components, prove
+
+`V_L(ω; u₃)=(-1)^(μ−1)`.
+
+At the positive trace level δ=1, faithfulness forces every Jones projection
+to equal1; each normalized braid generator is then−1. Combine the closure
+trace factor with the permutation parity `e≡n−μ (mod2)` of an n-strand
+braid of exponent sum e. The result is independent of the chosen braid and
+includes split links. Keep the specified square-root branch when μ is even.
+
+Use the earlier component-parity support theorem to write V_L(t)=P_L(t)
+for odd μ and V_L(t)=uP_L(t) for even μ, with P_L∈ℤ[t±1] and u²=t.
+This P_L is the uniquely extracted integral Laurent polynomial, without a
+change of orientation or a renormalization of V. For Φ₃(t)=t²+t+1, prove
+
+`Φ₃ divides P_L−1` for odd μ,
+`Φ₃ divides P_L−t` for even μ.
+
+For the even case the cube-root identity gives P_L(ω)=ω. Construct the
+Laurent quotient by clearing negative exponents, dividing by the monic
+minimal polynomial of ω and restoring the Laurent unit. Substitution at ζ
+uses Φ₃(ζ)=2ζ and ℤ[ζ]=ℤ⊕ℤζ. Deduce the exact integral congruences
+
+`V_L(ζ;u₆) ∈ 1+2ℤ[ζ]` for odd μ,
+`u₆⁻¹ V_L(ζ;u₆) ∈ ζ+2ℤ[ζ]` for even μ.
+
+Thus the source's unqualified sixth-root assertion has the stated
+odd-component scope, including every knot. The two-component unlink has
+V(ζ;u₆)=−√3 and does not belong to ℤ[ζ]; use it as the explicit boundary
+case. Compare conjugate root and opposite square-root choices by the actual
+Laurent evaluation maps. Suggested arithmetic forms on the native Laurent
+carrier are in [`JonesCyclotomicTargets.lean`](JonesCyclotomicTargets.lean).
 
 For actual reduced Burau B3 and native positive-generator Jones convention, prove tr/determinant comparison and, for a knot closure with even exponent sum e,
 
