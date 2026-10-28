@@ -1646,6 +1646,66 @@ the constructions here or an additional generic characteristic-class owner.
    Include the universal p_r=e² relation, w₂ reduction/central-cover test,
    the rank-one Hopf sign, and a flat torsion circle bundle with nonzero
    integral c₁ and zero de Rham Chern form using SBC B6's lens-space example.
+<a id="c7-adjoint-hopf-obstruction"></a>
+**C7.AdjointHopfObstruction — zero primary classes without a section.**
+For every Hermitian complex rank-two bundle F over a paracompact Hausdorff
+base, construct the oriented real rank-three bundle su(F) of trace-free
+skew-adjoint endomorphisms. Use T1's existing endomorphism bundle and C1.0's
+unitary frame bundle: unitary conjugation preserves this real subspace and
+its metric, with orientation fixed by the ordered skew-adjoint matrices
+`diag(i,−i)`, `[[0,1],[−1,0]]`, `[[0,i],[i,0]]` in a unitary frame.
+Prove frame independence using the connected unitary group's conjugation
+action. Construct local trivializations and the associated-bundle comparison,
+with pullback and bundle-isomorphism naturality. These are continuous bundles;
+no connection or gauge-theoretic moduli space is required.
+
+Construct the actual complex-linear bundle isomorphism
+`su(F)⊗_ℝℂ≃End₀(F)`, carrying X⊗z to zX, and
+`End₀(F)⊕ε_ℂ≃End(F)` by separating half the trace. Check transition
+compatibility and provide inverse formulas: every traceless Z decomposes
+uniquely as X+iY with X,Y skew-adjoint and traceless. C3's integral splitting
+principle gives roots x,y for F and roots0,x−y,y−x for End₀(F). Prove,
+in integral cohomology and with naturality,
+
+`p₁(su(F))=c₁(F)²−4c₂(F)`.
+
+This is an integral root calculation; rational Chern-character comparison
+alone is not substituted for integral equality on a base with torsion.
+For a fixed determinant trivialization compare with the adjoint bundle of
+the SU(2) frame reduction. Under [GeneralizedCohomology G4.0a](../GeneralizedCohomology/README.md)'s
+Sp(1)/Spin(3) calibration, identify
+the conjugation representation with the action on imaginary quaternions.
+
+On GeneralizedCohomology G4.0a's actual HP¹, identified with its oriented S⁴,
+let γ_ℍ be the tautological right-quaternionic line, F its right-complex
+restriction, and E=su(F). Use G4's ordinary quaternionic-line normalization
+`u=c₂(F)`, with `⟨u,[HP¹]⟩=1`, and the canonical trivial determinant of F.
+Construct E on this carrier, including its transition maps from those of
+γ_ℍ; do not replace it by an abstract bundle with prescribed classes.
+Prove `c₁(F)=0` and `p₁(E)=−4u≠0`. The sphere cohomology calculation and
+rank normalization give `e(E)=0` and `w_i(E)=0` for every i>0. Prove E is
+not stably trivial: an isomorphism `E⊕ε^k≃ε^(k+3)` would force p₁(E)=0
+by naturality and trivial-summand stability.
+
+Prove E has no nowhere-zero continuous section. Such a section, normalized
+with the metric, splits E as ε¹⊕P with P an oriented real plane bundle.
+Since H²(S⁴;ℤ)=0, e(P)=0; the integral plane identity p₁(P)=e(P)² and
+trivial-summand stability would again give p₁(E)=0. Thus the example has
+zero Euler class and all positive-degree Stiefel–Whitney classes, while
+admitting neither a section nor a stable trivialization. Identify the
+failure of the primary Euler criterion with its out-of-range dimensions:
+rank3 over a 4-dimensional CW base. C2's dimension≤rank converse remains
+the primary-obstruction theorem. Compare TS² as the different phenomenon
+of a stably trivial, nontrivial tangent bundle with nonzero Euler number2.
+These examples supply the distinction in Teichner1086_003 pp5–7, including
+the correction to the source's unqualified Euler-class converse.
+
+For the adjoint-bundle formula see Zentner,
+[*Instanton exercise sheet2*, Exercise2](https://www.maths.dur.ac.uk/users/raphael.zentner/exercice_sheet_instantons2.pdf).
+[AdjointHopfTargets.lean](AdjointHopfTargets.lean) records the actual matrix
+complexification and integral Chern-root identity; the bundle construction
+and section obstruction remain the definitive targets above.
+
 3a. **Real-projective tangent classes and immersion obstruction.** For every
    m≥0 use AT4.6's smooth native real-projective carrier. Transport TopK
    T1.5's tautological line γ along [GeneralizedCohomology G4.0b](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a1d957790d6eeec3bd02001c7fb83bc6d824abd4/TauCetiRoadmap/GeneralizedCohomology/README.md)'s actual
