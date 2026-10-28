@@ -39,7 +39,59 @@ the README specifies all of their mathematical targets.
 open scoped TensorProduct
 open IsLocalRing
 
-namespace TauCeti.ClassicalModularGalois
+namespace TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
+
+/-! ## Layer R15.2: integral q-expansion and the classical lattice -/
+
+namespace KatzModularForms
+
+/-- A holomorphic congruence modular form with rational expansion has one
+integer clearing all denominators, including primes dividing its level. -/
+theorem boundedDenominators
+    (N : ℕ) [NeZero N] (k : ℤ)
+    (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ))
+    (hlevel : CongruenceSubgroup.Gamma N ≤ Γ)
+    (f : ModularForm (Γ.map (Matrix.SpecialLinearGroup.mapGL ℝ)) k)
+    (a : ℕ → ℚ)
+    (ha : ∀ n, (UpperHalfPlane.qExpansion (N : ℝ) f).coeff n = (a n : ℂ)) :
+    ∃ D : ℕ, 0 < D ∧ ∀ n, ∃ b : ℤ, (D : ℚ) * a n = b := by
+  sorry
+end KatzModularForms
+
+/-! ## Layer R15.5: Deligne–Serre eigenvalue lifting -/
+
+namespace EigenvalueLifting
+
+section DeligneSerre
+variable (O K : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+  [Field K] [Algebra O K] [IsFractionRing O K]
+variable {M ι : Type*} [AddCommGroup M] [Module O M]
+  [Module.Finite O M] [Module.Free O M]
+
+/-- A common residual eigenvalue system for commuting operators on a finite
+free module over any DVR lifts to an integral eigenvector over a dominating DVR
+with finite fraction-field extension and the specified residue-field embedding. -/
+theorem deligneSerreEigenvalueLifting
+    (T : ι → Module.End O M) (hcomm : ∀ i j, Commute (T i) (T j))
+    (a : ι → ResidueField O) (f : ResidueField O ⊗[O] M) (hf : f ≠ 0)
+    (heig : ∀ i, (T i).baseChange (ResidueField O) f = a i • f) :
+    ∃ (L : IntermediateField K (AlgebraicClosure K)) (V : ValuationSubring L)
+      (i : O →+* V) (j : ResidueField O →+* ResidueField V),
+      letI : Algebra O V := i.toAlgebra
+      Module.Finite K L ∧ IsDiscreteValuationRing V ∧
+      Function.Injective i ∧ Function.Injective j ∧
+      (∀ x : O, (i x : L) = algebraMap K L (algebraMap O K x)) ∧
+      (residue V).comp i = j.comp (residue O) ∧
+      Ideal.comap i (maximalIdeal V) = maximalIdeal O ∧
+      ∃ (b : ι → V) (f' : V ⊗[O] M), f' ≠ 0 ∧
+        ∀ t, (T t).baseChange V f' = b t • f' ∧ residue V (b t) = j (a t) := by
+  sorry
+end DeligneSerre
+end EigenvalueLifting
+
+/-! ## Layer R15.5A: classical Galois attachments -/
+
+namespace ClassicalModularGalois
 
 /-- A holomorphic good-prime eigenform of weight at least two has a continuous
 semisimple attachment over every completion of its coefficient number field,
@@ -73,6 +125,29 @@ theorem higherWeight_attachment {N : ℕ} [NeZero N] (k : ℤ) (hk : 2 ≤ k)
                 ((χ (ZMod.unitOfCoprime q hqN) : K) * (q : K) ^ (k - 1))) := by
   sorry
 
+/-- A weight-one cusp eigensystem has a convergent good-prime second moment
+for every real `s>1`, bounded by `log(1/(s−1))` plus a constant near one. -/
+theorem weightOne_primeMoment {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) :
+    let b := fun q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} =>
+      ‖f.eigenvalue ⟨q.val, q.property.1.pos⟩ q.property.2‖ ^ 2
+    (∀ s : ℝ, 1 < s →
+      Summable (fun q => b q * (q.val : ℝ) ^ (-s))) ∧
+    ∃ C δ : ℝ, 0 < δ ∧ ∀ s : ℝ, 1 < s → s < 1 + δ →
+      (∑' q, b q * (q.val : ℝ) ^ (-s)) ≤ Real.log (1 / (s - 1)) + C := by sorry
+
+/-- Outside a prime set of arbitrarily small upper Dirichlet density, the good
+eigenvalues of a weight-one cusp form lie in a finite set. The bound uses
+`log(1/(s−1))` as its prime-sum normalization near one. -/
+theorem weightOne_finiteEigenvalues {N : ℕ} [NeZero N]
+    (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) (η : ℝ) (hη : 0 < η) :
+    ∃ Y : Finset ℂ, ∀ ε : ℝ, 0 < ε → ∃ δ : ℝ, 0 < δ ∧
+      ∀ s : ℝ, 1 < s → s < 1 + δ →
+        (∑' q : {q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} //
+          f.eigenvalue ⟨q.val, q.property.1.pos⟩ q.property.2 ∉ Y},
+          (q.val.val : ℝ) ^ (-s)) ≤ (η + ε) * Real.log (1 / (s - 1)) := by
+  sorry
+
 /-- A holomorphic weight-one good-prime eigenform with odd character has a
 continuous finite-image semisimple complex attachment, unramified outside its
 level, whose arithmetic Frobenius traces are the Hecke eigenvalues. Its
@@ -97,9 +172,11 @@ theorem weightOne_attachment {N : ℕ} [NeZero N]
               Polynomial.C (χ (ZMod.unitOfCoprime q hqN) : ℂ) := by
   sorry
 
-end TauCeti.ClassicalModularGalois
+end ClassicalModularGalois
 
-namespace TauCeti.ResidualModularity
+/-! ## Layer R15.6: residual modularity -/
+
+namespace ResidualModularity
 
 /-- A nonzero reduction of an integral holomorphic form of positive weight
 with a good-prime Hecke eigenvalue system has a continuous semisimple residual
@@ -139,76 +216,6 @@ theorem residual_attachment
               Polynomial.C (red (χ (ZMod.unitOfCoprime q hqN) : O) * (q : κ) ^ (k - 1)) := by
   sorry
 
-end TauCeti.ResidualModularity
+end ResidualModularity
 
-namespace TauCeti.EigenvalueLifting
-
-section DeligneSerre
-variable (O K : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-  [Field K] [Algebra O K] [IsFractionRing O K]
-variable {M ι : Type*} [AddCommGroup M] [Module O M]
-  [Module.Finite O M] [Module.Free O M]
-
-/-- A common residual eigenvalue system for commuting operators on a finite
-free module over any DVR lifts to an integral eigenvector over a dominating DVR
-with finite fraction-field extension and the specified residue-field embedding. -/
-theorem deligneSerreEigenvalueLifting
-    (T : ι → Module.End O M) (hcomm : ∀ i j, Commute (T i) (T j))
-    (a : ι → ResidueField O) (f : ResidueField O ⊗[O] M) (hf : f ≠ 0)
-    (heig : ∀ i, (T i).baseChange (ResidueField O) f = a i • f) :
-    ∃ (L : IntermediateField K (AlgebraicClosure K)) (V : ValuationSubring L)
-      (i : O →+* V) (j : ResidueField O →+* ResidueField V),
-      letI : Algebra O V := i.toAlgebra
-      Module.Finite K L ∧ IsDiscreteValuationRing V ∧
-      Function.Injective i ∧ Function.Injective j ∧
-      (∀ x : O, (i x : L) = algebraMap K L (algebraMap O K x)) ∧
-      (residue V).comp i = j.comp (residue O) ∧
-      Ideal.comap i (maximalIdeal V) = maximalIdeal O ∧
-      ∃ (b : ι → V) (f' : V ⊗[O] M), f' ≠ 0 ∧
-        ∀ t, (T t).baseChange V f' = b t • f' ∧ residue V (b t) = j (a t) := by
-  sorry
-end DeligneSerre
-
-end TauCeti.EigenvalueLifting
-
-namespace TauCeti.KatzModularForms
-
-/-- A holomorphic congruence modular form with rational expansion has one
-integer clearing all denominators, including primes dividing its level. -/
-theorem boundedDenominators
-    (N : ℕ) [NeZero N] (k : ℤ)
-    (Γ : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ))
-    (hlevel : CongruenceSubgroup.Gamma N ≤ Γ)
-    (f : ModularForm (Γ.map (Matrix.SpecialLinearGroup.mapGL ℝ)) k)
-    (a : ℕ → ℚ)
-    (ha : ∀ n, (UpperHalfPlane.qExpansion (N : ℝ) f).coeff n = (a n : ℂ)) :
-    ∃ D : ℕ, 0 < D ∧ ∀ n, ∃ b : ℤ, (D : ℚ) * a n = b := by
-  sorry
-end TauCeti.KatzModularForms
-
-namespace TauCeti.ClassicalModularGalois
-
-/-- A weight-one cusp eigensystem has a convergent good-prime second moment
-for every real `s>1`, bounded by `log(1/(s−1))` plus a constant near one. -/
-theorem weightOne_primeMoment {N : ℕ} [NeZero N]
-    (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) :
-    let b := fun q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} =>
-      ‖f.eigenvalue ⟨q.val, q.property.1.pos⟩ q.property.2‖ ^ 2
-    (∀ s : ℝ, 1 < s →
-      Summable (fun q => b q * (q.val : ℝ) ^ (-s))) ∧
-    ∃ C δ : ℝ, 0 < δ ∧ ∀ s : ℝ, 1 < s → s < 1 + δ →
-      (∑' q, b q * (q.val : ℝ) ^ (-s)) ≤ Real.log (1 / (s - 1)) + C := by sorry
-
-/-- Outside a prime set of arbitrarily small upper Dirichlet density, the good
-eigenvalues of a weight-one cusp form lie in a finite set. The bound uses
-`log(1/(s−1))` as its prime-sum normalization near one. -/
-theorem weightOne_finiteEigenvalues {N : ℕ} [NeZero N]
-    (f : HeckeRing.GL2.EigenformAwayFromLevel N 1) (η : ℝ) (hη : 0 < η) :
-    ∃ Y : Finset ℂ, ∀ ε : ℝ, 0 < ε → ∃ δ : ℝ, 0 < δ ∧
-      ∀ s : ℝ, 1 < s → s < 1 + δ →
-        (∑' q : {q : {q : ℕ // q.Prime ∧ Nat.Coprime q N} //
-          f.eigenvalue ⟨q.val, q.property.1.pos⟩ q.property.2 ∉ Y},
-          (q.val.val : ℝ) ^ (-s)) ≤ (η + ε) * Real.log (1 / (s - 1)) := by
-  sorry
-
-end TauCeti.ClassicalModularGalois
+end TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
