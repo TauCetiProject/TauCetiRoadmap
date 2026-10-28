@@ -2,7 +2,7 @@
 
 The completion audit is supported by the native square-class codomain refactor in
 [Tau Ceti PR #22023](https://github.com/TauCetiProject/TauCeti/pull/22023), checked at
-[`037dfc4f42d3`](https://github.com/TauCetiProject/TauCeti/commit/037dfc4f42d34a2457a450301813858635f9cd51),
+[`5e87c06baa2f`](https://github.com/TauCetiProject/TauCeti/commit/5e87c06baa2f7f8334483d716d2afa7121bd659b),
 and the empty-away comparisons in
 [PR #22024](https://github.com/TauCetiProject/TauCeti/pull/22024), checked at
 [`58fe1befe42f`](https://github.com/TauCetiProject/TauCeti/commit/58fe1befe42fef254a5bc6f438e3faf876c4f9a1).

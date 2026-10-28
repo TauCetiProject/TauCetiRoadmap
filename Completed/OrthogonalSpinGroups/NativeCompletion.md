@@ -5,7 +5,7 @@ It uses the implemented Tau Ceti APIs directly and contains no admitted targets.
 
 The block below was extracted verbatim to a Lean file and checked with
 `lake env lean -DwarningAsError=true` at Tau Ceti
-[`037dfc4f42d34a2457a450301813858635f9cd51`](https://github.com/TauCetiProject/TauCeti/commit/037dfc4f42d34a2457a450301813858635f9cd51),
+[`5e87c06baa2f7f8334483d716d2afa7121bd659b`](https://github.com/TauCetiProject/TauCeti/commit/5e87c06baa2f7f8334483d716d2afa7121bd659b),
 with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The axiom reports contain only
 `propext`, `Classical.choice`, and `Quot.sound`.
 
