@@ -1896,7 +1896,51 @@ the larger composite presentations. `CompositeKnotGeneratorTargets.lean`
 uses the literal native presentation; the marked geometric comparison above
 is required before assigning this obstruction to the source knot example.
 
-Own group-Z⇒unknot with its actual loop theorem/Dehn lemma and compressible-boundary argument, not just the native complement-group carrier. State the exact knot-complement theorem for tame knots in oriented S3, including what homeomorphisms/peripheral orientation/meridian data give ambient isotopy, mirror or orientation reversal. Do not assert that abstract groups distinguish a chiral knot from its mirror. Any prime-knot-group reconstruction result must include the precise needed peripheral, orientation and exceptional torus/composite data; the source's unmarked implication remains qualified until that exact result is specified/proved. It is acceptable to prove an appropriately marked group recognition theorem and explicitly leave the broader source assertion as a corrected-source hold; do not claim a narrower theorem closes it.
+Own group-Z⇒unknot with its actual loop theorem/Dehn lemma and
+compressible-boundary argument. State the knot-complement theorem for tame
+knots in oriented `S³`, including which homeomorphisms and peripheral signs
+give ambient isotopy, mirror or orientation reversal.
+
+<a id="gt4-trefoil-mirror-groups"></a>
+**Trefoils, peripheral signs and prime-knot groups.** Let `T₊` be the closure
+of the positive two-strand braid `σ₁³`, and `T₋` its reflected image with the
+transported knot orientation. Construct marked Wirtinger identifications of
+both complement groups with the native presentation
+`G=⟨x,y | xyx=yxy⟩`, where `x,y` are positive meridians in each model.
+Choose the reflected basepoint and basing paths explicitly. The reflection
+induces the isomorphism between these two copies sending
+`x↦x⁻¹`, `y↦y⁻¹`. Check the braid relation and prove the inverse by the
+same generator assignment. This is a homomorphism defined on generators,
+not elementwise inversion of a nonabelian group.
+
+Put `z=(xy)³`. Prove centrality from the relation. Compute the preferred
+longitudes, with positive meridian `μ=x`, to be
+`λ₊=zx⁻⁶` and `λ₋=z⁻¹x⁶` in the respective marked copies. The longitude
+orientation follows the specified knot orientation. Identify these words
+by an actual zero-linking push-off along the boundary torus; vanishing in
+abelianization alone does not characterize the preferred longitude. Prove
+the reflection map sends `z↦z⁻¹`, `μ₊↦μ₋⁻¹` and `λ₊↦λ₋`. Thus it
+preserves the peripheral subgroup while reversing exactly the meridional
+sign. Export the corresponding conjugacy-class statement for a change of
+basing paths. The native presentation and word targets are in
+[`TrefoilMirrorTargets.lean`](TrefoilMirrorTargets.lean).
+
+The genus-one braid surfaces and Alexander span show both knots have
+genus1, so ordinary-genus additivity proves them prime. Compute their Jones
+polynomials as `t+t³−t⁴` and `t⁻¹+t⁻³−t⁻⁴`, using the existing native
+trefoil calculation and mirror transform. They are therefore distinct even as
+UNORIENTED knots under orientation-preserving ambient equivalence, despite
+the abstract group isomorphism. This is the precise mirror-sensitive
+counterexample to physical page123's unmarked prime-group assertion;
+it makes no claim to distinguish the two knots after allowing reflection.
+Neither this counterexample nor the later recognition theorem is a premise
+of the early Wirtinger construction.
+
+The precise recognition theorem after allowing reflection is the separate
+[GT8 prime-exterior application](#gt8-prime-knot-group-rigidity). It is not
+needed to construct or distinguish these two marked examples.
+For the peripheral signs, see [Friedl, Lemma7.3](https://friedl.app.uni-regensburg.de/papers/2024_knot-theory-final.pdf).
+
 
 For each finite strand number n, consume native Artin braid groups/words and construct the positive braid monoid, its embedding into B_n and its group-of-fractions comparison. Construct the Garside half twist Δ, its finite simple divisors identified with permutations, left/right gcd/lcm and the greedy normal form Δ^k s₁⋯s_r with each adjacent pair left-weighted. Prove existence, uniqueness and executable multiplication/inversion/reduction; thus decide equality of finite braid words. For the conjugacy theorem cited on source090, construct super-summit representatives with maximal infimum and minimal supremum in the conjugacy class, an effective terminating procedure finding one, and the finite graph of simple-element conjugations staying in that set. Prove its nonemptiness, finiteness and connectedness within one conjugacy class, including central/periodic and n=0/1/2 cases. The algorithm decides conjugacy iff the two complete finite reachable sets intersect, returning an actual conjugator on success and an exhaustive certificate on failure. A normal form alone does not decide conjugacy, and cycling alone is not asserted complete. This mathematical target is not a Markov-equivalence algorithm; the source's historical absence-of-known-Markov-algorithm sentence stays dated provenance.
 
@@ -3873,6 +3917,31 @@ already carries a hyperbolic metric.
    norm-minimizing surface or Euler-class nonrealizability is a premise
    of this engine. GT10 proves its family satisfies the topological
    hypotheses before consuming this output.
+
+<a id="gt8-prime-knot-group-rigidity"></a>
+#### GT8: Prime-knot groups and exterior rigidity
+
+After the compact irreducible/Haken and torus-decomposition constructions,
+own the prime-exterior rigidity theorem: for nontrivial prime tame knots
+`K,J⊂S³`, an abstract isomorphism `π₁(X_K)≃*π₁(X_J)` implies existence of a
+homeomorphism of their compact exteriors, with no imposed orientation or
+meridian marking. Prove Whitten's full rigidity theorem, including its
+torus and satellite cases and the peripheral/characteristic-submanifold
+arguments; it is not inferred from hyperbolic Mostow rigidity alone.
+The prerequisite marked Haken realization and characteristic-submanifold
+comparisons are the GT8.H core suppliers. Combine this theorem with the
+knot-complement theorem to give equivalence of the underlying knot images
+by an ambient homeomorphism allowing reflection and knot-orientation
+reversal. The converse follows by restricting the ambient map. Do not
+assert that every given abstract group isomorphism realizes a chosen
+peripheral marking, or extend prime rigidity to arbitrary composite knots.
+The [early trefoil example](#gt4-trefoil-mirror-groups) remains a counterexample
+in the finer quotient.
+
+References: [Friedl, *Topology*, Lemma7.3 and Theorem16.11](https://friedl.app.uni-regensburg.de/papers/2024_knot-theory-final.pdf)
+for the precise prime-exterior statement;
+[Whitten, *Knot complements and groups*, Topology26(1987),41–44](https://doi.org/10.1016/0040-9383(87)90019-X)
+for prime-exterior rigidity.
 
 ### Layer 9: Heegaard splittings and Heegaard genus
 
