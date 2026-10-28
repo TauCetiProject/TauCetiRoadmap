@@ -27,7 +27,7 @@ conjugators, one for each of `P`, `T` and `C = (PT)⁻¹`.
 
 This archival change depends on [TauCeti#22013](https://github.com/TauCetiProject/TauCeti/pull/22013).
 The source audit checked Tau Ceti `cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with
-that PR's commit `8fd219cf8208e08c3979b25a93151e06d5bc0e95` against every layer and the
+that PR's commit `87e643403b38c29a9160bda3dc36840b37261bbe` against every layer and the
 worked-example checklist. The two remaining dyadic requirements are now represented together:
 one automorphism satisfies the equations for both `C` and `C′`, with
 `cC′ = P⁻¹ * cC * (φ P⁻¹)⁻¹`, and the native rank-two free pro-`2` group is instantiated with
@@ -41,7 +41,7 @@ the identity marking.
 | Closedness and continuous exponent | `Peripheral/Topology.lean:81,141` |
 | Reflection, rank-two inversion, permutation symmetries and their boundaries | `Peripheral/Reflection.lean`, `Permutation.lean` |
 | Continuous homomorphic section over principal units | `Peripheral/Section.lean:94` |
-| Dyadic equations, opposite convention, identity form and standard-model example | [Peripheral/Dyadic.lean](https://github.com/TauCetiProject/TauCeti/blob/8fd219cf8208e08c3979b25a93151e06d5bc0e95/TauCeti/Topology/Algebra/Group/Profinite/Free/Peripheral/Dyadic.lean) |
+| Dyadic equations, opposite convention, identity form and standard-model example | [Peripheral/Dyadic.lean](https://github.com/TauCetiProject/TauCeti/blob/87e643403b38c29a9160bda3dc36840b37261bbe/TauCeti/Topology/Algebra/Group/Profinite/Free/Peripheral/Dyadic.lean) |
 | Nonunit exponent and common-conjugator obstructions | `Peripheral/Nonunit.lean`, `Conjugator.lean` |
 
 The paths in the table are below `TauCeti/Topology/Algebra/Group/Profinite/Free/`.
