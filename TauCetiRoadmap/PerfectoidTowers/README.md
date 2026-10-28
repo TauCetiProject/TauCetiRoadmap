@@ -1407,14 +1407,20 @@ finite image and is killed by `∏ (T − a)` over it, the completion `C(ℤ_p, 
 finitely many roots in `ℂ_p`; the factorisation of maps through the completion uses only
 completeness of the target, and no integral-extension instance on `S⁺^∧_p` is inferred). Moreover, for
 `ϖ ∈ R⁺` a pseudouniformizer with compatible roots, `T := (S⁺_perfd)^∧_ϖ[1/ϖ]` is a perfectoid Tate
-ring and, with `T⁺` the integral closure of `(S⁺_perfd)^∧_ϖ` in `T`, `(S⁺[1/ϖ], S⁺) → (T, T⁺)` is
-universal among maps from `(S⁺[1/ϖ], S⁺)` to perfectoid Tate pairs (this Tate-pair universality is
+ring and, with `T⁺` the integral closure of `(S⁺_perfd)^∧_ϖ` in `T`, the integral model `S⁺` has
+the following universal property: the map `S⁺ → T⁺` is initial among ring maps `S⁺ → A⁺` into the
+plus ring of a perfectoid Tate pair `(A, A⁺)` sending `ϖ` to a pseudouniformizer of `A`, and each
+such map extends uniquely to a continuous pair map `(T, T⁺) → (A, A⁺)`. The integral model need not
+define a Huber pair `(S⁺[1/ϖ], S⁺)`: for `R⁺ = O_{ℂ_p}` and `S⁺ = R⁺[ε]/(ε²)`, `ε/ϖ ∈ S⁺[1/ϖ]` is
+integral over `S⁺` (its square is zero) but does not lie in `S⁺`, and with `ϖ`-torsion in `S⁺`
+the localization map is not injective; an actual source pair, when one is wanted, is the image of
+`S⁺` in `S⁺[1/ϖ]` and its integral closure there. (This universality is
 not in [BS22], which gives it only for semiperfectoid quotients in Remark 7.5; it is derived here
 from the integral universality: a map `S⁺ → A⁺` into the plus ring of a perfectoid Tate pair,
 which is integral perfectoid and `ϖ`-adically complete, factors uniquely through
-`(S⁺_perfd)^∧_ϖ`, and `T⁺ → A⁺` follows because `A⁺` is integrally closed). `T` may be the zero
-ring: for `S⁺ = R⁺/ϖ` every `ϖ^{1/p^n}` dies in `S⁺_perfd`, `T = 0` and `Spd(S⁺[1/ϖ], S⁺) = ∅`; for
-`S⁺ = R⁺`, `T = R`. In characteristic `p`, `S⁺_perfd` is the uncompleted perfection
+`(S⁺_perfd)^∧_ϖ`, and `T⁺ → A⁺` follows because `A⁺` is integrally closed.) `T` may be the zero
+ring: for `S⁺ = R⁺/ϖ` every `ϖ^{1/p^n}` dies in `S⁺_perfd`, `T = 0`, and no map `S⁺ → A⁺` sends
+`ϖ` to a pseudouniformizer; for `S⁺ = R⁺`, `T = R`. In characteristic `p`, `S⁺_perfd` is the uncompleted perfection
 and the `ϖ`-adic completion is necessary ([BS22] §1, Theorem 1.17(1), p. 9; §10, Theorem 10.11,
 p. 82; §8, Corollary 8.14, p. 70). Prove that for a map `(R, R⁺) → (S, S⁺)` of Tate–Huber pairs
 with `R` perfectoid and `R⁺ → S⁺` integral, `Spd(S, S⁺) ≅ Spa(T, T⁺)^◇` is represented by an affinoid perfectoid space,
@@ -2671,22 +2677,34 @@ with `M` finite projective as an input. The rational and integral sheaf statemen
 `X_∞ → X` be a pro-étale `G`-tower over a smooth rigid base as in P9.6 or a
 perfectoid base as in P9.7, `A` a coefficient algebra (a small `ℤ_p`-algebra with the
 mixed completed tensor product, or a reduced affinoid `ℚ_p`-algebra with `⊗̂_{ℚ_p}`), and
-`c : G → (O(X_∞) ⊗̂ A)^×` a continuous 1-cocycle for the pullback action,
-`c(γδ) = c(γ)·γ^*(c(δ))` (right action on `X_∞`, so `(γδ)^* = γ^*δ^*` on functions). The sheaf
-`ω_c` on `X` is `ω_c(U) = {f ∈ O(U_∞) ⊗̂ A : γ^*f = c(γ)^{-1} f for all γ ∈ G}`, a sheaf of
-`O_X ⊗̂ A`-modules; `ω_c⁺` is defined with `O⁺` and `c` valued in `(O⁺(X_∞) ⊗̂ A°)^×`,
+`F_A` the completed coefficient sheaf on `X_∞`: its value on an affinoid perfectoid object `V` is
+`O(V) ⊗̂ A`, it is extended from this basis to all opens as a sheaf, and it agrees with
+`O(V) ⊗̂ A` on every qcqs `V` by finite covers (AdicSpacesPartIV R5.7 builds the coefficient sheaf
+this way, with the raw sectionwise formula only on quasi-compact opens). Let
+`c : G → Γ(X_∞, F_A)^×` be a 1-cocycle for the pullback action,
+`c(γδ) = c(γ)·γ^*(c(δ))` (right action on `X_∞`, so `(γδ)^* = γ^*δ^*` on functions), continuous
+in the sense that each restriction `c_U : G → (O(U_∞) ⊗̂ A)^×` to a qcqs `U` is continuous for the
+Banach topology. For every open `U ⊆ X` the sheaf `ω_c` on `X` is
+`ω_c(U) = {s ∈ Γ(U_∞, F_A) : γ^*s = c_U(γ)^{-1} s for all γ ∈ G}`, a sheaf of
+`O_X ⊗̂ A`-modules; on qcqs `U` this is `{f ∈ O(U_∞) ⊗̂ A : γ^*f = c_U(γ)^{-1} f}`. The
+raw ringwise expression `O(U_∞) ⊗̂ A` is not used on other opens: there `O(U_∞)` is not a Banach
+algebra and integral completion followed by inverting `p` gives the wrong ring
+(`twisted_disjoint_components`). `ω_c⁺` is defined with the integral subsheaf `F_A⁺`
+(value `O⁺(V) ⊗̂ A°` on affinoid perfectoid `V`) and `c` valued in `Γ(X_∞, F_A⁺)^×`,
 where `A° = A` for small integral coefficients and `A°` denotes a chosen bounded open
 integral coefficient subring for affinoid coefficients. The algebraic sections are
 `twistedInvariants c`, a submodule over `FixedPoints.subring R G` for
 any commutative ring `R` with a `MulSemiringAction G R` and any function `c : G → Rˣ`.
 Its membership formula `γ • f = c(γ)⁻¹ f` holds by definition; a cocycle is required
 for the descent interpretation, not for closure under addition and invariant scalars.
-Coboundaries are `γ ↦ F/γ^*(F)` for units `F`, and for `c′(γ) = c(γ)·F/γ^*(F)` multiplication by
+Coboundaries are `γ ↦ F/γ^*(F)` for units `F ∈ Γ(X_∞, F_A)^×`, and for `c′(γ) = c(γ)·F/γ^*(F)` multiplication by
 `F` is an isomorphism `ω_c ≅ ω_{c′}`; name this map `TwistedCharacterSheaf.congr_cocycle`.
 Define `TwistedCharacterSheaf` (the sheaf `ω_c` attached to
 the tower, `A` and `c`) and `TwistedCharacterSheaf.sections` (`ω_c(U)` is the set of
-`f ∈ O(U_∞) ⊗̂ A` with `γ^*f = c(γ)^{-1}f`); prove `TwistedCharacterSheaf.module` (`ω_c` is a
-sheaf of `O_X ⊗̂ A`-modules) ([CHJ] Definition 2.18, p. 17). Prove the profinite-module form of *quotient-scalar-extension* (P8.7) and
+sections `s ∈ Γ(U_∞, F_A)` with `γ^*s = c_U(γ)^{-1}s`, equal to the displayed subset of
+`O(U_∞) ⊗̂ A` for qcqs `U`); prove `TwistedCharacterSheaf.module` (`ω_c` is a
+sheaf of `O_X ⊗̂ A`-modules) ([CHJ] Definition 2.18, p. 17, on qcqs opens, and the
+description following it as the invariants of a pushed-forward coefficient sheaf, p. 18). Prove the profinite-module form of *quotient-scalar-extension* (P8.7) and
 *invariants-of-completed-tensor-with-banach-space* (P9.7): for a uniform `ℚ_p`-Banach algebra
 `A_∞` with a continuous action of a profinite group `G`, `A = A_∞^G`, and a profinite flat
 `ℤ_p`-module `M` (e.g. a small `ℤ_p`-algebra) with the trivial `G`-action and the mixed completion
@@ -2710,10 +2728,17 @@ AdicSpacesPartIV layer R5.
   cocycle since its values are constants: `γ^*c(δ) = c(δ)`), `ω_c = T^{k/pⁿ}·O_X` is free of rank
   one: `γ^*T^{k/pⁿ} = ζ_{pⁿ}^{kγ} T^{k/pⁿ} = c(γ)^{-1} T^{k/pⁿ}`, and `f ∈ ω_c` iff `f/T^{k/pⁿ}` is
   invariant; `k = 0` is the trivial cocycle, `ω_c = O_X`.
-- `twisted_coboundary` (compatibility) — if `c(γ) = F/γ^*(F)` for a unit `F` of `O(X_∞) ⊗̂ A`,
+- `twisted_coboundary` (compatibility) — if `c(γ) = F/γ^*(F)` for a unit `F` of `Γ(X_∞, F_A)`,
   then `ω_c = F·(O_X ⊗̂ A)`, matching `TwistedCharacterSheaf.congr_cocycle` with the trivial cocycle: `γ^*f = (γ^*F/F)f`
   iff `γ^*(f/F) = f/F`; and `γ ↦ F/γ^*F` is a cocycle because
   `(F/γ^*F)·γ^*(F/δ^*F) = F/γ^*δ^*F = F/(γδ)^*F`.
+- `twisted_disjoint_components` (boundary, all opens) — let `C = ℂ_p`,
+  `S = {0} ∪ {pⁿ : n ≥ 0} ⊂ ℤ_p` (profinite), `X = Spa(C, O_C) × S` (affinoid perfectoid by
+  PerfectoidSpaces P6.8), the identity tower, `G = 1`, `A = ℤ_p` and `c = 1`. The open `U`
+  over `S ∖ {0}` is `⨿ₙ Spa(C, O_C)`, with `Γ(U, O⁺) = ∏ₙ O_C` and `Γ(U, O) = ∏ₙ C`. Then
+  `ω_c(U) = Γ(U, F_A) = ∏ₙ C`, which contains the glued section `(p^{−n})_n`, whereas the raw
+  recipe `(∏ₙ O_C)[1/p]` contains only tuples with a common denominator bound and is strictly
+  smaller. On each quasi-compact component the two descriptions agree.
 - `twisted_inverse_two_terms` (auxiliary convention) — on `R = ℚ × ℚ` with the swap action
   and `F = (1,2)`, the coboundary at the swap is `(1/2,2)`. Its inverse acts on `F`
   as `(2,1/2)(1,2) = (2,1)`, the swapped vector; the uninverted coefficient gives
@@ -2941,7 +2966,7 @@ Prove that for `U`
 quasicompact with `O⁺(U_∞)` the `p`-adic completion of `colim_n O⁺(U_n)`, every unit
 `t ∈ O(U_∞)^×` and `m ≥ 1` admit `n`, `s_n ∈ O(U_n)^×` and `t^{(n)} ∈ 1 + p^m O⁺(U_∞)` with
 `t = t^{(n)} s_n` (*approximation-of-units-at-finite-level*) ([CHJ] Proposition 2.27, p. 21).
-Prove that for an integral cocycle `c` and `F ∈ (O⁺(V_∞) ⊗̂ A°)^×` with `γ^*F = c(γ)^{-1}F`,
+Prove that for an affinoid `V ⊆ X`, an integral cocycle `c` and `F ∈ (O⁺(V_∞) ⊗̂ A°)^×` with `γ^*F = c(γ)^{-1}F`,
 `ω_c⁺|_V = F·(O⁺_V ⊗̂ A°)` is free of rank one and its integral pullback is isomorphic to the
 prescribed rank-one lattice upstairs (with the bounded open coefficient lattice and the
 `π`-adic tensor completion for affinoid coefficients, the product completion of AdicSpacesPartIV
