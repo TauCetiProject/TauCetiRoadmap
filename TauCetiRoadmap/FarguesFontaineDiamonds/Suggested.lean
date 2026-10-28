@@ -4,9 +4,10 @@ import Mathlib
 # The Fargues–Fontaine curve as a diamond: target signatures
 
 The roadmap is `README.md`, the definitive specification. This file records suggested
-Lean forms for its headline results, not an exhaustive checklist.
+Lean forms for its headline results, not an exhaustive checklist: it states those headline
+theorems that can be written against the pinned Mathlib and Tau Ceti APIs.
 
-None of the headline results can be stated against the pinned Mathlib and Tau Ceti:
+At the pins none of the headline results is statable:
 
 * F0's analytic and scalar interfaces require the period annuli and the structure
   sheaves on the fixed-field period domain and curve. Tau Ceti's `FarguesFontaine.spaY`
@@ -28,10 +29,9 @@ None of the headline results can be stated against the pinned Mathlib and Tau Ce
   Postnikov completion and coefficient-system limits. Mathlib's ordinary derived
   categories do not supply these objects.
 
-These signatures are deferred until their mathematical carriers are available. The
-README specifies their full hypotheses and supplier contracts.
+The README specifies their full hypotheses and supplier contracts.
 -/
 
-namespace TauCeti.FFDiamond
+namespace TauCetiRoadmap.FarguesFontaineDiamonds
 
-end TauCeti.FFDiamond
+end TauCetiRoadmap.FarguesFontaineDiamonds
