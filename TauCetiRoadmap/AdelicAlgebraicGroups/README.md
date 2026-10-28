@@ -4916,9 +4916,11 @@ quaternion norms and compact abelian Fourier limits.
 at `{∞}`, while `G_a` has both. `diag(2, 1/2)` is neat and the order-`3` element of `SL_2(ℤ)` is
 not; `K(3)` is a neat `GL₂` level and `GL_2(ℤ̂)` is not. The `SL_2/ℚ` level quotient with `K∞ = 1` is
 `SL_2(ℤ)\SL_2(ℝ)`; with `K∞ = SO(2)`, the groupoid over `i` has automorphism group of order `4`. For
-`g = diag(p, 1)` the correspondences `T_g` and `T_{g⁻¹}` differ at `K∞ = SO(2)` and agree once
-`K∞ ⊇ ℝ_{>0}`. The positive scalar direction disappears in idele classes modulo squares,
-while a nonsquare unit at `3` survives over `ℚ`.
+`GL₂/ℚ`, `U = GL_2(ℤ̂)` and `g` equal to `diag(p, 1)` at `p` and `1` elsewhere, the correspondences
+`T_g` and `T_{g⁻¹}` differ at `K∞ = SO(2)` and agree once `K∞ ⊇ ℝ_{>0}`; at the Iwahori level
+`K₀(p)` the double cosets of `diag(p, 1)` and `diag(1, p)` at `p` are already distinct. The
+positive scalar direction disappears in idele classes modulo squares, while a nonsquare unit at
+`3` survives over `ℚ`.
 
 ### Dependencies
 
@@ -5406,6 +5408,9 @@ number-field sources named there.
   manuscript of 23 February 2007; locators use its pagination rather than that of the Cambridge
   2008 book.
 
+- **Casselman**: W. Casselman, *Introduction to the theory of admissible representations of
+  p-adic reductive groups*. Draft of 1 May 1995; locators use its printed pages.
+  <https://personal.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf>
 - **Marzec–Neururer**: J. Marzec and M. Neururer, *L-functions and their applications*,
   25 February 2020, Chapter 5, pp. 55–67.
   <https://jmarzec.ukw.edu.pl/marzec,neururer-lecture.pdf>
