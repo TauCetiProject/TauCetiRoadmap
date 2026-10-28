@@ -483,6 +483,41 @@ determinant identification with the free-endpoint Fredholm determinant
 precursors in F0.7/F1.4, compatibly with endpoint evaluation, translation,
 parameter families and broken gluing; its isolated-point specialization is M.2.
 
+**Oriented ambient manifold with nonorientable trajectories.** Realize the
+orientation warning with `Y=S²×S¹`, `τ((x,y,z),e^(iθ))=((x,−y,z),e^(−iθ))`,
+and `X=([0,1]×Y)/((1,q)∼(0,τ(q)))`. Construct the smooth mapping torus;
+the two fiber orientation reversals make τ orientation-preserving, so X is
+an oriented closed four-manifold. Fix 0<ε<1 and let
+`f([t,p,θ])=z(p)+ε cos θ`. The four critical circles are the north/south
+pole paired with θ=0,π; their negative-normal ranks are respectively3,2,1,0
+in the order (N,0),(N,π),(S,0),(S,π).
+
+Choose τ-invariant product metrics for the sphere height and scaled circle
+function ε cos θ, standard in their Morse coordinates near the extrema.
+Require the sphere metric to be invariant under axial rotations and meridian
+reflection; construct its diagonal patching with those symmetries. Descend
+the orthogonal sum with dt². Prove the product flow, M.6 regularity and standard normal
+form; in particular the unstable manifold of C={(N,π)} has θ=π.
+Put D={(S,π)}. Its negative bundle has rank0, whereas ν⁻_C is the rank2
+sphere tangent plane with transition diag(1,−1). Its determinant orientation
+line has monodromy−1. The remaining positive normal line also has
+monodromy−1, so the full normal bundle is oriented, consistently with X
+and the critical-circle orientation. Retain this distinction between the
+negative summand and the whole normal bundle.
+
+Prove that trajectories from C to D keep t and θ=π fixed, and that the
+sphere meridians parametrize each quotient fiber by longitude φ∈S¹.
+There are no broken ends in this trajectory space. The seam acts by
+`(t,φ)↦(t+1,−φ)`, giving a diffeomorphism of 𝓜(C,D) with the Klein bottle.
+Both endpoint maps are its projection to the base circle. Thus X,C,D are
+oriented but 𝓜(C,D) is not. Identify its orientation local system with
+`s*o(ν⁻_C)` through M.6's determinant identity, with the flow line oriented
+by the negative-gradient flow parameter. The finite normal-monodromy
+calibration is in
+[`NonorientableBottModuliTargets.lean`](NonorientableBottModuliTargets.lean).
+This rank2 negative-bundle example is distinct from M.7's Klein-bottle
+ambient surface and its rank1 negative line.
+
 **M.7 Bott complexes and cascades.** Construct the integral geometric-chain
 complex on critical components with coefficients o(ν⁻_C) and total degree
 `chain degree+λ_C`, with internal differential `(-1)^λ_C ∂` and the signed
