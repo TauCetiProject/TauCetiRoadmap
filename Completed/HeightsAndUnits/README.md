@@ -101,8 +101,9 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
     product bound for independent kernel vectors.
   - §4.5: the identity `logHeight₁ y = Σ max(0, ℓ) = ½ Σ |ℓ|` for the full vector `ℓ` of
     weighted logarithms of a unit outside a finite `S`, over `S ∪ S_∞` (BG96 (12)).
-- **[GeometryOfNumbersAndQuadraticArithmetic](../../TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md)**
-  (GoN below) owns the successive minima and Minkowski's second theorem:
+- **[GeometryOfNumbersAndQuadraticArithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851)**
+  (GoN below; open roadmap proposal #851) specifies the following supplier interfaces for
+  successive minima and Minkowski's second theorem:
   - §1.2.1: `successiveMin L K i`, zero-based, `i : Fin (finrank ℝ E)`, for `K : ConvexBody E`.
   - §1.2.3–1.2.11 and §1.2.12: its calculus.
   - §1.2.7: `exists_successiveMin_witnesses`.
@@ -110,6 +111,11 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
     bound on its vectors**.
   - §1.5.21: `minkowski_second_upper`, for any additive Haar measure on a finite-dimensional real
     inner-product space.
+
+The existing implementations of these supplier interfaces are recorded in [COMPLETION.md](COMPLETION.md).
+The approved [SuccessiveMinima](../../TauCetiRoadmap/SuccessiveMinima/README.md) roadmap uses the
+same canonical lattice and convex-body carriers; the GoN section numbers above retain their
+original proposal references.
 
 ### Not owned here
 
