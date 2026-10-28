@@ -2544,9 +2544,8 @@ intersection description on the actual valuation spectrum of `R`.
 `Perfectoid.quasicompactOpen_isAffinoid` states the open-subspace consequence, assuming a
 geometric open immersion and a quasicompact source ([ECD] Lemma 7.6 and Remark 7.7, pp. 31–32).
 
-Lean: the Checks `closed_point_not_generalizing_topology` and `generic_point_generalizing_topology`
-are examples on `Prop`. The geometric targets are specified in the README only (no Lean
-declaration).
+Lean: none; this subsection, including the two-point topological Checks, is specified in the
+README only (no Lean declaration).
 
 ### D1.6 Automatic flatness
 
@@ -4684,7 +4683,7 @@ coordinate valuations, rational restriction maps and Gauss points, together with
 fibre products. A valuation inequality over a ring alone does not identify the required subset or
 its descended image. Here the open unit disc means the union `⋃_{n ≥ 1} {|T^n| ≤ |ϖ|}` for a fixed
 pseudouniformizer `ϖ`; the notation `{|T| < 1}` denotes this analytic open, including its
-higher-rank points. The suggested Lean examples use this union in D2.4, D2.8 and D3.2. The ordinary
+higher-rank points. The Checks of D2.4, D2.8 and D3.2 use this union. The ordinary
 ball in `s3_2_section_lemma_point` is specified by its universal property among complete Huber
 pairs, and `s3_2_tate_ball_only` uses the integral ring of the supplied `PerfectoidSpace.discPair`.
 
