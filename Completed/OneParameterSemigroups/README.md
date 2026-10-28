@@ -35,14 +35,14 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
 - **C₀ groups.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the unitary
   `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API. Stone's
   theorem on Hilbert space is a milestone of
-  [`OperatorTheory/SelfAdjointSpectralTheory`](../OperatorTheory/SelfAdjointSpectralTheory/README.md),
+  [`OperatorTheory/SelfAdjointSpectralTheory`](../../TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md),
   which is cited for it rather than specifying it twice.
 - **Generators are unbounded.** The generator is a densely defined `LinearPMap`. Its resolvent
   uses the shared `TauCeti.LinearPMap` core, with `λ ∈ ρ(A)` when
   `λ I - A : D(A) → X` has a bounded two-sided inverse. The bounded-operator bridge
   identifies this inverse with Mathlib's Banach-algebra resolvent. This roadmap owns the general
   generator theory and its resolvent estimates;
-  [`OperatorTheory/SelfAdjointSpectralTheory`](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
+  [`OperatorTheory/SelfAdjointSpectralTheory`](../../TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md)
   owns the scalar generalization of the shared resolvent core, the self-adjoint estimates, and
   the imaginary-shift Yosida approximants.
 - **Bochner at its natural generality.** A continuous positive-definite function lives on a
@@ -237,7 +237,7 @@ positive-definiteness is only for *matrices* / quadratic forms — there is no
 continuous-positive-definite-*function* notion, and no Bochner representation. So this was
 build-here, **now built** by route (ii), `charFun` + Lévy/Prokhorov tightness; route (i), the
 positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, was the alternative not taken.
-**Stretch:** an LCA group via Pontryagin duality, not begun.
+The LCA-group form uses Pontryagin duality.
 
 **Milestone 2 — BCR semigroup–Bochner (Berg–Christensen–Ressel 4.1.13).** A bounded
 continuous positive-definite function on the involutive semigroup `[0,∞) × V` is the
@@ -269,11 +269,10 @@ positive-definite, with the expected Gaussian representing measure.
 
 Part A (semigroups) and Part B (completely monotone) are independent and can proceed in
 parallel; the Hille–Yosida resolvent API and the Bernstein representation are good early
-targets. Part A's **generation theorem** (Yosida approximation) was build-here, following the
-resolvent API, and is **now built** — both Hille–Yosida and Lumer–Phillips. Part C builds on B
-for the `V = 0` consistency check; its **Bochner theorem on `V`** (Milestone 1) was build-here
-and gated the BCR existence half, and is **now built**, as is BCR uniqueness, which was
-independent and portable early. What remains of Part C is the BCR existence half.
+targets. Part A's **generation theorems** (Hille–Yosida and Lumer–Phillips) follow the resolvent
+API through Yosida approximation. Part C builds on B for the `V = 0` consistency check.
+Its **Bochner theorem on `V`** (Milestone 1) supplies the BCR existence theorem;
+BCR uniqueness uses Fourier/Laplace injectivity and is independent of that construction.
 
 ## References
 

@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.InfinitaryLogic.Suggested
+import Completed.InfinitaryLogic.Suggested
 
 /-!
 # Infinitary model existence, omitting types and interpolation: suggested signatures
