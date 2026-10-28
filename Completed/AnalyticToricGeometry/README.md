@@ -2,7 +2,7 @@
 
 The completion audit is supported by the scheme-action comparison in
 [Tau Ceti PR #22017](https://github.com/TauCetiProject/TauCeti/pull/22017), checked at
-[`d379c8be1c7e60e100eea7a2b8972c1f24ae23fe`](https://github.com/TauCetiProject/TauCeti/commit/d379c8be1c7e60e100eea7a2b8972c1f24ae23fe)
+[`1c14e0ea516a73fe31c89c429c63b2f0bd51cee8`](https://github.com/TauCetiProject/TauCeti/commit/1c14e0ea516a73fe31c89c429c63b2f0bd51cee8)
 with Lean 4.36.0-rc1 and Mathlib `2cabef97`. [Native completion checks](NativeCompletion.md)
 contain the compiled full-line acceptance proof. The complete README is the specification.
 
