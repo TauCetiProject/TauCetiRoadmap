@@ -1920,7 +1920,77 @@ Define relative four-ended oriented/unoriented realized tangles in a ball with m
 
 Prove that a rational knot has bridge number at most2, and that a nontrivial knot is rational iff its bridge number is2, via both geometric bridge constructions. Keep the rational unknot (including p=1) in its separate bridge1 branch. State the Schubert classification with explicit reduced fraction p>0,p odd,gcd(p,q)=1 and the chosen orientation/mirror equivalence: unoriented orientation-preserving ambient equivalence has q′≡q^(±1)modp; allowing ambient reflection adds the negative classes. If oriented/marked equivalence needs a different quotient, state and prove it separately before using that branch. Preserve the printed q′≡q-only criterion as a narrowed/false literal, not the full classification. Derive mirror/amphicheiral conditions under this dictionary, and certify all7₃/8₂/list examples with actual codes.
 
-Define positive algebraic-tangle syntax from the pinned integer constructors and operations; prove its realized numerator alternating with hypotheses that prevent degenerate/ambiguous notation. Define exact orientation-compatible Conway mutations (the three half-turns and identity, plus separately any reflected diagrams allowed by source wording); do not identify an unexplained eight-picture family with four oriented mutants. Prove HOMFLY mutation invariance through the two-string skein module and its cleared denominator closure identity, with μ=−(l+l⁻¹)/m. Do not divide by1−μ² in the Laurent ring without localization. Certify all named mutant/signature/genus/Alexander-one and11_388 examples using their actual codes and invariants.
+Define positive algebraic-tangle syntax from the pinned integer constructors and operations; prove its realized numerator alternating with hypotheses that prevent degenerate/ambiguous notation. Define exact orientation-compatible Conway mutations (the three half-turns and identity, plus separately any reflected diagrams allowed by source wording); do not identify an unexplained eight-picture family with four oriented mutants. Prove HOMFLY mutation invariance through **GT4.TwoTangleSkein** below, retaining its boundary-orientation sectors and coefficient-ring comparisons. Certify all named mutant/signature/genus/Alexander-one and11_388 examples using their actual codes and invariants.
+
+**GT4.TwoTangleSkein — closure coordinates and composition.**
+Over `Λ=ℤ[l^{±1},m^{±1}]`, put `μ=−(l+l⁻¹)/m`. Construct the
+relative oriented HOMFLY skein module of the four-ended realized tangles
+with the fixed boundary collars, using `lL₊+l⁻¹L₋+mL₀=0`, ambient
+Reidemeister moves and removal of a disjoint trivial circle with factor μ.
+Closed components are allowed; the two open strands remain after circle
+removal, so no empty-link convention is introduced. Prove gluing and
+closure descend to the quotient. Distinguish these two boundary sectors.
+
+For alternating incoming/outgoing endpoints in cyclic order NW,NE,SE,SW,
+let E join NW–NE and SW–SE without crossings, and F join NW–SW and
+NE–SE. Give their unique orientations from that marking. Prove they form
+a Λ-basis by descending skein resolution and the closure pairing below.
+Under horizontal composition E is the unit and `F²=μF`. For
+`S=aE+bF`, `T=cE+dF`, prove
+
+```
+ST=acE+(ad+bc+μbd)F,
+N(S)=μa+b,                 D(S)=a+μb,
+D(ST)=D(S)D(T),
+(1−μ²)N(ST)=N(S)D(T)+D(S)N(T)−μ[N(S)N(T)+D(S)D(T)].
+```
+
+Here N closes top and bottom endpoint pairs, and D closes left and right
+pairs by the fixed exterior crossing-free arcs. Their matrix is
+`[[μ,1],[1,μ]]`, with determinant μ²−1, nonzero in Λ. Use its adjugate
+and the integral-domain property to prove independence without division.
+Compare this algebra with the native `TauCeti.TemperleyLieb Λ μ 2`,
+sending E to1 and F to `TemperleyLieb.e μ 0`. For the two-dimensional
+native normal form use `e_mul_self` and `twoStrandRep` in
+`TauCeti.Algebra.TemperleyLieb.Basic`: the representation's first column
+recovers the coefficients of `a·1+b·e`. Prove spanning by reducing powers
+of the single generator, then prove the actual geometric comparison.
+This adapter uses no positive trace or C*-completion.
+
+For adjacent incoming endpoints NW,NE and outgoing endpoints SW,SE,
+use vertical stacking and the basis I,B of identity strands and the
+positive crossing. Prove spanning and independence, and
+`B²=−l⁻¹mB−l⁻²I`. The two linear functionals are ordinary braid closure
+τ and closure after stacking B: `τ(I)=μ`, `τ(B)=1`, and
+`τ(B²)=−l⁻¹m−l⁻²μ`. Their matrix on I,B is
+`[[μ,1],[1,−l⁻¹m−l⁻²μ]]`, with determinant `l⁻²(1−μ²)`.
+The same nonzero-determinant argument proves independence. Identify this
+algebra with native `AdjoinRoot` of the monic polynomial
+`X²+(m/l)X+l⁻²`; this sector requires neither an eigenvalue choice nor
+a coefficient extension splitting that quadratic.
+
+Construct cyclic rotations of the marked boundary and simultaneous
+orientation reversal identifying every two-input/two-output marking with
+one of these sectors; transport crossing heights by the actual spatial maps.
+For each permitted mutation half-turn, with reversal of all tangle
+components when needed to restore the boundary orientations, prove its
+action fixes the appropriate two basis elements, including the collar
+comparison. Gluing to any compatible exterior then proves the original
+HOMFLY mutation-invariance target. This does not assert invariance under
+arbitrary independent component reversals.
+
+Prove coefficient base change for these quotient constructions. In the
+alternating sector, after localizing at1−μ² recover
+`a=(D−μN)/(1−μ²)` and `b=(N−μD)/(1−μ²)`. Over a specialized ring the
+closure kernel is exactly `{(a,−μa):(1−μ²)a=0}`. In particular at μ²=1
+the two closures need not separate tangles, while the cleared composition
+identity still specializes. Prove it universally before making such
+specializations. This supplies the formula on course p88, reproduced in
+[Freyd et al., p244](https://www.math.ucdavis.edu/~egorskiy/MAT280-s18/HOMFLY.pdf).
+[TwoTangleSkeinTargets.lean](TwoTangleSkeinTargets.lean) gives native algebra
+and coordinate signatures; the relative geometric skein comparisons remain
+required theorem targets.
+
 
 Construct signed Dowker encodings together with realizability/rotation/outerface and crossing-free data, source order/sign convention, decoder soundness and completeness. A plain integer word without these certificates is not an arbitrary realized knot. Consume native Gauss/PD/permutation triples and connected-triple rigidity; certify plane/sphere shadow equivalence, face-orbit actions and reflected triples by propagated images of one half-edge rather than factorial search. For the seven-crossing outerface example enumerate all28 candidate sheet images in each permitted orientation branch, prove no allowed map interchanges the selected outerfaces, and separately certify sphere equivalence.
 
