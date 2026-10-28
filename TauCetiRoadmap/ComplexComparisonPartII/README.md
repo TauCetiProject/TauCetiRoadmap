@@ -136,7 +136,7 @@ The analytic ownership and stage order are:
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 / `sncBoundary`, `sncCompactification`, `sncCoordinates` | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C−1.4 supplies `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
 | Scheme analytification and its algebraic-to-holomorphic prefix | ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2 | FormalConnectionsOpers F2.4 uses the same complex points, ring sheaf, open restrictions, fibre products, smooth charts and étale local isomorphisms. F2.4 retains fixed-model maximal atlases, second countability, tangent/derivation, toric, group and gauge comparisons; these use the prefix without proper GAGA |
-| Ordinary algebraic differential operators and all-order principal parts | ComplexComparisonPartII C5.1 | C5.1 states the characteristic-free order predicate, commutator/order laws, localization and all-order principal parts with their universal property, and owns their analytic comparison. C5.1 is the canonical location of these characteristic-free definitions and their laws. FormalConnectionsOpers F2.2's order predicate, principal-parts quotient, universal jet and universal property are these declarations, consumed from C5.1 rather than defined again; C5.1 does not consume FormalConnectionsOpers, which itself uses C−1.1, C0.4 and C5.1–C5.2. The stage order is: the algebraic interface (no analytification or GAGA) → C5.1's `DifferentialOperatorAnalytification` → FormalConnectionsOpers F2.4's connection applications. F2.2 retains symbols, Atiyah sequences and Lie–Rinehart PBW, which assumes projectivity |
+| Ordinary algebraic differential operators and all-order principal parts | ComplexComparisonPartII C5.1 | C5.1 states the characteristic-free order predicate, commutator/order laws, localization and all-order principal parts with their universal property, and owns their analytic comparison. C5.1 is the single owner of these characteristic-free definitions and their laws. FormalConnectionsOpers F2.2's order predicate, relation module, principal-parts quotient, universal jet, composition maps and universal property are these declarations, not a second construction; C5.1 does not consume FormalConnectionsOpers, which itself uses C−1.1, C0.4 and C5.1–C5.2. The stage order is: the algebraic interface (no analytification or GAGA) → C5.1's `DifferentialOperatorAnalytification` → FormalConnectionsOpers F2.4's connection applications. F2.2 retains symbols, Atiyah sequences and Lie–Rinehart PBW, which assumes projectivity |
 | Bundle–sheaf equivalence at fixed and componentwise varying rank, holomorphic connections and the absolute flat category equivalences | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules`, including K4.ComponentwiseFiniteRankAssembly (all connection-preserving maps, rank zero, the empty base and unbounded ranks across components) | C0.3 identifies K4's componentwise assembly with the finite locally free subcategory of `CoherentAnalyticModule`, comparing its clopen rank-stratum presentation with K4's componentwise one on the same section sheaf; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers with K4's and transports the algebraic connection operations; `analyticFlatConnectionLocalSystem` adds holomorphic parameters and specializes over a point to K4's full category equivalence |
 | Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
 | Local analytic-set mass and L¹ integration | ComplexKahlerGeometry K6.1's chart-local Lelong estimates and K5a's L¹ integration comparison | C5.4's `analyticSetLocalFiniteMass` globalizes the supplied estimates to pure-dimensional analytic subsets in arbitrary manifolds, without compactness or a Kähler hypothesis, and compares metrics and restrictions; C5.4 glues the general cycle current and proves closedness. `AnalyticCycleIntegration.compactKaehler` identifies its compact specialization with K6.1's real de Rham functional, with the same orientation and multiplicities |
@@ -159,8 +159,8 @@ The ring-sheaf, primitive relation and local Bochner suppliers use neither the c
 Cartan package nor its real-analytic applications.
 The compact Kähler input follows the separate path RealAnalyticGeometry R3–R5 →
 ComplexKahlerGeometry K6.1 → C5.3. Neither C0 nor C1 uses K6.1 or its triangulation inputs.
-These dependencies are on the named stages and give an acyclic order within and between
-roadmaps; they do not impose a strict merge order on whole roadmap specifications.
+Every supply in this table runs in one direction: a supplier stage of another roadmap named
+here uses no stage of this roadmap.
 
 **Built in other roadmaps and cited.**
 
@@ -2391,9 +2391,11 @@ holomorphy (Deligne 1970, I.2.19 and I.2.23 (ii) with 2.23.2–2.23.3, printed p
 homotopy integrates power series term by term). *Needs:* `HolomorphicDeRham`.
 
 **Shared algebraic operators and principal parts — `IsDifferentialOperator`.**
-This is the ordinary algebraic foundation and its canonical location; FormalConnectionsOpers
-F2.2 consumes this predicate, the principal parts and their universal property from here
-rather than defining them again.
+This is the ordinary algebraic foundation, and C5.1 is its single owner. The order predicate,
+the relation module spanned by iterated diagonal differences, the principal-parts quotient,
+the universal jet, the universal bijection, the composition maps and localization named in
+FormalConnectionsOpers F2.2 are these declarations, not a second construction; F2.2 retains
+symbols, the Atiyah sequence and Lie–Rinehart PBW on top of them.
 It uses no analytification or GAGA, so it precedes the analytic adapter below and
 F2.4's connection applications. For arbitrary commutative
 `k`, a commutative `k`-algebra `A`, arbitrary `A`-modules `M`, `N` and a `k`-linear map
@@ -2434,7 +2436,9 @@ and localization.
   the composition map sends `t` to `t₁+t₂`, with `t₁^(m+1)=t₂^(n+1)=0`.
 - Over `𝔽_p[z]`, the coefficient of `t^p` in `f(z+t)` is an operator of order `p`
   taking `z^p` to `1`, although the `p`-fold ordinary derivative vanishes. The universal
-  factorization requires no division by `p!`.
+  factorization requires no division by `p!`. For `p = 2` this operator sends `z²` to `1`
+  while `(d/dz)²(z²) = 2 = 0`; for `p = 3` it sends `z³` to `1` and `z⁴` to `4z = z`, while
+  `(d/dz)³` is zero on `𝔽₃[z]`.
 
 Define `DifferentialOperatorAnalytification`: for coherent `F`, `G` on `X` of finite type over `ℂ`
 and an algebraic differential operator `D` of order at most `m`, compare the analytification
