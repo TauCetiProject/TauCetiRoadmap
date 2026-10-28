@@ -1,7 +1,9 @@
 # Roadmap: local fields and ramification
 
 **Archive candidate, 2026-10-28.** This move is draft preparation and awaits implementation
-[PR #22018](https://github.com/TauCetiProject/TauCeti/pull/22018). The implementation evidence
+[PR #22018](https://github.com/TauCetiProject/TauCeti/pull/22018),
+[PR #22046](https://github.com/TauCetiProject/TauCeti/pull/22046), and
+[PR #22047](https://github.com/TauCetiProject/TauCeti/pull/22047). The implementation evidence
 below records the tested candidate and must be updated to merged upstream source before this
 archive is declared complete.
 

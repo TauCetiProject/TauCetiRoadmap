@@ -42,4 +42,4 @@ revision against which an earlier version elaborated.
 - [The Chebotarev density theorem](Chebotarev/README.md)
   (declared complete 2026-10-07)
 - [Local fields and ramification](LocalFieldsRamification/README.md)
-  (archive candidate 2026-10-28; awaiting implementation PR #22018)
+  (archive candidate 2026-10-28; awaiting implementation PRs #22018, #22046 and #22047)
