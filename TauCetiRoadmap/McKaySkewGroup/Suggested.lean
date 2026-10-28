@@ -1,6 +1,9 @@
 import Mathlib
 import TauCeti.RepresentationTheory.Simple.Basic
 import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Basic
+import TauCeti.LinearAlgebra.RootSystem.AffineDynkinType.Deletion
+import TauCeti.CategoryTheory.GrothendieckGroup.Split
+import TauCeti.RepresentationTheory.RepresentationRing.Basic
 import TauCeti.RingTheory.Idempotents.Corner
 import TauCeti.RepresentationTheory.Quiver.Preprojective.Basic
 import TauCeti.RepresentationTheory.Quiver.Zigzag.Orientation
@@ -24,37 +27,44 @@ Stated here:
   are `2δ_ij − C_ij` for the generalized Cartan matrix `C` of a valid affine simply-laced diagram
   (Tau Ceti's `TauCeti.AffineDynkinType`), the dimensions of the simples are its marks and the
   trivial representation sits at its affine node.  Every valid affine type occurs.
+* Layer 2: for a McKay labelling by a valid affine type, the representation ring is the free
+  abelian group on the nodes, multiplication by `[V]` is `2 − C`, the regular class is the vector of
+  marks, the radical of the McKay form is `ℤ · [ℂ[G]]`, and the quotient by it is the finite root
+  lattice of the deleted diagram with its Cartan form.
 * Layer 4: the polynomial skew algebra `Sym(V) ⋊ G` has a full idempotent whose corner is the
-  preprojective algebra of the McKay graph; when `−1 ∈ G` the exterior skew algebra `Λ(V) ⋊ G`
-  has a full idempotent whose corner is the zigzag algebra of the McKay graph.
+  preprojective algebra of any finite quiver realizing the McKay multiplicities (for `G = {±1}`
+  the Kronecker quiver of the double edge of `Ã₁`, for the trivial group the one-loop quiver);
+  when `−1 ∈ G` and the McKay type is graphical, the exterior skew algebra `Λ(V) ⋊ G` has a full
+  idempotent whose corner is the zigzag algebra of the McKay graph.
 * Layer 5: the Crawley-Boevey–Holland theorem, `(T(V) ⋊ G)/([x,y] − z)` has a full idempotent
-  whose corner is the deformed preprojective algebra with the trace weights `λ_i = Tr_{ρ_i}(z)`.
+  whose corner is the deformed preprojective algebra of a McKay quiver with the trace weights
+  `λ_i = Tr_{ρ_i}(z)`.
 
-The McKay diagram `Ã₁` of `G = {±1}` carries a double edge, and Tau Ceti's quiver of an affine
-diagram is built from its simple graph `TauCeti.AffineDynkinType.graph`; the corner theorems are
-therefore stated for graphical types, and the `Ã₁` case remains a README target.
+The zigzag corner is stated for graphical types only: Tau Ceti's zigzag algebra
+`TauCeti.nonisolatedZigzagQuotient` is built from a simple graph, and the exterior skew algebra of
+`G = {±1}`, with two degree-one arrows in each direction, is not the zigzag algebra of a simple
+graph.
 
 Not statable at the pins:
 
 * The Koszul duality of Layer 3, `Λ(V∗) ⋊ G` as the relative quadratic dual of `Sym(V) ⋊ G` over
   `S = k[G]` together with relative Koszulity: neither Mathlib nor Tau Ceti has relative tensor
   algebras over a noncommutative semisimple base, their right duals, or quadratic duals.
-* The Layer 2 passage from the representation ring to the affine root lattice: Tau Ceti has
-  `TauCeti.repRing`, but no root lattice of an affine type to map to.
 * The FKS theorems of Layer 6 (the stable category of curved duplexes over the zigzag algebra and
   the Weyl-group action by reflection functors): there are no curved modules, duplexes, curved
   homotopy categories or stable categories of graded modules at the pins.
 * The geometric McKay correspondence of Layer 7 (the exceptional curves of the minimal resolution
-  of `ℂ² / G` and their intersection matrix): there is no minimal resolution of a surface
-  singularity at the pins.
+  of `ℂ² / G` and their intersection matrix, the `G`-Hilbert scheme and the tautological bundles):
+  there is no minimal resolution of a surface singularity and no equivariant Hilbert scheme at the
+  pins.
 -/
 
 namespace TauCetiRoadmap.McKaySkewGroup
 
 open CategoryTheory
-open scoped MonoidalCategory
+open scoped MonoidalCategory Matrix
 
-universe u v
+universe u v w
 
 /-! ## Layer 0: finite subgroups of `SL₂(ℂ)` -/
 
@@ -136,6 +146,53 @@ theorem exists_isMcKayLabelling_of_valid (t : TauCeti.AffineDynkinType) (ht : t.
         (∀ g : G, LinearMap.det (V.ρ g) = 1) ∧ IsMcKayLabelling V t e := by
   sorry
 
+/-! ## Layer 2: the representation ring and the root lattice -/
+
+/-- The **quotient of the affine root lattice by the null vector**, in coordinates: the map
+`ℤ^(nodes of t) → ℤ^(nodes of the finite type)` sending `x` to `x − x₀ δ` read at the nodes other
+than the affine node `0`, in the Bourbaki numbering `TauCeti.AffineDynkinType.bourbakiNode`, where
+`δ = t.marks`.  Since the mark of the affine node is `1`, its kernel is `ℤ δ` and it is onto. -/
+def rootLatticeQuotientMap (t : TauCeti.AffineDynkinType) :
+    (Fin t.nodes → ℤ) →+ (Fin t.finiteType.rank → ℤ) where
+  toFun x i := x (t.bourbakiNode i) - x t.affineNode * t.marks (t.bourbakiNode i)
+  map_zero' := by ext; simp
+  map_add' x y := by ext; simp only [Pi.add_apply]; ring
+
+/-- **The representation ring and the affine root lattice** (Steinberg, *Finite subgroups of
+`SU₂`, Dynkin diagrams and affine Coxeter elements*, Pacific J. Math. 118 (1985), §1(3)–(5);
+README Layer 2).  For a McKay labelling `e` of the simple representations of a finite group `G` by
+a valid affine type `t`, the representation ring `R(G) = TauCeti.repRing ℂ G` has an additive
+isomorphism `Φ` onto `ℤ^(nodes of t)` that
+
+* sends the class of each simple `X` to the basis vector of its node;
+* turns multiplication by `[V]` into the McKay matrix `2 − C`;
+* sends the class of the regular representation `ℂ[G]` to the vector of marks `δ`;
+
+and the McKay form `(r, s) ↦ Φ r · C Φ s` has radical exactly `ℤ · [ℂ[G]]`, while the composite of
+`Φ` with `rootLatticeQuotientMap t` is onto the finite root lattice of the deleted diagram, has
+kernel `ℤ · [ℂ[G]]`, and carries the McKay form to the finite Cartan form `t.finiteType.cartanMatrix`.
+For `G = {±1}` (`t = Ã₁`) the composite sends the trivial class to `−1`, the sign class to `1`,
+and `[ℂ[G]]` to `0`. -/
+theorem exists_repRing_addEquiv_of_isMcKayLabelling {G : Type} [Group G] [Finite G]
+    (V : FDRep ℂ G) (t : TauCeti.AffineDynkinType) (ht : t.Valid)
+    (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Fin t.nodes) (hlab : IsMcKayLabelling V t e) :
+    ∃ Φ : TauCeti.repRing ℂ G ≃+ (Fin t.nodes → ℤ),
+      (∀ (X : FDRep ℂ G) [Simple X],
+        Φ (TauCeti.SplitK0.of X) = Pi.single (e (TauCeti.SimpleFDRepClasses.mk X)) 1) ∧
+      (∀ r, Φ (TauCeti.SplitK0.of V * r) = ((2 : ℤ) • (1 : Matrix _ _ ℤ) - t.cartanMatrix) *ᵥ Φ r) ∧
+      Φ (TauCeti.SplitK0.of (FDRep.of (Representation.leftRegular ℂ G))) = t.marks ∧
+      (∀ r, t.cartanMatrix *ᵥ Φ r = 0 ↔
+        r ∈ AddSubgroup.zmultiples
+          (TauCeti.SplitK0.of (FDRep.of (Representation.leftRegular ℂ G)))) ∧
+      Function.Surjective (rootLatticeQuotientMap t ∘ Φ) ∧
+      (∀ r, rootLatticeQuotientMap t (Φ r) = 0 ↔
+        r ∈ AddSubgroup.zmultiples
+          (TauCeti.SplitK0.of (FDRep.of (Representation.leftRegular ℂ G)))) ∧
+      ∀ r s, Φ r ⬝ᵥ (t.cartanMatrix *ᵥ Φ s) =
+        rootLatticeQuotientMap t (Φ r) ⬝ᵥ
+          (t.finiteType.cartanMatrix *ᵥ rootLatticeQuotientMap t (Φ s)) := by
+  sorry
+
 /-! ## Layer 4: skew-group algebras and their basic corners -/
 
 section SkewAlgebras
@@ -212,23 +269,37 @@ instance tensorAlgebraAction_smulCommClass (V : FDRep k G) :
 
 end SkewAlgebras
 
+/-- A **McKay quiver** of `V`: a finite quiver `Q` with a bijection `e` from the isomorphism
+classes of simple objects of `FDRep ℂ G` to its vertices such that, for all simples `X` and `Y`,
+the arrows of `Q` from `e Y` to `e X` and from `e X` to `e Y` number `dim Hom(X, V ⊗ Y)` together.
+Equivalently, the double `Q̄` has exactly `dim Hom(X, V ⊗ Y)` arrows from `e Y` to `e X`; a loop
+counts in both directions, so `dim Hom(X, V ⊗ X)` is twice the number of loops at `e X`.  For
+`G = {±1}` the Kronecker quiver (two arrows from the trivial to the sign vertex) is one; for the
+trivial group with `V = ℂ²` the one-loop quiver is one. -/
+def IsMcKayQuiver {G : Type u} [Group G] (V : FDRep ℂ G) (Q : Type v) [Quiver.{w + 1} Q]
+    [∀ i j : Q, Fintype (i ⟶ j)] (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Q) : Prop :=
+  ∀ (X Y : FDRep ℂ G) [Simple X] [Simple Y],
+    Fintype.card (e (TauCeti.SimpleFDRepClasses.mk Y) ⟶ e (TauCeti.SimpleFDRepClasses.mk X)) +
+        Fintype.card (e (TauCeti.SimpleFDRepClasses.mk X) ⟶ e (TauCeti.SimpleFDRepClasses.mk Y)) =
+      Module.finrank ℂ (X ⟶ V ⊗ Y)
+
 /-- **The McKay quiver presents the polynomial skew algebra** (Reiten–Van den Bergh; Crawley-Boevey
 and Holland, *Noncommutative deformations of Kleinian singularities*, Duke Math. J. 92 (1998),
-Theorem 0.1 at `λ = 0`; README Layer 4).  Under the hypotheses of the McKay correspondence, for
-a McKay labelling by a graphical affine type `t` and every orientation `o` of its graph, the skew
-algebra `Sym(V) ⋊ G` has a full idempotent `f` (one primitive idempotent of `ℂ[G]` in each
-Wedderburn block) whose corner `f (Sym(V) ⋊ G) f` is the preprojective algebra of `(t.graph, o)`.
-Fullness makes the corner Morita equivalent to `Sym(V) ⋊ G`. -/
+Theorem 0.1 at `λ = 0`; README Layer 4).  For a finite group `G` with a faithful two-dimensional
+complex representation `V` of determinant one and every McKay quiver `Q` of `V`, the skew algebra
+`Sym(V) ⋊ G` has a full idempotent `f` (one primitive idempotent of `ℂ[G]` in each Wedderburn
+block) whose corner `f (Sym(V) ⋊ G) f` is the preprojective algebra of `Q`.  Fullness makes the
+corner Morita equivalent to `Sym(V) ⋊ G`.  The quivers include every orientation of the graph of a
+graphical affine type, the Kronecker quiver of `G = {±1}`, and the one-loop quiver of the trivial
+group, where both sides are the polynomial ring in two variables. -/
 theorem exists_full_corner_equiv_preprojectiveAlgebra {G : Type} [Group G] [Finite G]
-    [Nontrivial G] (V : FDRep ℂ G) (hdim : Module.finrank ℂ V = 2)
+    (V : FDRep ℂ G) (hdim : Module.finrank ℂ V = 2)
     (hfaithful : Function.Injective V.ρ) (hdet : ∀ g : G, LinearMap.det (V.ρ g) = 1)
-    (t : TauCeti.AffineDynkinType) (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Fin t.nodes)
-    (hlab : IsMcKayLabelling V t e) (hgraph : t.IsGraphical)
-    (o : TauCeti.DoubledQuiver.Orientation t.graph) :
+    (Q : Type) [Quiver.{1} Q] [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)]
+    (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Q) (hQ : IsMcKayQuiver V Q e) :
     ∃ (f : SkewMonoidAlgebra (SymmetricAlgebra ℂ V) G) (hf : IsIdempotentElem f),
       TwoSidedIdeal.span {f} = ⊤ ∧
-        Nonempty (hf.Corner ≃ₐ[ℂ]
-          TauCeti.preprojectiveAlgebra ℂ (TauCeti.DoubledQuiver.OrientedQuiver t.graph o)) := by
+        Nonempty (hf.Corner ≃ₐ[ℂ] TauCeti.preprojectiveAlgebra ℂ Q) := by
   sorry
 
 /-- **The McKay quiver presents the exterior skew algebra** (Huerfano and Khovanov, *A category
@@ -275,29 +346,31 @@ noncomputable abbrev CBHAlgebra {G : Type} [Group G] (V : FDRep ℂ G)
   SkewMonoidAlgebra (TensorAlgebra ℂ V) G ⧸ (TwoSidedIdeal.span {cbhRelator V b z}).asIdeal
 
 /-- **The Crawley-Boevey–Holland theorem** (CBH98, Theorem 0.1 and §§3–4; README Layer 5).  For a
-central `z ∈ ℂ[G]`, the algebra `(T(V) ⋊ G) / ([x, y] − z)` has a full idempotent whose corner is
-the deformed preprojective algebra of the McKay graph with the **trace** weights
-`λ_i = Tr_{ρ_i}(z)`, read at each simple `X` through the labelling `e`.  The trace, not the scalar
-`f_i` by which `z` acts on `ρ_i`, is the parameter: the two differ by `δ_i = dim ρ_i`, and for
+finite group `G` with a faithful two-dimensional complex representation `V` of determinant one, a
+McKay quiver `Q` of `V` and a central `z ∈ ℂ[G]`, the algebra `(T(V) ⋊ G) / ([x, y] − z)` has a
+full idempotent whose corner is the deformed preprojective algebra of `Q` with the **trace**
+weights `λ_i = Tr_{ρ_i}(z)`, read at each simple `X` through `e`.  The trace, not the scalar `f_i`
+by which `z` acts on `ρ_i`, is the parameter: the two differ by the factor `δ_i = dim ρ_i`, and for
 `Q₈` the scalar weights `(1, −1)` at a leaf and the centre give an algebra with a two-dimensional
-simple, while the trace weights `(1, −2)` do not (README Layer 5).  The statement does not depend
-on the basis `b` or the orientation: rescaling all arrows by `c ∈ ℂˣ` identifies `Π^λ` with
-`Π^(cλ)`. -/
+simple, while the trace weights `(1, −2)` do not (README Layer 5).  A uniform rescaling of the
+weights does not change the algebra up to isomorphism: sending every arrow `a` to `c a` and its
+reverse `a*` to `c a*` (`c ∈ ℂˣ`) is an isomorphism `Π^(c²λ) ≅ Π^λ`, and `ℂ` has square roots; the
+factor `δ_i` is not uniform, which is why the trace and the scalar weights give different
+algebras.  For the trivial group and the one-loop quiver both sides are the first Weyl algebra
+when `z ≠ 0`. -/
 theorem exists_full_corner_equiv_deformedPreprojectiveAlgebra {G : Type} [Group G] [Finite G]
-    [Nontrivial G] (V : FDRep ℂ G) (hdim : Module.finrank ℂ V = 2)
+    (V : FDRep ℂ G) (hdim : Module.finrank ℂ V = 2)
     (hfaithful : Function.Injective V.ρ) (hdet : ∀ g : G, LinearMap.det (V.ρ g) = 1)
-    (t : TauCeti.AffineDynkinType) (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Fin t.nodes)
-    (hlab : IsMcKayLabelling V t e) (hgraph : t.IsGraphical)
-    (o : TauCeti.DoubledQuiver.Orientation t.graph)
+    (Q : Type) [Quiver.{1} Q] [Fintype Q] [∀ i j : Q, Fintype (i ⟶ j)]
+    (e : TauCeti.SimpleFDRepClasses ℂ G ≃ Q) (hQ : IsMcKayQuiver V Q e)
     (b : Module.Basis (Fin 2) ℂ V) (z : MonoidAlgebra ℂ G)
-    (hz : z ∈ Subalgebra.center ℂ (MonoidAlgebra ℂ G)) (lam : Fin t.nodes → ℂ)
+    (hz : z ∈ Subalgebra.center ℂ (MonoidAlgebra ℂ G)) (lam : Q → ℂ)
     (hlam : ∀ (X : FDRep ℂ G) [Simple X],
       lam (e (TauCeti.SimpleFDRepClasses.mk X)) =
         LinearMap.trace ℂ X (Representation.asAlgebraHom X.ρ z)) :
     ∃ (f : CBHAlgebra V b z) (hf : IsIdempotentElem f),
       TwoSidedIdeal.span {f} = ⊤ ∧
-        Nonempty (hf.Corner ≃ₐ[ℂ]
-          deformedPreprojectiveAlgebra ℂ (TauCeti.DoubledQuiver.OrientedQuiver t.graph o) lam) := by
+        Nonempty (hf.Corner ≃ₐ[ℂ] deformedPreprojectiveAlgebra ℂ Q lam) := by
   sorry
 
 end TauCetiRoadmap.McKaySkewGroup
