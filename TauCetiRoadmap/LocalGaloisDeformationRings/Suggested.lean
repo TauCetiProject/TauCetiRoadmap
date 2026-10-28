@@ -7,9 +7,10 @@ import Mathlib
 `README.md`. The statements here suggest Lean forms for particular milestones;
 discharging them finishes neither a layer nor the roadmap.
 
-Two headline results are stated on Mathlib carriers: the flat-domain, dimension and
+Three headline results are stated on Mathlib carriers: the flat-domain, dimension and
 regular-generic-fibre theorem for the completed rank-two odd-real quadric (1.14, 8.7),
-and recovery of an ordered stable full flag from determinant-ordinary equations over
+the flat-domain theorem for the completed node `A⟦X,Y⟧/(XY − πu)` over a discrete
+valuation ring (8.4), and recovery of an ordered stable full flag from determinant-ordinary equations over
 an arbitrary field (7.4). The quadric is the actual power-series quotient for the
 universal matrix `[[a+X,b+Y],[c+Z,-a-X]]`. The flag theorem retains both the
 characteristic-polynomial and ordered-product equations, in arbitrary rank.
@@ -34,8 +35,10 @@ The ordinary component and eigenvalue-ring theorems of Layer 6, its GL₃ shape 
 Serre-weight component labelling, and the comparison of determinant-ordinary and flag
 components (7.6) need the ordinary incidence schemes and their image rings, Kisin
 modules with tame descent, and the weak minimal patching functor. Apart from the
-odd-real quadric, the selected-ring nonemptiness, geometry and completed-product
-statements of Layer 8 need those deformation conditions and their universal quotients.
+odd-real quadric and the coefficient-ring node, the selected-ring nonemptiness, geometry
+and completed-product statements of Layer 8, including the identification of the node
+with a weight-two deformation ring, need those deformation conditions and their
+universal quotients.
 These results are omitted until their mathematical carriers can be used; elementary
 matrix equations alone do not express their arithmetic hypotheses or conclusions.
 -/
@@ -43,6 +46,8 @@ matrix equations alone do not express their arithmetic hypotheses or conclusions
 namespace TauCetiRoadmap.LocalGaloisDeformationRings
 
 open scoped Matrix
+
+/-! ### Layers 1 and 8: the odd-real quadric (1.14, 8.7) -/
 
 /-- The completed odd-involution quadric at the residual coordinates of a real place. -/
 noncomputable def oddRealIdeal {𝒪 : Type*} [CommRing 𝒪] (a b c : 𝒪) :
@@ -66,6 +71,26 @@ theorem oddRealRing_geometry {𝒪 : Type*} [CommRing 𝒪] [IsDomain 𝒪]
       IsRegularRing (Localization.Away (algebraMap 𝒪 (OddRealRing a b c) ϖ)) ∧
       ringKrullDim (Localization.Away (algebraMap 𝒪 (OddRealRing a b c) ϖ)) = 2 := by
   sorry
+
+/-! ### Layer 8: the completed node (8.4) -/
+
+/-- The completed node `A⟦X,Y⟧/(XY − πu)` over a coefficient ring. -/
+noncomputable def completedNodeIdeal {A : Type*} [CommRing A] (π u : A) :
+    Ideal (MvPowerSeries (Fin 2) A) :=
+  Ideal.span {MvPowerSeries.X 0 * MvPowerSeries.X 1 - MvPowerSeries.C (π * u)}
+
+/-- The completed nodal coefficient ring of the weight-two principal-series type. -/
+abbrev CompletedNode {A : Type*} [CommRing A] (π u : A) :=
+  MvPowerSeries (Fin 2) A ⧸ completedNodeIdeal π u
+
+/-- The completed node over a discrete valuation ring is a flat domain when `π` is a nonzero
+nonunit and `u` is a unit (README 8.4); completeness of `A` is not assumed. -/
+theorem completedNode_isDomain_flat {A : Type*} [CommRing A] [IsDomain A]
+    [IsDiscreteValuationRing A] (π u : A) (hπ : π ≠ 0) (hπ' : ¬IsUnit π) (hu : IsUnit u) :
+    IsDomain (CompletedNode π u) ∧ Module.Flat A (CompletedNode π u) := by
+  sorry
+
+/-! ### Layer 7: determinant-ordinary equations and ordered flags (7.4) -/
 
 section DeterminantOrdinary
 

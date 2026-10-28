@@ -6,23 +6,23 @@
 
 A framed ring, an unframed ring, a flag-incidence scheme and its flag-forgetting image have separate universal properties. Each condition retains the residual basis, coefficient category, determinant or multiplier, ordered characters and extension data. Point criteria quantify over finite coefficient algebras, including nonreduced ones whenever the theorem does.
 
-`SchemeAndStackFoundations`, §4.2 supplies the coefficient categories. PadicLocalLanglandsForGL2Qp, §0.4, constructs the generic framed, unframed and fixed-determinant lifting functors for any profinite group, their representing pair under `Φ_p`, Schur unframed representability and the bounded potentially semistable and crystalline quotients. Layer F specializes those functors and adds strict equivalence, general representing pairs for strict-conjugation-stable conditions, determinant comparisons, local deformation problems and inertia-rigid rings. `ArithmeticGaloisRepresentations`, §7.4 supplies the polarized group, fixed-multiplier representations and CHT coset/pairing dictionary for arbitrary index-two groups. The local polarized conditions and nodal model are [2.12](#t2-12). Build the generic foundations before their local specializations in Layers 0–8.
+`SchemeAndStackFoundations`, §4.2 supplies the coefficient categories. PadicLocalLanglandsForGL2Qp, §0.4, constructs the generic framed, unframed and fixed-determinant lifting functors for any profinite group, their representing pair under `Φ_p`, Schur unframed representability and the bounded potentially semistable and crystalline quotients. Layer F uses those functors as its carriers, without a second construction, and adds the module-deformation comparison, general representing pairs for strict-conjugation-stable conditions, determinant comparisons, local deformation problems and inertia-rigid rings. `ArithmeticGaloisRepresentations`, §7.4 supplies the polarized group, fixed-multiplier representations and CHT coset/pairing dictionary for arbitrary index-two groups. The local polarized conditions and nodal model are [2.12](#212-level-raising-local-deformation-problems-𝒟mix-𝒟unr-𝒟ram). Build the generic foundations before their local specializations in Layers 0–8.
 
 `DeformationAndDerivedPatchingAlgebra` owns the common complete-local coproduct (§1.12), relative presentation and relation algebra (§§2.1–2.5), fixed-basis matrix presentation (§§2.6–2.7), ungraded canonical-module/type interface (§3.9) and pointed tensor comparison (§4.6). Sections F.0.1–F.0.2 and 0.1 specialize these carriers and maps to `C_𝒪`. The framed representing pair of F.2.3–F.2.4 is PadicLocalLanglandsForGL2Qp §0.4's chosen pair; the matrix presentation is a theorem about that pair. The arithmetic tangent and obstruction assignments, local conditions and graded canonical-module comparison belong here.
 
-Period rings and field-valued admissibility use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13. Targets [0.2](#t0-2)–[0.3](#t0-3) construct the coefficient-period and ordinary comparisons; [0.4](#t0-4) applies the coefficient Robba and Herr interfaces supplied by `PhiGammaModulesAndIwasawaCohomology`, §§1.2, 3.4–3.6 and 4.4–4.5. `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1,R07.3,R07.4` owns finite-flat, scalar Fontaine–Laffaille and Breuil–Kisin categories and realizations. Target [1.6](#t1-6) owns the common coefficient Fontaine–Laffaille category, labelled decomposition, covariant realization and coefficient-change comparisons, including free-lattice and finite-torsion specializations. `AutomorphicGaloisRepresentations`, §1.5a consumes those specializations for its labelled tame-inertia formulas, interval twists and automorphic applications. The deformation applications and model spaces belong here. Target [1.7](#t1-7) owns the ordinary flag predicate and elementary flag API, with its definitions preceding [0.3](#t0-3); `PadicHodgeTheory`, §3.6 consumes its field-valued specialization for crystalline slope, monodromy and descent comparisons. Completed coefficient products and presentations use [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations); canonical-module tests are target [0.1](#t0-1), and excellence uses `SchemeAndStackFoundations`, §0.21; flags and lattice representability belong to `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7, and formal functions and algebraization to `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8.
+Period rings and field-valued admissibility use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13. Targets [0.2](#02-period-descent-and-finite-coefficient-comparisons)–[0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints) construct the coefficient-period and ordinary comparisons; [0.4](#04-coefficient-robba-modules-herr-cohomology-and-period-conditions) applies the coefficient Robba and Herr interfaces supplied by `PhiGammaModulesAndIwasawaCohomology`, §§1.2, 3.4–3.6 and 4.4–4.5. `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1,R07.3,R07.4` owns finite-flat, scalar Fontaine–Laffaille and Breuil–Kisin categories and realizations. Target [1.6](#16-the-fontainelaffaille-deformation-condition) owns the common coefficient Fontaine–Laffaille category, labelled decomposition, covariant realization and coefficient-change comparisons, including free-lattice and finite-torsion specializations. `AutomorphicGaloisRepresentations`, §1.5a consumes those specializations for its labelled tame-inertia formulas, interval twists and automorphic applications. The deformation applications and model spaces belong here. Target [1.7](#17-ordinary-representations-of-weight-λ) owns the ordinary flag predicate and elementary flag API, with its definitions preceding [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); `PadicHodgeTheory`, §3.6 consumes its field-valued specialization for crystalline slope, monodromy and descent comparisons. Completed coefficient products and presentations use [F.0.1](#f01-completed-coefficient-products-and-dimensions) and [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); canonical-module tests are target [0.1](#01-canonical-modules-and-type-under-regular-quotients), and excellence uses `SchemeAndStackFoundations`, §0.21; flags and lattice representability belong to `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7, and formal functions and algebraization to `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8.
 
 Tau Ceti's `LocalGaloisGroups`, Layers 3 and 7, supplies finite generation of the maximal pro-`p` Galois group over each finite local extension, hence the `p`-finiteness used here. `LocalFieldsRamification` supplies the full tame quotient, whose inertia is the whole prime-to-`ℓ` tame inertia. Target 2.6 instead removes the kernel of inertia's projection to its coefficient-`p` factor `ℤ_p`. The Tau Ceti module `NumberTheory/LocalField/Tame/PadicCharacter` already supplies `inertiaPadicTameCharacter`, its surjectivity, kernel criterion and arithmetic Frobenius conjugation. Target 2.6 consumes that character to construct the coefficient-`p` quotient and its matrix-pair universal property. The local Galois group, tame character and full tame quotient are not targets here.
 
-Tau Ceti `FieldTheory/GaloisCohomology/Kummer` already supplies `TauCeti.kummerIso`, `TauCeti.kummerIso_res` for separable field embeddings, and `TauCeti.kummerIso_norm` for finite extensions. These basic Kummer maps are inputs, not local deformation targets. The coefficient-completed, decomposition-equivariant valuation sequence required for 8.9 is the further interface below. Tau Ceti's `IntegralHeckeAndGaloisDeterminants`, Layers IHG.0–IHG.1, owns determinant polynomial laws, pseudocharacters and generalized matrix algebras; continuous pseudodeformation representability in arbitrary degree and for arbitrary profinite groups is [F.2.11](#pseudodeformation-rings), which restricts to the degree-two `G_(ℚ_p)` construction of PadicLocalLanglandsForGL2Qp, §5.4. PadicLocalLanglandsForGL2Qp, §§5.4–5.6 and 5.12, supplies the block-centre map and full-WD quotient; [3.8](#t3-8) compares them with these deformation rings.
+Tau Ceti `FieldTheory/GaloisCohomology/Kummer` already supplies `TauCeti.kummerIso`, `TauCeti.kummerIso_res` for separable field embeddings, and `TauCeti.kummerIso_norm` for finite extensions. These basic Kummer maps are inputs, not local deformation targets. The coefficient-completed, decomposition-equivariant valuation sequence required for 8.9 is the further interface below. Tau Ceti's `IntegralHeckeAndGaloisDeterminants`, Layers IHG.0–IHG.1, owns determinant polynomial laws, pseudocharacters and generalized matrix algebras; continuous pseudodeformation representability in arbitrary degree and for arbitrary profinite groups is [F.2.11](#f211-continuous-pseudodeformation-rings), which restricts to the degree-two `G_(ℚ_p)` construction of PadicLocalLanglandsForGL2Qp, §5.4. PadicLocalLanglandsForGL2Qp, §§5.4–5.6 and 5.12, supplies the block-centre map and full-WD quotient; [3.8](#38-rings-of-fixed-weildeligne-type-cut-out-of-pseudo-character-deformation-rings-r_bm) compares them with these deformation rings.
 
 Tau Ceti `NumberTheory/ClassFieldTheory/Local/Duality/FiniteModule` supplies `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`, `dualityMap1_kummerCoeff_bijective` and `dualityMap2_kummerCoeff_bijective` for a finite discrete `G_K`-module killed by `n` invertible in `K`, with dual `Hom(−,μ_n)`. Finite-module Tate duality is therefore an input. The `κ`-linear, natural-topology comparisons required below remain the additional cohomology supplier contract; they are not new finite-module duality targets here.
 
-`ReductiveGroups`, Layers 0, 7 and 9, owns affine group schemes, Lie theory, field-valued Borel theory and split integral forms. Target [1.21](#t1-21) constructs the relative Borel and parabolic schemes, local coefficient-ring conjugacy and canonical-torus comparisons used here. `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral symplectic matrix carrier and multiplier. Tau Ceti `LinearAlgebra/Matrix/SymplecticMultiplier` already identifies the multiplier with the determinant in rank two; that identity is not a target. Rank-four ramification and ordinary deformation conditions here retain their local Galois, flag and coefficient data.
+`ReductiveGroups`, Layers 0, 7 and 9, owns affine group schemes, Lie theory, field-valued Borel theory and split integral forms. Target [1.21](#121-g-valued-ordinary-representations-of-weight-λ) constructs the relative Borel and parabolic schemes, local coefficient-ring conjugacy and canonical-torus comparisons used here. `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral symplectic matrix carrier and multiplier. Tau Ceti `LinearAlgebra/Matrix/SymplecticMultiplier` already identifies the multiplier with the determinant in rank two; that identity is not a target. Rank-four ramification and ordinary deformation conditions here retain their local Galois, flag and coefficient data.
 
 Global presentations, dual Selmer conditions, compatible systems and general patching stay with their respective roadmaps. The restricted arbitrary-rank away-from-`p` arithmetic cycle functor in 2.27, the local `GL₃` weak patching interface in 6.30 and the deformation-ring comparisons with the imported block and full-WD rings in 3.8 are the precise arithmetic inputs constructed here. The first includes Shotton's scoped globalization, finite-level coefficient functors and automorphy input for cycle descent; its abstract patching algebra remains with `DeformationAndDerivedPatchingAlgebra`. Division-algebra transfer and types, local-model geometry, endpoint classification and family admissibility are the targets and exact imports below; no application asserts that its supplier's theory already exists. Further locally algebraic trianguline geometry belongs to the trianguline-variety direction.
 
-The canonical nonarchimedean local Jacquet–Langlands correspondence for central division algebras is PadicLocalLanglandsForGL2Qp, §6.9; [2.26.1](#t2-26-1) imports its inverse `m=1` transfer from `D×` to `GL_d(K)` at arbitrary degree `d` and transports it to the coefficients of 2.27. `GL2AutomorphicRepresentationsAndTransfer`, R17.1.1, uses the quaternionic specialization of that section. That roadmap owns the quaternionic local/global packaging and the split and real comparisons; division-algebra types, partition refinements, virtual inverse extension and deformation-cycle applications belong here.
+The canonical nonarchimedean local Jacquet–Langlands correspondence for central division algebras is PadicLocalLanglandsForGL2Qp, §6.9; [2.26.1](#2261-division-algebra-types-and-characteristic-zero-transfer) imports its inverse `m=1` transfer from `D×` to `GL_d(K)` at arbitrary degree `d` and transports it to the coefficients of 2.27. `GL2AutomorphicRepresentationsAndTransfer`, R17.1.1, uses the quaternionic specialization of that section. That roadmap owns the quaternionic local/global packaging and the split and real comparisons; division-algebra types, partition refinements, virtual inverse extension and deformation-cycle applications belong here.
 
 ## Conventions
 
@@ -48,27 +48,27 @@ The contracts state the input needed at each boundary. Library declarations belo
 - `TauCeti.NumberTheory.LocalField.Tame.PadicCharacter` supplies `TauCeti.inertiaPadicTameCharacter`, `TauCeti.inertiaPadicTameCharacter_surjective`, `TauCeti.inertiaPadicTameCharacter_eq_one_iff` and `TauCeti.IsArithFrobeniusLift.inertiaPadicTameCharacter_conj`. For coefficient prime `p` different from the residue characteristic, these give the `p`-primary tame inertia character, its kernel and the arithmetic-Frobenius action by the residue cardinality `q`. Target 2.6 builds the quotient and its representation property using this character.
 - `TauCeti.FieldTheory.GaloisCohomology.Kummer` supplies `TauCeti.kummerIso`, `TauCeti.kummerIso_res` and `TauCeti.kummerIso_norm`: for `n` invertible in the field, the power-class quotient is multiplicatively isomorphic to `H¹(G_K,μ_n)`, compatibly with restriction and, for finite separable extensions, norm/corestriction. `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule` supplies `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`, `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective` for finite discrete modules killed by `n` invertible in the local field. These finite-level inputs retain their existing carriers; the completed and `κ`-linear comparisons below add hypotheses and are separate mathematical targets.
 - `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier` supplies `Matrix.transpose_mul_J_mul_eq_det_smul` and `Matrix.det_eq_of_transpose_mul_J_mul_eq_smul` over every commutative ring in rank two. These identify the symplectic multiplier with the determinant without dividing by two. The rank-four integral similitude and Lie contracts are `ArithmeticGaloisRepresentations`, §§7.3–7.5, with its prescribed Gram matrices and its explicit hypotheses wherever scalar splitting is used.
-- `TauCeti.RingTheory.Henselian.Basic` supplies `TauCeti.HenselianLocalRing.exists_pow_eq_of_residue_pow_eq`, which lifts a unit residue root of `X^n−u` when `n` is a unit, and `TauCeti.IsAdicComplete.henselianLocalRing`. Target [F.2.9](#fixed-determinant-rings) uses them for existence of the residue-one root over Artinian local coefficients and adds uniqueness and the `p∤n` formulation.
+- `TauCeti.RingTheory.Henselian.Basic` supplies `TauCeti.HenselianLocalRing.exists_pow_eq_of_residue_pow_eq`, which lifts a unit residue root of `X^n−u` when `n` is a unit, and `TauCeti.IsAdicComplete.henselianLocalRing`. Target [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant) uses them for existence of the residue-one root over Artinian local coefficients and adds uniqueness and the `p∤n` formulation.
 
-- [F.1.1](#lifting-functor)–[F.1.10](#determinant-comparison) construct deformation functors, strict equivalence and determinant conditions; [F.2.1](#phi-p-condition)–[F.2.11](#pseudodeformation-rings) specialize PadicLocalLanglandsForGL2Qp §0.4's representability under `Φ_p` and Schur unframed representability, and add the general condition interface, determinant comparisons and arbitrary-degree pseudodeformation rings. [F.3.1](#local-deformation-problem)–[F.3.2](#deformation-problem-ideal) supply the condition/ideal correspondence, and [F.4.12](#inertia-rigid-deformations) supplies inertia-rigid rings. [F.0.2](#minimal-relative-presentations) specializes the supplied relation bound for a natural, additive obstruction assignment detecting lifts over every finite-dimensional socle kernel. The local Galois obstruction assignment and surjection `H²(Γ,ad ρ̄)∨→J/𝔪_SJ` for a minimal `S=𝒪[[x₁,…,x_r]]→R` with kernel `J` are constructed in [1.4](#t1-4). See [Gee22], Lemma 3.2, p. 12, Corollary 3.12 and Lemma 3.13, p. 13.
-- `DeformationAndDerivedPatchingAlgebra`, §1.12 supplies the joint-maximal-ideal completion coproduct, inclusions, symmetry, associativity and coefficient comparisons; §§2.1–2.5 supply the chosen relative presentation, relation space and obstruction bound for all finite-dimensional socle kernels; §§2.6–2.7 supply the fixed-basis matrix presentation and its continuous specialization, which is a presentation theorem for PadicLocalLanglandsForGL2Qp §0.4's framed pair. Its §3.9 supplies the canonical module by normalized duality and its regular-presentation `Ext`, power-series, regular-quotient, type/socle and Gorenstein comparisons; §4.6 supplies the pointed tensor-domain comparison, including generic regularity for `E/ℚ_p` finite. These interfaces specialize on the same carriers in [F.0.1](#completed-coefficient-products), [F.0.2](#minimal-relative-presentations) and [0.1](#t0-1); [F.2.3](#universal-lifting-ring) uses the presentation theorem only.
-- Completed coefficient products and the pointed domain comparison specialize the supplied algebra in [F.0.1](#completed-coefficient-products), with residue-extension and flat-dimension statements on that coproduct. Its product component dimensions require equidimensional total factors; identification of components by tuples retains geometric integrality of the domain quotients. Its domain comparison retains an `𝒪`-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#t0-1) specializes the supplied ungraded canonical-module/type tests and adds the graded completion comparison for 6.18.
-- `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`, supplies the cocycle, strict-class and adjoint tangent comparisons. `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*, retains the trace-sequence boundary when `p` divides the rank. Apply these to the functors of §§F.1.1–F.1.10; the local obstruction assignment and relation-space comparison are [1.4](#t1-4).
-- `ClassFieldTheory`, Layer 5, supplies finite smooth discrete local Tate duality and the Euler characteristic. Above `p` the `κ`-linear extension is `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields*: retain continuity, a stable valuation-ring lattice for local `κ`, and its adic topology. It supplies finite-dimensional `κ`-linear cohomology, perfect pairings and Euler characteristic `−[K:ℚ_p] dim V` for precisely the fields of 1.15. Away from `p` use the finite duality input and the supplied tame inertia quotient and procyclic resolutions in 1.18, passing through stable-lattice quotients and localization; the resulting Euler characteristic is zero. The latter adapter, including scalar extension, is constructed in [1.18](#t1-18). Pinned `TauCeti.ContCohomology.H2` is only the additive `Z²/B²` carrier.
-- `ClassFieldTheory`, Layer 7, supplies the local Artin map and its normalization, the identification of abelianized inertia with completed units and its pro-`p` factor. `LocalGaloisGroups`, Layers 3 and 7, supplies the `p`-finiteness input over every finite extension. The Kummer maps named in the scope supply `H¹(G_L,μ_{pⁿ})≅L×/L×^{pⁿ}` for characteristic-zero `L`. Target [4.2.1](#t4-2-1) constructs the decomposition-equivariant completed valuation sequence over `K^nr`, including its coefficient twists, from these finite-level maps and `SelmerIwasawaCohomology`, §§0.4–0.6. Full tame inertia and its coefficient-`p` quotient are different, as specified in the scope.
+- [F.1.1](#f11-the-lifting-functor)–[F.1.10](#f110-the-determinant-map-from-representation-deformations-to-determinant-deformations) take the framed, strict-conjugacy and fixed-determinant functors from PadicLocalLanglandsForGL2Qp §0.4 and add the module-deformation comparison, restriction, coefficient change and determinant-deformation conditions; [F.2.1](#f21-mazurs-finiteness-condition-φ_p)–[F.2.11](#f211-continuous-pseudodeformation-rings) specialize PadicLocalLanglandsForGL2Qp §0.4's representability under `Φ_p` and Schur unframed representability, and add the general condition interface, determinant comparisons and arbitrary-degree pseudodeformation rings. [F.3.1](#f31-local-deformation-problems)–[F.3.2](#f32-deformation-problems-are-invariant-ideals-of-the-lifting-ring) supply the condition/ideal correspondence, and [F.4.12](#f412-inertia-rigid-deformation-rings) supplies inertia-rigid rings. [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds) specializes the supplied relation bound for a natural, additive obstruction assignment detecting lifts over every finite-dimensional socle kernel. The local Galois obstruction assignment and surjection `H²(Γ,ad ρ̄)∨→J/𝔪_SJ` for a minimal `S=𝒪[[x₁,…,x_r]]→R` with kernel `J` are constructed in [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings). See [Gee22], Lemma 3.2, p. 12, Corollary 3.12 and Lemma 3.13, p. 13.
+- `DeformationAndDerivedPatchingAlgebra`, §1.12 supplies the joint-maximal-ideal completion coproduct, inclusions, symmetry, associativity and coefficient comparisons; §§2.1–2.5 supply the chosen relative presentation, relation space and obstruction bound for all finite-dimensional socle kernels; §§2.6–2.7 supply the fixed-basis matrix presentation and its continuous specialization, which is a presentation theorem for PadicLocalLanglandsForGL2Qp §0.4's framed pair. Its §3.9 supplies the canonical module by normalized duality and its regular-presentation `Ext`, power-series, regular-quotient, type/socle and Gorenstein comparisons; §4.6 supplies the pointed tensor-domain comparison, including generic regularity for `E/ℚ_p` finite. These interfaces specialize on the same carriers in [F.0.1](#f01-completed-coefficient-products-and-dimensions), [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds) and [0.1](#01-canonical-modules-and-type-under-regular-quotients); [F.2.3](#f23-the-universal-lifting-ring) uses the presentation theorem only.
+- Completed coefficient products and the pointed domain comparison specialize the supplied algebra in [F.0.1](#f01-completed-coefficient-products-and-dimensions), with residue-extension and flat-dimension statements on that coproduct. Its product component dimensions require equidimensional total factors; identification of components by tuples retains geometric integrality of the domain quotients. Its domain comparison retains an `𝒪`-point and regular generic fibre for each domain factor. The coefficient categories and Schlessinger criteria use `SchemeAndStackFoundations`, §§4.2–4.4; excellence and regular completion maps use its §0.21. Target [0.1](#01-canonical-modules-and-type-under-regular-quotients) specializes the supplied ungraded canonical-module/type tests and adds the graded completion comparison for 6.18.
+- `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`, supplies the cocycle, strict-class and adjoint tangent comparisons. `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*, retains the trace-sequence boundary when `p` divides the rank. Apply these to the functors of §§F.1.1–F.1.10; the local obstruction assignment and relation-space comparison are [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings).
+- `ClassFieldTheory`, Layer 5, supplies finite smooth discrete local Tate duality and the Euler characteristic. Above `p` the `κ`-linear extension is `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields*: retain continuity, a stable valuation-ring lattice for local `κ`, and its adic topology. It supplies finite-dimensional `κ`-linear cohomology, perfect pairings and Euler characteristic `−[K:ℚ_p] dim V` for precisely the fields of 1.15. Away from `p` use the finite duality input and the supplied tame inertia quotient and procyclic resolutions in 1.18, passing through stable-lattice quotients and localization; the resulting Euler characteristic is zero. The latter adapter, including scalar extension, is constructed in [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings). Pinned `TauCeti.ContCohomology.H2` is only the additive `Z²/B²` carrier.
+- `ClassFieldTheory`, Layer 7, supplies the local Artin map and its normalization, the identification of abelianized inertia with completed units and its pro-`p` factor. `LocalGaloisGroups`, Layers 3 and 7, supplies the `p`-finiteness input over every finite extension. The Kummer maps named in the scope supply `H¹(G_L,μ_{pⁿ})≅L×/L×^{pⁿ}` for characteristic-zero `L`. Target [4.2.1](#421-completed-inertia-kummer-valuation-sequence) constructs the decomposition-equivariant completed valuation sequence over `K^nr`, including its coefficient twists, from these finite-level maps and `SelmerIwasawaCohomology`, §§0.4–0.6. Full tame inertia and its coefficient-`p` quotient are different, as specified in the scope.
 - `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1` supplies subobject, quotient and direct-sum stability of finite-flat representations, compatible finite-flat models forming `p`-divisible groups, and Raynaud's uniqueness/split-extension results when `e<p−1`, with inertial exponents `0≤i≤e`. Its §R07.6.7, `flatDeformationTangentSpace` and `flatTangent_finrank_le`, supplies finite-flat model closure and the coefficient-linear self-Ext calculation. Target 4.1 constructs the finite-flat deformation condition, its Schlessinger adapter and representing-ring conclusions from that interface and F.1.1–F.1.4, F.2.5 and F.3.1–F.3.2; 8.6 identifies its finite-flat tangent specialization with the supplied self-Ext space. `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.4, R07.3.7 and R07.3.10–R07.3.12, supplies the scalar Fontaine–Laffaille category, its exact fully faithful contravariant realization on the safe interval `[0,p−2]`, and subquotient stability. Target 1.6 extends this category by commuting coefficient actions and labelled filtration summands, and uses the dual realization to fix the covariant convention (rank-one `ℚ_p` inertia `ε^{−i}`). Its `Ext` and coefficient-change comparisons retain those actions; multiplicity-one is an extra deformation hypothesis.
 - `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4` supplies coefficient Breuil–Kisin and étale `φ`-module categories over `𝔖`, the `G_{K∞}` realization, finite-height lattice uniqueness with the repaired argument [KisinPST], Errata (E.4), author DVI p. 34, and semistable-to-height comparison. For `p>2` it supplies height-one/finite-flat and `p`-divisible equivalences, full faithfulness of restriction and the multiplicative/étale dictionary. At `p=2` import the full integral height-one classification and restriction full faithfulness of §§R07.4.23–R07.4.24 (`dyadicClassification`); Kisin’s connected groupoid and resolution in Layer 5 use their connected subcase. See [Kisin2adic], (1.2.8), (1.3.2), (1.3.9), (1.3.10), (1.3.13). Savitt's strongly divisible modules with tame descent data, their lattices and reductions are also required by Layer 4.
 - Target 6.9 extends the coefficient Kisin modules of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36, by tame descent data over `𝔖_{L′,A}=(W(k′)⊗A)[[u′]]`, `v=(u′)^{p^{f′}−1}`, for `K′/K` unramified of degree `≤3` and `L′=K′((−p)^{1/(p^{f′}−1)})`. The semilinear `Δ`-action commutes with `φ`; descent to the étale module and `T*_dd` are coefficient compatible, as are changes of eigenbasis on partial Frobenius matrices. These are [LLHLM20], Definition 3.1.3, p. 21, and its cited LLHLM18 Propositions 2.13 and 2.15; plain coefficient Kisin modules do not include descent data.
-- `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7 supplies projective Grassmannians and flag schemes, direct-summand universal subbundles, very ample bundles and closed invariant/Frobenius-stability equations; `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8 supplies formal functions and algebraization. Target [4.7.1](#t4-7-1) constructs the Pappas–Rapoport and Deligne–Pappas local models and the comparisons required by 4.8 and 5.13. Grassmannian representability supplies their carriers, rather than their flatness or singularities.
-- `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and finite full rational stabilizers, with the compactness hypotheses there), supplies the adelic finiteness and level infrastructure used by [6.30](#t6-30). The definite-unitary function modules, Hecke actions and their patching application belong to 6.30.
-- Target [2.27](#t2-27) constructs the away-from-`p` arithmetic cycle functor and `GL_d` reduction descent. Its scoped arithmetic systems and generic cycle formula belong here; `DeformationAndDerivedPatchingAlgebra`, Layer 5 and §6.7, supplies abstract module patching, affine module cycles and uniformizer specialization. Adelic finiteness uses `AdelicAlgebraicGroups`, AA.3.4 and AA.4.4, with prime-to-`p` stabilizers for exact coefficient functors.
-- Target [4.14.1](#t4-14-1) constructs the Breuil–Kisin/Emerton–Gee comparison giving generic reducedness of potentially Barsotti–Tate special fibres for `p>2` and tame `τ`, and its fixed-determinant scalar-twisting adapter.
-- The period and filtered-module carriers use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13; §§R07.4.27–R07.4.28 give its odd-prime field-valued descent dictionary. Target [0.2](#t0-2) supplies finite local `E`-algebra descent and completed deformation groupoids, with maximal-ideal topology; [0.3](#t0-3) supplies the ordinary comparison. `PhiGammaModulesAndIwasawaCohomology`, §1.2 supplies `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence` and `relativeDrig`; §3.6 supplies `HerrCohomology` and its Ext/Galois comparison, §§4.4–4.5 supply perfectness, Euler characteristic, duality and `HerrCohomology.baseChange`, and §§3.4–3.4a and 3.8 supply the torsion, cup and signed-trace conventions. Target [0.4](#t0-4) identifies these exports with the local notation and applies them to deformation tangents and period conditions.
-- `ReductiveGroups`, Layer 9, supplies split integral forms. Target [1.21](#t1-21) constructs the relative Borel and parabolic schemes, conjugacy for split groups over local coefficient rings and canonical-torus comparisons ([Conrad], Corollaries 5.2.8–5.2.9, Theorem 5.2.11 and Corollary 5.2.13, pp. 155–159). These supply the flag geometry for 1.21, 3.11 and 6.5; `GL_d` and `GSp₄` agree with the explicit full and isotropic flags. `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral `GSp` realization and transpose conventions.
-- `SmoothRepresentationsOfLocalGroups`, SR.0 and SR.5, supplies integral smooth-representation language. Targets [2.26.1](#t2-26-1)–[2.26.2](#t2-26-2) construct the `GL_d`/division-algebra type and integral transfer interfaces required by 2.27. PadicLocalLanglandsForGL2Qp, §§2.2–2.3, 3.1–3.3, 5.1–5.6 and 5.12, supplies the mod-`p` `GL₂(ℚ_p)` blocks, projective envelopes, reconstruction, Montréal functor, block-centre map and full-WD type rings. Sections [3.7.1](#t3-7-1)–[3.8](#t3-8) specialize their coefficient and determinant conventions and compare them with the deformation rings here.
-- PadicLocalLanglandsForGL2Qp, §0.4, supplies `DeformationSupport.framed` and `DeformationSupport.unframed` for any profinite group, rank and continuous residual representation over `k`, with coefficient functoriality; under `Φ_p` the chosen framed representing pair `(R^□,ρ^□)`, its noetherianity and the uniqueness of a comparison carrying one universal lift to another; under `End_(k[Γ])(ρ̄)=k` unframed pro-representability and `forgetFrame`, formally smooth of relative dimension `n²−1`; `fixedDeterminant`, the actual determinant fibre for every `p`; the cochain tangent and obstruction maps; and, for finite `K/ℚ_p`, bounded labelled Hodge type and finite-image inertial type, the reduced `𝒪`-torsion-free quotients `DeformationSupport.pstRing` and `DeformationSupport.crystallineRing` with their criterion on all finite local coefficient algebras, nonreduced ones included, uniqueness, coefficient change, type-preserving twists and generic-fibre dimension formulas. Targets [F.2.3](#universal-lifting-ring)–[F.2.6](#framed-unframed-comparison), [F.2.9](#fixed-determinant-rings), [F.2.10](#change-of-residue-field) and [3.4](#t3-4)–[3.5](#t3-5) use these objects; their notation abbreviates them on the common domain.
-- PadicLocalLanglandsForGL2Qp, §5.4, supplies the continuous degree-two determinant-law deformation ring of `G_(ℚ_p)` at every continuous residual law over finite `k`, reducible ones included, its closed fibre at a fixed determinant character, noetherianity and completed coefficient change (`BlockPsRing.ring`, `BlockPsRing.universal`, `BlockPsRing.universal_property` at the residual law of a block). [F.2.11](#pseudodeformation-rings) restricts to it.
-- PadicLocalLanglandsForGL2Qp, §6.9, supplies `DrinfeldComparison.localJacquetLanglands` and its `m=1` inverse restriction `DivisionAlgebraTypes.jacquetLanglands` from `D×` to `GL_d(F)` at arbitrary degree `d`, fixed by the elliptic-character identity, with central characters, twists, contragredients and characteristic-zero coefficient descent. [2.26.1](#t2-26-1) transports it to the coefficients of 2.27.
+- `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7 supplies projective Grassmannians and flag schemes, direct-summand universal subbundles, very ample bundles and closed invariant/Frobenius-stability equations; `SchemeAndStackFoundations`, §§4.9–4.10, and `AdicSpacesPartIII`, `F0`.8 supplies formal functions and algebraization. Target [4.7.1](#471-local-models-and-comparison-diagrams) constructs the Pappas–Rapoport and Deligne–Pappas local models and the comparisons required by 4.8 and 5.13. Grassmannian representability supplies their carriers, rather than their flatness or singularities.
+- `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and finite full rational stabilizers, with the compactness hypotheses there), supplies the adelic finiteness and level infrastructure used by [6.30](#630-potentially-crystalline-gl₃-rings-of-hodge-type-η-and-the-weak-minimal-patching-input). The definite-unitary function modules, Hecke actions and their patching application belong to 6.30.
+- Target [2.27](#227-breuilmézard-cycles-for-central-division-algebras-away-from-p) constructs the away-from-`p` arithmetic cycle functor and `GL_d` reduction descent. Its scoped arithmetic systems and generic cycle formula belong here; `DeformationAndDerivedPatchingAlgebra`, Layer 5 and §6.7, supplies abstract module patching, affine module cycles and uniformizer specialization. Adelic finiteness uses `AdelicAlgebraicGroups`, AA.3.4 and AA.4.4, with prime-to-`p` stabilizers for exact coefficient functors.
+- Target [4.14.1](#4141-breuilkisin-stack-comparison-and-generic-reducedness) constructs the Breuil–Kisin/Emerton–Gee comparison giving generic reducedness of potentially Barsotti–Tate special fibres for `p>2` and tame `τ`, and its fixed-determinant scalar-twisting adapter.
+- The period and filtered-module carriers use `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13; §§R07.4.27–R07.4.28 give its odd-prime field-valued descent dictionary. Target [0.2](#02-period-descent-and-finite-coefficient-comparisons) supplies finite local `E`-algebra descent and completed deformation groupoids, with maximal-ideal topology; [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints) supplies the ordinary comparison. `PhiGammaModulesAndIwasawaCohomology`, §1.2 supplies `CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence` and `relativeDrig`; §3.6 supplies `HerrCohomology` and its Ext/Galois comparison, §§4.4–4.5 supply perfectness, Euler characteristic, duality and `HerrCohomology.baseChange`, and §§3.4–3.4a and 3.8 supply the torsion, cup and signed-trace conventions. Target [0.4](#04-coefficient-robba-modules-herr-cohomology-and-period-conditions) identifies these exports with the local notation and applies them to deformation tangents and period conditions.
+- `ReductiveGroups`, Layer 9, supplies split integral forms. Target [1.21](#121-g-valued-ordinary-representations-of-weight-λ) constructs the relative Borel and parabolic schemes, conjugacy for split groups over local coefficient rings and canonical-torus comparisons ([Conrad], Corollaries 5.2.8–5.2.9, Theorem 5.2.11 and Corollary 5.2.13, pp. 155–159). These supply the flag geometry for 1.21, 3.11 and 6.5; `GL_d` and `GSp₄` agree with the explicit full and isotropic flags. `ArithmeticGaloisRepresentations`, §§7.3–7.5 supplies the integral `GSp` realization and transpose conventions.
+- `SmoothRepresentationsOfLocalGroups`, SR.0 and SR.5, supplies integral smooth-representation language. Targets [2.26.1](#2261-division-algebra-types-and-characteristic-zero-transfer)–[2.26.2](#2262-integral-and-mod-p-jacquetlanglands-maps) construct the `GL_d`/division-algebra type and integral transfer interfaces required by 2.27. PadicLocalLanglandsForGL2Qp, §§2.2–2.3, 3.1–3.3, 5.1–5.6 and 5.12, supplies the mod-`p` `GL₂(ℚ_p)` blocks, projective envelopes, reconstruction, Montréal functor, block-centre map and full-WD type rings. Sections [3.7.1](#371-mod-p-gl₂ℚ_p-blocks-projective-envelopes-and-centres)–[3.8](#38-rings-of-fixed-weildeligne-type-cut-out-of-pseudo-character-deformation-rings-r_bm) specialize their coefficient and determinant conventions and compare them with the deformation rings here.
+- PadicLocalLanglandsForGL2Qp, §0.4, supplies `DeformationSupport.framed` and `DeformationSupport.unframed` for any profinite group, rank and continuous residual representation over `k`, with coefficient functoriality; under `Φ_p` the chosen framed representing pair `(R^□,ρ^□)`, its noetherianity and the uniqueness of a comparison carrying one universal lift to another; under `End_(k[Γ])(ρ̄)=k` unframed pro-representability and `forgetFrame`, formally smooth of relative dimension `n²−1`; `fixedDeterminant`, the actual determinant fibre for every `p`; the cochain tangent and obstruction maps; and, for finite `K/ℚ_p`, bounded labelled Hodge type and finite-image inertial type, the reduced `𝒪`-torsion-free quotients `DeformationSupport.pstRing` and `DeformationSupport.crystallineRing` with their criterion on all finite local coefficient algebras, nonreduced ones included, uniqueness, coefficient change, type-preserving twists and generic-fibre dimension formulas. Targets [F.2.3](#f23-the-universal-lifting-ring)–[F.2.6](#f26-framed-rings-are-power-series-over-unframed-rings), [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant), [F.2.10](#f210-representing-rings-under-change-of-coefficients) and [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type)–[3.5](#35-potentially-semistable-loci-in-families-over-a-complete-local-base) use these objects; their notation abbreviates them on the common domain.
+- PadicLocalLanglandsForGL2Qp, §5.4, supplies the continuous degree-two determinant-law deformation ring of `G_(ℚ_p)` at every continuous residual law over finite `k`, reducible ones included, its closed fibre at a fixed determinant character, noetherianity and completed coefficient change (`BlockPsRing.ring`, `BlockPsRing.universal`, `BlockPsRing.universal_property` at the residual law of a block). [F.2.11](#f211-continuous-pseudodeformation-rings) restricts to it.
+- PadicLocalLanglandsForGL2Qp, §6.9, supplies `DrinfeldComparison.localJacquetLanglands` and its `m=1` inverse restriction `DivisionAlgebraTypes.jacquetLanglands` from `D×` to `GL_d(F)` at arbitrary degree `d`, fixed by the elliptic-character identity, with central characters, twists, contragredients and characteristic-zero coefficient descent. [2.26.1](#2261-division-algebra-types-and-characteristic-zero-transfer) transports it to the coefficients of 2.27.
 
 Mathlib at the pins supplies `MvPowerSeries`, `ProfiniteGrp`, `Module.Finite`, `IsAdicComplete`, `IsLocalRing.ResidueField` and `Matrix.symplecticGroup`. Its Weierstrass preparation and division declarations `PowerSeries.exists_isWeierstrassFactorization` and `PowerSeries.isWeierstrassDivision_weierstrassDiv_weierstrassMod` require a nonzero residue series. They are inputs to the presentation arguments, not already the local deformation theorems. The deformation-ring comparison with the imported block-centre identification and the `GL₃` weak minimal patching functor are local targets 3.8 and 6.30, with APIs and checks there.
 
@@ -76,7 +76,7 @@ Mathlib at the pins supplies `MvPowerSeries`, `ProfiniteGrp`, `Module.Finite`, `
 
 Layer F specializes PadicLocalLanglandsForGL2Qp §0.4's generic lifting functors and representing rings and adds its own generic foundations; these precede the coefficient and comparison prerequisites in Layer 0 and the eight local deformation layers. Then construct the local universal rings, character coefficients, bounded-height lattices, Fontaine–Laffaille condition and ordinary incidence space. Tame rigidity then precedes Hodge-type quotients, finite-flat and dyadic geometry. Layer 6 gives ordinary and `GL₃` component comparisons; Layer 7 compares the determinant-ordinary image with flags; Layer 8 exports the selected local rings. Dependencies refer to numbered targets or exact external roadmap/layer addresses. API names are intended for `TauCetiRoadmap.LocalGaloisDeformationRings` unless explicitly qualified. README.md specifies every target; Suggested.lean records only representative signatures whose carriers are expressible at the pinned APIs.
 
-The headline signatures in `Suggested.lean` state the odd-real quadric geometry of [1.14](#t1-14) and [8.7](#t8-7), and the ordered-flag theorem of [7.4](#t7-4). The API lists below specify the intended interfaces of the mathematical development.
+The headline signatures in `Suggested.lean` state the odd-real quadric geometry of [1.14](#114-the-odd-archimedean-deformation-ring-at-p--2) and [8.7](#87-odd-archimedean-rings), the completed-node flat-domain theorem of [8.4](#84-irreducible-residual-representation-weight-two), and the ordered-flag theorem of [7.4](#74-characteristic-polynomials-and-ordered-products-give-a-flag). The API lists below specify the intended interfaces of the mathematical development.
 
 ## Layer F: Generic deformation foundations
 
@@ -93,9 +93,7 @@ functors, arithmetic representability and comparisons, the local-condition ideal
 inertia-rigid rings. For `k[ε]`, ArithmeticGaloisDuality `D8`.1 identifies lifts with
 `Z¹(G, ad ρ̄)` and strict classes with `H¹(G, ad ρ̄)`, giving framed tangent dimension
 `h¹ + n² − h⁰`; SelmerIwasawaCohomology §`2A`.4 supplies determinant tangent fibres, including the trace-sequence boundary
-when `p | n`. The local obstruction-to-relation-space comparison is [1.4](#t1-4).
-
-<a id="completed-coefficient-products"></a>
+when `p | n`. The local obstruction-to-relation-space comparison is [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings).
 
 ### F.0.1 Completed coefficient products and dimensions
 
@@ -166,8 +164,6 @@ SchemeAndStackFoundations §§4.2, 0.16, 0.20–0.21; Mathlib `AdicCompletion`,
   `A⟦x⟧ ⊗̂_A A⟦y⟧ ≅ A⟦x,y⟧` identifies the two images of `t`. Agreement only on residue
   maps would leave two coefficient variables and would not give this coproduct.
 
-<a id="minimal-relative-presentations"></a>
-
 ### F.0.2 Minimal relative presentations and obstruction bounds
 
 **Presentation algebra.** Specialize `DeformationAndDerivedPatchingAlgebra`, §§2.1–2.5
@@ -191,12 +187,12 @@ makes changes of the variable lifts act trivially on this kernel. Hence
 `dim_k(J/𝔪_P J) ≤ dim_k O`, and `O = 0` makes `R` a power-series ring over `B`.
 An elementary obstruction assignment restricted to one-dimensional kernels alone is not the
 asserted input. Arithmetic obstruction assignments and their identification with this
-relation evaluation are [1.4](#t1-4); specializing the algebra does not supply those assignments.
+relation evaluation are [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); specializing the algebra does not supply those assignments.
 
 (Sources: [Gee22], Lemma 3.13 and Corollary 3.14, pp. 13–14;
 [KWESI], Lemma 4.5 and proof, pp. 32–33; [CHT08], Corollary 2.2.12, p. 25.)
 
-*Needs:* DeformationAndDerivedPatchingAlgebra §§2.1–2.5; [F.0.1](#completed-coefficient-products);
+*Needs:* DeformationAndDerivedPatchingAlgebra §§2.1–2.5; [F.0.1](#f01-completed-coefficient-products-and-dimensions);
 SchemeAndStackFoundations §§4.2–4.4; Mathlib `MvPowerSeries`, `IsAdicComplete`, `IsNoetherianRing`.
 
 **Checks.**
@@ -208,15 +204,16 @@ SchemeAndStackFoundations §§4.2–4.4; Mathlib `MvPowerSeries`, `IsAdicComplet
   minimal presentation `B → B`. The presentation `B⟦x⟧ ↠ B`, `x ↦ 0`, has one relation and is
   not minimal; applying the zero-obstruction bound to it would assert `1 ≤ 0`.
 
-<a id="lifting-functor"></a>
-
 ### F.1.1 The lifting functor
 
-**Lifts.** For a coefficient ring `A` with residue map `π_A`, define `Lift_ρ̄(A)` as the set of
-continuous homomorphisms `ρ : G → GLₙ(A)` whose reduction `GLₙ(π_A) ∘ ρ` is `ρ̄`. A coefficient
-morphism `f : A → B` pushes a lift forward by `GLₙ(f)`; this is a set-valued functor on `Art_𝒪` with
-no representability assumption. On `C_𝒪`, construct the natural bijection
-`Lift_ρ̄(A) ≅ limᵣ Lift_ρ̄(A/𝔪_Aʳ)`. The strict kernel `Γ̂ₙ(A)` acts by conjugation. Since an Artinian
+**Lifts.** The carrier is the framed lifting functor of PadicLocalLanglandsForGL2Qp, §0.4, for
+every profinite `G` and `n ≥ 1`; this roadmap does not construct a second one. For a coefficient
+ring `A` with residue map `π_A`, `Lift_ρ̄(A)` is the set of continuous homomorphisms
+`ρ : G → GLₙ(A)` whose reduction `GLₙ(π_A) ∘ ρ` is `ρ̄`. A coefficient morphism `f : A → B` pushes
+a lift forward by `GLₙ(f)`; this is a set-valued functor on `Art_𝒪` with no representability
+assumption. The supplier's coefficient functoriality and inverse-limit comparison give
+`Lift_ρ̄(A) ≅ limᵣ Lift_ρ̄(A/𝔪_Aʳ)` on `C_𝒪`; the targets below are the additional API on that
+functor. The strict kernel `Γ̂ₙ(A)` acts by conjugation. Since an Artinian
 coefficient ring here is finite, continuity of a lift to it is equivalent to factoring through `a`
 finite quotient of `G` by an open normal subgroup ([Gee22], §3.1, p. 12; [KisinNotes], Lecture 1,
 (1.1.1)–(1.1.2), p. 1).
@@ -234,7 +231,7 @@ The API:
 - `Lift.conj`: `Γ̂ₙ(A)` acts on `Lift(A)` by conjugation.
 - `Lift.limEquiv`: for `A ∈ C_𝒪`, `Lift(A) ≃ limₖ Lift(A/𝔪_Aᵏ)`.
 
-*Needs:* [F.0.1](#completed-coefficient-products); ArithmeticGaloisRepresentations Layer 1;
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4; [F.0.1](#f01-completed-coefficient-products-and-dimensions); ArithmeticGaloisRepresentations Layer 1;
 Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinianRing`,
 `IsLocalRing`, `ContinuousMonoidHom`.
 
@@ -256,8 +253,6 @@ Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinia
   Reduction gives `X−1`, trace and determinant `1`; coefficient change before reduction
   gives the same result. Replacing the original polynomial by `X−1` loses the deformation.
 
-<a id="module-deformation-functor"></a>
-
 ### F.1.2 Deformations as modules with a residual identification
 
 **Module deformations.** Fix the standard residual `G`-module `V̄ = kⁿ` with its basis `β`. A module
@@ -276,7 +271,7 @@ The API:
 - `ModDef.baseChange`: base change along coefficient morphisms, with identity and composition laws.
 - `ModDef.exists_basis_lift`: every `(V_A, ι)` has a basis lifting `β`.
 
-*Needs:* [F.0.1](#completed-coefficient-products); [F.1.1](#lifting-functor); Mathlib
+*Needs:* [F.0.1](#f01-completed-coefficient-products-and-dimensions); [F.1.1](#f11-the-lifting-functor); Mathlib
 `Module.Free`, `IsLocalRing`.
 
 **Checks.**
@@ -291,12 +286,11 @@ The API:
   to the identity on `V̄`. With the zero character the two lifts coincide, so the character must be
   nonzero.
 
-<a id="strict-deformation-functor"></a>
-
 ### F.1.3 Deformations up to strict equivalence
 
-**Strict classes.** For every continuous `ρ̄`, form `Def_ρ̄(A) = Lift_ρ̄(A)/Γ̂ₙ(A)`. Coefficient
-morphisms descend to this orbit quotient. Two representatives have the same class precisely when `a`
+**Strict classes.** For every continuous `ρ̄`, `Def_ρ̄(A) = Lift_ρ̄(A)/Γ̂ₙ(A)` is the unframed
+strict-conjugacy functor of PadicLocalLanglandsForGL2Qp, §0.4. Coefficient morphisms descend to
+this orbit quotient. Two representatives have the same class precisely when `a`
 conjugator reduces to the identity. The functor exists even when `ρ̄` has non-scalar endomorphisms;
 representability is a separate target in §§F.2.1–F.2.11 ([Gee22], Definition 3.4, p. 12; [KisinNotes], Lecture 1,
 Remark (1.1.2)(1), p. 1).
@@ -307,9 +301,9 @@ The API:
 - `Def.mk`: the class of a lift.
 - `Def.mk_eq_mk_iff`: `[ρ] = [ρ′] ↔ ∃ a ∈ Γ̂ₙ(A), ρ′ = aρa⁻¹`.
 - `Def.map`: functoriality in `A`.
-- `Def.toModDef`: `Def ≃ ModDef` ([F.1.4](#module-deformations-are-strict-classes)).
+- `Def.toModDef`: `Def ≃ ModDef` ([F.1.4](#f14-module-deformations-are-lifts-up-to-strict-conjugation)).
 
-*Needs:* [F.1.1](#lifting-functor); Mathlib `Matrix.GeneralLinearGroup`, `MonoidHom.ker`,
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4; [F.1.1](#f11-the-lifting-functor); Mathlib `Matrix.GeneralLinearGroup`, `MonoidHom.ker`,
 `MulAction.orbitRel`.
 
 **Checks.**
@@ -320,8 +314,6 @@ The API:
 - **def_not_full_conj.** for `ρ̄ = 1 ⊕ 1`, the lifts `diag(1 + εx, 1)` and `diag(1, 1 + εx)` to `k[ε]`
   (`x` a nonzero continuous character `G → k`) are distinct strict classes although they are
   `GL₂(k[ε])`-conjugate; a definition using full conjugacy would identify them.
-
-<a id="module-deformations-are-strict-classes"></a>
 
 ### F.1.4 Module deformations are lifts up to strict conjugation
 
@@ -348,8 +340,8 @@ for characteristic polynomial, trace, determinant and reduction. The matrix form
 `Lift.charpoly_map`, `Lift.trace_map`, `Lift.det_map` and `Lift.reduce_map` of F.1.1;
 the module formulas use the supplier's base-change and reduction comparisons.
 
-*Needs:* [F.1.1](#lifting-functor); [F.1.2](#module-deformation-functor);
-[F.1.3](#strict-deformation-functor); `ArithmeticGaloisRepresentations`, §§1.2 and 1.9
+*Needs:* [F.1.1](#f11-the-lifting-functor); [F.1.2](#f12-deformations-as-modules-with-a-residual-identification);
+[F.1.3](#f13-deformations-up-to-strict-equivalence); `ArithmeticGaloisRepresentations`, §§1.2 and 1.9
 (frames, coefficient change and residual markings).
 
 **Checks.**
@@ -364,8 +356,6 @@ the module formulas use the supplier's base-change and reduction comparisons.
   `C₂`-module changes `diag(1,−1)` to `diag(−1,1)`. It does not lift the fixed
   residual basis, so cannot be used in the framed comparison.
 
-<a id="strict-vs-full-conjugacy"></a>
-
 ### F.1.5 Strict and full conjugacy agree for Schur residual representations
 
 **Theorem.** Let `ρ̄` be Schur and let `A` be a local ring whose residue map `π_A : A → k` is
@@ -377,8 +367,8 @@ local-ring unit criterion ([Gee22], Definition 3.4 and the remark following it, 
 The unbundled form requires locality, surjectivity of `π_A` and `ker π_A = 𝔪_A` explicitly. Both the
 non-Schur failure and the failure for an arbitrary surjection onto `k` are recorded as checks.
 
-*Needs:* [F.1.3](#strict-deformation-functor); Mathlib `Matrix.GeneralLinearGroup`;
-[F.0.1](#completed-coefficient-products).
+*Needs:* [F.1.3](#f13-deformations-up-to-strict-equivalence); Mathlib `Matrix.GeneralLinearGroup`;
+[F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 **Checks.**
 
@@ -394,8 +384,6 @@ non-Schur failure and the failure for an arbitrary surjection onto `k` are recor
 - **isSchur_absIrred.** an absolutely irreducible `ρ̄` is Schur, while `ρ̄ = 1 ⊕ 1` is not (its
   centralizer is all of `M₂(k)`, including non-diagonal matrices).
 
-<a id="restriction-of-deformations"></a>
-
 ### F.1.6 Restriction of lifts and deformations is well defined
 
 **Restriction.** For a continuous homomorphism `ι : H → G` of profinite groups, precomposition gives
@@ -405,7 +393,7 @@ the simultaneous replacement `(ρ, α) ↦ (βρβ⁻¹, βα)`. The identity is
 select a lift from a framed condition ring. Restriction need not be along an inclusion of
 groups ([Gee22], §§3.20–3.21, p. 15).
 
-*Needs:* [F.1.1](#lifting-functor); [F.1.3](#strict-deformation-functor); Mathlib
+*Needs:* [F.1.1](#f11-the-lifting-functor); [F.1.3](#f13-deformations-up-to-strict-equivalence); Mathlib
 `ContinuousMonoidHom`.
 
 **Checks.**
@@ -417,13 +405,12 @@ groups ([Gee22], §§3.20–3.21, p. 15).
 - **restrict_not_injective.** for `ι` the inclusion of the trivial group, restriction sends every lift
   to the unique lift of the trivial group; it is not an inclusion of functors.
 
-<a id="fixed-determinant-functors"></a>
-
 ### F.1.7 Lifts and deformations with fixed determinant
 
-**Fixed determinant.** For a continuous character `χ : G → 𝒪ˣ` reducing to `det ρ̄`, define
-`LiftDet_χ(A)` by the pointwise equation `det ρ(g) = χ_A(g)`. Strict conjugation preserves it; define
-`DefDet` as its orbit quotient and construct the inclusions into `Lift` and `Def`. Pushforward
+**Fixed determinant.** For a continuous character `χ : G → 𝒪ˣ` reducing to `det ρ̄`,
+`LiftDet_χ(A)` is the fixed-determinant fibre of PadicLocalLanglandsForGL2Qp, §0.4, cut out by the
+pointwise equation `det ρ(g) = χ_A(g)` for every `p`, including `p | n`. Strict conjugation
+preserves it; `DefDet` is its orbit quotient, with the inclusions into `Lift` and `Def`. Pushforward
 respects the determinant equation, so both are subfunctors. If `χ` does not reduce to `det ρ̄`, the
 set of lifts is empty ([Gee22], §3.18, p. 15).
 
@@ -434,7 +421,7 @@ The API:
 - `LiftDet.conj`: `Γ̂ₙ(A)` preserves `Lift_{ρ̄,χ}(A)`.
 - `mem_LiftDet_iff`: `ρ ∈ Lift_{ρ̄,χ}(A) ↔ det ∘ ρ = χ_A`.
 
-*Needs:* [F.1.1](#lifting-functor); [F.1.3](#strict-deformation-functor); Mathlib
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4; [F.1.1](#f11-the-lifting-functor); [F.1.3](#f13-deformations-up-to-strict-equivalence); Mathlib
 `Matrix.GeneralLinearGroup.det`.
 
 **Checks.**
@@ -444,8 +431,6 @@ The API:
 - **liftDet_residue.** `Lift_{ρ̄,χ}(k) = {ρ̄}`.
 - **liftDet_wrong_char.** if `χ mod λ ≠ det ρ̄` the functor is empty already on `k`, so the
   compatibility hypothesis is needed.
-
-<a id="change-of-coefficients"></a>
 
 ### F.1.8 Change of coefficient ring and residue field
 
@@ -464,8 +449,8 @@ The API:
 - `isSchur_baseChange`: `ρ̄` Schur `↔` `ρ̄ ⊗ k′` Schur.
 - `LiftDet.changeCoeff`: the same with fixed determinant `χ` composed with `𝒪 → 𝒪′`.
 
-*Needs:* [F.0.1](#completed-coefficient-products); [F.1.1](#lifting-functor);
-[F.1.3](#strict-deformation-functor); [F.1.7](#fixed-determinant-functors).
+*Needs:* [F.0.1](#f01-completed-coefficient-products-and-dimensions); [F.1.1](#f11-the-lifting-functor);
+[F.1.3](#f13-deformations-up-to-strict-equivalence); [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant).
 
 **Checks.**
 
@@ -475,8 +460,6 @@ The API:
 - **changeCoeff_irreducible_fails.** the representation of `ℤ/(p² − 1)` through an element of order
   `p² − 1` of `𝔽_{p²}ˣ`, viewed over `𝔽_p`, is irreducible of dimension two but splits over `𝔽_{p²}`;
   a hypothesis "irreducible" in place of "Schur" would not be stable under coefficient change.
-
-<a id="determinant-deformation-functor"></a>
 
 ### F.1.9 Deformations of a residual determinant
 
@@ -495,7 +478,7 @@ The API:
 - `DetDef.charpoly`: the characteristic-polynomial coefficients of a lifted determinant.
 - `DetDef.rank_one`: for `n = 1`, `Def_D̄ ≃ Lift_{χ̄}`.
 
-*Needs:* `IntegralHeckeAndGaloisDeterminants` Layer 0; [F.0.1](#completed-coefficient-products).
+*Needs:* `IntegralHeckeAndGaloisDeterminants` Layer 0; [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 **Checks.**
 
@@ -505,8 +488,6 @@ The API:
 - **detDef_ignores_extension.** two residual representations with the same semisimplification (for
   instance a nonsplit extension of `χ₂` by `χ₁` and `χ₁ ⊕ χ₂`) have the same `D̄` and hence the same
   functor `Def_D̄`; a definition depending on `ρ̄` itself would distinguish them.
-
-<a id="determinant-comparison"></a>
 
 ### F.1.10 The determinant map from representation deformations to determinant deformations
 
@@ -520,7 +501,7 @@ are distinct; the determinant law is unchanged. Such a nonsplit extension of dis
 is Schur. The isomorphism under absolute irreducibility is F.2.8 ([KisinNotes], Lecture 1, (1.5) Exercise 3,
 p. 4; [Chenevier], §3.1, Example 3.4, p. 42).
 
-*Needs:* [F.1.3](#strict-deformation-functor); [F.1.9](#determinant-deformation-functor);
+*Needs:* [F.1.3](#f13-deformations-up-to-strict-equivalence); [F.1.9](#f19-deformations-of-a-residual-determinant);
 `IntegralHeckeAndGaloisDeterminants` Layer 0.
 
 **Checks.**
@@ -542,11 +523,9 @@ p. 4; [Chenevier], §3.1, Example 3.4, p. 42).
 
 #### F.1 Dependencies
 
-[F.0.1](#completed-coefficient-products); ArithmeticGaloisRepresentations Layer 1;
+[F.0.1](#f01-completed-coefficient-products-and-dimensions); ArithmeticGaloisRepresentations Layer 1;
 `IntegralHeckeAndGaloisDeterminants` Layer 0; Mathlib `Matrix.GeneralLinearGroup`,
 `MulAction.orbitRel`, `Module.Free`, `IsLocalRing`, `IsArtinianRing`.
-
-<a id="phi-p-condition"></a>
 
 ### F.2.1 Mazur's finiteness condition `Φ_p`
 
@@ -590,8 +569,6 @@ The API:
   coordinate characters. A definition quantifying only over `G` would accept this group.
 - **phiP_finite.** every finite group satisfies `Φ_p`.
 
-<a id="phi-p-global"></a>
-
 ### F.2.2 Global and local Galois groups satisfy `Φ_p`
 
 **Arithmetic examples.** For a number field `F` and a finite set of places `S`, `Φ_p(G_{F,S})`
@@ -604,7 +581,7 @@ extension `L/K`; open subgroups of `G_K` are exactly these `G_L`. When `ℓ = p`
 §3.1, p. 12; [KisinNotes],
 Lecture 1, (1.2), p. 2).
 
-*Needs:* [F.2.1](#phi-p-condition); ArithmeticGaloisDuality R02.3; ClassFieldTheory Layer 5
+*Needs:* [F.2.1](#f21-mazurs-finiteness-condition-φ_p); ArithmeticGaloisDuality R02.3; ClassFieldTheory Layer 5
 `finite_H`; `LocalGaloisGroups` Layer 3 for the `ℓ = p` alternative.
 
 **Checks.**
@@ -618,8 +595,6 @@ Lecture 1, (1.2), p. 2).
 - **phiP_local_rank.** for `K = ℚ_p` with `p` odd, `μ_p ⊄ ℚ_p`, so `G_{ℚ_p}(p)` has `N + 1 = 2` topological
   generators (`LocalGaloisGroups` Layer 3, `N = [K : ℚ_p] = 1`), matching
   `ℚ_pˣ/ℚ_pˣᵖ ≅ (ℤ/p)²`: `Hom_cont(G_{ℚ_p}, 𝔽_p)` is two-dimensional.
-
-<a id="universal-lifting-ring"></a>
 
 ### F.2.3 The universal lifting ring
 
@@ -642,7 +617,7 @@ universal lifts to each other; it is a theorem about this pair, not a second car
 
 *Needs:* PadicLocalLanglandsForGL2Qp §0.4 (framed representing pair and its uniqueness);
 DeformationAndDerivedPatchingAlgebra §2.7 (matrix presentation theorem);
-[F.2.1](#phi-p-condition); [F.1.1](#lifting-functor); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
+[F.2.1](#f21-mazurs-finiteness-condition-φ_p); [F.1.1](#f11-the-lifting-functor); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
 SchemeAndStackFoundations §§4.2–4.4; Mathlib
 `MvPowerSeries`, `IsAdicComplete`.
 
@@ -656,8 +631,6 @@ SchemeAndStackFoundations §§4.2–4.4; Mathlib
 - **univLiftRing_pair_comparison.** in the rank-one `ℤ_p` case, a second representing pair
   identifies with `𝒪⟦T⟧` by its universal value `1+T`. The automorphism `T ↦ T+T²` does not
   preserve that value, so it is not a second isomorphism of representing pairs.
-
-<a id="universal-continuous-lift"></a>
 
 ### F.2.4 The universal continuous lift over the inverse-limit ring
 
@@ -676,8 +649,8 @@ The API consists of abbreviations of PadicLocalLanglandsForGL2Qp §0.4's univers
 - `liftEquivHom`: `Lift_ρ̄(A) ≃` local `𝒪`-algebra maps `R^□_ρ̄ → A`, for `A ∈ C_𝒪`.
 - `univLift_continuous`: `ρ^□` is continuous for the `𝔪`-adic topology.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (universal lift and representing equivalence); [F.2.3](#universal-lifting-ring);
-[F.1.1](#lifting-functor); [F.0.1](#completed-coefficient-products); Mathlib `IsAdicComplete`.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (universal lift and representing equivalence); [F.2.3](#f23-the-universal-lifting-ring);
+[F.1.1](#f11-the-lifting-functor); [F.0.1](#f01-completed-coefficient-products-and-dimensions); Mathlib `IsAdicComplete`.
 
 **Checks.**
 
@@ -687,8 +660,6 @@ The API consists of abbreviations of PadicLocalLanglandsForGL2Qp §0.4's univers
 - **univLift_not_Artinian.** for `G = ℤ_p` in rank one with trivial residual character the representing
   ring `𝒪⟦T⟧` is not Artinian, so the universal lift cannot be replaced by a lift over one fixed
   Artinian quotient.
-
-<a id="universal-deformation-ring"></a>
 
 ### F.2.5 The universal deformation ring
 
@@ -742,9 +713,9 @@ Universality identifies strict classes, so equality of chosen matrix representat
 not required for `hom_ext`.
 
 *Needs:* PadicLocalLanglandsForGL2Qp §0.4 (unframed functor and Schur representability);
-[F.2.1](#phi-p-condition); [F.1.3](#strict-deformation-functor);
-[F.1.5](#strict-vs-full-conjugacy); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
-[F.2.3](#universal-lifting-ring); [F.2.4](#universal-continuous-lift); [F.0.2](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4;
+[F.2.1](#f21-mazurs-finiteness-condition-φ_p); [F.1.3](#f13-deformations-up-to-strict-equivalence);
+[F.1.5](#f15-strict-and-full-conjugacy-agree-for-schur-residual-representations); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
+[F.2.3](#f23-the-universal-lifting-ring); [F.2.4](#f24-the-universal-continuous-lift-over-the-inverse-limit-ring); [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); SchemeAndStackFoundations §§4.3–4.4;
 `DeformationAndDerivedPatchingAlgebra`, §§1.8–1.9 (truncations and the complete cotangent criterion).
 
 **Checks.**
@@ -771,8 +742,6 @@ not required for `hom_ext`.
   classifying map `T↦0`, which misses `U`. Absolute irreducibility alone does not make
   a classifying map surjective; generation of the target by its traces is needed.
 
-<a id="framed-unframed-comparison"></a>
-
 ### F.2.6 Framed rings are power series over unframed rings
 
 **Theorem.** For a finite set `T`, define `TFramedLift(A)` as pairs `(ρ, α : T → Γ̂ₙ(A))`
@@ -789,9 +758,9 @@ underlying map `R_ρ̄ → R^□_ρ̄` is PadicLocalLanglandsForGL2Qp §0.4's `f
 coordinate isomorphisms is claimed to be canonical ([Gee22], Exercise 3.9, p. 13; [KisinNotes], Lecture 1,
 Remark (1.2.2)(3), p. 2).
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (`forgetFrame`); [F.2.3](#universal-lifting-ring); [F.2.5](#universal-deformation-ring);
-[F.2.4](#universal-continuous-lift); [F.1.7](#fixed-determinant-functors);
-[F.0.2](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4; Mathlib `MvPowerSeries`, `Algebra.FormallySmooth`.
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (`forgetFrame`); [F.2.3](#f23-the-universal-lifting-ring); [F.2.5](#f25-the-universal-deformation-ring);
+[F.2.4](#f24-the-universal-continuous-lift-over-the-inverse-limit-ring); [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant);
+[F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); SchemeAndStackFoundations §§4.3–4.4; Mathlib `MvPowerSeries`, `Algebra.FormallySmooth`.
 
 **Checks.**
 
@@ -801,8 +770,6 @@ Remark (1.2.2)(3), p. 2).
 - **framed_normalisation_unique.** for a matrix whose `(1,1)` entry is a unit, there is exactly one unit
   scalar making that entry `1`; a normalisation of a non-unit entry is impossible, which is why the
   distinguished entry is that of a strict frame.
-
-<a id="carayol-trace-theorem"></a>
 
 ### F.2.7 Universal deformation rings are generated by traces
 
@@ -822,10 +789,10 @@ and apply complete Nakayama to obtain a surjection from a finite power-series ri
 subring of a Noetherian ring is Noetherian. The fixed-determinant case follows by quotienting, and
 the framed assertion follows from F.2.6. Continuity allows the traces to be taken on any dense subset.
 
-*Needs:* [F.2.5](#universal-deformation-ring); [F.1.3](#strict-deformation-functor);
+*Needs:* [F.2.5](#f25-the-universal-deformation-ring); [F.1.3](#f13-deformations-up-to-strict-equivalence);
 ArithmeticGaloisRepresentations §5.10 (`GaloisRep.carayol_conj_of_trace_eq`) and §7.2
 (`GaloisRep.span_eq_top_and_centralizer_of_residually_absIrred`);
-`IntegralHeckeAndGaloisDeterminants` Layer 1 (`coefficient_descent`); [F.0.1](#completed-coefficient-products).
+`IntegralHeckeAndGaloisDeterminants` Layer 1 (`coefficient_descent`); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 **Checks.**
 
@@ -838,8 +805,6 @@ ArithmeticGaloisRepresentations §5.10 (`GaloisRep.carayol_conj_of_trace_eq`) an
   `diag(1, 1 + T)` over `𝒪⟦T⟧` both have trace `2 + T` but are not strictly conjugate (a conjugator
   carries one eigenline to the other, so its reduction is antidiagonal): traces do not determine
   strict classes without absolute irreducibility.
-
-<a id="determinant-comparison-isomorphism"></a>
 
 ### F.2.8 For absolutely irreducible `ρ̄` the determinant map is an isomorphism
 
@@ -856,8 +821,8 @@ with `ρ̄` by a change of basis, and check continuity on the finite quotient th
 Injectivity: equal determinant laws give equal traces, and strict conjugacy follows from
 ArithmeticGaloisRepresentations §5.10.
 
-*Needs:* [F.1.10](#determinant-comparison); [F.2.7](#carayol-trace-theorem);
-[F.2.5](#universal-deformation-ring); `IntegralHeckeAndGaloisDeterminants` Layers 0–1
+*Needs:* [F.1.10](#f110-the-determinant-map-from-representation-deformations-to-determinant-deformations); [F.2.7](#f27-universal-deformation-rings-are-generated-by-traces);
+[F.2.5](#f25-the-universal-deformation-ring); `IntegralHeckeAndGaloisDeterminants` Layers 0–1
 (`Determinant.exists_ofMatrix_eq_of_henselian`); ArithmeticGaloisRepresentations §5.10.
 
 **Checks.**
@@ -869,8 +834,6 @@ ArithmeticGaloisRepresentations §5.10.
 - **detIso_charpoly.** in rank two, `δ(ρ)` has characteristic coefficients `Λ₁(g) = tr ρ(g)` and
   `Λ₂(g) = det ρ(g)`; a comparison through the determinant character alone loses `Λ₁` and cannot be
   injective (all lifts with fixed determinant would collapse).
-
-<a id="fixed-determinant-rings"></a>
 
 ### F.2.9 Fixed-determinant rings and change of determinant
 
@@ -892,8 +855,8 @@ quotient map is `mapOfLE` for `LiftDet_χ ≤ Lift`, and is surjective. For a fu
 condition use `D ∩ LiftDet_χ`, as in F.3.2. None of these universal properties requires
 `p ∤ n`; that hypothesis belongs only to the root and twisting decompositions.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (`fixedDeterminant`); [F.1.7](#fixed-determinant-functors); [F.2.3](#universal-lifting-ring);
-[F.2.5](#universal-deformation-ring); [F.2.4](#universal-continuous-lift); [F.2.1](#phi-p-condition); Mathlib
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (`fixedDeterminant`); [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant); [F.2.3](#f23-the-universal-lifting-ring);
+[F.2.5](#f25-the-universal-deformation-ring); [F.2.4](#f24-the-universal-continuous-lift-over-the-inverse-limit-ring); [F.2.1](#f21-mazurs-finiteness-condition-φ_p); Mathlib
 `Matrix.GeneralLinearGroup.det`.
 
 **Checks.**
@@ -905,8 +868,6 @@ condition use `D ∩ LiftDet_χ`, as in F.3.2. None of these universal propertie
   residue one is `1+aε` and has cube `1`. Hence there is no residue-one unit whose
   cube is `1+ε`; the splitting needs `p ∤ n`.
 
-<a id="change-of-residue-field"></a>
-
 ### F.2.10 Representing rings under change of coefficients
 
 **Theorem.** For a finite local map `𝒪 → 𝒪′` with residue inclusion `k → k′`, let `ρ̄′ = ρ̄ ⊗ k′`.
@@ -916,8 +877,8 @@ versions hold. The maps carry the universal lifts or classes to their scalar ext
 of `𝒪′` over `𝒪` ensures that the completed tensor product is again a Noetherian coefficient object
 ([Gee22], §3.1, p. 12).
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (coefficient extension); [F.1.8](#change-of-coefficients); [F.2.3](#universal-lifting-ring);
-[F.2.5](#universal-deformation-ring); [F.0.1](#completed-coefficient-products).
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (coefficient extension); [F.1.8](#f18-change-of-coefficient-ring-and-residue-field); [F.2.3](#f23-the-universal-lifting-ring);
+[F.2.5](#f25-the-universal-deformation-ring); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 **Checks.**
 
@@ -925,8 +886,6 @@ of `𝒪′` over `𝒪` ensures that the completed tensor product is again a No
 - **changeRing_rank_one.** for `n = 1`, `𝒪⟦G^{ab,(p)}⟧ ⊗̂_𝒪 𝒪′ = 𝒪′⟦G^{ab,(p)}⟧`.
 - **changeRing_unramified_residue.** for `𝒪′ = W(k′)` over `𝒪 = W(k)` the residue field changes, and `a`
   statement keeping residue field `k` for `R^□_{ρ̄′}` would have no residue map to `k′`.
-
-<a id="pseudodeformation-rings"></a>
 
 ### F.2.11 Continuous pseudodeformation rings
 
@@ -970,9 +929,9 @@ The API:
 - `PseudoDefRing.eq_univDefRing`: for absolutely irreducible `ρ̄`, `R^ps_D̄ ≅ R_ρ̄` (F.2.8).
 - `PseudoDefRing.restrict_degreeTwo`: for `G=G_(ℚ_p)` and `n=2`, the universal-law-preserving isomorphisms with PadicLocalLanglandsForGL2Qp §5.4's unrestricted ring and its fixed-determinant fibres.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §5.4 (degree-two `G_(ℚ_p)` restriction comparison); [F.1.9](#determinant-deformation-functor); [F.2.1](#phi-p-condition); [F.2.2](#phi-p-global);
-[F.2.8](#determinant-comparison-isomorphism); `IntegralHeckeAndGaloisDeterminants` Layers 0–1;
-[F.0.1](#completed-coefficient-products).
+*Needs:* PadicLocalLanglandsForGL2Qp §5.4 (degree-two `G_(ℚ_p)` restriction comparison); [F.1.9](#f19-deformations-of-a-residual-determinant); [F.2.1](#f21-mazurs-finiteness-condition-φ_p); [F.2.2](#f22-global-and-local-galois-groups-satisfy-φ_p);
+[F.2.8](#f28-for-absolutely-irreducible-ρ̄-the-determinant-map-is-an-isomorphism); `IntegralHeckeAndGaloisDeterminants` Layers 0–1;
+[F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 **Checks.**
 
@@ -995,13 +954,11 @@ The API:
 
 #### F.2 Dependencies
 
-§§F.1.1–F.1.10; [F.0.1](#completed-coefficient-products); [F.0.2](#minimal-relative-presentations); PadicLocalLanglandsForGL2Qp §0.4 (framed, unframed and fixed-determinant functors and representability) and PadicLocalLanglandsForGL2Qp §5.4 (degree-two `G_(ℚ_p)` pseudodeformations); SchemeAndStackFoundations §§4.2–4.4; ArithmeticGaloisDuality R02.3;
+§§F.1.1–F.1.10; [F.0.1](#f01-completed-coefficient-products-and-dimensions); [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); PadicLocalLanglandsForGL2Qp §0.4 (framed, unframed and fixed-determinant functors and representability) and PadicLocalLanglandsForGL2Qp §5.4 (degree-two `G_(ℚ_p)` pseudodeformations); SchemeAndStackFoundations §§4.2–4.4; ArithmeticGaloisDuality R02.3;
 ClassFieldTheory Layer 5; `LocalGaloisGroups` Layer 3; `IntegralHeckeAndGaloisDeterminants` Layers 0–1 (including the Roby
 algebra);
 ArithmeticGaloisRepresentations §5.10 and §7.2; Tau Ceti profinite generation; Mathlib
 `MvPowerSeries`, `IsAdicComplete`, `Algebra.FormallySmooth`.
-
-<a id="local-deformation-problem"></a>
 
 ### F.3.1 Local deformation problems
 
@@ -1041,9 +998,9 @@ The API:
   The forward implication is coefficient
   pushforward; the reverse is the separated-limit axiom.
 
-The instances are unramified lifts in [2.2](#t2-2), the Steinberg flat-closure
-condition in [2.5](#t2-5), ordinary lifts with the fixed residual filtration and character
-hypotheses in [6.3](#t6-3), and the flat condition constructed in [4.1](#t4-1) using
+The instances are unramified lifts in [2.2](#22-unramified-lifts), the Steinberg flat-closure
+condition in [2.5](#25-steinberg-unipotent-monodromy-lifts), ordinary lifts with the fixed residual filtration and character
+hypotheses in [6.3](#63-ordinary-deformations-with-fixed-inertial-characters-on-a-full-flag-cht-242), and the flat condition constructed in [4.1](#41-flat-deformations-and-the-flat-deformation-ring) using
 the model-closure interface of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7. The finite-flat condition
 interface applies for every `p` and every ramification index; the geometric assertions
 of Layer 4 retain their own odd-prime hypotheses. Each instance supplies these five closure
@@ -1053,8 +1010,8 @@ on the Steinberg boundary, and an ordinary flag image without unique flags is no
 asserted to satisfy injective descent. Finiteness for Noetherian representing rings
 comes from `Φ_p(G_v)`.
 
-*Needs:* [F.1.1](#lifting-functor); [F.1.4](#module-deformations-are-strict-classes);
-[F.1.6](#restriction-of-deformations); `DeformationAndDerivedPatchingAlgebra`, §1.8;
+*Needs:* [F.1.1](#f11-the-lifting-functor); [F.1.4](#f14-module-deformations-are-lifts-up-to-strict-conjugation);
+[F.1.6](#f16-restriction-of-lifts-and-deformations-is-well-defined); `DeformationAndDerivedPatchingAlgebra`, §1.8;
 `ArithmeticGaloisRepresentations`, §§1.2 and 1.9 (continuous representations and markings).
 
 (Sources for the constructor and detection API: [CHT08], Definition 2.2.2 and
@@ -1077,8 +1034,6 @@ Lemma 2.2.3, pp. 18–19; the factor-through-ideal criterion of F.3.2.)
 - **defProblem_all_truncations.** For the trivial-character condition on lifts of
   `ρ̄=1` of `ℤ_p` to `A=k⟦T⟧`, the value `1+T` is trivial modulo `𝔪_A` but
   not modulo `𝔪_A²`. Checking only the residue field cannot replace all truncations.
-
-<a id="deformation-problem-ideal"></a>
 
 ### F.3.2 Deformation problems are invariant ideals of the lifting ring
 
@@ -1124,8 +1079,8 @@ When `p ∤ n`, `i_v` is injective and this is the usual trace-zero restriction 
 when `p | n`, neither that inclusion nor the deletion of `im δ_v` is asserted ([Gee22], Exercise 3.19,
 p. 15; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*).
 
-*Needs:* [F.3.1](#local-deformation-problem); [F.2.3](#universal-lifting-ring);
-[F.2.9](#fixed-determinant-rings); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
+*Needs:* [F.3.1](#f31-local-deformation-problems); [F.2.3](#f23-the-universal-lifting-ring);
+[F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
 `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*.
 
 **Checks.**
@@ -1154,8 +1109,6 @@ p. 15; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*).
   `tr : H⁰(ad) → k` is zero and `δ_v` is injective. The unrestricted condition then has
   `L_v^χ = H¹(ad⁰)` but strict-class tangent `H¹(ad⁰)/im δ_v`.
 
-<a id="inertia-rigid-deformations"></a>
-
 ### F.4.12 Inertia-rigid deformation rings
 
 **Theorem.** Fix a profinite `G` with a finite normal inertia subgroup `I` and `G/I ≅ ℤ̂`, a lift `F`
@@ -1170,8 +1123,8 @@ image away from `p`, using SchemeAndStackFoundations §0.21's excellence and com
 ([KW209], §2.7,
 Propositions 2.10 and 2.11, pp. 15–16; [KWESI], §2.3, Propositions 2.6–2.7, pp. 9–11).
 
-*Needs:* [F.2.3](#universal-lifting-ring); [F.1.7](#fixed-determinant-functors);
-[F.0.1](#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
+*Needs:* [F.2.3](#f23-the-universal-lifting-ring); [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant);
+[F.0.1](#f01-completed-coefficient-products-and-dimensions); SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
 **Checks.**
 
@@ -1183,9 +1136,15 @@ Propositions 2.10 and 2.11, pp. 15–16; [KWESI], §2.3, Propositions 2.6–2.7,
 - **inertiaRigid_flat_part.** the scheme before passing to the `p`-torsion-free quotient can have
   components in the special fibre; the theorem is about the flat quotient.
 
-## Layer 0: Coefficient and comparison prerequisites
+### Examples
 
-<a id="t0-1"></a>
+For `G=ℤ_p`, rank one and the trivial residual character, the framed and strict functors agree and are represented by `𝒪[[T]]` with universal value `1+T`; fixing the determinant leaves the single lift `χ` and the ring `𝒪`. For the scalar residual representation `1⊕1`, the lifts `diag(1+εx,1)` and `diag(1,1+εx)` over `k[ε]` are distinct strict classes but are conjugate under `GL₂(k[ε])`, and the Schur representability theorem does not apply; the framed ring still exists under `Φ_p`, and the condition/ideal correspondence of F.3 applies to it.
+
+### Dependencies
+
+PadicLocalLanglandsForGL2Qp §0.4 supplies the lifting functors and representing pairs; SchemeAndStackFoundations §4.2 supplies the coefficient categories; DeformationAndDerivedPatchingAlgebra supplies completed coproducts and relative presentations. Nothing in Layers 0–8 is a prerequisite for Layer F.
+
+## Layer 0: Coefficient and comparison prerequisites
 
 ### 0.1 Canonical modules and type under regular quotients
 
@@ -1204,8 +1163,6 @@ The graded comparison used in 6.18 belongs here. For a nonzero standard graded C
 
 (Sources: [CG18], §4.1, discussion before Lemma 4.1 and Lemma 4.2, arXiv pp. 43–44; Stacks [Tag 0AWS](https://stacks.math.columbia.edu/tag/0AWS), Cohen–Macaulay dualizing modules, and [Tag 00MB](https://stacks.math.columbia.edu/tag/00MB), flatness and finite-module exactness of completion.)
 
-<a id="t0-2"></a>
-
 ### 0.2 Period, descent and finite-coefficient comparisons
 
 For finite `K/ℚ_p`, import the period rings, `HT(ε)=+1` dictionary, filtered modules, weak admissibility, full faithfulness and admissibility of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.0–R07.3.3 and R07.4.13. Import the odd-prime descent construction of §§R07.4.27–R07.4.28. Extend it to every `p` and to finite local `E`-algebras `A`: potentially semistable finite free `A`-representations becoming semistable over a fixed finite Galois `L/K` correspond to finite-projective filtered `(φ,N,L/K)`-modules over `L₀⊗_{ℚ_p}A`, with filtration on `L⊗_{L₀}D` by projective direct summands and weakly admissible residue module. Carry the period dimension/rank comparison, not just a fibrewise predicate. Use `D*=D(V∨)` with its contravariance; the covariant version uses `D(V)`.
@@ -1218,15 +1175,13 @@ The API `CoefficientPeriodComparison` supplies exact tensor and dual comparisons
 - A Tate-curve representation retains `N≠0` after finite extension; it is excluded by the crystalline subcategory.
 - Over `E[ε]/(ε²)`, the comparison transports extension classes and projective filtrations, not just the residue representation.
 
-*Needs:* the finite-flat targets listed above; [F.0.1](#completed-coefficient-products); `ArithmeticGaloisDuality`, `D7` local coefficient comparison.
+*Needs:* the finite-flat targets listed above; [F.0.1](#f01-completed-coefficient-products-and-dimensions); `ArithmeticGaloisDuality`, `D7` local coefficient comparison.
 
 (Sources: [KisinPST], Proposition (2.7.2), Lemma (3.2.1) and Proposition (3.3.1), author DVI pp. 22–23, 27–29; [BellovinGee], §3.2 and Proposition 3.3.2, arXiv v3 pp. 29–30.)
 
-<a id="ordinary-flag-definitions"></a>
-
 ### Ordinary flag definitions for 1.7
 
-Target [1.7](#t1-7) owns the following common predicate and elementary flag API. Let `K/ℚ_p` be finite, let `E` contain its embeddings, and let `A` be a finite local `E`-algebra or an integral coefficient algebra over `𝒪`. For dominant `λ=(λ_{τ,1}≥⋯≥λ_{τ,d})`, a continuous rank-`d` representation is `IsOrdinaryOfWeight` if it has an increasing stable full flag by direct summands, with rank-one graded characters satisfying `χ_i(Art_K^geom(u))=∏_τ τ(u)^{−(λ_{τ,d−i+1}+i−1)}` on an open subgroup of `𝒪_K^×`. The algebraic unit characters use the structure map to `A`. Equivalently their ratios with the prescribed characters have finite order on inertia. `IsSemistableOrdinaryOfWeight` requires equality on all units, equivalently on all inertia. These are flag-and-character definitions; their period consequences are target 0.3 and the comparison part of 1.7.
+Target [1.7](#17-ordinary-representations-of-weight-λ) owns the following common predicate and elementary flag API. Let `K/ℚ_p` be finite, let `E` contain its embeddings, and let `A` be a finite local `E`-algebra or an integral coefficient algebra over `𝒪`. For dominant `λ=(λ_{τ,1}≥⋯≥λ_{τ,d})`, a continuous rank-`d` representation is `IsOrdinaryOfWeight` if it has an increasing stable full flag by direct summands, with rank-one graded characters satisfying `χ_i(Art_K^geom(u))=∏_τ τ(u)^{−(λ_{τ,d−i+1}+i−1)}` on an open subgroup of `𝒪_K^×`. The algebraic unit characters use the structure map to `A`. Equivalently their ratios with the prescribed characters have finite order on inertia. `IsSemistableOrdinaryOfWeight` requires equality on all units, equivalently on all inertia. These are flag-and-character definitions; their period consequences are target 0.3 and the comparison part of 1.7.
 
 The elementary API is as follows.
 
@@ -1247,8 +1202,6 @@ Duality reverses the flag and inverts the ordered characters. In rank two at `λ
 *Needs:* `ClassFieldTheory`, Layer 7, local reciprocity and its normalization; the coefficient categories fixed in the conventions.
 
 (Sources: [NT26], Definition 2.5(2), arXiv v2 p. 12; [BCGP25], Definition 5.6.8, arXiv v1 pp. 129–130; [CN23], Definition 3.3.1, arXiv v3 pp. 50–51.)
-
-<a id="t0-3"></a>
 
 ### 0.3 Ordinary period comparisons and rank-two endpoints
 
@@ -1274,21 +1227,19 @@ For odd `p`, construct `RankTwoNonordinaryEndpoint.exists`: given an irreducible
 - If `ρ̄` is a nonsplit extension with its unique rank-one quotient unramified, the reduction of the descended étale quotient is necessarily that quotient; the stronger endpoint applies.
 - At `p=2`, the descended quotient has tame inertia of order dividing `p−1=1`, so the potential branch already has an unramified quotient under the same lattice and determinant hypotheses.
 
-*Needs:* the [ordinary flag definitions of 1.7](#ordinary-flag-definitions); [0.2](#t0-2); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17, R07.3.19, R07.4.20 and R07.4.29–R07.4.30; local reciprocity, `ClassFieldTheory`, Layer 7; [F.2.9](#fixed-determinant-rings).
+*Needs:* the [ordinary flag definitions of 1.7](#ordinary-flag-definitions-for-17); [0.2](#02-period-descent-and-finite-coefficient-comparisons); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17, R07.3.19, R07.4.20 and R07.4.29–R07.4.30; local reciprocity, `ClassFieldTheory`, Layer 7; [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant).
 
 (Sources: [CN23], Definition 3.3.1 and Lemma 3.3.2, arXiv v3 pp. 50–51; [FKP22], Lemmas `B`.3–`B`.4, arXiv v5 pp. 53–54; [KW209], Definition 3.4 and Lemma 3.5, §3.2.7 and its Remark, author pp. 22, 31–32; [Conrad–Diamond–Taylor](https://virtualmath1.stanford.edu/~conrad/papers/cdtmaster.pdf), §2.1 and Lemma 2.1.2, author pp. 8–9, with the residual-quotient identification for the downstairs unramified conclusion.)
-
-<a id="t0-4"></a>
 
 ### 0.4 Coefficient Robba modules, Herr cohomology and period conditions
 
 For finite `K/ℚ_p` and finite local `E`-algebra `A` with its finite-dimensional `E`-vector topology, use `PhiGammaModulesAndIwasawaCohomology`, §§1.1–1.2's coefficient Robba ring and exact tensor category. The local notation is identified by `ℛ_{K,A}=R_{A,K}`, `CoefficientRobbaModule(A,K)=RelativePhiGammaModule A K` and `D_rig(V)=relativeDrig(V)`. These identifications retain the annulus topologies, invertible Frobenius linearization, continuous commuting Gamma action, tensor products, duals and finite coefficient maps. The supplied `CoefficientRobbaModule.etaleEquivalence` is the equivalence with finite free continuous `A`-representations, including its inverse, unit and counit. It uses the ordinary Robba category without inverting `t`.
 
-For [1.23](#t1-23), use that supplier's §§7.1 and 7.5's character lines and saturated triangulations, with actual ordered rank-one quotients and projective successive quotients. Apply [0.2](#t0-2)'s coefficient-period comparison to the de Rham condition with projective labelled filtrations. The deformation rings and the comparison of their constrained tangent spaces belong to 1.23.
+For [1.23](#123-deformation-rings-of-φ-γ-modules-and-their-trianguline-and-de-rham-quotients), use that supplier's §§7.1 and 7.5's character lines and saturated triangulations, with actual ordered rank-one quotients and projective successive quotients. Apply [0.2](#02-period-descent-and-finite-coefficient-comparisons)'s coefficient-period comparison to the de Rham condition with projective labelled filtrations. The deformation rings and the comparison of their constrained tangent spaces belong to 1.23.
 
 Use the supplied `HerrCohomology` and Ext/Galois comparison of §3.6, the perfect amplitude `[0,2]`, Euler characteristic `−[K:ℚ_p]` rank and cyclotomic-dual Tate pairing of §4.4, and the derived coefficient comparison of §4.5. In the derived category the identification equations are `HerrCohomology(D)≃arithmeticHerrComplex(D)` and `RΓ_cont(G_K,V)≃HerrCohomology(D_rig(V))`. For a map of finite local coefficient algebras `A→B`, the adapter `HerrCohomology.baseChange` is the supplied `herrDerivedBaseChange`, namely `HerrCohomology(D)⊗ᴸ_A B≃HerrCohomology(D⊗̂_A B)`. Cohomology-group base change requires vanishing of the relevant `Tor` terms.
 
-Identify the tangent space of the unframed deformation functor of a finite-projective field-coefficient module `D` with `Ext¹_(φ,Γ_K)(D,D)≅H¹(HerrCohomology(D∨⊗D))`. On étale objects this is `H¹(G_K,ad V)` for `D=D_rig(V)`, with the extension class transported by the supplied equivalence. Deforming a chosen triangulation retains its filtration and ordered character quotients. Under the generic regular and noncritical hypotheses of [1.23](#t1-23), its tangent identifies with the subspace of extensions carrying the lifted filtration. These are the deformation-theoretic applications used by 1.23.
+Identify the tangent space of the unframed deformation functor of a finite-projective field-coefficient module `D` with `Ext¹_(φ,Γ_K)(D,D)≅H¹(HerrCohomology(D∨⊗D))`. On étale objects this is `H¹(G_K,ad V)` for `D=D_rig(V)`, with the extension class transported by the supplied equivalence. Deforming a chosen triangulation retains its filtration and ordered character quotients. Under the generic regular and noncritical hypotheses of [1.23](#123-deformation-rings-of-φ-γ-modules-and-their-trianguline-and-de-rham-quotients), its tangent identifies with the subspace of extensions carrying the lifted filtration. These are the deformation-theoretic applications used by 1.23.
 
 Take invariants under the full finite torsion subgroup `Δ⊂Γ_K` and choose `γ` whose image topologically generates `Γ_K/Δ`. On `D^Δ` use degrees `0,1,2`, with `d⁰x=((φ−1)x,(γ−1)x)` and `d¹(a,b)=(γ−1)a−(φ−1)b`. The supplier's §3.4 identifies this convention with its p-primary-torsion convention and supplies the change-of-generator comparisons; §§3.4a, 3.6 and 3.8 supply the Galois comparison, cups and signed trace. The induced cohomology comparisons preserve cup products and the signed degree-two trace. Relative to Liu's swapped degree-one coordinates, the cochain adapter has degree maps `1`, `(a,b)↦(b,a)`, `−1`. Retain the supplier's arithmetic-reciprocity normalization: over `K=ℚ_p`, `tr(χ_ur∪κ(p))=1` for the additive unramified class `χ_ur(Φ)=1`, and the reversed cup has trace `−1`. Here `Φ` is arithmetic Frobenius and `κ` is the supplied Kummer map. Finite-torsion invariants are exact over every such `A`, including at `p=2`, since the torsion order is invertible in `E`. The field-level, analytic and B-pair comparisons use these same adapters.
 
@@ -1304,25 +1255,30 @@ The consumer `PadicHodgeTheory`, §§4.3 and 4.5, uses the `A=E` specialization 
 - For scalar commuting operators `φ=2`, `γ=3`, `d⁰(1)=(1,2)` and `d¹(1,2)=0`. At `(a,b)=(1,0)`, the degree-two value is 2 and Liu's value after swapping is `−2`, forcing the sign adapter.
 - Over `ℚ₂`, retain the finite Gamma torsion invariants; the character-first Kummer cup has trace 1 and its reverse has trace `−1`.
 
-*Needs:* [0.2](#t0-2); `PhiGammaModulesAndIwasawaCohomology`, §§1.1–1.2 (`CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `relativeDrig`), §§3.4–3.6 and 3.8 (`arithmeticHerrComplex`, `HerrCohomology`, Ext/Galois and cup/trace comparisons), §§4.4–4.5 (`relativeHerrPerfect`, `herrDerivedBaseChange`, `HerrCohomology.baseChange`) and §§7.1, 7.5 (character lines and saturated triangulations).
+*Needs:* [0.2](#02-period-descent-and-finite-coefficient-comparisons); `PhiGammaModulesAndIwasawaCohomology`, §§1.1–1.2 (`CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `relativeDrig`), §§3.4–3.6 and 3.8 (`arithmeticHerrComplex`, `HerrCohomology`, Ext/Galois and cup/trace comparisons), §§4.4–4.5 (`relativeHerrPerfect`, `herrDerivedBaseChange`, `HerrCohomology.baseChange`) and §§7.1, 7.5 (character lines and saturated triangulations).
 
 (Sources: [DING25], §3.2.2, arXiv p. 61, deformation rings and tangent identifications; Kedlaya–Pottharst–Xiao, [Cohomology of arithmetic families of (φ,Γ)-modules](https://arxiv.org/abs/1203.5718), Theorem 2.2.17, Definition 2.3.3, Proposition 2.3.7, Definition 2.3.10 and Theorems 4.4.2–4.4.5; [Pottharst, Analytic families of finite-slope Selmer groups](https://msp.org/ant/2013/7-7/p02.xhtml), Theorems 2.3, 2.8 and Lemma 2.9, pp. 1594, 1598; [Liu, Cohomology and duality for (φ,Γ)-modules over the Robba ring](https://arxiv.org/abs/0711.4346), §2.1 and Theorems 2.8, 4.7.)
+
+
+### Examples
+
+For `A=E[ε]/(ε²)`, the trivial rank-one representation has `D_rig(A)` with the nonzero endomorphism `ε`, invisible after specialization to `E`; the coefficient period comparison of 0.2 likewise carries extension classes over this ring rather than only the residue representation. The ring `k[[x,y]]/(x,y)²` of 0.1 has type two, so it is the smallest test that a Gorenstein criterion detects.
+
+### Dependencies
+
+The canonical-module, coefficient-period, ordinary-period and Herr-cohomology inputs enter from DeformationAndDerivedPatchingAlgebra §3.9, FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.3–R07.4, ClassFieldTheory Layer 7 and PhiGammaModulesAndIwasawaCohomology. Among this roadmap's targets Layer 0 depends only on Layer F; 1.7, 1.23 and the later type and ordinary targets consume it.
 
 ## Layer 1: Universal lifting rings and coefficient infrastructure
 
 Begin with universal rings and the local continuous-cohomology calculation. Then construct the character coefficients and the rank-general integral-model functor once. The Fontaine–Laffaille condition is included here as input to the Hodge and rigidity applications; the ordinary flag scheme is constructed here, with its geometric comparisons in Layer 6.
 
-<a id="t1-1"></a>
-
 ### 1.1 The local framed deformation ring
 
 For continuous `ρ̄`:`Γ→GL_d(k)`, with `Γ` a local absolute Galois group satisfying Mazur `p`-finiteness, the framed lift functor on complete Noetherian local `𝒪`-algebras with residue `k` is represented by `R□` and its universal lift. Maps correspond naturally to lifts in the fixed residual basis. Local class field theory supplies `p`-finiteness.
 
-*Needs:* [F.1.1](#lifting-functor); [F.2.1](#phi-p-condition); [F.2.2](#phi-p-global); [F.2.3](#universal-lifting-ring); [F.2.4](#universal-continuous-lift); [F.0.2](#minimal-relative-presentations).
+*Needs:* [F.1.1](#f11-the-lifting-functor); [F.2.1](#f21-mazurs-finiteness-condition-φ_p); [F.2.2](#f22-global-and-local-galois-groups-satisfy-φ_p); [F.2.3](#f23-the-universal-lifting-ring); [F.2.4](#f24-the-universal-continuous-lift-over-the-inverse-limit-ring); [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds).
 
 (Sources: [Gee22], §3.1 and Lemma 3.2, p. 12; [KisinNotes], Lecture 1, (1.2) and Proposition (1.2.1)(1), p. 2.)
-
-<a id="t1-2"></a>
 
 ### 1.2 The functor of bounded-height lattices of a deformation family
 
@@ -1349,8 +1305,6 @@ The construction provides the following API.
 
 (Sources: [KisinPST], (1.2), author DVI pp. 4–5, and Errata (E.4), p. 34.)
 
-<a id="t1-3"></a>
-
 ### 1.3 The universal character coefficient rings `Λ_v` and `Λ̃_v`
 
 For residual full-flag data, take the completed group algebra of `(𝒪_K×(p))^d` and quotient by the intersection of a nonempty collection of minimal primes, selecting torsion-character components. The universal inertia characters combine the Teichmüller residual characters with the `d` ordered pro-`p` factors under geometric reciprocity. Extending to `(K×(p))^d` adds Frobenius variables and yields full Galois characters. The pro-`p` inertia here is inertia in the abelianized local Galois group, not the abelianization of the full inertia group. Minimal primes correspond to Galois orbits of torsion characters; `Λ` can have several components.
@@ -1376,27 +1330,21 @@ The construction provides the following API.
 
 (Sources: [ACC+], §6.2.6, p. 138.)
 
-<a id="t1-4"></a>
-
 ### 1.4 Tangent and obstruction description of local lifting rings
 
 The dual cotangent space is `Z¹(Γ,ad ρ̄)`, of dimension `h¹+d²−h⁰`; `H²∨` surjects onto the minimal relation space. Local duality gives `h⁰−h¹+h²=−d²[K:ℚ_p]` above `p`, and zero away from `p`. Component dimensions are at least `1+d²(1+[K:ℚ_p])` and `1+d²` respectively. `H²=0` gives formal smoothness and equality.
 
-*Needs:* [1.1](#t1-1); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*; [F.0.2](#minimal-relative-presentations); `TauCeti.ContCohomology.H2` (Tau Ceti); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*; [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); `TauCeti.ContCohomology.H2` (Tau Ceti); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [Gee22], Corollary 3.12, Lemma 3.13 and Corollary 3.14, pp. 13–14; [KisinNotes], Lecture 1, Lemma (1.3.1)(2), p. 3.)
-
-<a id="t1-5"></a>
 
 ### 1.5 Forgetting the framing of local lifts
 
 If `End_Γ(ρ̄)=k`, strict-equivalence deformations have universal ring `R` and `R□≅R[[X₁,…,X_{d²−1}]]`. For non-Schur data retain framed or versal deformations.
 
-*Needs:* [1.1](#t1-1); [F.2.5](#universal-deformation-ring); [F.2.6](#framed-unframed-comparison); [F.1.5](#strict-vs-full-conjugacy).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [F.2.5](#f25-the-universal-deformation-ring); [F.2.6](#f26-framed-rings-are-power-series-over-unframed-rings); [F.1.5](#f15-strict-and-full-conjugacy-agree-for-schur-residual-representations).
 
 (Sources: [KisinNotes], Lecture 1, Remark (1.2.2)(3), p. 2; [Gee22], Exercise 3.9, p. 13.)
-
-<a id="t1-6"></a>
 
 ### 1.6 The Fontaine–Laffaille deformation condition
 
@@ -1425,15 +1373,13 @@ The construction provides the following API.
 - For unramified quadratic `K` and splitting `E`, the two factors of `W(k_K)⊗𝒪` are interchanged by Frobenius. Distinct labelled jumps retain both factors in the common category and in every specialization.
 - For a free coefficient Fontaine–Laffaille lattice `M`, reduction gives `𝐆(M)/ϖ^m≅𝐆(M/ϖ^mM)`. The torsion side uses the Pontryagin dual; its `ℤ_p`-linear dual into `ℤ_p` would vanish.
 
-*Needs:* [1.1](#t1-1); [F.3.1](#local-deformation-problem); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.7 and R07.3.10; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.11; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17.
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [F.3.1](#f31-local-deformation-problems); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.4; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.7 and R07.3.10; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.11; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17.
 
 (Sources: [CHT08], §2.4.1, pp. 33–35, the coefficient category, realization and `𝒟_ṽ`, and Lemma 2.4.1; [Diamond–Flach–Guo](https://arxiv.org/pdf/2512.02348v2), §1.1, pp. 6–7, coefficient actions, covariant realization and integral comparison.)
 
-<a id="t1-7"></a>
-
 ### 1.7 Ordinary representations of weight `λ`
 
-Use the common predicates and elementary flag API in the [ordinary flag definitions](#ordinary-flag-definitions). Target 0.3 supplies `IsOrdinaryOfWeight.potentiallySemistable`: over finite local `E`-algebras ordinary representations of weight `λ` are potentially semistable of Hodge type `v_λ`; the exact-inertia predicate `IsSemistableOrdinaryOfWeight` implies semistability of that type. For integral coefficient families apply this comparison to their characteristic-zero specializations. These period consequences use the predicates already defined before 0.3.
+Use the common predicates and elementary flag API in the [ordinary flag definitions](#ordinary-flag-definitions-for-17). Target 0.3 supplies `IsOrdinaryOfWeight.potentiallySemistable`: over finite local `E`-algebras ordinary representations of weight `λ` are potentially semistable of Hodge type `v_λ`; the exact-inertia predicate `IsSemistableOrdinaryOfWeight` implies semistability of that type. For integral coefficient families apply this comparison to their characteristic-zero specializations. These period consequences use the predicates already defined before 0.3.
 
 Weight `λ=(k−2,0)` in rank two has ordered characters 1,`ε^{1−k}`. Duality and flag reversal give KW's ordinary shape with `ε^{k−1}` on the subline and a weight-zero quotient. KW's quotient is unramified only when its character has trivial inertia; finite-order inertia in the common ordinary predicate remains visible. The original ordered representation and its dual have different weights.
 
@@ -1445,21 +1391,17 @@ Weight `λ=(k−2,0)` in rank two has ordered characters 1,`ε^{1−k}`. Duality
 - The dual of a Tate-curve representation is semistable-ordinary of weight `(0,0)` and has nonzero monodromy. The exact-inertia predicate does not imply crystallinity.
 - A ramified finite-order rank-one character has ordinary weight zero and is potentially crystalline; it fails the exact-inertia predicate and is not semistable over the original field.
 
-*Needs:* the [ordinary flag definitions](#ordinary-flag-definitions); [0.3](#t0-3).
+*Needs:* the [ordinary flag definitions](#ordinary-flag-definitions-for-17); [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints).
 
 (Sources: [NT26], Definition 2.5(2), arXiv v2 p. 12; [BCGP25], Definition 5.6.8, arXiv v1 pp. 129–130; [CN23], Definition 3.3.1 and Lemma 3.3.2, arXiv v3 pp. 50–51.)
-
-<a id="t1-8"></a>
 
 ### 1.8 Moduli of lattices of bounded `E`-height and their image
 
 The lattice functor has projective model `Θ_A` with canonical very ample bundle, coefficient base change and a generic closed immersion. Its image `A^{≤h}` has the finite-rational-algebra height criterion and a finite universal `𝔖`-module, generically projective, specializing to the unique lattice. Use Grassmannian bounds and formal GAGA. Height zero of the `G_{K∞}`-restriction need not imply `G_K`-semistability.
 
-*Needs:* [1.2](#t1-2); `AdicSpacesPartIII`, `F0`.8, *grothendieck-algebraization*; `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7.
+*Needs:* [1.2](#12-the-functor-of-bounded-height-lattices-of-a-deformation-family); `AdicSpacesPartIII`, `F0`.8, *grothendieck-algebraization*; `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7.
 
 (Sources: [KisinPST], Proposition (1.3), author DVI p. 5; Corollary (1.5.1), p. 7; Proposition (1.6.4), pp. 8–9; Corollary (1.7), pp. 9–10.)
-
-<a id="t1-9"></a>
 
 ### 1.9 The ordinary flag scheme and its image ring `R^△_v`
 
@@ -1480,51 +1422,41 @@ The construction provides the following API.
 - Over `ℚ_3`, a nonsplit extension `0→ℚ_3(ε⁻¹)→V→ℚ_3→0` has the flag ordered `(ε⁻¹,1)`. The reversed order `(1,ε⁻¹)` fails: a second stable line would split the extension. Permuting the prescribed inertia characters therefore changes the incidence condition.
 - Take the unramified `ℤ_3`-lift with Frobenius `[[1,6],[3,1]]`, determinant `−17` and trivial residual representation. With both prescribed inertia characters equal to 1, it has the required flag over `ℚ̄_3` and gives a point of `R△`. Its polynomial `(T−1)²−18` has no root in `ℚ_3` because 2 is not a square there, so it has no flag over `ℚ_3` or `ℤ_3`. The image criterion cannot require an integral flag.
 
-*Needs:* [1.1](#t1-1); [1.3](#t1-3); `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7.
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.3](#13-the-universal-character-coefficient-rings-λ_v-and-λ̃_v); `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7.
 
 (Sources: [ACC+], §6.2.6, p. 138; [ACC+], §6.2.6, p. 139.)
-
-<a id="t1-10"></a>
 
 ### 1.10 Fixing the determinant of local lifts
 
 For a continuous determinant lift `ψ` and `p∤d`, the `det=ψ` quotient uses `ad⁰` for tangent and obstructions. Let `R_char` represent characters `θ` reducing to one. Unique `d`-th roots among such characters give the functor isomorphism `ρ↦(ρ⊗θ⁻¹,θ)`, where `θᵈ=detρ·ψ⁻¹`; its inverse is scalar twisting. Thus `R□≅R□`,`ψ⊗̂_𝒪R_char`, compatibly with the universal lifts and determinant. The fixed-determinant component lower bounds for relative dimension over `𝒪` are `(d²−1)(1+f)` above `p` and `d²−1` away from `p`; integral dimensions have one additional dimension. This integral splitting is not asserted when `p` divides `d`; the relative determinant presentation in 1.16 and power-map comparison in 1.24 still apply.
 
-*Needs:* [1.1](#t1-1); [1.4](#t1-4); [F.1.7](#fixed-determinant-functors); [F.2.9](#fixed-determinant-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [Gee22], §3.18 and Exercise 3.19, p. 15.)
-
-<a id="t1-11"></a>
 
 ### 1.11 Archimedean deformation rings for odd `p`
 
 For `Γ_ℝ=C₂` and `p` odd, all positive-degree residual cohomology vanishes. The framed ring is formally smooth of relative dimension `d²−h⁰(C₂,ad ρ̄)`. In rank two with odd determinant, the two eigenspaces are distinct and the relative dimension is two.
 
-*Needs:* [1.4](#t1-4); [F.1.1](#lifting-functor); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*.
+*Needs:* [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [F.1.1](#f11-the-lifting-functor); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`; `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*.
 
 (Sources: [TUNG21], §3.2.5, Proposition 3.2.7, p. 15.)
-
-<a id="t1-12"></a>
 
 ### 1.12 Local deformation rings under change of coefficients
 
 For a finite extension of complete coefficient DVRs `𝒪→𝒪′` inducing `k→k′`, set `ρ̄′=ρ̄⊗_k k′`. The completed scalar-extension map identifies `R□_{𝒪′,ρ̄′}` with `R□_{𝒪,ρ̄}⊗̂_𝒪𝒪′` as complete local `𝒪′`-algebras with residue `k′`. The universal representation over the right side is the scalar extension of the original universal lift, and the coefficient square commutes. Extend `ψ` along `𝒪→𝒪′` for the analogous fixed-determinant comparison. Scalar extension preserves cohomology dimensions measured over the new field, but can split components; it does not give an endofunctor of the original residue-`k` category.
 
-*Needs:* [1.1](#t1-1); [1.4](#t1-4); [F.2.10](#change-of-residue-field); [F.1.8](#change-of-coefficients); [F.0.1](#completed-coefficient-products).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [F.2.10](#f210-representing-rings-under-change-of-coefficients); [F.1.8](#f18-change-of-coefficient-ring-and-residue-field); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 (Sources: [Gee22], §3.1, p. 12; [BLGGT14], Lemma 1.2.1, arXiv v4 p. 13.)
-
-<a id="t1-13"></a>
 
 ### 1.13 Fontaine–Laffaille deformations: tangent space and smoothness (CHT Lemma 2.4.2, Corollaries 2.4.3–2.4.4, Lemma 2.4.5)
 
 For the preceding multiplicity-free Fontaine–Laffaille objects, prove the exact sequence `0→Hom_MF(M,N)→Fil⁰Hom(M,N)→Hom_{Fr⊗1}(gr M,N)→Ext¹_MF(M,N)→0`, with middle map `β↦(βΦ_M^i−Φ_N^iβ)_i`. It yields `dim L−h⁰(ad ρ̄)=fd(d−1)/2` and a formally smooth framed ring of relative dimension `d²+fd(d−1)/2`. In rank one `L` is unramified `H¹`. For a residual direct-sum decomposition, `H¹(ad)` and `L` split into the pairwise `Hom/Ext` summands. Keep the small weight range and multiplicity hypothesis, apart from the separately specified irreducible endpoint extension.
 
-*Needs:* [1.6](#t1-6); [1.1](#t1-1).
+*Needs:* [1.6](#16-the-fontainelaffaille-deformation-condition); [1.1](#11-the-local-framed-deformation-ring).
 
 (Sources: [CHT08], §2.4.1, Lemma 2.4.2, p. 35; [CHT08], §2.4.1, proof of Lemma 2.4.2 and Corollary 2.4.3, p. 36; [CHT08], §2.4.1, Corollary 2.4.4 and Lemma 2.4.5, p. 37.)
-
-<a id="t1-14"></a>
 
 ### 1.14 The odd archimedean deformation ring at `p = 2`
 
@@ -1538,11 +1470,9 @@ The equation `a²+bc=1` is equivalent to both `M²=I` and `det M=−1` for `M=[[
 - Over `𝔽₂`, `(1,1,0)` gives a nonidentity unipotent involution satisfying the same integral equation; removing it would lose the second dyadic residual case.
 - Over `ℚ`, `(0,1,0)` has trace zero but square zero, and fails the equation `0=1`.
 
-*Needs:* [1.11](#t1-11); [F.1.7](#fixed-determinant-functors); [F.2.9](#fixed-determinant-rings); `MvPowerSeries` (Mathlib).
+*Needs:* [1.11](#111-archimedean-deformation-rings-for-odd-p); [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); `MvPowerSeries` (Mathlib).
 
 (Sources: [TUNG21], §3.2.5, Proposition 3.2.7, p. 15.)
-
-<a id="t1-15"></a>
 
 ### 1.15 Coefficient rings `Λ` for finite, `p`-adic and local residue fields
 
@@ -1554,30 +1484,26 @@ The construction provides the following API.
 - `CoeffRing.isCohen`: In case (3), any `𝒪`-algebra that is a complete DVR with uniformiser `ϖ` and the identified residue field `κ` admits a coefficient-compatible isomorphism to `Λ`. The choice of Cohen identification is not canonical.
 - `ArtinCat`: Artinian local `Λ`-algebras `A` with an identified residue `A/𝔪_A≅κ` and the natural topology specified in the conventions; maps are continuous local `Λ`-algebra maps inducing that identification. In particular `ker(A→κ)=𝔪_A`.
 - `liftFunctorΛ`: `D^□_ρ` : `𝔄_Λ →` Set, continuous lifts of `ρ` : `G_F → GL_d(κ)`.
-- `liftFunctorΛ_finite`: For `κ` finite, `D^□_ρ` restricted to Artinian objects is the lifting functor of [F.1.1](#lifting-functor).
+- `liftFunctorΛ_finite`: For `κ` finite, `D^□_ρ` restricted to Artinian objects is the lifting functor of [F.1.1](#f11-the-lifting-functor).
 
 **Checks.**
 
 - For `κ = k`, CoeffRing `κ = 𝒪`.
 - For `κ = L`, CoeffRing `κ = L` and `𝔄_Λ` consists of finite local `L`-algebras with residue field `L`.
 - For `κ = k((t))`, `Λ` is not `𝒪⟦t⟧` (not a DVR, residue field `k`) but the `ϖ`-adic completion of `𝒪⟦t⟧[1/t]`, a DVR with residue field `k((t))`.
-- For `κ` finite, `liftFunctorΛ ρ` agrees with the lifting functor of [1.1](#t1-1) on Artinian objects.
+- For `κ` finite, `liftFunctorΛ ρ` agrees with the lifting functor of [1.1](#11-the-local-framed-deformation-ring) on Artinian objects.
 
-*Needs:* [1.1](#t1-1); [1.12](#t1-12); [F.0.1](#completed-coefficient-products); `IsAdicComplete` (Mathlib); `IsLocalRing.ResidueField` (Mathlib).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.12](#112-local-deformation-rings-under-change-of-coefficients); [F.0.1](#f01-completed-coefficient-products-and-dimensions); `IsAdicComplete` (Mathlib); `IsLocalRing.ResidueField` (Mathlib).
 
 (Sources: [BIP23], §3.5, the coefficient rings `Λ` and Remark 3.32, arXiv v2 pp. 25–26; [BIP23], Proposition 3.33, arXiv v2 p. 26.)
-
-<a id="t1-16"></a>
 
 ### 1.16 Presentation of framed rings over `Λ` and the cocycle count
 
 Over `Λ`, `R□=Λ[[X₁,…,X_r]]/(f₁,…,f_s)`, with `r=dim_κZ¹(ad ρ)`, `s=h²(ad ρ)` and `r−s=d²(1+f)`; relations may be padded by zero. For finite continuous `V`, `dim Z¹(V)=h¹(V)+dim V−h⁰(V)=(1+f)dim V+h²(V)`. Relative to the universal determinant ring `R_{det ρ}`, the same presentation uses `ad⁰` without assuming `p∤d`. Require coefficient-linear continuous cohomology, finiteness and natural-topology comparison for `κ`; for local `κ` use a stable valuation-ring lattice with its adic topology as in `D7`.
 
-*Needs:* [1.15](#t1-15); [1.4](#t1-4); [F.0.2](#minimal-relative-presentations); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.15](#115-coefficient-rings-λ-for-finite-p-adic-and-local-residue-fields); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [BIP23], Proposition 3.33 and (21)–(22), arXiv v2 p. 26, and Proposition 4.3, p. 37; [PQ26], Lemma 3.1, p. 22, and Proposition 3.6, p. 24 (arXiv `v2`).)
-
-<a id="t1-17"></a>
 
 ### 1.17 `G`-valued framed deformation rings
 
@@ -1590,21 +1516,19 @@ The construction provides the following API.
 - `GFramedRing.tangent`: `Hom_Λ(R^□_{ρ,G}, κ[ε]) ≅ Z¹(Γ, ad ρ)`.
 - `GFramedRing.map`: A morphism `φ` : `G → H` induces `R^□_{φ∘ρ,H} → R^□_{ρ,G}`, with `map_id` and `map_comp`.
 - `GFramedRing.fixedMultiplier`: For generalised reductive `G`, `ν:G→G/G^der` and a continuous quotient representation `μ:Γ→(G/G^der)(Λ)` lifting `ν∘ρ`, the quotient `R^{□,μ}_{ρ,G}` represents lifts with `ν∘ρ_A = μ_A`. For connected `GSp`, `μ` is a multiplier character.
-- `GFramedRing.gl`: For `G = GL_d`, `R^□_{ρ,GL_d} = R^□_ρ` of [1.1](#t1-1).
+- `GFramedRing.gl`: For `G = GL_d`, `R^□_{ρ,GL_d} = R^□_ρ` of [1.1](#11-the-local-framed-deformation-ring).
 - `GFramedRing.hom_ext`: Maps from the universal ring are equal iff their framed lifts agree; this bijection is natural in coefficients.
 
 **Checks.**
 
-- `G = 𝔾_m`, `F = ℚ_p` (`p` odd), `ρ` trivial: `R^□_{ρ,G} ≅ 𝒪⟦y₁, y₂⟧` ([1.19](#t1-19)).
+- `G = 𝔾_m`, `F = ℚ_p` (`p` odd), `ρ` trivial: `R^□_{ρ,G} ≅ 𝒪⟦y₁, y₂⟧` ([1.19](#119-the-universal-deformation-ring-of-a-character)).
 - `G` trivial: `R^□_{ρ,G} = Λ`.
 - `G = GSp₄` with fixed multiplier, `v ∤ p`, `H⁰(F_v, ad⁰ρ̄(1)) = 0`: `R^{□,μ}` is a power series ring over `𝒪` in 10 variables (BCGP21 Proposition 7.4.2).
-- GFramedRing for `GL_d` agrees with `R^□_ρ` of [1.1](#t1-1).
+- GFramedRing for `GL_d` agrees with `R^□_ρ` of [1.1](#11-the-local-framed-deformation-ring).
 
-*Needs:* [1.15](#t1-15); [1.1](#t1-1); [F.0.2](#minimal-relative-presentations); `Matrix.symplecticGroup` (Mathlib); `ArithmeticGaloisRepresentations`, §7.3 (Similitude groups).
+*Needs:* [1.15](#115-coefficient-rings-λ-for-finite-p-adic-and-local-residue-fields); [1.1](#11-the-local-framed-deformation-ring); [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); `Matrix.symplecticGroup` (Mathlib); `ArithmeticGaloisRepresentations`, §7.3 (Similitude groups).
 
 (Sources: [PQ26], §3, Lemma 3.2, arXiv v2 p. 23; [BCGP21], §7.1, arXiv v3 p. 169.)
-
-<a id="t1-18"></a>
 
 ### 1.18 Completed local rings at points of the generic fibre are framed rings
 
@@ -1618,21 +1542,17 @@ For `K/ℚ_ℓ` with `ℓ≠p` and finite-dimensional local `κ`-coefficients, c
 - For finite `κ` of characteristic `p` with `q≡1 mod p`, the trivial twist has `h⁰=h²=1` and `h¹=2`, again giving zero.
 - For the unramified twist `κ(1)` in characteristic zero, `h²=1` is paired with `h⁰(κ)=1`; omitting the cyclotomic twist fails this pairing.
 
-*Needs:* [1.15](#t1-15); [1.16](#t1-16); [1.1](#t1-1); `ClassFieldTheory`, Layer 5; `ArithmeticGaloisDuality`, R02.1 (inverse limits); `LocalFieldsRamification`, tame quotient; [F.2.9](#fixed-determinant-rings).
+*Needs:* [1.15](#115-coefficient-rings-λ-for-finite-p-adic-and-local-residue-fields); [1.16](#116-presentation-of-framed-rings-over-λ-and-the-cocycle-count); [1.1](#11-the-local-framed-deformation-ring); `ClassFieldTheory`, Layer 5; `ArithmeticGaloisDuality`, R02.1 (inverse limits); `LocalFieldsRamification`, tame quotient; [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant).
 
 (Sources: [BIP23], Proposition 3.41, arXiv v2 p. 29; [CG18], §4.1, proof of Lemma 4.11 (published p. 365); [BCGP21], §7.1, the paragraph after Definition 7.1.2, arXiv v3 pp. 169–170; [BHS19], §3.6 and Remark 3.6.1, printed pp. 362–363.)
-
-<a id="t1-19"></a>
 
 ### 1.19 The universal deformation ring of a character
 
 For `K/ℚ_p` finite, `R□≅𝒪[μ_{p∞}(K)][[X₁,…,X_{[K:ℚ_p]+1}]]`. Splitting the torsion characters labels geometric components, each formally smooth. For `ℚ_p`, odd `p`, this is `𝒪[[X,Y]]`; over a field with exactly `μ_p` torsion there are `p` geometric components.
 
-*Needs:* [1.16](#t1-16); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* [1.16](#116-presentation-of-framed-rings-over-λ-and-the-cocycle-count); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
 (Sources: [BIP23], Lemma 4.1 and its proof, arXiv v2 p. 36.)
-
-<a id="t1-20"></a>
 
 ### 1.20 Presentations of `G`-valued framed rings and central quotients
 
@@ -1644,11 +1564,9 @@ For smooth affine `𝒪`-groups `φ`:`G→H` with `G⁰→H⁰` smooth surjectiv
 - For connected `GSp₄`, `G^der=Sp₄`; fixing the multiplier leaves dimension ten away from `p` under the displayed vanishing hypothesis.
 - Over a characteristic-zero field, `G=𝔾_m⋊C₂` with inversion has `G^der=1`, so `G/G^der=G` is noncommutative. Its full commutator subgroup is `𝔾_m`, since the commutator with the involution is the square map on the torus up to inversion, which is surjective as an fppf sheaf. Its actual abelianisation is `C₂`; fixing only that representation leaves torus deformations that fixing `G/G^der` excludes.
 
-*Needs:* [1.17](#t1-17); [1.16](#t1-16); [F.2.9](#fixed-determinant-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.16](#116-presentation-of-framed-rings-over-λ-and-the-cocycle-count); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [PQ26], Introduction, arXiv v2 p. 4, Proposition 3.6, p. 24, Corollary 3.12 and Proposition 3.13, p. 26; [FKP22], §2, arXiv v5 p. 9; [BCGP21], Proposition 7.4.2, arXiv v3 p. 189.)
-
-<a id="t1-21"></a>
 
 ### 1.21 `G`-valued ordinary representations of weight `λ`
 
@@ -1679,21 +1597,17 @@ The construction provides the following API.
 - Regular `GSp₄` ordinarity uses an isotropic full flag with characters `χ₁`,`χ₂`,`ε⁻¹χ₂⁻¹`,`ε⁻¹χ₁⁻¹`.
 - The definition is for lifts to finite `E`-algebras; a residual `ρ̄` with a stable Borel is not 'ordinary of weight `λ`' (`χ_λ mod 𝔪` loses the weight).
 
-*Needs:* [1.17](#t1-17); [1.7](#t1-7); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors; ReductiveGroups / layer 7 structure theory; ReductiveGroups / layer 9 pinned chevalleydemazure group schemes over `ℤ`.
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.7](#17-ordinary-representations-of-weight-λ); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors; ReductiveGroups / layer 7 structure theory; ReductiveGroups / layer 9 pinned chevalleydemazure group schemes over `ℤ`.
 
 (Sources: [FKP22], Appendix B, arXiv v5 p. 52; [FKP22], Definition `B`.2, arXiv v5 p. 52.)
-
-<a id="t1-22"></a>
 
 ### 1.22 Smooth points of the generic fibre and purity
 
 Away from `p`, a closed characteristic-zero point is regular iff `H²(ad⁰ρ_x)=H⁰(ad⁰ρ_x(1))=0`. Pure WD points satisfy this vanishing. The unrestricted `GL_d` generic dimension is `d²`; fixing a compatible quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, gives `dim G^der` in the group-valued setting.
 
-*Needs:* [1.18](#t1-18); [1.4](#t1-4); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [BCGP21], Lemma 7.1.3, arXiv v3 p. 170.)
-
-<a id="t1-23"></a>
 
 ### 1.23 Deformation rings of `(φ, Γ)`-modules and their trianguline and de Rham quotients
 
@@ -1706,7 +1620,7 @@ The construction provides the following API.
 - `PhiGamma.deRhamDefRing`: `R_{D,g}`, de Rham deformations.
 - `PhiGamma.tangent_defRing`: Tangent space of `R_D` is `Ext¹(D, D)`; of `R_{D,w}` the classes preserving the triangulation.
 - `PhiGamma.formallySmooth`: Under genericity of `δ`, `R_D`, `R_{D,w}`, `R_{D,g}` are formally smooth over `E`.
-- `PhiGamma.galois_compat`: For `D = D_rig(V)`, `R_D` is the unframed deformation ring of `V` ([1.18](#t1-18) modulo framing).
+- `PhiGamma.galois_compat`: For `D = D_rig(V)`, `R_D` is the unframed deformation ring of `V` ([1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings) modulo framing).
 - `triangulineDefRing.forget`: Forgetting the triangulation induces `R_D→R_{D,w}`, taking each trianguline point to its underlying deformation.
 
 **Checks.**
@@ -1716,17 +1630,15 @@ The construction provides the following API.
 - `D=ℛ⊕ℛ(ε)` violates `End(D)=E` and genericity; its cyclotomic off-diagonal `H²` is nonzero.
 - For `D = D_rig(V)` with `End V = E`, `R_D` is the unframed deformation ring of `V`.
 
-*Needs:* [1.18](#t1-18); [0.4](#t0-4).
+*Needs:* [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); [0.4](#04-coefficient-robba-modules-herr-cohomology-and-period-conditions).
 
 (Sources: [DING25], §3.2.2, arXiv p. 61; [DING25], §3.2.2, arXiv p. 61.)
-
-<a id="t1-24"></a>
 
 ### 1.24 Fixed-determinant rings by twisting: the functor `𝒳` and the power map `φ_d`
 
 Let `ψ` lift `det ρ̄` and `χ=ψ∘Art_K|_μ` on the selected local-Artin torsion subgroup `μ`. For continuous `θ`:`G_K→1+𝔪_A` trivial on `Art_K(μ)`, `𝒳` is represented by `𝒪(𝒳)=𝒪[[Y₁,…,Y_{f+1}]]`. The `d`-th-power map `φ_d` is finite flat, generically étale and a special-fibre universal homeomorphism. Scalar twisting `(ρ,θ)↦(ρ⊗θ⁻¹,θ)` gives `R^{□,χ}⊗_{𝒪(𝒳),φ_d}𝒪(𝒳)≅R^{□,ψ}⊗̂_𝒪𝒪(𝒳)`. Here `R^{□,χ}` fixes `det` on `μ` and `R^{□,ψ}=R□⊗_{R_{det ρ̄},ψ}𝒪` fixes the whole determinant. These comparisons allow `p|d`.
 
-*Needs:* [1.19](#t1-19); [F.2.9](#fixed-determinant-rings); [1.1](#t1-1).
+*Needs:* [1.19](#119-the-universal-deformation-ring-of-a-character); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); [1.1](#11-the-local-framed-deformation-ring).
 
 (Sources: [BIP23], §5, (30) and Proposition 5.1, arXiv v2 pp. 47–48; [BIP23], Lemma 5.3, arXiv v2 p. 48.)
 
@@ -1744,17 +1656,13 @@ The general deformation bundle, complete local algebra, local reciprocity/cohomo
 
 The prime-to-`p` inertia decomposition reduces minimal ramification to a tame matrix problem. Keep the tame full-type ring distinct from the finite-image inertia datum at `p`. The rank-two and symplectic examples specify equations and component behaviour rather than only dimension bounds.
 
-<a id="t2-1"></a>
-
 ### 2.1 The tame quotient and the reduction to tame pieces
 
 Away from `p`, `P=ker(I_K→ℤ_p)` has prime-to-`p` finite quotients. After splitting its absolutely irreducible residual constituents, decompose lifts into tame multiplicity spaces; Frobenius permutes constituents and induction reconstructs the lift. This gives an equivalence of lifting problems; `P` generally exceeds wild inertia.
 
-*Needs:* [F.1.1](#lifting-functor); [F.1.3](#strict-deformation-functor); `ProfiniteGrp` (Mathlib).
+*Needs:* [F.1.1](#f11-the-lifting-functor); [F.1.3](#f13-deformations-up-to-strict-equivalence); `ProfiniteGrp` (Mathlib).
 
 (Sources: [CHT08], §2.4.4, Lemma 2.4.10 and Corollary 2.4.13, pp. 41–43.)
-
-<a id="t2-2"></a>
 
 ### 2.2 Unramified lifts
 
@@ -1776,11 +1684,9 @@ These statements concern arbitrary rank and all coefficient objects in `C_𝒪`.
 - The same ramified character becomes unramified modulo `ε`; this coefficient map
   is not injective, so injective descent does not apply.
 
-*Needs:* [2.1](#t2-1); [1.1](#t1-1); [F.3.1](#local-deformation-problem); [F.3.2](#deformation-problem-ideal); `MvPowerSeries` (Mathlib).
+*Needs:* [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [1.1](#11-the-local-framed-deformation-ring); [F.3.1](#f31-local-deformation-problems); [F.3.2](#f32-deformation-problems-are-invariant-ideals-of-the-lifting-ring); `MvPowerSeries` (Mathlib).
 
 (Sources: [Gee22], Definition 3.36(1) and Theorem 3.38(2), p. 21; [CHT08], §2.4.4, remark after Definition 2.4.14, p. 43.)
-
-<a id="t2-3"></a>
 
 ### 2.3 Minimally ramified lifts
 
@@ -1801,21 +1707,17 @@ The construction provides the following API.
 - For `p=5`, the unramified lift with Frobenius `diag(1,2)` is conjugated by `[[1,5],[0,1]]` to Frobenius `[[1,5],[0,2]]`. Both are minimally ramified. The condition must allow strict conjugacy, rather than impose a diagonal Frobenius in the fixed basis.
 - Over `ℤ/25`, `σ=I+5E₁₂` and `Φ=diag(11,1)` satisfy the `q=11` tame relation and reduce to trivial inertia. Every `σ^j` is invertible, but `ker(σ−I)` is not the rank-two direct summand required by residual identity; this lift is not minimal.
 
-*Needs:* [2.1](#t2-1); [F.3.1](#local-deformation-problem).
+*Needs:* [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [F.3.1](#f31-local-deformation-problems).
 
 (Sources: [CHT08], §2.4.4, Definition 2.4.14 and Corollary 2.4.18, pp. 43–44.)
-
-<a id="t2-4"></a>
 
 ### 2.4 Structure of unrestricted lifting rings away from `p`
 
 Away from `p`, `H⁰(ad ρ̄(1))=0` gives an unrestricted rank-`d` ring `𝒪[[X₁,…,X_{d²}]]`. In rank two with compatible fixed determinant, the unrestricted ring is reduced, `𝒪`-flat and a complete intersection of dimension four. Its generic components are regular of dimension three, with constant inertia type after forgetting `N`. Full type may change at component intersections; `H⁰(ad⁰ρ(1))` detects ambient smoothness.
 
-*Needs:* [1.1](#t1-1); [1.4](#t1-4); [2.1](#t2-1); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [CHT08], §2.4.3, Lemma 2.4.9, p. 40; [Gee22], Theorem 3.31, p. 19; [TUNG21], §3.2.6, Lemma 3.2.8, p. 15; [BLGGT14], Lemma 1.3.4, arXiv v4 p. 21.)
-
-<a id="t2-5"></a>
 
 ### 2.5 Steinberg (unipotent-monodromy) lifts
 
@@ -1844,11 +1746,9 @@ The construction provides the following API.
 - With that `Φ`, setting inertia to the identity keeps the Frobenius relation and gives a dropped-monodromy boundary point in the Steinberg closure. Requiring nonzero `N` at every point would omit it.
 - For `q=2` over `ℚ`, `Φ=I` and trivial inertia give the values 8 and 9 in the two sides, so unipotent inertia alone does not impose the Steinberg condition.
 
-*Needs:* [2.1](#t2-1); [F.3.1](#local-deformation-problem); [F.3.2](#deformation-problem-ideal).
+*Needs:* [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [F.3.1](#f31-local-deformation-problems); [F.3.2](#f32-deformation-problems-are-invariant-ideals-of-the-lifting-ring).
 
 (Sources: [TaylorII], §3, definition of `D^{Stein,1}` and `D^{Stein}` before Proposition 3.1, p. 196; [Gee22], Definition 3.36(3), p. 21.)
-
-<a id="t2-6"></a>
 
 ### 2.6 The `q`-tame group
 
@@ -1871,11 +1771,9 @@ The construction provides the following API.
 - For `q ≥ 2`, `T_q` is not abelian: `φ_q t φ_q^{-1} = t^q ≠ t` (`t` has infinite order).
 - For `b≥1`, the closed subgroup `⟨t,φ_q^b⟩≅T_{q^b}`; `b=0` would leave only inertia and is excluded.
 
-*Needs:* [2.1](#t2-1); `ProfiniteGrp` (Mathlib); Tau Ceti `NumberTheory/LocalField/Tame/PadicCharacter:inertiaPadicTameCharacter_surjective,IsArithFrobeniusLift.inertiaPadicTameCharacter_conj`; `LocalFieldsRamification`, tame quotient.
+*Needs:* [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); `ProfiniteGrp` (Mathlib); Tau Ceti `NumberTheory/LocalField/Tame/PadicCharacter:inertiaPadicTameCharacter_surjective,IsArithFrobeniusLift.inertiaPadicTameCharacter_conj`; `LocalFieldsRamification`, tame quotient.
 
 (Sources: [LTXZZrigid], Definition 3.3.1, arXiv v1 p. 15.)
-
-<a id="t2-7"></a>
 
 ### 2.7 Ramification types `U1`–`U3`, `P`, `H` of `GSp₄`-valued residual representations
 
@@ -1897,21 +1795,17 @@ The construction provides the following API.
 - For `p=7`, `K=ℚ₁₃`, take `r̄(σ)=diag(2,2,4,4)` and arithmetic Frobenius `r̄(Φ)=diag(6,6,1,1)` in the split symplectic form pairing the first plane with the last. The commuting matrices satisfy `r̄(σ)³=1` and `r̄(Φ)²=1`; since `13≡1 mod 3`, they define a finite continuous tame representation. Its two isotropic inertia-character planes have reciprocal characters, `13−1` is a unit modulo seven, and its multiplier is cyclotomic: `1` on inertia and `6=13 mod 7` on Frobenius. Its inertia invariants are zero, so it is not type `P`.
 - `r̄|I_x` absolutely irreducible with `x ≡ 2 mod 5`, `p = 5`: `x⁴ − 1 ≡ 0 mod 5` is excluded from type `H`.
 
-*Needs:* [1.17](#t1-17); [2.1](#t2-1).
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces).
 
 (Sources: [CG20], Assumption 4.3, published pp. 813–814, especially (4), arXiv v1 p. 11; [CG20], Remark 4.4, published p. 814, arXiv v1 p. 11.)
-
-<a id="t2-8"></a>
 
 ### 2.8 The minimally ramified deformation ring
 
 Minimal ramification is liftable, with framed ring `𝒪[[X₁,…,X_{d²}]]` and unframed tangent dimension `h⁰(ad ρ̄)`. Construct kernel/image filtrations over small extensions compatibly with tame splitting. If `p∤`#`ρ̄(I_K)`, minimality means killing `ker(ρ̄|_I)`, and `L=H¹(G_K/I_K,(ad ρ̄)^{I_K})`.
 
-*Needs:* [2.3](#t2-3); [2.1](#t2-1); [1.1](#t1-1); [F.3.2](#deformation-problem-ideal); `MvPowerSeries` (Mathlib).
+*Needs:* [2.3](#23-minimally-ramified-lifts); [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [1.1](#11-the-local-framed-deformation-ring); [F.3.2](#f32-deformation-problems-are-invariant-ideals-of-the-lifting-ring); `MvPowerSeries` (Mathlib).
 
 (Sources: [CHT08], §2.4.4, Corollary 2.4.21, p. 46; [CHT08], §2.4.4, Lemma 2.4.22, p. 47.)
-
-<a id="t2-9"></a>
 
 ### 2.9 Fixed inertial type quotients
 
@@ -1931,21 +1825,23 @@ The construction provides the following API.
 - A characteristic-zero inertia character whose prime-to-`p` reduction disagrees with `ρ̄` has no exact-type point, so the closure quotient is zero. Enumerating every abstract inertial type as a nonzero component would fail.
 - The flat-closure operation applied to `𝒪[[X]]/(ϖX)` gives `𝒪`: `X` vanishes in every characteristic-zero point and is killed by `ϖ` in the naive ring. Retaining that `X` would fail torsion saturation; this computation tests the closure operation used for the type quotient.
 
-*Needs:* [2.4](#t2-4); [F.3.2](#deformation-problem-ideal).
+*Needs:* [2.4](#24-structure-of-unrestricted-lifting-rings-away-from-p); [F.3.2](#f32-deformation-problems-are-invariant-ideals-of-the-lifting-ring).
 
 (Sources: [Gee22], §3.31, after Theorem 3.31, pp. 19–20; [Shotton], Definition 3.5 and Proposition 3.6, p. 12.)
 
-<a id="t2-10"></a>
-
 ### 2.10 Local rings at Taylor–Wiles primes
 
-For rank two, odd `p`, `q≡1 mod p`, distinct residual Frobenius eigenvalues and fixed unramified determinant, the ring is `𝒪[[x,y,B,u]]/((1+u)^{p^m}−1)`, `p^m`∥`q−1`. Set `C=(1,y;x,1)` and lift one residual Frobenius eigenvalue to `α`. The universal matrices are `Φ=C⁻¹diag(α+B,χ(φ)/(α+B))C` and `σ=C⁻¹diag(1+u,(1+u)⁻¹)C`. It is smooth of relative dimension three over `𝒪[Δ]`.
+For rank two, odd `p` and `q≡1 mod p`, assume that `ρ̄` is unramified and that `ρ̄(φ)` has an ordered pair of distinct eigenvalues `ᾱ≠β̄` in `k`, after a finite unramified coefficient extension if necessary, and work in a residual basis with `ρ̄(φ)=diag(ᾱ,β̄)`. Fix an unramified determinant `χ` lifting `det ρ̄`. Unramifiedness of `det ρ̄` alone does not force `ρ̄` to be unramified. The fixed-determinant framed ring is `𝒪[[x,y,B,u]]/((1+u)^{p^m}−1)`, `p^m`∥`q−1`. Set `C=(1,y;x,1)` and let `α∈𝒪` lift `ᾱ`. The universal matrices are `Φ=C⁻¹diag(α+B,χ(φ)/(α+B))C` and `σ=C⁻¹diag(1+u,(1+u)⁻¹)C`. It is smooth of relative dimension three over `𝒪[Δ]`.
 
-*Needs:* [2.4](#t2-4); [2.1](#t2-1); [1.1](#t1-1).
+**Checks.**
+
+- At `p=5`, `q=11`, `k=𝔽₂₅`, take `ζ` of order 3, `σ̄=diag(ζ,ζ⁻¹)` and `Φ̄` the swap matrix. Then `Φ̄σ̄Φ̄⁻¹=σ̄⁻¹=σ̄¹¹`, `Φ̄` has the distinct eigenvalues `±1` and `det σ̄=1`, so the determinant is unramified. The displayed universal `σ` reduces to `I≠σ̄`; the residual unramified hypothesis excludes this tame residual representation.
+- With `σ̄=I` and the same `Φ̄`, now diagonalized as `diag(1,−1)`, all hypotheses hold and the displayed `σ` reduces to `I`, as required.
+- At `x=y=B=u=0` the universal pair specializes to the unramified diagonal lift `Φ=diag(α,χ(φ)/α)`, `σ=I`. Since `m≥1`, sending `u` to `ζ_p−1` over `𝒪[ζ_p]` gives a ramified lift with inertia eigenvalues `1+u`, `(1+u)⁻¹`, distinct since `p` is odd.
+
+*Needs:* [2.4](#24-structure-of-unrestricted-lifting-rings-away-from-p); [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [1.1](#11-the-local-framed-deformation-ring).
 
 (Sources: [Gee22], §3.32, Lemma 3.33 and Exercise 3.34, p. 20.)
-
-<a id="t2-11"></a>
 
 ### 2.11 Local models for `GSp₄` Ihara avoidance: nilpotent strata, `𝒩(q)` and `ℳ(x, y; q)`
 
@@ -1972,11 +1868,9 @@ The construction provides the following API.
 - `m* = (m − m³)/3 ∈ ℤ` for all `m ∈ ℤ`, `e`.`g`. `m = 2` gives `m* = −2`.
 - For `q=2` one has `q*=−2`. In characteristic 3 the cubic coefficient is 1 and `N₃³≠0`, so the defining equation is `ΦN₃Φ⁻¹=2N₃+N₃³`, not merely `2N₃`.
 
-*Needs:* [1.17](#t1-17); [2.5](#t2-5).
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [2.5](#25-steinberg-unipotent-monodromy-lifts).
 
 (Sources: [BCGP21], §7.4.9, arXiv v3 p. 190; [BCGP21], Proposition 7.4.10, arXiv v3 p. 191; [BCGP21], §7.4.13, pp. 193–194.)
-
-<a id="t2-12"></a>
 
 ### 2.12 Level-raising local deformation problems `𝒟^mix`, `𝒟^unr`, `𝒟^ram`
 
@@ -1998,31 +1892,25 @@ The construction provides the following API.
 - The direction `v↦v+xv′` gives `x(s′−q²s)=0`; reversal gives `x(s−q²s′)=0`. Both vanish on the unramified component `x=0`.
 - When `p` divides `q²−1` the two residual eigenvalues coincide and separate eigenlines are not supplied by Hensel. The polarized nodal model requires `p∤(q²−1)`.
 
-*Needs:* [2.6](#t2-6); [2.2](#t2-2); [2.5](#t2-5); [1.1](#t1-1); [F.3.1](#local-deformation-problem); `ArithmeticGaloisRepresentations`, §7.4 (`CHTGroup`, coset/pairing dictionary); [1.17](#t1-17).
+*Needs:* [2.6](#26-the-q-tame-group); [2.2](#22-unramified-lifts); [2.5](#25-steinberg-unipotent-monodromy-lifts); [1.1](#11-the-local-framed-deformation-ring); [F.3.1](#f31-local-deformation-problems); `ArithmeticGaloisRepresentations`, §7.4 (`CHTGroup`, coset/pairing dictionary); [1.17](#117-g-valued-framed-deformation-rings).
 
 (Sources: [LTXZZrigid], Definition 3.5.1, arXiv v1 p. 27; [LTXZZrigid], Proposition 3.5.2, arXiv v1 p. 27; [LTXZZ], §6.4, arXiv v3 pp. 116–117.)
-
-<a id="t2-13"></a>
 
 ### 2.13 Unrestricted lifting rings away from `p` are complete intersections
 
 For any `d` and `K/ℚ_ℓ`, `ℓ≠p`, `R□` is reduced, flat and a local complete intersection of pure relative dimension `d²`; `R□/ϖ` is equidimensional of dimension `d²`. Each component gives a deformation problem; the smooth minimal quotient is one component. No `p≥d` restriction is needed for `GL_d`.
 
-*Needs:* [2.1](#t2-1); [2.8](#t2-8); [2.4](#t2-4); [1.4](#t1-4).
+*Needs:* [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [2.8](#28-the-minimally-ramified-deformation-ring); [2.4](#24-structure-of-unrestricted-lifting-rings-away-from-p); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings).
 
 (Sources: [LTXZZrigid], Proposition 3.4.12, arXiv v1 p. 25; [NT26], proof of Lemma 3.6, arXiv v2 p. 18; [Shotton], Theorem 2.5, arXiv v2 p. 7.)
-
-<a id="t2-14"></a>
 
 ### 2.14 Lifts away from `p` of reducible residual representations with prescribed determinant
 
 For `p≥3`, global residual (`χ̄`,*;0,1) and geometric determinant `μ=κ^{r−1}χ₀`, `r≥2` and `χ₀` finite order, every place away from `p` has, after coefficient extension, a determinant-`μ` lift on a smooth component. The nonsplit cyclotomic case uses a Steinberg lift with determinant-compatible unramified twist.
 
-*Needs:* [2.8](#t2-8); [2.5](#t2-5); [1.10](#t1-10).
+*Needs:* [2.8](#28-the-minimally-ramified-deformation-ring); [2.5](#25-steinberg-unipotent-monodromy-lifts); [1.10](#110-fixing-the-determinant-of-local-lifts).
 
 (Sources: [FKP22], Lemma 7.2, first bullet, arXiv v5 pp. 33–34.)
-
-<a id="t2-15"></a>
 
 ### 2.15 Components for Ihara avoidance
 
@@ -2039,11 +1927,9 @@ Frobenius conjugacy forces the inertia characteristic polynomial to be invariant
 - For `p=5` and `q=11`, values 1 and `ζ₅` are permitted: `ζ₅¹⁰=1`, and `Φ=1`, `Σ=diag(1,ζ₅)` obey `ΦΣΦ⁻¹=Σ¹¹`. Their reductions give the trivial residual representation.
 - Since every permitted `χᵢ` reduces to one, the characteristic-polynomial equations reduce to those of the trivial characters. Taking the reduced flat closure is a separate quotient operation.
 
-*Needs:* [2.5](#t2-5); [2.4](#t2-4); [2.9](#t2-9).
+*Needs:* [2.5](#25-steinberg-unipotent-monodromy-lifts); [2.4](#24-structure-of-unrestricted-lifting-rings-away-from-p); [2.9](#29-fixed-inertial-type-quotients).
 
 (Sources: [TaylorII], §3, Proposition 3.1, p. 196; [Gee22], Proposition 3.37 and Theorem 3.38, p. 21; [NT26], proof of Theorem 5.9, arXiv v2 p. 45; [THORNE15], Proposition 3.15 and its proof, p. 18.)
-
-<a id="t2-16"></a>
 
 ### 2.16 Taylor–Wiles local conditions in rank `n`: the tangent dimension
 
@@ -2051,21 +1937,23 @@ For `p>d≥2`, semisimple unramified residual data, a selected simple eigenvalue
 
 For `d=2`, `p=5` and `q=11`, inertia `diag(ψ,ψ⁻¹)` has one infinitesimal ramified parameter and determinant one. If instead the complementary character is forced unramified as in 2.23, fixing the determinant to be unramified forces `ψ=1`, removing that parameter. In `d=1` a fixed determinant determines the whole character, so the asserted extra tangent dimension would be false; `d≥2` is essential.
 
-*Needs:* [2.10](#t2-10); [2.1](#t2-1); [F.3.1](#local-deformation-problem).
+*Needs:* [2.10](#210-local-rings-at-taylorwiles-primes); [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [F.3.1](#f31-local-deformation-problems).
 
 (Sources: [CG18], §8.5.1, arXiv v2 pp. 81–82, especially the local condition and tangent calculation on p. 82.)
 
-<a id="t2-17"></a>
-
 ### 2.17 `GSp₄` lifts at Taylor–Wiles places
 
-With four distinct residual Frobenius eigenvalues paired by similitude and `q≡1 mod p`, lifts have ordered inertia `γ₁`,`γ₂`,`ψγ₂⁻¹`,`ψγ₁⁻¹`. The fixed-similitude ring is smooth of relative dimension ten over `𝒪[Δ_v]`, `Δ_v=(k_v×(p))²`; the eigenvalue ordering is fixed.
+Let `q≡1 mod p` and assume that both `ρ̄|G_{F_v}` and the fixed multiplier `ψ|G_{F_v}` are unramified. Assume `ρ̄(Frob_v)` has four distinct eigenvalues in `k`, ordered as `α₁,α₂,ψ(Frob_v)/α₂,ψ(Frob_v)/α₁`, and let `γ̄ᵢ` be the unramified character with `γ̄ᵢ(Frob_v)=αᵢ`. Every fixed-multiplier lift is conjugate to `γ₁⊕γ₂⊕ψγ₂⁻¹⊕ψγ₁⁻¹` for unique characters `γᵢ` lifting `γ̄ᵢ`. Restricting `γ₁,γ₂` to inertia through `Art_{F_v}` gives `𝒪[Δ_v]→R□_v`, `Δ_v=(k_v×(p))²`, depending on the ordering; this map is formally smooth of relative dimension ten.
 
-*Needs:* [1.17](#t1-17); [1.20](#t1-20); [2.10](#t2-10); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+**Checks.**
 
-(Sources: [BCGP21], Lemma 7.4.4, arXiv v3 p. 189.)
+- Over `𝔽₄₉` with `p=7`, `q=29`, let `D=diag(2,4)`, `J=[[0,1],[−1,0]]`, `Φ̄=diag(J,D)` and `σ̄=diag(D,I₂)`, preserving the form `J⊕J` with multiplier 1. Then `Φ̄σ̄Φ̄⁻¹=σ̄²=σ̄²⁹` and `Φ̄` has the four distinct eigenvalues `±i,2,4` paired by inverse, but `Φ̄σ̄≠σ̄Φ̄`. Its image is nonabelian, so it is not conjugate to a sum of characters, as the conclusion requires already residually; the unramified residual hypothesis excludes it.
+- Replacing `σ̄` by `I` in the preceding example satisfies all hypotheses, with the same four ordered eigenvalues.
+- Swapping `α₁` and `α₂` changes the map `𝒪[Δ_v]→R□_v` by the coordinate swap of `Δ_v`; the ordering is part of the data.
 
-<a id="t2-18"></a>
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.20](#120-presentations-of-g-valued-framed-rings-and-central-quotients); [2.10](#210-local-rings-at-taylorwiles-primes); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+
+(Sources: [BCGP21], §7.4.3 and Lemma 7.4.4, arXiv v3 p. 189.)
 
 ### 2.18 Inertial types with monodromy and fixed-type rings
 
@@ -2077,21 +1965,19 @@ The construction provides the following API.
 - `fixedTypeRing`: `R^□_r̄(τ)`, the reduced `𝒪`-flat closure quotient of exact-type points.
 - `fixedTypeRing_points`: Every exact-type point lies on `R^□_r̄(τ)`, and such points are dense in its generic fibre. Boundary points need not have exact type `τ`.
 - `fixedTypeRing_union`: The generic fibre is covered by finitely many closed type-ring loci, which can intersect; this is not a disjoint union.
-- `fixedTypeRing_n2`: For `n=2`, after imposing the same compatible determinant, this closure definition agrees with [2.9](#t2-9).
+- `fixedTypeRing_n2`: For `n=2`, after imposing the same compatible determinant, this closure definition agrees with [2.9](#29-fixed-inertial-type-quotients).
 - `fixedTypeRing.unique`: The exact-type kernel intersection uniquely specifies the flat closure; precomposition with `R□` detects equality of its ring maps.
 
 **Checks.**
 
 - Trivial and Steinberg types differ by `N` but their closures meet: take `ρ(φ)=diag(q,1)`, `ρ(t)=(1 pt;0 1)`, `q≡1 mod p`, and specialize `t=0`.
-- For `r̄` unramified and `τ` trivial with `N = 0` the ring is the unramified lifting ring, formally smooth of relative dimension `n²` ([2.2](#t2-2)).
+- For `r̄` unramified and `τ` trivial with `N = 0` the ring is the unramified lifting ring, formally smooth of relative dimension `n²` ([2.2](#22-unramified-lifts)).
 - Each nonzero `R^□_r̄(τ)` is equidimensional of dimension `1 + n²`.
 - Incompatible reductions of `τ|P_K` and `ρ̄|P_K`, even after coefficient extension, give an empty exact-type locus and zero closure ring.
 
-*Needs:* [2.13](#t2-13); [2.9](#t2-9); [2.5](#t2-5); `ArithmeticGaloisRepresentations`, §2.4 (Grothendieck monodromy and the full Weil–Deligne construction).
+*Needs:* [2.13](#213-unrestricted-lifting-rings-away-from-p-are-complete-intersections); [2.9](#29-fixed-inertial-type-quotients); [2.5](#25-steinberg-unipotent-monodromy-lifts); `ArithmeticGaloisRepresentations`, §2.4 (Grothendieck monodromy and the full Weil–Deligne construction).
 
 (Sources: [NT26], proof of Lemma 3.6, arXiv v2 p. 18; [Shotton], Definition 3.5 and Proposition 3.6, p. 12.)
-
-<a id="t2-19"></a>
 
 ### 2.19 Fixed-determinant rank-two rings away from `p`: complete intersection with regular generic fibre
 
@@ -2109,11 +1995,9 @@ In the ramified conductor-minimal setting, require `R_v` to be a complete inters
 - For `S=𝒪[[X]][1/p]`, the point `X=0` has residue field `E`, and the completion of its local ring is `E[[X]]`. This completion is formally smooth for the `X`-adic topology on finite local Artinian `E`-algebras with residue `E`; regularity of `Spec S` concerns the uncompleted scheme. Formal smoothness here is for the `X`-adic topology; in the discrete-topology sense (Mathlib's `Algebra.FormallySmooth`) it fails whenever `Ω_{E/ℚ}` is infinite-dimensional, for example `E=ℚ_p`.
 - In the extension-of-1 case with `p=3` and `q=7`, `p^a=3` gives two geometric components: `T=2` and `T=ζ₃+ζ₃⁻¹=−1`. This retains the count `(p^a+1)/2` with the completed-local formulation.
 
-*Needs:* [2.4](#t2-4); [2.13](#t2-13); [1.18](#t1-18); [1.10](#t1-10); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [2.4](#24-structure-of-unrestricted-lifting-rings-away-from-p); [2.13](#213-unrestricted-lifting-rings-away-from-p-are-complete-intersections); [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); [1.10](#110-fixing-the-determinant-of-local-lifts); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [CG18], Lemma 4.11, published p. 364; [CG18], proof of Lemma 4.11, published p. 364; [CG18], footnote 5, published p. 365; [BellovinGee], Proposition 3.3.2, Theorem 3.3.3, Remark 3.3.4 and proof, arXiv v3 pp. 30–31.)
-
-<a id="t2-20"></a>
 
 ### 2.20 Rigidity of a residual representation for `(Σ_min, Σ_lr)`
 
@@ -2123,8 +2007,8 @@ The construction provides the following API.
 
 - `IsRigidFor`: The predicate on `r̄` given by the local conditions (1)–(4) at `Σ_min`, `Σ_lr`, the places above `p` and the rest.
 - `IsRigidFor.minimal`: For `v ∈ Σ_min` every lift of `r̄_v` is minimally ramified.
-- `IsRigidFor.levelRaising`: For `v ∈ Σ_lr` the residual hypothesis of [2.12](#t2-12) holds.
-- `IsRigidFor.fontaineLaffaille`: For `v | p`, `r̄^`♮`_v` is regular Fontaine–Laffaille crystalline (clause (3)), in the sense of [1.6](#t1-6).
+- `IsRigidFor.levelRaising`: For `v ∈ Σ_lr` the residual hypothesis of [2.12](#212-level-raising-local-deformation-problems-𝒟mix-𝒟unr-𝒟ram) holds.
+- `IsRigidFor.fontaineLaffaille`: For `v | p`, `r̄^`♮`_v` is regular Fontaine–Laffaille crystalline (clause (3)), in the sense of [1.6](#16-the-fontainelaffaille-deformation-condition).
 - `IsRigidFor.unramified`: At every finite place outside `Σ_min ∪ Σ_lr` and not above `p`, `r̄_v` is unramified (clause (4)).
 - `IsRigidFor.mono`: Adding an inert level-raising place preserves rigidity if it is disjoint from the existing sets and satisfies the Frobenius-pair and `q²−1` conditions.
 
@@ -2135,21 +2019,17 @@ The construction provides the following API.
 - Adding to `Σ_lr` a place satisfying (2) preserves rigidity (used with `𝔭` in LTXZZ §6.4).
 - At a minimal place with residue cardinality `q=2` and coefficient `p=5`, take unramified residual Frobenius `I₂`. Every lift has trivial wild inertia, and the linearized tame equation has coefficient `1−q=−1`, a unit. Induction on the maximal-ideal filtration forces tame inertia to be `I₂`, so the local minimality requirement (1) holds.
 
-*Needs:* [2.3](#t2-3); [2.12](#t2-12); [2.13](#t2-13); [1.6](#t1-6).
+*Needs:* [2.3](#23-minimally-ramified-lifts); [2.12](#212-level-raising-local-deformation-problems-𝒟mix-𝒟unr-𝒟ram); [2.13](#213-unrestricted-lifting-rings-away-from-p-are-complete-intersections); [1.6](#16-the-fontainelaffaille-deformation-condition).
 
 (Sources: [LTXZZ], the rigidity definition (published Definition 6.3.3, p. 277; arXiv v3 Definition 6.3.4).)
-
-<a id="t2-21"></a>
 
 ### 2.21 Unipotent lifts of a regular unipotent residual monodromy are minimally ramified
 
 A single regular unipotent residual inertia block makes every unipotent lift minimal: the successive kernels of `(ρ(σ)−I)^j` are free direct summands reducing to the residual flag.
 
-*Needs:* [2.3](#t2-3); [2.15](#t2-15).
+*Needs:* [2.3](#23-minimally-ramified-lifts); [2.15](#215-components-for-ihara-avoidance).
 
 (Sources: [CG20], Appendix §`A`.`4(2)(a)`, published p. 888.)
-
-<a id="t2-22"></a>
 
 ### 2.22 `GSp₄` Ihara-avoidance deformation rings
 
@@ -2161,11 +2041,9 @@ For `p>2`, `ℓ≠p`, trivial residual `GSp₄`, `q≡1 mod p` and an unramified
 - Replacing `ζ₂₅` by `ζ₅` gives four distinct nontrivial eigenvalues. In an anti-diagonal symplectic basis, `Σ=diag(ζ₅,ζ₅²,ζ₅⁻²,ζ₅⁻¹)` has multiplier one, and `Φ=1` satisfies the tame relation at `q=11`.
 - Trivial `χ₁=χ₂=1` belongs to the unipotent branch, rather than the distinct-character branch. Reduction of each permitted characteristic polynomial gives `(X−1)⁴` in both branches, at the level of the equation quotients.
 
-*Needs:* [2.11](#t2-11); [2.15](#t2-15); [1.22](#t1-22); [1.17](#t1-17).
+*Needs:* [2.11](#211-local-models-for-gsp₄-ihara-avoidance-nilpotent-strata-𝒩q-and-ℳx-y-q); [2.15](#215-components-for-ihara-avoidance); [1.22](#122-smooth-points-of-the-generic-fibre-and-purity); [1.17](#117-g-valued-framed-deformation-rings).
 
 (Sources: [BCGP21], §7.4.5 and Lemma 7.4.6, arXiv v3 p. 189; Propositions 7.4.7–7.4.8, pp. 189–190; Proposition 7.4.18, p. 196; Propositions 7.4.20–7.4.21, p. 197.)
-
-<a id="t2-23"></a>
 
 ### 2.23 The Taylor–Wiles block condition in rank `n` (including `p = 2`)
 
@@ -2187,29 +2065,25 @@ The construction provides the following API.
 - `p = 2`: `Δ_v = k(v)^×(2)`, the 2-part, `e`.`g`. `q_v = 17` gives `Δ_v ≅ ℤ/16`.
 - A nonscalar Jordan block fails residual semisimplicity; the lift condition does not require Frobenius to be scalar on the selected block.
 
-*Needs:* [2.1](#t2-1); [2.10](#t2-10); [F.3.1](#local-deformation-problem); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [2.10](#210-local-rings-at-taylorwiles-primes); [F.3.1](#f31-local-deformation-problems); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
 (Sources: [BCGP25], §5.5, arXiv v1 p. 124.)
-
-<a id="t2-24"></a>
 
 ### 2.24 Fixed-type rings away from `p` in rank `n` and constancy of types on components
 
 Nonzero full-type rings are flat reduced of dimension `d²+1`. Full type is constant between points on a common generic component that belong to no other component; this applies to pure points and their conductors. One finite extension of `K` makes all occurring inertia actions unipotent.
 
-*Needs:* [2.18](#t2-18); [2.13](#t2-13); [1.22](#t1-22).
+*Needs:* [2.18](#218-inertial-types-with-monodromy-and-fixed-type-rings); [2.13](#213-unrestricted-lifting-rings-away-from-p-are-complete-intersections); [1.22](#122-smooth-points-of-the-generic-fibre-and-purity).
 
 (Sources: [BCGP25], Lemma 5.6.2 and its proof, arXiv v1 p. 128; [NT26], proof of Lemma 3.6, arXiv v2 p. 18.)
 
-<a id="t2-25"></a>
-
 ### 2.25 Minimal `GSp₄` conditions at the ramified primes of types `U`, `P`, `H`
 
-At `U_i` require the prescribed split nilpotent orbit over the coefficient algebra, allowing compatible unit rescaling. At `P` use the residual predicate of [2.7](#t2-7), including decomposition-group character splitting and the inertia-fixed isotropic plane in `1⊕1⊕χ_x⊕χ_x`, and require reduction-injective inertia; `H` forces rigidity. These coefficient-natural conditions are local deformation problems; `U₃` is regular-unipotent minimality. Require `p≥5` at `U₃`, `p≥3` at `U₁`,`U₂`; generic rank does not specify Artinian orbit membership.
+At `U_i` require the prescribed split nilpotent orbit over the coefficient algebra, allowing compatible unit rescaling. At `P` use the residual predicate of [2.7](#27-ramification-types-u1u3-p-h-of-gsp₄-valued-residual-representations), including decomposition-group character splitting and the inertia-fixed isotropic plane in `1⊕1⊕χ_x⊕χ_x`, and require reduction-injective inertia; `H` forces rigidity. These coefficient-natural conditions are local deformation problems; `U₃` is regular-unipotent minimality. Require `p≥5` at `U₃`, `p≥3` at `U₁`,`U₂`; generic rank does not specify Artinian orbit membership.
 
 The construction provides the following API.
 
-- `GSp4.MinimalAt`: The minimal condition at `x ∈ S(r̄)` according to its `GSp4RamType` from [2.7](#t2-7), with that residual predicate retained in every branch.
+- `GSp4.MinimalAt`: The minimal condition at `x ∈ S(r̄)` according to its `GSp4RamType` from [2.7](#27-ramification-types-u1u3-p-h-of-gsp₄-valued-residual-representations), with that residual predicate retained in every branch.
 - `GSp4.MinimalAt.unipotent_rank`: At `U_i` impose the prescribed orbit over the Artinian ring via conjugacy or free kernel/image conditions for every power.
 - `GSp4.MinimalAt.rigid`: At types `P`, `H` the reduction map is injective on `r(I_x)`.
 - `GSp4.MinimalAt.isLocalDeformationProblem`: Each condition is a local deformation problem.
@@ -2218,27 +2092,23 @@ The construction provides the following API.
 
 **Checks.**
 
-- Type `U3`: the minimal condition equals `R^1` (single Jordan block, [2.21](#t2-21)).
+- Type `U3`: the minimal condition equals `R^1` (single Jordan block, [2.21](#221-unipotent-lifts-of-a-regular-unipotent-residual-monodromy-are-minimally-ramified)).
 - Type `H` with `x⁴ − 1` prime to `p`: `r(I_x) ≅ r̄(I_x)`, a finite group of order prime to `p`, so the condition is formally smooth.
 - A lift of `N₁` with nonzero nilpotent square fails the `U₁` orbit condition although its reduction still has rank one.
 - At primes outside `S(r̄) ∪ {p}` the minimal condition is 'unramified'.
-- The `p=7`, `K=ℚ₁₃` representation of [2.7](#t2-7) cannot enter the type-`P` branch: its inertia-fixed subspace is zero.
+- The `p=7`, `K=ℚ₁₃` representation of [2.7](#27-ramification-types-u1u3-p-h-of-gsp₄-valued-residual-representations) cannot enter the type-`P` branch: its inertia-fixed subspace is zero.
 
-*Needs:* [2.7](#t2-7); [2.11](#t2-11); [2.21](#t2-21); [2.8](#t2-8); [1.17](#t1-17).
+*Needs:* [2.7](#27-ramification-types-u1u3-p-h-of-gsp₄-valued-residual-representations); [2.11](#211-local-models-for-gsp₄-ihara-avoidance-nilpotent-strata-𝒩q-and-ℳx-y-q); [2.21](#221-unipotent-lifts-of-a-regular-unipotent-residual-monodromy-are-minimally-ramified); [2.8](#28-the-minimally-ramified-deformation-ring); [1.17](#117-g-valued-framed-deformation-rings).
 
 (Sources: [CG20], Definition 4.6 (3)–(4), published p. 815.)
-
-<a id="t2-26"></a>
 
 ### 2.26 The Steinberg lifting ring is a domain and equals the fixed-type ring
 
 For trivial rank `d` and `q≡1 mod p`, the Steinberg closure is a domain of dimension `d²+1`. The natural surjection to the full special-type ring `R□(τ_{Sp_d})` is an isomorphism. Integral monodromy analysis removes Taylor's `p>d` restriction.
 
-*Needs:* [2.5](#t2-5); [2.18](#t2-18); [2.24](#t2-24).
+*Needs:* [2.5](#25-steinberg-unipotent-monodromy-lifts); [2.18](#218-inertial-types-with-monodromy-and-fixed-type-rings); [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components).
 
 (Sources: [NT26], proof of Lemma 3.8, arXiv v2 p. 20; [THORNE15], Proposition 3.17, p. 20.)
-
-<a id="t2-26-1"></a>
 
 ### 2.26.1 Division-algebra types and characteristic-zero transfer
 
@@ -2256,11 +2126,9 @@ Construct `DivisionAlgebraTypes`: the `GL_d(𝒪_K)` and `𝒪_D×` types for th
 - Unramified twisting preserves the inertial type while changing Frobenius; type detection must not identify the full WD parameters.
 - Extending finite splitting coefficients or changing the abstract complex transport gives the same transferred isomorphism class after scalar extension, rather than an equality of chosen representation models.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §6.9 (`m=1` Jacquet–Langlands transfer); `SmoothRepresentationsOfLocalGroups`, SR.0 and SR.5; `ReductiveGroupsPartII`, compact subgroups; [2.24](#t2-24).
+*Needs:* PadicLocalLanglandsForGL2Qp §6.9 (`m=1` Jacquet–Langlands transfer); `SmoothRepresentationsOfLocalGroups`, SR.0 and SR.5; `ReductiveGroupsPartII`, compact subgroups; [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components).
 
 (Sources: [DOTTO25], introduction, published pp. 213–215, notation, p. 218, §§3–4, Example 3.8, p. 230, and §5, p. 239, with the type-theoretic Jacquet–Langlands comparison used in Theorem 5.3; [Shotton], Theorem 3.7 and Example 3.8, arXiv v2 pp. 13–14.)
-
-<a id="t2-26-2"></a>
 
 ### 2.26.2 Integral and mod-`p` Jacquet–Langlands maps
 
@@ -2280,11 +2148,9 @@ With the coefficients and types of 2.26.1, construct the additive Grothendieck-g
 - The trivial division-algebra type transfers to the signed discrete-series type class; a map to arbitrary positive irreducible classes loses the Grothendieck-group signs.
 - At `p=2` the mod-`p` transfer/cycle assertion here is outside its hypothesis; a characteristic-zero transfer alone does not furnish that assertion.
 
-*Needs:* [2.26.1](#t2-26-1); `SmoothRepresentationsOfLocalGroups`, SR.0 (smooth categories) and SR.6.4 (stable lattices); `RepresentationTheory`, finite-group characters and Grothendieck groups.
+*Needs:* [2.26.1](#2261-division-algebra-types-and-characteristic-zero-transfer); `SmoothRepresentationsOfLocalGroups`, SR.0 (smooth categories) and SR.6.4 (stable lattices); `RepresentationTheory`, finite-group characters and Grothendieck groups.
 
 (Sources: [DOTTO25], Definition 5.2, Theorems 5.3 and 5.5, published pp. 239–242, and §6, pp. 243–245.)
-
-<a id="t2-27"></a>
 
 ### 2.27 Breuil–Mézard cycles for central division algebras away from `p`
 
@@ -2323,21 +2189,17 @@ This target includes the restricted CM globalization with prescribed completions
 
 Under `p≠2` and even `d`, inflate an order-`p` character of the quadratic residue extension through `N_{k_D/k′}`; its type ring and Steinberg have isomorphic reduced special-fibre subschemes. Equal cycles do not assert reducedness of either original fibre.
 
-*Needs:* [2.26.1](#t2-26-1); [2.26.2](#t2-26-2); [2.18](#t2-18); [2.24](#t2-24); [2.15](#t2-15); the arithmetic cycle functor and reduction-descent targets above; `DeformationAndDerivedPatchingAlgebra`, Layer 5 and §6.7; `AdelicAlgebraicGroups`, AA.3.4 and AA.4.4; `SmoothRepresentationsOfLocalGroups`, SR.0, SR.1.2 and SR.5.
+*Needs:* [2.26.1](#2261-division-algebra-types-and-characteristic-zero-transfer); [2.26.2](#2262-integral-and-mod-p-jacquetlanglands-maps); [2.18](#218-inertial-types-with-monodromy-and-fixed-type-rings); [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components); [2.15](#215-components-for-ihara-avoidance); the arithmetic cycle functor and reduction-descent targets above; `DeformationAndDerivedPatchingAlgebra`, Layer 5 and §6.7; `AdelicAlgebraicGroups`, AA.3.4 and AA.4.4; `SmoothRepresentationsOfLocalGroups`, SR.0, SR.1.2 and SR.5.
 
 (Sources: [NT26], proof of Lemma 3.6, arXiv v2 pp. 18–19; [DOTTO25], §6, case `ℓ ≠ p` and Theorem 6.3, pp. 243–245 (journal pages); [Shotton], §3.5, arXiv v2 pp. 14–15, Lemma 4.1 and Definitions 4.2, 4.4, pp. 16–17, and Theorem 4.6, p. 17.)
-
-<a id="t2-28"></a>
 
 ### 2.28 Generic fibres of `G`-valued lifting rings away from `p` and minimally ramified lifts
 
 For reductive, possibly disconnected `G` and a fixed compatible quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, the generic fibre is reduced, equidimensional of dimension `dim G^der`, with dense regular open and finitely many type loci. For `GSp_{2d}`, assume `p>2d`, all irreducible representations of the subgroup `Λ_K=ker(I_K→ℤ_p)` occurring in the residual space are absolutely irreducible over `k`, and `𝒪×` contains square roots of `q`, `−1` and 2. Require a pure nilpotent lift `N_σ` of the residual logarithm with smooth scheme-theoretic centralizer `Z_G(N_σ)`. After the permitted finite residue/coefficient extension, the fixed-similitude minimally ramified condition is liftable with tangent dimension `h⁰(G_K,ad⁰ρ̄)`, giving a smooth framed quotient. These are Booher's `(A1)`–`(A4)` and splitting assumptions, not a consequence of `p>2d` alone. A Steinberg lift at the specified trivial prime is smooth.
 
-*Needs:* [1.17](#t1-17); [1.22](#t1-22); [2.24](#t2-24).
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.22](#122-smooth-points-of-the-generic-fibre-and-purity); [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components).
 
 (Sources: [FKP22], §9, proof of Proposition 9.1, arXiv v5 p. 41; [FKP22], §2, arXiv v5 p. 9; [BOOHER19], Theorem 1.1, p. 2; §1.2, assumptions `(A1)`–`(A4)`, p. 4, and Corollary 6.16, p. 30 (arXiv `v1`); [BellovinGee], §3.1 and Theorem 3.3.3, arXiv v3 pp. 29–30.)
-
-<a id="t2-29"></a>
 
 ### 2.29 Unipotent ramification and Ihara-avoidance rings at `p = 2`
 
@@ -2349,17 +2211,15 @@ At `p=2` away from 2, one finite extension makes every lift unipotently ramified
 - Its unramified `ℤ₂` lift `[[0,−1],[1,−1]]` has order three and requires the unramified quadratic coefficient extension to diagonalize.
 - For split distinct residual eigenvalues, Hensel projectors and the fixed residual eigenbasis give strict diagonalization; the uniform local-field extension is taken after this coefficient extension.
 
-*Needs:* [2.24](#t2-24); [2.15](#t2-15); [2.17](#t2-17); [1.12](#t1-12).
+*Needs:* [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components); [2.15](#215-components-for-ihara-avoidance); [2.17](#217-gsp₄-lifts-at-taylorwiles-places); [1.12](#112-local-deformation-rings-under-change-of-coefficients).
 
 (Sources: [BCGP25], Lemma 5.6.2, arXiv v1 p. 128; [BCGP25], Proposition 5.6.4, arXiv v1 p. 129.)
-
-<a id="t2-30"></a>
 
 ### 2.30 Local lifts at places of global function fields
 
 Over a local function field of characteristic `ℓ≠p`, every residual `GL_d` representation has a `p`-adic lift. For `p∤d` the unique `d`-th root of a `1+ϖ𝒪`-valued character permits determinant matching. The away-from-`p` generic-fibre analysis applies.
 
-*Needs:* [2.8](#t2-8); [2.1](#t2-1); [2.28](#t2-28).
+*Needs:* [2.8](#28-the-minimally-ramified-deformation-ring); [2.1](#21-the-tame-quotient-and-the-reduction-to-tame-pieces); [2.28](#228-generic-fibres-of-g-valued-lifting-rings-away-from-p-and-minimally-ramified-lifts).
 
 (Sources: [FKP22], §8, proof of Theorem 8.1, arXiv v5 p. 38; [FKP22], §2, arXiv v5 pp. 8–9.)
 
@@ -2376,8 +2236,6 @@ Uses Layer 1 and the local inertia/Frobenius, polarized deformation, coefficient
 ## Layer 3: Hodge-type quotients and characteristic-zero geometry
 
 Construct bounded semistability first, then fixed Hodge and inertia conditions. Characteristic-zero smoothness and integral flatness are separate conclusions. The ordinary component construction supplies the fixed-determinant comparison needed for the finite-flat component results.
-
-<a id="t3-1"></a>
 
 ### 3.1 `p`-adic Hodge types and Galois types
 
@@ -2402,11 +2260,9 @@ The construction provides the following API.
 - Over `ℚ₃` the quadratic tame character with inertia generator `−1` extends with Frobenius 1: conjugation fixes `(−1)^3=−1`. This is a nontrivial finite Galois type.
 - For `q=2`, a tame order-three inertia generator acting by a primitive cube root `ζ` cannot extend in rank one: Frobenius would have to conjugate `ζ` to `ζ²`, whereas scalar conjugation fixes `ζ`.
 
-*Needs:* [0.2](#t0-2).
+*Needs:* [0.2](#02-period-descent-and-finite-coefficient-comparisons).
 
 (Sources: [KisinPST], (2.6), author DVI p. 20, and (2.7), p. 21.)
-
-<a id="t3-2"></a>
 
 ### 3.2 The semistable quotient with Hodge–Tate weights in `[0, h]`
 
@@ -2420,31 +2276,25 @@ Construct `HodgeType.tateTwist`: if `v` has jumps in `[a,b]`, twisting `V` by `�
 - A type in `[0,h]` uses the identity twist and the same universal quotient map.
 - In rank `d` a twist by `ε^t` changes determinant by `ε^{td}`; forgetting this factor fails the fixed-determinant comparison, while the finite WD inertia type stays unchanged.
 
-*Needs:* [1.8](#t1-8); [1.2](#t1-2); [0.2](#t0-2); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [1.8](#18-moduli-of-lattices-of-bounded-e-height-and-their-image); [1.2](#12-the-functor-of-bounded-height-lattices-of-a-deformation-family); [0.2](#02-period-descent-and-finite-coefficient-comparisons); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [KisinPST], Theorem (2.5.5), author DVI pp. 19–20; Proposition (2.4.7), p. 16, and Proposition (2.5.4), p. 18.)
-
-<a id="t3-3"></a>
 
 ### 3.3 Fixing the `p`-adic Hodge type selects components
 
 In the bounded semistable quotient, fixed Hodge type is a union of connected components: projective filtration steps and graded pieces make ranks locally constant. Prove coefficient compatibility.
 
-*Needs:* [3.2](#t3-2); [3.1](#t3-1).
+*Needs:* [3.2](#32-the-semistable-quotient-with-hodgetate-weights-in-0-h); [3.1](#31-p-adic-hodge-types-and-galois-types).
 
 (Sources: [KisinPST], Lemma (2.6.1) and Corollary (2.6.2), author DVI pp. 20–21.)
-
-<a id="t3-4"></a>
 
 ### 3.4 Potentially semistable deformation rings of fixed type
 
 For finite-image `τ` and bounded labelled Hodge type `v`, `R□_{τ,v}` is PadicLocalLanglandsForGL2Qp §0.4's `DeformationSupport.pstRing` at the same `K`, `d`, `ρ̄`, `v`, `τ` and chosen finite Galois `K′/K` killing `τ`, and its crystalline variant is `DeformationSupport.crystallineRing` (`N=0`). These are the reduced `𝒪`-torsion-free quotients of `R□` whose maps to every finite local `E`-algebra, nonreduced ones included, classify the lifts semistable over `K′` of exactly those Hodge and inertia types, possibly zero; uniqueness, coefficient change, type-preserving twists and the generic-fibre dimension formula are PadicLocalLanglandsForGL2Qp §0.4's. Here prove that, over `K′`, the generic locus is a union of the bounded semistable components of 3.2–3.3 after the Tate twist of 3.2, and construct the Schur unframed variants as the corresponding quotients of `R_ρ̄`, compatible with `forgetFrame` (F.2.6).
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (`pstRing`, `crystallineRing`); [3.3](#t3-3); [3.1](#t3-1); [1.1](#t1-1); [1.5](#t1-5); [F.2.9](#fixed-determinant-rings); [0.2](#t0-2).
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (`pstRing`, `crystallineRing`); [3.3](#33-fixing-the-p-adic-hodge-type-selects-components); [3.1](#31-p-adic-hodge-types-and-galois-types); [1.1](#11-the-local-framed-deformation-ring); [1.5](#15-forgetting-the-framing-of-local-lifts); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); [0.2](#02-period-descent-and-finite-coefficient-comparisons).
 
 (Sources: [KisinPST], Theorem (2.7.6) and Corollary (2.7.7), author DVI p. 23; [Gee22], Theorem 3.28, pp. 18–19.)
-
-<a id="t3-5"></a>
 
 ### 3.5 Potentially semistable loci in families over a complete local base
 
@@ -2461,31 +2311,25 @@ For the potential variants, also fix a finite-image inertia type `τ` extending 
 - In the unramified rank-one family over `𝒪[[T]]` with arithmetic Frobenius `1+T`, specialization `T↦u` in `B=E[u]/(u²)` is crystalline of weight zero and trivial inertia type. The criterion includes this nilpotent coefficient family, not just its residue character.
 - For odd `p`, take `A°=ℤ_p[[T]]`, `K=E=ℚ_p`, `ε=ω·⟨ε⟩` and `ℓ(g)=log(⟨ε(g)⟩)/log(1+p)`. The residually trivial continuous family `κ_T(g)=(1+T)^{ℓ(g)}` specializes at `T_s=(1+p)^s−1` to `⟨ε⟩^s`. For `s_m=(p−1)p^m` these are crystalline characters `ε^{s_m}`, with distinct `T_{s_m}→0` and unbounded weights. Any ideal `J` cutting out all crystalline points would vanish at every `T_{s_m}`. A nonzero series in `ℤ_p[[T]][1/p]` has no distinct zeros accumulating at zero: after its first nonzero power of `T` is removed, its constant coefficient dominates near zero. Thus `J=0`, but the specialization `s=1/2 ∈ ℤ_p` has Sen weight `1/2` and is not Hodge–Tate. The same obstruction excludes unbounded semistable and potentially semistable quotients, even with trivial inertia type fixed.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (restriction comparison); [1.8](#t1-8); [3.1](#t3-1); [3.2](#t3-2); [3.3](#t3-3); [3.4](#t3-4); [0.2](#t0-2); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.`P7`.3 (the character criterion for the weight-family Check).
+*Needs:* PadicLocalLanglandsForGL2Qp §0.4 (restriction comparison); [1.8](#18-moduli-of-lattices-of-bounded-e-height-and-their-image); [3.1](#31-p-adic-hodge-types-and-galois-types); [3.2](#32-the-semistable-quotient-with-hodgetate-weights-in-0-h); [3.3](#33-fixing-the-p-adic-hodge-type-selects-components); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [0.2](#02-period-descent-and-finite-coefficient-comparisons); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.`P7`.3 (the character criterion for the weight-family Check).
 
 (Sources: [KisinPST], setup (2.7.5), Theorem (2.7.6) and Corollary (2.7.7), author DVI p. 23; Theorem (2.5.5), pp. 19–20; Wang–Erickson, [Algebraic families of Galois representations and potentially semi-stable pseudodeformation rings](https://sites.pitt.edu/~caw203/pdfs/algfam.pdf), Theorems 6.1, 6.4 and 6.6, author pp. 46–49.)
-
-<a id="t3-6"></a>
 
 ### 3.6 Deformation theory of filtered `(φ, N)`-modules with descent data
 
 Over `L₀⊗A`, use finite-projective modules with invertible `φ`, nilpotent `N`, `Nφ=pφN`, commuting descent and stable projective filtrations. The obstruction complex uses `1−φ`,`N`,`pφ−1`; `H²=0` gives `H¹`-torsors of small-extension lifts. Forgetting filtration is smooth, with dense vanishing locus in a smooth family. Completed lifting-family comparison requires formal smoothness over this groupoid.
 
-*Needs:* [0.2](#t0-2); [3.4](#t3-4).
+*Needs:* [0.2](#02-period-descent-and-finite-coefficient-comparisons); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type).
 
 (Sources: [KisinPST], (3.1.1) and Proposition (3.1.2), author DVI pp. 24–25; Corollary (3.1.3), Lemma (3.1.5) and Proposition (3.1.6), pp. 25–27; Lemma (3.2.1) and Proposition (3.3.1), pp. 27–29.)
-
-<a id="t3-7"></a>
 
 ### 3.7 Potentially semistable rings under change of coefficients
 
 For a finite coefficient-field extension `E′/E` with rings of integers `𝒪′/𝒪`, transport the residual representation and the labelled Hodge and inertia data. The generic potentially semistable and crystalline quotients commute with this scalar extension: their finite-`E′`-algebra point criteria are the scalar extensions of the finite-`E`-algebra criteria. The reduced torsion-free integral closure also commutes with `𝒪′/𝒪`. Indeed, `𝒪′` is finite free over `𝒪`, localization commutes with tensoring, and the reduced generic fibre stays reduced under the separable extension `E′/E`. Contract its zero ideal to the integral ring to obtain the same closure kernel. Schur comparison is compatible with these maps. Components can split; geometric assertions require splitting coefficients.
 
-*Needs:* [3.4](#t3-4); [1.12](#t1-12); [0.2](#t0-2); [F.0.1](#completed-coefficient-products).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [1.12](#112-local-deformation-rings-under-change-of-coefficients); [0.2](#02-period-descent-and-finite-coefficient-comparisons); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
-(Sources: [KisinPST], Theorem (2.7.6) and Corollary (2.7.7), author DVI p. 23, for the point criteria; the scalar-extension argument above uses the coefficient compatibility of the period comparison in Proposition (2.7.2), author DVI pp. 22–23, and the flat-base-change contract [F.0.1](#completed-coefficient-products).)
-
-<a id="t3-7-1"></a>
+(Sources: [KisinPST], Theorem (2.7.6) and Corollary (2.7.7), author DVI p. 23, for the point criteria; the scalar-extension argument above uses the coefficient compatibility of the period comparison in Proposition (2.7.2), author DVI pp. 22–23, and the flat-base-change contract [F.0.1](#f01-completed-coefficient-products-and-dimensions).)
 
 ### 3.7.1 Mod-`p` `GL₂(ℚ_p)` blocks, projective envelopes and centres
 
@@ -2503,13 +2347,11 @@ Specialize the imported centre action and reconstruction to the coefficient and 
 
 (Sources: [CDN23], §1.1.2, arXiv p. 13; §§1.3.1–1.3.3, Propositions 1.10 and 1.12, Remarks 1.11 and 1.13–1.14, arXiv pp. 17–19.)
 
-<a id="t3-7-2"></a>
-
 ### 3.7.2 Montréal functor and the block/Galois dictionary
 
 Import the Montréal functor, its compact and Banach extensions, its MontrealFunctor.torsionEtaleRealization contract and the GL2Block.residualGalois dictionary from PadicLocalLanglandsForGL2Qp, §§3.1–3.3 and 5.2. The finite-length smooth torsion input has length over `𝒪[GL₂(ℚ_p)]` and fixed central character; its exact covariant Galois realization has finite length over `𝒪`. Compact inverse limits have profinite output. A stable unit ball whose reductions have finite length gives, after localization, the residually finite-length Banach extension with finite-dimensional `E`-Galois output. The integral cyclotomic étale coefficient rings, torsion `(φ,Γ)`-modules and their realization are part of the imported construction.
 
-Compare the localized torsion étale realization with the rational Robba realization of [0.4](#t0-4), compatibly with reduction, coefficient change and the imported centre action. Apply the imported residual dictionary with `det ρ̄_B=δ̄ε̄` to the pseudodeformation problem of 3.8. Absolute blocks correspond to semisimple rank-two representations; finite coefficients retain Galois orbits and the block's endomorphism residue field. The trace/Cayley–Hamilton action uses determinant `δε`, including on nonsemisimple block objects. Constituents killed by the functor remain in its domain.
+Compare the localized torsion étale realization with the rational Robba realization of [0.4](#04-coefficient-robba-modules-herr-cohomology-and-period-conditions), compatibly with reduction, coefficient change and the imported centre action. Apply the imported residual dictionary with `det ρ̄_B=δ̄ε̄` to the pseudodeformation problem of 3.8. Absolute blocks correspond to semisimple rank-two representations; finite coefficients retain Galois orbits and the block's endomorphism residue field. The trace/Cayley–Hamilton action uses determinant `δε`, including on nonsemisimple block objects. Constituents killed by the functor remain in its domain.
 
 **Checks.**
 
@@ -2518,17 +2360,15 @@ Compare the localized torsion étale realization with the rational Robba realiza
 - The functor can kill constituents factoring through determinant; exactness does not imply faithfulness. A centre identification uses determinant `δε`, not `δ`.
 - At `p=5`, `𝒪=ℤ₅`, `k=𝔽₅` and `ω=ε̄`, the generic principal series `π=I(1,ω²)` has central character `ω` and `V(π)=k`. Fix the Teichmüller lift of `ω`. The representation `Π=⨁_{n≥1}π` is locally admissible and locally finite length, but has infinite length. Each `π^⊕m` is a split subobject, so any additive extension of the functor to `Π` has output length at least `m` for every `m`. Thus locally finite length, even for inputs killed by 5, does not give finite-length Galois output.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §§3.1–3.3 and 5.2 (Montréal functor, torsion étale realization and residual dictionary); [3.7.1](#t3-7-1); [0.4](#t0-4); `IntegralHeckeAndGaloisDeterminants`, IHG.0–IHG.1.
+*Needs:* PadicLocalLanglandsForGL2Qp §§3.1–3.3 and 5.2 (Montréal functor, torsion étale realization and residual dictionary); [3.7.1](#371-mod-p-gl₂ℚ_p-blocks-projective-envelopes-and-centres); [0.4](#04-coefficient-robba-modules-herr-cohomology-and-period-conditions); `IntegralHeckeAndGaloisDeterminants`, IHG.0–IHG.1.
 
 (Sources: [CDN23], §1.1.2, arXiv p. 13; §§1.3.1–1.3.4, Remarks 1.13–1.15 and Theorem 1.16, arXiv pp. 17–20, including its cited Colmez construction.)
 
-<a id="t3-8"></a>
-
 ### 3.8 Rings of fixed Weil–Deligne type cut out of pseudo-character deformation rings `(R_{B,M})`
 
-Import the block-centre map `ι_B` and the full-WD type ring `WDTypeRing` with its API from PadicLocalLanglandsForGL2Qp, §PadicLocalLanglandsForGL2Qp §5.4–5.6 and 5.12. Fix a mod-`p` `GL₂(ℚ_p)` block `B`, its residual rank-two determinant law and a continuous lift `δ` of its central character. After the finite coefficient extension splitting the block, specialize [F.2.11](#pseudodeformation-rings) to this residual law and determinant `δε`. Its degree-two `G_(ℚ_p)` restriction comparison with PadicLocalLanglandsForGL2Qp §5.4 identifies the resulting continuous pseudodeformation ring and universal trace with the imported `R^{ps,δ}_B` and `T^δ_B`, which are PadicLocalLanglandsForGL2Qp §5.4's construction at this residual law; at `p=2` retain the determinant law, not just its trace. The imported map `ι_B:R^{ps,δ}_B→Z_B` respects these data. It is an integral isomorphism for `p≥5` and an isomorphism after inverting `p` for every `p`; at `p=3`, `Z_B` is the torsion-free quotient, and at `p=2` the cokernel of the map from the torsion-free quotient is killed by two.
+Import the block-centre map `ι_B` and the full-WD type ring `WDTypeRing` with its API from PadicLocalLanglandsForGL2Qp, §§5.4–5.6 and 5.12. Fix a mod-`p` `GL₂(ℚ_p)` block `B`, its residual rank-two determinant law and a continuous lift `δ` of its central character. After the finite coefficient extension splitting the block, specialize [F.2.11](#f211-continuous-pseudodeformation-rings) to this residual law and determinant `δε`. Its degree-two `G_(ℚ_p)` restriction comparison with PadicLocalLanglandsForGL2Qp §5.4 identifies the resulting continuous pseudodeformation ring and universal trace with the imported `R^{ps,δ}_B` and `T^δ_B`, which are PadicLocalLanglandsForGL2Qp §5.4's construction at this residual law; at `p=2` retain the determinant law, not just its trace. The imported map `ι_B:R^{ps,δ}_B→Z_B` respects these data. It is an integral isomorphism for `p≥5` and an isomorphism after inverting `p` for every `p`; at `p=3`, `Z_B` is the torsion-free quotient, and at `p=2` the cokernel of the map from the torsion-free quotient is killed by two.
 
-For supercuspidal full WD parameter `M`, use the imported weight-two ring `R_{B,M}` and its integral image `R⁺_{B,M}`. The deformation comparison identifies the kernel of its quotient map from `R^{ps,δ_M}_B[1/p]` with the intersection of kernels of weight-`{0,1}` de Rham points of full type `M` and determinant `δ_Mε`. Its integral kernel is the preimage of that intersection, so `R⁺_{B,M}[1/p]=R_{B,M}`. Compare its universal family with the bounded potentially semistable family of [3.5](#t3-5): retain labelled Hodge type `{0,1}`, inertia type `M|I_K` and a finite Galois `L/K` killing that inertia type, and impose the additional full-WD identification, including Frobenius. The comparison on finite `E`-algebras, including nonreduced ones, uses the imported finite-algebra universal property; an inertia-type quotient alone does not fix `M`.
+For supercuspidal full WD parameter `M`, use the imported weight-two ring `R_{B,M}` and its integral image `R⁺_{B,M}`. The deformation comparison identifies the kernel of its quotient map from `R^{ps,δ_M}_B[1/p]` with the intersection of kernels of weight-`{0,1}` de Rham points of full type `M` and determinant `δ_Mε`. Its integral kernel is the preimage of that intersection, so `R⁺_{B,M}[1/p]=R_{B,M}`. Compare its universal family with the bounded potentially semistable family of [3.5](#35-potentially-semistable-loci-in-families-over-a-complete-local-base): retain labelled Hodge type `{0,1}`, inertia type `M|I_K` and a finite Galois `L/K` killing that inertia type, and impose the additional full-WD identification, including Frobenius. The comparison on finite `E`-algebras, including nonreduced ones, uses the imported finite-algebra universal property; an inertia-type quotient alone does not fix `M`.
 
 The imported API consists of the block identification, point criterion, reducedness and Jacobsonness, finite product of bounded-function PIDs on opens of `ℙ¹`, rank-two representation determined up to isomorphism by the universal trace, and integral image. These are the blockIdentification, points, reduced, pid, universalRep and integralImage contracts of WDTypeRing in PadicLocalLanglandsForGL2Qp, §5.12. The deformation comparisons here preserve each contract. Empty type/block loci give zero; special parameters require their separate `L`-invariants.
 
@@ -2540,35 +2380,29 @@ The imported API consists of the block identification, point criterion, reducedn
 - At `p≥5` the centre comparison is integral; at `p=2` an equality before inverting `p` is not the stated general theorem. The universal pseudorepresentation has determinant `δ_Mε`, whereas `δ_M` is the central-character parameter.
 - `Tr ∘ ρ_{B,M}` equals the image of the universal pseudo-character of `R^{ps,δ_M}_B`.
 
-*Needs:* PadicLocalLanglandsForGL2Qp §§5.4–5.6 and 5.12 (block-centre map with small-prime qualifications and full-WD type-ring API); [3.7.1](#t3-7-1); [3.7.2](#t3-7-2); [3.5](#t3-5); [3.1](#t3-1); [F.1.1](#lifting-functor); [F.2.11](#pseudodeformation-rings).
+*Needs:* PadicLocalLanglandsForGL2Qp §§5.4–5.6 and 5.12 (block-centre map with small-prime qualifications and full-WD type-ring API); [3.7.1](#371-mod-p-gl₂ℚ_p-blocks-projective-envelopes-and-centres); [3.7.2](#372-montréal-functor-and-the-blockgalois-dictionary); [3.5](#35-potentially-semistable-loci-in-families-over-a-complete-local-base); [3.1](#31-p-adic-hodge-types-and-galois-types); [F.1.1](#f11-the-lifting-functor); [F.2.11](#f211-continuous-pseudodeformation-rings).
 
 (Sources: [CDN23], Remark 1.15 and Theorem 1.16, arXiv pp. 19–20; [CDN23], §5.2 and Théorème 5.11, arXiv p. 66; Colmez–Dospinescu–Nizioł, [Correspondance de Langlands locale p-adique et anneaux de Kisin](https://arxiv.org/abs/2204.11217v2), §5.3, Corollary 5.7 and Theorem 5.8, arXiv pp. 21–22.)
-
-<a id="t3-9"></a>
 
 ### 3.9 Dimension and generic regularity of potentially semistable rings
 
 Nonzero framed semistable scheme generic fibres `Spec R□_{τ,v}[1/ϖ]` are equidimensional of dimension `d²+Δ(v)`, which is PadicLocalLanglandsForGL2Qp §0.4's dimension formula, and have a dense regular open. At its closed points `x` with finite residue field `E_x/E`, the completed local deformation problem is formally smooth on finite local Artinian `E_x`-algebras; its representing completion carries the maximal-ideal topology. Schur unframed dimension is `1+Δ(v)`, integral framed dimension `1+d²+Δ(v)`. A compatible nonempty fixed determinant lowers generic dimension by one through rational twisting, including `p|d`. Component intersections may be singular.
 
-*Needs:* [3.4](#t3-4); [3.6](#t3-6); [3.1](#t3-1); [1.5](#t1-5); [F.0.1](#completed-coefficient-products); [1.24](#t1-24).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.6](#36-deformation-theory-of-filtered-φ-n-modules-with-descent-data); [3.1](#31-p-adic-hodge-types-and-galois-types); [1.5](#15-forgetting-the-framing-of-local-lifts); [F.0.1](#f01-completed-coefficient-products-and-dimensions); [1.24](#124-fixed-determinant-rings-by-twisting-the-functor-𝒳-and-the-power-map-φ_d).
 
 (Sources: [KisinPST], Theorem (3.3.4), author DVI pp. 29–30; Introduction, p. 2, footnote 1; [BellovinGee], Theorem 3.3.3, Remark 3.3.4 and proof, arXiv v3 pp. 30–31.)
-
-<a id="t3-10"></a>
 
 ### 3.10 Regular crystalline generic fibres and formally smooth local deformation problems
 
 The crystalline scheme generic fibre `Spec R□`,`crys_{τ,v}[1/ϖ]` is regular and equidimensional of dimension `d²+Δ(v)`. At each closed point `x` with finite residue field `E_x/E`, its completed local ring, with the maximal-ideal topology, pro-represents the fixed-type crystalline deformation problem on finite local Artinian `E_x`-algebras and is formally smooth of that dimension. This completed-local assertion and scheme regularity specify different carriers. For unramified `K`, trivial `τ`, regular weights of width `≤p−2` and Fontaine–Laffaille residual data, the nonempty compatible fixed-determinant integral ring is formally smooth over `𝒪` for the maximal-ideal topology, of relative dimension `d²−1+fd(d−1)/2`.
 
-*Needs:* [3.4](#t3-4); [3.6](#t3-6); [3.9](#t3-9); [1.6](#t1-6); [1.13](#t1-13).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.6](#36-deformation-theory-of-filtered-φ-n-modules-with-descent-data); [3.9](#39-dimension-and-generic-regularity-of-potentially-semistable-rings); [1.6](#16-the-fontainelaffaille-deformation-condition); [1.13](#113-fontainelaffaille-deformations-tangent-space-and-smoothness-cht-lemma-242-corollaries-243244-lemma-245).
 
 (Sources: [KisinPST], Theorem (3.3.8), author DVI p. 30; [Gee22], Theorem 3.28, pp. 18–19; [BellovinGee], Remark 3.3.4 and Theorem 3.3.8, arXiv v3 pp. 30–33.)
 
-<a id="t3-11"></a>
-
 ### 3.11 `G`-valued potentially semistable lifting rings (Balaji, Bellovin–Gee)
 
-Let `G/𝒪` be a smooth affine group scheme with reductive identity component and the `G`-valued lifting interface of 1.17. Fix a continuous residual representation, a `G⁰`-conjugacy class `τ` of finite-image inertia representations extending to the required Weil action, and a labelled Hodge cocharacter class `v`. Choose a finite Galois `L/K` with `τ|I_L=1`. The general-linear family input from [3.5](#t3-5) carries the induced fixed labelled Hodge and inertia types and this extension `L`; its period modules retain the tensor compatibility of [0.2](#t0-2). Construct the unique reduced `𝒪`-flat integral quotient `R□_{τ,v}` characterized, on every finite local `E`-algebra including nonreduced ones, by lifts of labelled Hodge type `v` and WD inertia type `τ` whose restriction to `G_L` is semistable. The quotient can be zero. If nonzero, its scheme generic fibre `Spec R□_{τ,v}[1/ϖ]` is reduced, locally a complete intersection and equidimensional, with a dense regular open. Its dimension is `dim G+Σ_σdim(G/P_{v,σ})`, or `dim G+f dim Fl_G` for regular `v`. A nonempty compatible fixed quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, replaces `dim G` by `dim G^der` and has the corresponding generic-fibre properties. Integral complete intersection, Cohen–Macaulayness or formal smoothness requires a separate theorem carrying its own hypotheses; ordinary quotients and patching modules use only the properties on the stated fibre.
+Let `G/𝒪` be a smooth affine group scheme with reductive identity component and the `G`-valued lifting interface of 1.17. Fix a continuous residual representation, a `G⁰`-conjugacy class `τ` of finite-image inertia representations extending to the required Weil action, and a labelled Hodge cocharacter class `v`. Choose a finite Galois `L/K` with `τ|I_L=1`. The general-linear family input from [3.5](#35-potentially-semistable-loci-in-families-over-a-complete-local-base) carries the induced fixed labelled Hodge and inertia types and this extension `L`; its period modules retain the tensor compatibility of [0.2](#02-period-descent-and-finite-coefficient-comparisons). Construct the unique reduced `𝒪`-flat integral quotient `R□_{τ,v}` characterized, on every finite local `E`-algebra including nonreduced ones, by lifts of labelled Hodge type `v` and WD inertia type `τ` whose restriction to `G_L` is semistable. The quotient can be zero. If nonzero, its scheme generic fibre `Spec R□_{τ,v}[1/ϖ]` is reduced, locally a complete intersection and equidimensional, with a dense regular open. Its dimension is `dim G+Σ_σdim(G/P_{v,σ})`, or `dim G+f dim Fl_G` for regular `v`. A nonempty compatible fixed quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, replaces `dim G` by `dim G^der` and has the corresponding generic-fibre properties. Integral complete intersection, Cohen–Macaulayness or formal smoothness requires a separate theorem carrying its own hypotheses; ordinary quotients and patching modules use only the properties on the stated fibre.
 
 **Checks.**
 
@@ -2576,37 +2410,31 @@ Let `G/𝒪` be a smooth affine group scheme with reductive identity component a
 - For a complete DVR `𝒪` with uniformizer `π`, `A=𝒪[x,y]/(x²−πx,xy,y²−πy)` is free on 1,`x`,`y`. The map `A→𝒪³` given by evaluation at `(0,0)`,`(π,0)`,`(0,π)` is injective, so `A` is reduced; after inverting `π` it is `E³` and is étale. This is an algebraic control for the fibre distinction.
 - The same `A` has special fibre `k[x,y]/(x,y)²` with socle spanned by `x`,`y`. An Artinian local complete intersection has one-dimensional socle, so this fibre is not a complete intersection. Since `π` is regular in `A`, an integral complete intersection would have a complete-intersection special fibre; thus flatness, reducedness and an étale generic fibre do not imply integral complete intersection.
 
-*Needs:* [1.17](#t1-17); [1.21](#t1-21) (relative parabolic schemes); [3.5](#t3-5); [3.4](#t3-4); [3.9](#t3-9); [0.2](#t0-2).
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.21](#121-g-valued-ordinary-representations-of-weight-λ) (relative parabolic schemes); [3.5](#35-potentially-semistable-loci-in-families-over-a-complete-local-base); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.9](#39-dimension-and-generic-regularity-of-potentially-semistable-rings); [0.2](#02-period-descent-and-finite-coefficient-comparisons).
 
 (Sources: [FKP22], Appendix B, arXiv v5 pp. 52–53; [BellovinGee], §3.2 and Theorem 3.3.3 (= Theorem A), arXiv v3 pp. 29–30.)
-
-<a id="t3-12"></a>
 
 ### 3.12 Breuil–Conrad–Diamond–Taylor type rings as Kisin rings
 
 For Schur rank-two data, weak potentially Barsotti–Tate types define the intersection of weight-two characteristic-zero point kernels with determinant `ε` times a prime-to-`p` Teichmüller character. Compare inertia `τ`, extended Weil `τ′` and the Kisin quotient, using the weight-two theorem that weak type is actual type. `N≠0` Tate curves are excluded.
 
-*Needs:* [3.4](#t3-4); [1.5](#t1-5); [0.3](#t0-3); [3.10](#t3-10).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [1.5](#15-forgetting-the-framing-of-local-lifts); [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems).
 
 (Sources: [BCDT01], §1.1 and Conjecture 1.1.1, author manuscript pp. 7–8; [KisinPST], Introduction, author DVI pp. 1–2.)
-
-<a id="t3-13"></a>
 
 ### 3.13 Semistable-ordinary quotients of semistable lifting rings
 
 Start with the semistable and crystalline fixed-Hodge-type quotients. In a finite local `E`-algebra, if a semistable lift reduces to a semistable-ordinary representation of weight `λ`, it is itself semistable-ordinary. Thus the ordinary condition selects an open and closed union of components of the semistable generic fibre, defining a unique flat reduced quotient `R^{△,λ}`. It is the ordinary component quotient inside that semistable space, not a closure in the unrestricted ring of an arbitrary ordinary point set.
 
-*Needs:* [1.7](#t1-7); [3.4](#t3-4); [3.10](#t3-10); [3.11](#t3-11); [1.9](#t1-9).
+*Needs:* [1.7](#17-ordinary-representations-of-weight-λ); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems); [3.11](#311-g-valued-potentially-semistable-lifting-rings-balaji-bellovingee); [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v).
 
 (Sources: [CN23], Lemma 3.3.2, arXiv v3 p. 51; [CN23], Theorem 3.3.3, arXiv v3 p. 52.)
-
-<a id="t3-14"></a>
 
 ### 3.14 Fixed-determinant crystalline and ordinary rings as power-series quotients
 
 For `p∤d` and dominant `λ`, the determinant weight is `−Σ_i(λ_{τ,i}+d−i)`. A compatible `ψ` gives reduced flat crystalline or semistable-ordinary quotients with the finite-`E`-algebra point criterion. Scalar twisting with a section identifies the unfixed ring with `R^ψ[[X]]`; the ordinary variant uses the semistable ordinary component quotient.
 
-*Needs:* [3.4](#t3-4); [1.10](#t1-10); [3.13](#t3-13).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [1.10](#110-fixing-the-determinant-of-local-lifts); [3.13](#313-semistable-ordinary-quotients-of-semistable-lifting-rings).
 
 (Sources: [CN23], Lemma 3.3.6, arXiv v3 pp. 52–53.)
 
@@ -2620,8 +2448,6 @@ Two supercuspidal full WD parameters differing by an unramified twist can have t
 
 Uses Layers 1–2, period/filtered-module admissibility, full WD and inertia-type comparisons, continuous pseudodeformation rings and complete local algebra. PadicLocalLanglandsForGL2Qp, §0.4, supplies the bounded potentially semistable and crystalline quotients of 3.4–3.5 and the dimension formula of 3.9; PadicLocalLanglandsForGL2Qp §5.4 supplies the degree-two pseudodeformation ring compared in 3.8; §§2.2–2.3, 3.1–3.3, 5.1–5.6 and 5.12 supply the block, Montréal and full-type constructions used in the deformation comparisons of 3.7.1–3.8.
 
-<a id="R08.4"></a>
-
 `LocalGaloisDeformationRings:R08.4` is the finite-flat deformation-ring layer (Layer 4 here); its Savitt ring presentations are target 4.2.
 
 ## Layer 4: Finite-flat models and Barsotti–Tate components
@@ -2629,8 +2455,6 @@ Uses Layers 1–2, period/filtered-module admissibility, full WD and inertia-typ
 The projective space of finite-flat models resolves a lifting condition. Its closed model fibre records multiple models of one representation; its uniformizer fibre carries the local-model singularity theorem. Use this distinction throughout the component comparison.
 
 Throughout this layer `K/ℚ_p` is finite, `e=e(K/ℚ_p)`, `K₀` is its maximal unramified subfield, `p>2`, the residual module is finite-flat, and the model lattice has its fixed generic-fibre identification. Rank-two ordinary/nonordinary comparisons use `v_ψ=1`.
-
-<a id="t4-1"></a>
 
 ### 4.1 Flat deformations and the flat deformation ring
 
@@ -2665,11 +2489,9 @@ The construction provides the following API.
 - A supersingular elliptic curve over `ℤ_p`, `p>2`, gives rank-two `V=E[p]` over `𝔽_p` with scalar endomorphisms and cyclotomic determinant. Its flat ring has two variables, its unrestricted ring has five, and the quotient kernel has three generators.
 - For `p=2` the model-closure construction still gives the framed condition quotient. The Fontaine–Laffaille self-Ext calculation and the displayed power-series presentations are not asserted at that prime.
 
-*Needs:* [F.1.1](#lifting-functor)–[F.1.4](#module-deformations-are-strict-classes); [F.2.5](#universal-deformation-ring); [F.3.1](#local-deformation-problem)–[F.3.2](#deformation-problem-ideal); [1.1](#t1-1); [1.4](#t1-4); [1.5](#t1-5); [1.6](#t1-6); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7 (`flatDeformationTangentSpace`, model closure and coefficient-linear self-Ext; `flatTangent_finrank_le`, endomorphism-sensitive dimension formula).
+*Needs:* [F.1.1](#f11-the-lifting-functor)–[F.1.4](#f14-module-deformations-are-lifts-up-to-strict-conjugation); [F.2.5](#f25-the-universal-deformation-ring); [F.3.1](#f31-local-deformation-problems)–[F.3.2](#f32-deformation-problems-are-invariant-ideals-of-the-lifting-ring); [1.1](#11-the-local-framed-deformation-ring); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [1.5](#15-forgetting-the-framing-of-local-lifts); [1.6](#16-the-fontainelaffaille-deformation-condition); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7 (`flatDeformationTangentSpace`, model closure and coefficient-linear self-Ext; `flatTangent_finrank_le`, endomorphism-sensitive dimension formula).
 
 (Sources: [KisinFlat], (2.1.1), p. 16; [Ramakrishna93], Proposition 1.1, Theorem 1.1 and Proposition 1.2, pp. 270–272, for the Schlessinger and quotient adapters; Lemmas 3.1–3.2 and 4.3–4.4, pp. 274–275, 280, for the self-Ext comparison; Theorems 3.1, 4.1–4.2 and 5.1 and Corollary 4.1, pp. 276, 279–281, for the ring presentations.)
-
-<a id="t4-2"></a>
 
 ### 4.2 Savitt's weight-two deformation rings of tame type
 
@@ -2688,11 +2510,9 @@ The following lists are a concordance with that imported classification and its 
 - Its allowed irreducible case has `XY−pu`; the special fibre has two components and the scheme generic fibre is regular after the prescribed coefficient extension; the completed local deformation rings at closed points are formally smooth for their maximal-ideal topology.
 - Residual data outside the imported niveau-two list give zero. For unramified quadratic `K/ℚ_p`, a nonzero fixed-determinant unframed BT ring has generic dimension two; these one-dimensional presentations are outside that field's scope.
 
-*Needs:* [3.4](#t3-4); [3.1](#t3-1); [1.10](#t1-10); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`; §R07.5.10 (`savittResidualTypes`).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.1](#31-p-adic-hodge-types-and-galois-types); [1.10](#110-fixing-the-determinant-of-local-lifts); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`; §R07.5.10 (`savittResidualTypes`).
 
 (Sources: [Savitt], Theorems 6.22–6.24, p. 42 (arXiv `v3`).)
-
-<a id="t4-2-1"></a>
 
 ### 4.2.1 Completed inertia Kummer valuation sequence
 
@@ -2710,17 +2530,13 @@ Construct the finite-level equivariant Kummer maps from Tau Ceti restriction/nor
 
 (Sources: [KW209], §3.2.5, definition before Lemma 3.7 and its proof, author pp. 25–26.)
 
-<a id="t4-3"></a>
-
 ### 4.3 Finite cocycles via Kummer theory over `F^nr` (KW II Lemma 3.7)
 
 For unramified `F_v/ℚ_p` and complete Noetherian `B` over `𝒪[[T]]`, take `Ξ=χ₁η₁η₂⁻¹`, unramified `η_i`, and `χ₁=χ_p^{k−1}` or `χ_pω^{k−2}`, `2≤k≤p`. At `k=2` use the inertia Kummer valuation kernel; at `k>2` finite cocycles are all `Z¹`. This module is `B`-free of rank `1+f` and commutes with tensor base change.
 
-*Needs:* [4.2.1](#t4-2-1); [1.4](#t1-4); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [4.2.1](#421-completed-inertia-kummer-valuation-sequence); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [KW209], §3.2.5, Lemma 3.7, author copy pp. 25–26; [KW209], §3.2.5, the definition of finite cocycles, p. 25.)
-
-<a id="t4-4"></a>
 
 ### 4.4 Normalising a vector over `𝒪[T]` inside `𝒪⟦T⟧` (KW II Lemma 3.8)
 
@@ -2729,8 +2545,6 @@ After a completion automorphism, the KW free `𝒪[[T]]`-module algebraizes to a
 *Needs:* `PowerSeries.exists_isWeierstrassFactorization` (Mathlib); `PowerSeries.isWeierstrassDivision_weierstrassDiv_weierstrassMod` (Mathlib).
 
 (Sources: [KW209], Lemma 3.8, author copy p. 30; [KW209], proof of Lemma 3.8, p. 30.)
-
-<a id="t4-5"></a>
 
 ### 4.5 The moduli of finite flat models
 
@@ -2749,31 +2563,25 @@ The construction provides the following API.
 - Over `ℚ_5` the trivial rank-one representation is realized by `ℤ/5`, whereas `μ_5` has nontrivial generic inertia character `ω`. A model must realize the specified generic representation, rather than merely have its rank.
 - Over `ℚ_5(ζ_5)`, `μ_5` and `ℤ/5` have the same trivial generic representation and are distinct models: their special fibres are respectively connected and étale. The model scheme must retain both points.
 
-*Needs:* [1.8](#t1-8); [1.2](#t1-2); [4.1](#t4-1); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [1.8](#18-moduli-of-lattices-of-bounded-e-height-and-their-image); [1.2](#12-the-functor-of-bounded-height-lattices-of-a-deformation-family); [4.1](#41-flat-deformations-and-the-flat-deformation-ring); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [KisinFlat], Corollaries (2.1.11) and (2.1.13), p. 21.)
-
-<a id="t4-6"></a>
 
 ### 4.6 The generic fibre of the flat deformation ring
 
 The crystalline weight-`{0,1}` flat scheme generic fibre is regular, with formally smooth completed local deformation rings at closed points for their maximal-ideal topology, of framed dimension `d²+Σ_ψ(d−v_ψ)v_ψ` and Schur unframed dimension `1+Σ_ψ(d−v_ψ)v_ψ`. Rank two with `v_ψ=1` gives `4+f` and `1+f`. Integral smoothness and normality need not hold.
 
-*Needs:* [4.1](#t4-1); [3.10](#t3-10); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [4.1](#41-flat-deformations-and-the-flat-deformation-ring); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [KisinFlat], Proposition (2.3.8) and Corollary (2.3.11), pp. 32–33.)
-
-<a id="t4-7"></a>
 
 ### 4.7 Unique models in small ramification
 
 For `e<p−1` the model is unique and the projective model map is an integral isomorphism onto the flat space. At `e=p−1` uniqueness can fail; the strict range contains no `p=2` case.
 
-*Needs:* [4.5](#t4-5); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`.
+*Needs:* [4.5](#45-the-moduli-of-finite-flat-models); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`.
 
 (Sources: [KisinFlat], Proposition (2.1.14), p. 22.)
-
-<a id="t4-7-1"></a>
 
 ### 4.7.1 Local models and comparison diagrams
 
@@ -2787,21 +2595,17 @@ For rank two, `v_ψ=1` and the fixed alternating pairing in the connected dyadic
 - Rank two with every `v_ψ=1` gives the balanced height-one case; the naive and flat conditions coincide.
 - In PR's `e=2` case with `r₁>r₂` the flat model includes `∧^{r₂+1}(π−ϕ₁(π))=0`. The determinant equation alone cannot replace that wedge condition; equal ranks instead use the reduced nilpotent-scheme case.
 
-*Needs:* [4.5](#t4-5); `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and 1.7; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, R07.4.
+*Needs:* [4.5](#45-the-moduli-of-finite-flat-models); `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and 1.7; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, R07.4.
 
 (Sources: [PR], Theorem 5.4 and Corollaries 5.9–5.10, arXiv v2 pp. 17, 21–22; [KisinFlat], Proposition (2.2.2) and Corollary (2.2.8), author pp. 23–28; [Kisin2adic], (2.3.5)–(2.3.13), author DVI pp. 27–30.)
-
-<a id="t4-8"></a>
 
 ### 4.8 Local structure of the resolution
 
 Pappas–Rapoport comparison gives a normal Cohen–Macaulay resolution and reduced normal uniformizer fibre with rational singularities. Stratum closure is the dual-partition Jordan inequality at each embedding. For each embedding `σ` of `K₀`, require `|v_ψ−v_ψ′|≤1` for every pair extending `σ`; if also all `v_ψ∈{0,1}` or `e≤2`, `naive=flat`. The closed-point model fibre has separate geometry.
 
-*Needs:* [4.7.1](#t4-7-1); [4.5](#t4-5).
+*Needs:* [4.7.1](#471-local-models-and-comparison-diagrams); [4.5](#45-the-moduli-of-finite-flat-models).
 
 (Sources: [KisinFlat], Proposition (2.2.2), Corollary (2.2.8) and Proposition (2.4.6), pp. 23–35.)
-
-<a id="t4-9"></a>
 
 ### 4.9 Kisin's resolution of the flat deformation ring
 
@@ -2821,61 +2625,49 @@ The construction provides the following API.
 - For that `K`, scalar residual `V_𝔽=𝔽_5²` and `v_ψ=1`, the ordinary closed model fibre is `ℙ¹_𝔽_5`, parametrizing the generic-fibre identifications by their multiplicative lines. Its six `𝔽_5`-points show why `Θ^v` can have a positive-dimensional closed fibre ([KisinFlat], Proposition (2.5.15)(2), author DVI pp. 48–49).
 - Take `p=3`, `K=ℚ₃(ζ₃,π)` with `π²=ζ₃−1`, and `E_K(u)=u⁴+3u²+3`. Over splitting coefficients write `E_K=P Q` with monic quadratic factors, and choose `v=(2,2,0,0)`, with rank 2 at the roots of `Q`. The height-one Frobenius matrix `P(u)I₂` gives a type-`v` lift, so `R^v≠0`. Its residual étale module is trivial: `P≡u²`, and a rank-one residual character trivial on `G_{K∞}` is trivial on `G_K`, since finite subextensions of `K∞/K` have 3-power degree while `k×` has order prime to 3; also `ε̄=1` on `G_K`. In the identified module with `φ(e_i)=e_i`, lattices with bases `(u e₁,u e₂)` and `(e₁,u²e₂)` have Frobenius matrices `diag(u²,u²)` and `diag(1,u⁴)`. Both satisfy the determinant polynomial law for `v` over the residual point of `R^v`: for `a=Σ_{i=0}³a_iπ^i` it reduces to `a₀⁴`. Their modules `im φ/u⁴𝔐` have Jordan types `(2,2)` and `(4)`. Only the first is dominated by the dual partition `(2,2)`; the second fails `u²=0` and is excluded from the flat resolution.
 
-*Needs:* [4.5](#t4-5); [4.6](#t4-6); [4.8](#t4-8); [3.3](#t3-3).
+*Needs:* [4.5](#45-the-moduli-of-finite-flat-models); [4.6](#46-the-generic-fibre-of-the-flat-deformation-ring); [4.8](#48-local-structure-of-the-resolution); [3.3](#33-fixing-the-p-adic-hodge-type-selects-components).
 
 (Sources: [KisinFlat], (2.4.1)–(2.4.3), Proposition (2.4.6)(3)–(4) and Proposition (2.4.8), author pp. 34–37; (2.4.2)–(2.4.3) and Proposition (2.4.6)(3), published pp. 1124–1125, for the determinant and flat point criteria; [PR], Theorem 5.4, arXiv v2 p. 17.)
-
-<a id="t4-10"></a>
 
 ### 4.10 Connected components through the special fibre
 
 The projective resolution, generic-fibre isomorphism and reduced uniformizer fibre give a bijection between generic deformation connected components and connected components of the closed-point model fibre, using properness, formal functions and algebraization.
 
-*Needs:* [4.9](#t4-9); [4.8](#t4-8); `AdicSpacesPartIII`, `F0`.8, *grothendieck-algebraization*; `SchemeAndStackFoundations`, §4.9 (The theorem on formal functions and Stein factorisation).
+*Needs:* [4.9](#49-kisins-resolution-of-the-flat-deformation-ring); [4.8](#48-local-structure-of-the-resolution); `AdicSpacesPartIII`, `F0`.8, *grothendieck-algebraization*; `SchemeAndStackFoundations`, §4.9 (The theorem on formal functions and Stein factorisation).
 
 (Sources: [KisinFlat], Corollary (2.4.10), pp. 37–38.)
-
-<a id="t4-11"></a>
 
 ### 4.11 The ordinary type of a component
 
 Maximal multiplicative rank `d_m` and maximal étale quotient rank `d_et` commute with coefficient extension and duality and are constant on closed model components. Rationally they detect unramified subrepresentations of `V(−1)` and unramified quotients of `V`. No general connectedness assertion for each pair is made.
 
-*Needs:* [4.9](#t4-9); [4.10](#t4-10); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [4.9](#49-kisins-resolution-of-the-flat-deformation-ring); [4.10](#410-connected-components-through-the-special-fibre); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [KisinFlat], Proposition (2.4.14), (2.4.15) and Conjecture (2.4.16), pp. 38–41.)
-
-<a id="t4-12"></a>
 
 ### 4.12 Connectedness of the non-ordinary locus in rank two
 
 For rank two, `v_ψ=1` and `K₀=ℚ_p`, the nonordinary closed model locus is connected. Fundamental characters belong to `K`; ramification prevents identifying them with the `ℚ_p` cyclotomic character.
 
-*Needs:* [4.11](#t4-11); [4.10](#t4-10); [4.5](#t4-5).
+*Needs:* [4.11](#411-the-ordinary-type-of-a-component); [4.10](#410-connected-components-through-the-special-fibre); [4.5](#45-the-moduli-of-finite-flat-models).
 
 (Sources: [KisinFlat], Lemmas (2.5.1), (2.5.3), (2.5.5) and Proposition (2.5.6), pp. 41–48.)
-
-<a id="t4-13"></a>
 
 ### 4.13 The ordinary locus in rank two
 
 For `v_ψ=1`, a nonempty ordinary rank-two closed locus is one point unless residual data are two unramified characters: distinct characters give two points, equal ones `ℙ¹`, with generic-fibre framing retained. Trivial data over `K⊃ζ_p` exhibit `ℙ¹`; over `ℚ_p`, odd `p`, they have no prescribed `{0,1}` lift.
 
-*Needs:* [4.11](#t4-11); [4.5](#t4-5); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`.
+*Needs:* [4.11](#411-the-ordinary-type-of-a-component); [4.5](#45-the-moduli-of-finite-flat-models); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`.
 
 (Sources: [KisinFlat], Proposition (2.5.15), pp. 48–49.)
-
-<a id="t4-14"></a>
 
 ### 4.14 Components of rank-two Barsotti–Tate deformation rings
 
 The `v_ψ=1` rank-two BT ring is flat of relative dimension `4+f` with regular scheme generic fibre; its completed local deformation rings at closed characteristic-zero points are formally smooth for their maximal-ideal topology. Ordinary status is component-constant. For `K₀=ℚ_p` nonordinary points are connected; ordinary components are distinguished by the residual cyclotomic-line character. At `e=p−1` the trivial-residual `ℙ¹` gives one ordinary component; larger `e` can permit both statuses.
 
-*Needs:* [4.6](#t4-6); [4.10](#t4-10); [4.11](#t4-11); [4.12](#t4-12); [4.13](#t4-13); [1.5](#t1-5).
+*Needs:* [4.6](#46-the-generic-fibre-of-the-flat-deformation-ring); [4.10](#410-connected-components-through-the-special-fibre); [4.11](#411-the-ordinary-type-of-a-component); [4.12](#412-connectedness-of-the-non-ordinary-locus-in-rank-two); [4.13](#413-the-ordinary-locus-in-rank-two); [1.5](#15-forgetting-the-framing-of-local-lifts).
 
 (Sources: [KisinFlat], Corollary (2.5.16), p. 49; [CN23], Lemma 5.3.4, arXiv v3 p. 77.)
-
-<a id="t4-14-1"></a>
 
 ### 4.14.1 Breuil–Kisin stack comparison and generic reducedness
 
@@ -2892,17 +2684,15 @@ For a compatible determinant, construct `BTStackComparison.fixedDeterminant`: re
 - At `p=2`, squaring unramified characters with Frobenius value in `1+𝔪` is not an isomorphism. The odd-prime fixed-determinant adapter cannot be applied there.
 - The identity of `Spec k[ε]/(ε²)` has the entire nonreduced scheme as its scheme-theoretic image, whereas the inclusion of its reduced point has ideal `(ε)`. The underlying point set does not determine the image ideal.
 
-*Needs:* [3.4](#t3-4); [4.5](#t4-5); [1.24](#t1-24); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.4.36–R07.4.39; `SchemeAndStackFoundations`, §1.21 (quotient stacks). The scheme-theoretic image of the proper stack map and its versal-ring comparison are constructed in this target.
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [4.5](#45-the-moduli-of-finite-flat-models); [1.24](#124-fixed-determinant-rings-by-twisting-the-functor-𝒳-and-the-power-map-φ_d); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.4.36–R07.4.39; `SchemeAndStackFoundations`, §1.21 (quotient stacks). The scheme-theoretic image of the proper stack map and its versal-ring comparison are constructed in this target.
 
 (Sources: [CEGS], Theorem 1.3 and the versal-ring comparison in the introduction, arXiv v2 p. 4; [CN23], Lemma 5.3.3, arXiv v3 pp. 76–77.)
-
-<a id="t4-15"></a>
 
 ### 4.15 Unique generalisation of generic points for Barsotti–Tate rings
 
 For odd `p`, trivial inertia type, determinant `ε⁻¹` and BT weights `{0,−1}` here, each uniformizer-fibre generic point has a unique generic generalisation. For trivial residual data and local residue field `≠ℱ_p`, the nonzero ring has exactly ordinary and nonordinary components. This uses potentially BT generic reducedness from the Emerton–Gee interface.
 
-*Needs:* [4.14.1](#t4-14-1); [4.14](#t4-14); [4.6](#t4-6); [3.14](#t3-14).
+*Needs:* [4.14.1](#4141-breuilkisin-stack-comparison-and-generic-reducedness); [4.14](#414-components-of-rank-two-barsottitate-deformation-rings); [4.6](#46-the-generic-fibre-of-the-flat-deformation-ring); [3.14](#314-fixed-determinant-crystalline-and-ordinary-rings-as-power-series-quotients).
 
 (Sources: [CN23], Lemma 5.3.3, arXiv v3 pp. 76–77; [CN23], Lemma 5.3.4, arXiv v3 p. 77; [CEGS], Theorem 1.3, arXiv v2 p. 4.)
 
@@ -2919,8 +2709,6 @@ Uses Layers 1 and 3, finite-flat/Breuil–Kisin realization, Grassmannian repres
 ## Layer 5: Dyadic and endpoint-weight conditions
 
 At `p=2`, connected modules and determinant normalization require their own arguments. The endpoint-weight branches also retain the irreducible and ordinarity hypotheses of their classification theorems. The comparisons refer to the same local rings built above.
-
-<a id="t5-1"></a>
 
 ### 5.1 Deformation groupoids of connected Kisin modules with coefficients
 
@@ -2941,11 +2729,9 @@ The construction provides the following API.
 - `φ(e)=pE(u)/E(0)e` is étale since `p/E(0)` is a unit, so it is outside `D^c`. Its `φ`-invariants have character `χ⁻¹`; the prescribed (1)-twist realizes the trivial étale group.
 - At `p=2` an étale rank-one module is outside `D^c` but has a finite-flat étale model.
 
-*Needs:* [4.5](#t4-5); [1.2](#t1-2); [1.1](#t1-1); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.39; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.23; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [4.5](#45-the-moduli-of-finite-flat-models); [1.2](#12-the-functor-of-bounded-height-lattices-of-a-deformation-family); [1.1](#11-the-local-framed-deformation-ring); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.39; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.23; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [Kisin2adic], §2.1, (2.1.1)–(2.1.7), pp. 19–21 (DVI).)
-
-<a id="t5-2"></a>
 
 ### 5.2 Ordinary deformation rings of rank two at `p = 2`
 
@@ -2957,51 +2743,41 @@ Let `K/ℚ_2` be finite and `χ=ε`. Unit-class Kummer `H¹_f` is right exact on
 - Over `K=ℚ₂`, let `η` be unramified with `η(Frob)=ζ₃` and take residue coefficients `𝔽₄`. The lifts `diag(εη,η⁻¹)` and `diag(εη⁻¹,η)` have determinant `ε` and the same split residual semisimplification, but their residual unramified quotients are distinct. This is the split-distinct exception to the domain assertion.
 - For `K=ℚ₂`, `𝒪=ℤ₂`, `k=𝔽₂`, the natural representation of `Gal(ℚ₂(ζ₃,∛2)/ℚ₂)≅S₃≅GL₂(𝔽₂)` has inertia matrix `T=[[0,1],[1,1]]` and Frobenius `F=[[0,1],[1,0]]`, with `FTF⁻¹=T²`. It has determinant `1=ε̄` and is absolutely irreducible: Frobenius exchanges the two inertia eigenlines over `𝔽₄`. A stable characteristic-zero ordinary line, after finite coefficient extension, intersects a stable integral lattice in a saturated rank-one sublattice and would reduce to a stable residual line. Thus the ordinary quotient is zero, despite compatible determinant, and has no generic component of dimension four.
 
-*Needs:* [F.2.9](#fixed-determinant-rings); [1.1](#t1-1); [4.11](#t4-11); [4.3](#t4-3).
+*Needs:* [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); [1.1](#11-the-local-framed-deformation-ring); [4.11](#411-the-ordinary-type-of-a-component); [4.3](#43-finite-cocycles-via-kummer-theory-over-fnr-kw-ii-lemma-37).
 
 (Sources: [Kisin2adic], §2.4, (2.4.1)–(2.4.6), pp. 30–33 (DVI), including the empty closed fibre in the proof of Corollary (2.4.5), p. 33.)
-
-<a id="t5-3"></a>
 
 ### 5.3 Kisin's rings away from 2 and at `∞` against Layers 1–2
 
 Compare with existing rings: away-from-`p` fixed-character Steinberg generic dimension three, unramified fixed-determinant relative dimension three, unrestricted generic dimension three and tangent dimension `3+h²`. The dyadic odd-real equations are `X²+2X+YZ` and `X²+2X+YZ+Z`, at identity and nonidentity residual involutions.
 
-*Needs:* [2.5](#t2-5); [2.2](#t2-2); [2.4](#t2-4); [1.14](#t1-14).
+*Needs:* [2.5](#25-steinberg-unipotent-monodromy-lifts); [2.2](#22-unramified-lifts); [2.4](#24-structure-of-unrestricted-lifting-rings-away-from-p); [1.14](#114-the-odd-archimedean-deformation-ring-at-p--2).
 
 (Sources: [Kisin2adic], §2.5, Propositions 2.5.2–2.5.6, pp. 33–35 (DVI).)
 
-<a id="t5-4"></a>
-
 ### 5.4 Crystalline lifts of weight `k ≤ p` are ordinary when the residual representation is
 
-For unramified `F/ℚ_p`, ordinary residual rank two and weights `{0,k−1}`, `2≤k≤p`, every crystalline lift is ordinary. The endpoint `k=p` requires [0.3](#t0-3)’s ordinarity criterion and R07.4 endpoint classification beyond the fully faithful small-weight range.
+For unramified `F/ℚ_p`, ordinary residual rank two and weights `{0,k−1}`, `2≤k≤p`, every crystalline lift is ordinary. The endpoint `k=p` requires [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints)’s ordinarity criterion and R07.4 endpoint classification beyond the fully faithful small-weight range.
 
-*Needs:* [0.3](#t0-3).
+*Needs:* [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints).
 
 (Sources: [KW209], Lemma 3.`5 (i)` and its proof, author copy p. 22; [KW209], proof of Lemma 3.5, p. 22.)
-
-<a id="t5-5"></a>
 
 ### 5.5 Crystalline lifts of weight `p + 1`: ordinarity and formal smoothness
 
 For odd `p`, `F=ℚ_p` and Serre weight `p+1`, Berger–Li–Zhu gives ordinary crystalline lifts and a fixed-determinant framed ring `𝒪[[X₁,…,X₄]]`. Its stable-line character map is not smooth. For general unramified `F`, only the separate ordinary ring calculation gives relative dimension `3+f`.
 
-*Needs:* [4.3](#t4-3); [0.3](#t0-3); [1.10](#t1-10); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [4.3](#43-finite-cocycles-via-kummer-theory-over-fnr-kw-ii-lemma-37); [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); [1.10](#110-fixing-the-determinant-of-local-lifts); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [KW209], §3.2.7, author copy p. 31; [KW209], §3.2.7, p. 31; [KW209], Remark after §3.2.7, p. 32.)
-
-<a id="t5-6"></a>
 
 ### 5.6 Semistable weight-two lifts at `p`: the resolution and the dyadic homothety case
 
 For unramified `F_v` and residual (`γ̄χ̄_p`,*;0,`γ̄`), choose unramified `γ` with `γ²χ_p` equal to the determinant. The stable-line resolution is a rank-`(2+f)` cocycle torsor over the relevant `ℙ¹` completion, and an isomorphism unless `p=2` with residual homotheties. In that case complete along all special `ℙ¹`.
 
-*Needs:* [4.3](#t4-3); [F.2.9](#fixed-determinant-rings); `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7.
+*Needs:* [4.3](#43-finite-cocycles-via-kummer-theory-over-fnr-kw-ii-lemma-37); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); `AlgebraicModuliForArithmeticGeometry`, §§1.3–1.4 and §1.7.
 
 (Sources: [KW209], §3.2.6, author copy p. 30; [KW209], §3.2.6, p. 30.)
-
-<a id="t5-7"></a>
 
 ### 5.7 Minimal lifts in the dihedral and exceptional cases (`p = 2` and residue characteristic 2)
 
@@ -3013,7 +2789,7 @@ The construction provides the following API.
 - `DyadicMinimal.restrict_inertia`: `ρ₀|I_v` is independent of `δ` (case `(a)`).
 - `DyadicMinimal.det_inertia`: `det ρ₀|I_v` is the Teichmüller lift of `det ρ̄_v|I_v`.
 - `DyadicMinimal.conductor`: `a(ρ₀) = a(ρ̄_v)`.
-- `DyadicMinimal.problem`: Minimal lifts: the inertia-rigid problem attached to `ρ₀` ([F.4.12](#inertia-rigid-deformations)).
+- `DyadicMinimal.problem`: Minimal lifts: the inertia-rigid problem attached to `ρ₀` ([F.4.12](#f412-inertia-rigid-deformation-rings)).
 
 **Checks.**
 
@@ -3022,41 +2798,33 @@ The construction provides the following API.
 - `q = 2`, `p = 3`, `G ≅ A₄`: `ρ₀` has projective image `S₄ ⊂ PGL₂(ℤ₃)` or its subgroup `A₄`.
 - Prime-to-`p` inertia has a unique rigid lift up to conjugacy; extending to `G_K` involves an unramified twist and gives relative dimension three.
 
-*Needs:* [2.3](#t2-3); [F.4.12](#inertia-rigid-deformations); [F.2.9](#fixed-determinant-rings).
+*Needs:* [2.3](#23-minimally-ramified-lifts); [F.4.12](#f412-inertia-rigid-deformation-rings); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant).
 
 (Sources: [KW209], §3.3.1, author copy p. 33; [KW109], §5, the definition of minimal lifts, p. 8.)
-
-<a id="t5-8"></a>
 
 ### 5.8 Étale quotients, multiplicative parts and connectedness
 
 Maximal étale quotient and multiplicative subobject, including its Kisin-module quotient, commute with admissible coefficient changes. Zero étale quotient characterizes the open-and-closed connected subgroupoid. For `p>2` the full finite-flat equivalence includes nonconnected objects.
 
-*Needs:* [5.1](#t5-1).
+*Needs:* [5.1](#51-deformation-groupoids-of-connected-kisin-modules-with-coefficients).
 
 (Sources: [Kisin2adic], §2.1, Lemmas 2.1.8–2.1.9 and Proposition 2.1.10, p. 21 (DVI).)
-
-<a id="t5-9"></a>
 
 ### 5.9 Twists of semistable deformations away from `p`
 
 Away from `p` and residual (`γ̄χ̄_p`,*;0,`γ̄`), fix `γ` Teichmüller on inertia and `γ²χ_p` equal to the determinant. The extension resolution has cocycle rank two: finite `A` give `|Z¹(A(χ_p))|=|A|²`. Ramified data preserve conductor; `p=2` includes projectively cyclic order-two inertia.
 
-*Needs:* [5.6](#t5-6); [4.3](#t4-3); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [5.6](#56-semistable-weight-two-lifts-at-p-the-resolution-and-the-dyadic-homothety-case); [4.3](#43-finite-cocycles-via-kummer-theory-over-fnr-kw-ii-lemma-37); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [KW209], §3.3.4, author copy pp. 36–37.)
-
-<a id="t5-10"></a>
 
 ### 5.10 Moduli of connected finite flat models
 
 Over each complete local deformation family, the Kisin-to-étale forgetful map is relatively represented by a projective scheme and is a generic-fibre closed immersion. Connected models form an open-and-closed subscheme.
 
-*Needs:* [5.8](#t5-8); [1.8](#t1-8).
+*Needs:* [5.8](#58-étale-quotients-multiplicative-parts-and-connectedness); [1.8](#18-moduli-of-lattices-of-bounded-e-height-and-their-image).
 
 (Sources: [Kisin2adic], §2.1, Proposition 2.1.12, p. 22 (DVI).)
-
-<a id="t5-11"></a>
 
 ### 5.11 Rank-two Kisin modules of type `v` and their determinant
 
@@ -3068,37 +2836,31 @@ The rank-two maximal-isotropic condition modulo `E(u)` forces `det H=(pE(u)/E(0)
 - A unit with `w(0)=1` is a Frobenius coboundary, so changing the determinant basis removes it and gives the exact normalized determinant.
 - Over `(W(𝔽₄)/4)[[u]]`, choose Teichmüller `a` with `a²+a+1=0` and put `c=1+2a`. The strict change `B=diag(c,1)` has `φ(c)/c=3 mod 4`; it changes a displayed `w(0)=1` to 3 while preserving the object and the existence of a normalized basis.
 
-*Needs:* [5.1](#t5-1); [5.8](#t5-8); [4.9](#t4-9).
+*Needs:* [5.1](#51-deformation-groupoids-of-connected-kisin-modules-with-coefficients); [5.8](#58-étale-quotients-multiplicative-parts-and-connectedness); [4.9](#49-kisins-resolution-of-the-flat-deformation-ring).
 
 (Sources: [Kisin2adic], §2.3, (2.3.1) and Lemmas 2.3.2–2.3.4, pp. 25–27 (DVI).)
-
-<a id="t5-12"></a>
 
 ### 5.12 Flat connected deformation rings at `p = 2`
 
 Finite-flat and flat-connected Galois subgroupoids are relatively closed representable. For a flat family, its connected quotient is open in the flat generic fibre. Formal smoothness over the connected groupoid gives a regular scheme generic fibre with formally smooth completed local deformation rings at closed points for their maximal-ideal topology and identifies the connected Kisin model map after inverting `p`.
 
-*Needs:* [5.10](#t5-10); [4.1](#t4-1); [4.6](#t4-6); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [5.10](#510-moduli-of-connected-finite-flat-models); [4.1](#41-flat-deformations-and-the-flat-deformation-ring); [4.6](#46-the-generic-fibre-of-the-flat-deformation-ring); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [Kisin2adic], §2.2, (2.2.1)–(2.2.7), pp. 22–24 (DVI).)
-
-<a id="t5-13"></a>
 
 ### 5.13 Components of 2-adic Barsotti–Tate deformation rings
 
 For a smooth flat-connected rank-two family of cyclotomic determinant, Deligne–Pappas comparison gives normal local-complete-intersection type-`v` models with geometrically reduced special fibre and regular scheme generic fibre. The completed local deformation rings at closed characteristic-zero points are formally smooth for their maximal-ideal topology. The closed model and generic deformation fibres are geometrically connected if `K₀=ℚ_p` or residual action is trivial. Fixed unramified `ψχ` gives framed generic dimension `3+f`, including `p=2` by rational twisting.
 
-*Needs:* [4.7.1](#t4-7-1); [5.11](#t5-11); [5.12](#t5-12); [4.8](#t4-8); [4.14](#t4-14); [F.2.9](#fixed-determinant-rings); [1.24](#t1-24).
+*Needs:* [4.7.1](#471-local-models-and-comparison-diagrams); [5.11](#511-rank-two-kisin-modules-of-type-v-and-their-determinant); [5.12](#512-flat-connected-deformation-rings-at-p--2); [4.8](#48-local-structure-of-the-resolution); [4.14](#414-components-of-rank-two-barsottitate-deformation-rings); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); [1.24](#124-fixed-determinant-rings-by-twisting-the-functor-𝒳-and-the-power-map-φ_d).
 
 (Sources: [Kisin2adic], §2.3, (2.3.5)–(2.3.13), pp. 27–30 (DVI).)
-
-<a id="t5-14"></a>
 
 ### 5.14 Endpoint-weight local rings for KW `I` Theorem 4.1
 
 KW `I` Theorem 4.1 uses dyadic crystalline/semistable weight two, odd-`p` weights `2≤k≤p+1` with separate small-range and endpoint branches, and tame potentially semistable weight-two types. These framed fixed-determinant rings over `ℚ_p` have relative dimension four and regular generic fibre. For odd `p` and irreducible residual Serre-weight-two data, `RankTwoNonordinaryEndpoint.exists` of 0.3 supplies the nonordinary crystalline weight-`(p+1)` point with compatible determinant after coefficient extension. Target 3.10 then gives the nonempty regular four-dimensional framed fixed-determinant scheme generic fibre, with formally smooth completed local deformation rings at closed points for their maximal-ideal topology.
 
-*Needs:* [0.3](#t0-3); [3.10](#t3-10); [5.12](#t5-12); [5.13](#t5-13); [5.6](#t5-6); [5.4](#t5-4); [5.5](#t5-5); [3.4](#t3-4); [4.2](#t4-2); [5.2](#t5-2).
+*Needs:* [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems); [5.12](#512-flat-connected-deformation-rings-at-p--2); [5.13](#513-components-of-2-adic-barsottitate-deformation-rings); [5.6](#56-semistable-weight-two-lifts-at-p-the-resolution-and-the-dyadic-homothety-case); [5.4](#54-crystalline-lifts-of-weight-k--p-are-ordinary-when-the-residual-representation-is); [5.5](#55-crystalline-lifts-of-weight-p--1-ordinarity-and-formal-smoothness); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [4.2](#42-savitts-weight-two-deformation-rings-of-tame-type); [5.2](#52-ordinary-deformation-rings-of-rank-two-at-p--2).
 
 (Sources: [KW109], Theorem 4.1, author copy p. 7; [KW109], Theorem 4.1 (1), p. 7.)
 
@@ -3116,27 +2878,21 @@ Uses Layers 1, 3 and 4, the full dyadic height-one classification, its connected
 
 Construct ordinary flags before their images, and characterize weight and multiplier before discussing components. This layer also provides component connections, `GL₃` shape coordinates and explicit special-fibre primes. The detailed chart equations below fix the conventions for their labels.
 
-<a id="t6-1"></a>
-
 ### 6.1 Local structure of the ordinary flag scheme at characteristic-zero points
 
 At a closed flagged point, completion represents pair deformations `(ρ_x,Fil_x)`. An adapted basis gives a Borel lifting ring plus `d(d−1)/2` flag variables. For `𝔟=Fil⁰ad V_x` the presentation has `z=fd(d+1)/2+d²+h²(𝔟)` variables and at most `h²` relations. Components have dimension `≥fd(d+1)/2+d²`. Excluded cyclotomic character ratios, or uniqueness of every stable flag step, give `H²=0` and smooth equality.
 
-*Needs:* [1.9](#t1-9); [1.1](#t1-1); [1.18](#t1-18); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v); [1.1](#11-the-local-framed-deformation-ring); [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [Geraghty], Lemma 3.7 (preprint Lemma 3.2.3, p. 35), with Lemma 3.5 and Corollary 3.6 (preprint Lemma 3.2.1, p. 33; Corollary 3.2.2, p. 35); [THORNE15], proof of Proposition 3.14, p. 17 (accepted manuscript).)
-
-<a id="t6-2"></a>
 
 ### 6.2 Nearly ordinary rings of a `p`-distinguished split residual representation
 
 For odd `p`, fixed determinant `χ̃` and split distinguished residual `χ⊕1` with `χ≠1`, construct versal unrestricted and nearly ordinary deformations. Write `f=[K:ℚ_p]` and `ω` for the local mod-`p` cyclotomic character. The nearly ordinary versal ring has `2f+2` variables and one relation if `χ=ω` or `ω=1`, and `2f+1` variables otherwise. The kernel in the unrestricted versal ring has `f+ε` generators: `ε=2` if `χ=ω=χ⁻¹`; `ε=1` if `ω=1`, or `χ=ω≠χ⁻¹`, or `χ≠ω=χ⁻¹`; `ε=0` otherwise. The character comparisons are local, and these are versal rings, not an asserted universal unframed ring for split data.
 
-*Needs:* [1.1](#t1-1); [1.4](#t1-4); [F.0.2](#minimal-relative-presentations); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [SkinnerWiles], §2.1, Lemma 2.2, p. 11; [SkinnerWiles], §2.1, Corollary 2.3, p. 13.)
-
-<a id="t6-3"></a>
 
 ### 6.3 Ordinary deformations with fixed inertial characters on a full flag (CHT §2.4.2)
 
@@ -3163,13 +2919,11 @@ The construction provides the following API.
 - For `n = 1`, `𝒟_v` is the lifts with inertial character `χ_{v,0}`.
 - For `n=2` write `ρ̄=(χ̄₁ *;0 χ̄₀)` with `χ̄₁/χ̄₀ ≠ 1`,`ω`. The decreasing filtration has `Fil¹` equal to the unique line carrying the prescribed `χ̄₁`; its quotient carries `χ̄₀`.
 - Over `ℚ_l`, `l>3`, residual `ω` on the subline and 1 on the quotient has `H²(k(ω))≠0`. It satisfies CHT's printed (2) but fails the corrected (2′) and smoothness.
-- The lifts in `𝒟_v` are the lifts that admit `a` (unique, by Lemma 2.4.6) point of [1.9](#t1-9) over the point of `Λ_v` given by `χ_j^univ ↦ χ_{v,n−j}|_I`.
+- The lifts in `𝒟_v` are the lifts that admit `a` (unique, by Lemma 2.4.6) point of [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v) over the point of `Λ_v` given by `χ_j^univ ↦ χ_{v,n−j}|_I`.
 
-*Needs:* [1.1](#t1-1); [1.9](#t1-9).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v).
 
 (Sources: [CHT08], §2.4.2, the characters `χ_{v,i}`, p. 37; [CHT08], §2.4.2, `𝒟_v` and Lemma 2.4.6, p. 38.)
-
-<a id="t6-4"></a>
 
 ### 6.4 Discrete series deformations away from `l` (CHT §2.4.5)
 
@@ -3192,11 +2946,9 @@ The construction provides the following API.
 - `m=1`, `r=d=2` with `r̃_v` induced from the unramified quadratic extension (a supercuspidal type).
 - For `K=ℚ₃`, `p=5`, `k=𝔽₅`, `r̃=1` and `d=m=2`, the reference twists have Frobenius values 3 and 4, so twist separation holds. But `ρ̄=1⊕1` has only trivial subquotients and cannot have `gr¹≅gr⁰(1)`. Its condition is empty and has no `discreteSeriesDeformation`.
 
-*Needs:* [1.1](#t1-1); [2.5](#t2-5).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [2.5](#25-steinberg-unipotent-monodromy-lifts).
 
 (Sources: [CHT08], §2.4.5, the set-up, p. 47, Definition 2.4.24 and Lemma 2.4.25, p. 49, Lemma 2.4.26, p. 50, and the standing residual hypothesis preceding Lemma 2.4.27, p. 51.)
-
-<a id="t6-5"></a>
 
 ### 6.5 The `G`-valued ordinary flag scheme and the ordinary quotient `R^{△λ}`
 
@@ -3209,31 +2961,27 @@ The construction provides the following API.
 - `gOrdinaryFlagScheme.proper`: `𝒢_λ → Spec R^{□,v_λ}_ρ̄` is proper.
 - `gOrdinaryRing`: `R^{△λ}_ρ̄`, the scheme-theoretic image of `𝒢_λ[1/p]`.
 - `gOrdinaryRing_points`: Point criterion (3).
-- `gOrdinaryRing.gl`: For `G = GL_n`, `R^{△λ}_ρ̄` is the weight-`λ` specialisation of [1.9](#t1-9)'s image ring, intersected with the Hodge type `v_λ`.
+- `gOrdinaryRing.gl`: For `G = GL_n`, `R^{△λ}_ρ̄` is the weight-`λ` specialisation of [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v)'s image ring, intersected with the Hodge type `v_λ`.
 - `gOrdinaryFlagScheme.points`: Incidence points are lifts with Borel reductions satisfying root and torus equations; both pull back under coefficient maps, even for rootless `G`.
 
 **Checks.**
 
-- `G = GL₁`: `R^{△λ}_ρ̄ = R_ρ̄/(ρ(σ) − χ_λ(σ) : σ ∈ I_{F′_v})` up to the `p`-torsion-free generic fibre ([1.19](#t1-19)).
+- `G = GL₁`: `R^{△λ}_ρ̄ = R_ρ̄/(ρ(σ) − χ_λ(σ) : σ ∈ I_{F′_v})` up to the `p`-torsion-free generic fibre ([1.19](#119-the-universal-deformation-ring-of-a-character)).
 - For `GL₁` over `ℚ_p` with `λ=0` and `F′_v=F_v`, a nontrivial finite ramified character fails the condition, although every torus-valued representation is contained in a Borel. The equation `ρ|_I=χ_λ=1` cannot be omitted.
 - For `GL₂` over `ℚ_p` and cocharacter `(1,0)`, (`ψ₁ε`,*;0,`ψ₂`) is semistable over `F′_v`; a Tate-curve extension can have `N≠0`.
 - For `GL_d` and `F′_v=F_v`, apply the displayed cocharacter/highest-weight dictionary to recover the semistable-ordinary quotient's points.
 
-*Needs:* [1.21](#t1-21); [3.11](#t3-11); [1.17](#t1-17); [0.3](#t0-3); [1.9](#t1-9).
+*Needs:* [1.21](#121-g-valued-ordinary-representations-of-weight-λ); [3.11](#311-g-valued-potentially-semistable-lifting-rings-balaji-bellovingee); [1.17](#117-g-valued-framed-deformation-rings); [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v).
 
 (Sources: [FKP22], Lemma `B`.3, arXiv v5 p. 53; [FKP22], Lemma `B`.4 (1), arXiv v5 p. 54.)
-
-<a id="t6-6"></a>
 
 ### 6.6 The two-dimensional ordinary ring of the trivial representation (Snowden)
 
 For odd `p`, trivial rank-two residual data and `μ_p⊂K`, the fixed-determinant `ε⁻¹` semistable-ordinary weight-zero ring has integral dimension `[K:ℚ_p]+4` and exactly two components: crystalline and the extension component shaped (1,*;0,`ε⁻¹`). Each special-fibre generic point has a unique generic generalisation. Twisting by `ε` compares it with Snowden's ring. The `μ_p` hypothesis excludes `K=ℚ_p` for odd `p`.
 
-*Needs:* [3.13](#t3-13); [3.14](#t3-14); [0.3](#t0-3).
+*Needs:* [3.13](#313-semistable-ordinary-quotients-of-semistable-lifting-rings); [3.14](#314-fixed-determinant-crystalline-and-ordinary-rings-as-power-series-quotients); [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints).
 
 (Sources: [CN23], Proposition 5.3.2, arXiv v3 pp. 75–76.)
-
-<a id="t6-7"></a>
 
 ### 6.7 The ordinary ring with a Frobenius eigenvalue for trivial `ρ̄|G_p` (Calegari–Geraghty `R̃†`)
 
@@ -3270,11 +3018,9 @@ The construction provides the following API.
 - `R† ≠ R̃†`: the ring with an eigenvalue is not the image ring; their difference is measured by `J`.
 - `α + α^{-1} = 2 + φ₁ + φ₄` in `R̃†`.
 
-*Needs:* [1.9](#t1-9); [3.13](#t3-13); [1.10](#t1-10).
+*Needs:* [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v); [3.13](#313-semistable-ordinary-quotients-of-semistable-lifting-rings); [1.10](#110-fixing-the-determinant-of-local-lifts).
 
 (Sources: [CG18], proof of Lemma 3.22, published pp. 336–337; [CG18], Definition 3.20, published p. 335; [CG18], Definition 3.21, published p. 335.)
-
-<a id="t6-8"></a>
 
 ### 6.8 The relation "connects" between potentially crystalline lifts
 
@@ -3294,15 +3040,13 @@ The construction provides the following API.
 **Checks.**
 
 - `n = 1`: `ψ₁ ∼ ψ₂` iff `ψ̄₁ = ψ̄₂` and `HT(ψ₁) = HT(ψ₂)` (crystalline characters).
-- Two ordinary crystalline weight-0 lifts of the trivial representation connect ([6.25](#t6-25)).
+- Two ordinary crystalline weight-0 lifts of the trivial representation connect ([6.25](#625-connectedness-results-for-crystalline-weight-zero-lifts)).
 - Lifts with different labelled Hodge–Tate weights never connect, even if their reductions agree.
 - `ρ₁ ∼ ρ₂` implies `ρ₁|G_{K′} ∼ ρ₂|G_{K′}`.
 
-*Needs:* [3.4](#t3-4); [3.10](#t3-10); [3.7](#t3-7); [2.24](#t2-24).
+*Needs:* [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems); [3.7](#37-potentially-semistable-rings-under-change-of-coefficients); [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components).
 
 (Sources: [BLGGT14], §1.3, p. 21, and §1.4, p. 26, arXiv `v4`.)
-
-<a id="t6-9"></a>
 
 ### 6.9 `GL₃` eigenbasis charts and shapes of Kisin modules with tame descent
 
@@ -3332,11 +3076,9 @@ The construction provides the following API.
 - Rank one over `ℤ_p`: `v+p` is not a unit of `ℤ_p[[v]][1/v]`, since convergent evaluation at `v=−p` maps that ring to `ℚ_p` and kills `v+p`. Modulo `p^n` its inverse is `Σ_{i=0}^{n−1}(−p)^i v^{−i−1}`. These inverses are compatible and give a unit in the `p`-adic completed étale ring; their unbounded negative exponents exclude an ordinary Laurent-series inverse over `ℤ_p`.
 - A coefficient map preserves each finite geometric inverse above and hence the inverse-limit unit. Reduction to `k′` gives `v`, whose residual matrix shape uses the usual `k′((v))`.
 
-*Needs:* [1.2](#t1-2); [1.8](#t1-8); [3.1](#t3-1); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.2; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
+*Needs:* [1.2](#12-the-functor-of-bounded-height-lattices-of-a-deformation-family); [1.8](#18-moduli-of-lattices-of-bounded-e-height-and-their-image); [3.1](#31-p-adic-hodge-types-and-galois-types); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.2; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.4.36; `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`.
 
 (Sources: [LLHLM20], Definition 3.1.3, published p. 27; §3.2 and Proposition 3.2.1, arXiv v4 pp. 22–23; Definition 3.3.1, published p. 31. The height and eigenbasis matrices are LLHLM18 Definitions 2.3 and 2.11, Propositions 2.13 and 2.15, arXiv pp. 11, 14–15.)
-
-<a id="t6-10"></a>
 
 ### 6.10 Unipotent lifting rings with monodromy bounded by a partition (Clozel–Thorne `R^m_v`)
 
@@ -3353,17 +3095,15 @@ The construction provides the following API.
 
 **Checks.**
 
-- `m = (n)` gives `R^St_v` of [2.5](#t2-5).
+- `m = (n)` gives `R^St_v` of [2.5](#25-steinberg-unipotent-monodromy-lifts).
 - `m = (1, …, 1)` gives the maximal reduced `𝒪`-flat quotient of `R^1_v`.
 - For `q=11`, `p=5` and trivial residual rank two, `Φ=I` and `σ=I` satisfy the `(1,1)` condition but not the characteristic-zero (2) condition: `44≠144`. The reduced flat unipotent ring surjects onto the Steinberg ring.
 - `R^m_v` for `m = (2, 1)` is not the ring of lifts with scalar inertial semisimplification: it also constrains the Frobenius eigenvalues to contain a chain `α`, `q_vα`.
 - `{1,q,q²,b}` for generic `b` has chains `(3,1)` but cannot be grouped as `(2,2)`, despite partition dominance.
 
-*Needs:* [2.5](#t2-5); [2.15](#t2-15); [F.3.1](#local-deformation-problem).
+*Needs:* [2.5](#25-steinberg-unipotent-monodromy-lifts); [2.15](#215-components-for-ihara-avoidance); [F.3.1](#f31-local-deformation-problems).
 
 (Sources: [CT17], §5.1, item 5, accepted manuscript p. 39.)
-
-<a id="t6-11"></a>
 
 ### 6.11 Torsion crystalline representations with Hodge–Tate weights in `[a, b]`
 
@@ -3385,31 +3125,25 @@ The construction provides the following API.
 - At width `p−1` integral Fontaine–Laffaille full faithfulness can fail; crystalline lattice-subquotient closure still holds.
 - A `Γ`-stable lattice in a crystalline representation is crystalline in the sense of (2).
 
-*Needs:* [1.6](#t1-6); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17.
+*Needs:* [1.6](#16-the-fontainelaffaille-deformation-condition); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.3.12; `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.12–R07.3.17.
 
 (Sources: [LTXZZ], Definition 2.2.4, published pp. 124–125.)
-
-<a id="t6-12"></a>
 
 ### 6.12 Geraghty's fixed-weight ordinary rings: components, connected fibres and irreducibility
 
 For dominant `λ`, the flag image in the semistable or crystalline Hodge ring has exactly the ordinary weight-`λ` finite-local-`E`-algebra points and is a union of ambient components. For trivial residual data, variable-weight characteristic-zero fibres are connected and every nonzero fixed-weight ordinary crystalline ring is irreducible.
 
-*Needs:* [1.9](#t1-9); [6.1](#t6-1); [1.7](#t1-7); [3.4](#t3-4); [3.9](#t3-9); [3.10](#t3-10).
+*Needs:* [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v); [6.1](#61-local-structure-of-the-ordinary-flag-scheme-at-characteristic-zero-points); [1.7](#17-ordinary-representations-of-weight-λ); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); [3.9](#39-dimension-and-generic-regularity-of-potentially-semistable-rings); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems).
 
 (Sources: [Geraghty], Lemma 3.10 (preprint Lemma 3.3.3, p. 37); [Geraghty], Lemmas 3.13–3.14 (preprint Lemmas 3.4.2–3.4.3, pp. 38–39).)
-
-<a id="t6-13"></a>
 
 ### 6.13 Ordinary deformations with fixed inertial characters are formally smooth (CHT Lemmas 2.4.7–2.4.8)
 
 Under that decreasing-filtration ratio hypothesis, every lift across a small extension exists. The fixed-inertia framed ring is formally smooth of relative dimension `d²+fd(d−1)/2`, and `dim L−h⁰(ad ρ̄)=fd(d−1)/2`. The same count occurs for regular Fontaine–Laffaille deformations, but the two conditions are defined by different functors.
 
-*Needs:* [6.3](#t6-3); [1.1](#t1-1); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [6.3](#63-ordinary-deformations-with-fixed-inertial-characters-on-a-full-flag-cht-242); [1.1](#11-the-local-framed-deformation-ring); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [CHT08], §2.4.2, proof of Lemma 2.4.7, p. 39; [CHT08], §2.4.2, proof of Lemma 2.4.8, p. 40.)
-
-<a id="t6-14"></a>
 
 ### 6.14 The Siegel-ordinary `GSp₄` condition at `p` with fixed multiplier (Calegari–Geraghty)
 
@@ -3421,7 +3155,7 @@ The construction provides the following API.
 - `GSp4.SiegelOrdinary.plane`: The stable unramified Lagrangian plane of a lift in the condition.
 - `GSp4.SiegelOrdinary.plane_unique`: Under the genericity condition the plane is unique and lifts the residual one.
 - `GSp4.SiegelOrdinary.tangent`: The tangent space of the condition is `L_p ⊂ H¹(G_p, ad⁰r̄)`.
-- `GSp4.SiegelOrdinary.isOrdinary`: Every lift in the condition is `G`-ordinary of the corresponding (non-regular) weight in the sense of [1.21](#t1-21) with the Siegel parabolic.
+- `GSp4.SiegelOrdinary.isOrdinary`: Every lift in the condition is `G`-ordinary of the corresponding (non-regular) weight in the sense of [1.21](#121-g-valued-ordinary-representations-of-weight-λ) with the Siegel parabolic.
 - `SiegelOrdinary.baseChange`: Coefficient maps preserve the stable unramified Lagrangian plane and multiplier; uniqueness identifies the pulled-back plane.
 
 **Checks.**
@@ -3431,11 +3165,9 @@ The construction provides the following API.
 - For `R = k` the condition is the residual shape itself.
 - Every lift in the condition has multiplier `ε^{−(a−1)}`: `(χ_αψ^{-1})(ε^{−(a−1)}χ_α^{-1}ψ) = ε^{−(a−1)}`.
 
-*Needs:* [1.17](#t1-17); [1.7](#t1-7); [6.3](#t6-3).
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.7](#17-ordinary-representations-of-weight-λ); [6.3](#63-ordinary-deformations-with-fixed-inertial-characters-on-a-full-flag-cht-242).
 
 (Sources: [CG20], Definition 4.6 (6), published p. 815; [CG20], §4, the definition of `L′_p`, published p. 816.)
-
-<a id="t6-15"></a>
 
 ### 6.15 The `GL₂` ordinary ring `R^{B₂}`: irreducible generic fibre and explicit presentations
 
@@ -3458,11 +3190,9 @@ In the third row `[c_η:d_η]` depends only on `η` and `c_η=0` exactly for peu
 - In the third row the nonzero linear term makes the chart smooth over `𝒪`, while the peu-ramifiée case still fails smoothness over `Λ`.
 - At the residual origin in the last row the special-fibre tangent dimension is five and its dimension is four; its quadratic initial relation prevents formal smoothness.
 
-*Needs:* [6.3](#t6-3); [1.19](#t1-19); [1.18](#t1-18); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* [6.3](#63-ordinary-deformations-with-fixed-inertial-characters-on-a-full-flag-cht-242); [1.19](#119-the-universal-deformation-ring-of-a-character); [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
 (Sources: [BCGP21], Lemma 7.3.6, arXiv v3 p. 174; Lemma 7.3.7(1)–(4), p. 177; Lemma 7.3.9, p. 179.)
-
-<a id="t6-16"></a>
 
 ### 6.16 Discrete series deformations are formally smooth of relative dimension `n²` (CHT Lemmas 2.4.27–2.4.30)
 
@@ -3474,21 +3204,17 @@ For the reference type of 6.4 and a witness `hρ̄ : IsDiscreteSeriesLift type �
 - For `K=ℚ₃`, `p=5`, `r̃=1` and `ρ̄=1⊕1`, the missing residual cyclotomic filtration makes the condition empty, so there is no smooth relative-dimension-four representing ring.
 - The induction with `m=1`, hence `r=d`, gives `(d²−1)+1=d²`; the residual witness still fixes the required inertia type.
 
-*Needs:* [6.4](#t6-4); [1.1](#t1-1); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [6.4](#64-discrete-series-deformations-away-from-l-cht-245); [1.1](#11-the-local-framed-deformation-ring); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [CHT08], §2.4.5, Lemma 2.4.27, p. 51; [CHT08], §2.4.5, proof of Lemma 2.4.28, p. 52; [CHT08], §2.4.5, Lemma 2.4.30, p. 53.)
-
-<a id="t6-17"></a>
 
 ### 6.17 The `G`-valued ordinary locus is a union of components
 
 For dominant regular `λ` and the preceding fixed-extension ordinary quotient, its generic fibre is a union of components of the ambient `G`-valued semistable ring. It has dense regular open and every component has dimension `dim G+[K:ℚ_p]dim Fl_G`. Fixing a compatible quotient representation into `G/G^der`, with `G^der=(G⁰)^der`, replaces `dim G` by `dim G^der`.
 
-*Needs:* [6.5](#t6-5); [3.11](#t3-11); [1.18](#t1-18); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [6.5](#65-the-g-valued-ordinary-flag-scheme-and-the-ordinary-quotient-rλ); [3.11](#311-g-valued-potentially-semistable-lifting-rings-balaji-bellovingee); [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [FKP22], Lemma `B`.4 (2)–(3), arXiv v5 pp. 54–55; [BCG25], proof of Theorem 2.1, arXiv v3 p. 6.)
-
-<a id="t6-18"></a>
 
 ### 6.18 `R̃†` is a normal Cohen–Macaulay domain of relative dimension 4 and type 3
 
@@ -3505,11 +3231,9 @@ Use the following explicit special-fibre presentation. Set `A=k[[a,b,c,φ₁,φ�
 Then `A` is the completion at `(1,1;0)` of Snowden's `B₁`. Eliminating `β` and `φ₄` gives `B=A/(β)=k[[a,b,c,φ₁,φ₂,φ₃]]` modulo `−φ₁²−φ₂φ₃`, `aφ₁+bφ₃`, `aφ₂−bφ₁`, `−aφ₃+cφ₁`, `−aφ₁−cφ₂`, `a²+bc`. Compute the regular-sequence quotient and Hilbert functions in this presentation, before lifting the Cohen–Macaulay and canonical-module statements integrally.
 
 
-*Needs:* [0.1](#t0-1); [6.7](#t6-7); [F.0.1](#completed-coefficient-products).
+*Needs:* [0.1](#01-canonical-modules-and-type-under-regular-quotients); [6.7](#67-the-ordinary-ring-with-a-frobenius-eigenvalue-for-trivial-ρ̄g_p-calegarigeraghty-r̃); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 (Sources: [CG18], Theorem 4.3, published p. 356; [CG18], Lemma 4.7, published p. 360; [CG18], Lemma 4.5, published p. 358.)
-
-<a id="t6-19"></a>
 
 ### 6.19 The induced local models `ρ_{n,m,0}`
 
@@ -3531,21 +3255,17 @@ The construction provides the following API.
 - `ρ_{3,2,0}` has weights `{0,−2,−4}` here, equivalently `{0,2,4}` in the source convention.
 - `p>`dm gives the uniform Fontaine–Laffaille range; failure of this bound alone says nothing about an individual weight multiset.
 
-*Needs:* [6.8](#t6-8); [1.13](#t1-13); `ArithmeticGaloisRepresentations`, §2.3 (Characters of inertia); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* [6.8](#68-the-relation-connects-between-potentially-crystalline-lifts); [1.13](#113-fontainelaffaille-deformations-tangent-space-and-smoothness-cht-lemma-242-corollaries-243244-lemma-245); `ArithmeticGaloisRepresentations`, §2.3 (Characters of inertia); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
 (Sources: [BCGNT25], Definition 5.1.1, arXiv p. 49; [BCGNT25], Lemma 5.1.3, arXiv p. 49.)
-
-<a id="t6-20"></a>
 
 ### 6.20 Semisimple Kisin modules and the shapes of potentially crystalline lifts
 
 A semisimple Kisin module has the explicit shape normal form and a semisimple `G_{K∞}` realization, with inertia computable from its étale `φ`-module. Semisimple residual representations have matching inertia exactly when their restrictions arise from semisimple modules of the same shape. Potentially crystalline liftability passes to semisimplification after coefficient extension. For an effective Hodge type, liftability gives an admissible shape when `τ` is regular principal series or `λ=η` and `τ` is 3-generic; `η` means actual weights `{0,1,2}`. Conversely a semisimple `ρ̄` arising from a module admits a semisimple model after residue extension if `ρ̄` is a sum of characters or `λ=η` with 3-generic `τ`; in the latter case uniqueness avoids residue extension.
 
-*Needs:* [6.9](#t6-9); [3.4](#t3-4).
+*Needs:* [6.9](#69-gl₃-eigenbasis-charts-and-shapes-of-kisin-modules-with-tame-descent); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type).
 
 (Sources: [LLHLM20], Theorem 3.3.11, published p. 33; [LLHLM20], Propositions 3.3.5–3.3.9, Lemma 3.3.10, Theorem 3.3.12, arXiv v4 pp. 24–27.)
-
-<a id="t6-21"></a>
 
 ### 6.21 Explicit `GL₃` rings for shapes of length two, three and four (LLHLM Tables 3–4)
 
@@ -3581,31 +3301,25 @@ The `αβ` relations use (3.14), rather than the conflicting sign in the compres
 - If an abstract `αβα` quotient is specialized to `a=b=c`, its displayed relation vanishes identically. Its two named factors therefore do not define the asserted pair of minimal primes; specifying a polynomial quotient alone cannot extend the generic component assertion to arbitrary constants.
 
 
-*Needs:* [6.9](#t6-9); [1.1](#t1-1).
+*Needs:* [6.9](#69-gl₃-eigenbasis-charts-and-shapes-of-kisin-modules-with-tame-descent); [1.1](#11-the-local-framed-deformation-ring).
 
 (Sources: [LLHLM18], §5.3, arXiv v3 pp. 55–56, and §6; [LLHLM20], Lemma 3.5.4, arXiv v4 pp. 29–30, and §3.6.1, pp. 36–39; [LLHLM20], Table 3, published p. 51 (arXiv v4 p. 53), and its second part, published p. 52 (arXiv v4 p. 54); [LLHLM20], §3.6.2, (3.14), arXiv v4 p. 43; [LLHLM20], Table 4, published p. 60 (arXiv v4 p. 55).)
-
-<a id="t6-22"></a>
 
 ### 6.22 Smooth pure points of partition rings and their minimal primes
 
 At a pure closed characteristic-zero point of `R^m`, the unipotent generic lifting space is formally smooth and the point lies on a unique component. Its unique minimal prime contains the kernel of `R¹→R^m`. This transfers the partition condition to that component; the purity hypothesis prevents an ambiguous intersection-point comparison.
 
-*Needs:* [6.10](#t6-10); [1.22](#t1-22); [2.15](#t2-15).
+*Needs:* [6.10](#610-unipotent-lifting-rings-with-monodromy-bounded-by-a-partition-clozelthorne-rm_v); [1.22](#122-smooth-points-of-the-generic-fibre-and-purity); [2.15](#215-components-for-ihara-avoidance).
 
 (Sources: [CT17], Lemma 5.2, accepted manuscript p. 39.)
-
-<a id="t6-23"></a>
 
 ### 6.23 Rank-`n` conditions away from `p`: the interface with Layer 2
 
 Export the same minimal, Steinberg, full-type, Ihara and discrete-series objects already defined above, together with the partition generalization. Their consumers are GlobalGaloisDeformations `G7` and PotentialAutomorphyInfrastructure PA.3; the scoped arithmetic patched-module construction is 6.30; the general global patched-complex programme has no prerequisite role here. Keep the unique-component hypothesis when comparing full inertia type including `N` on a common component.
 
-*Needs:* [2.8](#t2-8); [2.21](#t2-21); [2.26](#t2-26); [6.10](#t6-10); [2.24](#t2-24); [2.15](#t2-15); [2.29](#t2-29); [6.4](#t6-4).
+*Needs:* [2.8](#28-the-minimally-ramified-deformation-ring); [2.21](#221-unipotent-lifts-of-a-regular-unipotent-residual-monodromy-are-minimally-ramified); [2.26](#226-the-steinberg-lifting-ring-is-a-domain-and-equals-the-fixed-type-ring); [6.10](#610-unipotent-lifting-rings-with-monodromy-bounded-by-a-partition-clozelthorne-rm_v); [2.24](#224-fixed-type-rings-away-from-p-in-rank-n-and-constancy-of-types-on-components); [2.15](#215-components-for-ihara-avoidance); [2.29](#229-unipotent-ramification-and-ihara-avoidance-rings-at-p--2); [6.4](#64-discrete-series-deformations-away-from-l-cht-245).
 
 (Sources: [CT17], §5.1, accepted manuscript p. 39.)
-
-<a id="t6-24"></a>
 
 ### 6.24 The flag image ring for trivial residual representation
 
@@ -3617,31 +3331,25 @@ Assume `ρ̄=1`, `f=[K:ℚ_p]>d(d−1)/2+1`, and `E` contains the values of ever
 - For `d=1`, `p=3`, `K/ℚ₃(ζ₃)` unramified quadratic and `E=ℚ₃`, the cyclotomic component of `Λ_v` is `ℤ₃[ζ₃][[T₁,T₂,T₃,T₄]]`, of dimension five. Modulo 3, `ζ₃−1` is nonzero and square-zero, so the unsplit special fibre is not integral.
 - After `E` contains `ζ₃` the two generic torsion characters split; each selected flat component has integral uniformizer fibre. The coefficient extension and component selection are those of 1.12.
 
-*Needs:* [1.9](#t1-9); [1.4](#t1-4); [6.1](#t6-1); [6.12](#t6-12); [1.3](#t1-3); [1.12](#t1-12).
+*Needs:* [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [6.1](#61-local-structure-of-the-ordinary-flag-scheme-at-characteristic-zero-points); [6.12](#612-geraghtys-fixed-weight-ordinary-rings-components-connected-fibres-and-irreducibility); [1.3](#13-the-universal-character-coefficient-rings-λ_v-and-λ̃_v); [1.12](#112-local-deformation-rings-under-change-of-coefficients).
 
 (Sources: [ACC+], §6.2.6, Proposition 6.2.10, p. 139; [BCGP25], Proposition 5.6.6 (3) and Remark 5.6.7, arXiv v1 p. 129; [THORNE15], Lemma 3.11, Corollary 3.12, Lemma 3.13, Proposition 3.14, pp. 16–17.)
-
-<a id="t6-25"></a>
 
 ### 6.25 Connectedness results for crystalline weight-zero lifts
 
 Ordinary crystalline weight-zero lifts of trivial residual data connect through the irreducible ordinary crystalline ring. For any fixed crystalline weight-zero `ρ`, sufficiently close crystalline weight-zero lifts connect to it. In the source `HT(ε)=−1` convention, weights 0,…,`d−1` are ordinary exactly when `φ^f` Frobenius valuations are 0,`f`,…,`(d−1)f`, normalized by `v(p)=1`; here the `HT` weights have opposite signs. Symmetric powers and tensor products retain crystalline ordinary flags when the resulting labelled weights are distinct and have one compatible ordering at all embeddings; repeated weights do not satisfy the regular condition automatically.
 
-*Needs:* [6.8](#t6-8); [3.13](#t3-13); [3.10](#t3-10); [1.7](#t1-7); [6.12](#t6-12).
+*Needs:* [6.8](#68-the-relation-connects-between-potentially-crystalline-lifts); [3.13](#313-semistable-ordinary-quotients-of-semistable-lifting-rings); [3.10](#310-regular-crystalline-generic-fibres-and-formally-smooth-local-deformation-problems); [1.7](#17-ordinary-representations-of-weight-λ); [6.12](#612-geraghtys-fixed-weight-ordinary-rings-components-connected-fibres-and-irreducibility).
 
 (Sources: [BCGNT25], Lemma 5.1.4, arXiv p. 50; [BCGNT25], Lemma 5.1.5, arXiv p. 50; [BCGNT25], Proposition 4.2.5(2) and its proof, arXiv pp. 42–43; [Geraghty], Lemma 2.32 (preprint Lemma 2.7.7, pp. 27–28).)
-
-<a id="t6-26"></a>
 
 ### 6.26 Tangent dimension of the Siegel-ordinary condition and its comparison with finite flatness
 
 The quotient `𝔟⁰/𝔲` has characters 1,1,`λ(α)λ(β)⁻¹`; `𝔲` has `λ(α²)ε̄^{a−1}`,`λ(β²)ε̄^{a−1}`,`λ(αβ)ε̄^{a−1}`. The standing nonvanishing hypotheses give `h⁰(𝔲)=h²(𝔲)=0`, `h¹(𝔲)=3`, `h⁰(ad⁰/𝔟⁰)=0`, the required `H¹` surjection and injection, and `dim L−h⁰(ad⁰)=3`. At `a=2` this condition is equivalent to finite flatness of the dual `r∨≅r⊗ε`, not of the original normalization without twisting.
 
-*Needs:* [6.14](#t6-14); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [6.14](#614-the-siegel-ordinary-gsp₄-condition-at-p-with-fixed-multiplier-calegarigeraghty); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [CG20], Lemma 4.8 and its proof, published pp. 816–817; [CG20], Remark 4.7, published p. 816.)
-
-<a id="t6-27"></a>
 
 ### 6.27 `p`-distinguished weight-two ordinary `GSp₄` conditions (`B`- and `P`-ordinary)
 
@@ -3662,13 +3370,11 @@ The construction provides the following API.
 - `ᾱ = β̄` is excluded: the residual Lagrangian plane then carries a two-dimensional unramified isotypic piece and the flag is not unique.
 - When `α²=1`, the Kummer class of `p` gives a `p`-distinguished weight-two ordinary extension on the first/fourth subquotient that is semistable and noncrystalline.
 - A ramified nonsplit `Fil₂` cannot satisfy both Borel orderings; satisfying one ordering alone does not give `P`-ordinarity.
-- For `p`-distinguished `ρ̄` the flag-incidence map of [6.29](#t6-29) is a closed immersion with image `R^{B,𝔠̄}_v`.
+- For `p`-distinguished `ρ̄` the flag-incidence map of [6.29](#629-the-gsp₄-ordinary-flag-incidence-scheme-and-its-scheme-theoretic-image-r_v) is a closed immersion with image `R^{B,𝔠̄}_v`.
 
-*Needs:* [6.14](#t6-14); [1.17](#t1-17); [6.3](#t6-3); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* [6.14](#614-the-siegel-ordinary-gsp₄-condition-at-p-with-fixed-multiplier-calegarigeraghty); [1.17](#117-g-valued-framed-deformation-rings); [6.3](#63-ordinary-deformations-with-fixed-inertial-characters-on-a-full-flag-cht-242); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
 (Sources: [BCGP21], Definition 7.3.1, arXiv v3 p. 172.)
-
-<a id="t6-28"></a>
 
 ### 6.28 Explicit rings `R^{expl,∇}` and the comparison diagram (3.9)
 
@@ -3698,11 +3404,9 @@ The construction provides the following API.
 - Length-four charts are power-series rings (solve the lone relation if present); lengths `≥2` are generically formally smooth over `R_N`.
 - `ι′_τ` is a monomorphism; étale `φ`-deformations not arising from type-`(η,τ)` Kisin modules lie outside its image.
 
-*Needs:* [6.9](#t6-9); [1.1](#t1-1); [6.21](#t6-21).
+*Needs:* [6.9](#69-gl₃-eigenbasis-charts-and-shapes-of-kisin-modules-with-tame-descent); [1.1](#11-the-local-framed-deformation-ring); [6.21](#621-explicit-gl₃-rings-for-shapes-of-length-two-three-and-four-llhlm-tables-34).
 
 (Sources: [LLHLM20], §3.6.1, items (1)–(4) and diagram (3.9), published p. 49; arXiv v4 pp. 36–39; [LLHLM20], §3.6.1 item `(4)(b)`–`(c)`, arXiv v4 p. 38 (relations for the shapes `α` and `id`; repeated on pp. 46 and 48 respectively).)
-
-<a id="t6-29"></a>
 
 ### 6.29 The `GSp₄` ordinary flag-incidence scheme and its scheme-theoretic image `R^△_v`
 
@@ -3723,13 +3427,11 @@ The construction provides the following API.
 - `p = 2`: `Spec Λ_{GSp₄,v}` has 4 irreducible components (from `(ℤ/2)² ⊂ (ℤ₂^×)²`) and regular generic fibre.
 - `dim Fil^i ad⁰ρ_x = 6`, 4, 2, 1, 0 for `i = 0`, …, 4.
 - `R^△_v` may have `p`-torsion; replacing it by its flat closure changes the ring when `𝒢_v` is not `𝒪`-flat.
-- For `p > 2` and `ρ̄ p`-distinguished of weight 2 (unramified residual characters `χ̄₁ ≠ χ̄₂`), `R^△_v` is the ring `R^{B,𝔠̄}_v` of [6.27](#t6-27).
+- For `p > 2` and `ρ̄ p`-distinguished of weight 2 (unramified residual characters `χ̄₁ ≠ χ̄₂`), `R^△_v` is the ring `R^{B,𝔠̄}_v` of [6.27](#627-p-distinguished-weight-two-ordinary-gsp₄-conditions-b--and-p-ordinary).
 
-*Needs:* [1.17](#t1-17); [1.9](#t1-9); [6.27](#t6-27); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
+*Needs:* [1.17](#117-g-valued-framed-deformation-rings); [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v); [6.27](#627-p-distinguished-weight-two-ordinary-gsp₄-conditions-b--and-p-ordinary); ClassFieldTheory / layer 7 the absolute local artin map its normalizations and conductors.
 
 (Sources: [BCGP25], §6.2, arXiv v1 p. 142; [BCGP25], §6.2, arXiv v1 p. 143.)
-
-<a id="t6-30"></a>
 
 ### 6.30 Potentially crystalline `GL₃` rings of Hodge type `η` and the weak minimal patching input
 
@@ -3761,7 +3463,7 @@ The local input is a nonzero exact covariant functor `M∞` from finitely genera
 - The globalization input is the exhibited potentially diagonalizable regular lift; arbitrary prescribed local data without that hypothesis are outside this target.
 - Automorphy includes a weight `V` and level `U` with `S(U,V)_𝔪≠0`. A global polarized representation without that nonvanishing is insufficient for a nonzero patching functor.
 
-**Finite-level unitary modules and patching.** Prove `GL3.definiteUnitaryPatching` for this globalized residual representation and the source's minimal levels. For the definite unitary group `G/F⁺`, quasi-split at finite places, construct `S(U,W)` as `W`-valued functions on `G(F⁺)\G(𝔸^∞_{F⁺})` with `f(gu)=u_p⁻¹f(g)`. Use `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and rational stabilizers), and the Hecke-ring carrier of `SmoothRepresentationsOfLocalGroups`, SR.1.2. At sufficiently small `U`, prime-to-`p` stabilizers give exact coefficient functors. Construct the Hecke action on these function modules, localization at the residual eigensystem, Taylor–Wiles level modules and their specialization maps. Their Galois representations and local compatibility must give the action of the framed local deformation rings, including the type-quotient action for type lattices and the Deligne–Lusztig nonvanishing axiom above. Patch these modules to a nonzero functor with all four stated axioms; carry minimal ramification away from `p` and the auxiliary place with distinct residual Frobenius eigenvalues and no ratio `q^{±1}`. Those hypotheses give projectivity and generic rank at most one. Completed coefficient products and presentations use [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations); this scoped arithmetic construction is a target here, rather than a consequence of those algebra targets. (Sources: LLHLM18 §§7.1, 7.3, Definition 7.11 and Proposition 7.15, arXiv pp. 65–66, 70–72; [LLHLM20], Proposition 3.5.14, arXiv v4 p. 33.)
+**Finite-level unitary modules and patching.** Prove `GL3.definiteUnitaryPatching` for this globalized residual representation and the source's minimal levels. For the definite unitary group `G/F⁺`, quasi-split at finite places, construct `S(U,W)` as `W`-valued functions on `G(F⁺)\G(𝔸^∞_{F⁺})` with `f(gu)=u_p⁻¹f(g)`. Use `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and rational stabilizers), and the Hecke-ring carrier of `SmoothRepresentationsOfLocalGroups`, SR.1.2. At sufficiently small `U`, prime-to-`p` stabilizers give exact coefficient functors. Construct the Hecke action on these function modules, localization at the residual eigensystem, Taylor–Wiles level modules and their specialization maps. Their Galois representations and local compatibility must give the action of the framed local deformation rings, including the type-quotient action for type lattices and the Deligne–Lusztig nonvanishing axiom above. Patch these modules to a nonzero functor with all four stated axioms; carry minimal ramification away from `p` and the auxiliary place with distinct residual Frobenius eigenvalues and no ratio `q^{±1}`. Those hypotheses give projectivity and generic rank at most one. Completed coefficient products and presentations use [F.0.1](#f01-completed-coefficient-products-and-dimensions) and [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds); this scoped arithmetic construction is a target here, rather than a consequence of those algebra targets. (Sources: LLHLM18 §§7.1, 7.3, Definition 7.11 and Proposition 7.15, arXiv pp. 65–66, 70–72; [LLHLM20], Proposition 3.5.14, arXiv v4 p. 33.)
 
 **Checks.**
 
@@ -3795,31 +3497,25 @@ The construction provides the following API.
 - The cyclotomic rank-one lattice `ℤ_p(1)` is realized from the contravariant height-one Kisin module with Frobenius `E(u)` times its normalization unit, and has weight `+1`; its dual has weight `−1`. This is the dictionary of FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.4.12–R07.4.13.
 - A rank-three type-`η` point has determinant of labelled Hodge–Tate weight `0+1+2=3`. Its dual has determinant weight `−3` and residual representation `ρ̄∨`, inertia type `τ∨` and dual weight/shape labels; it belongs to the transported dual deformation problem.
 
-*Needs (conditional local theorem):* [6.9](#t6-9); [6.20](#t6-20); [6.21](#t6-21); [6.28](#t6-28); [3.4](#t3-4); `GL3.WeakMinimalPatchingFunctor`; the weight-elimination argument of [LLHLM20], Proposition 3.5.6 and Theorem 3.5.2. *Needs (existence):* the auxiliary lifts, scoped globalization and finite-level unitary patching targets above; `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and rational stabilizers); [F.0.1](#completed-coefficient-products) and [F.0.2](#minimal-relative-presentations). Integral Cohen–Macaulayness is the conditional type-geometry theorem here, not an inference from [3.11](#t3-11)'s generic-fibre complete intersection.
+*Needs (conditional local theorem):* [6.9](#69-gl₃-eigenbasis-charts-and-shapes-of-kisin-modules-with-tame-descent); [6.20](#620-semisimple-kisin-modules-and-the-shapes-of-potentially-crystalline-lifts); [6.21](#621-explicit-gl₃-rings-for-shapes-of-length-two-three-and-four-llhlm-tables-34); [6.28](#628-explicit-rings-rexpl-and-the-comparison-diagram-39); [3.4](#34-potentially-semistable-deformation-rings-of-fixed-type); `GL3.WeakMinimalPatchingFunctor`; the weight-elimination argument of [LLHLM20], Proposition 3.5.6 and Theorem 3.5.2. *Needs (existence):* the auxiliary lifts, scoped globalization and finite-level unitary patching targets above; `AdelicAlgebraicGroups`, AA.3.4 (`Reduction.finite_classes`) and AA.4.4 (level quotients and rational stabilizers); [F.0.1](#f01-completed-coefficient-products-and-dimensions) and [F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds). Integral Cohen–Macaulayness is the conditional type-geometry theorem here, not an inference from [3.11](#311-g-valued-potentially-semistable-lifting-rings-balaji-bellovingee)'s generic-fibre complete intersection.
 
 (Sources: [LLHLM20], Theorem 3.5.3, arXiv v4 p. 29; [LLHLM20], Lemma 3.5.4, arXiv v4 pp. 29–30; [LLHLM20], §3.5.3, proof of Theorem 3.5.3 and Remark 3.5.17, arXiv v4 p. 34; Theorem 3.5.2 and Proposition 3.5.15, arXiv v4 pp. 29, 34.)
-
-<a id="t6-31"></a>
 
 ### 6.31 Regularity of the `GSp₄` ordinary flag scheme at characteristic-zero points
 
 At a flagged closed characteristic-zero point over `ℚ_p`, `H²(G_K,Fil⁰ad⁰ρ_x)=0` is equivalent to `H⁰(G_K,(ad⁰ρ_x/Fil¹ad⁰ρ_x)(1))=0`. It gives a regular point on a unique component of dimension sixteen. Sufficient conditions are none of `χ̃₁²ε`, `χ̃₂²ε`, `χ̃₁χ̃₂ε`, `χ̃₁χ̃₂⁻¹` equalling `ε`; purity with distinguished characters; or purity with potential crystallinity. Transfer this regularity to the image ring only when the point is distinguished. Without that assumption the conclusion remains about the flagged point.
 
-*Needs:* [6.29](#t6-29); [1.18](#t1-18); [1.22](#t1-22); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [6.1](#t6-1).
+*Needs:* [6.29](#629-the-gsp₄-ordinary-flag-incidence-scheme-and-its-scheme-theoretic-image-r_v); [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); [1.22](#122-smooth-points-of-the-generic-fibre-and-purity); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [6.1](#61-local-structure-of-the-ordinary-flag-scheme-at-characteristic-zero-points).
 
 (Sources: [BCGP25], Lemma 6.2.2, arXiv v1 p. 143.)
-
-<a id="t6-32"></a>
 
 ### 6.32 Formal smoothness of the finite-flat ordinary flag scheme for `GSp₄`
 
 For `p>2` over `ℚ_p`, ordinary residual data with `ρ̄⊗ε̄` finite flat, cut out the incidence locus where `ρ⊗ε` is finite flat and inertia is trivial on the Lagrangian plane. Prove formal smoothness of its completion at every finite residue extension point by the finite/unit extension argument, extended to the three Siegel coordinates. Its closed residual flag fibre is a point or `ℙ¹`, so its image is irreducible. State the formal smoothness itself rather than inventing an undefined `H²_flat` carrier.
 
-*Needs:* [6.29](#t6-29); [1.1](#t1-1); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; [4.2.1](#t4-2-1).
+*Needs:* [6.29](#629-the-gsp₄-ordinary-flag-incidence-scheme-and-its-scheme-theoretic-image-r_v); [1.1](#11-the-local-framed-deformation-ring); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.1`; [4.2.1](#421-completed-inertia-kummer-valuation-sequence).
 
 (Sources: [BCGP25], proof of Lemma 6.2.5, arXiv v1 p. 145.)
-
-<a id="t6-33"></a>
 
 ### 6.33 Labelling of components of `GL₃` potentially crystalline rings by Serre weights
 
@@ -3844,11 +3540,9 @@ These are the remaining prime generators in the explicit quotient rings.
 **Extension graph.** Its vertices are `(ε₁+ε₂,0)`, `(ε₁−ε₂,0)`, `(ε₂−ε₁,0)`, `(0,0)`, `(ε₁,0)`, `(ε₂,0)`, `(0,1)`, `(ε₁,1)`, `(ε₂,1)`. Join each of `(0,0)`,`(ε₁,0)`,`(ε₂,0)` to each of `(0,1)`,`(ε₁,1)`,`(ε₂,1)`. Add the six edges from `(ε₁+ε₂,0)` to `(ε₁,1)`,`(ε₂,1)`, from `(ε₁−ε₂,0)` to `(ε₁,1)`,`(0,1)`, and from `(ε₂−ε₁,0)` to `(ε₂,1)`,`(0,1)`. This gives fifteen edges. The product over embeddings has the graph distance used above. Length-two, three and four shapes give respectively a four-cycle, an edge and a point. In the identity-chart matching for `(0,0)`, use `z̃=t_{(−1,0,1)}`. The codimension calculation sums the two prime ideals.
 
 
-*Needs:* [6.21](#t6-21); [6.28](#t6-28); [6.30](#t6-30).
+*Needs:* [6.21](#621-explicit-gl₃-rings-for-shapes-of-length-two-three-and-four-llhlm-tables-34); [6.28](#628-explicit-rings-rexpl-and-the-comparison-diagram-39); [6.30](#630-potentially-crystalline-gl₃-rings-of-hodge-type-η-and-the-weak-minimal-patching-input).
 
 (Sources: [LLHLM20], Proposition 3.6.1, published p. 46; [LLHLM20], Theorem 3.6.4, published p. 55; [LLHLM20], Lemma 3.6.10, published p. 59 (arXiv v4 p. 43), with Definition 2.1.6 and Table 1 (arXiv v4 pp. 12, 17); [LLHLM20], Remark 3.6.8, arXiv v4 pp. 41–42; [LLHLM20], Proposition 3.6.9 and Lemma 3.6.6, Corollary 3.6.7, arXiv v4 pp. 40–42; Table 2, arXiv v4 p. 18.)
-
-<a id="t6-34"></a>
 
 ### 6.34 Generic fibres of the `GSp₄` ordinary rings: irreducibility, dimension and smooth pure points
 
@@ -3873,11 +3567,9 @@ The list supplies necessary conditions, without asserting a converse for every l
 - The chart generic dimensions ten and nine become fifteen and fourteen after adding the five full-framing variables; the tensor products over `𝒪` alone would omit the character identifications.
 - In case `(2b)`, `4+12=5+11=16`. Relative dimension twelve over the fully framed five-dimensional `GL₂` base would instead give seventeen and fails this comparison.
 
-*Needs:* [6.27](#t6-27); [6.15](#t6-15); [1.18](#t1-18); [1.22](#t1-22); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [6.31](#t6-31).
+*Needs:* [6.27](#627-p-distinguished-weight-two-ordinary-gsp₄-conditions-b--and-p-ordinary); [6.15](#615-the-gl₂-ordinary-ring-rb₂-irreducible-generic-fibre-and-explicit-presentations); [1.18](#118-completed-local-rings-at-points-of-the-generic-fibre-are-framed-rings); [1.22](#122-smooth-points-of-the-generic-fibre-and-purity); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [6.31](#631-regularity-of-the-gsp₄-ordinary-flag-scheme-at-characteristic-zero-points).
 
 (Sources: [BCGP21], Proposition 7.3.4, arXiv v3 p. 173, and its proof, case `(2b)`, p. 185; Lemma 7.3.12, p. 180; [BCGP21], Lemma 7.3.15 and Proposition 7.3.16, arXiv v3 p. 183; [BCGP21], Lemma 7.3.18, arXiv v3 p. 188.)
-
-<a id="t6-35"></a>
 
 ### 6.35 Finite-flat ordinary weight-two lifts lie on one component
 
@@ -3889,7 +3581,7 @@ For `p>2` and finite-flat `ρ̄⊗ε̄`, all ordinary pure crystalline weight-tw
 - For a component surjecting onto weight space, the special-fibre prime furnished by Lemma 6.2.6 contains exactly its generic minimal prime among those of `R△`.
 - The second assertion requires surjectivity for the selected component; existence of an ordinary point alone does not discharge that hypothesis.
 
-*Needs:* [6.31](#t6-31); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`; [6.32](#t6-32).
+*Needs:* [6.31](#631-regularity-of-the-gsp₄-ordinary-flag-scheme-at-characteristic-zero-points); `FiniteFlatGroupsAndIntegralPadicHodgeTheory:R07.4`; [6.32](#632-formal-smoothness-of-the-finite-flat-ordinary-flag-scheme-for-gsp₄).
 
 (Sources: [BCGP25], Lemmas 6.2.5–6.2.6, arXiv v1 pp. 145–146.)
 
@@ -3901,13 +3593,11 @@ The coordinate ring `ℚ[x,y]/(xy)` has evaluation maps at `(1,0)`, `(0,0)`, `(0
 
 ### Dependencies
 
-Uses Layers 1–5, `D7` local duality with stable-lattice hypotheses, descent-data Kisin modules, Serre-weight/type representation theory and the completed-coefficient/presentation targets [F.0.1](#completed-coefficient-products)–[F.0.2](#minimal-relative-presentations). Target 6.30 constructs the scoped weak minimal functor needed for the uniform `GL₃` statement.
+Uses Layers 1–5, `D7` local duality with stable-lattice hypotheses, descent-data Kisin modules, Serre-weight/type representation theory and the completed-coefficient/presentation targets [F.0.1](#f01-completed-coefficient-products-and-dimensions)–[F.0.2](#f02-minimal-relative-presentations-and-obstruction-bounds). Target 6.30 constructs the scoped weak minimal functor needed for the uniform `GL₃` statement.
 
 ## Layer 7: Determinant-ordinary equations and flag comparisons
 
 Characteristic polynomials, ordered products and flag incidence give three related interfaces. Compare reduced spaces over the distinct-character open and keep the collision-locus dimension bound. The eigenvalue doubling computation is the rank-two image/flag example.
-
-<a id="t7-1"></a>
 
 ### 7.1 The determinant-ordinary rings `R̃^{det,ord}_v` and `R^{det,ord}_v`
 
@@ -3937,57 +3627,47 @@ The construction provides the following API.
 - The nonsplit upper extension generated by `diag(2,1)` and `I+E₁₂` has only its first coordinate line as a stable line. Its given order works; the reversed order fails both triangularization and the ordered-product equation. This is the matrix control for 1.7's reversed extension.
 - Over `ℤ/9`, the scalar representation `I` of the free group on one generator satisfies `IsDetOrdinary` for the characters generated by 4 and 7: their shifts are divisible by 3 and every length-two product vanishes. It has no direct-summand flag with those characters, since conjugating `I` leaves `I`. A nilpotent eigenvalue shift does not produce the prescribed graded action.
 
-*Needs:* [1.1](#t1-1); [1.3](#t1-3).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [1.3](#13-the-universal-character-coefficient-rings-λ_v-and-λ̃_v).
 
 (Sources: [ACC+], §6.2.6, p. 138; [ACC+], §6.2.6, p. 139.)
-
-<a id="t7-2"></a>
 
 ### 7.2 `R̃^{det,ord}_v` is finite over `R^{det,ord}_v`
 
 The extended determinant-ordinary ring `R̃^{det,ord}` is a finite module over its image `R^{det,ord}`. Each added Frobenius character satisfies a monic characteristic-polynomial equation, which supplies the finite generators. Finiteness is over the image lifting ring, not over weight space.
 
-*Needs:* [7.1](#t7-1); `Module.Finite` (Mathlib).
+*Needs:* [7.1](#71-the-determinant-ordinary-rings-r̃detord_v-and-rdetord_v); `Module.Finite` (Mathlib).
 
 (Sources: [ACC+], §6.2.6, Lemma 6.2.9, p. 139.)
-
-<a id="t7-3"></a>
 
 ### 7.3 Point criteria and `Spec R^△_v ⊂ Spec R^{det,ord}_v`
 
 If a lift over `R` acquires ordered characters satisfying both determinant-ordinary equations in an injective coefficient extension `R↪S`, it factors through `R^{det,ord}`. Therefore the underlying flag-image locus is contained in the determinant-ordinary locus and there is a universal-ring-compatible surjection `R^{det,ord}→(R△)_red`. This gives the reduced comparison, not an isomorphism of the unreduced rings.
 
-*Needs:* [7.1](#t7-1); [1.9](#t1-9).
+*Needs:* [7.1](#71-the-determinant-ordinary-rings-r̃detord_v-and-rdetord_v); [1.9](#19-the-ordinary-flag-scheme-and-its-image-ring-r_v).
 
 (Sources: [ACC+], §6.2.6, p. 139.)
-
-<a id="t7-4"></a>
 
 ### 7.4 Characteristic polynomials and ordered products give a flag
 
 Over a field, a rank-`d` representation with pairwise distinct prescribed characters, their characteristic-polynomial identities and every ordered-product identity admits a stable full flag with those ordered graded characters. Use the distinct-character separation in the induction proof. This is a field theorem and does not recover an integral flag over an arbitrary nonreduced ring. In `Suggested.lean`, `IsDetOrdinary` and `HasOrderedTriangularization` express the two conditions on Mathlib general linear groups, and `det_ordinary_iff_ordered_triangularization` states their equivalence.
 
-*Needs:* [7.1](#t7-1).
+*Needs:* [7.1](#71-the-determinant-ordinary-rings-r̃detord_v-and-rdetord_v).
 
 (Sources: [ACC+], §6.2.6, Lemma 6.2.11, p. 140.)
-
-<a id="t7-5"></a>
 
 ### 7.5 The doubling ideal equals the unramified ideal (Calegari–Geraghty Lemma 3.22)
 
 For the ordinary rank-two eigenvalue ring, let `ϖ^m` be the common divisibility of `χ^{n−1}(g)−1`. Its unramified quotient is `(𝒪/ϖ^m)[[φ₁,…,φ₄]]/(φ₁+φ₄+φ₁φ₄−φ₂φ₃)`; adjoining `β` by `β²−(φ₁+φ₄)β−(φ₁+φ₄)` makes a rank-two free module. The quotient by the image copy is a faithful rank-one module over the unramified quotient. Conclude `J=I`: the annihilator of `R̃†/R†` equals the kernel defining the unramified quotient in the universal framed ring.
 
-*Needs:* [6.7](#t6-7); [7.1](#t7-1).
+*Needs:* [6.7](#67-the-ordinary-ring-with-a-frobenius-eigenvalue-for-trivial-ρ̄g_p-calegarigeraghty-r̃); [7.1](#71-the-determinant-ordinary-rings-r̃detord_v-and-rdetord_v).
 
 (Sources: [CG18], Lemma 3.22, published p. 335; [CG18], proof of Lemma 3.22, published pp. 336–337.)
-
-<a id="t7-6"></a>
 
 ### 7.6 Determinant-ordinary versus flag-ordinary components
 
 For trivial residual data and `f=[K:ℚ_p]>d(d+1)/2+1`, take `E` splitting the `p`-power torsion unit characters as in 6.24 and let `U` be the distinct-character open in `Λ`. The flag and determinant-ordinary loci agree over `U` as underlying subspaces of `Spec R□`. Every component of weight space is dominated by exactly one determinant-ordinary component of dimension `1+d²+fd(d+1)/2`. Any other component lies over the collision locus and has dimension at most `d²−1+fd(d+1)/2`. Retain this stronger degree bound than the flag-ring theorem and the topological/reduced nature of the comparison.
 
-*Needs:* [7.3](#t7-3); [7.4](#t7-4); [7.2](#t7-2); [6.24](#t6-24); [1.4](#t1-4); [6.1](#t6-1).
+*Needs:* [7.3](#73-point-criteria-and-spec-r_v--spec-rdetord_v); [7.4](#74-characteristic-polynomials-and-ordered-products-give-a-flag); [7.2](#72-r̃detord_v-is-finite-over-rdetord_v); [6.24](#624-the-flag-image-ring-for-trivial-residual-representation); [1.4](#14-tangent-and-obstruction-description-of-local-lifting-rings); [6.1](#61-local-structure-of-the-ordinary-flag-scheme-at-characteristic-zero-points).
 
 (Sources: [ACC+], §6.2.6, Proposition 6.2.12, p. 140; [ACC+], §6.2.6, proof of Proposition 6.2.12, p. 141.)
 
@@ -4005,17 +3685,13 @@ Uses the character and incidence constructions in Layer 1 and ordinary component
 
 These results package the preceding local rings for global lifting and patching consumers. They state nonemptiness, relative dimension, regularity and dependence on selected characters. Global theorems consume these exports through their own deformation problems.
 
-<a id="t8-1"></a>
-
 ### 8.1 Smooth resolutions of framed deformation conditions
 
 Let a nonzero framed condition quotient admit a proper map `f` from a flat `𝒪`-scheme `ℛ`, with injective map `𝒪_{Spec R}→f_*𝒪_ℛ`, closed immersion into the unrestricted generic fibre, geometrically connected closed-point fibre `Y`, and a smooth finite-type algebraization inducing an isomorphism of completions along all of `Y`. Then `R` is a domain, `R[1/p]` is regular, and its relative dimension equals that of `ℛ`; integral points are images of resolution points specializing into `Y`. Formal smoothness at individual closed points alone is not the whole algebraization hypothesis. The Kisin variant additionally uses reduced special fibre. Formal functions, Stein factorization and excellence supply the algebraic proof.
 
-*Needs:* `SchemeAndStackFoundations`, §4.9 (The theorem on formal functions and Stein factorisation); [F.0.1](#completed-coefficient-products).
+*Needs:* `SchemeAndStackFoundations`, §4.9 (The theorem on formal functions and Stein factorisation); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 (Sources: [KW209], §2.8, Proposition 2.12 and its proof, pp. 16–18.)
-
-<a id="t8-2"></a>
 
 ### 8.2 The local conditions of KW II
 
@@ -4036,11 +3712,9 @@ The construction provides the following API.
 - At `p=2`, the `k=2` branch has `N=0` and is crystalline; the `k=4` weight-two branch permits `N≠0` and is semistable. A condition recording only that both are weight two loses the prescribed monodromy data.
 - For distinct unramified residual characters, allowing either quotient character gives two components; fixing KW's choice selects one.
 
-*Needs:* [1.1](#t1-1); [F.2.9](#fixed-determinant-rings); [3.1](#t3-1).
+*Needs:* [1.1](#11-the-local-framed-deformation-ring); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); [3.1](#31-p-adic-hodge-types-and-galois-types).
 
 (Sources: [KW209], §3 opening and §3.2.2, pp. 18 and 22–24.)
-
-<a id="t8-3"></a>
 
 ### 8.3 irreducible residual representation, low-weight crystalline
 
@@ -4052,17 +3726,15 @@ For `F_v=ℚ_p` and irreducible rank-two residual representation of Serre weight
 - At `p=2`,`k=2`, the adapted matrix is `[[λ,2],[α,0]]`; the unframed ring still has one parameter and framing adds three.
 - The crystalline lines `E` and `E(ε^{p−1})` have `D*` jumps 0 and `p−1` and identical residual characters. Their reducible sum is outside this irreducible adapter; unrestricted endpoint full faithfulness is not asserted.
 
-*Needs:* [1.5](#t1-5); [1.13](#t1-13); [F.2.9](#fixed-determinant-rings); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.11–R07.3.17.
+*Needs:* [1.5](#15-forgetting-the-framing-of-local-lifts); [1.13](#113-fontainelaffaille-deformations-tangent-space-and-smoothness-cht-lemma-242-corollaries-243244-lemma-245); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §§R07.3.11–R07.3.17.
 
 (Sources: [KW209], §3.2.3, p. 24.)
-
-<a id="t8-4"></a>
 
 ### 8.4 irreducible residual representation, weight two
 
 For odd `p`, `F_v=ℚ_p` and irreducible residual Serre weight `3≤k≤p`, use the nontrivial principal-series weight-two type `ω^{k−2}⊕1`. After the required coefficient extension and unit rescaling, its unframed ring is `𝒪[[T₁,T₂]]/(T₁T₂−p)`, and the framed ring adds three variables. It is a flat domain of relative dimension four with regular generic fibre, but is not formally smooth over `𝒪`. At `k=2` the type is trivial, so the preceding smooth crystalline ring applies instead of Savitt's distinct-character formula.
 
-For the coefficient-ring equation, take the quotient of `A[[X,Y]]` by the principal ideal `(XY−πu)`. It is a flat domain for a DVR `A`, nonzero nonunit `π` and unit `u`; `π` may equal `p` in a ramified coefficient DVR.
+For the coefficient-ring equation, `CompletedNode π u` is the quotient of `A[[X,Y]]` by the principal ideal `completedNodeIdeal π u = (XY−πu)`. The theorem `completedNode_isDomain_flat` states that it is a flat domain for a DVR `A`, nonzero nonunit `π` and unit `u`; `π` may equal `p` in a ramified coefficient DVR. This is the polynomial node of Tau Ceti completed in both variables; freeness of the polynomial quotient does not give this statement.
 
 **Checks.**
 
@@ -4071,21 +3743,17 @@ For the coefficient-ring equation, take the quotient of `A[[X,Y]]` by the princi
 - Taking `π=0` over a field gives `(XY)`; the two nonzero coordinate classes multiply to zero. The nonzero hypothesis of the domain theorem is essential.
 - Taking `π=u=1` over a field makes `XY−1` a unit in the formal power-series ring, so the quotient is the zero ring. The nonunit hypothesis is essential.
 
-*Needs:* [4.2](#t4-2); [1.5](#t1-5).
+*Needs:* [4.2](#42-savitts-weight-two-deformation-rings-of-tame-type); [1.5](#15-forgetting-the-framing-of-local-lifts).
 
 (Sources: [KW209], §3.2.4, p. 24.)
-
-<a id="t8-5"></a>
 
 ### 8.5 Ordinary potentially crystalline local lifts of reducible residual representations
 
 For `p≥3` and global residual (`χ̄`,*;0,1) with geometric determinant `μ=κ^{r−1}χ₀`, `r≥2`, construct at `v|p` an ordinary potentially crystalline lift of weights `{0,r−1}` and determinant `μ` after coefficient extension. There also exists such a lift with nontrivial unramified quotient, but its determinant need not still be `μ`. Ordinary means ordinary after a fixed finite local extension in the group-valued condition. In the weight-two Barsotti–Tate example use a Kummer unit class; a uniformizer class produces semistable noncrystalline monodromy.
 
-*Needs:* [1.21](#t1-21); [1.10](#t1-10); [0.3](#t0-3); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [1.21](#121-g-valued-ordinary-representations-of-weight-λ); [1.10](#110-fixing-the-determinant-of-local-lifts); [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [FKP22], Lemma 7.2, second bullet, arXiv v5 p. 34.)
-
-<a id="t8-6"></a>
 
 ### 8.6 Deformation conditions cut out by a category `S` (BCDT §4.3)
 
@@ -4097,7 +3765,7 @@ The construction provides the following API.
 - `CategoryCondition.defFunctor`: `D^S_{V,𝒪}` and `D^{ψ,S}_{V,𝒪}`.
 - `CategoryCondition.ring`: `R^S_{V,𝒪}`, `R^{ψ,S}_{V,𝒪}`, quotients of `R_{V,𝒪}`, `R^ψ_{V,𝒪}`.
 - `CategoryCondition.tangent`: The relative tangent of `D^S` identifies with `Ext¹_{S_k}(V,V)` and embeds with image `L_S` in `H¹(G_K,ad ρ̄)`. The tangent of `D^{ψ,S}` is `L_S∩ker(tr_*:H¹(G_K,ad ρ̄)→H¹(G_K,k))`; for `p∤d` it identifies with `H¹_S(G_K,ad⁰ρ̄)`. In general `Z¹(ad⁰)/B¹(ad)` maps injectively into `H¹(ad)`, and its intersection with `L_S` gives the condition tangent.
-- `CategoryCondition.flat`: For `S` the finite flat modules, `D^S` is the condition constructed in [4.1](#t4-1). Over `ℚ_p`, `p>2`, its strict-class tangent identifies with the coefficient-linear self-Ext space of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7 (`flatDeformationTangentSpace`), with the dimension formula `flatTangent_finrank_le`; Schlessinger and representing-ring consequences use the adapter of 4.1.
+- `CategoryCondition.flat`: For `S` the finite flat modules, `D^S` is the condition constructed in [4.1](#41-flat-deformations-and-the-flat-deformation-ring). Over `ℚ_p`, `p>2`, its strict-class tangent identifies with the coefficient-linear self-Ext space of `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7 (`flatDeformationTangentSpace`), with the dimension formula `flatTangent_finrank_le`; Schlessinger and representing-ring consequences use the adapter of 4.1.
 - `CategoryCondition.mono`: `S⊂T` induces `R^T↠R^S`, compatibly with the same residual object, determinant and universal lifts.
 
 **Checks.**
@@ -4110,115 +3778,93 @@ The construction provides the following API.
 - For a Schur representation with `p=2` and `d=2`, every invariant endomorphism is scalar and has trace `2a=0`. In `0→ad⁰→ad→k→0` the connecting class `δ(1)` is therefore nonzero in `H¹(ad⁰)` but maps to zero in `H¹(ad)`. Counting it as an unframed fixed-determinant tangent direction would count a strict coboundary.
 - For `p` odd, `S` = finite flat, `ρ̄` peu ramifié of weight 2 over `ℚ_p`: `dim H¹_S(G_p, ad⁰ρ̄) = 1 + dim H⁰(G_p, ad⁰ρ̄)`.
 
-*Needs:* [4.1](#t4-1); [1.5](#t1-5); [F.3.1](#local-deformation-problem); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7.
+*Needs:* [4.1](#41-flat-deformations-and-the-flat-deformation-ring); [1.5](#15-forgetting-the-framing-of-local-lifts); [F.3.1](#f31-local-deformation-problems); `FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7.
 
-(Sources: [BCDT01], §4.3, author manuscript pp. 27–28; the general fixed-determinant tangent description follows from the strict equivalence of [F.1.3](#strict-deformation-functor) and [F.1.7](#fixed-determinant-functors), and `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*.)
-
-<a id="t8-7"></a>
+(Sources: [BCDT01], §4.3, author manuscript pp. 27–28; the general fixed-determinant tangent description follows from the strict equivalence of [F.1.3](#f13-deformations-up-to-strict-equivalence) and [F.1.7](#f17-lifts-and-deformations-with-fixed-determinant), and `SelmerIwasawaCohomology`, §`2A`.4, *Determinant tangent fibres*.)
 
 ### 8.7 odd archimedean rings
 
 Export the odd real quadric ring as a flat domain of relative dimension two with regular generic fibre. It is formally smooth when the residual involution is not the identity (always for odd `p`). At `p=2` and identity residual involution it is the hypersurface `𝒪[[X,Y,Z]]/(X²+2X+YZ)`. Identify the chosen determinant quotient and its universal involution with Layer 1's construction. The flat-domain, dimension and regular-generic-fibre assertions are stated as `oddRealRing_geometry` in `Suggested.lean`, using `OddRealRing` at the specified residual coordinates.
 
-*Needs:* [1.11](#t1-11); [1.14](#t1-14); [8.1](#t8-1).
+*Needs:* [1.11](#111-archimedean-deformation-rings-for-odd-p); [1.14](#114-the-odd-archimedean-deformation-ring-at-p--2); [8.1](#81-smooth-resolutions-of-framed-deformation-conditions).
 
 (Sources: [KW209], Proposition 3.3 and the Remark after it, pp. 20–21.)
-
-<a id="t8-8"></a>
 
 ### 8.8 rings at finite places away from `p`
 
 For fixed-character semistable extensions away from `p`, export a flat domain of relative dimension three with regular generic fibre. For inertia-rigid conditions, after splitting coefficients and fixing the reference inertia representation, export a flat ring with every component of relative dimension three and regular generic fibre. It need not be a domain. The nonabelian level-two case assumes `F_v=ℚ_q`, and the abelian split-distinct condition selects one component as specified above.
 
-*Needs:* [2.5](#t2-5); [2.3](#t2-3); [F.4.12](#inertia-rigid-deformations); [8.1](#t8-1); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [5.9](#t5-9).
+*Needs:* [2.5](#25-steinberg-unipotent-monodromy-lifts); [2.3](#23-minimally-ramified-lifts); [F.4.12](#f412-inertia-rigid-deformation-rings); [8.1](#81-smooth-resolutions-of-framed-deformation-conditions); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology); [5.9](#59-twists-of-semistable-deformations-away-from-p).
 
 (Sources: [KW209], Theorem 3.1 and §3.3, pp. 18–19 and 32–37.)
-
-<a id="t8-9"></a>
 
 ### 8.9 ordinary rings of low weight or weight two
 
 For unramified `F_v`, ordinary residual data with Serre weight `k≤p`, and the selected quotient character, the low-weight crystalline or weight-two potentially Barsotti–Tate ring is a flat domain of relative dimension `3+[F_v:ℚ_p]` with regular generic fibre. It is formally smooth if the residual representation is ramified or split with two distinct unramified characters. Every selected lift is (`χ₁η₁`,*;0,`η₂`), `η_i` unramified, with `χ₁=χ_p^{k−1}` or `χ_pω^{k−2}`. The scalar unramified case uses the projective-line resolution and may be nonnormal as well as nonsmooth; domain does not imply normality.
 
-*Needs:* [8.2](#t8-2); [8.1](#t8-1); [3.9](#t3-9); [1.13](#t1-13); [4.3](#t4-3); [4.4](#t4-4); [5.4](#t5-4).
+*Needs:* [8.2](#82-the-local-conditions-of-kw-ii); [8.1](#81-smooth-resolutions-of-framed-deformation-conditions); [3.9](#39-dimension-and-generic-regularity-of-potentially-semistable-rings); [1.13](#113-fontainelaffaille-deformations-tangent-space-and-smoothness-cht-lemma-242-corollaries-243244-lemma-245); [4.3](#43-finite-cocycles-via-kummer-theory-over-fnr-kw-ii-lemma-37); [4.4](#44-normalising-a-vector-over-𝒪t-inside-𝒪t-kw-ii-lemma-38); [5.4](#54-crystalline-lifts-of-weight-k--p-are-ordinary-when-the-residual-representation-is).
 
 (Sources: [KW209], §3.2.5, Proposition 3.6, Lemma 3.7 and their proofs, pp. 24–30; [KW209], Lemma 3.5, p. 22.)
-
-<a id="t8-10"></a>
 
 ### 8.10 A crystalline lift in Serre weight
 
 For `p≥3` and rank-two residual (`χ̄`,*;0,1) over `ℚ_p`, construct a crystalline lift in its Serre weight `r` with weights `{0,r−1}`. It can be chosen ordinary with unramified quotient using the preceding existence statement. The residual shape is essential: a representation with no unramified quotient cannot be the reduction of such a quotient-bearing lift.
 
-*Needs:* [0.3](#t0-3); [5.5](#t5-5); [8.5](#t8-5).
+*Needs:* [0.3](#03-ordinary-period-comparisons-and-rank-two-endpoints); [5.5](#55-crystalline-lifts-of-weight-p--1-ordinarity-and-formal-smoothness); [8.5](#85-ordinary-potentially-crystalline-local-lifts-of-reducible-residual-representations).
 
 (Sources: [FKP22], Lemma 7.2, third bullet, arXiv v5 p. 34.)
-
-<a id="t8-11"></a>
 
 ### 8.11 The good-dihedral local condition at `q ≡ −1 mod p`
 
 At `q≠p` with `p|q+1` and residual cyclotomic-extension shape up to unramified twist, choose a conjugate pair `χ′`,`χ′^q` of level-two tame characters of `p`-power order, with the dyadic parity constraint. Fixed-determinant induced lifts give a nonempty flat ring of relative dimension three and regular generic fibre. For odd `p` use nontrivial powers of `ω_{q,2}^{(q²−1)/p^r}`, `r=v_p(q+1)`; at `p=2` require `r≥2` and order at least four with the specified parity. No such dyadic character exists when `r=1`. For `q` odd, `i+j=q−1` makes `i−j` even, excluding the adjacent-index case; `q=2`,`p=3` gives `(i,j)=(1,0)`. In the residual-trivial case retain the source's chosen integral triangular basis; equality of generic inertia types alone need not select that integral condition.
 
-*Needs:* [8.8](#t8-8); [F.4.12](#inertia-rigid-deformations); [F.2.9](#fixed-determinant-rings).
+*Needs:* [8.8](#88-rings-at-finite-places-away-from-p); [F.4.12](#f412-inertia-rigid-deformation-rings); [F.2.9](#f29-fixed-determinant-rings-and-change-of-determinant).
 
 (Sources: [KW109], Theorem 5.1 (4), author copy pp. 9–10; [KW109], Remarks after Theorem 5.1, p. 10.)
-
-<a id="t8-12"></a>
 
 ### 8.12 Local quotients for weight-two symmetric power lifting (Newton–Thorne §4)
 
 After the specified soluble base change, residual data are trivial and determinant `ε⁻¹`. Nonordinary crystalline, ordinary crystalline and, for `p>2`, noncrystalline semistable quotients at `p` are domains of dimension `4+f`. Fixed-character extension rings away from `p` have dimension four; odd-real rings dimension three. The weight-two source convention translates to `{0,−1}` here.
 
-*Needs:* [4.14](#t4-14); [4.13](#t4-13); [6.6](#t6-6); [8.8](#t8-8); [1.11](#t1-11); [5.13](#t5-13); [5.2](#t5-2); [5.3](#t5-3); [1.14](#t1-14).
+*Needs:* [4.14](#414-components-of-rank-two-barsottitate-deformation-rings); [4.13](#413-the-ordinary-locus-in-rank-two); [6.6](#66-the-two-dimensional-ordinary-ring-of-the-trivial-representation-snowden); [8.8](#88-rings-at-finite-places-away-from-p); [1.11](#111-archimedean-deformation-rings-for-odd-p); [5.13](#513-components-of-2-adic-barsottitate-deformation-rings); [5.2](#52-ordinary-deformation-rings-of-rank-two-at-p--2); [5.3](#53-kisins-rings-away-from-2-and-at--against-layers-12); [1.14](#114-the-odd-archimedean-deformation-ring-at-p--2).
 
 (Sources: [NT26], §4, after Theorem 4.1, arXiv v2 p. 27; [NT26], §4, after Theorem 4.1, p. 27.)
-
-<a id="t8-13"></a>
 
 ### 8.13 semistable weight-two rings above `p`
 
 With unramified `F_v` and fixed unramified `γ` satisfying `γ²χ_p=φ`, export the semistable extension ring. It is formally smooth of relative dimension `3+[F_v:ℚ_p]` except in the dyadic residual-homothety case, where it is a faithfully flat domain of that relative dimension with regular generic fibre. Fixing `γ` and `φ` forbids adding a free unramified-twist variable.
 
-*Needs:* [8.1](#t8-1); [8.9](#t8-9); [5.6](#t5-6).
+*Needs:* [8.1](#81-smooth-resolutions-of-framed-deformation-conditions); [8.9](#89-ordinary-rings-of-low-weight-or-weight-two); [5.6](#56-semistable-weight-two-lifts-at-p-the-resolution-and-the-dyadic-homothety-case).
 
 (Sources: [KW209], §3.2.6, pp. 30.)
-
-<a id="t8-14"></a>
 
 ### 8.14 Torsion semistable lifts of the Newton–Thorne weight-two type form a stable condition
 
 Rank-two torsion semistable objects are subquotients of stable lattices in semistable `ℚ_p`-representations with weights `{0,−1}` in `HT(ε)=+1` convention. This is the source's `{0,1}` type under `HT(ε)=−1`; dualizing gives the distinct KW `{0,1}` shape. Subobject, quotient and sum closure gives a fixed-determinant deformation quotient; the crystalline and noncrystalline semistable quotients factor through it.
 
-*Needs:* [8.12](#t8-12); [4.1](#t4-1); [6.6](#t6-6).
+*Needs:* [8.12](#812-local-quotients-for-weight-two-symmetric-power-lifting-newtonthorne-4); [4.1](#41-flat-deformations-and-the-flat-deformation-ring); [6.6](#66-the-two-dimensional-ordinary-ring-of-the-trivial-representation-snowden).
 
 (Sources: [NT26], proof of Lemma 4.2, arXiv v2 pp. 28–29.)
-
-<a id="t8-15"></a>
 
 ### 8.15 crystalline lifts of weight `p + 1`
 
 For odd `p`, `F_v=ℚ_p` and the residual Serre-weight `p+1` branch, crystalline weight-`p+1` lifts equal ordinary lifts. The compatible fixed-determinant framed ring is formally smooth of relative dimension four. Retain the nonsmoothness of its stable-line character morphism. This is the endpoint ring comparison of Layer 5, with its complete ordinarity criterion.
 
-*Needs:* [8.13](#t8-13); [5.5](#t5-5); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
+*Needs:* [8.13](#813-semistable-weight-two-rings-above-p); [5.5](#55-crystalline-lifts-of-weight-p--1-ordinarity-and-formal-smoothness); `ClassFieldTheory`, Layer 5 (finite smooth discrete coefficients); `ArithmeticGaloisDuality`, `D7`, *Local duality over finite and local coefficient fields* (stable-lattice topology).
 
 (Sources: [KW209], §3.2.7 and the Remark, pp. 31–32.)
-
-<a id="t8-16"></a>
 
 ### 8.16 The dyadic weight-two transition: `k(ρ̄) = 2` versus `k(ρ̄) = 4` at `p = 2`
 
 For `p=2`, the KW weight-two condition is crystalline/Barsotti–Tate for residual Serre weight two and semistable with nonzero monodromy for residual Serre weight four. The mod-two cyclotomic character does not distinguish these cases; `N` does. At weight two use the irreducible smooth ring over `ℚ₂` or the selected reducible ordinary ring over an unramified extension. At weight four the residual extension is très ramifiée, so it is not a homothety and the semistable ring is formally smooth of relative dimension `3+[F_v:ℚ₂]`. Trivial residual data cannot have Serre weight four here.
 
-*Needs:* [5.6](#t5-6); [8.13](#t8-13); [8.1](#t8-1); [8.3](#t8-3); [8.9](#t8-9).
+*Needs:* [5.6](#56-semistable-weight-two-lifts-at-p-the-resolution-and-the-dyadic-homothety-case); [8.13](#813-semistable-weight-two-rings-above-p); [8.1](#81-smooth-resolutions-of-framed-deformation-conditions); [8.3](#83-irreducible-residual-representation-low-weight-crystalline); [8.9](#89-ordinary-rings-of-low-weight-or-weight-two).
 
 (Sources: [KW209], §3.2.`2 (i)`, author copy p. 23; [KW109], Theorem 5.1 (2), p. 9.)
 
-<a id="t8-17"></a>
-
 ### 8.17 the completed tensor product of KW II's local rings
 
-For the selected KW conditions at a finite set `S` containing all real and `p`-adic places of a totally real field, the completed tensor product of the local fixed-determinant framed rings is flat, with all components of relative dimension `3|S|` and regular generic fibre. If all finite away-from-`p` conditions are semistable, it is a domain. After finite coefficient extension it has an integral point. Use the completed-tensor-product and geometric-domain results of [F.0.1](#completed-coefficient-products); for `ℚ` and `S={∞,p}`, the dimensions add as `2+4=6`.
+For the selected KW conditions at a finite set `S` containing all real and `p`-adic places of a totally real field, the completed tensor product of the local fixed-determinant framed rings is flat, with all components of relative dimension `3|S|` and regular generic fibre. If all finite away-from-`p` conditions are semistable, it is a domain. After finite coefficient extension it has an integral point. Use the completed-tensor-product and geometric-domain results of [F.0.1](#f01-completed-coefficient-products-and-dimensions); for `ℚ` and `S={∞,p}`, the dimensions add as `2+4=6`.
 
 The total factors are equidimensional by their component dimensions in 8.3–8.4,
 8.7–8.9, 8.13 and 8.15. For component identification, enlarge coefficients so that each domain component
@@ -4226,27 +3872,23 @@ is geometrically integral, retaining the component maps of F.0.1. The domain con
 uses the selected domain factors, their integral points over common coefficients and their
 regular generic fibres; special-fibre dimensions alone supply neither conclusion.
 
-*Needs:* [8.7](#t8-7); [8.9](#t8-9); [8.8](#t8-8); [F.0.1](#completed-coefficient-products); [8.2](#t8-2); [8.3](#t8-3); [8.4](#t8-4); [8.13](#t8-13); [8.15](#t8-15).
+*Needs:* [8.7](#87-odd-archimedean-rings); [8.9](#89-ordinary-rings-of-low-weight-or-weight-two); [8.8](#88-rings-at-finite-places-away-from-p); [F.0.1](#f01-completed-coefficient-products-and-dimensions); [8.2](#82-the-local-conditions-of-kw-ii); [8.3](#83-irreducible-residual-representation-low-weight-crystalline); [8.4](#84-irreducible-residual-representation-weight-two); [8.13](#813-semistable-weight-two-rings-above-p); [8.15](#815-crystalline-lifts-of-weight-p--1).
 
 (Sources: [KW209], Proposition 3.2, p. 19.)
-
-<a id="t8-18"></a>
 
 ### 8.18 Nonemptiness of KW II's local rings
 
 For every KW condition satisfying Theorem 3.1's hypotheses and local choices, construct an integral lift after finite coefficient extension. Hence its ring and their completed tensor product are nonzero. General fixed-type quotients can instead be zero.
 
-*Needs:* [8.2](#t8-2); [8.17](#t8-17); [8.8](#t8-8); [8.9](#t8-9); [F.0.1](#completed-coefficient-products).
+*Needs:* [8.2](#82-the-local-conditions-of-kw-ii); [8.17](#817-the-completed-tensor-product-of-kw-iis-local-rings); [8.8](#88-rings-at-finite-places-away-from-p); [8.9](#89-ordinary-rings-of-low-weight-or-weight-two); [F.0.1](#f01-completed-coefficient-products-and-dimensions).
 
 (Sources: [KW209], Theorem 3.1, p. 19.)
-
-<a id="t8-19"></a>
 
 ### 8.19 The local conditions of KW `I` Theorem 5.1
 
 Export the four local patterns for KW `I`'s compatible-system construction: minimal away from `p` with the selected crystalline weight at `p`; minimal away from `p` with prescribed weight-two inertia/monodromy at `p`; the same with a chosen nontrivial tame character at `q`∥`N`, `p|q−1`; and the good-dihedral condition at `q≠p`, `p|q+1`. Supply the relevant quotient, tangent condition, point existence and dimensions (three away from `p` and `3+[F_v:ℚ_p]` above `p`). Characters of `p`-power order require enlarged coefficient integers containing the roots of unity; they need not be `ℤ_p`-valued. The compatible-system and global irreducibility conclusions remain with their global owner.
 
-*Needs:* [8.8](#t8-8); [8.9](#t8-9); [8.3](#t8-3); [8.4](#t8-4); [8.13](#t8-13); [8.15](#t8-15); [8.18](#t8-18); [5.7](#t5-7); [2.8](#t2-8).
+*Needs:* [8.8](#88-rings-at-finite-places-away-from-p); [8.9](#89-ordinary-rings-of-low-weight-or-weight-two); [8.3](#83-irreducible-residual-representation-low-weight-crystalline); [8.4](#84-irreducible-residual-representation-weight-two); [8.13](#813-semistable-weight-two-rings-above-p); [8.15](#815-crystalline-lifts-of-weight-p--1); [8.18](#818-nonemptiness-of-kw-iis-local-rings); [5.7](#57-minimal-lifts-in-the-dihedral-and-exceptional-cases-p--2-and-residue-characteristic-2); [2.8](#28-the-minimally-ramified-deformation-ring).
 
 (Sources: [KW109], Theorem 5.1, author copy p. 9.)
 
