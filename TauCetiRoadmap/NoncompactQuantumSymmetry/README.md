@@ -15,7 +15,7 @@ Consume, without duplicating their core constructions:
 - CStarAlgebras for full group C*-algebras and type-I hypotheses; OperatorAlgebraDynamics D5 for Haar-system groupoid convolution/disintegration; VonNeumannAlgebras V2 for completed Hilbert tensors. M3 consumes Layer P.5's free-particle position, momentum and Fourier core; the other Layer P interfaces are named below and at their uses.
 - [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
 - [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups and Peter–Weyl; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
-- [AffineLieAlgebras §A1](../AffineLieAlgebras/README.md#a1-currents-and-continuous-cohomology) for the degree-one and degree-two Whitehead lemmas of finite-dimensional complex semisimple Lie algebras with finite-dimensional coefficients, consumed by Layer P.4; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
+- Mathlib's `LieAlgebra.HasTrivialRadical.instIsKilling` (`Mathlib/Algebra/Lie/CartanCriterion.lean`, Cartan's criterion over a characteristic-zero domain) with `LieAlgebra.IsSemisimple.instHasTrivialRadical`, and Tau Ceti's `TauCeti.exists_isCompl_of_isKilling` (`TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, Weyl's complete reducibility over a field of characteristic zero for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module), from which Layer P.4 proves the degree-one and degree-two Whitehead lemmas; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
 - Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); strong-operator Polish groups, coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and Pettis's theorem (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
 - Tau Ceti's pinned Lorentzian Clifford/Spin equivalence in `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean` and Hermitian-vector model in `TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` for the `Spin(3,1)≃SL(2,ℂ)` / Lorentz cover interface. The group-action and orbit proofs remain targets here.
 
@@ -83,8 +83,8 @@ momentum operators (P.5), the permutation sectors of completed tensor powers
 (P.6), interior tensor products, induction and the Rieffel correspondence for
 Hilbert C*-modules (P.7), and C₀(X)-algebras and continuous fields (P.8). Its
 only inputs are Mathlib, Tau Ceti and the named sections of LieGroups,
-AffineLieAlgebras, SelfAdjointSpectralTheory, VonNeumannAlgebras and
-CStarAlgebras; it consumes no M-layer.
+SelfAdjointSpectralTheory, VonNeumannAlgebras and CStarAlgebras; it consumes
+no M-layer.
 
 ### P.1 Rays and the unitary–antiunitary group
 
@@ -348,20 +348,37 @@ conjugation functions are smooth near 1 (Neeb's `Z²_ss`); coboundaries are
   `H¹(G̃,𝕋)→Hom(π₁(G),𝕋)→H²_lc(G,𝕋)→H²(g,ℝ)`, whose first term is the group of
   continuous characters of the universal cover; M3 and M4 use it for the SO(3)
   and SO₀(3,1) spin classes.
-- **Whitehead lemmas.** For a finite-dimensional real semisimple Lie algebra g
-  and a finite-dimensional real g-module V prove `H¹(g,V)=0` and `H²(g,V)=0`.
-  Route: the Chevalley–Eilenberg complex commutes with the flat base change
-  ℝ→ℂ, so `Hⁿ(g,V)⊗ℂ≅Hⁿ(g_ℂ,V_ℂ)`; `g_ℂ` is semisimple because the Killing
-  form base-changes; and AffineLieAlgebras §A1 proves `H¹=H²=0` for
-  finite-dimensional complex semisimple Lie algebras and finite-dimensional
-  modules. Mathlib supplies the low-degree cochains `LieModule.Cohomology.twoCocycle`,
-  `d₁₂` and `d₂₃` (`Mathlib/Algebra/Lie/Cochain.lean`). M3 consumes the scalar
-  degree-two lemma for so(3) and the degree-one lemma for the dual of the
-  Galilei radical; M4 consumes the scalar degree-two lemma for so(3,1).
+- **Whitehead lemmas.** Let K be a field of characteristic zero (ℝ in every
+  use below), g a finite-dimensional semisimple Lie algebra over K and V a
+  finite-dimensional g-module. Write `(δv)(x)=x·v` for the degree-zero
+  coboundary and use Mathlib's `d₁₂`, `(d₁₂f)(x,y)=x·f(y)−y·f(x)−f([x,y])`, and
+  `d₂₃` with its kernel `LieModule.Cohomology.twoCocycle`
+  (`Mathlib/Algebra/Lie/Cochain.lean`). Prove that every 1-cocycle is `δv` for
+  some v∈V and every 2-cocycle is `d₁₂f` for some linear f:g→V, that is
+  `H¹(g,V)=0` and `H²(g,V)=0` (Weibel1994 §7.8, Whitehead's lemmas). Route,
+  using only complete reducibility: g has trivial radical, hence nondegenerate
+  Killing form by Mathlib's Cartan criterion, so Tau Ceti's
+  `TauCeti.exists_isCompl_of_isKilling` complements every submodule of a
+  finite-dimensional g-module. For a 1-cocycle f, the space `V⊕K` with
+  `x·(v,t)=(x·v+t f(x),0)` is a g-module (the cocycle identity is exactly the
+  bracket compatibility); a complement of `V⊕0` is a line spanned by some
+  `(v₀,1)`, and it is killed by g because g maps everything into `V⊕0`, so
+  `f=δ(−v₀)`. For a 2-cocycle c, give `Hom(g,V)` the module structure
+  `(x·φ)(z)=x·φ(z)−φ([x,z])` and put `φ_c(x)=c(x,·)`; the cocycle identity
+  says `d₁₂φ_c=−ι∘c`, where `ι(v)(z)=z·v` is a g-module map `V→Hom(g,V)`
+  with kernel the invariants `V^g`. Split `V=V^g⊕V′` by complete
+  reducibility, so that c splits accordingly. On `V′`, ι is injective;
+  an equivariant projection p of `Hom(g,V′)` onto `ι(V′)` gives
+  `c=d₁₂(−ι⁻¹∘p∘φ_c)`. On `V^g`, ι vanishes, so `φ_c` is a 1-cocycle with
+  values in the dual module, hence `φ_c=δλ` by the degree-one lemma, and then
+  `c(x,z)=−λ([x,z])=(d₁₂λ)(x,z)`. M3 consumes the scalar degree-two lemma for
+  so(3) and the degree-one lemma for the dual of the Galilei radical; M4
+  consumes the scalar degree-two lemma for so(3,1).
 
 *Needs:* P.3; LieGroups Layers 2 and 5 (automatic smoothness, simply connected
-covers); AffineLieAlgebras §A1 (complex Whitehead lemmas); Mathlib Lie
-cochains and Killing form.
+covers); Mathlib Lie cochains, `LieAlgebra.IsSemisimple.instHasTrivialRadical`
+and `LieAlgebra.HasTrivialRadical.instIsKilling`; Tau Ceti
+`TauCeti.exists_isCompl_of_isKilling` (Whitehead lemmas).
 
 **Checks.**
 
@@ -376,6 +393,18 @@ cochains and Killing form.
   the spin class; SL(2,ℝ) has `H²(sl(2,ℝ),ℝ)=0` but `π₁=ℤ`, so
   `H²_lc(SL(2,ℝ),𝕋)≅𝕋`, the first map being injective because the universal
   cover is perfect. The integration isomorphism needs `π₁(G)=0`.
+- On so(3)=(ℝ³,×) with the adjoint module, the 1-cocycle `f(x)=x×a` is
+  `δa`, since `x·a=x×a`; and `ι(v)(z)=z×v` vanishes only at v=0, so ι is
+  injective, as the degree-two route needs when `V^g=0`.
+- Semisimplicity is needed in degree one: for the one-dimensional abelian
+  algebra ℝ acting trivially on V=ℝ, `f=id` is a 1-cocycle while every `δv`
+  is 0, so `H¹=ℝ`; correspondingly the module `ℝ⊕ℝ` with x acting by
+  `(v,t)↦(xt,0)` is the extension the degree-one route builds, and `ℝ⊕0` has
+  no invariant complement there.
+- For the scalar degree-two route on so(3) with trivial coefficients ℝ, the
+  2-cocycle `c(x,z)=⟨a,x×z⟩` is `d₁₂λ` with `λ(w)=−⟨a,w⟩`, since
+  `(d₁₂λ)(x,z)=−λ(x×z)=⟨a,x×z⟩`; on abelian ℝ² the cocycle `ab′−a′b` has no
+  such λ because every bracket vanishes, matching `H²(ℝ²,ℝ)=ℝ` above.
 
 ### P.5 Free-particle position and momentum
 
@@ -8610,5 +8639,7 @@ Dooley, *Mathematical Foundations of Quantum Mechanics*: all 34 physical pages a
 Grundling, *Mathematics of Quantum Mechanics notes* (225 physical pages). Its operator, Stone, compact rotation and tensor examples support the operator/compact suppliers: physical pp.122–140 have basic operator theory, pp.170–182 have Stone and self-adjoint extensions, and pp.211–225 have angular momentum, hydrogen, tensors, Weyl relations and rotation generators. The readable material supplies no Galilei, Poincaré, Lorentz or Mackey classification premise here; those targets use the Dooley notes and the named primary representation-theory sources. The faint facing halves of physical pp.222–225 remain indeterminate and carry no invented assertion. The indeterminate passages supply no additional theorem premise.
 
 Primary representation-theory references for the noncompact assertions are G. W. Mackey, [“Imprimitivity for Representations of Locally Compact Groups I,” *PNAS* 35 (1949), 537–545](https://doi.org/10.1073/pnas.35.9.537) and [“Unitary Representations of Group Extensions I,” *Acta Mathematica* 99 (1958), 265–311](https://doi.org/10.1007/BF02392428); V. Bargmann, [“Irreducible Unitary Representations of the Lorentz Group,” *Annals of Mathematics* 48 (1947), 568–640](https://doi.org/10.2307/1969129), with its q/K-weight normalization translated in M4; I. M. Gel'fand–M. A. Naimark, [“Unitary representations of the Lorentz group,” *Izv. Akad. Nauk SSSR Ser. Mat.* 11 (1947), 411–504](https://www.mathnet.ru/eng/im3007), especially §8 and the p457 endpoint footnote; V. Bargmann, [“On Unitary Ray Representations of Continuous Groups,” *Annals of Mathematics* 59 (1954), 1–46](https://doi.org/10.2307/1969831); R. Takahashi, [“Sur les représentations unitaires des groupes de Lorentz généralisés,” *Bull. Soc. Math. France* 91 (1963), 289–433](https://doi.org/10.24033/bsmf.1598); J. Dixmier, [“Représentations intégrables du groupe de De Sitter,” *Bull. Soc. Math. France* 89 (1961), 9–41](https://doi.org/10.24033/bsmf.1558); and H. Bacry–J.-M. Lévy-Leblond, [“Possible Kinematics,” *J. Math. Phys.* 9 (1968), 1605–1614](https://doi.org/10.1063/1.1664490). Wightman's primary localization discussion is [“On the Localizability of Quantum Mechanical Systems,” *Rev. Mod. Phys.* 34 (1962), 845](https://doi.org/10.1103/RevModPhys.34.845). These sources identify the classification problems; the chosen topology, cover, signature and operator domains are fixed by this README.
+
+Layers P.3 and P.4 cite Neeb2004 = K.-H. Neeb, [“Abelian extensions of infinite-dimensional Lie groups,” *Travaux Mathématiques* 15 (2004), 69–194](https://arxiv.org/abs/math/0402303) (arXiv:math/0402303); WagemannWockel2015 = F. Wagemann and C. Wockel, [“A cocycle model for topological and Lie group cohomology,” *Trans. Amer. Math. Soc.* 367 (2015), 1871–1909](https://arxiv.org/abs/1110.3304) (arXiv:1110.3304); and Weibel1994 = C. A. Weibel, *An Introduction to Homological Algebra*, Cambridge Studies in Advanced Mathematics 38, Cambridge University Press, 1994, §7.8 (cited by section, for Whitehead's lemmas).
 
 Layer P.7 and P.8 cite Echterhoff2010 = S. Echterhoff, [“Crossed products, the Mackey–Rieffel–Green machine and applications”](https://arxiv.org/abs/1006.4975) (arXiv:1006.4975), and DixmierDouady1963 = J. Dixmier and A. Douady, [“Champs continus d’espaces hilbertiens et de C*-algèbres,” *Bull. Soc. Math. France* 91 (1963), 227–284](https://doi.org/10.24033/bsmf.1596).
