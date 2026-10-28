@@ -1471,6 +1471,66 @@ Construct the full integer crossing/arc Fox-coloring matrix A, its signed left-k
 
 For any rectangular integer matrix construct a finite integer presentation and its Smith invariant factors, allowing singular square matrices and zero rows/columns. Consume actual PID/submodule/SNF APIs wherever their complete hypotheses apply, and use elementary Euclidean row/column operations for the remaining finite-presentation adapter. Export P*A*Q=diag(d₁,…,d_r,0,…) with P,Q unimodular, each d_i>0, d_i∣d_(i+1), rank/free/torsion decomposition and reduced modp dimension formula. This is broader than native nonsingular-square positive-SNF. Certify each printed matrix using explicit P,Q witnesses; source numerical output alone does not establish geometric identification.
 
+<a id="gt4-five-two-coloring"></a>
+**The complete `5₂` colouring calculation.** Use the arc order
+`x₁,…,x₅` of physical pages147–148 of *Knot Theory.pdf*. Construct the
+realized marked diagram and compare its arcs and crossings with the source
+picture. The five equations have overarc/underarc triples
+`(1;2,3)`, `(3;1,4)`, `(4;1,5)`, `(5;2,4)`, `(2;3,5)`.
+The unordered underarc pairs specify these Fox equations, not the full planar
+crossing data; supply the cyclic/over-under realization as well. The literal
+integer arc matrix is
+
+```text
+A = [ 2 -1 -1  0  0
+     -1  0  2 -1  0
+     -1  0  0  2 -1
+      0 -1  0 -1  2
+      0  2 -1  0 -1 ].
+```
+
+Give the explicit integral Smith certificate `PAQ=diag(1,1,1,7,0)`, with
+
+```text
+P = [ 1  0  0  0  0      Q = [ 0  0  0  0  1
+      0  1  0  0  0            0  0  0  1  1
+      0  0  1  0  0           -1  0  0 -1  1
+     -6 -3 -2 -1  0           -2 -1  0 -2  1
+      1  1  1  1  1 ]         -4 -2 -1 -4  1 ].
+```
+
+Prove `det(P)=−1`, `det(Q)=1`, and interpret the changes of bases on the
+actual integer row-relation module. Its full group is `ℤ⊕ℤ/7`; normalizing
+a chosen arc to zero gives the reduced group `ℤ/7`. Every row sum and every
+column sum of `A` is zero, so here the signed row-dependency vector can be
+chosen to be all ones. Prove every signed cofactor
+`(−1)^(i+j)det(A with row i and column j deleted)=−7`, using one-based
+indices. In particular each unsigned reduced determinant has absolute value7.
+Compare these cofactors and the Smith certificate with the general normalized
+presentation equivalences, rather than treating a named determinant as input.
+
+For every commutative ring `R`, prove the complete solution formula
+
+`A_R x=0 ↔ ∃ c,a∈R, 7a=0 ∧ x=(c,c+a,c−a,c−2a,c−4a)`.
+
+The parameters are unique, with `c=x₁`, `a=x₂−x₁`. Construct the resulting
+`R`-linear equivalence with `R × ker(7·)` and its quotient-by-global-constants
+comparison. This includes rings of characteristic7 and rings with7-torsion;
+no field hypothesis is needed for the formula. For every modulus `m≥1`,
+prove the number of full `ZMod m` colourings is `m gcd(m,7)` and the number
+of nonconstant ones is `m(gcd(m,7)−1)`. The one-element `m=1` case has one
+full colouring and no nonconstant one. For prime p, the reduced dimension
+is1 exactly at p=7 and0 otherwise. Thus there are49 full7-colourings and42
+nonconstant ones, and `5₂` is p-colourable exactly at p=7. Compare the trefoil's
+p=3 criterion and the unknot's constant-only space to distinguish the three
+knot types. Transport these results through the realized diagram comparison
+before assigning them to the geometric source knot.
+
+[`FiveTwoColoringTargets.lean`](FiveTwoColoringTargets.lean) uses the literal
+matrix, the integral basis-change certificate and the all-ring kernel formula.
+The source calls this an arc/Goeritz matrix; its separate checkerboard Goeritz
+carrier remains the one specified above.
+
 Prove colorings of disjoint diagrams are products. A split link moved into two disjoint open half-spaces has componentwise constant nonconstant colorings; consume GT Layer2's bicollar/Brown Schoenflies contract, comparison3g's dimension≤3 relative Moise/smoothing and Layer3's supported isotopy-extension contract to compare a locally flat separating-sphere definition when it is the source convention. State this comparison with its actual collar/category hypotheses. Derive Whitehead nonsplitting from its exact finite coloring count, not from a guessed diagram or linking0 alone.
 
 For knots prove bridge-label restriction injective, hence reduced dimension≤bridge−1. At a crossing change prove reduced dimension changes by at most1 using the two local linear systems and their common codimension-one restriction; iterate to r≤u. For surjective transposition labels in S_n, the graph of labeled transpositions is connected iff those labels generate S_n, and at least n−1 bridge labels are necessary. Export bridge≥n−1, and keep the printed≥n as a false source assertion (S3-labeled trefoil is a corrected counterexample once its diagram is realized). Build the full integer signed-twist recurrence on involution labels, output ((xy)^p*x,(xy)^(p−1)*x), including inverse twists. Prove the three pretzel consistency equations and their dependency, classify constant, S3-image and S4-generating transposition solutions separately; for the generating case classify all ordered generating transposition triples into star/path. In the pinned twist convention the first two consistency equations imply the third; the star branch holds iff p,q,r are each divisible by3, and the path branch iff p,q are divisible by3 and r is even. After allowing every parameter permutation, a generating S4 labeling exists iff at least two of p,q,r are divisible by3 and every one is either divisible by3 or even. Prove this from the finite ordered triples and modulo6 recurrences. The additional parity restriction for the diagram to be a KNOT is a separate realized-component calculation; do not make it a premise of the general pretzel-link coloring criterion. Preserve source r≡2mod3 separately from corrected r-even.
