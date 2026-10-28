@@ -1335,10 +1335,37 @@ pointwise star, whose type is `(n−q,n−p)`.
 The canonical predicate is a Hermitian metric on a complex manifold with closed
 fundamental form. Prove its comparison, through K1 Newlander–Nirenberg, with the
 real-carrier `IsKahler` prototype (Compatible, closed and N=0). Define Kähler metrics by
-closedness of the fundamental form and prove equivalence to `∇J=0` for Levi-Civita and
-holomorphic coordinates with `h_ij=δ_ij+O(|z|²)` at a point. Prove the adapted unitary
-frame lemma, the standard Kähler structure on ℂⁿ, that complex submanifolds inherit Kähler
-metrics, and that every Hermitian metric on a complex curve is Kähler. Develop `L=ω∧·`,
+closedness of the fundamental form and prove equivalence to `∇J=0` for Levi-Civita.
+For an arbitrary smooth Hermitian metric and a fixed p, prove that holomorphic
+coordinates with metric matrix `H(0)=I` and real derivative `dH(0)=0` exist
+exactly when `dω(p)=0`. The global Kähler equivalence requires these coordinates
+at every point. Give actual neighborhood and Taylor bounds: on a smaller chart,
+`‖H(w)−I‖≤C‖w‖²` for a finite C. Use K4's native Hermitian slot convention.
+
+For the Kähler construction first normalize a holomorphic chart at p so H(0)=I.
+Derive zero Chern torsion directly from dω=0; Levi-Civita uniqueness then
+identifies the two connections before the coordinate construction. Write `∇_(∂_j)∂_k=Σ_i Γ^i_jk ∂_i` for the common Levi-Civita/Chern
+connection on `T^(1,0)M`. Torsion-freeness makes Γ symmetric in j,k.
+Construct the polynomial map from the new coordinates to the old ones,
+`z^i(w)=w^i−(1/2)Σ_(j,k) Γ^i_jk(p)w^j w^k`. Its derivative at0 is I;
+K1's holomorphic inverse-function theorem makes it a biholomorphic chart
+change on specified neighborhoods. Prove by the connection and metric
+transformation laws that the new Γ and first metric derivatives vanish at0.
+[NormalCoordinateTargets.lean](NormalCoordinateTargets.lean) pins this
+quadratic map and its first two derivatives.
+
+In these coordinates construct a smooth unitary `(1,0)` coframe φ by
+Gram–Schmidt, with `φ_j=Σ_k A_jk(w)dw^k`, `A(0)=I` and `dA(0)=0`.
+Prove smooth dependence of Gram–Schmidt on positive Hermitian matrices,
+and derive the first-derivative assertion from `dH(0)=0`. In particular
+`dφ_j(p)=0`. Retain K5b.0's Gram normalization: φ has complexified-real
+Gram norm √2 and ψ=φ/√2 is Gram-orthonormal. This supplies the actual
+coframe used in the Kähler commutator calculation. For the coordinate
+criterion see [Ballmann, Theorem4.17](https://people.maths.ox.ac.uk/joyce/Nairobi2019/BallmannKahlerManifolds.pdf).
+
+Prove the standard Kähler structure on ℂⁿ, that complex submanifolds inherit
+Kähler metrics, and that every Hermitian metric on a complex curve is Kähler.
+Develop `L=ω∧·`,
 its adjoint Λ, primitive forms and `[Λ,L]=(n-k)` on degree k. Prove `[Λ,∂]=i∂̄*`,
 `[Λ,∂̄]=-i∂*` and the adjoint/conjugate identities, explicitly `[Λ,d]=−(d^c)*` and
 `[L,d*]=d^c`. For `d_c=d^c/(4π)`, prove the corresponding commutator
