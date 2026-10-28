@@ -16,6 +16,13 @@ All three PRs target main separately. The joint connection-family regularity in 
 merge before the next variation stage in #21067. All must finish normal review and CI before this
 archive is marked ready. Their refinements are tracked in the PR discussions.
 
+**Additional scope check, 2026-10-28.** The published #18707 head `ac83a202c72e` proves
+joint native coefficient smoothness at interior chart points and on full chart domains only
+for a boundaryless model. The approved nondegenerate supplier also includes corner-boundary
+points; frozen-metric smoothness does not imply joint family smoothness there. The full native
+chart-domain theorem is being completed in #18707. This archive remains blocked on that proof,
+even if the other two prerequisites merge. No boundaryless restriction is added to the roadmap.
+
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
 | Requirement | Canonical implementation and scope check |
@@ -39,7 +46,7 @@ Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise 
 | Flat-space acceptance, including dimension zero | `Riemannian/Geodesic/Euclidean.lean` explicitly computes the affine geodesic, maximal interval, exponential domain/map/derivative, normal balls and logarithm. Its model-space hypotheses do not require the space to be nontrivial. |
 | Open-unit-ball rejection test | `Riemannian/Geodesic/Examples/OpenUnitBall.lean` computes the finite-time boundary behavior and radial minimizing segments. The associated `RealOpenUnitBall` API proves non-completeness/non-compactness, so the existence of minimizing segments does not imply properness. |
 
-The candidate native-family bridge and the Hopf–Rinow downstream consumer built in 6,705 Lake
+The currently checked interior native-family bridge and the Hopf–Rinow consumer built in 6,705 Lake
 jobs; its key derivative and coefficient endpoints have only `propext`, `Classical.choice` and
 `Quot.sound`. The restricted-metric and connection comparisons built in 5,907 jobs and have the
 same axiom profile. The intrinsic curve-variation comparison also passed its endpoint probes.
