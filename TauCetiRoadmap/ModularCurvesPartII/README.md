@@ -8,11 +8,13 @@ ModularCurves is the first prerequisite. Its layers are imported, never rebuilt:
 
 - **Layers 0–2**: relative effective Cartier divisors, finite locally free group schemes and Cartier duality, finite quotients and torsors, finite étale descent and spreading out (0A–0E); projective Weierstrass models, pole sheaves and the scheme-theoretic group law (1A–1D); isogenies, quotients, the Cartier–Nishi duality and the Weil pairing, endomorphism degree and rigidity (2B, 2E, 2F).
 - **Layers 3–9**: the four level structures and their naive variants (3C, 3D, 3N); Tate normal form and `Y₁(N)` for `N≥4`, full ordered bases and fixed pairing, the twisted curve `Y(ρ)` (5A–5C); the integral level problems (Layer 6); local algebra, p-divisible groups, Serre–Tate theory and the three characteristic-p calculations (7B, 7E–7H); generator schemes, cyclicity and `Γ₀(N)` (8B–8D); the Katz–Mazur quotient problems, coarse moduli schemes, the coarse j-line and `Y₀(N)` (9A–9E).
-- **Layer 10**: the compactified coarse curves `X_H` over `ℤ[1/N]` for prime `N≥5` and diamond subgroups H of `(ℤ/N)ˣ/{±1}`, their cusps and widths, the characteristic-2/3 stabilizer table and the Shimura covering. On exactly that range this roadmap proves agreement with its own construction ([§5.18](#s5-18)) and builds nothing again. Full, fixed-pairing, composite, small and level-dividing compactifications are new work here.
+- **Layer 10**: the compactified coarse curves `X_H` over `ℤ[1/N]` for prime `N≥5` and diamond subgroups H of `(ℤ/N)ˣ/{±1}`, their cusps and widths, the characteristic-2/3 stabilizer table and the Shimura covering. On exactly that range this roadmap proves agreement with its own construction ([§5.18](#518-agreement-with-the-prime-level-diamond-quotients)) and builds nothing again. Full, fixed-pairing, composite, small and level-dividing compactifications are new work here.
 
 The new generalized elliptic, full-level, fixed-pairing, composite-level and level-dividing boundary problems retain their stack inertia. They extend ordinary elliptic level structures to polygons; they do not define ordinary full or cyclic level again. The local models are model-dependent: the stack, its framed formal chart, its coarse space and a regular or semistable model are separate carriers.
 
 The generalized elliptic curve itself is imported, not defined here. AdicSpacesPartIII Layer R2.11 owns the carrier `GeneralisedEllipticCurve`, the standard polygons `EllipticModuli.nGon`, the n-gon Tate family `GeneralisedEllipticCurve.tateCurve` and, on its representable range (full level `N≥3` over `ℤ[1/N]`, cyclic level with an invertible factor `d≥5`), the fine compactified moduli scheme `GeneralisedEllipticCurve.moduli` with its universal curve and level. This roadmap proves Deligne–Rapoport's description of that carrier and builds on it the integral theory over `ℤ` at every level: stacks with inertia, contractions, Drinfeld structures in bad characteristic and the refined `Γ₀` problem. Likewise the lattice uniformization of complex abelian varieties and the genus-one family over the upper half-plane are AbelianSchemesAndArithmeticModuli A5.1 (`AbelianLattice`) and A5.8 (`SiegelFamily`), and the analytic cusp data and cusp ramification of Fuchsian quotients are FuchsianOrbifolds Layers 3–4; Layers 1, 3, 4 and 6 specialize them.
+
+The Albanese modular quotient `A_f=J₁(N)/B_f` and Shimura's dimension theorem of §§16.2–16.4 are the same object and theorem as CyclotomicClassGroupsAndStickelberger §4.3's shared modular quotient, with the same moduli model and Hecke action.
 
 The field-curve Jacobian, its dimension and principal polarization, and the pointed Abel–Jacobi construction are supplied by JacobianChallenge Layers D, E and F. JacobianChallengePartII §§1.2–1.4 supplies the positive-genus relative Jacobian with its canonical principal polarization and arbitrary-base-change comparisons; §13.1 specializes these to modular curves and retains the trivial principally polarized genus-zero case and modular functoriality. StableReduction supplies nodes, dual graphs, blowups, semistable existence and stabilization (Layers 1–4, 7–9); the new outputs here identify their components, inertia actions, thicknesses and modular operators. ModularForms supplies analytic quotient surfaces (10A), compact surface cohomology (10B), automorphy sections (10C), Hecke algebra and slash operators (2), Petersson theory and oldforms (3), primitive forms and multiplicity one (4–5, 8G), and integral full modular symbols and period quotients (8). The geometric symbol comparison here uses the cuspidal kernel and the coefficient dual, rather than identifying the full symbol module with compact cohomology.
 
@@ -46,7 +48,7 @@ These conventions apply throughout. The letters Z, Q, C and H in formulas denote
 
 **Moduli problems are not interchangeable.** Strict full ordered level `(Xfull(N), Y_full(N))`, a fixed Weil-pairing fibre `(X(N,ζ), Y(N,ζ))`, projective frames modulo scalars, the point-of-exact-order problem (`X₁(N)`, whose objects are pairs (E,P)), the naive cyclic problem `X₀(N)^naive` and Česnavičius's refined `X₀(N)`, and the mixed problems `Γ₁(N;n)` and `Γ₁(N)∩Γ₀(p)` are different moduli problems. Full level carries its cyclotomic determinant algebra and is not geometrically connected; a fixed pairing selects one component over `ℤ[ζ_N]`. The naive and refined `Γ₀` stacks have the same coarse curve but are different stacks for N not squarefree. `Γ₀` always has generic inertia `{±1}`.
 
-**Stacks, coarse curves and models.** `X(1)=Ell₁` is the stack of generalized elliptic curves with irreducible geometric fibres and `Ell_m` that of curves whose degenerate fibres are m-gons. For an open H, `𝒳_H` is the level-H stack (the normalization of `X(1)` in the level-H cover of the elliptic locus, the level-H construction in Layers 3 and 5); for the standard levels it is Layers 3 and 4's moduli stack (`Xfull(N), X₁(N)`, refined `X₀(N)`). `X_H` is its coarse curve, `Y_H` the elliptic open (each statement says whether the stack or the coarse space is meant), and `X_H^∞` the scheme-theoretic fibre of `X_H` over `j=∞`. A stack, its formal framed atlas, its coarse space, a regular model and a semistable model after base extension are different objects; no property passes from one to another without the theorem that transfers it. In particular stack finite flatness does not give coarse finite flatness, and coarse formation commutes with arbitrary base change only in the range of [§5.3](#s5-3).
+**Stacks, coarse curves and models.** `X(1)=Ell₁` is the stack of generalized elliptic curves with irreducible geometric fibres and `Ell_m` that of curves whose degenerate fibres are m-gons. For an open H, `𝒳_H` is the level-H stack (the normalization of `X(1)` in the level-H cover of the elliptic locus, the level-H construction in Layers 3 and 5); for the standard levels it is Layers 3 and 4's moduli stack (`Xfull(N), X₁(N)`, refined `X₀(N)`). `X_H` is its coarse curve, `Y_H` the elliptic open (each statement says whether the stack or the coarse space is meant), and `X_H^∞` the scheme-theoretic fibre of `X_H` over `j=∞`. A stack, its formal framed atlas, its coarse space, a regular model and a semistable model after base extension are different objects; no property passes from one to another without the theorem that transfers it. In particular stack finite flatness does not give coarse finite flatness, and coarse formation commutes with arbitrary base change only in the range of [§5.3](#53-base-change-for-coarse-modular-curves).
 
 **Degrees.** `𝒳_H` has degree `[GL₂(Ẑ):H]` over `X(1)` and `X_H` has degree `[GL₂(Ẑ):±H]` over `ℙ¹_j`. The correspondence `A_m` uses every subgroup of order m and `C_m` only the cyclic ones; in characteristic zero their degrees are `σ₁(m)` and `ψ(m)=m∏_{p|m}(1+1/p)`. Hermite normal form data are `ad=m`, `0≤b<d`, with the cyclic filter `gcd(a,b,d)=1`; for `m=4` there are seven branches, six of them cyclic.
 
@@ -164,7 +166,8 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 - **`R11.1`**: Néron extension of generic Jacobian homomorphisms over a DVR when the modular coarse fibre is singular; do not claim abelian good reduction at level-dividing primes.
 - **`R11.3`**: Semistable integral Tate filtration at `ℓ≠p`: `T_tor⊂T_f=T^{I_p}⊂T`, toric term `Hom(X*(T),Z_ℓ(1))`, finite quotient `T_ℓ` of the abelian reduction; keep saturation hypotheses.
 - **`R11.4`**: Comparison of the Néron identity fibre with `Pic⁰` of a proper regular semistable curve, the thickness-weighted graph monodromy pairing and its component-group discriminant. Import the general theorem; this part supplies the modular component/branch data. Additional consuming contract: Generic graph identification `X*(T)=H₁(dual graph,Z)`, weighted monodromy into its Z-dual and component-group cokernel, retaining all node thicknesses and primary torsion.
-- **§§4.2–4.7**: The common integral graph carrier `DualGraph.cycleLattice`, thickness form `DualGraph.edgeForm` and monodromy cokernel. The shared finite-torsion interface is assigned to this supplier: `SemistableTorsionDatum` over a commutative Hecke ring, with its commuting finite Galois action and the toric, identity-component and finite-part filtration; its laws retain the abelian part. Section 17.7 supplies the modular specialization from the Jacobian's actual torsion, rather than another graph or torsion carrier.
+- **§§4.2–4.7**: The common integral graph carrier `DualGraph.cycleLattice`, thickness form `DualGraph.edgeForm` and monodromy cokernel.
+- **§4.14**: The shared finite-torsion interface is assigned to this supplier: `SemistableTorsionDatum` over a commutative Hecke ring, with its commuting finite Galois action and the toric, identity-component and finite-part filtration; its laws retain the abelian part. Section 17.7 supplies the modular specialization from the Jacobian's actual torsion, rather than another graph or torsion carrier.
 - **`R11.6`**: Generic Néron extension and contravariant maps on characters; exact character sequences only when an exact sequence of reduction tori is given. This does not prove exactness for an arbitrary old/new modular isogeny.
 - **5.1**: The Néron–Ogg–Shafarevich criterion and the isogeny invariance of good reduction, used for the modular quotients of §16.2.
 
@@ -203,7 +206,7 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 ### JacobianChallengePartII
 
-- **§§1.2–1.4**: `RelativeJacobian.RelativeJacobian`, `RelativeJacobian.jacobianBaseChange` and `RelativeJacobian.PrincipalPolarization` supply the positive-genus relative neutral Picard abelian scheme, its dimension, canonical principal polarization and comparisons for every base change, including nonreduced and non-Noetherian pullbacks. The construction is section-free for smooth projective geometrically connected curves over a Noetherian base. Section 13.1 applies it on the modular smooth bases, using étale local projective charts over locally Noetherian bases, and identifies the modular norm, divisor classes and Hecke actions. The genus-zero case is the trivial principally polarized abelian scheme here.
+- **§§1.2–1.4** (relative Jacobian, its base change and its canonical principal polarization): these sections supply the positive-genus relative neutral Picard abelian scheme, its dimension, canonical principal polarization and comparisons for every base change, including nonreduced and non-Noetherian pullbacks. The construction is section-free for smooth projective geometrically connected curves over a Noetherian base. Section 13.1 applies it on the modular smooth bases, using étale local projective charts over locally Noetherian bases, and identifies the modular norm, divisor classes and Hecke actions. The genus-zero case is the trivial principally polarized abelian scheme here.
 
 ### TauCetiRoadmap ModularCurves
 
@@ -282,6 +285,10 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 - **§§7a.1–7a.5** (normalization complex, node nearby cycles and specialization, nodal monodromy, and choice/base-change compatibility): The normalization and specialization sequences, the monodromy filtration and their compatibility with choices and base change for a proper semistable curve over a henselian trait; §12.3 applies them to the modular nodal models.
 
+### CyclotomicClassGroupsAndStickelberger
+
+- **§4.3** (shared abelian arithmetic and the modular quotient): the abelian-subvariety quotient over a field, the image-generated quotient `modularQuotient f` of `J₁(N)` for every normalized primitive weight-two newform with the Albanese Hecke action, its quotient API and Shimura's dimension theorem. Sections 16.2–16.4 are the same object and theorem in this roadmap's notation, identified through the universal property of the quotient map; the comparisons of §§16.3 and 16.5 use that quotient map.
+
 ### Finite, compact-support and adic étale cohomology
 
 EtaleCohomologyFoundations §§F.1–F.4 supplies `VanishingCycles.finiteCoefficientCohomology`, proper and smooth base change, `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`, `VanishingCycles.etaleFiniteness`, `VanishingCycles.compactSupportFiniteness` and normalized finite/adic realization. The coefficients are locally constant finite modules with invertible annihilator, or their compatible adic systems, on the supplied Noetherian geometric domain. ComplexComparisonPartII §§C6.2–C6.6 supplies `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison` and `adicArtinComparison`, including trace, cup products and support maps. Section 14.4 identifies the resulting degree-one limit with Mathlib's pro-étale `EllAdicCohomology` carrier.
@@ -307,8 +314,6 @@ The order is a construction order. Layer 0 states two general inputs on Deligne�
 
 These two results are general, not modular; they are stated here because the integral modular constructions below need them at residue characteristics 2 and 3, where the stabilizers are not tame, and no supplier roadmap states them.
 
-<a id="s0-1"></a>
-
 ### 0.1 Étale-local structure of a Deligne–Mumford stack over its coarse space
 
 Let `𝒳` be a separated Deligne–Mumford stack, locally of finite type over a locally Noetherian scheme S, with finite inertia, and `π:𝒳→X` its coarse space (SchemeAndStackFoundations `1.23/keel_mori`). For a geometric point `x̄` of `𝒳` with automorphism group `Γ_x̄` there are an étale neighbourhood `U→X` of `π(x̄)` and a finite U-scheme V with an action of `Γ_x̄` such that `𝒳×_X U≅[V/Γ_x̄]` and `U=V/Γ_x̄`. Consequently the strict henselization of X at `π(x̄)` is the ring of `Γ_x̄`-invariants of the strict henselization of `𝒳` at `x̄`, and the same holds for their completions. The order of `Γ_x̄` need not be invertible on S.
@@ -332,8 +337,6 @@ The public interface should expose:
 *Needs:* `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.19`; `SchemeAndStackFoundations §1.20`; `SchemeAndStackFoundations §1.21`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`.
 
 ([Compactifying the space of stable maps](https://arxiv.org/pdf/math/9908167), Lemma 2.2.3 and its sketch of proof, pp.4–5 (arXiv v2); [The Keel–Mori theorem via stacks](https://math.stanford.edu/~conrad/papers/coarsespace.pdf), Theorem 3.1 and its proof, pp.5–6.)
-
-<a id="s0-2"></a>
 
 ### 0.2 Regular invariants and pseudo-reflections
 
@@ -387,8 +390,6 @@ External contracts: SchemeAndStackFoundations.
 
 ## Layer 1: Lattice uniformization of complex elliptic curves
 
-<a id="s1-1"></a>
-
 ### 1.1 The normalized lattice Weierstrass model
 
 For a native PeriodPair L, define `W_L` with `a₁=a₂=a₃=0`, `a₄=−L.g₂/4` and `a₆=−L.g₃/4`. Its discriminant is `L.g₂³−27L.g₃²` and is nonzero. The projective map `z↦[℘_L(z):℘′_L(z)/2:1]` off the lattice extends across each lattice point by `O=[0:1:0]` and descends to a pointed biholomorphism C/L.lattice `≅ W_L^an`. It intertwines addition with the algebraic group law.
@@ -417,8 +418,6 @@ The public interface should expose:
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, Propositions 3.11–3.13, pp.46–47; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Proposition 2.9, p.4, corrected domain away from lattice poles.)
 
-<a id="s1-2"></a>
-
 ### 1.2 Pointed elliptic uniformization
 
 For a smooth projective Weierstrass elliptic curve `E/C` with identity O, the complex analytification of ComplexComparisonPartII C−1.1–C−1.3 is a compact connected one-dimensional complex Lie group. There is a rank-two discrete lattice `Λ⊂C` and a pointed holomorphic group isomorphism `C/Λ→E^an`. Conversely every such lattice is realized by the preceding Weierstrass model. Isomorphisms of pointed elliptic curves correspond to nonzero homotheties `uΛ=Λ′`; general holomorphic group homomorphisms correspond to complex-linear maps `z↦uz` with `uΛ⊂Λ′`, including `u=0`. Algebraic and analytic pointed morphisms agree.
@@ -439,11 +438,9 @@ The theorem is `pointedEllipticUniformization`.
 - A translation by a nonzero point is excluded from pointed group homomorphisms.
 - At `j=0` and 1728 retain the extra pointed automorphisms.
 
-*Needs:* [§1.1](#s1-1); [ModularCurves Layer 1A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1a-projective-weierstrass-models); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); `AbelianSchemesAndArithmeticModuli` A5.1 (`AbelianLattice`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
+*Needs:* [§1.1](#11-the-normalized-lattice-weierstrass-model); [ModularCurves Layer 1A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1a-projective-weierstrass-models); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); `AbelianSchemesAndArithmeticModuli` A5.1 (`AbelianLattice`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, pp.41–47, especially Propositions 3.12–3.13; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.1, pp.17–18.)
-
-<a id="s1-3"></a>
 
 ### 1.3 Homotheties and lattice isogenies
 
@@ -462,11 +459,9 @@ The theorem is `homothetyAndIsogenyCompatibility`.
 - For `Λ′=Λ` and `u=n`, multiplication by n has degree `n²`.
 - For `u=2` with `Λ′=2Λ` the map is an isomorphism and pulls dz back to 2 dz.
 
-*Needs:* [§1.2](#s1-2); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`).
+*Needs:* [§1.2](#12-pointed-elliptic-uniformization); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, pp.41–47; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §5, Proposition 5.16, p.13.)
-
-<a id="s1-4"></a>
 
 ### 1.4 Invariant differentials and periods
 
@@ -485,11 +480,9 @@ The theorem is `invariantDifferentialsAndPeriods`.
 - The invariant form is dz, whereas the modular/Tate frame used in Layer 7 is `2πi` dz.
 - Rescaling `ω` changes both periods by the same scalar and leaves `τ` unchanged.
 
-*Needs:* [§1.2](#s1-2); [§1.3](#s1-3); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology).
+*Needs:* [§1.2](#12-pointed-elliptic-uniformization); [§1.3](#13-homotheties-and-lattice-isogenies); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §1, p.2; §6, Example 6.2, p.14; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §3, Proposition 3.12, p.47.)
-
-<a id="s1-4a"></a>
 
 ### 1.4a Sigma, quasi-periods and the oriented Legendre relation
 
@@ -501,7 +494,7 @@ The theorem is `invariantDifferentialsAndPeriods`.
 - `σ` has no zeros off `Λ`, so the quotient used in §1.5 is meromorphic with the stated divisor.
 - Changing an integer basis of the same lattice does not change `σ`.
 
-*Needs:* [§1.2](#s1-2); Mathlib `PeriodPair.weierstrassP`.
+*Needs:* [§1.2](#12-pointed-elliptic-uniformization); Mathlib `PeriodPair.weierstrassP`.
 
 ([NIST DLMF](https://dlmf.nist.gov/23.2), (23.2.4)–(23.2.8) and the zero/pole description in §23.2(ii).)
 
@@ -513,11 +506,9 @@ The theorem is `invariantDifferentialsAndPeriods`.
 - Translating by `ω₁` then `ω₂` in either order agrees because `exp(2πi)=1`.
 - Reversing the basis reverses the Legendre determinant; the displayed positive sign requires positive orientation.
 
-*Needs:* `latticeSigma`; [§1.4](#s1-4).
+*Needs:* `latticeSigma`; [§1.4](#14-invariant-differentials-and-periods).
 
 ([NIST DLMF](https://dlmf.nist.gov/23.2), (23.2.11)–(23.2.17); its generators are half-periods, so η here is twice its quasi-period and the Legendre determinant is 2πi.)
-
-<a id="s1-5"></a>
 
 ### 1.5 The analytic Weil-pairing comparison
 
@@ -540,7 +531,7 @@ The theorem is `analyticAlgebraicWeilPairing`.
 - The determinant of a changed frame is the pairing exponent.
 - For `N=1` the pairing is 1 and the single trivial level is retained.
 
-*Needs:* [§1.4a](#s1-4a); [§1.2](#s1-2); [§1.4](#s1-4); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
+*Needs:* [§1.4a](#14a-sigma-quasi-periods-and-the-oriented-legendre-relation); [§1.2](#12-pointed-elliptic-uniformization); [§1.4](#14-invariant-differentials-and-periods); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Proposition 7.16 and its proof, Remark 7.17, p.17; §8, Theorem 8.5 and Remark 8.7, pp.17–19.)
 
@@ -555,8 +546,6 @@ For `Λ=Z+iZ`, `g₃=0` and `j(W_L)=1728`.
 External contracts: AbelianSchemesAndArithmeticModuli, ComplexComparisonPartII. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 2: Generalized elliptic curves and polygon operations
-
-<a id="s2-1"></a>
 
 ### 2.1 Semistable genus-one curves and split polygons
 
@@ -589,8 +578,6 @@ The public interface should expose:
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), II §§1.1–1.5, pp.173–176; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 2.1.2, p.4, and the standard polygons, pp.4–5.)
 
-<a id="s2-2"></a>
-
 ### 2.2 Generalized elliptic curves
 
 The carrier is AdicSpacesPartIII's `GeneralisedEllipticCurve S`: a proper flat finitely presented curve whose geometric fibres are elliptic curves or standard polygons, with an action `Eˢᵐ×_S E→E` of its smooth locus that restricts to a commutative group law on `Eˢᵐ` and rotates the components of every singular geometric fibre, together with `EllipticModuli.GroupCurve`, `GroupCurve.Iso`, `GroupCurve.baseChange` and `ofElliptic`. This subsection proves Deligne–Rapoport's description of the same objects and adds their homomorphisms. A generalized elliptic curve `E/S` is equivalently a semistable genus-one curve with a commutative S-group structure on `Eˢᵐ` and an action `Eˢᵐ×_S E→E` extending translation on `Eˢᵐ`, such that on each singular geometric fibre translation rotates the components, equivalently acts trivially on `Pic⁰` and transitively on the components. Its identity is a section of `Eˢᵐ`. A homomorphism is an S-map carrying smooth locus to smooth locus, inducing a group homomorphism there and respecting the action. The standard m-gon has `(u,i)(v,j)=(uv,i+j)` on its smooth locus; this action extends to the glued curve. Smooth generalized elliptic curves recover the imported elliptic-curve group-scheme carrier.
@@ -617,11 +604,9 @@ The public interface should expose:
 - The standard group law extends to every component and both branches at a node.
 - A contraction may send smooth points to nodes and is not automatically a homomorphism under this definition.
 
-*Needs:* [§2.1](#s2-1); AdicSpacesPartIII R2.11 (`GeneralisedEllipticCurve`, `EllipticModuli.GroupCurve`, `GroupCurve.baseChange`, `ofElliptic`); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§2.1](#21-semistable-genus-one-curves-and-split-polygons); AdicSpacesPartIII R2.11 (`GeneralisedEllipticCurve`, `EllipticModuli.GroupCurve`, `GroupCurve.baseChange`, `ofElliptic`); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), II §§1.1–1.12, pp.173–178; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 2.1.4, p.5; §2.2, pp.7–8.)
-
-<a id="s2-3"></a>
 
 ### 2.3 Automorphisms and torsion of split polygons
 
@@ -641,11 +626,9 @@ The theorem is `neronPolygonAutomorphisms`.
 - For `m=p` in characteristic p the automorphism scheme has rank 2p but only two geometric points.
 - For `N=2` on a one-gon the torsion rank is two, not four.
 
-*Needs:* [§2.2](#s2-2); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
+*Needs:* [§2.2](#22-generalized-elliptic-curves); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), II 1.10, pp.177–178; 1.20, p.184; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 2.1.6, p.7; Lemma 2.1.11, p.8; [Bakker–Tsimerman, preprint](https://arxiv.org/pdf/1403.7168v2), §2.2, pp.5–6.)
-
-<a id="s2-4"></a>
 
 ### 2.4 The degeneration scheme and polygon strata
 
@@ -665,11 +648,9 @@ The theorem is `nonSmoothLocusAndBaseChange`.
 - A smooth elliptic family has empty degeneration scheme.
 - Node count and the locally split description persist after any base change.
 
-*Needs:* [§2.2](#s2-2); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [StableReduction Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-1-nodes-normalization-and-dual-graphs).
+*Needs:* [§2.2](#22-generalized-elliptic-curves); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [StableReduction Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-1-nodes-normalization-and-dual-graphs).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 2.1.8, Lemma 2.1.10 and Theorem 2.1.12, p.6; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Remark 2.1.8 and Lemma 2.1.10, pp.7–8.)
-
-<a id="s2-5"></a>
 
 ### 2.5 The translation structure criterion
 
@@ -689,11 +670,9 @@ The theorem is `deligneRapoportStructureCriterion`.
 - An ample subgroup on the standard polygon recovers its standard group/action.
 - On `C₃/ℂ`, `(u,i)↦(ζ₃^i u,i)` fixes e and `Pic⁰` but is nonidentity; it fails to commute with translation by `(1,1)`, so the centralizer hypothesis excludes it.
 
-*Needs:* [§2.1](#s2-1); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C3.2d.2 and C3.2f.1–C3.2f.2 (relative Picard sheaf and neutral component); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
+*Needs:* [§2.1](#21-semistable-genus-one-curves-and-split-polygons); [ModularCurves Layer 1D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1d-the-scheme-theoretic-group-law); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C3.2d.2 and C3.2f.1–C3.2f.2 (relative Picard sheaf and neutral component); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), II Théorème 3.2, pp.193–194; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 2.2.2 and Corollary 2.2.3, pp.7–8.)
-
-<a id="s2-6"></a>
 
 ### 2.6 Contraction along a positive Cartier divisor
 
@@ -732,11 +711,9 @@ The public interface should expose:
 - Retain the distinction between generic projective-curve contraction and the special generalized-curve structure.
 - A smooth point on a discarded component may map to a node.
 
-*Needs:* [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [§2.2](#s2-2); [§2.5](#s2-5); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity); [StableReduction Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-3-prestable-semistable-stable-and-pointed-curves); [ModularCurves Layer 0A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0a-relative-effective-cartier-divisors).
+*Needs:* [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [§2.2](#22-generalized-elliptic-curves); [§2.5](#25-the-translation-structure-criterion); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity); [StableReduction Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-3-prestable-semistable-stable-and-pointed-curves); [ModularCurves Layer 0A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0a-relative-effective-cartier-divisors).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), IV §§1.1–1.6, pp.205–209; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §2.1, p.7 (end of the section); [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §3.2, 3.2.1 and Theorem 3.2.4, pp.19–21.)
-
-<a id="s2-7"></a>
 
 ### 2.7 Finite subgroup quotients of generalized curves
 
@@ -765,11 +742,9 @@ The public interface should expose:
 - Separate target flatness from flatness of the finite quotient morphism.
 - The construction imports the ordinary elliptic quotient rather than replanning it.
 
-*Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [ModularCurves Layer 0C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0c-finite-quotients-and-torsors); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
+*Needs:* [§2.2](#22-generalized-elliptic-curves); [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [ModularCurves Layer 0C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0c-finite-quotients-and-torsors); [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 2.2.4, Corollary 2.2.7 and Definition 2.2.8, pp.10–14.)
-
-<a id="s2-9"></a>
 
 ### 2.9 Algebraization of formal polygon families
 
@@ -789,11 +764,9 @@ The theorem is `formalPolygonAlgebraization`.
 - The constant two-gons over `ℤ_p/p^(r+1)`, with rotation `(u,i)↦(u,i+1)`, reconstruct the constant two-gon and that rotation over `ℤ_p`.
 - On the constant two-gon over `ℤ₂`, the automorphism `(u,i)↦((−1)^i u,i)` is the identity modulo 2 but is nonidentity modulo 4. Its compatible reductions algebraize to this nonidentity component scaling.
 
-*Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [§2.5](#s2-5); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.grothendieck_existence`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
+*Needs:* [§2.2](#22-generalized-elliptic-curves); [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§2.5](#25-the-translation-structure-criterion); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.grothendieck_existence`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Corollary 2.2.4, pp.8–9; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 3.4.1, p.25; Theorem 3.4.2 and proof, pp.26–27.)
-
-<a id="s2-11"></a>
 
 ### 2.11 Polygon-count stacks and decontractions
 
@@ -823,7 +796,7 @@ The public interface should expose:
 - The generic curve-stack construction is imported; this subsection owns only the polygon-count specialization and tower.
 - A proper flat stack morphism is not automatically representable or finite.
 
-*Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [§2.4](#s2-4); [§2.6](#s2-6); [§2.9](#s2-9); `SchemeAndStackFoundations Layer 1`; `SchemeAndStackFoundations Layer 4`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity); [StableReduction Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-3-prestable-semistable-stable-and-pointed-curves).
+*Needs:* [§2.2](#22-generalized-elliptic-curves); [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§2.4](#24-the-degeneration-scheme-and-polygon-strata); [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§2.9](#29-algebraization-of-formal-polygon-families); `SchemeAndStackFoundations Layer 1`; `SchemeAndStackFoundations Layer 4`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity); [StableReduction Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-3-prestable-semistable-stable-and-pointed-curves).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 3.1.6 and Remark 3.1.7, p.17; Theorem 3.2.4, p.21; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §3.1, pp.18–22.)
 
@@ -835,11 +808,9 @@ The public interface should expose:
 - At `N=1` the original curve already satisfies the divisibility requirement.
 - `E′ˢᵐ[N]` has rank `N²`, while `Eˢᵐ[N]` need not; the embedding does not identify the two full torsion groups.
 
-*Needs:* the polygon-count contraction tower of §2.11; [§2.6](#s2-6); [§2.9](#s2-9).
+*Needs:* the polygon-count contraction tower of §2.11; [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§2.9](#29-algebraization-of-formal-polygon-families).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Corollary 3.2.6, p.22, and its use in Proposition 4.2.7, p.31.)
-
-<a id="s2-10a"></a>
 
 ### 2.10a Torsion congruences and full-set transport
 
@@ -853,11 +824,9 @@ Establish this as follows. On the elliptic locus take `E′=E`. Near a degenerat
 - If N does not divide the polygon count, `Eˢᵐ[N]` can have rank `N·gcd(N,m)<N²`, so this comparison does not apply.
 - The comparison holds over nilpotent thickenings, rather than merely identifying torsion on geometric points.
 
-*Needs:* [§2.2](#s2-2); [§2.3](#s2-3); [§2.7](#s2-7); [§2.9](#s2-9); MC3C, MC7E and MC8B (ordinary full sets, connected–étale torsion and cyclic generators).
+*Needs:* [§2.2](#22-generalized-elliptic-curves); [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§2.7](#27-finite-subgroup-quotients-of-generalized-curves); [§2.9](#29-algebraization-of-formal-polygon-families); MC3C, MC7E and MC8B (ordinary full sets, connected–étale torsion and cyclic generators).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.2.1 and its proof, p.29, and the transfer arguments of Propositions 4.2.5 and 4.2.7, pp.30–31.)
-
-<a id="s2-8"></a>
 
 ### 2.8 Drinfeld structures on the smooth locus
 
@@ -888,11 +857,9 @@ The public interface should expose:
 - The generator locus is a scheme, including its nonreduced fibres.
 - A cyclic subgroup’s standard subgroups are independent of a choice of generator.
 
-*Needs:* [§2.11](#s2-11) (`generalizedTorsionDecontraction`); [§2.10a](#s2-10a); [§2.6](#s2-6); [§2.7](#s2-7); [§2.2](#s2-2); [§2.3](#s2-3); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
+*Needs:* [§2.11](#211-polygon-count-stacks-and-decontractions) (`generalizedTorsionDecontraction`); [§2.10a](#210a-torsion-congruences-and-full-set-transport); [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§2.7](#27-finite-subgroup-quotients-of-generalized-curves); [§2.2](#22-generalized-elliptic-curves); [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §2.3 and Theorem 2.4.5, pp.10–16, using the bad-characteristic argument of Česnavičius §4.2; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.2, pp.29–36.)
-
-<a id="s2-10"></a>
 
 ### 2.10 Contraction-compatible level extension and ranks
 
@@ -912,7 +879,7 @@ The theorem is `torsionCongruencesAndLevelExtension`.
 - At `N=3`, forgetting one vector of a full frame has rank `3φ(3)=6`.
 - At prime p, full lifting from level one has rank `|GL₂(F_p)|=(p²−1)(p²−p)`.
 
-*Needs:* [§2.10a](#s2-10a); [§2.6](#s2-6); [§2.8](#s2-8); [§2.9](#s2-9); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
+*Needs:* [§2.10a](#210a-torsion-congruences-and-full-set-transport); [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§2.9](#29-algebraization-of-formal-polygon-families); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8b-generator-schemes-and-the-cyclicity-theorem); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0b-finite-locally-free-group-schemes-and-cartier-duality).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.2.1 and Propositions 4.2.5, 4.2.9, 4.2.11 and 4.2.12, pp.29–35; remark before Proposition 4.2.11, p.33; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 2.4.5, pp.15–16, with the bad-characteristic replacement in Česnavičius §4.2.)
 
@@ -929,8 +896,6 @@ The tangent cone at `(0,0)` is `y(y+x)`, so the two branches remain distinct in 
 External contracts: AdicSpacesPartIII, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 3: Integral level stacks and the open analytic comparison
-
-<a id="s3-1"></a>
 
 ### 3.1 Integral full, point and cyclic level structures
 
@@ -960,11 +925,9 @@ The public interface should expose:
 - The three naive levels are kept separate from the refined `Γ₀` model.
 - Every allowed component count follows from torsion rank and ampleness.
 
-*Needs:* [§2.3](#s2-3); [§2.8](#s2-8); [§2.10](#s2-10); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n).
+*Needs:* [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§2.10](#210-contraction-compatible-level-extension-and-ranks); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §1.2, p.2; §2.4, pp.14–16; §3.2, pp.23–26; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §§4.3.1, 4.4.1 and 4.6.1, pp.37, 39 and 44.)
-
-<a id="s3-2"></a>
 
 ### 3.2 Proper flat integral level stacks
 
@@ -986,11 +949,9 @@ The theorem is `moduliStacksAreProperFlatArtin`.
 - The naive cyclic model at `N=p²` is Artin rather than DM at its p-gon boundary in characteristic p.
 - No Layers 3–5 Tate chart is assumed in constructing these stacks.
 
-*Needs:* [§2.10](#s2-10); [§2.11](#s2-11); [§3.1](#s3-1); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§2.10](#210-contraction-compatible-level-extension-and-ranks); [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Lemma 3.1.1 and Theorem 3.1.2, p.18; Theorem 3.2.7, p.26; Theorem 3.3.1, pp.26–30; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorems 4.3.5 (p.39), 4.4.4 (p.40) and 4.6.4 (p.46); Proposition 4.6.5 (p.47).)
-
-<a id="s3-3"></a>
 
 ### 3.3 Coherent cyclic data on decontractions
 
@@ -1022,11 +983,9 @@ The public interface should expose:
 - At `N=4`, `m=2` gives `g=2` and `d=1`; the boundary curve is a one-gon with data on its two-gon decontractions.
 - The full double-overlap coherence equation, not merely a generic subgroup, is retained.
 
-*Needs:* [§2.8](#s2-8); [§2.11](#s2-11); [§3.1](#s3-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 1`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §5.2, p.50; §5.3, p.51; Lemma 5.4, p.52; §5.5 and Lemmas 5.6–5.7, pp.53–54; §5.9, pp.56–57.)
-
-<a id="s3-4"></a>
 
 ### 3.4 The normalized `Γ₀` moduli stack
 
@@ -1058,11 +1017,9 @@ The public interface should expose:
 - At `N=4` the two-gon naive chart contracts to a one-gon and loses `μ₂` relative inertia, including over C.
 - At `N=1` the refined stack is `X(1)`, not a fine scheme.
 
-*Needs:* [§2.11](#s2-11); [§3.2](#s3-2); [§3.3](#s3-3); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); `SchemeAndStackFoundations Layer 1`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.stack`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.finite`.
+*Needs:* [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.2](#32-proper-flat-integral-level-stacks); [§3.3](#33-coherent-cyclic-data-on-decontractions); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); `SchemeAndStackFoundations Layer 1`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.stack`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.finite`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §5.10, p.58; §5.11 and Lemma 5.12, p.59; Theorem 5.13 and proof, pp.60–62.)
-
-<a id="s3-5"></a>
 
 ### 3.5 Fine loci and bad-level inertia
 
@@ -1086,11 +1043,9 @@ The theorem is `smallLevelAndDmBoundaries`.
 - For `N=n=p²` the mixed stack is DM although n is not squarefree.
 - Over `ℤ[1/5]`, `X₁(5)` is the fine scheme `GeneralisedEllipticCurve.moduli` of cyclic level five; over `ℤ` it is not a scheme, since at a supersingular point of characteristic five the Drinfeld point `P=0` is fixed by `[−1]`.
 
-*Needs:* [§2.3](#s2-3); [§3.1](#s3-1); [§3.4](#s3-4); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures).
+*Needs:* [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [§3.4](#34-the-normalized-γ₀-moduli-stack); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures).
 
 ([Česnavičius, published modular description](https://msp.org/ant/2017/11-9/ant-v11-n9-p02-p.pdf), Proposition 4.3.6, pp.2052–2053; Proposition 4.6.5, pp.2063–2064; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §5.2, pp.50–51; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 3.2.7, p.26; Theorem 4.2.1(2), p.35.)
-
-<a id="s3-6"></a>
 
 ### 3.6 Generalized Tate n-gons
 
@@ -1117,11 +1072,9 @@ The public interface should expose:
 - `n=1` specializes to the pointed nodal cubic; `n=2` has two rational components and two nodes.
 - The generic invariant satisfies `j=q⁻¹+744+O(q)`, hence pole order n in t.
 
-*Needs:* [§2.1](#s2-1); [§2.2](#s2-2); [§2.4](#s2-4); [§2.5](#s2-5); [§2.11](#s2-11); AdicSpacesPartIII R2.11 (`GeneralisedEllipticCurve.tateCurve`); Tau Ceti `TauCeti.tateCurve`; `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
+*Needs:* [§2.1](#21-semistable-genus-one-curves-and-split-polygons); [§2.2](#22-generalized-elliptic-curves); [§2.4](#24-the-degeneration-scheme-and-polygon-strata); [§2.5](#25-the-translation-structure-criterion); [§2.11](#211-polygon-count-stacks-and-decontractions); AdicSpacesPartIII R2.11 (`GeneralisedEllipticCurve.tateCurve`); Tau Ceti `TauCeti.tateCurve`; `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §2.5, pp.16–18; Theorem 2.5.2, p.18; Corollary 3.2.5, p.25.)
-
-<a id="s3-7"></a>
 
 ### 3.7 Power isogenies at the boundary
 
@@ -1150,11 +1103,9 @@ The public interface should expose:
 - For `m=p` in characteristic p the generic isogeny is inseparable of degree p, the smooth-locus kernel has rank p and the differential vanishes; this does not imply flatness of the proper power map.
 - For `m=2` the target-node fibre has length 3, whereas the generic degree is 2. Reject a finite-flat assertion for the whole proper morphism.
 
-*Needs:* [§2.6](#s2-6); [§3.6](#s3-6); `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
+*Needs:* [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§3.6](#36-generalized-tate-n-gons); `AdicSpacesPartIII §F0.8/grothendieck-algebraization`; `SchemeAndStackFoundations §4.10/Formal.algebraize_hom`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Example 2.5.1, p.18; Theorem 4.4.3, pp.43–46.)
-
-<a id="s3-8"></a>
 
 ### 3.8 Open level subgroups and the standard levels
 
@@ -1196,8 +1147,6 @@ The public interface should expose:
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.1.2, p.28; §4.4, p.39; [On the possible images of the mod ℓ representations associated to elliptic curves over ℚ](https://arxiv.org/pdf/1508.07660), §3.2, p.15; §1, Notation, p.2 (Cartan subgroups); [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), Conventions, item 5; §9B.)
 
-<a id="s3-9"></a>
-
 ### 3.9 Level-H structures away from the level
 
 Let H be an open level subgroup, n with `Γ(n)⊂H`, S a `ℤ[1/n]`-scheme and `E/S` an elliptic curve. The scheme `Isom_S((ℤ/n)²_S, E[n])` of frames is a finite étale right `GL₂(ℤ/n)`-torsor over S, for the action `φ↦φ∘g`. A level-H structure on E is a section over S of the finite étale quotient `Isom_S((ℤ/n)²_S, E[n])/H̄`. Level-H structures on elliptic curves over `ℤ[1/n]`-schemes form a stack `Y_H[1/n]`, and the forgetful map `Y_H[1/n]→Ell_{ℤ[1/n]}` is representable, finite étale of degree `[GL₂(ℤ/n):H̄]`. For `n|m` reduction of frames modulo n identifies the stacks built from n and from m over `ℤ[1/m]`. An automorphism `α` of E fixes the structure `φH̄` exactly when `φ⁻¹∘α∘φ` lies in `H̄`; in particular `[−1]` fixes every level-H structure if and only `if −I∈H̄`. Over `ℤ[1/n]` this stack is the stack over Ell of the Katz–Mazur quotient problem `[Γ(n)]/H̄`, which upstream 9A identifies with the fppf sheaf quotient of the naive full level problem.
@@ -1231,11 +1180,9 @@ The public interface should expose:
 - For `N≥3`, `[−1]` moves every `Γ₁(N)`-structure, and fixes every `Γ₀(N)`-structure.
 - `H=GL₂(Ẑ)` gives one level structure on every curve; `H=Γ(n)` gives the frames themselves; `H=Γ₀(p)` over `ℤ[1/p]` gives étale-locally the `p+1` subgroups of order p.
 
-*Needs:* [§2.11](#s2-11); [§3.8](#s3-8); [ModularCurves Layer 3N](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3n-naive-level-structures); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 0C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0c-finite-quotients-and-torsors); [ModularCurves Layer 0D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0d-finite-étale-schemes-and-galois-actions); [ModularCurves Layer 9A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9a-katzmazur-quotient-problems); [ModularCurves Layer 9D](../ModularCurves/README.md#9d-coarse-moduli-schemes); `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; `SchemeAndStackFoundations §1.18`.
+*Needs:* [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.8](#38-open-level-subgroups-and-the-standard-levels); [ModularCurves Layer 3N](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3n-naive-level-structures); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 0C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0c-finite-quotients-and-torsors); [ModularCurves Layer 0D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0d-finite-étale-schemes-and-galois-actions); [ModularCurves Layer 9A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9a-katzmazur-quotient-problems); [ModularCurves Layer 9D](../ModularCurves/README.md#9d-coarse-moduli-schemes); `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; `SchemeAndStackFoundations §1.18`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.1.2, p.28; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 6.3(a), p.63; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §9A, items 1–3 and the final paragraph.)
-
-<a id="s3-10"></a>
 
 ### 3.10 Coarse base change from the fibres over `𝔽_p`
 
@@ -1247,13 +1194,11 @@ Establish this as follows. Coarse formation commutes with flat base change on X 
 
 **Checks.**
 
-- Applied to `X(1)` this gives the compactified coarse j-line of [§3.11](#s3-11) over every S; applied to `𝒳_H` it reduces the base change of [§5.3](#s5-3) over `ℤ[1/n]` to the fibres `𝔽_p`, `p∤n`.
+- Applied to `X(1)` this gives the compactified coarse j-line of [§3.11](#311-the-compactified-coarse-j-line) over every S; applied to `𝒳_H` it reduces the base change of [§5.3](#53-base-change-for-coarse-modular-curves) over `ℤ[1/n]` to the fibres `𝔽_p`, `p∤n`.
 
-*Needs:* [§0.1](#s0-1); `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§0.1](#01-étale-local-structure-of-a-delignemumford-stack-over-its-coarse-space); `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; `SchemeAndStackFoundations Layer 1`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 3.3.1 and proof, pp.23–24; [Coarse base change fails for some modular curves](https://arxiv.org/pdf/1608.01249), §1.1, p.1; [Compactifying the space of stable maps](https://arxiv.org/pdf/math/9908167), Lemma 2.2.3 and sketch of proof, pp.4–5 (arXiv v2).)
-
-<a id="s3-11"></a>
 
 ### 3.11 The compactified coarse j-line
 
@@ -1261,18 +1206,16 @@ The j-invariant extends to a morphism `j:X(1)→ℙ¹_ℤ` sending the boundary 
 
 `m≥1`; S an arbitrary scheme.
 
-Establish this as follows. On Ell use the upstream coarse j-line: `M([Γ(1)]/R)=Spec R[j]` for every ring R (Tau Ceti ModularCurves 9E, recovered as the stack coarse space by the coarse comparison of [§3.9](#s3-9) at trivial level). On the preimage C of `ℙ¹∖{0,1728}` every object has automorphism group the constant `{±1}` (Deligne's lemma, as in Česnavičius 2016 Lemma 2.4: the automorphism scheme is finite étale with geometric fibres `{±1}` by Tau Ceti `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`; for the standard 1-gon it is `μ₁×ℤ/2`, [§2.3](#s2-3)), so `{±1}` is a rigidifiable subgroup of the inertia (AlgebraicModuliForArithmeticGeometry §5.1, ArithmeticModuli.NormalInertiaSubgroup) and `C⫽{±1}` has trivial stabilisers (AlgebraicModuliForArithmeticGeometry §5.1, `ArithmeticModuli.Rigidification.stabilizer_kernel`). The rigidification `C⫽{±1}` has trivial inertia, so it is an algebraic space and its own coarse space; rigidification preserves coarse spaces and commutes with arbitrary base change (AlgebraicModuliForArithmeticGeometry §5.1). At the cusp the Tate 1-gon over `ℤ[[q]]` (§3.6 with `n=1`) is a formal chart on which inversion acts trivially on q, and `j=1/q+744+⋯` identifies the completed coarse local ring with `ℤ[[1/j]]`; together with the elliptic locus this identifies the coarse space of `X(1)` over `ℤ` with `ℙ¹_ℤ` (Česnavičius takes this case from Deligne–Rapoport VI.1.1). Over each `𝔽_p` the coarse map of `X(1)_{𝔽_p}` to `ℙ¹_{𝔽_p}` is an isomorphism over a dense open and finite locally free because its source is normal, hence an isomorphism; [§3.10](#s3-10) then gives every S. For `Ell_m` the m-gons over C have automorphism scheme `μ_m×ℤ/2` (Layer 2), so `C_m⫽{±1}` is not its own coarse space; it is tame because the remaining stabilisers `μ_d` are linearly reductive (Česnavičius Lemma 2.1.6 and Deligne 1975 5.3(III)), so its coarse space is `ℤ`-flat of formation compatible with every base change (SchemeAndStackFoundations §1.23, `tame_local_structure`; Abramovich–Olsson–Vistoli Corollary 3.3). The induced map from the coarse space of `Ell_m` to `ℙ¹_ℤ` is then finite, flat by EGA `IV₂` 6.1.5 fibre by fibre, and an isomorphism over `𝔸¹`, hence an isomorphism; the coarse map is a homeomorphism, so irreducibility of `ℙ¹` gives that of `Ell_m` and its fibres.
+Establish this as follows. On Ell use the upstream coarse j-line: `M([Γ(1)]/R)=Spec R[j]` for every ring R (Tau Ceti ModularCurves 9E, recovered as the stack coarse space by the coarse comparison of [§3.9](#39-level-h-structures-away-from-the-level) at trivial level). On the preimage C of `ℙ¹∖{0,1728}` every object has automorphism group the constant `{±1}` (Deligne's lemma, as in Česnavičius 2016 Lemma 2.4: the automorphism scheme is finite étale with geometric fibres `{±1}` by Tau Ceti `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`; for the standard 1-gon it is `μ₁×ℤ/2`, [§2.3](#23-automorphisms-and-torsion-of-split-polygons)), so `{±1}` is a rigidifiable subgroup of the inertia (AlgebraicModuliForArithmeticGeometry §5.1, ArithmeticModuli.NormalInertiaSubgroup) and `C⫽{±1}` has trivial stabilisers (AlgebraicModuliForArithmeticGeometry §5.1, `ArithmeticModuli.Rigidification.stabilizer_kernel`). The rigidification `C⫽{±1}` has trivial inertia, so it is an algebraic space and its own coarse space; rigidification preserves coarse spaces and commutes with arbitrary base change (AlgebraicModuliForArithmeticGeometry §5.1). At the cusp the Tate 1-gon over `ℤ[[q]]` (§3.6 with `n=1`) is a formal chart on which inversion acts trivially on q, and `j=1/q+744+⋯` identifies the completed coarse local ring with `ℤ[[1/j]]`; together with the elliptic locus this identifies the coarse space of `X(1)` over `ℤ` with `ℙ¹_ℤ` (Česnavičius takes this case from Deligne–Rapoport VI.1.1). Over each `𝔽_p` the coarse map of `X(1)_{𝔽_p}` to `ℙ¹_{𝔽_p}` is an isomorphism over a dense open and finite locally free because its source is normal, hence an isomorphism; [§3.10](#310-coarse-base-change-from-the-fibres-over-𝔽_p) then gives every S. For `Ell_m` the m-gons over C have automorphism scheme `μ_m×ℤ/2` (Layer 2), so `C_m⫽{±1}` is not its own coarse space; it is tame because the remaining stabilisers `μ_d` are linearly reductive (Česnavičius Lemma 2.1.6 and Deligne 1975 5.3(III)), so its coarse space is `ℤ`-flat of formation compatible with every base change (SchemeAndStackFoundations §1.23, `tame_local_structure`; Abramovich–Olsson–Vistoli Corollary 3.3). The induced map from the coarse space of `Ell_m` to `ℙ¹_ℤ` is then finite, flat by EGA `IV₂` 6.1.5 fibre by fibre, and an isomorphism over `𝔸¹`, hence an isomorphism; the coarse map is a homeomorphism, so irreducibility of `ℙ¹` gives that of `Ell_m` and its fibres.
 
 **Checks.**
 
 - Over `𝔽₂` the coarse space of `X(1)_{𝔽₂}` is `ℙ¹_{𝔽₂}` although the stabiliser at `j=0` has order 24, which is not invertible.
 - `X(1)` is not `ℙ¹_ℤ`: every object has the automorphism `−1`, so there is no universal curve over `ℙ¹`.
 
-*Needs:* [§2.3](#s2-3); [§2.11](#s2-11); [§3.6](#s3-6); [§3.10](#s3-10); [§3.9](#s3-9); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stack`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.coarse`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.base_change`; `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.20`; [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.NormalInertiaSubgroup`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stabilizer_kernel`; `SchemeAndStackFoundations §1.23/tame_local_structure`; Tau Ceti `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`; `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.6](#36-generalized-tate-n-gons); [§3.10](#310-coarse-base-change-from-the-fibres-over-𝔽_p); [§3.9](#39-level-h-structures-away-from-the-level); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stack`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.coarse`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.base_change`; `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.20`; [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.NormalInertiaSubgroup`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stabilizer_kernel`; `SchemeAndStackFoundations §1.23/tame_local_structure`; Tau Ceti `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`; `SchemeAndStackFoundations Layer 1`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 3.3.2 and proof, pp.24–25; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), proof of Theorem 4.2.1, p.36; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §9E, items 1–6.)
-
-<a id="s3-12"></a>
 
 ### 3.12 The Deligne–Rapoport level-H stack
 
@@ -1301,15 +1244,13 @@ The public interface should expose:
 - levelStack `GL₂(Ẑ)` is `X(1)`, with toX1 the identity.
 - levelStack `(Γ₀ p)→X(1)` is finite locally free of rank `p+1`, and levelStack `(Γ N)→X(1)` of rank `|GL₂(ℤ/N)|`.
 - For a prime p the naive `Γ₀(p²)` stack is not levelStack `Γ₀(p²)`: on the standard p-gon over `ℂ` the `μ_p` of automorphisms preserving `⟨(ζ_{p²},1)⟩` contract to the identity, so its map to `X(1)` is not representable.
-- `levelStack (Γ N)` is Layers 3 and 4's full-level stack `Xfull(N)` over `ℤ` ([§5.1](#s5-1)).
+- `levelStack (Γ N)` is Layers 3 and 4's full-level stack `Xfull(N)` over `ℤ` ([§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations)).
 - `𝒳_{GL₂(Ẑ)}=X(1)`.
-- `𝒳_{Γ₀(p)}→X(1)` has rank `p+1` and `𝒳_{Γ(N)}→X(1)` has rank `|GL₂(ℤ/N)|` ([§5.8](#s5-8)).
+- `𝒳_{Γ₀(p)}→X(1)` has rank `p+1` and `𝒳_{Γ(N)}→X(1)` has rank `|GL₂(ℤ/N)|` ([§5.8](#58-geometry-of-the-level-h-stacks)).
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§2.11](#s2-11); [§3.9](#s3-9); `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.stack`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.finite`; `SchemeAndStackFoundations §0.20/nagata_normalization_finite`; `SchemeAndStackFoundations §1.19`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalizationPullback`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalizationDesc`; `SchemeAndStackFoundations §1.22`; `SchemeAndStackFoundations §1.1`.
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.9](#39-level-h-structures-away-from-the-level); `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.stack`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.finite`; `SchemeAndStackFoundations §0.20/nagata_normalization_finite`; `SchemeAndStackFoundations §1.19`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalizationPullback`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalizationDesc`; `SchemeAndStackFoundations §1.22`; `SchemeAndStackFoundations §1.1`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.1.2, p.28; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §1.1–1.2, pp.2–3; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §1.1, p.1; [Stacks Project](https://stacks.math.columbia.edu), Tags 035I, 035J, 03GV, 03GR.)
-
-<a id="s3-13"></a>
 
 ### 3.13 The marked torus family over the upper half-plane
 
@@ -1338,11 +1279,9 @@ The public interface should expose:
 - Use the same row action as MC9B.
 - The family, section and isomorphism diagrams commute after every holomorphic base change.
 
-*Needs:* [§1.1](#s1-1); [§1.5](#s1-5); `AbelianSchemesAndArithmeticModuli` A5.8 (`SiegelFamily`); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
+*Needs:* [§1.1](#11-the-normalized-lattice-weierstrass-model); [§1.5](#15-the-analytic-weil-pairing-comparison); `AbelianSchemesAndArithmeticModuli` A5.8 (`SiegelFamily`); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Example 2.5, Proposition 2.6, Remark 2.8 and Proposition 2.9, pp.3–4; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §7, p.15; §8, p.18.)
-
-<a id="s3-14"></a>
 
 ### 3.14 Open modular uniformization with the specified level
 
@@ -1370,11 +1309,9 @@ The theorem is `openLevelUniformization`.
 - For `N=5`, `τ=2i` and `T=[[1,1],[0,1]]`, the positive-frame row action gives `(τ/5,(τ+1)/5)`, which rescales to `u₊(τ/(τ+1))`, with `τ/(τ+1)=(4+2i)/5`. It does not give `u₊(τ+1)`: on `E_(2i)` neither pointed automorphism `±1` identifies their first sections, since `1/5` and `(4i+1)/5` are outside `ℤ+2iℤ`.
 - Forgetting Q in `u₊(2i)` gives `2i/N`; multiplication by `1/(2i)` identifies this with `1/N` on `E_(i/2)`, as required by the S diagram.
 
-*Needs:* [§3.13](#s3-13); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C4.4 (`familyMorphismInterface`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
+*Needs:* [§3.13](#313-the-marked-torus-family-over-the-upper-half-plane); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); `AbelianSchemesAndArithmeticModuli §A5`; `ComplexComparisonPartII` C4.4 (`familyMorphismInterface`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §§8–9, pp.17–24; Theorem 17.21, p.42; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Lemmas 8.5 and 8.7, pp.99–100; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.2, pp.22–25.)
-
-<a id="s3-15"></a>
 
 ### 3.15 Compactified level maps and their degrees
 
@@ -1397,7 +1334,7 @@ The theorem is `contractionMapsBetweenLevels`.
 - For `N=4,m_boundary=2` the naive-to-refined kernel is `μ₂` and the map is not a finite locally free representable cover.
 - All-pairings full reduction and fixed-pairing reduction have distinct determinant bookkeeping.
 
-*Needs:* [§2.6](#s2-6); [§2.10](#s2-10); [§3.1](#s3-1); [§3.4](#s3-4); [§3.14](#s3-14); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve).
+*Needs:* [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§2.10](#210-contraction-compatible-level-extension-and-ranks); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [§3.4](#34-the-normalized-γ₀-moduli-stack); [§3.14](#314-open-modular-uniformization-with-the-specified-level); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 2.4.5, pp.15–16; §§4.1–4.2, pp.31–37; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 4.2.11, pp.33–34; Theorem 5.13, pp.60–62.)
 
@@ -1416,8 +1353,6 @@ If N is squarefree then `g(m)=1` and `d(m)=m` for every divisor m.
 Use Layer 0, Layer 1, Layer 2. External contracts: AbelianSchemesAndArithmeticModuli, AdicSpacesPartIII, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, SchemeAndStackFoundations; Tau Ceti’s Tate curve. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 4: Formal cusps and fixed-pairing components
-
-<a id="s4-1"></a>
 
 ### 4.1 Formal level structures at cusps
 
@@ -1441,11 +1376,9 @@ The public interface should expose:
 - A cusp width is the valuation of q in a local smoothing parameter, not the number of components of the coarse j-fibre.
 - The prime `Γ₀(N)` widths 1 and N and the characteristic-2/3 table are imported.
 
-*Needs:* [§2.8](#s2-8); [§3.1](#s3-1); [§3.2](#s3-2); [§3.3](#s3-3); [§3.4](#s3-4); [§3.6](#s3-6); [§3.15](#s3-15); `AlgebraicModuliForArithmeticGeometry §8.3/completedAtlasPresentation_equivalence`; [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
+*Needs:* [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§3.1](#31-integral-full-point-and-cyclic-level-structures); [§3.2](#32-proper-flat-integral-level-stacks); [§3.3](#33-coherent-cyclic-data-on-decontractions); [§3.4](#34-the-normalized-γ₀-moduli-stack); [§3.6](#36-generalized-tate-n-gons); [§3.15](#315-compactified-level-maps-and-their-degrees); `AlgebraicModuliForArithmeticGeometry §8.3/completedAtlasPresentation_equivalence`; [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §2.5, pp.16–18; Theorems 4.3.6–4.3.7, pp.40–42; [Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.2, Proposition 1.2.2.1 and Theorem 1.2.3.1, pp.36–38.)
-
-<a id="s4-2"></a>
 
 ### 4.2 Integral `Γ₁` cusp strata
 
@@ -1462,11 +1395,9 @@ Establish this as follows. In characteristic zero write a point as `(ζ_N^r,b)`,
 - `N=4,d=2` has a non-schematic boundary stratum; taking its real cyclotomic ring does not turn it into a fine moduli scheme.
 - For `d>2` each cyclotomic chart is a scheme even at primes dividing N.
 
-*Needs:* [§4.1](#s4-1).
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 4.3.3, Theorems 4.3.4 and 4.3.7, pp.37–42.)
-
-<a id="s4-3"></a>
 
 ### 4.3 Twisted Tate charts for `Γ₁`
 
@@ -1489,11 +1420,9 @@ The public interface should expose:
 - For `(N,d)=(4,2)`, the finite flat chart is a cover of a stack and not its coarse universal family.
 - The chart is over the ring of integers, not just a cyclotomic field; the divisor `t=0` survives in characteristic dividing N.
 
-*Needs:* [§3.6](#s3-6); [§4.2](#s4-2).
+*Needs:* [§3.6](#36-generalized-tate-n-gons); [§4.2](#42-integral-γ₁-cusp-strata).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorems 4.3.6–4.3.7, pp.40–42.)
-
-<a id="s4-4"></a>
 
 ### 4.4 Boundary carriers and Hodge evaluation
 
@@ -1506,11 +1435,9 @@ Establish this as follows. Compare the generalized curve’s dualizing line to i
 - On `Γ₀(5)/ℤ[1/5]` the j-cusp fibre is `[∞]+5[0]`, although the reduced boundary has two points; this is an imported Layer 10 check.
 - In characteristic 2, the weight-k Hodge action of `[−1]` must be tracked as a group-scheme linearization, not removed by the equality of coarse maps.
 
-*Needs:* [§3.7](#s3-7); [§4.3](#s4-3); `SchemeAndStackFoundations Layer 2`.
+*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.3](#43-twisted-tate-charts-for-γ₁); `SchemeAndStackFoundations Layer 2`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.4, pp.42–43; §4.5 Example 4.5.3, p.48; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 5.13, pp.60–62; Theorem 6.7, pp.64–65.)
-
-<a id="s4-5"></a>
 
 ### 4.5 Level maps and diamond operators
 
@@ -1533,11 +1460,9 @@ The theorem is `levelMapAndDiamondComparison`.
 - At `N=5` the positive-frame T action has period `τ/(τ+1)`, while the negative-frame T action has period `τ+1`; conjugation by K interchanges these dictionaries.
 - At `r=2,N=5`, forgetting Q in `(2τ/5,1/5)` gives `⟨2⟩v₁(Sτ)`; its cyclic subgroup gives `v₀(Sτ)`.
 
-*Needs:* [§1.3](#s1-3); [§3.14](#s3-14); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
+*Needs:* [§1.3](#13-homotheties-and-lattice-isogenies); [§3.14](#314-open-modular-uniformization-with-the-specified-level); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §5, Proposition 5.16, p.13; §9, pp.20–24; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Lemma 8.5 and subsequent quotient-isogeny description, p.99.)
-
-<a id="s4-6"></a>
 
 ### 4.6 Small-level stabilizers and coarse quotients
 
@@ -1557,11 +1482,9 @@ The theorem is `stabilizersAndSmallLevels`.
 - A generic `Γ₀(5)` object still has the automorphism `−1`.
 - `Y₁(4)` is fine over C although its compactification has an irregular cusp with inertia.
 
-*Needs:* [§3.14](#s3-14); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients).
+*Needs:* [§3.14](#314-open-modular-uniformization-with-the-specified-level); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Proposition 16.4 and Theorem 17.1, p.37; §9, pp.20–24; [Conrad, classical curves](https://math.stanford.edu/~conrad/248BPage/handouts/classical.pdf), Proposition 3.1 and its local-chart proof, pp.3–4; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Example 8.9, p.100, corrected.)
-
-<a id="s4-7"></a>
 
 ### 4.7 Projective full level in the Bakker–Tsimerman setting
 
@@ -1579,11 +1502,9 @@ Establish this as follows. The scalar action changes a determinant by a square, 
 - Strict full p-level has `p−1` pairing components; the scalar quotient has two.
 - Retaining `−1` prevents treating the scalar quotient as a fine universal elliptic scheme.
 
-*Needs:* [§2.3](#s2-3); [§3.14](#s3-14); [§4.6](#s4-6); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stack`.
+*Needs:* [§2.3](#23-automorphisms-and-torsion-of-split-polygons); [§3.14](#314-open-modular-uniformization-with-the-specified-level); [§4.6](#46-small-level-stabilizers-and-coarse-quotients); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stack`.
 
 ([Bakker–Tsimerman, preprint](https://arxiv.org/pdf/1403.7168v2), §§2.1–2.2, pp.5–6.)
-
-<a id="s4-8"></a>
 
 ### 4.8 Tate and analytic cusp parameters
 
@@ -1606,11 +1527,9 @@ The theorem is `tateAndCuspParameterAgreement`.
 - For `Γ₀(N)` at infinity `w=1` and at 0 `w=N`.
 - An irregular `Γ₁(4)` cusp has strict width twice its effective width; use the effective parameter for the coarse local ring.
 
-*Needs:* [§1.4](#s1-4); [§3.6](#s3-6); [§3.14](#s3-14); [§4.1](#s4-1); [§4.4](#s4-4); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); Mathlib `PeriodPair`; Tau Ceti `TauCeti.Subgroup.integerCuspWidth`; [FuchsianOrbifolds Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-3-cusps-and-q-coordinates); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
+*Needs:* [§1.4](#14-invariant-differentials-and-periods); [§3.6](#36-generalized-tate-n-gons); [§3.14](#314-open-modular-uniformization-with-the-specified-level); [§4.1](#41-formal-level-structures-at-cusps); [§4.4](#44-boundary-carriers-and-hodge-evaluation); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); Mathlib `PeriodPair`; Tau Ceti `TauCeti.Subgroup.integerCuspWidth`; [FuchsianOrbifolds Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-3-cusps-and-q-coordinates); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.1–4.4, pp.310–311; [Conrad, classical curves](https://math.stanford.edu/~conrad/248BPage/handouts/classical.pdf), §3, Proposition 3.1, pp.3–4; [Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.1–3; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §4, p.48.)
-
-<a id="s4-9"></a>
 
 ### 4.9 Connectedness under the chosen algebraic closure extension
 
@@ -1638,8 +1557,6 @@ The public interface should expose:
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Theorem 17.21, p.42; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.1–§1.2, pp.17–25; [Stacks Project](https://stacks.math.columbia.edu), Lemma 33.7.6, tag 0363.)
 
-<a id="s4-10"></a>
-
 ### 4.10 Geometric connectedness of a fixed-pairing curve
 
 For `N≥3` and a primitive pairing value `ζ`, the nonempty smooth affine curve `Y(N,ζ)` over `Q(ζ)` is geometrically connected and geometrically irreducible. After an embedding `Q̄→C` its analytification is `Γ(N) \ H` and is connected. The algebraic connectedness assertion is invariant under the algebraically closed extension `Q̄→C`. The unrestricted full-level curve over C has exactly `φ(N)` geometrically irreducible components, indexed by primitive pairing values.
@@ -1648,7 +1565,7 @@ Use the fixed-pairing fibre of MC5B, not all ordered bases.
 
 Algebraic/analytic connectedness is imported only for finite-type smooth affine C-curves from C4; no nonproper GAGA morphism theorem is asserted.
 
-Algebraically closed extension invariance for this finite-type curve is [§4.9](#s4-9) (Stacks 0363); ModularCurves 0E does not supply it.
+Algebraically closed extension invariance for this finite-type curve is [§4.9](#49-connectedness-under-the-chosen-algebraic-closure-extension) (Stacks 0363); ModularCurves 0E does not supply it.
 
 Establish this as follows. The upper half-plane is connected, so its continuous surjective quotient by `Γ(N)` is connected. Apply the C4 smooth-affine connectedness equivalence to the actual fine curve and the Layers 3 and 4 analytic isomorphism. Use faithful scalar-extension invariance of geometric connectedness to pass from C to `Q̄`. Apply ComplexComparisonPartII C4’s smooth-connected curve irreducibility theorem, whose locally Noetherian domain-stalk leaf is already in Tau Ceti.
 
@@ -1660,15 +1577,13 @@ The theorem is `fixedPairingGeometricConnectedness`.
 - At `N=3` the unrestricted full curve has two components, each connected.
 - Connectedness without local domain stalks would not justify irreducibility.
 
-*Needs:* [§3.14](#s3-14); [§4.9](#s4-9); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C4.5 (`affineCurveConnectedness`); Tau Ceti `TauCeti.AlgebraicGeometry.irreducibleSpace_of_connected_of_isDomain_stalk`.
+*Needs:* [§3.14](#314-open-modular-uniformization-with-the-specified-level); [§4.9](#49-connectedness-under-the-chosen-algebraic-closure-extension); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C4.5 (`affineCurveConnectedness`); Tau Ceti `TauCeti.AlgebraicGeometry.irreducibleSpace_of_connected_of_isDomain_stalk`.
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §9, pp.20–22, and Theorem 17.21, p.42; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.2, pp.22–25.)
 
-<a id="s4-11"></a>
-
 ### 4.11 The cyclotomic fixed-pairing compactification
 
-The Weil-pairing determinant on the ordinary full-level locus extends to a map `Xfull(N)→Spec Z[ζ_N]`, using the primitive cyclotomic algebra rather than the possibly nonreduced primitive-root subset of `μ_N`. Over this base the full-level stack is proper flat Cohen–Macaulay of relative dimension one and smooth near the boundary. Its characteristic-zero `ζ` fibre is the fixed-pairing curve of MC5B and its geometric fibres are connected. The proof uses generic connectedness from [§4.10](#s4-10) and proper Stein factorization. It does not claim that the bad-characteristic fibres are geometrically irreducible or smooth everywhere.
+The Weil-pairing determinant on the ordinary full-level locus extends to a map `Xfull(N)→Spec Z[ζ_N]`, using the primitive cyclotomic algebra rather than the possibly nonreduced primitive-root subset of `μ_N`. Over this base the full-level stack is proper flat Cohen–Macaulay of relative dimension one and smooth near the boundary. Its characteristic-zero `ζ` fibre is the fixed-pairing curve of MC5B and its geometric fibres are connected. The proof uses generic connectedness from [§4.10](#410-geometric-connectedness-of-a-fixed-pairing-curve) and proper Stein factorization. It does not claim that the bad-characteristic fibres are geometrically irreducible or smooth everywhere.
 
 `N≥1`; `Z[ζ_N]` denotes `Z[T]/(Φ_N)`, with the specified structural root.
 
@@ -1686,15 +1601,13 @@ The theorem is `fixedPairingIntegralComponents`.
 - Bad fibres may have several irreducible components despite being connected.
 - The extension is an algebraic target and does not use compact analytic uniformization.
 
-*Needs:* [§3.2](#s3-2); [§4.10](#s4-10); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 4`.
+*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§4.10](#410-geometric-connectedness-of-a-fixed-pairing-curve); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `SchemeAndStackFoundations Layer 4`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1(3), p.31; Theorem 4.2.1(1), p.35; Lemma 4.2.4, p.37; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.3, pp.37–39.)
 
-<a id="s4-12"></a>
-
 ### 4.12 Agreement on the ordinary and tame loci
 
-Restricting the integral stacks to the elliptic locus recovers the exact ordinary Katz–Mazur level functors supplied by MC3C/7B/8D and their existing representing schemes where their fine hypotheses hold. After inverting the relevant level, the full and point compactifications agree with the normalizations of `X(1)` in those ordinary covers; the refined `Γ₀` compactification is the corresponding normalization over all of Z. The resulting stack comparisons supply the level-H construction in Layers 3 and 5, whose coarse construction is compared with the existing prime `N≥5`, `Z[1/N]` diamond-quotient model at [§5.18](#s5-18).
+Restricting the integral stacks to the elliptic locus recovers the exact ordinary Katz–Mazur level functors supplied by MC3C/7B/8D and their existing representing schemes where their fine hypotheses hold. After inverting the relevant level, the full and point compactifications agree with the normalizations of `X(1)` in those ordinary covers; the refined `Γ₀` compactification is the corresponding normalization over all of Z. The resulting stack comparisons supply the level-H construction in Layers 3 and 5, whose coarse construction is compared with the existing prime `N≥5`, `Z[1/N]` diamond-quotient model at [§5.18](#518-agreement-with-the-prime-level-diamond-quotients).
 
 Use the exact level functor, structural cyclotomic base, and fine/coarse distinction on each overlap.
 
@@ -1702,7 +1615,7 @@ The naive cyclic stack is not substituted for the refined normalization at nonsq
 
 This is an identification of carriers and morphisms; ordinary Katz–Mazur representability is supplied by ModularCurves.
 
-Establish this as follows. Restrict the divisor/full-set conditions to a smooth proper elliptic family, where they are the imported definitions. Uniqueness of representing objects gives the ordinary identification. Use normality, properness and the shared dense ordinary cover to identify the compact stack normalizations. Keep the full cyclotomic base and the point/cyclic level carriers in these identifications. Export the stack agreement to the coarse construction; its comparison to MC Layer 10 is [§5.18](#s5-18), not a prerequisite of this construction.
+Establish this as follows. Restrict the divisor/full-set conditions to a smooth proper elliptic family, where they are the imported definitions. Uniqueness of representing objects gives the ordinary identification. Use normality, properness and the shared dense ordinary cover to identify the compact stack normalizations. Keep the full cyclotomic base and the point/cyclic level carriers in these identifications. Export the stack agreement to the coarse construction; its comparison to MC Layer 10 is [§5.18](#518-agreement-with-the-prime-level-diamond-quotients), not a prerequisite of this construction.
 
 The theorem is `agreementWithKatzMazurSchemes`.
 
@@ -1712,7 +1625,7 @@ The theorem is `agreementWithKatzMazurSchemes`.
 - The all-pairings ordinary full moduli and a fixed-pairing fibre are compared on their respective bases.
 - At `N=4`, naive and refined boundary objects remain distinct.
 
-*Needs:* [§3.2](#s3-2); [§3.4](#s3-4); [§4.11](#s4-11); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.stack`.
+*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§3.4](#34-the-normalized-γ₀-moduli-stack); [§4.11](#411-the-cyclotomic-fixed-pairing-compactification); [ModularCurves Layer 3C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3c-the-four-level-structures); [ModularCurves Layer 7B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7b-local-algebra-and-local-schemes); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.DMNormalization.stack`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1, p.31; Theorem 4.2.1 and Remark 4.2.2, pp.35–36; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorems 4.3.5 (p.39) and 4.4.4 (p.40); §5.10, p.58.)
 
@@ -1730,11 +1643,9 @@ Use Layer 1, Layer 2, Layer 3. External contracts: AlgebraicModuliForArithmeticG
 
 ## Layer 5: Integral coarse modular curves
 
-<a id="s5-1"></a>
-
 ### 5.1 The standard levels: moduli stacks as normalizations
 
-Over `ℤ`, compatibly with the maps to `X(1)` and with the elliptic opens: (i) Layers 3 and 4's stack `Xfull(N)` of generalized elliptic curves whose degenerate fibres are N-gons with a Drinfeld `(ℤ/N)²`-structure on `E^sm[N]` is `𝒳_{Γ(N)}`; (ii) Layers 3 and 4's stack `X₁(N)` of ample Drinfeld `ℤ/N`-structures, with the contraction to `X(1)`, is `𝒳_{Γ₁(N)}`; (iii) Layers 3 and 4's refined `Γ₀(N)` stack is `𝒳_{Γ₀(N)}`. In each case the moduli stack is regular, finite and flat over `X(1)` through the contraction, and its elliptic locus over `ℤ[1/N]` is `Y_H[1/N]`. Consequently `𝒳_{Γ(N)}`, `𝒳_{Γ₁(N)}` and `𝒳_{Γ₀(N)}` are regular. The naive `Γ₀(N)` stack agrees with `𝒳_{Γ₀(N)}` on the elliptic locus and, for squarefree N, everywhere; for N not squarefree the two stacks differ even over `ℂ`, although their coarse spaces agree ([§5.4](#s5-4)). `𝒳_{Γ(N)}` is a projective scheme over `ℤ` for `N≥2` unless `N=p^s` or `N=2p^s (s≥1)`; `𝒳_{Γ(1)}=X(1)` is not a scheme (level one retains generic inversion).
+Over `ℤ`, compatibly with the maps to `X(1)` and with the elliptic opens: (i) Layers 3 and 4's stack `Xfull(N)` of generalized elliptic curves whose degenerate fibres are N-gons with a Drinfeld `(ℤ/N)²`-structure on `E^sm[N]` is `𝒳_{Γ(N)}`; (ii) Layers 3 and 4's stack `X₁(N)` of ample Drinfeld `ℤ/N`-structures, with the contraction to `X(1)`, is `𝒳_{Γ₁(N)}`; (iii) Layers 3 and 4's refined `Γ₀(N)` stack is `𝒳_{Γ₀(N)}`. In each case the moduli stack is regular, finite and flat over `X(1)` through the contraction, and its elliptic locus over `ℤ[1/N]` is `Y_H[1/N]`. Consequently `𝒳_{Γ(N)}`, `𝒳_{Γ₁(N)}` and `𝒳_{Γ₀(N)}` are regular. The naive `Γ₀(N)` stack agrees with `𝒳_{Γ₀(N)}` on the elliptic locus and, for squarefree N, everywhere; for N not squarefree the two stacks differ even over `ℂ`, although their coarse spaces agree ([§5.4](#54-regularity-at-integral-γ₀-cusps)). `𝒳_{Γ(N)}` is a projective scheme over `ℤ` for `N≥2` unless `N=p^s` or `N=2p^s (s≥1)`; `𝒳_{Γ(1)}=X(1)` is not a scheme (level one retains generic inversion).
 
 `N≥1`.
 
@@ -1747,15 +1658,13 @@ Establish this as follows. Each of the Layers 3 and 4 stacks is regular, hence n
 - For `N=p²`, the naive and refined `Γ₀` stacks are different over `ℂ` while having the same coarse curve `X₀(p²)`.
 - `𝒳_{Γ(3)}`, `𝒳_{Γ(4)}` and `𝒳_{Γ(6)}` are not schemes over `ℤ (N=p^s or 2p^s)`, while `𝒳_{Γ(12)}` and `𝒳_{Γ(15)}` are projective schemes (`N=n₁n₂` with coprime `n₁,n₂≥3`).
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.2](#s3-2); [§3.4](#s3-4); [§3.5](#s3-5); [§3.12](#s3-12); [§3.15](#s3-15); [§4.12](#s4-12); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures).
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.2](#32-proper-flat-integral-level-stacks); [§3.4](#34-the-normalized-γ₀-moduli-stack); [§3.5](#35-fine-loci-and-bad-level-inertia); [§3.12](#312-the-delignerapoport-level-h-stack); [§3.15](#315-compactified-level-maps-and-their-degrees); [§4.12](#412-agreement-on-the-ordinary-and-tame-loci); [ModularCurves Layer 3D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#3d-comparison-with-naive-level-structures).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 4.3.5 and Proposition 4.3.6, p.39; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 4.4.4, pp.40–41; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 5.13(a), p.60; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1, p.31; Remark 4.2.2, p.36.)
 
-<a id="s5-2"></a>
-
 ### 5.2 Integral coarse modular curves
 
-For an open `H≤GL₂(Ẑ)` containing `Γ(n)`, take the finite-inertia coarse space `X_H` of the corresponding compactified level stack `𝒳_H` ([§3.12](#s3-12); for the full, `Γ₁` and refined `Γ₀` levels it is Layers 3 and 4's moduli stack, by [§5.1](#s5-1)). It is a projective normal `ℤ`-scheme, finite locally free over `ℙ¹_j` and flat of relative dimension one. The construction is algebraic: normalize the j-line in the generic level algebra and compare the stack coarse space to this normalization. Full level has its determinant/cyclotomic constant algebra, fixed-pairing level is over the corresponding cyclotomic integer base, `Γ₁` is the marked-generator problem, and `Γ₀` uses the refined cyclic-subgroup stack. Keep disconnected full-level generic components in the normalization algebra. No analytic connectedness or Layer 8 is used.
+For an open `H≤GL₂(Ẑ)` containing `Γ(n)`, take the finite-inertia coarse space `X_H` of the corresponding compactified level stack `𝒳_H` ([§3.12](#312-the-delignerapoport-level-h-stack); for the full, `Γ₁` and refined `Γ₀` levels it is Layers 3 and 4's moduli stack, by [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations)). It is a projective normal `ℤ`-scheme, finite locally free over `ℙ¹_j` and flat of relative dimension one. The construction is algebraic: normalize the j-line in the generic level algebra and compare the stack coarse space to this normalization. Full level has its determinant/cyclotomic constant algebra, fixed-pairing level is over the corresponding cyclotomic integer base, `Γ₁` is the marked-generator problem, and `Γ₀` uses the refined cyclic-subgroup stack. Keep disconnected full-level generic components in the normalization algebra. No analytic connectedness or Layer 8 is used.
 
 Establish this as follows. Apply finite-inertia coarse existence to the actual level stack; descend the finite j-map through the categorical universal property. Compare on the dense generic level locus with integral closure in its full generic algebra. Normality, projectivity and Cohen–Macaulayness in dimension two yield the finite locally free j-map by Česnavičius §6.1, p.62, using miracle flatness (Stacks 00R4).
 
@@ -1775,11 +1684,9 @@ The public interface should expose:
 - For `H=GL₂(Ẑ)` (level 1) the result is `ℙ¹_j` over `ℤ`.
 - A fixed Weil pairing changes the base; forgetting it is not a geometrically connected full-level curve over `ℚ`.
 
-*Needs:* [§3.2](#s3-2); [§3.4](#s3-4); [§3.12](#s3-12); [§4.1](#s4-1); [§5.1](#s5-1); `SchemeAndStackFoundations §1.23/keel_mori`; [§3.9](#s3-9); `AlgebraicModuliForArithmeticGeometry §7.5/arithmetic_normalization_genericallyEtale`.
+*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§3.4](#34-the-normalized-γ₀-moduli-stack); [§3.12](#312-the-delignerapoport-level-h-stack); [§4.1](#41-formal-level-structures-at-cusps); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); `SchemeAndStackFoundations §1.23/keel_mori`; [§3.9](#39-level-h-structures-away-from-the-level); `AlgebraicModuliForArithmeticGeometry §7.5/arithmetic_normalization_genericallyEtale`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §6.1–6.3, pp.62–63.)
-
-<a id="s5-3"></a>
 
 ### 5.3 Base change for coarse modular curves
 
@@ -1792,11 +1699,9 @@ Establish this as follows. Apply tame coarse invariants after inverting 6. At a 
 - `n=5` allows arbitrary base change over all `ℤ`, even though stack stabilizers need not be tame at 2 or 3.
 - `n=4` only provides the advertised arbitrary range after inverting 2.
 
-*Needs:* [§5.2](#s5-2); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.base_change`; `SchemeAndStackFoundations §1.23/keel_mori`.
+*Needs:* [§5.2](#52-integral-coarse-modular-curves); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.base_change`; `SchemeAndStackFoundations §1.23/keel_mori`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 6.4, pp.63–64, and Remark 6.6, p.64.)
-
-<a id="s5-4"></a>
 
 ### 5.4 Regularity at integral `Γ₀` cusps
 
@@ -1808,11 +1713,9 @@ Establish this as follows. Compute prime-power cusp covers by normalizing the Ta
 
 - `X₀(4)` has regular cusps at 2; this does not make the `Γ₁(4)` coarse base-change assertion true.
 
-*Needs:* [§4.1](#s4-1); [§5.2](#s5-2).
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§5.2](#52-integral-coarse-modular-curves).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), Proposition 1.2.2.1 and Theorem 1.2.3.1, pp.37–38; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Theorem 6.7, pp.64–65, and Proposition 6.9, p.65.)
-
-<a id="s5-5"></a>
 
 ### 5.5 Prime-power `Γ₀` cusp rings
 
@@ -1827,11 +1730,9 @@ Establish this as follows. Split the generic cyclic Tate subgroup cover by `a+b=
 - For `p=3,n=3,(a,b)=(2,1)`, the mixed chart is `ℤ[ζ₃][[q]]`, of degree 2; the reversed `(1,2)` chart has `z³=ζ₃q` and degree 6.
 - `p=2,n=3,(a,b)=(1,2)` gives `z²=−q`, a regular formal cusp chart at 2 despite its ramification.
 
-*Needs:* [§4.1](#s4-1); [§5.4](#s5-4).
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§5.4](#54-regularity-at-integral-γ₀-cusps).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.2.2, Proposition 1.2.2.1, p.37; §1.2.3, p.38.)
-
-<a id="s5-6"></a>
 
 ### 5.6 The cyclic modular polynomial
 
@@ -1862,11 +1763,9 @@ The public interface should expose:
 - `ψ(4)=6` whereas `σ₁(4)=7`; `E[2]` is the extra noncyclic subgroup of order 4.
 - For a transcendental j, `Φ₂(j,V)` has degree 3.
 
-*Needs:* [§2.8](#s2-8); [§5.2](#s5-2); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
+*Needs:* [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§5.2](#52-integral-coarse-modular-curves); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
 
 ([Abelian varieties isogenous to no Jacobian](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf), §3.1(ii),(v), pp.645–646; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I §1, p.226; [Milne, Modular Functions and Modular Forms, v1.31](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorem 6.1, pp.88–90; §8, pp.97–100, especially the cyclic subgroup and quotient-isogeny descriptions preceding Theorem 8.6.)
-
-<a id="s5-7"></a>
 
 ### 5.7 Projective scalar level quotients
 
@@ -1886,14 +1785,12 @@ The public interface should expose:
 
 - `p=5` gives two scalar-framed complex components, not four and not one.
 - `[−1]` fixes a projective framing and prevents a fine universal family.
-- After rigidification the three ramification orders are 2,3,p, matching the analytic (2,3,p) orbifold from [§3.14](#s3-14).
+- After rigidification the three ramification orders are 2,3,p, matching the analytic (2,3,p) orbifold from [§3.14](#314-open-modular-uniformization-with-the-specified-level).
 - For `p=5` honest full level has 4 complex components and the scalar quotient has 2; on one component the effective covering group is `PSL₂(𝔽₅)`.
 
-*Needs:* [§2.1](#s2-1); [§4.1](#s4-1); [§5.2](#s5-2); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stack`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.coarse`.
+*Needs:* [§2.1](#21-semistable-genus-one-curves-and-split-polygons); [§4.1](#41-formal-level-structures-at-cusps); [§5.2](#52-integral-coarse-modular-curves); `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.stack`; `AlgebraicModuliForArithmeticGeometry §5.1/ArithmeticModuli.Rigidification.coarse`.
 
 ([Bakker–Tsimerman](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p02-p.pdf), §2.1–2.2, pp.713–715; §3, p.717.)
-
-<a id="s5-8"></a>
 
 ### 5.8 Geometry of the level-H stacks
 
@@ -1903,68 +1800,62 @@ H open; n with `Γ(n)⊂H`.
 
 Statement (c) uses the `GL₂(ℤ/n)`-torsor `Y(n)[1/n]→Ell_{ℤ[1/n]}` and the full-level formal cusp charts ⊔Spec `ℤ[ζ_n][[q^{1/n}]]` of `𝒳_{Γ(n)}` over the Tate chart of `X(1)`.
 
-Establish this as follows. (a) Finiteness is by construction; surjectivity because `X(1)` is irreducible ([§3.11](#s3-11)); `X(1)` is regular of dimension two and `𝒳_H` normal of dimension two, hence Cohen–Macaulay, so the finite map is flat (Stacks 00R4; EGA `IV₂` 6.1.5 as cited by Česnavičius); its rank is read on the elliptic locus over `ℤ[1/n]`. (b) Normality is inherited from `Y_H[1/n]` by relative normalization; properness and flatness over `ℤ` come from `X(1)` through (a). (c) On the elliptic open, `Y(n)[1/n]→Ell_{ℤ[1/n]}` is a `GL₂(ℤ/n)`-torsor ([§3.9](#s3-9)), so `Y_H[1/n]=[Y(n)[1/n]/H̄]` is finite étale over `Ell_{ℤ[1/n]}`, hence smooth over `ℤ[1/n]`. Along the cusps, `𝒳_H×_{X(1)}Spf ℤ[1/n][[q]]` is the normalization of `ℤ[1/n][[q]]` in the level-H structures on the Tate curve over `ℤ[1/n]((q))` (normalization commutes with this base change because `ℤ[[q]]` is excellent, Conrad Lemma 4.1.6), i.e. the `H̄`-invariants of the full-level chart, a finite product of copies of `ℤ[1/n,ζ_n][[q^{1/n}]]` (§4.1; Conrad (4.2.1)); the stabiliser of a factor acts on `ζ_n` through a free Galois action and on `q^{1/n}` by n-th roots of unity, so its invariants are power series rings over rings finite étale over `ℤ[1/n]`, and `𝒳_H` is smooth over `ℤ[1/n]` along the cusps (Česnavičius §4.1.2 cites Deligne–Rapoport IV.6.7). The whole quotient stack `[X(n)/H̄]` is not used: at the cusp `∞` of `X(p)` the p-gon with level structure `(ζ_p,(1,1))` is fixed, up to the unipotent element `[[1,k],[0,1]]∈Γ₀(p)‾`, by each rotation, which contracts to the identity of the 1-gon (compare Česnavičius §1.2, p.2). (d) Normalization functoriality gives the finite map; miracle flatness at regular points of the target; the degree is computed on `Y_{H′}[1/n]→Y_H[1/n]`. (e) A Deligne–Mumford stack with trivial geometric automorphism groups and quasi-compact separated diagonal is an algebraic space (Česnavičius Lemma 3.2.2(a)); it is quasi-finite and separated over `ℙ¹_ℤ` through the coarse j-map, hence a quasi-projective scheme (Lemma 4.1.3 and Remark 4.1.4).
+Establish this as follows. (a) Finiteness is by construction; surjectivity because `X(1)` is irreducible ([§3.11](#311-the-compactified-coarse-j-line)); `X(1)` is regular of dimension two and `𝒳_H` normal of dimension two, hence Cohen–Macaulay, so the finite map is flat (Stacks 00R4; EGA `IV₂` 6.1.5 as cited by Česnavičius); its rank is read on the elliptic locus over `ℤ[1/n]`. (b) Normality is inherited from `Y_H[1/n]` by relative normalization; properness and flatness over `ℤ` come from `X(1)` through (a). (c) On the elliptic open, `Y(n)[1/n]→Ell_{ℤ[1/n]}` is a `GL₂(ℤ/n)`-torsor ([§3.9](#39-level-h-structures-away-from-the-level)), so `Y_H[1/n]=[Y(n)[1/n]/H̄]` is finite étale over `Ell_{ℤ[1/n]}`, hence smooth over `ℤ[1/n]`. Along the cusps, `𝒳_H×_{X(1)}Spf ℤ[1/n][[q]]` is the normalization of `ℤ[1/n][[q]]` in the level-H structures on the Tate curve over `ℤ[1/n]((q))` (normalization commutes with this base change because `ℤ[[q]]` is excellent, Conrad Lemma 4.1.6), i.e. the `H̄`-invariants of the full-level chart, a finite product of copies of `ℤ[1/n,ζ_n][[q^{1/n}]]` (§4.1; Conrad (4.2.1)); the stabiliser of a factor acts on `ζ_n` through a free Galois action and on `q^{1/n}` by n-th roots of unity, so its invariants are power series rings over rings finite étale over `ℤ[1/n]`, and `𝒳_H` is smooth over `ℤ[1/n]` along the cusps (Česnavičius §4.1.2 cites Deligne–Rapoport IV.6.7). The whole quotient stack `[X(n)/H̄]` is not used: at the cusp `∞` of `X(p)` the p-gon with level structure `(ζ_p,(1,1))` is fixed, up to the unipotent element `[[1,k],[0,1]]∈Γ₀(p)‾`, by each rotation, which contracts to the identity of the 1-gon (compare Česnavičius §1.2, p.2). (d) Normalization functoriality gives the finite map; miracle flatness at regular points of the target; the degree is computed on `Y_{H′}[1/n]→Y_H[1/n]`. (e) A Deligne–Mumford stack with trivial geometric automorphism groups and quasi-compact separated diagonal is an algebraic space (Česnavičius Lemma 3.2.2(a)); it is quasi-finite and separated over `ℙ¹_ℤ` through the coarse j-map, hence a quasi-projective scheme (Lemma 4.1.3 and Remark 4.1.4).
 
 **Checks.**
 
 - rank `𝒳_{Γ₁(5)}→X(1)` is 24 while the coarse degree of `X₁(5)→ℙ¹` is 12.
-- `𝒳_{Γ(N)}` is a projective scheme for `N≥2` not of the form `p^s` or `2p^s`, and is not a scheme for `N=p^s`, `2p^s` because supersingular points in characteristic p keep the automorphism `−1`, nor for `N=1` ([§5.1](#s5-1)).
+- `𝒳_{Γ(N)}` is a projective scheme for `N≥2` not of the form `p^s` or `2p^s`, and is not a scheme for `N=p^s`, `2p^s` because supersingular points in characteristic p keep the automorphism `−1`, nor for `N=1` ([§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations)).
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§2.11](#s2-11); [§3.2](#s3-2); [§3.9](#s3-9); [§3.11](#s3-11); [§3.12](#s3-12); [§4.1](#s4-1); [§5.1](#s5-1); `SchemeAndStackFoundations §1.21`; `SchemeAndStackFoundations §1.20`; Mathlib `AlgebraicGeometry.Flat`; Mathlib `AlgebraicGeometry.IsFinite`; `SchemeAndStackFoundations §1.19`.
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§2.11](#211-polygon-count-stacks-and-decontractions); [§3.2](#32-proper-flat-integral-level-stacks); [§3.9](#39-level-h-structures-away-from-the-level); [§3.11](#311-the-compactified-coarse-j-line); [§3.12](#312-the-delignerapoport-level-h-stack); [§4.1](#41-formal-level-structures-at-cusps); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); `SchemeAndStackFoundations §1.21`; `SchemeAndStackFoundations §1.20`; Mathlib `AlgebraicGeometry.Flat`; Mathlib `AlgebraicGeometry.IsFinite`; `SchemeAndStackFoundations §1.19`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.1.2, p.28; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.1.3 and Remark 4.1.4, p.28; Lemma 3.2.2(a), p.20; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 4.3.2(a), p.37; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Remark 4.1.4, pp.28–29; [Stacks Project](https://stacks.math.columbia.edu), Tag 00R4; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), proof of Theorem 4.1.1, p.34; (4.2.1), p.37.)
-
-<a id="s5-9"></a>
 
 ### 5.9 Local structure of coarse level curves
 
 Let H be an open level subgroup, `π:𝒳_H→X_H` the coarse space, `x̄` a geometric point of `𝒳_H` and `Γ_x̄` its finite automorphism group. (a) There are an étale neighbourhood `U→X_H` of `π(x̄)` and a finite U-scheme V with a `Γ_x̄`-action such that `𝒳_H×_{X_H}U≅[V/Γ_x̄]` and `U=V/Γ_x̄`. (b) The strict henselization of `X_H` at `π(x̄)` is the ring of `Γ_x̄`-invariants of the strict henselization of `𝒳_H` at `x̄`, and the same holds after completion: `Ô^{sh}_{X_H,π(x̄)}=(Ô^{sh}_{𝒳_H,x̄})^{Γ_x̄}`. (c) `Γ_x̄` acts through its effective quotient `Γ_x̄^{eff}=Γ_x̄/(Γ_x̄∩{±1})` when `−I∈H̄`, and through `Γ_x̄` itself otherwise; this quotient acts faithfully. (d) If `x̄` lies over `j(x̄)≠∞` in residue characteristic prime to n, then `𝒳_H→X(1)` is étale at `x̄`, `Γ_x̄` is the subgroup of `Aut(E_x̄)` fixing the level structure, and the local degree of `X_H→ℙ¹_j` at `π(x̄)`, the degree of the extension of fraction fields of the strictly henselian local rings, is `[Aut(E_x̄)/{±1} : Γ_x̄^{eff}]`, where `Γ_x̄^{eff}` denotes the image of `Γ_x̄` in `Aut(E_x̄)/{±1}`; at a point of the generic fibre this is the ramification index, while at a closed point of residue characteristic p the local rings are two-dimensional and the local degree is the relevant invariant. For `H=Γ₀(N)` and any geometric point `x̄=(E,C)`, `Γ_x̄=Aut(E,C)` contains `{±1}`, and the strictly henselian local ring of `X₀(N)` is the invariant ring of that of the refined stack under `Aut(E,C)/{±1}`. (e) On the open of `X_H` over which every geometric stabiliser has invertible order, in particular over `ℤ[1/6]` (stabilisers have order dividing 24 because `𝒳_H→X(1)` is representable), a line bundle L on `𝒳_H` is the pullback of a line bundle on `X_H` if and only if every `Γ_x̄` acts trivially on the fibre `L(x̄)`, and then `L≅π*π_*L`; `ω^{⊗12}` on `X(1)` is the pullback of `𝒪_{ℙ¹}(1)` through the section `Δ`, while `ω` itself does not descend because `−1` acts on it by `−1`.
 
-H open; `𝒳_H` as in [§3.12](#s3-12), a separated Deligne–Mumford stack of finite type over `ℤ` with finite inertia.
+H open; `𝒳_H` as in [§3.12](#312-the-delignerapoport-level-h-stack), a separated Deligne–Mumford stack of finite type over `ℤ` with finite inertia.
 
 Statement (d) uses that `Y_H[1/n]→Ell_{ℤ[1/n]}` is finite étale; statement (b) for completions uses flatness of completion over the noetherian strictly henselian ring.
 
 For `Γ₀(N)` the stack is the refined, Deligne–Mumford stack; the naive `Γ₀(N)` stack has non-étale automorphism groups at some cusps when N is not squarefree and is not used here.
 
-Establish this as follows. (a) is §0.1 applied to `𝒳_H` (Česnavičius uses the same local structure, through Olsson’s version, in the proof of Proposition 6.4(b)), with V a component of an étale atlas over the strict henselization and `Γ_x̄` the stabiliser. (b) Strict henselization is ind-étale, hence flat, and taking invariants of a finite group commutes with flat base change; Conrad's proof of the Keel–Mori theorem gives exactly this invariant-subring description. Completion of a noetherian local ring is flat, so invariants also commute with completion. (c) The generic automorphism group of `𝒳_H` is `{±1}` `if −I∈H̄` and trivial otherwise ([§3.9](#s3-9)), and it acts trivially on functions; the remaining group acts faithfully on the fraction field of the strictly henselian local ring because a generic deformation has no further automorphisms. (d) Over `ℤ[1/n]` the strict henselization of `𝒳_H` at `x̄` is that of Ell at `E_x̄`, and the coarse local rings of `X_H` and `ℙ¹_j` are its invariants under `Γ_x̄` and `Aut(E_x̄)`; faithful action of the effective quotients gives an extension of fraction fields of degree equal to the index, and the separably closed residue fields make it totally ramified at points of the generic fibre. For `Γ₀(N)` apply (a)–(c) to the refined stack, which is Deligne–Mumford and has the same coarse space as the naive stack ([§5.4](#s5-4)). (e) is finite flat descent through a tame coarse space (AlgebraicModuliForArithmeticGeometry §5.3, `ArithmeticModuli.tame_finite_flat_descent`; the open where the stabiliser orders are invertible is tame by SchemeAndStackFoundations §1.23, IsTame) applied to the finite locally free algebra `𝒪⊕L` with `L·L=0`, whose descent is that of L; `Δ` is a nowhere-vanishing section of `ω^{⊗12}` on Ell with a simple zero along the boundary of `X(1)`, and `j=c₄³/Δ` ([§3.11](#s3-11)).
+Establish this as follows. (a) is §0.1 applied to `𝒳_H` (Česnavičius uses the same local structure, through Olsson’s version, in the proof of Proposition 6.4(b)), with V a component of an étale atlas over the strict henselization and `Γ_x̄` the stabiliser. (b) Strict henselization is ind-étale, hence flat, and taking invariants of a finite group commutes with flat base change; Conrad's proof of the Keel–Mori theorem gives exactly this invariant-subring description. Completion of a noetherian local ring is flat, so invariants also commute with completion. (c) The generic automorphism group of `𝒳_H` is `{±1}` `if −I∈H̄` and trivial otherwise ([§3.9](#39-level-h-structures-away-from-the-level)), and it acts trivially on functions; the remaining group acts faithfully on the fraction field of the strictly henselian local ring because a generic deformation has no further automorphisms. (d) Over `ℤ[1/n]` the strict henselization of `𝒳_H` at `x̄` is that of Ell at `E_x̄`, and the coarse local rings of `X_H` and `ℙ¹_j` are its invariants under `Γ_x̄` and `Aut(E_x̄)`; faithful action of the effective quotients gives an extension of fraction fields of degree equal to the index, and the separably closed residue fields make it totally ramified at points of the generic fibre. For `Γ₀(N)` apply (a)–(c) to the refined stack, which is Deligne–Mumford and has the same coarse space as the naive stack ([§5.4](#54-regularity-at-integral-γ₀-cusps)). (e) is finite flat descent through a tame coarse space (AlgebraicModuliForArithmeticGeometry §5.3, `ArithmeticModuli.tame_finite_flat_descent`; the open where the stabiliser orders are invertible is tame by SchemeAndStackFoundations §1.23, IsTame) applied to the finite locally free algebra `𝒪⊕L` with `L·L=0`, whose descent is that of L; `Δ` is a nowhere-vanishing section of `ω^{⊗12}` on Ell with a simple zero along the boundary of `X(1)`, and `j=c₄³/Δ` ([§3.11](#311-the-compactified-coarse-j-line)).
 
 **Checks.**
 
 - For `X₀(N)` at a point `(E,C)` with `j(E)=1728` in characteristic prime to 6N: if C is stable under the automorphism of order 4, `Γ^{eff}` has order 2 and `X₀(N)→ℙ¹` is unramified there; otherwise `Γ^{eff}` is trivial and the local degree is 2.
 - For `X₁(N)` with `N≥5` and residue characteristic prime to N, every `Γ_x̄` is trivial and `X₁(N)` is étale locally the stack itself, a fine scheme.
 
-*Needs:* [§0.1](#s0-1); [§3.4](#s3-4); [§3.9](#s3-9); [§3.11](#s3-11); [§3.12](#s3-12); [§4.4](#s4-4); [§5.4](#s5-4); `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; `SchemeAndStackFoundations §1.19`; `SchemeAndStackFoundations §1.20`; `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.tame_finite_flat_descent`; `SchemeAndStackFoundations Layer 1`; `SchemeAndStackFoundations §1.23/IsTame`.
+*Needs:* [§0.1](#01-étale-local-structure-of-a-delignemumford-stack-over-its-coarse-space); [§3.4](#34-the-normalized-γ₀-moduli-stack); [§3.9](#39-level-h-structures-away-from-the-level); [§3.11](#311-the-compactified-coarse-j-line); [§3.12](#312-the-delignerapoport-level-h-stack); [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§5.4](#54-regularity-at-integral-γ₀-cusps); `SchemeAndStackFoundations §1.23/keel_mori`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; `SchemeAndStackFoundations §1.19`; `SchemeAndStackFoundations §1.20`; `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.tame_finite_flat_descent`; `SchemeAndStackFoundations Layer 1`; `SchemeAndStackFoundations §1.23/IsTame`.
 
 ([Compactifying the space of stable maps](https://arxiv.org/pdf/math/9908167), Lemma 2.2.3, p.4 (arXiv v2); [The Keel–Mori theorem via stacks](https://math.stanford.edu/~conrad/papers/coarsespace.pdf), Theorem 1.1, p.1; Theorem 3.1 and its proof, pp.5–6; Theorem 4.2, p.8; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter III, §1, (1.3) and the following paragraph, p.255; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), proof of Proposition 6.4(b), p.64; proof of Theorem 6.7, pp.64–65.)
 
-<a id="s5-10"></a>
-
 ### 5.10 Degree of the j-map and the cusp divisor
 
-For every open level subgroup H the coarse j-map `X_H→ℙ¹_ℤ`, induced from `𝒳_H→X(1)` and [§3.11](#s3-11), is finite locally free of constant rank `[GL₂(Ẑ):±H]`, the projective index. The scheme `X_H` is projective and flat over `ℤ` with all fibres of pure dimension one; `Y_H:=X_H×_{ℙ¹}𝔸¹` is the coarse space of the elliptic open `Y_H` of `𝒳_H`. The cusp divisor `X_H^∞:=X_H×_{ℙ¹}{∞}` is an effective Cartier divisor on `X_H` which is finite locally free over `ℤ` of rank `[GL₂(Ẑ):±H]`; it is the scheme-theoretic fibre, in general not reduced, and its multiplicities are the cusp widths ([§5.11](#s5-11)). The stack `𝒳_H` has rank `[GL₂(Ẑ):H]` over `X(1)`; the two degrees agree exactly when `−I∈H`.
+For every open level subgroup H the coarse j-map `X_H→ℙ¹_ℤ`, induced from `𝒳_H→X(1)` and [§3.11](#311-the-compactified-coarse-j-line), is finite locally free of constant rank `[GL₂(Ẑ):±H]`, the projective index. The scheme `X_H` is projective and flat over `ℤ` with all fibres of pure dimension one; `Y_H:=X_H×_{ℙ¹}𝔸¹` is the coarse space of the elliptic open `Y_H` of `𝒳_H`. The cusp divisor `X_H^∞:=X_H×_{ℙ¹}{∞}` is an effective Cartier divisor on `X_H` which is finite locally free over `ℤ` of rank `[GL₂(Ẑ):±H]`; it is the scheme-theoretic fibre, in general not reduced, and its multiplicities are the cusp widths ([§5.11](#511-cusps-of-x_h-away-from-the-level)). The stack `𝒳_H` has rank `[GL₂(Ẑ):H]` over `X(1)`; the two degrees agree exactly when `−I∈H`.
 
-H open; `X_H` the coarse space of `𝒳_H` ([§5.2](#s5-2)).
+H open; `X_H` the coarse space of `𝒳_H` ([§5.2](#52-integral-coarse-modular-curves)).
 
-Establish this as follows. Finite locally free: [§5.2](#s5-2) (Česnavičius §6.1: `X_H` is normal and finite over `X(1)=ℙ¹_ℤ`, so locally free by EGA `IV₂` 6.1.5). The rank is computed at a geometric point of `𝔸¹_ℚ` with `j≠0,1728`: its preimages are the classes of level-H structures on one curve E modulo `Aut(E)={±1}`, i.e. the set `{±1} \ GL₂(ℤ/n)/H̄`, of cardinality `[GL₂(ℤ/n):±H̄]`. The coarse space of the open substack `Y_H` is the preimage of `𝔸¹` because coarse formation commutes with flat (here open) base change on `X_H`. The pullback of the Cartier divisor `∞` along a flat morphism is Cartier, and finite locally free of the same rank over `∞≅Spec ℤ`.
+Establish this as follows. Finite locally free: [§5.2](#52-integral-coarse-modular-curves) (Česnavičius §6.1: `X_H` is normal and finite over `X(1)=ℙ¹_ℤ`, so locally free by EGA `IV₂` 6.1.5). The rank is computed at a geometric point of `𝔸¹_ℚ` with `j≠0,1728`: its preimages are the classes of level-H structures on one curve E modulo `Aut(E)={±1}`, i.e. the set `{±1} \ GL₂(ℤ/n)/H̄`, of cardinality `[GL₂(ℤ/n):±H̄]`. The coarse space of the open substack `Y_H` is the preimage of `𝔸¹` because coarse formation commutes with flat (here open) base change on `X_H`. The pullback of the Cartier divisor `∞` along a flat morphism is Cartier, and finite locally free of the same rank over `∞≅Spec ℤ`.
 
 **Checks.**
 
 - `X₀(N)→ℙ¹` has degree `ψ(N)`; `X₁(N)→ℙ¹` has degree `φ(N)ψ(N)/2` for `N≥3`, so 12 for `N=5`; `X(N)→ℙ¹` has degree `|GL₂(ℤ/N)|/2` for `N≥3`; `X_{C_s⁺(13)}` and `X_{C_ns⁺(13)}` have degrees 91 and 78.
 - For a prime p, `X₀(p)^∞=[∞]+p·[0]`, of rank `p+1` over `ℤ`, not reduced.
 
-*Needs:* [§3.8](#s3-8); [§3.9](#s3-9); [§3.11](#s3-11); [§5.2](#s5-2); [§5.8](#s5-8); [ModularCurves Layer 0A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0a-relative-effective-cartier-divisors); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); `SchemeAndStackFoundations §1.23/keel_mori`; Mathlib `AlgebraicGeometry.Scheme.Hom.finrank`.
+*Needs:* [§3.8](#38-open-level-subgroups-and-the-standard-levels); [§3.9](#39-level-h-structures-away-from-the-level); [§3.11](#311-the-compactified-coarse-j-line); [§5.2](#52-integral-coarse-modular-curves); [§5.8](#58-geometry-of-the-level-h-stacks); [ModularCurves Layer 0A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0a-relative-effective-cartier-divisors); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); `SchemeAndStackFoundations §1.23/keel_mori`; Mathlib `AlgebraicGeometry.Scheme.Hom.finrank`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §6.1, p.62; [On the possible images of the mod ℓ representations associated to elliptic curves over ℚ](https://arxiv.org/pdf/1508.07660), §3.2, p.15; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), Layer 10, item 2.)
-
-<a id="s5-11"></a>
 
 ### 5.11 Cusps of `X_H` away from the level
 
 Let H be an open level subgroup, n with `Γ(n)⊂H`, and `u=[[1,1],[0,1]]`. Over every algebraically closed field k with `char k∤n`, the points of `X_H^∞(k)` are in bijection with the double cosets `⟨±u⟩ \ GL₂(ℤ/n)/H̄`: the coset of g is the Tate curve over `k((q^{1/n}))` with the level structure `φ₀gH̄`, where `φ₀=(ζ,q^{1/n})` for a fixed primitive n-th root of unity `ζ`, the monodromy `q^{1/n}↦ζq^{1/n}` acting by left multiplication by u and inversion by `−I`. The width of the cusp of g, equal to its ramification index over `∞` and to its multiplicity in `X_H^∞`, is the least `w≥1` with `u^w∈±gH̄g⁻¹`, and after base change to a strictly henselian base the completed local ring of `X_H` at it is a power series ring in a parameter t with `t^w` equal to q times a unit. The reduced cusp scheme `(X_H^∞)_red` is finite étale over `ℤ[1/n]` of rank `#(⟨±u⟩ \ GL₂(ℤ/n)/H̄)`, the sum of the widths is `[GL₂(Ẑ):±H]`, and `Gal(ℚ̄/ℚ)` acts on the geometric cusps through `Gal(ℚ(ζ_n)/ℚ)≅(ℤ/n)^×`, the element d acting by left multiplication by [[d,0],[0,1]].
 
-k algebraically closed of characteristic prime to n; the bad-characteristic cusps are Layers 3–5 and [§5.4](#s5-4).
+k algebraically closed of characteristic prime to n; the bad-characteristic cusps are Layers 3–5 and [§5.4](#54-regularity-at-integral-γ₀-cusps).
 
-Establish this as follows. For full level the fibre of `𝒳_{Γ(n)}→X(1)` over the Tate chart is a finite disjoint union of copies of `Spec ℤ[ζ_n][[q^{1/n}]]`, compatibly with the cyclotomic structure; its components over k are the frames of the Tate curve modulo monodromy (Conrad (4.2.1); §4.1). The coarse local ring at a cusp is the invariant ring of this formal chart under the stabiliser of the component in `⟨±u⟩×H̄` ([§5.9](#s5-9) (b)); `u^b` acts by `q^{1/n}↦ζ^b q^{1/n}` and `−I` acts trivially on q. The stabiliser of the coset of g is `⟨±u⟩∩gH̄g⁻¹`, whose image in the monodromy group is `⟨u^w⟩`, so the invariants of `k[[q^{1/n}]]` are `k[[q^{1/w}]]` and the ramification index over q is w. Over `ℤ[1/n]` the Galois group of `ℤ[1/n,ζ_n]` acts freely on the coefficients; the invariant ring of `ℤ[1/n,ζ_n][[x]]` under a group acting semilinearly in this way is `R[[y]]` with R finite étale over `ℤ[1/n]`, which gives the finite étale reduced cusp scheme. `σ_d` sends `φ₀=(ζ,q^{1/n})` to `(ζ^d,q^{1/n})=φ₀·[[d,0],[0,1]]`, hence acts on `φ₀gH̄` by left multiplication by [[d,0],[0,1]].
+Establish this as follows. For full level the fibre of `𝒳_{Γ(n)}→X(1)` over the Tate chart is a finite disjoint union of copies of `Spec ℤ[ζ_n][[q^{1/n}]]`, compatibly with the cyclotomic structure; its components over k are the frames of the Tate curve modulo monodromy (Conrad (4.2.1); §4.1). The coarse local ring at a cusp is the invariant ring of this formal chart under the stabiliser of the component in `⟨±u⟩×H̄` ([§5.9](#59-local-structure-of-coarse-level-curves) (b)); `u^b` acts by `q^{1/n}↦ζ^b q^{1/n}` and `−I` acts trivially on q. The stabiliser of the coset of g is `⟨±u⟩∩gH̄g⁻¹`, whose image in the monodromy group is `⟨u^w⟩`, so the invariants of `k[[q^{1/n}]]` are `k[[q^{1/w}]]` and the ramification index over q is w. Over `ℤ[1/n]` the Galois group of `ℤ[1/n,ζ_n]` acts freely on the coefficients; the invariant ring of `ℤ[1/n,ζ_n][[x]]` under a group acting semilinearly in this way is `R[[y]]` with R finite étale over `ℤ[1/n]`, which gives the finite étale reduced cusp scheme. `σ_d` sends `φ₀=(ζ,q^{1/n})` to `(ζ^d,q^{1/n})=φ₀·[[d,0],[0,1]]`, hence acts on `φ₀gH̄` by left multiplication by [[d,0],[0,1]].
 
 **Checks.**
 
@@ -1973,11 +1864,9 @@ Establish this as follows. For full level the fibre of `𝒳_{Γ(n)}→X(1)` ove
 - `X(N,ζ)` for `N≥3`: `|SL₂(ℤ/N)|/(2N)` cusps per component, each of width N (twelve cusps for `N=5`).
 - `X₀(N)`: the cusps are the `⟨±u⟩`-orbits on `ℙ¹(ℤ/N)`, of number `Σ_{d|N} φ(gcd(d,N/d))`.
 
-*Needs:* [§3.6](#s3-6); [§4.1](#s4-1); [§5.1](#s5-1); [§5.8](#s5-8); [§5.9](#s5-9); [§5.10](#s5-10); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
+*Needs:* [§3.6](#36-generalized-tate-n-gons); [§4.1](#41-formal-level-structures-at-cusps); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); [§5.8](#58-geometry-of-the-level-h-stacks); [§5.9](#59-local-structure-of-coarse-level-curves); [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), (4.2.1) and proof of Lemma 4.2.4, p.37; proof of Theorem 4.1.1, p.34; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Definition 4.3.1 and Lemma 4.3.2, p.37; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter III, §1, p.255; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), Layer 10, item 2.)
-
-<a id="s5-12"></a>
 
 ### 5.12 The cyclotomic structure of `X_H`
 
@@ -1985,7 +1874,7 @@ Let H be an open level subgroup, n with `Γ(n)⊂H`, `D_H=det(H̄)⊂(ℤ/n)^×`
 
 H open; n with `Γ(n)⊂H`.
 
-`X_H` normal ([§5.2](#s5-2)).
+`X_H` normal ([§5.2](#52-integral-coarse-modular-curves)).
 
 Establish this as follows. On `Y(n)[1/n]` the Weil pairing of the universal frame is a primitive n-th root of unity, a morphism to `μ_n^{prim}=Spec ℤ[1/n][x]/(Φ_n)` (upstream 5B), equivariant for the right action of `GL₂(ℤ/n)` on frames through `σ_{det}`. Pass to the quotient by `H̄`: `Y_H[1/n]=Y(n)[1/n]/H̄` maps to `Spec` of the `D_H`-invariants `ℤ[1/n,ζ_n]^{D_H}=O_H[1/n]`. Extension: `O_H` is finite over `ℤ`, and an element of `O_H` regular on the dense open `Y_H[1/n]` of the normal scheme `X_H` is integral over every local ring of `X_H`, hence regular; uniqueness by density and separatedness (Conrad's argument for Theorem 4.1.1(3)). Flatness: `X_H` is flat over `ℤ` and `Spec O_H` is a Dedekind scheme; properness from `X_H→Spec ℤ`.
 
@@ -2008,21 +1897,19 @@ The public interface should expose:
 - `H=Γ₀(N)`, `Γ₁(N)`, `C_s(ℓ)`, `C_ns⁺(ℓ)`: `D_H=(ℤ/n)^×` and `O_H=ℤ`.
 - `H=Γ(N)`: `O_H=ℤ[ζ_N]`, recovering the fixed-pairing base.
 
-*Needs:* [§3.8](#s3-8); [§3.9](#s3-9); [§5.2](#s5-2); [§5.10](#s5-10); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); Mathlib `IsPrimitiveRoot`; Mathlib `Polynomial.cyclotomic`.
+*Needs:* [§3.8](#38-open-level-subgroups-and-the-standard-levels); [§3.9](#39-level-h-structures-away-from-the-level); [§5.2](#52-integral-coarse-modular-curves); [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); Mathlib `IsPrimitiveRoot`; Mathlib `Polynomial.cyclotomic`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1(3), p.31, and its proof, p.34; [On the possible images of the mod ℓ representations associated to elliptic curves over ℚ](https://arxiv.org/pdf/1508.07660), §3.2, p.15; Proposition 3.1, p.14; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §5B.)
 
-<a id="s5-13"></a>
-
 ### 5.13 The fixed-pairing compactified curve
 
-For `N≥1` and a ring R with a ring map `ζ:ℤ[ζ_N]→R`, let `𝒳(N,ζ)_R:=𝒳_{Γ(N)}×_{Spec ℤ[ζ_N]}Spec` R, using the extended Weil pairing `𝒳_{Γ(N)}→Spec ℤ[ζ_N]` (Conrad Theorem 4.1.1(3)), and let `X(N,ζ)_R` be its coarse space. For `R=ℤ[ζ_N]`, `X(N,ζ)=X(N)` with its cyclotomic structure. Its elliptic open over `ℤ[1/N,ζ_N]` is the coarse space of the stack of curves with full level structure of Weil pairing `ζ`, which for `N≥3` is upstream's fine scheme `Y(N,ζ)`. The formation of `X(N,ζ)_R` commutes with base change `R→R′` when R′ is flat over R, when `N≥3` and R is a `ℤ[1/N]`-algebra, when `N≥2` and N is not of the form `p^s` or `2p^s` (`s≥1`), because `𝒳_{Γ(N)}` is then a scheme, and when `N=1`, because [§3.11](#s3-11) identifies the coarse curve with `ℙ¹_R` compatibly with arbitrary base change. Over `ℤ[1/N,ζ_N]` it is a smooth proper curve, and `X(N)_{ℤ[1/N,ζ_N]}` is the disjoint union over `d∈(ℤ/N)^×` of the curves `X(N,ζ^d)_{ℤ[1/N,ζ_N]}`. Geometric connectedness of its fibres is theorem [§4.10](#s4-10) and is not used here.
+For `N≥1` and a ring R with a ring map `ζ:ℤ[ζ_N]→R`, let `𝒳(N,ζ)_R:=𝒳_{Γ(N)}×_{Spec ℤ[ζ_N]}Spec` R, using the extended Weil pairing `𝒳_{Γ(N)}→Spec ℤ[ζ_N]` (Conrad Theorem 4.1.1(3)), and let `X(N,ζ)_R` be its coarse space. For `R=ℤ[ζ_N]`, `X(N,ζ)=X(N)` with its cyclotomic structure. Its elliptic open over `ℤ[1/N,ζ_N]` is the coarse space of the stack of curves with full level structure of Weil pairing `ζ`, which for `N≥3` is upstream's fine scheme `Y(N,ζ)`. The formation of `X(N,ζ)_R` commutes with base change `R→R′` when R′ is flat over R, when `N≥3` and R is a `ℤ[1/N]`-algebra, when `N≥2` and N is not of the form `p^s` or `2p^s` (`s≥1`), because `𝒳_{Γ(N)}` is then a scheme, and when `N=1`, because [§3.11](#311-the-compactified-coarse-j-line) identifies the coarse curve with `ℙ¹_R` compatibly with arbitrary base change. Over `ℤ[1/N,ζ_N]` it is a smooth proper curve, and `X(N)_{ℤ[1/N,ζ_N]}` is the disjoint union over `d∈(ℤ/N)^×` of the curves `X(N,ζ^d)_{ℤ[1/N,ζ_N]}`. Geometric connectedness of its fibres is theorem [§4.10](#410-geometric-connectedness-of-a-fixed-pairing-curve) and is not used here.
 
 `N≥1`; R a `ℤ[ζ_N]`-algebra.
 
 The listed base-change cases are the only ones asserted.
 
-Establish this as follows. Base change the full-level stack along `ζ` and take the Keel–Mori coarse space (SchemeAndStackFoundations §1.23, `keel_mori`). For `R=ℤ[ζ_N]` the base change is the identity, so the coarse space is `X(N)` with its cyclotomic structure ([§5.12](#s5-12)). Base change: flat base change of coarse spaces; for `N≥3` over `ℤ[1/N]` the stack is a fine scheme (Katz–Mazur rigidity, upstream 2F, 5B); for `N≥2` not of the form `p^s`, `2p^s` (`s≥1`) the stack is a projective scheme over `ℤ` ([§5.1](#s5-1)); for `N=1`, `ℤ[ζ₁]=ℤ` and the stack retains inversion, while its coarse j-line and projective completion are `𝔸¹_R` and `ℙ¹_R` for every R by [§3.11](#s3-11), compatibly with every `R→R′`. Over `ℤ[1/N]` the ring `ℤ[1/N,ζ_N]⊗_ℤℤ[ζ_N]` is the product of copies of `ℤ[1/N,ζ_N]` indexed by `σ_d`, which splits `X(N)` after base change into the fibres `X(N,ζ^d)`. Smoothness over `ℤ[1/N,ζ_N]` from [§5.8](#s5-8) (c) and [§5.3](#s5-3).
+Establish this as follows. Base change the full-level stack along `ζ` and take the Keel–Mori coarse space (SchemeAndStackFoundations §1.23, `keel_mori`). For `R=ℤ[ζ_N]` the base change is the identity, so the coarse space is `X(N)` with its cyclotomic structure ([§5.12](#512-the-cyclotomic-structure-of-x_h)). Base change: flat base change of coarse spaces; for `N≥3` over `ℤ[1/N]` the stack is a fine scheme (Katz–Mazur rigidity, upstream 2F, 5B); for `N≥2` not of the form `p^s`, `2p^s` (`s≥1`) the stack is a projective scheme over `ℤ` ([§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations)); for `N=1`, `ℤ[ζ₁]=ℤ` and the stack retains inversion, while its coarse j-line and projective completion are `𝔸¹_R` and `ℙ¹_R` for every R by [§3.11](#311-the-compactified-coarse-j-line), compatibly with every `R→R′`. Over `ℤ[1/N]` the ring `ℤ[1/N,ζ_N]⊗_ℤℤ[ζ_N]` is the product of copies of `ℤ[1/N,ζ_N]` indexed by `σ_d`, which splits `X(N)` after base change into the fibres `X(N,ζ^d)`. Smoothness over `ℤ[1/N,ζ_N]` from [§5.8](#58-geometry-of-the-level-h-stacks) (c) and [§5.3](#53-base-change-for-coarse-modular-curves).
 
 The public interface should expose:
 
@@ -2042,11 +1929,9 @@ The public interface should expose:
 - For `N≥3` over `ℤ[1/N,ζ_N]` the coarse map is an isomorphism from the stack, which is upstream's fine scheme `Y(N,ζ)` on the elliptic open.
 - `N=5` over `ℚ(ζ₅)`: `X(5,ζ)` has degree 60 over `ℙ¹` and twelve cusps of width 5, whereas `X(5)_ℚ` has degree 240.
 
-*Needs:* [§3.11](#s3-11); [§5.1](#s5-1); [§5.3](#s5-3); [§5.8](#s5-8); [§5.12](#s5-12); `SchemeAndStackFoundations §1.23/keel_mori`; [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 2F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2f-endomorphism-degree-trace-and-rigidity).
+*Needs:* [§3.11](#311-the-compactified-coarse-j-line); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); [§5.3](#53-base-change-for-coarse-modular-curves); [§5.8](#58-geometry-of-the-level-h-stacks); [§5.12](#512-the-cyclotomic-structure-of-x_h); `SchemeAndStackFoundations §1.23/keel_mori`; [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 2F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2f-endomorphism-degree-trace-and-rigidity).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.1.1(3), p.31; Lemma 4.2.4, p.37; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 3.3.2 and proof, pp.24–25; Proposition 4.3.6, p.39; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §5B and Convention 5.)
-
-<a id="s5-14"></a>
 
 ### 5.14 Compactified twisted curves `X(ρ)`
 
@@ -2056,7 +1941,7 @@ Let `N≥3` and let `V_ρ/ℚ` be a finite étale group scheme, étale locally i
 
 Only pairing-preserving isomorphisms are parametrised; the unpaired `GL₂`-twist is a different moduli problem.
 
-Establish this as follows. Over a finite extension L trivialising `V_ρ` symplectically, `Y(ρ)_L≅Y(N,ζ)_L` as moduli problems (upstream 5C, steps 3–5). Relative normalization commutes with the étale base change `Spec L→Spec ℚ` (Stacks 03GV; Mathlib normalizationPullback for smooth maps), so `X(ρ)_L` is the normalization of `ℙ¹_L` in `Y(N,ζ)_L`, which is `X(N,ζ)_L` by the recognition criterion applied to the normal proper curve of [§5.13](#s5-13). Properness and smoothness descend along `Spec L→Spec ℚ`. Frame changes act through `SL₂(ℤ/N)` because they preserve the pairing value.
+Establish this as follows. Over a finite extension L trivialising `V_ρ` symplectically, `Y(ρ)_L≅Y(N,ζ)_L` as moduli problems (upstream 5C, steps 3–5). Relative normalization commutes with the étale base change `Spec L→Spec ℚ` (Stacks 03GV; Mathlib normalizationPullback for smooth maps), so `X(ρ)_L` is the normalization of `ℙ¹_L` in `Y(N,ζ)_L`, which is `X(N,ζ)_L` by the recognition criterion applied to the normal proper curve of [§5.13](#513-the-fixed-pairing-compactified-curve). Properness and smoothness descend along `Spec L→Spec ℚ`. Frame changes act through `SL₂(ℤ/N)` because they preserve the pairing value.
 
 The public interface should expose:
 
@@ -2074,11 +1959,9 @@ The public interface should expose:
 - Replacing pairing-preserving isomorphisms by all isomorphisms `E[N]≅V` gives a curve with `φ(N)` geometric components over a splitting field, not a form of `X(N,ζ)`.
 - For a curve `E₀/ℚ` and `N=5`, `X(E₀[5])` is a smooth proper curve over `ℚ` with the rational point `(E₀,id)`; its genus and rationality are generic-fibre statements of Layer 10.
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.11](#s3-11); [§5.13](#s5-13); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); Mathlib `AlgebraicGeometry.Scheme.Hom.normalizationPullback`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.11](#311-the-compactified-coarse-j-line); [§5.13](#513-the-fixed-pairing-compactified-curve); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); Mathlib `AlgebraicGeometry.Scheme.Hom.normalizationPullback`; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
 
 ([Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §5C; [Stacks Project](https://stacks.math.columbia.edu), Tag 03GV; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 6.4(a), p.63.)
-
-<a id="s5-15"></a>
 
 ### 5.15 Level maps between coarse curves
 
@@ -2088,7 +1971,7 @@ For open level subgroups `H′⊂H` the finite morphism `𝒳_{H′}→𝒳_H` i
 
 Flatness assertions at bad primes require regularity of `X_H` at the image point.
 
-Establish this as follows. The stack map is levelStack.map; the coarse universal property gives `f_{H′,H}` and the functor laws (SchemeAndStackFoundations §1.23). The degree is the ratio of the j-degrees from [§5.10](#s5-10). The normaliser acts on `Y_H[1/n]` by right translation of frames; the action extends to `X_H` by the universal property of normalization over `ℙ¹`, and `−I` acts trivially on the coarse space because `[−1]` is an isomorphism `(E,φH̄)≅(E,φ(−I)H̄)`. Compatibility with the cyclotomic structure follows from `e_n((P,Q)g)=e_n(P,Q)^{det g}`; the cusp statement from [§5.11](#s5-11). Flatness: finite morphisms from a Cohen–Macaulay scheme of pure dimension two to a regular one are flat (Stacks 00R4).
+Establish this as follows. The stack map is levelStack.map; the coarse universal property gives `f_{H′,H}` and the functor laws (SchemeAndStackFoundations §1.23). The degree is the ratio of the j-degrees from [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor). The normaliser acts on `Y_H[1/n]` by right translation of frames; the action extends to `X_H` by the universal property of normalization over `ℙ¹`, and `−I` acts trivially on the coarse space because `[−1]` is an isomorphism `(E,φH̄)≅(E,φ(−I)H̄)`. Compatibility with the cyclotomic structure follows from `e_n((P,Q)g)=e_n(P,Q)^{det g}`; the cusp statement from [§5.11](#511-cusps-of-x_h-away-from-the-level). Flatness: finite morphisms from a Cohen–Macaulay scheme of pure dimension two to a regular one are flat (Stacks 00R4).
 
 The public interface should expose:
 
@@ -2111,19 +1994,17 @@ The public interface should expose:
 - `f_{Γ₁(N),Γ₀(N)}` has degree `φ(N)/2` for `N≥3`.
 - On `X₁(N)`, `⟨−1⟩` is the identity.
 
-*Needs:* [§3.12](#s3-12); [§5.2](#s5-2); [§5.8](#s5-8); [§5.10](#s5-10); [§5.11](#s5-11); [§5.12](#s5-12); `SchemeAndStackFoundations §1.23`; Mathlib `Subgroup.normalizer`.
+*Needs:* [§3.12](#312-the-delignerapoport-level-h-stack); [§5.2](#52-integral-coarse-modular-curves); [§5.8](#58-geometry-of-the-level-h-stacks); [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor); [§5.11](#511-cusps-of-x_h-away-from-the-level); [§5.12](#512-the-cyclotomic-structure-of-x_h); `SchemeAndStackFoundations §1.23`; Mathlib `Subgroup.normalizer`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §4.1.2, p.28; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §9B, last paragraph; Layer 10, item 3; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Lemma 4.2.3, p.36.)
 
-<a id="s5-16"></a>
-
 ### 5.16 Coarse curves as quotients
 
-Let `H′⊂H` be open level subgroups with H′ normal in H. Then H/H′ acts on `X_{H′}` over `X_H` through the normaliser action, and `X_H` is the categorical and geometric quotient `X_{H′}/(H/H′)`; in particular `X_H=X(n)/H̄` for `Γ(n)⊂H`. For a ring A the comparison `(X_{H′}⊗A)/(H/H′)→X_{H′}/(H/H′)⊗A` is an isomorphism if A is flat over `ℤ` or if the order of the image of H/H′ in `Aut(X_{H′})` is invertible in A; in general it is a universal homeomorphism. Neither side need be the coarse space of the base-changed stack `𝒳_H⊗A` when A is not flat ([§5.20](#s5-20)).
+Let `H′⊂H` be open level subgroups with H′ normal in H. Then H/H′ acts on `X_{H′}` over `X_H` through the normaliser action, and `X_H` is the categorical and geometric quotient `X_{H′}/(H/H′)`; in particular `X_H=X(n)/H̄` for `Γ(n)⊂H`. For a ring A the comparison `(X_{H′}⊗A)/(H/H′)→X_{H′}/(H/H′)⊗A` is an isomorphism if A is flat over `ℤ` or if the order of the image of H/H′ in `Aut(X_{H′})` is invertible in A; in general it is a universal homeomorphism. Neither side need be the coarse space of the base-changed stack `𝒳_H⊗A` when A is not flat ([§5.20](#520-failure-of-coarse-base-change-at-γ₁4-in-characteristic-2)).
 
 H′⊴H open; A an arbitrary ring for the comparison map.
 
-Establish this as follows. The quotient `X_{H′}/(H/H′)` exists: `X_{H′}` is projective, so every finite orbit lies in an affine open (SchemeAndStackFoundations §1.17). Over `ℤ` both `X_{H′}/(H/H′)` and `X_H` are normal and finite over `ℙ¹_ℤ` and agree over the elliptic open over `ℤ[1/n]`, where `Y_H[1/n]=[Y_{H′}[1/n]/(H/H′)]` ([§3.9](#s3-9)) and coarse spaces of finite quotients are invariant quotients; so they coincide by the finite-normal recognition criterion of ModularCurves Layer 10 (Česnavičius Lemma 6.2, citing Deligne–Rapoport IV.3.10(iii)). The quotient stack `[𝒳_{H′}/(H/H′)]` is not used: it need not be `𝒳_H` at the cusps ([§5.8](#s5-8) (c)). Formation of rings of invariants commutes with flat base change, and with every base change when the group order is invertible; in general the comparison is integral, surjective and radicial.
+Establish this as follows. The quotient `X_{H′}/(H/H′)` exists: `X_{H′}` is projective, so every finite orbit lies in an affine open (SchemeAndStackFoundations §1.17). Over `ℤ` both `X_{H′}/(H/H′)` and `X_H` are normal and finite over `ℙ¹_ℤ` and agree over the elliptic open over `ℤ[1/n]`, where `Y_H[1/n]=[Y_{H′}[1/n]/(H/H′)]` ([§3.9](#39-level-h-structures-away-from-the-level)) and coarse spaces of finite quotients are invariant quotients; so they coincide by the finite-normal recognition criterion of ModularCurves Layer 10 (Česnavičius Lemma 6.2, citing Deligne–Rapoport IV.3.10(iii)). The quotient stack `[𝒳_{H′}/(H/H′)]` is not used: it need not be `𝒳_H` at the cusps ([§5.8](#58-geometry-of-the-level-h-stacks) (c)). Formation of rings of invariants commutes with flat base change, and with every base change when the group order is invertible; in general the comparison is integral, surjective and radicial.
 
 **Checks.**
 
@@ -2132,11 +2013,9 @@ Establish this as follows. The quotient `X_{H′}/(H/H′)` exists: `X_{H′}` i
 - `X₀(N)=X₁(N)/((ℤ/N)^×/±1)` for `N≥3`.
 - `X_{C_s⁺(ℓ)}=X_{C_s(ℓ)}/(ℤ/2)`.
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.9](#s3-9); [§5.2](#s5-2); [§5.8](#s5-8); [§5.15](#s5-15); `SchemeAndStackFoundations §1.17`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; [ModularCurves Layer 0C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0c-finite-quotients-and-torsors); [ModularCurves Layer 9A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9a-katzmazur-quotient-problems).
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.9](#39-level-h-structures-away-from-the-level); [§5.2](#52-integral-coarse-modular-curves); [§5.8](#58-geometry-of-the-level-h-stacks); [§5.15](#515-level-maps-between-coarse-curves); `SchemeAndStackFoundations §1.17`; `SchemeAndStackFoundations §1.23/finite_quotient_coarse`; [ModularCurves Layer 0C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0c-finite-quotients-and-torsors); [ModularCurves Layer 9A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9a-katzmazur-quotient-problems).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 6.2, p.63; [Coarse base change fails for some modular curves](https://arxiv.org/pdf/1608.01249), §1.2, p.1; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §9A, Remark 7.1.4 statement.)
-
-<a id="s5-17"></a>
 
 ### 5.17 The elliptic opens are the Katz–Mazur level problems
 
@@ -2146,7 +2025,7 @@ H open; n with `Γ(n)⊂H`.
 
 The identifications are of stacks over Ell and of their coarse spaces; no fine-moduli assertion is made outside the ranges stated.
 
-Establish this as follows. For `H=Γ(n)`, the moduli interpretations of `Y(n)` and of upstream's `[Γ(n)]` agree by definition of Drinfeld full level structures, and `Y(n)=Y_{Γ(n)}` by [§5.1](#s5-1). For general `H̄`, both sides are the quotient of the `Γ(n)` case by `H̄`: over `ℤ[1/n]` by [§3.9](#s3-9) and upstream 9A (sheaf quotient of the naive problem), and over `ℤ` by the integral Katz–Mazur quotient property (Katz–Mazur 7.1.3, as used in Česnavičius Proposition 6.3(a)). (b): if `[Γ(n)]/H̄` is representable the coarse statement is the definition of M; in general use [§5.16](#s5-16) `(X_H=X(n)/H̄)` and upstream 9D's `M(𝒫)/H≅M(𝒫/H)`, together with the coarse comparison in [§3.9](#s3-9), extended using the same rigidifier quotients to the integral Katz–Mazur problem. (c) is the specialisation of (a)–(b) to the four standard levels, using upstream 5A, 5B, Layer 6, 8D and 9E. (d): `X_H` is normal and finite over `ℙ¹_ℤ` with `Y_H` dense and meeting every component, so it is the normalization by the finite-normal recognition criterion of ModularCurves Layer 10.
+Establish this as follows. For `H=Γ(n)`, the moduli interpretations of `Y(n)` and of upstream's `[Γ(n)]` agree by definition of Drinfeld full level structures, and `Y(n)=Y_{Γ(n)}` by [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations). For general `H̄`, both sides are the quotient of the `Γ(n)` case by `H̄`: over `ℤ[1/n]` by [§3.9](#39-level-h-structures-away-from-the-level) and upstream 9A (sheaf quotient of the naive problem), and over `ℤ` by the integral Katz–Mazur quotient property (Katz–Mazur 7.1.3, as used in Česnavičius Proposition 6.3(a)). (b): if `[Γ(n)]/H̄` is representable the coarse statement is the definition of M; in general use [§5.16](#516-coarse-curves-as-quotients) `(X_H=X(n)/H̄)` and upstream 9D's `M(𝒫)/H≅M(𝒫/H)`, together with the coarse comparison in [§3.9](#39-level-h-structures-away-from-the-level), extended using the same rigidifier quotients to the integral Katz–Mazur problem. (c) is the specialisation of (a)–(b) to the four standard levels, using upstream 5A, 5B, Layer 6, 8D and 9E. (d): `X_H` is normal and finite over `ℙ¹_ℤ` with `Y_H` dense and meeting every component, so it is the normalization by the finite-normal recognition criterion of ModularCurves Layer 10.
 
 **Checks.**
 
@@ -2154,11 +2033,9 @@ Establish this as follows. For `H=Γ(n)`, the moduli interpretations of `Y(n)` a
 - At `N=10,p=2` the order-five part of a Drinfeld generator is nonzero; `X₁(10)` is fine over `ℤ[1/5]` by §3.5, so the point `P=0` cannot be a `Γ₁(10)` generator.
 - `H=Γ₁(5)`: `Y₁(5)` over `ℤ[1/5]` is upstream's Tate-normal-form curve, a fine scheme, and `X₁(5)` is its normalization over `ℙ¹`.
 
-*Needs:* [§3.5](#s3-5); the finite-normal recognition contract of ModularCurves Layer 10; [§3.9](#s3-9); [§3.12](#s3-12); [§5.1](#s5-1); [§5.16](#s5-16); [ModularCurves Layer 9A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9a-katzmazur-quotient-problems); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-6-the-three-elementary-integral-level-problems); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [§3.9](#s3-9).
+*Needs:* [§3.5](#35-fine-loci-and-bad-level-inertia); the finite-normal recognition contract of ModularCurves Layer 10; [§3.9](#39-level-h-structures-away-from-the-level); [§3.12](#312-the-delignerapoport-level-h-stack); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); [§5.16](#516-coarse-curves-as-quotients); [ModularCurves Layer 9A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9a-katzmazur-quotient-problems); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 9E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9e-the-coarse-j-line-and-y₀n); [ModularCurves Layer 5A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5a-tate-normal-form-and-y₁n-for-n4); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-6-the-three-elementary-integral-level-problems); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [§3.9](#39-level-h-structures-away-from-the-level).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 6.3 and proof, p.63; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 6.2, p.63; [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §§5A, 5B, 6, 8D, 9A–9E.)
-
-<a id="s5-18"></a>
 
 ### 5.18 Agreement with the prime-level diamond quotients
 
@@ -2168,34 +2045,30 @@ Let `N≥5` be prime, `Δ=(ℤ/N)^×/{±1}`, `H≤Δ`, and `G_H⊂GL₂(Ẑ)` th
 
 `X_H^{MC}` is the Layer 10 carrier, built on Mathlib's relative normalization.
 
-Establish this as follows. Upstream 9B (Katz–Mazur 7.4.2(3),(7)) and 9D `(M(𝒫)/H≅M(𝒫/H))` identify `Y_{G_H}[1/N]` with `Y₁(N)/H` over `𝔸¹_{ℤ[1/N]}`; by [§5.17](#s5-17) this is the coarse open of `X_{G_H}`. `X_{G_H}[1/N]` is normal and finite over `ℙ¹` ([§5.2](#s5-2), [§5.10](#s5-10)). Every irreducible component of `X_{G_H}[1/N]` is finite flat over `ℙ¹_{ℤ[1/N]}`, hence surjects onto it and meets the preimage of `𝔸¹`; so `Y_{G_H}[1/N]` is dense in every component. This is the component-by-component check. The finite-normal recognition criterion of ModularCurves Layer 10 gives the isomorphism; its uniqueness is `normalization.hom_ext` with the affine map to `ℙ¹`. Compatibilities: the diamond action and `X₁(N)→X₀(N)` agree on the dense open and extend uniquely; cusp divisors are both the fibre over `∞`.
+Establish this as follows. Upstream 9B (Katz–Mazur 7.4.2(3),(7)) and 9D `(M(𝒫)/H≅M(𝒫/H))` identify `Y_{G_H}[1/N]` with `Y₁(N)/H` over `𝔸¹_{ℤ[1/N]}`; by [§5.17](#517-the-elliptic-opens-are-the-katzmazur-level-problems) this is the coarse open of `X_{G_H}`. `X_{G_H}[1/N]` is normal and finite over `ℙ¹` ([§5.2](#52-integral-coarse-modular-curves), [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor)). Every irreducible component of `X_{G_H}[1/N]` is finite flat over `ℙ¹_{ℤ[1/N]}`, hence surjects onto it and meets the preimage of `𝔸¹`; so `Y_{G_H}[1/N]` is dense in every component. This is the component-by-component check. The finite-normal recognition criterion of ModularCurves Layer 10 gives the isomorphism; its uniqueness is `normalization.hom_ext` with the affine map to `ℙ¹`. Compatibilities: the diamond action and `X₁(N)→X₀(N)` agree on the dense open and extend uniquely; cusp divisors are both the fibre over `∞`.
 
 **Checks.**
 
 - `N=5`, `H=Δ`: `X₀(5)[1/5]` agrees with Layer 10's `X₀(5)`, with cusp divisor `[∞]+5[0]` in both.
 - `N=11`, `H=1`: `X₁(11)[1/11]` agrees with Layer 10's `X₁(11)`; both have five cusps of width 1 and five of width 11.
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§5.2](#s5-2); [§5.10](#s5-10); [§5.15](#s5-15); [§5.17](#s5-17); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); Mathlib `AlgebraicGeometry.Scheme.Hom.normalization.hom_ext`.
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§5.2](#52-integral-coarse-modular-curves); [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor); [§5.15](#515-level-maps-between-coarse-curves); [§5.17](#517-the-elliptic-opens-are-the-katzmazur-level-problems); [ModularCurves Layer 9B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9b-the-standard-quotient-problems); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); Mathlib `AlgebraicGeometry.Scheme.Hom.normalization.hom_ext`.
 
 ([Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), Layer 10, items 1–2; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 6.3(c), p.63.)
-
-<a id="s5-19"></a>
 
 ### 5.19 Coarse normalization comparisons
 
 On the elliptic locus `X_H` agrees with the affine coarse moduli scheme from ModularCurves 9D, by equality of the moduli problem and its categorical coarse property. It also agrees with the Katz–Mazur compactification as in Česnavičius Proposition 6.3. For prime `N≥5` and diamond H over `ℤ[1/N]`, identify the generalized-stack coarse compactification with Layer 10’s `X_H` by checking normality, finiteness over `ℙ¹_j`, an open immersion of `Y_H` with schematic density, and that every component meets `Y_H`. Then normalization uniqueness identifies the curves and their maps. The universal property of relative normalization alone does not recognize an arbitrary proposed compactification.
 
-Establish this as follows. The elliptic-open identification with the Katz–Mazur coarse schemes is [§5.17](#s5-17), and the prime `N≥5` diamond-quotient agreement over `ℤ[1/N]` is [§5.18](#s5-18); this subsection collects them with the Katz–Mazur compactification comparison and proves nothing about them again. Compare affine coarse maps using their universal property. Both compactifications are finite normal extensions of the same dense level algebra; verify all components meet the elliptic open. Apply normalization uniqueness, then use separatedness and schematic density to identify maps.
+Establish this as follows. The elliptic-open identification with the Katz–Mazur coarse schemes is [§5.17](#517-the-elliptic-opens-are-the-katzmazur-level-problems), and the prime `N≥5` diamond-quotient agreement over `ℤ[1/N]` is [§5.18](#518-agreement-with-the-prime-level-diamond-quotients); this subsection collects them with the Katz–Mazur compactification comparison and proves nothing about them again. Compare affine coarse maps using their universal property. Both compactifications are finite normal extensions of the same dense level algebra; verify all components meet the elliptic open. Apply normalization uniqueness, then use separatedness and schematic density to identify maps.
 
 **Checks.**
 
 - For prime `N=5` the generalized `Γ₀` coarse construction agrees with the pre-existing compactification; no second set of cusp widths is built.
 
-*Needs:* [§5.2](#s5-2); [§5.17](#s5-17); [§5.18](#s5-18); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
+*Needs:* [§5.2](#52-integral-coarse-modular-curves); [§5.17](#517-the-elliptic-opens-are-the-katzmazur-level-problems); [§5.18](#518-agreement-with-the-prime-level-diamond-quotients); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 6.2 and Proposition 6.3, p.63.)
-
-<a id="s5-20"></a>
 
 ### 5.20 Failure of coarse base change at `Γ₁(4)` in characteristic 2
 
@@ -2209,11 +2082,9 @@ Establish this as follows. Reduce to the regular part of U and pass to an auxili
 
 - The same failure holds for `Γ₁(4)∩Γ₀(4n)` and for balanced `Γ₁(4)` (Česnavičius 2016, Theorems 4.2 and 5.2).
 
-*Needs:* [§3.10](#s3-10); [§3.12](#s3-12); [§5.3](#s5-3); [§5.9](#s5-9); `SchemeAndStackFoundations §1.23/keel_mori`.
+*Needs:* [§3.10](#310-coarse-base-change-from-the-fibres-over-𝔽_p); [§3.12](#312-the-delignerapoport-level-h-stack); [§5.3](#53-base-change-for-coarse-modular-curves); [§5.9](#59-local-structure-of-coarse-level-curves); `SchemeAndStackFoundations §1.23/keel_mori`.
 
 ([Coarse base change fails for some modular curves](https://arxiv.org/pdf/1608.01249), Theorem 2.1 and Remark 2.2, p.3; Theorem 3.2, p.5; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Remark 6.6, p.64.)
-
-<a id="s5-21"></a>
 
 ### 5.21 Proper rigidifying covers and coherent finiteness
 
@@ -2223,14 +2094,14 @@ Let `m=m₁m₂` with coprime `m₁,m₂≥3`. Then `𝒳_{Γ(m)}` is a projecti
 
 The invariant description of sections is for locally free F; over `ℤ` the equaliser is used for quasi-coherent F. Higher coherent cohomology over `ℤ` is not asserted here.
 
-Establish this as follows. `𝒳_{Γ(m)}` is a projective scheme because m is not of the form `p^s` or `2p^s` ([§5.1](#s5-1)), and its contraction to `X(1)` is representable finite locally free of rank `|GL₂(ℤ/m)|` (Česnavičius Proposition 4.3.4 with `n=1`). `P_H` is finite over the projective scheme `𝒳_{Γ(m)}` because `𝒳_H→X(1)` is representable and finite, so `P_H` is a projective scheme; p is the base change of `𝒳_{Γ(m)}→X(1)`. (a),(c): fpqc descent of quasi-coherent sheaves and their sections along the finite locally free surjection p (SchemeAndStackFoundations §§1.1 and 1.22). (b): `H⁰(𝒳_H,F)` is a submodule of the finitely generated `H⁰(P_H,p*F)` on a projective `ℤ`-scheme, and an equaliser of flat-base-change-compatible modules; for every i, `H^i(𝒳_H,F)` is the abutment of the descent spectral sequence of the finite locally free cover p, with `E₁` terms the coherent cohomology of the `(a+1)`-fold fibre products of `P_H` over `𝒳_H`, which are projective schemes finite over `P_H`; only finitely many terms contribute to each degree, so `H^i(𝒳_H,F)` is finitely generated (2.2 on the ringed site of 1.22). Invariants: `P_H` is flat over `𝒳_H` (base change of `𝒳_{Γ(m)}→X(1)`) and `GL₂(ℤ/m)` acts on it over `𝒳_H` through `𝒳_{Γ(m)}`; over the elliptic locus over `ℤ[1/m]` it is the `GL₂(ℤ/m)`-torsor of frames ([§3.9](#s3-9)), so `(p_*𝒪_{P_H})^{GL₂(ℤ/m)}` is a finite torsion-free `𝒪_{𝒳_H}`-algebra equal to `𝒪_{𝒳_H}` on a dense open, hence equal to `𝒪_{𝒳_H}` by normality, and `(p_*p*F)^{GL₂(ℤ/m)}=F` for F locally free. Along the cusps p is ramified (index m in the q-expansion charts of §4.1), so `X(1)[1/m]` is not `[X(m)[1/m]/GL₂(ℤ/m)]` (that quotient is `Ell_m[1/m]`).
+Establish this as follows. `𝒳_{Γ(m)}` is a projective scheme because m is not of the form `p^s` or `2p^s` ([§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations)), and its contraction to `X(1)` is representable finite locally free of rank `|GL₂(ℤ/m)|` (Česnavičius Proposition 4.3.4 with `n=1`). `P_H` is finite over the projective scheme `𝒳_{Γ(m)}` because `𝒳_H→X(1)` is representable and finite, so `P_H` is a projective scheme; p is the base change of `𝒳_{Γ(m)}→X(1)`. (a),(c): fpqc descent of quasi-coherent sheaves and their sections along the finite locally free surjection p (SchemeAndStackFoundations §§1.1 and 1.22). (b): `H⁰(𝒳_H,F)` is a submodule of the finitely generated `H⁰(P_H,p*F)` on a projective `ℤ`-scheme, and an equaliser of flat-base-change-compatible modules; for every i, `H^i(𝒳_H,F)` is the abutment of the descent spectral sequence of the finite locally free cover p, with `E₁` terms the coherent cohomology of the `(a+1)`-fold fibre products of `P_H` over `𝒳_H`, which are projective schemes finite over `P_H`; only finitely many terms contribute to each degree, so `H^i(𝒳_H,F)` is finitely generated (2.2 on the ringed site of 1.22). Invariants: `P_H` is flat over `𝒳_H` (base change of `𝒳_{Γ(m)}→X(1)`) and `GL₂(ℤ/m)` acts on it over `𝒳_H` through `𝒳_{Γ(m)}`; over the elliptic locus over `ℤ[1/m]` it is the `GL₂(ℤ/m)`-torsor of frames ([§3.9](#39-level-h-structures-away-from-the-level)), so `(p_*𝒪_{P_H})^{GL₂(ℤ/m)}` is a finite torsion-free `𝒪_{𝒳_H}`-algebra equal to `𝒪_{𝒳_H}` on a dense open, hence equal to `𝒪_{𝒳_H}` by normality, and `(p_*p*F)^{GL₂(ℤ/m)}=F` for F locally free. Along the cusps p is ramified (index m in the q-expansion charts of §4.1), so `X(1)[1/m]` is not `[X(m)[1/m]/GL₂(ℤ/m)]` (that quotient is `Ell_m[1/m]`).
 
 **Checks.**
 
 - For `H=Γ₀(N)`, weight-k modular forms of level `Γ₀(N)` over `ℤ` form a finitely generated `ℤ`-module, computed as the `GL₂(ℤ/m)`-invariants of `H⁰(P_H,p*ω^{⊗k})` on a projective `ℤ`-scheme.
 - Over `ℤ` the sheaf `ω` on `X(1)` has `H⁰=0`, since `−1` acts on it by `−1` and `H⁰` is torsion-free; over `𝔽₂` the Hasse invariant is a nonzero section of `ω`, so `H⁰` does not commute with the non-flat base change `ℤ→𝔽₂`. `ω` is a line bundle on the stack that does not come from `ℙ¹_ℤ`.
 
-*Needs:* [§3.9](#s3-9); [§3.12](#s3-12); [§4.1](#s4-1); [§5.1](#s5-1); [§5.8](#s5-8); `SchemeAndStackFoundations §1.1`; `SchemeAndStackFoundations §1.22`; `SchemeAndStackFoundations §2.2`; `SchemeAndStackFoundations Layer 1`.
+*Needs:* [§3.9](#39-level-h-structures-away-from-the-level); [§3.12](#312-the-delignerapoport-level-h-stack); [§4.1](#41-formal-level-structures-at-cusps); [§5.1](#51-the-standard-levels-moduli-stacks-as-normalizations); [§5.8](#58-geometry-of-the-level-h-stacks); `SchemeAndStackFoundations §1.1`; `SchemeAndStackFoundations §1.22`; `SchemeAndStackFoundations §2.2`; `SchemeAndStackFoundations Layer 1`.
 
 ([Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Proposition 4.3.4, p.38; Proposition 4.3.6, p.39; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.2.1(2) and Remark 4.2.2, pp.35–36.)
 
@@ -2247,8 +2118,6 @@ Over `ℂ` honest full level 5 has four determinant components; fixed pairing ha
 Use Layer 0, Layer 2, Layers 3 and 4. External contracts: AlgebraicModuliForArithmeticGeometry, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 6: Compact complex uniformization and twists
-
-<a id="s6-1"></a>
 
 ### 6.1 Compact analytic–algebraic modular comparison
 
@@ -2268,11 +2137,9 @@ The theorem is `compactModularUniformization`.
 - At `N=1` it gives `X(1)^an≅P¹(C)` with j as coordinate and the unique cusp at infinity.
 - At `N=5` the positive-frame full-to-point map sends its cusp `∞` to the standard point-level cusp 0, because `S∞=0`; the identity-coordinate map would send it to the wrong cusp.
 
-*Needs:* [§3.14](#s3-14); [§4.1](#s4-1); [§4.5](#s4-5); [§4.8](#s4-8); [§5.2](#s5-2); [§5.19](#s5-19); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); `ComplexComparisonPartII` C4.5 (`affineCurveCompletionInterface`); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
+*Needs:* [§3.14](#314-open-modular-uniformization-with-the-specified-level); [§4.1](#41-formal-level-structures-at-cusps); [§4.5](#45-level-maps-and-diamond-operators); [§4.8](#48-tate-and-analytic-cusp-parameters); [§5.2](#52-integral-coarse-modular-curves); [§5.19](#519-coarse-normalization-comparisons); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering); `ComplexComparisonPartII` C4.5 (`affineCurveCompletionInterface`); `ComplexComparisonPartII` C4.4 (`properSourceMorphismAlgebraicity`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.1–4.8, pp.310–313; [Conrad, classical curves](https://math.stanford.edu/~conrad/248BPage/handouts/classical.pdf), §3, Proposition 3.1 and proof, pp.3–4; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorems 7.2 and 7.5 and the canonical X₀(N) model, pp.94–96; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §2, pp.25–40.)
-
-<a id="s6-2"></a>
 
 ### 6.2 Cusp ramification under level maps
 
@@ -2284,7 +2151,7 @@ The width ratio is an integer. The source field can enlarge the cusp residue fie
 
 On the analytic quotients the ramification index w′/w is FuchsianOrbifolds Layer 4, item 4; this theorem transports it to the algebraic level maps and computes the `Γ₀` widths.
 
-Establish this as follows. Compute both parameters from the same conjugated translation variable and their stabilizer periods. Identify their quotient discs and compute the order of vanishing of the pulled-back parameter. Use [§4.8](#s4-8) parameter agreement and uniqueness of compact morphism extension to obtain the algebraic equality. For `Γ₀` compute the conjugated lower-left entry `c²w` modulo N.
+Establish this as follows. Compute both parameters from the same conjugated translation variable and their stabilizer periods. Identify their quotient discs and compute the order of vanishing of the pulled-back parameter. Use [§4.8](#48-tate-and-analytic-cusp-parameters) parameter agreement and uniqueness of compact morphism extension to obtain the algebraic equality. For `Γ₀` compute the conjugated lower-left entry `c²w` modulo N.
 
 The theorem is `cuspRamificationAndLevelMaps`.
 
@@ -2294,11 +2161,9 @@ The theorem is `cuspRamificationAndLevelMaps`.
 - For full level M divisible by `N≥3`, the corresponding infinity ramification is `M/N`.
 - A root of unity changes the chosen parameter, not its ramification order.
 
-*Needs:* [§4.5](#s4-5); [§4.8](#s4-8); [§5.2](#s5-2); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [FuchsianOrbifolds Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-4-compactified-quotient-riemann-surfaces).
+*Needs:* [§4.5](#45-level-maps-and-diamond-operators); [§4.8](#48-tate-and-analytic-cusp-parameters); [§5.2](#52-integral-coarse-modular-curves); [ModularForms Layer 10A](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10a--the-analytic-modular-curve); [FuchsianOrbifolds Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-4-compactified-quotient-riemann-surfaces).
 
 ([Conrad, classical curves](https://math.stanford.edu/~conrad/248BPage/handouts/classical.pdf), §3, Proposition 3.1, pp.3–4; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.2, pp.22–26; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §4, p.48.)
-
-<a id="s6-3"></a>
 
 ### 6.3 Cusp fields and pairing components
 
@@ -2308,7 +2173,7 @@ Statements about splitting apply to generic fibres, not arbitrary bad-level base
 
 The cyclotomic Galois action is the action on actual Tate-level labels; the finite boundary algebra is imported from the algebraic supplier.
 
-Establish this as follows. Read the algebraic boundary labels and residue fields in the independently built Tate charts. Compare the chosen labels with primitive rational directions and their congruence stabilizers under [§6.1](#s6-1). Transport the determinant and cyclotomic action along the comparison. For `Γ₀`, use the quotient-isogeny description to identify the two distinguished rational cusps.
+Establish this as follows. Read the algebraic boundary labels and residue fields in the independently built Tate charts. Compare the chosen labels with primitive rational directions and their congruence stabilizers under [§6.1](#61-compact-analyticalgebraic-modular-comparison). Transport the determinant and cyclotomic action along the comparison. For `Γ₀`, use the quotient-isogeny description to identify the two distinguished rational cusps.
 
 The theorem is `cuspFieldsAndComponentLabels`.
 
@@ -2318,11 +2183,9 @@ The theorem is `cuspFieldsAndComponentLabels`.
 - For full `N=5`, each fixed-pairing component and all its cusps split over `Q(ζ₅)`; there are four geometric pairing components of unrestricted full level.
 - A complex uniformization alone makes no claim about an integral cusp residue field.
 
-*Needs:* [§4.1](#s4-1); [§4.2](#s4-2); [§4.5](#s4-5); [§4.8](#s4-8); [§5.2](#s5-2); [§5.5](#s5-5); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); Mathlib `cosetToCuspOrbit`.
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§4.2](#42-integral-γ₁-cusp-strata); [§4.5](#45-level-maps-and-diamond-operators); [§4.8](#48-tate-and-analytic-cusp-parameters); [§5.2](#52-integral-coarse-modular-curves); [§5.5](#55-prime-power-γ₀-cusp-rings); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); Mathlib `cosetToCuspOrbit`.
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.2–4.8, pp.310–313; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226 (PDF p.2).)
-
-<a id="s6-4"></a>
 
 ### 6.4 The analytic comparison for a symplectic twist
 
@@ -2342,11 +2205,9 @@ The theorem is `twistedAnalyticComparison`.
 - Changing it by determinant r moves the pairing fibre unless the pairing is simultaneously transported.
 - No field-points bijection substitutes for the analytic isomorphism.
 
-*Needs:* [§3.14](#s3-14); [§4.5](#s4-5); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
+*Needs:* [§3.14](#314-open-modular-uniformization-with-the-specified-level); [§4.5](#45-level-maps-and-diamond-operators); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
 
 ([Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.1–§1.2, pp.17–25; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §9, pp.20–24 and Theorem 17.21, p.42.)
-
-<a id="s6-5"></a>
 
 ### 6.5 Geometric irreducibility of the twisted curve
 
@@ -2365,7 +2226,7 @@ The theorem is `twistedGeometricIrreducibility`.
 - The statement names each of the three MC5C contracts and does not add an unexplained connectedness assumption.
 - It holds for a nontrivial twist with no chosen rational symplectic frame.
 
-*Needs:* [§4.9](#s4-9); [§4.10](#s4-10); [§6.4](#s6-4); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C4.5 (`affineCurveConnectedness`).
+*Needs:* [§4.9](#49-connectedness-under-the-chosen-algebraic-closure-extension); [§4.10](#410-geometric-connectedness-of-a-fixed-pairing-curve); [§6.4](#64-the-analytic-comparison-for-a-symplectic-twist); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C4.5 (`affineCurveConnectedness`).
 
 ([Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.1–§1.2, pp.17–25; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), Theorem 17.21, p.42.)
 
@@ -2378,8 +2239,6 @@ Use the negative controls in the subsections to check the component labels, hypo
 Use Layers 3–5. External contracts: ComplexComparisonPartII, TauCetiRoadmap FuchsianOrbifolds. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 7: Hodge sections and the normalized Hecke pairing
-
-<a id="s7-1"></a>
 
 ### 7.1 The Hodge line and the automorphy factor
 
@@ -2401,12 +2260,9 @@ The theorem is `hodgeLineAutomorphy`.
 - For `γ=T` the multiplier is 1; for `γ=S` it is `τ⁻¹` on the fibre differential.
 - Weight one fails to descend across generic `−1` inertia, while even powers can pass that obstruction.
 
-*Needs:* [§1.4](#s1-4); [§3.13](#s3-13); [§4.8](#s4-8); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
+*Needs:* [§1.4](#14-invariant-differentials-and-periods); [§3.13](#313-the-marked-torus-family-over-the-upper-half-plane); [§4.8](#48-tate-and-analytic-cusp-parameters); [ModularCurves Layer 1C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#1c-pole-sheaves-weierstrass-coordinates-and-variable-changes); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA).
 
 ([Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.1–3; [Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §7, p.15; §11, p.26.)
-
-<a id="s7-1a"></a>
-<a id="R12.5"></a>
 
 ### 7.1a Kodaira–Spencer normalization (R12.5)
 
@@ -2418,11 +2274,9 @@ The theorem is `hodgeLineAutomorphy`.
 - At effective width w, `q=t^w` gives `dq/q=w dt/t`; a scalar rescaling would change the differential dictionary.
 - A cusp form has zero constant term and gives a regular differential; a nonzero constant gives a logarithmic pole.
 
-*Needs:* [§3.13](#s3-13); [§4.8](#s4-8); [§7.1](#s7-1); `ComplexComparisonPartII` C5.2 (`GaussManin`), C5.3 (`relativeHodgeBundles`) and C5.6 (regular-singular canonical extension); MC1C (the invariant-differential line).
+*Needs:* [§3.13](#313-the-marked-torus-family-over-the-upper-half-plane); [§4.8](#48-tate-and-analytic-cusp-parameters); [§7.1](#71-the-hodge-line-and-the-automorphy-factor); `ComplexComparisonPartII` C5.2 (`GaussManin`), C5.3 (`relativeHodgeBundles`) and C5.6 (regular-singular canonical extension); MC1C (the invariant-differential line).
 
 ([Faltings–Chai, Degeneration of Abelian Varieties](https://doi.org/10.1007/978-3-662-02632-8), III §9, pp.80–86, and IV Proposition 3.1(vi), p.107; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.12, pp.25–26, for the weight-two differential normalization.)
-
-<a id="s7-2"></a>
 
 ### 7.2 Weight-two cusp forms and regular differentials
 
@@ -2438,7 +2292,7 @@ Establish this as follows. On the fine cover use `kodairaSpencer_normalization` 
 
 The theorem is `weightTwoRegularDifferentials`.
 
-The integral differential lattices and their model, base-change and Hecke comparisons are [§13.7](#integral-dualizing-forms), [§13.8](#integral-modular-serre-duality) and [§13.9](#integral-hecke-duality-compatibility).
+The integral differential lattices and their model, base-change and Hecke comparisons are [§13.7](#137-integral-weight-two-forms-and-dualizing-differentials), [§13.8](#138-integral-serre-duality-and-residues) and [§13.9](#139-integral-hecke-adjoints-under-serre-duality).
 
 **Checks.**
 
@@ -2447,11 +2301,9 @@ The integral differential lattices and their model, base-change and Hecke compar
 - A weight-two form with nonzero cusp constant gives a logarithmic pole and is excluded from `H⁰Ω¹`.
 - No arbitrary integral base change is claimed: DDT Theorem 1.33 needs its stated flatness or invertibility assumptions.
 
-*Needs:* [§7.1a](#s7-1a), R12.5 (`kodairaSpencer_normalization`); [§5.2](#s5-2); [§5.3](#s5-3); [§6.1](#s6-1); [§7.1](#s7-1); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `ComplexComparisonPartII` C5.7 (`curveResidueLocalization`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.2 (`projectiveGeometricDictionaries`).
+*Needs:* [§7.1a](#71a-kodairaspencer-normalization-r125), R12.5 (`kodairaSpencer_normalization`); [§5.2](#52-integral-coarse-modular-curves); [§5.3](#53-base-change-for-coarse-modular-curves); [§6.1](#61-compact-analyticalgebraic-modular-comparison); [§7.1](#71-the-hodge-line-and-the-automorphy-factor); [ModularForms Layer 10C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10c--modular-forms-as-section-spaces-and-the-dimension-formulas); [ModularForms Layer 10B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#10b--compact-riemann-surface-cohomology); `ComplexComparisonPartII` C5.7 (`curveResidueLocalization`); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.2 (`projectiveGeometricDictionaries`).
 
 ([Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.12, pp.25–26; Theorem 1.33, pp.38–39; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.6–4.7, p.312.)
-
-<a id="s7-3"></a>
 
 ### 7.3 Characteristic-zero pullback and trace actions
 
@@ -2483,11 +2335,9 @@ The public interface should expose:
 - Use seven all-subgroup branches versus six cyclic branches at `n=4`.
 - The correspondence acts on regular differentials by target pullback followed by source trace.
 
-*Needs:* [§1.3](#s1-3); [§5.2](#s5-2); [§7.2](#s7-2); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); `SchemeAndStackFoundations §2.19–2.21/trace`; [AlgebraicCurves Layer 12](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicCurves#layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts).
+*Needs:* [§1.3](#13-homotheties-and-lattice-isogenies); [§5.2](#52-integral-coarse-modular-curves); [§7.2](#72-weight-two-cusp-forms-and-regular-differentials); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 8D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8d-the-cyclicity-locus-and-γ₀n); [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); `SchemeAndStackFoundations §2.19–2.21/trace`; [AlgebraicCurves Layer 12](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicCurves#layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §5, Lemma 5.13, Remarks 5.14–5.15 and Proposition 5.16/Corollary 5.17, pp.72–74; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.2, pp.22–26 and §1.6, p.39; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.4, Theorem 4.4.3, pp.42–45; [Bakker–Tsimerman, preprint](https://arxiv.org/pdf/1403.7168v2), §2.5, pp.7–8.)
-
-<a id="s7-4"></a>
 
 ### 7.4 The pullback–trace Hecke normalization
 
@@ -2495,7 +2345,7 @@ Under `f↦2πi f(τ)dτ`, the geometric `Γ₀(N)` differential action of the p
 
 The general displayed weight-k formula is for trivial `Γ₀` character. Nebentypus and `Γ₁` transports use the anchor’s explicitly labelled slash/diamond conventions, not a silent change of this formula.
 
-The good composite `T_n` uses all subgroups. The cyclic modular-polynomial correspondence of [§5.6](#s5-6) is not substituted at squareful n.
+The good composite `T_n` uses all subgroups. The cyclic modular-polynomial correspondence of [§5.6](#56-the-cyclic-modular-polynomial) is not substituted at squareful n.
 
 Establish this as follows. On the branch `ad=n`, `τ′=(aτ+b)/d`, the isogeny `z↦az` multiplies the Hodge frame by a, giving `a^k/n=a^(k−1)/d`. For weight two the curve differential pullback multiplies `dτ′` by `a/d`, giving precisely the normalized Hodge action. Sum branch traces, identify the anchor’s triangular slash sum, and use its q-expansion theorem. Treat the U branch set separately and combine prime powers by the imported Hecke relations.
 
@@ -2507,11 +2357,9 @@ The theorem is `heckeNormalizationComparison`.
 - For good p, `T_{p²}=T_p²−p·Id` on trivial-character weight two, while the cyclic degree differs by the one noncyclic subgroup.
 - This theorem supplies a characteristic-zero target for Layer 9, Layer 10 and does not presume its integral construction.
 
-*Needs:* [§7.3](#s7-3); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); Tau Ceti `HeckeRing.GL2.qExpansion_coeff_one_heckeRingHomCharSpace_heckeTCompositeGamma0`.
+*Needs:* [§7.3](#73-characteristic-zero-pullback-and-trace-actions); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); Tau Ceti `HeckeRing.GL2.qExpansion_coeff_one_heckeRingHomCharSpace_heckeTCompositeGamma0`.
 
 ([Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §1.2, pp.22–26 and §1.6, p.39; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.4, pp.42–45; [Bakker–Tsimerman, preprint](https://arxiv.org/pdf/1403.7168v2), §2.5, pp.7–8.)
-
-<a id="s7-5"></a>
 
 ### 7.5 The full Hecke first-coefficient pairing
 
@@ -2530,7 +2378,7 @@ The public interface should expose:
 - `analyticFullHeckeAlgebra`: The complex operator image on the native `cuspFormCharSpace 2 1`, the trivial-character realization of `S₂(Γ₀(N),ℂ)`, generated as a complex algebra by all positive-index `heckeTCompositeGamma0` actions. The identification with `S₂(Γ₀(N),ℂ)` is Tau Ceti's `cuspFormCharSpaceOneEquiv` in `TauCeti/NumberTheory/ModularForms/TrivialNebentypus.lean`.
 - `firstCoefficientHeckePairing`: `β(T,f)=a₁(Tf)` over Q and its scalar extensions. The definition in [Suggested.lean](Suggested.lean) is its complex analytic realization on `analyticFullHeckeAlgebra`; the rational differential realization and its base-change comparison use the geometric carriers of this section.
 - Q-linearity in both arguments, `β(T_n,f)=a_n(f)` for every `n≥1`, and `β(ST,f)=β(S,Tf)`.
-- `firstCoefficientHeckePairing_baseChange`: Scalar extension to C agrees with the analytic q-coefficient pairing.
+- Scalar extension to C of the rational differential pairing agrees with the analytic q-coefficient pairing.
 
 **Checks.**
 
@@ -2541,11 +2389,9 @@ The public interface should expose:
 - The domain is the operator image `T_Q` and the whole `V_Q`.
 - The comparison identifies the algebraic rational coefficient normalization at infinity with the analytic one.
 
-*Needs:* [§4.4](#s4-4); [§5.2](#s5-2); [§7.4](#s7-4); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
+*Needs:* [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§5.2](#52-integral-coarse-modular-curves); [§7.4](#74-the-pullbacktrace-hecke-normalization); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34, p.39.)
-
-<a id="s7-6"></a>
 
 ### 7.6 Perfection of the full Hecke pairing
 
@@ -2559,7 +2405,7 @@ Establish this as follows. If `β(T_n,f)=0` for all n, every q coefficient of f 
 
 The theorem `perfectHeckePairing` in [Suggested.lean](Suggested.lean) uses the native complex cusp space and `LinearMap.IsPerfPair`, so both induced maps to dual spaces are bijective; the rational geometric realization retains the preceding scalar-extension comparison.
 
-The integral Serre pairing between differentials and `H¹(O)` is [§13.8](#integral-modular-serre-duality); it is a different pairing from β.
+The integral Serre pairing between differentials and `H¹(O)` is [§13.8](#138-integral-serre-duality-and-residues); it is a different pairing from β.
 
 **Checks.**
 
@@ -2567,7 +2413,7 @@ The integral Serre pairing between differentials and `H¹(O)` is [§13.8](#integ
 - The proof includes every n and every bad-prime block.
 - No Jacobian faithfulness theorem is used to prove this pairing.
 
-*Needs:* [§7.5](#s7-5); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
+*Needs:* [§7.5](#75-the-full-hecke-first-coefficient-pairing); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34 and proof, p.39.)
 
@@ -2584,8 +2430,6 @@ At `N=1` both spaces are zero and the zero-dimensional pairing is perfect.
 Use Layer 1, Layers 3–5, Layer 6. External contracts: ComplexComparisonPartII, SchemeAndStackFoundations. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 8: Fields of definition and generic descent
-
-<a id="s8-1"></a>
 
 ### 8.1 Canonical generic models and coefficient descent
 
@@ -2607,17 +2451,15 @@ The theorem is `canonicalGenericFibreDescent`.
 - The map retains the factor `(2πi)^k` from the modular Hodge frame.
 - The full Hecke pairing of Layer 7 is already over Q and remains compatible under this export.
 
-*Needs:* [§4.1](#s4-1); [§4.4](#s4-4); [§5.2](#s5-2); [§6.1](#s6-1); [§6.4](#s6-4); [§7.1](#s7-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§5.2](#52-integral-coarse-modular-curves); [§6.1](#61-compact-analyticalgebraic-modular-comparison); [§6.4](#64-the-analytic-comparison-for-a-symplectic-twist); [§7.1](#71-the-hodge-line-and-the-automorphy-factor); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
 ([Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.3–6; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.5–4.8, pp.311–313.)
-
-<a id="s8-2"></a>
 
 ### 8.2 The rational function field of `X₀(N)`
 
 For any field K and `N≥1`, construct `qExpansionField K N` as the intermediate field of `K((q))/K` generated by the integral Laurent series j(q) and `j(q^d)` for positive `d∣N`, with coefficients mapped from ℤ to K. The series j is `E₄³/Δ`, with leading term `q⁻¹`; use formal series, without an analytic convergence assumption. Prove generation, functoriality in K and the level, and the identity `j(q^(pd))=j(q^d)^p` in characteristic p. For `N=p^a M`, `p∤M`, it follows that `qExpansionField K N=qExpansionField K M`.
 
-When N is invertible in K, prove `gammaZeroRationalFunctionField`: q-expansion identifies the function field of the actual smooth projective `X₀(N)_K` with `qExpansionField K N=K(j(q),j(q^N))`. Here j is the source invariant and j′ is the invariant of `E/C` for the cyclic order-N subgroup C; the function-field degree over `K(j)` is `ψ(N)`. Over ℚ this recovers [§5.6](#s5-6)'s cyclic modular polynomial and normalization, and over ℂ it identifies `j′(τ)=j(Nτ)`. In characteristic dividing N, the Laurent-series definition still applies, but the whole coarse fibre can be reducible and has no single function field of this form.
+When N is invertible in K, prove `gammaZeroRationalFunctionField`: q-expansion identifies the function field of the actual smooth projective `X₀(N)_K` with `qExpansionField K N=K(j(q),j(q^N))`. Here j is the source invariant and j′ is the invariant of `E/C` for the cyclic order-N subgroup C; the function-field degree over `K(j)` is `ψ(N)`. Over ℚ this recovers [§5.6](#56-the-cyclic-modular-polynomial)'s cyclic modular polynomial and normalization, and over ℂ it identifies `j′(τ)=j(Nτ)`. In characteristic dividing N, the Laurent-series definition still applies, but the whole coarse fibre can be reducible and has no single function field of this form.
 
 The q-adic valuation restricts to a degree-one place `qExpansionCuspInfty`, corresponding to ∞ on the smooth model; `1/j=q+O(q²)` is a uniformizer. For an algebraic closure K̄, coefficientwise `σ∈Gal(K̄/K)` fixes q and gives a σ-semilinear automorphism of `qExpansionField K̄ N`. Construct `qExpansionGaloisAction`, including its actions on places, Tau Ceti divisors and degree-zero divisor classes `Cl⁰`, preservation of degree and principal divisors, and continuity of the discrete action on n-torsion. For n invertible in K, `qExpansionTorsionRepresentation` has finite `ℤ/n`-module carrier `Cl⁰[n]`; it has rank `2g` when N is also invertible. In characteristic p, geometric p-torsion need not have rank `2g`. The same semilinear place/divisor/class construction is a target for the function field of any smooth proper geometrically integral K-curve, using its geometrically integral constant extensions. Extend the pinned constant-linear automorphism API rather than defining a second divisor group.
 
@@ -2636,11 +2478,9 @@ The public targets are `qExpansionField`, `qExpansionCuspInfty`, `qExpansionGalo
 - Coefficient conjugation fixes the rational cusp ∞ but can move a nonrational place, while preserving its degree and the class of a principal divisor.
 - Inclusion sends j to j, while the second degeneracy embedding sends it to `j(q^ℓ)`; Fricke interchanges j and j′ and moves the q-adic cusp to 0.
 
-*Needs:* [§4.5](#s4-5); [§5.6](#s5-6); [§8.1](#s8-1); [AlgebraicCurves Layer 12](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicCurves#layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts); Tau Ceti `Divisor`, `Divisor.degree_smul` and `Divisor.principal_smul` (`FieldTheory/FunctionField/Divisor/Automorphism.lean`); `AbelianSchemesAndArithmeticModuli` A3.1–A3.5 (prime-to-characteristic Jacobian torsion).
+*Needs:* [§4.5](#45-level-maps-and-diamond-operators); [§5.6](#56-the-cyclic-modular-polynomial); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [AlgebraicCurves Layer 12](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicCurves#layer-12-the-dictionary--function-fields--curves-and-the-comparison-contracts); Tau Ceti `Divisor`, `Divisor.degree_smul` and `Divisor.principal_smul` (`FieldTheory/FunctionField/Divisor/Automorphism.lean`); `AbelianSchemesAndArithmeticModuli` A3.1–A3.5 (prime-to-characteristic Jacobian torsion).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), Theorem 6.1, pp.87–90; §7, pp.94–96; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VI §6.16, p.290, and VII §§1–2, for good-level fibres and Tate expansions; Stichtenoth, *Algebraic Function Fields and Codes*, I §4 and III §5, for places and automorphisms.)
-
-<a id="s8-3"></a>
 
 ### 8.3 Component fields and symplectic descent
 
@@ -2659,11 +2499,9 @@ The theorem is `componentFieldsAndTwistedDescent`.
 - At `N=5`, Galois permutes four geometric components through the cyclotomic character.
 - A nontrivial paired twist is geometrically one fixed-pairing curve, not four components.
 
-*Needs:* [§4.10](#s4-10); [§5.2](#s5-2); [§6.4](#s6-4); [§8.1](#s8-1); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
+*Needs:* [§4.10](#410-geometric-connectedness-of-a-fixed-pairing-curve); [§5.2](#52-integral-coarse-modular-curves); [§6.4](#64-the-analytic-comparison-for-a-symplectic-twist); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [ModularCurves Layer 5B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5b-full-ordered-bases-and-fixed-pairing); [ModularCurves Layer 5C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#5c-the-twisted-curve-yρ); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
 
 ([Conrad, analytic families](https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf), §8, pp.17–19; §9, pp.20–22; Theorem 17.21, p.42; [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.5–4.8, pp.311–313.)
-
-<a id="s8-4"></a>
 
 ### 8.4 Complex conjugation and pairing inversion
 
@@ -2683,11 +2521,9 @@ The theorem is `complexConjugationComparison`.
 - For `Γ₀(N)` the rational cusps 0 and infinity remain rational.
 - Complex conjugation is antiholomorphic; arbitrary `σ∈Aut(C)` receives no analytic continuity assertion.
 
-*Needs:* [§1.5](#s1-5); [§6.3](#s6-3); [§8.3](#s8-3); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
+*Needs:* [§1.5](#15-the-analytic-weil-pairing-comparison); [§6.3](#63-cusp-fields-and-pairing-components); [§8.3](#83-component-fields-and-symplectic-descent); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
 
 ([Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §7, pp.95–96; [Bakker–Tsimerman, preprint](https://arxiv.org/pdf/1403.7168v2), §2.1, p.5.)
-
-<a id="s8-5"></a>
 
 ### 8.5 Generic base change and level compatibility
 
@@ -2707,7 +2543,7 @@ The theorem is `genericBaseChangeAndLevelCompatibility`.
 - No integral coarse-base-change theorem is smuggled into the field-extension comparison.
 - Every Hecke diagram uses the normalization proved in Layer 7.
 
-*Needs:* [§4.5](#s4-5); [§5.2](#s5-2); [§5.3](#s5-3); [§6.2](#s6-2); [§7.4](#s7-4); [§8.1](#s8-1); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
+*Needs:* [§4.5](#45-level-maps-and-diamond-operators); [§5.2](#52-integral-coarse-modular-curves); [§5.3](#53-base-change-for-coarse-modular-curves); [§6.2](#62-cusp-ramification-under-level-maps); [§7.4](#74-the-pullbacktrace-hecke-normalization); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
 ([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.1–4.8, pp.310–313; [Conrad, q-expansions](https://math.stanford.edu/~conrad/248BPage/handouts/qexp.pdf), pp.3–6.)
 
@@ -2720,8 +2556,6 @@ Use the negative controls in the subsections to check the component labels, hypo
 Use Layer 1, Layer 4, Layer 5, Layer 6, Layer 7. External contracts: ComplexComparisonPartII. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 9: Algebraic correspondences and quotient curves
-
-<a id="s9-1"></a>
 
 ### 9.1 Compactified Hecke degeneracy maps
 
@@ -2749,11 +2583,9 @@ The public interface should expose:
 - `N=11,p=2` gives degree 3; `N=10,p=5` gives degree 5.
 - In characteristic p a leg can be inseparable on one component. Counting geometric points is not a degree computation.
 
-*Needs:* [§3.1](#s3-1); [§3.2](#s3-2); [§3.5](#s3-5); [§3.7](#s3-7); [§3.15](#s3-15); [§4.1](#s4-1); [§5.2](#s5-2); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.FiniteCorrespondence`; `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.FiniteCorrespondence.coarse_finite`.
+*Needs:* [§3.1](#31-integral-full-point-and-cyclic-level-structures); [§3.2](#32-proper-flat-integral-level-stacks); [§3.5](#35-fine-loci-and-bad-level-inertia); [§3.7](#37-power-isogenies-at-the-boundary); [§3.15](#315-compactified-level-maps-and-their-degrees); [§4.1](#41-formal-level-structures-at-cusps); [§5.2](#52-integral-coarse-modular-curves); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.FiniteCorrespondence`; `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.FiniteCorrespondence.coarse_finite`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.4.3, pp.43–46; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), Lemma 4.7.1, p.49; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.2, pp.71–72.)
-
-<a id="s9-2"></a>
 
 ### 9.2 Diamond operators
 
@@ -2777,11 +2609,9 @@ The public interface should expose:
 - `I_2 I_3=I_6` for `N=11`, including the boundary.
 - `N=11` gives an effective unit quotient of order 5 on `X₁(11)`; `N=3` gives a genus-zero coarse curve, whose Jacobian action is trivial.
 
-*Needs:* [§2.6](#s2-6); [§4.1](#s4-1); [§5.2](#s5-2).
+*Needs:* [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§4.1](#41-formal-level-structures-at-cusps); [§5.2](#52-integral-coarse-modular-curves).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.4, pp.42–43, Lemma 4.4.1; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.65–66; §5.2, p.71.)
-
-<a id="s9-3"></a>
 
 ### 9.3 Cyclotomic Fricke involution
 
@@ -2810,11 +2640,9 @@ The public interface should expose:
 - For `N,z≠0`, `−1/(N(−1/(Nz)))=z`.
 - Replacing `ζ` by `ζ^a` changes the map by a diamond; omitting the field of definition destroys the Galois conjugation law.
 
-*Needs:* [§4.1](#s4-1); [§5.2](#s5-2); [§9.2](#s9-2); Tau Ceti `TauCeti.frickeGL`; Mathlib `UpperHalfPlane.glAction`; [ModularForms Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-6-atkinlehner-and-fricke-operators); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§5.2](#52-integral-coarse-modular-curves); [§9.2](#92-diamond-operators); Tau Ceti `TauCeti.frickeGL`; Mathlib `UpperHalfPlane.glAction`; [ModularForms Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-6-atkinlehner-and-fricke-operators); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.2, pp.70–73.)
-
-<a id="s9-4"></a>
 
 ### 9.4 Exact-divisor Atkin–Lehner operators
 
@@ -2839,11 +2667,9 @@ The public interface should expose:
 - `N=12` has exact divisors 1,3,4,12; 2 is not exact. The product `w₃w₄` is `w₁₂`.
 - `w₄w₄=w₁`, not `w₁₆`.
 
-*Needs:* [§4.1](#s4-1); [§5.2](#s5-2); [§9.3](#s9-3); Tau Ceti `TauCeti.Nat.IsExactDivisor`; [ModularForms Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-6-atkinlehner-and-fricke-operators); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§5.2](#52-integral-coarse-modular-curves); [§9.3](#93-cyclotomic-fricke-involution); Tau Ceti `TauCeti.Nat.IsExactDivisor`; [ModularForms Layer 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-6-atkinlehner-and-fricke-operators); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); [ModularCurves Layer 10](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#layer-10-compactified-coarse-curves-over-ℤ1n-cusps-and-the-shimura-covering).
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I §2, p.227; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), Theorem 6.5 and proof of Theorem 6.6, pp.928–929.)
-
-<a id="s9-5"></a>
 
 ### 9.5 The split Cartan normalizer quotient
 
@@ -2857,15 +2683,13 @@ Establish this as follows. Construct the unordered middle pair from a cyclic `�
 - Ordering the pair gives `X_s(ℓ)≅X₀(ℓ²)`, and reversing the chain induces its order-2 quotient.
 - At `ℓ=13`, the ordered `X_s(13)` has `(j-degree, genus)=(182,8)`, whereas `X_s⁺(13)` has `(91,3)`.
 
-*Needs:* [§5.2](#s5-2); [§9.4](#s9-4); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
+*Needs:* [§5.2](#52-integral-coarse-modular-curves); [§9.4](#94-exact-divisor-atkinlehner-operators); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
 
 ([Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §6.2, proof of Theorem 6.6, p.929; §6.3, pp.929–930.)
 
-<a id="s9-6"></a>
-
 ### 9.6 Cartan modular curves
 
-Let `ℓ` be a prime and `H̄⊂GL₂(𝔽_ℓ)` a subgroup, with `H⊂GL₂(Ẑ)` its preimage. The coarse curve `X_H` is a normal projective curve over `ℤ`, smooth over `ℤ[1/ℓ]`, of degree `[GL₂(𝔽_ℓ):±H̄]` over `ℙ¹_ℤ`, with cyclotomic base `ℤ` when det `H̄=𝔽_ℓ^×`. For the split plus level use the monomial subgroup even at `ℓ=2`. For the Cartan levels write `X_s(ℓ)=X_{C_s(ℓ)}`, `X_s⁺(ℓ)=X_{C_s⁺(ℓ)}`, `X_ns(ℓ)=X_{C_ns(ℓ)}`, `X_ns⁺(ℓ)=X_{C_ns⁺(ℓ)}`, of degrees `ℓ(ℓ+1)`, `ℓ(ℓ+1)/2`, `ℓ(ℓ−1)` and `ℓ(ℓ−1)/2` for `ℓ` odd. Over `ℤ[1/ℓ]`, a level-`C_s⁺(ℓ)` structure on E is an unordered pair of distinct subgroups of order `ℓ` (equivalently a split Cartan subalgebra `𝔽_ℓ×𝔽_ℓ` of `End(E[ℓ])`), a level-`C_s(ℓ)` structure an ordered such pair, a level-`C_ns⁺(ℓ)` structure a subalgebra of `End(E[ℓ])` étale locally conjugate to `𝔽_{ℓ²}`, and a level-`C_ns(ℓ)` structure such a subalgebra with a chosen isomorphism to `𝔽_{ℓ²}`. The ordered split Cartan curve is identified with `X₀(ℓ²)` over `ℤ[1/ℓ]` by `(E,C₁,C₂)↦(E/C₁, [ℓ]⁻¹(C₂)/C₁)`, and `X_s⁺(ℓ)` with `X₀(ℓ²)/⟨w_{ℓ²}⟩`, over `ℚ` by [§9.5](#s9-5) and over `ℤ[1/ℓ]` because the ordered identification carries the exchange of `C₁` and `C₂` to `w_{ℓ²}`. Every other subgroup of `GL₂(𝔽_ℓ)`, for example the preimage of an exceptional `S₄⊂PGL₂(𝔽₁₃)`, gives its curve by the same construction. The notation `X_s(ℓ)` always denotes the ordered diagonal curve.
+Let `ℓ` be a prime and `H̄⊂GL₂(𝔽_ℓ)` a subgroup, with `H⊂GL₂(Ẑ)` its preimage. The coarse curve `X_H` is a normal projective curve over `ℤ`, smooth over `ℤ[1/ℓ]`, of degree `[GL₂(𝔽_ℓ):±H̄]` over `ℙ¹_ℤ`, with cyclotomic base `ℤ` when det `H̄=𝔽_ℓ^×`. For the split plus level use the monomial subgroup even at `ℓ=2`. For the Cartan levels write `X_s(ℓ)=X_{C_s(ℓ)}`, `X_s⁺(ℓ)=X_{C_s⁺(ℓ)}`, `X_ns(ℓ)=X_{C_ns(ℓ)}`, `X_ns⁺(ℓ)=X_{C_ns⁺(ℓ)}`, of degrees `ℓ(ℓ+1)`, `ℓ(ℓ+1)/2`, `ℓ(ℓ−1)` and `ℓ(ℓ−1)/2` for `ℓ` odd. Over `ℤ[1/ℓ]`, a level-`C_s⁺(ℓ)` structure on E is an unordered pair of distinct subgroups of order `ℓ` (equivalently a split Cartan subalgebra `𝔽_ℓ×𝔽_ℓ` of `End(E[ℓ])`), a level-`C_s(ℓ)` structure an ordered such pair, a level-`C_ns⁺(ℓ)` structure a subalgebra of `End(E[ℓ])` étale locally conjugate to `𝔽_{ℓ²}`, and a level-`C_ns(ℓ)` structure such a subalgebra with a chosen isomorphism to `𝔽_{ℓ²}`. The ordered split Cartan curve is identified with `X₀(ℓ²)` over `ℤ[1/ℓ]` by `(E,C₁,C₂)↦(E/C₁, [ℓ]⁻¹(C₂)/C₁)`, and `X_s⁺(ℓ)` with `X₀(ℓ²)/⟨w_{ℓ²}⟩`, over `ℚ` by [§9.5](#95-the-split-cartan-normalizer-quotient) and over `ℤ[1/ℓ]` because the ordered identification carries the exchange of `C₁` and `C₂` to `w_{ℓ²}`. Every other subgroup of `GL₂(𝔽_ℓ)`, for example the preimage of an exceptional `S₄⊂PGL₂(𝔽₁₃)`, gives its curve by the same construction. The notation `X_s(ℓ)` always denotes the ordered diagonal curve.
 
 Citation dictionary: Zywina’s `X_s` is our ordered `X_s`; Balakrishnan–Dogra–Müller–Tuitman–Vonk’s `X_s` is our `X_s⁺`, and their `X_ns` is our `X_ns⁺`.
 
@@ -2873,7 +2697,7 @@ Citation dictionary: Zywina’s `X_s` is our ordered `X_s`; Balakrishnan–Dogra
 
 The moduli descriptions hold over `ℤ[1/ℓ]`; over `ℤ` the curve is defined as `X_H`.
 
-Establish this as follows. Apply [§3.12](#s3-12) and [§5.2](#s5-2) to the preimage H. Degrees from [§5.10](#s5-10) and the orders of the Cartan subgroups ([§3.8](#s3-8)); `−I` lies in each Cartan subgroup, so projective index equals index. Moduli: a frame orbit `φH̄` is determined by the subalgebra `φAφ⁻¹⊂End(E[ℓ])` with A the Cartan algebra, since frames with the same subalgebra differ by an element of the normalizer of the algebra A (at `ℓ=2`, normalizing its unit subgroup `A^×` would not suffice); for `C_s` this subalgebra is the pair of eigenlines. The ordered split Cartan identification: from complementary lines `C₁,C₂`, the quotient `E/C₁` carries the cyclic subgroup `[ℓ]⁻¹(C₂)/C₁` of order `ℓ²`; conversely a cyclic K of order `ℓ²` on E′ gives `E=E′/K[ℓ]` with `C₂=K/K[ℓ]` and `C₁` the kernel of the dual isogeny; both are inverse on the elliptic opens over `ℤ[1/ℓ]`, and they extend to the normal compactifications by the finite-normal recognition criterion of ModularCurves Layer 10.
+Establish this as follows. Apply [§3.12](#312-the-delignerapoport-level-h-stack) and [§5.2](#52-integral-coarse-modular-curves) to the preimage H. Degrees from [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor) and the orders of the Cartan subgroups ([§3.8](#38-open-level-subgroups-and-the-standard-levels)); `−I` lies in each Cartan subgroup, so projective index equals index. Moduli: a frame orbit `φH̄` is determined by the subalgebra `φAφ⁻¹⊂End(E[ℓ])` with A the Cartan algebra, since frames with the same subalgebra differ by an element of the normalizer of the algebra A (at `ℓ=2`, normalizing its unit subgroup `A^×` would not suffice); for `C_s` this subalgebra is the pair of eigenlines. The ordered split Cartan identification: from complementary lines `C₁,C₂`, the quotient `E/C₁` carries the cyclic subgroup `[ℓ]⁻¹(C₂)/C₁` of order `ℓ²`; conversely a cyclic K of order `ℓ²` on E′ gives `E=E′/K[ℓ]` with `C₂=K/K[ℓ]` and `C₁` the kernel of the dual isogeny; both are inverse on the elliptic opens over `ℤ[1/ℓ]`, and they extend to the normal compactifications by the finite-normal recognition criterion of ModularCurves Layer 10.
 
 The public interface should expose:
 
@@ -2882,7 +2706,7 @@ The public interface should expose:
 - `cartanCurve_moduli`: Over `ℤ[1/ℓ]`, level-Cartan structures are the Cartan subalgebras of `End(E[ℓ])` of the given type, ordered for `C_s` and `C_ns`.
 - `splitCartanCurve_iso_gammaZero`: `X_s(ℓ)≅X₀(ℓ²)` over `ℤ[1/ℓ]` by `(E,C₁,C₂)↦(E/C₁,[ℓ]⁻¹(C₂)/C₁)`; it is not an isomorphism over the j-line.
 - `cartanCurve_cusps`: For odd `ℓ`, `X_s⁺(ℓ)` has a distinguished rational cusp and `(ℓ−1)/2` further cusps conjugate over `ℚ(ζ_ℓ)⁺`; `X_ns⁺(ℓ)` has `(ℓ−1)/2` cusps conjugate over that field. The nonsplit cusps are nonrational for `ℓ≥5` and rational at `ℓ=3`. At `ℓ=2`, `X_s⁺(2)` has two rational cusps and `X_ns⁺(2)=X(1)` has one rational cusp.
-- `cartanCurve_quotient`: `X_s⁺(ℓ)=X_s(ℓ)/(ℤ/2)`, the involution swapping the two lines ([§5.16](#s5-16)).
+- `cartanCurve_quotient`: `X_s⁺(ℓ)=X_s(ℓ)/(ℤ/2)`, the involution swapping the two lines ([§5.16](#516-coarse-curves-as-quotients)).
 
 **Checks.**
 
@@ -2896,11 +2720,9 @@ The public interface should expose:
 - For odd `ℓ`, `X_ns⁺(ℓ)` has `(ℓ−1)/2` cusps, all conjugate over `ℚ(ζ_ℓ)⁺`, so no `ℚ`-rational cusp for `ℓ≥5`.
 - For `ℓ=13`, `X_s⁺(13)`, `X_ns⁺(13)` and the exceptional `S₄` curve have degrees 91, 78 and 91 over the j-line.
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.8](#s3-8); [§3.12](#s3-12); [§5.2](#s5-2); [§5.3](#s5-3); [§5.10](#s5-10); [§5.11](#s5-11); [§5.12](#s5-12); [§9.5](#s9-5); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§3.8](#38-open-level-subgroups-and-the-standard-levels); [§3.12](#312-the-delignerapoport-level-h-stack); [§5.2](#52-integral-coarse-modular-curves); [§5.3](#53-base-change-for-coarse-modular-curves); [§5.10](#510-degree-of-the-j-map-and-the-cusp-divisor); [§5.11](#511-cusps-of-x_h-away-from-the-level); [§5.12](#512-the-cyclotomic-structure-of-x_h); [§9.5](#95-the-split-cartan-normalizer-quotient); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients).
 
 ([On the possible images of the mod ℓ representations associated to elliptic curves over ℚ](https://arxiv.org/pdf/1508.07660), §1, Notation, p.2 (Cartan groups); §3.2, p.15; §3.3, Lemma 3.6, p.16; [Česnavičius, modular description](https://arxiv.org/pdf/1511.07475v2), §6.1, p.62; Proposition 6.4(a), p.63; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §1, p.887; §6, p.926; §6.3, pp.929–930.)
-
-<a id="s9-7"></a>
 
 ### 9.7 Rational points of `X_H` and Galois images
 
@@ -2915,21 +2737,19 @@ Establish this as follows. The coarse map is bijective on `K̄`-points (SchemeAn
 - E: `y²=x³−x` has CM by `ℤ[i]` and `13=(3+2i)(3−2i)`, so `ρ̄_{E,13}(G_ℚ)` lies in the normaliser of the split Cartan with eigenlines `E[3+2i]` and `E[3−2i]`, complex conjugation exchanging them: the `j=1728` fibre of `X_s⁺(13)` has a `ℚ`-point.
 - An elliptic curve over `ℚ` with a rational 7-isogeny gives a `ℚ`-point of `X₀(7)` over its j-invariant.
 
-*Needs:* [§3.9](#s3-9); [§5.9](#s5-9); [§5.17](#s5-17); [§9.6](#s9-6); `SchemeAndStackFoundations §1.23`; [ModularCurves Layer 0D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0d-finite-étale-schemes-and-galois-actions); Tau Ceti `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`.
+*Needs:* [§3.9](#39-level-h-structures-away-from-the-level); [§5.9](#59-local-structure-of-coarse-level-curves); [§5.17](#517-the-elliptic-opens-are-the-katzmazur-level-problems); [§9.6](#96-cartan-modular-curves); `SchemeAndStackFoundations §1.23`; [ModularCurves Layer 0D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0d-finite-étale-schemes-and-galois-actions); Tau Ceti `WeierstrassCurve.eq_one_or_eq_negVariableChange_of_smul_eq`.
 
 ([On the possible images of the mod ℓ representations associated to elliptic curves over ℚ](https://arxiv.org/pdf/1508.07660), Proposition 3.3, p.15; proof in §3.5, pp.17–19; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §1, pp.887–888, Theorem 1.2.)
 
-<a id="s9-8"></a>
-
 ### 9.8 Atkin–Lehner quotient curves `X₀⁺(N)`
 
-For `N≥2` let `w_N` be the Fricke involution of `X₀(N)_ℚ` (§9.4 with `d=N`), extended to an involution of the normal `ℤ`-curve `X₀(N)` as in the proof. Define `X₀⁺(N):=X₀(N)/⟨w_N⟩`, the quotient of the projective normal `ℤ`-curve `X₀(N)` by the group of order two. It is a normal projective `ℤ`-curve, flat with fibres of pure dimension one, smooth over `ℤ[1/N]`, with a finite surjective quotient map `π_N:X₀(N)→X₀⁺(N)` of degree 2 whose formation commutes with flat base change and with base change to `ℤ[1/2]`-algebras. Over `ℤ[1/N]` its elliptic part is the coarse space of unordered pairs `{φ,φ^∨}` of mutually dual cyclic N-isogenies. The j-map of `X₀(N)` does not descend: the functions `j+j∘w_N` and `j·(j∘w_N)` do, and the map `X₀⁺(N)→ℙ¹` they define with the modular polynomial is not the j-line. For `N=ℓ²` it is `X_s⁺(ℓ)` ([§9.5](#s9-5)).
+For `N≥2` let `w_N` be the Fricke involution of `X₀(N)_ℚ` (§9.4 with `d=N`), extended to an involution of the normal `ℤ`-curve `X₀(N)` as in the proof. Define `X₀⁺(N):=X₀(N)/⟨w_N⟩`, the quotient of the projective normal `ℤ`-curve `X₀(N)` by the group of order two. It is a normal projective `ℤ`-curve, flat with fibres of pure dimension one, smooth over `ℤ[1/N]`, with a finite surjective quotient map `π_N:X₀(N)→X₀⁺(N)` of degree 2 whose formation commutes with flat base change and with base change to `ℤ[1/2]`-algebras. Over `ℤ[1/N]` its elliptic part is the coarse space of unordered pairs `{φ,φ^∨}` of mutually dual cyclic N-isogenies. The j-map of `X₀(N)` does not descend: the functions `j+j∘w_N` and `j·(j∘w_N)` do, and the map `X₀⁺(N)→ℙ¹` they define with the modular polynomial is not the j-line. For `N=ℓ²` it is `X_s⁺(ℓ)` ([§9.5](#95-the-split-cartan-normalizer-quotient)).
 
 `N≥2`; `w_N` as in §9.4 on `X₀(N)_ℚ`, extended to `X₀(N)` over `ℤ` in the first proof step.
 
 Base change beyond flat and `ℤ[1/2]`-algebras is not asserted.
 
-Establish this as follows. Extension of `w_N` over `ℤ`: `Φ_N` is monic of degree `ψ(N)` in each variable and symmetric ([§5.6](#s5-6)), so the closure in `ℙ¹_ℤ×ℙ¹_ℤ` of the image of (j,j′) meets `j′=∞` only over `j=∞` and is finite over `ℙ¹_ℤ` by either projection. Hence the normalization of `ℙ¹_ℤ×ℙ¹_ℤ` in `Y₀(N)_ℚ` is finite and normal over `ℙ¹_ℤ` via j and via `j′=j∘w_N`, so it is `X₀(N)` for both projections (the finite-normal recognition criterion of ModularCurves Layer 10), and the involution of `ℙ¹×ℙ¹` exchanging the factors, which `w_N` covers on `Y₀(N)_ℚ`, extends `w_N` to `X₀(N)` by functoriality of relative normalization (Stacks 035J). `X₀(N)` is projective, so `⟨w_N⟩`-orbits lie in affine opens; the geometric quotient exists and `π_N` is finite surjective of degree 2 (SchemeAndStackFoundations §1.17). Normality and flatness pass to the invariant rings; smoothness over `ℤ[1/N]` of the quotient of a smooth relative curve by a finite group holds without invertibility of the order (upstream 9D, smoothness of finite quotients, applied on invariant affine opens). Invariants commute with flat base change and with base change on which 2 is invertible. Moduli over `ℤ[1/N]`: `w_N` sends `(E,C)` to (E/C,E[N]/C), i.e. `φ` to its dual up to the identification of `E/C`, so orbits are unordered dual pairs. Symmetric functions of j and `j∘w_N` are invariant; j itself is not, since `w_N` swaps j and j′ and `j≠j′` on the generic fibre.
+Establish this as follows. Extension of `w_N` over `ℤ`: `Φ_N` is monic of degree `ψ(N)` in each variable and symmetric ([§5.6](#56-the-cyclic-modular-polynomial)), so the closure in `ℙ¹_ℤ×ℙ¹_ℤ` of the image of (j,j′) meets `j′=∞` only over `j=∞` and is finite over `ℙ¹_ℤ` by either projection. Hence the normalization of `ℙ¹_ℤ×ℙ¹_ℤ` in `Y₀(N)_ℚ` is finite and normal over `ℙ¹_ℤ` via j and via `j′=j∘w_N`, so it is `X₀(N)` for both projections (the finite-normal recognition criterion of ModularCurves Layer 10), and the involution of `ℙ¹×ℙ¹` exchanging the factors, which `w_N` covers on `Y₀(N)_ℚ`, extends `w_N` to `X₀(N)` by functoriality of relative normalization (Stacks 035J). `X₀(N)` is projective, so `⟨w_N⟩`-orbits lie in affine opens; the geometric quotient exists and `π_N` is finite surjective of degree 2 (SchemeAndStackFoundations §1.17). Normality and flatness pass to the invariant rings; smoothness over `ℤ[1/N]` of the quotient of a smooth relative curve by a finite group holds without invertibility of the order (upstream 9D, smoothness of finite quotients, applied on invariant affine opens). Invariants commute with flat base change and with base change on which 2 is invertible. Moduli over `ℤ[1/N]`: `w_N` sends `(E,C)` to (E/C,E[N]/C), i.e. `φ` to its dual up to the identification of `E/C`, so orbits are unordered dual pairs. Symmetric functions of j and `j∘w_N` are invariant; j itself is not, since `w_N` swaps j and j′ and `j≠j′` on the generic fibre.
 
 The public interface should expose:
 
@@ -2942,7 +2762,7 @@ The public interface should expose:
 
 **Checks.**
 
-- `gammaZeroPlus ℓ²` `≅ X_s⁺(ℓ)` over `ℚ` ([§9.5](#s9-5)).
+- `gammaZeroPlus ℓ²` `≅ X_s⁺(ℓ)` over `ℚ` ([§9.5](#95-the-split-cartan-normalizer-quotient)).
 - For a prime p, `w_p` exchanges the two cusps 0 and `∞` of `X₀(p)`, so `X₀⁺(p)` has exactly one cusp, and it is `ℚ`-rational.
 - j does not factor through `π_N`: for `N=2` the values `j(E)` and `j(E/C)` differ for a generic pair.
 - For `N=1` the Fricke map is the identity, so the quotient is `X₀(1)=ℙ¹_ℤ` and `π₁` has degree 1, not 2; this is why the construction is stated for `N≥2`.
@@ -2950,11 +2770,9 @@ The public interface should expose:
 - The noncuspidal fixed points of `w_N` over `ℚ̄` are CM points: a fixed pair gives a cyclic degree-N endomorphism of E, whereas a non-CM curve has only integer multiplications, whose kernels are noncyclic when their degree exceeds one.
 - On `X₀(4)`, `w₄(1/2)=−1/2=[[1,−1],[0,1]]·(1/2)`, with the translation matrix in `Γ₀(4)`. Thus the cusp `1/2` is fixed. Over `ℚ̄` the ramification points of the degree-two map `π_N` are all fixed points of `w_N`, each of index 2; fixed cusps must be included separately from elliptic CM points in its ramification divisor.
 
-*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§5.2](#s5-2); [§5.6](#s5-6); [§5.16](#s5-16); [§9.4](#s9-4); [§9.5](#s9-5); `SchemeAndStackFoundations §1.17`; [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients).
+*Needs:* the finite-normal recognition contract of ModularCurves Layer 10; [§5.2](#52-integral-coarse-modular-curves); [§5.6](#56-the-cyclic-modular-polynomial); [§5.16](#516-coarse-curves-as-quotients); [§9.4](#94-exact-divisor-atkinlehner-operators); [§9.5](#95-the-split-cartan-normalizer-quotient); `SchemeAndStackFoundations §1.17`; [ModularCurves Layer 9D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#9d-coarse-moduli-schemes-and-finite-quotients).
 
 ([Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §6, p.926; proof of Theorem 6.6, p.929; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I, §§1–2, pp.226–227; Chapter II, §1, p.234 (cusp classes and analytic Fricke action); [Roadmap: modular curves, following Katz–Mazur (Tau Ceti roadmap ModularCurves)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves), §9D, smoothness of finite quotients.)
-
-<a id="s9-9"></a>
 
 ### 9.9 Full and cyclic isogeny correspondences
 
@@ -2984,11 +2802,9 @@ The public interface should expose:
 - `m=4` gives seven full subgroups and six cyclic ones. The omitted subgroup is `E[2]`, whose quotient transports P to 2P.
 - `m=6` gives both degrees 12 because squarefree subgroups are cyclic.
 
-*Needs:* [§3.7](#s3-7); [§4.1](#s4-1); [§9.1](#s9-1); [§9.2](#s9-2); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.finite_schematic_closure`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.normalized_finite_correspondence`.
+*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.1](#41-formal-level-structures-at-cusps); [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [ModularCurves Layer 2B](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2b-isogenies-and-quotients); `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.finite_schematic_closure`; `AlgebraicModuliForArithmeticGeometry §5.4/ArithmeticModuli.normalized_finite_correspondence`.
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I §2, p.227; [Bakker–Tsimerman](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p02-p.pdf), §2.5, pp.716–717; [Abelian varieties isogenous to no Jacobian](https://annals.math.princeton.edu/wp-content/uploads/annals-v191-n2-p07-s.pdf), §3.1(ii),(v), pp.645–646.)
-
-<a id="s9-10"></a>
 
 ### 9.10 Hecke composition relations
 
@@ -3001,11 +2817,9 @@ Establish this as follows. For coprime indices split each subgroup into its uniq
 - At `p=2` the cyclic relation has coefficient 3, whereas the full relation has coefficient 2.
 - At `N=11,m=2,n=3` both sides have degree 12.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.9](#s9-9); Tau Ceti `HeckeRing.GL2.heckeT_mul_of_coprime`; [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularForms Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-3-the-petersson-inner-product-adjoints-oldforms-and-newforms).
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.9](#99-full-and-cyclic-isogeny-correspondences); Tau Ceti `HeckeRing.GL2.heckeT_mul_of_coprime`; [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularForms Layer 3](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-3-the-petersson-inner-product-adjoints-oldforms-and-newforms).
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter I §2, p.227; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.2, pp.71–72.)
-
-<a id="s9-11"></a>
 
 ### 9.11 Integral coherent Hecke trace
 
@@ -3031,11 +2845,9 @@ The public interface should expose:
 - For `E₄` at level one, `p=2` and residue characteristic 5, the constant coefficient of `T₂E₄` is `1+2³=9≡4` mod 5; omitting `n=0` wrongly gives zero.
 - The construction needs `k≥1`: `ξ^0` does not give the multiplicative-kernel divisibility argument.
 
-*Needs:* [§3.7](#s3-7); [§4.4](#s4-4); [§9.1](#s9-1); `SchemeAndStackFoundations Layer 2`.
+*Needs:* [§3.7](#37-power-isogenies-at-the-boundary); [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§9.1](#91-compactified-hecke-degeneracy-maps); `SchemeAndStackFoundations Layer 2`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.5.1, Lemma 4.5.2 and Example 4.5.3, pp.46–48.)
-
-<a id="s9-12"></a>
 
 ### 9.12 Finite-coefficient étale correspondence traces
 
@@ -3050,11 +2862,9 @@ Establish this as follows. Import the finite-curve duality trace and prove the d
 - A degree-2 map with `ℓ=2` has `f_*f^*=[2]`, not identity.
 - Absolute Frobenius in characteristic p has degree p and its duality trace retains that factor although it is a bijection on geometric points.
 
-*Needs:* [§9.1](#s9-1); `EtaleCohomologyFoundations §0.8/ClassicalAlgebraic.finiteTrace`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.smoothTrace`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; `ComplexComparisonPartII §§C6.3–C6.6`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); `EtaleCohomologyFoundations §0.8/ClassicalAlgebraic.finiteTrace`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.smoothTrace`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; `ComplexComparisonPartII §§C6.3–C6.6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Theorem 5.1 and Lemmas 5.4,5.7, pp.65–69.)
-
-<a id="s9-13"></a>
 
 ### 9.13 Hecke cycles on projective level curves
 
@@ -3067,7 +2877,7 @@ Establish this as follows. Use the split (a,d,b) Tate branch; `φ_d` has degree 
 - `m=4` gives cyclic multiplier 6, full multiplier 7.
 - For `m=1` the cycle and canonical degree are unchanged; `Γ₁` fine-level geometry is not inferred from this coarse projective statement.
 
-*Needs:* [§2.6](#s2-6); [§3.7](#s3-7); [§5.7](#s5-7); [§9.9](#s9-9); `SchemeAndStackFoundations Layer 5`.
+*Needs:* [§2.6](#26-contraction-along-a-positive-cartier-divisor); [§3.7](#37-power-isogenies-at-the-boundary); [§5.7](#57-projective-scalar-level-quotients); [§9.9](#99-full-and-cyclic-isogeny-correspondences); `SchemeAndStackFoundations Layer 5`.
 
 ([Bakker–Tsimerman](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p02-p.pdf), §2.5, pp.716–717; §6, p.736.)
 
@@ -3081,8 +2891,6 @@ Use Layer 2, Layers 3–5. External contracts: AlgebraicModuliForArithmeticGeome
 
 ## Layer 10: Compatibility of generic components and correspondences
 
-<a id="s10-1"></a>
-
 ### 10.1 Generic components and cusp fields
 
 After the algebraic construction, use Layers 6 and 8 to identify each generic-fibre component of `X_H` with the compactified analytic quotient for its determinant orbit. For honest full level n over `ℚ` the constant algebra is the cyclotomic determinant algebra; fixed pairing over `ℚ(ζ_n)` selects a component. A subgroup H descends these components by its determinant image. Identify the cusp residue fields and smoothing parameters from Layers 3–5’s cyclotomic charts with the rational boundary points and widths in the analytic quotient. On the scalar-framed prime-p quotient, determinant classes modulo squares give exactly two complex components. No analytic comparison is used to construct `X_H`.
@@ -3093,11 +2901,9 @@ Establish this as follows. Apply the earlier component and uniformization theore
 
 - Full level 5: four complex components before scalars, two after scalars, one after fixing an honest primitive pairing.
 
-*Needs:* [§4.3](#s4-3); [§4.8](#s4-8); [§5.2](#s5-2); [§5.7](#s5-7); [§5.19](#s5-19); [§6.1](#s6-1); [§6.3](#s6-3); [§8.1](#s8-1); [§8.3](#s8-3); [§8.5](#s8-5).
+*Needs:* [§4.3](#43-twisted-tate-charts-for-γ₁); [§4.8](#48-tate-and-analytic-cusp-parameters); [§5.2](#52-integral-coarse-modular-curves); [§5.7](#57-projective-scalar-level-quotients); [§5.19](#519-coarse-normalization-comparisons); [§6.1](#61-compact-analyticalgebraic-modular-comparison); [§6.3](#63-cusp-fields-and-pairing-components); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [§8.3](#83-component-fields-and-symplectic-descent); [§8.5](#85-generic-base-change-and-level-compatibility).
 
 ([Bakker–Tsimerman](https://annals.math.princeton.edu/wp-content/uploads/annals-v184-n3-p02-p.pdf), §2.1, pp.713–714; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.3, Theorems 4.3.4 and 4.3.6–4.3.7, pp.38–42.)
-
-<a id="s10-2"></a>
 
 ### 10.2 Classical and geometric Hecke actions
 
@@ -3113,11 +2919,9 @@ Establish this as follows. Compare the maps on the elliptic analytic open with t
 - At `p|N` the regular-differential operator is `U_p`, with no invertible diamond p.
 - For `p∤N` weight two has `a_n(T_pf)=a_(np)+p a_(n/p)(⟨p⟩f)`; a pointwise average would give a different operator.
 
-*Needs:* [§7.2](#s7-2); [§7.3](#s7-3); [§7.4](#s7-4); [§8.1](#s8-1); [§8.5](#s8-5); [§9.1](#s9-1); [§9.2](#s9-2); [§9.3](#s9-3); [§9.9](#s9-9); [§10.1](#s10-1); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra).
+*Needs:* [§7.2](#72-weight-two-cusp-forms-and-regular-differentials); [§7.3](#73-characteristic-zero-pullback-and-trace-actions); [§7.4](#74-the-pullbacktrace-hecke-normalization); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [§8.5](#85-generic-base-change-and-level-compatibility); [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.3](#93-cyclotomic-fricke-involution); [§9.9](#99-full-and-cyclic-isogeny-correspondences); [§10.1](#101-generic-components-and-cusp-fields); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Theorems 5.1–5.2, pp.65–67; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.5, pp.46–48.)
-
-<a id="s10-3"></a>
 
 ### 10.3 Compactified map comparison
 
@@ -3132,11 +2936,9 @@ Establish this as follows. Identify both maps on the elliptic dense open through
 
 - The two legs have different j coordinates. Extension is not obtained by pretending that `π₂` is a map over the same j-line.
 
-*Needs:* [§9.1](#s9-1); [§10.1](#s10-1); `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.FiniteCorrespondence.coarse_finite`; `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.tame_finite_flat_descent`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§10.1](#101-generic-components-and-cusp-fields); `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.FiniteCorrespondence.coarse_finite`; `AlgebraicModuliForArithmeticGeometry §5.3/ArithmeticModuli.tame_finite_flat_descent`.
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.4.3, pp.43–46; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §§5.1–5.2, pp.65–66,71–72.)
-
-<a id="s10-4"></a>
 
 ### 10.4 Hecke normalization and descent
 
@@ -3148,7 +2950,7 @@ Establish this as follows. Compare the classical formula on the Tate cusp and us
 
 - For weight 2 at `p∤N`, the normalized coefficient formula is `a_n(T_pf)=a_(np)(f)+p a_(n/p)(⟨p⟩f)`; the unnormalized coherent trace has an extra factor p.
 
-*Needs:* [§9.9](#s9-9); [§9.11](#s9-11); [§10.2](#s10-2); [§10.3](#s10-3).
+*Needs:* [§9.9](#99-full-and-cyclic-isogeny-correspondences); [§9.11](#911-integral-coherent-hecke-trace); [§10.2](#102-classical-and-geometric-hecke-actions); [§10.3](#103-compactified-map-comparison).
 
 ([Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.5, Theorem 4.5.1 and Example 4.5.3, pp.46–48; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.65–68; §5.2, pp.71–72.)
 
@@ -3163,8 +2965,6 @@ For `m=4` the HNF data are (1,4,b), `0≤b<4`; (2,2,b), `0≤b<2`; and (4,1,0): 
 Use Layer 4, Layer 5, Layer 6, Layer 8, Layer 9. External contracts: AlgebraicModuliForArithmeticGeometry. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 11: Bad fibres and regular or semistable models
-
-<a id="s11-1"></a>
 
 ### 11.1 Igusa components of modular fibres
 
@@ -3187,11 +2987,9 @@ The public interface should expose:
 - The étale-generator description on ordinary curves is not an étale cover at a supersingular point.
 - For `M=1` and `p>3`, the ordinary generator classes up to sign have generic degree `(p−1)/2`; an auxiliary rigidifier changes how this quotient is presented.
 
-*Needs:* [§2.8](#s2-8); [§5.2](#s5-2); [ModularCurves Layer 7F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7f-serretate-theory-with-level-structure); [ModularCurves Layer 7E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7e-p-divisible-groups).
+*Needs:* [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§5.2](#52-integral-coarse-modular-curves); [ModularCurves Layer 7F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7f-serretate-theory-with-level-structure); [ModularCurves Layer 7E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#7e-p-divisible-groups).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.1.3, pp.34–35; §2.1, pp.55–56; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §6.2, p.928; Theorems 6.5–6.6, pp.928–929.)
-
-<a id="s11-2"></a>
 
 ### 11.2 `Γ₀` prime-power local models
 
@@ -3203,7 +3001,7 @@ The public interface should expose:
 - At `n=2` the middle component has multiplicity `p−1`, so the three-component fibre is not reduced for `p>2`.
 - Forgetting the rigidifier requires taking the actual stabilizer quotient; regularity of the deformation ring does not imply regularity of that coarse quotient.
 
-*Needs:* MC7D–MC7F (formal elliptic deformations), MC7G (rigidity), MC8B–MC8C (cyclic generators), [§2.8](#s2-8) and [§11.1](#s11-1).
+*Needs:* MC7D–MC7F (formal elliptic deformations), MC7G (rigidity), MC8B–MC8C (cyclic generators), [§2.8](#28-drinfeld-structures-on-the-smooth-locus) and [§11.1](#111-igusa-components-of-modular-fibres).
 
 ([Katz–Mazur, Arithmetic Moduli of Elliptic Curves](https://press.princeton.edu/books/paperback/9780691083520/arithmetic-moduli-of-elliptic-curves), Theorem 13.4.7; [Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §§1.1.3–1.1.5, pp.34–36, for the rigidified source/target comparison and the unit p-term.)
 
@@ -3217,11 +3015,9 @@ Establish this as follows. Use `cyclicIsogenyDeformationRing` and its source/tar
 - `n=2` has multiplicities `1,p−1,1`; for `p=5` these are 1,4,1, so the coarse fibre is not reduced.
 - At `p=2,3` the rigidified deformation comparison retains its component data, while the wild invariant-ring calculation uses §11.4.
 
-*Needs:* `cyclicIsogenyDeformationRing`; [§2.8](#s2-8); [§5.2](#s5-2); [§11.1](#s11-1).
+*Needs:* `cyclicIsogenyDeformationRing`; [§2.8](#28-drinfeld-structures-on-the-smooth-locus); [§5.2](#52-integral-coarse-modular-curves); [§11.1](#111-igusa-components-of-modular-fibres).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.1.3–1.1.5, pp.34–36; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter III §1, pp.254–255.)
-
-<a id="s11-3"></a>
 
 ### 11.3 The corrected coarse singular locus
 
@@ -3233,11 +3029,9 @@ Establish this as follows. Outside this locus an auxiliary quotient is étale or
 
 - At `p=5,M=1,n=2` the ordinary `j=1728` point on `(1,1)` is singular although it is not supersingular.
 
-*Needs:* [§0.2](#s0-2); [§5.4](#s5-4); [§11.2](#s11-2).
+*Needs:* [§0.2](#02-regular-invariants-and-pseudo-reflections); [§5.4](#54-regularity-at-integral-γ₀-cusps); [§11.2](#112-γ₀-prime-power-local-models).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.1.3–1.1.5 and Theorem 1.1.4.1, pp.34–36; §§1.3.2–1.3.6, pp.39–46; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter III Proposition (1.4), p.255.)
-
-<a id="s11-4"></a>
 
 ### 11.4 Regular resolutions of modular fibres
 
@@ -3262,11 +3056,9 @@ The public interface should expose:
 - For `n=2,p=5` the regular model still has a component of multiplicity 4; regularity does not imply reduced semistability.
 - The resolution of the `p=5` ordinary mixed `j=1728` point contains `a −2` rational exceptional curve; ignoring ordinary singularities misses it.
 
-*Needs:* [§0.2](#s0-2); [§11.2](#s11-2); [§11.3](#s11-3); [StableReduction Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces).
+*Needs:* [§0.2](#02-regular-invariants-and-pseudo-reflections); [§11.2](#112-γ₀-prime-power-local-models); [§11.3](#113-the-corrected-coarse-singular-locus); [StableReduction Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §§1.3.1–1.3.6 and §1.4, pp.38–48.)
-
-<a id="s11-5"></a>
 
 ### 11.5 One-factor mixed-level models
 
@@ -3278,11 +3070,9 @@ Establish this as follows. Use the cyclic p-subgroup deformation on the fine pri
 
 - At `p=2` with `M=5` the fine `Γ₁(M)` marking removes elliptic automorphisms; this is not the same claim as tame coarse `Γ₀(10)` descent.
 
-*Needs:* [§5.2](#s5-2); [§9.1](#s9-1); [§11.2](#s11-2); [ModularCurves Layer 8C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8c-the-axiomatic-isomorphism-theorem-and-the-rings-of-63).
+*Needs:* [§5.2](#52-integral-coarse-modular-curves); [§9.1](#91-compactified-hecke-degeneracy-maps); [§11.2](#112-γ₀-prime-power-local-models); [ModularCurves Layer 8C](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#8c-the-axiomatic-isomorphism-theorem-and-the-rings-of-63).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp.44–46, Figure 3 and sequence (3.1); [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), Theorem 4.4.3, pp.43–46.)
-
-<a id="s11-6"></a>
 
 ### 11.6 Prime-square semistable modular models
 
@@ -3306,11 +3096,9 @@ The public interface should expose:
 - The auxiliary presentation has two outer and two middle vertical components, total four. A six-component vertical list is rejected.
 - A rational component with fewer than three special points can be present in this semistable model; it is contracted in the stable model when stabilization applies.
 
-*Needs:* [§11.1](#s11-1); [§11.4](#s11-4); [StableReduction Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-7-semistable-reduction); [StableReduction Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-8-canonical-contraction-and-unpointed-stable-reduction).
+*Needs:* [§11.1](#111-igusa-components-of-modular-fibres); [§11.4](#114-regular-resolutions-of-modular-fibres); [StableReduction Layer 7](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-7-semistable-reduction); [StableReduction Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-8-canonical-contraction-and-unpointed-stable-reduction).
 
 ([Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §2.1, pp.55–56; §§2.2–2.4, pp.56–65.)
-
-<a id="s11-7"></a>
 
 ### 11.7 Split Cartan semistable fibres
 
@@ -3328,11 +3116,9 @@ The ramification exponent is the natural-number expression `(ℓ²−1)/2`, equa
 - At `k=0` no prime of the prescribed form occurs, so the totalized arithmetic expression has no semistable-model interpretation.
 - `k=1` gives one genus-3 horizontal and three rational vertical leaves; `k=3 (ℓ=37)` gives total genus 45.
 
-*Needs:* [§9.5](#s9-5); [§11.6](#s11-6); [StableReduction Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-1-nodes-normalization-and-dual-graphs).
+*Needs:* [§9.5](#95-the-split-cartan-normalizer-quotient); [§11.6](#116-prime-square-semistable-modular-models); [StableReduction Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-1-nodes-normalization-and-dual-graphs).
 
 ([Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), §6.2, Theorems 6.5–6.6 and their proof, pp.928–929.)
-
-<a id="s11-8"></a>
 
 ### 11.8 Good reduction of the level-13 curve
 
@@ -3345,7 +3131,7 @@ Establish this as follows. For `ℓ=13` specialize the stated quotient graph; co
 - The Jacobian has toric rank zero after the extension because the graph is a tree; a tree alone would not prove smoothness without contracting the leaves.
 - The determinant-2 change of plane coordinates is not an integral isomorphism at 2.
 
-*Needs:* [§11.7](#s11-7); [StableReduction Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces).
+*Needs:* [§11.7](#117-split-cartan-semistable-fibres); [StableReduction Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-4-blowups-and-intersection-theory-on-arithmetic-surfaces).
 
 ([Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), Corollary 6.7, p.929 and first Baran model in §6.3, p.930.)
 
@@ -3358,8 +3144,6 @@ For `p=5` and `N=25`, the ordinary mixed `(1,1)` point with `j=1728` has the eff
 Use Layer 0, Layer 2, Layer 5, Layer 9. External contracts: TauCetiRoadmap StableReduction and ModularCurves. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 12: Modular degeneration data
-
-<a id="s12-1"></a>
 
 ### 12.1 Modular dual graphs and thicknesses
 
@@ -3387,13 +3171,11 @@ The public interface should expose:
 - For `X₀(11)` at 11 there are two supersingular edges of thicknesses 2 and 3: their mass is `1/2+1/3=5/6` and the cycle pairing is `[5]`.
 - For `X₀(13)` at 13 there is one thickness-one edge, mass 1 and no cycle. At p=2,3 the tame automorphism table above does not apply.
 
-*Needs:* [§5.5](#s5-5); [§11.4](#s11-4); [§11.5](#s11-5); [§11.7](#s11-7); `NeronModelsAndSemistableAbelianVarieties` §§4.2–4.7 (`DualGraph.cycleLattice`, `DualGraph.edgeForm` and component cokernel); [StableReduction Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-1-nodes-normalization-and-dual-graphs).
+*Needs:* [§5.5](#55-prime-power-γ₀-cusp-rings); [§11.4](#114-regular-resolutions-of-modular-fibres); [§11.5](#115-one-factor-mixed-level-models); [§11.7](#117-split-cartan-semistable-fibres); `NeronModelsAndSemistableAbelianVarieties` §§4.2–4.7 (`DualGraph.cycleLattice`, `DualGraph.edgeForm` and component cokernel); [StableReduction Layer 1](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-1-nodes-normalization-and-dual-graphs).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, Figure 3 and sequence (3.1), pp.45–46; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), Theorem 6.6 and Figure 1, pp.928–929; [Edixhoven](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf), §1.4, pp.47–48; §2.1, pp.55–56.)
 
 For the prime-level coarse graph and mass formula, use [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), V equation (4.9.1), p.282, and VI §6.16, p.290.
-
-<a id="s12-2"></a>
 
 ### 12.2 Character groups of modular bad fibres
 
@@ -3407,11 +3189,9 @@ Establish this as follows. Use the imported normalized Picard/Néron comparison 
 - For `K_(3,3)` the character lattice has rank 4, not rank equal to its 9 nodes.
 - The ordered `X_s(13)` has genus 8 and a different horizontal/Igusa abelian quotient; the genus-3 Jacobian here belongs to `X_s⁺(13)`.
 
-*Needs:* [§12.1](#s12-1); `NeronModelsAndSemistableAbelianVarieties §4.2`; `NeronModelsAndSemistableAbelianVarieties §4.1`; `NeronModelsAndSemistableAbelianVarieties §R11.4`.
+*Needs:* [§12.1](#121-modular-dual-graphs-and-thicknesses); `NeronModelsAndSemistableAbelianVarieties §4.2`; `NeronModelsAndSemistableAbelianVarieties §4.1`; `NeronModelsAndSemistableAbelianVarieties §R11.4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, sequence (3.1) and character description, pp.45–46; §3.10.2, pp.47–48; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), Theorem 6.6, p.929.)
-
-<a id="s12-3"></a>
 
 ### 12.3 Nearby cycles of modular nodal models
 
@@ -3424,11 +3204,11 @@ Establish this as follows. Verify the exact model’s properness, smooth generic
 - For the level-13 good model `Γ` is a tree, so graph terms vanish and generic `H¹` is the horizontal `H¹`.
 - A thickness-2 node after ramification 3 gives six unit edges; replacing it by only three would give the wrong pairing.
 
-*Needs:* [§12.1](#s12-1); `LefschetzPencilsAndVanishingCycles §7a.1`; `LefschetzPencilsAndVanishingCycles §7a.2`; `LefschetzPencilsAndVanishingCycles §7a.3`; `LefschetzPencilsAndVanishingCycles §7a.5`.
+- For a nodal genus-one special fibre (one rational component, one node) with smooth genus-one generic fibre, the supplied sequences give `H¹(Y)` of rank 1 (graph term only) and generic `H¹` of rank `2=1+1`.
 
-([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp.45–46; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), Theorems 6.5–6.6, pp.928–929.)
+*Needs:* [§12.1](#121-modular-dual-graphs-and-thicknesses); `LefschetzPencilsAndVanishingCycles §7a.1`; `LefschetzPencilsAndVanishingCycles §7a.2`; `LefschetzPencilsAndVanishingCycles §7a.3`; `LefschetzPencilsAndVanishingCycles §7a.5`.
 
-<a id="s12-4"></a>
+(Normalization and specialization sequences, monodromy and ramification scaling: LefschetzPencilsAndVanishingCycles §7a.1, §7a.2 and §7a.5, after [Illusie, Réalisation ℓ-adique de l'accouplement de monodromie](https://www.numdam.org/item/AST_1991__196-197__1_0.pdf), Astérisque 196–197 (1991), §0 for thicknesses, §§1.1–1.5 and §§2.1–2.7. References for the modular nodal models only: [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp.45–46, for the mixed fibre of `X₀(pN)` and its toric part; [Balakrishnan–Dogra–Müller–Tuitman–Vonk](https://annals.math.princeton.edu/wp-content/uploads/annals-v189-n3-p06-s.pdf), Theorems 6.5–6.6, pp.928–929, for explicit semistable models of split Cartan modular curves.)
 
 ### 12.4 Degeneracy maps on modular components
 
@@ -3441,7 +3221,7 @@ Establish this as follows. Label the connected subgroup by ker F and the étale 
 - For `Γ₀` level the diamond is trivial and the special correspondence is Frobenius plus transpose Frobenius, with scheme multiplicities.
 - Do not give the same matrix `[[T_q,q],[−1,0]]` to Jacobians and character groups: the latter uses `[[T_q,−1],[q,0]]` in SerreWeightAndLevelOptimisation’s conventions.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.9](#s9-9); [§12.1](#s12-1); [§12.2](#s12-2).
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.9](#99-full-and-cyclic-isogeny-correspondences); [§12.1](#121-modular-dual-graphs-and-thicknesses); [§12.2](#122-character-groups-of-modular-bad-fibres).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.3, pp.77–79; §3.9, pp.45–46.)
 
@@ -3455,8 +3235,6 @@ Use Layer 5, Layer 9, Layer 11. External contracts: LefschetzPencilsAndVanishing
 
 ## Layer 13: Jacobian functoriality and the integral Hecke action
 
-<a id="s13-1"></a>
-
 ### 13.1 Modular Jacobians and norms
 
 For positive genus, use the relative Jacobian, its dimension and canonical principal polarization supplied by JacobianChallengePartII §§1.2–1.4, together with its arbitrary-base-change comparisons. The names `modularJacobian`, `modularJacobian_dimension`, `modularJacobian_polarization`, `modularJacobian_thetaSpecialization` and `modularJacobian_baseChange` identify these supplied objects and maps on the modular smooth bases. The genus-zero branch, the modular interpretation, the restriction of SchemeAndStackFoundations §3.5's line-bundle norm to relative `Pic⁰`, and the norm/pullback transpose and divisor-class comparisons belong here. JacobianChallenge Layers D–E supply the field comparisons; AbelianSchemesAndArithmeticModuli A2.2 supplies dual abelian schemes.
@@ -3467,7 +3245,7 @@ Establish the comparisons as follows. For a smooth proper geometrically connecte
 
 **Relative theta and specialization.** For each smooth proper geometrically connected curve `C→S` of this subsection, with S locally Noetherian and genus g locally constant, `modularJacobian_thetaSpecialization` is the comparison with JacobianChallengePartII §§1.2–1.4's canonical principal polarization when `g>0`, and with the unique polarization of `J=0` when `g=0`. Under `J_T≅Pic⁰_(C_T/T)`, the supplied polarization satisfies `λ_(C_T)=(λ_C)_T` for every `T→S`, including nonreduced and non-Noetherian T. Its geometric fibres are JacobianChallenge Layer E's canonical field polarizations. On the modular models this identifies specialization over a good-reduction trait as well as field extension; no field map from the fraction field to the residue field is assumed.
 
-(JacobianChallengePartII §§1.2–1.4, `RelativeJacobian.RelativeJacobian`, `RelativeJacobian.jacobianBaseChange` and `RelativeJacobian.PrincipalPolarization`; [Kleiman, The Picard scheme](https://arxiv.org/pdf/math/0504020v1), Remark 5.26, p.51, for relative curve autoduality; [Milne, Jacobian varieties](https://www.jmilne.org/math/xnotes/JVs.pdf), §6, Theorem 6.6, Lemma 6.9 and Summary 6.11, pp.21–24, for the field theta convention.)
+(JacobianChallengePartII §1.2 for the relative Jacobian, §1.3 for its base change and §1.4 for its canonical principal polarization; [Kleiman, The Picard scheme](https://arxiv.org/pdf/math/0504020v1), Remark 5.26, p.51, for relative curve autoduality; [Milne, Jacobian varieties](https://www.jmilne.org/math/xnotes/JVs.pdf), §6, Theorem 6.6, Lemma 6.9 and Summary 6.11, pp.21–24, for the field theta convention.)
 
 **Checks.**
 
@@ -3499,13 +3277,11 @@ The public interface should expose:
 - For a degree-2 map, norm after pullback is [2], not an identity retraction.
 - On `X₀(11)`, `[P−∞]` identifies the genus-one curve with its Jacobian and commutes with coefficient conjugation; on `ℙ¹` both degree-zero class group and Jacobian vanish.
 
-*Needs:* `JacobianChallengePartII` §§1.2–1.4 (`RelativeJacobian.RelativeJacobian`, `RelativeJacobian.jacobianBaseChange`, `RelativeJacobian.PrincipalPolarization`); `SchemeAndStackFoundations §3.5/lineBundleNorm`; [§5.2](#s5-2); [§5.3](#s5-3); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.6.1a/sectionPicardSplit`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity) (relative ampleness and polarized étale descent); `AbelianSchemesAndArithmeticModuli` A2.2–A2.5 (dual schemes and polarizations), A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
+*Needs:* `JacobianChallengePartII` §§1.2–1.4 (relative Jacobian, base change, canonical principal polarization); `SchemeAndStackFoundations §3.5/lineBundleNorm`; [§5.2](#52-integral-coarse-modular-curves); [§5.3](#53-base-change-for-coarse-modular-curves); [JacobianChallenge Layer D](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-d-the-relative-picard-functor-and-the-jacobian-scheme); [JacobianChallenge Layer E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-e-abelian-varieties); `AlgebraicModuliForArithmeticGeometry §7.6.1a/sectionPicardSplit`; [StableReduction Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/StableReduction#layer-2-coherent-curve-theory-duality-and-positivity) (relative ampleness and polarized étale descent); `AbelianSchemesAndArithmeticModuli` A2.2–A2.5 (dual schemes and polarizations), A6.25 (`relativeHom`); `NeronModelsAndSemistableAbelianVarieties §R11.1`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, Lemma 5.4 and Definitions 5.5–5.6, pp.67–68; §5.2, pp.70–72.)
 
 For the divisor-class identification, use [Milne, Jacobian varieties](https://www.jmilne.org/math/xnotes/JVs.pdf), §1, Theorem 1.1 and the description of the canonical divisor-class map in §2, pp.2–6; the modular Hecke compatibility uses the norm and conorm comparison of §13.2.
-
-<a id="s13-2"></a>
 
 ### 13.2 Upper and lower Jacobian Hecke operators
 
@@ -3546,11 +3322,9 @@ The public interface should expose:
 - For `p∣N` the geometric operator is `U_p`; there is no `⟨p⟩` unit to insert.
 - For `Γ₀(N)` good p the diamond is trivial and upper/lower agree, but this equality is not imposed on general `Γ₁` level.
 
-*Needs:* [§7.2](#s7-2); [§7.3](#s7-3); [§7.4](#s7-4); JacobianChallenge Layers B, E and F; [§9.1](#s9-1); [§9.2](#s9-2); [§9.10](#s9-10); [§9.12](#s9-12); [§10.2](#s10-2); [§13.1](#s13-1); `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`).
+*Needs:* [§7.2](#72-weight-two-cusp-forms-and-regular-differentials); [§7.3](#73-characteristic-zero-pullback-and-trace-actions); [§7.4](#74-the-pullbacktrace-hecke-normalization); JacobianChallenge Layers B, E and F; [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.10](#910-hecke-composition-relations); [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§10.2](#102-classical-and-geometric-hecke-actions); [§13.1](#131-modular-jacobians-and-norms); `AbelianSchemesAndArithmeticModuli` A6.25 (`relativeHom`).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 Definitions 5.5–5.6, p.68; §5.2, pp.71–72.)
-
-<a id="s13-3"></a>
 
 ### 13.3 The geometric integral Hecke algebra
 
@@ -3583,13 +3357,11 @@ The public interface should expose:
 - Bad `U_q` are not among the anemic generators, and equality with the full image requires a theorem. A characteristic-zero primitive eigensystem can occur repeatedly at a higher old level, so `J[m]` is not declared two-dimensional.
 - At `Γ₀(11)`, `T₂=−2`; the Eisenstein relation `T₂−3` is `−5`, and the order-five cuspidal class supports the reduction of the system. At genus zero the image is the zero ring and has no maximal ideal or unital character into a nonzero field.
 
-*Needs:* [§13.2](#s13-2); `AutomorphicFormsOnReductiveGroups` §§5.8 and 7.3 (common arithmetic eigensystems); `AbelianSchemesAndArithmeticModuli` A4.1 and A6.7 (Tate modules and the integral Hom injection); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
+*Needs:* [§13.2](#132-upper-and-lower-jacobian-hecke-operators); `AutomorphicFormsOnReductiveGroups` §§5.8 and 7.3 (common arithmetic eigensystems); `AbelianSchemesAndArithmeticModuli` A4.1 and A6.7 (Tate modules and the integral Hom injection); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.66–69; §5.2, pp.71–72; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter V §1, p.306.)
 
 For residual eigen-ideal support, use [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §§3.2–3.3, Proposition 3.2, pp.34–36. For the Eisenstein system and its action on the rational cusp difference, use [Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0/), II §§9 and 11, Proposition 11.1, pp.94–98; the prime-level component realization is §17.5.
-
-<a id="s13-4"></a>
 
 ### 13.4 Polarization and Hecke adjoints
 
@@ -3602,11 +3374,9 @@ Establish this as follows. Use norm/pullback polarization transposes to compute 
 - For `Γ₀` good p the diamond is trivial and `T_p` is self-adjoint.
 - Negating the cup form changes the comparison sign but not the norm–pullback transpose; a convention-free equality would fail.
 
-*Needs:* [§9.2](#s9-2); [§9.3](#s9-3); [§9.12](#s9-12); [§13.2](#s13-2); `AbelianSchemesAndArithmeticModuli` A3.7.
+*Needs:* [§9.2](#92-diamond-operators); [§9.3](#93-cyclotomic-fricke-involution); [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); `AbelianSchemesAndArithmeticModuli` A3.7.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 Theorem 5.2 and Corollary 5.3, p.66; Lemma 5.7, pp.68–69; Theorem 5.8, p.69.)
-
-<a id="s13-5"></a>
 
 ### 13.5 The modular Jacobian Tate module
 
@@ -3635,11 +3405,9 @@ The public interface should expose:
 - Composition of finite maps gives the composite Picard norm and the composite adic trace; their degree factors multiply.
 - Reducing the inverse-limit trace at `ℓⁿ` agrees with §9.12’s finite trace on `H¹_et(C,μ_(ℓⁿ))`.
 
-*Needs:* [§9.12](#s9-12); [§13.1](#s13-1); [§13.2](#s13-2); [§13.3](#s13-3); [§13.4](#s13-4); `AbelianSchemesAndArithmeticModuli` A4.1; `AbelianSchemesAndArithmeticModuli` A6.7 (`homFreeFinite`); `NeronModelsAndSemistableAbelianVarieties` §5.0a (finite-étale specialization of abelian torsion) and §5.0b (good reduction and the Frobenius polynomial).
+*Needs:* [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§13.1](#131-modular-jacobians-and-norms); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.3](#133-the-geometric-integral-hecke-algebra); [§13.4](#134-polarization-and-hecke-adjoints); `AbelianSchemesAndArithmeticModuli` A4.1; `AbelianSchemesAndArithmeticModuli` A6.7 (`homFreeFinite`); `NeronModelsAndSemistableAbelianVarieties` §5.0a (finite-étale specialization of abelian torsion) and §5.0b (good reduction and the Frobenius polynomial).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.67–69; §5.2, pp.72–73.)
-
-<a id="s13-6"></a>
 
 ### 13.6 The rational coefficient pairing
 
@@ -3652,12 +3420,9 @@ Establish this as follows. If `β(T,f)=0` for all T, each Fourier coefficient of
 - `Γ₀(1)`: both sides have dimension 0. `Γ₀(11)`: both have dimension 1.
 - A determinant of an integral pairing need not be `±1` merely because its rationalization is perfect.
 
-*Needs:* [§7.2](#s7-2); [§7.5](#s7-5); [§7.6](#s7-6); [§8.1](#s8-1); [§10.2](#s10-2); [§13.2](#s13-2); [§13.3](#s13-3).
+*Needs:* [§7.2](#72-weight-two-cusp-forms-and-regular-differentials); [§7.5](#75-the-full-hecke-first-coefficient-pairing); [§7.6](#76-perfection-of-the-full-hecke-pairing); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [§10.2](#102-classical-and-geometric-hecke-actions); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.3](#133-the-geometric-integral-hecke-algebra).
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter V §1, p.306.)
-
-<a id="s13-7"></a>
-<a id="integral-dualizing-forms"></a>
 
 ### 13.7 Integral weight-two forms and dualizing differentials
 
@@ -3676,12 +3441,9 @@ Let `A(R)` and `A⁰(R)` instead be moduli-theoretic sections of `ω_E²`, holom
 - The form with expansion `E₂(q)−P E₂(q^P)` lies in `B(ℤ)` and has a denominator P at the other cusp as a moduli-theoretic weight-two form; it is not in `A(ℤ)`.
 - In the fibre of `X₀(55)` at 5, a nonzero regular differential on the genus-one component not meeting ∞, extended by zero on the other component, has zero expansion at ∞. Its node residues vanish. The prime-level single-cusp injection does not extend to this fibre.
 
-*Needs:* [§4.1](#s4-1), [§4.4](#s4-4) and [§4.8](#s4-8) (integral cusp charts and section detection); [§5.2](#s5-2)–[§5.4](#s5-4) (coarse models and base change); [§7.1](#s7-1)–[§7.2](#s7-2) (Hodge normalization and generic comparison); [§11.2](#s11-2)–[§11.4](#s11-4) (fibres and resolutions); SchemeAndStackFoundations §0.6 (reflexive extension), §2.20 (SF.2, relative dualizing module and curve comparison); StableReduction Layer 2 (curve duality). The general dualizing sheaf is imported.
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps), [§4.4](#44-boundary-carriers-and-hodge-evaluation) and [§4.8](#48-tate-and-analytic-cusp-parameters) (integral cusp charts and section detection); [§5.2](#52-integral-coarse-modular-curves)–[§5.4](#54-regularity-at-integral-γ₀-cusps) (coarse models and base change); [§7.1](#71-the-hodge-line-and-the-automorphy-factor)–[§7.2](#72-weight-two-cusp-forms-and-regular-differentials) (Hodge normalization and generic comparison); [§11.2](#112-γ₀-prime-power-local-models)–[§11.4](#114-regular-resolutions-of-modular-fibres) (fibres and resolutions); SchemeAndStackFoundations §0.6 (reflexive extension), §2.20 (SF.2, relative dualizing module and curve comparison); StableReduction Layer 2 (curve duality). The general dualizing sheaf is imported.
 
 ([Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), II Definition 3.1, Lemma and Proposition 3.3, Proposition 3.4, pp.67–69; §4, Lemmas 4.4–4.8 and convention 4.9, pp.73–77; §5, pp.78–87. For arbitrary-level regular models and their Tate expansion, [Mazur, Rational isogenies of prime degree](https://www.math.columbia.edu/~goldfeld/Mazur-Goldfeld1978.pdf), §2, especially §2(e), pp.138–141. The two-component composite-level fibre is the `n=1` case of §11.2.)
-
-<a id="s13-8"></a>
-<a id="integral-modular-serre-duality"></a>
 
 ### 13.8 Integral Serre duality and residues
 
@@ -3698,12 +3460,9 @@ For a relative effective Cartier cusp divisor D finite flat over R in the smooth
 - In characteristic 2, the two node residues can be equal and nonzero: their sum is still zero. The duality pairing remains perfect.
 - The characteristic-2/3 pole allowed in A at the wild elliptic point is excluded from `H⁰(ω(D))=B`; replacing B by A would give the wrong residue sequence.
 
-*Needs:* [§13.7](#integral-dualizing-forms); SchemeAndStackFoundations §2.6 (coherent cohomology and base change), §2.20 (SF.2, proper duality and curve comparison); StableReduction Layer 2 (nodal duality and normalization); JacobianChallenge Layers B–C (curve cohomology and base change).
+*Needs:* [§13.7](#137-integral-weight-two-forms-and-dualizing-differentials); SchemeAndStackFoundations §2.6 (coherent cohomology and base change), §2.20 (SF.2, proper duality and curve comparison); StableReduction Layer 2 (nodal duality and normalization); JacobianChallenge Layers B–C (curve cohomology and base change).
 
 ([Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), II Definition 3.1, duality (3.2), Lemma and Proposition 3.3, Proposition 3.4, pp.67–69; Lemma 4.6 and convention 4.9, pp.76–77; §5, residue formulas (5.14)–(5.16), pp.86–87; [Stacks 0E6N](https://stacks.math.columbia.edu/tag/0E6N), relative curve duality, and [0E2Y](https://stacks.math.columbia.edu/tag/0E2Y), derived base change.)
-
-<a id="s13-9"></a>
-<a id="integral-hecke-duality-compatibility"></a>
 
 ### 13.9 Integral Hecke adjoints under Serre duality
 
@@ -3721,7 +3480,7 @@ At prime level `P≥5`, prove that every good `T_l` (`l≠P`), the integral Fric
 - The specialized maps land in the node residue-sum kernel; trace retains the scheme-theoretic multiplicities on inseparable branches. Counting geometric points loses the degree.
 - At `P=5` in characteristic 2 or `P=7` in characteristic 3, the construction acts on B and its dual, retaining the elliptic-point correction to A from §13.7.
 
-*Needs:* [§13.7](#integral-dualizing-forms)–[§13.8](#integral-modular-serre-duality); [§7.3](#s7-3)–[§7.4](#s7-4); [§9.1](#s9-1), [§9.4](#s9-4) and [§9.9](#s9-9)–[§9.10](#s9-10) (geometric correspondences, Fricke and coherent trace); [§10.2](#s10-2) (integral normalization); [§11.4](#s11-4); [§13.1](#s13-1)–[§13.2](#s13-2); SchemeAndStackFoundations §§2.19–2.21 (proper coherent trace and duality); StableReduction Layer 2.
+*Needs:* [§13.7](#137-integral-weight-two-forms-and-dualizing-differentials)–[§13.8](#138-integral-serre-duality-and-residues); [§7.3](#73-characteristic-zero-pullback-and-trace-actions)–[§7.4](#74-the-pullbacktrace-hecke-normalization); [§9.1](#91-compactified-hecke-degeneracy-maps), [§9.4](#94-exact-divisor-atkinlehner-operators) and [§9.9](#99-full-and-cyclic-isogeny-correspondences)–[§9.10](#910-hecke-composition-relations) (geometric correspondences, Fricke and coherent trace); [§10.2](#102-classical-and-geometric-hecke-actions) (integral normalization); [§11.4](#114-regular-resolutions-of-modular-fibres); [§13.1](#131-modular-jacobians-and-norms)–[§13.2](#132-upper-and-lower-jacobian-hecke-operators); SchemeAndStackFoundations §§2.19–2.21 (proper coherent trace and duality); StableReduction Layer 2.
 
 ([Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), II §6, pp.87–90, especially the construction of dual maps on p.88 and adjointness on p.89; §9, pp.93–96, for the differential and `H¹(O)` realizations; §4, pp.69–77, for the coefficient lattices. The general leg conventions and integral Hecke extension are §§9.1, 9.10 and 13.2.)
 
@@ -3735,8 +3494,6 @@ At prime level `P≥5`, prove that every good `T_l` (`l≠P`), the integral Fric
 Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10, Layer 11. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, JacobianChallengePartII, NeronModelsAndSemistableAbelianVarieties, SchemeAndStackFoundations and StableReduction. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 14: Cohomological realizations and parabolic lattices
-
-<a id="s14-1"></a>
 
 ### 14.1 Geometric weight coefficient systems
 
@@ -3765,11 +3522,9 @@ The public interface should expose:
 - For `r=0` the coefficient system is constant; for `r=1` its fibre has rank two.
 - No universal elliptic family is silently put on a coarse level-one curve.
 
-*Needs:* [§3.2](#s3-2); [§3.5](#s3-5); [§4.12](#s4-12); `AbelianSchemesAndArithmeticModuli §A4`; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`; Tau Ceti `Representation.symmetricPower`; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent); Tau Ceti `SymmetricPower.finrank_eq`.
+*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§3.5](#35-fine-loci-and-bad-level-inertia); [§4.12](#412-agreement-on-the-ordinary-and-tame-loci); `AbelianSchemesAndArithmeticModuli §A4`; Tau Ceti `TauCeti.LocalCoefficientSystem`; Tau Ceti `TauCeti.LocalCoefficientSystem.pullback`; Tau Ceti `Representation.symmetricPower`; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent); Tau Ceti `SymmetricPower.finrank_eq`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), §§3.9–3.11, pp. 154–156; §3.16, pp. 157–158.)
-
-<a id="s14-2"></a>
 
 ### 14.2 Finite and adic parabolic cohomology
 
@@ -3781,7 +3536,7 @@ Adic notation denotes the inverse-limit lattice, not merely tensoring rational D
 
 Establish this as follows. Import absolute and relative twisted cochains and compact supports from AlgebraicTopology, and finite étale cohomology from EtaleCohomologyFoundations §§F.1–F.4. Construct the map forgetting support; use its image submodule as the parabolic group. Use the boundary exact sequence to compare with compactification cohomology; establish finite coefficient transition maps before taking limits.
 
-Use Mathlib's image submodule for the actual support map, with its canonical inclusion in ordinary cohomology. Membership means `x=u(y)` for a compact-support class y. A commuting square `b∘u=v∘a` induces a map of the images, respecting identities and composition. For proper `Y=X`, the support map is an isomorphism. Under the finite generation and transition hypotheses of [§14.4](#s14-4), the finite-level parabolic system recovers the specified O-lattice.
+Use Mathlib's image submodule for the actual support map, with its canonical inclusion in ordinary cohomology. Membership means `x=u(y)` for a compact-support class y. A commuting square `b∘u=v∘a` induces a map of the images, respecting identities and composition. For proper `Y=X`, the support map is an isomorphism. Under the finite generation and transition hypotheses of [§14.4](#144-integral-comparison-and-change-of-level), the finite-level parabolic system recovers the specified O-lattice.
 
 **Checks.**
 
@@ -3792,11 +3547,9 @@ Use Mathlib's image submodule for the actual support map, with its canonical inc
 - On an open genus-zero curve, ordinary boundary classes need not be parabolic.
 - The degree-one pro-étale `ℤ_ℓ` carrier in Mathlib is an untwisted comparison target, not the whole coefficient API.
 
-*Needs:* [§14.1](#s14-1); [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; Mathlib `LinearMap.range`; Mathlib `AlgebraicGeometry.Scheme.EllAdicCohomology`.
+*Needs:* [§14.1](#141-geometric-weight-coefficient-systems); [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; Mathlib `LinearMap.range`; Mathlib `AlgebraicGeometry.Scheme.EllAdicCohomology`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9, pp. 154–155; (3.20), pp. 159–160.)
-
-<a id="s14-3"></a>
 
 ### 14.3 Boundary and interior cohomology
 
@@ -3815,23 +3568,21 @@ Establish this as follows. Apply the localization triangle for `j_!` and `Rj_*`;
 - `Y=X ∖ {one cusp}` has no additional ordinary degree-one rank; with two cusps it has one boundary generator.
 - Do not replace `H¹_par` by all of `H¹` before a localization argument.
 
-*Needs:* [§14.2](#s14-2); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.7/ClassicalAlgebraic.supportLocalization`.
+*Needs:* [§14.2](#142-finite-and-adic-parabolic-cohomology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.7/ClassicalAlgebraic.supportLocalization`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and (3.20), pp. 154–155, 159–160.)
-
-<a id="s14-4"></a>
 
 ### 14.4 Integral comparison and change of level
 
 For the supplied smooth finite-type modular curves over `Q̄`, a chosen embedding `Q̄↪C`, and finite locally constant `ℤ/ℓⁿ` coefficients from the universal family, Artin comparison gives `H^i_et(Y,L_{r,ℓ,n})≅H^i_B(Y_an,L_{r,B}/ℓⁿ)`, with compact-support analogues and their support maps. These identify finite parabolic images. After proving the required inverse-limit exactness and finite generation, they give the adic comparison; for `r=0` this also identifies the actual compact-curve lattice with Mathlib’s pro-étale EllAdicCohomology in degree one. Pullback, trace, cup product and level maps commute with comparison.
 
-Through the finite-pair adapter of [§14.4a](#s14-4a), on a neat fine `GL₂/ℚ` level also identify these Betti complexes with the corresponding connected component of ArithmeticLocallySymmetricSpaces ALS.1. Compare the `R¹f_*` fibre with the dual of the elliptic homology lattice, carrying its row-frame action; match parallel transport with ALS.1.1’s action by the inverse of the lifted loop endpoint. The comparison identifies the support/boundary triangle, Hecke pullback and unnormalized trace, and finite-cover descent with ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3. Descend to other torsion-free fine levels only through the proved cover comparison. The elliptic isogeny coefficient maps and modular cusp-inertia computation are those of §§14.1 and 14.3. Adjoint-ideal transport under this comparison is §14.11. The shared interface uses no higher-rank Eisenstein theorem or conditional Galois input.
+Through the finite-pair adapter of [§14.4a](#144a-the-modular-borelserre-pair-and-adic-adapter), on a neat fine `GL₂/ℚ` level also identify these Betti complexes with the corresponding connected component of ArithmeticLocallySymmetricSpaces ALS.1. Compare the `R¹f_*` fibre with the dual of the elliptic homology lattice, carrying its row-frame action; match parallel transport with ALS.1.1’s action by the inverse of the lifted loop endpoint. The comparison identifies the support/boundary triangle, Hecke pullback and unnormalized trace, and finite-cover descent with ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3. Descend to other torsion-free fine levels only through the proved cover comparison. The elliptic isogeny coefficient maps and modular cusp-inertia computation are those of §§14.1 and 14.3. Adjoint-ideal transport under this comparison is §14.11. The shared interface uses no higher-rank Eisenstein theorem or conditional Galois input.
 
 The row-frame comparison uses §§3.14, 4.5 and 6.1's transported family maps: the swap K conjugates the integral homology matrices, the positive-frame period map is `F_γ`, and forgetting to the standard point or cyclic marking uses S and `z↦z/τ`. On relative `H¹` use the dual pullback maps, and on `L_r` their `Sym^r`, for every `r≥0`. Thus the level, support and Hecke diagrams retain their coefficient maps under the same coordinate transport.
 
-Here the arithmetic O-adic support/ordinary/boundary triangle means `Rlim_n` of the finite `O/πⁿ` triangles, and its K-realization means tensoring that O-complex with K. It is compared with finite cellular O-cochains by §14.4a, without invoking an ALS complex formed directly from an arbitrary O-valued sheaf. Finite cohomology systems are Mittag–Leffler; reduction modulo `π` commutes in degree one only under the torsion hypotheses of [§14.10](#s14-10).
+Here the arithmetic O-adic support/ordinary/boundary triangle means `Rlim_n` of the finite `O/πⁿ` triangles, and its K-realization means tensoring that O-complex with K. It is compared with finite cellular O-cochains by §14.4a, without invoking an ALS complex formed directly from an arbitrary O-valued sheaf. Finite cohomology systems are Mittag–Leffler; reduction modulo `π` commutes in degree one only under the torsion hypotheses of [§14.10](#1410-finite-generation-and-localized-integral-freeness).
 
-Establish this as follows. Import Artin’s comparison with locally constant and compactly supported coefficients from ComplexComparisonPartII §§C6.3–C6.6. Use naturality with `j_!→Rj_*` and finite correspondences; apply the coefficient comparison from [§14.1](#s14-1). Apply finite generation (EtaleCohomologyFoundations §F.3) and Mittag–Leffler exactness to the finite systems, and prove here the comparison of the degree-one limit with Mathlib’s pro-étale carrier.
+Establish this as follows. Import Artin’s comparison with locally constant and compactly supported coefficients from ComplexComparisonPartII §§C6.3–C6.6. Use naturality with `j_!→Rj_*` and finite correspondences; apply the coefficient comparison from [§14.1](#141-geometric-weight-coefficient-systems). Apply finite generation (EtaleCohomologyFoundations §F.3) and Mittag–Leffler exactness to the finite systems, and prove here the comparison of the degree-one limit with Mathlib’s pro-étale carrier.
 
 **Checks.**
 
@@ -3841,11 +3592,9 @@ Establish this as follows. Import Artin’s comparison with locally constant and
 - At `r=0` the boundary triangle gives §14.3’s residue-sum sequence, with the same support map in the arithmetic Betti complex.
 - For a finite `Δ`-cover the trace of pullback is `|Δ|`; integral descent keeps derived invariants when `|Δ|` is not a unit.
 
-*Needs:* [§14.4a](#s14-4a); ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#s14-1); [§14.2](#s14-2); ComplexComparisonPartII §§C6.3–C6.6 and EtaleCohomologyFoundations §§F.1–F.4; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
+*Needs:* [§14.4a](#144a-the-modular-borelserre-pair-and-adic-adapter); ArithmeticLocallySymmetricSpaces §§ALS.1.1–ALS.1.8, ALS.3.5–ALS.3.9, ALS.4.1 and ALS.6.1–ALS.6.3 (the shared Betti/support and cover interfaces); [§14.1](#141-geometric-weight-coefficient-systems); [§14.2](#142-finite-and-adic-parabolic-cohomology); ComplexComparisonPartII §§C6.3–C6.6 and EtaleCohomologyFoundations §§F.1–F.4; `EtaleCohomologyFoundations §§F.1–F.4`; [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `AlgebraicGeometry.Scheme.ellAdicSheaf`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and discussion of W_ℓ, pp. 154–156; corollary following Theorem 4.1, printed as Corollaire 3.2, p. 161.)
-
-<a id="s14-4a"></a>
 
 ### 14.4a The modular Borel–Serre pair and adic adapter
 
@@ -3868,11 +3617,9 @@ Establish this as follows. Truncate the disjoint cusp horodiscs of FuchsianOrbif
 - Take a fine modular cover with deck group `C_ℓ`, for example a congruence cover inside `Γ(5)` obtained by a unipotent `C_ℓ` subgroup modulo an odd `ℓ≠5`. Its lifted cells are free `C_ℓ`-orbits. For constant `A_1` coefficients, trace after pullback is `ℓ=0`. At a cusp with degree-`ℓ` circle cover, pullback on `H¹` is zero although upstairs `H¹` has invariant module `A_1`. Thus descent must compare `RΓ(C_ℓ,C^•)`, not ordinary invariants of cohomology. The same equivariant diagram survives `Rlim_n`.
 - Collapsing a boundary circle with nontrivial cusp monodromy would lose the boundary complex and fails the support comparison.
 
-*Needs:* FuchsianOrbifolds Layers 2–4; ArithmeticLocallySymmetricSpaces §§ALS.F.3, ALS.1.4, ALS.2.1–ALS.2.4 and ALS.5a.3–ALS.5a.5, restricted to finite coefficient systems; ComplexComparisonPartII §§C6.1, C6.3–C6.6; DerivedModuleAlgebra §§1.T.1 and 1.1; AlgebraicTopology Stages 2, 5 and 6; [§14.1](#s14-1).
+*Needs:* FuchsianOrbifolds Layers 2–4; ArithmeticLocallySymmetricSpaces §§ALS.F.3, ALS.1.4, ALS.2.1–ALS.2.4 and ALS.5a.3–ALS.5a.5, restricted to finite coefficient systems; ComplexComparisonPartII §§C6.1, C6.3–C6.6; DerivedModuleAlgebra §§1.T.1 and 1.1; AlgebraicTopology Stages 2, 5 and 6; [§14.1](#141-geometric-weight-coefficient-systems).
 
 *Source:* [Borel–Serre, Corners and arithmetic groups](https://www.e-periodica.ch/iiif/com-001:1973:48::32/manifest), §7.3, p.464, §9.3, pp.475–476 (the rank-one boundary), and §11.1, p.481; [Hatcher](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), §2.2 (relative cellular chains) and §3.H (local coefficients); [Stacks, tag 07KW](https://stacks.math.columbia.edu/tag/07KW) (derived limits and Mittag–Leffler exactness).
-
-<a id="s14-5"></a>
 
 ### 14.5 The weight-two Shimura isomorphism is Hecke-equivariant
 
@@ -3888,11 +3635,9 @@ Establish this as follows. Hodge decomposition of the compact Riemann surface `X
 - Its antiholomorphic class `Sh(ḟ)` is nonzero and independent of `Sh(f)`; these span the two-dimensional `H¹` of the genus-one `X₁(11)`.
 - The identity correspondence acts as the identity on both cusp-form summands and on `H¹`, and Sh intertwines these actions.
 
-*Needs:* [§7.3](#s7-3); [§7.4](#s7-4); [§7.1](#s7-1); [§7.2](#s7-2); [§9.11](#s9-11); [§13.1](#s13-1); [§13.2](#s13-2); [§14.4](#s14-4); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
+*Needs:* [§7.3](#73-characteristic-zero-pullback-and-trace-actions); [§7.4](#74-the-pullbacktrace-hecke-normalization); [§7.1](#71-the-hodge-line-and-the-automorphy-factor); [§7.2](#72-weight-two-cusp-forms-and-regular-differentials); [§9.11](#911-integral-coherent-hecke-trace); [§13.1](#131-modular-jacobians-and-norms); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§14.4](#144-integral-comparison-and-change-of-level); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 64 (printed page; PDF page 68); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 65 (printed page; PDF page 69).)
-
-<a id="s14-6"></a>
 
 ### 14.6 Cup product and the Petersson product
 
@@ -3908,11 +3653,9 @@ Establish this as follows. Use the Sh of §14.5 and integrate harmonic represent
 - Reversing the two cohomology classes changes the sign.
 - Multiplying the pairing by this common nonzero scalar preserves all adjoint conclusions of §14.7.
 
-*Needs:* [§7.2](#s7-2); [§14.5](#s14-5); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
+*Needs:* [§7.2](#72-weight-two-cusp-forms-and-regular-differentials); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 66 (printed page; PDF page 70).)
-
-<a id="s14-7"></a>
 
 ### 14.7 Hecke operators are self-adjoint for the `w_ζ`-twisted pairing
 
@@ -3920,7 +3663,7 @@ With `[x, y] = (x, w^*_ζ y)` for `ζ = e^{2πi/N}`, every `T ∈ T₁(N)` is se
 
 `T₁(N) ⊂ End_ℤ H¹(X₁(N)^an, ℤ)` generated by the `T_p^*` and `⟨n⟩^*`; commutative and finite flat over `ℤ` (Tau Ceti ModularForms Layer 8 owns the integral Hecke algebra).
 
-Establish this as follows. Transport the classical Petersson adjoints (`T_p` for `p | N` via `w_N`) through [§14.6](#s14-6). Contravariance applied to `w_{ζ^j}∘w_ζ=I_j` gives `w^*_ζ∘w^*_{ζ^j}=⟨j⟩^*`, equivalently `w^*_{ζ^j}∘w^*_ζ=⟨j⁻¹⟩^*`. This commuting diamond unit reduces general `ζ` to `e^{2πi/N}`.
+Establish this as follows. Transport the classical Petersson adjoints (`T_p` for `p | N` via `w_N`) through [§14.6](#146-cup-product-and-the-petersson-product). Contravariance applied to `w_{ζ^j}∘w_ζ=I_j` gives `w^*_ζ∘w^*_{ζ^j}=⟨j⟩^*`, equivalently `w^*_{ζ^j}∘w^*_ζ=⟨j⁻¹⟩^*`. This commuting diamond unit reduces general `ζ` to `e^{2πi/N}`.
 
 **Checks.**
 
@@ -3928,11 +3671,9 @@ Establish this as follows. Transport the classical Petersson adjoints (`T_p` for
 - At `N=13,j=3`, the reversed pullback product is `⟨9⟩^*`, while `w^*_ζ∘w^*_{ζ³}=⟨3⟩^*`; these inverse diamonds have order three and are distinct.
 - For `p|N` the adjoint of `U_p` for the ordinary cup pairing is `w^*_ζ U_p w^*_ζ`, so `U_p` is self-adjoint for [·,·].
 
-*Needs:* [§9.2](#s9-2); [§9.3](#s9-3); [§10.2](#s10-2); [§13.2](#s13-2); [§13.4](#s13-4); [§14.6](#s14-6).
+*Needs:* [§9.2](#92-diamond-operators); [§9.3](#93-cyclotomic-fricke-involution); [§10.2](#102-classical-and-geometric-hecke-actions); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.4](#134-polarization-and-hecke-adjoints); [§14.6](#146-cup-product-and-the-petersson-product).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 66 (printed page; PDF page 70).)
-
-<a id="s14-8"></a>
 
 ### 14.8 Hecke operators with relative coefficients
 
@@ -3947,11 +3688,9 @@ Establish this as follows. Import the geometric correspondence and finite-map tr
 - At `r=0` this recovers the weight-two Shimura convention.
 - Changing the isogeny pullback to its dual without changing Tate twists must fail the pairing adjoint test.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§9.10](#s9-10); [§9.12](#s9-12); [§13.5](#s13-5); [§14.2](#s14-2); [§14.4](#s14-4); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.10](#910-hecke-composition-relations); [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§13.5](#135-the-modular-jacobian-tate-module); [§14.2](#142-finite-and-adic-parabolic-cohomology); [§14.4](#144-integral-comparison-and-change-of-level); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); `EtaleCohomologyFoundations §§F.1–F.4`; `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`.
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Propositions 3.18–3.19 and (3.20), pp. 158–160.)
-
-<a id="s14-9"></a>
 
 ### 14.9 Non-Eisenstein removal of the boundary
 
@@ -3974,11 +3713,9 @@ Use exact localization along the composition series to kill every residual bound
 - For a connected Y, constants have `T_q=1+q` and trivial diamonds, so their localization vanishes at every non-Eisenstein m.
 - The statement does not demand a Galois representation theorem to define non-Eisenstein localization.
 
-*Needs:* [§4.1](#s4-1); [§5.11](#s5-11); [§9.2](#s9-2); [§9.9](#s9-9); [§10.2](#s10-2); [§14.3](#s14-3); [§14.4a](#s14-4a); [§14.8](#s14-8); IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and local-factor summands); Mathlib `IsLocalizedModule.map_exact`.
+*Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§5.11](#511-cusps-of-x_h-away-from-the-level); [§9.2](#92-diamond-operators); [§9.9](#99-full-and-cyclic-isogeny-correspondences); [§10.2](#102-classical-and-geometric-hecke-actions); [§14.3](#143-boundary-and-interior-cohomology); [§14.4a](#144a-the-modular-borelserre-pair-and-adic-adapter); [§14.8](#148-hecke-operators-with-relative-coefficients); IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and local-factor summands); Mathlib `IsLocalizedModule.map_exact`.
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1 and preceding localization setup, author pp. 6–8; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), (4.2.1) and Definition 4.3.1–Theorem 4.3.4, pp.37–39, for the cusp labels used in the modular constituent calculation.)
-
-<a id="s14-9a"></a>
 
 ### 14.9a A finite graph model for the open modular curve
 
@@ -3994,11 +3731,9 @@ Use exact localization along the composition series to kill every residual bound
 
 ([Hatcher, Algebraic Topology](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf), Chapter 0, pp.1–5, for deformation retractions and the polygon cell model of an oriented surface; §1.A, Proposition 1A.2, pp.84–85, for the free fundamental group, and §1.B, Example 1B.2, p.88, for the nonclosed-surface graph retract. Removing cusp discs allows the polygon’s two-cell to collapse to the finite spine.)
 
-<a id="s14-10"></a>
-
 ### 14.10 Finite generation and localized integral freeness
 
-For a torsion-free congruence modular curve Y and a finite free O-local system L, `H¹(Y,L)` is O-finite. If `H⁰(Y,L/π)_m=0`, the localized group `H¹(Y,L)_m` is O-torsion-free, hence O-free; if in addition the boundary sequence localizes to zero, it equals `H¹_par(Y,L)_m`, and reduction gives `H¹_par(Y,L)_m/πⁿ≅H¹_par(Y,L/πⁿ)_m`. Constant weight-two coefficients satisfy these conditions by the boundary Hecke-support theorem of [§14.9](#s14-9), including when `ℓ` divides the cusp-action order. Higher-weight claims carry the displayed vanishing conditions as hypotheses.
+For a torsion-free congruence modular curve Y and a finite free O-local system L, `H¹(Y,L)` is O-finite. If `H⁰(Y,L/π)_m=0`, the localized group `H¹(Y,L)_m` is O-torsion-free, hence O-free; if in addition the boundary sequence localizes to zero, it equals `H¹_par(Y,L)_m`, and reduction gives `H¹_par(Y,L)_m/πⁿ≅H¹_par(Y,L/πⁿ)_m`. Constant weight-two coefficients satisfy these conditions by the boundary Hecke-support theorem of [§14.9](#149-non-eisenstein-removal-of-the-boundary), including when `ℓ` divides the cusp-action order. Higher-weight claims carry the displayed vanishing conditions as hypotheses.
 
 O is a complete DVR finite over `ℤ_ℓ`. Apply IntegralHeckeAndGaloisDeterminants §§2.1–2.2 to the finite commutative Hecke image on the perfect cochain complex: anemic localization is its supplied finite-local-factor idempotent summand, compatible with coefficient change. Commuting operator/root localizations use §2.3 of that supplier.
 
@@ -4012,11 +3747,9 @@ Establish this as follows. Use `modularOpenFiniteGraph` of §14.9a and import tw
 - For `T=O×O` acting on `O²` by coordinate multiplication, the two local-factor projectors select the two coordinate lines and commute with reduction; ordinary localization over a noncomplete coefficient base is outside this contract.
 - At level divisible by `ℓ`, or with coarse stabilizers, the displayed geometric and vanishing hypotheses must be checked afresh.
 
-*Needs:* IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); [§14.3](#s14-3); [§14.9](#s14-9); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups).
+*Needs:* IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§14.9a](#149a-a-finite-graph-model-for-the-open-modular-curve) (`modularOpenFiniteGraph`); [§14.3](#143-boundary-and-interior-cohomology); [§14.9](#149-non-eisenstein-removal-of-the-boundary); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1, author pp. 7–8; [Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), Definition 3.9 and (3.20), pp. 154–155, 159–160.)
-
-<a id="s14-11"></a>
 
 ### 14.11 Parabolic Poincaré pairing
 
@@ -4042,11 +3775,9 @@ Establish this as follows. Symmetrize products of the rank-two elliptic pairing,
 - If m is adjoint-stable the pairing is perfect on `M_m` with itself under the same two-sided hypotheses; adjoint stability is an additional condition.
 - A rationally perfect pairing whose determinant is divisible by `ℓ` is not an integral acceptance case.
 
-*Needs:* [§14.1](#s14-1); [§14.4](#s14-4); [§14.7](#s14-7); [§14.8](#s14-8); [§14.9](#s14-9); [§14.10](#s14-10); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
+*Needs:* [§14.1](#141-geometric-weight-coefficient-systems); [§14.4](#144-integral-comparison-and-change-of-level); [§14.7](#147-hecke-operators-are-self-adjoint-for-the-w_ζ-twisted-pairing); [§14.8](#148-hecke-operators-with-relative-coefficients); [§14.9](#149-non-eisenstein-removal-of-the-boundary); [§14.10](#1410-finite-generation-and-localized-integral-freeness); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`; AlgebraicTopology Stage 6; ArithmeticLocallySymmetricSpaces §§ALS.5a.3–ALS.5a.5 (paired support duality and adjoint transport); IntegralHeckeAndGaloisDeterminants §2.2 (finite local factors and idempotent summands).
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), (3.20), pp.159–160, for the rational pairing and its sign; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Conrad’s Appendix, Corollary 5.3, p.66, for the inverse-diamond adjoint; [ACC+23](https://www.math.uchicago.edu/~fcale/papers/Ramanujan.pdf), Corollary 2.2.22, p.932, for duality and Hecke adjoints, specialized through ALS.5a.)
-
-<a id="s14-12"></a>
 
 ### 14.12 Modular symbols and the geometric lattice
 
@@ -4065,17 +3796,15 @@ Establish this as follows. Use cusp collars to construct B and the coefficient e
 - The period map lands in the dual of symbols, as ModularForms Layer 8 requires.
 - The boundary quotient is not erroneously retained as part of compact `H¹`.
 
-*Needs:* [§14.11](#s14-11); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
+*Needs:* [§14.11](#1411-parabolic-poincaré-pairing); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality).
 
 ([Deligne, Séminaire Bourbaki 355](https://www.numdam.org/item/SB_1968-1969__11__139_0.pdf), §3.11, p. 156 and (3.20), pp. 159–160; [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Theorems 5.1–5.2, pp. 65–66; [Funke–Millson](https://arxiv.org/pdf/1108.5309), §2, p. 8; Lemma 3.8 and Remark 3.9, p. 12; Proposition 3.11, p. 13.)
 
-<a id="s14-13"></a>
-
 ### 14.13 The actual Jacobian Tate realization
 
-For `J=Pic⁰(X₁(N)/Q)`, the canonical comparison identifies `T_ℓJ` with `H¹_et(X₁(N)_Q̄,ℤ_ℓ(1))` and with the dual of untwisted `H¹`, using the principal polarization; equivalently `T_ℓJ` is integral first homology after Betti comparison. The comparison is functorial for Picard and Albanese actions, which are adjoint rather than identical. After tensoring `Q_ℓ` it intertwines the two Hecke conventions. The rank-two consequence is proved in [§14.14](#s14-14) using this comparison; it is not an input to the comparison itself.
+For `J=Pic⁰(X₁(N)/Q)`, the canonical comparison identifies `T_ℓJ` with `H¹_et(X₁(N)_Q̄,ℤ_ℓ(1))` and with the dual of untwisted `H¹`, using the principal polarization; equivalently `T_ℓJ` is integral first homology after Betti comparison. The comparison is functorial for Picard and Albanese actions, which are adjoint rather than identical. After tensoring `Q_ℓ` it intertwines the two Hecke conventions. The rank-two consequence is proved in [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra) using this comparison; it is not an input to the comparison itself.
 
-This comparison precedes rank-two freeness. The initial Tate carrier and functoriality from Layer 13 must not depend on [§14.14](#s14-14).
+This comparison precedes rank-two freeness. The initial Tate carrier and functoriality from Layer 13 must not depend on [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra).
 
 Establish this as follows. Specialize the common Kummer/trace API `jacobianTateModule_kummer` and `jacobianTateModule_trace` of §13.5 to `X₁(N)`, including its comparison of cup and Weil pairings. Use polarization to relate Picard pullback to Albanese norm; apply the integral comparison on the Betti side.
 
@@ -4085,11 +3814,9 @@ Establish this as follows. Specialize the common Kummer/trace API `jacobianTateM
 - The comparison supplies the actual Jacobian module, not an abstract module declared free by definition.
 - With Conrad’s Weil-pairing convention, the diagram comparing cup and Weil pairings anticommutes (§5.1, p. 69). Preserve that sign; it does not change the resulting adjoints.
 
-*Needs:* [§13.4](#s13-4); [§13.5](#s13-5); [§14.4](#s14-4); `AbelianSchemesAndArithmeticModuli §A4`; [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`.
+*Needs:* [§13.4](#134-polarization-and-hecke-adjoints); [§13.5](#135-the-modular-jacobian-tate-module); [§14.4](#144-integral-comparison-and-change-of-level); `AbelianSchemesAndArithmeticModuli §A4`; [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property); `EtaleCohomologyFoundations §0.11/ClassicalAlgebraic.curveDuality`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §5.1, (5.4) and Theorem 5.8, pp. 68–69; Corollary 5.9, pp. 69–70.)
-
-<a id="s14-14"></a>
 
 ### 14.14 `H¹` is free of rank two over the Hecke algebra
 
@@ -4105,11 +3832,9 @@ Establish this as follows. Use the twisted perfect pairing to identify rational 
 - For `X₁(11)`, the rational Hecke algebra has dimension one and `H¹` has dimension two over `ℚ`.
 - This is rational rank-two freeness for the full Hecke algebra of Conrad §5.1, including old blocks; it asserts neither integral Gorensteinness nor integral rank-two freeness at every maximal ideal.
 
-*Needs:* [§14.5](#s14-5); [§14.7](#s14-7); [§14.13](#s14-13); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
+*Needs:* [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§14.7](#147-hecke-operators-are-self-adjoint-for-the-w_ζ-twisted-pairing); [§14.13](#1413-the-actual-jacobian-tate-realization); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 69 (printed page; PDF page 73); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 70 (printed page; PDF page 74).)
-
-<a id="s14-15"></a>
 
 ### 14.15 Integral Hecke realization comparison
 
@@ -4125,7 +3850,7 @@ Establish this as follows. Use complex comparison to identify integral Betti and
 - A rationally isomorphic but index-2 different Hecke lattice is not accepted as this integral comparison.
 - At `Γ₁(5)`, the compact curve has genus zero but the full weight-two symbol module has nonzero boundary classes (four cusps). The unit acts nontrivially on these symbols and trivially on the zero Jacobian; their integral image kernels differ. Cut to the cuspidal carrier before comparing.
 
-*Needs:* [§14.12](#s14-12); [§14.13](#s14-13); [§9.11](#s9-11); [§9.12](#s9-12); [§10.2](#s10-2); [§13.3](#s13-3); [§13.5](#s13-5); [§13.6](#s13-6); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
+*Needs:* [§14.12](#1412-modular-symbols-and-the-geometric-lattice); [§14.13](#1413-the-actual-jacobian-tate-realization); [§9.11](#911-integral-coherent-hecke-trace); [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§10.2](#102-classical-and-geometric-hecke-actions); [§13.3](#133-the-geometric-integral-hecke-algebra); [§13.5](#135-the-modular-jacobian-tate-module); [§13.6](#136-the-rational-coefficient-pairing); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 5 §5.1, pp.65–69; §5.2, pp.71–72; [Conrad, generalized elliptic curves](https://math.stanford.edu/~conrad/papers/kmpaper.pdf), §4.5, pp.46–48.)
 
@@ -4138,8 +3863,6 @@ For constant coefficients on `G_m(ℂ)`, ordinary `H¹` is `ℤ` but the parabol
 Use Layers 3 and 4, Layer 7, Layer 9, Layer 10, Layer 13. External contracts: AbelianSchemesAndArithmeticModuli, EtaleCohomologyFoundations §§0.7–0.11 and F.1–F.4, and ComplexComparisonPartII §§C6.3–C6.6. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 15: Ihara theorems and change of level
-
-<a id="s15-1"></a>
 
 ### 15.1 The two geometric degeneracy pullbacks
 
@@ -4162,11 +3885,9 @@ Use Mathlib's `LinearMap.coprod` for the two geometric pullbacks `a,b:H→H′`:
 - Away from Np the map commutes with `T_q` and diamonds.
 - Do not substitute a map to `Γ₁(Np)` unless the extra covering and its torsion are explicitly handled.
 
-*Needs:* [§9.1](#s9-1); [§9.12](#s9-12); [§13.5](#s13-5); [§14.8](#s14-8); Mathlib `LinearMap.coprod`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§13.5](#135-the-modular-jacobian-tate-module); [§14.8](#148-hecke-operators-with-relative-coefficients); Mathlib `LinearMap.coprod`.
 
 ([Congruence relations between modular forms](https://math.berkeley.edu/~ribet/Articles/icm.pdf), §3, pp. 507–508; §4, pp. 510–513; [Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), §4.6, Lemma 4.6.2, p. 33.)
-
-<a id="s15-2"></a>
 
 ### 15.2 The principal-level `SL₂` amalgam
 
@@ -4190,8 +3911,6 @@ Establish this as follows. Use ReductiveGroupsPartII §RG2.2.4’s `BTTree.Verte
 
 ([Serre, Trees](https://www.numdam.org/item/AST_1983__46__1_0.pdf), II §1.4, Theorem 3 and Corollary 2, p. 110; [Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), §4.4, pp. 27–28; proof of Lemma 4.6.2, pp. 33–34.)
 
-<a id="s15-3"></a>
-
 ### 15.3 Congruence subgroup property of `SL₂(ℤ[1/p])`
 
 The proof input includes the central congruence-kernel/Mennicke-symbol calculation and its Moore and class-field-theory comparison from Serre’s proof. They are part of this target, with the real-place specialization used here. Class field theory is the existing Tau Ceti ClassFieldTheory roadmap; a general profinite action theorem supplies neither the central-extension calculation nor the arithmetic congruence kernel.
@@ -4209,15 +3928,13 @@ Establish this as follows. Apply Serre §2.6 Theorem 2 and Corollary 3 with Q an
 - Finite characters of `Γ_N(ℤ[1/p])` factor through a finite congruence quotient.
 - The conclusion is not derived from mere density of the group in `SL₂(Q_p)`.
 
-*Needs:* [§15.2](#s15-2).
+*Needs:* [§15.2](#152-the-principal-level-sl₂-amalgam).
 
 ([Serre, congruence problem](https://www.college-de-france.fr/media/jean-pierre-serre/UPL8543926451197744553_Serre_Pb._Congruence_SL2.pdf), §2.6, Theorem 2 and Corollary 3, pp. 498–500; [Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), Proof of Lemma 4.6.2, p. 34.)
 
-<a id="s15-4"></a>
-
 ### 15.4 Lyndon sequence for the modular amalgam
 
-For the actual amalgam `G=G₁*_{H}G₂` of [§15.2](#s15-2) and a G-module M, there is a natural exact sequence `…→H^i(G,M)→H^i(G₁,M)⊕H^i(G₂,M)→H^i(H,M)→H^{i+1}(G,M)→…`, with the middle map the difference of restrictions along the two embeddings. At `i=0` it begins with invariants. The same sequence is equivariant for double-coset maps that preserve the diagram, using restriction and transfer with the displayed coefficient actions.
+For the actual amalgam `G=G₁*_{H}G₂` of [§15.2](#152-the-principal-level-sl₂-amalgam) and a G-module M, there is a natural exact sequence `…→H^i(G,M)→H^i(G₁,M)⊕H^i(G₂,M)→H^i(H,M)→H^{i+1}(G,M)→…`, with the middle map the difference of restrictions along the two embeddings. At `i=0` it begins with invariants. The same sequence is equivariant for double-coset maps that preserve the diagram, using restriction and transfer with the displayed coefficient actions.
 
 M is an actual representation of the amalgam; the two restricted modules on H are identified through that representation.
 
@@ -4230,11 +3947,9 @@ Establish this as follows. Use the cellular chain sequence of the contractible t
 - `H⁰(G,M)` is the kernel of the difference on vertex invariants.
 - For trivial `M=F_q`, an agreeing pair of characters descends to a character of G.
 
-*Needs:* [§15.2](#s15-2); Mathlib `groupCohomology.H1`; [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* [§15.2](#152-the-principal-level-sl₂-amalgam); Mathlib `groupCohomology.H1`; [AlgebraicTopology Stage 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-2-relative-singular-chains-and-homology); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Serre, Trees](https://www.numdam.org/item/AST_1983__46__1_0.pdf), II §2.8, Proposition 13 and example, pp. 168–170; [Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6, p. 88 (author preprint).)
-
-<a id="s15-5"></a>
 
 ### 15.5 Congruence classes in ordinary `H¹`
 
@@ -4268,15 +3983,13 @@ The public interface should expose:
 
 ([Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), §4.5, definition of H¹_cong, pp. 29–30; Lemma 4.6.2, p. 33.)
 
-<a id="s15-6"></a>
-
 ### 15.6 Principal-level Ihara modulo congruence classes
 
 For `N≥3` and primes p,q with `p∤N`, the kernel of `D_p:H¹(Γ(N),F_q)²→H¹(Γ(N)∩Γ₀(p),F_q)`, `D_p(ψ,φ)(g)=ψ(g)−φ(AgA⁻¹)`, is contained in `H¹_cong(Γ(N),F_q)²`. There is no requirement `q≠p` in this ordinary character theorem, and no unconditional injectivity assertion. The statement `iharaPrincipal_congruenceKernel` in [Suggested.lean](Suggested.lean) specifies the second restriction by its `diag(p,1)` conjugation formula on rational matrices.
 
 Trivial `F_q` coefficients; ordinary group cohomology, not compact cohomology or an arbitrary `Sym^r` system.
 
-Establish this as follows. An element of the kernel is an agreeing pair of additive characters for the amalgam, so it extends to a character of `Γ_N(ℤ[1/p])`. Its image is finite. Apply [§15.3](#s15-3) to its kernel. Restrict the resulting congruence factorization back to each integral vertex subgroup; both original characters lie in `H¹_cong`.
+Establish this as follows. An element of the kernel is an agreeing pair of additive characters for the amalgam, so it extends to a character of `Γ_N(ℤ[1/p])`. Its image is finite. Apply [§15.3](#153-congruence-subgroup-property-of-sl₂ℤ1p) to its kernel. Restrict the resulting congruence factorization back to each integral vertex subgroup; both original characters lie in `H¹_cong`.
 
 **Checks.**
 
@@ -4284,11 +3997,9 @@ Establish this as follows. An element of the kernel is an agreeing pair of addit
 - The `q=p` case is covered by this character argument, not by `ℓ`-adic geometric smoothness.
 - At `N=3,p=2,q=5`, `H¹_cong=0` by §15.5, so the restriction difference is injective on ordinary characters.
 
-*Needs:* [§15.1](#s15-1); [§15.3](#s15-3); [§15.4](#s15-4); [§15.5](#s15-5).
+*Needs:* [§15.1](#151-the-two-geometric-degeneracy-pullbacks); [§15.3](#153-congruence-subgroup-property-of-sl₂ℤ1p); [§15.4](#154-lyndon-sequence-for-the-modular-amalgam); [§15.5](#155-congruence-classes-in-ordinary-h¹).
 
 ([Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), Lemma 4.6.2 with proof, pp. 33–34.)
-
-<a id="s15-7"></a>
 
 ### 15.7 Compact weight-two Ihara and saturation
 
@@ -4308,11 +4019,9 @@ Establish this as follows. Ribet’s compact homology proof quotients ordinary a
 - It does not supply the exceptional-image or multiplicity-one steps of mod-two level lowering.
 - For `N=11,p=2`, the source compact rank is `2·2=4`, and its image in the mixed level has saturated rank four.
 
-*Needs:* [§13.1](#s13-1); [§13.5](#s13-5); [§14.13](#s14-13); [§15.1](#s15-1); [§15.2](#s15-2); [§15.3](#s15-3).
+*Needs:* [§13.1](#131-modular-jacobians-and-norms); [§13.5](#135-the-modular-jacobian-tate-module); [§14.13](#1413-the-actual-jacobian-tate-realization); [§15.1](#151-the-two-geometric-degeneracy-pullbacks); [§15.2](#152-the-principal-level-sl₂-amalgam); [§15.3](#153-congruence-subgroup-property-of-sl₂ℤ1p).
 
 ([Congruence relations between modular forms](https://math.berkeley.edu/~ribet/Articles/icm.pdf), Theorem 4.1, Corollary 4.2 and Theorem 4.3, pp. 510–513.)
-
-<a id="s15-8"></a>
 
 ### 15.8 Taylor–Wiles degeneracy control
 
@@ -4332,17 +4041,15 @@ Establish this as follows. With the upper-right entry `T_p`, the general `trace�
 - At `D_p=1` the general determinant recovers the symmetric determinant, and the old polynomial specializes to `X²−T_pX+p`.
 - The proof cannot use exact invariants for a quotient whose order is divisible by `ℓ`.
 
-*Needs:* [§14.10](#s14-10); [§14.11](#s14-11); [§15.1](#s15-1); [§15.4](#s15-4).
+*Needs:* [§14.10](#1410-finite-generation-and-localized-integral-freeness); [§14.11](#1411-parabolic-poincaré-pairing); [§15.1](#151-the-two-geometric-degeneracy-pullbacks); [§15.4](#154-lyndon-sequence-for-the-modular-amalgam).
 
 ([Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6 and Remarks 9.7–9.8, pp. 88–90.)
-
-<a id="s15-9"></a>
 
 ### 15.9 Congruence invariance of ordinary characters
 
 The intermediate cohomological input consists of continuous cohomology of the relevant `SL₂(ℤ_p)` groups, the Künneth and Hochschild–Serre restriction maps, Lazard’s uniform-group calculation, adjoint-cohomology vanishing, and an exact reproducible level-8/16 computation in coefficient characteristic 2. The finite-group `H¹` carrier and the existence of character spaces do not provide these restriction and invariant calculations.
 
-For `N≥3`, prime q and `η∈H¹(Γ(N),F_q)`, let `SL₂(Z/N)` act by the conjugations of ambient `SL₂(Z)`. If `gη−η` belongs to `H¹_cong(Γ(N),F_q)` for every `g∈SL₂(Z/N)`, then `η` itself belongs to `H¹_cong`. Equivalently, the direct limit of ordinary `H¹` over principal levels, with restriction transition maps, has no `SL₂(Ẑ)`-invariants. This direct-limit character input is the specific prerequisite of [§15.10](#s15-10), not a result of the completed-cohomology roadmap.
+For `N≥3`, prime q and `η∈H¹(Γ(N),F_q)`, let `SL₂(Z/N)` act by the conjugations of ambient `SL₂(Z)`. If `gη−η` belongs to `H¹_cong(Γ(N),F_q)` for every `g∈SL₂(Z/N)`, then `η` itself belongs to `H¹_cong`. Equivalently, the direct limit of ordinary `H¹` over principal levels, with restriction transition maps, has no `SL₂(Ẑ)`-invariants. This direct-limit character input is the specific prerequisite of [§15.10](#1510-the-enhanced-principal-level-kernel-bound), not a result of the completed-cohomology roadmap.
 
 The statement `congruenceClasses_invariant` in [Suggested.lean](Suggested.lean) uses all ambient `SL₂(ℤ)` conjugations. The action factors through the finite quotient because inner conjugation acts trivially on trivial-coefficient `H¹`.
 
@@ -4356,15 +4063,13 @@ Establish this as follows. Pass to the restriction direct limit; its kernel from
 - An arbitrary noncongruence character cannot be declared congruence just because its codomain is finite.
 - For a nonzero `Γ(3)→F₅` character, some ambient conjugation difference is noncongruence; the criterion therefore does not kill all ordinary characters.
 
-*Needs:* [§15.5](#s15-5); Mathlib `groupCohomology.H1`.
+*Needs:* [§15.5](#155-congruence-classes-in-ordinary-h¹); Mathlib `groupCohomology.H1`.
 
 ([Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), Theorem 4.5.2 and Corollary 4.5.3, p. 29; Lemmas 4.5.4–4.5.11 and proof, pp. 30–32.)
 
-<a id="s15-10"></a>
-
 ### 15.10 The enhanced principal-level kernel bound
 
-With N,p,q as in [§15.6](#s15-6), the kernel of the same restriction difference into `H¹(Γ(N)∩Γ₁(p),F_q)` is also contained in `H¹_cong(Γ(N),F_q)²`. The congruence-invariance criterion of [§15.9](#s15-9) used here says that if every conjugation difference for a character of a principal subgroup is congruence, then the character itself is congruence, as in CDT Corollary 4.5.3 with the `SL₂(Z/N)`-action induced by ambient `SL₂(ℤ)` conjugations.
+With N,p,q as in [§15.6](#156-principal-level-ihara-modulo-congruence-classes), the kernel of the same restriction difference into `H¹(Γ(N)∩Γ₁(p),F_q)` is also contained in `H¹_cong(Γ(N),F_q)²`. The congruence-invariance criterion of [§15.9](#159-congruence-invariance-of-ordinary-characters) used here says that if every conjugation difference for a character of a principal subgroup is congruence, then the character itself is congruence, as in CDT Corollary 4.5.3 with the `SL₂(Z/N)`-action induced by ambient `SL₂(ℤ)` conjugations.
 
 The statement in [Suggested.lean](Suggested.lean) is `iharaPrincipalGamma1_congruenceKernel`, with its second restriction specified by the same rational-matrix conjugation formula. This is still trivial-coefficient ordinary `H¹` and still a kernel bound, not automatic injectivity.
 
@@ -4376,7 +4081,7 @@ Establish this as follows. Restriction to `Γ(N)∩Γ₁(p)` implies that the di
 - The case `q=p` remains in the statement.
 - For `N=3,p=11,q=5`, the intermediate diamond quotient has order ten, divisible by q; the kernel bound still holds, and §15.5 makes the source congruence subspace zero.
 
-*Needs:* [§15.5](#s15-5); [§15.6](#s15-6); [§15.9](#s15-9).
+*Needs:* [§15.5](#155-congruence-classes-in-ordinary-h¹); [§15.6](#156-principal-level-ihara-modulo-congruence-classes); [§15.9](#159-congruence-invariance-of-ordinary-characters).
 
 ([Calegari–Dimitrov–Tang](https://arxiv.org/pdf/2109.09040), Corollary 4.5.3, p. 29; Lemma 4.6.3, p. 34.)
 
@@ -4389,8 +4094,6 @@ For `Γ(3)`, ordinary mod-5 `H¹` has dimension three whereas its congruence-cla
 Use Layer 9, Layer 13, Layer 14. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 16: Weight-two modular abelian quotients
-
-<a id="s16-1"></a>
 
 ### 16.1 The Hecke prime and coefficient field of a newform
 
@@ -4409,15 +4112,15 @@ Use Mathlib's `RingHom.ker` for the geometric eigenvalue character. Membership m
 - An injective field embedding on the target preserves the kernel.
 - Weak multiplicity one gives `a_n(f) ∈ K_f` for all n.
 
-*Needs:* [§13.3](#s13-3); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality); Mathlib `RingHom.ker`; Mathlib `RingHom.quotientKerEquivRange`.
+*Needs:* [§13.3](#133-the-geometric-integral-hecke-algebra); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 8](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8-modular-symbols-the-integral-hecke-algebra-and-coefficient-fields); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality); Mathlib `RingHom.ker`; Mathlib `RingHom.quotientKerEquivRange`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77).)
-
-<a id="s16-2"></a>
 
 ### 16.2 The modular abelian variety `A_f`
 
 With the Albanese Hecke action on `J₁(N)`, let `B_f` be the connected abelian subvariety generated by all images `t(J₁(N))`, `t∈p_f`. Define `A_f=J₁(N)/B_f` over Q with its surjective quotient map `q_f`. It has good reduction outside N and an action of the order `T₁(N)/p_f`; the `K_f` action is in `End⁰(A_f)`. This is a quotient by an actual abelian subvariety, not a pointwise module quotient or an assumed Galois representation.
+
+The same object, with the same Albanese action on the point-of-exact-order model, is the shared `modularQuotient f` of CyclotomicClassGroupsAndStickelberger §4.3. Its abelian-subvariety quotient over an arbitrary field restricts in characteristic zero to `abelianSubvarietyQuotient` below, its ideal quotient is `modularQuotientForIdeal`, and its dimension theorem is the statement of §16.4. The two constructions are identified by the universal property of the quotient map; no second convention is introduced.
 
 `N ≥ 5` (for `N < 5`, `S₂(Γ₁(N)) = 0`).
 
@@ -4444,20 +4147,19 @@ The public interface should expose:
 - The modularQuotientForIdeal quotient for the unit ideal is the zero abelian variety; this tests the image-generated-kernel convention.
 - For the rational weight-two newform of level 11 and trivial character, the `J₀(11)` quotient has dimension one.
 - No Jacobian quotient is defined for a weight-12 level-one newform by this constructor.
-- `A_f` is nonzero when f exists ([§16.4](#s16-4)).
+- `A_f` is nonzero when f exists ([§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ)).
+- Agreement with CyclotomicClassGroupsAndStickelberger §4.3: on `E×E` with subvariety `E×0` both quotients are E; for the zero and unit ideals both give `J₁(N)` and 0; for the level-11 rational newform both have dimension one.
 - Do not assert a quotient of a modular-curve Jacobian for weight `> 2`.
 
-*Needs:* [§13.1](#s13-1); [§13.2](#s13-2); [§13.3](#s13-3); [§16.1](#s16-1); `AbelianSchemesAndArithmeticModuli` A6.5 (`poincareReducibility`) and A3.3; `NeronModelsAndSemistableAbelianVarieties` §5.1; Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`.
+*Needs:* [§13.1](#131-modular-jacobians-and-norms); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.3](#133-the-geometric-integral-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); `AbelianSchemesAndArithmeticModuli` A6.5 (`poincareReducibility`) and A3.3; `NeronModelsAndSemistableAbelianVarieties` §5.1; CyclotomicClassGroupsAndStickelberger §4.3 (shared modular quotient, for agreement); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29 (printed; PDF page 33).)
-
-<a id="s16-3"></a>
 
 ### 16.3 Tate module of the actual modular quotient
 
 For the actual quotient `q_f:J₁(N)→A_f`, the induced map identifies `V_ℓ(A_f)` with `V_ℓ(J₁(N))/p_fV_ℓ(J₁(N))` as a module over `Q_ℓ⊗T₁(N)`, with the chosen Albanese convention. Exactness of rational Tate modules for the quotient is proved from the Poincaré-complement construction of §16.2, as in Conrad’s proof of Theorem 5.14; integral exactness is not inferred by tensoring this rational statement.
 
-`ℓ` prime; base characteristic zero. `B_f` is the actual connected image-generated kernel from [§16.2](#s16-2).
+`ℓ` prime; base characteristic zero. `B_f` is the actual connected image-generated kernel from [§16.2](#162-the-modular-abelian-variety-a_f).
 
 Establish this as follows. Prove rational Tate exactness for `B_f→J₁(N)→A_f→0` from the isogeny `B_f×C→J₁(N)` of §16.2. Choose finitely many generators of `p_f`; the sum of their abelian images is `B_f` and gives a surjection `J^a→B_f`. Apply rational Tate exactness again to identify its image with `p_fV_ℓJ`.
 
@@ -4465,11 +4167,9 @@ Establish this as follows. Prove rational Tate exactness for `B_f→J₁(N)→A_
 
 - Test: an isogeny `B → A` with kernel of order `ℓ` is surjective on `V_ℓ` but not on `T_ℓ`.
 
-*Needs:* [§16.2](#s16-2); `AbelianSchemesAndArithmeticModuli §A4`; `AbelianSchemesAndArithmeticModuli §A6`.
+*Needs:* [§16.2](#162-the-modular-abelian-variety-a_f); `AbelianSchemesAndArithmeticModuli §A4`; `AbelianSchemesAndArithmeticModuli §A6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77).)
-
-<a id="s16-4"></a>
 
 ### 16.4 Shimura's theorem: `dim A_f = [K_f : ℚ]`
 
@@ -4477,17 +4177,17 @@ Establish this as follows. Prove rational Tate exactness for `B_f→J₁(N)→A_
 
 The Frobenius characteristic polynomial on `V_ℓ(A_f)` is AutomorphicGaloisRepresentations’ statement, not a defining property of `A_f`.
 
-Establish this as follows. `V_ℓ(J₁(N))` is free of rank 2 over `ℚ_ℓ ⊗ T₁(N)` ([§14.14](#s14-14)). [§16.3](#s16-3) applied to `p_f J₁(N) → J₁(N) → A_f → 0` identifies `V_ℓ(A_f)` with `V_ℓ(J₁(N))/p_f`. Hence `V_ℓ(A_f)` is free of rank 2 over `ℚ_ℓ ⊗ T₁(N)/p_f = ℚ_ℓ ⊗ K_f`, of `ℚ_ℓ`-dimension `2[K_f : ℚ] = 2` `dim A_f`.
+Establish this as follows. `V_ℓ(J₁(N))` is free of rank 2 over `ℚ_ℓ ⊗ T₁(N)` ([§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra)). [§16.3](#163-tate-module-of-the-actual-modular-quotient) applied to `p_f J₁(N) → J₁(N) → A_f → 0` identifies `V_ℓ(A_f)` with `V_ℓ(J₁(N))/p_f`. Hence `V_ℓ(A_f)` is free of rank 2 over `ℚ_ℓ ⊗ T₁(N)/p_f = ℚ_ℓ ⊗ K_f`, of `ℚ_ℓ`-dimension `2[K_f : ℚ] = 2` `dim A_f`.
 
 **Checks.**
 
-- Check on `N = 11` (dimension 1) and `N = 23` (dimension 2).
+- For the rational trivial-character newform of level 11, `K_f=ℚ` and `dim A_f=1`.
+- For the trivial-character newform orbit of level 23, `K_f=ℚ(√5)` and `dim A_f=2`.
+- At level 23 with a nontrivial even character ε of order 11, `X₁(23)→X₀(23)` is an unramified cyclic cover of degree 11 with base genus 2 and total genus 12, so each such ε has a one-dimensional weight-two cusp eigenspace. Its newform has `ℚ(ζ₁₁)⊆K_f`; the ten forms are conjugate, so `K_f=ℚ(ζ₁₁)` and `dim A_f=10`. The level alone does not determine the dimension.
 
-*Needs:* [§14.14](#s14-14); [§16.1](#s16-1); [§16.3](#s16-3); `AbelianSchemesAndArithmeticModuli §A4`.
+*Needs:* [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); [§16.3](#163-tate-module-of-the-actual-modular-quotient); `AbelianSchemesAndArithmeticModuli §A4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1, p. 28 (printed; PDF page 32).)
-
-<a id="s16-5"></a>
 
 ### 16.5 Differentials on `A_f`
 
@@ -4502,19 +4202,17 @@ Establish this as follows. `Cot₀(A_f) ↪ Cot₀(J₁(N))` is the subspace kil
 - Fix the Hecke-action convention before identifying differentials; the two choices differ by `w_ζ`.
 - For a separately constructed Picard quotient retain the `w_ζ` transport; never change the action on the already defined Albanese quotient.
 
-*Needs:* [§13.2](#s13-2); [§13.4](#s13-4); [§14.5](#s14-5); [§14.7](#s14-7); [§16.2](#s16-2); [§16.4](#s16-4); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality).
+*Needs:* [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.4](#134-polarization-and-hecke-adjoints); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§14.7](#147-hecke-operators-are-self-adjoint-for-the-w_ζ-twisted-pairing); [§16.2](#162-the-modular-abelian-variety-a_f); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 68 (printed page; PDF page 72).)
 
-<a id="s16-6"></a>
-
 ### 16.6 Trivial character: the quotient of `J₀(N)`
 
-Let f be a normalized weight-two newform of primitive level `N≥5` with `χ_f=1`, and let `p_f⁰ ⊂ T₀(N)` be the kernel of the eigenvalue map on the Hecke algebra of `J₀(N)`. Form `A_f⁰ := J₀(N)/p_f⁰J₀(N)` with the connected image-generated kernel and Albanese action of [§16.2](#s16-2). Then `dim A_f⁰=[K_f : ℚ]`, and pullback along `π:X₁(N)→X₀(N)` descends to a `K_f`-equivariant isogeny `u:A_f⁰→A_f`.
+Let f be a normalized weight-two newform of primitive level `N≥5` with `χ_f=1`, and let `p_f⁰ ⊂ T₀(N)` be the kernel of the eigenvalue map on the Hecke algebra of `J₀(N)`. Form `A_f⁰ := J₀(N)/p_f⁰J₀(N)` with the connected image-generated kernel and Albanese action of [§16.2](#162-the-modular-abelian-variety-a_f). Then `dim A_f⁰=[K_f : ℚ]`, and pullback along `π:X₁(N)→X₀(N)` descends to a `K_f`-equivariant isogeny `u:A_f⁰→A_f`.
 
 Both `π^*:J₀(N)→J₁(N)` and its unnormalized norm `π_*:J₁(N)→J₀(N)` descend through the respective quotient maps `q_f⁰` and `q_f` to u and `v:A_f→A_f⁰`. Thus `u∘q_f⁰=q_f∘π^*` and `v∘q_f=q_f⁰∘π_*`. With `d=deg π>0` their composite satisfies `v∘u=[d]` on `A_f⁰`.
 
-Establish this as follows. Apply the `J₁` dimension argument to `J₀(N)`, using the `Γ₀` version of [§14.14](#s14-14). Under the Albanese convention of §13.2, compare `π^*` and `π_*` with trace and inclusion on cotangent forms. The trivial-diamond subspace `S₂(Γ₀(N))⊂S₂(Γ₁(N))` is stable under every good and bad Hecke operator. Restriction gives `T₁(N)→T₀(N)`, with `p_f` the inverse image of `p_f⁰`; the two Jacobian maps intertwine these actions. They therefore send each image-generated kernel into the other, so §16.2's quotient universal property gives u and v. The identity `π_*π^*=[d]` from §13.1 descends, by surjectivity of `q_f⁰`, to `v∘u=[d]`. Consequently ker u is a closed subgroup scheme of `A_f⁰[d]`, which is finite because `d>0`. A homomorphism of equal-dimensional abelian varieties with finite scheme-theoretic kernel is finite and surjective: its proper image has the full dimension of the target, and translation identifies its fibres with its finite kernel. Apply this criterion to u, using `dim A_f⁰=dim A_f=[K_f : ℚ]`.
+Establish this as follows. Apply the `J₁` dimension argument to `J₀(N)`, using the `Γ₀` version of [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra). Under the Albanese convention of §13.2, compare `π^*` and `π_*` with trace and inclusion on cotangent forms. The trivial-diamond subspace `S₂(Γ₀(N))⊂S₂(Γ₁(N))` is stable under every good and bad Hecke operator. Restriction gives `T₁(N)→T₀(N)`, with `p_f` the inverse image of `p_f⁰`; the two Jacobian maps intertwine these actions. They therefore send each image-generated kernel into the other, so §16.2's quotient universal property gives u and v. The identity `π_*π^*=[d]` from §13.1 descends, by surjectivity of `q_f⁰`, to `v∘u=[d]`. Consequently ker u is a closed subgroup scheme of `A_f⁰[d]`, which is finite because `d>0`. A homomorphism of equal-dimensional abelian varieties with finite scheme-theoretic kernel is finite and surjective: its proper image has the full dimension of the target, and translation identifies its fibres with its finite kernel. Apply this criterion to u, using `dim A_f⁰=dim A_f=[K_f : ℚ]`.
 
 The public interface should expose:
 
@@ -4530,11 +4228,9 @@ The public interface should expose:
 - Equal dimensions are necessary: `u:E→E×E`, `x↦(x,0)`, and v the first projection satisfy `v∘u=[1]`, but u is not surjective.
 - For `u=v=id` and `d=1` the criterion includes the identity isogeny, also on the zero-dimensional abelian variety.
 
-*Needs:* [§9.1](#s9-1); [§9.2](#s9-2); [§13.1](#s13-1) (`jacobianNorm_pull`); [§13.2](#s13-2); [§14.14](#s14-14); [§16.1](#s16-1); [§16.2](#s16-2) (`modularQuotient_lift`, `modularQuotient_hom_ext`); [§16.4](#s16-4); AbelianSchemesAndArithmeticModuli A3.2 (`multiplicationAndDensity`); SchemeAndStackFoundations §0.7 (dimension of fibres); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§13.1](#131-modular-jacobians-and-norms) (`jacobianNorm_pull`); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); [§16.2](#162-the-modular-abelian-variety-a_f) (`modularQuotient_lift`, `modularQuotient_hom_ext`); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); AbelianSchemesAndArithmeticModuli A3.2 (`multiplicationAndDensity`); SchemeAndStackFoundations §0.7 (dimension of fibres); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29, and Appendix by B. Conrad, §5.1, Lemma 5.4, pp.67–68, Definition 5.13 and Theorem 5.14, p.73 (printed pages); [Milne, Abelian Varieties](https://www.jmilne.org/math/xnotes/AVs.pdf), §8, Proposition 8.1 and Theorem 8.2, pp.12–13.)
-
-<a id="s16-7"></a>
 
 ### 16.7 Oldforms: `A_f` inside `J₁(M)` for N | M
 
@@ -4551,11 +4247,9 @@ Establish this as follows. Import the fixed-character oldspace basis `{V_d f:d|M
 - `M=N` gives one copy; `M=Np` with `p∤N` gives two; `M=Np²` gives three, not four.
 - No mod-`ℓ` saturation follows from this rational isogeny statement.
 
-*Needs:* [§9.1](#s9-1); [§10.2](#s10-2); [§14.5](#s14-5); [§16.4](#s16-4); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality); `AbelianSchemesAndArithmeticModuli §A6`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§10.2](#102-classical-and-geometric-hecke-actions); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality); `AbelianSchemesAndArithmeticModuli §A6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.6, p. 40; Corollary 5.9, pp. 69–70; Theorem 5.14, p. 73.)
-
-<a id="s16-8"></a>
 
 ### 16.8 The Abel–Jacobi composite to `A_f` is nonconstant
 
@@ -4569,7 +4263,7 @@ Establish this as follows. Import `AJ_c` and its universal property for the supp
 
 - No isogeny to a target curve is asserted here (that is EllipticCurveModularity’s).
 
-*Needs:* [§16.2](#s16-2); [§16.4](#s16-4); [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property).
+*Needs:* [§16.2](#162-the-modular-abelian-variety-a_f); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 74 (printed page; PDF page 78).)
 
@@ -4582,8 +4276,6 @@ A rational-eigenvalue newform gives `[K_f:ℚ]=1` and a dimension-one `A_f`. For
 Use Layer 9, Layer 10, Layer 13, Layer 14. External contracts: AbelianSchemesAndArithmeticModuli, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 17: Bad-prime and Taylor–Wiles interfaces
-
-<a id="s17-1"></a>
 
 ### 17.1 Reduction of the supplied modular Hecke action
 
@@ -4603,13 +4295,11 @@ Construct `GoodReductionSpecialisation` for the good modular Jacobian at a prime
 - For `J₀(11)` at 2, geometric 5-torsion specializes isomorphically. At 11 this good-reduction statement does not apply.
 - Prime-to-ℓ is essential: on a positive-dimensional abelian variety with supersingular good reduction, generic ℓ-torsion can specialize to zero.
 
-*Needs:* [§9.1](#s9-1); [§11.5](#s11-5); [§12.4](#s12-4); [§13.1](#s13-1); [§13.2](#s13-2); `NeronModelsAndSemistableAbelianVarieties` §R11.6 and §§5.0a–5.0b; `ArithmeticGaloisRepresentations` §§2.1–2.2 (decomposition, inertia and arithmetic Frobenius at a chosen geometric prime).
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§11.5](#115-one-factor-mixed-level-models); [§12.4](#124-degeneracy-maps-on-modular-components); [§13.1](#131-modular-jacobians-and-norms); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); `NeronModelsAndSemistableAbelianVarieties` §R11.6 and §§5.0a–5.0b; `ArithmeticGaloisRepresentations` §§2.1–2.2 (decomposition, inertia and arithmetic Frobenius at a chosen geometric prime).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 72 (printed page; PDF page 76).)
 
 For geometric-point reduction, use [Néron Models](https://doi.org/10.1007/978-3-642-51438-8), §§2.2–2.3 (smooth lifting over henselian traits) and §7.3, Lemma 2 and Proposition 3, pp.179–180 (étale prime-to-residue-characteristic torsion); properness extends every algebraic point to the valuation ring.
-
-<a id="s17-2"></a>
 
 ### 17.2 The Eichler–Shimura relation
 
@@ -4629,19 +4319,17 @@ Establish this as follows. On the ordinary dense locus, the good-prime isogeny c
 - On `J₀(11)` at `p=3`, `F+V=T₃=[−1]`, with `FV=VF=[3]`; the same model has five `𝔽₃`-points, so its trace is `−1`.
 - For `X₀(1)`, `J₀(1)=0` and both sides of the relation are the zero endomorphism for every prime p.
 
-*Needs:* [§3.2](#s3-2); [§3.5](#s3-5); [§4.12](#s4-12); [§9.1](#s9-1); [§9.2](#s9-2); [§9.12](#s9-12); [§13.5](#s13-5); [§13.2](#s13-2); [§13.4](#s13-4); [§17.1](#s17-1); `AbelianSchemesAndArithmeticModuli §A4`.
+*Needs:* [§3.2](#32-proper-flat-integral-level-stacks); [§3.5](#35-fine-loci-and-bad-level-inertia); [§4.12](#412-agreement-on-the-ordinary-and-tame-loci); [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.12](#912-finite-coefficient-étale-correspondence-traces); [§13.5](#135-the-modular-jacobian-tate-module); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.4](#134-polarization-and-hecke-adjoints); [§17.1](#171-reduction-of-the-supplied-modular-hecke-action); `AbelianSchemesAndArithmeticModuli §A4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Theorem 5.16 and proof, pp. 74–79; [Anni–Siksek, Modular elliptic curves over real abelian fields and the generalized Fermat equation](https://msp.org/ant/2016/10-6/ant-v10-n6-p.pdf), equation (14), p.1163, for the X₀(11) model.)
 
-<a id="s17-3"></a>
-
 ### 17.3 Cusp-normalised Abel–Jacobi maps
 
-Use the supplied rational cusp `∞` of `X₀(N)`, and a specified rational cusp c of the chosen `X₁(N)` point-of-exact-order moduli model (Conrad uses 0), to specialize the imported AJ construction: `AJ_c(x)=[x−c]`. It is over Q, sends c to zero and is a closed immersion when the genus is positive. For a degeneracy morphism `α:X′→X` and rational cusp c′, `α_*AJ_{c′}(x)=AJ_c(α(x))+[α(c′)−c]`. Hecke compatibility is on degree-zero divisors; without a base-point correction this is not an equality of point maps.
+Use the supplied rational cusp `∞` of `X₀(N)`, and a specified rational cusp c of the chosen `X₁(N)` point-of-exact-order moduli model (Conrad uses 0), to specialize the imported AJ construction: `AJ_c(x)=[x−c]`. It is over Q, sends c to zero and is a closed immersion when the genus is positive. For a degeneracy morphism `α:X′→X` and rational cusp c′, `α_*AJ_{c′}(x)=AJ_c(α(x))−[α(c′)−c]`. Hecke compatibility is on degree-zero divisors; without a base-point correction this is not an equality of point maps.
 
 Rationality is proved for the chosen cusp and moduli model; the cusp named `∞` on `X₁(N)` is not assumed rational in every model.
 
-Establish this as follows. Import cusp fields and the precise moduli model from [§6.3](#s6-3); select the rational cusp there. Instantiate JacobianChallenge Layer F’s actual morphism and immersion theorem. Compute pushforward of `[x−c′]` to obtain the base-point correction; compute the Hecke action on degree-zero divisors.
+Establish this as follows. Import cusp fields and the precise moduli model from [§6.3](#63-cusp-fields-and-pairing-components); select the rational cusp there. Instantiate JacobianChallenge Layer F’s actual morphism and immersion theorem. Compute pushforward of `[x−c′]`, namely `[αx−αc′]=[αx−c]−[αc′−c]`, to obtain the base-point correction; compute the Hecke action on degree-zero divisors.
 
 The public interface should expose:
 
@@ -4649,7 +4337,7 @@ The public interface should expose:
 - `abelJacobiInfty_cusp`: `AJ_∞(∞)=0`.
 - `abelJacobiInfty_injective`: `AJ_∞` is a closed immersion for genus at least one; no immersion conclusion for genus zero.
 - `abelJacobi_changeBase`: `AJ_b(x)=AJ_c(x)−AJ_c(b)`.
-- `abelJacobi_degeneracy`: `α_*AJ_{c′}(x)=AJ_c(αx)+[αc′−c]`.
+- `abelJacobi_degeneracy`: `α_*AJ_{c′}(x)=AJ_c(αx)−[αc′−c]`.
 - `abelJacobi_hecke`: On degree-zero divisors D, the induced endomorphism sends [D] to `[T(D)]` using the chosen Picard/Albanese convention.
 
 **Checks.**
@@ -4658,13 +4346,12 @@ The public interface should expose:
 - For `X₀(1)`, the Jacobian and AJ image are zero; the curve map is not injective.
 - For any supplied rational cusp b, `AJ_b(b)=0` and `AJ_b(x)=AJ_∞(x)−AJ_∞(b)`.
 - If `[αc′−c]≠0`, the uncorrected identity `α_*AJ_{c′}=AJ_c∘α` fails already at c′.
+- On `X₀(11)` take α the identity, `c′=0`, `c=∞` and `x=0`, with `D=[0−∞]` of order 5 in `J₀(11)(ℚ)`. The left side is 0 and the stated right side is `D−D=0`; the opposite sign would give `2D≠0`.
 - No modular parametrisation of an elliptic curve is asserted here.
 
-*Needs:* [§3.1](#s3-1); [§4.12](#s4-12); [§6.3](#s6-3); [§8.1](#s8-1); [§9.1](#s9-1); [§9.2](#s9-2); [§9.3](#s9-3); [§13.1](#s13-1); [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property).
+*Needs:* [§3.1](#31-integral-full-point-and-cyclic-level-structures); [§4.12](#412-agreement-on-the-ordinary-and-tame-loci); [§6.3](#63-cusp-fields-and-pairing-components); [§8.1](#81-canonical-generic-models-and-coefficient-descent); [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§9.3](#93-cyclotomic-fricke-involution); [§13.1](#131-modular-jacobians-and-norms); [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 74 (printed page; PDF page 78).)
-
-<a id="s17-4"></a>
 
 ### 17.4 The modular supersingular character lattice
 
@@ -4687,11 +4374,9 @@ Use the kernel of total sum on the free abelian module on the supplied supersing
 - If `|S|=s≥1`, rank `X*=s−1`.
 - Character group means integral graph homology, not its dual or the component group.
 
-*Needs:* [§11.5](#s11-5); [§12.1](#s12-1); [§17.1](#s17-1); `NeronModelsAndSemistableAbelianVarieties §R11.4`.
+*Needs:* [§11.5](#115-one-factor-mixed-level-models); [§12.1](#121-modular-dual-graphs-and-thicknesses); [§17.1](#171-reduction-of-the-supplied-modular-hecke-action); `NeronModelsAndSemistableAbelianVarieties §R11.4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp. 44–46; §3.10.2, p. 48.)
-
-<a id="s17-5"></a>
 
 ### 17.5 Modular monodromy and component sequence
 
@@ -4710,13 +4395,11 @@ For the prime-level graph of §12.1, prove `gammaZeroPrime_componentGroup`: `Φ_
 - At p=11 the thicknesses 2 and 3 give order 5, not the unweighted two-edge answer 2; the cuspidal generator has `T₂=3` modulo 5.
 - At p=13 the component group is trivial; at p=17 its order is 4. Keeping only rationalized monodromy would miss both orders 5 and 4.
 
-*Needs:* [§11.5](#s11-5); [§12.1](#s12-1); [§17.4](#s17-4); `NeronModelsAndSemistableAbelianVarieties §R11.4`.
+*Needs:* [§11.5](#115-one-factor-mixed-level-models); [§12.1](#121-modular-dual-graphs-and-thicknesses); [§17.4](#174-the-modular-supersingular-character-lattice); `NeronModelsAndSemistableAbelianVarieties §R11.4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp. 44–46; §3.10.2, p. 48.)
 
 For the prime-level cyclicity and cusp generator, use [Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0/), Appendix, Theorem A.1, p.173, Proposition 1.4 and §2, pp.179–183. Its II §11, Proposition 11.1, p.98, gives the cusp's Eisenstein action; specialize it to the component generator. The graph calculation uses [Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VI §6.16, p.290, and NeronModelsAndSemistableAbelianVarieties §§4.4–4.7's graph discriminant formula.
-
-<a id="s17-6"></a>
 
 ### 17.6 Integral modular character maps and lattice errors
 
@@ -4732,11 +4415,9 @@ Establish this as follows. Apply R11.6 character functoriality to the actual mod
 - The character maps reverse the direction of torus maps.
 - A rational old/new isogeny does not identify the integral character lattices or remove their finite errors.
 
-*Needs:* [§11.5](#s11-5); [§12.1](#s12-1); [§12.4](#s12-4); [§17.4](#s17-4); [§17.5](#s17-5); `NeronModelsAndSemistableAbelianVarieties §R11.6`.
+*Needs:* [§11.5](#115-one-factor-mixed-level-models); [§12.1](#121-modular-dual-graphs-and-thicknesses); [§12.4](#124-degeneracy-maps-on-modular-components); [§17.4](#174-the-modular-supersingular-character-lattice); [§17.5](#175-modular-monodromy-and-component-sequence); `NeronModelsAndSemistableAbelianVarieties §R11.6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §§3.9–3.10.2, pp.44–48, for the modular character maps and the separate quaternionic hypothesis in (3.2).)
-
-<a id="s17-7"></a>
 
 ### 17.7 The semistable modular Tate filtration
 
@@ -4744,9 +4425,9 @@ For an actual semistable modular Jacobian J over `Q_p` and `ℓ≠p`, import the
 
 `ℓ≠p` and actual semistable reduction; no claim `T_f=T^{I_p}` at `ℓ=p`.
 
-Establish this as follows. Apply R11.3 and the actual toric character computation. Use [§17.5](#s17-5) and its imported R11.4 graph comparison to match the monodromy operator and Weil pairing. Transport the supplied degeneracy and Hecke maps through the filtration. Use the R11.3 Tate filtration and R11.4 graph comparison for this modular application. Its nearby-cycle interpretation belongs to WeightsInEtaleCohomology and is not needed here.
+Establish this as follows. Apply R11.3 and the actual toric character computation. Use [§17.5](#175-modular-monodromy-and-component-sequence) and its imported R11.4 graph comparison to match the monodromy operator and Weil pairing. Transport the supplied degeneracy and Hecke maps through the filtration. Use the R11.3 Tate filtration and R11.4 graph comparison for this modular application. Its nearby-cycle interpretation belongs to WeightsInEtaleCohomology and is not needed here.
 
-Prove `modularJacobian_semistableTorsion`: for a semistable modular Jacobian J at r and a prime `ℓ≠r`, its actual `J[ℓ](ℚ̄_r)` and rational Hecke action give the `SemistableTorsionDatum` assigned to NeronModelsAndSemistableAbelianVarieties §4. Retain `toric ⊆ identity-component ⊆ finite-part ⊆ J[ℓ]`, the residue Galois actions and the finite monodromy error. The specialization sequence is `0→𝒥⁰_𝔽̄r[ℓ]→J[ℓ]^{I_r}→Φ_J[ℓ]→0`; inside its left term the toric subgroup is `Hom(X*,μ_ℓ)` and the quotient is the abelian reduction's ℓ-torsion. Thus the specialization kernel is the toric subgroup only in the totally toric case. On the toric part at a one-factor modular prime r, Frobenius is `rU_r` in the conventions of §12.4 and Ribet–Stein Lemma 3.17; record the induced component action separately. At every good prime away from the level and ℓ, the datum satisfies §17.2's Frobenius relation with its diamond. Its maps are those from the Néron model and the existing graph carrier, not additional certificate data.
+Prove `modularJacobian_semistableTorsion`: for a semistable modular Jacobian J at r and a prime `ℓ≠r`, its actual `J[ℓ](ℚ̄_r)` and rational Hecke action give the `SemistableTorsionDatum` assigned to NeronModelsAndSemistableAbelianVarieties §4.14. Retain `toric ⊆ identity-component ⊆ finite-part ⊆ J[ℓ]`, the residue Galois actions and the finite monodromy error. The specialization sequence is `0→𝒥⁰_𝔽̄r[ℓ]→J[ℓ]^{I_r}→Φ_J[ℓ]→0`; inside its left term the toric subgroup is `Hom(X*,μ_ℓ)` and the quotient is the abelian reduction's ℓ-torsion. Thus the specialization kernel is the toric subgroup only in the totally toric case. On the toric part at a one-factor modular prime r, Frobenius is `rU_r` in the conventions of §12.4 and Ribet–Stein Lemma 3.17; record the induced component action separately. At every good prime away from the level and ℓ, the datum satisfies §17.2's Frobenius relation with its diamond. Its maps are those from the Néron model and the existing graph carrier, not additional certificate data.
 
 **Checks.**
 
@@ -4755,11 +4436,9 @@ Prove `modularJacobian_semistableTorsion`: for a semistable modular Jacobian J a
 - A good positive-genus fibre has toric rank zero but a nonzero identity-component ℓ-torsion kernel; a toric-only kernel would be false.
 - For `J₀(11)` at 11 and `ℓ=5`, the toric term has order 5 and `Φ[5]` has order 5; both are retained in the inertia-invariant 5-torsion. For `ℓ=3`, `Φ[3]=0` and only the toric term remains.
 
-*Needs:* [§12.4](#s12-4); [§17.2](#s17-2); [§17.5](#s17-5); `NeronModelsAndSemistableAbelianVarieties` §R11.3, §§3.5–3.7 and §4 (shared semistable torsion and graph contracts).
+*Needs:* [§12.4](#124-degeneracy-maps-on-modular-components); [§17.2](#172-the-eichlershimura-relation); [§17.5](#175-modular-monodromy-and-component-sequence); `NeronModelsAndSemistableAbelianVarieties` §R11.3, §§3.5–3.7, §§4.2–4.7 (graph contracts) and §4.14 (shared semistable torsion).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp. 45–46; §3.10.3, pp. 48–49.)
-
-<a id="s17-8"></a>
 
 ### 17.8 The finite Taylor–Wiles modular cover
 
@@ -4792,19 +4471,17 @@ The minus submodule consists of classes with `ξx=−x`. Since 2 is a unit, `(1�
 - `Q=empty` gives `Δ_Q=1` and the fixed auxiliary base-level module.
 - The choice of root is part of the Hecke localization, not a new definition of an abstract free module.
 
-*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§9.1](#s9-1); [§9.2](#s9-2); [§14.2](#s14-2); [§14.8](#s14-8); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§14.2](#142-finite-and-adic-parabolic-cohomology); [§14.8](#148-hecke-operators-with-relative-coefficients); [FuchsianOrbifolds Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/FuchsianOrbifolds#layer-2-hyperbolic-polygons-and-cofinite-groups); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Definition of Δ_Q, Γ_Q, Γ̄_Q and auxiliary R, author pp. 4–7; Proposition 1, pp. 7–8.)
 
-<a id="s17-9"></a>
-
 ### 17.9 Finite-level Taylor–Wiles freeness
 
-For the actual cover and O of [§17.8](#s17-8), `H¹(Y_Q,O)^−` is finite free over `O[Δ_Q]`, with rank equal to `rank_O H¹(Ȳ_Q,O)^−`. Each commuting completed anemic/selected-root Hecke localization is an `O[Δ_Q]`-direct summand and is therefore also finite free. At the non-Eisenstein ideals of Layer 14, boundary removal identifies this with the compact cuspidal module. Reduction modulo `πⁿ` yields a finite free `(O/πⁿ)[Δ_Q]`-module of the same rank. The plus eigenspace and Hecke-rank-one multiplicity claims are not conclusions of Proposition 1.
+For the actual cover and O of [§17.8](#178-the-finite-taylorwiles-modular-cover), `H¹(Y_Q,O)^−` is finite free over `O[Δ_Q]`, with rank equal to `rank_O H¹(Ȳ_Q,O)^−`. Each commuting completed anemic/selected-root Hecke localization is an `O[Δ_Q]`-direct summand and is therefore also finite free. At the non-Eisenstein ideals of Layer 14, boundary removal identifies this with the compact cuspidal module. Reduction modulo `πⁿ` yields a finite free `(O/πⁿ)[Δ_Q]`-module of the same rank. The plus eigenspace and Hecke-rank-one multiplicity claims are not conclusions of Proposition 1.
 
 Odd `ℓ`; `Δ_Q` is an abelian `ℓ`-group; the congruence group `Γ̄_Q` is torsion-free and free of finite rank.
 
-The finite-level identification with cohomology modulo `πⁿ` uses [§14.10](#s14-10) or the minus-cochain computation, not merely a claim that rational invariants commute with integral reduction.
+The finite-level identification with cohomology modulo `πⁿ` uses [§14.10](#1410-finite-generation-and-localized-integral-freeness) or the minus-cochain computation, not merely a claim that rational invariants commute with integral reduction.
 
 Establish this as follows. Apply Shapiro: `H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q])`. By `modularOpenFiniteGraph` of §14.9a, `Γ̄_Q` is free of finite rank, so its cocycle module is finite free over `O[Δ_Q]`. `ξ` acts trivially on `Δ_Q`, so all coboundaries are in the plus eigenspace; minus `H¹` equals minus cocycles, a projective summand. `O[Δ_Q]` is local for a finite `ℓ`-group over the complete DVR, so that finite projective module is free. Over `Frac(O)`, finite cover descent identifies `Δ_Q` invariants with base cohomology, giving the stated rank; prove coefficient reduction by the same finite free minus complex. Completed commuting Hecke localization is the idempotent summand supplied by IntegralHeckeAndGaloisDeterminants §§2.2–2.3; its projector commutes with `ξ` and `Δ_Q`. Use boundary removal only for the stated non-Eisenstein modules. Apply Mathlib groupCohomology.coindIso for Shapiro; the new work is its compatibility with the tree cochain sequence or finite diamond cover.
 
@@ -4814,15 +4491,13 @@ Establish this as follows. Apply Shapiro: `H¹(Γ_Q,O)=H¹(Γ̄_Q,O[Δ_Q])`. By 
 - For `Δ_Q` of order `ℓ`, the O-rank is `ℓ` times the `O[Δ_Q]`-rank.
 - Nothing is asserted about weight-one coherent cohomology by this weight-two argument.
 
-*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§14.9a](#s14-9a) (`modularOpenFiniteGraph`); the existing diamond group-ring contract in the supplier section; [§14.9](#s14-9); [§14.10](#s14-10); [§17.8](#s17-8); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§14.9a](#149a-a-finite-graph-model-for-the-open-modular-curve) (`modularOpenFiniteGraph`); the existing diamond group-ring contract in the supplier section; [§14.9](#149-non-eisenstein-removal-of-the-boundary); [§14.10](#1410-finite-generation-and-localized-integral-freeness); [§17.8](#178-the-finite-taylorwiles-modular-cover); [AlgebraicTopology Stage 6](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-6-cohomology-products-and-manifold-duality); Mathlib `groupCohomology.coindIso`; [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proposition 1 and proof, author pp. 7–8.)
 
-<a id="s17-10"></a>
-
 ### 17.10 Augmentation and selected-root specialization
 
-Let `I_Q` be the augmentation ideal of `O[Δ_Q]`. For the minus modules of the actual covers, `M_Q^-/I_QM_Q^-` identifies with `H¹(Ȳ_Q,O)^−`, via Shapiro’s induced-coefficient complex and its augmentation. Assume at each step the actual trivial integral central/diamond action and the cyclotomic-determinant Taylor–Wiles root hypotheses of [§15.8](#s15-8). Successive root selection at `q∈Q` then identifies the localized base-side module with the fixed-level localized module. All maps commute with anemic Hecke operators and reduction modulo `πⁿ`. A finite free `O[Δ_Q]` module M satisfies `rank_O(M/I_QM)=rank_{O[Δ_Q]}M`; this numerical fact is used only after the actual geometric specialization map has been proved.
+Let `I_Q` be the augmentation ideal of `O[Δ_Q]`. For the minus modules of the actual covers, `M_Q^-/I_QM_Q^-` identifies with `H¹(Ȳ_Q,O)^−`, via Shapiro’s induced-coefficient complex and its augmentation. Assume at each step the actual trivial integral central/diamond action and the cyclotomic-determinant Taylor–Wiles root hypotheses of [§15.8](#158-taylorwiles-degeneracy-control). Successive root selection at `q∈Q` then identifies the localized base-side module with the fixed-level localized module. All maps commute with anemic Hecke operators and reduction modulo `πⁿ`. A finite free `O[Δ_Q]` module M satisfies `rank_O(M/I_QM)=rank_{O[Δ_Q]}M`; this numerical fact is used only after the actual geometric specialization map has been proved.
 
 The same auxiliary R-level is retained at both ends. Removing R requires a separate checked level-control argument and its source hypotheses.
 
@@ -4836,7 +4511,7 @@ Establish this as follows. On the Shapiro free-group complex, augmentation is co
 - This does not remove an auxiliary R-level on its own.
 - With Q empty, `Δ_Q=1` and `I_Q=0`; augmentation and root specialization are identities on the fixed auxiliary-level module.
 
-*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§15.8](#s15-8); [§17.9](#s17-9); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
+*Needs:* ArithmeticLocallySymmetricSpaces §§ALS.6.1–ALS.6.3 through the GL₂ comparison of §14.4; IntegralHeckeAndGaloisDeterminants §§2.1–2.3 (finite Hecke images and commuting idempotent/operator summands); [§15.8](#158-taylorwiles-degeneracy-control); [§17.9](#179-finite-level-taylorwiles-freeness); [AlgebraicTopology Stage 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/AlgebraicTopology#stage-5-bundles-covers-products-and-finite-cover-descent).
 
 ([Taylor–Wiles](https://virtualmath1.stanford.edu/~rltaylor/hecke.pdf), Proof of Proposition 1, author pp. 7–8; [Calegari–Geraghty](https://arxiv.org/pdf/1207.4224), Lemma 9.6, pp. 88–90.)
 
