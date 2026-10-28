@@ -74,4 +74,6 @@ revision against which an earlier version elaborated.
 - [Heights, units and S-units of number fields](HeightsAndUnits/README.md)
   (archive candidate 2026-10-28; awaiting implementation PRs #20658, #19468 and #20707)
 - [effective arithmetic bounds and geometry of numbers](EffectiveBounds/README.md)
-  (declared complete 2026-10-28)
+  (archive candidate 2026-10-28; awaiting implementation PRs #22059, #22064 and #22092)
+- [geodesics, the exponential map, and the Hopf–Rinow theorem](HopfRinow/README.md)
+  (archive candidate 2026-10-28; awaiting implementation PRs #18707, #19453 and #21067)

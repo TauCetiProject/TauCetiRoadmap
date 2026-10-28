@@ -1,5 +1,10 @@
 # Roadmap: geodesics, the exponential map, and the Hopf–Rinow theorem
 
+**Archive candidate.** The complete specification is audited in [COMPLETION.md](COMPLETION.md).
+The archive PR remains a draft until its three implementation prerequisites have merged and their
+normal build/review gates have passed. The historical Suggested.lean is a nonexhaustive interface
+prototype at the repository pin; its admitted interfaces are not a proof certificate.
+
 Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundle`,
 `IsRiemannianManifold`, and `EMetricSpace.ofRiemannianMetric` live in
 `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`, while `Manifold.pathELength` and
@@ -19,10 +24,10 @@ local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, bu
 is explicitly owned by this roadmap rather than deferred to another roadmap. In particular, this
 roadmap owns the Levi-Civita connection and its regularity, geodesics and their flow, exponential
 maps and their local inverse logarithms, and Hopf--Rinow. The [Geometric Topology
-roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
-the [differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build
+roadmap](../../TauCetiRoadmap/GeometricTopology/README.md) consumes the connection to build curvature and volume;
+the [differential-geometry roadmap](../../TauCetiRoadmap/DifferentialGeometry/README.md) consumes it to build
 gradient, divergence, Hessian and the Laplace–Beltrami operator; the
-[Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential, logarithm,
+[Optimal Transport roadmap](../../TauCetiRoadmap/OptimalTransport/README.md) consumes the exponential, logarithm,
 completeness, and minimizing-geodesic APIs.
 [RiemannianGeometry R4.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/53915bae39e30b2b78fe08bb697d90d62bce66ef/TauCetiRoadmap/RiemannianGeometry/README.md#r4-comparison-complete-manifolds-and-space-forms)
 owns the cut locus, injectivity radius and volume-nullity theorem;
