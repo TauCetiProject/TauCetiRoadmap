@@ -664,6 +664,77 @@ AT8.1's relative-cell connectivity and transport theorem.
    GT Layer10 and C1's normalized degree2 class of the corresponding complex
    line, including the SBC dual-character convention. C3 identifies it with c₁. Construct characteristic-number evaluation and
    its naturality, degree and boundary-vanishing formulas.
+   **C2.3a. Barycentric Hopf field and simplex indices.** For a compact
+   boundaryless smooth Hausdorff second-countable m-manifold M, take a
+   specified finite compatible smooth triangulation h:|K|≃M from GT's
+   smoothing-and-triangulation comparison. Use its Munkres closed-simplex
+   extensions and injective differential on each closed star. On a flag
+   σ_0<⋯<σ_r in the barycentric subdivision, put d_i=dim σ_i, let t_i
+   be the barycentric weights, and set μ=Σ_i t_i d_i and
+   v_i=t_i(d_i−μ). Define the realization velocity as Σ_i v_i b_(σ_i).
+   Prove Σ_i v_i=0, compatibility on common faces, and that zero weights
+   have zero velocity. Strict increase of the d_i gives zero velocity
+   exactly at flag vertices. Prove the height derivative identity
+   Σ_i d_i v_i=Σ_i t_i(d_i−μ)^2, strictly positive off those vertices.
+   Push the face-tangent velocity through h's simplex differentials,
+   proving agreement on faces and continuity as an actual section of TM.
+   The resulting continuous field has precisely the points h(b_σ) as zeros.
+
+   Prove its local index at h(b_σ) is (−1)^d, where d=dim σ. Construct
+   the tangent-star homeomorphism from the closed-star differential and
+   the compatible smooth triangulation. The link of b_σ in the subdivision
+   is the join of the subdivisions of ∂σ and link_K(σ); its closed star
+   is the cone on this link. Track lower faces and strict cofaces in this
+   model. On a flag containing σ_j=σ, rewrite the local velocity as
+   Σ_(i≠j)t_i(d_i−μ)(b_(σ_i)−b_σ). Restrict to a neighborhood with
+   |μ−d|<1/2, and freeze only these noncentral rates to d_i−d, keeping
+   the coefficient at b_σ equal to minus their sum so tangency is retained.
+   Then deform these rates to−1 on lower faces and+1 on cofaces, without
+   creating another zero. This gives a homotopy of the normalized field to
+   (u,v)↦(−u,v) on R^d×R^(m−d). Prove the local tangent trivialization
+   and degree comparison, not just positivity of the height derivative.
+   Treat d=0 and d=m directly when one of the link factors is empty;
+   an ordinary topological join with an empty space is not the needed
+   unit convention for the simplicial link formula.
+
+   Construct a smooth field V with exactly those same zero points and
+   with invertible zero linearizations of determinant sign (−1)^d.
+   Choose disjoint coordinate balls about the finitely many h(b_σ).
+   On smaller balls prescribe the linear model (−u,v). In dimensions
+   m>=2, the preceding local index and AT's sphere-degree classification
+   give the zero-free normalized homotopy on each intervening annulus;
+   make it stationary on endpoint collars and construct its radial pasting
+   to the original nonzero field. In m=1
+   use the two endpoint signs directly. Smooth the section relative to
+   these smaller balls using bundle-chart approximation and DG's smooth
+   partitions of unity, keeping its base projection fixed. A positive
+   lower bound for the field norm on the compact complement of the fixed
+   smaller balls, including the pasted annuli,
+   gives an approximation bound preserving nonvanishing there. Supply
+   the actual tangent-bundle section, its smoothness and zero-set equality,
+   and compare its zero linearizations with the prescribed local models.
+   In m=0 the field vanishes at every point of the finite discrete
+   manifold, and the empty-dimensional determinant and local index are+1.
+   Include empty and disconnected manifolds and triangulations.
+
+   Apply the transverse-zero Euler formula to this field. In the
+   unorientable case explicitly use e(TM)∈H^m(M;o(TM)), the twisted
+   fundamental class [M]∈H_m(M;o(M)), the canonical identification
+   o(TM)≃o(M), and the sign-system pairing o(M)⊗o(M)→Z. Prove that
+   the local indices are unchanged by simultaneous reversal of source
+   and tangent-fibre orientations. This gives the integer equality
+   ⟨e(TM),[M]⟩=Σ_σ(−1)^(dim σ)=χ(M), where AT7 identifies the finite
+   alternating simplex count with Euler characteristic. Compare with
+   C2.3's diagonal/trace proof after constructing both comparisons.
+   This application consumes the earlier local-index/Thom formula,
+   GT's compatible smooth triangulation, DG's relative section smoothing
+   and AT's degree/Euler interfaces. The general C2.3 trace proof has
+   no triangulation input. An arbitrary realization homeomorphism alone
+   does not supply the simplex differentials used in this construction.
+   [BarycentricHopfFieldTargets.lean](BarycentricHopfFieldTargets.lean)
+   records the flag formulas on native `Convexity.StdSimplex`, including
+   tangency, face restriction, the variance identity and the zero set.
+
 4. Construct oriented and orientation-twisted embedding Gysin by Thom followed by tubular open
    extension; prove independence, isotopy, composition, transverse base change,
    self-intersection and the projection formula. Consume GT's normal/tubular
