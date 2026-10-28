@@ -130,6 +130,29 @@ For a nonzero unital Banach algebra construct the equivalent norm
 `‖a‖_* = ‖leftMultiplication(a)‖`. Prove
 `‖a‖/‖1‖≤‖a‖_*≤‖a‖`, submultiplicativity, completeness and
 `‖1‖_*=1`, and the bounded algebra equivalence with the original norm.
+Test the closest-scalar prescription separately. On B=ℂ³ with pointwise
+multiplication and the Banach-algebra norm `N(z)=2‖z‖∞`, the identity
+`e=(1,1,1)` has N(e)=2. For every z prove the unique existence of a scalar
+λ_z minimizing `N(z−λe)`: use coercivity in λ and properness of ℂ for
+existence, and the complex parallelogram identity at the midpoint of two
+minimizers for uniqueness. Set `q(z)=N(z−λ_z e)+|λ_z|`. This formula does
+not define a norm. With `a=(−1,1,i)` and `b=(1,1,i)`, prove
+
+`λ_a=0`, `λ_b=(1+i)/2`, `λ_(a+b)=1+i`,
+
+`q(a)=2`, `q(b)=3√2/2`, `q(a+b)=3√2>q(a)+q(b)`.
+
+Each minimizing center is certified by half the distance of a pair of
+coordinates and attainment of that bound; the third coordinate lies in the
+same closed disk. Prove the scaled supremum norm is complete and
+submultiplicative, so the counterexample has exactly the unnormalized-unit
+setting of Short Assignment4, question2. Uniqueness makes the failure
+independent of any choice of minimizers. This closest-scalar formula and
+the bounded linear projection sum norm below are distinct constructions;
+the preceding left-multiplication norm supplies the algebra renorming.
+[ClosestScalarTargets.lean](ClosestScalarTargets.lean) illustrates the
+nearest-center and triangle-failure statements.
+
 For a closed subalgebra B of a unital algebra A with 1_A∉B, prove the
 unitization map `(λ,b)↦λ1_A+b` identifies B′ with the closed algebra
 B+ℂ1_A, as a bounded algebra equivalence. The inherited norm need not
