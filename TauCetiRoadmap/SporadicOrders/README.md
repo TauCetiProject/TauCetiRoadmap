@@ -110,7 +110,8 @@ transcribed wrongly enough to collapse the group would violate.
 
 **From Tau Ceti** (at the pinned revision; this is CFSGStatement S0–S1).
 
-- `TauCeti.SporadicName` and `TauCeti.SporadicName.presentation`
+- `TauCeti.SporadicName` (`TauCeti/GroupTheory/SpecificGroups/CFSG/Index.lean`), the twenty-six
+  sporadic names, and `TauCeti.SporadicName.presentation`
   (`TauCeti/GroupTheory/SpecificGroups/CFSG/Sporadic/Presentation.lean`), the cited presentation of
   each sporadic name, and `TauCeti.SporadicName.Group`, defined as
   `TauCeti.GroupPresentation.Group` of that presentation, which is the `PresentedGroup` of its
