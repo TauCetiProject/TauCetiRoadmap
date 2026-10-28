@@ -381,15 +381,9 @@ noncomputable abbrev presentedProP.mk {X : Type u} (rels : Set (freeProP p X)) :
     freeProP p X →ₜ* presentedProP p X rels :=
   TauCeti.presentedProP.mk p rels
 
-/-- The dyadic Demushkin relator `A²S⁴(S,Y)` in the free pro-`2` group on `A, S, Y`
-(`= of 0, of 1, of 2`), written out in Labute's commutator convention
-`(x, y) = x⁻¹y⁻¹xy` (see the conventions in `README.md`). This is Tau Ceti's
-`TauCeti.d0Relator`, whose value on the free generators is `TauCeti.d0Relator_def`. -/
-noncomputable abbrev d0Relator : freeProP 2 (Fin 3) :=
-  TauCeti.d0Relator
-
 /-- **`D₀ = ⟨A, S, Y ∣ A²S⁴(S,Y) = 1⟩`**, the standard rank-3, `q = 2` Demushkin group,
-defined intrinsically as a presented pro-`2` group: Tau Ceti's `TauCeti.demushkinD0`. -/
+defined intrinsically as a presented pro-`2` group on Tau Ceti's relator `TauCeti.d0Relator`, written
+in Labute's commutator convention `(x, y) = x⁻¹y⁻¹xy`: Tau Ceti's `TauCeti.demushkinD0`. -/
 noncomputable abbrev demushkinD0 : Type := TauCeti.demushkinD0
 
 /-- The **topological abelianization** `G^{ab} = G ⧸ closure [G,G]`, the profinite
@@ -452,6 +446,22 @@ step of Layer 8's two-epimorphisms theorem. -/
 abbrev IsFiniteContinuousQuotient (G : Type u) [Group G] [TopologicalSpace G]
     (Q : FiniteGrp.{v}) : Prop :=
   TauCeti.IsFiniteContinuousQuotient G Q
+
+/-- **Layer 8, finite-quotient determinacy.** If the profinite group `G` is topologically finitely
+generated and the profinite group `H` has the same continuous finite quotients as `G`, then `G` and
+`H` are topologically isomorphic. No finite-generation hypothesis is placed on `H`: it is derived
+(`TauCeti.IsTopologicallyFinitelyGenerated.of_forall_isFiniteContinuousQuotient`). The route is the
+two epimorphisms and the Hopf property of Layer 3; it is Tau Ceti's
+`TauCeti.nonempty_continuousMulEquiv_of_forall_isFiniteContinuousQuotient_iff`, which quantifies
+over unbundled finite groups, read here on bundled ones. -/
+theorem nonempty_continuousMulEquiv_of_forall_isFiniteContinuousQuotient_iff
+    {G H : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
+    [TotallyDisconnectedSpace G] [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
+    [CompactSpace H] [TotallyDisconnectedSpace H] (hG : IsTopologicallyFinitelyGenerated G)
+    (h : ∀ Q : FiniteGrp.{u}, IsFiniteContinuousQuotient G Q ↔ IsFiniteContinuousQuotient H Q) :
+    Nonempty (G ≃ₜ* H) :=
+  TauCeti.nonempty_continuousMulEquiv_of_forall_isFiniteContinuousQuotient_iff hG
+    fun Q _ _ => h (FiniteGrp.of Q)
 
 /-! ## Layer 5: the coefficient objects, over the imported carrier
 
@@ -564,8 +574,10 @@ section Demushkin
 pro-`p` (field `isProP`), `H¹(G, 𝔽_p)` is finite-dimensional (`finite_cohomFp_one`),
 `H²(G, 𝔽_p)` is one-dimensional (`finrank_cohomFp_two`), and the cup square `cupFp` is
 nondegenerate on the left and on the right (`cup_separatingLeft`, `cup_separatingRight`). The
-predicate is defined on every topological group; the `isProP` field is what confines it to
-pro-`p`, hence profinite, groups. Finite generation is a consequence
+predicate is defined on every topological group, and its `isProP` field only constrains the
+quotients by open normal subgroups: it does not give compactness or total disconnectedness (an
+infinite discrete elementary abelian `2`-group satisfies it). Every theorem about Demushkin groups
+therefore carries `[CompactSpace G] [TotallyDisconnectedSpace G]` separately. Finite generation is a consequence
 (`TauCeti.IsDemushkin.isTopologicallyFinitelyGenerated`), never an assumption. -/
 abbrev IsDemushkin (p : ℕ) [Fact p.Prime] (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] : Prop :=
@@ -845,20 +857,21 @@ abbrev demushkinWordNeTwo {H : Type*} [Group H] (q n : ℕ) (x : ℕ → H) : H 
   TauCeti.demushkinWordNeTwo q n x
 
 /-- The `q = 2`, `n` odd normal-form word `x₁²x₂^{2^f}(x₂,x₃)(x₄,x₅)⋯`, on an arbitrary tuple: Tau
-Ceti's `TauCeti.demushkinWordTwoOdd`. The parameter `f` is finite here; the word with `f : ℕ∞`,
-where `f = ∞` replaces `x₂^{2^f}` by `1`, is `demushkinWordTwoOddPadic`, which agrees with this one
-at finite `f`, by `TauCeti.IsProP.padicPow_natCast`. -/
+Ceti's `TauCeti.demushkinWordTwoOdd`. The parameter `f` is finite here; the level `f = ∞`, where
+the factor `x₂^{2^f}` is absent, is `demushkinWordTwoOddTop`. -/
 abbrev demushkinWordTwoOdd {H : Type*} [Group H] (f n : ℕ) (x : ℕ → H) : H :=
   TauCeti.demushkinWordTwoOdd f n x
+
+/-- The `q = 2`, `n` odd normal-form word at level `f = ∞`, `x₁²(x₂,x₃)(x₄,x₅)⋯`, on an arbitrary
+tuple: Tau Ceti's `TauCeti.demushkinWordTwoOddTop`. At rank `1` it is `x₁²`. -/
+abbrev demushkinWordTwoOddTop {H : Type*} [Group H] (n : ℕ) (x : ℕ → H) : H :=
+  TauCeti.demushkinWordTwoOddTop n x
 
 /-- The `q = 2`, `n` even normal-form word `x₁^{2+a}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`, on an arbitrary
 tuple, with natural-number parameters `a` and `f`: Tau Ceti's `TauCeti.demushkinWordTwoEven`. These
 are the values the marked classification instantiates, where the image equation pins the
-parameters and natural representatives exist.
-⚠ A natural number does not stand for a general `α ∈ 4ℤ₂`: the word in the nonabelian group `F`
-depends on the actual exponent, not on its residue at one finite level. The word with genuine
-parameters `α : ℤ_[2]` and `f : ℕ∞` is `demushkinWordTwoEvenPadic`, which agrees with this one at
-natural parameters, by `TauCeti.IsProP.padicPow_natCast`. -/
+parameters and natural representatives exist. The level `f = ∞` of the even family is
+`x₁²(x₁,x₂)(x₃,x₄)⋯`, which is `demushkinWordNeTwo 2`. -/
 abbrev demushkinWordTwoEven {H : Type*} [Group H] (a f n : ℕ) (x : ℕ → H) : H :=
   TauCeti.demushkinWordTwoEven a f n x
 
@@ -869,38 +882,6 @@ factor and hence no level `f`. It is what `demushkinWordTwoEven` reads as at ran
 at rank two prescribes character values on two generators only. -/
 abbrev demushkinWordTwoRankTwo {H : Type*} [Group H] (a : ℕ) (x : ℕ → H) : H :=
   TauCeti.demushkinWordTwoRankTwo a x
-
-/-! ### The `q = 2` words with `2`-adic parameters
-
-Layer 8 fixes the parameters of the `q = 2` normal forms as `α ∈ 4ℤ₂` and `f : ℕ∞` with
-`2^∞ = 0`, and the successive approximation produces relators of exactly that shape. Those words
-live in the free pro-`2` group, where Tau Ceti's `TauCeti.IsProP.padicPow` gives the power of an
-element by a `2`-adic integer, with its exponent laws, continuity and naturality; it is a power of
-one element, not a scalar action on the nonabelian group. -/
-
-/-- `2^f` as a `2`-adic integer for `f : ℕ∞`, with `2^∞ = 0`, so that the factor `x^{2^f}` of a
-`q = 2` normal form is `1` at `f = ∞`. -/
-noncomputable def twoPowENat (f : ℕ∞) : ℤ_[2] :=
-  if f = ⊤ then 0 else (2 : ℤ_[2]) ^ f.toNat
-
-/-- The `q = 2`, odd-rank normal-form word `x₁²x₂^{2^f}(x₂,x₃)(x₄,x₅)⋯` with `f : ℕ∞`, read on a
-family `x` in the free pro-`2` group; at `f = ∞` the factor `x₂^{2^f}` is `1`. -/
-noncomputable def demushkinWordTwoOddPadic (f : ℕ∞) (n : ℕ) (x : ℕ → freeProP 2 (Fin n)) :
-    freeProP 2 (Fin n) :=
-  x 0 ^ 2 * TauCeti.IsProP.padicPow (TauCeti.isProP_freeProP 2 (Fin n)) (x 1) (twoPowENat f) *
-    ((List.range (n / 2)).map fun i => labuteComm (x (2 * i + 1)) (x (2 * i + 2))).prod
-
-/-- The `q = 2`, even-rank normal-form word `x₁^{2+α}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯` with `α : ℤ_[2]`
-and `f : ℕ∞`, read on a family `x` in the free pro-`2` group. Both powers are `2`-adic powers. At
-`f = ∞` it is Labute's `x₁^{2+α}(x₁,x₂)(x₃,x₄)⋯`. -/
-noncomputable def demushkinWordTwoEvenPadic (α : ℤ_[2]) (f : ℕ∞) (n : ℕ)
-    (x : ℕ → freeProP 2 (Fin n)) :
-    freeProP 2 (Fin n) :=
-  TauCeti.IsProP.padicPow (TauCeti.isProP_freeProP 2 (Fin n)) (x 0) (2 + α) *
-    labuteComm (x 0) (x 1) *
-      TauCeti.IsProP.padicPow (TauCeti.isProP_freeProP 2 (Fin n)) (x 2) (twoPowENat f) *
-        ((List.range (n / 2 - 1)).map fun i =>
-          labuteComm (x (2 * i + 2)) (x (2 * i + 3))).prod
 
 variable (p : ℕ) [Fact p.Prime] (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
@@ -939,7 +920,7 @@ isomorphisms onto the presented groups of every level `f ≥ f₀`, whose orient
 and every instance but `f = f₀` would be false. The same trap applies to the even case below, and
 to any later theorem that lets a normal-form parameter float free of the group it classifies.
 The theorem is stated at the literal prime `2`, because the image equation lives in
-`Subgroup ℤ_[2]ˣ`; the value `f = ∞`, image `{±1}`, is not covered by this word.
+`Subgroup ℤ_[2]ˣ`; the value `f = ∞`, image `{±1}`, is `isDemushkin_marked_of_q_two_odd_top`.
 ⚠ The marking prescribes a value at the third generator, so the rank must be at least `3`:
 `freeProPGen` is `1` out of range (`TauCeti.presentedProPGen_eq_one_of_le`), and at rank `1` the clause
 `χ(x₃)(1 - 2^f) = 1` would read `1 - 2^f = 1`, which is false. Rank `1` is `ℤ/2` with image
@@ -1010,8 +991,8 @@ branch of the rank `≥ 4` theorem. The other branch of that theorem does not oc
 rank-two image is topologically generated by `χ(x₂)`, and `{±1} × U^(f)` with `f < ∞` is not
 procyclic (Layer 7), so at rank two the even family with finite parameters is this word alone,
 Labute's `N ≥ 1` against `N ≥ 2`. The image `{±1}`, the word `x₁²(x₁,x₂)` with `α = 0`, is the
-value `f = ∞` and is not covered here, as in the odd case; at `a = 0` the hypothesis `hrange`
-demands the unit `-1 + 2^0 = 0` and is unsatisfiable, not junk-valued. -/
+value `f = ∞` and is `isDemushkin_marked_of_q_two_even_top`; at `a = 0` the hypothesis `hrange`
+here demands the unit `-1 + 2^0 = 0` and is unsatisfiable, not junk-valued. -/
 theorem isDemushkin_marked_of_q_two_rank_two (hG : IsDemushkin 2 G) (hrank : demushkinRank hG = 2) (a : ℕ) (ha : 4 ∣ a)
     (hrange : ∃ u : ℤ_[2]ˣ, (u : ℤ_[2]) = -1 + 2 ^ padicValNat 2 a ∧
       (demushkinCharacter hG).toMonoidHom.range = procyclicClosure u) :
@@ -1030,6 +1011,38 @@ theorem isDemushkin_marked_of_q_two_rank_two (hG : IsDemushkin 2 G) (hrank : dem
   simp only [presentedProPGen, demushkinWordTwoRankTwo]
   rw [hrank]
   exact h
+
+/-- **Layer 9, the marked classification at `q = 2`, `n` odd, image `{±1}`** (the level
+`f = ∞`), proved in Tau Ceti as `TauCeti.isDemushkin_marked_of_q_two_odd_top`. A Demushkin group
+at `p = 2` of odd rank whose canonical character has image `{±1}` is isomorphic to
+`⟨x₁, …, xₙ ∣ x₁²(x₂,x₃)⋯(xₙ₋₁,xₙ)⟩` with `χ(x₁) = -1` and `χ = 1` on the other generators. No
+rank bound is needed: at rank `1` it is `ℤ/2 = ⟨x₁ ∣ x₁²⟩` with `χ(x₁) = -1`; at rank `3` the
+marking is `(-1, 1, 1)`. -/
+theorem isDemushkin_marked_of_q_two_odd_top (hG : IsDemushkin 2 G)
+    (hodd : Odd (demushkinRank hG))
+    (hrange : (demushkinCharacter hG).toMonoidHom.range = Subgroup.zpowers (-1 : ℤ_[2]ˣ)) :
+    ∃ e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG))
+        {demushkinWordTwoOddTop (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))},
+      demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 0)) = -1 ∧
+        ∀ i : ℕ, i ≠ 0 → i < demushkinRank hG →
+          demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ i)) = 1 :=
+  TauCeti.isDemushkin_marked_of_q_two_odd_top hG hodd hrange
+
+/-- **Layer 9, the marked classification at `q = 2`, `n` even, image `{±1}`** (the level
+`f = ∞`), proved in Tau Ceti as `TauCeti.isDemushkin_marked_of_q_two_even_top`. A Demushkin group
+at `p = 2` of even rank whose canonical character has image `{±1}` is isomorphic to
+`⟨x₁, …, xₙ ∣ x₁²(x₁,x₂)(x₃,x₄)⋯(xₙ₋₁,xₙ)⟩`, the word `demushkinWordNeTwo 2`, with
+`χ(x₂) = -1` and `χ = 1` on the other generators. It covers every even rank, `2` included: for
+`⟨x, y ∣ x²(x,y)⟩` the marking is `χ(x) = 1`, `χ(y) = -1`. -/
+theorem isDemushkin_marked_of_q_two_even_top (hG : IsDemushkin 2 G)
+    (heven : Even (demushkinRank hG))
+    (hrange : (demushkinCharacter hG).toMonoidHom.range = Subgroup.zpowers (-1 : ℤ_[2]ˣ)) :
+    ∃ e : G ≃ₜ* presentedProP 2 (Fin (demushkinRank hG))
+        {demushkinWordNeTwo 2 (demushkinRank hG) (freeProPGen 2 (demushkinRank hG))},
+      demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ 1)) = -1 ∧
+        ∀ i : ℕ, i ≠ 1 → i < demushkinRank hG →
+          demushkinCharacter hG (e.symm (presentedProPGen 2 (demushkinRank hG) _ i)) = 1 :=
+  TauCeti.isDemushkin_marked_of_q_two_even_top hG heven hrange
 
 /-- **Layer 9, Labute Thm 2: relators with the same invariants are equivalent under an
 automorphism of `F`.** If `F/(r)` and `F/(r')` are Demushkin with the same orientation image,
@@ -1318,41 +1331,18 @@ theorem d0_topologicallyGenerates :
     rw [Subgroup.topologicalClosure_coe, TauCeti.presentedProP.dense_closure_range_of.closure_eq,
       Subgroup.coe_top]
 
-/-- **Layer 7, `-3` is a `2`-adic unit**: Tau Ceti's `TauCeti.isUnit_neg_three`. The value
-`χ(Y) = (-3)⁻¹` of the standard orientation is the inverse of this unit, so the unit is named
-rather than written as a literal. -/
-theorem isUnit_neg_three : IsUnit (-3 : ℤ_[2]) := TauCeti.isUnit_neg_three
-
-/-- The `2`-adic unit with value `-3`: Tau Ceti's `TauCeti.negThreeUnit`. -/
+/-- The `2`-adic unit with value `-3` (`TauCeti.negThreeUnit_coe`): Tau Ceti's
+`TauCeti.negThreeUnit`. The value `χ(Y) = (-3)⁻¹` of the standard orientation is its inverse. -/
 noncomputable abbrev negThreeUnit : ℤ_[2]ˣ := TauCeti.negThreeUnit
-
-/-- **Layer 7, the value of `negThreeUnit`.** -/
-theorem negThreeUnit_coe : (negThreeUnit : ℤ_[2]) = -3 := TauCeti.negThreeUnit_coe
 
 /-- **The standard orientation of `D₀`**, the continuous character `D₀ → ℤ₂ˣ` with values
 `(-1, 1, (-3)⁻¹)` on `(A, S, Y)`: Tau Ceti's `TauCeti.standardD0Orientation`, built by
 `TauCeti.d0Lift` into the pro-`2` group `ℤ₂ˣ`. It exists because those values kill the relator
 `A²S⁴(S, Y)`: the relator maps to `(-1)² · 1⁴ · 1 = 1`, the commutator dying because `ℤ₂ˣ` is
-abelian. It is data, so it is a `def`, and the value theorems below are what pin it. -/
+abelian. Its values are Tau Ceti's `TauCeti.standardD0Orientation_d0A`, `TauCeti.standardD0Orientation_d0S`
+and `TauCeti.standardD0Orientation_d0Y`; the uniqueness theorem below is what pins it. -/
 noncomputable abbrev standardD0Orientation : demushkinD0 →ₜ* ℤ_[2]ˣ :=
   TauCeti.standardD0Orientation
-
-/-- **Layer 7, `χ(A) = -1`.** -/
-theorem standardD0Orientation_d0A : standardD0Orientation d0A = -1 :=
-  TauCeti.standardD0Orientation_d0A
-
-/-- **Layer 7, `χ(S) = 1`.** -/
-theorem standardD0Orientation_d0S : standardD0Orientation d0S = 1 :=
-  TauCeti.standardD0Orientation_d0S
-
-/-- **Layer 7, `χ(Y) = (-3)⁻¹`.** In the notation of the Layer 9 character table this is
-`(1 - 2²)⁻¹` at `f = 2` (`TauCeti.negThreeUnit_inv_mul_one_sub_two_pow_two`). -/
-theorem standardD0Orientation_d0Y : standardD0Orientation d0Y = negThreeUnit⁻¹ :=
-  TauCeti.standardD0Orientation_d0Y
-
-/-- **Layer 7, the standard orientation is continuous**, being a continuous homomorphism. -/
-theorem standardD0Orientation_continuous : Continuous standardD0Orientation :=
-  standardD0Orientation.continuous
 
 /-- **Layer 7, the standard orientation is surjective**, so its image is all of `ℤ₂ˣ`: Tau
 Ceti's `TauCeti.standardD0Orientation_surjective`. This is the `Im χ = ℤ₂ˣ` half of the acceptance
@@ -1369,14 +1359,6 @@ theorem standardD0Orientation_unique (ψ : demushkinD0 →ₜ* ℤ_[2]ˣ)
     (hA : ψ d0A = -1) (hS : ψ d0S = 1) (hY : ψ d0Y = negThreeUnit⁻¹) :
     ψ = standardD0Orientation :=
   TauCeti.standardD0Orientation_unique ψ hA hS hY
-
-/-- **Layer 7, the standard orientation kills the relator.** The compatibility that makes the
-character descend from the free pro-`2` group to `D₀`, written on the relator word itself: Tau
-Ceti's `TauCeti.standardD0Orientation_relator`. Only the values on `A` and `S` matter, since the
-commutator `(S, Y)` dies in the abelian group `ℤ₂ˣ`. -/
-theorem standardD0Orientation_relator (φ : freeProP 2 (Fin 3) →* ℤ_[2]ˣ)
-    (hA : φ (freeProP.of 2 0) = -1) (hS : φ (freeProP.of 2 1) = 1) : φ d0Relator = 1 :=
-  TauCeti.standardD0Orientation_relator φ hA hS
 
 /-! ### Layer 5: lifting a coefficient map along the extension class
 
@@ -1603,8 +1585,8 @@ there for a generating type of cardinality `d(G)` in the universe of `G`. This s
 theorem read at the generating type `Fin d(G)`, which lives in `Type` rather than in the universe
 of `G`.
 ⚠ The version without finite generation is a different theorem with a different proof, and it is
-Layer 10's; Tau Ceti proves it at arbitrary rank, on a pointed profinite space, in
-`Topology/Algebra/Group/Profinite/Free/Pointed/Serre.lean`. -/
+Layer 10's: `cd_p_le_one_iff_exists_convergesToOne_continuousMulEquiv_presentation`, on a
+pointed profinite space. -/
 theorem isFree_of_cd_p_le_one (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [CompactSpace G] [TotallyDisconnectedSpace G] (hG : IsProP p G)
     (hfg : IsTopologicallyFinitelyGenerated G) (hcd : TauCeti.cohomologicalDimensionAt.{u} p G ≤ 1) :
@@ -1844,6 +1826,22 @@ theorem not_injective_fromFreeProC_finiteGroupClassP (p : ℕ) [Fact p.Prime] (S
     ¬ Function.Injective (TauCeti.freeProCPointed.fromFreeProC (finiteGroupClassP.{u} p) S) :=
   TauCeti.freeProCPointed.not_injective_fromFreeProC p S
 
+/-- **Layer 10, Serre's theorem at arbitrary rank.** A pro-`p` group `G` has `cd_p G ≤ 1` if and
+only if it is free pro-`p` on a pointed profinite space: some subset `s ⊆ G` converging to `1` has
+its presentation `F_p(insert 1 s, 1) → G` (the continuous homomorphism extending the inclusion) a
+topological isomorphism. No finite generation is assumed of `G`. The forward direction is
+projectivity and a minimal presentation with kernel in the Frattini subgroup; the converse is
+projectivity of the free object. Tau Ceti's
+`TauCeti.IsProP.cohomologicalDimensionAt_le_one_iff_exists_convergesToOne_continuousMulEquiv_presentation`
+(Ribes–Zalesskii Cor. 7.7.5). -/
+theorem cd_p_le_one_iff_exists_convergesToOne_continuousMulEquiv_presentation
+    (p : ℕ) [Fact p.Prime] (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CompactSpace G] [TotallyDisconnectedSpace G] (hG : IsProP p G) :
+    TauCeti.cohomologicalDimensionAt.{u} p G ≤ 1 ↔ ∃ s : Set G, ConvergesToOne s ∧
+      ∃ e : TauCeti.freeProPInsertOne p s ≃ₜ* G, ⇑e = ⇑(TauCeti.IsProP.presentation hG s) :=
+  TauCeti.IsProP.cohomologicalDimensionAt_le_one_iff_exists_convergesToOne_continuousMulEquiv_presentation
+    hG
+
 /-! ### Tau Ceti inputs named in the README
 
 The README's supplier contracts and proof routes cite these pinned Tau Ceti declarations by name;
@@ -1857,6 +1855,8 @@ each `#check` fails to elaborate if the pinned library no longer provides it. -/
 #check @TauCeti.IsProP.isProjective_iff_exists_convergesToOne_continuousMulEquiv_presentation
 #check @TauCeti.IsProP.isTopologicallyFinitelyGenerated_iff_finite_quotient_proPFrattini
 #check @TauCeti.IsProP.natCard_quotient_proPFrattini
+#check @TauCeti.IsProP.padicPow
+#check @TauCeti.IsProP.padicPow_natCast
 #check @TauCeti.IsProP.surjective_iff_surjective_quotient_index_eq
 #check @TauCeti.IsProPSylow.exists_map_conj_eq
 #check @TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective

@@ -59,8 +59,8 @@ roadmap name is a statement about the Tau Ceti object and every Tau Ceti lemma a
 | `demushkinQ` | `TauCeti.demushkinQ` |
 | `labuteRelatorClass`, `demushkinRelatorCharacter` | `TauCeti.labuteRelatorClass`, with values in `TauCeti.labuteE χ`, and `TauCeti.demushkinRelatorCharacter` |
 | `labuteComm`, `freeProPGen`, `presentedProPGen` | the `TauCeti` declarations of the same names |
-| `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo` | the `TauCeti` declarations of the same names |
-| `d0Relator`, `demushkinD0`, `d0A`, `d0S`, `d0Y`, `negThreeUnit`, `standardD0Orientation` | the `TauCeti` declarations of the same names |
+| `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoOddTop`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo` | the `TauCeti` declarations of the same names |
+| `demushkinD0`, `d0A`, `d0S`, `d0Y`, `negThreeUnit`, `standardD0Orientation` | the `TauCeti` declarations of the same names |
 | `completedGroupAlgebra p Γ`, `IsCompactModule p Γ M` | `TauCeti.completedGroupAlgebra ℤ_[p] Γ`, and `TauCeti.IsCompactModule` over it |
 
 Every headline theorem stated in `Suggested.lean` is proved in Tau Ceti at the pin, so each is a
@@ -87,8 +87,8 @@ The frozen downstream surface includes:
 | embedding problems and projectivity | `IsProC`; Tau Ceti's `TauCeti.FiniteEmbeddingProblem`, `TauCeti.FiniteEmbeddingProblem.IsSolution`, `TauCeti.HasElementaryAbelianSolutions`, `TauCeti.HasPGroupSolutions`, `TauCeti.levelProblem`, `TauCeti.IsProjective`; `hasPGroupSolutions_of_isProjective`, `isProjective_iff_hasPGroupSolutions` |
 | `cd_p` of a Sylow subgroup | `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
 | Demushkin invariants | `trivialFp`, `cohomFp`, `fpPairing`, `fpPairing_bil`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
-| marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two` |
-| standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation` and its value theorems |
+| marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoOddTop`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two`, `isDemushkin_marked_of_q_two_odd_top`, `isDemushkin_marked_of_q_two_even_top` |
+| standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation`, `standardD0Orientation_surjective`, `standardD0Orientation_unique`; the values on `A`, `S`, `Y` and on the relator are Tau Ceti's `TauCeti.standardD0Orientation_d0A`, `TauCeti.standardD0Orientation_d0S`, `TauCeti.standardD0Orientation_d0Y`, `TauCeti.standardD0Orientation_relator` |
 
 The orientation is a continuous character: `demushkinCharacter hG : G →ₜ* ℤ_[p]ˣ`, and
 `demushkinCharacter_unique` identifies it with any continuous character that has Tau Ceti's
@@ -106,6 +106,24 @@ product after a choice of primitive root.
 `ClassFieldTheory` uses `cd_p_eq_of_isProPSylow` to compute the cohomological dimension of a
 local absolute Galois group from that of its Sylow subgroups.
 
+## Conventions
+
+Theorems use the unbundled profinite type-class stack except where a categorical limit or
+completion genuinely needs `ProfiniteGrp`. Pro-`p` (`IsProP`) means that every quotient by an
+open normal subgroup is a `p`-group; on a profinite group these are exactly the continuous finite
+quotients. The predicate makes sense on any topological group and does not imply compactness or
+total disconnectedness, so every theorem about pro-`p` or Demushkin groups carries
+`[CompactSpace G] [TotallyDisconnectedSpace G]` as separate hypotheses. Orders and closed-subgroup indices take supernatural values;
+generator rank is cardinal-valued in general and has a separate natural-number accessor
+under topological finite generation. Presentations always quotient by a **closed** normal
+closure. The Demushkin cup product is Tau Ceti's `TauCeti.cupFp`, the bidegree-`(1, 1)` case of the
+cup product whose general construction `ProfiniteCohomology` plans in Layer 12, and the
+commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
+The cup matrix of a relator `r` reads `H²(G, 𝔽_p)` as `𝔽_p` through the trace
+`tr(c) = φ(r)`, where `φ : F → 𝔽_p` is a cochain with `(δφ)(g, h) = φ(g) + φ(h) - φ(gh)` equal
+to the inflation of `c`; with it the relator `(x₁, x₂)` has `tr(χ₁ ∪ χ₂) = -1` (Layer 9).
+Symplectic bases follow Mathlib's `Matrix.J = fromBlocks 0 (-1) 1 0`.
+
 ## How to read the milestones
 
 `README.md` is the roadmap; `Suggested.lean` is its acceptance test, stating the headline
@@ -115,15 +133,6 @@ through `L10` mean an earlier layer here, and `PC-<layer>` means an export of
 `ProfiniteCohomology`. No milestone depends on a branch, an unmerged external project,
 `LocalFieldsRamification`, or `ClassFieldTheory`. An *In Tau Ceti:* line names an available
 source declaration and the milestone component it supports.
-
-Theorems use the unbundled profinite type-class stack except where a categorical limit or
-completion genuinely needs `ProfiniteGrp`. Pro-`p` means that every continuous finite
-quotient is a `p`-group. Orders and closed-subgroup indices take supernatural values;
-generator rank is cardinal-valued in general and has a separate natural-number accessor
-under topological finite generation. Presentations always quotient by a **closed** normal
-closure. The Demushkin cup product is Tau Ceti's `TauCeti.cupFp`, the bidegree-`(1, 1)` case of the
-cup product whose general construction `ProfiniteCohomology` plans in Layer 12, and the
-commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 
 ## The build, in layers
 
@@ -206,6 +215,18 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
     number is a natural number if and only if it has finite support and finite values.
   - Downstream interfaces: `profiniteOrder`, `profiniteIndex`, and the condition
     `¬ p ∣ profiniteIndex P G` in the Sylow definition of Layer 2.
+  **Checks.**
+  - The exponent vector of `12` is `(v₂, v₃) = (2, 1)` and `0` elsewhere; that of `18` is
+    `(1, 2)`. Their product is `(3, 3)`, which is `216 = 12 · 18`; reading multiplication as
+    pointwise `max` would give `36`.
+  - `12 ⊓ 18` is the pointwise minimum `(1, 1)`, that is `gcd(12, 18) = 6`, and `12 ⊔ 18` is the
+    pointwise maximum `(2, 2)`, that is `lcm(12, 18) = 36`; swapping the two operations would
+    send `gcd` to `36`.
+  - The supernatural number with exponent `1` at every prime has finite values and infinite
+    support, and `2^∞` has finite support and an infinite value: neither is a natural number,
+    so the predicate needs both clauses. All exponents `0` is the natural number `1`.
+  - Divisibility: `2 ∣ 2^∞` and `2^∞ ∤ 2^5`, while `3 ∤ 2^∞`; `p^∞ · p = p^∞`, so
+    multiplication is not cancellative at infinite exponents.
 - **The order of a profinite group.** `profiniteOrder G : Supernatural` takes at each prime
   the supremum of the valuations of the orders of the finite quotients. On a finite discrete
   group it is the factorization of `Nat.card G`.
@@ -705,7 +726,7 @@ about the substrate.
 
 - **The coefficient object.** `trivialFp p G` is the trivial `𝔽_p`-representation of `G`, an
   object of Mathlib's `TopRep (ZMod p) G` (the category `ProfiniteCohomology.TopRep` names), and `cohomFp p G n` is its cohomology,
-  `(continuousCohomology (ZMod p) G n).obj (trivialFp p G)`. Both are Tau Ceti's. Mathlib places
+  `continuousCohomology n (trivialFp p G)`. Both are Tau Ceti's. Mathlib places
   the coefficients in the universe of `G`, so the trivial module is `ULift (ZMod p)`, identified
   with `ZMod p` by `TauCeti.trivialFpEquiv`. Every dimension count in this roadmap is about
   `cohomFp`. The other coefficient systems used below are `I(χ)/p^i`, Tau Ceti's
@@ -1206,8 +1227,12 @@ would not agree with the standard `cd_p`.
   - `G` is a one-relator pro-`p` group, with relator in `Fᵖ[F,F]`.
 
   `IsDemushkin` is Tau Ceti's `TauCeti.IsDemushkin`. Like that predicate it is defined on every
-  topological group, with no compactness or total-disconnectedness binder: its `IsProP` field is
-  what confines it to pro-`p`, hence profinite, groups. Also proved here: `IsDemushkin` is
+  topological group, with no compactness or total-disconnectedness binder. Its `IsProP` field
+  says only that every quotient by an open normal subgroup is a `p`-group, so it does not make
+  `G` profinite: the discrete direct sum of countably many copies of `C₂` satisfies it and is not
+  compact, while the product of those copies is compact. Every theorem about Demushkin groups
+  below therefore assumes `[CompactSpace G] [TotallyDisconnectedSpace G]` alongside the
+  predicate. Also proved here: `IsDemushkin` is
   invariant under topological isomorphism. Every numerical statement below is about
   `demushkinRank`.
   *Needs:* L5 the coefficient objects and `cupFp`; L5 rank interpretations; L3 Burnside.
@@ -1248,6 +1273,28 @@ would not agree with the standard `cd_p`.
   Mathlib's `TopologicalAbelianization`.
   *Needs:* L4 structure theorem; L5 presentations; L7 the predicate.
   *Source:* Labute p. 106.
+- **The standard orientation of `D₀`.** `standardD0Orientation : D₀ →ₜ* ℤ₂ˣ` is the continuous
+  character with values `-1`, `1` and `(-3)⁻¹` on the marked generators `d0A`, `d0S`, `d0Y`,
+  where `-3` is the unit `negThreeUnit`. Prove that it is onto (`standardD0Orientation_surjective`:
+  `-1` and `-3` topologically generate `ℤ₂ˣ`) and that it is the only continuous character
+  with these three values (`standardD0Orientation_unique`: the marked generators topologically
+  generate `D₀`). The values themselves, and the vanishing on the relator that lets the
+  character descend from the free pro-`2` group, are Tau Ceti's.
+  *Needs:* L5 presentations and `D₀`; L7 the subgroups of `ℤ₂ˣ`.
+  *In Tau Ceti:* `TauCeti.standardD0Orientation`, `TauCeti.standardD0Orientation_d0A`,
+  `TauCeti.standardD0Orientation_d0S`, `TauCeti.standardD0Orientation_d0Y`,
+  `TauCeti.standardD0Orientation_relator`, `TauCeti.isUnit_neg_three`,
+  `TauCeti.negThreeUnit_coe` (`Demushkin/Orientation.lean`).
+  **Checks.**
+  - The values are `χ(A) = -1`, `χ(S) = 1`, `χ(Y) = -1/3`, and the relator `A²S⁴(S,Y)` maps to
+    `(-1)² · 1⁴ · 1 = 1`; the trivial character also kills the relator, so the relator alone does
+    not pin `χ`, and uniqueness needs all three values.
+  - With `χ(A) = 1` instead, the image is topologically generated by `-3` alone, which is
+    `U^(2) = 1 + 4ℤ₂` of index 2, so surjectivity fails: the sign on `A` is what makes the image
+    `ℤ₂ˣ`.
+  - `χ(Y) = (-3)⁻¹ = (1 - 2²)⁻¹` is the value `(1 - 2^f)⁻¹` of the odd-rank marked
+    classification at `f = 2`; since `-3 ≡ 5 mod 8` topologically generates `U^(2)`, the image is
+    `{±1} × U^(2) = ℤ₂ˣ`, matching level `f = 2`, and not `f = 3`, where `(1 - 8)⁻¹ = -1/7`.
 - **The prescription property.** For a continuous character `χ : G →ₜ* ℤ_pˣ`, write
   `I(χ)/p^i` for `ℤ/p^i` with action `g · x = χ(g)x`; this is Tau Ceti's twisted module
   `TauCeti.ZModTwist χ i`, placed in the universe of `G`, with the scalar
@@ -1355,7 +1402,7 @@ modulo `p^i`), and condition 2 is Tau Ceti's reformulation of condition 1:
 #### Demushkin duality, concretely
 
 A general theory of profinite duality groups, dualizing modules and `PD^n` is not built
-here, and the terms do not occur in any milestone. What Layers 9 and 11 use is a small
+here, and the terms do not occur in any milestone. What Layer 9 uses is a small
 package of statements about finite discrete modules, and that package is stated here.
 
 - **Dimension two.** An infinite Demushkin group has `cd_p G = 2`
@@ -1461,8 +1508,10 @@ package of statements about finite discrete modules, and that package is stated 
   trivial-coefficient pairing is not enough.
   *Needs:* L6 `cd` of open subgroups; L7 pairings and naturality; L7 Euler formula.
   *Source:* Serre, *Structure de certains pro-p-groupes*, §9.2.
-  ⚠ The hypothesis "infinite" is used: `ℤ/2` is Demushkin and finite, and the rank formula
-  fails for it.
+  ⚠ The hypothesis "infinite" is used: `ℤ/2` is Demushkin and finite, and its proper open
+  subgroup `1` is not Demushkin, since `H²(1, 𝔽₂) = 0`. The numerical rank formula happens to
+  hold there (`0 - 2 = 2 · (1 - 2)`), so it is the Demushkin conclusion, not the formula, that
+  fails.
 - **Recognition criteria.** For a topologically finitely generated one-relator pro-`p` group
   `G` with `n(G) > 1`, the following are equivalent:
   1. `G` is Demushkin;
@@ -1716,9 +1765,24 @@ differs, the translation is stated once.
 
   Finite generation of `H` is a conclusion, and not a hypothesis. If the two-epimorphism step is
   easier with both hypotheses, state that weaker lemma first, and then the argument that
-  removes the second hypothesis.
+  removes the second hypothesis. The statement is
+  `nonempty_continuousMulEquiv_of_forall_isFiniteContinuousQuotient_iff`, quantified over bundled
+  finite groups `Q : FiniteGrp`, with both groups compact, totally disconnected and in one
+  universe.
   *Needs:* L8 two epimorphisms; L3 Hopf property.
   *In Tau Ceti:* `TauCeti.nonempty_continuousMulEquiv_of_forall_isFiniteContinuousQuotient_iff`.
+  **Checks.**
+  - `G = H = C₂`: the continuous finite quotients of both are `1` and `C₂`, the hypothesis
+    holds, and the conclusion is the identity isomorphism.
+  - `G = C₂`, `H = C₄`: `C₄` is a quotient of `H` and not of `G`, so the hypothesis fails; a
+    version that compared only the quotients of `G` (one inclusion of the two lists) would
+    wrongly identify them, since `C₂` is a quotient of both.
+  - `G = ℤ_p`, `H = ℤ_p × ℤ_p`: `C_p × C_p` is a quotient of `H` and not of `G`, so the
+    hypothesis fails, as it must since the generator ranks are `1` and `2`.
+  - The finite-generation hypothesis on `G` cannot be dropped: for `G = ∏_{n ≥ 1} C_{pⁿ}` and
+    `H = G × ℤ_p` every finite abelian `p`-group is a continuous quotient of both, and only
+    those, but `H` projects onto `ℤ_p` while every continuous homomorphism `G → ℤ_p` is zero,
+    since it kills the dense torsion subgroup `⊕ C_{pⁿ}`.
   *Source:* Fried–Jarden; Ribes–Zalesskii Thm. 3.2.9.
 - **Corollary.** Finitely generated abstract groups with the same finite quotients have
   topologically isomorphic profinite completions.
@@ -1761,11 +1825,10 @@ Two applications are immediate corollaries:
 
 ### Layer 9: the classification of Demushkin groups
 
-The layer opens with its prerequisites, two owned inputs: bilinear forms over `𝔽_p` and the
-completed group algebra of the orientation image, with Labute's relation module and the
-character-preserving iteration built on them. Both are needed by Labute's proof, neither is in
-Mathlib, and neither is supplied by another roadmap. They are built here, before the
-classification, and they are useful on their own.
+The layer opens with its prerequisites: the normal forms of bilinear forms over `𝔽_p`, which
+Tau Ceti supplies and this layer only applies to the cup matrix of a relator, and the completed
+group algebra of the orientation image, with Labute's relation module and the
+character-preserving iteration built on it.
 
 #### Bilinear forms over `𝔽_p`, including the characteristic-two nonalternating case
 
@@ -1776,52 +1839,53 @@ Index conventions:
 - matrices are taken with respect to an ordered basis `e` by `B_{ij} = b (e i) (e j)`, so a
   change of basis `e' = e ⬝ P` acts by `B' = Pᵀ B P`.
 
-- **Basics.** The left and right radicals of `b`; left and right nondegeneracy, which agree
-  for finite-dimensional `V`; transport of a form along a linear equivalence, and the
-  resulting notion of equivalence of forms.
-  *Needs:* M `LinearMap.BilinForm` and its radical API.
-- **Alternating, skew-symmetric, symmetric.** `IsAlternating b := ∀ x, b x x = 0`. Expanding
-  `b (x + y) (x + y) = 0` shows that alternating implies skew-symmetric, that is
-  `b y x = - b x y`, in every characteristic. It does not imply symmetric, except at `p = 2`,
-  where skew-symmetric and symmetric are the same condition. At `p = 2` the two conditions
-  differ exactly by the diagonal, and `x ↦ b x x` is then `𝔽_2`-semilinear, since it is
-  additive with `b (cx) (cx) = c² b x x`. For odd `p` a form that is both symmetric and
-  alternating is zero. The forms that occur at odd `p` in this roadmap are the alternating
-  ones, because the cup pairing on `H¹(G, 𝔽_p)` is graded-commutative, so `a ∪ a = 0` once
-  `2` is invertible.
-  *Needs:* L9 basics; L5 `cupFp` and its graded commutativity.
-- **Symplectic normal form.** A nondegenerate alternating form on `V` has a basis in which
-  the matrix is block diagonal with blocks `[[0, 1], [-1, 0]]`, so `dim V` is even. Stated
-  for every `p`, including `p = 2`.
-  *Needs:* L9 basics.
-  *Source:* standard; Ribes–Zalesskii and NSW use it in this form.
-- **Characteristic two, nonalternating.** For `p = 2` and `b` symmetric, nondegenerate and
-  not alternating, there is a basis in which the matrix is the identity. Such forms exist in
-  every dimension, odd and even, and any two of the same dimension are equivalent. With the
-  previous item this is the complete classification of nondegenerate symmetric bilinear
-  forms over `𝔽_2`.
-  *Needs:* L9 basics.
-- **The change-of-basis theorem that Layer 9 uses.** Let `b` be nondegenerate on `V` of
-  dimension `n`, and either alternating for any `p`, or symmetric with `p = 2`. Then there
-  is a basis in which `B` is one of two matrices:
-  - the symplectic block form, if `b` is alternating, and then `n` is even;
-  - the identity, if `p = 2` and `b` is symmetric and not alternating, and then `n` is
-    arbitrary.
-
-  These are the only two cases that the classification produces. The statement records which
-  case each Demushkin normal form falls into, so that the odd-dimensional case at `p = 2` is
-  covered explicitly.
-  *Needs:* L9 the two normal forms.
-  ⚠ Nondegenerate symmetric nonalternating forms in odd characteristic, which are
-  diagonalizable and classified by their discriminant, are not part of this prerequisite. No
-  cup form of a Demushkin group at odd `p` is one, and nothing below uses them.
+- **Supplied normal forms.** The two normal forms the classification needs are consumed from
+  Tau Ceti, for `B : LinearMap.BilinForm K V` with `K` a field and `V` finite-dimensional:
+  - `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`
+    (`LinearAlgebra/BilinearForm/SymplecticBasis.lean`): a nondegenerate alternating form has a
+    basis indexed by `Fin m ⊕ Fin m` in which its matrix is Mathlib's `Matrix.J (Fin m) K`, so
+    `dim V = 2m` (`LinearMap.BilinForm.IsAlt.even_finrank`). It holds in every characteristic,
+    `p = 2` included.
+  - `LinearMap.BilinForm.IsSymm.exists_basis_toMatrix_eq_one` and the dichotomy
+    `LinearMap.BilinForm.Nondegenerate.exists_basis_toMatrix_eq_J_or_toMatrix_eq_one`
+    (`LinearAlgebra/BilinearForm/Diagonalization.lean`): over a field in which every element is
+    a square, a nondegenerate form that is alternating or symmetric is either alternating with
+    the matrix `J`, or not alternating with the identity matrix in some basis. The squares
+    hypothesis holds over `𝔽₂` (Mathlib's `isSquare_of_charTwo'`).
+  Mathlib's `Matrix.J l K` is `fromBlocks 0 (-1) 1 0`: for the basis `(e_i)_{inl} ∪ (f_i)_{inr}`
+  it says `b(e_i, f_i) = -1` and `b(f_i, e_i) = 1`. That is the sign the application below is
+  matched against. Expanding `b(x + y, x + y) = 0` shows that alternating implies skew-symmetric
+  in every characteristic; at `p = 2` skew-symmetric is symmetric, and for odd `p` a symmetric
+  alternating form is zero. The forms that occur at odd `p` are alternating, since the cup
+  pairing on `H¹(G, 𝔽_p)` is graded-commutative. Nondegenerate symmetric nonalternating forms in
+  odd characteristic occur for no Demushkin group and are not used.
+  *Needs:* TC the two files above; M `Matrix.J`, M `isSquare_of_charTwo'`.
+  **Checks.**
+  - Over `𝔽₂`, `J = [[0,1],[1,0]]` and `I₂` are both nondegenerate; `J` is alternating and takes
+    the first branch with `m = 1`, `I₂` is not (its diagonal is `1`) and takes the second.
+  - The zero space carries the empty alternating form, which takes the first branch with
+    `m = 0`; `I₁` on `𝔽₂` takes the second, and has odd dimension, which the first branch
+    excludes.
+  - Over `𝔽₃` the form `I₂` is symmetric and not alternating, but `2` is not a square in
+    `𝔽₃`, so the dichotomy's squares hypothesis fails; this is why the identity branch is used
+    only at `p = 2`.
 - **From the relator to the cup matrix, and back.** Let `r ∈ λ_1(F)` be a relator for
   `F = freeProP p (Fin n)`, with class `r̄ = Σ_i c_i π(ξ_i) + Σ_{i<k} a_{ik} [ξ_i, ξ_k]` in the
   standard basis of `gr_1(F) ≅ Λ²(𝔽_p^n) ⊕ 𝔽_p^n`. The direction that holds is from the relator
-  to the cup matrix: in the dual basis of `H¹(G, 𝔽_p)`, read through the class of `r`, the cup
-  matrix has the entries `a_{ik}` off the diagonal and `binom(p, 2) c_i` on it, up to one global
-  sign fixed by the commutator convention (NSW Prop. 3.9.13, with its `q` equal to `p` because
-  the filtration here is the lower `p`-series). At `p = 2` the diagonal entry is `c_i`; at odd
+  to the cup matrix. Identify `H²(G, 𝔽_p)` with `𝔽_p` through `r`: for a 2-cocycle `c` on `G`,
+  its inflation to `F` is `δφ` for a cochain `φ : F → 𝔽_p`, with
+  `(δφ)(g, h) = φ(g) + φ(h) - φ(gh)`, and `tr(c) := φ(r)`. In the dual basis `χ_1, …, χ_n` of
+  `H¹(G, 𝔽_p)` the cup matrix `B_{ik} = tr(χ_i ∪ χ_k)` then has `B_{ik} = -a_{ik}` for `i < k`,
+  `B_{ki} = a_{ik}`, and diagonal `-binom(p, 2) c_i` (NSW Prop. 3.9.13, with its `q` equal to
+  `p` because the filtration here is the lower `p`-series). Witness for the sign: for
+  `r = (x₁, x₂) = x₁⁻¹x₂⁻¹x₁x₂` map `F` to the Heisenberg group of triples `(a, b, z)` with
+  `(a, b, z)(a', b', z') = (a + a', b + b', z + z' + ab')`, `x₁ ↦ (1, 0, 0)`, `x₂ ↦ (0, 1, 0)`;
+  then `φ = -z` satisfies `δφ = χ₁ ∪ χ₂`, and `r ↦ (0, 0, 1)`, so `B_{12} = φ(r) = -1`, and
+  `B_{21} = 1`. That is exactly `Matrix.J (Fin 1)` on the basis `(χ₁; χ₂)`, so the surface
+  relator `(x₁,x₂)⋯(x_{n-1},x_n)` has cup matrix `J` on the basis `(χ₁, χ₃, …; χ₂, χ₄, …)`
+  with no sign change. For the diagonal, `r = x₁²` at `p = 2`: `φ(g) = -χ₁(g)(χ₁(g) - 1)/2`
+  computed with integer exponent sums gives `φ(x₁²) = -1 = 1` in `𝔽₂`. The opposite trace
+  convention `tr(c) = -φ(r)` negates every entry; at `p = 2` it changes nothing. At `p = 2` the diagonal entry is `c_i`; at odd
   `p` it is `0` whatever `c_i` is. So the cup matrix determines the commutator coordinates
   `a_{ik}` for every `p`, and the `p`-power coordinates `c_i` only at `p = 2`. A basis change
   `P` acts on the cup matrix by `B ↦ PᵀBP`, so a normal form for `B` makes the commutator part
@@ -1832,11 +1896,12 @@ Index conventions:
   ⚠ Counterexample to reading the cup matrix as the full set of coordinates: at odd `p`,
   `r = x₁^p(x₁, x₂)` has `c₁ = 1`, so `r̄ ≠ [ξ₁, ξ₂]`, while its cup matrix is that of
   `(x₁, x₂)`, with zero diagonal.
-  The hypotheses of the change-of-basis theorem are the two cases above: `B` is alternating
+  The hypotheses of the supplied dichotomy are the two cases above: `B` is alternating
   exactly when the diagonal entries all vanish, which is automatic for odd `p`, and which at
   `p = 2` holds exactly when every `c_i` is even, that is when `q ≠ 2`; so the symmetric
   nonalternating case is exactly `p = 2` with `q = 2`.
-  *Needs:* L9 change-of-basis theorem; L8 the graded object; L5 `cupFp`.
+  *Needs:* TC `LinearMap.BilinForm.Nondegenerate.exists_basis_toMatrix_eq_J_or_toMatrix_eq_one`;
+  L8 the graded object; L5 `cupFp`.
   *Source:* Labute Prop. 3; NSW Prop. 3.9.13.
 
 #### The completed group algebra of the orientation image
@@ -1885,9 +1950,16 @@ of the two even-rank families in the abstract classification.
   - Comparison lemmas: the power-series coordinate below; `proj_of` at each finite level.
   - Naturality: the power-series coordinate depends on the chosen topological generator, and
     the dependence is the substitution recorded below.
-  - Edge cases: the trivial group; a finite procyclic `Γ`, where evaluation at `γ - 1` has kernel
-    `((1 + T)^|Γ| - 1)` and which the classification does not use; a non-abelian `Γ`, where the
-    algebra is not commutative and the coordinate does not apply.
+  - Edge cases: the trivial group, where the kernel is `(T)` and both algebras are `ℤ_p`; a
+    finite cyclic `p`-group `Γ` with chosen generator `γ`, where `γ - 1` is topologically
+    nilpotent, evaluation at `γ - 1` is onto `ℤ_p[Γ]` with kernel `((1 + T)^|Γ| - 1)`, and which
+    the classification does not use (for `Γ = C₃`, `p = 3` the polynomial `T³ + 3T² + 3T` is
+    distinguished of degree 3, matching rank 3); any other finite group, where the algebra is the
+    ordinary group algebra and has no power-series coordinate (for `Γ = C₂`, `p = 3`,
+    `(1 + T)² - 1 = T(2 + T)` with `2 + T` a unit, so the quotient `ℤ₃[[T]]/(T)` has rank 1
+    against rank 2 for `ℤ₃[C₂]`, and `γ - 1` is not topologically nilpotent since
+    `(γ - 1)ⁿ = (-2)ⁿ⁻¹(γ - 1)` with `2` a unit of `ℤ₃`); a non-abelian `Γ`, where the algebra is not commutative and the
+    coordinate does not apply.
   - Downstream interfaces: the module statements of Labute Thms 5 and 6, used in Layer 9.
 - **Compact modules.** `IsCompactModule p Γ M` is the predicate on a topological `Λ`-module
   saying that it is a topological additive group with continuous scalar action, compact and
@@ -1946,7 +2018,13 @@ of the two even-rank families in the abstract classification.
   Labute uses on p. 122; the general Weierstrass preparation theorem is not a target.
   ⚠ Division gives the quotient series, and with it scalar membership of the relator class; it
   is not by itself the basis correction of Layer 9. What makes the quotient usable as a new
-  generator is its constant term: if `ψ = (T - c) φ` then `ψ(0) = -c · φ(0)`, so `v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. Without that
+  generator is its constant term: if `ψ = (T - c) φ` then `ψ(0) = -c · φ(0)`, so
+  `v_p(ψ(0)) = v_p(c) + v_p(φ(0))` in `ℕ ∪ {∞}`, and for `c ≠ 0` this reads
+  `v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. The subtractive form needs `c ≠ 0`: at `p = 2`, `c = 0` the
+  pairs `(ψ, φ) = (T, 1)` and `(2T, 2)` have `v_2(φ(0)) = 0` and `1` while the right side is
+  `∞ - ∞` in both; the additive form reads `∞ = ∞ + 0` and `∞ = ∞ + 1`, and at `c = -6`,
+  `φ = 1` the subtractive form reads `0 = 1 - 1`. Every use of the constant-term computation goes through the
+  additive form, which holds for every `c`; division by `T` itself (`c = 0`) is unaffected. Without that
   computation the step is false: in `ℤ₂[[T]]²` the vector `(2, T)` has no nonunit common divisor
   and lies in no basis, since its coordinate ideal `(2, T)` is proper.
   *Needs:* L9 evaluation.
@@ -2313,8 +2391,9 @@ Math. 19 (1967), 106–132; modern statements in NSW III §9. The notation is th
 Layer 8.
 
 - **Cup-form normal forms.** The image of the relator in `gr_1(F)` computes the cup product,
-  as in the prerequisite above: `a_{ik}` off the diagonal and `binom(p, 2) c_i` on it. Feeding
-  the matrix through the change-of-basis theorem brings the commutator part of `r̄` to that of
+  as in the prerequisite above: `-a_{ik}` above the diagonal and `-binom(p, 2) c_i` on it, for
+  the trace convention fixed there. Feeding
+  the matrix through the supplied normal-form dichotomy brings the commutator part of `r̄` to that of
   `(x₁,x₂)(x₃,x₄)⋯(x_{n-1},x_n)`, with `n` even, when the form is alternating. At odd `p` the
   cup matrix does not see the `p`-power part, and the congruence
   `r ≡ x₁^q(x₁,x₂)(x₃,x₄)⋯(x_{n-1},x_n)` modulo `λ_2(F)` needs, in addition, the exponent-vector
@@ -2426,22 +2505,30 @@ Layer 8.
 - **The marked classification.** For each normal-form family, the classification is stated in
   marked form: a continuous isomorphism from the Demushkin group onto
   `presentedProP p (Fin n) {r}` for the normal-form relator `r`, under which the canonical
-  character takes the values of the table above on the marked generators. The four statements
-  are `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd` for `n ≥ 3`,
-  `isDemushkin_marked_of_q_two_even` for `n ≥ 4`, and `isDemushkin_marked_of_q_two_rank_two`
-  for `n = 2`. The `q ≠ 2` statement carries no rank hypothesis, because the one Demushkin group
+  character takes the values of the table above on the marked generators. The six statements
+  are `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd` for `n ≥ 3` and
+  finite level, `isDemushkin_marked_of_q_two_even` for `n ≥ 4` and finite level,
+  `isDemushkin_marked_of_q_two_rank_two` for `n = 2` and image `U^[v₂(α)]`, and, for the image
+  `{±1}` (the level `f = ∞`), `isDemushkin_marked_of_q_two_odd_top` for every odd `n` and
+  `isDemushkin_marked_of_q_two_even_top` for every even `n`. The last two have the relators
+  `x₁²(x₂,x₃)⋯(xₙ₋₁,xₙ)` (the word `demushkinWordTwoOddTop`) with `χ(x₁) = -1`, and
+  `x₁²(x₁,x₂)(x₃,x₄)⋯` (the word `demushkinWordNeTwo` at `q = 2`) with `χ(x₂) = -1`, and `χ = 1`
+  on every other marked generator. Together the six cover every Demushkin group: for
+  `⟨x, y ∣ x²(x,y)⟩`, with `n = 2`, `q = 2` and `Im χ = {±1}`, only the even `{±1}` statement
+  applies and gives `χ(x) = 1`, `χ(y) = -1`; for `⟨x₁, x₂, x₃ ∣ x₁²(x₂,x₃)⟩` only the odd one
+  applies and gives `(-1, 1, 1)`. The `q ≠ 2` statement carries no rank hypothesis, because the one Demushkin group
   of rank `1`, `ℤ/2` at `p = 2`, has `q = 2`; the three `q = 2` statements do not assume `q = 2`,
   because their image equation puts `-1` or a unit `≡ 3 mod 4` into `Im χ`, which forces it. The
   relator words are the named terms `demushkinWordNeTwo`,
-  `demushkinWordTwoOdd`, `demushkinWordTwoEven` and `demushkinWordTwoRankTwo`, each written on
+  `demushkinWordTwoOdd`, `demushkinWordTwoOddTop`, `demushkinWordTwoEven` and
+  `demushkinWordTwoRankTwo`, each written on
   a tuple of group elements so that the same word can be read in `F` and in `G`. Their
   parameters are natural numbers, which is all the marked statements need, since the image
   equation pins the parameters and natural representatives exist. The `q = 2` words with the
-  genuine parameters `α ∈ 4ℤ₂` and `f : ℕ∞` of the successive-approximation conclusion are
-  `demushkinWordTwoOddPadic` and `demushkinWordTwoEvenPadic`, read on families in the free
-  pro-`2` group through Tau Ceti's `p`-adic power, with `2^f` given by `twoPowENat` and
-  `2^∞ = 0`; they agree with the natural-parameter words at natural parameters, by Tau Ceti's
-  `TauCeti.IsProP.padicPow_natCast`. A natural number
+  genuine parameters `α ∈ 4ℤ₂` and `f : ℕ∞` (with `2^∞ = 0`) of the successive-approximation
+  conclusion are read in the free pro-`2` group through Tau Ceti's `p`-adic power
+  `TauCeti.IsProP.padicPow`, and agree with the natural-parameter words at natural parameters,
+  by `TauCeti.IsProP.padicPow_natCast`. A natural number
   does not stand for a general `α`: the word in the nonabelian group `F` depends on the actual
   exponent, not on its residue at one finite level. The character
   values are stated as equations in `ℤ_p`, for instance `χ(x₂)(1 - q) = 1` in place of
@@ -2478,9 +2565,10 @@ Layer 8.
   prerequisite, that is the power-series coordinate, evaluation, and the division criterion. Two even-rank families, with `N = n/2` and `(A : A²)` as declared in
   Layer 8:
   - `r = x₁^{2+2^f}(x₁,x₂)(x₃,x₄)⋯` realizes `Im χ = U^[f]`, where `(A : A²) = 2`, for
-    `N ≥ 1` and `2 ≤ f < ∞`. ⚠ The endpoint `f = ∞` is a separate statement, because
-    `U^[f] = closure ⟨-1 + 2^f⟩` is defined only for finite `f`. At `f = ∞` the relator is
-    `x₁²(x₁,x₂)(x₃,x₄)⋯` and the image is `{±1} = V^(∞)`;
+    `N ≥ 1` and `2 ≤ f < ∞`. ⚠ The endpoint `f = ∞` is a separate statement,
+    `isDemushkin_marked_of_q_two_even_top`, because `U^[f] = closure ⟨-1 + 2^f⟩` is defined
+    only for finite `f`. At `f = ∞` the relator is `x₁²(x₁,x₂)(x₃,x₄)⋯` and the image is
+    `{±1} = V^(∞)`;
   - `r = x₁²(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯` realizes `Im χ = {±1} × U^(f)`, where `(A : A²) = 4`,
     for `N ≥ 2` and `2 ≤ f < ∞`, and `f = ∞` is excluded.
 
@@ -2600,14 +2688,27 @@ a space.
   pro-`p` group by a finite `p`-group splits continuously, so `H²` vanishes on finite
   `p`-primary coefficients, and Layer 6 turns that vanishing into `cd_p ≤ 1`. Closed subgroups
   of free pro-`p` groups are free pro-`p`, which is the full pro-`p` Nielsen–Schreier theorem.
+  The equivalence is `cd_p_le_one_iff_exists_convergesToOne_continuousMulEquiv_presentation`:
+  for compact, totally disconnected `G` with `IsProP p G`, `cd_p G ≤ 1` if and only if some
+  `s ⊆ G` converging to `1` has its presentation `F_p(insert 1 s, 1) → G` a topological
+  isomorphism.
   *Needs:* L6 Serre's theorem; L10 bases and presentations.
+  **Checks.**
+  - `G = 1`: `cd_p = 0 ≤ 1`, and `s = ∅` gives `F_p({1}, 1) = 1`.
+  - `G` the free pro-`p` group on the one-point compactification `ℕ⁺` of a countable discrete
+    set: rank `ℵ₀`, `cd_p = 1`, and the image of `ℕ` is a set converging to `1` whose
+    presentation is an isomorphism; no finite-rank statement applies to it.
+  - `G = ℤ/p`: `cd_p = ∞`, and no presentation is an isomorphism, since a free pro-`p` group
+    on a nonempty set is torsion-free; the negative control.
+  - `G = ℤ_p × ℤ_p`: `cd_p = 2`, and the abelian group is not free pro-`p` of rank 2, whose
+    abelianization would be the same but whose `H²(−, 𝔽_p)` is `0` against dimension 1.
   *In Tau Ceti:*
   `TauCeti.IsProP.exists_convergesToOne_continuousMulEquiv_presentation_of_cohomologicalDimensionAt_le_one`,
   `TauCeti.IsProP.isProjective_iff_exists_convergesToOne_continuousMulEquiv_presentation`,
   `TauCeti.isProjective_freeProCPointed` and `TauCeti.hasPGroupSolutions_freeProCPointed`
   (`Free/Pointed/Serre.lean`, `Free/Pointed/EmbeddingProblem.lean`).
   *Source:* Ribes–Zalesskii Cor. 7.7.5.
-- Nothing later in this roadmap uses this layer, because Layers 9 and 11 need only finite
+- Nothing later in this roadmap uses this layer, because Layer 9 needs only finite
   rank. Without it the theory is truncated.
 
 ## Worked examples
