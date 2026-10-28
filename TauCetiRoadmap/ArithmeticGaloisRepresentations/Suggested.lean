@@ -22,9 +22,9 @@ symmetric-power and general-rank images (Layer 7). Representations use Mathlib's
 The small definitions below use native integral closures, subrepresentations and cohomology.
 
 The full Weil–Deligne adapter, purity and local constants require the local Weil group and the
-normalized Weil–Deligne parameter of the named suppliers; those structures are absent at the
-pins. The all-perfect-residue conductor, integrality, induction, reduction and wild-bound
-statements use LocalFieldsRamification Layers 3a and 4a's supplied `perfectResidueHerbrand`
+normalized Weil–Deligne parameter of the named suppliers, which have no Mathlib or Tau Ceti
+carrier. The all-perfect-residue conductor, integrality, induction, reduction and wild-bound
+statements use LocalFieldsRamification §§3a.1–3a.3 and 4a.1–4a.3's supplied `perfectResidueHerbrand`
 filtration and the break decomposition of §3.1. That section derives the eventual Herbrand formula
 from the supplied different and transition functions; §3.2 uses ClassFieldTheory Layer 7's
 `map_unitFiltration_normResidue` for the representation-theoretic character-conductor comparison.
