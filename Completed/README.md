@@ -42,4 +42,4 @@ revision against which an earlier version elaborated.
 - [The Chebotarev density theorem](Chebotarev/README.md)
   (declared complete 2026-10-07)
 - [quadratic forms and cohomological invariants](QuadraticFormInvariants/README.md)
-  (declared complete 2026-10-28)
+  (archival draft; completion pending)
