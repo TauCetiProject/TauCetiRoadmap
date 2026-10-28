@@ -23,16 +23,14 @@ library -- these are goals, not proofs.
 The individual Tau Ceti imports supply normalized Haar, unitarity, matrix coefficients,
 Schur orthogonality, Peter–Weyl models and bases, characters, Frobenius–Schur indicators,
 and symmetric-power models of `SU(2)`. Definitions below are aliases of those actual
-objects. The local G-finite spellings instead display the shared contract commissioned
-solely by AutomorphicFormsOnReductiveGroups §2.1 on the actual native orbit span.
-They are suggested interface forms, not an assertion that an absent implementation
-is a native alias or a request for a second public core/density proof. Other
-admitted statements suggest the specified comparison and application interfaces.
+objects. Other admitted statements suggest the specified comparison interfaces.
+README Layer 5.1 consumes the G-finite predicate, its submodule and the Banach density
+theorem `gFiniteSubmodule_dense` from AutomorphicFormsOnReductiveGroups §2.1, which owns
+and states them; they are not restated here.
 
 `ContRepresentation` bundles continuity of each operator only. Every analytic interface
 below carries `hπ : Continuous π` explicitly. Algebraic consequences of unitarity do not
-need parameter continuity. Layer 5.1 of the README instead uses strong continuity on a
-Banach carrier, without operator-norm continuity.
+need parameter continuity.
 
 The design follows `README.md`'s layers: normalized Haar and averaging (Layer 0); the unitarity
 predicate and unitarizability (Layer 1); complete reducibility (Layer 2); matrix coefficients
@@ -340,61 +338,6 @@ theorem peterWeylBasis (G : Type u) [Group G] [TopologicalSpace G] [IsTopologica
   intro i j k
   change (TauCeti.stdPeterWeylBasis ℂ G) ⟨i, (j, k)⟩ = _
   exact congrFun (TauCeti.coe_stdPeterWeylBasis ℂ G) ⟨i, (j, k)⟩
-
-/-! ### Layer 5.1: G-finite vectors for strongly continuous Banach actions -/
-
-section BanachGFinite
-
-variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
-  [NormedAddCommGroup F] [NormedSpace ℂ F] [CompleteSpace F]
-
-/-- Suggested continuous-action spelling of the shared §2.1 predicate. The finite-orbit
-span is actual data; the common public core belongs to that supplier, not here. -/
-abbrev IsGFinite (π : ContRepresentation ℂ G E) (v : E) : Prop :=
-  FiniteDimensional ℂ (Submodule.span ℂ (Set.range (fun g : G ↦ π g v)))
-
-/-- The suggested shared API uses exactly the underlying native algebraic orbit span. -/
-theorem isGFinite_toRepresentation_iff (π : ContRepresentation ℂ G E) (v : E) :
-  IsGFinite π v ↔
-    FiniteDimensional ℂ
-      (Submodule.span ℂ (Set.range (fun g : G ↦ (π.toRepresentation : Representation ℂ G E) g v))) := Iff.rfl
-
-/-- Suggested form of the shared invariant submodule; its carrier is the same exact
-orbit-span predicate. Its elementary proof fields are supplier goals, not a second
-CompactGroups core implementation. -/
-noncomputable def gFiniteSubmodule (π : ContRepresentation ℂ G E) : Submodule ℂ E where
-  carrier := {v | IsGFinite π v}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-  smul_mem' := by sorry
-
-/-- Invariance is algebraic and does not require continuity of the group parameter. -/
-theorem isGFinite_map (π : ContRepresentation ℂ G E) {v : E} (hv : IsGFinite π v) (g : G) :
-  IsGFinite π (π g v) := sorry
-
-/-- A continuous intertwiner carries each finite orbit span into a finite orbit span. -/
-theorem IsGFinite.intertwiner (π : ContRepresentation ℂ G E)
-  (ρ : ContRepresentation ℂ G F) (T : ContIntertwiningMap π ρ)
-  {v : E} (hv : IsGFinite π v) : IsGFinite ρ (T v) := sorry
-
-/-- Compactness and strong continuity give a uniform operator bound by uniform boundedness. -/
-theorem exists_uniform_operator_bound (π : ContRepresentation ℂ G E)
-  (hstrong : ∀ v : E, Continuous (fun g : G ↦ π g v)) :
-  ∃ C : ℝ, 0 ≤ C ∧ ∀ g : G, ‖π g‖ ≤ C := sorry
-
-/-- The approximation retains a finite orbit span witness, for every vector and tolerance. -/
-theorem exists_gFinite_near (π : ContRepresentation ℂ G E)
-  (hstrong : ∀ v : E, Continuous (fun g : G ↦ π g v)) (v : E) {ε : ℝ} (hε : 0 < ε) :
-  ∃ w : E, IsGFinite π w ∧ ‖w - v‖ < ε := sorry
-
-/-- Suggested continuous-action form of the shared §2.1 `gFiniteSubmodule_dense`
-contract. This is an external supplier statement, not a new generic-density proof
-target owned here; this roadmap owns the explicit witnesses/covariance refinements. -/
-theorem dense_gFiniteSubmodule (π : ContRepresentation ℂ G E)
-  (hstrong : ∀ v : E, Continuous (fun g : G ↦ π g v)) :
-  Dense (gFiniteSubmodule π : Set E) := sorry
-
-end BanachGFinite
 
 /-! ### Layer 6: characters of compact groups -/
 

@@ -75,7 +75,11 @@ separate development.
   matches Mathlib. Where the categorical statement is cleaner - Schur's lemma
   (`FDRep.finrank_hom_simple_simple`, over the algebraically closed `ℂ`), simplicity
   (`CategoryTheory.Simple`), irreducibility (`Representation.IsIrreducible`) - transport along the
-  forgetful correspondence and keep the mirror in step, exactly as
+  forgetful correspondence and keep the mirror in step. The mirror is the full subcategory of
+  `FDRep ℂ G` whose objects have continuous parameter maps `G → End(V)`, not all of `FDRep ℂ G`:
+  a nonzero additive map `a : S¹ → ℂ` exists (it kills torsion and is ℚ-linear on `S¹/torsion`,
+  necessarily discontinuous), and `g ↦ [[1, a(g)], [0, 1]]` is an object of `FDRep ℂ S¹` whose
+  invariant line has no invariant complement. The mirror is kept in step exactly as
   [../CharacterTheory](../CharacterTheory/README.md) keeps `FDRep` beside `MonoidAlgebra`.
   Irreducible = topologically irreducible: no closed `G`-invariant subspace other than `0` and `V`;
   in finite dimensions this agrees with `Representation.IsIrreducible`, and that agreement is a
@@ -151,7 +155,7 @@ Import the individual modules and use their objects and hypotheses directly.
 | `SU(2)` | `SU2.Basic`, `.Borel`, `.SymmetricPower`, `.Irreducible`, `.Weight`, `.TorusConjugacy`, `.Exhaustion`, `.Weyl.Character`, and `.Weyl.Integration`: the matrix group and measure instances, symmetric-power models, classification, and normalized formulas. |
 
 Finite-dimensional comparison targets include the forgetful correspondence with
-`FDRep`, compatibility with its trace character, the equivalence of algebraic and
+the full subcategory of `FDRep ℂ G` on continuous parameter maps, compatibility with its trace character, the equivalence of algebraic and
 closed-subspace irreducibility, and matching continuous and algebraic intertwiners.
 State these comparisons explicitly; continuity of the parameter is a hypothesis,
 never a consequence of the name `ContRepresentation`.
@@ -388,17 +392,19 @@ Hilbert linear algebra; matrix coefficients and Peter–Weyl are subsequent user
   Stone–Weierstrass argument enter as corollaries.
 #### Layer5.1. G-finite vectors in strongly continuous Banach representations
 
-Consume the topology-free shared prefix and Banach density theorem of
-[AutomorphicFormsOnReductiveGroups §2.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/04038f3cfbc018183bfe4190d837ce8e778f67aa/TauCetiRoadmap/AutomorphicFormsOnReductiveGroups/README.md#21-compact-finite-vectors-and-admissibility). That prefix is the
-sole owner of the field-general `Representation.IsGFinite`,
-`gFiniteSubmodule`, addition/scalar/invariance/equivariant-map API and the
-generic `gFiniteSubmodule_dense` theorem. These names describe its common
-contract on a native `Representation`, not a second public API here.
-For a continuous representation π use `π.toRepresentation`; its actual
-orbit span gives exactly this predicate by `isGFinite_toRepresentation_iff`.
-The local spellings in Suggested.lean show this same contract on actual
-native carriers; they are suggested interface forms, not a claim that a
-new shared implementation already exists or a request for duplicate proofs.
+Consume the topology-free prefix and the Banach density theorem of
+[AutomorphicFormsOnReductiveGroups §2.1](../../AutomorphicFormsOnReductiveGroups/README.md#21-compact-finite-vectors-and-admissibility),
+which owns them: its field-general predicate `IsGFinite ρ v` (finite
+dimensionality of the span of the orbit `ρ(G)v`), the submodule
+`gFiniteSubmodule ρ` with its addition, scalar, invariance and
+equivariant-map API, and the generic theorem `gFiniteSubmodule_dense`
+(for a compact Hausdorff group, a complex Banach space and a
+`ContRepresentation` whose orbit maps are continuous,
+`gFiniteSubmodule π.toRepresentation` is dense). For a continuous
+representation π this roadmap applies them to `π.toRepresentation`, whose
+orbit span is definitionally the span of {π(g)v | g∈G}. Neither the
+predicate, the submodule nor the density theorem is restated here, and
+`Suggested.lean` declares none of them.
 
 For a compact Hausdorff topological group G, a complete complex normed space E
 and a representation by continuous linear automorphisms, assume explicitly
@@ -407,21 +413,21 @@ dimensionality of the complex span of {π(g)v | g∈G}; retain the exact
 identification of its invariant submodule and continuous-intertwiner maps.
 Here construct the application estimates and witnesses: uniform boundedness
 on compact orbit maps gives C_π=sup_g‖π(g)‖<∞; operator-norm continuity is
-not assumed. Consume [BanachAlgebras A7.IntegratedRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md)
+not assumed. Consume [BanachAlgebras A7.IntegratedRepresentations](../../BanachAlgebras/README.md)
 for T_f v=∫f(g)π(g)v dμ_G, ‖T_f‖≤C_π‖f‖₁ and its chosen
 neighbourhood-net approximate identities. Only this early integration
 contract is used, not A7's later Fourier or Johnson applications.
 Construct the compact-group Haar-probability normalization and prove
 π(h)T_f v=T_(L_h f)v, L_h f(g)=f(h⁻¹g).
 
-Apply the shared Banach theorem and expose its concrete approximation
-witnesses under these conventions. For a finite sum p of matrix
+What this layer owns is the explicit approximation by integrated
+representative functions, with its witnesses and estimates. For a finite sum p of matrix
 coefficients, left translates span a finite-dimensional space; covariance
 makes T_p v G-finite. Given v and ε>0, retain an approximate-identity
 kernel u with ‖T_u v−v‖<ε/2 and a representative function p with
 C_π‖p−u‖₁‖v‖<ε/2, treating v=0 separately. Keep their actual
-finite-orbit-span witnesses. This is the common theorem's constructive
-application, not a second generic-density proof target. Prove the
+finite-orbit-span witnesses; density itself is the supplier's
+`gFiniteSubmodule_dense` and is not proved a second time. Prove the
 norm estimates, covariance, naturality and uniform-on-compact-vector-sets
 refinement from bounded operator norms and a finite ε-net. Use nets for
 arbitrary compact groups. The vector-valued Bochner integral and its
@@ -436,7 +442,7 @@ result is an early input. TopologicalKTheory T6.1 owns section/L²-section
 actions and finite bundle embeddings applying this interface.
 NoncompactQuantumSymmetry M0 owns further Hilbert isotypic projections,
 multiplicities, completed-tensor and smooth-vector comparisons. For compact
-Lie groups, [SmoothBanachRepresentations SB4](../SmoothBanachRepresentations/README.md)
+Lie groups, SmoothBanachRepresentations SB4
 consumes the same shared predicate and density theorem through these
 adapters and proves density in the stronger smooth Fréchet topology.
 Its generic smooth-vector density is independent earlier material; neither
@@ -633,7 +639,7 @@ comparison, uniform-density and basis-element signatures.
   `conj χ_π`, since the sum of diagonal coefficients is `conj χ_π`.
   The inversion linear isometry `f(g) ↦ f(g⁻¹)` preserves the closed class-function
   subspace and sends `χ_π` to `conj χ_π`; transport completeness back along it.
-  Reuse `toLp_star_character_mem_peterWeylBlock` and
+  Reuse `TauCeti.toLp_star_character_mem_peterWeylBlock` and
   `TauCeti.ContRepresentation.invLpₗᵢ_characterLp` with their actual unitarity
   and continuity hypotheses. This is the compact-group **class-function completeness**, the infinite analogue of
   "#irreducibles = #conjugacy classes".
