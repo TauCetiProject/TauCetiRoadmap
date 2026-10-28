@@ -495,6 +495,31 @@ theorem signedDiscr_eq_sign_mul_discr [Invertible (2 : K)] {n : ℕ}
         discr (Quotient.mk _ ⟨n, w⟩) := by
   rw [signedDiscr_mk, discr_mk, QuotientGroup.mk_mul]
 
+/-- The discriminant is the square class of the Gram determinant in any finite basis. -/
+theorem discr_formClass_gram [Invertible (2 : K)] {V : Type v}
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (b : Module.Basis ι K V) {u : Kˣ}
+    (hu : (u : K) = Q.discr b) :
+    discr (TauCeti.formClass Q hQ) = QuotientGroup.mk u := by
+  rw [discr, TauCeti.discr_formClass_eq_squareClass Q hQ b hu,
+    MulEquiv.symm_apply_eq, TauCeti.multiplicativeSquareClassEquiv_mk]
+
+/-- The signed discriminant is the Gram determinant with the pinned dimension sign. -/
+theorem signedDiscr_formClass_gram [Invertible (2 : K)] {V : Type v}
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (b : Module.Basis ι K V) {u : Kˣ}
+    (hu : (u : K) = Q.discr b) :
+    signedDiscr (TauCeti.formClass Q hQ) =
+      QuotientGroup.mk ((-1 : Kˣ) ^
+        (Module.finrank K V * (Module.finrank K V - 1) / 2) * u) := by
+  rw [signedDiscr, TauCeti.RegularFormClass.signedDiscr_eq_sign_add_discr,
+    TauCeti.rank_formClass,
+    TauCeti.discr_formClass_eq_squareClass Q hQ b hu, MulEquiv.symm_apply_eq,
+    TauCeti.multiplicativeSquareClassEquiv_mk, TauCeti.squareClass_mul,
+    TauCeti.squareClass_pow, Nat.choose_two_right]
+
 /-! ## Layer 5: the Brauer group and the Hasse invariant
 
 The carrier and group law are native. `qfiNativeBrauerCommGroup` selects
