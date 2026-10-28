@@ -7,7 +7,8 @@ import Mathlib
 The statements here give Lean forms for headline results; proving them finishes neither a layer
 nor the roadmap.
 
-The statements on the pinned carriers are the p-basis theorem (0.23), Bhatt's flatness and faithful
+The statements on the pinned carriers are the p-basis theorem and the finiteness criterion for
+differentials of a field of characteristic `p` (0.23), Bhatt's flatness and faithful
 flatness criteria (1.10), the Ext calculation in the abelian category of complexes (1.20), canonical
 divided powers on an augmentation ideal (PD.5), and the existence and regular-immersion presentation
 of universal PD envelopes (PD.6). The definitions below express p-bases, the full PD universal
@@ -63,6 +64,19 @@ theorem pBasis_kaehler_basis (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [Cha
     [Algebra (ZMod p) k] {r : ℕ} (b : Fin r → k) (hb : IsPBasis p k b) :
     LinearIndependent k (fun i => KaehlerDifferential.D (ZMod p) k (b i)) ∧
       Submodule.span k (Set.range fun i => KaehlerDifferential.D (ZMod p) k (b i)) = ⊤ := by
+  sorry
+
+/-- **Finiteness criterion for differentials** (README 0.23): without assuming `[k : k^p]` finite,
+`Ω¹_(k/F_p)` is finite-dimensional over `k` exactly when `k` is finite-dimensional over its subfield
+`k^p` of `p`-th powers, and then `[k : k^p] = p ^ dim_k Ω¹_(k/F_p)` (Stacks, Lemma 15.47.2, Tag 07P2,
+with base field `F_p`; Matsumura, Commutative ring theory, second edition, §26). -/
+theorem kaehler_finiteDimensional_iff (p : ℕ) [Fact p.Prime] (k : Type*) [Field k] [CharP k p]
+    [Algebra (ZMod p) k] :
+    (FiniteDimensional k (KaehlerDifferential (ZMod p) k) ↔
+        FiniteDimensional (frobenius k p).fieldRange k) ∧
+      (FiniteDimensional (frobenius k p).fieldRange k →
+        Module.finrank (frobenius k p).fieldRange k =
+          p ^ Module.finrank k (KaehlerDifferential (ZMod p) k)) := by
   sorry
 
 /-- **Bhatt's ordinary flatness criterion** (Bhatt, *On the direct summand conjecture and its
