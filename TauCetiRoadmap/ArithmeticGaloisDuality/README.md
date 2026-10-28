@@ -1521,9 +1521,9 @@ calculations of Layers R02.3 and R02.6. Use the supplied declaration directly.
 
 ### R02.2.4 Residue sequences of Laurent-series fields
 
-**Laurent-field residue and Witt sequences.** Let `k` be a perfect field, `m` an integer with
-`gcd(m, char k) = 1`, and `K = k((t))`. The tame inertia sequence and the uniformiser `t` give split
-exact sequences, for `q ≥ 1`,
+**Laurent-field residue and Witt sequences.** Let `k` be a perfect field, `m` a positive integer
+invertible in `k` (every `m ≥ 1` when `char k = 0`), and `K = k((t))`. The tame inertia sequence
+and the uniformiser `t` give split exact sequences, for `q ≥ 1`,
 
 ```text
 0 → H^q(k, μ_m^{⊗r}) → H^q(K, μ_m^{⊗r}) → H^{q−1}(k, μ_m^{⊗(r−1)}) → 0.
@@ -1539,11 +1539,11 @@ complete discretely valued field `K` with perfect residue field `k`, the Witt se
 
 is exact and split by a uniformiser; here `Br(k) → Br(K)` is the unramified embedding through the
 valuation ring, not a field embedding `k → K`, which need not exist in mixed characteristic. The
-finite-coefficient statement excludes coefficients divisible by `char k`; the Brauer statement has
+finite-coefficient statement excludes orders `m` that vanish in `k`; the Brauer statement has
 no such restriction and is proved separately from perfectness of the residue field.
 
 *Proof sketch.* The inertia subgroup `I ⊂ G_K` has quotient `G_k`, and on coefficients of order
-prime to `char k` its cohomology is that of the tame inertia, of cohomological dimension one, with
+invertible in `k` its cohomology is that of the tame inertia, of cohomological dimension one, with
 `H¹(I, μ_m^{⊗r}) = μ_m^{⊗(r−1)}`; the long exact sequence of *Degeneration of the Hochschild–Serre
 spectral sequence* (4) then applies, and the Kummer class of the valuation splits it. Compute the
 residue of the class of `t` and use the projection formula for the splitting. For the Brauer group,
@@ -1563,7 +1563,10 @@ residue field; the Witt sequence for an arbitrary perfect residue field is prove
   (principal units are `m`-divisible).
 - For algebraically closed `k`, `Br(k((t))) = 0`.
 - For finite `k`, `Br(K) ≅ ℚ/ℤ`.
-- The coprimality hypothesis is needed: for `K = 𝔽_p((t))` and `m = p`,
+- Characteristic zero is covered for every `m`: for `k = ℚ`, `K = ℚ((t))`, `m = 2`, `q = r = 1`,
+  `ℚ((t))^×/ℚ((t))^{×2} ≅ ℚ^×/ℚ^{×2} ⊕ ℤ/2`, since every unit is `t^n · a · u` with `a ∈ ℚ^×` and
+  `u ∈ 1 + tℚ[[t]]` a square by Hensel's lemma.
+- The invertibility hypothesis is needed: for `K = 𝔽_p((t))` and `m = p`,
   `H¹(K, ℤ/p) = K/℘(K)` (Artin–Schreier) is infinite, while `H¹(𝔽_p, ℤ/p) = ℤ/p`.
 
 ### Examples
