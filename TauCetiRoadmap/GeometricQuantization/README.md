@@ -354,6 +354,13 @@ sections and retain `[Q_f,Q_g]=−iℏ Q_{ {f,g} }` on the actual common domains
 of Q2 and their invariant polarized restrictions; do not assert closure
 under composition of first-order quantum operators.
 
+For a real polarization, let A_P be the smooth real functions annihilated
+by every local field in P. Prove A_P is a commutative subalgebra under
+pointwise operations, its Hamiltonian fields lie in P, and it is contained
+in the polarization-preserving Hamiltonians. The latter form an A_P-module
+under pointwise multiplication: use `X_(af)=a X_f+f X_a`, the Leibniz rule
+for vector-field brackets and involutivity of P.
+
 Retain the vertical cotangent regression on `T*ℝ`, `ω=dq∧dp` and
 `P=span{∂p}`: `X_p=∂q` normalizes every local vertical field, whereas
 `X_(p²)=2p∂q` and `[X_(p²),∂p]=−2∂q` is not vertical. In Q1's
