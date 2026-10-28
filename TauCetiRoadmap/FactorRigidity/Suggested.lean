@@ -2,151 +2,117 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.VonNeumannAlgebra.Basic
-import Mathlib.Analysis.CStarAlgebra.CompletelyPositiveMap
-import Mathlib.Analysis.CStarAlgebra.PositiveLinearFunctional
-import Mathlib.Analysis.CStarAlgebra.Projection
-import Mathlib.RingTheory.TensorProduct.Maps
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Algebra.Star.NonUnitalSubalgebra
-import Mathlib.RepresentationTheory.Invariants
-import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
+import Mathlib
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
-The joint-action and matrix-witness prototypes below pin algebraic conventions.
-Normality and the trace's faithful normal hypotheses use the predual/standard-form
-constructions specified in the README, rather than empty `Prop` fields.
+# Approximation, deformation and rigidity of finite factors: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
+with the few definitions on native carriers that their statements need.
+
+Unitary representations of a discrete group are Mathlib's `ContRepresentation ℂ Γ H` on a complex
+Hilbert space whose operators preserve norms, which is Tau Ceti's `IsUnitary` for continuous
+representations through its `isUnitary_iff_norm_map`; a discrete group needs no continuity
+hypothesis.
+
+Stated here:
+
+* relative property (T) of the pair `(ℤ² ⋊ SL₂(ℤ), ℤ²)`, and of `(ℤ² ⋊ G, ℤ²)` for every
+  nonamenable subgroup `G ≤ SL₂(ℤ)` (Layer 3);
+* the Haagerup property of the free group of every countable rank (Layer 4).
+
+Not statable at the pins, and therefore not stated:
+
+* `F(L(ℤ² ⋊ F_n)) = {1}` for a finite-index free subgroup `F_n ≤ SL₂(ℤ)` (Layer 7): the pins have
+  no group von Neumann algebra `L(Γ)` with its trace and no amplification `M^t` of a II₁ factor;
+* Bernoulli strong rigidity (Layer 9): the pins have no group-measure-space crossed product
+  `L∞(X) ⋊ Γ` and no amplification;
+* solidity and primeness of `L(F_n)` (Layer 10): the pins have no group von Neumann algebra, no
+  relative commutant notion for von Neumann subalgebras with amenability of finite von Neumann
+  algebras, and no spatial tensor product of von Neumann algebras.
 -/
 
 noncomputable section
-open scoped TensorProduct BigOperators CStarAlgebra ComplexOrder
-namespace FactorRigidity
 
-section Actions
-variable (M N H : Type*) [CStarAlgebra M] [CStarAlgebra N]
-  [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+open Filter Topology
+open scoped ComplexOrder ENNReal
 
-/-- Algebraic part of R1's normal correspondence; the two actions commute. -/
-structure CommutingActions where
-  left : M →⋆ₐ[ℂ] (H →L[ℂ] H)
-  right : Nᵐᵒᵖ →⋆ₐ[ℂ] (H →L[ℂ] H)
-  commute : ∀ x y, Commute (left x) (right y)
+namespace TauCetiRoadmap.FactorRigidity
 
-variable {M N H}
+/-! ## Layer 3: relative property (T) and spectral gap -/
 
-def CommutingActions.joint (A : CommutingActions M N H) :
-    M ⊗[ℂ] Nᵐᵒᵖ →ₐ[ℂ] (H →L[ℂ] H) :=
-  Algebra.TensorProduct.lift A.left.toAlgHom A.right.toAlgHom A.commute
+/-- A representation of a discrete group has almost invariant vectors when for every finite set
+`F` of group elements and every `ε > 0` some unit vector is moved by less than `ε` by each element
+of `F`. -/
+def HasAlmostInvariantVectors {Γ H : Type*} [Group Γ] [NormedAddCommGroup H]
+    [InnerProductSpace ℂ H] (ρ : ContRepresentation ℂ Γ H) : Prop :=
+  ∀ (F : Finset Γ) (ε : ℝ), 0 < ε → ∃ ξ : H, ‖ξ‖ = 1 ∧ ∀ g ∈ F, ‖ρ g ξ - ξ‖ < ε
 
-@[simp] theorem CommutingActions.joint_tmul (A : CommutingActions M N H)
-    (x : M) (y : Nᵐᵒᵖ) (ξ : H) :
-    A.joint (x ⊗ₜ[ℂ] y) ξ = A.left x (A.right y ξ) := by
-  simp [CommutingActions.joint, Algebra.TensorProduct.lift_tmul]
+/-- A subgroup `Λ` of a discrete group `Γ` has relative property (T) in `Γ` when every unitary
+representation of `Γ` on a complex Hilbert space (in universe `u`) with almost invariant vectors
+has a nonzero `Λ`-invariant vector (Anantharaman–Popa, Definition 14.1.1). -/
+def RelativePropertyT.{u, v} {Γ : Type v} [Group Γ] (Λ : Subgroup Γ) : Prop :=
+  ∀ (H : Type u) [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (ρ : ContRepresentation ℂ Γ H), (∀ g v, ‖ρ g v‖ = ‖v‖) → HasAlmostInvariantVectors ρ →
+      ∃ ξ : H, ξ ≠ 0 ∧ ∀ h ∈ Λ, ρ h ξ = ξ
 
-/-- This is weak containment of joint representations, not Popa intertwining. -/
-def WeaklyContained {K : Type*} [NormedAddCommGroup K]
-    [InnerProductSpace ℂ K] [CompleteSpace K]
-    (A : CommutingActions M N H) (B : CommutingActions M N K) : Prop :=
-  ∀ z : M ⊗[ℂ] Nᵐᵒᵖ, ‖A.joint z‖ ≤ ‖B.joint z‖
+/-- The action of `SL₂(ℤ)` on `ℤ²` by matrix multiplication on column vectors, as automorphisms
+of the multiplicative copy of `ℤ²` used by `SemidirectProduct`. -/
+def slTwoAction :
+    Matrix.SpecialLinearGroup (Fin 2) ℤ →* MulAut (Multiplicative (Fin 2 → ℤ)) where
+  toFun g := AddEquiv.toMultiplicative (Matrix.SpecialLinearGroup.toLin' g).toAddEquiv
+  map_one' := by
+    ext v
+    simp
+  map_mul' g h := by
+    ext v
+    simp
 
-theorem weaklyContained_refl (A : CommutingActions M N H) :
-    WeaklyContained A A := fun _ => le_rfl
+/-- A discrete group is amenable when the bounded real functions on it carry a left-invariant
+mean: a positive linear functional taking the value `1` on the constant function `1` and
+unchanged under left translation `f ↦ (x ↦ f(g⁻¹x))`. -/
+def IsAmenableDiscrete (G : Type*) [Group G] : Prop :=
+  ∃ m : lp (fun _ : G => ℝ) ∞ →ₗ[ℝ] ℝ,
+    (∀ f : lp (fun _ : G => ℝ) ∞, (∀ x, 0 ≤ f x) → 0 ≤ m f) ∧
+    (∀ f : lp (fun _ : G => ℝ) ∞, (∀ x, f x = 1) → m f = 1) ∧
+    ∀ (g : G) (f f' : lp (fun _ : G => ℝ) ∞), (∀ x, f' x = f (g⁻¹ * x)) → m f' = m f
 
-end Actions
-
-section Approximation
-variable {M : Type*} [CStarAlgebra M] [PartialOrder M] [StarOrderedRing M]
-
-/-- The tracial L² gauge on bounded elements, before GNS completion. -/
-def traceTwoNorm (τ : M →L[ℂ] ℂ) (x : M) : ℝ :=
-  Real.sqrt (τ (star x * x)).re
-
-/-- R3's literal CP-map criterion; no undefined rigidity predicate is assumed. -/
-def RelativePropertyT (τ : M →P[ℂ] ℂ) (B : StarSubalgebra ℂ M) : Prop :=
-  ∀ ε : ℝ, 0 < ε → ∃ (F : Finset M) (δ : ℝ), 0 < δ ∧
-    ∀ φ : M →CP M,
-      φ 1 ≤ 1 →
-      (∀ x : M, 0 ≤ x → τ (φ x) ≤ τ x) →
-      (∀ x ∈ F, traceTwoNorm (τ : M →L[ℂ] ℂ) (φ x - x) < δ) →
-      ∀ b : B, ‖(b : M)‖ ≤ 1 → traceTwoNorm (τ : M →L[ℂ] ℂ) (φ b - b) < ε
-
-/-- CP subunitality gives Schwarz, and trace domination controls its L² norm. -/
-theorem cp_traceTwoNorm_le (τ : M →P[ℂ] ℂ) (φ : M →CP M)
-    (hunit : φ 1 ≤ 1)
-    (htrace : ∀ x : M, 0 ≤ x → τ (φ x) ≤ τ x) (x : M) :
-    traceTwoNorm (τ : M →L[ℂ] ℂ) (φ x) ≤
-      traceTwoNorm (τ : M →L[ℂ] ℂ) x := by
+/-- Kazhdan–Margulis: the pair `(ℤ² ⋊ SL₂(ℤ), ℤ²)` has relative property (T)
+(Anantharaman–Popa, Example 14.2.8). -/
+theorem relativePropertyT_inl_slTwo.{u} :
+    RelativePropertyT.{u, 0}
+      (SemidirectProduct.inl (G := Matrix.SpecialLinearGroup (Fin 2) ℤ)
+        (φ := slTwoAction)).range := by
   sorry
 
-end Approximation
+/-- Burger: for every nonamenable subgroup `G ≤ SL₂(ℤ)` the pair `(ℤ² ⋊ G, ℤ²)` has relative
+property (T) (Anantharaman–Popa, Example 14.2.8). -/
+theorem relativePropertyT_inl_of_not_isAmenableDiscrete.{u}
+    (G : Subgroup (Matrix.SpecialLinearGroup (Fin 2) ℤ)) (hG : ¬ IsAmenableDiscrete G) :
+    RelativePropertyT.{u, 0}
+      (SemidirectProduct.inl (G := G) (φ := slTwoAction.comp G.subtype)).range := by
+  sorry
 
-section MatrixWitness
-variable {M : Type*} [CStarAlgebra M]
+/-! ## Layer 4: Haagerup approximation -/
 
-/-- Matrix-corner implementation of R5. The normality condition on θ is a
-predual target of the README; this is the algebraic part with actual entries.
-`vq=v` and `vv*v=v` express right support and partial-isometry conditions. -/
-structure MatrixIntertwiner (P : NonUnitalStarSubalgebra ℂ M)
-    (Q : StarSubalgebra ℂ M) (n : ℕ) where
-  f : M
-  f_projection : IsStarProjection f
-  f_mem : f ∈ P
-  left_unit : ∀ x : P, f * (x : M) = x
-  right_unit : ∀ x : P, (x : M) * f = x
-  q : CStarMatrix (Fin n) (Fin n) M
-  q_projection : IsStarProjection q
-  q_entries : ∀ i j, q i j ∈ Q
-  θ : P →⋆ₙₐ[ℂ] CStarMatrix (Fin n) (Fin n) M
-  θ_unit : θ ⟨f, f_mem⟩ = q
-  θ_entries : ∀ x i j, θ x i j ∈ Q
-  v : Fin n → M
-  nonzero : ∃ j, v j ≠ 0
-  left_support : ∀ j, f * v j = v j
-  partial_isometry : ∀ j, (∑ i, v i * star (v i)) * v j = v j
-  right_support : ∀ j, ∑ i, v i * q i j = v j
-  intertwines : ∀ x : P, ∀ j,
-    (x : M) * v j = ∑ i, v i * θ x i j
+/-- A function `φ : G → ℂ` on a group is positive definite when
+`Σᵢ Σⱼ conj(cᵢ) cⱼ φ(gᵢ⁻¹ gⱼ) ≥ 0` for all finite families `gᵢ ∈ G`, `cᵢ ∈ ℂ`. -/
+def IsPositiveDefinite {G : Type*} [Group G] (φ : G → ℂ) : Prop :=
+  ∀ (n : ℕ) (g : Fin n → G) (c : Fin n → ℂ),
+    0 ≤ ∑ i, ∑ j, star (c i) * c j * φ ((g i)⁻¹ * g j)
 
-/-- The nonunital ambient map is unital in the displayed q-corner. -/
-theorem MatrixIntertwiner.map_right_corner
-    {P : NonUnitalStarSubalgebra ℂ M} {Q : StarSubalgebra ℂ M} {n : ℕ}
-    (W : MatrixIntertwiner P Q n) (x : P) : W.θ x * W.q = W.θ x := by
-  rw [← W.θ_unit, ← map_mul]
-  congr 1
-  apply Subtype.ext
-  exact W.right_unit x
+/-- A discrete group has the Haagerup property when normalized positive-definite functions
+vanishing at infinity approximate the constant function `1` uniformly on every finite set
+(the net formulation of Anantharaman–Popa, Definition 16.1.1). -/
+def HasHaagerupProperty (G : Type*) [Group G] : Prop :=
+  ∀ (F : Finset G) (ε : ℝ), 0 < ε → ∃ φ : G → ℂ, IsPositiveDefinite φ ∧ φ 1 = 1 ∧
+    Tendsto φ cofinite (𝓝 0) ∧ ∀ g ∈ F, ‖φ g - 1‖ < ε
 
-theorem MatrixIntertwiner.map_left_corner
-    {P : NonUnitalStarSubalgebra ℂ M} {Q : StarSubalgebra ℂ M} {n : ℕ}
-    (W : MatrixIntertwiner P Q n) (x : P) : W.q * W.θ x = W.θ x := by
-  rw [← W.θ_unit, ← map_mul]
-  congr 1
-  apply Subtype.ext
-  exact W.left_unit x
+/-- Haagerup: the free group on any countable set of generators, in particular `F_n` for
+`2 ≤ n ≤ ∞`, has the Haagerup property (Anantharaman–Popa, Examples 16.1.2). -/
+theorem hasHaagerupProperty_freeGroup (ι : Type*) [Countable ι] :
+    HasHaagerupProperty (FreeGroup ι) := by
+  sorry
 
-/-- A witness necessarily has positive matrix size; the zero row is excluded. -/
-theorem MatrixIntertwiner.size_pos
-    {P : NonUnitalStarSubalgebra ℂ M} {Q : StarSubalgebra ℂ M} {n : ℕ}
-    (W : MatrixIntertwiner P Q n) : 0 < n := by
-  obtain ⟨j, _⟩ := W.nonzero
-  exact Nat.zero_lt_of_lt j.isLt
-
-end MatrixWitness
-
-section Gap
-variable {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
-  [CompleteSpace H] {Γ : Type*} [Group Γ]
-
-/-- Gap is measured on the complement of the actual invariant submodule.
-The native bounded representation and its unitarity match Dynamics D1. -/
-def HasSpectralGap (ρ : ContRepresentation ℂ Γ H) : Prop :=
-  TauCeti.ContRepresentation.IsUnitary ρ ∧
-  ∃ (F : Finset Γ) (C : ℝ), 0 < C ∧
-    ∀ ξ : H, ξ ∈ ρ.toRepresentation.invariantsᗮ →
-      ‖ξ‖ ^ 2 ≤ C * ∑ g ∈ F, ‖ρ g ξ - ξ‖ ^ 2
-
-end Gap
-end FactorRigidity
+end TauCetiRoadmap.FactorRigidity
