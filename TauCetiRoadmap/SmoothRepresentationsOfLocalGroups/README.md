@@ -64,7 +64,8 @@ restriction are transported along it. From
 and [layer 10](../ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees) it
 takes coinduction, Shapiro's lemma and continuous cohomology of profinite groups, and adds derived
 invariants of compact open subgroups and the derived Hecke algebra. From
-[Profinite and pro-p groups](../ProfiniteProPGroups/README.md#layer-1-supernatural-order-and-index)
+the completed roadmap
+[Profinite and pro-p groups](../../Completed/ProfiniteProPGroups/README.md#layer-1-supernatural-order-and-index)
 layer 1 it takes supernatural orders and pro-p groups, and adds compact open subgroups of pro-order
 invertible in A. From
 [Induction and restriction](../RepresentationTheory/InductionRestriction/README.md#layer-0-the-functorial-core----transitivity-and-the-projection-formula)
@@ -484,7 +485,7 @@ subobjects, quotients and restriction, which SR.0.2 transports along
 derived Hecke algebra and by exactness of induction. Layer 10: continuous cohomology in all
 degrees, the target of the comparison of derived invariants in SR.0d.
 
-### From TauCetiRoadmap.ProfiniteProPGroups
+### From the completed roadmap ProfiniteProPGroups (Completed/ProfiniteProPGroups)
 
 Layer 1: supernatural order and index, which defines the pro-order of a profinite group and the
 pro-p property behind *unit-pro-order*.
@@ -1819,8 +1820,9 @@ non-admissible complex F_ℓ[ℚ_p/ℤ_p].
 ### Dependencies
 
 SR.0 and SR.1; Mathlib's Grothendieck-abelian, derived-category, K-injective and Ext API;
-ProfiniteCohomology layers 7 and 10; DGAInfinity layers 0–1;
-DerivedModuleAlgebra §0.2.
+EnhancedDerivedSheaves E1.2 / *replacementDGComparison* (the generic functorial K-injective
+replacement, specialised to SmoothRep A G by *k-injective-resolutions*); ProfiniteCohomology
+layers 7 and 10; DGAInfinity layers 0–1; DerivedModuleAlgebra §0.2.
 
 ## Layer SR.2: induction, compact induction and Jacquet functors
 
@@ -2111,13 +2113,13 @@ The natural form states compatibility of the graded isomorphisms with every morp
 and quasi-split, B = TU a Borel (minimal parabolic) subgroup and χ a smooth character of the
 maximal torus T over ℂ. Prove that r_B(i_B χ) has a filtration with graded pieces the Weyl
 conjugates wχ (w ∈ W), so its semisimplification is `⊕_{w ∈ W} wχ`, and that if χ is regular
-(wχ ≠ χ for w ≠ 1) the filtration splits. Conclude that every irreducible subquotient π of i_B χ
-has r_B(π) ≠ 0, that its semisimplified Jacquet module is a sub-sum of ⊕ wχ, that π embeds in
-i_B(wχ) for some w, and that i_B χ has length ≤ |W| ([BZ77] Corollary 2.13(c), p. 449;
-Theorem 2.8, p. 448 (length); [Cas95] Proposition 6.4.1, p. 61 (splitting for regular χ)).
+(wχ ≠ χ for w ≠ 1) the filtration splits ([BZ77] Corollary 2.13(c), p. 449; [Cas95]
+Proposition 6.4.1, p. 61 (splitting for regular χ)). Consequences for the irreducible
+constituents of i_B χ need the cuspidal-support theory and are *principal-series-constituents*
+of SR.3.1.
 For GL_2(F), [BH06] 9.3 Restriction-Induction Lemma, p. 63, gives the unnormalised two-step sequence; conversion using `δ_B = (δ_B^{BH})⁻¹` gives the normalized Weyl characters. It is a filtration, not an unconditional splitting. *Needs:* *geometric-lemma*, *first-adjointness*, *central-ext-vanishing*.
 
-The Weyl-character filtration splits under pairwise distinctness of the Weyl characters; the subquotient statement gives the nonzero Jacquet module, its sub-sum of characters and the principal-series embedding; the length statement gives the Weyl-cardinality bound. The statements use the relative Weyl quotient and explicit representatives, retaining the quasi-split hypothesis.
+The Weyl-character filtration splits under pairwise distinctness of the Weyl characters. The statements use the relative Weyl quotient and explicit representatives, retaining the quasi-split hypothesis.
 
 ### SR.2.3 Pairings, canonical lifting, Iwahori invariants and Whittaker functionals
 
@@ -2581,6 +2583,28 @@ Checks:
 - There are no data without Levi subgroups.
 - For GL_2(ℚ_p), a diagonal character χ and its Weyl conjugate χ' (χ'(diag(a, d)) = χ(diag(d, a))) give the same cuspidal datum.
 
+**Constituents of principal series** (*principal-series-constituents*). Let G be reductive over F
+and quasi-split, B = TU a Borel subgroup, W the relative Weyl group N_G(T)/T and χ a smooth
+complex character of T(F). Prove that every irreducible subquotient π of i_B χ has cuspidal
+support [T, χ], that r_B(π) ≠ 0 with semisimplification a sub-sum of `⊕_{w ∈ W} wχ` (with
+multiplicities), that π embeds in i_B(wχ) for some w ∈ W, and that i_B χ has length ≤ |W|. The
+nonvanishing is not a formal consequence of exactness of r_B and the filtration of
+*principal-series-jacquet*: it uses that no subquotient of i_B χ is killed by r_B, which is the
+uniqueness of cuspidal support (no constituent has support on a Levi not conjugate to T)
+([BZ77] Corollary 2.13(b),(c) and §2.14, p. 449, with Theorem 2.4(a),(d), p. 447; Theorem 2.8,
+p. 448 (length); [Cas95] Corollaries 7.2.2–7.2.3, p. 68). *Needs:* *principal-series-jacquet*,
+*cuspidal-support*, *finite-length*, *first-adjointness*.
+
+**Checks.**
+
+- For G = T a torus, B = T, i_B χ = χ is irreducible of length 1 = |W|.
+- For GL_2(ℚ_p) and χ = δ_B^{1/2}, the trivial representation is a quotient of i_B χ, does not
+  embed in i_B χ, and embeds in i_B(wχ) = i_B(δ_B^{−1/2}) for the nontrivial w: the Weyl
+  conjugation in the embedding statement cannot be dropped.
+- For GL_2(ℚ_p) and χ = δ_B^{−1/2}, i_B χ has length exactly 2 = |W|, with constituents the
+  trivial representation (r_B = δ_B^{−1/2}) and a second constituent with r_B = δ_B^{1/2}; the
+  two Jacquet characters exhaust ⊕ wχ.
+
 **Generic irreducibility of induced representations** (*generic-irreducibility*). Let G be
 reductive over F with complex coefficients, σ an irreducible cuspidal representation of a Levi M
 and P = MN. Prove that for ψ in a nonempty Zariski-open subset of the torus Ψ(M), i_P(ψσ) is
@@ -2905,7 +2929,8 @@ its Iwahori invariants are one-dimensional by *borel-casselman-invariants*. For 
 0 → 1 → Ind_B^G 1 → St → 0 (unnormalised), i.e. St is the irreducible subrepresentation of
 `i_B(δ_B^{1/2})` ([Cas95] §8, Lemmas 8.1.1–8.1.2 and Theorem 8.1.3, p. 70). For GL_2(F), [BH06] (9.10.3)–(9.10.5), p. 68, verifies the quotient sequence, its dual embedding and self-duality, with the inverse-module conversion above. *Needs:*
 *borel-casselman-invariants*, *smooth-induction*, *parabolic-induction*,
-*principal-series-jacquet*, *square-integrable-tempered*; ReductiveGroups layer 7.
+*principal-series-jacquet*, *principal-series-constituents*, *square-integrable-tempered*;
+ReductiveGroups layer 7.
 
 **Checks.**
 
@@ -4403,6 +4428,16 @@ identifies the polynomial exponential with h ([Del73] Theorem 8.2 and
 §8.4, pp. 566–569).
 *Needs:* Mathlib `IsNilpotent.exp`, `IsNilpotent.exp_add_of_commute`,
 `IsNilpotent.map_exp`, `IsNilpotent.isUnit_exp`; Tau Ceti's unipotent linear automorphisms.
+
+Ownership of the generic core. The finite logarithm in a ℚ-algebra, its expansion under any
+vanishing power of u − 1, the inverse identities with `IsNilpotent.exp` and compatibility with
+ring maps are Tau Ceti's own API in the module TauCeti.RingTheory.Nilpotent.Log
+(`IsNilpotent.log`, `IsNilpotent.log_eq_sum`, `IsNilpotent.map_log`, `IsNilpotent.log_exp`,
+`IsNilpotent.exp_log`, `IsNilpotent.expEquiv`), which is newer than the Tau Ceti revision pinned
+here; that API is the single owner of this part, and the target reuses it rather than
+re-proving it. ReductiveGroups Layer 5P keeps its restriction to unipotent subgroups and Lie
+subalgebras and its geometric comparisons. This target owns only conjugation, the unipotent
+m-th roots, the continuous ℤ_ℓ interpolation by density and its Weil–Deligne applications.
 
 **Checks.**
 
