@@ -2,8 +2,9 @@
 
 The completion audit is supported by the scheme-action comparison in
 [Tau Ceti PR #22017](https://github.com/TauCetiProject/TauCeti/pull/22017), checked at
-[`50906bde9b37ecaaaaa24d618828b2b8f785fc84`](https://github.com/TauCetiProject/TauCeti/commit/50906bde9b37ecaaaaa24d618828b2b8f785fc84)
-with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The complete README is the specification.
+[`81912a7b67c19c2fdab34e09e4d0d2c5becac1a0`](https://github.com/TauCetiProject/TauCeti/commit/81912a7b67c19c2fdab34e09e4d0d2c5becac1a0)
+with Lean 4.36.0-rc1 and Mathlib `2cabef97`. [Native completion checks](NativeCompletion.md)
+contain the compiled full-line acceptance proof. The complete README is the specification.
 
 The repository dependency pin remains Tau Ceti `a91d3aa` with Lean 4.35.0-rc3.
 `Suggested.lean` retains target prototypes, including `sorry` proofs; it is not a discharged
