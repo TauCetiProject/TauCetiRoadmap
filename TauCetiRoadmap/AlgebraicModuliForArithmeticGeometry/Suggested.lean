@@ -18,8 +18,8 @@ The geometric headlines need carriers beyond the pins. Layer 1's projective-bund
 property and cohomology, coherent Grassmannians and flags, uniform regularity and boundedness
 need relative projective bundles with twists, relative ampleness and coherent Hilbert polynomials.
 Layer 2's Hom and automorphism representability need the corresponding parameter functors.
-The coherent dévissage formulation in §2.3 needs a zero-sheaf hypothesis on the empty scheme: its
-integral-support tests are then vacuous, so two-out-of-three alone supplies no base case.
+Its coherent dévissage criterion needs coherent sheaves on Noetherian schemes with their supports
+and generic stalks.
 Layer 3's effective descent on algebraic
 spaces and algebraicity of relative Hom and Weil restriction need algebraic spaces and their
 ringed étale sites. Layer 4's derived H² classification, neutrality criterion and profinite-gerbe
