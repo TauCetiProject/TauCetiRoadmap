@@ -5,10 +5,10 @@ profinite group `F̂₂` and profinite integers `ẑ`: the substitution calculus
 pro-words in two variables, the monoid of parameters `(λ, f) ∈ ẑ × F̂₂` acting on `F̂₂` by
 `x ↦ x^λ`, `y ↦ f⁻¹ y^λ f`, Drinfeld's relations (I) and (II) in `F̂₂` and the pentagon relation
 (III) in the profinite pure braid group `P̂₄`, the groups `GT̂ ⊆ GT̂₀` with their character
-`GT̂ → ẑˣ`, their faithful action on `F̂₂`, and their injection into `ContinuousOut F̂₂`. The
-homomorphism `Gal(ℚ̄/ℚ) → GT̂` and Ihara's question whether it is an isomorphism are recorded at
-the end as a roadmap for a roadmap: they need the arithmetic layers of BelyiMaps, which are not
-built yet.
+`GT̂ → ẑˣ`, their faithful action on `F̂₂`, their injection into `ContinuousOut F̂₂`, and the
+profinite topology of `GT̂` inside the congruence topology of `ContinuousAut F̂₂`. The
+homomorphism `Gal(ℚ̄/ℚ) → GT̂` and its injectivity are recorded at the end as a roadmap for a
+roadmap: they need the arithmetic layers of BelyiMaps, which are not built yet.
 
 The group is named after the programme of Grothendieck's *Esquisse d'un programme* (1984,
 printed 1997); his working notes treat the same subject (Montpellier fonds, folders 119, 142,
@@ -30,8 +30,8 @@ the profinite completion of the pure braid group on four strands, or about pairs
   abelianization `F̂₂ → ẑ²` (Layer 0);
 - the monoid of parameters `ẑ × F̂₂` and the homomorphism `(λ, f) ↦ β_{λ,f}` to continuous
   endomorphisms of `F̂₂` (Layer 1);
-- the Artin generators of the pure braid group `P₄`, its profinite completion `P̂₄` and the
-  elements `x_{ij}` there (Layer 2);
+- the profinite completion `P̂₄` of the pure braid group on four strands and the elements `x_{ij}`
+  there, the four-strand specialisation of GeometricTopology's generators (Layer 2);
 - Drinfeld's relations (I), (II), (III), the monoid `GT̂^{mon}`, the groups `GT̂₀` and `GT̂`, the
   character `χ : GT̂₀ → ẑˣ`, the actions on `F̂₂` and the injections into `ContinuousAut F̂₂` and
   `ContinuousOut F̂₂` (Layers 3 and 4).
@@ -44,6 +44,20 @@ the profinite completion of the pure braid group on four strands, or about pairs
   name; no second carrier is built.
 - *The Artin braid group `B_n`, its generators `σ_i` and the pure braid subgroup*: Tau Ceti
   (`TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.pureSubgroup`).
+- *The pure braid generators `A_(i,j)` for every number of strands, with their dictionary to the
+  native zero-based braid API*: GeometricTopology (#903, GT4). Layer 2 uses their `n = 4` case and
+  defines no second set of generators; the generation of the pure braid group by the `A_(i,j)`
+  belongs with that development, and is used here at `n = 4`.
+- *Configuration spaces and their identification with the pure and Artin braid groups, for all
+  `n`*: InverseGaloisAndArithmeticFundamentalGroups (#850, IG.5.1), whenever geometry is needed.
+- *General free-profinite lemmas*: the abelianization of a free profinite group of finite rank,
+  `F̂(X)^{ab} ≃ X → ẑ`; the centralizer of a basis element of a free profinite group of finite
+  rank, the closed procyclic subgroup it generates (Herfort–Ribes 1985); naturality and joint
+  continuity of evaluation of pro-words. Tau Ceti has the pro-`p` abelianization only
+  (`…/Free/Abelianization.lean`, `exponentSum : freeProP p X →ₜ* Multiplicative (X → ℤ_[p])`), and
+  none of the others. They are targets of this roadmap, stated and placed at that generality in
+  Tau Ceti's `Profinite/Free/` development; Layer 0 uses their rank-two cases. A pro-`p` statement
+  does not replace them.
 - *The thrice-punctured line, its profinite fundamental group, the arithmetic exact sequence and
   the outer Galois action*: [BelyiMaps](../BelyiMaps/README.md) Layer 12 and its successor
   `BelyiArithmeticActions`. BelyiMaps excludes Grothendieck–Teichmüller theory explicitly; this
@@ -66,8 +80,8 @@ or its successors.
 - **Free profinite groups.** `TauCeti.freeProfiniteGroup X : ProfiniteGrp` (Mathlib's
   `ProfiniteGrp.ProfiniteCompletion.completion` of `FreeGroup X`), `freeProfiniteGroup.of`,
   `lift`, `lift_of`, `lift_unique`, `hom_ext`, `map`, `existsUnique_continuousMulEquiv`
-  (`TauCeti/Topology/Algebra/Group/Profinite/Free/Basic.lean`); its abelianization
-  (`…/Free/Abelianization.lean`), rank and Hopf property (`…/Profinite/Hopfian.lean`).
+  (`TauCeti/Topology/Algebra/Group/Profinite/Free/Basic.lean`); rank and Hopf property
+  (`…/Profinite/Hopfian.lean`). Checked at this repository's Tau Ceti pin `358314d4`.
 - **Profinite integers and powers.** `TauCeti.zHat`, the ring structure on `Additive zHat`
   (`…/ZHat/Ring.lean`), the unit criterion and `ẑˣ ≃ ∏ ℤ_ℓˣ` (`…/ZHat/Units.lean`),
   `TauCeti.zpowHat` with notation `x ^ᶻ a` and its calculus: `zpowHat_mul`, `map_zpowHat`,
@@ -125,12 +139,14 @@ or its successors.
 `subst_inv`, `subst_one`, `subst_zpowHat` (`(g^c)(a, b) = g(a, b)^c`), `map_subst` (for
 `φ : P →ₜ* Q`, `φ (f(a, b)) = f(φ a, φ b)`), `subst_subst`
 (`f(g(a, b), h(a, b)) = (f(g, h))(a, b)`), `continuous_subst` (jointly in `(f, a, b)`), and
-`subst_eq_of_dense` (two continuous homomorphisms agreeing on `x, y` agree). *Needs:* Tau Ceti
-`freeProfiniteGroup.lift`, `lift_unique`, `hom_ext`, `map_zpowHat`.
+`subst_eq_of_dense` (two continuous homomorphisms agreeing on `x, y` agree). `map_subst`,
+`subst_subst` and `continuous_subst` are the rank-two cases of statements for `freeProfiniteGroup X`
+of any finite rank, proved there; `subst` is the two-generator convenience. *Needs:* Tau Ceti
+`freeProfiniteGroup.lift`, `comp_lift`, `lift_unique`, `hom_ext`, `map_zpowHat`.
 
 **0.2 The closed commutator subgroup.** `F̂₂' := (commutator F̂₂).topologicalClosure`. Prove it
-is the kernel of the continuous abelianization `F̂₂ → ẑ × ẑ`, `x ↦ (1, 0)`, `y ↦ (0, 1)`
-(Tau Ceti `…/Free/Abelianization.lean`), that it is closed, normal and topologically
+is the kernel of the continuous abelianization `F̂₂ → ẑ × ẑ`, `x ↦ (1, 0)`, `y ↦ (0, 1)` (the
+rank-two case of the general free-profinite abelianization above), that it is closed, normal and topologically
 characteristic, and that `subst f a b ∈ P'‾` for `f ∈ F̂₂'`. *Checks:* `x ∉ F̂₂'`; `x y x⁻¹ y⁻¹ ∈ F̂₂'`;
 `x^a y^b ∈ F̂₂'` only for `a = b = 0`.
 
@@ -152,21 +168,24 @@ of continuous endomorphisms under composition). *Needs:* 1.1, `zpowHat_mul`, `co
 **1.3 The character.** `Param.lam : Param →* ẑ` (multiplicative monoid of `ẑ`), and its
 restriction to parameters with `λ ∈ ẑˣ`.
 
-**1.4 Uniqueness of `f`.** If `β_{λ,f} = β_{λ,g}` with `f, g ∈ F̂₂'`, then `f = g`. The proof uses
-that the centralizers of `x` and of `y` in `F̂₂` are the closed procyclic subgroups `⟨x⟩‾` and
-`⟨y⟩‾` (used in Guillot 2014, proof of Proposition 5.17; a consequence of the centralizer theorem
-for free profinite products of Herfort–Ribes 1985 applied to `F̂₂ = ẑ ∐ ẑ`), which is itself a
-target here, with the statement used pinned in its docstring. Also: if `β_{λ,f} = β_{μ,g}`
-then `λ = μ`, because `⟨x⟩‾ ≅ ẑ`. *Checks:* `(λ, f)` and `(λ, f·y^c)` with `c ≠ 0` give the same
-`β` but `f y^c ∉ F̂₂'` when `f ∈ F̂₂'`.
+**1.4 Uniqueness of `f`.** If `λ ∈ ẑˣ` and `β_{λ,f} = β_{λ,g}` with `f, g ∈ F̂₂'`, then `f = g`.
+The proof uses that the centralizer of `y` in `F̂₂` is the closed procyclic subgroup `⟨y⟩‾`, which
+for a unit `λ` is also `⟨y^λ⟩‾` (the general centralizer theorem above; Guillot 2014, proof of
+Proposition 5.17). Also: if `λ, μ ∈ ẑˣ` and `β_{λ,f} = β_{μ,g}` then `λ = μ`, because
+`⟨x⟩‾ ≅ ẑ`. *Checks:* the unit hypothesis is needed: `(0, 1)` and `(0, [x, y])` give the same `β`
+(both generators go to `1`), while `[x, y] ≠ 1` (send `x, y` to `(12), (23)` in `𝔖₃`). And
+`(λ, f)` and `(λ, y^c f)` with `c ≠ 0` give the same `β`, but `y^c f ∉ F̂₂'` when `f ∈ F̂₂'`.
 
 ### Layer 2: the profinite pure braid group on four strands
 
-**2.1 Artin generators.** The six `x_{ij}` of the conventions, as elements of
-`pureSubgroup 4`, with membership proved from `sigma_sq_mem_pureSubgroup` and normality.
+**2.1 Artin generators.** The six `x_{ij}` of the conventions are GeometricTopology's `A_(i,j)`
+at `n = 4` (#903, GT4), read through its zero-based dictionary; this item proves only the
+specialisation lemmas used here (membership in `pureSubgroup 4`, the formulas of the conventions).
 *Checks:* `permHom` of each `x_{ij}` is `1`; `x₁₂` and `x₃₄` commute; `x₁₂` and `x₂₃` do not.
 
-**2.2 Generation.** The six `x_{ij}` generate `pureSubgroup 4` (Artin; Birman's book, Lemma 1.8.2).
+**2.2 Generation.** The six `x_{ij}` generate `pureSubgroup 4`: the `n = 4` case of the
+generation of the pure braid group by the `A_(i,j)` (Artin; Birman's book, Lemma 1.8.2), which is
+stated for all `n` with #903's generators.
 
 **2.3 `P̂₄`.** The completion, `eta`, density of the image of `P₄` (Mathlib `denseRange`), and
 the universal property used to define maps out of `P̂₄`.
@@ -226,6 +245,13 @@ class has at most one representative of the form `β_{λ,f}` with `f ∈ F̂₂'
 `(x, y) ↦ (a, b)` to one with `x ↦` a conjugate of `a^{χ(p)⁻¹}`. *Source:* Guillot 2014, §5, where
 `GT̂₀` is described through such finite quotients.
 
+**4.5 Topology.** On `Paramˣ`, the topology induced from `ẑ × F̂₂`. Prove: `GT̂₀` and `GT̂` are
+closed; they are compact and profinite; `χ` is continuous; the maps `GT̂₀ → ContinuousAut F̂₂` and
+`→ ContinuousOut F̂₂` are continuous for Tau Ceti's congruence topology and are homeomorphisms onto
+closed subgroups; the action of 4.4 on surjections to a finite group factors through a finite
+quotient, compatibly with characteristic finite quotients of `F̂₂`. These use the existing
+topology on `ContinuousAut`, not a separate carrier. *Source:* Schneps 1997, §1; Guillot 2014, §5.
+
 ## Ordering
 
 Layers 0 and 2 are independent and can start at once. Layer 1 needs 0; Layer 3 needs 1 and 2;
@@ -242,8 +268,18 @@ to `10→`, and `x`, `y` are the standard loops around `0` and `1`; composition 
 cyclotomic character. It is injective by Belyi's theorem (Belyi 1979). Guillot 2014, Theorem 5.21,
 gives an elementary proof of the weaker statement with `GT̂₀` in place of `GT̂`.
 
-- **Ihara's question** (Ihara 1991): is `Gal(ℚ̄/ℚ) → GT̂` an isomorphism? It is open; so is the
-  same question for `GT̂₀`.
+- **Research context, not a target.** Whether `Gal(ℚ̄/ℚ) → GT̂` is onto (Ihara 1991) is open.
+  Grothendieck's notes give an earlier, curve-based form of the question (Montpellier fonds, folder
+  142, pp. 82–103, after 1979, first-pass transcription): Belyi's theorem reduces the Galois action
+  to `ℙ¹ ∖ {0, 1, ∞}`, and he lists necessary conditions for an automorphism of the profinite
+  fundamental groupoid to come from Galois (each loop around a puncture goes to a conjugate of its
+  `λ`-th power with one `λ` for all punctures, the « relation des lacets »; lifting to every finite
+  étale cover defined over the base field; compatibility with morphisms between such covers), and
+  guesses them sufficient. Folder 147, p. 59, expects the cases of modular dimension at most `2`
+  to be the key, the two-level principle whose discrete form is Hatcher–Lochak–Schneps 2000.
+  Hoshi–Mochizuki–Tsujimura 2025 reconstruct `ℚ̄` from closed subgroups of `GT̂` compatible with
+  all Belyi diagrams, a condition close to his lifting condition; Collas's survey (2026, §4.3.3)
+  proposes a group defined through Belyi maps between `Gal(ℚ̄/ℚ)` and `GT̂`.
 - **`GT̂` as outer automorphisms of `π̂₁(M_{0,n})`** (Harbater–Schneps 2000, main theorem): for
   `n ≥ 5`, `GT̂` is isomorphic to the group `Out♯_n` of outer automorphisms of `π̂₁(M_{0,n})` that
   preserve the conjugacy classes of the inertia subgroups and commute with the outer automorphisms
@@ -291,15 +327,13 @@ gives an elementary proof of the weaker statement with `GT̂₀` in place of `GT
   `2, …, m` on `𝔸^{m−1}` minus the discriminant, irreducible of weight `m(m − 1)`, so
   `Pic ≅ ℤ/(n − 1)(n − 2)`, generated by `T_∞ℙ¹` (MathOverflow, answer 516350). Stating it needs
   quotient stacks, their Picard groups and the `𝔾_m`-equivariant Chow group of a weighted affine
-  space minus an invariant divisor (Edidin–Graham), owned by no roadmap at present: they belong
-  with the algebraic stacks and Chow groups of
-  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md).
+  space minus an invariant divisor (Edidin–Graham), planned in EquivariantIntersectionTheory
+  (#1685), Layer 3.4.
 - **What is missing.** The profinite comparison `π₁^{geo}(ℙ¹ ∖ {0,1,∞}) ≃ F̂₂` with the standard
   loops (BelyiMaps 12.6, successor `BelyiArithmeticActions`); the tangential fibre at `01→` and the
   lift of the outer action to an action (InverseGaloisAndArithmeticFundamentalGroups §IG.1.2);
   for (III), the fundamental group of `M_{0,5}` with its tangential base points, which no roadmap
-  owns. Once these exist, the successor states `galoisToGT : Gal(ℚ̄/ℚ) →* GT̂`, its injectivity, and
-  `def IharaQuestion : Prop := Function.Surjective galoisToGT`.
+  owns. Once these exist, the successor states `galoisToGT : Gal(ℚ̄/ℚ) →* GT̂` and its injectivity.
 
 ## References
 
@@ -320,6 +354,11 @@ All checked on zbMATH (identifiers given) or arXiv.
   Zbl 0901.14001.
 - P. Guillot, « An elementary approach to dessins d'enfants and the Grothendieck–Teichmüller
   group », *Enseign. Math.* (2) 60 (2014), 293–375. Zbl 1364.11126; arXiv:1309.1968.
+- Y. Hoshi, S. Mochizuki, S. Tsujimura, « Combinatorial construction of the absolute Galois group
+  of the field of rational numbers », *J. Math. Sci. Univ. Tokyo* 32 (2025), no. 1, 1–125.
+- A. Hatcher, P. Lochak, L. Schneps, « On the Teichmüller tower of mapping class groups »,
+  *J. reine angew. Math.* 521 (2000), 1–24. Zbl 0953.20030.
+- B. Collas, « Anabelian perspectives in Galois–Teichmüller theory », arXiv:2603.02848 (2026).
 - W. N. Herfort, L. Ribes, « Torsion elements and centralizers in free products of profinite
   groups », *J. reine angew. Math.* 358 (1985), 155–161. Zbl 0549.20017.
 - G. V. Belyĭ, « On Galois extensions of a maximal cyclotomic field », *Izv. Akad. Nauk SSSR Ser.

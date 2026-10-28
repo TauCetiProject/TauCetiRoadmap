@@ -130,8 +130,9 @@ noncomputable instance : Monoid Param where
   one_mul := param_one_mul
   mul_one := param_mul_one
 
-/-- **Layer 1.4.** Uniqueness of `f` given `β`. -/
-theorem eq_of_beta_eq {p q : Param} (hp : p.f ∈ commutatorClosure)
+/-- **Layer 1.4.** Uniqueness of `f` given `β`, for unit exponents. Without `IsUnit p.lam` it is
+false: `(0, 1)` and `(0, [x, y])` have the same `β`. -/
+theorem eq_of_beta_eq {p q : Param} (hλ : IsUnit p.lam) (hp : p.f ∈ commutatorClosure)
     (hq : q.f ∈ commutatorClosure) (h : beta p = beta q) : p = q := by
   sorry
 
@@ -149,7 +150,9 @@ theorem conj_mem_pure (g b : BraidGroup 4) (hb : b ∈ BraidGroup.pureSubgroup 4
     g * b * g⁻¹ ∈ BraidGroup.pureSubgroup 4 :=
   (inferInstance : (BraidGroup.pureSubgroup 4).Normal).conj_mem b hb g
 
-/-- **Layer 2.1.** The Artin generators of `P₄`. -/
+/-- **Layer 2.1.** The Artin generators of `P₄`: the `n = 4` case of GeometricTopology's
+`A_(i,j)` (#903, GT4), written out here until that roadmap's general generators exist; the
+implementation uses those and does not define a second family. -/
 noncomputable def a12 : P4 := ⟨s0 ^ 2, BraidGroup.sigma_sq_mem_pureSubgroup 0⟩
 noncomputable def a23 : P4 := ⟨s1 ^ 2, BraidGroup.sigma_sq_mem_pureSubgroup 1⟩
 noncomputable def a34 : P4 := ⟨s2 ^ 2, BraidGroup.sigma_sq_mem_pureSubgroup 2⟩
