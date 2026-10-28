@@ -1,22 +1,28 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.AbelianVariety.Basic
 
 /-!
-# Deligne weights, purity and the Weil bounds: headline statements
+# Deligne weights, purity and the Weil bounds: target signatures
 
 These are suggested forms, not an exhaustive checklist. `README.md` is the definitive roadmap.
 
-The statements express constant-coefficient finite-field zeta rationality (§1.10), rational
-and integral degree-factor extraction (§4.4), and the arbitrary-field primitive decomposition
-and compatible pairings of a graded Lefschetz operator (§9.7). Zeta rationality uses actual
-scheme-valued points; degree-factor extraction allows any nonempty family of characteristic-zero
-coefficient fields, including the ℓ-adic realizations in §4.4.
+The statements express the Weil point-count bound for abelian varieties over finite fields
+(§1.5), constant-coefficient finite-field zeta rationality (§1.10), rational and integral
+degree-factor extraction (§4.4), and the arbitrary-field primitive decomposition and compatible
+pairings of a graded Lefschetz operator (§9.7). The abelian-variety bound and zeta rationality
+use actual scheme-valued points; the abelian variety is the Tau Ceti carrier. Degree-factor
+extraction allows any nonempty family of characteristic-zero coefficient fields, including the
+ℓ-adic realizations in §4.4.
 
-The geometric Weil estimates for abelian varieties and curves (DWP.1), the symplectic coefficient
-estimate (DWP.2), pencil-factor rationality (DWP.3), smooth projective purity (DWP.4), local
-weight–monodromy and generalized majoration (DWP.5), sharp curve purity (DWP.6), and the general
-direct-image and integrality theorems (DWP.7) need Frobenius on rational adic étale cohomology
-and constructible Weil sheaves. Those coefficient objects and their six operations are absent
-at the pins. The coefficient L-function clause of §1.10 needs the same sheaf objects.
+The §1.5 bound is the numerical consequence of the Weil estimate for abelian varieties and needs
+no cohomology to state. The spectral formulations of DWP.1 (Frobenius on the Tate module and on
+`H¹` of the Jacobian, Weil numbers of its roots), the curve Weil estimate through the Jacobian,
+the symplectic coefficient estimate (DWP.2), pencil-factor rationality (DWP.3), smooth
+projective purity (DWP.4), local weight–monodromy and generalized majoration (DWP.5), sharp
+curve purity (DWP.6), and the general direct-image and integrality theorems (DWP.7) need
+Frobenius on rational adic étale cohomology and constructible Weil sheaves. Those coefficient
+objects and their six operations are absent at the pins. The coefficient L-function clause of
+§1.10 needs the same sheaf objects.
 
 Mixed-complex estimates, the lisse weight filtration, geometric semisimplicity, potential
 purity and the normal-crossings spectral sequence (DWP.8) also need these sheaves and complexes,
@@ -33,7 +39,23 @@ open CategoryTheory AlgebraicGeometry Polynomial
 
 universe u
 
-namespace TauCeti.Weights
+namespace TauCetiRoadmap.DeligneWeightsAndPurity
+
+namespace Weights
+
+/-! ## DWP.0: Weil numbers and purity of an endomorphism -/
+
+/-- Integer Weil weight with a real base greater than one (§0.1).
+Algebraicity and the modulus condition at every complex conjugate are both required. -/
+def IsWeilNumber {K : Type*} [Field K] [Algebra ℚ K] (q : ℝ) (n : ℤ) (α : K) : Prop :=
+  1 < q ∧ IsAlgebraic ℚ α ∧ ∀ z ∈ (minpoly ℚ α).aroots ℂ, ‖z‖ = q ^ ((n : ℝ) / 2)
+
+/-- Every characteristic root in the algebraic closure has the specified Weil weight (§0.7). -/
+def IsPure {K V : Type*} [Field K] [Algebra ℚ K] [AddCommGroup V] [Module K V]
+    [FiniteDimensional K V] (q : ℝ) (n : ℤ) (F : V →ₗ[K] V) : Prop :=
+  ∀ α ∈ F.charpoly.aroots (AlgebraicClosure K), IsWeilNumber q n α
+
+/-! ## DWP.1: point counts and finite-field zeta functions -/
 
 /-- The number of `E`-valued points over the specified ground field. -/
 noncomputable def finiteFieldPointCount {k : Type u} [Field k] {X : Scheme.{u}}
@@ -49,6 +71,22 @@ noncomputable def finiteFieldZeta {k : Type u} [Field k] {X : Scheme.{u}}
   PowerSeries.subst (PowerSeries.mk fun n =>
     if n = 0 then 0 else (finiteFieldPointCount f (E n) : ℚ) / (n : ℚ)) (PowerSeries.exp ℚ)
 
+/-- The Weil bound for the point counts of an abelian variety of dimension `g` over `𝔽_q`
+(§1.5; Milne, *Abelian Varieties*, Chapter II, Theorem 1.1 and Corollary 1.5, pp. 75–78):
+over every extension of degree `m ≥ 1`, the number of points differs from `q^(mg)` by at most
+`2g·q^(m(g−1/2)) + (2^(2g) − 2g − 1)·q^(m(g−1))`. Real exponents avoid natural subtraction;
+for `g = 0` both sides vanish. -/
+theorem abelianPointCountBound {k : Type u} [Field k] [Finite k]
+    (A : TauCeti.AlgebraicGeometry.AbelianVariety k) (g : ℕ)
+    (hg : A.dim = (g : WithBot ℕ∞))
+    (E : Type u) [Field E] [Algebra k E] [FiniteDimensional k E]
+    (m : ℕ) (hm : 0 < m) (hE : Module.finrank k E = m) :
+    |(finiteFieldPointCount A.toOver.hom E : ℝ) - (Nat.card k : ℝ) ^ (m * g)| ≤
+      2 * (g : ℝ) * (Nat.card k : ℝ) ^ ((m : ℝ) * ((g : ℝ) - 1 / 2)) +
+      ((2 : ℝ) ^ (2 * g) - 2 * (g : ℝ) - 1) *
+        (Nat.card k : ℝ) ^ ((m : ℝ) * ((g : ℝ) - 1)) := by
+  sorry
+
 /-- Zeta rationality for every separated finite-type scheme over a finite field (§1.10;
 Weil I (1.1.1)–(1.1.2), (1.5.4), pp. 274–277). The polynomial identity expresses its
 Taylor series as a rational function regular at zero, with value one there. -/
@@ -60,15 +98,7 @@ theorem finiteFieldZetaRationality {k : Type u} [Field k] [Finite k] {X : Scheme
       (Q : PowerSeries ℚ) * finiteFieldZeta f E = (P : PowerSeries ℚ) := by
   sorry
 
-/-- Integer Weil weight with a real base greater than one (§0.1).
-Algebraicity and the modulus condition at every complex conjugate are both required. -/
-def IsWeilNumber {K : Type*} [Field K] [Algebra ℚ K] (q : ℝ) (n : ℤ) (α : K) : Prop :=
-  1 < q ∧ IsAlgebraic ℚ α ∧ ∀ z ∈ (minpoly ℚ α).aroots ℂ, ‖z‖ = q ^ ((n : ℝ) / 2)
-
-/-- Every characteristic root in the algebraic closure has the specified Weil weight (§0.7). -/
-def IsPure {K V : Type*} [Field K] [Algebra ℚ K] [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] (q : ℝ) (n : ℤ) (F : V →ₗ[K] V) : Prop :=
-  ∀ α ∈ F.charpoly.aroots (AlgebraicClosure K), IsWeilNumber q n α
+/-! ## DWP.4: rational and integral degree factors -/
 
 /-- Distinct degree weights recover unique rational factors across coefficient realizations
 (§4.4; Weil I, proof of (1.7) ⇒ (1.6), pp. 276–277). They are integral if the roots are integral,
@@ -102,9 +132,11 @@ theorem degreeFactorExtraction {ι : Type*} [Nonempty ι] (E : ι → Type*)
         ∀ i, ∃ Q : ℤ[X], Q.map (Int.castRingHom ℚ) = P i) := by
   sorry
 
-end TauCeti.Weights
+end Weights
 
-namespace TauCeti.HardLefschetz
+/-! ## DWP.9: the arbitrary-field graded Lefschetz core -/
+
+namespace HardLefschetz
 
 variable {K V : Type*} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
 
@@ -153,4 +185,6 @@ theorem lefschetzPairings (𝒱 : ℤ → Submodule K V) (h𝒱 : DirectSum.IsIn
           B ((lam ^ r) y) x = (-1 : K) ^ ((n : ℤ) - r) * B ((lam ^ r) x) y) := by
   sorry
 
-end TauCeti.HardLefschetz
+end HardLefschetz
+
+end TauCetiRoadmap.DeligneWeightsAndPurity
