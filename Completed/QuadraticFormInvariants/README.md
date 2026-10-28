@@ -710,7 +710,7 @@ or comparison; the milestone is not a licence to construct a second public carri
 | Classical local Hilbert symbol | `TauCeti.NumberTheory.HilbertSymbol.Basic`: `hilbertSymbol`, norm/splitting comparisons; `LocalField.QuadraticForm.Bimultiplicativity`: `quadraticNormSubgroup_index_eq_two_of_not_isSquare`, `hilbertSymbol_mul_right`, `exists_hilbertSymbol_eq_neg_one` | Preserve the explicit dyadic tables, defect/conductor witnesses and cohomological-normalization comparison as separate outputs |
 | Local classification | `LocalField.QuadraticForm.Classification`: `RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`, under the actual local-field and invertible-two hypotheses | Compare the roadmap tuple and plain/signed discriminants with the native class-level invariants; retain realization and every rank boundary |
 | Crossed products | `TauCeti.Algebra.CrossedProduct.Basic`: `TwoCocycle`, `CrossedProduct`, `inc`, `basis`, `finrank_eq_finrank_mul_card`, `finrank_eq_finrank_sq` | Translate the existing public cocycle convention to the native one; use its finitely supported carrier and unnormalized scalar embedding |
-| Mod-two coefficients and cup norm | `TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic`: `mu2EquivZMod2`, `kummerCoeffIsoTrivialF2`; `MuTwo.CupNorm`: `cup_kummerClass_eq_zero_iff` | Retain the coefficient/group/ring dictionaries to CFT. The native cup-norm/comparison statements that bind `K : Type` do not by themselves prove an arbitrary-`Type u` export |
+| Mod-two coefficients and cup norm | `TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic`: `mu2EquivZMod2`, `kummerCoeffIsoTrivialF2`; `MuTwo.CupNorm`: `cup_kummerClass_eq_zero_iff` | Retain the coefficient/group/ring dictionaries to CFT. The audited native Brauer and cup-norm comparisons bind `K : Type u`; the final local-symbol comparison exports are generalized by TauCeti#22016 |
 | Transfer and degree-one relative formula | `TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic`: `QuadraticMap.scharlauTransfer`; `StiefelWhitney.Transfer`: `sw1Class_traceTransfer_mk_rankOne` | The public argument-order wrapper consumes the native construction. The degree-two Evens/Kahn formula and its cochain-level value calculation remain explicit milestones |
 | Matrix Pin-plus model | `TauCeti.LinearAlgebra.Matrix.PinPlusPlane`: `pinE1`, `pinE2`, `pinVec`, `IsPinLift`, `pinT`, `pinDihedral`, `pinLift` | Compare the public total formulas and the matrix-orthogonality predicate with the native proof-parameterized maps before the Galois/descent calculation |
 
@@ -749,8 +749,9 @@ The higher-universe comparison has three mandatory earlier stages, in this order
    with the quadratic crossed-product cocycle and hence the native quaternion class.
    The splitting criterion gives the quadratic field norm equation; the square case is
    handled by the split algebra. Prove restriction/corestriction and coefficient-transport
-   squares before using local invariant normalization. The native universe-zero cup-norm
-   theorem is the specialization comparison, not a proof of this larger-universe target.
+   squares before using local invariant normalization. The audited native cup-norm theorem already preserves `K : Type u`; its universe-zero
+   instance is a specialization, and the broader comparison is supplied by that polymorphic
+   construction.
 
 These stages are retained proof obligations with their actual maps and laws. They precede
 arbitrary-universe Layers 7B/7C consumers; they neither assume the final cup-norm theorem nor
@@ -2620,15 +2621,13 @@ Prerequisites: **[Layer 2]**, **[Layer 6C]** for the local identification only,
 
 Consume the actual native `FieldTheory/QuadraticForm/StiefelWhitney/` API.
 `Basic.lean` defines `TauCeti.sw1` and `sw2` on tuples with polymorphic field
-universes. `Class.lean` descends `sw1Class` at arbitrary `Type u`; its `sw2Class`
-and `Hasse.lean` comparisons currently bind `K : Type`. Use those actual native
-specializations and their formulas. For the retained arbitrary-universe second-class
-output, first complete the earlier universe-polymorphic Brauer/cup-norm construction,
-then use the same permutation, binary-replacement and rank-one descent proof.
-Compare it with native `sw2Class` at universe zero by the presentation formula and
-uniqueness of descent. No universe-zero theorem is silently exported at arbitrary
-`Type u`. The public tuple/order wrappers below are comparisons with these native
-objects; they do not commission a second Stiefel–Whitney engine.
+universes. At the audited native revision, `Class.lean` descends both `sw1Class` and
+`sw2Class` for `K : Type u`, and `Hasse.lean` states its comparisons in the same generality.
+Their permutation, binary-replacement and rank-one descent proofs consume the native
+universe-polymorphic Brauer/cup-norm construction. Use those canonical definitions and
+formulas; the public tuple/order wrappers below are comparisons with them and do not
+commission a second Stiefel–Whitney engine. No theorem restricted to universe zero is
+silently exported at arbitrary `Type u`.
 
 Prerequisites:
 
