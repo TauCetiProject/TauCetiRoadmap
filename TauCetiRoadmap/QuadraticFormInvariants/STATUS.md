@@ -1,7 +1,10 @@
 <!--tauceti-status:v1 {"roadmap":"QuadraticFormInvariants","to_sha":"e8ea0d187d0e20fa24ab5f68cfc27b2d40b876bd","ts":"2026-10-25T17:19:50Z"}-->
 # Status: QuadraticFormInvariants
 
-For the later source audit, see [Completion audit](README.md#completion-audit-2026-10-28).
+**Current audit (2026-10-28): incomplete.** The actual upward-`ULift` transport and
+Brauer/cohomology naturality square remain open. See the
+[coverage audit](README.md#completion-audit-2026-10-28). The dated generated snapshot below
+is retained as historical reporting and does not establish current completion.
 
 This file documents the status of the QuadraticFormInvariants roadmap up until `e8ea0d1` (2026-10-25T17:19:50Z). There may have been subsequent updates.
 
