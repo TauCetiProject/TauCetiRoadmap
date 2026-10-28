@@ -40,6 +40,8 @@ noncomputable section
 
 namespace TauCetiRoadmap.SelmerIwasawaCohomology
 
+/-! ## Layer 0: Completions and coefficient limits -/
+
 section Kummer
 
 variable (p : ℕ) [Fact p.Prime] (K : Type*) [Field K]
@@ -110,6 +112,8 @@ theorem weaklySemisimple_integral_lift (σ : M →ₗ[O] M)
 
 end IntegralLifting
 
+/-! ## Layer 2: Selmer structures and complexes -/
+
 section PrimaryDecomposition
 
 universe u
@@ -125,6 +129,8 @@ theorem finiteCotype_primaryDecomposition (p : ℕ) [Fact p.Prime]
         ((Fin r → ℚ_[p] ⧸ Submodule.span ℤ_[p] ({1} : Set ℚ_[p])) × F)) := sorry
 
 end PrimaryDecomposition
+
+/-! ## Layer 4: Finite conditions and arithmetic applications -/
 
 section Archimedean
 
