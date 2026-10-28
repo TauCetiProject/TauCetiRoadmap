@@ -49,9 +49,9 @@ nonsplit node and a cusp, supplied by `AlgebraicGeometry/EllipticCurve/SingularP
 `frobeniusTrace_eq_neg_one_of_not_splits` and `frobeniusTrace_eq_zero_of_c₄_eq_zero`; split and nonsplit are
 measured there by the splitting of the pinned `WeierstrassCurve.nodePolynomial`. The single-component
 fibre counts of §§2.10–2.13 for I₁ and II are these equation-level counts; the multi-component fibre counts
-are new here. Weight reversal `reverseWeight i` agrees with Mathlib's `Polynomial.reflect i` on polynomials of
-degree at most i (`reverseWeight_eq_reflect`); above that weight `reflect` keeps a coefficient that
-`reverseWeight` drops. The chart identities of §4.10 assume the degree bounds, and `reverseWeight` is kept
+are new here. Weight reversal rev_i agrees with Mathlib's `Polynomial.reflect i` on polynomials of
+degree at most i; above that weight `reflect` keeps a coefficient that
+rev_i drops. The chart identities of §4.10 assume the degree bounds, and rev_i is kept
 because its output always satisfies the weight bound.
 
 ## Conventions
@@ -141,9 +141,12 @@ restriction laws on the actual curve and normalization schemes.
 StableReduction Layer 1 supplies finite normalization, local node/branch comparisons, the conductor and the
 normalization exact sequence, and the splitting of nodes and branches after a finite separable field
 extension; reducedness of the target alone is insufficient. Layer 2 supplies coherent cohomology of proper
-curves (finite dimensionality, vanishing above degree one, cohomology and base change), proper-flat
-constancy of the arithmetic genus (`R¹f_*O` locally free of constant rank) and curve duality. Together with
-`f_*O = O`, this gives the Euler-characteristic constancy used in §3.3; the values H⁰(P¹,O)=k and H¹(P¹,O)=0 are the
+curves (finite dimensionality, vanishing above degree one, the full cohomology-and-base-change theorem),
+local constancy of the fibre Euler characteristic χ(X_b,O) in proper flat families, and curve duality. Local
+freeness of `R¹f_*O` is not part of this contract in general: Layer 2 derives it for proper flat nodal
+families, and otherwise it holds only under cohomological flatness, which §3.3 obtains from Raynaud's
+criterion; a wild multiple fibre keeps a nonzero torsion part T of `R¹f_*O` (§4.1). Together with
+`f_*O = O`, χ-constancy is the Euler-characteristic input used in §3.3; the values H⁰(P¹,O)=k and H¹(P¹,O)=0 are the
 genus-zero case. Layer 4 supplies blowup/intersection operations, including negative semidefiniteness of the
 component matrix of a fibre. The sharper form used here, that the form vanishes exactly on multiples of the
 multiplicity vector and hence every proper principal submatrix is negative definite, is the linear-algebra
@@ -167,7 +170,7 @@ pointed curve with the supplied `WeierstrassCurve.projModel`, preserving its `pr
 EllipticCurves Layer 1 supplies genuine finite isogenies, dual isogenies and degrees; Layer 3 supplies
 finite-field Frobenius, the count identity `#E(𝔽_{qⁿ}) = deg(1 − π_qⁿ)` and the bad-reduction values of
 q+1−pointCount, and the invariance of all extension counts under an isogeny is derived from these in §3.8;
-Layer 4 supplies the Kodaira symbol `ReductionSymbol` and Tate's algorithm over perfect residue fields. The comparison from its local algorithm to
+Layer 4 supplies the Kodaira reduction symbols and Tate's algorithm over perfect residue fields. The comparison from its local algorithm to
 resolved surface components is an explicit target here. IntegralLattices Layers 0–1 supply the
 abstract lattices, duals and discriminant forms; Layer 6, targets 6C and 6F, supplies the
 positive definite even unimodular rank-eight classification and the Gram/coordinate E₈ comparison.
@@ -176,12 +179,12 @@ The surface-to-lattice realization is constructed here.
 ### From foundational roadmaps
 
 SchemeAndStackFoundations Layer 0 (SF.0), §0.27, supplies flat exactness and finite-module
-annihilators under flat scalar extension (`FlatAnnihilator.annihilator_flat_baseChange`, Stacks
+annihilators under flat scalar extension (Stacks
 Lemma 10.40.4, tag 07T8); §0.28 supplies ideal restriction and quotient/localization comparisons,
-including `ideal_comap_top`, `ideal_restrict_top` and the affine ideal-pullback formula. SF.1 supplies genuine algebraic spaces on the small étale site, étale descent, fibre products of
+including the ideal-pullback and ideal-restriction formulas on affine opens. SF.1 supplies genuine algebraic spaces on the small étale site, étale descent, fibre products of
 spaces and the quotient of a scheme by an étale equivalence relation (Stacks Theorem 65.10.5, tag 02WW).
 The diagonal properties of Stacks Lemma 65.13.1 (tag 02X4) are supplied by SF.1 §1.3’s
-`IsAlgebraicSpace.diagonal_locallyQuasiFinite`; locally quasi-finite implies locally of finite type. Three
+the diagonal of an algebraic space is locally quasi-finite; locally quasi-finite implies locally of finite type. Three
 Stacks inputs that SF.1 does not state are targets of §1.9 here: étale algebras lift along surjections of rings
 (Lemma 10.143.10, tag 04D1); a separated locally quasi-finite morphism to a
 scheme is representable (Proposition 67.50.2, Section 67.50, tag 0417); and quasi-separatedness and
@@ -203,7 +206,7 @@ classification or nonexistent étale-cohomology layer is assumed.
 AlgebraicModuliForArithmeticGeometry Layer 1 §1.1 supplies the quotient-convention projective bundle and
 relative Proj. Layer 3 §3.5 supplies effective polarized descent and projective finite quotients; apply it only
 with a chosen invariant polarization and the free finite constant-group action specified below. Layer 7 §7.3
-supplies `RaynaudNStar` and `raynaud_degree_one_cohomologicallyFlat`: a proper flat finite-presentation
+supplies Raynaud's condition (N)* and the degree-one cohomological-flatness criterion: a proper flat finite-presentation
 relative curve over a trait satisfying (N)* is cohomologically flat in degree zero when its strict-henselian
 generic fiber has a divisor of degree one; a section suffices. (N)* includes the stated
 normality/no-embedded-point condition and `f_*O=O`. ComplexComparisonPartII §§C3.2d.2–C3.2d.4
@@ -219,7 +222,7 @@ fiber multiplicity and the corrected obstruction factors are developed in Layer 
 comparison is not silently imported from a semistable theorem. ReductiveGroupsPartII §RG2.3.7’s prose
 target *lang-theorem* supplies Lang for every smooth geometrically connected finite-type group over a finite
 field, including an elliptic curve and PGL₂ (Lang (1956), Theorem 1 and corollary, pp. 556–557). Its Lean target
-`Lang.lang_surjective` has the affine carrier `FiniteTypeCommHopfAlgCat`, and it has no compiled PGL₂ carrier.
+its Lang surjectivity statement has the affine carrier `FiniteTypeCommHopfAlgCat`, and it has no compiled PGL₂ carrier.
 The Jacobian application of §2.15 and the PGL₂ application of §2.16 consume the prose target.
 
 EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b)
@@ -246,7 +249,7 @@ analysis, with uniqueness from the fibre and j-invariants. The README specifies 
 (`genusOne_finiteField_hasPoint`), the five-class geometric classification
 (`genusOne_F2_classification`) and the characteristic restriction for regular nonsmooth
 genus-one curves (`regularGenusOne_char_two_or_three`). Its only supporting definition is
-`F2Model`. Lean names elsewhere specify the library API to be built by the roadmap.
+`F2Model`. The remaining targets are stated in this README.
 
 | Layer | Mathematical content |
 | --- | --- |
@@ -262,10 +265,10 @@ genus-one curves (`regularGenusOne_char_two_or_three`). Its only supporting defi
 
 ### 1.1 ferrand geometric pushouts
 
-Define `GeometricPushout` for a specified commutative square Z→Y, Z→Z′, Y→P, Z′→P by two conditions: the
+Define the geometric pushout for a specified commutative square Z→Y, Z→Z′, Y→P, Z′→P by two conditions: the
 underlying space is the quotient pushout, and `O_P` is the fiber product of the three direct-image structure
 sheaves. In schemes the latter is checked naturally on every open; in algebraic spaces it is a comparison on
-the small étale site. Define `FerrandPushout` by additionally requiring Z→Y closed and Z→Z′ finite. This is a
+the small étale site. Define the Ferrand pushout by additionally requiring Z→Y closed and Z→Z′ finite. This is a
 condition on a constructed square, not an existence assertion. Witaszek's universal-homeomorphism
 specialization also requires his qcqs conditions.
 
@@ -283,34 +286,34 @@ to qcqs i and universal-homeomorphism g,a for Witaszek 2.17.
 
 The construction needs the following maps and laws.
 
-- `GeometricPushout.of_affine`: For B→C surjective and A′→C finite, `Spec(B×_C A′)` gives the finite-pinching
+- For B→C surjective and A′→C finite, `Spec(B×_C A′)` gives the finite-pinching
   geometric square.
 
-- `GeometricPushout.lift`: For a Ferrand square, or a Witaszek2.17 geometric square with its full hypotheses,
+- For a Ferrand square, or a Witaszek2.17 geometric square with its full hypotheses,
   compatible Y→T and Z′→T induce a unique P→T.
 
-- `GeometricPushout.flat_baseChange`: For a Ferrand square, or a Witaszek2.17 geometric square with qcqs
+- For a Ferrand square, or a Witaszek2.17 geometric square with qcqs
   hypotheses, every flat T→P induces a geometric square on all four base changes.
 
-- `GeometricPushout.witaszek_iff`: With qcqs i and universal-homeomorphism g,a, the general predicate is
+- With qcqs i and universal-homeomorphism g,a, the general predicate is
   equivalent to Witaszek Definition2.17.
 
-- `FerrandPushout.complementIso`: In a Ferrand pushout a identifies Y∖Z with P∖Z′.
+- In a Ferrand pushout a identifies Y∖Z with P∖Z′.
 
-- `FerrandPushout.conductor`: The conductor square of a finite inclusion of reduced Noetherian rings is this
+- The conductor square of a finite inclusion of reduced Noetherian rings is this
   geometric square; no birational hypothesis is necessary.
 
-- `FerrandPushout.exists_algebraicSpace`: For algebraic spaces Y,Z,Z′ over a scheme S, a closed immersion
+- For algebraic spaces Y,Z,Z′ over a scheme S, a closed immersion
   i:Z→Y and a finite morphism g:Z→Z′ have a categorical pushout P=Y⊔Z Z′ in algebraic S-spaces, with affine
   canonical maps Y→P and Z′→P. No Noetherian, quasi-separated, reduced, radicial or scheme affine-neighborhood
   hypothesis is imposed.
 
-- `FerrandPushout.isScheme_iff`: For a finite pinching datum whose three components Y,Z,Z′ are schemes, its
+- For a finite pinching datum whose three components Y,Z,Z′ are schemes, its
   algebraic-space pushout P is a scheme if and only if for every point z′∈Z′ the finite set i(g⁻¹(z′)) lies in
   an affine open of Y. Under this condition the canonical scheme pushout agrees with P, including universality
   against algebraic-space targets.
 
-- `FerrandPushout.conductor_global`: For a finite surjective morphism of reduced Noetherian schemes, the
+- For a finite surjective morphism of reduced Noetherian schemes, the
   actual globally constructed conductor subschemes and induced map give a geometric and categorical Scheme
   pushout, with the native cartesian comparison and flat-recomputed conductor compatibility; no birational
   hypothesis is imposed.
@@ -340,16 +343,14 @@ The construction needs the following maps and laws.
 
 ### 1.2 conductor of an arbitrary subring
 
-For A⊂B, define `AffinePinching.conductor A` as the B-ideal of elements b for which bx lies in A for every
+For A⊂B, define the conductor c(A,B) as the B-ideal of elements b for which bx lies in A for every
 x∈B. Multiplication by one shows it is contained in A; every B-ideal contained in A is contained in this
 conductor. No finiteness, reduction, normality or birationality is part of the definition.
-
-*Lean name:* `AffinePinching.conductor`.
 
 The greatest-ideal proof multiplies a member of an ambient ideal by an arbitrary ambient element. Compare its
 monogenic specialization with Mathlib’s conductor through equality of subrings.
 
-The representative constructor is named `AffinePinching.conductor` to distinguish the arbitrary-subring ideal
+The representative constructor is kept separate, to distinguish the arbitrary-subring ideal
 from Mathlib's monogenic `conductor R x`. Their equality when A=R[x] is part of the comparison API; all
 examples use the same full ideal.
 
@@ -360,25 +361,25 @@ principal-localization paragraph, with Lemma1.3(b) and its converse, pp556–557
 
 The construction needs the following maps and laws.
 
-- `AffinePinching.conductor_mem`: For any commutative ring B (the zero ring included), subring A and b in B,
+- For any commutative ring B (the zero ring included), subring A and b in B,
   b belongs to the full B-ideal c(A,B) if and only if bx belongs to A for every x in B; no reducedness,
   Noetherianity or birationality is imposed. Unfold the definition.
 
-- `AffinePinching.conductor_le`: For an arbitrary subring S⊂B, every element of its ambient conductor c(S,B)
+- For an arbitrary subring S⊂B, every element of its ambient conductor c(S,B)
   belongs to S. Evaluate the defining condition b·x∈S at x=1.
 
-- `AffinePinching.conductor_greatest`: A B-ideal I is contained in c(A,B) iff its underlying set lies in A.
+- A B-ideal I is contained in c(A,B) iff its underlying set lies in A.
 
-- `AffinePinching.conductor_mono`: A⊂A′ implies c(A,B)⊂c(A′,B).
+- A⊂A′ implies c(A,B)⊂c(A′,B).
 
-- `AffinePinching.conductor_adjoin`: For A the underlying subring of R[x]⊂B this is Mathlib's `conductor R x`;
+- For A the underlying subring of R[x]⊂B this is Mathlib's `conductor R x`;
   the two carriers are literally the same set.
 
-- `AffinePinching.conductor_away_bijective`: For any commutative ring B, subring S⊂B and t∈S whose ambient
+- For any commutative ring B, subring S⊂B and t∈S whose ambient
   value lies in c(S,B), the native map `S_t→B_t` induced by the subtype inclusion is bijective, for any native
   localization carriers. Uses §1.21, §1.2, `Ideal.map_comap_le`, `Ideal.mem_map_of_mem`,
   `Subring.subtype_injective`, `RingHom.injective_iff_ker_eq_bot`. Contract the actual conductor to I⊂S. The
-  native map-comap inequality and `AffinePinching.conductor_le` show that map(I) equals the actual set image
+  native map-comap inequality and the containment of the conductor in A show that map(I) equals the actual set image
   of I. The subtype inclusion is injective, so its kernel is zero. Apply the general common-ideal localization
   lemma to this I and t.
 
@@ -399,14 +400,12 @@ The construction needs the following maps and laws.
 
 ### 1.3 affine Ferrand existence
 
-Prove `affineFerrandPushout`: when B→C is surjective and A′→C is finite, the native pullback ring `B×_C A′`
+Prove the affine Ferrand pushout: when B→C is surjective and A′→C is finite, the native pullback ring `B×_C A′`
 gives a geometric pushout Spec B←Spec C→Spec A′. Its universal property must hold against every scheme, and
 later every algebraic space, rather than just affine targets.
 
-*Lean name:* `ferrand_affine_existence`.
-
 The pullback ring supplies compatible morphisms and the affine section identities. Use
-`localization_complement` and the surjective projection to identify the quotient topology. Given maps to an
+the localization complement and the surjective projection to identify the quotient topology. Given maps to an
 arbitrary scheme T, cover the image by affine opens and glue the ring lifts, rather than claiming Spec sends
 every ring limit to a scheme colimit.
 
@@ -419,37 +418,37 @@ principal-localization paragraph, with Lemma1.3(b) and its converse, pp556–557
 
 The construction needs the following maps and laws.
 
-- `pullback_projection`: For p:B→C surjective and q:A′→C, set `A=B×_C A′` using the baseline pullback. The
+- For p:B→C surjective and q:A′→C, set `A=B×_C A′` using the baseline pullback. The
   projection A→A′ is surjective and its kernel maps isomorphically onto ker p as an ideal of B. Uses
   `CommRingCat.pullbackCone`, `CommRingCat.pullbackConeIsLimit`. Lift q(a′) along p to establish projection
   surjectivity. A pair in the projection kernel is exactly (b,0) with p(b)=0; check the ideal action
   componentwise.
 
-- `cartesian_affine`: For the preceding A, with I=ker(A→A′)=ker p⊂B, the natural map `B⊗_A A′→C` is an
+- For the preceding A, with I=ker(A→A′)=ker p⊂B, the natural map `B⊗_A A′→C` is an
   isomorphism. Uses §1.3, SchemeAndStackFoundations SF.0, quotient/localization/flat-module contracts. Use
-  A′≅A/I by `pullback_projection`. Use the tensor quotient `B⊗_A(A/I)≅B/IB`, with IB=ker p. Use B/ker
+  A′≅A/I by the pullback projection. Use the tensor quotient `B⊗_A(A/I)≅B/IB`, with IB=ker p. Use B/ker
   p≅C.
 
-- `localization_complement`: For t∈I in the previous square, A[1/t]→B[1/t] is an isomorphism. Uses §1.3,
+- For t∈I in the previous square, A[1/t]→B[1/t] is an isomorphism. Uses §1.3,
   SchemeAndStackFoundations SF.0, quotient/localization/flat-module contracts, §1.21. Use
-  `pullback_projection` to identify I with the common ideal image and establish ker(f)∩I=0, without assuming the
-  map A→B is injective. Apply `AffinePinching.commonIdealAwayEquiv` to the actual localization map. The checked inverse
+  the pullback projection to identify I with the common ideal image and establish ker(f)∩I=0, without assuming the
+  map A→B is injective. Apply the common ideal away equivalence to the actual localization map. The checked inverse
   representative is a/t whenever f(a)=f(t)b. Use the supplier’s actual affine basic-open and section
   comparisons to identify the union with the complement of the conductor subscheme.
 
-- `finite_projection`: If q:A′→C is finite and p:B→C surjective, then the projection `A=B×_C A′→B` is finite.
+- If q:A′→C is finite and p:B→C surjective, then the projection `A=B×_C A′→B` is finite.
   Uses §1.3. Choose finitely many A′-module generators of C and lift them to B. Reduce any b modulo I using
-  these lifts and lift each A′ coefficient to A via `pullback_projection`. The residual term lies in
+  these lifts and lift each A′ coefficient to A via pullback projection. The residual term lies in
   I⊂A, so 1 and the chosen lifts generate B over A.
 
-- `ferrand_flat_patching`: For p:B→C surjective, any q:A′→C and `A=B×_C A′`, the functor sending an A-module L
+- For p:B→C surjective, any q:A′→C and `A=B×_C A′`, the functor sending an A-module L
   to the triple (`L⊗_A B`, `L⊗_A A′`, the canonical identification of their base changes to C) is an equivalence
   from flat A-modules onto triples of a flat B-module, a flat A′-module and an isomorphism over C; its inverse
   is the fiber product `N×_M M′`. It restricts to finite projective modules (Milnor patching) and, being
   compatible with tensor products, to flat and to étale A-algebras. No finiteness of q is needed, and for
   arbitrary modules the comparison L→(L⊗B)×(L⊗A′) is only surjective. Uses `CommRingCat.pullbackCone`,
   tensor products and `Module.Flat`. Compare kernels of the two coordinate projections as in
-  `pullback_projection`, and use flatness to keep the fiber-product sequence exact (Ferrand, Théorème 2.2,
+  the pullback projection, and use flatness to keep the fiber-product sequence exact (Ferrand, Théorème 2.2,
   pp. 559–560; [Stacks, Lemma 15.6.4, tag 07RU](https://stacks.math.columbia.edu/tag/07RU);
   [Lemma 15.6.5, tag 08IG](https://stacks.math.columbia.edu/tag/08IG);
   [Lemma 15.6.8, tag 0D2I](https://stacks.math.columbia.edu/tag/0D2I);
@@ -459,10 +458,10 @@ The construction needs the following maps and laws.
 
 - The cusp uses C=k[t]/t²; a reduced-only definition must fail this test.
 
-- `ferrand_flat_patching` on the cusp square k[t]→k[t]/t²←k: the free module A is sent to (k[t], k, the
+- Ferrand flat patching on the cusp square k[t]→k[t]/t²←k: the free module A is sent to (k[t], k, the
   identity of k[t]/t²), and gluing that triple returns k+t²k[t].
 
-- `ferrand_flat_patching` remembers the gluing isomorphism: for char k≠2 and the node square
+- Ferrand flat patching remembers the gluing isomorphism: for char k≠2 and the node square
   k[t]→k×k←k (evaluation at t=±1), the triples (k[t], k, (1,1)) and (k[t], k, (1,−1)) glue to rank-one
   projective modules over A=k+(t²−1)k[t] whose classes in `Pic A≅(kˣ)²/kˣ` are 1 and −1, so the second is not
   free. A definition that forgets the isomorphism over C would identify them.
@@ -499,7 +498,7 @@ Glue the compatible affine pinches to a scheme P. Prove that Y→P is finite, Z�
 cartesian and categorical, and Y∖Z→P∖Z′ is an isomorphism. The finite-fiber affine-neighborhood condition is
 essential to scheme existence; the algebraic-space theorem below has a different scope.
 
-Build affine pushouts on §1.4. Use `localization_complement` and uniqueness of
+Build affine pushouts on §1.4. Use the localization complement and uniqueness of
 affine lifts to identify intersections. Glue the schemes and structure sheaves; cartesian, finite and closed
 properties are local on P.
 
@@ -587,11 +586,9 @@ open-affine-neighborhood assumption is imposed. Construct a compatible affine é
 schematic overlap and pinches, prove the overlap is an étale equivalence relation, and descend its quotient
 and the three source maps.
 
-*Lean name:* `FerrandPushout.exists_algebraicSpace`.
-
-Use `FerrandPushout.pinching_etale_cover` to form D0→D and `FerrandPushout.overlap_isScheme` for D1=D0×D D0. Form the schematic pushouts
+Use the compatible étale cover of the pinching to form D0→D, and the fact that its overlap D1=D0×D D0 is a scheme. Form the schematic pushouts
 P0,P1 on their compatible open affine covers. Their universality in algebraic spaces follows by gluing the two
-affine-space Hom lemmas. Use `FerrandPushout.etale_relation` to identify P1⇉P0 as an étale equivalence relation and
+affine-space Hom lemmas. Use the étale-relation statement to identify P1⇉P0 as an étale equivalence relation and
 invoke the SchemeAndStackFoundations SF.1 algebraic-space quotient theorem to construct P. Compatible maps
 out of D descend through P0 and P1, yielding the categorical universal property of P. Effectivity supplies
 D0=D×P P0 and D1=D×P P1; descend affineness of the canonical maps from the affine local pinches. Finiteness,
@@ -619,13 +616,13 @@ proof p13.)
 
 The construction needs the following maps and laws.
 
-**Finite-map étale-cover cofinality.** Construct `finiteMap_etaleCover_cofinal`: for a finite morphism
-g:Z→Z′ of algebraic spaces over S and any surjective étale covering morphism U→Z, construct a surjective
-étale V→Z′ and a Z-map V×Z′Z→U. A covering family is represented by the disjoint union of its members;
+**Finite-map étale-cover cofinality.** Prove that étale covers of the source of a finite morphism are refined
+by covers pulled back from the target: for a finite morphism g:Z→Z′ of algebraic spaces over S and any
+surjective étale covering morphism U→Z, construct a surjective étale V→Z′ and a Z-map `V×_Z′ Z→U`. A covering family is represented by the disjoint union of its members;
 the factorization is into that entire covering, with affine pieces chosen afterwards. No Noetherian
 or quasi-separated hypothesis is imposed. Over a strict henselization of Z′ the finite source decomposes
 into henselian local pieces; choose lifts on all pieces and descend their maps to an étale neighborhood
-using finite presentation and limit descent. This precedes `FerrandPushout.pinching_etale_cover`.
+using finite presentation and limit descent. This precedes the compatible étale cover of the pinching.
 
 ([Temkin–Tyomkin, v3](https://math.huji.ac.il/~temkin/papers/Ferrands_Pushouts.pdf), Lemma 5.1.2,
 p. 14.) *Needs:* SchemeAndStackFoundations SF.1 algebraic spaces and étale descent; SF.0 §0.9
@@ -645,43 +642,43 @@ point is [Stacks, Lemma 10.155.2, tag 04GP](https://stacks.math.columbia.edu/tag
   connected. Strict henselization has residue `𝔽̄_q` and splits that source into two points; both lifts
   are required.
 
-- `FerrandPushout.pinching_etale_cover`: For algebraic spaces over a scheme S, with i:Z→Y closed and g:Z→Z′
+- For algebraic spaces over a scheme S, with i:Z→Y closed and g:Z→Z′
   finite, there are indexed affine schemes Zα,Yα,Z′α, étale covers of Y and Z′, and specified cartesian
   identifications Zα=Z×Y Yα=Z×Z′ Z′α. Thus the datum has a componentwise cartesian affine étale covering.
   Neither Noetherian nor quasi-separated hypotheses are required. Uses §1.1, SchemeAndStackFoundations SF.1, scheme/étale-space contracts. Choose an affine étale presentation of Y; its restrictions to Z are affine
-  because i is closed. Apply `finiteMap_etaleCover_cofinal` of this section to the finite map g
+  because i is closed. Apply the étale-cover cofinality of this section to the finite map g
   to refine an affine étale cover of Z′ so that each pullback Zα maps to the disjoint union of the
   chosen affine Y-charts restricted to Z. Cofinality concerns an entire cover, not an arbitrary chart meeting
   only one point of a finite fiber. Split the affine pullback into its open-and-closed pieces mapping to
   individual charts; only finitely many pieces are nonempty. Lift each piece across the corresponding closed
-  immersion using `etale_lift_along_surjection` of this section (Stacks tag 04D1), and take their finite
+  immersion using étale lifting along surjections in this section (Stacks tag 04D1), and take their finite
   disjoint union as the affine Yα, retaining the entire Zα over Z′α. Add charts (empty;U,empty) from an affine étale covering of Y∖Z so that the Y-components cover
   the complement as well as the pinching locus. Keep the overlap isomorphisms, not only the three separate
   covering families.
 
-- `FerrandPushout.affine_space_hom_injective`: Let p:B→C be surjective, q:A′→C finite, A=B×C A′, and P=Spec A.
+- Let p:B→C be surjective, q:A′→C finite, A=B×C A′, and P=Spec A.
   For any algebraic S-space T, restriction HomS(P,T)→HomS(Spec B,T)×HomS(Spec C,T)HomS(Spec A′,T) is
   injective. Uses §1.3, `CommRingCat.pullbackConeIsLimit`, SchemeAndStackFoundations SF.1,
   scheme/étale-space contracts. Take two maps with the same restrictions. Their pullbacks of an affine étale
-  presentation of a quasi-compact open of T have the same cartesian datum. Use the flat-module patching equivalence of §1.3 (`ferrand_flat_patching`),
+  presentation of a quasi-compact open of T have the same cartesian datum. Use the flat-module patching equivalence of §1.3 (the Ferrand flat patching),
   applied to étale algebras, to identify those pullbacks over P; refine the resulting scheme by affine
   étale charts. On every such affine chart, ring pullback universality forces the two maps into the affine
   target chart to agree. Descend equality of morphisms along the surjective étale cover using
   SchemeAndStackFoundations SF.1. Work on quasi-compact open target neighborhoods to remove a global
   quasi-compactness assumption on T.
 
-- `FerrandPushout.affine_space_hom_surjective`: For the affine datum and P of `FerrandPushout.affine_space_hom_injective` and
+- For the affine datum and P of injectivity of morphisms out of the affine pinching and
   every algebraic S-space T, each compatible pair of maps Spec B→T and Spec A′→T extends to a map P→T. Uses
   §1.3, `CommRingCat.pullbackConeIsLimit`, SchemeAndStackFoundations SF.1, scheme/étale-space contracts.
   Pull back an affine étale presentation T0→T to the datum. It remains a finite pinching datum and therefore
-  admits the compatible affine étale cover of `FerrandPushout.pinching_etale_cover`. Use the flat-module patching equivalence of §1.3 (`ferrand_flat_patching`) over
+  admits the compatible affine étale cover of the pinching. Use the flat-module patching equivalence of §1.3 (the Ferrand flat patching) over
   the original affine P to obtain the induced surjective étale scheme
   cover P0→P and its genuine cartesian overlap P1=P0×P P0. Maps from the affine charts to T0 factor through
-  their ring pullback pushouts. On P1 the two induced maps to T agree by `FerrandPushout.affine_space_hom_injective`, applied
+  their ring pullback pushouts. On P1 the two induced maps to T agree by injectivity of morphisms out of the affine pinching, applied
   on an open affine cover. Effective étale descent of morphisms in SchemeAndStackFoundations SF.1 gives
   P→T. Pull back to the covering datum to verify that its restrictions are the specified maps.
 
-- `FerrandPushout.etale_relation`: Suppose D1⇉D0 is an étale equivalence relation of finite pinching data,
+- Suppose D1⇉D0 is an étale equivalence relation of finite pinching data,
   every componentwise square is cartesian, and D0,D1 admit compatible open affine coverings. Their schematic
   pushouts P1⇉P0 form an étale equivalence relation. Uses §1.5, §1.3, SchemeAndStackFoundations SF.1,
   scheme/étale-space contracts. Schematic pinching and the flat-module patching equivalence of §1.3 preserve
@@ -693,21 +690,21 @@ point is [Stacks, Lemma 10.155.2, tag 04GP](https://stacks.math.columbia.edu/tag
   surjective base change (Temkin–Tyomkin 2.1.6). A groupoid alone is insufficient: the monomorphism is the decisive
   final step.
 
-- `FerrandPushout.overlap_isScheme`: Let D0 be the disjoint union of the compatible affine étale charts of a
+- Let D0 be the disjoint union of the compatible affine étale charts of a
   finite pinching datum D and put D1=D0×D D0 componentwise. Then D1 admits a compatible open affine covering,
   so its pinching pushout P1 is a scheme. These opens are cartesian in all three components. Uses §1.9, §1.3,
   SchemeAndStackFoundations SF.1, scheme/étale-space contracts. The components of D1 are ind-quasi-affine
   schemes. On pairs of
   affine chart components, their maps are base changes of the separated locally quasi-finite diagonals of Y
-  and Z′ (SchemeAndStackFoundations §1.3, `IsAlgebraicSpace.diagonal_locallyQuasiFinite`, Stacks tag 02X4);
-  `representable_of_separated_locallyQuasiFinite` of this section supplies representability,
+  and Z′ (SchemeAndStackFoundations §1.3, local quasi-finiteness of the diagonal, Stacks tag 02X4);
+  the representability criterion for separated locally quasi-finite morphisms in this section supplies representability,
   and its proof supplies the local quasi-affineness comparison. Use affine lifting on ind-quasi-affine schemes
   (Temkin–Tyomkin 5.2.5) to obtain a secondary affine étale covering Q0→D1. The components of D1 are separated schemes, so
   Q1=Q0×D1 Q0 has open affine coverings: fiber products of affines over a separated scheme are affine. The
   schematic pinches of Q0,Q1 are universal against algebraic spaces by the two affine-space Hom lemmas. By
-  `FerrandPushout.etale_relation` their quotient exists as an algebraic space by the SchemeAndStackFoundations SF.1
+  the étale-relation statement their quotient exists as an algebraic space by the SchemeAndStackFoundations SF.1
   quotient theorem, and is the pushout of D1. Flat patching identifies D1 with the pullback of D0 along P1→P0
-  and makes this map étale. The affine `finite_projection` calculation and the surjective projection show, by
+  and makes this map étale. The affine finite-projection calculation and the surjective projection show, by
   étale descent in SchemeAndStackFoundations SF.1, that Y1⊔Z′1→P1 is finite and surjective. Its components
   are separated over each affine base chart, so Stacks tag 05Z2 makes P1 separated over that chart. This argument
   uses local finiteness of the already constructed overlap, not the later existence theorem. The separated
@@ -715,55 +712,55 @@ point is [Stacks, Lemma 10.155.2, tag 04GP](https://stacks.math.columbia.edu/tag
   Stacks tag 082J is the stronger quasi-finite comparison cited by Temkin–Tyomkin 6.2.1. Pull back affine opens of the now
   schematic P1 to obtain the compatible open affine cover of D1.
 
-- `FerrandPushout.space_isPullback`: For the effective finite pinching pushout P, the canonical square Z→Y,
+- For the effective finite pinching pushout P, the canonical square Z→Y,
   Z→Z′, Y→P, Z′→P is cartesian in algebraic spaces, including nonreduced Z. Uses §1.9, §1.3,
   SchemeAndStackFoundations SF.1, scheme/étale-space contracts. Pull back along the effective étale
-  presentation P0→P obtained in `FerrandPushout.exists_algebraicSpace`. On every affine chart apply the existing
-  `cartesian_affine` tensor-quotient comparison. Descend the canonical comparison Z→Y×P Z′ as an isomorphism
+  presentation P0→P obtained in the existence statement of this section. On every affine chart apply the existing
+  the cartesian affine tensor-quotient comparison. Descend the canonical comparison Z→Y×P Z′ as an isomorphism
   using SchemeAndStackFoundations SF.1. Topological equality of the overlap is not substituted for this
   comparison.
 
-- `FerrandPushout.space_geometric`: The effective finite pinching square satisfies the general
-  GeometricPushout predicate: the underlying topological space is the quotient pushout and, on the small étale
+- The effective finite pinching square satisfies the general
+  geometric pushout predicate: the underlying topological space is the quotient pushout and, on the small étale
   site of P, `O_P≅a_*O_Y×c_*O_Z b_*O_Z′`, where c=ai=bg. In particular every affine étale U→P gives the
   corresponding pullback of section rings on its three inverse images. Uses §1.1, §1.9, §1.3,
   SchemeAndStackFoundations SF.1, scheme/étale-space contracts. Use the effective presentation P0→P and the
-  genuine cartesian charts of `FerrandPushout.exists_algebraicSpace`. On affine charts the structure sheaf is the
+  genuine cartesian charts of the existence statement of this section. On affine charts the structure sheaf is the
   sheafification of the existing ring pullback; compare on principal opens and transport to the small étale
   site. Descend the sheaf isomorphism through the étale presentation using SchemeAndStackFoundations SF.1;
   Zariski sections alone are not a definition of an arbitrary algebraic space. Use Temkin–Tyomkin 4.4.2(i) to descend the
   quotient topology from the same affine pinches. The scheme specialization is exactly the existing every-open
   section condition.
 
-- `FerrandPushout.space_isFinite`: For the effective finite pinching P of `FerrandPushout.exists_algebraicSpace`, the
+- For the effective finite pinching P of the existence statement of this section, the
   canonical map a:Y→P is finite. Uses §1.9, §1.3, SchemeAndStackFoundations SF.1, scheme/étale-space
   contracts. Pull back to the effective affine étale pinching charts on P. On each chart apply
-  `finite_projection` to the finite ring homomorphism A′→C. Descend finiteness of a along the étale presentation
+  the finite projection to the finite ring homomorphism A′→C. Descend finiteness of a along the étale presentation
   in SchemeAndStackFoundations SF.1. It does not follow from affineness alone.
 
-- `FerrandPushout.space_closed_complement`: For the effective finite pinching P, b:Z′→P is a closed immersion
+- For the effective finite pinching P, b:Z′→P is a closed immersion
   and the induced Y∖Z→P∖b(Z′) is an isomorphism of open algebraic spaces. Uses §1.9, §1.3,
   SchemeAndStackFoundations SF.1, scheme/étale-space contracts. On each effective affine étale chart, the
-  ring pullback projection to A′ is surjective by `pullback_projection`, so the pinched locus is the actual
-  closed subscheme defined by its kernel. The existing `localization_complement` comparison identifies its open
+  ring pullback projection to A′ is surjective by the pullback projection, so the pinched locus is the actual
+  closed subscheme defined by its kernel. The existing localization-complement comparison identifies its open
   complement with Y∖Z. Descend the closed immersion and this canonical complement isomorphism in
   SchemeAndStackFoundations SF.1. Both describe the one closed/open decomposition of the pushout.
 
-- `etale_lift_along_surjection`: For a ring R, an ideal I⊂R and an étale R/I-algebra S̄ there is an étale
+- For a ring R, an ideal I⊂R and an étale R/I-algebra S̄ there is an étale
   R-algebra S with S/IS≅S̄ as R/I-algebras: lift a standard étale presentation and invert the lifted Jacobian
   determinant ([Stacks, Lemma 10.143.10, tag 04D1](https://stacks.math.columbia.edu/tag/04D1)). Used to lift
-  affine étale charts of Z across the closed immersion into Y in `FerrandPushout.pinching_etale_cover`.
+  affine étale charts of Z across the closed immersion into Y in the compatible étale cover of the pinching.
 
-- Use SchemeAndStackFoundations §1.3’s `IsAlgebraicSpace.diagonal_locallyQuasiFinite`: the diagonal is
+- Use SchemeAndStackFoundations §1.3’s local quasi-finiteness of the diagonal: the diagonal is
   representable by separated locally quasi-finite monomorphisms, hence is also locally of finite type
   ([Stacks, Lemma 65.13.1, tag 02X4](https://stacks.math.columbia.edu/tag/02X4)).
 
-- `representable_of_separated_locallyQuasiFinite`: A separated, locally quasi-finite morphism from an
+- A separated, locally quasi-finite morphism from an
   algebraic space to a scheme has a scheme as source ([Stacks, Proposition 67.50.2, Section 67.50, tag
   0417](https://stacks.math.columbia.edu/tag/0417)); reduce to an affine base and use the Zariski covering by
   quasi-affine pieces.
 
-- `separated_of_universallyClosed_surjective`: For a surjective universally closed morphism X→Y of algebraic
+- For a surjective universally closed morphism X→Y of algebraic
   spaces over B, if X is quasi-separated (resp. separated) over B then so is Y ([Stacks, Lemma 67.9.8, tag
   05Z2](https://stacks.math.columbia.edu/tag/05Z2)); compare the two diagonals through the surjective
   universally closed map `X×_B X→Y×_B Y`.
@@ -786,8 +783,6 @@ For the effective algebraic-space pinch P and any flat space F→P, prove the ca
 the pinch of the three pulled-back spaces is an isomorphism. Apply the flat-object patching equivalence on the
 étale presentations and descend the comparison. Uniqueness of the compatible maps also proves identity and
 tower coherence.
-
-*Lean name:* `FerrandPushout.space_flat_baseChange`.
 
 Finite and closed morphisms are stable under base change, so the pullback datum has its own effective pinching
 by §1.9. On the source- and target-étale presentations apply the affine flat ring/space
@@ -816,8 +811,6 @@ one affine open of Y. The forward implication takes an affine open in P and its 
 reverse implication uses compatible open affine charts. An affine étale cover always exists for finite data
 and must not be substituted for this stronger open-cover condition.
 
-*Lean name:* `FerrandPushout.isScheme_iff`.
-
 If the fiber affine-neighborhood condition holds, §1.4 and §1.5
 construct the schematic pinch. The two affine-space Hom lemmas upgrade its categorical universality to all
 algebraic spaces; uniqueness identifies it with P. Conversely, if P is a scheme, take an affine open
@@ -841,7 +834,7 @@ Example4.2.3, pp11–12; compare Ferrand7.1.)
 
 ### 1.12 cartesian criterion for common-ideal squares
 
-Prove `AffinePinching.commonIdeal_isPullback_iff` under the literal image-ideal hypothesis.
+Prove the cartesian criterion for the common-ideal square under the literal image-ideal hypothesis.
 
 For f:A→B and I⊂A, impose the literal equality f(I)=I.map f of underlying sets. Prove the quotient square is
 cartesian exactly when ker(f)∩I=0. The comparison into the native pullback is always defined; its kernel is
@@ -854,9 +847,9 @@ the native ring equivalence and categorical isomorphism; transfer the existing p
 Conversely, a cartesian square identifies the comparison with the unique isomorphism between two limits; its
 kernel is zero, giving the required intersection condition.
 
-Construct `AffinePinching.commonIdealComparison f I` as the actual lift to `CommRingCat.pullbackCone`. Its
-API consists of the two projection equations, `commonIdealComparison_kernel` with kernel ker(f)∩I, and
-`commonIdealComparison_surjective_iff` with the literal image condition. The proof constructs a preimage by
+Construct the common-ideal comparison map κ(f,I) as the actual lift to `CommRingCat.pullbackCone`. Its
+properties are the two projection equations, its kernel ker(f)∩I, and
+its surjectivity criterion, the literal image condition. The proof constructs a preimage by
 correcting a residue representative by an element of I. Checks: for Z→F₂ and I=0 it is bijective although f is
 not; for the injective diagonal F₂→F₂×F₂ and I=A it is not surjective; for f=id and any I it reconstructs a
 from both coordinates.
@@ -867,14 +860,14 @@ pp554–557, introduction and §§1.1–1.4.)
 
 The construction needs the following maps and laws.
 
-- `commonIdealComparison_fst`: The B-projection of `c_f,I(a)` is f(a).
+- The B-projection of `c_f,I(a)` is f(a).
 
-- `commonIdealComparison_snd`: The A/I-projection of `c_f,I(a)` is [a].
+- The A/I-projection of `c_f,I(a)` is [a].
 
-- `commonIdealComparison_unique`: Any ring map from A to this native pullback with projections f and the
+- Any ring map from A to this native pullback with projections f and the
   quotient map equals `c_f,I`.
 
-- `commonIdealComparison`: For arbitrary commutative rings A,B, a unital ring map f:A→B and an ideal I of A,
+- For arbitrary commutative rings A,B, a unital ring map f:A→B and an ideal I of A,
   let `J=map_f(I)` and q:A/I→B/J be the native induced quotient map. Define the canonical ring homomorphism
   `c_f,I:A→B×_(B/J)(A/I)` by a↦(f(a),[a]). No image-ideal, injectivity, finite, reduced or Noetherian assumption
   is needed to define it. Uses `CommRingCat.pullbackCone`, `CommRingCat.pullbackConeIsLimit`,
@@ -883,19 +876,19 @@ The construction needs the following maps and laws.
   commutative-ring pullback and its universal property to form `c_f,I`; do not construct a second fiber-product
   carrier.
 
-- `commonIdealComparison_kernel`: With the preceding notation, `ker(c_f,I)=ker(f)∩I`, without any image-ideal
+- With the preceding notation, `ker(c_f,I)=ker(f)∩I`, without any image-ideal
   assumption. Uses §1.12, `Ideal.mk_ker`. Use the two comparison projections: `c_f,I(a)=0` precisely when f(a)=0
   and [a]=0. Use the native quotient-kernel identity; the native pullback lies in B×A/I, so zero in both
   coordinates is zero in the pullback.
 
-- `commonIdealComparison_surjective`: If the set f(I) equals the underlying set of `J=map_f(I)`, then `c_f,I` is
+- If the set f(I) equals the underlying set of `J=map_f(I)`, then `c_f,I` is
   surjective. This condition says that the image is already an ideal, not merely that the ideal generated by
   it exists. Uses §1.12, `Ideal.Quotient.mk_surjective`, `Ideal.Quotient.eq`, `Ideal.quotientMap_mk`. Take a
   compatible pair (b,α) in the native pullback and choose a representative a of α. Compatibility says
   b−f(a)∈J. The image-ideal condition supplies i∈I with f(i)=b−f(a). Then a+i maps to (b,α); replacing a by
   a+i does not alter its class modulo I. No finiteness or injectivity of f is used.
 
-- `AffinePinching.conductorRing_isPullback`: For an arbitrary subring A⊂B of a commutative ring B,
+- For an arbitrary subring A⊂B of a commutative ring B,
   let J=c(A,B) be the general conductor and I=J∩A. Then A→B, A→A/I, B→B/J, A/I→B/J is cartesian in commutative rings. Finiteness,
   birationality, reducedness and Noetherianity are unnecessary for this affine identity. Uses §1.2, §1.12,
   `Ideal.map_comap_le`, `Ideal.quotientMap`, §1.22. The conductor is an ideal of B contained in A. For the
@@ -905,13 +898,13 @@ The construction needs the following maps and laws.
   geometric conductor square of §1.7 separately uses finite affine pinching and localization/gluing
   under its stated hypotheses. This affine identity alone does not supply global algebraic-space existence.
 
-- `AffinePinching.commonIdealComparison_bijective_iff`: For arbitrary commutative rings A,B, a unital f:A→B
+- For arbitrary commutative rings A,B, a unital f:A→B
   and I⊂A with `map_f(I)=f(I)` as sets, the actual comparison `c:A→B×_(B/map_f(I))(A/I)` is bijective exactly when
   ker(f)∩I=0. No finiteness, injectivity of f, reducedness or Noetherian hypothesis is imposed. Uses §1.12,
-  `RingHom.injective_iff_ker_eq_bot`. Use `commonIdealComparison_surjective` for surjectivity. Use the native ring-hom
+  `RingHom.injective_iff_ker_eq_bot`. Use the surjectivity of κ(f,I) for surjectivity. Use the native ring-hom
   injectivity criterion and the already computed comparison kernel for both directions.
 
-- `FerrandPushout.conductor_comap_algEquiv`: For arbitrary commutative rings A,B,C and an actual A-algebra
+- For arbitrary commutative rings A,B,C and an actual A-algebra
   equivalence e:B≃ₐ[A]C, the contractions to A of c(im(A→B),B) and c(im(A→C),C) are equal as full A-ideals.
   The structure maps need not be injective or finite. Uses §1.2, `AlgEquiv.commutes`. Membership means every
   product of the scalar image with an ambient element lies in the scalar image. Lift an arbitrary C-element
@@ -946,8 +939,6 @@ For any A-algebra B, identify the contracted conductor of im(A→B) with `Ann_A(
 full ideals for the actual coefficient map, including maps with kernel. Unpack scalar multiplication on
 quotient classes; no domain or finite-module hypothesis is used in this identity.
 
-*Lean name:* `conductor_eq_annihilator`.
-
 The native submodule A·1 is exactly im f, since a·1=f(a). A scalar a annihilates M exactly when f(a)b belongs
 to im f for every b∈B. Use the native quotient-zero criterion and native module annihilator; this is precisely
 membership in the preimage of the subring conductor.
@@ -977,8 +968,6 @@ extended contracted conductor and the conductor recomputed from that map. Use th
 B/(A·1), its actual tensor quotient comparison and the finite-module flat-annihilator theorem. Neither
 F-reducedness nor noetherianity is needed.
 
-*Lean name:* `conductor_flat_baseChange`.
-
 Apply native flat tensor injectivity to A→B, identifying `A⊗_A F` with F; this gives the actual inclusion `f_F`.
 Native flat exactness identifies `(B/(A·1))⊗_A F` with `B_F/(F·1)`. The quotient is a finite A-module because B is
 finite. Invoke SchemeAndStackFoundations SF.0, flat-annihilator for the finite quotient module B/A. This
@@ -1007,11 +996,9 @@ For a finite injection A→B and S⊂A, identify the localization of the contrac
 of the actual map S⁻¹A→f(S)⁻¹B. Give the finite-generator common-denominator proof as well as the flat-tensor
 proof. Denominators may be zero divisors or nilpotents, and the localization may be zero.
 
-*Lean name:* `conductor_localization`.
-
 Localization is a flat scalar extension by the pinned IsLocalization.flat theorem. Alternatively combine
 §1.14 with the canonical tensor/localization comparison. The direct proof below
-uses `FerrandPushout.conductor_localization_recomputed` and its native representative equations, so it does not require a
+uses the recomputed localization statement of §1.24 and its native representative equations, so it does not require a
 independently assumed annihilator theorem. The finite-generation argument is essential: for generators
 b₁,…,bₙ of B/A, clear the finitely many denominators annihilating the bᵢ and multiply them to obtain one
 element of S. No domain cancellation or localization-injectivity assumption is used. The conductor-specific
@@ -1066,7 +1053,7 @@ description and finite-surjective reduced-scheme hypotheses.)
 
 ### 1.16 the global conductor ideal-sheaf datum
 
-For finite schematically dominant f:Y→P, construct `conductorIdealSheaf f` in the native ideal-sheaf carrier.
+For finite schematically dominant f:Y→P, construct the conductor ideal sheaf I_f in the native ideal-sheaf carrier.
 On an affine U its ideal is the contraction of `c(im f_U,Γ(Y,f⁻¹U))` along the actual section map `f_U`. Establish
 basic-open compatibility before applying `ofIdeals`, and prove that construction preserves each prescribed
 ideal. Its closed subscheme `C_f` is defined by this full ideal.
@@ -1094,89 +1081,73 @@ native closed-subscheme carriers are used. Generic quotient, section and pullbac
 
 The construction needs the following maps and laws.
 
-- `ConductorIdealSheaf.mem_affine`: For an affine U⊂P, `a∈I_f(U)` exactly when `f_U(a)b` lies in `im f_U` for every
+- For an affine U⊂P, `a∈I_f(U)` exactly when `f_U(a)b` lies in `im f_U` for every
   b∈Γ(Y,f⁻¹U).
 
-- `ConductorIdealSheaf.greatest`: For an ideal-sheaf datum K on P, `K≤I_f` exactly when for every affine U and
+- For an ideal-sheaf datum K on P, `K≤I_f` exactly when for every affine U and
   a∈K(U), `f_U(a)Γ(Y,f⁻¹U)⊂im f_U`.
 
-- `ConductorIdealSheaf.affine_compat`: If P is affine, `I_f` is the native ofIdealTop of `f_top⁻¹(c(im f_top,Γ(Y,⊤)))`; the quotient subscheme is the existing ideal-sheaf subscheme.
+- If P is affine, `I_f` is the native ofIdealTop of `f_top⁻¹(c(im f_top,Γ(Y,⊤)))`; the quotient subscheme is the existing ideal-sheaf subscheme.
 
-- `FerrandPushout.conductorIdealSheaf_ideal`: For every finite schematically dominant f:Y→P and affine U⊂P,
-  the affine ideal of the existing conductorIdealSheaf f equals the full conductor of im(f.app U) in
+- For every finite schematically dominant f:Y→P and affine U⊂P,
+  the affine ideal of I_f equals the full conductor of im(f.app U) in
   Γ(Y,f⁻¹U), contracted along the actual f.app U. The ofIdeals construction loses none of the prescribed
   ideals. Uses §1.16, `AlgebraicGeometry.Scheme.IdealSheafData.ofIdeals_ideal`. Build an anonymous native
   IdealSheafData from the same family using the proved basic-open identity. Apply native ofIdeals_ideal to
   this compatible family and evaluate its U-component. This establishes the existing membership,
   greatest-ideal and affine ofIdealTop APIs without changing their statements.
 
-- `FerrandPushout.ConductorIdealSheaf.map_affine`: For finite schematically dominant f and affine opens U⊆V in
+- For finite schematically dominant f and affine opens U⊆V in
   P, the ideal map along the actual presheaf restriction Γ(P,V)→Γ(P,U) sends the contracted conductor on V to
   the recomputed contracted conductor on U. Uses §1.16, `AlgebraicGeometry.Scheme.IdealSheafData.map_ideal`.
   Apply native IdealSheafData.map_ideal to the existing conductor datum and rewrite both actual components
-  with conductorIdealSheaf_ideal.
+  with the affine-ideal formula above.
 
-- `FerrandPushout.ConductorIdealSheaf.restrict_mem`: For finite schematically dominant f, affine U⊆V and
+- For finite schematically dominant f, affine U⊆V and
   `a∈I_f(V)`, the actual restriction of a to U belongs to `I_f(U)`. Uses §1.16,
   `AlgebraicGeometry.Scheme.IdealSheafData.ideal_le_comap_ideal`. Apply the native ideal_le_comap_ideal law to
   the actual conductor sheaf datum. This is a statement about its actual section restriction.
 
-- `FerrandPushout.ConductorIdealSheaf.map_affine_trans`: For finite schematically dominant f and affine U⊆V⊆W,
+- For finite schematically dominant f and affine U⊆V⊆W,
   extending the conductor on W successively along Γ(P,W)→Γ(P,V)→Γ(P,U) equals its extension along the direct
   Γ(P,W)→Γ(P,U) restriction. Uses §1.16. Use ideal-map composition, the actual CommRingCat hom composition and
   the native presheaf functor composition law. The opens and restriction maps are the same ones as in the
   component theorem.
 
-- `FerrandPushout.ConductorIdealSheaf.identity`: For every scheme P, including the empty scheme, the conductor
+- For every scheme P, including the empty scheme, the conductor
   ideal-sheaf datum of `id_P` is the unit ideal datum. Its native closed subscheme is therefore empty. Uses
   §1.16. Compare all affine components. The actual section map of `id_P` is an isomorphism, hence has full
   range. Its conductor and its contraction are the unit ideal. The empty-subscheme conclusion in the typed
   test uses the existing native top-ideal instance.
 
-- `FerrandPushout.ConductorIdealSheaf.spec_ideal`: For f:A→B between actual CommRingCat objects with finite
-  schematically dominant Spec.map f, the top affine ideal of conductorIdealSheaf (Spec.map f) equals the comap
+- For f:A→B between actual CommRingCat objects with finite
+  schematically dominant Spec.map f, the top affine ideal of the conductor ideal sheaf of Spec.map f equals the comap
   under the actual ΓSpecIso A hom of the conductor of im(f) in B contracted along f. Uses §1.16,
   `AlgebraicGeometry.Scheme.ΓSpecIso_naturality`. Rewrite the actual top component. Transport the codomain
   along ΓSpecIso B, apply the native naturality equality for the section map, then transport the domain along
   ΓSpecIso A. This records the canonical ring comparison rather than an unspecified affine identification.
 
-- `FerrandPushout.ConductorIdealSheaf.affine_annihilator`: For finite schematically dominant f and affine U,
+- For finite schematically dominant f and affine U,
   set A=Γ(P,U), B=Γ(Y,f⁻¹U) with its actual f.app U algebra structure. Then `I_f(U)=Ann_A(B/span_A{1})` as full
   A-ideals. This is the quotient of affine section modules; no sheaf-cokernel construction or structure-sheaf
-  exact sequence is asserted. Uses §1.16, §1.13. Rewrite the component using conductorIdealSheaf_ideal and
-  apply the existing conductor_eq_annihilator to the actual section algebra. Keep its full ideal, including
+  exact sequence is asserted. Uses §1.16, §1.13. Rewrite the component using the affine-ideal formula and
+  apply the existing annihilator description of §1.13 to the actual section algebra. Keep its full ideal, including
   nilpotents, and its native quotient module.
 
-- `FerrandPushout.conductorIdealSheaf_comap_chart`: For finite schematically dominant f:Y→P, any q:T→P, affine
-  U⊂P and affine V⊂T with V⊂q⁻¹U, the V-ideal of (conductorIdealSheaf f).comap q equals the extension of the
-  U-conductor ideal along the actual q.appLE U V. Neither q-affineness nor q-flatness is required.
-
-- `FerrandPushout.conductor_flat_chart`: For finite schematically dominant f:Y→P and flat q:T→P, on every
-  affine V⊂q⁻¹U with U affine, the recomputed conductor of pullback.snd f q on V equals the extension of the
-  original U-conductor along q.appLE U V. All ideals are full ideals.
-
-- `FerrandPushout.conductorSourceIdeal_flat`: For finite schematically dominant f:Y→P and flat q:T→P, the
-  source conductor ideal of the base-changed map equals the pullback along pullback.fst f q of the original
-  source ideal (conductorIdealSheaf f).comap f.
-
-- `FerrandPushout.conductorIdealSheaf_flat_tower`: For finite schematically dominant f:Y→P and flat q:T→P and
-  r:Z→T, the conductor of the iterated pullback map to Z equals the pullback of the original conductor along
-  r≫q.
-
-- `FerrandPushout.conductor_comap_postcomp`: For every ring map f:A→B and ring equivalence e:B≃C between
+- For every ring map f:A→B and ring equivalence e:B≃C between
   commutative rings, the conductor contracted to A along f equals that contracted along e∘f. No injectivity or
   finiteness assumption is needed. Uses §1.12. Equip B and C with the actual f and e∘f algebra structures. The
   ring equivalence becomes an A-algebra equivalence; apply the existing contracted-conductor
   algebra-equivalence theorem.
 
-- `FerrandPushout.conductor_localization_away`: For every finite ring map f:A→B and r∈A, and actual away
+- For every finite ring map f:A→B and r∈A, and actual away
   localizations L=A[1/r], M=B[1/f(r)], extending the contracted conductor along A→L gives the conductor
   contracted along the actual native Away.map L M f r. No injectivity, reducedness or nonzero-localization
   assumption is made. Uses §1.25. Apply the finite-algebra recomputation theorem to powers(r). Identify the
   image submonoid with powers(f(r)) and identify the actual localized ring map with Away.map by localization
   extensionality.
 
-- `FerrandPushout.conductor_basicOpen`: For any finite scheme morphism f:Y→P, affine open U⊂P and section
+- For any finite scheme morphism f:Y→P, affine open U⊂P and section
   r∈Γ(P,U), extending the contracted conductor of the actual f.app U along the actual restriction
   Γ(P,U)→Γ(P,D(r)) gives exactly the contracted conductor of f.app D(r). Scheme-theoretic dominance is not
   needed. Uses §1.16, `AlgebraicGeometry.IsAffineOpen.app_basicOpen_eq_away_map`,
@@ -1185,19 +1156,19 @@ The construction needs the following maps and laws.
   pinned app_basicOpen_eq_away_map theorem compares the actual restriction map with Away.map followed by the
   source-open identification. Transport the contracted conductor across that codomain ring equivalence.
 
-- `FerrandPushout.conductor_comap_precomp`: For commutative rings A,B,C, a ring map f:B→C and a ring
+- For commutative rings A,B,C, a ring map f:B→C and a ring
   equivalence e:A≃B, the conductor contracted along f∘e equals the comap under e of the conductor contracted
   along f. No finiteness or injectivity assumption on f is used. Uses §1.2. Expand conductor membership and
   transport the witnesses in the source image using e and e⁻¹. Multiplication takes place in the actual ring
   C.
 
-- `FerrandPushout.conductor_diagonal_isFinite`: For every commutative ring R in any universe, the actual
+- For every commutative ring R in any universe, the actual
   morphism Spec(R×R)→Spec(R) induced by a↦(a,a) is finite. All schemes in a statement share an arbitrary
   universe. Uses `AlgebraicGeometry.IsFinite.SpecMap_iff`, `RingHom.Finite`, `Module.Finite.prod`. Use the
   native SpecMap criterion and the product finite-module instance. The algebra structure induced by the
   diagonal is the native coordinatewise R-module structure.
 
-- `FerrandPushout.conductor_diagonal_schemeTheoreticallyDominant`: For every commutative ring R, including the
+- For every commutative ring R, including the
   zero ring and nonreduced rings, the actual diagonal Spec(R×R)→Spec(R) is schematically dominant. All schemes
   in a statement share an arbitrary universe. Uses `AlgebraicGeometry.IsSchemeTheoreticallyDominant`,
   `AlgebraicGeometry.Scheme.ΓSpecIso_naturality`, `AlgebraicGeometry.Scheme.ΓSpecIso`,
@@ -1206,26 +1177,26 @@ The construction needs the following maps and laws.
   Native global-section naturality transports injectivity to the actual scheme map. Its affine ideal-sheaf
   kernel is zero by the native injective-kernel criterion.
 
-- `FerrandPushout.conductor_diagonal_comap_eq_bot`: For every commutative ring R and diagonal d:R→R×R, the
+- For every commutative ring R and diagonal d:R→R×R, the
   full conductor of im(d) contracted along d is the zero ideal of R. All schemes in a statement share an
   arbitrary universe. Uses §1.2. If a lies in the contracted conductor, d(a)(1,0) lies in im(d). Its
   coordinates force its diagonal preimage to be both a and zero. The reverse containment is automatic. This
   does not replace the zero ideal by its radical.
 
-- `FerrandPushout.conductor_diagonal_ideal_top`: For R a commutative ring, the global affine ideal of the
-  actual conductorIdealSheaf of the diagonal Spec(R×R)→Spec(R) is zero, for its finite and schematically
+- For R a commutative ring, the global affine ideal of the
+  actual conductor ideal sheaf of the diagonal Spec(R×R)→Spec(R) is zero, for its finite and schematically
   dominant instances. All schemes in a statement share an arbitrary universe. Uses §1.16,
   `AlgebraicGeometry.Scheme.ΓSpecIso`, `RingHom.injective_iff_ker_eq_bot`. The retained Spec comparison
   expresses this ideal as contraction of the ring conductor along the actual ΓSpecIso. Apply the diagonal
   computation and injectivity of that native section isomorphism.
 
-- `FerrandPushout.conductor_diagonal_idealSheaf_eq_bot`: For every commutative ring R, the actual full
+- For every commutative ring R, the actual full
   conductor ideal-sheaf datum of Spec(R×R)→Spec(R) is the bottom ideal-sheaf datum. All schemes in a statement
   share an arbitrary universe. Uses §1.16, `AlgebraicGeometry.Scheme.IdealSheafData.ext_of_isAffine`. Apply
   native affine ideal-sheaf extensionality to the zero global affine ideal. Thus the conductor subscheme
   retains the full target scheme structure, including nilpotents.
 
-- `FerrandPushout.conductor_nilpotent_section`: Let f:Y→P be finite and schematically dominant with P affine.
+- Let f:Y→P be finite and schematically dominant with P affine.
   If a in Γ(P,top) is outside the full conductor ideal and `a^n=0` for a natural number n, the actual conductor
   closed subscheme has a section z with z≠0 and `z^n=0`. All schemes in a statement share an arbitrary universe.
   Uses §1.16, `AlgebraicGeometry.Scheme.IdealSheafData.subschemeObjIso`, `Ideal.Quotient.eq_zero_iff_mem`. The
@@ -1263,28 +1234,8 @@ The construction needs the following maps and laws.
   the section corresponding to2 is not in its conductor. The proof retains the nonreduced rings and does not
   assume those morphism instances.
 
-- Base change of any finite schematically dominant f along the identity has exactly the original conductor
-  ideal sheaf.
-
-- After any flat base change of the identity morphism, the conductor ideal sheaf is the whole ideal.
-
 - Extension of an affine conductor along the actual section map to the empty open equals the whole ideal of
   the zero section ring.
-
-- For affine V⊂W⊂q⁻¹U, restricting the extended U-conductor from W to V equals extending it directly along
-  q.appLE U V, using the actual presheaf restriction map.
-
-- For identity base change the recomputed source conductor equals the pullback of the original source
-  conductor along the actual pullback.fst.
-
-- Following an arbitrary flat base change by restriction to any open V gives the conductor ideal obtained by
-  restricting the first pulled-back ideal to V.
-
-- Identity base change of the identity of Spec(Z/1) has the whole conductor ideal sheaf.
-
-- For the actual finite schematically dominant Spec(Z/4×Z/4)→Spec(Z/4) induced by the diagonal, after identity
-  base change the global section corresponding to the nonzero square-zero element2 is not in the conductor
-  ideal. Thus replacing this full ideal by its radical fails the test.
 
 - The full contracted diagonal conductor is zero for a commutative ring in an arbitrary universe, without a
   nontriviality assumption.
@@ -1302,8 +1253,8 @@ The construction needs the following maps and laws.
 
 ### 1.17 the canonical map between conductor subschemes
 
-Put I=conductorIdealSheaf f, J=I.comap f, `C_f=I.subscheme` and `D_f=J.subscheme`. Construct `conductorMap
-f:D_f→C_f` by the native subscheme map. Its square with f and the two closed inclusions is cartesian; it is
+Put I=I_f, J=I.comap f, `C_f=I.subscheme` and `D_f=J.subscheme`. Construct the conductor map
+`g_f:D_f→C_f` by the native subscheme map. Its square with f and the two closed inclusions is cartesian; it is
 finite, since it is a base change of f. On every affine chart compare this precise map with A/I(U)→B/c(im
 `f_U,B`). Include the equality `J(f⁻¹U)=c(im f_U,B)`, not just an inclusion of ideals.
 
@@ -1323,7 +1274,7 @@ actual native section rings.
 
 The construction needs the following maps and laws.
 
-- `conductor_affine_quotients`: Let f:Y→P be finite and schematically dominant, `I=I_f`, J=I.comap f,
+- Let f:Y→P be finite and schematically dominant, `I=I_f`, J=I.comap f,
   C=I.subscheme and D=J.subscheme. For every affine U⊂P set A=Γ(P,U), B=Γ(Y,f⁻¹U), `f_U:A→B` and `K=c(im f_U,B)`.
   Then `I(U)=f_U⁻¹K`, J(f⁻¹U)=K, and the native quotient-chart identifications give Γ(C,C→P⁻¹U)≅A/I(U) and
   Γ(D,D→Y⁻¹f⁻¹U)≅B/K, compatibly with the actual inclusion and quotient maps. Uses §1.16, §1.12,
@@ -1333,80 +1284,80 @@ The construction needs the following maps and laws.
   common ideal K is contained in `im f_U`; consequently its inverse image extends back to K, by elementwise
   lifting. Compute the source ideal on affine charts from the existing pullback ideal datum. The direct native
   adjunction/open-restriction argument below, using the exact supplier ideal-comap-top and ideal-restrict-top
-  exports through `FerrandPushout.conductorSourceIdeal_chart`, identifies it with the full ambient conductor;
+  exports through the chart formula for the source ideal, identifies it with the full ambient conductor;
   no separate generic tensor-quotient theorem is required by this proof. Apply the native subschemeObjIso and
   subschemeι_app statements to both ideal-sheaf data. Transport their ring maps, not just their abstract
   quotient types.
 
-- `conductorMap_square`: The actual induced map `g_f:D_f→C_f` satisfies `i_f∘f=g_f∘j_f` in categorical composition
+- The actual induced map `g_f:D_f→C_f` satisfies `i_f∘f=g_f∘j_f` in categorical composition
   order `i_f≫f=g_f≫j_f`.
 
-- `conductorMap_isPullback`: The induced square is the native cartesian square supplied by
+- The induced square is the native cartesian square supplied by
   IdealSheafData.comapIso; all maps agree with its projections.
 
-- `conductorMap_isFinite`: The induced map `D_f→C_f` is finite because it is the base change of the finite
+- The induced map `D_f→C_f` is finite because it is the base change of the finite
   morphism f.
 
-- `FerrandPushout.conductorMap_eq_subschemeMap`: For every finite schematically dominant scheme map f:Y→P, the
-  existing conductorMap f equals the native subschemeMap from the pulled-back conductor ideal `J=I_f.comap f` to
+- For every finite schematically dominant scheme map f:Y→P, the
+  existing g_f equals the native subschemeMap from the pulled-back conductor ideal `J=I_f.comap f` to
   `I_f`, with the actual adjunction inequality `I_f≤J.map f`. Uses §1.17,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeMap`,
   `AlgebraicGeometry.Scheme.IdealSheafData.comapIso_hom_snd`,
   `AlgebraicGeometry.Scheme.IdealSheafData.le_map_comap`. Apply the exact pinned comapIso_hom_snd equation to
-  `I_f` and f; its composite is the unchanged conductorMap definition.
+  `I_f` and f; its composite is the unchanged conductor map definition.
 
-- `FerrandPushout.conductorMap_unique`: For finite schematically dominant f and any actual
+- For finite schematically dominant f and any actual
   `g:J.subscheme→I_f.subscheme` satisfying g followed by the target closed inclusion equals the source closed
-  inclusion followed by f, g equals conductorMap f. Uses §1.17. Cancel the native target closed immersion,
-  which is a monomorphism, and use the exact existing conductorMap_square API. No extra universal-property
+  inclusion followed by f, g equals g_f. Uses §1.17. Cancel the native target closed immersion,
+  which is a monomorphism, and use the cartesian square of §1.17. No extra universal-property
   field is assumed.
 
-- `FerrandPushout.conductorMap_preimage`: For finite schematically dominant f and every open U⊂P, the inverse
-  image under conductorMap f of `j_f⁻¹U` equals `i_f⁻¹(f⁻¹U)`, as native opens of J.subscheme. Uses §1.17. Apply
-  inverse image of the actual open U to the exact conductorMap_square equality. The equality holds for every
+- For finite schematically dominant f and every open U⊂P, the inverse
+  image under g_f of `j_f⁻¹U` equals `i_f⁻¹(f⁻¹U)`, as native opens of J.subscheme. Uses §1.17. Apply
+  inverse image of the actual open U to the cartesian square of §1.17. The equality holds for every
   open, including the empty open.
 
-- `FerrandPushout.conductorMap_isIso_of_isIso`: For any scheme isomorphism f:Y→P, the actual conductorMap f is
+- For any scheme isomorphism f:Y→P, the actual g_f is
   an isomorphism. Its finite and schematically dominant instances are the existing native ones. Uses §1.17,
-  `CategoryTheory.IsPullback.isIso_snd_of_isIso`. Use the exact conductorMap_isPullback API and native
+  `CategoryTheory.IsPullback.isIso_snd_of_isIso`. Use the cartesian property of §1.17 and native
   stability of isomorphisms under pullback. This includes the identity and empty schemes.
 
-- `FerrandPushout.conductorMap_isIso_iff_of_zero`: For finite schematically dominant f with `I_f=0` as a full
-  native ideal-sheaf datum, conductorMap f is an isomorphism if and only if f is. No reducedness, Noetherian,
+- For finite schematically dominant f with `I_f=0` as a full
+  native ideal-sheaf datum, g_f is an isomorphism if and only if f is. No reducedness, Noetherian,
   birationality or field assumption is needed. Uses §1.17,
   `AlgebraicGeometry.Scheme.isIso_subschemeι_iff_eq_bot`, `AlgebraicGeometry.Scheme.IdealSheafData.comap_bot`,
   `CategoryTheory.isIso_comp_left_iff`, `CategoryTheory.IsIso.of_isIso_comp_left`. The zero-ideal closed
-  inclusion is an isomorphism on both sides, because comap sends zero to zero. Apply the conductorMap_square
+  inclusion is an isomorphism on both sides, because comap sends zero to zero. Apply the cartesian square of §1.17
   equation and cancel these native isomorphisms; the generated dual of the pinned isIso_comp_left_iff supplies
   the other cancellation.
 
-- `FerrandPushout.conductorChartMap_comm`: For finite schematically dominant f and every open U⊂P, `j_f.app U`
-  followed by conductorChartMap f U equals f.app U followed by `i_f.app(f⁻¹U)`. All four maps are the actual
+- For finite schematically dominant f and every open U⊂P, `j_f.app U`
+  followed by the conductor chart map f U equals f.app U followed by `i_f.app(f⁻¹U)`. All four maps are the actual
   native section maps. Uses §1.17, `AlgebraicGeometry.Scheme.Hom.comp_appLE`. Rewrite the two composites
-  through the native appLE composition law, then apply the exact conductorMap_square equality. This
+  through the native appLE composition law, then apply the cartesian square of §1.17. This
   commutation law does not assert exactness of a structure-sheaf sequence.
 
-- `FerrandPushout.conductorChartMap_restrict`: For finite schematically dominant f and arbitrary opens U⊆V of
-  P, restricting target-conductor sections from `j_f⁻¹V` to `j_f⁻¹U` then applying conductorChartMap at U equals
+- For finite schematically dominant f and arbitrary opens U⊆V of
+  P, restricting target-conductor sections from `j_f⁻¹V` to `j_f⁻¹U` then applying the conductor chart map at U equals
   applying it at V then restricting source-conductor sections from `i_f⁻¹f⁻¹V` to `i_f⁻¹f⁻¹U`. Both restrictions
   are the actual native presheaf maps. Uses §1.17, `AlgebraicGeometry.Scheme.Hom.map_appLE`,
   `AlgebraicGeometry.Scheme.Hom.appLE_map`. Apply the pinned map_appLE and appLE_map naturality laws to the
   actual maps and inverse-image inclusions. Both expressions become the same appLE with the same source and
   target opens.
 
-- `FerrandPushout.conductorChartMap_coordinates`: For finite schematically dominant f, affine U and any actual
-  section x of `I_f.subscheme` over `j_f⁻¹U`, the native source-conductor chart coordinate of conductorChartMap f
-  U(x) is conductorQuotientMap f U applied to the native target-conductor chart coordinate of x. Uses §1.17.
-  Evaluate the equality of the actual CommRingCat composites in conductorChartMap_quotient at x.
+- For finite schematically dominant f, affine U and any actual
+  section x of `I_f.subscheme` over `j_f⁻¹U`, the native source-conductor chart coordinate of the conductor chart map f
+  U(x) is conductor quotient map f U applied to the native target-conductor chart coordinate of x. Uses §1.17.
+  Evaluate the equality of the actual CommRingCat composites in the chart map on quotients at x.
 
-- `FerrandPushout.conductorChartMap`: For finite schematically dominant f and every open U⊂P, define the
-  actual CommRingCat map `Γ(I_f.subscheme,j_f⁻¹U)→Γ(J.subscheme,i_f⁻¹f⁻¹U)` by conductorMap f.appLE, using
-  conductorMap_preimage to identify the source open. Affineness is not required for this construction. Uses
-  §1.17, `AlgebraicGeometry.Scheme.Hom.appLE`. Use the actual section map of conductorMap f and the proved
+- For finite schematically dominant f and every open U⊂P, define the
+  actual CommRingCat map `Γ(I_f.subscheme,j_f⁻¹U)→Γ(J.subscheme,i_f⁻¹f⁻¹U)` by g_f.appLE, using
+  the preimage formula of §1.17 to identify the source open. Affineness is not required for this construction. Uses
+  §1.17, `AlgebraicGeometry.Scheme.Hom.appLE`. Use the actual section map of g_f and the proved
   inverse-image equality. The result has the exact native section-ring carriers used by the quotient charts;
   it is not a map between unspecified isomorphic rings.
 
-- `FerrandPushout.conductorChart_ideal_le`: For finite schematically dominant f, affine U⊂P and V=f⁻¹U, the
+- For finite schematically dominant f, affine U⊂P and V=f⁻¹U, the
   actual section map `f_U:Γ(P,U)→Γ(Y,V)` sends `I_f(U)` into J(V), where `J=I_f.comap f` is the native pulled-back
   ideal datum. This does not yet identify J(V) with the ambient conductor of `im(f_U)`. Uses §1.16,
   `AlgebraicGeometry.Scheme.IdealSheafData.le_map_comap`,
@@ -1414,41 +1365,41 @@ The construction needs the following maps and laws.
   inequality `I_f≤J.map f` on U. Finiteness makes f affine; apply ideal_map_of_isAffineHom to identify the
   right-hand component with the actual contracted J(V).
 
-- `FerrandPushout.conductorQuotientMap_mk`: For finite schematically dominant f, affine U and a∈Γ(P,U),
-  conductorQuotientMap f U sends the actual quotient class of a modulo `I_f(U)` to the actual quotient class of
+- For finite schematically dominant f, affine U and a∈Γ(P,U),
+  conductor quotient map f U sends the actual quotient class of a modulo `I_f(U)` to the actual quotient class of
   f.app U(a) modulo J(f⁻¹U). Uses §1.17, `Ideal.quotientMap_mk`. Use the native quotientMap_mk evaluation law
   with the exact ideals and actual section map.
 
-- `FerrandPushout.conductorQuotientMap_comp_mk`: For finite schematically dominant f and affine U,
-  conductorQuotientMap f U composed with the actual source quotient map equals the actual target quotient map
+- For finite schematically dominant f and affine U,
+  conductor quotient map f U composed with the actual source quotient map equals the actual target quotient map
   composed with f.app U, as RingHom maps. Uses §1.17, `Ideal.quotientMap_comp_mk`. Apply the native
-  quotientMap_comp_mk equation to the exact conductorChart_ideal_le witness.
+  quotientMap_comp_mk equation to the exact chart ideal containment witness.
 
-- `FerrandPushout.conductorChartMap_quotient`: For finite schematically dominant f and affine U,
-  conductorChartMap f U followed by the actual source-conductor subschemeObjIso hom equals the actual
-  target-conductor subschemeObjIso hom followed by conductorQuotientMap f U, as CommRingCat maps. The two
+- For finite schematically dominant f and affine U,
+  the conductor chart map f U followed by the actual source-conductor subschemeObjIso hom equals the actual
+  target-conductor subschemeObjIso hom followed by conductor quotient map f U, as CommRingCat maps. The two
   canonical identifications use the native closed subschemes of `I_f` and J. Uses §1.17,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeObjIso`,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app`,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app_surjective`,
   `CategoryTheory.ConcreteCategory.epi_of_surjective`. Cancel the actual target inclusion section map, which
-  is surjective on this affine open. Apply conductorChartMap_comm, rewrite both inclusion maps using the exact
+  is surjective on this affine open. Apply the chart-map commutation law, rewrite both inclusion maps using the exact
   subschemeι_app formulas, cancel the two actual chart isomorphisms, and evaluate the native quotient map on a
   representative.
 
-- `FerrandPushout.conductorQuotientMap`: For finite schematically dominant f, affine U⊂P and V=f⁻¹U, define
+- For finite schematically dominant f, affine U⊂P and V=f⁻¹U, define
   the native induced ring map `Γ(P,U)/I_f(U)→Γ(Y,V)/J(V)` using Ideal.quotientMap and the proved
-  conductorChart_ideal_le inequality, with `J=I_f.comap f`. Retain the full ideals and nilpotents. Uses §1.17,
+  chart ideal containment inequality, with `J=I_f.comap f`. Retain the full ideals and nilpotents. Uses §1.17,
   `Ideal.quotientMap`. Apply the existing native quotientMap to the actual f.app U ring map. This construction
   keeps J(V) as the actual pullback ideal; the further equality `J(V)=c(im(f_U),Γ(Y,V))` remains a separate
   required comparison.
 
-- `FerrandPushout.conductorChart_ambient_le`: For a finite schematically dominant f:Y→P and affine U⊂P, put
+- For a finite schematically dominant f:Y→P and affine U⊂P, put
   V=f⁻¹U and K=c(im(f.app U),Γ(Y,V)). Then K is contained in the actual component (`I_f.comap` f)(V), with its
   full ideal structure. Uses §1.17, §1.16. Every element of K lies in the image of f.app U. Choose a preimage,
-  identify its membership in `I_f(U)`, and apply conductorChart_ideal_le. This uses no radical or reducedness.
+  identify its membership in `I_f(U)`, and apply chart ideal containment. This uses no radical or reducedness.
 
-- `FerrandPushout.conductorSourceIdeal_affine`: For finite schematically dominant f:Y→P with P and Y affine,
+- For finite schematically dominant f:Y→P with P and Y affine,
   the top component of `I_f.comap f` equals the ambient conductor of f.appTop. The statement keeps the native
   section rings and actual pullback ideal datum. Uses §1.17, §1.16,
   `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop`,
@@ -1459,7 +1410,7 @@ The construction needs the following maps and laws.
   comap/map adjunction gives `I_f.comap f≤K̃`; compare global components and combine with the opposite
   inclusion. No tensor-quotient theorem is assumed.
 
-- `FerrandPushout.conductorIdealSheaf_restrict`: For finite schematically dominant f:Y→P and any open U⊂P, the
+- For finite schematically dominant f:Y→P and any open U⊂P, the
   conductor ideal datum of the actual restricted morphism f|U equals `I_f.comap` U.ι on the open subscheme U.
   This holds for nonaffine and empty U. Uses §1.16,
   `AlgebraicGeometry.Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion`,
@@ -1469,20 +1420,20 @@ The construction needs the following maps and laws.
   identity appIso. The restricted section map differs from f.app(U.ι(V)) only by the native equality-of-opens
   section isomorphism. Apply the previously proved conductor_postcomposition comparison.
 
-- `FerrandPushout.conductorSourceIdeal_restrict`: For finite schematically dominant f and every open U,
+- For finite schematically dominant f and every open U,
   restrict `I_f.comap f` along (f⁻¹U).ι. The resulting full ideal datum equals `I_(f|U).comap(f|U)`. Uses §1.17,
   `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`, `AlgebraicGeometry.morphismRestrict_ι`. Substitute
-  conductorIdealSheaf_restrict, combine the two comaps using the native composition law, and apply the
+  the restriction formula for I_f, combine the two comaps using the native composition law, and apply the
   commuting square for the actual restricted scheme map.
 
-- `FerrandPushout.conductor_range_conjugate`: For arbitrary commutative rings, f:A→B, eA:C≃A and eB:D≃B, the
+- For arbitrary commutative rings, f:A→B, eA:C≃A and eB:D≃B, the
   ambient conductor of eB⁻¹∘f∘eA is exactly the inverse image under eB of the conductor of im f in B. Zero
   rings and nilpotents are retained. Uses §1.12. Use the native conductor membership condition ∀y,dy∈im(f). In
   one direction test eB⁻¹(b), choose the preimage under the conjugate map, and apply eB. In the other
   direction test eB(y), choose a preimage under f and pull it back by eA⁻¹. Both identities follow from
   multiplicativity and the two inverse laws.
 
-- `FerrandPushout.conductorSourceIdeal_chart_transport`: For finite schematically dominant f and affine U,
+- For finite schematically dominant f and affine U,
   with V=f⁻¹U and `J=I_f.comap f`, the top component of J.comap V.ι equals the contraction of J(V) along the
   actual native topIso hom Γ(V,top)→Γ(Y,V). Uses §1.16,
   `AlgebraicGeometry.Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion`,
@@ -1491,38 +1442,38 @@ The construction needs the following maps and laws.
   identity appIso. The remaining equality is transport of the actual ideal component along V.ι(top)=V; prove
   it by equality induction on affine opens. This records the precise section-ring coordinate map.
 
-- `FerrandPushout.conductorSourceIdeal_chart`: For finite schematically dominant f:Y→P and every affine U⊂P,
+- For finite schematically dominant f:Y→P and every affine U⊂P,
   the exact full ideal `(I_f.comap f)(f⁻¹U)` equals c(im(f.app U),Γ(Y,f⁻¹U)). Neither P nor Y is assumed
   globally affine, Noetherian or reduced. Uses §1.17, `Ideal.comap_injective_of_surjective`,
   `AlgebraicGeometry.Scheme.Hom.resLE_app_top`, `AlgebraicGeometry.Scheme.Hom.resLE_eq_morphismRestrict`.
   Apply the affine theorem to f|U; finiteness makes f⁻¹U affine. Rewrite the restricted pullback datum and its
   top component. The actual restricted appTop equals U.topIso.hom followed by f.app U and (f⁻¹U).topIso.inv.
-  Apply conductor_range_conjugate and cancel contraction along the surjective native topIso hom.
+  Apply conjugation invariance of the conductor range and cancel contraction along the surjective native topIso hom.
 
-- `FerrandPushout.conductorSourceIdeal_mem`: For finite schematically dominant f, affine U and b∈Γ(Y,f⁻¹U), b
+- For finite schematically dominant f, affine U and b∈Γ(Y,f⁻¹U), b
   belongs to `(I_f.comap f)(f⁻¹U)` exactly when b·c lies in the image of f.app U for every c in that same
-  section ring. Uses §1.17. Rewrite the exact ideal using conductorSourceIdeal_chart and unfold native
+  section ring. Uses §1.17. Rewrite the exact ideal using the chart formula for the source ideal and unfold native
   conductor membership. The criterion quantifies over the whole section ring.
 
-- `FerrandPushout.conductorSourceObjIso_inclusion`: For finite schematically dominant f and affine U, the
-  actual source-conductor closed inclusion section map followed by conductorSourceObjIso.hom equals the native
+- For finite schematically dominant f and affine U, the
+  actual source-conductor closed inclusion section map followed by the source-conductor section isomorphism.hom equals the native
   quotient map b↦[b] modulo the ambient conductor, as CommRingCat maps. Uses §1.17,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app`, `Ideal.quotEquivOfEq_mk`. Substitute the pinned
   subschemeι_app equation, cancel its native chart inverse with the chart hom, and evaluate quotient transport
   on each representative.
 
-- `FerrandPushout.conductorSourceObjIso_mk`: For finite schematically dominant f, affine U and b in the actual
-  source section ring, the coordinate under conductorSourceObjIso of the restriction of b to the source
+- For finite schematically dominant f, affine U and b in the actual
+  source section ring, the coordinate under the source-conductor section isomorphism of the restriction of b to the source
   conductor is exactly its quotient class modulo the ambient conductor. Uses §1.17. Evaluate the equality of
   actual inclusion/coordinate maps at b.
 
-- `FerrandPushout.conductorSourceObjIso_inv_mk`: For finite schematically dominant f, affine U and a source
-  section b, conductorSourceObjIso.inv sends its ambient-conductor quotient class to the actual restriction of
+- For finite schematically dominant f, affine U and a source
+  section b, the source-conductor section isomorphism.inv sends its ambient-conductor quotient class to the actual restriction of
   b along the source-conductor inclusion. Uses §1.17. Rewrite the quotient representative using
-  conductorSourceObjIso_mk and apply the native chart hom-inverse identity.
+  the source-conductor section isomorphism class and apply the native chart hom-inverse identity.
 
-- `FerrandPushout.conductorChartMap_ambient_quotient`: For finite schematically dominant f and affine U, the
-  actual conductorChartMap followed by conductorSourceObjIso.hom equals the target subschemeObjIso.hom
+- For finite schematically dominant f and affine U, the
+  actual conductor chart map followed by the source-conductor section isomorphism.hom equals the target subschemeObjIso.hom
   followed by the native quotient map `Γ(P,U)/I_f(U)→Γ(Y,f⁻¹U)/K` induced by f.app U, where K is its full
   ambient conductor. Equality holds for the actual maps. Uses §1.17, §1.16,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app_surjective`, `Ideal.quotientMap`. Cancel the
@@ -1530,21 +1481,21 @@ The construction needs the following maps and laws.
   inclusion-coordinate formula and the target subschemeι_app formula. Both composites evaluate to [f.app U(a)]
   on every representative.
 
-- `FerrandPushout.conductorSourceObjIso`: For finite schematically dominant f and affine U, construct the
+- For finite schematically dominant f and affine U, construct the
   actual CommRingCat isomorphism from sections of (`I_f.comap` f).subscheme over the inverse image of f⁻¹U to
   Γ(Y,f⁻¹U)/c(im(f.app U),Γ(Y,f⁻¹U)). Compose the native subschemeObjIso with quotient transport along the
   proved equality of full ideals. Uses §1.17, `AlgebraicGeometry.Scheme.IdealSheafData.subschemeObjIso`,
   `Ideal.quotEquivOfEq`. Use the actual closed-subscheme section isomorphism, then the native quotEquivOfEq
-  for conductorSourceIdeal_chart. All maps are specified; there is no chosen abstract quotient or replacement
+  for the chart formula for the source ideal. All maps are specified; there is no chosen abstract quotient or replacement
   by reduced support.
 
-- `FerrandPushout.conductorChart_ideal_map`: Let f:Y→P be finite and schematically dominant, U an affine open,
+- Let f:Y→P be finite and schematically dominant, U an affine open,
   A=Γ(P,U), B=Γ(Y,f⁻¹U), `I=I_f` and J=I.comap f. The ideal extension of I(U) along f.app U is exactly the full
   conductor c(im(f.app U),B). Uses §1.16, §1.17, §1.2, `Ideal.map_comap_le`, `Ideal.mem_map_of_mem`. The
   conductor is contained in the image. Lift each conductor element to A; its lift belongs to the contraction
   defining I(U). Combine this inclusion with the native map-comap bound.
 
-- `FerrandPushout.conductorChart_ideal_image`: Under the same hypotheses, the set underlying I(U).map(f.app U)
+- Under the same hypotheses, the set underlying I(U).map(f.app U)
   equals the literal image of the set I(U) under f.app U. This is equality of the full ideal and image, not
   equality of radicals. Uses §1.17, §1.16, §1.2. Replace the extended ideal by the ambient conductor, lift its
   elements through the image inclusion, and use contraction membership in each direction.
@@ -1566,20 +1517,20 @@ The construction needs the following maps and laws.
   f.app, retaining the zero section rings.
 
 - For every affine U and a in its actual section ring, start with the actual target-conductor section obtained
-  by applying its subschemeObjIso inverse to the quotient class of a. After the actual conductorChartMap and
+  by applying its subschemeObjIso inverse to the quotient class of a. After the actual conductor chart map and
   the source chart hom, the result is the quotient class of f.app U(a).
 
 - For every target open U, restriction from the actual conductor open over U to the empty open commutes with
-  conductorChartMap using the actual source-conductor presheaf restriction.
+  the conductor chart map using the actual source-conductor presheaf restriction.
 
-- For every affine U, the actual conductorQuotientMap sends the quotient class of zero to zero.
+- For every affine U, the actual conductor quotient map sends the quotient class of zero to zero.
 
-- For the empty affine target open, the actual conductorQuotientMap is bijective between the native quotient
+- For the empty affine target open, the actual conductor quotient map is bijective between the native quotient
   rings of the two zero section rings.
 
 - For the actual diagonal Z/4→Z/4×Z/4, prove the Spec map finite and schematically dominant, its full
-  conductor ideal datum zero, and its conductorMap not an isomorphism. The quotient class of the actual
-  section corresponding to2 is nonzero with square zero, and its image under the actual conductorQuotientMap
+  conductor ideal datum zero, and its conductor map not an isomorphism. The quotient class of the actual
+  section corresponding to2 is nonzero with square zero, and its image under the actual conductor quotient map
   is also nonzero with square zero.
 
 - For every affine U and every source section b, the inverse canonical B/K chart sends [b] to its actual
@@ -1590,7 +1541,7 @@ The construction needs the following maps and laws.
 
 - For the actual finite schematically dominant diagonal Z/4→Z/4×Z/4, its ambient section conductor is zero.
   The source section corresponding to(2,2) is nonzero with square zero, and its actual source-conductor
-  restriction has nonzero square-zero coordinate under conductorSourceObjIso. Replacing the conductor by its
+  restriction has nonzero square-zero coordinate under the source-conductor section isomorphism. Replacing the conductor by its
   radical fails this test.
 
 *Needs:* §1.16; §1.12; `AlgebraicGeometry.Scheme.IdealSheafData.comap`;
@@ -1607,9 +1558,7 @@ the target topology and structure sheaf as a geometric pushout. First identify a
 common-ideal ring equivalence; next prove restriction naturality and glue the comparisons. Finite surjectivity
 supplies the quotient topology, and schematic dominance supplies the inclusion of section rings.
 
-*Lean name:* `conductor_global_geometric`.
-
-On an affine U⊂P, use `conductor_affine_quotients` and the arbitrary-subring conductor reconstruction to
+On an affine U⊂P, use the conductor affine quotients and the arbitrary-subring conductor reconstruction to
 identify A with `B×_(B/K)(A/I)`. Apply §1.3 to the quotient map B→B/K and finite map A/I→B/K. The
 latter is finite because it is a quotient of the finite A-module B. The resulting geometric square is the
 restriction of the one canonical native conductor square, by §1.17. Thus the topological
@@ -1643,9 +1592,7 @@ descend to an actual scheme morphism from P, with a unique continuous map and a 
 morphism. Cover an arbitrary target by affine opens and glue the local ring lifts; the affine ring identity
 alone does not prove this assertion.
 
-*Lean name:* `conductor_global_isPushout`.
-
-Apply §1.18 and the existing GeometricPushout.lift contract: the closed inclusion `D_f→Y`
+Apply §1.18 and the existing geometric pushout.lift contract: the closed inclusion `D_f→Y`
 and finite induced conductor map satisfy its finite Ferrand alternative. Express existence and uniqueness as
 the colimit property of the actual square. Do not restrict T to affine schemes and do not assert an
 algebraic-space target theorem from a Scheme signature.
@@ -1671,10 +1618,8 @@ prove equality with the pulled-back ideals. Construct actual isomorphisms of tar
 subschemes, prove commutation with their inclusions and conductor maps, and prove two-step flat tower
 coherence through the native pullback associator.
 
-*Lean name:* `conductor_global_flat_comparison`.
-
 The pinned scheme-theoretic-dominance theorem and finite base-change stability supply the hypotheses of
-conductorIdealSheaf `f_T`. On an affine T-chart mapping into an affine P-chart, compute the pulled-back rings
+the conductor ideal sheaf of `f_T`. On an affine T-chart mapping into an affine P-chart, compute the pulled-back rings
 and use §1.14; flatness retains the inclusion and the finite quotient module.
 Refine T by such charts rather than assuming q is affine. Native ideal-sheaf extensionality and restriction
 compatibility give equality of ideal-sheaf data. Its existing comapIso supplies the canonical
@@ -1682,6 +1627,16 @@ quotient-subscheme comparison; use the projection equations to identify the indu
 geometric-pushout base change of §1.6 transports the geometric square. The new content is that these
 pulled-back closed loci are exactly the recomputed conductors, not just that an old geometric square stays
 geometric.
+
+The comparison needs the following law.
+
+- For finite schematically dominant f:Y→P and flat q:T→P, the
+  source conductor ideal of the base-changed map equals the pullback along pullback.fst f q of the original
+  source ideal I_f.comap f. Schemes and section rings lie in a common universe. Zero rings
+  and nonreduced rings are allowed. Uses the target equality of this section, `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`,
+  `CategoryTheory.Limits.pullback.condition`. Rewrite the recomputed target conductor by the exact global flat
+  comparison. Native ideal-pullback composition and the actual scheme pullback square identify the two source
+  ideals.
 
 ([Stacks, tag 07T8](https://stacks.math.columbia.edu/tag/07T8), Lemma10.40.4;
 [Witaszek](https://par.nsf.gov/servlets/purl/10429755), Definition2.27, printed pp674–675; affine conductor
@@ -1694,19 +1649,20 @@ description and finite-surjective reduced-scheme hypotheses.)
 - The cusp quotient by t² loses injectivity, so the nonflat counterexample is excluded by an actual necessary
   hypothesis.
 
+- For identity base change the recomputed source conductor equals the pullback of the original source
+  conductor along the actual pullback.fst.
+
 *Needs:* §1.14; §1.16; §1.17; §1.18; §1.6; `AlgebraicGeometry.IsSchemeTheoreticallyDominant.of_isPullback`;
 `AlgebraicGeometry.Scheme.IdealSheafData.comapIso`; `AlgebraicGeometry.Scheme.IdealSheafData.map_ideal`;
-§1.37; `AlgebraicGeometry.Scheme.IdealSheafData.ext_of_iSup_eq_top`;
+§1.42; `AlgebraicGeometry.Scheme.IdealSheafData.ext_of_iSup_eq_top`;
 `TopologicalSpace.Opens.IsBasis.isOpenCover_mem_and_le`; `TopologicalSpace.Opens.IsBasis.isOpenCover`;
 `TopologicalSpace.IsOpenCover.comap`; `AlgebraicGeometry.Scheme.isBasis_affineOpens`.
 
 ### 1.21 common-ideal localization equivalence
 
-Construct `commonIdealAwayEquiv` for t∈I under the image-ideal condition and ker(f)∩I=0. Its forward map is
+Construct the common ideal away equivalence for t∈I under the image-ideal condition and ker(f)∩I=0. Its forward map is
 the native localization map A[1/t]→B[1/f(t)]. A lift of f(t)b gives its inverse b↦a/t; the result is
 independent of the chosen a after localization. Permit noninjective f and zero localizations.
-
-*Lean name:* `AffinePinching.commonIdealAwayEquiv`.
 
 A,B are arbitrary commutative rings with identity, including the zero ring; f:A→B is unital and I is an ideal
 of A. No injectivity, finiteness, reducedness, Noetherianity or regularity of t is assumed.
@@ -1716,11 +1672,11 @@ principal-localization paragraph, with Lemma1.3(b) and its converse, pp556–557
 
 The construction needs the following maps and laws.
 
-- `AffinePinching.commonIdeal_kill_kernel`: If ker(f)∩I=0, t∈I and f(a)=0, then ta=0. This does not require
+- If ker(f)∩I=0, t∈I and f(a)=0, then ta=0. This does not require
   f(I) to be an ideal. Uses `Ideal.mul_mem_right`. The element ta is in I because t∈I and in ker(f) because
   f(a)=0. The stated intersection equality makes it zero.
 
-- `AffinePinching.commonIdeal_away_bijective`: Suppose f(I) is already an ideal, expressed by `map_f(I)=f(I)` as
+- Suppose f(I) is already an ideal, expressed by `map_f(I)=f(I)` as
   underlying sets, and ker(f)∩I=0. For t∈I and any native localizations `A_t,B_f(t)`, the canonical localization
   map `A_t→B_f(t)` is bijective. Zero divisors, nilpotent t and zero localizations are allowed. Uses §1.21,
   `IsLocalization.Away.map`, `IsLocalization.Away.map_injective_iff`,
@@ -1730,15 +1686,15 @@ The construction needs the following maps and laws.
   `map_f(I)`. The image-ideal equality lifts it to an actual a∈I with f(a)=f(t)b. Apply the existing
   Away.map_surjective_iff with exponent1.
 
-- `AffinePinching.commonIdealAwayEquiv_apply`: For every `x∈A_t`, E(x)=Away.map(f,t)(x), under the common-ideal
+- For every `x∈A_t`, E(x)=Away.map(f,t)(x), under the common-ideal
   hypotheses. Uses §1.21, `RingEquiv.ofBijective_apply`. Unfold only RingEquiv.ofBijective, whose forward
   function is the supplied map.
 
-- `AffinePinching.commonIdealAwayEquiv_algebraMap`: For a∈A, E([a])=[f(a)] in `B_f(t)`.
+- For a∈A, E([a])=[f(a)] in `B_f(t)`.
 
-- `AffinePinching.commonIdealAwayEquiv_symm_algebraMap`: For a∈A, E⁻¹([f(a)])=[a] in `A_t`.
+- For a∈A, E⁻¹([f(a)])=[a] in `A_t`.
 
-- `AffinePinching.commonIdealAwayEquiv_symm_of_mul`: Under the common-ideal hypotheses, if f(a)=f(t)b, then
+- Under the common-ideal hypotheses, if f(a)=f(t)b, then
   E⁻¹([b])=a/t in the actual localization `A_t`. The witness a need not be selected canonically, need not lie in
   I and is not required to be unique before localization. Uses §1.21, `IsLocalization.map_mk'`,
   `IsLocalization.eq_mk'_iff_mul_eq`, `RingEquiv.apply_symm_apply`. Apply injectivity of E and its inverse
@@ -1776,41 +1732,39 @@ coordinate determines f(a) and the second determines a modulo I; their differenc
 kernel-intersection condition proves uniqueness. In particular, an arbitrary representative of the second
 coordinate is not the reconstructed element.
 
-*Lean name:* `AffinePinching.commonIdealEquiv`.
-
 ([Ferrand](https://numdam.org/item/BSMF_2003__131_4_553_0.pdf), Printed pp554–557, introduction and
 §§1.1–1.4.)
 
 The construction needs the following maps and laws.
 
-- `AffinePinching.conductorRing_map_comap`: For every subring S of a commutative ring B, the extension to B of
+- For every subring S of a commutative ring B, the extension to B of
   the contraction of its ambient conductor is the original conductor:
   `map_subtype(comap_subtype(c(S,B)))=c(S,B)`. This is equality of full ideals, with no radicals or reducedness
   assumption. Uses §1.2, `Ideal.map_comap_le`, `Ideal.mem_map_of_mem`. The native map-comap bound gives one
   inclusion. For b in the conductor, multiplication by1 places b in S; its subtype lies in the contraction and
   maps back to b.
 
-- `AffinePinching.conductorRing_image_comap`: For every subring S⊂B, `subtype_S(comap_subtype(c(S,B)))` equals
+- For every subring S⊂B, `subtype_S(comap_subtype(c(S,B)))` equals
   c(S,B) as sets. Thus this image already is an ambient ideal; the assertion is stronger than merely
   generating that ideal. Uses §1.2. An element of the contracted ideal maps into the conductor by definition.
-  Lift every conductor element to its actual S-subtype using conductor_le.
+  Lift every conductor element to its actual S-subtype using the containment of the conductor in A.
 
-- `AffinePinching.commonIdealEquiv_apply`: Under the reconstruction hypotheses, E(a)=c(a) for every a∈A; both
+- Under the reconstruction hypotheses, E(a)=c(a) for every a∈A; both
   coordinates are the actual maps f and A→A/I. Uses §1.22, §1.12, `RingEquiv.ofBijective`. Unfold only the
-  native RingEquiv.ofBijective forward map. Identify it with the specified commonIdealComparison hom.
+  native RingEquiv.ofBijective forward map. Identify it with the specified common ideal comparison hom.
 
-- `AffinePinching.commonIdealEquiv_inverse_fst`: Under the reconstruction hypotheses, f(E⁻¹(p)) equals the
+- Under the reconstruction hypotheses, f(E⁻¹(p)) equals the
   native B-projection of every compatible pair `p∈B×_(B/map_f(I))(A/I)`. Uses §1.22, §1.12,
-  `RingEquiv.apply_symm_apply`. Rewrite the B-projection with commonIdealComparison_fst and
-  `AffinePinching.commonIdealEquiv_apply`. Apply the native equivalence inverse law E(E⁻¹(p))=p.
+  `RingEquiv.apply_symm_apply`. Rewrite the B-projection with common ideal comparison first projection and
+  the evaluation formula of the common-ideal equivalence. Apply the native equivalence inverse law E(E⁻¹(p))=p.
 
-- `AffinePinching.commonIdealEquiv_inverse_snd`: Under the reconstruction hypotheses, the class of E⁻¹(p) in
+- Under the reconstruction hypotheses, the class of E⁻¹(p) in
   A/I is the actual second projection of the compatible pair p. Equality is in the quotient, and makes no
   assertion that an arbitrary representative is the reconstructed element. Uses §1.22, §1.12,
-  `RingEquiv.apply_symm_apply`. Rewrite the quotient projection with commonIdealComparison_snd and
-  `AffinePinching.commonIdealEquiv_apply`. Apply E(E⁻¹(p))=p and project to A/I.
+  `RingEquiv.apply_symm_apply`. Rewrite the quotient projection with common ideal comparison second projection and
+  the evaluation formula of the common-ideal equivalence. Apply E(E⁻¹(p))=p and project to A/I.
 
-- `AffinePinching.commonIdealEquiv_inverse_unique`: Under the reconstruction hypotheses, if a∈A has f(a)=p₁
+- Under the reconstruction hypotheses, if a∈A has f(a)=p₁
   and [a]=p₂ for a compatible pair p, then E⁻¹(p)=a. The equality uses both coordinates; the second coordinate
   alone does not choose a representative. Uses §1.22, `RingEquiv.apply_symm_apply`. Apply injectivity of E and
   its inverse law. Use equality of both coordinates in the existing subtype of B×A/I.
@@ -1829,48 +1783,46 @@ The construction needs the following maps and laws.
 
 ### 1.23 difference map of the common-ideal square
 
-Define `commonIdealDifference f I` on B×(A/I) by (b,α)↦[b]−f̄(α). It is always surjective. Prove exactness at
+Define the difference map d(f,I) on B×(A/I) by (b,α)↦[b]−f̄(α). It is always surjective. Prove exactness at
 B×(A/I) is equivalent to f(I)=I.map f, and injectivity of A→B×(A/I) is equivalent to ker(f)∩I=0. Thus middle
 exactness and short exactness have distinct conditions.
-
-*Lean name:* `AffinePinching.commonIdealDifference`.
 
 ([Ferrand](https://numdam.org/item/BSMF_2003__131_4_553_0.pdf), Printed pp554–557, introduction and
 §§1.1–1.4.)
 
 The construction needs the following maps and laws.
 
-- `AffinePinching.commonIdealDifference_apply`: For every b∈B and α∈A/I, d(b,α)=[b]−q(α) in `B/map_f(I)`, with
+- For every b∈B and α∈A/I, d(b,α)=[b]−q(α) in `B/map_f(I)`, with
   the quotient map induced by f. Uses §1.23. Evaluate the two product projections. Evaluate subtraction in the
   additive-hom group; this gives the displayed minus sign.
 
-- `AffinePinching.commonIdealDifference_surjective`: For every f and I, `d:B×A/I→B/map_f(I)` is surjective. It
+- For every f and I, `d:B×A/I→B/map_f(I)` is surjective. It
   does not require `map_f(I)=f(I)`, nor does surjectivity by itself imply exactness at B×A/I. Uses §1.23,
   `Ideal.Quotient.mk_surjective`. Represent any quotient class by b∈B using the native quotient surjectivity.
   The pair (b,0) maps to that class because q(0)=0.
 
-- `AffinePinching.commonIdeal_exact`: For arbitrary commutative rings and f:A→B, I⊂A, assume `map_f(I)=f(I)` as
+- For arbitrary commutative rings and f:A→B, I⊂A, assume `map_f(I)=f(I)` as
   sets. Then `A→B×A/I→B/map_f(I)`, with maps a↦(f(a),[a]) and d(b,α)=[b]−q(α), is Function.Exact. It is exact at
   the middle term even when f has a nonzero kernel. It becomes short exact precisely when the diagonal map is
   injective. Uses §1.23, §1.12, `Function.MulExact`. The equation d(b,α)=0 says exactly that (b,α) is a
-  compatible pair in the native ring pullback. Lift that pair using `commonIdealComparison_surjective`. Conversely an
+  compatible pair in the native ring pullback. Lift that pair using the surjectivity of κ(f,I). Conversely an
   actual diagonal pair has equal images in the final quotient.
 
-- `AffinePinching.commonIdeal_exact_iff`: For every f and I, the actual sequence a↦(f(a),[a]), d(b,α)=[b]−q(α)
+- For every f and I, the actual sequence a↦(f(a),[a]), d(b,α)=[b]−q(α)
   is Function.Exact if and only if `map_f(I)=f(I)` as sets. There is no kernel condition in this equivalence;
   that condition controls the separate initial injection. Uses §1.23, `Function.MulExact`. Exactness lifts
-  every compatible pair, since compatibility is the equation d(p)=0. Apply `commonIdealComparison_surjective_iff`.
-  Conversely use `AffinePinching.commonIdeal_exact_iff`. The diagonal F₂→F₂×F₂ with I=⊤ distinguishes surjectivity of d from this
+  every compatible pair, since compatibility is the equation d(p)=0. Apply the surjectivity criterion for κ(f,I).
+  Conversely use the exactness criterion of the common-ideal sequence. The diagonal F₂→F₂×F₂ with I=⊤ distinguishes surjectivity of d from this
   exactness.
 
-- `AffinePinching.commonIdealDiagonal_injective_iff`: For every f:A→B and I⊂A, the native diagonal ring hom
+- For every f:A→B and I⊂A, the native diagonal ring hom
   a↦(f(a),[a]) into B×A/I is injective exactly when ker(f)∩I=0. This equivalence requires no image-ideal
   hypothesis. Uses `RingHom.injective_iff_ker_eq_bot`, `Ideal.Quotient.eq_zero_iff_mem`. Compute the kernel of
   the product hom from its two coordinates. Use the quotient-zero criterion and native ring-hom injectivity
-  criterion. Combined with `AffinePinching.commonIdeal_exact_iff` and `AffinePinching.commonIdealDifference_surjective` this states exactly when the
+  criterion. Combined with the exactness criterion and surjectivity of the difference map this states exactly when the
   affine sequence is short exact.
 
-- `AffinePinching.commonIdealComparison_surjective_iff`: For every f:A→B and I⊂A, the comparison
+- For every f:A→B and I⊂A, the comparison
   `c:A→B×_(B/map_f(I))(A/I)` is surjective if and only if `map_f(I)=f(I)` as sets. In particular injectivity of f
   cannot replace the image-ideal condition. Uses §1.12, `Ideal.Quotient.eq_zero_iff_mem`,
   `Ideal.mem_map_of_mem`. For `b∈map_f(I)`, form the compatible pair (b,0). A lift a satisfies [a]=0, hence a∈I,
@@ -1898,12 +1850,10 @@ denominator per generator into one common denominator by multiplication. Prove t
 numerator/fraction criteria in the native localizations, including n=0 and noninjective coefficient maps. The
 spanning hypothesis is necessary.
 
-*Lean name:* `FerrandPushout.conductor_localization_finite_generators`.
-
 For r=a/t, native extended-ideal membership is equivalent to existence of s∈S with sa in the original
 contracted conductor. Use conductor-localized-test-original-elements and
-`FerrandPushout.conductor_localized_product_criterion`. An original conductor multiplier supplies every original-element test.
-Conversely, apply the product criterion to each of the finitely many `g_i`. The `FerrandPushout.conductor_common_denominator`
+the localized product criterion. An original conductor multiplier supplies every original-element test.
+Conversely, apply the product criterion to each of the finitely many `g_i`. The common-denominator lemma
 lemma combines their witnesses, using the complementary products and the spanning-family criterion, to one s
 with sa in the conductor. Thus both native ideals have the same members. No generic tensor/flat-annihilator
 comparison, domain cancellation, or injectivity adapter is assumed.
@@ -1920,7 +1870,7 @@ is imposed.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductor_mem_iff_generators`: For every commutative A-algebra B, g:Fin n→B with
+- For every commutative A-algebra B, g:Fin n→B with
   `span_A(range g)=B`, and a∈A, a belongs to the contracted arbitrary-image conductor if and only if `f(a)g_i`
   belongs to im f for every i. The map f is the actual algebraMap; n=0, noninjective maps and zero rings are
   allowed. Uses §1.2, `Submodule.comap`, `Submodule.mem_comap`, `Submodule.mem_bot`, `LinearMap.smul_apply`,
@@ -1931,7 +1881,7 @@ The construction needs the following maps and laws.
   every b, which is exactly the existing subring conductor. The converse evaluates its universal condition on
   each `g_i`.
 
-- `FerrandPushout.conductor_common_denominator`: With the same actual algebra and finite spanning family, and
+- With the same actual algebra and finite spanning family, and
   any multiplicative subset S⊂A, (for every i there is `s_i∈S` with `f(s_i a)g_i∈im f`) is equivalent to (there is
   s∈S with sa in the contracted conductor). Neither cancellation nor injectivity is assumed; S may contain
   zero. Uses §1.24, `Finset.prod_erase_mul`, `Submonoid.prod_mem`, `RingHom.mem_range`. Choose the finitely
@@ -1940,7 +1890,7 @@ The construction needs the following maps and laws.
   the conductor generator criterion. Conversely use the same conductor denominator for every generator. No
   inference cancels a zero divisor or divides by a denominator in A.
 
-- `FerrandPushout.conductor_fraction_mem_iff_generators`: Let L be any actual S-localization of A, with its
+- Let L be any actual S-localization of A, with its
   native A-algebra and IsLocalization instance. For every t∈S the native fraction a/t lies in the ideal
   extended from the contracted conductor if and only if for each generator `g_i` there exists `s_i∈S` with `f(s_i a)g_i∈im f`. The supplied denominator t imposes no regularity condition. Uses §1.24,
   `IsLocalization.mk'_mem_map_algebraMap_iff`. Use the pinned native fraction/extended-ideal criterion: a/t
@@ -1948,7 +1898,7 @@ The construction needs the following maps and laws.
   the supplied localization carrier and actual coefficient map; this does not yet identify cL with the
   recomputed conductor of the localized B-algebra.
 
-- `FerrandPushout.conductor_localized_image_criterion`: Let A and B be commutative rings, f:A→B their actual
+- Let A and B be commutative rings, f:A→B their actual
   coefficient algebra map, S⊂A a submonoid, L an actual S-localization of A, and M an actual f(S)-localization
   of B. For b∈B, its actual image in M lies in `im f_S` if and only if some s∈S satisfies f(s)b∈im f. Uses
   `IsLocalization.map`, `IsLocalization.map_mk'`, `IsLocalization.exists_mk'_eq`,
@@ -1960,7 +1910,7 @@ The construction needs the following maps and laws.
   Conversely, a witness f(a)=f(s)b gives the localized preimage a/s, by the native fraction multiplication
   equation.
 
-- `FerrandPushout.conductor_localized_fraction_image`: Let A and B be commutative rings, f:A→B their actual
+- Let A and B be commutative rings, f:A→B their actual
   coefficient algebra map, S⊂A a submonoid, L an actual S-localization of A, and M an actual f(S)-localization
   of B. For b∈B and t∈S, the fraction b/f(t) belongs to `im f_S` if and only if the actual image of b in M
   belongs to `im f_S`. Uses `IsLocalization.map`, `IsLocalization.map_mk'`, `IsLocalization.map_eq`,
@@ -1970,16 +1920,16 @@ The construction needs the following maps and laws.
   `f_S(z)` is the image of b, then `f_S(z·(1/t))` is b/f(t). The denominator inverse is itself an actual image; do
   not infer inverse closure for an arbitrary subring.
 
-- `FerrandPushout.conductor_localized_product_criterion`: Let A and B be commutative rings, f:A→B their actual
+- Let A and B be commutative rings, f:A→B their actual
   coefficient algebra map, S⊂A a submonoid, L an actual S-localization of A, and M an actual f(S)-localization
   of B. For a∈A, t∈S and b∈B, `f_S(a/t)·b` belongs to `im f_S` if and only if some s∈S satisfies f(sa)b∈im f,
   where b on the left is its actual image in M. Uses §1.24, `IsLocalization.map_mk'`,
   `IsLocalization.mul_mk'_eq_mk'_of_mul`. The native map and multiplication laws identify this product with
-  the fraction f(a)b/f(t). Remove the denominator by `FerrandPushout.conductor_localized_fraction_image`, then
-  use `FerrandPushout.conductor_localized_image_criterion` on the actual numerator f(a)b. Reassociate
+  the fraction f(a)b/f(t). Remove the denominator by the localized fraction-image lemma, then
+  use the localized image criterion on the actual numerator f(a)b. Reassociate
   f(s)f(a)b as f(sa)b.
 
-- `FerrandPushout.conductor_localized_mem_iff_images`: Let A and B be commutative rings, f:A→B their actual
+- Let A and B be commutative rings, f:A→B their actual
   coefficient algebra map, S⊂A a submonoid, L an actual S-localization of A, and M an actual f(S)-localization
   of B. For r∈L, r belongs to `f_S⁻¹(conductor(im f_S,M))` if and only if `f_S(r)·b` lies in `im f_S` for every
   original b∈B. Uses §1.2, `IsLocalization.exists_mk'_eq`, `Submonoid.mem_map`, `Submonoid.mem_map_of_mem`,
@@ -2010,10 +1960,8 @@ actual localized coefficient map, without assuming that the original map is inje
 generator after localization, then clear the finitely many denominators. Identify the exact localization
 carriers and maps before transferring the ideal equality.
 
-*Lean name:* `FerrandPushout.conductor_localization_recomputed`.
-
 Obtain an actual finite spanning family using the pinned Module.Finite.exists_fin declaration. Apply
-`FerrandPushout.conductor_localization_finite_generators`. The existing conductor_localization signature is recovered as its
+the finite-generator form of the localization statement. The localization statement of §1.15 is recovered as its
 injective-map special case; no use of injectivity is needed for equality. Keep the conductor-specific
 localization conclusion distinct from the imported finite-module flat-annihilator theorem and from the
 geometric affine restriction and IdealSheafData assembly.
@@ -2032,11 +1980,9 @@ map; explicit conductor-specific localization derivation.)
 
 ### 1.26 reconstruct target sections from the actual conductor rings
 
-For affine U, construct `conductorSectionsIso` from Γ(P,U) to the native pullback of B=Γ(Y,f⁻¹U) and
+For affine U, construct the conductor sections isomorphism from Γ(P,U) to the native pullback of B=Γ(Y,f⁻¹U) and
 `C=Γ(C_f,j⁻¹U)` over `D=Γ(D_f,i⁻¹f⁻¹U)`. Its projections are exactly f.app and j.app, and its inverse has both
 specified quotient coordinates. Compare the two limit cones, preserving zero section rings and nilpotents.
-
-*Lean name:* `FerrandPushout.conductorSectionsIso`.
 
 Finite and schematically dominant f; affine U only where expressly stated; preserve the full conductor ideals
 and actual native section rings.
@@ -2046,9 +1992,9 @@ and actual native section rings.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductor_affine_isPullback`: For finite schematically dominant f and affine U, put V=f⁻¹U,
+- For finite schematically dominant f and affine U, put V=f⁻¹U,
   C=Γ(I.subscheme,I.ι⁻¹U), D=Γ(J.subscheme,J.ι⁻¹V). The square A→B, A→C, B→D, C→D, whose arrows are the actual
-  f.app U, I.ι.app U, J.ι.app V and conductorChartMap f U, is a pullback in CommRingCat. Uses §1.12, §1.17,
+  f.app U, I.ι.app U, J.ι.app V and the conductor chart map f U, is a pullback in CommRingCat. Uses §1.12, §1.17,
   `AlgebraicGeometry.Scheme.Hom.app_injective`, `CategoryTheory.IsPullback.of_iso'`,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeObjIso`,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app`,
@@ -2058,28 +2004,28 @@ The construction needs the following maps and laws.
   actual target and source closed-subscheme section isomorphisms. Lift target conductor sections to A to
   verify the fourth compatibility on every representative.
 
-- `FerrandPushout.conductorSectionsIso_fst`: For every such affine U, conductorSectionsIso.hom followed by the
+- For every such affine U, conductor sections isomorphism.hom followed by the
   native first projection equals f.app U, as actual CommRingCat morphisms. Uses §1.26,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp`. Apply the forward comparison of limit cone
   components at the left object.
 
-- `FerrandPushout.conductorSectionsIso_snd`: For every such affine U, conductorSectionsIso.hom followed by the
+- For every such affine U, conductor sections isomorphism.hom followed by the
   native second projection equals I.ι.app U. Uses §1.26,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp`. Apply the forward comparison at the right
   object.
 
-- `FerrandPushout.conductorSectionsIso_inv_fst`: For every such affine U, conductorSectionsIso.inv followed by
+- For every such affine U, conductor sections isomorphism.inv followed by
   f.app U equals the native first projection from `B×_D C`. Uses §1.26,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_inv_comp`. Apply the inverse comparison at the left
   object.
 
-- `FerrandPushout.conductorSectionsIso_inv_snd`: For every such affine U, conductorSectionsIso.inv followed by
+- For every such affine U, conductor sections isomorphism.inv followed by
   I.ι.app U equals the native second projection. Uses §1.26,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_inv_comp`. Apply the inverse comparison at the right
   object.
 
-- `FerrandPushout.conductorSectionsIso_inv_unique`: For every such affine U, a native fiber-product element p
-  and a∈Γ(P,U) with f.app U(a)=p.first, the specified inverse conductorSectionsIso.inv(p) equals a. Its second
+- For every such affine U, a native fiber-product element p
+  and a∈Γ(P,U) with f.app U(a)=p.first, the specified inverse conductor sections isomorphism.inv(p) equals a. Its second
   coordinate is automatically fixed by fiber-product compatibility. Uses §1.26,
   `AlgebraicGeometry.Scheme.Hom.app_injective`. Compare the first coordinates and cancel the injective actual
   section map.
@@ -2087,21 +2033,21 @@ The construction needs the following maps and laws.
 **Checks.**
 
 - For the cusp normalization Spec k[t]→Spec k[t²,t³], on the whole affine target,
-  `conductorSectionsIso` sends t² to (t²,0). Compute the contracted conductor (t²,t³), then transport
+  the conductor sections isomorphism sends t² to (t²,0). Compute the contracted conductor (t²,t³), then transport
   sections by `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to k[t], k and k[t]/(t²).
   The actual inclusion and quotient maps give these coordinates.
 
 - For the split node Spec k[t]→Spec(k+(t²−1)k[t]) with char k≠2, on the whole target,
-  `conductorSectionsIso` sends t²−1 to (t²−1,0). Compute the full conductor and transport the
+  the conductor sections isomorphism sends t²−1 to (t²−1,0). Compute the full conductor and transport the
   actual section maps through `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to k[t], k and
   k[t]/(t²−1); evaluation at 1 and −1 identifies the last ring with k×k.
 
 - For Spec(Z/4×Z/4)→Spec(Z/4) induced by the diagonal, the full conductor is zero.
-  Through `ΓSpecIso` and the closed-subscheme quotient comparisons, `conductorSectionsIso`
+  Through `ΓSpecIso` and the closed-subscheme quotient comparisons, the conductor sections isomorphism
   sends 2 to ((2,2),2) in `(Z/4×Z/4)×_(Z/4×Z/4)(Z/4)`. This is nonzero and square-zero.
 
 - For finite schematically dominant f and affine U, construct the specified native CommRingCat isomorphism
-  `Γ(P,U)≅B×_D C` using the actual source inclusion B→D and conductorChartMap C→D. Here the fiber-product object
+  `Γ(P,U)≅B×_D C` using the actual source inclusion B→D and the conductor chart map C→D. Here the fiber-product object
   is the native CommRingCat.pullbackCone point, retaining zero rings and nilpotents.
 
 - Do not infer global sheaf exactness, quotient topology or a geometric/categorical pushout solely from affine
@@ -2116,11 +2062,9 @@ The construction needs the following maps and laws.
 
 ### 1.27 the signed conductor difference on every open
 
-Define `conductorSectionDifference` on every open U by δ(b,c)=i.app(b)−g.app(c) in the source-conductor
+Define the conductor section difference on every open U by δ(b,c)=i.app(b)−g.app(c) in the source-conductor
 sections. It is an additive map, not a ring homomorphism. Prove restriction naturality, zero composite with
 target sections and affine surjectivity. Surjectivity on all arbitrary open section rings is not asserted.
-
-*Lean name:* `FerrandPushout.conductorSectionDifference`.
 
 Finite and schematically dominant f; affine U only where expressly stated; preserve the full conductor ideals
 and actual native section rings.
@@ -2130,25 +2074,25 @@ and actual native section rings.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorSectionDifference_apply`: For every open U and actual sections b,c,
-  `δ_U(b,c)=J.ι.app(f⁻¹U)(b)−conductorChartMap f U(c)`. Uses §1.27. Unfold the additive homomorphism and
+- For every open U and actual sections b,c,
+  `δ_U(b,c)=J.ι.app(f⁻¹U)(b)−g_U(c)`, with g_U the chart map of the conductor square. Uses §1.27. Unfold the additive homomorphism and
   evaluate the two product projections.
 
-- `FerrandPushout.conductorSectionDifference_zero`: For every open U and `a∈Γ(P,U)`, `δ_U(f.app U(a),I.ι.app U(a))=0`. Affineness is unnecessary for this statement. Uses §1.27, §1.17. Evaluate the actual commuting
+- For every open U and `a∈Γ(P,U)`, `δ_U(f.app U(a),I.ι.app U(a))=0`. Affineness is unnecessary for this statement. Uses §1.27, §1.17. Evaluate the actual commuting
   section square at a, and subtract the equal images.
 
-- `FerrandPushout.conductorSectionDifference_surjective`: For every affine U, `δ_U` is surjective onto the
+- For every affine U, `δ_U` is surjective onto the
   actual source-conductor section ring `D_U`. No claim of surjectivity on arbitrary open section rings is made.
   Uses §1.27, `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app_surjective`. Finiteness makes f⁻¹U
   affine. Lift each source-conductor section b through the native closed-inclusion section map and use the
   pair (b,0).
 
-- `FerrandPushout.conductorSectionPair_injective`: For every open U the actual ring homomorphism a↦(f.app
+- For every open U the actual ring homomorphism a↦(f.app
   U(a),I.ι.app U(a)) is injective. Uses §1.16, `AlgebraicGeometry.Scheme.Hom.app_injective`. Take the first
   coordinate of an equality of pairs and use native section injectivity for the finite schematically dominant
   map.
 
-- `FerrandPushout.conductorSectionDifference_exact`: For every affine U the sequence `A→B_U×C_U→D_U`, with
+- For every affine U the sequence `A→B_U×C_U→D_U`, with
   a↦(f.app U(a),I.ι.app U(a)) followed by `δ_U`, is Function.Exact: a pair has difference zero exactly when it
   comes from a target section. Together with the injectivity and surjectivity lemmas this gives the short
   exact sequence of underlying additive groups on affine opens. Uses §1.26, §1.27, §1.17,
@@ -2156,12 +2100,12 @@ The construction needs the following maps and laws.
   images. Map the native ring pullback to Types, lift the compatible pair, and use the section square for the
   converse.
 
-- `FerrandPushout.conductorSectionDifference_restrict`: For any U⊆V, restrict `δ_V(b,c)` along the actual
+- For any U⊆V, restrict `δ_V(b,c)` along the actual
   source-conductor inclusion. The result equals `δ_U` applied to the restrictions of b along f⁻¹U⊆f⁻¹V and c
   along I.ι⁻¹U⊆I.ι⁻¹V. This holds for arbitrary, including empty, opens, with the actual native presheaf
   restriction maps. Uses §1.27, §1.17, `AlgebraicGeometry.Scheme.Hom.naturality`. Restriction preserves
   subtraction. Apply naturality of the actual source closed inclusion to the first term and the existing
-  conductorChartMap restriction equation to the second.
+  the chart-map restriction lawion equation to the second.
 
 **Checks.**
 
@@ -2175,7 +2119,7 @@ The construction needs the following maps and laws.
   both conductor schemes.
 
 - For finite schematically dominant f and every open U, with actual section rings `B_U,C_U,D_U` as above, define
-  the additive homomorphism `δ_U:B_U×C_U→D_U` by `δ_U(b,c)=J.ι.app(f⁻¹U)(b)−conductorChartMap f U(c)`. This is an
+  the additive homomorphism `δ_U:B_U×C_U→D_U` by `δ_U(b,c)=J.ι.app(f⁻¹U)(b)−g_U(c)`, with g_U the chart map of the conductor square. This is an
   additive homomorphism, with the specified subtraction sign.
 
 - Do not infer global sheaf exactness, quotient topology or a geometric/categorical pushout solely from affine
@@ -2185,12 +2129,10 @@ The construction needs the following maps and laws.
 
 ### 1.28 the structure-sheaf comparison with the native pullback
 
-Construct `conductorSheafComparison` in native ring-valued sheaves using f.c and the target-conductor
+Construct the conductor sheaf comparison in native ring-valued sheaves using f.c and the target-conductor
 inclusion c. Prove their composites agree on every open, apply the native pullback lift and prove it is an
 isomorphism by affine-local comparison. The chosen coordinates and restrictions, not just the objects, are
 part of the theorem.
-
-*Lean name:* `FerrandPushout.conductorSheafComparison`.
 
 Finite and schematically dominant f:Y→P; all opens arbitrary except the explicitly affine agreement lemma.
 Native conductor ideal data and actual structure maps throughout.
@@ -2199,41 +2141,41 @@ Native conductor ideal data and actual structure maps throughout.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorSheafInclusion_app`: On any open U⊂P, the component of conductorSheafInclusion is
+- On any open U⊂P, the component of conductor sheaf inclusion is
   the actual native map J.ι.app(f⁻¹U):Γ(Y,f⁻¹U)→Γ(J.subscheme,J.ι⁻¹(f⁻¹U)). Uses §1.28. Unfold the native
   pushforward and whiskering definitions.
 
-- `FerrandPushout.conductorSheafComparison_fst`: The native first projection after conductorSheafComparison is
+- The native first projection after conductor sheaf comparison is
   f.c as a morphism `O_P→f_*O_Y`. Uses §1.28. Apply the native pullback lift first-projection equation.
 
-- `FerrandPushout.conductor_sheaf_isPullback`: The square with upper-left `O_P`, the two actual structure maps
-  f.c and I.ι.c, and lower maps conductorSheafInclusion and conductorSheafChart is a native IsPullback in the
+- The square with upper-left `O_P`, the two actual structure maps
+  f.c and I.ι.c, and lower maps conductor sheaf inclusion and conductor sheaf chart is a native IsPullback in the
   category of sheaves of commutative rings on P. Uses §1.28, `CategoryTheory.IsPullback.of_iso_pullback`.
   Transport the native chosen pullback through the established comparison isomorphism, retaining both
   specified projection equations.
 
-- `FerrandPushout.conductorSheafInclusion`: For finite schematically dominant f:Y→P, let `I=I_f` and J=I.comap
+- For finite schematically dominant f:Y→P, let `I=I_f` and J=I.comap
   f. Construct the actual CommRingCat-valued sheaf morphism `f_*O_Y→f_*J.ι_*O_J` by pushing forward the native
   closed-inclusion structure map. The target is an iterated pushforward on P, with its actual sheaf condition.
   Uses §1.16, `TopCat.Sheaf.pushforward`, `CategoryTheory.Functor.whiskerLeft`. Whisker the actual native
   J.ι.c by (Opens.map f.base).op, and regard the resulting natural transformation as a morphism of the native
   pushforward sheaves.
 
-- `FerrandPushout.conductorSheafChart_app`: On every open U⊂P, the component of conductorSheafChart is exactly
-  conductorChartMap f U, including its prescribed inverse-image identification. Uses §1.28. Evaluate the
+- On every open U⊂P, the component of conductor sheaf chart is exactly
+  the conductor chart map f U, including its prescribed inverse-image identification. Uses §1.28. Evaluate the
   specified natural transformation.
 
-- `FerrandPushout.conductorSheafComparison_snd`: The native second projection after conductorSheafComparison
+- The native second projection after conductor sheaf comparison
   is I.ι.c as a morphism `O_P→I.ι_*O_I`. Uses §1.28. Apply the native pullback lift second-projection equation.
 
-- `FerrandPushout.conductorSheafChart`: Construct `I.ι_*O_I→f_*J.ι_*O_J` on P whose component on every open U is
-  exactly conductorChartMap f U. Its naturality is the previously checked actual open-restriction equation;
+- Construct `I.ι_*O_I→f_*J.ι_*O_J` on P whose component on every open U is
+  exactly the conductor chart map f U. Its naturality is the previously checked actual open-restriction equation;
   there is no affine-open restriction on this morphism. Uses §1.17, `TopCat.Sheaf.pushforward`. Use the
-  existing chart maps as components and conductorChartMap_restrict to prove naturality; both presheaves
+  existing chart maps as components and the chart-map restriction law to prove naturality; both presheaves
   already carry the native pushforward sheaf conditions.
 
-- `FerrandPushout.conductorSheafComparison_isIso`: For every finite schematically dominant f:Y→P, the
-  specified conductorSheafComparison is an isomorphism of native sheaves of commutative rings. No reducedness,
+- For every finite schematically dominant f:Y→P, the
+  specified conductor sheaf comparison is an isomorphism of native sheaves of commutative rings. No reducedness,
   Noetherianity, birationality or global affineness is required. Uses §1.28, §1.26,
   `TopCat.Sheaf.isIso_iff_isIso_basis`, `AlgebraicGeometry.Scheme.isBasis_affineOpens`,
   `CategoryTheory.IsPullback.isoIsPullback`, `CategoryTheory.IsPullback.isoIsPullback_hom_fst`,
@@ -2244,14 +2186,14 @@ The construction needs the following maps and laws.
   the two coordinate identities show that the comparison component is their canonical isomorphism. Apply the
   native isomorphism criterion on the affine-open basis.
 
-- `FerrandPushout.conductor_open_isPullback`: For every open U⊂P, including nonaffine and empty opens, the
-  actual ring square with arrows f.app U, I.ι.app U, J.ι.app(f⁻¹U) and conductorChartMap f U is a pullback in
+- For every open U⊂P, including nonaffine and empty opens, the
+  actual ring square with arrows f.app U, I.ι.app U, J.ι.app(f⁻¹U) and the conductor chart map f U is a pullback in
   CommRingCat. Uses §1.28, `CategoryTheory.Functor.map_isPullback`, `CategoryTheory.sheafToPresheaf`,
   `CategoryTheory.evaluation`. Apply the composite of the limit-preserving native sheaf inclusion and
   evaluation at U to the actual sheaf pullback. The four evaluated maps are definitionally the original ring
   section maps.
 
-- `FerrandPushout.conductorSectionDifference_open_exact`: On every open U⊂P, the actual additive sequence
+- On every open U⊂P, the actual additive sequence
   Γ(P,U)→Γ(Y,f⁻¹U)×Γ(I.subscheme,I.ι⁻¹U)→Γ(J.subscheme,J.ι⁻¹(f⁻¹U)), with section pair followed by the signed
   difference, is Function.Exact. Thus every compatible pair has a unique target section by the existing
   section-pair injectivity. This statement does not assert surjectivity of the last map on nonaffine opens.
@@ -2288,11 +2230,9 @@ The construction needs the following maps and laws.
 
 ### 1.29 reconstruct sections on arbitrary opens
 
-Evaluate the proved sheaf pullback on an arbitrary open U to construct `conductorOpenSectionsIso`. Prove
+Evaluate the proved sheaf pullback on an arbitrary open U to construct the conductor open sections isomorphism. Prove
 compatibility with restrictions and equality with the specified affine comparison when U is affine. The limit
 identity holds on all opens even though the accompanying difference map is only locally surjective.
-
-*Lean name:* `FerrandPushout.conductorOpenSectionsIso`.
 
 Finite and schematically dominant f:Y→P; all opens arbitrary except the explicitly affine agreement lemma.
 Native conductor ideal data and actual structure maps throughout.
@@ -2301,7 +2241,7 @@ Native conductor ideal data and actual structure maps throughout.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorSectionDifference_open_exact`: On every open U⊂P, the actual additive sequence
+- On every open U⊂P, the actual additive sequence
   Γ(P,U)→Γ(Y,f⁻¹U)×Γ(I.subscheme,I.ι⁻¹U)→Γ(J.subscheme,J.ι⁻¹(f⁻¹U)), with section pair followed by the signed
   difference, is Function.Exact. Thus every compatible pair has a unique target section by the existing
   section-pair injectivity. This statement does not assert surjectivity of the last map on nonaffine opens.
@@ -2309,37 +2249,37 @@ The construction needs the following maps and laws.
   the two images. Forget the native ring pullback to Types and lift a compatible pair. Conversely, the actual
   conductor square makes the difference of a target section pair zero.
 
-- `FerrandPushout.conductorOpenSectionsIso_fst`: For every open U, conductorOpenSectionsIso.hom followed by
+- For every open U, conductor open sections isomorphism.hom followed by
   the explicit native first projection equals f.app U. Uses §1.29,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp`. Apply the forward limit comparison equation
   at WalkingCospan.left.
 
-- `FerrandPushout.conductorOpenSectionsIso_snd`: For every open U, conductorOpenSectionsIso.hom followed by
+- For every open U, conductor open sections isomorphism.hom followed by
   the explicit native second projection equals I.ι.app U. Uses §1.29,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp`. Apply the forward limit comparison equation
   at WalkingCospan.right.
 
-- `FerrandPushout.conductorOpenSectionsIso_inv_fst`: For every open U, conductorOpenSectionsIso.inv followed
+- For every open U, conductor open sections isomorphism.inv followed
   by f.app U equals the native first projection from the explicit ring fiber product. Uses §1.29,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_inv_comp`. Apply the inverse limit comparison equation
   at WalkingCospan.left.
 
-- `FerrandPushout.conductorOpenSectionsIso_inv_snd`: For every open U, conductorOpenSectionsIso.inv followed
+- For every open U, conductor open sections isomorphism.inv followed
   by I.ι.app U equals the native second projection from the explicit ring fiber product. Uses §1.29,
   `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_inv_comp`. Apply the inverse limit comparison equation
   at WalkingCospan.right.
 
-- `FerrandPushout.conductorOpenSectionsIso_affine`: For every affine U, the all-open conductorOpenSectionsIso
-  f U equals the preceding conductorSectionsIso f U as the entire native CommRingCat isomorphism, with both
+- For every affine U, the all-open conductor open sections isomorphism
+  f U equals the preceding conductor sections isomorphism f U as the entire native CommRingCat isomorphism, with both
   forward and inverse maps thereby identified. Uses §1.29, §1.26,
   `CategoryTheory.Limits.PullbackCone.IsLimit.hom_ext`. Use isomorphism extensionality and uniqueness of maps
   into the explicit native pullback; both projection composites agree with the same actual structure maps.
 
-- `FerrandPushout.conductor_additive_isPullback`: For every finite schematically dominant f:Y→P, apply the
+- For every finite schematically dominant f:Y→P, apply the
   existing sheaf-composition functor for CommRingCat→RingCat→AddCommGrpCat to the actual conductor
   structure-sheaf square. The resulting square of native additive sheaves on P is a pullback, with the two
   specified structure maps and the actual conductor inclusion and chart maps. Finite and schematically
-  dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where explicitly affine.
+  dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where explicitly affine.
   Actual native sheaves, maps and biproduct throughout. Uses §1.28, `CategoryTheory.sheafCompose`,
   `CategoryTheory.Functor.whiskeringRight`, `CategoryTheory.whiskeringRightPreservesLimits`,
   `CategoryTheory.Sheaf.createsLimits`, `CategoryTheory.sheafToPresheaf`,
@@ -2351,16 +2291,16 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- For Spec k[t]→Spec k[t²,t³] and the whole cusp target, `conductorOpenSectionsIso` sends t²
+- For Spec k[t]→Spec k[t²,t³] and the whole cusp target, the conductor open sections isomorphism sends t²
   to (t²,0). Derive the conductor (t²,t³) and transport the actual source and conductor section
   maps by `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to k[t], k and k[t]/(t²), as in §1.26.
 
 - For Spec k[t]→Spec(k+(t²−1)k[t]), char k≠2, and the whole split-node target,
-  `conductorOpenSectionsIso` sends t²−1 to (t²−1,0). Derive the conductor, then use `ΓSpecIso`
+  the conductor open sections isomorphism sends t²−1 to (t²−1,0). Derive the conductor, then use `ΓSpecIso`
   and `IdealSheafData.subschemeObjIso` to identify the source and quotient maps with the inclusion,
   quotient to k, and quotient k[t]→k[t]/(t²−1), followed by evaluation at the two roots.
 
-- For the diagonal Z/4→Z/4×Z/4 and the whole target, `conductorOpenSectionsIso` sends 2 to
+- For the diagonal Z/4→Z/4×Z/4 and the whole target, the conductor open sections isomorphism sends 2 to
   ((2,2),2). Compute the zero conductor and transport through `ΓSpecIso` and the actual
   closed-subscheme quotient comparisons; both projections retain the nonzero square-zero section.
 
@@ -2376,112 +2316,110 @@ The construction needs the following maps and laws.
 
 ### 1.30 the actual conductor additive sheaf short complex
 
-Construct `conductorAdditiveShortComplex` with the additive underlying sheaves `O_P`, `f_*O_Y⊕j_*O_C` and
+Construct the conductor additive short complex with the additive underlying sheaves `O_P`, `f_*O_Y⊕j_*O_C` and
 `(fi)_*O_D`. The first map has coordinates f.c and j.c; the second has coordinates i.c and −g.c. Prove their
 composite is zero from the actual conductor square, then use the native short-complex carrier.
 
-*Lean name:* `FerrandPushout.conductorAdditiveShortComplex`.
-
-Finite and schematically dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where
+Finite and schematically dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where
 explicitly affine. Actual native sheaves, maps and biproduct throughout.
 
 ([Stacks, tag 0ET0](https://stacks.math.columbia.edu/tag/0ET0), Stacks 37.14.1.)
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorAdditiveShortComplex_f_fst`: The first map of conductorAdditiveShortComplex
+- The first map of conductor additive short complex
   followed by the first native biproduct projection is exactly f.c after forgetting multiplication. Finite and
-  schematically dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where
+  schematically dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where
   explicitly affine. Actual native sheaves, maps and biproduct throughout. Uses §1.30. Use the native
   biproduct lift first-projection identity.
 
-- `FerrandPushout.conductorAdditiveShortComplex_f_snd`: The first map followed by the second native biproduct
+- The first map followed by the second native biproduct
   projection is exactly I.ι.c after forgetting multiplication. Finite and schematically dominant f:Y→P;
-  I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where explicitly affine. Actual native
+  I=I_f and J=I.comap f. Opens arbitrary except where explicitly affine. Actual native
   sheaves, maps and biproduct throughout. Uses §1.30. Use the native biproduct lift second-projection
   identity.
 
-- `FerrandPushout.conductorAdditiveShortComplex_inl_g`: The first native biproduct injection followed by the
-  last map equals the actual conductorSheafInclusion after forgetting multiplication. Finite and schematically
-  dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where explicitly affine.
+- The first native biproduct injection followed by the
+  last map equals the actual conductor sheaf inclusion after forgetting multiplication. Finite and schematically
+  dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where explicitly affine.
   Actual native sheaves, maps and biproduct throughout. Uses §1.30. Use the native first-injection/desc
   identity.
 
-- `FerrandPushout.conductorAdditiveShortComplex_inr_g`: The second native biproduct injection followed by the
-  last map equals the negative of the actual conductorSheafChart after forgetting multiplication. Finite and
-  schematically dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where
+- The second native biproduct injection followed by the
+  last map equals the negative of the actual conductor sheaf chart after forgetting multiplication. Finite and
+  schematically dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where
   explicitly affine. Actual native sheaves, maps and biproduct throughout. Uses §1.30. Use the native
   second-injection/desc identity, retaining its negative chart map.
 
-- `FerrandPushout.conductorAdditiveShortComplex_inl_g_app`: On every open U⊂P and every b∈Γ(Y,f⁻¹U), applying
+- On every open U⊂P and every b∈Γ(Y,f⁻¹U), applying
   the actual last sheaf map to the first injected section gives J.ι.app(f⁻¹U)(b). Finite and schematically
-  dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where explicitly affine.
+  dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where explicitly affine.
   Actual native sheaves, maps and biproduct throughout. Uses §1.30, §1.28. Evaluate the sheaf-morphism
   identity at U and then at b.
 
-- `FerrandPushout.conductorAdditiveShortComplex_inr_g_app`: On every open U⊂P and every c∈Γ(I,I.ι⁻¹U),
-  applying the actual last sheaf map to the second injected section gives −conductorChartMap(f,U)(c). Finite
-  and schematically dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where
+- On every open U⊂P and every c∈Γ(I,I.ι⁻¹U),
+  applying the actual last sheaf map to the second injected section gives −the conductor chart map(f,U)(c). Finite
+  and schematically dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where
   explicitly affine. Actual native sheaves, maps and biproduct throughout. Uses §1.30, §1.28. Evaluate the
   sheaf-morphism identity and the native additive negation at U and c.
 
-- `FerrandPushout.conductorAdditiveShortComplex_pair_app`: On every open U, the last sheaf map sends
-  inl(b)+inr(c) to the preceding actual conductorSectionDifference(f,U)(b,c). Both rings, restrictions and the
-  subtraction sign are unchanged. Finite and schematically dominant f:Y→P; I=conductorIdealSheaf f and
+- On every open U, the last sheaf map sends
+  inl(b)+inr(c) to the preceding actual conductor section difference(f,U)(b,c). Both rings, restrictions and the
+  subtraction sign are unchanged. Finite and schematically dominant f:Y→P; I=I_f and
   J=I.comap f. Opens arbitrary except where explicitly affine. Actual native sheaves, maps and biproduct
   throughout. Uses §1.30, §1.27. Add the two evaluated component identities, then use the existing signed
   section-difference formula.
 
-- `FerrandPushout.conductorAdditiveShortComplex_mono`: The first morphism of the actual
-  conductorAdditiveShortComplex is a monomorphism in native additive sheaves on P. Finite and schematically
-  dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where explicitly affine.
+- The first morphism of the actual
+  conductor additive short complex is a monomorphism in native additive sheaves on P. Finite and schematically
+  dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where explicitly affine.
   Actual native sheaves, maps and biproduct throughout. Uses §1.30, §1.29,
   `CategoryTheory.IsPullback.mono_shortComplex'_f`. Apply the existing native pullback-kernel monomorphism
   theorem to the actual additive square.
 
-- `FerrandPushout.conductorAdditiveShortComplex_exact`: The actual conductorAdditiveShortComplex is Exact in
+- The actual conductor additive short complex is Exact in
   the native abelian category of additive sheaves on P. The actual structure map is the kernel of the
-  specified signed difference. Finite and schematically dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap
+  specified signed difference. Finite and schematically dominant f:Y→P; I=I_f and J=I.comap
   f. Opens arbitrary except where explicitly affine. Actual native sheaves, maps and biproduct throughout.
   Uses §1.30, §1.29, `CategoryTheory.IsPullback.exact_shortComplex'`. Apply the existing native exactness
   theorem for the short complex of a pullback, through its genuine limiting kernel fork.
 
-- `FerrandPushout.conductorAdditiveShortComplex_affine_surjective`: For every affine open U⊂P, the component
+- For every affine open U⊂P, the component
   on U of the last actual sheaf map is surjective as an additive group homomorphism. A target section lifts
   along the actual closed inclusion J.ι on the affine inverse image f⁻¹U, and the first native biproduct
-  injection supplies its middle-term lift. Finite and schematically dominant f:Y→P; I=conductorIdealSheaf f
+  injection supplies its middle-term lift. Finite and schematically dominant f:Y→P; I=I_f
   and J=I.comap f. Opens arbitrary except where explicitly affine. Actual native sheaves, maps and biproduct
   throughout. Uses §1.30, `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι_app_surjective`,
   `AlgebraicGeometry.IsAffineOpen.preimage`. Finite f is affine, so f⁻¹U is affine. Use the existing
   closed-subscheme restriction surjectivity there and the proved actual inclusion-component equation. No
   last-map surjectivity on arbitrary opens is inferred.
 
-- `FerrandPushout.conductorAdditiveShortComplex_locally_surjective`: The actual last map is locally
+- The actual last map is locally
   surjective: for every target section on any open U and each x∈U, choose an affine open V⊆U containing x; the
   restricted section has an actual middle-term lift on V. Finite and schematically dominant f:Y→P;
-  I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where explicitly affine. Actual native
+  I=I_f and J=I.comap f. Opens arbitrary except where explicitly affine. Actual native
   sheaves, maps and biproduct throughout. Uses §1.30, `AlgebraicGeometry.Scheme.isBasis_affineOpens`,
   `TopologicalSpace.IsTopologicalBasis.exists_subset_of_mem_open`, `TopCat.Presheaf.isLocallySurjective_iff`.
   Use the affine-open basis to choose V around x inside U, then apply actual affine component surjectivity to
   the restricted section. Apply the native local-surjectivity criterion with the prescribed restriction.
 
-- `FerrandPushout.conductorAdditiveShortComplex_epi`: The last morphism of conductorAdditiveShortComplex is an
+- The last morphism of conductor additive short complex is an
   epimorphism in additive sheaves on P. This is sheaf epimorphy obtained from local lifts, not surjectivity on
-  sections of every nonaffine open. Finite and schematically dominant f:Y→P; I=conductorIdealSheaf f and
+  sections of every nonaffine open. Finite and schematically dominant f:Y→P; I=I_f and
   J=I.comap f. Opens arbitrary except where explicitly affine. Actual native sheaves, maps and biproduct
   throughout. Uses §1.30, `TopCat.Sheaf.isLocallySurjective_iff_epi`. Use the existing equivalence between
   local surjectivity and epimorphy in the native additive sheaf category, with its existing sheafification and
   abelian structure.
 
-- `FerrandPushout.conductorAdditiveShortComplex_shortExact`: For every finite schematically dominant f:Y→P,
-  the specified native conductorAdditiveShortComplex is ShortExact:
+- For every finite schematically dominant f:Y→P,
+  the specified native conductor additive short complex is ShortExact:
   `0→O_P,+→f_*O_Y,+⊞I.ι_*O_I,+→f_*J.ι_*O_J,+→0`. No reducedness, Noetherianity, birationality or global
   affineness is required.
 
 **Checks.**
 
 - For the cusp normalization Spec k[t]→Spec k[t²,t³], on the whole affine target, the first map
-  of `conductorAdditiveShortComplex` sends t² to (t²,0). Compute the conductor (t²,t³) and use
+  of the conductor additive short complex sends t² to (t²,0). Compute the conductor (t²,t³) and use
   `ΓSpecIso` and `IdealSheafData.subschemeObjIso` to transport the actual sheaf maps to
   k[t²,t³]→k[t]⊕k→k[t]/(t²), retaining the native biproduct coordinates.
 
@@ -2520,9 +2458,7 @@ global affineness, reduction, noetherianity or birationality. The first map is m
 reconstruction; the middle kernel is the sheaf pullback; the last map is epi because it is surjective on
 affine-local sections. This does not make the last map surjective on sections of every open.
 
-*Lean name:* `FerrandPushout.conductorAdditiveShortComplex_shortExact`.
-
-Finite and schematically dominant f:Y→P; I=conductorIdealSheaf f and J=I.comap f. Opens arbitrary except where
+Finite and schematically dominant f:Y→P; I=I_f and J=I.comap f. Opens arbitrary except where
 explicitly affine. Actual native sheaves, maps and biproduct throughout.
 
 Package the independently established native mono, Exact and epi facts using ShortComplex.ShortExact.mk′. This
@@ -2532,7 +2468,7 @@ does not prove quotient topology, the Scheme pushout universal property, or cohe
 
 **Checks.**
 
-- For every finite schematically dominant f:Y→P, the specified native conductorAdditiveShortComplex is
+- For every finite schematically dominant f:Y→P, the specified native conductor additive short complex is
   ShortExact: `0→O_P,+→f_*O_Y,+⊞I.ι_*O_I,+→f_*J.ι_*O_J,+→0`. No reducedness, Noetherianity, birationality or
   global affineness is required.
 
@@ -2545,11 +2481,9 @@ does not prove quotient topology, the Scheme pushout universal property, or cohe
 
 For an injective integral A→B, descend a compatible pair of continuous maps from Spec B and Spec(A/I) to any
 topological space T. The integral spectral map is closed and surjective, hence a quotient map; conductor
-compatibility makes the source map constant on its fibers. Construct `conductorSpecDesc` as a native
+compatibility makes the source map constant on its fibers. Construct the conductor Spec descent as a native
 continuous map and prove both restrictions and uniqueness. T has no separation hypothesis and may have an
 independent universe.
-
-*Lean name:* `FerrandPushout.conductorSpecDesc`.
 
 A and B are arbitrary commutative rings in a common universe; K is the existing range-subring conductor and
 I=K.comap φ. The first three lemmas require only a ring map. Descent and the pushout require φ injective and
@@ -2561,14 +2495,14 @@ maps and TopCat; global scheme gluing remains open.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductor_comap_le_iff`: For any ring map φ:A→B and ideal q⊆B, the contracted conductor
+- For any ring map φ:A→B and ideal q⊆B, the contracted conductor
   I=K.comap φ satisfies I≤q.comap φ if and only if K≤q, where K=φ.range.conductor. K is the existing
   range-subring conductor and I=K.comap φ. The first three lemmas require only a ring map. Descent and the
   pushout require φ injective and integral. Use actual native spectra, quotient rings, continuous maps and
   TopCat; global scheme gluing remains open. Uses §1.2. Every element of K lies in the range of φ. Choose a
   preimage to prove the reverse implication; the other implication is monotonicity of ideal contraction.
 
-- `FerrandPushout.conductor_prime_eq_of_comap_eq`: For any φ and p,q∈Spec B with equal contractions, if K is
+- For any φ and p,q∈Spec B with equal contractions, if K is
   not contained in p then p=q. No injectivity or integrality assumption is needed. K is the existing
   range-subring conductor and I=K.comap φ. The first three lemmas require only a ring map. Descent and the
   pushout require φ injective and integral. Use actual native spectra, quotient rings, continuous maps and
@@ -2576,7 +2510,7 @@ The construction needs the following maps and laws.
   is also outside the contracted q, so t∉q. Each product tb lifts to A. Membership agrees after multiplication
   by t and primality cancels t in both directions.
 
-- `FerrandPushout.conductor_spec_factorsThrough`: For any φ and topological space T, let y:Spec B→T and
+- For any φ and topological space T, let y:Spec B→T and
   z:Spec(A/I)→T be continuous and agree after the two maps out of Spec(B/K). Then y is constant on every fiber
   of Spec φ. K is the existing range-subring conductor and I=K.comap φ. The first three lemmas require only a
   ring map. Descent and the pushout require φ injective and integral. Use actual native spectra, quotient
@@ -2586,13 +2520,13 @@ The construction needs the following maps and laws.
   prime. Outside K use singleton fibers. Inside K lift both primes through B/K; their contractions to A/I
   agree because the quotient spectrum embeds in Spec A. Compatibility then equates their y-values.
 
-- `FerrandPushout.conductorSpecDesc_comap`: For every p∈Spec B, conductorSpecDesc evaluated at Spec φ(p)
+- For every p∈Spec B, conductor Spec descent evaluated at Spec φ(p)
   equals y(p). K is the existing range-subring conductor and I=K.comap φ. The first three lemmas require only
   a ring map. Descent and the pushout require φ injective and integral. Use actual native spectra, quotient
   rings, continuous maps and TopCat; global scheme gluing remains open. Uses §1.32,
   `Topology.IsQuotientMap.lift_comp`. Evaluate the native continuous quotient-lift composition identity at p.
 
-- `FerrandPushout.conductorSpecDesc_closed`: For every q∈Spec(A/I), the descent evaluated at the actual closed
+- For every q∈Spec(A/I), the descent evaluated at the actual closed
   inclusion of q equals z(q). K is the existing range-subring conductor and I=K.comap φ. The first three
   lemmas require only a ring map. Descent and the pushout require φ injective and integral. Use actual native
   spectra, quotient rings, continuous maps and TopCat; global scheme gluing remains open. Uses §1.32,
@@ -2601,21 +2535,21 @@ The construction needs the following maps and laws.
   Lift the closed point q to p∈Spec B by lying over. The contraction criterion puts K in p, so p lifts through
   B/K. Compatibility and injectivity of Spec(A/I)→Spec A give the required triangle.
 
-- `FerrandPushout.conductorSpecDesc_unique`: Any continuous m:Spec A→T with m∘Spec φ=y equals the specified
+- Any continuous m:Spec A→T with m∘Spec φ=y equals the specified
   descent. The source triangle alone suffices; no separation axiom is imposed on T. K is the existing
   range-subring conductor and I=K.comap φ. The first three lemmas require only a ring map. Descent and the
   pushout require φ injective and integral. Use actual native spectra, quotient rings, continuous maps and
   TopCat; global scheme gluing remains open. Uses §1.32, `RingHom.IsIntegral.comap_surjective`. Use
   surjectivity of Spec φ and the pointwise source triangle to prove equality of native continuous maps.
 
-- `FerrandPushout.conductorSpecDesc_natural`: For any continuous m:T→T′, postcomposing the specified descent
+- For any continuous m:T→T′, postcomposing the specified descent
   equals the specified descent of m∘y and m∘z with the transported compatibility proof. K is the existing
   range-subring conductor and I=K.comap φ. The first three lemmas require only a ring map. Descent and the
   pushout require φ injective and integral. Use actual native spectra, quotient rings, continuous maps and
   TopCat; global scheme gluing remains open. Uses §1.32. Apply the native uniqueness theorem to m composed
   with the descent, checking its source triangle pointwise.
 
-- `FerrandPushout.conductorSpec_isPushout`: For every injective integral φ:A→B, the actual underlying TopCat
+- For every injective integral φ:A→B, the actual underlying TopCat
   square Spec(B/K)→Spec B, Spec(B/K)→Spec(A/I), Spec B→Spec A, Spec(A/I)→Spec A is IsPushout. All four arrows
   are Scheme.forgetToTop applied to the specified native Spec maps. K is the existing range-subring conductor
   and I=K.comap φ. The first three lemmas require only a ring map. Descent and the pushout require φ injective
@@ -2657,23 +2591,21 @@ The construction needs the following maps and laws.
 
 ### 1.33 continuous descent through the global conductor
 
-For finite schematically dominant Y→P, construct `conductorGlobalDesc` from compatible continuous maps out of
+For finite schematically dominant Y→P, construct the conductor global descent from compatible continuous maps out of
 Y and `C_f`. The finite map is closed and schematic dominance makes its image dense, hence surjective. Prove
 fiber constancy using the actual source conductor and descend through this quotient map, including empty
 schemes and arbitrary topological targets.
 
-*Lean name:* `FerrandPushout.conductorGlobalDesc`.
-
 Y and P are arbitrary actual schemes in a common universe, f is finite and schematically dominant,
-I=conductorIdealSheaf f and J=I.comap f. Only the first lemma additionally assumes affine Y and P. Continuous
+I=I_f and J=I.comap f. Only the first lemma additionally assumes affine Y and P. Continuous
 targets may have independent universes, with no separation axioms. Retain nilpotents, empty schemes and the
-zero ring; use the actual native closed subschemes, conductorMap, ContinuousMap and TopCat.
+zero ring; use the actual native closed subschemes, conductor map, ContinuousMap and TopCat.
 
 ([Stacks, tag 0ET0](https://stacks.math.columbia.edu/tag/0ET0), Lemma37.14.1.)
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductor_affine_fiber_eq`: For a finite schematically dominant morphism of affine schemes
+- For a finite schematically dominant morphism of affine schemes
   f:Y→P, if x,x′∈Y have f(x)=f(x′) and x lies outside the support of the actual pulled-back conductor ideal J,
   then x=x′. Only the first lemma additionally assumes affine Y and P. Uses §1.32, §1.17,
   `AlgebraicGeometry.Scheme.isoSpec_hom_naturality`, `AlgebraicGeometry.Scheme.toSpecΓ_preimage_zeroLocus`,
@@ -2683,8 +2615,8 @@ The construction needs the following maps and laws.
   ideal computation give the off-conductor prime hypothesis. Apply the existing prime-fiber lemma and
   injectivity of the actual affine isomorphism.
 
-- `FerrandPushout.conductor_fiber_eq`: For any finite schematically dominant f:Y→P, points x,x′ with equal
-  images are equal if x is outside the support of J=(conductorIdealSheaf f).comap f. Neither scheme is
+- For any finite schematically dominant f:Y→P, points x,x′ with equal
+  images are equal if x is outside the support of J=I_f.comap f. Neither scheme is
   required to be affine. Only the first lemma additionally assumes affine Y and P. Uses §1.33, §1.17,
   `AlgebraicGeometry.exists_isAffineOpen_mem_and_subset`,
   `AlgebraicGeometry.Scheme.IdealSheafData.support_comap`, `AlgebraicGeometry.morphismRestrict_base_coe`,
@@ -2694,38 +2626,38 @@ The construction needs the following maps and laws.
   restriction. The actual conductor restriction identity and support_comap transport the off-conductor
   hypothesis. Apply the affine scheme-fiber lemma and take underlying points.
 
-- `FerrandPushout.conductor_global_factorsThrough`: For any topological target T and compatible continuous
+- For any topological target T and compatible continuous
   y:Y→T and `z:C_f→T`, y is constant on the fibers of f. Compatibility is with the actual inclusion `D_f→Y` and
-  actual conductorMap `f:D_f→C_f`. Only the first lemma additionally assumes affine Y and P. Uses §1.33, §1.17,
+  actual conductor map `f:D_f→C_f`. Only the first lemma additionally assumes affine Y and P. Uses §1.33, §1.17,
   `AlgebraicGeometry.Scheme.IdealSheafData.support_comap`,
   `AlgebraicGeometry.Scheme.IdealSheafData.range_subschemeι`. Outside J use the global singleton-fiber
   theorem. Inside J, support_comap puts both points in the same actual closed support; lift them through the
   native subscheme inclusions. The actual conductor square and the closed target inclusion identify their
-  conductorMap images. Evaluate compatibility on those lifts.
+  conductor map images. Evaluate compatibility on those lifts.
 
-- `FerrandPushout.conductorGlobalDesc_source`: For every p∈Y, conductorGlobalDesc f y z hc(f(p))=y(p). Only
+- For every p∈Y, conductor global descent f y z hc(f(p))=y(p). Only
   the first lemma additionally assumes affine Y and P. Uses §1.33, `Topology.IsQuotientMap.lift_comp`.
   Evaluate the native quotient-lift composition identity at p.
 
-- `FerrandPushout.conductorGlobalDesc_closed`: For every `q∈C_f`, the global descent at the actual conductor
+- For every `q∈C_f`, the global descent at the actual conductor
   closed inclusion of q equals z(q). Only the first lemma additionally assumes affine Y and P. Uses §1.33,
   §1.17, `AlgebraicGeometry.Scheme.IdealSheafData.support_comap`,
   `AlgebraicGeometry.Scheme.IdealSheafData.range_subschemeι`,
   `AlgebraicGeometry.surjective_of_isDominant_of_isClosed_range`. Lift the included point q through the finite
   surjective f. The native support pullback puts the lift in `D_f`. The actual conductor square and injectivity
-  of `C_f→P` identify its conductorMap image with q. Apply the source triangle and the original compatibility.
+  of `C_f→P` identify its conductor map image with q. Apply the source triangle and the original compatibility.
 
-- `FerrandPushout.conductorGlobalDesc_unique`: Any continuous m:P→T satisfying m(f(p))=y(p) for every p∈Y
+- Any continuous m:P→T satisfying m(f(p))=y(p) for every p∈Y
   equals the specified global descent. The source triangle alone suffices. Only the first lemma additionally
   assumes affine Y and P. Uses §1.33, `AlgebraicGeometry.surjective_of_isDominant_of_isClosed_range`. Use the
   actual surjective f to choose a preimage of each target point and compare the source-triangle values.
 
-- `FerrandPushout.conductorGlobalDesc_natural`: For every continuous m:T→T′, m composed with the specified
+- For every continuous m:T→T′, m composed with the specified
   global descent equals the specified descent for m∘y and m∘z and their transported compatibility. T′ also has
   an independent universe. Only the first lemma additionally assumes affine Y and P. Uses §1.33. Apply
   uniqueness to the postcomposed continuous map after checking the actual source triangle.
 
-- `FerrandPushout.conductor_global_topological`: For every finite schematically dominant f:Y→P,
+- For every finite schematically dominant f:Y→P,
   Scheme.forgetToTop sends the actual conductor square `D_f→Y`, `D_f→C_f`, Y→P and `C_f→P` to an IsPushout square in
   TopCat. No affine, Noetherian, reduced, separated, birational or nonempty hypothesis is added. Only the
   first lemma additionally assumes affine Y and P. Uses §1.33, §1.17, `CategoryTheory.IsPushout`,
@@ -2783,10 +2715,8 @@ For compatible scheme maps y:Y→T and `z:C_f→T`, with i≫y=g≫z as scheme m
 pullback and prove localness on stalks. Prove restriction, both factorization laws and uniqueness against
 arbitrary T. No separatedness or affine-target assumption is imposed.
 
-*Lean name:* `FerrandPushout.conductorSchemeDesc`.
-
 Y,P,T are actual schemes in a common universe; f:Y→P is finite and schematically dominant.
-I=conductorIdealSheaf f, J=I.comap f, `C_f=I.subscheme`, `D_f=J.subscheme`, i=J.subschemeι and g=conductorMap f.
+I=I_f, J=I.comap f, `C_f=I.subscheme`, `D_f=J.subscheme`, i=J.subschemeι and g=g_f.
 The supplied y:Y→T and `z:C_f→T` satisfy i≫y=g≫z as scheme morphisms, not merely as point maps. Every open is
 allowed. No affine, Noetherian, reduced, separated, birational, nonempty or separability assumption is added.
 
@@ -2794,79 +2724,79 @@ allowed. No affine, Noetherian, reduced, separated, birational, nonempty or sepa
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorDescBase_source`: The composite of the underlying map of f with d equals the
+- The composite of the underlying map of f with d equals the
   underlying map of y. Every open is allowed. Uses §1.34, §1.33. Use native TopCat extensionality and the
   existing pointwise source triangle.
 
-- `FerrandPushout.conductorDescBase_closed`: The composite of the actual inclusion `C_f→P` with d equals the
+- The composite of the actual inclusion `C_f→P` with d equals the
   underlying map of z. Every open is allowed. Uses §1.34, §1.33. Use native TopCat extensionality and the
   existing pointwise closed triangle.
 
-- `FerrandPushout.conductorDescBase_preimage_source`: For every open U of T, f⁻¹(d⁻¹U)=y⁻¹U as actual opens of
+- For every open U of T, f⁻¹(d⁻¹U)=y⁻¹U as actual opens of
   Y. Every open is allowed. Uses §1.34. Apply the inverse-image functor on opens to the actual source
   triangle.
 
-- `FerrandPushout.conductorDescBase_preimage_closed`: For every open U of T, the inverse image of d⁻¹U under
+- For every open U of T, the inverse image of d⁻¹U under
   `C_f→P` equals z⁻¹U as actual opens of `C_f`. Every open is allowed. Uses §1.34. Apply the inverse-image functor
   on opens to the actual closed triangle.
 
-- `FerrandPushout.conductorDescBase`: Given compatible scheme morphisms y:Y→T and `z:C_f→T`, define the native
+- Given compatible scheme morphisms y:Y→T and `z:C_f→T`, define the native
   TopCat morphism d:P→T by the existing continuous conductor descent applied to their actual underlying maps.
   Every open is allowed. Uses §1.33, `TopCat.ofHom`. Apply the actual continuous descent to the pointwise
   equality obtained by forgetting the supplied scheme square.
 
-- `FerrandPushout.conductorDescApp_compatible`: For every target open U, restrict the actual y and z section
+- For every target open U, restrict the actual y and z section
   maps using the two descent-preimage equalities. Their composites to `Γ(D_f,i⁻¹f⁻¹d⁻¹U)` agree through i.app
-  and the existing conductorChartMap. Every open is allowed. Uses §1.34, §1.17,
+  and the existing the conductor chart map. Every open is allowed. Uses §1.34, §1.17,
   `AlgebraicGeometry.Scheme.Hom.appLE_comp_appLE`, `AlgebraicGeometry.Scheme.Hom.app_eq_appLE`. Express both
   composites as appLE of i≫y and g≫z. The supplied equality of scheme morphisms identifies them, with
   dependent open-domain inequalities retained.
 
-- `FerrandPushout.conductorDescApp_source`: Composing the descended section map with f.app on d⁻¹U gives
+- Composing the descended section map with f.app on d⁻¹U gives
   y.appLE on the exact source inverse image. Every open is allowed. Uses §1.34,
   `CategoryTheory.IsPullback.lift_fst`. Apply the native pullback-lift first projection identity.
 
-- `FerrandPushout.conductorDescApp_closed`: Composing the descended section map with the actual `C_f→P` section
+- Composing the descended section map with the actual `C_f→P` section
   map gives z.appLE on the exact closed inverse image. Every open is allowed. Uses §1.34,
   `CategoryTheory.IsPullback.lift_snd`. Apply the native pullback-lift second projection identity.
 
-- `FerrandPushout.conductorDescApp_unique`: Any ring morphism Γ(T,U)→Γ(P,d⁻¹U) with both specified section
+- Any ring morphism Γ(T,U)→Γ(P,d⁻¹U) with both specified section
   projections equals the descended section map. Every open is allowed. Uses §1.34, §1.28,
   `CategoryTheory.IsPullback.hom_ext`. Use both projections of the actual ring pullback to compare the
   candidate morphisms.
 
-- `FerrandPushout.conductorDescApp_naturality`: For every restriction U→V in the opposite opens of T,
+- For every restriction U→V in the opposite opens of T,
   restriction followed by the V section map equals the U section map followed by restriction on the actual
   inverse-image opens of P. Every open is allowed. Uses §1.34, §1.28, `CategoryTheory.IsPullback.hom_ext`,
   `AlgebraicGeometry.Scheme.Hom.naturality`, `AlgebraicGeometry.Scheme.Hom.appLE_map`,
   `AlgebraicGeometry.Scheme.Hom.map_appLE`. Check the two pullback projections using the native naturality and
   appLE restriction identities. No basis-only or affine-open assertion substitutes for all-open naturality.
 
-- `FerrandPushout.conductorDescApp`: For each open U of T, construct the native commutative-ring morphism
+- For each open U of T, construct the native commutative-ring morphism
   Γ(T,U)→Γ(P,d⁻¹U) by the actual every-open conductor pullback and the two compatible restricted section maps.
   Every open is allowed. Uses §1.34, §1.28, `CategoryTheory.IsPullback.lift`. Use the native IsPullback lift;
   its carrier is the existing structure sheaf on P, not a replacement ring of pairs.
 
-- `FerrandPushout.conductorDescPresheaf`: Assemble the descended section maps into a native natural
-  transformation `O_T→d_*O_P` on all opens of T. Its components are exactly conductorDescApp and its naturality
+- Assemble the descended section maps into a native natural
+  transformation `O_T→d_*O_P` on all opens of T. Its components are exactly conductor descent component and its naturality
   is the proved restriction identity. Every open is allowed. Uses §1.34. Use the native presheaf pushforward
   and natural-transformation constructor, retaining actual components and the naturality witness in the
   planning signature.
 
-- `FerrandPushout.conductorDescRingedSpace_source`: Composing the underlying PresheafedSpace morphism of f
+- Composing the underlying PresheafedSpace morphism of f
   with the descended ringed-space map equals the underlying morphism of y, including the entire sheaf map.
   Every open is allowed. Uses §1.34, `AlgebraicGeometry.PresheafedSpace.ext`, `TopCat.Presheaf.ext`,
   `AlgebraicGeometry.Scheme.Hom.appLE_map`, `AlgebraicGeometry.Scheme.Hom.appLE_eq_app`. Use native
   extensionality, the actual base triangle, and the section projection after the required equality transport
   on opens. The native appLE composition removes the inverse transport.
 
-- `FerrandPushout.conductorDescRingedSpace_closed`: Composing the underlying actual `C_f→P` morphism with the
+- Composing the underlying actual `C_f→P` morphism with the
   descended ringed-space map equals the underlying morphism of z, including the entire sheaf map. Every open
   is allowed. Uses §1.34, `AlgebraicGeometry.PresheafedSpace.ext`, `TopCat.Presheaf.ext`,
   `AlgebraicGeometry.Scheme.Hom.appLE_map`, `AlgebraicGeometry.Scheme.Hom.appLE_eq_app`. Use the same native
   extensionality argument with the actual closed inclusion and its dependent inverse-image transport.
 
-- `FerrandPushout.conductorDescRingedSpace_isLocalHom`: At every point p of P, the descended map
+- At every point p of P, the descended map
   `O_T,d(p)→O_P,p` is a local ring homomorphism. Every open is allowed. Uses §1.34,
   `AlgebraicGeometry.Scheme.Hom.isClosedMap`, `AlgebraicGeometry.surjective_of_isDominant_of_isClosed_range`,
   `AlgebraicGeometry.PresheafedSpace.stalkMap.comp`, `AlgebraicGeometry.PresheafedSpace.stalkMap.congr_hom`,
@@ -2875,24 +2805,24 @@ The construction needs the following maps and laws.
   local; the native isLocalHom_of_comp theorem gives locality of the first factor. No stalkwise surjectivity
   or separability hypothesis is used.
 
-- `FerrandPushout.conductorDescRingedSpace`: Construct a native PresheafedSpace morphism from the underlying
-  ringed space of P to that of T, with base d and presheaf map conductorDescPresheaf. Both prescribed
+- Construct a native PresheafedSpace morphism from the underlying
+  ringed space of P to that of T, with base d and presheaf map conductor descent presheaf. Both prescribed
   presheaves are the actual structure sheaves; locality is proved separately. Every open is allowed. Uses
   §1.34, `AlgebraicGeometry.PresheafedSpace.Hom`. Pair the actual continuous map and actual natural
   transformation using the native morphism constructor; no new ringed-space carrier is introduced.
 
-- `FerrandPushout.conductorSchemeDesc_source`: The composite f≫conductorSchemeDesc equals y as an actual
+- The composite f≫conductor scheme descent equals y as an actual
   scheme morphism. Every open is allowed. Uses §1.34, `AlgebraicGeometry.Scheme.Hom.ext'`,
   `AlgebraicGeometry.LocallyRingedSpace.Hom.ext'`. Apply native scheme and locally ringed-space extensionality
   to the proved ringed-space source triangle.
 
-- `FerrandPushout.conductorSchemeDesc_closed`: The actual conductor inclusion `C_f→P` followed by
-  conductorSchemeDesc equals z as a scheme morphism. Every open is allowed. Uses §1.34,
+- The actual conductor inclusion `C_f→P` followed by
+  conductor scheme descent equals z as a scheme morphism. Every open is allowed. Uses §1.34,
   `AlgebraicGeometry.Scheme.Hom.ext'`, `AlgebraicGeometry.LocallyRingedSpace.Hom.ext'`. Apply native
   extensionality to the proved closed ringed-space triangle.
 
-- `FerrandPushout.conductorSchemeDesc_unique`: Any scheme morphism m:P→T with f≫m=y and `(C_f→P)≫m=z` equals
-  conductorSchemeDesc. T is an arbitrary scheme, including nonaffine and nonseparated targets. Every open is
+- Any scheme morphism m:P→T with f≫m=y and `(C_f→P)≫m=z` equals
+  conductor scheme descent. T is an arbitrary scheme, including nonaffine and nonseparated targets. Every open is
   allowed. Uses §1.34, `AlgebraicGeometry.Scheme.Hom.isClosedMap`,
   `AlgebraicGeometry.surjective_of_isDominant_of_isClosed_range`, `AlgebraicGeometry.Scheme.Hom.ext`,
   `AlgebraicGeometry.Scheme.Hom.appLE_comp_appLE`, `AlgebraicGeometry.Scheme.Hom.app_eq_appLE`. Surjectivity
@@ -2900,7 +2830,7 @@ The construction needs the following maps and laws.
   identify the section maps by the ring pullback uniqueness. Native scheme extensionality then proves
   equality.
 
-- `FerrandPushout.conductorSchemeDesc_natural`: For every scheme morphism m:T→T′, conductorSchemeDesc followed
+- For every scheme morphism m:T→T′, conductor scheme descent followed
   by m equals the descent of y≫m and z≫m with their transported compatibility. Every open is allowed. Uses
   §1.34. Apply scheme-descent uniqueness and the two actual triangles, using associativity.
 
@@ -2947,7 +2877,7 @@ The construction needs the following maps and laws.
 - The actual global quadratic normalization for q=t²−s over F₂(s) has its categorical conductor pushout,
   without separability or rational-branch hypotheses.
 
-- Construct the scheme morphism P→T whose underlying ringed-space morphism is conductorDescRingedSpace and
+- Construct the scheme morphism P→T whose underlying ringed-space morphism is conductor descent ringed space and
   whose locality witness is the proved local-stalk theorem.
 
 - Use actual all-open structure-sheaf maps and native scheme morphisms; retain nilpotents and the empty
@@ -2966,11 +2896,9 @@ The construction needs the following maps and laws.
 
 ### 1.35 scalar extension of the conductor cokernel
 
-Construct `conductorCokernelBaseChange:F⊗_A(B/span_A{1})≃ₗ[F](F⊗_A B)/span_F{1}` using tensor right exactness
+Construct the left comparison `E:F⊗_A(B/span_A{1})≃ₗ[F](F⊗_A B)/span_F{1}` using tensor right exactness
 and the actual unit-span comparison. This is the left F-action. The construction needs neither flatness nor
 finite generation and allows independent universes and noninjective coefficient maps.
-
-*Lean name:* `FerrandPushout.conductorCokernelBaseChange`.
 
 A,B,F,D,E are commutative rings in independent universes, including zero and nonreduced rings. B,F,D,E carry
 the indicated A-algebra structures; no finite, flat, faithful, injective, Noetherian or reduced hypothesis is
@@ -2984,22 +2912,22 @@ map or global ideal-sheaf pullbacks.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorUnitSpan_baseChange`: For any commutative A-algebra B and A-algebra F,
+- For any commutative A-algebra B and A-algebra F,
   `(span_A{1_B}).baseChange F` equals `span_F{1_(F⊗_A B)}` as actual F-submodules. No flatness, injectivity or
   finiteness is required. Uses `Submodule.baseChange_span`, `Algebra.TensorProduct.one_def`. Apply the native
   singleton-span base-change formula and identify 1⊗1 with the actual tensor-algebra unit.
 
-- `FerrandPushout.conductorCokernelBaseChange_tmul`: The conductor cokernel comparison sends s⊗[b] to [s⊗b]
+- The conductor cokernel comparison sends s⊗[b] to [s⊗b]
   for all s∈F and b∈B. Uses §1.35. Reduce the two actual native equivalence components on representatives.
 
-- `FerrandPushout.conductorCokernelBaseChange_symm_tmul`: The inverse comparison sends [s⊗b] to s⊗[b]. Uses
+- The inverse comparison sends [s⊗b] to s⊗[b]. Uses
   §1.35. Apply injectivity of the actual comparison and its inverse law.
 
-- `FerrandPushout.conductorCokernelBaseChange_scalar_zero`: The comparison sends s⊗[algebraMap A B(a)] to zero
+- The comparison sends s⊗[algebraMap A B(a)] to zero
   for every s∈F and a∈A. Uses §1.35, `Submodule.mem_span_singleton`. The class of algebraMap(a)=a•1 is zero in
   the native quotient before tensoring; use the actual equivalence map-zero law.
 
-- `FerrandPushout.conductorCokernelBaseChange_annihilator`: `Ann_F(F⊗_A(B/span_A{1}))` equals the inverse image
+- `Ann_F(F⊗_A(B/span_A{1}))` equals the inverse image
   under algebraMap `F (F⊗_A B)` of the actual conductor of its image subring. This unconditional equality
   identifies the recomputed conductor; it does not assert equality with the extension of `Ann_A(B/span_A{1})`.
   Uses §1.35, `LinearEquiv.annihilator_eq`, §1.13. Transport the annihilator through the actual F-linear
@@ -3007,12 +2935,12 @@ The construction needs the following maps and laws.
   universes because its inherited standalone header uses a common universe. Retain the full ideals and
   nilpotent elements.
 
-- `FerrandPushout.conductorCokernelBaseChange_natural`: For every h:B→D and `x∈F⊗_A(B/span_A{1})`, compare then
-  apply the cokernel map of the actual tensor algebra map `id_F⊗h` equals extend conductorCokernelMap(h) then
+- For every h:B→D and `x∈F⊗_A(B/span_A{1})`, compare then
+  apply the cokernel map of the actual tensor algebra map `id_F⊗h` equals extend h̄ then
   compare. The equality is on all tensors, with F-linearity retained.
 
-- `FerrandPushout.conductorCokernelBaseChange_natural_map`: The naturality equality is an equality of actual
-  F-linear maps: `E_D` ∘ `(id_F⊗conductorCokernelMap(h)) = conductorCokernelMap(id_F⊗h)` ∘ `E_B`.
+- The naturality equality is an equality of actual
+  F-linear maps: `E_D` ∘ `(id_F⊗h̄) = (id_F⊗h)‾`, with h̄ the induced cokernel map ∘ `E_B`.
 
 **Checks.**
 
@@ -3032,7 +2960,7 @@ The construction needs the following maps and laws.
   element.
 
 - Construct the actual F-linear equivalence `F⊗_A(B/span_A{1}) ≃ (F⊗_A B)/span_F{1}` by the existing
-  tensorQuotientEquiv followed by quotient transport through conductorUnitSpan_baseChange. Both carriers are
+  tensorQuotientEquiv followed by quotient transport through conductor unit span base change. Both carriers are
   native module quotients.
 
 - Use the actual unit-image submodules, tensor-algebra maps and native module quotients, retaining nilpotents.
@@ -3042,11 +2970,9 @@ The construction needs the following maps and laws.
 
 ### 1.36 the conductor cokernel map of an algebra morphism
 
-For an A-algebra homomorphism h:B→D, construct `conductorCokernelMap` on quotients by the unit spans. Its
+For an A-algebra homomorphism h:B→D, construct the conductor cokernel map on quotients by the unit spans. Its
 formula sends [b] to [h(b)]. Prove identity, composition, linearity and tensor naturality; unit preservation
 gives well-definedness without assuming injectivity or surjectivity.
-
-*Lean name:* `FerrandPushout.conductorCokernelMap`.
 
 A,B,F,D,E are commutative rings in independent universes, including zero and nonreduced rings. B,F,D,E carry
 the indicated A-algebra structures; no finite, flat, faithful, injective, Noetherian or reduced hypothesis is
@@ -3060,31 +2986,31 @@ map or global ideal-sheaf pullbacks.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorCokernelMap_mk`: The actual cokernel map of h sends [b] to [h(b)]. Uses §1.36.
+- The actual cokernel map of h sends [b] to [h(b)]. Uses §1.36.
   Reduce the native mapQ component on a quotient representative.
 
-- `FerrandPushout.conductorCokernelMap_id`: For the identity A-algebra morphism on B, conductorCokernelMap
+- For the identity A-algebra morphism on B, the cokernel map
   equals the native identity linear map on `B/span_A{1}`. Uses §1.36. Use quotient-linear-map extensionality and
   the actual identity algebra map.
 
-- `FerrandPushout.conductorCokernelMap_comp`: For h:B→D and g:D→E, the conductor cokernel map of g∘h equals
-  conductorCokernelMap(g) composed with conductorCokernelMap(h), as actual A-linear maps. Uses §1.36. Use
+- For h:B→D and g:D→E, the conductor cokernel map of g∘h equals
+  ḡ composed with h̄, as actual A-linear maps. Uses §1.36. Use
   native quotient-map extensionality and the actual composed algebra morphism on representatives.
 
-- `FerrandPushout.conductorCokernelMap_surjective`: If an actual A-algebra morphism h:B→D is surjective, its
+- If an actual A-algebra morphism h:B→D is surjective, its
   conductor cokernel map is surjective. No claim is made for injective h. Uses §1.36,
   `Submodule.Quotient.mk_surjective`. Lift an actual target quotient class to D and then lift its
   representative along the supplied surjective algebra morphism.
 
-- `FerrandPushout.conductorCokernelBaseChange_natural`: For every h:B→D and `x∈F⊗_A(B/span_A{1})`, compare then
-  apply the cokernel map of the actual tensor algebra map `id_F⊗h` equals extend conductorCokernelMap(h) then
+- For every h:B→D and `x∈F⊗_A(B/span_A{1})`, compare then
+  apply the cokernel map of the actual tensor algebra map `id_F⊗h` equals extend h̄ then
   compare. The equality is on all tensors, with F-linearity retained. Uses §1.35, §1.36,
   `TensorProduct.AlgebraTensorModule.map`, `Algebra.TensorProduct.map`, `Submodule.Quotient.mk_surjective`.
   Use native tensor induction; zero and addition use the actual linear maps. On pure tensors lift the quotient
   representative and reduce both actual paths to the same class [s⊗h(b)].
 
-- `FerrandPushout.conductorCokernelBaseChange_natural_map`: The naturality equality is an equality of actual
-  F-linear maps: `E_D` ∘ `(id_F⊗conductorCokernelMap(h)) = conductorCokernelMap(id_F⊗h)` ∘ `E_B`. Uses §1.36. Apply
+- The naturality equality is an equality of actual
+  F-linear maps: `E_D` ∘ `(id_F⊗h̄) = (id_F⊗h)‾`, with h̄ the induced cokernel map ∘ `E_B`. Uses §1.36. Apply
   native linear-map extensionality to the all-tensor equality.
 
 **Checks.**
@@ -3115,11 +3041,9 @@ The construction needs the following maps and laws.
 ### 1.37 the right-oriented conductor cokernel comparison
 
 Compose the left-oriented comparison with the tensor-swap quotient equivalence to construct
-`conductorCokernelRightBaseChange:F⊗_A(B/span_A{1})≃ₗ[F](B⊗_A F)/span_F{1}`. The target uses the actual right
+the right comparison `E′:F⊗_A(B/span_A{1})≃ₗ[F](B⊗_A F)/span_F{1}`. The target uses the actual right
 F-algebra structure. Identify the right include map and recomputed contracted conductor before applying flat
 annihilator comparison.
-
-*Lean name:* `FerrandPushout.conductorCokernelRightBaseChange`.
 
 A,B,F are commutative rings in a common universe; zero rings and nonreduced rings are allowed. B and F carry
 the indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action; `B⊗_A F` and its unit
@@ -3130,65 +3054,66 @@ finite-presentation condition is assumed. F-flatness and B-finiteness occur only
 01JO](https://stacks.math.columbia.edu/tag/01JO), Section26.17, Lemmas26.17.2–4 and26.17.6(1); conductor
 deduction also uses07T8.)
 
-Standing hypotheses for the maps and laws below: Only the finite, schematically dominant and flat hypotheses
-explicitly stated are assumed. No Noetherian, reduced, separated, faithful-flat, birational or
-quasi-compactness hypothesis on the base-change target is added.
+Standing hypotheses for the maps and laws below: every statement is about commutative rings and modules;
+only the finite and flat hypotheses explicitly stated are assumed. No Noetherian, reduced, faithful-flat or
+birational hypothesis is added, and no scheme or ideal-sheaf statement is used, so this section precedes
+§1.14.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorUnitSpan_swap`: The native F-algebra equivalence commRight from `F⊗_A B` to `B⊗_A F`
+- The native F-algebra equivalence commRight from `F⊗_A B` to `B⊗_A F`
   maps the actual F-unit span onto the actual F-unit span; the target uses the native right F-action. B and F
   carry the indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses
   `Submodule.map_span`, `Algebra.TensorProduct.commRight`. Apply native map_span and the actual algebra
   equivalence map-one law.
 
-- `FerrandPushout.conductorUnitQuotientSwap_mk`: The quotient swap sends [s⊗b] to [b⊗s] for s∈F and b∈B. B and
+- The quotient swap sends [s⊗b] to [b⊗s] for s∈F and b∈B. B and
   F carry the indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses §1.37,
   `Algebra.TensorProduct.commRight_tmul`, `Submodule.Quotient.equiv_apply`. Reduce native quotient transport
   and commRight on an actual representative.
 
-- `FerrandPushout.conductorUnitQuotientSwap_symm_mk`: The inverse quotient swap sends [b⊗s] to [s⊗b]. B and F
+- The inverse quotient swap sends [b⊗s] to [s⊗b]. B and F
   carry the indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses §1.37. Use
   the actual equivalence injectivity and inverse law.
 
-- `FerrandPushout.conductorUnitQuotientSwap_annihilator`: The full F-annihilator of `(F⊗_A B)/span_F{1}` equals
+- The full F-annihilator of `(F⊗_A B)/span_F{1}` equals
   that of `(B⊗_A F)/span_F{1}`, with the latter carrying the native right F-action. B and F carry the indicated
   A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses §1.37,
   `LinearEquiv.annihilator_eq`. Apply native annihilator invariance to this actual F-linear equivalence.
 
-- `FerrandPushout.conductorUnitQuotientSwap`: Construct the actual F-linear equivalence `(F⊗_A B)/span_F{1} ≃`
+- Construct the actual F-linear equivalence `(F⊗_A B)/span_F{1} ≃`
   `(B⊗_A F)/span_F{1}` induced by native commRight. Both carriers are the native module quotients. B and F carry
   the indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses §1.37,
   `Submodule.Quotient.equiv`, `Algebra.TensorProduct.commRight`. Use native quotient equiv with the exact
   unit-span image equality; no generic tensor commutativity equivalence is replanned.
 
-- `FerrandPushout.conductorCokernelRightBaseChange_tmul`: The right-oriented conductor comparison sends s⊗[b]
+- The right-oriented conductor comparison sends s⊗[b]
   to [b⊗s]. B and F carry the indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action;
   Uses §1.37, §1.35. Reduce the two actual equivalence components on tensor representatives.
 
-- `FerrandPushout.conductorCokernelRightBaseChange_symm_tmul`: The inverse right-oriented comparison sends
+- The inverse right-oriented comparison sends
   [b⊗s] to s⊗[b]. B and F carry the indicated A-algebra structures. The source `F⊗_A B` uses its native left
   F-action; Uses §1.37. Apply the actual comparison injectivity and inverse law.
 
-- `FerrandPushout.conductorCokernelRightBaseChange_scalar_zero`: The right-oriented comparison sends
+- The right-oriented comparison sends
   s⊗[algebraMap A B(a)] to zero for every s∈F and a∈A. B and F carry the indicated A-algebra structures. The
   source `F⊗_A B` uses its native left F-action; Uses §1.37, §1.35. Use the left comparison scalar-zero formula
   and the quotient swap map-zero law.
 
-- `FerrandPushout.conductorCokernelRightBaseChange_annihilator`: `Ann_F(F⊗_A(B/span_A{1}))` equals the inverse
+- `Ann_F(F⊗_A(B/span_A{1}))` equals the inverse
   image under the actual includeRight ring map `F→B⊗_A F` of the conductor of that map’s image subring. This is
   an equality of full ideals. B and F carry the indicated A-algebra structures. The source `F⊗_A B` uses its
   native left F-action; Uses §1.37, `LinearEquiv.annihilator_eq`, §1.13. Transport annihilators through the
   actual right comparison and specialize the existing §1.13 equality to the native right F-algebra structure.
   The algebra map is definitionally includeRight.
 
-- `FerrandPushout.conductorRightMap_injective`: If A→B is injective and F is flat as an A-module, then the
+- If A→B is injective and F is flat as an A-module, then the
   actual includeRight ring map `F→B⊗_A F` is injective. No finiteness hypothesis is needed. B and F carry the
   indicated A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses
   `Algebra.TensorProduct.includeRight_injective`. Specialize the pinned native flat tensor inclusion
   injectivity theorem; no generic flat tensor theorem is replanned.
 
-- `FerrandPushout.conductorRightAnnihilator_flat`: If B is finite as an A-module and F is flat as an A-module,
+- If B is finite as an A-module and F is flat as an A-module,
   then the extension to F of `Ann_A(B/span_A{1})` equals the actual recomputed conductor inverse image for
   `includeRight:F→B⊗_A F`. This full-ideal equality does not need A→B injective. B and F carry the indicated
   A-algebra structures. The source `F⊗_A B` uses its native left F-action; Uses SchemeAndStackFoundations SF.0,
@@ -3196,48 +3121,17 @@ The construction needs the following maps and laws.
   exact SchemeAndStackFoundations SF.0 finite-module flat-annihilator export, then identify the actual right
   recomputed conductor by the new comparison.
 
-- `FerrandPushout.conductor_comap_pushout`: For an actual CommRingCat pushout A→B, A→F, B→D, F→D, if A→B is
+- For an actual CommRingCat pushout A→B, A→F, B→D, F→D, if A→B is
   finite and A→F is flat, extending the full inverse-image conductor ideal of A→B to F gives the full
   inverse-image conductor ideal of F→D. Injectivity of A→B is not needed for this ideal equality. Four
   commutative rings in a common universe; the specified square is a categorical pushout, its original map is
-  finite and its base-change map is flat. The original map need not be injective. Uses §1.37, §1.13, §1.16,
+  finite and its base-change map is flat. The original map need not be injective. Uses §1.37, §1.13, §1.2,
   `CommRingCat.isPushout_tensorProduct`, `CategoryTheory.IsPushout.isoIsPushout`,
   `CategoryTheory.IsPushout.inr_isoIsPushout_hom`. Use the native tensor-product pushout and its unique
   comparison with the given pushout. Its actual right inclusion commutes with F→D. Rewrite the finite flat
   annihilator result as the original conductor, then transport the recomputed conductor by the actual
-  comparison ring equivalence.
-
-- `FerrandPushout.conductorIdealSheaf_comap_chart`: For finite schematically dominant f:Y→P, any q:T→P, affine
-  U⊂P and affine V⊂T with V⊂q⁻¹U, the V-ideal of (conductorIdealSheaf f).comap q equals the extension of the
-  U-conductor ideal along the actual q.appLE U V. Neither q-affineness nor q-flatness is required. Schemes and
-  section rings lie in a common universe. Zero rings and nonreduced rings are allowed. Uses
-  SchemeAndStackFoundations SF.0, ideal-comap-top, SchemeAndStackFoundations SF.0, ideal-restrict-top, §1.16,
-  `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`, `AlgebraicGeometry.Scheme.Hom.resLE_comp_ι`,
-  `AlgebraicGeometry.Scheme.Hom.resLE_app_top`, `Ideal.comap_injective_of_surjective`,
-  `Ideal.map_comap_of_surjective`, `Ideal.map_symm`. Restrict q to V→U and consume the
-  SchemeAndStackFoundations SF.0 native affine ideal-pullback formula. Use native composition of ideal
-  pullbacks and resLE_comp_ι. Transport along the two actual topIso section isomorphisms and cancel the
-  surjective source topIso. This conductor specialization imports the generic ideal theory without replanning
-  it.
-
-- `FerrandPushout.conductor_flat_chart`: For finite schematically dominant f:Y→P and flat q:T→P, on every
-  affine V⊂q⁻¹U with U affine, the recomputed conductor of pullback.snd f q on V equals the extension of the
-  original U-conductor along q.appLE U V. All ideals are full ideals. Schemes and section rings lie in a
-  common universe. Zero rings and nonreduced rings are allowed. Uses §1.37, §1.16,
-  `AlgebraicGeometry.isIso_pushoutSection_of_isAffineOpen`, `AlgebraicGeometry.isIso_pushoutSection_iff`,
-  `AlgebraicGeometry.Scheme.Hom.finite_app`, `AlgebraicGeometry.Scheme.Hom.flat_appLE`,
-  `AlgebraicGeometry.Scheme.Hom.app_eq_appLE`, `CategoryTheory.Limits.pullback.condition`. The inverse image
-  of V under pullback.snd is the intersection of its inverse image with the pullback of f⁻¹U. Native
-  affine-section comparison makes the actual four section maps a ring pushout. Apply conductor_comap_pushout
-  with native finite_app and flat_appLE, then identify both actual conductorIdealSheaf affine ideals.
-
-- `FerrandPushout.conductorSourceIdeal_flat`: For finite schematically dominant f:Y→P and flat q:T→P, the
-  source conductor ideal of the base-changed map equals the pullback along pullback.fst f q of the original
-  source ideal (conductorIdealSheaf f).comap f. Schemes and section rings lie in a common universe. Zero rings
-  and nonreduced rings are allowed. Uses §1.20, `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`,
-  `CategoryTheory.Limits.pullback.condition`. Rewrite the recomputed target conductor by the exact global flat
-  comparison. Native ideal-pullback composition and the actual scheme pullback square identify the two source
-  ideals.
+  comparison ring equivalence, expanding §1.2 conductor membership along that equivalence. No sheaf-level
+  statement is used.
 
 **Checks.**
 
@@ -3258,8 +3152,8 @@ The construction needs the following maps and laws.
 - For the actual quotient algebra Z/4→Z/2 the right comparison sends 1⊗[(2,0)] to zero, despite the preceding
   nonzero original quotient class.
 
-- For the finite injective diagonal Z/4→Z/4×Z/4 and the flat identity extension F=Z/4, the exact existing
-  conductor_flat_baseChange conjunction holds with the actual includeRight map and full conductor ideals.
+- For the finite injective diagonal Z/4→Z/4×Z/4 and the flat identity extension F=Z/4, the extended and
+  recomputed conductors agree for the actual includeRight map, with full conductor ideals (both are zero).
 
 - For that actual finite diagonal algebra and flat identity extension, includeRight sends the nonzero
   nilpotent 2∈Z/4 to a nonzero element of `(Z/4×Z/4)⊗_(Z/4)Z/4`.
@@ -3267,22 +3161,21 @@ The construction needs the following maps and laws.
 - The actual right inclusion `Z/1→Z/1⊗_(Z/1)Z/1` is injective.
 
 - Construct `F⊗_A(B/span_A{1}) ≃_F (B⊗_A F)/span_F{1}`, with the actual right F-module structure on the target,
-  by composing the existing left-oriented comparison with conductorUnitQuotientSwap. No flatness or
+  by composing the existing left-oriented comparison with conductor unit quotient swap. No flatness or
   finite-module hypothesis is needed.
 
 - Keep the actual right-oriented ring map and full ideals, including nilpotents.
 
 *Needs:* `Submodule.map_span`; `Algebra.TensorProduct.commRight`; `Submodule.Quotient.equiv`;
-`Algebra.TensorProduct.commRight_tmul`; `Submodule.Quotient.equiv_apply`; `LinearEquiv.annihilator_eq`; §1.35.
+`Algebra.TensorProduct.commRight_tmul`; `Submodule.Quotient.equiv_apply`; `LinearEquiv.annihilator_eq`; §1.35;
+§1.13; §1.2; SchemeAndStackFoundations SF.0, flat-annihilator; `CommRingCat.isPushout_tensorProduct`.
 
 ### 1.38 the actual target conductor subscheme base-change isomorphism
 
-For flat q:T→P, construct `conductorTargetBaseChangeIso` from the recomputed target conductor of `f_q` to `T×_P`
+For flat q:T→P, construct the conductor target base change isomorphism from the recomputed target conductor of `f_q` to `T×_P`
 `C_f`. Transport the full ideal-sheaf equality through the native closed-subscheme construction and `comapIso`.
 Prove its two projection equations, its section-coordinate formula and compatibility with the recomputed
 conductor square.
-
-*Lean name:* `FerrandPushout.conductorTargetBaseChangeIso`.
 
 Schemes lie in a common universe. The original morphism f is finite and schematically dominant; q is an
 arbitrary flat morphism. Native instances supply finiteness and schematic dominance of its actual base change.
@@ -3304,7 +3197,7 @@ theories remain imported.
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorIdealSheaf_flat_tower`: For finite schematically dominant f:Y→P and flat q:T→P and
+- For finite schematically dominant f:Y→P and flat q:T→P and
   r:Z→T, the conductor of the iterated pullback map to Z equals the pullback of the original conductor along
   r≫q. Schemes and section rings lie in a common universe. Zero rings and nonreduced rings are allowed. Only
   the finite, schematically dominant and flat hypotheses explicitly stated are assumed. No Noetherian,
@@ -3313,38 +3206,38 @@ The construction needs the following maps and laws.
   comparison twice and native comap_comp. Native instances supply finiteness and schematic dominance after the
   first flat base change. No identification of the two iterated pullback scheme carriers is silently assumed.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_hom_fst`: The forward target conductor comparison followed by
+- The forward target conductor comparison followed by
   the native first pullback projection equals the recomputed conductor closed inclusion into T. Schemes lie in
   a common universe. Uses §1.38, `AlgebraicGeometry.Scheme.IdealSheafData.comapIso_hom_fst`. Compute the
   native comapIso first projection. Equality elimination on the full ideal data identifies its transported
   inclusion with the actual recomputed inclusion.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_hom_snd_inclusion`: The forward target comparison followed by
+- The forward target comparison followed by
   the native second projection and the old conductor inclusion equals the recomputed conductor inclusion
   followed by q. Schemes lie in a common universe. Uses §1.38, `CategoryTheory.Limits.pullback.condition`. Use
   the actual native pullback square and the proved first-projection identity.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_inv_inclusion`: The inverse target comparison followed by the
+- The inverse target comparison followed by the
   recomputed conductor inclusion equals the native first projection of the old conductor pullback. Schemes lie
   in a common universe. Uses §1.38. Rewrite the recomputed inclusion by the forward projection equation and
   cancel the actual inverse/forward isomorphism pair.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_isPullback`: The recomputed target inclusion, the forward
+- The recomputed target inclusion, the forward
   comparison followed by the second projection, q and the original target inclusion form a native IsPullback
   square with those exact morphisms. Schemes lie in a common universe. Uses §1.38,
   `CategoryTheory.IsPullback.of_iso_pullback`. Supply the actual comparison isomorphism and both projection
   equations to the native cartesian-square criterion.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_nonzero`: Let f:Y→P be finite and schematically dominant and
+- Let f:Y→P be finite and schematically dominant and
   q:T→P flat. Every nonzero global section z of the actual recomputed target conductor subscheme remains
-  nonzero under the section map induced by the inverse of the actual conductorTargetBaseChangeIso(f,q). All
+  nonzero under the section map induced by the inverse of the actual conductor target base change isomorphism(f,q). All
   schemes in a statement share an arbitrary universe. Uses §1.38, `AlgebraicGeometry.Scheme.Γ`,
   `CategoryTheory.Functor.mapIso`. Apply the native global-section functor to the opposite of the symmetric
   actual scheme isomorphism. Cancel its inverse after an assumed zero image. A local proof fact about
   arbitrary scheme isomorphisms keeps the conductor construction opaque during kernel checking; it adds no
   generic public carrier.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_nilpotent_section`: Let f:Y→P be finite and schematically
+- Let f:Y→P be finite and schematically
   dominant, q:T→P flat and T affine. If a in Γ(T,top) lies outside the top ideal of `I_f.comap q` and `a^n=0`,
   there is a nonzero section z of the actual recomputed conductor subscheme with `z^n=0` whose image under the
   inverse target-comparison section map is nonzero. All schemes in a statement share an arbitrary universe.
@@ -3352,7 +3245,7 @@ The construction needs the following maps and laws.
   Apply the preceding quotient-section lemma and nonzero-comparison lemma. No nilpotence is inferred merely
   from a ring used as a surrogate for the actual subscheme.
 
-- `FerrandPushout.conductor_diagonal_nilpotent_section`: For every commutative ring R, n in the natural
+- For every commutative ring R, n in the natural
   numbers and a≠0 in R with `a^n=0`, the diagonal Spec(R×R)→Spec(R), after identity base change, has an actual
   target conductor global section z≠0 with `z^n=0`, and the actual inverse target-comparison section map keeps z
   nonzero. Finiteness and schematic dominance are supplied by the preceding lemmas. All schemes in a statement
@@ -3367,7 +3260,7 @@ The construction needs the following maps and laws.
   inverse roundtrip, preserves the recomputed closed inclusion and supplies the exact native cartesian target
   square.
 
-- The actual recomputed conductorMap and the two actual comparison isomorphisms satisfy the square with native
+- The actual recomputed conductor map and the two actual comparison isomorphisms satisfy the square with native
   pullback.map on the original conductor morphism and the actual source/target projections.
 
 - For any flat base change of an identity scheme morphism, both actual recomputed conductor closed subschemes
@@ -3406,12 +3299,10 @@ The construction needs the following maps and laws.
 
 ### 1.39 the actual source conductor subscheme base-change isomorphism
 
-Construct `conductorSourceBaseChangeIso` from the recomputed source conductor of `f_q` to `Y_T×_Y D_f`, using the
+Construct the conductor source base change isomorphism from the recomputed source conductor of `f_q` to `Y_T×_Y D_f`, using the
 full source-ideal equality along the native pullback first projection. Prove the actual source inclusion and
-conductorMap commute with the target comparison. Equality of ambient reduced closed sets would not supply this
+conductor map commute with the target comparison. Equality of ambient reduced closed sets would not supply this
 isomorphism.
-
-*Lean name:* `FerrandPushout.conductorSourceBaseChangeIso`.
 
 Schemes lie in a common universe. The original morphism f is finite and schematically dominant; q is an
 arbitrary flat morphism. Native instances supply finiteness and schematic dominance of its actual base change.
@@ -3427,50 +3318,50 @@ carrier/isomorphism coherence and generic Ferrand existence remain separate open
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_hom_fst`: The forward source conductor comparison followed by
+- The forward source conductor comparison followed by
   the first native pullback projection equals the recomputed source conductor inclusion into the actual
   base-changed source scheme. Schemes lie in a common universe. Uses §1.39,
   `AlgebraicGeometry.Scheme.IdealSheafData.comapIso_hom_fst`. Compute the native first projection and
   eliminate the equality of the full source ideal data to compare the transported inclusions.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_hom_snd_inclusion`: The forward source comparison followed by
+- The forward source comparison followed by
   the native second projection and the old source conductor inclusion equals the recomputed source inclusion
   followed by pullback.fst f q. Schemes lie in a common universe. Uses §1.39,
   `CategoryTheory.Limits.pullback.condition`. Use the native source pullback square and its actual
   first-projection identity.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_inv_inclusion`: The inverse source comparison followed by the
+- The inverse source comparison followed by the
   recomputed source conductor inclusion equals the native first projection of the pullback of the old source
   conductor. Schemes lie in a common universe. Uses §1.39. Use the actual forward projection identity and the
   native inverse/forward isomorphism cancellation.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_isPullback`: The recomputed source conductor inclusion, forward
+- The recomputed source conductor inclusion, forward
   comparison followed by second projection, pullback.fst f q and original source conductor inclusion form a
   native IsPullback square with those exact morphisms. Schemes lie in a common universe. Uses §1.39,
   `CategoryTheory.IsPullback.of_iso_pullback`. Apply the native cartesian-square criterion to the actual
   source comparison isomorphism and projection identities.
 
-- `FerrandPushout.conductorMap_baseChange_square`: The recomputed conductorMap followed by the target
+- The recomputed g_followed by the target
   comparison equals the source comparison followed by the native pullback.map induced by the actual
-  base-change source/target projections, original conductorMap and original f. The two defining squares are
-  the actual scheme pullback condition and original conductorMap inclusion square. Schemes lie in a common
+  base-change source/target projections, original conductor map and original f. The two defining squares are
+  the actual scheme pullback condition and original conductor map inclusion square. Schemes lie in a common
   universe. Uses §1.38, §1.39, §1.17, `CategoryTheory.Limits.pullback.map`,
   `CategoryTheory.Limits.pullback.condition`. Compose both sides with the inverse target comparison. The
-  actual conductorMap uniqueness lemma reduces equality to the closed-inclusion square; the native
+  uniqueness of the conductor map reduces equality to the closed-inclusion square; the native
   first-projection formula and the source/target inclusion equations prove that square.
 
-- `FerrandPushout.conductorMap_baseChange_inverse_square`: The inverse source comparison followed by the
-  recomputed conductorMap equals the native base-changed original conductorMap followed by the inverse target
+- The inverse source comparison followed by the
+  recomputed conductor map equals the native base-changed original g_followed by the inverse target
   comparison, as actual scheme morphisms. Schemes lie in a common universe. Uses §1.39. Compose the proved
   forward square with the actual inverse source and target comparisons and use the native isomorphism
   identities.
 
-- `FerrandPushout.conductorMap_square`: For finite schematically dominant f:Y to P, the actual conductorMap f
+- For finite schematically dominant f:Y to P, the actual g_f
   followed by the target conductor closed inclusion equals the source conductor closed inclusion followed by
   f. Schemes in a common universe; f is finite and schematically dominant. No base-change morphism or flatness
   hypothesis is needed. Uses §1.17, `AlgebraicGeometry.Scheme.IdealSheafData.comapIso_hom_fst`,
-  `CategoryTheory.Limits.pullback.condition`. Promote the exact existing conductorMap_square API without
-  changing its declaration or hypotheses. Its retained native proof unfolds conductorMap and uses the native
+  `CategoryTheory.Limits.pullback.condition`. Promote the cartesian square of §1.17 without
+  changing its declaration or hypotheses. Its retained native proof unfolds the conductor map and uses the native
   pullback condition and comapIso_hom_fst projection identity. The base-changed conductor map is built on this
   square.
 
@@ -3479,7 +3370,7 @@ The construction needs the following maps and laws.
 - For arbitrary f and flat q, the actual source isomorphism has its native inverse roundtrip, preserves the
   actual recomputed source inclusion and supplies the exact native cartesian source square.
 
-- The actual recomputed conductorMap and the two actual comparison isomorphisms satisfy the square with native
+- The actual recomputed conductor map and the two actual comparison isomorphisms satisfy the square with native
   pullback.map on the original conductor morphism and the actual source/target projections.
 
 - For any flat base change of an identity scheme morphism, both actual recomputed conductor closed subschemes
@@ -3501,21 +3392,19 @@ The construction needs the following maps and laws.
 - Use actual recomputed conductor closed subschemes and their actual inclusion/projection morphisms; preserve
   nilpotent sections and the empty zero-ring case.
 
-*Needs:* §1.37; §1.16; `CategoryTheory.eqToIso`; `AlgebraicGeometry.Scheme.IdealSheafData.comapIso`.
+*Needs:* §1.20; §1.16; `CategoryTheory.eqToIso`; `AlgebraicGeometry.Scheme.IdealSheafData.comapIso`.
 
 ### 1.40 the target conductor carrier comparison for a flat tower
 
-For a flat tower Z→T→P, construct `conductorTargetTowerIso` between twice and directly recomputed target
+For a flat tower Z→T→P, construct the conductor target tower isomorphism between twice and directly recomputed target
 conductor subschemes of Z. Both full ideals equal the pullback of the original conductor along the composite.
 Prove the inclusion equation and agreement with the iterated base-change isomorphisms; then prove three-step
 coherence by uniqueness over the closed inclusion.
 
-*Lean name:* `FerrandPushout.conductorTargetTowerIso`.
-
 Schemes in a common universe; f:Y→P finite and schematically dominant; q:T→P and r:Z→T flat. Native
 base-change and composition instances supply the required hypotheses. `C_g` denotes the native closed subscheme
-of the full conductorIdealSheaf(g); `i_g` is its actual closed inclusion. `e_(g,a)` is the existing
-conductorTargetBaseChangeIso(g,a). Composition is written in traversal order in the declarations. No affine,
+of the full conductor ideal sheaf I_g; `i_g` is its actual closed inclusion. `e_(g,a)` is the target
+conductor base-change isomorphism for g and a. Composition is written in traversal order. No affine,
 Noetherian, reduced, separated, birational, faithfully-flat or nonempty assumption is added. These are
 target-conductor comparisons; source-carrier tower coherence and three-step coherence remain distinct
 obligations.
@@ -3525,62 +3414,62 @@ Lemma26.17.6(1).)
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorTargetTowerIso_hom_inclusion`: The forward carrier comparison t.hom followed by the
+- The forward carrier comparison t.hom followed by the
   direct recomputed target conductor inclusion into Z equals the twice-recomputed target conductor inclusion
   into Z. Uses §1.40. Eliminate the equality of full ideal data used by t; the transported closed inclusion
   becomes the original inclusion.
 
-- `FerrandPushout.conductorTargetTowerIso_inv_inclusion`: The inverse carrier comparison t.inv followed by the
+- The inverse carrier comparison t.inv followed by the
   twice-recomputed target conductor inclusion equals the direct recomputed target conductor inclusion. Uses
   §1.40. Rewrite the twice-recomputed inclusion using the forward formula and cancel the inverse-forward pair.
 
-- `FerrandPushout.conductorTargetTowerIso_unique`: Every actual morphism from the twice-recomputed target
+- Every actual morphism from the twice-recomputed target
   conductor subscheme to the direct recomputed one whose composite with the direct closed inclusion is the
   twice-recomputed inclusion equals t.hom. Uses §1.40, `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι`.
   Cancel the native monomorphism given by the direct closed-subscheme inclusion; use the proved forward
   inclusion equation.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_tower`: As whole native scheme isomorphisms, `e_(f_q,r)` followed
-  by h equals t followed by `e_(f,r∘q)`, where e is the existing conductorTargetBaseChangeIso. All four corners
+- As whole native scheme isomorphisms, `e_(f_q,r)` followed
+  by h equals t followed by `e_(f,r∘q)`, where e is the existing conductor target base change isomorphism. All four corners
   are the actual recomputed conductor subschemes or native scheme pullbacks. Uses §1.40, §1.38,
   `CategoryTheory.Iso.ext`, `CategoryTheory.Limits.pullback.fst_of_mono`. Use native Iso.ext. Cancel the first
   projection of the direct pullback, which is monic because the old conductor inclusion is monic. Both
   composites with it equal the twice-recomputed closed inclusion by the three listed projection identities.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_tower_inverse`: The composite h.inv followed by `e_(f_q,r).inv`
+- The composite h.inv followed by `e_(f_q,r).inv`
   equals `e_(f,r∘q).inv` followed by t.inv, as actual scheme morphisms between the specified carriers. Uses
   §1.40. Apply congruence to the inverse field of the proved whole-isomorphism equality; the composite inverse
   has the indicated reversed order.
 
-- `FerrandPushout.conductorTargetBaseChangeIso_tower_snd`: The morphism from `C_((f_q)_r)` to `C_f` obtained by
+- The morphism from `C_((f_q)_r)` to `C_f` obtained by
   `e_(f_q,r)`, the intermediate second projection, `e_(f,q)` and its second projection equals the route through t,
   `e_(f,r∘q)` and the direct second projection. Uses §1.40. Postcompose the whole-isomorphism equality with the
   direct second projection, then substitute the actual flattening second-projection formula.
 
-- `FerrandPushout.conductorTargetPullbackTowerIso_hom_fst`: The forward flattening h.hom followed by the
+- The forward flattening h.hom followed by the
   direct pullback first projection to Z equals the iterated pullback first projection to Z. Uses §1.40,
   `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_fst`. Use the native pasting first-projection formula
   and the first-projection computation of pullback.map with its identity component on Z.
 
-- `FerrandPushout.conductorTargetPullbackTowerIso_hom_snd`: The forward flattening h.hom followed by the
+- The forward flattening h.hom followed by the
   direct second projection to `C_f` equals the successive composite: second projection to `C_(f_q)`, forward
-  conductorTargetBaseChangeIso(f,q), and second projection to `C_f`. Uses §1.40,
+  conductor target base change isomorphism(f,q), and second projection to `C_f`. Uses §1.40,
   `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_snd`. Compute the second projection using the native
   pasting formula and pullback.map second projection. Keep the actual intermediate target comparison in the
   composite.
 
-- `FerrandPushout.conductorTargetPullbackTowerIso_inv_fst`: The inverse flattening h.inv followed by the
+- The inverse flattening h.inv followed by the
   iterated first projection to Z equals the direct first projection. Uses §1.40. Precompose the forward
   first-projection identity with h.inv and cancel the inverse-forward pair.
 
-- `FerrandPushout.conductorTargetPullbackTowerIso_inv_snd`: The inverse flattening h.inv followed by the
-  successive old-conductor projection through `C_(f_q)` and conductorTargetBaseChangeIso(f,q) equals the direct
+- The inverse flattening h.inv followed by the
+  successive old-conductor projection through `C_(f_q)` and conductor target base change isomorphism(f,q) equals the direct
   second projection to `C_f`. Uses §1.40. Precompose the full forward second-projection identity with h.inv;
   reassociate and cancel.
 
-- `FerrandPushout.conductorTargetPullbackTowerIso`: Construct the actual scheme isomorphism h from the native
+- Construct the actual scheme isomorphism h from the native
   pullback of r and the recomputed conductor inclusion `i_(f_q)` to the native pullback of r∘q and `i_f`. First
-  use native pullback.map induced by identities on Z,T and the actual conductorTargetBaseChangeIso(f,q), then
+  use native pullback.map induced by identities on Z,T and the actual conductor target base change isomorphism(f,q), then
   the native right pullback-pasting isomorphism. Uses §1.38, `CategoryTheory.Limits.pullback.map`,
   `CategoryTheory.Limits.pullback.map_isIso`, `CategoryTheory.asIso`,
   `CategoryTheory.Limits.pullbackRightPullbackFstIso`. The existing target comparison identifies `i_(f_q)` with
@@ -3599,7 +3488,7 @@ The construction needs the following maps and laws.
 - The inverses of the successive and direct composite comparison isomorphisms are equal as whole native
   isomorphisms.
 
-- After precomposition with the actual conductorMap of the twice-base-changed finite morphism, the successive
+- After precomposition with the actual conductor map of the twice-base-changed finite morphism, the successive
   and direct maps to the old target conductor agree. This does not assert source-carrier tower coherence.
 
 - Two identity base changes satisfy the whole tower comparison on the actual native pullback carriers; no
@@ -3625,17 +3514,15 @@ The construction needs the following maps and laws.
 
 ### 1.41 the actual source conductor carrier tower comparison
 
-Construct `conductorSourceTowerIso` over the actual associator between the twice and directly pulled-back
+Construct the conductor source tower isomorphism over the actual associator between the twice and directly pulled-back
 source schemes. Transport the source conductors through that associator and the source base-change
 isomorphisms. Prove the inclusion and conductor-map squares, inverse equations and three-step coherence. Do
 not identify the ambient source schemes by a definitional equality.
 
-*Lean name:* `FerrandPushout.conductorSourceTowerIso`.
-
 Schemes in one universe. f:Y→P is finite and schematically dominant; q:T→P and r:Z→T are flat. `f_q` means
 native pullback.snd f q. Native composition and base-change instances supply the corresponding hypotheses. `I_g`
 is the full target conductor ideal, `J_g=I_g.comap g` the full source ideal. a is native
-pullbackLeftPullbackSndIso(f,q,r); t is the retained conductorTargetTowerIso. Traversal order is used for
+pullbackLeftPullbackSndIso(f,q,r); t is the retained conductor target tower isomorphism. Traversal order is used for
 composition. No reduced, affine, Noetherian, separated, birational, faithfully-flat or nonempty assumption is
 added. Generic ideal/pullback carriers remain native or supplied by SchemeAndStackFoundations SF.0;
 geometric pushout transport and three-step coherence are separate obligations.
@@ -3645,55 +3532,55 @@ Lemma26.17.6(1).)
 
 The construction needs the following maps and laws.
 
-- `FerrandPushout.conductorSourceIdeal_tower`: For finite schematically dominant f:Y→P and flat q:T→P, r:Z→T,
+- For finite schematically dominant f:Y→P and flat q:T→P, r:Z→T,
   the full source conductor ideal of `(f_q)_r` equals the inverse image of the full source conductor ideal of
   `f_(r∘q)` along the actual ambient isomorphism a: `(Y×_P T)×_T Z ≅ Y×_P Z` given by native
-  pullbackLeftPullbackSndIso. Traversal order is used for composition. Uses §1.37,
+  pullbackLeftPullbackSndIso. Traversal order is used for composition. Uses §1.20,
   `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`,
   `CategoryTheory.Limits.pullbackLeftPullbackSndIso_hom_fst`. Apply the retained source flat comparison three
   times. Combine inverse-image ideals with native comap_comp. The exact first-projection formula for a
   identifies the two composites to Y. Compare full ideal data, including nilpotents.
 
-- `FerrandPushout.conductorSourcePullbackTowerIso_hom_fst`: The forward flattening h.hom followed by the
+- The forward flattening h.hom followed by the
   direct first projection equals the iterated first projection followed by a.hom. Traversal order is used for
   composition. Uses §1.41, `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_fst`. Compute the first
   projections of both actual pullback.map factors and the intervening native pasting isomorphism. Retain a.hom
   in the final formula.
 
-- `FerrandPushout.conductorSourcePullbackTowerIso_hom_snd`: The forward flattening h.hom followed by the
+- The forward flattening h.hom followed by the
   direct second projection to the original source conductor equals the iterated second projection followed by
   the intermediate source comparison and its second projection. Traversal order is used for composition. Uses
   §1.41, `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_snd`. Compute the native map and pasting
   second projections; the final ambient map has the identity conductor component.
 
-- `FerrandPushout.conductorSourcePullbackTowerIso_inv_fst`: The inverse h.inv followed by the iterated first
+- The inverse h.inv followed by the iterated first
   projection equals the direct first projection followed by a.inv. Traversal order is used for composition.
   Uses §1.41. Cancel the isomorphism a.hom after postcomposition. Substitute the forward first-projection
   formula and cancel h.inv followed by h.hom.
 
-- `FerrandPushout.conductorSourcePullbackTowerIso_inv_snd`: The inverse h.inv followed by the iterated second
+- The inverse h.inv followed by the iterated second
   projection, intermediate source comparison and old-source second projection equals the direct second
   projection. Traversal order is used for composition. Uses §1.41. Precompose the full forward
   second-projection formula with h.inv and cancel the inverse-forward pair.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_tower`: As whole native scheme isomorphisms, the source
+- As whole native scheme isomorphisms, the source
   comparison for `(f_q,r)` followed by h equals s followed by the direct source comparison for (f,r∘q). All
   corners are actual recomputed conductor carriers and native pullbacks. Traversal order is used for
   composition. Uses §1.41, `CategoryTheory.Iso.ext`. Expand the actual construction of s and cancel the direct
   comparison inverse-forward pair; Iso.ext gives equality of the whole isomorphisms.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_tower_inverse`: The inverse h.inv followed by the inverse
+- The inverse h.inv followed by the inverse
   source comparison for `(f_q,r)` equals the inverse direct source comparison followed by s.inv. Traversal order
   is used for composition. Uses §1.41. Apply congruence to the inverse field of the proved whole-isomorphism
   equality; retain the reversed composite order.
 
-- `FerrandPushout.conductorSourceBaseChangeIso_tower_snd`: The route from the twice-recomputed source
+- The route from the twice-recomputed source
   conductor through the successive source comparisons and second projections to the original source conductor
   equals the route through s, the direct source comparison and its second projection. Traversal order is used
   for composition. Uses §1.41. Postcompose the whole-isomorphism equality with the actual direct second
   projection and substitute the flattening second-projection formula.
 
-- `FerrandPushout.conductorSourcePullbackTowerIso`: Construct the actual scheme isomorphism h from the
+- Construct the actual scheme isomorphism h from the
   pullback of the intermediate source conductor inclusion along the second source projection to the pullback
   of the original source conductor inclusion along the direct source projection. It uses the existing source
   comparison, right pullback pasting, and the actual ambient a via native pullback.map. Traversal order is
@@ -3705,32 +3592,32 @@ The construction needs the following maps and laws.
   isomorphism. Use a.hom on the ambient source and identities on the original conductor and Y to change to the
   direct source projection. Each native map has three isomorphism components; convert it with asIso.
 
-- `FerrandPushout.conductorSourceTowerIso_hom_inclusion`: The forward s.hom followed by the direct source
+- The forward s.hom followed by the direct source
   conductor inclusion equals the twice-recomputed source inclusion followed by a.hom. Traversal order is used
   for composition. Uses §1.41, §1.39. Use the inverse direct comparison inclusion formula, the flattening
   first-projection formula and the iterated source comparison first-projection formula.
 
-- `FerrandPushout.conductorSourceTowerIso_inv_inclusion`: The inverse s.inv followed by the twice-recomputed
+- The inverse s.inv followed by the twice-recomputed
   source inclusion equals the direct source inclusion followed by a.inv. Traversal order is used for
   composition. Uses §1.41. Cancel a.hom, substitute the forward inclusion equation and cancel s.inv followed
   by s.hom.
 
-- `FerrandPushout.conductorSourceTowerIso_unique`: Every actual morphism between the specified source
+- Every actual morphism between the specified source
   conductor carriers whose composite with the direct inclusion is the twice-recomputed inclusion followed by
   a.hom equals s.hom. Traversal order is used for composition. Uses §1.41,
   `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι`. Cancel the actual direct closed inclusion, a native
   monomorphism, and use the proved forward inclusion law.
 
-- `FerrandPushout.conductorMap_tower_square`: The source carrier comparison s.hom followed by the actual
-  directly recomputed conductorMap equals the actual twice-recomputed conductorMap followed by the retained
+- The source carrier comparison s.hom followed by the actual
+  directly recomputed conductor map equals the actual twice-recomputed g_followed by the retained
   target carrier comparison t.hom. This is the full source-target conductor-map square. Traversal order is
   used for composition. Uses §1.41, §1.39, §1.40, `CategoryTheory.Limits.pullbackLeftPullbackSndIso_hom_snd`.
-  Cancel the direct target closed inclusion. The retained conductorMap_square contracts both vertical
+  Cancel the direct target closed inclusion. The cartesian square of §1.17 contracts both vertical
   composites to their actual ambient finite morphisms. The source inclusion law and native ambient
   second-projection formula make the two sides equal; the target inclusion law identifies the other route.
 
-- `FerrandPushout.conductorMap_tower_inverse_square`: The inverse s.inv followed by the actual
-  twice-recomputed conductorMap equals the actual directly recomputed conductorMap followed by t.inv.
+- The inverse s.inv followed by the actual
+  twice-recomputed conductor map equals the actual directly recomputed g_followed by t.inv.
   Traversal order is used for composition. Uses §1.41. Precompose the forward square with s.inv and
   postcompose with t.inv, then cancel both inverse-forward pairs and reverse the resulting equality.
 
@@ -3771,12 +3658,80 @@ The construction needs the following maps and laws.
 - Use the actual source ambient isomorphism and full conductor ideals; retain exact forward and inverse
   morphisms.
 
-*Needs:* §1.37; `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`;
+*Needs:* §1.20; `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`;
 `CategoryTheory.Limits.pullbackLeftPullbackSndIso_hom_fst`; §1.39; `CategoryTheory.Limits.pullback.map`;
 `CategoryTheory.Limits.pullback.map_isIso`; `CategoryTheory.asIso`;
 `CategoryTheory.Limits.pullbackRightPullbackFstIso`; `CategoryTheory.Limits.pullbackLeftPullbackSndIso`;
 `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_fst`;
 `CategoryTheory.Limits.pullbackRightPullbackFstIso_hom_snd`.
+
+### 1.42 conductor ideal sheaves after flat base change on affine charts
+
+For finite schematically dominant f:Y→P, flat q:T→P, affine U⊂P and affine V⊂T with V⊂q⁻¹U, identify the
+V-ideal of the recomputed conductor of the base change `f_q` with the extension of the U-conductor along the
+actual q.appLE U V. The pullback of the conductor ideal sheaf along any q has the same chart description
+without flatness; flatness is what identifies it with the recomputed conductor.
+
+A,B,F are the section rings of the charts; zero and nonreduced rings are allowed. No affineness of q,
+Noetherian, reduced, separated or quasi-compactness hypothesis is added. This section consumes the ring-level
+comparisons of §1.37 and the ideal-sheaf datum of §1.16, and it precedes the global comparison of §1.20.
+
+([Stacks, tag 07T8](https://stacks.math.columbia.edu/tag/07T8), Lemma10.40.4;
+[Stacks, tag 01JO](https://stacks.math.columbia.edu/tag/01JO), Section26.17, Lemma26.17.6(1).)
+
+The comparison needs the following laws.
+
+- For finite schematically dominant f:Y→P, any q:T→P, affine
+  U⊂P and affine V⊂T with V⊂q⁻¹U, the V-ideal of I_f.comap q equals the extension of the
+  U-conductor ideal along the actual q.appLE U V. Neither q-affineness nor q-flatness is required. Schemes and
+  section rings lie in a common universe. Zero rings and nonreduced rings are allowed. Uses
+  SchemeAndStackFoundations SF.0, ideal-comap-top, SchemeAndStackFoundations SF.0, ideal-restrict-top, §1.16,
+  `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`, `AlgebraicGeometry.Scheme.Hom.resLE_comp_ι`,
+  `AlgebraicGeometry.Scheme.Hom.resLE_app_top`, `Ideal.comap_injective_of_surjective`,
+  `Ideal.map_comap_of_surjective`, `Ideal.map_symm`. Restrict q to V→U and consume the
+  SchemeAndStackFoundations SF.0 native affine ideal-pullback formula. Use native composition of ideal
+  pullbacks and resLE_comp_ι. Transport along the two actual topIso section isomorphisms and cancel the
+  surjective source topIso. This conductor specialization imports the generic ideal theory without replanning
+  it.
+
+- For finite schematically dominant f:Y→P and flat q:T→P, on every
+  affine V⊂q⁻¹U with U affine, the recomputed conductor of pullback.snd f q on V equals the extension of the
+  original U-conductor along q.appLE U V. All ideals are full ideals. Schemes and section rings lie in a
+  common universe. Zero rings and nonreduced rings are allowed. Uses §1.37, §1.16,
+  `AlgebraicGeometry.isIso_pushoutSection_of_isAffineOpen`, `AlgebraicGeometry.isIso_pushoutSection_iff`,
+  `AlgebraicGeometry.Scheme.Hom.finite_app`, `AlgebraicGeometry.Scheme.Hom.flat_appLE`,
+  `AlgebraicGeometry.Scheme.Hom.app_eq_appLE`, `CategoryTheory.Limits.pullback.condition`. The inverse image
+  of V under pullback.snd is the intersection of its inverse image with the pullback of f⁻¹U. Native
+  affine-section comparison makes the actual four section maps a ring pushout. Apply conductor comap pushout
+  with native finite_app and flat_appLE, then identify both actual conductor ideal-sheaf affine ideals.
+
+**Checks.**
+
+- For the cusp C=k[t²,t³]⊂k[t] and the flat base change F=C[ε]/(ε²), the chart conductor of the base change
+  is I+εI with I=(t²,t³), which is the extension of I along C→F; the element εt² lies in it and εt does not.
+
+- For affine V⊂W⊂q⁻¹U, restricting the extended U-conductor from W to V equals extending it directly along
+  q.appLE U V, using the actual presheaf restriction map.
+
+- Following an arbitrary flat base change by restriction to any open V gives the conductor ideal obtained by
+  restricting the first pulled-back ideal to V.
+
+- Base change of any finite schematically dominant f along the identity has exactly the original conductor
+  ideal sheaf, and after any flat base change of the identity morphism the conductor ideal sheaf is the whole
+  ideal; identity base change of the identity of Spec(Z/1) has the whole conductor ideal sheaf.
+
+- For the actual finite schematically dominant Spec(Z/4×Z/4)→Spec(Z/4) induced by the diagonal, after identity
+  base change the global section corresponding to the nonzero square-zero element2 is not in the conductor
+  ideal. Thus replacing this full ideal by its radical fails the test.
+
+- For the nonflat closed immersion Spec C/(t²)→Spec C the pulled-back ideal is computed by the chart formula,
+  but it is not the recomputed conductor: the class of t³ is nonzero in C/(t²) and maps to zero in k[t]/(t²),
+  so the base-changed map is not injective and the flatness hypothesis cannot be dropped.
+
+*Needs:* §1.16; §1.37; SchemeAndStackFoundations SF.0, ideal-comap-top; SchemeAndStackFoundations SF.0,
+ideal-restrict-top; `AlgebraicGeometry.Scheme.IdealSheafData.comap_comp`;
+`AlgebraicGeometry.isIso_pushoutSection_of_isAffineOpen`; `AlgebraicGeometry.Scheme.Hom.flat_appLE`;
+`AlgebraicGeometry.Scheme.Hom.finite_app`.
 
 ### Examples
 
@@ -3791,11 +3746,16 @@ enlarge a recomputed conductor; flatness is the exact preservation hypothesis.
 Mathlib ring, quotient, tensor, localization, scheme and ideal-sheaf APIs; SchemeAndStackFoundations SF.0–SF.1; StableReduction Layer 3 only for comparison with smooth-section clutching;
 AlgebraicModuliForArithmeticGeometry Layer 7 for the invertible-sheaf groupoid.
 
+The conductor comparisons are built in this order: the ring-level cokernel, annihilator and pushout
+comparisons (§§1.35–1.37), the flat ring comparison (§1.14), localization (§1.15), the conductor ideal sheaf
+(§1.16), its affine flat charts (§1.42), the global flat comparison with the source-ideal equality (§1.20), and
+then the subscheme isomorphisms and towers (§§1.38–1.41).
+
 ## Layer 2: genus-one fibers and binary elliptic curves
 
 ### 2.1 genus-one fibration
 
-Define `GenusOneFibration` with the full standing geometric hypotheses: dimensions two and one, smooth proper
+Define the genus one fibration with the full standing geometric hypotheses: dimensions two and one, smooth proper
 geometrically integral total space and base, proper flat contraction, and regular geometrically integral
 generic curve with H⁰=K and h¹=1. Define elliptic, quasielliptic and relative minimality from those geometric
 conditions. Localizing at a closed point must produce the existing `TauCeti.Model` with its specified generic
@@ -3809,15 +3769,15 @@ regularity over the imperfect field k(B).
 
 The construction needs the following maps and laws.
 
-- `GenusOneFibration.toModel`: Localization at a closed base point is the existing TauCeti.Model, with the
+- Localization at a closed base point is the existing TauCeti.Model, with the
   chosen generic-fiber identification.
 
-- `GenusOneFibration.fiber`: For a point b return the scheme-theoretic fiber over κ(b), not its reduction.
+- For a point b return the scheme-theoretic fiber over κ(b), not its reduction.
 
-- `GenusOneFibration.baseChange`: Field extension gives the base-changed fibration; regularity/minimality must
+- Field extension gives the base-changed fibration; regularity/minimality must
   be re-established when not preserved.
 
-- `GenusOneFibration.isElliptic_iff`: Elliptic iff the generic fiber is smooth over k(B).
+- Elliptic iff the generic fiber is smooth over k(B).
 
 **Checks.**
 
@@ -3833,8 +3793,8 @@ StableReduction Layer 2; StableReduction Layer 5.
 
 ### 2.2 divisors of fiber and canonical type
 
-On a smooth proper surface define `FiberTypeDivisor` by a nonzero connected effective divisor D=ΣnᵢCᵢ,
-positive coefficients and D·Cᵢ=0 for every component. `CanonicalTypeDivisor` additionally requires `K_S·Cᵢ=0`.
+On a smooth proper surface define the fiber type divisor by a nonzero connected effective divisor D=ΣnᵢCᵢ,
+positive coefficients and D·Cᵢ=0 for every component. A canonical-type divisor additionally requires `K_S·Cᵢ=0`.
 Construct its multiplicity, primitive divisor and reduced divisor from the actual finite support. Prove the
 weighted component pairing agrees with the existing numerical-type realization.
 
@@ -3845,14 +3805,14 @@ nonempty support; form the quotient coefficients without truncating division.
 
 The construction needs the following maps and laws.
 
-- `FiberTypeDivisor.mul`: A positive integral multiple is of fiber type, and of canonical type when the
+- A positive integral multiple is of fiber type, and of canonical type when the
   original is.
 
-- `FiberTypeDivisor.ind`: The indecomposable divisor has coefficient gcd1 and `m·D_ind=D`.
+- The indecomposable divisor has coefficient gcd1 and `m·D_ind=D`.
 
-- `FiberTypeDivisor.red`: The reduced divisor has every coefficient1.
+- The reduced divisor has every coefficient1.
 
-- `FiberTypeDivisor.numericalType`: For a localized regular model, use the existing numerical type with its
+- For a localized regular model, use the existing numerical type with its
   residue-degree weights, rather than an unweighted replacement.
 
 **Checks.**
@@ -3869,7 +3829,7 @@ The construction needs the following maps and laws.
 
 ### 2.3 geometric Kodaira realization
 
-Define `HasGeometricKodairaFiber`, the geometric realization of a Kodaira symbol by the primitive divisor of a
+Define the geometric Kodaira fibre predicate, the geometric realization of a Kodaira symbol by the primitive divisor of a
 possibly multiple fiber, including the regular nonsmooth generic case. Retain component schemes, normalization
 genera, primitive null-root coefficients, intersection lengths and incidence points. For I₂ distinguish two
 nodes from the length-two tangency of III; for I₃ distinguish three nodes from the common triple point of IV.
@@ -3882,16 +3842,16 @@ second enum. Use scheme-theoretic intersection lengths over κ(b), and transport
 
 The construction needs the following maps and laws.
 
-- `HasGeometricKodairaFiber.components`: I₀ has one component; `I_n` has n components for n≥1;
+- I₀ has one component; `I_n` has n components for n≥1;
   `I_n*` has n+5, IV* has 7, III* has 8 and II* has 9.
 
-- `HasGeometricKodairaFiber.multiplicative`: A singular multiplicative underlying fiber has symbol `I_n` with
+- A singular multiplicative underlying fiber has symbol `I_n` with
   n≥1.
 
-- `HasGeometricKodairaFiber.baseChange`: The geometric symbol is invariant after extending the algebraically
+- The geometric symbol is invariant after extending the algebraically
   closed residue field.
 
-- `HasGeometricKodairaFiber.tate`: For an elliptic generic fiber over a perfect-residue DVR, the realization
+- For an elliptic generic fiber over a perfect-residue DVR, the realization
   agrees with the imported Tate algorithm on a minimal equation.
 
 **Checks.**
@@ -3908,7 +3868,7 @@ The construction needs the following maps and laws.
 
 ### 2.4 degenerate genus-one fiber
 
-Define `DegenerateFiber` to hold for a multiple geometric fiber, for a singular primitive fiber in the
+Define the degenerate fiber to hold for a multiple geometric fiber, for a singular primitive fiber in the
 elliptic case, or for a reducible primitive fiber in the quasielliptic case. In particular the simple cuspidal
 generic-shaped fiber of a quasielliptic fibration is not degenerate, whereas the same cuspidal scheme in an
 elliptic fibration is.
@@ -3919,12 +3879,12 @@ Evaluate the multiplicity and the two generic-fiber cases separately.
 
 The construction needs the following maps and laws.
 
-- `DegenerateFiber.multiple`: Every multiple fiber is degenerate.
+- Every multiple fiber is degenerate.
 
-- `DegenerateFiber.elliptic_iff`: For an elliptic fibration, degenerate iff multiple or singular
+- For an elliptic fibration, degenerate iff multiple or singular
   indecomposable fiber.
 
-- `DegenerateFiber.quasielliptic_iff`: For a quasielliptic fibration, degenerate iff multiple or reducible
+- For a quasielliptic fibration, degenerate iff multiple or reducible
   indecomposable fiber.
 
 **Checks.**
@@ -4057,7 +4017,7 @@ keep the component vertices fixed while the two geometric nodes are conjugate.
 
 ### 2.9 descent of components under constant numerical Picard
 
-For a relatively minimal `GenusOneFibration` over `𝔽_q` with constant numerical-Picard local system, prove
+For a relatively minimal genus-one fibration over `𝔽_q` with constant numerical-Picard local system, prove
 the geometric and residue-field fiber graphs agree, including intersection-length labels. A reducible
 geometric fiber must lie over a rational base point. At a rational point with singular primitive fiber,
 every component has normalization P¹ over `𝔽_q`. Prove uniqueness of negative component classes before
@@ -4167,7 +4127,7 @@ components and subtract r−1 distinct rational intersections.
 
 ### 2.14 exclusion of I₀* over F₂
 
-For a relatively minimal `GenusOneFibration` over F₂ with constant numerical Picard, exclude a primitive
+For a relatively minimal genus-one fibration over F₂ with constant numerical Picard, exclude a primitive
 I₀* fiber. The central rational normalization would have four distinct rational attachment points but
 P¹(F₂) has only three. Count actual marked attachment points; numerical valency alone does not prove their
 rationality.
@@ -4367,26 +4327,26 @@ preceding paragraph.)
 
 The construction needs the following maps and laws.
 
-- `F2Model.coefficients`: Evaluation at each Fin5 index gives the displayed native coefficient tuple.
+- Evaluation at each Fin5 index gives the displayed native coefficient tuple.
 
-- `F2Model.isElliptic`: Each displayed model is elliptic, from the separately planned discriminant
+- Each displayed model is elliptic, from the separately planned discriminant
   calculation.
 
-- `F2Model.injective`: F2Model i=F2Model j iff i=j, by their different point counts.
+- F2Model i=F2Model j iff i=j, by their different point counts.
 
-- `F2Model.pointCount`: For every i∈Fin5, the existing projective pointCount(F2Model i)=i+1. The affine
+- For every i∈Fin5, the existing projective pointCount(F2Model i)=i+1. The affine
   solution sets for i=0,…,4 are respectively ∅, {(0,0)}, {(0,0),(0,1)}, {(0,0),(1,0),(1,1)},
   {(0,0),(0,1),(1,0),(1,1)}. Uses §2.23, `WeierstrassCurve.pointCount_def`. For each displayed equation
   substitute all four pairs (x,y)∈{0,1}² and retain exactly the listed affine solutions. Apply the actual
   pointCount_def and add the single infinity point. This calculation does not confuse affine solution count
   with projective count.
 
-- `f2_discriminant`: For W over F₂, Δ(W)=a₃ if a₁=0, and Δ(W)=a₆+a₄+a₃(a₄+a₂) if a₁=1. Equivalently, use the
+- For W over F₂, Δ(W)=a₃ if a₁=0, and Δ(W)=a₆+a₄+a₃(a₄+a₂) if a₁=1. Equivalently, use the
   if-expression on a₁=0. The identity uses a²=a for elements of F₂ and does not extend unchanged to F₄. Uses
   `WeierstrassCurve.Δ`. Unfold the pinned b₂,b₄,b₆,b₈ and Δ definitions and reduce integer coefficients
   modulo2. Use a₁²=a₁, a₃²=a₃ and a₄²=a₄; split a₁=0 or1. The two displayed polynomials remain.
 
-- `f2_smooth_split`: For a tuple W over F₂, Δ=1 iff either a₁=0 and a₃=1, or a₁=1 and a₆=1+a₄+a₃(a₄+a₂). In
+- For a tuple W over F₂, Δ=1 iff either a₁=0 and a₃=1, or a₁=1 and a₆=1+a₄+a₃(a₄+a₂). In
   the first branch a₂,a₄,a₆ are free and in the second branch a₂,a₃,a₄ are free. These disjoint branches
   exhibit all16 smooth tuples among the32 equations. Uses §2.23, `WeierstrassCurve.IsElliptic`. Apply the
   binary discriminant formula. Over F₂, subtracting a scalar equals adding it. In each branch precisely three
@@ -4394,7 +4354,7 @@ The construction needs the following maps and laws.
   condition is that Δ is a unit; over F₂ this is exactly Δ=1. Do not test smoothness by having some rational
   solution.
 
-- `f2_change_formula`: Every native VariableChange over F₂ has u=1 and one of eight triples (r,s,t). Its
+- Every native VariableChange over F₂ has u=1 and one of eight triples (r,s,t). Its
   action preserves a₁ and sends (a₂,a₃,a₄,a₆) to (a₂+s a₁+r+s, a₃+r a₁, a₄+s a₃+(t+rs)a₁+r, a₆+r a₄+r a₂+r+t
   a₃+t+rt a₁). This is C•W; the point map from C•W to W is (x,y)↦(x+r,y+sx+t). Uses
   `WeierstrassCurve.VariableChange`, `WeierstrassCurve.variableChange_def`,
@@ -4403,12 +4363,12 @@ The construction needs the following maps and laws.
   reducing r²=r,s²=s,t²=t. The inverse triple is (r,s,t+rs), inherited from the native group. Equation
   compatibility comes from the existing affine variable-change theorem.
 
-- `F2Model.discriminant`: For each i∈Fin5, Δ(F2Model i)=1, so the native IsElliptic instance is justified. No
+- For each i∈Fin5, Δ(F2Model i)=1, so the native IsElliptic instance is justified. No
   genus-one assertion is inferred from a count on a singular model. Uses §2.23, `WeierstrassCurve.IsElliptic`.
-  Substitute the five literal coefficient tuples into `f2_discriminant`. Since1 is a unit, the existing native
+  Substitute the five literal coefficient tuples into the discriminant formula over F₂. Since1 is a unit, the existing native
   ellipticity class applies to each model.
 
-- `F2Model.j`: The native j values of F2Model0,…,F2Model4 are0,1,0,1,0. These values do not distinguish all
+- The native j values of F2Model0,…,F2Model4 are0,1,0,1,0. These values do not distinguish all
   five F₂-isomorphism classes; in particular model0 and model4 have the same j but different point counts.
   Uses §2.23, `WeierstrassCurve.j_eq_zero_iff_of_char_two`. Use the model discriminant1 instance and the
   existing `j_eq_zero_iff_of_char_two` to determine precisely which indices have j=0. The other two indices have
@@ -4431,7 +4391,7 @@ The construction needs the following maps and laws.
   witnesses equality. Finiteness of affine solutions holds over the finite coefficient field; ellipticity is
   supplied by model discriminants.
 
-- `f2_e4_double`: For E₄=F2Model3 and its nonsingular affine points P=(1,0), Q=(0,0), native point addition
+- For E₄=F2Model3 and its nonsingular affine points P=(1,0), Q=(0,0), native point addition
   gives P+P=Q. Since Q≠O and Q+Q=O, P has order4 and the four-point group is cyclic, not the Klein four group.
   Uses §2.23, `WeierstrassCurve.Affine.Point.add_some`, `WeierstrassCurve.Affine.Point.add_of_Y_eq`. The
   equation and partial derivatives verify both displayed points are nonsingular. At P the tangent denominator
@@ -4463,8 +4423,6 @@ of a unique representative.
 For a native binary equation with Δ=1, prove its rational point count lies in {1,2,3,4,5} and determines its
 unique `F2Model` orbit under `VariableChange`. Establish invariance of the equation count under the projective
 change. Exclude Δ=0 explicitly: the cuspidal tuple has count three as well.
-
-*Lean name:* `f2_count_classifier`.
 
 The coefficient field in every finite computation is exactly F₂=ZMod2; it is not an arbitrary field of
 characteristic two. Existing WeierstrassCurve and VariableChange carriers are used.
@@ -4502,7 +4460,7 @@ characteristic two. Existing WeierstrassCurve and VariableChange carriers are us
 Use the model-count lemma and pointCount_eq_card_point under model ellipticity to get the honest group
 cardinalities1,…,5. The durable point-cycle table lists all multiples of the displayed generator until the
 first return to infinity; all listed affine points are nonsingular. Verify each addition with add_some or
-add_of_Y_eq. The order-four case uses `f2_e4_double`. The affine solution lists plus infinity prove the
+add_of_Y_eq. The order-four case uses the doubling formula on E₄. The affine solution lists plus infinity prove the
 generator spans the whole native group. Apply the existing zmodAddEquivOfGenerator and invert its equivalence
 to obtain the displayed orientation.
 
@@ -4519,7 +4477,7 @@ preceding paragraph.)
 
 ### 2.26 affine polynomial pinching algebra
 
-For every q∈k[t], define `QuadraticPinch.algebra q` as the inverse image of the constants under
+For every q∈k[t], define the pinched algebra A_q as the inverse image of the constants under
 k[t]→AdjoinRoot(q). Prove it is k+qk[t]. For monic quadratic q=t²+at+b, construct the residue, coordinate and
 full conductor comparisons; repeated roots and inseparability are included. At q=0 it is the constants, and at
 a unit q it is all k[t].
@@ -4528,7 +4486,7 @@ Take the preimage of the bottom subalgebra under AdjoinRoot.mkₐ. Algebra.mem_b
 witness; `AdjoinRoot.mk_eq_mk` identifies equality modulo q with divisibility by q. Rearranging the
 multiplicative witness proves mem_algebra for every q, including zero and units. Use native Subalgebra,
 AdjoinRoot and the existing Ferrand ring pullback rather than introducing a new ring carrier. The
-pinch_spanning API uses §2.32 on h in f=c+qh, replacing its first coordinate by
+pinch spanning API uses §2.32 on h in f=c+qh, replacing its first coordinate by
 C(c)+tP. The added characteristic-two, inseparable and degree-one tests check these actual polynomial
 functions.
 
@@ -4543,15 +4501,15 @@ normalization discussion; affine algebraic deductions at its already owned quadr
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.mem_algebra`: For every field k, polynomial q and f∈k[X], `f∈A_q` if and only if f=C(c)+qh for
+- For every field k, polynomial q and f∈k[X], `f∈A_q` if and only if f=C(c)+qh for
   some c∈k and h∈k[X]. This is the membership API of the native subalgebra `A_q`, including
   q=0 and unit q. Uses §2.26, `Subalgebra.comap`, `AdjoinRoot.mkₐ`, `AdjoinRoot.mk_eq_mk`, `Algebra.mem_bot`.
   Use the existing bottom-subalgebra scalar-witness criterion after the actual quotient map. Equality modulo q
   is equivalent to divisibility by q, then rearrange f−C(c)=qh.
 
-- `QuadraticPinch.constants`: Every constant polynomial C(c) belongs to `A_q`.
+- Every constant polynomial C(c) belongs to `A_q`.
 
-- `QuadraticPinch.generation`: For q=t²+at+b over any field, `A_q=k[q,tq]`. As a k-vector space it has basis
+- For q=t²+at+b over any field, `A_q=k[q,tq]`. As a k-vector space it has basis
   `1,qⁱ` (`i≥1`),`tqʲ` (`j≥1`). These have degrees0,2i,2j+1 respectively, so no degree1 vector occurs. Uses §2.26,
   §2.32, §2.33, `Polynomial.aeval_subalgebra_coe`, `Polynomial.comp_eq_aeval`, `Algebra.subset_adjoin`,
   `Algebra.adjoin_le`. Write f=c+qh by the native membership criterion and decompose h=P(q)+tQ(q) using
@@ -4562,28 +4520,28 @@ The construction needs the following maps and laws.
   bases through that equivalence; the resulting actual Basis has vectors `q^n` and `tq^(n+1)`, and its Finsupp
   representation coordinates are the coefficients of P,Q.
 
-- `QuadraticPinch.pinch_spanning`: For q=t²+at+b and `f∈A_q`, there exist P,Q∈k[t] with f=P(q)+tqQ(q). This is
+- For q=t²+at+b and `f∈A_q`, there exist P,Q∈k[t] with f=P(q)+tqQ(q). This is
   actual polynomial spanning, not an asserted Basis instance.
 
-- `QuadraticPinch.relation_eval`: Substitution U=q,V=tq sends `F_(a,b)` to zero.
+- Substitution U=q,V=tq sends `F_(a,b)` to zero.
 
-- `QuadraticPinch.relation_quadratic`: `F_(a,b)+U³=V²+aUV+bU²`.
+- `F_(a,b)+U³=V²+aUV+bU²`.
 
-- `QuadraticPinch.relation_origin`: `F_(a,b)(0,0)=0`.
+- `F_(a,b)(0,0)=0`.
 
-- `QuadraticPinch.relation`: For a,b∈k define `F_(a,b)∈k[U,V]` by V²+aUV+bU²−U³, using native
+- For a,b∈k define `F_(a,b)∈k[U,V]` by V²+aUV+bU²−U³, using native
   MvPolynomial(Fin2,k). With q=t²+at+b, the substitution U=q,V=tq kills F. Its quadratic part is V²+aUV+bU².
   No discriminant test requiring 2 invertible is built into this definition. Uses `MvPolynomial.aeval`.
   Multiply t²+at+b=q by q² to derive the relation. Separate the quadratic part from the cubic term; retain the
   cross term in characteristic2.
 
-- `QuadraticPinch.residue_normal_form`: `ρ_q(c+qh)=c` for the native subtype element.
+- `ρ_q(c+qh)=c` for the native subtype element.
 
-- `QuadraticPinch.residue_surjective`: `ρ_q` is surjective, split by constants.
+- `ρ_q` is surjective, split by constants.
 
-- `QuadraticPinch.residue_kernel`: `ker ρ_q=(q).comap(A_q↪k[t])`.
+- `ker ρ_q=(q).comap(A_q↪k[t])`.
 
-- `QuadraticPinch.residue`: For monic q of degree2, the constant c in f=c+qh is unique. Define the k-algebra
+- For monic q of degree2, the constant c in f=c+qh is unique. Define the k-algebra
   map `ρ_q:A_q→k` by that c, concretely the constant coefficient of the remainder modulo q. It is surjective and
   its kernel is the contraction of (q)⊂k[t]. The output is an actual AlgHom, not a freely chosen residue
   identification. Uses §2.26, §2.32, `Polynomial.add_modByMonic`, `Polynomial.mul_modByMonic`,
@@ -4595,7 +4553,7 @@ The construction needs the following maps and laws.
   equivalent to zero scalar remainder, and modByMonic_eq_zero_iff_dvd identifies its kernel with the
   contraction of (q).
 
-- `QuadraticPinch.presentation`: For q=t²+at+b, the substitution ψ:k[U,V]→k[t], U↦q,V↦tq, has image `A_q` and
+- For q=t²+at+b, the substitution ψ:k[U,V]→k[t], U↦q,V↦tq, has image `A_q` and
   kernel `(F_(a,b))`. Consequently its induced map `k[U,V]/(F_(a,b))→A_q` is the canonical k-algebra isomorphism.
   This remains true for split, repeated-root and inseparable quadratics. Uses §2.34, §2.52, §2.53. Use the
   exact native substitution range and full relation-kernel lemmas. The V-coordinate transport, monic remainder
@@ -4608,7 +4566,7 @@ The construction needs the following maps and laws.
   coefficient-compatible mapping property `Hom_S(A_q,B)≃{y:y²+aTy+bT²−T³=0}`. This native algebraic comparison
   does not replace the geometric normalization universal property.
 
-- `QuadraticPinch.conductor`: For monic q of degree2, the conductor of `A_q⊂k[t]` is exactly the ambient ideal
+- For monic q of degree2, the conductor of `A_q⊂k[t]` is exactly the ambient ideal
   (q). Its contraction `m=ker ρ_q` satisfies `A_q/m≅k`, while k[t]/(q)=AdjoinRoot(q). The conductor square is the
   actual affine chart of the inherited Ferrand square. Uses §2.26, §1.2, §1.12, §1.3, §2.32. Every multiple of
   q remains a multiple after multiplication by any polynomial, giving (q)≤conductor. If f lies in the
@@ -4618,7 +4576,7 @@ The construction needs the following maps and laws.
   every monic quadratic, including repeated-root and inseparable cases. Combine the residue kernel with the
   inherited ring/cartesian/geometric pushout results.
 
-- `QuadraticPinch.finite_normalization`: For monic quadratic q, k[t] is finite over `A_q`, with module
+- For monic quadratic q, k[t] is finite over `A_q`, with module
   generators1,t. The inclusion is an isomorphism after inverting q, since t=(tq)/q, and induces the same
   fraction field. As k[t] is normal, this is the finite normalization of `A_q`. The statement includes the cusp;
   normality of the normalization does not imply the target is nodal. Uses §2.26, StableReduction Layer 1,
@@ -4628,7 +4586,7 @@ The construction needs the following maps and laws.
   Import the normality of the polynomial ring over a field and the normalization comparison from the existing
   owner.
 
-- `QuadraticPinch.tangent_branches`: At m=(U,V) on Spec(k[U,V]/F), m/m² has k-dimension2 and the tangent cone
+- At m=(U,V) on Spec(k[U,V]/F), m/m² has k-dimension2 and the tangent cone
   is k[U,V]/(V²+aUV+bU²). For separable q=t²+at+b this binary quadratic has two distinct geometric lines; if q
   is irreducible they are conjugate over its quadratic splitting field. The point is a node by the imported
   nodal-chart criterion. In characteristic2 a≠0 is the separability condition; a=0 is excluded from this nodal
@@ -4639,19 +4597,19 @@ The construction needs the following maps and laws.
   quadratic as (V−αU)(V−βU). Compare the local completed normal form with SR.1, rather than rebuilding a
   general node predicate. A double tangent requires separate singularity analysis.
 
-- `QuadraticPinch.remainder_scalar`: For the actual subtype element `f∈A_q`, f mod q equals C((f mod
+- For the actual subtype element `f∈A_q`, f mod q equals C((f mod
   q).coeff(0)). k is a field, q is monic with natural degree exactly two. No separability, irreducibility,
   perfectness or characteristic restriction is imposed. Uses §2.26, §2.32. Use mem_algebra to write f=C(c)+qh
-  for actual polynomial witnesses. Apply constant_remainder and the constant-coefficient formula. This does
+  for actual polynomial witnesses. Apply constant remainder and the constant-coefficient formula. This does
   not choose an arbitrary identification of the quotient or assume q irreducible.
 
-- `QuadraticPinch.scalar_unique`: If the same polynomial f is C(c)+qh and C(d)+qj, then c=d. k is a field, q
+- If the same polynomial f is C(c)+qh and C(d)+qj, then c=d. k is a field, q
   is monic with natural degree exactly two. No separability, irreducibility, perfectness or characteristic
   restriction is imposed. Uses §2.32, `Polynomial.C_injective`. Apply the native remainder operation to the
-  equality of the two forms. constant_remainder identifies the two remainders; cancel C by the built
+  equality of the two forms. constant remainder identifies the two remainders; cancel C by the built
   `C_injective`. There is no polynomial root-uniqueness assumption.
 
-- `QuadraticPinch.normalization_remainder`: For monic quadratic q and every f∈k[X], f mod q=C((f mod
+- For monic quadratic q and every f∈k[X], f mod q=C((f mod
   q).coeff0)+C((f mod q).coeff1)X. k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X],
   with its native subtype inclusion and restricted multiplication action. No separability, irreducibility,
   perfectness or characteristic restriction is imposed. q is monic with native natural degree exactly two.
@@ -4659,18 +4617,18 @@ The construction needs the following maps and laws.
   remainder has natural degree below two. Apply the existing degree-at-most-one polynomial coefficient formula
   and reorder the two summands.
 
-- `QuadraticPinch.moduleCoefficients_fst`: The first component of `M_q(f)`, included in k[X], is C((f mod
+- The first component of `M_q(f)`, included in k[X], is C((f mod
   q).coeff0)+q(f div q). k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its
   native subtype inclusion and restricted multiplication action. No separability, irreducibility, perfectness
   or characteristic restriction is imposed. Uses §2.26. Unfold the specified pair and native subtype
   inclusion.
 
-- `QuadraticPinch.moduleCoefficients_snd`: The second component of `M_q(f)`, included in k[X], is C((f mod
+- The second component of `M_q(f)`, included in k[X], is C((f mod
   q).coeff1). k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its native subtype
   inclusion and restricted multiplication action. No separability, irreducibility, perfectness or
   characteristic restriction is imposed. Uses §2.26. Unfold the specified pair and native subtype inclusion.
 
-- `QuadraticPinch.moduleCoefficients_reconstruct`: For monic quadratic q, `M_q(f).1•1+M_q(f).2•X=f` with the
+- For monic quadratic q, `M_q(f).1•1+M_q(f).2•X=f` with the
   native `A_q` action on k[X]. k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its
   native subtype inclusion and restricted multiplication action. No separability, irreducibility, perfectness
   or characteristic restriction is imposed. q is monic with native natural degree exactly two. Uses §2.26,
@@ -4678,7 +4636,7 @@ The construction needs the following maps and laws.
   multiplication. Replace the sum of constant and linear remainder coefficients by f mod q, then use the
   native division identity.
 
-- `QuadraticPinch.moduleCoefficients`: For every q,f∈k[X], define the actual pair `M_q(f)∈A_q×A_q` with first
+- For every q,f∈k[X], define the actual pair `M_q(f)∈A_q×A_q` with first
   ambient polynomial C((f mod q).coeff0)+q(f div q) and second C((f mod q).coeff1). The first membership
   witness is its displayed scalar-plus-q-multiple form; the second is a constant. The pair is a specified
   coefficient function, not an algebra equivalence or a unique coordinate system over `A_q`. k is any field. `A_q`
@@ -4688,7 +4646,7 @@ The construction needs the following maps and laws.
   Their definitions use native monic division and coefficient operations; no replacement module or guessed
   residue map is introduced.
 
-- `QuadraticPinch.normalization_span`: For monic quadratic q, the native `A_q`-submodule span of {1,X} in k[X]
+- For monic quadratic q, the native `A_q`-submodule span of {1,X} in k[X]
   is the whole module. k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its native
   subtype inclusion and restricted multiplication action. No separability, irreducibility, perfectness or
   characteristic restriction is imposed. q is monic with native natural degree exactly two. Uses §2.26,
@@ -4696,7 +4654,7 @@ The construction needs the following maps and laws.
   Each of its two summands is a scalar multiple of a member of the generating set. Apply the native
   top-submodule membership criterion.
 
-- `QuadraticPinch.normalization_module_finite`: For monic quadratic q, native `Module.Finite(A_q,k[X])` holds
+- For monic quadratic q, native `Module.Finite(A_q,k[X])` holds
   for the multiplication action restricted from k[X]. k is any field. `A_q` is the existing scalar-preimage
   Subalgebra of k[X], with its native subtype inclusion and restricted multiplication action. No separability,
   irreducibility, perfectness or characteristic restriction is imposed. q is monic with native natural degree
@@ -4704,7 +4662,7 @@ The construction needs the following maps and laws.
   Use the existing finitely-generated-span theorem and the native finite-module characterization together with
   normalization-span.
 
-- `QuadraticPinch.normalization_spec_finite`: For monic quadratic q, the actual Scheme morphism
+- For monic quadratic q, the actual Scheme morphism
   `Spec(k[X])→Spec(A_q)` induced by the native subtype inclusion is finite. k is any field. `A_q` is the existing
   scalar-preimage Subalgebra of k[X], with its native subtype inclusion and restricted multiplication action.
   No separability, irreducibility, perfectness or characteristic restriction is imposed. q is monic with
@@ -4712,7 +4670,7 @@ The construction needs the following maps and laws.
   separately proved finite ring inclusion through the existing IsFinite.SpecMap_iff. This certifies the actual
   affine Scheme map, not its comparison to a separately constructed scheme normalization.
 
-- `QuadraticPinch.module_generator_map_not_injective`: For every nonzero q, the native map `A_q×A_q→k[X]`,
+- For every nonzero q, the native map `A_q×A_q→k[X]`,
   (a,b)↦a•1+b•X, is not injective: the nonzero coefficient pair (−qX,q) and (0,0) both map to zero. k is any
   field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its native subtype inclusion and
   restricted multiplication action. No separability, irreducibility, perfectness or characteristic restriction
@@ -4722,20 +4680,20 @@ The construction needs the following maps and laws.
   the second ambient components would imply q=0. This rules out the tempting basis claim; it does not alone
   assert nonflatness.
 
-- `QuadraticPinch.Global.normalization_sections_conductor_annihilator`: For every field k, a,b∈k and every
+- For every field k, a,b∈k and every
   open U of the actual glued curve C, put A=Γ(C,U), B=Γ(N,ν⁻¹U) with the actual ν section-algebra structure.
   The contraction to A of `c(im ν_U,B)` equals `Ann_A(B/(A·1))`, using the native module quotient. This is an
   identity for section rings on each open; it does not identify a sheaf cokernel with those section quotients.
   Uses §1.13, §2.46. Use the exact actual section map `ν_U` to supply the A-algebra structure on B. Specialize
   §1.13, whose proof needs neither affine U nor a nonempty-open hypothesis.
 
-- `QuadraticPinch.Global.absoluteNormalization_sections_conductor`: For every field k, a,b∈k and every open
+- For every field k, a,b∈k and every open
   U⊂C, the ideals in Γ(C,U) obtained by contracting the conductor of the actual section map for ν:N→C and for
   η.fromNormalization:η.normalization→C are equal, where η is C’s generic-point morphism. This includes U=∅
   and preserves nilpotents. It compares actual section maps, without yet constructing their conductor ideal
   sheaf. Uses §1.12, §2.62, §2.49. Use the previously specified
   absoluteNormalizationComparisonSectionsAlgEquiv over the actual Γ(C,U)-algebra structures. Apply
-  `FerrandPushout.conductor_comap_algEquiv` to that exact equivalence; no affine or nonempty hypothesis is added.
+  contracted-conductor invariance under algebra equivalences to that exact equivalence; no affine or nonempty hypothesis is added.
 
 **Checks.**
 
@@ -4802,8 +4760,6 @@ point. A single closed point has an affine neighborhood, so the scheme-existence
 separatedness by the diagonal comparison and universal closedness after base change; separability and P¹ are
 not needed for this target.
 
-*Lean name:* `QuadraticPinch.proper_point_pushout`.
-
 Spec E has one underlying point, so an affine neighborhood of its image in Y supplies the inherited global
 Ferrand neighborhood hypothesis. Use the inherited universal property to obtain C→Spec k. Since Spec E→Spec k
 is onto, Y→C is onto. Descend separatedness through the finite surjection using Stacks tag 09MQ. The inherited
@@ -4833,9 +4789,7 @@ with H⁰=k and H¹≃E/k. The normalization/conductor sequence has the map k⊕
 scalar images. Its cokernel has dimension one. Identify the rational singular point and its two conjugate
 geometric branches.
 
-*Lean name:* `QuadraticPinch.i1_genus`.
-
-Apply `QuadraticPinch.proper_point_pushout` and identify the selected affine chart with `A_q`; the complement is unchanged. The
+Apply the proper point pushout and identify the selected affine chart with `A_q`; the complement is unchanged. The
 normalization exact sequence is `0→O_C→ν_*O_P¹→j_*(E/k)→0`. On global constants the quotient map is zero. Import
 H⁰(P¹,O)=k and H¹(P¹,O)=0; the long exact sequence gives the stated natural vector-space comparison, not a
 preferred basis of E/k. After a separable splitting extension the chart has one ordinary node and integral
@@ -4897,8 +4851,6 @@ For the two-component pinch with specified E-identifications, compute the normal
 reduction, two rational components and two conjugate geometric nodes. These statements concern a reducible
 curve, so geometric integrality is not a conclusion.
 
-*Lean name:* `QuadraticPinch.i2_genus`.
-
 Use the inherited global Ferrand existence: the two closed points lie in a disjoint union of affine
 neighborhoods, which is affine. Properness follows by the same finite-surjection argument. The normalization
 quotient sheaf is `j_*E`, using (x,y)↦x−y from E⊕E modulo the specified diagonal E. The global map k⊕k→E is
@@ -4923,8 +4875,6 @@ corresponding base-changed construction. This étale quadratic algebra is either
 the split case the one-component pinch becomes I₁ and the fixed-component two-component pinch becomes I₂. Only
 the branch points split in the latter.
 
-*Lean name:* `QuadraticPinch.splitting`.
-
 Field extension is flat, so apply the existing four-arrow base-change comparison. Use the imported separable
 quadratic tensor/Chinese-remainder comparison and track its two projections. For I₁ the two normalization
 points are identified with one K-rational point. For I₂ each of the two conductor points glues one branch from
@@ -4948,15 +4898,13 @@ the fixed-component nonsplit I₂ count is 2Q+2 for odd n and 2Q for even n. Fro
 quadratic conductor; apply the complement isomorphism and count its image. Include equality with counts of any
 nilpotent fiber thickening having this reduction.
 
-*Lean name:* `QuadraticPinch.extension_counts`.
-
 `E=𝔽_(q²)` has no `𝔽_(q^n)`-points as an `𝔽_q`-scheme for odd n, and two for even n. Import the standard
 finite-field embedding criterion. For I₁ use the complement isomorphism: `#(P¹ ∖ Spec E)+#Spec 𝔽_q`. This is
 Q+1−0+1 or Q+1−2+1. For I₂ remove the two copies of Spec E from P¹⊔P¹ and add one Spec E: 2(Q+1)−2e+e where e
 is0 or2. A field-valued morphism kills nilpotents; import the reduction comparison. At n=1 recover the two
-inherited Schröer3.2 counts. Prove pointCount_extension_power, the odd/even
+inherited Schröer3.2 counts. Prove point count extension power, the odd/even
 formula for the one-component equation over every actual finite receiving-field algebra;
-use quadratic_root_iff_even and quadraticRootCount_extension_parity for the native conductor-polynomial
+use the even-degree criterion for quadratic roots and quadratic root count extension parity for the native conductor-polynomial
 criterion. Identify the actual projective pinch and its conductor field with this chart before transporting
 the count. These facts do not prove I₂ or schematic reduction; the numerical trace defect is only an auxiliary
 check.
@@ -4970,24 +4918,24 @@ printed p10 conductor diagrams; Proposition3.1–3.2, printed pp10–11 and adja
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.affine_card_balance`: For a finite field k of size Q, Nat.card of the native affine
+- For a finite field k of size Q, Nat.card of the native affine
   equation-solution subtype plus Nat.card{t∈k:q(t)=0} equals Q+1. k is a field; a,b∈k; W is the actual native
   WeierstrassCurve with coefficient tuple (a,−b,0,0,0); q(t) abbreviates t²+at+b. No separability, perfectness
   or characteristic restriction. k is finite. Uses §2.35, `Nat.card_congr`, `Nat.card_eq_fintype_card`,
   `Fintype.card_option`, `Fintype.card_subtype_compl`, `Fintype.card_subtype_le`. Choose a Fintype from the
-  actual finiteness instance. Transport the solution cardinality along affineParamEquiv. Option adds one
+  actual finiteness instance. Transport the solution cardinality along affine param equivalence. Option adds one
   origin; complement cardinality is Q minus the distinct-root subtype cardinality. Use subtype-cardinality≤Q
   before natural subtraction cancellation. This counts distinct roots, not scheme length.
 
-- `QuadraticPinch.pointCount_balance`: For a finite field k and W=(a,−b,0,0,0),
+- For a finite field k and W=(a,−b,0,0,0),
   W.pointCount+Nat.card{t∈k:q(t)=0}=Nat.card k+2. k is a field; a,b∈k; W is the actual native WeierstrassCurve
   with coefficient tuple (a,−b,0,0,0); q(t) abbreviates t²+at+b. No separability, perfectness or
   characteristic restriction. k is finite. Uses §2.31, `WeierstrassCurve.pointCount`,
   `WeierstrassCurve.pointCount_def`. Expand only the native pointCount_def: it is every affine equation
-  solution plus one infinity point, even on a singular model. Add this extra one to affine_card_balance.
+  solution plus one infinity point, even on a singular model. Add this extra one to affine card balance.
   Neither the nonsingular group carrier nor pointCount_eq_card_point is used.
 
-- `QuadraticPinch.frobeniusTrace_roots`: For a finite field k and W=(a,−b,0,0,0),
+- For a finite field k and W=(a,−b,0,0,0),
   W.frobeniusTrace=(Nat.card{t∈k:q(t)=0}:ℤ)−1. k is a field; a,b∈k; W is the actual native WeierstrassCurve
   with coefficient tuple (a,−b,0,0,0); q(t) abbreviates t²+at+b. No separability, perfectness or
   characteristic restriction. k is finite. Uses §2.31, `WeierstrassCurve.frobeniusTrace`,
@@ -4995,7 +4943,7 @@ The construction needs the following maps and laws.
   balance. Integer arithmetic gives r−1. On these singular equations this is the numerical invariant; no étale
   cohomological trace theorem is asserted.
 
-- `QuadraticPinch.quadraticRootCount_branch`: Nat.card{t∈k:q(t)=0} is2 if q has a k-root and0 otherwise.
+- Nat.card{t∈k:q(t)=0} is2 if q has a k-root and0 otherwise.
   Counts are of distinct elements of the native equation subtype, not multiset multiplicity. k is a finite
   field, a,b∈k, q(t)=t²+at+b, W=(a,−b,0,0,0) in the actual native WeierstrassCurve carrier. Require the native
   quadratic discriminant discrim(1,a,b)=a²−4b to be nonzero. There is no assumption that 2 is invertible. In
@@ -5008,7 +4956,7 @@ The construction needs the following maps and laws.
   cardinality with the existing Fintype.card_of_subtype and pair-card criterion. With no root the subtype
   corresponds to the empty finset. No quadratic formula dividing by2 is used.
 
-- `QuadraticPinch.pointCount_branch`: W.pointCount=Nat.card(k) when q has a k-root, and Nat.card(k)+2 when it
+- W.pointCount=Nat.card(k) when q has a k-root, and Nat.card(k)+2 when it
   has none, with the singular origin and the infinity point both included. k is a finite field, a,b∈k,
   q(t)=t²+at+b, W=(a,−b,0,0,0) in the actual native WeierstrassCurve carrier. Require the native quadratic
   discriminant discrim(1,a,b)=a²−4b to be nonzero. There is no assumption that 2 is invertible. In
@@ -5017,17 +4965,17 @@ The construction needs the following maps and laws.
   dichotomy in the existing native pointCount balance and cancel in natural-number arithmetic. Count the
   affine equation subtype, not the nonsingular group; pointCount_def already includes the one infinity point.
 
-- `QuadraticPinch.frobeniusTrace_branch`: W.frobeniusTrace=1 when q has a k-root and−1 when it has none. This
+- W.frobeniusTrace=1 when q has a k-root and−1 when it has none. This
   is the existing integer count defect on a singular model, not an elliptic/cohomological trace claim. k is a
   finite field, a,b∈k, q(t)=t²+at+b, W=(a,−b,0,0,0) in the actual native WeierstrassCurve carrier. Require the
   native quadratic discriminant discrim(1,a,b)=a²−4b to be nonzero. There is no assumption that 2 is
   invertible. In characteristic two this condition is a≠0; the repeated-root case is deliberately excluded.
   This is not the Weierstrass discriminant, which is zero for these singular equations. Uses §2.31. Insert the
-  distinct-root count into the existing frobeniusTrace_roots formula r−1. The nonzero quadratic discriminant
+  distinct-root count into the existing Frobenius trace roots formula r−1. The nonzero quadratic discriminant
   excludes the repeated-root value0; retain that boundary rather than asserting every singular model has
   sign±1.
 
-- `QuadraticPinch.pointCount_field_map`: For any unital field homomorphism f:k→L with L finite,
+- For any unital field homomorphism f:k→L with L finite,
   `W_f=(f(a),−f(b),0,0,0)` has pointCount=Nat.card(L) if t²+f(a)t+f(b) has a root in L, and Nat.card(L)+2
   otherwise. No separate source-finiteness assumption is required in the signature; injectivity and
   receiving-field finiteness imply source finiteness. k is any field, L is a finite field, f:k→L is any unital
@@ -5038,7 +4986,7 @@ The construction needs the following maps and laws.
   branch formula. This packages the actual coefficient tuple and receiving root predicate, not the
   still-required odd/even finite-extension splitting criterion.
 
-- `QuadraticPinch.quadratic_root_iff_even`: For irreducible q=X²+C(a)X+C(b) over k and finite field L with a
+- For irreducible q=X²+C(a)X+C(b) over k and finite field L with a
   k-algebra structure, there exists t∈L with t²+algebraMap(a)t+algebraMap(b)=0 if and only if 2 divides
   Module.finrank(k,L). k and L are fields, L is finite, with the actual native Algebra k L. No separate Finite
   k assumption is needed: injectivity into L forces it. a,b∈k and q=X²+C(a)X+C(b) is irreducible over k. Use
@@ -5051,7 +4999,7 @@ The construction needs the following maps and laws.
   aeval_algHom_eq_zero. Apply the finite-field algebra-homomorphism criterion and rewrite the source finrank
   to2. No new generic field-embedding theorem is planned.
 
-- `QuadraticPinch.quadraticRootCount_extension_parity`: Under irreducibility of q and nonzero quadratic
+- Under irreducibility of q and nonzero quadratic
   discriminant, the native subtype {t∈L:t²+algebraMap(a)t+algebraMap(b)=0} has Nat.card2 when 2 divides
   Module.finrank(k,L), and0 otherwise. k and L are fields, L is finite, with the actual native Algebra k L. No
   separate Finite k assumption is needed: injectivity into L forces it. a,b∈k and q=X²+C(a)X+C(b) is
@@ -5063,8 +5011,8 @@ The construction needs the following maps and laws.
   nonvanishing. Apply the existing native distinct-root branch formula in L, then replace root existence by
   the separately proved degree criterion.
 
-- `QuadraticPinch.pointCount_extension_parity`: For `W_L=(algebraMap(a),−algebraMap(b),0,0,0)`, under
-  irreducibility and nonzero quadratic discriminant, `W_L.pointCount` is Nat.card(L) for even
+- For `W_L=(algebraMap(a),−algebraMap(b),0,0,0)`, under
+  irreducibility and nonzero quadratic discriminant, the point count of W_L is Nat.card(L) for even
   Module.finrank(k,L), and Nat.card(L)+2 for odd degree, including singular origin and infinity. k and L are
   fields, L is finite, with the actual native Algebra k L. No separate Finite k assumption is needed:
   injectivity into L forces it. a,b∈k and q=X²+C(a)X+C(b) is irreducible over k. Use actual Module.finrank k
@@ -5075,7 +5023,7 @@ The construction needs the following maps and laws.
   its root predicate by divisibility of extension degree. Reconcile proof-irrelevant decidability instances by
   splitting the condition; neither outcome is assumed.
 
-- `QuadraticPinch.pointCount_extension_power`: For the same actual `W_L` and hypotheses, `W_L.pointCount` equals
+- For the same actual `W_L` and hypotheses, the point count of W_L equals
   `Nat.card(k)^Module.finrank(k,L)` when the degree is even, and this power plus2 when it is odd. k and L are
   fields, L is finite, with the actual native Algebra k L. No separate Finite k assumption is needed:
   injectivity into L forces it. a,b∈k and q=X²+C(a)X+C(b) is irreducible over k. Use actual Module.finrank k
@@ -5087,7 +5035,7 @@ The construction needs the following maps and laws.
   This computes the actual equation-level projective count, without asserting a geometric pinching
   identification.
 
-- `QuadraticPinch.frobeniusTrace_extension_parity`: For the same actual `W_L` and hypotheses, `W_L.frobeniusTrace`
+- For the same actual `W_L` and hypotheses, the Frobenius trace of W_L
   is1 for even Module.finrank(k,L) and−1 for odd degree. This is the existing integer count defect on a
   singular equation, without a cohomological or elliptic trace assertion. k and L are fields, L is finite,
   with the actual native Algebra k L. No separate Finite k assumption is needed: injectivity into L forces it.
@@ -5149,8 +5097,6 @@ For q=t²+at+b, prove every polynomial has a unique representation P(q)+tQ(q). E
 using t²=q−at−b; uniqueness compares the even leading degree of P(q) with the odd leading degree of tQ(q).
 This argument works in every characteristic and does not require q to be separable.
 
-*Lean name:* `QuadraticPinch.exists_normal_form`.
-
 Use the native Polynomial.induction_on: constants have the pair (C(c),0), and addition adds the two pairs. For
 multiplication by t, send (P,Q) to ((t−b)Q,P−aQ). Substitution and t²=q−at−b verify the identity in k[t]. This
 is a specialized coordinate decomposition of existing Polynomial, not a replacement polynomial, quotient or
@@ -5165,27 +5111,27 @@ characteristic restriction is imposed.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.constant_remainder`: For c∈k and h∈k[t], the native monic remainder of C(c)+qh modulo q is
+- For c∈k and h∈k[t], the native monic remainder of C(c)+qh modulo q is
   C(c). k is a field, q is monic with natural degree exactly two. Uses `Polynomial.add_modByMonic`,
   `Polynomial.self_mul_modByMonic`, `Polynomial.modByMonic_eq_self_iff`, `Polynomial.degree_C_le`,
   `Polynomial.degree_eq_natDegree`. Use the built add_modByMonic and self_mul_modByMonic to remove qh. The
   degree of C(c) is at most zero, while q has degree two since it is monic and nonzero. Apply the built
   modByMonic_eq_self_iff. The zero constant is included.
 
-- `QuadraticPinch.linear_remainder`: For every c∈k, the native remainder of C(c)*t modulo q is C(c)*t. k is a
+- For every c∈k, the native remainder of C(c)*t modulo q is C(c)*t. k is a
   field, q is monic with natural degree exactly two. Uses `Polynomial.degree_C_mul_X`,
   `Polynomial.degree_eq_natDegree`, `Polynomial.modByMonic_eq_self_iff`. Separate c=0, whose remainder is
   zero. For c≠0 the polynomial C(c)*t has degree one by degree_C_mul_X; q has degree two. Apply
   modByMonic_eq_self_iff. No inversion of two or discriminant computation occurs.
 
-- `QuadraticPinch.normal_form_degrees`: For a field k and q,P,Q∈k[t] with natDegree(q)=2 and Q≠0,
+- For a field k and q,P,Q∈k[t] with natDegree(q)=2 and Q≠0,
   natDegree(P(q))=2 natDegree(P) and natDegree(tQ(q))=2 natDegree(Q)+1. The first equality includes P=0, where
   native natDegree(0)=0. Uses `Polynomial.comp_eq_zero_iff`, `Polynomial.natDegree_comp`,
   `Polynomial.natDegree_X_mul`. Polynomial.comp_eq_zero_iff and natDegree(q)=2 imply Q(q)≠0: the exceptional
   constant-composition case contradicts natDegree(C(c))=0. Apply Polynomial.natDegree_comp and
   Polynomial.natDegree_X_mul; rewrite natDegree(q)=2. Keep Q≠0, since natDegree(t·0)=0 is not1.
 
-- `QuadraticPinch.normal_form_injective`: For a field k and q∈k[t] with natDegree(q)=2, the actual function
+- For a field k and q∈k[t] with natDegree(q)=2, the actual function
   (P,Q)↦P(q)+tQ(q) from k[t]×k[t] to k[t] is injective. Uses §2.32, `Polynomial.comp_eq_zero_iff`,
   `Polynomial.natDegree_neg`. First prove the zero-form criterion. If P(q)+tQ(q)=0 with Q≠0, P(q)=−tQ(q). Its
   two native natural degrees have opposite parity by quadratic-normal-form-degrees and natDegree_neg, a
@@ -5203,7 +5149,7 @@ The construction needs the following maps and laws.
 
 ### 2.33 canonical linear equivalence for a quadratic pinch
 
-Construct `QuadraticPinch.coordinates` as the actual k-linear equivalence (P,Q)↦P(q)+tqQ(q) from k[T]×k[T] to
+Construct the coordinates as the actual k-linear equivalence (P,Q)↦P(q)+tqQ(q) from k[T]×k[T] to
 `A_q`. Prove injectivity, surjectivity, inverse coordinate and degree laws. Promote it to the parameter
 k[T]-linear comparison with T acting as q. Componentwise multiplication on the product is incorrect; the
 multiplication law uses (tq)²=q³−bq²−aq(tq).
@@ -5214,27 +5160,27 @@ Proposition3.2, p11; v3 HTML corresponding conductor paragraphs and full display
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.pinch_normal_form_injective`: For a field k and q∈k[t] with natDegree(q)=2, the actual
+- For a field k and q∈k[t] with natDegree(q)=2, the actual
   function (P,Q)↦P(q)+tqQ(q) from k[t]×k[t] to k[t] is injective. Uses §2.32. Rewrite the pinch form as
   P(q)+t(tQ)(q). Apply quadratic-normal-form-injective to the pairs (P,tQ). Equality of their first components
   gives equality of P. Cancel the native nonzero polynomial t from the second components to obtain equality of
   Q. This is the zero-remainder certificate for the existing presentation argument, not yet a proof that every
   bivariate polynomial admits the required remainder modulo the relation.
 
-- `QuadraticPinch.quadratic_natDegree`: natDegree(t²+at+b)=2 over every field, including a=b=0 and
+- natDegree(t²+at+b)=2 over every field, including a=b=0 and
   characteristic2.
 
-- `QuadraticPinch.coordinateMap_coe`: The ambient polynomial of `M_(a,b)(P,Q)` is P(q)+tqQ(q).
+- The ambient polynomial of `M_(a,b)(P,Q)` is P(q)+tqQ(q).
 
-- `QuadraticPinch.coordinateMap_bijective`: For every field k and a,b∈k, the actual k-linear map
+- For every field k and a,b∈k, the actual k-linear map
   `M_(a,b):(k[t]×k[t])→A_(t²+at+b)` is bijective. There is no separability or characteristic hypothesis. Uses
-  §2.33, §2.26. Coerce equality of two outputs into the ambient polynomial ring. coordinateMap_coe turns it
-  into equality of P(q)+tqQ(q); quadratic-pinch-normal-form-injective with quadratic_natDegree gives equality
-  of both inputs. For a native element f of `A_q`, use the existing pinch_spanning API to obtain P,Q with
+  §2.33, §2.26. Coerce equality of two outputs into the ambient polynomial ring. coordinate map coe turns it
+  into equality of P(q)+tqQ(q); quadratic-pinch-normal-form-injective with quadratic nat degree gives equality
+  of both inputs. For a native element f of `A_q`, use the existing pinch spanning API to obtain P,Q with
   f=P(q)+tqQ(q). The ambient formula and Subtype.ext give M(P,Q)=f. This combines the specialized existence
   and uniqueness here; generic bijective-map-to-equivalence machinery is imported from the library.
 
-- `QuadraticPinch.coordinateMap`: For any field k and a,b∈k, put q=t²+at+b and `A_q={f∈k[t]:f` mod q is scalar},
+- For any field k and a,b∈k, put q=t²+at+b and `A_q={f∈k[t]:f` mod q is scalar},
   the existing native Subalgebra. Define the actual k-linear map `M_(a,b):k[t]×k[t]→A_q` by (P,Q)↦P(q)+tqQ(q).
   The product has its ordinary componentwise k-module structure. This is a linear map, not an algebra
   homomorphism. Uses §2.26, `Polynomial.aeval`, `Polynomial.aeval_subalgebra_coe`, `Polynomial.comp_eq_aeval`.
@@ -5244,20 +5190,20 @@ The construction needs the following maps and laws.
   multiplication by fixed v is k-linear. Their sum on the product proves addition and scalar laws.
   aeval_subalgebra_coe and comp_eq_aeval give the exact ambient polynomial formula. The monic displayed
   quadratic has native natural degree2 in every characteristic. The generic degree machinery is already in
-  Mathlib; quadratic_natDegree is just this coefficient-specific helper.
+  Mathlib; quadratic nat degree is just this coefficient-specific helper.
 
-- `QuadraticPinch.coordinates_coe`: For q=t²+at+b, the ambient value of e(P,Q) is P(q)+tqQ(q).
+- For q=t²+at+b, the ambient value of e(P,Q) is P(q)+tqQ(q).
 
-- `QuadraticPinch.coordinates_symm_normal_form`: If (P,Q)=e⁻¹(f), the actual ambient polynomial f is
+- If (P,Q)=e⁻¹(f), the actual ambient polynomial f is
   P(q)+tqQ(q). The inverse is the unique normal-form coordinate assignment.
 
-- `QuadraticPinch.coordinates_unique`: For any native `f∈A_q` and pair (P,Q), f=P(q)+tqQ(q) iff e⁻¹(f)=(P,Q).
+- For any native `f∈A_q` and pair (P,Q), f=P(q)+tqQ(q) iff e⁻¹(f)=(P,Q).
 
-- `QuadraticPinch.basis_inl`: For all n≥0, the ambient image of `b(inl n)` is `q^n`; n=0 gives1.
+- For all n≥0, the ambient image of `b(inl n)` is `q^n`; n=0 gives1.
 
-- `QuadraticPinch.basis_inr`: For all n≥0, the ambient image of `b(inr n)` is `tq^(n+1)`; n=0 gives tq.
+- For all n≥0, the ambient image of `b(inr n)` is `tq^(n+1)`; n=0 gives tq.
 
-- `QuadraticPinch.basis_repr`: For any field k, a,b∈k, `f∈A_(t²+at+b)` and n≥0, put `(P,Q)=e_(a,b)⁻¹(f)`. The
+- For any field k, a,b∈k, `f∈A_(t²+at+b)` and n≥0, put `(P,Q)=e_(a,b)⁻¹(f)`. The
   actual native basis representation satisfies b.repr(f)(inl n)=P.coeff(n) and b.repr(f)(inr n)=Q.coeff(n).
   This is an equality of the existing finitely supported representation coordinates, not a freely chosen
   coefficient map. Uses §2.33, `Module.Basis.prod_repr_inl`, `Module.Basis.prod_repr_inr`. Unfold Basis.map:
@@ -5265,13 +5211,13 @@ The construction needs the following maps and laws.
   polynomial coordinates. The native polynomial monomial basis uses the polynomial coefficient linear
   equivalence; its repr at n is coeff_n by definition.
 
-- `QuadraticPinch.basis_reconstruction`: Finsupp.linearCombination k b (b.repr f)=f in the actual subalgebra,
+- Finsupp.linearCombination k b (b.repr f)=f in the actual subalgebra,
   for every f.
 
-- `QuadraticPinch.basis_degrees`: The natural degrees of the ambient basis vectors are2n and2(n+1)+1. All n,
+- The natural degrees of the ambient basis vectors are2n and2(n+1)+1. All n,
   including0, are allowed; q is nonzero.
 
-- `QuadraticPinch.basis`: For every field k and q=t²+at+b, construct an actual native Module.Basis `(ℕ⊕ℕ) k A_q`
+- For every field k and q=t²+at+b, construct an actual native Module.Basis `(ℕ⊕ℕ) k A_q`
   by mapping the product of the two native polynomial monomial bases through `e_(a,b)`. The vectors are `b(inl n)=q^n` and `b(inr n)=tq^(n+1)`. Thus the left index0 is1, the positive left indices have degrees2,4,…, and the
   right indices have degrees3,5,… . This is a basis of the existing subalgebra as a k-vector space, not a
   k[q]-module instance or a mere spanning-family assertion. Uses §2.33, `Polynomial.basisMonomials`,
@@ -5279,7 +5225,7 @@ The construction needs the following maps and laws.
   `Module.Basis.linearCombination_repr`, `Polynomial.natDegree_pow`, `Polynomial.natDegree_X_mul`. Use
   Polynomial.basisMonomials twice, the existing Module.Basis.prod to obtain a basis of k[t]×k[t] indexed by
   ℕ⊕ℕ, and Module.Basis.map along e to obtain a basis of `A_q`. prod_apply, coe_basisMonomials and
-  coordinates_coe evaluate the two summand vectors. The first is `q^n`; the second is `tq·q^n=tq^(n+1)`. This
+  coordinates coe evaluate the two summand vectors. The first is `q^n`; the second is `tq·q^n=tq^(n+1)`. This
   treats left index0 explicitly. The generic linearCombination_repr gives reconstruction by the native
   finitely supported coordinates. Infinite index sets require Finsupp.linearCombination, not a sum over a
   nonexistent finite enumeration. natDegree_pow and natDegree_X_mul, using q≠0 and natDegree(q)=2, give
@@ -5316,7 +5262,7 @@ The construction needs the following maps and laws.
 
 ### 2.34 canonical hypersurface algebra isomorphism
 
-Construct `QuadraticPinch.presentationEquiv:k[U,V]/(V²+aUV+bU²−U³)≃ₐ[k]A_q` with U↦q and V↦tq. Reduce each
+Construct the presentation `k[U,V]/(V²+aUV+bU²−U³)≃ₐ[k]A_q` with U↦q and V↦tq. Reduce each
 polynomial modulo the monic V² relation to P(U)+VQ(U), then use coordinate uniqueness. Prove the actual
 inclusion and both generator/inverse equations. No characteristic, irreducibility or distinct-root restriction
 is added.
@@ -5332,28 +5278,28 @@ complete displayed proofs of3.1–3.2 in v3 HTML.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.inV_U`: The V-coordinate chart sends U to C(U), not to the outer variable V. k is any field;
+- The V-coordinate chart sends U to C(U), not to the outer variable V. k is any field;
   a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, `MvPolynomial.rename_X`, `MvPolynomial.finSuccEquiv_X_succ`,
   `MvPolynomial.uniqueAlgEquiv`. Apply native rename to the swapped index, the successor-variable formula and
   the single-variable coefficient equivalence.
 
-- `QuadraticPinch.inV_V`: The V-coordinate chart sends V to the outer polynomial variable V. k is any field;
+- The V-coordinate chart sends V to the outer polynomial variable V. k is any field;
   a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, `MvPolynomial.rename_X`, `MvPolynomial.finSuccEquiv_X_zero`. The
   swapped index is0; native finSuccEquiv maps it to the outer variable and coefficient transport preserves
   that variable.
 
-- `QuadraticPinch.inV_relation`: For all a,b, `e(F_(a,b))=V²+C(aU)V+C(bU²−U³)` in the actual polynomial ring
+- For all a,b, `e(F_(a,b))=V²+C(aU)V+C(bU²−U³)` in the actual polynomial ring
   k[U][V]. k is any field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t].
   Use native MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, §2.26. Apply the algebra-homomorphism sum/product/power and scalar
   laws, use the two coordinate formulas, and collect the coefficient polynomial. Retain the cubic term and the
   UV coefficient.
 
-- `QuadraticPinch.inV`: Use the existing native algebra equivalences to construct e:k[U,V]≅k[U][V] with
+- Use the existing native algebra equivalences to construct e:k[U,V]≅k[U][V] with
   e(U)=C(U) and e(V)=V. Swap the two Fin2 indices before finSuccEquiv, then map the native one-variable
   coefficient equivalence. This is a coordinate-convention adapter on existing carriers, not a new general
   polynomial construction. k is any field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage
@@ -5364,13 +5310,13 @@ The construction needs the following maps and laws.
   essential because finSuccEquiv chooses index0 as the outer variable, while this chart requires index1
   outside.
 
-- `QuadraticPinch.substitution_relation`: For all a,b, `ψ_(a,b)(F_(a,b))=0`. k is any field; a,b∈k; q=t²+at+b
+- For all a,b, `ψ_(a,b)(F_(a,b))=0`. k is any field; a,b∈k; q=t²+at+b
   and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native MvPolynomial(Fin2,k),
   Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses
   §2.34, §2.26. Evaluate the complete relation at q,tq and use q=t²+at+b. Commutative polynomial ring
   arithmetic proves the equality. This alone does not identify the full kernel.
 
-- `QuadraticPinch.substitution_inV`: For every f∈k[U,V], `ψ(f)=eval₂(aeval_q,tq)(e(f))` in k[t]. The coefficient
+- For every f∈k[U,V], `ψ(f)=eval₂(aeval_q,tq)(e(f))` in k[t]. The coefficient
   homomorphism evaluates U at q and the outer variable at tq. k is any field; a,b∈k; q=t²+at+b and `A_q` is the
   already owned scalar-preimage Subalgebra of k[t]. Use native MvPolynomial(Fin2,k), Polynomial(k[U]), native
   ideals/quotients and algebra maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses §2.34,
@@ -5379,41 +5325,41 @@ The construction needs the following maps and laws.
   algebra homomorphisms on U and V using their chart formulas, then use native multivariable algebra
   extensionality.
 
-- `QuadraticPinch.substitution_range`: For all a,b, the actual range Subalgebra of `ψ_(a,b)` is `A_q`. k is any
+- For all a,b, the actual range Subalgebra of `ψ_(a,b)` is `A_q`. k is any
   field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, §2.26, `MvPolynomial.aeval_range`, `Matrix.range_cons_cons_empty`.
   Native multivariable evaluation has range the algebra generated by its value tuple. The native two-element
   tuple has range {q,tq}; use the inherited exact generation theorem to identify this with `A_q`.
 
-- `QuadraticPinch.substitution_ker`: For all a,b, `ker(ψ_(a,b))=Ideal.span{F_(a,b)}` in k[U,V]. k is any field;
+- For all a,b, `ker(ψ_(a,b))=Ideal.span{F_(a,b)}` in k[U,V]. k is any field;
   a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, `RingHom.mem_ker`, `Ideal.mem_span_singleton`. Use native ideal
   extensionality, kernel membership and membership in a principal ideal. The exact zero/divisibility
   equivalence supplies both directions; checking only F∈ker would not suffice.
 
-- `QuadraticPinch.substitution`: Define `ψ_(a,b):k[U,V]→k[t]` as the native algebra evaluation at U=q and V=tq,
+- Define `ψ_(a,b):k[U,V]→k[t]` as the native algebra evaluation at U=q and V=tq,
   where q=t²+at+b. This uses the existing multivariable evaluation homomorphism. k is any field; a,b∈k;
   q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native MvPolynomial(Fin2,k),
   Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses
   `MvPolynomial.aeval`. Instantiate the native algebra evaluation at the actual two-element polynomial tuple;
   its generic algebra laws are imported.
 
-- `QuadraticPinch.inV_relation_monic`: For every a,b, the native polynomial `e(F_(a,b))` is monic as a
+- For every a,b, the native polynomial `e(F_(a,b))` is monic as a
   polynomial in V over k[U]. k is any field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage
   Subalgebra of k[t]. Use native MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra
   maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses §2.34. The displayed leading term is V²; both other terms
   have lower outer degree. Native polynomial monicity automation verifies its leading coefficient1 without
   inverting any scalar.
 
-- `QuadraticPinch.inV_relation_natDegree`: For every a,b, `e(F_(a,b))` has native natural V-degree2, including
+- For every a,b, `e(F_(a,b))` has native natural V-degree2, including
   characteristic2 and a=b=0. k is any field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage
   Subalgebra of k[t]. Use native MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra
   maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses §2.34. Native degree automation compares the monic V²
   leading term with the degree-at-most1 remainder.
 
-- `QuadraticPinch.inV_remainder_normal_form`: For every H∈k[U][V], division by e(F) leaves a remainder C(P)+V
+- For every H∈k[U][V], division by e(F) leaves a remainder C(P)+V
   C(Q) for some actual P,Q∈k[U]. This includes the zero remainder. k is any field; a,b∈k; q=t²+at+b and `A_q` is
   the already owned scalar-preimage Subalgebra of k[t]. Use native MvPolynomial(Fin2,k), Polynomial(k[U]),
   native ideals/quotients and algebra maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses §2.34,
@@ -5422,14 +5368,14 @@ The construction needs the following maps and laws.
   Choose the native zeroth and first remainder coefficients. The existing degree-at-most1 formula reconstructs
   the exact remainder as C(P)+VC(Q).
 
-- `QuadraticPinch.quadratic_natDegree`: For every field k and a,b∈k, t²+at+b has native natural degree2. This
+- For every field k and a,b∈k, t²+at+b has native natural degree2. This
   supplies the coordinate-map API used by the full-kernel proof. k is any field; a,b∈k; q=t²+at+b and `A_q` is
   the already owned scalar-preimage Subalgebra of k[t]. Use native MvPolynomial(Fin2,k), Polynomial(k[U]),
   native ideals/quotients and algebra maps. Coordinate0 is U=q,coordinate1 is V=tq. Uses §2.33. Unfold the
   explicit polynomial and use native degree automation; its leading coefficient is1. The coordinate-map
   construction does not depend on this lemma, so there is no cycle.
 
-- `QuadraticPinch.substitution_eq_zero_iff_dvd`: For every f∈k[U,V], ψ(f)=0 iff `F_(a,b)` divides f in the
+- For every f∈k[U,V], ψ(f)=0 iff `F_(a,b)` divides f in the
   actual multivariable polynomial ring. No separability or characteristic restriction is used. k is any field;
   a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
@@ -5442,39 +5388,39 @@ The construction needs the following maps and laws.
   divisibility yields e(F)∣e(f). Pull the divisor witness back through the native algebra-equivalence inverse
   to get F∣f. Conversely a multiple of F evaluates to0 by the native algebra multiplication law.
 
-- `QuadraticPinch.substitutionToAlgebra_coe`: For every f, the inclusion of `ψ_A(f)` in k[t] is ψ(f). k is any
+- For every f, the inclusion of `ψ_A(f)` in k[t] is ψ(f). k is any
   field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, `AlgHom.coe_codRestrict`. This is the defining native
   codomain-restriction coercion, stated for quotient-map evaluation.
 
-- `QuadraticPinch.substitutionToAlgebra_surjective`: For all a,b the actual `ψ_A:k[U,V]→A_q` is surjective. k is
+- For all a,b the actual `ψ_A:k[U,V]→A_q` is surjective. k is
   any field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34. Each actual `f∈A_q` belongs to the proven range, so take its
   multivariable preimage. Equality in the subalgebra follows by native subtype extensionality.
 
-- `QuadraticPinch.substitutionToAlgebra_ker`: The native kernel of `ψ_A` is the principal ideal generated by
+- The native kernel of `ψ_A` is the principal ideal generated by
   `F_(a,b)`. k is any field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t].
   Use native MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, `RingHom.mem_ker`. Equality to0 in the actual Subalgebra is equivalent
   to equality to0 after its native inclusion in k[t]. Apply the full ambient kernel theorem by native ideal
   extensionality.
 
-- `QuadraticPinch.substitutionToAlgebra`: Restrict `ψ_(a,b)` to a native k-algebra homomorphism `ψ_A:k[U,V]→A_q`
+- Restrict `ψ_(a,b)` to a native k-algebra homomorphism `ψ_A:k[U,V]→A_q`
   using the proven exact range. The target is the existing Subalgebra, not an abstract replacement. k is any
   field; a,b∈k; q=t²+at+b and `A_q` is the already owned scalar-preimage Subalgebra of k[t]. Use native
   MvPolynomial(Fin2,k), Polynomial(k[U]), native ideals/quotients and algebra maps. Coordinate0 is
   U=q,coordinate1 is V=tq. Uses §2.34, `AlgHom.codRestrict`. Every substitution value belongs to its native
   `range=A_q`; use native algebra codomain restriction.
 
-- `QuadraticPinch.presentationEquiv_mk`: For every representative f, the ambient polynomial of the quotient
+- For every representative f, the ambient polynomial of the quotient
   equivalence on[f] is ψ(f).
 
-- `QuadraticPinch.presentationEquiv_symm_substitution`: The inverse sends `ψ_A(f)` to the exact native quotient
+- The inverse sends `ψ_A(f)` to the exact native quotient
   class[f].
 
-- `QuadraticPinch.presentationEquiv_generators`: The native classes[U] and[V] map to q and tq, respectively.
+- The native classes[U] and[V] map to q and tq, respectively.
 
 **Checks.**
 
@@ -5523,7 +5469,7 @@ The construction needs the following maps and laws.
 
 ### 2.35 native affine solutions as a nonroot parameter or the origin
 
-Construct `QuadraticPinch.affineParamEquiv` between all affine solutions of the native equation and `Option
+Construct the affine param equivalence between all affine solutions of the native equation and `Option
 {t∈k | q(t)≠0}`. The origin corresponds to none. If x≠0 the parameter is y/x; conversely t maps to
 (q(t),tq(t)). Prove x=0 forces y=0 before dividing, and prove q(y/x)=x. This counts equation solutions rather
 than the smooth elliptic point group.
@@ -5536,29 +5482,29 @@ proofs and adjacent point-count table in HTML.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.parameter_equation`: For any field k and a,b,t∈k, put q(t)=t²+at+b and W=(a,−b,0,0,0). Then
+- For any field k and a,b,t∈k, put q(t)=t²+at+b and W=(a,−b,0,0,0). Then
   W.toAffine.Equation(q(t),tq(t)). k is a field; a,b∈k; No separability, perfectness or characteristic
   restriction. Uses `WeierstrassCurve.Affine.equation_iff`. Rewrite the native affine equation; substitute
   x=q(t),y=tq(t). Ring normalization proves y²+axy=x³−bx² without dividing or assuming q(t)≠0.
 
-- `QuadraticPinch.affine_zero_x`: For any field k and a,b,y∈k, W.toAffine.Equation(0,y) implies y=0. k is a
+- For any field k and a,b,y∈k, W.toAffine.Equation(0,y) implies y=0. k is a
   field; a,b∈k; No separability, perfectness or characteristic restriction. Uses
   `WeierstrassCurve.Affine.equation_iff`. The equation at x=0 reduces to y²=0. A field is reduced, so y=0. The
   origin is retained as an equation solution even though the model is singular.
 
-- `QuadraticPinch.parameter_recovery`: For any field k and a,b,x,y∈k with W.toAffine.Equation(x,y) and x≠0,
+- For any field k and a,b,x,y∈k with W.toAffine.Equation(x,y) and x≠0,
   q(y/x)=x. k is a field; a,b∈k; No separability, perfectness or characteristic restriction. Uses
   `WeierstrassCurve.Affine.equation_iff`. Rewrite the equation and divide through x², justified by x≠0. Clear
   denominators explicitly; the remainder is exactly the given equation.
 
-- `QuadraticPinch.affineParamEquiv_origin`: The origin maps to none.
+- The origin maps to none.
 
-- `QuadraticPinch.affineParamEquiv_symm_none`: The underlying pair of the inverse at none is (0,0).
+- The underlying pair of the inverse at none is (0,0).
 
-- `QuadraticPinch.affineParamEquiv_symm_some`: The underlying pair of the inverse at some(t) is exactly
+- The underlying pair of the inverse at some(t) is exactly
   (q(t),tq(t)).
 
-- `QuadraticPinch.affineParamEquiv_nonzero`: For a solution with x≠0, mapping Subtype.val over the Option
+- For a solution with x≠0, mapping Subtype.val over the Option
   output gives some(y/x).
 
 **Checks.**
@@ -5581,10 +5527,8 @@ For any q, including zero and units, prove the actual inclusion `A_q→k[t]` bec
 Both q and qt belong to `A_q`, so the missing coordinate t is recovered as qt/q. The q=0 localization is zero;
 do not assume its localization maps injective.
 
-*Lean name:* `QuadraticPinch.away_bijective`.
-
 The membership criterion gives `q∈A_q` and `qh∈A_q` for every h∈k[X]. Thus q is in the general ambient
-conductor, without needing to identify the whole conductor with(q). Apply `AffinePinching.conductor_away_bijective` to the
+conductor, without needing to identify the whole conductor with(q). Apply the conductor away bijective to the
 actual underlying subring and its subtype inclusion.
 
 ([Ferrand](https://numdam.org/item/BSMF_2003__131_4_553_0.pdf), Theorem5.1, printed p568, complete
@@ -5612,8 +5556,6 @@ Name the inverse localization equivalence and prove its value on the ambient coo
 of actual elements of `A_q`. Include the canonical coefficient and localization-map squares. This expression is
 an identity in the localization, not division by a nonzero field element.
 
-*Lean name:* `QuadraticPinch.away_inverse_generator`.
-
 Construct the native equivalence directly from the specified localized inclusion and its proved bijectivity.
 The membership criterion supplies the numerator qX and denominator q as actual subtype elements.
 Apply the equivalence’s injectivity and inverse law. Native `map_mk′` and `eq_mk′_iff_mul_eq` reduce the asserted
@@ -5637,8 +5579,6 @@ with the actual coefficient inclusion. The polynomial coordinate is integral by 
 and localization identifies the fraction fields. Use normality of k[t] to obtain both inclusion directions for
 integral closure.
 
-*Lean name:* `QuadraticPinch.integral_closure`.
-
 k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its native subtype inclusion and
 restricted multiplication action. No separability, irreducibility, perfectness or characteristic restriction
 is imposed. q is monic with native natural degree exactly two. K is a field with the actual polynomial algebra
@@ -5655,7 +5595,7 @@ adjoining normalization discussion; affine algebraic deductions at its already o
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.fraction_ring`: For every nonzero polynomial q and every native fraction field K of k[X], K
+- For every nonzero polynomial q and every native fraction field K of k[X], K
   with the canonical restricted `A_q` algebra structure is also an actual native fraction field of `A_q`. k is any
   field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its native subtype inclusion and
   restricted multiplication action. No separability, irreducibility, perfectness or characteristic restriction
@@ -5667,7 +5607,7 @@ The construction needs the following maps and laws.
   lie in `A_q`. Multiplying numerator and denominator by the nonzero image of q gives z=(qa)/(qb). Apply the
   existing `IsFractionRing.of_field`, which handles zero numerators and denominator conditions.
 
-- `QuadraticPinch.integral_iff_polynomial`: For monic quadratic q and z in any native polynomial fraction
+- For monic quadratic q and z in any native polynomial fraction
   field K, z is integral over `A_q` if and only if z is the image of an actual polynomial in k[X]. k is any
   field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its native subtype inclusion and
   restricted multiplication action. No separability, irreducibility, perfectness or characteristic restriction
@@ -5676,21 +5616,21 @@ The construction needs the following maps and laws.
   integral-closure instance from the preceding comparison. Preserve the given polynomial structure map in the
   existence assertion.
 
-- `QuadraticPinch.fractionEquiv_algebraMap`: For `a∈A_q`, `E_q` maps its image in `Frac(A_q)` to the image of its
+- For `a∈A_q`, `E_q` maps its image in `Frac(A_q)` to the image of its
   actual ambient polynomial in Frac(k[X]). k is any field. `A_q` is the existing scalar-preimage Subalgebra of
   k[X], with its native subtype inclusion and restricted multiplication action. No separability,
   irreducibility, perfectness or characteristic restriction is imposed. q≠0. This general fraction-field or
   module-relation statement is not restricted to quadratics. Uses §2.38, `Subalgebra.algebraMap_def`. Use the
   native algebra-equivalence commutation law and the existing restricted subalgebra structure map.
 
-- `QuadraticPinch.fractionEquiv_symm_algebraMap`: For `a∈A_q`, `E_q⁻¹` maps the image of its actual ambient
+- For `a∈A_q`, `E_q⁻¹` maps the image of its actual ambient
   polynomial back to its image in `Frac(A_q)`. k is any field. `A_q` is the existing scalar-preimage Subalgebra of
   k[X], with its native subtype inclusion and restricted multiplication action. No separability,
   irreducibility, perfectness or characteristic restriction is imposed. q≠0. This general fraction-field or
   module-relation statement is not restricted to quadratics. Uses §2.38. Apply injectivity of `E_q` and its
   two-sided inverse law to the proved forward coefficient comparison.
 
-- `QuadraticPinch.fractionEquiv_symm_X`: `E_q⁻¹` sends the image of X to the fraction with numerator `qX∈A_q` and
+- `E_q⁻¹` sends the image of X to the fraction with numerator `qX∈A_q` and
   denominator `q∈A_q`, using their actual scalar-plus-q-multiple membership witnesses. k is any field. `A_q` is
   the existing scalar-preimage Subalgebra of k[X], with its native subtype inclusion and restricted
   multiplication action. No separability, irreducibility, perfectness or characteristic restriction is
@@ -5698,7 +5638,7 @@ The construction needs the following maps and laws.
   §2.38. Apply `E_q` to both sides. Its division preservation and coefficient comparison identify the right side
   with (qX)/q in Frac(k[X]); the image of q is nonzero, so the existing field cancellation law gives X.
 
-- `QuadraticPinch.fractionEquiv`: For every nonzero q∈k[X], construct the canonical native `A_q`-algebra
+- For every nonzero q∈k[X], construct the canonical native `A_q`-algebra
   equivalence `E_q:Frac(A_q)≃Frac(k[X])` using FractionRing.algEquiv and the proved shared-fraction-field
   instance. The receiving action is the native restriction of the polynomial action, and the maps commute with
   the actual inclusion. k is any field. `A_q` is the existing scalar-preimage Subalgebra of k[X], with its
@@ -5728,7 +5668,7 @@ The construction needs the following maps and laws.
 
 ### 2.39 the comparison `B/A_q` with E/k
 
-Construct `QuadraticPinch.residueCokernelEquiv_over_k:k[t]/A_q≃ₗ[k]AdjoinRoot(q)/k` for every q, where the
+Construct the residue comparison `k[t]/A_q≃ₗ[k]AdjoinRoot(q)/k` for every q, where the
 quotients are by the actual underlying k-submodules. Restrict the surjective residue map and identify its
 inverse-image constants with `A_q`. Prove the induced formula and its naturality without selecting residue
 representatives canonically.
@@ -5746,32 +5686,32 @@ characteristic assumption is imposed. q is monic and its native natural degree i
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.normalization_image_span`: For every q and f, f lies in the `A_q`-submodule of B generated by
+- For every q and f, f lies in the `A_q`-submodule of B generated by
   1 if and only if `f∈A_q`. k is any field; `A_q` acts by restriction. Uses §2.26, `Submodule.mem_span_singleton`,
   `Subalgebra.smul_def`. Use the singleton-span witness a•1=f and the actual restricted multiplication action;
   conversely take the subtype element f.
 
-- `QuadraticPinch.conductor_image_span`: For every q and z∈E, z lies in the `A_q`-submodule of E generated by 1
+- For every q and z∈E, z lies in the `A_q`-submodule of E generated by 1
   if and only if z belongs to the bottom k-subalgebra of E. k is any field; `A_q` acts by restriction. Uses
   §2.26, `Submodule.mem_span_singleton`, `Algebra.mem_bot`, `AdjoinRoot.mk_C`, `AdjoinRoot.algebraMap_eq`,
   `RingHom.toAlgebra`, `IsScalarTower.of_algebraMap_eq`. A singleton-span witness has scalar quotient image by
   the definition of `A_q`. Conversely lift a scalar c through the actual polynomial `C(c)∈A_q`.
 
-- `QuadraticPinch.residueCokernelMap_apply`: For every q and f∈B, `η_q(f)` is the class of the actual polynomial
+- For every q and f∈B, `η_q(f)` is the class of the actual polynomial
   quotient image of f in `E/(A_q·1)`. k is any field; `A_q` acts by restriction. Uses §2.39. Unfold the specified
   tower algebra map and quotient projection.
 
-- `QuadraticPinch.residueCokernelMap_ker`: For every q, the native `A_q`-linear kernel of `η_q` is exactly
+- For every q, the native `A_q`-linear kernel of `η_q` is exactly
   `A_q·1⊂B`. k is any field; `A_q` acts by restriction. Uses §2.39, `Submodule.Quotient.mk_eq_zero`. Kernel
   membership is vanishing of the quotient class. The residue-image span criterion and the definition of `A_q`
   identify it with the normalization-image span criterion.
 
-- `QuadraticPinch.residueCokernelMap_surjective`: For every q, `η_q:B→E/(A_q·1)` is surjective. k is any field;
+- For every q, `η_q:B→E/(A_q·1)` is surjective. k is any field;
   `A_q` acts by restriction. Uses §2.39, `Submodule.mkQ_surjective`, `AdjoinRoot.mk_surjective`. Lift a quotient
   class to its actual E representative using the native quotient projection, then lift that representative
   through the surjective polynomial quotient map.
 
-- `QuadraticPinch.residueCokernelMap`: For every q, define the specified `A_q`-linear map `η_q:B→E/(A_q·1)` as the
+- For every q, define the specified `A_q`-linear map `η_q:B→E/(A_q·1)` as the
   actual polynomial quotient map followed by the native submodule quotient projection. Its `A_q` action is
   restriction of polynomial multiplication through the actual quotient ring homomorphism. k is any field; `A_q`
   acts by restriction. Uses §2.26, `AdjoinRoot.mk`, `RingHom.toAlgebra`, `IsScalarTower.of_algebraMap_eq`,
@@ -5779,83 +5719,83 @@ The construction needs the following maps and laws.
   compatible k-polynomial scalar tower; restrict to `A_q` and compose the tower algebra map with the native
   quotient projection.
 
-- `QuadraticPinch.residueCokernelEquiv_apply`: For every q and f∈B, `ε_q([f])=[mk_q(f)]` in `E/(A_q·1)`. k is any
+- For every q and f∈B, `ε_q([f])=[mk_q(f)]` in `E/(A_q·1)`. k is any
   field; `A_q` acts by restriction. Uses §2.39, `Submodule.quotEquivOfEq_mk`,
   `LinearMap.quotKerEquivOfSurjective_apply_mk`. Use the actual quotient transport and quotient-kernel
   construction on representatives.
 
-- `QuadraticPinch.residueCokernelEquiv_symm_apply`: For every q and f∈B, `ε_q⁻¹([mk_q(f)])=[f]` in `B/(A_q·1)`. k
+- For every q and f∈B, `ε_q⁻¹([mk_q(f)])=[f]` in `B/(A_q·1)`. k
   is any field; `A_q` acts by restriction. Uses §2.39. Rewrite the forward representative equation and apply the
   native inverse law.
 
-- `QuadraticPinch.residueCokernelEquiv_annihilator`: For monic quadratic q, `Ann_Aq(E/(A_q·1))` equals the
+- For monic quadratic q, `Ann_Aq(E/(A_q·1))` equals the
   contraction of(q) along the actual inclusion `A_q⊂B`. k is any field; `A_q` acts by restriction. Uses §2.39,
   `LinearEquiv.annihilator_eq`. The native equivalence `ε_q` preserves annihilators. Apply the
   normalization-side annihilator equality; do not introduce another module action.
 
-- `QuadraticPinch.residueCokernelEquiv_scalar_action`: For monic quadratic q, `a∈A_q` and z∈E, `a•[z]=ρ_q(a)•[z]`
+- For monic quadratic q, `a∈A_q` and z∈E, `a•[z]=ρ_q(a)•[z]`
   in `E/(A_q·1)`. k is any field; `A_q` acts by restriction. Uses §2.39, `AdjoinRoot.mk_surjective`,
   `LinearMapClass.map_smul_of_tower`. Lift z through the actual polynomial quotient map. Transport the
   normalization-side action through `ε_q`, using its `A_q` linearity and native k-scalar-tower compatibility.
 
-- `QuadraticPinch.residueCokernelEquiv`: For every q, construct the specified `A_q`-linear equivalence
+- For every q, construct the specified `A_q`-linear equivalence
   `ε_q:B/(A_q·1)≃E/(A_q·1)` from `η_q` by the native first isomorphism theorem and its proved kernel equality. k
   is any field; `A_q` acts by restriction. Uses §2.39, `Submodule.quotEquivOfEq`,
   `LinearMap.quotKerEquivOfSurjective`. Transport the source quotient along the proved kernel equality, then
   compose with the native quotient-kernel equivalence of a surjective linear map.
 
-- `QuadraticPinch.conductor_span_restrictScalars`: For every q, restriction to k of the `A_q-submodule A_q·1⊂E`
+- For every q, restriction to k of the `A_q-submodule A_q·1⊂E`
   equals the actual underlying k-submodule of the bottom k-subalgebra of E. k is any field; `A_q` acts by
   restriction. Uses §2.39, `Submodule.restrictScalars`, `Subalgebra.toSubmodule`. Apply extensionality to the
   residue-image span criterion; restriction of scalars does not change membership.
 
-- `QuadraticPinch.normalization_quotient_reconstruction`: For monic quadratic q and every f∈B,
+- For monic quadratic q and every f∈B,
   `[f]=M_q(f).2•[X]` in the native `A_q-module B/(A_q·1)`, where `M_q` is the existing specified normalization
   coefficient pair. k is any field; `A_q` acts by restriction. Uses §2.26, `Submodule.Quotient.mk_add`,
   `Submodule.Quotient.mk_smul`, `Submodule.Quotient.mk_eq_zero`. Apply the existing reconstruction of f by 1
   and X. The native quotient kills 1 and respects sums and scalar multiplication.
 
-- `QuadraticPinch.normalization_quotient_scalar_action`: For monic quadratic q, `a∈A_q` and f∈B,
+- For monic quadratic q, `a∈A_q` and f∈B,
   `a•[f]=ρ_q(a)•[f]` in `B/(A_q·1)`, where `ρ_q` is the existing native scalar-remainder k-algebra homomorphism. k
   is any field; `A_q` acts by restriction. Uses §2.26, §2.39, `Submodule.Quotient.eq`,
   `Submodule.Quotient.mk_smul`, `Subalgebra.smul_def`. Write the actual ambient a=C(c)+qh using membership.
   The existing residue normal-form API gives `ρ_q(a)=c`. The two polynomial products differ by `qhf∈A_q`, so
   native quotient equality proves the result.
 
-- `QuadraticPinch.normalization_quotient_generator_ne_zero`: For monic quadratic q, [X]≠0 in `B/(A_q·1)`. k is
+- For monic quadratic q, [X]≠0 in `B/(A_q·1)`. k is
   any field; `A_q` acts by restriction. Uses §2.39, §2.26, §2.32, `Submodule.Quotient.mk_eq_zero`. Vanishing
   would place X in `A_q`. The existing scalar-remainder lemma and linear remainder computation then equate X
   with a constant; coefficient 1 gives a contradiction.
 
-- `QuadraticPinch.normalization_quotient_annihilator_mem`: For monic quadratic q and `a∈A_q`, a annihilates
+- For monic quadratic q and `a∈A_q`, a annihilates
   `B/(A_q·1)` if and only if `ρ_q(a)=0`. k is any field; `A_q` acts by restriction. Uses §2.39,
   `Module.mem_annihilator`, `Submodule.Quotient.induction_on`. An annihilator element kills the nonzero root
   class. The actual residue scalar action and field scalar cancellation force residue zero. Conversely
   quotient induction and the scalar action show residue zero kills every class.
 
-- `QuadraticPinch.normalization_quotient_annihilator`: For monic quadratic q, `Ann_Aq(B/(A_q·1))` equals the
+- For monic quadratic q, `Ann_Aq(B/(A_q·1))` equals the
   contraction of the actual polynomial ideal(q) along `A_q⊂B`. k is any field; `A_q` acts by restriction. Uses
   §2.39, §2.26, `Module.annihilator`. Combine annihilator membership with the existing residue-kernel API
   identifying `ker(ρ_q)` with the actual contraction of(q), then apply ideal extensionality.
 
-- `QuadraticPinch.normalization_quotient_finrank`: For monic quadratic q, the native k-dimension of `B/(A_q·1)`
+- For monic quadratic q, the native k-dimension of `B/(A_q·1)`
   is exactly one. k is any field; `A_q` acts by restriction. Uses §2.39, `Submodule.Quotient.induction_on`,
   `finrank_eq_one_iff_of_nonzero'`. The class of X is nonzero. Quotient induction, the specified normalization
   coefficient reconstruction and actual residue scalar action express every class as a k-multiple of [X].
   Apply the pinned dimension-one characterization, which requires no assumed finite-dimensional instance.
 
-- `QuadraticPinch.normalization_span_restrictScalars`: For every q, restriction to k of `A_q·1⊂B` equals the
+- For every q, restriction to k of `A_q·1⊂B` equals the
   actual underlying k-submodule of the existing subalgebra `A_q⊂B`. k is any field; `A_q` acts by restriction.
   Uses §2.39, `Submodule.restrictScalars`, `Subalgebra.toSubmodule`. Apply extensionality to the
   normalization-image span criterion; restriction of scalars does not change membership.
 
-- `QuadraticPinch.residueCokernelEquiv_over_k_apply`: For every q and f∈B, the specified k-linear `B/A_q≃E/k`
+- For every q and f∈B, the specified k-linear `B/A_q≃E/k`
   sends [f] to `[mk_q(f)]`. k is any field; `A_q` acts by restriction. Uses §2.39, `Submodule.quotEquivOfEq_mk`,
   `Submodule.Quotient.restrictScalarsEquiv_mk`, `Submodule.Quotient.restrictScalarsEquiv_symm_mk`. Apply
   native quotient transports and restriction-of-scalars maps on representatives; the middle comparison is the
   specified `ε_q`.
 
-- `QuadraticPinch.residueCokernelEquiv_over_k_symm_apply`: For every q and f∈B, the inverse of the specified
+- For every q and f∈B, the inverse of the specified
   k-linear `B/A_q≃E/k` sends `[mk_q(f)]` to [f]. k is any field; `A_q` acts by restriction. Uses §2.39. Rewrite the
   forward representative formula and apply the native inverse law.
 
@@ -5911,7 +5851,7 @@ The construction needs the following maps and laws.
 
 ### 2.40 quadratic pinching cubic
 
-Define `QuadraticPinch.InfinityChart.curve` as the native equation with coefficients (a,−b,0,0,0). Its
+Define the curve as the native equation with coefficients (a,−b,0,0,0). Its
 homogeneous cubic is Y²Z+aXYZ+bX²Z−X³=0. On Y≠0, with u=X/Y and z=Z/Y, its ring is k[u,z]/((1+au+bu²)z−u³).
 Prove this is k[u,1/(1+au+bu²)] using the relation and the constant term one. The polynomial identities and
 reciprocal-chart maps are also valid over an arbitrary commutative coefficient ring.
@@ -5923,9 +5863,9 @@ imposed.
 Use the existing native WeierstrassCurve carrier and its projective Equation; no new projective scheme or
 smoothness predicate is defined.
 
-Define `QuadraticPinch.curve a b` by the five-coefficient
-formula specified for `QuadraticPinch.InfinityChart.curve`. It records equation data before any scheme
-comparison. Its additional API is `curve_param`, sending t to (q(t),tq(t)), and `affine_count`, counting the
+Define the Weierstrass curve W(a,b) by the five-coefficient
+formula specified for the curve. It records equation data before any scheme
+comparison. It also has the parametrization sending t to (q(t),tq(t)) and the affine point count of the
 origin separately from parameters with q(t)≠0. Checks: q=t² gives a cusp; q=t²−1 in characteristic unequal to
 two gives a split node; q=t²+t+1 over F₂ gives a nonsplit node and count four. All have Δ=0, so none may be
 packaged as a smooth elliptic curve.
@@ -5939,125 +5879,125 @@ interpretation.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.InfinityChart.equation_chart`: For every u,z∈R, the actual native projective Equation of
+- For every u,z∈R, the actual native projective Equation of
   `W_(a,b)` at [u:1:z] holds if and only if z(1+au+bu²)=u³. Uses §2.40,
   `WeierstrassCurve.Projective.equation_iff`. Expand the native projective equation and normalize the
   commutative-ring identity. This identifies the equation on the Y≠0 chart; comparison with the actual scheme
   Proj remains required.
 
-- `QuadraticPinch.InfinityChart.normalization_equation`: For all T,U∈R, the actual native Weierstrass
+- For all T,U∈R, the actual native Weierstrass
   projective Equation of `W_(a,b)` holds at `n_(a,b)(T,U)`. Uses §2.40,
   `WeierstrassCurve.Projective.equation_iff`. Expand the native equation at the specified homogeneous
   coordinate tuple and normalize the polynomial identity.
 
-- `QuadraticPinch.InfinityChart.infinity_nonsingular`: For every field k and a,b∈k, the native Weierstrass
+- For every field k and a,b∈k, the native Weierstrass
   projective Nonsingular condition holds at [0:1:0], because the Z partial derivative equals one. This
   includes characteristic two and the singular finite cusp. k is an arbitrary field and a,b∈k; no
   separability, perfectness or characteristic assumption. Uses §2.40,
   `WeierstrassCurve.Projective.nonsingular_iff`. Use the actual native projective Equation and
   partial-derivative criterion. Its geometric smoothness comparison belongs to the existing scheme suppliers.
 
-- `QuadraticPinch.InfinityChart.bezout`: Q∞(u)(1−au+(a²−b)u²)=1+u³((a³−2ab)+b(a²−b)u). Uses §2.40. Expand the
+- Q∞(u)(1−au+(a²−b)u²)=1+u³((a³−2ab)+b(a²−b)u). Uses §2.40. Expand the
   two polynomials over an arbitrary commutative ring. The integer 2 is a ring numeral, never an invertible
   element.
 
-- `QuadraticPinch.InfinityChart.denominator_isUnit`: The actual R[u]-coefficient image of Q∞ in Chart(a,b) is
+- The actual R[u]-coefficient image of Q∞ in Chart(a,b) is
   a unit; no further localization of the chart is required. Uses §2.40. Supply the explicit inverse D∞ to the
   native unit constructor.
 
-- `QuadraticPinch.InfinityChart.localization`: For its actual coefficient R[u]-algebra structure, Chart(a,b)
+- For its actual coefficient R[u]-algebra structure, Chart(a,b)
   satisfies the native IsLocalization.Away(Q∞) property. Uses §2.40,
   `IsLocalization.isLocalization_of_algEquiv`. Transport the existing native localization instance along the
   specified coefficient-algebra equivalence.
 
-- `QuadraticPinch.InfinityChart.denominator`: Q∞(u)=1+au+bu² is an actual polynomial over R, the reciprocal
+- Q∞(u)=1+au+bu² is an actual polynomial over R, the reciprocal
   u²q(1/u) of the existing monic q(t)=t²+at+b. Give the polynomial with its constant coefficient equal to one,
   without choosing roots or dividing by two.
 
-- `QuadraticPinch.InfinityChart.Chart`: Chart(a,b) abbreviates the actual native AdjoinRoot of the specified
+- Chart(a,b) abbreviates the actual native AdjoinRoot of the specified
   polynomial relation with its native R[u]-algebra structure.
 
-- `QuadraticPinch.InfinityChart.root_relation`: In Chart(a,b), the coefficient image of Q∞ times the native
+- In Chart(a,b), the coefficient image of Q∞ times the native
   quotient root Z equals the coefficient image of u³. Uses §2.40, `AdjoinRoot.eval₂_root`. Specialize
   AdjoinRoot.eval₂_root to the displayed linear polynomial, then use sub_eq_zero.
 
-- `QuadraticPinch.InfinityChart.relation`: The coordinate relation `L_(a,b)(Z)=Q∞(u)Z−u³` lies in R[u][Z].
+- The coordinate relation `L_(a,b)(Z)=Q∞(u)Z−u³` lies in R[u][Z].
   Chart(a,b) is the native AdjoinRoot of this polynomial, an actual quotient of R[u][Z] by `(L_(a,b))`. Its
   R[u]-algebra structure is the native quotient coefficient map. Uses §2.40, `AdjoinRoot`. Reuse native
   AdjoinRoot; the type abbreviation Chart is an API alias, not an arbitrary ring with an assumed relation.
 
-- `QuadraticPinch.InfinityChart.mul_inverse`: In the actual quotient Chart(a,b), Q∞·D∞=1. Uses §2.40.
+- In the actual quotient Chart(a,b), Q∞·D∞=1. Uses §2.40.
   Substitute Q∞Z=u³ and transport the Bézout identity through the coefficient map.
 
-- `QuadraticPinch.InfinityChart.fromLocalization_inv`: The specified inverse algebra homomorphism sends the
+- The specified inverse algebra homomorphism sends the
   native localization element Q∞⁻¹ to D∞. Uses §2.40. Transport Q∞·Q∞⁻¹=1 through the inverse map. Multiply
   the two inverse identities in the commutative quotient ring to identify their inverse elements, without a
   domain assumption.
 
-- `QuadraticPinch.InfinityChart.equiv_inverse_inv`: The inverse of the specified chart equivalence sends the
+- The inverse of the specified chart equivalence sends the
   native localization inverse of Q∞ to D∞. Uses §2.40. Its underlying inverse homomorphism is the previously
   specified native localization lift.
 
-- `QuadraticPinch.InfinityChart.denominatorInverse`: In Chart(a,b), define D∞ as the coefficient image of
+- In Chart(a,b), define D∞ as the coefficient image of
   1−au+(a²−b)u² minus Z times the coefficient image of (a³−2ab)+b(a²−b)u. Uses §2.40. Specify the actual
   quotient element using native algebra maps and the native root.
 
-- `QuadraticPinch.InfinityChart.toLocalization_root`: The specified forward map sends the actual native
+- The specified forward map sends the actual native
   quotient root Z to the coefficient image of u³ times the native localization inverse of Q∞. Uses §2.40.
   Apply the native root computation for AdjoinRoot.liftAlgHom.
 
-- `QuadraticPinch.InfinityChart.to_from`: The specified forward map composed with the specified inverse map is
+- The specified forward map composed with the specified inverse map is
   the identity R[u]-algebra homomorphism on Localization.Away(Q∞). Uses §2.40, `IsLocalization.algHom_ext`.
   Use native localization algebra homomorphism extensionality on the coefficient map.
 
-- `QuadraticPinch.InfinityChart.equiv_base`: For every f∈R[u], the specified chart equivalence sends its
+- For every f∈R[u], the specified chart equivalence sends its
   actual quotient coefficient image to f/1 in Localization.Away(Q∞). Uses §2.40. Use the coefficient
   commutation law of the native algebra equivalence.
 
-- `QuadraticPinch.InfinityChart.toLocalization`: Construct the specified R[u]-algebra map
+- Construct the specified R[u]-algebra map
   Chart(a,b)→Localization.Away(Q∞), sending Z to u³/Q∞ and every coefficient polynomial f to f/1. Uses §2.40,
   `AdjoinRoot.liftAlgHom`, `IsLocalization.Away.mul_invSelf`. Use native AdjoinRoot.liftAlgHom. Verify the
   actual linear quotient relation with the native localization inverse identity.
 
-- `QuadraticPinch.InfinityChart.from_to`: The specified inverse map composed with the specified forward map is
+- The specified inverse map composed with the specified forward map is
   the identity R[u]-algebra homomorphism on Chart(a,b). Uses §2.40, `AdjoinRoot.algHom_ext`. Use native
   AdjoinRoot algebra extensionality. The image of Q∞⁻¹ multiplies Q∞ to one; combine this with Q∞Z=u³ to
   recover Z.
 
-- `QuadraticPinch.InfinityChart.equiv_inverse_base`: For every f∈R[u], the inverse of the specified chart
+- For every f∈R[u], the inverse of the specified chart
   equivalence sends f/1 to the actual quotient coefficient image of f. Uses §2.40. Use the native inverse
   algebra equivalence coefficient commutation law.
 
-- `QuadraticPinch.InfinityChart.fromLocalization`: Construct the specified R[u]-algebra map
+- Construct the specified R[u]-algebra map
   Localization.Away(Q∞)→Chart(a,b) using the native coefficient map and the proved unit Q∞. Uses §2.40,
   `IsLocalization.Away.liftAlgHom`. Apply the native localization algebra universal property to the actual
   quotient coefficient homomorphism.
 
-- `QuadraticPinch.InfinityChart.equiv_root`: The specified chart equivalence sends the actual root Z to u³/Q∞.
+- The specified chart equivalence sends the actual root Z to u³/Q∞.
   Uses §2.40. The forward algebra homomorphism is definitionally the previously specified quotient lift.
 
-- `QuadraticPinch.InfinityChart.spec_openImmersion`: The actual Spec morphism induced by R[u]→Chart(a,b) is an
+- The actual Spec morphism induced by R[u]→Chart(a,b) is an
   open immersion into Spec R[u]. It identifies this quotient chart with the principal open D(Q∞) through its
   specified localization equivalence. Uses §2.40, `AlgebraicGeometry.IsOpenImmersion.of_isLocalization`. Apply
   the existing native open-immersion theorem for any algebra which is a localization away from the specified
   element. This is a statement about the affine chart and does not glue the projective curve.
 
-- `QuadraticPinch.InfinityChart.equiv`: The specified inverse homomorphisms give the actual R[u]-algebra
+- The specified inverse homomorphisms give the actual R[u]-algebra
   equivalence Chart(a,b)≃Localization.Away(Q∞). This equivalence is over the coefficient algebra R[u], not
   merely an abstract ring equivalence. Uses §2.40, `AlgEquiv.ofAlgHom`. Package the two actual maps and both
   composite identities using native AlgEquiv.ofAlgHom.
 
-- `QuadraticPinch.InfinityChart.normalization_homogeneous`: For every r∈R, `n_(a,b)(rT,rU)=r³·n_(a,b)(T,U)`,
+- For every r∈R, `n_(a,b)(rT,rU)=r³·n_(a,b)(T,U)`,
   using the native scalar action on the coordinate tuple. Uses §2.40. Compare all three coordinates and
   normalize the commutative-ring identities.
 
-- `QuadraticPinch.InfinityChart.normalization_nonzero`: Over any field k, if T≠0 or U≠0 then `n_(a,b)(T,U)` is
+- Over any field k, if T≠0 or U≠0 then `n_(a,b)(T,U)` is
   not the zero tuple. No separability, perfectness or characteristic restriction is used. k is an arbitrary
   field and a,b∈k; no separability, perfectness or characteristic assumption. Uses §2.40. If the tuple
   vanished, its last coordinate U³ would give U=0. The middle coordinate then gives T³=0, hence T=0,
   contradicting the input.
 
-- `QuadraticPinch.InfinityChart.normalizationCoordinates`: For `q_h(T,U)=T²+aTU+bU²`, construct the actual
+- For `q_h(T,U)=T²+aTU+bU²`, construct the actual
   coordinate triple `n_(a,b)(T,U)=[Uq_h:Tq_h:U³]`. It is a homogeneous cubic triple, with finite-chart
   coordinates [q(t):tq(t):1] and infinity [0:1:0]. Uses §2.40. Give the actual Fin 3→R tuple. Scheme-morphism
   construction is a separate consumer comparison.
@@ -6110,7 +6050,7 @@ The construction needs the following maps and laws.
 - The native forward algebra homomorphism of the specified equivalence equals the specified toLocalization
   map.
 
-- The native inverse algebra homomorphism of the specified equivalence equals the specified fromLocalization
+- The native inverse algebra homomorphism of the specified equivalence equals the specified from localization
   map.
 
 - Applying the specified equivalence and its inverse to an actual coefficient image recovers that same
@@ -6130,7 +6070,7 @@ The construction needs the following maps and laws.
 
 ### 2.41 reciprocal polynomial overlap
 
-Construct `QuadraticPinch.Overlap.equiv` between R[t,1/(t(ct²+at+b))] and R[u,1/(u(bu²+au+c))]. Send t to u⁻¹
+Construct the equivalence between R[t,1/(t(ct²+at+b))] and R[u,1/(u(bu²+au+c))]. Send t to u⁻¹
 and u to t⁻¹ and verify the two defining denominator units. Allow arbitrary R,c,a,b and zero overlap rings;
 use universal properties of localization rather than domain cancellation. The geometric quadratic construction
 specializes c=1.
@@ -6144,100 +6084,100 @@ Proposition3.2.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Overlap.quadratic_monic`: Specializing c=1 gives the existing monic expression X²+aX+b, with
+- Specializing c=1 gives the existing monic expression X²+aX+b, with
   no hypothesis on a or b. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.quadratic_reversed`: Specializing the reversed polynomial Q(b,a,1) gives exactly the
+- Specializing the reversed polynomial Q(b,a,1) gives exactly the
   existing infinity denominator 1+aX+bX². R is an arbitrary commutative ring. Uses §2.41, §2.40.
 
-- `QuadraticPinch.Overlap.quadratic_aeval`: Evaluation of the coefficient polynomial at x is exactly cx²+ax+b.
+- Evaluation of the coefficient polynomial at x is exactly cx²+ax+b.
 
-- `QuadraticPinch.Overlap.quadratic`: The coefficient polynomial Q(c,a,b)=cX²+aX+b over an arbitrary
+- The coefficient polynomial Q(c,a,b)=cX²+aX+b over an arbitrary
   commutative ring. R is an arbitrary commutative ring.
 
-- `QuadraticPinch.Overlap.coordinate_isUnit`: The polynomial coordinate t is a unit in the overlap ring, with
+- The polynomial coordinate t is a unit in the overlap ring, with
   the specified inverse v. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.inverse_isUnit`: The specified inverse coordinate v is a unit, with inverse t. R is
+- The specified inverse coordinate v is a unit, with inverse t. R is
   an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.quadratic_isUnit`: The image of Q(c,a,b) is a unit in R[X,1/(XQ)]. R is an arbitrary
+- The image of Q(c,a,b) is a unit in R[X,1/(XQ)]. R is an arbitrary
   commutative ring. Uses §2.41, `IsLocalization.Away.isUnit_of_dvd`.
 
-- `QuadraticPinch.Overlap.Ring`: The actual native localization R[X,1/(XQ(c,a,b))], with its specified
+- The actual native localization R[X,1/(XQ(c,a,b))], with its specified
   polynomial algebra map. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.coordinate_algebraMap`: The overlap coordinate is exactly the native polynomial
+- The overlap coordinate is exactly the native polynomial
   algebra-map image of X.
 
-- `QuadraticPinch.Overlap.coordinate_mul_inverse`: The product t·v equals one in the specified overlap ring,
+- The product t·v equals one in the specified overlap ring,
   without cancellation or a domain hypothesis. R is an arbitrary commutative ring. Uses §2.41,
   `IsLocalization.Away.mul_invSelf`.
 
-- `QuadraticPinch.Overlap.coordinate`: The image t of X under the specified polynomial algebra map into
+- The image t of X under the specified polynomial algebra map into
   R[X,1/(XQ)]. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.inverseVariable_formula`: The inverse coordinate is exactly the polynomial image of
+- The inverse coordinate is exactly the polynomial image of
   Q multiplied by the native localization inverse of XQ.
 
-- `QuadraticPinch.Overlap.inverseVariable`: The specified inverse v=Q/(XQ) of t in the actual overlap
+- The specified inverse v=Q/(XQ) of t in the actual overlap
   localization. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.reciprocal_quadratic`: Evaluation of Q(c,a,b) at the inverse coordinate in the
+- Evaluation of Q(c,a,b) at the inverse coordinate in the
   coefficient-reversed overlap equals v² times the polynomial image of Q(b,a,c). R is an arbitrary commutative
   ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.reciprocal_denominator_isUnit`: Evaluation of XQ(c,a,b) at the inverse coordinate in
+- Evaluation of XQ(c,a,b) at the inverse coordinate in
   the coefficient-reversed overlap is a unit. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.reciprocal_algebraMap`: The reciprocal map sends the image of every polynomial f to
+- The reciprocal map sends the image of every polynomial f to
   its evaluation at the target inverse coordinate. R is an arbitrary commutative ring. Uses §2.41,
   `IsLocalization.Away.lift_eq`.
 
-- `QuadraticPinch.Overlap.reciprocal_coordinate`: The reciprocal map sends the source polynomial coordinate to
+- The reciprocal map sends the source polynomial coordinate to
   the target inverse coordinate. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.reciprocal_inverse`: The reciprocal map sends the source inverse coordinate to the
+- The reciprocal map sends the source inverse coordinate to the
   target polynomial coordinate. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.reciprocal_comp`: Composing the reciprocal map with its coefficient-reversed
+- Composing the reciprocal map with its coefficient-reversed
   reciprocal gives the identity R-algebra homomorphism. R is an arbitrary commutative ring. Uses §2.41,
   `IsLocalization.algHom_ext`. Use native localization algebra-hom extensionality, then polynomial generator
   extensionality and the two coordinate image formulas.
 
-- `QuadraticPinch.Overlap.reciprocal`: The specified R-algebra map from R[X,1/(XQ(c,a,b))] to
+- The specified R-algebra map from R[X,1/(XQ(c,a,b))] to
   R[X,1/(XQ(b,a,c))] induced by polynomial evaluation at the inverse coordinate. R is an arbitrary commutative
   ring. Uses §2.41, `IsLocalization.Away.liftAlgHom`.
 
-- `QuadraticPinch.Overlap.equiv_coordinate`: The reciprocal equivalence sends the source polynomial coordinate
+- The reciprocal equivalence sends the source polynomial coordinate
   to the target inverse coordinate. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.equiv_inverse`: The reciprocal equivalence sends the source inverse coordinate to
+- The reciprocal equivalence sends the source inverse coordinate to
   the target polynomial coordinate. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.equiv_algebraMap`: The reciprocal equivalence sends every polynomial image to
+- The reciprocal equivalence sends every polynomial image to
   evaluation at the target inverse coordinate. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.equiv_symm`: The inverse of the reciprocal equivalence is exactly the same
+- The inverse of the reciprocal equivalence is exactly the same
   construction with leading and constant coefficients exchanged. R is an arbitrary commutative ring. Uses
   §2.41.
 
-- `QuadraticPinch.Overlap.normalization_overlap`: In R[t,1/(t(t²+at+b))], the actual homogeneous normalization
+- In R[t,1/(t(t²+at+b))], the actual homogeneous normalization
   tuple at (1,v) equals v³ times its tuple at (t,1), with coefficients transported by the actual R-algebra
   map. All three coordinates agree after this unit scaling. R is an arbitrary commutative ring. Uses §2.41,
   §2.40.
 
-- `QuadraticPinch.Overlap.specIso_hom`: The forward morphism of the affine overlap scheme isomorphism is
+- The forward morphism of the affine overlap scheme isomorphism is
   exactly Spec of the specified reciprocal ring homomorphism. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.specIso_inv`: The inverse morphism of the affine overlap scheme isomorphism is
+- The inverse morphism of the affine overlap scheme isomorphism is
   exactly Spec of the coefficient-reversed reciprocal ring homomorphism. R is an arbitrary commutative ring.
   Uses §2.41.
 
-- `QuadraticPinch.Overlap.specIso_hom_inv`: The composite of the specified forward and inverse affine scheme
+- The composite of the specified forward and inverse affine scheme
   morphisms is the actual identity morphism. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.specIso`: Applying the native contravariant Spec functor to the reciprocal ring
+- Applying the native contravariant Spec functor to the reciprocal ring
   equivalence gives an actual scheme isomorphism between the two affine overlap spectra. R is an arbitrary
   commutative ring. Uses §2.41, `AlgebraicGeometry.Scheme.Spec`, `RingEquiv.toCommRingCatIso`.
 
@@ -6299,7 +6239,7 @@ The construction needs the following maps and laws.
 ### 2.42 finite-to-infinity chart comparison
 
 For c=1 over a field, compose the pinch-away equivalence, reciprocal overlap equivalence and infinity-chart
-localization comparison to construct `QuadraticPinch.Overlap.chartEquiv`. Identify `A_q[1/(tq)]` with the
+localization comparison to construct the chart equivalence. Identify `A_q[1/(tq)]` with the
 infinity chart localized at u. Prove D(u)=D(z) from (1+au+bu²)z=u³, with the actual principal-open maps.
 
 k is a field; c,a,b∈k. The chart transition specializes c=1. No separability, perfectness, distinct-root or
@@ -6314,98 +6254,98 @@ normalization tuple specializes c=1.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Overlap.finiteDenominator_val`: The underlying polynomial of the finite overlap denominator
+- The underlying polynomial of the finite overlap denominator
   is exactly XQ(c,a,b). k is a field; c,a,b∈k. The chart transition specializes c=1. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.finiteDenominator_conductor`: The specified finite overlap denominator belongs to
+- The specified finite overlap denominator belongs to
   the existing arbitrary-subring conductor of `A_Q` in k[X]. k is a field; c,a,b∈k. The chart transition
   specializes c=1. Uses §2.41, §2.42, §1.2, §2.26.
 
-- `QuadraticPinch.Overlap.finite_localization`: The actual normalized polynomial overlap ring has the native
+- The actual normalized polynomial overlap ring has the native
   Away-localization property at the image of the specified finite denominator under the pinch inclusion. k is
   a field; c,a,b∈k. The chart transition specializes c=1. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.finiteDenominator`: The specified element XQ(c,a,b) of the existing pinch subring
+- The specified element XQ(c,a,b) of the existing pinch subring
   `A_Q=k+Qk[X]`, with its actual membership witness. k is a field; c,a,b∈k. The chart transition specializes
   c=1. Uses §2.41, §2.26.
 
-- `QuadraticPinch.Overlap.finite_away_bijective`: The native localization map induced by `A_Q⊂k[X]`, after
+- The native localization map induced by `A_Q⊂k[X]`, after
   inverting the specified XQ in both rings, is bijective. k is a field; c,a,b∈k. The chart transition
-  specializes c=1. Uses §2.41, §2.42, §1.2, §2.26. Apply `AffinePinching.conductor_away_bijective`
+  specializes c=1. Uses §2.41, §2.42, §1.2, §2.26. Apply the conductor away bijective
   (§1.2) to the actual arbitrary pinch subring and its subtype inclusion. The membership formula
   gives `XQ·h=Q·(Xh)∈A_Q` for every h∈k[X], hence XQ lies in the ambient conductor.
   No finite-module hypothesis or original inclusion surjectivity is required, including when Q=0.
 
-- `QuadraticPinch.Overlap.finiteEquiv_apply`: The finite overlap equivalence has exactly the native Away.map
+- The finite overlap equivalence has exactly the native Away.map
   induced by the existing pinch inclusion as its underlying map. k is a field; c,a,b∈k. The chart transition
   specializes c=1. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.finiteEquiv_algebraMap`: The finite overlap equivalence sends the canonical image of
+- The finite overlap equivalence sends the canonical image of
   every actual pinch element f to the canonical image of its underlying polynomial. k is a field; c,a,b∈k. The
   chart transition specializes c=1. Uses §2.41, §2.42, `IsLocalization.map_eq`.
 
-- `QuadraticPinch.Overlap.finiteEquiv_symm_algebraMap`: The inverse finite overlap equivalence recovers the
+- The inverse finite overlap equivalence recovers the
   canonical image of each pinch element from the corresponding polynomial image. k is a field; c,a,b∈k. The
   chart transition specializes c=1. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.finiteEquiv`: The specified localized pinch inclusion gives a ring equivalence
+- The specified localized pinch inclusion gives a ring equivalence
   `A_Q[1/(XQ)]≃k[X,1/(XQ)]`, for arbitrary coefficients, including Q=0. k is a field; c,a,b∈k. The chart
   transition specializes c=1. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.infinity_localization`: The iterated infinity-chart localization is a native
+- The iterated infinity-chart localization is a native
   R[u]-localization away from uQ(b,a,1), using the existing chart localization away from Q∞ and the pinned
   iterated-localization theorem. R is an arbitrary commutative ring. Uses §2.41, §2.42, §2.40,
   `IsLocalization.Away.mul`.
 
-- `QuadraticPinch.Overlap.infinity_basicOpen_root`: The principal open D(z) equals D(u) in the actual prime
+- The principal open D(z) equals D(u) in the actual prime
   spectrum of the existing infinity quotient chart, including nonreduced coefficient rings. R is an arbitrary
   commutative ring. Uses §2.40, `PrimeSpectrum.basicOpen_mul`, `PrimeSpectrum.basicOpen_pow`,
   `PrimeSpectrum.basicOpen_one`. The explicit inverse of Q∞ gives D(Q∞)=top. Apply basicOpen to Q∞z=u³, then
   native basicOpen multiplication and positive-power identities.
 
-- `QuadraticPinch.Overlap.infinityOpen_coordinate_isUnit`: The image of the infinity chart polynomial
+- The image of the infinity chart polynomial
   coordinate is a unit in its actual coordinate localization. R is an arbitrary commutative ring. Uses §2.42.
 
-- `QuadraticPinch.Overlap.InfinityOpen`: The actual native localization of the existing infinity quotient
+- The actual native localization of the existing infinity quotient
   chart at its polynomial coordinate u. R is an arbitrary commutative ring. Uses §2.40.
 
-- `QuadraticPinch.Overlap.infinityEquiv_algebraMap`: The infinity overlap equivalence preserves the canonical
+- The infinity overlap equivalence preserves the canonical
   image of every coefficient polynomial in R[u]. R is an arbitrary commutative ring. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.infinityEquiv_symm_algebraMap`: The inverse infinity overlap equivalence preserves
+- The inverse infinity overlap equivalence preserves
   the canonical image of every coefficient polynomial in R[u]. R is an arbitrary commutative ring. Uses §2.41,
   §2.42.
 
-- `QuadraticPinch.Overlap.infinityEquiv_roundtrip`: The inverse infinity overlap equivalence recovers every
+- The inverse infinity overlap equivalence recovers every
   element after application of the forward equivalence. R is an arbitrary commutative ring. Uses §2.42.
 
-- `QuadraticPinch.Overlap.infinityEquiv`: The native uniqueness equivalence identifies the infinity-chart
+- The native uniqueness equivalence identifies the infinity-chart
   coordinate localization with R[u,1/(uQ∞)] as R[u]-algebras. R is an arbitrary commutative ring. Uses §2.41,
   §2.42, `IsLocalization.algEquiv`.
 
-- `QuadraticPinch.Overlap.infinity_root_isUnit_iff`: For every ring homomorphism from the actual infinity
+- For every ring homomorphism from the actual infinity
   quotient chart into any commutative ring S, the image of its root z is a unit if and only if the image of
   its polynomial coordinate u is a unit. R is an arbitrary commutative ring. Uses §2.40, `isUnit_pow_iff`.
 
-- `QuadraticPinch.Overlap.chartEquiv_algebraMap`: On any finite pinch element f, the actual chart transition
+- On any finite pinch element f, the actual chart transition
   is inverse infinity-localization comparison applied to f evaluated at the reciprocal coordinate. k is a
   field; c,a,b∈k. The chart transition specializes c=1. Uses §2.41, §2.42.
 
-- `QuadraticPinch.Overlap.chartEquiv_roundtrip`: The inverse of the specified chart transition recovers every
+- The inverse of the specified chart transition recovers every
   element of the finite pinch overlap. k is a field; c,a,b∈k. The chart transition specializes c=1. Uses
   §2.42.
 
-- `QuadraticPinch.Overlap.chartEquiv_inverse_roundtrip`: The specified chart transition recovers every element
+- The specified chart transition recovers every element
   of the infinity overlap after its inverse. k is a field; c,a,b∈k. The chart transition specializes c=1. Uses
   §2.42.
 
-- `QuadraticPinch.Overlap.quadratic_aeval`: Evaluation of the coefficient polynomial at x is exactly cx²+ax+b.
+- Evaluation of the coefficient polynomial at x is exactly cx²+ax+b.
   R is an arbitrary commutative ring. Uses §2.41, `Polynomial.aeval_X`, `Polynomial.aeval_C`.
 
-- `QuadraticPinch.Overlap.coordinate_algebraMap`: The overlap coordinate is exactly the native polynomial
+- The overlap coordinate is exactly the native polynomial
   algebra-map image of X. R is an arbitrary commutative ring. Uses §2.41.
 
-- `QuadraticPinch.Overlap.inverseVariable_formula`: The inverse coordinate is exactly the polynomial image of
+- The inverse coordinate is exactly the polynomial image of
   Q multiplied by the native localization inverse of XQ. R is an arbitrary commutative ring. Uses §2.41.
 
 **Checks.**
@@ -6459,8 +6399,8 @@ The construction needs the following maps and laws.
 ### 2.43 quadratic two-chart scheme
 
 Glue `F=Spec A_q` and I=Spec k[u,z]/((1+au+bu²)z−u³) along the specified overlap Spec k[t,1/(tq)] to construct
-`QuadraticPinch.Global.curve`. Use native open-immersion scheme gluing and preserve both chart inclusions.
-Compare the result with the supplied `(QuadraticPinch.curve a b).projModel` through its two
+the curve. Use native open-immersion scheme gluing and preserve both chart inclusions.
+Compare the result with the native projective model of W(a,b) through its two
 covering charts, proving projectivity and properness separately from affine algebra.
 
 k is a field and a,b∈k; q=t²+at+b. There is no separability, perfectness, characteristic or distinct-root
@@ -6475,90 +6415,90 @@ normalization-universal-property comparisons remain separate obligations.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.finiteOpen_eq`: The specified `j_F` equals the native Spec isomorphism induced by
+- The specified `j_F` equals the native Spec isomorphism induced by
   `A_q[1/(tq)]≃L` followed by the canonical principal-open immersion `Spec A_q[1/(tq)]→F`. k is a field and a,b∈k;
   q=t²+at+b. Uses §2.43, §2.42, §2.26, §2.41.
 
-- `QuadraticPinch.Global.finiteOpen_isOpenImmersion`: The specified map `j_F:Spec L→Spec A_q` is an actual open
+- The specified map `j_F:Spec L→Spec A_q` is an actual open
   immersion. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   `AlgebraicGeometry.IsOpenImmersion.of_isLocalization`.
 
-- `QuadraticPinch.Global.finiteOpen_range`: The open image of `j_F` is exactly `D_A_q(tq)`. The element tq is
+- The open image of `j_F` is exactly `D_A_q(tq)`. The element tq is
   viewed in `A_q`; no assertion that this is the whole finite chart is made. k is a field and a,b∈k; q=t²+at+b.
   Uses §2.43, §2.42, §2.26, §2.41, `AlgebraicGeometry.Scheme.Hom.opensRange_comp_of_isIso`,
   `AlgebraicGeometry.Scheme.Hom.opensRange_localizationAway`.
 
-- `QuadraticPinch.Global.finiteOpen_to_base`: The composite of `j_F` with the coefficient structure map F→Spec k
+- The composite of `j_F` with the coefficient structure map F→Spec k
   is the canonical structure morphism Spec L→Spec k.
 
-- `QuadraticPinch.Global.finiteOpen`: Let q=t²+at+b over a field k, `A_q=k+qk[t]`, L=k[t,1/(tq)] and `F=Spec A_q`.
+- Let q=t²+at+b over a field k, `A_q=k+qk[t]`, L=k[t,1/(tq)] and `F=Spec A_q`.
   Define `j_F:Spec L→F` by the native inclusion `A_q→k[t]→L`. This is the specified finite-chart overlap map, not
   an unspecified open with the same image. k is a field and a,b∈k; q=t²+at+b. Uses §2.41, §2.26.
 
-- `QuadraticPinch.Global.infinityOpen_isOpenImmersion`: The specified `j_I:Spec L→I` is an actual open
+- The specified `j_I:Spec L→I` is an actual open
   immersion. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   `AlgebraicGeometry.IsOpenImmersion.of_isLocalization`.
 
-- `QuadraticPinch.Global.infinityOpen_range`: The open image of `j_I` is exactly `D_I(u)`, and therefore equals
+- The open image of `j_I` is exactly `D_I(u)`, and therefore equals
   `D_I(z)` by the inherited principal-open comparison. k is a field and a,b∈k; q=t²+at+b. Uses §2.43, §2.40,
   `AlgebraicGeometry.Scheme.Hom.opensRange_comp_of_isIso`,
   `AlgebraicGeometry.Scheme.Hom.opensRange_localizationAway`.
 
-- `QuadraticPinch.Global.infinityOpen_spec`: The actual infinity overlap map `j_I` is exactly Spec(θ).
+- The actual infinity overlap map `j_I` is exactly Spec(θ).
 
-- `QuadraticPinch.Global.infinityOpen_to_base`: The composite of `j_I` with the coefficient structure map I→Spec
+- The composite of `j_I` with the coefficient structure map I→Spec
   k is the same canonical structure morphism Spec L→Spec k.
 
-- `QuadraticPinch.Global.infinityOpen`: Let I=Spec Chart(a,b), where Chart(a,b)=k[u][z]/((1+au+bu²)z−u³).
+- Let I=Spec Chart(a,b), where Chart(a,b)=k[u][z]/((1+au+bu²)z−u³).
   Define `j_I:Spec L→I` by the Spec maps of the specified coefficient-reversal equivalence L≃k[u,1/(uQ∞)], the
   inverse infinity-localization comparison, and the canonical localization at u. Thus it uses the specified
   reciprocal transition. k is a field and a,b∈k; q=t²+at+b. Uses §2.41, §2.40, §2.42.
 
-- `QuadraticPinch.Global.finiteι`: The specified canonical finite-chart inclusion F→C.
+- The specified canonical finite-chart inclusion F→C.
 
-- `QuadraticPinch.Global.infinityι`: The specified canonical infinity-chart inclusion I→C.
+- The specified canonical infinity-chart inclusion I→C.
 
-- `QuadraticPinch.Global.finiteι_isOpenImmersion`: The canonical map `i_F:F→C(a,b)` is an actual open immersion.
+- The canonical map `i_F:F→C(a,b)` is an actual open immersion.
   k is a field and a,b∈k; q=t²+at+b. Uses §2.43, `AlgebraicGeometry.Scheme.IsLocallyDirected.openCover`.
 
-- `QuadraticPinch.Global.infinityι_isOpenImmersion`: The canonical map `i_I:I→C(a,b)` is an actual open
+- The canonical map `i_I:I→C(a,b)` is an actual open
   immersion. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   `AlgebraicGeometry.Scheme.IsLocallyDirected.openCover`.
 
-- `QuadraticPinch.Global.chart_condition`: The equality `j_F∘i_F=j_I∘i_I` holds as native Scheme morphisms from
+- The equality `j_F∘i_F=j_I∘i_I` holds as native Scheme morphisms from
   Spec L to C, with composition read from left to right. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   `CategoryTheory.Limits.pushout.condition`.
 
-- `QuadraticPinch.Global.curve_hom_ext`: For every scheme Y and morphisms f,g:C→Y, equality after
+- For every scheme Y and morphisms f,g:C→Y, equality after
   precomposition with `i_F` and with `i_I` implies f=g. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   `CategoryTheory.Limits.pushout.hom_ext`.
 
-- `QuadraticPinch.Global.charts_cover`: Every point of the actual scheme C lies in the image of `i_F` or of `i_I`.
+- Every point of the actual scheme C lies in the image of `i_F` or of `i_I`.
   The statement concerns all scheme points, including non-rational points. k is a field and a,b∈k; q=t²+at+b.
   Uses §2.43, §2.26, §2.41, §2.40, `AlgebraicGeometry.Scheme.IsLocallyDirected.ι_jointly_surjective`. Use the
   existing jointly-surjective colimit theorem on the three-object span. A point from the overlap also comes
   from the finite chart; the other two objects are precisely the two charts.
 
-- `QuadraticPinch.Global.charts_intersection`: For x∈F and y∈I, `i_F(x)=i_I(y)` if and only if there is z∈Spec L
+- For x∈F and y∈I, `i_F(x)=i_I(y)` if and only if there is z∈Spec L
   with `j_F(z)=x` and `j_I(z)=y`. No extra chart points are identified. k is a field and a,b∈k; q=t²+at+b. Uses
   §2.26, §2.41, §2.40, §2.43, `AlgebraicGeometry.Scheme.IsLocallyDirected.ι_eq_ι_iff`. Use the existing
   common-chart criterion for the locally directed span. The only object admitting maps to both distinct chart
   objects is the overlap object; exhaust the three span objects and their actual hom types.
 
-- `QuadraticPinch.Global.chart_isPullback`: The native Scheme square with `top j_I:Spec L→I`, left `j_F:Spec L→F`,
+- The native Scheme square with `top j_I:Spec L→I`, left `j_F:Spec L→F`,
   right `i_I:I→C` and bottom `i_F:F→C` is a pullback. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   `AlgebraicGeometry.IsOpenImmersion.isPullback`.
 
-- `QuadraticPinch.Global.chart_preimage`: As actual scheme opens, `i_F⁻¹(im i_I)=im j_F`. k is a field and
+- As actual scheme opens, `i_F⁻¹(im i_I)=im j_F`. k is a field and
   a,b∈k; q=t²+at+b. Uses §2.43, §2.41.
 
-- `QuadraticPinch.Global.finiteι_desc`: Precomposing desc(f,g) with `i_F` gives the specified map f. k is a
+- Precomposing desc(f,g) with `i_F` gives the specified map f. k is a
   field and a,b∈k; q=t²+at+b. Uses §2.26, §2.41, §2.40, §2.43, `CategoryTheory.Limits.pushout.inl_desc`.
 
-- `QuadraticPinch.Global.infinityι_desc`: Precomposing desc(f,g) with `i_I` gives the specified map g. k is a
+- Precomposing desc(f,g) with `i_I` gives the specified map g. k is a
   field and a,b∈k; q=t²+at+b. Uses §2.26, §2.41, §2.40, §2.43, `CategoryTheory.Limits.pushout.inr_desc`.
 
-- `QuadraticPinch.Global.desc`: For any scheme Y, finite-chart map f:F→Y and infinity-chart map g:I→Y
+- For any scheme Y, finite-chart map f:F→Y and infinity-chart map g:I→Y
   satisfying `j_F∘f=j_I∘g`, construct the unique morphism desc(f,g):C→Y with these specified restrictions. k is
   a field and a,b∈k; q=t²+at+b. Uses §2.26, §2.41, §2.40, §2.43, `CategoryTheory.Limits.pushout.desc`.
 
@@ -6605,7 +6545,7 @@ The construction needs the following maps and laws.
 
 ### 2.44 specified affine normalization chart
 
-Define `QuadraticPinch.Global.normalizationChart` as the Spec map of the actual inclusion `A_q→k[t]`. Prove the
+Define the normalization chart as the Spec map of the actual inclusion `A_q→k[t]`. Prove the
 pullback on coefficients under ΓSpecIso, finiteness from the rank-two spanning family and the branch
 evaluation equations. Its inverse on the complement recovers t=qt/q.
 
@@ -6621,43 +6561,43 @@ normalization-universal-property comparisons remain separate obligations.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalizationChart_isFinite`: The specified affine map `n_F` is finite for q=t²+at+b
+- The specified affine map `n_F` is finite for q=t²+at+b
   over every field. This follows from the inherited monic degree-two finite inclusion. k is a field and a,b∈k;
   q=t²+at+b. Uses §2.44, §2.26, §2.41, `Polynomial.leadingCoeff_quadratic`, `Polynomial.natDegree_quadratic`.
 
-- `QuadraticPinch.Global.normalizationChart_preimage`: The inverse image `n_F⁻¹(im j_F)` equals `im j_N` as actual
+- The inverse image `n_F⁻¹(im j_F)` equals `im j_N` as actual
   opens of Spec k[t].
 
-- `QuadraticPinch.Global.normalization_chart_condition`: The native Scheme composite `j_N∘n_F` equals `j_F`.
+- The native Scheme composite `j_N∘n_F` equals `j_F`.
 
-- `QuadraticPinch.Global.normalizationOpen_isOpenImmersion`: The specified map `j_N` is an actual open
+- The specified map `j_N` is an actual open
   immersion.
 
-- `QuadraticPinch.Global.normalizationOpen_range`: The image of `j_N` is exactly `D_k[t](tq)`.
+- The image of `j_N` is exactly `D_k[t](tq)`.
 
-- `QuadraticPinch.Global.normalizationOpen`: Define `j_N:Spec L→Spec` k[t] as the actual Spec map of the
+- Define `j_N:Spec L→Spec` k[t] as the actual Spec map of the
   canonical localization k[t]→L at tq. k is a field and a,b∈k; q=t²+at+b. Uses §2.41.
 
-- `QuadraticPinch.Global.normalization_finite_chart`: The native equality `s_F∘ν=n_F∘i_F` holds. k is a field
+- The native equality `s_F∘ν=n_F∘i_F` holds. k is a field
   and a,b∈k; q=t²+at+b. Uses §2.45, §2.46, §2.44, §2.43, `CategoryTheory.Limits.pushout.inl_desc`.
 
-- `QuadraticPinch.Global.normalization_infinity_chart`: The native equality `s_I∘ν=i_I` holds; the chart map is
+- The native equality `s_I∘ν=i_I` holds; the chart map is
   the identity on I. k is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.46, §2.43,
   `CategoryTheory.Limits.pushout.inr_desc`.
 
 **Checks.**
 
-- For q=t² over any field, the actual normalizationChart.appTop, transported through the native ΓSpecIso maps,
+- For q=t² over any field, the actual normalization chart.appTop, transported through the native ΓSpecIso maps,
   sends the `A_q` elements q and tq to t² and t³ in k[t].
 
 - For q=t²+t+1 over F₂, that same actual Spec pullback sends q and tq to t²+t+1 and t(t²+t+1); this fixes both
   generators rather than testing finiteness.
 
 - For q=t(t−1) over Q, the distinct native evaluation points t=0 and t=1 have equal composites with
-  normalizationChart. Together with the nonsplit coordinate test and the retained overlap comparison tests
+  normalization chart. Together with the nonsplit coordinate test and the retained overlap comparison tests
   this fixes the branch identification.
 
-- For q=t², let U=D(q) in `Spec A_q` and V=normalizationChart⁻¹U. Restrict the native q and tq sections to U,
+- For q=t², let U=D(q) in `Spec A_q` and V=normalization chart⁻¹U. Restrict the native q and tq sections to U,
   then pull them back to V. The pulled-back q is a unit and its inverse times the pulled-back tq equals the
   restricted native polynomial section t. No hypothesis supplies this coordinate equality.
 
@@ -6682,7 +6622,7 @@ The construction needs the following maps and laws.
 ### 2.45 glued quadratic normalization charts
 
 Glue Spec k[t] and the same infinity chart through the reciprocal overlap to construct
-`QuadraticPinch.Global.normalizationSource`. Prove it is the actual native P¹ by comparing the finite chart
+the normalization source. Prove it is the actual native P¹ by comparing the finite chart
 Spec k[t] and the reciprocal chart Spec k[u,1/(1+au+bu²)]. Their intersection is D(tq) in the finite chart;
 their union is P¹, and all zeros of q are covered by Spec k[t].
 
@@ -6698,41 +6638,41 @@ normalization-universal-property comparisons remain separate obligations.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalizationOpen_isOpenImmersion`: The specified map `j_N` is an actual open
+- The specified map `j_N` is an actual open
   immersion. k is a field and a,b∈k; q=t²+at+b. Uses §2.44, §2.41,
   `AlgebraicGeometry.IsOpenImmersion.of_isLocalization`.
 
-- `QuadraticPinch.Global.normalizationOpen_range`: The image of `j_N` is exactly `D_k[t](tq)`. k is a field and
+- The image of `j_N` is exactly `D_k[t](tq)`. k is a field and
   a,b∈k; q=t²+at+b. Uses §2.44, §2.41, `PrimeSpectrum.localization_away_comap_range`.
 
-- `QuadraticPinch.Global.normalizationChart_preimage`: The inverse image `n_F⁻¹(im j_F)` equals `im j_N` as actual
+- The inverse image `n_F⁻¹(im j_F)` equals `im j_N` as actual
   opens of Spec k[t]. k is a field and a,b∈k; q=t²+at+b. Uses §2.44, §2.43, §2.45,
   `AlgebraicGeometry.SpecMap_preimage_basicOpen`.
 
-- `QuadraticPinch.Global.normalization_chart_condition`: The native Scheme composite `j_N∘n_F` equals `j_F`. k is
+- The native Scheme composite `j_N∘n_F` equals `j_F`. k is
   a field and a,b∈k; q=t²+at+b. Uses §2.44, §2.43.
 
-- `QuadraticPinch.Global.sourceFiniteι`: The specified canonical affine-line inclusion Spec k[t]→N.
+- The specified canonical affine-line inclusion Spec k[t]→N.
 
-- `QuadraticPinch.Global.sourceInfinityι`: The specified canonical infinity-chart inclusion I→N.
+- The specified canonical infinity-chart inclusion I→N.
 
-- `QuadraticPinch.Global.sourceFiniteι_isOpenImmersion`: The canonical map `s_F:Spec k[t]→N` is an actual open
+- The canonical map `s_F:Spec k[t]→N` is an actual open
   immersion. k is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.44, §2.43,
   `AlgebraicGeometry.Scheme.IsLocallyDirected.openCover`.
 
-- `QuadraticPinch.Global.sourceInfinityι_isOpenImmersion`: The canonical map `s_I:I→N` is an actual open
+- The canonical map `s_I:I→N` is an actual open
   immersion. k is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.44, §2.43,
   `AlgebraicGeometry.Scheme.IsLocallyDirected.openCover`.
 
-- `QuadraticPinch.Global.source_chart_condition`: The equality `j_N∘s_F=j_I∘s_I` holds as native Scheme
+- The equality `j_N∘s_F=j_I∘s_I` holds as native Scheme
   morphisms. k is a field and a,b∈k; q=t²+at+b. Uses §2.44, §2.45, §2.43,
   `CategoryTheory.Limits.pushout.condition`.
 
-- `QuadraticPinch.Global.source_hom_ext`: For any scheme Y, two morphisms N→Y are equal if their
+- For any scheme Y, two morphisms N→Y are equal if their
   precompositions with `s_F` and `s_I` are equal. k is a field and a,b∈k; q=t²+at+b. Uses §2.45,
   `CategoryTheory.Limits.pushout.hom_ext`.
 
-- `QuadraticPinch.Global.source_charts_cover`: Every scheme point of N lies in the image of `s_F` or of `s_I`. k
+- Every scheme point of N lies in the image of `s_F` or of `s_I`. k
   is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.40, §2.44, §2.43,
   `AlgebraicGeometry.Scheme.IsLocallyDirected.ι_jointly_surjective`.
 
@@ -6757,7 +6697,7 @@ The construction needs the following maps and laws.
 ### 2.46 global quadratic normalization-chart morphism
 
 Glue the affine normalization map and the identity infinity chart to construct
-`QuadraticPinch.Global.normalization:N→C`. Prove its actual chart equations, finiteness, birationality and
+the normalization map `ν:N→C`. Prove its actual chart equations, finiteness, birationality and
 compatibility with the coefficient structure maps. This constructs a morphism before proving the
 absolute-normalization universal comparison.
 
@@ -6777,67 +6717,67 @@ hypotheses are retained exactly where stated.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalization_finite_chart`: The native equality `s_F∘ν=n_F∘i_F` holds.
+- The native equality `s_F∘ν=n_F∘i_F` holds.
 
-- `QuadraticPinch.Global.normalization_infinity_chart`: The native equality `s_I∘ν=i_I` holds; the chart map is
+- The native equality `s_I∘ν=i_I` holds; the chart map is
   the identity on I.
 
-- `QuadraticPinch.Global.normalization_unique`: A morphism f:N→C with restrictions `n_F∘i_F` and `i_I` is equal to
+- A morphism f:N→C with restrictions `n_F∘i_F` and `i_I` is equal to
   the specified ν. k is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.43, §2.44, §2.46.
 
-- `QuadraticPinch.Global.normalization_preimage_finite`: The actual scheme-open equality `ν⁻¹(im i_F)=im s_F`
+- The actual scheme-open equality `ν⁻¹(im i_F)=im s_F`
   holds. k is a field and a,b∈k; q=t²+at+b. Uses §2.46, §2.43, §2.45, §2.44. Cover the source by its two
   actual charts. Points in its finite chart map into the target finite chart. A source infinity-chart point
   whose image is also in the finite chart comes from the specified overlap by the target intersection
   criterion; source compatibility places it in the source finite chart.
 
-- `QuadraticPinch.Global.normalization_preimage_infinity`: The actual scheme-open equality `ν⁻¹(im i_I)=im s_I`
+- The actual scheme-open equality `ν⁻¹(im i_I)=im s_I`
   holds. k is a field and a,b∈k; q=t²+at+b. Uses §2.46, §2.43, §2.45, §2.44. Cover the source by its two
   charts. For a finite-chart point mapping into the infinity chart, the target inverse-image equality places
   its affine image in the finite overlap. The affine normalization principal-open preimage identity then
   places the source point in the normalization overlap; source compatibility identifies it with an
   infinity-chart point.
 
-- `QuadraticPinch.Global.normalization_finite_isPullback`: The native Scheme square with `top n_F`, left `s_F`,
+- The native Scheme square with `top n_F`, left `s_F`,
   right `i_F` and bottom ν is a pullback. k is a field and a,b∈k; q=t²+at+b. Uses §2.44, §2.45, §2.43, §2.46,
   `AlgebraicGeometry.IsOpenImmersion.isPullback`.
 
-- `QuadraticPinch.Global.normalization_infinity_isPullback`: The native Scheme square with `top id_I`, left `s_I`,
+- The native Scheme square with `top id_I`, left `s_I`,
   right `i_I` and bottom ν is a pullback. k is a field and a,b∈k; q=t²+at+b. Uses §2.40, §2.45, §2.43, §2.46,
   §2.44, `AlgebraicGeometry.IsOpenImmersion.isPullback`.
 
-- `QuadraticPinch.Global.normalization_isFinite`: The actual global morphism ν:N(a,b)→C(a,b) is finite over
+- The actual global morphism ν:N(a,b)→C(a,b) is finite over
   every field, including split, inseparable and characteristic-two quadratic cases. Its pullback to F is the
   finite affine inclusion `n_F`; its pullback to I is `id_I`. No projectivity or identification N≃P¹ is assumed.
 
-- `QuadraticPinch.Global.normalization_to_base_finite`: The composite `s_F∘ν∘(C→Spec k)` is the canonical
+- The composite `s_F∘ν∘(C→Spec k)` is the canonical
   coefficient structure morphism Spec k[t]→Spec k.
 
-- `QuadraticPinch.Global.normalization_to_base_infinity`: The composite `s_I∘ν∘(C→Spec k)` is the canonical
+- The composite `s_I∘ν∘(C→Spec k)` is the canonical
   coefficient structure morphism I→Spec k.
 
-- `QuadraticPinch.Global.normalization_schemeTheoreticallyDominant`: For every field k and a,b∈k, the
+- For every field k and a,b∈k, the
   specified glued finite morphism ν:N→C is scheme-theoretically dominant. k is an arbitrary field; a,b∈k. Uses
   §2.46, §2.49, `AlgebraicGeometry.IsSchemeTheoreticallyDominant.of_isDominant`. Use the established
   surjectivity to obtain dominance. The target C is integral, hence reduced. Apply the existing reduced-target
   dominance criterion.
 
-- `QuadraticPinch.Global.normalization_kernel`: The kernel ideal sheaf of the specified morphism ν is zero. k
+- The kernel ideal sheaf of the specified morphism ν is zero. k
   is an arbitrary field; a,b∈k. Uses §2.46, `AlgebraicGeometry.Scheme.Hom.ker_eq_bot`. Apply the native kernel
   characterization of scheme-theoretical dominance.
 
-- `QuadraticPinch.Global.normalization_sections_injective`: For every open U of C, the actual map
+- For every open U of C, the actual map
   Γ(C,U)→Γ(N,ν⁻¹U) induced by ν is injective. k is an arbitrary field; a,b∈k. Uses §2.46, §2.47,
   `AlgebraicGeometry.Scheme.Hom.app_injective`. Finiteness supplies quasi-compactness. Apply the existing
   all-open section injectivity theorem, rather than only checking affine rings.
 
-- `QuadraticPinch.Global.normalization_flat_pullback_schemeTheoreticallyDominant`: For any scheme T and flat
+- For any scheme T and flat
   morphism g:T→C, the specified pullback projection `N×_C T→T` is scheme-theoretically dominant. k is an
   arbitrary field; a,b∈k. Uses §2.46, §2.47, `AlgebraicGeometry.IsSchemeTheoreticallyDominant.pullbackSnd`.
   Use the native flat-pullback instance with the finite, hence quasi-compact, specified ν. Retain the flatness
   hypothesis.
 
-- `QuadraticPinch.Global.normalization_flat_pullback_kernel`: For any flat g:T→C, the kernel ideal sheaf of
+- For any flat g:T→C, the kernel ideal sheaf of
   `N×_C T→T` is zero. k is an arbitrary field; a,b∈k. Uses §2.46, `AlgebraicGeometry.Scheme.Hom.ker_eq_bot`.
   Apply the native kernel projection to the previous pullback dominance result.
 
@@ -6863,7 +6803,7 @@ The construction needs the following maps and laws.
 
 ### 2.47 quadratic two-chart structure morphism
 
-Construct `QuadraticPinch.Global.structureMap:C→Spec k` by descending the two actual coefficient maps. Prove
+Construct the structure map `C→Spec k` by descending the two actual coefficient maps. Prove
 the reciprocal transition respects constants and the two chart structure maps are its restrictions. Identify
 it with the projective cubic's structure map under the chart comparison.
 
@@ -6879,21 +6819,21 @@ normalization-universal-property comparisons remain separate obligations.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.openCover_index`: The native index type of the specified two-member open cover is
+- The native index type of the specified two-member open cover is
   Bool. k is a field and a,b∈k; q=t²+at+b. Uses §2.47.
 
-- `QuadraticPinch.Global.openCover_finite`: The false-index cover morphism is exactly `i_F`. k is a field and
+- The false-index cover morphism is exactly `i_F`. k is a field and
   a,b∈k; q=t²+at+b. Uses §2.47, §2.43.
 
-- `QuadraticPinch.Global.openCover_infinity`: The true-index cover morphism is exactly `i_I`. k is a field and
+- The true-index cover morphism is exactly `i_I`. k is a field and
   a,b∈k; q=t²+at+b. Uses §2.47, §2.43.
 
-- `QuadraticPinch.Global.openCover`: Construct the native two-member OpenCover of C, indexed by Bool, with
+- Construct the native two-member OpenCover of C, indexed by Bool, with
   false the finite chart and true the infinity chart, and maps `i_F` and `i_I`. Both objects are the actual affine
   schemes F and I. k is a field and a,b∈k; q=t²+at+b. Uses §2.43, §2.26, §2.41, §2.40,
   `AlgebraicGeometry.Scheme.Cover.mkOfCovers`.
 
-- `QuadraticPinch.Global.normalization_isFinite`: The actual global morphism ν:N(a,b)→C(a,b) is finite over
+- The actual global morphism ν:N(a,b)→C(a,b) is finite over
   every field, including split, inseparable and characteristic-two quadratic cases. Its pullback to F is the
   finite affine inclusion `n_F`; its pullback to I is `id_I`. No projectivity or identification N≃P¹ is assumed. k
   is a field and a,b∈k; q=t²+at+b. Uses §2.46, §2.47, §2.43, §2.44, `AlgebraicGeometry.IsFinite`,
@@ -6903,29 +6843,29 @@ The construction needs the following maps and laws.
   target open cover. Identify the pullback to its finite chart with `n_F` via the proved cartesian square and
   transport the inherited affine finiteness along its canonical pullback isomorphism.
 
-- `QuadraticPinch.Global.finiteOpen_to_base`: The composite of `j_F` with the coefficient structure map F→Spec k
+- The composite of `j_F` with the coefficient structure map F→Spec k
   is the canonical structure morphism Spec L→Spec k. k is a field and a,b∈k; q=t²+at+b. Uses §2.43, §2.26,
   §2.41.
 
-- `QuadraticPinch.Global.infinityOpen_to_base`: The composite of `j_I` with the coefficient structure map I→Spec
+- The composite of `j_I` with the coefficient structure map I→Spec
   k is the same canonical structure morphism Spec L→Spec k. k is a field and a,b∈k; q=t²+at+b. Uses §2.43,
   §2.40, §2.41, §2.42.
 
-- `QuadraticPinch.Global.structureMap_finite`: The structure morphism C→Spec k precomposed with `i_F` is the
+- The structure morphism C→Spec k precomposed with `i_F` is the
   actual coefficient structure morphism F→Spec k. k is a field and a,b∈k; q=t²+at+b. Uses §2.43, §2.47, §2.26,
   §2.41.
 
-- `QuadraticPinch.Global.structureMap_infinity`: The structure morphism C→Spec k precomposed with `i_I` is the
+- The structure morphism C→Spec k precomposed with `i_I` is the
   actual coefficient structure morphism I→Spec k. k is a field and a,b∈k; q=t²+at+b. Uses §2.43, §2.47, §2.40.
 
-- `QuadraticPinch.Global.curve_hom_ext`: For every scheme Y and morphisms f,g:C→Y, equality after
+- For every scheme Y and morphisms f,g:C→Y, equality after
   precomposition with `i_F` and with `i_I` implies f=g.
 
-- `QuadraticPinch.Global.normalization_to_base_finite`: The composite `s_F∘ν∘(C→Spec k)` is the canonical
+- The composite `s_F∘ν∘(C→Spec k)` is the canonical
   coefficient structure morphism Spec k[t]→Spec k. k is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.46,
   §2.47, §2.44.
 
-- `QuadraticPinch.Global.normalization_to_base_infinity`: The composite `s_I∘ν∘(C→Spec k)` is the canonical
+- The composite `s_I∘ν∘(C→Spec k)` is the canonical
   coefficient structure morphism I→Spec k. k is a field and a,b∈k; q=t²+at+b. Uses §2.45, §2.46, §2.47, §2.40,
   §2.44.
 
@@ -6954,7 +6894,7 @@ The construction needs the following maps and laws.
 
 ### 2.48 specified reciprocal infinity ring map
 
-Define `QuadraticPinch.Global.infinityTransition` by localizing the infinity chart at u and applying the
+Define the infinity transition by localizing the infinity chart at u and applying the
 reciprocal comparison. Its coordinate formulas are u↦t⁻¹ and z↦(tq)⁻¹. Verify the ring relation, preservation
 of constants, denominator units and commutation with both overlap embeddings.
 
@@ -6970,22 +6910,22 @@ normalization-universal-property comparisons remain separate obligations.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.infinityTransition_coordinate`: The specified ring map θ sends the actual polynomial
+- The specified ring map θ sends the actual polynomial
   coordinate u of Chart(a,b) to the specified inverse variable t⁻¹ in L. k is a field and a,b∈k; q=t²+at+b.
   Uses §2.48, §2.40, §2.41, §2.42.
 
-- `QuadraticPinch.Global.infinityTransition_constants`: For every r∈k the specified ring map θ sends the
+- For every r∈k the specified ring map θ sends the
   coefficient image of r in Chart(a,b) to its coefficient image in L. k is a field and a,b∈k; q=t²+at+b. Uses
   §2.48, §2.40, §2.41, §2.42.
 
-- `QuadraticPinch.Global.infinityTransition_root`: The specified ring map θ sends the native quotient root z
+- The specified ring map θ sends the native quotient root z
   to the specified localization inverse of tq in L. Thus z=1/(tq) is proved for the actual gluing map, not
   merely for projective coordinate tuples. k is a field and a,b∈k; q=t²+at+b. Uses §2.48, §2.40, §2.41, §2.42.
   Apply the specified ring map to Q∞z=u³. Reciprocal evaluation sends Q∞ to t⁻²q and u to t⁻¹. Multiplying the
   resulting relation by t³ proves (tq)θ(z)=1. Use t·t⁻¹=1 and the actual inverse of tq in the native
   localization to identify θ(z) with that specified inverse; do not infer the value from mere unit existence.
 
-- `QuadraticPinch.Global.infinityOpen_spec`: The actual infinity overlap map `j_I` is exactly Spec(θ). k is a
+- The actual infinity overlap map `j_I` is exactly Spec(θ). k is a
   field and a,b∈k; q=t²+at+b. Uses §2.43, §2.48, §2.41, §2.42, §2.40.
 
 **Checks.**
@@ -7008,8 +6948,6 @@ Prove the glued C is integral for every field k and a,b. Both chart rings are do
 open is dense, and the chart cover gives reducedness and irreducibility. This includes the repeated-root cusp;
 a nonzero discriminant is not needed for integrality of this pinched curve.
 
-*Lean name:* `QuadraticPinch.Global.curve_isIntegral`.
-
 k is any field and a,b∈k; q=t²+at+b. `A_q=k+qk[t]`, I=k[u,z]/((bu²+au+1)z−u³), L=k[t,(tq)⁻¹], C and N are the
 specified native charts and glued schemes. No separability, perfectness, nonzero discriminant or
 characteristic restriction is assumed. Composition ≫ is read from left to right. This is a specialization to
@@ -7024,41 +6962,41 @@ Proposition3.1.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.infinity_denominator_ne_zero`: The actual polynomial Q∞=bu²+au+1 is nonzero for every
+- The actual polynomial Q∞=bu²+au+1 is nonzero for every
   a,b∈k, including b=0 and characteristic two. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from
   left to right. Uses §2.40. Evaluate its constant coefficient: it is 1, contradicting zero. This keeps the
   localization nontrivial even when the reciprocal polynomial drops degree.
 
-- `QuadraticPinch.Global.infinity_isDomain`: The actual native infinity quotient I=k[u,z]/((bu²+au+1)z−u³) is
+- The actual native infinity quotient I=k[u,z]/((bu²+au+1)z−u³) is
   an integral domain. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses
   §2.40, §2.49, `IsLocalization.isDomain_of_le_nonZeroDivisors`. Use the existing coefficient-compatible
   localization I≃k[u,Q∞⁻¹] and the nonzero denominator. Apply the native domain localization theorem; no
   smoothness or root-splitting hypothesis is needed.
 
-- `QuadraticPinch.Global.overlap_isDomain`: The actual overlap L=k[t,(tq)⁻¹] is an integral domain and its
+- The actual overlap L=k[t,(tq)⁻¹] is an integral domain and its
   affine spectrum is nonempty. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right.
   Uses §2.41, `IsLocalization.isDomain_of_le_nonZeroDivisors`. The quadratic q is monic of degree two; hence
   t·q is nonzero. Localize the polynomial domain at powers of this nonzero element.
 
-- `QuadraticPinch.Global.normalizationChart_surjective`: The specified map `n_F:Spec k[t]→Spec A_q` induced by
+- The specified map `n_F:Spec k[t]→Spec A_q` induced by
   the actual inclusion `A_q⊂k[t]` is surjective on scheme points. k is any field and a,b∈k; q=t²+at+b.
   Composition ≫ is read from left to right. Uses §2.44, `RingHom.IsIntegral.comap_surjective`,
   `AlgebraicGeometry.IsIntegralHom.SpecMap_iff`. Use finite implies integral for the specified Spec map, then
   apply integral lying-over to its injective subalgebra inclusion. This is surjectivity on all prime ideals,
   not only on rational points.
 
-- `QuadraticPinch.Global.normalization_surjective`: The actual global morphism ν:N(a,b)→C(a,b) is surjective
+- The actual global morphism ν:N(a,b)→C(a,b) is surjective
   on scheme points. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses §2.49,
   §2.43, §2.44. Use the two target charts. Lift finite-chart points through `n_F` by lying-over and then through
   `s_F`; lift infinity-chart points through `s_I`, where ν is the identity chart map.
 
-- `QuadraticPinch.Global.finiteOpen_dense`: The specified open immersion finiteOpen:Spec `L→Spec A_q` has dense
+- The specified open immersion finite open:Spec `L→Spec A_q` has dense
   range. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses §2.43, §2.49,
   §2.26, `IsOpenMap.denseRange_of_isPreirreducibleSpace`. The subalgebra `A_q` of the polynomial domain is a
   domain. Its affine spectrum is irreducible; the overlap spectrum is nonempty. Apply the native density
   theorem for a nonempty open image.
 
-- `QuadraticPinch.Global.infinityι_dense`: The actual inclusion `i_I:I→C` of the infinity affine chart has dense
+- The actual inclusion `i_I:I→C` of the infinity affine chart has dense
   range. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses §2.49, §2.43,
   `Continuous.range_subset_closure_image_dense`. The overlap is dense in the finite chart. Continuity puts the
   whole finite-chart image in the closure of the image of the overlap. The gluing equation puts that image in
@@ -7083,8 +7021,6 @@ The construction needs the following maps and laws.
 Prove the glued normalization source N is integral using its polynomial finite chart and localized reciprocal
 chart. Verify their actual common open is nonempty and dense before applying the native open-cover criterion.
 
-*Lean name:* `QuadraticPinch.Global.source_isIntegral`.
-
 k is any field and a,b∈k; q=t²+at+b. `A_q=k+qk[t]`, I=k[u,z]/((bu²+au+1)z−u³), L=k[t,(tq)⁻¹], C and N are the
 specified native charts and glued schemes. No separability, perfectness, nonzero discriminant or
 characteristic restriction is assumed. Composition ≫ is read from left to right. This is a specialization to
@@ -7099,24 +7035,24 @@ Proposition3.1.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalizationOpen_dense`: The specified open immersion normalizationOpen:Spec L→Spec
+- The specified open immersion normalization open:Spec L→Spec
   k[t] has dense range. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses
   §2.44, §2.45, §2.49, `IsOpenMap.denseRange_of_isPreirreducibleSpace`. Use irreducibility of Spec k[t],
   nonemptiness of Spec L and the native density theorem for open immersions into an irreducible space.
 
-- `QuadraticPinch.Global.sourceInfinityι_dense`: The actual inclusion `s_I:I→N` of the source infinity chart has
+- The actual inclusion `s_I:I→N` of the source infinity chart has
   dense range. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses §2.50,
   §2.45, `Continuous.range_subset_closure_image_dense`. Repeat the closure argument with the normalized finite
   chart Spec k[t] and its dense overlap. Use the actual source gluing equation and source chart cover.
 
-- `QuadraticPinch.Global.infinity_isIntegrallyClosed`: The actual infinity chart ring I(a,b) satisfies the
+- The actual infinity chart ring I(a,b) satisfies the
   native IsIntegrallyClosed predicate. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to
   right. Uses §2.40, §2.49, `isIntegrallyClosed_of_isLocalization`. The polynomial ring k[u] is integrally
   closed. Its localization at powers of nonzero Q∞ is integrally closed by the pinned localization theorem;
   use the actual infinity chart localization instance.
 
-- `QuadraticPinch.Global.source_stalk_isIntegrallyClosed`: For every point x of the actual scheme N(a,b), its
-  native structure-sheaf stalk `O_(N,x)` satisfies IsIntegrallyClosed. Together with source_isIntegral this
+- For every point x of the actual scheme N(a,b), its
+  native structure-sheaf stalk `O_(N,x)` satisfies IsIntegrallyClosed. Together with source is integral this
   gives normal local domains without inventing a scheme-normality carrier. k is any field and a,b∈k;
   q=t²+at+b. Composition ≫ is read from left to right. Uses §2.49, §2.50, §2.45,
   `isIntegrallyClosed_of_isLocalization`, `IsIntegrallyClosed.of_equiv`, `AlgebraicGeometry.Spec.stalkIso`.
@@ -7139,7 +7075,7 @@ The construction needs the following maps and laws.
 
 ### 2.51 dense-open comparison of the specified map
 
-Construct `QuadraticPinch.Global.normalizationPartialIso` from the two dense infinity-chart open ranges. The
+Construct the normalization partial isomorphism from the two dense infinity-chart open ranges. The
 isomorphism is the inverse source open-immersion comparison followed by the target comparison. Prove agreement
 with normalization on this open; an arbitrary birational isomorphism would not fix the desired function-field
 map.
@@ -7154,15 +7090,15 @@ Proposition3.1.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalizationPartialIso_source`: The source open of normalizationPartialIso(a,b) is
+- The source open of normalization partial isomorphism(a,b) is
   exactly `im(s_I)`, as an equality of native opens of N. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is
   read from left to right. Uses §2.51. Unfold only the specified construction and read its source projection.
 
-- `QuadraticPinch.Global.normalizationPartialIso_target`: The target open of normalizationPartialIso(a,b) is
+- The target open of normalization partial isomorphism(a,b) is
   exactly `im(i_I)`, as an equality of native opens of C. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is
   read from left to right. Uses §2.51. Unfold only the specified construction and read its target projection.
 
-- `QuadraticPinch.Global.normalizationPartialIso_map`: For P=normalizationPartialIso(a,b), the actual morphism
+- For P=normalization partial isomorphism(a,b), the actual morphism
   equality P.iso.hom ≫ P.target.ι = P.source.ι ≫ ν holds. This identifies the dense-open isomorphism with the
   restriction of the specified global map. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from
   left to right. Uses §2.51, §2.44, `AlgebraicGeometry.Scheme.Hom.isoOpensRange_hom_ι`,
@@ -7170,21 +7106,21 @@ The construction needs the following maps and laws.
   then the source infinity restriction `s_I≫ν=i_I`. Reassociate to compare morphisms from the native source open
   into C.
 
-- `QuadraticPinch.Global.normalizationPartialIso_inverse`: For P=normalizationPartialIso(a,b), P.iso.inv ≫
+- For P=normalization partial isomorphism(a,b), P.iso.inv ≫
   P.source.ι ≫ ν = P.target.ι. Thus the chosen inverse lands in the specified source open and is an inverse to
   the restricted global map. k is any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right.
   Uses §2.51. Rewrite the forward comparison and cancel the actual inverse/hom pair of the native open-scheme
   isomorphism.
 
-- `QuadraticPinch.Global.normalizationPartialIso_over`: The specified partial isomorphism is over Spec k for
+- The specified partial isomorphism is over Spec k for
   structure maps ν≫structureMap(a,b) on N and structureMap(a,b) on C, using native PartialIso.IsOver. k is any
   field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses §2.51, §2.47,
   `AlgebraicGeometry.Scheme.PartialIso.IsOver`. Postcompose the proved agreement with ν by the actual
   coefficient structure morphism and reassociate. No arbitrary algebraic-closed-field choice or replacement
   base is made.
 
-- `QuadraticPinch.Global.normalization_birationalOver`: The native predicate Scheme.BirationalOver
-  (ν≫structureMap(a,b)) (structureMap(a,b)) holds, witnessed by the specified normalizationPartialIso. k is
+- The native predicate Scheme.BirationalOver
+  (ν≫structureMap(a,b)) (structureMap(a,b)) holds, witnessed by the specified normalization partial isomorphism. k is
   any field and a,b∈k; q=t²+at+b. Composition ≫ is read from left to right. Uses §2.51,
   `AlgebraicGeometry.Scheme.BirationalOver`. Package the actual partial isomorphism and its coefficient
   compatibility into the pinned BirationalOver predicate; do not add a generic birational-map type.
@@ -7203,7 +7139,7 @@ The construction needs the following maps and laws.
   k.
 
 - Construct the actual Scheme.PartialIso from N(a,b) to C(a,b) with source `im(s_I)`, target `im(i_I)`, and
-  isomorphism `s_I.isoOpensRange.symm` followed by `i_I.isoOpensRange`. The opens are proved dense and the maps
+  isomorphism given by the inverse of the open-range isomorphism of s_I followed by the open-range isomorphism of i_I. The opens are proved dense and the maps
   are the specified infinity-chart embeddings.
 
 *Needs:* §2.50; §2.49; §2.45; §2.43; `AlgebraicGeometry.Scheme.PartialIso`;
@@ -7211,7 +7147,7 @@ The construction needs the following maps and laws.
 
 ### 2.52 rank two basis of a quadratic pinch
 
-Construct the native basis `QuadraticPinch.polynomialBasis` of `A_q` over S=k[T], T↦q, by transporting the basis
+Construct the native basis of `A_q` over S=k[T], T↦q, by transporting the basis
 of S×S through polynomial coordinates. Its ordered vectors are 1 and tq. Prove coefficient evaluation, basis
 expansion and the quadratic multiplication relation, keeping the S-linear and k-linear structures distinct.
 
@@ -7221,130 +7157,130 @@ acts by T↦q. No separability, discriminant or characteristic restriction is im
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §3 conductor diagrams and Proposition3.2.)
 
 Standing hypotheses for the maps and laws below: S=k[T] acts through the existing parameter homomorphism
-θ(P)=P(q), and `e:S×S≃ₗ[S]A_q` is the existing polynomialCoordinates equivalence. No characteristic,
+θ(P)=P(q), and `e:S×S≃ₗ[S]A_q` is the existing polynomial coordinates equivalence. No characteristic,
 separability or discriminant restriction is imposed.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.parameterHom_coe`: For every P∈k[T], the ambient value of θ(P) equals P(q) in k[t]. k is an
+- For every P∈k[T], the ambient value of θ(P) equals P(q) in k[t]. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by
   T↦q. Uses §2.52, `Polynomial.aeval_subalgebra_coe`, `Polynomial.comp_eq_aeval`. Use aeval_subalgebra_coe and
   comp_eq_aeval for the actual q element.
 
-- `QuadraticPinch.parameterHom_coordinates`: For every P∈S, θ(P) is exactly the image of (P,0) under the
+- For every P∈S, θ(P) is exactly the image of (P,0) under the
   S-linear coordinates. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder
   subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52. Compare ambient polynomial coercions using the two
   established formulas and subtype extensionality.
 
-- `QuadraticPinch.parameterHom_injective`: The actual evaluation `θ:S→A_q` is injective, so S identifies with
+- The actual evaluation `θ:S→A_q` is injective, so S identifies with
   k[q] inside the existing pinched algebra. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing
   scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52. Write both parameter images as
   coordinate images of (P,0); apply injectivity of the established equivalence, then project the first
   coordinate.
 
-- `QuadraticPinch.parameterHom`: Construct the actual k-algebra homomorphism `θ:k[T]→A_q` by θ(P)=P(q), using
+- Construct the actual k-algebra homomorphism `θ:k[T]→A_q` by θ(P)=P(q), using
   native polynomial evaluation at `q∈A_q`. The coefficient variable T and ambient normalization coordinate t
   have different images. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder
   subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.26, `Polynomial.aeval`. Evaluate at the existing element
   `q∈A_q`; its membership witnesses are scalar0 and multiplier1. Reuse native aeval and the actual subalgebra
   carrier.
 
-- `QuadraticPinch.parameter_smul`: For P∈k[T] and `f∈A_q`, the ambient value of P·f is P(q)f. k is an arbitrary
+- For P∈k[T] and `f∈A_q`, the ambient value of P·f is P(q)f. k is an arbitrary
   field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses
   §2.52. Unfold the RingHom-induced action and use the parameter coercion formula.
 
-- `QuadraticPinch.polynomialModule_free`: The actual θ-module `A_q` is native Module.Free `S A_q`. k is an
+- The actual θ-module `A_q` is native Module.Free `S A_q`. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by
   T↦q. Uses §2.52, `Module.Free.of_basis`. Apply `Module.Free.of_basis` to the constructed finite basis.
 
-- `QuadraticPinch.polynomialModule_finite`: The actual θ-module `A_q` is native Module.Finite `S A_q`, generated
+- The actual θ-module `A_q` is native Module.Finite `S A_q`, generated
   by1 and tq. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra
   k+qk[t]. S=k[T] acts by T↦q. Uses §2.52, `Module.Finite.of_basis`. The Fin2-indexed basis is finite; apply
   `Module.Finite.of_basis`. This concerns the parameter algebra, not the normalization map.
 
-- `QuadraticPinch.polynomialModule_flat`: The actual θ-module `A_q` is native Module.Flat `S A_q`. This concerns
+- The actual θ-module `A_q` is native Module.Flat `S A_q`. This concerns
   `k[T]→A_q`, and gives no flatness statement for the distinct inclusion `A_q→k[t]`. k is an arbitrary field;
   a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52,
   `Module.Flat.of_free`. Install the established free-module fact locally and reuse the native
   free-implies-flat instance.
 
-- `QuadraticPinch.parameterAlgebra`: Give the existing commutative ring `A_q` the native Algebra k[T] structure
+- Give the existing commutative ring `A_q` the native Algebra k[T] structure
   induced by θ; its algebra map is θ and P·f=P(q)f. This introduces no new ring or module carrier. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by
   T↦q. Uses §2.52, `RingHom.toAlgebra`. Apply RingHom.toAlgebra to the specified θ. There is no preexisting
   k[T]-action on this carrier; the existing k-action is distinct.
 
-- `QuadraticPinch.polynomialCoordinates_coe`: For every pair (P,Q), the ambient polynomial of the S-linear
+- For every pair (P,Q), the ambient polynomial of the S-linear
   equivalence is P(q)+tqQ(q). k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder
   subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52, §2.33. The forward function is exactly the coordinates
   function. Reuse its coercion equation.
 
-- `QuadraticPinch.polynomialCoordinates_inverse`: For each actual `f∈A_q`, the inverse polynomial-module
+- For each actual `f∈A_q`, the inverse polynomial-module
   coordinates equal the existing k-linear inverse coordinates as a pair of polynomials. k is an arbitrary
   field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses
   §2.52, §2.33. The S-linear upgrade preserves both underlying functions; the equality is definitional.
 
-- `QuadraticPinch.polynomialCoordinates_smul`: For H,P,Q∈S, e(HP,HQ)=H·e(P,Q) in the actual pinched algebra. k
+- For H,P,Q∈S, e(HP,HQ)=H·e(P,Q) in the actual pinched algebra. k
   is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T]
   acts by T↦q. Uses §2.52. Use the native S-linear equivalence scalar law.
 
-- `QuadraticPinch.polynomialCoordinates_reconstruction`: For every `f∈A_q` with inverse coordinates (P,Q),
+- For every `f∈A_q` with inverse coordinates (P,Q),
   P·b0+Q·b1=f for the actual θ-action and the actual finite basis. k is an arbitrary field; a,b∈k; q=t²+at+b;
   `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52, §2.33. Use the
   ambient scalar formula and the two basis vectors. The coordinates inverse law yields P(q)+tqQ(q)=f;
   commutativity identifies the two-term expression.
 
-- `QuadraticPinch.polynomialCoordinates`: Upgrade the existing k-linear equivalence `e:(k[T]×k[T])≃A_q` to a
+- Upgrade the existing k-linear equivalence `e:(k[T]×k[T])≃A_q` to a
   native S-linear equivalence, with ordinary componentwise S-action on its domain and the specified θ-action
   on its codomain. The forward function is (P,Q)↦P(q)+tqQ(q). k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q`
   is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52, §2.33. Keep the
   existing bijection and additive law. Polynomial composition preserves multiplication; distributivity proves
   compatibility with the specified scalar action. No new normal-form theorem is assumed.
 
-- `QuadraticPinch.polynomialBasis_zero`: The ambient polynomial of the index0 polynomial-module basis vector
+- The ambient polynomial of the index0 polynomial-module basis vector
   is1. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t].
   S=k[T] acts by T↦q. Uses §2.52, `Module.Basis.finTwoProd_zero`. Evaluate the transported standard vector
   (1,0) by the coordinates formula.
 
-- `QuadraticPinch.polynomialBasis_one`: The ambient polynomial of the index1 polynomial-module basis vector is
+- The ambient polynomial of the index1 polynomial-module basis vector is
   tq. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t].
   S=k[T] acts by T↦q. Uses §2.52, `Module.Basis.finTwoProd_one`. Evaluate the transported standard vector
   (0,1).
 
-- `QuadraticPinch.polynomialBasis_repr`: For `f∈A_q` with existing inverse coordinates (P,Q), the native finite
+- For `f∈A_q` with existing inverse coordinates (P,Q), the native finite
   basis representation has index0 coefficient P and index1 coefficient Q in S. k is an arbitrary field; a,b∈k;
   q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T] acts by T↦q. Uses §2.52,
   `Module.Basis.coe_finTwoProd_repr`. The transported basis representation is the inverse coordinates followed
   by the standard pair representation; evaluate its two indices.
 
-- `QuadraticPinch.polynomialModule_finrank`: The native Module.finrank `S A_q` for the specified θ-action is2. k
+- The native Module.finrank `S A_q` for the specified θ-action is2. k
   is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the existing scalar-remainder subalgebra k+qk[t]. S=k[T]
   acts by T↦q. Uses §2.52, `Module.finrank_eq_card_basis`. Apply finrank_eq_card_basis and the cardinality of
   Fin2. The polynomial ring over a field satisfies strong rank condition.
 
-- `QuadraticPinch.polynomialCoordinates_mul`: For all z,w∈S×S, e(z⋆w)=e(z)e(w) in the actual pinched algebra
+- For all z,w∈S×S, e(z⋆w)=e(z)e(w) in the actual pinched algebra
   `A_q`. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. Uses §2.52. Compare
   both sides after the actual subalgebra inclusion. Composition respects polynomial addition, subtraction and
   multiplication; expansion of q=t²+at+b gives the equality.
 
-- `QuadraticPinch.polynomialCoordinates_inverse_mul`: For all `f,g∈A_q`, e⁻¹(fg)=e⁻¹(f)⋆e⁻¹(g). k is an
+- For all `f,g∈A_q`, e⁻¹(fg)=e⁻¹(f)⋆e⁻¹(g). k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. Uses §2.52. Apply injectivity of e
   to the established multiplicative comparison and its two inverse laws.
 
-- `QuadraticPinch.polynomialProduct_unit`: For every a,b and z∈S×S, (1,0)⋆z=z.
+- For every a,b and z∈S×S, (1,0)⋆z=z.
 
-- `QuadraticPinch.polynomialProduct`: Define the coefficient product z⋆w=(z₀w₀+(T³−bT²)z₁w₁, z₀w₁+z₁w₀−aTz₁w₁)
+- Define the coefficient product z⋆w=(z₀w₀+(T³−bT²)z₁w₁, z₀w₁+z₁w₀−aTz₁w₁)
   on S×S. This is an explicit function furnishing the coordinates of multiplication in the existing ring `A_q`,
   not componentwise pair multiplication or a second ring carrier. k is an arbitrary field; a,b∈k; q=t²+at+b;
   `A_q` is the actual subalgebra k+qk[t]. Uses §2.52. Use the existing two-term reconstruction and the relation
   q=t²+at+b. The displayed function specifies the coefficient pair; its multiplicative comparison is a
   separate lemma.
 
-- `QuadraticPinch.polynomialBasis_zero_eq_one`: The actual first polynomial-module basis vector b0 equals 1 in
+- The actual first polynomial-module basis vector b0 equals 1 in
   `A_q`, not only after ambient coercion. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual
   subalgebra k+qk[t]. Uses §2.52. Use subtype extensionality and the ambient equation for b0.
 
-- `QuadraticPinch.polynomialBasis_square`: In the actual S-algebra `A_q`, v²=θ(T³−bT²)−θ(aT)v, with v=b1=tq.
+- In the actual S-algebra `A_q`, v²=θ(T³−bT²)−θ(aT)v, with v=b1=tq.
   Equivalently v²+aT·v+bT²−T³=0. The coefficients are evaluated at q, not at t. k is an arbitrary field;
   a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. Uses §2.52. Compare ambient coercions, use θ(P)=P(q)
   and v=tq, and expand q=t²+at+b.
@@ -7392,13 +7328,13 @@ The construction needs the following maps and laws.
 
 ### 2.53 algebra homomorphisms as quadratic roots
 
-For an arbitrary commutative S-algebra B, construct `QuadraticPinch.polynomialHomEquivRoots` between S-algebra
+For an arbitrary commutative S-algebra B, construct the equivalence between S-algebra
 homomorphisms `A_q→B` and roots y of y²=ι(T³−bT²)−ι(aT)y. Evaluation on the second basis vector is the forward
 map; the inverse sends P(q)+tqQ(q) to ι(P)+yι(Q). Prove multiplication by the relation and prove both inverse
 laws. B may be nonreduced or zero.
 
 k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. S=k[T] acts through the
-existing parameter homomorphism θ(P)=P(q), and `e:S×S≃ₗ[S]A_q` is the existing polynomialCoordinates
+existing parameter homomorphism θ(P)=P(q), and `e:S×S≃ₗ[S]A_q` is the existing polynomial coordinates
 equivalence. No characteristic, separability or discriminant restriction is imposed. B is an arbitrary
 commutative S-algebra, in an independent universe; B need not be a field, reduced or nonzero. Write ι:S→B for
 its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`.
@@ -7407,25 +7343,25 @@ its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.polynomialEvaluation_apply`: For every y∈B and z∈S×S, `E_y(e(z))=ι(z₀)+ι(z₁)y`. k is an
+- For every y∈B and z∈S×S, `E_y(e(z))=ι(z₀)+ι(z₁)y`. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need not be a field, reduced or
   nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53. Use
   the inverse law of the existing coordinate equivalence.
 
-- `QuadraticPinch.polynomialEvaluation_mul`: If y∈B satisfies y²=ι(T³−bT²)−ι(aT)y, then `E_y(fg)=E_y(f)E_y(g)`
+- If y∈B satisfies y²=ι(T³−bT²)−ι(aT)y, then `E_y(fg)=E_y(f)E_y(g)`
   for all `f,g∈A_q`. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need not
   be a field, reduced or nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in
   `A_q`. Uses §2.53, §2.52. Apply the inverse multiplication formula; the coefficient algebra map preserves ring
   operations. Subtract the product of the two evaluations and use the displayed root equation multiplied by
   the two second coefficients.
 
-- `QuadraticPinch.polynomialEvaluation_parameter`: For every y∈B and P∈S, `E_y(θ(P))=ι(P)`, without assuming
+- For every y∈B and P∈S, `E_y(θ(P))=ι(P)`, without assuming
   that y satisfies the quadratic relation. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual
   subalgebra k+qk[t]. B need not be a field, reduced or nonzero. Write ι:S→B for its actual algebra map,
   R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53, §2.52. Write θ(P)=e(P,0) by the parameter comparison
   and use the coordinate evaluation equation.
 
-- `QuadraticPinch.polynomialEvaluation`: For an arbitrary y∈B, construct the actual S-linear map `E_y:A_q→B`
+- For an arbitrary y∈B, construct the actual S-linear map `E_y:A_q→B`
   given by `E_y(f)=ι(e⁻¹(f)₀)+ι(e⁻¹(f)₁)y`. No root equation on y is required to construct this linear map, and
   multiplicativity is not assumed. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra
   k+qk[t]. B need not be a field, reduced or nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and
@@ -7433,23 +7369,23 @@ The construction needs the following maps and laws.
   specified S-action, together with the actual coefficient algebra map into B, prove the native linear-map
   laws.
 
-- `QuadraticPinch.polynomialLift_apply`: For every relation root y and z∈S×S, `F_y(e(z))=ι(z₀)+ι(z₁)y`. k is an
+- For every relation root y and z∈S×S, `F_y(e(z))=ι(z₀)+ι(z₁)y`. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need not be a field, reduced or
   nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53. The
   underlying function of `F_y` is `E_y`, so use the established evaluation formula.
 
-- `QuadraticPinch.polynomialLift_basis`: For every relation root y, `F_y(v)=y` for the actual v=b1=tq. k is an
+- For every relation root y, `F_y(v)=y` for the actual v=b1=tq. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need not be a field, reduced or
   nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53, §2.52.
   The second basis vector is the coordinate image of (0,1); evaluate that pair.
 
-- `QuadraticPinch.polynomialLift_unique`: For every relation root y and actual S-algebra homomorphism `F:A_q→B`
+- For every relation root y and actual S-algebra homomorphism `F:A_q→B`
   with F(v)=y, `F=F_y`. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need
   not be a field, reduced or nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq
   in `A_q`. Uses §2.53, §2.52, `AlgHom.commutes`. Reconstruct each f as P·b0+Q·v. Both homomorphisms preserve
   the specified S-coefficients, addition and multiplication, and have identical values on 1 and v.
 
-- `QuadraticPinch.polynomialLift`: For every y∈B satisfying y²=ι(T³−bT²)−ι(aT)y, construct the actual
+- For every y∈B satisfying y²=ι(T³−bT²)−ι(aT)y, construct the actual
   S-algebra homomorphism `F_y:A_q→B` whose underlying function is `E_y`. Its unit and coefficient images are the
   actual ring unit and the specified map ι. k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual
   subalgebra k+qk[t]. B need not be a field, reduced or nonzero. Write ι:S→B for its actual algebra map,
@@ -7457,31 +7393,31 @@ The construction needs the following maps and laws.
   multiplicative law. Identify the ring unit and θ(P) with e(1,0) and e(P,0); the evaluation formula proves
   the unit and coefficient-map conditions.
 
-- `QuadraticPinch.polynomialHom_relation`: For every actual S-algebra homomorphism `F:A_q→B`, its value F(v)
+- For every actual S-algebra homomorphism `F:A_q→B`, its value F(v)
   satisfies F(v)²=ι(T³−bT²)−ι(aT)F(v). k is an arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra
   k+qk[t]. B need not be a field, reduced or nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and
   L=aT. Write v=b1=tq in `A_q`. Uses §2.52, `AlgHom.commutes`. Apply F to the proved native relation and use
   preservation of ring operations and the coefficient map.
 
-- `QuadraticPinch.polynomialHomEquivRoots_apply`: For every actual S-algebra homomorphism F, the underlying
+- For every actual S-algebra homomorphism F, the underlying
   element of its image under the homomorphism/root equivalence is F(v). k is an arbitrary field; a,b∈k;
   q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need not be a field, reduced or nonzero. Write ι:S→B for
   its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53. Read the specified forward
   function of the constructed equivalence.
 
-- `QuadraticPinch.polynomialHomEquivRoots_symm_apply`: For every element y of the actual root subtype, the
+- For every element y of the actual root subtype, the
   inverse homomorphism/root equivalence is exactly `F_y`, constructed with y’s displayed relation proof. k is an
   arbitrary field; a,b∈k; q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. B need not be a field, reduced or
   nonzero. Write ι:S→B for its actual algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53. Read
   the specified inverse function; no alternative choice of coefficient action is introduced.
 
-- `QuadraticPinch.polynomialHomEquivRoots_parameter`: For every actual root-subtype element y and every P∈S,
+- For every actual root-subtype element y and every P∈S,
   the inverse homomorphism/root correspondence sends θ(P) to ι(P). k is an arbitrary field; a,b∈k; q=t²+at+b;
   `A_q` is the actual subalgebra k+qk[t]. B need not be a field, reduced or nonzero. Write ι:S→B for its actual
   algebra map, R=T³−bT² and L=aT. Write v=b1=tq in `A_q`. Uses §2.53, `AlgHom.commutes`. The inverse
   correspondence is an actual S-algebra homomorphism; apply its native coefficient-map compatibility.
 
-- `QuadraticPinch.polynomialProduct_unit`: For every a,b and z∈S×S, (1,0)⋆z=z. k is an arbitrary field; a,b∈k;
+- For every a,b and z∈S×S, (1,0)⋆z=z. k is an arbitrary field; a,b∈k;
   q=t²+at+b; `A_q` is the actual subalgebra k+qk[t]. Uses §2.52. Substitute (1,0) in the explicit coefficient
   formula and simplify polynomial ring operations.
 
@@ -7518,7 +7454,7 @@ The construction needs the following maps and laws.
 ### 2.54 relative integral factorization of the glued map
 
 Instantiate native relative normalization of C in N for the specified finite ν, and name it
-`QuadraticPinch.Global.relativeNormalization`. Its affine rings are integral closures inside Γ(N,ν⁻¹U), not
+the relative normalization. Its affine rings are integral closures inside Γ(N,ν⁻¹U), not
 inside an unspecified function field. Prove the unit, counit and structure-map comparisons for this
 specialization.
 
@@ -7530,12 +7466,12 @@ Affine-open, flatness and integral-factorization hypotheses are retained exactly
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.relativeNormalization_factorization`: The specified canonical morphisms satisfy i
+- The specified canonical morphisms satisfy i
   followed by r equals the previously glued ν. k is an arbitrary field; a,b∈k. Uses §2.54,
   `AlgebraicGeometry.Scheme.Hom.toNormalization_fromNormalization`. Specialize the native factorization
   equality to ν.
 
-- `QuadraticPinch.Global.toRelativeNormalization_isIso`: The comparison i:N→Rν is an isomorphism, because the
+- The comparison i:N→Rν is an isomorphism, because the
   already constructed ν is finite and therefore integral. This does not assert that ν:N→C is an isomorphism. k
   is an arbitrary field; a,b∈k. Uses §2.54, §2.47, `AlgebraicGeometry.Scheme.Hom.toNormalization`,
   `AlgebraicGeometry.IsFinite.iff_isIntegralHom_and_locallyOfFiniteType`. Finiteness of ν supplies
@@ -7545,48 +7481,48 @@ The construction needs the following maps and laws.
   cited toNormalization definition. No normality or projective-line argument is required for this relative
   statement.
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso`: For each affine open U⊆C, define an isomorphism of
+- For each affine open U⊆C, define an isomorphism of
   commutative-ring objects Γ(Rν,r⁻¹U)≅integralClosure(Γ(C,U),Γ(N,ν⁻¹U)). The coefficient algebra structure is
   exactly the one induced by ν on U.
 
-- `QuadraticPinch.Global.toRelativeNormalization_desc`: For every specified integral factorization ν=f
+- For every specified integral factorization ν=f
   followed by g, i followed by d equals f.
 
-- `QuadraticPinch.Global.toRelativeNormalization`: Define the specified comparison i:N→Rν by Mathlib’s
+- Define the specified comparison i:N→Rν by Mathlib’s
   canonical map to relative normalization of ν. k is an arbitrary field; a,b∈k. Uses §2.54,
   `AlgebraicGeometry.Scheme.Hom.toNormalization`. Use the canonical map of the existing qcqs factorization of
   ν.
 
-- `QuadraticPinch.Global.relativeNormalizationDesc_from`: For every specified integral factorization ν=f
+- For every specified integral factorization ν=f
   followed by g, d followed by g equals r.
 
-- `QuadraticPinch.Global.relativeNormalizationIso_inv_from`: The inverse of e followed by ν equals the
+- The inverse of e followed by ν equals the
   specified r:Rν→C. k is an arbitrary field; a,b∈k. Uses §2.54. Rewrite ν as i followed by r and cancel the
   inverse followed by the forward isomorphism.
 
-- `QuadraticPinch.Global.fromRelativeNormalization`: Define r:Rν→C to be Mathlib’s canonical integral morphism
+- Define r:Rν→C to be Mathlib’s canonical integral morphism
   from the relative normalization of ν. k is an arbitrary field; a,b∈k. Uses §2.54,
   `AlgebraicGeometry.Scheme.Hom.fromNormalization`. Use the existing integral factorization map with ν and its
   actual target.
 
-- `QuadraticPinch.Global.relativeNormalizationIso_hom`: The forward map of e:N≅Rν is the specified i:N→Rν. k
+- The forward map of e:N≅Rν is the specified i:N→Rν. k
   is an arbitrary field; a,b∈k. Uses §2.54. Read the native asIso forward projection.
 
-- `QuadraticPinch.Global.relativeNormalizationDesc_eq`: For every integral factorization ν=f followed by g, d
+- For every integral factorization ν=f followed by g, d
   equals the inverse of e followed by f.
 
-- `QuadraticPinch.Global.relativeNormalizationIso`: Define e:N≅Rν using the isomorphism instance for the
+- Define e:N≅Rν using the isomorphism instance for the
   canonical i; its forward map is exactly i. k is an arbitrary field; a,b∈k. Uses §2.54. Use the native
   categorical asIso of the specified canonical comparison, preserving its forward morphism.
 
-- `QuadraticPinch.quadratic_normalization_inclusion_not_surjective`: For every field k and a,b∈k, the actual
+- For every field k and a,b∈k, the actual
   inclusion `A_q=k+qk[t]→k[t]`, q=t²+at+b, is not surjective. In particular the relative comparison N≅Rν cannot
   be used to identify the pinched affine chart with its source. k is an arbitrary field; a,b∈k. Uses §2.39,
   §2.34. If t were in `A_q`, its class in the existing cokernel would vanish. The previous nonzero-generator
   theorem for a monic degree-two q contradicts this. This is a ring-map counterexample, not a newly
   established global scheme isomorphism criterion.
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso_cancel`: For any affine U⊆C and endomorphisms f,g of
+- For any affine U⊆C and endomorphisms f,g of
   Γ(Rν,r⁻¹U), postcomposition with the specified section-comparison map gives equal maps if and only if f=g. k
   is an arbitrary field; a,b∈k. Uses §2.55. The forward map of the actual section isomorphism is monomorphic.
   Apply native categorical cancellation.
@@ -7625,7 +7561,7 @@ The construction needs the following maps and laws.
 
 ### 2.55 affine integral-closure section comparison
 
-Construct `QuadraticPinch.Global.relativeNormalizationSectionsIso` from affine sections of the relative
+Construct the relative normalization sections isomorphism from affine sections of the relative
 normalization to the integral closure of Γ(C,U) in Γ(N,ν⁻¹U), with the coefficient algebra induced by ν.app.
 Prove the actual quotient/section formula and compatibility with restrictions; the empty affine open is
 allowed where the native comparison permits it.
@@ -7638,24 +7574,24 @@ Affine-open, flatness and integral-factorization hypotheses are retained exactly
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso_hom_inv`: For every affine open U⊆C, the specified
+- For every affine open U⊆C, the specified
   affine section comparison followed by its inverse is the identity of Γ(Rν,r⁻¹U).
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso_inv_hom`: For every affine open U⊆C, the inverse
+- For every affine open U⊆C, the inverse
   section comparison followed by the comparison is the identity of the specified integral closure inside
   Γ(N,ν⁻¹U).
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso_cancel`: For any affine U⊆C and endomorphisms f,g of
+- For any affine U⊆C and endomorphisms f,g of
   Γ(Rν,r⁻¹U), postcomposition with the specified section-comparison map gives equal maps if and only if f=g.
 
 **Checks.**
 
 - For every affine open U of the cusp and section s on the actual relative normalization above U, the
-  underlying value of relativeNormalizationSectionsIso(s) is toRelativeNormalization.appLE(s), with the
+  underlying value of relative normalization sections isomorphism(s) is to relative normalization.appLE(s), with the
   source-open inclusion given by the actual factorization triangle.
 
 - For a=b=1 over F₂, every affine U and coefficient section r on C, inclusion after the comparison applied to
-  fromRelativeNormalization.app(U)(r) equals normalization.app(U)(r). Both algebra structures are the actual
+  from relative normalization.app(U)(r) equals normalization.app(U)(r). Both algebra structures are the actual
   coefficient pullbacks.
 
 - For any a,b, affine U, r∈Γ(C,U), V=D(r) with V≠U and section s on the relative normalization above U,
@@ -7682,7 +7618,7 @@ The construction needs the following maps and laws.
 ### 2.56 descent through an integral factorization
 
 Given an actual factorization ν through an integral T→C, construct
-`QuadraticPinch.Global.relativeNormalizationDesc` by native normalization descent. Prove the two factorization
+the relative normalization descent by native normalization descent. Prove the two factorization
 equations, identity and uniqueness with the native hypotheses. The input is an integral factorization, not a
 field that assumes the normalization theorem.
 
@@ -7694,29 +7630,29 @@ Affine-open, flatness and integral-factorization hypotheses are retained exactly
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.toRelativeNormalization_desc`: For every specified integral factorization ν=f
+- For every specified integral factorization ν=f
   followed by g, i followed by d equals f. k is an arbitrary field; a,b∈k. Uses §2.56, §2.54,
   `AlgebraicGeometry.Scheme.Hom.toNormalization_normalizationDesc`. Use the native source triangle for
   normalizationDesc.
 
-- `QuadraticPinch.Global.relativeNormalizationDesc_from`: For every specified integral factorization ν=f
+- For every specified integral factorization ν=f
   followed by g, d followed by g equals r. k is an arbitrary field; a,b∈k. Uses §2.56, §2.54,
   `AlgebraicGeometry.Scheme.Hom.normalizationDesc_comp`. Use the native target triangle for normalizationDesc.
 
-- `QuadraticPinch.Global.relativeNormalizationDesc_eq`: For every integral factorization ν=f followed by g, d
+- For every integral factorization ν=f followed by g, d
   equals the inverse of e followed by f. k is an arbitrary field; a,b∈k. Uses §2.56, §2.54. Cancel the
   epimorphic forward isomorphism i and apply its inverse law and the source triangle.
 
-- `QuadraticPinch.Global.relativeNormalizationDesc_unique`: For every specified integral factorization ν=f
+- For every specified integral factorization ν=f
   followed by g, any j:Rν→T with i followed by j equal to f equals d. Here the source triangle alone suffices
   because this particular i is an isomorphism. k is an arbitrary field; a,b∈k. Uses §2.56, §2.54. Cancel the
   epimorphic forward comparison. Do not attribute this one-triangle strengthening to arbitrary qcqs maps.
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso_hom_inv`: For every affine open U⊆C, the specified
+- For every affine open U⊆C, the specified
   affine section comparison followed by its inverse is the identity of Γ(Rν,r⁻¹U). k is an arbitrary field;
   a,b∈k. Uses §2.55. Use the native categorical isomorphism inverse law on the actual section comparison.
 
-- `QuadraticPinch.Global.relativeNormalizationSectionsIso_inv_hom`: For every affine open U⊆C, the inverse
+- For every affine open U⊆C, the inverse
   section comparison followed by the comparison is the identity of the specified integral closure inside
   Γ(N,ν⁻¹U). k is an arbitrary field; a,b∈k. Uses §2.55. Use the other native categorical isomorphism inverse
   law, retaining the induced scalar algebra.
@@ -7724,11 +7660,11 @@ The construction needs the following maps and laws.
 **Checks.**
 
 - For the cusp a=b=0, factor ν as ν:N→C followed by `id_C`. The resulting
-  `QuadraticPinch.Global.relativeNormalizationDesc` is exactly r:Rν→C. Prove the evaluation by
+  the relative normalization descent is exactly r:Rν→C. Prove the evaluation by
   precomposing with i and cancelling the source isomorphism e:N≅Rν of §2.54.
 
 - For the cusp, factor ν as `id_N` followed by ν. The resulting
-  `QuadraticPinch.Global.relativeNormalizationDesc` is exactly e⁻¹:Rν→N, with the actual
+  the relative normalization descent is exactly e⁻¹:Rν→N, with the actual
   inverse comparison, as follows by the same cancellation.
 
 - For the cusp over Q, construct α:N≅N by t↦−t on the finite chart and u↦−u on the reciprocal
@@ -7744,7 +7680,7 @@ The construction needs the following maps and laws.
 
 ### 2.57 function-field map of the pinching
 
-Construct `QuadraticPinch.Global.normalizationFunctionFieldMap:K_C→K_N` from the generic-point stalk
+Construct the function-field map `K_C→K_N` from the generic-point stalk
 comparison and ν.stalkMap. Prove the generic point maps to the generic point and the dense-open comparison
 makes this map an isomorphism. Identify the images of finite-chart sections q and tq under the actual
 generic-germ maps.
@@ -7758,23 +7694,23 @@ exactly where stated.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalization_genericPoint`: The actual morphism ν maps `η_N`, the native generic point
+- The actual morphism ν maps `η_N`, the native generic point
   of N, to `η_C`, the native generic point of C. k is any field; a,b∈k; q=t²+at+b. Uses §2.49, §2.50, §2.45,
   §2.43, §2.44, `AlgebraicGeometry.genericPoint_eq_of_isOpenImmersion`. The common infinity chart H is
   integral by the already established infinity-domain proof. Both H→N and H→C are open immersions into
   integral schemes. Evaluate the existing equality (H→N) followed by ν equals H→C at `η_H`, and apply the pinned
   generic-point image theorem to each open immersion.
 
-- `QuadraticPinch.Global.normalization_preimage_nonempty`: For any nonempty open U⊆C, its actual preimage ν⁻¹U
+- For any nonempty open U⊆C, its actual preimage ν⁻¹U
   is nonempty. k is any field; a,b∈k; q=t²+at+b. Uses §2.49. Choose a point of U and a preimage under the
   previously proved surjective ν; its membership supplies the required native Nonempty instance.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldMap_stalk`: The map σ is exactly the inverse stalkCongr for
+- The map σ is exactly the inverse stalkCongr for
   `ν(η_N)=η_C` followed by `ν.stalkMap(η_N)`; no arbitrary isomorphism of abstract fields is substituted. k is any
   field; a,b∈k; q=t²+at+b. Uses §2.57. Unfold the specified composition; equality transport uses
   `Inseparable.of_eq`.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldMap_germ`: For any nonempty U⊆C, `germ_C,U` followed by σ
+- For any nonempty U⊆C, `germ_C,U` followed by σ
   equals ν.app(U) followed by `germ_N,ν⁻¹U`, as maps `Γ(C,U)→K_N`, with the actual nonempty-preimage instance. k
   is any field; a,b∈k; q=t²+at+b. Uses §2.57, `AlgebraicGeometry.Scheme.germToFunctionField`,
   `TopCat.Presheaf.germ_stalkSpecializes`, `AlgebraicGeometry.Scheme.Hom.germ_stalkMap`. Expand the native
@@ -7782,7 +7718,7 @@ The construction needs the following maps and laws.
   transport. Apply the actual scheme-morphism germ/stalkMap square; the separate ν-preimage lemma supplies the
   missing nonempty instance.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldMap_isIso`: The specified native map `σ:K_C→K_N` is an
+- The specified native map `σ:K_C→K_N` is an
   isomorphism in CommRingCat. k is any field; a,b∈k; q=t²+at+b. Uses §2.57, §2.49, §2.45, §2.43, §2.44,
   `AlgebraicGeometry.genericPoint_eq_of_isOpenImmersion`, `AlgebraicGeometry.Scheme.Hom.stalkMap_comp`,
   `AlgebraicGeometry.IsOpenImmersion.iff_isIso_stalkMap`, `CategoryTheory.IsIso.of_isIso_comp_left`. Take
@@ -7791,18 +7727,18 @@ The construction needs the following maps and laws.
   stalk isomorphism. Identify its image point with `η_N`. The remaining equality-transport factor is already an
   isomorphism.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldIso_hom`: The forward map E.hom equals the actual σ. k is
+- The forward map E.hom equals the actual σ. k is
   any field; a,b∈k; q=t²+at+b. Uses §2.57. Use the defining forward map of native asIso.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldIso_inv_hom`: E.inv followed by σ equals the identity of
+- E.inv followed by σ equals the identity of
   `K_N`. k is any field; a,b∈k; q=t²+at+b. Uses §2.57. Use the native inverse/forward identity with the
   specified forward-map equation.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldIso_hom_inv`: σ followed by E.inv equals the identity of
+- σ followed by E.inv equals the identity of
   `K_C`. k is any field; a,b∈k; q=t²+at+b. Uses §2.57. Use the native forward/inverse identity with the
   specified forward-map equation.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldIso_spec_triangle`: Let η:Spec `K_C→C` and `η_N:Spec K_N→N` be
+- Let η:Spec `K_C→C` and `η_N:Spec K_N→N` be
   the native fromSpecStalk morphisms. Then Spec.map(E.inv) followed by `η_N` followed by ν equals η. k is any
   field; a,b∈k; q=t²+at+b. Uses §2.57, `AlgebraicGeometry.Scheme.fromSpecStalk`,
   `AlgebraicGeometry.Scheme.SpecMap_stalkMap_fromSpecStalk`,
@@ -7811,12 +7747,12 @@ The construction needs the following maps and laws.
   Spec.map(σ) followed by η equals `η_N` followed by ν. Precompose with Spec.map(E.inv) and use contravariance
   of Spec and the proved σ/inverse identity.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldIso`: Define `E:K_C≅K_N` as the native categorical asIso of
+- Define `E:K_C≅K_N` as the native categorical asIso of
   the specified σ and its proved IsIso instance; its forward map is the genuine transported ν stalk map. k is
   any field; a,b∈k; q=t²+at+b. Uses §2.57, `CategoryTheory.asIso`. Apply existing asIso to σ with the
   preceding IsIso theorem. No new field carrier or normalization predicate is introduced.
 
-- `QuadraticPinch.Global.genericPointMorphism_isAffine`: The actual `η=C.fromSpecStalk(η_C):Spec K_C→C` is an
+- The actual `η=C.fromSpecStalk(η_C):Spec K_C→C` is an
   affine morphism; its existing affine and separated instances therefore supply quasi-compactness and
   quasi-separatedness for native relative normalization. k is any field; a,b∈k; q=t²+at+b. Uses §2.49,
   `AlgebraicGeometry.IsAffineHom`, `AlgebraicGeometry.IsSeparated.of_isAffineHom`,
@@ -7867,7 +7803,7 @@ The construction needs the following maps and laws.
 ### 2.58 integral comparison from absolute normalization
 
 Normalize C in its native generic-point function field and construct
-`QuadraticPinch.Global.absoluteNormalizationComparison` to N using the inverse function-field isomorphism and
+the absolute normalization comparison to N using the inverse function-field isomorphism and
 the finite integral ν. The map is specified by the native normalization descent. Its being an isomorphism is
 proved by the section comparisons below, rather than built into this definition.
 
@@ -7887,29 +7823,29 @@ the integral-closure equivalences. `A_U` and `B_U` use their actual section ring
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparison_point_triangle`: The native η.toNormalization
+- The native η.toNormalization
   followed by δ equals the actual ζ=Spec.map(E.inv) followed by `η_N`. k is any field; a,b∈k; q=t²+at+b. Uses
   §2.58, `AlgebraicGeometry.Scheme.Hom.toNormalization_normalizationDesc`. Apply the existing
   toNormalization/normalizationDesc triangle to the specified integral factorization.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparison_from_triangle`: The actual δ followed by ν equals the
+- The actual δ followed by ν equals the
   native η.fromNormalization:η.normalization→C. k is any field; a,b∈k; q=t²+at+b. Uses §2.58,
   `AlgebraicGeometry.Scheme.Hom.normalizationDesc_comp`. Apply the existing
   normalizationDesc/fromNormalization triangle to the specified integral factorization.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparison_integral`: The specified actual δ:η.normalization→N
+- The specified actual δ:η.normalization→N
   is an integral morphism. k is any field; a,b∈k; q=t²+at+b. Uses §2.58,
   `AlgebraicGeometry.Scheme.Hom.normalizationDesc`. Use the existing native integral-normalizationDesc
   instance: δ followed by the integral ν is the canonical integral η.fromNormalization, so integral
   cancellation applies.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparison_unique`: For any actual d:η.normalization→N, if
+- For any actual d:η.normalization→N, if
   η.toNormalization followed by d equals ζ and d followed by ν equals η.fromNormalization, then d=δ. Both
   triangles are hypotheses; neither one alone is discarded. k is any field; a,b∈k; q=t²+at+b. Uses §2.58,
   §2.47, `AlgebraicGeometry.Scheme.Hom.normalization.hom_ext`. The finite ν is affine. Compare d and δ by the
   pinned native normalization.hom_ext, using the point triangle and both base triangles.
 
-- `QuadraticPinch.Global.source_affine_sections_integrallyClosed`: For every nonempty affine open V of the
+- For every nonempty affine open V of the
   actual source N(a,b), its section ring Γ(N,V) is integrally closed. k is any field, a,b∈k and q=t²+at+b. `K_C`
   and `K_N` are the native generic-point stalk fields. Uses §2.50, `IsIntegrallyClosed.of_localization_maximal`,
   `AlgebraicGeometry.IsAffineOpen.fromSpec`, `AlgebraicGeometry.Spec.stalkIso`, `IsIntegrallyClosed.of_equiv`.
@@ -7917,7 +7853,7 @@ The construction needs the following maps and laws.
   The fromSpec open immersion identifies its stalk with the corresponding normal source stalk. Spec.stalkIso
   identifies that stalk with the localization at P. Apply the native maximal-localization criterion.
 
-- `QuadraticPinch.Global.normalization_preimage_sections_integrallyClosed`: For every nonempty affine U⊂C, the
+- For every nonempty affine U⊂C, the
   actual section ring `B_U=Γ(N,ν⁻¹U)` is integrally closed. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are
   the native generic-point stalk fields. Uses §2.58, §2.57, §2.47, `AlgebraicGeometry.IsAffineOpen.preimage`.
   Surjectivity supplies nonempty ν⁻¹U. Finiteness supplies its affineness. Apply normality of source affine
@@ -7941,7 +7877,7 @@ The construction needs the following maps and laws.
 
 ### 2.59 affine closure equivalence in the source field
 
-For each nonempty affine U⊂C, construct `QuadraticPinch.Global.normalizationSectionsClosureEquiv` from
+For each nonempty affine U⊂C, construct the normalization sections closure equivalence from
 `B_U=Γ(N,ν⁻¹U)` to the integral closure of `A_U=Γ(C,U)` in `K_N`. Show `B_U` is integrally closed and integral over
 `A_U` and prove the coefficient/generic-germ square. Field-valued closure comparison is restricted to nonempty
 opens.
@@ -7957,28 +7893,28 @@ before Proposition3.1.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.normalizationSectionsToField_germ`: For every nonempty U, `c_U` equals the generic germ
+- For every nonempty U, `c_U` equals the generic germ
   `A_U→K_C` followed by the specified native function-field isomorphism `σ:K_C→K_N`. k is any field, a,b∈k and
   q=t²+at+b. `K_C` and `K_N` are the native generic-point stalk fields. Uses §2.59, §2.57. Use the germ
   compatibility for the actual stalk map σ.
 
-- `QuadraticPinch.Global.normalizationSectionsToField_injective`: For every nonempty U⊂C, the actual
+- For every nonempty U⊂C, the actual
   coefficient map `c_U` is injective. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native
   generic-point stalk fields. Uses §2.59, §2.49, `AlgebraicGeometry.Scheme.germToFunctionField_injective`. The
   curve generic germ is injective; the field homomorphism σ is injective. Compose these maps.
 
-- `QuadraticPinch.Global.normalizationSectionsToField_restrict`: For nonempty V⊂U⊂C, restriction `A_U→A_V`
+- For nonempty V⊂U⊂C, restriction `A_U→A_V`
   followed by `c_V` equals `c_U` as ring homomorphisms. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the
   native generic-point stalk fields. Uses §2.59, `TopCat.Presheaf.germ_res`. Replace both coefficient maps by
   generic germ followed by σ and apply germ restriction naturality.
 
-- `QuadraticPinch.Global.normalizationSectionsToField`: For any nonempty open U⊂C, define `c_U:A_U=Γ(C,U)→K_N`
+- For any nonempty open U⊂C, define `c_U:A_U=Γ(C,U)→K_N`
   by the actual map ν.app(U) followed by the generic germ on ν⁻¹U. The preimage is nonempty by the existing
   surjectivity theorem. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native generic-point stalk
   fields. Uses §2.57, §2.46, `AlgebraicGeometry.Scheme.germToFunctionField`. Compose the two existing section
   and generic-germ maps, with the actual preimage open and its nonemptiness witness.
 
-- `QuadraticPinch.Global.normalization_sections_integralClosure`: For every nonempty affine U⊂C, `B_U` is an
+- For every nonempty affine U⊂C, `B_U` is an
   IsIntegralClosure of `A_U` in the actual `K_N`. Its `A_U`-algebra is ν.app(U), its map into `K_N` is the generic
   germ, and the coefficient map is `c_U`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native
   generic-point stalk fields. Uses §2.58, §2.59, §2.47, `AlgebraicGeometry.Scheme.Hom.isIntegral_app`,
@@ -7988,29 +7924,29 @@ The construction needs the following maps and laws.
   `A_U`. The actual affine-open generic-stalk theorem makes `K_N a` fraction field of `B_U`. Combine this with
   normality of `B_U` using the existing integral-closure instance.
 
-- `QuadraticPinch.Global.normalizationSectionsClosureEquiv_val`: The ambient `K_N`-value of `e_U(s)` is the actual
+- The ambient `K_N`-value of `e_U(s)` is the actual
   generic germ of `s∈B_U`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native generic-point stalk
   fields. Uses §2.59, `IsIntegralClosure.algebraMap_equiv`. Use the native ambient-value law for the
   integral-closure equivalence.
 
-- `QuadraticPinch.Global.normalizationSectionsClosureEquiv_coefficient`: For `r∈A_U`, `e_U(ν.app(U)(r))` is the
+- For `r∈A_U`, `e_U(ν.app(U)(r))` is the
   native coefficient image in `integralClosure(A_U,K_N)`.
 
-- `QuadraticPinch.Global.normalizationSectionsClosureEquiv_inverse_val`: For `z∈integralClosure(A_U,K_N)`, the
+- For `z∈integralClosure(A_U,K_N)`, the
   actual source generic germ of `e_U⁻¹(z)` is z itself.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv_apply`: The value of the coefficient-algebra
+- The value of the coefficient-algebra
   equivalence on `x∈K_C` is exactly σ(x), the already constructed stalk map. k is any field, a,b∈k and
   q=t²+at+b. `K_C` and `K_N` are the native generic-point stalk fields. Uses §2.59, §2.57. Unfold only the new
   algebra-equivalence structure; the underlying field map was retained.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv_coefficient`: For `r∈A_U`, the field algebra
+- For `r∈A_U`, the field algebra
   equivalence sends the actual curve generic germ of r to `c_U(r)`.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv_symm`: The inverse of the coefficient-algebra
+- The inverse of the coefficient-algebra
   equivalence is exactly the σ⁻¹ on every `x∈K_N`.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv`: For every nonempty open U⊂C, upgrade the actual
+- For every nonempty open U⊂C, upgrade the actual
   `σ:K_C≅K_N` to an `A_U`-algebra equivalence: `K_C` has its native generic-germ action and `K_N` has `c_U`. No
   affineness is required for this upgrade. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native
   generic-point stalk fields. Uses §2.59, §2.57. Keep the exact underlying native field isomorphism. Its
@@ -8052,7 +7988,7 @@ The construction needs the following maps and laws.
 ### 2.60 affine closure equivalence in the curve field
 
 Transport this closure along the actual `K_C≃K_N` to construct
-`QuadraticPinch.Global.absoluteSectionsClosureEquiv:B_U≃ₐ[A_U]integralClosure(A_U,K_C)`. The `A_U`-action is the
+`E_U:B_U≃ₐ[A_U]integralClosure(A_U,K_C)`. The `A_U`-action is the
 curve's actual generic germ. Prove generator and inverse formulas and independence of the chosen affine chart.
 
 k is any field, a,b∈k and q=t²+at+b. C(a,b), N(a,b) and ν are the actual two-chart schemes and finite
@@ -8074,67 +8010,67 @@ IsAffineOpen U. Empty opens have no nonempty witness and are not covered by thes
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.absoluteSectionsClosureEquiv_val`: For `s∈B_U`, the ambient `K_C`-value of `E_U(s)` is
+- For `s∈B_U`, the ambient `K_C`-value of `E_U(s)` is
   `σ⁻¹(germ_N(s))`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native generic-point stalk fields.
   Uses §2.60, §2.59. The native mapIntegralClosure retains the underlying field map; use the established `e_U`
   value.
 
-- `QuadraticPinch.Global.absoluteSectionsClosureEquiv_coefficient`: For `r∈A_U`, `E_U(ν.app(U)(r))` equals the
+- For `r∈A_U`, `E_U(ν.app(U)(r))` equals the
   image of r under the native algebra map `A_U→integralClosure(A_U,K_C)`. k is any field, a,b∈k and q=t²+at+b.
   `K_C` and `K_N` are the native generic-point stalk fields. Uses §2.60. Apply the coefficient law of the actual
   `A_U`-algebra equivalence.
 
-- `QuadraticPinch.Global.absoluteSectionsClosureEquiv_restrict`: For nonempty affine V⊂U and `s∈B_U`, the
+- For nonempty affine V⊂U and `s∈B_U`, the
   ambient values in `K_C` of `E_V(res(s))` and `E_U(s)` agree, where res is the actual structure-presheaf
   restriction Γ(N,ν⁻¹U)→Γ(N,ν⁻¹V). k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native
   generic-point stalk fields. Uses §2.60, `TopCat.Presheaf.germ_res`. Both ambient values are σ⁻¹ of the
   corresponding source generic germs; apply generic-germ restriction naturality.
 
-- `QuadraticPinch.Global.absoluteSectionsClosureEquiv_inverse_val`: For `z∈integralClosure(A_U,K_C)`, the
+- For `z∈integralClosure(A_U,K_C)`, the
   generic germ of `E_U⁻¹(z)` equals σ(z). k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native
   generic-point stalk fields. Uses §2.60, §2.57. Apply the ambient-value identity to `E_U⁻¹(z)`, simplify the
   inverse identity and cancel the injective map σ⁻¹.
 
-- `QuadraticPinch.Global.absoluteSectionsClosureEquiv_inverse_restrict`: Let nonempty affine V⊂U and let `z_U`
+- Let nonempty affine V⊂U and let `z_U`
   and `z_V` lie in the two native closures inside `K_C` with equal ambient values. Then the actual restriction of
   `E_U⁻¹(z_U)` equals `E_V⁻¹(z_V)`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the native generic-point
   stalk fields. Uses §2.60. Apply injectivity of `E_V`, then subtype extensionality. Forward restriction
   compatibility and the two inverse identities reduce the claim to the equality of ambient field values.
 
-- `QuadraticPinch.Global.normalizationSectionsClosureEquiv_coefficient`: For `r∈A_U`, `e_U(ν.app(U)(r))` is the
+- For `r∈A_U`, `e_U(ν.app(U)(r))` is the
   native coefficient image in `integralClosure(A_U,K_N)`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are
   the native generic-point stalk fields. Uses §2.59. Use the coefficient law of `e_U`.
 
-- `QuadraticPinch.Global.normalizationSectionsClosureEquiv_inverse_val`: For `z∈integralClosure(A_U,K_N)`, the
+- For `z∈integralClosure(A_U,K_N)`, the
   actual source generic germ of `e_U⁻¹(z)` is z itself. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the
   native generic-point stalk fields. Uses §2.59. Apply the ambient-value law to the inverse image and use the
   inverse identity.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv_coefficient`: For `r∈A_U`, the field algebra
+- For `r∈A_U`, the field algebra
   equivalence sends the actual curve generic germ of r to `c_U(r)`. k is any field, a,b∈k and q=t²+at+b. `K_C` and
   `K_N` are the native generic-point stalk fields. Uses §2.59. Apply the native algebra-equivalence coefficient
   law.
 
-- `QuadraticPinch.Global.normalizationFunctionFieldAlgEquiv_symm`: The inverse of the coefficient-algebra
+- The inverse of the coefficient-algebra
   equivalence is exactly the σ⁻¹ on every `x∈K_N`. k is any field, a,b∈k and q=t²+at+b. `K_C` and `K_N` are the
   native generic-point stalk fields. Uses §2.59, §2.57. The new structure retains both maps of the native
   field isomorphism.
 
-- `QuadraticPinch.Global.normalizationGenericSectionsAlgEquiv_coefficient`: For `r∈A_U`,
+- For `r∈A_U`,
   `κ_U(η.app(U)(r))=germ_C,U(r)` in the actual stalk field `K_C`. k is an arbitrary field; a,b∈k and q=t²+at+b.
   Uses §2.60. Apply the base-algebra commutation law of `κ_U`.
 
-- `QuadraticPinch.Global.normalizationGenericSectionsAlgEquiv_restrict`: For nonempty V⊂U and `s∈S_U`,
+- For nonempty V⊂U and `s∈S_U`,
   `κ_V(res_S(s))=κ_U(s)`, where res_S is the actual structure-presheaf restriction on `Spec K_C` along η⁻¹V⊂η⁻¹U.
   Affineness is not required. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.60,
   `TauCeti.AlgebraicGeometry.Scheme.rationalFunctionsRingEquiv_map`. Apply the existing public
   rational-function restriction theorem to the actual open inclusion.
 
-- `QuadraticPinch.Global.normalizationGenericSectionsAlgEquiv_inverse_coefficient`: For `r∈A_U`,
+- For `r∈A_U`,
   `κ_U⁻¹(germ_C,U(r))=η.app(U)(r)` in `S_U`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.60. Apply
   injectivity of `κ_U` to its coefficient equation.
 
-- `QuadraticPinch.Global.normalizationGenericSectionsAlgEquiv`: For every nonempty open U⊂C, upgrade the
+- For every nonempty open U⊂C, upgrade the
   pinned rational-function ring equivalence to `κ_U:S_U≃ₐ[A_U]K_C`, with the exact η.app(U) action. Its
   underlying ring equivalence is the existing Tau Ceti rationalFunctionsRingEquiv; no new rational-function
   sheaf or generic-preimage theory is defined. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.57,
@@ -8147,35 +8083,32 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- For a=b=0, `E_U` sends every pulled-back coefficient to its native image in the closure inside `K_C`.
+Write U=q and V=tq for the generators of the finite chart ring `A_q=k[q,tq]`.
 
-- For k=F₂ and a=b=1, the source generic germ of `E_U⁻¹(z)` is the actual σ(z) for every integral element z in
-  `K_C`.
+- For the cusp a=b=0 on the finite chart, the coefficients U and V go to t² and t³ in the closure k[t]
+  inside `K_C`, and the closure element t is the image of the fraction V/U; t itself is not a coefficient,
+  since t∉k[t²,t³].
+
+- For k=F₂ and a=b=1, the nonsplit quadratic case, U goes to t²+t+1 and V to t(t²+t+1). The automorphism
+  t↦t+1 of k[t] fixes U, since (t+1)²+(t+1)+1=t²+t+1, but sends V to V+U; so the value on V distinguishes
+  the actual equivalence from this wrong one.
+
+- On the infinity chart with u=1/t and z=1/(tq), the closure equivalence sends u to 1/t and z to 1/(tq) in
+  `K_C`; for a=b=0 the second value is t⁻³.
 
 - On any nonempty affine inclusion V⊂U, integral elements in `K_C` with equal ambient values have inverse images
-  agreeing under the actual source restriction.
+  agreeing under the actual source restriction; for the cusp the value t on the finite chart restricts to the
+  same t on the basic open where U is inverted.
 
-- The empty open of C has no nonempty instance, so the generic-field section comparison cannot be instantiated
-  there.
-
-- For the cusp a=b=0, `κ_U` sends every actual pulled-back coefficient η.app(U)(r) to its native curve generic
-  germ.
-
-- For k=F₂ and a=b=1, the nonsplit quadratic case, `κ_V(res_S(s))=κ_U(s)` for every nonempty V⊂U and every
-  actual generic section s.
-
-- The empty open of C has no Nonempty witness, so the generic-field section equivalence cannot be instantiated
-  there.
-
-- For every nonempty affine U⊂C, construct an `A_U`-algebra equivalence `E_U:B_U≃integralClosure(A_U,K_C)`, where
-  the closure is taken inside the actual stalk-defined curve field with its native generic-germ `A_U`-action.
+- The empty open of C has zero section ring, which cannot be identified with the nonzero generic field; it has
+  no Nonempty witness, so neither the section comparison nor the closure equivalence is instantiated there.
 
 *Needs:* §2.59; `AlgEquiv.mapIntegralClosure`.
 
 ### 2.61 affine sections of native and chart normalizations
 
 Combine the native absolute-normalization section comparison with the preceding closure equivalence to
-construct `QuadraticPinch.Global.absoluteNormalizationSourceSectionsEquiv:D_U≃ₐ[A_U]B_U`. This comparison
+construct the source comparison `D_U≃ₐ[A_U]B_U`. This comparison
 initially concerns nonempty affine sections. Prove restriction naturality and then identify it with the actual
 comparison map's section pullback; an abstract equivalence does not yet prove the global morphism is an
 isomorphism.
@@ -8192,7 +8125,7 @@ IsAffineOpen U. Empty opens have no nonempty witness and are not covered by thes
 before Proposition3.1; [Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), §3, terminology and both
 conductor squares immediately before Proposition 3.1.)
 
-Standing hypotheses for the maps and laws below: C=curve(a,b), N=normalizationSource(a,b) and ν:N→C are the
+Standing hypotheses for the maps and laws below: C=curve(a,b), N=normalization source(a,b) and ν:N→C are the
 actual glued schemes and finite surjective map. No characteristic, perfectness, separability or discriminant
 hypothesis is added. `η=C.fromSpecStalk(η_C):Spec K_C→C`, `σ:K_C≅K_N` is the native stalk-field isomorphism,
 `ζ=Spec.map(σ.inv)≫N.fromSpecStalk(η_N)`, and δ:η.normalization→N is the existing actual normalizationDesc
@@ -8204,21 +8137,21 @@ generic-field value is used only on nonempty opens.
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.absoluteNormalizationSectionsClosureEquiv_coefficient`: For `r∈A_U`,
+- For `r∈A_U`,
   `θ_U(η.fromNormalization.app(U)(r))` is the native algebra-map image of r in `integralClosure(A_U,K_C)`. k is an
   arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61. Apply the `A_U`-algebra commutation law of `θ_U`.
 
-- `QuadraticPinch.Global.absoluteNormalizationSectionsClosureEquiv_val`: For `s∈D_U`, the ambient `K_C`-value of
+- For `s∈D_U`, the ambient `K_C`-value of
   `θ_U(s)` equals `κ_U` applied to the ambient `S_U`-value of η.normalizationObjIso(U)(s). Both section maps are the
   actual native maps. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61. Unfold the two composed
   algebra equivalences; native integral-closure transport has this exact ambient value.
 
-- `QuadraticPinch.Global.absoluteNormalizationSectionsClosureEquiv_inverse_val`: For
+- For
   `z∈integralClosure(A_U,K_C)`, applying η.normalizationObjIso(U), its ambient `S_U` inclusion and `κ_U` to `θ_U⁻¹(z)`
   gives exactly the ambient `K_C`-value of z. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61. Apply
   the ambient-value formula and the apply/symm identity for `θ_U`.
 
-- `QuadraticPinch.Global.absoluteNormalizationSectionsClosureEquiv`: For every nonempty affine U⊂C, construct
+- For every nonempty affine U⊂C, construct
   `θ_U:D_U≃ₐ[A_U]integralClosure(A_U,K_C)`. Use the actual native η.normalization and η.normalizationObjIso,
   rather than a replacement section carrier or an assumed isomorphism of schemes. k is an arbitrary field;
   a,b∈k and q=t²+at+b. Uses §2.60, `AlgebraicGeometry.Scheme.Hom.normalizationObjIso`,
@@ -8226,31 +8159,31 @@ The construction needs the following maps and laws.
   normalizationObjIso to an `A_U`-algebra equivalence using fromNormalization_app and its inverse/hom identity.
   Compose with the existing integral-closure equivalence induced by `κ_U`.
 
-- `QuadraticPinch.Global.absoluteNormalizationSourceSectionsEquiv_coefficient`: For `r∈A_U`,
+- For `r∈A_U`,
   `Ψ_U(η.fromNormalization.app(U)(r))=ν.app(U)(r)` in `B_U`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses
   §2.61. Use the `A_U`-algebra commutation law of `Ψ_U`.
 
-- `QuadraticPinch.Global.absoluteNormalizationSourceSectionsEquiv_closure`: For `s∈D_U`, `E_U(Ψ_U(s))=θ_U(s)` as
+- For `s∈D_U`, `E_U(Ψ_U(s))=θ_U(s)` as
   elements of the actual `integralClosure(A_U,K_C)`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61.
   Cancel `E_U` with its inverse in the defining composition.
 
-- `QuadraticPinch.Global.absoluteNormalizationSourceSectionsEquiv_inverse_closure`: For `s∈B_U`,
+- For `s∈B_U`,
   `θ_U(Ψ_U⁻¹(s))=E_U(s)` in the actual `integralClosure(A_U,K_C)`. k is an arbitrary field; a,b∈k and q=t²+at+b.
   Uses §2.61. Cancel `θ_U` with its inverse in the inverse composition.
 
-- `QuadraticPinch.Global.absoluteNormalizationSectionsClosureEquiv_generic_value`: For each nonempty affine U
+- For each nonempty affine U
   and `s∈D_U`, the ambient value of `θ_U(s)` is `κ_U(η.toNormalization.appLE(s))`. k is an arbitrary field; a,b∈k
   and q=t²+at+b. Uses §2.61, `AlgebraicGeometry.Scheme.Hom.normalizationObjIso_hom_val`. Use the existing θ
   value formula and native normalizationObjIso_hom_val; both maps have the same actual ambient generic
   section.
 
-- `QuadraticPinch.Global.absoluteNormalizationSectionsClosureEquiv_restrict`: For nonempty affine V⊆U and
+- For nonempty affine V⊆U and
   `s∈D_U`, `θ_V(res_D(s)).val=θ_U(s).val` in `K_C`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61, §2.60,
   `AlgebraicGeometry.Scheme.Hom.map_appLE`, `AlgebraicGeometry.Scheme.Hom.appLE_map`. Express θ through the
   actual toNormalization section map, commute restriction using map_appLE and appLE_map, and apply the κ
   restriction formula.
 
-- `QuadraticPinch.Global.absoluteNormalizationSourceSectionsEquiv_restrict`: For nonempty affine V⊆U and
+- For nonempty affine V⊆U and
   `s∈D_U`, `Ψ_V(res_D(s))=res_N(Ψ_U(s))`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61, §2.60. Apply
   the inverse E restriction law to the θ restriction equality; the shared ambient `K_C` value determines the
   integral-closure element.
@@ -8282,12 +8215,12 @@ The construction needs the following maps and laws.
 
 ### 2.62 the actual comparison on all section algebras
 
-Construct `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv:B_U≃ₐ[A_U]D_U` from the
+Construct the section comparison `B_U≃ₐ[A_U]D_U` from the
 actual comparison morphism on every open U. Prove bijectivity locally, glue and include the empty open. Its
 forward map is precisely the actual section map. Use these comparisons to prove the global
 absolute-normalization comparison is an isomorphism, with its structure-map and chart equations.
 
-k is an arbitrary field; a,b∈k and q=t²+at+b. C=curve(a,b), N=normalizationSource(a,b) and ν:N→C are the
+k is an arbitrary field; a,b∈k and q=t²+at+b. C=curve(a,b), N=normalization source(a,b) and ν:N→C are the
 actual glued schemes and finite surjective map. No characteristic, perfectness, separability or discriminant
 hypothesis is added. `η=C.fromSpecStalk(η_C):Spec K_C→C`, `σ:K_C≅K_N` is the native stalk-field isomorphism,
 `ζ=Spec.map(σ.inv)≫N.fromSpecStalk(η_N)`, and δ:η.normalization→N is the existing actual normalizationDesc
@@ -8302,53 +8235,53 @@ immediately before Proposition 3.1.)
 
 The construction needs the following maps and laws.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_generic_app`: For every open U, `Δ_U` followed
+- For every open U, `Δ_U` followed
   by the actual η.toNormalization section map equals the actual ζ section map `B_U→S_U`. k is an arbitrary
   field; a,b∈k and q=t²+at+b. Uses §2.62, §2.58, `AlgebraicGeometry.Scheme.Hom.appLE_comp_appLE`. Compose
   native appLE maps and substitute the already established η.toNormalization≫δ=ζ triangle, with the actual
   source and target opens fixed.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_closure`: For nonempty affine U and `s∈B_U`,
+- For nonempty affine U and `s∈B_U`,
   `θ_U(Δ_U(s))=E_U(s)` in `integralClosure(A_U,K_C)`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62,
   §2.60. Compare the ambient `K_C` values using the preceding lifted generic-value formula and the E value
   formula; subtype extensionality identifies the actual closure elements.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_eq_inverse`: For nonempty affine U and `s∈B_U`,
+- For nonempty affine U and `s∈B_U`,
   `Δ_U(s)=Ψ_U⁻¹(s)` in `D_U`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62, §2.61. Apply injectivity
   of `θ_U` and its common-closure equality with `E_U`; use the Ψ inverse-closure law.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_coefficient`: For every open U and `r∈A_U`,
+- For every open U and `r∈A_U`,
   `Δ_U(ν.app(U)(r))=η.fromNormalization.app(U)(r)`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62,
   §2.58, `AlgebraicGeometry.Scheme.Hom.comp_appLE`. Compose actual appLE maps and use δ≫ν=η.fromNormalization.
   Evaluate the equality of native section morphisms on r.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_restrict`: For every inclusion V⊆U, res_N
+- For every inclusion V⊆U, res_N
   followed by `Δ_V` equals `Δ_U` followed by res_D, as actual ring morphisms `B_U→D_V`. k is an arbitrary field;
   a,b∈k and q=t²+at+b. Uses §2.62, `AlgebraicGeometry.Scheme.Hom.map_appLE`,
   `AlgebraicGeometry.Scheme.Hom.appLE_map`. Use native map_appLE and appLE_map; this naturality statement uses
   the actual δ and requires neither affinity nor nonemptiness.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_bijective`: For every affine U, including
+- For every affine U, including
   U=∅, the actual map `Δ_U` is bijective. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Split on
   nonemptiness. Apply the nonempty affine result or identify U with the empty open and apply the native
   empty-open result.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_bijective_all`: For every open U⊂C, the
+- For every open U⊂C, the
   actual map `Δ_U` is bijective, with no affinity or nonemptiness assumption. k is an arbitrary field; a,b∈k and
   q=t²+at+b. Uses §2.62, `CategoryTheory.ConcreteCategory.isIso_iff_bijective`. Use the proved scheme
   isomorphism δ. Its actual section maps are isomorphisms; the explicit preimage transport is also an
   isomorphism, so `Δ_U` is an isomorphism and hence bijective.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections`: For every open U⊂C, construct `Δ_U:B_U→D_U`
+- For every open U⊂C, construct `Δ_U:B_U→D_U`
   as the actual δ.appLE on ν⁻¹U and η.fromNormalization⁻¹U, using δ≫ν=η.fromNormalization to transport the
   target open. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.58. Use the existing actual δ morphism
   and its from triangle; the construction retains the native ring homomorphism and actual open restriction.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_generic_value`: For nonempty affine U and
+- For nonempty affine U and
   `s∈B_U`, `θ_U(Δ_U(s)).val=κ_U(ζ.appLE(s))`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.61, §2.62.
   Apply the θ generic-value formula to `Δ_U(s)`, then the actual generic-point section triangle.
 
-- `QuadraticPinch.Global.genericPointLiftSections_value`: For every nonempty open U and `s∈B_U`,
+- For every nonempty open U and `s∈B_U`,
   `κ_U(ζ.appLE(s))=σ.inv(germ_N(s))`. Affinity is not required. k is an arbitrary field; a,b∈k and q=t²+at+b.
   Uses §2.60, §2.57, `TauCeti.AlgebraicGeometry.Scheme.genericPoint_mem`,
   `TauCeti.AlgebraicGeometry.Scheme.fromSpecFunctionField_preimage`,
@@ -8356,22 +8289,22 @@ The construction needs the following maps and laws.
   generic-point preimage theorem and generic-point membership for ν⁻¹U. Expand the actual fromSpecStalk
   section map; native ΓSpecIso naturality for Spec.map(σ.inv) gives the specified σ.inv value.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_bijective_nonempty`: For every nonempty
+- For every nonempty
   affine U, the actual map `Δ_U` is bijective. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62, §2.61.
   Identify `Δ_U` with `Ψ_U⁻¹` pointwise and use bijectivity of the existing algebra equivalence.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSections_bijective_empty`: The actual map `Δ_∅` is
+- The actual map `Δ_∅` is
   bijective between the two native empty-open section rings. k is an arbitrary field; a,b∈k and q=t²+at+b.
   Uses §2.62. Each preimage of the empty open is empty. Native scheme sections on the empty open are
   subsingleton; injectivity and surjectivity follow without any generic-point or nonempty witness.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparison_affine_app_isIso`: For every affine U⊂C, the actual
+- For every affine U⊂C, the actual
   δ.app(ν⁻¹U) is an isomorphism in CommRingCat. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62,
   `CategoryTheory.ConcreteCategory.isIso_iff_bijective`. The `Δ_U` bijection is a native ring-category
   isomorphism. Its factorization as δ.app followed by transport along the equality of preimages cancels the
   right-hand transport isomorphism.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparison_isIso`: For every field k and a,b∈k, the actual
+- For every field k and a,b∈k, the actual
   comparison δ:η.normalization→N is an isomorphism of schemes. k is an arbitrary field; a,b∈k and q=t²+at+b.
   Uses §2.62, §2.58, §2.47, `AlgebraicGeometry.IsZariskiLocalAtTarget.iff_of_iSup_eq_top`,
   `AlgebraicGeometry.iSup_affineOpens_eq_top`, `TopologicalSpace.IsOpenCover.comap`,
@@ -8380,57 +8313,57 @@ The construction needs the following maps and laws.
   isomorphisms, including the empty open, give isomorphisms on the restrictions; target locality assembles δ
   as a scheme isomorphism.
 
-- `QuadraticPinch.Global.absoluteNormalizationIso_hom`: I.hom=δ as actual scheme morphisms. k is an arbitrary
+- I.hom=δ as actual scheme morphisms. k is an arbitrary
   field; a,b∈k and q=t²+at+b. Uses §2.62. Read the forward map of the native asIso construction.
 
-- `QuadraticPinch.Global.absoluteNormalizationIso_hom_inv`: I.hom≫I.inv is the identity on η.normalization. k
+- I.hom≫I.inv is the identity on η.normalization. k
   is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Use the native scheme isomorphism hom/inverse
   identity.
 
-- `QuadraticPinch.Global.absoluteNormalizationIso_inv_hom`: I.inv≫I.hom is the identity on N. k is an
+- I.inv≫I.hom is the identity on N. k is an
   arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Use the native scheme isomorphism inverse/hom identity.
 
-- `QuadraticPinch.Global.absoluteNormalizationIso_inv_from`: I.inv≫η.fromNormalization=ν as actual scheme
+- I.inv≫η.fromNormalization=ν as actual scheme
   morphisms N→C. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62, §2.58. Replace η.fromNormalization
   by δ≫ν, identify δ with I.hom, and cancel I.inv≫I.hom.
 
-- `QuadraticPinch.Global.absoluteNormalizationIso_point_inv`: ζ≫I.inv=η.toNormalization as actual scheme
+- ζ≫I.inv=η.toNormalization as actual scheme
   morphisms `Spec K_C→η.normalization`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62, §2.58. Replace
   ζ by η.toNormalization≫δ, identify δ with I.hom, and cancel I.hom≫I.inv.
 
-- `QuadraticPinch.Global.absoluteNormalizationIso`: Construct I:η.normalization≅N whose hom is exactly the
+- Construct I:η.normalization≅N whose hom is exactly the
   existing actual comparison δ. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62,
   `CategoryTheory.asIso`. Use the proved native IsIso instance for δ and the existing categorical asIso
   construction; its inverse is the categorical inverse of δ.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_apply`: For every open U and `s∈B_U`,
+- For every open U and `s∈B_U`,
   `Λ_U(s)=Δ_U(s)`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. The native ring equivalence of the
   actual bijective morphism has its specified underlying function.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_symm_apply`: For every open U and
+- For every open U and
   `s∈B_U`, `Λ_U⁻¹(Δ_U(s))=s`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Use the inverse/forward
   identity of the native algebra equivalence.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_apply_symm`: For every open U and
+- For every open U and
   `s∈D_U`, `Δ_U(Λ_U⁻¹(s))=s`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Use the forward/inverse
   identity of the native algebra equivalence.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_inverse_coefficient`: For every open
+- For every open
   U and `r∈A_U`, `Λ_U⁻¹(η.fromNormalization.app(U)(r))=ν.app(U)(r)`. k is an arbitrary field; a,b∈k and q=t²+at+b.
   Uses §2.62. Use the native `A_U`-algebra commutation law of the inverse equivalence, with the actual section
   actions.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_restrict`: For every V⊆U and `s∈B_U`,
+- For every V⊆U and `s∈B_U`,
   `Λ_V(res_N(s))=res_D(Λ_U(s))`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Evaluate the
   previously proved actual ring-morphism restriction equality; the new equivalence has Δ as its forward
   function.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_inverse_restrict`: For every V⊆U and
+- For every V⊆U and
   `s∈D_U`, `Λ_V⁻¹(res_D(s))=res_N(Λ_U⁻¹(s))`. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62. Apply
   injectivity of `Λ_V`, use its restriction identity and both native inverse identities. The result holds even
   for empty or nonaffine opens.
 
-- `QuadraticPinch.Global.absoluteNormalizationComparisonSectionsAlgEquiv_eq_source_symm`: For every nonempty
+- For every nonempty
   affine U, `Λ_U=Ψ_U⁻¹` as `A_U`-algebra equivalences. k is an arbitrary field; a,b∈k and q=t²+at+b. Uses §2.62.
   Use extensionality of the native algebra equivalences and the pointwise identification of `Δ_U` with `Ψ_U⁻¹`.
 
@@ -8554,6 +8487,16 @@ flat Euler-characteristic constancy, finite-dimensionality and degree≥2 vanish
 **Checks.**
 
 - A section alone is not a proof of every hypothesis of Raynaud’s criterion.
+
+- Over an algebraically closed field of characteristic two, let E be ordinary and 0≠τ∈E[2], and let the
+  involution (P,s)↦(P+τ,s/(1+s)) act freely on E×Spec k[[s]]. The quotient is regular, proper and flat over
+  k[[t]] with t=s²/(1+s), has genus-one generic fibre and f_*O=O, and its closed fibre is 2F. Since
+  s/(1+s)≡s modulo s², the conormal of F is trivial, so h⁰(O_2F)=2 and χ=0 gives h¹(O_2F)=2. Euler
+  characteristics agree, 2−2=1−1=0, while h¹ jumps from 1 to 2: χ-constancy holds, `R¹f_*O` is not locally
+  free, and the conclusion h⁰=1 genuinely needs the Raynaud input.
+
+- In the tame example (E×Spec ℂ[[s]])/((P,s)↦(P+τ,−s)) the conormal of F is the nontrivial 2-torsion line
+  bundle, h⁰(O_2F)=1 and h¹(O_2F)=1; this is the cohomologically flat case.
 
 *Needs:* §3.2; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, Raynaud cohomological flatness;
 SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts; StableReduction Layer 2.
@@ -8726,11 +8669,11 @@ residue at the last period/multiplicity specialization (2004, Theorem 6.6 and Re
 
 Use the following named inputs, all developed in this local extension rather than imported as consequences of
 semistable reduction. For a DVR R with fraction field K, a smooth projective geometrically connected genus-one
-C/K and its Jacobian E, and proper regular models X and Eₘ, `localLLR_cohomologyMap` constructs
+C/K and its Jacobian E, and proper regular models X and Eₘ, the local LLR cohomology map constructs
 `τ_X:H¹(X,O)→H¹(Eₘ,O)`, compatible with the canonical generic-fiber Picard identification. Its kernel and
 cokernel have finite R-length a,b; over perfect residue fields prove a=b. The construction passes through the
 separated smooth Picard quotient `Q_X` and its map to the Néron model, keeping the obstruction between actual
-line bundles and Picard-functor points. `localLLR_discriminantComparison` defines disc(X) using the valuation
+line bundles and Picard-functor points. The local LLR discriminant comparison defines disc(X) using the valuation
 of the Mumford determinant isomorphism on the two determinant lattices in LLR (21), and, for relatively
 minimal regular models, proves disc(X)=disc(Eₘ)+12(b−a). This definition uses coherent determinant lines, not
 an arbitrarily chosen Weierstrass discriminant of a torsor. Functoriality after an extension with a point
@@ -8741,21 +8684,21 @@ For a proper flat regular curve X/R with `f_*O=O_R` and smooth geometrically con
 be the irreducible components over k and let `eᵢ=length(k(Γᵢ)⊗_k kbar)` be their geometric multiplicities.
 These eᵢ are not the coefficients of Γᵢ in the full fiber divisor. Set Mᵢⱼ=(Γᵢ·Γⱼ)/eᵢ and define `Φ_X`
 as the torsion subgroup of coker(M:Zⁿ→Zⁿ).
-`localLLR_componentGroup` gives `Φ_X↠Φ_Q` over a strictly henselian DVR, an isomorphism under degree-zero
+the local LLR component group gives `Φ_X↠Φ_Q` over a strictly henselian DVR, an isomorphism under degree-zero
 cohomological flatness, and `Φ_X≅Φ_J` over algebraically closed residue. For projective geometrically connected
-curves over k, `curve_picardRanks_euler` proves `rank T_ℓ(Pic⁰)=2𝔞+𝔱` and `χ_et=n+1−2𝔞−𝔱` for ℓ invertible in k,
-with geometric component count n and abelian/toric ranks 𝔞,𝔱. `localLLR_rankComparison` identifies those ranks
+curves over k, the curve Picard ranks Euler proves `rank T_ℓ(Pic⁰)=2𝔞+𝔱` and `χ_et=n+1−2𝔞−𝔱` for ℓ invertible in k,
+with geometric component count n and abelian/toric ranks 𝔞,𝔱. The local LLR rank comparison identifies those ranks
 with the Néron ranks over separably closed residue; its component-group conclusion is only on the prime-to-p
 parts. Prove it by the prime-to-p multiplication and torsion comparisons in LLR Lemmas 7.2–3, pp. 498–499,
 then compare growth of torsion cardinalities as in Proposition 7.1, pp. 499–500.
 
-`localLLR_componentCount` gives `n_X=n_E` over perfect residue for minimal regular genus-one models. Its proof
+the local LLR component count gives `n_X=n_E` over perfect residue for minimal regular genus-one models. Its proof
 uses the just established ranks, the equality of the generic H¹ representations, and the
 conductor-discriminant identity in the proof of LLR Corollary 6.5, p. 496: with their positive conductor
 convention, `disc(X)=χ_et(X_kbar)−χ_et(C_Kbar)+Swan(H¹(C_Kbar))`. This genus-one identity is a named proof input
-`genusOne_conductorDiscriminant`, with proper regular relatively minimal models and perfect residue as
+the genus one conductor discriminant, with proper regular relatively minimal models and perfect residue as
 hypotheses; the source here is LLR's explicit use of Saito, not a claim to have proved it from semistable
-comparison. Finally `localLLR_periodMultiplicity` identifies the degree-cokernel period, the order of the
+comparison. Finally the local LLR period multiplicity identifies the degree-cokernel period, the order of the
 C-torsor, and the gcd of full fiber multiplicities when R is henselian with algebraically closed residue. Use
 the boundary of `0→E→Pic_C→Z→0`, the local index/multiplicity comparison and Br(K)=0; the Brauer term cannot be
 dropped over an arbitrary residue field.
@@ -8807,7 +8750,7 @@ Néron/semistable Picard interfaces, extended locally by the LLR targets here.
 Construct these three inputs for smooth projective surfaces before §§4.1–4.4. They do not require a
 genus-one fibration or K²=0. Use the native blowups and geometric divisor/intersection carriers.
 
-**Common resolution.** Prove `rationalSurface_commonBlowup`: a birational map between smooth projective
+**Common resolution.** Prove that a birational map `S₁⇢S₂` between smooth projective
 integral surfaces over an algebraically closed field admits a smooth projective common resolution,
 with each projection a finite sequence of blowups at closed points. A geometrically rational surface
 therefore has such a comparison with P² after extending constants to an algebraic closure. Resolve
@@ -8817,27 +8760,27 @@ the rational map and factor both proper birational projections into point blowup
 [Stacks, tag 0C5R](https://stacks.math.columbia.edu/tag/0C5R), Lemma 54.17.1;
 [Stacks, tag 0C5S](https://stacks.math.columbia.edu/tag/0C5S), Lemma 54.17.2.)
 
-**Checks for `rationalSurface_commonBlowup`.**
+**Checks for the common resolution.**
 
 - The identity map of P² admits the common resolution P² with both blowup sequences empty.
 - The blowup of P² at a point admits itself as common resolution, with projections the blowup and identity.
 - P¹×P¹ has a common point-blowup resolution with P², despite admitting no isomorphism to P².
 
-**Picard and intersection comparison.** Prove `blowup_Picard_intersection`: for the blowup π:S′→S of
+**Picard and intersection comparison.** Prove that for the blowup π:S′→S of
 a smooth projective integral surface at a point over algebraically closed k,
 Pic(S′)=π*Pic(S)⊕Z[E], with E²=−1, π*D·E=0, pullback preserving intersections and
 `K_S′=π*K_S+E`. Identify the kernel of restriction away from E, and compute its normal bundle `O_E(−1)`.
 
 (Hartshorne, *Algebraic Geometry*, Chapter V, Proposition 3.2 and Proposition 3.3.)
 
-**Checks for `blowup_Picard_intersection`.**
+**Checks for the Picard and intersection comparison.**
 
 - Blowing up P² gives the matrix diag(1,−1) and K²=8.
 - Blowing up again at a point of the first exceptional curve gives its strict transform square −2;
   the orthogonal basis uses its total pullback instead.
 - Blowing up two distinct points gives disjoint exceptional curves with pairing zero and squares −1.
 
-**Coherent vanishing.** Prove `rationalSurface_coherent_vanishing`: for a smooth projective geometrically
+**Coherent vanishing.** Prove that for a smooth projective geometrically
 rational surface over a field k, H⁰(O)=k, H¹(O)=H²(O)=0 and χ(O)=1. For a point blowup over algebraically closed
 constants prove `π_*O=O` and `Rⁱπ_*O=0` for `i>0` using the affine charts and exceptional P¹ cohomology.
 Leray transports coherent cohomology through the common resolution with P²; flat base change descends
@@ -8846,7 +8789,7 @@ the result to k.
 (Hartshorne, *Algebraic Geometry*, Chapter V, Theorem 3.4 and Corollary 3.5;
 [Schröer, v3](https://arxiv.org/pdf/2004.07025v3), proof of Proposition 6.1, p. 18.)
 
-**Checks for `rationalSurface_coherent_vanishing`.**
+**Checks for the coherent vanishing.**
 
 - P² has H⁰=k and H¹=H²=0, hence χ=1.
 - P¹×P¹ has the same coherent cohomology, so the result does not require a morphism to P².
@@ -8873,6 +8816,17 @@ Theorem2 and proof, pp27–30.)
 **Checks.**
 
 - The relative formula becomes absolute after tensoring by `f*ω_B`.
+
+- For E×P¹→P¹: χ(O_S)=0, T=0 and L=O, so ω_S≃f*O(−2), of base degree −2.
+
+- For a rational Jacobian elliptic surface over P¹: χ(O_S)=1, T=0 and L≅O(−1), so ω_S≃f*O(−1)=O(−F), of
+  base degree −1.
+
+- For a Jacobian elliptic K3 surface over P¹: χ(O_S)=2, T=0 and L≅O(−2), so ω_S≃O, of base degree 0; inverting
+  L or omitting ω_B changes one of these three values.
+
+- In the wild characteristic-two double fibre of §3.3 the torsion T has nonzero stalk, so `R¹f_*O` is not
+  invertible and the tame value a=m−1 is not asserted there.
 
 *Needs:* §2.1; §2.2; SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts;
 StableReduction Layer 2 relative duality; SchemeAndStackFoundations SF.5 intersection/adjunction;
@@ -8949,8 +8903,8 @@ J is a smooth projective geometrically rational surface over k with a relatively
 fibration `f:J→P¹_k` and its zero-section O; geometric lattice assertions are after extension to an algebraic
 closure.
 
-Use `rationalSurface_commonBlowup`, `blowup_Picard_intersection` and
-`rationalSurface_coherent_vanishing` from §4.0. P² has rank one and K²=9; each point blowup preserves
+Use the common resolution, the Picard and intersection comparison and
+the coherent vanishing from §4.0. P² has rank one and K²=9; each point blowup preserves
 rank(Pic)+K²=10. Thus §4.4's K²=0 implies rank ten. Each blowup adds an orthogonal generator of square −1,
 so unimodularity and the signature transport through the common resolution. The section witnesses oddness.
 
@@ -9019,22 +8973,38 @@ StableReduction Layer 4.
 
 ### 4.8 geometric Shioda–Tate generation
 
-Over algebraically closed constants, prove geometric Picard generation by O, a fiber F, components disjoint
-from O and section classes. Split generic degree by O, identify generic degree-zero line bundles with Jacobian
-points using the chosen origin, and extend the points to sections. The quotient is the genuine generic
-Pic⁰/section group; no Brauer vanishing over finite-field function fields is assumed.
+Let f:S→B be a relatively minimal genus-one fibration as in §2.1 over algebraically closed constants, with B
+an arbitrary smooth proper curve and a section O. Prove that Pic(S) is generated by f*Pic(B), the class of O,
+the fibre components disjoint from O and the section classes. Split generic degree by O, identify generic
+degree-zero line bundles with Jacobian points using the chosen origin, and extend the points to sections. The
+quotient is the genuine generic Pic⁰/section group; no Brauer vanishing over finite-field function fields is
+assumed. For B=P¹ one has f*Pic(B)=ℤF for a fibre F, which gives generation by O, F, the components disjoint
+from O and the sections used for rational elliptic surfaces in §§4.9 and 5.3–5.8.
 
-Apply generic restriction and split the degree by O of degree1. A generic degree-zero line bundle corresponds
-to a Jacobian rational point because the chosen origin kills the Brauer obstruction. Extend that point to a
-section by properness/minimal-model theory; use vertical relations to eliminate the component meeting O.
+Apply the generic restriction of §4.7, whose kernel is generated by f*Pic(B) and vertical components, and split
+the degree by O of degree1. A generic degree-zero line bundle corresponds to a Jacobian rational point because
+the chosen origin kills the Brauer obstruction. Extend that point to a section by properness/minimal-model
+theory; use vertical relations to eliminate the component meeting O. Only the specialization B=P¹ replaces
+f*Pic(B) by ℤF.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), proof of Proposition 9.3(v), p. 25; after Theorem
-9.4, p. 26; arXiv v3.)
+9.4, p. 26, for B=P¹; Tetsuji Shioda, *On the Mordell–Weil lattices*, Commentarii Mathematici Universitatis
+Sancti Pauli 39 (1990), §1, for the Néron–Severi form over an arbitrary base; the Picard form over a general
+base is derived here from §4.7.)
 
 **Checks.**
 
 - The genus-one torsor version uses a horizontal divisor of index d and only actual Pic⁰ classes; it does not
   identify all Picard-functor rational points without obstruction control.
+
+- Over ℂ take E:y²=x³+1 and B:y²=x³−x, which are not isogenous since their CM fields ℚ(√−3) and ℚ(i) differ,
+  and S=E×B with O={0}×B. Let L=O_B((0,0)−∞), of order two. The sections are the constant sections {P}×B,
+  whose classes restrict to 0 on O≅B in degree zero, and a fibre restricts with degree one; so O, F, the
+  components and the sections generate no class restricting to L. The class f*L restricts to L on O, and it is
+  among the generators of the general statement.
+
+- For E×P¹→P¹ the group f*Pic(P¹) is ℤF, and the generators reduce to O, F and the constant sections,
+  matching the rational-base specialization.
 
 *Needs:* §4.7; §2.1; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3, section/Picard-sheaf contracts;
 ComplexComparisonPartII §C3.2d.4, Picard obstruction;
@@ -9068,16 +9038,16 @@ realization in Layer 4 here.
 ### 4.10 degree-bounded Weierstrass equations
 
 Define `BoundedWeierstrass k` by a native curve over k[t] with natDegree bounds 1,2,3,4,6. Define
-`reverseWeight i p=Σ_(n=0)^i coeff(p,n)s^(i−n)` and `inverseChart` by reversing each coefficient at its
+`rev_i(p)=Σ_(n=0)^i coeff(p,n)s^(i−n)` and the inverse chart by reversing each coefficient at its
 weight. Prove the bounded chart, involution and discriminant weight-twelve identities. These definitions admit
 singular and nonminimal equations and assert no rational-surface realization.
 
 Refine the existing coefficient structure by five concrete degree bounds. Define the inverse-chart polynomial
 by coefficient reversal in its specified weight.
 
-For the light operations `reverseWeight` and `inverseChart`, include `reverseWeight_bound` for every
-polynomial, `reverseWeight_involutive` under natDegree≤i, inverse-chart boundedness at the five stated
-weights, involutivity for bounded tuples, and `inverseChart_discriminant` under those bounds. The raw reciprocal constructor is defined even on an unbounded equation; global gluing and involutivity require boundedness.
+For the light operations rev_i and the inverse chart, include the weight bound of rev_i for every
+polynomial, involutivity of rev_i under natDegree≤i, inverse-chart boundedness at the five stated
+weights, involutivity for bounded tuples, and the discriminant of the inverse chart under those bounds. The raw reciprocal constructor is defined even on an unbounded equation; global gluing and involutivity require boundedness.
 
 **Checks.**
 
@@ -9097,19 +9067,19 @@ weights, involutivity for bounded tuples, and `inverseChart_discriminant` under 
 
 The construction needs the following maps and laws.
 
-- `BoundedWeierstrass.toCurve`: The underlying equation is the existing WeierstrassCurve k[t].
+- The underlying equation is the existing WeierstrassCurve k[t].
 
-- `inverseChart`: The chart has coefficients `sⁱa_i(1/s)`, as the finite reversal sum.
+- The chart has coefficients `sⁱa_i(1/s)`, as the finite reversal sum.
 
-- `inverseChart_inverseChart`: For a bounded tuple, applying the same weight reversal twice gives the original
-  coefficient tuple (from `reverseWeight_involutive`).
+- For a bounded tuple, applying the same weight reversal twice gives the original
+  coefficient tuple (from involutivity of rev_i).
 
-- `BoundedWeierstrass.ext`: Equality of the five coefficients implies equality of bounded equations.
+- Equality of the five coefficients implies equality of bounded equations.
 
-- `inverseChart_discriminant`: For a bounded tuple, the chart discriminant equals the weight12 reversal of the
+- For a bounded tuple, the chart discriminant equals the weight12 reversal of the
   original discriminant.
 
-- `reverseWeight_eq_reflect`: Under natDegree p≤i, `reverseWeight i p` is Mathlib's `Polynomial.reflect i p`.
+- Under natDegree p≤i, rev_i(p) is Mathlib's `Polynomial.reflect i p`.
 
 *Needs:* Mathlib `WeierstrassCurve` and `Polynomial.reflect`.
 
@@ -9234,9 +9204,9 @@ theorem.
 The characteristic restriction is `regularGenusOne_char_two_or_three` in `Suggested.lean`,
 using the actual scheme, coherent genus and regularity of every stalk over an arbitrary field.
 
-Supply `regularGenusOne_geometricGenusChange` from the genus-change formula after purely inseparable
-extension; `quasielliptic_picard_additiveCompactification` identifies the smooth connected Pic⁰ as a twisted
-additive group and its regular completion; and `quasielliptic_charTwo_fiberRealization` analyzes the primitive
+Supply the regular genus one geometric genus change from the genus-change formula after purely inseparable
+extension; the quasielliptic Picard additive compactification identifies the smooth connected Pic⁰ as a twisted
+additive group and its regular completion; and the quasielliptic char two fiber realization analyzes the primitive
 geometric fiber schemes. With a chosen origin, the resulting generic smooth group is killed by two, so its
 Mordell–Weil rank is zero. The restriction and vertical-kernel proof then gives the displayed rank formula.
 These are extensions of the imported curve and model theory; the allowed-type assertion must be proved on
@@ -9337,7 +9307,7 @@ in this layer.
 ### 5.0 projective-plane and point-blowup cohomology comparisons
 
 Specialize EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5
-(including F.10.2b) before `rationalSurface_cycleClass` and §5.2. These sections supply
+(including F.10.2b) before the rational surface cycle class and §5.2. These sections supply
 finite-coefficient operations, adic realization with derived completion, finiteness, duality,
 purity/Gysin and cycle classes, projective bundles, blowups, geometric Frobenius and perfect-complex
 traces. Use EtaleCohomologyFoundations §§0.9–0.11 for the compatible algebraic class and trace
@@ -9350,21 +9320,21 @@ its corresponding power. The two comparisons below retain the supplied pullback,
 exceptional Gysin and Tate-twist maps.
 
 **Projective-plane cohomology.** Specialize the supplied projective-bundle formula as
-`projectivePlane_ellAdicCohomology`: `Hⁱ(P²_𝔽̄q,ℚ_ℓ)` is
+the ℓ-adic cohomology of the projective plane: `Hⁱ(P²_𝔽̄q,ℚ_ℓ)` is
 `ℚ_ℓ(−j)` for i=2j, j=0,1,2, and zero in other degrees. The hyperplane class generates H²(1),
 its square generates H⁴(2), and its cube vanishes. Identify these generators with the actual
 line cycle classes, preserving the supplied Frobenius and cycle-class compatibility.
 
 ([Milne, v2.21](https://www.jmilne.org/math/CourseNotes/LEC.pdf), §16 and Theorem 23.2.)
 
-**Checks for `projectivePlane_ellAdicCohomology`.**
+**Checks for the ℓ-adic cohomology of the projective plane.**
 
 - The untwisted eigenvalues are 1,q,q², giving `#P²(𝔽_q)=1+q+q²`.
 - Two different rational lines have the same H²(1) class and intersection one.
 - H¹=H³=0 but H² has dimension one; replacing all positive cohomology by zero fails.
 
 **Equivariant point-blowup cohomology.** Specialize the supplied blowup decomposition as
-`pointBlowup_ellAdicCohomology`: for a smooth
+the ℓ-adic cohomology of a point blowup: for a smooth
 projective surface S over `k=𝔽_q` or `𝔽̄_q`, ℓ≠char k, and a finite reduced closed subscheme Z,
 construct `Hⁱ(Bl_Z S̄,ℚ_ℓ)≃Hⁱ(S̄,ℚ_ℓ)⊕H^(i−2)(Z̄,ℚ_ℓ)(−1)`, omitting negative-degree terms.
 Use pullback and the exceptional divisor Gysin maps. Prove Galois equivariance, compatibility with
@@ -9376,7 +9346,7 @@ reduced center is smooth because the ground field is perfect.
 the blowup argument in the proof of Lemma 33.2; [Schröer, v3](https://arxiv.org/pdf/2004.07025v3),
 proof of Corollary 7.3, p. 21. The twist is fixed by the geometric-Frobenius convention above.)
 
-**Checks for `pointBlowup_ellAdicCohomology`.**
+**Checks for the ℓ-adic cohomology of a point blowup.**
 
 - Blowing up a rational point of P² adds one H² class of eigenvalue q and increases its count by q.
 - Blowing up a degree-two point adds two conjugate geometric classes; their Frobenius trace is zero
@@ -9415,7 +9385,7 @@ through a finite group. Trace ten forces all its roots-of-unity eigenvalues to b
 semisimplicity forces identity. Compare the torsion-free étale Picard functor with that lattice. The count is
 for J, not its singular cubic.
 
-The specialized cycle-class target is `rationalSurface_cycleClass`: identify the P² cohomology, then track
+The specialized cycle-class target is the rational surface cycle class: identify the P² cohomology, then track
 each blowup’s new Picard generator and H²(1) generator. A common blowup transports the result to J and proves
 it Galois-equivariant. Proper duality supplies H⁰,H⁴ and H¹=H³=0. The trace is `1+q·tr(Frob|Pic_Qℓ)+q²`. The
 discrete finitely generated lattice action is continuous and hence finite; choose a complex embedding to apply
@@ -9595,17 +9565,35 @@ contradicting25≤10+7+7=24.
 
 ### 5.10 lang configuration inputs as used
 
-Prove separately the configuration exclusions and reductions needed by the classification: rule out II+I₉;
-restrict `III+I_m` with 6≤m≤9 to m=6 or 8; derive the characteristic-two normal-form reductions conventionally
-labeled 2A, 5A, 5D, 7, 13A and 14; and prove the zero-j nonreduced-fiber/bad-place restrictions. For the
-binary family these are independent mathematical inputs to the normal-form argument of §7.4.
-Schröer's uses identify the configuration and coefficient-reduction statements to prove.
+Throughout, J→P¹_F₂ is a surface in the family of §7.4, with geometric configuration of singular fibres
+written over the rational points t=0, 1, ∞; r_a is the number of geometric components of the additive fibre,
+E_n is a smooth fibre with n rational points and Ĩ_m a nonsplit I_m fibre. Prove the following configuration
+exclusions. They are statements about which configurations occur; the coefficient normal forms are the
+separate targets of §5.14.
 
-Each exclusion and normal-form assertion is a separate statement with its own proof. Establish them from
-fibre geometry and the characteristic-two coefficient relations, including the exclusions of II+E₄+I₉ and
-`III+I_m` for m=7 or 9. These statements precede the classification theorem of §7.4.
+- (C1) II+E₄+I₉ does not occur.
+- (C2) If the configuration is III+I_m with 6≤m≤9 over rational points, then m=6 or m=8.
+- (C3) With a nonzero functional j, an additive fibre at t=0 with r_a≥6 and smooth ordinary fibres at both
+  other rational points, the configurations II*+E₂+E₄ and I₃*+E₄+E₄ do not occur: each forces a unique
+  further geometric I₁ fibre, which is Galois invariant and so lies over a rational point.
+- (C4) With a nonzero functional j, r_a≥6, a smooth ordinary fibre E_2i at t=1 and a split semistable fibre
+  I_(r_c) at ∞ (so r_a+i+r_c=12), the only configurations are I₁*+E₄+I₄, III*+E₄+I₂ and II*+E₄+I₁; in
+  particular IV*+E₄+I₃ is excluded because it forces a further geometric I₁ fibre over a rational point.
+- (C5) With the same data but a nonsplit fibre Ĩ_(r_c) at ∞ (so r_c≤2 and r_a+i+r_c=11), the only
+  configurations are III*+E₂+Ĩ₂, II*+E₂+Ĩ₁, I₂*+E₄+Ĩ₂, I₃*+E₄+Ĩ₁ and IV*+E₄+Ĩ₂; the remaining arithmetic
+  solutions I₃*+E₂+Ĩ₂, III*+E₄+Ĩ₁ and I₄*+E₂+Ĩ₁ do not occur.
+- (C6) With zero functional j there are at most three singular geometric fibres, all over rational points; a
+  nonreduced fibre at t=0 forces a smooth fibre at t=1, and the configurations are I₁*+E₅+IV, IV*+E₅+III and
+  IV*+E₃+IV.
 
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Section 10, pp. 28–32; arXiv v3.)
+Each exclusion is a separate statement with its own proof from fibre geometry, the Euler-number and
+discriminant-valuation identities, Galois invariance of the singular geometric fibres and the
+characteristic-two coefficient relations. The arithmetic of (C4)–(C5) is the 25-point count with n_c=2r_c for a
+split and n_c=2r_c+2 for a nonsplit semistable fibre. (C5) is a new proof: the source treats the twisted case
+as analogous and records only two of its five configurations.
+
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Propositions 10.2–10.3, pp. 28–29; proof of
+Theorem 10.4, pp. 30–31; proof of Theorem 10.5, pp. 31–32; Lang's configuration paper as cited there.)
 
 **Checks.**
 
@@ -9613,8 +9601,12 @@ fibre geometry and the characteristic-two coefficient relations, including the e
 - The count alone does not exclude II+E₄+I₉: it has 3+4+18=25 rational points, so its exclusion needs the
   independent configuration statement.
 - The exclusion is about rational fibres over F₂; it says nothing about configurations over F₄.
+- In the nonsplit case the count r_a+i+r_c=11 with r_c≤2 and i≤2 forces r_a≥7, and its eight arithmetic
+  solutions are exactly the five configurations of (C5) together with the three excluded ones; the count does
+  not separate them.
+- IV*+E₄+I₃ has 15+4+6=25 rational points, so (C4) needs the extra-fibre argument and not the count.
 
-*Needs:* §4.14; EllipticCurves Layer 4.
+*Needs:* §4.14; §5.1; EllipticCurves Layer 4.
 
 ### 5.11 reducible additive fiber
 
@@ -9672,6 +9664,64 @@ contributes2n, and25=5+2m+2n forces m=8,n=2.
 
 *Needs:* §5.12; §5.9; §5.1; §5.10.
 
+### 5.14 characteristic-two normal forms at the additive fibre
+
+Let J be in the family of §7.4 with global equation y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆ of §4.14, deg aᵢ≤i, minimal on
+both charts, the additive fibre (or the nonreduced fibre if j=0) at t=0 and the configuration over t=0, 1, ∞
+as named. Below cᵢ, dᵢ, eᵢ, fᵢ denote polynomials in t of degree at most i, and the allowed changes are the
+admissible changes of §7.2: x↦x+r, y↦y+sx+w with r,s,w of weights 2,1,3, and base automorphisms of P¹ with
+the matching weight rescaling. Prove the following six normal-form statements.
+
+- (N1, configuration III+E₄+I₈, Lang case 2A) The equation can be brought to y²+txy+tc₂y=x³+tc₁x²+tc₃x+t²c₄
+  with t∤c₂, t∤c₃ and Δ=t⁴. Changes with t|r and t|w give c₂=c₃=1; then Δ=t⁴(1+t³+t³c₁+t⁴c₄)=t⁴ forces
+  c₁=1+αt, c₄=α, and α=1 gives E₂ at t=1. The result is model 8.
+- (N2, configuration I₁*+E₄+I₄, Lang case 5A) The equation can be brought to
+  y²+txy+t²c₁y=x³+td₁x²+t³e₁x+t⁴c₂ with t∤c₁ and t∤d₁; a change of coordinates gives c₁=1 and e₁=t. Then
+  Δ=t⁸(1+t+td₁+t²c₂+t³+t⁴) and the unit factor equals one, so (c₂,d₁)=(t+t²,1) or (1+t+t²,1+t). The second
+  has a nonsplit fibre at ∞, contrary to the configuration; the first is model 1.
+- (N3, configuration I₄*+E₂+E₄, Lang case 5D) The equation can be brought to y²+txy=x³+td₁x²+t⁴x with
+  deg d₁≤1 and t∤d₁, so d₁=1 or d₁=1+t. The base automorphism t↦t/(1+t) followed by x=u²x′, y=u³y′ with
+  u=1/(1+t) exchanges the two, and d₁=1 is model 7.
+- (N4, configuration III*+E₄+E₄, Lang case 7) The equation can be brought to
+  y²+txy+t³c₀y=x³+t²d₀x²+t³e₁x+t⁵f₁ with t∤e₁; changes give c₀=0 and e₁=1, and then Δ=t¹⁰(1+tf₁).
+  Singularity of the fibre over the closed point of degree two forces f₁=1+t, and d₀=1 gives E₂ at t=1, so
+  d₀=0. The result is model 2.
+- (N5, j=0, configuration I₁*+E₅+IV, Lang case 13A) The equation can be brought to
+  y²+t²c₁y=x³+td₁x²+t³e₁x+t⁴d₂ with t∤d₁ and t∤c₁. Then Δ=t⁸c₁⁴ forces c₁=1, a change y↦y+sx gives d₁=1,
+  and further changes remove the linear term of e₁ and the constant and quadratic terms of d₂, giving
+  y²+t²y=x³+tx²+t³e₀x+t⁵d₀. Only e₀=d₀=0 gives E₅ at t=1; this is model 9.
+- (N6, j=0, configurations IV*+E₅+III and IV*+E₃+IV, Lang case 14) The equation can be brought to
+  y²+t²c₁y=x³+t²d₀x²+t³e₁x+t⁴d₂ with t∤c₁. Then Δ=t⁸c₁⁴ forces c₁=1, a change y↦y+sx gives d₀=0, and the
+  equation becomes y²+t²y=x³+t³e₀x+t⁵d₀′. Only (e₀,d₀′)=(1,0) gives E₅ at t=1 (model 10), and only
+  (e₀,d₀′)=(0,0) gives E₃ at t=1 (model 11).
+
+The remaining configurations of (C4)–(C5) have the analogous normal forms obtained from Tate's algorithm at t=0:
+II*+E₄+I₁ and II*+E₂+Ĩ₁ reduce to models 5 and 6, III*+E₄+I₂ and III*+E₂+Ĩ₂ to models 3 and 4, and
+I₂*+E₄+Ĩ₂, I₃*+E₄+Ĩ₁ and IV*+E₄+Ĩ₂ to models 12, 13 and 14. These seven reductions are new proofs; the source
+leaves the cases other than N1–N6 to the reader and omits the last three configurations.
+
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), proof of Theorem 10.4, pp. 30–31, for N1–N4, and
+proof of Theorem 10.5, p. 32, for N5–N6; the case labels are those of Lang's configuration paper as cited
+there; EllipticCurves Layer 4 for Tate's algorithm.)
+
+**Checks.**
+
+- For N3, d₁=1 and d₁=1+t both give Δ=t¹². The excluded value d₁=0 also gives Δ=t¹², but violates t∤d₁:
+  substituting x=t²X, y=t³Y turns y²+txy=x³+t⁴x into Y²+XY=X³+X, of discriminant 1, so that equation is
+  not minimal at t=0. Discriminant and nondegeneracy alone do not identify the case.
+- For N1, α=1 gives the tuple (t,t+t²,t,t,t²), still with Δ=t⁴, but its fibre at t=1 is E₂; the configuration
+  III+E₄+I₈ needs α=0, and the Δ test alone does not exclude α=1.
+- For N2, both solutions have unit factor one, so Δ=t⁸ for each; only the split fibre at ∞ selects model 1, and
+  the other solution is not a second untwisted representative.
+- For N4, f₁=0 gives Δ=t¹⁰ with no singular fibre over the degree-two point, which is the configuration of
+  model 3 rather than III*+E₄+E₄; f₁=1+t gives Δ=t¹⁰(t²+t+1), as in model 2.
+- For N5 and N6, c₁=1+t gives Δ=t⁸(1+t)⁴ and a singular fibre at t=1, contradicting the smooth fibre there;
+  so the discriminant forces c₁=1 in both.
+- For N6, the values (e₀,d₀′)=(1,0) and (0,0) give the different smooth fibres E₅ and E₃ at t=1 (models 10
+  and 11), so one normal form carries two configurations.
+
+*Needs:* §4.14; §5.10; §7.1; §7.2; EllipticCurves Layer 4.
+
 ### Examples
 
 For q=2 the resolved-surface threshold is 1+20+4=25. If a finite-order rank-ten action has one eigenvalue −1
@@ -9686,7 +9736,7 @@ smooth supersingular E₃ has c₄=0 but Δ=1 and is a negative control for “c
 Layers 2 and 4; EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
 (including F.10.2b) and §§0.9–0.11; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4;
 the projective-plane and point-blowup specializations of §5.0;
-native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer.
+native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer. The normal forms of §5.14 use the admissible changes of §§7.1–7.2, which depend only on Layer 4.
 
 ## Layer 6: the fourteen-model classification list
 
@@ -9718,10 +9768,10 @@ For each equation use the weighted chart at s=1/t, with aᵢ′(s)=sⁱaᵢ(1/s)
 nonrational discriminant places. Compare the local Kodaira types with the actual resolved fibre schemes by
 §2.3 and EllipticCurves Layer 4. The regular resolutions are smooth projective relatively minimal Jacobian
 surfaces with Hodge line of degree one. Geometric rationality follows from the supporting theorem
-`jacobian_hodgeDegreeOne_rational`: over an algebraically closed field, a smooth projective relatively minimal
+the rationality of Hodge-degree-one Jacobians: over an algebraically closed field, a smooth projective relatively minimal
 Jacobian elliptic surface over P¹ with Hodge degree one is rational. The section rules out multiple fibres
 and gives cohomological flatness; `R¹f_*O=O(−1)` and Leray yield H¹(O)=0. The canonical formula gives ω=O(−F),
-hence H⁰(ω²)=0. Prove and apply `surface_rationalityCriterion`, the characteristic-independent
+hence H⁰(ω²)=0. Prove and apply the surface rationality criterion, the characteristic-independent
 Castelnuovo–Zariski equivalence between rationality and H¹(O)=H⁰(ω²)=0 for smooth projective surfaces over
 an algebraically closed field. Its proof uses a moving rational curve and a ruled surface with genus-zero
 base. The resolved counts and §5.2 give Picard constancy; the displayed fibre types give the rational-fibre
@@ -9827,12 +9877,12 @@ variable change. The bounded normalized coefficients give finitely many normal f
 
 Define `coefficientPolynomial n c=Σ_(j:Fin(n+1))cⱼtʲ` over any commutative ring as the inverse of Mathlib’s
 `Polynomial.degreeLTEquiv k (n+1)` followed by the inclusion `degreeLT k (n+1) → k[t]`. Define
-`NormalizedCoefficients=(Fin 2→F₂)×(Fin 4→F₂)×(Fin 5→F₂)×(Fin 7→F₂)`, and `normalizedEquation` with a₂=0.
-Define `normalizeA2` by the expanded x-translation. Their API has coefficient evaluation,
-`coefficientPolynomial_injective`, `coefficientPolynomial_range` for the bounded-polynomial range,
-`normalizedEquation_injective` and `normalizedEquation_range` for the bounded a₂=0 slice, the weight bounds,
-`normalizeA2_variableChange`, `normalizeA2_bounded`, vanishing a₂, idempotence and discriminant invariance
-(`normalizeA2_discriminant`). The two coefficient-polynomial laws use `Polynomial.degreeLTEquiv`’s
+the coefficient space `(Fin 2→F₂)×(Fin 4→F₂)×(Fin 5→F₂)×(Fin 7→F₂)`, and the normalized equation with a₂=0.
+Define the a₂-normalization by the expanded x-translation. Their properties are coefficient evaluation,
+injectivity and the bounded-polynomial range of the coefficient polynomials,
+injectivity and range of the normalized equation for the bounded a₂=0 slice, the weight bounds,
+its expression as a variable change, its boundedness, vanishing a₂, idempotence and discriminant invariance
+of the a₂-normalization. The two coefficient-polynomial laws use `Polynomial.degreeLTEquiv`’s
 bijectivity and `Polynomial.mem_degreeLT`, with `Polynomial.degreeLT_succ_eq_degreeLE` translating the
 degree bound. The geometric interpretation uses nonzero Δ and local minimality.
 
@@ -9856,7 +9906,7 @@ degree bound. The geometric interpretation uses nonzero Δ and local minimality.
 
 ### 7.2 admissible fibration equivalence
 
-Define `FibrationEquivalence` between the smooth resolved Jacobian surfaces by an F₂-automorphism of P¹ and
+Define the fibration equivalence between the smooth resolved Jacobian surfaces by an F₂-automorphism of P¹ and
 an isomorphism over it preserving the zero-sections. Prove that it is exactly the equivalence induced by the
 native Weierstrass changes with u=1, deg s≤1, deg r≤2 and deg q≤3, together with PGL₂(F₂). The base changes
 act on the weight bundles; inversion uses the infinity chart and its denominator transport.
@@ -9866,12 +9916,12 @@ pointed fibration isomorphism with such changes. A change can leave the a₂=0 s
 representative of its equivalent equation. The relation has reflexivity, symmetry and transitivity, and
 transports fibre schemes and functional j, with j composed with the base automorphism.
 
-Define `AdmissibleParameters=(Fin 2→F₂)×(Fin 3→F₂)×(Fin 4→F₂)`, ordered (s,r,q), and `admissibleChange` with
+Define the parameter space `(Fin 2→F₂)×(Fin 3→F₂)×(Fin 4→F₂)`, ordered (s,r,q), and the admissible change with
 u=1, r=coefficientPolynomial 2 r, s=coefficientPolynomial 1 s and t=coefficientPolynomial 3 q. The final native
 field is the y-translation q. Its basic laws give coefficient bounds, injectivity into native changes,
-identity, composition, inverse and preservation of the global weights; `admissibleChange_injective` and
-`admissibleChange_bounded` state the coefficient-level injectivity and weight preservation. The geometric API is
-`FibrationEquivalence.refl`, `symm`, `trans`, `equation_iff`, `preserves_j` and `transports_fibers`, with the
+identity, composition, inverse and preservation of the global weights; injectivity and boundedness of the
+admissible change state the coefficient-level injectivity and weight preservation. The geometric statements are
+reflexivity, symmetry, transitivity, the equation criterion, preservation of j and transport of fibres, with the
 smooth relatively minimal Jacobian hypotheses on both surfaces for the equation comparison.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32.)
@@ -9901,10 +9951,9 @@ Use §4.14 to obtain a global equation of weights 1,2,3,4,6 and §7.1 to normali
 admissible changes reduce the equations to finitely many normal forms. Follow Schröer's case analysis:
 for nonzero j put the unique additive fibre at t=0, then distinguish two ordinary rational fibres, a split
 semistable fibre at infinity, a nonsplit semistable fibre at infinity, and the small-additive configuration.
-Use the configuration statements and normal-form reductions of §5.10, with the count and additive-fibre
+Use the configuration exclusions of §5.10 and the normal forms of §5.14, with the count and additive-fibre
 results of §§5.9–5.13. Include the twisted semistable completion of §6.1 in the nonsplit case. For j=0 use
-the nonreduced-fibre and bad-place restrictions of §5.10, then the coefficient reductions in the
-proof of Theorem 10.5.
+the nonreduced-fibre and bad-place restrictions (C6) of §5.10, then the normal forms N5–N6 of §5.14.
 
 For each normal form prove either that it fails Δ≠0, local minimality, geometric rationality, the Picard
 condition or the rational-fibre condition for a stated mathematical reason, or that it is equivalent to a
@@ -9925,7 +9974,7 @@ twisted semistable completion in §6.1.)
   alone does not give uniqueness.
 - Smooth supersingular fibres count towards the fibre restriction; smooth ordinary fibres do not.
 
-*Needs:* §4.14; §§7.1–7.2; §6.1; §§5.9–5.13; §§7.5–7.6 for uniqueness.
+*Needs:* §4.14; §§7.1–7.2; §6.1; §§5.9–5.14; §§7.5–7.6 for uniqueness.
 
 ### 7.5 eleven nonzero-j classes
 
@@ -9985,8 +10034,8 @@ fibre types and splitting.
 
 ### Dependencies
 
-Layer 4 global equations and canonical bundles; Layer 5 resolved counts and the independent configuration
-and normal-form statements of §5.10; Layer 6 classification-list Checks; native Weierstrass variable changes;
+Layer 4 global equations and canonical bundles; Layer 5 resolved counts, the configuration exclusions of
+§5.10 and the normal forms of §5.14; Layer 6 classification-list Checks; native Weierstrass variable changes;
 StableReduction Layers 2 and 5; AlgebraicModuliForArithmeticGeometry Layer 1 relative Proj and Layer 7
 cohomological flatness; the rationality criterion in §6.1.
 
@@ -10002,7 +10051,7 @@ nonsmooth targets. An application that, like the configuration table in the proo
 
 Applications use the single classification list of §6.1 and the completeness theorem of §7.4, with its
 exact geometric and arithmetic hypotheses. The equations' resolved fibre types, local minimality and
-25-point counts are the list's Checks. `FibrationEquivalence` is the pointed geometric relation of §7.2;
+25-point counts are the list's Checks. The fibration equivalence is the pointed geometric relation of §7.2;
 its equation comparison and invariant transport give the form of equivalence and uniqueness used by consumers.
 The eleven nonzero-j and three zero-j class theorems are §§7.5–7.6. The nonrational-fibre conclusions remain
 §§6.16–6.17.
@@ -10043,8 +10092,8 @@ and the twisted semistable completion are mathematical targets and refinements o
   quotient construction, pp. 34–37. [Author
   scan](https://www.dam.brown.edu/people/mumford/alg_geom/papers/1976d--EnrClass-II-NC.pdf).
 - Serge Lang, *Algebraic groups over finite fields*, American Journal of Mathematics 78 (1956), 555–563,
-  Theorems 1–2, pp. 556–558. Used through ReductiveGroupsPartII's general theorem. [Public
-  scan](https://wstein.org/papers/bib/Lang-Algebraic_Groups_Over_Finite_Fields.pdf).
+  Theorems 1–2, pp. 556–558. Used through ReductiveGroupsPartII's general theorem.
+  [JSTOR](https://www.jstor.org/stable/2372673).
 - Christian Liedtke, *Algebraic Surfaces in Positive Characteristic*, arXiv:0912.4291v4, §4.5, Theorem 4.6,
   printed p. 21. [Versioned author survey](https://arxiv.org/pdf/0912.4291v4).
 - François Cossec, Igor Dolgachev and Christian Liedtke, *Enriques Surfaces I*, author manuscript dated 19
@@ -10060,5 +10109,7 @@ and the twisted semistable completion are mathematical targets and refinements o
   configuration assertions needed in §5.10, whose independent proofs supply the normal-form classification
   argument of §7.4. [Bibliographic
   record](https://doi.org/10.1080/00927870008827190).
+- Tetsuji Shioda, *On the Mordell–Weil lattices*, Commentarii Mathematici Universitatis Sancti Pauli 39
+  (1990), 211–240, §1. Used for the Néron–Severi form of Shioda–Tate over an arbitrary base curve (§4.8).
 - The Stacks Project: tags linked at the individual targets are the stable locators; displayed theorem numbers
   accompany them where available. [Project](https://stacks.math.columbia.edu/).
