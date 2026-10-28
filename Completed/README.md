@@ -59,3 +59,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-28)
 - [foundations of adic spaces](AdicSpaces/README.md)
   (declared complete 2026-10-28)
+- [global number fields, ray classes, adeles, and Hecke characters](GlobalNumberFields/README.md)
+  (declared complete 2026-10-28)

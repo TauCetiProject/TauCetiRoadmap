@@ -106,8 +106,8 @@ narrowModulus
 IdeleGroup
 IdeleClassGroup
 IdeleClassGroup.normOne
-IdeleCongruenceSubgroup
-RaySubgroup
+ideleCongruenceSubgroup
+raySubgroup
 rayClassQuotient
 adeleExtension
 adeleBaseChangeEquiv
@@ -163,7 +163,7 @@ argument, which approximates vector coordinates at a mixed set of places.
 ### Interface supplied to Adelic Algebraic Groups
 
 This roadmap supplies `FiniteAdeleRing`, `AdeleRing`, their placewise projections, the diagonal
-embedding, `denseRange_algebraMap_finiteAdeleRing`, `IdeleGroup`, `IdeleClassGroup`, and the
+embedding, `IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap`, `IdeleGroup`, `IdeleClassGroup`, and the
 normalized local/global absolute values. Adelic Algebraic Groups owns every construction involving
 `G(𝔸_K)`, restricted products of group points, quotient volumes, and Tamagawa numbers.
 
@@ -342,7 +342,7 @@ lattice/covolume API on Mathlib's `NumberField.mixedEmbedding.idealLattice`,
 `IsLipschitzParametrizable d S`: finitely many Lipschitz maps out of `[0,1]^d` cover `S`. Prove
 
 ```text
-card_inter_smul_isBigO :
+isBigO_ncard_smul_inter_sub :
   # (c • D ∩ Λ) = volume D / covolume Λ * c^n + O(c^(n-1))
 ```
 
@@ -435,7 +435,7 @@ translates cover.
 Prove the separately named theorem
 
 ```text
-denseRange_algebraMap_finiteAdeleRing :
+IsDedekindDomain.FiniteAdeleRing.denseRange_algebraMap :
   DenseRange (algebraMap K (FiniteAdeleRing (𝓞 K) K)).
 ```
 
@@ -452,10 +452,10 @@ The full idele class group is not compact: its norm quotient contains `ℝ_{>0}`
 
 ### Layer 7: congruence subgroups and the ray-class dictionary
 
-Define one `IdeleCongruenceSubgroup 𝔪`. At a finite divisor of `𝔪` it uses principal units of the
+Define one `ideleCongruenceSubgroup 𝔪`. At a finite divisor of `𝔪` it uses principal units of the
 specified level; at other finite places it uses local units; at a selected real place it uses
 positive elements; and at all remaining infinite places it imposes no condition. Define its image
-`RaySubgroup 𝔪` in the idele class group.
+`raySubgroup 𝔪` in the idele class group.
 
 Prove openness, antitonicity, and
 
@@ -463,9 +463,9 @@ Prove openness, antitonicity, and
 rayClassQuotient : IdeleClassGroup K →* RayClassGroup 𝔪
 ```
 
-with surjectivity and kernel `RaySubgroup 𝔪`. Prove compatibility with `classMap`. Prove that every
+with surjectivity and kernel `raySubgroup 𝔪`. Prove compatibility with `classMap`. Prove that every
 open subgroup of the idele class group contains a ray subgroup and describe the identity component
-`D_K`, including `D_K ≤ RaySubgroup 𝔪` and the profiniteness of `C_K/D_K`.
+`D_K`, including `D_K ≤ raySubgroup 𝔪` and the profiniteness of `C_K/D_K`.
 
 ### Layer 8: finite extensions of adeles and ideles
 
@@ -594,8 +594,8 @@ comparison is the named canonical map
 `NumberFieldOrder.narrowToPic : NarrowPic O →* Pic O`: give its value on an ideal class, prove
 surjectivity, and identify its kernel through the exact sequence
 `Oˣ → {±1}^{r₁} → NarrowPic O → Pic O → 1`. State the commuting maximal-order specialization as
-`narrowClassToClass`; the existential `narrowPic_surjective` remains only as a corollary of the
-named map.
+`toClassGroup_comp_maximalOrderNarrowPicEquiv`; the surjectivity statement
+`NumberFieldOrder.narrowToPic_surjective` is a corollary of the named map.
 
 Functoriality is stated for the morphisms that actually induce it. ⚠ An arbitrary
 `ℤ`-algebra homomorphism `O →ₐ[ℤ] O'` does **not** induce a map on `Pic` or `NarrowPic`, so a
@@ -606,7 +606,7 @@ the abstract rings has nowhere to send a denominator; and the narrow quotient is
 is therefore a ring homomorphism `K →+* K'` of the ambient number fields carrying `O` into `O'`,
 with `NumberFieldOrder.Hom.ofLE` the inclusion of two orders of one field as the special case.
 Prove `NumberFieldOrder.Hom.isReal_comap` (a real place of `K'` restricts to a real place of `K`,
-from Mathlib's `InfinitePlace.IsReal.comap`) and `NumberFieldOrder.Hom.pos_of_totallyPos`, then
+from Mathlib's `InfinitePlace.IsReal.comap`) and `NumberFieldOrder.Hom.isTotallyPositive_map`, then
 `Hom.mapPic`, `Hom.mapNarrowPic`, and the naturality square `narrowToPic_natural`. The positivity
 lemma is what makes `mapNarrowPic` well defined, and it is a named target rather than a step
 inside a construction.
