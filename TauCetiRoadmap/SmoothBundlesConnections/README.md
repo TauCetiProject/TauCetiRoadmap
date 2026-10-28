@@ -868,6 +868,76 @@ consumes B1, B3–B5 for gauge spaces and curvature moment maps. [LieGroupoidsPo
 consumes the Atiyah bundle sequence and flat-bundle dictionary; the Lie
 algebroid/groupoid structures and their integrations are owned there.
 
+## B8. Yang–Mills energy and its variational calculus
+
+On a closed oriented Riemannian n-manifold, n≥2, let P be a principal
+compact Lie-group bundle with a specified positive-definite Ad-invariant
+real pairing B on its Lie algebra. Use B1–B4's actual affine connection
+space, adjoint bundle, bracket wedge and gauge action. This is a consumer
+of B2–B4 and [ComplexKahlerGeometry K5a](../ComplexKahlerGeometry/README.md#k5-compact-hermitian-elliptic-theory-and-serre-duality)'s
+pointwise real Hodge-star/form-metric layer; it is not a prerequisite of
+that layer, B1–B7 or the scalar/linear Hodge construction. Tensor that star
+with the adjoint-bundle identity. Use increasing orthonormal wedges and
+B2's geometric L² pairing, with no additional factorials. Construct
+`d_A*:Ω^r(ad P)→Ω^(r−1)(ad P)` for `1≤r≤n`, with
+`d_A*=(-1)^(n(r+1)+1)*d_A*`, where the two stars on the right are Hodge
+stars, and prove the formal-adjoint identity by B4's paired Leibniz rule
+and Stokes. On a noncompact base retain compact support for these identities.
+
+Define `YM(A)=∫_M |F_A|² dvol`, with no factor1/2. Construct its
+reference-connection-independent polynomial variation on every finite
+smooth family of adjoint one-forms. Prove nonnegativity, vanishing exactly
+for flat A, gauge invariance, and naturality under oriented Riemannian
+isometries and bundle isomorphisms preserving B. For smooth one-forms a,b,
+prove
+
+```text
+F_(A+t a)=F_A+t d_A a+(t²/2)[a∧a],
+D YM_A(a)=2(F_A,d_A a)_L²=2(d_A*F_A,a)_L²,
+D² YM_A(a,b)=2(d_A a,d_A b)_L²+2(F_A,[a∧b])_L².
+```
+
+Thus stationarity is exactly `d_A*F_A=0`; Bianchi is the separate identity
+`d_AF_A=0`. A stationary connection is not asserted to be a local minimum.
+Define the zero-order self-adjoint bundle map R_A by its pointwise equation
+`⟨R_A a,b⟩=⟨F_A,[a∧b]⟩`, using the finite-dimensional metric Riesz map.
+Prove the linearization of `A↦d_A*F_A` is
+`L_A=d_A*d_A+R_A`, and identify the Hessian with `2L_A`.
+Supply local expressions, transition and gauge-conjugation equations for
+these operators, including all signs of the bracket-wedge convention.
+
+At a stationary A prove `L_A(d_A ξ)=0` and its formal-adjoint identity
+`d_A*L_A=0`, by differentiating gauge covariance. The gauge generator for
+our left action is `−d_A ξ`. Construct the gauge-fixed operator
+`J_A=L_A+d_Ad_A*`; with the positive-Laplacian principal-symbol convention
+its symbol at a real covector ζ is `|ζ|² id`. Prove formal self-adjointness,
+ellipticity and preservation of the Coulomb subspace `ker d_A*`.
+After K5a's linear elliptic/Sobolev theory, construct its self-adjoint L²
+realization with H² domain, compact resolvent, finite-dimensional kernel
+and finite negative spectral space. Prove
+`ker J_A=ker L_A∩ker d_A*`. Construct the orthogonal decomposition of
+smooth one-forms into `im d_A` and `ker d_A*` using the Green inverse of
+`d_A*d_A` on the complement of the parallel adjoint sections. These are
+linear statements at A; nonlinear gauge slices and their stabilizers remain
+[HamiltonianReduction R5](../SymplecticGeometry/HamiltonianReduction/README.md#r5-gauge-actions-over-a-surface),
+[FourManifolds F5](../FourManifolds/README.md#f5-anti-self-dual-gauge-theory-and-the-definite-form-theorem)
+and [InstantonFloerTheory IF1](../InstantonFloerTheory/README.md#if1-nonlinear-gauge-completions-and-quotient-topology)'s
+dimension-specific constructions.
+
+For `g′=e^(2φ)g`, prove `*′=e^((n−2r)φ)*` on r-forms and the energy
+density scaling `|F|²_g′ dvol_g′=e^((n−4)φ)|F|²_g dvol_g`.
+In dimension4 deduce conformal invariance of energy and of its stationary
+equation. The self-dual/anti-self-dual energy and charge comparisons,
+BPST solution and moduli applications have the existing FourManifolds F5 owner.
+For Circle with B the ordinary real product, prove stationarity is harmonic
+curvature. After B6 and K5a's compact real Hodge theorem, construct a
+stationary connection on each fixed circle bundle: its real curvature is
+`2π` times the harmonic representative of `c₁(P)_ℝ`. Prove its space of
+connections is an affine torsor for closed real one-forms, and its gauge
+classes form a torsor for `H¹_dR(M;ℝ)/(2π image H¹(M;ℤ))`.
+Retain torsion bundles and the B6.5 change-of-origin law. This is the same
+fixed-curvature quotient, not a second circle-classification construction.
+
 ## References
 
 - Kobayashi and Nomizu, *Foundations of Differential Geometry*, volume I,
@@ -881,3 +951,5 @@ algebroid/groupoid structures and their integrations are owned there.
   for bundle/form prerequisites and symplectic applications.
 - [Freed, *Classical Chern–Simons Theory, Part 1*](https://arxiv.org/abs/hep-th/9206021),
   for principal connections, gauge transformations and integral geometric data.
+- S. K. Donaldson, [*Mathematical uses of gauge theory*](https://cims.nyu.edu/~gromov/lectures%20on%20Curvature%202025/donaldson.pdf), §§1.2–2.3, for the Yang–Mills variational/gauge-fixed elliptic and conformal comparisons in B8; coefficients follow the energy normalization fixed here.
+- Jeffrey Jiang, [*Yang–Mills minicourse notes*](https://web.ma.utexas.edu/SMC/2020/notes/YangMillsMinicourse.pdf), Propositions2.9/2.12 and Exercise2.11, for B8's first/second variations and circle example; stationarity is distinguished from minimality.
