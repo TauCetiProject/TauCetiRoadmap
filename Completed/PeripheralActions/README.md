@@ -25,10 +25,11 @@ conjugators, one for each of `P`, `T` and `C = (PT)⁻¹`.
 
 ## Completion audit (2026-10-28)
 
-This archival change depends on [TauCeti#22013](https://github.com/TauCetiProject/TauCeti/pull/22013).
-The source audit checked Tau Ceti `cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with
-that PR's commit `1837f77243ab67475b442cdfc842c86111ec575d` against every layer and the
-worked-example checklist. The two remaining dyadic requirements are now represented together:
+[TauCeti#22013](https://github.com/TauCetiProject/TauCeti/pull/22013) is verified on actual upstream
+`4b880006155ed7c7394a7596e13c6d00d2de6c5a`: its dyadic source is byte-identical to reviewed head
+`1837f77243ab67475b442cdfc842c86111ec575d`. The full source audit initially checked
+`cd83a3c6850b205de9e19206736a37bbdb7e79f8` plus that implementation against every layer and
+the worked-example checklist. The two remaining dyadic requirements are now represented together:
 one automorphism satisfies the equations for both `C` and `C′`, with
 `cC′ = P⁻¹ * cC * (φ P⁻¹)⁻¹`, and the native rank-two free pro-`2` group is instantiated with
 the identity marking.
@@ -45,9 +46,11 @@ the identity marking.
 | Nonunit exponent and common-conjugator obstructions | `Peripheral/Nonunit.lean`, `Conjugator.lean` |
 
 The paths in the table are below `TauCeti/Topology/Algebra/Group/Profinite/Free/`.
-The changed dyadic module and its dependency closure were built with Lean `4.36.0-rc1`;
-source-style, header and axiom checks passed. The strengthened opposite-convention theorem
-uses only `propext`, `Classical.choice` and `Quot.sound`.
+All 15 modules in the native peripheral development and their dependencies built on the actual
+merged revision (6,351 Lake jobs), using Lean `4.36.0-rc1` and Mathlib `2cabef97b63d`.
+A separate replay checked 31 API declarations and seven axiom reports with warnings treated as
+errors. The strengthened opposite-convention theorem and all probed endpoints use only
+`propext`, `Classical.choice` and `Quot.sound`; the native identity-marking example is included.
 
 This is a native-source completion inventory. The repository dependency pin remains
 `358314d4ab97483df4fc4cb8adcc02e74a8d9f5a`, and this audit does not assert that the archived
