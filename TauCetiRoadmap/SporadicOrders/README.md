@@ -22,12 +22,19 @@ transcribed wrongly enough to collapse the group would violate.
 
 ## Scope and ownership
 
-- **Owned here.** The stabilizer-chain order formula and the orbit description of a generated
-  permutation group (Layer 0, cited downstream as O0); the ten carriers `M11 M12 M22 M23 M24 J1 J2
-  HS McL Co3`, each fixed by the literal generator images of its named ATLAS files, with their
-  orders (Layer 1, O1); for each of them, explicit images of the presentation generators, the
-  relator equations, the generation equality and the surjection from
-  `TauCeti.SporadicName.<Name>.Group` (Layer 2, O2).
+- **Owned here.** The stabilizer-chain order formula, the orbit description of a generated
+  permutation group and the membership criterion along a base (Layer 0, cited downstream as O0);
+  the ten carriers `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, each fixed by the literal generator
+  images of its named ATLAS files, with their orders (Layer 1, O1); for each of them, explicit
+  images of the presentation generators, the relator equations, the generation equality and the
+  surjection from `TauCeti.SporadicName.<Name>.Group` (Layer 2, O2).
+- **The orbit description is owned here in its abstract form** (0.2: an arbitrary type, closure
+  under the generators and their inverses, and the inverses dropped when the type is finite).
+  [CertifiedPermutationComputation](../CertifiedPermutationComputation/README.md), §2.2, states
+  the equivalence between reachability in the graph of its validated generators and their inverses
+  and membership in the orbit of the generated group, for its executable encoding of permutations
+  of `Fin n`; that is the instance of 0.2 for a finite type with the inverses adjoined, and nothing
+  of Layer 0 is consumed from it.
 - **Supplied by Tau Ceti at the pin.** The twenty-six sporadic presentations,
   `TauCeti.SporadicName.presentation` and `TauCeti.SporadicName.Group`, which are CFSGStatement S1
   (*S1: the twenty-six sporadic presentations*) and its presentation format S0. They are consumed,
@@ -43,8 +50,11 @@ transcribed wrongly enough to collapse the group would violate.
   `MulEquiv`s (its P0, item 3, and P1), `Finite` and `IsSimpleGroup` for the presented groups, the
   four further P1 models `Co2 Suz Fi22 He`, and the twelve P2 names. It does not redefine the ten
   carriers. Its presented-group certificates (coset tables, normal forms, Tietze and normal-closure
-  arguments) are its own; for orders and memberships of finite permutation groups it consumes
-  Layer 0 and Layer 1.
+  arguments) are its own. What its P0 receives from here for finite permutation groups is
+  theorems, not a checker or a certificate format: the order formula (0.1), the orbit description
+  (0.2), the membership criterion along a base (0.3), and the ten orders of Layer 1. A proof of an
+  order or a membership by any route, including a kernel-checked certificate, is an application of
+  these theorems and not an object of this roadmap.
 - **Not in scope.** Simplicity, the identification of the presented group with the model (which
   needs an upper bound on the presented group), and the groups of Lie type.
 - **Carriers are identified by data, not by name.** A theorem about another permutation
@@ -106,13 +116,21 @@ transcribed wrongly enough to collapse the group would violate.
   `TauCeti.GroupPresentation.Group` of that presentation, which is the `PresentedGroup` of its
   compiled relators.
 - `TauCeti.GroupPresentation.homEquiv`
-  (`TauCeti/GroupTheory/Presentation/GroupPresentation.lean`): homs out of a presentation's group
-  correspond to generator assignments on which every transcribed relator evaluates to `1`, with no
-  generation or injectivity condition.
+  (`TauCeti/GroupTheory/Presentation/GroupPresentation.lean`): homs out of a
+  presentation's group `P.Group` correspond to assignments `τ` of the generators on which every
+  transcribed relator `t ∈ P.transcribed` satisfies `FreeGroup.lift τ t.toFreeGroup = 1`, with no
+  generation or injectivity condition. Its inverse is `PresentedGroup.toGroup`, through
+  `TauCeti.GroupPresentation.mem_relatorSet_iff`, which says that the relator set of `P.Group` is
+  the set of free-group elements denoted by the transcribed relators.
 - `TauCeti.Relator.eval` and `TauCeti.Relator.toFreeGroup`
-  (`TauCeti/GroupTheory/Presentation/Relator.lean`), the evaluation of a transcribed relator; the
-  commutator constructor used by the presentations is `TauCeti.Relator.commInvInv`, denoting
-  `r⁻¹ s⁻¹ r s`.
+  (`TauCeti/GroupTheory/Presentation/Relator.lean`): the structural evaluation of a relator
+  expression under an assignment, and its value at the free generators; the two agree by
+  `TauCeti.Relator.lift_toFreeGroup`, `FreeGroup.lift τ t.toFreeGroup = TauCeti.Relator.eval τ t`,
+  so the condition of `homEquiv` is that every transcribed relator evaluates to `1` at `τ`. The
+  commutator constructor `TauCeti.Relator.comm` is Mathlib's `⁅r, s⁆ = r s r⁻¹ s⁻¹`; the
+  presentations write the literature's `[r, s] = r⁻¹ s⁻¹ r s` as `TauCeti.Relator.commInvInv r s`,
+  which is `comm (inv r) (inv s)` and evaluates to `r⁻¹ s⁻¹ r s` by
+  `TauCeti.Relator.eval_commInvInv`.
 
 Nothing is consumed from another roadmap beyond the CFSGStatement presentations that Tau Ceti
 already carries.
@@ -120,10 +138,12 @@ already carries.
 ## How to read the build
 
 Layer 0 proves, for an arbitrary permutation group, that its order is the product of the lengths
-of the basic orbits of a stabilizer chain and that the orbit of a point under a generated subgroup
-of a finite permutation group is the least set containing the point and closed under the
-generators. Layer 1 defines the ten carriers from their ATLAS files and proves their orders; each
-order is an instance of Layer 0, with the basic orbits computed through Schreier's lemma. Layer 2
+of the basic orbits of a stabilizer chain, that the orbit of a point under a generated subgroup is
+the least set containing the point and closed under the generators and their inverses (under the
+generators alone when the type is finite), and that membership in the group is decided by sifting
+along a base through sets of representatives of the basic orbits. Layer 1 defines the ten
+carriers from their ATLAS files and proves their orders; each order is an instance of Layer 0,
+with the basic orbits computed through Schreier's lemma. Layer 2
 evaluates CFSGStatement's relators on explicit permutations, shows that these permutations generate
 the Layer 1 model, and lifts the assignment to the surjection. Layers 1 and 2 are independent of
 each other except that Layer 2's corollaries on the size of the presented group use the Layer 1
@@ -167,37 +187,88 @@ neither lemma has one; when `G` is infinite both sides are `0`. *Needs:* Mathlib
 
 ### 0.2 Orbits of a generated permutation group
 
-Let `α` be finite and `S` a set of permutations of `α`. Prove that the orbit of `b` under
+Let `α` be a type and `S` a set of permutations of `α`. Prove that the orbit of `b` under
 `Subgroup.closure S` is the least subset of `α` that contains `b` and is mapped into itself by
-every `s ∈ S`. Inverses need not be included: on a finite set a permutation that maps a finite set
-into itself maps it onto itself, so the set is also closed under `s⁻¹`. *Needs:* Mathlib
-`Subgroup.closure_induction`, `MulAction.orbit`.
+every `s ∈ S` and every `s⁻¹`, `s ∈ S`. The route: the orbit contains `b` and is invariant under
+the subgroup, so it contains every such set; conversely, the elements of the closure that map a
+given such set `T` into itself and whose inverses do so too form a subgroup containing `S`, by
+`Subgroup.closure_induction`, so every `g` in the closure has `g b ∈ T`. Prove further that when
+`α` is finite the inverses are redundant: a permutation that maps a finite set into itself maps it
+onto itself, so a subset closed under `S` is closed under `S⁻¹`, and the orbit is the least
+`S`-closed subset containing `b`. *Needs:* Mathlib `Subgroup.closure_induction`,
+`MulAction.orbit`, `MulAction.mem_orbit_iff`.
 
 - Combined with Schreier's lemma (`Subgroup.closure_mul_image_eq`) applied in `G₍ᵢ₎` to the
   stabilizer of `bᵢ`, this gives generators of `G₍ᵢ₊₁₎` from generators of `G₍ᵢ₎` and a
   transversal, hence each basic orbit `Δᵢ₊₁` as a closure under finitely many permutations.
-- A permutation `g` lies in `G` if and only if there is `t ∈ G` with `t b₁ = g b₁` and `t⁻¹ g` lies
-  in `G₍₂₎`; iterating along a base decides membership. This is a direct consequence of the
-  definitions and carries no separate target.
 
 **Checks.**
 
-- `α = Fin 4`, `S = {c[0, 1]}`: the least `S`-closed set containing `0` is `{0, 1}`, which is the
-  orbit; containing `2` it is `{2}`.
-- Finiteness is needed: for `α = ℤ` and `S = {x ↦ x + 1}`, the set `ℕ` contains `0` and is closed
-  under `S`, but the orbit of `0` is all of `ℤ`. A statement without `Finite α` (or without closing
-  under `S⁻¹`) is false.
+- `α = Fin 4`, `S = {c[0, 1]}`: the least set containing `0` and closed under `c[0, 1]` (which is
+  its own inverse) is `{0, 1}`, which is the orbit; containing `2` it is `{2}`.
+- `α = ℤ`, `S = {x ↦ x + 1}`: the least set containing `0` and closed under the shift and its
+  inverse is `ℤ`, the orbit of `0`. The set `ℕ` contains `0` and is closed under `S` but not under
+  `S⁻¹`, and is not the orbit: the finite-type form, which drops the inverses, is false on `ℤ`.
 - `α = Fin 3`, `S = ∅`: the closure is trivial and the least closed set containing `b` is `{b}`.
+
+### 0.3 Membership along a base
+
+Let `G` be a subgroup of `Equiv.Perm α`, `b₁, …, bₖ` points of `α`, and for each `i ≤ k` let
+`Rᵢ ⊆ G₍ᵢ₎` be a set of permutations whose images of `bᵢ` exhaust the basic orbit, `Rᵢ · bᵢ = Δᵢ`
+(a set of representatives of the cosets of `G₍ᵢ₊₁₎` in `G₍ᵢ₎`, repetitions allowed). Prove the
+sifting step: for `h : Equiv.Perm α` and `r ∈ Rᵢ` with `r bᵢ = h bᵢ`, `h ∈ G₍ᵢ₎` if and only if
+`r⁻¹ h ∈ G₍ᵢ₊₁₎`, and such an `r` exists whenever `h ∈ G₍ᵢ₎`. Deduce the membership criterion:
+for `g : Equiv.Perm α`, `g ∈ G` if and only if there are `r₁ ∈ R₁, …, rₖ ∈ Rₖ` with
+`rᵢ bᵢ = (r₁ ⋯ rᵢ₋₁)⁻¹ g bᵢ` for every `i` and `(r₁ ⋯ rₖ)⁻¹ g ∈ G₍ₖ₊₁₎`; when `b₁, …, bₖ` is a
+base the last condition reads `g = r₁ ⋯ rₖ`. The choice of `rᵢ` at each step is free: if `g ∈ G`,
+every sequence of choices satisfying the image conditions ends in `G₍ₖ₊₁₎`, so a single sift
+decides membership, and `g ∉ G` exactly when some step has no `r ∈ Rᵢ` with the required image
+(the point `(r₁ ⋯ rᵢ₋₁)⁻¹ g bᵢ` lies outside `Δᵢ`) or the residue lies outside `G₍ₖ₊₁₎`
+(Seress, §4.1, the sifting procedure). The route is induction on `i` from the sifting step, which
+is the definition of `G₍ᵢ₊₁₎` as the stabilizer of `bᵢ` in `G₍ᵢ₎` together with `Rᵢ ⊆ G₍ᵢ₎`.
+*Needs:* Mathlib `fixingSubgroup`, `MulAction.mem_orbit_iff`, `Subgroup.mul_mem`,
+`Subgroup.inv_mem`.
+
+- A membership proof is then a product of `k` elements of `G` and one of `G₍ₖ₊₁₎`; a
+  non-membership proof is a point outside a basic orbit or a residue outside `G₍ₖ₊₁₎`.
+- With `Rᵢ` the Schreier transversals of 0.2, the `Rᵢ` are words in the generators of `G`, so
+  the criterion decides membership in `Subgroup.closure S` from `S` alone.
+
+**Checks.**
+
+- `G = Equiv.Perm (Fin 3)`, base `0, 1`, `R₁ = {1, c[0, 1, 2], c[0, 2, 1]}` (images `0, 1, 2` of
+  `0`), `R₂ = {1, c[1, 2]}` (images `1, 2` of `1`, both fixing `0`). Sifting `g = c[0, 1]`:
+  `g 0 = 1` selects `r₁ = c[0, 1, 2]`, the residue `r₁⁻¹ g = c[1, 2]` fixes `0` and sends `1` to
+  `2`, which selects `r₂ = c[1, 2]`, and the final residue is `1`; so `c[0, 1] = c[0, 1, 2] · c[1, 2]`
+  in Mathlib's product, as evaluating both sides at `0`, `1`, `2` confirms (`1, 0, 2`).
+- `G` the cyclic group generated by `c[0, 1, 2]`, base `0`, `R₁ = {1, c[0, 1, 2], c[0, 2, 1]}`:
+  sifting `c[0, 2, 1]` selects `r₁ = c[0, 2, 1]` and leaves the residue `1`, so it lies in `G`;
+  sifting the transposition `c[0, 1]` selects `r₁ = c[0, 1, 2]` and leaves the residue `c[1, 2] ≠ 1`,
+  so `c[0, 1] ∉ G`, which is correct since `G` has order 3. A criterion that only checked that
+  `g 0` lies in the basic orbit would accept `c[0, 1]`.
+- The trivial subgroup with the empty base: the criterion reads `g ∈ ⊥` if and only if `g = 1`.
+- `α = Fin 4`, `G` generated by `c[0, 1]`, base `0`, `R₁ = {1, c[0, 1]}`: sifting `c[0, 2]` fails at
+  the first step, since `2` is outside the basic orbit `{0, 1}`; sifting `c[2, 3]` selects `r₁ = 1`
+  and fails at the residue `c[2, 3] ≠ 1`. Both are outside `G`, for the two different reasons the
+  criterion distinguishes.
+- The hypothesis `Rᵢ ⊆ G₍ᵢ₎` is needed: for the cyclic `G = ⟨c[0, 1, 2]⟩` and
+  `R₁ = {1, c[0, 1], c[0, 2]}`, whose images of `0` also exhaust `Δ₁ = {0, 1, 2}`, sifting `c[0, 1]`
+  selects `r₁ = c[0, 1]` and leaves the residue `1`, although `c[0, 1] ∉ G`.
+- The base hypothesis is needed for the form `g = r₁ ⋯ rₖ`: in `Equiv.Perm (Fin 3)` with the single
+  point `0`, which is not a base (`G₍₂₎ = {1, c[1, 2]}`), sifting `c[1, 2]` selects `r₁ = 1` and
+  leaves the residue `c[1, 2] ≠ 1`, yet `c[1, 2] ∈ G`; the general form, with the residue tested
+  for membership in `G₍₂₎`, decides it correctly.
 
 ### Examples
 
-- `S₃ = Equiv.Perm (Fin 3)`: base `0, 1`, basic orbits 3, 2, order 6.
+- `S₃ = Equiv.Perm (Fin 3)`: base `0, 1`, basic orbits 3, 2, order 6; sifting `c[0, 1]` along
+  this base writes it as `c[0, 1, 2] · c[1, 2]`.
 - The model `M11` of Layer 1: base `0, 1, 2, 3`, basic orbits 11, 10, 9, 8, order 7920.
 
 ### Dependencies
 
 Mathlib only: `MulAction.index_stabilizer`, `Subgroup.card_mul_index`, `fixingSubgroup`,
-`Subgroup.closure_mul_image_eq`, `Subgroup.closure_induction`.
+`Subgroup.closure_mul_image_eq`, `Subgroup.closure_induction`, `MulAction.mem_orbit_iff`.
 
 ## Layer 1: permutation models and their orders (O1)
 
@@ -351,8 +422,8 @@ How the `τᵢ` are found is not part of the target; the generation condition ma
 satisfies the relators acceptable, whether or not the presentation's generators are the ATLAS
 standard generators. When the presentation is on the ATLAS standard generators and the source
 composes left to right, the conventions above give the candidate `τ = (a⁻¹, b⁻¹)`. *Needs:* Tau
-Ceti `TauCeti.SporadicName.presentation`, `TauCeti.Relator.eval`; Layer 1 carriers; Layer 0.2 for
-the membership of `a`, `b` in the closure of the `τᵢ`.
+Ceti `TauCeti.SporadicName.presentation`, `TauCeti.Relator.eval`; Layer 1 carriers; Layer 0.3, or
+an explicit word in the `τᵢ`, for the membership of `a`, `b` in the closure of the `τᵢ`.
 
 **Checks.**
 
@@ -413,7 +484,9 @@ Layer 1 (the carriers, and their orders for the corollaries). Tau Ceti
 [CFSGBasicProperties](../CFSGBasicProperties/README.md), P1, consumes the ten carriers, their
 orders and the O2 surjections, and adds the upper bounds on the presented groups that turn the
 surjections into isomorphisms and give `Nat.card` of the CFSGStatement group itself. Its P0 uses
-the Layer 0 order and membership theorems for finite permutation groups. The same roadmap owns the
+the Layer 0 theorems for finite permutation groups: the order formula (0.1) and the membership
+criterion along a base (0.3), with the orbit description (0.2) supplying the basic orbits and the
+representatives of both. The same roadmap owns the
 other sporadic groups: the permutation models of `He`, `Suz`, `Co2` and `Fi22` in its P1, and in
 its P2 the finite models (permutation, matrix and lattice) and the recognition of the remaining
 twelve names.
