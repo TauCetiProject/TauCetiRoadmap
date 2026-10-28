@@ -17,11 +17,12 @@ import TauCeti.NumberTheory.LocalField.RamificationGroup
 
 The statements cover the sharp two-adic and three-adic different bounds (§1.3), the
 unconditional Poitou–Odlyzko inequality (§1.7), Tate's and Serre's exclusions (§§2.4–2.5),
-the simple finite flat two-group classification (§3.2), Fontaine's theorem (§3.5), the
-five arithmetic field criteria (§§4.6–4.8), and the unrestricted characteristic-2,3,5,7
-corollary of the small-weight theorem (§5.11). The definitions use native local fields,
-representations, group schemes and abelian varieties. Fontaine's hypothesis is an integral
-smooth proper group model with geometrically connected fibres and an identified generic fibre.
+the simple finite flat two-group classification (§3.2), Fontaine's theorem over its four
+base fields (§3.6), the five arithmetic field criteria (§§4.6–4.8), and the unrestricted
+characteristic-2,3,5,7 corollary of the small-weight theorem (§5.11). The definitions use
+native local fields, representations, group schemes and abelian varieties. Fontaine's
+hypothesis is a smooth proper group model over the ring of integers with geometrically
+connected fibres and an identified generic fibre.
 
 Schoof's geometric theorem (§4.9) needs general semistable reduction of abelian varieties,
 including semiabelian special fibres; that interface is absent at the pins. Elliptic-curve
@@ -164,10 +165,10 @@ abbrev FFGroupScheme := FFGroupSchemeOver ℤ
 
 section FiniteFlat
 
-variable {R : Type} [CommRing R] [IsDomain R]
+variable {R : Type} [CommRing R]
 
 /-- The constant rank over an arithmetic domain, expressed by the coordinate algebra. -/
-def order (G : FFGroupSchemeOver R) : ℕ :=
+def order [IsDomain R] (G : FFGroupSchemeOver R) : ℕ :=
   Module.finrank R (TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.coordinateHopfAlgebra R G)
 
 /-- The underlying morphism of schemes. -/
@@ -177,7 +178,7 @@ abbrev schemeHom {G H : FFGroupSchemeOver R} (f : G ⟶ H) :
 
 /-- The constant-rank simplicity condition of FiniteFlatGroupsAndIntegralPadicHodgeTheory
 §R07.1.23, unfolded on the native finite locally free carrier. -/
-def IsSimpleGroupScheme (G : FFGroupSchemeOver R) : Prop :=
+def IsSimpleGroupScheme [IsDomain R] (G : FFGroupSchemeOver R) : Prop :=
   order G ≠ 1 ∧ ∀ (M : FFGroupSchemeOver R) (i : M ⟶ G),
     IsClosedImmersion (schemeHom i) → order M = 1 ∨ IsIso i
 
@@ -193,16 +194,20 @@ theorem simple_two_groupScheme_over_int (G : FFGroupScheme) (h2 : ∃ k, order G
 
 open TauCeti.AlgebraicGeometry
 
-/-- `A` is the generic fibre of a smooth proper group scheme over `ℤ` with
-geometrically connected fibres, with the generic-fibre group structure identified. -/
-def HasGoodReductionEverywhere (A : AbelianVariety ℚ) : Prop :=
-  ∃ (X : Over (Spec (.of ℤ))) (_ : GrpObj X),
+/-- `A` is the generic fibre of a smooth proper group scheme over the ring of integers `𝓞 K`
+with geometrically connected fibres, with the generic-fibre group structure identified. -/
+def HasGoodReductionEverywhere {K : Type} [Field K] [NumberField K] (A : AbelianVariety K) :
+    Prop :=
+  ∃ (X : Over (Spec (.of (𝓞 K)))) (_ : GrpObj X),
     IsProper X.hom ∧ Smooth X.hom ∧ GeometricallyConnected X.hom ∧
-      Nonempty ((Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap ℤ ℚ)))).mapGrp.obj
+      Nonempty ((Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap (𝓞 K) K)))).mapGrp.obj
         (Grp.mk X) ≅ Grp.mk A.toOver)
 
-/-- Fontaine's theorem. -/
-theorem dim_eq_zero_of_goodReduction_everywhere (A : AbelianVariety ℚ)
+/-- Fontaine's theorem over `ℚ`, `ℚ(i)`, `ℚ(√−3)` and `ℚ(√5)`: these are exactly the number
+fields of discriminant `1`, `−4`, `−3` and `5`, and over them an abelian variety with good
+reduction at every finite place has dimension zero. -/
+theorem dim_eq_zero_of_goodReduction_everywhere (K : Type) [Field K] [NumberField K]
+    (hK : discr K = 1 ∨ discr K = -4 ∨ discr K = -3 ∨ discr K = 5) (A : AbelianVariety K)
     (hA : HasGoodReductionEverywhere A) : A.dim = 0 := sorry
 
 /-- The subfield `ℚ(ζ_n)` of `ℚ̄`. -/
