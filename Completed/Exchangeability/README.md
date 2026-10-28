@@ -467,11 +467,11 @@ Build:
 * tail measurability of that limit and its identification with
   `μ[f ∘ X 0 | tailProcess X]`;
 * for indicator observables, identification of the same limit with the evaluation
-  `ω ↦ (directingMeasure μ X ω).real B` of the canonical tail conditional law;
+  `ω ↦ (tailConditionalMeasure μ X ω).real B` of the canonical tail conditional law;
 * simultaneous L¹ convergence of finite products along disjoint windows;
 * tail-conditioned invariance of finite blocks under strictly monotone selections;
 * finite-block conditional factorization, followed by the joint-rectangle common ending with
-  `directingProbabilityMeasure μ X` as the named witness.
+  `tailConditionalProbabilityMeasure μ X` as the named witness.
 
 Key milestones:
 
@@ -491,7 +491,7 @@ deFinetti_RyllNardzewski_equivalence_viaL2
 ```
 
 Real-valued L² convergence is the intermediate analytic step, not a reconstruction procedure for
-the directing measure. Use the canonical `directingMeasure`, defined as the conditional law of
+the directing measure. Use the canonical `tailConditionalMeasure`, defined as the conditional law of
 `X 0` given `tailProcess X`, and identify indicator limits with its evaluations through the
 conditional-expectation characterization. Reconstructing a second measure from a countable
 determining class would duplicate that object and is not part of this route. The finite-product
@@ -1036,9 +1036,11 @@ requirements above are unchanged.
 
 | Roadmap name | Implemented as | Module | Note |
 |---|---|---|---|
+| `directingMeasure` | `tailConditionalMeasure` | `Probability/Process/Tail/ConditionalLaw/Basic` | conditional law of `X 0` given `tailProcess X` |
+| `directingProbabilityMeasure` | `tailConditionalProbabilityMeasure` | `Probability/Process/Tail/ConditionalLaw/Basic` | the same law bundled as a probability measure |
 | `exists_perm_extending_strictMono` | Mathlib `Equiv.Perm.exists_extending_pair`; finitely supported form `exists_compl_fixedBy_subset_apply_eq` | `Mathlib/Logic/Equiv/Fintype`; `Algebra/GroupAction/FiniteSupportPerm` | for any injective finite selection, so strictly monotone ones in particular |
 | `contractable_of_exchangeable` | `Exchangeable.contractable` | `Probability/Exchangeability/Contractability` | takes `∀ i, AEMeasurable (X i) μ` |
-| `shift_measurable` | `measurable_shift` | `Probability/Exchangeability/Basic` | |
+| `shift_measurable` | `measurable_shift` | `Probability/Process/PathLaw/Basic` | |
 | `shift_iterate_measurable` | `measurable_shift.iterate n` (Mathlib `Measurable.iterate`) | — | no separate declaration |
 | `tail_le_exchangeableSigma` | `pathTail_le_exchangeableSigma` | `Probability/Exchangeability/PathSpace/Exchangeable/Sigma` | |
 | `upcrossings_bdd_uniform` | `exists_lintegral_upcrossings_condExp_le` | `Probability/Martingale/Crossings/Bounds` | a finite bound on the expected total upcrossings of `n ↦ μ[f \| 𝔽 n]` |
