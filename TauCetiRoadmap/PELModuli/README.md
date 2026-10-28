@@ -62,7 +62,7 @@ the good reflex base; the polarized Hodge structure and the Shimura datum of a P
 the determinant polynomial `Det_{O|M}` and its classification theorem; the PEL reflex field and its
 comparison with the Shimura reflex field; the Kottwitz determinant condition and its comparison with
 the representation over a splitting field; self-dual lattices at good primes; the signature
-constancy of Bijakowski–Pilloni–Stroh; hermitian and skew-hermitian spaces over CM orders, `GU`, the
+constancy of Bijakowski; hermitian and skew-hermitian spaces over CM orders, `GU`, the
 norm-similitude torus `T₀` and rank-one classification; generalized CM types, their reflex fields,
 the reflexive closure of a CM field and `τ`-parts at unramified primes. Prime-to-`□` quasi-isogenies
 and quasi-polarizations; PEL-type abelian schemes and unitary `O_F`-abelian schemes; the pro-system of
@@ -144,6 +144,10 @@ explicit nonempty examples.
   deformations of elliptic curves over `W(k)[[T]]`), §9E (the coarse `j`-line).
 - *TauCetiRoadmap.ProfiniteArithmetic, Layer 0*, and *RestrictedProducts.* The ring `Ẑ` with its
   product decomposition over primes, and the restricted-product topology on adeles.
+- *TauCetiRoadmap.ProfiniteCohomology, Layers 5, 7 and 10*, and *TauCetiRoadmap.Chebotarev, Layer 10.*
+  Exact sequences with inflation–restriction, Shapiro's lemma and continuous cohomology in all
+  degrees; Dirichlet-density Chebotarev, which kills locally trivial characters and supplies the
+  inert places used in M3.2.
 
 Elliptic curves themselves, their level structures and the modular curves are ModularCurves'; this
 roadmap compares its genus-one Siegel moduli with them (M5.3) and never rebuilds them. The general
@@ -171,7 +175,7 @@ of `GL(L) × G_m` and these theories are applied to it.
   `A4.3`, Barsotti–Tate groups, `grothendieckMessing` with polarizations and endomorphisms `A4.7`,
   `polarizedEffectivity` `A4.8`, `serreTate` with structures `A4.9`); A5 (lattice uniformization,
   Riemann forms, the polarized Hodge equivalence, analytic families and the Siegel family,
-  A5.4(1) `alternating_elementaryDivisors` for integral alternating normal form); A6
+  A5.4 `polarizationType` (1) for integral alternating normal form); A6
   (Rosati positivity `A6.14`, the general real positive-involution normal form
   `realRosatiDecomposition` `A6.15`, finiteness of polarized automorphisms `A6.18`, Silverberg's descent of
   homomorphisms `A6.20`, localized Hom and coefficient Hom `A6.26`–`A6.27`, the Hodge bundle, its determinant line, base change, product and
@@ -598,7 +602,7 @@ multiplicity `m` becomes geometric multiplicity `s m`: the rational simple modul
 This is the correction to Lan, Lemma 1.2.5.3 in the thesis errata, p. 7. The API includes
 `SymplecticOLattice.polarizationType` (for `O = ℤ`, the elementary divisors `d_1 | ⋯ | d_g` with
 `L ≅ ⊕ (ℤe_i ⊕ ℤf_i)`, `⟨e_i, f_i⟩ = d_i`, and `[L^# : L] = (d_1⋯d_g)²`).
-This exposes AbelianSchemesAndArithmeticModuli A5.4(1) `alternating_elementaryDivisors`
+This exposes AbelianSchemesAndArithmeticModuli A5.4 `polarizationType` (1)
 on the underlying integral alternating lattice; that supplier gives the normal form, uniqueness
 and Gram determinant. The new order-linear API here is the `O`-stable dual, its index, multi-rank
 and scalar extension. Smith normal form computes the index. The API also includes `SymplecticOLattice.baseChange` (`L ⊗ R` with an
@@ -608,7 +612,7 @@ and the rational object is Kottwitz's skew-hermitian `B`-module (Kottwitz, §1, 
 Mathlib `LinearMap.BilinForm.IsAlt`, `LinearMap.IsAdjointPair`, `LinearMap.BilinForm.Nondegenerate`,
 `LinearMap.BilinForm.dualSubmodule`, `Submodule.IsLattice`; Tau Ceti
 `LinearMap.BilinForm.dualSubmodule_dualSubmodule_flip`, `Matrix.exists_smith_normal_form_of_det_ne_zero`;
-AbelianSchemesAndArithmeticModuli A5.4(1) `alternating_elementaryDivisors`.
+AbelianSchemesAndArithmeticModuli A5.4 `polarizationType` (1).
 
 **Checks.**
 
@@ -993,8 +997,8 @@ conjugation (Lan, §1.2.5, p. 90); `RationalPELDatum.signature_unitary` (for `B 
 Indeed, on the real factor indexed by `τ ∈ Φ`, `ψ(x, Jy)` is
 `2 Im τ(δ) Re H_τ(x, −iJy)`, so positivity identifies the positive and negative
 directions of `H_τ` with the `+i` and `−i` eigenspaces of `J`, respectively
-(Kottwitz, proof of Lemma 4.3, pp. 388–389; Bijakowski–Pilloni–Stroh,
-*Classicité de formes modulaires surconvergentes*, §1.1, p. 979, for `(a_τ, b_τ)`).
+(Kottwitz, proof of Lemma 4.3, pp. 388–389; Bijakowski,
+*Classicité de formes modulaires surconvergentes*, §5.1, p. 33, for `(a_τ, b_τ)`).
 Entrywise conjugation preserves the inertia of `τ(H)`; use the pinned hermitian-inertia API,
 including `Matrix.IsHermitian.signature_map_starRingEnd`, for this matrix comparison);
 and `RationalPELDatum.signatureType` (for `B = K`, `Σ_τ p_τ τ` is a generalized CM type of rank
@@ -1063,15 +1067,24 @@ their determinant polynomials agree in `K[C^∨]`. If `char k = 0` they are isom
 maps agree on `C`; this fails in positive characteristic, where `pM` has zero trace map (Lan,
 Proposition 1.1.2.16, p. 18, and Remark 1.1.2.11, p. 14; Milne, Proposition 8.1 and Remark 8.2,
 p. 79; Kottwitz, §5, p. 390, for why the determinant is used). The proof decomposes each module into
-simple modules (Lan, Corollary 1.1.2.5), restricts the generic determinant to the centre after splitting: there it is a
-product of distinct embedding linear forms, with exponents recording the simple-module
-multiplicities (Lan, Lemma 1.1.2.15, pp. 16–17). For the full noncommutative algebra a simple
-module contributes a generic matrix determinant, which need not split into linear forms. The
-central restrictions distinguish different simple factors, and concludes by unique factorization; in characteristic zero the traces of the
-simple modules are linearly independent (Dedekind; Lan, Lemma 1.1.2.9).
+simple modules (Lan, Corollary 1.1.2.5). For a simple factor `C_i = M_n(D_i)` with centre `Z_i`,
+`D_i` of degree `d_i` over `Z_i`, and simple module `S_i`, the polynomial `Det_{C|S_i}` involves only
+the coordinates of `C_i` and equals `N_{Z_i/k}(Nrd_{C_i/Z_i})^{d_i}`. The reduced norm is absolutely
+irreducible over `Z_i`, so the `k̄`-irreducible factors of `Det_{C|S_i}` form one `Aut(k̄/k)`-orbit,
+indexed by the `k`-embeddings `Z_i → k̄`. Any two `k`-irreducible factors therefore share a
+`k̄`-factor and are associate, so `Det_{C|S_i}` is a positive power of one `k`-irreducible
+polynomial. Different simple factors use disjoint coordinates, and unique factorization in
+`k[C^∨]` returns the simple-module multiplicities. When `Z_i` is separable over `k` this is Lan's
+argument: after splitting, the restriction to the centre is a product of distinct embedding linear
+forms (Lan, Lemma 1.1.2.15, pp. 16–17); for an inseparable centre there is no linear factor and
+the irreducible-power step replaces it. For the full noncommutative algebra a simple module
+contributes a generic matrix determinant, which need not split into linear forms. In
+characteristic zero the traces of the simple modules are linearly independent (Dedekind; Lan,
+Lemma 1.1.2.9).
 The same-field statement `detPoly_classifies` takes two unital algebra actions and identifies
 equality of their determinant polynomials with a linear equivalence intertwining every element.
-It applies to any finite-dimensional semisimple algebra over that field. In the scalar-extension
+It applies to any finite-dimensional semisimple algebra over that field, with no separability
+hypothesis on the centre. In the scalar-extension
 statement above it is applied to `C ⊗_k K`, whose semisimplicity follows from the separable-centre
 hypothesis. The statements `detPoly_classifies` and `detPoly_classifies_charZero`
 in `Suggested.lean` give the determinant and characteristic-zero trace classifications,
@@ -1087,6 +1100,11 @@ respectively. *Needs:* M0.14; Mathlib
 - For `C = M₂(ℚ)` and its standard simple module, the generic determinant is
   `X₁₁X₂₂ − X₁₂X₂₁`, rather than a product of embedding linear forms; its
   square is the determinant polynomial of two copies.
+- Inseparable centre: over `k = 𝔽_p(t)` with `C = k(u)`, `u^p = t`, and basis `1, u, …, u^{p−1}`,
+  the determinant polynomial of `C` on itself is `N(Σ X_j u^j) = Σ_j t^j X_j^p`. It has no linear
+  factor over `k`, and it is irreducible: it is a power of one irreducible, and a `p`-th power of a
+  linear form would force `t ∈ k^p`. The module `C²` has its square, so the multiplicity is still
+  recovered.
 
 ### M0.16 The reflex field
 
@@ -1250,26 +1268,37 @@ M0.4, M0.6, M0.8; M0.9 (local Galois cohomology classes, for the hypothesis of (
 
 ### M0.21 Signature constancy above a prime
 
-Prove `bpsSignatureConstancy`. Let the datum be of type A or C as in Bijakowski–Pilloni–Stroh §1.1,
-with centre `F`, `F₀ = F^{*=1}` of degree `d`, and let `p` satisfy their Hypothèse 1.1.1 (p. 980): `p`
-unramified in `F₀` and, in type A, every place of `F₀` above `p` split in `F`; `B ⊗ ℚ_p` a product of
-matrix algebras over unramified extensions; `O_B` maximal at `p`; the pairing perfect at `p`; and `p`
-totally split in the reflex field `E`. Fix `ℂ ≅ ℂ_p`. In type A, for each real `τ : F₀ → ℝ`, order the two
-embeddings `σ, σ̄` of `F` above `τ` so that `σ` lies above `π_i^+` (their Remarque 1.1.3, p. 981).
-Then `(a_τ, b_τ) = (a_{τ′}, b_{τ′})` whenever `τ, τ′` lie above the same prime `π_i` of `F₀`.
-In type C, `F = F₀` and the single multiplicity `a_τ` is the common value
-`dim_ℚ U_ℚ / (2nd)` (their §1.1, p. 980, and Lemme 1.1.4, p. 981).
-In type A the other ordering exchanges `a_τ` and `b_τ`, and the proof evaluates the determinant polynomial on
-`diag(x−1, 0, …, 0) + Id = diag(x, 1, …, 1)` in the selected matrix factor
-above `π_i^+` for `x ∈ O_{F, π_i^+}`, with the identity in every other factor, obtaining `∏_{τ_j ∈ Σ_i} σ_j(x)^{a_{τ_j}}`;
-total splitting in `E` makes the determinant `ℤ_p`-valued on `O_B ⊗ ℤ_p`, which forces the exponents
-to be constant along the Galois orbit `Σ_i`. *Needs:* M0.10, M0.13, M0.14, M0.16.
+Prove `bpsSignatureConstancy`. Let the datum be of type A or C as in Bijakowski §§4.1 and 5.1
+(pp. 26 and 33–34), with centre `F`, `F₀ = F^{*=1}` of degree `d`, and let `p` satisfy: `B ⊗ ℚ_p` a
+product of matrix algebras over unramified extensions of `ℚ_p` (so `p` is unramified in `F`); `O_B`
+maximal at `p`; the pairing perfect at `p`; and `p` totally split in the reflex field `E` (Bijakowski,
+Hypothèse of §5.2, p. 36). A prime `π_i` of `F₀` above `p` may be split or inert in `F`; write `Σ_i`
+for the embeddings `F₀ → ℚ̄_p` above `π_i`. Fix `ℂ ≅ ℂ_p`. In type A, if `π_i = π_i^+ π_i^-` is split,
+order the two embeddings `σ, σ̄` of `F` above each `τ ∈ Σ_i` so that `σ` lies above `π_i^+`
+(Bijakowski, Remarque 5.1 and the end of §5.1, p. 34). Then `(a_τ, b_τ) = (a_{τ′}, b_{τ′})` for all
+`τ, τ′ ∈ Σ_i` when `π_i` is split, and `a_τ = b_τ = (a + b)/2` for all `τ ∈ Σ_i` when `π_i` is inert,
+where `a + b = a_τ + b_τ = dim_ℚ U_ℚ / (2nd)` is independent of `τ` (Bijakowski, §5.1, p. 34, and
+Proposition 5.8, p. 36). In type C, `F = F₀` and the single multiplicity `a_τ` is the
+common value `dim_ℚ U_ℚ / (2nd)` (Bijakowski, §4.1, p. 26).
+In type A the other ordering exchanges `a_τ` and `b_τ`. For split `π_i` the proof evaluates the
+determinant polynomial on `diag(x−1, 0, …, 0) + Id = diag(x, 1, …, 1)` in the selected matrix factor
+above `π_i^+` for `x ∈ O_{F, π_i^+}`, with the identity in every other factor, obtaining
+`∏_{τ_j ∈ Σ_i} σ_j(x)^{a_{τ_j}}`. For inert `π_i` the same element in the factor `M_n(O_{F,π_i})`
+gives `∏_{τ_j ∈ Σ_i} σ_j(x)^{a_{τ_j}} σ̄_j(x)^{b_{τ_j}}`, where the `2|Σ_i|` embeddings `σ_j, σ̄_j`
+of `O_{F,π_i}` form one Frobenius orbit. Total splitting in `E` makes the determinant `ℤ_p`-valued
+on `O_B ⊗ ℤ_p`, which forces the exponents to be constant along each Frobenius orbit; in the inert
+case this gives `a_τ = b_τ = (a + b)/2`.
+*Needs:* M0.10, M0.13, M0.14, M0.16.
 
 **Checks.**
 
 - On a one-dimensional selected block at `x = 1`, the determinant is `1`;
   adding the identity to `diag(x,1,…,1)` would instead give `2` in rank one.
-- `bpsSignatureConstancy_imagQuad`: for `F₀ = ℚ` (imaginary quadratic `F`) the statement is vacuous.
+- `bpsSignatureConstancy_imagQuad`: for `F₀ = ℚ` (imaginary quadratic `F`) and `p` split in `F` the
+  statement is vacuous, since `Σ_i` has one element.
+- For `F` imaginary quadratic and `p` inert in `F`, signature `(1, 1)` has reflex field `ℚ` and satisfies
+  the hypothesis with `a = b = 1`, while signature `(2, 1)` has reflex field `F`, in which `p` is not
+  split, so the inert conclusion `a_τ = b_τ` is not contradicted.
 - `bpsSignatureConstancy_realQuad`: for `F₀` real quadratic with `p` inert, the two signatures above
   `p` coincide.
 - `bpsSignatureConstancy_order`: exchanging the order of `σ, σ̄` exchanges `(a_τ, b_τ)` with
@@ -1403,7 +1432,7 @@ supported `Ψ = Σ_τ r_τ τ ∈ ℕ[Σ_∞]` (Mathlib `Finsupp`) with `r_τ + 
 is the fixed field of the stabilizer of `Ψ` in `Aut(ℂ/ℚ)` (computed in a finite Galois extension
 containing all `τ(F)`). In rank one, every coefficient is at most one, so `Ψ` is the indicator
 of a CM type supplied by ShimuraVarieties §5.1;
-its type-reflex field agrees with that supplier's `TauCeti.CM.CMType.reflexField`. The API is
+its type-reflex field agrees with ShimuraVarieties §5.1 `CMType.reflexField`. The API is
 `GeneralizedCMType.galois_smul` (transport `τ ↦ σ ∘ τ`) and `GeneralizedCMType.galois_reflex`
 (`z ∈ F_Ψ` iff `σ(z) ∈ F_{σΨ}`); `GeneralizedCMType.reflexField_eq_pel` (for a unitary PEL datum over
 `F` with signature coefficients `Ψ`, `F_Ψ` equals the PEL reflex field `F₀`, because
@@ -1617,8 +1646,10 @@ positive-integral case `UnitaryOFAbelianScheme` (Liu–Tian–Xiao–Zhang–Zhu
 For a generalized CM type `Ψ = Σ r_τ τ` of rank `N` and `S` over `O_{F_Ψ} ⊗ P`, define
 `HasSignatureType Ψ`: for every finite family in `O_F` the determinant polynomial of its action on
 `Lie_{A/S}` equals `∏_τ (linear form of τ)^{r_τ}`; in particular
-`charpoly(i(a) | Lie) = ∏_τ (T − τ(a))^{r_τ}` (Definition 3.4.3, p. 149; checking characteristic polynomials of single
-elements over a finite residue field is not enough). The API is `HasSignatureType.iff_detCondition`
+`charpoly(i(a) | Lie) = ∏_τ (T − τ(a))^{r_τ}`, which is the form of Definition 3.4.3, p. 149. Over a
+field the two conditions agree: both depend only on the semisimplification of `Lie` over `O_F`, and an
+element of `O_F` congruent to a generator of one residue field of `O_F ⊗ κ̄` and to `0` at the others
+separates the residue-field embeddings by unique factorization. The API is `HasSignatureType.iff_detCondition`
 and `LocalizedOFAbelianScheme.iff_detCondition` (for `p` unramified in `F`, signature type `Ψ` is the
 Kottwitz condition of the unitary datum of signature `Ψ`, M0.18); `HasSignatureType.dim` and
 `LocalizedOFAbelianScheme.dim` (`dim A = N[F⁺ : ℚ]`); `HasSignatureType.hodge_tau` and
@@ -2116,9 +2147,7 @@ NeronModelsAndSemistableAbelianVarieties R11.1.
   `j = 0`. On `E : y² = x³ + 1`, take `ρ(x,y) = (ζ₃x,y)` and `π` the `5`-power Frobenius.
   Then `π² = −5`, `ρ² + ρ + 1 = 0` and `πρ = ρ²π`; hence `β = π − ρ` satisfies
   `β² − β + 6 = 0` and `β† = 1 − β`, giving a Rosati-compatible `O_K`-action. The same collision
-  appears as `H_{−23}(T) mod 5 = T³` (Sage reference manual,
-  [`hilbert_class_polynomial`, discriminant `−23` example](https://doc.sagemath.org/html/en/reference/arithmetic_curves/sage/schemes/elliptic_curves/cm.html#sage.schemes.elliptic_curves.cm.hilbert_class_polynomial),
-  and the [`hasse_invariant` criterion](https://doc.sagemath.org/html/en/reference/arithmetic_curves/sage/schemes/elliptic_curves/ell_field.html#sage.schemes.elliptic_curves.ell_field.EllipticCurve_field.hasse_invariant)).
+  appears as `H_{−23}(T) mod 5 = T³`.
 - `toSiegel_not_injective_on_objects`: for `O = ℤ × ℤ` acting on a product `E₁ × E₂` of two
   nonisogenous complex elliptic curves through the two projectors, swapping the projectors gives
   nonisomorphic PEL triples with the same polarized abelian surface and the same Lie determinant
@@ -2704,11 +2733,10 @@ over unramified extensions, a maximal star-stable order and a self-dual lattice 
 `p` is hyperspecial). Fix a place `v` of the reflex field `E` above `p` and a small enough prime-to-`p`
 level so that the smooth moduli space exists over `O_{E,v}`. The `μ`-ordinary locus of the special
 fibre at `v` is open and dense (Wedhorn's Density Theorem (1.6.2), p. 584), and the ordinary locus is
-nonempty iff it is dense iff `E_v = ℚ_p` (Wedhorn, (1.6.3), pp. 584–585; Bijakowski–Pilloni–Stroh,
-§1.5, p. 987, and Remarque 1.5.1, p. 988). Since `E_v` is unramified, this is the condition that the
+nonempty iff it is dense iff `E_v = ℚ_p` (Wedhorn, (1.6.3), pp. 584–585; Bijakowski, §5.2, p. 36). Since `E_v` is unramified, this is the condition that the
 residue degree at the chosen `v` is `1`; complete splitting of `p` in `E` implies it at every `v`, but
 the criterion at one `v` says nothing about the other places, and the hypothesis of
-Bijakowski–Pilloni–Stroh (Hypothèse 1.1.1, complete splitting) is stronger than good reduction. The
+Bijakowski (Hypothèse of §5.2, complete splitting) is stronger than good reduction. The
 proof identifies the completed local rings with display deformations (M2.15 and Serre–Tate), reduces
 by Morita equivalence to four special cases (Wedhorn, Chapter 2, pp. 585–591), constructs the explicit
 deformations in the linear, unitary, symplectic and orthogonal cases (Chapter 4, pp. 599–617) to show
@@ -3147,10 +3175,11 @@ Mathlib `UpperHalfPlane`.
 
 ### Dependencies
 
-M0, M1, M2; AbelianSchemesAndArithmeticModuli A5; ComplexComparisonPartII §§C−1.1–C−1.3;
+M0, M1, M2; AbelianSchemesAndArithmeticModuli A5;
 ComplexComparisonPartII §§C−1.1–C−1.3, C0.4; ShimuraVarieties Layers 0–3; SchemeAndStackFoundations Layer 1;
 TauCetiRoadmap.AdelicAlgebraicGroups Layers 3–4; TauCetiRoadmap.ClassFieldTheory Layer 13;
-ArithmeticGaloisDuality R02.4.6; ShimuraVarieties §5.0.
+ArithmeticGaloisDuality R02.4.6; TauCetiRoadmap.ProfiniteCohomology Layers 5, 7 and 10;
+TauCetiRoadmap.Chebotarev Layer 10; ShimuraVarieties §5.0.
 
 ## Layer M4: Canonical models, twists and integral level changes
 
@@ -3653,7 +3682,7 @@ reflex field `ℚ` if `r = s` and `τ(K)` otherwise); `unitaryDatum_relDim` (`Σ
 `unitaryDatum_ker1` (`ker¹(ℚ, GU(V)) = 1` for `n` even and `≅ ker¹(ℚ, Z)` for `n` odd, M3.2); and
 `unitaryDatum_shimura` (under connectedness and SV3, the pure datum of M0.12 with group `GU(V)`; a definite
 rank-one datum has trivial adjoint group, while a wholly definite datum of rank at least two fails SV3)
-(Bijakowski–Pilloni–Stroh, §1.1, p. 980; Liu–Tian–Xiao–Zhang–Zhu, Definition 3.3.1, p. 147). *Needs:*
+(Bijakowski, §5.1, pp. 33–34; Liu–Tian–Xiao–Zhang–Zhu, Definition 3.3.1, p. 147). *Needs:*
 M0.5, M0.10, M0.13, M0.22, M0.23, M0.25, M2.10, M3.2; Mathlib `NumberField.IsCMField`.
 
 **Checks.**
@@ -3679,8 +3708,8 @@ with `H = diag(1, 1, −1)`, `L = O_K³` and `δ = 1/s`, where `s² = d_K` and t
 `Res_{K/ℚ} G_m` (M3.2; Kottwitz, §7, pp. 393–394). (b) `U(1, 1)`:
 `H = diag(1, −1)`: reflex field `ℚ`, relative dimension `1`, `ker¹ = 1`. (c) `U(2, 2)`: signature
 `(2, 2)`: reflex field `ℚ`, relative dimension `4`, `ker¹ = 1`. (d) For a general signature over a CM
-field and `p` satisfying Bijakowski–Pilloni–Stroh's Hypothèse 1.1.1, the signatures are constant above
-each prime of `K⁺` (M0.21; Lemme 1.1.4, p. 981). Each case instantiates M5.5 and checks the sign of
+field and `p` satisfying the hypotheses of M0.21, the signatures are constant above each prime of
+`K⁺` split in `K`, and balanced above each inert one (M0.21; Bijakowski, Proposition 5.8, p. 36). Each case instantiates M5.5 and checks the sign of
 `Im τ(δ)` for positivity. *Needs:* M0.21, M2.10, M3.2, M5.5.
 
 **Checks.**
@@ -4130,7 +4159,8 @@ It imports the full `Res_{F/ℚ} GL₂` datum with independent real signs from S
 nonprincipal integral lattices (§§H0.3–H0.5) and the Hilbert integral models stated in §H2,
 including at ramified primes. IgusaVarietiesAndTorsionConcentration and
 PerfectoidShimuraVarieties use the good models, the universal family and the Hecke action at
-`p`-power level. AutomorphicGaloisRepresentationsPartII and AutomorphicPadicLFunctions use the unitary
+`p`-power level. AutomorphicGaloisRepresentations, AutomorphicGaloisRepresentationsPartII and
+EndoscopicTransferAndUnitaryTraceComparison use the unitary
 data, the CM moduli schemes and the torus trace. FaltingsFinitenessAndIsogenyTheorems and
 ArakelovGeometryAndAbelianHeights consume the interface of M6.10: the stacks, classifying maps, moduli
 points, rigidifying extensions, Hodge line and the descent gerbe.
@@ -4153,8 +4183,8 @@ points, rigidifying extensions, Hodge line and the descent gerbe.
   Rankin–Selberg motives*, Invent. Math. 228 (2022), 107–375 (public access copy
   https://par.nsf.gov/servlets/purl/10323568; arXiv:1912.11942). Page numbers are those of the published
   version; Definition 3.3.2 (the reflexive closure) differs between the published and arXiv versions.
-- S. Bijakowski, V. Pilloni and B. Stroh, *Classicité de formes modulaires surconvergentes*, Ann. of
-  Math. 183 (2016), 975–1014.
+- S. Bijakowski, *Classicité de formes modulaires surconvergentes*, arXiv:1212.2035v2 (2015);
+  locators to this version.
 - T. Wedhorn, *Ordinariness in good reductions of Shimura varieties of PEL-type*, Ann. Sci. École Norm.
   Sup. (4) 32 (1999), 575–618.
 - J. Tsimerman, *The André–Oort conjecture for `A_g`*, Ann. of Math. 187 (2018), 379–390.
@@ -4166,5 +4196,14 @@ points, rigidifying extensions, Hodge line and the descent gerbe.
   (1964), 111–164
   (https://www.college-de-france.fr/media/jean-pierre-serre/UPL6720771035987925133_Borel_Serre_Theoremes_de_finitude.pdf).
 - J.-P. Serre, *Galois Cohomology*, Springer, 1997.
+- J. S. Milne, *Algebraic Groups: The Theory of Group Schemes of Finite Type over a Field*, Cambridge
+  Studies in Advanced Mathematics 170, Cambridge University Press, 2017.
+- S. Lang, *Algebraic groups over finite fields*, Amer. J. Math. 78 (1956), 555–563.
+- D. Kohel, *Endomorphism rings of elliptic curves over finite fields*, PhD thesis, University of
+  California, Berkeley, 1996.
+- M. Rapoport and M. Richartz, *On the classification and specialization of `F`-isocrystals with
+  additional structure*, Compositio Math. 103 (1996), 153–181.
+- B. Conrad, *Math 248B. Modular curves*, Stanford course notes
+  (https://math.stanford.edu/~conrad/248BPage/handouts/modularcurves.pdf).
 - D. Mumford, *Abelian Varieties*, Oxford University Press, 1970.
 - The Stacks Project, https://stacks.math.columbia.edu (Tags 02GU, 033C, 035I, 035J, 035L, 035S, 03GR, 03GV, 0539, 0H74).

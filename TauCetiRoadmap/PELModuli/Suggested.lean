@@ -57,8 +57,8 @@ variable [AddCommGroup N] [Module k N] [FiniteDimensional k N]
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 /-- Determinant polynomials classify finite-dimensional representations of a semisimple algebra in
-every characteristic (M0.15). After separable-centre scalar extension, apply this to the extended
-semisimple algebra. Lan, Proposition 1.1.2.16. -/
+every characteristic, with no separability hypothesis on its centre (M0.15). After separable-centre
+scalar extension, apply this to the extended semisimple algebra. Lan, Proposition 1.1.2.16. -/
 theorem detPoly_classifies (φ : C →ₐ[k] Module.End k M) (ψ : C →ₐ[k] Module.End k N)
     (b : Module.Basis ι k C) :
     detPoly φ.toLinearMap b = detPoly ψ.toLinearMap b ↔
