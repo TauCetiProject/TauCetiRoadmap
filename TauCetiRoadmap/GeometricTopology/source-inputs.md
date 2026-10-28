@@ -115,7 +115,11 @@ does **not** identify the page76 boundary knot. For the literal source family,
 construct its oriented band/closure diagram for each `k`, mark the crossing to
 change, mark all `2k` basis curves, compute their actual linking matrix, and
 compare with this template. Explain the printed “`k` bands” versus `2k` basis
-generators. Supply an embedded genus-`k` spanning surface and the actual
+generators. If “bands” counts ordinary one-handles in a connected presentation
+with `d≥1` discs and `b=k` bands, its first Betti number is `k−d+1≤k`;
+this cannot give the claimed rank `2k` for `k≥1`. Specify the actual meaning
+and attachment data rather than silently treating each band as a handle pair.
+Supply an embedded genus-`k` spanning surface and the actual
 one-crossing-change unknotting sequence. Only after that identification and these
 witnesses may the span lower bound and nontriviality give `g=k` and `u=1`.
 A different knot with the same Seifert matrix does not discharge this obligation.
@@ -147,12 +151,22 @@ splitting equivalence.
 
 ## Mixed-cycle labels and indexed doubling
 
-At `KM-P177-B009/B010/B012`, the legible outer labels include `(45)(123)` and
-`(35)(124)`. They do not specify the crowded interior labels or the complete
-oriented knot diagram. Preserve the mandatory `S₅` example: recover its complete
-data, verify all crossing equations and the actual generated subgroup. Neither
+At `KM-P177-B009/B010/B012`, the legible outer labels are
+`a=(45)(123)` and `b=(35)(124)`, with right-to-left composition. Their generation
+certificate is explicit: `a³=(45)`, `b³=(35)` and `ab=(13425)`.
+Mathlib's `Equiv.Perm.closure_prime_cycle_swap` applies to the full five-cycle
+`ab` and the transposition `a³`; thus `⟨a,b⟩=S₅`. Cubing both labels alone
+produces the subgroup on letters3,4,5 and fixes1,2, so it is not by itself
+an S₅ generation argument. The native finite certificate is in
+[KnotMixedCycleTargets.lean](KnotMixedCycleTargets.lean), with source letters1–5
+encoded by `Fin 5` entries0–4.
+
+The outer labels do not specify the crowded interior labels or the complete
+oriented knot diagram. Recover that actual crossing/arc data and verify every
+conjugation equation. Once a valid coloring containing these two labels is
+established, the preceding certificate proves its labels generate S₅. Neither
 invented intermediate labels nor a different labeled diagram settles the source
-example.
+example; the diagram-coloring assertion remains distinct from group generation.
 
 At `KM-P106-B004–B007`, the construction starts with consistent3-cycle labels,
 uses two transpositions on doubled strands and corrects bottom mismatches by
