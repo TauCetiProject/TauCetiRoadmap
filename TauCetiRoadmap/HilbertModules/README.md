@@ -383,6 +383,57 @@ projective modules of H2, including morphisms, tensor products, and pullbacks.
 This is the analytic section-module comparison; group completion and
 K-theoretic Bott maps belong to TopologicalKTheory and OperatorKTheory.
 
+<a id="h5-torus-line-sections"></a>
+**H5.TorusLineSections.** Let `T²=AddCircle (1:ℝ)×AddCircle (1:ℝ)` and
+`A=C(T²,ℂ)`, with orientation ds∧dt on its period-one coordinates. For k∈ℤ
+construct the Hermitian line bundle L_k as the lattice quotient of ℝ²×ℂ by
+`(m,n)·(s,t,z)=(s+m,t+n,exp(2πikns)z)`. Verify the action law using the
+integer phase exp(2πiknp)=1, its free/proper base action, and local lift charts
+on rectangles of side length less than1. Build the resulting bundle with T1's
+native bundle-core carrier, transition maps and Hermitian metric |z|². Its
+continuous section module is precisely
+
+`M_k={v∈C(ℝ²,ℂ):v(s+1,t)=v(s,t), v(s,t+1)=exp(2πiks)v(s,t)}`.
+
+Construct this section/covariant-function equivalence, the right A-action by
+pullback from T², and the descending inner product `⟨v,w⟩([s,t])=conj(v(s,t))w(s,t)`.
+Prove the norm is `sup_([0,1]²)|v|`, independent of the fundamental rectangle,
+and M_k is complete and full. Consume H2 and the section-module comparison above
+to produce a finite Parseval frame σ_i, the actual projection
+`p_ij=⟨σ_i,σ_j⟩∈M_N(A)`, and the unitary `M_k≃pA^N`. Verify rank(p(x))=1
+for every x. Identify compact module endomorphisms with A by their scalar
+fiber action, carrying `Θ_(v,w)` to `⟨w,v⟩`.
+
+The lattice cocycles are smooth. Construct the smooth line structure with
+SmoothBundlesConnections B2 and its dense smooth section module, and prove the
+connection descends from
+`∇_s v=∂_s v−2πik t v`, `∇_t v=∂_t v`.
+Verify both lattice transformation laws for both derivatives, the A-Leibniz and
+Hermitian identities, and `[∇_s,∇_t]v=2πikv`. Thus its curvature is
+`F=2πik ds∧dt`. Use SmoothBundlesConnections B3/B6's rank-one
+connection/integral-class comparison and DifferentialGeometry's torus integration
+with `∫_T² ds∧dt=1` to prove
+`⟨c₁(L_k),[T²]⟩=−k`, in CharacteristicClasses' normalization
+`c₁(L)=[iF/(2π)]`. Keep this line class distinct from SBC's principal-circle
+class defined using the dual-character line; the standard-character associated
+line has the opposite principal-class sign. Prove M_k is free iff k=0, and
+M_k≃M_l as A-modules iff k=l, by these classes and the explicit zero-twist model.
+Construct the unitary tensor and dual comparisons
+`M_k⊗_A M_l≃M_(k+l)` by multiplication of covariant functions, using the
+explicit commuting pointwise left A-action on M_l. Identify `M_(-k)` with the
+module dual `M_k*` by `v↦(w↦vw)`, and prove the Hermitian-dual and
+connection/curvature comparisons. Use H3's existing tensor carrier; no second
+tensor completion is introduced.
+
+The explicit period-one example in Rieffel's C*-algebra notes p7 is k=1.
+The main-source p7 transcript has an uncertain a,b translation formula; this
+construction does not resolve those glyphs. It is an ordinary commutative-torus
+section module, separately constructed from the θ≠0 Schwartz imprimitivity
+model in HeisenbergImprimitivity H6. [TorusLineTargets.lean](TorusLineTargets.lean)
+records the lattice-action, covariant-derivative and curvature signatures.
+The generic bundle/connection theory remains with T1 and SBC; K-group
+calculations remain with TopologicalKTheory and OperatorKTheory.
+
 Construct the unitary dual Â as pure states modulo unitary equivalence
 of their cyclic GNS representations, using
 [CStarAlgebras C2](../CStarAlgebras/README.md)'s pure-state/irreducible-GNS
