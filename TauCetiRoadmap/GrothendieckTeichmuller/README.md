@@ -245,7 +245,12 @@ gives an elementary proof of the weaker statement with `GT̂₀` in place of `GT
   preserve the conjugacy classes of the inertia subgroups and commute with the outer automorphisms
   induced by permuting the marked points. For `n = 5`, `π̂₁(M_{0,5})` is the profinite completion
   of Layer 3.5's `K(0,5)`; stating the isomorphism needs the inertia subgroups and the `𝔖₅`-action
-  there, which no roadmap owns yet.
+  there, which no roadmap owns yet. Hoshi–Minamide–Mochizuki (2022, Corollary 2.8) remove both
+  conditions: writing `Πₙ` for the profinite fundamental group of the configuration space of `n`
+  points on `ℙ¹_{ℚ̄} ∖ {0, 1, ∞}` (so `Πₙ = π̂₁(M_{0,n+3})`), `Out(Πₙ) ≅ GT̂ × 𝔖ₙ₊₃` for `n ≥ 2`, the
+  factor `GT̂` being the outer automorphisms that stabilise the generalised fibre subgroups (the
+  kernels of the projections forgetting points). With all primes, their `GT^Σ` is the classical
+  `GT̂` (their Definition 2.7).
 - **The `𝔖ₙ`-action at `n = 4`: equivariant units of `M_{0,4}`.** `M_{0,4} ≅ U_{0,3} = ℙ¹ ∖ {0, 1, ∞}`
   with coordinate `λ`; the stabiliser `𝔖₃` of the fourth marked point permutes `0, 1, ∞` and acts
   on `O(U_{0,3})^* = k^* · λ^ℤ (1 − λ)^ℤ` through the six anharmonic substitutions, and `𝔖₄` acts
@@ -313,6 +318,9 @@ All checked on zbMATH (identifiers given) or arXiv.
   points », *Michigan Math. J.* (2025), arXiv:2208.00556, Theorem 1.3.
 - D. Harbater, L. Schneps, « Fundamental groups of moduli and the Grothendieck–Teichmüller
   group », *Trans. Amer. Math. Soc.* 352 (2000), no. 7, 3117–3148. Zbl 0956.14013.
+- Y. Hoshi, A. Minamide, S. Mochizuki, « Group-theoreticity of numerical invariants and
+  distinguished subgroups of configuration space groups », *Kodai Math. J.* 45 (2022), no. 3,
+  295–348. Zbl 1511.14050.
 
 ## Provenance
 
