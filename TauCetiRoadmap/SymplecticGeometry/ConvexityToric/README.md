@@ -153,6 +153,96 @@ eigenvalues. Prove Schur–Horn in both directions and equivalence with majoriza
 sorted entries and total trace). Repeated eigenvalues give lower-dimensional smooth coadjoint orbits but the same convex-hull
 statement. Construct a 2×2 Hermitian matrix for every majorized diagonal and given eigenvalues and rank-one CP^(n−1) simplex as acceptance cases.
 
+### T3.1. The word121 Bott–Samelson moment polygon
+
+Use [SchubertGeometry S2 and its word121 incidence comparison](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1224)
+for the existing smooth projective threefold
+`X={(L₁,P,L):L₁⊂P₀, L₁⊂P, L⊂P}`, where P₀=span(e₁,e₂)⊂ℂ³,
+L₁,L are lines and P is a plane. Use its actual embedding in
+Gr₁(ℂ³)×Gr₂(ℂ³)×Gr₁(ℂ³), its complex-point/manifold comparison,
+and π:X→Flag(ℂ³), π(L₁,P,L)=(L,P). T=(S¹)³ acts diagonally and
+preserves P₀. The full ambient U(3) action does not preserve this fixed
+P₀ incidence condition; a restricted Hermitian-valued ambient map is
+not asserted to be a U(3) moment map on X. This is the worked
+moment-map question from Knutson semester2 p72, with p73's repeated
+line factor made explicit. Preserve the unclear diagram and arrow labels.
+
+**Forms and the projector formula.** On a complex Grassmannian let Π_V
+be the orthogonal projector for the standard Hermitian form, using native
+`Submodule.starProjection` on `EuclideanSpace ℂ (Fin 3)`. Construct its
+smooth dependence on the subspace through the existing Grassmannian
+charts and the unitary orbit map. Identify the orbit of rank-r projectors
+with this same Grassmannian, for r=1,2, with tangent and action maps.
+Use R2's KKS form σ_r, pairing `⟨H,ξ⟩=−i tr(Hξ)`, and inclusion
+moment map V↦Π_V. Compare the form with the Plücker pullback of
+ComplexKahlerGeometry K7.2's positive Fubini–Study form of projective-line
+area1: in these conventions `σ_r=−2π Plücker*ω_FS`. Prove the sign
+and factor in a rank-one affine chart and then by unitary invariance.
+
+For a,b,c>0 restrict `aσ₁+bσ₂+cσ₁` from the three factors to X.
+Prove it is closed and nondegenerate: its negative is the restriction
+of a positive product Kähler form through the holomorphic immersion.
+The ambient diagonal U(3) moment is
+`H=aΠ_(L₁)+bΠ_P+cΠ_L`. Restrict to T and prove its actual moment map
+is `μ=diag(H)∈ℝ³`, with `ι_(ξ_X)ω=d⟨μ,ξ⟩` in the standing convention.
+Its coordinate sum is S=a+2b+c. Prove the kernel of the T action is
+exactly the diagonal circle, so the effective torus has dimension2 and
+the image lies in that affine trace plane. If using the positive
+Kähler form −ω, transport the moment map to −μ; reflect the entire
+polygon and retain the same period normalization.
+
+**Fixed points and exact image.** Write ij for span(e_i,e_j).
+Prove that X has precisely the following eight T-fixed flags, by the
+coordinate-subspace criterion and the incidence conditions. In the table
+L₁=e_i and L=e_j denote their spans.
+
+| (L₁,P,L) | μ |
+| --- | --- |
+| (e₁,12,e₁) | (a+b+c,b,0) |
+| (e₁,12,e₂) | (a+b,b+c,0) |
+| (e₁,13,e₁) | (a+b+c,0,b) |
+| (e₁,13,e₃) | (a+b,0,b+c) |
+| (e₂,12,e₁) | (b+c,a+b,0) |
+| (e₂,12,e₂) | (b,a+b+c,0) |
+| (e₂,23,e₂) | (0,a+b+c,b) |
+| (e₂,23,e₃) | (0,a+b,b+c) |
+
+Use T3's torus convexity theorem to identify μ(X) with the convex
+hull of this actual finite list. Prove its exact inequality description
+
+`x+y+z=S,  0≤x≤a+b+c,  0≤y≤a+b+c,  0≤z≤b+c`.
+
+Give both inclusions and a finite convex-combination or half-plane
+vertex argument. Its six vertices, in cyclic order, are rows
+1,3,4,8,7,6. Prove these are all the extreme points and that each
+listed inequality cuts out the stated edge in the trace plane.
+Rows2 and5 lie strictly inside the edge z=0, which joins rows1 and6:
+with D=a+c, their coefficients of row6 on that segment are c/D
+and a/D, respectively. They have the same image exactly when a=c;
+their fixed flags are distinct even then. For a≠c there are eight
+distinct fixed-point images and six vertices; for a=c there are seven
+distinct images and six vertices. Thus the T action on this real
+six-dimensional X has complexity1; T5's complexity-zero identification
+of fixed points with vertices is not applied here.
+
+At a=b=c=1 give the six vertices
+`(3,1,0),(3,0,1),(2,0,2),(0,2,2),(0,3,1),(1,3,0)`
+and the common nonvertex fixed value `(2,2,0)`. At the boundary a=0,
+b,c>0, identify H with the pullback through π of `bΠ_P+cΠ_L`.
+Its image is the flag permutahedron of eigenvalues (b+c,b,0), since
+π is onto. The form at this boundary is π* of the flag KKS form
+and is degenerate along the exceptional P¹ fibres; the image claim
+uses the flag and surjectivity, not a symplectic theorem on a degenerate
+form. Prove these comparisons through the existing π and its exceptional
+locus, rather than identifying diagrams by their vertex counts.
+
+The native projector and convex-hull signature examples are in
+[BottSamelsonMomentTargets.lean](BottSamelsonMomentTargets.lean).
+For the product-Grassmannian construction compare
+[Escobar, *Brick manifolds and toric varieties of brick polytopes*, §§3.3 and4.1](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/);
+the explicit weights, signs, inequalities and boundary maps above are
+part of this target.
+
 ## T4. Liouville and Duistermaat–Heckman
 
 Construct the orientation and smooth positive volume density ω^n/n! on a 2n-manifold and its Radon
