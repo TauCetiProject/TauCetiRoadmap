@@ -48,9 +48,10 @@ native declaration.
 - the radical criterion in characteristic zero for finite Galois extensions and for polynomials;
 - the separation of the quintic `F₂₀` resolvent for irreducible quintics, and Dummit's criterion
   without a separation hypothesis;
-- Gassmann's theorem (almost-conjugate subgroups have arithmetically equivalent fixed fields), the
-  conjugacy criterion for isomorphic fixed fields, and the existence of nonisomorphic
-  arithmetically equivalent number fields.
+- the sufficient direction of Gassmann's theorem, stated coefficient by coefficient for
+  `TauCeti.dedekindZetaCoeff` (almost-conjugate subgroups have fixed fields with the same number
+  of ideals of every norm, 4.1), the conjugacy criterion for isomorphic fixed fields (4.2), and the
+  existence of nonisomorphic arithmetically equivalent number fields (4.3).
 
 **Imported, not planned again.** The wreath embedding, blocks and recognition theorems (base
 roadmap Layer 1); the quintic `F₂₀` resolvent and its criterion under separation (base roadmap
@@ -71,7 +72,11 @@ uses the other.
 - Names of abstract groups (the name column of the TransGrp library and of Conway–Hulpke–McKay)
   beyond the identifications that a Check states.
 - The converse of Gassmann's theorem (equal zeta functions force almost-conjugacy), which needs
-  Chebotarev density.
+  Chebotarev density, the invariants that arithmetically equivalent fields share, and the number
+  of fields arithmetically equivalent to a given one: Finite Group Invariants Layer 7 (7.4, 7.5
+  and 7.6). That roadmap is a consumer of Layer 4, not a supplier: its 7.4 takes the sufficient
+  direction from 4.1, and its 7.6 passes from conjugacy of subgroups to isomorphism of fields by
+  4.2.
 - Radicals in positive characteristic, Hilbert irreducibility, and the realization of `Aₙ` over
   `ℚ`.
 
@@ -683,6 +688,10 @@ Field Arithmetic Layer 1.4; the base roadmap Layer 9.
 
 - BelyiMaps Layer 1.6 and its `6T6` record comparison use the reference family through degree
   eleven and the `6T6` comparison of 1.3.
+- Finite Group Invariants Layers 7 and 8: 7.2 and 8.3 are finite checks over the reference rows
+  of 1.3, and 7.2 cites the arithmetically equivalent pair of 4.3; 7.4 (Perlis' theorem, both
+  directions) takes its sufficient direction from 4.1; 7.6 (the number of fields arithmetically
+  equivalent to a given one) uses 4.2 to pass from conjugacy of subgroups to isomorphism of fields.
 
 ## References
 
