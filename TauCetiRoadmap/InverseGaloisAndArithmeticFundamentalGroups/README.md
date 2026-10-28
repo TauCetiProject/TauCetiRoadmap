@@ -581,21 +581,21 @@ A ⊗_K A → ∏_{h ∈ H} A,      a ⊗ b ↦ (a · h(b))_h
 is an isomorphism of `K`-algebras. Fix once and for all that `H` acts on `A` on the left, so that it
 acts on the set of points `Hom_K(A, K^sep)` on the right; every statement below is written in this
 convention. Supplied by AdicEtaleGeometry §A4.2: the generic tensor map and finite étale
-torsor class. Set `galoisTensorMap K A H := (Algebra.galoisTensorMap H K A).restrictScalars K`;
-`Algebra.galoisTensorMap_restrictScalars` identifies it with the displayed pure-tensor map.
-For finite `H`, abbreviate `IsGaloisAlgebra K A H := Algebra.IsFiniteEtaleTorsor H K A`.
-Expose `IsGaloisAlgebra.iff_field`, the specialization of
-`Algebra.IsFiniteEtaleTorsor.iff_field`:
-`IsGaloisAlgebra K A H ↔ Nontrivial A ∧ Module.Finite K A ∧ Algebra.Etale K A ∧ Function.Bijective (galoisTensorMap K A H)`.
+torsor class. The displayed map is the restriction of scalars to `K` of `Algebra.galoisTensorMap H K A`,
+which `Algebra.galoisTensorMap_restrictScalars` identifies with the pure-tensor formula.
+For finite `H`, an `H`-Galois algebra is exactly an `Algebra.IsFiniteEtaleTorsor H K A`.
+Prove the field criterion, the specialization of
+`Algebra.IsFiniteEtaleTorsor.iff_field`: `A` is an `H`-Galois algebra if and only if `A` is
+nontrivial, finite and étale over `K`, and the displayed map is bijective.
 Over a field, nonzero modules are free and faithfully flat, while faithful flatness forces
 `K → A` to be injective, so the shared class has exactly this nonzero finite-étale formulation
 ([Stacks, Tag 00HQ](https://stacks.math.columbia.edu/tag/00HQ)).
-Provide `GaloisAlgebra.split`, the
-function algebra `K^H = Map(H, K)` with the translation action, which is an `H`-Galois algebra;
-`GaloisAlgebra.torsorMap`, saying that for a nonzero finite étale `K`-algebra with `H`-action the
-displayed map is an isomorphism exactly when the torsor condition holds; `GaloisAlgebra.invariants`:
+Construct the split
+algebra, the function algebra `K^H = Map(H, K)` with the translation action, and prove that it is an
+`H`-Galois algebra. Prove that for a nonzero finite étale `K`-algebra with `H`-action the
+displayed map is an isomorphism exactly when the torsor condition holds; that
 for `N` normal in `H`, the invariants `A^N` form an `H/N`-Galois algebra, and `A^H = K`; and
-`GaloisAlgebra.homClass`: isomorphism classes of `H`-Galois algebras correspond to continuous
+that isomorphism classes of `H`-Galois algebras correspond to continuous
 homomorphisms `Gal(K^sep/K) → H` up to conjugation in `H`, and the fields among them correspond to
 the surjective homomorphisms. *Proof sketch.* Test the torsor condition after base change to
 `K^sep`, where a finite étale algebra is a product of copies of `K^sep` and its points form a finite
@@ -619,7 +619,7 @@ locally Noetherian schemes or the componentwise groupoid.
 - The trivial homomorphism `Gal(K^sep/K) → C₂` corresponds to `K × K` with the swap action, not to a
   quadratic field: weak solutions of lifting problems are Galois algebras, not realizations.
 - `𝔽₂ × 𝔽₂` with the swap action is a `C₂`-Galois algebra: both the shared torsor class and
-  `IsGaloisAlgebra.iff_field` accept it, although the characteristic divides the group order.
+  the field criterion accept it, although the characteristic divides the group order.
 - The zero algebra: its displayed tensor map is the isomorphism `0 → 0`, but its geometric fibre is
   empty, so it is not an `H`-Galois algebra; a definition that only asked for the tensor criterion
   without `A ≠ 0` would accept it.
@@ -692,12 +692,12 @@ category. The isogeny category `ℤ_p-ILoc(X)` has the same objects and morphism
 `Hom(T, T') ⊗_{ℤ_p} ℚ_p`. The category `ℚ_p-Loc(X)` of rational local systems is the étale
 stackification of the prestack `U ↦ ℤ_p-ILoc(U)`, so a rational local system has integral lattices
 locally on `X` that need not glue to a global one. Tensor products, pullbacks and actions of finite
-extensions of `ℚ_p` are defined levelwise and by descent. Define `AdicLocalSystem X`,
-`IsogenyLocalSystem X` and `RationalLocalSystem X`, with `AdicLocalSystem.reduction`: reduction
+extensions of `ℚ_p` are defined levelwise and by descent. Define the three categories
+`ℤ_p-Loc(X)`, `ℤ_p-ILoc(X)` and `ℚ_p-Loc(X)`, and prove that reduction
 modulo `p^n` is finite locally free and carries the given transition isomorphisms;
-`AdicLocalSystem.pullback`: pullback commutes with every reduction and with tensor products;
-`IsogenyLocalSystem.hom`: morphisms in the isogeny category are integral morphisms tensored with
-`ℚ_p`, with bilinear composition; and `RationalLocalSystem.stackification`: étale descent data in the
+that pullback commutes with every reduction and with tensor products;
+that morphisms in the isogeny category are integral morphisms tensored with
+`ℚ_p`, with bilinear composition; and that étale descent data in the
 isogeny prestack define rational local systems, and, for connected `X`, the canonical functor from
 the isogeny category is fully faithful. Connectedness is a hypothesis of the full faithfulness only:
 the definitions are made for every scheme, and on a scheme with infinitely many connected components
@@ -803,10 +803,10 @@ image has a stable lattice. For `T ∈ ℤ_p-Loc(X)` and `m ≥ 0`, the lattices
 `L_m(T) ×_X L_m(T)` records inclusion, and finite sums give a canonical join. Using the join,
 effective descent holds for isogeny local systems along a faithfully flat finite étale ring map, and
 for a normal Noetherian `X` the functor from the isogeny category to rational local systems is an
-equivalence. Define `LatticeScheme T m` and provide `AdicLocalSystem.representationEquivalence`,
-identifying fibre representations and all morphisms; `LatticeScheme.baseChange`:
-`L_m(T_Y) = L_m(T) ×_X Y`; `LatticeScheme.incidence`: the incidence locus is finite étale and
-represents inclusion of the two parametrised lattices; and `LatticeScheme.join`: the join of a finite
+equivalence. Define the lattice scheme `L_m(T)` and prove the equivalence with
+continuous representations, identifying fibre representations and all morphisms; base change
+`L_m(T_Y) = L_m(T) ×_X Y`; that the incidence locus is finite étale and
+represents inclusion of the two parametrised lattices; and that the join of a finite
 family is the least lattice containing each member. *Proof sketch.* Apply the classification of
 finite étale covers level by level; a compact image has bounded denominators, and the sum of the
 translates of one lattice is stable. Reduce `L_m` to a finite Grassmannian of submodules of
@@ -840,11 +840,11 @@ a disjoint union of connected objects, with a set of connected generators, and w
 conservative fibre functor to sets preserving colimits and finite limits. It is tame if `Aut(F)` acts
 transitively on the fibre of every connected object. For a tame infinite Galois category `(C, F)`,
 `Aut(F)` is a Noohi group and `F` induces an equivalence of `C` with continuous `Aut(F)`-sets.
-Define `IsNoohiGroup G` and `InfiniteGaloisCategory`, with `NoohiGroup.toAut`: the reconstruction map
-is an isomorphism of topological groups; `InfiniteGaloisCategory.componentAction`: fibres of
-connected objects are transitive exactly under tameness; `InfiniteGaloisCategory.actionEquivalence`:
+Define Noohi groups and infinite Galois categories, and prove that the reconstruction map
+is an isomorphism of topological groups; that fibres of
+connected objects are transitive exactly under tameness; that
 for a tame category the fibre functor identifies it with continuous discrete actions; and
-`NoohiGroup.openSubgroup`: an open subgroup of a Noohi group is Noohi. *Proof sketch.* Topologise
+that an open subgroup of a Noohi group is Noohi. *Proof sketch.* Topologise
 the natural automorphisms by pointwise stabilisers, identify stabilisers of points of fibres with
 open subgroups, and prove reconstruction from connected generators and tameness. For the
 open-subgroup assertion, use Proposition 7.1.5: an open subgroup is closed, so it is complete
@@ -879,12 +879,12 @@ continuous maps to `H`, is equivalent to the groupoid of continuous homomorphism
 finite extension `E/ℚ_p`, to its closed subgroups, and to the groups `J_b(ℚ_p)` of Caraiani–Scholze;
 profinite and discrete groups are included. A closed subgroup of `GL_r(E)` has the open profinite
 subgroup obtained by intersection with `GL_r(𝒪_E)`. Define
-`ProetaleFundamentalGroup X x̄` and provide `ProetaleFundamentalGroup.actionEquivalence`, compatible
-with stalks; `ProetaleFundamentalGroup.toEtale`, inducing the profinite completion and agreeing on
-finite continuous actions; `ProetaleFundamentalGroup.torsorEquivalence`, the equivalence
+`π₁^proét(X, x̄)` and prove the equivalence with continuous actions, compatible
+with stalks; the comparison with the étale fundamental group, inducing the profinite completion and
+agreeing on finite continuous actions; the equivalence
 `Hom_cont(π₁^proét, H)//H ≃ H-torsors` for `H` with an open profinite subgroup, including all
 conjugation arrows; and
-`ProetaleFundamentalGroup.map`, continuous homomorphisms induced by pointed maps, with change of
+functoriality, continuous homomorphisms induced by pointed maps, with change of
 base point up to inner automorphisms. *Proof sketch.* Use the category `Cov(X)` of étale `X`-schemes
 satisfying the valuative criterion of properness, whose fibres may be infinite, to verify the
 axioms and tameness; apply the reconstruction theorem; restrict to finite actions for the profinite
@@ -981,12 +981,12 @@ different quotients: a tame cover may have monodromy group of order divisible by
 tame inertia group at a boundary point, that of the strictly henselian punctured branch, is the
 prime-to-`p` Tate module, with no canonical generator; its image in the global group is a quotient of
 it and need not be isomorphic to it. In characteristic zero (`p = 1`) both quotients are all of
-`π₁^ét(U)`. Define `TameFundamentalGroup U`
-and `PrimeToFundamentalGroup p U`, with `TameFundamentalGroup.quotient`: the kernel is exactly the
-closed normal subgroup generated by wild inertia; `TameFundamentalGroup.coverEquivalence`: finite
-actions correspond to covers tamely ramified relative to the compactification;
-`PrimeToFundamentalGroup.lift`: every continuous homomorphism to a finite group of order prime to `p`
-factors uniquely through the prime-to-`p` quotient; and `TameFundamentalGroup.peripheral`: for a
+`π₁^ét(U)`. Define `π₁^t(U)`
+and `π₁^{(p′)}(U)`, and prove that the kernel of `π₁^ét(U) → π₁^t(U)` is exactly the
+closed normal subgroup generated by wild inertia; that finite
+actions of `π₁^t(U)` correspond to covers tamely ramified relative to the compactification;
+that every continuous homomorphism to a finite group of order prime to `p`
+factors uniquely through the prime-to-`p` quotient; and the peripheral map: for a
 boundary point `P` and an étale path from the base point to a geometric point of the punctured
 henselian branch at `P`, a continuous homomorphism from the local tame inertia
 `lim_{n ≥ 1, gcd(n,p)=1} μ_n(K)` to
@@ -1038,10 +1038,10 @@ normalised parameter changes the fibre functor by a canonical isomorphism, so th
 independent of `t` up to the path ambiguity of ordinary base points. This gives a fibre functor on
 covers tame at `P`, its cyclic inertia (the prime-to-characteristic Tate module) and, when `v` is
 `k`-rational, a section of the arithmetic sequence on the tame branch. In positive characteristic it
-concerns tame covers only. Define `TameTangentialFiber C P v` with `TameTangentialFiber.obj`, the
-lifts into the parameter tower; `TameTangentialFiber.changeParameter`, the natural isomorphism for a
-change of normalised parameter; `TameTangentialFiber.inertia`, the local inertia with the peripheral
-character convention of PeripheralActions; and `TameTangentialFiber.section`, the arithmetic section
+concerns tame covers only. Define the tame tangential fibre functor at `(P, v)` on
+objects, as the lifts into the parameter tower; the natural isomorphism for a
+change of normalised parameter; the local inertia with the peripheral
+character convention of PeripheralActions; and the arithmetic section
 attached to a `k`-rational tangent vector. *Proof sketch.* Use the Kummer classification of tame
 covers of a strictly henselian punctured disc with invertible indices; identify the towers for two
 normalised parameters by henselian roots of units; verify the fibre-functor axioms by tame descent.
@@ -1335,11 +1335,11 @@ generated field `K` of characteristic zero, `ℓ` a prime and `ρ : π₁^ét(X_
 continuous representation. Call `ρ` arithmetic if its isomorphism class has finite orbit under `Γ_K`,
 acting through the outer action of the arithmetic exact sequence. Isomorphism means conjugation in
 `GL_r(ℚ̄_ℓ)`; no section of the sequence enters the definition. Arithmeticity implies neither finite
-image nor geometric origin. Define `IsArithmeticRepresentation` with
-`ArithmeticRepresentation.conjugate`: invariance under conjugation;
-`ArithmeticRepresentation.baseExtension`: invariance under restriction to a finite extension of
-`K`; `ArithmeticRepresentation.orbit`: equivalence with finiteness of the orbit set; and
-`ArithmeticRepresentation.innerIndependent`: changing the lift of `σ ∈ Γ_K` by a geometric element
+image nor geometric origin. Define arithmeticity and prove
+invariance under conjugation;
+invariance under restriction to a finite extension of
+`K`; equivalence with finiteness of the orbit set; and
+that changing the lift of `σ ∈ Γ_K` by a geometric element
 changes `ρ ∘ (conjugation)` only by conjugation, so the action on classes is well defined. *Proof
 sketch.* Define the action on isomorphism classes through lifts to `π₁^ét(X)` and check independence
 of the lift. Source: [Landesman–Litt](https://arxiv.org/pdf/2205.15352v4), Definition 9.1.1, p. 45.
@@ -1539,19 +1539,19 @@ subsets are sets of scheme points, and `H(k)` denotes the `k`-rational points of
 
 ### IG.2.1 Rational functions regular at a point
 
-**Rational functions regular at a point.** For `t ∈ K`, define `RationalSpecialization.regularSubring`,
-written `Rₜ`, as the subring of `K(T)` whose elements are exactly the `f` with `denom(f)(t) ≠ 0`,
+**Rational functions regular at a point.** For `t ∈ K`, define the regular subring
+`Rₜ` as the subring of `K(T)` whose elements are exactly the `f` with `denom(f)(t) ≠ 0`,
 using the monic reduced denominator; its operations and its inclusion `Subring.subtype` are those of
 `K(T)`. This is the valuation ring of the finite place of `K(T)` at the irreducible polynomial
 `T − t`, which Tau Ceti already has: define `Rₜ` as the underlying subring of
 `(TauCeti.Place.adicOfIrreducible (Polynomial.irreducible_X_sub_C t)).integers`, so that the
 membership criterion below is `TauCeti.Place.valuation_ofIrreducible_le_one_iff` for `q = T − t`
 (`T − t ∤ denom(f)` exactly when `denom(f)(t) ≠ 0`); what this target adds is the description by
-reduced denominators and the interface with `RatFunc.eval` and polynomial specialization. Provide `RationalSpecialization.mem_regularSubring`: for `f ∈ K(T)`, `f ∈ Rₜ` exactly when
+reduced denominators and the interface with `RatFunc.eval` and polynomial specialization. Prove that for `f ∈ K(T)`, `f ∈ Rₜ` exactly when
 `denom(f)(t) ≠ 0` (stated below as *Membership by reduced denominator*);
-`RationalSpecialization.algebraMap_mem_regularSubring`: the image of every `q ∈ K[T]` in `K(T)` lies
+that the image of every `q ∈ K[T]` in `K(T)` lies
 in `Rₜ`, since its reduced denominator is `1` (`RatFunc.denom_algebraMap`); and
-`RationalSpecialization.regularSubring_le_iff`: a subring `A` of `K(T)` satisfies `A ≤ Rₜ` exactly
+that a subring `A` of `K(T)` satisfies `A ≤ Rₜ` exactly
 when `denom(f)(t) ≠ 0` for every `f ∈ A`, by `Subring` extensionality. *Proof sketch.*
 `RatFunc.denom_zero` and `RatFunc.denom_one` handle `0` and `1`; `RatFunc.denom_add_dvd` and
 `RatFunc.denom_mul_dvd` show that `denom(f + g)` and `denom(fg)` divide `denom(f)·denom(g)`, whose
@@ -1596,13 +1596,13 @@ Hilbert irreducibility). *Needs:* Mathlib `Subring`, `Subring.subtype`, `RatFunc
 - Both directions use the reduced denominator, including `denom(0) = 1`: over `ℚ`,
   `(T² − T)/T` reduces to `T − 1` and lies in `R₀`, while `T/T²` reduces to `T⁻¹` and does not.
 
-**Evaluation on the regular subring.** For `t ∈ K`, define `RationalSpecialization.evalRegular`,
-written `eₜ : Rₜ →+* K`, as the restriction of `RatFunc.eval (RingHom.id K) t` to `Rₜ`, so that
-`eₜ(f) = num(f)(t)/denom(f)(t)` with nonzero denominator. Provide
-`RationalSpecialization.evalRegular_apply`: for `f ∈ Rₜ`, `eₜ(f)` is `RatFunc.eval (RingHom.id K) t f`,
-with Mathlib's normalized numerator and denominator; `RationalSpecialization.evalRegular_polynomial`:
-for `q ∈ K[T]`, carried into `Rₜ` by `RationalSpecialization.algebraMap_mem_regularSubring`,
-`eₜ(q) = q(t)`; and `RationalSpecialization.evalRegular_surjective`: `eₜ` is onto `K`, the value `a`
+**Evaluation on the regular subring.** For `t ∈ K`, define the ring map
+`eₜ : Rₜ →+* K` as the restriction of `RatFunc.eval (RingHom.id K) t` to `Rₜ`, so that
+`eₜ(f) = num(f)(t)/denom(f)(t)` with nonzero denominator. Prove
+that for `f ∈ Rₜ`, `eₜ(f)` is `RatFunc.eval (RingHom.id K) t f`,
+with Mathlib's normalized numerator and denominator; that
+for `q ∈ K[T]`, carried into `Rₜ` because polynomials are regular everywhere,
+`eₜ(q) = q(t)`; and that `eₜ` is onto `K`, the value `a`
 being attained by the constant polynomial `a`. The ring-map laws come with the bundled `RingHom`.
 *Proof sketch.* `RatFunc.eval_add` and `RatFunc.eval_mul` each require nonvanishing of the two
 denominator values, which *Membership by reduced denominator* supplies; `RatFunc.eval_zero` and
@@ -1639,12 +1639,11 @@ spₜ(p) = Σₙ RatFunc.eval (RingHom.id K) t cₙ · Yⁿ ∈ K[Y],
 a finite sum (`Polynomial.sum`) over the support of `p`. It is a total function, defined even when
 some coefficient has a pole at `t`; ring laws are asserted only when all coefficients involved are
 regular at `t` (*Specialization preserves addition*, *Specialization preserves multiplication*).
-Provide `RationalSpecialization.coeff_specialize`: the coefficient of `Yⁿ` in `spₜ(p)` is
+Prove that the coefficient of `Yⁿ` in `spₜ(p)` is
 `RatFunc.eval (RingHom.id K) t (p.coeff n)` (stated below as *Coefficients after specialization*);
-`RationalSpecialization.specialize_C`: `spₜ(C f) = C(RatFunc.eval (RingHom.id K) t f)` for
-`f ∈ K(T)`; `RationalSpecialization.specialize_X`: `spₜ(Y) = Y` for every `t`;
-`RationalSpecialization.specialize_zero`: `spₜ(0) = 0` for every `t`; and
-`RationalSpecialization.specialize_polynomialCoefficients`: for `p ∈ K[T][Y]`, specializing the
+that `spₜ(C f) = C(RatFunc.eval (RingHom.id K) t f)` for
+`f ∈ K(T)`; that `spₜ(Y) = Y` and `spₜ(0) = 0` for every `t`; and
+that for `p ∈ K[T][Y]`, specializing the
 image of `p` in `K(T)[Y]` gives `Polynomial.map (Polynomial.evalRingHom t) p`. *Proof sketch.* Sum
 `monomial n (RatFunc.eval (RingHom.id K) t cₙ)` with `Polynomial.sum`, so no new polynomial type is
 introduced; `RatFunc.eval_zero` keeps coefficients outside the support zero. The total coefficient
@@ -1735,8 +1734,8 @@ polynomial coefficient maps*; Mathlib `Polynomial.toSubring`, `Polynomial.map_to
 
 ### IG.2.3 Denominators and the specialization guard
 
-**Denominator product of a polynomial.** For `p ∈ K(T)[Y]`, define
-`RationalSpecialization.denominatorProduct`, written `D(p) ∈ K[T]`, by
+**Denominator product of a polynomial.** For `p ∈ K(T)[Y]`, define the denominator product
+`D(p) ∈ K[T]` by
 
 ```text
 D(p) = ∏_{n ∈ p.support} denom(p.coeff n).
@@ -1744,10 +1743,10 @@ D(p) = ∏_{n ∈ p.support} denom(p.coeff n).
 
 It is a product with repetitions, not a least common denominator; for `p = 0` it is the empty
 product `1`. Because the denominators are Mathlib's reduced ones, `D(p)` depends only on `p`; zero
-coefficients contribute no index, and their denominator would be `1` anyway. Provide
-`RationalSpecialization.denominatorProduct_zero`: `D(0) = 1`;
-`RationalSpecialization.denominatorProduct_C`: `D(C f) = denom(f)` for every `f ∈ K(T)`, including
-`f = 0`; and `RationalSpecialization.denominatorProduct_polynomialCoefficients`: for `p ∈ K[T][Y]`,
+coefficients contribute no index, and their denominator would be `1` anyway. Prove
+that `D(0) = 1`;
+that `D(C f) = denom(f)` for every `f ∈ K(T)`, including
+`f = 0`; and that for `p ∈ K[T][Y]`,
 its image in `K(T)[Y]` has denominator product `1`. *Proof sketch.* Take the finite product over the
 coefficient support in `K[T]`; `RatFunc.denom_zero` and `RatFunc.denom_algebraMap` give the special
 values. Source: [Mathlib `RatFunc` sources](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/RatFunc/AsPolynomial.lean),
@@ -1894,12 +1893,12 @@ polynomial form over an arbitrary field, with separable polynomials (the separab
 the literature, which in characteristic zero give the notion above); a nonzero `g` is encoded by
 adjoining the linear polynomial `Y − 1/g`, whose coefficient is regular exactly where `g` does not
 vanish, and in the same way any finite set of parameters can be excluded, which yields infinitely
-many admissible parameters. Provide `HilbertSubset.mem`: membership is
-connectedness of every finite étale fibre over the residue field; `HilbertSubset.inter`: a finite
+many admissible parameters. Prove that membership is
+connectedness of every finite étale fibre over the residue field; that a finite
 intersection of Hilbert subsets of `X` is the Hilbert subset of the combined datum, over the
-intersection of the opens; `HilbertSubset.rationalRestriction`: rational membership evaluates the
+intersection of the opens; that rational membership evaluates the
 fibres over `k`, while closed-point membership uses the residue extension; and
-`HilbertSubset.polynomialComparison`: the guarded polynomial datum gives exactly the parameters with
+that the guarded polynomial datum gives exactly the parameters with
 irreducible specializations of the full degree. *Proof sketch.* Fibres are taken at all scheme
 points, not only at `k`-points. For the polynomial comparison, on the open set where `g`, the guards
 and the discriminants of the `fᵢ` do not vanish, `Vᵢ = Spec 𝒪(U)[Y]/(fᵢ)` is finite étale and
@@ -2018,10 +2017,9 @@ degree `[k(Y) : k(X)] ≥ 2`, so that `π` has no rational section over the gene
 the degree of the function-field extension, not the size of a fibre. The full-group condition is
 controlled by thin sets: for a Galois cover of an open subset of affine space with group `G`, the
 parameters at which the specialization does not have the full group `G` lie in the union of a thin
-set and the zero locus of the branch and coefficient guards. Provide `ThinSet.closed`: the rational
-points of a proper closed subvariety form a thin set; `ThinSet.coverImage`: the image of the rational
-points of a separable, generically finite integral cover of degree `≥ 2` is thin; `ThinSet.union`:
-finite unions and subsets of thin sets are thin; and `ThinSet.fullGroupComplement`: the parameters
+set and the zero locus of the branch and coefficient guards. Prove that the rational
+points of a proper closed subvariety form a thin set; that the image of the rational
+points of a separable, generically finite integral cover of degree `≥ 2` is thin; that finite unions and subsets of thin sets are thin; and that the parameters
 with non-full specialization lie in a thin set together with the displayed guard divisor. *Proof
 sketch.* Construct the two kinds of thin data and their finite unions. For the full-group statement
 use the quotient covers by proper subgroups of the generic Galois group: when the specialization at
@@ -2576,10 +2574,10 @@ Global finite CW type uses separated finite type, and Riemann existence uses the
 Zariski open neighbourhood `U` of `x` reached by a finite tower of elementary fibrations, each with
 smooth affine curve fibres. For such `U`, the space `U(ℂ)` is a `K(π, 1)`: `π_i(U(ℂ)) = 0` for every
 `i ≥ 2`, while `π₁` may be large. The neighbourhood and its tower are part of the data; an arbitrary
-smooth open subset is not asserted to be a `K(π, 1)`. Define `ArtinNeighborhood X x` with
-`ArtinNeighborhood.point`, the chosen point lies in the open set; `ArtinNeighborhood.tower`, the
-tower of elementary fibrations with affine curve fibres and finite étale boundaries; and
-`ArtinNeighborhood.aspherical`, the vanishing of higher homotopy groups, stated as Tau Ceti's
+smooth open subset is not asserted to be a `K(π, 1)`. Define Artin neighbourhoods of `x` in `X` as data recording
+that the chosen point lies in the open set and the
+tower of elementary fibrations with affine curve fibres and finite étale boundaries, and prove
+the vanishing of higher homotopy groups, stated as Tau Ceti's
 `TauCeti.IsAspherical` for `U(ℂ)`.
 
 Provides the group-to-topological cohomology comparison for the constructed Artin neighbourhood.
@@ -2651,12 +2649,12 @@ transported. Faithfulness is part of the input: through a representation with a 
 normaliser relation would identify tuples with different products and generated subgroups. An
 unramified puncture may carry the identity. Disc
 tuples allow an arbitrary boundary product, read on `ℙ¹` as the inverse of the inertia at infinity.
-Define `BranchTuple r G`, `BranchTuple.product`, `BranchTuple.generated`, `NielsenClass.inner` and
-`NielsenClass.absolute`, with the API: `BranchTuple.product` uses the fixed order and the empty
-product is `1`; `BranchTuple.generated` is the closure of the set of entries; `NielsenClass.inner`
+Define `BranchTuple r G`, `BranchTuple.product`, `BranchTuple.generated` and the inner and absolute
+Nielsen classes, with the API: `BranchTuple.product` uses the fixed order and the empty
+product is `1`; `BranchTuple.generated` is the closure of the set of entries; the inner Nielsen class
 is the quotient by simultaneous conjugation and preserves product one and generation;
-`NielsenClass.absolute` uses the chosen faithful permutation representation `e : G ≃* P` and the
-normaliser of `P`, not `Aut(G)` without that datum, and `NielsenClass.absolute_preserves`: absolute
+the absolute Nielsen class uses the chosen faithful permutation representation `e : G ≃* P` and the
+normaliser of `P`, not `Aut(G)` without that datum, and absolute
 equivalence preserves product one and generation. *Proof sketch.* The data are functions on `Fin r`
 and subgroup closures; construct the two quotients as quotients by group actions and descend the
 invariants; for the absolute quotient, conjugation by an element of the normaliser restricts to an
@@ -2690,15 +2688,13 @@ ordered product exactly, the generated subgroup exactly, and the multiset of con
 ordered distinct class conditions use the pure (colour-preserving) braid subgroup, since the full
 braid group permutes the order of the classes. The geometric half-twist of
 Ellenberg–Venkatesh–Westerland may correspond to the inverse generator; the comparison with the
-present convention is part of this target. Define `HurwitzMove.apply`, `HurwitzMove.inverse`,
-`HurwitzMove.equiv` and `HurwitzAction.action`, with `HurwitzMove.apply` (the two affected entries
-become `aba⁻¹` and `a`), `HurwitzMove.inverse` (`(a, b) ↦ (b, b⁻¹ab)`), `HurwitzAction.action_sigma` (the
-generator `σ_i` acts by the `i`-th move), `HurwitzAction.product_action` (the ordered product is
-unchanged, not merely up to conjugacy), `HurwitzAction.generated_action` (the generated subgroup
-is unchanged), and `HurwitzAction.classes_action` (the multiset of conjugacy classes is unchanged).
-The intended types are
-`HurwitzMove.equiv (i : Fin (r - 1)) : Equiv.Perm (BranchTuple r G)` and
-`HurwitzAction.action (r : ℕ) (G : Type*) [Group G] : TauCeti.BraidGroup r →* Equiv.Perm (BranchTuple r G)`.
+present convention is part of this target. Define the `i`-th Hurwitz move, its inverse, the
+move as a permutation of `BranchTuple r G` for `i : Fin (r - 1)`, and the Hurwitz action as a
+homomorphism `TauCeti.BraidGroup r →* Equiv.Perm (BranchTuple r G)`. The move replaces the two
+affected entries by `aba⁻¹` and `a`, and its inverse is `(a, b) ↦ (b, b⁻¹ab)`. Prove that the
+generator `σ_i` acts by the `i`-th move, and that the ordered product is
+unchanged (not merely up to conjugacy), the generated subgroup
+is unchanged, and the multiset of conjugacy classes is unchanged.
 *Proof sketch.* Check the braid
 relation on three adjacent coordinates and commutation for disjoint pairs; define the action through
 the presentation of `B_r`; match the chosen oriented path in configuration space with the half-twist.
@@ -2719,10 +2715,10 @@ every length, divide each length by the braid group, and multiply by concatenati
 associative unital graded monoid, including the empty tuple and non-generating tuples. The ordered
 product and generated subgroup of a representative are invariants; a tuple with product one is
 central in this monoid. The generating locus is preserved by braid moves but is not the whole
-monoid. Define `BraidOrbitMonoid G c` with `BraidOrbitMonoid.concat` (multiplication is represented
-by concatenation), `BraidOrbitMonoid.unit` (the empty tuple is a two-sided unit),
-`BraidOrbitMonoid.degree` (length and class multiplicities are additive) and
-`BraidOrbitMonoid.productOneCentral` (a block of product one commutes with every orbit). *Proof
+monoid. Define the braid-orbit monoid of `(G, c)` and prove that multiplication is represented
+by concatenation, that the empty tuple is a two-sided unit,
+that length and class multiplicities are additive, and
+that a block of product one commutes with every orbit. *Proof
 sketch.* Block braids make concatenation well defined and associative. Moving a block past a tuple
 by Hurwitz moves conjugates the tuple by the block's product, which is trivial for a product-one
 block. Sources: [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
@@ -2749,14 +2745,12 @@ on `Epi(F_r, G)/Aut(G)`, or an orbit of `Out(G)` on the `Out(F_r)`-orbits of ext
 epimorphisms. The two actions commute. Dividing by `Aut(G)` alone gives a finer intermediate
 quotient, in general different (see the `C₂` check below), which is not the `T`-system. The minimal
 generator number `d(G)`, the least
-`r` admitting a surjection `F_r → G`, is Mathlib's `Group.rank`. Define `ExteriorEpi r G` and
-`TSystem r G`, with `ExteriorEpi.ofTuple` (generating tuples are equivalent to surjections from
-`F_r`), `ExteriorEpi.outAction` (the action of `Out(F_r)` after the inner quotient),
-`TSystem.quotient` (the quotient map from exterior epimorphisms, by `Out(F_r)` and `Out(G)`) and
-`nonempty_surjectiveFreeHom_iff` (a
-generating `r`-tuple exists exactly when `r ≥ Group.rank G`, padding with identities).
-The intended equivalence `ExteriorEpi.ofTuple r G` has source
-`{t : BranchTuple r G // BranchTuple.generated t = ⊤}` and target `SurjectiveFreeHom r G`.
+`r` admitting a surjection `F_r → G`, is Mathlib's `Group.rank`. Define the sets of exterior
+epimorphisms and of `T`-systems, with an equivalence between the generating tuples
+`{t : BranchTuple r G // BranchTuple.generated t = ⊤}` and the surjections `F_r → G`, the
+action of `Out(F_r)` after the inner quotient, and
+the quotient map from exterior epimorphisms, by `Out(F_r)` and `Out(G)`; prove that a
+generating `r`-tuple exists exactly when `r ≥ Group.rank G`, padding with identities.
 *Proof sketch.* Use the
 universal property of `FreeGroup`, characterise surjectivity by the closure of the images, and
 compute precomposition by inner automorphisms. Source: [Chen, *Nonabelian level
@@ -2769,7 +2763,7 @@ tuples and Nielsen classes*; Mathlib `FreeGroup`, `FreeGroup.lift`, `MulAut`, `G
 - `C₂ × C₂` has `d = 2` and no surjection from `F₁`; `d(G)` is not the order of `G`.
 - For `C₅`, inverting every image of a surjection changes its exterior class, since inner
   conjugation is trivial, but preserves its `T`-system, since inversion is a target automorphism.
-- The map `TSystem.quotient` sends the class of each surjection to the `T`-system of that same
+- The quotient map to `T`-systems sends the class of each surjection to the `T`-system of that same
   surjection.
 - For `G = C₂` and `r = 2`, the generating pairs `(g, 1)`, `(1, g)` and `(g, g)` are three exterior
   epimorphisms and, `Aut(C₂)` being trivial, three classes modulo `Aut(G)`; Nielsen moves join them
@@ -2786,8 +2780,9 @@ outside `{3, 5, 7, 9, 11}`, the `T₂`-systems of `SL₂(𝔽_q)` are classified
 `Aut(𝔽_q)`-orbit of `tr[a, b]`, the orbit of `2` being excluded; because `T₂` divides by `Aut(G)`,
 the exact trace is not an invariant when `𝔽_q` is not a prime field. Chen's question: for a finite
 nonabelian simple `G` and `φ : F₂ ↠ G`, does the order of `φ([a, b])` divide the size of the
-`Out⁺(F₂)`-orbit of the exterior class of `φ`? None of these concerns product-one tuples. Define the
-propositions `NielsenTransitivity`, `McCulloughWanderleyTrace` and `ChenOrbitDivisibility`. *Proof
+`Out⁺(F₂)`-orbit of the exterior class of `φ`? None of these concerns product-one tuples. State the
+Nielsen transitivity, McCullough–Wanderley trace and Chen orbit-divisibility assertions as named
+propositions. *Proof
 sketch.* State each with the quantifiers of its source and check its equivalence relation against
 the exterior and `T`-system definitions. Sources: [Chen, *Nonabelian level
 structures*](https://arxiv.org/pdf/2011.12940v2), Conjecture 1.1.3 (citing Garion, Conjecture 1),
@@ -2835,9 +2830,9 @@ of `ℙ¹_ℂ`, unramified outside the `P_i`, whose positively oriented local mo
 (an identity entry marks an unramified point). The ramification index over `P_i` is `ord(g_i)`.
 Simultaneous conjugation of the tuple gives isomorphic `G`-covers, and inner Nielsen classes
 correspond to `G`-equivariant isomorphism classes. For `r = 3` this is the Belyi construction of
-BelyiMaps Layers 3 and 5. Define `BranchCover.ofTuple` with `BranchCover.inertia` (the inertia
-group over `P_i` is generated by a conjugate of `g_i` and has order `ord(g_i)`) and
-`BranchCover.innerClass` (conjugate tuples give isomorphic `G`-covers).
+BelyiMaps Layers 3 and 5. Construct the `G`-cover attached to a tuple and prove that the inertia
+group over `P_i` is generated by a conjugate of `g_i` and has order `ord(g_i)`, and
+that conjugate tuples give isomorphic `G`-covers.
 
 The algebraic genus is supplied by SchemeAndStackFoundations §3.2 / `scheme_riemann_hurwitz`.
 Apply it to the finite separable morphism of smooth proper connected complex curves of degree
@@ -2903,9 +2898,9 @@ comparison elements are cosets `h̄_σ ∈ G/Z(G)`; choose continuous lifts `h_�
 `c(σ, τ) = h_σ h_τ h_{στ}⁻¹` lies in `Z(G)` and defines a class in `H²(Γ_K, Z(G))` for the trivial
 action of `Γ_K` on `Z(G)`, which vanishes exactly when the comparisons can be chosen to give
 effective descent of the `G`-cover to `K`. Changing the lifts changes the cocycle by a coboundary,
-and changing the section does not change the class. Define `CoverDescent.moduliField`,
-`CoverDescent.obstruction`, `CoverDescent.changeChoices` and `CoverDescent.modelIff` for these four
-statements. *Proof sketch.* The section gives comparison elements modulo the centraliser `Z(G)` of
+and changing the section does not change the class. Define the field of moduli and the
+central obstruction class, and prove the independence of the choices and the criterion for a model
+over `K`, as stated. *Proof sketch.* The section gives comparison elements modulo the centraliser `Z(G)` of
 the monodromy; compute the central `2`-cocycle and its change under the choices; use finite-level
 effective descent and normalisation to compare a vanishing class with an actual model. Source:
 [Wewers, *Field of moduli and field of definition*](https://arxiv.org/pdf/math/0108003v1),
@@ -2983,18 +2978,15 @@ the homological commutator `⟨x, y⟩`, equivalently the image of the oriented 
 `H₂(ℤ², ℤ)` under `(a, b) ↦ x^a y^b`. The class map `τ_E : M(G) → A` of the extension (the
 connecting map of its five-term homology sequence) satisfies `τ_E⟨x, y⟩ = κ_E(x, y)`, and by the
 universal coefficient theorem for the trivial module `A` the map `H²(G, A) → Hom(M(G), A)` sending
-the class of `E` to `τ_E` is surjective with kernel `Ext(G^{ab}, A)`. Define `ReducedSchur.liftCommutator`
-and `ReducedSchur.homologicalCommutator`. The intended cycle map is
-`ReducedSchur.commutingCycle (x y : G) (h : Commute x y)` with values in
-`groupHomology.cycles₂ (Rep.trivial ℤ G ℤ)`; its image under `groupHomology.H2π` is
-`ReducedSchur.homologicalCommutator x y h : groupHomology.H2 (Rep.trivial ℤ G ℤ)`. Provide
-`lift_commutator_inl` (the commutator of any lifts is
-the image of `κ_E(x, y)`), `lift_commutator_independent` (changing a lift by an element of `A`
-changes nothing), `lift_commutator_swap` (`κ_E(y, x) = κ_E(x, y)⁻¹`), `lift_commutator_map`
-(naturality for maps of central extensions), `homological_commutator_cycle` (the defining cycle),
-`homological_commutator_swap` (`⟨y, x⟩ = −⟨x, y⟩`), `homological_commutator_map` (naturality
-`f_*⟨x, y⟩ = ⟨f x, f y⟩`) and `homological_commutator_central_extension`
-(`τ_E⟨x, y⟩ = κ_E(x, y)`). *Proof sketch.* Differences of lifts are central, so the commutator is
+the class of `E` to `τ_E` is surjective with kernel `Ext(G^{ab}, A)`. Define the lift commutator
+`κ_E` and the homological commutator. For commuting `x, y ∈ G` the defining cycle
+lies in `groupHomology.cycles₂ (Rep.trivial ℤ G ℤ)`, and `⟨x, y⟩` is its image under
+`groupHomology.H2π` in `groupHomology.H2 (Rep.trivial ℤ G ℤ)`. Prove that the commutator of any
+lifts is the image of `κ_E(x, y)`; that changing a lift by an element of `A`
+changes nothing; that `κ_E(y, x) = κ_E(x, y)⁻¹`; naturality of `κ_E` for maps of central
+extensions; that `⟨y, x⟩ = −⟨x, y⟩`; naturality
+`f_*⟨x, y⟩ = ⟨f x, f y⟩`; and that
+`τ_E⟨x, y⟩ = κ_E(x, y)`. *Proof sketch.* Differences of lifts are central, so the commutator is
 independent of them; the boundary of `[x | y]` is `[y] − [xy] + [x]`, and subtracting the reversed
 formula gives zero when `xy = yx`; compute `τ_E` on this cycle from a set-theoretic section. Source:
 [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
@@ -3015,14 +3007,14 @@ formula gives zero when `xy = yx`; compute `τ_E` on this cycle from a set-theor
 subgroup generated by the classes `⟨x, y⟩` with `x ∈ c` and `y` in the centraliser of `x`. The reduced
 Schur multiplier is the quotient `M(G, c) = M(G)/Q_c`. No generation or rationality hypothesis on `c`
 is needed, the construction does not depend on a choice of Schur cover, and it is functorial for
-group maps `f` with `f(c) ⊂ d`. Define `ReducedSchur.schurRelations` and
-`ReducedSchur.reducedMultiplier`, with `schur_relations_mem` (`x ∈ c`, `xy = yx` give
-`⟨x, y⟩ ∈ Q_c`), `schur_relations_le` (`Q_c ≤ B` iff every such class lies in `B`),
-`schur_relations_mono` (`c ⊂ d` gives `Q_c ≤ Q_d`), `schur_relations_map` (`f(c) ⊂ d` gives
-`f_* Q_c ≤ Q_d`), `reduced_multiplier_mk` (the quotient map is onto with kernel `Q_c`),
-`reduced_multiplier_lift` (maps out of `M(G, c)` are maps out of `M(G)` killing `Q_c`),
-`reduced_multiplier_map` (functoriality with identity and composition laws) and
-`schurRelations_empty` (`Q_∅ = 0`, so `M(G, ∅) = M(G)`). *Proof sketch.* Take the additive subgroup closure and
+group maps `f` with `f(c) ⊂ d`. Define `Q_c` and
+`M(G, c)`, and prove that `x ∈ c`, `xy = yx` give
+`⟨x, y⟩ ∈ Q_c`; that `Q_c ≤ B` iff every such class lies in `B`;
+that `c ⊂ d` gives `Q_c ≤ Q_d`; that `f(c) ⊂ d` gives
+`f_* Q_c ≤ Q_d`; that the quotient map is onto with kernel `Q_c`;
+that maps out of `M(G, c)` are maps out of `M(G)` killing `Q_c`;
+functoriality with identity and composition laws; and
+that `Q_∅ = 0`, so `M(G, ∅) = M(G)`. *Proof sketch.* Take the additive subgroup closure and
 the quotient; induce maps by the universal property of the quotient. Source: [Wood, *An algebraic
 lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), definition of
 `H₂(G, c)` and Lemma 2.3, p. 3. *Needs:* *Commutators of lifts and the class map of a central
@@ -3045,11 +3037,11 @@ part of this target. The reduced cover is `S_c = S/τ_S(Q_c)`,
 with the induced central surjection `π_c : S_c → G`, whose kernel is identified with `M(G, c)` by
 `τ_S`. The Schur cover and `τ_S` are parameters: different Schur covers give reduced covers that need
 not be isomorphic. The composite `H₂(S_c, ℤ) → M(G) → M(G, c)` is zero. Define
-`ReducedSchur.ReducedCover` with `reduced_cover_projection` (`π_c` composed with the quotient map is
-`π`), `reduced_cover_kernel` (`τ_c : M(G, c) ≅ ker π_c`, compatible with the quotient from `M(G)`),
-`reduced_cover_commute` (lifts of `x ∈ c` and of `y` in its centraliser commute in `S_c`) and
-`reduced_cover_stem` (`S_c^{ab} → G^{ab}` is an isomorphism, inherited from the stem property of
-`S`). *Proof sketch.* `τ_S(Q_c)` is central; take the quotient and identify the kernel by exactness;
+the reduced cover and prove that `π_c` composed with the quotient map is
+`π`; that `τ_c : M(G, c) ≅ ker π_c`, compatibly with the quotient from `M(G)`;
+that lifts of `x ∈ c` and of `y` in its centraliser commute in `S_c`; and
+that `S_c^{ab} → G^{ab}` is an isomorphism, inherited from the stem property of
+`S`. *Proof sketch.* `τ_S(Q_c)` is central; take the quotient and identify the kernel by exactness;
 the lift commutator of `x ∈ c` and `y ∈ C_G(x)` is `τ_S⟨x, y⟩ ∈ τ_S(Q_c)`; the vanishing of the
 composite follows from naturality of the class maps. Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), definition of `H₂(G, c)`,
@@ -3071,11 +3063,11 @@ its image class. Several classes of `S_c` may lie over one class of `c`; each ma
 consequence, after choosing a representative `x_d` of each class `d ∈ D` and a lift `X_d ∈ S_c`,
 there is a unique conjugation-equivariant marking `x ↦ x̂` of `c` by elements of `S_c` with
 `x̂_d = X_d`: for `x = g x_d g⁻¹` put `x̂ = g̃ X_d g̃⁻¹` for any lift `g̃` of `g`. Changing `X_d` by
-`a_d ∈ M(G, c)` changes every marked lift in `d` by `a_d`. Name the marking
-`ReducedSchur.classCompatibleMarking`, with `class_compatible_marking_over` (`π_c(x̂) = x`),
-`class_compatible_marking_conj` (the lift of `gxg⁻¹` is `g̃ x̂ g̃⁻¹`), `class_compatible_marking_rep`
-(`x̂_d = X_d`), `class_compatible_marking_change` (the effect of changing `X_d`) and
-`class_compatible_marking_ext` (two equivariant markings agreeing on representatives agree).
+`a_d ∈ M(G, c)` changes every marked lift in `d` by `a_d`. Construct this
+class-compatible marking and prove that `π_c(x̂) = x`;
+that the lift of `gxg⁻¹` is `g̃ x̂ g̃⁻¹`; that
+`x̂_d = X_d`; the stated effect of changing `X_d`; and
+that two equivariant markings agreeing on representatives agree.
 *Proof sketch.* Lifts of commuting elements commute because their commutator lies in
 `τ_S(Q_c)`; two conjugators with the same effect on `x` differ by an element of `C_G(x)`, whose lift
 fixes `X`; kernel elements are central. Sources: [Wood, *Nonabelian Cohen–Lenstra
@@ -3096,11 +3088,11 @@ Lemma 2.3, p. 3. *Needs:* *Reduced Schur covers*.
 central extension is a central extension `1 → A → E → G → 1` with a map `s : c → E` over `G` such that
 `s(g x g⁻¹) = e s(x) e⁻¹` whenever `e` lies over `g`. A morphism of marked extensions is a group map
 over `G` preserving the markings; it need not fix an identification of the kernels. Define
-`ReducedSchur.MarkedExtension G c` with `marked_extension_section` (`π(s(x)) = x`),
-`marked_extension_conjugation` (the equivariance), `marked_extension_hom` (the conditions on a
-morphism), `marked_extension_subset` (equivalently, a conjugation-invariant subset of `E` mapping
-bijectively onto `c`) and `marked_extension_hom_ext` (two morphisms out of an extension generated by
-its marked subset agree if they agree on it; generation is essential). *Proof sketch.* Bundle a
+`c`-marked central extensions and their morphisms, recording that `π(s(x)) = x`, the
+equivariance, and the conditions on a
+morphism; prove that a marking is equivalently a conjugation-invariant subset of `E` mapping
+bijectively onto `c`, and that two morphisms out of an extension generated by
+its marked subset agree if they agree on it (generation is essential). *Proof sketch.* Bundle a
 Mathlib group extension with the marking and the centrality and equivariance conditions. Sources:
 [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
 §2, Lemmas 2.1–2.4 and Theorem 2.5, pp. 2–4. *Needs:* *Conjugacy classes lift bijectively*; Mathlib
@@ -3120,10 +3112,10 @@ be the group presented by generators `[x]`, `x ∈ c`, and relations `[x][y][x]�
 `E` there is exactly one marked morphism `U(G, c) → E`, so any two universal marked extensions are
 uniquely isomorphic through their markings. For a word `w`, `w [x] w⁻¹ = [π_U(w) x π_U(w)⁻¹]`. No
 relation `[x]^{ord(x)} = 1` is imposed. Define `ReducedSchur.universalMarked G c` as a Mathlib
-`PresentedGroup`, with `universal_presentation_gen`, `universal_presentation_relation`,
-`universal_presentation_projection` and `universal_presentation_lift` (a map on generators
-satisfying the conjugation relations extends uniquely), and prove `ReducedSchur.universal_central`
-and `ReducedSchur.universal_marked_property`. *Proof sketch.* Construct `π_U` by checking the
+`PresentedGroup`, with its generators `[x]`, the conjugation relations, the projection `π_U`, and
+the lifting property (a map on generators
+satisfying the conjugation relations extends uniquely), and prove that `π_U` is surjective with
+central kernel and that `U(G, c)` is initial among `c`-marked central extensions. *Proof sketch.* Construct `π_U` by checking the
 relations in `G`; generation of `G` by `c` gives surjectivity; an element of the kernel conjugates
 each generator trivially by the word-conjugation formula, so it is central; the marking of any `E`
 satisfies the defining relations, which gives existence, and uniqueness holds because the `[x]`
@@ -3146,11 +3138,11 @@ Theorem 2.5, pp. 2–4. *Needs:* *Marked central extensions*; Mathlib `Presented
 `δ : L → G^{ab}` by sending the basis vector `e_d` to the image of a representative of `d`
 (independent of the representative), and the degree `deg : U(G, c) → L` by `deg [x] = e_{[x]}`. Then
 `deg` is a homomorphism, `δ ∘ deg` is the abelianised projection, and `δ` is surjective when `c`
-generates `G`. Define `ReducedSchur.classDegree` and `ReducedSchur.degree`, with
-`class_degree_map_basis`, `class_degree_map_surjective`, `class_degree_map_compatible`
-(`δ(deg u) = [π_U u]`), `class_degree_map_integer` (negative coefficients are allowed),
-`universal_degree_generator`, `universal_degree_inverse` (`deg [x]⁻¹ = −e_{[x]}`),
-`universal_degree_abelianization` and `universal_degree_hom`. *Proof sketch.* Extend on the free
+generates `G`. Define `δ` and `ReducedSchur.degree`, and prove
+the value of `δ` on basis vectors, surjectivity of `δ` under generation,
+`δ(deg u) = [π_U u]` (with negative coefficients allowed),
+`deg [x] = e_{[x]}`, `deg [x]⁻¹ = −e_{[x]}`,
+and that `deg` is a homomorphism compatible with abelianization. *Proof sketch.* Extend on the free
 module; each relator has degree zero, so the degree on the free group descends. Source: [Wood, *An
 algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §2,
 Lemmas 2.1–2.4, pp. 2–4. *Needs:* *The universal marked extension*; Mathlib `Finsupp`,
@@ -3172,12 +3164,11 @@ isomorphism `U(G, c) ≅ P` sending `[x]` to `(x̂, e_{[x]})`, compatible with t
 with the degrees. A change of Schur cover or of marking is transported through `U(G, c)`; no
 canonical isomorphism between two reduced covers is asserted. The fibre-product definition makes
 sense without generation, but the commutator and abelianization formulas, universal property and
-comparison isomorphism here require generation. Name the fibre product
-`ReducedSchur.markedFiberProduct` with `marked_fiber_product_first` (projection onto `S_c`, surjective
-when `c` generates `G`), `marked_fiber_product_degree`, `marked_fiber_product_mark` and
-`marked_fiber_product_membership`, the correction `ReducedSchur.markingCorrection` with
-`marking_correction_over`, `marking_correction_mark`, `marking_correction_hom` and
-`marking_correction_sign`, and the theorem `ReducedSchur.universalEquivFiberProduct`. *Proof sketch.*
+comparison isomorphism here require generation. Construct the
+marked fibre product `P` with its projection onto `S_c` (surjective
+when `c` generates `G`), its degree projection, its marking and its membership criterion, and the
+marking correction with its value over `G`, its value on marked elements, its homomorphism property
+and its sign; prove the isomorphism `U(G, c) ≅ P`. *Proof sketch.*
 Pull a marked extension `E → G` back to `P`; its class map vanishes on `H₂(P, ℤ)` (it factors through
 `H₂(S_c, ℤ) → M(G) → M(G, c)`, which is zero) and `Ext(P^{ab}, A) = 0` since `P^{ab} ≅ L` is free, so
 the pullback splits by a homomorphism `φ : P → E` over `G`, for any abelian `A`, finite or not. If
@@ -3206,10 +3197,9 @@ and generates `G`. Let `K(G, c) = ker(π_U : U(G, c) → G)`. It is
 central, hence abelian, although `U(G, c)` is not in general. Its degree image is `ker δ`, its torsion
 subgroup is `M(G, c)`, and there is an exact sequence `0 → M(G, c) → K(G, c) → ker δ → 0`; in the
 coordinates of a chosen reduced cover, `K(G, c) ≅ M(G, c) × ker δ`, with `ker δ` free abelian of rank
-`|D|` and no preferred basis. Define `ReducedSchur.universalKernel` with
-`universal_kernel_inclusion` (the subgroup inclusion, central in `U`), `universal_kernel_degree`
-(degree image `ker δ`), `universal_kernel_torsion` (torsion equals `M(G, c)`) and
-`universal_kernel_product` (the coordinate-dependent product decomposition). *Proof sketch.* Restrict
+`|D|` and no preferred basis. Define `K(G, c)` and prove that
+the subgroup inclusion is central in `U`, that the degree image is `ker δ`, that the torsion
+equals `M(G, c)`, and the coordinate-dependent product decomposition. *Proof sketch.* Restrict
 the isomorphism `U ≅ P` to kernels: a pair over `1` has first coordinate in `ker π_c ≅ M(G, c)` and
 second coordinate in `ker δ`; `ker δ` is a subgroup of a free abelian group of finite rank, hence
 free. Source: [Wood, *An algebraic lifting invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf),
@@ -3244,11 +3234,9 @@ orders, `Γ` acting on `H`, and `G = H ⋊ Γ`.
    the projection maps `Q_c` onto `Q_d`, and `M(G, c) → M(Γ, d)` is surjective with kernel of
    order prime to `|Γ|`; the compatible covers descend to reduced covers `S_c → (S_Γ)_d`.
 
-Compatible covers are compatible choices, not covers functorial for every group map. Name these
-`ReducedSchur.compatibleCovers` (with `compatible_covers_square`, `compatible_covers_kernel`,
-`compatible_covers_schur`, `compatible_covers_choice`), `ReducedSchur.multiplier_kernel_primary`,
-`ReducedSchur.admissibleInertiaClasses`, `ReducedSchur.admissible_abelianization` and
-`ReducedSchur.reduced_kernel_primary`. *Proof sketch.* Functoriality of `H₂` along the section gives
+Compatible covers are compatible choices, not covers functorial for every group map. Construct
+them with their commuting square, kernel map and Schur-cover property, prove independence of the
+choice, and prove statements 1–3. *Proof sketch.* Functoriality of `H₂` along the section gives
 surjectivity, and transfer bounds the exponent. Schur–Zassenhaus gives a splitting; two splittings
 differ by a homomorphism `H → M_Γ`, trivial by coprimality, and a subgroup of order `|D|` maps
 trivially to `S'/D`, hence equals `D`. For (3), each element of `c` is conjugate into `Γ` by the
@@ -3285,11 +3273,12 @@ representative and factors through the units modulo the exponent of `G`. It is a
 when `G` is abelian, and only a permutation of the underlying set in general. If `c` is stable under
 invertible powers, powering permutes `D = c/G`, `d ↦ d^α`, and permutes the coordinates of
 `L = ℤ^D` by `m^α(d^α) = m(d)`; it is a coordinate permutation, not multiplication of the coordinates
-by `α`. Define `ReducedSchur.unitPow` and `ReducedSchur.degreePermutation`, with `finite_power_residue`,
-`finite_power_one`, `finite_power_compose` (`α(βg) = (αβ)g`), `finite_power_commutative` (an
-automorphism for abelian `G`), `degree_permutation_basis` (`e_d ↦ e_{d^α}`), `degree_permutation_sum`
-(the total degree is preserved), `degree_permutation_lower_bound` (all coordinates are `≥ M` before
-iff after) and `degree_permutation_abelianization` (`δ(m^α) = δ(m)^α`). *Proof sketch.* Integer powers
+by `α`. Define the power map `g ↦ g^α` and the permutation `m ↦ m^α` of `L`, and prove that the power
+depends only on the residue of `α` modulo the exponent, that `1` acts trivially,
+that `α(βg) = (αβ)g`, that powering is an
+automorphism for abelian `G`, that `e_d ↦ e_{d^α}`, that
+the total degree is preserved, that all coordinates are `≥ M` before
+iff after, and that `δ(m^α) = δ(m)^α`. *Proof sketch.* Integer powers
 depend only on residues modulo the order; invertible residues give inverse permutations; powering
 commutes with conjugation. Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §4 and §4.1, equation (4),
@@ -3313,9 +3302,8 @@ representative `x_d` of each class, put `z_d(α) = x̂_d^{−α} · (x_d^α)^ �
 `W_α : L → M(G, c)` by `W_α(m) = ∏_d z_d(α)^{m(d)}`. Then `W_α(m + n) = W_α(m) W_α(n)`, `W₁ = 1`, the
 corrections do not depend on the representative within a class, and they satisfy the composition law
 `W_{αβ}(m) = W_β(m)^α · W_α(m^β)`. Changing the marking by `x̂'_d = x̂_d a_d` changes `z_d(α)` to
-`a_d^{−α} z_d(α) a_{d^α}`. Define `ReducedSchur.powerCorrection` with
-`central_power_correction_basis`, `central_power_correction_add`, `central_power_correction_identity`
-and `central_power_correction_choice`, and prove `ReducedSchur.correction_cocycle`. *Proof sketch.*
+`a_d^{−α} z_d(α) a_{d^α}`. Define `W_α`, prove its value on basis vectors,
+additivity, `W₁ = 1` and the effect of a change of marking, and prove the composition law. *Proof sketch.*
 Each `z_d(α)` projects to `1`, hence lies in the kernel; equivariance and centrality make it
 independent of the representative; verify the composition law on basis vectors using
 `(x^β)^ = x̂^β z(β)`, noting that the second correction is evaluated on the permuted degree. Source:
@@ -3343,10 +3331,10 @@ and transport it to `U(G, c)` through the marked isomorphism `U(G, c) ≅ P`. Th
 projection to `G` is the power map and its degree projection is the permutation of class degrees.
 The marked comparison between two choices of reduced cover intertwines the two actions, and, in the
 admissible semidirect situation of the previous subsection, the maps `U(G, c) → U(Γ, d)` and
-`K(G, c) → K(Γ, d)` intertwine the actions. Define `ReducedSchur.unitAction` with
-`discrete_action_formula`, `discrete_action_projection` (`π_U(α ∗ u) = π_U(u)^α`),
-`discrete_action_degree` (`deg(α ∗ u) = deg(u)^α`) and `discrete_action_choice` (independence of the
-model). *Proof sketch.* The pair stays in `P` by the compatibility of `δ` with powers; the
+`K(G, c) → K(Γ, d)` intertwine the actions. Define the unit action `α ∗ u` by the displayed formula
+and prove that `π_U(α ∗ u) = π_U(u)^α`,
+that `deg(α ∗ u) = deg(u)^α`, and independence of the
+model. *Proof sketch.* The pair stays in `P` by the compatibility of `δ` with powers; the
 composition law of the corrections gives the action axioms; a cover map commutes with finite powers
 and carries corrections to corrections. Sources: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §4 and §4.1, equation (4),
@@ -3376,9 +3364,9 @@ trivially on `X`. Then `(σ·f)(t) = f(σ⁻¹·t)` is again `B`-equivariant, th
 the twist, and evaluated at `t₀` it is the unit action of `χ(σ)⁻¹`. Without centrality the
 translate of an equivariant map need not be equivariant, and no action on the twist is asserted. For
 `Γ = Gal(𝔽̄_q/𝔽_q)` and the cyclotomic character, arithmetic Frobenius acts on evaluated values by
-`q⁻¹` and geometric Frobenius by `q`. Define `ReducedSchur.cyclotomicTwist` with
-`cyclotomicTwist_eval_bijective`, `cyclotomic_twist_change`, `cyclotomic_twist_map` and
-`cyclotomic_twist_galois` (for central `χ(Γ)`, the displayed action and its evaluation at `t₀`).
+`q⁻¹` and geometric Frobenius by `q`. Define the cyclotomic twist and
+prove that evaluation at `t₀` is bijective, the effect of changing `t₀`, functoriality, and,
+for central `χ(Γ)`, the displayed action and its evaluation at `t₀`.
 *Proof sketch.* The inverse of evaluation sends `x` to `b·t₀ ↦ b·x`, well defined by simple
 transitivity. For the Galois action, centrality gives
 `f(χ(σ)⁻¹·b·t) = f(b·χ(σ)⁻¹·t) = b·f(χ(σ)⁻¹·t)`, so the translate is equivariant;
@@ -3413,8 +3401,8 @@ It is invariant under the braid action, multiplicative for concatenation on the 
 monoid, its projection to `G` is the ordered product and its degree is the vector of class
 multiplicities. A product-one tuple has invariant in the central kernel `K(G, c)`; the degree vector
 must be kept, since `K(G, c)` is infinite and is not the reduced multiplier. Define
-`LiftingInvariant.tuple` with `LiftingInvariant.braid` (invariance under each move),
-`LiftingInvariant.concat` (multiplicativity) and `LiftingInvariant.projections` (the two projections).
+`LiftingInvariant.tuple` and prove invariance under each move,
+multiplicativity, and the two projections.
 *Proof sketch.* The defining relation gives `[a b a⁻¹][a] = [a][b]`, which is exactly invariance under
 a Hurwitz move; compute the projections on generators. Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), §3 and Theorem 3.1,
@@ -3608,7 +3596,7 @@ whose solutions are the continuous `β : Γ_K → E` with `α ∘ β = π`. This
 in one clause: a proper solution must be surjective, and its restrictions at finitely many places are
 prescribed.
 
-Define `ProperEmbeddingSolution` as a weak solution `β` that is surjective. Define `LocalPrescription`
+Define a proper solution as a weak solution `β` that is surjective. Define a local prescription
 for a finite set `S` of places: for each `v ∈ S`, a compatible local lift `β_v : Γ_{K_v} → E`, that is,
 one with `α ∘ β_v = π ∘ ι_v`. A global solution `β` satisfies the prescription when for every `v ∈ S`
 there is `n_v ∈ ker α` with `β ∘ ι_v = n_v β_v n_v⁻¹`. Prescribing only the local extension is weaker: it
@@ -3617,14 +3605,14 @@ Proper solutions correspond to `E`-Galois field extensions `M/K` that contain th
 by `π`, compatibly with `α`. Weak solutions correspond to `E`-Galois algebras.
 
 The API:
-- `ProperEmbeddingSolution.toWeak`: forgetting surjectivity returns exactly a solution in the sense of
+- Forgetting surjectivity returns exactly a solution in the sense of
   ProfiniteProPGroups Layer 5.
-- `ProperEmbeddingSolution.field`: a proper solution gives a field realization of `E`, and the fixed
+- A proper solution gives a field realization of `E`, and the fixed
   field of `β⁻¹(ker α)` is the specified `Q`-field.
-- `LocalPrescription.changePlace`: if `ι_v` is replaced by `g ι_v g⁻¹` with `g ∈ Γ_K`, the prescription
+- If `ι_v` is replaced by `g ι_v g⁻¹` with `g ∈ Γ_K`, the prescription
   `β_v` is replaced by `e β_v e⁻¹` for any `e ∈ E` with `α(e) = π(g)`; the result is well defined up to
   `ker α`-conjugacy.
-- `LocalPrescription.kernelConjugacy`: for two lifts of the same `π ∘ ι_v`, the equivalence keeps the
+- For two lifts of the same `π ∘ ι_v`, the equivalence keeps the
   map to `Q` fixed and is conjugacy by `ker α`.
 
 *Proof sketch.* Keep the weak solution, its openness condition and its commuting square. Add
@@ -3699,7 +3687,7 @@ abelian-kernel solutions and cyclic degree-eight prescriptions.
 
 **Twisting abelian-kernel solutions.** Let `K` be a global field. Fix a finite embedding problem
 `π : Γ_K ↠ Q`, `α : E ↠ Q` whose kernel `A = ker α` is abelian, and a weak solution `β`. Let `A_π` be
-`A` with the action `σ · a = β(σ) a β(σ)⁻¹`, which depends only on `π`. Define `EmbeddingTwist` as
+`A` with the action `σ · a = β(σ) a β(σ)⁻¹`, which depends only on `π`. Define the twist as
 follows. For a continuous crossed homomorphism `z : Γ_K → A_π`, that is, one with
 `z(στ) = z(σ) · (σ · z(τ))`, the map `zβ : γ ↦ z(γ)β(γ)` is again a weak solution. Every weak solution
 equals `zβ` for a unique `z`, before passing to `A`-conjugacy.
@@ -3712,11 +3700,11 @@ separate condition on the image. Twisting does not preserve it, and it is obtain
 auxiliary-prime theorem such as *Induced abelian proper solutions*.
 
 The API:
-- `EmbeddingTwist.apply`: `zβ` is a weak solution with the same map `π` to `Q`.
-- `EmbeddingTwist.difference`: for weak solutions `β` and `β′`, the map `β′β⁻¹ : γ ↦ β′(γ)β(γ)⁻¹` is the
+- `zβ` is a weak solution with the same map `π` to `Q`.
+- For weak solutions `β` and `β′`, the map `β′β⁻¹ : γ ↦ β′(γ)β(γ)⁻¹` is the
   unique crossed homomorphism with `β′ = (β′β⁻¹)β`.
-- `EmbeddingTwist.localize`: restriction along `ι_v` takes the twist by `z` to the twist by `z ∘ ι_v`.
-- `EmbeddingTwist.localCriterion`: the class in the localization defect is zero exactly when the local
+- Restriction along `ι_v` takes the twist by `z` to the twist by `z ∘ ι_v`.
+- The class in the localization defect is zero exactly when the local
   difference classes are realized by a global twist.
 
 *Proof sketch.* The crossed-homomorphism identity follows by expanding `(zβ)(στ)`. The local
@@ -4109,7 +4097,7 @@ splitting section, nilpotent kernel and a surjective solution.
   above infinity and `2`; these conditions are part of (i), not discarded by shrinking.
 
 **Fitting supplements for solvable groups.** Mathlib has the Frattini subgroup `frattini G` but no
-Fitting subgroup. For a finite group `G`, define `fittingSubgroup G`, written `F(G)`, as the supremum of
+Fitting subgroup. For a finite group `G`, define the Fitting subgroup `F(G)` as the supremum of
 the nilpotent normal subgroups of `G`. Prove that `F(G)` is normal and characteristic, and nilpotent
 (Fitting's theorem: the product of two nilpotent normal subgroups is nilpotent). Hence `F(G)` is the
 largest nilpotent normal subgroup of `G`.
@@ -4125,11 +4113,11 @@ is solvable. Let `U` act on `F(G)` by conjugation. Then the multiplication map `
 `F(G)` is the kernel of the embedding problem.
 
 The API:
-- `fittingSubgroup.normal`: `F(G)` is normal and characteristic.
-- `fittingSubgroup.isNilpotent`: for finite `G`, `F(G)` is nilpotent.
-- `fittingSubgroup.le_of_normal_of_isNilpotent`: every nilpotent normal subgroup `N` of a finite `G` satisfies `N ≤ F(G)`.
-- `fittingSubgroup.frattini_lt`: for a finite nontrivial solvable `G`, `Φ(G) < F(G)`.
-- `fittingSubgroup.exists_proper_supplement`: for a finite nontrivial solvable `G` there is `U < G` with
+- `F(G)` is normal and characteristic.
+- For finite `G`, `F(G)` is nilpotent.
+- Every nilpotent normal subgroup `N` of a finite `G` satisfies `N ≤ F(G)`.
+- For a finite nontrivial solvable `G`, `Φ(G) < F(G)`.
+- For a finite nontrivial solvable `G` there is `U < G` with
   `F(G) ⊔ U = G`, and the semidirect multiplication homomorphism is surjective.
 
 *Proof sketch.* `Φ(G) ≤ F(G)` follows from Mathlib's `frattini_nilpotent`. For the strict inclusion,
@@ -4148,7 +4136,7 @@ Satz 4.2(c); the proof sketch above gives the arguments used here.
 **Checks.**
 
 - For a finite abelian group, `F(G) = G`. This includes the trivial group, where `F(1) = 1 = Φ(1)`, so
-  `frattini_lt` needs the nontriviality hypothesis.
+  the strict inclusion `Φ(G) < F(G)` needs the nontriviality hypothesis.
 - For `S₃`, `F(S₃) = A₃ ≅ C₃` and `Φ(S₃) = 1`. The subgroup `⟨(12)⟩ ≅ C₂` is a proper supplement, and
   `C₃ ⋊ C₂ → S₃` is an isomorphism.
 - For `S₄`, `F(S₄) = V₄` (because `A₄` is not nilpotent) and `Φ(S₄) = 1`. A point stabilizer `S₃` is a
@@ -4270,9 +4258,9 @@ Each map `x_v ↦ α(x_v)` is locally constant on `X(k_v)`; rational points pair
 matters. The Brauer–Manin set `X(𝔸_k)^{Br}` of adelic points orthogonal to all of `Br X` is closed and
 contains `X(k)`. For weak approximation one uses, in the same way, the product `∏_v X(k_v)` and the
 unramified Brauer group, the Brauer group of a smooth compactification; for proper `X` the two
-versions agree. Define `BrauerManinSet`, with `BrauerManinSet.almostAll` (almost all local
-evaluations vanish), `BrauerManinSet.locallyConstant`, `BrauerManinSet.rational` (`X(k)` is
-contained in it) and `BrauerManinSet.constantClasses`. *Proof sketch.* Spread `X` and `α` out over a
+versions agree. Define the Brauer–Manin set, and prove that almost all local
+evaluations vanish, that the evaluations are locally constant, that `X(k)` is
+contained in it, and that constant classes impose no condition. *Proof sketch.* Spread `X` and `α` out over a
 ring of `S`-integers; for `v ∉ S` an integral point evaluates `α` in `Br O_v = 0`. Rational points:
 the evaluation lies in `Br k`, and the reciprocity sequence `0 → Br k → ⊕_v Br k_v → ℚ/ℤ → 0` kills
 the sum. Local constancy is the continuity of evaluation for the analytic topology. Sources:
@@ -4749,18 +4737,18 @@ of `H`, so the `Γ`-group does not depend on the choice up to isomorphism.
 A profinite `Γ`-group `H` is admissible when it is pro-prime-to-`|Γ|` and topologically generated by the
 elements `h⁻¹γ(h)` for `h ∈ H` and `γ ∈ Γ`; its `Γ`-coinvariants are then trivial. The arithmetic `H`
 also satisfies the stronger pro-prime-to-`Δ` condition, and it is admissible. Define
-`UnramifiedGammaGroup` (the group `H` with a chosen section) and the predicate `AdmissibleGammaGroup`.
+the unramified `Γ`-group (the group `H` with a chosen section) and the admissibility predicate.
 
 The API:
-- `UnramifiedGammaGroup.complement`: a complement supplies the `Γ`-action; under the solvability
+- A complement supplies the `Γ`-action; under the solvability
   hypothesis of *Coprime profinite complements*, conjugacy of complements is exactly the statement that
   the action does not depend on the choice up to isomorphism.
-- `UnramifiedGammaGroup.baseChange`: finite quotients of `H` by `Γ`-stable open normal subgroups
+- Finite quotients of `H` by `Γ`-stable open normal subgroups
   correspond to the finite subextensions of `K^#/K` that are Galois over `Q₀`. Here `Γ`-stability means
   stability under the chosen action, not being characteristic in `H`.
-- `AdmissibleGammaGroup.coinvariants`: the closed normal subgroup generated by the elements `h⁻¹γ(h)` is
+- The closed normal subgroup generated by the elements `h⁻¹γ(h)` is
   all of `H`.
-- `AdmissibleGammaGroup.quotient`: every finite `Γ`-equivariant quotient of an admissible group is
+- Every finite `Γ`-equivariant quotient of an admissible group is
   admissible.
 
 *Proof sketch.* Because `K/Q₀` is Galois, `K^#` is stable under `Gal(Q̄₀/Q₀)`, which gives the
@@ -4787,7 +4775,7 @@ prescriptions*, *Coprime profinite complements*.
   is inert in it, so it is not contained in `K^#`.
 
 **Central Property E.** Fix a finite group `Γ`, a positive integer `Δ` divisible by `|Γ|`, and the full
-category `C` of pro-`Δ′` `Γ`-groups. Define `PropertyE` as follows. An admissible `H` in `C` has
+category `C` of pro-`Δ′` `Γ`-groups. Define Property E as follows. An admissible `H` in `C` has
 Property E for `C` if the following holds for every `Γ`-equivariant surjection `H ↠ F` in `C`. For every
 central extension of `Γ`-groups in `C`
 
@@ -4804,30 +4792,30 @@ automatically proper. Its closed image `I` maps onto `F`, so `I·C_p = Ẽ`. If 
 `I ∩ C_p = 1`, and the inverse of `I → F` is a `Γ`-equivariant section, contradicting nonsplitting.
 
 The API:
-- `PropertyE.lift`: every nonsplit central problem of prime order of this kind has a `Γ`-equivariant
+- Every nonsplit central problem of prime order of this kind has a `Γ`-equivariant
   proper lift.
-- `PropertyE.weakIsProper`: for a nonsplit extension whose central kernel has prime order, every
+- For a nonsplit extension whose central kernel has prime order, every
   `Γ`-equivariant weak lift is proper.
-- `PropertyE.finiteReduction`: Property E holds as soon as the lifting condition holds for the finite
+- Property E holds as soon as the lifting condition holds for the finite
   `Γ`-quotients `F` of `H` in `C`; the bullets below give the argument.
-- `PropertyE.admissibility`: `H` is admissible and pro-`Δ′`. The second condition is stronger than the
+- `H` is admissible and pro-`Δ′`. The second condition is stronger than the
   pro-`|Γ|′` condition built into admissibility, and admissibility alone does not give it.
 
-The argument for `PropertyE.finiteReduction`:
+The argument for the finite reduction:
 - A problem with finite `F` factors through a finite `Γ`-stable quotient of `H`.
 - For profinite `F`, use the `Γ`-stable open normal subgroups `U` of `Ẽ` with `U ∩ C_p = 1`. These are
   cofinal, and normality is what allows forming the quotients `Ẽ/U ↠ F/Ū`.
 - Each finite level has weak lifts: from a section if it splits, from the finite condition otherwise.
 - At each level the weak lifts form a torsor under `Hom_Γ(H, C_p)`, and the transition maps are
   equivariant, so a compatible family exists.
-- Since `Ẽ = lim Ẽ/U` by compactness, the family gives a weak lift to `Ẽ`, which is proper by
-  `PropertyE.weakIsProper`.
+- Since `Ẽ = lim Ẽ/U` by compactness, the family gives a weak lift to `Ẽ`, which is proper because
+  weak lifts of nonsplit prime-order central problems are proper.
 - This is the compatibility and inverse-limit argument of LWZB Lemma 2.7. It is an additional step, not
   a factorization of a profinite quotient through a finite group.
 
 *Proof sketch.* Start from the finite embedding problems of ProfiniteProPGroups Layer 5 and add
-`Γ`-equivariance. `PropertyE.weakIsProper` is the intersection dichotomy for the prime-order kernel
-above, and `PropertyE.finiteReduction` is the inverse-limit argument.
+`Γ`-equivariance. Properness of weak lifts is the intersection dichotomy for the prime-order kernel
+above, and the finite reduction is the inverse-limit argument.
 
 Source: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), Definition 2.3, the displayed
 extension (2.4), Theorem 2.5 and Lemma 2.7, PDF pp. 11–13 (the special central property of the
@@ -4860,7 +4848,8 @@ with `Q₀ = ℚ`, `H = Gal(K^#/K)`, with any of its conjugate `Γ`-actions, has
   by LWZB Lemma 2.6, and after the twist inertia and the decomposition group at `∞` map trivially to
   `C_p`.
 - The resulting extension of `K` is unramified, split completely above `∞` and of degree prime to `Δ`,
-  hence lies in `K^#`. The lift is proper by `PropertyE.weakIsProper`.
+  hence lies in `K^#`. The lift is proper because weak lifts of nonsplit prime-order central
+  problems are proper.
 - For profinite quotients, take `Γ`-stable open normal subgroups `U` of the extension group with
   `U ∩ C_p = 1`; normality is needed to form the quotient. Pass to the inverse limit of the finite,
   nonempty sets of lifts that satisfy the local conditions.
@@ -4937,14 +4926,14 @@ The factors commute, because they all lie over `c₀` or over `1`, and only fini
 The product lies in `A[|μ_K|]`. It does not depend on `φ̃`, the `β_v`, `c₀` or conjugation, and
 `u ↦ I(φ, u)` is a homomorphism `μ_L → A[|μ_K|]`. The construction keeps the product over finite places
 and its normalization by roots of unity, and it is not made for arbitrary unions of conjugacy classes.
-Define `ArithmeticLiftingInvariant`.
+Define the arithmetic lifting invariant `I(φ, u)`.
 
 The API:
-- `ArithmeticLiftingInvariant.product`: the product over finite places is defined and lies in
+- The product over finite places is defined and lies in
   `A[|μ_K|]`.
-- `ArithmeticLiftingInvariant.choiceIndependent`: all the auxiliary choices give the same value.
-- `ArithmeticLiftingInvariant.power`: `I(φ, u^a) = I(φ, u)^a` for all integers `a`.
-- `ArithmeticLiftingInvariant.conjugacy`: conjugating `φ` leaves the invariant unchanged.
+- All the auxiliary choices give the same value.
+- `I(φ, u^a) = I(φ, u)^a` for all integers `a`.
+- Conjugating `φ` leaves the invariant unchanged.
 
 *Proof sketch.* Define `z` through the bijection of classes and check that the factors commute. Changing
 the central lift multiplies by a global character, whose product over the finite places is one by
@@ -4990,7 +4979,7 @@ separable closure `k̄_∞` of the completion `k_∞`; it contains a separable c
 a decomposition group and an inertia group at `∞` in `Gal(k̄/k)`. Let `G′` be a finite group and `c` a
 union of conjugacy classes of `G′`.
 
-Define `MarkedExtension`: a marked `(G′, c)`-extension of `k` is a triple `(M, ι_M, m)` consisting of
+Define marked extensions: a marked `(G′, c)`-extension of `k` is a triple `(M, ι_M, m)` consisting of
 - a finite Galois field extension `M/k`;
 - an isomorphism `ι_M : Gal(M/k) ≅ G′` under which every inertia group at a place other than `∞` maps
   into `{1} ∪ c`;
@@ -5026,13 +5015,13 @@ A group `G′` inside `G × G` has no quadratic fixed field. In the tame quadrat
 `Disc(M) = Disc(K)^{|G′|/2}`.
 
 The API:
-- `MarkedExtension.infinityType`: the marking determines the whole local homomorphism at `∞`, through
+- The marking determines the whole local homomorphism at `∞`, through
   the decomposition embedding fixed by `k̄ ⊂ k̄_∞`.
-- `MarkedExtension.embeddedRepresentative`: each isomorphism class contains the distinguished
+- Each isomorphism class contains the distinguished
   representative with `M ⊂ k̄` whose marking restricts to the inclusion.
-- `MarkedExtension.quadraticCorrespondence`: the ramified and split branches, each with its own
+- The ramified and split branches, each with its own
   surjection and twist data.
-- `MarkedExtension.discriminant`: the tame quadratic divisor equality, which includes `∞` when `∞`
+- The tame quadratic divisor equality, which includes `∞` when `∞`
   ramifies.
 
 *Proof sketch.* A marking selects a distinguished embedded representative, hence an actual
@@ -5229,13 +5218,12 @@ elements; `Conf_n(A¹)` is the open subscheme of the affine space of monic degre
 where the discriminant is invertible; and `Conf_n(P¹)` is the open subscheme of the projective space
 of binary forms of degree `n` where the discriminant does not vanish. The map from ordered to
 unordered configurations, `(x_i) ↦ ∏(X − x_i)`, is a finite étale `S_n`-torsor, on `A¹` and on `P¹`;
-for `n = 0, 1` the group is trivial and the torsor is the identity. Provide `Configuration.ordered`
-(injective tuples give topological configurations, and tuples with unit differences give algebraic
-points), `Configuration.forgetOrder` (the quotient map is a covering map, and on schemes a finite
-étale `S_n`-torsor), `Configuration.polynomial` (over a field, unordered affine configurations are
-the monic separable polynomials of degree `n`) and `Configuration.complexComparison` (the complex
+for `n = 0, 1` the group is trivial and the torsor is the identity. Prove that injective tuples give
+topological configurations, and tuples with unit differences give algebraic points; that the
+quotient map is a covering map, and on schemes a finite étale `S_n`-torsor; that over a field,
+unordered affine configurations are the monic separable polynomials of degree `n`; and that the complex
 points of the algebraic configuration spaces, with the analytic topology, are the topological
-configuration spaces of `ℂ`). The topologies are Mathlib's subtype and quotient topologies, and
+configuration spaces of `ℂ`. The topologies are Mathlib's subtype and quotient topologies, and
 disjoint coordinate neighbourhoods make the permutation action a covering; the polynomial map is
 given by the elementary symmetric functions and the discriminant; the torsor statement is checked on
 the functor of `R`-points and descended, and the complex comparison is checked after analytification
@@ -5297,13 +5285,12 @@ where `M_{0,n+1}` is the scheme of smooth `(n+1)`-pointed genus-zero curves. Hen
 complement of a divisor with normal crossings relative to `ℤ`: the boundary of `M̄_{0,n+1}` together
 with `{0, ∞} × P¹` and `P¹ × {∞}`. For `n = 0` and `n = 1` the frame is undefined and the
 compactifications are the point and `A¹ ⊂ P¹`. The stable genus-zero moduli `M̄_{0,n+1}` and its
-boundary are those of SchemeAndStackFoundations Layer 4 and are not rebuilt here. Provide
-`ConfigurationCompactification.frame` (for `n ≥ 2` the affine frame and the normalized pointed curve
-give the displayed isomorphism), `ConfigurationCompactification.open` (the ordered configuration
-space is the stated open subscheme of `X_n`), `ConfigurationCompactification.boundary` (the reduced
-boundary is a relative normal-crossings divisor) and `ConfigurationCompactification.permutation`
-(the permutation action is transported on the open part and compared there; no extension of every
-permutation to the product model `X_n` is asserted, since the frame singles out `p_1` and `p_2`).
+boundary are those of SchemeAndStackFoundations Layer 4 and are not rebuilt here. Prove that
+for `n ≥ 2` the affine frame and the normalized pointed curve
+give the displayed isomorphism, that the ordered configuration
+space is the stated open subscheme of `X_n`, that the reduced
+boundary is a relative normal-crossings divisor and that the permutation action is transported on the open part and compared there; no extension of every
+permutation to the product model `X_n` is asserted, since the frame singles out `p_1` and `p_2`.
 The proof normalizes the first two points to `0` and `1` using the unit `p_2 − p_1`, uses the
 universal stable marked curve and its boundary charts, and takes the product with the explicit
 compactifications of `G_m` and `G_a`
@@ -5337,12 +5324,12 @@ the complement of the branch points, extended over each of them by its normalize
 model, together with a point over the boundary base point; it is connected exactly when its
 monodromy `FreeGroup (Fin n) → G` is surjective. Classifying marked covers by their monodromy tuples
 identifies `Hur_{G,n}` with the space of marked branched `G`-covers of `𝔻`, and `CHur_{G,n}` with
-the connected ones. Provide `TopologicalHurwitz.cover` (the associated covering has exactly the
-stated fibre and projection), `TopologicalHurwitz.restrictedLoci` (the class and generating
-inclusions commute with the projections to `Conf_n(𝔻)`), `TopologicalHurwitz.monodromy` (with fixed
+the connected ones. Prove that the associated covering has exactly the
+stated fibre and projection, that the class and generating
+inclusions commute with the projections to `Conf_n(𝔻)`, that with fixed
 branch points, marked covers up to isomorphism correspond to tuples in `G^n` themselves, not to
-their conjugacy classes) and `TopologicalHurwitz.connected` (the covering curve is connected exactly
-on the generating locus). The covering space is formed from the universal cover and the action;
+their conjugacy classes and that the covering curve is connected exactly
+on the generating locus. The covering space is formed from the universal cover and the action;
 unramified covers are classified by their based monodromy and extended over each puncture by the
 cyclic local model; and connectedness is transitivity of the monodromy on the regular fibre `G`
 ([Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
@@ -5367,11 +5354,11 @@ moving the marked point over the boundary base point by `g ∈ G` conjugates the
 tuple whose entries generate exactly `H ≤ G` is the centralizer `C_G(H)`; it is constant along a
 component, and on the generating locus it is the centre `Z(G)`. So `G` acts freely on `CHur_{G,n}`
 when `Z(G) = 1` and the monodromy is full. The exact subgroup `H` is recorded before the quotient
-and only its conjugacy class after it. Provide `HurwitzMarking.conjugate` (`G` acts compatibly with
-the branch projection and the braid transport), `HurwitzMarking.forget` (the quotient forgets
-precisely the boundary lift), `HurwitzMarking.stabilizer` (the stabilizer of a tuple with exact
-image `H` is `C_G(H)`) and `HurwitzMarking.centerless` (for `Z(G) = 1` the action on the generating
-locus is free). Conjugation is checked against each braid formula, changes of marking are compared
+and only its conjugacy class after it. Prove that `G` acts compatibly with
+the branch projection and the braid transport, that the quotient forgets
+precisely the boundary lift, that the stabilizer of a tuple with exact
+image `H` is `C_G(H)` and that for `Z(G) = 1` the action on the generating
+locus is free. Conjugation is checked against each braid formula, changes of marking are compared
 with the induced conjugation of tuples, and the stabilizer is the intersection of the centralizers
 of the entries
 ([Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
@@ -5400,12 +5387,12 @@ connected fibres. The branch divisor `B` is exactly the locus over which `f` is 
 markings at `∞` are distinguished: marking at unramified infinity is a section of `C` over
 `∞ ∈ P¹_S`, which requires `f` to be étale over `∞`; tangential marking is the fibre functor of
 Layer IG.1 *Tame tangential fibres at a boundary point* at a tangent vector at `∞`, and it
-allows `∞` to be a branch point. Provide `TameGCover.pullback` (base change preserves the cover, its
-`G`-action and its exact branch divisor), `TameGCover.inertia` (at a geometric branch point the
-inertia is cyclic of order prime to the characteristic, with its Kummer model),
-`TameGCover.unramifiedMark` (a section over an unramified `∞` is a marking of the torsor) and
-`TameGCover.tangentialMark` (on covers unramified at `∞` the tangential marking agrees with the
-ordinary fibre). The family is defined on finite étale covers of the complement of `B` and their
+allows `∞` to be a branch point. Prove that base change preserves the cover, its
+`G`-action and its exact branch divisor, that at a geometric branch point the
+inertia is cyclic of order prime to the characteristic, with its Kummer model, that
+a section over an unramified `∞` is a marking of the torsor and that
+on covers unramified at `∞` the tangential marking agrees with the
+ordinary fibre. The family is defined on finite étale covers of the complement of `B` and their
 normalizations; the local Kummer conditions are checked to be stable under base change; and the two
 markings are defined by their fibre functors. Sources:
 [Ellenberg–Venkatesh–Westerland](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n3-p01-p.pdf),
@@ -5445,12 +5432,12 @@ classes stable under invertible powers (rational class unions) define open and c
 `ℤ[1/|G|]`. The full-monodromy stack with an ordinary marking at unramified `∞` is a scheme, finite
 étale over `Conf_n(A¹)`, for every finite group `G`, because the marking kills the vertical
 automorphisms. The tangentially marked scheme used by Wood is a different object, defined for
-centreless `G` generated by involutions, with its own fixed type at infinity. Provide
-`ArithmeticHurwitz.branch` (the branch map is finite étale over `ℤ[1/|G|]`),
-`ArithmeticHurwitz.classLocus` (class data stable under invertible powers define open and closed
-arithmetic loci), `ArithmeticHurwitz.centerlessDescent` (for centreless `G` the coarse field points
-classify actual covers) and `ArithmeticHurwitz.markedRepresentability` (the ordinary marking at
-unramified infinity gives a scheme for arbitrary finite `G`). The proof applies the centre-free
+centreless `G` generated by involutions, with its own fixed type at infinity. Prove that
+the branch map is finite étale over `ℤ[1/|G|]`, that
+class data stable under invertible powers define open and closed
+arithmetic loci, that for centreless `G` the coarse field points
+classify actual covers and that the ordinary marking at
+unramified infinity gives a scheme for arbitrary finite `G`. The proof applies the centre-free
 descent lemma and uniqueness of tame deformations with moving branch points; algebraizes the versal
 deformation, glues the local models by descent and proves the branch morphism étale; uses the
 constancy of the number of prime-to-characteristic covers for properness and finiteness, treating
@@ -5486,12 +5473,12 @@ with product one; the full-monodromy locus, which is open and closed, is where t
 forgotten `H` is an actual subgroup; afterwards only its conjugacy class is defined. The
 concatenation product and the bounded cores of Section IG.5.6 are built on this space: the connected
 scheme with exact branch divisor of *Arithmetic Hurwitz stacks and schemes* excludes identity
-entries and proper images and cannot replace it. Provide `ArbitraryMarkedHurwitz.monodromy` (the
+entries and proper images and cannot replace it. Prove that the
 geometric marked fibre consists of all product-one tuples, including those with proper image `H` and
-identity entries), `ArbitraryMarkedHurwitz.fullLocus` (the connected locus is exactly `H = G`),
-`ArbitraryMarkedHurwitz.exactImage` (the exact image `H` is preserved by marked transport and
-recorded by each component) and `ArbitraryMarkedHurwitz.inactivePuncture` (inserting an identity
-entry adds a specified unramified puncture without changing the cover or its image). The proof
+identity entries, that the connected locus is exactly `H = G`, that
+the exact image `H` is preserved by marked transport and
+recorded by each component and that inserting an identity
+entry adds a specified unramified puncture without changing the cover or its image. The proof
 constructs the finite local system of marked monodromy homomorphisms by Riemann existence and
 descent of finite covers; algebraizes and descends the parametrized functor of possibly disconnected
 covers with ordinary marking at infinity, by Emsalem's construction or by Kanev's pointed
@@ -5631,12 +5618,12 @@ of the node acting by `ξ ↦ ζξ`, `η ↦ ζ⁻¹η` (the action is balanced)
 of Abramovich–Corti–Vistoli may have disconnected `C`; the connected variant requires `C` prestable
 with geometrically connected fibres. Morphisms are cartesian squares preserving the `G`-action and
 the labels, and they may move the target curve. For the proper stack `Adm̄_{g,n}(G)` the target is
-required to be stable, `2g − 2 + n > 0`. Provide `AdmissibleGCover.baseChange` (the charts and the
-balanced action persist under arbitrary base change), `AdmissibleGCover.connectedLocus` (the
-connected variant is open and closed in the stack of all admissible covers),
-`AdmissibleGCover.smoothLocus` (`C/S` is smooth if and only if `D/S` is, and on this locus
-admissible covers are the tame marked `G`-covers) and `AdmissibleGCover.nodeCharacters` (the two
-faithful branch characters at a node are inverse to each other). The definition uses nodal marked
+required to be stable, `2g − 2 + n > 0`. Prove that the charts and the
+balanced action persist under arbitrary base change, that the
+connected variant is open and closed in the stack of all admissible covers, that
+`C/S` is smooth if and only if `D/S` is, and on this locus
+admissible covers are the tame marked `G`-covers and that the two
+faithful branch characters at a node are inverse to each other. The definition uses nodal marked
 curves, their local rings and quotient descent; the charts and the balanced cyclic action are shown
 to be étale-local and stable under base change; connectedness and stability are imposed separately
 and the fibred category is constructed
@@ -5703,12 +5690,12 @@ over `M`, a point `m ∈ M`, and an identification of the punctured fibre over `
 under which the monodromy of the cover is `φ`. After a further dominant étale base change, obtained
 from an étale multisection of the punctured universal curve, the punctured family acquires a section
 and `M → M_{g,n}` lifts to `M_{g,n+1}`. The Hurwitz stack of such covers has vertical isotropy
-`Z(H)`; the étale scheme chart `M` does not make that stack a scheme. Provide
-`VersalPhiFamily.chart` (`M → M_{g,n}` is dominant étale and contains the chosen `φ`-cover point),
-`VersalPhiFamily.cover` (the punctured universal curve carries the finite étale `H`-cover),
-`VersalPhiFamily.monodromy` (the identified complex fibre over `m` induces `φ`, up to the chosen
-base-point transport) and `VersalPhiFamily.withSection` (a further dominant étale base change gives
-a section and the lift to `M_{g,n+1}`). The proof takes the Hurwitz stack of `H`-covers in genus `g`
+`Z(H)`; the étale scheme chart `M` does not make that stack a scheme. Prove that
+`M → M_{g,n}` is dominant étale and contains the chosen `φ`-cover point, that
+the punctured universal curve carries the finite étale `H`-cover, that
+the identified complex fibre over `m` induces `φ`, up to the chosen
+base-point transport and that a further dominant étale base change gives
+a section and the lift to `M_{g,n+1}`. The proof takes the Hurwitz stack of `H`-covers in genus `g`
 (the smooth locus of *Admissible stacks and stable marked G-curves*) and an étale chart through the
 given cover; identifies the selected fibre with `φ` by
 *General-genus Hurwitz comparison*; and shrinks, spreads out a separable generic
@@ -6202,11 +6189,11 @@ a rational class set `c`, class multiplicities add under the product, the exact 
 is the subgroup `⟨H₁, H₂⟩` generated by the two images, and the lifting invariant `Π` is
 multiplicative. The absolute Galois action on components respects the product of two components
 whose images are nested, `H₁ ⊆ H₂` or `H₂ ⊆ H₁` (Seguin's condition); it is not asserted to respect
-products of components with unrelated images. Provide `ProductOneComponents.concat` (concatenation
-defines the graded product), `ProductOneComponents.image` (the exact image of a product is the join
-of the two exact subgroups), `ProductOneComponents.lift` (`Π` multiplies and class multiplicities
-add) and `ProductOneComponents.galoisNested` (the Galois action commutes with products satisfying
-the nested-image condition). The proof identifies components with braid orbits of product-one tuples
+products of components with unrelated images. Prove that concatenation
+defines the graded product, that the exact image of a product is the join
+of the two exact subgroups, that `Π` multiplies and class multiplicities
+add and that the Galois action commutes with products satisfying
+the nested-image condition. The proof identifies components with braid orbits of product-one tuples
 in the ordinary marked moduli; uses concatenation and block-braid interchanges to define the product
 and prove the grading and image formulas; and applies Seguin's arithmetic branch-cycle action and
 his proof of Galois compatibility under nested images
@@ -6286,14 +6273,14 @@ clash with the braid group `B_n`). It acts on monic double-cover equations by `x
 Since `n` is odd, `u = d/a^{(n−1)/2}` satisfies `a = u²` and `d = u^n`, so `Ã_n ≅ G_m ⋉ G_a` with
 `G_m` acting on `G_a` through `u²`; in particular `Ã_n` is smooth with geometrically connected
 fibres. `Ã_n` is a group scheme on these coordinates, not the quotient of points obtained by
-forgetting the square-root lift `d`. Over any commutative ring `R`, the coordinate type
-`LiftedAffineGroup n R` is defined for every `n : ℕ`; the odd-degree equivalence is asserted only
-under `Odd n`, while smoothness and connectedness above are over `ℤ[1/2]`. Provide
-`LiftedAffineGroup.mul` (composition is the displayed
-law and preserves `d² = a^n`), `LiftedAffineGroup.nonempty_equiv_of_odd` (for odd `n` the parameter `u` gives
-`a = u²`, `d = u^n`), `LiftedAffineGroup.action` (the group acts on the cover, with its
-hyperelliptic involution and distinguished point at infinity) and `LiftedAffineGroup.connected` (the
-geometric scheme is `G_m × G_a`, hence connected). The proof checks that the leading coefficient
+forgetting the square-root lift `d`. Over any commutative ring `R`, the coordinate group
+`Ã_n(R)` is defined for every `n : ℕ`; the odd-degree equivalence is asserted only
+under `Odd n`, while smoothness and connectedness above are over `ℤ[1/2]`. Prove that
+composition is the displayed
+law and preserves `d² = a^n`, that for odd `n` the parameter `u` gives
+`a = u²`, `d = u^n`, that the group acts on the cover, with its
+hyperelliptic involution and distinguished point at infinity and that the
+geometric scheme is `G_m × G_a`, hence connected. The proof checks that the leading coefficient
 stays one and the multiplication law, builds the mutually inverse maps `u ↔ (a, d)`, and reads
 smoothness and connectedness from `G_m × G_a`. The coordinate group is the one acting on the family
 of
@@ -6319,12 +6306,12 @@ as the quotient stack `[PConf_n(A¹)/Ã_n]`, with `Ã_n` the lifted affine group
 `PConf_n(A¹)` through `a_i ↦ a a_i + b`. Isomorphisms preserve the labels, the distinguished point
 over `∞` and the hyperelliptic involution. Quotient stacks are those of
 SchemeAndStackFoundations Layer 1. The statement concerns smooth curves only; nothing is claimed
-about Jacobians of nodal hyperelliptic curves. Provide `LabelledHyperellipticFamily.cover` (the
-monic family carries the `n` labelled finite branch points and the distinguished `∞`),
-`LabelledHyperellipticFamily.normalForm` (every object is étale locally in this normal form),
-`LabelledHyperellipticFamily.isomSheaf` (isomorphisms preserving labels and involution are exactly
-the coordinate changes by `Ã_n`) and `LabelledHyperellipticFamily.quotient` (this description of the
-Isom sheaves gives the equivalence with the quotient stack). The proof uses
+about Jacobians of nodal hyperelliptic curves. Prove that the
+monic family carries the `n` labelled finite branch points and the distinguished `∞`, that
+every object is étale locally in this normal form, that
+isomorphisms preserving labels and involution are exactly
+the coordinate changes by `Ã_n` and that this description of the
+Isom sheaves gives the equivalence with the quotient stack. The proof uses
 *Double covers and trace-zero normal forms* for étale-local essential surjectivity; shows that every
 isomorphism of covers has the affine form with scaling `d² = a^n`; and checks the composition law
 and descends the Isom sheaves to the quotient-stack equivalence. The monic family is that of
@@ -6945,17 +6932,17 @@ open problem appears as a named proposition. Realization theorems use individual
 ### IG.6.1 Realizations
 
 **Field and polynomial realizations.** For fields `K` and `L` with `[Algebra K L]` and a
-finite group `G`, define the structure `FieldRealization K L G` of a field realization:
+finite group `G`, define the structure of a field realization of `G` by `L/K`:
 `FiniteDimensional K L`, `IsGalois K L`, and a group isomorphism `Gal(L/K) ≃* G`. For `f ∈ K[Y]`,
-define `PolynomialRealization f G`: separability of `f` and a group isomorphism
+define a polynomial realization of `G` by `f`: separability of `f` and a group isomorphism
 `Gal(f.SplittingField/K) ≃* G`. Irreducibility of `f` is an additional predicate and is not part of
 the realization. Refinements record more data on top of a realization: an explicit extension carries
 its generators and relations, and an explicit cover carries its finite map and the comparison of its
-generic fibre with the function field. Provide `FieldRealization.groupEquiv` (the given isomorphism
-`Gal(L/K) ≃* G`), `FieldRealization.degree` (`[L : K] = |G|`, from `IsGalois.card_aut_eq_finrank`),
-`PolynomialRealization.toField` (the splitting field of a separable polynomial carries the field
-realization, by `IsGalois.of_separable_splitting_field`) and `FieldRealization.transport` (a
-`K`-algebra isomorphism `L ≃ₐ[K] L′` transports the realization and its group isomorphism).
+generic fibre with the function field. A field realization carries its isomorphism
+`Gal(L/K) ≃* G`. Prove that `[L : K] = |G|`, from `IsGalois.card_aut_eq_finrank`; that
+the splitting field of a separable polynomial carries the field
+realization, by `IsGalois.of_separable_splitting_field`; and that a
+`K`-algebra isomorphism `L ≃ₐ[K] L′` transports the realization and its group isomorphism.
 Everything is stated with Mathlib's `Field`, `Algebra`, `FiniteDimensional`, `IsGalois`, `AlgEquiv`
 and `Polynomial.SplittingField`, and a separable reducible polynomial realization is kept distinct
 from an irreducible primitive presentation: a realization is a Galois extension with its exact
@@ -6992,12 +6979,12 @@ full group comes from the Hilbert and full-monodromy theorem, not from the coeff
 Local conditions at finitely many places and linear disjointness from a given extension `M` are
 provided only when `K` is a number field, under the hypotheses of Layer IG.2 *Hilbert specialization
 with local conditions*, respectively Layer IG.2 *Infinitely many linearly disjoint full-group
-fibers*; they are not extended to other Hilbertian fields. Provide
-`SpecializationExport.field` (the extension `L_t/K` with its finite Galois structure and group
-isomorphism), `SpecializationExport.polynomial` (the specialized polynomial with its guarded degree
-and separability), `SpecializationExport.roots` (the root map of the integral model identifies the
-splitting field of the specialized polynomial with `L_t`) and `SpecializationExport.disjoint`
-(`L_t ∩ M = K`, only under the disjointness hypothesis). The proof applies coefficient
+fibers*; they are not extended to other Hilbertian fields. Construct
+the extension `L_t/K` with its finite Galois structure and group
+isomorphism, and the specialized polynomial with its guarded degree
+and separability; prove that the root map of the integral model identifies the
+splitting field of the specialized polynomial with `L_t`, and that `L_t ∩ M = K` under the
+disjointness hypothesis. The proof applies coefficient
 specialization with its guard; obtains the group isomorphism from connectedness of Hilbert fibres
 and the torsor criterion; and transports through the integral model of a generic root, keeping the
 local and disjointness witnesses. Sources:
@@ -7066,11 +7053,11 @@ distinct, so `L` is the splitting field of `Y⁴ − 2` and is Galois over `ℚ`
 `r⁴ = s² = 1` and `srs = r⁻¹`, and the eight normal forms `r^j s^e` (`0 ≤ j < 4`, `e ∈ {0, 1}`) are
 all the automorphisms, so `Gal(L/ℚ)` is the dihedral group of order `8`, Mathlib's
 `DihedralGroup 4`. The convention is explicit: sources call this group `D₄` or `D₈`, and Mathlib
-indexes it by `4`. Provide `DihedralEight.alpha` (`α⁴ = 2` and `α` lies in the real subfield),
-`DihedralEight.rotation` (the assignment defines the automorphism `r` of order four),
-`DihedralEight.reflection` (complex conjugation is `s` and satisfies `srs = r⁻¹`) and
-`DihedralEight.realization` (the normal forms give the isomorphism with `DihedralGroup 4` and the
-polynomial realization for `Y⁴ − 2`). The proof builds `L` as an intermediate field in the tower
+indexes it by `4`. Prove that `α⁴ = 2` and `α` lies in the real subfield, that
+the assignment defines the automorphism `r` of order four, that
+complex conjugation is `s` and satisfies `srs = r⁻¹` and that
+the normal forms give the isomorphism with `DihedralGroup 4` and the
+polynomial realization for `Y⁴ − 2`. The proof builds `L` as an intermediate field in the tower
 `ℚ ⊂ ℚ(α) ⊂ L ⊂ ℂ`, extends the root assignments to algebra automorphisms using the basis of degree
 eight, verifies the dihedral relations on `α` and `i`, and shows that the eight normal forms are
 distinct. The example is the dihedral one of
@@ -7100,7 +7087,7 @@ library these are `Polynomial.HasFullSymmetricGaloisGroup` and
 comparison with the realizations of this roadmap: for every `f` of degree `n` over `ℚ` with
 `HasFullSymmetricGaloisGroup f`, Tau Ceti's `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv`
 gives an isomorphism `Gal(f.SplittingField/ℚ) ≃* Equiv.Perm (Fin n)`, and with the separability in
-the predicate this is a `PolynomialRealization f (Equiv.Perm (Fin n))`. The construction of `f_n` — its reductions modulo
+the predicate this is a polynomial realization of `Equiv.Perm (Fin n)` by `f`. The construction of `f_n` — its reductions modulo
 `2`, `3` and `5`, the Chinese remainder step and the separate small degrees — stays in
 PolynomialGaloisGroups Layer 9 and is not repeated here, and the alternating examples of that layer
 (degrees `3`, `4`, `5` only) are not claimed to realize every alternating group. The proof
@@ -7213,12 +7200,12 @@ such that `M` is `L`-isomorphic to the splitting field of the specialization `f(
 is stronger than regularity and than preservation of the full group at Hilbert points. The existence
 of a `G`-generic polynomial over `K` is a named proposition for each pair `(K, G)`; nothing is
 asserted for all finite groups, since existence has obstructions. For `char K ≠ 2`, `Y² − T` is
-`C₂`-generic: every quadratic extension of `L` is `L(√a)` for a nonsquare `a ∈ L^×`. Provide
-`GenericPolynomial.genericGroup` (the generic splitting field has the prescribed group and regular
-constants), `GenericPolynomial.guard` (the domain of allowed coefficients and discriminant is
-specified), `GenericPolynomial.realize` (every `G`-extension of an infinite overfield is the
-splitting field of an allowed specialization) and `GenericPolynomial.transport` (extending the base
-field restricts the quantifier over overfields and transports the polynomial realization). The
+`C₂`-generic: every quadratic extension of `L` is `L(√a)` for a nonsquare `a ∈ L^×`. Specify the domain of
+allowed coefficients and discriminant, and prove that
+the generic splitting field has the prescribed group and regular
+constants, that every `G`-extension of an infinite overfield is the
+splitting field of an allowed specialization and that extending the base
+field restricts the quantifier over overfields and transports the polynomial realization. The
 definition uses Mathlib's rational-function fields as coefficient fields and the guarded
 specialization map, and quantifies over actual overfields and actual finite Galois extensions with
 their algebra isomorphisms; for `C₂` it uses the normal form of quadratic extensions, the guard

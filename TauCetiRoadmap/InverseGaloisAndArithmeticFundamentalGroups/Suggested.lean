@@ -5,7 +5,7 @@ import TauCeti.FieldTheory.FunctionField.Place.Extension.Basic
 import TauCeti.FieldTheory.FunctionField.RiemannRoch.Genus
 
 /-!
-# Inverse Galois theory and arithmetic fundamental groups: headline statements
+# Inverse Galois theory and arithmetic fundamental groups: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The statements here suggest Lean forms for headline results; discharging them finishes neither a
