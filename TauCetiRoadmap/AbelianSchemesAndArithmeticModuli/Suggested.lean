@@ -12,10 +12,9 @@ import TauCeti.Algebra.Module.Torsion.TateModule
 The statements here give Lean forms for headline targets; discharging them finishes neither a
 layer nor the roadmap.
 
-The statements cover relative rigidity, seesaw, cube and Weil extension (A1), multiplication
-isogenies, finite-flat quotients, division by `n` and torsion density (A3), the rank of the geometric Tate module
-(A4), and Poincaré complete reducibility,
-finite-rank Hom, semisimplicity of rational endomorphisms, integral characteristic polynomials,
+The statements cover relative rigidity, seesaw, cube and regular-base Weil extension (A1),
+multiplication isogenies, finite-flat quotients, division by `n` and torsion density (A3), the rank
+of the geometric Tate module (A4), and Poincaré complete reducibility, finite-rank Hom, semisimplicity of rational endomorphisms, integral characteristic polynomials,
 their Tate-module comparison, normal-base extension of Hom, and the real positive-involution
 normal form (A6).
 
@@ -100,11 +99,11 @@ theorem eq_of_restrict_nilpotent {A B : AbelianScheme S} {S₀ : Scheme.{u}} (i 
   sorry
 
 /-- Restriction to the generic fibre is bijective for maps from any smooth test scheme into an
-abelian scheme over an integral, locally Noetherian base with integrally closed stalks, of any
-dimension; no properness, separation or quasi-compactness of the source is required
-(README A1.8). -/
+abelian scheme over an integral, locally Noetherian base with regular local stalks, of any
+dimension; connected Dedekind bases are the case of dimension at most one. No properness,
+separation or quasi-compactness of the source is required (README A1.8(3)). -/
 theorem weilExtension [IsIntegral S] [IsLocallyNoetherian S]
-    [∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s)]
+    [∀ s : S, IsRegularLocalRing (S.presheaf.stalk s)]
     (A : AbelianScheme S) (X : Over S) [Smooth X.hom] :
     Function.Bijective (fun f : X ⟶ A.toOver =>
       (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by

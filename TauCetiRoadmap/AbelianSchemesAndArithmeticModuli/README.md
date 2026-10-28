@@ -45,7 +45,8 @@ Serre tensor for arbitrary ring actions and finite projective right modules, wit
 independence of projective splittings, arbitrary base change and realization comparisons;
 the relative seesaw, cube and multiplication-pullback formulas for rigidified line bundles; the
 relative elliptic equivalence; torsion restrictions of rigidified line bundles; extension from
-the generic fibre of every smooth test scheme over a connected normal locally Noetherian base. Raynaud's theorem
+the generic fibre of every smooth test scheme over connected Dedekind and regular bases, with
+Weil's criterion for rational maps over normal bases. Raynaud's theorem
 that abelian algebraic spaces are schemes; the dual abelian scheme with its Poincaré bundle;
 the Mumford map and its biextension identities; polarizations, their local ample
 representatives and the canonical graph bundle with its cubic embedding; ample cohomology,
@@ -916,47 +917,67 @@ reduced-points argument is used on `μ_p` or `α_p`. Here `A[n]` is the scheme-t
 `[n]` (Tau Ceti's kernel of a group-scheme homomorphism); the statement does not need its finite
 flatness, which is A3.2. *Needs:* A1.5; Tau Ceti `GroupScheme/Kernel`.
 
-### A1.8 Weil extension over a normal base
+### A1.8 Weil extension over Dedekind and regular bases
 
-**Relative Weil extension** (`weilExtension`). Let `S` be a connected, normal, locally
-Noetherian scheme; it is then integral, and no bound on its dimension is imposed. Connected
-Dedekind schemes are the case of dimension at most one. Write `j : η = Spec K → S` for its generic
-point. For an abelian scheme `A/S` and any smooth `S`-scheme `X`, restriction
-`Hom_S(X, A) → Hom_η(X_η, A_η)` is bijective. Thus every `u_η : X_η → A_η` has a unique extension
-`u : X → A`, with `u|_η = u_η`; extending the restriction of an existing morphism returns that
-morphism. The source need not be proper, separated or quasi-compact. Extension commutes with
-precomposition by morphisms of smooth test schemes, restriction to base opens and localization
-at points of `S`. When `X` is an abelian scheme and `u_η` a homomorphism, its extension preserves
-zero and addition by uniqueness on `S` and `X ×_S X`.
+**Relative Weil extension** (`weilExtension`). Let `A` be an abelian scheme over `S` and `X` a
+smooth `S`-scheme; the source need not be proper, separated or quasi-compact.
 
-*Proof sketch.* Work locally on `S` and `X`. Smoothness over the normal base makes `X` and its
-fibre square normal, and flatness makes `X_η` schematically dense. On each affine open `V` of `X`,
-finite presentation of `A` spreads `u_η|V_η` over `V_U` for a dense open `U ⊆ S`; separatedness
-glues these to a rational map. A codimension-one point `x` of `X` outside `X_η` lies over a point
-`s` of codimension one, since `dim O_{X,x} = dim O_{S,s} + dim O_{X_s,x}` for flat `X`; then
-`O_{X,x}` is a discrete valuation ring and properness of `A` extends the map over it, and finite
-presentation spreads the extension to a neighbourhood. This gives a rational map defined at all
-points of codimension at most one. Establish the relative Weil argument
-for this map: on `X ×_S X` take the rational difference `u(x) − u(y)`. Hartogs extension into an
-affine neighbourhood of zero, together with the local equations of the smooth diagonal, shows
-that its domain contains the diagonal. Its intersection with `X ×_S dom(u)` then projects smoothly
-and surjectively onto `X`; the difference map and the second projection recover `u` on that cover.
-Fpqc descent of morphisms gives the extension on `X`. This is the relative diagonal argument of
-Bosch–Lütkebohmert–Raynaud, §4.4, Theorem 1 and Lemma 2, pp. 109–110, specialized in §1.2,
-Proposition 8 and its proof, p. 15. Separatedness of `A` and schematic density of the generic fibre
-of the flat source give uniqueness (affine-locally, Tau Ceti's `ext_of_genericFiberι_eq`), so these
-local extensions glue. Bosch–Lütkebohmert–Raynaud state §4.4, Theorem 1 for a normal Noetherian
-base; the Dedekind case is not needed anywhere in the argument. This construction uses only the
-early carrier, smooth local geometry, properness, Hartogs and descent; relative Hom
-representability is A6.25. `Suggested.lean` states the bijection as `AbelianScheme.weilExtension`.
-*Needs:* A0.1, A1.1; SchemeAndStackFoundations §§0.6, 0.8–0.9;
-Mathlib `Over.pullback`, the valuative criterion and subcanonicity of the fpqc topology;
-Tau Ceti `isRegularLocalRing_stalk_of_smooth` and `AlgebraicGeometry/Fibers/SchematicDensity`.
+1. *Weil's criterion.* Let `S` be normal and locally Noetherian. An `S`-rational map `u : X ⇢ A`,
+   that is, one whose domain of definition is dense in every fibre of `X → S`, is defined
+   everywhere as soon as it is defined at every point of `X` of codimension at most one.
+2. *Dedekind bases.* Let `S` be a connected Dedekind scheme with generic point
+   `j : η = Spec K → S`. Restriction `Hom_S(X, A) → Hom_η(X_η, A_η)` is bijective.
+3. *Regular bases.* Let `S` be connected, regular and locally Noetherian, of any dimension, with
+   generic point `η`. Restriction `Hom_S(X, A) → Hom_η(X_η, A_η)` is bijective.
+
+In (2) and (3) every `u_η : X_η → A_η` has a unique extension `u : X → A` with `u|_η = u_η`, and
+extending the restriction of an existing morphism returns that morphism. Extension commutes with
+precomposition by morphisms of smooth test schemes, restriction to base opens and localization at
+points of `S`. When `X` is an abelian scheme and `u_η` a homomorphism, its extension preserves zero
+and addition by uniqueness on `S` and `X ×_S X`. Normality of `S` does not suffice for the
+bijection: a generic-fibre map defines a rational map whose domain is dense in `X` but need not be
+dense in the fibres over points of codimension at least two, and the cone check below has no
+extension. Homomorphisms of abelian schemes do extend over normal bases, by the graph argument of
+A6.25(2).
+
+*Proof sketch.* (1) Work locally on `S` and `X`. Smoothness over the normal base makes `X` and its
+fibre square normal. On `X ×_S X` take the rational difference `v(x, y) = u(x) − u(y)`, defined on
+`U ×_S U` for `U = dom(u)`. Hartogs extension into an affine neighbourhood of zero (the
+indeterminacy locus of a rational map from a normal Noetherian scheme to an affine scheme has pure
+codimension one), together with the local equations of the smooth diagonal, shows that `dom(v)`
+contains the diagonal. Since `U` is dense in every fibre, `dom(v) ∩ (X ×_S U)` maps smoothly and
+surjectively onto `X` by the first projection; `v` and `u` on the second factor recover `u` on that
+cover, and fpqc descent of morphisms gives `u` on `X` (Bosch–Lütkebohmert–Raynaud, §4.4,
+Theorem 1 and Lemma 2, pp. 109–110). (2) Flatness makes `X_η` schematically dense. On each affine
+open `V` of `X`, finite presentation of `A` spreads `u_η|V_η` over `V_U` for a dense open `U ⊆ S`.
+A point of `X` of codimension one outside `X_η` lies over a closed point `s`, since
+`dim O_{X,x} = dim O_{S,s} + dim O_{X_s,x}` for flat `X`, and is a generic point of `X_s`; its local
+ring is a discrete valuation ring, properness of `A` extends the map over it, and finite
+presentation spreads the extension to a neighbourhood. The resulting rational map is defined in
+codimension at most one and at the generic point of every fibre, so it is `S`-rational and (1)
+applies (Bosch–Lütkebohmert–Raynaud, §1.2, Proposition 8 and its proof, p. 15). (3) Base change
+along `X → S` reduces to a rational section of the abelian scheme `A_X` over the regular scheme `X`
+(Tau Ceti `isRegularLocalRing_stalk_of_smooth`), defined on a dense open `V`; work on each connected
+component of `X`. Through biduality `A ≅ A^∨∨` (A2.2) the section is a doubly rigidified line
+bundle on `A^∨ ×_X V`. As `A^∨` is smooth over the regular `X`, it is regular, so the line bundle
+extends to `A^∨`; twisting by the pullback of its restriction to the zero section restores the
+rigidification. Its Mumford map `A^∨ → A^∨∨` (A2.3) is a homomorphism vanishing over `V`, hence
+zero, so the class lies fibrewise in `Pic⁰` and defines the extended section
+(Bosch–Lütkebohmert–Raynaud, §8.4, Corollary 6 and its proof, p. 234, which also uses projectivity
+over the base, here A2.8(1)). In every case separatedness of `A` and schematic density of the
+generic fibre of the flat source give uniqueness (affine-locally, Tau Ceti's
+`ext_of_genericFiberι_eq`), so local extensions glue. Parts (1) and (2) use only the early carrier,
+smooth local geometry, properness, Hartogs and descent; part (3) is proved after A2.8. Relative Hom
+representability is A6.25. `Suggested.lean` states the regular-base bijection (3), which contains
+(2), as `AbelianScheme.weilExtension`. *Needs:* A0.1, A1.1; for (3) also A2.2, A2.3, A2.8;
+SchemeAndStackFoundations §§0.6, 0.8–0.9; Mathlib `Over.pullback`, `IsRegularLocalRing`, the
+valuative criterion and subcanonicity of the fpqc topology; Tau Ceti
+`isRegularLocalRing_stalk_of_smooth` and `AlgebraicGeometry/Fibers/SchematicDensity`.
 
 **Checks.**
 
-- For the smooth nonproper source `X = A ×_S 𝔸¹_S`, the generic projection to `A_η` extends
-  uniquely to the projection to `A`.
+- For the smooth nonproper source `X = A ×_S 𝔸¹_S` over a Dedekind base, the generic projection to
+  `A_η` extends uniquely to the projection to `A`.
 - Restricting the extension of any `u_η` gives exactly `u_η`; extending the restriction of
   `u : X → A` gives `u`, and two extensions with the same generic restriction coincide.
 - Over a DVR of residue characteristic `p`, take the source to be `A` and the generic map to be
@@ -964,10 +985,15 @@ Tau Ceti `isRegularLocalRing_stalk_of_smooth` and `AlgebraicGeometry/Fibers/Sche
   special-fibre kernel; no étaleness of `[p]` is required.
 - If `S` is the spectrum of a field, `η = S` and restriction is the identity for every smooth
   test source, including the empty scheme.
-- Over the two-dimensional normal base `S = 𝔸²_k`, the generic map `[n]` on `A_η` extends to `[n]`
-  on `A`. The closed point `(0, 0)` of `S` lies under no codimension-one point of `A`, so the
-  extension at points of codimension one uses only the discrete valuation rings at the prime
-  divisors of `S`.
+- Over the two-dimensional regular base `S = 𝔸²_k`, the closed point `(0, 0)` lies under no
+  codimension-one point of `X = S`, so the valuative step of (2) does not reach it; a generic point
+  of `A_η` still extends to a section of `A` by (3).
+- Normal is not enough. Let `E ⊂ ℙ²_ℂ` be the cubic `x³ + y³ + z³ = 0` and `S` its affine cone, a
+  normal surface whose vertex `v` is its only singular point. For `A = E × S` and `X = S`, the
+  projection `S ∖ {v} → E` is a generic point of `A_η` with no extension: along the lines
+  `t ↦ (t, −t, 0)` and `t ↦ (t, 0, −t)` it is constant with the different values `[1 : −1 : 0]` and
+  `[1 : 0 : −1]`. Its domain is dense in `X` but misses the fibre over `v`, so it is not `S`-rational
+  and (1) does not apply.
 
 ### Examples
 
@@ -2015,9 +2041,13 @@ the canonical divided powers of `pW_n(k)` are nilpotent, so the evaluations at `
 compatible system whose limit `D(A₀)_{W(k)}` is a free `W(k)`-module of rank `2g`, contravariant in
 `A₀` (`AbelianPD.witt`). At `p = 2` the canonical divided powers of `2W_n(k)`, `n ≥ 2`, are not locally
 nilpotent, so these thickenings lie outside the domain and this interface supplies no
-`W(k)`-realization. The crystalline Dieudonné crystal `D(A₀[p^∞])` of A4.CR.7.2,
-defined on all divided-power thickenings and compared there with this evaluation on the locally
-nilpotent ones, supplies the `W(k)`-module for every `p`. No general crystalline site or Dieudonné equivalence is asserted
+`W(k)`-realization. The crystalline Dieudonné crystal `D(A₀[p^∞])` of A4.CR.7.2 supplies the
+`W(k)`-module for every `p`. It is defined on the base-compatible thickenings, those whose divided
+powers extend together with the canonical ones on `pO_S` to a common structure, which include
+the Witt thickenings `W_n(k) → k`. It is compared with this evaluation on the base-compatible
+thickenings with locally nilpotent divided powers. On the remaining thickenings of the domain
+above only this evaluation is defined.
+No general crystalline site or Dieudonné equivalence is asserted
 (Faltings–Chai I.3, pp. 14–15, the Grothendieck–Messing discussion, which requires local nilpotence of
 the divided powers and not only nilpotence of `J`). The construction uses universal vector extensions
 and the divided-power invariance of their first cohomology, compares two lifts on a common
@@ -2038,6 +2068,11 @@ this construction, and its proof is part of this target. The API is `AbelianPD.e
   ideal is square-zero but its divided powers are not locally nilpotent, and the thickening is
   outside the domain. For odd `p`, on `(p) ⊂ ℤ/p²ℤ` every `γ_m` with `m ≥ 2` vanishes, and the
   thickening is inside it.
+- For `p = 2`, `S₀ = Spec 𝔽₂ ⊂ S = Spec ℤ/4ℤ` with `J = (2)` and the zero divided powers
+  `δ_n = 0` for `n ≥ 2` (allowed since `J² = 0`) is inside the domain: for an elliptic curve
+  `E₀/𝔽₂` the evaluation is `H¹_dR` of any lift to `ℤ/4ℤ`. It is not base-compatible, since
+  `δ₂(2) = 0` while the canonical `γ₂(2) = 2` on the same ideal `J = 2O_S`, so the crystal of
+  A4.CR.7.2 has no value there and the comparison does not apply.
 
 ### A4.7 Grothendieck–Messing for abelian schemes
 
@@ -2076,16 +2111,20 @@ rank the height of `G`. When `S` has characteristic `p`, its relative Frobenius 
 Verschiebung induce `F : σ*D(G) → D(G)` and `V : D(G) → σ*D(G)` with `FV = VF = p`;
 here `σ` is the absolute Frobenius of `S`. On a general `p`-nilpotent base use
 `D(G)` and its Hodge filtration without presupposing an absolute Frobenius of `S`. Its evaluation
-`D(G)_T` on a PD thickening `T` of an open of `S` is a finite locally free `O_T`-module, with horizontal
+`D(G)_T` on an object `T` of the base-compatible site, a PD thickening of an open of `S` whose
+divided powers extend with the canonical ones on `pO_T`, is a finite locally free `O_T`-module,
+with horizontal
 `F` and `V` in the characteristic-`p` case and base-change isomorphisms for morphisms of thickenings.
 A homomorphism `G → H` induces `D(H) → D(G)`. For
 an abelian scheme `A/S`, `D(A[p^∞])` is identified with the realization of
-A4.6 on its stated locally PD-nilpotent thickenings, with the first de Rham cohomology of any
-abelian-scheme lift on those thickenings.
+A4.6 on the base-compatible thickenings whose divided powers are locally nilpotent, with the first
+de Rham cohomology of any abelian-scheme lift on those thickenings. A4.6 alone covers the
+locally PD-nilpotent thickenings that are not base-compatible.
 
 The API:
 
-- `DieudonneCrystal.evaluate`: `D(G)_T` is a finite locally free `O_T`-module.
+- `DieudonneCrystal.evaluate`: `D(G)_T` is a finite locally free `O_T`-module for every object
+  `T` of the base-compatible site.
 - `DieudonneCrystal.contravariant`: A map `G → H` gives a map `D(H)_T → D(G)_T`.
 - `DieudonneCrystal.fv`: The linearizations satisfy `FV = p` and `VF = p` on their
   respective domains.
@@ -2154,13 +2193,16 @@ CrystallineCohomology §CR.7.1 (*Filtered Frobenius coefficients on semistable m
   compatibly with `F`, `V` and every Witt-level reduction.
 
 **Grothendieck–Messing deformation theory.** Let `S₀ → S` be a PD thickening on which `p` is locally
-nilpotent and whose divided powers are locally nilpotent, and `G₀` a Barsotti–Tate group over `S₀`. A
+nilpotent, whose divided powers are locally nilpotent and base-compatible (they extend with the
+canonical ones on `pO_S` to a common structure, so that `S₀ → S` is an object of the site of
+*The crystalline Dieudonné crystal of a Barsotti–Tate group*), and `G₀` a Barsotti–Tate group over
+`S₀`. A
 lift `G/S` of `G₀` determines a locally direct summand Hodge filtration `ω_G ⊂ D(G₀)_S` lifting the
 contravariant exact sequence `0 → ω_{G₀} → D(G₀)_{S₀} → Lie(G₀^∨) → 0`. Grothendieck–Messing:
 `G ↦ (ω_G ⊂ D(G₀)_S)` is an equivalence between lifts of `G₀` to `S` and lifts of the Hodge filtration to locally
 direct summands of `D(G₀)_S`; a homomorphism of Barsotti–Tate groups over `S₀` lifts exactly when its
 evaluation preserves the lifted filtrations. For abelian schemes this specialises to
-A4.7 under the identification of *The crystalline Dieudonné
+A4.7 on these thickenings under the identification of *The crystalline Dieudonné
 crystal of a Barsotti–Tate group*.
 
 *Proof sketch.* Construct the Hodge filtration from the universal vector extension of `G` and identify
@@ -2195,6 +2237,9 @@ A4.7 (*Grothendieck–Messing for abelian schemes*).
   Hodge inclusion and quotient together; the filtration equivalence commutes with this pullback.
 - The canonical divided powers on `(2) ⊂ ℤ/4ℤ` are not locally nilpotent (A4.6's dyadic
   Check), so a square-zero ideal alone does not meet the deformation theorem's hypotheses.
+- The zero divided powers on `(2) ⊂ ℤ/4ℤ` are locally nilpotent but not base-compatible
+  (`δ₂(2) = 0 ≠ 2 = γ₂(2)`), so `D(ℚ₂/ℤ₂)` has no value on `Spec 𝔽₂ ⊂ Spec ℤ/4ℤ` with this
+  structure and the theorem does not apply to it; for an abelian scheme A4.7 still applies there.
 
 ### A4.7a Realizations of the Serre tensor
 
@@ -3360,15 +3405,24 @@ locally of finite type, the closed subscheme of homomorphisms in the Hom scheme 
 disjoint union, over the Hilbert polynomials `Φ` of graphs with respect to `M`, of open and closed
 pieces `Hom^Φ`, each finite and unramified over `S`. It is not necessarily of finite type globally.
 (4) Over a smooth connected complex algebraic base of finite type, a homomorphism of one fibre that is
-a Hodge morphism invariant under monodromy extends uniquely to the family. Statement (2) is a
-corollary of A1.8 (`weilExtension`) with source `A`, applied on each connected component of `S`
-and of `U`: these components are integral, normal and locally Noetherian, and both restrictions to
-the generic fibre are bijective. Uniqueness on the base and on `A ×_S A` makes the extension a
-homomorphism.
+a Hodge morphism invariant under monodromy extends uniquely to the family. Statement (2) is not a
+corollary of A1.8 over a base of dimension at least two, where the generic-fibre bijection for
+arbitrary smooth sources fails on normal bases. Its proof is the graph argument of Faltings–Chai
+I.2.7, pp. 9–11. Uniqueness follows from separatedness of `B` and schematic density of `A_U` in
+the flat `A`. For existence work on a connected component of `S`, which is integral, so that `A`
+is integral and normal. Let `Γ ⊆ A ×_S B` be the scheme-theoretic closure of the graph of `φ_U`.
+Its first projection `p₁ : Γ → A` is proper by the valuative criterion: over a discrete valuation ring mapping to `S`
+with generic point in `U`, the generic homomorphism extends by A1.8(2). It is birational, being an
+isomorphism over `U`. Its fibres are single points: at a point `z` over `a ∈ A_s`, choose such a
+discrete valuation ring through `z`; the extended homomorphism on the geometric special fibre is
+determined by its values on prime-to-`p` torsion (A3.2), which are specializations of torsion points
+of `B_U` and do not depend on the choice, so `z = (a, φ_s(a))`. By Zariski's main theorem, a proper
+birational quasi-finite morphism onto the normal integral `A` is an isomorphism, so `Γ` is the graph
+of a morphism `A → B` extending `φ_U`; it is a homomorphism by uniqueness on `S` and `A ×_S A`.
 For (3), A0.3(4) applies on affine opens of `S`, homomorphisms are cut out by the group-law equations,
 and rigidity (A1.2) gives unramifiedness; each `Hom^Φ` is quasi-projective, and over a discrete
-valuation ring mapping to `S` a homomorphism of generic fibres extends with a flat graph of the same
-Hilbert polynomial by (2), so `Hom^Φ` is proper by the valuative criterion, hence finite. The
+valuation ring mapping to `S` a homomorphism of generic fibres extends by A1.8(2), with a flat graph
+of the same Hilbert polynomial, so `Hom^Φ` is proper by the valuative criterion, hence finite. The
 monodromy statement uses the
 fixed-part argument with A5.6 (Faltings–Chai I.1.7, pp. 4–5, and I.2.7, pp. 9–11; Kisin–Pappas, *Integral
 models of Shimura varieties with parahoric level structure*, proof of Lemma 4.5.2, p. 194; Gao–Habegger,
@@ -3380,13 +3434,16 @@ contains infinitely many `[n]`, with graphs of distinct Hilbert polynomials, so 
 fail; for elliptic curves `E`, `E′` over a field with no homomorphism between them over an algebraic
 closure, the Hom functor is the zero group, represented by the base, and is finite. A jump of the
 endomorphism ring of a special fibre does not lift every special homomorphism. *Needs:* A0.3, A1.2,
-A1.8, A2.6, A2.8, A5.6, A6.7; AlgebraicModuli Layer 2 §2.1, Layer 3 §3.4.
+A1.8, A2.6, A2.8, A3.2, A5.6, A6.7; AlgebraicModuli Layer 2 §2.1, Layer 3 §3.4.
 
 **Checks.**
 
 - A homomorphism between generic fibres of two abelian schemes over a DVR extends uniquely,
   including multiplication by the residue characteristic.
 - The normal-base extension includes points of codimension at least two, via the graph reduction.
+  On the affine cone `S` over a plane cubic `E` (the boundary check of A1.8), every endomorphism of
+  the constant `E × (S ∖ {vertex})` is a constant element of `End E` on the connected punctured
+  cone and extends to `S`, although generic points of `E × S` need not extend.
 - `Hom(E, E)` over a field contains all `[n]`, so its representing scheme need not be of finite type.
 
 ### A6.26 Localized isogeny categories
