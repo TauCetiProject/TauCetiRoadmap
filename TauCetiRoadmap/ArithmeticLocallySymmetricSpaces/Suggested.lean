@@ -38,13 +38,14 @@ namespace TauCetiRoadmap.ArithmeticLocallySymmetricSpaces
 
 open CategoryTheory
 
-/-- ALS.0.1: a real algebraic involution is Cartan when its twisted real form is compact.
-For the coordinate Hopf algebra `H`, a complex point is an algebra homomorphism `H →ₐ[ℝ] ℂ`.
-The equation cuts out `g = θ(ḡ)`; its evaluation image carries the usual point topology. -/
-def IsCartanInvolution {H : CommHopfAlgCat ℝ} (θ : H ≅ H) : Prop :=
-  θ.hom ≫ θ.hom = 𝟙 H ∧
-    IsCompact ((fun p : H →ₐ[ℝ] ℂ => (p : H → ℂ)) ''
-      {p | ∀ h : H, p (θ.hom.hom h) = star (p h)})
+/-- ALS.0.1: an involution of a real affine algebraic group of finite type is Cartan when its
+twisted real form is compact. For the finitely generated coordinate Hopf algebra `H`, a complex
+point is an algebra homomorphism `H →ₐ[ℝ] ℂ`. The equation cuts out `g = θ(ḡ)`; since `H` is of
+finite type, its evaluation image carries the usual topology on complex points. -/
+def IsCartanInvolution {H : TauCeti.FiniteTypeCommHopfAlgCat ℝ} (θ : H.obj ≅ H.obj) : Prop :=
+  θ.hom ≫ θ.hom = 𝟙 H.obj ∧
+    IsCompact ((fun p : H.obj →ₐ[ℝ] ℂ => (p : H.obj → ℂ)) ''
+      {p | ∀ h : H.obj, p (θ.hom.hom h) = star (p h)})
 
 /-- ALS.0.1 (Satake): every connected reductive real algebraic group has a Cartan involution.
 Tau Ceti's reductivity predicate includes smoothness and geometric connectedness. -/
