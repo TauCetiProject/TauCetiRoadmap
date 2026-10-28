@@ -2,7 +2,9 @@
 
 The narrative roadmap for the conformal-mapping / geometric-function-theory area of complex
 analysis, with the **Riemann mapping theorem** as its summit; `Suggested.lean` states the
-milestones, each now discharged by the Tau Ceti declaration that realizes it. Among its
+selected milestone interfaces, closed by their Tau Ceti suppliers at the dependency pin.
+The full current specification additionally includes the general Jordan-separation result recorded
+in the archive PR; the historical interface certificate does not cover that later addition. Among its
 applications: the modular-`λ` uniformization
 `ℍ/Γ(2) ≅ ℂ∖{0,1}` (hence Picard's little theorem and the elliptic/modular uniformization)
 and the boundary regularity of conformal maps — but the area is foundational complex analysis
@@ -140,10 +142,10 @@ way `#33505` does, and delete ours if theirs lands — see
 ## Relation to sibling roadmaps (this entry is the connective layer)
 
 L5 owns Jordan separation and filled-hull topology.
-[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2 and G6, owns metric
+[GeometricMeasureTheory](../../TauCetiRoadmap/GeometricMeasureTheory/README.md), G1–G2 and G6, owns metric
 rectifiability, arclength, Hausdorff length, and the finite-perimeter comparison for
-rectifiable Jordan domains. [DifferentialGeometry](../DifferentialGeometry/README.md),
-5.6, owns winding and Green's area identity. [Isoperimetry](../Isoperimetry/README.md),
+rectifiable Jordan domains. [DifferentialGeometry](../../TauCetiRoadmap/DifferentialGeometry/README.md),
+5.6, owns winding and Green's area identity. [Isoperimetry](../../TauCetiRoadmap/Isoperimetry/README.md),
 I6, consumes these to prove the full rectifiable Jordan inequality and circle rigidity.
 None of those geometric comparisons is an additional regularity hypothesis for L5.
 

@@ -35,10 +35,9 @@ import TauCeti.Analysis.Complex.Conformal.Vitali
 reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
 the roadmap.
 
-Every milestone of `README.md`, layers L0 to L6 with their named companions and the conventions
-of its generality bar, has a statement here in the form the roadmap asks for, closed by the Tau
-Ceti declaration that realizes it, so the correspondence is checked by the Lean kernel rather
-than asserted in prose. No statement is left as `sorry`. That is evidence for completion, not its
+Selected milestones of layers L0 to L6 have statements here closed by their Tau Ceti suppliers
+at this repository's historical dependency pin. The general Jordan-separation addition to L5
+is audited against newer source in the archive PR; it is not part of this pinned certificate. No statement is left as `sorry`. That is evidence for completion, not its
 criterion: completion is judged by a milestone-by-milestone audit against `README.md`, which a
 `sorry`-free file of suggested forms cannot replace.
 
