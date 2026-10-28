@@ -78,9 +78,10 @@ def IsCharacterMap {k G : Type*} [Field k] [Group G] {r : ℕ} (T : (Fin r → k
 /-- **Lang's equation on the torus (C5).** Let `k` be algebraically closed of characteristic `p`
 and `F` an endomorphism of the points of the Geck carrier with character map `φ` for its torus.
 If `φ ^ n = p ^ r` for some `n, r > 0`, then every torus point has the form `u F(u)⁻¹` with `u` a
-torus point. The map `u ↦ u F(u)⁻¹` has character map `1 - φ`, which is injective because every
-complex eigenvalue of `φ` has absolute value `p ^ (r / n) > 1`, and `kˣ` is divisible. This is the
-step that turns `F = Int(s) ∘ F₀` from rigidity into the conjugacy `F = Int(u) ∘ F₀ ∘ Int(u)⁻¹`. -/
+torus point. The map `u ↦ u F(u)⁻¹` has character map `1 - φ`, which is injective: for `p > 0`
+every complex eigenvalue of `φ` has absolute value `p ^ (r / n) > 1`, and for `p = 0` the map `φ` is
+nilpotent, so `1 - φ` is invertible. Since `kˣ` is divisible, the dual of `1 - φ` is surjective. This is the step that
+turns `F = Int(s) ∘ F₀` from rigidity into the conjugacy `F = Int(u) ∘ F₀ ∘ Int(u)⁻¹`. -/
 theorem exists_geckWeightTorusPoints_eq_mul_inv (t : DynkinType) (ht : t.Valid) (k : Type)
     [Field k] [IsAlgClosed k] (p : ℕ) [CharP k p]
     (F : t.geckPoints ht k →* t.geckPoints ht k) (φ : AddMonoid.End (Fin t.rank → ℤ))
