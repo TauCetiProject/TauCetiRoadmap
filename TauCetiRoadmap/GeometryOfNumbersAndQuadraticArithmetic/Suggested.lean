@@ -17,8 +17,8 @@ Henk's bound, Davenport's multiset estimate, Howe–Moore and Moore ergodicity, 
 Gauss's three-square formula, Siegel's three-square lower bound, Euclidean transference,
 Mahler compactness and critical-lattice existence, Dani–Margulis nondivergence and Siegel's mean value theorem (Layer 4), and the LLL
 short-vector approximation factor (Layer 5). The successive minima are SuccessiveMinima's
-`successiveMin`, whose `Suggested.lean` also states the Gram–Hadamard bound, the lower half of
-Minkowski's second theorem and the linear forms theorem. The definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells, strong continuity, covering
+body minima `successiveMin`, real-valued on a `ConvexBody` and indexed by `Fin (finrank ℝ E)`.
+The definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells, strong continuity, covering
 radius, star bodies and lattice transforms used in these statements.
 All have real bodies on native carriers; semialgebraicity, unitarity and Hurwitz class numbers
 use Tau Ceti.
@@ -187,8 +187,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 /-- **Minkowski's second theorem, upper half** (1.3.3): `(∏ λ_i) μ(K) ≤ 2^d covol_μ L` for any
 additive Haar measure and any centrally symmetric convex body, with no interior hypothesis.
-Tau Ceti proves this statement for its native successive minima at a revision later than the
-pins; it is restated here on SuccessiveMinima's carrier, which repeats that definition. -/
+Source: Henk, *Successive minima and lattice points*, Theorem 1.3 and its proof in §3. -/
 theorem prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (K : ConvexBody E) (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E) [μ.IsAddHaarMeasure] :
