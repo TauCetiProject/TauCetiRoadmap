@@ -2180,6 +2180,8 @@ Extend PerfectoidSpaces §P4.15.3 from oriented smooth affines to invertible ide
 
 Here `R` is p-completely smooth or syntomic over `A/I` (ALB23 Remark 3.1.8). Finite presentations use regular envelopes; infinite ones use their completed filtered colimit. Boundedness identifies the indicated classical and derived completions (BS22 Lemma 3.7).
 
+Since every prism over `(A,I)` under `R` receives a map from `C`, and `C^n` is the `(n+1)`-fold coproduct, `Hom(C^n,B) ≃ Hom(C,B)^(n+1)` compatibly with cofaces and codegeneracies. With `S(B)=Hom(C,B)` this is exactly the Čech nerve data `CechNerveData` of [AC](#ref-ac) (`Cohomology/Cech.lean`), which §1.8 uses.
+
 (BS22, Construction 4.17; p. 41; BS22, Construction 4.18 and Remark 4.19; pp. 42, 43; ALB23, Remark 3.1.8 (2); p. 17.)
 
 *Needs:* [§1.2](#s1-2), [§0.86](#s0-86), [§0.55](#s0-55), [§0.81](#s0-81), [§0.56](#s0-56), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology §§1.10–1.23, Mathlib `MvPolynomial`, Mathlib `AlgebraicTopology.alternatingCofaceMapComplex`.
@@ -2208,6 +2210,8 @@ Here `R` is p-completely smooth or syntomic over `A/I` (ALB23 Remark 3.1.8). Fin
 Extend the oriented affine computation of PerfectoidSpaces §P4.15.3 by orientation descent: `Δ_(R/A)≃Tot C^•` and `Δ̄_(R/A)≃Tot(C^•/I)`, compatibly as `E∞-algebras`. The common tensor-product refinement of any two presentations identifies these maps coherently; hence §1.7’s functorial complex represents `Δ` and étale gluing gives the formal version.
 
 `(A,I)` bounded; `R` p-completely smooth over `A/I` (or p-completely syntomic, with the same proof). The statement uses the general fact: for a topos 𝒳, an abelian sheaf `F` and a weakly final object `X_0` with Čech nerve `X_0^•`, `RΓ(𝒳,F) ≃ R lim RΓ(X_0^•,F)`; if `F` is acyclic on each `X_0^n` this is the complex `F(X_0^•)` (Bhatt–Scholze, footnote to Construction 4.18).
+
+The presheaf form of this fact is formalised in [AC](#ref-ac). For a category `J` with objects in `Type (v+1)`, morphisms in `Type v` and Čech nerve data `X[•]`, `rightDerivedLimIsoCech` (`Cohomology/CechDerived.lean`) gives `Rⁿ lim F ≅ Hⁿ(F(X[0]) → F(X[1]) → ⋯)` for every `F : J ⥤ ModuleCat.{v+1} R` with `R` small. It rests on `hasEnoughInjectivesFunctorCategory` (`Cohomology/FunctorCategoryInjectives.lean`), enough injectives in `J ⥤ ModuleCat.{v+1} R` for such large `J`. At our Mathlib pin the Grothendieck-abelian instance for presheaves of modules, which yields enough injectives, is stated over a small category only, and the category of bounded prisms over `(A,I)` is not small. The same tool serves the prismatic Čech–Alexander statement: take `J` the bounded prisms over `(A,I)` under `R`, `X[n]=C^n` with §1.7's identification `Hom(C^n,B) ≃ Hom(C,B)^(n+1)`, and `F` the structure presheaf with values lifted one universe up. This identifies `R lim O_Δ` over the category with `Tot C^•`; §1.1's acyclicity of `O_Δ` on each `C^n` gives the same complex for the flat topology. [AC](#ref-ac) is built at an older Mathlib pin, so the statement stays a target here.
 
 (BS22, Construction 4.18 and its footnote; p. 42; BS22, Theorem 5.2, proof (the same argument on the crystalline side); p. 45.)
 
@@ -3387,6 +3391,10 @@ Layers `0`, `1`; DerivedDeRhamCohomology §§PD.6–PD.7, CrystallineCohomology 
 <a id="ref-cs"></a>
 
 - **CS**: Kęstutis Česnavičius and Peter Scholze. [Purity for flat cohomology](https://arxiv.org/pdf/1912.10932v3). Theorem 5.3.5, pp.59–61, and Lemma 5.4.2, pp.63–66.
+
+<a id="ref-ac"></a>
+
+- **AC**: Marco D'Addezio. [Affine crystalline cohomology and de Rham cohomology in Lean 4](https://github.com/daddeziomath/affine-crystalline). Version 1.0.0, DOI [10.5281/zenodo.23573534](https://doi.org/10.5281/zenodo.23573534), Apache-2.0. An existing Lean 4 formalisation at an older Mathlib pin. Without `sorry` it proves the affine comparison of crystalline and PD de Rham cohomology for `p` nilpotent on an infinitesimal site of bounded nilpotence exponent, and the Čech computation `Rⁿ lim F ≅ Ȟⁿ(F)` of derived limits for large index categories with Čech nerve data (`CechNerveData`, `rightDerivedLimIsoCech`, `hasEnoughInjectivesFunctorCategory`), cited at §§1.7–1.8.
 
 - **Stacks**: [Tag 0D4B](https://stacks.math.columbia.edu/tag/0D4B), effectivity of finite projective modules for adic completion.
 
