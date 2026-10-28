@@ -2127,6 +2127,86 @@ items 1–7 are independent of those later constructions.
     carrier, characteristic-class definition or finite-projective comparison
     is constructed here.
 
+13. **Smooth representatives in codimensions one and two.** For a compact
+    boundaryless smooth Hausdorff second-countable m-manifold M, prove that
+    every class in H_(m−1)(M;F2), m>=1, is the push-forward of the mod2
+    fundamental class of a compact boundaryless smoothly embedded
+    (m−1)-manifold N. No orientation of M or N is required. For an oriented
+    M, prove the integral versions in H_(m−1)(M;Z), m>=1, and
+    H_(m−2)(M;Z), m>=2, with N oriented. Allow empty and disconnected M
+    and N; the zero class has the empty representative. Retain integral
+    torsion classes. Do not impose connectedness on the representative.
+    State the dimension bounds before subtracting natural-number degrees;
+    negative-degree vanishing is separate and is not an H_0 assertion.
+
+    Use Stage6's Poincare duality to pass to degree-one mod2, degree-one
+    integral or degree-two integral cohomology. Combine 8.10–8.12 with
+    AT8.7/GT's actual smooth triangulation of dimension m, keeping
+    its dimension bound rather than using finite CW type alone. Represent
+    a degree-one integral class by a map
+    to the native Circle, with generator normalized by the positive loop
+    t↦exp(2πit), 0<=t<=1. For mod2 degree one use a finite RP^N with N>=m;
+    for integral degree two use a finite CP^N with 2N>=m. Prove these
+    finite-stage factorizations by cellular approximation and the actual
+    projective skeleta. Use AT4.6's native real-projective smooth atlas
+    and CKG K7.1's native complex-projective atlas, with their already
+    specified CW/topological comparisons. Smooth the maps and make them
+    transverse to 1∈Circle, RP^(N−1)⊂RP^N or CP^(N−1)⊂CP^N, respectively.
+    This construction uses finite-dimensional transversality throughout.
+
+    Own the following hyperplane adapter on those same carriers. A first
+    coordinate functional defines a section of the dual tautological line
+    γ*; its zero locus is H_N={coordinate0=0}. In projective charts
+    prove the section transverse and identify νH with γ* restricted to H.
+    The real normal line need not be oriented; its mod2 Thom class maps to
+    C1.5's generator a=w_1(γ)=w_1(γ*). The complex normal line has its
+    complex orientation; its integral Thom class maps to the positive
+    hyperplane class h=c_1(O(1)), with ⟨h,[CP^1]⟩=+1. The tautological
+    O(−1) instead has class−h. Use CharacteristicClasses C1.5 and C2's
+    Thom/Euler/Gysin maps for these identifications, including finite-stage
+    restriction. Restrict to RP^1 and CP^1 and count the single transverse
+    hyperplane point: its mod2 count is1, and its complex-oriented integral
+    count is+1. The finite cellular restriction isomorphisms then identify
+    these Thom images with a and h, without assuming a later general c_1=Euler
+    theorem. The positively oriented normal of 1∈Circle similarly gives the normalized integral degree-one class.
+    This adapter precedes the representative theorem; it is not inferred
+    merely from the names of the cohomology generators.
+
+    For each transverse classifying map f, construct N=f^−1(H), its
+    native smooth embedding i:N→M, and the derivative-induced normal-bundle
+    isomorphism νN≃(f|N)*νH. In the integral cases orient N by normal-first
+    order νN then TN in a smooth splitting of TM|N, proving independence
+    of the splitting. Prove i_*[N]=PD_M(f* u), using the actual pullback
+    of the relative Thom class, tubular excision and Stage6's cup/cap signs;
+    here u is the corresponding point or hyperplane class. In the real
+    case prove the same formula over F2 without choosing a coorientation.
+    The circle normal is framed; the complex normal is an oriented real
+    two-plane bundle and is not assumed trivial. Export the embedding,
+    compactness, normal comparison and fundamental-class identity as data
+    and theorems on the native carriers. CharacteristicClasses C2 supplies
+    the generic transverse Gysin comparison; this item supplies its point
+    and projective-hyperplane applications, with no new characteristic-class
+    or projective-space definitions.
+
+    Prove stabilization and transverse-pullback naturality of these
+    comparisons. Pin every projective stage inclusion as appending zero
+    coordinates. For H_N={coordinate0=0}, prove j^−1(H_N')=H_N and
+    transversality of j to H_N'; this preserves the endpoint normal data.
+    For homotopies choose N'>=max(N_0,N_1), with N'>=m+1 over R or
+    2N'>=m+1 over C. First make the homotopy constant on endpoint
+    collars, then apply relative smoothing and transversality fixing them.
+    Construct the resulting
+    compact embedded bordism in I×M. With interval-first ambient orientation
+    and normal rank c, multiply its normal-first inverse-image orientation
+    by (−1)^c to obtain boundary −N_0 disjoint-union N_1 under the
+    outward-normal-first convention. In mod2 this sign disappears. This
+    proves independence of the chosen classifying-map representative in
+    the specified embedded-bordism sense. It does not identify all smooth
+    submanifolds with their homology classes. The companion
+    [TransverseRepresentativeTargets.lean](TransverseRepresentativeTargets.lean)
+    pins the smooth circle map, native cohomology pullback and surjective
+    derivative condition needed for the integral codimension-one construction.
+
 Hatcher Section 4.1 gives the absolute Hurewicz and Whitehead arguments; Whitehead, Chapters
 IV--VII, gives the relative and cellular forms.  May, *Simplicial Objects in Algebraic Topology*,
 Chapters 3 and 12, supplies the Kan-group construction and comparison route.
@@ -2164,6 +2244,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API only; no 8.10 or §3A.2 input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
+| 8.13 smooth low-codimension representatives | ordinary6 duality and products, 8.7 dimension-bounded smooth triangulation, 8.10/8.12, AT4.6 real and CKG K7.1 complex projective atlases, CC C1.5 and C2 Thom/Gysin, GT/DG smoothing and relative transversality | 7 and 8.11b |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed
 Stage 5, except that Stage 2 alone feeds the product maps of Stage 5 item 1; and every stage from
@@ -2231,6 +2312,10 @@ downstream comparison theorem as input.
 - A fixed n-skeleton extends exactly when its obstruction cochain vanishes. Vanishing of
   its cohomology class permits alteration of the n-skeleton relative to the lower skeleton
   and the specified subcomplex. Fibre transport and difference signs agree with these maps.
+
+- Every class in the three stated low-codimension homology groups has an actual smooth
+  embedded representative, with the normal-bundle, Thom-class and fundamental-class
+  comparison; finite-stage homotopies preserve the chosen endpoint hyperplanes.
 
 ## References
 
