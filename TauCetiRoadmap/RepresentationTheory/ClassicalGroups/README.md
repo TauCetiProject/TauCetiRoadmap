@@ -1135,6 +1135,56 @@ operators and right-inverse target. This subsection specifies the full
 construction and representation comparisons.
 
 
+### A U(3) symmetric-square Pieri computation
+
+For a,b≥0 let H_(a,b) be the rank-three mixed-contraction kernel above,
+identified with the irreducible of highest weight
+`(a,0,−b)`. Tensor with Sym²(ℂ³), of highest weight `(2,0,0)` and dimension6.
+Prove the multiplicity-one decomposition
+
+| summand | condition for occurrence |
+| --- | --- |
+| H_(a+2,b) | every a,b≥0 |
+| det ⊗ H_(a,b+1) | a≥1 |
+| H_(a+1,b−1) | b≥1 |
+| det² ⊗ H_(a−2,b+2) | a≥2 |
+| det ⊗ H_(a−1,b) | a≥1 and b≥1 |
+| H_(a,b−2) | b≥2 |
+
+The tensor product is the direct sum of exactly the indicated terms, with
+none of the excluded terms interpreted through negative symmetric degrees.
+Construct this first for rational GL₃ and prove its restriction to U(3).
+All summands have central weight a−b+2; export this check and the complete
+highest-weight and dimension identities, with the actual determinant actions.
+
+For the proof, twist `(a,0,−b)` by det^b to the partition `(a+b,b,0)`.
+Apply SchurWeyl Layer7's horizontal-two-strip Pieri rule and the rational
+character comparison of Layer4. Prove that the resulting dominant weights
+are exactly `(a+x₁,x₂,−b+x₃)`, where the x_i are nonnegative integers with
+`x₁+x₂+x₃=2`, `x₂≤a` and `x₃≤b`. Enumerate these six possible triples,
+prove the corresponding weights distinct, and translate their second
+coordinates into the displayed determinant twists. The horizontal-strip
+inequalities, rather than a dimension count alone, give the occurrence
+conditions, including the boundary cases a=0,1 and b=0,1.
+
+Use rational complete reducibility and independence of irreducible formal
+characters from Layers3–4 to prove that each indicated intertwining space
+is one-dimensional. Choose a nonzero map
+from each indicated irreducible and prove that their direct-sum evaluation
+is an isomorphism; construct its inverse and prove both inverse identities.
+Prove that rescaling a chosen map leaves its summand image fixed and rescales
+the corresponding inverse coordinate reciprocally. Compare
+the resulting weight multiplicities with convolution of the actual H_(a,b)
+weight function and the six weights of Sym²(ℂ³). This supplies the full
+highest-weight-subtraction calculation with its determinant twists.
+
+Check the dimension identity
+`Σ_(indicated terms) dim = 6(a+1)(b+1)(a+b+2)/2`.
+For a=b=0 obtain just H_(2,0). For a=b=1 obtain dimensions24,15,6,3
+and total48, with no term containing a negative index. The generating
+highest-weight/Hom-multiplicity statement on the native representation
+models is illustrated in [U3PieriTargets.lean](U3PieriTargets.lean).
+
 ## Ordering
 
 The ordinary endomorphism-monoid extension example uses only native all-module
