@@ -1,13 +1,12 @@
 # Roadmap: heights, units and S-units of number fields
 
-**Archive candidate, 2026-10-28.** This draft move awaits the existing implementation PRs
+**Completion evidence, 2026-10-28.** The implementation PRs
 [TauCeti#20658](https://github.com/TauCetiProject/TauCeti/pull/20658),
 [TauCeti#19468](https://github.com/TauCetiProject/TauCeti/pull/19468), and
-[TauCeti#20707](https://github.com/TauCetiProject/TauCeti/pull/20707).
-[COMPLETION.md](COMPLETION.md) records the whole-roadmap implementation inventory, acceptance
-examples and exact candidate revisions. It must be updated to merged upstream source before this
-archive is declared complete. The retained `Suggested.lean` is an admitted old-pin prototype,
-not the completion certificate.
+[TauCeti#20707](https://github.com/TauCetiProject/TauCeti/pull/20707) are present on upstream
+`f5604a97062487140a029c405f32d8f199f2316b` and pass the fresh native-source replay.
+[COMPLETION.md](COMPLETION.md) records the whole-roadmap inventory and acceptance examples.
+The retained `Suggested.lean` is an admitted historical prototype, not the completion certificate.
 
 Dirichlet's unit theorem says that the units of a number field form a lattice of rank `r₁ + r₂ − 1`
 modulo torsion, and Mathlib proves it. The height of an algebraic number says how large it is
