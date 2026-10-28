@@ -16,12 +16,12 @@ Paths below are relative to `TauCeti/Analysis/Complex/`, except the stated topol
 | Definitive target | Native implementation and scope |
 | --- | --- |
 | L0: local mapping | `Conformal/{Rouche,Hurwitz,Morera,LocalDegree}.lean` consume the existing contour and Mathlib complex-analysis foundations. |
-| L1: normal families | `Conformal/Montel/Basic.lean` and `Vitali.lean` use locally uniform convergence of holomorphic functions, not the unrelated locally convex Montel-space notion. |
-| L2: disc geometry | `Conformal/SchwarzPick/Basic.lean`, `Poincare/MetricSpace.lean` and `UnitDisc/Automorphism/Group.lean` use the canonical disc and pseudo-hyperbolic/Poincaré metrics. |
+| L1: normal families | `Conformal/Montel/Basic.lean` and `Conformal/Vitali.lean` use locally uniform convergence of holomorphic functions, not the unrelated locally convex Montel-space notion. |
+| L2: disc geometry | `Conformal/SchwarzPick/Basic.lean`, `Conformal/Poincare/MetricSpace.lean` and `Conformal/UnitDisc/Automorphism/Group.lean` use the canonical disc and pseudo-hyperbolic/Poincaré metrics. |
 | L3: Riemann mapping | `Conformal/RiemannMapping/{Existence,Uniqueness,Conformal}.lean` supply existence, holomorphic inverse and uniqueness up to disc automorphism for every nonempty simply connected proper open complex domain. |
-| L4: reflection and continuation | `Conformal/Reflection/{Basic,Principle,Arc,Circle/Conjugate,Circle/Principle}.lean`, `Removability/Arc.lean` and `Monodromy.lean` retain the real-axis explicit witness, arc/circle reductions, removability and homotopy-invariant continuation. |
+| L4: reflection and continuation | `Conformal/Reflection/{Basic,Principle,Arc,Circle/Conjugate,Circle/Principle}.lean`, `Conformal/Removability/Arc.lean` and `Conformal/Monodromy.lean` retain the real-axis explicit witness, arc/circle reductions, removability and homotopy-invariant continuation. |
 | L5: Jordan topology | `TauCeti/Topology/JordanCurve/Basic.lean`, `TauCeti/Topology/FilledHull.lean` and `PlaneSeparation/Inside.lean` prove the actual two components, bounded connected inside, unbounded outside, frontiers and containment/separation API without RMT or a boundary smoothness premise. |
-| L5: boundary correspondence | `Conformal/Caratheodory.lean` and `Jordan/Approach.lean` give the continuous extension for every conformal disc map of a bounded Jordan domain, injectivity on the closed disc and the homeomorphism of closures. |
+| L5: boundary correspondence | `Conformal/Caratheodory.lean` and `Conformal/Jordan/Approach.lean` give the continuous extension for every conformal disc map of a bounded Jordan domain, injectivity on the closed disc and the homeomorphism of closures. |
 | L6: polygonal maps | `Conformal/SchwarzChristoffel/{Integrand,Primitive,Vertex,JordanPolygon}.lean` supply the explicit polygonal maps, vertex values and the domain-qualified forms, including the unbounded half-strip case retained in the suggested interfaces. |
 
 A fresh actual-main replay built 88 entry modules across conformal mapping, global arithmetic
