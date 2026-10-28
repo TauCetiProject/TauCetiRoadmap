@@ -1701,6 +1701,66 @@ Define the geometric genus of a
 compact n-fold as `h^(n,0)`. The theta sections of positive torus line bundles and their
 quantization are GeometricQuantization's targets.
 
+<a id="elliptic-flat-degree-zero-lines"></a>
+**K7.FlatDegreeZero — elliptic lines and vanishing cohomology.** Fix Im τ>0
+and the same complex-torus carrier `E_τ=ℂ/(ℤ+τℤ)` supplied above. Write
+`λ_(m,n)=m+nτ` and let ρ be a character of the additive lattice into ℂ×.
+Use K4's holomorphic bundle descent to construct the line L_ρ from
+`(z,v)~(z+λ,ρ(λ)v)`. Give its local frames, projection, fibrewise linear
+charts and the tensor/dual/pullback comparisons
+`L_ρ⊗L_σ≃L_(ρσ)` and `L_ρ*≃L_(ρ⁻¹)`. Here ρ is a factor of automorphy:
+the descended flat connection has source-to-target holonomy ρ(λ)⁻¹ around
+the loop lifting from0 to λ. Prove this inverse against K4/B5's actual
+parallel-transport convention.
+
+Identify holomorphic sections with entire functions satisfying
+`f(z+λ)=ρ(λ)f(z)`, by mutually inverse linear descent/pullback maps. For
+unitary ρ, prove |f| is lattice-periodic and bounded by its maximum on a
+compact fundamental parallelogram. Apply native
+`Differentiable.exists_eq_const_of_bounded`: f is constant, and its value c
+satisfies `(ρ(λ)−1)c=0` for all λ. Thus H⁰(E_τ,L_ρ) is a line for ρ=1
+and zero otherwise, with the actual constant-section isomorphism in the
+trivial case. No such assertion for every nontrivial complex character is
+made: a character `ρ(λ)=exp(aλ)` has the nowhere-zero section exp(az).
+
+Prove the complete gauge criterion
+`L_ρ≃L_σ ↔ ∃a∈ℂ, σ(λ)=exp(aλ)ρ(λ) for every λ`, with forward maps,
+inverses and scalar choices: the displayed exponential sends
+`[z,v]↦[z,exp(az)v]`. For arbitrary ρ, put
+`u=log|ρ(1)|`, `v=log|ρ(τ)|` and
+`a=u+i(u Re τ−v)/Im τ`. Prove `σ(λ)=exp(−aλ)ρ(λ)` is unitary. The
+corresponding entire gauge reduces the section and isomorphism problems
+to the bounded-function argument above. Between two unitary characters the
+criterion forces a=0 and ρ=σ. Export the full isomorphism spaces: they are
+empty for distinct unitary characters and are ℂ× for equal ones.
+
+Prove L_ρ is smoothly trivial, with integral c₁=0 and degree0. For unitary
+`ρ(1)=exp(2πiα)`, `ρ(τ)=exp(2πiβ)`, a smooth nowhere-zero section is
+represented by `f(x+τy)=exp(2πi(αx+βy))`; changing the real lifts α,β changes
+the frame, not the line. Transfer this result through the exponential gauge
+for arbitrary ρ. Construct every degree-zero holomorphic line this way:
+choose a Hermitian metric, write `iF=φω` on the flat elliptic metric and
+use its zero integral. With the nonnegative scalar Laplacian and K5's Green
+operator G, set `u=−2Gφ` and `h'=exp(u)h`. Prove
+`F_(h')=F_h−∂∂̄u` and `i∂∂̄u=−(Δ_du)ω/2`, hence F_(h')=0.
+Parallel frames and the inverse holonomy convention give the required
+unitary ρ. This identifies the degree-zero subgroup of K4.P's holomorphic
+Picard group with the group of unitary lattice characters, preserving
+products and duals; it does not construct a second Picard functor.
+
+Trivialize the canonical line by dz. K5b's Serre pairing then identifies
+H¹(E_τ,L_ρ) with the dual of H⁰(E_τ,L_(ρ⁻¹)); higher cohomology vanishes.
+For unitary ρ≠1 both H⁰ and H¹ vanish, whereas for ρ=1 both have dimension1.
+Give the perfect pairing and the invariant dz/dbar(z) representatives in
+that trivial case. For the square torus take ρ(m+ni)=(−1)^m as an explicit
+smoothly trivial, holomorphically nontrivial acyclic line. These targets
+supply Demazure9 p1's degree-zero elliptic example independently of a
+Riemann–Roch theorem. The unitary-character/Picard comparison is also
+[Berwick–Evans–Tripathy, §2.1, Remark2.1](https://par.nsf.gov/servlets/purl/10339859).
+Only K4's descent/Chern formulas, K4.P, K5's Green/Serre theory and K7's
+fixed torus are used. Suggested entire-function statements are in
+[`EllipticFlatLineTargets.lean`](EllipticFlatLineTargets.lean).
+
 Construct the primary Hopf surface `(ℂ²\{0})/(z↦2z)` using #279
 Milestone 4's free properly discontinuous holomorphic quotient, and its smooth
 diffeomorphism to `S¹×S³`. Compute its de Rham groups and prove it is not Kähler since
