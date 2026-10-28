@@ -192,11 +192,34 @@ suspension-map comparison for sphere Freudenthal connectivity.
    connection pin the Ricci identity
    `∇²s(X,Y)−∇²s(Y,X)=R(X,Y)s`; identify its torsion correction for a
    connection with torsion.
-2. Prove sectional curvature determines an algebraic Riemannian curvature
-   tensor by an explicit polarization identity. Identify constant sectional
-   curvature κ with `R(X,Y)Z=κ(⟨Z,Y⟩X−⟨Z,X⟩Y)`, hence
-   `Ric=(n−1)κg`, scalar curvature `n(n−1)κ`. Include the n<2 cases separately;
-   an empty collection of 2-planes must not characterize a nontrivial κ.
+2. For the covariant four-tensor `r(x,y,z,w)=⟨R(x,y)z,w⟩`, put
+   `Q(x,y)=r(x,y,y,x)`. This numerator is defined for all vectors, including
+   dependent pairs; on independent pairs it is sectional curvature times the
+   Gram determinant. Pin the mixed polarization
+
+   ```
+   B_Q(x,w;y,z) = Q(x+w,y+z) − Q(x+w,y−z)
+                 − Q(x−w,y+z) + Q(x−w,y−z),
+   24 r(x,y,z,w) = B_Q(x,w;y,z) − B_Q(y,w;x,z).
+   ```
+
+   Prove the formula by multilinearity, skew symmetries, pair interchange
+   and first Bianchi, first for algebraic real four-tensors and then for the
+   existing pointwise curvature tensor. Check the normalization on an
+   orthonormal pair in constant curvature +1, with z=y and w=x. For dependent
+   pairs prove Q=0 by alternation; equality of sectional curvatures on all
+   two-planes therefore gives equality of Q everywhere and of the full tensor.
+   No orthonormality or independence is needed in the polarization formula.
+   Derive it independently of the dense source display in Math240
+   `0224_028` p7, whose handwritten normalization remains qualified.
+   [CurvaturePolarizationTargets.lean](CurvaturePolarizationTargets.lean)
+   fixes these algebraic interfaces on native iterated linear maps.
+   Identify constant sectional curvature κ with
+   `R(X,Y)Z=κ(⟨Z,Y⟩X−⟨Z,X⟩Y)`, hence `Ric=(n−1)κg` and scalar
+   curvature `n(n−1)κ`. Include the n<2 cases separately; an empty collection
+   of 2-planes must not determine κ. For the reconstruction proof, see
+   [Andrews, Lecture16, Proposition16.2.1](https://maths-people.anu.edu.au/andrews/DG/DG_chap16.pdf),
+   translating its four-tensor slot convention into the one fixed above.
 3. Prove Schur's theorem on connected n≥3 manifolds and the contracted-Bianchi
    Einstein statement `Ric=a(x)g ⇒ a constant`, also with n≥3. Define local symmetry by ∇R=0,
    prove parallel transport preserves R exactly when this condition holds,
