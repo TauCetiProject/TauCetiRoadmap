@@ -19,7 +19,7 @@ Suggested home: `TauCeti/NumberTheory/NumberField/Global/`, with subdirectories 
 `GlobalNumberFields` or in the namespace of their principal carrier.
 
 [`Suggested.lean`](Suggested.lean) gives representative declaration shapes. The markdown roadmap
-is definitive. A dated, non-normative account of the source material and ecosystem is maintained
+is definitive. [The completion audit](COMPLETION.md) maps all twelve layers to their native implementations. A dated, non-normative account of the source material and ecosystem is maintained
 in a private provenance ledger.
 
 ## Scope
