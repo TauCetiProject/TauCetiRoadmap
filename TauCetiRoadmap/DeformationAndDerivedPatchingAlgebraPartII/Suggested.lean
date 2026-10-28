@@ -28,8 +28,9 @@ non-Cohen–Macaulay locus and the defect set have no signatures here: the norma
 complexes in their hypotheses do not exist at the pins. K3's sheaf comparison with the strict
 transform, the product-of-ideals isomorphisms and the global support description also have no
 signatures here. Although the blow-up scheme `Proj (reesAlgebra.grade I)` exists, homogeneous
-module localization, `Proj.tildeModule`, the module blowing-up sheaf and its strict transform
-require the constructions specified in K3.3–K3.5.
+module localization, the module blowing-up sheaf and its strict transform are not at the pins: the
+blowing-up is AdicSpacesPartIII's graded-module sheaf at twist zero applied to the Rees module,
+and K3.3–K3.5 specify the constructions and comparisons on that carrier.
 -/
 
 namespace TauCetiRoadmap.DeformationAndDerivedPatchingAlgebraPartII
