@@ -1,3 +1,5 @@
+import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Covering
+import TauCeti.Topology.Algebra.CliffordAlgebra.Spin.Connected
 import TauCeti.RepresentationTheory.Spin.Structure
 import TauCeti.RepresentationTheory.QuaternionicStructure
 import TauCeti.RepresentationTheory.Spin.OddStructure
@@ -28,6 +30,10 @@ noncomputable section
 namespace TauCetiRoadmap.SpinGeometry
 
 open scoped Manifold ContDiff TensorProduct
+
+-- G4.1a/G4.4a use these native compact-real topology suppliers.
+#check CliffordAlgebra.isCoveringMap_realCliffordSpinDoubleCoverZero_rightHom
+#check CliffordAlgebra.pathConnectedSpace_realCliffordSpinGroupZero_add_two
 
 section RealRegularClifford
 
