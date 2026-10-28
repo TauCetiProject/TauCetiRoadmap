@@ -980,8 +980,8 @@ doubly power-bounded elements with spectrum `{1}`. *Needs:* Mathlib `NormedAlgeb
 **Checks.**
 - In `ℚ_p` the subgroup `1 + pℤ_p` of units has `sup |g − 1| = p⁻¹ < 1` and is infinite, so the
   archimedean hypothesis is essential.
-- In `ℂ = ℝ²` the subgroup `μ_6` has `sup |g − 1| = |ζ_6 − 1| = 1`, so the strict bound `< 1` is
-  sharp.
+- In `ℂ = ℝ²` a primitive sixth root has `|ζ_6 − 1| = 1`, but `⟨ζ_6⟩ = μ_6` contains `−1`, so
+  `sup_{g∈μ_6} |g − 1| = 2`: a bound on a generator does not bound the subgroup it generates.
 - In `M₂(ℝ)` with the operator norm, `g = (1 t; 0 1)` with `0 < |t| < 1` has `‖g − 1‖ < 1`, but
   `‖g^n − 1‖ = |n t|` is unbounded, so `⟨g⟩` violates the hypothesis: the nilpotent step uses the
   whole subgroup, not a single element.
@@ -1910,8 +1910,9 @@ with nonzero monodromy;
   inertia invariants is essential.
 
 **Local factors of induced representations.** Prove that for `A` commutative, `V` finite free and
-`φ ∈ End V`, the cyclic block `φ_n` on `V^n` has `det(1 − X φ_n) = det(1 − X^n φ)` (Deligne 1973,
-3.9, p. 531). Prove that for `L/K` finite separable of residue degree `f` and `V` a representation of
+`φ ∈ End V` and `n ≥ 1`, the cyclic block `φ_n` on `V^n` (sending block `i` to block `i + 1` for
+`i < n − 1` and applying `φ` from block `n − 1` to block `0`) has `det(1 − X φ_n) = det(1 − X^n φ)`;
+`V = 0` is allowed (Deligne 1973, 3.9, p. 531). Prove that for `L/K` finite separable of residue degree `f` and `V` a representation of
 `W_L` over any field, `(Ind V)^{I_K} ≅ (V^{I_L})^f` by `φ ↦ (φ(F_K^{f−1}), …, φ(1))`, carrying `F_K` to
 the cyclic block of `F_L`, and `ker N_Ind = Ind(ker N)` (Deligne 1973, proof of 3.8(ii), p. 530). Hence
 `L(Ind(V, r, N), X) = L(V, X^f)` and `WD(Ind ρ) ≅ Ind WD(ρ)`; and for `L/F` a finite extension of
@@ -1924,6 +1925,8 @@ unramified at and above `v` (Deligne 1973, 3.8(ii), p. 530).
   polynomial `X² − 2`; the wraparound map applies `φ` from the last block to the first.
 - Rank-one `φ = 1` with two blocks has characteristic polynomial `X² − 1`.
 - Rank-one `φ = 0` with three blocks has characteristic polynomial `X³`.
+- For `n = 0` the identity fails: `V^0 = 0` gives `det(1 − X φ_0) = 1`, while `φ = id` on `V = ℚ`
+  gives `det(1 − φ) = 0`; the hypothesis `n ≥ 1` is essential.
 
 ### 2.5a Comparison with the adelic convergence factors
 
