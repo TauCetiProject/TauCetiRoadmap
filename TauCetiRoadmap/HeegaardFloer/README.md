@@ -315,9 +315,55 @@ Use signed compactified spaces to construct the continuation chain map,
 constant-path identity and reverse-path inverse up to specified homotopy.
 Construct the digon degree-one chain homotopy and the triangle composition
 homotopy, together with the singular-comparison square and endpoint-relative
-parameter independence. Check both circle counterexamples to naive
-continuation. Prove the ordinary contractible-parameter-space invariance
-theorem without imposing trivial monodromy on unrelated Floer parameter spaces.
+parameter independence. Prove the ordinary contractible-parameter-space
+invariance theorem without imposing trivial monodromy on unrelated Floer
+parameter spaces.
+
+**Circle continuation counterexamples.** For θ modulo2π and δ>0 use
+`f_r(θ)=δ cos(2(θ−r))`, g=dθ². Label maxima `p_j(r)=r+jπ` and minima
+`q_j(r)=r+π/2+jπ`, j=0,1, and orient both maximum unstable lines by +∂_θ.
+In these ordered bases prove that the Morse differential is
+`D=I−S=[[1,−1],[−1,1]]`, where S exchanges the two generators. Each slice
+is Morse–Smale. Fix a smooth nondecreasing ρ:[0,1]→[0,1], zero for t≤1/3
+and one for t≥2/3. Use the positive parameter field
+`W=t(1−t²)∂_t+2δ sin(2(θ−r(t)))∂_θ`.
+For `r(t)=r₀+(r₁−r₀)ρ(t)`, and for its smooth two-piece concatenations,
+all variation lies in 1/6≤t≤5/6. Put
+`T=∫_(1/6)^(5/6) (t(1−t²))⁻¹dt` and choose `2δT<π/12`.
+Prove that the transition diffeomorphism across this window moves every
+lifted angle by less than π/12; the same estimate holds backwards.
+For the specific small-δ paths below, classify the index-preserving
+trajectories by endpoint basin membership.
+Prove admissibility by excluding source-minimum/target-maximum connections,
+and check that the remaining equal-index counts are +1 with these orientations.
+
+For the path r=πρ, use the fixed spatial bases of the identical endpoint
+function f₀=f_π. The continuation map is I in both degrees, while tracking
+the critical points gives S in both degrees. Also exhibit a path with all
+slices Morse–Smale that is not admissible. Keep r=πρ and vary δ. In the
+flow time s, the relative angle ψ=θ−r satisfies
+`ψ′=2δ sin(2ψ)−πρ′(t)t(1−t²)`. If
+`2δ>max_t πρ′(t)t(1−t²)`, the strip π/4≤ψ≤π/2 traps the trajectory
+starting at q₀(0). At t=5/6 its lifted angle exceeds π, whereas the small-δ
+trajectory ends below π. Continuous dependence on δ gives an intermediate
+value landing exactly at θ=π, a target maximum. The resulting connection
+between total-field index1 critical points violates transversality. Prove
+the trapping and parameter-continuity steps on the fixed finite time window.
+
+For strict composition put β=π/3. Let Γ₁ have r=βρ and Γ₂ have
+r=β+βρ, and concatenate them by r(t)=βρ(2t) for t≤1/2 and
+r(t)=β+βρ(2t−1) for t≥1/2. The flat endpoint germs make this smooth.
+Use the moving labels p_j(r),q_j(r) at each endpoint. Under the same
+small-δ bound prove Φ₁=Φ₂=I but Φ_(Γ₂*Γ₁)=S in both degrees. The
+concatenation has a finite middle plateau; it does not insert an infinite
+flow time at the intermediate Morse pair. Verify these counts by the
+π/6 separation from each relevant basin boundary. Construct the degree1
+chain homotopy K=−I, for which `DK=KD=S−I` in the two relevant degrees.
+Thus the maps agree on homology, with H₀=H₁=ℤ. The native matrix calibration
+is in [`CircleContinuationTargets.lean`](CircleContinuationTargets.lean).
+These examples use the positive-field construction; compare them with the
+large-constant product realization through the stated M.5 comparison.
+
 Give the birth/death and handle-slide chain changes and their comparison
 with these continuation maps. Own the ordinary one-parameter Cerf theorem
 here. Construct relative transversality for partial spatial jets through
