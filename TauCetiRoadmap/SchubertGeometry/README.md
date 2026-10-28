@@ -87,103 +87,6 @@ Construct in this order: S1's existing relative carriers and early root cells; S
    quotient convention by its pinned opposition map before assigning a
    root subset or Schubert index.
 
-## S1A. The upper-left block Borel on complete flags
-
-Work over ℂ with column vectors f₁,…,fₙ, n≥1, and put m=n−1,
-H=span(f₁,…,f_m). Let B_m consist of the upper-triangular invertible
-m×m matrices, embedded as diag(b,1) in GLₙ. Its action is on S1's
-existing complete incidence flag variety F_i, dim F_i=i. For this
-calculation the standard increasing flag has the **positive** upper-triangular
-stabilizer. Give the actual opposition comparison with S1's negative-Borel
-quotient; changing that quotient convention does not change the subspace action.
-The constructions use S1's incidence/forgetful charts and the earlier RG
-matrix/Bruhat coordinates, without section, vanishing or path theory.
-
-**An open orbit with an explicit inverse.** Define F⁰ by
-
-```
-F⁰_i = span(f_m+f_n, f_(m−1)+f_n, …, f_(m−i+1)+f_n),  1≤i≤m,
-F⁰_0 = 0,   F⁰_n = ℂⁿ.
-```
-
-Prove these are the subspaces of a complete flag. Construct an open
-subvariety U of the same flag scheme by the following chart conditions:
-
-1. f_n∉F_m, so projection p:ℂⁿ→H along f_n restricts to an isomorphism
-   F_m→H. Construct its inverse and write F_m as the graph of a unique
-   linear functional ℓ:H→ℂ. Put W_i=p(F_i) for i≤m.
-2. W lies in the opposite big cell for the increasing standard flag
-   E_j=span(f₁,…,f_j) of H: W_i⊕E_(m−i)=H for every i.
-   By triangular elimination construct the unique upper-unitriangular
-   matrix u with W_i=u·span(f_m,…,f_(m−i+1)). Give the pivot-minor
-   formulas and inverse, including the scheme charts on which they are regular.
-3. All numbers ℓ(u f_j), 1≤j≤m, are nonzero. These are regular
-   functions on the preceding chart; invert their product.
-
-Prove the orbit morphism B_m→U, b↦bF⁰, is an isomorphism. Its inverse is
-
-`F ↦ u·diag(1/ℓ(u f₁),…,1/ℓ(u f_m))`.
-
-Check both composites on every F_i: for b=u·diag(d_j), the graph condition
-is d_jℓ(u f_j)=1. Prove regularity of these maps and the stated openness
-using the actual determinant/rank charts. Thus the stabilizer is trivial,
-U is a nonempty open dense orbit, and dim U=n(n−1)/2. Density uses the
-irreducibility of the existing full flag variety, proved by its surjective
-GLₙ quotient map; dimension counting alone is not a density argument.
-At n=1, H=0, all products and opposite-cell conditions are empty, B₀
-and the flag are points. At n=2, the two coordinate lines are fixed
-orbits and their complement is this single open orbit, isomorphic to ℂ×.
-
-**All thirteen orbits for n=3.** Write
-
-```
-b(a,t,c) = [[a,t,0],[0,c,0],[0,0,1]],   a,c∈ℂ×, t∈ℂ.
-```
-
-First classify its line orbits by the five representatives in the table.
-For each line compute its stabilizer and the induced action on the
-projective line of planes containing it, namely P(ℂ³/ℂv). In the last
-two columns each vector w specifies the plane span(v,w); the listed
-dimensions correspond in the same order.
-
-| Line representative v | Its stabilizer in B₂ | Extra plane vectors w | Flag-orbit dimensions |
-| --- | --- | --- | --- |
-| f₁ | all B₂ | f₂; f₃; f₂+f₃ | 0; 0; 1 |
-| f₂ | t=0 | f₁; f₃; f₁+f₃ | 1; 1; 2 |
-| f₃ | all B₂ | f₁; f₂ | 0; 1 |
-| f₁+f₃ | a=1 | f₁; f₂ | 1; 2 |
-| f₂+f₃ | t=0, c=1 | f₁; f₃; f₁+f₃ | 2; 2; 3 |
-
-Prove every flag belongs to exactly one listed orbit, not just that the
-representatives are different. For a line in H, its second coordinate
-is either zero or nonzero; outside H normalize its f₃-coordinate to1
-and distinguish (x,y)=(0,0), y=0 with x≠0, and y≠0. Give explicit
-triangular transporters to the five line representatives. For their plane
-fibres the quotient matrices in the displayed extra-vector coordinates
-are respectively diag(c,1), diag(a,1), [[a,t],[0,c]],
-[[1,t],[0,c]], and diag(a,1). Their two or three elementary P¹-orbits
-prove the table and give transporters for the full flags. Compute the
-full stabilizers from these equations, prove that each orbit is locally
-closed, and obtain its dimension as 3 minus the stabilizer dimension.
-There are exactly three dimension-zero, five dimension-one, four
-dimension-two and one dimension-three orbits. Identify the last orbit
-with U above; its representative has v=f₂+f₃ and w=f₁+f₃.
-
-This supplies the dense-orbit and low-rank classification exercises of
-Knutson semester1 pp173–176. Preserve the uncertainties in their
-rewritten flag, incidence-star notation and small diagrams. In particular,
-the literal candidate e_i=f_i+f_(i+1), e_n=f_n has F₁⊂H for n≥3;
-its B_m-orbit lies in the proper closed locus F₁⊂H and is not dense.
-Do not silently identify it with F⁰. Likewise b(1,1,1) moves both
-ℂf₂ and span(f₂,f₃); the invariant coordinate lines for this action
-are ℂf₁,ℂf₃ and the invariant coordinate planes are H,span(f₁,f₃).
-Keep these direct matrix checks separate from an identification of the
-source's overwritten labels. A general comparison reference is
-Colarusso–Evens, [*B_(n−1)-orbits on the flag variety and the Bruhat graph
-of the symmetric group*, §2 and Example4.15](https://arxiv.org/html/2406.10122v2).
-The explicit inverse and low-rank table above are the required targets;
-a general orbit-count citation does not supply their maps.
-
 ## S2. All-word Bott–Samelson and crank interfaces
 
 1. For each simple root use the actual minimal parabolic P_i− and projection G/B−→G/P_i−. For X→G/B− construct the right crank X×_(G/P_i−)G/B−, a P¹-bundle over X; construct the left crank P_i−×^(B−)X, an X-bundle over P¹, with its map to G/B− when X is a B−-space. Distinguish the two projection directions, group actions and universal properties. The right projection is smooth proper of relative dimension1; if X is smooth/proper over k, so is its total space in the corresponding assertion. The left construction is locally an X-bundle over P¹ and inherits smoothness/properness over k when X has that property. Export their base-change and equivariance laws; no absolute properness is asserted for an arbitrary nonproper X.
@@ -534,6 +437,12 @@ only their later section applications consume Borel–Weil or S5–S6.
 
 ## Acceptance calculations and source-specific interfaces
 
+- For the upper-left B_(n−1) action on complete complex flags, consume
+  [LieGroups Layer8's smaller block-Borel calculation](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1051):
+  its open-orbit chart and inverse, all thirteen rank3 orbits, stabilizers
+  and dimensions. Compare its subspace flags with S1's incidence carrier
+  and positive/negative-Borel dictionary. This is the single owner for
+  Knutson semester1 p49 and pp173–176's orbit exercises.
 - TypeA: the six minors of an actual two-frame in k⁴, their signs/change of frame, the Gr(2,4) Plücker quadric, coordinate-chart inverse, Schubert ideals, dimensions and all-degree bases. Include signed determinant-one SL representatives, the full block-monomial normalizer/stabilizer dictionary, the symplectic antidiagonal-form block parabolic and the source root-action/contragredient wedge signs. Include zero subspace/full subspace and the determinant line; claims that a tautological subbundle has no global sections need the correct nontrivial-rank range.
 - **A fixed-plane stabilizer on a Grassmannian.** Over a field k, fix
   V=k^n, 0≤k₀≤n and a specified k₀-plane U⊂V; write P=Stab_GL(V)(U).
