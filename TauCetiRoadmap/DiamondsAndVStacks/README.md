@@ -168,7 +168,8 @@ the square–cube criterion, normal-domain and product comparisons, and the semi
 rings with its subintegral unit and restriction compatibility. Factorization-system applications
 consume this predicate and reflection and own their factorization-specific characterizations and
 consequences; alternative square–cube conventions use variable exchange, and alternative
-presentations of the reflection use `sn_compare` to identify their carriers and units.
+presentations of the reflection are identified with each other, uniquely and compatibly with their
+units, by `subintegral_lift` and `subintegral_bijective_of_seminormal`.
 
 General canonical compactification (Scholze's §18) belongs to the étale cohomology of diamonds that
 imports this roadmap; D3 proves only the elementary special construction needed for its descent
@@ -217,7 +218,7 @@ The following results are supplied by the libraries or roadmaps in Exact supplie
   geometric torsors over schemes in §1.15;
 - stackification with its universal property, the 2-Yoneda lemma and 2-fibre products (§1.18), and
   quotient stacks of groupoid objects (§1.21), on an arbitrary site `(C, J)`, with the fppf stacks
-  of schemes (`Stacks.stackification`, `Stacks.twoFiberProduct`, `Stacks.quotientStack` there) and
+  of schemes (`stackification`, `twoFiberProduct`, `quotientStack` and `actionQuotient` there) and
   the v-stacks of D0.25–D0.26 as specialisations — SchemeAndStackFoundations;
 - representability of a presheaf — Mathlib `CategoryTheory.Functor.IsRepresentable`; a morphism
   property tested on base changes to representables, with its stability under base change and
@@ -264,7 +265,7 @@ The size convention is cardinal cutoffs inside fixed ambient Lean universes. In 
 statements of D1–D2 are universe-polymorphic over PerfectoidSpaces' `Perfd.{u} p`, and `κ`-smallness
 is PerfectoidSpaces' `IsKappaSmall`. The suggested carriers of the README-only targets of D1–D6 are
 the following. `Geometry.Affinoid p c` has rings in `Type`, the ring universe of
-`AdicEtaleGeometry.CAff`, and enters `PerfectoidSpace.Perfd.{1} p` through the universe lift
+AdicEtaleGeometry's `CAff`, and enters `PerfectoidSpace.Perfd.{1} p` through the universe lift
 `Geometry.Affinoid.ulift`. `Geometry.HasAffinoidCharts p c` selects the objects of `Perfd.{1} p`
 covered by open subspaces isomorphic to spectra of such lifts, and `Geometry.Spaces p c : Type 2` is
 `ULiftHom.{2}` of this full subcategory. `ULiftHom` lifts morphisms to `Type 2` and leaves the
@@ -408,9 +409,6 @@ this README only, in the subsection given in the last column.
 | Use | Local supplier (suggested) | Subsection |
 |---|---|---|
 | `inverse_patch_unchanged` | `Spectral.inverseTopology_constructible` | D0.5 |
-| The unit of an already existing stack | `Stack.stackification_of_isStack` | D0.25 |
-| `sheafification_agreement` | `Stack.stackificationDiscreteEquiv`; its value supplies the equivalence witness | D0.25 |
-| The quotient-arrow comparison Check | `Stack.quotientPullbackEquiv_apply` | D0.26 |
 | Continuous-map descent, including `J = Perfd.vTopology sp` | `underlineSheaf.isVSheaf`; covering sieves and point-surjective pullbacks (the perfectoid instance is the Lean theorem `isSheaf_yonedaPresheaf`) | D3.10 |
 | `cutoff_zero` | `definition_IsCutoffCardinal_2` | D0.23 |
 | `clopen_nonterminal_constant` | `definition_DisjointDescent_3` | D0.22 |
@@ -418,13 +416,15 @@ this README only, in the subsection given in the last column.
 | `zero_truncated_identity` | `definition_IsZeroTruncated_2` | D3.8 |
 | `injection_discrete_iff` | `definition_IsInjection_1` | D3.8 |
 | `wl_empty` | `definition_WLocalization_2` | D1.8 |
-| `wl_point` | `definition_toBase_2` | D1.8 |
 | `wl_map_swap` | `definition_map_1` | D1.8 |
 
 The generic Check aliases below use the supplier's namespace and section.
 
 | Use | Supplier roadmap and section | Supplier Check |
 | --- | --- | --- |
+| `s0_25_already_a_stack` | SchemeAndStackFoundations §1.18 | `Stack.stackification_of_isStack` |
+| `s0_25_sheafification_agreement` | SchemeAndStackFoundations §1.18 | `Stack.stackificationDiscreteEquiv` |
+| `s0_26_pair_groupoid`, `s0_26_trivial_groupoid` | SchemeAndStackFoundations §1.21 | the equivalence `R ≃ X ×_{[X/R]} X` of `Stack.quotient` |
 | `disjoint_union_of_spectral_is_locally_spectral_not_spectral` | AdicSpacesPartII R0.0 | `definition_IsLocallySpectralSpace_1` (a Lean example) |
 | `algebraic_discrete_infinite`, `algebraic_point`, `nonalgebraic_real_line` | AdicSpacesPartII R0.19.10 | `definition_IsAlgebraic_1`, `_2`, `_3` |
 | `qc_identity_noncompact` | AdicSpacesPartII R0.19.10 | `Topos_Hom_IsQuasicompact_noncompact_identity` |
@@ -435,16 +435,18 @@ The generic Check aliases below use the supplier's namespace and section.
 
 D6.9 owns the public ring theory used by its rigid constructions. The names below are in
 `TauCetiRoadmap.DiamondsAndVStacks`, with `Affine.normal_finiteProduct` in its `Affine`
-namespace, and have signatures in `Suggested.lean`.
+namespace. `IsSeminormalRing`, `IsSubintegral`, `subintegral_lift`,
+`subintegral_bijective_of_seminormal` and `exists_seminormalization` have signatures in
+`Suggested.lean`; the other contracts are README targets of D6.9 with the suggested names given.
 
 | Contract | Local target | Use |
 | --- | --- | --- |
-| seminormal-ring | `IsSeminormalRing`, `IsSeminormalRing.iff_unique` | Reducedness and square–cube lifting on every affine open in `Rigid.IsSeminormal`. |
-| normal-ring-check | `IsSeminormalRing.of_isIntegrallyClosed`, `IsSeminormalRing.prod_iff`, `Affine.normal_finiteProduct` | Normal domain charts and their finite products in `rigid_seminormal_normal`. |
-| compatible-branch-rings | `IsSeminormalRing.eqLocus` | Seminormality of branch functions with matching values in a reduced ring, including the node of D6.9. |
-| seminormalization-ring | `snRing`, `snMap`, `snRing_seminormal`, `sn_lift`, `sn_compare` | The public ring reflection and its unique comparison with any seminormal subintegral extension, used to construct `Rigid.seminormalization`. |
-| subintegral-unit | `IsSubintegral`, `subintegral_lift`, `subintegral_bijective_of_seminormal`, `snMap_subintegral`, `snMap_isIntegral`, `snMap_fieldPoints` | Subintegral maps, unique extension into seminormal rings, and bijectivity with seminormal source and reduced target; the unit is subintegral. |
-| fixed-rings-and-restriction | `snMap_bijective`, `snRing_localization` | Fixed seminormal rings and compatibility with principal affine restriction; rigid rational restriction is the analytic statement of D6.9. |
+| seminormal-ring | `IsSeminormalRing` and its unique-lifting characterisation | Reducedness and square–cube lifting on every affine open in `Rigid.IsSeminormal`. |
+| normal-ring-check | seminormality of integrally closed domains and of products, `Affine.normal_finiteProduct` | Normal domain charts and their finite products in `rigid_seminormal_normal`. |
+| compatible-branch-rings | seminormality of the equalizer `f.eqLocus g` | Seminormality of branch functions with matching values in a reduced ring, including the node of D6.9. |
+| seminormalization-ring | `exists_seminormalization`, `subintegral_lift`, `subintegral_bijective_of_seminormal`; the README targets `snRing`, `snMap`, `snRing_seminormal`, `sn_lift`, `sn_compare` | Existence of a seminormal subintegral extension with its universal property and uniqueness up to unique isomorphism, and the constructed ring reflection, used to construct `Rigid.seminormalization`. |
+| subintegral-unit | `IsSubintegral`, `subintegral_lift`, `subintegral_bijective_of_seminormal`; the README targets `snMap_subintegral`, `snMap_isIntegral`, `snMap_fieldPoints` | Subintegral maps, unique extension into seminormal rings, and bijectivity with seminormal source and reduced target; the unit is subintegral. |
+| fixed-rings-and-restriction | the README targets `snMap_bijective`, `snRing_localization` | Fixed seminormal rings and compatibility with principal affine restriction; rigid rational restriction is the analytic statement of D6.9. |
 
 ### From Mathlib
 
@@ -472,15 +474,13 @@ Boolean functions used to compute proper clopen restriction. `ZMod.castHom` in
 | `CategoryTheory.Limits.CatCospanTransform`, `CategoricalPullback.CatCommSqOver.transform` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/CatCospanTransform.lean:48`; `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/Basic.lean:471` | Transport of a pullback cone along the three restriction functors and the pseudonaturality isomorphisms. |
 | `CategoryTheory.Limits.CategoricalPullback.mkIso`, `CategoryTheory.Cat.Hom.isoMk`, `CategoryTheory.Discrete.functor` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/Basic.lean:159`; `Mathlib/CategoryTheory/Category/Cat.lean:166`; `Mathlib/CategoryTheory/Discrete/Basic.lean:196` | Build pullback isomorphisms from their two components, turn natural isomorphisms into 2-cells of `Cat`, and include the discrete objects into a category. |
 | `CategoryTheory.LocallyDiscrete.mkPseudofunctor`, `CategoryTheory.Pseudofunctor.StrongTrans` | `Mathlib/CategoryTheory/Bicategory/Functor/LocallyDiscrete.lean:165`; `Mathlib/CategoryTheory/Bicategory/NaturalTransformation/Pseudo.lean:57` | Identity and composition constraints and strong naturality constraints are specified isomorphisms, with separate coherence equations. |
-| `CategoryTheory.Pseudofunctor.StrongTrans.Modification` | `Mathlib/CategoryTheory/Bicategory/Modification/Pseudo.lean:51` | Modifications between strong transformations; `Stack.groupoidDescentDataCategory` restricts these to modifications intertwining the relation action. |
-| `CategoryTheory.Pseudofunctor.DescentData` | `Mathlib/CategoryTheory/Sites/Descent/DescentData.lean:59` | Descent for a family of arrows to one site object. `Stack.GroupoidDescentData` instead treats a groupoid of sheaves, including its nontrivial stabilizers. |
+| `CategoryTheory.Pseudofunctor.StrongTrans.Modification` | `Mathlib/CategoryTheory/Bicategory/Modification/Pseudo.lean:51` | Modifications between strong transformations, the 2-cells in the descent equivalence `Stack.quotient_descent` of D0.26. |
+| `CategoryTheory.Pseudofunctor.DescentData` | `Mathlib/CategoryTheory/Sites/Descent/DescentData.lean:59` | Descent for a family of arrows to one site object. The descent data of `Stack.quotient_descent` in D0.26 are instead taken along a groupoid of sheaves, including its nontrivial stabilizers. |
 
 
 The 2-fibre product of SchemeAndStackFoundations §1.18, written `Stack.twoFibreProduct` in D0.26,
-assembles these categorical pullbacks into a prestack. Its projection transformations, comparison
-modification, stack condition and universal property for maps of prestacks include compatibility
-with restriction. `twoFibreProductObjEquiv` is the identity equivalence on the supplied fibre
-category. The category-level pullback and its universal property are supplied by Mathlib.
+assembles these categorical pullbacks into a prestack; its construction is that roadmap's. The
+category-level pullback and its universal property are supplied by Mathlib.
 
 `Ideal.quotientMap` in `Mathlib/RingTheory/Ideal/Quotient/Operations.lean` supplies the scalar map
 between the integral reductions in D1.6. `CategoryTheory.Over.post` in
@@ -816,7 +816,7 @@ and Proposition 11.15.
 
 ### From TauCetiRoadmap.AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII and SchemeAndStackFoundations
 
-`TauCetiRoadmap.AdicEtaleGeometry.CAff`, `YonedaAdicSpace`, `YonedaAdicSpace.ofSpaY`,
+`CAff`, `YonedaAdicSpace`, `YonedaAdicSpace.ofSpaY`,
 `YonedaAdicSpace.spaYFunctor`, `YonedaAdicSpace.space`, `YonedaAdicSpace.space_ofSpaY` and
 `YonedaAdicSpace.IsOpenImmersion`, targets of AdicEtaleGeometry §A1.16, supply complete pairs, their
 spectra, valuation topology and geometric open immersions. These carriers include nonnoetherian
@@ -866,8 +866,8 @@ import from the scheme roadmap is required by the statements of `Suggested.lean`
 
 | Supplier section in SchemeAndStackFoundations | Target names | Form | Contract used here |
 |---|---|---|---|
-| §1.18, Stacks in groupoids, stackification, the 2-Yoneda lemma and 2-fibre products | `Stacks.stackification`, `Stacks.twoFiberProduct` | Specification | Implemented once on an arbitrary site `(C, J)`; the groupoid-valued fppf stacks on `Scheme.{u}` and the v-stacks of D0.25–D0.26 are its specialisations. |
-| §1.21, Quotient stacks, line bundles with a section, root stacks | `Stacks.quotientStack`, `Stacks.actionQuotient` | Specification | Quotients of groupoid objects and group actions on an arbitrary site; D0.26 is the specialisation to `(Perf, v)`. |
+| §1.18, Stacks in groupoids, stackification, the 2-Yoneda lemma and 2-fibre products | `Stack.stackification`, `Stack.twoFibreProduct` (generic); `stackification`, `twoFiberProduct` (fppf) | Specification | Implemented once on an arbitrary site `(C, J)`; the groupoid-valued fppf stacks on `Scheme.{u}` and the v-stacks of D0.25–D0.26 are its specialisations. |
+| §1.21, Quotient stacks, line bundles with a section, root stacks | `Stack.quotient` (generic); `quotientStack`, `actionQuotient` (fppf) | Specification | Quotients of groupoid objects and group actions on an arbitrary site; D0.26 is the specialisation to `(Perf, v)`. |
 | §§2.1–2.2, Higher direct images, Leray and Čech spectral sequences | `leray_spectral_sequence`, `cech_to_cohomology` | Specification | Higher direct images, the spectral sequences, their relative and edge-map statements, and Leray's acyclicity comparison; D0.19 states the comparison for the sites of layer D2. |
 | §2.3, Sheaf torsors and torsor classes (§1.15 for geometric torsors over schemes) | `NonabelianH1` | Specification | Torsor classes on a site; D0.18, D0.25 and D3.10 take their torsor classes here. |
 | §2.5, Slice sites, Godement resolutions, flasque sheaves, Grothendieck vanishing, filtered colimits | `flasque_cech_vanishing`, `cohomology_filtered_colimits` | Specification | Higher Čech vanishing for flasque abelian sheaves on spaces and filtered-colimit compatibility on coherent sites; used in D0.18–D0.21. |
@@ -929,9 +929,9 @@ The rational-space Checks in D2.1 use `Rat.interior_compact_eq_empty`
 PerfectoidSpaces as they stand: the spectral topology and submersions of D0 with the cutoff
 cardinals and the flasque constant sheaf, the disconnected perfectoid spaces and split-cover
 cohomology of D1 with automatic flatness, the v-topology on PerfectoidSpaces' `Perfd p` with
-v-descent, degree-zero comparison and affinoid acyclicity of `O`, and v-descent of continuous maps
-(D2–D3), the Berkovich spectrum and the component formula of D5, and the affine
-seminormality and seminormalization inputs of D6.9. Each subsection ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
+v-descent, the degree-zero comparison and affinoid acyclicity of `O` on the `κ`-small v-site, and
+v-descent of continuous maps (D2–D3), the Berkovich spectrum and the component formula of D5, and
+seminormality, subintegrality and the existence of seminormalizations for rings (D6.9). Each subsection ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
 specified in the README only (no Lean declaration). Every other declaration name of this roadmap in
 the text — the suggested definitions and lemmas, and the carriers `Geometry.*`, `Perf.*`, `Perfd.*`,
 `PreAdic.*`, `Rigid.*`, `Stack.*`, `Topos.*`, `Pro.*`, `Cofiltered.*`, `ClopenSheaves.*`,
@@ -943,8 +943,8 @@ not in the Lean file.
 Check labels `sM_N_case` identify the Checks of subsection DM.N; labels of the form
 `definition_Name_k`, and the other backticked labels in Check lists, identify the Checks of a
 definition target. Checks specify mathematical acceptance cases in prose. The `Lean:` lines
-identify milestone signatures and the three proved examples in `Suggested.lean`; named boundary
-theorems state the size obstructions used in D3–D4. Italic slug labels such as
+identify milestone signatures and the three proved examples in `Suggested.lean`; the size
+obstructions used in D3–D5 are README boundary statements. Italic slug labels such as
 (*spectral-quotient-criterion*) name targets for citation from other roadmaps; they are labels of this README and of the roadmaps that cite them. The
 geometric examples use `Geometry.Affinoid`, `Geometry.Spaces`, `Geometry.VSheaf` and
 `Geometry.VStack`, including their valuation spectra and slice categories.
@@ -1002,9 +1002,9 @@ spectral space is spectral, and `x` specializes to `y` in the inverse topology i
 to `x` in the original topology) and `Spectral.inverseTopology_inverse` (applying the operation
 twice recovers the original topology); prove also that the inverse topology has the same
 constructible topology as the original and that a map `X → Y` is spectral for the original
-topologies iff it is spectral for the inverse topologies ([KL15] §8.1, Def. 8.1.4, p. 157, whose
-final sentence names this other spectral topology and which separately specifies the patch
-topology). The named comparisons are `Spectral.inverseTopology_constructible` and
+topologies iff it is spectral for the inverse topologies ([Hoc69] Proposition 8, p. 52, the
+source of these properties; [KL15] §8.1, Def. 8.1.4, p. 157, whose final sentence names this other
+spectral topology after Hochster and which separately specifies the patch topology). The named comparisons are `Spectral.inverseTopology_constructible` and
 `Spectral.inverseTopology_map`. *Needs:* AdicSpacesPartII R0.19.9 and AdicSpacesPartII R0.19.1.
 
 **Checks.**
@@ -1184,8 +1184,7 @@ quasicompact open then `U` is open; this is weaker than an ordinary submersion, 
 `Topology.IsQuotientMap`. Define `IsSpectralSubmersion` by surjectivity, spectrality and this
 descent of quasicompact openness; prove `IsSpectralSubmersion.iff_constructible` (it suffices to
 test constructible `U`; surjectivity and compactness of the constructible topology then also give
-quasicompactness of `U`), `IsSpectralSubmersion.of_quotient` (a surjective spectral quotient map is
-a spectral submersion) and `IsSpectralSubmersion.comp` (composites of spectral submersions are
+quasicompactness of `U`) and `IsSpectralSubmersion.comp` (composites of spectral submersions are
 spectral submersions) ([Arc] §2, Def. 2.14 and Rem. 2.15, p. 12, which give the qc-open and
 constructible criteria and make no arbitrary-open quotient claim). *Needs:* AdicSpacesPartII
 R0.19.1; Mathlib `IsSpectralMap`, `Topology.IsQuotientMap`.
@@ -1193,6 +1192,8 @@ R0.19.1; Mathlib `IsSpectralMap`, `Topology.IsQuotientMap`.
 **Checks.**
 
 - `s0_11_spectral_submersion_identity` — the identity on every spectral space is a spectral submersion.
+- `s0_11_quotient_map` — a surjective spectral quotient map is a spectral submersion: its descent
+  clause is the quotient property restricted to sets with quasicompact open preimage.
 - `s0_11_spectral_submersion_generalizing` — a surjective generalizing spectral map is a spectral
   submersion.
 - `s0_11_spectral_submersion_not_arbitrary_quotient` (non-example) — the inverse-limit map of [Arc] Rem.
@@ -1218,8 +1219,8 @@ R0.19.1; Mathlib `IsSpectralMap`, `Topology.IsQuotientMap`.
 - `definition_IsSpectralSubmersion_3` — The identity from the discrete two-point space to the
   two-point chain is not a spectral submersion.
 
-Lean: `IsSpectralSubmersion`, `IsSpectralSubmersion.iff_constructible`,
-`IsSpectralSubmersion.of_quotient` and `IsSpectralSubmersion.comp`.
+Lean: `IsSpectralSubmersion`, `IsSpectralSubmersion.iff_constructible` and
+`IsSpectralSubmersion.comp`. The Checks are specified in prose.
 
 ### D0.12 Limits of spectral submersions
 
@@ -1330,15 +1331,20 @@ proves that `assemblyCone`, with legs `limit.pre`, is limiting.
 **Checks.**
 
 - `definition_Assembly_1` — A singleton cofiltered category has an assembly indexed by one stage.
-- `definition_Assembly_2` — The empty category has an assembly indexed by the empty linear order.
+- `definition_Assembly_2` — For the opposite of the ordinal `ω₁`, the family whose every stage is
+  the whole category covers all objects and arrows but violates the cardinality bound at the first
+  stage, which allows at most `ℵ₀` objects and arrows.
 - `definition_Assembly_3` — Two disconnected objects cannot be covered by a single cofiltered stage.
 
 **`Cofiltered.countableSequence`.** An initial sequence must reach arbitrarily late stages; on the reversed natural-number category, `Cofiltered.countableSequence_nat` fixes the choice to the identity sequence.
 
 **Checks.**
 
-- `Cofiltered_countableSequence_two` — For the reversed natural numbers, the selected sequence takes stage 2 to 2.
-- `Cofiltered_countableSequence_zero` — For the reversed natural numbers, stage 0 is 0.
+- `Cofiltered_countableSequence_unbounded` — For the reversed natural numbers, every stage `m` is
+  the value of the selected sequence at some index; the eventually constant sequence `n ↦ min n 5`
+  fails this.
+- `Cofiltered_countableSequence_two` — For the reversed natural numbers, the selected sequence takes
+  stage 2 to 2, whereas the also unbounded sequence `n ↦ ⌊n/2⌋` takes it to 1.
 - `Cofiltered_countableSequence_one_not_zero` — Stage 1 is not 0, excluding the constant zero sequence.
 
 **`Cofiltered.stageLimits`.** The stage-limit transition restricts a compatible family without changing its values.
@@ -2035,395 +2041,92 @@ SchemeAndStackFoundations §§1.18 and 2.3; Mathlib `CategoryTheory.Pseudofuncto
   groupoid prestack with automorphism sheaf a nontrivial `G` is `BG`; it retains `G` as the
   automorphisms of the trivial torsor, which the sheaf of isomorphism classes would erase.
 
-**`Stack.stackification`.** Stackification preserves the discrete two-point and empty stacks and preserves stabilizers of a classifying stack.
-
-**Checks.**
-
-- `Stack_stackification_bool_classes` — On the point site the discrete two-point prestack has two isomorphism classes after stackification.
-- `Stack_stackification_empty` — The empty prestack remains empty on the point site.
-- `Stack_stackification_integer_automorphisms_infinite` — The classifying prestack of the integer group does not become a discrete category: it retains infinitely many automorphisms.
-
-**`Stack.toStackification`.** On the trivial topology choose the identity unit and the original prestack as stackification. The unit acts faithfully on each already discrete stack and retains the automorphisms of an already stackified groupoid.
-
-**Checks.**
-
-- `Stack_toStackification_bool_bijective` — For a discrete two-point stack the unit induces a bijection on isomorphism classes.
-- `Stack_toStackification_bot_identity` — For the trivial topology choose stackification and its unit to be the original prestack and its identity transformation.
-- `Stack_toStackification_bool_nonisomorphic` — On the point site the two discrete source objects have nonisomorphic images; a constant unit fails.
-
-**`Stack.stackificationDiscreteEquiv`.** For any site `(C, J)` and set-valued presheaf `P`,
-the fibre equivalences commute with restriction on every stackified object and arrow:
-`Stack.stackificationDiscreteEquiv_naturality` equates restriction followed by the comparison
-with the comparison followed by the restriction of `presheafToSheaf J P`.
-`Stack.stackificationDiscreteEquiv_unit` sends the stackification unit of each section to
-its sheafification unit. Together these specify the comparison on glued objects:
-after a cover makes an object a unit image, its image is the unique sheaf section
-with those local values. The target is discrete, so the restriction squares also
-determine the coherence isomorphisms. This is the discrete case of the local essential
-surjectivity and uniqueness in [Stacks, Lemma 8.9.1, Tag 02ZP](https://stacks.math.columbia.edu/tag/02ZP).
-
-**Checks.**
-
-- `stackificationDiscreteEquiv_unit_section` — A section x, mapped by the stackification unit, is sent to its sheafification class.
-- `stackificationDiscreteEquiv_constant_false` — For the two-point constant prestack on the trivial topology, the comparison sends the unit image of false to its sheafification class.
-- `stackificationDiscreteEquiv_distinct_section` — If a section has a different sheafification class from y, the comparison cannot send its unit image to y.
-- `stackificationDiscreteEquiv_restriction` — For every arrow `X → Y` in `Cᵒᵖ` and every
-  stackified object over `X`, comparison after restriction equals restriction of its
-  sheaf section, including objects outside the unit's image.
-- `stackificationDiscreteEquiv_local_section` — If an object's restriction is isomorphic
-  to the unit of `x`, its compared section restricts to the sheafification class of `x`.
-- `stackificationDiscreteEquiv_glued_boolean` — On the discrete two-point space, glue
-  `false` and `true` from the constant Boolean presheaf over their respective singleton
-  opens. The resulting object is not isomorphic to either global unit image. Its
-  compared section restricts to `false` on the first open and `true` on the second;
-  interchanging the two mixed global sections violates the restriction square.
-
-`Stack.toPointPrestack` is the unique map of a discrete prestack to the point prestack. In each
-fibre take the constant functor to `Discrete PUnit`, using `CategoryTheory.Functor.const`
-(Mathlib `CategoryTheory/Functor/Const.lean`) and `Discrete`
-(`CategoryTheory/Discrete/Basic.lean`). Identity restriction constraints give the transformation;
-the unique object and arrow of each target fibre prove its uniqueness and restriction compatibility.
-
-**Checks.**
-
-- `toPointPrestack_true` — `true` maps to the unique point.
-- `toPointPrestack_empty` — the map from the empty discrete fibre is injective.
-- `toPointPrestack_not_faithful_on_objects` — a Boolean fibre maps noninjectively to the point.
-
-**Checks.**
-
-- `empty_discrete_not_terminal` — The discrete category on the empty type is a subsingleton but has no object, so it is not terminal.
-
 Lean: none; this subsection is specified in the README only (no Lean declaration).
 
 ### D0.26 2-fibre products and quotient stacks
 
 **Two-fibre products of stacks and quotients of groupoid objects, on the v-site.**
-(*groupoid-quotients-and-two-fibre-products*) The 2-fibre product of stacks, with its 2-universal
-property, is SchemeAndStackFoundations §1.18 (`Stack.twoFibreProduct`, commissioned there on any
-site), and the quotient stack of a groupoid object in sheaves, the stackification of the objectwise
-groupoid, is its §1.21 (`Stack.quotient J (X, R)`, commissioned there on any site), both
-([Stacks stackification] Tag 02ZL and Tags 044Q, 04M9, 044U and 06PB); `twoFiberProduct` and
-`quotientStack` there for `Scheme.{u}` with the fppf topology and the forms on `(Perf, v)` here are
-their specialisations, and `Stack.twoFibreProduct` and `Stack.quotient` below name §1.18's and
-§1.21's exports at `(Perf, v)`, not local declarations. They are consumed here and not rebuilt; this
-subsection records the contract that the v-site specialisation must satisfy, with the suggested
-names used in its Checks. For maps of stacks `G₁ → G₃` and `G₂ → G₃`, the 2-fibre product sends `X`
-to the category of triples `(a, b, φ)` with `a` in `G₁(X)`, `b` in `G₂(X)` and `φ` an isomorphism of
-their images in `G₃(X)`, morphisms between triples respecting `φ`. This category is a groupoid
-when the inputs are groupoid-valued. It uses Mathlib's
-`CategoryTheory.Limits.CategoricalPullback`, written `(f.app X).toFunctor ⊡ (g.app X).toFunctor`,
-with its supplied category structure. Restriction along `a : X ⟶ Y` applies
-`CatCommSqOver.transform` to the canonical projection square and the `CatCospanTransform` with
-components `F.map a`, `H.map a`, `G.map a`; its two squares use the inverses of `f.naturality a` and
-`g.naturality a`. `CategoricalPullback.functorEquiv` turns the resulting square into the restriction
-functor. The identity constraint has components `F.mapId` and `G.mapId`; the composition constraint
-has components `F.mapComp` and `G.mapComp`, in the direction from restriction along the composite to
-successive restrictions. `CategoricalPullback.mkIso` builds these isomorphisms, including their
-inverses. The naturality isomorphisms of `twoFibreProductFst` and `twoFibreProductSnd` are
-`Iso.refl _`, so a central automorphism in a constant groupoid cannot be substituted for either
-constraint. The strict pullback from `Cat.HasLimits` is a different construction; its comparison
-with the categorical pullback is an equivalence when one leg is an isofibration. For a groupoid
-object `(X, R)` in sheaves with source and target maps `s, t : R → X`, the quotient stack `[X/R]` is
-the stackification (D0.25) of the objectwise groupoid prestack with objects `X(T)` and arrows
-`R(T)`; its objects are the locally trivial `R`-torsors; it comes with a map `X → [X/R]` and an
-equivalence `R ≃ X ×_{[X/R]} X`, which requires the groupoid axioms and is the abstract form of
-[ECD] Prop. 11.3(ii); and its sheaf of isomorphism classes is the sheafification of `X/R`. The atlas
-relation is recovered first and isomorphism classes are sheafified only afterwards, so the trivial
-torsor of `BG` retains `G` as its automorphism group. The constructions are `Stack.twoFibreProduct`
-(the 2-fibre product of two maps of stacks over a common target) and `Stack.quotient` (the quotient
-stack of a groupoid object in sheaves, the stackification of the objectwise groupoid of `X(T)` and
-`R(T)`, which classifies locally trivial `R`-torsors); the properties consumed are
-`Stack.twoFibreProduct_isStack` (the 2-fibre product of stacks is a stack),
-`Stack.twoFibreProductUniversal` (its 2-universal property, in the category of transformations and
-invertible modifications: maps into it are triples of two maps and a 2-isomorphism between their
-composites), `Stack.quotientPullbackEquiv` (the sectionwise arrow-to-isomorphism comparison), and
-`Stack.quotientPullbackEquiv_equivalence` (the arrow sheaf, regarded as a discrete stack, is
-equivalent in the bicategory of pseudofunctors to `Stack.twoFibreProduct atlas atlas`). The latter
-includes inverse transformations and invertible modifications and fixes the forward transformation
-on `(a,b,r)` to the triple `(a,b,quotientPullbackEquiv r)`. They include also
-`Stack.quotient_isoClasses` (the sheaf of isomorphism classes of the quotient stack is the
-sheafification of the naive quotient presheaf), `Stack.quotient_isSheaf_iff` (the quotient stack is
-a sheaf exactly when all stabilizers are trivial) and `Stack.quotient_descent` (for any
-category-valued stack `G`, restriction gives an equivalence from `(quotient J R ⟶ G)` to
-`Stack.GroupoidDescentData R G`, including modifications) ([ECD] §11, Prop. 11.3(ii) and (iii), p.
-54, the two facts about groupoid quotients stated abstractly here and instantiated in layer D4;
-[ECD] §12, Def. 12.4 and Prop. 12.3, pp. 69–70, which presuppose 2-fibre products of v-stacks and
-the quotient presentation; [Stacks stackification] Tags 02X9 (Lemma 4.31.4) and 02XQ (Lemma 4.33.10)
-for 2-fibre products of categories and fibred categories; Tag 04Y1 and Tag 044O, Def. 78.20.1, where
-stackification preserves 2-fibre products and the quotient is the objectwise groupoid followed by
-stackification, its passage from algebraic spaces to sheaves using only the stated groupoid and
-descent axioms). Comparison statements on the v-site: for a groupoid object `(X, R)` in v-sheaves,
-`[X/R]` is §1.21's quotient for `(Perf, v)`, with `R ≃ X ×_{[X/R]} X`; its sheaf of isomorphism
-classes is the v-sheafification of `X/R`, it is a sheaf iff stabilisers are trivial, and maps
-`[X/R] → G` to a v-stack are descent data ([Stacks stackification] Tags 02ZL, 044O, 04M9, 04Y1;
-[ECD] Proposition 11.3(ii)–(iii), p. 54). *Needs:* D0.25; SchemeAndStackFoundations §§1.18 and 1.21;
-Mathlib `CategoryTheory.Pseudofunctor.IsStack`, `CategoryTheory.Pseudofunctor.DescentData`,
-`CategoryTheory.Pseudofunctor`, `CategoryTheory.Bicategory`,
-`CategoryTheory.Limits.CategoricalPullback`, `CategoryTheory.Limits.CatCospanTransform`,
-`CategoryTheory.Limits.CategoricalPullback.CatCommSqOver.transform`, `CategoryTheory.Groupoid`.
+(*groupoid-quotients-and-two-fibre-products*) The 2-fibre product of stacks with its 2-universal
+property is SchemeAndStackFoundations §1.18 (`Stack.twoFibreProduct` with `.fst`, `.snd`, `.iso`
+and `.lift`, objectwise Mathlib's `CategoricalPullback`), and the quotient stack `[X/R]` of a
+groupoid object in sheaves, the stackification of the objectwise groupoid with objects `X(T)` and
+arrows `R(T)`, is its §1.21 (`Stack.quotient J (X, R)` with `.π : X → [X/R]`, the equivalence
+`R ≃ X ×_{[X/R]} X`, `.desc` and the sheaf of isomorphism classes); both are commissioned there on
+an arbitrary site, and `twoFiberProduct`, `quotientStack` and `actionQuotient` there are the fppf
+instances on `Scheme.{u}`. This subsection constructs neither and states their specialisation to
+the v-sites `(Perfd, v)` and `(Perf, v)` of D2.2. For maps of v-stacks `G₁ → G₃ ← G₂`,
+`Stack.twoFibreProduct` on `(Perf, v)` is a v-stack, its value on `X` is the category of triples
+`(a, b, φ)` with `φ` an isomorphism of the images of `a` and `b` in `G₃(X)`, it is
+groupoid-valued when the inputs are, and it is the 2-fibre product used in D3–D5. For a groupoid
+object `(X, R)` in v-sheaves on `Perf`, with source and target `s, t : R → X`, prove on
+`(Perf, v)`: (i) `R ≃ X ×_{[X/R]} X` through `Stack.quotient.π` ([ECD] Proposition 11.3(ii),
+p. 54, the abstract form instantiated in layer D4); (ii) the sheaf of isomorphism classes of
+`[X/R]` is the v-sheafification of the presheaf quotient `X/R`, and `[X/R]` is a v-sheaf exactly
+when every stabiliser is trivial (`Stack.quotient_isSheaf_iff`); (iii) for every category-valued
+v-stack `G`, restriction along `Stack.quotient.π` is an equivalence from maps `[X/R] → G`, with
+modifications, to descent data for `G` along the groupoid `(X, R)`: objects of `G(X)` with
+isomorphisms over `R` satisfying the cocycle condition (`Stack.quotient_descent`; [ECD]
+Proposition 11.3(iii), p. 54; [Stacks stackification] Tags 044U and 04MA for the 2-coequaliser
+property). Statements (ii) and (iii) are this roadmap's v-site targets; §1.21 states the
+isomorphism-class sheaf and `.desc` for groupoid-valued targets. The atlas relation is recovered
+before isomorphism classes are sheafified, so the trivial torsor of `BG` keeps `G` as its
+automorphism group ([Stacks stackification] Tags 02ZL, 044O, 04M9, 04Y1; [ECD] §12, Def. 12.4 and
+Prop. 12.3, pp. 69–70, which presuppose 2-fibre products of v-stacks and the quotient
+presentation). *Needs:* D0.25; SchemeAndStackFoundations §§1.18 and 1.21; D2.2; Mathlib
+`CategoryTheory.Pseudofunctor.IsStack`, `CategoryTheory.Limits.CategoricalPullback`.
 
 **Checks.**
 
-- `s0_26_two_fibre_projections` — After the proper Boolean restriction, the pair `(true,false)` has first projection `false` and second projection `true`.
-- `s0_26_two_fibre_comparison` — For the square of the generator comparison in the one-object groupoid `ℤ/3ℤ`, the forward component is `2`.
-- `s0_26_two_fibre_universal_projection` — Applying the universal functor to the identity cone and evaluating on the properly restricted Boolean pair gives first value `false` and second value `true`.
+- `s0_26_free_discrete_quotient` — for `R` the graph of a free action of a discrete group `G` on
+  `X`, the quotient stack is the sheaf quotient `X/G`; on the point site Mathlib
+  `ActionCategory G X` stackifies to the discrete orbit set.
+- `s0_26_classifying_stack` (non-example) — for `X` the final object and `R = G` a sheaf of
+  nontrivial groups, the quotient is `BG`, which is not a sheaf and has automorphism sheaf `G` at
+  the trivial torsor; at other torsors it is the corresponding inner form. This separates the
+  quotient stack from its isomorphism-class sheaf and tests the stabiliser clause of (ii).
+- `s0_26_strict_pullback_is_wrong` (non-example) — the strict fibre product of categories differs
+  from the 2-fibre product already for two points mapping to the same object of a groupoid with a
+  nontrivial automorphism.
+- `s0_26_interval_not_groupoid` — on the point site with only identity covers, take `G₁ = [1]`, the
+  category `0 → 1`, and `G₂ = G₃ = 1`. The 2-fibre product is equivalent to `[1]` and keeps its
+  noninvertible arrow, so the 2-fibre product of category-valued stacks need not be
+  groupoid-valued ([Stacks stackification] Tag 02X9).
+- `s0_26_trivial_groupoid` (degenerate case) — for `R = X` with `s = t = id` the quotient stack is
+  `X` itself, all stabilisers being trivial.
+- `s0_26_pair_groupoid` — for `R = X × X` with the two projections, the stabilisers are trivial and
+  the quotient stack is the sheaf image of `X → *`, terminal exactly when `X → *` is an epimorphism;
+  `R ≃ X ×_{[X/R]} X` reads `X × X = X ×_* X`.
+- `s0_26_descent_stabilizer` — for the one-object groupoid of `ℤ` and `G` the constant stack of
+  the one-object groupoid of `ℤ`, a descent datum may send the generator to a nonidentity
+  automorphism; maps `Bℤ → G` are not determined by their value on objects.
 
+`Stack.isoClasses` applies Mathlib's `isomorphismClasses` to the fibres of a prestack; D4.8
+sheafifies it for small v-stacks.
 
-- `s0_26_two_fibre_restriction` (convention) — restriction sends `(x,y,α)` to
-  `(F(a)x,G(a)y, f_a(x) ≫ H(a)(α) ≫ g_a(y)⁻¹)`. The inverse belongs on the `g` constraint.
-  For the two-point group `G = ℤ/2`, a pair of identity functors preserves each of the two
-  possible comparison isomorphisms, rather than collapsing them.
-
-- `s0_26_free_discrete_quotient` — for `R` the graph of a free action of a discrete group `G` on `X`, the
-  quotient stack is the sheaf quotient `X/G`. The point-site example uses Mathlib
-  `ActionCategory G X` and identifies its stackification with the discrete orbit set.
-- `s0_26_classifying_stack` (non-example) — for `X` the final object and `R = G` a sheaf of nontrivial
-  groups, the quotient is `BG`, which is not a sheaf and has automorphism sheaf `G` at the trivial
-  torsor; at other torsors it is the corresponding inner form; this is the test that separates the
-  quotient stack from the isomorphism-class sheaf.
-- `s0_26_strict_pullback_is_wrong` (non-example) — the strict fibre product of categories differs from the
-  2-fibre product already for two points mapping to the same object of a groupoid with a nontrivial
-  automorphism.
-- `s0_26_product_over_point` — The 2-fibre product of two constant discrete Boolean prestacks over the terminal prestack has exactly four objects in its fibre.
-- `s0_26_interval_not_groupoid` — On the point site with only identity covers, take
-  `G₁ = [1]`, the category `0 → 1`, and `G₂ = G₃ = 1`. The 2-fibre product is equivalent
-  to `[1]` and retains its noninvertible arrow. The Lean target
-  `categoricalPullback_interval_noninvertible` states this obstruction using `Fin 2` as a
-  preorder category and Mathlib's `CategoricalPullback` ([Stacks stackification] Tag 02X9).
-- `s0_26_trivial_groupoid` (degenerate case) — for `R = X` with `s = t = id` the quotient stack is `X`
-  itself, all stabilizers being trivial.
-- `s0_26_pair_groupoid` — for `R = X × X` with the two projections, the stabilizers are trivial and
-  the quotient stack is the sheaf image of `X → *`, which is the terminal sheaf exactly when `X → *`
-  is an epimorphism. On the point site the suggested Lean example identifies the pair-groupoid
-  quotient with the subterminal set `{* | Nonempty X}`; `R = X ×_{[X/R]} X` reads `X × X = X ×_* X`
-  in that case.
-
-`Stack.SheafGroupoid` carries a functor to Mathlib `Grpd` whose object and arrow presheaves
-are sheaves. Thus its units, inverses and compositions satisfy the library groupoid laws,
-and restrictions preserve them. `Stack.quotient` is its specified stackification;
-`quotientAtlas_obj` fixes the atlas on sections, `quotientPullbackEquiv` identifies the relation
-arrows with isomorphisms of atlas images. `Stack.GroupoidDescentData` consists of a transformation
-from the discrete object sheaf `R.diagram ⋙ Grpd.objects` to `G`, with isomorphisms on relation
-arrows compatible with restriction, units and composition. For `r : a → b`, `s : b → c`,
-the convention is `action (r ≫ s) = action r ≪≫ action s`.
-`Stack.groupoidDescentDataCategory` uses modifications commuting with these isomorphisms;
-identity and composition are those of the underlying modifications.
-`Stack.quotientDescentFunctor` restricts a map along `quotientAtlas` and applies its fibre
-functors to `quotientPullbackEquiv`. The equivalence of `Stack.quotient_descent` has exactly this
-forward functor. This is the general-site, category-valued form of the cocycle construction
-in [Stacks, §78.23, Lemmas 78.23.1–2](https://stacks.math.columbia.edu/tag/04MA);
-stackification supplies the extension to `G` and its uniqueness on modifications.
-`quotientPullbackEquiv_apply` fixes the relation comparison as the unit on each arrow.
-`quotient_isSheaf_iff` tests triviality of every stabilizer. `Stack.isoClasses` applies
-Mathlib's `isomorphismClasses` to the fibres, and `toStackificationClasses` applies the unit
-on each quotient. `quotient_isoClasses` states that sheafification of this specified map
-is an isomorphism.
-
-**Checks.**
-
-- `GroupoidDescentData_discrete_bool` — On the point site with minimal topology, descent from
-  the discrete two-object groupoid into a constant category `A` is equivalent to `A × A`.
-- `GroupoidDescentData_empty` — The empty presenting groupoid has a terminal descent category,
-  even when the target category is empty.
-- `GroupoidDescentData_stabilizer` — For the one-object integer groupoid and itself as target,
-  a descent datum can send the generator to a nonidentity automorphism.
-- `GroupoidDescentData_cocycle_transpositions` — In the one-object groupoid of permutations of
-  `Fin 3`, the identity action sends the successive transpositions `(01)` and `(12)` to
-  their categorical composite, sending `0` to `2`; reversing them sends `0` to `1`.
-- `groupoidDescentDataCategory_identity` — The identity is the identity modification on objects.
-- `groupoidDescentDataCategory_composition` — Composition is composition of the object modifications.
-- `groupoidDescentDataCategory_incompatible` — A modification that fails one arrow square
-  cannot underlie a descent morphism.
-- `quotientDescentFunctor_objects` — The object transformation is composition with the atlas.
-- `quotientDescentFunctor_identity_arrow` — An identity relation arrow gives the identity isomorphism.
-- `quotientDescentFunctor_stabilizer` — Restriction of the identity map of the quotient retains
-  each nonidentity stabilizer arrow.
-
-- `classes_discrete` — the classes of a discrete presheaf recover its sections.
-- `classes_empty` — an empty category has no isomorphism classes.
-- `classes_classifying_group` — a one-object groupoid has one class even when its automorphism
-  group is nontrivial; this distinguishes the class sheaf from the stack.
-- `arrow_restriction` — restriction sends both endpoints and the arrow through the same functor.
-- `arrow_empty` — the discrete empty groupoid has no arrows.
-- `arrow_classifying_group` — the total arrow set of the one-object groupoid of `G` is `G`.
-
-**`CategoricalPullback`.** Mathlib supplies the iso-comma object; its comparison isomorphism remains data.
-
-**Checks.**
-
-- `definition_TwoFibreObject_1` — For identity functors on a discrete two-point category, the object
-  set has two elements.
-- `definition_TwoFibreObject_2` — Two terminal discrete categories over themselves give a singleton
-  object set.
-- `definition_TwoFibreObject_3` — Different comparison automorphisms give different objects even
-  when both underlying objects agree.
-
-**`CategoricalPullback.Hom`.** Mathlib supplies the commuting-square morphisms; independent arrows in the two factors are insufficient.
-
-**Checks.**
-
-- `definition_TwoFibreHom_1` — Over the terminal category all pairs of arrows are compatible.
-- `definition_TwoFibreHom_2` — Between terminal discrete fibre objects there is exactly one arrow.
-- `definition_TwoFibreHom_3` — In an identity-functor pullback with identity comparisons, unequal
-  component arrows cannot form a morphism.
-
-**`isoClasses`.** Taking isomorphism classes identifies isomorphic objects while retaining distinct discrete points.
+**`Stack.isoClasses`.** Taking isomorphism classes identifies isomorphic objects while retaining
+distinct discrete points.
 
 **Checks.**
 
 - `definition_isoClasses_1` — A constant discrete two-point prestack has two classes in every fibre.
-- `definition_isoClasses_2` — A constant empty discrete prestack has no classes.
+- `definition_isoClasses_2` — A constant one-object groupoid prestack with automorphism group `ℤ`
+  has one class, although the prestack is not discrete.
 - `definition_isoClasses_3` — A constant connected two-object pair groupoid has only one class, not
   two.
 
-**`arrowPresheaf`.** The arrow presheaf includes endpoints and remembers nontrivial automorphisms.
-
-**Checks.**
-
-- `definition_arrowPresheaf_1` — The constant discrete two-point groupoid has exactly two arrows.
-- `definition_arrowPresheaf_2` — The empty groupoid has no arrows.
-- `definition_arrowPresheaf_3` — A one-object groupoid with infinitely many automorphisms does not
-  have a singleton arrow set.
-
-**`Stack.twoFibreProduct`.** The fibre categories retain the comparison isomorphism as part of each object.
-
-**Checks.**
-
-- `twoFibreProduct_mapId_hom` — Both coordinates of the identity constraint are exactly the factors' identity constraints; the equality is definitional.
-- `twoFibreProduct_mapId_inv` — Both coordinates of its inverse are the inverse constraints of the factors.
-- `twoFibreProduct_mapComp_hom` — Both coordinates of the composition constraint are the factors' composition constraints, from composite restriction to successive restrictions.
-- `twoFibreProduct_mapComp_inv` — The inverse uses the factors' inverse composition constraints.
-
-- `twoFibreProduct_restriction_fst` — Restriction applies `F.map a` to the first object.
-- `twoFibreProduct_restriction_snd` — Restriction applies `G.map a` to the second object.
-- `twoFibreProduct_restriction_morphism` — Both components of a morphism are restricted by their respective functors.
-- `Stack_twoFibreProduct_bool_card` — The identity 2-pullback of the constant discrete Bool prestack has two objects at the point.
-- `Stack_twoFibreProduct_empty` — The identity 2-pullback of the constant empty prestack is empty.
-- `Stack_twoFibreProduct_zmod_two_not_singleton` — For the one-object groupoid of the group of order two, the identity 2-pullback has two objects, whereas the strict pullback has one.
-
-**`Stack.twoFibreProductFst`.** The first projection selects its specified component, including isomorphic but distinct objects.
-
-**Checks.**
-
-- `twoFibreProductFst_naturality` — The first projection has the identity naturality isomorphism, by `rfl`, including for constant groupoids with nontrivial central automorphisms.
-
-- `Stack_twoFibreProductFst_restricted_true_false` — The first projection of the properly restricted pair `(true,false)` is `false`.
-- `Stack_twoFibreProductFst_restricted_false_false` — The first projection of the properly restricted pair `(false,false)` is `true`.
-- `Stack_twoFibreProductFst_restricted_pair_not_snd` — For the properly restricted pair `(true,false)`, the first projection differs from `true`, the second coordinate.
-
-**`Stack.twoFibreProductSnd`.** The second projection selects its specified component, including isomorphic but distinct objects.
-
-**Checks.**
-
-- `twoFibreProductSnd_naturality` — The second projection has the identity naturality isomorphism, by `rfl`, including for constant groupoids with nontrivial central automorphisms.
-
-- `Stack_twoFibreProductSnd_restricted_true_false` — The second projection of the properly restricted pair `(true,false)` is `true`.
-- `Stack_twoFibreProductSnd_restricted_true_true` — The second projection of the properly restricted pair `(true,true)` is `false`.
-- `Stack_twoFibreProductSnd_restricted_pair_not_fst` — For the properly restricted pair `(true,false)`, the second projection differs from `false`, the first coordinate.
-
-**`booleanRestriction`.** On the two-object chain, take Bool at each object and
-negation as the restriction along the proper arrow. Identity restrictions remain identities.
-Its discrete prestack supplies the changing sections in the fibre-product and diagonal Checks.
+**`booleanRestriction`.** On the two-object chain, take Bool at each object and negation as the
+restriction along the proper arrow. Identity restrictions remain identities. Its discrete prestack
+supplies the changing sections in the diagonal Checks of D3.8.
 
 **Checks.**
 
 - `booleanRestriction_true` — The proper restriction sends `true` to `false`.
 - `booleanRestriction_false` — The proper restriction sends `false` to `true`.
-- `booleanRestriction_identity` — The two identity restrictions fix `true` and `false`, respectively.
+- `booleanRestriction_identity` — The two identity restrictions fix `true` and `false`, respectively;
+  the constant restriction to `false` fails the second Check.
 
-**`Stack.twoFibreProductObjEquiv`.** The objectwise comparison keeps all three entries of an iso-comma object.
-
-**Checks.**
-
-- `twoFibreProductObjEquiv_bool_restriction` — For two copies of `booleanRestriction` mapping to a point, the object comparison after proper restriction sends `(true,false)` to `(false,true)`.
-- `twoFibreProductObjEquiv_restricted_pair_no_map` — The image of that restricted object has no morphism to `(true,false)` in the target fibre.
-- `twoFibreProductObjEquiv_zmod_three_comparison` — In the identity pullback of the one-object groupoid `ℤ/3ℤ`, the object comparison retains the arrow `1` as the forward comparison.
-
-**`Stack.twoFibreProductComparison`.** Its fibre is Mathlib’s `CategoricalPullback.catCommSq`.
-`Stack.twoFibreProductComparison_app` states that, for any two maps of prestacks over
-a common target, its component at a triple is the stored comparison isomorphism’s forward arrow.
-
-**Checks.**
-
-- `Stack_twoFibreProductComparison_zmod_three_forward` — For the comparison labelled `1` in `ℤ/3ℤ`, the forward component is `1`.
-- `Stack_twoFibreProductComparison_zmod_three_inverse` — For that same order-three comparison, the inverse component is `2`.
-- `Stack_twoFibreProductComparison_forward_not_inverse` — The forward component at that triple differs from `2`, distinguishing the comparison from its inverse.
-
-**`Stack.twoFibreProductUniversalFunctor`.** The universal functor retains both legs of a cone, and its invertible comparison.
-
-**Checks.**
-
-- `Stack_twoFibreProductUniversalFunctor_fst` — For a section of the universal cone the first coordinate is its specified left leg.
-- `Stack_twoFibreProductUniversalFunctor_identity` — The identity cone has precisely the two projection legs.
-- `Stack_twoFibreProductUniversalFunctor_snd_distinct` — A right leg with an object different from b does not become the constant leg at b.
-
-**`Stack.SheafGroupoid`.** The carrier admits nontrivial stabilizers and requires descent for arrows as well as objects.
-
-**Checks.**
-
-- `Stack_SheafGroupoid_integer_stabilizers` — The constant one-object integer groupoid is allowed on the point site and has infinitely many stabilizer arrows.
-- `Stack_SheafGroupoid_empty` — The empty discrete groupoid gives the empty quotient presentation on the point site.
-- `Stack_SheafGroupoid_top_excludes_integer_stabilizers` — On the maximal topology of the point site, a constant nontrivial stabilizer group cannot have arrow descent.
-
-**`Stack.quotient`.** The quotient on the trivial topology retains the entire groupoid, including its automorphisms.
-
-**Checks.**
-
-- `Stack_quotient_bool_classes` — A discrete two-point presenting groupoid has two isomorphism classes in its quotient.
-- `Stack_quotient_empty_fibre` — An empty presenting fibre has empty quotient fibre for the trivial topology.
-- `Stack_quotient_integer_automorphisms_infinite` — An integer-group stabilizer remains infinite in the quotient, excluding the coarse orbit set.
-
-**`Stack.quotientInclusion`.** For a sheaf groupoid on any site `(C, J)`, include its
-discrete object presheaf into the presenting groupoid using `Discrete.functor id` in
-each fibre. Restriction compatibility has identity components in both directions.
-The construction follows the object inclusion in the proof of
-[Stacks, Lemma 78.20.2](https://stacks.math.columbia.edu/tag/044O), applied to
-sheaves on `(C, J)`; `Discrete.functor` supplies its fibres, and
-`quotientInclusion` supplies the strong transformation of the entire presheaves.
-
-**Checks.**
-
-- `quotientInclusion_object` — The section `x` maps to `x`, by `rfl`.
-- `quotientInclusion_identity` — The discrete identity maps to the groupoid identity, by `rfl`, including when that object has nontrivial stabilizers.
-- `quotientInclusion_naturality` — Both directions of restriction compatibility are identity arrows, by `rfl`; central twists are excluded.
-
-**`Stack.quotientAtlas`.** The atlas is `quotientInclusion` followed by
-`toStackification J (R.diagram ⋙ Grpd.forgetToCat).toPseudofunctor'`. This fixes
-its action on arrows and its naturality isomorphisms as well as its objects.
-`quotientAtlas_obj` computes its value at every section of every fibre, for any
-site and any `SheafGroupoid J` (Stacks Tag 044O, proof of Lemma 78.20.2).
-
-**Checks.**
-
-- `quotientAtlas_naturality` — The atlas constraint is definitionally the composite of the inclusion and unit constraints, with the prescribed whiskering and associators.
-
-- `Stack_quotientAtlas_unit_image` — An object x maps to its image under the stackification unit.
-- `Stack_quotientAtlas_singleton_fibre` — On a presenting fibre with one object, the atlas takes that object to its specified unit image.
-- `Stack_quotientAtlas_distinct_object` — An object different from the unit image cannot be the atlas image; a permuted atlas is excluded.
-
-**`Stack.quotientPullbackEquiv`.** The relation comparison takes each arrow to the isomorphism induced by the unit.
-
-**Checks.**
-
-- `quotientPullbackEquiv_forward_arrow` — The forward arrow of the comparison is the unit image of the presenting arrow, transported along the atlas equations.
-- `quotientPullbackEquiv_identity` — An identity arrow gives the identity isomorphism.
-- `quotientPullbackEquiv_nonidentity_stabilizer` — A nonidentity stabilizer arrow cannot become the identity isomorphism.
-
-**`Stack.toStackificationClasses`.** The class map sends the class of an object to the class of its unit image.
-
-**Checks.**
-
-- `Stack_toStackificationClasses_unit_image` — An object class is sent to the class of the specified unit image.
-- `Stack_toStackificationClasses_bot_identity` — On the trivial topology, the normalized class map is the identity natural transformation.
-- `Stack_toStackificationClasses_bool_distinct` — On the point site it distinguishes the two discrete classes, excluding a constant class map.
-
-**Checks.**
-
-- `classifyingGroupoid_automorphisms` — For a group G, the automorphisms of the unique object of its one-object groupoid are in bijection with G.
-
-Lean: `categoricalPullback_interval_noninvertible` states the category-valued boundary Check;
-the stack constructions and their v-site specialisations are specified in the README only.
+Lean: none; the stack constructions are SchemeAndStackFoundations' and their v-site
+specialisations are specified in the README only.
 
 ### Examples
 
@@ -3099,7 +2802,6 @@ The functorial map is `(x,y) ↦ (f(x),f(y))`; `map_id`, `map_comp` and
   has both points. These are the opposite fibre counts to the counit, so the
   two projections cannot be interchanged.
 - `wl_empty` — the specialization-pair space of the empty space is empty.
-- `wl_point` — over a point the second projection is bijective.
 - `w_map_identity` — the identity of every topological space is a w-local map.
 - `w_map_closed_point` — the map from a point to the closed point of the
   Sierpiński space is w-local.
@@ -3134,7 +2836,8 @@ calculations do not identify a perfectoid space from its point set alone.
 **Checks.**
 
 - `definition_toBase_1` — On the two-point chain, the fibre over the generic point has two elements.
-- `definition_toBase_2` — Over a point the counit is bijective.
+- `definition_toBase_2` — On the two-point chain, the fibre over the closed point has one element;
+  the specialization endpoint would give two.
 - `definition_toBase_3` — The counit for the two-point chain is not injective.
 
 **`componentLabel`.** The label selects the specialization endpoint.
@@ -3990,7 +3693,7 @@ specifies membership for a given arrow family, so changing its indexing does not
 it covers. Its general topological signatures use a functor to `TopCat`; the specialization to
 perfectoid spaces uses `Geometry.Spaces p c`, `Geometry.space p c` and
 `Geometry.proet p c`. Their perfectoid open affinoid charts are the spectra
-`Geometry.affine p R` of `R : Geometry.Affinoid p c`, with `R.toCAff` in `AdicEtaleGeometry.CAff`;
+`Geometry.affine p R` of `R : Geometry.Affinoid p c`, with `R.toCAff` in AdicEtaleGeometry's `CAff`;
 by `Geometry.hasAffinoidCharts_restrict` they form a basis of every object. The perfectoid-disc and
 field-extension Checks use these geometric carriers alongside the profinite calculations above.
 For prime `p`, either characteristic convention `c`, and every `X : Geometry.Spaces p c`,
@@ -4571,15 +4274,25 @@ uses this theorem. `Geometry.subcanonical` states v and pro-étale subcanonicity
 characteristic convention ([ECD] Theorem 8.7, p. 43; Theorem 1.2, p. 3). In `Suggested.lean`,
 `structurePresheaf` is the ring-valued presheaf `X ↦ O_X(X)` on PerfectoidSpaces' `Perfd p`, built
 from Mathlib's `PresheafedSpace.Γ`; `isSheaf_structurePresheaf` is its v-sheaf property and
-`vTopology_subcanonical` the subcanonicity of `vTopology p`. The additive sheaf
-`additiveStructureSheaf` forgets multiplication; `isSheaf_additiveStructurePresheaf` supplies its
-abelian v-descent, and `structureSheaf_v_H0` identifies its objectwise degree-zero cohomology `Sheaf.H'` with the additive group of global functions, assuming
-sheafification and Ext at the indicated universes. The statements for `O⁺` and the pro-étale site
-are specified in the README only.
+`vTopology_subcanonical` the subcanonicity of `vTopology p`. Cohomology is taken on the small
+site, as in [ECD] Theorem 1.2 and Proposition 8.8: `PerfdKappa p κ` is the full subcategory of
+`Perfd p` cut out by PerfectoidSpaces' `IsKappaSmall p κ` and `vTopologyKappa p κ` the topology
+generated on it by `vPrecoverage`. For a cutoff cardinal `κ` (D0.23),
+`isSheaf_additiveStructurePresheaf` is the abelian v-descent of the restricted structure presheaf
+and `additiveStructureSheaf` the resulting sheaf; `structureSheaf_v_H0` identifies its objectwise
+degree-zero cohomology `Sheaf.H'` with the additive group of global functions. Both cohomology
+statements assume that `PerfdKappa p κ` is essentially small in universe `u`, which holds because
+a `κ`-small space is glued from fewer than `κ` affinoid pieces with rings of cardinality below `κ`
+([ECD] Definition 4.2 and Proposition 4.4, p. 20; cutoff independence is [ECD] Proposition 8.2,
+pp. 39–40), and from which Mathlib's `hasSheafifyEssentiallySmallSite`
+supplies sheafification through a small model, and Ext in universe `u + 1`. The big site
+`Perfd p` has no such sheafification for `AddCommGrpCat.{u}`: its covering sieves are not
+`u`-small. The statements for `O⁺` and the pro-étale site are specified in the README only.
 
-Lean: `structurePresheaf`, `isSheaf_structurePresheaf`, `vTopology_subcanonical`,
-`isSheaf_additiveStructurePresheaf`, `additiveStructureSheaf` and `structureSheaf_v_H0`,
-with the proved empty-space example `structurePresheaf_empty`. The other Checks and constructions are specified in the README only.
+Lean: `structurePresheaf`, `isSheaf_structurePresheaf`, `vTopology_subcanonical`, `PerfdKappa`,
+`vTopologyKappa`, the sheafification instance on an essentially small `PerfdKappa p κ`,
+`isSheaf_additiveStructurePresheaf`, `additiveStructureSheaf` and `structureSheaf_v_H0`, with the
+proved empty-space example `structurePresheaf_empty`. The other Checks and constructions are specified in the README only.
 
 ### D2.8 Higher v-acyclicity
 
@@ -4641,8 +4354,9 @@ specified universe ([ECD] Proposition 8.8, p. 43).
 - `integralScalar_detects_function` — Distinct functions give distinct transformations,
   detected by the unit section at the identity object of the slice.
 
-Lean: `structureSheaf_v_acyclic`, with the affinoid hypothesis on `X : Perfd p`, states exact
-positive-degree vanishing for `additiveStructureSheaf` using Mathlib's objectwise `Sheaf.H'`.
+Lean: `structureSheaf_v_acyclic`, for a cutoff cardinal `κ`, an essentially small
+`PerfdKappa p κ` and an affinoid `X : PerfdKappa p κ`, states exact positive-degree vanishing for
+`additiveStructureSheaf` on `vTopologyKappa p κ` using Mathlib's objectwise `Sheaf.H'`.
 The integral almost-vanishing statement requires the integral sheaf and its scalar action and is
 specified in the README only.
 
@@ -5791,8 +5505,8 @@ PerfectoidSpaces P5.3 (affinoid limits formed with `Small.{0}` diagrams); Scheme
   Coordinatewise `g_n → 0`, giving a continuous `h : OnePoint ℕ → G`. The charted test object
   `P × underline(OnePoint ℕ)` would map to the representing space with inverse image of `V`
   exactly `{∞}`, which is not open. This excludes every charted representing space, although
-  the ambient profinite product exists in `Perfd.{1} p`. The named boundary theorem
-  `s3_10_large_group_escape` states the continuous escape from any small `B` containing zero.
+  the ambient profinite product exists in `Perfd.{1} p`. The boundary statement
+  `s3_10_large_group_escape` is the continuous escape from any small `B` containing zero.
 
 The torsor Checks require the sheaf of continuous maps, a group action over the base with local equivariant trivializations, the associated `G/K`-spaces and their adic realization. A torsor of sets alone does not express the claimed pro-étale or étale morphism.
 
@@ -5958,9 +5672,9 @@ morphism-class and limit applications.
 - `Perfd.underlineSheaf_empty_of_isEmpty` — Continuous maps from an empty test space to the empty space form a singleton.
 - `Perfd.underlineSheaf_not_sheaf_without_quotient` — If a test arrow induces a continuous bijection that is not a quotient map, continuous maps into its source fail descent for that singleton family.
 
-Lean: `isSheaf_yonedaPresheaf` (the v-sheaf property of `T̲` on PerfectoidSpaces' `Perfd p`) and
-the topological example `s3_10_large_group_escape`. The rest of this subsection is specified
-in the README only (no Lean declaration).
+Lean: `isSheaf_yonedaPresheaf` (the v-sheaf property of `T̲` on PerfectoidSpaces' `Perfd p`). The
+rest of this subsection, including the topological boundary statement `s3_10_large_group_escape`,
+is specified in the README only.
 
 ### Examples
 
@@ -5983,9 +5697,9 @@ split torsor `G̲ × X`, the finite étale Galois cover from a finite `G`, the t
 geometric point from a profinite `G`, and the pro-étale but not étale torsor from an infinite
 profinite `G`.
 
-In `Suggested.lean`, `isSheaf_yonedaPresheaf` states the v-sheaf property of `T̲` and
-`s3_10_large_group_escape` states the size obstruction in D3.10. The geometric Checks need the
-perfectoid morphism classes and are specified in the README only.
+In `Suggested.lean`, `isSheaf_yonedaPresheaf` states the v-sheaf property of `T̲`. The size
+obstruction `s3_10_large_group_escape` of D3.10 and the geometric Checks, which need the perfectoid
+morphism classes, are specified in the README only.
 
 ### Dependencies
 
@@ -6125,7 +5839,7 @@ They apply on any subcanonical site, and therefore also after specialization to 
 
 The carrier is `Geometry.Perf p = Geometry.Spaces p true`, the Hom-universe lift of the objects of
 `PerfectoidSpace.Perf.{1} p` covered by `Geometry.Affinoid p true` charts
-(`Geometry.HasAffinoidCharts`, D1.11), with `R.toCAff` in `AdicEtaleGeometry.CAff`. Through
+(`Geometry.HasAffinoidCharts`, D1.11), with `R.toCAff` in AdicEtaleGeometry's `CAff`. Through
 `Geometry.exists_wedhornComparison`, `YonedaAdicSpace.space_ofSpaY` identifies the chart spaces with
 lifted valuation spectra. The perfectoid
 ring condition comes from `PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing`; the site uses
@@ -6252,7 +5966,7 @@ is a sheaf for the v-topology and agrees with the v-sheaf quotient, compatibly w
 ([ECD] §11, Prop. 11.9 with proof, pp. 56–57). This identifies the pro-étale definition with the
 v-convention of D4.1. The proof follows Gabber's descent argument, and the presentation may be taken
 with `X` a disjoint union of totally disconnected perfectoid spaces; it is this statement that
-allows every later construction to be checked v-locally. Prove moreover that if `f : Y' → Y` is an
+allows every later construction to be verified v-locally. Prove moreover that if `f : Y' → Y` is an
 injection of v-sheaves and `Y` is a diamond, then `Y'` is a diamond; and that a quasicompact
 quasiseparated map `f : Y → X` of diamonds is an isomorphism if and only if
 `f(K, K⁺) : Y(K, K⁺) → X(K, K⁺)` is a bijection for every algebraically closed perfectoid field `K`
@@ -6605,8 +6319,8 @@ Mathlib `Continuous.isClosedMap`, `Topology.IsClosedMap.isQuotientMap`.
   `P = Spa(C, O_C)` with `C : Type` algebraically closed of characteristic `p`, the canonical
   evaluation map `q : |T̲ × h_P| → T` therefore has closed inverse image of `A`, by the final
   topology of realization. Constant sections hit every point of `T`; nevertheless `q` cannot
-  be a homeomorphism. The named boundary theorems `compHaus_large_cube_dense`,
-  `compHaus_large_cube_not_closed` and `compHaus_large_cube_small_preimage` state the three
+  be a homeomorphism. The boundary statements `compHaus_large_cube_dense`,
+  `compHaus_large_cube_not_closed` and `compHaus_large_cube_small_preimage` are the three
   topological facts used here.
 
 `Perf.Diamond.compHaus_embedding` asserts a fully faithful functor from
@@ -6620,9 +6334,8 @@ larger-universe compact Hausdorff space is still defined by D3.10.
 `Geometry.maximalField` supplies `O_K` even
 when the input field pair has a smaller plus ring.
 
-Lean: the examples `compHaus_large_cube_dense`, `compHaus_large_cube_not_closed` and
-`compHaus_large_cube_small_preimage` give the boundary topology. The geometric embedding and
-space comparison are specified in the README only.
+Lean: none; the boundary topology, the geometric embedding and the space comparison are specified
+in the README only.
 
 ### D4.7 Small v-sheaves and small v-stacks
 
@@ -7050,11 +6763,10 @@ hypothesis. *Needs:* D3.8; D4.7; D4.8; D4.10.
   charted perfectoid atlas, so `F` is a small v-sheaf. No finite subfamily is epimorphic:
   its union is still `Small.{0}` and misses an element of `G`, whose constant section over
   `P` cannot lift even v-locally. Thus `F` is not quasicompact and `F → h_P` is not
-  quasicompact, as in D5.3's large-index Check. The named boundary theorem
-  `s4_11_large_profinite_quotient` states the finite-union obstruction.
+  quasicompact, as in D5.3's large-index Check. The boundary statement
+  `s4_11_large_profinite_quotient` is the finite-union obstruction.
 
-Lean: the boundary theorem `s4_11_large_profinite_quotient`; the geometric statements are
-specified in the README only.
+Lean: none; the boundary statement and the geometric statements are specified in the README only.
 
 ### Examples
 
@@ -7079,9 +6791,9 @@ indiscrete; and, for proper maps, the closed immersions against the rank-two ope
 `Spa(K, O_K) → Spa(K, K⁺)` and the non-quasicompact `ℕ̲ × S → S`.
 
 The three `compHaus_large_cube_dense`, `compHaus_large_cube_not_closed` and
-`compHaus_large_cube_small_preimage` boundary theorems and `s4_11_large_profinite_quotient` state
-the size obstructions on pinned topological carriers. The diamond statements require the
-pro-étale morphisms of PerfectoidSpaces P6 and are specified in the README only.
+`compHaus_large_cube_small_preimage` boundary statements and `s4_11_large_profinite_quotient` are
+the size obstructions on pinned topological carriers. They and the diamond statements, which
+require the pro-étale morphisms of PerfectoidSpaces P6, are specified in the README only.
 
 ### Dependencies
 
@@ -7482,8 +7194,8 @@ comparisons also commute with the original finite-stage objects. These statement
 apply to qcqs diamonds and qcqs small v-sheaves with `Small.{0} (Arrow I)`
 ([ECD] 11.22–11.23 and 12.17, pp. 63–64, 73–74).
 
-Lean: `small_finset_arrow_iff` and its three Checks; the geometric limit statements are specified
-in the README only.
+Lean: none; `small_finset_arrow_iff` with its three Checks and the geometric limit statements are
+specified in the README only.
 
 ### D5.4 The universally open strictly totally disconnected presentation
 
@@ -8554,7 +8266,7 @@ D0.20; D5.8; PerfectoidSpaces layer P4 (residue-field point injection).
   quotient has more than one point and is indiscrete: any nonempty closed saturated subset of
   `ℤ_p` contains a dense integer orbit, so it is all of `ℤ_p`. In particular `B(Y)` fails `T₀`
   and Hausdorffness, while the fibres of `|Y| → B(Y)` are singletons whose closures are the
-  whole space. `padicInteger_denseOrbitQuotient` states this topological calculation in Lean.
+  whole space; `padicInteger_denseOrbitQuotient` is this topological calculation.
   This distinguishes D5.14's colimit from the maximal Hausdorff quotient, a point in this example
   ([ECD] Remark 10.8, p. 51; Propositions 13.10–13.11, pp. 79–80; D4.10).
 
@@ -8650,8 +8362,8 @@ in every nonnegative degree for every abelian sheaf. `HasDerivedCategory` and
 `HasExt` specify the universes of the standard categorical constructions
 ([ECD] 13.13, p. 81).
 
-Lean: `padicInteger_denseOrbitQuotient` gives the topological calculation in
-`frobenius_twisted_dense_orbit_quotient`; the geometric reduction, closure-fibre and cohomology
+Lean: none; the topological calculation `padicInteger_denseOrbitQuotient` in
+`frobenius_twisted_dense_orbit_quotient` and the geometric reduction, closure-fibre and cohomology
 statements are specified in the README only.
 
 ### D5.16 Components of restricted group quotients
@@ -8822,9 +8534,9 @@ and the proof of Lemma 11.31).
 - `berkovich_section_t1_inverse` — On a T₁ realization the section also satisfies the other inverse equation.
 - `berkovich_section_rejects_nonmaximal` — For a qcqs sheaf the section never chooses a point admitting a strict generalization.
 
-Lean: `connectedComponents_mk_quotient_eq_iff`, with `padicInteger_denseOrbitQuotient` showing
-that compactness of the group cannot be dropped. The rest of this subsection is specified in the
-README only (no Lean declaration).
+Lean: `connectedComponents_mk_quotient_eq_iff`. The README calculation
+`padicInteger_denseOrbitQuotient` shows that compactness of the group cannot be dropped; the rest
+of this subsection is specified in the README only.
 
 ### Examples
 
@@ -8864,7 +8576,7 @@ point and not quasiseparated; `⊔_ℕ Spa(C, O_C) → Spa(C, O_C)`, locally spe
 `Spa(C', O_{C'}) → Spa(C, O_C)`, a v-surjection along which only the third descent statement of D5.12 applies.
 
 The proved D5 example in `Suggested.lean` excludes the degenerate normalizer `ϖ = 0`.
-`padicInteger_denseOrbitQuotient` states the connected orbit-space boundary for noncompact `ℤ`.
+`padicInteger_denseOrbitQuotient` is the connected orbit-space boundary for noncompact `ℤ`.
 
 ### Dependencies
 
@@ -10016,7 +9728,7 @@ carrier in AdicSpacesPartII §R1.1; §R1.7 specifies the rigid–adic comparison
 `IsSeminormalRing A` by reducedness and unique square–cube lifting: whenever
 `x² = y³`, there is a unique `z` with `x = z³` and `y = z²`. Swapping `x` and `y`
 gives the convention `x³ = y²`, `x = z²`, `y = z³` in Stacks Tag 0EUL.
-Prove `IsSeminormalRing.iff_unique`: the unique-lifting clause alone is equivalent to
+Prove the unique-lifting characterisation: the unique-lifting clause alone is equivalent to
 this predicate on arbitrary commutative rings. Indeed, equal squares and
 cubes give a nilpotent difference, while uniqueness over `(0, 0)` excludes nonzero square-zero
 elements ([KL16] Definition 1.4.1, p. 19; [Stacks seminormalization] Tags 0EUL and 0EUQ).
@@ -10032,9 +9744,10 @@ This is the affine predicate used on every rigid affine open (seminormal-ring).
   seminormal: `t³` and `t²` have no common square–cube root in this subring of `k[t]`.
 
 **Normal domains and products.** For a commutative domain `A` integrally closed in its fraction
-field, prove `IsSeminormalRing.of_isIntegrallyClosed`. For `y ≠ 0` the candidate `x/y`
+field, prove that `A` satisfies `IsSeminormalRing`. For `y ≠ 0` the candidate `x/y`
 is integral, being a root of `T² − y`, and hence lies in `A`; treat `y = 0` separately.
-Prove `IsSeminormalRing.prod_iff` for two arbitrary commutative rings; iteration gives
+Prove that `A × B` satisfies `IsSeminormalRing` iff both factors do, for two arbitrary
+commutative rings `A` and `B`; iteration gives
 finite products, including the zero ring as the empty product ([KL16] Remark 1.4.2, p. 20;
 Definition 1.4.1 applied componentwise). These results and the finite decomposition below supply
 normal-ring-check on every normal affinoid open.
@@ -10047,7 +9760,7 @@ normal-ring-check on every normal affinoid open.
 - `affine_product_bad_factor` — `ℚ × ℤ/4` fails the criterion, witnessed in its second factor.
 
 **Seminormality of equalizers.** For seminormal `A`, reduced `B` and ring maps
-`f,g : A →+* B`, prove `IsSeminormalRing.eqLocus`: Mathlib's subring `f.eqLocus g` is seminormal.
+`f,g : A →+* B`, prove that Mathlib's subring `f.eqLocus g` satisfies `IsSeminormalRing`.
 The unique square–cube root in `A` lies in the equalizer because its images in the reduced ring
 `B` have equal squares and cubes and therefore coincide ([KL16] Definition 1.4.1, p. 19;
 [Stacks seminormalization] Tag 0EUL). This supplies the branch-matching argument in
@@ -10100,11 +9813,15 @@ statements used by subintegral-unit and seminormalization-ring.
   `ℤ/4` to a seminormal ring factors uniquely through this quotient.
 
 **Affine seminormalization and its universal property.** For every commutative ring `A`, construct
-`snRing A`, its ring structure `snRing.commRing`, and the unit
-`snMap A : A →+* snRing A`. The existence milestone `exists_seminormalization` states that a
-commutative ring `A : Type u` admits a subintegral map to a seminormal ring in `CommRingCat.{u}`;
-`snRing`, `snRing.commRing` and `snMap` select that ring and map. For reduced `A` this is its
-seminormalization; for arbitrary `A` the construction first removes nilpotents. Prove `snRing_seminormal` and
+the seminormalization `snRing A`, with its commutative ring structure, and the unit
+`snMap A : A →+* snRing A`, as a ring constructed from `A` (the final object among maps out of
+`A` inducing a universal homeomorphism on spectra and isomorphisms on residue fields,
+[Stacks seminormalization] Tag 0EUR(3); for arbitrary `A` the construction first removes
+nilpotents), not as a choice from an existence statement. The existence milestone `exists_seminormalization` states that a commutative
+ring `A : Type u` admits a subintegral map to a seminormal ring in `CommRingCat.{u}`; with
+`subintegral_lift` and `subintegral_bijective_of_seminormal` it already gives the universal
+property and the uniqueness of the reflection up to unique isomorphism, without a chosen carrier.
+Prove `snRing_seminormal` and
 `sn_lift`: for every seminormal commutative ring `B` and homomorphism `f : A →+* B`,
 there is a unique `g : snRing A →+* B` with `g ∘ snMap A = f`.
 This gives the ring reflection, its functoriality and the unique maps needed for gluing,
@@ -10395,14 +10112,10 @@ the discrete quotient's diamondification ([Berkeley] §18.1 and Prop. 18.2.2).
 - `rigid_diamond_reduction` — Reduction induces an isomorphism over Spd of the base field.
 - `rigid_diamond_nonseminormal_not_full` — For a reduced nonseminormal rigid space the inverse diamond of its seminormalization map has no rigid lift.
 
-Lean: the local ring-theoretic declarations `IsSeminormalRing`,
-`IsSeminormalRing.iff_unique`, `IsSeminormalRing.of_isIntegrallyClosed`,
-`IsSeminormalRing.prod_iff`, `IsSeminormalRing.eqLocus`, `Affine.normal_finiteProduct`,
-`exists_seminormalization`, `snRing`,
-`snRing.commRing`, `snMap`, `snRing_seminormal`, `sn_lift`,
-`IsSubintegral`, `subintegral_lift`, `subintegral_bijective_of_seminormal`,
-`snMap_subintegral`, `snMap_isIntegral`, `snMap_fieldPoints`, `snMap_bijective`,
-`sn_compare` and `snRing_localization`, with ring Checks. The rigid geometric targets are
+Lean: `IsSeminormalRing`, `IsSubintegral`, `subintegral_lift`,
+`subintegral_bijective_of_seminormal` and `exists_seminormalization`. The unique-lifting,
+normal-domain, product, equalizer and normal-decomposition statements, the seminormalization
+`snRing` with its unit `snMap` and the statements about them, and the rigid geometric targets are
 specified in the README only.
 
 ### Examples
@@ -10511,6 +10224,9 @@ instead of pages.
   printed pp. 1203–1233; Lemmas 9.3(a) and 10.2(a).
 - [Arc] Bhargav Bhatt and Akhil Mathew, The arc-topology. https://arxiv.org/pdf/1807.04725v4.
   arXiv:1807.04725v4.
+- [Hoc69] Melvin Hochster, Prime ideal structure in commutative rings.
+  https://doi.org/10.1090/S0002-9947-1969-0251026-X. Trans. Amer. Math. Soc. 142 (1969), 43–60;
+  Proposition 8.
 - [KL15] Kiran Kedlaya and Ruochuan Liu, Relative p-adic Hodge theory: foundations.
   https://arxiv.org/pdf/1301.0792. arXiv:1301.0792, author version of Astérisque 371 (2015).
 - [KL16] Kiran Kedlaya and Ruochuan Liu, Relative p-adic Hodge theory II: imperfect period rings.

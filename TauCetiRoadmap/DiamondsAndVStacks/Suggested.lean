@@ -8,22 +8,23 @@ import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Hom
 import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
-# Diamonds and v-stacks: representative target signatures
+# Diamonds and v-stacks: target signatures
 
-The README is the definitive specification; these signatures are not an exhaustive checklist.
-They state milestones against Mathlib, Tau Ceti and the PerfectoidSpaces roadmap: spectral
-quotients, inverse topology, spectral submersions and size bounds (D0); disconnected perfectoid
-spaces and split-cover cohomology (D1); the v-topology with descent and affinoid acyclicity
-(D2–D3); size obstructions for torsors and compact Hausdorff realization (D3–D4); the Berkovich
-spectrum and component formula (D5); and affine seminormality, subintegrality and the seminormal
-reflection (D6.9), including seminormal equalizers for compatible branch functions. Applications
-use this predicate, reflection carrier and unit; exchanging square–cube variables gives the
-equivalent convention, and `sn_compare` identifies reflection presentations.
-Constructions that are themselves formalisation targets (pro-étale morphisms and sites,
-stackification, diamonds, their underlying spaces, spatial diamonds, marked untilts and `Spd`)
-are specified in the README only. The relative analytic comparison for supplied characteristic-zero
-resolutions, smooth completed-function recovery and seminormal compatible-section descent are
-also README targets.
+The README is the definitive specification. These signatures state milestones against Mathlib,
+Tau Ceti and the PerfectoidSpaces roadmap: spectral quotients, Hochster's theorem, the inverse
+topology and spectral submersions (D0); split open covers, totally disconnected and w-local spaces
+and automatic flatness (D1); the v-topology, v-descent of functions and the v-cohomology of `O`
+on the `κ`-small v-site (D2–D3); the Berkovich spectrum as the maximal Hausdorff
+quotient of `Spa` and components of compact-group quotients (D5); and seminormal rings,
+subintegral maps and the existence of seminormalizations (D6.9).
+
+The following headline theorems are not statable at the pins and are README targets only.
+[ECD] Theorem 1.5, `Y_ét ≃ Y^◇_ét` for an analytic adic space over `ℤ_p`, lacks diamonds, small
+v-stacks and `Spd`. Full faithfulness of diamondification on seminormal rigid spaces (D6.9) lacks
+rigid spaces, their seminormalization and the diamond functor. The almost acyclicity of `O⁺` in
+[ECD] Theorem 1.2 lacks the integral structure sheaf and the almost category over a perfectoid
+base. The ring-level seminormalization functor `A ↦ A^sn` with its unit lacks a construction at
+the pins; its existence and universal property are stated below without a chosen carrier.
 -/
 
 noncomputable section
@@ -36,14 +37,6 @@ open TauCetiRoadmap.PerfectoidSpaces.Perfectoid TauCetiRoadmap.PerfectoidSpaces.
 universe u
 
 /-! ## Layer D0: spectral, categorical and size foundations -/
-
-/-- The categorical pullback of the interval category over a point retains a noninvertible
-arrow (Stacks 02X9 and 003R; README D0.26). Thus a 2-fibre product of category-valued stacks
-need not be groupoid-valued, even when its comparison arrows are isomorphisms. -/
-theorem categoricalPullback_interval_noninvertible :
-    let F : Fin 2 ⥤ Discrete PUnit := (Functor.const (Fin 2)).obj (Discrete.mk PUnit.unit)
-    let P := Limits.CategoricalPullback F (𝟭 (Discrete PUnit))
-    ∃ (a b : P) (f : a ⟶ b), ¬ IsIso f := sorry
 
 /-- **The spectral quotient criterion** (ECD Lemma 2.9, pp. 12–13). For a spectral space `X` and an
 equivalence relation whose graph is pro-constructible in `X × X` and whose two projections are
@@ -118,11 +111,6 @@ theorem IsSpectralSubmersion.iff_constructible {X Y : Type u} [TopologicalSpace 
     IsSpectralSubmersion f ↔ Function.Surjective f ∧ IsSpectralMap f ∧
       ∀ U : Set Y, @IsClopen Y (constructibleTopology Y) U →
         IsOpen (f ⁻¹' U) → IsCompact (f ⁻¹' U) → IsOpen U := sorry
-
-/-- A spectral quotient map is a spectral submersion (Arc Remark 2.15; README D0.11). -/
-theorem IsSpectralSubmersion.of_quotient {X Y : Type u} [TopologicalSpace X]
-    [SpectralSpace X] [TopologicalSpace Y] [SpectralSpace Y] {f : X → Y}
-    (hf : IsQuotientMap f) (hs : IsSpectralMap f) : IsSpectralSubmersion f := sorry
 
 /-- Spectral submersions between spectral spaces compose (Arc Definition 2.14; README D0.11). -/
 theorem IsSpectralSubmersion.comp {X Y Z : Type u} [TopologicalSpace X] [SpectralSpace X]
@@ -295,34 +283,52 @@ theorem isSheaf_structurePresheaf : Presheaf.IsSheaf (vTopology p) (structurePre
 /-- **The v-topology is subcanonical** (ECD Theorem 8.7, p. 43). -/
 theorem vTopology_subcanonical : (vTopology.{u} p).Subcanonical := sorry
 
-/-- Forgetting multiplication in the structure presheaf gives an abelian v-sheaf
-(ECD Theorem 8.7; README D2.7). -/
-theorem isSheaf_additiveStructurePresheaf :
-    Presheaf.IsSheaf (vTopology.{u} p)
-      (structurePresheaf.{u} p ⋙ forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat) :=
+/-- The full subcategory of `κ`-small perfectoid spaces, the underlying category of the small
+v-site (ECD Definition 4.2, p. 20, and Definition 8.1, p. 39). -/
+abbrev PerfdKappa (κ : Cardinal.{u}) : Type (u + 1) :=
+  ObjectProperty.FullSubcategory (C := Perfd.{u} p) (IsKappaSmall p κ)
+
+/-- The v-topology on `κ`-small perfectoid spaces, generated by the same finite quasicompact
+image condition (ECD Definition 8.1(iii), p. 39). -/
+def vTopologyKappa (κ : Cardinal.{u}) : GrothendieckTopology (PerfdKappa p κ) :=
+  (vPrecoverage (ObjectProperty.ι _ ⋙ perfdToTop p)).toGrothendieck
+
+/-- An essentially small `κ`-small v-site has sheafification of abelian presheaves, through
+Mathlib's transport to a small model. -/
+instance (κ : Cardinal.{u}) [EssentiallySmall.{u} (PerfdKappa p κ)] :
+    HasSheafify (vTopologyKappa p κ) AddCommGrpCat.{u} :=
+  hasSheafifyEssentiallySmallSite _ _
+
+/-- For a cutoff cardinal `κ`, the additive structure presheaf is a sheaf on the `κ`-small
+v-site (ECD Theorem 8.7, p. 43; README D2.7). -/
+theorem isSheaf_additiveStructurePresheaf (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ) :
+    Presheaf.IsSheaf (vTopologyKappa p κ)
+      ((ObjectProperty.ι _).op ⋙ structurePresheaf.{u} p ⋙ forget₂ CommRingCat RingCat ⋙
+        forget₂ RingCat AddCommGrpCat) :=
   sorry
 
-/-- The additive structure sheaf on the v-site (ECD Theorem 8.7; README D2.7). -/
-def additiveStructureSheaf : Sheaf (vTopology.{u} p) AddCommGrpCat.{u} :=
-  ⟨structurePresheaf.{u} p ⋙ forget₂ CommRingCat RingCat ⋙ forget₂ RingCat AddCommGrpCat,
-    isSheaf_additiveStructurePresheaf p⟩
+/-- The additive structure sheaf on the `κ`-small v-site (ECD Theorem 8.7; README D2.7). -/
+def additiveStructureSheaf (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ) :
+    Sheaf (vTopologyKappa p κ) AddCommGrpCat.{u} :=
+  ⟨(ObjectProperty.ι _).op ⋙ structurePresheaf.{u} p ⋙ forget₂ CommRingCat RingCat ⋙
+      forget₂ RingCat AddCommGrpCat,
+    isSheaf_additiveStructurePresheaf p κ hκ⟩
 
-/-- Degree-zero v-cohomology of the structure sheaf is the additive group of global functions
-(ECD Theorem 1.2; README D2.7). -/
-theorem structureSheaf_v_H0
-    [HasSheafify (vTopology.{u} p) AddCommGrpCat.{u}]
-    [HasExt.{u+1} (Sheaf (vTopology.{u} p) AddCommGrpCat.{u})]
-    (X : Perfd.{u} p) :
-    Nonempty (Sheaf.H'.{u+1} (additiveStructureSheaf p) 0 X ≃+
-      (structurePresheaf p).obj (Opposite.op X)) := sorry
+/-- Degree-zero v-cohomology of the structure sheaf on the `κ`-small v-site is the additive group
+of global functions (ECD Theorem 1.2, p. 3; README D2.7). -/
+theorem structureSheaf_v_H0 (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ)
+    [EssentiallySmall.{u} (PerfdKappa p κ)]
+    [HasExt.{u+1} (Sheaf (vTopologyKappa p κ) AddCommGrpCat.{u})] (X : PerfdKappa p κ) :
+    Nonempty (Sheaf.H'.{u+1} (additiveStructureSheaf p κ hκ) 0 X ≃+
+      (structurePresheaf p).obj (Opposite.op X.obj)) := sorry
 
-/-- The structure sheaf has zero positive v-cohomology on every affinoid perfectoid space
-(ECD Proposition 8.8; README D2.8). -/
-theorem structureSheaf_v_acyclic
-    [HasSheafify (vTopology.{u} p) AddCommGrpCat.{u}]
-    [HasExt.{u+1} (Sheaf (vTopology.{u} p) AddCommGrpCat.{u})]
-    (X : Perfd.{u} p) (hX : isAffinoidPerfectoid p X.obj) (n : ℕ) :
-    Subsingleton (Sheaf.H'.{u+1} (additiveStructureSheaf p) (n + 1) X) := sorry
+/-- For a cutoff cardinal `κ`, the structure sheaf has zero positive v-cohomology on every
+`κ`-small affinoid perfectoid space (ECD Proposition 8.8, p. 43; README D2.8). -/
+theorem structureSheaf_v_acyclic (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ)
+    [EssentiallySmall.{u} (PerfdKappa p κ)]
+    [HasExt.{u+1} (Sheaf (vTopologyKappa p κ) AddCommGrpCat.{u})] (X : PerfdKappa p κ)
+    (hX : isAffinoidPerfectoid p X.obj.obj) (n : ℕ) :
+    Subsingleton (Sheaf.H'.{u+1} (additiveStructureSheaf p κ hκ) (n + 1) X) := sorry
 
 /-! ## Layer D3: effective descent and morphisms of stacks -/
 
@@ -331,46 +337,7 @@ before Definition 10.12, p. 53). -/
 theorem isSheaf_yonedaPresheaf (T : Type u) [TopologicalSpace T] :
     Presieve.IsSheaf (vTopology p) (ContinuousMap.yonedaPresheaf (perfdToTop p) T) := sorry
 
-/-- Every chart-small subset of the large Boolean group containing zero admits a continuous
-sequence converging to zero outside it, supported on disjoint blocks
-(README D3.10, size boundary for ECD Lemma 10.13). -/
-theorem s3_10_large_group_escape (B : Set ((ℕ × Type) → ZMod 2)) (hB : Small.{0} B)
-    (hzero : (0 : (ℕ × Type) → ZMod 2) ∈ B) :
-    ∃ h : OnePoint ℕ → ((ℕ × Type) → ZMod 2), Continuous h ∧ h OnePoint.infty = 0 ∧
-      ∀ n : ℕ, h (n : OnePoint ℕ) ∉ B ∧
-        ∀ i : ℕ × Type, i.1 ≠ n → h (n : OnePoint ℕ) i = 0 := sorry
-
-/-! ## Layer D4: the size boundary of compact Hausdorff realization -/
-
-/-- The chart-small-support subset is dense in the large compact Boolean cube
-(README D4.6; ECD Example 11.12, size boundary). -/
-theorem compHaus_large_cube_dense :
-    Dense {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}} := sorry
-
-/-- The dense chart-small-support subset of the large compact Boolean cube is not closed
-(README D4.6; ECD Example 11.12, size boundary). -/
-theorem compHaus_large_cube_not_closed :
-    ¬ IsClosed {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}} := sorry
-
-/-- Every continuous map from a chart-small space has closed preimage of the small-support
-subset of the large Boolean cube (README D4.6; ECD Example 11.12, size boundary). -/
-theorem compHaus_large_cube_small_preimage (S : Type) [TopologicalSpace S]
-    (h : C(S, Type → ZMod 2)) :
-    IsClosed (h ⁻¹' {t : Type → ZMod 2 | Small.{0} {i : Type // t i ≠ 0}}) := sorry
-
-/-- A finite union of chart-small subsets misses an element of the large compact Boolean
-group, obstructing quasicompactness of its charted realization (README D4.11). -/
-theorem s4_11_large_profinite_quotient (n : ℕ) (A : Fin n → Set (Type → ZMod 2))
-    (hA : ∀ i, Small.{0} (A i)) :
-    ∃ g : Type → ZMod 2, ∀ i, g ∉ A i := sorry
-
 /-! ## Layer D5: spatial geometry and Hausdorff reduction -/
-
-/-- Finite-subset product diagrams have a total arrow type small in the chart universe exactly
-when their generating set is small there (ECD proof of Proposition 11.24, p. 65; README D5.3).
-Singleton identity arrows give the reverse implication. -/
-theorem small_finset_arrow_iff (I : Type u) :
-    Small.{0} (Arrow (Finset I)ᵒᵖ) ↔ Small.{0} I := sorry
 
 /-- The normalised *Berkovich spectrum* of a topological ring `R` at `ϖ`: continuous
 nonarchimedean multiplicative seminorms `α` with `α ϖ = 1/2`, with the topology of pointwise
@@ -396,18 +363,6 @@ theorem nonempty_t2Quotient_spa_homeomorph {R : Type u} [CommRing R] [UniformSpa
     CompactSpace (BerkovichSpectrum R ϖ) ∧ T2Space (BerkovichSpectrum R ϖ) ∧
       Nonempty (T2Quotient (spa P.plus) ≃ₜ BerkovichSpectrum R ϖ) := sorry
 
-/-- The quotient of `ℤ_p` by integer translations has multiple points and only empty and full
-opens. Every singleton is dense, and the quotient fails `T₀`. This gives the topological space
-of the Frobenius-twisted dense-orbit diamond in README D5.15, using Mathlib's
-`PadicInt.denseRange_intCast`; the Berkovich colimit is ECD Proposition 13.10, pp. 79–80. -/
-theorem padicInteger_denseOrbitQuotient (p : ℕ) [Fact p.Prime] :
-    Nontrivial (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range) ∧
-      (∀ U : Set (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range),
-        IsOpen U → U = ∅ ∨ U = Set.univ) ∧
-      (∀ x : ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range,
-        closure ({x} : Set (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range)) = Set.univ) ∧
-      ¬ T0Space (ℤ_[p] ⧸ (Int.castAddHom ℤ_[p]).range) := sorry
-
 /-- **Components of a quotient by a compact group** (GLX Lemma 3.2, corrected; the spectral case of
 README §D5.16). For a compact group acting continuously on a spectral space, two points have the
 same component in the orbit space iff one lies in the component of a translate of the other. -/
@@ -424,38 +379,6 @@ theorem connectedComponents_mk_quotient_eq_iff {G X : Type u} [Group G] [Topolog
 has a unique root `z` with `x = z³` and `y = z²` (Stacks 0EUL, 0EUQ). -/
 def IsSeminormalRing (A : Type u) [CommRing A] : Prop :=
   IsReduced A ∧ ∀ x y : A, x ^ 2 = y ^ 3 → ∃! z : A, x = z ^ 3 ∧ y = z ^ 2
-
-/-- On arbitrary commutative rings, seminormality is equivalent to unique square–cube lifting
-(Stacks 0EUL, 0EUQ; KL16 Definition 1.4.1, p. 19). -/
-theorem IsSeminormalRing.iff_unique (A : Type u) [CommRing A] :
-    IsSeminormalRing A ↔
-      ∀ x y : A, x ^ 2 = y ^ 3 → ∃! z : A, x = z ^ 3 ∧ y = z ^ 2 := sorry
-
-/-- Integrally closed domains have the square–cube lifting property
-(KL16 Remark 1.4.2, p. 20). -/
-theorem IsSeminormalRing.of_isIntegrallyClosed (A : Type u) [CommRing A]
-    [IsDomain A] [IsIntegrallyClosed A] : IsSeminormalRing A := sorry
-
-/-- Seminormality of a product is equivalent to seminormality of both factors
-(KL16 Definition 1.4.1, componentwise). -/
-theorem IsSeminormalRing.prod_iff (A B : Type u) [CommRing A] [CommRing B] :
-    IsSeminormalRing (A × B) ↔ IsSeminormalRing A ∧ IsSeminormalRing B := sorry
-
-/-- Equalizers of maps from a seminormal ring to a reduced ring are seminormal:
-the images of a square–cube root coincide in the reduced codomain
-(KL16 Definition 1.4.1, p. 19; Stacks 0EUL). -/
-theorem IsSeminormalRing.eqLocus {A B : Type u} [CommRing A] [CommRing B] [IsReduced B]
-    (hA : IsSeminormalRing A) (f g : A →+* B) : IsSeminormalRing (f.eqLocus g) := sorry
-
-/-- A noetherian ring whose prime localizations are normal domains is a finite product of
-integrally closed domains, allowing the empty product (Stacks 030C). -/
-theorem Affine.normal_finiteProduct (A : Type u) [CommRing A] [IsNoetherianRing A]
-    (hA : ∀ q : PrimeSpectrum A,
-      IsDomain (Localization.AtPrime q.asIdeal) ∧
-        IsIntegrallyClosed (Localization.AtPrime q.asIdeal)) :
-    ∃ (n : ℕ) (B : Fin n → CommRingCat.{u}),
-      (∀ i, IsDomain (B i) ∧ IsIntegrallyClosed (B i)) ∧
-        Nonempty (A ≃+* ∀ i, B i) := sorry
 
 /-- A subintegral map is integral, bijective on prime spectra, and an isomorphism on
 all induced residue fields (KL16 Lemma 1.4.5, p. 20; Stacks 0CND). -/
@@ -480,55 +403,5 @@ theorem subintegral_bijective_of_seminormal {R S : Type u} [CommRing R] [CommRin
 (Stacks 0EUR(3)–(4)); the codomain has the same universe as the source. -/
 theorem exists_seminormalization (A : Type u) [CommRing A] :
     ∃ B : CommRingCat.{u}, ∃ f : A →+* B, IsSeminormalRing B ∧ IsSubintegral f := sorry
-
-/-- The seminormalization ring selected from the existence theorem (Stacks 0EUR(3)–(4)). -/
-def snRing (A : Type u) [CommRing A] : Type u :=
-  (exists_seminormalization A).choose
-
-/-- The commutative ring structure on the seminormalization. -/
-instance snRing.commRing (A : Type u) [CommRing A] : CommRing (snRing A) :=
-  inferInstanceAs (CommRing (exists_seminormalization A).choose)
-
-/-- The unit from a ring to its seminormalization (Stacks 0EUR(3)). -/
-def snMap (A : Type u) [CommRing A] : A →+* snRing A :=
-  (exists_seminormalization A).choose_spec.choose
-
-/-- The seminormalization satisfies the square–cube criterion (Stacks 0EUR(4)). -/
-theorem snRing_seminormal (A : Type u) [CommRing A] : IsSeminormalRing (snRing A) := sorry
-
-/-- Every map to a seminormal ring extends uniquely across the subintegral unit
-(Stacks 0CND, 0EUR; KL16 Definition 1.4.1, p. 19). -/
-theorem sn_lift {A B : Type u} [CommRing A] [CommRing B]
-    (hB : IsSeminormalRing B) (f : A →+* B) :
-    ∃! g : snRing A →+* B, g.comp (snMap A) = f := sorry
-
-/-- The seminormalization unit is subintegral, including for rings with nilpotents
-(Stacks 0EUR(3); KL16 Lemma 1.4.5, p. 20). -/
-theorem snMap_subintegral (A : Type u) [CommRing A] : IsSubintegral (snMap A) := sorry
-
-/-- The seminormalization unit is integral (Stacks 0EUR(3); KL16 Lemma 1.4.5, p. 20). -/
-theorem snMap_isIntegral (A : Type u) [CommRing A] : (snMap A).IsIntegral := sorry
-
-/-- The unit preserves points valued in every field, including imperfect fields; together with
-integrality this expresses subintegrality (KL16 Lemma 1.4.5, p. 20; Stacks 0EUR(3)). -/
-theorem snMap_fieldPoints (A K : Type u) [CommRing A] [Field K] :
-    Function.Bijective (fun g : snRing A →+* K ↦ g.comp (snMap A)) := sorry
-
-/-- The unit is an isomorphism on seminormal rings (Stacks 0EUR(4)). -/
-theorem snMap_bijective (A : Type u) [CommRing A] (hA : IsSeminormalRing A) :
-    Function.Bijective (snMap A) := sorry
-
-/-- Any subintegral unit with seminormal codomain identifies that codomain uniquely with
-the seminormal reflection, compatibly with the unit (Stacks 0EUR(3)–(4), 0H3G). -/
-theorem sn_compare {A B : Type u} [CommRing A] [CommRing B]
-    (f : A →+* B) (hf : IsSubintegral f) (hB : IsSeminormalRing B) :
-    ∃! e : snRing A ≃+* B, e.toRingHom.comp (snMap A) = f := sorry
-
-/-- Seminormalization commutes with principal localization, compatibly with its unit
-(Stacks 0EUM, 0EUS, restricted to principal affine opens). -/
-theorem snRing_localization (A : Type u) [CommRing A] (f : A) :
-    ∃ e : snRing (Localization.Away f) ≃+* Localization.Away (snMap A f),
-      ∀ a : A, e (snMap (Localization.Away f) (algebraMap A (Localization.Away f) a)) =
-        algebraMap (snRing A) (Localization.Away (snMap A f)) (snMap A a) := sorry
 
 end TauCetiRoadmap.DiamondsAndVStacks
