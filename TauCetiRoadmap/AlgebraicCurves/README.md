@@ -49,7 +49,8 @@ the curves ↔ function-fields dictionary, so the two routes meet instead of dup
 [EllipticCurves](../EllipticCurves/README.md) roadmap
 owns the arithmetic of `WeierstrassCurve.FunctionField` and proves everything it needs
 "with no Riemann–Roch anywhere"; its Layer 0 builds places and divisors for Weierstrass
-function fields concretely, leaving the implementation "to the upstream coordination" —
+function fields concretely, and its Layer 0 consumes this roadmap's normalized-valuation place interface and
+Layer 10's early Weierstrass local-ring milestone —
 this roadmap supplies the *general* theory those places instantiate, with named
 compatibility milestones (§Coordination).
 
@@ -67,8 +68,8 @@ the general theory; and
 `TauCeti/AlgebraicGeometry/` is where the dictionary layer's outputs belong, next to the
 JacobianChallenge home, so the two roadmaps meet in one namespace. ⚠ Name hygiene: Mathlib's
 `FunctionField Fq F` is an `abbrev` for `FiniteDimensional Fq⟮X⟯ F` *relative to a chosen*
-`Algebra (RatFunc Fq) F` instance; the intrinsic predicate defined here gets a distinct
-name (`IsFunctionField`, see conventions) and a comparison lemma, never a redefinition.
+`Algebra (RatFunc Fq) F` instance; the intrinsic predicate has a distinct
+name (`TauCeti.IsFunctionField`, see conventions) and a comparison lemma, never a redefinition.
 Note also the pin's notation collision: `F⟮X⟯` is scoped notation for `RatFunc F` while
 `F⟮y⟯` is `IntermediateField.adjoin F {y}` — both appear in this theory; spell out
 `RatFunc` where confusion is possible.
@@ -155,11 +156,8 @@ layers: downstream consumers live over `ℚ` and number fields (genus of modular
 curves), over finite fields (curves over `𝔽_q`), and over `ℂ` (Belyi maps); the theory is
 stated over an arbitrary field with the honest hypotheses above.
 
-Additional target signatures for the field tensor-domain, pole fibre, trace Gram
-matrix and actual smooth/proper/geometrically-integral base-change structures are
-in `ConstantExtensionSuggested.lean`, reusing the unchanged `Suggested.lean`
-carriers. Layers7–8's local integral-basis/length and12B.0's model/section maps
-are the definite producers below, not assumed black-box propositions.
+Layers 7–8's local integral-basis/length and 12B.0's model/section maps are the
+definite producers below, not assumed black-box propositions.
 
 ## Pinned conventions
 
@@ -343,9 +341,17 @@ relationships are in §[Coordination](#coordination).
   Prop. 3.10.2); Layer 10's
   Weierstrass equation over arbitrary exact constants, without a discriminant condition,
   is the theorem `exists_isWeierstrassCoordinates_of_genus_eq_one` of namespace
-  `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Elliptic/WeierstrassEquation.lean`). New targets
-  are stated on these carriers, through a comparison with any differently spelled
-  statement, never on a parallel copy.
+  `TauCeti.Place` (`TauCeti/FieldTheory/FunctionField/Elliptic/WeierstrassEquation.lean`). The
+  pinned Tau Ceti also proves the headline theorems of Layers 0–7 and 10, each cited
+  at its layer by its pinned name: among them the product formula
+  `TauCeti.Divisor.degree_principal`, Riemann's theorem, the Riemann–Roch theorem
+  `TauCeti.isRiemannRochDivisor_weilDifferentialDivisor`, Clifford's theorem
+  `TauCeti.Divisor.two_mul_dim_le_degree_add_two`, the Hurwitz genus formula
+  `TauCeti.hurwitz_genus_formula`, genus invariance under finite separable constant
+  extension `TauCeti.genus_eq_genus_of_constantCompositum_eq_top` and the Hurwitz bound
+  `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`. New targets are stated on these
+  carriers, through a comparison with any differently spelled statement, never on a
+  parallel copy.
 - **Adjacent, no mathematical overlap**: graph Riemann–Roch (Baker–Norine, sorry-free
   in Lean) is a naming precedent for `Divisor`/`deg`/`genus`-style identifiers — a
   reminder to namespace ours under the function-field theory; Mathlib's elliptic-curve
@@ -383,8 +389,10 @@ corresponding material in Mathlib replaces ours by deletion plus an import.
 
 ## The build, in layers
 
-The ordering below is the dependency order. As each layer makes the next layer's types
-expressible in `TauCeti/`, its milestones are added to `Suggested.lean` with `sorry`.
+The ordering below is the dependency order. Where the pinned Tau Ceti already proves a
+headline theorem, the layer cites it by its pinned name; `Suggested.lean` states the
+headline theorems the pinned libraries do not prove (Layer 8's tensor-domain criterion
+and genus non-increase, Layer 11's finiteness theorem) on the pinned carriers.
 Stichtenoth (2nd ed., GTM 254) is the primary source; section citations are given per
 layer, theorem-level citations per milestone.
 
@@ -398,8 +406,8 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
   `k` exact). Milestones: any transcendental
   `y : F` works as a variable (Rem. 1.1.2; consume
   `FunctionField.finiteDimensional_of_adjoin_transcendental`); comparison with Mathlib's
-  chosen-generator `FunctionField`; `IsFunctionField` ⟺ `Algebra.trdeg k F = 1` +
-  **`Algebra.EssFiniteType k F`** (`isFunctionField_iff_trdeg_eq_one`), equivalently
+  chosen-generator `FunctionField`; `TauCeti.IsFunctionField` ⟺ `Algebra.trdeg k F = 1` +
+  **`Algebra.EssFiniteType k F`** (`TauCeti.isFunctionField_iff_trdeg_eq_one`), equivalently
   `(⊤ : IntermediateField k F).FG` via `IntermediateField.fg_top_iff` (the missing
   trdeg bridge — `Algebra.FiniteType k F` is deliberately not used, since for a field
   carrier it would force an algebraic extension by Zariski's lemma); stability under
@@ -414,7 +422,7 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
 - **Places.** The `Place k F` structure as pinned (normalized valuation, trivial on `k`);
   the valuation subring `𝒪_P` (Stichtenoth's Def. 1.1.4: `k ⊊ 𝒪 ⊊ F` with
   `z ∈ 𝒪 ∨ z⁻¹ ∈ 𝒪`) with its `IsLocalRing`/`ValuationRing` instances, maximal ideal,
-  uniformizers ("prime elements"); **`𝒪_P` is a DVR** (`Place.isDiscreteValuationRing_integers`; Thm. 1.1.6: `P` principal,
+  uniformizers ("prime elements"); **`𝒪_P` is a DVR** (`TauCeti.Place.instIsDiscreteValuationRing`; Thm. 1.1.6: `P` principal,
   `z = tⁿu` uniquely; in Lean: `IsDiscreteValuationRing` — for a surjective
   `ℤᵐ⁰`-valuation this is direct; consume the pin's `Valuation.IsRankOneDiscrete` API and
   `valuationSubring_isDiscreteValuationRing`); `ord_P` with the mult/additive translation
@@ -423,7 +431,7 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
   incl. triviality on `k`) ↔ valuation ring (Thm. 1.1.13, including (d): valuation rings
   are maximal proper subrings of `F`).
 - **Degrees.** The residue field `F_P` (Def. 1.1.14) as pinned; **`Module.Finite k F_P`**
-  (`Place.finite_residueField_and_degree_pos`) with `1 ≤ deg P ≤ [F : k(x)]` for any `x` with `ord_P x ≠ 0` (Prop. 1.1.15; this is
+  (`TauCeti.Place.finiteDimensional_residueField`, `TauCeti.Place.one_le_degree_of_isFunctionField`) with `1 ≤ deg P ≤ [F : k(x)]` for any `x` with `ord_P x ≠ 0` (Prop. 1.1.15; this is
   where the Zariski-lemma-shaped gap in the pin is filled). Rational places
   (`deg P = 1`; Rem. 1.1.17: over algebraically closed `k` all places are rational) and
   the evaluation map `f ↦ f(P) ∈ F_P` for `f ∈ 𝒪_P` (Def. 1.1.14's residue map).
@@ -432,12 +440,12 @@ beyond `Field`; the full-constant-field assumption enters only at §1.4 — mirr
   `x ∈ F ∖ k̃` has a zero and a pole and `ℙ_F ≠ ∅` (Cor. 1.1.20); `k̃ = ⋂_P 𝒪_P`
   (constants are the everywhere-regular functions); distinct places give inequivalent
   valuations (consume the shape of `eq_of_valuation_isEquiv_valuation`).
-- **Weak approximation** (`weak_approximation`; Thm. 1.3.1 — the *equality* form): for pairwise distinct
+- **Weak approximation** (`TauCeti.Place.exists_forall_mem_ord_sub_eq`; Thm. 1.3.1 — the *equality* form): for pairwise distinct
   places `P₁ … Pₙ`, targets `f₁ … fₙ ∈ F` and prescribed `r₁ … rₙ ∈ ℤ`, there is
   `f ∈ F` with `ord_{Pᵢ}(f − fᵢ) = rᵢ` for all `i`. Corollaries: finitely many places
   are independent; **every function field has infinitely many places** (Cor. 1.3.2);
   `∑ᵢ ord_{Pᵢ}(x) · deg Pᵢ ≤ [F : k(x)]` over zeros of `x` (Prop. 1.3.3), whence the
-  finiteness of zeros and poles (Cor. 1.3.4; `finite_setOf_valuation_ne_one`) consumed by
+  finiteness of zeros and poles (Cor. 1.3.4; `TauCeti.Place.finite_setOf_ord_ne_zero`) consumed by
   Layer 3.
 
 ### Layer 1: the rational function field
@@ -446,10 +454,10 @@ Stichtenoth I.2. The base case of everything, and the first acceptance suite.
 
 - **The places of `k(x)`.** In the normalized-place vocabulary: for each monic irreducible
   `p ∈ k[X]` the place `P_p` (via `(Polynomial.idealX)`-style `HeightOneSpectrum k[X]`
-  valuations) with `deg P_p = natDegree p` and residue field `k[X]/(p)` (Prop. 1.2.1(a); `exists_place_of_irreducible`);
+  valuations) with `deg P_p = natDegree p` and residue field `k[X]/(p)` (Prop. 1.2.1(a); `TauCeti.Place.adicOfIrreducible`, `TauCeti.Place.degree_adicOfIrreducible`);
   the place at infinity `P_∞` (repackage `RatFunc.inftyValuation`;
   `v_∞ f = exp (intDegree f)`, `ord_∞ f = −intDegree f`, prime element `1/x`) with
-  `deg P_∞ = 1` (Prop. 1.2.1(c); `exists_place_infty`); `k` is the exact constant field of `k(x)`
+  `deg P_∞ = 1` (Prop. 1.2.1(c); `TauCeti.Place.infty`, `TauCeti.Place.valuation_infty_apply`, `TauCeti.Place.degree_infty`); `k` is the exact constant field of `k(x)`
   (Prop. 1.2.1(d)); **these are all the places and they are distinct** (Thm. 1.2.2) —
   repackage the pin's Ostrowski `RatFunc.valuation_isEquiv_infty_or_adic` (its `Xor`
   under `IsRankOneDiscrete` + `IsTrivialOn` becomes a bijection
@@ -513,11 +521,10 @@ force (Stichtenoth's global assumption, declared at the head of §1.4).
 - **Divisors.** `Divisor k F` as pinned (Def. 1.4.1); degree hom; support, partial
   order, `⊔/⊓`, positive/negative parts. **Finiteness of zeros and poles** of `f ∈ Fˣ`
   (Cor. 1.3.4, via Prop. 1.3.3's bound `∑ ord · deg ≤ [F : k(f)]`); the principal
-  divisor hom `div : Fˣ → Divisor k F`, with the predicate `Divisor.IsPrincipal` (`D` has
-  coefficients `ord_P f` for some `f ≠ 0`) and the subgroup `Divisor.principalSubgroup` it
-  generates; zero/pole divisors `(f)₀, (f)_∞`
+  divisor hom `div : Fˣ → Divisor k F` (`TauCeti.Divisor.principalHom`, with values
+  `TauCeti.Divisor.principal`; coefficients `ord_P f`); zero/pole divisors `(f)₀, (f)_∞`
   (Def. 1.4.2); `div f = 0 ↔ f ∈ kˣ` (exactness of constants entering here).
-- **The product formula.** `deg (div f) = 0` (`Divisor.degree_eq_zero_of_isPrincipal`; it
+- **The product formula.** `deg (div f) = 0` (`TauCeti.Divisor.degree_principal`; it
   needs no exact-constants hypothesis, by normalizing to `F/k̃`), via
   **`deg (f)₀ = deg (f)_∞ = [F : k(f)]`** for nonconstant `f` (Thm. 1.4.11) — the
   theorem that makes the degree map descend to the class group. Corollaries: `Cl(F)`
@@ -525,17 +532,18 @@ force (Stichtenoth's global assumption, declared at the head of §1.4).
   linear equivalence preserves `deg` and `ℓ` (Cor. 1.4.12(a)); a degree-0 divisor is
   principal iff `ℓ ≥ 1` iff `ℓ = 1` (Cor. 1.4.12(c)).
 - **Riemann–Roch spaces.** `L(D)` as pinned (Def. 1.4.4, Rem. 1.4.5); `L(A) ≅ L(A′)`
-  for `A ∼ A′` (Lemma 1.4.6); `L(0) = k` (`riemannRochSpace_zero`) and `L(D) = 0` for `deg D < 0`
+  for `A ∼ A′` (Lemma 1.4.6); `L(0) = k` (`TauCeti.riemannRochSpace_zero_of_isIntegrallyClosedIn`) and `L(D) = 0` for `deg D < 0`
   (Lemma 1.4.7, Cor. 1.4.12(b)); monotonicity `D ≤ D′ ⟹ L(D) ≤ L(D′)` with
   `dim (L(D′)/L(D)) ≤ deg D′ − deg D` (Lemma 1.4.8, the one-place-at-a-time estimate);
-  **finite-dimensionality** (`finiteDimensional_riemannRochSpace`, for arbitrary constant
+  **finite-dimensionality** (`TauCeti.finiteDimensional_riemannRochSpace`, for arbitrary constant
   fields) with `ℓ(D) ≤ deg D₊ + 1` (Prop. 1.4.9, Def. 1.4.10; the bound needs exact
   constants).
 - **Riemann's theorem and the genus**: the quantity `deg D − ℓ(D)` is bounded above
   (Prop. 1.4.14); **the genus** `genus k F` as pinned (Def. 1.4.15:
   `g = max {deg A − ℓ(A) + 1}`; `sSup`, junk-guarded by 1.4.14), `g ≥ 0` (Cor. 1.4.16);
   **Riemann's theorem** (Thm. 1.4.17): `ℓ(D) ≥ deg D + 1 − g` for all `D`, with
-  equality for `deg D ≥ c` (`∃ c` form; `riemann_theorem`); the **index of specialty**
+  equality for `deg D ≥ c` (`∃ c` form; `TauCeti.Divisor.degree_add_one_sub_genus_le_dim`,
+  `TauCeti.exists_forall_dim_eq_degree_add_one_sub_genus`); the **index of specialty**
   `i(D) := ℓ(D) − deg D − 1 + g ≥ 0` (Def. 1.5.1), `i(D) = 0` for large degrees.
 - **The rational function field, at divisor level** (`k(x)`-specific calculations on the
   Layer-1 places, the base case and first acceptance suite): `div x = P_{(X)} − P_∞`; the
@@ -544,15 +552,16 @@ force (Stichtenoth's global assumption, declared at the head of §1.4).
   `RatFunc.finrank_eq_max_natDegree`); `∑_p natDegree p · ord_p(f) = intDegree f` (the
   product formula on `ℙ¹`, concretely); **`L(n·P_∞)` is the polynomials of degree `≤ n`**
   — the model computation `ℓ(n·P_∞) = n + 1` (`n ≥ 0`), proved by hand, long before
-  Riemann–Roch; hence **`g(k(x)) = 0`** (Ex. 1.4.18; `genus_ratFunc`) and Riemann's inequality is sharp at
+  Riemann–Roch; hence **`g(k(x)) = 0`** (Ex. 1.4.18; `TauCeti.genus_ratFunc`) and Riemann's inequality is sharp at
   every `n`.
 - **The affine bridge, at divisor level** (the Layer-2 models meeting Layer-3 types): the
   group isomorphism `{D : Divisor k F | supp D ⊆ finite chart} ≅ (FractionalIdeal R_x⁰ F)ˣ`
   via `FractionalIdeal.count` (consume `count_mul/inv/zpow`, `finite_factors`,
   `finprod_heightOneSpectrum_factorization'` — zero new proof work is the design goal;
-  the same dictionary, on the abstract Dedekind side, is the subject of the open Mathlib
-  PR [#41729](https://github.com/leanprover-community/mathlib4/pull/41729) — shape this
-  milestone the way that PR shapes it, and consume it if it lands). **Class-group
+  the same dictionary, on the abstract Dedekind side, is the subject of the Mathlib
+  development of the Dedekind divisor group `(FractionalIdeal R⁰ K)ˣ ≅ (HeightOneSpectrum R →₀ ℤ)`
+  — shape this milestone the way that development shapes it, and consume it if it
+  lands in Mathlib). **Class-group
   bridge**: the restriction-to-finite-chart map induces a surjection
   `π : Cl(F) →+ ClassGroup R_x`, and its kernel is **the subgroup of `Cl(F)` generated by
   the classes `[P]` of the finitely many places `P` over `∞`** (not a free group on them:
@@ -570,8 +579,8 @@ Stichtenoth I.5 — the summit of the first half.
   "some authors use the name repartition"; entries in `F`, cofinite integrality —
   `Filter.cofinite` vocabulary, **no completions**); the diagonal `F ↪ A_F`; the
   filtration `A_F(D)` (Def. 1.5.3), in the **multiplicative junk-free form of the
-  convention table** (`v_P (a P) ≤ exp (D P)` at every place — prototyped in
-  `Suggested.lean` so the additive-junk mistake cannot reappear). Its basic calculus as
+  convention table** (`v_P (a P) ≤ exp (D P)` at every place, as in the pinned
+  `TauCeti.adeleFiltration`, never the additive form with its junk value at `0`). Its basic calculus as
   named milestones: `0 ∈ A_F(D)` (and `A_F(D)` is a `k`-submodule of `A_F`);
   monotonicity `D ≤ E ⟹ A_F(D) ≤ A_F(E)`; `A_F(D) + F` is a `k`-submodule; and
   `A_F = ⋃_D A_F(D)`.
@@ -599,20 +608,21 @@ Stichtenoth I.5 — the summit of the first half.
   **`i(D) = ℓ(W − D)`** (Thm. 1.5.14, the Duality Theorem).
 - **The Riemann–Roch theorem** (Thm. 1.5.15; hypotheses: none beyond `k` exact —
   arbitrary constant field, no perfectness, no separability):
-  `ℓ(D) = deg D + 1 − g + ℓ(W − D)` for every divisor `D` (`riemann_roch`, with `W`
-  existentially quantified together with `deg W = 2g − 2` and `ℓ(W) = g`). Immediate corollaries pinned
+  `ℓ(D) = deg D + 1 − g + ℓ(W − D)` for every divisor `D`, with `W` the divisor of a
+  nonzero Weil differential (`TauCeti.isRiemannRochDivisor_weilDifferentialDivisor`, with
+  `TauCeti.degree_weilDifferentialDivisor` and `TauCeti.dim_weilDifferentialDivisor`). Immediate corollaries pinned
   as named milestones: **`ℓ(W) = g` and `deg W = 2g − 2`** (Cor. 1.5.16); the
   characterization of canonical divisors (`deg D = 2g − 2` and `ℓ(D) ≥ g` ⟹ `D`
   canonical, Prop. 1.6.2); and **uniqueness of the RR data** (Prop. 1.6.1: if
   `(g₀, W₀)` satisfies the RR identity for all `D` then `g₀ = g` and `W₀` is canonical
-  — the milestone that makes the `Suggested.lean` existential form honest).
+  — the milestone that identifies every divisor satisfying the RR identity as canonical).
 
 ### Layer 5: consequences of Riemann–Roch, and local components
 
 Stichtenoth I.6–I.7.
 
 - **The `deg > 2g − 2` regime**: `deg D ≥ 2g − 1 ⟹ ℓ(D) = deg D + 1 − g`
-  (Thm. 1.5.17, `dim_eq_of_two_mul_genus_sub_one_le_degree`; the bound is sharp — `W` fails it) — the workhorse identity. Named
+  (Thm. 1.5.17, `TauCeti.Divisor.dim_eq_degree_add_one_sub_genus_of_two_mul_genus_sub_one_le_degree`; the bound is sharp — `W` fails it) — the workhorse identity. Named
   reusable corollary at genus 1: for a rational place `[0]` on a genus-1 function field,
   **`ℓ(n·[0]) = n` for all `n ≥ 1`** — the section-dimension ladder every
   Weierstrass-model argument runs on (Layer 10 restates it at Mathlib's elliptic
@@ -642,7 +652,8 @@ Stichtenoth I.6–I.7.
   listed under scope exclusions below — non-classical curves exist in char `p`.
 - **Clifford's theorem, infinite constants** (Thm. 1.6.13): for `k` **infinite** (an
   `[Infinite k]` hypothesis on the statement), `0 ≤ deg D ≤ 2g − 2` ⟹
-  `2·ℓ(D) ≤ 2 + deg D` (`clifford_of_infinite`). The hypothesis is the proof's (Lemma 1.6.14 chooses a divisor
+  `2·ℓ(D) ≤ 2 + deg D` (the pinned key inequality under `deg B + 1 < #k` is
+  `TauCeti.Divisor.dim_add_dim_le_one_add_dim_add_of_lt_card`). The hypothesis is the proof's (Lemma 1.6.14 chooses a divisor
   point off finitely many hyperplanes, which needs `k` infinite), not the theorem's:
   **the route of record for arbitrary `k` is the constant-field-extension reduction**,
   which is Layer 8's Clifford-export milestone (Thm. 3.6.3(d) transports `ℓ` along
@@ -663,7 +674,7 @@ Stichtenoth I.6–I.7.
      **effective** of degree `n·deg B` (Riemann's theorem gives
      `ℓ(D + n·B) ≥ deg D + n·deg B + 1 − g ≥ 1`, so the class of `D + n·B` contains an
      effective divisor);
-  4. **`Finite Cl⁰(F)`** (Prop. 5.1.3; `finite_classGroupZero`), packaged as a `Finite`/`Fintype` instance-level
+  4. **`Finite Cl⁰(F)`** (Prop. 5.1.3; `TauCeti.Divisor.finite_ker_degreeClass`), packaged as a `Finite`/`Fintype` instance-level
      milestone for the degree-zero class group — **the class number** `h_F := #Cl⁰(F)`;
   5. **the affine bridge**: under Layer 3's exact sequence, finiteness transfers to
      Mathlib's `ClassGroup R_x` for every affine model (each is a quotient of a
@@ -778,7 +789,7 @@ Hurwitz; the different theorem computes the exponents.
   **unramified** means `e=1` AND residue separability. Do not call an `e=1` fierce
   extension unramified. Prove the general equivalence `d=0 ↔ unramified` via
   the different ideal's unramified criterion. The equality/tame proof uses the
-  displayed residue hypothesis (Stichtenoth via `k` perfect, Lemma3.5.3); The pin supplies `P^{e−1} ∣ 𝔡` and the ramified ⟺
+  displayed residue hypothesis (Stichtenoth via `k` perfect, Lemma 3.5.3); The pin supplies `P^{e−1} ∣ 𝔡` and the ramified ⟺
   divides criterion; the **exact tame value is built here** (the pin's file leaves it open)
   — by a complete local route. First prove that localization preserves the trace dual
   and different ideal. After completion, factor a finite tame extension with separable
@@ -792,10 +803,10 @@ Hurwitz; the different theorem computes the exponents.
   `Different.lean` story. Here ramified means failure of the full unramified
   condition, and is equivalent to `P′ ∈ supp Diff` for arbitrary residue fields.
   In the residue-separable branch, wild means the residue characteristic divides e,
-  and is equivalent to `d≥e` (Cor.3.5.5). Without residue separability retain the
+  and is equivalent to `d≥e` (Cor. 3.5.5). Without residue separability retain the
   actual `e`, inseparable residue degree and trace-dual different separately:
   failure of tameness can be fierce (`e=1`, nontrivial inseparable residue), so
-  it must not be restated as `p∣e`. The general computation in Layer8 below covers
+  it must not be restated as `p∣e`. The general computation in Layer 8 below covers
   this case, rather than silently imposing perfect constants.
 - **The cotrace of Weil differentials** (III.4): `Cotr_{F′/F} : Ω_F → Ω_{F′}` through
   the trace on fibre-constant repartitions (Def. 3.4.5, Thm. 3.4.6 — existence,
@@ -817,7 +828,7 @@ Hurwitz; the different theorem computes the exponents.
   `2g′ − 2 ≥ n(2g − 2) + ∑ (e − 1) deg P′` (same-constant-field form, `n = [F′ : F]`)
   **with equality iff every ramified local extension is tame**, with finite
   separable residue extensions at every place as explicit input to this equality
-  criterion (Cor.3.5.6). The inequality itself keeps arbitrary residue fields;
+  criterion (Cor. 3.5.6). The inequality itself keeps arbitrary residue fields;
   without that input compare the actual local different exponents, not merely e; ⚠ wild honesty: the Artin–Schreier worked
   example below is the mandatory acceptance test that no tameness assumption has crept
   in. Corollaries: `g′ ≥ g` for same-constant-field separable extensions (Cor. 3.5.7);
@@ -836,16 +847,19 @@ one** — this layer states them.
   algebraic `K/k` and compositum `F_K=F·K`, first state the embeddings/scalar towers,
   the actual relative algebraic constant field of `F_K`, and its normalization.
   No field structure is asserted on `K⊗[k]F` unless a domain theorem supplies it.
-  Keep the original perfect-k constant-extension package (Prop.3.6.1,
-  Cor.3.6.4, Prop.3.6.6, Cor.3.6.8), and prove the following sharper dictionary:
+  Keep the original perfect-k constant-extension package (Prop. 3.6.1,
+  Cor. 3.6.4, Prop. 3.6.6, Cor. 3.6.8), and prove the following sharper dictionary:
   1. **Generic separable generation** means a separating transcendental x with
-     `F/k(x)` finite separable. It gives the Layer9 one-dimensional Kähler module
+     `F/k(x)` finite separable. It gives the Layer 9 one-dimensional Kähler module
      and geometric reducedness of the generic field. The actual native
      `SeparablyGenerated.lean` existential is the comparison target. It gives
      neither geometric regularity of the complete model nor conserved genus.
   2. **Regular field extension** means generic separable generation AND
      `IsIntegrallyClosedIn k F`. Prove its equivalent tensor-domain criterion:
-     for every extension K/k, `K⊗[k]F` is a domain; its fraction field has exact
+     for every extension K/k, `K⊗[k]F` is a domain
+     (`isDomain_tensorProduct_of_isSeparable`, the direction from the regular-field
+     condition; `ℂ ⊗[ℝ] ℂ(x)` and the exact-constant inseparable field
+     `𝔽_p(a, b)(x, y)`, `y^p = a + b x^p`, are its negative controls); its fraction field has exact
      constants K and is again a one-variable function field. Prove the induced
      scalar maps, linear disjointness and `[F:k(x)]=[F_K:K(x)]`. Over perfect k,
      exact constants imply this regular-field condition. None of these generic
@@ -853,22 +867,22 @@ one** — this layer states them.
   3. **Conservative smooth-model branch** takes the one canonical regular
      projective model X_F, together with an actual smooth structure morphism and
      geometric connectedness (equivalently geometric integrality here). It uses
-     early cut12B.0, available from Layer2, not the later12E cohomology dictionary.
+     early cut 12B.0, available from Layer 2, not the later 12E cohomology dictionary.
      Prove that its K-base-change is smooth proper geometrically integral and is
      the regular model of `Frac(K⊗[k]F)`. The identity map of fraction fields
      extends uniquely to a model isomorphism. This condition holds over perfect k
      with exact constants, and over characteristic zero; over imperfect k it is
-     additional data, not a synonym for item1 or item2.
+     additional data, not a synonym for item 1 or item 2.
   The perfect-k specialization retains each original degree/irreducibility
   milestone explicitly: for F′/F with full constants k′/k,
-  `deg_(k′)(Con_(F′/F) A)=[F′:F k′]*deg_k A` (Cor.3.6.4), and
-  `[F′:F]=[F′kbar:F kbar]*[k′:k]` (Prop.3.6.6) with the indicated compatible
-  composita and the degree integrality from Layer6. Prove the geometric
-  irreducibility/exact-constants criterion (Cor.3.6.8) over perfect k, and the
+  `deg_(k′)(Con_(F′/F) A)=[F′:F k′]*deg_k A` (Cor. 3.6.4), and
+  `[F′:F]=[F′kbar:F kbar]*[k′:k]` (Prop. 3.6.6) with the indicated compatible
+  composita and the degree integrality from Layer 6. Prove the geometric
+  irreducibility/exact-constants criterion (Cor. 3.6.8) over perfect k, and the
   arbitrary-k form with separable generation explicitly present. These formulas
   keep the specified full constants; they do not identify a raw tensor with a field.
 - **Genus and divisor base change, retaining the imperfect smooth case.** Under
-  item3 and for arbitrary K/k, construct the flat pullback `Con` of Cartier
+  item 3 and for arbitrary K/k, construct the flat pullback `Con` of Cartier
   divisors and its place expression. For a closed P, the finite Artinian fibre
   `κ(P)⊗[k]K` may have several local factors AND nilpotents. Its support gives
   the places Q over P and its local lengths give the coefficients in Con(P).
@@ -876,19 +890,19 @@ one** — this layer states them.
   `deg_K(Con D)=deg_k D`; do not replace the fibre by a reduced compositum.
   Prove the **actual K-linear isomorphism**
   `K⊗[k]L_k(D) ≃ₗ[K] L_K(Con D)` by the finite affine-cover section equalizer
-  of12B.0 and flatness, with its multiplication/principal-divisor compatibilities.
+  of 12B.0 and flatness, with its multiplication/principal-divisor compatibilities.
   Riemann's large-divisor equality on both fields then proves `g(F_K/K)=g(F/k)`:
   use a positive-degree effective divisor and a common sufficiently large multiple,
-  not an invocation of12E or a definition of genus via H¹. RR uniqueness proves
+  not an invocation of 12E or a definition of genus via H¹. RR uniqueness proves
   that the pulled-back canonical class is canonical. A line bundle becoming
   trivial has a descended nonzero global section which becomes nowhere vanishing,
   proving injectivity of Con on classes. These supply all genus, basis, degree,
-  canonical and class outputs of Thm.3.6.3 without losing imperfect smooth models.
+  canonical and class outputs of Thm. 3.6.3 without losing imperfect smooth models.
 - **Unramified constant extensions are a separate branch.** For algebraic K/k
-  separable, prove that every place Q over P is unramified in Layer7's full
+  separable, prove that every place Q over P is unramified in Layer 7's full
   sense (`e(Q/P)=1` and κ(Q)/κ(P) separable), with the selected
   component/residue-field identifications made explicit. Over perfect k every
-  algebraic K/k is separable, so this recovers Thm.3.6.3(a),(g) and the
+  algebraic K/k is separable, so this recovers Thm. 3.6.3(a),(g) and the
   original simple compositum statement, for each chosen place and common
   ambient embedding. Separately, for arbitrary algebraic K/k with κ(P)/k
   separable, prove only the weaker conclusion: the fibre `κ(P)⊗[k]K` is
@@ -900,25 +914,28 @@ one** — this layer states them.
   of κ(P)/k alone. Neither conclusion may be inferred merely from smoothness
   of X_F. Two imperfect regressions are required, both with `k=F_p(a)`,
   F=k(t), `K=k(a^(1/p))`, where the model is the smooth projective line and
-  genus stays0. At P=(t^p−a): `Con(P)=pQ`, `e(Q/P)=p`, with Q=(t−a^(1/p));
+  genus stays 0. At P=(t^p−a): `Con(P)=pQ`, `e(Q/P)=p`, with Q=(t−a^(1/p));
   its Artinian fibre length is p. At the rational place P=(t): κ(P)=k is
   separable over k, the fibre is the field K, `Con(P)=Q` with Q=(t),
   `e(Q/P)=1` and `deg_K Q=deg_k P=1`, but κ(Q)/κ(P)=K/k is purely
   inseparable of degree p, so Q/P is not unramified. The two places separate
   `e>1` from `e=1` with inseparable residue extension. Keep them with the
   finite-separable-residue completion chart guard.
-- **Clifford, unrestricted — the Layer8 export.** For finite k (perfect), pass
+- **Clifford, unrestricted — the Layer 8 export.** For finite k (perfect), pass
   to its algebraic closure. The preceding base-change isomorphism preserves
-  genus, divisor degrees and all ℓ values, so Layer5's infinite-field Clifford
+  genus, divisor degrees and all ℓ values, so Layer 5's infinite-field Clifford
   applies and descends. Combine finite and infinite k into the same theorem
-  for arbitrary exact constant fields (`clifford`). The stronger imperfect-field genus claim
+  for arbitrary exact constant fields (`TauCeti.Divisor.two_mul_dim_le_degree_add_two`). The stronger imperfect-field genus claim
   is neither needed for this deduction nor asserted.
 - **Inseparable constant-extension pathology and general drop estimates.** Keep
-  the general genus-never-increases theorem for algebraic constant extension:
+  the general genus-never-increases theorem for algebraic constant extension
+  (`genus_le_genus_of_constantCompositum_eq_top`: exact `k`, `k′/k` algebraic and
+  `F′ = F·k′` give `g(F′/k′) ≤ g(F/k)`, with no separability of `k′/k` and no
+  exactness of `k′` in `F′`):
   specify the chosen reduced compositum/normalization and its full constant field,
   then compare the normalized genus, rather than calling a possibly nonreduced
   tensor product a field. First prove the finite-extension case on the SAME
-  two-affine model cover, using12B.0c's elementary Čech complex. Its H¹ is
+  two-affine model cover, using 12B.0c's elementary Čech complex. Its H¹ is
   finite dimensional and equals the function-field genus over the exact constants
   by the repartition/approximation comparison. Flat base change preserves this
   H¹. For a nonreduced base change first use the nilradical exact sequence:
@@ -936,10 +953,10 @@ one** — this layer states them.
   finitely many section/normalization data. Retain all III.11 drop estimates as
   separate quantitative targets with their inseparability and constant-field
   hypotheses. For the required odd-p example `k=F_p(t)`, `y²=x^p−t`, prove
-  BOTH generic separable generation and exact constants. At p3 the regular cubic
-  has genus1 and geometric cusp normalization genus0. After adjoining a with
-  a^p=t, put `u=y/(x−a)^((p−1)/2)`; `u²=x−a`, `u^p=y` give the rational
-  normalized field. Thus even a regular field extension in item2 need not be
+  BOTH generic separable generation and exact constants. At `p = 3` the regular cubic
+  has genus 1 and geometric cusp normalization genus 0. After adjoining `a` with
+  `a^p = t`, put `u=y/(x−a)^((p−1)/2)`; `u²=x−a`, `u^p=y` give the rational
+  normalized field. Thus even a regular field extension in item 2 need not be
   conservative. The genus drop is retained as a positive theorem, not removed
   by assuming k perfect everywhere.
 - **Galois II: decomposition, inertia and lower ramification over every residue
@@ -962,9 +979,9 @@ one** — this layer states them.
   `d(P′/P)=Σ_(i≥0)(|G_i|−1)`. The sum is finite by eventual triviality.
   The proof supplies an unramified residue extension then a totally ramified
   monogenic DVR extension, computes its minimal-polynomial derivative and proves
-  the ramification-number/group-sum identity. This is Thm.3.8.7 with its actual
+  the ramification-number/group-sum identity. This is Thm. 3.8.7 with its actual
   residue hypothesis; it does not cover arbitrary inseparable residues.
-- **General different computation, including fierce/wild residue.** Keep Layer7's
+- **General different computation, including fierce/wild residue.** Keep Layer 7's
   native trace-dual different on the same finite normalization/DVR carriers.
   Prove localization and completion preserve it, without assuming separable
   residue. For a finite extension of complete excellent DVRs B/A with separable
@@ -980,17 +997,17 @@ one** — this layer states them.
   otherwise use the integral basis, not a guessed Hilbert sum. Expose the residue
   separability predicate and the classical comparison theorem as separate API
   outputs so a consumer must choose the correct branch.
-- **Required fierce regression.** In characteristic2 take
-  `k=F₂(s,u)`, A=k[t]_(t), `y²+ty=s`, `z²+tz=u`, B=A[y,z]. Prove s,u
-  are p-independent and B/tB=k(sqrt(s),sqrt(u)) is a field of degree4. B is
-  finite free rank4, local with maximal ideal(t), hence a DVR and the full
-  integral closure. Its fraction extension is V4-Galois, with translations by t;
-  e=1, f_ins=4, G_0=V4, G_1=1 by the all-elements definition. Each quadratic
-  monogenic step has different(t), so the tower different is(t²), d=2, while
-  the unqualified group sum is3. Retain the general inertia formula, and make
+- **Required fierce regression.** In characteristic 2 take
+  `k = F₂(s, u)`, `A = k[t]_(t)`, `y² + ty = s`, `z² + tz = u`, `B = A[y, z]`. Prove `s, u`
+  are p-independent and `B/tB = k(√s, √u)` is a field of degree 4. `B` is
+  finite free of rank 4, local with maximal ideal `(t)`, hence a DVR and the full
+  integral closure. Its fraction extension is `V₄`-Galois, with translations by `t`;
+  `e = 1`, `f_ins = 4`, `G_0 = V₄`, `G_1 = 1` by the all-elements definition. Each quadratic
+  monogenic step has different `(t)`, so the tower different is `(t²)`, `d = 2`, while
+  the unqualified group sum is 3. Retain the general inertia formula, and make
   both false classical conclusions fail their hypothesis rather than deleting
   the example or reclassifying it as unramified. This also checks the Gram
-  discriminant length: f*d=8.
+  discriminant length: `f·d = 8`.
 - **Completion and sibling scope.** Prove the same chosen-place lower groups,
   valuation normalization, residue maps and trace-dual different survive
   completion at arbitrary residue fields, with no new classical formula inferred.
@@ -1128,7 +1145,7 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   **`Y² + a₃Y = X³ + a₄X + a₆`**, again with no discriminant condition.
   **Nonsingularity is the smooth-model branch.** For such a Weierstrass equation W
   of F, `W.IsElliptic` holds iff the regular projective model X_F is smooth over k
-  (Layer8 item3, 12B.0b): the projective cubic is the regular model, because its
+  (Layer 8 item 3, 12B.0b): the projective cubic is the regular model, because its
   arithmetic genus equals the genus 1 of its normalization. Over perfect k the model
   is smooth, so every genus-one field with a degree-one divisor is the function field
   of a nonsingular Weierstrass curve; over imperfect k smoothness is an explicit
@@ -1141,17 +1158,17 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   of `j = 0` shape with `a₃ = 0`, so `Δ = a₃⁴ = 0`, and over `k(√a)` the field
   becomes rational (`v = y + √a`, `u = v/x`, `x = u²`, `v = u³`); by uniqueness of
   the regular model F has no nonsingular Weierstrass model over k. The
-  characteristic-3 cubic `y² = x³ − t` of Layer8 is the squarefree-but-inseparable
+  characteristic-3 cubic `y² = x³ − t` of Layer 8 is the squarefree-but-inseparable
   control (`Δ = −27b₆² = 0`). The converse, a nonsingular Weierstrass equation
   defining a genus-one field with exact constants, holds in every characteristic
   over arbitrary k. For the odd-characteristic squarefree cubic only,
   `Diff(F/k(x))` is the reduced sum of the places above its finite branch
-  divisor plus Q_∞ (Prop.6.1.3), with each closed-place coefficient1 and
-  residue-degree weights when taking its degree. Characteristic2 uses the
+  divisor plus Q_∞ (Prop. 6.1.3), with each closed-place coefficient 1 and
+  residue-degree weights when taking its degree. Characteristic 2 uses the
   **weighted** different computed from the actual long Weierstrass derivative
   and the infinity DVR, not this reduced sum. In particular `y²+y=x³` over F₂
   has `Diff=4Q_∞`; this weighted computation is made for the nonsingular
-  characteristic2 normal forms of the smooth branch above; **the degree-one places form
+  characteristic 2 normal forms of the smooth branch above; **the degree-one places form
   an abelian group isomorphic to `Cl⁰(F)`** via `P ↦ [P − P₀]`, with
   `P ⊕ Q = R ⟺ P + Q ∼ R + P₀` (Prop. 6.1.6(b), 6.1.7 — the intrinsic group law).
   **Mathlib compatibility milestones** (the general theory meeting
@@ -1159,10 +1176,10 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   merged [EllipticCurves](../EllipticCurves/README.md) roadmap, whose Layer 0
   consumes the early local-ring/place milestone below):
   (i) `genus k W.toAffine.FunctionField = 1` for `[W.IsElliptic]` (all
-  characteristics; `genus_eq_one_of_weierstrassCurve` states it for any function field with
-  exact constants generated by a solution `x, y` of the equation with `x` transcendental);
+  characteristics; `WeierstrassCurve.Affine.genus_functionField`);
   (ii) `W.toAffine.CoordinateRing` is the integral closure of `k[x]` in the function
-  field; the elliptic **`IsDedekindDomain`** instance (`isDedekindDomain_coordinateRing`) already follows from the
+  field; the elliptic **`IsDedekindDomain`** instance (`WeierstrassCurve.Affine.isIntegrallyClosed_coordinateRing` with
+  `WeierstrassCurve.Affine.isDedekindDomain_coordinateRing_of_isIntegrallyClosed`) already follows from the
   early milestone below: A is a Noetherian domain and its maximal-ideal
   localizations are DVRs, using Mathlib's `isDedekindDomain_iff_isDiscreteValuationRing_atPrime`;
   (iii) the point–place dictionary: `W.toAffine.Point ≃` degree-1 places (the
@@ -1256,10 +1273,10 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   compute the local different exponents from the projected equation and its partial
   derivative, and sum them; prove that this computation and genus are unchanged by the
   chosen separable constant extension. For arbitrary imperfect k, the given
-  smooth geometrically integral model uses12B.0/L8 to pass to an algebraic
+  smooth geometrically integral model uses 12B.0/L8 to pass to an algebraic
   closure without changing genus; compute the same projection/different data
-  there, where Layer9's perfect-k `(dx)=−2(x)_∞+Diff` applies, and descend the
-  canonical divisor/space-of-forms comparison using12B.0c and faithful flatness.
+  there, where Layer 9's perfect-k `(dx)=−2(x)_∞+Diff` applies, and descend the
+  canonical divisor/space-of-forms comparison using 12B.0c and faithful flatness.
   Over perfect k this is the same route directly. Thus no perfect-k Kähler/Weil
   statement is silently used at an inseparable residue over k. The canonical
   divisor is cut by forms of degree d−3 and **`g=(d−1)(d−2)/2`**. This projection/different chain is the sole route
@@ -1332,7 +1349,8 @@ Hartshorne IV as the written sources of record.
   Wronskian route; Stichtenoth's Rem. 1.6.9 cites the counts without proof, so this is
   built here from Goldschmidt's treatment, not imported.)
 - **Finiteness for `g ≥ 2`, by the exact route** — the headline theorem over
-  algebraically closed characteristic-zero `k`, stated and proved as two cases, with
+  algebraically closed characteristic-zero `k` (`finite_algEquiv_of_two_le_genus`; the
+  hyperelliptic case is the pinned `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two`), stated and proved as two cases, with
   every prerequisite named (finiteness of the *full* group is this milestone;
   the Hurwitz bound below is a separate statement about an already-finite subgroup):
   `Aut(F/k̄)` acts on the finite set `𝒲` of Weierstrass points (the gap sequence is
@@ -1379,7 +1397,7 @@ verbatim): over imperfect `k` the regular projective model need not be smooth.
 For a locally finite-type k-scheme, smoothness is equivalent to **geometric
 regularity**, meaning every field base change has regular local rings. Geometric
 reducedness is weaker, even together with regularity of the original model: the
-cusp in Layer8 is a required counterexample. Use the pin's actual `Smooth` and
+cusp in Layer 8 is a required counterexample. Use the pin's actual `Smooth` and
 `GeometricallyIntegral` morphism predicates; geometric regularity is the displayed
 all-field-base-change/local-regular-ring condition until that exact native
 predicate is available. Construct its equivalence to Smooth as a theorem, not a
@@ -1392,9 +1410,9 @@ properness and the valuative criterion are consequences or proof tools, not comp
 definitions.
 
 - **12B.0 — early regular model, regular constants and smooth-model base change.**
-  This is an early extraction of the SAME12B normalization construction, not a
-  second curve owner and not a prerequisite on all later12C–12E theorems.
-  Its inputs are Layer0's function field/places, Layer2's finite normalization and
+  This is an early extraction of the SAME 12B normalization construction, not a
+  second curve owner and not a prerequisite on all later 12C–12E theorems.
+  Its inputs are Layer 0's function field/places, Layer 2's finite normalization and
   two compatible charts, and native Spec/gluing/finite-projective morphisms/DVRs.
   Construct X_F by those charts, its regular projective structure, function-field
   algebra equivalence and closed-point/place/local-ring/residue dictionaries.
@@ -1403,7 +1421,7 @@ definitions.
   independently chosen normalization charts directly map into one another.
 
   **12B.0a, generic regular constants.** Prove the regular-field equivalence in
-  Layer8 item2 using separable generation and relative algebraic closure, then
+  Layer 8 item 2 using separable generation and relative algebraic closure, then
   build its actual tensor-domain/fraction-field maps for every K/k. Prove
   identity, composition, commuting scalar maps and uniqueness of the induced
   fraction-field extension under the specified embeddings. These are field-map
@@ -1418,8 +1436,8 @@ definitions.
   also for arbitrary (not necessarily finitely generated) extensions by finite
   subextension descent. In particular, if k is algebraically closed, K/k is
   regular and F is relatively algebraically closed in Frac(F⊗[k]K).
-  This char0 cut, with X_F smooth and geometrically integral by12B.0b, is the
-  generic supplier for BelyiMaps9.1C; the fixed-t finite-Hom restriction/extension
+  This char 0 cut, with X_F smooth and geometrically integral by 12B.0b, is the
+  generic supplier for BelyiMaps 9.1C; the fixed-t finite-Hom restriction/extension
   proof belongs to that consumer and is not full faithfulness for arbitrary maps.
 
   **12B.0b, whole-model geometric regularity.** Prove smooth↔geometrically regular
@@ -1427,12 +1445,12 @@ definitions.
   regularity, and establish smoothness of the regular model over perfect k.
   Over imperfect k keep geometric regularity as additional model input. Smooth
   and proper/geometrically integral base change uses the native base-change
-  structures. The resulting model has the fraction field of12B.0a and is the
+  structures. The resulting model has the fraction field of 12B.0a and is the
   unique regular projective model, so normalization/base-change comparisons are
   actual scheme isomorphisms. Normality alone on the original model does not
   justify commuting normalization with purely inseparable constants.
 
-  **12B.0c, sections and divisor transport before cohomology.** After Layer3's
+  **12B.0c, sections and divisor transport before cohomology.** After Layer 3's
   divisors exist, identify L(D) with the rational functions obeying the local
   Cartier bounds on the same regular model. A finite affine cover with affine
   pairwise intersections expresses its sections as the kernel of the two
@@ -1446,17 +1464,17 @@ definitions.
   Also build the two-affine Čech complex of these normalization charts: H⁰ is
   the restriction equalizer and H¹ is the overlap section space modulo the sum
   of chart restrictions. Prove flat-field base change on both kernel and cokernel,
-  the exact sequence for a coherent module, vanishing above degree1, and higher
+  the exact sequence for a coherent module, vanishing above degree 1, and higher
   vanishing for finite-support modules. The repartition/strong-approximation
-  comparison identifies H¹(O_X_F) with the Layer4 repartition quotient of
-  dimension g (over the full constants); prove that comparison after Layers4–5,
+  comparison identifies H¹(O_X_F) with the Layer 4 repartition quotient of
+  dimension g (over the full constants); prove that comparison after Layers 4–5,
   without Serre duality or a definition of genus by H¹. This finite-cover
   construction supplies the general reduction/normalization genus-drop proof;
-  later12E identifies it with the established sheaf-cohomology API, rather than
+  later 12E identifies it with the established sheaf-cohomology API, rather than
   leaving a second competing H¹ carrier.
-  Layer8 uses Riemann's large-divisor theorem to obtain genus and canonical-class
-  conservation. Full12E later identifies these same maps with sheaf cohomology;
-  it does not define a second base-change operation or feed back into12B.0.
+  Layer 8 uses Riemann's large-divisor theorem to obtain genus and canonical-class
+  conservation. Full 12E later identifies these same maps with sheaf cohomology;
+  it does not define a second base-change operation or feed back into 12B.0.
 
   **12B.0d, characteristic-zero finite-map and finite-model descent.** A finite
   separable map between the smooth models stays finite after field extension;
@@ -1468,7 +1486,7 @@ definitions.
   For extensions of algebraically closed characteristic-zero constants this
   proves preservation of every geometric ramification index and no new branch
   values. Outside that branch retain the Artinian fibre multiplicities and
-  explicit residue conditions from Layer8, not an unrestricted e-invariance.
+  explicit residue conditions from Layer 8, not an unrestricted e-invariance.
   For a finite collection of such finite models/maps over an algebraically
   closed characteristic-zero field, descend the finite presentations, gluing
   maps, finite bases/multiplication tables/inverse and separability witnesses,
@@ -1476,9 +1494,9 @@ definitions.
   over Q. Pass to its algebraic closure in the ambient field. Faithful field
   extension reflects geometric integrality and finite étaleness off those
   sections; retain the witnesses and all scalar diagrams. This is a definite
-  finite-model producer before Belyi10.6, with no Belyi theorem/topological
-  enumeration/profinite comparison prerequisite. Belyi9.1C owns the fixed-t
-  Hom comparison and Belyi10.6 combines it with its own finite enumeration.
+  finite-model producer before Belyi 10.6, with no Belyi theorem/topological
+  enumeration/profinite comparison prerequisite. Belyi 9.1C owns the fixed-t
+  Hom comparison and Belyi 10.6 combines it with its own finite enumeration.
   The generic cuts remain in this single AlgebraicCurves owner.
 
 - **12A — dimension-one schemes, closed points, and orders of vanishing.**
@@ -1497,7 +1515,7 @@ definitions.
 - **12B — normalize `ℙ¹_k` in `F`.**
   *Prerequisites*: Layer 2's finite-normalization theorem and compatible `R_x` and
   `R_{1/x}` charts; Mathlib's `Spec`, scheme gluing, finite morphisms, and projective
-  morphisms. *Construction*: reuse the12B.0 gluing of `Spec R_x` and `Spec R_{1/x}` along
+  morphisms. *Construction*: reuse the 12B.0 gluing of `Spec R_x` and `Spec R_{1/x}` along
   the common localization and prove the resulting `ν_F : X_F → ℙ¹_k` has the universal property
   of the normalization of `ℙ¹_k` in `F`. *Outputs, in dependency order*: the chart
   maps glue to a finite morphism; hence `X_F` is Noetherian, integral, dimension one,
@@ -1595,7 +1613,7 @@ definition, wrong degree convention, dropped hypothesis, sign flip, silent tamen
 - **Hyperelliptic genus 2** (Layers 7, 10): `y² = x⁵ − 1` over `k` with
   `char k ∉ {2, 5}` (the Kummer hypotheses hold: `n = 2 > 1`, `−1 ∈ k` is the primitive
   square root of unity, and squarefree `x⁵ − 1` is not a square in `k(x)`): genus 2
-  (`genus_eq_two_of_sq_eq_pow_five_sub_one`); the
+  (`TauCeti.genus_eq_of_sq_eq` at `f = x⁵ − 1`, `(5 − 1)/2 = 2`); the
   different of `F/k(x)` has degree 6 (the places over
   the zeros of `x⁵ − 1` — total degree 5, regardless of how they split over `k` — plus
   the one over `∞`), Hurwitz: `2·2 − 2 = 2·(−2) + 6`. The general
@@ -1605,36 +1623,36 @@ definition, wrong degree convention, dropped hypothesis, sign flip, silent tamen
   and every residue field is finite and perfect, so `u` is already reduced there
   (`m_∞ = 3`, resp. `2`) and `u ∉ {w^p − w}` because no
   substitute clears a prime-to-`p` pole: the nondegeneracy hypotheses hold. The unique
-  place over `∞` is wildly ramified; for the characteristic2 curve explicitly
-  prove `d=4`, `Diff=4Q_∞` and genus1. In its infinity chart
+  place over `∞` is wildly ramified; for the characteristic 2 curve explicitly
+  prove `d=4`, `Diff=4Q_∞` and genus 1. In its infinity chart
   `f=w+z³+w²`, one has `dw=z²dz`, `t=1/x=w/z`,
-  `dt=(w²/z²)dz`, `ord_∞w=3`, `ord_∞z=1`, hence different exponent4.
+  `dt=(w²/z²)dz`, `ord_∞w=3`, `ord_∞z=1`, hence different exponent 4.
   The genus from the conductor computation disagrees with the naive tame count — the acceptance
   test that no `p ∤ e` slipped into Riemann–Hurwitz.
 - **Inseparable constant-extension drop** (Layer 8): the standard
   `k = 𝔽_p(t)`, `F = k(x, y)`, `y² = x^p − t` example (`p` odd): genus drops after
   adjoining `t^{1/p}`. Prove explicitly that F/k is separably generated with
-  exact constants; at p3 its regular model has genus1, while the normalized
-  constant extension has genus0. The original model is geometrically reduced
-  but not geometrically regular. This guards BOTH Layer8's conservative-model
-  hypothesis and Layer12's smoothness criterion. The rational-function-field
-  example `P=(t^p−a)` from Layer8 separately guards constant-extension
+  exact constants; at `p = 3` its regular model has genus 1, while the normalized
+  constant extension has genus 0. The original model is geometrically reduced
+  but not geometrically regular. This guards BOTH Layer 8's conservative-model
+  hypothesis and Layer 12's smoothness criterion. The rational-function-field
+  example `P=(t^p−a)` from Layer 8 separately guards constant-extension
   ramification: smooth/conservative does not imply e=1 at every closed place.
   Its rational place `P=(t)` guards the opposite conflation: κ(P)/k is
   separable and `e=1`, yet κ(Q)/κ(P)=K/k is purely inseparable of degree p,
   so the place is not unramified.
-- **Genus one without a smooth model** (Layers8, 10): over `k=F₂(a)`,
+- **Genus one without a smooth model** (Layers 8, 10): over `k=F₂(a)`,
   `F=k(x,y)` with `y²=x³+a` has exact constants (rational place at infinity),
-  is separably generated (y is separating) and has genus1 (computed from
-  F/k(y) in Layer10), yet its Weierstrass coefficients give `Δ=a₃⁴=0`, and
+  is separably generated (y is separating) and has genus 1 (computed from
+  F/k(y) in Layer 10), yet its Weierstrass coefficients give `Δ=a₃⁴=0`, and
   after adjoining `b=√a` the substitution `v=y+b`, `u=v/x` gives `x=u²`,
-  `v=u³`: a rational normalization. Likewise, in characteristic3 the Layer8
+  `v=u³`: a rational normalization. Likewise, in characteristic 3 the Layer 8
   cubic `y²=x³−t` is squarefree but inseparable, with `Δ=−27b₆²=0`. These
-  guard Layer10's rule that nonsingular normal forms and `W.IsElliptic`
+  guard Layer 10's rule that nonsingular normal forms and `W.IsElliptic`
   need the smooth model.
-- **Fierce residue, separable field extension** (Layers6–8): discharge the full
-  `F₂(s,u)` biquadratic example in Layer8, including integral basis/DVR,
-  V4 action, e1/f_ins4, d2, G0/G1 and discriminant exponent8. This is the
+- **Fierce residue, separable field extension** (Layers 6–8): discharge the full
+  `F₂(s,u)` biquadratic example in Layer 8, including integral basis/DVR,
+  V4 action, e1/f_ins4, d2, G0/G1 and discriminant exponent 8. This is the
   regression that prevents a classical Hilbert sum or a prime-to-e test from
   replacing the general trace-dual different.
 - **Weierstrass gaps at genus 2** (Layer 5): at a Weierstrass place of the `y² = x⁵ − 1`
@@ -1664,11 +1682,11 @@ unrestricted Clifford is a Layer 8 export. Layer 6 (extensions) needs Layers 0�
 **not** RR, so it can
 proceed in parallel with Layers 4–5; Layer 7 (different/Hurwitz) needs Layers 4 (cotrace),
 5 (the local-component device `η` of Prop. 1.7.4), and 6. Layer 8 (constant extensions)
-needs Layer6; its field-regularity branch consumes early12B.0a, while its
-smooth-model divisor/section branch consumes12B.0b–c plus Layer3 and Riemann's
-large-divisor equality. Early12B.0 is extracted from Layer2/native scheme algebra;
-it has no Layer8 genus, Layer11, full12C category,12E or JacobianChallenge input.
-The general genus-drop/different statements also consume Layer7 where specified. Layer 9's first subsection (`dim Ω[F⁄k] = 1`) needs Layers 0–3 only and can
+needs Layer 6; its field-regularity branch consumes early 12B.0a, while its
+smooth-model divisor/section branch consumes 12B.0b–c plus Layer 3 and Riemann's
+large-divisor equality. Early 12B.0 is extracted from Layer 2/native scheme algebra;
+it has no Layer 8 genus, Layer 11, full 12C category,12E or JacobianChallenge input.
+The general genus-drop/different statements also consume Layer 7 where specified. Layer 9's first subsection (`dim Ω[F⁄k] = 1`) needs Layers 0–3 only and can
 be drafted early; its coordinate residue transport consumes
 FormalLaurentPuiseux L1–L3, and its comparison theorem consumes Layer 7's cotrace
 (and Layer 5's `η`),
@@ -1682,9 +1700,9 @@ EllipticCurves' regular/nonvanishing differential and separable-isogeny
 unramifiedness milestones consume this local-generation result. Its
 translation-invariance identity uses native addition formulas independently
 of this supplier; the k-perfect Weil-divisor deduction also consumes Layer 9.
-Layer11 needs Layers5–8 and10. Layer12B.0 and the requisite12A/12B model
-construction are early; the complete12C anti-equivalence follows that construction,
-12D follows Layer3, and12E alone consumes the later JacobianChallenge comparison.
+Layer 11 needs Layers 5–8 and 10. Layer 12B.0 and the requisite 12A/12B model
+construction are early; the complete 12C anti-equivalence follows that construction,
+12D follows Layer 3, and 12E alone consumes the later JacobianChallenge comparison.
 Their *statements* (the contracts) should be drafted as
 soon as Layer 3 exists, so the JacobianChallenge and EllipticCurves maintainers can
 review the interface
@@ -1776,9 +1794,8 @@ This section contains the normative division of labor needed to implement the ro
   copying with attribution, but the project's coordinate-first rule reserves
   integration for a recorded agreement, and none is recorded — and nothing here waits
   on it either. Where its open Mathlib pull requests cover ground this roadmap needs
-  — the Dedekind divisor group of
-  [#41729](https://github.com/leanprover-community/mathlib4/pull/41729) is exactly
-  Layer 3's affine dictionary — the milestones here are named and shaped the way those
+  — the Dedekind divisor group `(FractionalIdeal R⁰ K)ˣ ≅ (HeightOneSpectrum R →₀ ℤ)`
+  among them is exactly Layer 3's affine dictionary — the milestones here are named and shaped the way those
   pull requests shape them, so if one lands in the Mathlib the repository builds, ours
   is deleted and the imports change. API divergence, documented: this roadmap pins
   normalized `ℤᵐ⁰`-valuations, `Finsupp` divisors, and `IsIntegrallyClosedIn`
@@ -1807,8 +1824,8 @@ This section contains the normative division of labor needed to implement the ro
   part of this roadmap.
 - **[EllipticCurves](../EllipticCurves/README.md)** (merged roadmap) — the sibling
   instance. Its Layer 0
-  deliberately leaves the place/divisor *implementation* "to the upstream coordination";
-  this roadmap **is** that coordination point: the conventions table here (normalized
+  uses this roadmap's normalized-valuation place interface and takes its places from
+  Layer 10's early Weierstrass local-ring milestone: the conventions table here (normalized
   valuations, `Finsupp` divisors, residue-finrank degrees) is the general theory its
   interface expects. Named compatibility milestones: the early elliptic point–place dictionary
   (Layer 10.iii), `Cl⁰ ≅ ClassGroup CoordinateRing` (Layer 10.iv, closing
