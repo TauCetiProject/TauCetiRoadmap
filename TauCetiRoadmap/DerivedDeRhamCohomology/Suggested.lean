@@ -111,13 +111,7 @@ end ComplexHeartExt
 
 end DerivedDeRham
 
-end TauCetiRoadmap.DerivedDeRhamCohomology
-
-namespace TauCetiRoadmap.CrystallineCohomology
-
 namespace PD
-
-universe u
 
 variable {A : Type*} [CommRing A] {I : Ideal A}
 
@@ -126,7 +120,8 @@ section CanonicalAugmentationPowers
 variable (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
 
 /-- On the augmentation ideal of `Γ_R(M)`, the canonical PD structure is uniquely characterized
-by `δ_n(dp₁ m) = dp_n m` (README PD.5; Stacks, Lemma 23.5.1). -/
+by `δ_n(dp₁ m) = dp_n m`, for an arbitrary module `M` (README PD.5; Stacks, Lemma 23.5.1 and
+Remark 23.5.2 for free `M`; Roby 1963, Proposition IV.8, for the descent to a quotient). -/
 theorem existsUnique_dividedPowers_augmentationIdeal :
     ∃! δ : DividedPowers (RingHom.ker (DividedPowerAlgebra.lift (dividedPowersBot R)
       (0 : M →ₗ[R] R) (fun _ ↦ by simp))),
@@ -180,4 +175,4 @@ theorem regularImmersionEnvelope {B : Type u} [CommRing B] {I : Ideal B}
 
 end PD
 
-end TauCetiRoadmap.CrystallineCohomology
+end TauCetiRoadmap.DerivedDeRhamCohomology

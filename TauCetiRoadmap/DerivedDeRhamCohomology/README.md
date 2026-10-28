@@ -64,8 +64,8 @@ It uses, without restating:
   §5.8 here supplies the base-linear sheaf and filtration adapters.
 - **EnhancedDerivedSheaves** §E1.4 for `enhancedPullback` and `enhancedPushforward` on ringed topoi,
   used for the base-linear sheaf realization of §5.8.
-- **PadicPeriodRings** §§1.1–1.5 for `padicComplexGaloisAction`, `padicComplex_fixed_eq`,
-  `tate_H0_padicComplex_twist` and *The de Rham period rings* for finite extensions of `ℚ_p`.
+- **PadicPeriodRings** §§1.1–1.5 for `completedGaloisAction`, `padicComplex_fixed_eq`,
+  the finite-`K` case of `tateSen_H0` and *The de Rham period rings* for finite extensions of `ℚ_p`.
   **PadicPeriodRings** §2 supplies `PadicFieldCompletion` and
   `tateSen_H0` for arbitrary perfect residue fields, and §4.1 `generalBasePeriodRings`
   supplies their period structures. Sections 5.11 and 5.14 identify these supplied interfaces with
@@ -104,8 +104,7 @@ Boundaries with neighbouring roadmaps:
 
 - DerivedModuleAlgebra §§0.1–0.17, 0.25 and 1.1–1.9 owns module derived tensor, the full
   cotangent complex `Algebra.CotangentComplex`, its square-zero obstruction class, integral
-  derived powers, module limits, ideal completion and complete flatness. SchemeAndStackFoundations
-  §4.6 uses that full cotangent API alongside its naive cotangent complex. PerfectoidSpaces
+  derived powers, module limits, ideal completion and complete flatness. PerfectoidSpaces
   §§P0.19–P0.24 uses the same API for its almost and semiperfectoid specializations.
 - CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
   CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline
@@ -203,8 +202,9 @@ Logification of cotangent complexes and invariance of uncompleted log de Rham co
 different ranges.
 
 Lean names below are the intended Tau Ceti declarations. `DeRham.*` names live in the ordinary
-de Rham namespace, `DerivedDeRham.*` names in the derived namespace, and the cotangent complex is
-`Algebra.CotangentComplex`, the name under which SchemeAndStackFoundations §4.6 and PerfectoidSpaces
+de Rham namespace, `DerivedDeRham.*` names in the derived namespace, the divided-power statements of
+`Suggested.lean` under `TauCetiRoadmap.DerivedDeRhamCohomology.PD`, and the cotangent complex is
+`Algebra.CotangentComplex`, the name under which DerivedModuleAlgebra §0.4 and PerfectoidSpaces
 §P0.19 cite it.
 
 ## Exact supplier contracts
@@ -269,7 +269,7 @@ proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib
 | EnhancedDerivedSheaves §§E1.F3.H1, E1.8.DMA.1 | Point-site derived-Hom comparison and ordinary affine comparison of module derived tensor. |
 | [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §§0.1–0.3 | `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements` and `ClassicalDerived.tensorHom` supply unbounded localization, K-injective/K-flat replacements and tensor–Hom adjunction on small ringed sites. Section 5.8 uses `ClassicalDerived.inverseLimits` for sheaf towers, retaining derived products. EnhancedDerivedSheaves §E1.F3.H1 supplies the point-site derived-Hom comparison, and §E1.8.DMA.1 supplies affine tensor comparison. |
 | [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.4 | `enhancedPullback` and `enhancedPushforward` supply ringed inverse/direct image, adjunction and composition. Section 5.8 transports these to the base coefficient sheaf and its filtered diagrams. |
-| [PadicPeriodRings](../PadicPeriodRings/README.md) §§1.1–1.5 | For finite `K/ℚ_p`, `padicComplexGaloisAction`, `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist` and *The de Rham period rings*: the continuous Galois action, fixed field and nonzero-twist invariants, and the `BDeRhamPlus`/`BDeRham` DVR, residue and graded-twist structure. Sections 5.11, 5.14 and 5.15 use these on their finite-local-field domain and compare their structures with the derived/PD-filtered `A_cris` description of §§5.12–5.13. |
+| [PadicPeriodRings](../PadicPeriodRings/README.md) §§1.1–1.5 | For finite `K/ℚ_p`, `completedGaloisAction`, `padicComplex_fixed_eq`, the finite-`K` case of `tateSen_H0` and *The de Rham period rings*: the continuous Galois action, fixed field and nonzero-twist invariants, and the `BDeRhamPlus`/`BDeRham` DVR, residue and graded-twist structure. Sections 5.11, 5.14 and 5.15 use these on their finite-local-field domain and compare their structures with the derived/PD-filtered `A_cris` description of §§5.12–5.13. |
 | [PadicPeriodRings](../PadicPeriodRings/README.md) §2, §4.1 | `PadicFieldCompletion` and `tateSen_H0` supply the completion of the algebraic closure, its continuous action and Tate-twist invariants for complete discretely valued characteristic-zero fields with arbitrary perfect residue field. `generalBasePeriodRings` supplies the period structures and their agreement with its specializations to finite extensions `K/ℚ_p`. Sections 5.11 and 5.14 identify these with Mathlib's period carriers; §5.15 derives the `Fil² A_cris` vanishing from these inputs and §§5.12–5.14. |
 | [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | `periodPDEnvelope`: the ordinary principal envelope on `O_C`, its presentation in `A_inf[1/p]`, p-adic completion, initial properties, `θ_cris`, logarithm and functorial maps. Section PD.7 identifies its general envelope specialization with these supplied objects and maps; §5.13 identifies the derived period map with the supplied §4.1 map. |
 | [DGAInfinity](../DGAInfinity/README.md) Layer 1 | Unital cochain DG algebras, DG morphisms, tensor products, units and Koszul signs. Section 2.21 defines strict graded commutativity and odd-square-zero conditions on this carrier; §§2.22 and 2.27 use its strict affine models. |
@@ -2025,9 +2025,13 @@ General case, descent. `𝔞⊆Γ_A(F)⁺` is a sub-PD ideal by `DividedPowers.s
 `DividedPowers.dpow_eq_from_gens`. Universal property. lift `ε g` sends `dp_n(m)` to `ε_n(g(m))` (`DividedPowerAlgebra.lift_apply_dp`), hence `Γ⁺` into `K`, and commutes with the divided powers on the
 generators `dp_k(m)`, `k≥1`, by the iteration rule in both rings; `DividedPowers.IsDPMorphism.on_span`
 extends this to `Γ⁺`. A divided power `A`-algebra map `h` with `h(dp₁(m))=g(m)` has `h(dp_n(m))=ε_n(g(m))`, so
-`h=lift ε g` by `DividedPowerAlgebra.lift_unique`. ([Stacks Project](https://stacks.math.columbia.edu),
-Divided Power Algebra, Section 23.5 (07H4), Lemma 23.5.1 (07H5) with proof and Remark 23.5.2
-(07H6).) *Needs:* DerivedModuleAlgebra §0.DP.3 *Augmentation ideal*; §PD.1 *Divided powers from
+`h=lift ε g` by `DividedPowerAlgebra.lift_unique`. (Free `M`: [Stacks Project](https://stacks.math.columbia.edu),
+Divided Power Algebra, Section 23.5 (07H4), Lemma 23.5.1 (07H5) with proof, for `I=0` and finitely many
+variables, and Remark 23.5.2 (07H6) for an arbitrary basis. Arbitrary `M`: the free case is descended
+along a free presentation; the kernel of `Γ_A(F)→Γ_A(M)` is the ideal generated by the `dp_n(k)`, `k∈N`,
+`n≥1` by [Roby](https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf), Theorem IV.2 and
+Proposition IV.8, pp.272, 284, and divided powers pass to the quotient by Stacks, Lemma 23.4.3 (07H2),
+part (2).) *Needs:* DerivedModuleAlgebra §0.DP.3 *Augmentation ideal*; §PD.1 *Divided powers from
 identities on generators*; DerivedModuleAlgebra §0.DP.3 *Positive-degree generators of the
 augmentation ideal*; Mathlib `DividedPowerAlgebra.lift`; Mathlib `DividedPowerAlgebra.lift'`;
 Mathlib `DividedPowerAlgebra.lift_apply_dp`; Mathlib `DividedPowerAlgebra.lift_unique`; Mathlib
@@ -3419,14 +3423,13 @@ Prove the following named laws.
 - `test_hodge_complete_base`: `dR^hc_(A/A) = A`.
 - `test_hodge_complete_rational_laurent`: for `ℚ[t, t⁻¹]/ℚ`, the completed complex is ordinary
   de Rham, with `H¹ = ℚ·dt/t`, whereas uncompleted `dR = ℚ`.
-- `test_hodge_complete_dual_numbers`: for `R = F₂[t]/t²`, assume a filtered equivalence
-  between `dR_(R/F₂)` and the de Rham complex of the regular PD envelope
-  `D = D_(F₂[t])((t²))`, compatible with the PD filtration and its completion. Write `u_j = γ_(2^j)(t²)`, `j ≥ 1`. Its degree-zero ring is
-  `F₂[t, u₁, u₂, …]/(t⁴, u₁², u₂², …)`, and `d(u_j) = 0`. The Hodge completion contains the closed class
-  `Σ_(j≥1) u_j`, whose terms have weights `2^j`; it has no representative in `D`, where every element
-  is a finite polynomial. Thus `H⁰(dR) → H⁰(dR^hc)` is not surjective. The comparison hypothesis is the regular-envelope model of [Bhatt12],
-  Theorem 3.27, pp.13, 16–19, owned by CrystallineCohomology §§CR.DDR.4.3, CR.DDR.5.9;
-  the Check proves the completion calculation under that hypothesis.
+- `test_hodge_complete_dual_numbers`: let `D = D_(F₂[t])((t²))` be the regular PD envelope of §PD.6
+  with its divided power filtration `F^k_γ` of §PD.4, and write `u_j = γ_(2^j)(t²)`, `j ≥ 1`. Then
+  `D = F₂[t, u₁, u₂, …]/(t⁴, u₁², u₂², …)` and `u_j ∈ F^(2^j)_γ`, so `Σ_(j≥1) u_j` converges in the
+  completion `Rlim_k D/F^k_γ` formed as in this subsection. It is not the image of an element of `D`:
+  an element of `D` is a finite polynomial in `t` and finitely many `u_j`, and its residues modulo
+  `F^k_γ` cannot agree with the partial sums `Σ_(2^j<k) u_j` for every `k`. Thus completion is not
+  surjective on this degree-zero filtered ring.
 
 ### 2.26 p-completed derived de Rham
 
@@ -4145,8 +4148,9 @@ Prove the following named laws.
 
 A quasiregular semiperfectoid ring `S` is a `QSyn` object admitting a map from an integral perfectoid
 ring `R` (PerfectoidSpaces §P1.24, `IsIntegralPerfectoid`) and having surjective Frobenius on `S/p`.
-Equivalently it is a quotient of an integral perfectoid ring by a p-completely quasiregular ideal, with
-bounded p-torsion and relative cotangent in degree `−1`. `QRSPerfd` carries the induced cover topology.
+Equivalently it is a p-complete quotient `S = R/I` of an integral perfectoid ring `R`, with bounded
+p^∞-torsion, by a p-completely quasiregular ideal `I` (`L_(S/R)` of p-complete Tor amplitude in
+degree `−1`). `QRSPerfd` carries the induced cover topology.
 In characteristic `p` these are exactly the quasiregular semiperfect `F_p`-algebras:
 `S^♭ = lim_φ S → S` is surjective and `L_(S/F_p) ≃ L_(S/S^♭) ≃ (I/I²)[1]` with `I/I²` flat,
 `I = ker(S^♭ → S)`. Quasiregularity need not mean a finite regular sequence.
@@ -4530,7 +4534,7 @@ acts through the cyclotomic character. For `ε ∈ Z_p(1)`, `θ([ε]) = ε^♯ =
 `[ε] − 1 ∈ ker θ`. Use PadicPeriodRings §3's convergent logarithm
 `log([ε]) = Σ_(n≥1) (−1)^(n−1)(n−1)! γ_n([ε] − 1)` in this shared `A_cris` carrier.
 
-For finite `K/ℚ_p`, use PadicPeriodRings §1.1 `padicComplexGaloisAction` and
+For finite `K/ℚ_p`, use PadicPeriodRings §1.1 `completedGaloisAction` and
 PadicPeriodRings §1.5 *The de Rham period rings* contract. For arbitrary perfect `k`, use the same interfaces in the
 stated `W(k)[1/p]` setup through PadicPeriodRings
 §2 `PadicFieldCompletion` and §4.1 `generalBasePeriodRings`: identify the completion, its valuation
@@ -4543,7 +4547,7 @@ Mathlib's via functorial tilting, Witt vectors and the completion universal prop
 `WittVector.fontaineTheta_teichmuller`, `surjective_fontaineTheta`, `BDeRhamPlus`, `BDeRham`,
 `Field.absoluteGaloisGroup`; PerfectoidSpaces §§P1.10–P1.11, P1.18 and §P3.7
 `isPerfectoidField_of_isAlgClosed`; §PD.7 here;
-PadicPeriodRings §1.1 `padicComplexGaloisAction` and §1.5 *The de Rham period rings*;
+PadicPeriodRings §1.1 `completedGaloisAction` and §1.5 *The de Rham period rings*;
 PadicPeriodRings §2 `PadicFieldCompletion`, §3 `periodPDEnvelope` (presentation, completion,
 `θ_cris` and logarithm), §4.1
 `generalBasePeriodRings`.
@@ -4699,8 +4703,8 @@ In the period setup, `H⁰(G_K, C(k)) = 0` for `k ≠ 0` and `H⁰(G_K, C) = K̂
 a `G_K`-equivariant map `Z_p(1) → Fil² A_cris` is zero, because its composite with the injection of 5.14
 lands in `H⁰(G_K, Fil² B_dR⁺(−1)) = 0`.
 
-For finite `K/ℚ_p`, use PadicPeriodRings §§1.2, 1.4 `padicComplex_fixed_eq` and
-`tate_H0_padicComplex_twist`; for the arbitrary perfect residue field of §5.11, use
+For finite `K/ℚ_p`, use PadicPeriodRings §1.2 `padicComplex_fixed_eq` and the finite-`K` case
+of `tateSen_H0` proved in its §1.4; for the arbitrary perfect residue field of §5.11, use
 PadicPeriodRings §2 `tateSen_H0`. Here `tateTwistInvariants`
 identifies the supplied invariant calculation on the period carriers of §5.11 and deduces the
 positive-filtration and `Fil² A_cris` vanishings through the derived/PD-filtered comparison with
@@ -4710,8 +4714,8 @@ PadicPeriodRings §3's completed envelope and §4.1's equivariant period map.
 cyclotomic character; [Bhatt12], Remark 9.17, p.38, for the consequence on `B_dR`.
 
 *Needs:* Layer 5: The structure of B_dR⁺ and the filtered embedding of A_cris; Layer 5: The period setup;
-PadicPeriodRings §§1.2, 1.4 `padicComplex_fixed_eq`, `tate_H0_padicComplex_twist`;
-PadicPeriodRings §2 `tateSen_H0`.
+PadicPeriodRings §1.2 `padicComplex_fixed_eq`; PadicPeriodRings §1.4 (finite `K`) and §2
+(general base) `tateSen_H0`.
 
 Lean: `DerivedDeRham.tateTwistInvariants`.
 
@@ -4731,7 +4735,7 @@ requires an additional criterion, such as the Noetherian criterion 1.10. For rel
 over `R ∈ QSyn`, the shifted cotangent and divided-power terms are complete-flat in degree zero. These are Tor-amplitude
 assertions, not finite-projectivity assertions.
 
-[BMS19], Lemma 4.7, Lemma 4.34 and Lemma 5.14(1), pp.222, 231, 241.
+[BMS19], Lemma 4.7, Lemma 4.34 and Lemma 5.14(1), pp.221–222, 231, 241.
 
 *Needs:* Layer 1: The quasisyntomic cotangent condition; DerivedModuleAlgebra §0.14 Derived exterior
 powers; DerivedModuleAlgebra §0.16 Derived divided powers; Layer 5: Quasiregular semiperfectoid
@@ -5308,6 +5312,8 @@ the induced module action.
 - **Riou**: Joël Riou, *feat(AlgebraicGeometry): the algebraic De Rham complex*. Mathlib proposal
   at commit 5888c0081ba867ede5c60d3060f2d674d932b53c, file
   `Mathlib/RingTheory/DeRham/Basic.lean`, lines 285–432.
+- **Roby**: Norbert Roby, *Lois polynômes et lois formelles en théorie des modules*. Ann. Sci. École
+  Norm. Sup. (3) 80 (1963), 213–348.
 - **SAG**: Jacob Lurie, *Spectral Algebraic Geometry*. Version of February 2018, §25.2.
 - **StacksAlg**: The Stacks Project Authors, *Commutative Algebra* (Chapter 10).
 - **StacksCoh**: The Stacks Project Authors, *Cohomology of Sheaves* (Chapter 20), §20.25 *Čech
@@ -5342,8 +5348,8 @@ the induced module action.
 [GP]: https://arxiv.org/pdf/1602.01515v3
 [FGauges]: https://www.math.ias.edu/~bhatt/teaching/mat549f22/lectures.pdf
 [SAG]: https://www.math.ias.edu/~lurie/papers/SAG-rootfile.pdf
+[Roby]: https://www.numdam.org/item/ASENS_1963_3_80_3_213_0.pdf
 [DoldPuppe]: http://www.numdam.org/item/AIF_1961__11__201_0/
-[Tat67]: https://math.bu.edu/people/jsweinst/AWS/Files/TatePDivisibleGroups.pdf
 [SW13]: https://arxiv.org/abs/1211.6357
 [GR]: https://arxiv.org/abs/math/0201175
 [AFH94]: https://doi.org/10.1016/0021-8693(94)90146-5
