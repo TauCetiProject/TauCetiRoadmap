@@ -766,7 +766,7 @@ statements of `Suggested.lean`. In the suggested carrier of the README-only targ
 `PreAdicSpace.forgetToTop` applied after `Geometry.toPerfectoid` and the inclusion of `Perfd.{1} p`
 into `PreAdicSpace.{1}`, followed by the topological universe lift to `TopCat.{2}`.
 `Geometry.inclusion` glues the Yoneda spectra of the charts in AdicEtaleGeometry's Yoneda-adic
-spaces `AdicEtaleGeometry.YonedaAdicSpace` (a target of its §A1.16), and
+spaces `YonedaAdicSpace` (a target of AdicEtaleGeometry §A1.16), and
 `Geometry.exists_wedhornComparison` below identifies the result with the perfectoid Yoneda-adic
 spaces; through it `YonedaAdicSpace.space` and `YonedaAdicSpace.space_charts` describe the same
 underlying spaces and charts. `Geometry.tilt` is the lift of `PerfectoidSpace.tiltFunctor p`, which
@@ -1002,10 +1002,15 @@ spectral space is spectral, and `x` specializes to `y` in the inverse topology i
 to `x` in the original topology) and `Spectral.inverseTopology_inverse` (applying the operation
 twice recovers the original topology); prove also that the inverse topology has the same
 constructible topology as the original and that a map `X → Y` is spectral for the original
-topologies iff it is spectral for the inverse topologies ([Hoc69] Proposition 8, p. 52, the
-source of these properties; [KL15] §8.1, Def. 8.1.4, p. 157, whose final sentence names this other
-spectral topology after Hochster and which separately specifies the patch topology). The named comparisons are `Spectral.inverseTopology_constructible` and
-`Spectral.inverseTopology_map`. *Needs:* AdicSpacesPartII R0.19.9 and AdicSpacesPartII R0.19.1.
+topologies iff it is spectral for the inverse topologies. Spectrality, the reversal of
+specialization and the equality of the two patch topologies are [Hoc69] Proposition 8 and its
+proof; [KL15] §8.1, Def. 8.1.4, p. 157, only names this dual topology after Hochster. The other two
+assertions follow from the description of the compact opens: the quasicompact opens of the inverse
+topology are exactly the complements of the quasicompact opens of `X`. Applying this twice returns
+the quasicompact opens of `X`, which form a basis, so the inverse of the inverse is the original
+topology; and a map of spectral spaces is spectral iff preimages of quasicompact opens are
+quasicompact open, a condition that passes to complements. The named comparisons are
+`Spectral.inverseTopology_constructible` and `Spectral.inverseTopology_map`. *Needs:* AdicSpacesPartII R0.19.9 and AdicSpacesPartII R0.19.1.
 
 **Checks.**
 
@@ -1017,7 +1022,10 @@ spectral topology after Hochster and which separately specifies the patch topolo
   `X` becomes `s ⤳ η` in the inverse topology, the computed instance of the specialization clause of
   `spectralSpace_inverseTopology`.
 - `s0_5_inverse_patch_unchanged` — `Spectral.inverseTopology_constructible` identifies the
-  constructible topology of the inverse topology with that of the original.
+  constructible topology of the inverse topology with that of the original. On `X = Spec` of a
+  discrete valuation ring the opens `∅`, `{η}`, `X` become `∅`, `{s}`, `X` and then return to `∅`,
+  `{η}`, `X` (the computed instance of `Spectral.inverseTopology_inverse`), and both patch
+  topologies are discrete on the two points.
 - `s0_5_inverse_point_and_empty` — In the inverse Sierpiński topology the closure of `{false}` is the whole space and the closure of `{true}` is `{true}`.
 - `s0_5_inverse_not_spectral_without_compactness` (non-example) — on the discrete space `ℕ` the
   quasicompact opens are the finite sets, so the inverse topology is the cofinite topology, which is
@@ -2059,16 +2067,26 @@ the v-sites `(Perfd, v)` and `(Perf, v)` of D2.2. For maps of v-stacks `G₁ →
 `(a, b, φ)` with `φ` an isomorphism of the images of `a` and `b` in `G₃(X)`, it is
 groupoid-valued when the inputs are, and it is the 2-fibre product used in D3–D5. For a groupoid
 object `(X, R)` in v-sheaves on `Perf`, with source and target `s, t : R → X`, prove on
-`(Perf, v)`: (i) `R ≃ X ×_{[X/R]} X` through `Stack.quotient.π` ([ECD] Proposition 11.3(ii),
-p. 54, the abstract form instantiated in layer D4); (ii) the sheaf of isomorphism classes of
-`[X/R]` is the v-sheafification of the presheaf quotient `X/R`, and `[X/R]` is a v-sheaf exactly
-when every stabiliser is trivial (`Stack.quotient_isSheaf_iff`); (iii) for every category-valued
-v-stack `G`, restriction along `Stack.quotient.π` is an equivalence from maps `[X/R] → G`, with
-modifications, to descent data for `G` along the groupoid `(X, R)`: objects of `G(X)` with
-isomorphisms over `R` satisfying the cocycle condition (`Stack.quotient_descent`; [ECD]
-Proposition 11.3(iii), p. 54; [Stacks stackification] Tags 044U and 04MA for the 2-coequaliser
-property). Statements (ii) and (iii) are this roadmap's v-site targets; §1.21 states the
-isomorphism-class sheaf and `.desc` for groupoid-valued targets. The atlas relation is recovered
+`(Perf, v)`: (i) `R ≃ X ×_{[X/R]} X` through `Stack.quotient.π` (the generic relation of
+SchemeAndStackFoundations §1.21, from the groupoid axioms; its geometric specialisation to a
+pro-étale equivalence relation on a perfectoid space, whose quotient is a sheaf, is [ECD]
+Proposition 11.3(ii), p. 54, used in layer D4); (ii) the sheaf of isomorphism classes of `[X/R]`
+is the v-sheafification of the presheaf quotient `X/R`, and `[X/R]` is a v-sheaf exactly when
+every stabiliser is trivial (`Stack.quotient_isSheaf_iff`); (iii) for every category-valued v-stack
+`G`, restriction along `Stack.quotient.π` is an equivalence from maps `[X/R] → G`, with
+modifications, to descent data for `G` along the groupoid `(X, R)`: objects `a` of `G(X)` (maps
+`X → G`) with an isomorphism `φ : s*a ≅ t*a` over `R` satisfying the cocycle condition over
+`R ×_X R`, and as morphisms the maps `a → a'` of `G(X)` compatible with `φ` and `φ'`
+(`Stack.quotient_descent`). Statement (iii) follows from the universal property
+`Stack.stackificationUniversal` of SchemeAndStackFoundations §1.18, which holds for
+category-valued targets and includes modifications, applied to the objectwise groupoid prestack
+`P` presenting `[X/R]`: a strong transformation `P → G` is an object `a` of `G(X)` on objects, an
+isomorphism `φ` on the arrows `R`, compatible with composition exactly when `φ` satisfies the
+cocycle condition, and its modifications are the compatible maps `a → a'`, which need not be
+invertible when `G` is not groupoid-valued. For groupoid-valued `G` this is the 2-coequaliser
+property of [Stacks stackification] Tag 044U with the cocycle of Tag 04MA (Lemma 044T). Statements
+(ii) and (iii) are this roadmap's v-site targets; §1.21 states the isomorphism-class sheaf and
+`.desc` for groupoid-valued targets. The atlas relation is recovered
 before isomorphism classes are sheafified, so the trivial torsor of `BG` keeps `G` as its
 automorphism group ([Stacks stackification] Tags 02ZL, 044O, 04M9, 04Y1; [ECD] §12, Def. 12.4 and
 Prop. 12.3, pp. 69–70, which presuppose 2-fibre products of v-stacks and the quotient
@@ -2099,6 +2117,12 @@ presentation). *Needs:* D0.25; SchemeAndStackFoundations §§1.18 and 1.21; D2.2
 - `s0_26_descent_stabilizer` — for the one-object groupoid of `ℤ` and `G` the constant stack of
   the one-object groupoid of `ℤ`, a descent datum may send the generator to a nonidentity
   automorphism; maps `Bℤ → G` are not determined by their value on objects.
+- `s0_26_descent_noninvertible_modification` — on the point site, take the one-object groupoid of
+  `ℤ` presenting `Bℤ` and the category-valued stack `G = [1]`, the category `0 → 1`, whose only
+  automorphisms are identities. A descent datum is an object `a ∈ {0, 1}` with `φ = id`; the
+  modification from the datum at `0` to the datum at `1` is the arrow `0 → 1`, which is not
+  invertible, so the equivalence of (iii) lands in a category of descent data that is not a
+  groupoid.
 
 `Stack.isoClasses` applies Mathlib's `isomorphismClasses` to the fibres of a prestack; D4.8
 sheafifies it for small v-stacks.
