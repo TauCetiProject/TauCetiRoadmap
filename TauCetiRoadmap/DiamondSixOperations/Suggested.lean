@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Six operations, cohomological smoothness and biduality for diamonds
+# Six operations, cohomological smoothness and biduality for diamonds: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. This file gives suggested Lean forms for headline theorems that can be stated
