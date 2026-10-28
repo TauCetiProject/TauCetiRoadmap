@@ -2043,6 +2043,74 @@ has the same Alexander polynomial and determinant.
 The literal signed word, native presentation types and representative targets
 are in [`FiveOneTargets.lean`](FiveOneTargets.lean).
 
+<a id="gt4-two-strand-alexander-family"></a>
+#### GT4: The complete two-strand torus-link Alexander family
+
+For every integer n, use the realized closure of `σ₁ⁿ∈B₂`, with both
+strands oriented downwards and the standard oriented closure. Identify it
+with `T(2,n)` by the earlier braid/Clifford-torus comparison. For n≥1,
+number crossings and arcs cyclically so its Fox/Alexander arc matrix is
+
+`A_n(i,j)=(1−t)δ_(i,j)+tδ_(j,i+1)−δ_(j,i−1)`,
+
+with indices modulo n. Give the actual arc/crossing dictionary from the
+braid closure and the meridional Fox calculation for each row. When n=1
+or2, add coefficients at coincident indices; do not overwrite them. Thus
+`A₁=[0]`, and `A₂` has rows `(1−t,t−1)` and `(t−1,1−t)`.
+Deleting the last row and column gives the size-(n−1) tridiagonal matrix
+with diagonal `1−t`, superdiagonal t and subdiagonal−1. These are the
+explicit source155 matrices, independently of any unshown schematic entries.
+
+In `ℤ[t]`, define `F_n(t)=Σ_(j=0)^(n−1)(−t)^j`, with `F₀=0`.
+Prove the leading-principal-minor recurrence
+`D₀=1`, `D₁=1−t`, `D_(r+2)=(1−t)D_(r+1)+tD_r`, hence
+`det(minor(A_n))=D_(n−1)=F_n` for n≥1. Export the polynomial identity
+
+`(1+t)F_n=1−(−t)^n`.
+
+This states the even/odd quotient formulas without inverting `1+t`.
+In particular `F_n(−1)=n`, including the value where the displayed rational
+quotient has denominator zero. Prove constant coefficient1, leading
+coefficient `(-1)^(n−1)` and degree n−1 for n≥1. Identify this cofactor
+with the order of the actual meridional Alexander module, up to the already
+specified Laurent units, using the native PD/Fox/Fitting comparison.
+Give explicit unit row/column eliminations and generator maps identifying
+`H₁(X∞;ℤ)` with `Λ/(F_n)` for `Λ=ℤ[t,t⁻¹]`; the unreduced arc module
+is `Λ⊕Λ/(F_n)`. This proves principality for this family, without asserting
+it for arbitrary link Fitting ideals. The zero-twist unlink instead has
+`H₁(X∞;ℤ)≃Λ`, compatibly with `F₀=0`. The cofactor calculation alone is
+not the geometric identification.
+
+Pin the normalized link formula in the existing half-Laurent ring, with
+`t=s²`. For n≥1 prove
+
+`C_n(s)=Δ_(T(2,n))(s²)=s^(−(n−1))F_n(s²)`.
+
+For odd n=2k+1 this lies in `ℤ[t,t⁻¹]` as `t⁻ᵏF_n(t)`, is symmetric,
+has value1 at t=1 and Alexander span n−1. For even n the half-integer
+powers are retained. With `z=s−s⁻¹`, the chosen HOMFLY specialization has
+`Δ₊−Δ₋+zΔ₀=0`; therefore calibrate `C₁=1`, `C₂=s⁻¹−s=−z` and prove
+`C_(n+2)=C_n−zC_(n+1)`. This fixes the positive-Hopf sign rather than
+importing the opposite Conway-skein convention. Prove
+`C_n(s⁻¹)=(-1)^(n−1)C_n(s)`, and, for n≥1,
+`Δ_(T(2,−n))(s²)=C_n(s⁻¹)` by mirror transport with the actual component
+orientations. The n=0 closure
+is the two-component unlink with Alexander order and normalized value0;
+it is not a size-(−1) minor. The n=1 closure is the unknot with value1.
+
+Prove the standard diagram is reduced alternating for n≥2, giving crossing
+number n via the earlier bracket-span theorem; n=0,±1 have crossing number0,
+and reflection gives crossing number |n| for |n|≥2. For odd n≥3, the
+canonical two-disc/n-band surface has genus `(n−1)/2`, and the Alexander
+span bound proves ordinary-genus minimality. Its nonzero polynomial and
+specializations recover the trefoil and cinquefoil calculations in their
+existing native normalization. For even n retain both oriented components
+and their linking number n/2; no knot-only symmetric normalization is
+applied to that branch.
+
+[`TwoStrandAlexanderTargets.lean`](TwoStrandAlexanderTargets.lean) specifies
+the actual polynomial continuants and normalized half-Laurent recurrence.
+
 #### GT4: Jones trace, special values and braid obstructions
 
 Consume actual TL operator A1–A5's positive quotients and trace/finite-block interfaces, GT4's geometric Jones/bracket/Markov comparison, and the full [TypeAHeckeAlgebras H1–H4a](../TypeAHeckeAlgebras/README.md) supplier only for the full Hecke statements. Construct no second generic TL presentation, normalized trace or two-variable HOMFLY owner. Pin the level: source n projections generate the(n+1)-strand algebra, whereas a closure of a braid on n strands uses the appropriate n-strand level. For t≠0,−1 and a chosen u≠0,u²=t, normalized projections satisfy p_i p_(i±1) p_i=τp_i with τ=t/(1+t)² and braid units g_i=u*((1+t)*p_i−1). Prove inverse, far commutation, braid relation, trace(g_i)=trace(g_i⁻¹)=−u/(1+t), inclusions, and agreement with the current native signed-loop crossing representation. Check these identities against the native signed-loop crossing convention.
