@@ -32,7 +32,7 @@ and compact operators of PadicFunctionalAnalysis and CompactOperators.
 
 Everything is stated over a complete nonarchimedean field K (a finite extension of ℚ_p in the arithmetic applications) and, for families, over a commutative Noetherian K-Banach algebra A; general locally convex or distribution spaces are never silently treated as Banach spaces.
 
-The targets below are specifications for formalisation. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its hypotheses, its source and the earlier targets or library declarations it rests on. The companion [Suggested.lean](Suggested.lean) states the closed-disc maximum principle, nonarchimedean Hahn–Banach and Fréchet open mapping, fixed-rank spectral convergence, the entire spectral limit and compactness of Tate-algebra maps with topologically nilpotent coordinate images, with four definitions needed for the spectral statements. It is not exhaustive, and this document is definitive. The compact-type and strong-duality comparisons, Hyodo–Kato comparisons, Amice and Mellin equivalences, sharp extension and uniqueness theorems, and finite-slope complexes require carriers absent from the pins and are specified here. API names elsewhere in this document specify declarations to build; they do not assert that those declarations appear in the companion file. Implementations import the named supplier APIs and retain one owner for each object; the supplier contracts list the interfaces.
+The targets below are specifications for formalisation. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its hypotheses, its source and the earlier targets or library declarations it rests on. The companion [Suggested.lean](Suggested.lean) states the closed-disc maximum principle, nonarchimedean Hahn–Banach and Fréchet open mapping, fixed-rank spectral convergence and compactness of Tate-algebra maps with topologically nilpotent coordinate images, with four definitions needed for the spectral statements. It is not exhaustive, and this document is definitive. The compact-type and strong-duality comparisons, Hyodo–Kato comparisons, Amice and Mellin equivalences, sharp extension and uniqueness theorems, and finite-slope complexes require carriers absent from the pins and are specified here. API names elsewhere in this document specify declarations to build; they do not assert that those declarations appear in the companion file. Implementations import the named supplier APIs and retain one owner for each object; the supplier contracts list the interfaces.
 
 ## Scope and ownership
 
@@ -420,7 +420,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions).
 
-**The nonarchimedean Hahn–Banach theorem** (theorem; `naHahnBanach` in Suggested.lean). Let K be spherically complete (every nested family of closed balls has nonempty intersection), V an ultrametric normed K-vector space, U ⊆ V a subspace and ℓ : U → K a continuous linear functional. Then ℓ extends to a continuous linear functional on V of the same operator norm; consequently for every v ∉ closure(U) there is a continuous functional vanishing on U with ℓ(v) = 1, and the continuous dual separates points of V. Over a field that is not spherically complete the norm-preserving extension fails in general. A space with a chosen countable orthogonal Schauder basis still has a point-separating dual, by its coordinate functionals; this narrower observation makes no assertion about extending a functional from an arbitrary subspace. In addition: K is a field complete for a nontrivial nonarchimedean absolute value; spherical completeness is a hypothesis of the first statement and is not implied by completeness (ℂ_p is not spherically complete). (Source: Schneider, author lecture notes §9, Proposition 9.2, printed pp. 57–58, and Corollaries 9.3–9.4, printed p. 58; the coordinate-functional observation follows directly from the chosen Schauder basis. Ingleton is the historical attribution.)
+**The nonarchimedean Hahn–Banach theorem** (theorem; `naHahnBanach` in Suggested.lean). Let K be spherically complete (every nested family of closed balls has nonempty intersection), V an ultrametric normed K-vector space, U ⊆ V a subspace and ℓ : U → K a continuous linear functional. Then ℓ extends to a continuous linear functional on V of the same operator norm; consequently for every v ∉ closure(U) there is a continuous functional vanishing on U with ℓ(v) = 1, and the continuous dual separates points of V. Over a field that is not spherically complete the norm-preserving extension fails in general. A space with a chosen countable orthogonal Schauder basis still has a point-separating dual, by its coordinate functionals; this narrower observation makes no assertion about extending a functional from an arbitrary subspace. In addition: K is a field complete for a nontrivial nonarchimedean absolute value; spherical completeness is a hypothesis of the first statement and is not implied by completeness (ℂ_p is not spherically complete). (Source: Schneider, author lecture notes §9, Proposition 9.2, printed pp. 58–59, and Corollaries 9.3–9.4, printed p. 59; the coordinate-functional observation follows directly from the chosen Schauder basis. Ingleton is the historical attribution.)
 
 *Needs:* Mathlib `ContinuousLinearMap`, `IsUltrametricDist`.
 
@@ -434,7 +434,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 - `functionalExtension_line`: A coordinate functional on K×0 extends to K².
 - `functionalExtension_Cp`: A closed subspace of c₀(N,C_p) admits continuous functional extension; spherical norm preservation is not a conclusion.
 
-**Fréchet open mapping** (theorem; `naFrechet_openMapping` in Suggested.lean). A continuous surjective K-linear map between Fréchet spaces over a complete nontrivially valued ultrametric field is open, hence a strict quotient map. The Baire argument uses completeness and a scalar of norm strictly between zero and one. Source: Schneider, author notes §8, Proposition 8.6 and Corollary 8.7, pp. 54–55; Schneider–Teitelbaum §1, p. 5, for the dual quotient application.
+**Fréchet open mapping** (theorem; `naFrechet_openMapping` in Suggested.lean). A continuous surjective K-linear map between Fréchet spaces over a complete nontrivially valued field is open, hence a strict quotient map. The Baire argument uses completeness of the two spaces and a scalar of norm strictly between zero and one; it does not use the ultrametric inequality, so the statement carries no ultrametric hypothesis on K or on the seminorms, and the nonarchimedean spaces of this roadmap are a special case. Source: Schneider, author notes §8, Proposition 8.6 and Corollary 8.7, pp. 54–55; Schneider–Teitelbaum §1, p. 5, for the dual quotient application.
 
 *Needs:* §0.0 (Locally convex spaces and separation); native Baire theorem and quotient topologies.
 
@@ -859,7 +859,7 @@ Source for this subsection unless a target says otherwise: Colmez, §II.4, print
 - `AnalyticDistributionTests.pushforward_constant`: For constant f with value y, f_*μ=μ(1)δ_y.
 - `AnalyticDistributionTests.pushforward_derivative`: For f(x)=1+3x on Z_3, f_*(dδ_0)=3dδ_1. Its value on y² is 6; a value-only pushforward model loses this derivative.
 
-**External product of distributions** (construction). `distributionExternalProduct λ μ` is the compatible product-stage functional with coefficients λ(e_i)μ(e_j), transported through the completed analytic tensor equivalence. Its API is `distributionExternalProduct_pure`, `distributionExternalProduct_radius`, `distributionExternalProduct_eval` and `distributionExternalProduct_assoc`; the last follows on dense pure tensors, then by continuous extension. The bounded product-family estimate ensures extension to each complete c₀ stage. Source: Schneider–Teitelbaum §2, Theorem 2.2, pp. 6–7; Colmez §II.4, pp. 34–37. Needs: §0.3 analytic tensors and §0.0 projective limits.
+**External product of distributions** (construction). `distributionExternalProduct λ μ` is the compatible product-stage functional with coefficients λ(e_i)μ(e_j), transported through the completed analytic tensor equivalence. Its API is `distributionExternalProduct_pure`, `distributionExternalProduct_radius`, `distributionExternalProduct_eval` and `distributionExternalProduct_assoc`; the last follows on dense pure tensors, then by continuous extension. The bounded product-family estimate ensures extension to each complete c₀ stage. Source: Schneider–Teitelbaum compact-type duality, §2, p. 8, the definitions of λ⊗̂μ and of the convolution m_*∘⊗̂ following Theorem 2.2; Colmez §II.4, pp. 34–37. Needs: §0.3 analytic tensors and §0.0 projective limits.
 
 **Checks.**
 
@@ -1438,17 +1438,17 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Zero maps have finite image.
-- Identity on A is completely continuous.
-- Identity on c₀(ℕ,A) is not completely continuous.
+- For diag(p^i) on c_(ℚ_p)(ℕ), r_j(u) = p^(−j) → 0, so the map is completely continuous, and ‖u − π_{0,…,N} u‖ = p^(−N−1).
+- The identity of c_A(ℕ) has r_j = 1 for every j, so it is not completely continuous.
+- The rank-one map x ↦ (Σ_i x_i) e_0 on c_(ℚ_p)(ℕ) has r_0 = 1 and r_j = 0 for j ≥ 1, so it is completely continuous although every input column (a_ij)_j has norm one: the decay is along outputs, not inputs.
 
 **Finite ambient image versus finitely generated range** (supplier). Over a Noetherian ring, the range of a continuous linear map lies in a finitely generated submodule if and only if it is finitely generated; over a non-Noetherian ring only the implication from a finitely generated range holds. Supplied by CompactOperators §0.1, **Finite image and approximation** (`isFiniteRank_iff_range_fg`) (the roadmap of W. Coram).
 
 **Checks.**
 
-- Zero maps have finite image.
-- Identity on A is completely continuous.
-- Identity on c₀(ℕ,A) is not completely continuous.
+- Over the trivially normed non-Noetherian ring A = F₂[X₀, X₁, …], the map c_A(ℕ) → A, x ↦ Σ_i x_i X_i (a finite sum, since c₀ sequences are finitely supported for the trivial norm) has range the ideal (X₀, X₁, …), which lies in the finitely generated module A but is not finitely generated.
+- Over the Noetherian ring ℤ_p, the map c_(ℤ_p)(ℕ) → ℤ_p, e_i ↦ p^(i+1), sends the basis to an infinite set but has range pℤ_p, generated by p.
+- For diag(p^i) on c_(ℚ_p)(ℕ) the range contains every e_i, so it lies in no finitely generated submodule: neither condition holds, although the map is completely continuous.
 
 **Strict norm approximation by finite-image maps** (lemma; `isCompletelyContinuous_iff_norm_approximation`). For Banach modules M,N over the stated Noetherian K-Banach algebra A and a continuous A-linear f, imported complete continuity is equivalent to: for every epsilon>0 there is a continuous A-linear g whose range is contained in a finite A-submodule and whose difference from f, restricted to K, has operator norm strictly less than epsilon. Under (a). (Source: Buzzard, Section 2, pp. 8-10, operator norm and closure definition.)
 
@@ -1480,9 +1480,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Zero maps have finite image.
-- Identity on A is completely continuous.
-- Identity on c₀(ℕ,A) is not completely continuous.
+- The identity of the finite free module A^n has finite rank, hence is completely continuous.
+- For A = K × K and the finite projective non-free module M = eA with e = (1, 0), of rank one on one component and zero on the other, the identity of M is completely continuous.
+- For A = ℚ_p the identity of c_A(ℕ) is not completely continuous: every finite-image g has ‖1 − g‖ ≥ 1, by a kernel vector of g.
 
 ### 4.2 Fredholm determinants on orthonormalizable and (Pr) modules
 
@@ -1544,17 +1544,17 @@ Library inputs of this subsection, used by several of its targets: Mathlib `IsUl
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- For u = diag(a, b) on ℚ_p² and the orthonormal basis f_0 = e_0, f_1 = e_0 + e_1, u f_0 = a f_0 and u f_1 = (a − b) f_0 + b f_1; this triangular matrix and diag(a, b) both give (1 − aT)(1 − bT).
+- The vectors e_i′ = p^(k_i) e_i form an orthonormal basis for the equivalent norm given by the supremum of the coordinates in that basis; u e_i′ = Σ_j p^(k_i − k_j) a_ij e_j′, and every principal minor is unchanged because the factors cancel along each permutation.
+- `chart_entry_sum` (non-example): for the nilpotent u with u(e_1) = e_0, u(e_0) = 0 on ℚ_p², the sum of all matrix entries is 1 in the basis (e_0, e_1) and 0 in the orthonormal basis (e_0 + e_1, e_1), while trace 0 and determinant 0 agree; only principal minors are chart independent.
 
 **Cyclic Fredholm determinant identity** (supplier). `P_{uv} = P_{vu}` for completely continuous `u : M → N` and bounded `v : N → M` between potentially ONable Banach A-modules. Supplied by CompactOperators §1.4 (the roadmap of W. Coram). There it is stated between model spaces and transported to potentially orthonormalisable modules by its §1.5.
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- For v : A → A², 1 ↦ (x, y), and u : A² → A, (s, t) ↦ αs + βt, vu(s, t) = (αs + βt)(x, y) on A² has trace αx + βy and determinant 0, and uv is multiplication by αx + βy on A, so P_vu = 1 − (αx + βy)T = P_uv.
+- For u : c_(ℚ_p)(ℕ) → ℚ_p, x ↦ Σ_i p^i x_i, and v : 1 ↦ e_0, the operator vu has a_00 = 1, all other diagonal entries and all larger principal minors zero, so P_vu = 1 − T = P_uv.
+- For u = v = 1 on a line, P_uv = 1 − T while P_u P_v = (1 − T)²; the identity is cyclic, not multiplicative.
 
 **Completed scalar extension of ON modules and determinants** (comparison). Let η:A→B be a continuous K-algebra homomorphism between commutative Noetherian K-Banach algebras with the norms of Convention 1. Its K-linear bound gives L≥1 with ‖η(a)‖≤L‖a‖; a topologically nilpotent nonzero scalar in K supplies common Banach–Tate data. The comparison has two clauses.
 
@@ -1638,9 +1638,9 @@ Source: Buzzard, Lemma 2.8 and Corollaries 2.9–2.10, pp. 16–18; AdicSpacesPa
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- Over ℚ_p, the matrix with rows (p, 1) and (0, 1) has column bounds b_0 = p^(−1), b_1 = 1 and determinant p, so ‖det‖ = b_0 b_1 is attained, while the product of the row bounds is 1.
+- The empty matrix has determinant 1, equal to the empty product of column bounds.
+- `column_bound_archimedean` (non-example): over ℝ the matrix with rows (1, 1) and (−1, 1) has column bounds 1, 1 and determinant 2; the ultrametric hypothesis is necessary.
 
 **Uniform finite determinant perturbation** (lemma). Let D,E be square matrices on a finite type J, C≥1 and δ≥0. If every entry of D and E has norm at most C and every corresponding difference has norm at most δ, then norm(det D−det E)≤δ C^max(card J−1,0). In addition: A is a normed commutative ring with norm(1)=1 and an ultrametric norm. The empty-index case is allowed.
 
@@ -2502,7 +2502,7 @@ The right side tends to zero independently of the unbounded characteristic rank 
 - `spectralStabilization_quadratic`: For B=T² and P_N=1+c_1T+c_2T²+⋯, N≥2, the coefficient of T in the output is 2c_2−c_1². It is independent of every c_j with j>2, including over nonreduced rings.
 - `spectralStabilization_nonzero_constant` (non-example): For B=1 and P_N=1 at prescribed rank N, the output is (1−T)^N. Its linear coefficient is −N over Z, so b_0=0 is necessary for rank stabilization.
 
-**Full entire spectral transform** (supplier; `exists_entire_spectral_transform` in Suggested.lean states its unique entire limit). For entire B, P with B(0) = 0 and P(0) = 1, D(B, P) is the entire series that the double truncations D_(N,M)(trunc_(M+1)B, trunc_(N+1)P) approach in every Gauss norm as N and M tend to infinity independently; it has constant coefficient 1, is multiplicative in P, and is Coleman's transform with polynomial functional input when B is a polynomial. Supplied by CompactOperators §3.3, **Convergence and topology** (`colemanDEntire`, `tendsto_gaussNorm_colemanDBounded`, `colemanDEntire_isEntire`, `colemanDEntire_coe`, `colemanDEntire_mul`) (the roadmap of W. Coram). The supplied interface label `entireSpectralTransform` denotes its `colemanDEntire B P`, which is D(B, P) here, and for polynomial P it is the fixed-rank E_(deg P)(B, P) of §4.13, the diagonal truncations converging to both by §4.13 (Simultaneous truncation convergence for polynomial characteristic input).
+**Full entire spectral transform** (supplier). For entire B, P with B(0) = 0 and P(0) = 1, D(B, P) is the entire series that the double truncations D_(N,M)(trunc_(M+1)B, trunc_(N+1)P) approach in every Gauss norm as N and M tend to infinity independently; it has constant coefficient 1, is multiplicative in P, and is Coleman's transform with polynomial functional input when B is a polynomial. Supplied by CompactOperators §3.3, **Convergence and topology** (`colemanDEntire`, `tendsto_gaussNorm_colemanDBounded`, `colemanDEntire_isEntire`, `colemanDEntire_coe`, `colemanDEntire_mul`) (the roadmap of W. Coram). The supplied interface label `entireSpectralTransform` denotes its `colemanDEntire B P`, which is D(B, P) here, and for polynomial P it is the fixed-rank E_(deg P)(B, P) of §4.13, the diagonal truncations converging to both by §4.13 (Simultaneous truncation convergence for polynomial characteristic input).
 
 **Checks.**
 
@@ -2550,9 +2550,9 @@ Use Convention 1's Banach/(Pr) hypotheses, monic polynomials and degree-correct 
 
 **Checks.**
 
-- For u=1 on a line, a=1 has order one and E=1.
-- For zero u, every a has Hasse order zero and E=0.
-- For u=1+N with N²=0 on A², a=1 has order two and E=1.
+- For u = diag(p, p²) on ℚ_p², P_u = (1 − pT)(1 − p²T); with Q = 1 − pT and S = 1 − p²T, Q*(u) = u − p vanishes on N = ℚ_p e_0 and is invertible on F = ℚ_p e_1, so N has rank 1 and P_(u|N) = Q.
+- For the same u and the degree-two factor Q = (1 − pT)(1 − p²T), S = 1, Q*(u) = (u − p)(u − p²) = 0 and N = ℚ_p² has rank 2.
+- `slope_summand_coprime` (non-example): for u = p on ℚ_p², P_u = Q·S with Q = S = 1 − pT not coprime, and no rank-one summand exists on which u − p is zero with u − p invertible on a complement, since u − p = 0.
 
 ### 4.15 Affinoid families, coefficient actions and compactness
 
@@ -2962,5 +2962,5 @@ The following readings differ from the printed sources and are used in the state
 - BCGP II: G. Boxer, F. Calegari, T. Gee and V. Pilloni, *Modularity theorems for abelian surfaces*, arXiv:2502.20645v1. (https://arxiv.org/pdf/2502.20645)
 - Pan: L. Pan, *On locally analytic vectors of the completed cohomology of modular curves II*, arXiv:2209.06366v1. (https://arxiv.org/pdf/2209.06366v1)
 - Ingleton: A. W. Ingleton, *The Hahn–Banach theorem for non-Archimedean valued fields*, Proc. Cambridge Philos. Soc. 48 (1952), 41–45.
-- Schneider: P. Schneider, *Nonarchimedean Functional Analysis*, [author lecture notes](https://www.uni-muenster.de/IVV5WS/WebHop/user/pschnei/lectnotes/nfa.pdf), §§1–4 (locally convex spaces) and §9, Proposition 9.2, printed pp. 57–58, and Corollaries 9.3–9.4, printed p. 58 (Hahn–Banach).
+- Schneider: P. Schneider, *Nonarchimedean Functional Analysis*, [author lecture notes](https://www.uni-muenster.de/IVV5WS/WebHop/user/pschnei/lectnotes/nfa.pdf), §§1–4 (locally convex spaces) and §9, Proposition 9.2, printed pp. 58–59, and Corollaries 9.3–9.4, printed p. 59 (Hahn–Banach).
 - BGR: S. Bosch, U. Güntzer and R. Remmert, *Non-Archimedean Analysis*, Grundlehren 261 (1984), §§2.7, 3.7 (finite modules over Banach algebras) and 5.1–5.2 (Tate algebras).

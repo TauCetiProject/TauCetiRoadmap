@@ -9,12 +9,14 @@ import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
 finishes neither a layer nor the roadmap.
 
 The statements are the closed-disc maximum principle (§0.1), nonarchimedean Hahn–Banach
-and Fréchet open mapping (§0.2), fixed-rank spectral convergence and the entire spectral
-limit (§4.13), and compactness of Tate-algebra maps with topologically nilpotent coordinate
-images (§4.15). Four definitions on native power series and polynomials express the last
-two results: entireness, the bounded spectral resultant, the monic tail quotient and its
-fixed-rank spectral output. RestrictedPowerSeries and CompactOperators own the supplier
-interfaces identified in the README.
+and Fréchet open mapping (§0.2), fixed-rank spectral convergence (§4.13), and compactness
+of Tate-algebra maps with topologically nilpotent coordinate images (§4.15). Four
+definitions on native power series and polynomials express the spectral statement:
+entireness, the bounded spectral resultant, the monic tail quotient and its fixed-rank
+spectral output. RestrictedPowerSeries and CompactOperators own the supplier interfaces
+identified in the README; in particular the entire spectral transform of two entire inputs
+and its Gauss convergence are CompactOperators §3.3's `colemanDEntire` and
+`tendsto_gaussNorm_colemanDBounded`.
 
 The other headline results require objects absent from the pinned libraries:
 * The compact-type and strong-duality comparisons of Layer 0 need nonarchimedean locally
@@ -38,7 +40,7 @@ The other headline results require objects absent from the pinned libraries:
   bounded formal-series compactness theorem (§4.15) needs its coefficient-sup Banach algebra,
   which is larger than the native restricted-series algebra.
 
-The scalar entire spectral limit below uses polynomial resultants directly; it does not
+The fixed-rank spectral convergence below uses polynomial resultants directly; it does not
 require a Fredholm determinant or a distribution carrier.
 -/
 
@@ -68,7 +70,7 @@ end DiscRealization
 
 /-- §0.2: spherical completeness gives a norm-preserving extension from any normed subspace.
 The ball-intersection hypothesis states spherical completeness directly.
-Source: Schneider, Proposition 9.2 and Corollary 9.4, pp. 57–58. -/
+Source: Schneider, Proposition 9.2, pp. 58–59, and Corollary 9.4, p. 59. -/
 theorem naHahnBanach {K V : Type*} [NontriviallyNormedField K] [CompleteSpace K]
     [IsUltrametricDist K] [NormedAddCommGroup V] [NormedSpace K V] [IsUltrametricDist V]
     (hK : ∀ c : Set (Set K), c.Nonempty → IsChain (· ⊆ ·) c →
@@ -77,19 +79,17 @@ theorem naHahnBanach {K V : Type*} [NontriviallyNormedField K] [CompleteSpace K]
     (U : Submodule K V) (ℓ : U →L[K] K) :
     ∃ ℓ' : V →L[K] K, (∀ u : U, ℓ' u = ℓ u) ∧ ‖ℓ'‖ = ‖ℓ‖ := by sorry
 
-/-- §0.2: a continuous surjection between nonarchimedean Fréchet spaces is open.
-Native ultrametric seminorm families specify their locally convex topologies.
+/-- §0.2: a continuous surjection between Fréchet spaces is open. Native seminorm families
+specify their locally convex topologies; the ultrametric inequality is not needed.
 Source: Schneider, Proposition 8.6 and Corollary 8.7, pp. 54–55. -/
 theorem naFrechet_openMapping {K V W ι κ : Type*}
-    [NontriviallyNormedField K] [CompleteSpace K] [IsUltrametricDist K]
+    [NontriviallyNormedField K] [CompleteSpace K]
     [AddCommGroup V] [UniformSpace V] [IsUniformAddGroup V] [Module K V]
     [T2Space V] [TopologicalSpace.MetrizableSpace V] [CompleteSpace V]
     [AddCommGroup W] [UniformSpace W] [IsUniformAddGroup W] [Module K W]
     [T2Space W] [TopologicalSpace.MetrizableSpace W] [CompleteSpace W]
     (pV : ι → Seminorm K V) (pW : κ → Seminorm K W)
     (hV : WithSeminorms pV) (hW : WithSeminorms pW)
-    (huV : ∀ i x y, pV i (x + y) ≤ max (pV i x) (pV i y))
-    (huW : ∀ i x y, pW i (x + y) ≤ max (pW i x) (pW i y))
     (f : V →L[K] W) (hf : Function.Surjective f) : IsOpenMap f := by sorry
 
 end AnalyticDistributions
@@ -130,18 +130,6 @@ theorem tendsto_spectral_fixed_polynomial_gauss (hA : ∀ x y : A, ‖x + y‖ �
     Tendsto (fun N : ℕ => PowerSeries.gaussNorm norm R
       ((polynomialSpectralResultant n N (PowerSeries.trunc (N + 1) B) P -
         entirePolynomialSpectral n B P : Polynomial A) : PowerSeries A)) atTop (𝓝 0) := by sorry
-
-/-- §4.13: the independent double truncations of two entire inputs have a unique entire
-spectral limit in every Gauss radius, when the functional input vanishes at zero and the
-characteristic input is normalized. Source: CompactOperators §3.3, convergence and topology. -/
-theorem exists_entire_spectral_transform [IsUltrametricDist A]
-    (B P : PowerSeries A) (hB : IsEntire B) (hP : IsEntire P)
-    (hB0 : B.coeff 0 = 0) (hP0 : P.coeff 0 = 1) :
-    ∃! F : {F : PowerSeries A // IsEntire F}, ∀ R : ℝ, 0 < R →
-      Tendsto (fun nm : ℕ × ℕ => PowerSeries.gaussNorm norm R
-        (((polynomialSpectralResultant nm.1 nm.2 (PowerSeries.trunc (nm.2 + 1) B)
-          (PowerSeries.trunc (nm.1 + 1) P) : Polynomial A) : PowerSeries A) - F.val))
-        (atTop : Filter (ℕ × ℕ)) (𝓝 0) := by sorry
 
 end NonarchimedeanFredholm
 
