@@ -5,7 +5,7 @@ It uses the implemented Tau Ceti APIs directly and contains no admitted targets.
 
 The block below was extracted verbatim to a Lean file and checked with
 `lake env lean -DwarningAsError=true` at Tau Ceti
-[`095e3aad63f6cb551d582b3e8e5b4da46cc872fe`](https://github.com/TauCetiProject/TauCeti/commit/095e3aad63f6cb551d582b3e8e5b4da46cc872fe),
+[`d379c8be1c7e60e100eea7a2b8972c1f24ae23fe`](https://github.com/TauCetiProject/TauCeti/commit/d379c8be1c7e60e100eea7a2b8972c1f24ae23fe),
 with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The axiom reports contain only
 `propext`, `Classical.choice`, and `Quot.sound`.
 
@@ -14,6 +14,7 @@ Lean 4.35.0-rc3 pin and from the target prototypes retained in `Suggested.lean`.
 
 ```lean
 import TauCeti.Geometry.Toric.Analytic.Fan.Comparison.TorusAction
+import TauCeti.Geometry.Toric.Algebraic.Fan.TorusAction.Action
 
 open Multiplicative
 open TauCeti.Toric
@@ -33,9 +34,17 @@ noncomputable instance fullConePointUnique
     rw [Subsingleton.elim s 0, ofAdd_zero]
     simp only [← MonoidAlgebra.one_def, map_one]
 
+/-- The internal action has exactly the underlying scheme morphism used by the comparison. -/
+example {N : Type} {V : Type*} [AddCommGroup N] [AddCommGroup V] [Module ℝ V]
+    {i : N →+ V} (Φ : Fan i) :
+    (Fan.algebraicRealizationModObj Φ).smul.left = Φ.algebraicRealizationAction := by
+  rw [Fan.algebraicRealizationModObj_smul, Fan.algebraicRealizationActionOver_left]
+
 #print axioms fullConePointUnique
-#print axioms spec_map_smul_eq_lift_comp_affineToricSchemeAction
+#print axioms specMap_smul_eq_lift_comp_affineToricSchemeAction
 #print axioms Fan.AlgebraicComplexPoint.coe_smul
+#check Fan.algebraicRealizationModObj_smul
+#check Fan.algebraicRealizationActionOver_left
 
 end TauCetiRoadmap.AnalyticToricGeometry.NativeCompletion
 ```
