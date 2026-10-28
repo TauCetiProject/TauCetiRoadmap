@@ -41,3 +41,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [The Chebotarev density theorem](Chebotarev/README.md)
   (declared complete 2026-10-07)
+- [orthogonal and spin groups](OrthogonalSpinGroups/README.md)
+  (declared complete 2026-10-28)
