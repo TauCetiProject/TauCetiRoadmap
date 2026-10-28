@@ -22,7 +22,7 @@ refutes the continuum hypothesis. Its supporting milestone is the **bounded-rank
 the models of `φ` have Scott height bounded below ω₁, there are at most ℵ₀ countable models or a
 perfect set of pairwise non-isomorphic ones.
 
-The roadmap is downstream of four others. The parent [InfinitaryLogic](../InfinitaryLogic/README.md)
+The roadmap is downstream of four others. The parent [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md)
 roadmap supplies the infinitary syntax, back-and-forth equivalence and Scott analysis. Three
 sibling roadmaps supply the descriptive set theory: **[CountableStructureSpaces](../CountableStructureSpaces/README.md)** ([#1316](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1316)) (the coded space
 of structures, model classes, Borelness of back-and-forth equivalence, Scott height, López–Escobar,
@@ -147,7 +147,7 @@ Ehrenfeucht–Mostowski models, Hanf numbers, small models and complete sentence
 
 ### Tau Ceti and the parent roadmap
 
-The parent [InfinitaryLogic](../InfinitaryLogic/README.md) roadmap is implemented in Tau Ceti
+The parent [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md) roadmap is implemented in Tau Ceti
 (Scott's theorem in [Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977); the
 modules `TauCeti/ModelTheory/Infinitary/`, `BackAndForth/` and `Scott/`, namespace `TauCeti`, are
 newer than this repository's Tau Ceti pin, so `Suggested.lean` imports the parent's prototype

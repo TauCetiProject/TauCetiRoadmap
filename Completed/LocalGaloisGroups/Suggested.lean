@@ -1,11 +1,12 @@
 import Mathlib
 import TauCeti.Algebra.MonoidAlgebra.Exactness
+import TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.TrivialZMod
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.Free.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
-import TauCetiRoadmap.ProfiniteProPGroups.Suggested
+import Completed.ProfiniteProPGroups.Suggested
 import Completed.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 
@@ -513,112 +514,20 @@ theorem finrank_cohomFp_one :
         + Module.finrank ℚ_[p] F :=
   sorry
 
-/-- **Layer 1, the cup square on `H¹(G_F, 𝔽_p)` is nondegenerate on the left when `μ_p ⊆ F`**, from
-local duality at `A = μ_p` and `(i, j) = (1, 1)`. A closed proof, in five steps.
-
-1. The chosen-root dictionary `muNRepIsoTrivialFp ζ` carries `a ≠ 0` to a class `x ≠ 0` of
-   `H¹(G_F, μ_p)`: coefficient maps along an isomorphism are inverse to each other
-   (`TauCeti.ContinuousCohomology.coeffMap_comp`, `TauCeti.ContinuousCohomology.coeffMap_id`).
-2. `ClassFieldTheory.muNRepToTateDual ζ : μ_p → Hom(μ_p, μ_p)` is bijective
-   (`ClassFieldTheory.bijective_muNRepToTateDual`), so it has an inverse morphism, and the image
-   `x'` of `x` in `H¹(G_F, Hom(μ_p, μ_p))` is nonzero.
-3. The first half of `ClassFieldTheory.tateDualityPairing_perfect_mixed`, with an invariant
-   `tr : H²(G_F, μ_p) ≃ ℤ/p` from `ClassFieldTheory.h2MuEquivZMod_mixed`, gives `y` with
-   `⟨x', y⟩ ≠ 0`.
-4. `ClassFieldTheory.tateDualityPairing_muNRepToTateDual` identifies `⟨x', y⟩` with the Hilbert
-   pairing `ClassFieldTheory.localSymbol (kummerCupPairing ζ) tr x y`, which is `tr` of the cup of
-   `x` and `y` along `kummerCupPairing ζ`; so that cup is nonzero.
-5. `ProfiniteCohomology.cup_coeffMap`, at the compatibility
-   `muNRepIsoTrivialFp_hom_kummerCupPairing`, carries that cup to `cupFp a b` for `b` the image of
-   `y`, and the dictionary is injective on `H²`. -/
+/-- **Layer 1, the cup square on `H¹(G_F, 𝔽_p)` is nondegenerate on the left when `μ_p ⊆ F`.**
+This is the injectivity part of Tau Ceti's canonical perfect cup square
+`TauCeti.ClassFieldTheory.cupFp_bijective_of_isPrimitiveRoot`, with both the coefficient object
+and the cup product supplied by `ProfiniteProPGroups`' canonical abbreviations. -/
 theorem cupFp_left_nondegenerate_of_mu (hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) :
     ∀ a : ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 1, a ≠ 0 →
       ∃ b, ProfiniteProPGroups.cupFp p (Field.absoluteGaloisGroup F) a b ≠ 0 := by
   obtain ⟨ζ, hζ⟩ := hmu
-  obtain ⟨tr⟩ := ClassFieldTheory.h2MuEquivZMod_mixed p F p (NeZero.ne p)
-  -- A coefficient morphism with a left inverse has a left inverse on cohomology.
-  have hleft : ∀ {X Y : ClassFieldTheory.GalRep p F} (f : X ⟶ Y) (g : Y ⟶ X), f ≫ g = 𝟙 X →
-      ∀ (n : ℕ) (z : ClassFieldTheory.H p F n X),
-        (ProfiniteCohomology.coeffMap (ZMod p) g n).hom
-          ((ProfiniteCohomology.coeffMap (ZMod p) f n).hom z) = z := by
-    intro X Y f g hfg n z
-    have key : TauCeti.ContinuousCohomology.coeffMap f n ≫
-        TauCeti.ContinuousCohomology.coeffMap g n = 𝟙 _ := by
-      rw [← TauCeti.ContinuousCohomology.coeffMap_comp, hfg,
-        TauCeti.ContinuousCohomology.coeffMap_id]
-    have h := congrArg
-      (fun φ : continuousCohomology n X ⟶ continuousCohomology n X => φ.hom z) key
-    simp only [TopModuleCat.hom_comp, TopModuleCat.hom_id, ContinuousLinearMap.coe_comp,
-      Function.comp_apply, ContinuousLinearMap.coe_id', id_eq] at h
-    exact h
-  -- Step 1: `a` is the image of a nonzero class `x` of `H¹(G_F, μ_p)`.
   intro a ha
-  obtain ⟨x, rfl⟩ : ∃ x : ClassFieldTheory.H p F 1 (ClassFieldTheory.muNRep p F),
-      (ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom x = a :=
-    ⟨_, hleft (muNRepIsoTrivialFp p F ζ hζ).inv (muNRepIsoTrivialFp p F ζ hζ).hom
-      (muNRepIsoTrivialFp p F ζ hζ).inv_hom_id 1 a⟩
-  have hx : x ≠ 0 := by
-    rintro rfl
-    exact ha (map_zero _)
-  -- Step 2: `muNRepToTateDual ζ` has an inverse morphism, so the image of `x` is nonzero.
-  have hD : ∀ (g : Field.absoluteGaloisGroup F)
-      (w : (ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F)).V),
-      (ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F)).ρ g w = w := by
-    intro g w
-    obtain ⟨v, rfl⟩ := (ClassFieldTheory.bijective_muNRepToTateDual ζ hζ).2 w
-    rw [← TopRep.hom_comm_apply, ClassFieldTheory.muNRep_ρ_eq_self ζ hζ g v]
-  let E := LinearEquiv.ofBijective
-    (ClassFieldTheory.muNRepToTateDual ζ hζ).hom.toContinuousLinearMap.toLinearMap
-    (ClassFieldTheory.bijective_muNRepToTateDual ζ hζ)
-  let ψ : ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F) ⟶
-      ClassFieldTheory.muNRep p F :=
-    CategoryTheory.ConcreteCategory.ofHom (C := ClassFieldTheory.GalRep p F)
-      ({ toContinuousLinearMap := ⟨E.symm.toLinearMap, continuous_of_discreteTopology⟩
-         isIntertwining' := fun g => by
-          refine ContinuousLinearMap.ext fun w => ?_
-          simp [hD g, ClassFieldTheory.muNRep_ρ_eq_self ζ hζ g] } :
-        ContIntertwiningMap (ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F)).ρ
-          (ClassFieldTheory.muNRep p F).ρ)
-  have hψ : ClassFieldTheory.muNRepToTateDual ζ hζ ≫ ψ = 𝟙 _ := by
-    ext v
-    exact E.symm_apply_apply v
-  have hx' : (ProfiniteCohomology.coeffMap (ZMod p)
-      (ClassFieldTheory.muNRepToTateDual ζ hζ) 1).hom x ≠ 0 := by
-    intro h
-    exact hx ((hleft _ ψ hψ 1 x).symm.trans
-      ((congrArg (ProfiniteCohomology.coeffMap (ZMod p) ψ 1).hom h).trans (map_zero _)))
-  -- Step 3: local duality gives `y` pairing nontrivially with the image of `x`.
-  obtain ⟨y, hy⟩ : ∃ y : ClassFieldTheory.H p F 1 (ClassFieldTheory.muNRep p F),
-      ClassFieldTheory.tateDualityPairing (ClassFieldTheory.muNRep p F) tr 1 1 rfl
-        ((ProfiniteCohomology.coeffMap (ZMod p) (ClassFieldTheory.muNRepToTateDual ζ hζ) 1).hom
-          x) y ≠ 0 := by
-    by_contra h
-    push Not at h
-    exact hx' ((ClassFieldTheory.tateDualityPairing_perfect_mixed p F p (NeZero.ne p)
-      (ClassFieldTheory.muNRep p F) tr inferInstance 1 1 rfl).1 _ h)
-  -- Step 4: that pairing is the Hilbert pairing, so the Kummer cup of `x` and `y` is nonzero.
-  rw [ClassFieldTheory.tateDualityPairing_muNRepToTateDual ζ hζ tr x y] at hy
-  have hcup : ProfiniteCohomology.cup (ClassFieldTheory.kummerCupPairing ζ hζ) 1 1 x y ≠ 0 := by
-    intro h0
-    apply hy
-    rw [ClassFieldTheory.localSymbol, h0]
-    exact map_zero tr
-  -- Step 5: the dictionary carries the Kummer cup to `cupFp`, injectively.
-  refine ⟨(ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom y,
-    fun h0 => hcup ?_⟩
-  have h1 : ProfiniteCohomology.cup (ProfiniteProPGroups.fpPairing p (Field.absoluteGaloisGroup F))
-      1 1 ((ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom x)
-      ((ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom y) = 0 :=
-    h0
-  have h2 := ProfiniteCohomology.cup_coeffMap (ClassFieldTheory.kummerCupPairing ζ hζ)
-    (ProfiniteProPGroups.fpPairing p (Field.absoluteGaloisGroup F))
-    (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp p F ζ hζ).hom
-    (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp_hom_kummerCupPairing p F ζ hζ) 1 1 x y
-  exact (hleft (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp p F ζ hζ).inv
-      (muNRepIsoTrivialFp p F ζ hζ).hom_inv_id (1 + 1) _).symm.trans
-    ((congrArg
-      (ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).inv (1 + 1)).hom
-      (h2.trans h1)).trans (map_zero _))
+  by_contra! h
+  change ∀ b, TauCeti.cupFp p (Field.absoluteGaloisGroup F) a b = 0 at h
+  apply ha
+  apply (TauCeti.ClassFieldTheory.cupFp_bijective_of_isPrimitiveRoot hζ).injective
+  exact LinearMap.ext fun b => by rw [h b, map_zero, LinearMap.zero_apply]
 
 /-- **Layer 1, the cup square is nondegenerate on both sides when `μ_p ⊆ F`.** One side suffices:
 the other follows from the graded commutativity `ProfiniteProPGroups.cupFp_gradedComm`, a closed
