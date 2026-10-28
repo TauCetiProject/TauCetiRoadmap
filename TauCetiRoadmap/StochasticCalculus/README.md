@@ -2160,8 +2160,49 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    For an arbitrary continuous shift, transport completions with respect to its pushforward
    law; Borel measurability alone does not assert preservation of the original Wiener completion.
 3. **S8.3 constructive proof dictionary.** Polygonal interpolation through finite grids,
-   uniform approximation, Gaussian finite-grid translation and energy convergence. Approximate
-   h′ in deterministic L² and prove exponential/UI convergence. The source's stronger
+   uniform approximation, Gaussian finite-grid translation and energy convergence. Make the
+   finite-grid-to-Wiener-density construction explicit for every Cameron–Martin h, with only
+   h absolutely continuous and u=h′∈L²(0,T), T>0. On the dyadic grid
+   `t_i=iT/2^n`, put `Δ_i=t_i−t_(i−1)`, `a_i=h(t_i)−h(t_(i−1))`, and
+   let u_n equal `a_i/Δ_i` on `(t_(i−1),t_i]`. Prove u_n is the orthogonal
+   L² projection of u onto the grid-step functions, `‖u_n‖₂²=Σ_i a_i²/Δ_i`,
+   `‖u_n‖₂²↑‖u‖₂²` and u_n→u in L². This uses interval averages of u;
+   no pointwise derivative tags or mean-value theorem for an a.e. derivative are needed.
+
+   On based Wiener space define `G_n=σ(B(t_i):0≤i≤2^n)` and
+   `I_n=Σ_i(a_i/Δ_i)(B(t_i)−B(t_(i−1)))`,
+   `D_n=exp(I_n−½‖u_n‖₂²)`. From the independent Gaussian increment law prove
+   the exact translated finite-grid density D_n for the map B↦B+h. In particular,
+   for bounded Borel F depending only on this grid,
+   `E[F(B+h)]=E[F(B)D_n]`. Prove the analogous product-Gaussian formula for
+   arbitrary finite grids with positive interval lengths. The small-cylinder ratios
+   of the handwritten solution are a finite-dimensional calculation, not a theorem
+   identifying the density by shrinking events to individual Wiener paths.
+
+   Construct the jointly Gaussian deterministic Wiener-integral adapter from S3's
+   isometry and finite step approximations. For `I=∫u dB`, prove I−I_n is independent
+   of G_n, centered Gaussian with variance `‖u‖₂²−‖u_n‖₂²`: its covariance with
+   each grid coordinate vanishes by the projection property. For
+   `D=exp(I−½‖u‖₂²)` deduce `E[D|G_n]=D_n`, hence the nonnegative
+   likelihood martingale and its mean1 normalization. Prove, for every real p,
+   `E[D_n^p]=exp(p(p−1)‖u_n‖₂²/2)` and
+   `E[D^p]=exp(p(p−1)‖u‖₂²/2)`, with integrability of these positive real powers.
+   For p>1 this gives uniform Lᵖ bounds. Establish the exact error
+   `E[(D−D_n)²]=exp(‖u‖₂²)−exp(‖u_n‖₂²)`, and convergence almost surely and
+   in every Lᵖ, 1≤p<∞, using conditional-expectation convergence and the higher
+   moment bounds. All projections and conditional expectations retain their actual
+   L² or L¹ carriers; finite-grid likelihoods are not pathwise Brownian derivatives.
+
+   Since the nested grids generate the based path-space Borel σ-algebra, extend
+   the finite-grid identity to bounded Borel functionals and then nonnegative
+   measurable ones by a monotone-class argument. Obtain the positive-sign pushforward
+   density D and the inverse-shift density with u replaced by −u, proving equivalence
+   from strict positivity. This constructs S8.2's Wiener density without assuming it
+   in the conditional-expectation step. At T=0 both laws are the point mass at the
+   zero path and the density is1. [CameronMartinGridTargets.lean](CameronMartinGridTargets.lean)
+   records the finite independent-Gaussian density and moment signatures.
+
+   The source's stronger
    derivative-BV case gets a pathwise Stieltjes integral, Abel-sum uniform bounds on bounded
    path sets, continuous-functional translation, generating-cylinder/null-set extension and
    RN uniqueness. Connect this proof to S8.2, including Gaussian linear-functional MGF/entire
