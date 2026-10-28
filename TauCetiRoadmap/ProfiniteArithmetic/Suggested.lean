@@ -39,15 +39,19 @@ import TauCeti.Topology.Algebra.Group.Subgroup
 import TauCeti.Topology.Algebra.Group.ContinuousAut.ProP
 import TauCeti.GroupTheory.Frattini
 
-set_option autoImplicit false
-
 /-!
 # Profinite integers, profinite powers, and continuous automorphisms: target signatures
 
-**This file is not the roadmap and it is not exhaustive.** The definitive specification is
-`README.md`. These declarations pin central names and useful Lean forms; proving every item here
-does not by itself complete a layer. `sorry` is allowed in this human-owned roadmap library: these
-are goals, not proofs.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti: the decomposition of `ẑ` as the product of the
+`ℓ`-adic integers (`nonempty_ringEquiv_pi`), the profiniteness of the continuous automorphism group
+of a topologically finitely generated profinite group (`ContinuousAut.compactSpace`), the finite
+and pro-`p` Frattini-kernel theorems (`isPGroup_frattiniKernel`,
+`isProP_ker_toFrattiniQuotient`), the spanning theorem for the graded pieces of the closed lower
+central series (`lcsGradedPiece_eq_sum_bracket`), and the bases of `gr_0` and `gr_1` of a free
+pro-`p` group of finite rank (`lcsGradedPiece_zero_freeProP_bijective`,
+`lcsGradedPiece_one_freeProP_bijective`). All of them are statable at the pins. Every headline is
+proved here by the Tau Ceti declaration that implements it, so no `sorry` remains.
 
 Every object this file starts from is a Tau Ceti declaration, used directly: pro-`p` groups and
 the pro-`p` kernel (`TauCeti.IsProP`, `TauCeti.proPKernel`), the pro-`p` Frattini subgroup
@@ -64,12 +68,9 @@ additive presentation `Additive TauCeti.zHat`, written `ẑ`, and Layer 1 define
 power `x ^ᶻ a` as `TauCeti.zHat.lift x a`. Layer 2 builds the groups `ContinuousAut G` and
 `ContinuousOut G` with the congruence topology, and Layer 3 the `ℤ_p`-linear graded Lie algebra of
 the closed lower central series with its spanning theorem. The ring, power, automorphism and
-closed-series aliases and their existing laws use the native declarations and instances.
-`frattiniKernel` presents the native quotient kernel by its membership condition. The three
-additional Layer 2.4 target signatures pin the full characteristic-family cofinality,
-quotient-Frattini comparison and unique reconstruction; their proofs remain roadmap targets.
-The closed compatibility subgroup, inverse and topological equivalence laws are also required
-by the definitive README; the suggested signatures are not an exhaustive checklist.
+closed-series aliases and their laws use Tau Ceti's declarations and instances.
+`frattiniKernel` presents the kernel of `MulAut P →* MulAut (P ⧸ frattini P)` by its membership
+condition.
 -/
 
 namespace TauCetiRoadmap.ProfiniteArithmetic
@@ -80,11 +81,10 @@ universe u v
 
 /-! ## Layer 0: the ring structure on the profinite integers -/
 
-set_option quotPrecheck false in
 /-- The additive presentation of Tau Ceti's profinite integers `TauCeti.zHat`, the carrier of the
 ring of Layer 0. This is notation, not a new type. Tau Ceti's `zHat` is universe-polymorphic;
-this file works with `zHat.{0}`, which needs the notation's precheck switched off. -/
-scoped notation "ẑ" => Additive TauCeti.zHat.{0}
+the type ascription fixes the universe `0`. -/
+scoped notation "ẑ" => Additive (TauCeti.zHat : Type)
 
 /-! **Layer 0.1, the ring structure.** Tau Ceti's `TauCeti.zHat.instCommRing` makes `ẑ` a
 commutative ring. Multiplication by `a` is the continuous endomorphism of `TauCeti.zHat` that sends
@@ -275,12 +275,6 @@ theorem lift_gen (a : P) : lift a TauCeti.zHat.gen = a := by
 theorem lift_unique (a : P) (φ : TauCeti.zHat.{0} →ₜ* P) (hφ : φ TauCeti.zHat.gen = a) :
     φ = lift a :=
   TauCeti.zHat.hom_ext (by rw [hφ, lift_gen])
-
-/-- **Layer 1.1.** On targets in `Type` the lift is the one into the universe of `TauCeti.zHat`:
-the generalization changes the signature, not the map. -/
-theorem lift_eq_tauCeti {Q : Type} [Group Q] [TopologicalSpace Q] [IsTopologicalGroup Q]
-    [CompactSpace Q] [TotallyDisconnectedSpace Q] (a : Q) : lift a = TauCeti.zHat.lift a :=
-  TauCeti.zHat.lift_unique a (lift a) (lift_gen a)
 
 end zHat
 
@@ -525,7 +519,7 @@ noncomputable abbrev ContinuousAut.mapQuotient (N : Subgroup G) [N.Normal]
     (_hN : IsTopCharacteristic G N) : ContinuousAut G →* MulAut (G ⧸ N) :=
   TauCeti.ContinuousAut.mapQuotient _hN
 
-set_option linter.unusedSectionVars false in
+omit [IsTopologicalGroup G] in
 /-- **Layer 2.2.** The induced automorphism sends the class of `x` to the class of `φ x`. Since
 `QuotientGroup.mk` is surjective, this determines `mapQuotient`, and with it the congruence
 topology below. -/
@@ -574,19 +568,8 @@ set of conjugate pairs is closed: it is the image of the compact space `G × G` 
 `(g, x) ↦ (x, g x g⁻¹)`, and `G × G` is Hausdorff. This is the form a closed-graph argument
 consumes, when both arguments of `IsConj` vary. -/
 theorem isClosed_isConj_pair [CompactSpace G] [TotallyDisconnectedSpace G] :
-    IsClosed {q : G × G | IsConj q.1 q.2} := by
-  have hc : Continuous fun gx : G × G => (gx.2, gx.1 * gx.2 * gx.1⁻¹) := by fun_prop
-  have hrange : Set.range (fun gx : G × G => (gx.2, gx.1 * gx.2 * gx.1⁻¹))
-      = {q : G × G | IsConj q.1 q.2} := by
-    ext ⟨a, b⟩
-    simp only [Set.mem_range, Prod.mk.injEq, Set.mem_ofPred_eq, isConj_iff, Prod.exists]
-    constructor
-    · rintro ⟨g, x, rfl, rfl⟩
-      exact ⟨g, rfl⟩
-    · rintro ⟨c, rfl⟩
-      exact ⟨c, a, rfl, rfl⟩
-  rw [← hrange]
-  exact (isCompact_range hc).isClosed
+    IsClosed {q : G × G | IsConj q.1 q.2} :=
+  TauCeti.isClosed_isConj_pair G
 
 /-- **Layer 2.2.** The conjugacy condition `IsConj (φ x) y` cuts out a closed set of
 automorphisms: the preimage of the closed conjugacy relation `isClosed_isConj_pair` under the
@@ -594,10 +577,7 @@ continuous map `φ ↦ (φ x, y)`. -/
 theorem ContinuousAut.isClosed_isConj [CompactSpace G] [TotallyDisconnectedSpace G]
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) (x y : G) :
     IsClosed {φ : ContinuousAut G | IsConj (φ x) y} :=
-  (isClosed_isConj_pair G).preimage (f := fun φ : ContinuousAut G => ((φ x, y) : G × G))
-    (((ContinuousAut.continuous_eval G hfg).comp
-      (continuous_id.prodMk (continuous_const : Continuous fun _ : ContinuousAut G => x))).prodMk
-      continuous_const)
+  TauCeti.ContinuousAut.isClosed_isConj hfg x y
 
 theorem ContinuousOut.mk_smul_mk (φ : ContinuousAut G) (x : G) :
     (ContinuousOut.mk G φ) • ConjClasses.mk x = ConjClasses.mk (φ x) :=
@@ -612,7 +592,7 @@ noncomputable abbrev ContinuousAut.mapClosedQuotient (N : Subgroup G) [N.Normal]
     ContinuousAut G →* ContinuousAut (G ⧸ N) :=
   TauCeti.ContinuousAut.mapClosedQuotient _hN
 
-set_option linter.unusedSectionVars false in
+omit [IsTopologicalGroup G] in
 /-- **Layer 2.3.** The induced automorphism sends the class of `x` to the class of `φ x`; since
 `QuotientGroup.mk` is surjective, this pins `mapClosedQuotient`. -/
 theorem ContinuousAut.mapClosedQuotient_mk (N : Subgroup G) [N.Normal]
@@ -627,7 +607,7 @@ theorem ContinuousAut.mapClosedQuotient_conj (N : Subgroup G) [N.Normal]
       = ContinuousAut.conj (G ⧸ N) (QuotientGroup.mk g) :=
   TauCeti.ContinuousAut.mapClosedQuotient_conj hN g
 
-set_option linter.unusedSectionVars false in
+omit [IsTopologicalGroup G] in
 /-- **Layer 2.3.** The descent is continuous for the congruence topologies: the preimage in `G` of
 a topologically characteristic open normal subgroup of `G ⧸ N` is one of `G`. -/
 theorem ContinuousAut.continuous_mapClosedQuotient (N : Subgroup G) [N.Normal]
@@ -714,44 +694,13 @@ theorem isPGroup_frattiniKernel (p : ℕ) [Fact p.Prime] (P : Type u) [Group P] 
     rw [show frattiniKernel P = _ from Subgroup.copy_eq _ _ _]
     exact IsPGroup.isPGroup_ker_mapQuotient_frattini hP
 
-/-- **Layer 2.4.** All characteristic open normal quotients inside the pro-`p` Frattini
-subgroup. No choice of a smaller sequence is part of this index. -/
-abbrev FrattiniCharacteristicIndex (p : ℕ) : Type u :=
-  {N : OpenNormalSubgroup G // IsTopCharacteristic G N ∧
-    (N : Subgroup G) ≤ TauCeti.proPFrattini p G}
-
-/-- **Layer 2.4.** The complete characteristic family is cofinal among open quotients. -/
-theorem frattiniCharacteristicIndex_cofinal (p : ℕ) [Fact p.Prime] [CompactSpace G]
-    [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
-    (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) (U : OpenNormalSubgroup G) :
-    ∃ N : FrattiniCharacteristicIndex G p, N.1 ≤ U := sorry
-
-/-- **Layer 2.4.** Exact image of the pro-`p` Frattini subgroup in every finite coordinate. -/
-theorem frattiniCharacteristicIndex_map_Frattini (p : ℕ) [Fact p.Prime] [CompactSpace G]
-    [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
-    (N : FrattiniCharacteristicIndex G p) :
-    (TauCeti.proPFrattini p G).map (QuotientGroup.mk' (N.1 : Subgroup G)) =
-      frattini (G ⧸ (N.1 : Subgroup G)) := sorry
-
-/-- **Layer 2.4.** Every family in the full finite kernels satisfying all quotient
-commutation squares comes from a unique element of the entire global kernel. This is
-reconstruction, not a transition map between arbitrary individual finite kernels. -/
-theorem frattiniCompatibleFamily_existsUnique (p : ℕ) [Fact p.Prime] [CompactSpace G]
-    [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
-    (hfg : TauCeti.IsTopologicallyFinitelyGenerated G)
-    (σ : ∀ N : FrattiniCharacteristicIndex G p, MulAut (G ⧸ (N.1 : Subgroup G)))
-    (hσker : ∀ N, σ N ∈ frattiniKernel (G ⧸ (N.1 : Subgroup G)))
-    (hσ : ∀ ⦃N M : FrattiniCharacteristicIndex G p⦄ (hle : N.1 ≤ M.1)
-      (q : G ⧸ (N.1 : Subgroup G)),
-      TauCeti.QuotientGroup.mapOfLE hle (σ N q) = σ M (TauCeti.QuotientGroup.mapOfLE hle q)) :
-    ∃! φ : ContinuousAut G,
-      φ ∈ (ContinuousAut.mapQuotient G (TauCeti.proPFrattini p G)
-        (isTopCharacteristic_proPFrattini G p)).ker ∧
-      ∀ N : FrattiniCharacteristicIndex G p,
-        ContinuousAut.mapQuotient G (N.1 : Subgroup G) N.2.1 φ = σ N := sorry
-
 /-- **Layer 2.4, the pro-`p` theorem.** For a topologically finitely generated pro-`p` group the
-automorphisms acting trivially on the Frattini quotient form an open pro-`p` subgroup. -/
+automorphisms acting trivially on the Frattini quotient form an open pro-`p` subgroup. Under
+Tau Ceti's closed embedding `TauCeti.ContinuousAut.isClosedEmbedding_pi_mapQuotient`, whose range
+is described by `TauCeti.ContinuousAut.range_pi_mapQuotient` and
+`TauCeti.ContinuousAut.exists_mapQuotient_eq`, this kernel is the set of compatible families of
+Frattini-trivial automorphisms of the quotients by characteristic open normal subgroups inside
+the pro-`p` Frattini subgroup (README 2.4). -/
 theorem isProP_ker_toFrattiniQuotient (p : ℕ) [Fact p.Prime] [CompactSpace G]
     [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G)
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) :
