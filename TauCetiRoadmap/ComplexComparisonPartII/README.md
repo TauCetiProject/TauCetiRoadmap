@@ -136,8 +136,8 @@ The analytic ownership and stage order are:
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C−1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
 | Algebraic strict-SNC compactifications and labelled étale coordinates | ResolutionOfSingularitiesCharacteristicZero §§1.3, 6.2, 6.4 / `sncBoundary`, `sncCompactification`, `sncCoordinates` | The prescribed smooth quasi-projective open is unchanged in a smooth projective compactification with globally smooth labelled boundary components and local equation `t₁⋯t_b=0`; C−1.4 supplies `analyticPolydisc`, `sncPolydiscChart` and `snc_exists_polydiscChart` by analytification and the analytic inverse-function theorem |
 | Scheme analytification and its algebraic-to-holomorphic prefix | ComplexComparisonPartII C−1.1, C0.4 and C5.1–C5.2 | FormalConnectionsOpers F2.4 uses the same complex points, ring sheaf, open restrictions, fibre products, smooth charts and étale local isomorphisms. F2.4 retains fixed-model maximal atlases, second countability, tangent/derivation, toric, group and gauge comparisons; these use the prefix without proper GAGA |
-| Ordinary algebraic differential operators and all-order principal parts | ComplexComparisonPartII C5.1 | C5.1 owns the characteristic-free commutator, order, localization and principal-parts targets and their analytic comparison. FormalConnectionsOpers F2.2 and F2.4 consume them; Lie–Rinehart PBW, which assumes projectivity, is not part of this interface |
-| Fixed-rank bundle–sheaf equivalence, holomorphic connections and absolute flat correspondence | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules` | C0.3 assembles clopen rank strata; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers and absolute unit, evaluation and monodromy maps, and adds all horizontal morphisms and holomorphic parameters |
+| Ordinary algebraic differential operators and all-order principal parts | ComplexComparisonPartII C5.1 | C5.1 states the characteristic-free order predicate, commutator/order laws, localization and all-order principal parts with their universal property, and owns their analytic comparison. FormalConnectionsOpers F2.2 states the same order predicate, principal-parts quotient, universal jet and universal property with the same definitions; they form one interface with one implementation, not two constructions. The stage order is: the algebraic interface (no analytification or GAGA) → C5.1's `DifferentialOperatorAnalytification` → FormalConnectionsOpers F2.4's connection applications. F2.2 retains symbols, Atiyah sequences and Lie–Rinehart PBW, which assumes projectivity |
+| Bundle–sheaf equivalence at fixed and componentwise varying rank, holomorphic connections and the absolute flat category equivalences | ComplexKahlerGeometry K4 on native Mathlib bundles and `SheafOfModules`, including K4.ComponentwiseFiniteRankAssembly (all connection-preserving maps, rank zero, the empty base and unbounded ranks across components) | C0.3 identifies K4's componentwise assembly with the finite locally free subcategory of `CoherentAnalyticModule`, comparing its clopen rank-stratum presentation with K4's componentwise one on the same section sheaf; C1.3 fixes Chern curvature conventions; C5.2's `holomorphicConnectionDictionary` identifies the analytic connection carriers with K4's and transports the algebraic connection operations; `analyticFlatConnectionLocalSystem` adds holomorphic parameters and specializes over a point to K4's full category equivalence |
 | Bundle test sections and distributions | ComplexKahlerGeometry K5a's `BundleTest` and `BundleDistribution` | C5.4 transports these through the complex orientation and exterior wedge pairing; its bidegrees, positive cones, mass and complex-current extension theory use that same substrate |
 | Local analytic-set mass and L¹ integration | ComplexKahlerGeometry K6.1's chart-local Lelong estimates and K5a's L¹ integration comparison | C5.4's `analyticSetLocalFiniteMass` globalizes the supplied estimates to pure-dimensional analytic subsets in arbitrary manifolds, without compactness or a Kähler hypothesis, and compares metrics and restrictions; C5.4 glues the general cycle current and proves closedness. `AnalyticCycleIntegration.compactKaehler` identifies its compact specialization with K6.1's real de Rham functional, with the same orientation and multiplicities |
 | Real dimension-graded currents and complex degree-graded currents | GeometricCurrents G1's real carrier and boundary; C5.4's `realComplexCurrentComparison` | K5a owns the general LF bundle-test/distribution foundation. C5.4 identifies G1's tests with its real exterior-dual/density specialization without an ambient orientation, and supplies complex extension with the grading sign. GeometricCurrents retains rectifiability, integral subgroups and minimizing-current geometry; C5.4 retains complex type, positivity, analytic cycles and comparison applications |
@@ -254,7 +254,7 @@ roadmaps; they do not impose a strict merge order on whole roadmap specification
   geometry belong to GeometricCurrents.
 - *ComplexManifolds, Milestones 1 and 7.1–7.3.* Functorial realification and native
   holomorphic cocycle gluing underlie ComplexKahlerGeometry K4. C0.3 consumes K4's
-  fixed-rank equivalence; C5.2 specializes realification to holomorphic submersions and
+  fixed-rank equivalence and K4.ComponentwiseFiniteRankAssembly; C5.2 specializes realification to holomorphic submersions and
   analytification.
 - *CharacteristicClasses, C1.2b, `cechSingularCWTypeComparison`'s locally acyclic
   singular-cochain sheaf resolution.* The shared constant-coefficient small-chain sheaf
@@ -826,7 +826,7 @@ The API gives `SpaceAnalytification.chart`: The analytic chart is étale and sur
 
 Prove `analytification_descent`. For locally separated complex algebraic spaces locally of finite type, the quotient analytification is independent up to unique canonical isomorphism of the chosen étale presentation. It is functorial in morphisms and compatible with fibre products whenever the terms are analytifiable. The scheme comparison respects these identifications; complex étale morphisms yield local analytic isomorphisms.
 
-([Brian Conrad and Michael Temkin](https://math.stanford.edu/~conrad/papers/analgpaper.pdf), Theorem 2.2.3, pp. 7–8; §2.3, pp. 11–13 (Theorem 2.3.1 and Example 2.3.2)).
+(Complex scope: D. Knutson, *Algebraic Spaces*, Ch. I, 5.17 ff., as summarized in [Brian Conrad and Michael Temkin](https://math.stanford.edu/~conrad/papers/analgpaper.pdf), Introduction §1.1, p. 1. Their Theorem 2.2.3, pp. 7–8, and §2.3, pp. 11–13 (Theorem 2.3.1 and Example 2.3.2), are the nonarchimedean analogue of the quotient-independence and functoriality argument; over a nonarchimedean field local separatedness does not suffice for existence, so those results are cited for the shape of the argument only.)
 
 For the proof, use the common refinement of two étale presentations and the quotient universal property; then lift morphisms on refinements and descend them; uniqueness gives identity and composition; then apply the scheme fibre-product theorem to charts and descend the resulting comparison.
 
@@ -993,7 +993,7 @@ RealAnalyticGeometry R3.2 item 0 (coherent ideals and quotient presentations); �
 ### C0.3 Holomorphic vector bundles and locally free modules
 
 Prove `holomorphicBundleDictionary` as the identification of ComplexKahlerGeometry K4's
-native fixed-rank bundle–sheaf equivalence with the finite locally free subcategory of
+native bundle–sheaf equivalences, at fixed rank and componentwise varying rank, with the finite locally free subcategory of
 `CoherentAnalyticModule M`. Here `M` is a finite-dimensional complex manifold, with
 `IsManifold 𝓘(ℂ, EM) ω M`, viewed as an analytic space via its zero-ideal charts.
 The ring-sheaf isomorphism of C−1.1 and C0.1's open/module transports identify K4's
@@ -1002,25 +1002,29 @@ For each `r : ℕ`, the supplied equivalence uses native `VectorBundle ℂ` with
 `Fin r → ℂ` and holomorphic transitions and AlgebraicVectorBundles L0B's
 `isFiniteLocallyFreeOfRank` predicate. Identify its unit, counit, morphism and pullback
 maps after the ring-sheaf transport. For arbitrary locally constant finite
-rank, the bundle carrier consists of a locally constant function `ρ : M → ℕ` and a bundle
-with model fibre `Fin r → ℂ` on each clopen stratum `M_r = {x | ρ x = r}`. A morphism between
-two such objects is a holomorphic bundle map on each intersection of their rank strata;
-source and target ranks may differ. Glue their section sheaves on this disjoint open cover.
-Conversely the local ranks of a finite locally free sheaf define `ρ`, and the fixed-rank
-dictionary on each `M_r` gives the inverse. This yields the full finite locally free category,
-including objects whose ranks differ between components; no global bound on `ρ` or
-connectedness assumption is required. Tensor products use the common rank-stratum refinement
+rank, K4.ComponentwiseFiniteRankAssembly supplies the varying-rank equivalence between
+componentwise native holomorphic bundles, with rank function `r : ConnectedComponents M → ℕ`
+and all holomorphic fibrewise linear maps, and locally free `O_M`-modules of locally constant
+finite rank, through the section sheaf on the open component cover. This section uses the
+rank-stratum presentation: a locally constant `ρ : M → ℕ` and a bundle with model fibre
+`Fin r → ℂ` on each clopen stratum `M_r = {x | ρ x = r}`, a morphism being a holomorphic
+bundle map on each intersection of rank strata (source and target ranks may differ). Each
+`M_r` is a union of components, so restricting to components with `r C = ρ` on `C` gives an
+equivalence of the stratum presentation with K4's componentwise category; prove that it
+preserves section sheaves, so that composing with K4's assembly identifies the full finite locally
+free category, with no global bound on `ρ` or connectedness assumption, with the finite
+locally free subcategory of `CoherentAnalyticModule M` after the ring-sheaf transport. Tensor products use the common rank-stratum refinement
 and pointwise product of ranks; duals preserve ranks, exterior powers use binomial ranks,
 determinants have rank one, and pullback uses `ρ ∘ f`. Compare determinants on fixed-rank
 subcategories and on the core of all objects, as in AlgebraicVectorBundles L0C. Prove that these operations correspond
-to the module operations of AlgebraicVectorBundles. Use K4's section/reconstruction equivalence on each rank stratum; its naturality supplies
-the unit and counit without constructing another section functor or gluing another bundle.
-The additional gluing is only the disjoint union of the rank strata, with the operation
-comparisons just stated (Demailly, II.3.1–3.6, pp. 83–86).
+to the module operations of AlgebraicVectorBundles. K4's section/reconstruction equivalence and componentwise assembly supply the unit and
+counit; this section constructs no other section functor or bundle gluing, and adds only the
+stratum/component comparison and the operation comparisons just stated (Demailly, II.3.1–3.6,
+pp. 83–86).
 *Needs:* `coherentOperations`; RealAnalyticGeometry R3.2 item 0's coherence and
 finite-presentation comparison; C−1.1's native ring-sheaf comparison;
-ComplexKahlerGeometry K4 (fixed-rank section/reconstruction equivalence);
-AlgebraicVectorBundles L0B–L0C (finite local freeness and operations).
+ComplexKahlerGeometry K4 (fixed-rank section/reconstruction equivalence and
+K4.ComponentwiseFiniteRankAssembly); AlgebraicVectorBundles L0B–L0C (finite local freeness and operations).
 
 **Checks.**
 
@@ -1033,6 +1037,9 @@ AlgebraicVectorBundles L0B–L0C (finite local freeness and operations).
 - On `M = ℂ ⊔ ℂ`, glue rank one on the first component and rank two on the second to obtain
   `O ⊔ O²`. No single fixed-model-fibre bundle on all of `M` represents this object; the
   clopen-stratum carrier does, and its second exterior power has ranks `(0,1)`.
+- On `M = ℂ ⊔ ℂ` with rank one on both components, the stratum `M_1` is all of `M` while
+  K4's componentwise object has rank function `(1,1)`; the stratum/component comparison
+  sends the single stratum bundle to its two restrictions, with the same section sheaf `O_M`.
 
 ### C0.4 Coherent analytification
 
@@ -2381,9 +2388,12 @@ holomorphy (Deligne 1970, I.2.19 and I.2.23 (ii) with 2.23.2–2.23.3, printed p
 homotopy integrates power series term by term). *Needs:* `HolomorphicDeRham`.
 
 **Shared algebraic operators and principal parts — `IsDifferentialOperator`.**
-This roadmap owns the ordinary algebraic foundation. For arbitrary commutative
+This is the ordinary algebraic foundation; FormalConnectionsOpers F2.2 states the same
+predicate and principal-parts universal property, and the two denote one interface.
+It uses no analytification or GAGA, so it precedes the analytic adapter below and
+F2.4's connection applications. For arbitrary commutative
 `k`, a commutative `k`-algebra `A`, arbitrary `A`-modules `M`, `N` and a `k`-linear map
-`D : M → N`, `IsDifferentialOperator k m D` means order at most `m`: order zero is
+`D : M → N`, `IsDifferentialOperator k A m D` means order at most `m`: order zero is
 `A`-linearity, and order at most `m+1` means every commutator
 `commutatorWith k a D = D ∘ (a·) − a·D` has order at most `m`.
 Prove additivity in `D` and `a`, the commuting criterion, the order-zero equivalence,
@@ -2648,9 +2658,11 @@ groupoid equivalence: tensor symmetry identifies `O_M ⊗_ℂ V` with K4's `V �
 `d ⊗ 1` with `1 ⊗ d` followed by the forms-first symmetry, the unit `v ↦ 1 ⊗ v`
 with `v ↦ v ⊗ 1`, and evaluation with K4's `v ⊗ a ↦ av`. The stalk comparison sends
 a horizontal germ to its value, and horizontal transport is K4's source-to-target transport
-`T_γ`; in a frame `e` its monodromy is `e⁻¹T_γe`. Prove these map identities and extend
-the absolute correspondence to all horizontal morphisms; the relative construction retains
-holomorphic parameters and uses that same specialization.
+`T_γ`; in a frame `e` its monodromy is `e⁻¹T_γe`. Prove these map identities. Over a point,
+the full category equivalence, with all horizontal morphisms, rank zero, the empty base and
+unbounded ranks across components, is K4.ComponentwiseFiniteRankAssembly's flat holomorphic
+equivalence; prove that the specialization of the relative functors agrees with it under these
+identifications. The relative construction adds the holomorphic parameters.
 
 Construct the local horizontal frames with holomorphic parameters: for a holomorphic matrix
 `A(z,t)` and holomorphic initial matrix `G₀(t)`, solve `∂G/∂z = −A(z,t)G`,
@@ -2662,7 +2674,7 @@ multiplication in a free module; horizontal morphisms have coefficients pulled b
 which proves the functorial assertions (Deligne 1970, I.2.22–2.23(iii) and proof, printed
 pp. 14–19, especially the Cauchy problem with parameters and induction on pp. 17–18).
 *Needs:* `holomorphicConnectionDictionary`; `HolomorphicDeRham`; ComplexKahlerGeometry K4's
-absolute flat correspondence and sheaf/stalk/monodromy comparison; CrystallineCohomology CR.1's
+absolute flat correspondence, K4.ComponentwiseFiniteRankAssembly and sheaf/stalk/monodromy comparison; CrystallineCohomology CR.1's
 shared connection operations and their holomorphic/relative sheafification above.
 
 **Checks.**
@@ -4469,6 +4481,10 @@ an instance of the named targets, not a separate theorem.
 - A. Grothendieck and M. Raynaud, *Revêtements étales et groupe fondamental (SGA 1)*, Exposé XII,
   *Géométrie algébrique et géométrie analytique*, revised edition arXiv:math/0206203v2, printed page
   numbers of that edition.
+- D. Knutson, *Algebraic Spaces*, Lecture Notes in Math. 203, Springer 1971, Ch. I, 5.17 ff.
+- B. Conrad and M. Temkin, *Non-archimedean analytification of algebraic spaces*, author's version
+  (<https://math.stanford.edu/~conrad/papers/analgpaper.pdf>); cited for its Introduction and as a
+  nonarchimedean analogue.
 - M. Artin, A. Grothendieck and J.-L. Verdier, *Théorie des topos et cohomologie étale des
   schémas (SGA 4)*, Exposés XI, XII, XVI and XVII; P. Deligne, *Cohomologie étale (SGA 4½)*,
   *Théorèmes de finitude*, §§1–2.
