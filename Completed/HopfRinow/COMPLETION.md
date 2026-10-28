@@ -2,19 +2,21 @@
 
 This inventory checks the full approved README, including the nondegenerate supplier and both
 worked examples. It is a completion candidate, not a declaration that the pending source has
-merged. The baseline inspected is Tau Ceti `9d7da548c2842877e670193e66d609d127d66129`; three
-existing implementation PRs finish the remaining Layer 1 interfaces:
+merged. The baseline replayed is actual Tau Ceti main
+[`f5604a970624`](https://github.com/TauCetiProject/TauCeti/commit/f5604a97062487140a029c405f32d8f199f2316b).
+The Layer 1 source prerequisites are:
 
 - [#18707](https://github.com/TauCetiProject/TauCeti/pull/18707): joint smoothness of the actual
   Levi–Civita connection coefficients of a bundled metric family, with its coordinate API.
 - [#19453](https://github.com/TauCetiProject/TauCeti/pull/19453): nondegenerate metric restriction,
   local-isometry comparison and agreement of the restricted connections on ambient fields.
+  This supplier is verified on the baseline main revision above.
 - [#21067](https://github.com/TauCetiProject/TauCeti/pull/21067): intrinsic metric variation and the
   connection-variation formula along any smooth parameter curve.
 
 All three PRs target main separately. The joint connection-family regularity in #18707 must
 merge before the next variation stage in #21067. All must finish normal review and CI before this
-archive is marked ready. Their refinements are tracked in the PR discussions.
+archive is marked ready. #19453 has fulfilled that gate; #18707 and #21067 remain outstanding.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
 `b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
@@ -22,9 +24,12 @@ all chart domains, including corner-boundary points, and the inverse-matrix inde
 `fderivWithin` on the actual chart target. It reuses main’s native joint covariant-derivative regularity, finite-dimensional coefficient
 smoothness and inverse coordinate metrics. Independent probes take both parameter and base to be
 `EuclideanHalfSpace 1` and prove that the base origin is outside the model interior. Both the native
-coefficient theorem and the native index formula apply there. The ordinary unrestricted-derivative
+coefficient theorem and the native index formula apply there. A separate acceptance probe takes
+both factors to `EuclideanQuadrant 2` and checks the same native endpoints at the codimension-two
+corner origin, again proving non-interiority. The ordinary unrestricted-derivative
 formulas remain the distinct interior corollaries. This closes the previously recorded boundary
-obligation mathematically; normal current-head review, genuine CI and merging are still required.
+obligation mathematically. All ten current-head review rubrics and genuine CI pass for this
+exact #18707 head; its ordinary merge and the dependent #21067 work remain required.
 
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
@@ -49,13 +54,16 @@ Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise 
 | Flat-space acceptance, including dimension zero | `Riemannian/Geodesic/Euclidean.lean` explicitly computes the affine geodesic, maximal interval, exponential domain/map/derivative, normal balls and logarithm. Its model-space hypotheses do not require the space to be nontrivial. |
 | Open-unit-ball rejection test | `Riemannian/Geodesic/Examples/OpenUnitBall.lean` computes the finite-time boundary behavior and radial minimizing segments. The associated `RealOpenUnitBall` API proves non-completeness/non-compactness, so the existence of minimizing segments does not imply properness. |
 
-The full corner-family/index implementation and its variation, curvature-jet and Hopf–Rinow
-consumers built together in 6,763 Lake jobs after rebasing onto canonical main. All fourteen
-trusted environment linters pass on 156 declarations plus 155 generated declarations. The ten probed derivative, coefficient and
-index endpoints have only `propext`, `Classical.choice` and `Quot.sound`. The restricted-metric and connection comparisons built in 5,907 jobs and have the
-same axiom profile. The intrinsic curve-variation comparison also passed its endpoint probes.
-Later review refinements receive their own fresh builds. This is a source/API and key-proof
-audit, not an independent replay of every transitive proof.
+A fresh build of all 192 already-merged inventory modules passes in 8,411 Lake jobs on the
+baseline above. Its 25 key axiom reports contain only `propext`, `Classical.choice` and
+`Quot.sound`. The flat-space acceptance specializes the native APIs to dimension zero, and the
+open-unit-ball probe checks actual minimizing segments together with failure of completeness,
+properness and compactness of the specified closed ball. The boundary and corner probes compile
+with warnings treated as errors at the exact #18707 head above. #21067 still requires its
+post-prerequisite rebase, build, current-head review and genuine CI; prepared probes do not
+certify those future results. The full 197-module catalog and native acceptance probes must
+pass again on actual main containing both remaining prerequisites. This is a source/API and
+key-proof audit, not an independent replay of every transitive proof.
 
 The archived historical prototype continues to elaborate at the unchanged roadmap dependency
 pin. It does not import these newer implementation modules or certify their presence at that

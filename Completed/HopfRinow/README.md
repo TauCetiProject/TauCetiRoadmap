@@ -1,8 +1,9 @@
 # Roadmap: geodesics, the exponential map, and the Hopf–Rinow theorem
 
 **Archive candidate.** The complete specification is audited in [COMPLETION.md](COMPLETION.md).
-The archive PR remains a draft until its three implementation prerequisites have merged and their
-normal build/review gates have passed. The historical Suggested.lean is a nonexhaustive interface
+The restriction supplier (#19453) is verified on actual main. The archive PR remains a draft
+until #18707 and then #21067 have merged through their normal build/review gates and the full
+native inventory has been replayed on actual main. The historical Suggested.lean is a nonexhaustive interface
 prototype at the repository pin; its admitted interfaces are not a proof certificate.
 
 Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundle`,
