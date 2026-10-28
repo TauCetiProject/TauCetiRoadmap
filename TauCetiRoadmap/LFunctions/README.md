@@ -4,7 +4,7 @@ This roadmap develops the analytic theory of the principal L-functions attached 
 fields. It starts with a normalization-conscious record for completed L-functions, specializes
 lattice Poisson summation to the mixed embedding and proves the theta identities used in Hecke's
 method, constructs the continued Dedekind zeta and Hecke L-functions, and packages conductors,
-root numbers, and Grossencharacters.
+root numbers, and the L-functions of algebraic Hecke characters (Weil's type `A₀`).
 
 Three neighbouring roadmaps deliberately own the reusable substrate. Arithmetic Dirichlet Series
 owns ideal weights, norm regrouping, Euler products, density, summation, and Tauberian methods.
@@ -17,8 +17,8 @@ to them; of the theta material it owns the number-field specialization and nothi
 
 Suggested home: `TauCeti/NumberTheory/LFunctions/`, divided into `Data/`, `Theta/`,
 `DedekindZeta/`, `Dirichlet/`, `Hecke/`, and `Grossencharacter/`.
-[`Suggested.lean`](Suggested.lean) pins the most important declaration shapes; it is not an
-exhaustive checklist. Dated provenance records are maintained privately and are non-normative.
+[`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries; it is
+not the roadmap.
 
 ## Scope and ownership
 
@@ -39,9 +39,11 @@ exhaustive checklist. Dated provenance records are maintained privately and are 
 - partial zeta functions and the continuation, residue, and functional equation of Dedekind zeta;
 - special values and exact quadratic and cyclotomic factorizations;
 - Dirichlet L-function cards extending Mathlib's continued functions;
-- finite-order ray-class Hecke L-functions and general Grossencharacter L-functions;
-- the primitive-character carrier, primitive conductors and their universal property, Gauss sums,
-  root numbers, continuations, and functional equations;
+- finite-order ray-class Hecke L-functions and the L-functions of algebraic Hecke characters
+  (Weil's type `A₀`, the Grossencharacters with integral infinity type);
+- the bundled primitive-character carrier over the supplier's conductor, the conductor of an
+  algebraic Hecke character presentation, Gauss sums, root numbers, continuations, and functional
+  equations;
 - character-specific nonvanishing on `Re s = 1`, as an intrinsic theorem about the named
   continued L-function, and the boundary data that a prime-distribution consumer needs from it.
 
@@ -55,7 +57,7 @@ normCoeff
 regroupByNorm
 EulerProductData
 landau
-abelSummation
+idealSummatory_mul_eq_sub_integral_mul
 primeVonMangoldtCoeff
 PrimeBoundaryRemainder
 ```
@@ -87,6 +89,22 @@ idealClass
 RayClassCharacter
 RayClassCharacter.induced
 RayClassCharacter.IsPrimitive
+RayClassCharacter.conductor
+RayClassCharacter.primitiveCharacter
+RayClassCharacter.conductor_dvd_iff
+RayClassCharacter.induced_primitiveCharacter
+RayClassCharacter.isPrimitive_iff_conductor_eq
+RayClassCharacter.isPrimitive_primitiveCharacter
+RayClassCharacter.conductor_one
+RayClassCharacter.conductor_inv
+ratModulus
+ratFiniteModulus
+ratDirichletEquiv
+```
+
+and, for Hecke characters, infinity types and ideles:
+
+```text
 HeckeCharacter
 HeckeCharacter.ofRayClassCharacter
 HeckeCharacter.shift
@@ -95,13 +113,17 @@ HeckeCharacter.infinityType
 HeckeCharacter.IsFiniteOrder
 HeckeCharacter.isFiniteOrder_iff_exists_rayClassCharacter
 HeckeCharacter.shift_ofRayClassCharacter
+HeckeCharacter.conductor
+HeckeCharacter.finiteConductor
+HeckeCharacter.finiteComponent
+HeckeCharacter.idealCharacter
+HeckeCharacter.toUnitaryIdealWeightAt
 ContinuousInfinityType
-ContinuousInfinityType.EqOnIdentityComponent
+ContinuousInfinityType.AgreesOnIdentityComponent
 AlgebraicInfinityType
 FiniteOrderInfinityType
 IdeleGroup
 IdeleCongruenceSubgroup
-ideleFiniteCoord
 ideleInfiniteCoord
 ideleNorm
 narrowModulus
@@ -141,8 +163,7 @@ supplier's `dual` read in Mathlib's Euclidean model of the mixed space.
 Moduli, ray classes, ray-class characters and their unitary weights, ideles, infinity types and
 Hecke characters are formalized in Tau Ceti at the pin, in the namespace
 `TauCeti.GlobalNumberFields` (modules `TauCeti.NumberTheory.NumberField.Global.*`), and
-`Suggested.lean` uses those declarations. They differ from the names above in three places: the
-identity-component comparison is `ContinuousInfinityType.AgreesOnIdentityComponent`, the
+`Suggested.lean` uses those declarations. They differ from the names above in two places: the
 congruence subgroup is `ideleCongruenceSubgroup`, and the idele group is Mathlib's
 `NumberField.IdeleGroup (𝓞 K) K`. An algebraic infinity type is a function
 `(K →+* ℂ) → ℤ`, read through `AlgebraicInfinityType.toContinuous`, and the angular frequency at a
@@ -178,25 +199,32 @@ level transport of Layer 1; no second Mellin theory is developed.
 - local epsilon factors and the adelic proof of the functional equation (Tate's thesis);
 - Artin representations, their local reciprocal polynomials and conductors, Artin L-functions,
   Brauer induction, or Artin formalism (a future `ArtinRepresentations` roadmap);
-- Artin reciprocity and class fields (`ClassFieldTheory`).
+- Artin reciprocity and class fields (`ClassFieldTheory`);
+- the L-functions of Hecke characters that are not algebraic — an infinity type with a real
+  frequency `|x_w|^(i q_w)`, such as Hecke's unitary characters `|x₁|^(iλ) |x₂|^(-iλ)` of a real
+  quadratic field, `λ ∈ (π / log ε) ℤ` — whose theta kernel carries the weights `|x_w|^(i q_w)`
+  and whose gamma shifts become `ε_w + i q_w` and `|k_w|/2 + i q_w` (Neukirch VII (8.5) at the
+  supplier's `ContinuousInfinityType`): LFunctions, Part II, which starts from Layer 6 here. The
+  base roadmap stops at integral infinity types; the imaginary norm twists `N^(it)` of an
+  algebraic character enter Layer 7 through the weight, not as Grossencharacters.
 
 The absence of zero-distribution targets is intentional. A theorem that one named character
 L-function is nonzero on `Re s = 1` belongs here because it is part of that function's basic
 analytic theory. Uniform zero-free regions, zero counting, and consequences extracted from zeros
 belong downstream.
 
-## Exact dependency contracts
+## Exact supplier contracts
 
 ### Arithmetic Dirichlet Series
 
 | Declaration | Use here |
 | --- | --- |
-| `ArithmeticDirichletSeries.UnitaryIdealWeight` | coefficient systems of ray-class and Grossencharacter presentations. ⚠ The accepted supplier has `MultiplicativeIdealWeight` and its unitary refinement, and no `IdealWeight`; everything used here — `HasCancellation`, pointwise products, `IsNormTwistOnGood`, `continuedLFunctionOfWeight` — is stated for the unitary one (or, for `IsNormTwistOnGood`, for its underlying multiplicative weight) |
+| `ArithmeticDirichletSeries.UnitaryIdealWeight` | coefficient systems of ray-class and Grossencharacter presentations. ⚠ The supplier has `MultiplicativeIdealWeight` and its unitary refinement, and no `IdealWeight`; everything used here — `HasCancellation`, pointwise products, `IsNormTwistOnGood`, `continuedLFunctionOfWeight` — is stated for the unitary one (or, for `IsNormTwistOnGood`, for its underlying multiplicative weight) |
 | `ArithmeticDirichletSeries.normCoeff` | conversion of an ideal-indexed L-function into Mathlib's `LSeries` coefficients |
 | `ArithmeticDirichletSeries.regroupByNorm` | equality between the ideal sum and the norm-indexed series |
 | `ArithmeticDirichletSeries.EulerProductData` | local Euler factors and the global Euler-product theorem |
 | `ArithmeticDirichletSeries.landau` | positivity input in the character-specific nonvanishing argument: the `3-4-1` bound and, in the exceptional quadratic case, Landau's argument on `ζ_K L(χ)` |
-| `ArithmeticDirichletSeries.abelSummation` | continuation of a nontrivial ray-class series from arithmetic partial sums |
+| `TauCeti.idealSummatory_mul_eq_sub_integral_mul` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/AbelSummation.lean`), the ideal form of Mathlib's `sum_mul_eq_sub_sub_integral_mul` | Abel summation: continuation of a nontrivial ray-class series from its arithmetic partial sums to `Re s > 1 - 1/[K:ℚ]` |
 | `ArithmeticDirichletSeries.primeVonMangoldtCoeff` and `PrimeBoundaryRemainder` | the carrier and the record shape of Tau Ceti's `TauCeti.LFunctions.primeIdealVonMangoldtBoundary`, the boundary datum on which the supplier's prime ideal theorem is conditional; this roadmap compares its series with the named continuation (`primeIdealVonMangoldtBoundary_series_eq`) |
 
 The density predicates, the Perron kernel, Wiener--Ikehara itself and the `ψ → ϑ → π` transfer
@@ -214,19 +242,24 @@ L-functions, and the twisted boundary datum `Grossencharacter.exists_continuousO
 | Declaration | Use here |
 | --- | --- |
 | `GlobalNumberFields.Modulus`, `Modulus.support` and `Modulus.IsCoprimeTo` | finite and infinite conductor data, the domain of ray-class coefficients, and the primes whose Euler factors a ray-class series deletes |
-| `Modulus.mem_support_iff` and `Modulus.support_one` | the characterization `v ∈ 𝔪.support ↔ v.asIdeal ∣ 𝔪.finitePart`, which reads `finiteEulerCorrection`'s product over `𝔪.support` as the product over the primes dividing `𝔪₀`, and its trivial-modulus case, which closes `finiteEulerCorrection_one` |
+| `Modulus.mem_support_iff` and `Modulus.support_one` | the characterization `v ∈ 𝔪.support ↔ v.asIdeal ∣ 𝔪.finitePart`, which reads `finiteEulerCorrection`'s product over `𝔪.support` as the product over the primes dividing `𝔪₀`, and its trivial-modulus case, in which the correction is the empty product `1` |
 | `GlobalNumberFields.integralIdealsPrimeTo` and `idealClass` | the ray class of an ideal, on the carrier that already contains the coprimality proof. ⚠ There is no total `idealClass` on `Ideal (𝓞 K)`: the class indicator and the ray-class weight are defined through this carrier, never through a junk class at a bad ideal |
 | `GlobalNumberFields.RayClassCharacter` | finite-order Hecke L-functions |
-| `RayClassCharacter.induced` and `.IsPrimitive` | the primitive-character carrier, its universal property, and the imprimitive Euler-factor correction |
+| `RayClassCharacter.induced` and `.IsPrimitive` | the imprimitive Euler-factor correction, and the primitivity proof that `PrimitiveRayClassCharacter` bundles |
+| `RayClassCharacter.conductor`, `.primitiveCharacter`, `.conductor_dvd_iff`, `.induced_primitiveCharacter`, `.isPrimitive_iff_conductor_eq`, `.isPrimitive_primitiveCharacter`, `.conductor_one`, `.conductor_inv` (`TauCeti/NumberTheory/NumberField/Global/RayClass/Character/Conductor.lean`) | the conductor of a ray-class character and its universal property — `𝔫 ∣ 𝔪` admits a presentation of `χ` exactly when the conductor divides `𝔫`, and `χ` is induced from its primitive character — are the supplier's. `PrimitiveRayClassCharacter.of χ` bundles `χ.conductor`, `χ.primitiveCharacter` and `isPrimitive_primitiveCharacter`; `PrimitiveRayClassCharacter.inv` is primitive by `conductor_inv`; the conductor of the trivial character is `Modulus.one` at every presentation by `conductor_one`. Nothing about the ray-class conductor is planned here |
+| `ratModulus`, `ratFiniteModulus` (`RayClass/Rat.lean`) and `ratDirichletEquiv`, `ratDirichletEquiv_absNorm`, the ray-class conductor lemmas `conductor_finitePart_eq_span` and `conductor_infinitePart_eq_empty_iff_even` (`RayClass/Character/Dirichlet.lean`) | the moduli `(n)·∞` and `(n)` of `ℚ`, the identification of ray-class characters of `(n)·∞` with Dirichlet characters mod `n` (value at a prime-to-`n` ideal is the Dirichlet character at its norm), and their conductors, the real place included exactly for an odd character. The odd character mod `4∞` is `(ratDirichletEquiv 4 _).symm χ₄`, and the even character mod `5` lives on `ratFiniteModulus 5` |
+| `HeckeCharacter.conductor` (`HeckeCharacter/Conductor.lean`, finite-order characters), `HeckeCharacter.finiteConductor` with `pow_dvd_finiteConductor_iff` and `finitePart_conductor` (`HeckeCharacter/FiniteComponent.lean`) | the finite part of `Grossencharacter.primitiveConductor` is the supplier's `finiteConductor` of the primary object, `∏_v v^(a_v)` with `a_v` the least `n` for which the local component is trivial on the `n`-th unit group; for a finite-order character it is the finite part of the supplier's `conductor`. Only the infinite part, the presentation condition at the real places, is this roadmap's (see the conductor convention) |
+| `HeckeCharacter.finiteComponent` (`HeckeCharacter/FiniteComponent.lean`) and `HeckeCharacter.idealCharacter`, `idealCharacter_apply_prime`, `idealCharacter_apply_toPrincipalIdeal`, `idealCharacter_apply_toPrincipalIdeal_eq_embeddingCharacter_inv` (`HeckeCharacter/Ideal.lean`) | the local component of a Hecke character at a finite place and its ideal character on the fractional ideals prime to the finite conductor. `unitaryWeight` is pinned to `unitaryPart.finiteComponent` at a uniformizer, which is `unitaryPart.idealCharacter` at the prime by `idealCharacter_apply_prime`; `toHeckeCharacter_primeIdele` is the same evaluation for the primary object; and the unit relation `compatibility` is the supplier's `idealCharacter_apply_toPrincipalIdeal` — on `(x)` with `x ≡ 1` modulo the finite conductor, the ideal character is the inverse of the product of the infinite components — with the same inverse sign, read through `infinityType_eq` |
+| `HeckeCharacter.toUnitaryIdealWeightAt` and `toUnitaryIdealWeightAt_ofRayClassCharacter` (`HeckeCharacter/Weight.lean`) | the unitary ideal weight of a finite-order Hecke character at a modulus through which it factors; `unitaryWeight_eq_rayClassIdealWeight` is this identification read on a presentation |
 | `GlobalNumberFields.rayClassCharacter_partialSums` | continuation of nontrivial ray-class L-functions to a strip containing `Re s = 1` |
 | `GlobalNumberFields.rayClassIdealMainTerm` and `rayClassIdealMainTerm_eq` | the common residue of the partial zeta functions. The supplier owns its closed form — the Dedekind-zeta residue times the Euler factors at the primes dividing the finite modulus, divided by the ray class number — and this roadmap proves that the analytic residue is that same constant, rather than introducing a second one |
 | `GlobalNumberFields.HeckeCharacter` | the primary object of a `Grossencharacter` presentation: every other field is an equation in it, and a presentation is determined by it (`Grossencharacter.ext`) |
 | `HeckeCharacter.ofRayClassCharacter`, `.IsFiniteOrder`, `.isFiniteOrder_iff_exists_rayClassCharacter` and `.shift_ofRayClassCharacter` | the finite-order case: `Grossencharacter.ofRayClassCharacter` is built from the first by its fields, `exists_rayClassCharacter_of_isFiniteOrder` is the finite presentation at the stated modulus, and `idealShift_eq_zero_of_isFiniteOrder` is closed by the last two |
 | `HeckeCharacter.shift` and `.unitaryPart` | the ideal-side shift `Grossencharacter.idealShift` is the **negative** of the former on the primary object; the latter is what `unitaryWeight` is pinned to at the prime ideles, and the full completion recenters the unitary completion at `s - idealShift`. The supplier fixes the sign idelically, `|χ| = ‖·‖^shift`, in the Global Number Fields README's convention table, and Tau Ceti implements it as `HeckeCharacter.norm_apply_eq_rpow_shift`; it is stated here as `norm_toHeckeCharacter_apply`. Since `‖π_𝔭‖ = N𝔭⁻¹`, the ideal-side convention `χ(π_𝔭) = χ_u(𝔭) N𝔭^idealShift` of `toHeckeCharacter_primeIdele` needs `idealShift = -shift`: the idele class character `‖·‖^(-m)` has shift `-m` and ideal values `N𝔞^m` (`ratNormPow_shift`, `ratNormPow_idealShift`) |
-| `HeckeCharacter.infinityType`, `ContinuousInfinityType` and `ContinuousInfinityType.EqOnIdentityComponent` | the archimedean restriction of the primary object and the supplier's identity-component comparison, by which `Grossencharacter.infinityType` is pinned to it; `realParity` is compared on the nose outside the modulus and supplies the real gamma shifts. ⚠ This is the *idelic* infinity type: Hecke's classical infinity type, the one in `χ((a)) = χ_f(a) χ_∞(a)`, is its negative (Neukirch VII (6.13)), which is the sign in the unit relation `compatibility` and in the harmonic polynomial of the theta kernel |
+| `HeckeCharacter.infinityType`, `ContinuousInfinityType` and `ContinuousInfinityType.AgreesOnIdentityComponent` | the archimedean restriction of the primary object and the supplier's identity-component comparison, by which `Grossencharacter.infinityType` is pinned to it; `realParity` is compared on the nose outside the modulus and supplies the real gamma shifts. ⚠ This is the *idelic* infinity type: Hecke's classical infinity type, the one in `χ((a)) = χ_f(a) χ_∞(a)`, is its negative (Neukirch VII (6.13)), which is the sign in the unit relation `compatibility` and in the harmonic polynomial of the theta kernel |
 | `primeToSubgroup` | the fractions prime to the finite modulus, Neukirch's `K^(𝔪)`: the domain on which the derived finite character `Grossencharacter.finiteCharacter` extends multiplicatively (`finiteCharacterK`), which is what the twisted theta series of a fractional ideal evaluates |
 | `ideleNorm` and `narrowModulus` | the idele norm in which the supplier's shift is defined (`norm_toHeckeCharacter_apply`), and the modulus `∞` at which the norm powers of `ℚ` are presented (`ratNormPow`) |
-| `IdeleGroup`, `ideleFiniteCoord` and `ideleInfiniteCoord` | the prime ideles at which `unitaryWeight` is pinned to the unitary part, described by their coordinates — a uniformizer at one finite place, `1` at every other finite and infinite place. ⚠ No prime idele is constructed here: the equation quantifies over the ideles with those coordinates, whose classes differ by units at the place, on which a character presented at `𝔪` is trivial |
+| `IdeleGroup` and `ideleInfiniteCoord` | the ideles of the congruence subgroup with all archimedean coordinates `1`, on which the modulus condition `eq_one_of_mem` of a presentation is stated. The value at a prime idele is read through the supplier's `HeckeCharacter.finiteComponent` at a uniformizer, so no prime idele is constructed here |
 | `IdeleCongruenceSubgroup` | the modulus condition of a presentation: triviality on the finite part of the subgroup, the ideles in it with all archimedean coordinates `1`. ⚠ Triviality on the whole subgroup, which contains the archimedean identity components, is the finite-order condition |
 | `IsCongrOne` | the multiplicative congruence `a ≡ 1 mod* 𝔪`, positivity at the real places of `𝔪` included, on which Hecke's unit relation holds |
 | `GlobalNumberFields.AlgebraicInfinityType` | algebraic infinity types and their gamma shifts. ⚠ This is the integer-exponent carrier, the one Grossencharacter data uses; the general `ContinuousInfinityType` of an arbitrary Hecke character has complex archimedean exponents, and the finite-order characters of Layer 5 have only `FiniteOrderInfinityType` signs |
@@ -253,59 +286,7 @@ the Tau Ceti library — so the `ThetaSeries` arrow is a leaf of this roadmap's 
 cannot close a cycle; this roadmap consumes nothing from Integral Lattices, directly or through
 Theta Series.
 
-### Exports to Zeros of L-functions
-
-The downstream zeros roadmap consumes the following exact declarations and no prose-level promise:
-
-```text
-AnalyticLFunctionData
-AnalyticLFunctionData.dual
-AnalyticLFunctionData.HasDirichletAgreement
-AnalyticLFunctionData.HasMeromorphicContinuation
-AnalyticLFunctionData.HasFunctionalEquation
-NormalizationTranslation
-riemannZetaData
-dedekindZetaC
-completedDedekindZeta
-dedekindZetaData
-dirichletData
-heckeLFunctionC
-completedHeckeLFunction
-heckeData
-grossencharacterData
-```
-
-For every continued function, regularity away from its named polar divisor is exported as
-`AnalyticAt` or `AnalyticOnNhd`, not merely by an inequality for `meromorphicOrderAt`. The latter
-depends only on a punctured germ and does not constrain the total representative's value.
-
-### Exports to prime distribution
-
-A prime-distribution consumer — the `ψ → ϑ → π` transfer of Arithmetic Dirichlet Series, or a
-Frobenius count in Chebotarev — takes its analytic input as named declarations, and no
-prose-level promise:
-
-```text
-TauCeti.LFunctions.primeIdealVonMangoldtBoundary
-primeIdealVonMangoldtBoundary_series_eq
-Grossencharacter.exists_continuousOn_logDeriv
-```
-
-The first is Tau Ceti's record `PrimeBoundaryRemainder K Set.univ 1` on which the supplier's
-`primeIdealTheorem_of_boundary` is explicitly conditional: residue `1` from the simple pole of
-`ζ_K`, and a continuous remainder across `Re s = 1` that exists because `ζ_K` has no zero there.
-It is consumed here, not rebuilt; the second identifies its series with the logarithmic
-derivative of the named continuation `dedekindZetaC` on `Re s > 1`. The third is the twisted
-counterpart, and the one this roadmap supplies: for a Grossencharacter whose unitary weight is
-not a pure imaginary norm twist on its good ideals, the logarithmic derivative of the continued
-L-function of that weight extends continuously to `Re s ≥ 1` with no residue. It is stated for
-genuine Grossencharacters and not for every unitary weight satisfying `UnitaryCancelling`: that
-package continues the series only to `Re s > 1 - 1/[K:ℚ]`, and the exceptional quadratic case
-needs the continuation of Layer 5 (see Layer 7). Hecke's angular equidistribution of Gaussian
-primes is a consumer of the third together with `angularGrossencharacterData`; it needs a Tauberian step and Fourier analysis on the angular
-character group, so it is a prime-distribution theorem and is not proved here.
-
-## Standing hypotheses and pinned conventions
+## Conventions
 
 The number-field context is `[Field K] [NumberField K]`. Finite-order Hecke theory is over a
 modulus `𝔪 : GlobalNumberFields.Modulus K`; the general carrier is
@@ -328,10 +309,36 @@ modulus `𝔪 : GlobalNumberFields.Modulus K`; the general carrier is
 | archimedean sign | `infinityType` is the idelic archimedean exponent `n`; the finite value on a principal ideal `(a)`, `a ≡ 1 mod* 𝔪`, is the **inverse** of the archimedean value: `χ_u((a)) N(a)^shift · ∏_τ τ(a)^(n_τ) = 1` (`compatibility`, Neukirch VII (6.13)). Hecke's classical infinity type is `-n`; the harmonic polynomial of the theta kernel puts the conjugate coordinate at a complex place of positive angular frequency. The nonreal test is `angularGrossencharacter_compatibility_test`. |
 | Mellin transform | Mathlib's `mellin f s = ∫_0^∞ t^(s-1) f(t) dt`, so Neukirch's (1.4) `L(f, s) = ∫ (f(t) - f(∞)) t^s dt/t` is `mellin (f - f(∞)) s`. The Mellin principle is Mathlib's `WeakFEPair`, reached from the carrier `FEPairWithLevel` by the level transport of Layer 1. The completed partial zeta function at `s` is the Mellin transform of its kernel minus its constant term at `s/2` (5.5); the unitary completion of a Grossencharacter at `s` is the transform of its kernel at `(s + Tr p / n)/2` (8.3). No kernel is left to an existential. |
 | root-number duality | `W(χ⁻¹) = W(χ)⁻¹`; for a unitary character this is also `conj W(χ)`. |
+| conductor of a presentation | `Grossencharacter.primitiveConductor` has finite part the supplier's `HeckeCharacter.finiteConductor` of the primary object, and infinite part the real places at which the parity `realParity` of the archimedean restriction differs from the parity of the algebraic exponent: exactly the real places every presentation must contain (`realParity_eq`). ⚠ At a real place this is the presentation conductor, not the ramification conductor: `N^m = ‖·‖^(-m)` over `ℚ` with `m` odd is unramified at `∞` (its archimedean component `|x|^(-m)` is trivial on `±1`), yet `∞` divides its conductor here because its algebraic exponent is odd. For a finite-order character the algebraic exponent is `0`, the two notions agree, and the conductor is the supplier's `RayClassCharacter.conductor`. Everything that depends on ramification alone — the theta constant `heckeEpsilon`, the scale `heckeScale` and the conductor `|d_K| N(𝔣₀)` of the card — reads `toHeckeCharacter.finiteConductor`. |
 
-## The build, in layers
+## How to read the build
 
-### Layer 0: completed L-function data
+Layer 0 can proceed with the completed-function record while Layer 1 fixes the mixed-space Fourier
+conventions and specializes the supplier's Poisson theorem. Layer 2 consumes Global Number Fields
+and the shared arithmetic-series substrate. Layers 3 and 4 then settle the zeta and Dirichlet
+instances. Layers 5 and 6 build the Hecke instances; Layer 7 uses their continuation, and Layer 8
+records exact interoperability cards and examples.
+
+The roadmap-level dependency graph is exactly
+
+```text
+ArithmeticDirichletSeries ─┐
+GlobalNumberFields ────────┼──> LFunctions ──> ZerosOfLFunctions
+ThetaSeries ───────────────┘
+```
+
+Chebotarev also consumes the first two suppliers but is not a dependency of L-functions. The
+`ThetaSeries` arrow is used by Layer 1 alone, and it does not reverse: that roadmap states no
+number-field theta function and consumes nothing from here. Behind it, Theta Series imports no
+roadmap (its lattices are the Tau Ceti library's), so `LFunctions → ThetaSeries` ends there and
+is acyclic.
+
+The boundary exports do not reverse an arrow. Arithmetic Dirichlet Series does not import this
+roadmap: it states its prime ideal theorem conditionally on a record it names, Tau Ceti provides
+that record, and this roadmap consumes it and proves the comparison of its series with
+`dedekindZetaC`. The arrow into `LFunctions` stays the only one between them.
+
+## Layer 0: completed L-function data
 
 Define `AnalyticLFunctionData` with norm-indexed coefficients, positive integral conductor, real
 and complex gamma-shift multisets, root number, completed function, and a finitely supported polar
@@ -374,7 +381,7 @@ proof, while the arithmetic source inherits the convention from its card. Conseq
 `existsUnique` cannot be applied to a malformed source with nonzero zeroth coefficient, and the
 weight-zero comparison remains an exact equality of cards rather than merely `EqOffZero`.
 
-Mandatory tests:
+**Checks.**
 
 - weight zero gives the identity translation;
 - the weight-12 discriminant form has analytic complex gamma shift `+11/2`, not `-11/2`;
@@ -383,10 +390,25 @@ Mandatory tests:
 - a non-real character uses a genuinely distinct dual card;
 - ⚠ a card with a malformed polar divisor — weight zero, completed function identically zero,
   polar divisor supported at `0` only — satisfies the root-number and value clauses and has no
-  functional equation (`malformedPolarCard`); it is the regression against weakening the
+  functional equation; it is the regression against weakening the
   equivalence to the value equation, and nothing in the equivalence's hypotheses excludes it.
 
-### Layer 1: the mixed-space specialization of Poisson summation, and theta
+### Examples
+
+- `riemannZetaData`: coefficients `1`, conductor `1`, one real gamma shift `0`, no complex shift,
+  degree `1`, root number `1`, completed function Mathlib's `completedRiemannZeta`, and simple poles
+  at `0` and `1`; its dual is itself;
+- the discriminant form `Δ`, of weight `12`, has arithmetic weight `w = 11` (its completed function
+  `Gammaℂ(s) L(Δ, s)` is symmetric under `s ↦ 12 - s = w + 1 - s`) and arithmetic complex gamma
+  shift `0`; its analytic translation has complex shift `11/2` and is symmetric under `s ↦ 1 - s`,
+  and the factor `N^(-w/4)` is `1` at conductor `N = 1`.
+
+### Dependencies
+
+Mathlib: `Gammaℝ`, `Gammaℂ`, `LSeries`, `MeromorphicNFOn`, `meromorphicOrderAt`,
+`completedRiemannZeta`. No earlier layer.
+
+## Layer 1: the mixed-space specialization of Poisson summation, and theta
 
 Lattice Poisson summation is not developed here. `ThetaSeries` owns it, for a full-rank
 `ℤ`-lattice in a finite-dimensional real inner product space and a Schwartz function, along with
@@ -399,6 +421,15 @@ Mathlib's `Real.fourierChar`, so `𝐞 x = exp(2 π i x)`; the pairing is the Eu
 not the trace form; the measure is `volume`, which is self-dual for that pairing; and the sign is
 Mathlib's, `𝐞(-⟨x, y⟩)`. `mixedFourier` is the transform built from exactly those four choices,
 and every later normalization is a consequence of them.
+
+**Checks** for `mixedInner`, over `ℚ(i)` with its one complex place:
+
+- `mixedInner σ(1) σ(1) = 1`, where the trace form gives `Tr(1 · 1) = 2`;
+- `mixedInner σ(i) σ(i) = Re(i · conj i) = 1`, where the trace form gives `Tr(i · i) = -2`: the trace
+  form is not positive at a complex place, so it cannot carry a Gaussian;
+- `mixedInner σ(1+i) σ(1+i) = |1+i|² = 2`, where a metric counting each complex place twice, as
+  Neukirch's canonical one does, gives `4`; over `ℚ` the two agree, `mixedInner x y = x y`, so only
+  a field with a complex place separates them.
 
 Transport the supplier's theorem onto the mixed space. `mixedSpace K` carries Mathlib's product
 sup norm and is not an inner product space, so the theorem does not apply to it as it stands;
@@ -481,6 +512,18 @@ therefore needs, and this layer names in Neukirch's order:
   `2^(r-1) R / 2^r₂` here, the compensating `2^r₂` sits in the Mellin kernel, and the kernel's
   constant term is Neukirch's `2^(r-1) R / w` in both.
 
+**Checks** for `archHaar` and `surfaceHaar`:
+
+- over `ℚ`, one real place: `archHaar` is `dt/t` on `(0, ∞)` and gives `[1, e]` mass `1`; `S` is
+  the point `{1}` and `surfaceHaar` gives it mass `1 = 2^(r-1) R / 2^r₂` (`r = 1`, `R = 1`, `r₂ = 0`);
+- over `ℚ(i)`, one complex place: `archHaar` gives `{1 ≤ y ≤ e}` mass `1`, where Neukirch's
+  canonical measure, with `e_𝔭 = 2`, gives `2`; the shell `1 ≤ N(y) = y² ≤ e` is `[1, e^(1/2)]`, of
+  mass `1/2`, so `S = {1}` has `surfaceHaar` mass `1/2 = 2^(r-1) R / 2^r₂` (`r = 1`, `r₂ = 1`),
+  and `1` in Neukirch's normalization;
+- over a real quadratic field with fundamental unit `ε`: a unit fundamental domain on the hyperbola
+  `y₁ y₂ = 1` has `surfaceHaar` mass `2 log ε = 2^(r-1) R` (`r = 2`, `R = log ε`), which a
+  definition through the one-parameter Gaussian cannot see, since its `S` would be a point.
+
 **The Mellin principle is Mathlib's.** Mathlib's `WeakFEPair` packages Neukirch's (1.4) for the
 law `f(1/x) = ε x^k g(x)`, with its completed function `Λ`, the Mellin representation
 `hasMellin`, the functional equation, the residues `Λ_residue_zero` and `Λ_residue_k`, and the
@@ -502,8 +545,8 @@ that of `g`: Mathlib's `mellin_comp_mul_right` on `Re s > k`, then the identity 
 `r` (`isBigO_rpow_of_isBigO_exp_neg`). ⚠ The positive weight and the nonzero `ε` are hypotheses
 of (1.4) and cannot be dropped. With `ε = 0` the pair `f ≡ 0`, `g ≡ 1` satisfies the law while
 its reverse reads `1 = 0`; with `k = 0` the pair `f = g ≡ 1` satisfies it while its residues
-`-1` and `1` sit at the same point. Both are rejected (`not_exists_f_eq_zero_g_eq_one`,
-`not_exists_f_eq_one_g_eq_one`). The Dedekind kernels of Layer 3 and the Grossencharacter kernels of
+`-1` and `1` sit at the same point. Both are rejected by the carrier's hypotheses `k > 0` and
+`ε ≠ 0`, and each is a Check. The Dedekind kernels of Layer 3 and the Grossencharacter kernels of
 Layer 6 are its instances, each discharging every hypothesis from a named property of its kernel;
 nothing else continues a completed function.
 
@@ -518,7 +561,9 @@ named kernel `mellinKernel` minus its constant term `mellinConstant`, for every 
 (Neukirch (5.5)) — not of an unnamed `θ`, which would hide the unit quotient; and the completed
 zeta carries exactly `|d_K|^(s/2)`, `Gammaℝ(s)^r₁` and `Gammaℂ(s)^r₂`.
 
-Three worked checks are mandatory, and none is redundant.
+### Examples
+
+Three worked examples are required, and none is redundant.
 
 - `K = ℚ`: `completedDedekindZeta ℚ` is Mathlib's `completedRiemannZeta` off the poles at `0` and
   `1`. This fixes the real gamma factor and conductor one.
@@ -526,8 +571,7 @@ Three worked checks are mandatory, and none is redundant.
   `2 π^(-s) Γ(s) ζ(s) L(s, χ₋₄)` on `Re s > 1`, by Legendre duplication against the quadratic
   factorization. ⚠ Dropping the factor `2` in `Gammaℂ`, or writing the conductor power as
   `|d|^(-s/2)`, changes this constant, and the rational check sees neither error. The kernel's
-  constant term is `1/4` here and `1/2` over `ℚ` (`mellinConstant_cyclotomic_four`,
-  `mellinConstant_rat`).
+  constant term `2^(r-1) R / w` is `1/4` here (`w = 4`) and `1/2` over `ℚ` (`w = 2`).
 - `K` real quadratic: the unit-quotient check, `realQuadratic_unitQuotient_test` of Layer 3. Both
   fields above have a finite unit group and a fundamental domain that is a point; a real quadratic
   field has unit rank one, `w = 2` and regulator `log ε`, so the fundamental domain is one period
@@ -537,16 +581,40 @@ Three worked checks are mandatory, and none is redundant.
   one-parameter theta series passes the first two checks and fails this one, because its
   lattice-point sum is not summable in positive unit rank (`not_summable_absNorm_of_rank_pos`).
 
-### Layer 2: partial zeta functions
+### Dependencies
+
+Theta Series: `poissonSummation`, `summable_poisson_left`, `summable_poisson_right`, `dual`,
+`dual_dual`, `covolume_dual`, `gaussian`, `gaussian_apply`, `fourier_gaussian`. Mathlib:
+`NumberField.mixedEmbedding.euclidean.mixedSpace` with `euclidean.toMixed` and
+`euclidean.volumePreserving_toMixed`, `ZLattice.covolume_comap`,
+`mixedEmbedding.covolume_idealLattice`, `fundamentalCone` with `fundamentalCone.isBounded_normLeOne`,
+`NumberField.Units.regulator`, `WeakFEPair`, `mellin`, `mellin_comp_mul_right`. Layer 0 is not
+needed.
+
+## Layer 2: partial zeta functions
 
 For a modulus and ray class supplied by Global Number Fields, define its indicator as an
 `ArithmeticDirichletSeries.IdealArithmeticFunction` on nonzero ideals, equal to one exactly on
 prime-to-modulus ideals in that class. The class is read off the supplier's prime-to carrier, so
 the coprimality proof travels with the ideal and no junk class is available at a bad one. It is
 not a `UnitaryIdealWeight`: the indicator of a nontrivial class is not completely multiplicative.
+**Checks** for the class indicator `rayClassCoeff`, over `ℚ`, where the ray class group of
+`ratModulus n` is `(ℤ/n)ˣ` through the positive generator (the supplier's `ratModulusEquivZMod`):
+
+- at the trivial modulus there is one class, and the indicator is `1` at every nonzero ideal;
+- at `ratModulus 4`, the indicator of the class of `3` is `1` at `(3)` and `(7)` and `0` at `(5)`
+  and at `(2)`, which is not prime to `4`; reading the class off the generator `-3 ≡ 1` would put
+  `(3)` in the trivial class;
+- at `ratFiniteModulus 5`, whose ray class group is `(ℤ/5)ˣ/{±1}`, the indicator of the trivial
+  class is `1` at `(4)` and `(9)`, since `4 ≡ -1`; a definition that forgot the sign quotient gives
+  `0` there.
+
 Define the partial zeta series using the shared `normCoeff` and `regroupByNorm` API. Establish
-convergence on `Re s > 1`, the sum over ray classes, the common residue, and continuation to a
-strip by Abel summation and the uniform ray-class arithmetic.
+convergence on `Re s > 1`, the sum over ray classes, and the common residue. Continue each
+partial zeta function minus its pole to the half-plane `Re s > 1 - 1/[K:ℚ]` by Abel summation
+(Tau Ceti's `idealSummatory_mul_eq_sub_integral_mul`) from the uniform ray-class count
+`#{𝔞 ∈ c : N𝔞 ≤ x} = κ_𝔪 x + O(x^(1 - 1/[K:ℚ]))`, `κ_𝔪` the supplier's `rayClassIdealMainTerm`
+(Global Number Fields, Layer 3); the exponent is that of the supplier's `HasCancellation`.
 
 ⚠ **The sum over ray classes is not `ζ_K`.** Summing the class indicators gives the indicator of
 the ideals prime to the finite part of the modulus, so
@@ -573,7 +641,24 @@ product and the partial zeta functions do sum to `ζ_K`. Prove independence from
 representatives and compatibility with change of modulus. No generic ideal series or Euler product
 is introduced in this layer.
 
-### Layer 3: Dedekind zeta
+### Examples
+
+- over `ℚ` at `ratModulus 4`: two ray classes, `ζ(s, [1]) + ζ(s, [3]) = ζ(s)(1 - 2^(-s))`, and each
+  partial zeta function has residue `κ_ℚ (1 - 1/2) / 2 = 1/4` at `s = 1`, where `κ_ℚ / #Cl_𝔪 = 1/2`
+  is the wrong value;
+- over `ℚ` at `ratFiniteModulus 5`: two classes, each of residue `(1 - 1/5)/2 = 2/5`;
+- over `ℚ(√-5)` at the trivial modulus: two ideal classes, whose partial zeta functions sum to
+  `ζ_K`, each of residue `κ_K / 2 = π/(2√5)`.
+
+### Dependencies
+
+Global Number Fields: `Modulus`, `Modulus.support`, `Modulus.mem_support_iff`, `RayClassGroup`,
+`integralIdealsPrimeTo`, `idealClass`, `rayClassIdealMainTerm` with `rayClassIdealMainTerm_eq`,
+and the uniform ray-class count of its Layer 3. Arithmetic Dirichlet Series:
+`IdealArithmeticFunction`, `normCoeff`, `regroupByNorm`, `idealSummatory_mul_eq_sub_integral_mul`.
+No earlier layer.
+
+## Layer 3: Dedekind zeta
 
 Construct the completed partial zeta functions from the theta kernel of Layer 1, following
 Neukirch VII (5.3)–(5.9) step by step, and `dedekindZetaC K` and `completedDedekindZeta K` as
@@ -648,11 +733,48 @@ equality of germs at every point of the plane, with `eq_of_eventuallyEq_of_analy
 value off a germ where both sides are analytic. Every global identity in Layers 4 to 6 is stated
 through these two, and never as an unrestricted equality of total representatives.
 
-Develop the value at zero and the leading term at zero, the analytic class number formula, and the
-compatibility with Mathlib's real one-sided residue theorem. Special-value statements use named
-continued functions, never the junk values of raw Dirichlet series outside convergence.
+Prove the behaviour at `s = 0` (Neukirch VII (5.11)): `dedekindZetaC K` has a zero of order exactly
+the unit rank `r = r₁ + r₂ - 1` at `0`, and `ζ_K(s) / s^r → -h R / w` as `s → 0`, `s ≠ 0`, with
+Mathlib's `NumberField.classNumber`, `NumberField.Units.regulator` and
+`NumberField.Units.torsionOrder` (`dedekindZetaC_leading_zero`). It follows from the functional
+equation and the residue `2^(r₁+r₂) h R / w` of the completed function at `s = 1`, since
+`Gammaℝ(s)^r₁` has a pole of order `r₁` at `0` and `Gammaℂ(s)^r₂` one of order `r₂`. Prove the
+analytic class number formula `Res_(s=1) ζ_K = 2^r₁ (2π)^r₂ h R / (w √|d_K|)` for the named
+continuation (`tendsto_sub_one_mul_dedekindZetaC`, whose constant is Mathlib's
+`dedekindZeta_residue`, so the compatibility with Mathlib's one-sided residue theorem
+`NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` is the agreement on `Re s > 1`). Special-value
+statements use named continued functions, never the junk values of raw Dirichlet series outside
+convergence.
 
-### Layer 4: Dirichlet L-functions and factorizations
+**Checks.**
+
+- over `ℚ`, `r = 0`, `h = R = 1`, `w = 2`: the order at `0` is `0` and the value is `ζ(0) = -1/2`;
+  the sign `+hR/w` would give `+1/2`;
+- over `ℚ(i)`, `r = 0`, `w = 4`: the value is `ζ(0) L(0, χ₋₄) = (-1/2)(1/2) = -1/4`, which a
+  formula with `w = 2` (counting only `±1`) misses by a factor two;
+- over a real quadratic field, `r = 1`, `w = 2`: a simple zero with derivative `-h log ε / 2`; the
+  quadratic factorization gives `ζ(0) L'(0, χ_d)` with `L(0, χ_d) = 0` for an even character, so an
+  order read off `r₁ + r₂` instead of `r₁ + r₂ - 1` is wrong already here.
+
+### Examples
+
+- `K = ℚ`: `completedDedekindZeta ℚ` is `completedRiemannZeta`, with residue `1` at `1` and `-1`
+  at `0`, and `mellinConstant ℚ = 2^0 · 1 / 2 = 1/2`;
+- `K = ℚ(i)`: the residue of `completedDedekindZeta` at `1` is `2^(r₁+r₂) h R / w = 2/4 = 1/2`,
+  equal to `√4 · Gammaℂ(1) · Res ζ_K = 2 · (1/π) · (π/4)`;
+- `K` real quadratic: the unit-quotient check of Layer 1, and the simple zero at `s = 0` of the
+  Checks above.
+
+### Dependencies
+
+Layer 1: `mixedInner`, `archGaussian`, `latticeTheta`, `latticeTheta_inv`, `unitScale`,
+`normOneSurface`, `surfaceHaar`, `IsUnitFundamentalDomain`, `surfaceHaar_of_isUnitFundamentalDomain`,
+`FEPairWithLevel`. Layer 2: `partialZeta`, `finiteEulerCorrection`. Mathlib: `dedekindZeta`,
+`dedekindZeta_residue`, `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`,
+`fundamentalCone.idealSetEquiv`, `NumberField.classNumber`, `NumberField.Units.regulator`,
+`NumberField.Units.torsionOrder`, `NumberField.Units.rank`.
+
+## Layer 4: Dirichlet L-functions and factorizations
 
 Package Mathlib's continued primitive Dirichlet L-functions as `dirichletData`, proving the exact
 conductor, parity-dependent real gamma shift, Gauss-sum root number, unit norm, continuation, and
@@ -671,16 +793,25 @@ on `Re s > 1`, as an equality of germs at every point, and pointwise away from `
 statement is what uniqueness of meromorphic continuation produces from the first, and the
 pointwise statement is read off it where both sides are analytic.
 
-Mandatory examples:
+### Examples
+
 
 - `ζ_{ℚ(i)}(s) = ζ(s)L(s,χ₋₄)` including the ramified prime `2`;
 - the primitive character modulo `4` is odd and has gamma shift `1`;
 - the quadratic character modulo `5` is even and has gamma shift `0`; as a ray-class character it
-  is the unique nontrivial character of the ray class group of `ℚ` modulo `5`, of order `2`
-  (`exists_ne_one_rayClassCharacter_modulusFive`);
+  is the unique nontrivial character of the ray class group of Tau Ceti's `ratFiniteModulus 5`,
+  which is `(ℤ/5)ˣ/{±1}`, of order `2` — a definition that forgot the sign quotient would see the
+  four characters of `(ℤ/5)ˣ`, two of them odd;
 - the conductor-one principal character recovers the Riemann-zeta card.
 
-### Layer 5: finite-order Hecke L-functions
+### Dependencies
+
+Mathlib: `DirichletCharacter.LFunction`, `DirichletCharacter.completedLFunction` and its
+functional equation, `gaussSum`, `riemannZeta`. Layer 0: `AnalyticLFunctionData` and `ofSeries`.
+Layer 3: `dedekindZetaC` and the uniqueness theorems `eq_of_meromorphic_of_eqOn_halfPlane` and
+`eventuallyEq_of_meromorphic_of_eqOn_halfPlane`.
+
+## Layer 5: finite-order Hecke L-functions
 
 For `χ : GlobalNumberFields.RayClassCharacter 𝔪`, derive an
 `ArithmeticDirichletSeries.UnitaryIdealWeight` from `idealClass`, using value zero on the zero
@@ -692,21 +823,27 @@ its agreement with the shared norm-regrouped series and Euler product on `Re s >
 **Primitive versus presented.** A ray-class character can be presented at every multiple of its
 conductor, so a conductor stored beside a presentation modulus lets one character carry several
 incompatible conductors, and with them several incompatible gamma factors, root numbers and local
-factors. Introduce `PrimitiveRayClassCharacter`, carrying a conductor, a character of that
-modulus, and its primitivity proof, and prove its universal property: every presentation is
-induced from exactly one primitive character. That uniqueness is what makes `conductorOf` a
-function of the character rather than of the modulus it was written at; the conductor of the
-trivial character is the trivial modulus at every presentation. The completion, Gauss sum, root
-number and analytic card all take this carrier, while `heckeLFunctionC` keeps taking a
-presentation, because the presented series genuinely depends on it.
+factors. The conductor and its universal property are the supplier's: Tau Ceti's
+`RayClassCharacter.conductor` is the least modulus from which the character is induced
+(`conductor_dvd_iff`), the character is induced from `primitiveCharacter` at it
+(`induced_primitiveCharacter`), and the conductor of the trivial character is the trivial modulus
+at every presentation (`conductor_one`). This roadmap only bundles them: `PrimitiveRayClassCharacter`
+carries a conductor, a character of that modulus and its primitivity proof, so that a primitive
+character cannot carry a second conductor; `PrimitiveRayClassCharacter.of χ` is the bundle of
+`χ.conductor`, `χ.primitiveCharacter` and `isPrimitive_primitiveCharacter`, and
+`PrimitiveRayClassCharacter.inv` is primitive by the supplier's `conductor_inv`. The completion,
+Gauss sum, root number and analytic card all take this carrier, while `heckeLFunctionC` keeps
+taking a presentation, because the presented series genuinely depends on it.
 
 Prove the orthogonality reconstruction, which recovers each partial zeta function from the
 character L-functions: `#Cl_𝔪 · ζ(s,c) = ∑_χ conj(χ(c)) L(s,χ)`. ⚠ Both sides run over the ideals
 prime to the modulus, so no Euler correction appears in it; the correction appears only when the
 principal-character term is rewritten as `ζ_K`.
 
-Use `GlobalNumberFields.rayClassCharacter_partialSums` and Abel summation to continue a nontrivial
-character through `Re s = 1`. The theta and Mellin presentation of a primitive character is the
+Use `GlobalNumberFields.rayClassCharacter_partialSums`, which bounds the partial sums of a
+nontrivial character by `O(x^(1 - δ))` for some `δ > 0` (the supplier's witness is
+`δ = 1/[K:ℚ]`), and Abel summation (`idealSummatory_mul_eq_sub_integral_mul`) to continue a
+nontrivial character to `Re s > 1 - 1/[K:ℚ]`, which contains `Re s = 1`. The theta and Mellin presentation of a primitive character is the
 finite-order case of the Grossencharacter kernel of Layer 6 — trivial angular frequencies, `Tr(p)`
 the number of odd real places — and `completedHeckeLFunction` is that kernel's Mellin transform at
 `(s + Tr p / n)/2` (`completedHeckeLFunction_eq_mellin`); `exists_mellin_completedHeckeLFunction`
@@ -760,11 +897,31 @@ factors — the correction of Layer 2, not a second notion — and it has no car
 presentation modulus as conductor. As everywhere else, that comparison is stated on `Re s > 1` and
 as germs, since both sides have a pole at `s = 1`.
 
-### Layer 6: Grossencharacters
+### Examples
+
+- the trivial character presented at `ratModulus 4` is imprimitive, its conductor is
+  `Modulus.one` (the supplier's `conductor_one`), and its presented series is `ζ(s)(1 - 2^(-s))`;
+- the odd character mod `4∞` is primitive of conductor `ratModulus 4` (the supplier's
+  `conductor_finitePart_eq_span` and `conductor_infinitePart_eq_empty_iff_even`); its card has
+  conductor `4`, real gamma shift `1` and root number `1`, and `L(1, χ₄) = π/4`;
+- the even character mod `5` presented at `ratFiniteModulus 10` differs from the primitive series by
+  `eulerCorrection = 1 - χ(2) 2^(-s) = 1 + 2^(-s)`, since `2` is not a square mod `5`.
+
+### Dependencies
+
+Global Number Fields: `RayClassCharacter`, `RayClassCharacter.toUnitaryIdealWeight`,
+`RayClassCharacter.induced`, `IsPrimitive`, the conductor declarations of the supplier contract,
+`rayClassCharacter_partialSums`, `ratModulus`, `ratFiniteModulus`, `ratDirichletEquiv`. Arithmetic
+Dirichlet Series: `UnitaryIdealWeight`, `EulerProductData`, `idealSummatory_mul_eq_sub_integral_mul`.
+Layer 0 (`ofSeries`), Layer 2 (`finiteEulerCorrection`, `partialZeta`), Layer 3 (`dedekindZetaC`),
+and, for the Mellin presentation `completedHeckeLFunction_eq_mellin` only, the kernel of Layer 6.
+
+## Layer 6: Grossencharacters
 
 Consume `GlobalNumberFields.HeckeCharacter K`, its real shift, unitary part and archimedean
 parameters `HeckeCharacter.infinityType`, and the idelic vocabulary that pins a character's finite
-behaviour: `IdeleGroup`, `ideleFiniteCoord`, `ideleInfiniteCoord` and `ideleCongruenceSubgroup`.
+behaviour: `IdeleGroup`, `ideleInfiniteCoord`, `ideleCongruenceSubgroup` and the local components
+`HeckeCharacter.finiteComponent`.
 Define a `Grossencharacter K 𝔪` as a presentation, at the modulus `𝔪`, of an **algebraic** Hecke
 character — Weil's type `A₀` — with the idele class character as its primary object. Every other
 field is pinned to that object by an equation, so a presentation is determined by its Hecke
@@ -772,12 +929,12 @@ character (`Grossencharacter.ext`) and the L-function, conductor, root number an
 describe one character:
 
 - `unitaryWeight`, a `UnitaryIdealWeight`, is the ideal weight induced by the unitary part: at a
-  prime `𝔭 ∤ 𝔪₀` it is the value of `toHeckeCharacter.unitaryPart` at the class of a prime idele
-  at `𝔭` — an idele whose `𝔭`-coordinate is a uniformizer and whose every other finite and
-  infinite coordinate is `1`, described through the supplier's coordinate maps — and it vanishes
-  at the ideals not prime to `𝔪`. Complete multiplicativity fixes it everywhere else. ⚠ Quantify
-  over the ideles with those coordinates; do not construct a prime idele here. Their classes
-  differ by units at `𝔭`, on which a character presented at `𝔪` is trivial.
+  prime `𝔭 ∤ 𝔪₀` it is the supplier's local component `unitaryPart.finiteComponent 𝔭` at any
+  uniformizer of `K_𝔭`, which is the supplier's `unitaryPart.idealCharacter` at `𝔭` by
+  `idealCharacter_apply_prime`, and it vanishes at the ideals not prime to `𝔪`. Complete
+  multiplicativity fixes it everywhere else, so it is the supplier's ideal character of the unitary
+  part, extended by zero at the primes of `𝔪`. ⚠ The value does not depend on the uniformizer:
+  two differ by a unit at `𝔭`, on which a character presented at `𝔪` is trivial.
 - `infinityType`, an `AlgebraicInfinityType`, is the archimedean restriction: it agrees with the
   supplier's `HeckeCharacter.infinityType` on the identity component, through the supplier's own
   `AgreesOnIdentityComponent` — exactly a witness of `IsAlgebraic` — and on the nose at the real
@@ -808,7 +965,7 @@ written in the ideal-side convention `χ = χ_u N^σ`, fixed at a prime idele by
 `toHeckeCharacter_primeIdele`: `χ(π_𝔭) = χ_u(𝔭) N𝔭^σ`. Since `‖π_𝔭‖ = N𝔭⁻¹`, that `σ` is
 the **negative** of the supplier's shift, and it is introduced as such:
 `Grossencharacter.idealShift := -toHeckeCharacter.shift`. Every formula below with `s - shift`
-— the coefficients `lFunctionC_eq`, the recentering `completed_recenter`, the polar divisors of
+— the coefficients `lFunctionC_eq`, the recentering in the definition of `completed`, the polar divisors of
 `completed_one_sub` — reads the ideal-side shift; the inverse presentation has ideal-side shift
 `-σ` and the angular characters have `0`. ⚠ The supplier's shift in its place makes the
 prime-idele equation false at once: `‖·‖` over `ℚ` has shift `1` and trivial unitary part, and the
@@ -864,7 +1021,7 @@ on the supplier's `primeToSubgroup`). The residue character of `(𝓞/𝔪₀)ˣ
 `residueCharacter`, Mathlib's `MulChar` of `𝓞/𝔪₀`, unique with the value of `χ_f` at every nonzero
 element (`existsUnique_residueCharacter`, `residueCharacter_mk`); it is what the Gauss sum
 evaluates. ⚠ Keep the two apart. The coefficient `finiteCharacter` is `0` at the element `0`
-(`finiteCharacter_zero`), the value the twisted theta series needs; at conductor one the residue
+since `(0)` is not prime to `𝔪`, the value the twisted theta series needs; at conductor one the residue
 ring has one element, a unit, where the residue character is `1`, so the coefficient does not
 descend to the residue ring through `0`. Conductor-one characters, the trivial one and the
 Dedekind zeta function among them, stay in the programme. Read the harmonic polynomial `N(a^p)`
@@ -877,10 +1034,11 @@ Hecke's lemma: the polynomial times the Gaussian is a Fourier eigenfunction up t
 and the weights `y_w^(-P_w)` (`mixedFourier_harmonicFactor_mul_archGaussian`). Define the twisted
 theta series `θ_χ(𝔞, y) = ε(χ) + ∑_{a ∈ 𝔞} χ_f(a) N(a^p) e^{-π ∑ y_w |a_w|²}` over a fractional
 ideal (`heckeTheta`), where the constant `ε(χ)` (`heckeEpsilon`) is `1` exactly when the finite
-part `𝔣₀` of the conductor is `1` and `Tr p = 0`: it is the residue character at the class of `0`
-times the polynomial at `0`. ⚠ The finite part, not the whole conductor: a real place divides the
-conductor whenever the parity of the archimedean restriction differs from that of the algebraic
-exponent, which happens for the odd norm powers of `ℚ` with a constant polynomial. Prove (8.2):
+conductor `𝔣₀`, the supplier's `toHeckeCharacter.finiteConductor`, is `1` and `Tr p = 0`: it is
+the residue character at the class of `0` times the polynomial at `0`. ⚠ The finite conductor,
+not the whole `primitiveConductor`: a real place divides the latter whenever the parity of the
+archimedean restriction differs from that of the algebraic exponent, which happens for the odd
+norm powers of `ℚ`, unramified at `∞`, with a constant polynomial. Prove (8.2):
 the archimedean weight `N(x^(p/2))` (`archWeight`) times the
 theta series is invariant under the unit action, because `χ_f(u) N(u^p) = ∏_w |u_w|^(P_w)` on a
 unit (`finiteCharacter_mul_harmonicFactor_unit`). Define the Mellin kernel (8.3) with its constants
@@ -905,9 +1063,25 @@ decay and `ε ≠ 0` from `|W(χ)| = 1`. It continues the unitary completion
 form when `Tr p > 0`, where both constants vanish) and proves its functional equation, and the full
 completion follows by recentering.
 
+**Checks** for `heckeEpsilon` and `heckeScale`:
+
+- the trivial character of `ℚ` at conductor one: `ε = 1`, the constant term of Jacobi's theta, and
+  `λ_ℤ = 1`;
+- the odd character mod `4∞`: `𝔣₀ = (4)` and `Tr p = 1`, so `ε = 0` on both counts, and
+  `λ_ℤ = 1 · 4 = 4`, which puts the conductor power `4^(s/2)` into the completion;
+- the even character mod `5`: `Tr p = 0` but `𝔣₀ = (5)`, so `ε = 0`; a constant read off the
+  polynomial alone gives `1`;
+- `N^m` over `ℚ`, `m` odd: `𝔣₀ = ⊤`, so `ε = 1` and `λ_ℤ = 1`, although `∞` divides the
+  presentation conductor; a constant read off `primitiveConductor` gives `0`;
+- over `ℚ(i)`, `𝔞 = ℤ[i]` and an unramified character: Mathlib's covolume
+  `N(𝔞) 2^(-r₂) √|d_K| = 1 · 1/2 · 2 = 1`, so `λ = 1`, where the covolume of Neukirch's
+  normalization, `√|d_K| = 2`, would give `4`.
+
 ⚠ The archimedean carrier is the integer-exponent `AlgebraicInfinityType`, not the carrier of a
-general Hecke character: an arbitrary continuous idele-class character has complex archimedean
-exponents, which is `ContinuousInfinityType`, and `normCharacter K t` for `t ≠ 0` is not
+general Hecke character, and this layer is the theory of algebraic Hecke characters only. An
+arbitrary continuous idele-class character has an archimedean part with real frequencies, which
+is `ContinuousInfinityType`, and its L-function, kernel and gamma shifts are LFunctions, Part II
+(Scope); `normCharacter K t` for `t ≠ 0` is not
 algebraic (`not_isAlgebraic_normCharacter`). The imaginary norm twists of Layer 7 act on the
 weight, through `imaginaryNormTwist` (the supplier's `UnitaryIdealWeight.normTwist` at `z = -it`), and are not Grossencharacters here; the
 finite-order characters of Layer 5 have only `FiniteOrderInfinityType` signs.
@@ -915,9 +1089,13 @@ finite-order characters of Layer 5 have only `FiniteOrderInfinityType` signs.
 Characterize the presented L-function: on `Re s > 1 + shift`, `lFunctionC χ` is the
 norm-regrouped series of the presented unitary weight at `s - shift`, that is
 `∑ χ_u(𝔞) N𝔞^(shift - s)` over the ideals prime to `𝔪`, with the supplier's Euler factors at
-`s - shift`. Define the conductor by its universal property: a modulus `𝔫` presents the same
-Hecke character exactly when the conductor divides `𝔫` (`exists_primitiveConductor`, unique since
-divisibility of moduli is antisymmetric), so the conductor, the primitive
+`s - shift`. The conductor `primitiveConductor` has finite part the supplier's
+`HeckeCharacter.finiteConductor` of the primary object and infinite part the real places at which
+the parity of the archimedean restriction differs from that of the algebraic exponent (the
+conductor convention). Prove its universal property: a modulus `𝔫` presents the same Hecke
+character exactly when the conductor divides `𝔫` (`primitiveConductor_dvd_iff`; the finite half
+is the supplier's `pow_dvd_finiteConductor_iff`, the infinite half `realParity_eq`), so the
+conductor, the primitive
 presentation `Grossencharacter.primitive`, the completions and the root number are functions of
 the Hecke character alone (`_congr`), while the presented series is the primitive series times
 `∏_{𝔭 ∣ 𝔪₀, 𝔭 ∤ 𝔣₀} (1 - χ_u(𝔭) N𝔭^(shift - s))`, on the half-plane and as germs.
@@ -952,7 +1130,8 @@ consequence: `Λ(N^m, s) = Λ_K(s - m)` has poles at `m` and `1 + m`, so the com
 equation is stated pointwise only where the polar divisors of the two unitary cards vanish, read
 at `s - σ`, with a germ statement covering every point.
 
-Required regression examples:
+### Examples
+
 
 - the norm power `N^m` over `ℚ` has one real gamma shift `-m` in its full completion and `0` in
   its unitary card;
@@ -983,10 +1162,11 @@ Required regression examples:
   exponents alone fails it;
 - the conductor-one residue test: for the trivial character of `ℚ` at conductor one the
   coefficient `finiteCharacter` is `0` at `0` and `1` at `1`, the two have the same residue in
-  `𝓞/𝓞`, and the residue character is `1` there (`trivialCharacter_conductorOne_residue_test`); a
+  `𝓞/𝓞`, and the residue character is `1` there; a
   descent of the coefficient to the residue ring that includes `0` fails it;
 - the theta-constant test: for odd `m` the norm power `N^m` of `ℚ` (`ratNormPow m`, the idele
-  class character `‖·‖^(-m)` at the modulus `∞`) has conductor `∞` but finite part `⊤`, a
+  class character `‖·‖^(-m)` at the modulus `∞`) has presentation conductor `∞` — the parity
+  mismatch, although `‖·‖^(-m)` is unramified at `∞` — but finite conductor `⊤`, a
   constant polynomial, and finite character `1` at every nonzero integer, so `ε = 1`, its theta
   series is Jacobi's `θ(iy) = ∑_{n ∈ ℤ} e^{-π y n²}` with the constant term, its kernel is the
   Riemann kernel `mellinKernel`, and its constant is `1/2` (`ratNormPow_theta_test`). An `ε` read
@@ -994,13 +1174,24 @@ Required regression examples:
   inversion — and so does the supplier's shift in place of the ideal-side one, under which the
   finite character is `|n|^(-2m)`.
 
-### Layer 7: intrinsic nonvanishing
+### Dependencies
+
+Global Number Fields: `HeckeCharacter` with `shift`, `unitaryPart`, `infinityType`,
+`finiteConductor`, `finiteComponent`, `idealCharacter`, `ofRayClassCharacter` and
+`isFiniteOrder_iff_exists_rayClassCharacter`; `ContinuousInfinityType`, `AlgebraicInfinityType`
+with `toContinuous`, `ideleCongruenceSubgroup`, `IsCongrOne`, `primeToSubgroup`, `ideleNorm`,
+`narrowModulus`. Arithmetic Dirichlet Series: `UnitaryIdealWeight`, `normCoeff`, `EulerProductData`.
+Layer 0 (`ofSeries`), Layer 1 (`archGaussian`, `mixedFourier`, the unit fundamental domains,
+`FEPairWithLevel`), Layer 3 (`mellinKernel`, the uniqueness theorems), Layer 5
+(`rayClassIdealWeight`, `heckeLFunctionC`, `gaussSum`).
+
+## Layer 7: intrinsic nonvanishing
 
 Specialize `ArithmeticDirichletSeries.landau` to the finite-order Hecke family. Prove the
 `3-4-1` nonnegative coefficient combination and use it to show that a nontrivial primitive
 finite-order Hecke L-function has no zero on `Re s = 1`.
 
-Retain the two reviewed hypothesis packages rather than hiding their assumptions in this
+The two hypothesis packages keep their assumptions visible rather than hiding them in this
 specialization. `CancellingFamily` is indexed by a finite commutative character group, is closed
 under products and conjugation, and requires cancellation of every norm twist of each
 **nontrivial** member. Its identity law applies only to good ideals, where good explicitly includes
@@ -1071,12 +1262,32 @@ roadmap owes such an argument is the analytic input, and that input is named.
 This layer proves no zero-free region, no zero counting, and no explicit formula. Those are
 downstream uses of the named nonvanishing theorem and completed cards.
 
-### Layer 8: interoperability and examples
+### Examples
+
+- `dedekindZetaC ℚ = ζ` has order `-1` at `1` and order `0` at `1 + it` for `t ≠ 0`;
+- `L(1, χ₄) = π/4 ≠ 0`: `χ₄` has order two, so this is the exceptional quadratic case, closed by
+  Landau's argument and not by the `3-4-1` bound;
+- the angular characters of `ℚ(i)` with `k ≠ 0` are not norm twists, so their L-functions have no
+  zero on `Re s = 1`.
+
+### Dependencies
+
+Arithmetic Dirichlet Series: `landau`, `HasCancellation`, `continuedLFunctionOfWeight` with
+`continuedLFunctionOfWeight_eq_LSeries` and `differentiableAt_continuedLFunctionOfWeight`,
+`IsNormTwistOnGood`, `UnitaryIdealWeight.normTwist`, `UnitaryIdealWeight.conj`,
+`PrimeBoundaryRemainder`. Tau Ceti: `TauCeti.LSeries.ne_zero_of_threeFourOne`,
+`TauCeti.LFunctions.primeIdealVonMangoldtBoundary`. Layer 3 (`dedekindZetaC`), Layer 5
+(continuation of a nontrivial finite-order character), Layer 6 (`Grossencharacter`, `lFunctionC`,
+`angularGrossencharacter`).
+
+## Layer 8: interoperability and examples
 
 Supply named comparison cards for Riemann zeta, Dedekind zeta, primitive Dirichlet characters,
 primitive ray-class characters, and Grossencharacters, whose card is that of the unitary part.
 Prove all comparisons with `EqOffZero`, so conductors, gamma factors, root numbers, completions,
 polar divisors, and positive-index coefficients are checked together.
+
+### Examples
 
 Add examples over `ℚ`, `ℚ(i)`, and a real quadratic field. Each example must exercise a convention
 that is invisible in the easiest case: an odd real gamma factor, a complex-place multiplicity, a
@@ -1087,43 +1298,81 @@ Retain two number-field zeta specializations of the shared arithmetic-series inf
 - on `Re s > 1`, the norm-regrouped ideal von Mangoldt series is exactly
   `-ζ'_K(s)/ζ_K(s)`, with the summability required by Tauberian consumers; export this as
   `dedekindZeta_logDeriv_eq`, together with the exact positivity input
-  `dedekindZeta_idealVonMangoldt_nonneg` and the form
-  `lSeries_primeVonMangoldtCoeff_univ` stated for the supplier's own coefficient carrier and the
-  named continuation. Tau Ceti proves all three for Mathlib's `dedekindZeta`
-  (`hasSum_idealTerm_vonMangoldt`, `vonMangoldt_re_nonneg` with `vonMangoldt_im`, and
-  `LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div`), so they are closed by citation,
-  the last through the agreement of `dedekindZetaC` with `dedekindZeta` on `Re s > 1`;
-- Mertens' product has constant `exp(γ) * κ_K`, where
-  `κ_K = Res_(s=1) ζ_K(s)`. The generic sum/product transfer belongs to Arithmetic Dirichlet
-  Series, but this residue specialization belongs here. The mandatory non-rational test is
-  `K = ℚ(√-5)`, where `κ_K = π/√5`; omitting the residue passes the rational test and is false.
+  `dedekindZeta_idealVonMangoldt_nonneg`, both consumed by name by Zeros of L-functions. Tau Ceti
+  proves both for Mathlib's `dedekindZeta` (`hasSum_idealTerm_vonMangoldt`, `vonMangoldt_re_nonneg`
+  with `vonMangoldt_im`), so they are closed by citation through the agreement of `dedekindZetaC`
+  with `dedekindZeta` on `Re s > 1`; the form for the supplier's own coefficient carrier is Tau
+  Ceti's `LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div` and is consumed, not
+  restated;
+- Mertens' product for `K`: as `x → ∞`, `∏_{N𝔭 ≤ x} (1 - N𝔭⁻¹)⁻¹ = e^γ κ_K log x · (1 + o(1))`,
+  the product over the prime ideals of `𝓞_K` of norm at most `x`, `γ` Euler's constant and
+  `κ_K = Res_(s=1) ζ_K(s)` the residue of `tendsto_sub_one_mul_dedekindZetaC` (Rosen's theorem,
+  in the form of Lebacque, *Generalised Mertens and Brauer–Siegel theorems*, Theorem 5 (NF), with
+  `γ_K = γ + log κ_K`). The generic sum/product transfer belongs
+  to Arithmetic Dirichlet Series, and this roadmap supplies its residue input. The non-rational
+  Check is `K = ℚ(√-5)`, `h = 2`, `w = 2`, `|d_K| = 20`, where `κ_K = 2π h/(w √20) = π/√5`;
+  omitting the residue passes the rational test (`κ_ℚ = 1`) and is false here.
 
-## Ordering and parallelism
+### Dependencies
 
-Layer 0 can proceed with the completed-function record while Layer 1 fixes the mixed-space Fourier
-conventions and specializes the supplier's Poisson theorem. Layer 2 consumes Global Number Fields
-and the shared arithmetic-series substrate. Layers 3 and 4 then settle the zeta and Dirichlet
-instances. Layers 5 and 6 build the Hecke instances; Layer 7 uses their continuation, and Layer 8
-records exact interoperability cards and examples.
+Layers 0 and 3 to 6 (the cards). Mathlib: `riemannZeta`, `completedRiemannZeta`. Tau Ceti:
+`hasSum_idealTerm_vonMangoldt`, `IdealArithmeticFunction.vonMangoldt_re_nonneg`,
+`LSeries_primeVonMangoldtCoeff_univ_eq_deriv_dedekindZeta_div`. Mertens' product: Lebacque,
+Theorem 5 (NF).
 
-The roadmap-level dependency graph is exactly
+## Downstream consumers
+
+### Zeros of L-functions
+
+The downstream zeros roadmap consumes the following exact declarations and no prose-level promise:
 
 ```text
-ArithmeticDirichletSeries ─┐
-GlobalNumberFields ────────┼──> LFunctions ──> ZerosOfLFunctions
-ThetaSeries ───────────────┘
+AnalyticLFunctionData
+AnalyticLFunctionData.dual
+AnalyticLFunctionData.HasDirichletAgreement
+AnalyticLFunctionData.HasMeromorphicContinuation
+AnalyticLFunctionData.HasFunctionalEquation
+NormalizationTranslation
+riemannZetaData
+dedekindZetaC
+completedDedekindZeta
+dedekindZetaData
+dirichletData
+heckeLFunctionC
+completedHeckeLFunction
+heckeData
+grossencharacterData
 ```
 
-Chebotarev also consumes the first two suppliers but is not a dependency of L-functions. The
-`ThetaSeries` arrow is used by Layer 1 alone, and it does not reverse: that roadmap states no
-number-field theta function and consumes nothing from here. Behind it, Theta Series imports no
-roadmap (its lattices are the Tau Ceti library's), so `LFunctions → ThetaSeries` ends there and
-is acyclic.
+For every continued function, regularity away from its named polar divisor is exported as
+`AnalyticAt` or `AnalyticOnNhd`, not merely by an inequality for `meromorphicOrderAt`. The latter
+depends only on a punctured germ and does not constrain the total representative's value.
 
-The boundary exports do not reverse an arrow. Arithmetic Dirichlet Series does not import this
-roadmap: it states its prime ideal theorem conditionally on a record it names, Tau Ceti provides
-that record, and this roadmap consumes it and proves the comparison of its series with
-`dedekindZetaC`. The arrow into `LFunctions` stays the only one between them.
+### Prime distribution
+
+A prime-distribution consumer — the `ψ → ϑ → π` transfer of Arithmetic Dirichlet Series, or a
+Frobenius count in Chebotarev — takes its analytic input as named declarations, and no
+prose-level promise:
+
+```text
+TauCeti.LFunctions.primeIdealVonMangoldtBoundary
+primeIdealVonMangoldtBoundary_series_eq
+Grossencharacter.exists_continuousOn_logDeriv
+```
+
+The first is Tau Ceti's record `PrimeBoundaryRemainder K Set.univ 1` on which the supplier's
+`primeIdealTheorem_of_boundary` is explicitly conditional: residue `1` from the simple pole of
+`ζ_K`, and a continuous remainder across `Re s = 1` that exists because `ζ_K` has no zero there.
+It is consumed here, not rebuilt; the second identifies its series with the logarithmic
+derivative of the named continuation `dedekindZetaC` on `Re s > 1`. The third is the twisted
+counterpart, and the one this roadmap supplies: for a Grossencharacter whose unitary weight is
+not a pure imaginary norm twist on its good ideals, the logarithmic derivative of the continued
+L-function of that weight extends continuously to `Re s ≥ 1` with no residue. It is stated for
+genuine Grossencharacters and not for every unitary weight satisfying `UnitaryCancelling`: that
+package continues the series only to `Re s > 1 - 1/[K:ℚ]`, and the exceptional quadratic case
+needs the continuation of Layer 5 (see Layer 7). Hecke's angular equidistribution of Gaussian
+primes is a consumer of the third together with `angularGrossencharacterData`; it needs a Tauberian step and Fourier analysis on the angular
+character group, so it is a prime-distribution theorem and is not proved here.
 
 ## References
 
@@ -1131,10 +1380,14 @@ that record, and this roadmap consumes it and proves the comparison of its serie
 - J. Neukirch, *Algebraic Number Theory*, Chapters VI and VII. Chapter VII is cited by number:
   (1.4) the Mellin principle; (3.6) the theta transformation; (5.3)–(5.9) the unit quotient, the
   fundamental domain and its volume, the Mellin kernel, its transformation law and the functional
-  equation of the partial zeta functions; (6.1)–(6.4) Größencharaktere, the finite character and
+  equation of the partial zeta functions; (5.11) the order and leading coefficient of `ζ_K` at
+  `s = 0`; (6.1)–(6.4) Größencharaktere, the finite character and
   the Gauss sum; (6.13)–(6.14) the correspondence with idele class characters and the sign of the
   archimedean component; (7.4)–(7.8) the theta series with a harmonic polynomial and its
   transformation; (8.2)–(8.6) the Hecke L-series as a Mellin transform, its transformation law,
   root number and functional equation.
 - H. Iwaniec and E. Kowalski, *Analytic Number Theory*, Chapters 3 and 5.
+- P. Lebacque, *Generalised Mertens and Brauer–Siegel theorems*, Acta Arith. (2007)
+  (arXiv:math/0703570), Theorem 5 (NF): Mertens' product over a number field, due to M. Rosen,
+  *A generalization of Mertens' theorem*, J. Ramanujan Math. Soc. 14 (1999).
 - D. Loeffler and M. Stoll, *Formalizing zeta and L-functions in Lean*.
