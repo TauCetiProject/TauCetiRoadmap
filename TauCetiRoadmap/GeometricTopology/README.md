@@ -1828,6 +1828,83 @@ Define positive algebraic-tangle syntax from the pinned integer constructors and
 
 Construct signed Dowker encodings together with realizability/rotation/outerface and crossing-free data, source order/sign convention, decoder soundness and completeness. A plain integer word without these certificates is not an arbitrary realized knot. Consume native Gauss/PD/permutation triples and connected-triple rigidity; certify plane/sphere shadow equivalence, face-orbit actions and reflected triples by propagated images of one half-edge rather than factorial search. For the seven-crossing outerface example enumerate all28 candidate sheet images in each permitted orientation branch, prove no allowed map interchanges the selected outerfaces, and separately certify sphere equivalence.
 
+<a id="gt4-dowker-source-completions"></a>
+**The four source Dowker words and the seven-crossing exercise.** Pin the
+one-based source convention: crossing i pairs visits `o_i=2i−1` and
+`e_i=|d_i|`; if `d_i>0` the even visit is over, and if `d_i<0` the odd
+visit is over. The other visit is under. These integer signs do not encode
+the oriented crossing signs. For each of the following literal words,
+construct the partner matching, over/under bits and every planar crossing-
+rotation completion on native `BasedOrientedGaussCode` and `OrientedPDCode`.
+
+| Physical page | Signed even-partner word d | One planar oriented-sign vector ε |
+| --- | --- | --- |
+| 157 | `(14,12,10,2,18,16,8,6,4)` | `(+,-,+,+,-,+,+,-,+)` |
+| 158, eight-crossing example | `(10,12,8,14,16,4,2,6)` | `(+,+,+,-,+,+,+,-)` |
+| 158, seven-crossing exercise | `(8,10,12,2,14,6,4)` | `(+,+,+,+,+,+,+)` |
+| 159 | `(6,-14,16,-12,2,4,-8,10)` | `(+,+,+,+,+,-,+,+)` |
+
+For each row prove that the planar sign vectors are EXACTLY ε and −ε.
+Use a finite check over all `2^n` assignments with its exhaustive proof,
+not a drawing heuristic. A visit v has incoming/outgoing half-edges
+`(v,false)` and `(v,true)`; the edge involution pairs outgoing v with
+incoming `v+1 mod2n`. For sign+, the counterclockwise crossing slots are
+`(over,in),(under,in),(over,out),(under,out)`; for sign− interchange the
+two under slots. This is the native Gauss-to-PD convention. Prove the
+converted shadow connected, and its face counts for ε are respectively
+11,10,9,10, hence native `IsPlanar` by Euler characteristic. For −ε
+construct the reflected rotation system and its geometric reflection.
+These are completions of the literal words; compare the individual printed
+figures by their own based traversals and outer-face markings. Unreadable
+figure marks do not select one of the two mirror completions.
+
+Resolve the seven-crossing exercise explicitly as `7₄` up to reflection.
+For the all-positive ε choice, its under-first counterclockwise arc rows,
+with arcs labelled by the visit at which they end and labels modulo14, are
+
+```text
+(1,9,2,8), (3,11,4,10), (5,13,6,12), (7,3,8,2),
+(9,1,10,14), (11,7,12,6), (13,5,14,4).
+```
+
+The corresponding native over-first slots are obtained by taking entries
+4,1,2,3 of each displayed row. Give the adapter from these repeated arc
+labels to distinct half-edges and their edge matching. Its oriented
+Gauss traversal in crossing labels1,…,7, with a minus sign denoting an
+UNDER visit, is
+`(-1,4,-2,7,-3,6,-4,1,-5,2,-6,3,-7,5)`; every oriented crossing sign
+is positive. Do not confuse the signed visit list with ε.
+
+Use the following fixed standard `7₄` PD reference, also in under-first
+counterclockwise convention:
+
+```text
+(6,2,7,1), (12,6,13,5), (14,8,1,7), (8,14,9,13),
+(2,12,3,11), (10,4,11,3), (4,10,5,9).
+```
+
+Its data are recorded by [Knot Atlas, `7₄`](https://katlas.org/wiki/7_4).
+The arc relabelling `ℓ↦1+((ℓ−1+5) mod14)`, followed by reading its
+crossings in order `(6,2,3,5,7,1,4)`, gives exactly the exercise rows.
+Prove this equality, the orientation/over-under compatibility and the
+resulting native PD equivalence. Realization then gives the required
+geometric identity without a late table-classification premise. Compare
+this marked reference to the rational numerator `[3,1,3]`, slope15/4 in
+the earlier reversed continued-fraction convention, by a finite relative
+diagram movie or explicit code equivalence. Its seven-crossing diagram
+is reduced alternating; the bracket span proves minimality.
+
+As independent computations, obtain Alexander polynomial
+`4t+4t⁻¹−7` and determinant15 from its actual Fox/Seifert presentation.
+Directly from the source word, the Fox-colouring row i has twice the arc
+at over-visit `e_i` and minus the two arcs adjacent to under-visit `o_i`;
+prove a reduced determinant has absolute value15. These computations
+check the identification but do not replace the marked PD equivalence.
+[`DowkerExerciseTargets.lean`](DowkerExerciseTargets.lean) gives the actual
+native seven-crossing Gauss code, its planar target and the explicit arc-
+relabel certificate. Keep the separate plane outer-face comparison above;
+a sphere diagram identification need not fix a chosen unbounded region.
+
 For every fixed component count μ and crossing bound N, give a finite enumerating carrier of ALL realizable plane link diagrams with μ components and at mostN crossings. Include disconnected positive-crossing shadow components, crossing-free circles, the plane nesting/outerface forest, crossing signs, component ordering and orientations. Bound the finite permutation/rotation/attachment data by (μ,N), enumerate it and check realizability; an arbitrary integer word is not a plane embedding. Extract such data from every regular projection with that bound and prove realization recovers its geometric link. Thus every μ-component link with crossing number≤N has a representative in the finite carrier, independently of the late equivalence/classification/minimality algorithm. The μ=0 empty link, N=0 unlinks, and connected knot-shadow subcarriers are explicit branches. State the exact numerical upper bounds proved by this encoding. Distinguish the source's two DT reconstruction exponents and their proof obligations; an independent upper bound does not authenticate an invalid source derivation.
 
 <a id="gt4-jones-span-alternating-converse"></a>
