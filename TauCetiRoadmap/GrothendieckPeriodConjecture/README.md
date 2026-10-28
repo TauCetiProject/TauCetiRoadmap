@@ -13,8 +13,12 @@ multiplication, as a `def … : Prop`: this is the elliptic case of the Grothend
 conjecture in the form of Bost–Charles, Conjecture 2.12.
 
 The question first appears in Grothendieck's notes in 1965 (Montpellier fonds, folder 13,
-pp. 47–48: is the de Rham–Betti realisation fully faithful over algebraic extensions of `ℚ`?);
-the statement specified here is the refereed one, Bost–Charles 2016.
+pp. 47–48: is the de Rham–Betti realisation fully faithful over algebraic extensions of `ℚ`?).
+Folder 18 (from 1969 to about 1972), pp. 10–12, states it in torsor form, the transcendence
+degree of the field of periods being the dimension of the torsor that carries them, and asks for
+an elliptic curve whether the transcendence degree of the comparison point is `dim G`, that is
+`4` for `G = GL₂` without complex multiplication, or `2`, and whether its locus generates `G`.
+The statement specified here is the refereed one, Bost–Charles 2016.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Elliptic/` (mirroring Mathlib's
 `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`) for Layers 0–2 and 4, and
