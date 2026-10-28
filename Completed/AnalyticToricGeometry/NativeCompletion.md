@@ -5,7 +5,7 @@ It uses the implemented Tau Ceti APIs directly and contains no admitted targets.
 
 The block below was extracted verbatim to a Lean file and checked with
 `lake env lean -DwarningAsError=true` at Tau Ceti
-[`81912a7b67c19c2fdab34e09e4d0d2c5becac1a0`](https://github.com/TauCetiProject/TauCeti/commit/81912a7b67c19c2fdab34e09e4d0d2c5becac1a0),
+[`095e3aad63f6cb551d582b3e8e5b4da46cc872fe`](https://github.com/TauCetiProject/TauCeti/commit/095e3aad63f6cb551d582b3e8e5b4da46cc872fe),
 with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The axiom reports contain only
 `propext`, `Classical.choice`, and `Quot.sound`.
 
@@ -31,8 +31,7 @@ noncomputable instance fullConePointUnique
     apply AffineSemigroupComplexPoint.ext
     intro s
     rw [Subsingleton.elim s 0, ofAdd_zero]
-    change x 1 = (default : AffineSemigroupComplexPoint (dualSemigroup hi ⊤)) 1
-    simp
+    simp only [← MonoidAlgebra.one_def, map_one]
 
 #print axioms fullConePointUnique
 #print axioms spec_map_smul_eq_lift_comp_affineToricSchemeAction
