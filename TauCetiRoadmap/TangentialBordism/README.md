@@ -27,8 +27,6 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 
 | Supplier | Consumed interface | Boundary |
 | --- | --- | --- |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer11 and item1 of the smoothing-and-triangulation comparison | collars, gluing along a piece of the boundary and handle attachment, tubular neighbourhoods with their normal bundles; the CW structure on the realization of a simplicial complex; Whitehead's smooth triangulation | B1.6 owns neat embeddings, relative/parametric transversality, corner rounding, compact neighbourhoods and doubles; B1.5 owns the relative boundary triangulation |
-| [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 5.5, 8.3, 10.2 | the manifold-orientation carrier with chart signs, face-indexed corners, the smoothing of simplices, manifold Sard `dense_isRegularValue` | B1.6 derives transversality from 10.2 |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, G1.1 morphisms of theories, G3.3's arbitrary-CW comparison theorem, G3.8 connective covers, finite duality and G5.2's unframed Thom collapse with its stabilized embedding comparison, compatible universal bundle diagrams with cofinal reindexing, MO/MSO/MSpin/MU^(2) and quaternionic smooth carriers, G5.5's ABS orientation | geometric cycles, ξ-lifts and PT, coefficient rings and transfer/kernel calculations are here |
@@ -39,7 +37,7 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 | FourManifolds, early example constructions | F7.0 quarticKThree carrier/characteristic calculation and ellipticEOneFiberComplement, E(1) minus a regular elliptic fibre with its actual Lie-spin T3 boundary | these examples precede bordism consequences; later Four Wu/Rokhlin applications consume B3/B4 |
 | [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2(a) constructs the finite-F2 Arf invariant used by surface and Seifert refinements |
 | StringOrientation, S1 | normalized λ on the stable Spin classifier, BString mapping-path fibre, relative lifts and H3 torsor | only this early obstruction/lift lane precedes B3.8; String bordism and TMF/genus calculations follow this roadmap |
-| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7; SmoothBundlesConnections, B1.4 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³`; free proper smooth quotients as principal bundles | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms |
+| [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms; B1.6 owns free proper smooth quotients as principal bundles |
 | IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's `spinFour_signature_eq_neg_sixteen_mul_quaternionicIndex` and `rokhlin_signature_dvd_sixteen` | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 
 O/SO/Spin mean stable unoriented, oriented and Spin structures, with explicit
@@ -105,7 +103,7 @@ are owned here.
    the boundaryless E_n model; n-dimensional relative sources use the native
    Euclidean half-space model of dimension n (n>0), and bordism witnesses
    use `modelWithCornersEuclideanHalfSpace (n+1)`. Face-indexed corner
-   models come from DifferentialGeometry 5.5 and B1.6's corner rounding.
+   models come from B1.6's corner charts and corner rounding.
    Dimension0 has empty boundary and no half-space-of-dimension0 model.
    Construct O/SO/Spin cycles over X and compatible ξ-normal cycles. Reuse
    native SingularManifold for closed sources, with T2 and second-countable
@@ -113,7 +111,7 @@ are owned here.
    lifts and normal classifier maps with bundle isomorphisms. Compare
    finite representatives of stable structures, all higher stabilizations,
    pullbacks, diffeomorphisms and changes of classifier lift by homotopy.
-   Consume DG2.1's single manifold-orientation carrier, with native
+   Use B1.6's single manifold-orientation carrier, with native
    `Orientation ℝ (TangentSpace I x) (Fin n)` for the actual dimension-n
    model I of the cycle or witness. This is the positive-scalar ray of a
    nonzero alternating top form, used as the pointwise datum. Reuse
@@ -133,7 +131,7 @@ are owned here.
    is oriented (native `TauCeti.orientable_closedBall` assumes 2≤n for
    this reason). There, and so for every bordism witness of a
    zero-dimensional cycle and every one-dimensional relative source,
-   compare only through DG2.1's chart-sign carrier and the frame and
+   compare only through B1.6's chart-sign carrier and the frame and
    determinant descriptions. Construct reversal by the negative ray,
    derivative pullback, the ordered product and outward-first boundary rule
    on this datum, and prove that the frame, local-homology and determinant
@@ -159,8 +157,8 @@ are owned here.
    signs after Spin forgetting. The degree-zero coefficient groups are
    computed in B2.4, after the quotient exists.
    Empty manifolds, disconnected zero-manifolds and products with points
-   retain these data and laws; no new generic orientation carrier or
-   duplicate one-line native theorem is introduced.
+   retain these data and laws; no second orientation carrier and no
+   duplicate of a one-line native theorem is introduced.
 2. Construct compact smooth collared bordism witnesses with continuous
    parameter maps and actual structured boundary diffeomorphisms. Construct
    cylinders, reversed witnesses, disjoint union and gluing. Use collars to
@@ -182,26 +180,95 @@ are owned here.
    with the native bundled carrier and prove universe-lift comparisons.
    Quotienting all Type-u manifolds does not itself produce a Type-u group.
 5. Supply the example/witness geometry before its bordism applications:
-   smooth free finite-action quotients from SBC B1.4's proper/free principal
+   smooth free finite-action quotients from B1.6's free proper principal
    quotient (finite discrete groups are zero-dimensional Lie groups), including
    their chart/covering/compactness and tangent-bundle comparisons; smooth
-   mapping tori from GT Layer1 collared boundary gluing, with explicit monodromy and
+   mapping tori from B1.6's collared boundary gluing, with explicit monodromy and
    boundary identifications; unit disk/sphere bundles as smooth manifolds with
    boundary using their fibre half-space charts, radial collars and native
    vector-bundle transition maps. Compare all these chosen carriers with the
-   literal quotient/total-space sets and their topology. Consume item1 of GT's
-   [smoothing-and-triangulation comparison](../GeometricTopology/README.md#the-smoothing-and-triangulation-comparison-far-horizon)
-   (Whitehead's smooth triangulation of every smooth manifold) and GT
-   Layer11's CW structure on the realization of a simplicial complex. Own
-   here the relative refinement in which a collared boundary, or a chosen
+   literal quotient/total-space sets and their topology. Consume B1.6's
+   smooth triangulation of every smooth manifold and its CW structure on the
+   realization of a finite simplicial complex. Own here the relative
+   refinement in which a collared boundary, or a chosen
    union of faces, is a subcomplex: triangulate the double of B1.6 compatibly
    with its reflection, or triangulate the boundary first and extend over
    the collar by the product subdivision. This gives native finite CW pairs
    for compact sources/witnesses; it precedes B2 weak-pair invariance and B5
    lifting, independently of the bordism coefficients.
-6. Own the differential-topology inputs of the geometric theory that the
-   cited GeometricTopology layers do not state. Each is a smooth statement
-   on finite-dimensional real manifolds with corners in Mathlib's sense.
+6. Own the differential-topology inputs of the geometric theory. Each is a
+   smooth statement on finite-dimensional real, Hausdorff, second-countable
+   manifolds with corners in Mathlib's sense.
+   - **Orientation carrier with chart signs.** Define a manifold
+     orientation as a choice, at each x, of Mathlib's
+     `Orientation ℝ (TangentSpace I x) (Fin n)` that is locally constant in
+     charts, and the sign of a chart at a point as +1 or −1 according as its
+     derivative carries this orientation to the standard orientation of the
+     model vector space. Prove that chart signs are locally constant, that
+     they multiply under composition with transition maps by the sign of the
+     transition's Jacobian determinant, and that for n≥1 an atlas is
+     contained in Tau Ceti's `TauCeti.orientationPreservingGroupoid`
+     (pinned at `Geometry/Manifold/Orientation.lean`) exactly when some
+     orientation has chart sign +1 at every point of every chart of the
+     atlas, that orientation then being unique. In dimension0 every
+     transition preserves orientation while the negatively oriented point
+     has chart sign −1, so there the sign datum σ of B1.1 is kept separately.
+     On [0,1] with half-line charts no atlas has all signs +1. Its comparisons with frames,
+     local homology and atlases are B1.1's.
+   - **Face-indexed corners.** On manifolds modelled on Mathlib's
+     `modelWithCornersEuclideanQuadrant n`, define the depth of a point as
+     the number of vanishing coordinates in a chart and the set of local
+     faces through it; prove both independent of the chart (a transition map
+     of quadrant charts preserves the set of vanishing coordinates up to a
+     bijection of indices). Call a global face the closure of a connected
+     component of the depth-1 points; a manifold with faces is one whose
+     depth-k points lie on exactly k distinct global faces. The teardrop, a
+     disk with one corner point of depth2 on a single global face, has
+     corners but no faces. Corner rounding below compares
+     these with half-space models.
+   - **Collars, gluing, handles and tubular neighbourhoods.** Prove the
+     collar theorem: a compact manifold with boundary has a smooth embedding
+     ∂M×[0,1)→M restricting to the identity on ∂M×0 with open image, any two
+     collars isotopic rel ∂M (existence: Lee, *Introduction to Smooth
+     Manifolds*, 2nd ed., Chapter 9; uniqueness: Hirsch, *Differential
+     Topology*, Chapter 4). Glue two manifolds along diffeomorphic unions of
+     boundary components, or along codimension-zero submanifolds of their
+     boundaries using corner rounding, with a smooth structure unique up to
+     diffeomorphism fixed outside the collars. Attach a k-handle
+     D^k×D^(n−k) along an embedding of S^(k−1)×D^(n−k) in the boundary as a
+     special case. Prove the tubular neighbourhood theorem for a closed
+     embedded submanifold Z of a manifold N without boundary: the normal
+     bundle TN|Z/TZ, as a native smooth vector bundle, embeds onto an open
+     neighbourhood of Z, extending the zero section, unique up to isotopy;
+     in Euclidean space it has a smooth retraction onto Z (Lee, Chapter 6;
+     uniqueness: Hirsch, Chapter 4).
+   - **Manifold Sard.** From Tau Ceti's Euclidean Morse–Sard theorem
+     `ContDiff.dense_compl_image_criticalPoints` (pinned at
+     `Analysis/Calculus/Sard/OutermostStratum.lean`, for maps of class at
+     least m²+1 on an m-dimensional space) prove that the regular values of
+     a smooth map between manifolds, with or without boundary, form a dense
+     subset. Cover the source by countably many compact subsets K_i of chart
+     domains on each of which f has, in coordinates, a smooth extension to
+     the whole model space (by a local extension at boundary points and a
+     bump function). The critical values of f coming from K_i form a compact
+     set contained in the critical values of that extension, hence closed
+     with empty interior by the Euclidean theorem; the regular values of f
+     contain the countable intersection of their open dense complements,
+     which is dense by Baire (Lee, Chapter 6).
+   - **Free proper quotients.** For a Lie group G acting smoothly, freely
+     and properly on a manifold M without boundary, construct the smooth
+     structure on M/G for which the orbit map is a smooth submersion and a
+     smooth principal G-bundle, unique among smooth structures with that
+     property (Lee, Chapter 21, the quotient manifold theorem); for finite
+     discrete G the orbit map is a smooth covering.
+   - **Smooth triangulations and simplicial CW structures.** Prove that
+     the underlying space of a finite geometric `Geometry.SimplicialComplex`
+     carries a native finite `Topology.CWComplex` structure, with one cell
+     per simplex and every subcomplex a CW subcomplex. Prove Whitehead's
+     theorem that every smooth manifold without boundary has a smooth
+     triangulation, finite when the manifold is compact (Munkres,
+     *Elementary Differential Topology*, §10); the boundary case is B1.5's
+     relative refinement through the double.
    - **Neat Euclidean embeddings.** Mathlib's
      `exists_embedding_euclidean_of_compact` gives, for a compact Hausdorff
      smooth manifold over any model with corners, a smooth closed embedding
@@ -213,8 +280,8 @@ are owned here.
      faces and a free face. Prove that any two such embeddings become
      isotopic rel boundary after a common stabilization, by B5.4's block
      rotation.
-   - **Transversality.** From DifferentialGeometry 10.2's
-     `dense_isRegularValue` (manifold Sard) prove the parametric
+   - **Transversality.** From the manifold Sard theorem above prove the
+     parametric
      transversality theorem: if F:M×S→N is smooth, transverse to a closed
      submanifold Z⊂N, then for a dense set of s∈S the map F(−,s) is
      transverse to Z, and for M with boundary the same holds for F(−,s) and
@@ -223,8 +290,7 @@ are owned here.
      a manifold N, already smooth and transverse to Z near a closed subset C,
      is homotopic rel C, by an arbitrarily small homotopy, to a smooth map
      transverse to Z on each face. Prove the relative Whitney approximation
-     of continuous maps into N for the smoothing step (the general form of
-     the simplex case used in DifferentialGeometry 8.3), and use the
+     of continuous maps into N for the smoothing step, and use the
      finite-dimensional linear parameter family of a Euclidean embedding of N
      composed with a tubular retraction (Lee, *Introduction to Smooth
      Manifolds*, 2nd ed., Chapter 6, Whitney approximation and parametric
@@ -240,15 +306,12 @@ are owned here.
    - **Neighbourhoods and doubles.** For a compact subset K of a
      Hausdorff second-countable smooth manifold M without boundary,
      construct a compact smooth codimension-zero submanifold with boundary
-     containing K in its interior: take a regular value, by DifferentialGeometry
-     10.2, of a smooth proper exhaustion function above its maximum on K.
-     For a compact M with collared boundary construct its double as GT
-     Layer1's full-boundary gluing of M and its reversal along the collar,
+     containing K in its interior: take a regular value, by the manifold Sard
+     theorem above, of a smooth proper exhaustion function above its maximum
+     on K. For a compact M with collared boundary construct its double as the
+     full-boundary gluing above of M and its reversal along the collar,
      with the reflection, the inclusion of M and the restriction of tangent,
      orientation and Spin data.
-   These are owned here because the GeometricTopology roadmap states
-   collars, boundary gluing and tubular neighbourhoods (its Layer1) but not
-   these statements.
 
 ## B2. Groups, products and the geometric homology theory
 
@@ -406,7 +469,7 @@ are owned here.
    SpinRepresentations L7's native Hamilton-quaternion comparison and its
    topological refinement `Spin(3)≃S³`; derive π₀,π₁,π₂=0 using the sphere
    homotopy/Hurewicz interfaces. On the at-most-three-dimensional CW model
-   of a smooth triangulation of M (GT's smoothing item1 with Layer11),
+   of a smooth triangulation of M (B1.6's smooth triangulation and simplicial CW structure),
    use CC's numerable-principal-bundle classification and AT8's relative
    obstruction construction to build a section of this Spin principal bundle
    over successive cells. Transport the trivialization back along the actual
@@ -422,7 +485,7 @@ are owned here.
    finite-F2 algebra. Part (b) uses only SpinGeometry G4's circle and surface
    Spin refinements and AlgebraicTopology's H1(Σ;F2) with mod2 Poincaré
    duality; it uses no B1/B2 quotient, B4, B5 or B6 input. Part (c) uses (a),
-   (b), B1–B2 witnesses and GT Layer1 handle attachment. Each part is the
+   (b), B1–B2 witnesses and B1.6's handle attachment. Each part is the
    single owner of its statements, and consumers of the geometric
    refinement or of the filling theorem cite (b) or (c).
 
@@ -627,7 +690,7 @@ are owned here.
    inverse continuous/smooth comparisons on these actual group maps.
    Construct the quotient homeomorphism and diffeomorphism
    compactF4/Spin9≃octonionicProjectivePlane from the actual orbit map and
-   SBC B1.4 principal quotient, not an abstract existence equivalence. Give
+   B1.6's free proper principal quotient, not an abstract existence equivalence. Give
    smooth local sections, the tangent isotropy comparison, connectedness and
    simple connectivity, and all chart/homogeneous-carrier compatibility laws.
 8. Prove w2=0 and the unique Spin lift on the preceding cell model; compute tangent characteristic
@@ -860,7 +923,7 @@ are owned here.
 1. Construct finite ξ_k-normal embedded cycles M^n⊂R^(n+k), with actual
    Gauss/classifier lift M→B_k and pullback isomorphism ν_M≃γ_k.
    The generic `BundleClassifierIsoData` record is supplemented here by
-   GT Layer1's actual quotient normal bundle of the specified embedding, the map
+   B1.6's actual quotient normal bundle of the specified embedding, the map
    B_k→BO(k), its designated universal γ_k, and a specified homotopy
    between the projected lift and the embedding's Gauss map, transporting
    the bundle isomorphism along that homotopy.
@@ -1521,8 +1584,7 @@ not bordism coefficients, and the Adams towers of B4.2 and B4.7 use no
 Pontryagin–Thom construction. B4.8's odd MSO/Spin Adams computation, B6.1's
 odd-primary Hurewicz/Newton lattice and B6.2's 2-primary Wall calculation
 supply the integral oriented ring together, without a BFG/Quillen cycle;
-B5 consumes G's already constructed bundle/Thom diagrams, GT Layer1 geometry
-and B1.6.
+B5 consumes G's already constructed bundle/Thom diagrams and B1.6's geometry.
 Its finite inverse is the coefficient construction. B5.4a–b supply the
 collapse-with-parameter and actual pair boundary map; B5.4c first proves the
 homology-theory transformation and its continuity/product/forgetting laws,
@@ -1577,6 +1639,14 @@ splitting alone completes these targets.
   especially geometric realization and its degree6/degree7 distinction.
 - C. T. C. Wall, *Determination of the Cobordism Ring*, Annals of Math.
   72(1960),292–311, [primary paper](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/cobord.pdf).
+- J. M. Lee, *Introduction to Smooth Manifolds*, 2nd ed., Springer GTM218,
+  2013, Chapters 6, 9 and 21, for Sard, Whitney approximation, tubular
+  neighbourhoods, transversality, collars and gluing, and the quotient
+  manifold theorem.
+- M. W. Hirsch, *Differential Topology*, Springer GTM33, 1976, Chapter 4,
+  for uniqueness of collars and tubular neighbourhoods.
+- J. R. Munkres, *Elementary Differential Topology*, Annals of Math. Studies
+  54, Princeton, 1966, §10, for Whitehead's smooth triangulation theorem.
 - R. E. Stong, *Notes on Cobordism Theory*, Princeton University Press,1968;
   J. Milnor and J. Stasheff, *Characteristic Classes*, Princeton,1974,
   especially the Newton-number and Thom/Wall computations.
