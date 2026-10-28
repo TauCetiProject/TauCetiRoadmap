@@ -1666,6 +1666,7 @@ formally-real Albert, triality, Layer7E and downstream symmetric-space targets u
 
 - **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
 - **Bruhat and Schubert geometry.** ReductiveGroups RG7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. Apply it to the preceding groups and construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
+<a id="block-borel-flag-orbits"></a>
 - **The smaller block-Borel action on complete flags.** Over ℂ, for n≥1 put
   W=span(e₁,…,e_(n−1)) and
   `H={diag(b,1):b∈B_(n−1)}⊂GLₙ`, where each B_r is the upper-triangular
@@ -1717,6 +1718,29 @@ formally-real Albert, triality, Layer7E and downstream symmetric-space targets u
   The free open representative is the third row with q=e₁+e₃.
 
 
+  Compute the stabilizers of the five line representatives and the full
+  flag stabilizers in the actual group
+  `b(a,t,c)=[[a,t,0],[0,c,0],[0,0,1]]`, a,c∈ℂ×. For l=e₁,e₂,e₂+e₃,
+  e₁+e₃,e₃ the line stabilizers are respectively all B₂; t=0;
+  t=0,c=1; a=1; all B₂. Prove each flag orbit is locally closed
+  using the rank charts and quotient actions just given, and compute
+  its dimension as3 minus its full stabilizer dimension. In the same
+  row and q-entry order as the preceding table the dimensions are
+  `(0,0,1); (1,1,2); (2,2,3); (2,1); (0,1)`.
+  Thus there are three dimension-zero, five dimension-one, four
+  dimension-two and one dimension-three orbits.
+
+  In semester1 pp173–176 retain the uncertainties in the rewritten flag,
+  incidence-star notation and small orbit diagrams. The literal candidate
+  e_i=f_i+f_(i+1), e_n=f_n has its first line in the preserved hyperplane
+  span(f₁,…,f_(n−1)) for n≥3; its orbit lies in that proper closed
+  incidence locus and is not dense. It is not the displayed E⁰.
+  Likewise b(1,1,1) moves both ℂe₂ and span(e₂,e₃); the invariant
+  coordinate lines are ℂe₁,ℂe₃ and the invariant coordinate planes are
+  span(e₁,e₂),span(e₁,e₃). Keep these matrix checks distinct from
+  identifying the source's overwritten labels. A comparison reference is
+  [Colarusso–Evens, §2 and Example4.15](https://arxiv.org/html/2406.10122v2).
+
 - **Associated coherent lines and the two Borel conventions.** For the preceding connected
   linear complex groups use the actual algebraic character lattice X of T and the positive
   Borel B+. For χ∈X construct the algebraic associated line Eχ by descent, its G-linearization,
@@ -1757,6 +1781,90 @@ formally-real Albert, triality, Layer7E and downstream symmetric-space targets u
   Neither a dimension equality nor unrelated degreewise isomorphisms supply this comparison.
   This application consumes the stated early coherent/GAGA contracts, not all of SchubertGeometry;
   its S7 and S9 compact/topological comparisons consume these LieGroups flags afterwards.
+<a id="big-cell-contragredient-verma"></a>
+- **The full big-cell module and its contragredient Verma pairing.**
+  In the preceding negative-Borel chart put C_λ=Γ(Ω,L(λ)|Ω), identified
+  with O(N+) through the chosen nonzero fibre vector. This target
+  supplies Knutson semester2 p6's module statement, beyond the preceding
+  torus restriction and polynomial weight bound. Here Γ means algebraic
+  regular sections. Preserve the earlier distinction from all holomorphic
+  or arbitrary functions. Work with λ in the actual character lattice X.
+
+  Construct the rational B+ action from the line's linearization and a
+  complex Lie-algebra action D:g→End_ℂ(C_λ) by first-order polynomial
+  differential operators. For g⁻¹n in the open Gauss domain write
+  `g⁻¹n=n'(g,n)b−(g,n)`, with n'∈N+ and b−∈B−. In this domain the
+  section formula is
+  `f ↦ (n↦λ(b−(g,n))⁻¹ f(n'(g,n)))`.
+  Differentiate at g=exp(tX), t=0, to define D_X. Prove that the result
+  is a regular first-order operator on all N+, its independence from
+  Gauss-chart presentations, complex linearity and the bracket law.
+  Prove differentiation and Ad(B+) compatibility with the actual B+
+  action, including the earlier torus weight λ−Σm_αα. This constructs
+  the (g,B+) module; a global G action on the entire cell-section space
+  is not inferred from this partially defined G formula. Prove that
+  restriction of global sections R_λ intertwines this full Lie action
+  and the B+ action, not only T.
+
+  Use LieHighestWeight Layer3's native `TauCeti.VermaModule`, its PBW
+  equivalence `universalEnvelopingEquivVermaModule` and native finite
+  weight spaces. For reductive g first use its actual center/derived
+  splitting: tensor the native semisimple Verma module with the
+  one-dimensional central character λ|z, and compare with the full
+  enveloping quotient by the positive-Borel highest-weight relations.
+  The λ passed to the native module is the differential restricted to
+  the derived Cartan. Keep the central lattice and character in the maps.
+
+  Construct the pinned enveloping anti-involution τ fixing the Cartan
+  and exchanging e_i,f_i. Use the native Chevalley involution ω,
+  `TauCeti.IsChevalleySystem`, and the native enveloping antipode
+  `TauCeti.UniversalEnvelopingAlgebra.antipodeOp`; on the center take
+  ω=−id, so τ fixes it. Prove τ²=id and the product-reversal and
+  generator equations. For M=M(λ) define its restricted contravariant
+  dual as the direct sum of the **individual** weight-space duals,
+  with action `(x·φ)(v)=φ(τ(x)v)`. Construct this action on that
+  direct sum and prove its weight/support laws. There is no minus sign
+  in this formula; ordinary dual action `−φ(xv)` is different.
+
+  Construct the pairing on the actual native Verma quotient by
+  `⟨f,u v_λ⟩=(D_(τ(u)) f)(1)`, extending D to U(g).
+  Prove descent through the Verma relations, the normalization
+  `⟨1,v_λ⟩=1`, contravariance
+  `⟨D_x f,v⟩=⟨f,τ(x)v⟩`, and perfectness on every matching weight
+  pair. In ordered root coordinates give the finite PBW/derivative
+  matrices and inverses, with their factorial coefficients and
+  nonzero diagonal. Prove every polynomial has finite weight support
+  and that every finite-support family of functionals reconstructs a
+  unique polynomial. Obtain an actual Lie-module equivalence
+  `C_λ≃M(λ)^∨` and its inverse; equality of formal characters alone
+  is insufficient. Compare with the B+ action by the same weights and
+  locally nilpotent positive-root exponentials. When the root system is
+  nonempty, the full algebraic dual of M is the strictly larger product
+  of weight-space duals, admitting formal series. For a pure torus both
+  duals equal the one-dimensional polynomial carrier O(point).
+  Prove compatibility with
+  changes of pinned root order, the chosen fibre-vector rescaling,
+  determinant/central shifts, products and a pure torus or flag point.
+  This construction uses the existing PBW/Verma supplier and Gauss
+  charts, with no Borel–Weil or irreducible-character formula premise.
+
+  For SL₂ use Ω={ [z:1] } and fibre character
+  λ(diag(t,t⁻¹))=t^m, m∈ℤ. Prove on ℂ[z] that
+  `D_e=−∂_z`, `D_h=m−2z∂_z`, `D_f=z²∂_z−mz`,
+  so `[D_e,D_f]=D_h`, `[D_h,D_e]=2D_e`, `[D_h,D_f]=−2D_f`.
+  For the native lowering basis f^j v_m the pairing is
+  `⟨z^i,f^j v_m⟩=δ_ij(−1)^j j!`. Construct the coefficient
+  extraction inverse and check this factorial/sign normalization.
+  After the independent Borel–Weil target below, identify global
+  restriction with the polynomial subspace of degree≤m for m≥0;
+  it is the simple (m+1)-dimensional submodule generated by1.
+  For m<0 the global image is zero. In particular m=0 gives constants,
+  while the full cell module is still infinite-dimensional. The native
+  polynomial signature examples are in [BigCellVermaTargets.lean](BigCellVermaTargets.lean).
+  For a reference compare [Styrkas, *Regular representation on the big
+  cell and big projective modules in the category O*, §2, Eq.2.17](https://archive.mpim-bonn.mpg.de/id/eprint/1247/2/preprint_2005_2.pdf),
+  transporting its left/right and generator signs through the displayed maps.
+
 - **Borel–Weil in degree zero.** For dominant λ∈X retain Lλ=E_(−λ) and prove
   H⁰(G_C/B+,Lλ)≃L(λ)*=L(−w₀λ), through the coefficient map
   ℓ↦(g↦ℓ(gvλ)), intertwining the actual actions. Prove the equivalent realizations
