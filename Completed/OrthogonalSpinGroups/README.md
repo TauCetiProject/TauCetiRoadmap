@@ -6,7 +6,10 @@ The completion audit is supported by the native square-class codomain refactor i
 and the empty-away comparisons in
 [PR #22024](https://github.com/TauCetiProject/TauCeti/pull/22024), checked at
 [`4589478f1240`](https://github.com/TauCetiProject/TauCeti/commit/4589478f1240afbb9fb6c1cab41f1b2826fa29bd).
-Both were checked with Lean 4.36.0-rc1 and Mathlib `2cabef97`.
+Both implementations are verified on actual upstream
+`40eaa661fe7abb44c5e87aac7bdd2ca66011e972`, where all 24 changed source files are
+byte-identical to their reviewed heads. All 127 owned and supporting modules, the broad API
+replay and the native acceptance block pass there with Lean 4.36.0-rc1 and Mathlib `2cabef97`.
 [Native completion checks](NativeCompletion.md) contain the compiled dimension-zero and real
 four-square acceptance proofs, derived directly from the existing APIs.
 

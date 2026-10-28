@@ -3,11 +3,20 @@
 This is a compiled acceptance check for the dimension-zero rational-unit rejection and the split discriminant algebra of the real four-square form in the [definitive README](README.md).
 It uses the implemented Tau Ceti APIs directly and contains no admitted targets.
 
-The block below was extracted verbatim to a Lean file and checked with
-`lake env lean -DwarningAsError=true` at Tau Ceti
-[`40bc1c43779db5d437068c7c5c0250f535e22cec`](https://github.com/TauCetiProject/TauCeti/commit/40bc1c43779db5d437068c7c5c0250f535e22cec),
-with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The axiom reports contain only
-`propext`, `Classical.choice`, and `Quot.sound`.
+The block below was extracted verbatim and checked with
+`lake env lean -DwarningAsError=true` on actual upstream Tau Ceti
+[`40eaa661fe7abb44c5e87aac7bdd2ca66011e972`](https://github.com/TauCetiProject/TauCeti/commit/40eaa661fe7abb44c5e87aac7bdd2ca66011e972),
+with Lean 4.36.0-rc1 and Mathlib `2cabef97`. All 21 changed files of
+[PR #22023](https://github.com/TauCetiProject/TauCeti/pull/22023) (`40bc1c43779d`) and all three
+changed files of [PR #22024](https://github.com/TauCetiProject/TauCeti/pull/22024)
+(`4589478f1240`) are byte-identical to their reviewed heads on that main revision.
+
+All 127 owned and supporting source modules built there (9,433 Lake jobs). A separate
+warning-as-error replay checked 58 typed interfaces and twelve axiom reports, including the
+literal square-class quotient, rank-five/rank-six boundary, `GL₄` versus `SL₄`, low-rank split and
+real comparisons, local norm tables, and finite/away/full transports and diagonals. The block
+below adds two axiom reports. All fourteen reports contain only `propext`, `Classical.choice`,
+and `Quot.sound`.
 
 This evidence is separate from the roadmap repository's historical Tau Ceti `358314d4ab97` /
 Lean 4.35.0-rc3 pin and from the target prototypes retained in `Suggested.lean`.
