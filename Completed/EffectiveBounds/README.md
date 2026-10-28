@@ -1,15 +1,15 @@
 # Roadmap: effective arithmetic bounds and geometry of numbers
 
-**Status: reopened for the existing Layer 0 and Layer 3 completion targets (2026-10-28).**
-The earlier archive declaration was premature for the full approved scope. The remaining work
-includes removing the redundant `box` wrapper as Layer 0 requires, and the explicit regulator
-lower bounds and unit-log volume comparisons of Layer 3. The two Layer 3 implementations are
-[Tau Ceti #22059](https://github.com/TauCetiProject/TauCeti/pull/22059) and
-[#22064](https://github.com/TauCetiProject/TauCeti/pull/22064); the wrapper removal is a separate
-implementation change. These targets remain active until their source PRs merge and are verified.
-The mathematical targets below are unchanged. The long-horizon Brauer–Siegel paragraph remains
-an aspiration, not an additional completion target. Historical reports are retained as dated
-snapshots; re-archiving will be part of the already open archive batch once all targets are met.
+**Completion evidence (2026-10-28).** The full normative inventory and checked native
+acceptance examples are in [NativeCompletion.md](NativeCompletion.md). This archive requires
+[Tau Ceti #22059](https://github.com/TauCetiProject/TauCeti/pull/22059),
+[#22064](https://github.com/TauCetiProject/TauCeti/pull/22064), and
+[#22092](https://github.com/TauCetiProject/TauCeti/pull/22092) to pass their normal review and CI
+gates and merge. They deliver the explicit positive-rank regulator bound, the full unit-log
+Euclidean covolume normalization, and Layer 0's required removal of the redundant box wrapper.
+The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration.
+Historical reports and the older pinned prototype are retained as dated snapshots; they do not
+certify the newer source interfaces.
 
 
 Mathlib has Minkowski's convex-body theorem, the canonical embedding, the Minkowski
