@@ -12,8 +12,9 @@ existing implementation PRs finish the remaining Layer 1 interfaces:
 - [#21067](https://github.com/TauCetiProject/TauCeti/pull/21067): intrinsic metric variation and the
   connection-variation formula along any smooth parameter curve.
 
-All three PRs target main independently. They must finish their own normal review and CI before
-this archive is marked ready. Their refinements are tracked in the PR discussions.
+All three PRs target main separately. The joint connection-family regularity in #18707 must
+merge before the next variation stage in #21067. All must finish normal review and CI before this
+archive is marked ready. Their refinements are tracked in the PR discussions.
 
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
