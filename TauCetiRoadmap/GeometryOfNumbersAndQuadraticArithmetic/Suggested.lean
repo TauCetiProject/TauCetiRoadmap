@@ -186,7 +186,9 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
 
 /-- **Minkowski's second theorem, upper half** (1.3.3): `(∏ λ_i) μ(K) ≤ 2^d covol_μ L` for any
-additive Haar measure and any centrally symmetric convex body, with no interior hypothesis. -/
+additive Haar measure and any centrally symmetric convex body, with no interior hypothesis.
+Tau Ceti proves this statement for its native successive minima at a revision later than the
+pins; it is restated here on SuccessiveMinima's carrier, which repeats that definition. -/
 theorem prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume
     (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
     (K : ConvexBody E) (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E) [μ.IsAddHaarMeasure] :
@@ -234,12 +236,13 @@ variable {E G H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
 
 include hdim hmanifold hconn hcenter hsimple
 
+open TauCeti in
 /-- **Howe–Moore** (4.2.1): coefficients of a strongly continuous unitary representation of
 a connected noncompact simple real Lie group with finite centre vanish at infinity when
 there are no nonzero invariant vectors. No separability hypothesis on the Hilbert space is needed. -/
 theorem howe_moore (hG : ¬ IsCompact (Set.univ : Set G))
     (π : ContRepresentation ℂ G H) (hs : StronglyContinuous π)
-    (hu : TauCeti.ContRepresentation.IsUnitary π) (hi : π.invariants = ⊥) (v w : H) :
+    (hu : ContRepresentation.IsUnitary π) (hi : π.invariants = ⊥) (v w : H) :
     Filter.Tendsto (fun g : G => inner (𝕜 := ℂ) (π g v) w)
       (Filter.cocompact G) (nhds 0) := by sorry
 
