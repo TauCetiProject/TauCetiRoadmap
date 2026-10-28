@@ -483,6 +483,59 @@ any explicit construction of a semisimple group scheme starts here.
   `DynkinType.numRoots` is part of this: `n(n+1)` for `A n`, `2n²` for `B n` and `C n`, `2n(n-1)`
   for `D n`, and `72, 126, 240, 48, 12` for the exceptional types.
 
+<a id="invariant-metrics-root-lengths"></a>
+### Layer 6A: invariant metrics and root lengths by component
+
+Work over ℝ on the span of the roots; use `[P.IsRootSystem]` when identifying
+that span with the whole weight space. For a finite reduced crystallographic
+root pairing and a base b, form the finite graph on b.support with an edge
+between distinct i,j exactly when the Cartan entry C_ij is nonzero. Construct
+the component subspaces M_D spanned by their simple roots. Prove their internal
+direct-sum decomposition, that every root lies in exactly one M_D, and that
+the induced root systems are irreducible. Prove independence of the component
+partition under change of base and its transport under native root-pairing
+equivalences. This is the decomposition underlying the irreducible classification
+of Layer5, constructed on the actual root and coroot subspaces.
+
+Use native `RootPairing.InvariantForm` with its underlying symmetric bilinear
+form positive-definite. Prove distinct M_D are orthogonal for every such form.
+On an irreducible component prove that any two such forms differ by a unique
+positive scalar. Pin the proof to the native identity
+`2 B(α_i,α_j)=C_ij B(α_j,α_j)`: symmetry fixes the ratio of squared simple-root
+lengths along each edge; connectedness and the simple-root basis determine the
+whole form. Relative to the canonical positive form restricted to each M_D,
+construct the bijection between all invariant positive-definite forms and one
+positive scalar per component. Prove restriction, reconstruction, inverse,
+reindexing and equivalence-transport identities. The empty root system has the
+unique form on its zero-dimensional span and an empty scalar family.
+
+After Layers5–6, compare any such form with the native
+`TauCeti.DynkinType.rootLength` tables. Every root is Weyl-conjugate to a simple
+root, so in each irreducible component its squared length is s or r s for
+some s>0: r=1 for A,D,E, r=2 for B,C,F₄, and r=3 for G₂, with the valid-rank
+conventions of Layer5. Prove that the two values both occur in the nonsimply
+laced cases. Native `RootPositiveForm.rootLength` is a squared length; the
+corresponding ratio of ordinary lengths is √r. Prove independence of these
+ratios from the chosen invariant form, their transport under real linear
+root-pairing equivalences, and their agreement with the transposed Cartan-entry
+normalization.
+
+For a reducible system the component scales are independent. As a concrete
+acceptance case construct A₁³ on ℝ³ with roots ±e_i, coroots ±2e_i under the
+standard coordinate duality, Cartan matrix 2I, and reflections changing one
+coordinate's sign. The invariant positive-definite form
+`B(x,y)=x₁y₁+2x₂y₂+5x₃y₃` has squared root lengths exactly {1,2,5}.
+Prove its reflection invariance, positivity and exact length set, together
+with the unchanged root/coroot pairing and reduced crystallographic axioms.
+Thus the two-length theorem is stated component by component. In general
+A₁^k permits any prescribed positive squared length in each coordinate.
+
+[InvariantMetricTargets.lean](InvariantMetricTargets.lean) gives suggested
+native invariant-form statements. Layer6A consumes the root-span, base and
+classification targets above; it is not an input to their construction.
+For invariant metrics, decomposition and the length comparison, see
+[Milne, *Algebraic Groups*, Appendix C](https://www.jmilne.org/math/Books/iAG2017.pdf).
+
 ## Worked examples (acceptance criteria)
 
 - **`Aₙ` and the symmetric group.** Fix the indexing convention once: type `A n` (for `n ≥ 1`) has
