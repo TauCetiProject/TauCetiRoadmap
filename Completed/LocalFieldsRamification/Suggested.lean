@@ -27,6 +27,11 @@ set_option autoImplicit false
 /-!
 # Local fields and ramification: target signatures
 
+This retained prototype is checked against the roadmap repository's historical dependency pin.
+Its admitted targets and former `finiteExtension*` aliases are not a completion certificate.
+The current-source implementation review, including canonical `algebraicExtension*` names, is in
+`COMPLETION.md`.
+
 The normative roadmap is `README.md`. This companion file pins representative Lean-facing
 signatures for the local-field and ramification layers only. Class field theory, local
 reciprocity, Tate duality, and the arithmetic structure of `G_K(p)` are owned by their new

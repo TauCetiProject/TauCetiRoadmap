@@ -516,7 +516,7 @@ improvement through their own review rather than duplicating them.
 ### From other roadmaps in this repository
 
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../Completed/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field: the normalized valuation, the unit filtration with its
   graded pieces, the Teichmüller section, the ramification and residue degrees, power
   and square classes, and unramified extensions with their norm groups. Layer 6A
@@ -601,7 +601,7 @@ declaration column says so. Such a row is still a contract, because the mileston
 named and its owner is fixed; what this roadmap then states locally is the specialized
 shape its own layers consume, marked as such at the point of use.
 
-**From the [local-fields-ramification roadmap](../LocalFieldsRamification/README.md)**,
+**From the [local-fields-ramification roadmap](../../Completed/LocalFieldsRamification/README.md)**,
 namespace `TauCetiRoadmap.LocalFieldsRamification`, over
 `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`. That
 roadmap re-exports Tau Ceti's local-field API under its own names, with the same explicit
@@ -1564,7 +1564,7 @@ is stated at the end of 6C, with its own prerequisites.
 #### 6A. The local-field substrate, consumed
 
 The general arithmetic of a nonarchimedean local field belongs to the
-[local-fields-ramification roadmap](../LocalFieldsRamification/README.md), and this sublayer consumes it. The
+[local-fields-ramification roadmap](../../Completed/LocalFieldsRamification/README.md), and this sublayer consumes it. The
 normalized valuation is that roadmap's `normalizedValuation`, the unit filtration is its
 `unitFiltration`, the level `e = v_K(2)` is its `natCastValuation K 2`, and the graded
 pieces, the power-class counts with the
@@ -3340,7 +3340,7 @@ subject matter belongs and built where its prerequisites are ready.
   quadratic extensions. This roadmap owns the form theory of one quadratic step. The
   shared language is `TauCeti.SquareClassGroup`.
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../Completed/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field. Sublayer 6A consumes it through the exact contract above:
   the normalized valuation, the unit filtration and its graded pieces, the Teichmüller
   section, the ramification and residue degrees, the power-class counts, the unramified

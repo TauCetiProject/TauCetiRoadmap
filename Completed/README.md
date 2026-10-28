@@ -69,3 +69,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-28)
 - [orthogonal and spin groups](OrthogonalSpinGroups/README.md)
   (declared complete 2026-10-28)
+- [Local fields and ramification](LocalFieldsRamification/README.md)
+  (archive candidate 2026-10-28; awaiting implementation PRs #22018, #22046 and #22047)
