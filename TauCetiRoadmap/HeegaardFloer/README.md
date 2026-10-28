@@ -544,10 +544,38 @@ correspondences F_CD send their pole generator to +[C]. The component-homology d
 H₀=ℤ and the comparison with an oriented sphere fundamental class.
 This two-cap example is separate from the torus arc and surgery-sphere models.
 Check symmetric and nonsymmetric torus differentials and the
-endpoint-map chain homotopy;
-the reflection mapping-torus/Klein-bottle example with its nontrivial
-negative orientation line and integral homology; and the surgery-sphere
-component differential.
+endpoint-map chain homotopy, and the surgery-sphere component differential.
+
+For the nontrivial-orientation-line exercise use the Klein bottle
+`K=([0,1]×S¹)/((1,e^(iθ))∼(0,e^(−iθ)))` and `f([t,θ])=cos θ`.
+Construct its smooth quotient charts and the descended function. Its critical
+circles are C₀={θ=π} of negative-normal rank0 and C₁={θ=0} of rank1.
+The negative line over C₁ has reflection monodromy−1, hence is the Möbius
+line; o(ν⁻_C₀) is trivial. Choose a reflection-invariant product metric,
+with no dt dθ term, patched to the standard normal metrics in the signed
+Morse coordinates near the two circles. Prove that it descends, satisfies
+M.6's regularity conditions, and has trajectories with t constant. The two
+open semicircle families are exchanged at the mapping-torus seam, so the
+trajectory quotient is the connected double cover of the base circle.
+Both endpoint maps are that same covering after identifying C₀ and C₁
+with the base. Prove that the two sheets over each local base arc have
+opposite signed endpoint contributions, using the input orientation line.
+Thus the correspondence C_*(C₁;o(ν⁻))→C_*(C₀;ℤ) vanishes as a current
+map, and the Bott complex is the direct sum of the ordinary circle complex
+and the sign-local-system circle complex shifted by1.
+
+Use the vertex and edge frames fixed in the preceding sign-circle test.
+Its boundary−2 changes to +2 after the rank1 shift. Construct the comparison
+to the finite complex `ℤ → ℤ² → ℤ` in degrees2,1,0, with
+`d₂(n)=(0,2n)` and d₁=0; the degree1 basis is the C₀ edge followed by the
+C₁ vertex. Compute H₀=ℤ, H₁=ℤ⊕ℤ/2 and H_k=0 for k≥2. Orient both
+critical circles along increasing t. Identify [C₀] with (1,0), the fiber-circle
+class with (0,1), and [C₁] with (1,1), using the unstable-interval attachment
+and the mapping-torus cell structure. Thus the two sections agree modulo
+torsion but differ by the nonzero torsion class. Construct the actual chain
+maps and their homology identification in this comparison.
+The finite quotient calibration is suggested in
+[`KleinBottleBottTargets.lean`](KleinBottleBottTargets.lean).
 
 For the four-component sphere use the unit round S² in ℝ³, height z, and
 `f(z)=5z/4−z³`. Put a=√(5/12). Prove that its critical components in
