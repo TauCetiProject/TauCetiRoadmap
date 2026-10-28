@@ -1141,53 +1141,18 @@ end CompactG2
 /-! ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
 Stated for an abstract complex reductive group `Gc` with a Borel subgroup `B`; the identification of `Gc`
-as `G_ℂ` is Layer 7's, and the target module `L(λ)` is `../LieHighestWeight/README.md`'s. -/
+as `G_ℂ` is Layer 7's, and the target module `L(λ)` is `../LieHighestWeight/README.md`'s.
+
+The abstract Bruhat decomposition of a BN-pair is native at the pinned Tau Ceti: `TauCeti.TitsSystem`
+has Weyl quotient `N ⧸ (B ∩ N)`, and `TauCeti.TitsSystem.existsUnique_mem_bruhatCell` proves existence
+and uniqueness of the cell. The Layer 8 application, a `TauCeti.TitsSystem` on `G_ℂ` with
+`subgroupB = B`, `subgroupN = N_{G_ℂ}(T)` and `B ∩ N_{G_ℂ}(T) = T`, so that its Weyl quotient is
+`weylGroup T`, is not statable here: the pins have no complex reductive group carrier with its Borel
+subgroup and maximal torus. -/
 
 /-- **The flag manifold** `G_ℂ / B`, a compact complex manifold; here the underlying `Gc`-homogeneous
 coset space. -/
 def flagManifold (Gc : Type w) [Group Gc] (B : Subgroup Gc) : Type w := Gc ⧸ B
-
-/-- **A Tits system (BN-pair)** on `(B, T)` with simple reflections `S ⊆ N(T)/T`: the elementary
-group-theoretic axioms (generation, involutive generators, the exchange inclusion, and
-non-normalization) from which the Bruhat decomposition follows. This is the bundled datum standing
-in for "complex reductive `Gc`, Borel `B ⊇ T` maximal" — for such groups the axioms hold, but they
-are statable with no reductive API, which is what lets the decomposition below be a true theorem
-rather than a milestone shape. -/
-structure IsTitsSystem {Gc : Type w} [Group Gc] (B T : Subgroup Gc)
-    (S : Set (weylGroup T)) : Prop where
-  t_le_b : T ≤ B
-  closure_eq_top :
-    Subgroup.closure ((B : Set Gc) ∪ (Subgroup.normalizer (T : Set Gc) : Set Gc)) = ⊤
-  gen_weyl : Subgroup.closure S = ⊤
-  sq_one : ∀ s ∈ S, s * s = 1
-  exchange : ∀ s ∈ S, ∀ ns nw : ↥(Subgroup.normalizer (T : Set Gc)),
-    (QuotientGroup.mk ns :
-        ↥(Subgroup.normalizer (T : Set Gc))
-          ⧸ Subgroup.subgroupOf T (Subgroup.normalizer (T : Set Gc))) = s →
-    ({((ns : ↥(Subgroup.normalizer (T : Set Gc))) : Gc)} : Set Gc) * (B : Set Gc)
-        * {((nw : ↥(Subgroup.normalizer (T : Set Gc))) : Gc)}
-      ⊆ (B : Set Gc) * {((ns : Gc) : Gc) * ((nw : Gc) : Gc)} * (B : Set Gc)
-        ∪ (B : Set Gc) * {((nw : Gc) : Gc)} * (B : Set Gc)
-  not_le : ∀ s ∈ S, ∀ ns : ↥(Subgroup.normalizer (T : Set Gc)),
-    (QuotientGroup.mk ns :
-        ↥(Subgroup.normalizer (T : Set Gc))
-          ⧸ Subgroup.subgroupOf T (Subgroup.normalizer (T : Set Gc))) = s →
-    ¬ ((fun x => ((ns : Gc) : Gc) * x * (((ns : Gc) : Gc))⁻¹) '' (B : Set Gc) ⊆ (B : Set Gc))
-
-/-- **The Bruhat decomposition** `G_ℂ = ⨆_{w ∈ W} B w B` for a Tits system: every element lies in
-some double coset `B w B`, with `W = N(T)/T` and `rep` a genuine section. The Tits-system
-hypothesis is what makes this true (with a bare `T ≤ B` the union can be a proper subgroup — take
-`B = T` self-normalizing); disjointness over `W` and the cell-dimension formula `dim BwB/B = ℓ(w)`
-remain in `README.md`. -/
-theorem bruhat_decomposition {Gc : Type w} [Group Gc] (B T : Subgroup Gc)
-    (S : Set (weylGroup T)) (hBN : IsTitsSystem B T S)
-    (rep : weylGroup T → Gc)
-    (hrep : ∀ w : weylGroup T, ∃ n : ↥(Subgroup.normalizer (T : Set Gc)),
-      (QuotientGroup.mk n :
-          ↥(Subgroup.normalizer (T : Set Gc))
-            ⧸ Subgroup.subgroupOf T (Subgroup.normalizer (T : Set Gc))) = w ∧
-      rep w = ((n : ↥(Subgroup.normalizer (T : Set Gc))) : Gc)) :
-    ∀ g : Gc, ∃ w : weylGroup T, g ∈ (B : Set Gc) * ({rep w} : Set Gc) * (B : Set Gc) := sorry
 
 /-- Input data for the holomorphic equivariant-function model. The carrier is an explicitly embedded
 complex Lie subgroup and the character is holomorphic. This data alone does not certify that the

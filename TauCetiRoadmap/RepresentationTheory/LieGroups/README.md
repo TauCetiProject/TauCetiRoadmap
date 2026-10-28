@@ -190,6 +190,12 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   (`IsCoveringMap`, `IsCoveringMapOn`), `Topology/Homotopy/Lifting.lean`,
   `AlgebraicTopology/FundamentalGroupoid/SimplyConnected.lean` (`SimplyConnectedSpace`), `ConnectedSpace`,
   `LocallyCompactSpace`.
+- **Tits systems (for Layer 8, Tau Ceti).** `TauCeti/GroupTheory/TitsSystem/Basic.lean`
+  (`TauCeti.TitsSystem`, with `subgroupB`, `subgroupN`, `simple` and Weyl quotient
+  `TauCeti.TitsSystem.WeylGroup = N ⧸ (B ∩ N)`) and `TauCeti/GroupTheory/TitsSystem/Bruhat/Uniqueness.lean`
+  (`TauCeti.TitsSystem.existsUnique_mem_bruhatCell`, `TauCeti.TitsSystem.bruhatCell_injective`,
+  `TauCeti.TitsSystem.disjoint_bruhatCell_iff`):
+  the abstract Bruhat decomposition, existence and uniqueness, for any group with a Tits system.
 - **Haar measure (for Layer 6).** `MeasureTheory/Measure/Haar/Basic.lean` (`Measure.haar`),
   `CompactSpace.isFiniteMeasure`, and the uniqueness/normalization consumed by
   [../CompactGroups](../CompactGroups/README.md).
@@ -1665,7 +1671,12 @@ formally-real Albert, triality, Layer7E and downstream symmetric-space targets u
 ### Layer 8: Borel-Weil, flag manifolds, and Bruhat
 
 - **Borel subgroups and the flag manifold.** The inputs are (i) a compact connected Lie group `K`, its Layer 7 universal complexification `K_ℂ`, and the Layer 7 algebraization comparison `𝐊(ℂ)≃K_ℂ`; or (ii) a connected affine reductive algebraic group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` identified by the RG6/FCO lower dictionary and its compact form `K` constructed by Layer 7's algebraic compact-form specialization from that lower dictionary. Thus case (ii)'s compact form is a later Layer 7 output, not an input supplied by the lower FCO dictionary. In either case work with the resulting actual affine reductive algebraic group `𝐆` and its full character/cocharacter lattice, maximal torus `𝐓`, and positive-root system. Construct the algebraic Borel `𝐁=𝐓⋉𝐍₊`, where `Lie(𝐍₊)=⊕_{α>0}𝔤_α`; use its algebraic characters as holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and RG7's generic algebraic Bruhat theorem applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism `K/T≅𝐆(ℂ)/𝐁(ℂ)` follows from the Layer 7 compact-form/algebraization comparison; it is not asserted for an unrelated real group. In particular, the elliptic complex torus `ℂ/(ℤ+iℤ)` is not a linear complex reductive group and is outside these hypotheses.
-- **Bruhat and Schubert geometry.** ReductiveGroups RG7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. Apply it to the preceding groups and construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
+- **Bruhat and Schubert geometry.** ReductiveGroups RG7 is the single owner of the generic Bruhat/root-data theorem `G_ℂ=⨆_{w∈W}B w B`. The abstract BN-pair carrier is the native `TauCeti.TitsSystem`, whose Weyl group is the quotient `N ⧸ (B ∩ N)` and which already proves existence and uniqueness of the cell (`TauCeti.TitsSystem.existsUnique_mem_bruhatCell`, with `TauCeti.TitsSystem.bruhatCell_injective` and `TauCeti.TitsSystem.disjoint_bruhatCell_iff`); no second BN-pair record is introduced here. Apply RG7 to the preceding groups as a `TauCeti.TitsSystem` on `𝐆(ℂ)` with `subgroupB = 𝐁(ℂ)` and `subgroupN = N_(𝐆(ℂ))(𝐓(ℂ))`, prove `𝐁(ℂ) ∩ N_(𝐆(ℂ))(𝐓(ℂ)) = 𝐓(ℂ)` (in the connected solvable group `𝐁` the normalizer of `𝐓` equals its centralizer, and `C_𝐆(𝐓) = 𝐓` for reductive `𝐆`; Humphreys, *Linear algebraic groups*, §29.1), and deduce the group isomorphism between the Tits-system Weyl quotient and `weylGroup T`, so that the cells are indexed without repetition by the Weyl group of Layer 6. Then construct Schubert cells `BwB/B`, their complex dimensions `ℓ(w)`, the flag CW structure, and cohomology.
+
+  **Checks.**
+  - For `GL₂(ℂ)` with upper-triangular `B` and diagonal `T`: `B ∩ N(T) = T`, the Weyl quotient has two elements, and the two cells are `B` and `B·[[0,1],[1,0]]·B`, the latter being the matrices with nonzero lower-left entry.
+  - Negative control for the intersection axiom: in `G = GL₂(𝔽₃) × C₂` with `B = (upper triangular) × C₂` and `T = (diagonal) × {1}`, the generation, involution, exchange and non-normalization axioms hold for the two classes of the swap matrix in `N(T)/T`, but `B ∩ N(T)` has order 8 while `T` has order 4; `N(T)/T` has four elements and there are only two `B`-double cosets. A BN-pair record over `N(T)/T` without `B ∩ N(T) = T` therefore cannot index the cells uniquely, whereas `TauCeti.TitsSystem` quotients by `B ∩ N`.
+  - The Borel cannot be replaced by an arbitrary subgroup containing `T`: for `B = T` (diagonal in `GL₂(ℂ)`), the union of the double cosets `T n T` over `n ∈ N(T)` is `N(T)`, the monomial matrices, a proper subgroup.
 <a id="block-borel-flag-orbits"></a>
 - **The smaller block-Borel action on complete flags.** Over ℂ, for n≥1 put
   W=span(e₁,…,e_(n−1)) and
@@ -2274,6 +2285,9 @@ interfaces kept here.
 - V. S. Varadarajan, *Lie Groups, Lie Algebras, and Their Representations*, Springer GTM 102 (1984) - the
   exponential map, the closed-subgroup theorem, Ado's theorem, and Lie's third theorem with the
   simply-connected integration in full detail (Chs. 2-3).
+- J. E. Humphreys, *Linear Algebraic Groups*, Springer GTM 21 (1975) - §29.1, the Tits system of a
+  connected reductive group, with `B ∩ N = T` and Weyl group `N/T`, used in Layer 8's Bruhat
+  application.
 
 
 **Prototype typing boundary for the positive-pair application.** The new compact derivation targets are quantified over `A`, `PositivePairCoordinates A`, and an explicit comparison datum to native `TauCeti.Octonion ℂ`; the theorem hypotheses include the actual normed, finite-dimensional and real scalar-compatibility structures. They do not refer to `CompactDivisionOctonion.DivisionOctonionReal` from another unimported file. Every linear-to-bounded coordinate helper is finite-dimensional, every local chart smoothness witness is `ContDiffOn ℝ ⊤` on an open ambient domain containing the actual coordinates, and the native octonion/derivation modules are explicitly imported.
