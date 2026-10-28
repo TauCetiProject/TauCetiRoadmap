@@ -49,7 +49,7 @@ expresses the good-prime coefficient criterion without a Galois-attachment carri
 lemmas do not state these conclusions.
 -/
 
-namespace TauCeti.GL2Transfer
+namespace TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
 
 open _root_.Matrix
 
@@ -82,20 +82,10 @@ theorem finite_hecke_full_local_prescription
 
 end ArithmeticCharacterPrescription
 
-end TauCeti.GL2Transfer
-
-namespace TauCeti.GL2Blueprint
-
-open _root_.Matrix
-
 section SupercuspidalProjectivity
-variable {p : ℕ} [Fact p.Prime]
-variable {F : Type*} [NontriviallyNormedField F] [NormedAlgebra ℚ_[p] F]
-    [FiniteDimensional ℚ_[p] F] [CompleteSpace F]
-variable {V W X : Type*} [AddCommGroup V] [Module ℂ V]
-    [AddCommGroup W] [Module ℂ W] [AddCommGroup X] [Module ℂ X]
 
-/-- R16.2/supercuspidal-projective on the existing representation carriers.
+/-- R16.2/supercuspidal-projective on the existing representation carriers, over
+any nonarchimedean local field `F`, of either characteristic.
 Smoothness means open vector stabilizers, admissibility means finite-dimensional
 compact-open invariants, and supercuspidality uses compact-mod-center matrix
 coefficients against the smooth dual. The latter two conditions are required
@@ -104,6 +94,10 @@ The conclusion lifts an equivariant linear map through a surjective equivariant
 linear map. There is no topology on the coefficient modules in this smooth
 category. The separate L-coefficient DLB descent interface is not asserted here. -/
 theorem supercuspidalProjective
+    {F : Type*} [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F]
+    {V W X : Type*} [AddCommGroup V] [Module ℂ V]
+    [AddCommGroup W] [Module ℂ W] [AddCommGroup X] [Module ℂ X]
     (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
     (σ : Representation ℂ (GeneralLinearGroup (Fin 2) F) W)
     (τ : Representation ℂ (GeneralLinearGroup (Fin 2) F) X)
@@ -177,11 +171,7 @@ theorem quaternionAlgEquivOfLocalSplitting (a b c d : Kˣ)
 
 end QuaternionRamification
 
-end TauCeti.GL2Blueprint
-
-namespace TauCeti.GL2Transfer
-
-open _root_.Matrix IsDedekindDomain
+open IsDedekindDomain
 open scoped NumberField
 
 /-- R17.5.4: every finite continuous complex projective rank-two Galois
@@ -277,4 +267,4 @@ theorem characteristicTwo_solvable_weight_one
               red a = (r σ).val.trace ∧
               red d = (GeneralLinearGroup.det (r σ) : k) := by sorry
 
-end TauCeti.GL2Transfer
+end TauCetiRoadmap.GL2AutomorphicRepresentationsAndTransfer
