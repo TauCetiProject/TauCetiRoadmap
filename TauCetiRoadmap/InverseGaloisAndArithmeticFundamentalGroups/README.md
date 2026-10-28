@@ -166,8 +166,10 @@ It does not own, and consumes by name:
   and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); the Hasse principle for torsors under
   semisimple simply connected groups and their weak approximation (**AdelicAlgebraicGroups**, Layer
   4, §4.1); Swan conductors of local Galois representations and their tame-base-change scaling
-  (**ArithmeticGaloisRepresentations**, §§3.1, 3.4), and upper numbering on open subgroups
-  (**LocalFieldsRamification**, Layers 3–4); resolution and normal crossings
+  (**ArithmeticGaloisRepresentations**, §§3.1, 3.4, over complete discretely valued fields with
+  perfect residue field, including the completions of curves over an algebraically closed field);
+  lower ramification groups of places of function fields over an arbitrary residue field
+  (**AlgebraicCurves**, Layer 8); resolution and normal crossings
   compactification (**ResolutionOfSingularitiesCharacteristicZero**, §§5.5, 6.2, consumed through
   **AlgebraicModuliForArithmeticGeometry**, §§9.4–9.5); complex analytic spaces,
   scheme and algebraic-space analytification and proper coherent GAGA
@@ -409,9 +411,14 @@ EtaleCohomologyFoundations §§F.5–F.6 /
 purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
 norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
 connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
+LocalFiniteGroupTheory L1 (Schur–Zassenhaus conjugacy when the normal Hall subgroup or the quotient
+is solvable) and L2 (the relative Fitting subgroup, whose value at the top subgroup is the `F(G)` of
+IG.4.3, with nilpotence, characteristicity, maximality and `Φ(G) ≤ F(G)`);
 ArithmeticGaloisRepresentations §§3.1, 3.4 (Swan conductors with finite coefficients over a
-perfect residue field and their tame-base-change scaling); LocalFieldsRamification Layers 3–4
-(upper numbering on open subgroups);
+complete discretely valued field with perfect residue field, such as `k((z))` with `k`
+algebraically closed, and their tame-base-change scaling, with the ramification filtrations of its
+conductor setting); the finite-residue-field contract of LocalFieldsRamification Layers 3–4 is not
+used at the completions of curves over an algebraically closed field;
 ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace` and
 `complexSchemeAnalytification`), §§C−1.2, C1.9 (`complexSpaceAnalytification`, proper coherent GAGA);
 ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` (resolution of
@@ -2975,8 +2982,8 @@ central extension. For commuting `x, y ∈ G` and any lifts `X, Y ∈ E`, the co
 lies in `A` and does not depend on the lifts; call it `κ_E(x, y)`. For commuting `x, y`, the chain
 `[x | y] − [y | x]` is a `2`-cycle of `G` with coefficients in `ℤ`; its class in `M(G) = H₂(G, ℤ)` is
 the homological commutator `⟨x, y⟩`, equivalently the image of the oriented generator of
-`H₂(ℤ², ℤ)` under `(a, b) ↦ x^a y^b`. The class map `τ_E : M(G) → A` of the extension (the
-connecting map of its five-term homology sequence) satisfies `τ_E⟨x, y⟩ = κ_E(x, y)`, and by the
+`H₂(ℤ², ℤ)` under `(a, b) ↦ x^a y^b`. The class map `τ_E : M(G) → A` of the extension (defined
+by evaluating the cocycle of a set-theoretic section on `2`-cycles) satisfies `τ_E⟨x, y⟩ = κ_E(x, y)`, and by the
 universal coefficient theorem for the trivial module `A` the map `H²(G, A) → Hom(M(G), A)` sending
 the class of `E` to `τ_E` is surjective with kernel `Ext(G^{ab}, A)`. Define the lift commutator
 `κ_E` and the homological commutator. For commuting `x, y ∈ G` the defining cycle
@@ -3030,10 +3037,16 @@ extension*; Mathlib `AddSubgroup.closure`, `QuotientAddGroup`, `groupHomology.ma
 **Reduced Schur covers.** Let `π : S → G` be a Schur cover (a representation group,
 RepresentationTheory/InductionRestriction Layer 7) with its class isomorphism `τ_S : M(G) ≅ ker π`.
 That layer describes the kernel through `H²(G, k^×)` over an algebraically closed field `k` of
-characteristic zero; the comparison used here, that for a stem extension `S → G` with
-`|ker π| = |M(G)|` the class map `τ_S` of *Commutators of lifts and the class map of a central
-extension* is an isomorphism `M(G) ≅ ker π` (by the five-term sequence, since `ker π ⊆ [S, S]`), is
-part of this target. The reduced cover is `S_c = S/τ_S(Q_c)`,
+characteristic zero; the comparison used here, that for a finite group `G` and a stem extension
+`S → G` with `|ker π| = |M(G)|` the class map `τ_S` of *Commutators of lifts and the class map of a
+central extension* is an isomorphism `M(G) ≅ ker π`, is part of this target and is proved without
+the five-term exact sequence. With `A = ker π`, character transgression `Hom(A, ℂˣ) → H²(G, ℂˣ)`,
+`χ ↦ χ_*[S]`, is injective because `A ⊆ [S, S]`; universal coefficients identify `H²(G, ℂˣ)` with
+`Hom(M(G), ℂˣ)`, the `Ext` term vanishing since `ℂˣ` is divisible, and carry `χ_*[S]` to
+`χ ∘ τ_S` by naturality of the class map in the coefficients. A character of `A` trivial on
+`im τ_S` is therefore trivial; characters of the finite group `A / im τ_S` separate its points, so
+`τ_S` is onto, and `|A| = |M(G)|` makes it bijective. The section-cocycle description of `τ_S`, and
+with it the oriented formula `τ_S⟨x, y⟩ = κ_S(x, y)`, is unchanged. The reduced cover is `S_c = S/τ_S(Q_c)`,
 with the induced central surjection `π_c : S_c → G`, whose kernel is identified with `M(G, c)` by
 `τ_S`. The Schur cover and `τ_S` are parameters: different Schur covers give reduced covers that need
 not be isomorphic. The composite `H₂(S_c, ℤ) → M(G) → M(G, c)` is zero. Define
@@ -3046,7 +3059,10 @@ the lift commutator of `x ∈ c` and `y ∈ C_G(x)` is `τ_S⟨x, y⟩ ∈ τ_S(
 composite follows from naturality of the class maps. Source: [Wood, *An algebraic lifting
 invariant*](https://abel.math.harvard.edu/~mmwood/Publications/lifting.pdf), definition of `H₂(G, c)`,
 Lemmas 2.2 and 2.3, p. 3. *Needs:* *The reduced Schur multiplier*, *Commutators of lifts and the
-class map of a central extension*; RepresentationTheory/InductionRestriction Layer 7.
+class map of a central extension*; RepresentationTheory/InductionRestriction Layer 7; Tau Ceti
+`TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator`
+(`TauCeti/GroupTheory/GroupExtension/Character.lean`); Mathlib
+`CommGroup.exists_apply_ne_one_of_hasEnoughRootsOfUnity`, `AddCommGrpCat.injective_of_divisible`.
 
 **Checks.**
 
@@ -3055,6 +3071,10 @@ class map of a central extension*; RepresentationTheory/InductionRestriction Lay
   `G`, since `M(G, c) = 0`.
 - For `c = ∅` the two Schur covers `D₈` and `Q₈` of `C₂²` are not isomorphic, so `S_c` is not
   determined by `(G, c)` alone.
+- For the stem extension `Q₈ → C₂²`, the nontrivial character of `ker π ≅ C₂` has nonzero
+  transgression, and `τ_S` sends the generator `⟨x, y⟩` of `M(C₂²)` to `−1`; for the non-stem
+  central extension `C₄ × C₂ → C₂²`, with kernel of order `2 = |M(C₂²)|`, transgression of the
+  nontrivial character vanishes and `τ_S = 0`, so the stem hypothesis cannot be dropped.
 
 **Conjugacy classes lift bijectively.** In a reduced cover `π_c : S_c → G`, if `x ∈ c` and `y`
 commutes with `x`, any lifts of `x` and `y` commute; hence the centraliser of a lift `X` of `x` maps
@@ -4100,7 +4120,12 @@ splitting section, nilpotent kernel and a surjective solution.
 Fitting subgroup. For a finite group `G`, define the Fitting subgroup `F(G)` as the supremum of
 the nilpotent normal subgroups of `G`. Prove that `F(G)` is normal and characteristic, and nilpotent
 (Fitting's theorem: the product of two nilpotent normal subgroups is nilpotent). Hence `F(G)` is the
-largest nilpotent normal subgroup of `G`.
+largest nilpotent normal subgroup of `G`. There is one Fitting carrier: `F(G)` is the value at the
+top subgroup of the relative Fitting subgroup of a subgroup `H ≤ G` (generated by the nilpotent
+normal subgroups of `H`) of LocalFiniteGroupTheory L2, whose nilpotence, characteristicity,
+maximality and Frattini inclusion are the first three API items below and the inclusion
+`Φ(G) ≤ F(G)`; no
+second, group-level Fitting definition is introduced.
 
 Prove the following theorem of Huppert, as cited by Schmidt–Wingberg: for a nontrivial finite solvable
 group `G`, `Φ(G) < F(G)`. The inclusion `Φ(G) ≤ F(G)` holds for every finite `G`, because `Φ(G)` is a
@@ -4131,7 +4156,7 @@ Source: [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1), Propositions
 stated without proof and cited from Huppert, *Endliche Gruppen I*, Kap. III, Satz 3.2(b) and
 Satz 4.2(c); the proof sketch above gives the arguments used here.
 *Needs:* Mathlib `Subgroup`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`,
-`SemidirectProduct`.
+`SemidirectProduct`; LocalFiniteGroupTheory L2 (the relative Fitting subgroup and its basic API).
 
 **Checks.**
 
@@ -4260,14 +4285,21 @@ contains `X(k)`. For weak approximation one uses, in the same way, the product `
 unramified Brauer group, the Brauer group of a smooth compactification; for proper `X` the two
 versions agree. Define the Brauer–Manin set, and prove that almost all local
 evaluations vanish, that the evaluations are locally constant, that `X(k)` is
-contained in it, and that constant classes impose no condition. *Proof sketch.* Spread `X` and `α` out over a
+contained in it, and that constant classes impose no condition. Since `X` is regular and integral,
+`H²_ét(X, 𝔾_m)` injects into `Br k(X)` and is therefore torsion, so on smooth geometrically integral
+varieties this pairing and set coincide with those defined from the torsion of cohomological `H²` on
+separated finite-type schemes; this is the shared carrier on that domain, and any such wider
+construction is compared with it there. *Proof sketch.* Spread `X` and `α` out over a
 ring of `S`-integers; for `v ∉ S` an integral point evaluates `α` in `Br O_v = 0`. Rational points:
 the evaluation lies in `Br k`, and the reciprocity sequence `0 → Br k → ⊕_v Br k_v → ℚ/ℤ → 0` kills
 the sum. Local constancy is the continuity of evaluation for the analytic topology. Sources:
 Poonen, *Rational points on varieties*, §8.2,
 Propositions 8.2.1, 8.2.2 and 8.2.9, Definition 8.2.5 and Corollary 8.2.6, printed pp. 229–231;
 [Demarche–Lucchini Arteche–Neftin](https://www.numdam.org/item/10.5802/aif.3104.pdf), §2.5, published
-p. 1017 (the unramified version for weak approximation). *Needs:* SchemeAndStackFoundations Layer 2
+p. 1017 (the unramified version for weak approximation);
+[Česnavičius, *Purity for the Brauer group*](https://arxiv.org/abs/1711.06456), Lemma 3.2, arXiv v4
+p. 6, after Grothendieck, *Le groupe de Brauer II*, 1.8 (torsion for regular integral schemes).
+*Needs:* SchemeAndStackFoundations Layer 2
 (Brauer groups of schemes, étale cohomology); ClassFieldTheory Layers 5 and 10–12 (local invariants and
 the Brauer sequence); GlobalNumberFields Layers 0 and 1.
 
@@ -4700,20 +4732,22 @@ sections give isomorphic `Γ`-groups, conjugation by that element being a `Γ`-e
 (Without the solvability hypothesis, conjugacy follows from the Feit–Thompson theorem, since one of two
 coprime orders is odd; that theorem is not part of this roadmap, and the conjugacy statement here
 carries the hypothesis.) For finite groups, Mathlib's
-`Subgroup.exists_right_complement'_of_coprime` gives existence. This target adds conjugacy and the
-profinite case.
+`Subgroup.exists_right_complement'_of_coprime` gives existence and LocalFiniteGroupTheory L1 gives
+conjugacy. This target adds the profinite case.
 
 *Proof sketch.* The open normal subgroups `U` of `E` contained in `N` are cofinal, and in each `E/U` the
 image `N/U` is a normal Hall subgroup, so Mathlib provides a complement. Conjugacy of complements in
-finite groups is elementary when the normal subgroup or the quotient is solvable, which the hypothesis
-provides at every finite level. At each finite level, the sections and the conjugating
+finite groups, when the normal Hall subgroup or the quotient is solvable, is the Schur–Zassenhaus
+conjugacy theorem of LocalFiniteGroupTheory L1, with the same hypotheses; the hypothesis here
+provides them at every finite level. This target adds only the passage to profinite groups. At each finite level, the sections and the conjugating
 elements form nonempty finite compatible sets, so compactness gives a continuous section of `E` and a
 conjugating element of `N`.
 
 Source: [Liu–Wood–Zureick-Brown](https://arxiv.org/pdf/1907.05002v2), paragraph before Definition 2.1,
 arXiv v2 p. 10, citing Ribes–Zalesskii (2010), Theorem 2.3.15. This is the section and conjugacy input
 that defines the arithmetic `Γ`-action.
-*Needs:* Mathlib `Subgroup.exists_right_complement'_of_coprime`; ProfiniteProPGroups Layer 0.
+*Needs:* Mathlib `Subgroup.exists_right_complement'_of_coprime`; LocalFiniteGroupTheory L1
+(Schur–Zassenhaus conjugacy); ProfiniteProPGroups Layer 0.
 
 **Checks.**
 
@@ -6612,8 +6646,11 @@ Séminaire Bourbaki exp. 286, n° 1 with Proposition 1 (the Swan module), pp. 13
 1 and formula (2 ter), its form for the fundamental group, p. 133; n° 4, the proof, pp. 133–136;
 [Stacks, Lemma 59.69.3 (03RR)](https://stacks.math.columbia.edu/tag/03RR) (constant coefficients) and
 [Theorem 59.83.11 (03RT)](https://stacks.math.columbia.edu/tag/03RT) (vanishing in degree two).
-*Needs:* ArithmeticGaloisRepresentations Layer 3 (Swan conductors); LocalFieldsRamification Layer 3
-(lower ramification groups); Supplied by EtaleCohomologyFoundations §F.0 /
+*Needs:* ArithmeticGaloisRepresentations Layer 3 (Swan conductors in its conductor setting, whose
+perfect residue field covers the algebraically closed `k`); AlgebraicCurves Layer 8 (*Galois II*:
+lower ramification groups `G_i(P′∣P)` of places and Hilbert's different formula, with no
+finiteness or perfectness of the residue field, and the completion bridge to the local lower
+groups); Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; Supplied by EtaleCohomologyFoundations §F.3 /
 `VanishingCycles.affineArtinVanishing` (affine geometric prime-to-characteristic torsion); Supplied
 by EtaleCohomologyFoundations §0.8 / `ClassicalAlgebraic.properSupports`; Supplied by
@@ -6667,8 +6704,8 @@ does not split. In the split case, a surjective lift exists once the inflation
 local systems on affine curves* gives `d(φ) := dim H¹(π₁^ét(𝔸¹_k), H) = Sw_∞(H) − dim H`. Pull `φ`
 back along `z ↦ z^m`, `p ∤ m`. The result `φ_m` is still surjective, because the Kummer cover is
 totally ramified over `0`, where the `Q`-cover is étale. The base change at `∞` is tame of
-ramification index `m`. LocalFieldsRamification Layers 3–4 supply upper numbering on open
-subgroups, and ArithmeticGaloisRepresentations §3.4 gives Swan-conductor scaling by `m`, so
+ramification index `m`. ArithmeticGaloisRepresentations §3.4, whose conductor setting allows the
+residue field `k`, gives `Sw_L(V|_{G_L}) = m · Sw_K(V)` for a tame extension `L/K` of index `m`, so
 
 ```text
 d(φ_m) = m · d(φ) + (m − 1) · dim H.
@@ -6684,8 +6721,8 @@ sketch and Corollary 3.7, PDF pp. 10–11 (Serre's theorem), whose sketch prints
 curves). *Needs:* *Euler characteristic of `ℓ`-torsion local systems on affine curves*; Layer IG.1
 *Tame and prime-to-`p` fundamental quotients*; Supplied by EtaleCohomologyFoundations §F.0 /
 `VanishingCycles.finiteEtaleGaloisCategory`; ArithmeticGaloisRepresentations
-§3.4 (Swan conductors under tame base change); LocalFieldsRamification Layers 3–4 (upper
-numbering on open subgroups); ProfiniteCohomology Layers 1, 5 and 10
+§3.4 (Swan conductors under tame base change, over the perfect residue field `k`);
+ProfiniteCohomology Layers 1, 5 and 10
 (inflation–restriction, corestriction); ProfiniteProPGroups Layer 5 (lifting along embedding
 problems); SchemeAndStackFoundations Layers 2 and 3 (Artin–Schreier and Kummer sequences,
 Hochschild–Serre for Galois coverings, Tsen, Picard groups of curves).
@@ -6886,8 +6923,8 @@ for Poincaré duality and the trace map, StableReduction Layer 7 for semistable 
 and ProfiniteCohomology Layers 1, 5 and 10 with ProfiniteProPGroups Layer 5, Tau Ceti's
 `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` and
 ArithmeticGaloisRepresentations Layer 3 (Swan conductors) for the solvable step of Abhyankar's
-conjecture, with LocalFieldsRamification Layer 3 for the Euler characteristic of local systems on
-curves. Supplied by EtaleCohomologyFoundations §§F.0–F.4 /
+conjecture, with AlgebraicCurves Layer 8 (lower ramification groups of places) for the Euler
+characteristic of local systems on curves. Supplied by EtaleCohomologyFoundations §§F.0–F.4 /
 `VanishingCycles.finiteEtaleGaloisCategory`, `VanishingCycles.etaleBaseChange`,
 `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`,
 `VanishingCycles.compactSupportFiniteness`, `VanishingCycles.adicRealization`
