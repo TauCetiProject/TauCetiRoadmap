@@ -1566,6 +1566,60 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Derive universal-coefficient consequences through the natural duality maps, and do not define a
    competing degree invariant.
 
+   **Product-ball intersection.** For p,q>=0 let D_p and D_q be the
+   closed unit balls in the coordinate-oriented Euclidean spaces R^p and
+   R^q, with S_p={x:||x||=1} and S_q={y:||y||=1}. In dimension0 the
+   ball is a point and this boundary is empty. Prove
+   `productBallImages_intersect`: continuous f:D_p→D_p×D_q and
+   g:D_q→D_p×D_q satisfying f(x)=(x,0) on S_p and g(y)=(0,y) on S_q
+   have a common image point. No embedding, differentiability or
+   transversality is assumed. In particular, this is an intersection in
+   the original product of balls, before taking any boundary quotient.
+   [ProductBallIntersectionTargets.lean](ProductBallIntersectionTargets.lean)
+   records this signature on the native Euclidean closed-ball carriers.
+
+   Supply the more general boundary-degree form on the same carriers.
+   Assume f(S_p)⊆S_p×{0} and g(S_q)⊆{0}×S_q. The first projection f_1
+   and second projection g_2 are maps of disk-boundary pairs; define their
+   integer coefficients d_f,d_g on H_p(D_p,S_p;Z) and H_q(D_q,S_q;Z)
+   using Stage2.5's coordinate-oriented reference classes and their native
+   `diskBoundaryPair` comparison. Prove d_f*d_g≠0 implies the images
+   intersect. The fixed-boundary case has d_f=d_g=1. Boundary-to-axis
+   containment alone is insufficient: for p,q>=1 the constant maps
+   f=(a,0), g=(0,b), with ||a||=||b||=1, have disjoint images and both
+   coefficients zero. For a dimension0
+   factor use H_0(point,empty;Z)=Z and coefficient1; retain all cases with
+   one or both dimensions zero. Export compatibility with relative
+   homotopies of these pair maps and with oriented linear isometries of
+   the balls, including the explicit reference-class signs.
+
+   Give the actual relative-homology calculation. Set
+   B=(S_p×D_q)∪(D_p×S_q) and
+   F(x,y)=(f_1(x)−g_1(y),f_2(x)−g_2(y)) in R^p×R^q.
+   If F vanishes on B, the required intersection is already present.
+   Otherwise use the homotopy
+   H_t(x,y)=(f_1(x)−(1−t)g_1(y),(1−t)f_2(x)−g_2(y)).
+   For t>0 its first component has norm at least t on S_p×D_q,
+   and its second has norm at least t on D_p×S_q. At t=0 use the
+   stated nonvanishing on B. Thus it is a homotopy of maps from
+   (D_p×D_q,B) to (R^p×R^q,(R^p×R^q)∖{0}). Using relative external
+   products, excision and the local coordinate generator, prove the
+   product-relative/local comparison: [D_p,S_p] cross [D_q,S_q] maps
+   to the local generator in coordinate order p then q. Prove that
+   identity on the p block and minus identity on the q block acts on
+   this generator by (−1)^q, using Stage6.3's determinant-sign theorem.
+   With these comparisons compute the coefficient of F as that of
+   H_1=(f_1,−g_2), namely
+   (−1)^q*d_f*d_g in the order p coordinates followed by q coordinates.
+   This is the coefficient of the induced relative homology map, using
+   the shared degree normalization, rather than a second degree API.
+   If the images were disjoint, F would factor through the punctured
+   target and this relative map would be zero, a contradiction. Compare
+   the coefficient with signed intersections when smooth transverse
+   representatives are supplied. The continuous theorem requires neither
+   that extra hypothesis nor a claim that intersections created by
+   collapsing boundaries lift to intersections of the original images.
+
 The proof spine is Hatcher Sections 3.1--3.3 for cohomology operations and duality, and Dold,
 *Lectures on Algebraic Topology*, Chapters VII--VIII for natural products and local coefficients.
 Collars fix the boundary sign; orientation is never reconstructed from a hand-written chart list.
