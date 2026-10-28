@@ -11,7 +11,7 @@ Consume, without duplicating their core constructions:
 - AutomorphicFormsOnReductiveGroups §2.1 for the topology-free finite-orbit-span predicate, submodule and elementary equivariant-map API, and its strongly continuous compact-group Banach density theorem. These two early interfaces have no automorphic, globalization or NQS analytic prerequisite; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
 
 - [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for covariant pairs, integrated forms, group C*-algebras and continuous actions; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
-- HilbertModules H3 for correspondences, interior tensor products, induction and the equivalence between module and Hilbert-space induction; H5 for the imprimitivity/correspondence composition used by product arguments.
+- OperatorAlgebraDynamics D3 also for the equivalence between module and Hilbert-space induction for closed subgroups. The Hilbert-module theory used with it is owned here: interior tensor products, induction through correspondences and the Rieffel correspondence in Layer P.7, C₀(X)-algebras, their fibres and continuous Hilbert fields in Layer P.8.
 - CStarAlgebras for full group C*-algebras and type-I hypotheses; OperatorAlgebraDynamics D5 for Haar-system groupoid convolution/disintegration; VonNeumannAlgebras V2 for completed Hilbert tensors. M3 consumes Layer P.5's free-particle position, momentum and Fourier core; the other Layer P interfaces are named below and at their uses.
 - [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
 - [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups and Peter–Weyl; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
@@ -19,7 +19,7 @@ Consume, without duplicating their core constructions:
 - Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); strong-operator Polish groups, coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and Pettis's theorem (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation, integration and the real Whitehead lemmas (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
 - Tau Ceti's pinned Lorentzian Clifford/Spin equivalence in `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean` and Hermitian-vector model in `TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` for the `Spin(3,1)≃SL(2,ℂ)` / Lorentz cover interface. The group-action and orbit proofs remain targets here.
 
-The analytic operator domains and self-adjoint spectral calculus are supplied by OperatorTheory/SelfAdjointSpectralTheory and OperatorTheory/UnboundedOperators. RelativisticQuantumFieldTheory RQFT0–RQFT2 owns field-side Lorentzian coordinate/Fourier conventions, exact solution carriers, causal Green operators, Lorentz-spinor and classical-to-quantum field bridges; NQS M4 owns the group/metric/cover and Lorentz-representation conventions; RQFT3–RQFT10 own operator-valued distributions, Wightman/Haag–Kastler axioms, spin-statistics, Shale implementability, perturbative renormalization and scattering. LocalVariationalFieldTheory LVF1–LVF6 owns finite-order Euler–Lagrange/Noether theory, stress-energy and classical momentum/current constructions. These field and variational roadmaps own the listed field applications; M0–M6 do not consume RQFT field constructions. Their common Lorentz/Spin and operator inputs are the pinned native and supplier APIs above. Layer P is consumed by M1 (P.1–P.3: rays, Polish groups, coefficient and quotient Borel structures, the local section, Pettis's theorem and the locally continuous convention), M2 (P.2), M3 (P.3–P.5), M4 (P.1–P.4), M5.Coding (P.2, preceding M5.LittleDual’s topological comparisons) and M6 (P.6 and the source correction register); Layer P consumes no M-layer. RQFT2 and RQFT3 consume M2/M4 for the named noncompact representation data; RQFT11 consumes M4 for the helicity models it names. This fixes the milestone direction of the shared field applications. No field theorem follows merely from a unitary representation of spacetime symmetry.
+The analytic operator domains and self-adjoint spectral calculus are supplied by OperatorTheory/SelfAdjointSpectralTheory and OperatorTheory/UnboundedOperators. RelativisticQuantumFieldTheory RQFT0–RQFT2 owns field-side Lorentzian coordinate/Fourier conventions, exact solution carriers, causal Green operators, Lorentz-spinor and classical-to-quantum field bridges; NQS M4 owns the group/metric/cover and Lorentz-representation conventions; RQFT3–RQFT10 own operator-valued distributions, Wightman/Haag–Kastler axioms, spin-statistics, Shale implementability, perturbative renormalization and scattering. LocalVariationalFieldTheory LVF1–LVF6 owns finite-order Euler–Lagrange/Noether theory, stress-energy and classical momentum/current constructions. These field and variational roadmaps own the listed field applications; M0–M6 do not consume RQFT field constructions. Their common Lorentz/Spin and operator inputs are the pinned native and supplier APIs above. Layer P is consumed by M1 (P.1–P.3: rays, Polish groups, coefficient and quotient Borel structures, the local section, Pettis's theorem and the locally continuous convention; P.7 for interior-tensor induction), M2 (P.2, P.7), M3 (P.3–P.5), M4 (P.1–P.4, P.7), M5.Coding (P.2, preceding M5.LittleDual’s topological comparisons), M5 (P.7, P.8) and M6 (P.6 and the source correction register); Layer P consumes no M-layer. RQFT2 and RQFT3 consume M2/M4 for the named noncompact representation data; RQFT11 consumes M4 for the helicity models it names. This fixes the milestone direction of the shared field applications. No field theorem follows merely from a unitary representation of spacetime symmetry.
 
 The following additional supplier interfaces are consumed by their named targets.
 Their generic theories remain in the supplying roadmaps.
@@ -28,13 +28,11 @@ Their generic theories remain in the supplying roadmaps.
 | --- | --- | --- |
 | PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
 | RiemannianGeometry R1/R2/R4, [HopfRinow](../HopfRinow/README.md) | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard and complete closed-ball compactness | M0’s Cartan/maximal-compact argument |
-| [DifferentialGeometry 2.3](../DifferentialGeometry/README.md) | Smooth-cover adapter | M0’s finite-central-cover lift |
 | [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
 | InductionRestriction 2.1 | Almost-conjugacy and permutation representations | M1’s finite-quotient deck models |
 | LieGroupoidsPoisson G0 item0, [OperatorAlgebraDynamics D5](../OperatorAlgebraDynamics/README.md#d5-haar-groupoids-convolution-and-disintegration) | Topological groupoid, Haar convolution, full completion and disintegration | M5’s deformation groupoid |
 | CStarAlgebras C1/C2 | C1 ideal/approximate-unit APIs; C2 separable prime⇒primitive, primitive ideals, hull-kernel topology and separable second countability, pure-state/GNS, nonzero irreducibility⇔scalar commutant, Kadison transitivity with its norm bound and quotient-norm lower semicontinuity | M0a.TypeIComparison first; M2.TypeIDisintegration and M2.RectangularField; M5’s labelled dual topology |
 | UnboundedOperators UO-B04/B05 | Strongly commuting joint PVM and multiparameter Stone theorem | M4’s joint translation spectrum |
-| HilbertModules H5 | C₀(base)-algebra fibers and upper semicontinuous bundles | M5’s deformation algebra |
 | [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; CompactGroups Layers 1/4 supply unitarization/coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
 | MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
 | LaguerreJacobi A/B contract | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
@@ -81,10 +79,12 @@ groups, their Borel structures, local sections and Pettis's theorem (P.2),
 normalized locally continuous multipliers and the topological extensions they
 classify (P.3), the finite-dimensional Lie smoothing, differentiation,
 integration and Whitehead interfaces (P.4), the free-particle position and
-momentum operators (P.5) and the permutation sectors of completed tensor powers
-(P.6). Its only inputs are Mathlib, Tau Ceti and the named sections of
-LieGroups, AffineLieAlgebras, SelfAdjointSpectralTheory and VonNeumannAlgebras;
-it consumes no M-layer.
+momentum operators (P.5), the permutation sectors of completed tensor powers
+(P.6), interior tensor products, induction and the Rieffel correspondence for
+Hilbert C*-modules (P.7), and C₀(X)-algebras and continuous fields (P.8). Its
+only inputs are Mathlib, Tau Ceti and the named sections of LieGroups,
+AffineLieAlgebras, SelfAdjointSpectralTheory, VonNeumannAlgebras and
+CStarAlgebras; it consumes no M-layer.
 
 ### P.1 Rays and the unitary–antiunitary group
 
@@ -430,6 +430,107 @@ every further tensor decomposition; this item supplies only the projectors.
   `(U_σU_τv)_i=v_((στ)⁻¹i)`; the right-action formula `v_(σi)` would give
   `U_σU_τ=U_(τσ)`, which differs for the transpositions (12),(23) of S₃.
 
+### P.7 Interior tensor products, induction and the Rieffel correspondence
+
+Work with right Hilbert C*-modules on Mathlib's `CStarModule` carrier, inner
+products linear in the second variable as in OperatorAlgebraDynamics. For a
+right Hilbert A-module E, a right Hilbert B-module F and a *-homomorphism
+`Ψ:A→L_B(F)` into the adjointable operators, define the interior tensor
+product `E⊗_ΨF` as the Hausdorff completion of the algebraic tensor product
+for `⟨ξ⊗η,ξ′⊗η′⟩=⟨η,Ψ(⟨ξ,ξ′⟩)η′⟩`, and for a *-homomorphism `Φ:C→L_A(E)`
+the representation `Φ⊗1` on it (Echterhoff2010 §5.1, p.15). For a
+representation π of B on a Hilbert space H define `Ind_Eπ=Φ⊗1` on `E⊗_BH`,
+restricted to its essential subspace.
+
+- Positivity of the interior inner product, the bound
+  `‖Φ(c)⊗1‖≤‖Φ(c)‖`, and associativity `(E⊗_AF)⊗_BG≃E⊗_A(F⊗_BG)` by a
+  unitary natural in all three modules; hence induction in steps
+  `Ind_F(Ind_Eπ)≃Ind_(F⊗E)π` (Echterhoff2010 Remark 5.10(2), p.20).
+- Kernels: `ker(Ind_Eπ)` equals the induced ideal
+  `{a: ⟨Φ(a)ξ,η⟩∈kerπ for all ξ,η∈E}`, so induction preserves weak
+  containment (Echterhoff2010 (5.4), p.20, and Proposition 5.16, p.23).
+- Imprimitivity bimodules X between A and B (both inner products full and
+  `_A⟨ξ,η⟩ζ=ξ⟨η,ζ⟩_B`; Echterhoff2010 Definition 5.2, pp.15–16). The
+  Rieffel correspondence: `I↦X·I↦_A⟨X·I,X·I⟩` is an inclusion-preserving
+  bijection between closed ideals of B, closed sub-bimodules of X and closed
+  ideals of A, with `X·I` an imprimitivity bimodule between the
+  corresponding ideals and `X/X·I` one between the quotients
+  (Echterhoff2010 Proposition 5.4, p.17).
+- `Ind_X` carries irreducible representations to irreducible ones, is
+  inverted by the adjoint bimodule, and gives homeomorphisms `B̂→Â` and
+  `Prim B→Prim A` for the hull-kernel topologies; on the decomposition
+  `B̂=Î⊔(B/I)^` it is induction through `X·I` and through `X/X·I`
+  (Echterhoff2010 Remark 5.10(3) and Proposition 5.11, pp.20–21).
+- The small unitary-dual carrier: Â is the quotient of the pure states of A
+  by unitary equivalence of their cyclic GNS representations, with the
+  hull-kernel topology pulled back from CStarAlgebras C2's primitive ideal
+  space; `Ind_X` is computed on this carrier.
+- Irreducible-image convention: A is type I when `π(A)⊇K(H_π)` for every
+  irreducible π. Type I and CCR pass across imprimitivity bimodules
+  (Echterhoff2010 Proposition 5.12, p.21).
+
+*Needs:* Mathlib `CStarModule`, `DoubleCentralizer` (multipliers);
+CStarAlgebras C1/C2 (ideals, quotients, pure states, GNS, primitive ideal
+space and hull-kernel topology).
+
+**Checks.**
+
+- With E=B the standard module and Ψ nondegenerate, `B⊗_ΨF≃F` by
+  `b⊗η↦Ψ(b)η`. With Ψ=0 every elementary tensor has norm zero and
+  `E⊗_ΨF=0`; a definition that skips the Hausdorff quotient keeps a
+  nonzero space of null vectors.
+- `X=ℂⁿ` is an imprimitivity bimodule between `M_n(ℂ)` and ℂ. Induction of
+  the one-dimensional representation of ℂ is the defining representation of
+  `M_n(ℂ)` on `ℂⁿ`, of dimension n, and the Rieffel correspondence matches
+  the two ideals `0,ℂ` with `0,M_n(ℂ)`.
+- Fullness is needed: for `B=ℂ⊕ℂ` and the non-full module `E=ℂ⊕0` with
+  `A=K_B(E)=ℂ`, `⟨(1,0),(1,0)⟩=(1,0)` is killed by the second coordinate
+  character, so `Ind_E` sends that character to the zero representation,
+  and the ideals `0` and `0⊕ℂ` both induce the zero ideal.
+- The linearity convention: `⟨ξ,ηb⟩=⟨ξ,η⟩b` and `⟨ξb,η⟩=b*⟨ξ,η⟩`; with
+  `E=B`, `⟨a,b⟩=a*b`, and the first-variable convention `ab*` fails
+  `⟨ξ,ηb⟩=⟨ξ,η⟩b` already for `B=M₂(ℂ)`.
+
+### P.8 C₀(X)-algebras and continuous fields
+
+For a locally compact Hausdorff space X, a C₀(X)-algebra is a C*-algebra A
+with a nondegenerate *-homomorphism `φ:C₀(X)→ZM(A)` into the centre of its
+multiplier algebra. Its fibre at x is `A_x=A/I_x`, where `I_x` is the closed
+span of `φ(f)a` with `f(x)=0`, and `a(x)` is the image of a. Prove:
+
+- `‖a(x)‖=inf{‖φ(f)a‖ : f∈C_c(X), 0≤f≤1, f(x)=1}`, and
+  `‖a‖=sup_x‖a(x)‖`, so `a↦(a(x))_x` is injective.
+- x↦‖a(x)‖ is upper semicontinuous and vanishes at infinity. Route: for f as
+  above, `(φ(f)a)(y)=f(y)a(y)`, so `‖a(y)‖≤‖φ(f)a‖/f(y)` on the open set
+  where `f>1−ε`.
+- A is a continuous C₀(X)-algebra when every x↦‖a(x)‖ is continuous; then
+  `((A_x),{x↦a(x)})` is a continuous field of C*-algebras
+  (DixmierDouady1963 Definition 7, p.267). For a C*-algebra B the trivial
+  field `C₀(X)⊗B` has every fibre B and continuous norm functions.
+- Hilbert-field reconstruction: for Hilbert spaces `(H(z))_(z∈Z)` over a
+  topological space Z and a complex vector space Λ of sections whose values
+  are dense in each `H(z)` and whose norm functions are continuous, there is
+  exactly one continuous field of Hilbert spaces whose continuous sections
+  contain Λ; they are the sections locally uniformly approximable by Λ
+  (DixmierDouady1963 Propositions 1 and 3, pp.229–230, and §9, p.244).
+
+*Needs:* Mathlib `DoubleCentralizer`, `ZeroAtInftyContinuousMap`;
+CStarAlgebras C1 (ideals and quotients).
+
+**Checks.**
+
+- X a point: every C*-algebra is a C₀(X)-algebra and its only fibre is A.
+- Upper semicontinuity is not continuity: `A=C₀([0,1))⊕ℂ` over `[0,1]`
+  with `φ(f)(g,λ)=(fg,f(1)λ)` has fibre ℂ everywhere, and `a=(0,1)` has
+  `‖a(t)‖=0` for t<1 and `‖a(1)‖=1`.
+- Trivial field: in `C₀(ℝ)⊗M₂(ℂ)`, `a(x)=e^(−x²)E₁₁` has
+  `‖a(x)‖=e^(−x²)`, continuous and vanishing at infinity.
+- Reconstruction needs continuous norms: with `H(z)=ℂ` over ℝ and Λ
+  spanned by the constant section 1 and the indicator of `[0,∞)`, the
+  values are dense but the indicator's norm is discontinuous at 0, so no
+  continuous field contains Λ; with Λ the constant sections of
+  `ℂ` the field is that of continuous functions `ℝ→ℂ`.
+
 ### Examples
 
 The spin class of SO(3) is the pushout of `SU(2)→SO(3)` by the nontrivial
@@ -440,9 +541,10 @@ nonzero element of `Hom(π₁(SO(3)),𝕋)`.
 
 ### Dependencies
 
-P.1 → P.2 → P.3 → P.4; P.5 and P.6 depend only on their named suppliers. M1
-consumes P.1–P.3, M2 consumes P.2, M3 consumes P.3–P.5, M4 consumes P.1–P.4,
-M5.Coding consumes P.2 and M6 consumes P.6. No item of this layer consumes an
+P.1 → P.2 → P.3 → P.4; P.7 → P.8; P.5, P.6 and P.7 depend only on their
+named suppliers. M1 consumes P.1–P.3 and P.7, M2 consumes P.2 and P.7, M3
+consumes P.3–P.5, M4 consumes P.1–P.4 and P.7, M5.Coding consumes P.2, M5
+consumes P.7 and P.8, and M6 consumes P.6. No item of this layer consumes an
 M-layer.
 
 ## M0a. Separable GCR and factor-type-I comparison
@@ -642,8 +744,9 @@ K-orbit spaces; do not identify the full Gårding space with the K-finite space.
    Prove the adjoint involution fixes
    the fundamental-group/deck data using its deformation retraction to the
    fixed subgroup, so it lifts to the chosen finite cover. Consume
-   LieGroups Layer5's covering/lift construction and DifferentialGeometry
-   2.3's smooth-cover adapter; export here the lifting criterion in terms
+   LieGroups Layer5's covering/lift construction; the lift is a continuous
+   homomorphism, hence smooth by LieGroups Layer2's automatic smoothness
+   theorem. Export here the lifting criterion in terms
    of the image subgroup of π₁ using path lifting and endpoint independence.
    Prove the lifted map fixes the identity, is a homomorphism and squares
    to the identity by uniqueness of lifts on connected G and G×G.
@@ -956,7 +1059,7 @@ for the diagonal G-action. Construct the exterior-tensor/induction unitary for G
 
 For the closed-subgroup fields occurring here, construct the parameterized Haar/quotient data rather than make independent choices at each q. Reuse native `ClosedSubgroup G`; construct its standard Borel closed-set coding for lcsc G and the required countable Borel dense subgroup sections and normalize each Haar measure by its integral against one fixed nonnegative compactly supported function positive at the identity. Prove this Haar field Borel by countable compact-support integral tests, the Borel graph of invariance and uniqueness of the normalization; dense subgroup sections promote the countable invariance tests to the full subgroup. Supply Borel coset selectors, modular ratios and rho-functions on the resulting subgroup bundles. Restricted countable compact-support vector sections give measurable Gram matrices and dense induced fundamental sections. Prove the induction-in-stages unitaries below jointly measurable by their coefficient/norm tests on these sections, including when the closed subgroups vary as J_q and K_q. The variable-subgroup field construction is owned here; the fixed-subgroup theorem alone does not imply it.
 
-For closed J≤K≤G prove induction in stages `Ind_K^G(Ind_J^Kσ)≃Ind_J^Gσ`, with the unitary quotient/bundle identifications and this same single-RN normalization, consuming OperatorAlgebraDynamics D3 and HilbertModules H3’s existing stages/interior-tensor induction. For fixed closed H≤G and a measurable field of separable H-representations `σ_t` over a standard Borel σ-finite base, construct the induced field and `Ind_H^G(∫⊕σ_t)≃∫⊕Ind_H^Gσ_t`. Supply the jointly measurable coefficient fields and the field-Fubini unitary on fundamental sections, norm identity, onto property and naturality; this is not an assumption that independent pointwise choices form a measurable field. VNA V4's actual measurable-field/decomposable-map clauses supply their generic carriers, and native finite-measure `Measure.condKernel` supplies scalar disintegration after equivalent-probability replacement. The measurable orbit/induction comparisons remain M1-owned. Generic finite/algebraic Mackey subgroup APIs supply subgroup/intersection identities only, not these lcsc Hilbert direct-integral theorems.
+For closed J≤K≤G prove induction in stages `Ind_K^G(Ind_J^Kσ)≃Ind_J^Gσ`, with the unitary quotient/bundle identifications and this same single-RN normalization, consuming OperatorAlgebraDynamics D3's induction in stages and P.7's induction in steps through interior tensor products. For fixed closed H≤G and a measurable field of separable H-representations `σ_t` over a standard Borel σ-finite base, construct the induced field and `Ind_H^G(∫⊕σ_t)≃∫⊕Ind_H^Gσ_t`. Supply the jointly measurable coefficient fields and the field-Fubini unitary on fundamental sections, norm identity, onto property and naturality; this is not an assumption that independent pointwise choices form a measurable field. VNA V4's actual measurable-field/decomposable-map clauses supply their generic carriers, and native finite-measure `Measure.condKernel` supplies scalar disintegration after equivalent-probability replacement. The measurable orbit/induction comparisons remain M1-owned. Generic finite/algebraic Mackey subgroup APIs supply subgroup/intersection identities only, not these lcsc Hilbert direct-integral theorems.
 
 #### Subgroup, tensor and direct-integral construction details
 
@@ -1006,8 +1109,8 @@ where the action on the left is the diagonal action. Derive it by the
 subgroup theorem for the diagonal in G×G and the exterior tensor/induction
 unitary, not by identifying a diagonal tensor product with an irreducible
 exterior product. Construct those comparison unitaries, their associativity
-and their naturality on bounded intertwiners. Consume D3/H3 induction in
-stages and V4.0.Fields measurable Hilbert fields; this milestone owns the measurable
+and their naturality on bounded intertwiners. Consume D3 induction in stages
+(P.7 for its interior-tensor form) and V4.0.Fields measurable Hilbert fields; this milestone owns the measurable
 double-coset disintegration and subgroup theorem, which those suppliers do
 not assert. Countable atomic quotient measures give direct sums with their
 actual atom multiplicities; they are not the general conclusion. The
@@ -1342,7 +1445,7 @@ hypothesis by M2 before applying the general theorem.
 
 ## M2. Regular Mackey machine
 
-Let `G=N⋊H` be second-countable locally compact with N locally compact abelian. Use native Mathlib `PontryaginDual N` with its compact-open topology and circle-valued character carrier. Pin the dual action `h·χ(n)=χ(h⁻¹·n)` and the V11 Fourier/Pontryagin conventions. For the regular-action theorem assume a standard Borel orbit space Q, a Borel quotient map `q:N̂→Q` whose fibers are precisely the H-orbits, and a Borel section `s:Q→N̂` with `q∘s=id`. These are explicit hypotheses; in every model application prove them from its orbit parameters and chosen representatives. Prove that this smooth quotient implies regular embedding in Mackey's measure-class sense and that every ergodic invariant measure class is concentrated on one orbit. For irreducible exhaustion require `G` and all stabilizers second-countable locally compact and `N̂` standard Borel; prove the normal subgroup's metric-smooth/type-I hypotheses using its abelian character dual. The split untwisted classification uses ordinary little-group representations. For a specified global twist, using this character dual requires an explicit coboundary trivialization of its restriction to N; give its extension and little-group obstruction data. If that restriction is nontrivial, instead construct the actual projective normal-subgroup dual and establish its metric-smooth/type-I and regular-embedding hypotheses before applying the twisted theorem; ordinary characters are not its representation labels. Prove exhaustion under these regularity hypotheses, without a type-I requirement on little groups. Separately prove Mackey's sufficient type-I criterion under the regular-action/smooth-quotient hypotheses stated above, including standard-Borel N̂ and the regular embedding. In the untwisted case, if each stabilizer algebra is type I then G is type I. For a specified `ω`, prove the mandatory fixed-central-weight criterion M2.FixedTwistTypeI below for `C*(G,ω)`; do not replace its hypotheses by type I of the whole extension `E_ω`. State any all-central-weights conclusion separately: type I of one fiber `C*(G,ω)` alone does not show the whole extension group is type I. Do not apply this implication outside those hypotheses. Use M1's factor-representation definition of type I and its comparison with VNA V3's spatial type-I carrier. Consume the GCR-to-factor-type-I direction of TypeIComparison for separable group C*-algebras; M0's CCR hypothesis implies GCR. This is the implication consumed from M0's CCR result; HilbertModules H3's irreducible-image convention and VNA's factor carrier are compared in this direction. A converse is not used to prove the little-group hypotheses. Use type I where required by direct-integral disintegration and uniqueness in M6 and by the product theorem below. Mackey1958 Theorems8.1,8.4,9.1 and9.3 supply the proof route with these distinct hypotheses. For each χ construct the closed stabilizer `Hχ`. In the ordinary split semidirect product, χ extends genuinely to `N⋊Hχ` by `χ̃(n,h)=χ(n)`, because every h in Hχ fixes χ; prove the extension law explicitly. Thus the little-group datum for genuine representations is an ordinary genuine unitary representation of Hχ and its multiplier is trivial (up to the chosen coboundary). Do not assign arbitrary projective data here. Reserve nontrivial multipliers for a separately specified global twist/central extension or genuinely nonsplit extension, and give its cocycle, section, and restriction/transport data.
+Let `G=N⋊H` be second-countable locally compact with N locally compact abelian. Use native Mathlib `PontryaginDual N` with its compact-open topology and circle-valued character carrier. Pin the dual action `h·χ(n)=χ(h⁻¹·n)` and the V11 Fourier/Pontryagin conventions. For the regular-action theorem assume a standard Borel orbit space Q, a Borel quotient map `q:N̂→Q` whose fibers are precisely the H-orbits, and a Borel section `s:Q→N̂` with `q∘s=id`. These are explicit hypotheses; in every model application prove them from its orbit parameters and chosen representatives. Prove that this smooth quotient implies regular embedding in Mackey's measure-class sense and that every ergodic invariant measure class is concentrated on one orbit. For irreducible exhaustion require `G` and all stabilizers second-countable locally compact and `N̂` standard Borel; prove the normal subgroup's metric-smooth/type-I hypotheses using its abelian character dual. The split untwisted classification uses ordinary little-group representations. For a specified global twist, using this character dual requires an explicit coboundary trivialization of its restriction to N; give its extension and little-group obstruction data. If that restriction is nontrivial, instead construct the actual projective normal-subgroup dual and establish its metric-smooth/type-I and regular-embedding hypotheses before applying the twisted theorem; ordinary characters are not its representation labels. Prove exhaustion under these regularity hypotheses, without a type-I requirement on little groups. Separately prove Mackey's sufficient type-I criterion under the regular-action/smooth-quotient hypotheses stated above, including standard-Borel N̂ and the regular embedding. In the untwisted case, if each stabilizer algebra is type I then G is type I. For a specified `ω`, prove the mandatory fixed-central-weight criterion M2.FixedTwistTypeI below for `C*(G,ω)`; do not replace its hypotheses by type I of the whole extension `E_ω`. State any all-central-weights conclusion separately: type I of one fiber `C*(G,ω)` alone does not show the whole extension group is type I. Do not apply this implication outside those hypotheses. Use M1's factor-representation definition of type I and its comparison with VNA V3's spatial type-I carrier. Consume the GCR-to-factor-type-I direction of TypeIComparison for separable group C*-algebras; M0's CCR hypothesis implies GCR. This is the implication consumed from M0's CCR result; P.7's irreducible-image convention and VNA's factor carrier are compared in this direction. A converse is not used to prove the little-group hypotheses. Use type I where required by direct-integral disintegration and uniqueness in M6 and by the product theorem below. Mackey1958 Theorems8.1,8.4,9.1 and9.3 supply the proof route with these distinct hypotheses. For each χ construct the closed stabilizer `Hχ`. In the ordinary split semidirect product, χ extends genuinely to `N⋊Hχ` by `χ̃(n,h)=χ(n)`, because every h in Hχ fixes χ; prove the extension law explicitly. Thus the little-group datum for genuine representations is an ordinary genuine unitary representation of Hχ and its multiplier is trivial (up to the chosen coboundary). Do not assign arbitrary projective data here. Reserve nontrivial multipliers for a separately specified global twist/central extension or genuinely nonsplit extension, and give its cocycle, section, and restriction/transport data.
 
 **M2.FixedTwistTypeI — the regular Mackey criterion at one central weight.** Fix a normalized Borel multiplier `ω` on the lcsc second-countable `G=N⋊H` above and construct its Mackey–Weil lcsc circle extension `p:E_ω→G` by M1. Use the convention `(z,g)(w,h)=(zwω(g,h),gh)` and the weight-one sector, in which the central `z` acts as `z·1`; its C*-algebra is `C*(G,ω)`. Put `M=p⁻¹(N)`, a closed normal subgroup. Construct the actual normal-subgroup projective dual `X=ĤM_1`: unitary-equivalence classes of irreducible strongly continuous representations `ρ` of M with `ρ(z)=z·1`, equivalently the irreducible `ω|_(N×N)`-projective representations of N via the Borel coordinate lift. Assume the weight-one ideal `J_1(M)` of `C*(M)` is type I, and supply its metric-smooth standard-Borel dual and a Borel field of concrete separable irreducible models with separating measurable matrix coefficients. These are explicit normal-subgroup hypotheses; do not infer them from commutativity of N when its restricted multiplier is nontrivial. No condition on the other central weights of M is imposed.
 
@@ -1437,7 +1540,7 @@ and equivalent measures by the V4.0.Fields field unitary and density formulas.
 Two representations of A are unitarily equivalent exactly when these
 spectral data agree. Do not assert pointwise uniqueness of the field or measure.
 
-Use HilbertModules' small unitary-dual carrier (pure states modulo unitary
+Use P.7's small unitary-dual carrier (pure states modulo unitary
 equivalence of cyclic GNS representations), CStarAlgebras C2's pure-state/GNS,
 primitive-kernel and separable primitive-space results, VNA V3's spatial
 type-I factors, V4.0.Fields' measurable fields and V4.0.Decomposition's central reduction. Consume
@@ -2075,7 +2178,7 @@ Use the following proof route, including its intermediate comparisons:
   as `B=C₀(O_ε_E∪{0})⋊H` and its invariant-open-orbit ideal as
   `I=C₀(O_ε_E)⋊H`, using D1's full crossed-product exactness and the
   translation Fourier transform. Consume D3's Green imprimitivity for
-  `C₀(H/Δ)⋊H` and HilbertModules' ideal/representation transport: under
+  `C₀(H/Δ)⋊H` and P.7's Rieffel ideal and representation transport: under
   this equivalence ρ|I corresponds to the one-dimensional character ζ_ℓ.
   An irreducible representation of B either restricts nontrivially and
   nondegenerately to I, or factors through B/I=C*(H); prove this ideal
@@ -3211,8 +3314,8 @@ Prove the density Jacobian and compact-support integration continuity; the Loren
 quotient action has determinant1 and both groups here are unimodular.
 
 Consume OperatorAlgebraDynamics D5 for Haar-groupoid convolution, full completion,
-disintegration and unit-space multipliers, and HilbertModules H5 for C₀(base)-algebras,
-fibers and upper semicontinuous bundles. Own the central C₀(base) action and evaluation
+disintegration and unit-space multipliers, and P.8 for C₀(base)-algebras,
+their fibres and the upper semicontinuity of fibre norms. Own the central C₀(base) action and evaluation
 comparison `A_r≅C*(G_r)` for `A=C*(DNC(G,H))`, with kernel the closed ideal generated
 by functions vanishing at r. Prove evaluation surjectivity and this full-norm quotient
 identity. Prove any stronger continuous-field property used; it is not supplied merely
@@ -3225,7 +3328,7 @@ this topology.
 
 **Specified model limits.** In addition, use the displayed normalized induced or K-type
 realizations to construct designated continuous Hilbert fields/common dense cores for
-model convergence, using HilbertModules H5's Hilbert-field reconstruction.
+model convergence, using P.8's Hilbert-field reconstruction.
 Name each model's generating continuous sections and structural V_R; a K-type
 list alone does not supply them. The mandatory standalone models are
 M5.UniformZeroModel for its evaluated Poincaré-to-zero-principal rows,
@@ -3706,7 +3809,7 @@ principal parametrization when taking supports and closures.
 For K=SU(2), spin j∈½ℕ₀, prove
 `Supp Ind_K^L D_j={P_m(ω):|m|≤2j,m≡2j mod2}`, all frequencies modulo the
 pinned Weyl representatives. Consume CStarAlgebras C2.AnnHull from its pure ideal owner; no
-HilbertModules H3 corner theorem or Lorentz Plancherel transform is assumed.
+Morita corner theorem or Lorentz Plancherel transform is assumed.
 For A_r=C*_r(L), put `e_j=(2j+1)∫_K Tr(D_j(k⁻¹))u_k dk`, the
 compact character projection in M(A_r), obtained by strictly integrating the
 canonical K unitaries; it need not belong to A_r. Consume C1's multiplier
@@ -3767,7 +3870,7 @@ ordinary radius convergence. Export all tail/subsequence cluster criteria
 by these bases, without assuming eventual membership in a single family.
 
 For the positive-radius stratum use D1 open-invariant-set exactness, the
-translation Fourier transform, D3 Green imprimitivity and HilbertModules H3
+translation Fourier transform, D3 Green imprimitivity and P.7's Rieffel
 spectrum transport; the orbit radius gives the ordinary (0,∞) factor and
 the two stabilizer characters give the discrete center factor. At radius0
 realize all T_(ρ,e) on one circle carrier with compact weights ℓ∈2e+2ℤ.
@@ -4103,13 +4206,13 @@ energy sheet or spacelike stratum the radius is an inert (0,∞) coordinate.
 Own the generator-preserving comparison
 `C₀((0,∞)×L/K)⋊L≃C₀(0,∞)⊗(C₀(L/K)⋊L)` for the actual K=SU2 or H_s:
 use the full universal property, D1’s tensor comparison, CStarAlgebras C5’s
-nuclear commutative factor and HilbertModules H5’s trivial-field fibers.
+nuclear commutative factor and P.8's trivial-field fibres.
 Prove `widehat(C₀(X)⊗B)≃X×B̂` by factoring the central C₀(X) character,
 then the fiber representation, with both topology directions from elementary
-tensor norm tests. D3 Green imprimitivity and HilbertModules H3’s Rieffel
+tensor norm tests. D3 Green imprimitivity and P.7's Rieffel
 homeomorphism identify the remaining spectrum with K̂. These named inputs
 give the displayed product topologies. On each nonzero null energy orbit,
-the same D1/D3/H3 comparison gives the relative topology of Δ̂ computed
+the same D1/D3/P.7 comparison gives the relative topology of Δ̂ computed
 in M5.NullLittleDual. The closed translation-zero quotient excludes zero
 sources from nonzero targets.
 
@@ -5307,7 +5410,7 @@ bounds. No input rate is added: N_J is chosen after the given sequence and its
 finite-window estimates, not prescribed as an additional inequality on labels.
 
 Use polarization and normalized Gram corrections on the nested finite spans to
-supply a compatible family of coefficient sections; apply H5's actual
+supply a compatible family of coefficient sections; apply P.8's
 reconstruction to the pullback DNC field over the convergent-sequence base.
 Prove continuity of the sections at the limit with the displayed estimates,
 and continuity at its isolated source points directly. This does not assert a
@@ -8507,3 +8610,5 @@ Dooley, *Mathematical Foundations of Quantum Mechanics*: all 34 physical pages a
 Grundling, *Mathematics of Quantum Mechanics notes* (225 physical pages). Its operator, Stone, compact rotation and tensor examples support the operator/compact suppliers: physical pp.122–140 have basic operator theory, pp.170–182 have Stone and self-adjoint extensions, and pp.211–225 have angular momentum, hydrogen, tensors, Weyl relations and rotation generators. The readable material supplies no Galilei, Poincaré, Lorentz or Mackey classification premise here; those targets use the Dooley notes and the named primary representation-theory sources. The faint facing halves of physical pp.222–225 remain indeterminate and carry no invented assertion. The indeterminate passages supply no additional theorem premise.
 
 Primary representation-theory references for the noncompact assertions are G. W. Mackey, [“Imprimitivity for Representations of Locally Compact Groups I,” *PNAS* 35 (1949), 537–545](https://doi.org/10.1073/pnas.35.9.537) and [“Unitary Representations of Group Extensions I,” *Acta Mathematica* 99 (1958), 265–311](https://doi.org/10.1007/BF02392428); V. Bargmann, [“Irreducible Unitary Representations of the Lorentz Group,” *Annals of Mathematics* 48 (1947), 568–640](https://doi.org/10.2307/1969129), with its q/K-weight normalization translated in M4; I. M. Gel'fand–M. A. Naimark, [“Unitary representations of the Lorentz group,” *Izv. Akad. Nauk SSSR Ser. Mat.* 11 (1947), 411–504](https://www.mathnet.ru/eng/im3007), especially §8 and the p457 endpoint footnote; V. Bargmann, [“On Unitary Ray Representations of Continuous Groups,” *Annals of Mathematics* 59 (1954), 1–46](https://doi.org/10.2307/1969831); R. Takahashi, [“Sur les représentations unitaires des groupes de Lorentz généralisés,” *Bull. Soc. Math. France* 91 (1963), 289–433](https://doi.org/10.24033/bsmf.1598); J. Dixmier, [“Représentations intégrables du groupe de De Sitter,” *Bull. Soc. Math. France* 89 (1961), 9–41](https://doi.org/10.24033/bsmf.1558); and H. Bacry–J.-M. Lévy-Leblond, [“Possible Kinematics,” *J. Math. Phys.* 9 (1968), 1605–1614](https://doi.org/10.1063/1.1664490). Wightman's primary localization discussion is [“On the Localizability of Quantum Mechanical Systems,” *Rev. Mod. Phys.* 34 (1962), 845](https://doi.org/10.1103/RevModPhys.34.845). These sources identify the classification problems; the chosen topology, cover, signature and operator domains are fixed by this README.
+
+Layer P.7 and P.8 cite Echterhoff2010 = S. Echterhoff, [“Crossed products, the Mackey–Rieffel–Green machine and applications”](https://arxiv.org/abs/1006.4975) (arXiv:1006.4975), and DixmierDouady1963 = J. Dixmier and A. Douady, [“Champs continus d’espaces hilbertiens et de C*-algèbres,” *Bull. Soc. Math. France* 91 (1963), 227–284](https://doi.org/10.24033/bsmf.1596).
