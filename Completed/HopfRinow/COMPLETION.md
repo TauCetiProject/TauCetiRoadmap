@@ -16,12 +16,15 @@ All three PRs target main separately. The joint connection-family regularity in 
 merge before the next variation stage in #21067. All must finish normal review and CI before this
 archive is marked ready. Their refinements are tracked in the PR discussions.
 
-**Additional scope check, 2026-10-28.** The published #18707 head `ac83a202c72e` proves
-joint native coefficient smoothness at interior chart points and on full chart domains only
-for a boundaryless model. The approved nondegenerate supplier also includes corner-boundary
-points; frozen-metric smoothness does not imply joint family smoothness there. The full native
-chart-domain theorem is being completed in #18707. This archive remains blocked on that proof,
-even if the other two prerequisites merge. No boundaryless restriction is added to the roadmap.
+**Boundary completion checked, 2026-10-28.** Candidate #18707 head
+`29c028be9e4fdda06134246fb297ee3887a6f753` proves joint native coefficient smoothness throughout
+all chart domains, including corner-boundary points, and the inverse-matrix index formula using
+`fderivWithin` on the actual chart target. It uses native manifold derivatives, the joint Koszul
+expression and inverse coordinate metrics. Independent probes take both parameter and base to be
+`EuclideanHalfSpace 1` and prove that the base origin is outside the model interior. Both the native
+coefficient theorem and the native index formula apply there. The ordinary unrestricted-derivative
+formulas remain the distinct interior corollaries. This closes the previously recorded boundary
+obligation mathematically; normal current-head review, genuine CI and merging are still required.
 
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
@@ -46,9 +49,10 @@ Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise 
 | Flat-space acceptance, including dimension zero | `Riemannian/Geodesic/Euclidean.lean` explicitly computes the affine geodesic, maximal interval, exponential domain/map/derivative, normal balls and logarithm. Its model-space hypotheses do not require the space to be nontrivial. |
 | Open-unit-ball rejection test | `Riemannian/Geodesic/Examples/OpenUnitBall.lean` computes the finite-time boundary behavior and radial minimizing segments. The associated `RealOpenUnitBall` API proves non-completeness/non-compactness, so the existence of minimizing segments does not imply properness. |
 
-The currently checked interior native-family bridge and the Hopf–Rinow consumer built in 6,705 Lake
-jobs; its key derivative and coefficient endpoints have only `propext`, `Classical.choice` and
-`Quot.sound`. The restricted-metric and connection comparisons built in 5,907 jobs and have the
+The full corner-family/index implementation and its variation, curvature-jet and Hopf–Rinow
+consumers built together in 6,751 Lake jobs. All fourteen trusted environment linters pass on
+159 declarations plus 164 generated declarations. The ten probed derivative, coefficient and
+index endpoints have only `propext`, `Classical.choice` and `Quot.sound`. The restricted-metric and connection comparisons built in 5,907 jobs and have the
 same axiom profile. The intrinsic curve-variation comparison also passed its endpoint probes.
 Later review refinements receive their own fresh builds. This is a source/API and key-proof
 audit, not an independent replay of every transitive proof.
