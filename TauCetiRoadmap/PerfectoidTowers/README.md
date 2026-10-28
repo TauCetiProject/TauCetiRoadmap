@@ -50,9 +50,8 @@ DiamondsAndVStacks owns the v-topology, diamondification, diamond presentations 
 together with the foundational comparisons that P9 applies to towers: the vector-bundle
 comparison across the analytic, étale, pro-étale and v-sites (D2.9, [KL16] Theorem 3.5.8, p. 76)
 and the analytic/diamond étale-site equivalence (D6.5), specialised to smoothoid spaces in P9.11,
-and the seminormal comparison `O_X ≅ ν_*Ô_X` with its vector-bundle unit and the full
-faithfulness of diamondification on seminormal rigid spaces (D6.9, [KL16] Theorem 8.2.3,
-pp. 162–163, and Corollary 8.2.4, p. 163). The applications to a prescribed pro-étale Galois tower
+and the seminormal comparison `O_X ≅ ν_*Ô_X` and the full faithfulness of diamondification on
+seminormal rigid spaces (D6.9, [KL16] Theorem 8.2.3, pp. 162–163). The applications to a prescribed pro-étale Galois tower
 belong here: P9.8 owns descent of module sections and morphisms along the tower, and P9.12 owns
 function descent over a seminormal base. They apply the D2.9 and D6.9 inputs to a specified tower
 and do not supply those foundations. These tower applications are downstream
@@ -223,7 +222,7 @@ module descent from a specified fixed-ring comparison; the third uses
 `finite_projective_sections_descent` is in `Suggested.lean`; the other two are specified in
 this README only. Their proofs use the direct completed-sheaf comparisons cited in P9.8 and
 P9.12, which DiamondsAndVStacks owns: D2.9 for vector bundles and D6.9 for the seminormal
-comparison. DiamondsAndVStacks §2.9 and §6.9 prove their site equivalences and geometric full
+comparison. DiamondsAndVStacks D2.9 and D6.9 prove their site equivalences and geometric full
 faithfulness without these tower statements as inputs.
 
 The foundational comparisons and their tower specialisations have distinct suppliers:
@@ -231,7 +230,7 @@ The foundational comparisons and their tower specialisations have distinct suppl
 | Declaration or target | Supplier | Use here |
 | --- | --- | --- |
 | Vector bundles across the analytic, étale, pro-étale and v-sites; [KL16] Theorem 3.5.8 | DiamondsAndVStacks D2.9; PerfectoidSpaces P3.19 and P6 supply the étale and pro-étale inputs | P9.8 specialises pullback to a chosen tower |
-| Seminormal `O_X ≅ ν_*Ô_X`, [KL16] Theorem 8.2.3, and the vector-bundle unit of Corollary 8.2.4 | DiamondsAndVStacks D6.9, with D2.9 for vector bundles | P9.12 supplies tower fixed sections; P9.8 supplies tower morphism descent |
+| Seminormal `O_X ≅ ν_*Ô_X`, [KL16] Theorem 8.2.3 | DiamondsAndVStacks D6.9 | P9.12 supplies tower fixed sections |
 | Full faithfulness of diamondification on seminormal rigid spaces | DiamondsAndVStacks D6.9 | An upstream comparison, not a consequence assigned to P9 |
 | Finite-level pro-object, covering and torsor Čech nerve | AdicEtaleGeometry A1.12, `profinite-galois-cover-is-covering` | P9.4–P9.5 add perfectoid completion and continuous completed sections |
 | Tower function and module corollaries | PerfectoidTowers P9.6, P9.8, P9.12; `finite_projective_sections_descent` is the affine lemma | Functions fixed by the specified tower action and full faithfulness of its pullback |
@@ -249,7 +248,7 @@ Names beginning with `AdicSpace`, `CAff` or `YonedaAdicSpace` here have the pref
 | --- | --- | --- |
 | Affinoid morphisms and the rational site | the `Pair.Hom` projection `toRingHom` of `CAff` morphisms, `CAff.toRingHom_eval`, `CAff.ratTopology` | P8–P9 use the underlying ring maps and the rational site defining Yoneda-adic spaces. |
 | Sheafy affinoid adic realizations | `CAff.adicSpa`, `CAff.spaHom` | P8 invariant affinoid covers and P9 constant étale objects use the adic spectrum and its induced morphisms. |
-| Yoneda-adic objects and open immersions | `YonedaAdicSpace.IsYonedaAdic`, `YonedaAdicSpace.ofSpaY`, `YonedaAdicSpace.spaYFunctor`, `YonedaAdicSpace.IsOpenImmersion` | P8 quotient charts and invariant opens use the supplied rational-site sheaves, their morphisms and their open-immersion predicate. |
+| Yoneda-adic objects and open immersions | `YonedaAdicSpace.IsYonedaAdic`, `YonedaAdicSpace.ofSpaY`, `YonedaAdicSpace.spaYFunctor`; Tau Ceti's `TauCeti.PreAdicSpace.IsOpenImmersion` (the open-immersion predicate AdicEtaleGeometry uses) | P8 quotient charts and invariant opens use the supplied rational-site sheaves, their morphisms and the open-immersion predicate. |
 | Yoneda points and functions | `YonedaAdicSpace.space`, `YonedaAdicSpace.globalFunctions`, `YonedaAdicSpace.globalFunctions.map`, `YonedaAdicSpace.toGlobalFunctions` | P8 pointwise quotient conditions and P9 fixed-function descent retain the canonical pullback and affinoid coefficient maps. |
 | Realization comparisons | `YonedaAdicSpace.ofAdicSpace_spa`, `YonedaAdicSpace.ofAdicSpace_globalFunctions` | P8 analytification and P9 torus Checks compare adic spectra and functions with their Yoneda realizations. |
 | Analytic and sheafiness hypotheses | `AdicSpace.IsAnalytic`, `AdicSpace.IsLocallyStronglySheafy`, `AdicSpace.IsLocallyStablySheafy`, `AdicSpace.IsLocallyNoetherianAnalytic`, `AdicSpace.IsLocallyNoetherianAnalytic.isLocallyStronglySheafy` | P9 specifies the hypotheses for the small étale and pro-étale sites, coefficient sheaves and relative polydiscs. |
@@ -290,7 +289,7 @@ This roadmap's own targets are cited by subsection.
 
 | Application | Exact supplier and file | Use |
 | --- | --- | --- |
-| Analyticity and affinoid sheafiness | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsAnalytic`, `TauCetiRoadmap.AdicEtaleGeometry.CAff.Sheafy`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | P8 uses the supplied Tate-chart analyticity and sheafiness predicates for quotient charts and finite-level analytic spaces. |
+| Analyticity and affinoid sheafiness | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsAnalytic`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `R.Sheafy`, AdicEtaleGeometry's notation (section "Geometric signatures and Checks") for Tau Ceti's `TauCeti.Huber.IsSheafyForEveryPresentation R.P.plus` | P8 uses the supplied Tate-chart analyticity and sheafiness predicates for quotient charts and finite-level analytic spaces. |
 | Adic charts and morphism properties | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, `.Smooth`, `.LocallyOfFiniteType`, `.IsFinite`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 invariant affinoid covers and finite rigid quotients use the chart ring and open immersion; P9 uses smoothness, finite type and seminormal chart rings in descent and coefficient comparisons. |
 | Adic ring homomorphisms | `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom`, `Huber.IsAdicHom.of_isTateRing`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 completed pair tensors require adic scalar maps; continuity from a Tate ring supplies the adicness and the target Tate structure. |
 | Completed tensor ring structures | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor.isTopologicalRing`, `Huber.CompletedTensor.isHuberRing`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | P8 installs the supplied topological ring and Huber ring structures when forming completed tensor pairs. |
@@ -336,7 +335,7 @@ This roadmap's own targets are cited by subsection.
 | Direct perfection and completions | `PerfectClosure`, `PerfectClosure.of`, `Mathlib/FieldTheory/PerfectClosure.lean`; `AdicCompletion`, `Mathlib/RingTheory/AdicCompletion/Basic.lean`; `Localization.Away`, `Mathlib/GroupTheory/MonoidLocalization/Away.lean` | The universal integral-perfectoid algebra and its parameter-adic generic pair. |
 | Integral closure in the generic ring | `integralClosure`, `mem_integralClosure_iff`, `Mathlib/RingTheory/IntegralClosure/Algebra/Basic.lean`; `IsLocalization.Away.invSelf`, `Mathlib/RingTheory/Localization/Away/Basic.lean` | `genericPlus` uses the integral closure of the completed ring's image; its Checks distinguish integral roots from the inverse of a nonzero nonunit parameter. |
 | Projective levels | `AlgebraicGeometry.Proj`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Scheme.lean`; `AlgebraicGeometry.Proj.toSpecZero`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`; `MvPolynomial.homogeneousSubmodule`, `MvPolynomial.gradedAlgebra`, `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` | Projective scheme presentations and their natural affinoid-test analytifications. |
-| Analytification comparison | `RigidSpace.analytification`, `RigidSpace.analytification.homEquiv`, `AdicSpace.rigidToAdic`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `CAff.Sheafy`, `YonedaAdicSpace.ofAdicSpace`, `YonedaAdicSpace.ofAdicSpace_spa`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | R1 owns analytification. `TowerGeometry.Analytification` specifies its sheafy-test interface on the Yoneda carrier; `Analytification.rigid_comparison` identifies its space with R1's image. |
+| Analytification comparison | `RigidSpace.analytification` with its natural bijection *analytification-universal-property* (AdicSpacesPartII R1.3) and `AdicSpace.rigidToAdic` (R1.7); `R.Sheafy` (AdicEtaleGeometry's notation for `TauCeti.Huber.IsSheafyForEveryPresentation R.P.plus`), `YonedaAdicSpace.ofAdicSpace`, `YonedaAdicSpace.ofAdicSpace_spa`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | R1 owns analytification. `TowerGeometry.Analytification` specifies its sheafy-test interface on the Yoneda carrier; `Analytification.rigid_comparison` identifies its space with R1's image. |
 | Unit torus and coordinates | `AdicSpace.relativeTorus`, `relativeTorus.ι`, `relativeTorus.proj`, `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.Polydisc.coord`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | P9 root-torus Checks use this unit annulus, its base map, and its coordinate p-power endomorphism. The coordinate is the `Polydisc.coord` field of `AdicSpace.relativePolydisc`, pulled back along `relativeTorus.ι`. |
 | Global functions on adic spaces | `YonedaAdicSpace.ofAdicSpace_globalFunctions`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | Identifies the torus coordinate with the function pulled back along the Galois-tower levels. |
 | Projective-line chart | `AlgebraicGeometry.Proj.fromOfGlobalSections`, `Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Basic.lean`; `AlgebraicGeometry.Scheme.ΓSpecIso`, `Mathlib/AlgebraicGeometry/Scheme.lean` | `projectiveLineChart` specializes the supplier map to the homogeneous coordinates `(1,T)`; it fixes the coordinate in `goodTower_frobenius_P1`. |
@@ -417,15 +416,13 @@ The declarations of `Suggested.lean` are:
 
 | Declaration | Kind | Subsection |
 | --- | --- | --- |
-| `normPseudoUniformizer` | def | P8.1 |
-| `isPseudoUniformizer_normPseudoUniformizer` | theorem | P8.1 |
 | `isClosed_fixedPoints` | theorem | P8.1 |
 | `IsUniformAddGroup` and `CompleteSpace` on `FixedPoints.subring A G` | instances (anonymous) | P8.1 |
-| `isTateRing_fixedPoints` | instance | P8.1 |
+| `isTateRing_fixedPoints` | theorem, registered as an instance | P8.1 |
 | `isRingOfIntegralElements_comap_fixedPoints` | theorem | P8.1 |
 | `invariantPair` | def | P8.1 |
 | `invariant_spectrum_homeomorphism` | theorem | P8.2 |
-| `invariants_perfectoid`, `invariants_perfectoid_char_p` | theorems | P8.4 |
+| `invariants_perfectoid` | theorem | P8.4 |
 | `IsCategoricalQuotient` | structure | P8.6 |
 | `exists_isCategoricalQuotient_of_invariant_cover` | theorem | P8.7, P8.8 |
 | `isTateAffinoidModel`, `isTateAffinoid` | def, abbrev | P8.9 |
@@ -433,12 +430,10 @@ The declarations of `Suggested.lean` are:
 | `isTateAffinoid_zero`, `isTateAffinoid_not_padic_integers` | boundary theorems | P8.9 |
 | `MulAction.IsGClean`, `MulAction.exists_isGClean` | structure, theorem | P8.13 |
 | `exists_perfectoidization`, `integral_extension_of_perfectoid_pair` | theorems | P8.18 |
-| `CompactCoefficients.exists_continuous_lift` | theorem | P9.0 |
 | `finite_projective_sections_descent` | theorem | P9.8 |
-| `continuousInhomogeneousCochains_zero`, `continuousInhomogeneousCochains_one`, `cech_operators_without_joint_continuity` | theorems | P9.5 |
+| `cech_operators_without_joint_continuity` | boundary theorem | P9.5 |
 | `twistedInvariants` | def | P9.9 |
-| `twistedInvariants_coboundary` | theorem | P9.9 |
-| `finite_character_comparison`, `finite_character_comparison_linear`, `finite_character_comparison_restriction`, `finite_character_comparison_coefficient_change` | theorems | P9.10 |
+| `finite_character_comparison_linear` | theorem | P9.10 |
 | `integral_matrix_coboundary_effectivity` | theorem | P9.13 |
 
 In P8 and P9, the following auxiliary examples illustrate algebraic conventions
@@ -522,12 +517,11 @@ is functorial in `G`-equivariant continuous maps of pairs, and for a subgroup `H
 inclusions `A^G ⊆ A^H`, `A^{+G} ⊆ A^{+H}`. Define `invariantPair` using Mathlib's `FixedPoints.subring A G` as carrier and
 `P.plus.comap (FixedPoints.subring A G).subtype` as plus ring; membership in its plus ring is
 membership of the image in `A⁺`, by definition. Define the orbit product
-`normPseudoUniformizer G a`, an element of `FixedPoints.subring A G`,
-for any element of a commutative ring with a finite group action, whose value in `A` is
-`∏ g, g • a` by definition. This action-indexed product
+`N(a) = ∏_{g ∈ G} g·a`, an element of `FixedPoints.subring A G`,
+for any element of a commutative ring with a finite group action. This action-indexed product
 also allows nonfaithful actions; it is not the determinant norm of a finite free extension.
-Prove `isPseudoUniformizer_normPseudoUniformizer` (the norm is a pseudouniformizer of `A` and of
-`A^G`) for continuous actions on Tate
+Prove that the orbit product of a pseudouniformizer is a pseudouniformizer of `A` and of
+`A^G` for continuous actions on Tate
 rings ([Hansen] §2, p. 3, and Theorem 3.1, pp. 4–6; integral closure in Step 3, p. 6).
 Name the further pair interfaces `invariantPair.map` for an equivariant continuous
 map of pairs and `invariantPair.subgroup` for restriction from `G` to a subgroup `H`;
@@ -580,12 +574,13 @@ to these constructions:
   to the whole group is bijective; restriction to the trivial subgroup sends a fixed element
   to the same element of `A`; every subgroup restriction is injective.
 
-Lean: `normPseudoUniformizer`, `isPseudoUniformizer_normPseudoUniformizer`,
-`isClosed_fixedPoints` with the subspace `IsUniformAddGroup` and `CompleteSpace` instances on
+Lean: `isClosed_fixedPoints` with the subspace `IsUniformAddGroup` and `CompleteSpace` instances on
 `FixedPoints.subring A G` (closedness and completeness in clause (i)), `isTateRing_fixedPoints`
-(clause (i)), `isRingOfIntegralElements_comap_fixedPoints` (clause (iii)) and `invariantPair`.
+(clause (i), a theorem registered as an instance, so that the pair-level declarations see the
+Tate structure on `A^G`), `isRingOfIntegralElements_comap_fixedPoints` (clause (iii)) and
+`invariantPair`.
 Clause (iii), and with it the pair `invariantPair`, does not use the stability `g(A⁺) = A⁺`;
-clause (iv) and the spectrum theorem of P8.2 do. The norm evaluations, the plus-ring
+clause (iv) and the spectrum theorem of P8.2 do. The orbit product and its pseudouniformizer property, the norm evaluations, the plus-ring
 membership Check `invariants_pair_plus`, the remaining Checks, clauses (ii) and (iv), the maps
 `invariantPair.map` and `invariantPair.subgroup`, and
 *extensions-of-valuations-are-conjugate* are README only.
@@ -669,7 +664,7 @@ in the perfect ring `A♭` are unique and `♯` is `G`-equivariant; and if `ϖ =
   and the fixed subring remains incomplete. Completeness requires a complete ambient ring.
 - `invariants_trivialAction_perfectoid` (degenerate) — for the trivial action, or the trivial
   group, `A^G = A` and `(A^G)♭ = A♭`.
-- `invariants_perfectoid_char_p` (computation) — in characteristic `p` the `p`-th root of a
+- Perfect invariants in characteristic `p` (computation) — in characteristic `p` the `p`-th root of a
   `G`-invariant element is `G`-invariant (Frobenius is injective), so `A^G` is a perfect complete
   Tate ring, hence perfectoid by [P1.2](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts) with no group theory; for `ℤ/p` permuting the variables of
   `K⟨T₁^{1/p^∞}, …, T_p^{1/p^∞}⟩` the invariants are perfectoid and contain `T₁ + ⋯ + T_p`, whose
@@ -730,9 +725,8 @@ sequences in [ECD] Definition 3.9 and Lemma 3.10, p. 16, and Lemma 3.11, p. 17.
   `PairCat.invariants` and `invariantPair`.
 
 Lean: `invariants_perfectoid`, carrying the hypothesis that `A` is perfectoid and no
-hypothesis on `|G|`, and the named theorem
-`invariants_perfectoid_char_p`: in characteristic `p` the invariants form a perfect ring.
-`Perfectoid.tilt_invariants`, *frobenius-on-invariants-of-p-group*, the bundled
+hypothesis on `|G|`; with PerfectoidSpaces' `IsPerfectoidTateRing.iff_perfectRing` it gives the
+characteristic-`p` Check above. `Perfectoid.tilt_invariants`, *frobenius-on-invariants-of-p-group*, the bundled
 pair `Perfectoid.PairCat.invariants` with the tilted action, and the remaining Checks are README
 only.
 
@@ -746,7 +740,9 @@ base field), and `q : X = Spa(A, A⁺) → Y = Spa(A^G, A^{+G})`. For every rati
 integral closures of the images); hence `O_Y = (q_*O_X)^G` and `O_Y⁺ = (q_*O_X⁺)^G` ([CGJ]
 Proposition 2.1.3, p. 5). The characteristic-`p` specialization, for any `|G|`, states:
 `A^G⟨T/s⟩ → A⟨T/s⟩^G` is an isomorphism for every rational `U(T/s)` of `Spa(A^G, A^{+G})`
-(*rational-invariants-characteristic-p*) ([CGJ] Remark 2.1.4, pp. 5–6). *Needs:*
+(*rational-invariants-characteristic-p*) ([CGJ] Proposition 2.1.3(2), p. 5, of which it is a
+case; Remark 2.1.4, pp. 5–6, gives a direct proof in characteristic `p`, to which tilting reduces
+the general case). *Needs:*
 *invariants-of-perfectoid-tate-ring*; *invariant-spectrum-homeomorphism*; [P2.3](../PerfectoidSpaces/README.md#layer-p2-rational-localisation-the-sheaf-theorem-and-perfectoid-spaces); [P1.27](../PerfectoidSpaces/README.md#layer-p1-perfectoid-tate-rings-tilts-and-untilts); Mathlib
 `PerfectRing`, `Choose.choose_pow_mul_pow_mul_modEq_choose_nat`.
 
@@ -1059,7 +1055,7 @@ Prove `PerfectoidSpace.quotient_finiteEtale_iff_free` for `X Y : Perfd p`, a fin
 identifies `Y` with the quotient in `V` and that DiamondsAndVStacks’ `PreAdic.geometricDiamond p`, composed with `ULiftHom.up`, sends `q`
 to the coequalizer of the action and projection maps `∐_{g ∈ G} X^◇ ⇉ X^◇`.
 This second hypothesis expresses `Y^◇ = X^◇/G` on the perfectoid untilt test site,
-as supplied by `VQuotient.quotient_diamond_comparison`. The conclusion is finite
+as supplied by P8.11 (*quotient-diamond-comparison*). The conclusion is finite
 étaleness together with the specified torsor isomorphism if and only if all geometric
 stabilizers are trivial. Finite étaleness is AdicEtaleGeometry's
 `YonedaAdicSpace.IsFiniteEtale`, restricted to perfectoid spaces.
@@ -1641,7 +1637,7 @@ the integral plus-ring condition.
   has identity structural map, the empty scheme has empty analytification, and maps from
   `Spa(R)` to the affine line over `K` are parametrized by all elements of `R` when `R.Sheafy`.
 - `Analytification_nonsheafy_test_not` (auxiliary; not counted for definitions) — a
-  complete Tate pair failing `CAff.Sheafy` exists ([HK] Remark 3.19, p. 9). This checks
+  complete Tate pair failing `R.Sheafy` exists ([HK] Remark 3.19, p. 9). This checks
   existence of such pairs, not the behavior of `Analytification.homEquiv`; that field
   requires a proof of `R.Sheafy` and imposes no mapping equivalence at a non-sheafy pair.
 - `projectiveLevel_point`, `projectiveLevel_empty`, `projectiveLevel_affine_line_not` — a point
@@ -1751,7 +1747,7 @@ Zariski-closed embedding cut out by `∑_i I_i`, in particular affinoid perfecto
 `W = Z ×_{X^an} Y^an` is a perfectoid space, `W → Z` is a Zariski-closed embedding, and for `Z`
 affinoid perfectoid `W` is cut out by the images of finitely many global sections of `f^*ℰ` for
 any vector bundle `ℰ` on `X^an` surjecting onto the ideal sheaf of `Y^an`
-(*closed-subvariety-pullback-is-zariski-closed*) ([HJ] Lemma 5.7, pp. 29–30).
+(*closed-subvariety-pullback-is-zariski-closed*) ([HJ] Lemma 5.7, p. 30).
 *Needs for the closed-subvariety pullback and fixed-target closed-limit inputs:*
 *zariski-closed-embedding*; PerfectoidSpaces P4.15; P8.19's projective-level
 and analytification carriers; AdicSpacesPartII R1. They precede projective-tower
@@ -1854,14 +1850,13 @@ comparison; and flat and derived coefficient change with the vanishing of higher
 
 **Lifting continuous cochains along finite surjections.** Let `X` be any topological space and
 `π : Y → Z` a surjection of discrete spaces. Then every continuous `f : X → Z` has a continuous
-lift `g : X → Y` with `π ∘ g = f` (`CompactCoefficients.exists_continuous_lift`). In particular,
+lift `g : X → Y` with `π ∘ g = f`. In particular,
 surjective transitions of discrete `G`-modules induce surjective transitions on continuous cochains
 `C(Gⁱ, −)`.
 
 *Proof sketch.* Choose a section `s : Z → Y` of `π`. Every map out of a discrete space is
 continuous, so `g = s ∘ f` is a continuous lift. Apply this with `X = Gⁱ` in each cochain degree
-([Rubin, *Euler Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2,
-Proposition 2.3, printed p. 152 (PDF p. 162)). *Needs:* nothing beyond Mathlib topology.
+([Rubin] Appendix B, §2, Remark 2.2, p. 152). *Needs:* nothing beyond Mathlib topology.
 
 **Checks.**
 
@@ -1878,9 +1873,8 @@ transitions, the transitions of the tower `Cⁱ(G, T_n)` are surjective.
 *Proof sketch.* A continuous map into a subspace of a product is a compatible family of
 continuous maps into the factors (Mathlib `continuous_pi_iff`); the coboundaries are given by the
 same formula at every level, so the identification is one of complexes. Surjectivity is
-*Lifting continuous cochains along finite surjections* ([Rubin, *Euler
-Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Definition 2.1,
-printed pp. 151–152 (PDF pp. 161–162)). *Needs:* P9.0, *Lifting continuous cochains along finite
+*Lifting continuous cochains along finite surjections* ([Rubin] Appendix B, §2, Definition 2.1
+and Remark 2.2, pp. 151–152). *Needs:* P9.0, *Lifting continuous cochains along finite
 surjections*; Mathlib `continuous_pi_iff`.
 
 **Checks.**
@@ -1907,9 +1901,8 @@ derived category forget it.
 between `Gⁱ⁺¹` and `Gⁱ` and with the action; the inverse is continuous because the action is
 jointly continuous. Mathlib's homogeneous cochains are iterated spaces of continuous maps with the
 compact-open topology, and currying identifies them with `C(Gⁱ⁺¹, M)` because `G` is locally
-compact Hausdorff. The proof for discrete coefficients then applies unchanged ([Rubin, *Euler
-Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Definition 2.1,
-printed pp. 151–152 (PDF pp. 161–162)). *Needs:* P9.0, *Continuous cochains into an inverse limit*;
+compact Hausdorff. The proof for discrete coefficients then applies unchanged ([Rubin]
+Appendix B, §2, Definition 2.1, p. 151). *Needs:* P9.0, *Continuous cochains into an inverse limit*;
 ProfiniteCohomology Layer 3; Mathlib `continuousCohomology`.
 
 **Checks.**
@@ -1920,8 +1913,9 @@ ProfiniteCohomology Layer 3; Mathlib `continuousCohomology`.
 - In degree two it agrees with `TauCeti.ContCohomology.H2`, continuous `2`-cocycles modulo
   coboundaries.
 
-Lean: `CompactCoefficients.exists_continuous_lift`; the inverse-limit and homogeneous
-comparisons are README targets.
+Lean: README only. The lifting statement is a two-line consequence of Mathlib's
+`continuous_of_discreteTopology`; the inverse-limit and homogeneous comparisons are README
+targets.
 
 ### P9.2 completed structure sheaves
 
@@ -2388,11 +2382,10 @@ local naturality comparison ([CHJ] Remark 2.25, p. 20, for the Čech constructio
 
 **Checks.**
 
-- `continuousInhomogeneousCochains_zero` computes `d⁰(a)(g) = ga − a` as a
-  continuous function using the explicit joint-continuity hypothesis.
-- `continuousInhomogeneousCochains_one` computes
-  `d¹(b)(g,h) = gb(h) − b(gh) + b(g)` as a continuous function under the same
-  hypothesis, retaining the written order of `gh`.
+- Degree zero (computation) — `d⁰(a)(g) = ga − a` is a continuous function of `g`
+  under the explicit joint-continuity hypothesis.
+- Degree one (computation) — `d¹(b)(g,h) = gb(h) − b(gh) + b(g)` is a continuous
+  function of `(g,h)` under the same hypothesis, retaining the written order of `gh`.
 - `continuousInhomogeneousCochains_trivial` gives alternating zero and identity
   maps for the trivial group, with any topological coefficient module.
 - `continuousInhomogeneousCochains_discrete_comparison` specializes the shared
@@ -2420,10 +2413,8 @@ local naturality comparison ([CHJ] Remark 2.25, p. 20, for the Čech constructio
   both geometric Čech comparisons and the shared homogeneous comparison
   commute with that map in every degree.
 
-Lean: the named theorems `continuousInhomogeneousCochains_zero` and
-`continuousInhomogeneousCochains_one` give continuity of the first two differential formulas.
-The named boundary theorem `cech_operators_without_joint_continuity` gives its failure without
-joint continuity. The geometric targets, shared-model re-exports and remaining Checks are
+Lean: the named boundary theorem `cech_operators_without_joint_continuity` gives the failure
+of continuity of `d⁰` without joint continuity. The geometric targets, shared-model re-exports and remaining Checks are
 README only.
 
 ### P9.6 descent of functions along a tower
@@ -2646,10 +2637,9 @@ section exactly when `a₀ ∈ pℤ_p`: on `U₀` divide by `p`, and on `U₁` w
 has rank one and two independent generators modulo the maximal ideal times itself. It is not
 projective, despite local freeness of `E⁺` on `X`.
 
-This is the tower application of the vector-bundle comparisons that DiamondsAndVStacks owns:
+This is the tower application of the vector-bundle comparison that DiamondsAndVStacks owns in
 D2.9, whose site equivalences use completed v-descent on perfectoid covers
-([KL16] Theorem 3.5.8, p. 76), and the vector-bundle unit of D6.9 ([KL16] Corollary 8.2.4,
-p. 163). The fixed-section and equivariant-Hom
+([KL16] Theorem 3.5.8, p. 76). The fixed-section and equivariant-Hom
 comparisons for a specified tower are the P9 statements here. Their proof
 reduces to the fixed-ring comparison, independently of those site equivalences.
 
@@ -2816,10 +2806,9 @@ a profinite flat `O`-module `M`, and an `O`-linear group action on `E`. The map
 fixed mixed tensors as its image. The rational mixed-tensor statement above still
 uses localization of an open bounded lattice, not a Banach tensor of `M[1/p]`.
 
-Lean: `twistedInvariants`, the proved `example` identifying the trivial-cocycle invariants,
-and `twistedInvariants_coboundary`, the affine clause of `twisted_coboundary`: for
-`c(γ) = F/γ(F)`, `f` is twisted invariant exactly when `F⁻¹f` is invariant.
-`TwistedCharacterSheaf` with its sheaf constructions, the completed-tensor comparisons and
+Lean: `twistedInvariants` and the proved `example` identifying the trivial-cocycle invariants.
+The affine clause of `twisted_coboundary` (for `c(γ) = F/γ(F)`, `f` is twisted invariant exactly
+when `F⁻¹f` is invariant), `TwistedCharacterSheaf` with its sheaf constructions, the completed-tensor comparisons and
 the remaining Checks are README only.
 
 ### P9.10 finite-level comparison and local freeness
@@ -2886,7 +2875,7 @@ along the finite étale torsor `[p]`. However `H⁰(E, O_E) = k`, and every tran
 constants, so the nontrivial eigensheaf has zero global sections. Thus even finite-level
 triviality and a finite affinoid cover do not imply reconstruction from global sections.
 
-The affine comparisons are `finite_character_comparison` and
+The affine comparisons are `finite_character_comparison_linear` and
 `finite_character_line`. The former is multiplication by `u`, with the kernel
 invariants identified with the finite-level ring. The latter gives finite
 projectivity and rank one at every prime; when the group order is invertible its
@@ -2898,12 +2887,16 @@ that transport `u` and `c_n`. For an admissible coefficient map `A → A′`, re
 fixed-section and finite étale tensor comparisons on both sides; finite projective base change
 then identifies the corresponding modules, with `f u` mapping to `f′ u′`. The additive
 comparison, its linear upgrade over a common scalar ring acting compatibly through both fixed
-rings, its compatibility with restriction and its compatibility with coefficient change are
-`finite_character_comparison`, `finite_character_comparison_linear`,
-`finite_character_comparison_restriction` and `finite_character_comparison_coefficient_change`
+rings, its compatibility with restriction and its compatibility with coefficient change
 ([CHJ] after Proposition 2.27 and the finite Galois argument in Theorem 2.28, pp. 21–22, and
 Lemma 2.29, pp. 22–23). Restriction maps commute with the comparing unit, and the
-coefficient-change maps are specified on pure tensors.
+coefficient-change maps are specified on pure tensors. The linear form is
+`finite_character_comparison_linear`; the additive form is its case of scalars `ℤ`. Both
+compatibilities follow formally from the multiplication formula: for restriction, a twisted
+invariant `z` restricts to a twisted invariant `z′`, and the two comparison images of `z′` and
+of `z` agree after the injective map `B′ → C′` because both equal the restriction of `z·u`; for
+coefficient change, the same computation on pure tensors `a ⊗ z` and linearity give the
+identity.
 
 Checks: for the swap on `ℚ × ℚ`, `u = (1,2)` and `c_n = 1` give `c(σ) = (2,1/2)`; the
 inverse-twisted line `(a,a/2)` maps to `(a,a)` by multiplication by `u`, which confirms the
@@ -3098,9 +3091,9 @@ as in the proof of [CHJ] Proposition 4.4, pp. 29–30.
 `FiniteTowerCoefficients_constant` realizes a finite constant module for trivial
 monodromy; `FiniteTowerCoefficients_torsionfree` excludes a `ℤ_p` stage.
 
-Lean: `finite_character_comparison` (multiplication by `u`, additively),
-`finite_character_comparison_linear`, `finite_character_comparison_restriction` and
-`finite_character_comparison_coefficient_change`. `finite_character_line`, the sheaf statements,
+Lean: `finite_character_comparison_linear` (multiplication by `u`, linear over a common scalar
+ring). The additive form, the restriction and coefficient-change compatibilities,
+`finite_character_line`, the sheaf statements,
 the gluing and reconstruction outputs, approximation of units, the integral counit,
 coefficient change and the inverse-limit statements are README only.
 
@@ -3229,7 +3222,7 @@ map has precisely the invariant functions as image; its integral clause reflects
 membership in the plus ring on all affine charts. Applying the same statement to
 open subspaces gives the sheaf comparison.
 
-This theorem is the tower application of DiamondsAndVStacks §6.9, which owns the foundational
+This theorem is the tower application of DiamondsAndVStacks D6.9, which owns the foundational
 comparison `O_X ≅ ν_* Ô_X` for seminormal rigid spaces and the full faithfulness of
 diamondification. The geometric theorem `Rigid.diamond_hom_bijective` there uses
 `O_X ≅ ν_* Ô_X` directly, as in [Berkeley] Proposition 10.2.3 and proof,
@@ -3253,8 +3246,8 @@ integral). Then `E⁺ = (h_* N⁺)^G` is locally free of rank `r_i` over `O⁺_X
 `h⁻¹E⁺ ⊗ O⁺_{X_∞} → N⁺` is an isomorphism; these comparisons glue and are compatible with
 morphisms. Conversely, if this map is an isomorphism from a locally free descended `E⁺`, such
 invariant integral frames exist after a cover of `X`. Thus an integral coboundary is the exact
-local effectivity condition; a rational coboundary alone is insufficient ([BHW] Theorem 4.8,
-proof, p. 18). Prove the integral fixed points of completed lattice tensors: with `K, E, F, V, G`
+local effectivity condition; a rational coboundary alone is insufficient (rank one is [BHW]
+Theorem 4.8, proof, p. 18; the finite-rank matrix form is proved here). Prove the integral fixed points of completed lattice tensors: with `K, E, F, V, G`
 and `J` as in *invariants-of-completed-tensor-with-banach-space*, `O = K°`, `π ∈ O` with
 `0 < |π| < 1`, bounded open `O`-lattices `E₀ ⊆ E` (`G`-stable) and `V₀ ⊆ V`, and `F₀ = E₀ ∩ F`,
 assume in addition that `V₀` is topologically `O`-linearly isomorphic to the `π`-adic
@@ -3271,9 +3264,11 @@ AdicSpacesPartII layer R0; AdicSpacesPartIV layer R5; Mathlib `Module.Flat.flat_
 `AdicCompletion.map_surjective`.
 
 The affine integral-frame statement is `integral_matrix_coboundary_effectivity`:
-for any commutative ring with a group action, a matrix cocycle `C(g)` and an
+for any commutative ring with a group action, matrices `C(g)` and an
 invertible integral frame `P` with `C(g)g(P) = P`, every invariant vector has a
-unique expression `Pa` with invariant coefficients `a`. The auxiliary calculation
+unique expression `Pa` with invariant coefficients `a`. The frame equation forces
+`C(g) = P·g(P)⁻¹`, so the cocycle identity `C(gh) = C(g)g(C(h))` is a consequence and is not
+a hypothesis; the proof takes `a = P⁻¹v`, for which `g(a) = P⁻¹C(g)g(v) = a`. The auxiliary calculation
 `matrix_rank_zero` computes the unique empty vector, and `matrix_rank_two` verifies
 two rational matrix products. Neither instantiates this effectivity theorem.
 `twisted_sheaf_eigenunit` gives the rank-one sheaf comparison. Gluing integral frames
@@ -3392,8 +3387,8 @@ the foundational comparisons of DiamondsAndVStacks D2.9 and D6.9:
   the tower form of the function comparison used in seminormal rigid
   geometry.
 
-The site equivalences of §2.9 and the seminormal comparison and geometric full faithfulness of
-§6.9 belong to DiamondsAndVStacks, with their direct proofs from [KL16] and
+The site equivalences of D2.9 and the seminormal comparison and geometric full faithfulness of
+D6.9 belong to DiamondsAndVStacks, with their direct proofs from [KL16] and
 [Berkeley]; their affinoid perfectoid basis is supplied by PerfectoidSpaces P7.16, and
 DiamondsAndVStacks does not consume these tower statements.
 
@@ -3425,3 +3420,4 @@ Locators are theorem and section numbers of the linked versions, with page numbe
 - [Hansen] David Hansen, Quotients of adic spaces by finite groups, Math. Res. Lett. 28 (2021); author manuscript. http://davidrenshawhansen.net/adicgpquotient.pdf.
 - [CGJ] Ana Caraiani, Daniel Gulotta and Christian Johansson, Vanishing theorems for Shimura varieties at unipotent level, J. Eur. Math. Soc. (2022); arXiv:1910.09214. https://arxiv.org/abs/1910.09214.
 - [BS22] Bhargav Bhatt and Peter Scholze, Prisms and prismatic cohomology, Ann. of Math. 196 (2022); arXiv:1905.08229v4. https://arxiv.org/abs/1905.08229.
+- [Rubin] Karl Rubin, Euler Systems, Annals of Mathematics Studies 147, Princeton University Press (2000); Appendix B, §2, pp. 151–152.

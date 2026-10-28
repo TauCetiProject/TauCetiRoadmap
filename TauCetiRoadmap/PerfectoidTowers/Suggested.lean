@@ -5,27 +5,28 @@ import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
 import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
-# Perfectoid towers: representative target signatures
+# Perfectoid towers: target signatures
 
-The README is the definitive specification. These are suggested forms for the targets of layers
-P8 and P9 that can be stated against Mathlib, Tau Ceti and the perfectoid carriers of
-PerfectoidSpaces: the invariant Huber pair and its adic spectrum, perfectoid invariants,
-categorical quotients of pre-adic and perfectoid spaces under an invariant affinoid cover, clean
-neighbourhoods, perfectoidisation of integral extensions, and the affine forms of torsor descent.
-The rigid pro-étale affinoid perfectoid basis is supplied by PerfectoidSpaces P7.16,
-and finite Galois module descent by AdicEtaleGeometry A4.2a. Completed structure sheaves,
-pro-étale Galois towers, good towers, analytic separation and the diamond comparisons
-are formalisation targets specified in the README only.
-P8.7 and P9.7 consume PadicFunctionalAnalysis §§2.2–2.4's Banach bases and model comparisons.
-P9.11's `WeightExtension.smoothoidEtaleEquivalence` specialises the inverse of
-DiamondsAndVStacks D6.5's `PreAdic.diamond_etale_equivalence` after transport of the analytic
-carrier and its structure map to `Spa(ℤ_p, ℤ_p)`; the structure-sheaf comparisons are P9.11 targets.
-Good towers use PerfectoidSpaces P7.11's represented-limit affinoid basis through a local
-diamond-limit adapter, and AdicSpacesPartIII R3.7's finite-cover algebraization and projectivity.
-P9.0 constructs continuous cochain foundations, including lifting along discrete surjections
-and the general homogeneous comparison. P9.5 supplies local adapters to that comparison,
-with local naturality and discrete-compatibility APIs. Its explicit joint-continuity hypothesis
-is illustrated below; the integral and rational tower Čech comparisons use their lattice and Tate topologies.
+The README is the specification of this roadmap. This file states those of its headline
+theorems whose objects Mathlib, Tau Ceti and the perfectoid carriers of PerfectoidSpaces already
+provide: the invariant Huber pair of a finite group action on a Tate ring and the orbit space of
+its adic spectrum (P8.1–P8.2), invariants of a perfectoid Tate ring (P8.4), categorical quotients
+of pre-adic spaces with invertible group order and of perfectoid spaces under an invariant affinoid
+perfectoid cover (P8.6–P8.9), clean neighbourhoods (P8.13), perfectoidisation of integral
+extensions and of integral extensions of perfectoid pairs (P8.18), and the affine forms of torsor
+descent: descent of finite projective modules (P9.8), twisted invariants and their finite-level
+comparison (P9.9–P9.10) and integral effectivity in a chosen frame (P9.13).
+
+The following headlines are not statable at the pins and stay README targets:
+the diamond of a finite quotient and free quotients as torsors (P8.11–P8.12), which need
+quotients of v-sheaves and the diamond functor of DiamondsAndVStacks; the closed-locus comparison
+in perfectoid towers (HJ Lemma 5.7, P8.21), which needs limits of v-sheaves over perfectoid test
+spaces; finite quotients of analytically separated perfectoid spaces and of good towers (HJ
+Theorem 5.8 and Proposition 5.13, P8.17 and P8.20), which need
+analytic separation and good towers, both defined through diamonds; and the geometric descent
+statements of P9 (functions, finite locally free modules and twisted character sheaves along a
+pro-étale Galois tower, P9.2–P9.12), which need the completed structure sheaves of the pro-étale
+site and pro-étale Galois towers. The boundary theorems below are named Checks of the README.
 -/
 
 noncomputable section
@@ -41,24 +42,6 @@ universe u
 /-! ## Layer P8: finite quotients and closed perfectoid loci in towers -/
 
 /-! ### The invariant Huber pair -/
-
-section Norm
-
-variable {A : Type*} [CommRing A] (G : Type*) [Group G] [Fintype G] [MulSemiringAction G A]
-
-/-- The orbit product `N(ϖ) = ∏_{g ∈ G} g • ϖ`, an element of `A^G` (Hansen §2, p. 3). The
-action need not be faithful; this is not the determinant norm of a finite free extension. -/
-def normPseudoUniformizer (ϖ : A) : FixedPoints.subring A G :=
-  ⟨∏ g : G, g • ϖ, Finset.smul_prod_perm ϖ⟩
-
-/-- The orbit product of a pseudouniformiser is a pseudouniformiser of `A` and of `A^G`
-(Hansen Theorem 3.1, proof, pp. 4–6). -/
-theorem isPseudoUniformizer_normPseudoUniformizer [TopologicalSpace A] [IsTopologicalRing A]
-    [ContinuousConstSMul G A] (ϖ : A) (hϖ : IsPseudoUniformizer ϖ) :
-    IsPseudoUniformizer (normPseudoUniformizer G ϖ : A) ∧
-      IsPseudoUniformizer (normPseudoUniformizer G ϖ) := sorry
-
-end Norm
 
 section InvariantPair
 
@@ -87,8 +70,10 @@ variable [TopologicalSpace A] [IsTopologicalRing A]
 /-- For a finite group acting by continuous ring automorphisms on a Tate ring, `A^G` with the
 subspace topology is a Tate ring: `A₀^G` is a ring of definition for a `G`-stable ring of
 definition `A₀`, and `N(ϖ)` is a pseudouniformiser (Hansen Theorem 3.1(i), pp. 4–6). -/
-instance isTateRing_fixedPoints [IsTateRing A] [Finite G] [ContinuousConstSMul G A] :
+theorem isTateRing_fixedPoints [IsTateRing A] [Finite G] [ContinuousConstSMul G A] :
     IsTateRing (FixedPoints.subring A G) := sorry
+
+attribute [instance] isTateRing_fixedPoints
 
 variable [IsTateRing A]
 
@@ -134,11 +119,6 @@ continuous ring automorphisms, `A^G` with the subspace topology is a perfectoid 
 may divide `|G|` and no base field is fixed (KL16 Theorem 3.3.26, p. 68; Hansen Theorem 3.6,
 p. 9). -/
 theorem invariants_perfectoid : IsPerfectoidTateRing p (FixedPoints.subring A G) := sorry
-
-/-- The characteristic-`p` clause of P8.4, `invariants_perfectoid_char_p`: finite-group
-invariants of a perfectoid Tate ring in characteristic `p` form a perfect ring. -/
-theorem invariants_perfectoid_char_p [CharP A p] [CharP (FixedPoints.subring A G) p] :
-    PerfectRing (FixedPoints.subring A G) p := sorry
 
 end PerfectoidInvariants
 
@@ -351,46 +331,13 @@ end Perfectoidization
 
 /-! ## Layer P9: continuous torsor descent with coefficients -/
 
-/-! ### P9.0: lifting continuous cochains -/
-
-namespace CompactCoefficients
-
-/-- **Lifting continuous cochains along surjections of discrete spaces.** Composing with a
-set-theoretic section of `π` is continuous because `Z` is discrete. -/
-theorem exists_continuous_lift {X Y Z : Type*} [TopologicalSpace X] [TopologicalSpace Y]
-    [DiscreteTopology Y] [TopologicalSpace Z] [DiscreteTopology Z] (π : Y → Z)
-    (hπ : Function.Surjective π) (f : C(X, Z)) : ∃ g : C(X, Y), π ∘ g = f :=
-  ⟨⟨Function.surjInv hπ ∘ f, continuous_of_discreteTopology.comp f.continuous⟩, by
-    ext x
-    simp [Function.surjInv_eq hπ]⟩
-
-end CompactCoefficients
-
 /-! ### Continuous coefficients
 
 The cochain model of P9.0 requires joint continuity of the representation action. The following
-theorems give continuity of its first two differential formulas and the discrete
-regular-representation counterexample. The completed tower-section actions use
-the lattice-preservation argument of P9.5 with their integral and rational topologies.
+boundary theorem gives the discrete regular-representation counterexample. The completed
+tower-section actions use the lattice-preservation argument of P9.5 with their integral and
+rational topologies.
 -/
-
-/-- The degree-zero differential of P9.5 is continuous for a jointly continuous action
-(`continuousInhomogeneousCochains_zero`). -/
-theorem continuousInhomogeneousCochains_zero {V G : Type*} [CommRing V] [TopologicalSpace V] [Group G]
-    [TopologicalSpace G] [IsTopologicalGroup G] (ρ : TopRep V G)
-    (hρ : Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)) (a : ρ.V) :
-    Continuous (fun g : G ↦ ρ.ρ g a - a) :=
-  (hρ.comp (continuous_id.prodMk continuous_const)).sub continuous_const
-
-/-- The degree-one differential of P9.5 is continuous for a jointly continuous action,
-with multiplication in its written order (`continuousInhomogeneousCochains_one`). -/
-theorem continuousInhomogeneousCochains_one {V G : Type*} [CommRing V] [TopologicalSpace V] [Group G]
-    [TopologicalSpace G] [IsTopologicalGroup G] (ρ : TopRep V G)
-    (hρ : Continuous (fun z : G × ρ.V ↦ ρ.ρ z.1 z.2)) (b : C(G, ρ.V)) :
-    Continuous (fun z : G × G ↦ ρ.ρ z.1 (b z.2) - b (z.1 * z.2) + b z.1) :=
-  ((hρ.comp (continuous_fst.prodMk (b.continuous.comp continuous_snd))).sub
-    (b.continuous.comp (continuous_fst.mul continuous_snd))).add
-      (b.continuous.comp continuous_fst)
 
 /-- The boundary Check `cech_operators_without_joint_continuity` of P9.5: translation
 on the discrete regular module over `ℤ₂` has a discontinuous degree-zero differential. -/
@@ -428,13 +375,6 @@ example (f : R) :
   simp only [inv_one, Units.val_one, one_mul]
   rfl
 
-/-- The affine coboundary comparison of P9.9 (`twisted_coboundary`): division by the
-trivializing unit identifies twisted invariant sections with invariant sections. -/
-theorem twistedInvariants_coboundary (F : Rˣ) (f : R) :
-    f ∈ twistedInvariants (fun γ : G ↦
-        F * (Units.map (MulSemiringAction.toRingHom G R γ).toMonoidHom F)⁻¹) ↔
-      ((F⁻¹ : Rˣ) : R) * f ∈ FixedPoints.subring R G := sorry
-
 end TwistedInvariants
 
 /-! ### Finite-level comparison of character sheaves -/
@@ -443,21 +383,10 @@ end TwistedInvariants
 `H = G/N` with `B → C` injective, equivariant and onto the `N`-fixed elements of `C`. If
 `c(γ) u = γ(u) c₀(γ̄)` for a unit `u` of `C` and a cocycle `c₀` of `H` with values in `B`, then
 multiplication by `u` identifies the `c`-twisted invariants of `C` with the `c₀`-twisted invariants
-of `B` (CHJ, paragraph after Proposition 2.27, pp. 21–22). -/
-theorem finite_character_comparison {B C G H : Type*} [CommRing B] [CommRing C] [Group G]
-    [Group H] [MulSemiringAction G C] [MulSemiringAction H B] (q : G →* H)
-    (hq : Function.Surjective q) (i : B →+* C) (hi : Function.Injective i)
-    (hequiv : ∀ g b, i (q g • b) = g • i b)
-    (hfixed : ∀ z : C, (∀ g : q.ker, g.val • z = z) ↔ ∃ b, i b = z)
-    (c : G → Cˣ) (c₀ : H → Bˣ) (u : Cˣ)
-    (hc₀ : ∀ g h, (c₀ (g * h) : B) = c₀ g * (g • (c₀ h : B)))
-    (hc : ∀ g, (c g : C) * u = (g • (u : C)) * i (c₀ (q g))) :
-    ∃ e : twistedInvariants c ≃+ twistedInvariants c₀, ∀ z, i (e z).val = z.val * u :=
-  sorry
-
-/-- The finite-level comparison is linear over any common scalar ring acting through the
-fixed rings, with compatible scalar maps to `B` and `C`. In the tower application this ring is
-`O(U) ⊗̂ A`, identified with both fixed rings (CHJ Theorem 2.28, proof, p. 22). -/
+of `B`, linearly over any common scalar ring `A` acting compatibly through both fixed rings; the
+additive form is the case `A = ℤ` (CHJ, paragraph after Proposition 2.27, pp. 21–22). In the tower
+application `A` is `O(U) ⊗̂ A`, identified with both fixed rings (CHJ Theorem 2.28, proof,
+p. 22). -/
 theorem finite_character_comparison_linear {A B C G H : Type*}
     [CommRing A] [CommRing B] [CommRing C] [Group G] [Group H]
     [MulSemiringAction G C] [MulSemiringAction H B]
@@ -474,64 +403,6 @@ theorem finite_character_comparison_linear {A B C G H : Type*}
     ∃ e : (twistedInvariants c).restrictScalars A ≃ₗ[A]
         (twistedInvariants c₀).restrictScalars A,
       ∀ z, i (e z).val = z.val * u := sorry
-
-/-- Restriction commutes with multiplication by the comparing unit. Here `rB` and `rC` are
-restriction maps on finite-level and completed sections, and `he`, `he'` specify the two
-finite-level comparisons by their multiplication formulas (CHJ Theorem 2.28, proof, p. 22). -/
-theorem finite_character_comparison_restriction {B C B' C' G H : Type*}
-    [CommRing B] [CommRing C] [CommRing B'] [CommRing C'] [Group G] [Group H]
-    [MulSemiringAction G C] [MulSemiringAction H B]
-    [MulSemiringAction G C'] [MulSemiringAction H B']
-    (i : B →+* C) (i' : B' →+* C') (hi' : Function.Injective i')
-    (rB : B →+* B') (rC : C →+* C')
-    (hsquare : ∀ b, i' (rB b) = rC (i b))
-    (hequiv : ∀ (g : G) (z : C), rC (g • z) = g • rC z)
-    (c : G → Cˣ) (c₀ : H → Bˣ) (c' : G → C'ˣ) (c₀' : H → B'ˣ)
-    (hc : ∀ g, rC (c g) = (c' g : C'))
-    (u : Cˣ) (u' : C'ˣ) (hu : rC u = (u' : C'))
-    (e : twistedInvariants c ≃+ twistedInvariants c₀)
-    (e' : twistedInvariants c' ≃+ twistedInvariants c₀')
-    (he : ∀ z, i (e z).val = z.val * u)
-    (he' : ∀ z, i' (e' z).val = z.val * u') :
-    ∀ z, ∃ z' : twistedInvariants c',
-      z'.val = rC z.val ∧ (e' z').val = rB (e z).val := sorry
-
-/-- Coefficient change commutes with the linear finite-level comparison. The maps `βC`, `βB`
-are the scalar-extension maps, specified on pure tensors in the ambient rings. Finite étale
-Galois descent supplies their bijectivity in the rational tower application; compatibility
-itself does not require flat coefficient change (CHJ Lemma 2.29, pp. 22–23). -/
-theorem finite_character_comparison_coefficient_change {A A' B C B' C' G H : Type*}
-    [CommRing A] [CommRing A'] [Algebra A A']
-    [CommRing B] [CommRing C] [CommRing B'] [CommRing C'] [Group G] [Group H]
-    [MulSemiringAction G C] [MulSemiringAction H B]
-    [MulSemiringAction G C'] [MulSemiringAction H B']
-    [Algebra A B] [Algebra A C] [Algebra A B'] [Algebra A C']
-    [Algebra A' B'] [Algebra A' C']
-    [IsScalarTower A A' B'] [IsScalarTower A A' C']
-    [Algebra A (FixedPoints.subring B H)] [Algebra A (FixedPoints.subring C G)]
-    [IsScalarTower A (FixedPoints.subring B H) B]
-    [IsScalarTower A (FixedPoints.subring C G) C]
-    [Algebra A' (FixedPoints.subring B' H)] [Algebra A' (FixedPoints.subring C' G)]
-    [IsScalarTower A' (FixedPoints.subring B' H) B']
-    [IsScalarTower A' (FixedPoints.subring C' G) C']
-    (i : B →ₐ[A] C) (i' : B' →ₐ[A'] C') (hi' : Function.Injective i')
-    (rB : B →ₐ[A] B') (rC : C →ₐ[A] C')
-    (hsquare : ∀ b, i' (rB b) = rC (i b))
-    (c : G → Cˣ) (c₀ : H → Bˣ) (c' : G → C'ˣ) (c₀' : H → B'ˣ)
-    (u : Cˣ) (u' : C'ˣ) (hu : rC u = (u' : C'))
-    (e : (twistedInvariants c).restrictScalars A ≃ₗ[A]
-      (twistedInvariants c₀).restrictScalars A)
-    (e' : (twistedInvariants c').restrictScalars A' ≃ₗ[A']
-      (twistedInvariants c₀').restrictScalars A')
-    (he : ∀ z, i (e z).val = z.val * u)
-    (he' : ∀ z, i' (e' z).val = z.val * u')
-    (βC : A' ⊗[A] (twistedInvariants c).restrictScalars A →ₗ[A']
-      (twistedInvariants c').restrictScalars A')
-    (βB : A' ⊗[A] (twistedInvariants c₀).restrictScalars A →ₗ[A']
-      (twistedInvariants c₀').restrictScalars A')
-    (hβC : ∀ a z, (βC (a ⊗ₜ[A] z)).val = a • rC z.val)
-    (hβB : ∀ a z, (βB (a ⊗ₜ[A] z)).val = a • rB z.val) :
-    ∀ t, e' (βC t) = βB (e.toLinearMap.lTensor A' t) := sorry
 
 /-! ### Descent of finite projective modules -/
 
@@ -553,13 +424,13 @@ theorem finite_projective_sections_descent (A B G : Type*) [CommRing A] [CommRin
 
 /-! ### Integral effectivity in a chosen frame -/
 
-/-- **Integral effectivity.** For a matrix cocycle `C(gh) = C(g) g(C(h))` with values in
-`GL_n(R)` and an invertible frame `P ∈ GL_n(R)` with `C(g) g(P) = P`, every vector fixed by
-`v ↦ C(g) g(v)` is uniquely `P a` with `a` invariant. Both `P` and `P⁻¹` are integral, so this
-applies to `O⁺` without inverting `p` (BHW Theorem 4.8, proof, p. 18). -/
+/-- **Integral effectivity.** For matrices `C(g) ∈ GL_n(R)` and an invertible frame
+`P ∈ GL_n(R)` with `C(g) g(P) = P`, every vector fixed by `v ↦ C(g) g(v)` is uniquely `P a` with
+`a` invariant. The frame equation gives `C(g) = P g(P)⁻¹`, so the cocycle identity of `C` is a
+consequence, not a hypothesis. Both `P` and `P⁻¹` are integral, so this applies to `O⁺` without
+inverting `p` (rank one: BHW Theorem 4.8, proof, p. 18). -/
 theorem integral_matrix_coboundary_effectivity {G R : Type*} [Group G] [CommRing R]
     [MulSemiringAction G R] (n : ℕ) (C : G → (Matrix (Fin n) (Fin n) R)ˣ)
-    (hC : ∀ g h, (C (g * h)).val = (C g).val * ((C h).val.map (fun r ↦ g • r)))
     (P : (Matrix (Fin n) (Fin n) R)ˣ)
     (hP : ∀ g, (C g).val * (P.val.map (fun r ↦ g • r)) = P.val) :
     ∀ v : Fin n → R,
