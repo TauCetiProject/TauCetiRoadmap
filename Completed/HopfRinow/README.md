@@ -392,7 +392,7 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   derivative statement needed by the inverse-function theorem.
 - **The manifold inverse-function theorem:** consume
   `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq` from
-  `TauCeti/Geometry/Manifold/LocalDiffeomorph.lean`. For a `C^n` map on an
+  `TauCeti/Geometry/Manifold/LocalDiffeomorph/Basic.lean`. For a `C^n` map on an
   open source set, it requires a complete source model, `1≤n`, membership
   of the point in that set, source interiority and a continuous linear
   equivalence explicitly equal to `mfderiv`. Source interiority is automatic
