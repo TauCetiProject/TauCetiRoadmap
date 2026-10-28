@@ -1398,6 +1398,57 @@ one relation per crossing, apply Fox derivatives, and abelianize by sending each
   `t⁻²−5t⁻¹+9−5t+t²`. Prove these outputs from the codes and derive the source's
   chirality conclusion from the correct mirror/orientation transformation laws, not from
   the knot labels.
+<a id="gt4-homfly-component-sums"></a>
+**HOMFLY, component sums and component detection.** For nonempty oriented
+links L and J, choose one component and a small oriented arc in each.
+Construct their component connected sum in disjoint balls joined by the
+standard untwisted band, with the band and boundary orientations fixed.
+Prove independence of the chosen arcs and standard joining data up to the
+appropriate marked ambient isotopy, and naturality under component
+reindexing. The choice of components is retained. Prove
+`P(L #_(i,j) J)=P(L)P(J)` and component count `μ(L)+μ(J)−1` by the existing
+terminating skein construction, including when either chosen component is
+split from the rest. A general band sum in a prescribed ambient position
+is not the component connected sum defined here.
+
+Give the following explicit separation example for the statement in
+*Knot Theory*, physical page200. Let H be the positive oriented Hopf link,
+U the unknot, L=H⊔U and J=H. Joining U to a component of J produces
+`A=H⊔H`. Joining a component of the H summand of L to a component of J
+produces `B=(H # H)⊔U`, where the shared component is the middle component
+of the three-component Hopf chain. Construct both from realized Hopf
+codes and the marked joining arcs, with relative Reidemeister/isotopy
+certificates for these identifications. Both links have four components
+and HOMFLY polynomial `μ₀ P(H)²`, where
+`μ₀=−(x+y)/z` in the degree-zero coefficient ring above.
+
+Compute all pairwise linking numbers from the actual oriented codes.
+For A the only nonzero pairs are (1,2) and (3,4), each +1.
+For B the only nonzero pairs are (1,2) and (2,3), each +1;
+component4 has zero linking number with every other component.
+The graph with an edge for each nonzero absolute linking number therefore
+has no isolated vertex for A and one for B. Prove that its isomorphism
+class is invariant under ambient isotopy, arbitrary component permutation,
+component-orientation reversal and ambient reflection. Thus A and B are
+distinct even after allowing all these operations, despite equal HOMFLY
+polynomials. Do not infer this conclusion merely from the availability of
+different component choices.
+
+Also prove page200's component-detection proposition on the nonempty-link
+domain: if L has at least two components, then `P(L)≠1` (equivalently
+`ρ_L≠1` in the specified two-variable subring). Establish
+`V_L(1)=(−2)^(μ(L)−1)` directly from the early Jones skein invariant:
+evaluate its Laurent extension at the chosen square root s=1, use the
+skein relation to show crossing changes preserve the value, change a
+based ordered diagram to an unlink, and apply the unlink normalization.
+This argument does not depend on the later positive trace construction.
+Then `P(L)=1` would specialize to the constant Laurent polynomial
+`V_L=1`, contradicting that integer value when `μ(L)≥2`. Use the rational-
+function specialization and Laurent-extension comparison above; evaluation
+at s=1 is not a homomorphism sending the invertible HOMFLY variable z to0.
+This detects component count greater than1, while no unknot-detection
+claim for one-component links is assumed.
+
 ```lean
 -- no umbrella `Knot` type (see Encoding conventions); presentations are first-class types
 -- def SmoothLink (M) : Type := { f : C^∞(circle, M) // IsEmbedding f }   -- geometric presentation, general M
