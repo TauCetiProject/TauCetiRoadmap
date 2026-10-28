@@ -982,6 +982,47 @@ not amenable.
 
 ## A7. Group algebras and Johnson's theorem
 
+**A7.ProductDomains — product topology and the Haar domain.** Before group
+algebras, supply the following elementary product-space prerequisite. For an
+arbitrary index type I, including the empty type, assume every X_i is nonempty,
+locally compact and Hausdorff. Prove
+
+`LocallyCompactSpace (Π i, X_i) ↔ Set.Finite {i | ¬ CompactSpace X_i}`
+
+for the ordinary product topology. Retain the nonempty-factor hypothesis:
+an empty factor makes the product empty regardless of the remaining factors.
+For necessity take a compact neighborhood of a chosen product point and a
+basic cylinder contained in it, with restrictions in a finite set F. For
+any i outside F, its projection contains all of X_i, so that factor is compact
+as the continuous image of the compact neighborhood. For sufficiency use the
+canonical product homeomorphism splitting F from its complement; the first
+factor is a finite product of locally compact spaces and the tail is compact
+by Tychonoff. Consume native `Pi.locallyCompactSpace_of_finite`,
+`Pi.locallyCompactSpace` and the compact-product API, retaining their existing
+vocabulary. Prove invariance under product reindexing and homeomorphisms of
+the factors; no countability or sequence hypothesis is imposed.
+
+In particular prove `LocallyCompactSpace (I → ℝ) ↔ Finite I` and hence
+ℝ^ℕ with its product topology is not locally compact. Native compact-product
+instances give compactness of Circle^I, and existing finite-product instances
+give the usual ℝⁿ/Circleⁿ locally compact models. These statements distinguish
+the domains to which the Haar/group-algebra construction below applies.
+
+Use the native additive compact group `(ℕ → ZMod 2)` with the product topology.
+Compose `cantorSetHomeomorphNatToBool` with the coordinatewise finite-discrete
+homeomorphism Bool→ZMod2, false↦0 and true↦1, to construct the homeomorphism
+from the standard real Cantor set onto that group. Pin its digit formula and
+both inverse maps: for the representatives b_n∈{0,1} of the ZMod2 coordinates,
+the real inverse is `Σ_n 2b_n/3^(n+1)`. Thus the binary group values0,1 correspond
+to ternary Cantor digits0,2. Match this series with native base-3 `ofDigits`.
+Transport the coordinate addition through this homeomorphism
+and prove it is digitwise XOR, with zero the all-zero digit sequence and every
+element its own inverse. Prove continuity with the inherited Cantor-set topology;
+this transported law is distinct from ambient real addition. These are Conway,
+*A Course in Functional Analysis*, second edition, VII.9's opening product
+examples. [ProductDomainTargets.lean](ProductDomainTargets.lean) illustrates
+the general criterion, real-power case and exact binary-coordinate comparison.
+
 Let `G` be locally compact Hausdorff and `μ` a nonzero regular left Haar measure.
 There is no standing second-countability or sigma-finiteness assumption. Use
 the AmenableGroups Layer 7 construction of scalar convolution, its
