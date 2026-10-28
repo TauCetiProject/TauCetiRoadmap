@@ -83,4 +83,43 @@ theorem nativeAlexander_comparison (k : ℕ) :
       T (-(k : ℤ)) * (determinant k).toLaurent := by
   sorry
 
+/-- A polynomial reciprocal about degree `n`, allowing leading zero coefficients. -/
+def kondoSymmetricPolynomial (n : ℕ) (a : Fin (n + 1) → ℤ) : ℤ[X] :=
+  (∑ j : Fin n, Polynomial.C (a j.castSucc) * (X ^ (2 * n - j.val) + X ^ j.val)) +
+    Polynomial.C (a (Fin.last n)) * X ^ n
+
+/-- The finite integer solution of the second-difference equations. Kondo's last
+alpha parameter additionally includes `n - 1`, as specified in the README. -/
+def kondoParameter (n : ℕ) (a : Fin (n + 1) → ℤ) (j : Fin n) : ℤ :=
+  ∑ i : Fin (n + 1),
+    if i.val ≤ j.val then ((j.val - i.val + 1 : ℕ) : ℤ) * a i else 0
+
+/-- The reciprocal polynomial multiplying `(X - 1)^2`; the central monomial
+occurs once, including the `n = 1` case. -/
+def kondoCore (n : ℕ) (β : Fin n → ℤ) : ℤ[X] :=
+  ∑ j : Fin n, Polynomial.C (β j) *
+    (if j.val + 1 = n then X ^ (n - 1)
+      else X ^ (2 * n - 2 - j.val) + X ^ j.val)
+
+/-- Normalization supplies the central coefficient after solving the triangular
+integer system. This is the algebraic input to the geometric realization theorem. -/
+theorem kondo_reconstruction (n : ℕ) (hn : 1 ≤ n) (a : Fin (n + 1) → ℤ)
+    (h : (kondoSymmetricPolynomial n a).eval 1 = 1) :
+    kondoSymmetricPolynomial n a =
+      X ^ n + (X - 1) ^ 2 * kondoCore n (kondoParameter n a) := by
+  sorry
+
+/-- The normalized polynomial in the symmetric variable used by the independent
+unknotting-one realization target. This does not identify its knot with page76. -/
+theorem nativeAlexander_symmetric_power (k : ℕ) (hk : 1 ≤ k) :
+    TauCeti.KnotTheory.alexander (integralMatrix k).2 =
+      1 + (-1 : ℤ[T;T⁻¹]) ^ (k - 1) * (T 1 + T (-1) - 2) ^ k := by
+  sorry
+
+/-- A realization of the prescribed polynomial is nontrivial, so a one-change
+unknotting certificate gives exact unknotting number one, rather than only an upper bound. -/
+theorem nativeAlexander_ne_one (k : ℕ) (hk : 1 ≤ k) :
+    TauCeti.KnotTheory.alexander (integralMatrix k).2 ≠ 1 := by
+  sorry
+
 end TauCetiRoadmap.GeometricTopology.SeifertFamily

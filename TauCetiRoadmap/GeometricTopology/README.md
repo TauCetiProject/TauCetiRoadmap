@@ -1810,6 +1810,51 @@ The suggested [SeifertFamilyTargets.lean](SeifertFamilyTargets.lean) fixes the
 matrix and native comparison. These algebraic statements use the specified
 matrix; the page76 geometric identification remains the separate target above.
 
+**GT4.KondoRealization — prescribed polynomials and unbounded genus.**
+Build a constructive realization theorem for each integral Laurent polynomial
+Δ with `invert Δ=Δ` and `Δ(1)=1`: produce a realizable finite oriented knot
+diagram, a marked crossing, and a finite Reidemeister certificate from the
+changed diagram to the unknot, with normalized Alexander polynomial Δ.
+Use the preceding diagram/realization, unknotting and Alexander-comparison
+APIs. For Δ≠1, nontriviality gives exact unknotting number1. Cover Δ=1
+by the untwisted Whitehead double of the right-handed trefoil: compute its
+polynomial1 and use the essential companion torus to prove nontriviality.
+Thus the general result also has exact unknotting number1 in the unit case.
+
+Use [Kondo, Theorem3 and equation(8), pp557–559](https://ir.library.osaka-u.ac.jp/repo/ouka/all/6492/ojm16_02_19.pdf)
+for the band realization. Pin its integer parameter solver as follows.
+Choose n≥1 large enough that `p(t)=t^nΔ(t)` is polynomial, and write
+
+```
+p(t)=Σ_(j=0)^(n−1) a_j(t^(2n−j)+t^j)+a_n t^n,
+β_j=Σ_(i=0)^j (j−i+1)a_i,
+Q_β(t)=Σ_(j=0)^(n−2) β_j(t^(2n−2−j)+t^j)+β_(n−1)t^(n−1).
+```
+
+Prove `p(t)=t^n+(t−1)^2Q_β(t)`. The first sum in Q is empty for n=1;
+normalization p(1)=1 supplies the central coefficient equation. Kondo's
+parameters are `α_j=β_j` for j<n−1 and
+`α_(n−1)=β_(n−1)+(n−1)`, with
+`λ_(1,j)=λ_(j,1)=α_(n−j)` for 1≤j≤n and all other λ entries0.
+In the source formula the α-polynomial is followed by
+`−(n−1)t^(n−1)(t−1)^2+t^n`; prove this shift comparison, including n=1.
+Do not omit that correction term. Implement the finite band arrangement
+and its signed Alexander equations, then prove that they give p and the
+marked unknotting certificate. The λ values alone do not determine an
+isotopy class: retain the chosen actual finite diagram and all over/under,
+orientation and closure data in the construction and its proof.
+
+Apply the construction to the page75 polynomial
+`Δ_k=t^(−k)[(-1)^(k−1)(1−t)^(2k)+t^k]`, k≥1. Prove its equivalent
+symmetric expression `1+(-1)^(k−1)(t+t^(−1)−2)^k`, normalization,
+nontriviality and span2k through the native matrix comparison above.
+The resulting knots have unknotting number1 and genus at least k, proving
+the unbounded-genus assertion independently of the page76 drawing.
+No genus upper bound or identification with that literal drawing follows
+from polynomial equality; its separate surface/basis target is retained.
+The companion [SeifertFamilyTargets.lean](SeifertFamilyTargets.lean) gives
+the finite integer solver and the native specialization signatures.
+
 The late surgery/tangle-replacement targets in GT7 supply u=1⇒prime and the cyclic-surgery obstruction for u(8₃)=2. Early genus, connected-sum and diagram constructions do not consume those late theorems. Specify Bleiler's example by two explicit diagrams of the same realized knot, a two-change unknotting witness, signature4 lower bound, and exhaustive failure of all crossing-change pairs in the displayed minimal diagram. An assertion about ALL minimal diagrams additionally requires their actual classification.
 
 Add the explicit ambient-model comparison used by source169: every compact smooth surface admits a smooth embedding in R⁴; a closed connected surface embeds in R³ iff orientable. Construct the orientable models as boundaries of standard embedded handlebodies. For a closed nonorientable surface, prove the nonembedding obstruction by the compact hypersurface separation/two-sided-normal theorem and the induced orientation from oriented R³, stating and proving the needed separation adapter rather than assuming orientability in that adapter. Construct RP² in R⁴ by choosing a UNIT representative v∈S² of [v] and using the Veronese map [v]↦sqrt(3/2)(vvᵀ−I/3) into the unit sphere of the five-dimensional trace-free symmetric matrices with the Frobenius inner product. Equivalently normalize vvᵀ/(vᵀv)−I/3 for any nonzero representative: its only ambiguity is v↦−v, its derivative is injective on tangent vectors, and compactness makes it an embedding. The image misses the unit trace-free pole diag(1,0,−1)/sqrt(2), which has three distinct eigenvalues, whereas each normalized Veronese image has a repeated eigenvalue. Stereographic projection of S⁴ from that explicit pole, restricted to the Veronese image, gives a genuine smooth embedding in R⁴; no arbitrary linear projection R⁵→R⁴ is used. For a compact connected nonorientable surface with nonempty boundary, realize its standard once-punctured crosscap model as boundary connected sums of standard embedded Möbius bands in disjoint3-balls, joining their boundary intervals by disjoint collars/tubes; remove further disjoint interior discs for extra boundary components. This gives the R³ embedding, with its actual boundary marking and smooth collar comparison. Closed nonorientable R³ nonembedding is stated only in the tame/locally-flat category. Form higher closed crosscap R⁴ models by embedded connected sums in disjoint4-balls using disjoint joining tubes, and puncture for boundary models. Supply the actual smooth/triangulated classification comparison and all component cases. Prove these embedded-model comparisons in addition to the abstract Euler/classification theorem.
