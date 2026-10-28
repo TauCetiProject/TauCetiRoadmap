@@ -2082,6 +2082,55 @@ Prove checkerboard colouring for every realized finite plane link projection, in
 
 For a convex planar polygonal knot, prove reduction to a triangle by reversible triangle moves with collision-free convex interior, including redundant collinear vertices via the chosen allowed-subdivision convention. Pin regular-projection density/openness for a fixed finite ordered vertex configuration and permissible perturbation radius: exclude double vertices, edge/vertex projection collisions, nontransverse projected crossings and simultaneous heights by finitely many proper algebraic conditions, then use a positive compact separation bound to construct the ambient isotopy. General C0 proximity of arbitrary embeddings does not suffice. Two spatial polygonal knots with identical regular diagram and crossing heights are ambient isotopic by a diagram-preserving height interpolation with local tubular support; export the tame smooth/PL comparison through the named owner.
 
+<a id="gt4-shrinking-local-knot"></a>
+**A continuous family of smooth knots with a different limiting knot type.**
+Make physical page140's shrinking warning precise on parametrized embeddings.
+Construct a smooth unknot `e:S¹→ℝ³` with a marked parameter chart `s` in
+which `e(s)=(s,0,0)` near `[-1,1]`; the complementary arc meets the closed
+unit ball only at the two marked endpoints. Construct a smooth proper long embedding `a:ℝ→ℝ³`, equal to
+`(u,0,0)` near and outside `|u|=1`, whose interior arc lies in the open unit
+ball and whose closure by the fixed exterior unknot arc is the positive
+trefoil. Obtain it by cutting the realized `σ₁³` model at a marked regular
+arc and straightening its endpoint collars. Give the actual relative ball,
+parameter and ambient-isotopy comparisons; a drawing of a small knot is
+not this construction.
+
+For `0<t≤1/2`, replace the marked straight arc by `t a(s/t)`, leaving `e`
+unchanged elsewhere; put `f₀=e`. The matching straight collars make this a
+well-defined parametrized map on the whole circle. Prove every `f_t` is a
+smooth embedding: the modified interior lies in the radius-t ball, the
+straight adjacent arcs meet it only through the prescribed endpoints, and
+the remaining exterior arc is disjoint. For positive times give explicit
+relative dilations and collar adjustments identifying the closure with the
+same trefoil. All embeddings agree with `e` away from `|s|<t`.
+
+Prove the quantitative bound `‖f_t(s)−e(s)‖≤2t` for every circle parameter,
+including the unmodified portion and `t=0`. Prove joint continuity on
+`S¹×[0,1/2]`, joint smoothness for positive times, and continuity of the
+path into the compact-open C⁰ embedding space. Thus the family limits to
+the unknot although every positive-time knot is a trefoil. The existing
+Jones value distinguishes these knot types, so no ambient isotopy carries
+`f₀(S¹)` to any `f_t(S¹)` with `t>0`.
+
+Pin the derivative failure as well. Choose an interior `u₀` with
+`a′(u₀)≠(1,0,0)`; prove such a point exists, since otherwise the long
+embedding is the straight axis. In the fixed parameter chart,
+`∂_s f_t(tu₀)=a′(u₀)` for every positive t, while `e′=(1,0,0)` there.
+Hence a fixed positive lower bound separates these derivatives on a fixed
+compact chart interval, so the path does not converge in C¹ and is not
+continuous in Layer1's C∞ topology. Explain this failure using those actual
+mapping-space seminorms. Slicewise smoothness and joint C⁰ continuity do not
+supply the jointly smooth family or C∞-continuous path required by GT3's
+isotopy-extension theorems. Keep the ambient-isotopy equivalence already
+used by geometric knots.
+
+[`ShrinkingKnotTargets.lean`](ShrinkingKnotTargets.lean) gives the local
+rescaling formula, its joint-continuity/embedding targets and the quantitative
+derivative obstruction on native Euclidean and calculus carriers. The closed
+circle, trefoil realization and exterior-arc comparisons above remain geometric
+targets. For the distinction between continuous knot deformations and smooth
+isotopy, see [Bode, *Knotted fields and real algebraic links*, §2.1, Definitions2.2–2.4](https://research-information.bris.ac.uk/ws/portalfiles/portal/172921010/Final_Copy_2018_09_25_Bode_B_PhD.pdf).
+
 Add finite local realized move certificates with plane outerface data, bounded Reidemeister move graph and exact hard-unknot predicate. An absence of initially decreasing moves plus no RIII suffices to force an initial increase; to claim every reduction has peak>7 also certify the initial count7 and every allowed same-count local move. The native combinatorial move predicates already include common-face/disconnected-component RII locality and HasReidemeisterThreeTriangle with acyclic-height RIII locality. Consume those conditions; what they do not yet provide is a realized planar diagram, distinguished outerface and its complete geometric local-move graph. That realized graph is the required adapter. All macro strand slides, loop retractions, Perko words, relative punctured-torus moves and source colored-label constructions retain their exact diagram data/uncertainties; generic theorem existence cannot authenticate the pictured source.
 
 Retain the source's distinct full HOMFLY proof ideas alongside GT4's invariant contract: the Freyd–Yetter free Laurent word module and scalar-to-Artin/Markov/skein-quotient isomorphism, the corrected FY quadratic rule [u a a v]_n→−x⁻¹y[u v]_n−x⁻¹z[u a v]_n (source's triple-a glyph remains literal), explicit well-founded complexity, every pairwise/overlap reduction and terminal-normal-form theorem; the Hoste and Lickorish–Millett ordered/basepointed descending resolution and independence of resolution/basepoint/component ordering; the Ocneanu full Hecke permutation-basis/trace route from its [TypeAHeckeAlgebras H1–H4a](../TypeAHeckeAlgebras/README.md) owner. A proof that local move invariance holds in bounded induction does not prove any two isotopic diagrams have a crossing-nonincreasing path. Specify the common invariant comparison maps and normalization, not four competing polynomial carriers. The unresolved source reduction glyphs remain conditional source intent even when a corrected coherent rewriting theorem is supplied.
