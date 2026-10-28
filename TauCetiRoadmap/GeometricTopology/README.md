@@ -1770,7 +1770,85 @@ Construct signed Dowker encodings together with realizability/rotation/outerface
 
 For every fixed component count μ and crossing bound N, give a finite enumerating carrier of ALL realizable plane link diagrams with μ components and at mostN crossings. Include disconnected positive-crossing shadow components, crossing-free circles, the plane nesting/outerface forest, crossing signs, component ordering and orientations. Bound the finite permutation/rotation/attachment data by (μ,N), enumerate it and check realizability; an arbitrary integer word is not a plane embedding. Extract such data from every regular projection with that bound and prove realization recovers its geometric link. Thus every μ-component link with crossing number≤N has a representative in the finite carrier, independently of the late equivalence/classification/minimality algorithm. The μ=0 empty link, N=0 unlinks, and connected knot-shadow subcarriers are explicit branches. State the exact numerical upper bounds proved by this encoding. Distinguish the source's two DT reconstruction exponents and their proof obligations; an independent upper bound does not authenticate an invalid source derivation.
 
-For alternating/adequate diagrams, define state graphs, nugatory crossings and reduction by actual planar separation. Prove arbitrary connected n-crossing diagram bracket span≤4n and reduced alternating equality by adequate all-A/all-B extreme states and no cancellation. Export alternating crossing minimality, equal crossing counts and precise bracket-to-Jones t-span scaling. For adequate diagrams supply the full appropriate Kauffman extremal-degree/cabling argument; do not incorrectly replace it by alternating4n equality. Define actual flypes, preservation of realized knot/crossing data, prove full prime reduced alternating flyping and the composite extension used by the source. Menasco decomposition gives alternating connected-sum crossing additivity; no general crossing additivity theorem is asserted. All illustrated flype/state/reduction exercises require explicit finite codes/move sequences.
+<a id="gt4-jones-span-alternating-converse"></a>
+**State surfaces and the alternating-knot span criterion.** For a connected,
+nonempty realized plane diagram `D`, let `n` be its crossing count and let
+`s_A,s_B` count the circles in its all-A and all-B states. Use the existing
+native `PDCode.stateLoopCount`, `PDCode.kauffmanBracket` and
+`OrientedPDCode.jonesPolynomial` carriers, with their earlier plane realization
+comparison: the constant-true state is all-A and constant-false is all-B.
+Include the crossing-free circle, with `n=0` and
+`s_A=s_B=1`. Construct the Turaev surface by the saddle cobordism between the
+all-B and all-A states in a thickened projection sphere, capped by disjoint
+discs on the two sides. Give the finite patches, attaching maps and embedding
+in `S³`; prove the resulting surface is closed, connected and orientable.
+Compare its cell structure to the compact surface classification supplied by
+SurfaceTopology, obtaining
+
+`χ(S(D))=s_A+s_B−n`,
+`2g_T(D)=2+n−s_A−s_B`.
+
+Prove nonnegativity and evenness before using natural-number division to define
+the computed genus. Transport the construction under crossing/arc relabeling
+and plane isotopy; component reorientation preserves it, and mirror reflection
+interchanges the two states without changing genus. For a marked diagram
+connected sum, prove both state-circle counts add with subtraction of one,
+and hence `g_T(D#E)=g_T(D)+g_T(E)`. This is a statement about the specified
+diagrams; define `g_T(K)` separately as the attained minimum over all realized
+diagrams of the tame knot `K`.
+
+Prove the state-sum support bounds
+
+`maxdeg_A ⟨D⟩ ≤ n+2s_A−2`,
+`mindeg_A ⟨D⟩ ≥ −n−2s_B+2`.
+
+Compare any state to the all-A or all-B state by successive smoothing changes:
+one change alters its circle count by exactly one in absolute value. Use the
+actual finite Laurent support. Prove nonvanishing here from the Jones skein
+relation at the native half-variable value1: crossing changes preserve the
+value, and reduction to the unlink gives `V_L(1)=(−2)^(μ−1)` for `μ≥1`.
+The later special-value package consumes this elementary evaluation.
+Cancellation can shrink support, so these are inequalities. Deduce
+`span_A ⟨D⟩ ≤ 4(n−g_T(D))`. Writhe normalization translates support and the
+substitution `t=A⁻⁴` divides breadth by4; for knots compare this directly to
+the native half-variable Jones polynomial, whose exponents are even. Thus
+`span_t V_K + g_T(D) ≤ n`, and, by choosing a crossing-minimizing diagram,
+`span_t V_K + g_T(K) ≤ c(K)`.
+
+Supply the genus-zero proof: a connected diagram has `g_T(D)=0` exactly when
+it decomposes as a diagram connected sum of alternating diagrams. Construct
+the planar cut circles, the corresponding relative tangles and the inverse
+gluings, including nugatory and crossing-free pieces. Give ambient isotopies
+that align the alternating pieces at the connected-sum joins. This proves
+`g_T(K)=0` exactly when `K` has an alternating diagram; a diagram connected
+sum of alternating pieces need not itself alternate at its original joins.
+This construction uses the earlier planar separation and marked connected-sum
+interfaces, independently of flyping, late knot classification and hyperbolic
+geometry.
+
+For reduced alternating diagrams, prove adequacy of the all-A and all-B state
+graphs, uniqueness of their extreme contributions and absence of cancellation,
+so the bracket breadth is `4n`. Remove nugatory crossings geometrically to
+obtain a reduced alternating representative. Export crossing minimality,
+equality of crossing counts of reduced alternating representatives, and the
+full converse asked in *Knot Theory*, physical page109:
+
+`K is alternating ↔ span_t V_K=c(K)`.
+
+Include the unknot. A nonalternating knot therefore satisfies
+`span_t V_K+1≤c(K)`. This criterion uses both the polynomial and the crossing
+number; it is not a recognition theorem from the polynomial alone. For
+adequate diagrams retain the full Kauffman extremal-degree/cabling target;
+alternating `4n` equality is not substituted for that general statement.
+
+Reference for the surface construction and genus-zero decomposition:
+[Armond–Lowrance, *Turaev genus and alternating decompositions*, §§2 and4](https://msp.org/agt/2017/17-2/agt-v17-n2-p07-s.pdf).
+
+Define actual flypes and preservation of realized knot/crossing data. Prove full
+prime reduced alternating flyping and the composite extension used by the
+source. Menasco decomposition gives alternating connected-sum crossing
+additivity. All illustrated flype/state/reduction exercises require explicit
+finite codes and move sequences.
 
 #### GT4: Knot groups, Fox calculus and braid algorithms
 
