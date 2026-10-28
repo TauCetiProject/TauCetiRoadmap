@@ -55,12 +55,45 @@ LieGroups Layer6 owns maximal tori and the compact real root/Weyl adapter;
 compact coadjoint chamber/centralizer application. T3 consumes that quotient and owns the
 symplectic cross-section and convexity theorem. R2 is independent of this integral refinement.
 
-Construct an invariant compatible almost complex structure and metric by averaging and polar
-normalization; averaging an arbitrary compatible J does not preserve J²=−1. Prove a compact group's
-fixed locus is a union of embedded symplectic submanifolds, tangent equal to invariant vectors, with
-symplectic normal representation. Construct an equivariant tubular neighborhood; prove equivariant
-Darboux near a fixed point and relative normal form along a fixed component using equivariant Moser, with
-GeometricTopology Layer1’s generic tubular neighborhood as the nonequivariant floor.
+### T1.1. Fixed loci with a preserved metric
+
+Let K be an arbitrary group acting on M by smooth diffeomorphisms preserving ω and a
+specified smooth positive definite Riemannian metric g. No topology or Lie-group structure
+on K is required. Define M^K as the common fixed set. Prove it is closed and each connected
+component is an embedded symplectic submanifold, with
+`T_p(M^K)={v∈T_pM : d(k)_p v=v for every k∈K}` at every fixed p. Components
+may have different even dimensions. Construct the restricted symplectic form, tangent
+inclusion and symplectic normal bundle, and prove naturality under equivariant
+symplectic diffeomorphisms. Each component is totally geodesic for g. This theorem
+requires neither completeness of g nor compactness of M or K.
+
+Use HopfRinow's transport of local exponential maps under smooth Riemannian isometries.
+For each fixed p choose a tangent ball on which exp_p is a diffeomorphism onto its
+image. Every d(k)_p preserves that same ball, so equivariance and injectivity identify
+the common fixed set in its image with the ball's intersection with the common fixed
+subspace. This supplies the embedded charts and tangent identity without intersecting
+submanifolds transversely. Construct the derivative representation at p using native
+`Representation ℝ K (TangentSpace I p)` and its `Representation.invariants` submodule.
+
+Polar-normalize the bundle endomorphism A defined by `g(Au,v)=ω(u,v)`:
+`J=A(−A²)^(−1/2)`. Prove smoothness, `J²=−1`, positivity `ω(v,Jv)>0` for v≠0,
+and invariance under every element of K. The common fixed tangent subspace is J-stable;
+testing a vector against Jv proves nondegeneracy of the restricted form. This uses the
+given invariant metric directly. As examples, an irrational rotation of the first
+factor of ℂ² generates an infinite cyclic group with fixed locus `{0}×ℂ`; the
+symplectic shear `(q,p)↦(q+p,p)` on ℝ² instead has a Lagrangian fixed line and
+preserves no positive definite smooth Riemannian metric. Prove both claims, using
+the derivative at the origin for the shear's metric obstruction.
+[FixedLocusTargets.lean](FixedLocusTargets.lean) gives the invariant-subspace and local-chart
+signatures. For the invariant-J/exponential method see also
+[Cannas da Silva, Homework21, exercise2](https://www.math.ist.utl.pt/~acannas/Books/symplectic.pdf#page=182).
+
+For a compact Lie group with a smooth symplectic action, average a smooth Riemannian
+metric and apply this theorem and its polar construction. Averaging an arbitrary
+compatible J does not preserve J²=−1. Construct an equivariant tubular neighborhood;
+prove equivariant Darboux near a fixed point and relative normal form along a fixed
+component using equivariant Moser, with GeometricTopology Layer1's generic tubular
+neighborhood as the nonequivariant floor.
 
 For a torus-fixed p choose a unitary weight decomposition of its tangent space. In local coordinates
 ω=Σdqᵢ∧dpᵢ and
