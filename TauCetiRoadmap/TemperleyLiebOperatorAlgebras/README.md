@@ -113,6 +113,27 @@ is inferred from their bilinear pairings.
 [Suggested.lean](Suggested.lean) gives representative target interfaces.
 This README is the definitive specification.
 
+## Ownership and build order
+
+This roadmap owns the analytic TL adjoint, all-level Hermitian trace positivity and its
+first-bad-level refinement, positive Jones quotients, and their C*-tower and trace
+representations (A1–A5). [Subfactors](../Subfactors/README.md) consumes these results to
+construct the TL action in a Jones tower, identify its kernel, deduce the index restriction,
+and realise inclusions. It does not redevelop the analytic TL constructions or positivity
+proof. The ordinary algebraic Jones–Wenzl recursion, trace formula and negligible-ideal
+theorem remain TemperleyLieb Layers4–7 suppliers.
+
+A1–A5 do not use Subfactors, normal correspondences, planar-algebra reconstruction, A6,
+or CategoricalOperatorAlgebras CA1a/CA2a. The category and unitary-duality interfaces
+from CA1a/CA2a enter only in A6; they have their own elementary construction, independent
+of the later categorical layers that consume Subfactors. The dependency order is by these
+named layers, not a requirement that the entire categorical programme precede TL positivity.
+
+Subfactors Layer3 consumes A1–A4 for the trace-preserving action and its kernel;
+Subfactors Layer4 consumes A3–A5 for the quotient-tower realisation. Factoriality,
+inclusion index and standard-invariant identifications are conclusions proved there,
+not inputs to the positive TL path model or C*-tower here.
+
 ## A1. Complex fibers, reflection, and trace interfaces
 
 Consume the ordinary complex diagram algebra and presentation equivalence.
@@ -131,6 +152,12 @@ that conjugation fixes the relation `e_i²=δe_i`. Prove involutivity,
 additivity, reversal of multiplication and conjugate-scalar compatibility. Compare with vertical reflection of diagrams and the
 algebraic linear reflection. Prove their commuting-square and involution
 identities, including the complex-parameter conjugate-fiber form.
+Prove uniqueness among conjugate-linear adjoints fixing every native generator,
+and compatibility with strand inclusions. On levels zero and one the adjoint
+is scalar conjugation; on two strands `(i·e)†=−i·e`. For nonreal δ, a
+generator-fixing conjugate-linear adjoint on the same complex fiber is
+impossible: the two-strand relation gives `(δ−conj δ)e=0`, contradicting
+the native `e_ne_zero_two` theorem.
 
 Transport strand inclusions, closure traces and last-strand closure maps
 from the diagram category to the native presentation. Include levels zero
@@ -249,10 +276,21 @@ Include the boundary distinction at n=m−1: TL_(m−1) can be semisimple
 while its trace radical is nonzero. At δ=1, TL_2 is the semisimple
 algebra ℂ⊕ℂ and f_2 is a nonzero trace-null idempotent; Q_2=ℂ.
 This is a concrete counterexample to identifying the trace radical with
-the Jacobson radical. Cell-form radicals, algebra radicals and tensor
+the Jacobson radical. At δ=√2 (m=4), give `dim Q_2=2`, `dim Q_3=4` and
+`dim TL_3=5` from the A_3 path counts, compatibly with strand inclusion and traces.
+Cell-form radicals, algebra radicals and tensor
 negligibility retain their respective definitions throughout.
 
 ## A4. Positivity at every level
+
+Define `jonesLoopParameters = {2cos(π/m): m∈ℕ, m≥3} ∪ [2,∞)` in this
+roadmap's namespace. The native-trace interface is `markovTrace_nonneg_iff`;
+its first-bad-level refinement is `markovTrace_nonneg_iff_lt_floor`.
+`closureTrace_positive_iff` gives the equivalent statement on A1's analytic
+synonym and parameter-independent trace. Prove the comparison between the
+native and synonym statements using A1's unique generator-fixing adjoint
+and trace comparison, without defining a second admissible-parameter set
+in Subfactors.
 
 For δ>0 prove the equivalence
 

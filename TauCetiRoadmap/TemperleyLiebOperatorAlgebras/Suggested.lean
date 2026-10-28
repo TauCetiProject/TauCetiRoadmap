@@ -158,6 +158,50 @@ theorem closureTrace_positive_iff (δ : ℝ) (hδ : 0 < δ) :
       2 ≤ δ ∨ ∃ m : ℕ, 3 ≤ m ∧ δ = 2 * Real.cos (Real.pi / (m : ℝ)) := by
   sorry
 
+/-! ## A4: native positivity interfaces consumed by Subfactors
+
+These theorem targets belong to this TL-specific roadmap. The native presentation can be
+used with any conjugate-linear generator-fixing adjoint; A1 supplies its comparison with
+`AnalyticTL`, so the statements agree with `closureTrace_positive_iff` above.
+-/
+
+open TauCeti TauCeti.TemperleyLieb
+
+/-- The admissible loop parameters `{2cos(π/m) : m ≥ 3} ∪ [2,∞)`. A positive real `δ` lies in
+this set exactly when the Temperley–Lieb closure trace with loop value `δ` is positive at every
+level. The Jones index values `4cos²(π/m)` and `[4,∞)` are the squares `δ²` of its members. -/
+def jonesLoopParameters : Set ℝ :=
+  {δ | (∃ m : ℕ, 3 ≤ m ∧ δ = 2 * Real.cos (Real.pi / m)) ∨ 2 ≤ δ}
+
+/-- **Jones's positivity theorem.** Let `δ > 0`, and let `q` be a unit with `δ = -(q + q⁻¹)`,
+the sign convention of `TauCeti.TemperleyLieb.markovTrace`. Give each Temperley–Lieb algebra
+`TL_n(ℂ, δ)` a conjugate-linear star-ring structure fixing the generators. Then the closure
+trace `T_n(x⋆x)` is real and nonnegative for every `n` and every `x` exactly when `δ` is
+admissible. Necessity is Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4,
+Theorem 4.3.17, printed p. 150. Sufficiency uses the positive path weights of §§4.4–4.5 there. -/
+theorem markovTrace_nonneg_iff {δ : ℝ} (hδ : 0 < δ) (q : ℂˣ)
+    (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)))
+    [∀ n, StarRing (TemperleyLieb ℂ (δ : ℂ) n)] [∀ n, StarModule ℂ (TemperleyLieb ℂ (δ : ℂ) n)]
+    (he : ∀ (n : ℕ) (i : Fin (n - 1)), star (e (δ : ℂ) i) = e (δ : ℂ) i) :
+    (∀ (n : ℕ) (x : TemperleyLieb ℂ (δ : ℂ) n), 0 ≤ markovTrace q hq (star x * x)) ↔
+      δ ∈ jonesLoopParameters := by
+  sorry
+
+/-- **The first bad level.** Let `0 < δ < 2` be inadmissible, write `δ = 2cos θ` with
+`0 < θ < π/2`, and put `k = ⌊π/θ⌋`. Then the closure trace on `TL_n(ℂ, δ)` is positive
+semidefinite exactly when `n < k`. The witness at level `k` is the Jones–Wenzl projection
+`f_k`, whose trace is the negative quantum integer `[k+1]`. Its image at every higher level stays
+negative, because adding a strand multiplies the trace by `δ > 0`. The value of `k` is
+Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4, Lemma 4.3.8, and positivity below `k`
+is the semisimple tree-basis trace of §4.4 there. -/
+theorem markovTrace_nonneg_iff_lt_floor {δ : ℝ} (hδ₀ : 0 < δ) (hδ₂ : δ < 2)
+    (hδ : δ ∉ jonesLoopParameters) (q : ℂˣ) (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)))
+    (n : ℕ) [StarRing (TemperleyLieb ℂ (δ : ℂ) n)] [StarModule ℂ (TemperleyLieb ℂ (δ : ℂ) n)]
+    (he : ∀ i : Fin (n - 1), star (e (δ : ℂ) i) = e (δ : ℂ) i) :
+    (∀ x : TemperleyLieb ℂ (δ : ℂ) n, 0 ≤ markovTrace q hq (star x * x)) ↔
+      n < ⌊Real.pi / Real.arccos (δ / 2)⌋₊ := by
+  sorry
+
 /-- A trace radical uses the entire bilinear pairing, not just a vanishing scalar trace. -/
 def traceRadical (δ : ℝ) (n : ℕ) :
     TwoSidedIdeal (AnalyticTL δ n) :=
