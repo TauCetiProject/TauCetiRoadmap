@@ -1,5 +1,15 @@
 # Roadmap: analytic toric geometry
 
+The completion audit is supported by the scheme-action comparison in
+[Tau Ceti PR #22017](https://github.com/TauCetiProject/TauCeti/pull/22017), checked at
+[`50906bde9b37ecaaaaa24d618828b2b8f785fc84`](https://github.com/TauCetiProject/TauCeti/commit/50906bde9b37ecaaaaa24d618828b2b8f785fc84)
+with Lean 4.36.0-rc1 and Mathlib `2cabef97`. The complete README is the specification.
+
+The repository dependency pin remains Tau Ceti `a91d3aa` with Lean 4.35.0-rc3.
+`Suggested.lean` retains target prototypes, including `sorry` proofs; it is not a discharged
+certificate for this completion audit. The generated status and progress reports are
+historical snapshots at their recorded revisions.
+
 This roadmap constructs algebraic and complex-analytic toric varieties from finite regular
 rational fans. Tau Ceti implements the algebraic cone-to-fan layer and the affine analytic charts.
 This roadmap completes that layer and builds on it the glued complex manifold, torus actions,
