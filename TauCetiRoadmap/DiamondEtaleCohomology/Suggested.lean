@@ -16,7 +16,7 @@ Scheiderer's spectral cohomological bound (C8.44), and compact generation with t
 thick-envelope characterization on spectral spaces under a uniform bound (C9.8).
 The definitions use the pinned module-sheaf, derived-category and field carriers.
 
-The geometric headline results are deferred because the pins have no perfectoid-space,
+The geometric headline results remain README targets because the pins have no perfectoid-space,
 diamond or small v-stack carriers and no enhanced étale derived category. In particular,
 C0's site comparisons and repleteness, C1's base change, C2's enhanced descent and
 coreflection, C3's four operations, C4's canonical compactification, C5's proper base
@@ -34,7 +34,9 @@ open CategoryTheory Limits Topology TopologicalSpace
 
 universe u v
 
-namespace TauCeti.DiamondEtale
+namespace TauCetiRoadmap.DiamondEtaleCohomology
+
+/-! ## Layer C5: Étale extension by zero and proper base change -/
 
 section ValuationCohomology
 attribute [local instance] HasExt.standard
@@ -55,6 +57,8 @@ theorem zariskiRiemannAcyclicity {K K' : Type u} [Field K] [Field K']
   sorry
 
 end ValuationCohomology
+
+/-! ## Layer C7: Constructibility and perfect complexes -/
 
 section ConstructibleSheaves
 variable (Λ : Type u) [Ring Λ]
@@ -83,6 +87,8 @@ theorem constructibleCompactSpectral [IsNoetherianRing Λ] (X : TopCat.{u}) [Spe
   sorry
 
 end ConstructibleSheaves
+
+/-! ## Layer C8: Dimension and cohomological bounds -/
 
 section FieldDegrees
 variable (K L : Type u) [Field K] [Field L] [Algebra K L] [TopologicalSpace L]
@@ -147,6 +153,8 @@ theorem spectralCohomologicalBound (X : TopCat.{u}) [SpectralSpace X] (d : ℕ)
 
 end SpectralCohomology
 
+/-! ## Layer C9: Compact generation under a uniform bound -/
+
 /-- Open extension by zero transports the canonical slice-site left adjoint to
 sheaves on the open subspace, using the pinned generic construction. -/
 def extendByZero (Λ : Type u) [Ring Λ] {X : TopCat.{u}} (U : Opens X) :
@@ -154,8 +162,6 @@ def extendByZero (Λ : Type u) [Ring Λ] {X : TopCat.{u}} (U : Opens X) :
   U.sheafEquivOver.inverse ⋙
     (Over.forget U).sheafPullback (ModuleCat.{u} Λ)
       ((Opens.grothendieckTopology X).over U) (Opens.grothendieckTopology X)
-
-/-! ## Compact generation and compact objects -/
 
 section SpectralCompactGeneration
 variable (Λ : Type u) [CommRing Λ] (X : TopCat.{u}) [SpectralSpace X]
@@ -189,4 +195,4 @@ theorem compactGeneration_spectral (N : ℕ) :
 
 end SpectralCompactGeneration
 
-end TauCeti.DiamondEtale
+end TauCetiRoadmap.DiamondEtaleCohomology

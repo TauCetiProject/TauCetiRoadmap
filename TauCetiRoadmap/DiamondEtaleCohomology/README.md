@@ -4,7 +4,7 @@
 
 The geometric part extends the properness theory of `DiamondsAndVStacks` §D4.11 with partially proper morphisms, canonical compactifications and étale extension by zero. The finiteness part supplies constructible sheaves, perfect-constructible complexes, geometric transcendence dimension and cohomological bounds. These culminate in compact generation and the identification of compact objects with perfect-constructible complexes under one uniform cohomological bound. This is the input to exceptional operations, duality and diamond-valued arithmetic geometry.
 
-The main source is Scholze's *Étale cohomology of diamonds*, abbreviated ECD below. The layers organize reusable mathematical interfaces; the source locators identify statements and proof ingredients, not a prescribed order of formalization. [Suggested.lean](Suggested.lean) states selected headline theorems on the pinned library carriers: C5.7, C7.5, the finite-degree comparison in C8.5, C8.34, C8.44 and the spectral-space compact-generation theorem in C9.8. This README specifies the mathematics, including the enhanced statements and hypotheses that a homotopy-category signature alone cannot express. The API names below specify interfaces required from the completed library.
+The main source is Scholze's *Étale cohomology of diamonds*, abbreviated ECD below. The layers organize reusable mathematical interfaces; the source locators identify statements and proof ingredients, not a prescribed order of formalization. [Suggested.lean](Suggested.lean) states selected headline theorems on the pinned library carriers: C5.7, C7.5, the finite-degree comparison in C8.5, C8.34, C8.44 and the spectral-space compact-generation theorem in C9.8. This README specifies the mathematics, including the enhanced statements and hypotheses that a homotopy-category signature alone cannot express. The API lists below specify interfaces required from the completed library.
 
 ## Scope and ownership
 
@@ -13,12 +13,12 @@ Geometry is supplied by the perfectoid and diamond roadmaps. General enhanced sh
 | Supplier or consumer | Boundary |
 | --- | --- |
 | `AdicSpacesPartII`, §R0.19.10 | Quasicompact and quasiseparated objects and morphisms of a topos; algebraic/coherent topoi. |
-| `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small `v`-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations and cutoffs. `DiamondsAndVStacks` §D4.11 is the sole owner of the properness predicate for `v`-stacks and its basic API, re-exported by C4.1. C0 defines the three coefficient sites. C4 owns partial properness, valuative refinements and canonical compactification. |
+| `PerfectoidSpaces`, Layers P0–P6, `DiamondsAndVStacks`, Layers D0–D6 | Perfectoid spaces, diamonds and small `v`-stacks; étale and quasi-pro-étale morphisms; underlying spaces, geometric points, presentations and cutoffs. `DiamondsAndVStacks` §D4.11 is the sole owner of the properness predicate for `v`-stacks and its basic API (closed immersions, composition, base change, field-valuative criterion), imported without restatement. C0 defines the three coefficient sites. C4 owns partial properness, valuative refinements and canonical compactification. |
 | `EnhancedDerivedSheaves`, §§0.1–0.4 and Layers E1–E3 | Unbounded dg/enhanced derived categories of sheaves of modules, `K`-injective and `K`-flat models, derived tensor and Hom, coherent limits and exact-functor coherence, replete-topos convergence, Postnikov completion, coherent diagrams, hyperdescent and adjoints. C2–C3 specialize them to étale coefficients on `v`-stacks. |
 | `ClassicalAdicEtaleCohomology`, §§2.1–2.5, 3.1, 6.1–6.3, 7.1–7.3, 10.1–10.4 and 11.2 | Henselian and Zariski–Riemann inputs, classical algebraically closed field invariance, tautness, and annulus/open-ball cohomology. C1 uses classical field invariance; C6 proves `v`-stack field invariance from that input and C5, avoiding a reverse dependency through C1. C8.37 specializes §11.2, `field_cohomological_dimension_transcendence`. |
 | `SchemeAndStackFoundations`, §2.15; `EtaleCohomologyFoundations`, §F.2.1 | Torsion proper base change for schemes and continuity of étale topoi under qcqs limits with affine transitions. C5 uses these in its valuation-space argument. |
 | Tau Ceti `ProfiniteCohomology`, Layers `0, 10` and `11` | Discrete continuous modules, their dictionary with `TopRep`, all-degree continuous cohomology, filtered-colimit compatibility and cohomological dimension. C8 proves the geometric point/sheaf/cohomology comparison; it does not introduce another cohomology carrier. |
-| Tau Ceti `ProfiniteProPGroups`, Layers `2, 3` and `6` | Profinite Sylow theory, pro-`p` groups and Sylow cohomological-dimension equality. C8 adds the wild kernel attached to an action on an algebraically closed valued field. |
+| Completed `ProfiniteProPGroups` (on main, implemented at the Tau Ceti pin), Layers `2, 3` and `6` | Profinite Sylow theory, pro-`p` groups and Sylow cohomological-dimension equality, through the pinned declarations listed under Exact supplier contracts. C8 adds the wild kernel attached to an action on an algebraically closed valued field. |
 | `ArithmeticGaloisDuality`, Layer R02.1–R02.2 | Continuous Hochschild–Serre for closed normal subgroups, with all-degree convergence and edge maps. C8 applies it to discrete `ℓ`-primary torsion coefficients. |
 | Tau Ceti `LocalFieldsRamification`, Layer `4` | Wild and tame ramification for discrete local fields. C8 works with general value groups and residue fields; the constructions must agree on their common domain. |
 | `AdicSpacesPartII`, R0.11 and R0.7; `AdicEtaleGeometry`, A2.1 and A2.6 | Completed adic residue fields and valuation amalgamation (`ValuationSpectrum.exists_amalgamation`, including its field form). A2.6 supplies the topological fibre invariant `AdicSpace.relDim` on arbitrary topological sources and target types. A2.1 supplies Huber partial properness on its stated weakly/`+weakly` finite-type domain. C8.48a owns the unrestricted analytic field-pair predicate, its reduction to perfectoid tests and its diamondification comparison under relative tautness. |
@@ -105,8 +105,13 @@ Zariski–Riemann-space carrier and topology are not introduced.
 `TauCeti.isProP_iff`, `TauCeti.isProP_iff_isPGroup`, `TauCeti.IsProP.of_surjective`
 and `TauCeti.IsProP.quotient`. C8.34 concludes this predicate for the closed wild kernel;
 its construction is the valued-field theorem of this roadmap, while the pro-`p` predicate and
-its generic quotient theory belong to the supplier. `ProfiniteProPGroups`, Layers `2, 3` and `6`,
-supplies the Sylow and cohomological-dimension results. `LocalFieldsRamification`, Layer `4`,
+its generic quotient theory belong to the supplier. The completed `ProfiniteProPGroups`, Layers `2, 3` and `6`,
+supplies the Sylow and cohomological-dimension results through the pinned declarations
+`TauCeti.exists_isProPSylow`, `TauCeti.IsProPSylow.isProP`, `TauCeti.IsProPSylow.eq_of_normal`
+and `TauCeti.isProP_closedZpowers_zpowHat_idem` (Sylow theory and the pro-`p` part of a procyclic
+closure), and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq` with
+`TauCeti.IsProP.cohomologicalDimensionAt_le_iff_subsingleton_cohomFp` (Sylow dimension equality
+and the constant-module test for pro-`p` groups). `LocalFieldsRamification`, Layer `4`,
 supplies discrete local-field wild and tame ramification; the general valued-field action in
 C8.33–C8.40 agrees with that theory on its discrete-field domain.
 
@@ -137,7 +142,7 @@ Zariski–Riemann argument; no invertibility restriction on scheme torsion is ad
 `DGAInfinity`, Layers `5`–`6`, supplies perfect module complexes, derived tensor and Hom
 with their adjunction and projection formulas, thick closure and the compact/thick-envelope
 theorem. Dualizability of a perfect complex `P` with dual `RHom_Λ(P, Λ)` is proved here in
-the point case of C7.12 (`IsPerfectLocalSystem.dualizable`), using the thick-envelope theorem.
+the point case of C7.12 (dualizability of perfect local systems), using the thick-envelope theorem.
 Specialize the supplier's module-derived category
 to an ordinary commutative ring `Λ`: perfect means represented by a bounded complex of finitely
 generated projective `Λ`-modules. C7 consumes this notion and its basic module API; it owns the
@@ -195,7 +200,7 @@ bounded valuation subrings, localization at a point and valuative separatedness 
 D4.5 supplies the `v`-sheaves `T̲ : X ↦ C(|X|, T)` used in C4.3 for locally compact
 Hausdorff `T`. D4.11 supplies the properness predicate for
 `v`-stacks, closed immersions being proper, composition, base change and the field-valuative
-criterion. C4.1 re-exports that predicate and basic API; C4 extends it with partial properness,
+criterion; C4 imports them without restatement and extends them with partial properness,
 valuative refinements and canonical compactification. C0 owns coefficient sites over these objects.
 
 `AdicEtaleGeometry`, A2.6, supplies `AdicSpace.relDim`, the supremum of the
@@ -283,7 +288,7 @@ C8 requires completion of algebraic closures in arbitrary characteristic, valuat
 
 The specialization-chain complex in C8 needs the quasi-augmented comparison and normalized-support theorem used in Kelly–Saito–Tamme Lemma 6.6, p. 24, which refer to Scheiderer §2, Remark 2.5, Theorem 4.1 and Proposition 4.7. An ordinary Cartesian hypercover theorem does not establish this comparison. The dimension bound can also be obtained from Stacks Tag 0A3G, but that route does not replace the chain-space interface specified here. The wild-automorphism proof uses the compact closure of the powers of `γ`; prove that factorial convergence and the isometry condition extend the powers continuously to a quotient of the profinite completion of `ℤ`.
 
-C9.3 proves category-level left completeness by realizing arbitrary compatible Postnikov towers under the uniform bound. `EnhancedDerivedSheaves` §E2.4 supplies the derived-limit and cohomological stabilization tools and object-wise convergence of Stacks Tag 0D6P; the finite-bound tower reconstruction is a target here. Tag 0719 treats ringed spaces and does not directly supply the required site theorem. Promote `IsPerfectLocalSystem.dualizable` in C7 to a usable named input for C9: its dual is `RHom_Λ(L, Λ)`, with `RHom_Λ(L, A) ≃ L^∨ ⊗^L A`. The compact/thick-envelope theorem comes from Tau Ceti `DGAInfinity` Layers `5`–`6`.
+C9.3 proves category-level left completeness by realizing arbitrary compatible Postnikov towers under the uniform bound. `EnhancedDerivedSheaves` §E2.4 supplies the derived-limit and cohomological stabilization tools and object-wise convergence of Stacks Tag 0D6P; the finite-bound tower reconstruction is a target here. Tag 0719 treats ringed spaces and does not directly supply the required site theorem. Make the dualizability of perfect local systems in C7.12 a usable named input for C9: its dual is `RHom_Λ(L, Λ)`, with `RHom_Λ(L, A) ≃ L^∨ ⊗^L A`. The compact/thick-envelope theorem comes from Tau Ceti `DGAInfinity` Layers `5`–`6`.
 
 The geometric suppliers must expose the field-point localization/presentation contracts, valuative separatedness for `v`-stacks, locally compact Hausdorff `v`-sheaves, and the coherent-topos limit theorems used below. The enhanced suppliers must expose module-coefficient repleteness/hyperdescent, small limits of presentable categories and coherent adjunction/base-change data. These are inputs to this roadmap's proofs, not assertions that generic ordinary-category carriers already provide the geometry or enhancement.
 
@@ -293,11 +298,12 @@ The geometric suppliers must expose the field-point localization/presentation co
 - **CS17:** Ana Caraiani and Peter Scholze, [*On the generic part of the cohomology of compact unitary Shimura varieties*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf), Annals of Mathematics 186 (2017), 649–766, §4.2, Propositions 4.2.19 and 4.2.21, pp. 711–712.
 - **KST:** Shane Kelly, Shuji Saito and Georg Tamme, [*On pro-cdh descent on derived schemes*, arXiv:2407.04378v3](https://arxiv.org/pdf/2407.04378v3), Lemma 6.6 and proof, p. 24.
 - **Temkin:** Michael Temkin, [*Topological transcendence degree*, arXiv:1610.09162v2](https://arxiv.org/pdf/1610.09162v2), §§2.1–2.2 and 3.1–3.2, pp. 4–8; published in Journal of Algebra 568 (2021), 35–60.
+- **Temkin 2010:** Michael Temkin, [*Stable modification of relative curves*, arXiv:0707.3953v3](https://arxiv.org/abs/0707.3953v3), Lemma 6.3.2, p. 48 of that version; published in Journal of Algebraic Geometry 19 (2010), 603–677, [doi:10.1090/S1056-3911-2010-00560-7](https://doi.org/10.1090/S1056-3911-2010-00560-7).
+- **Scheiderer:** Claus Scheiderer, *Quasi-augmented simplicial spaces, with an application to cohomological dimension*, Journal of Pure and Applied Algebra 81 (1992), 293–311, [doi:10.1016/0022-4049(92)90062-K](https://doi.org/10.1016/0022-4049(92)90062-K), §2, Remark 2.5, Theorem 4.1 and Proposition 4.7.
+- **Huber 1996:** Roland Huber, *Étale cohomology of rigid analytic varieties and adic spaces*, Aspects of Mathematics E30, Vieweg, 1996, §1.1, (1.1.14)(f), p. 45.
 - **Conrad:** Brian Conrad, [*Completion of algebraic closure*](https://math.stanford.edu/~conrad/248APage/handouts/algclosurecomp.pdf), Theorem 1.1 and §2, pp. 1–3.
 - **Stacks:** [The Stacks Project](https://stacks.math.columbia.edu/). Individual tags below are stable locators for their numbered definitions and lemmas. Section 13.37 supplies compact-generation/thick-envelope statements; Tag 0D6P supplies the site-level Postnikov comparison.
 - **FS:** Laurent Fargues and Peter Scholze, [*Geometrization of the local Langlands correspondence*, arXiv:2102.13459v4](https://arxiv.org/pdf/2102.13459v4), §I.11, pp. 41–42, for the distinction between a dimension theorem and the stated problem.
-
-<a id="c0"></a>
 
 ## Layer C0: Sites, stalks and cohomological comparison
 
@@ -311,21 +317,21 @@ Let `Y` be a small `v`-stack on Perf that is a locally spatial diamond. The éta
 
 Require the following API.
 
-- `etaleSite`: For a locally spatial diamond `Y`, the Grothendieck topology on the category of locally separated étale maps `Y′ → Y` whose covering sieves are those generated by jointly surjective families.
-- `etaleSite.mem_iff_surjective_points`: A family of étale maps `{Y′_i → Y′}` in `Y_ét` generates a covering sieve if and only if the images of the `|Y′_i|` cover `|Y′|`.
-- `etaleSite.hasFiniteLimits`: `Y_ét` has all finite limits, computed as fibre products and equalizers of small `v`-stacks over `Y`.
-- `etaleSite.over_equiv`: For an étale map `U → Y` in `Y_ét`, the slice `(Y_ét)/U` is equivalent to `U_ét` as a site.
-- `etaleSite.pullback`: A map `f : Y → Z` of locally spatial diamonds gives the continuous functor `Z_ét → Y_ét, Z′ ↦ Z′ ×_Z Y`, which preserves finite limits; hence a morphism of sites `f_ét : Y_ét → Z_ét`, with `(g ∘ f)_ét = g_ét ∘ f_ét` and `id_ét = id`.
-- `etaleSite.perfectoid_compat`: For a perfectoid space `X, X_ét` is equivalent to the étale site of the perfectoid space `X`, compatibly with coverings.
-- `etaleSite.adic_compat`: For an analytic adic space `Z` over `ℤ_p, (Z^♢)_ét` is equivalent to `Z_ét` (ECD Lemma 15.6, `DiamondsAndVStacks`, Layer D6); this comparison uses `DiamondsAndVStacks`, Layer D6, as does C1.
+- For a locally spatial diamond `Y`, the Grothendieck topology on the category of locally separated étale maps `Y′ → Y` whose covering sieves are those generated by jointly surjective families.
+- A family of étale maps `{Y′_i → Y′}` in `Y_ét` generates a covering sieve if and only if the images of the `|Y′_i|` cover `|Y′|`.
+- `Y_ét` has all finite limits, computed as fibre products and equalizers of small `v`-stacks over `Y`.
+- For an étale map `U → Y` in `Y_ét`, the slice `(Y_ét)/U` is equivalent to `U_ét` as a site.
+- A map `f : Y → Z` of locally spatial diamonds gives the continuous functor `Z_ét → Y_ét, Z′ ↦ Z′ ×_Z Y`, which preserves finite limits; hence a morphism of sites `f_ét : Y_ét → Z_ét`, with `(g ∘ f)_ét = g_ét ∘ f_ét` and `id_ét = id`.
+- For a perfectoid space `X, X_ét` is equivalent to the étale site of the perfectoid space `X`, compatibly with coverings.
+- For an analytic adic space `Z` over `ℤ_p, (Z^♢)_ét` is equivalent to `Z_ét` (ECD Lemma 15.6, `DiamondsAndVStacks`, Layer D6); this comparison uses `DiamondsAndVStacks`, Layer D6, as does C1.
 
 **Checks.**
 
-- `etaleSite_geometricPoint`: For `Y = Spa(C, O_C)` with `C` algebraically closed, every étale map to `Y` is a disjoint union of copies of `Y`, and global sections `Y_ét^∼ → Set` is an equivalence.
-- `etaleSite_chain`: For `Y = Spa(C, C⁺)` with `C` algebraically closed, every étale map to `Y` is a local isomorphism, and `Y_ét^∼` is equivalent to the category of sheaves on the totally ordered space `|Y|`.
-- `etaleSite_empty`: For `Y = ∅` the site has one object and the topos is the terminal category.
-- `etaleSite_tilt`: For `Y = Spa(R, R⁺)^♢` with `(R, R⁺)` a perfectoid Tate pair, `Y_ét` is equivalent to `Spa(R♭, R♭⁺)_ét`.
-- `etaleSite_not_qproet`: For an infinite profinite set `S, Spa(C, O_C) × S → Spa(C, O_C)` is quasi-pro-étale but not étale, so it is not an object of `Spa(C, O_C)_ét`.
+- For `Y = Spa(C, O_C)` with `C` algebraically closed, every étale map to `Y` is a disjoint union of copies of `Y`, and global sections `Y_ét^∼ → Set` is an equivalence.
+- For `Y = Spa(C, C⁺)` with `C` algebraically closed, every étale map to `Y` is a local isomorphism, and `Y_ét^∼` is equivalent to the category of sheaves on the totally ordered space `|Y|`.
+- For `Y = ∅` the site has one object and the topos is the terminal category.
+- For `Y = Spa(R, R⁺)^♢` with `(R, R⁺)` a perfectoid Tate pair, `Y_ét` is equivalent to `Spa(R♭, R♭⁺)_ét`.
+- For an infinite profinite set `S, Spa(C, O_C) × S → Spa(C, O_C)` is quasi-pro-étale but not étale, so it is not an object of `Spa(C, O_C)_ét`.
 
 *Needs:* `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D4; `CategoryTheory.GrothendieckTopology`; `CategoryTheory.Sheaf`.
 
@@ -337,19 +343,19 @@ Let `Y` be a diamond. The quasi-pro-étale site `Y_qproét` is the site whose ob
 
 Require the following API.
 
-- `qproetSite`: For a diamond `Y` and a cutoff cardinal `κ`, the Grothendieck topology on `κ`-small locally separated quasi-pro-étale maps `Y′ → Y` with jointly surjective coverings.
-- `qproetSite.restrict_fullyFaithful`: For `κ ≤ κ′` the induced functor on sheaf topoi is fully faithful and commutes with cohomology.
-- `qproetSite.over_equiv`: For a quasi-pro-étale `U → Y`, the slice of `Y_qproét` at `U` is equivalent to `U_qproét`.
-- `qproetSite.pullback`: A map `f : Y′ → Y` of diamonds gives a finite-limit-preserving continuous functor `Y_qproét → Y′_qproét` by base change, hence `f_qproét`, functorial in `f`.
-- `qproetSite.etale_le`: Every object of `Y_ét` is an object of `Y_qproét` when `Y` is locally spatial, and `Y_ét → Y_qproét` preserves fibre products and coverings.
-- `qproetSite.std_basis`: The strictly totally disconnected perfectoid spaces quasi-pro-étale over `Y` form a basis of `Y_qproét`.
+- For a diamond `Y` and a cutoff cardinal `κ`, the Grothendieck topology on `κ`-small locally separated quasi-pro-étale maps `Y′ → Y` with jointly surjective coverings.
+- For `κ ≤ κ′` the induced functor on sheaf topoi is fully faithful and commutes with cohomology.
+- For a quasi-pro-étale `U → Y`, the slice of `Y_qproét` at `U` is equivalent to `U_qproét`.
+- A map `f : Y′ → Y` of diamonds gives a finite-limit-preserving continuous functor `Y_qproét → Y′_qproét` by base change, hence `f_qproét`, functorial in `f`.
+- Every object of `Y_ét` is an object of `Y_qproét` when `Y` is locally spatial, and `Y_ét → Y_qproét` preserves fibre products and coverings.
+- The strictly totally disconnected perfectoid spaces quasi-pro-étale over `Y` form a basis of `Y_qproét`.
 
 **Checks.**
 
-- `qproetSite_geometricPoint`: For `Y = Spa(C, O_C)` with `C` algebraically closed, `S ↦ Spa(C, O_C) × S` identifies profinite sets with the quasicompact separated objects of `Y_qproét`, so small sheaves on `Y_qproét` are condensed sets.
-- `qproetSite_empty`: For `Y = ∅` every cutoff topos is the terminal category.
-- `qproetSite_etale_object`: `A` locally separated étale map `Y′ → Y` is an object of both `Y_ét` and `Y_qproét`, and a jointly surjective étale family covers in both.
-- `qproetSite_not_v`: For an extension `C ⊊ C′` of algebraically closed perfectoid fields, `Spa(C′, O_C′) → Spa(C, O_C)` is a `v`-cover but not quasi-pro-étale, so it is not an object of `Spa(C, O_C)_qproét`.
+- For `Y = Spa(C, O_C)` with `C` algebraically closed, `S ↦ Spa(C, O_C) × S` identifies profinite sets with the quasicompact separated objects of `Y_qproét`, so small sheaves on `Y_qproét` are condensed sets.
+- For `Y = ∅` every cutoff topos is the terminal category.
+- `A` locally separated étale map `Y′ → Y` is an object of both `Y_ét` and `Y_qproét`, and a jointly surjective étale family covers in both.
+- For an extension `C ⊊ C′` of algebraically closed perfectoid fields, `Spa(C′, O_C′) → Spa(C, O_C)` is a `v`-cover but not quasi-pro-étale, so it is not an object of `Spa(C, O_C)_qproét`.
 
 *Needs:* `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D4; `CategoryTheory.GrothendieckTopology`.
 
@@ -361,19 +367,19 @@ Let `Y` be a small `v`-stack on Perf. The `v`-site `Y_v` is the site whose objec
 
 Require the following API.
 
-- `vSite`: For a small `v`-stack `Y` and a cutoff cardinal `κ`, the Grothendieck topology on `κ`-small maps from small `v`-sheaves to `Y` with jointly surjective coverings.
-- `vSite.restrict_fullyFaithful`: For cutoff cardinals `κ ≤ κ′` with `Y κ`-small (or after choosing a `κ`-small presentation of `Y`), the induced functor on sheaf topoi is fully faithful and commutes with cohomology.
-- `vSite.perfectoid_basis`: Strictly totally disconnected perfectoid spaces over `Y` form a basis of `Y_v`, so restriction to perfectoid objects is an equivalence of topoi of small sheaves.
-- `vSite.over_equiv`: For a small `v`-sheaf `U → Y`, the slice of `Y_v` at `U` is `U_v`.
-- `vSite.pullback_zeroTruncated`: `A 0`-truncated map `f : Y′ → Y` gives the base-change functor `Y_v → Y′_v`, a morphism of sites `f_v`, functorial in `f`.
-- `vSite.representable_isSheaf`: For every object `Y′ → Y` the representable presheaf is a sheaf (subcanonicity, `DiamondsAndVStacks` D2 and D4).
+- For a small `v`-stack `Y` and a cutoff cardinal `κ`, the Grothendieck topology on `κ`-small maps from small `v`-sheaves to `Y` with jointly surjective coverings.
+- For cutoff cardinals `κ ≤ κ′` with `Y κ`-small (or after choosing a `κ`-small presentation of `Y`), the induced functor on sheaf topoi is fully faithful and commutes with cohomology.
+- Strictly totally disconnected perfectoid spaces over `Y` form a basis of `Y_v`, so restriction to perfectoid objects is an equivalence of topoi of small sheaves.
+- For a small `v`-sheaf `U → Y`, the slice of `Y_v` at `U` is `U_v`.
+- `A 0`-truncated map `f : Y′ → Y` gives the base-change functor `Y_v → Y′_v`, a morphism of sites `f_v`, functorial in `f`.
+- For every object `Y′ → Y` the representable presheaf is a sheaf (subcanonicity, `DiamondsAndVStacks` D2 and D4).
 
 **Checks.**
 
-- `vSite_empty`: For `Y = ∅` every cutoff topos is the terminal category.
-- `vSite_subcanonical`: For a small `v`-sheaf `Y′ → Y`, the presheaf `Hom_Y(−, Y′)` is a sheaf on `Y_v`.
-- `vSite_perfectoid_compat`: For a perfectoid space `X`, the restriction of `X_v` to perfectoid objects is the `v`-site of `DiamondsAndVStacks` D2, with the same covering families.
-- `vSite_not_qproet`: For an extension `C ⊊ C′` of algebraically closed perfectoid fields, `{Spa(C′, O_C′) → Spa(C, O_C)}` covers in the `v`-site but is not a family of quasi-pro-étale maps.
+- For `Y = ∅` every cutoff topos is the terminal category.
+- For a small `v`-sheaf `Y′ → Y`, the presheaf `Hom_Y(−, Y′)` is a sheaf on `Y_v`.
+- For a perfectoid space `X`, the restriction of `X_v` to perfectoid objects is the `v`-site of `DiamondsAndVStacks` D2, with the same covering families.
+- For an extension `C ⊊ C′` of algebraically closed perfectoid fields, `{Spa(C′, O_C′) → Spa(C, O_C)}` covers in the `v`-site but is not a family of quasi-pro-étale maps.
 
 *Needs:* `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, Layer D0; `CategoryTheory.GrothendieckTopology`.
 
@@ -385,19 +391,19 @@ Fix a ring `Λ`. For a topos `T, D(T, Λ)` is the derived category of sheaves of
 
 Require the following API.
 
-- `cutoffDerived.transition_fullyFaithful`: For `κ ≤ κ′` the transition functor `D(Y_v,κ, Λ) → D(Y_v,κ′, Λ)` is fully faithful and commutes with shifts, cones and canonical truncations.
-- `cutoffDerived.ofCutoff`: Every object of `D(Y_v, Λ)` comes from `D(Y_v,κ, Λ)` for some cutoff `κ`, and Hom groups are computed at any common cutoff.
-- `cutoffDerived.tStructure`: The canonical `t`-structure on `D(Y_v, Λ)`, with `Hⁱ` computed at any cutoff, and the subcategories `D⁺, D⁻, D^b`.
-- `cutoffDerived.pullback`: `λ_Y^∗, ν_Y^∗` and `f_v^∗` for `0`-truncated `f` induce `t`-exact functors on these derived categories, compatible with the transitions.
-- `cutoffDerived.transition_products`: For `κ ≤ κ′` the transition functor commutes with countable products and with `R lim` of sequences (`κ′`-small objects are `κ`-cofiltered limits of `κ`-small ones and `cf(κ) > ω`, and products are exact by repleteness). This does not assert compatibility with arbitrary products.
+- For `κ ≤ κ′` the transition functor `D(Y_v,κ, Λ) → D(Y_v,κ′, Λ)` is fully faithful and commutes with shifts, cones and canonical truncations.
+- Every object of `D(Y_v, Λ)` comes from `D(Y_v,κ, Λ)` for some cutoff `κ`, and Hom groups are computed at any common cutoff.
+- The canonical `t`-structure on `D(Y_v, Λ)`, with `Hⁱ` computed at any cutoff, and the subcategories `D⁺, D⁻, D^b`.
+- `λ_Y^∗, ν_Y^∗` and `f_v^∗` for `0`-truncated `f` induce `t`-exact functors on these derived categories, compatible with the transitions.
+- For `κ ≤ κ′` the transition functor commutes with countable products and with `R lim` of sequences (`κ′`-small objects are `κ`-cofiltered limits of `κ`-small ones and `cf(κ) > ω`, and products are exact by repleteness). This does not assert compatibility with arbitrary products.
 
 **Checks.**
 
-- `cutoffDerived_zeroRing`: For `Λ = 0`, including nonempty `Y`, every `D(Y_v, Λ)` is zero and presentable.
+- For `Λ = 0`, including nonempty `Y`, every `D(Y_v, Λ)` is zero and presentable.
 - For `Y=∅` and `Λ≠0, D(Y_v, Λ)` is also zero and presentable.
-- `cutoffDerived_cohomology_transition`: For `A ∈ D(Y_v,κ, Λ)` and `κ ≤ κ′, Hⁱ` of the image of `A` in `D(Y_v,κ′, Λ)` is the image of `Hⁱ(A)`.
-- `cutoffDerived_set_generated`: If `Y_v,κ` is fixed, `D(Y_v,κ, Λ)` is Mathlib's `DerivedCategory` of the Grothendieck abelian category of sheaves of `Λ`-modules on `Y_v,κ`.
-- `cutoffDerived_not_one_topos`: The category of all small sheaves of `Λ`-modules on `Y_v` has no set of generators when `Y ≠ ∅` and `Λ ≠ 0`, so `D(Y_v, Λ)` is not the derived category of a single Grothendieck abelian category.
+- For `A ∈ D(Y_v,κ, Λ)` and `κ ≤ κ′, Hⁱ` of the image of `A` in `D(Y_v,κ′, Λ)` is the image of `Hⁱ(A)`.
+- If `Y_v,κ` is fixed, `D(Y_v,κ, Λ)` is Mathlib's `DerivedCategory` of the Grothendieck abelian category of sheaves of `Λ`-modules on `Y_v,κ`.
+- The category of all small sheaves of `Λ`-modules on `Y_v` has no set of generators when `Y ≠ ∅` and `Λ ≠ 0`, so `D(Y_v, Λ)` is not the derived category of a single Grothendieck abelian category.
 
 *Needs:* `DiamondsAndVStacks`, Layer D2; `DiamondsAndVStacks`, Layer D0; `EnhancedDerivedSheaves`, Layer E1; `DerivedCategory`.
 
@@ -417,20 +423,20 @@ Let `Y` be a locally spatial diamond and `y ∈ |Y|`. Choose a quasi-pro-étale 
 
 Require the following API.
 
-- `geometricStalk`: The stalk functor `F ↦ F_ȳ` from `Y_ét^∼` to sets (and to `Λ`-modules for sheaves of `Λ`-modules).
-- `geometricStalk.eq_pullback_sections`: `F_ȳ ≅ Γ(Spa(C(y), C(y)⁺)_ét, ȳ^∗F)`, naturally in `F`.
-- `geometricStalk.exact`: The stalk functor commutes with all colimits and finite limits; on sheaves of `Λ`-modules it is exact.
-- `geometricStalk.toPoint`: The stalk functor is the fibre functor of a point of the site `Y_ét` in the sense of Mathlib's GrothendieckTopology.Point.
-- `geometricStalk.map`: For `f : Y′ → Y, y′ ∈ |Y′|` and geometric points `ȳ′` over `y′` and `ȳ` over `f(y′), (f_ét^∗F)_ȳ′ ≅ F_ȳ`.
-- `geometricStalk.of_constant`: The stalk of the constant sheaf with value `M` is `M`.
-- `geometricStalk.indep`: For two geometric points `ȳ, ȳ′` (quasi-pro-étale maps from geometric field pairs whose closed points map to `y`), `F_ȳ ≅ F_ȳ′`: both are the stalk at the closed point of the pullback to the chain of generalizations of `y`.
+- The stalk functor `F ↦ F_ȳ` from `Y_ét^∼` to sets (and to `Λ`-modules for sheaves of `Λ`-modules).
+- `F_ȳ ≅ Γ(Spa(C(y), C(y)⁺)_ét, ȳ^∗F)`, naturally in `F`.
+- The stalk functor commutes with all colimits and finite limits; on sheaves of `Λ`-modules it is exact.
+- The stalk functor is the fibre functor of a point of the site `Y_ét` in the sense of Mathlib's GrothendieckTopology.Point.
+- For `f : Y′ → Y, y′ ∈ |Y′|` and geometric points `ȳ′` over `y′` and `ȳ` over `f(y′), (f_ét^∗F)_ȳ′ ≅ F_ȳ`.
+- The stalk of the constant sheaf with value `M` is `M`.
+- For two geometric points `ȳ, ȳ′` (quasi-pro-étale maps from geometric field pairs whose closed points map to `y`), `F_ȳ ≅ F_ȳ′`: both are the stalk at the closed point of the pullback to the chain of generalizations of `y`.
 
 **Checks.**
 
-- `geometricStalk_closedPoint`: For `Y = Spa(C, C⁺)` with `C` algebraically closed and `y` the closed point `(ȳ = id), F_ȳ = F(Y)`.
-- `geometricStalk_constant`: For every `y` the stalk of the constant sheaf `M` is `M`.
-- `geometricStalk_isPoint`: `geometricStalk` is the fibre functor of a GrothendieckTopology.Point of `Y_ét`.
-- `geometricStalk_generic_vs_global`: For `Y = Spa(C, C⁺)` of rank `2` with open generic point `j : {η} ⊂ Y` and `M ≠ 0`, the sheaf `j_!M` has `F(Y) = 0` but `F_η̄ = M`; so stalks at generalizations are not global sections.
+- For `Y = Spa(C, C⁺)` with `C` algebraically closed and `y` the closed point `(ȳ = id), F_ȳ = F(Y)`.
+- For every `y` the stalk of the constant sheaf `M` is `M`.
+- The geometric stalk functor is the fibre functor of a point of `Y_ét` in the sense of `CategoryTheory.GrothendieckTopology.Point`.
+- For `Y = Spa(C, C⁺)` of rank `2` with open generic point `j : {η} ⊂ Y` and `M ≠ 0`, the sheaf `j_!M` has `F(Y) = 0` but `F_η̄ = M`; so stalks at generalizations are not global sections.
 
 *Needs:* `C0.1`; `DiamondsAndVStacks`, Layer D5; `DiamondsAndVStacks`, Layer D1; `CategoryTheory.GrothendieckTopology.Point`.
 
@@ -446,24 +452,25 @@ Let `Y` be a locally spatial diamond. For every `y ∈ |Y|` the stalk functor `F
 
 #### C0.8 The comparison morphisms `λ_Y` and `ν_Y` and the relative pullbacks
 
-For a diamond `Y` there is a morphism of sites `λ_Y : Y_v → Y_qproét`, and for a locally spatial diamond `Y` a morphism of sites `ν_Y : Y_qproét → Y_ét`; the underlying functors go the other way (an étale map is quasi-pro-étale, a quasi-pro-étale map has a small `v`-sheaf as source) and preserve finite limits, so they define morphisms of topoi with pullbacks `ν_Y^∗ : Y_ét^∼ → Y_qproét^∼` and `λ_Y^∗ : Y_qproét^∼ → Y_v^∼` on small sheaves, right adjoints `ν_Y∗, λ_Y∗`, units and counits. A map `f : Y′ → Y` of locally spatial diamonds (resp. diamonds, resp. a `0`-truncated map of small `v`-stacks) induces `f_ét, f_qproét, f_v`, and the squares `f_v ∘ λ_{Y′} = λ_Y ∘ f_qproét` and `f_qproét ∘ ν_{Y′} = ν_Y ∘ f_ét` commute up to canonical isomorphism.
+For a diamond `Y` there is a morphism of sites `λ_Y : Y_v → Y_qproét`, and for a locally spatial diamond `Y` a morphism of sites `ν_Y : Y_qproét → Y_ét`; the underlying functors go the other way (an étale map is quasi-pro-étale, a quasi-pro-étale map has a small `v`-sheaf as source) and preserve finite limits, so they define morphisms of topoi with pullbacks `ν_Y^∗ : Y_ét^∼ → Y_qproét^∼` and `λ_Y^∗ : Y_qproét^∼ → Y_v^∼` on small sheaves, right adjoints `ν_Y∗, λ_Y∗`, units and counits. A map `f : Y′ → Y` of locally spatial diamonds (resp. diamonds, resp. a `0`-truncated map of small `v`-stacks) induces `f_ét, f_qproét, f_v`, and the squares `λ_Y ∘ f_v ≅ f_qproét ∘ λ_{Y′}` (both `Y′_v → Y_qproét`) and `ν_Y ∘ f_qproét ≅ f_ét ∘ ν_{Y′}` (both `Y′_qproét → Y_ét`) commute up to canonical isomorphism.
 
 Require the following API.
 
-- `lambdaY`: The morphism of topoi `λ_Y : Y_v^∼ → Y_qproét^∼` for a diamond `Y`, with `λ_Y^∗ ⊣ λ_Y∗`.
-- `nuY`: The morphism of topoi `ν_Y : Y_qproét^∼ → Y_ét^∼` for a locally spatial diamond `Y`, with `ν_Y^∗ ⊣ ν_Y∗`.
-- `lambdaY_pullback_finiteLimits`: `λ_Y^∗` and `ν_Y^∗` preserve finite limits and all colimits.
-- `comparison_square_v`: For `f : Y′ → Y` of diamonds, `f_v^∗ ∘ λ_Y^∗ ≅ λ_{Y′}^∗ ∘ f_qproét^∗`, compatible with composition of maps.
-- `comparison_square_et`: For `f : Y′ → Y` of locally spatial diamonds, `f_qproét^∗ ∘ ν_Y^∗ ≅ ν_{Y′}^∗ ∘ f_ét^∗`, compatible with composition.
-- `comparison_slice`: For `U → Y` étale (resp. quasi-pro-étale), the restriction of `ν_Y` (resp. `λ_Y`) to the slice at `U` is `ν_U` (resp. `λ_U`).
-- `comparison_derived`: The derived pullbacks `λ_Y^∗, ν_Y^∗` on `D(−, Λ)` and the derived pushforwards `Rλ_Y∗, Rν_Y∗`, with the derived adjunctions.
+- The morphism of topoi `λ_Y : Y_v^∼ → Y_qproét^∼` for a diamond `Y`, with `λ_Y^∗ ⊣ λ_Y∗`.
+- The morphism of topoi `ν_Y : Y_qproét^∼ → Y_ét^∼` for a locally spatial diamond `Y`, with `ν_Y^∗ ⊣ ν_Y∗`.
+- `λ_Y^∗` and `ν_Y^∗` preserve finite limits and all colimits.
+- For `f : Y′ → Y` of diamonds, `f_v^∗ ∘ λ_Y^∗ ≅ λ_{Y′}^∗ ∘ f_qproét^∗`, compatible with composition of maps.
+- For `f : Y′ → Y` of locally spatial diamonds, `f_qproét^∗ ∘ ν_Y^∗ ≅ ν_{Y′}^∗ ∘ f_ét^∗`, compatible with composition.
+- For `U → Y` étale (resp. quasi-pro-étale), the restriction of `ν_Y` (resp. `λ_Y`) to the slice at `U` is `ν_U` (resp. `λ_U`).
+- The derived pullbacks `λ_Y^∗, ν_Y^∗` on `D(−, Λ)` and the derived pushforwards `Rλ_Y∗, Rν_Y∗`, with the derived adjunctions.
 
 **Checks.**
 
-- `comparison_geometricPoint`: For `Y = Spa(C, O_C), ν_Y^∗` sends a set `M` to the condensed set of locally constant maps `S ↦ C(S, M)`, i.e. the discrete condensed set.
-- `comparison_empty`: For `Y = ∅` both `λ_Y` and `ν_Y` are the identity of the terminal topos.
-- `comparison_perfectoid`: For a perfectoid space `X`, the perfectoid spaces pro-étale over `X` form a basis of `X_qproét`, so `X_qproét^∼ ≃ X_proét^∼`, and under this equivalence `ν_X` is the comparison morphism `X_proét → X_ét` of `DiamondsAndVStacks` D2.
-- `comparison_nu_not_essSurj`: For `Y = Spa(C, O_C)`, the sheaf `S ↦ C(S, ℤ_p)` (continuous maps to `ℤ_p`) on `Y_qproét` is not in the essential image of `ν_Y^∗`, whose image consists of discrete condensed sets.
+- For `Y = Spa(C, O_C), ν_Y^∗` sends a set `M` to the condensed set of locally constant maps `S ↦ C(S, M)`, i.e. the discrete condensed set.
+- For `Y = ∅` both `λ_Y` and `ν_Y` are the identity of the terminal topos.
+- For the fold `f : P ⊔ P → P` with `P = Spa(C, O_C)`, both composites `λ_P ∘ f_v` and `f_qproét ∘ λ_{P⊔P}` go from `(P ⊔ P)_v` to `P_qproét`, and both `ν_P ∘ f_qproét` and `f_ét ∘ ν_{P⊔P}` go from `(P ⊔ P)_qproét` to `P_ét`; on each square the two inverse images send a sheaf `M` to `(M, M)`.
+- For a perfectoid space `X`, the perfectoid spaces pro-étale over `X` form a basis of `X_qproét`, so `X_qproét^∼ ≃ X_proét^∼`, and under this equivalence `ν_X` is the comparison morphism `X_proét → X_ét` of `DiamondsAndVStacks` D2.
+- For `Y = Spa(C, O_C)`, the sheaf `S ↦ C(S, ℤ_p)` (continuous maps to `ℤ_p`) on `Y_qproét` is not in the essential image of `ν_Y^∗`, whose image consists of discrete condensed sets.
 
 *Needs:* `C0.1`; `C0.2`; `C0.3`; `CategoryTheory.Functor.IsContinuous`; `CategoryTheory.Adjunction`.
 
@@ -485,20 +492,20 @@ For a qcqs perfectoid `X′` equipped with a map to a strictly totally disconnec
 
 Require the following API.
 
-- `sepProetHull`: The object `λ∘_X(X′)` of `X_qproét,qc,sep` with the map `X′ → λ∘_X(X′)` over `X`.
-- `sepProetHull.lift`: For a separated pro-étale `Z → X` and `g : X′ → Z` over `X`, the unique map `λ∘_X(X′) → Z` through which `g` factors.
-- `sepProetHull.lift_comp`: The lift composed with `X′ → λ∘_X(X′)` is `g`, and any map `λ∘_X(X′) → Z` with this property equals the lift.
-- `sepProetHull.surjective`: `X′ → λ∘_X(X′)` is surjective.
-- `sepProetHull.map`: A map `X′_2 → X′_1` over `X` induces `λ∘_X(X′_2) → λ∘_X(X′_1)`, functorially, and surjections go to surjections.
-- `sepProetHull.of_proetale`: If `X′ → X` is itself quasicompact separated pro-étale then `λ∘_X(X′) = X′`.
-- `sepProetHull.spectral_image`: `|λ∘_X(X′)|` is the image of `|X′| → |X| ×_{π0 X} π0 X′`.
+- The object `λ∘_X(X′)` of `X_qproét,qc,sep` with the map `X′ → λ∘_X(X′)` over `X`.
+- For a separated pro-étale `Z → X` and `g : X′ → Z` over `X`, the unique map `λ∘_X(X′) → Z` through which `g` factors.
+- The lift composed with `X′ → λ∘_X(X′)` is `g`, and any map `λ∘_X(X′) → Z` with this property equals the lift.
+- `X′ → λ∘_X(X′)` is surjective.
+- A map `X′_2 → X′_1` over `X` induces `λ∘_X(X′_2) → λ∘_X(X′_1)`, functorially, and surjections go to surjections.
+- If `X′ → X` is itself quasicompact separated pro-étale then `λ∘_X(X′) = X′`.
+- `|λ∘_X(X′)|` is the image of `|X′| → |X| ×_{π0 X} π0 X′`.
 
 **Checks.**
 
-- `sepProetHull_self`: `λ∘_X(X) = X`.
-- `sepProetHull_geometricPoints`: For `X = Spa(C, C⁺)` and `X′ = Spa(C′, C′⁺)` with algebraically closed `C, C′, λ∘_X(X′)` is the pro-constructible generalizing subspace of `X` formed by the generalizations of the image of the closed point of `X′` (an open subset when `C⁺` has finite rank); it is `X` exactly when `X′ → X` is surjective.
-- `sepProetHull_profinite`: For `X′ = X × S` with `S` profinite, `λ∘_X(X′) = X × S`.
-- `sepProetHull_not_identity`: For a nontrivial extension `C ⊊ C′` of algebraically closed fields, `Spa(C′, O_C′) → Spa(C, O_C)` is not pro-étale, yet its hull is `Spa(C, O_C)`.
+- `λ∘_X(X) = X`.
+- For `X = Spa(C, C⁺)` and `X′ = Spa(C′, C′⁺)` with algebraically closed `C, C′, λ∘_X(X′)` is the pro-constructible generalizing subspace of `X` formed by the generalizations of the image of the closed point of `X′` (an open subset when `C⁺` has finite rank); it is `X` exactly when `X′ → X` is surjective.
+- For `X′ = X × S` with `S` profinite, `λ∘_X(X′) = X × S`.
+- For a nontrivial extension `C ⊊ C′` of algebraically closed fields, `Spa(C′, O_C′) → Spa(C, O_C)` is not pro-étale, yet its hull is `Spa(C, O_C)`.
 
 *Needs:* `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D0; `PerfectoidSpaces`, Layer P6.
 
@@ -628,8 +635,6 @@ For `Y=Spa(C,C⁺)` of rank two, write `η` for the open generic point and `s` f
 
 `PerfectoidSpaces`, Layers P0–P6; `DiamondsAndVStacks`, Layers D0–D5; `EnhancedDerivedSheaves`, Layers E1–E2; `ClassicalAdicEtaleCohomology`, §§7.1–7.2. The analytic comparison also uses `DiamondsAndVStacks`, Layer D6.
 
-<a id="c1"></a>
-
 ## Layer C1: Base change before étale coreflection
 
 Construct the comparison transformations first. Prove their separate cases before assembling the derived statements. The arbitrary-coefficient quasi-pro-étale case and the prime-to-`p` torsion case are distinct.
@@ -638,27 +643,27 @@ Construct the comparison transformations first. Prove their separate cases befor
 
 #### C1.1 The base change transformations comparing étale, quasi-pro-étale and `v`-pushforwards
 
-Let `f : Y′ → Y` be a map of locally spatial diamonds. From the commuting squares `f_v ∘ λ_{Y′} ≅ λ_Y ∘ f_qproét` and `f_qproét ∘ ν_{Y′} ≅ ν_Y ∘ f_ét`, construct the base change morphisms `λ_Y^∗R^if_qproét∗F → R^if_v∗λ_{Y′}^∗F` and `ν_Y^∗R^if_ét∗F → R^if_qproét∗ν_{Y′}^∗F`, and their derived versions `λ_Y^∗Rf_qproét∗ → Rf_v∗λ_{Y′}^∗` and `ν_Y^∗Rf_ét∗ → Rf_qproét∗ν_{Y′}^∗`; for a cartesian square of locally spatial diamonds (`g′ : Y′ → Y` over `g : X′ → X, f, f′`) construct `g^∗Rf∗ → Rf′∗g′^∗` on the quasi-pro-étale and on the étale sites. For strictly totally disconnected `X` and strictly totally disconnected `X̃ ∈ X_v` with factorization `X̃ → λ∘_X(X̃) → X`, construct the comparison `Hⁱ((λ∘_X(X̃) ×_X Y′)_qproét, F) → Hⁱ((X̃ ×_X Y′)_v, λ_{Y′}^∗F)`. These transformations are compatible with composition of maps and with restriction to quasi-pro-étale slices.
+Let `f : Y′ → Y` be a map of locally spatial diamonds. From the commuting squares `λ_Y ∘ f_v ≅ f_qproét ∘ λ_{Y′}` and `ν_Y ∘ f_qproét ≅ f_ét ∘ ν_{Y′}`, construct the base change morphisms `λ_Y^∗R^if_qproét∗F → R^if_v∗λ_{Y′}^∗F` and `ν_Y^∗R^if_ét∗F → R^if_qproét∗ν_{Y′}^∗F`, and their derived versions `λ_Y^∗Rf_qproét∗ → Rf_v∗λ_{Y′}^∗` and `ν_Y^∗Rf_ét∗ → Rf_qproét∗ν_{Y′}^∗`; for a cartesian square of locally spatial diamonds (`g′ : Y′ → Y` over `g : X′ → X, f, f′`) construct `g^∗Rf∗ → Rf′∗g′^∗` on the quasi-pro-étale and on the étale sites. For strictly totally disconnected `X` and strictly totally disconnected `X̃ ∈ X_v` with factorization `X̃ → λ∘_X(X̃) → X`, construct the comparison `Hⁱ((λ∘_X(X̃) ×_X Y′)_qproét, F) → Hⁱ((X̃ ×_X Y′)_v, λ_{Y′}^∗F)`. These transformations are compatible with composition of maps and with restriction to quasi-pro-étale slices.
 
 Require the following API.
 
-- `vQproetBaseChange`: The natural transformation `λ_Y^∗ ∘ Rf_qproét∗ ⟶ Rf_v∗ ∘ λ_{Y′}^∗` of functors `D(Y′_qproét,κ, Λ) → D(Y_v,κ, Λ)` at each common adequate `κ`, the mate of `f_v^∗λ_Y^∗ ≅ λ_{Y′}^∗f_qproét^∗`.
-- `etQproetBaseChange`: The natural transformation `ν_Y^∗ ∘ Rf_ét∗ ⟶ Rf_qproét∗ ∘ ν_{Y′}^∗` of functors `D(Y′_ét, Λ) → D(Y_qproét,κ, Λ)` at each common adequate `κ`.
-- `squareBaseChange`: For a cartesian square, `g^∗Rf∗ ⟶ Rf′∗g′^∗` on the quasi-pro-étale and on the étale sites.
-- `vQproetBaseChange.comp`: For composable `f` and `h`, the transformation for `f ∘ h` is the pasting of those for `f` and `h`.
-- `vQproetBaseChange.id`: For `f = id` the transformation is the identity.
-- `vQproetBaseChange.slice`: Restriction to a quasi-pro-étale `U → Y` carries the transformation for `f` to that for `f ×_Y U`.
-- `vQproetBaseChange.cohomology`: On cohomology sheaves the derived transformation induces the sheaf-level base change maps in each degree `i`, and for strictly totally disconnected `X` it is computed by the cohomology comparison over `λ∘_X(X̃) ×_X Y′` and `X̃ ×_X Y′`.
-- `etQproetBaseChange.comp`: For composable `f` and `h`, the transformation `ν^∗Rf_ét∗ → Rf_qproét∗ν^∗` for `f ∘ h` is the pasting of those for `f` and `h`; for `f = id` it is the identity.
-- `squareBaseChange.paste`: The base change transformation of a horizontal or vertical composite of cartesian squares is the pasting of the transformations of the two squares.
-- `squareBaseChange.iso_of_qproet`: If `g` is quasi-pro-étale, at every common adequate `κ` the site `X′_qproét,κ` is the slice of `X_qproét,κ` at `X′` and `g^∗Rf_qproét,κ∗ → Rf′_qproét,κ∗g′^∗` is an isomorphism on all of `D(Y_qproét,κ, Λ)` (restriction to slices).
+- The natural transformation `λ_Y^∗ ∘ Rf_qproét∗ ⟶ Rf_v∗ ∘ λ_{Y′}^∗` of functors `D(Y′_qproét,κ, Λ) → D(Y_v,κ, Λ)` at each common adequate `κ`, the mate of `f_v^∗λ_Y^∗ ≅ λ_{Y′}^∗f_qproét^∗`.
+- The natural transformation `ν_Y^∗ ∘ Rf_ét∗ ⟶ Rf_qproét∗ ∘ ν_{Y′}^∗` of functors `D(Y′_ét, Λ) → D(Y_qproét,κ, Λ)` at each common adequate `κ`.
+- For a cartesian square, `g^∗Rf∗ ⟶ Rf′∗g′^∗` on the quasi-pro-étale and on the étale sites.
+- For composable `f` and `h`, the transformation for `f ∘ h` is the pasting of those for `f` and `h`.
+- For `f = id` the transformation is the identity.
+- Restriction to a quasi-pro-étale `U → Y` carries the transformation for `f` to that for `f ×_Y U`.
+- On cohomology sheaves the derived transformation induces the sheaf-level base change maps in each degree `i`, and for strictly totally disconnected `X` it is computed by the cohomology comparison over `λ∘_X(X̃) ×_X Y′` and `X̃ ×_X Y′`.
+- For composable `f` and `h`, the transformation `ν^∗Rf_ét∗ → Rf_qproét∗ν^∗` for `f ∘ h` is the pasting of those for `f` and `h`; for `f = id` it is the identity.
+- The base change transformation of a horizontal or vertical composite of cartesian squares is the pasting of the transformations of the two squares.
+- If `g` is quasi-pro-étale, at every common adequate `κ` the site `X′_qproét,κ` is the slice of `X_qproét,κ` at `X′` and `g^∗Rf_qproét,κ∗ → Rf′_qproét,κ∗g′^∗` is an isomorphism on all of `D(Y_qproét,κ, Λ)` (restriction to slices).
 
 **Checks.**
 
-- `baseChange_id`: For `f = id_Y` every base change transformation is the identity.
-- `baseChange_fold`: For the fold map `Y ⊔ Y → Y` and `F = F_1 ⊔ F_2, R^0f∗F = F_1 × F_2` and the base change morphism in degree `0` is the identity of `λ_Y^∗F_1 × λ_Y^∗F_2`.
-- `baseChange_degree_zero`: In degree `0` the transformation `λ_Y^∗f_qproét∗F → f_v∗λ_{Y′}^∗F` is the mate of the commutation isomorphism; evaluated on strictly totally disconnected `X̃` over strictly totally disconnected `X` it is `F((λ∘_X(X̃) ×_X Y′)) → (λ_{Y′}^∗F)(X̃ ×_X Y′)`.
-- `baseChange_ArtinSchreier`: With `p`-torsion coefficients the final comparison need not be an isomorphism: for the perfectoid closed disc `D` over `Spa(C, O_C), C ⊊ C′` with strictly larger residue field and `F = 𝔽_p`, the Artin–Schreier class of `c′T` in `H¹(D_{C′}, 𝔽_p)`, for `c′ ∈ O_{C′}` with residue class outside the residue field of `C`, is not in the image of `H¹(D_C, 𝔽_p)`.
+- For `f = id_Y` every base change transformation is the identity.
+- For the fold map `Y ⊔ Y → Y` and `F = F_1 ⊔ F_2, R^0f∗F = F_1 × F_2` and the base change morphism in degree `0` is the identity of `λ_Y^∗F_1 × λ_Y^∗F_2`.
+- In degree `0` the transformation `λ_Y^∗f_qproét∗F → f_v∗λ_{Y′}^∗F` is the mate of the commutation isomorphism; evaluated on strictly totally disconnected `X̃` over strictly totally disconnected `X` it is `F((λ∘_X(X̃) ×_X Y′)) → (λ_{Y′}^∗F)(X̃ ×_X Y′)`.
+- With `p`-torsion coefficients the final comparison need not be an isomorphism: for the perfectoid closed disc `D` over `Spa(C, O_C), C ⊊ C′` with strictly larger residue field and `F = 𝔽_p`, the Artin–Schreier class of `c′T` in `H¹(D_{C′}, 𝔽_p)`, for `c′ ∈ O_{C′}` with residue class outside the residue field of `C`, is not in the image of `H¹(D_C, 𝔽_p)`.
 
 *Needs:* `C0.8`; `C0.10`; `EnhancedDerivedSheaves`, Layer E3; `C0.4`.
 
@@ -764,8 +769,6 @@ For the fold `Y⊔Y→Y` and a pair `(F₁,F₂)`, direct image in degree zero i
 
 Layer C0; `ClassicalAdicEtaleCohomology`, §§7.1–7.2; `EnhancedDerivedSheaves`, Layer E3.
 
-<a id="c2"></a>
-
 ## Layer C2: The étale derived category and its enhancement
 
 Define étale complexes by strictly totally disconnected tests, prove `v`-locality, and construct the stable enhancement in a single adequate cutoff. The resulting coreflection is the input to direct image and internal Hom.
@@ -786,22 +789,22 @@ Let `Y` be a small `v`-stack and `Λ` a ring. `D_ét(Y, Λ) ⊂ D(Y, Λ) = D(Y_v
 
 Require the following API.
 
-- `Det`: The full triangulated subcategory `D_ét(Y, Λ)` of `D(Y_v, Λ)`, as an object property closed under isomorphisms, shifts and cones.
-- `Det.mem_iff_std`: `A ∈ D_ét(Y, Λ)` iff `f^∗A ∈ D(X_ét, Λ)` for every map `f : X → Y` from a strictly totally disconnected perfectoid space.
-- `Det.mem_iff_cover`: For one `v`-cover `X → Y` by a disjoint union of strictly totally disconnected spaces, `A ∈ D_ét(Y, Λ)` iff its pullback lies in `D(X_ét, Λ)`.
-- `Det.mem_iff_cohomology`: `A ∈ D_ét(Y, Λ)` iff `Hⁱ(A)[0] ∈ D_ét(Y, Λ)` for all `i` (target C2.6).
-- `Det.pullback_mem`: For a `0`-truncated `g : Y′ → Y, g_v^∗` (restriction to the slice) carries `D_ét(Y, Λ)` into `D_ét(Y′, Λ)`, because a strictly totally disconnected `X → Y′` composes to `X → Y`; arbitrary `g` are treated in C3.1.
-- `Det.std_eq`: For strictly totally disconnected `Y, D_ét(Y, Λ)` is the essential image of `D(Y_ét, Λ) = D(|Y|, Λ)`.
-- `Det.plus_eq`: For a locally spatial diamond `Y, D⁺_ét(Y, Λ)` is the essential image of `D⁺(Y_ét, Λ)`.
-- `Det.isTriangulated`: `D_ét(Y, Λ)` is a triangulated subcategory closed under the canonical truncations, so it carries the induced `t`-structure.
+- The full triangulated subcategory `D_ét(Y, Λ)` of `D(Y_v, Λ)`, as an object property closed under isomorphisms, shifts and cones.
+- `A ∈ D_ét(Y, Λ)` iff `f^∗A ∈ D(X_ét, Λ)` for every map `f : X → Y` from a strictly totally disconnected perfectoid space.
+- For one `v`-cover `X → Y` by a disjoint union of strictly totally disconnected spaces, `A ∈ D_ét(Y, Λ)` iff its pullback lies in `D(X_ét, Λ)`.
+- `A ∈ D_ét(Y, Λ)` iff `Hⁱ(A)[0] ∈ D_ét(Y, Λ)` for all `i` (target C2.6).
+- For a `0`-truncated `g : Y′ → Y, g_v^∗` (restriction to the slice) carries `D_ét(Y, Λ)` into `D_ét(Y′, Λ)`, because a strictly totally disconnected `X → Y′` composes to `X → Y`; arbitrary `g` are treated in C3.1.
+- For strictly totally disconnected `Y, D_ét(Y, Λ)` is the essential image of `D(Y_ét, Λ) = D(|Y|, Λ)`.
+- For a locally spatial diamond `Y, D⁺_ét(Y, Λ)` is the essential image of `D⁺(Y_ét, Λ)`.
+- `D_ét(Y, Λ)` is a triangulated subcategory closed under the canonical truncations, so it carries the induced `t`-structure.
 
 **Checks.**
 
-- `Det_zero_ring`: For `Λ = 0, D_ét(Y, Λ) = 0`.
-- `Det_empty`: For `Y = ∅, D_ét(Y, Λ) = 0`.
-- `Det_geometric_point`: For `Y = Spa(C, O_C)` with `C` algebraically closed, `D_ét(Y, Λ)` is equivalent to `D(Λ)` via global sections.
-- `Det_std`: For strictly totally disconnected `X, D_ét(X, Λ)` is equivalent to Mathlib's `DerivedCategory` of sheaves of `Λ`-modules on `|X|`.
-- `Det_condensed_nonexample`: For `Y = Spa(C, O_C)` and `Λ = ℤ_p`, the `v`-sheaf `X ↦ C(|X|, ℤ_p)` (continuous maps for the `p`-adic topology) is not in `D_ét(Y, ℤ_p)`: it is concentrated in degree `0` and not pulled back from `Y_ét`, whose sheaves take the value `C(S, M)` with `M` discrete on `Spa(C, O_C) × S`.
+- For `Λ = 0, D_ét(Y, Λ) = 0`.
+- For `Y = ∅, D_ét(Y, Λ) = 0`.
+- For `Y = Spa(C, O_C)` with `C` algebraically closed, `D_ét(Y, Λ)` is equivalent to `D(Λ)` via global sections.
+- For strictly totally disconnected `X, D_ét(X, Λ)` is equivalent to Mathlib's `DerivedCategory` of sheaves of `Λ`-modules on `|X|`.
+- For `Y = Spa(C, O_C)` and `Λ = ℤ_p`, the `v`-sheaf `X ↦ C(|X|, ℤ_p)` (continuous maps for the `p`-adic topology) is not in `D_ét(Y, ℤ_p)`: it is concentrated in degree `0` and not pulled back from `Y_ét`, whose sheaves take the value `C(S, M)` with `M` discrete on `Spa(C, O_C) × S`.
 
 *Needs:* `C0.24`; `C0.4`; `C2.1`; `DiamondsAndVStacks`, Layer D1; `DerivedCategory`.
 
@@ -863,22 +866,22 @@ For a small `v`-stack `Y`, a ring `Λ` and a cutoff cardinal `κ`, the `∞`-der
 
 Require the following API.
 
-- `enhancedV`: The presentable stable `∞`-category `𝒟(Y_v,κ, Λ)` with an equivalence of its homotopy category with `D(Y_v,κ, Λ)`.
-- `enhancedV.transition`: For `κ ≤ κ′` a fully faithful colimit-preserving exact functor `𝒟(Y_v,κ, Λ) → 𝒟(Y_v,κ′, Λ)`, with coherent composition for `κ ≤ κ′ ≤ κ″`.
-- `enhancedV.pullback`: For `0`-truncated `f`, a colimit-preserving exact functor `f_v^∗` commuting with transitions, with coherent `(f ∘ g)_v^∗ ≃ g_v^∗ ∘ f_v^∗`.
-- `enhancedV.simplicial`: For a simplicial `Y_•` with `0`-truncated face maps, `𝒟(Y_•,v,κ, Λ)` and the full subcategory of cartesian objects at a common adequate `κ`.
-- `enhancedV.homotopy`: Passing to homotopy categories recovers the triangulated categories and derived pullbacks of C0.
-- `enhancedV.augmentation`: For an augmented simplicial `Y_• → Y` with `0`-truncated maps and all `Y_i κ`-small, pullback gives `𝒟(Y_v,κ, Λ) → 𝒟(Y_•,v,κ, Λ)` landing in cartesian objects; its right adjoint is the totalization, in `𝒟(Y_v,κ,Λ)`, of the termwise `Rg_{n,v,κ∗}`. This is a formula at `κ`. Compatibility of the inverse on the cartesian hyperdescent image comes from C2.10, independently of invertibility of the termwise cutoff comparisons.
-- `enhancedV.pushforward`: For `0`-truncated `f` and each adequate `κ`, the right adjoint `Rf_{v,κ∗}` of `f_{v,κ}^∗`. For `κ≤κ′` let `c_Y^∗` and `c_{Y′}^∗` be the fully faithful cutoff extensions. Construct the canonical mate `c_Y^∗Rf_{v,κ∗}A → Rf_{v,κ′∗}c_{Y′}^∗A`, natural in `A` and coherent for identities, composition of maps and three cutoffs. It is not required to be invertible. Taking right adjoints of compatible pullbacks instead gives `c_{Y∗}Rf_{v,κ′∗} ≃ Rf_{v,κ∗}c_{Y′∗}`, with the right adjoints of the extensions.
+- The presentable stable `∞`-category `𝒟(Y_v,κ, Λ)` with an equivalence of its homotopy category with `D(Y_v,κ, Λ)`.
+- For `κ ≤ κ′` a fully faithful colimit-preserving exact functor `𝒟(Y_v,κ, Λ) → 𝒟(Y_v,κ′, Λ)`, with coherent composition for `κ ≤ κ′ ≤ κ″`.
+- For `0`-truncated `f`, a colimit-preserving exact functor `f_v^∗` commuting with transitions, with coherent `(f ∘ g)_v^∗ ≃ g_v^∗ ∘ f_v^∗`.
+- For a simplicial `Y_•` with `0`-truncated face maps, `𝒟(Y_•,v,κ, Λ)` and the full subcategory of cartesian objects at a common adequate `κ`.
+- Passing to homotopy categories recovers the triangulated categories and derived pullbacks of C0.
+- For an augmented simplicial `Y_• → Y` with `0`-truncated maps and all `Y_i κ`-small, pullback gives `𝒟(Y_v,κ, Λ) → 𝒟(Y_•,v,κ, Λ)` landing in cartesian objects; its right adjoint is the totalization, in `𝒟(Y_v,κ,Λ)`, of the termwise `Rg_{n,v,κ∗}`. This is a formula at `κ`. Compatibility of the inverse on the cartesian hyperdescent image comes from C2.10, independently of invertibility of the termwise cutoff comparisons.
+- For `0`-truncated `f` and each adequate `κ`, the right adjoint `Rf_{v,κ∗}` of `f_{v,κ}^∗`. For `κ≤κ′` let `c_Y^∗` and `c_{Y′}^∗` be the fully faithful cutoff extensions. Construct the canonical mate `c_Y^∗Rf_{v,κ∗}A → Rf_{v,κ′∗}c_{Y′}^∗A`, natural in `A` and coherent for identities, composition of maps and three cutoffs. It is not required to be invertible. Taking right adjoints of compatible pullbacks instead gives `c_{Y∗}Rf_{v,κ′∗} ≃ Rf_{v,κ∗}c_{Y′∗}`, with the right adjoints of the extensions.
 - For adjunctions `L⊣R, L′⊣R′` and `comm : L⋙cD ≃ cC⋙L′`, the ordinary categorical mate is Mathlib's `CategoryTheory.mateEquiv` applied to `comm.inv` (`CategoryTheory/Adjunction/Mates.lean`). Its component `cCRA → R′cDA` is adjoint to `L′cCRA ≃ cDLRA → cDA`, using the counit of `L⊣R`.
-- `mate_isIso_iff_essImage`: When `cC` and `cD` are fully faithful, the component at `A` is invertible if and only if `R′(cD A)` belongs to the essential image of `cC`. Applied with `cC=c_Y^∗` and `cD=c_{Y′}^∗`, this is the sufficient essential-image criterion for upgrading the ambient comparison. It does not assert that a geometrically adequate cutoff meets that criterion for arbitrary coefficients.
+- When `cC` and `cD` are fully faithful, the component at `A` is invertible if and only if `R′(cD A)` belongs to the essential image of `cC`. Applied with `cC=c_Y^∗` and `cD=c_{Y′}^∗`, this is the sufficient essential-image criterion for upgrading the ambient comparison. It does not assert that a geometrically adequate cutoff meets that criterion for arbitrary coefficients.
 
 **Checks.**
 
-- `enhancedV_zero_ring`: For `Λ = 0, 𝒟(Y_v,κ, Λ)` is the zero `∞`-category.
-- `enhancedV_point`: For `Y = Spa(C, O_C)`, mapping spectra from `Λ` in `𝒟(Y_v,κ, Λ)` compute `RΓ(Y_v, −)`; for `Λ = 𝔽_ℓ (ℓ ≠ p)` and the constant sheaf, `π_0 Map(Λ, Λ[i]) = 𝔽_ℓ` for `i = 0` and `0` otherwise. This computation in degrees `i ≥ 2` uses the higher-vanishing theorem of C0.
-- `enhancedV_homotopy_category`: The homotopy category of `𝒟(Y_v,κ, Λ)` is `D(Y_v,κ, Λ)`, compatibly with shifts and distinguished triangles.
-- `enhancedV_not_set_presentable_uncut`: For `Y ≠ ∅` and `Λ ≠ 0` the colimit over all `κ` is not presentable: any set of objects lies in one cutoff, whose image is closed under colimits. For each `κ` construct a perfectoid test `Z→Y` with a profinite fibre of weight exceeding `κ` and prove that the free `Λ`-module sheaf `Λ[h_Z]`, placed in degree zero, does not descend to that cutoff. On that fibre, distinct points give distinct basis vectors since `1≠0`; any putative descent would make these vectors factor through a `κ`-small profinite quotient, contradicting the fibre weight. For `Y=∅` or `Λ=0` the colimit is zero and presentable.
+- For `Λ = 0, 𝒟(Y_v,κ, Λ)` is the zero `∞`-category.
+- For `Y = Spa(C, O_C)`, mapping spectra from `Λ` in `𝒟(Y_v,κ, Λ)` compute `RΓ(Y_v, −)`; for `Λ = 𝔽_ℓ (ℓ ≠ p)` and the constant sheaf, `π_0 Map(Λ, Λ[i]) = 𝔽_ℓ` for `i = 0` and `0` otherwise. This computation in degrees `i ≥ 2` uses the higher-vanishing theorem of C0.
+- The homotopy category of `𝒟(Y_v,κ, Λ)` is `D(Y_v,κ, Λ)`, compatibly with shifts and distinguished triangles.
+- For `Y ≠ ∅` and `Λ ≠ 0` the colimit over all `κ` is not presentable: any set of objects lies in one cutoff, whose image is closed under colimits. For each `κ` construct a perfectoid test `Z→Y` with a profinite fibre of weight exceeding `κ` and prove that the free `Λ`-module sheaf `Λ[h_Z]`, placed in degree zero, does not descend to that cutoff. On that fibre, distinct points give distinct basis vectors since `1≠0`; any putative descent would make these vectors factor through a `κ`-small profinite quotient, contradicting the fibre weight. For `Y=∅` or `Λ=0` the colimit is zero and presentable.
 - For `f=id`, the ambient cutoff mate is the identity at every adequate `κ≤κ′`.
 - For the finite fold `Y⊔Y→Y, Rf_{v,κ∗}(A,B)=A×B`. Cutoff extension preserves this finite product, so the mate is invertible for arbitrary `A,B`.
 - Let `κ` be an allowed singular cutoff with `δ=cf(κ)=ω₁<κ, Y=Spa(C,O_C) κ`-small with `C` algebraically closed perfectoid of characteristic `p, Λ=𝔽_ℓ, ℓ≠p`, and `|J_i|<κ` cofinal in `κ` for `i<δ`. Put `S_i=Λ^{J_i}, F_i(T)=C(|T|,S_i)` and `f:⊔_{i<δ}Y→Y`. Each `F_i` is a module sheaf represented as a set sheaf by the `κ`-small perfectoid space `Y×S_i`; strong limit growth bounds both its profinite set and its continuous-function ring below `κ`. The disjoint union is `κ`-small, and the family `F=(F_i)` is an ambient module sheaf with no uniform bound on the `|J_i|`. Cutoff extension is componentwise and preserves each `κ`-small representable `Y×S_i`, hence extends each `F_i` to the same represented module sheaf. Write `J=⊔_i J_i, |J|=κ`. Then `H⁰Rf_{v,κ∗}F=∏_{j∈J}Λ_Y`. At `κ′` large enough for `Y×S` with `S=Λ^J`, the larger pushforward has the coordinate section given by `id_S`. By ECD Proposition 8.2, a section extended from `κ` factors through a `κ`-small affinoid approximation, so its coordinate image has cardinality `<κ`, whereas `|S|=ℓ^κ>κ`. The mate fails already on `H⁰`. This uses `t`-exactness of extension, without an exactness assertion for uncountable products.
@@ -909,20 +912,20 @@ For a small `v`-stack `Y` there is a natural presentable stable `∞`-category `
 
 Require the following API.
 
-- `enhancedEt`: The full `∞`-subcategory `𝒟_ét(Y, Λ) ⊂ 𝒟(Y_v,κ, Λ)`, for `κ` adequate for `Y`.
-- `enhancedEt.presentable`: `𝒟_ét(Y, Λ)` is presentable and stable.
-- `enhancedEt.closed_colimits`: `𝒟_ét(Y, Λ)` is closed under all small colimits in `𝒟(Y_v,κ, Λ)`.
-- `enhancedEt.homotopy`: Its homotopy category is `D_ét(Y, Λ)`.
-- `enhancedEt.cutoff_independent`: For `κ ≤ κ′` both adequate, the transition functor restricts to an equivalence of the two `𝒟_ét(Y, Λ)`.
-- `enhancedEt.descent`: For a hypercover `Y_• → Y` by disjoint unions of strictly totally disconnected spaces, `𝒟_ét(Y, Λ) ≃ lim_{[n]∈Δ} 𝒟`(`Y_n`,ét, `Λ`).
-- `enhancedEt.pullback`: For a `0`-truncated `f : Y′ → Y` and `κ` adequate for both, `f_v^∗` restricts to a colimit-preserving exact functor `𝒟_ét(Y, Λ) → 𝒟_ét(Y′, Λ)`, commuting with cutoff transitions, with coherent `(f ∘ g)^∗ ≃ g^∗ ∘ f^∗` and `id^∗ ≃ id`.
+- The full `∞`-subcategory `𝒟_ét(Y, Λ) ⊂ 𝒟(Y_v,κ, Λ)`, for `κ` adequate for `Y`.
+- `𝒟_ét(Y, Λ)` is presentable and stable.
+- `𝒟_ét(Y, Λ)` is closed under all small colimits in `𝒟(Y_v,κ, Λ)`.
+- Its homotopy category is `D_ét(Y, Λ)`.
+- For `κ ≤ κ′` both adequate, the transition functor restricts to an equivalence of the two `𝒟_ét(Y, Λ)`.
+- For a hypercover `Y_• → Y` by disjoint unions of strictly totally disconnected spaces, `𝒟_ét(Y, Λ) ≃ lim_{[n]∈Δ} 𝒟`(`Y_n`,ét, `Λ`).
+- For a `0`-truncated `f : Y′ → Y` and `κ` adequate for both, `f_v^∗` restricts to a colimit-preserving exact functor `𝒟_ét(Y, Λ) → 𝒟_ét(Y′, Λ)`, commuting with cutoff transitions, with coherent `(f ∘ g)^∗ ≃ g^∗ ∘ f^∗` and `id^∗ ≃ id`.
 
 **Checks.**
 
-- `enhancedEt_std`: For strictly totally disconnected `X, 𝒟_ét(X, Λ) ≃ 𝒟(X_ét, Λ)`, the `∞`-derived category of sheaves of `Λ`-modules on `|X|`.
-- `enhancedEt_point`: For `Y = Spa(C, O_C), 𝒟_ét(Y, Λ) ≃ 𝒟(Λ)`, the `∞`-derived category of `Λ`-modules.
-- `enhancedEt_empty`: For `Y = ∅, 𝒟_ét(Y, Λ)` is the zero `∞`-category.
-- `enhancedEt_not_all_sheaves`: `𝒟_ét(Y, Λ)` is not closed under limits in `𝒟(Y_v,κ, Λ)` in general; its limits are computed with the coreflection `R_Yét`.
+- For strictly totally disconnected `X, 𝒟_ét(X, Λ) ≃ 𝒟(X_ét, Λ)`, the `∞`-derived category of sheaves of `Λ`-modules on `|X|`.
+- For `Y = Spa(C, O_C), 𝒟_ét(Y, Λ) ≃ 𝒟(Λ)`, the `∞`-derived category of `Λ`-modules.
+- For `Y = ∅, 𝒟_ét(Y, Λ)` is the zero `∞`-category.
+- `𝒟_ét(Y, Λ)` is not closed under limits in `𝒟(Y_v,κ, Λ)` in general; its limits are computed with the coreflection `R_Yét`.
 
 *Needs:* `C2.9`; `C2.10`; `C2.11`; `C0.24`; `EnhancedDerivedSheaves`, Layer E3; `C2.6`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D4.
 
@@ -936,18 +939,18 @@ For every small `v`-stack `Y` the inclusion `D_ét(Y, Λ) ⊂ D(Y_v, Λ)` has a 
 
 Require the following API.
 
-- `etaleCoreflection`: The functor `R_Yét : D(Y_v, Λ) → D_ét(Y, Λ)` with the adjunction `incl ⊣ R_Yét`.
-- `etaleCoreflection.counit_iso_of_mem`: For `A ∈ D_ét(Y, Λ)` the counit `R_Yét(A) → A` is an isomorphism.
-- `etaleCoreflection.exact`: `R_Yét` is exact and commutes with all limits.
-- `etaleCoreflection.cutoff`: `R_Yét` computed at `κ` and at `κ′ ≥ κ` agree on `D(Y_v,κ, Λ)`.
-- `etaleCoreflection.bounded_formula`: For locally spatial `Y, R_Yét = R(ν ∘ λ)∗` on `D⁺(Y_v, Λ)` (target C2.14).
+- The functor `R_Yét : D(Y_v, Λ) → D_ét(Y, Λ)` with the adjunction `incl ⊣ R_Yét`.
+- For `A ∈ D_ét(Y, Λ)` the counit `R_Yét(A) → A` is an isomorphism.
+- `R_Yét` is exact and commutes with all limits.
+- `R_Yét` computed at `κ` and at `κ′ ≥ κ` agree on `D(Y_v,κ, Λ)`.
+- For locally spatial `Y, R_Yét = R(ν ∘ λ)∗` on `D⁺(Y_v, Λ)` (target C2.14).
 
 **Checks.**
 
-- `etaleCoreflection_on_etale`: `R_Yét(A) ≅ A` for every `A ∈ D_ét(Y, Λ)`.
-- `etaleCoreflection_point`: For `Y = Spa(C, O_C), R_Yét(A)` is the constant complex `RΓ(Y_v, A)`.
-- `etaleCoreflection_std`: For strictly totally disconnected `Y, R_Yét = R(ν ∘ λ)∗` on all of `D(Y_v, Λ)`.
-- `etaleCoreflection_not_identity`: For `Y = Spa(C, O_C)` and the `v`-sheaf `S ↦ C(S, ℤ_p), R_Yét` of it is `ℤ_p[0]` (global sections), which differs from the sheaf itself.
+- `R_Yét(A) ≅ A` for every `A ∈ D_ét(Y, Λ)`.
+- For `Y = Spa(C, O_C), R_Yét(A)` is the constant complex `RΓ(Y_v, A)`.
+- For strictly totally disconnected `Y, R_Yét = R(ν ∘ λ)∗` on all of `D(Y_v, Λ)`.
+- For `Y = Spa(C, O_C)` and the `v`-sheaf `S ↦ C(S, ℤ_p), R_Yét` of it is `ℤ_p[0]` (global sections), which differs from the sheaf itself.
 
 *Needs:* `C2.12`; `EnhancedDerivedSheaves`, Layer E3; `CategoryTheory.Adjunction`.
 
@@ -969,8 +972,6 @@ On `Spa(C,O_C), D_ét` is `D(Λ)`. The `p`-adically continuous `v`-sheaf `S↦C(
 
 Layers C0–C1; `PerfectoidSpaces`, Layer P6; `DiamondsAndVStacks`, Layers D1, D4–D5; `EnhancedDerivedSheaves`, Layers E1–E3.
 
-<a id="c3"></a>
-
 ## Layer C3: The four operations
 
 Construct the operations with adjunctions and naturality. Base change for unbounded complexes carries the finite cohomological dimension hypothesis; general coefficient change is a separate interface.
@@ -983,24 +984,24 @@ Let `f : Y′ → Y` be a map of small `v`-stacks. Choose a perfectoid space `Y�
 
 Require the following API.
 
-- `pull`: For `f : Y′ → Y`, the exact colimit-preserving functor `f^∗ : 𝒟_ét(Y, Λ) → 𝒟_ét(Y′, Λ)`, and on homotopy categories `f^∗ : D_ét(Y, Λ) → D_ét(Y′, Λ)`.
-- `pull_comp`: For `g : Y″ → Y′` and `f : Y′ → Y, pull (g ≫ f) ≅ pull f ⋙ pull g`, coherently associative.
-- `pull_id`: `pull (𝟙 Y) ≅ 𝟭`.
-- `pull_zeroTruncated`: If `f` is `0`-truncated, `pull f` is the restriction of `f_v^∗` for the morphism of sites `f_v`.
-- `pull_locallySpatial`: If `f` is a map of locally spatial diamonds, `pull f` restricted to `D⁺_ét = D⁺(−_ét)` is `f_ét^∗`.
-- `pull_tStructure`: `pull f` is `t`-exact for the standard `t`-structures and commutes with `Hⁱ`.
-- `pull_colimits`: `pull f` preserves all small colimits.
-- `pull_twoCell`: `A 2`-isomorphism `α : h ⇒ h′` of maps of small `v`-stacks induces `pull h ≅ pull h′`, compatibly with `pull_comp` and with vertical composition of `2`-cells.
-- `vPull`: `f_{v,κ}^∗ : 𝒟(Y_v,κ, Λ) → 𝒟(Y′_v,κ, Λ)` for `κ` adequate for the presentations of `Y` and `Y′` and the Čech nerve of `Y′_0 → Y′`. These pullbacks commute coherently with cutoff extension and assemble to the uncut pullback. Require `vPull_comp : vPull (g ≫ f) ≅ vPull f ⋙ vPull g`; for `0`-truncated `f` this is the pullback of the morphism of sites.
-- `vPush`: At each such `κ`, the right adjoint `Rf_{v,κ∗}` of `f_{v,κ}^∗`, given by `Rf_{v,κ∗}A = lim_{[n]∈Δ} Rg_{n,v,κ∗}(A|Y′_n)`, with totalization in `𝒟(Y_v,κ,Λ)`. For `0`-truncated `f` it is the derived pushforward of the morphism of sites. At fixed `κ` it is independent of the cover by adjunction, composes coherently and commutes with restriction to `0`-truncated `v`-slices at a common adequate `κ`. Require the canonical cutoff mate and its coherences as in C2.9; its equivalence requires the stated essential-image criterion. The formula uses stagewise termwise pushforwards, and does not assemble an uncut ambient right adjoint.
+- For `f : Y′ → Y`, the exact colimit-preserving functor `f^∗ : 𝒟_ét(Y, Λ) → 𝒟_ét(Y′, Λ)`, and on homotopy categories `f^∗ : D_ét(Y, Λ) → D_ét(Y′, Λ)`.
+- For `g : Y″ → Y′` and `f : Y′ → Y`, `(f ∘ g)^∗ ≅ g^∗ ∘ f^∗`, coherently associative.
+- `(𝟙 Y)^∗ ≅ 𝟭`.
+- If `f` is `0`-truncated, `pull f` is the restriction of `f_v^∗` for the morphism of sites `f_v`.
+- If `f` is a map of locally spatial diamonds, `pull f` restricted to `D⁺_ét = D⁺(−_ét)` is `f_ét^∗`.
+- `pull f` is `t`-exact for the standard `t`-structures and commutes with `Hⁱ`.
+- `pull f` preserves all small colimits.
+- A `2`-isomorphism `α : h ⇒ h′` of maps of small `v`-stacks induces `h^∗ ≅ h′^∗`, compatibly with the composition isomorphism for pullback and with vertical composition of `2`-cells.
+- `f_{v,κ}^∗ : 𝒟(Y_v,κ, Λ) → 𝒟(Y′_v,κ, Λ)` for `κ` adequate for the presentations of `Y` and `Y′` and the Čech nerve of `Y′_0 → Y′`. These pullbacks commute coherently with cutoff extension and assemble to the uncut pullback. Require `(f ∘ g)_{v,κ}^∗ ≅ g_{v,κ}^∗ ∘ f_{v,κ}^∗`; for `0`-truncated `f` this is the pullback of the morphism of sites.
+- At each such `κ`, the right adjoint `Rf_{v,κ∗}` of `f_{v,κ}^∗`, given by `Rf_{v,κ∗}A = lim_{[n]∈Δ} Rg_{n,v,κ∗}(A|Y′_n)`, with totalization in `𝒟(Y_v,κ,Λ)`. For `0`-truncated `f` it is the derived pushforward of the morphism of sites. At fixed `κ` it is independent of the cover by adjunction, composes coherently and commutes with restriction to `0`-truncated `v`-slices at a common adequate `κ`. Require the canonical cutoff mate and its coherences as in C2.9; its equivalence requires the stated essential-image criterion. The formula uses stagewise termwise pushforwards, and does not assemble an uncut ambient right adjoint.
 
 **Checks.**
 
-- `pull_id_test`: `pull (𝟙 Y) A ≅ A` for every `A ∈ D_ét(Y, Λ)`.
-- `pull_constant`: `pull f` carries the constant sheaf `Λ_Y` to `Λ_{Y′}`.
-- `pull_std_compat`: For a map `f : X′ → X` of strictly totally disconnected spaces, `pull f` corresponds to the derived pullback of sheaves on `|X|` along `|f|` under `D_ét = D(|−|, Λ)`.
-- `pull_comp_order`: For `g : Z → Y` and `f : Y → X, (f ∘ g)^∗ ≃ g^∗ ∘ f^∗` (and not `f^∗ ∘ g^∗`, which does not typecheck).
-- `pull_classifying_stack`: For a finite group `G` acting trivially on `X = Spa(C, O_C)` and `q : X → [X/G]`, hyperdescent along the Čech nerve `G^• × X` (C2.10) gives `𝒟_ét([X/G], Λ) ≃ Fun`(BG, `𝒟(Λ)`) `≃ 𝒟(Λ[G])`, and `pull q` is the forgetful functor to `𝒟(Λ)`; for `G ≠ 1` and `Λ ≠ 0` it is not fully faithful (`End(Λ[G])` is `Λ[G]` in `𝒟(Λ[G])` but the `|G| × |G|` matrix ring over `Λ` in `𝒟(Λ)`).
+- `(𝟙 Y)^∗A ≅ A` for every `A ∈ D_ét(Y, Λ)`.
+- `pull f` carries the constant sheaf `Λ_Y` to `Λ_{Y′}`.
+- For a map `f : X′ → X` of strictly totally disconnected spaces, `pull f` corresponds to the derived pullback of sheaves on `|X|` along `|f|` under `D_ét = D(|−|, Λ)`.
+- For `g : Z → Y` and `f : Y → X, (f ∘ g)^∗ ≃ g^∗ ∘ f^∗` (and not `f^∗ ∘ g^∗`, which does not typecheck).
+- For a finite group `G` acting trivially on `X = Spa(C, O_C)` and `q : X → [X/G]`, hyperdescent along the Čech nerve `G^• × X` (C2.10) gives `𝒟_ét([X/G], Λ) ≃ Fun`(BG, `𝒟(Λ)`) `≃ 𝒟(Λ[G])`, and `pull q` is the forgetful functor to `𝒟(Λ)`; for `G ≠ 1` and `Λ ≠ 0` it is not fully faithful (`End(Λ[G])` is `Λ[G]` in `𝒟(Λ[G])` but the `|G| × |G|` matrix ring over `Λ` in `𝒟(Λ)`).
 
 *Needs:* `C2.9`; `C2.10`; `C2.2`; `C2.12`; `EnhancedDerivedSheaves`, Layer E3; `CategoryTheory.Functor.IsCocontinuous`; `C0.5`.
 
@@ -1012,21 +1013,21 @@ For any map of small `v`-stacks `f : Y′ → Y`, the functor `f^∗ : D_ét(Y, 
 
 Require the following API.
 
-- `push`: `Rf∗ : 𝒟_ét(Y′, Λ) → 𝒟_ét(Y, Λ)` with the adjunction `pull f ⊣ push f`.
-- `push_comp`: `push (g ≫ f) ≅ push g ⋙ push f`, i.e. `R(f ∘ g)∗ ≃ Rf∗ ∘ Rg∗`, the mate of `pull_comp`, coherently.
-- `push_id`: `R(𝟙 Y)∗ ≅ 𝟭`.
-- `push_limits`: `Rf∗` is exact and preserves all limits.
-- `push_globalSections`: `RΓ(Y, −) := RHom_{𝒟_ét(Y,Λ)}(Λ_Y, −) : D_ét(Y, Λ) → D(Λ)`, so `Hⁱ(Y, A) = Hom(Λ_Y, A[i])`; for `f : Y → ∗` the adjunction gives `Hom(Λ_Y, A[i]) = Hom(Λ_∗, (Rf∗A)[i])` and `RΓ(Y, A) = RΓ(∗, Rf∗A)`. `D_ét(∗, Λ)` is not `D(Λ)`, so `Hⁱ(Rf∗A)` is a sheaf on `∗_v`, not `Hⁱ(Y, A)`.
-- `push_eq_coreflection`: For every adequate `κ` and `A∈𝒟_ét(Y′,Λ), Rf∗A ≃ R_{Y,ét,κ}(Rf_{v,κ∗}i_{Y′,κ}A)`, coherently in `κ` (target C3.3).
-- `push_locallySpatial`: For locally spatial `Y′, Y, Rf∗` is the left-completed `Rf_ét∗` (target C3.4).
-- `push.baseChange`: For a `2`-cartesian square of small `v`-stacks (`f̃ : Ỹ′ → Ỹ, g′ : Ỹ′ → Y′` over `f : Y′ → Y, g : Ỹ → Y`), the base change transformation `g^∗ ∘ Rf∗ ⟶ Rf̃∗ ∘ g′^∗`, the mate of `pull_comp` and the `2`-cell `(pull_twoCell)`; the identity for `g = id`; compatible with horizontal and vertical pasting; for qcqs `f` with `nΛ = 0, n` prime to `p`, on `D⁺_ét` it agrees at every common adequate `κ` with the `v`-site base-change map under `i_{Y,κ}Rf∗ ≃ Rf_{v,κ∗}i_{Y′,κ}`.
+- `Rf∗ : 𝒟_ét(Y′, Λ) → 𝒟_ét(Y, Λ)` with the adjunction `f^∗ ⊣ Rf∗`.
+- `R(f ∘ g)∗ ≃ Rf∗ ∘ Rg∗`, the mate of the composition isomorphism for pullback, coherently.
+- `R(𝟙 Y)∗ ≅ 𝟭`.
+- `Rf∗` is exact and preserves all limits.
+- `RΓ(Y, −) := RHom_{𝒟_ét(Y,Λ)}(Λ_Y, −) : D_ét(Y, Λ) → D(Λ)`, so `Hⁱ(Y, A) = Hom(Λ_Y, A[i])`; for `f : Y → ∗` the adjunction gives `Hom(Λ_Y, A[i]) = Hom(Λ_∗, (Rf∗A)[i])` and `RΓ(Y, A) = RΓ(∗, Rf∗A)`. `D_ét(∗, Λ)` is not `D(Λ)`, so `Hⁱ(Rf∗A)` is a sheaf on `∗_v`, not `Hⁱ(Y, A)`.
+- For every adequate `κ` and `A∈𝒟_ét(Y′,Λ), Rf∗A ≃ R_{Y,ét,κ}(Rf_{v,κ∗}i_{Y′,κ}A)`, coherently in `κ` (target C3.3).
+- For locally spatial `Y′, Y, Rf∗` is the left-completed `Rf_ét∗` (target C3.4).
+- For a `2`-cartesian square of small `v`-stacks (`f̃ : Ỹ′ → Ỹ, g′ : Ỹ′ → Y′` over `f : Y′ → Y, g : Ỹ → Y`), the base change transformation `g^∗ ∘ Rf∗ ⟶ Rf̃∗ ∘ g′^∗`, the mate of the composition isomorphism for pullback and of the `2`-cell isomorphism of pullbacks; the identity for `g = id`; compatible with horizontal and vertical pasting; for qcqs `f` with `nΛ = 0, n` prime to `p`, on `D⁺_ét` it agrees at every common adequate `κ` with the `v`-site base-change map under `i_{Y,κ}Rf∗ ≃ Rf_{v,κ∗}i_{Y′,κ}`.
 
 **Checks.**
 
-- `push_id_test`: `R(𝟙 Y)∗ A ≅ A`.
-- `push_point`: For `f : Spa(C, O_C) × S → Spa(C, O_C)` with `S` profinite and `M` a `Λ`-module, `Rf∗ M = C(S, M)` placed in degree `0` (locally constant functions).
-- `push_adjunction`: `Hom_{D_ét(Y,Λ)}(B, Rf∗A) ≅ Hom_{D_ét(Y′,Λ)}(f^∗B, A)` naturally in `B` and `A`.
-- `push_not_v_pushforward`: For `f : ⊔_{n∈N} Spa(C, O_C) → Spa(C, O_C)` (not quasicompact) and `Λ ≠ 0` finite, at each adequate `κ, Rf_{v,κ∗}i_{Y′,κ}Λ` is the `v`-sheaf `X ↦ C(|X|, Λ^N)` with `Λ^N` in the product topology, which is not in `D_ét` (its sections over `Spa(C, O_C) × (N ∪ {∞})` are not locally constant), while `Rf∗Λ ≃ R_{Y,ét,κ}(Rf_{v,κ∗}i_{Y′,κ}Λ)` is the constant sheaf `Λ^N`; for qcqs `f` with `nΛ = 0, n` prime to `p`, the two agree on `D⁺_ét` (Proposition 17.6).
+- `R(𝟙 Y)∗ A ≅ A`.
+- For `f : Spa(C, O_C) × S → Spa(C, O_C)` with `S` profinite and `M` a `Λ`-module, `Rf∗ M = C(S, M)` placed in degree `0` (locally constant functions).
+- `Hom_{D_ét(Y,Λ)}(B, Rf∗A) ≅ Hom_{D_ét(Y′,Λ)}(f^∗B, A)` naturally in `B` and `A`.
+- For `f : ⊔_{n∈N} Spa(C, O_C) → Spa(C, O_C)` (not quasicompact) and `Λ ≠ 0` finite, at each adequate `κ, Rf_{v,κ∗}i_{Y′,κ}Λ` is the `v`-sheaf `X ↦ C(|X|, Λ^N)` with `Λ^N` in the product topology, which is not in `D_ét` (its sections over `Spa(C, O_C) × (N ∪ {∞})` are not locally constant), while `Rf∗Λ ≃ R_{Y,ét,κ}(Rf_{v,κ∗}i_{Y′,κ}Λ)` is the constant sheaf `Λ^N`; for qcqs `f` with `nΛ = 0, n` prime to `p`, the two agree on `D⁺_ét` (Proposition 17.6).
 
 *Needs:* `C3.1`; `C2.12`; `EnhancedDerivedSheaves`, Layer E3; `CategoryTheory.Adjunction`.
 
@@ -1080,18 +1081,18 @@ For a small `v`-stack `Y`, a commutative coefficient ring `Λ` and every cutoff 
 
 Require the following API.
 
-- `vTensor`: The bifunctor `⊗^L_Λ` on `𝒟(Y_v, Λ)`, colimit-preserving in each variable.
-- `vTensor.symmetricMonoidal`: For each adequate `κ, 𝒟(Y_v,κ, Λ)` is presentably symmetric monoidal with unit the constant sheaf `Λ`; the transitions `κ ≤ κ′` are symmetric monoidal, and the colimit `𝒟(Y_v, Λ)` is symmetric monoidal, and is not presentable when `Y≠∅` and `Λ≠0`.
-- `vTensor.pull`: `f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B`, naturally and monoidally coherent.
-- `vTensor.cohomology_flat`: If `B` is a flat `Λ`-module sheaf in degree `0, Hⁱ(A ⊗^L B) = Hⁱ(A) ⊗ B`.
-- `vTensor.internalHom`: At each adequate `κ, RHom_{v,κ}(A, −)` is right adjoint to `− ⊗^L_Λ A`; on homotopy categories it is the derived internal Hom of that ringed topos. For the transition `c*` from `κ` to `κ′`, monoidality and evaluation give a canonical map `c*RHom_{v,κ}(A,B) → RHom_{v,κ′}(c*A,c*B)`, coherent under further enlargement. This map need not be invertible. If `A` is dualizable, it is an equivalence by `RHom(A,B) ≃ A^∨ ⊗^L B` and preservation of duals by `c*`. Perfect local systems give dualizable inputs through C7.12; perfect-constructibility alone does not give dualizability.
+- The bifunctor `⊗^L_Λ` on `𝒟(Y_v, Λ)`, colimit-preserving in each variable.
+- For each adequate `κ, 𝒟(Y_v,κ, Λ)` is presentably symmetric monoidal with unit the constant sheaf `Λ`; the transitions `κ ≤ κ′` are symmetric monoidal, and the colimit `𝒟(Y_v, Λ)` is symmetric monoidal, and is not presentable when `Y≠∅` and `Λ≠0`.
+- `f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B`, naturally and monoidally coherent.
+- If `B` is a flat `Λ`-module sheaf in degree `0, Hⁱ(A ⊗^L B) = Hⁱ(A) ⊗ B`.
+- At each adequate `κ, RHom_{v,κ}(A, −)` is right adjoint to `− ⊗^L_Λ A`; on homotopy categories it is the derived internal Hom of that ringed topos. For the transition `c*` from `κ` to `κ′`, monoidality and evaluation give a canonical map `c*RHom_{v,κ}(A,B) → RHom_{v,κ′}(c*A,c*B)`, coherent under further enlargement. This map need not be invertible. If `A` is dualizable, it is an equivalence by `RHom(A,B) ≃ A^∨ ⊗^L B` and preservation of duals by `c*`. Perfect local systems give dualizable inputs through C7.12; perfect-constructibility alone does not give dualizability.
 
 **Checks.**
 
-- `vTensor_unit`: `Λ ⊗^L A ≃ A`.
-- `vTensor_constant`: For `Λ`-modules `M, N, const M ⊗^L const N = const (M ⊗^L_Λ N)`.
-- `vTensor_pull`: For `f : X′ → X` strictly totally disconnected, `f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B` agrees with the tensor product of sheaves on `|X′|`.
-- `vTensor_not_exact`: For `Λ = ℤ, ℤ/p ⊗^L ℤ/p` has `H⁻¹ = ℤ/p ≠ 0`, so the derived tensor product is not the underived one.
+- `Λ ⊗^L A ≃ A`.
+- For `Λ`-modules `M, N, const M ⊗^L const N = const (M ⊗^L_Λ N)`.
+- For `f : X′ → X` strictly totally disconnected, `f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B` agrees with the tensor product of sheaves on `|X′|`.
+- For `Λ = ℤ, ℤ/p ⊗^L ℤ/p` has `H⁻¹ = ℤ/p ≠ 0`, so the derived tensor product is not the underived one.
 - At `Y=Spa(C,O_C), Λ=𝔽_ℓ` with `ℓ≠p`, let `I` have cardinality at least `κ` in the coefficient universe, `A=⊕_{i∈I}Λ_Y` and `B=Λ_Y`. Then `H⁰RHom_{v,κ}(A,B)=∏_IΛ_Y`. Choose `κ′` large enough for `X_S=Y×S, S=(𝔽_ℓ)^I` profinite. The coordinate tuple on `X_S` in the larger product cannot come from the smaller product: ECD Proposition 8.2 expresses every extended section through one `κ`-small affinoid approximation `X_j`, so its coordinate map factors through `|X_j|` of cardinality `<κ`, whereas the identity of `S` has image of cardinality `ℓ^{|I|}>κ`. Thus the ambient Hom comparison is not an equivalence in this example; the cutoff bounds tests, not the rank of `A`.
 - For dualizable `A`, including finite free constant complexes, the ambient Hom comparison is an equivalence at every adequate enlargement; the dual-tensor formula supplies it.
 
@@ -1105,19 +1106,19 @@ For any small `v`-stack `Y, − ⊗^L_Λ −` on `D(Y_v, Λ)` restricts to a fun
 
 Require the following API.
 
-- `etTensor`: The symmetric monoidal structure on `𝒟_ét(Y, Λ)` with unit `Λ_Y`.
-- `etTensor.incl`: The inclusion `𝒟_ét(Y, Λ) → 𝒟(Y_v, Λ)` is symmetric monoidal.
-- `etTensor.pull`: `pull f` is symmetric monoidal: `f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B`.
-- `etTensor.colimits`: `⊗^L` preserves colimits separately in each variable on `𝒟_ét(Y, Λ)`.
-- `etTensor.stalk`: For a locally spatial diamond `Y` and a geometric point `ȳ, (A ⊗^L B)_ȳ = A_ȳ ⊗^L_Λ B_ȳ`.
+- The symmetric monoidal structure on `𝒟_ét(Y, Λ)` with unit `Λ_Y`.
+- The inclusion `𝒟_ét(Y, Λ) → 𝒟(Y_v, Λ)` is symmetric monoidal.
+- `pull f` is symmetric monoidal: `f^∗(A ⊗^L B) ≃ f^∗A ⊗^L f^∗B`.
+- `⊗^L` preserves colimits separately in each variable on `𝒟_ét(Y, Λ)`.
+- For a locally spatial diamond `Y` and a geometric point `ȳ, (A ⊗^L B)_ȳ = A_ȳ ⊗^L_Λ B_ȳ`.
 
 **Checks.**
 
-- `etTensor_unit`: `Λ_Y ⊗^L A ≅ A` in `D_ét(Y, Λ)`.
-- `etTensor_point`: For `Y = Spa(C, O_C)`, under `D_ét(Y, Λ) ≃ D(Λ)` the tensor product is `⊗^L_Λ`.
-- `etTensor_std`: For strictly totally disconnected `X`, the tensor product on `D_ét(X, Λ)` is the derived tensor product of sheaves of `Λ`-modules on `|X|`.
-- `etTensor_lower_shriek`: For `X` strictly totally disconnected, `U ⊂ |X|` quasicompact open and `Λ_U^! ∈ D(|X|, Λ) = D_ét(X, Λ)` the extension by zero of `Λ_U` on the space `|X|: Λ_U^! ⊗^L B` is the extension by zero of `B|_U`, for every `B ∈ D_ét(X, Λ)`.
-- `etTensor_not_closed_v_hom`: The `v`-internal Hom of two objects of `D_ét(Y, Λ)` need not lie in `D_ét(Y, Λ)`; internal Hom on `D_ét` requires `R_Yét` (target C3.9).
+- `Λ_Y ⊗^L A ≅ A` in `D_ét(Y, Λ)`.
+- For `Y = Spa(C, O_C)`, under `D_ét(Y, Λ) ≃ D(Λ)` the tensor product is `⊗^L_Λ`.
+- For strictly totally disconnected `X`, the tensor product on `D_ét(X, Λ)` is the derived tensor product of sheaves of `Λ`-modules on `|X|`.
+- For `X` strictly totally disconnected, `U ⊂ |X|` quasicompact open and `Λ_U^! ∈ D(|X|, Λ) = D_ét(X, Λ)` the extension by zero of `Λ_U` on the space `|X|: Λ_U^! ⊗^L B` is the extension by zero of `B|_U`, for every `B ∈ D_ét(X, Λ)`.
+- The `v`-internal Hom of two objects of `D_ét(Y, Λ)` need not lie in `D_ét(Y, Λ)`; internal Hom on `D_ét` requires `R_Yét` (target C3.9).
 
 *Needs:* `C3.7`; `C2.3`; `C2.12`; `C0.24`.
 
@@ -1129,20 +1130,20 @@ For any small `v`-stack `Y` and `A ∈ D_ét(Y, Λ), B ↦ B ⊗^L_Λ A` on `D_�
 
 Require the following API.
 
-- `etHom`: The bifunctor `RHom_Λ(−, −)` on `𝒟_ét(Y, Λ)` making it closed symmetric monoidal.
-- `etHom.adj`: `Hom(B ⊗^L A, C) ≅ Hom(B, RHom_Λ(A, C))` naturally in `A, B, C`.
-- `etHom.eq_coreflection`: For every adequate `κ, RHom_Λ(A,C) ≃ R_Yét,κ(RHom_{v,κ}(iκ A,iκ C))`, naturally in `A,C` and coherently under cutoff enlargement; after coreflection the ambient comparison of C3.7 induces this equivalence.
-- `etHom.globalSections`: `RΓ(Y, RHom_Λ(A, C))` computes `RHom_{D_ét(Y,Λ)}(A, C)`.
-- `etHom.pull_map`: `A` natural map `f^∗RHom_Λ(A, C) → RHom_Λ(f^∗A, f^∗C)`, adjoint to `f^∗` monoidality; that it is an isomorphism for étale `f` is an API item of C5.1 (it needs the projection formula for `f_!`).
-- `etHom.dual`: The dual `A^∨ = RHom_Λ(A, Λ_Y)`; for dualizable `A, RHom_Λ(A, C) ≅ A^∨ ⊗^L C`.
+- The bifunctor `RHom_Λ(−, −)` on `𝒟_ét(Y, Λ)` making it closed symmetric monoidal.
+- `Hom(B ⊗^L A, C) ≅ Hom(B, RHom_Λ(A, C))` naturally in `A, B, C`.
+- For every adequate `κ, RHom_Λ(A,C) ≃ R_Yét,κ(RHom_{v,κ}(iκ A,iκ C))`, naturally in `A,C` and coherently under cutoff enlargement; after coreflection the ambient comparison of C3.7 induces this equivalence.
+- `RΓ(Y, RHom_Λ(A, C))` computes `RHom_{D_ét(Y,Λ)}(A, C)`.
+- `A` natural map `f^∗RHom_Λ(A, C) → RHom_Λ(f^∗A, f^∗C)`, adjoint to `f^∗` monoidality; that it is an isomorphism for étale `f` is an API item of C5.1 (it needs the projection formula for `f_!`).
+- The dual `A^∨ = RHom_Λ(A, Λ_Y)`; for dualizable `A, RHom_Λ(A, C) ≅ A^∨ ⊗^L C`.
 
 **Checks.**
 
-- `etHom_unit`: `RHom_Λ(Λ_Y, C) ≅ C`.
+- `RHom_Λ(Λ_Y, C) ≅ C`.
 - For the large free module `A=⊕_I 𝔽_ℓ` at `Y=Spa(C,O_C)` in C3.7, coreflection at either adequate cutoff gives the constant étale object with value `∏_I 𝔽_ℓ`. Thus the intrinsic comparison is an equivalence even though the ambient comparison is not.
-- `etHom_point`: For `Y = Spa(C, O_C)`, under `D_ét(Y, Λ) ≃ D(Λ), RHom_Λ` is the derived Hom of complexes of `Λ`-modules.
-- `etHom_std_compat`: For strictly totally disconnected `X, U ⊂ |X|` quasicompact open with inclusion `j` and `Λ_U^!` the extension by zero of `Λ_U` on the space `|X|, RHom_Λ(Λ_U^!, C) ≅ Rj_∗j^∗C`, as for sheaves of `Λ`-modules on `|X|`.
-- `etHom_not_v_hom`: For `Y = Spa(C, O_C), Λ = ℤ` and `A = ⊕_{n∈N} ℤ`, the `v`-internal `Hom Hom(A, ℤ)` is the sheaf `S ↦ C(S, ℤ^N)` with `ℤ^N` carrying the product topology, which is not in `D_ét(Y, ℤ)`; the étale internal `Hom RHom_Λ(A, ℤ)` is the constant sheaf with value `ℤ^N`.
+- For `Y = Spa(C, O_C)`, under `D_ét(Y, Λ) ≃ D(Λ), RHom_Λ` is the derived Hom of complexes of `Λ`-modules.
+- For strictly totally disconnected `X, U ⊂ |X|` quasicompact open with inclusion `j` and `Λ_U^!` the extension by zero of `Λ_U` on the space `|X|, RHom_Λ(Λ_U^!, C) ≅ Rj_∗j^∗C`, as for sheaves of `Λ`-modules on `|X|`.
+- For `Y = Spa(C, O_C), Λ = ℤ` and `A = ⊕_{n∈N} ℤ`, the `v`-internal `Hom Hom(A, ℤ)` is the sheaf `S ↦ C(S, ℤ^N)` with `ℤ^N` carrying the product topology, which is not in `D_ét(Y, ℤ)`; the étale internal `Hom RHom_Λ(A, ℤ)` is the constant sheaf with value `ℤ^N`.
 
 *Needs:* `C3.8`; `C2.13`; `C2.12`; `EnhancedDerivedSheaves`, Layer E3; `CategoryTheory.MonoidalClosed`; `C3.7`.
 
@@ -1162,19 +1163,19 @@ Let `φ : Λ → Λ′` be a map of commutative rings and `Y` a small `v`-stack.
 
 Require the following API.
 
-- `restrictScalars`: `φ_∗ : D_ét(Y, Λ′) → D_ét(Y, Λ)`.
-- `extendScalars`: `φ^∗ = Λ′ ⊗^L_Λ − : D_ét(Y, Λ) → D_ét(Y, Λ′)`, left adjoint to `φ_∗`.
-- `restrictScalars_pull`: `φ_∗ ∘ f^∗ ≅ f^∗ ∘ φ_∗`.
-- `restrictScalars_push`: `φ_∗ ∘ Rf∗ ≅ Rf∗ ∘ φ_∗`.
-- `extendScalars_pull`: `φ^∗ ∘ f^∗ ≅ f^∗ ∘ φ^∗`, symmetric monoidally.
-- `changeOfCoefficients_comp`: `(ψ ∘ φ)_∗ ≅ φ_∗ ∘ ψ_∗` and `(ψ ∘ φ)^∗ ≅ ψ^∗ ∘ φ^∗`.
+- `φ_∗ : D_ét(Y, Λ′) → D_ét(Y, Λ)`.
+- `φ^∗ = Λ′ ⊗^L_Λ − : D_ét(Y, Λ) → D_ét(Y, Λ′)`, left adjoint to `φ_∗`.
+- `φ_∗ ∘ f^∗ ≅ f^∗ ∘ φ_∗`.
+- `φ_∗ ∘ Rf∗ ≅ Rf∗ ∘ φ_∗`.
+- `φ^∗ ∘ f^∗ ≅ f^∗ ∘ φ^∗`, symmetric monoidally.
+- `(ψ ∘ φ)_∗ ≅ φ_∗ ∘ ψ_∗` and `(ψ ∘ φ)^∗ ≅ ψ^∗ ∘ φ^∗`.
 
 **Checks.**
 
-- `restrictScalars_id`: For `φ = id, φ_∗ ≅ 𝟭` and `φ^∗ ≅ 𝟭`.
-- `extendScalars_reduction`: For `Λ = ℤ/ℓ² → Λ′ = ℤ/ℓ` and the constant sheaf `Λ, φ^∗Λ = Λ′` and `φ_∗φ^∗Λ` is the constant sheaf `ℤ/ℓ` viewed as a `ℤ/ℓ²`-module.
-- `changeOfCoefficients_point`: For `Y = Spa(C, O_C)`, under `D_ét ≃ D(Λ)` these are the restriction and derived extension of scalars of Mathlib's module categories.
-- `extendScalars_not_underived`: For `ℤ → ℤ/p` and the constant sheaf `ℤ/p, φ^∗(ℤ/p) = ℤ/p ⊗^L_Z ℤ/p` has `H⁻¹ ≠ 0`, so the underived extension of scalars is not the right functor.
+- For `φ = id, φ_∗ ≅ 𝟭` and `φ^∗ ≅ 𝟭`.
+- For `Λ = ℤ/ℓ² → Λ′ = ℤ/ℓ` and the constant sheaf `Λ, φ^∗Λ = Λ′` and `φ_∗φ^∗Λ` is the constant sheaf `ℤ/ℓ` viewed as a `ℤ/ℓ²`-module.
+- For `Y = Spa(C, O_C)`, under `D_ét ≃ D(Λ)` these are the restriction and derived extension of scalars of Mathlib's module categories.
+- For `ℤ → ℤ/p` and the constant sheaf `ℤ/p, φ^∗(ℤ/p) = ℤ/p ⊗^L_Z ℤ/p` has `H⁻¹ ≠ 0`, so the underived extension of scalars is not the right functor.
 
 *Needs:* `EnhancedDerivedSheaves`, §E1.4 (`enhancedCoeffChange`, `enhancedPullback`, `enhancedPushforward`), specialized to the identity on the underlying topos and the constant ring map `Λ→Λ′`; `C2.2` for preservation of étale complexes; `C3.1`; `C3.2`; `C3.8`; `C2.13`; `ModuleCat`.
 
@@ -1191,57 +1192,25 @@ For `g:Z→Y` and `f:Y→X`, pullback sends `A` on `X` first to `f*A` on `Y` and
 
 Layers C0–C2; `EnhancedDerivedSheaves`, Layers E1–E3. The tensor and symmetric-monoidal clauses use commutative coefficient rings.
 
-<a id="c4"></a>
-
 ## Layer C4: Proper maps and canonical compactification
 
-Use the properness predicate and basic API of `DiamondsAndVStacks` §D4.11, prove the valuative refinements and construct the partially proper envelope. Distinguish a space being quasicompact from its structure map to the terminal `v`-stack being quasicompact, and distinguish the envelope being a diamond from it being spatial.
+Import the properness predicate and basic API of `DiamondsAndVStacks` §D4.11, prove the valuative refinements and construct the partially proper envelope. Distinguish a space being quasicompact from its structure map to the terminal `v`-stack being quasicompact, and distinguish the envelope being a diamond from it being spatial.
 
 ### Properness and partial properness
 
-#### C4.1 Proper maps of `v`-stacks
+#### C4.1 Consequences of properness for `v`-stacks
 
-Import and re-export the properness predicate and basic API from `DiamondsAndVStacks` §D4.11. For a map `f : Y′ → Y` of `v`-stacks, this predicate means quasicompact, separated and universally closed: for every small `v`-sheaf `X` with a map `X → Y`, the map `|Y′ ×_Y X| → |X|` is closed. Since `f` is quasicompact, `Y′ ×_Y X` is a small `v`-sheaf for small `X`, and it suffices to test universal closedness on perfectoid `X`, or even on strictly totally disconnected perfectoid `X`. Every properness conclusion in C4 uses this imported predicate.
-
-Expose the supplied predicate and basic API under the following names.
-
-- `IsProper`: The properness predicate of `DiamondsAndVStacks` §D4.11.
-- `IsProper.iff_std`: `f` is proper iff it is quasicompact and separated and `|Y′ ×_Y X| → |X|` is closed for every strictly totally disconnected perfectoid `X → Y`.
-- `IsProper.comp`: Composites of proper maps are proper.
-- `IsProper.baseChange`: Proper maps are stable under arbitrary base change of `v`-stacks.
-- `IsProper.iff_valuative`: D4.11's criterion: `f` is proper iff `0`-truncated, qcqs and the `(K, K⁺)` valuative criterion holds (re-exported in C4.4).
-- `IsProper.isClosedMap`: For proper `f` between small `v`-sheaves, `|f| : |Y′| → |Y|` is closed.
-- `IsUniversallyClosed`: The universal-closedness condition in D4.11: for every small `v`-sheaf `X → Y, |Y′ ×_Y X| → |X|` is closed; it suffices to test strictly totally disconnected `X`.
-- `IsProper.iff`: `IsProper f ↔ f` quasicompact `∧` separated `∧ IsUniversallyClosed f`.
-- `IsUniversallyClosed.comp`: Composites of universally closed maps are universally closed.
-- `IsUniversallyClosed.baseChange`: Universally closed maps are stable under base change.
-- `IsProper.surjective_of_surjective_points`: `A` proper (indeed quasicompact) map `f` of small `v`-stacks with `|f|` surjective is a surjection of `v`-stacks (ECD Lemma 12.11, D4); a map `Spa(C, C⁺) → Y` lifts after replacing `C` by an extension, not necessarily over the same `C`.
-
-The additional C4 consequences use that same predicate.
-
-- `IsProper.of_comp`: If `g ∘ f` is proper and `g` is separated, then `f` is proper (target C4.7).
-- `IsProper.partiallyProper`: Proper maps are partially proper (targets C4.4–C4.5).
+The properness predicate is imported from `DiamondsAndVStacks` §D4.11 together with its supplied API: closed immersions are proper, proper maps compose and are stable under base change, universal closedness may be tested on strictly totally disconnected perfectoid `X`, and the field-valuative criterion. None of these is restated here. Prove the following consequences used in C4–C5. For proper `f : Y′ → Y` between small `v`-sheaves, `|f| : |Y′| → |Y|` is closed. Universally closed maps of `v`-stacks compose and are stable under base change. Cancellation (C4.7) and the comparison with partial properness (C4.5–C4.6) are proved below.
 
 **Checks.**
 
-- `isProper_id`: The identity of a `v`-stack is proper.
-- `isProper_closedImmersion`: `A` closed immersion of `v`-sheaves is proper (target C4.2).
-- `isProper_topological`: For a map of locally compact Hausdorff spaces `T′ → T`, the induced map of `v`-sheaves is proper iff `T′ → T` is a proper map (Mathlib `IsProperMap`), target C4.3.
-- `isProper_open_not`: For a rank-two `C⁺ ⊊ O_C`, the open immersion `Spa(C, O_C) → Spa(C, C⁺)` is quasicompact and separated but not proper in D4.11's sense: its image is the nonclosed open point. The square with `top` arrow `id` of `Spa(C, O_C)` and bottom arrow `id` of `Spa(C, C⁺)` has no diagonal lift.
-- `isProper_openDisc_not`: The perfectoid open unit disc over `Spa(C, O_C)` is partially proper over `Spa(C, O_C)` but not quasicompact, hence not proper.
-- `isUniversallyClosed_not_separated`: For a finite group `G ≠ 1` acting trivially on `X = Spa(C, O_C), [X/G] → X` is quasicompact and universally closed `(|[X/G] ×_X T| = |T|)` but not `0`-truncated, hence not separated and not proper; its valuative lifts exist but form the groupoid BG.
+- For a rank-two `C⁺ ⊊ O_C`, the open immersion `Spa(C, O_C) → Spa(C, C⁺)` is quasicompact and separated but not proper: its image is the nonclosed open point, and the identity square of `Spa(C, C⁺)` has zero diagonal lifts through it.
+- The perfectoid open unit disc over `Spa(C, O_C)` is partially proper over `Spa(C, O_C)` but not quasicompact, hence not proper.
+- For a finite group `G ≠ 1` acting trivially on `X = Spa(C, O_C), [X/G] → X` is quasicompact and universally closed `(|[X/G] ×_X T| = |T|)` but not `0`-truncated, hence not separated and not proper; its valuative lifts exist but form the groupoid `BG`.
 
-*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D1; `IsClosedMap`; `DiamondsAndVStacks`, Layer D0.
+*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `IsClosedMap`.
 
-(ECD Definition 18.1, p. 101; ECD after Definition 18.1, p. 101.)
-
-#### C4.2 Closed immersions are proper
-
-Re-export D4.11's theorem that every closed immersion of `v`-sheaves is proper.
-
-*Needs:* `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `C4.1`.
-
-(ECD Remark 18.2, p. 101.)
+(ECD Definition 18.1 and the paragraph after it, p. 101.)
 
 #### C4.3 Properness for maps of locally compact Hausdorff spaces
 
@@ -1253,9 +1222,15 @@ Let `T′ → T` be a continuous map of locally compact Hausdorff spaces and `T�
 
 #### C4.4 Valuative criterion of properness
 
-Re-export D4.11's characterization of a proper map `f : Y′ → Y` of `v`-stacks by `0`-truncatedness, quasicompactness, quasiseparatedness and the following unique-extension condition. For every perfectoid field `K` and open bounded valuation subring `K⁺`, a square with `top` arrow `Spa(K, O_K) → Y′` and bottom arrow `Spa(K, K⁺) → Y` has a unique diagonal lift to `Y′`. Prove also the stronger consequence for a proper `f`: the same uniqueness and existence hold with `Spa(R, R°) ⊂ Spa(R, R⁺)`, for perfectoid Tate `R` and open integrally closed `R⁺ ⊂ R°`.
+Starting from the field-valuative criterion of `DiamondsAndVStacks` §D4.11 (perfectoid fields `K` with open bounded valuation subrings `K⁺`), prove the stronger consequence for a proper `f : Y′ → Y` of `v`-stacks: every square with top arrow `Spa(R, R°) → Y′` and bottom arrow `Spa(R, R⁺) → Y` has a unique diagonal lift, for perfectoid Tate `R` and open integrally closed `R⁺ ⊂ R°`.
 
-*Needs:* `C4.1`; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5.
+**Checks.**
+
+- For `f` the identity, every square has exactly one lift.
+- For a rank-two `C⁺ ⊊ O_C`, the open immersion `Spa(C, O_C) → Spa(C, C⁺)` is not proper, and the identity square with `R = C`, `R⁺ = C⁺` has zero lifts.
+- For `G ≠ 1` finite acting trivially on `X = Spa(C, O_C)`, the map `[X/G] → X` is not proper: lifts exist but are not unique, forming `BG`.
+
+*Needs:* `DiamondsAndVStacks`, §D4.11; `C4.1`; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4; `DiamondsAndVStacks`, Layer D0; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D5.
 
 (ECD Proposition 18.3, p. 101.)
 
@@ -1265,21 +1240,21 @@ Define partial properness of `f : Y′ → Y` by separatedness together with ext
 
 Require the following API.
 
-- `IsPartiallyProper`: The predicate on maps of `v`-stacks: separated and the `(R, R⁺)` lifting property, for perfectoid Tate `R` with open integrally closed `R⁺ ⊂ R°`.
-- `IsPartiallyProper.iff_qs`: `f` is partially proper iff `f` is `0`-truncated, quasiseparated, and every `(R, R⁺)`-square has a unique lift.
-- `IsPartiallyProper.comp`: Composites of partially proper maps are partially proper.
-- `IsPartiallyProper.baseChange`: Partially proper maps are stable under base change.
-- `IsPartiallyProper.of_isProper`: Proper maps are partially proper.
-- `isProper_iff_partiallyProper_qc`: `f` is proper iff it is partially proper and quasicompact (target C4.6).
-- `IsPartiallyProperStack`: `A v`-stack `Y` is partially proper iff `Y → ∗` is.
+- The predicate on maps of `v`-stacks: separated and the `(R, R⁺)` lifting property, for perfectoid Tate `R` with open integrally closed `R⁺ ⊂ R°`.
+- `f` is partially proper iff `f` is `0`-truncated, quasiseparated, and every `(R, R⁺)`-square has a unique lift.
+- Composites of partially proper maps are partially proper.
+- Partially proper maps are stable under base change.
+- Proper maps are partially proper.
+- `f` is proper iff it is partially proper and quasicompact (target C4.6).
+- `A v`-stack `Y` is partially proper iff `Y → ∗` is.
 
 **Checks.**
 
-- `isPartiallyProper_id`: Identities are partially proper.
-- `isPartiallyProper_point_residue`: For `C` algebraically closed, `Spa(C, O_C) → ∗` is partially proper iff the residue field of `C` is algebraic over `𝔽_p` (by target C4.9, `Spa(C, O_C)‾ = Spa(C, (O_C)′)` with `(O_C)′` the integral closure of `𝔽_p + m_C`).
-- `isPartiallyProper_openDisc`: The perfectoid open unit disc over `Spa(C, O_C)` is partially proper over `Spa(C, O_C)`.
-- `isPartiallyProper_closedDisc_not`: The perfectoid closed unit disc `Spa`(`C`⟨`T^{1/p^∞}`⟩, `O_C`⟨`T^{1/p^∞}`⟩) over `Spa(C, O_C)` is quasicompact and separated but not partially proper: it misses the rank-two points at the boundary that its canonical compactification adds.
-- `isPartiallyProper_glued_not`: For `C⁺ ⊊ O_C, a ∈ O_C ∖ C⁺` and `U = {|a| ≤ 1} ⊂ X = Spa(C, C⁺)`, the space `Y′` obtained by gluing two copies of `X` along `U` maps to `X` by a `0`-truncated quasiseparated map with lifts for all `(R, R⁺)`-squares, which is not partially proper: the `(C, C⁺)`-square at the rank-one point has two lifts, so `Y′ → X` is not separated.
+- Identities are partially proper.
+- For `C` algebraically closed, `Spa(C, O_C) → ∗` is partially proper iff the residue field of `C` is algebraic over `𝔽_p` (by target C4.9, `Spa(C, O_C)‾ = Spa(C, (O_C)′)` with `(O_C)′` the integral closure of `𝔽_p + m_C`).
+- The perfectoid open unit disc over `Spa(C, O_C)` is partially proper over `Spa(C, O_C)`.
+- The perfectoid closed unit disc `Spa`(`C`⟨`T^{1/p^∞}`⟩, `O_C`⟨`T^{1/p^∞}`⟩) over `Spa(C, O_C)` is quasicompact and separated but not partially proper: it misses the rank-two points at the boundary that its canonical compactification adds.
+- For `C⁺ ⊊ O_C, a ∈ O_C ∖ C⁺` and `U = {|a| ≤ 1} ⊂ X = Spa(C, C⁺)`, the space `Y′` obtained by gluing two copies of `X` along `U` maps to `X` by a `0`-truncated quasiseparated map with lifts for all `(R, R⁺)`-squares, which is not partially proper: the `(C, C⁺)`-square at the rank-one point has two lifts, so `Y′ → X` is not separated.
 
 *Needs:* `DiamondsAndVStacks`, Layer D3; `PerfectoidSpaces`, Layer P4.
 
@@ -1295,9 +1270,9 @@ A map `f : Y′ → Y` of `v`-stacks is proper if and only if it is partially pr
 
 #### C4.7 Stability of proper and partially proper maps
 
-Re-export D4.11's stability of proper maps under composition and arbitrary base change, and prove the corresponding statements for partially proper maps. If `g ∘ f` is proper (resp. partially proper) and `g` is separated, then `f` is proper (resp. partially proper). In particular a fibre product of two proper maps to `X` is proper over `X`.
+Using the stability of proper maps under composition and arbitrary base change supplied by `DiamondsAndVStacks` §D4.11, prove the corresponding statements for partially proper maps. If `g ∘ f` is proper (resp. partially proper) and `g` is separated, then `f` is proper (resp. partially proper). In particular a fibre product of two proper maps to `X` is proper over `X`.
 
-*Needs:* `C4.1`; `C4.5`; `C4.2`; `DiamondsAndVStacks`, Layer D3.
+*Needs:* `C4.1`; `C4.5`; `DiamondsAndVStacks`, §D4.11; `DiamondsAndVStacks`, Layer D3.
 
 (ECD proof of Theorem 19.2, p. 109.)
 
@@ -1309,19 +1284,19 @@ For a separated `v`-sheaf `Y, Ȳ` is the `v`-sheaf with `Ȳ(R, R⁺) = Y(R, R°)
 
 Require the following API.
 
-- `cpt`: The `v`-sheaf `Ȳ` with `Ȳ(R, R⁺) = Y(R, R°)` on totally disconnected `Spa(R, R⁺)`.
-- `toCpt`: The injection `Y → Ȳ`.
-- `cpt.map`: A map `Y′ → Y` of separated `v`-sheaves induces `Ȳ′ → Ȳ`, functorially.
-- `cpt.affinoid`: For `Y = Spa(R, R⁺)` affinoid perfectoid, `Ȳ = Spa(R, (R⁺)′)` (target C4.9).
-- `cpt.lift`: Every map from `Y` to a partially proper `v`-sheaf extends uniquely along `Y → Ȳ` (from C4.10 and C4.14).
+- The `v`-sheaf `Ȳ` with `Ȳ(R, R⁺) = Y(R, R°)` on totally disconnected `Spa(R, R⁺)`.
+- The injection `Y → Ȳ`.
+- A map `Y′ → Y` of separated `v`-sheaves induces `Ȳ′ → Ȳ`, functorially.
+- For `Y = Spa(R, R⁺)` affinoid perfectoid, `Ȳ = Spa(R, (R⁺)′)` (target C4.9).
+- Every map from `Y` to a partially proper `v`-sheaf extends uniquely along `Y → Ȳ` (from C4.10 and C4.14).
 
 **Checks.**
 
-- `cpt_affinoid`: For `Y = Spa(R, R⁺), Ȳ = Spa(R, (R⁺)′)` with `(R⁺)′` the integral closure of `𝔽_p + R°°`.
-- `cpt_of_partiallyProper`: If `Y` is partially proper (over `∗`), `Y → Ȳ` is an isomorphism.
-- `cpt_point`: For `C` algebraically closed with residue field not algebraic over `𝔽_p, Spa(C, O_C)‾ = Spa(C, (O_C)′) ≠ Spa(C, O_C)`.
-- `cpt_spatial_not_claimed`: For a separated diamond `Y, Ȳ` is a diamond (target C4.12); for a spatial diamond `Y, Ȳ` is quasicompact and quasiseparated and `Y → Ȳ` is a quasicompact injection. Whether `Ȳ` is spatial is open (ECD p. 130) and is not asserted.
-- `cpt_point_not_open`: For `C` algebraically closed with residue field `k` transcendental over `𝔽_p, Spa(C, O_C) → Spa(C, (O_C)′)` is a quasicompact injection whose image, the rank-one point, is not open (any finitely many elements of `k` lie in a proper valuation ring of `k` containing the algebraic closure of `𝔽_p` in `k`); so `Y → Ȳ` is not an open immersion in general.
+- For `Y = Spa(R, R⁺), Ȳ = Spa(R, (R⁺)′)` with `(R⁺)′` the integral closure of `𝔽_p + R°°`.
+- If `Y` is partially proper (over `∗`), `Y → Ȳ` is an isomorphism.
+- For `C` algebraically closed with residue field not algebraic over `𝔽_p, Spa(C, O_C)‾ = Spa(C, (O_C)′) ≠ Spa(C, O_C)`.
+- For a separated diamond `Y, Ȳ` is a diamond (target C4.12); for a spatial diamond `Y, Ȳ` is quasicompact and quasiseparated and `Y → Ȳ` is a quasicompact injection. Whether `Ȳ` is spatial is open (ECD p. 130) and is not asserted.
+- For `C` algebraically closed with residue field `k` transcendental over `𝔽_p, Spa(C, O_C) → Spa(C, (O_C)′)` is a quasicompact injection whose image, the rank-one point, is not open (any finitely many elements of `k` lie in a proper valuation ring of `k` containing the algebraic closure of `𝔽_p` in `k`); so `Y → Ȳ` is not an open immersion in general.
 
 *Needs:* `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D3; `PerfectoidSpaces`, Layer P4.
 
@@ -1367,23 +1342,23 @@ Let `f : Y′ → Y` be a separated map of `v`-stacks. The functor on totally di
 
 Require the following API.
 
-- `canonicalCompactification`: The `v`-stack `Ȳ′^{/Y}` over `Y` attached to a separated `f : Y′ → Y`.
-- `canonicalCompactification.toCpt`: The map `Y′ → Ȳ′^{/Y}` over `Y`.
-- `canonicalCompactification.fac`: `f̄^{/Y} ∘ (Y′ → Ȳ′^{/Y}) = f`.
-- `canonicalCompactification.partiallyProper`: `f̄^{/Y}` is partially proper (target C4.14).
-- `canonicalCompactification.lift`: For partially proper `g : Z → Y`, every `Y`-map `Y′ → Z` extends uniquely to `Ȳ′^{/Y} → Z`.
-- `canonicalCompactification.baseChange`: For `Ỹ → Y`, the canonical compactification of `Y′ ×_Y Ỹ → Ỹ` is `Ȳ′^{/Y} ×_Y Ỹ`.
-- `canonicalCompactification.map`: A map `Y′_2 → Y′_1` of separated `Y`-stacks induces `Ȳ′_2^{/Y} → Ȳ′_1^{/Y}`, functorially.
-- `canonicalCompactification.of_partiallyProper`: If `f` is partially proper then `Y′ → Ȳ′^{/Y}` is an isomorphism.
-- `cpt.relative_eq`: `Ȳ′^{/Y} = Ȳ′ ×_Ȳ Y` for a map `Y′ → Y` of separated `v`-sheaves (ECD p. 104).
-- `canonicalCompactification.toCpt_injective`: `Y′ → Ȳ′^{/Y}` is an injection of `v`-stacks over `Y` (ECD 10.10); it is not in general an open immersion (test `cpt_point_not_open`).
+- The `v`-stack `Ȳ′^{/Y}` over `Y` attached to a separated `f : Y′ → Y`.
+- The map `Y′ → Ȳ′^{/Y}` over `Y`.
+- `f̄^{/Y} ∘ (Y′ → Ȳ′^{/Y}) = f`.
+- `f̄^{/Y}` is partially proper (target C4.14).
+- For partially proper `g : Z → Y`, every `Y`-map `Y′ → Z` extends uniquely to `Ȳ′^{/Y} → Z`.
+- For `Ỹ → Y`, the canonical compactification of `Y′ ×_Y Ỹ → Ỹ` is `Ȳ′^{/Y} ×_Y Ỹ`.
+- A map `Y′_2 → Y′_1` of separated `Y`-stacks induces `Ȳ′_2^{/Y} → Ȳ′_1^{/Y}`, functorially.
+- If `f` is partially proper then `Y′ → Ȳ′^{/Y}` is an isomorphism.
+- `Ȳ′^{/Y} = Ȳ′ ×_Ȳ Y` for a map `Y′ → Y` of separated `v`-sheaves (ECD p. 104).
+- `Y′ → Ȳ′^{/Y}` is an injection of `v`-stacks over `Y` (ECD 10.10); it is not in general an open immersion (see the corresponding Check).
 
 **Checks.**
 
-- `canonicalCompactification_id`: For `f = id_Y, Ȳ^{/Y} = Y`.
-- `canonicalCompactification_field`: For `X = Spa(C, C⁺)` with `C` algebraically closed and connected strictly totally disconnected `X′ = Spa(C′, C′⁺)` over `X, X̄′^{/X} = Spa(C′, C⁺ + C′°°)`.
-- `canonicalCompactification_affinoid`: For `X′ = Spa(R, R⁺)` over `X = Spa(A, A⁺)` affinoid perfectoid, `X̄′^{/X} = Spa(R, R⁺_X)` with `R⁺_X` the integral closure of the image of `A⁺` plus `R°°`.
-- `canonicalCompactification_closedDisc`: For the perfectoid closed unit disc `D` over `Spa(C, O_C), D → D̄^{/Spa(C,O_C)}` is not an isomorphism (`D` is not partially proper), though it is an open immersion; the same map need not be an open immersion for general separated `f`.
+- For `f = id_Y, Ȳ^{/Y} = Y`.
+- For `X = Spa(C, C⁺)` with `C` algebraically closed and connected strictly totally disconnected `X′ = Spa(C′, C′⁺)` over `X, X̄′^{/X} = Spa(C′, C⁺ + C′°°)`.
+- For `X′ = Spa(R, R⁺)` over `X = Spa(A, A⁺)` affinoid perfectoid, `X̄′^{/X} = Spa(R, R⁺_X)` with `R⁺_X` the integral closure of the image of `A⁺` plus `R°°`.
+- For the perfectoid closed unit disc `D` over `Spa(C, O_C), D → D̄^{/Spa(C,O_C)}` is not an isomorphism (`D` is not partially proper), though it is an open immersion; the same map need not be an open immersion for general separated `f`.
 
 *Needs:* `C4.8`; `DiamondsAndVStacks`, Layer D1; `DiamondsAndVStacks`, Layer D3; `DiamondsAndVStacks`, Layer D4.
 
@@ -1441,8 +1416,6 @@ For a nontrivial algebraically closed field extension `C⊆C′`, the canonical 
 
 `DiamondsAndVStacks`, Layers D0–D5; `PerfectoidSpaces`, Layer P4; `ClassicalAdicEtaleCohomology`, §3.1.
 
-<a id="c5"></a>
-
 ## Layer C5: Étale extension by zero and proper base change
 
 Construct the left adjoint for an étale map and its base-change law. State proper base change through the open-support exchange map, because an arbitrary complementary closed subset need not be a sub-`v`-stack.
@@ -1455,22 +1428,22 @@ Let `f : Y′ → Y` be an étale morphism of small `v`-stacks. Then `f^∗ : D_
 
 Require the following API.
 
-- `etaleShriek`: For étale `f : Y′ → Y`, the exact functor `f_! : D_ét(Y′, Λ) → D_ét(Y, Λ)` with `f_! ⊣ f^∗`.
-- `etaleShriek.tExact`: `f_!` commutes with canonical truncations and with `Hⁱ`.
-- `etaleShriek.comp`: For étale `g : Y″ → Y′` and `f : Y′ → Y, (f ∘ g)_! ≅ f_! ∘ g_!`, and `(𝟙 Y)_! ≅ 𝟭`.
-- `etaleShriek.sheaf`: On sheaves of `Λ`-modules over a perfectoid `Y, f_!(Λ[h_Z]) ≅ Λ[h_{Z→Y}]` naturally for étale `Z→Y′`. Here `h_Z` is the represented set sheaf and `Λ[h_Z]` is its free `Λ`-module sheaf; the right side uses the composite `Z→Y′→Y`.
-- `etaleShriek.projection`: `f_!(A ⊗^L f^∗B) ≅ f_!A ⊗^L B` (projection formula), checked on a hypercover by strictly totally disconnected spaces where it is the projection formula for slices.
-- `etaleShriek.homAdj`: `RHom_Λ(f_!A, B) ≅ Rf∗RHom_Λ(A, f^∗B)`.
-- `etaleShriek.enhanced`: `f_! : 𝒟_ét(Y′, Λ) → 𝒟_ét(Y, Λ)`, left adjoint of `f^∗`, obtained from the `f_{i!}` on a hypercover by Beck–Chevalley (`EnhancedDerivedSheaves`, §E3.4 (`coherentMate`)); its homotopy-category functor is `etaleShriek`.
-- `etHom.pull_map_isIso`: For étale `f`, the natural map `f^∗RHom_Λ(A, C) → RHom_Λ(f^∗A, f^∗C)` of C3.9 (`etHom.pull_map`) is an isomorphism, by the projection formula for `f_!`.
+- For étale `f : Y′ → Y`, the exact functor `f_! : D_ét(Y′, Λ) → D_ét(Y, Λ)` with `f_! ⊣ f^∗`.
+- `f_!` commutes with canonical truncations and with `Hⁱ`.
+- For étale `g : Y″ → Y′` and `f : Y′ → Y, (f ∘ g)_! ≅ f_! ∘ g_!`, and `(𝟙 Y)_! ≅ 𝟭`.
+- On sheaves of `Λ`-modules over a perfectoid `Y, f_!(Λ[h_Z]) ≅ Λ[h_{Z→Y}]` naturally for étale `Z→Y′`. Here `h_Z` is the represented set sheaf and `Λ[h_Z]` is its free `Λ`-module sheaf; the right side uses the composite `Z→Y′→Y`.
+- `f_!(A ⊗^L f^∗B) ≅ f_!A ⊗^L B` (projection formula), checked on a hypercover by strictly totally disconnected spaces where it is the projection formula for slices.
+- `RHom_Λ(f_!A, B) ≅ Rf∗RHom_Λ(A, f^∗B)`.
+- `f_! : 𝒟_ét(Y′, Λ) → 𝒟_ét(Y, Λ)`, left adjoint of `f^∗`, obtained from the `f_{i!}` on a hypercover by Beck–Chevalley (`EnhancedDerivedSheaves`, §E3.4 (`coherentMate`)); this is the étale `f_!` on homotopy categories.
+- For étale `f`, the natural map `f^∗RHom_Λ(A, C) → RHom_Λ(f^∗A, f^∗C)` of C3.9 is an isomorphism, by the projection formula for `f_!`.
 
 **Checks.**
 
-- `etaleShriek_id`: For `f = 𝟙 Y, f_! ≅ 𝟭`.
-- `etaleShriek_disjoint`: For `f : Y ⊔ Y → Y` the fold map, `f_!(A, B) = A ⊕ B`.
-- `etaleShriek_stalk`: For an open immersion `j : U ⊂ Y` of locally spatial diamonds and a geometric point `ȳ, (j_!A)_ȳ = A_ȳ` if `y ∈ |U|` and `0` otherwise (classical extension by zero on `Y_ét`).
-- `etaleShriek_finite_etale`: For a finite étale map `f` of degree `d` over a geometric point `Spa(C, O_C), f_!Λ = Λ^d`.
-- `etaleShriek_not_pushforward`: For `Λ≠0, C⁺ ≠ O_C` of rank `2` and the open immersion `j : Spa(C, O_C) ⊂ Spa(C, C⁺), j_!Λ` has zero stalk at the closed point while `Rj∗Λ` has stalk `Λ`, so `j_! ≠ Rj∗`.
+- For `f = 𝟙 Y, f_! ≅ 𝟭`.
+- For `f : Y ⊔ Y → Y` the fold map, `f_!(A, B) = A ⊕ B`.
+- For an open immersion `j : U ⊂ Y` of locally spatial diamonds and a geometric point `ȳ, (j_!A)_ȳ = A_ȳ` if `y ∈ |U|` and `0` otherwise (classical extension by zero on `Y_ét`).
+- For a finite étale map `f` of degree `d` over a geometric point `Spa(C, O_C), f_!Λ = Λ^d`.
+- For `Λ≠0, C⁺ ≠ O_C` of rank `2` and the open immersion `j : Spa(C, O_C) ⊂ Spa(C, C⁺), j_!Λ` has zero stalk at the closed point while `Rj∗Λ` has stalk `Λ`, so `j_! ≠ Rj∗`.
 
 *Needs:* `C3.1`; `C2.10`; `C2.11`; `C0.1`; `C0.19`; `DiamondsAndVStacks`, Layer D3; `C2.5`; `C2.3`; `EnhancedDerivedSheaves`, Layer E3.
 
@@ -1498,17 +1471,17 @@ Let `f : Y′ → Y` be a proper morphism of small `v`-stacks and `j : U ⊂ Y` 
 
 Require the following API.
 
-- `pbcMap`: The transformation `j_! ∘ Rg∗ ⟶ Rf∗ ∘ j′_!` for `f` proper and `j` an open immersion.
-- `pbcMap.adjoint`: Its adjoint `f^∗j_!Rg∗ → j′_!` is `j′_!`(counit) composed with the base change isomorphism.
-- `pbcMap.restrict`: Restricted to `U` (via `j^∗`) it is the identity of `Rg∗` under `j^∗j_! ≅ 𝟭` and base change for `Rf∗` along `j`.
-- `pbcMap.baseChange`: For `h : Ỹ → Y` with pulled-back data, the square formed by `h^∗(pbcMap)`, the `pbcMap` of the pulled-back data, the base-change map `h^∗Rg∗ → Rg̃∗h′^∗` (composed with `j_!` base change) and `h^∗Rf∗ → Rf̃∗h″^∗` (composed with `j′_!` base change) commutes.
+- The transformation `j_! ∘ Rg∗ ⟶ Rf∗ ∘ j′_!` for `f` proper and `j` an open immersion.
+- Its adjoint `f^∗j_!Rg∗ → j′_!` is `j′_!`(counit) composed with the base change isomorphism.
+- Restricted to `U` (via `j^∗`) it is the identity of `Rg∗` under `j^∗j_! ≅ 𝟭` and base change for `Rf∗` along `j`.
+- For `h : Ỹ → Y` with pulled-back data, the square formed by `h^∗` of the proper base change map, the proper base change map of the pulled-back data, the base-change map `h^∗Rg∗ → Rg̃∗h′^∗` (composed with `j_!` base change) and `h^∗Rf∗ → Rf̃∗h″^∗` (composed with `j′_!` base change) commutes.
 
 **Checks.**
 
-- `pbcMap_U_eq_Y`: If `U = Y`, the transformation is the identity of `Rf∗`.
-- `pbcMap_f_id`: If `f = id_Y`, the transformation is the identity of `j_!`.
-- `pbcMap_restrict_U`: After applying `j^∗` the transformation becomes the identity `Rg∗ → Rg∗` (base change for `Rf∗` along the open immersion `j`).
-- `pbcMap_not_iso_nonproper`: For `Λ≠0` and the non-proper open immersion `f : Spa(C, O_C) ⊂ Spa(C, C⁺)` (`C⁺ ≠ O_C`, rank `2`) and `j = f`, the analogous transformation `j_!Rg∗Λ = j_!Λ → Rf∗j′_!Λ = Rf∗Λ` is not an isomorphism (stalks at the closed point `0` and `Λ`).
+- If `U = Y`, the transformation is the identity of `Rf∗`.
+- If `f = id_Y`, the transformation is the identity of `j_!`.
+- After applying `j^∗` the transformation becomes the identity `Rg∗ → Rg∗` (base change for `Rf∗` along the open immersion `j`).
+- For `Λ≠0` and the non-proper open immersion `f : Spa(C, O_C) ⊂ Spa(C, C⁺)` (`C⁺ ≠ O_C`, rank `2`) and `j = f`, the analogous transformation `j_!Rg∗Λ = j_!Λ → Rf∗j′_!Λ = Rf∗Λ` is not an isomorphism (stalks at the closed point `0` and `Λ`).
 
 *Needs:* `C5.2`; `C3.2`; `C4.1`; `EnhancedDerivedSheaves`, Layer E3.
 
@@ -1537,7 +1510,7 @@ Let `X = Spa(C, C⁺)` and `X′ = Spa(C′, C′⁺)` be connected strictly tot
 Prove `zariskiRiemannAcyclicity`, stated in `Suggested.lean`. Let `K ⊂ K′` be algebraically closed fields and `V ⊂ K` a valuation ring. Let `T′ = Spa(K′, V)` be the spectral space of valuation rings `V′ ⊂ K′` containing `V, T = Spa(K, V), f : T′ → T, V′ ↦ V′ ∩ K`, and `s ∈ T` the closed point. If `F` is a sheaf of torsion abelian groups on `T′` with `F_{x′} = 0` for all `x′ ∈ f^{−1}(s)`, then `RΓ(T′, F) = 0`.
 
 Use the supplied spectrum `TauCeti.ValuationSpectrum.spa` of the discrete field `K′` with
-plus subring `V.toSubring.map(ι)`. Prove `valuationSpace.valuationSubringEquiv`: its points
+plus subring `V.toSubring.map(ι)`. Prove that its points
 identify with the valuation subrings `W⊆K′` satisfying `V≤W.comap(ι)`. The supplied subspace
 topology then agrees with the topology generated by the sets {`W` | `a∈W`}, `a∈K′`.
 This is a comparison of existing carriers, required before identifying the geometric
@@ -1545,10 +1518,9 @@ valuation space with `T′`. Membership in an overring is the specialization con
 Use `Valuation.valuationSubring` and `Valuation.isEquiv_iff_valuationSubring` for this dictionary.
 (ECD Lemma 19.4 and proof, p. 110.)
 
-Require `valuationSpace.restrict` `(W↦W∩K)`, `valuationSpace.mem_basicOpen` (`W` lies in the
-a-open exactly when `a∈W`), `valuationSpace.restrict_preimage` (the inverse image of the a-open
-is the `ι(a)`-open), and `valuationSpace.restrict_comp` (restriction along a tower is the
-composite restriction).
+Require the restriction map `W↦W∩K`, the basic-open criterion (`W` lies in the a-open exactly
+when `a∈W`), the inverse-image formula (the inverse image of the a-open is the `ι(a)`-open), and
+compatibility of restriction with towers (restriction along a tower is the composite restriction).
 
 **Checks.**
 
@@ -1585,8 +1557,6 @@ In a rank-two field pair with `j:Spa(C,O_C)→Spa(C,C⁺), j!Λ` has closed stal
 ### Dependencies
 
 Layers C0–C4; `EnhancedDerivedSheaves`, Layers E2–E3; `ClassicalAdicEtaleCohomology`, §§2.1–2.5 and 6.1–6.3; `SchemeAndStackFoundations`, §2.15; `EtaleCohomologyFoundations`, §F.2.1.
-
-<a id="c6"></a>
 
 ## Layer C6: Algebraically closed base-field invariance
 
@@ -1664,8 +1634,6 @@ For `k` algebraically closed of characteristic `p` and `C` the completed algebra
 
 Layers C0–C5; `ClassicalAdicEtaleCohomology`, §§7.1–7.2 and 10.1–10.4; `PerfectoidSpaces`, Layer P2; `DiamondsAndVStacks`, Layer D4.
 
-<a id="c7"></a>
-
 ## Layer C7: Constructibility and perfect complexes
 
 Build usable sheaf and complex predicates, their descent and filtration APIs, and continuity in both spaces and coefficient rings. The finite-field criterion is a specialization; arbitrary commutative coefficients retain perfectness and `Tor`-amplitude information.
@@ -1680,9 +1648,8 @@ Write `IsConstFGOn(F,Z)` for the restriction of `F` to `Z` being isomorphic to t
 of a finitely generated `Λ`-module. This light predicate is defined for every ring `Λ` and every
 topological `X` and subset `Z`, with the subspace topology; spectrality, constructibility of `Z`
 and noetherianity of `Λ` enter the stratification theorem, not this restriction predicate.
-Require `IsConstFGOn.iff_exists` (the displayed constant-value criterion),
-`IsConstFGOn.iso` (invariance under isomorphisms of sheaves), and `IsConstFGOn.restrict`
-(constant finitely generated restriction to every further subspace).
+Require the displayed constant-value criterion, invariance under isomorphisms of sheaves, and
+constant finitely generated restriction to every further subspace.
 (ECD Definition 20.1(i) and Lemma 20.4, p. 113.)
 
 **Checks.**
@@ -1725,16 +1692,16 @@ Let `Λ` be noetherian and `X` a strictly totally disconnected perfectoid space;
 
 Require the following API.
 
-- `IsConstructibleStd`: Constructibility of a sheaf of `Λ`-modules on `X_ét` for strictly totally disconnected `X`.
-- `IsConstructibleStd.iff_space`: `F` is constructible iff its image in `Sh(|X|, Λ)` is constructible in the sense of the spectral space `|X|`.
-- `IsConstructibleStd.pullback`: Pullback along a map of strictly totally disconnected spaces preserves constructibility.
+- Constructibility of a sheaf of `Λ`-modules on `X_ét` for strictly totally disconnected `X`.
+- `F` is constructible iff its image in `Sh(|X|, Λ)` is constructible in the sense of the spectral space `|X|`.
+- Pullback along a map of strictly totally disconnected spaces preserves constructibility.
 
 **Checks.**
 
-- `isConstructibleStd_point`: For `X = Spa(C, O_C), F` is constructible iff `F(X)` is a finitely generated `Λ`-module.
-- `isConstructibleStd_chain`: For `X = Spa(C, C⁺)` of rank `2` with open generic point `j, j_!Λ` is constructible (stratification `{η} ⊔ {s}`).
-- `isConstructibleStd_profinite`: For `X = Spa(C, O_C) × S` with `S` profinite, constructible sheaves are the sheaves on `S` that are locally constant with finitely generated values on a finite clopen partition.
-- `isConstructibleStd_not`: For `X = Spa(C, O_C) × S` with `S` infinite profinite and `s ∈ S` a non-isolated point, the skyscraper sheaf `i_{s∗}Λ (Λ ≠ 0)` at `{s} × Spa(C, O_C)` is not constructible: `{s}` is closed but not constructible (the constructible subsets of `|X| = S` are the clopen ones), although all stalks are finitely generated.
+- For `X = Spa(C, O_C), F` is constructible iff `F(X)` is a finitely generated `Λ`-module.
+- For `X = Spa(C, C⁺)` of rank `2` with open generic point `j, j_!Λ` is constructible (stratification `{η} ⊔ {s}`).
+- For `X = Spa(C, O_C) × S` with `S` profinite, constructible sheaves are the sheaves on `S` that are locally constant with finitely generated values on a finite clopen partition.
+- For `X = Spa(C, O_C) × S` with `S` infinite profinite and `s ∈ S` a non-isolated point, the skyscraper sheaf `i_{s∗}Λ (Λ ≠ 0)` at `{s} × Spa(C, O_C)` is not constructible: `{s}` is closed but not constructible (the constructible subsets of `|X| = S` are the clopen ones), although all stalks are finitely generated.
 
 *Needs:* `C7.1`; `C0.19`; `DiamondsAndVStacks`, Layer D1.
 
@@ -1746,21 +1713,21 @@ Let `Λ` be noetherian, `Y` a small `v`-stack and `F` a small sheaf of `Λ`-modu
 
 Require the following API.
 
-- `IsConstructible`: Constructibility of a small sheaf of `Λ`-modules on `Y_v`, for a small `v`-stack `Y` and noetherian `Λ`.
-- `IsConstructible.iff_cover`: For a surjection `X → Y` from a strictly totally disconnected space, `F` is constructible iff `F ∈ D_ét(Y, Λ)` and its pullback to `X` is constructible (target C7.6).
-- `IsConstructible.pullback`: For any map `g : Y′ → Y` of small `v`-stacks, `g^∗` preserves constructibility.
-- `Cons`: The full abelian subcategory `Cons(Y, Λ)` of constructible sheaves (target C7.4).
-- `IsConstructible.iff_compact_spatial`: For a spatial diamond `Y, F` is constructible iff `F` is compact among étale sheaves of `Λ`-modules (target C7.7).
-- `IsConstructible.etaleShriek`: For a quasicompact separated étale `j : U → Y` and a constructible sheaf `G` on `U, j_!G` is constructible (C5 extension by zero, target C7.11).
-- `IsConstructible.stalk_fg`: For a locally spatial diamond `Y`, every geometric stalk of a constructible sheaf is a finitely generated `Λ`-module.
+- Constructibility of a small sheaf of `Λ`-modules on `Y_v`, for a small `v`-stack `Y` and noetherian `Λ`.
+- For a surjection `X → Y` from a strictly totally disconnected space, `F` is constructible iff `F ∈ D_ét(Y, Λ)` and its pullback to `X` is constructible (target C7.6).
+- For any map `g : Y′ → Y` of small `v`-stacks, `g^∗` preserves constructibility.
+- The full abelian subcategory `Cons(Y, Λ)` of constructible sheaves (target C7.4).
+- For a spatial diamond `Y, F` is constructible iff `F` is compact among étale sheaves of `Λ`-modules (target C7.7).
+- For a quasicompact separated étale `j : U → Y` and a constructible sheaf `G` on `U, j_!G` is constructible (C5 extension by zero, target C7.11).
+- For a locally spatial diamond `Y`, every geometric stalk of a constructible sheaf is a finitely generated `Λ`-module.
 
 **Checks.**
 
-- `isConstructible_constant`: The constant sheaf `Λ_Y` on any small `v`-stack is constructible.
-- `isConstructible_zero`: The zero sheaf is constructible.
-- `isConstructible_std_compat`: For strictly totally disconnected `X` the notion agrees with target C7.2.
-- `isConstructible_open_disc`: For the closed perfectoid unit disc `D` over `Spa(C, O_C)`, a classical point `x (T = 0), Λ ≠ 0` and `U = D ∖ {x}`, which is open but not quasicompact (the increasing union of the rational opens `{|T| ≥ |ϖ|^n}`, for a pseudouniformizer `ϖ` with `0 < |ϖ| < 1`), `j_!Λ_U` is not constructible: its support `U` would be a finite union of constructible strata of the spatial diamond `D`, hence a constructible open, hence quasicompact.
-- `isConstructible_v_sheaf_not`: For `Y = Spa(C, O_C)` and `Λ ≠ 0`, the étale sheaf `⊕_{n∈N} Λ_Y` lies in `D_ét(Y, Λ)` but is not constructible (its value is not a finitely generated `Λ`-module).
+- The constant sheaf `Λ_Y` on any small `v`-stack is constructible.
+- The zero sheaf is constructible.
+- For strictly totally disconnected `X` the notion agrees with target C7.2.
+- For the closed perfectoid unit disc `D` over `Spa(C, O_C)`, a classical point `x (T = 0), Λ ≠ 0` and `U = D ∖ {x}`, which is open but not quasicompact (the increasing union of the rational opens `{|T| ≥ |ϖ|^n}`, for a pseudouniformizer `ϖ` with `0 < |ϖ| < 1`), `j_!Λ_U` is not constructible: its support `U` would be a finite union of constructible strata of the spatial diamond `D`, hence a constructible open, hence quasicompact.
+- For `Y = Spa(C, O_C)` and `Λ ≠ 0`, the étale sheaf `⊕_{n∈N} Λ_Y` lies in `D_ét(Y, Λ)` but is not constructible (its value is not a finitely generated `Λ`-module).
 
 *Needs:* `C7.2`; `C2.2`; `C3.1`.
 
@@ -1814,18 +1781,18 @@ Let `Λ` be noetherian and `U` a locally spatial diamond. A sheaf `L` of `Λ`-mo
 
 Require the following API.
 
-- `IsLocalSystem`: Étale-local constancy with finitely generated values for a sheaf of `Λ`-modules on `U_ét`.
-- `IsLocalSystem.isConstructible`: On a spatial diamond, a local system is constructible.
-- `IsLocalSystem.pullback`: Pullback along any map of locally spatial diamonds preserves local systems.
-- `IsLocalSystem.tensor_hom`: Local systems are closed under `⊗` and internal Hom of sheaves, and under kernels and cokernels of maps between them.
-- `IsLocalSystem.ofRep`: For a quasi-pro-étale presentation `Spa(C, O_C) → Spa(C, O_C)/G`, continuous `G`-representations on finitely generated `Λ`-modules give local systems.
+- Étale-local constancy with finitely generated values for a sheaf of `Λ`-modules on `U_ét`.
+- On a spatial diamond, a local system is constructible.
+- Pullback along any map of locally spatial diamonds preserves local systems.
+- Local systems are closed under `⊗` and internal Hom of sheaves, and under kernels and cokernels of maps between them.
+- For a quasi-pro-étale presentation `Spa(C, O_C) → Spa(C, O_C)/G`, continuous `G`-representations on finitely generated `Λ`-modules give local systems.
 
 **Checks.**
 
-- `isLocalSystem_constant`: The constant sheaf `Λ^n` is a local system.
-- `isLocalSystem_finite_etale`: For a finite étale Galois `G`-cover `V → U` and a finitely generated `Λ[G]`-module `M`, the sheaf of `G`-equivariant maps `V → M` is a local system, trivialized on `V`.
-- `isLocalSystem_point`: On `Spa(C, O_C)` local systems are finitely generated `Λ`-modules, i.e. constant sheaves.
-- `isLocalSystem_not`: For a rank-`2` point `Y = Spa(C, C⁺)` with open generic point `j` and `Λ ≠ 0, j_!Λ` is constructible but not a local system (stalks `Λ` and `0`).
+- The constant sheaf `Λ^n` is a local system.
+- For a finite étale Galois `G`-cover `V → U` and a finitely generated `Λ[G]`-module `M`, the sheaf of `G`-equivariant maps `V → M` is a local system, trivialized on `V`.
+- On `Spa(C, O_C)` local systems are finitely generated `Λ`-modules, i.e. constant sheaves.
+- For a rank-`2` point `Y = Spa(C, C⁺)` with open generic point `j` and `Λ ≠ 0, j_!Λ` is constructible but not a local system (stalks `Λ` and `0`).
 
 *Needs:* `C0.1`; `C7.3`; `Module.Finite`.
 
@@ -1837,21 +1804,21 @@ Let `U` be a locally spatial diamond, `Z ⊂ |U|` a constructible closed subset 
 
 Require the following API.
 
-- `supportRestrict`: For constructible closed `Z ⊂ |U|`, the exact functor `L ↦ L|_Z = coker(j′_!j′^∗L → L)` on sheaves of `Λ`-modules on `U_ét`.
-- `supportRestrictDerived`: The triangulated version `A ↦ A|_Z = cone(j′_!j′^∗A → A)` on `D_ét(U, Λ)`.
-- `supportRestrict.stalk`: `(L|_Z)_ū = L_ū` for `u ∈ Z` and `0` for `u ∉ Z`.
-- `supportRestrict.triangle`: `j′_!j′^∗A → A → A|_Z` is a distinguished triangle.
-- `supportRestrict.idempotent`: `(A|_Z)|_Z ≅ A|_Z`, and `(A|_Z)|_{Z′} ≅ A|_{Z∩Z′}`.
-- `supportRestrict.pullback`: For `g : U″ → U` of locally spatial diamonds, `g^∗(A|_Z) ≅ (g^∗A)|_{g^{−1}(Z)}` (C5.2).
-- `supportRestrict.etaleShriek`: For étale `j : U → Y` and a constructible closed `W ⊂ |Y|, (j_!(A|_Z))|_W ≅ j_!(A|_{Z ∩ j^{−1}(W)})`.
-- `supportRestrict.isConstructible`: For `U` spatial and `L` constructible (noetherian `Λ`), `L|_Z` is constructible (a cokernel of constructible sheaves).
+- For constructible closed `Z ⊂ |U|`, the exact functor `L ↦ L|_Z = coker(j′_!j′^∗L → L)` on sheaves of `Λ`-modules on `U_ét`.
+- The triangulated version `A ↦ A|_Z = cone(j′_!j′^∗A → A)` on `D_ét(U, Λ)`.
+- `(L|_Z)_ū = L_ū` for `u ∈ Z` and `0` for `u ∉ Z`.
+- `j′_!j′^∗A → A → A|_Z` is a distinguished triangle.
+- `(A|_Z)|_Z ≅ A|_Z`, and `(A|_Z)|_{Z′} ≅ A|_{Z∩Z′}`.
+- For `g : U″ → U` of locally spatial diamonds, `g^∗(A|_Z) ≅ (g^∗A)|_{g^{−1}(Z)}` (C5.2).
+- For étale `j : U → Y` and a constructible closed `W ⊂ |Y|, (j_!(A|_Z))|_W ≅ j_!(A|_{Z ∩ j^{−1}(W)})`.
+- For `U` spatial and `L` constructible (noetherian `Λ`), `L|_Z` is constructible (a cokernel of constructible sheaves).
 
 **Checks.**
 
-- `supportRestrict_all`: For `Z = |U|, L|_Z = L`; for `Z = ∅, L|_Z = 0`.
-- `supportRestrict_point`: For `U = Spa(C, C⁺)` of rank `2` and `Z = {s}, Λ|_Z` has stalk `Λ` at `s` and `0` at `η`.
-- `supportRestrict_triangle`: For `A ∈ D_ét(U, Λ), j′^∗(A|_Z) = 0`.
-- `supportRestrict_not_subsheaf`: For `U = Spa(C, C⁺)` of rank `2` and `Z = {s}`, there is no sub-`v`-sheaf `Z′ ⊂ U` with `|Z′| = Z`, because images of maps from perfectoid spaces are generalizing and `{s}` is not; so `L|_Z` cannot be written as `i_∗` of a sheaf on a sub-`v`-sheaf with underlying set `Z`.
+- For `Z = |U|, L|_Z = L`; for `Z = ∅, L|_Z = 0`.
+- For `U = Spa(C, C⁺)` of rank `2` and `Z = {s}, Λ|_Z` has stalk `Λ` at `s` and `0` at `η`.
+- For `A ∈ D_ét(U, Λ), j′^∗(A|_Z) = 0`.
+- For `U = Spa(C, C⁺)` of rank `2` and `Z = {s}`, there is no sub-`v`-sheaf `Z′ ⊂ U` with `|Z′| = Z`, because images of maps from perfectoid spaces are generalizing and `{s}` is not; so `L|_Z` cannot be written as `i_∗` of a sheaf on a sub-`v`-sheaf with underlying set `Z`.
 
 *Needs:* `C5.3`; `C5.1`; `Topology.IsConstructible`; `C5.2`.
 
@@ -1863,9 +1830,9 @@ Let `Λ` be noetherian and `Y` a spatial diamond. An étale sheaf `F` of `Λ`-mo
 
 Use `HasFiltrationBy(P,F)` for the finite-filtration condition in an abelian category:
 there are `n`, objects `G₀,…,Gₙ` and monomorphisms `Gᵢ→Gᵢ₊₁`, with `G₀` zero, `Gₙ` isomorphic to `F`,
-and `P` holding on every cokernel. When `P` is invariant under isomorphism, require the API
-`HasFiltrationBy.zero`, `HasFiltrationBy.of_mem`, `HasFiltrationBy.iso` and concatenation
-of finite filtrations across a short exact sequence. The intended signature is a predicate
+and `P` holding on every cokernel. When `P` is invariant under isomorphism, require that the zero object
+has such a filtration, that every object satisfying `P` has one, that the predicate is invariant under
+isomorphism, and that finite filtrations concatenate across a short exact sequence. The intended signature is a predicate
 on an object and an isomorphism-invariant object property. The finite-filtration condition
 also makes sense for an arbitrary predicate when no invariance theorem is invoked.
 (ECD Proposition 20.8, pp. 115–116.)
@@ -1888,19 +1855,19 @@ Let `Λ` be a commutative ring and `U` a locally spatial diamond. `A ∈ D_ét(U
 
 Require the following API.
 
-- `IsPerfectLocalSystem`: Local constancy with perfect values for objects of `D_ét(U, Λ)`.
-- `IsPerfectLocalSystem.dualizable`: `A` is dualizable with dual `A^∨ = RHom_Λ(A, Λ_U)`, and `A^∨ ⊗^L B ≅ RHom_Λ(A, B)`. For perfect module complexes this follows from dualizability of the unit and closure under shifts, cones, finite sums and retracts; the local-system statement follows by étale descent.
-- `IsPerfectLocalSystem.pullback`: Pullback preserves the property.
-- `IsPerfectLocalSystem.triangle`: The property is closed under shifts, cones, extensions, retracts, finite sums, `⊗^L` and duals: étale-locally a map between constant perfect complexes `P_V → Q_V` is the constant map attached to a map of perfect complexes (`H⁰(V, P^∨ ⊗ Q)` has colimit `Hom_{D(Λ)}(P, Q)` over étale neighbourhoods of a geometric point), and perfect complexes form a thick subcategory.
-- `IsPerfectLocalSystem.isPerfectConstructible`: Locally constant complexes with perfect values on a spatial diamond are perfect-constructible.
-- `IsPerfectLocalSystem.exists_qcsep_trivialization`: If `U` is spatial, there is a quasicompact separated étale surjection `U′ = ⊔_{k=1}^m U_k → U` with `A|_{U_k}` constant with perfect value.
+- Local constancy with perfect values for objects of `D_ét(U, Λ)`.
+- `A` is dualizable with dual `A^∨ = RHom_Λ(A, Λ_U)`, and `A^∨ ⊗^L B ≅ RHom_Λ(A, B)`. For perfect module complexes this follows from dualizability of the unit and closure under shifts, cones, finite sums and retracts; the local-system statement follows by étale descent.
+- Pullback preserves the property.
+- The property is closed under shifts, cones, extensions, retracts, finite sums, `⊗^L` and duals: étale-locally a map between constant perfect complexes `P_V → Q_V` is the constant map attached to a map of perfect complexes (`H⁰(V, P^∨ ⊗ Q)` has colimit `Hom_{D(Λ)}(P, Q)` over étale neighbourhoods of a geometric point), and perfect complexes form a thick subcategory.
+- Locally constant complexes with perfect values on a spatial diamond are perfect-constructible.
+- If `U` is spatial, there is a quasicompact separated étale surjection `U′ = ⊔_{k=1}^m U_k → U` with `A|_{U_k}` constant with perfect value.
 
 **Checks.**
 
-- `isPerfectLocalSystem_unit`: `Λ_U` is locally constant with perfect values.
-- `isPerfectLocalSystem_point`: On `Spa(C, O_C)`, these are exactly the perfect complexes of `Λ`-modules under `D_ét ≃ D(Λ)`.
-- `isPerfectLocalSystem_field`: For `Λ` a field and `U` a locally spatial diamond, `A` is locally constant with perfect values iff `A` is locally bounded (bounded if `U` is quasicompact) with cohomology sheaves that are local systems of finite-dimensional vector spaces.
-- `isPerfectLocalSystem_not_fg`: On nonempty `U`, the constant complex attached to `Λ = ℤ`, module `ℚ` (not perfect over `ℤ`) is locally constant but not with perfect values.
+- `Λ_U` is locally constant with perfect values.
+- On `Spa(C, O_C)`, these are exactly the perfect complexes of `Λ`-modules under `D_ét ≃ D(Λ)`.
+- For `Λ` a field and `U` a locally spatial diamond, `A` is locally constant with perfect values iff `A` is locally bounded (bounded if `U` is quasicompact) with cohomology sheaves that are local systems of finite-dimensional vector spaces.
+- On nonempty `U`, the constant complex attached to `Λ = ℤ`, module `ℚ` (not perfect over `ℤ`) is locally constant but not with perfect values.
 
 *Needs:* `C2.2`; `C3.9`; `C3.8`; `DGAInfinity`, Layers 5–6; `C0.1`; `C0.6`.
 
@@ -1916,10 +1883,9 @@ isomorphic to constant complexes of supplied perfect module complexes. Its inten
 uses the enhanced constant and restriction functors from the supplier; require invariance
 under equivalence, refinement and spectral pullback. This specializes to the predicate below
 under C0.19. (ECD Definition 20.11(i), p. 117.)
-Its API is `IsPerfectConstructibleTop.refine` (a finite constructible locally closed refinement
-preserves a witnessing stratification), `IsPerfectConstructibleTop.pullback` (spectral pullback
-preserves the predicate), and `IsPerfectConstructibleTop.iff_point` (on a point, equivalence
-to the supplied perfectness predicate).
+Its API states that a finite constructible locally closed refinement preserves a witnessing
+stratification, that spectral pullback preserves the predicate, and that on a point it is
+equivalent to the supplied perfectness predicate.
 
 **Checks.**
 
@@ -1929,16 +1895,16 @@ to the supplied perfectness predicate).
 
 Require the following API.
 
-- `IsPerfectConstructibleStd`: Perfect-constructibility for `A ∈ D(|X|, Λ), X` strictly totally disconnected.
-- `IsPerfectConstructibleStd.pullback`: Pullback along maps of strictly totally disconnected spaces preserves the property.
-- `IsPerfectConstructibleStd.refine`: The witnessing stratification may be refined, and two witnessing stratifications have a common refinement.
+- Perfect-constructibility for `A ∈ D(|X|, Λ), X` strictly totally disconnected.
+- Pullback along maps of strictly totally disconnected spaces preserves the property.
+- The witnessing stratification may be refined, and two witnessing stratifications have a common refinement.
 
 **Checks.**
 
-- `isPerfectConstructibleStd_point`: For `X = Spa(C, O_C), A` is perfect-constructible iff `RΓ(X, A)` is a perfect complex of `Λ`-modules.
-- `isPerfectConstructibleStd_zero`: The zero complex is perfect-constructible.
-- `isPerfectConstructibleStd_field`: For `Λ` a field, `A` is perfect-constructible iff `A` is bounded with constructible cohomology sheaves in the sense of target C7.2.
-- `isPerfectConstructibleStd_not`: For `Λ = ℤ[ε]/(ε²)` and `X = Spa(C, O_C)`, the constant sheaf `ℤ = Λ/ε` is constructible (finitely generated) but not perfect-constructible, since `Λ/ε` has infinite projective dimension.
+- For `X = Spa(C, O_C), A` is perfect-constructible iff `RΓ(X, A)` is a perfect complex of `Λ`-modules.
+- The zero complex is perfect-constructible.
+- For `Λ` a field, `A` is perfect-constructible iff `A` is bounded with constructible cohomology sheaves in the sense of target C7.2.
+- For `Λ = ℤ[ε]/(ε²)` and `X = Spa(C, O_C)`, the constant sheaf `ℤ = Λ/ε` is constructible (finitely generated) but not perfect-constructible, since `Λ/ε` has infinite projective dimension.
 
 *Needs:* `C2.3`; `C0.19`; `Topology.IsConstructible`; `DGAInfinity`, Layers 5–6.
 
@@ -1950,18 +1916,18 @@ Let `Λ` be any commutative ring, `Y` a small `v`-stack and `A ∈ D_ét(Y, Λ)`
 
 Require the following API.
 
-- `IsPerfectConstructible`: Perfect-constructibility of `A ∈ D_ét(Y, Λ)`.
-- `Dpc`: The full subcategory `D_ét,pc(Y, Λ)`, a thick triangulated subcategory (target C7.15).
-- `IsPerfectConstructible.pullback`: Pullback along any map of small `v`-stacks preserves perfect-constructibility.
-- `IsPerfectConstructible.iff_cover`: For a surjection `X → Y` from a strictly totally disconnected space, `A` is perfect-constructible iff its pullback is (target C7.18).
-- `IsPerfectConstructible.iff_noetherian`: For noetherian `Λ`: locally bounded, constructible cohomology sheaves and perfect geometric stalks at all geometric points `Spa(C, C⁺) → Y` (target C7.16 (ii)).
-- `IsPerfectConstructible.etaleShriek`: For quasicompact separated étale `j` and perfect-constructible `B` on `U, j_!B` is perfect-constructible.
-- `IsPerfectConstructible.tensor`: `D_ét,pc(Y, Λ)` is closed under `⊗^L` and contains `Λ_Y`.
-- `IsPerfectConstructible.changeOfRings`: Extension of scalars `Λ′ ⊗^L_Λ −` preserves perfect-constructibility (C3.11).
-- `HasLocallyBoundedTorAmplitude`: `A ∈ D(Y_v, Λ)` has locally bounded `Tor` amplitude if for every strictly totally disconnected `f : X → Y` there are `a ≤ b` with `Hⁱ(f^∗A ⊗^L_Λ M) = 0` for all `Λ`-modules `M` and `i ∉ [a, b]`.
-- `IsPerfectConstructible.iff_torAmplitude`: For noetherian `Λ: A` is perfect-constructible iff `A ∈ D_ét(Y, Λ)` is locally bounded with constructible cohomology sheaves and locally bounded `Tor` amplitude (target C7.16 (iii)).
+- Perfect-constructibility of `A ∈ D_ét(Y, Λ)`.
+- The full subcategory `D_ét,pc(Y, Λ)`, a thick triangulated subcategory (target C7.15).
+- Pullback along any map of small `v`-stacks preserves perfect-constructibility.
+- For a surjection `X → Y` from a strictly totally disconnected space, `A` is perfect-constructible iff its pullback is (target C7.18).
+- For noetherian `Λ`: locally bounded, constructible cohomology sheaves and perfect geometric stalks at all geometric points `Spa(C, C⁺) → Y` (target C7.16 (ii)).
+- For quasicompact separated étale `j` and perfect-constructible `B` on `U, j_!B` is perfect-constructible.
+- `D_ét,pc(Y, Λ)` is closed under `⊗^L` and contains `Λ_Y`.
+- Extension of scalars `Λ′ ⊗^L_Λ −` preserves perfect-constructibility (C3.11).
+- `A ∈ D(Y_v, Λ)` has locally bounded `Tor` amplitude if for every strictly totally disconnected `f : X → Y` there are `a ≤ b` with `Hⁱ(f^∗A ⊗^L_Λ M) = 0` for all `Λ`-modules `M` and `i ∉ [a, b]`.
+- For noetherian `Λ: A` is perfect-constructible iff `A ∈ D_ét(Y, Λ)` is locally bounded with constructible cohomology sheaves and locally bounded `Tor` amplitude (target C7.16 (iii)).
 
-**Checks for `HasLocallyBoundedTorAmplitude`.**
+**Checks for locally bounded `Tor` amplitude.**
 
 - `Λ_Y` has `Tor` amplitude `[0,0]`, including `Λ=0` or `Y=∅`: tensoring it with a constant module `M` gives `M[0]`.
 - On `Y=Spa(C,O_C)` with `Λ≠0, Λ_Y[1]` has amplitude `[−1,−1]` and fails `[0,0]`; take `M=Λ` to detect `H⁻¹`.
@@ -1974,11 +1940,11 @@ to cohomological degree `−n`; the enhanced derived-tensor comparison is suppli
 
 **Checks.**
 
-- `isPerfectConstructible_unit`: `Λ_Y` is perfect-constructible.
-- `isPerfectConstructible_zero`: `0` is perfect-constructible.
-- `isPerfectConstructible_field`: For `Λ = 𝔽_ℓ, D_ét,pc(Y, 𝔽_ℓ)` consists of the locally bounded complexes with constructible cohomology sheaves (target C7.17).
-- `isPerfectConstructible_not_bounded_cons`: For `Λ = ℤ[ε]/(ε²)`, the constructible sheaf `Λ/ε` on `Spa(C, O_C)` is bounded with constructible cohomology but not perfect-constructible.
-- `isPerfectConstructible_not_sum`: For `Y≠∅` and `Λ≠0, ⊕_{n∈N} Λ_Y` is not perfect-constructible. For `Y=∅` or `Λ=0` the same sum is zero and perfect-constructible.
+- `Λ_Y` is perfect-constructible.
+- `0` is perfect-constructible.
+- For `Λ = 𝔽_ℓ, D_ét,pc(Y, 𝔽_ℓ)` consists of the locally bounded complexes with constructible cohomology sheaves (target C7.17).
+- For `Λ = ℤ[ε]/(ε²)`, the constructible sheaf `Λ/ε` on `Spa(C, O_C)` is bounded with constructible cohomology but not perfect-constructible.
+- For `Y≠∅` and `Λ≠0, ⊕_{n∈N} Λ_Y` is not perfect-constructible. For `Y=∅` or `Λ=0` the same sum is zero and perfect-constructible.
 
 *Needs:* `C7.13`; `C2.2`; `C3.1`; `EnhancedDerivedSheaves`, §E1.4.
 
@@ -2064,7 +2030,7 @@ Let `Y_i, i ∈ I`, be a cofiltered inverse system of spatial diamonds with inve
 
 Let `Y` be a spatial diamond and `Λ = colim_i Λ_i` a filtered colimit of commutative rings. Then `2-colim_i D_ét,pc(Y, Λ_i)` `→ D_ét,pc(Y, Λ)` is an equivalence of categories.
 
-First establish `perfectComplexRingColimit` for the supplied module perfectness predicate:
+First establish the ring-colimit theorem for the supplied module perfectness predicate:
 for a filtered system of commutative rings `Λ_i` with colimit `Λ`, every perfect `Λ`-complex is
 derived extension of scalars of a perfect complex at one stage. For perfect `P_i,Q_i` at a
 stage `i`, the canonical map from the filtered colimit, over `j≥i`, of
@@ -2092,8 +2058,6 @@ At `Spa(C,O_C)` with `Λ=ℤ[ε]/(ε²)`, the module `Λ/ε` is finitely generat
 
 Layers C0–C6 and the independent point-presentation targets C8.24, C8.26 and C8.29; `DGAInfinity`, Layers `5`–`6`; `EnhancedDerivedSheaves`, Layers E1–E3; `DiamondsAndVStacks`, Layers D0–D5; `PerfectoidSpaces`, Layer P6.
 
-<a id="c8"></a>
-
 ## Layer C8: Dimension and cohomological bounds
 
 Build field degrees on the existing field carriers, prove invariance of geometric dimension under point choices, and compare point cohomology with canonical continuous cohomology. Combine the spectral-space and point-stabilizer bounds to obtain the spatial cohomological bound.
@@ -2102,7 +2066,7 @@ Build field degrees on the existing field carriers, prove invariance of geometri
 
 #### C8.1 Dimension through the specialization order
 
-Prove `specialization_dimension`. For a quasi-sober `T₀` space `X, topologicalKrullDim X` equals `Order.krullDim` of `X` with its specialization order. Thus on locally spectral spaces it is ECD 21.1(i), with empty space valued at minus infinity and unbounded finite chain lengths at plus infinity.
+For a quasi-sober `T₀` space `X, topologicalKrullDim X` equals `Order.krullDim` of `X` with its specialization order. Thus on locally spectral spaces it is ECD 21.1(i), with empty space valued at minus infinity and unbounded finite chain lengths at plus infinity.
 
 *Needs:* `topologicalKrullDim`; `irreducibleSetEquivPoints`; `Order.krullDim_eq_of_orderIso`.
 
@@ -2112,8 +2076,8 @@ Prove `specialization_dimension`. For a quasi-sober `T₀` space `X, topological
 
 Use `AdicEtaleGeometry`, A2.6, `AdicSpace.relDim`, for topological fibre dimension throughout C8 and its downstream contracts. For a map `f:X′→X` it is the supremum, over `x∈X`, of `topologicalKrullDim` of `f⁻¹({x})` with its subspace topology, in `WithBot ENat`. This carrier allows an arbitrary topological source and an arbitrary target type. For spectral maps of locally spectral spaces it is ECD 21.1(ii). C8.2 supplies the following specializations of that invariant.
 
-- `relDim_homeomorph`: A commuting square with homeomorphisms on source and target preserves `AdicSpace.relDim`.
-- `relDim_id`: For nonempty `X` the identity has `AdicSpace.relDim` zero.
+- A commuting square with homeomorphisms on source and target preserves `AdicSpace.relDim`.
+- For nonempty `X` the identity has `AdicSpace.relDim` zero.
 
 The subtype {`x′` | `f(x′)=x`} and the preimage subspace `f⁻¹({x})` are canonically homeomorphic, including empty fibres.
 
@@ -2179,7 +2143,7 @@ Require the following API.
 
 #### C8.4a Primitive perturbation
 
-Build `primitivePerturbation` for an isometric extension `L/K` of complete nonarchimedean
+Build the primitive perturbation for an isometric extension `L/K` of complete nonarchimedean
 fields. Compute the radius `r_K(t)=inf_{c∈K^a}|t−c|` in a common completed algebraic closure
 of `L`, and prove it is zero exactly when `t` lies in the completed algebraic closure of `K`.
 For `t,t′∈L` with `|t−t′|<r_K(t)` and `|t−t′|/r_K(t)<α<1`, there is a unique
@@ -2199,7 +2163,7 @@ Here closures of generated fields are ordinary completions, not algebraic closur
 
 #### C8.4b Extension of a perturbation of generators
 
-Build `perturbationExtension`. For an isometric analytic extension `L/K`, a subset `S⊆L`,
+For an isometric analytic extension `L/K`, a subset `S⊆L`,
 `0<α<1` and `φ:S→L` satisfying `|s−φ(s)|<α r_{K,S}(s)` for all `s∈S`, prove `φ` is injective
 and extends uniquely to a `K`-isometric isomorphism `closure(K(S))≃closure(K(φ(S)))`.
 The multiradius `r_{K,S}(s)` is `r_{closure(K(S∖{s}))}(s)`, computed as in C8.4a.
@@ -2217,7 +2181,7 @@ The extension satisfies `|φ`̂`(x)−x|<α|x|` for every nonzero `x`.
 
 #### C8.4c Preservation of multiradii and independence
 
-Build `perturbationMultiradius` under the hypotheses of C8.4b:
+Under the hypotheses of C8.4b, prove
 `r_{K,φ(S)}(φ(s))=r_{K,S}(s)` for every `s∈S`. In a complete algebraically closed
 ambient `L`, positivity of all these radii is precisely `IsTopAlgIndependent`,
 so `φ(S)` is topologically algebraically independent and has the same cardinality as `S`.
@@ -2236,7 +2200,7 @@ so `φ(S)` is topologically algebraically independent and has the same cardinali
 
 Prove the following comparisons. The finite-degree equality is stated as `topologicalIndependenceDegree_eq_of_lt_top` in `Suggested.lean`. Let `K⊆L⊆M` be complete algebraically closed nonarchimedean fields with isometric embeddings. `(a) topologicalIndependenceDegree(K,M)≤topologicalTrdeg(K,M)`. `(b)` If `topologicalTrdeg(K,M)` is finite, the two are equal. `(c) topologicalIndependenceDegree(K,L)≤topologicalIndependenceDegree(K,M)`.
 
-In this statement, All field inclusions preserve the given nonarchimedean absolute values.
+In this statement, all field inclusions preserve the given nonarchimedean absolute values.
 
 *Needs:* `C8.4`; `C8.4a`; `C8.4b`; `C8.4c`; `C8.6`.
 
@@ -2244,7 +2208,7 @@ In this statement, All field inclusions preserve the given nonarchimedean absolu
 
 #### C8.6 Finite topological generators
 
-Prove `finite_topological_generators`. For complete algebraically closed nonarchimedean fields `K⊆L` and `n` natural, `topologicalTrdeg(K,L)≤n` iff there exist `n` elements of `L` such that `L` is the smallest complete algebraically closed subfield of `L` containing `K` and those elements.
+For complete algebraically closed nonarchimedean fields `K⊆L` and `n` natural, `topologicalTrdeg(K,L)≤n` iff there exist `n` elements of `L` such that `L` is the smallest complete algebraically closed subfield of `L` containing `K` and those elements.
 
 *Needs:* `C8.3`; `spectralNorm.normedField`; `spectralNorm_extends`.
 
@@ -2252,7 +2216,7 @@ Prove `finite_topological_generators`. For complete algebraically closed nonarch
 
 #### C8.7 Topological transcendence degree in a tower
 
-Prove `topological_trdeg_tower`. For complete algebraically closed nonarchimedean fields `K⊆L⊆M, topologicalTrdeg(K,M)≤topologicalTrdeg(L,M)+topologicalTrdeg(K,L)` in `ENat`.
+For complete algebraically closed nonarchimedean fields `K⊆L⊆M, topologicalTrdeg(K,M)≤topologicalTrdeg(L,M)+topologicalTrdeg(K,L)` in `ENat`.
 
 *Needs:* `C8.6`.
 
@@ -2260,7 +2224,7 @@ Prove `topological_trdeg_tower`. For complete algebraically closed nonarchimedea
 
 #### C8.8 Topological transcendence degree after dense compositum
 
-Prove `topological_trdeg_base_change`. For a commutative square of continuous embeddings `K⊆K′` and `L⊆L′` of complete algebraically closed nonarchimedean fields, with `K′` embedded in `L′` and the relative algebraic closure of LK′ dense in `L′, topologicalTrdeg(L,L′)≤topologicalTrdeg(K,K′)`.
+For a commutative square of continuous embeddings `K⊆K′` and `L⊆L′` of complete algebraically closed nonarchimedean fields, with `K′` embedded in `L′` and the relative algebraic closure of LK′ dense in `L′, topologicalTrdeg(L,L′)≤topologicalTrdeg(K,K′)`.
 
 *Needs:* `C8.6`.
 
@@ -2270,7 +2234,7 @@ Prove `topological_trdeg_base_change`. For a commutative square of continuous em
 
 For complete algebraically closed nonarchimedean fields `K⊆L⊆M`, if `topologicalTrdeg(K,L)` is finite then `topologicalTrdeg(K,L)≤topologicalTrdeg(K,M)`.
 
-In this statement, All field inclusions preserve the given nonarchimedean valuations.
+In this statement, all field inclusions preserve the given nonarchimedean valuations.
 
 *Needs:* `C8.6`; `C8.5`.
 
@@ -2280,7 +2244,7 @@ In this statement, All field inclusions preserve the given nonarchimedean valuat
 
 For complete algebraically closed nonarchimedean fields `K⊆L, modifiedTopologicalTrdeg(K,L)` is the minimum in `ENat` of `topologicalTrdeg(K,E)` over further complete algebraically closed valued extensions `E` of `L`, with compatible continuous embeddings. Equivalently it is the infimum of finite `n` admitting such `E` and a dense intermediate field of `E` over `K` of algebraic transcendence degree `≤n`. Prove a universe bound for finite witnesses, so that the infimum is taken over a set.
 
-Bundle a fixed-universe witness as `CompleteACExtension(K,L)`: a field `E` with an actual
+Bundle a fixed-universe witness as a complete algebraically closed extension of `L` over `K`: a field `E` with an actual
 nontrivial `ultrametric` norm, completeness and algebraic closedness, `K`- and `L`-algebra structures,
 a scalar-tower law, and an isometric embedding `L→E`. This is extension data on existing field
 carriers. Its API exposes the two algebra maps, their commuting triangle and norm preservation;
@@ -2291,9 +2255,9 @@ unrestricted invariant. (ECD paragraph before Definition 21.5, p. 123.)
 
 Require the extension API:
 
-- `CompleteACExtension.algebraK` and `CompleteACExtension.algebraL` are the specified `K`- and `L`-algebra structures on `E`.
-- `CompleteACExtension.tower` identifies the composite `K→L→E` with the specified `K→E`.
-- `CompleteACExtension.isometry` preserves the absolute value of every element of `L`; the projections `complete`, `ultrametric` and `algebraicallyClosed` supply the corresponding properties of `E`.
+- The specified `K`- and `L`-algebra structures on `E`.
+- The composite `K→L→E` equals the specified `K→E`.
+- The embedding `L→E` preserves the absolute value of every element of `L`, and `E` is complete, ultrametric and algebraically closed.
 
 
 **Checks.**
@@ -2304,10 +2268,10 @@ Require the extension API:
 
 Require the following API.
 
-- `modifiedTopologicalTrdeg_le_iff`: A finite bound `n` is equivalent to a further extension with `topologicalTrdeg` at most `n`.
-- `modifiedTopologicalTrdeg_le`: `modifiedTopologicalTrdeg(K,L)≤topologicalTrdeg(K,L)`, using `E=L`.
-- `modifiedTopologicalTrdeg_mono`: For `K⊆L⊆M, modifiedTopologicalTrdeg(K,L)≤modifiedTopologicalTrdeg(K,M)`.
-- `modifiedTopologicalTrdeg_equiv`: Compatible topological valued-field equivalences preserve the invariant, independently of the real-valued normalization: simultaneous positive-power rescaling preserves closures and finite witnesses, and transports isometric extension data after compatible normalization.
+- A finite bound `n` is equivalent to a further extension with `topologicalTrdeg` at most `n`.
+- `modifiedTopologicalTrdeg(K,L)≤topologicalTrdeg(K,L)`, using `E=L`.
+- For `K⊆L⊆M, modifiedTopologicalTrdeg(K,L)≤modifiedTopologicalTrdeg(K,M)`.
+- Compatible topological valued-field equivalences preserve the invariant, independently of the real-valued normalization: simultaneous positive-power rescaling preserves closures and finite witnesses, and transports isometric extension data after compatible normalization.
 
 **Checks.**
 
@@ -2316,7 +2280,7 @@ Require the following API.
 - If every further extension has infinite `topologicalTrdeg` over `K`, the modified invariant is infinity.
 - When every further extension `E` satisfies `topologicalTrdeg(K,L)≤topologicalTrdeg(K,E)`, the modified and original invariants agree; this monotonicity is an explicit hypothesis, not an unconditional theorem.
 - For an isometric extension `K⊆L` of complete algebraically closed nonarchimedean fields, `modifiedTopologicalTrdeg(K,L)=0` iff `L=K`: a further extension `E` with `topologicalTrdeg(K,E)=0` is `K` and contains `L`.
-- If `topologicalTrdeg(K,L)=1` then `modifiedTopologicalTrdeg(K,L)=1`, without Temkin's theorem: the value is at most `1` by `modifiedTopologicalTrdeg_le` and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
+- If `topologicalTrdeg(K,L)=1` then `modifiedTopologicalTrdeg(K,L)=1`, without Temkin's theorem: the value is at most `1` because the modified degree is at most the original one, and is not `0` because `L≠K`. A definition that is always zero, or that takes a supremum over further extensions, fails this test.
 
 *Needs:* `C8.3`; `DiamondsAndVStacks`, Layer D0.
 
@@ -2324,9 +2288,9 @@ Require the following API.
 
 #### C8.11 The modified and original finite degrees agree
 
-Prove `modifiedTopologicalTrdeg_eq_of_lt_top`. For a complete algebraically closed nonarchimedean extension `K⊆L` with finite `topologicalTrdeg(K,L), modifiedTopologicalTrdeg(K,L)=topologicalTrdeg(K,L)`.
+For a complete algebraically closed nonarchimedean extension `K⊆L` with finite `topologicalTrdeg(K,L), modifiedTopologicalTrdeg(K,L)=topologicalTrdeg(K,L)`.
 
-In this statement, All field inclusions preserve the given nonarchimedean valuations.
+In this statement, all field inclusions preserve the given nonarchimedean valuations.
 
 *Needs:* `C8.10`; `C8.9`.
 
@@ -2334,7 +2298,7 @@ In this statement, All field inclusions preserve the given nonarchimedean valuat
 
 #### C8.11a Complete real-valued amalgamation
 
-Prove `completeFieldAmalgamation`. For complete nonarchimedean fields `K,L,M` with
+For complete nonarchimedean fields `K,L,M` with
 isometric `K`-algebra embeddings `K→L` and `K→M` and nontrivial valuation on `K`, there is a
 common complete algebraically closed nonarchimedean `E` with compatible isometric
 `K`-algebra embeddings `L→E` and `M→E`. The norm on `E` extends the chosen norms exactly.
@@ -2355,11 +2319,11 @@ of C8.10 for the resulting amalgam before using it in that fixed-universe infimu
 
 *Needs:* `AdicSpacesPartII`, R0.7 (`ValuationSpectrum.exists_amalgamation`, including its field form); `C8.6` (completion of an algebraic closure); `C8.10` (universe bounds).
 
-(Huber `1996` §1.1, (1.1.14)`(f)`, p.45; ECD modified-degree paragraph before Definition 21.5, p.123.)
+(Huber 1996, §1.1, (1.1.14)(f), p. 45; ECD modified-degree paragraph before Definition 21.5, p.123.)
 
 #### C8.12 Modified transcendence degree in a tower
 
-Prove `modified_topological_trdeg_tower`. For complete algebraically closed nonarchimedean fields `K⊆L⊆M, modifiedTopologicalTrdeg(K,M)≤modifiedTopologicalTrdeg(L,M)+modifiedTopologicalTrdeg(K,L)`.
+For complete algebraically closed nonarchimedean fields `K⊆L⊆M, modifiedTopologicalTrdeg(K,M)≤modifiedTopologicalTrdeg(L,M)+modifiedTopologicalTrdeg(K,L)`.
 
 *Needs:* `C8.10`; `C8.11a`; `AdicSpacesPartII`, R0.7; `C8.7`; `C8.8`.
 
@@ -2367,7 +2331,7 @@ Prove `modified_topological_trdeg_tower`. For complete algebraically closed nona
 
 #### C8.13 Modified transcendence degree after base change
 
-Prove `modified_topological_trdeg_base_change`. In the commutative square and dense-algebraic-compositum situation of 21.3(ii), `modifiedTopologicalTrdeg(L,L′)≤modifiedTopologicalTrdeg(K,K′)`.
+In the commutative square and dense-algebraic-compositum situation of 21.3(ii), `modifiedTopologicalTrdeg(L,L′)≤modifiedTopologicalTrdeg(K,K′)`.
 
 *Needs:* `C8.10`; `C8.11a`; `AdicSpacesPartII`, R0.7; `C8.8`.
 
@@ -2379,16 +2343,16 @@ For a map `f:X′→X` of analytic adic spaces, `analyticDimTrg(f)∈WithBot ENa
 
 Require the following API.
 
-- `analyticDimTrg_le_iff`: `analyticDimTrg(f)≤d` iff every displayed completed residue-field contribution is `≤d`.
-- `analyticDimTrg_equiv`: Isomorphic analytic morphisms have the same invariant.
-- `analyticDimTrg_empty`: A map with empty source has dimension bottom.
-- `analyticDimTrg_field`: For a map of rank-one algebraically closed field spectra, the invariant equals `modifiedTopologicalTrdeg` of the field extension.
+- `analyticDimTrg(f)≤d` iff every displayed completed residue-field contribution is `≤d`.
+- Isomorphic analytic morphisms have the same invariant.
+- A map with empty source has dimension bottom.
+- For a map of rank-one algebraically closed field spectra, the invariant equals the modified topological transcendence degree of the field extension.
 
 **Checks.**
 
-- `analyticDimTrg_empty_test`: Empty analytic source gives bottom.
-- `analyticDimTrg_identity_point`: The identity of a nonempty algebraically closed field spectrum has dimension zero.
-- `analyticDimTrg_field_test`: `A` compatible extension `C⊆D` of complete algebraically closed fields gives the field invariant on `Spa(D,O_D)→Spa(C,O_C)`.
+- Empty analytic source gives bottom.
+- The identity of a nonempty algebraically closed field spectrum has dimension zero.
+- `A` compatible extension `C⊆D` of complete algebraically closed fields gives the field invariant on `Spa(D,O_D)→Spa(C,O_C)`.
 
 *Needs:* `C8.10`; `C8.13`; `AdicSpacesPartII`, R0.11 (`κ(x)`).
 
@@ -2408,20 +2372,20 @@ For `f:Y′→Y` of diamonds, choose at each `y′` over `y` a quasi-pro-étale 
 
 Require the following API.
 
-- `diamondDimTrg_le_iff`: For diamond maps, the bound `d` holds iff every point-field contribution is `≤d`.
-- `diamondDimTrg_vstack`: For representable `v`-stack maps the bound is tested on all diamond base changes.
-- `diamondDimTrg_empty`: Empty source gives bottom.
-- `diamondDimTrg_point`: On compatible algebraically closed field points this is the modified field invariant.
-- `diamondDimTrg_representative`: Changing the quasi-pro-étale point representatives preserves the value.
+- For diamond maps, the bound `d` holds iff every point-field contribution is `≤d`.
+- For representable `v`-stack maps the bound is tested on all diamond base changes.
+- Empty source gives bottom.
+- On compatible algebraically closed field points this is the modified field invariant.
+- Changing the quasi-pro-étale point representatives preserves the value.
 
 **Checks.**
 
-- `diamondDimTrg_empty_test`: Empty source gives bottom.
-- `diamondDimTrg_identity_point`: The identity of `Spa(C,O_C)` has value zero.
-- `diamondDimTrg_field_test`: `Spa(D,O_D)→Spa(C,O_C)` gives `modifiedTopologicalTrdeg(C,D)`.
-- `diamondDimTrg_bottom`: Nonempty source has value at least zero, never bottom.
+- Empty source gives bottom.
+- The identity of `Spa(C,O_C)` has value zero.
+- `Spa(D,O_D)→Spa(C,O_C)` gives `modifiedTopologicalTrdeg(C,D)`.
+- Nonempty source has value at least zero, never bottom.
 
-*Needs:* `C8.10` (normalization independence via `modifiedTopologicalTrdeg_equiv`); `C8.13`; `DiamondsAndVStacks`, Layer D5.
+*Needs:* `C8.10` (normalization independence of the modified degree); `C8.13`; `DiamondsAndVStacks`, Layer D5.
 
 (ECD Definition 21.7 and Remark 21.8, p.123.)
 
@@ -2447,16 +2411,16 @@ For `f` representable in locally spatial diamonds, `LocallyFiniteDimTrg(f)` mean
 
 Require the following API.
 
-- `locallyFiniteDimTrg_of_bound`: A finite global bound implies the local condition.
-- `locallyFiniteDimTrg_openCover`: On locally spatial diamond maps, an open source cover with finite bounds is equivalent to the predicate.
-- `locallyFiniteDimTrg_baseChange`: Base change preserves the predicate.
-- `locallyFiniteDimTrg_identity`: Identity morphisms satisfy the predicate.
+- A finite global bound implies the local condition.
+- On locally spatial diamond maps, an open source cover with finite bounds is equivalent to the predicate.
+- Base change preserves the predicate.
+- Identity morphisms satisfy the predicate.
 
 **Checks.**
 
-- `locallyFiniteDimTrg_empty`: Empty source satisfies the predicate.
-- `locallyFiniteDimTrg_identity_test`: The identity has bound zero.
-- `locallyFiniteDimTrg_localNotUniform`: A disjoint union of maps of finite but unbounded component dimensions is locally finite without a uniform global finite bound.
+- Empty source satisfies the predicate.
+- The identity has bound zero.
+- A disjoint union of maps of finite but unbounded component dimensions is locally finite without a uniform global finite bound.
 
 *Needs:* `C8.16`; `C8.17`; `DiamondsAndVStacks`, Layer D5.
 
@@ -2540,18 +2504,18 @@ For a prime `ℓ` and a maximal point `y` of a quasiseparated diamond `Y, pointC
 
 Require the following API.
 
-- `pointCd_presentation`: For every faithful presentation, `pointCd(ℓ,y)=cd_ℓ(G_y)`.
-- `pointCd_le_iff`: The finite bound `n` is equivalent to vanishing in degrees `>n` for all `ℓ`-primary torsion étale sheaves on `Y_y`.
-- `pointCd_equiv`: Isomorphisms of pointed diamonds preserve the invariant.
-- `pointCd_open`: For an open subdiamond `V⊆Y` containing the maximal point `y, pointCd` computed in `V` equals `pointCd` computed in `Y`.
+- For every faithful presentation, `pointCd(ℓ,y)=cd_ℓ(G_y)`.
+- The finite bound `n` is equivalent to vanishing in degrees `>n` for all `ℓ`-primary torsion étale sheaves on `Y_y`.
+- Isomorphisms of pointed diamonds preserve the invariant.
+- For an open subdiamond `V⊆Y` containing the maximal point `y`, the invariant computed in `V` equals the invariant computed in `Y`.
 
 **Checks.**
 
-- `pointCd_closedField`: The algebraically closed field point `Spa(C,O_C)` has value zero.
-- `pointCd_perfectedLaurentField`: Let `p` be prime and `K` be the `t`-adic completion of `⋃ₙ 𝔽_p((t^{1/pⁿ}))`. This is a perfectoid field with residue field `𝔽_p`. For the unique point `y` of `Y=Spa(K,O_K), pointCd(p,y)=1`. The Artin–Schreier class of `1` in `K/(Frob−1)K` is nonzero: any solution of `x^p−x=1` would have `|x|≤1`, and reduction to the residue field `𝔽_p` would give `0=1`. The characteristic-`p` field bound `cd_p(K)≤1` gives equality through C8.27. Thus a one-point underlying space need not have `pointCd` zero. For the upper bound, apply `SchemeAndStackFoundations`, §§2.11 and 2.15 (Artin–Schreier and field/Galois comparison), to the fixed field of a `p`-Sylow subgroup of `G_K`, then use `ProfiniteProPGroups`, Layer `6` (the pro-`p` constant-module criterion and Sylow dimension equality), with `ProfiniteCohomology`, Layer `11`.
-- `pointCd_unbounded`: Nonzero `ℓ`-primary torsion cohomology in arbitrarily high degrees forces infinite `pointCd`.
+- The algebraically closed field point `Spa(C,O_C)` has value zero.
+- Let `p` be prime and `K` be the `t`-adic completion of `⋃ₙ 𝔽_p((t^{1/pⁿ}))`. This is a perfectoid field with residue field `𝔽_p`. For the unique point `y` of `Y=Spa(K,O_K), pointCd(p,y)=1`. The Artin–Schreier class of `1` in `K/(Frob−1)K` is nonzero: any solution of `x^p−x=1` would have `|x|≤1`, and reduction to the residue field `𝔽_p` would give `0=1`. The characteristic-`p` field bound `cd_p(K)≤1` gives equality through C8.27. Thus a one-point underlying space need not have point cohomological dimension zero. For the upper bound, apply `SchemeAndStackFoundations`, §§2.11 and 2.15 (Artin–Schreier and field/Galois comparison), to the fixed field of a `p`-Sylow subgroup of `G_K`, then use the completed `ProfiniteProPGroups`, Layer `6` (`TauCeti.IsProP.cohomologicalDimensionAt_le_iff_subsingleton_cohomFp` and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`), with `ProfiniteCohomology`, Layer `11`.
+- Nonzero `ℓ`-primary torsion cohomology in arbitrarily high degrees forces infinite point cohomological dimension.
 
-*Needs:* `C8.24`; `C8.25`; `C8.27`; `DiamondsAndVStacks`, Layer D5; `SchemeAndStackFoundations`, §§2.11 and 2.15 (`artinSchreier_sequence`, `etale_galois_comparison`); Tau Ceti `ProfiniteCohomology`, Layer 11; Tau Ceti `ProfiniteProPGroups`, Layer 6.
+*Needs:* `C8.24`; `C8.25`; `C8.27`; `DiamondsAndVStacks`, Layer D5; `SchemeAndStackFoundations`, §§2.11 and 2.15 (`artinSchreier_sequence`, `etale_galois_comparison`); Tau Ceti `ProfiniteCohomology`, Layer 11; completed `ProfiniteProPGroups`, Layer 6 (`TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`, `TauCeti.IsProP.cohomologicalDimensionAt_le_iff_subsingleton_cohomFp`).
 
 (ECD Definition 21.10, p.124; [Stacks 0A3J](https://stacks.math.columbia.edu/tag/0A3J), Artin–Schreier sequence, and [Stacks 0A3K](https://stacks.math.columbia.edu/tag/0A3K), affine characteristic-p vanishing.)
 
@@ -2591,7 +2555,7 @@ For an exact sequence of profinite groups `1→N→G→Q→1` with `N` closed an
 
 #### C8.33 Wild continuous automorphisms in characteristic `p`
 
-Prove `wild_automorphism`. Let `γ` be a continuous automorphism of a complete algebraically closed nonarchimedean field `C` of characteristic `p`. If the powers `γ^(n!)` converge pointwise to the identity and `γ` induces the identity on `C×/(1+C°°)`, prove that `γ^(p^n)` also converge pointwise to the identity. The proof must establish that the closure of the powers, with the pointwise topology, is a procyclic profinite group before invoking Sylow theory.
+Let `γ` be a continuous automorphism of a complete algebraically closed nonarchimedean field `C` of characteristic `p`. If the powers `γ^(n!)` converge pointwise to the identity and `γ` induces the identity on `C×/(1+C°°)`, prove that `γ^(p^n)` also converge pointwise to the identity. The proof must establish that the closure of the powers, with the pointwise topology, is a procyclic profinite group before invoking Sylow theory.
 
 **Checks.**
 
@@ -2604,7 +2568,7 @@ automorphisms: prove that the powers of `γ` extend continuously from `ℤ` to a
 profinite completion, using factorial convergence and the isometry forced by the
 leading-term condition. (ECD Lemma 21.17, p. 127.)
 
-*Needs:* Tau Ceti `ProfiniteProPGroups`, Layer 2; Tau Ceti `ProfiniteProPGroups`, Layer 3.
+*Needs:* completed `ProfiniteProPGroups`, Layers 2–3 (`TauCeti.exists_isProPSylow`, `TauCeti.IsProPSylow.eq_of_normal`, `TauCeti.isProP_closedZpowers_zpowHat_idem`).
 
 (ECD Lemma 21.17 and proof, p.127.)
 
@@ -2612,7 +2576,7 @@ leading-term condition. (ECD Lemma 21.17, p. 127.)
 
 Prove `wild_kernel_pro_p`, stated in `Suggested.lean`. For a continuous faithful action of a profinite group `G` on an algebraically closed complete nonarchimedean field `C′` of characteristic `p`, the closed normal kernel `P` of its action on `C′×/(1+C′°°)` is pro-`p`.
 
-*Needs:* `C8.33`; Tau Ceti `ProfiniteProPGroups`, Layer 3; `TauCeti.IsProP`.
+*Needs:* `C8.33`; completed `ProfiniteProPGroups`, Layer 3 (`TauCeti.isProP_iff`, `TauCeti.IsProP.quotient`); `TauCeti.IsProP`.
 
 (ECD Proposition 21.16, first proof paragraph, p.126.)
 
@@ -2620,7 +2584,7 @@ Prove `wild_kernel_pro_p`, stated in `Suggested.lean`. For a continuous faithful
 
 For a closed normal pro-`p` subgroup `P` of a profinite `G` and `ℓ≠p, cd_ℓ(G)=cd_ℓ(G/P)`.
 
-*Needs:* `C8.32`; `ArithmeticGaloisDuality`, Layer R02.1; Tau Ceti `ProfiniteCohomology`, Layer 10; Tau Ceti `ProfiniteCohomology`, Layer 11; Tau Ceti `ProfiniteProPGroups`, Layer 3.
+*Needs:* `C8.32`; `ArithmeticGaloisDuality`, Layer R02.1; Tau Ceti `ProfiniteCohomology`, Layer 10; Tau Ceti `ProfiniteCohomology`, Layer 11; completed `ProfiniteProPGroups`, Layers 3 and 6 (`TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`, applied to the trivial Sylow pro-`ℓ` subgroup of `P`).
 
 (ECD Proposition 21.16, first proof paragraph, p.126.)
 
@@ -2655,7 +2619,7 @@ In 21.16, with rational value groups `Γ⊆Γ′` and residue fields `k⊆k′`,
 
 For `ℓ≠p` and finite `r=dim_ℚ(Γ′/Γ)` in 21.16, `cd_ℓ(I/P)≤r`.
 
-*Needs:* `C8.38`; `C8.32`; Tau Ceti `ProfiniteCohomology`, Layer 11; Tau Ceti `ProfiniteProPGroups`, Layer 6.
+*Needs:* `C8.38`; `C8.32`; Tau Ceti `ProfiniteCohomology`, Layer 11; completed `ProfiniteProPGroups`, Layer 6 (`TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`).
 
 (ECD Proposition 21.16, p.127.)
 
@@ -2683,23 +2647,22 @@ For spectral `X`, form `sp_n(X)` from tuples `(x0,…,xn)` for which `xi` genera
 
 The light carrier `SpecializationChain(X,n)` is the subtype of
 `Fin(n+1)→WithConstructibleTopology X` consisting of tuples whose original `X`-points specialize
-in the displayed order. Give it the subspace topology. The intended construction
-`specializationChainSpace : SimplicialObject TopCat` has degree-`n` object this carrier and
+in the displayed order. Give it the subspace topology. The intended construction is a
+`SimplicialObject TopCat` with degree-`n` object this carrier and
 reindexes coordinates along the simplex maps; prove continuity and the functor laws.
-`SpecializationChain.reindex` gives monotone vertex reindexing on the light carrier, and
-`SpecializationChain.reindex_comp` identifies successive reindexing with composition.
-The degree-zero comparison is a homeomorphism to `WithConstructibleTopology X`. Its API
-`specializationChainSpace_zero_apply` evaluates at coordinate zero, and the face and degeneracy
+Monotone vertex reindexing acts on the light carrier, and successive reindexing is
+reindexing along the composite.
+The degree-zero comparison is a homeomorphism to `WithConstructibleTopology X`. Its API evaluates at coordinate zero, and the face and degeneracy
 formulas delete and repeat their specified coordinates. For `T₀` `X`, a positive-degree chain is
 nondegenerate exactly when its coordinate map is injective. These are part of the chain-space
 target, with the quasi-augmentation stated below. (KST Lemma 6.6 and proof, p. 24.)
 
 Require the following API.
 
-- `specializationChainSpace_zero`: The degree-zero space is `X` with its constructible topology.
-- `specializationChainSpace_face`: The ith face deletes the ith entry.
-- `specializationChainSpace_degeneracy`: The ith degeneracy repeats the ith entry.
-- `specializationChainSpace_nondegenerate`: For a `T₀` space and a positive-degree chain, absence of an elementary degeneracy preimage is equivalent to pairwise distinct vertices; degree-zero chains are all nondegenerate.
+- The degree-zero space is `X` with its constructible topology.
+- The ith face deletes the ith entry.
+- The ith degeneracy repeats the ith entry.
+- For a `T₀` space and a positive-degree chain, absence of an elementary degeneracy preimage is equivalent to pairwise distinct vertices; degree-zero chains are all nondegenerate.
 
 **Checks.**
 
@@ -2765,7 +2728,7 @@ Fix a spatial diamond `Y`, a prime `ℓ`, an open `U ⊂ Y` and an étale sheaf 
 
 #### C8.48a Analytic field-pair partial properness
 
-Define `analyticFieldPairPartiallyProper` for a map `f:X→Y` of arbitrary analytic adic
+Define analytic field-pair partial properness for a map `f:X→Y` of arbitrary analytic adic
 spaces: for every complete nonarchimedean `T` and open bounded valuation subring
 `T⁺⊆O_T`, the map
 `X(T,T⁺)→X(T,O_T)×_{Y(T,O_T)}Y(T,T⁺)`
@@ -2773,7 +2736,7 @@ is bijective. No finite-type hypothesis enters this predicate.
 
 For analytic `f` over `Spa(ℤ_p,ℤ_p)`, assume relative tautness: for every affinoid open
 `W⊂Y`, the space `|f⁻¹(W)|` is taut, meaning quasiseparated with quasicompact closures of
-quasicompact opens. Prove `analyticFieldPairPartiallyProper_diamondification`: under
+quasicompact opens. Prove that under
 this hypothesis the field-pair predicate is equivalent to partial properness of `f^◇` in
 C4.5. Apply C4.18 to `f⁻¹(W)^◇→W^◇` using D6's underlying-space homeomorphisms and the
 field-test reduction below, and glue over target opens. Conversely, partial properness of
@@ -2807,7 +2770,7 @@ On the Huber domain stated in
 (CS17 Remark 4.2.20, p.712; ECD Proposition 18.10 and proof, pp.106–107;
 ECD Proposition 15.4 and Lemma 15.6, pp.90–91.)
 
-**Perfectoid field-test reduction** (`analyticFieldPairPartiallyProper_iff_perfectoidTests`).
+**Perfectoid field-test reduction.**
 For analytic `f:X→Y` over `Spa(ℤ_p,ℤ_p)`, the unrestricted field-pair predicate is
 equivalent to the same bijections tested only on perfectoid fields `T` of characteristic
 `0` or `p`. These in turn are exactly the characteristic-`p` perfectoid field tests for
@@ -2836,7 +2799,7 @@ domination applied to residue fields.)
 
 #### C8.49 Dimension of a rank-one closure in a partially proper adic space
 
-Let `X` be an analytic adic space whose structure map to `Spa(K,O_K)` satisfies `analyticFieldPairPartiallyProper` of C8.48a, `K complete` nonarchimedean with residue field `k`. For rank-one `x∈X`, the topological dimension of `closure{x}` equals `trdeg(k(x)/k)`, where `k(x)` is the residue field of `O_K(x)` for the completed residue field `K(x)`. This uses the field-pair predicate alone, through the residue valuation space; relative tautness is needed when invoking C8.48a's diamondification comparison.
+Let `X` be an analytic adic space whose structure map to `Spa(K,O_K)` is analytic field-pair partially proper (C8.48a), `K complete` nonarchimedean with residue field `k`. For rank-one `x∈X`, the topological dimension of `closure{x}` equals `trdeg(k(x)/k)`, where `k(x)` is the residue field of `O_K(x)` for the completed residue field `K(x)`. This uses the field-pair predicate alone, through the residue valuation space; relative tautness is needed when invoking C8.48a's diamondification comparison.
 
 *Needs:* `C8.1`; `C8.48a`; `Algebra.trdeg`.
 
@@ -2844,7 +2807,7 @@ Let `X` be an analytic adic space whose structure map to `Spa(K,O_K)` satisfies 
 
 #### C8.50 Dimension of a partially proper adic space
 
-For analytic `X` whose structure map to `Spa(K,O_K)` satisfies `analyticFieldPairPartiallyProper` of C8.48a, `dim X` is the supremum of `trdeg(k(x)/k)` over its points. The supremum convention includes empty `X` and infinite dimension; any asserted finite maximum must be justified by attainment. This uses the field-pair conclusion of C8.49.
+For analytic `X` whose structure map to `Spa(K,O_K)` is analytic field-pair partially proper (C8.48a), `dim X` is the supremum of `trdeg(k(x)/k)` over its points. The supremum convention includes empty `X` and infinite dimension; any asserted finite maximum must be justified by attainment. This uses the field-pair conclusion of C8.49.
 
 *Needs:* `C8.49`; `C8.48a`.
 
@@ -2852,7 +2815,7 @@ For analytic `X` whose structure map to `Spa(K,O_K)` satisfies `analyticFieldPai
 
 #### C8.51 Closure dimension along a partially proper analytic map
 
-For a map `f:X→Y` of analytic adic spaces whose structure maps to `Spa(K,O_K)` both satisfy `analyticFieldPairPartiallyProper` of C8.48a, rank-one `x∈X` and `y=f(x), dim closure_X{x}=dim closure_Y{y}+dim closure_(X_y){x}`. Closures here are topological closures; `X_y` is the fibre over the rank-one point. The field-pair predicate suffices for the residue-field dimension calculations.
+For a map `f:X→Y` of analytic adic spaces whose structure maps to `Spa(K,O_K)` are both analytic field-pair partially proper (C8.48a), rank-one `x∈X` and `y=f(x), dim closure_X{x}=dim closure_Y{y}+dim closure_(X_y){x}`. Closures here are topological closures; `X_y` is the fibre over the rank-one point. The field-pair predicate suffices for the residue-field dimension calculations.
 
 *Needs:* `C8.49`; `C8.48a`; `Algebra.trdeg`; `trdeg_add_eq`.
 
@@ -2864,9 +2827,7 @@ For the empty space topological dimension is bottom; for a nonempty identity map
 
 ### Dependencies
 
-Layers C0–C7, with C8.24–C8.30 independent of C7; `AdicSpacesPartII`, R0.11 and R0.7; `AdicEtaleGeometry`, A2.1 on its stated domain; `ClassicalAdicEtaleCohomology`, §11.2; `DiamondsAndVStacks`, Layers D0–D5; `EnhancedDerivedSheaves`, Layers E1–E2; `ArithmeticGaloisDuality`, §R02.2.1; `ProfiniteCohomology`, Layers `0, 10`–`11`; `ProfiniteProPGroups`, Layers `2, 3` and `6`; `LocalFieldsRamification`, Layer `4`.
-
-<a id="c9"></a>
+Layers C0–C7, with C8.24–C8.30 independent of C7; `AdicSpacesPartII`, R0.11 and R0.7; `AdicEtaleGeometry`, A2.1 on its stated domain; `ClassicalAdicEtaleCohomology`, §11.2; `DiamondsAndVStacks`, Layers D0–D5; `EnhancedDerivedSheaves`, Layers E1–E2; `ArithmeticGaloisDuality`, §R02.2.1; `ProfiniteCohomology`, Layers `0, 10`–`11`; completed `ProfiniteProPGroups`, Layers `2, 3` and `6`; `LocalFieldsRamification`, Layer `4`.
 
 ## Layer C9: Compact generation under a uniform bound
 
@@ -3013,7 +2974,7 @@ Under C9.8, every compact `A∈D_et(Y,Λ)` is perfect-constructible in the C7 se
 
 Under the same bounded-cohomological-dimension hypotheses, `j!L` is compact when `j:U→Y` is quasicompact separated étale and `L∈D_et(U,Λ)` is locally constant with perfect values.
 
-*Needs:* `C9.5`; `C7.12` (API `IsPerfectLocalSystem.dualizable`); `C7`; `EnhancedDerivedSheaves`, Layer E1; `C5.1`; `C3.8`; `C3.9`.
+*Needs:* `C9.5`; `C7.12` (dualizability of perfect local systems); `C7`; `EnhancedDerivedSheaves`, Layer E1; `C5.1`; `C3.8`; `C3.9`.
 
 (ECD Proposition 20.17, end of proof, pp.121–122.)
 
