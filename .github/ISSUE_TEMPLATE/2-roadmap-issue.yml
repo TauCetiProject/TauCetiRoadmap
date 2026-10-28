@@ -35,7 +35,6 @@ body:
         - CFSGBasicProperties
         - CFSGStatement
         - CharacteristicClasses
-        - Chebotarev
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
