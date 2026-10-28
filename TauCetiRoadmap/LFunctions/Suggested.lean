@@ -37,8 +37,9 @@ import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.FiniteComponent
 `README.md`. These declarations state the roadmap's headline theorems against the pinned Mathlib
 and Tau Ceti: the continuation, functional equation and residue of the Dedekind, partial,
 Dirichlet, Hecke and Grossencharacter L-functions, their Mellin presentations through Hecke's theta
-kernel, the factorizations of Layer 4, and the boundary data of Layer 7. They also pin the
-completed-function conventions that downstream zero analysis consumes.
+kernel, the factorizations of Layer 4, the boundary data of Layer 7, and Mertens' product over a
+number field in Layer 8. They also pin the completed-function conventions that downstream zero
+analysis consumes.
 
 Every carrier is native at the pins. Generic ideal weights, Euler products, summation and the
 prime boundary datum are Tau Ceti's `ArithmeticDirichletSeries` and `LFunctions` modules. Moduli,
@@ -168,8 +169,6 @@ noncomputable def dual (d : AnalyticLFunctionData) : AnalyticLFunctionData where
 theorem dual_gammaFactor (d : AnalyticLFunctionData) (s : ℂ) :
     d.dual.gammaFactor s = starRingEnd ℂ (d.gammaFactor (starRingEnd ℂ s)) := sorry
 
-theorem dual_dual (d : AnalyticLFunctionData) : d.dual.dual = d := sorry
-
 /-- Compare every arithmetic and analytic field while ignoring the unused coefficient at zero. -/
 def EqOffZero (d e : AnalyticLFunctionData) : Prop :=
   (∀ n : ℕ, n ≠ 0 → d.coeff n = e.coeff n) ∧
@@ -193,11 +192,6 @@ structure HasFunctionalEquation (d : AnalyticLFunctionData) : Prop where
   polarOrder_reflect : ∀ s : ℂ, d.polarOrder s = d.polarOrder (reflectedPoint s)
   eq_away : ∀ s : ℂ, d.polarOrder s = 0 → d.polarOrder (reflectedPoint s) = 0 →
     d.completed s = d.rootNumber * d.dual.completed (1 - s)
-
-structure HasAverageCoefficientBound (d : AnalyticLFunctionData) : Prop where
-  coeff_avg : ∀ δ : ℝ, 0 < δ →
-    (fun n : ℕ => ∑ k ∈ Finset.Icc 1 n, ‖d.coeff k‖) =O[atTop]
-      (fun n : ℕ => (n : ℝ) ^ (1 + δ))
 
 theorem dual_hasDirichletAgreement {d : AnalyticLFunctionData}
     (h : d.HasDirichletAgreement) : d.dual.HasDirichletAgreement := sorry
@@ -430,38 +424,6 @@ def symm : FEPairWithLevel E where
 Mellin transform of `f - f₀`. -/
 def Λ : ℂ → E := P.toWeakFEPair.Λ
 
-/-- Mathlib's `WeakFEPair.hasMellin`: on `Re s > k`, `Λ s` is Mathlib's `mellin` of `f - f₀`. -/
-theorem hasMellin [CompleteSpace E] {s : ℂ} (hs : P.k < s.re) :
-    HasMellin (P.f · - P.f₀) s (P.Λ s) :=
-  P.toWeakFEPair.hasMellin hs
-
-/-- Mathlib's `IsStrongFEPair.hasMellin`: when both constants vanish, `Λ` is the Mellin transform
-of `f` at every `s`. -/
-theorem hasMellin_of_eq_zero (hf₀ : P.f₀ = 0) (hg₀ : P.g₀ = 0) (s : ℂ) :
-    HasMellin P.f s (P.Λ s) :=
-  IsStrongFEPair.hasMellin (P := P.toWeakFEPair) ⟨hf₀, hg₀⟩ s
-
-/-- Mathlib's `WeakFEPair.differentiableAt_Λ`. -/
-theorem differentiableAt_Λ {s : ℂ} (hs : s ≠ 0 ∨ P.f₀ = 0) (hs' : s ≠ P.k ∨ P.g₀ = 0) :
-    DifferentiableAt ℂ P.Λ s :=
-  P.toWeakFEPair.differentiableAt_Λ hs hs'
-
-/-- Mathlib's `WeakFEPair.Λ_residue_zero`: the residue at `0` is `-f₀`. -/
-theorem Λ_residue_zero : Tendsto (fun s : ℂ ↦ s • P.Λ s) (𝓝[≠] 0) (𝓝 (-P.f₀)) :=
-  P.toWeakFEPair.Λ_residue_zero
-
-/-- Mathlib's `WeakFEPair.Λ_residue_k`: the residue at `k` is `ε N^(-k) g₀`. -/
-theorem Λ_residue_k :
-    Tendsto (fun s : ℂ ↦ (s - P.k) • P.Λ s) (𝓝[≠] (P.k : ℂ))
-      (𝓝 ((P.ε * ↑(P.N ^ (-P.k))) • P.g₀)) :=
-  P.toWeakFEPair.Λ_residue_k
-
-/-- Mathlib's `WeakFEPair.functional_equation` for the transported pair, at every `s`; its dual
-side is the continued Mellin transform of `g(·/N)`. -/
-theorem functional_equation (s : ℂ) :
-    P.Λ (P.k - s) = (P.ε * ↑(P.N ^ (-P.k))) • P.toWeakFEPair.symm.Λ s :=
-  P.toWeakFEPair.functional_equation s
-
 /-- **The one fact the level adds.** The dual side of the transported pair is the continued Mellin
 transform of `g(·/N)`, which is `N^s` times that of `g`: on `Re s > k` by Mathlib's
 `mellin_comp_mul_right`, and off `{0, k}` by the identity theorem on the connected set
@@ -488,7 +450,7 @@ theorem toWeakFEPair_symm_Λ [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s 
     refine DifferentiableOn.analyticOnNhd (fun z hz ↦ ?_) hUo
     obtain ⟨hz0, hzk⟩ := memU.mp hz
     exact ((differentiableAt_id.const_cpow (Or.inl hN0)).smul
-      (P.symm.differentiableAt_Λ (Or.inl hz0) (Or.inl hzk))).differentiableWithinAt
+      (P.symm.toWeakFEPair.differentiableAt_Λ (Or.inl hz0) (Or.inl hzk))).differentiableWithinAt
   have hmem : ((P.k : ℂ) + 1) ∈ ({0, (P.k : ℂ)} : Set ℂ)ᶜ := by
     refine memU.mpr ⟨fun h ↦ ?_, fun h ↦ ?_⟩
     · have := congrArg Complex.re h
@@ -501,7 +463,8 @@ theorem toWeakFEPair_symm_Λ [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s 
     have hre : ∀ᶠ z in 𝓝 ((P.k : ℂ) + 1), P.k < z.re :=
       (continuous_re.tendsto _).eventually (lt_mem_nhds (by simp))
     filter_upwards [hre] with z hz
-    rw [← (P.toWeakFEPair.symm.hasMellin hz).2, ← (P.symm.hasMellin hz).2]
+    show P.toWeakFEPair.symm.Λ z = (P.N : ℂ) ^ z • P.symm.toWeakFEPair.Λ z
+    rw [← (P.toWeakFEPair.symm.hasMellin hz).2, ← (P.symm.toWeakFEPair.hasMellin hz).2]
     have h := mellin_comp_mul_right (fun t ↦ P.g t - P.g₀) z (inv_pos.mpr P.hN)
     simp only [← div_eq_mul_inv] at h
     refine h.trans ?_
@@ -512,10 +475,12 @@ theorem toWeakFEPair_symm_Λ [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s 
 
 /-- **The Mellin principle at level `N`**, Neukirch VII (1.4) with a level:
 `Λ(f, s) = ε N^(-s) Λ(g, k - s)` off the poles `0` and `k`, from Mathlib's
-`functional_equation` and `toWeakFEPair_symm_Λ`. -/
+`WeakFEPair.functional_equation` and `toWeakFEPair_symm_Λ`. -/
 theorem Λ_eq [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s ≠ P.k) :
     P.Λ s = (P.ε * (P.N : ℂ) ^ (-s)) • P.symm.Λ (P.k - s) := by
-  have h := P.functional_equation (P.k - s)
+  have h : P.Λ (P.k - (P.k - s)) =
+      (P.ε * ↑(P.N ^ (-P.k))) • P.toWeakFEPair.symm.Λ (P.k - s) :=
+    P.toWeakFEPair.functional_equation (P.k - s)
   rw [sub_sub_cancel] at h
   rw [h, P.toWeakFEPair_symm_Λ (sub_ne_zero.mpr hk.symm)
     (fun h' ↦ h0 (sub_eq_self.mp h')), smul_smul]
@@ -995,13 +960,6 @@ theorem tendsto_sub_one_mul_partialZeta (𝔪 : GNF.Modulus K) (c : GNF.RayClass
       (𝓝 ((dedekindZeta_residue K : ℂ) * finiteEulerCorrection K 𝔪 1 /
         (Nat.card (GNF.RayClassGroup 𝔪) : ℂ))) := sorry
 
-/-- The analytic residue and the supplier's arithmetic main term are one constant, so a change of
-modulus cannot silently produce two. -/
-theorem tendsto_sub_one_mul_partialZeta_mainTerm
-    (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) :
-    Tendsto (fun s : ℂ ↦ (s - 1) * partialZeta K 𝔪 c s) (𝓝[≠] 1)
-      (𝓝 ((GNF.rayClassIdealMainTerm 𝔪 : ℂ))) := sorry
-
 /-- The continued Dedekind zeta function: the continuation of Mathlib's `dedekindZeta` from
 `Re s > 1`. -/
 noncomputable def dedekindZetaC
@@ -1016,14 +974,8 @@ theorem meromorphic_dedekindZetaC : Meromorphic (dedekindZetaC K) := sorry
 theorem analyticAt_dedekindZetaC {s : ℂ} (hs : s ≠ 1) :
     AnalyticAt ℂ (dedekindZetaC K) s := sorry
 
-theorem analyticOnNhd_dedekindZetaC :
-    AnalyticOnNhd ℂ (dedekindZetaC K) {(1 : ℂ)}ᶜ := sorry
-
 theorem meromorphicOrderAt_dedekindZetaC_one :
     meromorphicOrderAt (dedekindZetaC K) 1 = (-1 : WithTop ℤ) := sorry
-
-theorem meromorphicOrderAt_dedekindZetaC_nonneg {s : ℂ} (hs : s ≠ 1) :
-    0 ≤ meromorphicOrderAt (dedekindZetaC K) s := sorry
 
 theorem tendsto_sub_one_mul_dedekindZetaC :
     Tendsto (fun s : ℂ ↦ (s - 1) * dedekindZetaC K s) (𝓝[≠] 1)
@@ -1048,10 +1000,6 @@ and whose germ equality covers them. -/
 theorem eventuallyEq_of_meromorphic_of_eqOn_halfPlane {Z W : ℂ → ℂ}
     (hZ : Meromorphic Z) (hW : Meromorphic W) (h : ∀ s : ℂ, 1 < s.re → Z s = W s) (s : ℂ) :
     Z =ᶠ[𝓝[≠] s] W := sorry
-
-/-- Values are read off a germ equality only where both sides are analytic. -/
-theorem eq_of_eventuallyEq_of_analyticAt {Z W : ℂ → ℂ} {s : ℂ}
-    (h : Z =ᶠ[𝓝[≠] s] W) (hZ : AnalyticAt ℂ Z s) (hW : AnalyticAt ℂ W s) : Z s = W s := sorry
 
 theorem eq_of_meromorphic_of_eqOn_halfPlane (Z W : ℂ → ℂ) (hZ : Meromorphic Z)
     (hW : Meromorphic W)
@@ -1083,13 +1031,6 @@ theorem meromorphicOrderAt_completedDedekindZeta_one :
 theorem analyticAt_completedDedekindZeta {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
     AnalyticAt ℂ (completedDedekindZeta K) s := sorry
 
-theorem analyticOnNhd_completedDedekindZeta :
-    AnalyticOnNhd ℂ (completedDedekindZeta K) {0, 1}ᶜ := sorry
-
-theorem meromorphicOrderAt_completedDedekindZeta_nonneg
-    {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
-    0 ≤ meromorphicOrderAt (completedDedekindZeta K) s := sorry
-
 theorem tendsto_sub_one_mul_completedDedekindZeta :
     Tendsto (fun s : ℂ ↦ (s - 1) * completedDedekindZeta K s) (𝓝[≠] 1)
       (𝓝 (((|discr K| : ℤ) : ℂ) ^ ((1 : ℂ) / 2) *
@@ -1118,9 +1059,6 @@ noncomputable def dedekindZetaData
   rootNumber := 1
   completed := completedDedekindZeta K
   polarOrder := Finsupp.single 0 1 + Finsupp.single 1 1
-
-theorem degree_dedekindZetaData :
-    (dedekindZetaData K).degree = Module.finrank ℚ K := sorry
 
 theorem dedekindZetaData_hasContinuation :
     (dedekindZetaData K).HasMeromorphicContinuation := sorry
@@ -1303,7 +1241,7 @@ noncomputable def mellinKernel (D : Set (ArchParam K))
 /-- **The Mellin transform**, Neukirch (5.5) `Z(𝔎, 2s) = L(f, s)`: for `Re s > 1`,
 `Z(𝔎, s) = ∫_0^∞ (f_D(𝔞, u) - a₀) u^(s/2) du/u`, Mathlib's `mellin` at `s/2`. ⚠ The completed
 function at `s` is the Mellin transform at `s/2`; Mathlib's `mellin f s = ∫ t^(s-1) f(t) dt` is
-Neukirch's `L(f, s)` of (1.4), and it is the transform in `FEPairWithLevel.hasMellin`. -/
+Neukirch's `L(f, s)` of (1.4), and it is the transform in Mathlib's `WeakFEPair.hasMellin`. -/
 theorem completedPartialZeta_eq_mellin {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) {s : ℂ} (hs : 1 < s.re) :
     completedPartialZeta K I s =
@@ -1402,12 +1340,12 @@ noncomputable def dedekindFEPair {D : Set (ArchParam K)} (hD : IsUnitFundamental
     exact FEPairWithLevel.isBigO_rpow_of_isBigO_exp_neg hc
       (div_pos one_pos (Nat.cast_pos.mpr Module.finrank_pos)) h r
 
-/-- Mathlib's `hasMellin` for `dedekindFEPair`, read against `completedPartialZeta_eq_mellin`. -/
+/-- Mathlib's `WeakFEPair.hasMellin` for `dedekindFEPair`, read against `completedPartialZeta_eq_mellin`. -/
 theorem dedekindFEPair_completed {D : Set (ArchParam K)} (hD : IsUnitFundamentalDomain K D)
     (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) {s : ℂ} (hs : 1 < s.re) :
     (dedekindFEPair K hD I).Λ (s / 2) = completedPartialZeta K I s := by
   rw [completedPartialZeta_eq_mellin K hD I hs]
-  refine (FEPairWithLevel.hasMellin _ ?_).2.symm
+  refine ((dedekindFEPair K hD I).toWeakFEPair.hasMellin ?_).2.symm
   show (1 / 2 : ℝ) < (s / 2).re
   rw [Complex.div_ofNat_re]
   linarith
@@ -1431,7 +1369,7 @@ theorem completedPartialZeta_one_sub_eventuallyEq (I : (FractionalIdeal (𝓞 K)
       completedPartialZeta K (dualUnit K I) := sorry
 
 /-- (5.9): the residue at `s = 1` is `2 a₀ = 2^r R / w`, from Mathlib's residue at `k = 1/2`
-(`FEPairWithLevel.Λ_residue_k`) in the variable `s/2`; summed over the `h` classes this is the
+(Mathlib's `WeakFEPair.Λ_residue_k`) in the variable `s/2`; summed over the `h` classes this is the
 residue `2^(r₁+r₂) h R / w` of `completedDedekindZeta` at `1`
 (`tendsto_sub_one_mul_completedDedekindZeta`, with `Γ_ℝ(1) = 1`, `Γ_ℂ(1) = 1/π` and the class
 number formula). -/
@@ -1439,30 +1377,7 @@ theorem tendsto_sub_one_mul_completedPartialZeta (I : (FractionalIdeal (𝓞 K)�
     Tendsto (fun s : ℂ ↦ (s - 1) * completedPartialZeta K I s) (𝓝[≠] 1)
       (𝓝 (2 * mellinConstant K : ℂ)) := sorry
 
-/-- **The real-quadratic acceptance test of the unit quotient.** For a real quadratic field
-`r₁ = 2`, `r₂ = 0`, the unit rank is `1`, `w = 2`, and the regulator is `log ε` for the
-fundamental unit `ε > 1`. Then the fundamental domain — an interval of the norm-one hyperbola,
-one period of `y ↦ |ε|² y` — has volume `2R`, the constant term of the kernel is `R`, and every
-partial zeta function has residue `2R` at `s = 1`, summing over the `h` classes to the residue
-`2hR` of `completedDedekindZeta` (`Γ_ℝ(1) = 1`). ⚠ None of this is visible over `ℚ` or `ℚ(i)`,
-where the unit group is finite and the fundamental domain is a point; and none of it is produced
-by the one-parameter theta series, whose lattice-point sum is not even summable here
-(`not_summable_absNorm_of_rank_pos`). -/
-theorem realQuadratic_unitQuotient_test (h₁ : nrRealPlaces K = 2) (h₂ : nrComplexPlaces K = 0)
-    {D : Set (ArchParam K)} (hD : IsUnitFundamentalDomain K D)
-    (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
-    NumberField.Units.rank K = 1 ∧ NumberField.Units.torsionOrder K = 2 ∧
-      surfaceHaar K (Subtype.val ⁻¹' D) = ENNReal.ofReal (2 * NumberField.Units.regulator K) ∧
-      mellinConstant K = NumberField.Units.regulator K ∧
-      Tendsto (mellinKernel K D (mixedEmbedding.idealLattice K I)) atTop
-        (𝓝 (NumberField.Units.regulator K : ℂ)) ∧
-      Tendsto (fun s : ℂ ↦ (s - 1) * completedPartialZeta K I s) (𝓝[≠] 1)
-        (𝓝 (2 * NumberField.Units.regulator K : ℂ)) := sorry
-
 end UnitQuotient
-
-noncomputable def χ₄C : DirichletCharacter ℂ 4 :=
-  ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)
 
 /-! ### The Poisson and Mellin normalization
 
@@ -1488,9 +1403,7 @@ do not prevent a factor-of-two or an inverse-discriminant error.
 The first conjunct is the Gaussian Fourier transform on the imaginary axis `τ = I * t`, and the second
 is `poissonSummation_idealLattice` applied to it; both are stated again here because the point of
 the theorem is that the four number-field constants — the covolume, the discriminant power and the
-two archimedean factors — are audited against the Fourier conventions in one place. The three
-worked checks are `completedDedekindZeta_rat`, `completedDedekindZeta_cyclotomic_four` and, for
-the unit quotient, `realQuadratic_unitQuotient_test`. -/
+two archimedean factors — are audited against the Fourier conventions in one place. -/
 theorem gaussianTheta_mellin_normalization (K : Type u) [Field K] [NumberField K] :
     (∀ t : ℝ, 0 < t → ∀ y : mixedEmbedding.mixedSpace K,
         mixedFourier K (mixedGaussian K t) y =
@@ -1512,23 +1425,6 @@ theorem gaussianTheta_mellin_normalization (K : Type u) [Field K] [NumberField K
         completedDedekindZeta K s =
           ((|discr K| : ℤ) : ℂ) ^ (s / 2) * Gammaℝ s ^ nrRealPlaces K *
             Gammaℂ s ^ nrComplexPlaces K * dedekindZeta K s) := sorry
-
-/-- Worked rational check: conductor one, one real gamma factor, no complex factor, and the
-completed function is Mathlib's `completedRiemannZeta` wherever both are regular. -/
-theorem completedDedekindZeta_rat {s : ℂ} (h0 : s ≠ 0) (h1 : s ≠ 1) :
-    completedDedekindZeta ℚ s = completedRiemannZeta s := sorry
-
-/-- Worked imaginary-quadratic check. `|d| = 4` and `r₂ = 1`, so the conductor power is `2 ^ s`
-and the archimedean factor is `Gammaℂ s = 2 (2π) ^ (-s) Γ s`; Legendre duplication collapses the
-product against the factorization of `ζ_{ℚ(i)}` into the displayed constant. ⚠ Dropping the factor
-`2` in `Gammaℂ`, or writing the conductor power as `|d| ^ (-s/2)`, changes this constant, and the
-rational check above sees neither error. -/
-theorem completedDedekindZeta_cyclotomic_four
-    (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F]
-    {s : ℂ} (hs : 1 < s.re) :
-    completedDedekindZeta F s =
-      2 * (Real.pi : ℂ) ^ (-s) * Complex.Gamma s * riemannZeta s *
-        DirichletCharacter.LFunction χ₄C s := sorry
 
 open scoped Classical in
 /-! ## Layer 4: Dirichlet L-functions and factorizations -/
@@ -1615,17 +1511,6 @@ theorem dedekindZetaC_cyclotomic_imprimitive
             (if p ∣ m χ then (1 : ℂ) else 1 - χ' χ (p : ZMod (m χ)) * (p : ℂ) ^ (-z))) =ᶠ[𝓝[≠] s]
           fun z ↦ ∏ χ : DirichletCharacter ℂ n, DirichletCharacter.LFunction χ z) := sorry
 
-/-- The mandatory ramified example, at all three levels.  The prime `2` ramifies in `ℚ(i)`, and
-`χ₄C` is the primitive character modulo `4`. -/
-theorem dedekindZetaC_cyclotomic_four
-    (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] :
-    (∀ s : ℂ, 1 < s.re →
-        dedekindZetaC F s = riemannZeta s * DirichletCharacter.LFunction χ₄C s) ∧
-      (∀ s : ℂ, dedekindZetaC F =ᶠ[𝓝[≠] s]
-        fun z ↦ riemannZeta z * DirichletCharacter.LFunction χ₄C z) ∧
-      (∀ s : ℂ, s ≠ 1 →
-        dedekindZetaC F s = riemannZeta s * DirichletCharacter.LFunction χ₄C s) := sorry
-
 /-! ## Layers 5--6: Hecke and Grossencharacter L-functions -/
 
 /-- The unitary ideal weight of a ray-class character: Tau Ceti's
@@ -1640,12 +1525,6 @@ the supplier's prime-to carrier, so no junk class can be read off a bad ideal. -
 theorem rayClassIdealWeight_apply (𝔪 : GNF.Modulus K) (χ : GNF.RayClassCharacter 𝔪)
     (I : GNF.integralIdealsPrimeTo 𝔪) :
     (rayClassIdealWeight K 𝔪 χ).1 (I : Ideal (𝓞 K)) = (χ (GNF.idealClass 𝔪 I) : ℂ) := sorry
-
-/-- ⚠ The weight vanishes at the zero ideal and at every prime dividing the finite part of the
-modulus. This is what deletes the Euler factors recorded by `finiteEulerCorrection`. -/
-theorem rayClassIdealWeight_eq_zero (𝔪 : GNF.Modulus K) (χ : GNF.RayClassCharacter 𝔪)
-    {I : Ideal (𝓞 K)} (hI : ¬ 𝔪.IsCoprimeTo I) :
-    (rayClassIdealWeight K 𝔪 χ).1 I = 0 := sorry
 
 /-- **A finite-order character presented at its own conductor.** ⚠ One ray-class character can be
 presented at every multiple of its conductor, so a conductor stored beside a presentation modulus
@@ -1680,21 +1559,6 @@ noncomputable def inv (ψ : PrimitiveRayClassCharacter K) : PrimitiveRayClassCha
         ψ.isPrimitive))
 
 end PrimitiveRayClassCharacter
-
-/-- The modulus `4∞` of `ℚ`: Tau Ceti's `ratModulus 4`. -/
-noncomputable abbrev modulusFour : GNF.Modulus ℚ := GNF.ratModulus 4 (by norm_num)
-
-/-- The odd character mod `4∞`: `χ₄` transported by Tau Ceti's
-`ratDirichletEquiv : RayClassCharacter (ratModulus n) ≃* DirichletCharacter ℂ n`. -/
-noncomputable def oddRayClassCharacterModFour : GNF.RayClassCharacter modulusFour :=
-  (TauCeti.GlobalNumberFields.ratDirichletEquiv 4 (by norm_num)).symm χ₄C
-
-theorem oddRayClassCharacterModFour_isPrimitive :
-    oddRayClassCharacterModFour.IsPrimitive := sorry
-
-/-- The bundled forms consumed by the primitive-scoped declarations. -/
-noncomputable def oddPrimitiveModFour : PrimitiveRayClassCharacter ℚ :=
-  ⟨modulusFour, oddRayClassCharacterModFour, oddRayClassCharacterModFour_isPrimitive⟩
 
 /-- The presented L-series of a character **at a presentation modulus**. It depends on the
 presentation and not only on the character: the primes dividing the finite part of `𝔪` are
@@ -1752,7 +1616,7 @@ theorem heckeLFunctionC_eq_primitive
 
 /-- **Orthogonality reconstruction.** ⚠ Both sides run over the ideals prime to the modulus, so no
 Euler correction appears here; it appears only when the principal-character term is rewritten as
-`ζ_K`, by `principalHecke_test`. -/
+`ζ_K` times `finiteEulerCorrection`. -/
 theorem partialZeta_eq_sum_heckeLFunctionC (𝔪 : GNF.Modulus K)
     [Fintype (GNF.RayClassCharacter 𝔪)] (c : GNF.RayClassGroup 𝔪) {s : ℂ} (hs : 1 < s.re) :
     (Nat.card (GNF.RayClassGroup 𝔪) : ℂ) * partialZeta K 𝔪 c s =
@@ -1818,39 +1682,11 @@ theorem exists_mellin_completedHeckeLFunction (χ : PrimitiveRayClassCharacter K
       completedHeckeLFunction K χ s =
         ∫ t in Set.Ioi (0 : ℝ), θ t * (t : ℂ) ^ s / (t : ℂ) := sorry
 
-/-- The required imprimitive regression. The trivial character at a nontrivial modulus has no card
-at its presentation modulus, and its presented series is `ζ_K` with the finite Euler factors
-deleted — the same correction as in `sum_partialZeta`. ⚠ Both sides have a pole at `s = 1`, so the
-identity is stated on the half-plane and as germs. -/
-theorem principalHecke_test (𝔪 : GNF.Modulus K) (h𝔪 : 𝔪 ≠ GNF.Modulus.one K) :
-    ¬ (1 : GNF.RayClassCharacter 𝔪).IsPrimitive ∧
-      (∀ s : ℂ, 1 < s.re →
-        heckeLFunctionC K (1 : GNF.RayClassCharacter 𝔪) s =
-          dedekindZetaC K s * finiteEulerCorrection K 𝔪 s) ∧
-      (∀ s : ℂ, heckeLFunctionC K (1 : GNF.RayClassCharacter 𝔪) =ᶠ[𝓝[≠] s]
-        fun z ↦ dedekindZetaC K z * finiteEulerCorrection K 𝔪 z) := sorry
-
 /-- The purely imaginary twist `χ * N^(it)` of a unitary weight, as the supplier's norm twist
 `χ * N^(-z)` at `z = -it`. -/
 noncomputable abbrev imaginaryNormTwist (χ : ADS.UnitaryIdealWeight K) (t : ℝ) :
     ADS.UnitaryIdealWeight K :=
   TauCeti.UnitaryIdealWeight.normTwist (-((t : ℂ) * Complex.I)) (by simp) χ
-
-/-- The finite-family hypotheses used by the `3-4-1` argument. Cancellation of norm twists is
-required only for nontrivial members; the identity member supplies the zeta pole. -/
-structure CancellingFamily (G : Type*) [CommGroup G] [Fintype G]
-    (w : G → ADS.UnitaryIdealWeight K) : Prop where
-  map_mul : ∀ g h : G, ∀ I : Ideal (𝓞 K),
-    (w (g * h)).1 I = (w g).1 I * (w h).1 I
-  map_one : ∀ I : Ideal (𝓞 K),
-    TauCeti.MultiplicativeIdealWeight.IsGood (w 1).1 I →
-      (w 1).1 I = 1
-  cancellation : ∀ g : G, g ≠ 1 → ADS.HasCancellation (w g)
-  conj : ∀ g : G, ∃ h : G, ∀ I : Ideal (𝓞 K),
-    (w h).1 I = starRingEnd ℂ ((w g).1 I)
-  cancellation_normTwist : ∀ g : G, g ≠ 1 → ∀ t : ℝ,
-    ADS.HasCancellation
-      (imaginaryNormTwist K (w g) t)
 
 /-- Hypotheses for one possibly infinite-order unitary character. The square of a twist may be a
 pure norm twist or may cancel; requiring cancellation in all cases excludes quadratic examples. -/
@@ -1922,20 +1758,11 @@ variable {K} in
 `lFunctionC χ s` is the unitary series at `s - σ` (`lFunctionC_eq`) and the completion recenters
 at `s - σ` (`completed`). It is read off the primary object, and it is the **negative**
 of the supplier's `HeckeCharacter.shift`, which is fixed idelically by `|χ| = ‖·‖^shift`
-(`norm_toHeckeCharacter_apply`): a prime idele has `‖π_𝔭‖ = N𝔭⁻¹`, so `|χ(π_𝔭)| = N𝔭^(-shift)`.
+(Tau Ceti's `HeckeCharacter.norm_apply_eq_rpow_shift`): a prime idele has `‖π_𝔭‖ = N𝔭⁻¹`, so `|χ(π_𝔭)| = N𝔭^(-shift)`.
 For the idele class character `‖·‖^(-m)`, whose ideal-side values are `N𝔞^m`, the supplier's
 shift is `-m` and this one is `m` (`ratNormPow_idealShift`). -/
 noncomputable def idealShift {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℝ :=
   -χ.toHeckeCharacter.shift
-
-/-- **The supplier's sign of the shift**: `|χ(y)| = ‖y‖^shift` for every idele `y`, the convention
-that the Global Number Fields README fixes and Tau Ceti implements as
-`HeckeCharacter.norm_apply_eq_rpow_shift`. In the ideal-side shift it reads
-`|χ(y)| = ‖y‖^(-idealShift)`. -/
-theorem norm_toHeckeCharacter_apply {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
-    (y : IdeleGroup (𝓞 K) K) :
-    ‖((χ.toHeckeCharacter (QuotientGroup.mk y) : ℂˣ) : ℂ)‖ =
-      ((GNF.ideleNorm y : NNReal) : ℝ) ^ χ.toHeckeCharacter.shift := sorry
 
 variable {K} in
 /-- **The Hecke character is primary.** Two presentations of one idele class character at one
@@ -2115,16 +1942,12 @@ noncomputable def ofRayClassCharacter
     {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) : Grossencharacter K 𝔪 :=
   (exists_ofRayClassCharacter K η).choose
 
-theorem ofRayClassCharacter_toHeckeCharacter
-    {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
-    (ofRayClassCharacter K η).toHeckeCharacter = GNF.HeckeCharacter.ofRayClassCharacter _ η :=
-  (exists_ofRayClassCharacter K η).choose_spec.1
-
 /-- Closed by the supplier's `HeckeCharacter.shift_ofRayClassCharacter`. -/
 theorem ofRayClassCharacter_idealShift
     {𝔪 : GNF.Modulus K} (η : GNF.RayClassCharacter 𝔪) :
     (ofRayClassCharacter K η).idealShift = 0 := by
-  rw [idealShift, ofRayClassCharacter_toHeckeCharacter,
+  rw [idealShift, show (ofRayClassCharacter K η).toHeckeCharacter = _ from
+      (exists_ofRayClassCharacter K η).choose_spec.1,
     GNF.HeckeCharacter.shift_ofRayClassCharacter, neg_zero]
 
 /-- **The finite presentation at the stated modulus.** A presentation of a finite-order Hecke
@@ -2197,7 +2020,8 @@ of the two is `1`. This is Neukirch VII (6.13): the archimedean component of the
 character is `b ↦ b⁻¹` against Hecke's `χ_∞`, so Hecke's classical infinity type is `-n`, and his
 `χ((a)) = χ_f(a) χ_∞(a)` of (6.1) reads `χ_u((a)) N(a)^shift = ∏_τ τ(a)^(-n_τ)` on
 `a ≡ 1 mod* 𝔪`. ⚠ The law with `∏_τ τ(a)^(n_τ)` on the right-hand side is false for every
-nonreal angular character, already at shift zero: `angularGrossencharacter_compatibility_test`.
+nonreal angular character, already at shift zero: over `ℚ(i)` at `a = 2 + i` the finite value is
+`((3+4i)/5)^(2k)` and the archimedean value is its inverse, which is not equal to it.
 ⚠ For `a` not congruent to `1` the two sides differ by the finite character `finiteCharacter`,
 which this relation determines; quantifying over all `a` would leave only the unramified
 characters. -/
@@ -2274,8 +2098,7 @@ open scoped Classical
 parity `ε_w` of the archimedean restriction differs from the parity of the algebraic exponent. By
 `realParity_eq` that correction is trivial outside `𝔪∞`; at the real places of `𝔪` it is the
 presented sign twist. ⚠ The algebraic infinity type alone misses it: the odd character mod `4∞`
-of `ℚ` has exponent `0` and parity `1`, so its archimedean value at `-1` is `-1`, not `1`
-(`oddCharacter_mod_four_sign_test`). -/
+of `ℚ` has exponent `0` and parity `1`, so its archimedean value at `-1` is `-1`, not `1`. -/
 noncomputable def archimedeanValue {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : K) : ℂ :=
   letI : Fintype {w : InfinitePlace K // w.IsReal} := Fintype.ofFinite _
   (∏ τ : K →+* ℂ, τ x ^ χ.infinityType τ) *
@@ -2301,7 +2124,7 @@ integers: the coefficient that the twisted theta series evaluates (`finiteCharac
 finite character of the unitary part. ⚠ It is not itself the residue character. It is `0` at the
 actual element `0`, since `(0)` is not prime to `𝔪`, while at conductor one the residue of `0` is the unit
 `1`. The character of `(𝓞/𝔪₀)ˣ` that the Gauss sum `gaussSum` evaluates is `residueCharacter`,
-which agrees with this coefficient on nonzero elements (`residueCharacter_mk`). ⚠ Built from the
+which agrees with this coefficient on nonzero elements (`existsUnique_residueCharacter`). ⚠ Built from the
 algebraic exponents alone it would be even at `-1` for every finite-order character, and the
 theta series of an odd character would vanish by pairing `a` with `-a`. -/
 noncomputable def finiteCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
@@ -2339,26 +2162,22 @@ theorem existsUnique_residueCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharac
       ∀ a : 𝓞 K, a ≠ 0 → ρ (Ideal.Quotient.mk 𝔪.finitePart a) = finiteCharacter K χ a := sorry
 
 /-- **Hecke's residue character** `χ_f` of `(𝓞/𝔪₀)ˣ`, Neukirch VII (6.1), as Mathlib's `MulChar`
-of the residue ring, pinned by `residueCharacter_mk`. It is the character that the Gauss sum
+of the residue ring, pinned by `existsUnique_residueCharacter`. It is the character that the Gauss sum
 `gaussSum` evaluates, and the one in which Neukirch's (6.4) is stated (`gaussSum_mul`). -/
 noncomputable def residueCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
     MulChar (𝓞 K ⧸ 𝔪.finitePart) ℂ :=
   (existsUnique_residueCharacter K χ).exists.choose
 
-theorem residueCharacter_mk {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K)
-    (ha : a ≠ 0) :
-    residueCharacter K χ (Ideal.Quotient.mk 𝔪.finitePart a) = finiteCharacter K χ a :=
-  (existsUnique_residueCharacter K χ).exists.choose_spec a ha
-
 /-- **On nonzero elements the coefficient depends only on the residue mod `𝔪₀`**, with no
-condition on signs: both values are the residue character's (`residueCharacter_mk`). ⚠ Not at
+condition on signs: both values are the residue character's (`existsUnique_residueCharacter`). ⚠ Not at
 `0`: at conductor one `0` and `1` have the same residue, while the coefficient is `0` at `0` and
 `1` at `1`. -/
 theorem finiteCharacter_residue {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a b : 𝓞 K)
     (ha : a ≠ 0) (hb : b ≠ 0)
     (h : Ideal.Quotient.mk 𝔪.finitePart a = Ideal.Quotient.mk 𝔪.finitePart b) :
     finiteCharacter K χ a = finiteCharacter K χ b := by
-  rw [← residueCharacter_mk K χ a ha, ← residueCharacter_mk K χ b hb, h]
+  rw [← (existsUnique_residueCharacter K χ).exists.choose_spec a ha,
+    ← (existsUnique_residueCharacter K χ).exists.choose_spec b hb, h]
 
 /-- On a unit the finite character is the full archimedean value, since `(u) = 𝓞_K` and
 `N(u) = 1`: Neukirch's `χ_f(ε) χ_∞(ε) = 1`, the input of (8.2). ⚠ With signs: at `u = -1` for the
@@ -2422,7 +2241,7 @@ noncomputable def harmonicFactor {𝔪 : GNF.Modulus K} (χ : Grossencharacter K
 /-- The polynomial is homogeneous under the unit action, and the finite character compensates:
 `χ_f(u) N(u^p) = ∏_w |u_w|^(P_w)` for a unit `u`, by `finiteCharacter_unit`: the sign of
 `u_w^(ε_w)` at a real place is cancelled by the sign in `archimedeanValue`. ⚠ At `u = -1` for the
-odd character mod `4∞` both factors are `-1` (`oddCharacter_mod_four_sign_test`); with a finite
+odd character mod `4∞` both factors are `-1`; with a finite
 character built from the algebraic exponents alone this theorem would read `-1 = 1`. -/
 theorem finiteCharacter_mul_harmonicFactor_unit {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (u : (𝓞 K)ˣ) :
@@ -2457,8 +2276,7 @@ polynomial at `0`: the class of `0` is a unit exactly when `𝔣₀ = 1`, and th
 `0` exactly when `Tr p = 0`. ⚠ Not the whole `primitiveConductor`: a real place divides it
 whenever the parity of the archimedean restriction differs from the parity of the algebraic
 exponent there, even when the character is unramified there and the polynomial is constant. The
-odd norm powers of `ℚ` have presentation conductor `∞` and constant term `1`
-(`ratNormPow_theta_test`). -/
+odd norm powers of `ℚ` have presentation conductor `∞` and constant term `1`. -/
 noncomputable def heckeEpsilon {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ :=
   if χ.toHeckeCharacter.finiteConductor = ⊤ ∧ harmonicDegree K χ = 0 then 1 else 0
 
@@ -2685,9 +2503,9 @@ noncomputable def grossencharacterFEPair {𝔪 : GNF.Modulus K} {D : Set (ArchPa
       (div_pos one_pos (Nat.cast_pos.mpr Module.finrank_pos)) h r
 
 /-- Mathlib's Mellin representation for `grossencharacterFEPair`, read against
-`unitaryCompletion_eq_mellin`. With `Tr p = 0` it is `hasMellin`, since `k = 1/2 < Re s / 2`. With
+`unitaryCompletion_eq_mellin`. With `Tr p = 0` it is `WeakFEPair.hasMellin`, since `k = 1/2 < Re s / 2`. With
 `Tr p > 0` the half-plane `Re s > 1` reaches below `k`, but then `ε(χ) = ε(χ⁻¹) = 0`, both constants
-vanish, and it is the strong-pair `hasMellin_of_eq_zero`, valid at every `s`. -/
+vanish, and it is Mathlib's strong-pair `IsStrongFEPair.hasMellin`, valid at every `s`. -/
 theorem grossencharacterFEPair_completed {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
     (rep rep' : ClassGroup (𝓞 K) → Ideal (𝓞 K))
@@ -2699,7 +2517,8 @@ theorem grossencharacterFEPair_completed {𝔪 : GNF.Modulus K} {D : Set (ArchPa
       unitaryCompletion K χ s := by
   rw [unitaryCompletion_eq_mellin K hD χ rep hrep hs]
   by_cases hT : harmonicDegree K χ = 0
-  · refine (FEPairWithLevel.hasMellin _ ?_).2.symm
+  · refine ((grossencharacterFEPair K hD χ rep rep' hrep hrep').toWeakFEPair.hasMellin
+      ?_).2.symm
     show 1 / 2 + (harmonicDegree K χ : ℝ) / Module.finrank ℚ K <
       ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2).re
     simp only [hT, Nat.cast_zero, zero_div, add_zero, Complex.div_ofNat_re]
@@ -2708,8 +2527,13 @@ theorem grossencharacterFEPair_completed {𝔪 : GNF.Modulus K} {D : Set (ArchPa
       simp [heckeMellinConstant, heckeEpsilon, hT]
     have hg₀ : heckeMellinConstant K (inverse K χ) rep' = 0 := by
       simp [heckeMellinConstant, heckeEpsilon, harmonicDegree_inverse, hT]
-    rw [← ((grossencharacterFEPair K hD χ rep rep' hrep hrep').hasMellin_of_eq_zero hf₀ hg₀
-      _).2]
+    have hM : HasMellin (grossencharacterFEPair K hD χ rep rep' hrep hrep').f
+        ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2)
+        ((grossencharacterFEPair K hD χ rep rep' hrep hrep').Λ
+          ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2)) :=
+      IsStrongFEPair.hasMellin
+        (P := (grossencharacterFEPair K hD χ rep rep' hrep hrep').toWeakFEPair) ⟨hf₀, hg₀⟩ _
+    rw [← hM.2]
     congr 1
     funext u
     simp only [hf₀, sub_zero]
@@ -2823,26 +2647,6 @@ theorem grossencharacterData_ofRayClassCharacter (χ : PrimitiveRayClassCharacte
         (Grossencharacter.ofRayClassCharacter K χ.character)).EqOffZero
       (heckeData K χ) := sorry
 
-/-- ⚠ **The real sign in the finite character**, at the unit `-1` of the odd character mod `4∞`.
-Its algebraic infinity type is `0` and its shift is `0`, so a finite character built from the
-algebraic exponents alone would be `1` at `-1`, while the harmonic polynomial `x^ε` with `ε = 1`
-is `-1` there, and the twisted theta series would vanish by pairing `a` with `-a` — although
-`Λ(s, χ₄)` is not zero. With the full archimedean value `χ_f(-1) = -1`, the unit compensation
-`finiteCharacter_mul_harmonicFactor_unit` reads `(-1)·(-1) = 1`, the terms at `a` and `-a` are
-equal, and the theta series over `ℤ` is Riemann's odd theta function
-`2 ∑_{n ≥ 1} χ₄(n) n e^{-π y n²}`. A test of the card does not see this:
-it reads the parity off the card, not off the kernel. -/
-theorem oddCharacter_mod_four_sign_test (y : ℝ) (hy : 0 < y) :
-    let χ := Grossencharacter.ofRayClassCharacter ℚ oddPrimitiveModFour.character
-    Grossencharacter.finiteCharacter ℚ χ (-1) = -1 ∧
-      Grossencharacter.harmonicFactor ℚ χ (mixedEmbedding ℚ (-1 : ℚ)) = -1 ∧
-      Grossencharacter.harmonicDegree ℚ χ = 1 ∧
-      Grossencharacter.finiteCharacter ℚ χ (-1) *
-        Grossencharacter.harmonicFactor ℚ χ (mixedEmbedding ℚ (-1 : ℚ)) = 1 ∧
-      Grossencharacter.heckeTheta ℚ χ 1 (fun _ ↦ y) =
-        2 * ∑' n : ℕ, χ₄C ((n + 1 : ℕ) : ZMod 4) * ((n + 1 : ℕ) : ℂ) *
-          Complex.exp (((-Real.pi * y * ((n + 1 : ℕ) : ℝ) ^ 2 : ℝ)) : ℂ) := sorry
-
 /-- **The integral norm power `N^m` over `ℚ`**, presented at the narrow modulus `∞`: the idele
 class character `‖·‖^(-m)` (`exists_ratNormPow`), whose value at a prime idele at `p` is `p^m`.
 ⚠ The real place is needed when `m` is odd: the archimedean restriction `|x|^(-m)` is even while
@@ -2856,7 +2660,8 @@ theorem exists_ratNormPow (m : ℤ) :
 noncomputable def ratNormPow (m : ℤ) : Grossencharacter ℚ (GNF.narrowModulus ℚ) :=
   (exists_ratNormPow m).choose
 
-/-- The supplier's shift of `‖·‖^(-m)` is `-m`, by `norm_toHeckeCharacter_apply`. -/
+/-- The supplier's shift of `‖·‖^(-m)` is `-m`, by Tau Ceti's
+`HeckeCharacter.norm_apply_eq_rpow_shift`. -/
 theorem ratNormPow_shift (m : ℤ) : (ratNormPow m).toHeckeCharacter.shift = -(m : ℝ) := sorry
 
 /-- **The ideal-side shift of `N^m` is `m`**, the negative of the supplier's. -/
@@ -2868,42 +2673,22 @@ finite part of the modulus is `⊤`, and the series is recentered by the ideal-s
 theorem lFunctionC_ratNormPow (m : ℤ) {s : ℂ} (hs : 1 + (m : ℝ) < s.re) :
     Grossencharacter.lFunctionC ℚ (ratNormPow m) s = riemannZeta (s - m) := sorry
 
-/-- ⚠ **Regression: the theta constant reads the finite conductor**, at the odd norm powers of
-`ℚ`. The presentation conductor of `N^m` is `∞`, not the trivial modulus, because the real place
-carries the parity mismatch of `ratNormPow`, although `‖·‖^(-m)` is unramified there. Its finite part is nevertheless `⊤`, the polynomial is constant
-and the finite character is `1` at every nonzero integer, so the twisted theta series is Jacobi's
-`θ(iy) = ∑_{n ∈ ℤ} e^{-π y n²}` with its constant term, the kernel is the Riemann kernel
-`mellinKernel` of `ζ`, and its constant is `a₀ = 1/2`. A constant read off the whole conductor
-drops the `1`: the total kernel becomes `(θ(iu) - 1)/2`, and `heckeMellinTotal_inv` would
-contradict theta inversion `θ(i/u) = √u θ(iu)`, already at `u = 4`. The finite character also
-tests the sign of `idealShift`: it is `|n|^idealShift · n^(-m) · sgn(n)`, which is `1` because
-`idealShift = m`; with the supplier's shift `-m` it would be `|n|^(-2m)`. -/
-theorem ratNormPow_theta_test {m : ℤ} (hm : Odd m) (D : Set (ArchParam ℚ))
-    (rep : ClassGroup (𝓞 ℚ) → Ideal (𝓞 ℚ))
-    (hrep : IsClassRepresentatives ℚ (Grossencharacter.primitiveConductor ℚ (ratNormPow m)) rep)
-    (𝔞 : (FractionalIdeal (𝓞 ℚ)⁰ ℚ)ˣ) (u y : ℝ) (hy : 0 < y) :
-    let χ := ratNormPow m
-    Grossencharacter.primitiveConductor ℚ χ ≠ GNF.Modulus.one ℚ ∧
-      (Grossencharacter.primitiveConductor ℚ χ).finitePart = ⊤ ∧
-      Grossencharacter.harmonicDegree ℚ χ = 0 ∧
-      Grossencharacter.heckeEpsilon ℚ χ = 1 ∧
-      (∀ a : 𝓞 ℚ, a ≠ 0 → Grossencharacter.finiteCharacter ℚ χ a = 1) ∧
-      Grossencharacter.heckeTheta ℚ χ 1 (fun _ ↦ y) = jacobiTheta ((y : ℂ) * Complex.I) ∧
-      Grossencharacter.heckeMellinKernel ℚ D χ 𝔞 u =
-        mellinKernel ℚ D (mixedEmbedding.idealLattice ℚ 𝔞) u ∧
-      Grossencharacter.heckeMellinConstant ℚ χ rep = 1 / 2 := sorry
+/-! ## Layer 7: intrinsic nonvanishing -/
 
+/-- A nontrivial primitive finite-order Hecke L-function has no zero on `Re s ≥ 1`: the `3-4-1`
+argument, and Landau's argument in the exceptional quadratic case. -/
 theorem heckeLFunction_ne_zero_of_one_le_re
     (χ : PrimitiveRayClassCharacter K) (hχ1 : χ.character ≠ 1) {s : ℂ} (hs : 1 ≤ s.re) :
     heckeLFunctionC K χ.character s ≠ 0 := sorry
 
+/-- The nonnegative trigonometric combination `3 + 4 cos θ + cos 2θ = 2 (1 + cos θ)² ≥ 0`. -/
 theorem three_four_one_nonneg (θ : ℝ) :
     0 ≤ 3 + 4 * Real.cos θ + Real.cos (2 * θ) := sorry
 
 theorem meromorphicOrderAt_dedekindZetaC_one_add {t : ℝ} (ht : t ≠ 0) :
     meromorphicOrderAt (dedekindZetaC K) (1 + t * I) = (0 : WithTop ℤ) := sorry
 
-/-- Outside the pure-norm-twist exception, the reviewed single-character premise is constructed
+/-- Outside the pure-norm-twist exception, the single-character premise is constructed
 from the ray-class and archimedean inputs rather than assumed by the final theorem. -/
 theorem Grossencharacter.unitaryCancelling
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
@@ -2943,7 +2728,7 @@ theorem exists_angularGrossencharacter (F : Type u) [Field F] [NumberField F]
 infinite order for `k ≠ 0`, unramified, and unitary. ⚠ By `compatibility` the idelic archimedean
 component is the inverse of the ideal-side value, `z ↦ (z/|z|)^(-4k)`, so the algebraic infinity
 type has exponent `-2k` at the embedding through which the ideal value is read and `2k` at its
-conjugate (`angularGrossencharacter_unitaryWeight_span`); the two exponents sum to zero and
+conjugate (`exists_angularGrossencharacter`); the two exponents sum to zero and
 differ by `4k` either way, which is all `angularGrossencharacter_infinityType` records. -/
 noncomputable def angularGrossencharacter (F : Type u) [Field F] [NumberField F]
     [IsCyclotomicExtension {4} ℚ F] (k : ℤ) :
@@ -2983,36 +2768,6 @@ theorem angularGrossencharacter_not_isNormTwist
     (u : ℝ) :
     ¬ TauCeti.MultiplicativeIdealWeight.IsNormTwistOnGood
       (angularGrossencharacter F k).unitaryWeight.1 u := sorry
-
-/-- **The nonreal acceptance test of the sign in `compatibility`.** Over `ℚ(i)`, at `a = 2 + i`
-and any `k ≠ 0`: the finite value `χ_u((a))` is `((2+i)/(2-i))^(2k) = ((3+4i)/5)^(2k)` through
-the embedding at which the infinity type has exponent `-2k`, which is not real, and the
-archimedean value `∏_τ τ(a)^(n_τ) = ((3+4i)/5)^(-2k)` is its inverse: the corrected law holds and
-the law with the archimedean product on the right-hand side fails, since `(3+4i)/5` is not a
-root of unity. ⚠ A real-valued or finite-order example cannot see this: for those the two laws
-coincide. The modulus is trivial, so `IsCongrOne` is vacuous and the relation holds at every
-nonzero `a`. -/
-theorem angularGrossencharacter_compatibility_test
-    (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] {k : ℤ} (hk : k ≠ 0)
-    (a : 𝓞 F) (ha : (a : F) = 2 + IsCyclotomicExtension.zeta 4 ℚ F) :
-    (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {a}) *
-        ∏ τ : F →+* ℂ, τ (a : F) ^ (angularGrossencharacter F k).infinityType τ = 1 ∧
-      (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {a}) ≠
-        ∏ τ : F →+* ℂ, τ (a : F) ^ (angularGrossencharacter F k).infinityType τ ∧
-      ((angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {a})).im ≠ 0 := sorry
-
-/-- The ideal-side values of the angular character, through the embedding `τ` at which its
-infinity type has exponent `-2k`: `χ_u((α)) = (τ α / conj (τ α))^(2k)` for every nonzero
-`α ∈ ℤ[i]`, the inverse of the archimedean value `τ(α)^(-2k) conj(τ α)^(2k)`. This is the
-statement `𝔞 = (α) ↦ (α/|α|)^(4k)` of the definition, with the sign of `compatibility` made
-explicit: the idelic archimedean component is `(z/|z|)^(-4k)`. -/
-theorem angularGrossencharacter_unitaryWeight_span
-    (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] (k : ℤ) :
-    ∃ τ : F →+* ℂ, (angularGrossencharacter F k).infinityType τ = -(2 * k) ∧
-      ∀ α : 𝓞 F, α ≠ 0 →
-        (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {α}) =
-          (τ (α : F) / starRingEnd ℂ (τ (α : F))) ^ (2 * k) :=
-  (exists_angularGrossencharacter F k).choose_spec
 
 /-- **The boundary datum exported to prime-distribution consumers.** For a Grossencharacter whose
 unitary weight is not a pure imaginary norm twist on its good ideals, the logarithmic derivative of
@@ -3057,6 +2812,8 @@ theorem primeIdealVonMangoldtBoundary_series_eq (s : {s : ℂ // 1 < s.re}) :
   rw [TauCeti.LFunctions.primeIdealVonMangoldtBoundary_series,
     (dedekindZetaC_eventuallyEq K s.2).deriv_eq, (dedekindZetaC_eventuallyEq K s.2).eq_of_nhds]
 
+/-! ## Layer 8: interoperability and examples -/
+
 /-- Dedekind-zeta specialization of the generic ideal von Mangoldt transform: Tau Ceti's
 `hasSum_idealTerm_vonMangoldt`. -/
 theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
@@ -3073,6 +2830,21 @@ theorem dedekindZeta_idealVonMangoldt_nonneg (I : (Ideal (𝓞 K))⁰) :
       (TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I).im = 0 :=
   ⟨TauCeti.IdealArithmeticFunction.vonMangoldt_re_nonneg,
     TauCeti.IdealArithmeticFunction.vonMangoldt_im⟩
+
+/-- **Mertens' product for a number field** (Rosen; Lebacque, *Generalised Mertens and
+Brauer–Siegel theorems*, Theorem 5 (NF)): as `x → ∞`,
+`∏_{N𝔭 ≤ x} (1 - N𝔭⁻¹)⁻¹ ~ e^γ κ_K log x`, the product over the nonzero prime ideals of `𝓞_K`
+of absolute norm at most `x`, with `γ` Euler's constant and `κ_K` the residue of `ζ_K` at `s = 1`
+(Mathlib's `dedekindZeta_residue`, the limit in `tendsto_sub_one_mul_dedekindZetaC`). The factor
+is `1` at every prime of norm above `x`, so the finite product is a `finprod`. Over `ℚ` it is
+Mertens' third theorem (`κ_ℚ = 1`); over `ℚ(√-5)` the constant is `e^γ π/√5`. -/
+theorem tendsto_prod_one_sub_inv_absNorm_div_log :
+    Tendsto (fun x : ℝ ↦
+      (∏ᶠ 𝔭 : HeightOneSpectrum (𝓞 K),
+        if (Ideal.absNorm 𝔭.asIdeal : ℝ) ≤ x then (1 - (Ideal.absNorm 𝔭.asIdeal : ℝ)⁻¹)⁻¹
+        else 1) /
+        (Real.exp Real.eulerMascheroniConstant * dedekindZeta_residue K * Real.log x))
+      atTop (𝓝 1) := sorry
 
 end
 
