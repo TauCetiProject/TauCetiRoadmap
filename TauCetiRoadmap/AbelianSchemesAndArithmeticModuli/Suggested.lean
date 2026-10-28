@@ -5,8 +5,9 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 import TauCeti.AlgebraicGeometry.AbelianVariety.Product
 import TauCeti.Algebra.Module.Torsion.TateModule
 
+
 /-!
-# Abelian schemes and arithmetic moduli: headline statements
+# Abelian schemes and arithmetic moduli: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 The statements here give Lean forms for headline targets; discharging them finishes neither a
@@ -15,8 +16,8 @@ layer nor the roadmap.
 The statements cover relative rigidity, seesaw, cube and regular-base Weil extension (A1),
 multiplication isogenies, finite-flat quotients, division by `n` and torsion density (A3), the rank
 of the geometric Tate module (A4), and Poincaré complete reducibility, finite-rank Hom, semisimplicity of rational endomorphisms, integral characteristic polynomials,
-their Tate-module comparison, normal-base extension of Hom, and the real positive-involution
-normal form (A6).
+their Tate-module comparison, internal positive square roots and the real positive-involution
+normal form for algebras with a positive trace, and normal-base extension of Hom (A6).
 
 The relative carrier is a proper smooth group object in Mathlib's `Over S` with geometrically
 connected fibres. Field statements use Tau Ceti's `AbelianVariety`, its additive endomorphism ring
@@ -41,9 +42,13 @@ uniformization, Appell–Humbert, the polarized Hodge equivalence and the Siegel
 these objects. Tau Ceti's Hodge structures and abstract lattice quotients alone do not supply them.
 Rosati positivity and the ample cone need the represented dual and geometric polarization;
 polarized automorphisms and level rigidity need that polarization and scheme-theoretic torsion.
-The twist, Weil-restriction, Matsusaka–Morikawa, CM and Hodge-line conclusions (A6) additionally
-need localized Hom categories, represented restriction of scalars, Jacobians, the geometric Hodge
-comparison or relative differential bundles. None of these missing objects is replaced by an
+The twist, Weil-restriction, Matsusaka–Morikawa and CM conclusions (A6) additionally need
+localized Hom categories, represented restriction of scalars, Jacobians and the geometric Hodge
+comparison. The invariant differentials (A1.3) and the Hodge line bundle (A6.38) need the sheaf of
+relative differentials of a morphism to an arbitrary base scheme, with its base-change and
+zero-section comparisons: Tau Ceti's `Scheme.relativeDifferentials R X` is relative to `Spec R`
+(finite locally free under smoothness, invertible in relative dimension one), and A6.38 also needs
+determinants of finite locally free sheaves. None of these missing objects is replaced by an
 unspecified predicate.
 -/
 
@@ -55,6 +60,8 @@ open scoped CategoryTheory.MonObj TensorProduct Quaternion
 namespace TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
 universe u
+
+/-! ## Layer A0: the carrier -/
 
 /-- An **abelian scheme** over a scheme `S`: a group object in `Over S` whose structure morphism
 is proper and smooth with geometrically connected fibres. No commutativity, dimension or ample line
@@ -78,6 +85,19 @@ attribute [instance] AbelianScheme.grpObj AbelianScheme.isProper AbelianScheme.s
 
 variable {S : Scheme.{u}}
 
+/-- Multiplication by `n` on an abelian scheme, `[n] = 𝟙 ^ n` in the group of endomorphisms of the
+group object. -/
+noncomputable def mulBy (A : AbelianScheme S) (n : ℤ) : A.toOver ⟶ A.toOver :=
+  𝟙 A.toOver ^ n
+
+end AbelianScheme
+
+/-! ## Layer A1: rigidity, seesaw, cube and relative extension -/
+
+namespace AbelianScheme
+
+variable {S : Scheme.{u}}
+
 /-- **Automatic commutativity** over an arbitrary base (README A1.2). -/
 theorem isCommMonObj (A : AbelianScheme S) : IsCommMonObj A.toOver := by
   sorry
@@ -98,44 +118,23 @@ theorem eq_of_restrict_nilpotent {A B : AbelianScheme S} {S₀ : Scheme.{u}} (i 
     (h : (Over.pullback i).map f = (Over.pullback i).map g) : f = g := by
   sorry
 
-/-- Restriction to the generic fibre is bijective for maps from any smooth test scheme into an
-abelian scheme over an integral, locally Noetherian base with regular local stalks, of any
-dimension; connected Dedekind bases are the case of dimension at most one. No properness,
-separation or quasi-compactness of the source is required (README A1.8(3)). -/
-theorem weilExtension [IsIntegral S] [IsLocallyNoetherian S]
-    [∀ s : S, IsRegularLocalRing (S.presheaf.stalk s)]
-    (A : AbelianScheme S) (X : Over S) [Smooth X.hom] :
-    Function.Bijective (fun f : X ⟶ A.toOver =>
-      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by
+end AbelianScheme
+
+/-- The seesaw principle: fibrewise triviality over a reduced locally Noetherian base
+forces a line-bundle class to come from the section (README A1.4). -/
+theorem relativeSeesaw {S X : Scheme.{u}} [IsReduced S] [IsLocallyNoetherian S]
+    (π : X ⟶ S) [IsProper π] [Flat π] [LocallyOfFinitePresentation π]
+    [GeometricallyIntegral π] (e : S ⟶ X) (he : e ≫ π = 𝟙 S)
+    (L : TauCeti.AlgebraicGeometry.LineBundleClass X)
+    (hL : ∀ (K : Type u) [Field K] [IsAlgClosed K] (s : Spec (.of K) ⟶ S),
+      TauCeti.AlgebraicGeometry.LineBundleClass.pullback (pullback.fst π s) L = 1) :
+    L = TauCeti.AlgebraicGeometry.LineBundleClass.pullback π
+      (TauCeti.AlgebraicGeometry.LineBundleClass.pullback e L) := by
   sorry
 
-/-- Multiplication by `n` on an abelian scheme, `[n] = 𝟙 ^ n` in the group of endomorphisms of the
-group object. -/
-noncomputable def mulBy (A : AbelianScheme S) (n : ℤ) : A.toOver ⟶ A.toOver :=
-  𝟙 A.toOver ^ n
+namespace AbelianScheme
 
-/-- An **isogeny** of abelian schemes over `S`: a homomorphism whose scheme morphism is finite, flat and surjective
-(README A3.1). Over an affine base this is the condition of Tau Ceti's
-`TauCeti.GroupScheme.IsIsogeny`; local finite presentation follows. -/
-def IsAbelianIsogeny {A B : AbelianScheme S} (f : A.toOver ⟶ B.toOver) : Prop :=
-  IsMonHom f ∧ IsFinite f.left ∧ Flat f.left ∧ Surjective f.left
-
-/-- **Multiplication maps** over an arbitrary base: for `n ≠ 0` on an abelian scheme of relative
-dimension `g`, `[n]` is an isogeny of constant rank `|n|^(2g)` (README A3.2). -/
-theorem mulBy_isAbelianIsogeny (A : AbelianScheme S) (g : ℕ)
-    [SmoothOfRelativeDimension g A.toOver.hom] (n : ℤ) (hn : n ≠ 0) :
-    IsAbelianIsogeny (A.mulBy n) ∧
-      ∀ x : A.toOver.left, (A.mulBy n).left.finrank x = n.natAbs ^ (2 * g) := by
-  sorry
-
-/-- **Division by `n`**: for `n ≠ 0`, a homomorphism `f : A → B` kills the scheme-theoretic
-`n`-torsion of `A`, tested on `T`-points for every `T` over `S`, exactly when `f = [n]_B ∘ h` for
-a unique homomorphism `h` (README A3.4). -/
-theorem torsionDivisibility {A B : AbelianScheme S} (n : ℤ) (hn : n ≠ 0)
-    (f : A.toOver ⟶ B.toOver) [IsMonHom f] :
-    (∀ (T : Over S) (x : T ⟶ A.toOver), x ^ n = 1 → x ≫ f = 1) ↔
-      ∃! h : A.toOver ⟶ B.toOver, IsMonHom h ∧ h ≫ B.mulBy n = f := by
-  sorry
+variable {S : Scheme.{u}}
 
 /-- The theorem of the cube and integer multiplication pullbacks for a rigidified line
 bundle, over every base (README A1.5). -/
@@ -154,42 +153,40 @@ theorem relativeCube (A : AbelianScheme S)
             (n * (n - 1) / 2) := by
   sorry
 
-/-- A finite locally free closed subgroup has an abelian-scheme quotient, with the prescribed
-scheme-theoretic kernel and quotient universal property (README A3.3). -/
-theorem exists_abelianQuotient (A : AbelianScheme S) (H : Over S) [GrpObj H]
-    [IsFinite H.hom] [Flat H.hom] [LocallyOfFinitePresentation H.hom]
-    (i : H ⟶ A.toOver) [IsMonHom i] [IsClosedImmersion i.left] :
-    ∃ (B : AbelianScheme S) (q : A.toOver ⟶ B.toOver),
-      IsAbelianIsogeny q ∧ IsPullback i (toUnit H) q η[B.toOver] ∧
-      (∀ b : B.toOver.left, q.left.finrank b = H.hom.finrank (B.toOver.hom.base b)) ∧
-      ∀ (C : Over S) [GrpObj C] (f : A.toOver ⟶ C), IsMonHom f → i ≫ f = 1 →
-        ∃! h : B.toOver ⟶ C, IsMonHom h ∧ q ≫ h = f := by
-  sorry
-
-/-- Homomorphisms extend uniquely from a dense open over a locally Noetherian normal base
-(README A6.25(2)). -/
-theorem homRestriction_bijective [IsLocallyNoetherian S]
-    [∀ s : S, IsDomain (S.presheaf.stalk s)]
-    [∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s)]
-    {U : Scheme.{u}} (j : U ⟶ S) [IsOpenImmersion j] (hj : DenseRange j.base)
-    (A B : AbelianScheme S) :
-    Function.Bijective (fun f : Grp.mk A.toOver ⟶ Grp.mk B.toOver =>
-      (Over.pullback j).mapGrp.map f) := by
+/-- Restriction to the generic fibre is bijective for maps from any smooth test scheme into an
+abelian scheme over an integral, locally Noetherian base with regular local stalks, of any
+dimension; connected Dedekind bases are the case of dimension at most one. No properness,
+separation or quasi-compactness of the source is required (README A1.8(3)). -/
+theorem weilExtension [IsIntegral S] [IsLocallyNoetherian S]
+    [∀ s : S, IsRegularLocalRing (S.presheaf.stalk s)]
+    (A : AbelianScheme S) (X : Over S) [Smooth X.hom] :
+    Function.Bijective (fun f : X ⟶ A.toOver =>
+      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by
   sorry
 
 end AbelianScheme
 
-/-- The seesaw principle: fibrewise triviality over a reduced locally Noetherian base
-forces a line-bundle class to come from the section (README A1.4). -/
-theorem relativeSeesaw {S X : Scheme.{u}} [IsReduced S] [IsLocallyNoetherian S]
-    (π : X ⟶ S) [IsProper π] [Flat π] [LocallyOfFinitePresentation π]
-    [GeometricallyIntegral π] (e : S ⟶ X) (he : e ≫ π = 𝟙 S)
-    (L : TauCeti.AlgebraicGeometry.LineBundleClass X)
-    (hL : ∀ (K : Type u) [Field K] [IsAlgClosed K] (s : Spec (.of K) ⟶ S),
-      TauCeti.AlgebraicGeometry.LineBundleClass.pullback (pullback.fst π s) L = 1) :
-    L = TauCeti.AlgebraicGeometry.LineBundleClass.pullback π
-      (TauCeti.AlgebraicGeometry.LineBundleClass.pullback e L) := by
+/-! ## Layer A3: isogenies, finite-flat quotients and torsion -/
+
+namespace AbelianScheme
+
+variable {S : Scheme.{u}}
+
+/-- An **isogeny** of abelian schemes over `S`: a homomorphism whose scheme morphism is finite, flat and surjective
+(README A3.1). Over an affine base this is the condition of Tau Ceti's
+`TauCeti.GroupScheme.IsIsogeny`; local finite presentation follows. -/
+def IsAbelianIsogeny {A B : AbelianScheme S} (f : A.toOver ⟶ B.toOver) : Prop :=
+  IsMonHom f ∧ IsFinite f.left ∧ Flat f.left ∧ Surjective f.left
+
+/-- **Multiplication maps** over an arbitrary base: for `n ≠ 0` on an abelian scheme of relative
+dimension `g`, `[n]` is an isogeny of constant rank `|n|^(2g)` (README A3.2). -/
+theorem mulBy_isAbelianIsogeny (A : AbelianScheme S) (g : ℕ)
+    [SmoothOfRelativeDimension g A.toOver.hom] (n : ℤ) (hn : n ≠ 0) :
+    IsAbelianIsogeny (A.mulBy n) ∧
+      ∀ x : A.toOver.left, (A.mulBy n).left.finrank x = n.natAbs ^ (2 * g) := by
   sorry
+
+end AbelianScheme
 
 namespace OverField
 
@@ -204,6 +201,44 @@ theorem dense_primeToChar_torsion [IsAlgClosed K] (A : AbelianVariety K) :
     Dense (⋃ (x : 𝟙_ (Over (Spec (.of K))) ⟶ A.toOver)
       (_ : ∃ n : ℕ, 0 < n ∧ (n : K) ≠ 0 ∧ x ^ n = 1), Set.range x.left.base) := by
   sorry
+
+end OverField
+
+namespace AbelianScheme
+
+variable {S : Scheme.{u}}
+
+/-- A finite locally free closed subgroup has an abelian-scheme quotient, with the prescribed
+scheme-theoretic kernel and quotient universal property (README A3.3). -/
+theorem exists_abelianQuotient (A : AbelianScheme S) (H : Over S) [GrpObj H]
+    [IsFinite H.hom] [Flat H.hom] [LocallyOfFinitePresentation H.hom]
+    (i : H ⟶ A.toOver) [IsMonHom i] [IsClosedImmersion i.left] :
+    ∃ (B : AbelianScheme S) (q : A.toOver ⟶ B.toOver),
+      IsAbelianIsogeny q ∧ IsPullback i (toUnit H) q η[B.toOver] ∧
+      (∀ b : B.toOver.left, q.left.finrank b = H.hom.finrank (B.toOver.hom.base b)) ∧
+      ∀ (C : Over S) [GrpObj C] (f : A.toOver ⟶ C), IsMonHom f → i ≫ f = 1 →
+        ∃! h : B.toOver ⟶ C, IsMonHom h ∧ q ≫ h = f := by
+  sorry
+
+/-- **Division by `n`**: for `n ≠ 0`, a homomorphism `f : A → B` kills the scheme-theoretic
+`n`-torsion of `A`, tested on `T`-points for every `T` over `S`, exactly when `f = [n]_B ∘ h` for
+a unique homomorphism `h` (README A3.4). -/
+theorem torsionDivisibility {A B : AbelianScheme S} (n : ℤ) (hn : n ≠ 0)
+    (f : A.toOver ⟶ B.toOver) [IsMonHom f] :
+    (∀ (T : Over S) (x : T ⟶ A.toOver), x ^ n = 1 → x ≫ f = 1) ↔
+      ∃! h : A.toOver ⟶ B.toOver, IsMonHom h ∧ h ≫ B.mulBy n = f := by
+  sorry
+
+end AbelianScheme
+
+/-! ## Layer A4: the Tate module -/
+
+namespace OverField
+
+open TauCeti.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.AbelianVariety (IsIsogeny)
+
+variable {K : Type u} [Field K]
 
 /-- The additive group of `Kˢᵉᵖ`-points of the given abelian variety (README A4.1). -/
 noncomputable abbrev geometricPoints (A : AbelianVariety K) :=
@@ -226,6 +261,24 @@ noncomputable def tateMap {A B : AbelianVariety K} (ℓ : ℕ) [Fact ℓ.Prime] 
   TauCeti.TateModule.mapLinearMap
     (IsMonHom.monoidHom (AbelianVariety.Hom.toOverHom f) _).toAdditive
 
+end OverField
+
+/-! ## Layer A6: arithmetic Hom -/
+
+namespace OverField
+
+open TauCeti.AlgebraicGeometry
+open TauCeti.AlgebraicGeometry.AbelianVariety (IsIsogeny)
+
+variable {K : Type u} [Field K]
+
+/-- The **degree** of a homomorphism of abelian varieties: the rank of the finite morphism at the
+zero point of the target if it is an isogeny, and `0` otherwise (README A6.1). It counts
+inseparable degree. -/
+noncomputable def Hom.deg {A B : AbelianVariety K} (f : A ⟶ B) : ℕ := by
+  classical
+  exact if IsIsogeny f then (AbelianVariety.Hom.toSchemeHom f).finrank B.zeroPoint else 0
+
 /-- Tate realization is faithful and detects divisibility by every power of an invertible
 prime, over any field (README A6.2). -/
 theorem homTateInjective (A B : AbelianVariety K) (ℓ : ℕ) [Fact ℓ.Prime]
@@ -236,13 +289,6 @@ theorem homTateInjective (A B : AbelianVariety K) (ℓ : ℕ) [Fact ℓ.Prime]
           ∃ h : tateModule A ℓ →ₗ[ℤ_[ℓ]] tateModule B ℓ,
             (ℓ ^ r : ℤ_[ℓ]) • h = tateMap ℓ f := by
   sorry
-
-/-- The **degree** of a homomorphism of abelian varieties: the rank of the finite morphism at the
-zero point of the target if it is an isogeny, and `0` otherwise (README A6.1). It counts
-inseparable degree. -/
-noncomputable def Hom.deg {A B : AbelianVariety K} (f : A ⟶ B) : ℕ := by
-  classical
-  exact if IsIsogeny f then (AbelianVariety.Hom.toSchemeHom f).finrank B.zeroPoint else 0
 
 /-- **Poincaré complete reducibility**: every abelian subvariety `B ⊆ A` has a complement `C`
 such that addition `B × C → A` is an isogeny (README A6.5). -/
@@ -302,6 +348,23 @@ definite left multiplication for the trace inner product (README A6.15). -/
 def IsRosatiPositive (t : E →ₗ[ℝ] ℝ) (s : E) : Prop :=
   IsSelfAdjoint s ∧ ∀ x : E, x ≠ 0 → 0 < t (s * x * star x)
 
+/-- **Internal positive square roots.** In a finite-dimensional real algebra with a cyclic,
+involution-invariant trace strictly positive on `x * star x`, an element `s` with
+`IsRosatiPositive t s` is a unit and has a unique root `r` with `IsRosatiPositive t r` and
+`r * r = s`. The root is a unit, `r` and `r⁻¹` lie in `ℝ[s]`, and both commute with every element
+commuting with `s` (README A6.15). The geometric instance `E = ℝ ⊗_ℚ End⁰(A)` needs the represented
+dual and polarization. -/
+theorem rosatiPositiveSquareRoot [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
+    (hcyclic : ∀ x y : E, t (x * y) = t (y * x))
+    (hstar : ∀ x : E, t (star x) = t x)
+    (hpos : ∀ x : E, x ≠ 0 → 0 < t (x * star x)) (s : E) (hs : IsRosatiPositive t s) :
+    IsUnit s ∧ ∃ r : Eˣ, IsRosatiPositive t r ∧ (r : E) * r = s ∧
+      (r : E) ∈ Algebra.adjoin ℝ ({s} : Set E) ∧
+      ((r⁻¹ : Eˣ) : E) ∈ Algebra.adjoin ℝ ({s} : Set E) ∧
+      (∀ x : E, Commute x s → Commute x r ∧ Commute x ((r⁻¹ : Eˣ) : E)) ∧
+      ∀ r' : E, IsRosatiPositive t r' → r' * r' = s → r' = r := by
+  sorry
+
 /-- A finite-dimensional real algebra with a cyclic, involution-invariant trace strictly positive
 on `x * star x` has real, complex and quaternionic matrix factors carrying the standard adjoints.
 Intrinsic strict positivity agrees with positive definiteness in every factor (README A6.15).
@@ -328,5 +391,22 @@ theorem realRosatiDecomposition [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
   sorry
 
 end RealRosatiAlgebra
+
+namespace AbelianScheme
+
+variable {S : Scheme.{u}}
+
+/-- Homomorphisms extend uniquely from a dense open over a locally Noetherian normal base
+(README A6.25(2)). -/
+theorem homRestriction_bijective [IsLocallyNoetherian S]
+    [∀ s : S, IsDomain (S.presheaf.stalk s)]
+    [∀ s : S, IsIntegrallyClosed (S.presheaf.stalk s)]
+    {U : Scheme.{u}} (j : U ⟶ S) [IsOpenImmersion j] (hj : DenseRange j.base)
+    (A B : AbelianScheme S) :
+    Function.Bijective (fun f : Grp.mk A.toOver ⟶ Grp.mk B.toOver =>
+      (Over.pullback j).mapGrp.map f) := by
+  sorry
+
+end AbelianScheme
 
 end TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
