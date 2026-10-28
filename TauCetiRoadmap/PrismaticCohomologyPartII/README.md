@@ -1863,6 +1863,8 @@ This supplies §5.7’s quotient hypothesis after local regular presentations an
 
 **Proof route.** `(1)`: push out `P^• → F^•` along `P^• → P` and then along `P → R`. `(2)`: the construction carrying a surjection `(P → R)` to the thickening `D_{J,q}(F)` takes tensor products of the input to coproducts of algebraic q-PD thickenings, hence products in the opposite site (universal properties of the free δ-algebra and of the q-PD envelope), so the cosimplicial object is a Čech nerve; this is the argument of BS22 Constructions 4.17–4.18 (Layer 1's Weakly initial objects and Čech–Alexander complexes).
 
+*Existing formalisation.* The final step, that derived limits over the opposite site are computed by the Čech complex of a weakly initial object with coproducts, is proved without `sorry` at an older Mathlib pin in [AC](#ref-ac): `rightDerivedLimIsoCech` (`AffineCrystalline/Cohomology/CechDerived.lean`) gives `Rⁿ lim F ≅ Hⁿ(F(X[0]) → F(X[1]) → ⋯)` for module-valued diagrams on a category carrying `CechNerveData` (`Cohomology/Cech.lean`: a cosimplicial object whose n-th term corepresents `Z ↦ S(Z)^(n+1)` with every `S(Z)` nonempty), and `hasEnoughInjectivesFunctorCategory` (`Cohomology/FunctorCategoryInjectives.lean`) supplies the injective resolutions it uses. It does not treat envelopes, completions or Frobenius, so the targets above remain.
+
 <a id="s5-11"></a>
 <a id="layer-5-q-crystalline-crystalline-comparison"></a>
 
@@ -2318,3 +2320,7 @@ PrismaticCohomologyPartIII Layers 6–7 consumes the Nygaard, absolute and q-com
 <a id="ref-sqdef"></a>
 
 - **SQDEF**: Peter Scholze. [Canonical q-deformations in arithmetic geometry](https://arxiv.org/pdf/1606.01796v1). arXiv:1606.01796v1, 6 June 2016; §§3–4, printed pages.
+
+<a id="ref-ac"></a>
+
+- **AC**: Marco D'Addezio. [Affine crystalline cohomology and de Rham cohomology in Lean 4](https://github.com/daddeziomath/affine-crystalline). Version 1.0.0, DOI [10.5281/zenodo.23573534](https://doi.org/10.5281/zenodo.23573534), Apache-2.0; existing Lean 4 formalisation of the affine crystalline–PD de Rham comparison, including the Čech computation of derived limits cited in §5.10.
