@@ -3,37 +3,38 @@ import TauCeti.NumberTheory.ModularForms.HeckeSlash.Operators
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
-# Algebraic modular forms and Serre weights: headline target signatures
+# Algebraic modular forms and Serre weights: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline milestones;
-discharging them finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap's headline theorems against the pinned
+Mathlib and Tau Ceti, each with `sorry`; discharging them finishes neither a layer
+nor the roadmap.
 
-The statements cover all-prime bounded denominators (R15.2), Deligne–Serre
-eigenvalue lifting over arbitrary DVRs (R15.5), higher-weight and weight-one
+The statements cover all-prime bounded denominators (§2.9), Deligne–Serre
+eigenvalue lifting over arbitrary DVRs (§5.10), higher-weight and weight-one
 classical Galois attachments and the weight-one prime-moment and density theorems
-(R15.5A), and residual attachment for integral reduction eigensystems (R15.6).
+(§§6.2–6.4), and residual attachment for integral reduction eigensystems (§7.3).
 They use the pinned analytic modular-form spaces, representations, number-field
 completions, integral closures, tensor products and valuation subrings directly.
 
-The geometric headlines of R15.1–R15.3 require the compactified modular stack,
+The geometric headlines of Layers 1–3 require the compactified modular stack,
 its Hodge line and cusp divisor, Tate charts, coherent Hecke correspondences and
-the Igusa tower. These objects are absent from Mathlib `6b7abb3` and Tau Ceti
-`a91d3aa`, so the analytic/geometric comparison, geometric q-expansion and
-base-change theorems, theta cycles, supersingular periodicity and weight
-reduction have no signatures here. The local comparisons of R15.4 require
-fundamental inertia characters, finite-flat models and the extension-sensitive
-Fontaine–Laffaille and peu/très classification. Arithmetic tables on selected
-integers do not supply that local representation data.
+the Igusa tower. These objects are absent from the pinned Mathlib and Tau Ceti,
+so the analytic/geometric comparison, geometric q-expansion and base-change
+theorems, theta cycles, supersingular periodicity and weight reduction have no
+signature here. The local comparisons of Layer 4 require fundamental inertia
+characters, finite-flat models and the extension-sensitive Fontaine–Laffaille
+and peu/très classification. Arithmetic tables on selected integers do not
+supply that local representation data.
 
-The controlled geometric lifting application of R15.5 requires the actual
+The controlled geometric lifting application of Layer 5 requires the actual
 Hodge-section reduction image and its Hecke comparison. The filtered parabolic
-realization of R15.5A.1 requires the modular-curve coefficient local systems and
+realization of §6.1 requires the modular-curve coefficient local systems and
 parabolic cohomology. The full geometric witness comparisons and classical
-Serre target of R15.6 require those geometric objects, a representation-level
+Serre target of Layer 7 require those geometric objects, a representation-level
 local weight and the prime-to-residual-characteristic Artin conductor. These
-headline signatures are deferred until their prerequisite objects are available;
-the README specifies all of their mathematical targets.
+headline theorems have no signature here; the README specifies their
+mathematical targets.
 -/
 
 open scoped TensorProduct
@@ -41,7 +42,7 @@ open IsLocalRing
 
 namespace TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
 
-/-! ## Layer R15.2: integral q-expansion and the classical lattice -/
+/-! ## Layer 2: integral q-expansion and the classical lattice -/
 
 namespace KatzModularForms
 
@@ -58,7 +59,7 @@ theorem boundedDenominators
   sorry
 end KatzModularForms
 
-/-! ## Layer R15.5: Deligne–Serre eigenvalue lifting -/
+/-! ## Layer 5: Deligne–Serre eigenvalue lifting -/
 
 namespace EigenvalueLifting
 
@@ -89,7 +90,7 @@ theorem deligneSerreEigenvalueLifting
 end DeligneSerre
 end EigenvalueLifting
 
-/-! ## Layer R15.5A: classical Galois attachments -/
+/-! ## Layer 6: classical Galois attachments -/
 
 namespace ClassicalModularGalois
 
@@ -174,7 +175,7 @@ theorem weightOne_attachment {N : ℕ} [NeZero N]
 
 end ClassicalModularGalois
 
-/-! ## Layer R15.6: residual modularity -/
+/-! ## Layer 7: residual modularity -/
 
 namespace ResidualModularity
 
