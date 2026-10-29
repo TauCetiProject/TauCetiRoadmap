@@ -128,8 +128,15 @@ predual. Earlier algebraic and net-based theory has no separability restriction.
 theorems `geometric_hahn_banach_closed_point` and `geometric_hahn_banach_compact_closed` of a
 locally convex real topological vector space (`Mathlib/Analysis/LocallyConvex/Separation.lean`),
 applied in the weak and weak-star topologies, which are locally convex by
-`WeakBilin.locallyConvexSpace` (`Mathlib/Analysis/LocallyConvex/WeakDual.lean`); the commutative
-Gelfand duality
+`WeakBilin.locallyConvexSpace` (`Mathlib/Analysis/LocallyConvex/WeakDual.lean`), and in the WOT
+and SOT of `B(H)`, which are locally convex by `ContinuousLinearMapWOT.instLocallyConvexSpace`
+(`Mathlib/Analysis/LocallyConvex/WeakOperatorTopology.lean`) and by the `LocallyConvexSpace`
+instance of `H →Lₚₜ[ℂ] H` built from `UniformConvergenceCLM.locallyConvexSpace`
+(`Mathlib/Analysis/LocallyConvex/PointwiseConvergence.lean` and `StrongTopology.lean`), with the
+continuity of scalar multiplication on `H →Lₚₜ[ℂ] H` that the separation theorems also require
+taken from `UniformConvergenceCLM.continuousSMul` on finite sets (`Set.Finite.isVonNBounded`,
+then `IsScalarTower.continuousSMul` for real scalars), since the pin states it as a theorem and
+not as an instance; the commutative Gelfand duality
 `gelfandStarTransform`, `gelfandTransform_isometry` and `gelfandTransform_bijective` under
 `CommCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) and the compactness of
 `characterSpace ℂ A` for a unital normed algebra (`Mathlib/Analysis/Normed/Algebra/Basic.lean`);
@@ -381,8 +388,12 @@ absolutely convergent square-summable vector pairings. Establish the shared cont
 and closed-convex-set results by locally convex separation, including the hypotheses on
 subspaces. Prove weak compactness of the operator unit ball.
 *Needs:* Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H` and their net criteria, `banach_steinhaus`,
-Banach–Alaoglu; Mathlib's `geometric_hahn_banach_closed_point` (with `WeakBilin.locallyConvexSpace`
-for the local convexity of the weak and weak-star topologies); BanachSpaceTheory B1's weak/norm
+Banach–Alaoglu; Mathlib's `geometric_hahn_banach_closed_point` (with
+`ContinuousLinearMapWOT.instLocallyConvexSpace` for the local convexity of the WOT, the
+`LocallyConvexSpace` instance of `H →Lₚₜ[ℂ] H` built from `UniformConvergenceCLM.locallyConvexSpace`
+together with `UniformConvergenceCLM.continuousSMul` on finite sets for the SOT, and this layer's
+own locally convex structure for the ultraweak and ultrastrong wrappers); BanachSpaceTheory B1's
+weak/norm
 closure agreement for convex sets and its weak and weak-star continuity criteria by evaluation;
 Layer 0's C*-structure on `B(H)`.
 
@@ -466,7 +477,9 @@ finite double centralizer; the topologies above.
 - Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H`, `banach_steinhaus`, positive-operator order.
 - Layer 0 (C*-algebra structure on concrete algebras).
 - RepresentationTheory/SemisimpleAlgebras (finite-dimensional double centralizer).
-- Mathlib `geometric_hahn_banach_closed_point` and `WeakBilin.locallyConvexSpace`.
+- Mathlib `geometric_hahn_banach_closed_point`, `ContinuousLinearMapWOT.instLocallyConvexSpace`,
+  `UniformConvergenceCLM.locallyConvexSpace` and `UniformConvergenceCLM.continuousSMul` (local
+  convexity and scalar continuity of the WOT and SOT).
 - BanachSpaceTheory B1 (weak/norm closure agreement for convex sets and the weak-star continuity
   criterion by evaluation on the predual side).
 
