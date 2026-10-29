@@ -8,15 +8,16 @@ import TauCeti.RingTheory.MvPowerSeries.TateAlgebra.Basic
 `README.md`. This file states the roadmap’s headline theorems against the pinned APIs; discharging them
 finishes neither a layer nor the roadmap.
 
-The statements are the closed-disc maximum principle (§0.1), nonarchimedean Hahn–Banach
-and Fréchet open mapping (§0.2), fixed-rank spectral convergence (§4.13), and compactness
-of Tate-algebra maps with topologically nilpotent coordinate images (§4.15). Four
-definitions on native power series and polynomials express the spectral statement:
-entireness, the bounded spectral resultant, the monic tail quotient and its fixed-rank
-spectral output. RestrictedPowerSeries and CompactOperators own the supplier interfaces
-identified in the README; in particular the entire spectral transform of two entire inputs
-and its Gauss convergence are CompactOperators §3.3's `colemanDEntire` and
-`tendsto_gaussNorm_colemanDBounded`.
+The statements are nonarchimedean Hahn–Banach and Fréchet open mapping (§0.2), fixed-rank
+spectral convergence (§4.13), and compactness of Tate-algebra maps with topologically
+nilpotent coordinate images (§4.15). Four definitions on native power series and
+polynomials express the spectral statement: entireness, the bounded spectral resultant, the
+monic tail quotient and its fixed-rank spectral output. RestrictedPowerSeries and
+CompactOperators own the supplier interfaces identified in the README; in particular the
+entire spectral transform of two entire inputs and its Gauss convergence are
+CompactOperators §3.3's `colemanDEntire` and `tendsto_gaussNorm_colemanDBounded`, and the
+closed-disc maximum modulus comparison of §0.1 is derived from RestrictedPowerSeries §2.4's
+unit-radius maximum modulus principle, so it is not restated here.
 
 The other headline results require objects absent from the pinned libraries:
 * The compact-type and strong-duality comparisons of Layer 0 need nonarchimedean locally
@@ -53,22 +54,6 @@ open Filter Topology
 /-! ## Layer 0: analytic Banach stages, locally analytic functions and their strong duals -/
 
 namespace AnalyticDistributions
-
-section DiscRealization
-
-variable {L K : Type*} [NontriviallyNormedField L] [NontriviallyNormedField K]
-  [CompleteSpace K] [IsUltrametricDist K]
-
-/-- §0.1: the Gauss valuation maximum principle, expressed as equality of norms, uses points
-in an algebraically closed complete extension; it holds for every positive real radius.
-Source: Colmez, Proposition I.4.3, pp. 13–14. -/
-theorem gaussVal_eq_inf [IsAlgClosed K] (φ : L →+* K) (hφ : Isometry φ) (a : K)
-    (R : ℝ) (hR : 0 < R) (F : PowerSeries L) (hF : PowerSeries.IsRestricted R F) :
-    PowerSeries.gaussNorm norm R F =
-      ⨆ x : Metric.closedBall a R,
-        ‖FormalMultilinearSeries.ofScalarsSum (fun n => φ (F.coeff n)) (x.val - a)‖ := by sorry
-
-end DiscRealization
 
 /-- §0.2: spherical completeness gives a norm-preserving extension from any normed subspace.
 The ball-intersection hypothesis states spherical completeness directly.

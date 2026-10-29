@@ -32,13 +32,13 @@ and compact operators of PadicFunctionalAnalysis and CompactOperators.
 
 Everything is stated over a complete nonarchimedean field K (a finite extension of ℚ_p in the arithmetic applications) and, for families, over a commutative Noetherian K-Banach algebra A; general locally convex or distribution spaces are never silently treated as Banach spaces.
 
-The targets below are specifications for formalisation. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its hypotheses, its source and the earlier targets or library declarations it rests on. The companion [Suggested.lean](Suggested.lean) states the closed-disc maximum principle, nonarchimedean Hahn–Banach and Fréchet open mapping, fixed-rank spectral convergence and compactness of Tate-algebra maps with topologically nilpotent coordinate images, with four definitions needed for the spectral statements. It is not exhaustive, and this document is definitive. The compact-type and strong-duality comparisons, Hyodo–Kato comparisons, Amice and Mellin equivalences, sharp extension and uniqueness theorems, and finite-slope complexes require carriers absent from the pins and are specified here. Local API requirements and Checks are stated in prose; backticked local declaration names refer only to the nine declarations in the companion file. Implementations import the named supplier APIs and retain one owner for each object; the supplier contracts list the interfaces.
+The targets below are specifications for formalisation. Every definition comes with the API it needs and with checks that a plausible wrong definition fails; every theorem carries its hypotheses, its source and the earlier targets or library declarations it rests on. The companion [Suggested.lean](Suggested.lean) states nonarchimedean Hahn–Banach and Fréchet open mapping, fixed-rank spectral convergence and compactness of Tate-algebra maps with topologically nilpotent coordinate images, with four definitions needed for the spectral statements. It is not exhaustive, and this document is definitive. The compact-type and strong-duality comparisons, Hyodo–Kato comparisons, Amice and Mellin equivalences, sharp extension and uniqueness theorems, and finite-slope complexes require carriers absent from the pins and are specified here. Local API requirements and Checks are stated in prose; backticked local declaration names refer only to the eight declarations in the companion file. Implementations import the named supplier APIs and retain one owner for each object; the supplier contracts list the interfaces.
 
 ## Scope and ownership
 
 This roadmap owns the following material.
 
-- Pointwise realization of native restricted series on translated closed discs and finite polydisc charts, with the maximum-principle comparison, the polydisc-stage presentation of locally analytic functions and its atlas independence, in one variable, on finite products of local integer rings (distinguishing ℚ_p-analytic from F-analytic functions) and on compact p-adic analytic manifolds through charts. For coefficient fields complete and discretely valued over a finite extension of ℚ_p, the compact-type topology of locally analytic functions on compact manifolds, its strong dual of distributions, strong biduality, analytic pullback and the completed projective tensor of function spaces are those of PadicLocalLanglandsForGL2Qp §0.1; this roadmap owns the completed inductive tensor and its comparison with the projective one, and the extensions to general complete coefficient fields, with restriction comparisons to §0.1.
+- Pointwise realization of native restricted series on translated closed discs and finite polydisc charts, with the maximum-modulus comparison derived from RestrictedPowerSeries §2.4, the polydisc-stage presentation of locally analytic functions and its atlas independence, in one variable, on finite products of local integer rings (distinguishing ℚ_p-analytic from F-analytic functions) and on compact p-adic analytic manifolds through charts. For coefficient fields complete and discretely valued over a finite extension of ℚ_p, the compact-type topology of locally analytic functions on compact manifolds, its strong dual of distributions, strong biduality, analytic pullback and the completed projective tensor of function spaces are those of PadicLocalLanglandsForGL2Qp §0.1; this roadmap owns the completed inductive tensor and its comparison with the projective one, and the extensions to general complete coefficient fields, with restriction comparisons to §0.1.
 - The nonproper finite-piece dagger Hyodo–Kato comparison and the Hyodo–Kato cohomology of semistable Stein curves as Fréchet projective limits, the completed Hyodo–Kato comparison, and semistable curve towers as ind-Fréchet spaces, with continuous Frobenius, monodromy and group actions (§0.CR.6.6).
 - Locally convex inductive and projective limits and completed projective tensors over a general complete nonarchimedean field, extending those of PadicLocalLanglandsForGL2Qp §0.1 on its discretely valued domain; the completed inductive tensor over every complete nonarchimedean field, discretely valued ones included, with its comparisons to the projective tensor for Fréchet and for compact-type factors; together with the strict-map, quasi-abelian and left-heart calculus and the comparison of Banach and locally convex completed tensors.
 - The strict-sequence and three-space results for nonarchimedean Banach, Fréchet and compact-type spaces that are used to pass between stages, limits and duals, including the nonarchimedean Hahn–Banach theorem over a spherically complete field, which is stated here as a target rather than taken from another roadmap.
@@ -52,8 +52,8 @@ It leaves the following to the roadmaps and libraries named, and does not restat
 - **Bounded measures and their calculus** belong to PadicMeasuresIwasawaAlgebras: the carrier D(X, R) (Mathlib's `AbstractMeasure`), clopen restriction and extension, and the weak and strong topologies (its Layer 0, §0.1–§0.2); the Mahler derivation and the Amice transform of multiplication by x (§2.1), Frobenius φ, its left inverse ψ and their Amice formulas (§2.2), the unique unit-supported division by x (§2.3), the Dirac naturality A(δ_a) = (1 + T)^a (§2.4), the bounded-coefficient inverse Amice transform and the bounded Amice isometry (§2.5), dilation pushforward (§2.11) and restriction to residue classes (§2.12) for bounded measures (its Layer 2); pseudo-measures, the cleared numerator with its cross-multiplication identity, admissible evaluation and the independence of the clearing factor (its §3.1); the pointwise character space W of ℤ_pˣ with its odd-p and p = 2 decompositions, the identification of characters of the principal units with the open unit disc, measures as bounded functions on W, pseudo-measures as functions with at most a simple pole at the trivial character, and the universal character with its extension to G = H × ℤ_p^d (its Layer 3a, §3a.1). Layers 1–3 here extend each of these from bounded measures to distributions; where a target of this roadmap specialises to a bounded measure it must agree with the PadicMeasuresIwasawaAlgebras statement, and that agreement is part of the target.
 - **Rigid and adic carriers** belong to AdicSpaces (restricted power series over Tate rings and strong noetherianness in its §0.5; open subspaces and gluing in its §5.1 and §5.3), AdicSpacesPartII (rigid spaces, affinoid sections and the rigid–adic comparison in §R1.1 and §R1.7) and AdicSpacesPartIII (quasi-Stein adic spaces, the density of their restriction maps and Kiehl's Theorems A and B in its §R3.4, targets *quasi-stein-space* and *quasi-stein-theorem-a*; completely continuous maps of Banach modules over an affinoid algebra, `Huber.IsCompletelyContinuous`, with its finite-rank, composition, submodule and closure API in its §R3.6, target *completely-continuous-map*). Layer 3 consumes the compact abelian rigid character spaces of PhiGammaModulesAndIwasawaCohomology §4.0 and compares their Mellin sections with their adic realizations. The generic finite-image approximation predicate and ideal calculus belong to CompactOperators §0.1, which compares them with the lattice-normed predicate; the affinoid lattice model and strict complete continuity belong to AdicSpacesPartIII §R3.6. Diamonds are never required.
 - **Compact abelian character geometry and scalar Mellin** belong to PhiGammaModulesAndIwasawaCohomology §4.0: the rigid character space, universal character, finite-component descent, group pullbacks, finite coefficient extension and strong-dual Mellin algebra isomorphism. Its §4.1 supplies the relative analytic Γ rings. Layer 3 identifies these with the distribution carriers of Layer 0 and applies them to boundedness, arithmetic weights and rigid–adic comparison.
-- **Banach modules, the analytic stages on ℤ_p and compact operators** belong to PadicFunctionalAnalysis and CompactOperators, the roadmaps of W. Coram: finitely generated Banach modules over Noetherian rings, the coefficient action, universal property, matrices and coordinate truncations of c₀, and orthonormalizable and (Pr) modules (PadicFunctionalAnalysis §1.4, §2.1–§2.2, §2.6); the Banach stages LA_h(ℤ_p, E), Amice's theorem, locally analytic distributions and their Amice transform with its point masses and convolution (its §4.3–§4.4 and §4.7); complete continuity, the Fredholm determinant with its invariance, product and base-change laws, the Fredholm resolvent, Riesz projectors with finite projective root kernels, Coleman's spectral transform with entire functional input and the Riesz–Coleman decomposition (CompactOperators Layers 0–3); generic open-disc and entire series, convergent multiplicative evaluation and coefficient maps, Hasse calculus, division and monic resultants (RestrictedPowerSeries §§2.1, 2.3, 7.1 and 7.2); §1.2 here compares that open-disc evaluation with native formal multilinear series and proves a quantitative smaller-disc tail estimate. The supplier contracts name each target used and the local restatements of their definitions.
-- **Already in the Tau Ceti library** (`a91d3aa`) and used, not restated: `TauCeti.Algebra.eval_charpolyRev_leftMulMatrix` (`RingTheory/Norm/CharpolyRev.lean`) supplies the characteristic-series norm identity for a chosen finite basis; Mathlib's restricted series `PowerSeries.IsRestricted` with Tau Ceti's `TauCeti.PowerSeries.isRestricted_of_abs_le`, `TauCeti.PowerSeries.isRestricted_polynomial` (so "polynomials are entire" is a consequence, not a target of Layer 4), `TauCeti.PowerSeries.polynomialToRestricted`, the Gauss valuation `TauCeti.PowerSeries.gaussValuation` and `TauCeti.PowerSeries.IsDistinguished` on restricted series, `TauCeti.PowerSeries.hasGaussNorm_of_isRestricted`, and the normed-ring structure `TauCeti.PowerSeries.norm_eq_gaussNorm` on the restricted subring at a radius (`TauCeti/RingTheory/PowerSeries/{Restricted,GaussNorm,TateAlgebra}.lean`); the already in the tau ceti library (`RingTheory/PowerSeries/Weierstrass/Division.lean`) supplies division at a single radius under a multiplicative coefficient norm, whereas §4.3 needs an all-radius monic quotient over a possibly nonreduced ring with only a submultiplicative norm; `TauCeti.Huber.restrictedMvPowerSeriesGaussEquiv` identifying the Huber restricted series with the Gauss-normed ones; `IsTopologicallyNilpotent.isUnit_one_sub` (`Topology/Algebra/Nonarchimedean/GeometricSeries.lean`); the integer-coefficient evaluation `TauCeti.evalIntSeries` (`Topology/Algebra/InfiniteSum/IntegralCoefficients.lean`), used only for series with integer coefficients; the logarithm has coefficients (−1)^(n+1)/n and requires the open-disc summability and evaluation of §1.2; the completed group algebra `TauCeti.completedGroupAlgebra` and its coordinate `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, consumed through PadicMeasuresIwasawaAlgebras. Tau Ceti's `Analysis/Fredholm/*` (the index theory of `ContinuousLinearMap.IsFredholm`) and `Analysis/Normed/Operator/Compact/RieszTheory.lean` (Riesz theory for Mathlib's `IsCompactOperator`) concern operators between Banach spaces over a field, with hypotheses varying by theorem; some results, including finite-dimensional kernel statements, apply over nonarchimedean fields; the Fredholm theory of Layer 4 is over a Banach algebra A with complete continuity defined by finitely generated A-images, and no comparison with `IsCompactOperator` is asserted anywhere in this roadmap: a target that needs one must state it with its own hypotheses.
+- **Banach modules, the analytic stages on ℤ_p and compact operators** belong to PadicFunctionalAnalysis and CompactOperators, the roadmaps of W. Coram: finitely generated Banach modules over Noetherian rings, the coefficient action, universal property, matrices and coordinate truncations of c₀, and orthonormalizable and (Pr) modules (PadicFunctionalAnalysis §1.4, §2.1–§2.2, §2.6); the Banach stages LA_h(ℤ_p, E), Amice's theorem, locally analytic distributions and their Amice transform with its point masses and convolution (its §4.3–§4.4 and §4.7); complete continuity, the Fredholm determinant with its invariance, product and base-change laws, the Fredholm resolvent, Riesz projectors with finite projective root kernels, Coleman's spectral transform with entire functional input and the Riesz–Coleman decomposition (CompactOperators Layers 0–3); generic open-disc and entire series, convergent multiplicative evaluation and coefficient maps, Hasse calculus, division and monic resultants (RestrictedPowerSeries §§2.1, 2.3, 7.1 and 7.2), together with radius rescaling, translation and the unit-radius maximum modulus principle with its attainment in a finite extension (its §§1.2, 2.2 and 2.4), from which §0.1 derives the translated closed-disc comparison; §1.2 here compares that open-disc evaluation with native formal multilinear series and proves a quantitative smaller-disc tail estimate. The supplier contracts name each target used and the local restatements of their definitions.
+- **Already in the Tau Ceti library** (`a91d3aa`) and used, not restated: `TauCeti.Algebra.eval_charpolyRev_leftMulMatrix` (`RingTheory/Norm/CharpolyRev.lean`) supplies the characteristic-series norm identity for a chosen finite basis; Mathlib's restricted series `PowerSeries.IsRestricted` with Tau Ceti's `TauCeti.PowerSeries.isRestricted_of_abs_le`, `TauCeti.PowerSeries.isRestricted_polynomial` (so "polynomials are entire" is a consequence, not a target of Layer 4), `TauCeti.PowerSeries.polynomialToRestricted`, the Gauss valuation `TauCeti.PowerSeries.gaussValuation` and `TauCeti.PowerSeries.IsDistinguished` on restricted series, `TauCeti.PowerSeries.hasGaussNorm_of_isRestricted`, and the normed-ring structure `TauCeti.PowerSeries.norm_eq_gaussNorm` on the restricted subring at a radius (`TauCeti/RingTheory/PowerSeries/{Restricted,GaussNorm,TateAlgebra}.lean`); `TauCeti.PowerSeries.IsDistinguished.existsUnique_mul_add_eq` (`RingTheory/PowerSeries/Weierstrass/Division.lean`) supplies division at a single radius under a multiplicative coefficient norm, whereas §4.3 needs an all-radius monic quotient over a possibly nonreduced ring with only a submultiplicative norm; `TauCeti.Huber.restrictedMvPowerSeriesGaussEquiv` identifying the Huber restricted series with the Gauss-normed ones; `IsTopologicallyNilpotent.isUnit_one_sub` (`Topology/Algebra/Nonarchimedean/GeometricSeries.lean`); the integer-coefficient evaluation `TauCeti.evalIntSeries` (`Topology/Algebra/InfiniteSum/IntegralCoefficients.lean`), used only for series with integer coefficients; the logarithm has coefficients (−1)^(n+1)/n and requires the open-disc summability and evaluation of §1.2; the completed group algebra `TauCeti.completedGroupAlgebra` and its coordinate `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, consumed through PadicMeasuresIwasawaAlgebras. Tau Ceti's `Analysis/Fredholm/*` (the index theory of `ContinuousLinearMap.IsFredholm`) and `Analysis/Normed/Operator/Compact/RieszTheory.lean` (Riesz theory for Mathlib's `IsCompactOperator`) concern operators between Banach spaces over a field, with hypotheses varying by theorem; some results, including finite-dimensional kernel statements, apply over nonarchimedean fields; the Fredholm theory of Layer 4 is over a Banach algebra A with complete continuity defined by finitely generated A-images, and no comparison with `IsCompactOperator` is asserted anywhere in this roadmap: a target that needs one must state it with its own hypotheses.
 - **Reductive-group input** belongs to ReductiveGroups (tori with their character and cocharacter lattices in its Layer 4; Borel subgroups, maximal tori and the root datum in its Layer 7) and to ReductiveGroupsPartII (the valuation homomorphism of the minimal Levi with its bounded kernel, translation lattice and quotient, §RG2.1.2, target *torus-valuation-map*). The slope valuation uses the opposite sign from that translation; its geometric-character comparison and the positive torus monoids are the additional targets of §4.17; no root datum is built here.
 - **Not in this roadmap at all**: no p-adic L-function (no Bernoulli, Eisenstein, modular-symbol or Rankin–Selberg arithmetic), no Coleman map or Coleman integration, no eigenvariety or overconvergent cohomology, no (φ, Γ)-modules, no Galois cohomology, no diamonds, and no solid or condensed functional analysis: the finite-window statement of §4.17 is a classical statement about Fréchet presentations and makes no solid-localisation claim.
 
@@ -141,6 +141,16 @@ Section 7.1 supplies the subring of native power series restricted at every radi
 - The same isometric coefficient extension sends −1/2 to −1/2 and 1 to 1, so it preserves both evaluations and the product identity.
 - At t=0 the geometric series has value 1; at t=1 its terms all equal 1 and are not summable, so the strict radius hypothesis cannot be dropped.
 
+### From TauCetiRoadmap.RestrictedPowerSeries: maximum modulus, translation and rescaling
+
+Section 2.4 supplies the unit-radius maximum modulus principle: for a restricted series f over a complete nontrivially normed ultrametric field K there are a finite normed extension L/K and a point x of its closed unit disc with ‖f(x)‖ equal to the Gauss norm of f, so the Gauss norm is the supremum of the pointwise norms over extension-valued points of the closed unit disc; the supplier proves it through reduction and residue-field extension, with no affinoid Nullstellensatz. Section 2.2 supplies translation X ↦ X + a with ‖a‖ ≤ r as an isometric automorphism of the radius-r algebra, and Section 1.2 the rescaling isometry f(X) ↦ f(uX) from radius r to radius s when ‖u‖s = r. These contracts are consumed by §0.1, which derives from them the maximum modulus comparison on a translated closed disc of arbitrary positive radius over ℂ_p; nothing of §2.4 is proved again here.
+
+**Checks.**
+
+- Over ℚ_p, X^p − X has Gauss norm one, but its values on ℤ_p have norm at most p^(−1): the supremum is over extension-valued points. For p = 3 it is attained at a primitive eighth root of unity ζ of the unramified quadratic extension, where ζ³ − ζ = ζ(ζ² − 1) has norm one because ζ² is a primitive fourth root of unity and (ζ² − 1)(ζ² + 1) = −2 is a 3-adic unit.
+- Translation by 1 at radius one is an isometry of the unit-radius algebra, although it changes the constant term.
+- Rescaling X ↦ pX carries X³ − X at radius one to p³X³ − pX at radius p, and both have Gauss norm one.
+
 ### From the student roadmaps
 
 PadicFunctionalAnalysis §4.7 supplies the algebraic Amice bijection and the quantitative stage norms. For moments b_n=μ(binom(x,n)),
@@ -157,7 +167,7 @@ The controls in §0.1 and §1.1 include δ_(−1), with D_h=1 for every h, and b
 and [RigidAnalyticGeometry](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RigidAnalyticGeometry/README.md)
 are the supplier roadmaps of W. Coram. Supplier references below use their section headings; a descriptive label identifies the corresponding paragraph within that section. PadicFunctionalAnalysis §0.4 gives the Banach–Tate structure of the algebra A in Convention 1. Its §2.6 uses output-first matrices, so a_ij here is its matrix coefficient with indices j,i. CompactOperators §0.2 names uniform output-row decay `IsRowCompact`; this is distinct from its field-facing compactoid-image predicate in §0.5. Over the Noetherian A of Convention 1, PadicFunctionalAnalysis §2.6 supplies closed finite submodules and bounded lifting, and CompactOperators §0.2 identifies row compactness with complete continuity. On a (Pr) module one uses its retract extension as in CompactOperators §§0.4 and 1.5. The bounded-equivalent contractive norm of §4.1 transports topological imports; exact norm formulas retain their displayed norm hypotheses.
 
-RestrictedPowerSeries §§1.1, 2.1, 2.3, 7.1 and 7.2 supply generic Gauss completeness, open-disc and entire evaluation, Hasse calculus, division and monic entire resultants. CompactOperators §2.4 supplies the resolvent and §§3.1–3.4 the projectors and spectral applications. RigidAnalyticGeometry §§2.1–2.2 supply the supremum/spectral comparison and §7.2 the numerical module-slope interface.
+RestrictedPowerSeries §§1.1, 2.1, 2.3, 7.1 and 7.2 supply generic Gauss completeness, open-disc and entire evaluation, Hasse calculus, division and monic entire resultants; its §§1.2, 2.2 and 2.4 supply radius rescaling, translation and the unit-radius maximum modulus principle consumed by §0.1. CompactOperators §2.4 supplies the resolvent and §§3.1–3.4 the projectors and spectral applications. RigidAnalyticGeometry §§2.1–2.2 supply the supremum/spectral comparison and §7.2 the numerical module-slope interface.
 
 | Use in this roadmap | Supplied by | Named interface where specified |
 |---|---|---|
@@ -441,17 +451,17 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- The zero operator has no positive-degree Fredholm coefficients.
-- A finitely supported diagonal has a polynomial Fredholm series.
-- For diag(p^i) over ℚ_p, v_p(c_n)=n(n−1)/2, giving decay at every radius.
+- For the finite truncations u_s = diag(p^i)_(i<s) of u = diag(p^i)_(i∈ℕ) over ℚ_p, ‖u − u_s‖ = p^(−s) → 0 with the common majorant b_j = p^(−j): c_1(u_s) = −Σ_(i<s)p^i → −1/(1 − p) = c_1(u), and P_(u_s)(1) = ∏_(i<s)(1 − p^i) → ∏_i(1 − p^i) = P_u(1).
+- On ℚ_p², u_s = diag(p^s, 0) → 0 with the majorant (1, 0): c_1(u_s) = −p^s → 0 and P_(u_s)(1) = 1 − p^s → 1.
+- (degenerate) A constant sequence has zero differences in every degree and at every radius.
 
 **Determinant of a finite-coordinate operator.** If u(c_A(I)) lies in the coordinate submodule A^S for a finite S, then P_u is the characteristic polynomial det(1 − T u|A^S). Supplied by CompactOperators §1.2 (the roadmap of W. Coram). Its hypothesis that the rows of `matrixCoeff u` outside S vanish is this one.
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- The zero operator on c_A(I) has image in the coordinate submodule of the empty set, and its Fredholm series is the empty determinant 1.
+- The projection x ↦ x_0e_0 has image in the coordinate submodule of {0} and Fredholm series det(1 − T·1) = 1 − T; the shift e_1 ↦ e_0, e_0 ↦ 0, zero on the other coordinates, has image in that of {0, 1} and series det(1 − TN) = 1 for the nilpotent block N.
+- (non-example) diag(p^i)_(i∈ℕ) over ℚ_p lies in no finite coordinate submodule, and its Fredholm series ∏_i(1 − p^iT) is not a polynomial.
 
 **Independence of chart and equivalent norm.** The Fredholm series of a completely continuous operator on a potentially ONable module does not depend on the ON chart or on the chosen equivalent ON norm. Supplied by CompactOperators §1.5 and §1.7 (the roadmap of W. Coram).
 
@@ -481,33 +491,33 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- The zero module has (Pr).
-- Every c₀ model has (Pr).
-- For A=K×K, the retract (1,0)A is finite projective and has varying rank.
+- c_A(I) lifts: a map from c_A(I) through a continuous surjection is lifted on the coordinate vectors by bounded preimages, which the open mapping theorem provides, and extended by the bounded-family extension of PadicFunctionalAnalysis §2.1.
+- The zero module lifts every map trivially.
+- (non-example) For A = K⟨X⟩ and M = A/(X), the identity of M does not lift through the surjection A → M, since an A-linear map M → A sends 1 to an element killed by X, hence to 0; so M lacks (Pr) although it is a finitely generated Banach A-module.
 
 **Finite (Pr) modules are algebraically projective.** A finitely generated Banach A-module with (Pr) is a finitely generated projective A-module. Supplied by PadicFunctionalAnalysis §2.2 (the roadmap of W. Coram).
 
 **Checks.**
 
-- The zero module has (Pr).
-- Every c₀ model has (Pr).
-- For A=K×K, the retract (1,0)A is finite projective and has varying rank.
+- Aⁿ has (Pr) and is free of rank n.
+- For A = K × K the retract (1,0)A is projective of rank one over the first factor and zero over the second: the rank of a finite (Pr) module need not be constant.
+- (non-example) For A = K⟨X⟩ the finitely generated Banach module A/(X) is not projective, since a projective module over a domain is torsion-free and X kills it; by this theorem it lacks (Pr), in agreement with the lifting failure above.
 
 **Fredholm determinant on a (Pr) module.** For completely continuous u on a (Pr) module M with M ⊕ M′ potentially ONable, P_u is the Fredholm series of u ⊕ 0, independent of the complement and agreeing with the ON determinant on ONable modules. Supplied by CompactOperators §1.5 (the roadmap of W. Coram).
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- For M = c_A(I) with the complement M′ = 0, u ⊕ 0 = u and the (Pr) determinant is the orthonormal-chart one.
+- For M = A(1,0) ⊂ A² acted on by a: the complement A(0,1) gives u ⊕ 0 = diag(a, 0) with series 1 − aT, and the complement A(1,1) gives the matrix with rows (a, −a) and (0, 0), whose principal minors are a, 0 and 0, with the same series 1 − aT.
+- (degenerate) The zero module has determinant 1 for its only operator.
 
 **Fredholm determinant of a direct sum.** `P_{u⊕v}(T) = P_u(T)P_v(T)` for completely continuous u and v on (Pr) modules. Supplied by CompactOperators §1.6 (the roadmap of W. Coram). There it is stated on `c₀(I ⊕ J, R)` and hence on direct sums of modules with (Pr).
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- For u = a and v = b on two lines, P_(u⊕v) = (1 − aT)(1 − bT), whereas u + v on one line gives 1 − (a + b)T.
+- A zero summand changes nothing: P_(u⊕0) = P_u for every (Pr) complement, in agreement with the (Pr) determinant above.
+- For u = v = 1 on two lines the product is (1 − T)², while the cyclic identity gives P_(uv) = 1 − T for u = v = 1 on one line: the product law is for direct sums, not for composites.
 
 **Evaluated Fredholm product identity on c0.** For completely continuous u, v on `c_A(I)`, `P_{u+v−uv}(1) = P_u(1)P_v(1)`, with no commutativity hypothesis, whereas the whole series need not be multiplicative. Supplied by CompactOperators §2.4 (`fredholmDet`) (the roadmap of W. Coram).
 
@@ -521,9 +531,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- With one operator zero, the evaluated product formula is the identity.
-- On a scalar line it is 1−a−b+ab=(1−a)(1−b).
-- For u=v=1 on a line, the evaluated determinants vanish; the whole series 1−T differs from (1−T)².
+- For M = A(1,0) ⊂ A² with complement A(1,1), u = a and v = b on M: the zero extensions have rows (a, −a), (0, 0) and (b, −b), (0, 0), and u + v − uv extends to the matrix with rows (a + b − ab, −(a + b − ab)), (0, 0), whose evaluated determinant 1 − (a + b − ab) = (1 − a)(1 − b) is the product of P_u(1) = 1 − a and P_v(1) = 1 − b.
+- (degenerate) For M = 0 both sides are 1.
+- For u = v = 1 on M, u + v − uv = 1 and both sides vanish, while the whole series 1 − T differs from (1 − T)².
 
 **Determinant bound by distinct output columns.** For a square matrix D over a normed commutative ring with ultrametric norm and ‖1‖ = 1, ‖det D‖ ≤ ∏_j b_j whenever ‖D_ij‖ ≤ b_j for all i, j, including the empty matrix. Supplied by CompactOperators §1.1 (the roadmap of W. Coram). There the bound is by rows, ‖A i j‖ ≤ r_i, the transposed form, with the same determinant.
 
@@ -537,9 +547,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- The zero operator has no positive-degree Fredholm coefficients.
-- A finitely supported diagonal has a polynomial Fredholm series.
-- For diag(p^i) over ℚ_p, v_p(c_n)=n(n−1)/2, giving decay at every radius.
+- For diag(p^i)_(i∈ℕ) over ℚ_p with b_j = p^(−j), the 1 × 1 minors p^i and the 2 × 2 minors p^(i+j) tend to zero along the cofinite filters on singletons and on pairs.
+- (non-example) The matrix with every entry 1 is bounded by the constant majorant 1, which is not cofinite-null, and its 1 × 1 minors do not tend to zero.
+- (degenerate) For n = 0 the only subset is the empty one, with minor 1; the cofinite filter on a finite collection is trivial, so the statement holds vacuously.
 
 #### Interfaces consumed in §4.3 Entire division by linear and monic factors
 
@@ -555,9 +565,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Division by 1 has quotient F and remainder zero.
-- Division of T² by T−a has quotient T+a and remainder a².
-- The formal inverse of 1−pT over ℚ_p is not entire.
+- F = T² − a² vanishes at a and equals (T − a)(T + a), with the entire cofactor T + a.
+- Over ℚ_p, F = 1 − pT vanishes at 1/p and equals (T − 1/p)·(−p), with a constant cofactor.
+- (non-example) F = 1 + T has F(1) = 2 ≠ 0 in ℚ_p for every p, and no factorization 1 + T = (T − 1)G exists, since evaluating at 1 would give 2 = 0.
 
 **Reciprocal-tail quotient by a monic polynomial.** For monic Q of degree d and Σ_k b_k T^k the inverse of Q.reverse, the series S_Q(F) with coefficients s_n = Σ_k coeff_(n+d+k)(F)b_k, entire for entire F, with F = Q S_Q(F) + R and deg R < d. Supplied by RestrictedPowerSeries §7.2, **Explicit monic division** (the roadmap of W. Coram). Its explicit quotient by Q is the local restatement `entireMonicQuotient Q F` here, which supplies the coefficient formula and all-radius division. Entireness, the division identity and uniqueness are supplier-owned; local targets below give the weighted bound and native carrier comparisons. Source: Coleman, Appendix A3, p. 434.
 
@@ -571,9 +581,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Division by 1 has quotient F and remainder zero.
-- Division of T² by T−a has quotient T+a and remainder a².
-- The formal inverse of 1−pT over ℚ_p is not entire.
+- For Q = T² and entire P = Σ_n c_nTⁿ, S = Σ_n c_(n+2)Tⁿ and R = c_0 + c_1T.
+- Over ℚ_p, Q = T − a and P = 1 − pT give S = −p and R = 1 − pa.
+- (uniqueness) For Q = T and P = 0 the only solution is S = 0, R = 0: deg R < 1 and TS = −R force R(0) = 0, so R = 0, and then S = 0 because multiplication by T is injective on A⟦T⟧.
 
 #### Interfaces consumed in §4.4 Resultants of monic polynomials and entire series
 
@@ -589,25 +599,25 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Res(1,F)=1, even for F=0.
-- Res(T−a,F)=F(a) for every a.
-- Res(T²,b+cT)=b², including over rings with nilpotents.
+- Res(T − a, T − b) = a − b, the value of the second argument at a, while the swapped order gives b − a: the argument order is part of the statement.
+- Res(T², b + cT) = b², and the native resultant with the padded degree bound 2 on the second argument is still b² because the first argument is monic; the bounds are those of the statement.
+- Res(1, P) = 1 for every polynomial P, P = 0 included: with bounds (0, deg P) the Sylvester matrix is built from the constant 1 alone and is an identity matrix.
 
 **Bounded polynomial coefficient in the resultant Bezout identity.** For monic Q of degree d and entire F there are entire G and a polynomial H of degree less than d with Res(Q, F) = QG + HF in A{{T}}; at d = 0 one may take G = 1, H = 0. Supplied by RestrictedPowerSeries §7.2, **Monic entire resultant** (the roadmap of W. Coram).
 
 **Checks.**
 
-- Res(1,F)=1, even for F=0.
-- Res(T−a,F)=F(a) for every a.
-- Res(T²,b+cT)=b², including over rings with nilpotents.
+- For Q = T² and F = b + cT, b² = c²·Q + (b − cT)·F, since (b − cT)(b + cT) = b² − c²T²; here H = b − cT has degree 1 < 2 and G = c².
+- For Q = T − a and entire F, F(a) = Q·(−Q_a(F)) + 1·F by the division identity, with H = 1 of degree 0 < 1.
+- For Q = 1, Res(1, F) = 1 = 1·Q + 0·F, and H = 0 is the only polynomial of degree less than 0.
 
 **Resultant detects analytic coprimality.** For monic Q and entire P, Res(Q, P) is a unit of A exactly when Q and P generate the unit ideal of A{{T}}. Supplied by RestrictedPowerSeries §7.2, **Monic entire resultant** (the roadmap of W. Coram). The supplier gives the coprimality equivalence. In the native quotient comparison, applying ρ_Q (§4.4 the analytic reduction ρ_Q) to a relation QG + HP = 1 makes ρ_Q(P) a unit of AdjoinRoot Q and hence its norm Res(Q, P) a unit.
 
 **Checks.**
 
-- Res(1,F)=1, even for F=0.
-- Res(T−a,F)=F(a) for every a.
-- Res(T²,b+cT)=b², including over rings with nilpotents.
+- For Q = T² and P = 1, Res = 1 and 1 = 0·Q + 1·P; for P = T, Res = 0 and T is a common factor.
+- Over ℤ_p, Q = T − 1 and P = 1 + p − T have Res(Q, P) = P(1) = p, not a unit of ℤ_p, and they are not coprime: evaluating a relation GQ + HP = 1 at T = 1 would give pH(1) = 1. Over ℚ_p the same pair has the unit resultant p and 1 = p⁻¹Q + p⁻¹P: the criterion is that the resultant be a unit of A, not merely nonzero.
+- (degenerate) Q = 1 has Res = 1 and is coprime to every P, including P = 0.
 
 #### Interfaces consumed in §4.5 Formal resolvent recurrence and Hasse derivatives
 
@@ -633,17 +643,17 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- For zero u the recurrence series is the constant identity.
-- For u=diag(a,b), the resolvent is diag(1−bT,1−aT).
-- For a nonzero two-dimensional N with N²=0, the resolvent is 1+TN.
+- For u = diag(p, p²) over ℚ_p with column bounds b_0 = p^(−1), b_1 = p^(−2), the resolvent coefficients are v_1 = diag(−p², −p), of norm p^(−1), the largest single bound, and v_2 = 0, within the product bound b_0b_1 = p^(−3).
+- For the nilpotent N (e_1 ↦ e_0) with column bounds b_0 = 0, b_1 = 1, v_1 = N has norm 1 and v_2 = N² = 0, as the product bound 0 forces.
+- (degenerate) On a line there is no product of two distinct bounds, and indeed v_n = 0 for every n ≥ 1.
 
 **Entireness of the recurrence on a projective Banach module.** For completely continuous u on a (Pr) module with its Fredholm coefficients c_n, every recurrence V_0 = 1, V_(n+1) = c_(n+1)·1 + uV_n has ‖V_n‖_K R^n → 0 for every R > 0. Supplied by CompactOperators §2.4 (the roadmap of W. Coram). There it is stated on c₀(I, R); on a (Pr) module this roadmap compresses the recurrence of u ⊕ 0 by §4.6 (Compression of the coefficient recurrence).
 
 **Checks.**
 
-- For zero u the recurrence series is the constant identity.
-- For u=diag(a,b), the resolvent is diag(1−bT,1−aT).
-- For a nonzero two-dimensional N with N²=0, the resolvent is 1+TN.
+- On a line the recurrence stops: v_n = 0 for n ≥ 1 and the resolvent is the constant 1.
+- For u = diag(p^i)_(i∈ℕ) over ℚ_p the i-th diagonal entry of the resolvent is ∏_(j≠i)(1 − p^jT), whose Tⁿ-coefficient has valuation at least n(n − 1)/2 uniformly in i, so ‖v_n‖Rⁿ → 0 for every R.
+- For M = A(1,0) ⊂ A² with complement A(1,1) and u = a on M, the zero extension has rows (a, −a), (0, 0), Fredholm series 1 − aT, v_1 with rows (0, −a), (0, −a) and v_2 = 0; v_1 vanishes on M, so the compression to M is the constant 1, the resolvent of a on a line.
 
 #### Interfaces consumed in §4.7 Analytic resolvents and topological root projectors
 
@@ -651,17 +661,17 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- For zero u the recurrence series is the constant identity.
-- For u=diag(a,b), the resolvent is diag(1−bT,1−aT).
-- For a nonzero two-dimensional N with N²=0, the resolvent is 1+TN.
+- For u = diag(a, b) on ℚ_p² with a a unit, F_u(1/a) = diag(1 − b/a, 0), and (1 − u/a)F_u(1/a) = 0 = P_u(1/a)·1, since 1/a is a root of P_u = (1 − aT)(1 − bT).
+- On a line F_u is the constant 1 and (1 − Ta)·1 = P_u(T).
+- (non-example) For u = diag(p^i)_(i∈ℕ) over ℚ_p and ‖a‖ ≥ 1, the terms aⁿuⁿ of the geometric series have norm ‖a‖ⁿ ≥ 1 and the series diverges, although F_u(a) converges: the resolvent is entire, the geometric inverse of 1 − au is not.
 
 **Evaluated Hasse derivatives of the resolvent.** For a ∈ A and s ∈ ℕ, the operators z_s(a) = Σ_n binom(n + s, s)a^n v_(n+s), convergent in operator norm, with z_0(a) = F_u(a) and z_s(0) = v_s. Supplied by CompactOperators §2.4 (the roadmap of W. Coram). There these are the divided evaluations Pₛ(a, u) on c₀(I, R); on a (Pr) module this roadmap compresses them as in §4.6 (Compression of the coefficient recurrence).
 
 **Checks.**
 
-- For zero u the recurrence series is the constant identity.
-- For u=diag(a,b), the resolvent is diag(1−bT,1−aT).
-- For a nonzero two-dimensional N with N²=0, the resolvent is 1+TN.
+- For u = diag(a, b), z_1(0) = v_1 = diag(−b, −a) and z_0(c) = diag(1 − bc, 1 − ac).
+- For the nilpotent N with resolvent 1 + TN, z_0(a) = 1 + aN and z_1(a) = N for every a, and z_s = 0 for s ≥ 2.
+- On a line z_0 = 1 and z_s = 0 for s ≥ 1.
 
 **Roots of an entire series with unit constant are units.** If F is entire with F(0) = 1 and F(a) = 0, then a is a unit with inverse −Σ_n f_(n+1)a^n; in particular a positive-order Hasse root of a Fredholm determinant is a unit. Supplied by RestrictedPowerSeries §7.2 (normalized-root unit criterion) (the `isUnit_of_evalAt_eq_zero` method of `IsEntire`) (the roadmap of W. Coram).
 
@@ -683,17 +693,17 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- For u=1 on a line, a=1 has order one and E=1.
-- For zero u, every a has Hasse order zero and E=0.
-- For u=1+N with N²=0 on A², a=1 has order two and E=1.
+- For u = diag(a, b) on K² with a ≠ b units and the root 1/a of order one, v = 1 − u/a = diag(0, 1 − b/a): N = Ke_0, F = Ke_1, and E is the coordinate projection onto e_0.
+- For u = 1 + N with N² = 0 on A² and the root 1 of order two, v = −N and v² = 0: the kernel is A², the image is 0 and E = 1.
+- For u = diag(1, p) over ℚ_p and the root 1 of order one, N = ℚ_pe_0, F = ℚ_pe_1 and P_(u|N) = 1 − T.
 
 **Stability under commuting operators.** Every continuous A-linear endomorphism commuting with u commutes with E and p and preserves N = ker(v^h) and F = image(v^h). Supplied by CompactOperators §3.5 (the roadmap of W. Coram).
 
 **Checks.**
 
-- For u=1 on a line, a=1 has order one and E=1.
-- For zero u, every a has Hasse order zero and E=0.
-- For u=1+N with N²=0 on A², a=1 has order two and E=1.
+- diag(c, d) commutes with diag(a, b) and preserves both coordinate lines N and F of the preceding decomposition.
+- Every polynomial in u, and u itself, preserves N and F; u acts on N = Ke_0 by a.
+- (non-example) For a ≠ b the coordinate swap does not commute with diag(a, b) and does not preserve N = Ke_0: the commutation hypothesis is needed.
 
 #### Interfaces consumed in §4.9 The finite spectral transform
 
@@ -709,25 +719,25 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- At rank zero with P=1 the output is one.
-- For B=T and normalized P of degree at most n, the output is P.
-- For B=c and P=1 at rank n, the output is (1−cT)^n.
+- For B = T and P = 1 − aT at rank one, the output is 1 − aT for every bound m ≥ 1.
+- For B = T² and P = 1 − aT at rank one, the output is 1 − a²T with m = 2 and with every larger m.
+- (non-example) With the too-small bound m = 1 for B = T², the resultant ignores the coefficient of Y² in 1 − TY² and its value is a constant independent of T, not 1 − a²T: m ≥ deg B is necessary.
 
 **The exact zero-root padding factor.** For P(0) = 1, deg P ≤ n and deg B ≤ m, D_(n+1,m)(B, P) = D_(n,m)(B, P)(1 − B(0)T). Supplied by CompactOperators §3.3, **Prescribed finite rank** (`colemanDBounded_succ`) (the roadmap of W. Coram).
 
 **Checks.**
 
-- At rank zero with P=1 the output is one.
-- For B=T and normalized P of degree at most n, the output is P.
-- For B=c and P=1 at rank n, the output is (1−cT)^n.
+- For B = c constant and P = 1, the rank-n output is (1 − cT)ⁿ and rank n + 1 multiplies it by (1 − B(0)T) = (1 − cT).
+- For B = T and P = 1 − aT, raising the rank from 1 to 2 leaves 1 − aT unchanged, the extra factor being 1 − 0·T: the padded zero eigenvalue is invisible when B(0) = 0.
+- For B = 1 + T and P = 1 − aT, rank one gives 1 − (1 + a)T and rank two gives (1 − (1 + a)T)(1 − T): the padded eigenvalue 0 is sent to B(0) = 1.
 
 **Stability when the operator series vanishes at zero.** If moreover B(0) = 0, then D_(n+k,m)(B, P) = D_(n,m)(B, P) for every k ≥ 0, so any two valid bounds on deg P give the same transform. Supplied by CompactOperators §3.3, **Prescribed finite rank** (`colemanDBounded_add_of_coeff_zero`) (the roadmap of W. Coram).
 
 **Checks.**
 
-- At rank zero with P=1 the output is one.
-- For B=T and normalized P of degree at most n, the output is P.
-- For B=c and P=1 at rank n, the output is (1−cT)^n.
+- For B = T and P = 1 − aT the output is 1 − aT at every rank n ≥ 1.
+- For B = T² and P = 1 − aT the output is 1 − a²T at every rank n ≥ 1.
+- (non-example) For B = 1 and P = 1 the rank-n output is (1 − T)ⁿ, which depends on n: without B(0) = 0 the bound on deg P changes the transform.
 
 #### Interfaces consumed in §4.10 Characteristic series of matrices and the finite spectral mapping theorem
 
@@ -735,9 +745,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- Conjugating diag(a, b) by the coordinate swap gives diag(b, a), with the same series (1 − aT)(1 − bT).
+- Conjugating the nilpotent block N (e_1 ↦ e_0, e_0 ↦ 0) by the unipotent matrix with rows (1, 0) and (1, 1) gives the matrix with rows (−1, 1) and (−1, 1): the diagonal entries change from (0, 0) to (−1, 1), while trace 0, determinant 0 and the series 1 are unchanged.
+- (degenerate) The empty matrix is its only conjugate and has series 1.
 
 **Finite characteristic spectral mapping.** For a finite square matrix M over any commutative ring and B of natural degree at most m, D_(|I|,m)(B, P_M) = P_(B(M)), with no order on the index set and B(0) arbitrary. Supplied by CompactOperators §1.1 and §3.3 (the roadmap of W. Coram). There it is Res(charpoly M, g) = det(g(M)) for every polynomial g; this roadmap takes g = 1 − T B over A[T], turns the rank-|I| reversal of P_M into charpoly M by §4.10 (Fixed-rank reflection of the characteristic series) and passes to the bound m by Tau Ceti `Polynomial.Monic.resultant_of_le`.
 
@@ -763,17 +773,17 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- Polynomials are entire.
-- The series Σ p^(n²)T^n over ℚ_p is entire.
-- Σ p^nT^n is restricted at radius one but is not entire.
+- For F = Σ_n p^(n²)Tⁿ over ℚ_p and R = p^k, the tail F − trunc_N(F) has Gauss norm p^(kN − N²) once N ≥ k/2, which tends to zero.
+- For a polynomial the tail is zero once N exceeds its degree.
+- (non-example) For F = Σ_n pⁿTⁿ, restricted at radius one but not entire, the tail has Gauss norm 1 at radius R = p for every N: density of polynomials at every radius is a property of entire series.
 
 **Unique entire limit of Gauss-Cauchy sequences.** Over a complete ultrametric A, a sequence of entire series that is Cauchy in every Gauss norm has a unique entire limit in every Gauss norm, A{{T}} being complete for the family of Gauss norms. Supplied by RestrictedPowerSeries §§1.1 and 7.2 (the roadmap of W. Coram): §1.1 supplies completeness at each fixed radius and §7.2 completeness for all Gauss norms together.
 
 **Checks.**
 
-- Polynomials are entire.
-- The series Σ p^(n²)T^n over ℚ_p is entire.
-- Σ p^nT^n is restricted at radius one but is not entire.
+- The truncations of an entire F are Cauchy in every Gauss norm and converge to F.
+- Two entire limits of one sequence differ by a series with every Gauss norm zero, hence by zero, since ‖coeff_n‖Rⁿ ≤ G_R.
+- (non-example) The partial sums of Σ_n pⁿTⁿ over ℚ_p are Cauchy at radius one, where a difference of partial sums has Gauss norm p^(−N) for the least index N it contains, but not at radius p, where such differences have Gauss norm 1: a limit exists at radius one and not in the entire topology.
 
 #### Interfaces consumed in §4.13 The spectral transform with entire functional input
 
@@ -805,9 +815,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- B=0 evaluates to zero.
-- B=T evaluates to u.
-- B=1 evaluates to identity, which is not completely continuous on infinite c₀.
+- For u = a on a line and B = T − T², B(u) = a − a² and P_(B(u)) = 1 − (a − a²)T, which is D(T − T², 1 − aT), the resultant of Y − a and 1 − T(Y − Y²).
+- For u = diag(p^i)_(i∈ℕ) over ℚ_p and B = T², P_(B(u)) = ∏_i(1 − p^(2i)T), the series that D(T², ∏_i(1 − p^iT)) must equal.
+- (non-example) For B = 1 + T, B(u) = 1 + u is not completely continuous on an infinite c₀, and the rank-n transforms carry the padding factors (1 − T)ⁿ: the hypothesis B(0) = 0 is essential.
 
 #### From TauCetiRoadmap.CompactOperators §§3.1 and 3.4: polynomial invertibility and finite projective summands
 
@@ -823,9 +833,9 @@ Transport of the other Banach-module imports uses bounded-equivalent norms only 
 
 **Checks.**
 
-- For u=1 on a line, a=1 has order one and E=1.
-- For zero u, every a has Hasse order zero and E=0.
-- For u=1+N with N²=0 on A², a=1 has order two and E=1.
+- For u = diag(p, p²) over ℚ_p, P_u = (1 − pT)(1 − p²T) has the root 1/p of Hasse order one, with first Hasse derivative −p(1 − p) ≠ 0 there; N = ℚ_pe_0 has rank one and P_(u|N) = 1 − pT = 1 − a⁻¹T for a = 1/p.
+- For u = p on ℚ_p², P_u = (1 − pT)² and the root 1/p has Hasse order two with second Hasse derivative p² ≠ 0: N = ℚ_p² of rank two and F = 0.
+- (degenerate) a = 0 is never a root, since P_u(0) = 1, in agreement with roots being units.
 
 **Finite projective slope summands.** If P_u = QS with Q a polynomial with constant coefficient one and unit leading coefficient, S entire with S(0) = 1 and Q, S coprime in A{{T}}, then M = N ⊕ F into closed u-stable summands with N finite projective of rank deg Q, Q*(u) zero on N and invertible on F, P_(u|N) = Q and the projector in the closure of A[u]; the degree-zero factor gives N = 0. Supplied by CompactOperators §3.4 (`IsRieszColemanProjection`, `exists_rieszColemanProjection`) (the roadmap of W. Coram). There u is row-compact on c₀(I, R); on a (Pr) module this roadmap applies it to u ⊕ 0, as for the Riesz projectors.
 
@@ -1039,22 +1049,24 @@ completed tensors; finite-dimensional topology over complete valued fields.
 
 Hypotheses shared by several targets of this subsection, cited by letter below: (a) L ⊆ ℂ_p is a closed subfield (a finite extension of ℚ_p in applications), v_p the valuation with v_p(p) = 1, and ℓ(n) the number of base-p digits of n (ℓ(0) = 0).
 
-**Pointwise realization on a translated closed disc** (comparison). For a ∈ L and r ∈ ℝ, let B(a,r)={x∈ℂ_p:v_p(x−a)≥r}. Use the native restricted power-series carrier at radius p^(−r) for the translated-disc realization; the new comparison realizes its coefficient family as the function φ(x)=Σ_k a_k(x−a)^k on B(a,r). This realization is injective and its Gauss valuation equals inf_(x∈B(a,r))v_p(φ(x)), with the supremum computed on ℂ_p-points rather than only L-points. Its Banach basis is (x−a)^k/p^floor(kr), orthonormal when r is integral. Under (a). (Source: Colmez, §I.4.1, Propositions I.4.2–I.4.3, printed pp. 13–14.)
+**Pointwise realization on a translated closed disc** (comparison). For a ∈ L and r ∈ ℝ, let B(a,r)={x∈ℂ_p:v_p(x−a)≥r} and R = p^(−r). Use the native restricted power-series carrier at radius R for the translated-disc realization; the comparison realizes its coefficient family as the function φ(x)=Σ_k a_k(x−a)^k on B(a,r). This realization is injective, and its Gauss valuation equals inf_(x∈B(a,r)) v_p(φ(x)), the infimum taken over ℂ_p-points rather than only L-points. The valuation identity is derived from the unit-radius maximum modulus principle of RestrictedPowerSeries §2.4 and is not proved again here. Extend coefficients isometrically from L to ℂ_p, which changes neither the Gauss norm nor the values, and translate by a (RestrictedPowerSeries §2.2). When R lies in the value group p^ℚ of ℂ_p, choose c ∈ ℂ_p with ‖c‖ = R: the rescaling y ↦ a + cy (RestrictedPowerSeries §1.2) is an isometry onto the unit-radius algebra over ℂ_p, and the supplied principle gives a point of the closed unit disc at which ‖φ‖ equals the Gauss norm, so the supremum of the pointwise norms is the Gauss norm and is attained. When R is not in p^ℚ, every x ∈ B(a,r) has ‖x − a‖ < R, so B(a,r) is the increasing union of the discs of radii R_n ↑ R with R_n ∈ p^ℚ, and the Gauss norm at radius R, the supremum over k of ‖a_k‖R^k, is the supremum of the Gauss norms at the radii R_n; the supremum of the pointwise norms is then the Gauss norm without being attained in general. Its Banach basis is (x−a)^k/p^floor(kr), orthonormal when r is integral. Under (a). (Source: Colmez, §I.4.1, Propositions I.4.2–I.4.3, printed pp. 13–14, for the disc realization; RestrictedPowerSeries §2.4 for the maximum modulus principle.)
 
 **API.**
 
 - Evaluation at each point of the closed disc is the convergent translated coefficient sum.
 - Coefficients are determined by that function.
-- The Gauss norm equals the supremum of the pointwise norms on the stated disc; `gaussVal_eq_inf` states this maximum principle in Suggested.lean.
+- The Gauss norm equals the supremum of the pointwise norms over the ℂ_p-points of the disc, attained at some point when the radius lies in p^ℚ.
 
-*Needs:* the native restricted-series and Gauss-norm inputs listed in the supplier contracts; Mathlib nonarchimedean infinite sums.
+*Needs:* RestrictedPowerSeries §2.4 (unit-radius maximum modulus with attainment in a finite extension), §2.2 (translation) and §1.2 (rescaling by a scalar of prescribed norm); the native restricted-series and Gauss-norm inputs listed in the supplier contracts; Mathlib nonarchimedean infinite sums.
 
 **Checks.**
 
 - `v_{B(0,0)}(x) = 0`.
 - Restriction to B(a, r + 1) does not decrease the valuation.
 - (non-example) Σ x^k is not analytic on the closed unit disc.
-- (non-example) X³−X has Gauss norm 1 on the unit disc, but for every x∈ℤ₃ its norm is at most 1/3. The maximum-principle comparison therefore uses ℂ_p-points, not only the coefficient field.
+- (non-example) X³−X has Gauss norm 1 on the unit disc, but for every x∈ℤ₃ its norm is at most 1/3 (x = 1 gives 0 and x = 2 gives ‖6‖₃ = 1/3). The comparison therefore uses ℂ_p-points, not only the coefficient field; at a = 0 and R = 1 it is exactly the supplied unit-radius principle.
+- At a = 0 and R = 1/3 over ℚ₃, X³−X has Gauss norm max(3^(−3), 3^(−1)) = 1/3, equal to the supremum of ‖x³−x‖₃ over ‖x‖₃ ≤ 1/3 and attained at x = 3, where ‖27 − 3‖₃ = 1/3: this is the rescaling step with c = 3.
+- (non-example) For R = 1/2, which is not in 3^ℚ, the series X has Gauss norm 1/2 at radius 1/2 over ℂ₃, but every x with ‖x‖₃ ≤ 1/2 has ‖x‖₃ < 1/2: the supremum is not attained, and the attainment clause needs R ∈ p^ℚ.
 
 **The locally analytic topology is finer** (lemma). The inclusion LA(ℤ_p, L) ⊂ C⁰(ℤ_p, L) is continuous with dense image (locally constant functions are dense in C⁰), but the inductive-limit topology on LA(ℤ_p, L) is strictly finer than the topology induced from C⁰. Equality of the underlying functions is not equality of their topologies: a sequence of locally analytic functions converging uniformly need not converge in LA(ℤ_p, L). Under (a). (Source: RJW, Remark 3.41, p. 24.)
 
@@ -1074,7 +1086,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* §0.0 the exactness comparison for the nonseparated heart, extension closedness of the heart embedding, the exactness comparison for the Hausdorff heart; quotient topology constructions of §0.0.
 
-**Extensions of Banach spaces** (theorem). An exact extension in the NACvx left heart with Hausdorff outer spaces with Banach outer terms is represented by a Banach middle term. K is a complete nonarchimedean field. No splitting hypothesis is required. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.1, printed p. 58; derived from the cited passage, not printed there.)
+**Extensions of Banach spaces** (theorem). An exact extension in the NACvx left heart with Hausdorff outer spaces with Banach outer terms is represented by a Banach middle term. K is a complete nonarchimedean field. No splitting hypothesis is required. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.1, printed p. 58.)
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions).
 
@@ -1102,11 +1114,11 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 - The surjection onto zero is a quotient map.
 - The diagonal x_n↦p^n x_n on c₀ is not surjective and is not relatively open.
 
-**Splitting under spherical completeness or separability** (theorem). In the preceding Banach extension a continuous K-linear section of V→V₂ exists if K is spherically complete or if both outer Banach spaces have a dense subspace of countable K-dimension. The disjunction is essential to the source statement. Under (a). (Source: Colmez–Nizioł, Appendix A, Remark A.2, printed p. 58; derived from the cited passage, not printed there.)
+**Splitting under spherical completeness or separability** (theorem). In the preceding Banach extension a continuous K-linear section of V→V₂ exists if K is spherically complete or if both outer Banach spaces have a dense subspace of countable K-dimension. The disjunction is essential to the source statement. Under (a). (Source: Colmez–Nizioł, Appendix A, Remark A.2, printed p. 58.)
 
 *Needs:* §0.2 (Extensions of Banach spaces); §0.2 (The nonarchimedean Hahn–Banach theorem).
 
-**Extensions of Fréchet spaces** (theorem). An exact left-heart extension with Fréchet outer terms is represented by a Fréchet middle term over a complete nonarchimedean K. This result makes no assertion of a continuous splitting. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.3, printed p. 58; derived from the cited passage, not printed there.)
+**Extensions of Fréchet spaces** (theorem). An exact left-heart extension with Fréchet outer terms is represented by a Fréchet middle term over a complete nonarchimedean K. This result makes no assertion of a continuous splitting. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.3, printed p. 58.)
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions); §0.2 (Extensions of Banach spaces).
 
@@ -1120,7 +1132,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 - Zero complexes have zero limit cohomology.
 - K^n in degree zero with coordinate deletion has limit K^N with product topology, containing (1,1,…); it is not c₀.
 
-**Extensions of spaces of compact type** (theorem). An exact left-heart extension with compact-type outer terms has compact-type middle term if K is spherically complete or both outer terms are separable. Compact type means a countable inductive limit of Banach spaces with injective compact transition maps, with its locally convex limit topology. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.4, printed pp. 58–59; derived from the cited passage, not printed there.)
+**Extensions of spaces of compact type** (theorem). An exact left-heart extension with compact-type outer terms has compact-type middle term if K is spherically complete or both outer terms are separable. Compact type means a countable inductive limit of Banach spaces with injective compact transition maps, with its locally convex limit topology. Under (a). (Source: Colmez–Nizioł, Appendix A, Proposition A.4, printed pp. 58–59.)
 
 *Needs:* §0.2 (Strict sequences and left-heart extensions); §0.2 (Extensions of Fréchet spaces); §0.2 (Splitting under spherical completeness or separability).
 
@@ -1681,13 +1693,13 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* §2.1 C^r and its Mahler basis.
 
-**Distributions of order r (admissible distributions)** (definition). For `r ≥ 0`, a distribution `μ ∈ D(ℤ_p, L)` has order r (is `r-admissible`, or `h-admissible` with `h = r`) if it extends continuously to `C^r(ℤ_p, L)`; `D_r(ℤ_p, L) = C^r(ℤ_p, L)′`. The following are equivalent: (a) `μ ∈ D_r`; (b) the Amice transform `A_μ = Σ b_nT^n` has `v_p(b_n) + rℓ(n)` bounded below (`A_μ ∈ R⁺_r`); (c) `inf_h(v_{B(0,u_h)}(A_μ) + rh) > −∞`; (d) `v_{D_r}(μ) = inf_n(v_{LA_n}(μ) + rn) > −∞`, i.e. `‖μ‖_{LA_n} = O(p^{rn})` (on the ball of radius `p^{−n}`); (e) there is C with `v_p(∫_{a+p^nℤ_p}((x − a)/p^n)^k μ) ≥ C − rn` for all a ∈ ℤ_p, k, n. The valuations of (b)–(e) are equivalent to `v′_{D_r}`, and `μ ↦ A_μ` is an isometry `(D_r, v′_{D_r}) ≅ (R⁺_r, v_r)`. Orders add under products of transforms and under convolution. Under (a). In addition: Pollack–Stevens' '`h-admissible`' (`‖μ‖_s = O(s^{−h})` as `s → 0⁺`, their Definition 6.1) is (d) with `r = h`, `s = p^{−n}`; this is the form in which the p-adic L-functions of modular symbols use it. `log(1 + T)` has order 1; its powers `log(1 + T)^j` have order j. (Source: Colmez, §II.1, Lemma II.1.1, §II.3.1, Proposition II.3.1, Theorem II.3.2(i), Proposition II.3.3, pp. 29–34.)
+**Distributions of order r (admissible distributions)** (definition). For `r ≥ 0`, a distribution `μ ∈ D(ℤ_p, L)` has order r (is `r-admissible`, or `h-admissible` with `h = r`) if it extends continuously to `C^r(ℤ_p, L)`; `D_r(ℤ_p, L) = C^r(ℤ_p, L)′`. The following are equivalent: (a) `μ ∈ D_r`; (b) the Amice transform `A_μ = Σ b_nT^n` has `v_p(b_n) + rℓ(n)` bounded below (`A_μ ∈ R⁺_r`); (c) `inf_h(v_{B(0,u_h)}(A_μ) + rh) > −∞`; (d) `v_{D_r}(μ) = inf_n(v_{LA_n}(μ) + rn) > −∞`, i.e. `‖μ‖_{LA_n} = O(p^{rn})` (on the ball of radius `p^{−n}`); (e) there is C with `v_p(∫_{a+p^nℤ_p}((x − a)/p^n)^k μ) ≥ C − rn` for all a ∈ ℤ_p, k, n. The valuations of (b)–(e) are equivalent to `v′_{D_r}`, and `μ ↦ A_μ` is an isometry `(D_r, v′_{D_r}) ≅ (R⁺_r, v_r)`. Orders add under products of transforms and under convolution. Under (a). In addition: Pollack–Stevens' '`h-admissible`' (`‖μ‖_s = O(s^{−h})` as `s → 0⁺`, their Definition 6.1, printed p. 28) is (d) with `r = h`, `s = p^{−n}`; this is the form in which the p-adic L-functions of modular symbols use it. `log(1 + T)` has order 1; its powers `log(1 + T)^j` have order j. (Source: Colmez, §II.1, Lemma II.1.1, §II.3.1, Proposition II.3.1, Theorem II.3.2(i), Proposition II.3.3, pp. 29–34.)
 
 **API.**
 
 - `D_r(ℤ_p, L) = C^r(ℤ_p, L)′` inside `D(ℤ_p, L)`.
 - `μ ∈ D_r` iff `v_p(b_n) + rℓ(n)` is bounded below.
-- `μ ∈ D_r` iff `inf_n(v_{LA_n}(μ) + rn) > −∞` (Pollack–Stevens' h-admissibility).
+- `μ ∈ D_r` iff `inf_n(v_{LA_n}(μ) + rn) > −∞` (Pollack–Stevens' h-admissibility, their Definition 6.1, printed p. 28).
 - `μ ∈ D_r` iff the Riemann-sum bound holds.
 
 *Needs:* §2.1 C^r; PadicFunctionalAnalysis §4.7.
@@ -1742,23 +1754,31 @@ Source for this subsection unless a target says otherwise: Loeffler, §2.3, Defi
 
 **Checks.**
 
-- Indicator at the centre: boxIndicator a m a=1, including dimension zero.
-- Depth zero: padicBox a (fun _ => 0)=Set.univ, including dimension zero.
+- The indicator of a box takes the value 1 at the box's own centre, in every dimension including zero, where the only box is the one-point group.
+- The box of depth zero in every coordinate is the whole group ℤ_p^g, in every dimension including zero.
 - Outside the box: At depth one in every coordinate, replacing a_i by a_i+1 gives indicator zero for every chosen i.
 - A point mass has growth r for every r_i≥0, with C=1.
 - (degenerate) The zero functional has C=0.
 - (compatibility) A box mass equals the sum of its p children in a chosen coordinate.
 
-**Normalized locally constant Haar functional on Z₃** (construction). The existence of the normalized locally constant Haar functional supplies a Q₃-linear functional on LC(Z₃,Q₃), using the one-coordinate model Fin 1→Z₃, whose mass on every depth-m residue ball is 3^(−m). For each locally constant f choose a residue level n through which f factors, and average its 3^n values with the factor 3^(−n); refinement leaves this average unchanged. These averages define the normalized locally constant Haar functional; indicators span LC, so the ball masses determine it uniquely. The API its ball-mass formula gives the mass formula and its uniqueness from those ball masses gives its uniqueness. This is a locally constant functional, with no bounded-measure or continuous C⁰-dual assertion. Needs: Mathlib `PadicInt.toZModPow`, `LocallyConstant.range_finite`, compactness of Z₃ and its p-power ball basis, and the rectangular indicator; compactness gives one finite residue level for each locally constant function. Source: Loeffler §2.2, Definition 2.8, p. 4, for the growth test; the compatible finite-quotient average and its formula are derived here.
+**Normalized locally constant Haar functional on ℤ_p^g** (construction). Define the normalized locally constant Haar functional as the ℚ_p-linear functional on LC(ℤ_p^g, ℚ_p) whose mass on every box a + ∏_i p^(m_i)ℤ_p is p^(−Σ_i m_i). For each locally constant f choose a residue level n through which f factors, so that f is constant on the cosets of p^nℤ_p^g, and average its p^(gn) values with the factor p^(−gn); refining the level leaves this average unchanged, because each coset of level n is the disjoint union of p^g cosets of level n + 1. Rectangular indicators span LC(ℤ_p^g, ℚ_p), so the box masses determine the functional uniquely. This is a locally constant functional, with no bounded-measure or continuous C⁰-dual assertion; for g = 1 its masses on the balls a + p^mℤ_p are p^(−m). Under (a), for every prime p and every g ≥ 0.
+
+**API.**
+
+- The mass of every box is p^(−Σ_i m_i), independently of the level used to compute it.
+- Any two locally constant functionals with these box masses coincide.
+- The constant function 1 has value 1.
+
+*Needs:* Mathlib `PadicInt.toZModPow`, `LocallyConstant.range_finite`, compactness of ℤ_p^g and its basis of boxes; §2.2 the rectangular indicator; compactness gives one finite residue level for each locally constant function. Source: Loeffler §2.2, Definition 2.8, p. 4, for the growth test; the compatible finite-quotient average and its formula are derived here.
 
 **Checks.**
 
-- The constant function one has value one.
-- A depth-m ball has mass 3^(−m) and norm 3^m; in particular a depth-one ball has norm 3, not 1/3.
-- Each ball is the union of three children of mass 3^(−m−1), whose sum is 3^(−m).
-- Rectangular Haar growth one: The constructed Haar functional has rectangular growth one.
-- Rectangular Haar growth zero: It has no rectangular growth zero.
-- Subcritical rectangular Haar growth: For every 0≤r<1 it has no rectangular growth r, since 3^m cannot be bounded by C3^(rm).
+- The constant function 1 has value 1 at every level: the p^(gn) values 1 average to 1.
+- A box with depths m_i has mass p^(−Σ_i m_i) and norm p^(Σ_i m_i); for g = 1 and p = 3 a depth-one ball has mass 1/3 and norm 3, not 1/3.
+- Each box is the disjoint union of its p children in any chosen coordinate, whose masses p^(−Σ_i m_i − 1) sum to its mass.
+- The functional has rectangular growth (1, …, 1) with constant C = 1: the bound ‖μ(1_box)‖ ≤ C·p^(Σ_i m_i) is an equality.
+- (non-example) It has no rectangular growth r with r_i < 1 in some coordinate i: the boxes of depth m in that coordinate and depth zero elsewhere have norm p^m, which exceeds C·p^(r_i m) for large m.
+- (degenerate) For g = 0 the group is a point, LC is ℚ_p, the functional is the identity and the empty box has mass p^0 = 1.
 
 **Extension of rectangular distributions** (theorem). For 0≤r_i<1, every locally constant functional with rectangular growth ≤r extends uniquely to a continuous functional on the tensor vector-order function space. Its norm is bounded in terms of the growth constant and the fixed wavelet normalization. Under (a).
 
@@ -1824,9 +1844,8 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 **Checks.**
 
-- Isotropic Haar growth one: the normalized locally constant Haar functional has isotropic growth one.
-- Isotropic Haar growth zero: It has no isotropic growth zero.
-- Subcritical isotropic Haar growth: For every 0≤r<1 it has no isotropic growth r, by the same depth-m ball masses.
+- The normalized locally constant Haar functional of §2.2 on ℤ_p^g has isotropic growth exactly g: its cubes of depth m have mass p^(−gm) and norm p^(gm).
+- (non-example) It has no isotropic growth r < g; for g = 1 it has no growth r in the range 0 ≤ r < 1 of this theorem, hence no continuous extension to any isotropic space of order below one.
 - Zero functional: The bound has C=0 at every equal-radius order.
 - Isotropic point mass: A point mass has growth r≥0 with C=1 and extends to point evaluation.
 - At r=0 the extension is exactly the imported bounded measure, with its original locally constant values.
@@ -2013,7 +2032,7 @@ Source for this subsection unless a target says otherwise: RJW, Theorem 3.43 and
 - (degenerate) For Δ trivial and d=0 the transform is the mass in K.
 - (compatibility) For d=1 and a bounded measure this is the componentMellin series.
 
-**Mellin as a Fréchet algebra isomorphism** (comparison). For compact abelian `G` with an open `ℤ_p^d` subgroup, the identity-on-test-functions map `i_G` identifies the projective-limit topology on `D(G,K)` with the supplied strong-dual topology on `abelianAnalyticDistributions G K`. Under the supplied character-space identification, `distributionMellin=scalarAbelianMellin∘i_G` as topological K-algebra maps, with convolution on distributions and the closed-polydisc Fréchet topology on sections. In particular, the supplied Mellin isomorphism transports to `D(G,K)≃O(W_(G,K))`. This equality retains every finite-character component and commutes with finite splitting extension and descent. Under (a); finite `K/ℚ_p` is used in the strong/projective-limit comparison. Source: PhiGammaModulesAndIwasawaCohomology §4.0, strong-dual `scalarAbelianMellin` isomorphism; Schneider–Teitelbaum, *p-adic Fourier theory*, Theorem 2.2, printed p. 8; Kohlhaase, proof of Theorem 4.4, printed pp. 21–22.
+**Mellin as a Fréchet algebra isomorphism** (comparison). For compact abelian `G` with an open `ℤ_p^d` subgroup, the identity-on-test-functions map `i_G` identifies the projective-limit topology on `D(G,K)` with the supplied strong-dual topology on `abelianAnalyticDistributions G K`. Under the supplied character-space identification, `distributionMellin=scalarAbelianMellin∘i_G` as topological K-algebra maps, with convolution on distributions and the closed-polydisc Fréchet topology on sections. In particular, the supplied Mellin isomorphism transports to `D(G,K)≃O(W_(G,K))`. This equality retains every finite-character component and commutes with finite splitting extension and descent. Under (a); finite `K/ℚ_p` is used in the strong/projective-limit comparison. Source: PhiGammaModulesAndIwasawaCohomology §4.0, strong-dual `scalarAbelianMellin` isomorphism; Schneider–Teitelbaum, *p-adic Fourier theory*, Theorem 2.2, printed p. 9; Kohlhaase, proof of Theorem 4.4, printed pp. 21–22.
 
 *Needs:* PhiGammaModulesAndIwasawaCohomology §4.0 (scalar Mellin topological algebra isomorphism); §3.3 the distribution Mellin transform; §0.3 (Strong duality for analytic compact-type spaces); §0.3 (Products and completed analytic tensors); PadicFunctionalAnalysis §4.7 (one-variable quantitative norms).
 
@@ -2135,9 +2154,9 @@ Library inputs of this subsection, used by several of its targets: Mathlib `IsUl
 
 **Checks.**
 
-- Empty matrices have determinant one.
-- A nilpotent two-dimensional Jordan block has characteristic series one.
-- A scalar a on a line has characteristic series 1−aT.
+- On a line with u = a, v = b and n = 1, c_1(u) − c_1(v) = b − a has norm exactly ‖u − v‖, so the bound is attained with C^0 = 1.
+- For u = diag(a, a) and v = diag(a, 0) on ℚ_p² with ‖a‖ ≤ C, c_2(u) − c_2(v) = a², of norm ‖a‖·‖u − v‖; with C = ‖a‖ ≥ 1 the bound ‖u − v‖C is attained, and ‖a²‖ > ‖a‖ for ‖a‖ > 1 shows that the factor C^(n−1) cannot be dropped.
+- (degenerate) u = v gives zero in every degree, and in degree one the ultrametric inequality on the traces gives the bound without any bound on the operators.
 
 **Completed scalar extension of ON modules and determinants** (comparison). Let η:A→B be a continuous K-algebra homomorphism between commutative Noetherian K-Banach algebras with the norms of Convention 1. Its K-linear bound gives L≥1 with ‖η(a)‖≤L‖a‖; a topologically nilpotent nonzero scalar in K supplies common Banach–Tate data. The comparison has two clauses.
 
@@ -2649,9 +2668,9 @@ Library inputs of this subsection, used by several of its targets: Mathlib `Poly
 
 **Checks.**
 
-- Res(1,F)=1, even for F=0.
-- Res(T−a,F)=F(a) for every a.
-- Res(T²,b+cT)=b², including over rings with nilpotents.
+- For Q = 1, B = 0 and the sequence is constantly 1 = Res(1, F).
+- For Q = T² − a and F = 1 + cT, B = aT², and from n = 2 on the sequence is constantly 1 − ac², which is Res(T² − a, 1 + cT) = (1 + c√a)(1 − c√a) computed in a splitting extension; on a line with u = −c this is P_(au²)(1).
+- For F = 1 and every monic Q the sequence is constantly 1 = Res(Q, 1), since B(0) = 0 makes the rank padding invisible.
 
 ### 4.12 Gauss convergence of entire series
 
@@ -2818,6 +2837,32 @@ The right side tends to zero independently of the unbounded characteristic rank 
 - For k=0 the spectral output coefficient is one and the functional-tail error is zero, including rank N=0.
 - For B=T² and P_N=1+c_1T+c_2T²+⋯, N≥2, the coefficient of T in the output is 2c_2−c_1². It is independent of every c_j with j>2, including over nonreduced rings.
 - (non-example) For B=1 and P_N=1 at prescribed rank N, the output is (1−T)^N. Its linear coefficient is −N over Z, so b_0=0 is necessary for rank stabilization.
+
+### 4.14 Polynomial invertibility and finite projective spectral summands
+
+Hypotheses shared by several targets of this subsection, cited by letter below: (a) the standing Banach and (Pr) hypotheses of Convention 1; u is a completely continuous A-linear endomorphism of a (Pr) module M with Fredholm series P_u; for a polynomial Q of degree d, Q* = T^dQ(1/T) is its degree-correct reciprocal.
+
+The polynomial invertibility criterion, the Riesz projectors at a Fredholm root and the finite projective slope summands are CompactOperators §§3.1 and 3.4's, stated there for row-compact operators on c₀(I, R) and for polynomials with constant coefficient 1 and unit leading coefficient; the supplier contracts record the statements consumed. The two targets of this subsection are the adapters through which §4.16 uses them: the monic-polynomial formulation, and the passage from c₀(I, R) to a (Pr) module.
+
+**Monic polynomial invertibility** (comparison). Let Q be monic of degree d with unit constant coefficient c. Then Q₁ = c⁻¹Q has constant coefficient 1 and unit leading coefficient c⁻¹, Q₁* = c⁻¹Q*, and Q is coprime to P_u in A{{T}} exactly when Q₁ is. Hence Q and P_u are coprime exactly when Q*(u) is invertible in the algebra of continuous A-linear endomorphisms of M; and when P_u = Q₁S with S entire, S(0) = 1 and Q₁, S coprime, M = N ⊕ F into closed u-stable summands with N finite projective of rank d, Q*(u) zero on N and invertible on F, and P_(u|N) = Q₁. Under (a). (Source: CompactOperators §3.4 for the criterion and the summands at constant coefficient 1; Coleman, proof of Theorem A4.3, author manuscript p. 29, normalizes by Q*(0) in the same way; the rescaling is derived here.)
+
+*Needs:* CompactOperators §3.4 (the coprimality/invertibility criterion, `exists_rieszColemanProjection`), as recorded in the supplier contracts; RestrictedPowerSeries §7.2 (monic entire resultant: coprimality is a unit resultant); §4.14 (Zero extension to (Pr) modules).
+
+**Checks.**
+
+- For Q = T − c with c a unit and u = a on a line, Q*(u) = 1 − cu is invertible exactly when ca ≠ 1, and Q₁ = 1 − c⁻¹T is coprime to P_u = 1 − aT exactly when a ≠ c⁻¹: the two conditions agree, and both fail at a = c⁻¹.
+- For u = diag(p, p²) over ℚ_p and the monic Q = T − p⁻¹, Q₁ = 1 − pT divides P_u = (1 − pT)(1 − p²T) with the coprime cofactor S = 1 − p²T; Q*(u) = 1 − p⁻¹u = diag(0, 1 − p) vanishes on N = ℚ_pe_0 and is invertible on F = ℚ_pe_1, N has rank d = 1 and P_(u|N) = Q₁.
+- (degenerate) Q = 1 has Q* = 1, Q*(u) = 1 invertible, N = 0 and F = M, and is coprime to every P_u.
+
+**Zero extension to (Pr) modules** (comparison). Let M′ be a continuous complement with M ⊕ M′ ≅ c_A(I) and u ⊕ 0 the zero extension of u. Then P_(u⊕0) = P_u, the supplied projectors of CompactOperators §§3.1 and 3.4 for u ⊕ 0 lie in the operator-norm closure of A[u ⊕ 0] and hence preserve M and M′, and 1 − a(u ⊕ 0) is the identity on M′, so the root kernel of u ⊕ 0 at a root a of P_u lies in M. Consequently the Riesz projector at a Fredholm root and the finite projective slope summand of u ⊕ 0 restrict to M as closed u-stable complements of M with the supplied ranks and restricted Fredholm series. The restricted projectors do not depend on M′, since the finite-rank summand is determined by u alone as the kernel of the corresponding polynomial in u. Under (a). (Source: CompactOperators §§3.1 and 3.4; the restriction argument is derived here.)
+
+*Needs:* CompactOperators §3.1 (`IsRieszProjection`, `exists_rieszProjection`) and §3.4 (`IsRieszColemanProjection`, `exists_rieszColemanProjection`); PadicFunctionalAnalysis §2.2 ((Pr) modules as retracts); the (Pr) Fredholm determinant and its independence of the complement, as recorded in the supplier contracts for §4.2.
+
+**Checks.**
+
+- For M = A(1,0) ⊂ A² with complement A(1,1) and u = a a unit, u ⊕ 0 has rows (a, −a), (0, 0) and P = 1 − aT; at the root 1/a of order one, 1 − a⁻¹(u ⊕ 0) has rows (0, 1), (0, 1), with kernel A(1,0) = M and image A(1,1) = M′, so the root kernel is M and the restricted projector is the identity of M.
+- With the coordinate complement A(0,1) instead, u ⊕ 0 = diag(a, 0), the root kernel is again A(1,0) = M and the restricted projector is again the identity of M.
+- (degenerate) M = 0 has u = 0 and P_u = 1 with no roots, and every slope summand is zero.
 
 ### 4.15 Affinoid families, coefficient actions and compactness
 
@@ -3019,7 +3064,7 @@ Source for this subsection unless a target says otherwise: Pilloni, §§13.1.1�
 
 **Checks.**
 
-- the degree map of the identity and the degree map of zero: With the continuity witnesses hc and hc₀, the degree map of the identity is the identity and the degree map of zero is zero; transporting through e does not change these maps.
+- The identity cochain endomorphism has identity degree maps and the zero cochain endomorphism has zero degree maps, and transporting through the chosen Banach identification of each degree changes neither.
 - (compatibility) A concentrated complex gives module-level complete continuity.
 - Every bounded endomorphism of a finite free complex is degreewise compact.
 - (non-example) Identity on c_K(N) in one nonzero degree is not degreewise compact.
@@ -3084,7 +3129,7 @@ Source for this subsection unless a target says otherwise: Pilloni, §§13.1.1�
 
 **Fredholm factorization and numerical summands** (comparison). A supplied coprime factorization P_U=Q R with Q(0)=R(0)=1, Q polynomial with unit leading coefficient, and every geometric fibre root of Q of norm ≤r^(−1), while R has no roots of norm ≤r^(−1), gives the supplier's `IsSlopeDecomposition` at r. The finite-projective Riesz summand is killed by the monic reversal Q*, whose constant term is a unit. Its complementary polynomial-invertibility test includes the endpoint. Under (a), with M Banach (Pr) and U completely continuous. Source: Urban, §2.3, pp. 23–25; CompactOperators §3.4.
 
-*Needs:* CompactOperators §3.4 (`exists_rieszColemanProjection`); §4.16 (Classical and geometric slope criteria); §4.16 the numerical normalization of slopes; RigidAnalyticGeometry §7.2.
+*Needs:* CompactOperators §3.4 (`exists_rieszColemanProjection`), through §4.14 (Monic polynomial invertibility) and §4.14 (Zero extension to (Pr) modules); §4.16 (Classical and geometric slope criteria); §4.16 the numerical normalization of slopes; RigidAnalyticGeometry §7.2.
 
 **Checks.**
 
@@ -3131,7 +3176,7 @@ For a finite collection of degree operators of a bounded complex, choose cutoffs
 
 **Algebraic slope parts** (construction). For an arbitrary A-module H, A-linear endomorphism U and cutoff h, define algebraicSlopePartLE H U h as the sum of ker(P(U)) over monic polynomials P with unit constant coefficient and `IsSlopeLE K |p|^h P`. Products of admissible polynomials are admissible, so an element belongs exactly when one such P annihilates it. Intertwining A-linear maps preserve this submodule. For a split slope complex it equals the image of the induced cohomology projector: one common annihilating polynomial kills the finite-window complex, while every admissible P acts invertibly on its complement as a cochain map, hence on its cohomology. No projectivity, separatedness or norm is required on H. Source: Urban §§2.3.1,2.3.6–2.3.10, pp. 23–27; this affinoid-module generalization is derived here.
 
-*Needs:* RigidAnalyticGeometry `IsSlopeLE` and §4.16 (Classical and geometric slope criteria); native polynomial evaluation in module endomorphisms, sums of submodules; §4.16 (The finite-slope subcomplex) for the projector comparison.
+*Needs:* RigidAnalyticGeometry `IsSlopeLE` and §4.16 (Classical and geometric slope criteria); §4.14 (Monic polynomial invertibility) for the unit-constant-coefficient normalization; native polynomial evaluation in module endomorphisms, sums of submodules; §4.16 (The finite-slope subcomplex) for the projector comparison.
 
 **Checks.**
 
@@ -3203,7 +3248,7 @@ Hypotheses shared by several targets of this subsection, cited by letter below: 
 
 *Needs:* §4.17 compact-stage factorization; §4.16 (Independence of the finite-slope extension polynomial); §4.16 (Uniqueness of the h-slope decomposition).
 
-**Stein exhaustions for finite-slope operators** (comparison). Import quasi-Stein/Stein spaces, their nested affinoid exhaustions, dense restriction maps and coherent Theorems A and B from AdicSpacesPartIII §R3.4. For a chosen coherent analytic coefficient sheaf, its section module is the Fréchet limit of affinoid section Banach modules. To use compact-stage factorization, the Stein exhaustion must give inner/compact restrictions in the actual coefficient norms; BCGP25’s relatively compact closure-proper criterion must be compared with the supplier’s Kiehl criterion. Under (a). (Source: BCGP II, Definition 2.2.17, printed p. 21; §§4.6.46–4.6.49, printed pp. 93–95; derived from the cited passage, not printed there.)
+**Stein exhaustions for finite-slope operators** (comparison). Import quasi-Stein/Stein spaces, their nested affinoid exhaustions, dense restriction maps and coherent Theorems A and B from AdicSpacesPartIII §R3.4. For a chosen coherent analytic coefficient sheaf, its section module is the Fréchet limit of affinoid section Banach modules. To use compact-stage factorization, the Stein exhaustion must give inner/compact restrictions in the actual coefficient norms; BCGP II’s relatively compact closure-proper criterion must be compared with the supplier’s Kiehl criterion. Under (a). (Source: BCGP II, Definition 2.2.17, printed p. 21; §§4.6.46–4.6.49, printed pp. 93–95; derived from the cited passage, not printed there.)
 
 *Needs:* AdicSpacesPartIII §R3.4 (*quasi-stein-space* with its dense restriction maps, *quasi-stein-theorem-a* and Kiehl's Theorem B on quasi-Stein spaces); §4.17 compact-stage factorization.
 
@@ -3288,6 +3333,7 @@ The following readings differ from the printed sources and are used in the state
 - Coleman: R. F. Coleman, *p-adic Banach spaces and families of modular forms*, Invent. Math. 127 (1997), 417–479; page numbers are those of the published version, Appendix A (pp. 432–436) unless an author-manuscript locator is given. [author manuscript](https://math.uchicago.edu/~fcale/Files/Cole2.pdf).
 - Colmez: P. Colmez, *Fonctions d'une variable p-adique*, Astérisque 330 (2010); page numbers are those of the author's PDF (47 pages). (https://webusers.imj-prg.fr/~pierre.colmez/fonctionsdunevariable.pdf)
 - RJW: J. Rodrigues Jacinto and C. Williams, *An introduction to p-adic L-functions*, arXiv:2309.15692v2. (https://arxiv.org/pdf/2309.15692v2)
+- Pollack–Stevens: R. Pollack and G. Stevens, *Overconvergent modular symbols and p-adic L-functions*, Ann. Sci. Éc. Norm. Supér. (4) 44 (2011), 1–42, Definition 6.1, printed p. 28. (https://www.numdam.org/item/10.24033/asens.2139.pdf)
 - Schneider–Teitelbaum compact-type duality: P. Schneider and J. Teitelbaum, *Locally analytic distributions and p-adic representation theory, with applications to GL₂*, §1, Theorems 1.1 and 1.3, Corollary 1.4, pp. 3–4. (https://arxiv.org/abs/math/9912073v1)
 - Schneider–Teitelbaum: P. Schneider and J. Teitelbaum, *p-adic Fourier theory*, Doc. Math. 6 (2001), arXiv:math/0102012v1. (https://arxiv.org/pdf/math/0102012v1)
 - Colmez–Nizioł: P. Colmez and W. Nizioł, *On the cohomology of p-adic analytic spaces, II: the C_st-conjecture*, Duke Math. J. (2025), Appendix A. (https://webusers.imj-prg.fr/~wieslawa.niziol/CN5.pdf)
