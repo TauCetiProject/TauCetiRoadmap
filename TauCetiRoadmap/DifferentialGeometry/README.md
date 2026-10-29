@@ -85,7 +85,7 @@ instead of inheriting the book's:
 - **5.1–5.3 use the half-space model.** Its boundary is Tau Ceti's smooth
   manifold, with the outward-first orientation. **5.5a defines densities over
   every finite-dimensional real `ModelWithCorners`, independently of faces.**
-  **5.5b adds `SmoothFaceStructure I M` for face-indexed boundary and corner
+  **5.5b adds a smooth face structure on `M` for face-indexed boundary and corner
   Stokes.** This is additional smooth local quadrant/face data, not a theorem
   that an arbitrary convex model range has smooth faces. It supplies an abstract
   boundary `∂̃M` of local boundary germs and a smooth proper immersion to M,
@@ -144,8 +144,7 @@ Checked against the pin; re-grep before citing anything in code.
 
 ## What Tau Ceti already has (consume)
 
-The signature files `Suggested.lean` and `SuggestedGreen.lean` import the existing APIs
-consumed by these layers; none is rebuilt.
+`Suggested.lean` imports the existing APIs consumed by these layers; none is rebuilt.
 
 - **Covering-space theory** (universal-covers roadmap): `TauCeti/AlgebraicTopology/UniversalCover/`
   — universal cover, π₁-action, deck groups, the classification, and `π₁(S¹) ≅ ℤ`
@@ -276,17 +275,18 @@ characteristic identity `inner_rieszDual` and chartwise regularity
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
 dependence, and the two hardest items — Banach smooth dependence (3.1) and the smoothing theorem
-for chains (8.3) — gate what follows them. `Suggested.lean`, `SuggestedRelative.lean`,
-`SuggestedContinuousPaths.lean`, the four `CompactIntegration/` modules,
-`FiniteParameterTransversalityTargets.lean` and `SuggestedGreen.lean` provide
-nonexhaustive interface prototypes. `SuggestedGreen.lean` is an import-only
-compatibility entrypoint for the same Green declarations in `Suggested.lean`;
-it defines no second copy. This README is definitive: a real definition wherever
-the pin allows one (`mpullback`, `flowDomain`/`flowOf`, `degreeAtRegularValue`,
-the gradient compatibility notation, `laplaceBeltrami`, …), otherwise a provisional definition whose
-type pins the data (a `sorry` body, never a `Prop`-typed placeholder) with theorems pinning its
-characteristic equations. An implementation must provide that data and those laws, not those
-definitions.
+for chains (8.3) — gate what follows them. `Suggested.lean` states the headline theorems of
+these layers against the pinned libraries; the companion files linked at 5.4a, 5.6 and 10.2a
+are nonexhaustive illustrations of particular signatures. `SuggestedGreen.lean` is an
+import-only compatibility entrypoint for the same Green declarations in `Suggested.lean`; it
+defines no second copy. This README is definitive. A definition in a Lean file of this roadmap
+has a real body (`mpullback`, `flowDomain`/`flowOf`, `degreeAtRegularValue`, the gradient
+compatibility notation, `laplaceBeltrami`, …). A construction whose body is itself a theorem
+(integration of top forms, the smooth chain complex and the de Rham homomorphism, the continuous
+path integral of 6.3, the relative connecting map of 8.4, the compact fundamental-class data of
+9.3) is a target of this README with its intended signature and laws, and is never declared
+with a `sorry` body or a `Prop`-typed placeholder. An implementation must provide that data and
+those laws.
 
 The companion spellings `not_exists_retraction` and `exists_fixedPoint_closedBall`
 are consumer compatibility targets for AlgebraicTopology Stage 2, item 7, with
@@ -316,8 +316,8 @@ confirm licences before porting.
 
 ## The build, in layers
 
-Names in backticks denote the cited native APIs or illustrative companion declarations.
-This README is definitive; the companions are nonexhaustive and do not replace the stated hypotheses.
+This README is definitive; `Suggested.lean` and the companion files are nonexhaustive and do not
+replace the stated hypotheses.
 
 ### Layer 0: alternating bundles, differential forms, and the wedge
 
@@ -342,8 +342,8 @@ This README is definitive; the companions are nonexhaustive and do not replace t
   `bundleMpullback_wedgeWith` pulls back the fibrewise pairing as well as both forms. `mpullback` is the
   fixed-coefficient specialization. Its chain rule carries the differentiability hypotheses
   `mfderiv`'s does (`mpullback_comp_at/_on` and `mpullback_comp`). For fixed coefficients, define
-  `RoughForm.mapCoeff L ω` pointwise by
-  `fun x ↦ L.compContinuousAlternatingMap (ω x)` for every continuous real-linear
+  the coefficient postcomposition `L_*ω` of a rough form (to be declared as RoughForm.mapCoeff)
+  pointwise by `fun x ↦ L.compContinuousAlternatingMap (ω x)` for every continuous real-linear
   `L : F →L[ℝ] G`; use Mathlib's native coefficient-postcomposition operation, not a parallel
   alternating-map carrier. Provide identity, composition, zero, addition and real-linearity laws
   in both the map and form arguments, and prove that coefficient postcomposition preserves the
@@ -354,12 +354,12 @@ This README is definitive; the companions are nonexhaustive and do not replace t
   multiplication specialization. Coefficient postcomposition is compatible with paired wedges:
   for `μ : F₁ →L[ℝ] F₂ →L[ℝ] F₃` and `L : F₃ →L[ℝ] G`, let `μ_L` be the continuous
   real-bilinear pairing `μ_L a b = L (μ a b)` and prove
-  `RoughForm.mapCoeff L (RoughForm.wedgeWith μ φ η) = RoughForm.wedgeWith μ_L φ η`.
+  `L_*(RoughForm.wedgeWith μ φ η) = RoughForm.wedgeWith μ_L φ η`.
   `C^(n+1)` maps pull `C^n` forms back to `C^n` forms.
   **Open-subtype flat adapter.** For an open `U⊆E` in a real normed model `E`, give the
   open subtype its canonical manifold structure induced by inclusion, with model `𝓘(ℝ,E)`. Use `ContinuousAlternatingMap.ofSubsingletonLIE` at
-  `Fin 1` to identify flat degree-one alternating covectors with `E→L[ℝ]F`. Define
-  `flatRoughOneFormEquiv`, the pointwise adapter from `RoughForm (𝓘(ℝ,E)) U F 1` to fields `U → (E→L[ℝ]F)`. A rough
+  `Fin 1` to identify flat degree-one alternating covectors with `E→L[ℝ]F`. Define the flat
+  one-form adapter, the pointwise equivalence from `RoughForm (𝓘(ℝ,E)) U F 1` to fields `U → (E→L[ℝ]F)`. A rough
   form is only pointwise data, so this adapter does not assert continuity. For a smooth form,
   prove that its resulting field is continuous and identify it with the restriction of an ambient
   representative which is `ContDiffOn ℝ ∞` on `U`; values outside `U`
@@ -400,7 +400,7 @@ This README is definitive; the companions are nonexhaustive and do not replace t
   compiles on the generic carrier with closedness, nondegeneracy, the symplectic predicate,
   tameness, compatibility, constant-form normalization and energy identities preserved; and over
   `𝓘(ℝ, E)`, `mpullback` is the flat pullback (`mpullback_eq_flat`). Add fixed-coefficient
-  postcomposition `SmoothForm.mapCoeff L ω` using the same native
+  postcomposition `L_*ω` on smooth forms (to be declared as SmoothForm.mapCoeff) using the same native
   `ContinuousLinearMap.compContinuousAlternatingMap` operation. Its identity, composition, zero,
   addition and real-linearity API must agree with the rough form API; prove it preserves
   `SmoothForm` smoothness. Keep the coefficient spaces normed over `ℝ` and do not add a
@@ -416,12 +416,12 @@ This README is definitive; the companions are nonexhaustive and do not replace t
   `(extChartAt I x).symm ⁻¹' s ∩ range I`, chart independence being `extDerivWithin_pullback`; then
   `mextDeriv`, locality, linearity, `mextDeriv_eq_extDeriv` over the model and
   `mextDeriv_ofFunction`.
-  On an open subtype `U⊆E`, prove `flat_mextDeriv_zeroForm`: after the degree-zero
-  function identification and `flatRoughOneFormEquiv`, the exterior derivative of an ambient
+  On an open subtype `U⊆E`, prove the flat degree-zero derivative law: after the degree-zero
+  function identification and the flat one-form adapter of 0.3, the exterior derivative of an ambient
   function `g:E→F` with `ContDiffOn ℝ 1 g U` is the restricted field
   `z↦fderiv ℝ g z`. Consume native
-  `extDeriv_constOfIsEmpty` and prove the open-subtype chart comparison. Prove
-  `flat_mextDeriv_oneForm`, for an ambient covector field that is `ContDiffOn ℝ 1` on `U`,
+  `extDeriv_constOfIsEmpty` and prove the open-subtype chart comparison. Prove the flat
+  degree-one derivative law, for an ambient covector field that is `ContDiffOn ℝ 1` on `U`,
   identifying its derivative with native
   `extDeriv` after the arity-one identification. On the real plane, for
   `ω=P dx+Q dy`, this gives `dω=(∂ₓQ−∂ᵧP) dx∧dy`; in particular closedness is exactly
@@ -430,11 +430,11 @@ This README is definitive; the companions are nonexhaustive and do not replace t
   `At`, `On` and globally. The primary fixed-coefficient theorem is on the rough fixed-coefficient
   carriers of Layers 0.3 and 1.1: for every continuous real-linear `L : F →L[ℝ] G` and every rough
   form `ω` satisfying the `C¹` hypotheses required by `mextDeriv`, prove
-  `mextDeriv (RoughForm.mapCoeff L ω) = RoughForm.mapCoeff L (mextDeriv ω)` in `At`, `On` and
+  `mextDeriv (L_*ω) = L_*(mextDeriv ω)` in `At`, `On` and
   global forms. Prove its pointwise `Within` form on the same `RoughForm` carriers: for the
   chartwise `C¹`-within hypotheses required by `mextDerivWithin` and
   `UniqueMDiffWithinAt I s x`,
-  `mextDerivWithin (RoughForm.mapCoeff L ω) s x =
+  `mextDerivWithin (L_*ω) s x =
   L.compContinuousAlternatingMap (mextDerivWithin ω s x)`. Here `UniqueMDiffWithinAt` is precisely the
   flat hypothesis
   `UniqueDiffWithinAt ℝ ((extChartAt I x).symm ⁻¹' s ∩ range I) ((extChartAt I x) x)`;
@@ -529,7 +529,7 @@ Geometric Topology.
   when `π₁` has no index-2 subgroup [Lee, Thm. 15.41–15.43]. The **descent API** —
   `invariantPart`/`antiInvariantPart` for an involution, and the descent criterion (a form on the cover is a pullback from `M` exactly when it is deck-invariant) — is
   what 9.2 runs on. *Acceptance:* `Set.Icc x y` and spheres are orientable; the open Möbius band is
-  not. Construct `sphereOutwardOrientation n` on Mathlib's native smooth unit sphere
+  not. Construct the outward orientation of Mathlib's native smooth unit sphere
   `S^n ⊂ ℝ^(n+1)`: a tangent basis `(b₁,…,bₙ)` is positive exactly when the ambient
   ordered basis `(x,dιₓ b₁,…,dιₓ bₙ)` has positive determinant in the standard coordinates.
   Consume `contMDiff_coe_sphere`, `range_mvfderiv_subtypeVal` and
@@ -589,7 +589,8 @@ Geometric Topology.
   ℝ×M, proved via 3.1; it is not asserted to follow from the C∞ slab theorem.
   For a disconnected open J, the maximal domain stays within the connected
   time component of its initial time, as the suspension domain requires.
-  HeegaardFloer F2.1 uses the full finite-dimensional specialization,
+  HeegaardFloer Lane F2, item 1 (its symplectic and almost-complex foundations, Darboux and
+  Moser) uses the full finite-dimensional specialization,
   including its compact-time extension, smooth dependence on both time
   variables and initial point, and restriction/naturality. SBC B5 consumes
   this same finite-dimensional specialization.
@@ -756,7 +757,7 @@ stronger quantifier order.
   `contMDiff_subtypeVal_closedBall` and `boundary_closedBall`. Construct the smooth
   diffeomorphism from this manifold boundary to Mathlib's native `S^n`, with underlying
   map the identity on ambient points, and prove the boundary orientation agrees with
-  2.4's `sphereOutwardOrientation n`. Orient the ball by its ambient inclusion and
+  2.4's outward orientation of `S^n`. Orient the ball by its ambient inclusion and
   prove the derivative criterion and the outward radial-field law. Include n=0, the
   interval: its right endpoint is positive and its left endpoint negative.
 - **5.2 Integration of top forms.** The integral `∫_M ω` of a top form against an orientation `o`, total, pinned by
@@ -852,7 +853,8 @@ stronger quantifier order.
   pointwise calculus. For a jointly smooth family of forms ω_t, prove
   `∂_t(p_t*ω_t)=p_t*(∂_tω_t)+d(C_(p_t,V_t)ω_t)+C_(p_t,V_t)(dω_t)`.
   For a flow of X_t, prove `C_(p_t,V_t)ω=p_t*(ι_(X_t)ω)` and identify
-  this moving-form identity with HeegaardFloer F2.1's pullback derivative.
+  this moving-form identity with the pullback derivative of the Moser argument in
+  HeegaardFloer Lane F2, item 1.
 
   When J contains [0,1] and F is complete, identify
   `K_Pω=∫₀¹ C_(p_t,V_t)ω dt` with5.4's `K(P*ω)` on
@@ -871,7 +873,8 @@ stronger quantifier order.
   `|∫_{S¹} dθ|=2π` for `circleAngularForm`, and the unit-square Green formula
   from the independent flat theorem. Circle volume and 12.4 consume this lane.
 - **5.5b Smooth faces, abstract boundary and corner Stokes.** Supply the
-  following additional geometric **data** `SmoothFaceStructure I M`, on a
+  following additional geometric **data**, the smooth face structure on `M` (a structure
+  bundling the local quadrant data below, to be declared as SmoothFaceStructure), on a
   Hausdorff second-countable smooth n-manifold, n≥1. It is not a placeholder
   proposition and is not inferred from convexity of `range I`.
 
@@ -931,7 +934,11 @@ stronger quantifier order.
   **Orientations and Stokes.** Given an orientation on M, orient each sheet
   outward-first through the injective derivative of j. On Q^n with standard
   orientation, facet i with its remaining coordinates in their original
-  order has coefficient (-1)^(i+1), since its outward vector is -e_i.
+  order has coefficient (-1)^(i+1), with the 0-based index `i : Fin n` of the local
+  quadrant data, since its outward vector is -e_i: moving -e_i to the front of the
+  standard basis costs i transpositions and one sign. For n=1 the single facet is the
+  endpoint 0 of `[0,∞)` with coefficient −1, matching 5.1's negative left endpoint; a
+  1-based reading would give +1 there and is excluded.
   The two ordered lifts at each codimension-two corner have opposite
   induced orientations. The product boundary orientations are the product
   orientation on `∂̃M×N` and (-1)^m times that on `M×∂̃N`; prove all chart,
@@ -1246,7 +1253,7 @@ specifies the full layer.
   A closed `C¹` form has this property by the disk Poincaré lemma. The path API accepts any
   continuous field with these local potentials. For `a b : Ω` and a native continuous
   `γ : Path a b` in this open subtype, choose a finite subdivision whose subpaths lie in such disks
-  and define `continuousPathIntegral ω γ` as the sum of local-potential endpoint differences.
+  and define the continuous path integral `∫_γ ω` as the sum of local-potential endpoint differences.
   Prove independence of disks, primitives and subdivision. Establish additivity under
   concatenation, sign reversal under path reversal, and invariance under continuous homotopy
   rel endpoints by subdividing the homotopy square into cells each lying in one potential disk;
@@ -1341,7 +1348,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
     naturality on homology/cohomology from the natural inclusion: if s,t
     are inverses to i, whisker and compose the inverse homotopies to obtain
     `s~s≫i≫t~t`. Construct this general chain-homotopy lemma. Construct
-    `smoothRelativeChains(M,U)` as the quotient by the smooth chains of
+    the relative smooth chain complex of the pair `(M,U)` as the quotient by the smooth chains of
     the open U, with its exact sequence and boundary formula. For open pairs,
     apply the absolute construction on M and U and use these exact pair-quotient
     sequences. Dualize the smooth relative quotient and compare it to
@@ -1442,15 +1449,15 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   to Mathlib's barycentric `Convexity.StdSimplex`, faces `δᵢ`, integration over a smooth simplex and over smooth
   chains (vector-valued forms in complete spaces); Stokes for the simplex
   (independent of 5.5b) and for chains [Lee, Thm. 18.12];
-  the de Rham homomorphism `I_dR` into `realSingularCohomology`, under 8.3's smoothing hypotheses, natural and
+  the de Rham homomorphism, written `ℐ`, into `realSingularCohomology`, under 8.3's smoothing hypotheses, natural and
   compatible with connecting maps [Lee, Prop. 18.13]. Naturality carries those hypotheses on
   both source and target. Construct smooth cochains by the native
   `linearYonedaObj` dual of smooth chains, and the restriction `res` from continuous to smooth
   cochains by dualizing the inclusion of smooth chains. This restriction is natural under smooth maps
   and a quasi-isomorphism under 8.3's hypotheses. Construct the integration cochain map `∫`
   from the de Rham complex, with evaluation on a chain exactly the chain integral.
-  Characterize `I_dR` by
-  `H(res) ∘ I_dR = H(∫)`;
+  Characterize `ℐ` by
+  `H(res) ∘ ℐ = H(∫)`;
   invertibility of the restriction fixes the comparison uniquely.
   Prove that evaluation on a smooth pushforward chain equals
   evaluation of the pulled-back form. Derive the strict naturality square for
@@ -1492,23 +1499,23 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   Use 8.3's relative smoothing comparison and the absolute de Rham theorem
   8.5 on X and W to prove the relative de Rham isomorphism for this cone, compatibly
   with the two long exact sequences. Before that isomorphism, construct
-  the relative de Rham homomorphism `I_dR`, its evaluation formula and the explicit naturality
+  the relative de Rham homomorphism `ℐ`, its evaluation formula and the explicit naturality
   square for every smooth map of open pairs: pullback of cone classes
-  followed by `I_dR` equals singular-cohomology pullback
-  after `I_dR`. Prove identity and composition for these maps.
+  followed by `ℐ` equals singular-cohomology pullback
+  after `ℐ`. Prove identity and composition for these maps.
   A closed α vanishing on W
   gives the relative cocycle `(α,0)`, mapped to the cochain evaluating α on
-  relative smooth chains; its absolute image is `I_dR[α]`. Prove this
+  relative smooth chains; its absolute image is `ℐ[α]`. Prove this
   formula, naturality of the chain integral for smooth pairs, and compatibility with
   enlargement of W and compact-support relative classes. Layer 9.3 and
   ComplexKahlerGeometry K6 consume these maps and evaluation identities.
-- **8.5 The de Rham theorem.** `I_dR` is an isomorphism (`nonempty_deRhamEquiv` states the resulting isomorphism of real vector spaces) for T2 σ-compact finite-dimensional M
+- **8.5 The de Rham theorem.** `ℐ` is an isomorphism (`nonempty_deRhamEquiv` states the resulting isomorphism of real vector spaces) for T2 σ-compact finite-dimensional M
   with every real model with corners as in8.3 [Lee, Thm. 18.14]. Prove the boundaryless
   theorem by the reusable **Mayer–Vietoris induction principle**
   `mayerVietoris_induction` — ⚠ whose hypotheses include countable disjoint unions, because
   cohomology does not commute with increasing unions — run over convex opens of `ℝⁿ` and then over
   charts, never through geodesic convexity; it consumes layer 7 and 8.1's cochain Mayer–Vietoris
-  sequence. Multiplicativity, that `I_dR` carries the wedge to the cup product, is this
+  sequence. Multiplicativity, that `ℐ` carries the wedge to the cup product, is this
   roadmap's theorem, stated against Stage 6's cup product once that is in the dependency; no cup
   product is defined here. Transfer the comparison to the stated real corner
   models using 8.3's inward maps, smooth homotopy invariance from 6.3
@@ -1516,7 +1523,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   smooth swap and interval inclusion), and the
   normalized integration/restriction square of 8.4. Prove agreement and
   naturality with that same normalized map. *Acceptance:* the standard loop `t ↦ exp(2πit)` is a smooth cycle with `∫ dθ = 2π` over it,
-  and `I_dR [dθ] ≠ 0`.
+  and `ℐ [dθ] ≠ 0`.
 
 ### Layer 9: Poincaré duality
 
@@ -1536,7 +1543,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   Own the fundamental-class integration comparison in every dimension on
   finite-dimensional T2 σ-compact smooth boundaryless manifolds N satisfying 8.3's smoothing
   hypotheses, over every finite-dimensional real model with corners I. For compact oriented N and every smooth top form η,
-  `∫_N η = ⟨I_dR[η],[N]_ℝ⟩`, with `[N]_ℝ` the real image of
+  `∫_N η = ⟨ℐ[η],[N]_ℝ⟩`, with `[N]_ℝ` the real image of
   AlgebraicTopology 6.3's integral class and its local tangent-orientation
   generators. Also build the relative version for compactly supported top
   forms on noncompact N, evaluated on AT6.3's compact-set fundamental classes
@@ -1620,7 +1627,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   Use AT6.3's oriented relative class and its homology isomorphism induced by
   the identity-ambient pair map `(M,∂M)→(M,U)`, and 8.4's relative de Rham
   class `[α,β]`. Prove
-  `⟨I_dR[α,β],[M,U]_ℝ⟩ = ∫_M α − ∫_{∂M} β|_{∂M}`,
+  `⟨ℐ[α,β],[M,U]_ℝ⟩ = ∫_M α − ∫_{∂M} β|_{∂M}`,
   with the outward-first boundary orientation. Here β is defined on U; its boundary
   form is the pullback along the smooth map `j:∂M→U`, with j(x)=x and
   membership in U proved from the collar's parameter-zero identity c(x,0)=x.
@@ -1928,7 +1935,8 @@ Riesz duality.*
   for maps with injective `mfderiv` into arbitrary Riemannian manifolds: its
   pointwise metric data require only the finite-dimensional source and the
   target's pointwise metric, without a regularity or finite-dimension assumption
-  on the target. Prove `immersionMetric_inner`. Prove
+  on the target. Its inner product is, by construction, the target's inner product of the
+  `mfderiv` images. Prove
   `immersionMetric_contMDiff` for every `n : ℕ∞ω`, a C^(n+1) map and C^n target
   metric, consuming the native bilinear pullback regularity theorem. Prove
   `immersionMetric_eq_induced` in the real-inner-product target case. Include
@@ -1987,7 +1995,7 @@ Riesz duality.*
   stated compact supports. On M with boundary retain the boundary Green
   identities obtained by substituting f grad g, with their same support
   hypotheses and outward-normal term. In the face-structured case use
-  `SmoothFaceStructure I M`: pull back the metric to each sheet of ∂̃M,
+  the smooth face structure of 5.5b: pull back the metric to each sheet of ∂̃M,
   use its own outward normal N(x,germ), and integrate the flux on that
   abstract boundary with multiplicity. Prove the same compact/support
   alternatives and integrability, via 5.5b. A single normal on the
@@ -2135,7 +2143,7 @@ One owner per shared construction, stated identically on both sides.
   Tau Ceti distribution and foliation APIs and their integral-manifold/leaf
   extensions (4), generic densities and form integration (5.5a, 12.4),
   and the abstract boundary/product charts from the additional
-  `SmoothFaceStructure` data (5.5b). The half-space boundary manifold
+  smooth face structure data (5.5b). The half-space boundary manifold
   is Tau Ceti's and consumed by both. Geometric topology owns the Riemannian
   volume measure, already `TauCeti.riemannianVolume` and consumed by 12.4,
   curvature, hyperbolic structures, tubular and collar neighbourhoods,

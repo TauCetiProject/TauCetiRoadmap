@@ -41,13 +41,17 @@ Stokes' theorem and the boundary orientation (README 5); the homotopy operator (
 compactly supported de Rham complex, extension by zero, proper pullback and the Mayer–Vietoris
 short complexes (6.4, 7); the smooth singular chain complex, smoothing, integration over smooth
 simplices and the de Rham homomorphism (8.3–8.4), whose existence-of-an-isomorphism consequence is
-stated as `nonempty_deRhamEquiv`; the relative de Rham comparison (8.6); the cup product on de Rham
-cohomology and Poincaré duality (6.1, 9); the topology and smooth structure of a covering space and
-of the orientation double cover, with its canonical orientation, and the pullback orientation
-(2.2–2.4); the flow of a complete vector field as a `Flow` (3.2); inward domination (3.6); leaves
-of an involutive distribution (4.3); the Riemannian volume form and density (12.3–12.4); the Lie
-derivative of forms (1.4); and the migration equivalence from Tau
-Ceti's `TauCeti.SmoothTwoForm` (0.4).
+stated as `nonempty_deRhamEquiv`; the relative de Rham comparison (8.4); the degree formula
+`∫_M f^*ω = deg f · ∫_N ω` and the identification of `degree` with the action of `f^*` on the top
+de Rham cohomology `H^n ≅ ℝ` (10.3–10.4), which lack integration of top forms; the cup product on
+de Rham cohomology and Poincaré duality (6.1, 9); the topology and smooth structure of a covering
+space and of the orientation double cover, with its canonical orientation, and the pullback
+orientation (2.2–2.4), so that the equivalences of 2.4 (a connected `M` is orientable exactly
+when its orientation cover is disconnected, exactly when the cover has a section, exactly when it
+is trivial) lack the cover's topology and are not stated; the flow of a complete vector field as a
+`Flow` (3.2); inward domination (3.6); leaves of an involutive distribution (4.3); the Riemannian
+volume form and density (12.3–12.4); the Lie derivative of forms (1.4); and the migration
+equivalence from Tau Ceti's `TauCeti.SmoothTwoForm` (0.4).
 
 `mgradient` is compatibility notation for the Riesz expression; the native gradient
 source and its additional comparison obligations are named in README12.2.
@@ -420,10 +424,6 @@ def smoothBundleForms (I : ModelWithCorners ℝ E H) (F : Type*)
   add_mem' := fun hφ hψ ↦ ContMDiff.add_section hφ hψ
   smul_mem' := fun _ _ hφ ↦ ContMDiff.const_smul_section hφ
 
-theorem mem_smoothBundleForms [IsManifold I 1 M] {φ : RoughBundleForm I M V k} :
-    φ ∈ smoothBundleForms I F V k ↔ IsSmoothBundleForm I F V ∞ φ :=
-  sorry
-
 /-- **Layer 0.4.** `Ω^k(M; V)`, the module of smooth forms with arbitrary bundle values. -/
 abbrev SmoothBundleForm (I : ModelWithCorners ℝ E H) (F : Type*)
     [NormedAddCommGroup F] [NormedSpace ℝ F] (V : M → Type*)
@@ -584,14 +584,6 @@ theorem mpullback_comp {f : M → M'} {g : M' → M''}
     mpullback I I'' (g ∘ f) φ = mpullback I I' f (mpullback I' I'' g φ) :=
   sorry
 
-theorem mpullback_add (f : M → M') (φ η : RoughForm I' M' F k) :
-    mpullback I I' f (φ + η) = mpullback I I' f φ + mpullback I I' f η :=
-  sorry
-
-theorem mpullback_smul (f : M → M') (c : ℝ) (φ : RoughForm I' M' F k) :
-    mpullback I I' f (c • φ) = c • mpullback I I' f φ :=
-  sorry
-
 /-- **Layer 0.3.** Pullback of a `C^n` form by a `C^(n+1)` map is `C^n`: one derivative is
 spent on `mfderiv`. -/
 theorem isSmoothForm_mpullback [IsManifold I 1 M] [IsManifold I' 1 M'] [IsManifold I (n + 1) M]
@@ -687,7 +679,7 @@ def smoothForms (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M] 
 
 theorem mem_smoothForms [IsManifold I 1 M] {φ : RoughForm I M F k} :
     φ ∈ smoothForms I M F k ↔ IsSmoothForm I ∞ φ :=
-  mem_smoothBundleForms
+  Iff.rfl
 
 /-- **Layer 0.4.** `Ω^k⟮I, M; F⟯`, the module of smooth `F`-valued `k`-forms. -/
 abbrev SmoothForm (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M]
@@ -1094,13 +1086,6 @@ noncomputable def deck : OrientationCover I M ≃ OrientationCover I M where
   left_inv := fun ⟨x, o⟩ ↦ congrArg (Sigma.mk x) (neg_neg o)
   right_inv := fun ⟨x, o⟩ ↦ congrArg (Sigma.mk x) (neg_neg o)
 
-omit [FiniteDimensional ℝ E] in
-theorem proj_deck (p : OrientationCover I M) : proj I M (deck I M p) = proj I M p := rfl
-
-omit [FiniteDimensional ℝ E] in
-theorem deck_deck (p : OrientationCover I M) : deck I M (deck I M p) = p :=
-  (deck I M).left_inv p
-
 theorem deck_ne_self (p : OrientationCover I M) : deck I M p ≠ p :=
   sorry
 
@@ -1163,10 +1148,6 @@ def flowDomain (v : (x : M) → TangentSpace I x) : Set (ℝ × M) :=
 integral curve through `x` at time `t`. -/
 noncomputable def flowOf (v : (x : M) → TangentSpace I x) (t : ℝ) (x : M) : M :=
   maximalIntegralCurve v x t
-
-theorem mem_flowDomain {v : (x : M) → TangentSpace I x} {t : ℝ} {x : M} :
-    (t, x) ∈ flowDomain v ↔ t ∈ maximalIntegralCurveInterval v x :=
-  Iff.rfl
 
 variable [T2Space M] [BoundarylessManifold I M] [CompleteSpace E]
 
@@ -1586,7 +1567,7 @@ theorem exists_flatChart [IsManifold I ∞ M]
 
 /-- A local integral slice, using Tau Ceti's existing slice-chart interface. -/
 theorem exists_isSliceChart_integralManifold
-    [IsManifold I ∞ M] [I.Boundaryless] [T2Space M]
+    [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     ∃ (N : D.IntegralManifold) (e : OpenPartialHomeomorph M E)
       (S : Set E), x ∈ range N.inclusion ∧ x ∈ e.source ∧
@@ -1670,42 +1651,6 @@ theorem isNullSet_boundary : IsNullSet (𝓡∂ (n + 1)) ((𝓡∂ (n + 1)).boun
   sorry
 
 end Boundary
-
-section Integration
-
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
-  [ChartedSpace H M] {E' H' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
-  [FiniteDimensional ℝ E'] [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} {M' : Type*}
-  [TopologicalSpace M'] [ChartedSpace H' M'] {m : ℕ}
-
-end Integration
-
-section Stokes
-
-variable {n : ℕ} {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace (n + 1)) M]
-  [IsManifold (𝓡∂ (n + 1)) 1 M]
-
-end Stokes
-
-section StokesBoundaryless
-
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
-  [TopologicalSpace H] {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M]
-  [ChartedSpace H M] {m : ℕ}
-
-end StokesBoundaryless
-
-section HomotopyOperator
-
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} {M : Type*} [TopologicalSpace M] [ChartedSpace H M]
-  [IsManifold I 1 M] {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F] {k : ℕ}
-
-/-- The inclusion of `M` at height `t` in the cylinder `M × [0, 1]`. -/
-def sliceInclusion (t : Set.Icc (0 : ℝ) 1) (x : M) : M × Set.Icc (0 : ℝ) 1 := (x, t)
-
-end HomotopyOperator
 
 section Densities
 
@@ -2015,8 +1960,8 @@ noncomputable def mpullbackₗ {f : M → M'} (hf : ContMDiff I I' ∞ f) (k : �
     SmoothForm I' M' ℝ k →ₗ[ℝ] SmoothForm I M ℝ k where
   toFun φ := ⟨mpullback I I' f φ,
     mem_smoothForms.2 (isSmoothForm_mpullback_infty hf (mem_smoothForms.1 φ.2))⟩
-  map_add' φ η := Subtype.ext (mpullback_add f (φ : RoughForm I' M' ℝ k) η)
-  map_smul' c φ := Subtype.ext (mpullback_smul f c (φ : RoughForm I' M' ℝ k))
+  map_add' _ _ := Subtype.ext rfl
+  map_smul' _ _ := Subtype.ext rfl
 
 theorem mpullbackₗ_mem_closedForms {f : M → M'} (hf : ContMDiff I I' ∞ f) {φ : SmoothForm I' M' ℝ k}
     (hφ : φ ∈ closedForms I' M' k) : mpullbackₗ hf k φ ∈ closedForms I M k :=
@@ -2121,10 +2066,6 @@ def compactlySupportedForms (k : ℕ) : Submodule ℝ (SmoothForm I M ℝ k) whe
     intro c φ hφ
     refine IsCompact.of_isClosed_subset hφ isClosed_closure (closure_mono fun x hx h ↦ hx ?_)
     rw [Submodule.coe_smul, Pi.smul_apply, h, smul_zero]
-
-theorem mem_compactlySupportedForms {φ : SmoothForm I M ℝ k} :
-    φ ∈ compactlySupportedForms I M k ↔ IsCompact (φ : RoughForm I M ℝ k).tsupport :=
-  sorry
 
 /-! ### Layer 7: Mayer–Vietoris -/
 
@@ -2261,10 +2202,6 @@ noncomputable def deRhamComplexMap [IsManifold I ∞ M] [IsManifold I' ∞ M']
     simp only [deRhamComplex, CochainComplex.of_d, ModuleCat.hom_comp, ModuleCat.hom_ofHom]
     exact Subtype.ext (mpullback_mextDeriv (hf.of_le (WithTop.coe_le_coe.2 le_top))
       ((mem_smoothForms.1 φ.2).of_le (WithTop.coe_le_coe.2 le_top))).symm)
-
-theorem deRhamComplexMap_f_apply [IsManifold I ∞ M] [IsManifold I' ∞ M']
-    (hf : ContMDiff I I' ∞ f) (k : ℕ) (η : SmoothForm I' M' ℝ k) :
-    (deRhamComplexMap hf).f k η = mpullbackₗ hf k η := sorry
 
 end SmoothChainMaps
 
@@ -2707,17 +2644,11 @@ theorem laplaceBeltrami_eq_sum_hessian (f : M → ℝ) (x : M)
 `Δ` of `InnerProductSpace.instLaplacian`, and `Δ ‖x‖² = 2 · dim`. -/
 theorem laplaceBeltrami_eq_laplacian {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
     [FiniteDimensional ℝ F] {f : F → ℝ} (hf : ContDiff ℝ 2 f) (x : F) :
-    let _ : RiemannianBundle (fun x : F ↦ TangentSpace 𝓘(ℝ, F) x) :=
-      ⟨(riemannianMetricVectorSpace F).toRiemannianMetric⟩
-    let _ : IsContMDiffRiemannianBundle 𝓘(ℝ, F) 1 F (fun x : F ↦ TangentSpace 𝓘(ℝ, F) x) := sorry
     laplaceBeltrami 𝓘(ℝ, F) f x = Laplacian.laplacian f x :=
   sorry
 
 theorem laplaceBeltrami_norm_sq {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
     [FiniteDimensional ℝ F] (x : F) :
-    let _ : RiemannianBundle (fun x : F ↦ TangentSpace 𝓘(ℝ, F) x) :=
-      ⟨(riemannianMetricVectorSpace F).toRiemannianMetric⟩
-    let _ : IsContMDiffRiemannianBundle 𝓘(ℝ, F) 1 F (fun x : F ↦ TangentSpace 𝓘(ℝ, F) x) := sorry
     laplaceBeltrami 𝓘(ℝ, F) (fun y ↦ ‖y‖ ^ 2) x = 2 * Module.finrank ℝ F :=
   sorry
 
@@ -2807,12 +2738,6 @@ noncomputable def immersionMetric [FiniteDimensional ℝ ES]
        exact mem_closedBall_zero_iff.2 hv' }⟩
 variable [FiniteDimensional ℝ ES] [IsManifold IS 1 SM] [IsManifold IN 1 NM]
   [RiemannianBundle (fun x : NM => TangentSpace IN x)]
-theorem immersionMetric_inner (f : SM → NM)
-    (hinj : ∀ x, Function.Injective (mfderiv IS IN f x))
-    (x : SM) (u v : TangentSpace IS x) :
-    let _ := immersionMetric f hinj
-    inner ℝ u v = inner ℝ (mfderiv IS IN f x u) (mfderiv IS IN f x v) := by
-  sorry
 /-- Native contMDiffAt_pullback supplies the bilinear-form regularity. -/
 theorem immersionMetric_contMDiff (n : ℕ∞ω)
     [IsContMDiffRiemannianBundle IN n FS (fun x : NM => TangentSpace IN x)]
@@ -2865,14 +2790,6 @@ noncomputable def halfSpaceBoundaryMetric :
     ((TauCeti.isImmersion_subtypeVal_boundary (n := n) (k := ∞) M
       (by simp)).mfderiv_injective (by simp))
 
-theorem halfSpaceBoundaryMetric_inner (x : (𝓡∂ (n + 1)).boundary M)
-    (v w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :
-    letI := halfSpaceBoundaryMetric (n := n) (M := M)
-    inner ℝ v w = inner ℝ
-      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x v)
-      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x w) := by
-  sorry
-
 theorem halfSpaceBoundaryMetric_contMDiff :
     letI := halfSpaceBoundaryMetric (n := n) (M := M)
     IsContMDiffRiemannianBundle 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞
@@ -2908,20 +2825,6 @@ theorem exists_halfSpaceOutwardUnitNormal (x : (𝓡∂ (n + 1)).boundary M) :
 noncomputable def halfSpaceOutwardUnitNormal (x : (𝓡∂ (n + 1)).boundary M) :
     TangentSpace (𝓡∂ (n + 1)) (x : M) :=
   Classical.choose (exists_halfSpaceOutwardUnitNormal x)
-
-theorem halfSpaceOutwardUnitNormal_norm (x : (𝓡∂ (n + 1)).boundary M) :
-    ‖halfSpaceOutwardUnitNormal x‖ = 1 := by
-  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).1
-
-theorem halfSpaceOutwardUnitNormal_outward (x : (𝓡∂ (n + 1)).boundary M) :
-    IsOutwardPointing (x : M) (halfSpaceOutwardUnitNormal x) := by
-  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).2.1
-
-theorem halfSpaceOutwardUnitNormal_orthogonal (x : (𝓡∂ (n + 1)).boundary M)
-    (v : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x) :
-    inner ℝ (halfSpaceOutwardUnitNormal x)
-      (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)) Subtype.val x v) = 0 := by
-  exact (Classical.choose_spec (exists_halfSpaceOutwardUnitNormal x)).2.2 v
 
 theorem halfSpaceOutwardUnitNormal_contMDiff :
     ContMDiff 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) (𝓡∂ (n + 1)).tangent ∞
@@ -2973,22 +2876,11 @@ noncomputable def roundMetricCircle : RiemannianBundle (fun x : Circle ↦ Tange
   inferInstanceAs (RiemannianBundle
     (fun x : Metric.sphere (0 : ℂ) 1 ↦ TangentSpace (𝓡 1) x))
 
-theorem roundMetricCircle_inner (x : Circle) (v w : TangentSpace (𝓡 1) x) :
-    let _ := roundMetricCircle
-    ⟪v, w⟫_ℝ = ⟪mfderiv (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) x v,
-      mfderiv (𝓡 1) 𝓘(ℝ, ℂ) (fun z : Circle ↦ (z : ℂ)) x w⟫_ℝ :=
-  TauCeti.inner_tangentSpace_sphere x v w
-
-/-- Continuity is consumed from the same native round-sphere instance. -/
-theorem roundMetricCircle_continuous :
-    let _ := roundMetricCircle
-    IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
-      (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
-  TauCeti.instIsContinuousRiemannianBundleSphere
-
+/-- Continuity of the round metric is consumed from the native round-sphere instance. -/
 theorem volume_circle :
     let _ := roundMetricCircle
-    let _ := roundMetricCircle_continuous
+    let _ : IsContinuousRiemannianBundle (EuclideanSpace ℝ (Fin 1))
+      (fun x : Circle ↦ TangentSpace (𝓡 1) x) := TauCeti.instIsContinuousRiemannianBundleSphere
     TauCeti.riemannianVolume (𝓡 1) Circle Set.univ = ENNReal.ofReal (2 * Real.pi) :=
   sorry
 
