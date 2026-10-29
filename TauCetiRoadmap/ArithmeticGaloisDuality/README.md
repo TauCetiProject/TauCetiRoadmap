@@ -24,19 +24,20 @@ The layers are:
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | R02.1 | Compact coefficients, limits and continuous extensions | Tower supplier contract, Tate's inverse-limit theorem, rationalisation, `HomPt`, the splitting torsor, continuous factor-set extensions, unbalanced cochain products |
-| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | `HochschildSerre.spectralSequence` on Mathlib's carrier, transgression as a cup product, descent along open subgroups, Laurent residue sequences, supplied procyclic `H¹` |
+| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | the Hochschild–Serre spectral sequence on Mathlib's carrier, transgression as a cup product, descent along open subgroups, Laurent residue sequences, supplied procyclic `H¹` |
 | R02.3 | Restricted ramification and the `S`-idele class formation | Multiplicative completion, S-unit rank and fundamental-system adapters, finite Galois localization, `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
 | R02.4 | Arithmetic duality and local–global obstruction groups | Tate's duality for class formations, Poitou–Tate duality, `cd_p G_S ≤ 2`, global Euler characteristic, function-field Poitou–Tate, finite compact support, all-place `Ш` duality, Grunwald–Wang, character roots, torus duality |
 | D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor and limit comparisons, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality, dual local conditions and mapping-fibre duality |
 | R02.5 | Selmer duality and dimension formulas | Greenberg–Wiles formula, change of one finite local condition, rank-one numerics |
 | D8 | Adjoint coefficients and first-order lifts | trace-zero adjoint duality, first-order cocycle comparison, determinant derivative |
-| R02.6 | Auxiliary primes and patching numerics | Taylor–Wiles local count, dual-Selmer killing, the group theory of Taylor–Wiles primes, odd and dyadic auxiliary primes, archimedean adjoint dimensions |
+| R02.6 | Auxiliary primes and patching numerics | Taylor–Wiles local count, dual-Selmer killing, the group theory of Taylor–Wiles primes, odd and dyadic auxiliary primes, archimedean adjoint dimensions, the Khare–Wintenberger obstruction pairing |
 
 The layer labels are the stage labels other roadmaps cite. They are built in the order
 R02.1, R02.2, R02.3, R02.4, D7, R02.5, D8, R02.6 (see *How to read the build*).
 
-`Suggested.lean` contains headline statements and the definitions they need. The other named
-interfaces below specify library targets; they are not declarations of that file.
+`Suggested.lean` contains headline statements and the definitions they need. The other
+targets below are stated in prose; backticked Lean names are pinned Mathlib or Tau Ceti
+declarations, supplier names, or declarations of `Suggested.lean`.
 
 ## Scope and ownership
 
@@ -809,7 +810,7 @@ interpretation is attached to `Hom_pt` when its topology is not discrete.
 
 The API:
 
-- `CompactCoefficients.HomPt`: `Hom(C, A)` with the pointwise topology.
+- `Hom(C, A)` with the pointwise topology.
 - evaluation `Hom_pt(C, A) × C → A` is jointly continuous
   when `C` is discrete.
 - finitely generated `C` gives the discrete topology.
@@ -842,14 +843,14 @@ changes `γ` by `d⁰u`; and the class `[γ] ∈ H¹(Γ, Hom_pt(C, A))` vanishes
 
 The API:
 
-- `CompactCoefficients.Sections`: the set of additive sections.
+- the set of additive sections.
 - two sections differ by a map `C → A`.
 - the set is nonempty if and only if the sequence
   splits additively.
-- `CompactCoefficients.splittingClass`: the class `[γ] ∈ H¹(Γ, Hom_pt(C, A))`.
+- the class `[γ] ∈ H¹(Γ, Hom_pt(C, A))`.
 - `[γ] = 0` if and only if an equivariant section
   exists.
-- `CompactCoefficients.pointwiseHomRepresentation`: the conjugation representation on
+- the conjugation representation on
   `Hom_pt(C, A)`.
 - the action is `(g·f)(c) = g·f(g⁻¹·c)`.
 
@@ -862,11 +863,11 @@ which is correct only for finitely generated `C`). *Needs:* *Pointwise Hom of di
 
 **Checks.**
 
-- `torsor_equivariant_split`: an equivariant splitting gives the zero class in
+- an equivariant splitting gives the zero class in
   `H¹(Γ, Hom_pt(C, A))`.
-- `torsor_zero_class`: if `A = 0`, the only section is the inverse of `B ≅ C` and its splitting
+- if `A = 0`, the only section is the inverse of `B ≅ C` and its splitting
   class is zero.
-- `torsor_discrete_fails`: for `Γ = 𝔽₂^ℕ`, `C = ⊕_ℕ 𝔽₂`, `A = 𝔽₂` with trivial actions and
+- for `Γ = 𝔽₂^ℕ`, `C = ⊕_ℕ 𝔽₂`, `A = 𝔽₂` with trivial actions and
   `B = A ⊕ C` with `g·(a, c) = (a + Σ gᵢcᵢ, c)`, the section `c ↦ (0, c)` gives
   `γ(g) = (c ↦ Σ gᵢcᵢ)`, a homeomorphism `Γ → Hom_pt(C, A) = 𝔽₂^ℕ`; it is not continuous into
   `Hom(C, A)` with the discrete topology, since its image is infinite and `Γ` is compact.
@@ -902,7 +903,7 @@ discrete module, and *The connecting map is cup product with the torsor class* h
 discrete `Hom` and the discrete cup product. This covers finite `C`, the case of every application
 of Harpaz–Wittenberg's Lemma 5.5, whose printed statement is correct exactly in this generality.
 
-*Proof sketch.* By `discreteTopology_of_fg` the continuous cochains of the discrete module
+*Proof sketch.* Since finite generation makes the pointwise topology discrete, the continuous cochains of the discrete module
 `Hom(C, A)` are those of `Hom_pt(C, A)` ([Harpaz–Wittenberg, *The Massey vanishing conjecture for
 number fields*](https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf), §5, Lemma 5.5,
 p. 19 (author final version)). *Needs:* *Pointwise Hom of discrete modules*; *The connecting map is
@@ -944,9 +945,9 @@ The API:
 
 - for compact `P` and discrete `A`,
   the compact-open topology on `P →ₜ+ A` is discrete.
-- `CompactCoefficients.continuousHomRepresentation`: the conjugation action on `Hom_cts(P, A)`, a
+- the conjugation action on `Hom_cts(P, A)`, a
   discrete module with jointly continuous action.
-- `CompactCoefficients.continuousHomCup`: the cup product formed with the evaluation pairing.
+- the cup product formed with the evaluation pairing.
 - `H¹(H, A) ≅ Hom_cts(H^ab, A)` as `G/H`-modules for
   `H` acting trivially on `A`.
 
@@ -1027,7 +1028,7 @@ it is the class of the extension in `TauCeti.ContCohomology.H2` under the same c
 
 The API:
 
-- `CompactCoefficients.factorSetClass`: the class of `α` in `H²(G, M)` of `continuousCohomology`.
+- the class of `α` in `H²(G, M)` of `continuousCohomology`.
 - factor sets related by Tau Ceti's rescaling have the
   same class.
 - the class agrees, under the degree-two
@@ -1051,9 +1052,9 @@ Fields*, §2.7, Theorem 2.7.7, pp.
 
 **Checks.**
 
-- `factor_trivial_product`: trivial action and trivial factor set give `M × G` with the product
+- trivial action and trivial factor set give `M × G` with the product
   topology, and the class `0`.
-- `factor_zero_kernel`: for `M = 0` the extension is `G` itself and `H²(G, 0) = 0`.
+- for `M = 0` the extension is `G` itself and `H²(G, 0) = 0`.
 - For the trivial factor set and a nontrivial action the extension is `M ⋊ G` with the product
   topology, and the class is `0`.
 - For `G = M = ℤ/2` with trivial action, the factor set with `α(σ, σ) = 1` and all other values `0`
@@ -1117,17 +1118,17 @@ no further differential identity is asserted. No assertion is made outside `i > 
 
 The API:
 
-- `ArithmeticDuality.quotientFactoringCochains`: the submodule of cochains whose last variables
+- the submodule of cochains whose last variables
   factor through `Θ`.
-- `ArithmeticDuality.unbalancedProduct`: the finite contraction product in the range
+- the finite contraction product in the range
   `i > j′ ≥ j ≥ 0`.
-- `ArithmeticDuality.unbalancedProduct_leibniz`: the differential identity for `j > 0`.
-- `ArithmeticDuality.unbalancedProduct_zeroDegree`: at `j = 0` it is the ordinary cup product.
-- `ArithmeticDuality.factoringDifferential`: `d` preserves the condition on the last `j`
+- the differential identity for `j > 0`.
+- at `j = 0` it is the ordinary cup product.
+- `d` preserves the condition on the last `j`
   variables for `j < i`; the case `j = i` is excluded.
-- `ArithmeticDuality.productTensorIso`: identification of the coefficients `A ⊗ B` with the tensor
+- identification of the coefficients `A ⊗ B` with the tensor
   product of representations.
-- `ArithmeticDuality.unbalancedProduct_one`: in degree `−1`, `f ⊔ g` is the sum over `a ∈ Θ` of
+- in degree `−1`, `f ⊔ g` is the sum over `a ∈ Θ` of
   `f(g₁, …, gₙ, s(a)) ⊗ (π(g₁⋯gₙ)a)·b`, independent of the chosen lifts `s`.
 
 *Proof sketch.* Define the factoring submodule inside the inhomogeneous cochains and take the
@@ -1141,9 +1142,9 @@ compact coefficients* (PerfectoidTowers §P9.0); ProfiniteCohomology Layer 12; M
 
 **Checks.**
 
-- `unbalanced_zero`: a zero input gives zero output.
-- `unbalanced_ordinary`: at `j = 0` the product agrees with the ordinary cup product.
-- `unbalanced_odd_sign`: for `i = 3` the second term of the differential has coefficient `−1`.
+- a zero input gives zero output.
+- at `j = 0` the product agrees with the ordinary cup product.
+- for `i = 3` the second term of the differential has coefficient `−1`.
 - The sum is over `Θ`, not over `Δ`: summing over `Δ` multiplies the result by
   `|ker(Δ → Θ)|`, for example by `2` for `ℤ/4 → ℤ/2`, which kills it on `2`-torsion coefficients.
 
@@ -1218,16 +1219,15 @@ open subgroup `G′` with `H′ = H ∩ G′` §F.3's restriction and corestrict
 `d_r(α ∪ β) = d_rα ∪ β + (−1)^{p+q} α ∪ d_rβ`, inducing ProfiniteCohomology's `cup` on the abutment.
 For compact coefficients see *Inflation–restriction for compact and rational coefficients*.
 
-The API (names for the transported supplier objects and the comparisons owned here):
+The API (the transported supplier objects and the comparisons owned here):
 
-- `HochschildSerre.spectralSequence`: §F.3's spectral sequence `E(G, H, A)`, with no second
+- §F.3's spectral sequence `E(G, H, A)`, with no second
   construction.
-- `HochschildSerre.e2Iso`: `E₂^{pq} ≅ Hᵖ(G/H, H^q(H, A))` with both sides `continuousCohomology`.
-- `HochschildSerre.abutmentIso`: the abutment is `Hⁿ(G, A)` (`continuousCohomology`).
-- `HochschildSerre.edgeBottom_eq_inflation`: the bottom edge map is inflation.
-- `HochschildSerre.edgeLeft_eq_restriction`: the left edge map is restriction.
-- `HochschildSerre.map`, `HochschildSerre.res`, `HochschildSerre.cor`, `HochschildSerre.cup`:
-  §F.3's naturality, restriction and open finite-index corestriction morphisms and cup products,
+- `E₂^{pq} ≅ Hᵖ(G/H, H^q(H, A))` with both sides `continuousCohomology`.
+- the abutment is `Hⁿ(G, A)` (`continuousCohomology`).
+- the bottom edge map is inflation.
+- the left edge map is restriction.
+- §F.3's naturality, restriction and open finite-index corestriction morphisms and cup products,
   agreeing on the abutment with `coeffMap`, `res`, `corestriction` and `cup`.
 
 *Proof sketch.* Apply `H⁰(H, −)` to the standard resolution `A → X^•(G, A)` by induced modules, and
@@ -1252,10 +1252,10 @@ Fields*, Chapter II, §4, Exercises 1, 3, 5, printed p. 119 (PDF p. 136)). *Need
 
 **Checks.**
 
-- `trivial_subgroup`: for `H = 1`, `E₂^{p0} = Hᵖ(G, A)` and `E₂^{pq} = 0` for `q > 0` (a single
+- for `H = 1`, `E₂^{p0} = Hᵖ(G, A)` and `E₂^{pq} = 0` for `q > 0` (a single
   row), and the comparison with §F.3 is its identity comparison.
-- `whole_group`: for `H = G`, `E₂^{0q} = H^q(G, A)` and `E₂^{pq} = 0` for `p > 0` (a single column).
-- `z4_nondegenerate`: for `G = ℤ/4`, `H = 2ℤ/4` and `A = 𝔽₂`, the differential
+- for `H = G`, `E₂^{0q} = H^q(G, A)` and `E₂^{pq} = 0` for `p > 0` (a single column).
+- for `G = ℤ/4`, `H = 2ℤ/4` and `A = 𝔽₂`, the differential
   `d₂^{0,1} : H¹(H, 𝔽₂) → H²(G/H, 𝔽₂)` is nonzero, being minus the class of the non-split extension
   `0 → ℤ/2 → ℤ/4 → ℤ/2 → 0` (*d₂ as cup product with the extension class*); so `E₂ ≠ E_∞`. A strict
   trivial `G/H`-action on raw `H`-cochains in place of §F.3's coherent action would give
@@ -1389,7 +1389,7 @@ R02.1); ProfiniteCohomology Layers 4 and 12.
   `tg(id_H) = −[u]`. Summing over `j = 0,1,2` at `i = 1` gives `2` for `−u` and `1`
   for `u`; coboundaries have sum zero, so the two classes differ.
 - For `G = ℤ/4`, `H = 2ℤ/4` and `A = 𝔽₂`: `H^ab = H ≅ ℤ/2`, `u` is the nonzero class of `ℤ/4`, and
-  `tg(id_H) = −u ≠ 0`, as in `z4_nondegenerate`.
+  `tg(id_H) = −u ≠ 0`, as in the `ℤ/4` Check of the spectral-sequence target.
 - For a direct product `G = Q × H` the extension `1 → H^ab → Q × H^ab → Q → 1` splits, so `u = 0`
   and every `d₂^{p−1,1}` vanishes.
 - A closed, non-open `H`: for `G` the group of unipotent upper triangular `3 × 3` matrices
@@ -1637,12 +1637,12 @@ Noetherian ring `ℤ`. `AdicCompletion(p)ℤ ≅ ℤ_p`: both are `lim ℤ/p^m` 
 (Rubin (1999 draft), Chapter I, §2, Example 2.1, printed p. 3 (PDF p. 13); Rubin (1999 draft),
 Chapter I, §6.2, Definition 6.2, printed p. 14 (PDF p. 24).)
 
-The named operations and identities are:
+The operations and identities are:
 
-- `ker_adicCompletion_of_span` — `ker(A → Â) = ⋂_m p^mA` for Mathlib's `AdicCompletion.of` at the
+- `ker(A → Â) = ⋂_m p^mA` for Mathlib's `AdicCompletion.of` at the
   ideal `(p) ⊆ ℤ`; Mathlib's `AdicCompletion.of_injective_iff` covers only the Hausdorff case.
-- `adicCompletion_int_equiv_padicInt` — `AdicCompletion(p)ℤ ≅ ℤ_p`, making `Â` a `ℤ_p`-module.
-- `pCompletion` — the abbreviation for Mathlib's `AdicCompletion` at the ideal `(p) ⊆ ℤ`; no other
+- `AdicCompletion(p)ℤ ≅ ℤ_p`, making `Â` a `ℤ_p`-module.
+- the abbreviation for Mathlib's `AdicCompletion` at the ideal `(p) ⊆ ℤ`; no other
   completion carrier is introduced.
 
 **Checks.**
@@ -1653,7 +1653,7 @@ The named operations and identities are:
 - For `A=ℚ_p/ℤ_p`, every `A/p^mA` is zero, so `Â=0`. The identity `A→ℚ_p/ℤ_p` is a nonzero `p`-primary
   character, and evaluation at a nonzero element gives a nonzero character double dual. Thus the
   double-dual and quotient-tower notions differ outside the finitely generated setting.
-- `CompletionChecks.pCompletion_infinite_free_not_surjective`: for the free direct sum
+- for the free direct sum
   `A=⨁_ℕ ℤ`, `ℤ_p ⊗ A → Â` is not surjective (`∑ p^i e_i` is not a finite sum).
 - For `ℓ ≠ p`, `ℤ_ℓ` is `p`-divisible, so its completion is 0 although `ℤ_p ⊗_ℤ ℤ_ℓ ≠ 0`.
 
@@ -1681,7 +1681,7 @@ is its own `p`-adic topology, and the completion map is injective.
 (Rubin (1999 draft), Chapter I, §6.2, Definition 6.2, printed p. 14 (PDF p. 24).)
 
 The image is closed but not all of `(F^×)^`; the quotient `(F^×)^/Ê_F` involves the ideal group. The two
-statements are `units_pCompletion_injective` and `units_pow_of_pow_eq`.
+statements are the injectivity of the completion map on units and the descent of `p^m`-th roots.
 
 **Checks.**
 
@@ -1703,9 +1703,9 @@ HeightsAndUnits §4.2 supplies the rank identity
 with the roots of unity. The finite-generation input is the pinned `Set.unit_fg` and its
 specialization through the base-ring units `Set.unit_fg_of_units` from
 `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`. Its additive module adapter here is
-`Set.unit_moduleFinite : Module.Finite ℤ (Additive U)`, with `hS : S.Finite`.
+the statement `Module.Finite ℤ (Additive U)` for finite `S`.
 
-`sUnits_finrank_ncard` takes the supplied rank identity as a hypothesis and rewrites it with
+The rank adapter takes the supplied rank identity as a hypothesis and rewrites it with
 `S.ncard` using Mathlib's `Nat.card_coe_set_eq`; adjoining all archimedean places gives the equivalent
 rank `#S_total − 1`. The module adapter uses the pinned finite-generation theorem and Mathlib's
 additive-group/module conversion. The supplied
@@ -1739,7 +1739,7 @@ HeightsAndUnits §4.2.)
 finite places, put `U = Set.unit S K` and `r = NumberField.Units.rank K + Nat.card S`.
 HeightsAndUnits §4.2 supplies a family `ε : Fin r → U` such that each `u ∈ U` has a unique pair
 `(ζ, e) ∈ CommGroup.torsion U × (Fin r → ℤ)` with `u = ζ · ∏ᵢ εᵢ^{eᵢ}`.
-`sUnits_fundSystem_reindex` takes this supplied existence statement as a hypothesis and gives the
+The reindexing statement takes this supplied existence statement as a hypothesis and gives the
 same unique-pair decomposition on any finite index type `I` with `Fintype.card I = r`.
 
 Choose a bijection `I ≃ Fin r`, transport the family and exponent vector along it, and use
@@ -1767,7 +1767,7 @@ and a finite set `S` of places containing the archimedean ones, `𝓞_{F,S}^×` 
 
 `S` finite, containing the archimedean places.
 
-Prove this as follows. Apply `Set.unit_moduleFinite` above and the finitely generated
+Prove this as follows. Apply the module-finiteness adapter above and the finitely generated
 tensor/completion comparison of §R02.3.0a. An element of `F^×` whose `p^m`-th power is an S-unit has
 valuation zero outside `S`, so it is an S-unit; apply §R02.3.0b.
 
@@ -1782,7 +1782,7 @@ valuation zero outside `S`, so it is an S-unit; apply §R02.3.0b.
   the completion of `ℚ^×`, so discarding all torsion would give the wrong comparison.
 
 *Needs:* §R02.3.0a (Comparison of the multiplicative completion with Mathlib adic completion);
-§R02.3.0b (Completion of global units); §R02.3.0c (S-unit rank and cardinality adapter, `Set.unit_moduleFinite`);
+§R02.3.0b (Completion of global units); §R02.3.0c (S-unit rank and cardinality adapter, its module-finiteness statement);
 Mathlib `Set.unit`.
 
 ### R02.3.0d Finite Galois localization and Sha kernels
@@ -1805,12 +1805,12 @@ Cartier dual is `A^D = Hom(A, μ_∞)`, with `Γ_K` acting by `(σf)(a) = σ(f(�
 evaluation pairing `A × A^D → μ_∞`.
 
 The API:
-- `FiniteGaloisLocalization.sha`: Mathlib's `ContinuousCohomology.tateShafarevich (fun v => K_v) A i`
+- Mathlib's `ContinuousCohomology.tateShafarevich (fun v => K_v) A i`
   for `i ≥ 1`; at `i = 0` use the localization kernel after quotienting real invariants by norms.
-- `FiniteGaloisLocalization.shaS`: the kernel that requires vanishing at every place outside `S`.
-- `FiniteGaloisLocalization.dual`: the Cartier dual, with its contragredient cyclotomic action and
+- the kernel that requires vanishing at every place outside `S`.
+- the Cartier dual, with its contragredient cyclotomic action and
   evaluation pairing.
-- `FiniteGaloisLocalization.naturality`: maps of coefficient modules commute with localization and
+- maps of coefficient modules commute with localization and
   restriction, and induce maps on the kernels and on the localization defects.
 
 *Proof sketch.* Build the restriction maps from the decomposition maps and continuous cohomology, and
@@ -1893,8 +1893,7 @@ The API:
   `K(x)/K` is unramified outside `S ∪ {v : v ∣ n}`
   (*Containment of roots of S-units*). No assumption that `μ_n ⊆ K`
   is needed: away from `S` and `n`, the polynomial `Xⁿ − u` has invertible derivative at every root.
-- `RestrictedRamification.IsUnramifiedOutside S M` for a smooth discrete `R`-linear `G_K`-module
-  means that every inertia group at a finite `v ∉ S` acts trivially on `M`. Its action descends
+- A smooth discrete `R`-linear `G_K`-module `M` is unramified outside `S` when every inertia group at a finite `v ∉ S` acts trivially on `M`. Its action descends
   uniquely and continuously to `G_{K,S}` exactly when this predicate holds. The kernel `H_S` is
   the closed normal subgroup generated by these inertia groups, so smoothness makes triviality
   pass to the closure. For a continuous linear representation `ρ` with Hausdorff coefficient module, prove
@@ -2018,9 +2017,9 @@ of the local groups attached to two embeddings, `loc_v` does not depend on the c
 
 The API:
 
-- `RestrictedRamification.localCohomology`: `H^r(K_v, M)`: continuous cohomology at finite `v`,
+- `H^r(K_v, M)`: continuous cohomology at finite `v`,
   Tate cohomology `Ĥ^r(G_v, M)` at archimedean `v`.
-- `RestrictedRamification.locMap`: `loc_v : H^r(G_S, M) → H^r(K_v, M)`, natural in `M`.
+- `loc_v : H^r(G_S, M) → H^r(K_v, M)`, natural in `M`.
 - changing the embedding by `g ∈ G_K` replaces `G_v` by
   `gG_vg⁻¹`, and the two localisation maps agree after the isomorphism
   `H^r(G_v, M) ≅ H^r(gG_vg⁻¹, M)` given by conjugation by `g` and `m ↦ gm` on coefficients.
@@ -2028,9 +2027,9 @@ The API:
   discrete `G_S`-modules, `loc_v` commutes with the connecting homomorphisms; at archimedean `v`
   this includes the comparison `H^r → Ĥ^r` (the identity for `r ≥ 1`, the quotient by norms for
   `r = 0`), which commutes with connecting homomorphisms.
-- `RestrictedRamification.unramifiedSubgroup`: `H^r_un(K_v, M) ≤ H^r(K_v, M)` for finite `v` with
+- `H^r_un(K_v, M) ≤ H^r(K_v, M)` for finite `v` with
   `M^{I_v} = M`.
-- `RestrictedRamification.unramifiedH1Equiv`: for `M` unramified at `v`, inflation is an
+- for `M` unramified at `v`, inflation is an
   isomorphism `H¹(g_v, M) ≅ H¹_un(K_v, M)`; for finite `M`, `H¹(g_v, M) ≅ M/(Frob_v − 1)M`.
 - for finite `M` unramified at `v`,
   `H²_un(K_v, M) = 0`, because it is the image of `H²(g_v, M) = 0`.
@@ -2060,12 +2059,12 @@ ArithmeticGaloisRepresentations §2.1 / **Decomposition and inertia groups**
 
 **Checks.**
 
-- `complex_zero`: for `v` complex, `H^r(K_v, M) = 0` for every `r` and `M` (Tate cohomology of the
+- for `v` complex, `H^r(K_v, M) = 0` for every `r` and `M` (Tate cohomology of the
   trivial group), including `r = 0`.
-- `real_modified_H0`: for `v` real and `M = ℤ/3` with trivial action,
+- for `v` real and `M = ℤ/3` with trivial action,
   `H⁰(K_v, M) = Ĥ⁰(ℤ/2, ℤ/3) = 0`, whereas the ordinary invariants are `ℤ/3`; a definition using
   ordinary `H⁰` fails this test.
-- `real_two`: for `v` real and `M = ℤ/2` with trivial action, `H^r(K_v, M) = ℤ/2` for every
+- for `v` real and `M = ℤ/2` with trivial action, `H^r(K_v, M) = ℤ/2` for every
   `r ≥ 0`.
 - For `v` finite and `M = ℤ/m` with trivial action, `H¹_un(K_v, M) = Hom(Ẑ, ℤ/m) ≅ ℤ/m`, the
   unramified characters.
@@ -2079,25 +2078,25 @@ with Mathlib's `FunctionField 𝔽_q F` for a finite field `𝔽_q` algebraicall
 characteristic `ℓ`. Its places are Tau Ceti's `TauCeti.Place 𝔽_q F` (normalised discrete
 valuations trivial on `𝔽_q`), each with residue degree `deg v = [κ(v) : 𝔽_q]`, completion `F_v`
 and normalised absolute value `|x|_v = q^{−deg v · ord_v x}`. Define
-`GlobalFunctionField.ideles F` as the restricted product of the `F_vˣ` with respect to the
+the idele group `J_F` as the restricted product of the `F_vˣ` with respect to the
 `O_vˣ` (Mathlib's `RestrictedProduct`), with `Fˣ` embedded diagonally, the idele class group
-`ideleClassGroup F = ideles F / Fˣ`, and the degree `ideleDegree : ideles F → ℤ`,
+`C_F = J_F / Fˣ`, and the degree `deg : J_F → ℤ`,
 `(a_v) ↦ Σ_v deg v · ord_v(a_v)`. For a nonempty set `S` of places define the `S`-units
-`sUnits F S = {x ∈ Fˣ : ord_v x = 0 for v ∉ S}`, the `S`-class group `sClassGroup F S`, the
+`O_{F,S}ˣ = {x ∈ Fˣ : ord_v x = 0 for v ∉ S}`, the `S`-class group `Cl_S(F)`, the
 quotient of the divisor group by principal divisors and divisors supported on `S`, and the
-`S`-idele classes `C_S(F) = ideles F / Fˣ · ∏_{v ∉ S} O_vˣ`. The API:
+`S`-idele classes `C_S(F) = J_F / Fˣ · ∏_{v ∉ S} O_vˣ`. The API:
 
-- `ideleDegree_principal`: the degree vanishes on `Fˣ` (the product formula); so it descends to
-  `ideleClassGroup F`.
-- `ideleDegree_surjective`: the degree is onto `ℤ` (F. K. Schmidt: a divisor of degree one exists).
-- `compactSpace_ideleClassGroup_degree_zero`: the degree-zero idele classes form a compact group,
-  and `ideleClassGroup F ≅ ker(deg) × ℤ` once an idele of degree one is chosen.
-- `sUnits_exact`: `0 → O_{F,S}ˣ → Fˣ → ⊕_{v ∉ S} ℤ → Cl_S(F) → 0` is exact, the third map being
+- the degree vanishes on `Fˣ` (the product formula); so it descends to
+  `C_F`.
+- the degree is onto `ℤ` (F. K. Schmidt: a divisor of degree one exists).
+- the degree-zero idele classes form a compact group,
+  and `C_F ≅ ker(deg) × ℤ` once an idele of degree one is chosen.
+- `0 → O_{F,S}ˣ → Fˣ → ⊕_{v ∉ S} ℤ → Cl_S(F) → 0` is exact, the third map being
   `x ↦ (ord_v x)_{v ∉ S}`.
-- `finite_sClassGroup`: `Cl_S(F)` is finite when `S` is nonempty.
-- `sIdeleClasses_exact`: `0 → C_{F,S} → C_S(F) → Cl_S(F) → 0`, where
+- `Cl_S(F)` is finite when `S` is nonempty.
+- `0 → C_{F,S} → C_S(F) → Cl_S(F) → 0`, where
   `J_{F,S} = ∏′_{v∈S} (F_vˣ, O_vˣ)` and `C_{F,S}` is the image of
-  `J_{F,S} × ∏_{v∉S} O_vˣ` in `C_S(F)`, equivalently `J_{F,S}/sUnits F S`.
+  `J_{F,S} × ∏_{v∉S} O_vˣ` in `C_S(F)`, equivalently `J_{F,S}/O_{F,S}ˣ`.
   The product defining `J_{F,S}` is restricted even when `S` is infinite.
 
 *Proof sketch.* The product formula and the finiteness of the degree-zero divisor class group
@@ -2120,15 +2119,15 @@ formula), `TauCeti.Divisor.finite_ker_degreeClass` (finiteness of `Cl⁰`),
 
 **Checks.**
 
-- `ff_sUnits_rat_infty`: for `F = 𝔽_q(t)` and `S = {∞}`, the `S`-integers are `𝔽_q[t]`, the
+- for `F = 𝔽_q(t)` and `S = {∞}`, the `S`-integers are `𝔽_q[t]`, the
   `S`-units are `𝔽_qˣ` and `Cl_S(F) = 0` (a principal ideal domain); a definition that also
   inverted `t` would give more units.
 - For `F = 𝔽₂(t)` and `S` all places, the family of one uniformizer at every place is not
-  an idele: it has infinitely many nonunit coordinates. Here `J_{F,S} = ideles F`,
-  `C_{F,S} = C_S(F) = ideleClassGroup F` and `Cl_S(F) = 0`.
-- `ff_sClassGroup_empty`: for `S = ∅` the quotient of the divisor group by principal divisors
+  an idele: it has infinitely many nonunit coordinates. Here `J_{F,S} = J_F`,
+  `C_{F,S} = C_S(F) = C_F` and `Cl_S(F) = 0`.
+- for `S = ∅` the quotient of the divisor group by principal divisors
   surjects onto `ℤ` by the degree, so it is infinite; finiteness genuinely needs `S ≠ ∅`.
-- `ff_ideleDegree_place`: for the place `v` of `𝔽_q(t)` given by a monic irreducible `π` of
+- for the place `v` of `𝔽_q(t)` given by a monic irreducible `π` of
   degree `d`, the idele equal to `π` at `v` and `1` elsewhere has degree `d`, not `1`; a degree
   that forgot `deg v` would give `1`.
 
@@ -2138,16 +2137,16 @@ finite separable extensions unramified at every place outside `S`, and `G_{F,S} 
 with its Krull topology. For each place `v` fix an embedding `F^s ↪ F_v^s` over `F`; it gives
 `G_v → G_F → G_{F,S}` and the inertia subgroup `I_v ⊆ G_v`. The API:
 
-- `GlobalFunctionField.maxUnramifiedOutside`, `galoisGroupS`: `F_S` and `G_{F,S}`, functorial in
+- `F_S` and `G_{F,S}`, functorial in
   `S` exactly as in the number-field case.
-- `constantField_le_maxUnramifiedOutside`: every constant field extension `𝔽_{q^n} F` lies in
+- every constant field extension `𝔽_{q^n} F` lies in
   `F_S`, so `G_{F,S}` surjects onto `Ẑ = Gal(𝔽̄_q F/F)`.
-- `pow_eq_one_mem_maxUnramifiedOutside`: for `n` prime to `ℓ`, `μ_n(F^s) ⊆ F_S` (the constant
+- for `n` prime to `ℓ`, `μ_n(F^s) ⊆ F_S` (the constant
   field extension `𝔽_q(μ_n)F` is unramified everywhere). Since `G_{F,S}` surjects onto `Ẑ`, every
   prime, `ℓ` included, lies in the set `P` of primes `p` with `p^∞ ∣ [F_S : F]`.
-- `kummer_unramified_iff`: for `n` prime to `ℓ` and `a ∈ Fˣ`, `F(a^{1/n})/F` is unramified at
+- for `n` prime to `ℓ` and `a ∈ Fˣ`, `F(a^{1/n})/F` is unramified at
   `v` exactly when `n ∣ ord_v(a)`.
-- `curveGroup_equiv_galoisGroupS`: for `S` finite and nonempty, let `C` be the smooth projective
+- for `S` finite and nonempty, let `C` be the smooth projective
   geometrically connected curve over `𝔽_q` with function field `F`, whose closed points are the
   places of `F`, and `U = C ∖ S`. Then `G_{F,S}` is canonically isomorphic to the group `G_{F,U}`
   of ArithmeticGaloisRepresentations §5.13: both are the quotient of `G_F` by the closed normal
@@ -2178,12 +2177,12 @@ closed points as places); Mathlib `Field.absoluteGaloisGroup`,
 
 **Checks.**
 
-- `ff_constant_field_in_S`: for every nonempty `S`, `𝔽_{q²}F ⊆ F_S`; so `G_{F,S}` is never
+- for every nonempty `S`, `𝔽_{q²}F ⊆ F_S`; so `G_{F,S}` is never
   trivial, unlike `G_{ℚ,{∞}} = 1`.
-- `ff_artin_schreier_ramified`: for `F = 𝔽_p(t)` and `S = {∞}`, the Artin–Schreier extension
+- for `F = 𝔽_p(t)` and `S = {∞}`, the Artin–Schreier extension
   `y^p − y = t` is unramified away from `∞` and lies in `F_S`, while `y^p − y = 1/t` is ramified at
   `t = 0` and does not; `p`-primary ramification is wild and is not governed by the Kummer test.
-- `ff_kummer_test`: for `ℓ ≠ 2`, `F(√t)/F` is ramified exactly at `t = 0` and `t = ∞`
+- for `ℓ ≠ 2`, `F(√t)/F` is ramified exactly at `t = 0` and `t = ∞`
   (`ord_0 t = 1`, `ord_∞ t = −1`), so it lies in `F_S` for `S = {0, ∞}` but not for `S = {∞}`.
 - For `F = 𝔽_q(t)`, `S = {0, ∞}` and `U = 𝔾_m`, the comparison identifies the quotient of
   `G_{F,S}` cut out by `F(t^{1/a})`, `a` prime to `ℓ`, with the corresponding quotient of §5.13's
@@ -2193,7 +2192,7 @@ closed points as places); Mathlib `Field.absoluteGaloisGroup`,
 **Local inputs at places of a global function field.** Let `F_v` be the completion of a global
 function field at a place `v`, a local field of characteristic `ℓ` (isomorphic to
 `𝔽_{q_v}((t))`), and let `M` be a finite discrete `G_v`-module of order prime to `ℓ`, with
-`M^D = Hom(M, μ_m)` for `m` its exponent. Prove `functionFieldLocal`:
+`M^D = Hom(M, μ_m)` for `m` its exponent. Then:
 
 1. `cd_p(G_v) = 2` for every prime `p ≠ ℓ` (and `cd_ℓ(G_v) = 1`).
 2. The invariant `inv_v : Br(F_v) = H²(G_v, F_v^{s×}) ≅ ℚ/ℤ` restricts to
@@ -2243,8 +2242,7 @@ invariant and class formation); Tau Ceti
   the hypothesis `ℓ ∤ #M` cannot be dropped.
 - `cd_ℓ(G_v) = 1`, not `2`: the `ℓ`-primary part behaves differently.
 
-**The class formation of a global function field.** Prove `GlobalFunctionField.classFormation`:
-for a global function field `F`,
+**The class formation of a global function field.** For a global function field `F`,
 
 1. the sequence `0 → Br(F) → ⊕_v Br(F_v) → ℚ/ℤ → 0`, the last map the sum of the local invariants,
    is exact;
@@ -2311,12 +2309,12 @@ finitely many places (Milne, Lemma 4.1).
 
 The API:
 
-- `RestrictedRamification.sIdeles`: `J_{F,S}` as a restricted product, with its locally compact
+- `J_{F,S}` as a restricted product, with its locally compact
   topology.
-- `RestrictedRamification.sUnits`: `E_{F,S} = R_{F,S}^×` embedded diagonally, a discrete subgroup
+- `E_{F,S} = R_{F,S}^×` embedded diagonally, a discrete subgroup
   of `J_{F,S}`.
-- `RestrictedRamification.sIdeleClasses`: `C_{F,S} = J_{F,S}/E_{F,S}` and `C_S(F) = C_F/U_{F,S}`.
-- `RestrictedRamification.limitModules`: `E_S`, `J_S`, `C_S` and `U_S` as the filtered colimits
+- `C_{F,S} = J_{F,S}/E_{F,S}` and `C_S(F) = C_F/U_{F,S}`.
+- `E_S`, `J_S`, `C_S` and `U_S` as the filtered colimits
   over the finite subextensions `F ⊆ K_S` along the inclusions `E_{F,S} → E_{F′,S}`, `J_{F,S} → J_{F′,S}`, and so on, with their `G_S`-actions, under which every element is fixed by an open
   subgroup.
 - `0 → C_{F,S} → C_F/U_{F,S} → Pic(R_{F,S}) → 0` is
@@ -2325,17 +2323,17 @@ The API:
   `Pic(R_{F,S}) = 0`.
 - if `S` is the set of all places, `J_{F,S} = J_F`,
   `E_{F,S} = F^×` and `C_{F,S} = C_F`, the idele class group of GlobalNumberFields.
-- `RestrictedRamification.integralUnitsOutside K S` is the subgroup of finite ideles whose
+- The integral units outside `S` form the subgroup of finite ideles whose
   components have valuation one at every finite `v ∉ S`. Its membership theorem is
   *The integral-unit membership criterion*; additive orders at these places are zero.
   At `S = ∅` it equals Tau Ceti's `IsDedekindDomain.FiniteAdeleRing.integralUnits`
   (*The everywhere-integral unit identity*), and
   *Monotonicity of integral units outside S* states
-  `S ⊆ T ⇒ integralUnitsOutside K S ≤ integralUnitsOutside K T`.
+  that the group for `S` is contained in the group for `T` when `S ⊆ T`.
   At all finite places it is the whole finite idele group
   (*The all-place integral-unit identity*). By contrast, `U_{F,S}` consists of local
   units outside `S` extended by one at `S`; it is antitone in `S`. Its inclusion into
-  `integralUnitsOutside F S` and its use in `C_F/U_{F,S}` retain this distinction.
+  the integral units outside `S` and its use in `C_F/U_{F,S}` retain this distinction.
 - For a finite Galois extension `L/K`, a finite place `v` of `K` and an explicitly chosen
   `w ∣ v`, put `D_w = MulAction.stabilizer Gal(L/K) w`. After additive transport, define the
   local multiplicative groups as `Rep ℤ D_w` and construct
@@ -2348,10 +2346,10 @@ The API:
   transport maps. Changing `w` to `σw` gives the conjugate stabilizer and the canonical
   conjugation isomorphism of coinduced modules; the comparison commutes with evaluation and
   satisfies the composition law for two changes of place.
-- Assemble these local isomorphisms with the restricted-product conditions into `sIdeles` as
+- Assemble these local isomorphisms with the restricted-product conditions into the `S`-ideles as
   a Galois representation. The diagonal S-unit map is a morphism of representations and
-  `sIdeleClasses` is its cokernel in `Rep ℤ Gal(L/K)` at each finite Galois level.
-  Colimits recover `limitModules` with `TauCeti.IsSmoothDiscrete`; the topologies on the finite
+  the `S`-idele classes are its cokernel in `Rep ℤ Gal(L/K)` at each finite Galois level.
+  Colimits recover the limit modules with `TauCeti.IsSmoothDiscrete`; the topologies on the finite
   level idele groups and the discrete topology on the colimit are separate constructions.
   This coinduction interface follows the Imperial College London FLT project.
 
@@ -2373,16 +2371,16 @@ Lemma 4.4, p. 51 (PDF p. 59).
 
 **Checks.**
 
-- `s_units_rat_infty`: for `K = F = ℚ` and `S = {∞}`, `E_{ℚ,S} = {±1}`, `J_{ℚ,S} = ℝ^×` and
+- for `K = F = ℚ` and `S = {∞}`, `E_{ℚ,S} = {±1}`, `J_{ℚ,S} = ℝ^×` and
   `C_{ℚ,S} = ℝ^×/{±1} ≅ ℝ_{>0}`.
-- `s_units_all`: if `S` is the set of all places, `E_{F,S} = F^×`.
-- `s_classes_all`: if `S` is the set of all places, `C_{F,S} = C_F`, and `C_S` is the idele-class
+- if `S` is the set of all places, `E_{F,S} = F^×`.
+- if `S` is the set of all places, `C_{F,S} = C_F`, and `C_S` is the idele-class
   module of the global class formation (ClassFieldTheory Layer 11).
 - For `K = ℚ` and `S = {2, ∞}`, `E_{ℚ,S} = {±1} × 2^ℤ`.
 - For `K = ℚ(√−5)` and `S = {∞}`, `Pic(R_{K,S}) = ℤ/2`, so `C_{K,S} → C_K/U_{K,S}` is not
   surjective: the cokernel `Id_{K,S}` cannot be omitted.
 - The finite idele of `ℚ` with component `2` at `2` and `1` elsewhere belongs to
-  `integralUnitsOutside ℚ {2}` and not to `integralUnitsOutside ℚ ∅`. Thus this group increases
+  the integral units outside `{2}` and not to the integral units outside `∅`. Thus this group increases
   with `S`; `U_{ℚ,{2,∞}}` instead has component `1` at `2`.
 - For `L = ℚ(i)` and `v = 5`, there are two places above `v` and `D_w = 1`; the semilocal
   module is the product of two copies of `ℚ₅^×`, with the Galois group swapping them.
@@ -2439,19 +2437,19 @@ are required.
 
 The API:
 
-- `ClassFormation.PClassFormation`: the structure `(G, C, (inv_U))` with injective invariant maps
+- the structure `(G, C, (inv_U))` with injective invariant maps
   satisfying (a), (b) and (c).
-- `ClassFormation.PClassFormation.ofClassFormation`: a ClassFieldTheory class formation, whose
+- a ClassFieldTheory class formation, whose
   invariant maps are bijective, is a `P`-class formation for every `P`.
-- `ClassFormation.PClassFormation.quotient`: for a class formation `(G, C)` (all invariant maps
+- for a class formation `(G, C)` (all invariant maps
   bijective) and a closed normal subgroup `H`, `(G/H, C^H)` is a `P_H`-class formation, where
   `p ∈ P_H` if and only if every `pⁿ` divides `(G : V)` for some open `V ⊇ H`, that is, `p^∞`
   divides the supernatural index `(G : H)`. The input is a class formation, not an arbitrary
   `P`-class formation.
-- `ClassFormation.PClassFormation.restrict`: restriction to an open subgroup is again a `P`-class
+- restriction to an open subgroup is again a `P`-class
   formation.
-- `ClassFormation.PClassFormation.invPrimaryEquiv`: `H²(U, C)(ℓ) ≅ (ℚ/ℤ)(ℓ)` for `ℓ ∈ P`.
-- `ClassFormation.PClassFormation.fundamentalClass`: `u_{U/V} ∈ H²(U/V, C^V)`, the class of
+- `H²(U, C)(ℓ) ≅ (ℚ/ℤ)(ℓ)` for `ℓ ∈ P`.
+- `u_{U/V} ∈ H²(U/V, C^V)`, the class of
   invariant `1/(U : V)`.
 
 *Proof sketch.* A class formation of ClassFieldTheory Layer 2 (in Tau Ceti the structure
@@ -2468,11 +2466,11 @@ Theorems*, Chapter I, §1, a generalization, p. 25
 
 **Checks.**
 
-- `class_formation_empty`: `ofClassFormation` with `P = ∅` holds for every class formation; for
+- The `P`-class formation obtained from a class formation with `P = ∅` exists for every class formation; for
   `P = ∅`, condition (c) is empty and only the finite-layer isomorphisms of (b) are required.
-- `class_formation_primary`: for `p ∈ P` the invariant map on the `p`-primary part of `H²(U, C)` is
+- for `p ∈ P` the invariant map on the `p`-primary part of `H²(U, C)` is
   bijective.
-- `class_formation_index_one`: for `V = U`, `H²(U/U, C^U) = 0`, so the fundamental class `u_{U/U}`
+- for `V = U`, `H²(U/U, C^U) = 0`, so the fundamental class `u_{U/U}`
   is `0`, matching `1/(U : U) = 0` in `ℚ/ℤ`.
 - `G = Ẑ`, `C = ℤ`, with `inv_U` from the connecting map of `0 → ℤ → ℚ → ℚ/ℤ` and a chosen
   generator, is a class formation (Milne Example 1.6(a)).
@@ -2489,8 +2487,7 @@ such that `ℓ^∞` divides `[K_S : K]`, and `C_S^{Gal(K_S/F)} = C_F/U_{F,S}` fo
 `H^r(G_S, C^{H_S}) ≅ H^r(G_S, C_S)`.
 
 *Proof sketch.* `(G_K, C)` is a class formation (ClassFieldTheory Layer 11), so `(G_S, C^{H_S})` is
-a `P`-class formation by the quotient construction of *P-class formations*
-(`ClassFormation.PClassFormation.quotient`). *The S-idele classes as a quotient of the idele
+a `P`-class formation by the quotient construction of *P-class formations*. *The S-idele classes as a quotient of the idele
 classes* gives `H^r(G_S, C^{H_S}) ≅ H^r(G_S, C_S)` for `r ≥ 1`, and the same for every open
 subgroup `Gal(K_S/F)` (as `F_S = K_S`); transport the invariant maps. (Milne, *Arithmetic Duality
 Theorems*, Chapter I, §4, Proposition 4.2, p. 50
@@ -2592,15 +2589,15 @@ localisation with restriction and the Mackey decomposition over the places above
 
 The API:
 
-- `ArithmeticDuality.absoluteSha`: `Шⁱ(F, M)`, the kernel of the localisation map to the product
+- `Шⁱ(F, M)`, the kernel of the localisation map to the product
   over all places. Its arithmetic instance, with `loc_v` the maps
   `ContinuousCohomology.map (Field.absoluteGaloisGroup.map (algebraMap F F_v)) (𝟙 _) i`,
   is Mathlib's `ContinuousCohomology.tateShafarevich` (ordinary `H⁰` there, modified `H⁰` here).
-- `ArithmeticDuality.relativeSha`: `Ш¹(K/F, M)`, the kernel of restriction from `Gal(K/F)` to all
+- `Ш¹(K/F, M)`, the kernel of restriction from `Gal(K/F)` to all
   the decomposition groups `Gal(K_w/F_v)`.
-- `ArithmeticDuality.mem_absoluteSha`: a class lies in `Шⁱ(F, M)` if and only if all its
+- a class lies in `Шⁱ(F, M)` if and only if all its
   localisations vanish.
-- `ArithmeticDuality.sha_res_cor`: restriction and corestriction preserve the kernels.
+- restriction and corestriction preserve the kernels.
 
 *Proof sketch.* The groups are kernels of products of localisation maps. In the relative case,
 restrict the cohomology of the finite group `Gal(K/F)` to every decomposition subgroup. For
@@ -2616,11 +2613,11 @@ field*; ProfiniteCohomology Layer 10; §R02.3.0d *Finite Galois localization and
 **Checks.**
 
 - For `M = 0`, `Шⁱ(F, M) = 0` in every degree.
-- For zero localization maps, `ArithmeticDuality.absoluteSha` is the whole source group; for a
+- For zero localization maps, the all-place kernel is the whole source group; for a
   one-component identity localization it is zero.
-- `absolute_sha_nonzero_local`: the class of `ℚ(i)` in `H¹(ℚ, ℤ/2)` is not in `Ш¹(ℚ, ℤ/2)`, since
+- the class of `ℚ(i)` in `H¹(ℚ, ℤ/2)` is not in `Ш¹(ℚ, ℤ/2)`, since
   its localisations at `2` and at `∞` are nonzero.
-- `relative_sha_identity`: for `K = F`, `H¹(Gal(F/F), M) = 0`, so `Ш¹(F/F, M) = 0`.
+- for `K = F`, `H¹(Gal(F/F), M) = 0`, so `Ш¹(F/F, M) = 0`.
 - `Ш⁰(F, M) = 0` for every `M`: at a finite place `v`, `H⁰(G_F, M) → H⁰(F_v, M)` is the inclusion
   `M^{G_F} ⊆ M^{G_v}`.
 - `Ш¹(F, ℤ/n) = 0` for trivial action (`n` prime to the characteristic): a cyclic extension in
@@ -2679,13 +2676,13 @@ larger than the maximal exponent-two subextension of the Hilbert class field.
 
 The API:
 
-- `ArithmeticDuality.exponentTwoField`: `F(S)`, the compositum inside `F^s` of the quadratic
+- `F(S)`, the compositum inside `F^s` of the quadratic
   extensions of `F` unramified at every finite place outside `S`.
-- `ArithmeticDuality.exponentTwoField_mono`: `S ⊆ S′` gives `F(S) ⊆ F(S′)`.
-- `ArithmeticDuality.exponentTwoField_contains`: every quadratic extension unramified at the finite
+- `S ⊆ S′` gives `F(S) ⊆ F(S′)`.
+- every quadratic extension unramified at the finite
   places outside `S` lies in `F(S)`.
-- `ArithmeticDuality.exponentTwoField_finite`: `F(S)/F` is finite.
-- `ArithmeticDuality.exponentTwoField_le`: `F(S)` lies in the maximal extension `F_{S ∪ S_∞}`
+- `F(S)/F` is finite.
+- `F(S)` lies in the maximal extension `F_{S ∪ S_∞}`
   unramified outside `S`.
 
 *Proof sketch.* By class field theory, `Gal(F(S)/F)` is the maximal exponent-two quotient of a ray
@@ -2891,10 +2888,9 @@ central obstructions over function fields. Sections R02.4.5a–R02.4.5b state th
 
 **Continuous-to-abstract cohomology.** For profinite `G` and a smooth discrete `R`-linear module
 `M`, forgetting continuity of cochains defines
-`ArithmeticDuality.continuousToAbstract r : Hʳ_cont(G, M) →ₗ[R] Hʳ_abs(G, M)`, with abstract
+an `R`-linear map `Hʳ_cont(G, M) → Hʳ_abs(G, M)`, with abstract
 cohomology Mathlib's `groupCohomology` of the underlying `Rep R G`.
-In degree one, `ArithmeticDuality.continuousToAbstract_injective` proves injectivity, and
-`ArithmeticDuality.mem_range_continuousToAbstract_one` identifies its image as the classes
+In degree one it is injective, and its image consists of the classes
 having a continuous cocycle representative. A representative into discrete `M` is locally
 constant. These maps commute with coefficient maps and with restriction along continuous group
 homomorphisms, in particular local decomposition maps. Degree two has the forgetful map;
@@ -2943,21 +2939,21 @@ For an open subgroup `U ≤ G` and a discrete
 
 The API:
 
-- `DiscreteExt.isGrothendieckAbelian`: `DiscreteRep ℤ G` is Grothendieck abelian, hence has `Ext`
+- `DiscreteRep ℤ G` is Grothendieck abelian, hence has `Ext`
   groups.
-- `DiscreteExt.Ext`: `Ext^r_G(M, N) := Abelian.Ext M N r`.
-- `DiscreteExt.extZeroEquiv`: `Ext⁰_G(M, N) = Hom_G(M, N)`.
-- `DiscreteExt.extIntEquivCohomology`: `Ext^r_G(ℤ, N) ≅ H^r(G, N)`, natural in `N` and compatible
+- `Ext^r_G(M, N) := Abelian.Ext M N r`.
+- `Ext⁰_G(M, N) = Hom_G(M, N)`.
+- `Ext^r_G(ℤ, N) ≅ H^r(G, N)`, natural in `N` and compatible
   with connecting maps.
-- `DiscreteExt.yonedaPairing`: `Ext^r_G(M, C) × H^s(G, M) → H^{r+s}(G, C)`, given by `Ext.comp`.
-- `DiscreteExt.extEquivCohomologyHom`: for `M` finitely generated and `N` divisible by the orders of
+- `Ext^r_G(M, C) × H^s(G, M) → H^{r+s}(G, C)`, given by `Ext.comp`.
+- for `M` finitely generated and `N` divisible by the orders of
   the torsion elements of `M`, `Ext^r_G(M, N) ≅ H^r(G, Hom(M, N))`.
-- `DiscreteExt.ext_colimit`: for `M` finitely generated and `G` fixed, `Ext^r_G(M, −)` commutes with
+- for `M` finitely generated and `G` fixed, `Ext^r_G(M, −)` commutes with
   sequential (more generally filtered) colimits of coefficients; the form in which `G = lim G_i`
   varies as well is Milne's Remark 0.10.
-- `DiscreteExt.extShapiro`: for `U` open, `Ext^r_G(Ind_U^G M, N) ≅ Ext^r_U(M, Res_U N)`, for the
+- for `U` open, `Ext^r_G(Ind_U^G M, N) ≅ Ext^r_U(M, Res_U N)`, for the
   induction and restriction functors on discrete modules.
-- `DiscreteExt.ext_isTorsion`: `Ext^r_G(M, N)` is torsion for `r ≥ 1` and `M` finitely generated.
+- `Ext^r_G(M, N)` is torsion for `r ≥ 1` and `M` finitely generated.
 
 *Proof sketch.* `DiscreteRep ℤ G` is abelian, its filtered colimits are exact (they are computed on
 underlying groups), and `⊕_U ℤ[G/U]` is a generator; so it has enough injectives
@@ -2980,14 +2976,14 @@ Mathlib `continuousCohomology`.
 
 **Checks.**
 
-- `ext_degree_zero`: `Ext⁰_G(M, N)` is the group of `G`-equivariant homomorphisms; for `M = ℤ` it
+- `Ext⁰_G(M, N)` is the group of `G`-equivariant homomorphisms; for `M = ℤ` it
   is `N^G`.
-- `ext_int_first`: `Ext¹_G(ℤ, N)` is the continuous `H¹(G, N)`; in every degree `Ext^r_G(ℤ, N)`
+- `Ext¹_G(ℤ, N)` is the continuous `H¹(G, N)`; in every degree `Ext^r_G(ℤ, N)`
   agrees with Mathlib's `continuousCohomology` of `N`.
-- `ext_divisibility_needed`: for `G = 1`, `Ext¹(ℤ/2, ℤ) = ℤ/2` (more generally
+- for `G = 1`, `Ext¹(ℤ/2, ℤ) = ℤ/2` (more generally
   `Ext¹(ℤ/m, ℤ) = ℤ/m`) while `H¹(1, Hom(ℤ/m, ℤ)) = 0`; the comparison with `Hom`-cohomology cannot
   drop the divisibility hypothesis.
-- `ext_trivial_group`: for `G = 1`, `Ext^r_G = Ext^r_ℤ`, so `Ext^r(ℤ, N) = 0` for `r ≥ 1` and
+- for `G = 1`, `Ext^r_G = Ext^r_ℤ`, so `Ext^r(ℤ, N) = 0` for `r ≥ 1` and
   `Ext^r(ℤ/m, N) = 0` for `r ≥ 2`.
 
 **Tate's duality theorem for a class formation.** Let `(G, C)` be a `P`-class formation, `ℓ ∈ P`
@@ -3078,7 +3074,7 @@ discrete carrier. Power maps commute with field automorphisms. (Milne, *Arithmet
 Theorems*, I, §4, definition of `M^D` before
 Theorem 4.10, p. 56; pinned Tau Ceti `FieldTheory/GaloisCohomology/Coefficients.lean`,
 `TauCeti.KummerCoeff`.) *Needs:* *The Galois group `G_{K,S}` of the maximal extension unramified
-outside `S`* (Layer R02.3), including `cyclotomic_le_maxUnramifiedOutside`; Tau Ceti
+outside `S`* (Layer R02.3), including the containment of the cyclotomic fields `K(μ_n)` for `n` a unit outside `S`; Tau Ceti
 `TauCeti.KummerCoeff`; Mathlib `AlgEquiv.restrictNormalHom`.
 
 **Checks.**
@@ -3123,22 +3119,22 @@ Tau Ceti `TauCeti.InternalHom.evalPairing`; Tau Ceti `TauCeti.KummerCoeff`.
 
 **The defined local Tate pairing.** Let `K_v` be a nonarchimedean local field, `n ≥ 1`
 invertible in `K_v`, and `M` a finite smooth discrete module killed by `n`. Define
-`LocalDuality.invariant` on Tau Ceti's explicit `H²(G_v, μ_n)` as
+the local invariant on Tau Ceti's explicit `H²(G_v, μ_n)` as
 `TauCeti.ClassFieldTheory.muNRepH2Equiv` followed by
-`TauCeti.ClassFieldTheory.h2MuEquivZMod`. Define `LocalDuality.localTatePairing` by applying this
+`TauCeti.ClassFieldTheory.h2MuEquivZMod`. Define the local Tate pairing by applying this
 invariant to `TauCeti.ContCohomology.explicitDualityPairing11`, with the dual argument first:
 `H¹(G_v, Hom(M, μ_n)) × H¹(G_v, M) → ℤ/n`. Its two curried maps to the additive duals are
-bijective (`LocalDuality.localTatePairing_perfect`); with the induced `ℤ/n`-module structures
+bijective; with the induced `ℤ/n`-module structures
 this is `LinearMap.IsPerfPair`. The pairing into `ℚ/ℤ` is its composite with `a ↦ a/n`.
 Transport it to canonical continuous cohomology through ProfiniteCohomology Layer 3.
-`LocalDuality.localTatePairing_mk` identifies its value on cocycles `a`, `b` as the invariant
+Its value on cocycles `a`, `b` is the invariant
 of the two-cocycle `(g, h) ↦ a(g)(g·b(h))`. Swapping to the module-first cup introduces a minus
 sign in degree `(1,1)`, as in Tau Ceti's `dualityMap1_eq_neg_explicitDualityPairing11`.
 
 For a finite field `k` of characteristic `p` invertible in `K_v` and finite-dimensional
 `k`-linear `M`, use `M^* = Hom_k(M, k)(1)` and the `k`-valued invariant
 `H²(K_v, k(1)) ≅ k`, obtained by extension of scalars from the normalized `𝔽_p` invariant.
-The resulting `LocalDuality.localTatePairingField` is a perfect `k`-bilinear pairing; its
+The resulting field-valued local pairing is a perfect `k`-bilinear pairing; its
 cocycle formula is the same evaluation cup. This is the pairing for `k`-linear local conditions.
 For compact, lattice and rational coefficients D7.4 and D7.7.2 give the corresponding defined
 pairings and comparisons. At real places use the complete Tate cup and the defined Brauer
@@ -3147,7 +3143,7 @@ specified maps and cocycle formulas.
 
 *Proof sketch.* Compose the supplied evaluation cup with the supplied normalized invariant.
 The three bijections of finite local duality imply perfectness; the supplied cocycle formula
-gives `localTatePairing_mk`. Extension of scalars gives the field-valued invariant and pairing;
+gives the cocycle description of the pairing. Extension of scalars gives the field-valued invariant and pairing;
 composition with the field trace recovers the finite additive duality. For the real group use
 its complete periodic resolution and the real Brauer invariant.
 (Milne, *Arithmetic Duality Theorems*,
@@ -3244,25 +3240,25 @@ established here; the topology is Mathlib's.
 
 The API:
 
-- `PoitouTate.restrictedProductCohomology`: `P^r_S(K, M)` as Mathlib's `RestrictedProduct` of the
+- `P^r_S(K, M)` as Mathlib's `RestrictedProduct` of the
   `H^r(K_v, M)` over the `H^r_un(K_v, M)`.
-- `PoitouTate.beta`: `β^r : H^r(G_S, M) → P^r_S(K, M)`, the product of the localisation maps.
-- `PoitouTate.sha`: `Ш^r_S(K, M) := ker β^r`;
-  `PoitouTate.sha_eq_ker_localization`: this is the intersection of the kernels of the maps
+- `β^r : H^r(G_S, M) → P^r_S(K, M)`, the product of the localisation maps.
+- `Ш^r_S(K, M) := ker β^r`;
+  this is the intersection of the kernels of the maps
   `H^r(G_{K,S}, M) → H^r(K_v, M)` indexed by `v ∈ S`.
-  `PoitouTate.beta_apply` evaluates `β^r` at a place of `S`.
-- `PoitouTate.sha_eq_absoluteSha`: when `S` equals the set of all places, transport through
+  The `v`-coordinate of `β^r` is the localisation at `v ∈ S`.
+- when `S` equals the set of all places, transport through
   `K_S = K^s` and `G_{K,S} = G_K` identifies `Ш^r_S(K, M)` with
-  `ArithmeticDuality.absoluteSha`, using the same modified archimedean groups in every degree.
+  the all-place kernel of §R02.3.0d, using the same modified archimedean groups in every degree.
   For a general `S`, unramified localisation outside `S` need not vanish, so inflation need not
   send `Ш^r_S` into the all-place kernel, even when `#M` is a unit in `R_{K,S}`.
-- `PoitouTate.compactSpace_P0`: `P⁰_S(K, M)` is compact for finite `M`.
-- `PoitouTate.locallyCompactSpace_P1`: `P¹_S(K, M)` is locally compact.
-- `PoitouTate.restrictedProductCohomology_eq_sum`: for finite `M` and `r ≥ 2`,
+- `P⁰_S(K, M)` is compact for finite `M`.
+- `P¹_S(K, M)` is locally compact.
+- for finite `M` and `r ≥ 2`,
   `P^r_S(K, M) = ⊕_{v∈S} H^r(K_v, M)`, discrete.
-- `PoitouTate.sha_map`: `Ш^r_S` is functorial in `M` and under restriction to a finite extension
+- `Ш^r_S` is functorial in `M` and under restriction to a finite extension
   `F ⊆ K_S`.
-- `PoitouTate.finite_restrictedProductCohomology`: for `S` and `M` finite, `P^r_S(K, M)` is finite.
+- for `S` and `M` finite, `P^r_S(K, M)` is finite.
 
 *Proof sketch.* A class comes from `H^r(Gal(L/K), M)` for a finite Galois `L ⊆ K_S`, and at every
 `v` unramified in `L` its localisation is unramified (Milne, Lemma 4.8); so `β^r` lands in the
@@ -3272,10 +3268,7 @@ so `P¹_S` is locally compact for the restricted-product topology
 product is injective, so its localisation kernel is the intersection of the coordinate kernels
 over `S`. For `S` all places, the defining ramification condition on `K_S` is vacuous and these
 are exactly the maps defining the absolute kernel. (Milne, *Arithmetic Duality
-Theorems*, Chapter I, §4, statement of the main
-theorem, p. 55 (PDF p. 63); [Harpaz–Wittenberg, *The Massey vanishing conjecture for number
-fields*](https://www.math.univ-paris13.fr/~wittenberg/globalmassey.pdf), §7, before Lemma 7.6,
-p. 28 (author final version).) *Needs:* *Localisation maps and the modified local groups* (Layer
+Theorems*, Chapter I, §4, definition of `P^r_S(K, M)` and Lemma 4.8, p. 55 (PDF p. 63).) *Needs:* *Localisation maps and the modified local groups* (Layer
 R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
 `RestrictedProduct.topologicalSpace`.
 
@@ -3302,8 +3295,10 @@ R02.3); ClassFieldTheory Layer 5; Mathlib `RestrictedProduct`; Mathlib
   contribution is kept.
 - Over `ℕ`, the restricted product of copies of `ℤ` with respect to the zero
   subgroups is the direct sum.
-- Agreement: for `r = 1, 2` the archimedean Tate groups are ordinary cohomology, so `Ш¹_S` and
-  `Ш²_S` agree with Harpaz–Wittenberg's `Ш`.
+- Agreement: when `S` is the set of all places, for `r = 1, 2` the archimedean Tate groups are
+  ordinary cohomology, so `Ш¹_S` and `Ш²_S` agree with the all-place kernel `Ш` used by
+  Harpaz–Wittenberg. For a smaller `S` they need not agree: in the `ℚ(√−35)` Check above
+  `Ш¹_S ≠ 0` while `Ш¹(K, ℤ/2) = 0`.
 - `K = ℚ`, `S = {2, ∞}`, `M = ℤ/2`: `H¹(G_S, ℤ/2)` corresponds to `ℚ(√−1)`, `ℚ(√2)`, `ℚ(√−2)`, all
   ramified at `2`, so `Ш¹_S = 0`.
 - `Ш¹_S(K, ℤ/m) = 0` when `S` has Dirichlet density `> 1/2`: a cyclic extension in which every place
@@ -3941,23 +3936,22 @@ cohomology can be unbounded above. For finite coefficients its groups in degrees
 the sums of the real Tate cohomology groups of `M`, so nonvanishing depends on `M`; both
 complexes retain their full degrees.
 
-For a number field and p-primary `M`, `ArithmeticDuality.finiteCompactCochains`
+For a number field and p-primary `M`, the finite compactly supported cochain complex
 is an adapter to the Tate-modified `arithmeticCompactSupport` of IntegralIwasawaTheory
 §2.0 and NoncommutativeAndEquivariantIwasawa §F.3. If `θ` and `θ_v` are the supplied
 global and local cochain comparisons, its comparison `κ` is the induced map of fibres:
 `(⊕ θ_v) ∘ res_here = res_supplier ∘ θ` and
 `κ = Fib(θ, ⊕ θ_v)`. Thus `Hⁱ(κ)` also identifies
-`ArithmeticDuality.finiteCompactCohomology`, `finiteCompact_exact` and
-`finiteCompact_map` with the supplied cohomology, boundary and functoriality maps.
+its cohomology, long exact sequence and functoriality maps with the supplied cohomology, boundary and functoriality maps.
 The extension here includes mixed finite orders and global function fields.
 
 The API:
 
-- `ArithmeticDuality.finiteCompactCochains`: the mapping fibre of the finite arithmetic
+- the mapping fibre of the finite arithmetic
   localisation map.
-- `ArithmeticDuality.finiteCompactCohomology`: its cohomology in each integer degree.
-- `ArithmeticDuality.finiteCompact_exact`: the long exact sequence of the localisation fibre.
-- `ArithmeticDuality.finiteCompact_map`: naturality in the coefficients and in the localisation
+- its cohomology in each integer degree.
+- the long exact sequence of the localisation fibre.
+- naturality in the coefficients and in the localisation
   diagram.
 
 *Proof sketch.* The fibre of a map of complexes is a complex, and its triangle gives the long exact
@@ -3977,9 +3971,9 @@ NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticCompactSupport`).
 
 **Checks.**
 
-- `GaloisCohomology.compactCohomology_identity`: the mapping fibre of an identity map is acyclic.
-- `finite_support_no_local`: a zero local complex gives back the global cochain complex.
-- `finite_support_h0`: `H⁰` of the fibre is the kernel of localisation on `H⁰` when the local complex
+- the mapping fibre of an identity map is acyclic.
+- a zero local complex gives back the global cochain complex.
+- `H⁰` of the fibre is the kernel of localisation on `H⁰` when the local complex
   has no cohomology in negative degrees.
 - Under `(P)` with `S` finite and nonempty, `H⁰_c = 0`: `S` contains a finite place `v`, and
   `M^{G_{F,S}} → M^{G_v}` is injective.
@@ -4044,7 +4038,7 @@ Statements (1) and (3) specialize global duality to `Γ_K` and the localization 
 sequence* with its set of places taken to be all places of `K`, which that theorem allows. Then its
 group `G_S` is `Γ_K`, every order is a unit in `K`, its dual `Hom(M, E_S)` is the Cartier dual, and its
 kernels `Ш^r_S` are the kernels `Ш^r` of §R02.3.0d *Finite Galois localization and Sha kernels*
-(`PoitouTate.sha_eq_absoluteSha` identifies them with the all-place kernels, which are cut out by the
+(the all-place comparison of §R02.4.2 identifies them with the all-place kernels, which are cut out by the
 same localization maps). Its restricted product `P¹` uses the unramified subgroups at the finite
 places where the module is unramified; that differs from the choice in (1) at finitely many places,
 which does not change a restricted product. Exactness at `P¹`, with the self-duality *`P^r_S(K, M)` is
@@ -4062,7 +4056,7 @@ equation 2.3 and Proposition 2.5, pp. 1018–1019, which state the pairing and t
 refer to the original global duality theorem; [Schmidt–Wingberg](https://arxiv.org/pdf/math/9809211v1),
 Definitions 8–9, p. 10, and Lemma 10 with its proof, p. 11 (arXiv v1).
 *Needs:* §R02.3.0d *Finite Galois localization and Sha kernels*; §R02.4.2 *Restricted
-products of local cohomology and `Ш^r_S`* (`PoitouTate.sha_eq_absoluteSha`) and *`P^r_S(K, M)` is dual to
+products of local cohomology and `Ш^r_S`* (its all-place comparison) and *`P^r_S(K, M)` is dual to
 `P^{2−r}_S(K, M^D)`*, R02.4.3 *Poitou–Tate duality and the nine-term exact sequence*; ClassFieldTheory
 Layer 5; ProfiniteCohomology Layers 1 and 7.
 
@@ -4601,7 +4595,11 @@ characteristic `ℓ`, and `A` a finite abelian group of exponent `e` prime to `�
 action, and assume `μ_e ⊆ F`. Then `H²(G_F, A) → ∏_v H²(G_{F_v}, A)` is injective. More generally
 the same holds for a finite `G_F`-module of order prime to `ℓ` whose Tate dual is constant. The
 roots-of-unity hypothesis makes the dual action trivial; an isomorphism `A ≅ A^D` depends on
-choices.
+choices. `GlobalFunctionField.centralObstruction_localization` in `Suggested.lean` states the
+general form on the carriers of `GlobalFunctionField.sha_duality`: for a finite discrete module `M`
+killed by `n > 0` with `n` invertible in `F`, and trivial Galois action on the Kummer dual
+`Hom(M, μ_n)`, Mathlib's degree-two all-place kernel `Ш²(F, M)` over the place completions is
+trivial. It does not assert `H²(F, M) = 0`.
 
 *Proof sketch.* The root-of-unity hypothesis makes `A^D = Hom(A, μ_e)` a constant finite module. A
 locally trivial class in `H¹(F, A^D)` is then an everywhere-split finite abelian extension, trivial
@@ -4618,6 +4616,10 @@ R02.3); ArithmeticGaloisRepresentations §5.13 / **Chebotarev for function field
 - `A = ℤ/n` with `μ_n ⊆ F`: `A^D = μ_n ≅ ℤ/n` is constant, `Ш¹(F, ℤ/n) = 0` by Chebotarev, and
   hence `H²(F, ℤ/n) → ∏_v H²(F_v, ℤ/n)` is injective.
 - All places of `F` are nonarchimedean: the product has no archimedean factor and none is added.
+- `F = 𝔽₇(t)`, `M = ℤ/3`: `μ₃ ⊆ 𝔽₇` since `7 ≡ 1 mod 3`, so `M^D ≅ ℤ/3` is constant and
+  `Ш¹(F, M^D) = Ш²(F, M) = 0`. Yet `H²(F, ℤ/3) ≅ Br(F)[3]` is nonzero: the class with local
+  invariants `1/3` at `t = 0` and `−1/3` at `∞` is global, and it has nonzero localizations.
+- For `M = 0` both kernels are zero and the statement is the triviality of the zero group.
 
 ### Examples
 
@@ -4810,7 +4812,7 @@ uses §1.M.2; the arithmetic specializations with finite residue field use §1.M
 Noetherian local ring of dimension `d`, `E = E_R(k)` an injective hull of the residue field,
 `D = Hom_R(−, E)` the Matlis dual and `ω` a normalised dualizing complex of `R`
 (SchemeAndStackFoundations Layer 2, §2.21 *Dualising complexes*, `NormalizedDualizing R ω`:
-`RHom_R(k, ω) ≅ k[0]`). Prove `localDuality`: for every `K ∈ D^b_{fg}(R)` there is a natural
+`RHom_R(k, ω) ≅ k[0]`). For every `K ∈ D^b_{fg}(R)` there is a natural
 isomorphism `RHom_R(K, ω) ≅ D(RΓ_𝔪(K))` in `D(R)`, so that `Extⁱ_R(K, ω) ≅ D(H^{−i}_𝔪(K))`. Its
 first step, `RΓ_𝔪(ω) ≅ E[0]` (that is, `H^i_𝔪(ω) = E` for `i = 0` and `0` otherwise), is part of
 the target: it is proved from the colimit description of local cohomology and is not a restatement
@@ -4950,18 +4952,18 @@ support* uses it for complete `R` with finite residue field.
 
 The five names below abbreviate §0.5's objects and do not construct new ones:
 
-- `ArithmeticDuality.hilbertSamuelPolynomial`: equal by definition to §0.5's shared
+- equal by definition to §0.5's shared
   Hilbert–Samuel polynomial of `M` at `I = 𝔪`, the unique `P_M ∈ ℚ[X]` agreeing with
   `n ↦ length_R(M/𝔪^{n+1}M)` for all large `n`.
-- `ArithmeticDuality.hilbertSamuelPolynomial_eventual`: §0.5's eventual-value theorem
+- §0.5's eventual-value theorem
   (`exists_hilbertSamuel_polynomial`) at `I = 𝔪`: there is `N` with
   `P_M(n) = length_R(M/𝔪^{n+1}M)` for every `n ≥ N`.
-- `ArithmeticDuality.hilbertSamuelEuler`: equal by definition to
+- equal by definition to
   `CycleSupport.multiplicity 𝔪 d M`, §0.5's multiplicity at the bound `d`, read in `ℕ` by its
   integrality and nonnegativity.
-- `ArithmeticDuality.hilbertSamuelEuler_coefficient`: §0.5's coefficient formula at
+- §0.5's coefficient formula at
   `d = ringKrullDim R`: the cast to `ℚ` is `d! · coeff_d(P_M)`.
-- `ArithmeticDuality.hilbertSamuelEuler_exact`: §0.5's additivity under a common dimension bound,
+- §0.5's additivity under a common dimension bound,
   taken at `d = ringKrullDim R`: for an exact sequence `0 → M′ → M → M″ → 0` of finitely
   generated modules, `e_R(M) = e_R(M′) + e_R(M″)`.
 
@@ -4985,9 +4987,9 @@ common dimension bound); Mathlib `Module.length`; Mathlib `ringKrullDim`.
 
 **Checks.**
 
-- `euler_multiplicity_field`: for a field `k` (`d = 0`), `e_k(k^r) = r`.
-- `euler_multiplicity_zp_free`: over `ℤ_p` (`d = 1`), `e_{ℤ_p}(ℤ_p^r) = r`.
-- `euler_multiplicity_zp_torsion`: for a finite `ℤ_p`-module `M` killed by `pⁿ` (`d = 1`),
+- for a field `k` (`d = 0`), `e_k(k^r) = r`.
+- over `ℤ_p` (`d = 1`), `e_{ℤ_p}(ℤ_p^r) = r`.
+- for a finite `ℤ_p`-module `M` killed by `pⁿ` (`d = 1`),
   `e_{ℤ_p}(M) = 0`, although `length(M) > 0` when `M ≠ 0`.
 - For `M = ℤ_p`, `P_M(n) = length(ℤ_p/p^{n+1}) = n + 1` and `e = 1`; the graded lengths
   `length(pⁿℤ_p/p^{n+1}ℤ_p) = 1` are constant and would give `0` at `d = 1`.
@@ -5083,19 +5085,19 @@ of its own; only the members of `S(M)` are topologised.
 
 The API:
 
-- `ArithmeticDuality.actionSpan`: the `R`-span `A_M` of the image of `G` in `End_R(M)`, for a
+- the `R`-span `A_M` of the image of `G` in `End_R(M)`, for a
   representation in Mathlib's sense; it equals `Subalgebra.toSubmodule ρ.asAlgebraHom.range`
   by Tau Ceti's `Representation.toSubmodule_range_asAlgebraHom`, using Mathlib's
   `Representation.asAlgebraHom`.
-- `ArithmeticDuality.IsAdmissible`: `A_M` is finitely generated and `G → A_M` is continuous for its
+- `A_M` is finitely generated and `G → A_M` is continuous for its
   `𝔪`-adic topology.
-- `ArithmeticDuality.admissible_of_finite`: a finite discrete module with jointly continuous action
+- a finite discrete module with jointly continuous action
   is admissible.
-- `ArithmeticDuality.admissible_of_finiteType`: a finitely generated module with continuous action
+- a finitely generated module with continuous action
   for its `𝔪`-adic topology is admissible.
-- `ArithmeticDuality.IsIndAdmissible`: every element lies in a finitely generated stable
+- every element lies in a finitely generated stable
   subrepresentation whose action is admissible, equivalently continuous for its `𝔪`-adic topology.
-- `ArithmeticDuality.isIndAdmissible_of_isAdmissible`: an admissible module is ind-admissible (the
+- an admissible module is ind-admissible (the
   cyclic submodule `A_M · m` generated by an element is stable and admissible).
 
 *Proof sketch.* Impose finite generation and `𝔪`-adic continuity on the span of the image of the
@@ -5115,10 +5117,10 @@ and finite reductions* (Layer R02.1); *Matlis duality for arithmetic coefficient
 
 **Checks.**
 
-- `admissible_trivial`: the image algebra of a trivial representation is the cyclic `R`-span of
+- the image algebra of a trivial representation is the cyclic `R`-span of
   `Id`, including the case of the zero module.
 - The zero module has zero image algebra.
-- `ArithmeticDuality.continuous_of_isAdmissible`: for a finitely generated module with the
+- for a finitely generated module with the
   `𝔪`-adic topology, admissibility implies joint continuity of the action.
 - Every trivial representation is ind-admissible, since each element lies
   in its cyclic `R`-submodule, even when the module is not finitely generated.
@@ -5160,12 +5162,12 @@ ind-admissible coefficient complexes are the extension here.
 
 The API:
 
-- `ArithmeticDuality.algebraicContinuousCochains`: the homogeneous continuous cochain complex of a
+- the homogeneous continuous cochain complex of a
   topological representation, as a complex of `R`-modules (the topology forgotten).
-- `ArithmeticDuality.algebraicContinuousCohomology`: its cohomology.
-- `ArithmeticDuality.algebraicCohomology_compare`: this cohomology agrees with the underlying module
+- its cohomology.
+- this cohomology agrees with the underlying module
   of Mathlib's continuous cohomology.
-- `ArithmeticDuality.continuousCochains_d_squared`: the differential of the complex squares to zero.
+- the differential of the complex squares to zero.
 
 *Proof sketch.* Compare homogeneous and inhomogeneous cochains for each finitely generated part,
 and take their filtered colimit in modules for general ind-admissible `M`. A quotient of a finitely
@@ -5190,11 +5192,11 @@ ProfiniteCohomology Layer 10; IntegralIwasawaTheory §§2.0, 10.0
 
 **Checks.**
 
-- `cochains_d_squared`: the differential of the homogeneous continuous cochain complex composes to
+- the differential of the homogeneous continuous cochain complex composes to
   zero.
-- `cochains_homogeneous`: in each degree the complex is Mathlib's module of continuous homogeneous
+- in each degree the complex is Mathlib's module of continuous homogeneous
   cochains `G^{n+1} → M`.
-- `cochains_zero`: the zero cochain has zero differential, and for `M = 0` the complex is zero.
+- the zero cochain has zero differential, and for `M = 0` the complex is zero.
 - `H⁰_cts(G, M) = M^G`, and for trivial `M`, `H¹_cts(G, M) = Hom_cts(G, M)`; for `G` trivial,
   `Hⁱ_cts(G, M) = 0` for `i > 0`.
 - For `G = ℤ_p`, `R = ℤ_p` and `M = ⊕_ℕ ℤ_p` with trivial action (ind-admissible, not finitely
@@ -5455,15 +5457,15 @@ comparison `𝒟 ≅ D ∘ Φ` are *Grothendieck local duality for a complete No
 
 The API:
 
-- `GaloisCohomology.dualizingHom`: the Hom complex `D_J(X•) = Hom•_R(X•, J)`.
-- `GaloisCohomology.localDualityMap`: for complexes `A`, `B`, `J` and a morphism of complexes
+- the Hom complex `D_J(X•) = Hom•_R(X•, J)`.
+- for complexes `A`, `B`, `J` and a morphism of complexes
   `β : A ⊗ B → J[−2]`, the adjoint `A → Hom•(B, J[−2])`; for the cup product followed by `ev₂` and
   `r_{v,J}` it is `α_{J,X•}`.
-- `GaloisCohomology.localDualityMap'`: the adjoint `B → Hom•(A, J[−2])` of the pairing composed
+- the adjoint `B → Hom•(A, J[−2])` of the pairing composed
   with the signed swap, on the same Hom complex; for the arithmetic pairing it is `α′_{J,X•}`.
-- `GaloisCohomology.localDualityPairing`: the induced pairing
+- the induced pairing
   `Hⁱ(A) × H^j(B) → H^{i+j}(J[−2])`; for the arithmetic pairing it is (5.2.2.1).
-- `GaloisCohomology.localDualityMap_indep`: homotopic pairings induce homotopic duality morphisms;
+- homotopic pairings induce homotopic duality morphisms;
   a homotopy between two choices of `r_{v,J}` identifies the resulting maps.
 
 *Proof sketch.* The adjunction `Hom(A ⊗ B, C) = Hom(A, Hom(B, C))` (Nekovář 1.2.6) turns the pairing
@@ -5480,9 +5482,9 @@ local ring*; ProfiniteCohomology Layer 12; SchemeAndStackFoundations Layer 2, §
 
 **Checks.**
 
-- `dualizing_hom_degree`: the degree-`n` term of `Hom•_R(A, J)` is `∏_i Hom_R(A^i, J^{i+n})`.
-- `dualizing_zero`: a zero first complex gives the zero duality map.
-- `dualizing_infinite_biddual`: the `𝔽₂`-linear bidual map of `⊕_ℕ 𝔽₂` is not surjective.
+- the degree-`n` term of `Hom•_R(A, J)` is `∏_i Hom_R(A^i, J^{i+n})`.
+- a zero first complex gives the zero duality map.
+- the `𝔽₂`-linear bidual map of `⊕_ℕ 𝔽₂` is not surjective.
 - For `R = ℤ_p`, `J = ℚ_p/ℤ_p` and `X = ℤ/p`, `D_J(X)(1) = μ_p` and the pairing
   `H⁰(G_v, ℤ/p) × H²(G_v, μ_p) → H²(G_v, μ_p) ≅ ℤ/p` is Tate's cup-product pairing (5.1.4).
 - Without the finiteness hypotheses `ε_J` need not be a quasi-isomorphism: for `X = ⊕_ℕ ℤ/p` and
@@ -5627,17 +5629,17 @@ The API:
 - Mathlib's `CochainComplex.mappingCocone res_{S_f}` and
   `CochainComplex.mappingCocone.triangle`: the compactly supported complex
   `C•_{c,cont}(G_{K,S}, M•)` and its fibre triangle (5.3.1.1), with
-  `GaloisCohomology.compactCochains_diff` recording the differential.
-- `GaloisCohomology.compactCohomology`: its cohomology `Hⁱ_{c,cont}(G_{K,S}, M•)`.
-- `GaloisCohomology.compactCohomology_exact`: the long exact sequence (5.3.1.2).
-- `GaloisCohomology.compactMap`: the map of compactly supported cochains induced by a commutative
+  its differential recorded explicitly.
+- its cohomology `Hⁱ_{c,cont}(G_{K,S}, M•)`.
+- the long exact sequence (5.3.1.2).
+- the map of compactly supported cochains induced by a commutative
   square of localisation maps.
-- `GaloisCohomology.compactCochains_embedding`: a change of embeddings gives a homotopy
+- a change of embeddings gives a homotopy
   equivalence of cones.
-- `GaloisCohomology.compactCochains_finite`: over the Noetherian ring `R`, if global and local
+- over the Noetherian ring `R`, if global and local
   cohomology are finitely generated in the relevant degrees, so is the cohomology of the fibre; the
   cofinite-type and amplitude statements use *Cohomological finiteness and perfect amplitude*.
-- `GaloisCohomology.compactCochains_diff`: `d(a, a_S) = (da, −res_{S_f}(a) − da_S)`.
+- `d(a, a_S) = (da, −res_{S_f}(a) − da_S)`.
 
 *Proof sketch.* Use the supplied fibres and maps on the common domains. For the
 extension, the cone of a morphism of complexes is a complex, and the triangle is the shifted
@@ -5659,9 +5661,9 @@ IntegralIwasawaTheory §2.0 (`arithmeticCompactSupport`), §10.0
 - The residue characteristic is essential: for `p = 3`, `R = 𝔽₂`, `K = ℚ`,
   `S = {2, 3, ∞}` and trivial `X = 𝔽₂[0]`, `(P)` holds but
   `Ĥ^i(C₂, 𝔽₂) = 𝔽₂` for every integer `i`; the finite-place fibre omits a nonacyclic real term.
-- `GaloisCohomology.compactCohomology_no_local`: a zero local complex recovers the global
+- a zero local complex recovers the global
   cohomology.
-- `GaloisCohomology.compactCohomology_zero_of_injective`: if local `H⁻¹` vanishes and
+- if local `H⁻¹` vanishes and
   localisation on `H⁰` is injective, then `H⁰` of the fibre vanishes.
 - For `K = ℚ`, `S = {p, ∞}`, `p` odd and `M = 𝔽_p`: `H⁰_c = H¹_c = H³_c = 0` and `H²_c ≅ 𝔽_p`, so
   `χ_c = 1 = dim 𝔽_p^{G_ℝ}` (Theorem 5.3.6).
@@ -5713,15 +5715,15 @@ The named cup maps retain their coordinate formulas as adapters; general
 
 The API:
 
-- `GaloisCohomology.compactCupLeft`: `_c∪ : C_c(A) ⊗ C(B) → C_c(A ⊗ B)`.
-- `GaloisCohomology.compactCupRight`: `∪_c : C(A) ⊗ C_c(B) → C_c(A ⊗ B)`.
-- `GaloisCohomology.compactCupLeft_leibniz`: the Leibniz rule for `_c∪`.
-- `GaloisCohomology.compactCupRight_leibniz`: the Leibniz rule for `∪_c`, with the sign
+- `_c∪ : C_c(A) ⊗ C(B) → C_c(A ⊗ B)`.
+- `∪_c : C(A) ⊗ C_c(B) → C_c(A ⊗ B)`.
+- the Leibniz rule for `_c∪`.
+- the Leibniz rule for `∪_c`, with the sign
   `(−1)^{deg a}`.
-- `GaloisCohomology.compactCup_forget`: compatibility with `∪` through `C_c → C`.
-- `GaloisCohomology.compactCupLeft_coordinates`: the global coordinate is `a ∪ b` and the local
+- compatibility with `∪` through `C_c → C`.
+- the global coordinate is `a ∪ b` and the local
   coordinate is `a_S ∪ res(b)`.
-- `GaloisCohomology.compactCupRight_coordinates`: the global coordinate is `a ∪ b` and the local
+- the global coordinate is `a ∪ b` and the local
   coordinate is `(−1)^i res(a) ∪ b_S` for `a` of degree `i`.
 
 *Proof sketch.* The Leibniz rules follow from those of `∪` and the differential
@@ -5734,9 +5736,9 @@ ProfiniteCohomology Layer 12; NoncommutativeAndEquivariantIwasawa §F.3
 
 **Checks.**
 
-- `degree_one_sign`: for `deg a = 1`, `a ∪_c (b, b_S) = (a ∪ b, −res(a) ∪ b_S)`.
-- `empty_S_f`: for `S_f = ∅`, `C_c = C` and both products are `∪`.
-- `no_sign`: without the sign `(−1)^{deg a}`, `∪_c` fails the Leibniz rule for `a` of odd degree.
+- for `deg a = 1`, `a ∪_c (b, b_S) = (a ∪ b, −res(a) ∪ b_S)`.
+- for `S_f = ∅`, `C_c = C` and both products are `∪`.
+- without the sign `(−1)^{deg a}`, `∪_c` fails the Leibniz rule for `a` of odd degree.
 
 **The global invariant map on `H³_c`.** Let `K`, `S`, `S_f`, `G_{K,S}`, `G_v` and `R` be as in *The
 local duality morphisms `α_{J,X}`*, assume (P) (if `p = 2`, `K` has no real place; the case `p = 2`
@@ -6266,27 +6268,27 @@ The finite two-module `ℤ/n` statements differ from Tau Ceti's `FiniteBilinearM
 that API uses one finite group with a symmetric `ℚ/ℤ`-valued pairing and retains its radical
 in general. Here the pairing is perfect between two modules, so no radical term appears.
 
-The named operations and identities are:
+The operations and identities are:
 
 - Perfectness of a pairing `b : X × X′ → R` into the base ring is Mathlib's `LinearMap.IsPerfPair`
   (both curried maps bijective); rational statements take `R = Φ` and `F : Submodule Φ X`,
   and the finite prototypes take `R = ℤ/n`. For `Y = Φ/O` or `O/MO` and compact
   or discrete modules, perfectness means that the curried maps are isomorphisms onto the continuous
   character duals `Hom_cont(−, Y)`.
-- `orthogonal_orthogonal` — `F^⊥⊥ = F` for perfect pairings of finite modules, of `Φ`-spaces, and of
+- `F^⊥⊥ = F` for perfect pairings of finite modules, of `Φ`-spaces, and of
   finitely generated compact `O`-modules against cofinitely generated discrete ones, with `F`
   a submodule in the category specified above.
-- `orthogonal_map_eq_comap` — `(π F)^⊥ = ι^{−1}(F^⊥)` for adjoint `π`, `ι`,
+- `(π F)^⊥ = ι^{−1}(F^⊥)` for adjoint `π`, `ι`,
   using Mathlib's `Submodule.orthogonalBilin_map`.
-- `orthogonal_comap_eq_map` — `(π^{−1} G)^⊥ = ι(G^⊥)` for adjoint `π`, `ι` and perfect pairings.
-- `card_mul_card_orthogonal` — `#F · #F^⊥ = #X` for finite `X`, `b` perfect.
-- `quotientPairing_perfect` — For a perfect pairing in the finite, finite-dimensional or
+- `(π^{−1} G)^⊥ = ι(G^⊥)` for adjoint `π`, `ι` and perfect pairings.
+- `#F · #F^⊥ = #X` for finite `X`, `b` perfect.
+- For a perfect pairing in the finite, finite-dimensional or
   compact/discrete dual categories above, `F^⊥=F′` induces a perfect pairing `(X/F)×F′→Y`, with the
   rational `F : Submodule Φ X`, and closed `F` and quotient and dual topologies in the
   compact/discrete case.
-- `orthogonal` denotes Mathlib's `Submodule.orthogonalBilin` for these bilinear pairings;
-  `mem_orthogonal_iff` states membership as vanishing against every element of `F`, and
-  `orthogonal_anti` states `F ≤ G ⇒ G^⊥ ≤ F^⊥`. In the compact/discrete character setting use
+- `F^⊥` denotes Mathlib's `Submodule.orthogonalBilin` for these bilinear pairings;
+  membership is vanishing against every element of `F`, and
+  `F ≤ G ⇒ G^⊥ ≤ F^⊥`. In the compact/discrete character setting use
   the same vanishing definition with continuous characters. Dual arithmetic conditions use the
   defined local pairing, with the order of its arguments fixed as in R02.4.2.
 
@@ -6315,17 +6317,17 @@ comparison.
 
 **The local-condition menu.** Use the Selmer structure and localisation-kernel carrier of
 EllipticCurves Layer 7, with submodules over the coefficient ring when the action is linear.
-For a finite place `v`, define `LocalConditions.unramifiedClasses` to be the image of inflation
+For a finite place `v`, define the unramified classes to be the image of inflation
 `H¹(G_v/I_v, M^{I_v}) → H¹(G_v, M)`, equal to the kernel of restriction to `H¹(I_v, M)`.
-This definition includes ramified `M`; it agrees with R02.3.1's `unramifiedSubgroup` when inertia
-acts trivially. Define `LocalConditions.strict = ⊥` and `LocalConditions.relaxed = ⊤`.
-For a set `Q` of places, `LocalConditions.relaxAt Q L` replaces `L_v` by `⊤` at `Q`, and
-`LocalConditions.strictAt Q L` replaces it by `⊥`. Prove the pointwise inclusions
-`strictAt Q L ≤ L ≤ relaxAt Q L`, monotonicity in `L`, monotonicity of `relaxAt` in `Q`,
-antitonicity of `strictAt` in `Q`, idempotence and the corresponding inclusions of Selmer groups.
+This definition includes ramified `M`; it agrees with R02.3.1's unramified subgroup when inertia
+acts trivially. The strict condition is `⊥` and the relaxed condition is `⊤`.
+For a set `Q` of places, relaxing `L` at `Q` replaces `L_v` by `⊤` for `v ∈ Q`, and
+imposing strictness at `Q` replaces it by `⊥`. Prove the pointwise inclusions
+(strict at `Q`) `≤ L ≤` (relaxed at `Q`), monotonicity in `L`, monotonicity of relaxing in `Q`,
+antitonicity of strictness in `Q`, idempotence and the corresponding inclusions of Selmer groups.
 Finite `Q` preserves the condition of being unramified almost everywhere.
 Define the dual family by `L_v^⊥` using the defined local Tate pairing. It interchanges strict
-and relaxed, takes `relaxAt Q` to `strictAt Q` on the dual family and conversely, and recovers
+and relaxed, takes relaxing at `Q` to strictness at `Q` on the dual family and conversely, and recovers
 the original family after two duals. The Selmer group is the supplier's infimum of comaps;
 its membership theorem and monotonicity use these actual submodules, without auxiliary
 submodules whose membership characterisation is assumed.
@@ -6405,13 +6407,13 @@ cohomology of the coefficient adjoint cone.
 
 (Nekovář, §§6.2.1–6.2.7, pp. 137–140; §6.7, pp. 151–154; §5.7.1–5.7.2, pp. 130–132.)
 
-The named operations and identities are:
+The operations and identities are:
 
-- `LocalConditionMorphism` — A morphism `U^+→C` into the explicitly supplied local complex.
-- `localMinus` — The cone of `U^+→C`.
-- `localDualError` — Cone of the cup-adjoint `U_X^+→D(U_Y^−)[−2]`.
-- `derivedComplement_iff` — Derived complementarity iff the error cone is acyclic.
-- `localDualError_congr` — Compatible quasi-isomorphisms and nullhomotopies give equivalent error cones.
+- A morphism `U^+→C` into the explicitly supplied local complex.
+- The cone of `U^+→C`.
+- Cone of the cup-adjoint `U_X^+→D(U_Y^−)[−2]`.
+- Derived complementarity iff the error cone is acyclic.
+- Compatible quasi-isomorphisms and nullhomotopies give equivalent error cones.
 
 **Checks.**
 
@@ -6657,9 +6659,9 @@ ramification* (Layer R02.4); *The Galois group `G_{K,S}` of the maximal extensio
 **Greenberg–Wiles dimensions and the strict–relaxed bound.** Let `k` be any finite field of
 characteristic `p`, `F` a number field, `M` a finite-dimensional continuous `k`-linear
 `G_F`-module and `M^* = Hom_k(M, k)(1)`. Let `L_v` be `k`-linear local conditions, unramified
-almost everywhere, with duals under `LocalDuality.localTatePairingField`. Write `hⁱ` for
+almost everywhere, with duals under the field-valued local pairing of R02.4.2. Write `hⁱ` for
 `Module.finrank k` of the corresponding cohomology, and `l_v = Module.finrank k L_v`.
-The target `SelmerDimensions.greenbergWiles` is the identity in `ℤ`
+The target is the identity in `ℤ`
 
 ```text
 h¹_L(F, M) − h¹_{L^⊥}(F, M^*) = h⁰(F, M) − h⁰(F, M^*) + ∑_v (l_v − h⁰(F_v, M)).
@@ -6667,7 +6669,7 @@ h¹_L(F, M) − h¹_{L^⊥}(F, M^*) = h⁰(F, M) − h⁰(F, M^*) + ∑_v (l_v �
 
 The sum has finite support; `h⁰` is ordinary invariants at every place, including real and
 complex ones. The dual uses the cyclotomic twist over `k`, and all dimensions are over `k`.
-`SelmerDimensions.greenbergWiles_le` gives the one-sided bound
+It gives the one-sided bound
 `h¹_L ≤ h¹_{L^⊥} + h⁰(F, M) − h⁰(F, M^*) + ∑_v (l_v − h⁰(F_v, M))`.
 It also permits replacing each local contribution by a proved upper bound.
 
@@ -6675,13 +6677,12 @@ For disjoint finite sets `S`, `Q`, with `S` containing the archimedean places, a
 `p` and all ramification of `M`, let `L` be strict at `S`, relaxed at `Q` and unramified elsewhere.
 The dual is relaxed at `S`, strict at `Q` and unramified elsewhere. Local Euler characteristic
 at `q ∈ Q` gives `h¹(F_q, M) − h⁰(F_q, M) = h⁰(F_q, M^*)`, so
-`SelmerDimensions.strict_relaxed` states
 
 ```text
 h¹_L = h¹_{L^⊥} + h⁰(F, M) − h⁰(F, M^*) − ∑_{v∈S} h⁰(F_v, M) + ∑_{q∈Q} h⁰(F_q, M^*).
 ```
 
-In particular `SelmerDimensions.strict_relaxed_le` gives
+In particular
 `h¹_L ≤ h¹_{L^⊥} + h⁰(F, M) + ∑_{q∈Q} h⁰(F_q, M^*)`.
 If `h⁰(F, M) = 0` and every last summand is at most one, then
 `h¹_L ≤ h¹_{L^⊥} + #Q`. This supplies the strict-at-framing-places bound used with the
@@ -6840,9 +6841,10 @@ sequence and identify the orthogonal complement of `ad⁰` with the scalar matri
 `ad⁰`, the radical is `ad⁰ ∩ k·Id`, which is `k·Id` or `0` according as `n = 0` in `k` or not.
 Apply continuous cochains to the exact sequence of `G`-modules and take its long exact sequence.
 ([Khare–Wintenberger, *Serre's modularity conjecture
-(II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1.4–4.1.6 and remark after
-Lemma 5.3, pp. 41–42, 47–48; Paškūnas–Quast, *On local Galois deformation rings: generalised
-reductive groups*, §1.4.2, published p. 7; §13, Lemma 13.22, published p. 67.) *Needs:*
+(II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1.4, pp. 39–40, for
+`(ad⁰)^∨ ≅ ad/k·Id` and its difference from `ad⁰` when `p = 2`, and the remark after Lemma 5.3,
+pp. 47–48; the matrix algebra is the perfect trace pairing of ArithmeticGaloisRepresentations
+§7.2 with Tau Ceti's `TauCeti.traceBilinForm`.) *Needs:*
 ArithmeticGaloisRepresentations Layer 7, §7.2; Tau Ceti `TauCeti.traceBilinForm`;
 ProfiniteCohomology Layers 5 and 10; Mathlib `groupCohomology`.
 
@@ -7101,18 +7103,17 @@ g = h¹_L(ad⁰) − δ_p + Σ_{v∈S} h⁰(G_v, ad) − h⁰(F, ad),
 ```
 
 and Wiles' formula and the local exact sequences give `g = h¹_{L⊥}((ad⁰)*(1)) + |S| − 1` for this
-problem. If a presentation of the deformation ring as a quotient of a power series ring by an
-ideal `J` comes with an injection `Hom(J/𝔪J, k) ↪ H¹_{L⊥}((ad⁰)*(1))` given by its obstruction map,
-then the number of defining relations is at most `h¹_{L⊥}((ad⁰)*(1))`.
+problem. The relation bound, `dim_k J/𝔪J ≤ h¹_{L⊥}((ad⁰)*(1))` for a presentation with this
+relative tangent dimension, is *The Khare–Wintenberger obstruction pairing* below, which
+constructs the obstruction map rather than assuming it.
 
 *Proof sketch.* Use the trace exact sequence, the image of its connecting map, and the
 identification of the tangent space with Galois cohomology (*First-order Galois cocycle
 comparison*, Layer D8). Apply *The Greenberg–Wiles formula* (Layer R02.5) to `ad⁰` and its true
-dual, and substitute the local and global invariant dimensions of KW Lemma 4.3. For the relation
-bound, take dimensions in the given injection `Hom(J/𝔪J, k) ↪ H¹_{L⊥}((ad⁰)*(1))`.
+dual, and substitute the local and global invariant dimensions of KW Lemma 4.3.
 ([Khare–Wintenberger, *Serre's modularity conjecture
 (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1–4.2 and Lemmas 4.3–4.4,
-pp. 39–43; Lemma 4.6, statement p. 43, proof pp. 43–45.) *Needs:* *The Greenberg–Wiles formula* (Layer R02.5); *Trace-zero
+pp. 39–43.) *Needs:* *The Greenberg–Wiles formula* (Layer R02.5); *Trace-zero
 adjoint duality without division by `n`* (Layer D8); *First-order Galois cocycle comparison* (Layer
 D8).
 
@@ -7126,6 +7127,78 @@ D8).
 - At a real place over `𝔽₂` with `c = [[1, 1], [0, 1]]`, the ordinary invariant dimensions
   on `ad` and `ad⁰` are both `2` and their trace map is zero. Thus `dim L_v = 1` and
   `h⁰(G_v, ad) + dim L_v − h⁰(G_v, ad⁰) = 2 + 1 − 2 = 1`, the local contribution in KW's count.
+
+**The Khare–Wintenberger obstruction pairing.** Keep `F`, `k`, `ρ`, `S`, the fixed determinant `ψ`
+and the local conditions `L_v` of *Khare–Wintenberger tangent and relation bounds* (for `v ∈ S`,
+`L_v` is the image of `H⁰(G_v, ad/ad⁰)` in `H¹(G_v, ad⁰)`, KW §4.1.4, Case 1). Let `O` be a
+complete discrete valuation ring with residue field `k`, and `Λ` a complete local Noetherian
+`O`-algebra with residue field `k` equipped, for each `v ∈ S`, with a continuous lift
+`ρ_v^Λ : G_v → GL₂(Λ)` of `ρ|_{G_v}` of determinant `ψ` (in KW, the completed tensor product of the
+framed fixed-determinant local lifting rings with their universal lifts). Let
+`A = Λ[[X_1, …, X_g]]` with maximal ideal `𝔪`, and `R = A/J` a quotient such that `A → R` is an
+isomorphism on tangent spaces relative to `Λ`. Assume that `R` carries a tuple
+`(ρ_R, (g_v)_{v∈S})`, with `ρ_R : G_{F,S} → GL₂(R)` a continuous lift of `ρ` of determinant `ψ`
+and `g_v ∈ ker(GL₂(R) → GL₂(k))` with `ρ_R|_{G_v} = int(g_v⁻¹) ∘ ρ_v`, where `ρ_v` is the image of
+`ρ_v^Λ` in `R`, and that this tuple is universal for such tuples over complete local Noetherian
+`Λ`-algebras with residue field `k` (as for the framed global deformation ring relative to `Λ` of
+KW Proposition 4.1; the existence of `R` and of the local lifting rings is not part of this
+target). Write `H = H¹_{L⊥}(G_{F,S}, (ad⁰)*(1))`.
+
+For `u ∈ Hom_k(J/𝔪J, k)`, push `0 → J/𝔪J → A/𝔪J → R → 0` out along `u` to a small extension
+`0 → I_u → R_u → R → 0` of `Λ`-algebras, with `I_u ≅ k` for `u ≠ 0`. Choose a continuous
+set-theoretic lift `ρ̃ : G_{F,S} → GL₂(R_u)` of `ρ_R` with determinant `ψ` (possible because `SL₂`
+is smooth), lifts `g̃_v` of the `g_v`, and let `ρ̃_v` be the image of `ρ_v^Λ` in `R_u`. Then
+
+```text
+c(g₁, g₂) = ρ̃(g₁) ρ̃(g₂) ρ̃(g₁g₂)⁻¹ − 1,        ρ̃(g) = (1 + a_v(g)) · int(g̃_v⁻¹)(ρ̃_v(g))  (g ∈ G_v)
+```
+
+define a continuous `2`-cocycle `c` with values in `I_u ⊗ ad⁰ ≅ ad⁰` and local `1`-cochains `a_v`
+with `c|_{G_v} = d a_v`. For a cocycle `x` representing a class of `H`, cup products are taken
+through `(ad⁰)*(1) × ad⁰ → k(1) → μ_p ⊆ E_S`, the middle map induced by the trace of `k/𝔽_p`;
+choose an `E_S`-valued `2`-cochain `z` with `dz = x ∪ c` and set
+
+```text
+⟨[x], u⟩ = Σ_{v∈S} inv_v(x_v ∪ a_v + z_v) ∈ (1/p)ℤ/ℤ.
+```
+
+This value does not depend on `z`, on the representative `x`, on `ρ̃` or on the `g̃_v`; it is
+`𝔽_p`-bilinear with `⟨λx, u⟩ = ⟨x, λu⟩` for `λ ∈ k`, so through the trace form of `k/𝔽_p` it defines
+a `k`-linear map `f : Hom_k(J/𝔪J, k) → Hom_k(H, k)`, and `f` is injective. Consequently
+`dim_k J/𝔪J ≤ dim_k H`, the bound of KW Lemma 4.6.
+
+*Proof sketch.* With the Leibniz rule `d(x ∪ y) = dx ∪ y + (−1)^{deg x} x ∪ dy` of
+ProfiniteCohomology, `d(x_v ∪ a_v) = −x_v ∪ c_v`, so `x_v ∪ a_v + z_v` is a local cocycle. Another
+choice of `z` differs by an `E_S`-valued global `2`-cocycle, whose invariants sum to zero (as in *The
+explicit Poitou–Tate cochain pairing*); `x ↦ x + dy` is absorbed by `z ↦ z + y ∪ c`; `ρ̃ ↦ (1 + b)ρ̃`
+changes `a_v` by `b_v`, `c` by `db` and is absorbed by `z ↦ z − x ∪ b`; `g̃_v ↦ g̃_v(1 + h_v)` changes
+`a_v` by a local coboundary. Bilinearity holds because `c` and `a_v` are the images under `u` of
+cochains with values in `J/𝔪J ⊗ ad⁰`. For injectivity let `f(u) = 0`. On `Ш¹_S((ad⁰)*(1)) ⊆ H` the
+formula is the explicit Poitou–Tate pairing with the class of `c` in `Ш²_S(ad⁰)`, so Poitou–Tate
+nondegeneracy gives `[c] = 0`; choose `ρ̃` a homomorphism and `z = 0`. Then `f(u)` is the image of
+`(a_v)` under `⊕_{v∈S} H¹(G_v, ad⁰)/L_v → H^∨`, and the exact sequence
+`H¹(G_{F,S}, ad⁰) → ⊕_{v∈S} H¹(G_v, ad⁰)/L_v → H^∨` of the Greenberg–Wiles argument gives a global
+cocycle `b` and `h_v ∈ ad` with `b|_{G_v} = a_v + dh_v`. Replacing `ρ̃` by `(1 − b)ρ̃` and `g̃_v` by
+`g̃_v(1 − h_v)` gives a tuple over `R_u` lifting the universal one, hence a `Λ`-algebra section `s`
+of `R_u → R`. Since `J ⊆ 𝔪_Λ A + 𝔪²`, `s` is surjective on relative cotangent spaces, hence
+surjective by Nakayama, so `R_u → R` is injective and `u = 0`. ([Khare–Wintenberger, *Serre's
+modularity conjecture (II)*](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), §4.1.4,
+pp. 39–40; §4.1.6, Lemma 4.6, statement p. 43, proof pp. 43–45.) *Needs:* *The explicit Poitou–Tate
+cochain pairing* (Layer R02.4); *Poitou–Tate duality and the nine-term exact sequence* (Layer
+R02.4); *High-degree cohomology of the S-units* (Layer R02.4); *The Greenberg–Wiles formula*
+(Layer R02.5); *Trace-zero adjoint duality without division by `n`* (Layer D8); *First-order Galois
+cocycle comparison* (Layer D8); *Khare–Wintenberger tangent and relation bounds*.
+
+**Checks.**
+
+- If `H = 0`, injectivity of `f` gives `J/𝔪J = 0`; `J` is finitely generated over the Noetherian
+  local ring `A`, so `J = 0` by Nakayama and `R ≅ Λ[[X_1, …, X_g]]`. If `dim_k H = 1`, then `J` is
+  generated by at most one element.
+- For `u = 0`, `R_u = R`; taking `ρ̃ = ρ_R` and `g̃_v = g_v` gives `c = 0`, `a_v = 0` and `z = 0`, so
+  the pairing vanishes, as its linearity in `u` requires.
+- Replacing `x` by `x + dy` for a `0`-cochain `y`: `(x + dy) ∪ c = x ∪ c + d(y ∪ c)`, so `z` becomes
+  `z + y ∪ c`, and the local term changes by `dy_v ∪ a_v + y_v ∪ c_v = d(y_v ∪ a_v)`, a coboundary
+  with zero invariant.
 
 **Odd-prime Taylor–Wiles auxiliary sets.** Let `p` be odd, `F` totally real and unramified above `p`,
 `k` a finite field of characteristic `p`, and `ρ : G_F → GL₂(k)` totally odd and absolutely

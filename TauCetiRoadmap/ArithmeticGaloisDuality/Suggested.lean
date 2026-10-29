@@ -15,7 +15,8 @@ The statements cover rationalisation of lattice cohomology (R02.1.3); Hermite fi
 finiteness of restricted-ramification `H¹` (R02.3.1); finiteness in every degree, the full
 high-degree real-place restriction theorem and Tate's global Euler characteristic (R02.4.4);
 all-place finite Sha duality over number fields and global function fields, the Grunwald–Wang
-order-two alternative and function-field Tate vanishing (R02.4.5a–R02.4.6); and the continuous
+order-two alternative, function-field central obstruction localization and function-field Tate
+vanishing (R02.4.5a–R02.4.6); and the continuous
 first-order lift–cocycle equivalence over any associative ring (D8.1).
 
 The only supporting constructions are the compositum defining `K_S`, its automorphism group,
@@ -233,6 +234,26 @@ theorem sha_duality
           ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) X 2 →+
           AddCircle (1 : ℚ),
         Function.Bijective b ∧ Function.Bijective b.flip := sorry
+
+/-- Function-field central obstruction localization (R02.4.6): for finite coefficients killed
+by an `n` invertible in `F` whose Kummer dual carries the trivial Galois action, a degree-two
+class that vanishes in every place completion is zero. -/
+theorem centralObstruction_localization
+    (M : Type) [AddCommGroup M] [Finite M] [TopologicalSpace M] [DiscreteTopology M]
+    [DistribMulAction (TauCeti.AbsoluteGaloisGroup F) M]
+    [ContinuousSMul (TauCeti.AbsoluteGaloisGroup F) M]
+    (n : ℕ) (hn : 0 < n) (hchar : IsUnit (n : F)) (hM : ∀ x : M, n • x = 0)
+    (htriv : ∀ (g : TauCeti.AbsoluteGaloisGroup F)
+      (φ : TauCeti.InternalHom (TauCeti.AbsoluteGaloisGroup F) M (TauCeti.KummerCoeff F n)),
+      g • φ = φ) :
+    letI : ∀ v : TauCeti.Place k F, Field v.Completion := fun _ => inferInstance
+    letI : ∀ v : TauCeti.Place k F, Algebra F v.Completion :=
+      fun v => v.completionEmbedding.toRingHom.toAlgebra
+    let X := TopRep.res (TauCeti.absoluteGaloisGroupRestrictEquiv F).toMonoidHom
+      (TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup F) M)
+    Subsingleton
+      (ContinuousCohomology.tateShafarevich (fun v : TauCeti.Place k F => v.Completion) X 2) :=
+  sorry
 
 /-- Tate vanishing for the prime-to-characteristic part of trivial `ℚ/ℤ` coefficients
 over a global function field (R02.4.6). The coefficient is Mathlib's actual primary component
