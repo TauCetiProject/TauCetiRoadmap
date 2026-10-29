@@ -1,25 +1,25 @@
 # Effective bounds: native-source evidence
 
 This is evidence against the full [roadmap README](README.md), which remains definitive.
-The native certificate below was checked on 2026-10-28 with Lean `4.36.0-rc1` and Mathlib
-`2cabef97b63d3275776b8b060d802de6a6fa1055`, in local true-merge integration
-`4d80c8b09b99ba15806968a60a95ae4d7028912c`, based on actual Tau Ceti main
-[`302238ea98ea`](https://github.com/TauCetiProject/TauCeti/commit/302238ea98ea621d689041f67e935f0b4eb1285e).
-That base already contains Layer 0's Mathlib reconciliation from
-[#22092](https://github.com/TauCetiProject/TauCeti/pull/22092) (`35edf89e32bd`); the integration
-adds the exact heads of [#22059](https://github.com/TauCetiProject/TauCeti/pull/22059)
-(`bc20ab2249ca`) and [#22064](https://github.com/TauCetiProject/TauCeti/pull/22064)
-(`1b334efdcc44`) without conflict resolutions or source patches. All fifteen inventory modules
-build, and the verbatim certificate plus supplementary scope probes produce eleven axiom
-reports containing only the standard three axioms.
+The native certificate below was checked on 2026-10-29 with Lean `4.36.0-rc1` and Mathlib
+`2cabef97b63d3275776b8b060d802de6a6fa1055`, on actual Tau Ceti main
+[`bfee8dc2e376`](https://github.com/TauCetiProject/TauCeti/commit/bfee8dc2e376b98439f7b7c3ecdd2d82aad183b9).
+All fifteen inventory modules build there (8,513 Lake jobs), and the verbatim certificate plus
+supplementary nonzero/nontorsion height-gap and Euclidean measure/covolume probes compile with
+warnings treated as errors. Their eleven axiom reports contain only `propext`,
+`Classical.choice`, and `Quot.sound`. No source or integration patches were needed.
 
-Both #22092 and #22064 have since passed genuine CI and landed through the ordinary pipeline.
-Their changed source files match actual main
-[`40eaa661fe7a`](https://github.com/TauCetiProject/TauCeti/commit/40eaa661fe7abb44c5e87aac7bdd2ca66011e972)
-byte for byte. #22059 has all ten normal review rubrics and genuine CI passing, but its ordinary
-merge is still required. The full inventory must then be replayed on actual main before this
-document supports an archive declaration. The local integration alone does not establish that
-the regulator bound has merged.
+Layer 0's Mathlib reconciliation from
+[#22092](https://github.com/TauCetiProject/TauCeti/pull/22092) (`35edf89e32bd`), the regulator bound
+from [#22059](https://github.com/TauCetiProject/TauCeti/pull/22059) (`bc20ab2249ca`), and the
+covolume normalization from [#22064](https://github.com/TauCetiProject/TauCeti/pull/22064)
+(`1b334efdcc44`) have all landed through the normal review, CI and Bors pipeline. #22059's own
+[Bors batch 2129 CI](https://github.com/TauCetiProject/TauCeti/actions/runs/40806766981) passed all
+four jobs, including 54,056 offline build jobs and the standard-only axiom audit of 424,065
+declarations. Its tested candidate and tree match actual main. Six of the seven changed source
+files across these PRs match the reviewed heads exactly; `Height/House.lean` also contains an
+additive Liouville-bound section from #19276, with every existing #22059 declaration and proof
+retained verbatim.
 
 The repository's [Suggested.lean](Suggested.lean) remains a historical prototype checked against
 the roadmap checkout's Lean `4.35.0-rc3`, Tau Ceti `358314d4ab97`, and Mathlib `f6090c7095e1` pins.
@@ -41,7 +41,7 @@ block below is a separate current-source check, extracted verbatim and run with
 | Layer 1: class number | [`classNumber_le_bound`](https://github.com/TauCetiProject/TauCeti/blob/dcf283057e3c0f0a98976fea21b2dec8f4316fb5/TauCeti/NumberTheory/EffectiveBounds/ClassNumber/Basic.lean) proves `h_K ≤ |d_K|·4ⁿ`, using the explicit ideal count and Mathlib's ideal representative of bounded norm. |
 | Layer 1: unit squares and its group prerequisite | [`units_sq_index_le`](https://github.com/TauCetiProject/TauCeti/blob/dcf283057e3c0f0a98976fea21b2dec8f4316fb5/TauCeti/NumberTheory/EffectiveBounds/UnitSquares/Basic.lean) bounds the square-subgroup index by `2ⁿ`. The abstract [group square-index API](https://github.com/TauCetiProject/TauCeti/blob/dcf283057e3c0f0a98976fea21b2dec8f4316fb5/TauCeti/Algebra/Group/PowMonoidHom.lean) is consumed in its canonical square-subgroup vocabulary. |
 | Layer 2: effective Hermite–Minkowski | [HermiteCount/Basic.lean](https://github.com/TauCetiProject/TauCeti/blob/dcf283057e3c0f0a98976fea21b2dec8f4316fb5/TauCeti/NumberTheory/EffectiveBounds/HermiteCount/Basic.lean) supplies the explicit coefficient bound, bounded integral generator, and `ncard_setOf_finiteDimensional_abs_discr_le_le`, bounding the number of subfields of a fixed ambient `A/ℚ` by `(2C+1)^(D+1)·D`. It consumes Mathlib's discriminant/degree/primitive-generator estimates and counts bounded integer polynomials; qualitative finiteness is not substituted for the requested count. |
-| Layer 3: an explicit positive lower bound in every rank | [UnitHeight.lean](https://github.com/TauCetiProject/TauCeti/blob/bc20ab2249ca9bb9beec195e114861c9edffdf23/TauCeti/NumberTheory/EffectiveBounds/UnitHeight.lean) defines the natural-number expression `N(d) = ∑ₖ₌₀ᵈ k·(2·4ᵏ+1)ᵏ` and `δ(d) = log(2)/(N(d)+1)`, proves the nontorsion-unit **relative** logarithmic-height gap `δ(d)`, and [Regulator.lean](https://github.com/TauCetiProject/TauCeti/blob/bc20ab2249ca9bb9beec195e114861c9edffdf23/TauCeti/NumberTheory/EffectiveBounds/Regulator.lean) proves `0 < δ(d)^r/r! ≤ R_K`. It combines an explicit bounded-house count with Minkowski's unit-lattice theorem; no ineffective Northcott minimum is chosen. No factor of `d` from absolute-height normalization is omitted. The formula includes rank zero, where it equals one. **Archive prerequisite: #22059.** |
+| Layer 3: an explicit positive lower bound in every rank | [UnitHeight.lean](https://github.com/TauCetiProject/TauCeti/blob/bc20ab2249ca9bb9beec195e114861c9edffdf23/TauCeti/NumberTheory/EffectiveBounds/UnitHeight.lean) defines the natural-number expression `N(d) = ∑ₖ₌₀ᵈ k·(2·4ᵏ+1)ᵏ` and `δ(d) = log(2)/(N(d)+1)`, proves the nontorsion-unit **relative** logarithmic-height gap `δ(d)`, and [Regulator.lean](https://github.com/TauCetiProject/TauCeti/blob/bc20ab2249ca9bb9beec195e114861c9edffdf23/TauCeti/NumberTheory/EffectiveBounds/Regulator.lean) proves `0 < δ(d)^r/r! ≤ R_K`. It combines an explicit bounded-house count with Minkowski's unit-lattice theorem; no ineffective Northcott minimum is chosen. No factor of `d` from absolute-height normalization is omitted. The formula includes rank zero, where it equals one. **Present on actual main `bfee8dc2e376`.** |
 | Layer 3: full unit-log volume normalization | [Log/Covolume.lean](https://github.com/TauCetiProject/TauCeti/blob/1b334efdcc4441eb8ca3880cbbb3f27a75e8d46e/TauCeti/NumberTheory/NumberField/Units/Log/Covolume.lean) proves the covolume of the existing `TauCeti.fullUnitLattice K`, for its explicitly transported induced Euclidean measure, is `√(r+1)·NumberField.Units.regulator K`. The full logarithms retain weight one at real places and weight two at complex places. The regulator is Mathlib's canonical regulator, and the number-field and measure hypotheses appear in the checked statement below. **Present on actual main `40eaa661fe7a`.** |
 | Layer 3: volumes feeding the analytic class number formula | Mathlib already proves [`fundamentalCone.volume_normLeOne`](https://github.com/leanprover-community/mathlib4/blob/2cabef97b63d3275776b8b060d802de6a6fa1055/Mathlib/NumberTheory/NumberField/CanonicalEmbedding/NormLeOne.lean) with factor `2^r₁·π^r₂·R_K`, and the [Dedekind-zeta residue/class-number formula](https://github.com/leanprover-community/mathlib4/blob/2cabef97b63d3275776b8b060d802de6a6fa1055/Mathlib/NumberTheory/NumberField/DedekindZeta.lean). These are consumed as existing exact identities. The additional full-log Euclidean normalization is proved in #22064. |
 | Worked example: `ℚ(√−5)` | [MinusFive/ClassNumber.lean](https://github.com/TauCetiProject/TauCeti/blob/dcf283057e3c0f0a98976fea21b2dec8f4316fb5/TauCeti/NumberTheory/Multiquadratic/MinusFive/ClassNumber.lean) computes the actual class number two. The checked example below uses the named `AdjoinRoot (X²+5)` field, its degree two and discriminant `−20`, and specializes the general class-number bound to `2 ≤ 20·16`. |
@@ -56,8 +56,8 @@ files retain their credit to `kim-em/erdos-unit-distance`.
 
 ## Current-source certificate
 
-The following complete block was extracted without rewriting, checked in the native-source
-integration with warnings treated as errors, and audited by its six `#print axioms` commands.
+The following complete block was extracted without rewriting, checked on actual main
+`bfee8dc2e376` with warnings treated as errors, and audited by its six `#print axioms` commands.
 All six lists contain only `propext`, `Classical.choice`, and `Quot.sound`.
 
 ```lean
