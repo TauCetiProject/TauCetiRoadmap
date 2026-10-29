@@ -1,11 +1,18 @@
 # Conformal mapping: completion audit
 
+**Archive candidate.** Later source refactors removed the Mathlib #33505 prior-work references
+from `Conformal/Morera.lean` and `Conformal/Hurwitz.lean`. The full README requires these
+references in every L0–L3 file. [Tau Ceti #22743](https://github.com/TauCetiProject/TauCeti/pull/22743)
+restores them and must pass normal review and genuine CI, land on main, and be checked there
+before this archive is declared complete. The historical mathematical replay below remains
+evidence for its stated revision; it does not establish that this later repair has landed.
+
 The complete [README](README.md), including the general planar Jordan-separation target of L5,
 is the completion criterion. The historical interface file is neither exhaustive nor the
 criterion. Prime ends and the siblings’ metric-measure and winding-number comparisons keep
 their stated owners; none has been substituted for the Jordan-domain target.
 
-The final source prerequisite [Tau Ceti #21991](https://github.com/TauCetiProject/TauCeti/pull/21991)
+The Jordan-separation prerequisite [Tau Ceti #21991](https://github.com/TauCetiProject/TauCeti/pull/21991)
 was reported merged by Bors on 2026-10-28. Direct comparison with upstream
 `f5604a97062487140a029c405f32d8f199f2316b` confirms the full Jordan inside/frontier and two-component
 results remain present. A subsequent refactor exposes the stronger component-classification
@@ -38,4 +45,4 @@ Mathlib `f6090c7095e1`, Lean `4.35.0-rc3`. Its old API names are historical. The
 uses Mathlib `2cabef97b63d` and Lean `4.36.0-rc1`; it verifies current source rather than
 mistaking the old-pin certificate for current-main presence.
 
-AI assistance: scope, source and acceptance audit with Codex (GPT-6), 2026-10-28.
+AI assistance: scope, source and acceptance audit with Codex (GPT-6), 2026-10-28–29.

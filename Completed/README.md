@@ -62,7 +62,7 @@ revision against which an earlier version elaborated.
 - [global number fields, ray classes, adeles, and Hecke characters](GlobalNumberFields/README.md)
   (declared complete 2026-10-28)
 - [Conformal mapping and the geometric theory of holomorphic functions](ConformalMapping/README.md)
-  (declared complete 2026-10-08)
+  (archive candidate 2026-10-29; awaiting citation repair PR #22743)
 - [peripheral actions on free pro-`p` groups](PeripheralActions/README.md)
   (declared complete 2026-10-28)
 - [analytic toric geometry](AnalyticToricGeometry/README.md)
