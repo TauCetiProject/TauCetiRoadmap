@@ -2,32 +2,33 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Comap
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
-import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
 # Perfectoid towers: target signatures
 
-The README is the specification of this roadmap. This file states those of its headline
-theorems whose objects Mathlib, Tau Ceti and the perfectoid carriers of PerfectoidSpaces already
-provide: the invariant Huber pair of a finite group action on a Tate ring and the orbit space of
-its adic spectrum (P8.1–P8.2), invariants of a perfectoid Tate ring (P8.4), categorical quotients
-of pre-adic spaces with invertible group order and of perfectoid spaces under an invariant affinoid
-perfectoid cover (P8.6–P8.9), clean neighbourhoods (P8.13), perfectoidisation of integral
-extensions and of integral extensions of perfectoid pairs (P8.18), and the affine forms of torsor
-descent: descent of finite projective modules (P9.8), twisted invariants, their finite-level
-comparison and the finite projective rank-one finite-level line (P9.9–P9.10), and integral
-effectivity in a chosen frame (P9.13).
+The roadmap is `README.md`; this file is not the roadmap. It states those of the roadmap's
+headline theorems whose objects Mathlib and Tau Ceti already provide at the pinned versions:
+the invariant Huber pair of a finite group action on a Tate ring and the orbit space of its adic
+spectrum (P8.1–P8.2), categorical quotients of pre-adic spaces with invertible group order
+(P8.6, P8.9), clean neighbourhoods (P8.13), and the affine forms of torsor descent: descent of
+finite projective modules (P9.8), twisted invariants, their finite-level comparison and the finite
+projective rank-one finite-level line (P9.9–P9.10), and integral effectivity in a chosen frame
+(P9.13).
 
-The following headlines are not statable at the pins and stay README targets:
-the diamond of a finite quotient and free quotients as torsors (P8.11–P8.12), which need
-quotients of v-sheaves and the diamond functor of DiamondsAndVStacks; the closed-locus comparison
-in perfectoid towers (HJ Lemma 5.7, P8.21), which needs limits of v-sheaves over perfectoid test
-spaces; finite quotients of analytically separated perfectoid spaces and of good towers (HJ
-Theorem 5.8 and Proposition 5.13, P8.17 and P8.20), which need
-analytic separation and good towers, both defined through diamonds; and the geometric descent
-statements of P9 (functions, finite locally free modules and twisted character sheaves along a
-pro-étale Galois tower, P9.2–P9.12), which need the completed structure sheaves of the pro-étale
-site and pro-étale Galois towers. The boundary theorems below are named Checks of the README.
+The following headlines are not statable at the pins and stay README targets. Invariants of a
+perfectoid Tate ring are perfectoid (P8.4) and the perfectoid quotient under an invariant
+affinoid perfectoid cover (P8.7–P8.8) need the perfectoid Tate predicate, the category of
+perfectoid spaces and the affinoid perfectoid predicate, which PerfectoidSpaces defines and the
+pinned libraries do not. Perfectoidisation of an integral extension and of an integral extension
+of perfectoid pairs (P8.18) need the integral perfectoid and perfectoid Tate predicates of
+PerfectoidSpaces. The diamond of a finite quotient and free quotients as torsors (P8.11–P8.12)
+need quotients of v-sheaves and the diamond functor of DiamondsAndVStacks; the closed-locus
+comparison in perfectoid towers (HJ Lemma 5.7, P8.21) needs limits of v-sheaves over perfectoid
+test spaces; finite quotients of analytically separated perfectoid spaces and of good towers (HJ
+Theorem 5.8 and Proposition 5.13, P8.17 and P8.20) need analytic separation and good towers, both
+defined through diamonds; and the geometric descent statements of P9 (functions, finite locally
+free modules and twisted character sheaves along a pro-étale Galois tower, P9.2–P9.12) need the
+completed structure sheaves of the pro-étale site and pro-étale Galois towers.
 -/
 
 noncomputable section
@@ -35,8 +36,6 @@ noncomputable section
 namespace TauCetiRoadmap.PerfectoidTowers
 
 open TauCeti TauCeti.Huber CategoryTheory Topology TensorProduct
-open TauCetiRoadmap.PerfectoidSpaces TauCetiRoadmap.PerfectoidSpaces.Perfectoid
-  TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace
 
 universe u
 
@@ -109,24 +108,6 @@ theorem invariant_spectrum_homeomorphism [Finite G] [ContinuousConstSMul G A] (P
 
 end InvariantPair
 
-/-! ### Invariants of a perfectoid Tate ring -/
-
-section PerfectoidInvariants
-
-variable (p : ℕ) [Fact p.Prime] (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
-  [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A] [hA : IsPerfectoidTateRing p A]
-  (G : Type*) [Group G] [Finite G] [MulSemiringAction G A] [ContinuousConstSMul G A]
-
-include hA
-
-/-- **Invariants of a perfectoid Tate ring are perfectoid.** For a finite group acting by
-continuous ring automorphisms, `A^G` with the subspace topology is a perfectoid Tate ring; `p`
-may divide `|G|` and no base field is fixed (KL16 Theorem 3.3.26, p. 68; Hansen Theorem 3.6,
-p. 9). -/
-theorem invariants_perfectoid : IsPerfectoidTateRing p (FixedPoints.subring A G) := sorry
-
-end PerfectoidInvariants
-
 /-! ### Categorical quotients of pre-adic spaces -/
 
 section Quotient
@@ -154,27 +135,6 @@ example {X : PreAdicSpace.{u}} (ρ : G →* Aut X) (g : G) (hg : ρ g ≠ 1) :
     ¬ IsCategoricalQuotient ρ (𝟙 X) := fun h ↦
   hg (Iso.ext ((Category.comp_id (ρ g).hom).symm.trans (h.invariant g)))
 
--- Check: for the trivial action the identity is a categorical quotient.
-example {X : PreAdicSpace.{u}} (ρ : G →* Aut X) (h : ∀ g, ρ g = 1) :
-    IsCategoricalQuotient ρ (𝟙 X) := by
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · intro g
-    rw [h g]
-    change (𝟙 X) ≫ 𝟙 X = 𝟙 X
-    simp
-  · intro Z f _
-    exact ⟨f, by simp, fun k hk ↦ by simpa using hk⟩
-  · exact IsQuotientMap.id
-  · intro x y
-    constructor
-    · intro hxy
-      refine ⟨1, ?_⟩
-      rw [h 1]
-      exact hxy
-    · rintro ⟨g, hg⟩
-      rw [h g] at hg
-      exact hg
-
 /-- An affinoid pre-adic space `Spa(A, A⁺)` with `A` a Tate ring. -/
 def isTateAffinoidModel : ObjectProperty PreAdicSpace.{u} := fun X ↦
   ∃ (A : Type u) (_ : CommRing A) (_ : TopologicalSpace A) (_ : IsTopologicalRing A)
@@ -186,38 +146,11 @@ def isTateAffinoidModel : ObjectProperty PreAdicSpace.{u} := fun X ↦
 abbrev isTateAffinoid : ObjectProperty PreAdicSpace.{u} :=
   isTateAffinoidModel.isoClosure
 
--- Check (`isTateAffinoid_le_isAffinoid`): a Tate affinoid is affinoid in Tau Ceti's sense.
+-- Check (isTateAffinoid_le_isAffinoid): a Tate affinoid is affinoid in Tau Ceti's sense, with
+-- the Tate condition supplying the Huber one.
 example : isTateAffinoid.{u} ≤ PreAdicSpace.isAffinoid := by
   rintro X ⟨Y, ⟨A, iA, tA, hA, hT, S, P, hP, rfl⟩, ⟨e⟩⟩
   exact ⟨_, ⟨A, iA, tA, hA, hT.toIsHuberRing, S, P, hP, rfl⟩, ⟨e⟩⟩
-
--- Check (`isTateAffinoid_spa`): `Spa(A, A⁺)` of a Tate–Huber pair is a Tate affinoid.
-example {A : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsTateRing A]
-    (S : Pair A) (P : PairOfDefinition A) (hP : P.ringOfDefinition ≤ S.plus) :
-    isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace P S.plus
-      S.isRingOfIntegralElements.isPowerBounded_of_mem hP) :=
-  ObjectProperty.le_isoClosure _ _ ⟨A, inferInstance, inferInstance, inferInstance, inferInstance,
-    S, P, hP, rfl⟩
-
-/-- The boundary Check `isTateAffinoid_zero` of P8.9: the zero pair is a Tate affinoid
-with empty spectrum. -/
-theorem isTateAffinoid_zero :
-    ∃ hT : IsTateRing PUnit,
-      letI := hT
-      let S := Pair.discrete PUnit
-      let P := PairOfDefinition.discrete PUnit
-      ∃ hP : P.ringOfDefinition ≤ S.plus,
-        isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace P S.plus
-          S.isRingOfIntegralElements.isPowerBounded_of_mem hP) ∧
-        IsEmpty (ValuationSpectrum.spa S.plus) := sorry
-
-/-- The boundary Check `isTateAffinoid_not_padic_integers` of P8.9: the integral p-adic
-spectrum is not Tate affinoid because it has a nonanalytic point with support `(p)`. -/
-theorem isTateAffinoid_not_padic_integers (p : ℕ) [Fact p.Prime]
-    (S : Pair ℤ_[p]) (P : PairOfDefinition ℤ_[p])
-    (hP : P.ringOfDefinition ≤ S.plus) :
-    ¬ isTateAffinoid (ValuationSpectrum.presentationLimitPreAdicSpace P S.plus
-      S.isRingOfIntegralElements.isPowerBounded_of_mem hP) := sorry
 
 /-- **Adic quotients with invertible group order.** Let `X` be an adic space with an action of a
 finite group `G` whose order is invertible in `O_X(X)`, covered by `G`-stable open Tate affinoids
@@ -234,24 +167,6 @@ theorem exists_isCategoricalQuotient_of_invertible_order [Fintype G] (X : PreAdi
         isTateAffinoid (X.restrict U.isOpenEmbedding) →
         ∃ V : TopologicalSpace.Opens Y, q.base ⁻¹' V = U ∧
           isTateAffinoid (Y.restrict V.isOpenEmbedding) :=
-  sorry
-
-/-- **Perfectoid quotients under an invariant affinoid perfectoid cover.** Let `X` be a
-perfectoid space with an action of a finite group `G`, covered by `G`-stable open affinoid
-perfectoid subspaces `U_i = Spa(A_i, A_i⁺)`. Then the categorical quotient `X/G` is a perfectoid
-space, `|X/G| = |X|/G`, and every `G`-stable open affinoid perfectoid `U` maps onto an open
-affinoid perfectoid `U/G = Spa(A^G, A^{+G})` with preimage `U`. There is no condition on `|G|`
-(CGJ Theorem 2.1.2, p. 5, and Proposition 2.1.3(2), p. 5). -/
-theorem exists_isCategoricalQuotient_of_invariant_cover (p : ℕ) [Fact p.Prime] [Finite G]
-    (X : Perfd.{u} p) (ρ : G →* Aut X.obj)
-    (hcov : ∀ x : X.obj, ∃ U : TopologicalSpace.Opens X.obj, x ∈ U ∧
-      (∀ g : G, (ρ g).hom.base ⁻¹' U = U) ∧
-      isAffinoidPerfectoid p (X.obj.restrict U.isOpenEmbedding)) :
-    ∃ (Y : Perfd.{u} p) (q : X.obj ⟶ Y.obj), IsCategoricalQuotient ρ q ∧
-      ∀ U : TopologicalSpace.Opens X.obj, (∀ g : G, (ρ g).hom.base ⁻¹' U = U) →
-        isAffinoidPerfectoid p (X.obj.restrict U.isOpenEmbedding) →
-        ∃ V : TopologicalSpace.Opens Y.obj, q.base ⁻¹' V = U ∧
-          isAffinoidPerfectoid p (Y.obj.restrict V.isOpenEmbedding) :=
   sorry
 
 end Quotient
@@ -286,70 +201,9 @@ example (x : X) (U : Set X) (g : G) (hg : g • x ≠ x) (y : X) (hy : y ∈ U) 
     ¬ IsGClean G x U := fun h ↦
   Set.disjoint_left.mp (h.disjoint_smul g hg) hgy ⟨y, hy, rfl⟩
 
--- Check: for the trivial action every open neighbourhood of `x` is clean.
-example (h : ∀ (g : G) (y : X), g • y = y) (x : X) (U : Set X) :
-    IsGClean G x U ↔ IsOpen U ∧ x ∈ U := by
-  refine ⟨fun hU ↦ ⟨hU.isOpen, hU.mem⟩, fun ⟨hU, hx⟩ ↦ ⟨hU, hx, fun g _ ↦ ?_, fun g hg ↦ ?_⟩⟩
-  · simp [h]
-  · exact absurd (h g x) hg
-
 end MulAction
 
-/-! ### Perfectoidisation of integral extensions -/
-
-section Perfectoidization
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- **Perfectoidisation of an integral extension.** For an integral map `R → S` out of an
-integral perfectoid ring there is an initial integral perfectoid ring `S_perfd` under `S`
-(BS22 Theorem 1.17(1), p. 9, and Theorem 10.11, p. 82). In characteristic `p` it is the
-perfection of `S`. -/
-theorem exists_perfectoidization {R S : Type u} [CommRing R] [CommRing S]
-    [IsIntegralPerfectoid p R] (f : R →+* S) (hf : f.IsIntegral) :
-    ∃ (T : Type u) (_ : CommRing T) (_ : IsIntegralPerfectoid p T) (ι : S →+* T),
-      ∀ (B : Type u) [CommRing B] [IsIntegralPerfectoid p B] (g : S →+* B),
-        ∃! h : T →+* B, h.comp ι = g :=
-  sorry
-
-/-- **Integral extensions of perfectoid pairs.** For a map of Tate–Huber pairs
-`(R, R⁺) → (S, S⁺)` with `R` perfectoid and `R⁺ → S⁺` integral, there is a perfectoid Tate pair
-`(T, T⁺)` under `(S, S⁺)` such that maps of pairs `(T, T⁺) → (B, B⁺)` correspond to maps
-`(S, S⁺) → (B, B⁺)` for every perfectoid Tate pair; thus `Spd(S, S⁺)` is represented by the
-affinoid perfectoid space `Spa(T, T⁺)` (HJ Lemma 5.10, p. 32). -/
-theorem integral_extension_of_perfectoid_pair {R S : Type u} [CommRing R] [UniformSpace R]
-    [IsUniformAddGroup R] [IsTopologicalRing R] [IsTateRing R] [CompleteSpace R] [T2Space R]
-    [IsPerfectoidTateRing p R] [CommRing S] [TopologicalSpace S] [IsTopologicalRing S]
-    [IsTateRing S] (P : Pair R) (Q : Pair S) (f : Pair.Hom P Q)
-    (hf : (f.toRingHom.restrict P.plus Q.plus f.map_mem_plus).IsIntegral) :
-    ∃ (T : Type u) (_ : CommRing T) (_ : UniformSpace T) (_ : IsUniformAddGroup T)
-      (_ : IsTopologicalRing T) (_ : IsTateRing T) (_ : CompleteSpace T) (_ : T2Space T)
-      (_ : IsPerfectoidTateRing p T) (Tplus : Pair T) (g : Pair.Hom Q Tplus),
-      ∀ (B : Type u) [CommRing B] [UniformSpace B] [IsUniformAddGroup B] [IsTopologicalRing B]
-        [IsTateRing B] [CompleteSpace B] [T2Space B] [IsPerfectoidTateRing p B] (Bplus : Pair B)
-        (h : Pair.Hom Q Bplus),
-        ∃! k : T →+* B, Continuous k ∧ (∀ t ∈ Tplus.plus, k t ∈ Bplus.plus) ∧
-          k.comp g.toRingHom = h.toRingHom :=
-  sorry
-
-end Perfectoidization
-
 /-! ## Layer P9: continuous torsor descent with coefficients -/
-
-/-! ### Continuous coefficients
-
-The cochain model of P9.0 requires joint continuity of the representation action. The following
-boundary theorem gives the discrete regular-representation counterexample. The completed
-tower-section actions use the lattice-preservation argument of P9.5 with their integral and
-rational topologies.
--/
-
-/-- The boundary Check `cech_operators_without_joint_continuity` of P9.5: translation
-on the discrete regular module over `ℤ₂` has a discontinuous degree-zero differential. -/
-theorem cech_operators_without_joint_continuity :
-    letI : TopologicalSpace (PadicInt 2 →₀ ℤ) := ⊥
-    ¬ Continuous (fun h : PadicInt 2 ↦
-      Finsupp.single h (1 : ℤ) - Finsupp.single 0 (1 : ℤ)) := sorry
 
 /-! ### Twisted invariants -/
 
@@ -372,13 +226,6 @@ def twistedInvariants (c : G → Rˣ) : Submodule (FixedPoints.subring R G) R wh
     change γ • ((a : R) * f) = (((c γ)⁻¹ : Rˣ) : R) * ((a : R) * f)
     rw [smul_mul', a.property γ, hf γ]
     ring
-
--- Check: for the trivial cocycle the twisted invariants are the invariants.
-example (f : R) :
-    f ∈ twistedInvariants (fun _ : G ↦ (1 : Rˣ)) ↔ f ∈ FixedPoints.subring R G := by
-  change (∀ γ : G, γ • f = (((1 : Rˣ)⁻¹ : Rˣ) : R) * f) ↔ _
-  simp only [inv_one, Units.val_one, one_mul]
-  rfl
 
 end TwistedInvariants
 
