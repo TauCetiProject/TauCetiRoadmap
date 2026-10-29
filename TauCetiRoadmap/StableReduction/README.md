@@ -179,58 +179,125 @@ hypotheses.
   proof. Characteristic zero, perfect residue fields, and semistable reduction of the
   Jacobian are not hypotheses of the main theorem.
 
-## Inventory: what Mathlib and Tau Ceti already give us
+## Exact supplier contracts
 
-This inventory was checked on 2026-08-26 against Tau Ceti commit
-`e8af08d0aeda4012832880bd56edfc88af061691` and the Mathlib commit pinned by that Tau Ceti
-checkout and this roadmap repository, `05ae0103f49b1ad1248f6039bbbad43d8aeb52a9`.
+Every declaration named in the Mathlib and Tau Ceti paragraphs exists at the pinned Mathlib and
+Tau Ceti, in the file given. Several targets of Layers 0, 1, 2, 4 and 6 are already implemented in
+Tau Ceti; later layers consume them by the names below and never build a second copy. A contract
+in the roadmap paragraphs is a milestone, not a claim that the indicated declaration exists.
 
-### Consume from Mathlib
+### From Mathlib
 
-- **Schemes, pullbacks, and fibres:** `Mathlib/AlgebraicGeometry/{Scheme,Pullbacks,Fiber}.lean`;
-  in particular `Scheme.Hom.fiber`, the morphism to `Spec κ(s)`, and compatibility of
-  fibres with pullback.
-- **Scheme modules and smooth loci:** `AlgebraicGeometry/Modules/{Presheaf,Sheaf,Tilde}.lean`
-  supplies the scheme-module sheaf framework and affine presentation/tilde API;
+- **Schemes, pullbacks, and fibres:** `Mathlib/AlgebraicGeometry/{Scheme,Pullbacks}.lean`, and
+  `Scheme.Hom.fiber` in `Mathlib/AlgebraicGeometry/Fiber.lean` with its morphism to `Spec κ(s)`.
+- **Scheme modules and smooth loci:** `Mathlib/AlgebraicGeometry/Modules/{Presheaf,Sheaf,Tilde}.lean`
+  supplies the scheme-module sheaf framework and the affine presentation and tilde API;
   `SheafOfModules.IsQuasicoherent` and `SheafOfModules.IsFinitePresentation` are defined in
-  `Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean`. Also,
-  `Scheme.Hom.smoothLocus` in `Morphisms/Smooth.lean` supplies the open smooth locus used
-  for markings. Extend these APIs with the operations needed below rather than defining new
-  quasi-coherence or finite-presentation predicates.
-- **Morphism properties:** `Proper`, `Flat`, `LocallyOfFinitePresentation`, `Smooth`,
-  `SmoothOfRelativeDimension`, `Separated`, `Finite`, `Etale`, `ClosedImmersion`, and their
-  base-change/descent API under `Mathlib/AlgebraicGeometry/Morphisms/`.
-- **Geometric predicates:** geometrically connected, reduced, irreducible, and integral
-  morphisms under `Mathlib/AlgebraicGeometry/Geometrically/`.
+  `Mathlib/Algebra/Category/ModuleCat/Sheaf/Quasicoherent.lean`; `Scheme.Hom.smoothLocus` in
+  `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean` is the open smooth locus used for markings.
+  Extend these APIs with the operations needed below rather than defining new quasi-coherence
+  or finite-presentation predicates.
+- **Morphism properties:** `IsProper`, `Flat`, `LocallyOfFinitePresentation`, `QuasiCompact`,
+  `QuasiSeparated`, `Smooth`, `SmoothOfRelativeDimension`, `IsSeparated`, `IsFinite`, `Etale`
+  and `IsClosedImmersion`, with their base-change and descent API, under
+  `Mathlib/AlgebraicGeometry/Morphisms/`; ideal sheaves and closed subschemes through
+  `Scheme.IdealSheafData` in `Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean`.
+- **Geometric predicates:** `GeometricallyConnected`, `GeometricallyReduced`,
+  `GeometricallyIrreducible` and `GeometricallyIntegral` under
+  `Mathlib/AlgebraicGeometry/Geometrically/`.
 - **Valuative criterion:** `AlgebraicGeometry.ValuativeCommSq`,
   `ValuativeCriterion.Existence`, `ValuativeCriterion.Uniqueness`, and
   `AlgebraicGeometry.IsProper.eq_valuativeCriterion` in `Mathlib/AlgebraicGeometry/ValuativeCriterion.lean`.
   The file explicitly leaves reduction from arbitrary valuation rings to DVRs over a
   Noetherian base as future work; build that connection rather than assuming it.
-- **Valuation and DVR algebra:** `ValuationRing`, `IsDiscreteValuationRing`, fraction rings,
-  localization, integral closure in a finite extension, and the fact that the integral
-  closure of a Dedekind domain in a finite separable extension is Dedekind, under
-  `Mathlib/RingTheory/{Valuation,DedekindDomain,Localization}/`.
-- **Normalization and properness ingredients:** relative normalization and Zariski's main
-  theorem; ideal sheaves and closed subschemes; `Proj` of a graded ring and its properness.
+- **Valuation and DVR algebra:** `ValuationRing`, `IsDiscreteValuationRing`, `IsFractionRing`,
+  `IsLocalization.AtPrime` and `integralClosure`; the integral closure of a Dedekind domain in
+  a finite separable extension of its fraction field is Dedekind and is Noetherian over it
+  (`integralClosure.isDedekindDomain` and `IsIntegralClosure.isNoetherian` in
+  `Mathlib/RingTheory/DedekindDomain/IntegralClosure.lean`); regular local rings as
+  `IsRegularLocalRing` in `Mathlib/RingTheory/RegularLocalRing/Defs.lean`.
+- **Normalization and properness ingredients:** relative normalization
+  (`Mathlib/AlgebraicGeometry/Normalization.lean`), Zariski's main theorem
+  (`Mathlib/AlgebraicGeometry/ZariskisMainTheorem.lean`), and `Proj` of a graded ring with the
+  properness of `Proj.toSpecZero` (`Mathlib/AlgebraicGeometry/ProjectiveSpectrum/Proper.lean`).
   These are ingredients, not a blowup, relative `Proj`, ample-line-bundle, or general
-  projective-morphism API.
-- **Abstract cohomology:** sheaf cohomology on a site and Čech/Mayer–Vietoris machinery.
-  This is not yet coherent cohomology of schemes, cohomology and base change, or duality.
+  projective-morphism API: Mathlib has no syntomic morphisms, no projective morphisms and no
+  relative `Proj`.
 
-### Consume and coordinate with Tau Ceti
+### From Tau Ceti
 
-- The [Jacobian challenge](../JacobianChallenge/README.md) owns the shared foundations of
-  invertible sheaves, divisors, the Picard group, coherent cohomology, Riemann–Roch, Serre
-  duality, relative coherent cohomology, and base change. Current Tau Ceti already contains
-  the beginning of this lane: scheme-level invertible sheaves, rational points and residue
-  degrees, and a substantial Weil-divisor/degree/Abel–Jacobi API. Stable reduction consumes
-  and extends those shared foundations; it must not create a second Picard or divisor theory.
-- The supplier contracts below fix the shared mathematical interfaces. Each row is a
-  milestone, not a claim that the indicated files or theorems already exist. File paths are
-  relative to `TauCeti/AlgebraicGeometry/`; existing Mathlib APIs take precedence over the
-  suggested filenames. Implement missing contracts in these shared Tau Ceti files, under
-  the supplying roadmap, rather than duplicating them inside `StableReduction/`.
+File paths are relative to `TauCeti/`.
+
+- **Layer 0, implemented:** relative dimension at most `d` and pure relative dimension `d`,
+  `TauCeti.AlgebraicGeometry.RelativeDimensionLE` in `AlgebraicGeometry/Morphisms/RelativeDimension.lean`
+  and `TauCeti.AlgebraicGeometry.PureRelativeDimension` in
+  `AlgebraicGeometry/Morphisms/PureRelativeDimension.lean`; the family-of-curves predicate
+  `TauCeti.AlgebraicGeometry.FamilyOfCurves` (proper, flat, locally of finite presentation, and
+  of relative dimension at most one) in `AlgebraicGeometry/Curves/Family.lean`; generic and
+  special fibres as base changes, `TauCeti.genericFiber` and `TauCeti.specialFiber`, with the
+  comparison `TauCeti.genericFiberIsoFiberGenericPoint` to `Scheme.Hom.fiber` at the generic
+  point, in `AlgebraicGeometry/Fibers.lean`; the package `TauCeti.FiniteDVRExtension` of a finite
+  separable extension with a chosen place, in
+  `AlgebraicGeometry/Curves/StableReduction/DVRExtension/Basic.lean` (the place is a maximal
+  ideal of the integral closure lying over the maximal ideal of `R`, and the local ring is
+  presented by `IsLocalization.AtPrime`), with towers in `DVRExtension/Tower.lean` and the
+  common refinement `TauCeti.FiniteDVRExtension.nonempty_binaryCofan` in
+  `DVRExtension/CommonRefinement.lean`; models `TauCeti.Model` (flat, locally of finite
+  presentation, quasi-compact and quasi-separated, with the generic-fibre identification),
+  their morphisms `TauCeti.Model.Hom`, the category instance and the separate predicate
+  `TauCeti.Model.IsProper` in `AlgebraicGeometry/Curves/StableReduction/Model/Basic.lean`;
+  base change along a `TauCeti.FiniteDVRExtension` as `TauCeti.Model.baseChangeFunctor` in
+  `Model/BaseChange.lean`; and `TauCeti.Model.subsingleton_hom` in `Model/Uniqueness.lean`, that
+  a morphism of models into a separated model is determined by its generic fibre.
+- **Layers 1, 2 and 4, partly implemented:** Fitting ideals of finite modules,
+  `TauCeti.fittingIdeal` in `RingTheory/FittingIdeal/Basic.lean`, and of finitely presented
+  sheaves of modules, `AlgebraicGeometry.Scheme.Modules.fittingIdeal` in
+  `AlgebraicGeometry/Modules/FittingIdeal/Basic.lean`, with pullback compatibility in
+  `Modules/FittingIdeal/Pullback.lean`; the relative singular locus
+  `AlgebraicGeometry.Scheme.singularLocus`, the first Fitting ideal sheaf of the relative
+  differentials over an affine base, in `AlgebraicGeometry/Curves/SingularLocus.lean`; standard
+  syntomic algebras of relative dimension `n`,
+  `TauCeti.Algebra.IsStandardSyntomicOfRelativeDimension` in
+  `RingTheory/Syntomic/StandardSyntomic.lean`; the node algebra `TauCeti.NodeAlgebra` of
+  `xy = a` in `RingTheory/Node/Basic.lean`; the closure model `TauCeti.Model.closure` of a closed
+  subscheme of the generic fibre of a scheme over `R`, proper when that scheme is
+  (`TauCeti.Model.isProper_closure`), in `AlgebraicGeometry/Curves/StableReduction/Model/Closure.lean`;
+  relative effective Cartier divisors `AlgebraicGeometry.IsRelativeEffectiveCartier` in
+  `AlgebraicGeometry/EffectiveCartierDivisor/Relative.lean`; and the affine blowup of the node
+  `xy = πⁿ`, regular exactly when the thickness of the remaining chart is at most one,
+  `TauCeti.NodeAlgebra.isRegularLocalRing_stalk_blowup_iff` in `AlgebraicGeometry/Blowup/Node.lean`.
+- **Layer 6, combinatorial part implemented:** `TauCeti.NumericalType` with its signed genus
+  `TauCeti.NumericalType.arithmeticGenus` in
+  `AlgebraicGeometry/Curves/StableReduction/NumericalType/Basic.lean`; the weighted Picard group
+  `TauCeti.NumericalType.Pic` and its degree map in `Picard/Basic.lean`; the torsion subgroups
+  `TauCeti.NumericalType.torsion` in `Picard/Torsion/Basic.lean`; minimal types and contraction
+  of `(−1)`-indices in `NumericalType/Minimal.lean` and `NumericalType/Contraction.lean`; the
+  classification `TauCeti.NumericalType.exists_chain_or_fork_or_exceptional` in
+  `NumericalType/Classification.lean`; the multiplicity bound
+  `TauCeti.NumericalType.IsMinimal.multiplicity_mul_abs_intersection_le` in
+  `NumericalType/MultiplicityBound.lean`; and the prime-torsion bound
+  `TauCeti.NumericalType.finrank_torsion_le_arithmeticGenus` in `Picard/Torsion/Genus.lean`,
+  which gives `dim_{𝔽_ℓ} Pic(T)[ℓ] ≤ g` for a numerical type of genus `g ≥ 2` and every prime
+  `ℓ > 768g − 768`.
+- **Shared foundations with the Jacobian challenge:** scheme-level invertible sheaves
+  `TauCeti.AlgebraicGeometry.InvertibleSheaf` in `AlgebraicGeometry/LineBundle/Basic.lean`,
+  cohomology of scheme modules `TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology` in
+  `AlgebraicGeometry/Cohomology/Basic.lean`, and Weil divisors with
+  `TauCeti.AlgebraicGeometry.SchemeWeilDivisor.relativeDegree` in
+  `AlgebraicGeometry/WeilDivisor/Scheme/Degree.lean`. These are the beginning of the shared lane
+  specified in the next paragraph.
+
+### From `TauCetiRoadmap.JacobianChallenge`
+
+The [Jacobian challenge](../JacobianChallenge/README.md) owns the shared foundations of
+invertible sheaves, divisors, the Picard group, coherent cohomology, Riemann–Roch, Serre
+duality, relative coherent cohomology, and base change. Stable reduction consumes and extends
+those shared foundations; it must not create a second Picard or divisor theory. The contracts
+below fix the shared mathematical interfaces. Each row is a milestone, not a claim that the
+indicated files or theorems already exist. File paths are relative to
+`TauCeti/AlgebraicGeometry/`; existing Mathlib APIs take precedence over the suggested
+filenames. Implement missing contracts in these shared Tau Ceti files, under the supplying
+roadmap, rather than duplicating them inside `StableReduction/`.
 
 | Contract and supplier | Required output | Shared file ownership |
 | --- | --- | --- |
@@ -249,38 +316,19 @@ the Abel–Jacobi universal property of Jacobian Layer F. The import direction i
 sheaf/cohomology/duality files → Picard and abelian-variety files → stable reduction;
 none of the shared files imports `Curves/StableReduction/` or `Curves/StableMaps/`.
 
-### Work already in motion
+### From `TauCetiRoadmap.AlgebraicVectorBundles`
 
-The audit found no Tau Ceti issue, pull request, or public Lean project intention for general
-stable reduction, stable curves, nodal families, or stable maps. Two dormant Mathlib pull
-requests develop coordinate-level singular Weierstrass cubics
-([#25071](https://github.com/leanprover-community/mathlib4/pull/25071)) and rational points on
-nodal cubics ([#25069](https://github.com/leanprover-community/mathlib4/pull/25069)). If they
-land, use them for elliptic examples; they are not a general
-scheme-theoretic node or family-of-nodal-curves API.
+[AlgebraicVectorBundles L2A](../AlgebraicVectorBundles/README.md) supplies the
+`GradedObject`-based quasi-coherent graded algebra with its affine graded-ring, localization
+and base-change interfaces; Layer 2 builds relative `Proj` on that carrier.
 
-Active Mathlib work is much closer to Layer 2's foundations: pullback of quasi-coherent
-sheaves [#39989](https://github.com/leanprover-community/mathlib4/pull/39989), locally free
-sheaves on affines [#40831](https://github.com/leanprover-community/mathlib4/pull/40831),
-locally free sheaves on `Spec R`
-[#40194](https://github.com/leanprover-community/mathlib4/pull/40194), and affine-scheme
-vanishing [#36345](https://github.com/leanprover-community/mathlib4/pull/36345). Coordinate with
-them and refactor onto any results that land rather than duplicate them. The
-[elliptic-curves roadmap](../EllipticCurves/README.md)
-deliberately leaves the geometric interpretation of its `ReductionSymbol` to this roadmap;
-Layer 5 supplies the missing comparison with minimal regular models and Kodaira fibre geometry.
-Recheck open Mathlib work and Lean Zulip before each major foundation below, especially blowups,
-coherent cohomology, and duality.
-
-## Inventory: what is missing
-
-There is presently no scheme-level API for families of curves, relative dimension at most
-one, the operations on quasi-coherent finitely presented modules needed for Fitting ideals,
-the sheaf `Ω_{X/S}`, syntomic morphisms, nodal singularities or the relative singular locus,
-arithmetic genus in families, relative dualizing sheaves, ampleness/projective morphisms,
-prestable/semistable/stable curves, marked curves, stable maps, blowups or contractions,
-intersection theory on arithmetic surfaces, regular/minimal models, numerical types, or
-semistable/stable reduction.
+**What the pins lack.** There is no scheme-level API for at-worst-nodal morphisms or the
+singular locus over a general base, the étale-local normal form of a node, normalization and
+conductors, dual graphs, coherent cohomology in families and arithmetic genus, relative
+dualizing sheaves, ampleness, projective morphisms and relative `Proj`, prestable, semistable
+and stable families, marked curves, stable maps, blowups of ideal sheaves on schemes,
+intersection theory on arithmetic surfaces, regular and minimal models, the numerical type of
+a regular model, or semistable and stable reduction.
 The summit cannot be reached by filling one isolated `sorry`; every item below is part of
 its dependency graph.
 
@@ -297,25 +345,28 @@ before the named milestone.
 - Use the existing `SheafOfModules.IsQuasicoherent` and
   `SheafOfModules.IsFinitePresentation` predicates and affine presentation/tilde API. Add only
   the missing operations needed to construct sheaves of differentials, Fitting ideals,
-  conductors, and normalization exact sequences, coordinating pullback compatibility with
-  Mathlib [#39989](https://github.com/leanprover-community/mathlib4/pull/39989). The full
-  proper-cohomology theory remains in Layer 2, but these prerequisites precede the nodal layer.
+  conductors, and normalization exact sequences, keeping pullback compatibility with Mathlib's
+  quasi-coherent sheaf API. The full proper-cohomology theory remains in Layer 2, but these
+  prerequisites precede the nodal layer.
 - For a locally finite type morphism, define relative dimension `≤ d` and pure relative
-  dimension `d` fibrewise via Krull dimension. Prove invariance under isomorphism, locality,
-  arbitrary-base-change stability, and the composition bound `≤ d + e` for composable
-  locally finite type morphisms of relative dimensions `≤ d` and `≤ e`.
-- Define the scheme-level `FamilyOfCurves f` predicate: `f` is proper, flat, finitely
-  presented, and of relative dimension `≤ 1`. Prove its base-change and isomorphism API.
-  Keep geometric connectedness and exact genus separate.
+  dimension `d` fibrewise via Krull dimension (`TauCeti.AlgebraicGeometry.RelativeDimensionLE`,
+  `TauCeti.AlgebraicGeometry.PureRelativeDimension`). Prove invariance under isomorphism,
+  locality, arbitrary-base-change stability, and the composition bound `≤ d + e` for
+  composable locally finite type morphisms of relative dimensions `≤ d` and `≤ e`.
+- Define the scheme-level `FamilyOfCurves f` predicate (`TauCeti.AlgebraicGeometry.FamilyOfCurves`):
+  `f` is proper, flat, finitely presented, and of relative dimension `≤ 1`. Prove its
+  base-change and isomorphism API. Keep geometric connectedness and exact genus separate.
 - Develop generic and special fibres over a DVR, including the open immersion of the generic
   fibre, the closed immersion of the special fibre, and compatibility with scalar extension.
   Use base change along `Spec K → Spec R` as the canonical generic fibre of a model. Prove
   its explicit comparison with `Scheme.Hom.fiber` at the generic point using
   `κ(η) ≅ K` from `IsFractionRing R K`; do not leave downstream statements to transport
   across an unstated isomorphism.
-- Define the `FiniteDVRExtension R K` package described above. Develop finite and separable
-  towers and common-refinement lemmas in which two packages embed compatibly into a third.
-- Define flat finitely presented models, their morphisms, the category instance, categorical
+- Define the `FiniteDVRExtension R K` package described above (`TauCeti.FiniteDVRExtension`).
+  Develop finite and separable towers and common-refinement lemmas in which two packages embed
+  compatibly into a third.
+- Define flat finitely presented models (`TauCeti.Model`: flat, locally of finite presentation,
+  quasi-compact and quasi-separated), their morphisms, the category instance, categorical
   model isomorphisms, base-change functors, and the separate properness predicate.
 
 ### Layer 1: nodes, normalization, and dual graphs
@@ -367,11 +418,18 @@ files specified there; Jacobian's smooth duality imports that same construction.
   is locally constant on the base; `HasGenus f g` requires `R¹f_*𝒪_X` to be locally free of
   constant rank `g`, with base change identifying its fibres with `H¹(X_s̄, 𝒪)`.
 - Build the relative dualizing complex/sheaf for proper flat finitely presented relative
-  Cohen–Macaulay curves. For Gorenstein fibres, prove that `ω_{X/S}` is invertible and that
-  its formation commutes with arbitrary base change up to canonical isomorphism. Construct
-  the nodal case cheaply as the relative dualizing sheaf of a syntomic morphism through a
-  smooth embedding, as in Stacks tag 0E6N. Nodal curves are Gorenstein, and on smooth fibres
-  this construction agrees with the Jacobian roadmap's `ω_{X/k}`.
+  Cohen–Macaulay curves, as in [Stacks tag 0E6N](https://stacks.math.columbia.edu/tag/0E6N):
+  Lemma 109.19.1 makes `ω_{X/S}` flat over `S` with formation commuting with arbitrary base
+  change, Definition 109.19.2 names it, and Lemma 109.19.3 makes it invertible for Gorenstein
+  fibres. Prove these base-change isomorphisms canonical. Construct the nodal case cheaply as
+  the relative dualizing sheaf of a local complete intersection morphism through a closed
+  immersion into a smooth proper `P → S`: over a Noetherian base,
+  `ω_{X/S} = det(Ω_{P/S})|_X ⊗ det(𝒩_{X/P})` with `𝒩_{X/P}` the normal sheaf, the dual of
+  `ℐ/ℐ²`, as computed in the proof of
+  [Stacks Lemma 48.29.2](https://stacks.math.columbia.edu/tag/0E9Z), with
+  [Lemma 48.17.11](https://stacks.math.columbia.edu/tag/0B6V) for invertibility of `f^!𝒪_S`.
+  Nodal curves are Gorenstein, and on smooth fibres this construction agrees with the
+  Jacobian roadmap's `ω_{X/k}`.
 - Prove the componentwise degree formula on a geometric nodal fibre:
   `deg(ω_X|_E) = 2g(Ẽ) - 2 + #(branches on Ẽ above nodes of X lying on E)`, where `Ẽ`
   is the normalization of `E`; the count includes all such branches, so a self-node of `E`
@@ -493,9 +551,15 @@ arbitrary prestable families. Follow the scheme construction of Knudsen II, §1.
 
 ### Layer 5: regular and minimal models
 
-- Construct a regular proper model of a smooth projective curve from Layer 4. Define
-  relative minimality by absence of exceptional curves of the first kind in the special
-  fibre.
+- Construct a regular proper model of a smooth proper curve `C` over `K` from Layer 4
+  (`exists_regular_proper_model`): a proper curve over a field is projective
+  ([Stacks tag 0A26](https://stacks.math.columbia.edu/tag/0A26)), Layer 2's closure in
+  `ℙ^N_R` is a proper model, and Layer 4's resolution makes it regular
+  ([Stacks Lemma 55.8.3](https://stacks.math.columbia.edu/tag/0C2U) and
+  [Proposition 55.8.6](https://stacks.math.columbia.edu/tag/0C2W)). No connectedness
+  hypothesis enters: a disconnected smooth proper curve is a finite disjoint union of smooth
+  projective curves, and the model is the disjoint union of theirs. Define relative
+  minimality by absence of exceptional curves of the first kind in the special fibre.
 - Show every regular proper model contracts to a minimal one. For positive-genus generic
   fibre, prove the minimal regular model is unique up to unique isomorphism and has the
   expected terminal mapping property among regular models.
@@ -512,7 +576,8 @@ arbitrary prestable families. Follow the scheme construction of Knudsen II, §1.
 ### Layer 6: numerical types and Picard torsion
 
 - Define an abstract numerical type exactly as in
-  [Stacks tag 0C6Z](https://stacks.math.columbia.edu/tag/0C6Z): a nonempty finite component
+  [Stacks tag 0C6Z](https://stacks.math.columbia.edu/tag/0C6Z) (`TauCeti.NumericalType`): a
+  nonempty finite component
   set, positive integers `mᵢ` and `wᵢ`, nonnegative integers `gᵢ`, and a symmetric integer
   matrix `A = (aᵢⱼ)` with nonnegative off-diagonal entries. Require the graph with edges
   `aᵢⱼ > 0` for `i ≠ j` to be connected, `Σⱼ aᵢⱼmⱼ = 0`, and `wᵢ ∣ aᵢⱼ` for all
@@ -528,13 +593,16 @@ arbitrary prestable families. Follow the scheme construction of Knudsen II, §1.
   truncate the result to `ℕ`: abstract numerical types can have negative genus.
 - Define `Pic(T)` as the cokernel of
   `eᵢ ↦ Σⱼ (aᵢⱼ/wⱼ)eⱼ`, with exact integer division justified by symmetry and
-  divisibility, as in [Stacks tag 0C7H](https://stacks.math.columbia.edu/tag/0C7H).
+  divisibility, as in [Stacks tag 0C7H](https://stacks.math.columbia.edu/tag/0C7H)
+  (`TauCeti.NumericalType.Pic`, `TauCeti.NumericalType.torsion`).
   The unweighted cokernel `Coker(A)` is a different group: prove the source's injection
   `Pic(T) → Coker(A)` induced by `eⱼ ↦ wⱼeⱼ`, not an equality. Develop the weighted
   group's rank-one finite-generation theorem, reindexing invariance, and prime torsion.
   Prove the combinatorial bounds relating `Pic(T)[ℓ]`, the first Betti number of the graph, the
-  geometric genera of components, and the arithmetic genus. Include the classification and
-  boundedness results for minimal numerical types used by the Artin–Winters argument.
+  geometric genera of components, and the arithmetic genus
+  (`TauCeti.NumericalType.finrank_torsion_le_arithmeticGenus`). Include the classification and
+  boundedness results for minimal numerical types used by the Artin–Winters argument
+  (`TauCeti.NumericalType.exists_chain_or_fork_or_exceptional`).
 - Compare line bundles on the regular model, generic fibre, special fibre, reduced special
   fibre, and numerical type. Prove the specialization maps and exact sequences required to
   inject enough generic `ℓ`-torsion into the Picard group of the reduced special fibre.
@@ -572,16 +640,20 @@ arbitrary prestable families. Follow the scheme construction of Knudsen II, §1.
   further finite base extension.
 - The proof above uses the Jacobian only through the `ℓ`-torsion of `Pic⁰` supplied by
   contracts J-D and J-E; no notion of reduction of an abelian variety enters. The
-  Deligne–Mumford criterion comparing nodal reduction of `C` with semistable reduction of
-  its Jacobian (Deligne–Mumford, Theorem 2.4; see also
-  [Stacks Remark 55.18.2](https://stacks.math.columbia.edu/tag/0CEK)) is not a target of
-  this roadmap. Its statement needs the semistable-reduction predicate for abelian
-  varieties over a DVR, and its proof needs Néron models and the identification of the
-  Néron identity component with the Picard identity component of a regular semistable
-  model, in the forward direction, and descent of a stable model over the fixed DVR, in the
-  converse direction. Those notions are built on Layers 4–7 here, so the criterion belongs
-  to the roadmap that owns Néron models of abelian varieties, after its Picard–Néron
-  comparison.
+  Deligne–Mumford criterion, that `C` has nodal reduction over `R` exactly when its Jacobian
+  has semistable reduction over `R`, is proved in Deligne–Mumford, Theorem 2.4, for a discrete
+  valuation ring whose residue field is algebraically closed (the standing assumption of
+  their §2), and [Stacks Remark 55.18.2](https://stacks.math.columbia.edu/tag/0CEK) records
+  it for a perfect residue field; it carries that residue-field hypothesis wherever it is
+  stated, and it is not a target of this roadmap. Its statement needs the
+  semistable-reduction predicate for abelian varieties over a DVR
+  (NeronModelsAndSemistableAbelianVarieties §3.1), and its proof needs Néron models and the
+  identification of the Néron identity component with the Picard identity component of a
+  regular model with reduced nodal special fibre
+  (NeronModelsAndSemistableAbelianVarieties §§3.8–3.9), in the forward direction, and descent
+  of a stable model over the fixed DVR, in the converse direction. That roadmap consumes
+  Layers 4–7 here, so the criterion is stated downstream of both roadmaps, in a Part II of this
+  one, and never as a Layer 7 target.
 
 ### Layer 8: canonical contraction and unpointed stable reduction
 
@@ -868,6 +940,17 @@ stabilization developed here. Packaging that theorem as properness additionally 
 the moduli object and the passage from finite DVR extensions to its valuative criterion.
 Those are the next roadmap; the present one stops with stable maps themselves and the API
 needed to state that work without placeholders.
+
+## Downstream consumers
+
+- The [elliptic-curves roadmap](../EllipticCurves/README.md) keeps `ReductionSymbol`, the
+  output type of Tate's algorithm, as a combinatorial symbol until a geometric comparison
+  exists. Layer 5 supplies the minimal regular model that comparison is made with, and
+  NeronModelsAndSemistableAbelianVarieties §2.8 (`KodairaConfiguration`) identifies its special
+  fibre with the configuration attached to the symbol.
+- NeronModelsAndSemistableAbelianVarieties consumes Layers 0–7: models, nodes, dual graphs,
+  intersection theory, regular and minimal models, numerical types, and nodal reduction after a
+  finite separable extension.
 
 ## References
 
