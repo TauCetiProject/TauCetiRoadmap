@@ -76,4 +76,4 @@ revision against which an earlier version elaborated.
 - [effective arithmetic bounds and geometry of numbers](EffectiveBounds/README.md)
   (archive candidate 2026-10-28; awaiting implementation PR #22059)
 - [geodesics, the exponential map, and the Hopf–Rinow theorem](HopfRinow/README.md)
-  (archive candidate 2026-10-28; awaiting implementation PR #18707, then #21067)
+  (archive candidate 2026-10-28; awaiting implementation PR #21067)

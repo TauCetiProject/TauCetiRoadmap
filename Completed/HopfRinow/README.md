@@ -1,10 +1,13 @@
 # Roadmap: geodesics, the exponential map, and the Hopf–Rinow theorem
 
 **Archive candidate.** The complete specification is audited in [COMPLETION.md](COMPLETION.md).
-The restriction supplier (#19453) is verified on actual main. The archive PR remains a draft
-until #18707 and then #21067 have merged through their normal build/review gates and the full
-native inventory has been replayed on actual main. The historical Suggested.lean is a nonexhaustive interface
-prototype at the repository pin; its admitted interfaces are not a proof certificate.
+The restriction supplier (#19453) and joint connection-family regularity (#18707) are verified
+on actual main; #18707's complete source payload is present at
+[`1957bfc6fe2f`](https://github.com/TauCetiProject/TauCeti/commit/1957bfc6fe2f8491c98df2ff54c5c6d88be7d193).
+The archive remains a draft until the intrinsic variation in #21067 has passed its fresh normal
+review and genuine CI, landed, and the full native inventory has been replayed on actual main.
+The historical Suggested.lean is a nonexhaustive interface prototype at the repository pin;
+its admitted interfaces are not a proof certificate.
 
 Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundle`,
 `IsRiemannianManifold`, and `EMetricSpace.ofRiemannianMetric` live in

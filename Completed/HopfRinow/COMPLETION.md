@@ -8,15 +8,26 @@ The Layer 1 source prerequisites are:
 
 - [#18707](https://github.com/TauCetiProject/TauCeti/pull/18707): joint smoothness of the actual
   Levi–Civita connection coefficients of a bundled metric family, with its coordinate API.
+  All eight reviewed source files are verified verbatim on actual main
+  [`1957bfc6fe2f`](https://github.com/TauCetiProject/TauCeti/commit/1957bfc6fe2f8491c98df2ff54c5c6d88be7d193).
 - [#19453](https://github.com/TauCetiProject/TauCeti/pull/19453): nondegenerate metric restriction,
   local-isometry comparison and agreement of the restricted connections on ambient fields.
   This supplier is verified on the baseline main revision above.
 - [#21067](https://github.com/TauCetiProject/TauCeti/pull/21067): intrinsic metric variation and the
   connection-variation formula along any smooth parameter curve.
 
-All three PRs target main separately. The joint connection-family regularity in #18707 must
-merge before the next variation stage in #21067. All must finish normal review and CI before this
-archive is marked ready. #19453 has fulfilled that gate; #18707 and #21067 remain outstanding.
+All three PRs target main separately. #19453 and #18707 have fulfilled their normal landing
+gates. #18707 passed Bors batch 2122's own [genuine CI run 40794264282](https://github.com/TauCetiProject/TauCeti/actions/runs/40794264282):
+all four jobs succeeded, including the offline sandboxed build (54,018 Lake jobs) and the
+audit of 423,717 declarations against the standard three axioms. The trusted H/B/T artifact's
+tested commit and tree match actual main `1957bfc6fe2f` exactly.
+
+#21067 was rebased after that verified landing. Candidate
+`7bd7c7558aa213b87ad9b17e4fd954e1bff82424` has sole parent `1957bfc6fe2f` and passes
+the local 197-module build (8,421 jobs), 35 key type/axiom
+checks and the four acceptance probes with warnings treated as errors. Its fresh current-head
+normal review, genuine CI and ordinary merge remain required; these local checks do not prove
+that variation has landed. The complete catalog must then pass on actual main.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
 `b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
@@ -29,7 +40,7 @@ both factors to `EuclideanQuadrant 2` and checks the same native endpoints at th
 corner origin, again proving non-interiority. The ordinary unrestricted-derivative
 formulas remain the distinct interior corollaries. This closes the previously recorded boundary
 obligation mathematically. All ten current-head review rubrics and genuine CI pass for this
-exact #18707 head; its ordinary merge and the dependent #21067 work remain required.
+exact #18707 head, now verified on actual main. The dependent #21067 landing remains required.
 
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
@@ -59,9 +70,8 @@ baseline above. Its 25 key axiom reports contain only `propext`, `Classical.choi
 `Quot.sound`. The flat-space acceptance specializes the native APIs to dimension zero, and the
 open-unit-ball probe checks actual minimizing segments together with failure of completeness,
 properness and compactness of the specified closed ball. The boundary and corner probes compile
-with warnings treated as errors at the exact #18707 head above. #21067 still requires its
-post-prerequisite rebase, build, current-head review and genuine CI; prepared probes do not
-certify those future results. The full 197-module catalog and native acceptance probes must
+with warnings treated as errors at the exact #18707 head above. #21067 has now passed its post-prerequisite rebase and local acceptance checks; fresh
+current-head review, genuine CI and normal main inclusion remain outstanding. The full 197-module catalog and native acceptance probes must
 pass again on actual main containing both remaining prerequisites. This is a source/API and
 key-proof audit, not an independent replay of every transitive proof.
 
