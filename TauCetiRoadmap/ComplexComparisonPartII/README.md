@@ -26,7 +26,7 @@ ComplexComparisonPartII §§C6.3–C6.4 / `artinComparison`, `artinComparisonCom
 coherent GAGA and de Rham comparison have their own coefficient categories and canonical maps.
 ComplexKahlerGeometry K2–K4 supplies convergent germs, Weierstrass preparation and division,
 primitive Oka relations, local Dolbeault theory (K2's parameter-dependent one-variable
-`∂̄` solver, built there from its own scalar Cauchy–Green and Runge inputs) and native
+`∂̄` solver, built there from the scalar Cauchy–Green and Runge inputs K2 consumes) and native
 holomorphic bundle sheaves. §§C-1.1–C-1.3 extend those inputs to
 complex analytic spaces with nilpotents, scheme and space analytification, and flat analytic
 stalk comparisons. Projective and proper coherent
@@ -139,7 +139,7 @@ The analytic ownership and stage order are:
 
 | Interface | Owner and supplied stage | What this roadmap adds and what the supplier retains |
 | --- | --- | --- |
-| Parameter-dependent one-variable `∂̄` solver, local Dolbeault lemma and fine Dolbeault resolution | ComplexKahlerGeometry K2 | C1.1 compares K2's fine resolution with C0's sheaves. The scalar compact-support Cauchy–Green operator and the finite-rank Runge operator are K2's own inputs, consumed by K2 and not by this roadmap |
+| Parameter-dependent one-variable `∂̄` solver, local Dolbeault lemma and fine Dolbeault resolution | ComplexKahlerGeometry K2 | C1.1 compares K2's fine resolution with C0's sheaves. The scalar compact-support Cauchy–Green operator and the finite-rank Runge operator are scalar inputs K2 consumes; this roadmap does not consume them |
 | Proper-submersion trivialization (Ehresmann's theorem) on real manifolds | ComplexComparisonPartII C5.2 `ehresmannFibration` | Proved here from DifferentialGeometry Layer 3's flows and Layer 12's metrics; no earlier roadmap owns it. C5.2 applies it to holomorphic submersions and to analytified proper smooth morphisms, and later roadmaps consume it from here |
 | Integral first Chern class of holomorphic line bundles, its exponential-sequence cocycle and its curvature comparison | CharacteristicClasses C1.5/C3 (the class of the underlying complex line) and C4.1–C4.2 (rank-one curvature comparison); ComplexComparisonPartII C5.4 | C5.4 constructs the holomorphic-to-smooth forgetful adapter, proves the exponential-sequence description `δu` and identifies the Chern-connection form `(i/2π)Θ` with the real image of the class |
 | Native holomorphic sheaf, convergent local algebra and primitive Oka relations | ComplexKahlerGeometry K2–K4 | C-1 adds analytic quotients, nilpotents and gluing; RealAnalyticGeometry R3.2 supplies native coherence; C0 descends it to analytic spaces |
@@ -182,20 +182,20 @@ here uses no stage of this roadmap.
   `DeRham.d_leibniz`), `DeRham.complex A B`, and its pullback and complex-map API
   (`DeRham.pullback`, `DeRham.complexMap`) over arbitrary commutative rings. C5.1 sheafifies
   this core; its affine differential and functoriality are the supplier's constructions.
-- *CrystallineCohomology, CR.1, “Modules with integrable connection and their de Rham
-  complexes”.* `Crystalline.Connection`, with extension, curvature, coefficient de Rham
-  complex, base change, tensor and Hom. C5.2 uses the ordinary Kähler-differential case,
+- *CrystallineCohomology, CR.1.3, “Modules with integrable connection and their de Rham
+  complexes”.* The ordinary connection carrier over arbitrary commutative base rings, with
+  extension, curvature, coefficient de Rham complex, base change, tensor and Hom. C5.2 uses the ordinary Kähler-differential case,
   sheafifies it on smooth schemes, and analytifies it; no PD or quasi-nilpotence condition
   enters the complex comparison.
-- *CrystallineCohomology, CR.5:log-algebra.1–.4 and CR.5.1.* `LogCrystalline.PrelogRing`,
-  `LogCrystalline.LogStructure` with `LogCrystalline.LogStructure.stalk_is_log`, the étale log-structure, associated-log, inverse-image,
-  fine-chart and divisorial-log APIs; `LogCrystalline.IsFineMonoid`,
-  `LogCrystalline.IsSaturatedMonoid`, `LogCrystalline.IsLogSmooth`, the Kato chart criterion,
-  `LogCrystalline.divisorialLog`,
-  `LogCrystalline.logDifferentials` and `LogCrystalline.logDeRham`. These own the
-  all-characteristic algebraic core. C5.5 uses that carrier on algebraic sites and builds
+- *CrystallineCohomology, CR.5:log-algebra.1–.4 and CR.5.1.* The paragraphs “Prelog rings”,
+  “Étale log structures” (with the geometric-stalk test of the unit condition), “Associated log
+  structures”, “Inverse image log structures”, “Integral monoids”, “Fine monoids”, “Saturated
+  monoids” and “Log charts” of CR.5:log-algebra.1; “Log fiber products” of CR.5:log-algebra.2;
+  “Log smooth morphisms” and “Kato chart criterion” of CR.5:log-algebra.3; “Divisorial log
+  structures” of CR.5:log-algebra.4; and “Logarithmic differentials” and “Log de Rham
+  complexes” of CR.5.1. These own the all-characteristic algebraic core. C5.5 uses that carrier on algebraic sites and builds
   its analytic adapter `logAnalytification`. The order is the ordinary Layer 2 core →
-  CR.1 ordinary connections and CR.5 logarithmic cores → C5.1–C5.2 sheafification and
+  CR.1.3 ordinary connections and CR.5 logarithmic cores → C5.1–C5.2 sheafification and
   C5.5 analytic adapters → C5.6–C5.7 comparisons. No supplier uses C5's GAGA or Hodge theory
   to construct these cores; the supplier section order between the crystalline and derived
   roadmaps is retained.
@@ -323,15 +323,21 @@ also supplies singular cohomology with coefficients and its cup product
 (`TopCat.singularCohomology`, `TopCat.singularCup`), the complex of singular chains small for an
 open cover with its inclusion equivalence (`TopCat.smallSingularSubcomplex`,
 `TauCeti.smallSingularChainHomotopyEquiv`), and the stability of Fredholm operators under compact
-perturbation (`ContinuousLinearMap.IsFredholm.add_of_isCompactOperator`). These are used, not
+perturbation (`ContinuousLinearMap.IsFredholm.add_of_isCompactOperator`), together with the Riesz
+theory of a compact perturbation of the identity on a Banach space over `ℝ` or `ℂ`
+(`IsCompactOperator.isClosed_range_one_sub`, `IsCompactOperator.finiteDimensional_quotient_range_one_sub`:
+`1 − K` has closed range and finite-dimensional cokernel for compact `K`). These are used, not
 restated: `SmallSingularCochains` (C5.1) measures smallness by a nesting of neighbourhoods attached
 to the barycentres of the faces of a simplex rather than by one open cover, and `schwartzFiniteness` (C1.6) perturbs a surjection
-whose kernel may be infinite-dimensional, so it is not a statement about Fredholm operators.
+whose kernel may be infinite-dimensional, so it is not a statement about Fredholm operators;
+the two Riesz theorems are its Banach case `g = id`, `h = −K`, and the headline extends them to
+an arbitrary continuous surjection `g` between Fréchet spaces.
 The cochain and cup suppliers are in `TauCeti.AlgebraicTopology.Cohomology.Basic` and
 `TauCeti.AlgebraicTopology.Cohomology.Cup`; subdivision and the inclusion equivalence are in
 `TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Homotopy` and
 `TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Equiv`. The Fredholm supplier is in
-`TauCeti.Analysis.Fredholm.CompactPerturbation`. The native local-system carrier is
+`TauCeti.Analysis.Fredholm.CompactPerturbation` and the Riesz theorems are in
+`TauCeti.Analysis.Normed.Operator.Compact.RieszTheory`. The native local-system carrier is
 `TauCeti.LocalCoefficientSystem Λ T` (ring first), with evaluation, path transport,
 monodromy and pullback in `TauCeti.AlgebraicTopology.LocalCoefficient`. Its finite-stalk
 full subcategory is `FiniteModuleLocalSystem Λ T` in C6.1. The pinned
@@ -459,7 +465,10 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   topology of compactly supported smooth functions; `Distribution Ω F ⊤` is the compact-convergence
   continuous real-linear dual of real-valued test functions, with values in `F`.
   `Distribution.lineDerivCLM`, `Distribution.ofFun` and `Distribution.delta` supply the
-  chartwise derivative, locally integrable coefficients and Dirac distribution for `CurrentCalculus`.
+  chartwise derivative, locally integrable coefficients and Dirac distribution for `CurrentCalculus`;
+  `Distribution.delta a` is real-valued (in `𝓓'^{n}(Ω, ℝ)`), and the `ℂ`-valued chart
+  coefficients of C5.4 use its complexification, its image under `Distribution.mapCLM` along
+  `Complex.ofRealCLM`.
   Module lengths use `Module.length`; `DualNumber ℂ` is the square-zero algebra in the Artin check.
 - Manifolds: `ModelWithCorners`, `𝓘(ℂ, E)`, `IsManifold I ω M` (complex manifolds),
   `ContMDiffVectorBundle`, `topologicalKrullDim`, `LocallyContractibleSpace` (a predicate).
@@ -518,6 +527,13 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
 - `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` (compact perturbations of Fredholm
   operators are Fredholm), for Banach spaces. This supplies the finite-kernel case;
   `schwartzFiniteness` treats a surjection with no finite-kernel hypothesis.
+- `IsCompactOperator.isClosed_range_one_sub` and
+  `IsCompactOperator.finiteDimensional_quotient_range_one_sub` in
+  `TauCeti.Analysis.Normed.Operator.Compact.RieszTheory` (with
+  `IsCompactOperator.finiteDimensional_ker_one_sub` for the kernel): for a compact operator `K`
+  on a Banach space over `ℝ` or `ℂ`, `1 − K` has closed range and finite-dimensional cokernel.
+  This is the case `g = id`, `h = −K` of `schwartzFiniteness`, which extends it to an arbitrary
+  continuous surjection `g` between Fréchet spaces.
 - `TauCeti.IsSemialgebraic`, `TauCeti.IsSemialgebraicOn`, `TauCeti.IsSemialgebraicMap` in
   `TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic` and `.Function`: polynomial sign sets,
   finite Boolean operations, polynomial inverse images and graph-defined maps. C6.0 extends
@@ -530,8 +546,8 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   partition of unity in the holomorphic parameter), its whole-polydisc Dolbeault lemma,
   and its fine Dolbeault resolution and Ext-based sheaf-cohomology comparison use native
   type forms; the scalar compact-support Cauchy–Green operator with kernel `1/(π(z−w))`
-  and the finite-rank Runge operator are inputs of K2's own construction and are consumed
-  only there; K3 compares analytic germs with
+  and the finite-rank Runge operator are scalar inputs K2 consumes for its construction and are not consumed
+  by this roadmap; K3 compares analytic germs with
   `smoothSheafCommRing` stalks and proves Weierstrass and primitive Oka relations;
   K4 supplies the RingCat holomorphic sheaf by forgetting commutativity, its native
   open restrictions and germs, the section/reconstruction equivalence on fixed finite-rank
@@ -774,8 +790,8 @@ analytic space, respectively; its locally finite-type domain
 includes infinite affine covers, and its analytic ring sheaf retains nilpotents on singular and
 nonseparated schemes.
 
-FormalConnectionsOpers F2.4 takes this functor's `.complexPoints`, `.openSubspace`,
-`.fibreProduct`, `.smooth` and `.etaleLocalIso` interfaces on separated smooth finite-type
+FormalConnectionsOpers F2.4 takes this functor's complex-points, open-subspace, fibre-product, smooth-chart and
+étale-local-isomorphism comparisons on separated smooth finite-type
 complex schemes of constant differential dimension. Its fixed-model manifold realization
 is compared by the identity on `X(ℂ)`: the coordinate holomorphic functions identify its
 function sheaf with this analytic ring sheaf, and the comparison intertwines restrictions,
@@ -808,7 +824,7 @@ Prove `analyticRelationLocalChart`, the point at which local separatedness is us
 - The affine line with doubled origin is locally separated and has a non-Hausdorff analytification. It satisfies chart existence and fails the Hausdorff conclusion, whose separatedness hypothesis excludes it.
 - `z↦z²` at zero has derivative zero and is not locally injective. It is not an étale chart, so it cannot replace a relation's local biholomorphism.
 
-Define `completedAnalyticStalkComparison` for a finite-type complex scheme `X` and a complex point `x`. It is the canonical map `O_(X,x)→O_(X^an,x)`, with the API: the local hom, its isomorphism on maximal-ideal completions, flatness and exact analytification of coherent modules. These are extensions of the scheme analytification construction, which does not itself promise these assertions. On an affine space both completions are the same formal-power-series ring; on a closed subspace the quotient by its finitely generated ideal gives the comparison, including nilpotent equations. Localization and analytic restriction give the general chart, and flatness follows from the Noetherian local completion criterion. For a locally separated space, use the analytic and algebraic étale charts to identify the two stalks at a chosen complex point and descend this comparison. (SGA 1, Exposé XII, Theorem and Definition 1.1 and proof, retyped pp. 239–241, original pp. 312–315; Proposition 1.3.1, retyped p. 242.)
+Define `completedAnalyticStalkComparison` for a finite-type complex scheme `X` and a complex point `x`. It is the canonical map `O_(X,x)→O_(X^an,x)`, with the API: the local hom, its isomorphism on maximal-ideal completions, flatness and exact analytification of coherent modules. These are extensions of the scheme analytification construction, which does not itself promise these assertions. On an affine space both completions are the same formal-power-series ring; on a closed subspace the quotient by its finitely generated ideal gives the comparison, including nilpotent equations. Localization and analytic restriction give the general chart, and flatness follows from the Noetherian local completion criterion. For a locally separated space, use the analytic and algebraic étale charts to identify the two stalks at a chosen complex point and descend this comparison. (SGA 1, Exposé XII, Theorem and Definition 1.1 and proof, retyped pp. 239–241, original pp. 312–315; Proposition 1.3.1, retyped pp. 241–242.)
 
 **Checks.**
 
@@ -825,7 +841,7 @@ Define `SpaceAnalytification`. For a complex algebraic space `X` locally of fini
 
 Complex scheme analytification and its analytic ring sheaf are those of §C-1.1; the quotient construction is §C-1.2. For a locally finite-type space, glue these finite-type constructions on open subspaces.
 
-([Grothendieck et al.](https://arxiv.org/abs/math/0206203), Exposé XII, Theorem and Definition 1.1 and Proposition 1.2, retyped pp. 239–241 (original pp. 312–315); Proposition 1.3.1, retyped p. 242).
+([Grothendieck et al.](https://arxiv.org/abs/math/0206203), Exposé XII, Theorem and Definition 1.1 and Proposition 1.2, retyped pp. 239–241 (original pp. 312–315); Proposition 1.3.1, retyped pp. 241–242).
 
 Its API: the analytic chart is étale and surjective, with relation equal to its fibre product; maps out are exactly maps out of `U^an` equalizing the two relation arrows; for a scheme, this agrees with the existing scheme analytification, including the structure sheaf; a morphism of analytifiable algebraic spaces induces the canonical analytic morphism independent of chart refinements; analytifying an identity gives the identity after the canonical quotient comparison; analytification respects composition with the canonical presentation-independent identifications.
 
@@ -849,7 +865,7 @@ Prove `complex_local_comparison`. For finite-type complex schemes at complex poi
 
 Here Use finite-type complex objects, retain nonreduced analytic structure and respect the chosen complex points. The particular formal automorphism need not itself analytify.
 
-([Michael Artin](https://www.numdam.org/item/PMIHES_1969__36__23_0.pdf), Corollary 2.6, pp. 28–29; [Grothendieck et al.](https://arxiv.org/abs/math/0206203), Exposé XII, Theorem and Definition 1.1 and Proposition 1.2, retyped pp. 239–241 (original pp. 312–315); Proposition 1.3.1, retyped p. 242; [Brian Conrad and Michael Temkin](https://math.stanford.edu/~conrad/papers/analgpaper.pdf), Introduction, p. 1; Example 2.3.2, p. 12 (nonarchimedean analogue)).
+([Michael Artin](https://www.numdam.org/item/PMIHES_1969__36__23_0.pdf), Corollary 2.6, pp. 28–29; [Grothendieck et al.](https://arxiv.org/abs/math/0206203), Exposé XII, Theorem and Definition 1.1 and Proposition 1.2, retyped pp. 239–241 (original pp. 312–315); Proposition 1.3.1, retyped pp. 241–242; [Brian Conrad and Michael Temkin](https://math.stanford.edu/~conrad/papers/analgpaper.pdf), Introduction, p. 1; Example 2.3.2, pp. 11–12 (nonarchimedean analogue)).
 
 For the proof, import the analytic/algebraic completed-stalk identification from the scheme analytification substrate; then apply the common étale neighbourhood theorem over `ℂ` to the chart completions; then étale analytification gives local biholomorphisms; compare refinements to descend the germ statement for spaces.
 
@@ -873,7 +889,7 @@ complex scheme with a labelled strict-SNC divisor, without a compactness hypothe
 
 Prove `analyticPolydisc`. For the complex analytification of a smooth finite-type complex variety with a labelled algebraic strict-SNC divisor, every point a has a biholomorphic neighbourhood chart onto a polydisc `Δⁿ`, sending a to 0, in which the boundary components through a are exactly `z₁=0,…,z_r=0` and other components miss the neighbourhood. Its intersection with the complement is `(Δ*)ʳ×Δ^(n−r)`. The number `r` is the number of incident labels and `r≤n`. This is a local chart result, not an algebraization theorem or a Borel extension theorem.
 
-([Edward Bierstone and Pierre D. Milman](https://mahalex.net/seminars/gabber/Bierstone-Milman%20Canonical%20desingularization%20in%20characteristic%20zero.pdf), §3.1–3.5, pp. 231–233 and SNC coordinate convention, p. 213, for the analytic deduction from the supplied algebraic coordinates using the inverse-function theorem).
+([Edward Bierstone and Pierre D. Milman](https://arxiv.org/abs/alg-geom/9508005), §3, Definition 3.2 and Lemma 3.3, preprint p. 22 (regular coordinate systems and their Jacobian criterion), Lemma 3.5, p. 23 (expansion in regular coordinates), and the normal-crossings divisor convention of §1, Theorem 1.10, p. 7 (a principal ideal generated locally by a monomial in suitable coordinates), for the analytic deduction from the supplied algebraic coordinates using the inverse-function theorem).
 
 For the proof, analytify the étale coordinate chart supplied by `sncCoordinates` and its invertible Jacobian; then apply the complex analytic inverse-function theorem and shrink its image to a product of sufficiently small discs; then use the supplied labelled component equations to identify the punctured factors; shrink away from nonincident components.
 
@@ -1138,7 +1154,7 @@ ambient chart domains. This target descends them to the analytic-space carrier o
 proves chart independence and constructs the finite normalization there, using the supplied
 Weierstrass and coherence APIs (Demailly, II §§4–7, pp. 90–115, especially II.4.7,
 II.4.19, II.4.31, II.5.3 and II.7.9–7.15). *Needs:* §C-1.1
-(`ComplexAnalyticSpace`, `coherentStructure`); ComplexKahlerGeometry K3's reduced chart geometry
+(`ComplexAnalyticSpace` and its coherent-structure-sheaf assertion); ComplexKahlerGeometry K3's reduced chart geometry
 and Weierstrass division.
 
 **Checks.**
@@ -1243,8 +1259,8 @@ derivative, `∂f/∂z̄ⱼ = ½(∂f/∂xⱼ + i ∂f/∂yⱼ)`.
 ### C1.1 The supplied local Dolbeault resolution
 
 Consume ComplexKahlerGeometry K2's parameter-dependent one-variable `∂̄` solver, which K2
-builds from its own scalar compact-support Cauchy–Green and finite-rank Runge inputs; no
-scalar solution operator is consumed from elsewhere. It supplies smooth `(p,q)` primitives for `q ≥ 1` on polydiscs, with jointly
+builds from the scalar compact-support Cauchy–Green and finite-rank Runge inputs it consumes; this roadmap consumes no
+scalar solution operator from elsewhere. It supplies smooth `(p,q)` primitives for `q ≥ 1` on polydiscs, with jointly
 smooth holomorphic parameters, and the fine resolution of holomorphic `p`-forms on a
 finite-dimensional Hausdorff second-countable complex manifold.
 Prove `localDolbeault` as the comparison of that supplied resolution with C0's sheaves:
@@ -2147,7 +2163,7 @@ critical image the image is described by finite projections and symmetric functi
 and the extension theorem fills in the critical image; closedness is topological properness
 (Demailly, II.8.8 with the simultaneous proof of II.8.7, pp. 118–121, using the semicontinuity
 results II.8.2–8.6, pp. 116–118). *Needs:* §C-1.1
-(`ComplexAnalyticSpace`, ComplexKahlerGeometry K3's Weierstrass preparation, `coherentStructure`);
+(`ComplexAnalyticSpace` and its coherent-structure-sheaf assertion, ComplexKahlerGeometry K3's Weierstrass preparation);
 `analyticSetGeometry`; `fibreDimensionLoci` for the `B_k` statement.
 
 Prove `remmertSteinExtension`: let `T` be a complex analytic space, `E ⊆ T` a closed analytic subset
@@ -2546,8 +2562,8 @@ the suppliers named below). *Needs:* `properDeRhamBetti`; TauCetiRoadmap.Differe
 
 ### C5.2 Families, Ehresmann and the Gauss–Manin connection
 
-Use the ordinary connection carrier `Crystalline.Connection` from CrystallineCohomology CR.1,
-sheafified as `Crystalline.Connection E` for a smooth scheme `X` over a field `k` of characteristic zero and a
+Use the ordinary connection carrier of CrystallineCohomology CR.1.3, “Modules with integrable
+connection and their de Rham complexes”, sheafified for a smooth scheme `X` over a field `k` of characteristic zero and a
 coherent `O_X`-module `E`: a `k`-linear sheaf map `∇ : E → Ω¹_X ⊗ E` with
 `∇(a s) = da ⊗ s + a ∇s`. It extends uniquely to `∇ : Ω^p ⊗ E → Ω^{p+1} ⊗ E` with the graded Leibniz rule;
 its curvature `∇ ∘ ∇ : E → Ω² ⊗ E` is `O_X`-linear, and `∇` is integrable (flat) when the curvature
@@ -2561,13 +2577,13 @@ relative holomorphic forms `Ω¹_{T/S}`, the relative exterior derivative and
 `f⁻¹O_S`-linearity. On an affine `Spec A`, use the supplier's ordinary `Ω¹_{A/k}` case and
 its tensor order `E ⊗ Ω¹`; tensor symmetry identifies this with `Ω¹ ⊗ E` in the
 geometric formula. Additivity and the Leibniz rule imply `k`-linearity because `d` kills
-base scalars. Extension, curvature, tensor and dual connections are the CR.1 operations,
+base scalars. Extension, curvature, tensor and dual connections are the CR.1.3 operations,
 using `DeRham.complex` from DerivedDeRhamCohomology Layer 2. Sheafify by localization
 and analytify via `DifferentialOperatorAnalytification`; prove that tensor symmetry and
 restriction identify the coefficient complexes and their curvature with those of the shared
-carrier. *Needs:* CrystallineCohomology CR.1, “Modules with integrable connection and their
-de Rham complexes” (`Crystalline.Connection`, `.extend`, `.curvature`, `.tensor`, `.hom`,
-`.baseChange`); `AlgebraicDeRham`; `coherentOperations`; `DifferentialOperatorAnalytification`;
+carrier. *Needs:* CrystallineCohomology CR.1.3, “Modules with integrable connection and their
+de Rham complexes” (the connection carrier with its extension, curvature, tensor, Hom and
+base-change operations); `AlgebraicDeRham`; `coherentOperations`; `DifferentialOperatorAnalytification`;
 Mathlib `Derivation`, `KaehlerDifferential`.
 
 **Checks.**
@@ -2579,11 +2595,11 @@ Mathlib `Derivation`, `KaehlerDifferential`.
   positive loop is `exp(−2πia)`.
 
 **Holomorphic connection carrier comparison — `holomorphicConnectionDictionary`.** On a
-finite-dimensional complex manifold `M`, identify the analytic sheafification of CR.1's
+finite-dimensional complex manifold `M`, identify the analytic sheafification of CR.1.3's
 ordinary connection carrier on finite locally free `O_M`-modules with ComplexKahlerGeometry
 K4's holomorphic bundle-connection carrier. Apply `holomorphicBundleDictionary` on each
 clopen rank stratum and their common refinements for source and target. In a holomorphic
-frame both operators are `s ↦ ds + A s`; the CR.1 coefficient-first output is moved to
+frame both operators are `s ↦ ds + A s`; the CR.1.3 coefficient-first output is moved to
 `Ω¹ ⊗ E` by tensor symmetry. Equality on frames and the gauge law
 `A′ = g⁻¹Ag + g⁻¹dg` identify the operators, not just their underlying bundles.
 Prove compatibility with curvature, pullback, tensor symmetry, tensor, dual and Hom
@@ -2593,13 +2609,13 @@ noninvertible maps between different ranks. The connection comparison also appli
 nonflat connections; flatness is preserved and reflected. The coherent-module extension,
 algebraic analytification and relative connection construction remain the sheafifications
 above (Deligne 1970, I.2.3–2.15, printed pp. 6–11, and I.2.17–2.19, pp. 12–13).
-*Needs:* `holomorphicBundleDictionary`; CrystallineCohomology CR.1's ordinary connection
+*Needs:* `holomorphicBundleDictionary`; CrystallineCohomology CR.1.3's ordinary connection
 operations; ComplexKahlerGeometry K4's holomorphic connections, gauge formulas and absolute
 flat correspondence.
 
 For FormalConnectionsOpers F2.4's smooth curve specialization, the algebraic-to-holomorphic
 comparison is the composite of C-1.1's analytification, C0.4's coherent pullback,
-C5.1's differential-operator adapter and this dictionary. It uses CR.1's shared algebraic
+C5.1's differential-operator adapter and this dictionary. It uses CR.1.3's shared algebraic
 connection operations. Restriction, scheme pullback, curvature and horizontal sections
 commute with this composite by the same local frame equations; its monodromy is the
 K4 transport specified in `analyticFlatConnectionLocalSystem`. Only these foundational
@@ -2650,7 +2666,7 @@ multiplication in a free module; horizontal morphisms have coefficients pulled b
 which proves the functorial assertions (Deligne 1970, I.2.22–2.23(iii) and proof, printed
 pp. 14–19, especially the Cauchy problem with parameters and induction on pp. 17–18).
 *Needs:* `holomorphicConnectionDictionary`; `HolomorphicDeRham`; ComplexKahlerGeometry K4's
-absolute flat correspondence, K4.ComponentwiseFiniteRankAssembly and sheaf/stalk/monodromy comparison; CrystallineCohomology CR.1's
+absolute flat correspondence, K4.ComponentwiseFiniteRankAssembly and sheaf/stalk/monodromy comparison; CrystallineCohomology CR.1.3's
 shared connection operations and their holomorphic/relative sheafification above.
 
 **Checks.**
@@ -2752,10 +2768,10 @@ Over any characteristic-zero field, work on affine charts and descend the smooth
 finite presentation, connection and integrability to a finitely generated subfield of `k` over `ℚ`;
 embed that subfield in `ℂ`, apply the complex case, and use faithful scalar extension and pullback
 to `k`. Include this descent of finite connection data in the target; smoothness descends
-with the finite presentation. Sheafify `Crystalline.Connection` on coherent coefficients before
+with the finite presentation. Sheafify the CR.1.3 connection carrier on coherent coefficients before
 constructing
 `GaussManin`; apply this freeness theorem only after constructing its integrable connection.
-*Needs:* CrystallineCohomology CR.1 `Crystalline.Connection`; `CoherentAnalytification`;
+*Needs:* CrystallineCohomology CR.1.3, “Modules with integrable connection and their de Rham complexes”; `CoherentAnalytification`;
 `coherentPullbackOperations`; `completedAnalyticStalkComparison` (flatness); Mathlib
 `Module.Flat.of_flat_tensorProduct`, `Module.free_of_flat_of_isLocalRing`;
 SchemeAndStackFoundations Layer 0 (localization and affine gluing).
@@ -2779,7 +2795,7 @@ is a connection, and it is integrable: the first page of the spectral sequence o
 de Rham cohomology classes with respect to parameters*, J. Math. Kyoto Univ. 8 (1968), §1,
 pp. 199–201, §2, Theorem 1 and proof, pp. 201–204, and §3, sequence (13), pp. 204–205, for the
 filtration construction and integrability; Deligne 1970, II.7.7, printed p. 117, for
-`horizontalComparison`, and II.7.8, pp. 117–118). *Needs:* `AlgebraicDeRham`; `Crystalline.Connection`; `coherentFlatConnection_locallyFree`;
+`horizontalComparison`, and II.7.8, pp. 117–118). *Needs:* `AlgebraicDeRham`; CrystallineCohomology CR.1.3's ordinary connection carrier; `coherentFlatConnection_locallyFree`;
 `relativePoincare`; `analyticFlatConnectionLocalSystem`; `relativeBettiLocalSystem`;
 `boundedOperatorHyperGaga`; SchemeAndStackFoundations Layer 2.
 
@@ -3075,7 +3091,7 @@ integration and Stokes); Mathlib `TestFunction`, `Distribution`, `Distribution.l
   sends `η` to the dual-density coefficients `(ψ,−φ)`; for scalar chart tests,
   `U_ℂ(iφ) = iU(φ)`, with no conjugation in either comparison.
 - The point current `[a]`, of bidimension `(0,0)` and bidegree `(n,n)`, is `f ↦ f(a)`;
-  its chart coefficient is `Distribution.delta a`, it is positive and has trace mass one.
+  its chart coefficient is the complexification of `Distribution.delta a` (its image under `Distribution.mapCLM Complex.ofRealCLM`), it is positive and has trace mass one.
 - For the closed coordinate submanifold `Z = ℂ^p × {0} ⊂ ℂ^n`, `[Z](η)` is the
   DifferentialGeometry integral of the restricted form, is closed and strongly positive,
   and its trace mass for the Euclidean metric is the usual volume on `Z`.
@@ -3382,8 +3398,11 @@ the integration–intersection identity at (4.9), p. 18).
 The algebraic carrier and its basic API are supplied by CrystallineCohomology
 CR.5:log-algebra.1–.4 and CR.5.1, over arbitrary characteristics. On algebraic sites the
 names `PrelogStructure`, `LogStructure`, `AssociatedLog`, `LogPullback`, `FineLogChart`,
-`DivisorialLog`, `LogSmooth`, `logChartCriterion` and `LogDeRham` below are specializations
-or aliases of that API. Their formulas and checks specify the shared interface, rather than
+`DivisorialLog`, `LogSmooth`, `logChartCriterion` and `LogDeRham` below are this roadmap's
+names for the supplier's paragraph-level objects (prelog rings, étale log structures,
+associated and inverse-image log structures, log charts, divisorial log structures, log smooth
+morphisms, the Kato chart criterion and log de Rham complexes), specialized to the sites used
+here. Their formulas and checks specify the shared interface, rather than
 separate constructions. Complex analytic spaces use the same monoid-sheaf, logification
 and log-pullback constructions. Their differentials use the holomorphic cotangent
 sheaf and the analytic log-derivation property specified by `AnalyticLogDifferentials`.
@@ -3490,7 +3509,7 @@ monoid `P` this is a monoid homomorphism `P → (A, ·)`, not an additive map an
 Morphisms commute with the structure maps. Its API: multiplicative, `α(1) = 1`; morphisms of monoid sheaves compatible with `α`; and restriction to opens (Kato, *Logarithmic structures of Fontaine–Illusie*,
 in *Algebraic Analysis, Geometry, and Number Theory* (1989), §1.1, printed p. 192). *Needs:*
 CrystallineCohomology CR.5:log-algebra.1, “Prelog rings” and “Étale log structures”
-(`LogCrystalline.PrelogRing` on rings); SchemeAndStackFoundations Layer 1 (sites of schemes);
+(prelog rings); SchemeAndStackFoundations Layer 1 (sites of schemes);
 Mathlib monoid homomorphisms and sheaves of monoids.
 
 **Checks.**
@@ -3503,10 +3522,10 @@ Mathlib monoid homomorphisms and sheaves of monoids.
 Use the shared log carrier as `LogStructure T`: a prelog structure for which `α` restricts to an isomorphism
 `α⁻¹(O_T^×) → O_T^×` (tested on sections, equivalently on stalks). A morphism of log ringed spaces is a
 morphism of ringed spaces with a compatible map from the pulled-back monoid sheaf. Its API: the inverse-image unit map is the stated isomorphism; the trivial log structure `O_T^× ⊆ O_T`; and restriction preserves the unit condition. On a ring the condition reads: every unit has exactly one preimage
-(the unit condition of `LogCrystalline.LogStructure` on the one-point site of the ring, called
+(the unit condition of the supplier's étale log structure on the one-point site of the ring, called
 the ring log condition below; the standard-point chart map
 is `standardLogPoint`) (Kato, §1.2–1.5(2), printed pp. 193–194). *Needs:* CrystallineCohomology CR.5:log-algebra.1,
-“Étale log structures” (`LogCrystalline.LogStructure`, `LogCrystalline.LogStructure.stalk_is_log`);
+“Étale log structures” (the unit condition and its geometric-stalk test);
 `PrelogStructure`.
 
 **Checks.**
@@ -3517,7 +3536,7 @@ is `standardLogPoint`) (Kato, §1.2–1.5(2), printed pp. 193–194). *Needs:* C
 - The raw chart `ℕ → ℂ[z]` is not a log structure (it misses the units of
   `ℂ[z]`, namely `ℂ^×`); logification adds them.
 
-The ring log condition on a `LogCrystalline.PrelogRing` chart has the API that the map on inverse images of units is
+The ring log condition on a prelog-ring chart has the API that the map on inverse images of units is
 bijective, hence a monoid isomorphism, is invariant under chart isomorphisms, and agrees with the
 sheaf condition on a one-point ringed site. The specialization `standardLogPoint` is
 `powersHom ℂ 0`; its API evaluates the identity to `1`, every positive exponent to `0`, and
@@ -3571,13 +3590,13 @@ into its group completion `GrothendieckGroup`), fine if integral and finitely ge
 integral and `x ∈ P^gp`, `nx ∈ P` for some `n ≥ 1` imply `x ∈ P`. A chart for a log structure `M` is a
 fine monoid `P` with a map `P → M` whose logification is an isomorphism (kept as data); `M` is fine if
 such charts exist étale locally. Fine does not imply saturated. Its API: integral monoids embed in their group completion; the chosen chart logifies to `M`; and fine charts exist étale locally and pull back along `LogPullback`; the monoid conditions are
-`LogCrystalline.IsFineMonoid` and `LogCrystalline.IsSaturatedMonoid` (Kato, §2.1–2.5 and §2.9–2.10, printed pp. 197–200, for
+the supplier's fine and saturated monoid conditions (“Fine monoids”, “Saturated monoids”) (Kato, §2.1–2.5 and §2.9–2.10, printed pp. 197–200, for
 integral and fine monoids and charts; Kato does not use saturation, which is recorded here only to
-make explicit that nothing below assumes it). For `LogCrystalline.IsFineMonoid`, the API projects cancellation
+make explicit that nothing below assumes it). For the fine-monoid condition, the API projects cancellation
 and finite generation, transports fineness along monoid isomorphisms, and proves fineness of
 finite products. For `IsSaturatedSubmonoid`, the API identifies it with
 `AddSubmonoid.NSMulSaturated` in the generated subgroup, transports it along group isomorphisms,
-and agrees with `LogCrystalline.IsSaturatedMonoid` for the multiplicative form of the
+and agrees with the supplier's saturated-monoid condition for the multiplicative form of the
 submonoid. These use the intrinsic group, rather than any chosen larger ambient group.
 *Needs:* CrystallineCohomology CR.5:log-algebra.1, “Integral monoids”, “Fine monoids”,
 “Saturated monoids” and “Log charts”; `AssociatedLog`; `LogPullback`; Mathlib `Monoid.FG`, `GrothendieckGroup`.
@@ -3592,13 +3611,12 @@ submonoid. These use the intrinsic group, rather than any chosen larger ambient 
 - The additive monoid `ℕ ∪ {∞}` with `∞` absorbing is finitely
   generated (by `1` and `∞`) but not integral, since `0 + ∞ = 1 + ∞` while `0 ≠ 1`.
 
-Specialize `LogCrystalline.divisorialLog` as `DivisorialLog D` for a smooth scheme `X` with a strict normal crossings divisor `D` and
+Specialize the supplier's divisorial log structure (CR.5:log-algebra.4, “Divisorial log structures”) as `DivisorialLog D` for a smooth scheme `X` with a strict normal crossings divisor `D` and
 `j : U = X ∖ D → X`: the subsheaf `M_D ⊆ (O_X, ·)` of functions invertible on `U`. Locally, with
 `D = {z₁ ⋯ z_r = 0}`, it is the logification of `ℕʳ → O_X`, `eᵢ ↦ zᵢ`, so it is fine and saturated. Its
 API: at an `r`-fold crossing the chart is `ℕʳ`; it is trivial on `U`; and multiplying a local
 equation by a unit gives the same structure (Kato, §1.5(1), printed p. 194, and Example 2.5(1), pp. 197–198). *Needs:*
-CrystallineCohomology CR.5:log-algebra.4, “Divisorial log structures”
-(`LogCrystalline.divisorialLog`); `FineLogChart`;
+CrystallineCohomology CR.5:log-algebra.4, “Divisorial log structures”; `FineLogChart`;
 ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`, SNC boundaries).
 
 **Checks.**
@@ -3607,7 +3625,7 @@ ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`, SNC bo
 - At a smooth boundary point the characteristic monoid is `ℕ`.
 - At the origin of `xy = 0 ⊂ A²` the characteristic monoid is `ℕ²`, not `ℕ`.
 
-On the algebraic side use `LogCrystalline.logDifferentials` from CrystallineCohomology CR.5.1: for a morphism of prelog rings `(A, Q) → (B, P)` (structure maps
+On the algebraic side use the logarithmic differentials of CrystallineCohomology CR.5.1, “Logarithmic differentials”: for a morphism of prelog rings `(A, Q) → (B, P)` (structure maps
 `α : P → B`, `β : Q → A`), `Ω¹_log = (Ω¹_{B/A} ⊕ (B ⊗_ℤ P^gp)) / R`, where `R` is generated by
 `dα(p) − α(p) ⊗ p` for `p ∈ P` and `1 ⊗ q` for `q` in the image of `Q`; write `dlog p` for the class of
 `1 ⊗ p`. It carries the universal pair `(d, dlog)` with `dα(p) = α(p) dlog p` and
@@ -3633,14 +3651,14 @@ built from the holomorphic cotangent sheaf, through the analytic log-derivation 
 On the standard log point it kills `dlog t` for the identity base map, while the trivial
 base imposes no such relation (Kato, §1.7–1.8, pp. 195–196).
 
-Use `LogCrystalline.IsLogSmooth` as `LogSmooth`: a morphism of fine log schemes `f : X → Y` is log smooth if its underlying map is
+Use the supplier's log smooth morphisms (CR.5:log-algebra.3, “Log smooth morphisms”) as `LogSmooth`: a morphism of fine log schemes `f : X → Y` is log smooth if its underlying map is
 locally of finite presentation and every square-zero lifting problem with an exact closed immersion
 (the source log structure is the pullback of the target's) on the left has a solution étale locally on
 the test object; log étale if the solution is moreover unique. Fibre products are taken in the fine
 category (integralizing when needed). Its API: the lifting property; for strict `f`, log smooth iff smooth; and stable under fine base change (Kato, Definitions 3.1–3.3, pp. 200–201; Proposition 3.8, p. 203, for the strict
 case; (2.8), p. 199, for fine fibre products). *Needs:* CrystallineCohomology
 CR.5:log-algebra.2–.3, “Log fiber products” and “Log smooth morphisms”; `FineLogChart`;
-`LogCrystalline.logDifferentials`; Mathlib `Algebra.FormallySmooth`.
+CR.5.1, “Logarithmic differentials”; Mathlib `Algebra.FormallySmooth`.
 
 **Checks.**
 
@@ -3659,9 +3677,9 @@ locally free. No saturation is assumed (Kato,
 Proposition 3.4, pp. 201–202, Theorem 3.5, p. 202, with Remark 3.6 and the proof 3.13,
 pp. 202–205; Proposition 3.10, p. 203). *Needs:*
 CrystallineCohomology CR.5:log-algebra.3, “Kato chart criterion”, and CR.5.1,
-“Logarithmic differentials”; `LogSmooth`; `LogCrystalline.logDifferentials`.
+“Logarithmic differentials”; `LogSmooth`.
 
-On log schemes specialize `LogCrystalline.logDeRham` as `LogDeRham`: for a fine log morphism, `Ω^p_log = Λ^p Ω¹_log` with the differential extending the
+On log schemes specialize the supplier's log de Rham complex (CR.5.1, “Log de Rham complexes”) as `LogDeRham`: for a fine log morphism, `Ω^p_log = Λ^p Ω¹_log` with the differential extending the
 universal log derivation by `d(dlog p) = 0` and the graded Leibniz rule; it is a complex of
 `f⁻¹O_Y`-modules (`ℂ`-linear in the complex case), with finite locally free terms when `f` is log
 smooth. It is bounded when moreover `X` is quasi-compact, since the locally constant rank of
@@ -3671,7 +3689,7 @@ a divisorial structure with SNC boundary it is the classical `Ω^•_X(log D)` g
 `dzᵢ/zᵢ` and the remaining `dzⱼ`. Its API: `d(dlog p) = 0`; `d² = 0`; and agreement with `Ω^•_X(log D)` (Kato, §1.9, p. 196,
 and Proposition 3.10, p. 203; the agreement with `Ω^•_X(log D)` follows from the chart formula (1.8),
 p. 196; Qian, Proposition 3.6, pp. 18–19, uses it over the standard log point). *Needs:* CrystallineCohomology CR.5.1,
-“Log de Rham complexes” (`LogCrystalline.logDeRham`); `LogCrystalline.logDifferentials`; `logChartCriterion`;
+“Log de Rham complexes” and “Logarithmic differentials”; `logChartCriterion`;
 `AlgebraicDeRham`. Its analytic counterpart is the exterior complex of
 `AnalyticLogDifferentials`, identified by the log-differentials isomorphism of `logAnalytification`
 and the differential-operator comparison.
@@ -3687,7 +3705,7 @@ Prove `logDifferentialTransitivitySplit`: for morphisms of fine log schemes `X �
 log smooth, `0 → f^*Ω¹_log(Y/S) → Ω¹_log(X/S) → Ω¹_log(X/Y) → 0` is exact and locally split, with
 `Ω¹_log(X/Y)` finite locally free; no smoothness of `Y → S` is needed. Taking exterior powers over the
 standard log point gives the short exact sequence of log de Rham complexes used in C5.7 (Kato,
-Propositions 3.10 and 3.12, printed pp. 203–204). *Needs:* `LogCrystalline.logDifferentials`; `LogSmooth`;
+Propositions 3.10 and 3.12, printed pp. 203–204). *Needs:* CrystallineCohomology CR.5.1, “Logarithmic differentials”; `LogSmooth`;
 `logChartCriterion`.
 
 **Checks for `logDifferentialTransitivitySplit`.**
@@ -3706,7 +3724,7 @@ Define `RegularSingular`: an integrable algebraic connection `(E, ∇)` (finite 
 smooth variety `U` of finite type over `ℂ` is regular singular if for every smooth curve `C` with a map
 `C → U`, the pulled-back connection has, at each point at infinity of the smooth completion of `C`, a
 lattice on which it has at most a logarithmic pole (Deligne 1970, II.4.1–4.6, printed pp. 85–91).
-*Needs:* `Crystalline.Connection`; `DivisorialLog`; `LogCrystalline.logDifferentials`;
+*Needs:* CrystallineCohomology CR.1.3's ordinary connection carrier; `DivisorialLog`; CR.5.1, “Logarithmic differentials”;
 C4.5 `affineCurveCompletionInterface` on affine curve charts.
 
 The internal order is the curve-condition definition, the analytic `CanonicalLogExtension`, then
@@ -4459,6 +4477,9 @@ an instance of the named targets, not a separate theorem.
   *Géométrie algébrique et géométrie analytique*, revised edition arXiv:math/0206203v2, printed page
   numbers of that edition.
 - D. Knutson, *Algebraic Spaces*, Lecture Notes in Math. 203, Springer 1971, Ch. I, 5.17 ff.
+- E. Bierstone and P. D. Milman, *Canonical desingularization in characteristic zero by blowing up
+  the maximum strata of a local invariant*, Invent. Math. 128 (1997), 207–302; cited from the
+  authors' preprint arXiv:alg-geom/9508005v2 by its section, statement and page numbers.
 - B. Conrad and M. Temkin, *Non-archimedean analytification of algebraic spaces*, author's version
   (<https://math.stanford.edu/~conrad/papers/analgpaper.pdf>); cited for its Introduction and as a
   nonarchimedean analogue.
