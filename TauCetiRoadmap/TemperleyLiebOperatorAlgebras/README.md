@@ -1,721 +1,1091 @@
-# Temperley–Lieb trace positivity, operator algebras, and annular modules
+# Roadmap: Temperley–Lieb operator algebras and annular modules
 
-Develop the Hermitian and operator-algebraic theory of Temperley–Lieb
-algebras, together with affine diagram algebras and their annular modules.
-The principal theorem determines exactly which positive real loop parameters
-make the closure trace positive at every level. Its proof belongs to diagram
-algebra and is independent of the operator-algebraic construction of Jones
-projections in a subfactor. Build the positive quotients, their compatible
-C*-tower and unitary tensor category, and usable APIs for their traces,
-expectations, representations and tensor products.
+**Summary.** This roadmap builds the Hermitian and operator-algebraic theory of the complex
+Temperley–Lieb algebras on top of two suppliers: the algebraic diagram theory of TemperleyLieb
+(diagram category, presentation isomorphism, closure trace, cell modules and Gram polynomials,
+Jones–Wenzl projections, negligible ideals and the fusion quotients) and the analytic
+Temperley–Lieb theory of Subfactors Layer 3 (the analytic adjoint, Markov uniqueness, Jones's
+positivity theorem, the positive path models, the positive Jones quotients `Q_n` and their
+C*-tower `B_δ`). Layer 1 compares the two: the analytic adjoint against the vertical reflection of
+diagrams, the Hermitian cell forms against the bilinear cell forms and their Gram determinants, the
+trace radical against the negligible ideal, and the positive path model against the algebraic
+path and block idempotents. Layer 2 proves the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)`, classifies
+the negative loop parameters whose signed closure forms are positive at every level, and
+identifies the Bratteli diagram of the Jones tower. Layer 3 builds the unitary Temperley–Lieb
+category: the negligible quotient of the diagram category with its conjugate-linear dagger,
+positive Hom spaces, C*-tensor structure, unitary duality, and the unitary fusion rules of its
+simple objects. Layer 4 builds the affine Temperley–Lieb category, the algebras `ATL_n(δ)`, their
+finite-dimensional standard modules `W_(t,z)(n)`, the classification of finite-dimensional simple
+modules, the explicit intertwiners, the affine Gram determinant with its binomial exponents, and
+the composition factors of the standard modules. The end theorems are:
 
-## Scope, conventions, and dependencies
+- positivity of the signed closure forms at negative loop parameters exactly when `|δ|` is a Jones
+  loop parameter (`markovTrace_neg_one_pow_nonneg_iff`);
+- the unitary Temperley–Lieb category at every admissible `δ`, with its C*-tensor structure,
+  standard unitary duality and unitary fusion rules;
+- the classification of the finite-dimensional simple `ATL_n(δ)`-modules by the nonzero simple
+  heads `L_(t,z)(n)`;
+- the affine Gram determinant `det G_(t,Z)(n;X) = σ_(n,t) Π_r F_r(X,Z)^E_(n,r)` and the
+  composition-factor formula `[W_(t,z)] = Σ_((t,z)≼(s,y)) [L_(s,y)]` over ℂ.
 
-The ordinary complex-parameter diagram theory is supplied by
-[TemperleyLieb Layers0–7](../TemperleyLieb/README.md):
-planar matchings, composition, the linear pivotal category, the diagram/presentation
-isomorphism, closure trace, ordinary cellular algebras and Gram polynomials,
-Jones–Wenzl idempotents, negligible ideals and the algebraic fusion quotients.
-[PivotalSpherical Layers0–4](../PivotalSpherical/README.md)
-supplies general pivotal/spherical traces, finite semisimple categories and
-fusion-category terminology. Build the required missing targets in Tau Ceti
-in these designs and consume their APIs. The dependencies specify the
-mathematics regardless of their publication or implementation status.
+## Scope and ownership
 
-Use the native `TauCeti.TemperleyLieb R δ n` presentation and its universal
-property in `TauCeti.Algebra.TemperleyLieb.Basic`. Its generators are
-`e δ i`, `i : Fin (n−1)`. Prose generator labels e_i and p_i
-are one-based: e_i is native `e δ (i−1)`, for 1≤i<n.
-Thus the last e_n in TL_(n+1) is native index n−1. The relations are
+This roadmap owns:
 
-```
-e_i² = δ e_i,       e_i e_(i±1) e_i = e_i,
-e_i e_j = e_j e_i   when |i−j|≥2.
-```
+- the comparison of Subfactors 3.1's analytic adjoint with the reflection involutions of the
+  diagram category and with the coefficient-fixing star of TemperleyLieb Layer 4, through
+  TemperleyLieb Layer 4's `presentedTLEquiv`, and the coefficient-conjugation map between the
+  fibers at `δ` and `conj δ` (Layer 1);
+- the Hermitian cell forms obtained from TemperleyLieb Layer 5's bilinear cell forms, their
+  invariance under the analytic adjoint, and the Gram-determinant anchors in the
+  through-string labelling (Layer 1);
+- the identification of Subfactors 3.2's trace radical `R_n` with the endomorphism component of
+  TemperleyLieb Layer 6's negligible ideal, its generation by the embedded Jones–Wenzl projection
+  at a root of unity, and the identification of Subfactors 3.3's `Q_n` with the endomorphism
+  algebra of TemperleyLieb Layer 7's root-of-unity quotient (Layer 1);
+- the comparison of Subfactors 3.3's positive path model with the algebraic path and block
+  idempotents of TemperleyLieb Layers 6–7 (Layer 1);
+- the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
+  and the positivity classification at negative loop parameters (Layer 2);
+- the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
+- the unitary Temperley–Lieb category and its C*-tensor and unitary-duality structure (Layer 3);
+- the affine Temperley–Lieb category, the algebras `ATL_n(δ)`, their standard modules, simple
+  heads, intertwiners, Gram determinants and composition factors (Layer 4).
 
-The diagram algebra and native presentation must be related by an algebra
-isomorphism commuting with generators, strand inclusions and traces; do
-not develop a second unrelated presented algebra. Products stack the left
-factor on top of the right, matching Mathlib's `End` multiplication
-`x*y=y≫x`. Ordinary category composition `f≫g` puts g on top of f.
-For δ≠0 the normalized generators `p_i=δ⁻¹e_i` are idempotents and
-satisfy `p_i p_(i±1) p_i=δ⁻²p_i`. The normalized formula is never used
-at δ=0.
+The roadmap leaves the following to named roadmaps:
 
-Write `[r](δ)` for TemperleyLieb Layer0's quantum-integer target
-`qInt`, the evaluation
-of `Polynomial.Chebyshev.S` at index r−1. It is a polynomial in δ:
-`[0]=0`, `[1]=1`, `[2]=δ`, `[r+2]=δ[r+1]−[r]`.
-When q∈ℂ× and δ=q+q⁻¹ this agrees with the usual Laurent sum, including
-q=±1 by evaluation. The native spin trace uses δ=−(q+q⁻¹);
-replace q by −q when comparing it with the positive-loop convention.
-No singular rational expression defines a quantum integer.
+- The ordinary complex diagram theory belongs to TemperleyLieb: planar matchings and the
+  half-diagram counts (Layer 1), the diagram category (Layer 2), the linear pivotal category with
+  its reflection involutions (Layer 3), `TLAlg R δ n`, `presentedTLEquiv`, the closure trace, the
+  Markov-trace predicate and its uniqueness (Layer 4), cell modules, cell forms, the universal Gram
+  polynomial and the semisimplicity classification (Layer 5), Jones–Wenzl projections, the
+  negligible ideal and the Goodman–Wenzl theorem (Layer 6), the Karoubi envelope, quotients by
+  tensor ideals, the generic classification of simples and the root-of-unity fusion quotient
+  (Layer 7).
+- The analytic Temperley–Lieb theory over ℂ belongs to Subfactors Layer 3: the conjugate-linear
+  adjoint on `TauCeti.TemperleyLieb ℂ δ n` for real `δ`, its uniqueness and its compatibility with
+  strand inclusions (3.1); the normal form, Markov uniqueness, quantum integers, Jones–Wenzl
+  projections `f_k` with `T_k(f_k) = [k+1]`, the Hermitian form `H_n`, the trace radical `R_n`,
+  Jones's positivity theorem `markovTrace_nonneg_iff`, the first-bad-level theorem
+  `markovTrace_nonneg_iff_lt_floor`, Cauchy–Schwarz and the pullback criterion (3.2); the positive
+  path models `π_n` on paths of the half-line and of `A_(m−1)`, the weighted trace `τ_n`,
+  `ker π_n = R_n`, the structure theorem `Q_n ≅ ⊕_t M_(#paths(n,t))(ℂ)`, the injective strand maps,
+  the trace-preserving expectations `E_n` with the Markov formula, the finite-dimensional
+  faithful-trace C*-lemma, the C*-inductive limit `B_δ` with its faithful trace, and its GNS
+  representation and weak closure (3.3). None of it is restated here; Layers 1–2 consume it by
+  section.
+- General pivotal and spherical traces, finite semisimple categories and the fusion vocabulary
+  belong to PivotalSpherical Layers 0–4.
+- C*-categories, dagger tensor categories and unitary duality belong to CategoricalOperatorAlgebras
+  CA1a and CA2a; Layer 3 instantiates them.
+- C*-tensor products and C*-inductive limits belong to CStarAlgebras C5; finite matrix
+  C*-algebras, ideals, the continuous functional calculus and completely positive maps belong to
+  CStarAlgebras C1–C4.
+- AF algebras and Bratteli diagrams belong to CStarClassification CL2; Layer 2 supplies the
+  Temperley–Lieb instance.
+- The Grothendieck group of an essentially small abelian category belongs to
+  GrothendieckEulerForms Layer 2 and Tau Ceti's `TauCeti.CategoryTheory.GrothendieckGroup.Abelian`.
 
-For admissible positive δ use one carrier uniformly:
-`Q_n=AnalyticTL δ n ⧸ R_n`, where R_n is its bilinear trace radical.
-Prove R_n=0 when δ≥2 and identify that quotient with the original
-algebra by the canonical *-isomorphism; do not redefine Q_n in that case.
+Outside the roadmap: planar algebras, subfactor basic constructions, index restriction and
+realisation (Subfactors Layers 2–4); general C*- and W*-categories, Q-systems and categorical
+realisation (CategoricalOperatorAlgebras CA3–CA10); affine Hecke algebras and their quiver
+geometry; characteristic-p representation theory of ordinary or affine Temperley–Lieb algebras;
+braided TQFT; the classification of unitary annular representations. The algebraic affine simple
+modules of Layer 4 are included; no positivity is inferred from their bilinear pairings.
 
-For every complex δ the reflection that fixes coefficients is a linear
-anti-involution. Call it r. Coefficient conjugation instead carries the
-δ-algebra to the conjugate-δ-algebra. For **real δ**, their composite
-is the conjugate-linear adjoint `x†`. Keep this adjoint distinct from the
-R-linear `StarRing` reflection in the algebraic roadmap: in particular
-`(i·1)†=−i·1`. Use a type synonym of the native complex presentation to
-carry the conjugate-linear `StarRing` and `StarModule ℂ` instances, and
-compare it with the diagram carrier explicitly. For general complex δ
-there is a conjugate-linear map between the two different fibers;
-Hermitian positivity is asserted only after the real specialization.
+No roadmap consumes this roadmap at present.
 
-The closure trace T_n is **unnormalized**: `T_n(1)=δ^n`,
-`T_(n+1)(ι_n x)=δT_n(x)` and
-`T_(n+1)(ι_n(x)e_n)=T_n(x)`. Its Hermitian form is
-`H_n(x,y)=T_n(x†y)`, conjugate-linear in x. For nonzero real δ,
-`τ_n=δ⁻ⁿT_n` is the normalized Markov trace; it can have a different
-sign from T_n when δ<0. At δ=0 normalized traces and normalized Jones
-projections are undefined. The algebraic algebras and closure traces
-remain defined there.
+## Conventions
 
-- [CStarAlgebras C1–C4](../CStarAlgebras/README.md) supplies finite matrix
-  C*-algebras, ideals, continuous functional calculus and the concrete
-  CP-map interfaces; V13a owns their general CP foundations. C5 supplies
-  spatial tensor products and C*-inductive limits.
-  [CStarClassification CL2](../CStarClassification/README.md) supplies
-  Bratteli-diagram/AF presentations. This roadmap supplies the TL path
-  instances, finite diagram-quotient C*-norms, trace representations
-  and the elementary unitary TL category.
-- [VonNeumannAlgebras V0–V1](../VonNeumannAlgebras/README.md) supplies
-  GNS representations and weak closures; V4 supplies normal functionals
-  and V6 tracial L². V13a supplies general CP maps. The
-  construction here supplies their specific input states and trace Hilbert
-  spaces. It asserts no factor classification or index theorem.
-- [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md)
-  supplies the elementary C*-category, dagger tensor and unitary-duality
-  interfaces instantiated by A6, independently of normal bimodules and
-  planar/module reconstruction.
-- Ordinary cellular forms, their simple heads, their Gram-polynomial
-  specialization, and their algebraic semisimplicity criterion belong to
-  TemperleyLieb Layer5. Here compare those bilinear forms with Hermitian
-  forms and use the path/block decomposition for positivity. Affine
-  standard modules and their separate winding-parameter classification
-  belong to A7 below.
+- **The native presentation.** `TL_n` is `TauCeti.TemperleyLieb ℂ δ n`, with generators `e δ i`,
+  `i : Fin (n − 1)`, and relations `e_i² = δ e_i`, `e_i e_(i±1) e_i = e_i`, `e_i e_j = e_j e_i` for
+  `|i − j| ≥ 2`. Prose labels are one-based: `e_i` is the native `e δ (i−1)` for `1 ≤ i < n`, so the
+  last generator of `TL_(n+2)` is the native `e δ (Fin.last n)` of `markovTrace_strandIncl_mul_e_last`.
+  `ι` is `strandIncl`. The diagram
+  algebra `TLAlg ℂ δ n` of TemperleyLieb Layer 4 is related to `TL_n` by `presentedTLEquiv`;
+  every transported statement commutes with it. No second presented algebra is built.
+- **Stacking.** Products stack the left factor on top of the right, matching Mathlib's `End`
+  multiplication `x * y = y ≫ x`; the composite `f ≫ g` of the diagram category puts `g` on top of
+  `f`.
+- **Quantum integers.** `[r]` is TemperleyLieb Layer 0's `qInt ℂ δ r`, the evaluation of
+  `Polynomial.Chebyshev.S ℂ (r − 1)` at `δ`: `[0] = 0`, `[1] = 1`, `[2] = δ`,
+  `[r+2] = δ[r+1] − [r]`. For `δ = q + q⁻¹` it is the Laurent sum `(q^r − q^(−r))/(q − q⁻¹)`
+  including `q = ±1` by evaluation. No quantum integer is defined by a singular rational expression.
+- **Signs of the quantum parameter.** Tau Ceti's `markovTrace q hq` has loop value
+  `δ = −(q + q⁻¹)`. Penneys and Chen use the positive-loop parameter `q′` with `δ = q′ + q′⁻¹`, so
+  `q′ = −q`. Graham–Lehrer and Erdmann–Green use `δ = −(v + v⁻¹)`, so their `v` is Tau Ceti's `q`;
+  Layer 4 writes `v` for it.
+- **The closure trace.** `T_n` is the unnormalised closure trace, `T_n(1) = δ^n`,
+  `T_(n+1)(ι x) = δ T_n(x)`, `T_(n+1)(ι(x) e_n) = T_n(x)`. On `TL_n` it is `markovTrace q hq` for
+  any `q` with `δ = −(q + q⁻¹)`, independent of `q` by Subfactors 3.2 and TemperleyLieb Layer 4. For
+  real `δ ≠ 0` the normalised trace is `τ_n = δ⁻ⁿ T_n`; for `δ < 0` it differs in sign from `T_n`
+  at odd levels. At `δ = 0` the normalised trace and the normalised Jones projections are undefined;
+  the algebras and `T_n` remain defined.
+- **Adjoints.** For real `δ`, `x†` is Subfactors 3.1's conjugate-linear adjoint on `TL_n`: it fixes
+  every generator, reverses products and conjugates scalars, so `(i·1)† = −i·1`. TemperleyLieb
+  Layer 4's `StarRing` on `TLAlg R δ n` is the `R`-linear vertical reflection; it is written `star`
+  and is never confused with `†`. The Hermitian form is `H_n(x,y) = T_n(x† y)`, conjugate-linear in
+  `x`. Positivity statements use the `ComplexOrder` partial order, in which `0 ≤ z` means `z` is
+  real and nonnegative.
+- **Jones loop parameters.** Subfactors 3.2's `jonesLoopParameters` is `{2cos(π/m) : m ≥ 3} ∪ [2,∞)`.
+  A real `δ > 0` is admissible when it lies there. For `δ = 2cos(π/m)` the quantum integers
+  `[1], …, [m−1]` are positive and `[m] = 0`.
+- **Quotients.** `Q_n` is Subfactors 3.3's `TL_n ⧸ R_n` for every admissible `δ`, including `δ ≥ 2`
+  where `R_n = 0`; it is never redefined.
+- **Coefficients.** Everything is over ℂ except the sign isomorphism of 2.1, stated over every
+  commutative ring, and the universal affine Gram matrices of 4.6, stated over `ℤ[X, Z, Z⁻¹]`.
 
-The selected categorical scope is the ordinary TL unitary quotient and its
-explicit finite-dimensional Hom spaces. General C*/W* categories, arbitrary
-unitary dual functors, Q-systems and categorical realization are separate
-operator-algebra developments. Planar algebras, subfactor basic constructions,
-index restriction and realization, affine Hecke algebras and their quiver
-geometry, modular characteristic-p representation theory, braided TQFT,
-and the classification of all unitary annular representations are outside
-this roadmap. Algebraic affine simple modules are included; no positivity
-is inferred from their bilinear pairings.
+## Exact supplier contracts
 
-[Suggested.lean](Suggested.lean) gives representative target interfaces.
-This README is the definitive specification.
+**From Mathlib.**
 
-## Ownership and build order
+- `StarRing`, `StarModule` and the `ComplexOrder` instance on ℂ.
+- `TwoSidedIdeal` and `RingCon.Quotient` for two-sided ideals and their quotients.
+- `Real.arccos` with values in `[0, π]`, `Real.sqrt` the nonnegative square root, `Nat.floor`.
+- `Polynomial.Chebyshev.S` and `Polynomial.Chebyshev.T`.
+- `Matrix`, `Matrix.det`, `Matrix.trace`, and the finite-dimensional linear algebra used for block
+  decompositions.
+- `CategoryTheory.Idempotents.Karoubi` and `CategoryTheory.Mat_`, as plain categories; their
+  monoidal and linear structures are TemperleyLieb Layer 7's.
+- `FreeAlgebra`, `RingQuot` and `RingQuot.lift`, underlying the native presentation.
 
-This roadmap owns the analytic TL adjoint, all-level Hermitian trace positivity and its
-first-bad-level refinement, positive Jones quotients, and their C*-tower and trace
-representations (A1–A5). [Subfactors](../Subfactors/README.md) consumes these results to
-construct the TL action in a Jones tower, identify its kernel, deduce the index restriction,
-and realise inclusions. It does not redevelop the analytic TL constructions or positivity
-proof. The ordinary algebraic Jones–Wenzl recursion, trace formula and negligible-ideal
-theorem remain TemperleyLieb Layers4–7 suppliers.
+None of these supplies a Temperley–Lieb algebra, a diagram category, a C*-category or an affine
+diagram.
 
-A1–A5 do not use Subfactors, normal correspondences, planar-algebra reconstruction, A6,
-or CategoricalOperatorAlgebras CA1a/CA2a. The category and unitary-duality interfaces
-from CA1a/CA2a enter only in A6; they have their own elementary construction, independent
-of the later categorical layers that consume Subfactors. The dependency order is by these
-named layers, not a requirement that the entire categorical programme precede TL positivity.
+**From Tau Ceti** (`TauCeti/Algebra/TemperleyLieb/Basic.lean`, `.../MarkovTrace.lean`,
+`TauCeti/CategoryTheory/GrothendieckGroup/Abelian.lean`).
 
-Subfactors Layer3 consumes A1–A4 for the trace-preserving action and its kernel;
-Subfactors Layer4 consumes A3–A5 for the quotient-tower realisation. Factoriality,
-inclusion index and standard-invariant identifications are conclusions proved there,
-not inputs to the positive TL path model or C*-tower here.
+- `TauCeti.TemperleyLieb R δ n`, its generators `e δ i`, the relations `Rel`, the universal
+  property `lift`, `lift_e`, `hom_ext`, and `adjoin_range_e` (the generators generate).
+- `strandIncl : TemperleyLieb R δ (n+1) →ₐ[R] TemperleyLieb R δ (n+2)` with `strandIncl_e`.
+- `algEquivOfLeOne` (levels `0` and `1` are the base ring), `e_ne_zero_two` (the generator is
+  nonzero on two strands over a nontrivial ring), `aug` (the augmentation killing every generator).
+- `markovTrace q hq` with `markovTrace_one` (value `δ^n` on `1`), `markovTrace_mul_comm`,
+  `markovTrace_strandIncl` (factor `δ`) and `markovTrace_strandIncl_mul_e_last` (the Markov
+  property). Its loop value is `−(q + q⁻¹)`.
+- `TauCeti.AbelianK0 C` with `AbelianK0.of`, `of_shortExact` and `of_biprod`, the Grothendieck group
+  of an essentially small abelian category.
+- No star structure, positivity, quotient, diagram category or affine algebra is supplied.
 
-## A1. Complex fibers, reflection, and trace interfaces
+**From TauCetiRoadmap.TemperleyLieb.** Cited as TemperleyLieb Layer k. Assumed of each layer:
 
-Consume the ordinary complex diagram algebra and presentation equivalence.
-Use TemperleyLieb Layer4's comparison `presentedTLEquiv` between the
-native n-strand presentation and the diagram algebra `TLAlg ℂ δ n`, with
-its generator and strand-inclusion compatibilities; all transported APIs
-commute with this map.
-Develop base change in the loop parameter, coefficient-conjugation maps,
-identity/composition and generator formulas. For real δ construct the
-conjugate-linear adjoint on the analytic synonym by reversing words and
-conjugating their coefficients: `freeConj` conjugates coefficients on the
-free complex algebra through its monoid-algebra model, `adjointLift`
-composes it with Mathlib's word reversal into the opposite algebra, and
-`adjoint` is its descent through `RingQuot.lift`, which needs δ real so
-that conjugation fixes the relation `e_i²=δe_i`. Prove involutivity,
-additivity, reversal of multiplication and conjugate-scalar compatibility. Compare with vertical reflection of diagrams and the
-algebraic linear reflection. Prove their commuting-square and involution
-identities, including the complex-parameter conjugate-fiber form.
-Prove uniqueness among conjugate-linear adjoints fixing every native generator,
-and compatibility with strand inclusions. On levels zero and one the adjoint
-is scalar conjugation; on two strands `(i·e)†=−i·e`. For nonreal δ, a
-generator-fixing conjugate-linear adjoint on the same complex fiber is
-impossible: the two-strand relation gives `(δ−conj δ)e=0`, contradicting
-the native `e_ne_zero_two` theorem.
+- Layer 0: `qInt R δ r` as the evaluation of `Polynomial.Chebyshev.S`, the recurrence, and
+  `exists_qInt_eq_zero_iff` (over an algebraically closed field of characteristic zero, `[r] = 0`
+  for some `r ≥ 1` exactly when `δ = ζ + ζ⁻¹` for a root of unity `ζ ≠ ±1`).
+- Layer 1: `PlanarMatching k` with `card_planarMatching`, and `halfCount n k`, the number of
+  half-diagrams on `n` points with `k` through strings, `halfCount n k = C(n,(n−k)/2) − C(n,(n−k)/2−1)`
+  for `k < n`, `n − k` even, `halfCount n n = 1`, and `0` off that parity.
+- Layer 2: the diagram category `TLDiagCat` with gluing composition and circle counts.
+- Layer 3: the linear category `TL(R, δ)` with `diagBasis`, its monoidal, rigid, pivotal and
+  spherical structure, the vertical reflection (a contravariant monoidal involution fixing every
+  `e_i`) and the left–right reflection `reflect` (sending `e_i` to `e_(n−i)`).
+- Layer 4: `TLAlg R δ n := End (TLCat.of n)`, `presentedTLEquiv : TauCeti.TemperleyLieb R δ n ≃ₐ[R]
+  TLAlg R δ n` with its generator and `strandIncl ↦ incl` compatibilities, the `StarRing` by vertical
+  reflection with `star (r • x) = r • star x`, the closure trace `tr̂` with `tr̂(1) = δ^n`, the
+  pairing `tr̂(star x · y)`, the conditional expectation `condExp`, the predicate `IsMarkovTrace`,
+  `existsUnique_isMarkovTrace`, and the comparison `tr̂ ∘ presentedTLEquiv = markovTrace q hq`
+  whenever `δ = −(q + q⁻¹)`.
+- Layer 5: `CellModule R δ n k` with the half-diagram basis, the bilinear `cellForm`, the scalar
+  tower with the `TLAlg`-action, the universal Gram polynomial `gramPoly n k ∈ ℤ[X]` with its
+  anchors `det G_{2,0} = [2]`, `det G_{3,1} = [3]`, `det G_{4,2} = [4]`, `det G_{4,0} = [2]²[3]`,
+  `det G_{5,1} = [3]⁴(δ² − 2)`, and the semisimplicity classification
+  `isSemisimpleRing_iff_of_charZero`.
+- Layer 6: `jonesWenzl n` (`existsUnique_jonesWenzl`), both recursions, `IsMarkovTrace.apply_jonesWenzl`
+  (`tr̂ f_n = [n+1]`), the partial-trace formula, tensor ideals, `negligibleIdeal` (the morphisms `f`
+  with `tr̂(f ≫ g) = 0` for all `g`), the Goodman–Wenzl theorem (in characteristic zero at quantum
+  order `ℓ`, `f_(ℓ−1)` generates the negligible ideal, the unique proper nonzero tensor ideal), and
+  the path and block idempotents of its proof.
+- Layer 7: the monoidal, linear and rigid structures on `Mat_` and `Karoubi`, `MonoidalIdeal` and
+  `MonoidalQuotient`, the bridge to abelian Hom-finite categories, the generic classification of
+  simples by Jones–Wenzl objects `X_r` with Clebsch–Gordan rules, and the root-of-unity quotient
+  with simples `X_0, …, X_(ℓ−2)` satisfying PivotalSpherical's fusion hypotheses.
 
-Transport strand inclusions, closure traces and last-strand closure maps
-from the diagram category to the native presentation. Include levels zero
-and one, where the algebra is ℂ; handle the initial strand inclusion without
-truncated-index artifacts. Prove the native spin `markovTrace` agrees with
-T_n for every q∈ℂ× realizing its signed loop parameter. Use the algebraic
-Markov-trace uniqueness theorem and compare all of its normalization,
-traciality and Markov hypotheses. Deduce independence of q, including
-q↔q⁻¹. Supply usable evaluation lemmas for basis diagrams, generators,
-ordered words, adjoints and inclusions.
+**From TauCetiRoadmap.Subfactors.** Cited as Subfactors 3.k. Assumed of each section:
 
-For real δ prove `T_n(x†)=conjugate(T_n(x))` and that H_n is Hermitian.
-Prove sesquilinearity, symmetry and naturality under inclusions and closure,
-with the actual factor δ under inclusion. Define the bilinear trace
-radical by `R_n={x:∀y,T_n(xy)=0}`; prove it is a two-sided ideal and is
-adjoint invariant. Distinguish it from the cell-form radical, a submodule
-of a cell module, and the Jacobson radical of the algebra. Give transport,
-quotient and universal factorization APIs for this ideal.
+- 3.1: for real `δ`, the conjugate-linear adjoint `†` on `TL_n`, involutive, additive, reversing
+  products, fixing every generator, unique with these properties, commuting with `strandIncl`;
+  non-existence for non-real `δ`.
+- 3.2: the normal form; Markov uniqueness; the quantum integers and their signs; `f_k` when
+  `[2], …, [k] ≠ 0`, idempotent, killed by every generator, `f_k† = f_k` for real `δ`,
+  `T_k(f_k) = [k+1]`; `T_n(x†) = conj T_n(x)`; `H_n` Hermitian and natural under inclusion with
+  factor `δ`; `R_n = {x : ∀ y, T_n(xy) = 0}` a `†`-stable two-sided ideal; `jonesLoopParameters`;
+  `markovTrace_nonneg_iff` (for `δ > 0`, `T_n(x† x) ≥ 0` for all `n`, `x` iff `δ` admissible);
+  `markovTrace_nonneg_iff_lt_floor`; Cauchy–Schwarz and `{x : H_n(x,x) = 0} = R_n`; the pullback
+  criterion.
+- 3.3: for admissible `δ`, the path model `π_n` on `ℓ²` of the `n`-step paths from `0` on the
+  half-line (for `δ ≥ 2`) or on `A_(m−1)` (for `δ = 2cos(π/m)`), with `π_n(U_i)` mixing the two
+  continuations of a path at a vertex `s` by the matrix `[s+1]⁻¹ v vᵀ`, `v = (√[s], √[s+2])`; the
+  weighted trace `τ_n(X) = Σ_t [t+1] Tr(X_t)` with `τ_n ∘ π_n = T_n`; `ker π_n = R_n`;
+  `Q_n ≅ ⊕_t M_(#paths(n,t))(ℂ)`; injective strand maps `Q_n → Q_(n+1)`; the expectations `E_n`
+  with `τ_(n+1)(ι_n(x) p_n) = δ⁻¹ τ_n(x)`, `p_n = δ⁻¹ U_n`; the finite-dimensional faithful-trace
+  C*-lemma and the C*-norm on `Q_n`; the C*-inductive limit `B_δ` with faithful normalised trace;
+  the faithful GNS representation and its weak closure with the normal extension of the trace and
+  of the expectations.
 
-At δ=0 show T_n is zero for n>0 because every closure of a nonempty
-matching has at least one loop; T_0 is the identity of ℂ. Thus the
-closure form is trivially positive semidefinite at those levels, but it
-cannot be normalized to a state. This is an algebraic boundary example,
-not a positive-dimensional unitary tensor category. At negative real δ,
-T_1(1)=δ already excludes positivity of the unnormalized forms at all
-levels. These examples pin the hypothesis δ>0 in the main theorem.
+**From TauCetiRoadmap.PivotalSpherical.** Layers 0–4: the dual functors, `PivotalCategory`,
+left and right traces and `SphericalCategory`, `IsFiniteSemisimpleCategory`, and the fusion
+hypotheses stated as instance arguments.
 
-## A2. Cellular and path comparisons
+**From TauCetiRoadmap.CategoricalOperatorAlgebras.** CA1a: daggers on complex linear
+categories, C*-categories (Banach Hom spaces, contractive bilinear composition, isometric dagger,
+`‖f†f‖ = ‖f‖²`, positivity of `f†f`), the C*-algebra structure on each `End(X)`, finite linking
+algebras, finite orthogonal sums and unitary splittings. CA2a: dagger tensor categories with
+unitary associators and unitors, solutions of the conjugate equations, standard and balanced
+solutions, unitary dual functors with `(f∨)† = (f†)∨`, pivotal comparison and positive dimensions.
+Nothing from CA1b, CA2b or CA3–CA10 is used.
 
-Consume the ordinary cell modules with labels t, `0≤t≤n` and
-`t≡n mod2`, dimension
-`d_(n,p)=binom(n,p)−binom(n,p−1)` for `p=(n−t)/2`, and link-state
-bilinear Gram form. For real δ conjugate the coefficients in its first
-argument to obtain the associated Hermitian form. Prove its invariant
-identity against the conjugate-linear adjoint. Give matrix/basis
-comparisons, radical quotient transport. Neither nondegeneracy nor algebraic semisimplicity
-implies Hermitian positivity.
+**From TauCetiRoadmap.CStarAlgebras.** C1–C4: finite-dimensional C*-algebras and their ideals,
+the continuous functional calculus, completely positive maps and their matrix order. C5: the
+spatial tensor product of C*-algebras with `M_n ⊗ A ≅ M_n(A)`, and C*-inductive limits of directed
+systems of *-homomorphisms with their universal property.
 
-Use the universal Gram polynomial of TemperleyLieb Layer5. In rational
-function notation, with p=(n−t)/2, its determinant is
+**From TauCetiRoadmap.CStarClassification.** CL2: `IsAF` and its local characterisation (2.1);
+Bratteli diagrams, the inductive system of a diagram, the `K₀` connecting maps as multiplicity
+matrices, and the recovery of a diagram from an AF presentation (2.2).
 
-```
-det G_(n,t) = Π_(j=1)^p ([t+1+j]/[j])^(d_(n,p−j)).
-```
+**From TauCetiRoadmap.GrothendieckEulerForms.** Layer 2: abelian `K₀` as exact `K₀` of the
+canonical exact structure, its universal property and its functoriality under exact functors.
 
-The Gram label t is the number of through strings, exactly as in the
-supplier. Ridout–Saint-Aubin's G_(n,p) has p arcs and is this G_(n,n−2p).
+## How to read the build
 
-The identity to consume is the polynomial identity before specialization,
-not a quotient of evaluated zero denominators. Compare the integer-polynomial
-recurrence and the diagram Gram matrix; include the anchors
-`det G_(2,0)=δ`, `det G_(3,1)=δ²−1`,
-`det G_(4,2)=[4]`, `det G_(4,0)=δ²(δ²−1)`.
-For δ=0 recover the characteristic-zero semisimplicity parity exception
-from that supplier, including the semisimple TL_3 with indefinite cell
-form and the nonsemisimple TL_2. There is no claim that the algebra's
-Jacobson radical equals a trace radical.
+Layer 1 is comparison: it takes Subfactors Layer 3's analytic objects and TemperleyLieb's
+algebraic objects and proves they are the same objects seen from two sides, so that every later
+statement can use whichever description is convenient. Layer 2 adds the one new positivity
+statement of the roadmap, at negative loop parameters, by a sign isomorphism, and the Bratteli
+diagram of the tower; it needs Layer 1 only for the block description of `Q_n`. Layer 3 builds the
+unitary Temperley–Lieb category from Layer 1's positive Hom pairings and TemperleyLieb Layer 7's
+envelope and quotient, and instantiates CategoricalOperatorAlgebras' interfaces. Layer 4 is
+independent of Layers 2–3: it needs the ordinary diagram category and the Jones–Wenzl calculus of
+TemperleyLieb, and Layer 1 only for the sign convention of the quantum parameter.
 
-Construct the paths on the half-line graph A_∞ from vertex 0 with steps
-±1 and nonnegative heights, and on A_(m−1) with heights 0,…,m−2.
-Develop path enumeration by length and endpoint, restriction, extensions,
-concatenation and reversal. Consume the half-diagram/path bijection, Jones–Wenzl path/block
-idempotents and algebraic matrix-unit multiplication from TemperleyLieb
-Layers1,6–7. Compare these path carriers and their inclusion branching.
-What this layer adds is the conjugate-adjoint comparison and normalization
-in positive-weight regions: use the positive `Real.sqrt` of every positive
-quantum-weight ratio in path intertwiners. Prove the resulting matrix
-units have conjugate transpose as adjoint, and expose their generator
-and inclusion formulas. No arbitrary complex square-root choice sets
-the unitary normalization, and no indefinite block is declared positive.
+## Layer 1: Hermitian structure on the diagram side
 
-In the positive-weight case prove the decomposition of the n-strand
-algebra into matrix blocks indexed by endpoint t, with one basis vector
-for each n-step path ending there. Each diagonal minimal projection has
-closure trace `[t+1]`; off-diagonal matrix units have trace zero.
-Prove the block trace formula
-`T_n(x)=Σ_t [t+1] Tr(x_t)`, its value on 1, and the identity
-`Σ_t (#paths_(n,t))[t+1]=δ^n`. Expose the branching rule giving the
-Markov trace and last-strand closure on these blocks. The root-of-unity
-version is the quotient construction in A3, rather than extending
-nonzero-denominator matrix units through a singular level.
+### 1.1 The analytic adjoint and the diagram reflections
 
-## A3. Positive Jones quotients and negligible ideals
+For real `δ` define the diagram adjoint on `TLAlg ℂ δ n` as the composite of TemperleyLieb
+Layer 4's vertical reflection `star` with conjugation of the coefficients in `diagBasis`. Prove
+that `presentedTLEquiv` intertwines Subfactors 3.1's `†` with it: both are conjugate-linear
+anti-automorphisms fixing every generator, and 3.1's uniqueness applies (Penneys, *Unitary Quantum
+Symmetries Lite*, Chapter 4, Facts 4.4.14 (TB4), printed p. 155, for the adjoint on tree-basis
+matrix units). For every complex `δ` define coefficient conjugation `κ : TL_n(δ) → TL_n(conj δ)`
+on the native presentation, the conjugate-linear ring isomorphism fixing the generators; it
+descends through `RingQuot.lift` because conjugating `e_i² = δ e_i` gives `e_i² = conj(δ) e_i`.
+Prove that `star ∘ κ = κ ∘ star` on the diagram side, that `κ ∘ κ = id`, that `κ` commutes with
+`strandIncl`, and that for real `δ` the composite `star ∘ κ` is `†`. Prove `T_n ∘ κ = conj ∘ T_n`
+on the fibers `δ` and `conj δ`, and `tr̂(star x) = tr̂(x)` (TemperleyLieb Layer 4's trace is
+reflection-invariant), so that `T_n(x†) = conj T_n(x)` of Subfactors 3.2 is the composite of the two.
+Identify the Hermitian form: `H_n(x, y) = tr̂(star(κ x) · y)`, the pairing of TemperleyLieb Layer 4
+with the first argument conjugated.
 
-For δ=2cos(π/m), m≥3, f_(m−1) exists since its construction uses
-`[1],…,[m−1]`, and its trace is `[m]=0`. Consume the algebraic
-negligible-tensor-ideal generation theorem and compare its components
-with the closure-trace radicals R_n. For n<m−1 the ideal is zero.
-For n≥m−1 its component is the two-sided ideal generated by the
-embedded f_(m−1), equivalently by diagrams with that idempotent as a
-subdiagram. Prove these statements commute with strand inclusions,
-reflection, horizontal tensoring and last-strand closure.
+- The diagram adjoint is a conjugate-linear anti-automorphism of `TLAlg ℂ δ n` for real `δ`, equal
+  to `presentedTLEquiv ∘ † ∘ presentedTLEquiv⁻¹`.
+- `κ` is a conjugate-linear ring isomorphism `TL_n(δ) → TL_n(conj δ)` fixing the generators,
+  involutive, compatible with `strandIncl`, with `T_n^(conj δ)(κ x) = conj(T_n^δ(x))`.
+- For real `δ`, `H_n(x, y) = tr̂(star(κ x) · y)` under `presentedTLEquiv`, and `H_n` is natural under
+  `strandIncl` with factor `δ`.
 
-Use the uniform analytic quotient Q_n fixed above. Develop the
-quotient map, representative-independent
-product/adjoint/trace, faithful trace, basis reduction and dimension.
-Use the relation f_(m−1)=0 to reduce through-string counts, and prove
-the surviving path matrix units form a basis indexed by pairs of n-step
-paths on A_(m−1) with common endpoint. Show
-`Q_n≅⊕_t M_(#paths_(n,t))(ℂ)` as *-algebras and
-`dim Q_n=Σ_t (#paths_(n,t))²`. Identify the descended trace with the
-positive weighted block trace of A2. Prove compatibility of the ordinary
-and root path formulas before the first removed level.
+**Checks.**
 
-Give the tower branching along adjacent vertices, and prove all Q_n→Q_(n+1)
-strand maps injective, including levels zero and one. Establish existence
-and uniqueness of normalized trace-preserving conditional expectations
-E_n:Q_(n+1)→Q_n by the scaled last-strand closure, with E_nι_n=id,
-bimodularity, trace preservation and
-the Markov formula `τ_(n+1)(ι_n(x)p_n)=δ⁻²τ_n(x)`.
-The n=0 map is the scalar trace; specify it separately from a nonexistent
-last generator. Give the algebraic blockwise formula. A5 supplies the
-C*-positivity/CP and trace-Hilbert comparisons after installing their norms.
+- On zero and one strands the algebra is ℂ (`algEquivOfLeOne`), `star` is the identity, `κ` and `†`
+  are complex conjugation.
+- On two strands `(i·e)† = −i·e`, while `star(i·e) = i·e`; a definition of the diagram adjoint that
+  omitted `κ` would give the second value.
+- At `δ = i`, `κ : TL_2(i) → TL_2(−i)` sends `e` to `e` and carries `e² = i·e` to `e² = −i·e`; no
+  generator-fixing conjugate-linear map `TL_2(i) → TL_2(i)` exists (Subfactors 3.1's Check).
+- On three strands the left–right reflection `reflect` of TemperleyLieb Layer 3 sends `e_1` to `e_2`,
+  so it is neither `star` nor `†`; a test fixing only `e_1` on two strands would not see this.
 
-Include the boundary distinction at n=m−1: TL_(m−1) can be semisimple
-while its trace radical is nonzero. At δ=1, TL_2 is the semisimple
-algebra ℂ⊕ℂ and f_2 is a nonzero trace-null idempotent; Q_2=ℂ.
-This is a concrete counterexample to identifying the trace radical with
-the Jacobson radical. At δ=√2 (m=4), give `dim Q_2=2`, `dim Q_3=4` and
-`dim TL_3=5` from the A_3 path counts, compatibly with strand inclusion and traces.
-Cell-form radicals, algebra radicals and tensor
-negligibility retain their respective definitions throughout.
+*Needs:* Subfactors 3.1; TemperleyLieb Layer 3 (reflections), Layer 4 (`presentedTLEquiv`,
+`star`, `tr̂`, the pairing); Tau Ceti `strandIncl`, `algEquivOfLeOne`, `e_ne_zero_two`; Mathlib
+`RingQuot.lift`.
 
-## A4. Positivity at every level
+### 1.2 Hermitian cell forms and Gram anchors
 
-Define `jonesLoopParameters = {2cos(π/m): m∈ℕ, m≥3} ∪ [2,∞)` in this
-roadmap's namespace. The native-trace interface is `markovTrace_nonneg_iff`;
-its first-bad-level refinement is `markovTrace_nonneg_iff_lt_floor`.
-`closureTrace_positive_iff` gives the equivalent statement on A1's analytic
-synonym and parameter-independent trace. Prove the comparison between the
-native and synonym statements using A1's unique generator-fixing adjoint
-and trace comparison, without defining a second admissible-parameter set
-in Subfactors.
+Consume TemperleyLieb Layer 5's `CellModule ℂ δ n t` with `t` through strings, `0 ≤ t ≤ n`,
+`t ≡ n (mod 2)`, of dimension `d_(n,p) = C(n,p) − C(n,p−1)` with `p = (n−t)/2`, and its bilinear
+`cellForm`. For real `δ` define the Hermitian cell form `⟨u, v⟩_H := cellForm(κ u, v)`, with `κ`
+conjugating the coefficients in the half-diagram basis. Prove it is sesquilinear and Hermitian
+(the Gram matrix in the half-diagram basis is real symmetric), and prove the invariance
+`⟨a·u, v⟩_H = ⟨u, a†·v⟩_H` from Layer 5's compatibility of `cellForm` with the action and 1.1's
+identification of `†` with the reflection. Prove that the Hermitian and bilinear Gram matrices
+coincide in the half-diagram basis, so their determinants agree, and that neither nondegeneracy
+nor semisimplicity implies positivity of `⟨·,·⟩_H`.
 
-For δ>0 prove the equivalence
-
-```
-(∀ n≥0, ∀ x∈TL_n(ℂ,δ), T_n(x†x)≥0)
-  ↔ δ∈{2cos(π/m): m∈ℕ, m≥3} ∪ [2,∞).
-```
-
-All inequalities use the real value of the Hermitian trace. For an
-inadmissible 0<δ<2, put θ=arccos(δ/2) and k=⌊π/θ⌋. Prove
-that T_n is positive semidefinite exactly when n<k, and positive
-definite at each of those levels. The first negative witness is f_k;
-its image at every higher level remains negative by the inclusion
-trace factor δ>0. For admissible δ the all-level result above applies.
-No subfactor, basic construction or II₁ factor is a hypothesis.
-
-For necessity, if 0<δ<2 write δ=2cosθ with 0<θ<π/2. Unless θ=π/m
-for an integer m≥3, choose the first negative quantum integer `[k+1]`,
-with `[1],…,[k]` strictly positive. The Jones–Wenzl idempotent f_k is
-defined and selfadjoint and has `T_k(f_k†f_k)=[k+1]<0`.
-Prove the trigonometric sign/first-zero alternatives needed to justify
-this choice, including rational θ/π that is not reciprocal to an integer.
-Supply the first-bad-level formula and recurrence comparisons.
-
-For sufficiency when δ≥2 prove every `[r]>0` for r≥1 from the
-hyperbolic/Laurent formula and at δ=2 from its polynomial limit;
-no division by q−q⁻¹ is used at q=1. A2's block
-formula makes T_n positive definite for every n, because each weight
-is positive and the *-operation is the matrix adjoint. For
-δ=2cos(π/m), use A3's trace-descending quotient and paths on A_(m−1).
-Their weights `[1],…,[m−1]` are positive and `[m]=0`; the quotient trace
-is positive definite and its pullback is positive semidefinite. The preceding positive-quotient construction supplies this root-level
-argument and its agreement with the nonsingular initial levels.
-
-Prove the positivity/null-space consequences used elsewhere:
-Cauchy–Schwarz for H_n, equality of `{x:H_n(x,x)=0}` and R_n,
-ideal and adjoint stability, and nondegeneracy on the quotient. Give the
-trace-compatible factorization criterion for *-representations through
-that quotient. For compatible *-homomorphisms ρ_n from every AnalyticTL δ n
-into tracial *-algebras (B_n,σ_n), if σ_n is positive and
-`σ_n∘ρ_n=δ⁻ⁿT_n`, conclude δ is admissible by pullback positivity.
-No injectivity of ρ_n is needed. A single low level instead gives
-the finite-level condition just stated.
-
-Work out δ=½ at level two, with f_2=1−δ⁻¹e_1 and
-`T_2(f_2)=δ²−1<0`; δ=1 and m=3; δ=√2 and m=4;
-δ=(1+√5)/2 and m=5; and δ=2. These examples test the loop value,
-projection scaling, zero quantum integer and first vanishing trace.
-
-## A5. C*-tower and trace representations
-
-Prove a reusable finite-dimensional lemma: a unital complex *-algebra
-with a faithful positive trace becomes a C*-algebra under the operator
-norm of left multiplication on its trace Hilbert space. Build the
-Hilbert space from its definite sesquilinear form, prove L(x)†=L(x†),
-faithfulness from L(x)1=x, boundedness and completeness by finite
-dimension, and the C*-identity. Its norm and star agree with every
-*-matrix decomposition.
-
-For admissible positive δ apply this lemma to the uniform Q_n,
-using the analytic quotient star and its faithful descended trace.
-Prove the resulting C*-norm agrees with the positive path/block
-representation and is independent of the positive-normalization choices.
-Now prove A3's expectations positive and completely positive in these
-C*-structures, and identify them with the trace-Hilbert orthogonal
-projections. The algebraic closure form supplies the inner product,
-and the normalized trace supplies the compatible unit vector; no norm is defined on the
-unquotiented trace-null algebra by pretending its form is definite.
-
-Prove the strand maps unital isometric *-homomorphisms and the closure
-expectations contractive UCP maps. Consume CStarAlgebras C5's C*-inductive-limit construction to define
-B_δ for this system. Prove its TL generator, density and trace
-comparison lemmas and identify the path Bratteli diagram using
-CStarClassification CL2's AF presentation. Transport cofinal-system
-comparisons and the universal property from that supplier, and construct
-the induced normalized trace τ. Prove τ is faithful on B_δ,
-using the expectations onto stages: they converge pointwise in norm to
-the identity, and for positive x with τ(x)=0 each E_n(x) is zero by
-faithfulness of its finite-stage trace. Develop these compatible expectations
-and their norm-convergence API before using this argument.
-
-Construct `L²(B_δ,τ)`, the inclusions of the stage trace Hilbert spaces,
-and their dense union. Compare the GNS representation with the direct
-limit of left-multiplication representations and prove its faithfulness.
-Use V1 to take its weak closure, extend the trace normally, and compare
-the finite-stage expectations, orthogonal projections and generated
-normal subalgebras. Prove the expectation onto each stage extends from
-B_δ and agrees with trace-Hilbert projection. This is the trace
-representation of the TL tower; factor type, subfactor inclusions and
-classification require separate theorems.
-
-For negative δ prove the algebraic sign isomorphism
-`TL_n(δ)→TL_n(−δ)`, `e_i↦−e_i`, and its conjugate-adjoint compatibility.
-Prove the trace relation `T_n^δ(x)=(-1)^nT_n^(−δ)(signMap x)`
-from the Markov characterization, and the normalized-trace compatibility.
-Thus for δ≠0 the normalized forms are positive at every level exactly
-when |δ| is admissible. Compare these finite algebras and their normalized
-C*-towers, without claiming that the original negative categorical
-dimension defines a unitary spherical TL category: the trace of the
-identity of its one-strand object remains negative.
-
-## A6. The unitary TL category
-
-Define a dedicated wrapper category `UnitaryTL_δ`: objects wrap the
-ordinary TL object n, and Hom(n,m) is a type synonym of the complex
-linear diagram Hom space modulo its negligible subspace. Use this
-quotient uniformly; the negligible subspace is zero for δ≥2.
-Composition and scalar action descend, and the canonical linear
-comparison maps commute with cups, caps and diagram operations.
-The wrapper carries its own conjugate-linear dagger. Its End stars
-come from that dagger, so TemperleyLieb Layer4's coefficient-fixing End star is
-never installed on these Hom synonyms.
-
-Prove the concrete dagger laws `f††=f`, `(f≫g)†=g†≫f†`,
-`(c f)†=conjugate(c) f†`, addition and identity compatibility.
-To prove positivity of Hom(n,m), bend/rotate its n+m boundary
-points to the ordinary End((n+m)/2) diagram pairing when n+m is
-even; prove equality of closure-loop pairings and of their trace
-radicals. For odd n+m the Hom space is zero. This gives definite
-quotient Hom inner products from A4, beyond just End positivity.
-For the additive envelope define the trace by the sum of diagonal
-closure traces and prove positivity/faithfulness of its End forms
-by summing the definite component Hom forms.
-Identify each Hom(n,m) with a corner of the positive endomorphism algebra
-of n⊕m in the additive envelope. Apply A5's finite-dimensional faithful-trace lemma to that additive
-End algebra and restrict its left-regular norm to each corner.
-Prove independence of the envelope realization and agreement of
-End(n) with Q_n.
-
-Instantiate the native dagger and C*-category interfaces of
-[CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md),
-using its finite linking/Hom, tensor and unitary-duality axioms,
-independent of its bimodule and realization milestones.
-This is a concrete normed dagger tensor category:
-prove its C*-category
-axioms explicitly, including bounded composition,
-`‖f†f‖=‖f‖²`, positivity in each endomorphism algebra and completeness
-of every finite-dimensional Hom space. Show tensor product respects
-adjoints and is contractive on morphisms, by an explicit *-homomorphism
-from the finite-dimensional spatial tensor product of endomorphism
-algebras. For admissible positive δ supply the cups/caps and both conjugate
-equations. Prove cap is cup† in the prescribed bending convention,
-the dual tensorator is unitary and `(f∨)†=(f†)∨`. Identify these
-conjugate solutions as CA2a's balanced solutions, including their
-sum/subobject transport, and prove their spherical trace is the
-given positive closure trace. This constructs the
-TL example directly; it does not require a later general categorical
-operator-algebra realization theorem.
-
-Transport the algebraic additive/Karoubi envelope through this normed
-structure. Compare splitting an arbitrary idempotent with splitting a
-selfadjoint projection: prove it is isomorphic to a projection image in
-its finite-dimensional C*-endomorphism algebra and construct the
-unitary comparison for two projection splittings. Prove finite
-biproducts and tensor products preserve the completed Hom spaces and
-that duality descends. Compare `Karoubi(Mat_(TL/N))` with the
-algebraic supplier's `Karoubi(Mat_(TL))/N` by a monoidal linear
-equivalence, then transport its algebraic classifications. Arbitrary
-idempotents are not declared selfadjoint.
-
-Consume TemperleyLieb Layer7's simple classification and tensor
-decompositions. For δ≥2 the simple objects are the Jones–Wenzl objects X_r, r≥0,
-with quantum dimensions `[r+1]` and the untruncated step-two rule
-`X_a⊗X_b≅⊕_(c=|a−b|,|a−b|+2,…,a+b) X_c`.
-Normalize the intertwiners to make these decompositions unitary. For
-δ=2cos(π/m), the simples are X_0,…,X_(m−2), and the range becomes
+Restate Layer 5's universal Gram identity in the through-string labelling as the rational-function
+identity, for `p = (n−t)/2`,
 
 ```
-|a−b| ≤ c ≤ min(a+b, 2m−4−a−b),    c≡a+b mod2.
+det G_(n,t) = Π_(j=1)^p ([t+1+j]/[j])^(d_(n,p−j))
 ```
 
-Prove all surviving quantum dimensions positive, transport the supplier's
-finite fusion-category conditions using the PivotalSpherical vocabulary,
-and prove compatibility
-with A3's endomorphism blocks and tensor ideals. Give the quantum-dimension
-and fusion computations at m=3,4,5. The δ≥2 category has infinitely many
-simple objects and is not declared a fusion category.
+(Ridout–Saint-Aubin, Theorem 4.7, equation (4.20), printed p. 20; their `G_(n,p)` with `p` arcs is
+this `G_(n,n−2p)`), and prove it from the polynomial identity before specialisation, never from a
+quotient of evaluated zero denominators.
 
-## A7. Affine diagrams and finite-dimensional standard modules
+- `⟨·,·⟩_H` is a Hermitian form on `CellModule ℂ δ n t`, invariant under the `†`-twisted action.
+- Its Gram matrix equals Layer 5's bilinear Gram matrix, and `det G_(n,t)` is the evaluation of
+  `gramPoly n t`.
+- The anchors `det G_(2,0) = δ`, `det G_(3,1) = δ² − 1 = [3]`, `det G_(4,2) = δ³ − 2δ = [4]`,
+  `det G_(4,0) = δ²(δ² − 1) = [2]²[3]`, `det G_(5,1) = [3]⁴(δ² − 2)` agree with Layer 5's anchors.
 
-Construct the affine TL category at each complex loop parameter δ. Its
-objects are natural numbers. Morphisms are complex linear combinations of
-nonintersecting diagrams on a cylinder, equivalently periodic rectangle
-diagrams with marked seams and boundary points. Remove contractible loops
-with coefficient δ; retain essential circles and the integral winding of
-through strings as diagram data. Specify isotopy relative to the marked
-boundaries and prove a discrete normal-form classification of diagrams,
-so equality, gluing and winding calculations have actual combinatorial
-algorithms. Composition is stacking with the same order as the ordinary
-category. Prove associativity, identity and the reflection formulas,
-including conjugation to the conjugate-δ fiber. Horizontal juxtaposition
-of annuli is not silently declared an ordinary tensor product.
+**Checks.**
 
-Let ATL_n(δ) be the endomorphism algebra. Give its diagram basis,
-through-string filtration, rotation and its inverse for n>0, and the
-cap/cup and seam-generator computations. Prove the usual cyclic TL
-and rotation-conjugacy relations where their indices make sense, without
-using that list as a complete presentation. Treat n=0,1,2 through their
-diagram definitions. ATL_0 is the polynomial algebra in an essential
-circle; ATL_1 is the Laurent algebra of through-string winding. For n>0
-show the winding diagrams give infinite dimension. Give insertion of an
-ordinary rectangle into a cut annulus, prove the induced ordinary TL
-algebra map injective by its distinct diagram basis, and expose the
-restriction of affine modules to it.
+- `n = 5`, `t = 1`, `p = 2`: the formula gives `([3]/[1])^(d_(5,1)) ([4]/[2])^(d_(5,0))` with
+  `d_(5,1) = 4`, `d_(5,0) = 1`, that is `[3]⁴(δ² − 2)`, Layer 5's anchor. A formula with
+  exponent `d_(n,j)` instead of `d_(n,p−j)` gives `[3]⁴(δ² − 2)⁵`, since `d_(5,2) = 5`.
+- At `δ = 1/2`, `n = 3`, `t = 1`: `G = [[δ, 1], [1, δ]]` has determinant `−3/4`, so `⟨·,·⟩_H` is
+  nondegenerate and indefinite; positivity is not a consequence of nondegeneracy.
+- At `δ = 0`: `det G_(3,1) = −1 ≠ 0` and `det G_(3,3) = 1`, so `TL_3(0)` is semisimple with an
+  indefinite cell form, while `det G_(2,0) = 0` and `TL_2(0)` is not semisimple (Ridout–Saint-Aubin,
+  Corollary 4.8 and the remarks after it, and Proposition 4.9, printed pp. 20–21). The parity
+  exception of Layer 5 is recovered, not reproved.
+- At `δ = 1`, `n = 2`: both cell forms are nondegenerate (`det G_(2,0) = 1`, `det G_(2,2) = 1`), so
+  all cell radicals vanish, while 1.3 gives `R_2 = ℂ f_2 ≠ 0`: cell radicals and the trace radical
+  are different objects.
 
-Use ℂ throughout the following representation classification. To compare
-with Graham–Lehrer fix v∈ℂ× with `δ=−v−v⁻¹`; v is their quantum
-parameter, and differs by a sign from the positive-loop q in A1–A6.
-For `0≤t≤n`, `n−t` even, and z∈ℂ×, construct W_(t,z)(n) from monic
-affine diagrams t→n, meaning every source point goes to a distinct target.
-Quotient the right winding action by its character: when t>0 one positive
-rotation has value z and negative rotation z⁻¹; when t=0 an essential
-circle has value z+z⁻¹. Composition that loses a through string acts by
-zero. Construct the left ATL_n action and prove all relations, scalar
-compatibility and representative independence. Give a finite standard
-basis and `dim W_(t,z)(n)=binom(n,(n−t)/2)`, the seam/winding action
-matrices, functorial diagram maps between object sizes and their
-composition rules. At t=0 compare z and z⁻¹ explicitly.
+*Needs:* TemperleyLieb Layer 5; 1.1; Subfactors 3.2 (`R_n`).
 
-Construct the invariant **bilinear** pairing
-`W_(t,z)(n)×W_(t,z⁻¹)(n)→ℂ` by gluing reflected monic diagrams,
-killing non-monic composites and evaluating the character. Reflection
-here fixes coefficients; it does not conjugate them. Develop its adjoint
-invariance, Gram matrix, left and right radicals, dual-module comparison
-and specialization. Define L_(t,z)(n) as the quotient by the first
-radical. Prove it is either zero or absolutely simple and that the
-radical is the unique maximal submodule when the head is nonzero.
-A bilinear perfect pairing between opposite winding parameters gives
-no positive Hilbert-space structure by itself.
+### 1.3 Trace radicals, negligible ideals and the Jones quotient
 
-Classify the **finite-dimensional** irreducible ATL_n modules by the
-nonzero L_(t,z)(n). The label equivalence is `(0,z)∼(0,z⁻¹)`; all other
-labels retain z. Remove the class `(0,v)∼(0,v⁻¹)` when v²=−1 and
-n>0 is even, where the head is zero. Prove distinct remaining label
-classes have inequivalent heads and prove completeness by selecting a
-winding eigenvector at the minimal through-string level of an irreducible
-module. Include the n=0 polynomial characters and n=1 Laurent characters.
-The theorem quantifies over finite-dimensional modules; an
-infinite-dimensional algebra does not become finite-dimensional because
-its standard modules are.
+Prove that `presentedTLEquiv` carries Subfactors 3.2's trace radical `R_n` onto the endomorphism
+component `negligibleIdeal (n, n)` of TemperleyLieb Layer 6: both are `{x : tr̂(x ≫ g) = 0 for all
+g : n → n}` once `T_n` is identified with `tr̂` by TemperleyLieb Layer 4's comparison. Prove that
+`R_n` is `†`-stable, `star`-stable and `κ`-compatible, and that it is carried into `R_(n+1)` by
+`strandIncl` and onto `R_n` by Layer 4's `condExp`.
 
-Develop the explicit intertwiners and decomposition theory over ℂ.
-On the valid labels define a parameter order by the reflexive transitive
-closure of the elementary successors
+For `δ = 2cos(π/m)`, `m ≥ 3`, prove the structure of `R_n`:
 
-```
-0≤t<s≤n,  s−t=2k,  ε∈{+1,−1},
-z²=v^(εs),   y=z v^(−εk),   (t,z)≼(s,y).
-```
+- `R_n = 0` for `n ≤ m − 2`;
+- `R_(m−1) = ℂ·f_(m−1)` (Penneys, Facts 4.4.14 (TB7), printed p. 155);
+- for `n ≥ m − 1`, `R_n` is the span of the diagrams containing `f_(m−1)` as a subdiagram, equal
+  to the two-sided ideal of `TL_n` generated by the embedded copies `1_a ⊗ f_(m−1) ⊗ 1_b`
+  (Penneys, Definition 4.5.1 and Proposition 4.5.3, printed p. 158), and equal to the two-sided
+  ideal generated by the single element `ι^(n−m+1)(f_(m−1))` (Iohara–Lehrer–Zhang, Proposition 3.1,
+  with their `ℓ = m`).
 
-Descend through the t=0 label equivalence and prove antisymmetry,
-finiteness of the relevant upper sets and invariance under v↔v⁻¹.
-Construct the cell maps `W_(s,y)→W_(t,z)` by the explicit standard-diagram
-sum of Graham–Lehrer Theorem3.4, including its forest coefficients,
-rotation covariance and cap cancellation. Build the forest-polynomial
-recurrence and the four diagram cases establishing these identities,
-and prove injectivity of the successor maps.
+Derive the first two from Subfactors 3.3's structure theorem (paths of length at most `m − 2` on
+`A_(m−1)` are paths on the half-line, so `dim Q_n = catalan n` there, and exactly the straight path
+is lost at length `m − 1`); derive the third from TemperleyLieb Layer 6's Goodman–Wenzl theorem by
+comparing the `(n,n)`-component of the tensor ideal generated by `f_(m−1)` with the two-sided
+ideal generated by its embeddings, and the embeddings with the single generator through the
+cup-and-cap diagrams that slide a clasp. Identify Subfactors 3.3's `Q_n` with the endomorphism
+algebra of the object `n` in TemperleyLieb Layer 7's `MonoidalQuotient` of `TL(ℂ, δ)` by the
+negligible ideal, as *-algebras for the descended `†`, and prove the dimension formula
+`dim Q_n = Σ_t (#paths_(n,t))²` equals the number of `(n,n)`-diagrams with fewer than `m − 1`
+through strings (Penneys, Exercise 4.5.4, printed p. 158).
 
-Compute the affine Gram determinant in the finite monic-diagram bases.
-Construct the universal matrix over `ℤ[X,Z,Z⁻¹]`, where X is the
-contractible-loop value and Z is the right winding character; at t=0
-an essential circle evaluates to `Z+Z⁻¹`. Put `m=(n−t)/2` and
+- `presentedTLEquiv(R_n) = negligibleIdeal (n, n)`; `R_n` is stable under `†`, `star`, `strandIncl`
+  and `condExp`.
+- At `δ = 2cos(π/m)`: `R_n = 0` for `n ≤ m − 2`, `R_(m−1) = ℂ f_(m−1)`, and for `n ≥ m − 1` the
+  three descriptions above agree.
+- `Q_n ≅ End(n)` in the negligible quotient category, as *-algebras, with
+  `dim Q_n = Σ_t (#paths_(n,t))²`.
 
-```
-a_(n,r)=binom(n,(n−r)/2)−binom(n,(n−r)/2−1),
-E_(n,r)=binom(n,(n−r)/2),
-T_0(X)=2,  T_1(X)=X,  T_(r+1)(X)=X T_r(X)−T_(r−1)(X),
-F_r(X,Z)=Z²+Z⁻²−(−1)^r T_r(X).
-```
+**Checks.**
 
-Here a negative lower binomial index means zero. The ordinary cell
-multiplicity is a_(n,r); it occurs in the intermediate restriction
-blocks. Prove the block triangularization and scalar Gram recurrences,
-cancel their quantum-integer factors as rational-function identities,
-and then prove the telescoping equality
-`Σ_(r≤s≤n, s≡r mod2) a_(n,s)=E_(n,r)`. Thus the **final affine**
-exponent is E_(n,r). Transport the diagram bases, seam conventions and
-winding character explicitly when using another presentation of the
-periodic algebra. A twist parameter weighting individual strand
-translations is not identified with Z just by its name.
+- `δ = 1` (`m = 3`): `TL_2 = ℂ ⊕ ℂ` is semisimple, `f_2 = 1 − e` is a nonzero idempotent spanning
+  `R_2`, `Q_2 = ℂ`, and `Q_n = ℂ` for every `n` since `A_2` has one path of each length from `0`.
+  The Jacobson radical of `TL_2(1)` is zero: the trace radical is not the Jacobson radical.
+- `δ = √2` (`m = 4`): `R_2 = 0`, `dim Q_2 = 2`; `R_3 = ℂ f_3` with `dim Q_3 = 4 = 5 − 1`, the two
+  `3`-step paths on `A_3` from `0` both ending at `1`; the diagrams of `TL_3` with fewer than `3`
+  through strings number `4`.
+- `δ = 2`: every `[r] = r ≠ 0`, `R_n = 0`, `Q_n = TL_n` and `Σ_t (#paths_(n,t))² = catalan n`.
+- `δ = 1`, `n = 3`: the ideal generated by `f_2 ⊗ 1` has codimension one, since in the quotient
+  `e_1 = 1` forces `e_2 = e_1 e_2 e_1 = 1`; so it is all of `R_3`, whose codimension is `dim Q_3 = 1`.
 
-Prove, before specialization, the Laurent-polynomial identity
+*Needs:* Subfactors 3.2 (`R_n`, `f_k`), 3.3 (`Q_n`, `π_n`); TemperleyLieb Layer 4 (trace
+comparison, `condExp`), Layer 6 (`jonesWenzl`, `negligibleIdeal`, Goodman–Wenzl), Layer 7
+(`MonoidalQuotient`); 1.1.
 
-```
-det G_(t,Z)(n;X) = σ_(n,t) Π_(t<r≤n, r≡t mod2) F_r(X,Z)^E_(n,r),
-σ_(n,t)=(−1)^((t+1) Σ_(t<r≤n, r≡t mod2) E_(n,r)).
-```
+### 1.4 Path models and block idempotents
 
-Use matching reflected standard orders on the two bases for this sign.
-Each diagonal entry has leading X-term X^m with coefficient one,
-and each off-diagonal entry has smaller X-degree. Prove these diagram
-facts and `Σ_r r E_(n,r)=m binom(n,m)`; comparison of leading terms
-then fixes σ, rather than leaving an unspecified parameter-dependent
-unit. For independent row/column permutations give the actual determinant
-sign adapter; reciprocal winding rescalings on the opposite-parameter
-bases cancel. The empty product for t=n is one, including n=0,1.
-At `X=δ=−v−v⁻¹` prove `T_r(δ)=(−1)^r(v^r+v⁻r)`, so the factors become
-`z²+z⁻²−v^r−v⁻r` in the quantum convention already fixed above.
-The polynomial identity remains valid at singular parameters; do not
-evaluate a rational expression with zero denominators.
+Compare Subfactors 3.3's path model with the algebraic path and block idempotents of TemperleyLieb
+Layers 6–7 (the idempotents of Goodman–Wenzl's §2.4 that Layer 6 exposes, and Penneys's tree basis,
+Facts 4.4.14 (TB1)–(TB5), printed pp. 154–155). Construct the paths on the half-line from `0` with
+steps `±1` and nonnegative heights, and on `A_(m−1)` with heights `0, …, m − 2`, with enumeration by
+length and endpoint, restriction, extension, concatenation and reversal; prove that the number of
+`n`-step paths from `0` to `t` on the half-line is `halfCount n t`, and consume TemperleyLieb
+Layer 1's half-diagram/path bijection. Prove that the algebraic matrix units (defined over any field
+where `[1], …, [n+1]` are nonzero, without square roots) and the Hermitian matrix units of `π_n`
+(normalised by the positive square roots `√([s]/[s+1])` of the positive weight ratios) have the same
+diagonal idempotents and differ off the diagonal by positive scalars; that a system of matrix units
+with `(E_(p,q))† = E_(q,p)` and the given diagonal idempotents is determined up to conjugation by a
+diagonal unitary (one phase per path), and the positive square roots select the system in which
+every Hermitian unit is a positive multiple of the algebraic one; and that a different choice of
+signs of the square roots conjugates the system by a diagonal sign matrix. Prove the block trace formula `T_n(x) = Σ_t [t+1] Tr(x_t)` on
+the algebraic side, the identity `Σ_t (#paths_(n,t)) [t+1] = δ^n`, and the branching rule: the
+inclusion `Q_n → Q_(n+1)` sends the block `t` into the blocks `t ± 1` with multiplicity one each where
+the vertex exists, and `E_n` on blocks is the scaled partial trace. In the root-of-unity case the
+quotient `Q_n` of 1.3 replaces any attempt to extend matrix units through a vanishing `[m]`.
 
-Include the six-state n=4,t=0 calculation. Writing d for X and
-`a=z+z⁻¹`, one compatible simultaneous order has Gram matrix
+- Path sets with their enumeration API; `#paths_(n,t) = halfCount n t` on the half-line.
+- Algebraic and Hermitian matrix units agree on the diagonal and differ by positive scalars off it;
+  the Hermitian normalisation is unique up to a diagonal unitary.
+- `T_n(x) = Σ_t [t+1] Tr(x_t)` and `Σ_t (#paths_(n,t)) [t+1] = δ^n`; the branching rule and the block
+  form of `E_n`.
 
-```
-[d², d,  a,  a,  ad, a²]
-[d,  d², ad, ad, a,  d ]
-[a,  ad, d², a², d,  a ]
-[a,  ad, a², d², d,  a ]
-[ad, a,  d,  d,  d², ad]
-[a², d,  a,  a,  ad, d²].
-```
+**Checks.**
 
-Its determinant is `(d²−a²)^4 ((d²−2)^2−a²)`. At d=3,a=0 it is
-321489; the powers are four and one. At d=a=3 the rank is two and
-nullity four. Keeping a=3 and substituting d=3+h, its determinant has
-leading term `51840 h^4`. These are actual standard-module tests:
-for the first take z=i and any nonzero root of `v²+3v+1=0`; for the
-second take `z=(3+sqrt(5))/2` and v=−z. Neither is the excluded
-zero-head label. Include n=2,t=0, with determinant `d²−a²`, and the
-t=n empty-product case as normalization boundaries.
+- `n = 2`, any `δ`: the paths `0→1→0` and `0→1→2` have weights `[1] = 1` and `[3] = δ² − 1`, summing
+  to `δ²`. With unit weights the sum is `2`, and already `τ_1(1) = 1 ≠ δ`.
+- `δ = 1`, `n = 3`: on `A_2` the single path `0→1→0→1` has weight `[2] = 1 = δ³`.
+- `δ = (1+√5)/2` (`m = 5`): the weights on `A_4` are `[1] = 1`, `[2] = δ`, `[3] = δ`, `[4] = 1`; the
+  `3`-step paths from `0` end at `1` twice and at `3` once, and `2δ + 1 = δ³`.
+- `n = 4` on the half-line: `#paths_(4,0) = 2`, `#paths_(4,2) = 3`, `#paths_(4,4) = 1` are
+  `halfCount 4 0`, `halfCount 4 2`, `halfCount 4 4`, and `4 + 9 + 1 = 14 = catalan 4`.
+- Choosing `−√[s]` in place of `√[s]` at one vertex changes the sign of every matrix unit crossing
+  that vertex and leaves the diagonal idempotents unchanged.
 
-Include n=3,t=1 to pin the winding normalization when t>0. The three
-monic states have the defect at position k and an arc on the other two
-points. Each diagonal entry is X; the off-diagonal entries form a
-three-cycle whose product is the full twist of the single through string
-squared, `Z^(±2)`, with reciprocal entries opposite. The determinant is
-`X³−3X+Z²+Z⁻²`, which is the formula above with E_(3,3)=1 and
-σ_(3,1)=1. In the per-step twist u of Morin-Duchesne–Saint-Aubin, where
-a defect moving one position left gains a factor u, the same determinant
-reads `X³−3X+u⁶+u⁻⁶`; hence Z=u³ here, and identifying Z with u is wrong.
-A model whose cycle product is Z instead of Z² would give `Z+Z⁻¹`.
+*Needs:* Subfactors 3.3; TemperleyLieb Layer 1 (`halfCount`, the half-diagram/path bijection),
+Layers 6–7 (path and block idempotents); 1.3.
 
-For the deformation keep z fixed and substitute the independent loop
-variable x into this universal polynomial matrix. Work over the discrete
-valuation ring `ℂ[x]_(x−δ)`. Its determinant is not the zero polynomial,
-so Smith normal form gives specialization nullity at most
+### Examples
+
+- `δ = 1`: `TL_2 = ℂ ⊕ ℂ`, `f_2 = 1 − e` spans `R_2`, every `Q_n = ℂ`, and the Hermitian cell forms
+  of `TL_2` are nondegenerate while the trace form is degenerate.
+- `δ = √2`: `dim Q_2 = 2`, `dim Q_3 = 4`, `dim TL_3 = 5`, with `R_3 = ℂ f_3` and `[4] = 0`.
+- `δ = 1/2`: `det G_(3,1) = −3/4`, an indefinite nondegenerate Hermitian cell form.
+- `δ = i`: the conjugate-fiber map `κ : TL_2(i) → TL_2(−i)`.
+
+### Dependencies
+
+Subfactors 3.1–3.3; TemperleyLieb Layers 1, 3–7; Tau Ceti `strandIncl`, `algEquivOfLeOne`,
+`e_ne_zero_two`, `markovTrace` and its trace lemmas; Mathlib `RingQuot.lift`, `TwoSidedIdeal`.
+
+## Layer 2: Sign isomorphism, negative loop parameters and the Bratteli diagram
+
+### 2.1 The sign isomorphism and positivity at negative loop parameters
+
+For every commutative ring `R` and `δ ∈ R` construct the algebra isomorphism
+`s : TemperleyLieb R δ n ≃ₐ[R] TemperleyLieb R (−δ) n` with `s(e_i) = −e_i`, by `lift` (the
+relations hold: `(−e_i)² = δ e_i = (−δ)(−e_i)`, `(−e_i)(−e_j)(−e_i) = −e_i`, and distant generators
+still commute), with inverse the same construction at `−δ` and `hom_ext` for both composites.
+Prove `s ∘ strandIncl = strandIncl ∘ s`. For a unit `q` with `δ = −(q + q⁻¹)` the unit `−q`
+satisfies `−δ = −((−q) + (−q)⁻¹)`; prove the trace relation
 
 ```
-Σ_(t<r≤n, r≡t mod2) E_(n,r) ord_(x−δ) F_r(x,z).
+markovTrace (−q) (s x) = (−1)^n · markovTrace q x    on TL_n(R, δ)
 ```
 
-Compute each order in the loop variable. At a root of unity several
-factors can vanish together, and a factor can have higher order; sum
-the actual valuations with their affine multiplicities. Do not replace
-them by the number of distinct vanishing labels. Compare the injected
-successor images and their intersections, including coincident factors
-and the exceptional zero-head exclusion, with this corrected bound.
-Then
-use the injective successor maps and induction on the finite parameter
-order to determine composition factors. For each valid label establish
-`[W_(t,z)]=Σ_((t,z)≼(s,y)) [L_(s,y)]` in the finite-length module
-Grothendieck group, with multiplicity one. After this comparison prove
-`dim Hom(W_(s,y),W_(t,z))=1` when `(t,z)≼(s,y)` and zero otherwise,
-with identity maps included and labels in the nonzero-head domain.
-Give explicit radical
-filtrations and dimensions of heads; no semisimplicity of ATL_n itself
-is inferred from these module formulas. Characteristic-p variants of this
-classification and the full affine Hecke interpretation are outside scope.
+from TemperleyLieb Layer 4's `existsUnique_isMarkovTrace`: the family
+`x ↦ (−1)^n markovTrace (−q) (s x)` takes the value `(−1)^n(−δ)^n = δ^n` on `1`, is tracial, gains
+the factor `(−1)(−δ) = δ` under `strandIncl`, and satisfies the Markov property because
+`s(ι(x) e_n) = −ι(s x) e_n`. For real `δ` prove that `s` is a *-isomorphism for the generator-fixing
+conjugate-linear adjoints of Subfactors 3.1 on both fibers, by uniqueness. Deduce, for real
+`δ ≠ 0`, that `τ_n^δ(x† x) = τ_n^(−δ)((s x)† (s x))` for the normalised traces, since
+`δ⁻ⁿ (−1)^n = (−δ)⁻ⁿ`.
 
-## Sources and interface evidence
+The headline is `markovTrace_neg_one_pow_nonneg_iff`: for real `δ < 0`, a unit `q` with
+`δ = −(q + q⁻¹)`, and conjugate-linear star structures on every `TL_n(ℂ, δ)` fixing the
+generators, the signed closure forms `(−1)^n T_n(x† x)` are real and nonnegative for every `n` and
+`x` exactly when `−δ ∈ {2cos(π/m) : m ≥ 3} ∪ [2,∞)`. Its proof is the trace relation, the
+*-property of `s`, and Subfactors 3.2's `markovTrace_nonneg_iff` at the positive parameter `−δ`;
+the sign `(−1)^n` is Penneys, Facts 4.4.14 (TB6), printed p. 155. Equivalently, for real `δ ≠ 0`
+the normalised forms `τ_n(x† x)` are nonnegative at every level exactly when `|δ|` is admissible.
+Transport Subfactors 3.3's C*-tower: for `δ < 0` with `|δ|` admissible, `s` descends to
+*-isomorphisms `Q_n^δ ≅ Q_n^(−δ)` compatible with the strand maps, so the normalised C*-tower at
+`δ` is the tower at `|δ|`. No unitary spherical Temperley–Lieb category is claimed at `δ < 0`: the
+closure trace of the identity of the one-strand object is `δ < 0`.
 
-- [TemperleyLieb](../TemperleyLieb/README.md)
-  Layers0–7 supplies the ordinary algebraic prerequisites; use its
-  quantum-integer, diagram, cellular and tensor-ideal vocabulary.
-  Native `TauCeti.Algebra.TemperleyLieb.Basic` and `.MarkovTrace` supply
-  the presentation, generator universal property and signed spin trace.
-  The [Lean TL discussion](https://leanprover.zulipchat.com/#narrow/stream/610393-Tau%20Ceti/topic/Getting%20started%3A%20roadmaps/near/608535813)
-  identifies that existing roadmap; adopt its ownership and the native
-  implementation bridges rather than another ordinary TL presentation.
-- Penneys, [*Unitary Quantum Symmetries Lite*, Chapter4](https://people.math.osu.edu/penneys.2/UQSL/PartI/UQSLPartIChapter4.pdf),
-  §§4.1–4.3 for the positive-loop diagram convention, trace and
-  Jones–Wenzl formulas; Theorem4.3.17, printed150, for the necessary
-  all-level positivity restriction; §4.4's path multiplication and
-  diagonal trace weights, printed154–155; §4.5, printed158–159, for
-  the trace-descending root quotient and truncated path basis.
-  The sufficiency proof uses the weights `[t+1]` in the stated
-  positive-quantum-integer ranges and the positive quotient pullback.
-- Ridout–Saint-Aubin, [*Standard Modules, Induction and the Structure of
-  the Temperley–Lieb Algebra*](https://arxiv.org/abs/1204.4505),
-  Theorem4.7, equation4.20, printed20, for the ordinary Gram determinant
-  and its restriction recurrence; Corollary4.8 and Proposition4.9 for
-  the critical and zero-loop examples. These are the Gram comparisons
-  with the existing algebraic supplier, separate from Hermitian positivity.
-- Iohara–Lehrer–Zhang, [*Temperley–Lieb Algebras at Roots of Unity,
-  a Fusion Category and the Jones Quotient*](https://math.univ-lyon1.fr/~iohara/Doc/ILZ.pdf),
-  §§2–3 for the normalized trace, ordinary cell forms, the Jones–Wenzl
-  generator of its radical, and the semisimple/trace-degenerate boundary.
-  Its loop is `−(q+q⁻¹)`; apply the explicit sign conversion.
-- Chen, [*The Temperley–Lieb categories and skein modules*](https://arxiv.org/abs/1502.06845),
-  Theorem2.3.2 for the Jones–Wenzl recursion, Theorems2.4.6 and3.3.5
-  for generic multiplicity and tensor decomposition, Theorem4.0.8 for
-  algebraic semisimplicity, and §§5.2–5.4, especially Theorems5.4.4–5.4.5,
-  for the negligible quotient, truncated range and root semisimplicity.
-  The loop convention is `q+q⁻¹`.
-- Morin-Duchesne–Saint-Aubin, [*A homomorphism between link and XXZ modules
-  over the periodic Temperley–Lieb algebra*](https://arxiv.org/html/1203.4996#S4.SS4),
-  Corollary4.2 and Proposition4.3, for the restriction products and their
-  telescoping to affine binomial exponents. Their `C_j=cos(jΛ)`,
-  `Λ=π−λ`, and loop `−2cosΛ` fix the quantum sign. Construct the
-  explicit winding-character/basis comparison before transporting their
-  per-translation twist to the module convention in A7.
-- Chen–Przytycki, [*The Gram determinant of the type B Temperley–Lieb
-  algebra*](https://arxiv.org/html/0802.1083v2#S2), §2, for the
-  zero-through-string annular Chebyshev normalization and all-size
-  determinant. Use the stated six-diagram comparison for n=4.
-- Graham–Lehrer, [*The Representation Theory of Affine Temperley–Lieb
-  Algebras*](https://doi.org/10.5169/seals-63902), *L'Enseignement
-  Mathématique*44 (1998), 173–218: Definitions2.5–2.6, printed188,
-  for diagrams and standard modules; Theorem2.8, printed189–191, for
-  finite-dimensional simple heads; Theorem3.4, printed197–201, for
-  explicit intertwiners; Corollary4.7, printed211, for the determinant;
-  Theorem5.1, printed212–215, for the characteristic-zero homomorphism
-  and composition-factor formulas. The later cellular/diagram survey's
-  §3 summarizes these targets; the original section proofs supply their
-  determinant and successor-map inputs.
+- `s` is an `R`-algebra isomorphism `TL_n(δ) → TL_n(−δ)` with `s(e_i) = −e_i`, involutive across the
+  two fibers, compatible with `strandIncl`.
+- `markovTrace (−q) (s x) = (−1)^n markovTrace q x`.
+- For real `δ`, `s` is a *-isomorphism; for `δ ≠ 0`, `τ_n^δ(x† x) = τ_n^(−δ)((s x)†(s x))`.
+- `markovTrace_neg_one_pow_nonneg_iff` as stated, with hypotheses `δ < 0`, `δ = −(q + q⁻¹)`,
+  `StarRing` and `StarModule ℂ` on every `TL_n(ℂ, δ)`, and `star (e δ i) = e δ i` for all `n`, `i`.
 
-For the module identities construct the essentially small abelian
-category of finite-dimensional ATL_n-modules, using finite matrix
-representations as small models; these modules have finite length.
-Consume [GrothendieckEulerForms](../GrothendieckEulerForms/README.md)
-and `TauCeti.CategoryTheory.GrothendieckGroup.Abelian` for its K₀.
+**Checks.**
 
-Use Mathlib's `TwoSidedIdeal`, linear and bilinear maps, matrix algebras,
-quotients, `StarRing`, `StarModule`, C*-norms and positive-linear
-states. Required
-new constructions belong in Tau Ceti. Open upstream work determines API
-shape and never postpones a required target or assigns it to Mathlib.
+- `n = 1`: `T_1^δ(1) = δ` and `(−1)·T_1^(−δ)(s 1) = −(−δ) = δ`. The relation without the sign
+  `(−1)^n` fails here.
+- `n = 2`, `x = e`: `T_2^δ(e) = δ`, and `(−1)²·T_2^(−δ)(−e) = −(−δ) = δ`.
+- `δ = −2`: `(−1)·T_1(1) = 2 ≥ 0`, `T_2(1) = 4 ≥ 0`, `T_2(e† e) = T_2(e²) = δ T_2(e) = δ² = 4 ≥ 0`;
+  `−δ = 2` is admissible. The unsigned form fails at `n = 1`, where `T_1(1) = −2 < 0`.
+- `δ = −1/2`: `f_2 = 1 − δ⁻¹ e = 1 + 2e` is `†`-invariant and idempotent, and
+  `T_2(f_2† f_2) = T_2(f_2) = δ² + 2δ = −3/4 < 0`; `−δ = 1/2` is not admissible, and `s(f_2)` is the
+  Jones–Wenzl projection at `1/2`.
+- `δ = 0`: `T_n = 0` for `n > 0` because every closure of a nonempty diagram contains a loop, so both
+  `T_n` and `(−1)^n T_n` are trivially positive semidefinite while `0` is in neither admissible set;
+  the hypotheses `δ > 0` of Subfactors 3.2 and `δ < 0` here are both needed.
+- A map with `s(e_i) = e_i` is not an algebra map `TL_n(δ) → TL_n(−δ)` for `δ ≠ 0`: it would send
+  `e_i² = δ e_i` to `e_i² = δ e_i` in an algebra where `e_i² = −δ e_i`, forcing `2δ e_i = 0` against
+  `e_ne_zero_two`.
+
+*Needs:* Tau Ceti `lift`, `lift_e`, `hom_ext`, `strandIncl_e`, `e_ne_zero_two`, `markovTrace` and
+its trace lemmas; TemperleyLieb Layer 4 (`existsUnique_isMarkovTrace`); Subfactors 3.1, 3.2
+(`markovTrace_nonneg_iff`), 3.3 (`Q_n`, the C*-tower).
+
+### 2.2 The Bratteli diagram of the Jones tower
+
+For admissible `δ > 0` let `Γ` be the half-line (`δ ≥ 2`) or `A_(m−1)` (`δ = 2cos(π/m)`). Define the
+Bratteli diagram of the tower `Q_0 ⊂ Q_1 ⊂ Q_2 ⊂ …` of Subfactors 3.3: the vertices at level `n` are
+the endpoints `t` of the `n`-step paths from `0` on `Γ`, with sizes `#paths_(n,t)`, and there is one
+edge between `t` at level `n` and `t ± 1` at level `n + 1` whenever both vertices exist. Prove that
+this is the Bratteli diagram of the inclusion `Q_n ⊂ Q_(n+1)` in the sense of CStarClassification
+CL2 2.2, that is, that the inclusion matrix is the adjacency matrix of `Γ` restricted to the two
+vertex sets, using Layer 1.4's branching rule (Penneys, Examples 4.6.12 and 4.6.14, printed
+pp. 163–164). Deduce `IsAF B_δ` for Subfactors 3.3's C*-inductive limit, with the stages `Q_n`;
+compute `K₀(B_δ)` as the inductive limit of `ℤ^(vertices at level n)` along the adjacency matrices,
+through CL2 2.2's `K₀` connecting maps; and identify the state on `K₀` induced by Subfactors 3.3's
+trace `τ` with the compatible weight family `([t+1]/δ^n)_t`. For `δ = 2cos(π/m)` prove `τ` is the
+unique tracial state of `B_δ` (the square of the adjacency matrix of `A_(m−1)` is primitive on each
+parity class, so Perron–Frobenius applies); for `δ ≥ 2` prove it is not: the diagram does not depend
+on `δ`, so all `B_δ` with `δ ≥ 2` are one AF algebra, and the weight families `([t+1]_λ/λ^n)_t`,
+`λ ≥ 2`, are pairwise distinct compatible tracial states on it. Prove the sizes at `δ ≥ 2` are
+`halfCount n t`, and at `δ = 2cos(π/m)` are the half-line counts restricted to paths of height at most
+`m − 2`.
+
+- The Bratteli diagram of `Q_n ⊂ Q_(n+1)` is the restriction of `Γ`; `IsAF B_δ`.
+- `K₀(B_δ)` is the inductive limit along the adjacency matrices; `τ` corresponds to `([t+1]/δ^n)_t`,
+  the unique tracial state for `δ = 2cos(π/m)` and one of a family for `δ ≥ 2`.
+- Sizes: `halfCount n t` for `δ ≥ 2`, truncated at height `m − 2` for `δ = 2cos(π/m)`.
+
+**Checks.**
+
+- `δ = 1` (`m = 3`): one vertex of size `1` at every level, one edge between consecutive levels,
+  `B_1 = ℂ`.
+- `δ = √2` (`m = 4`): sizes `(1)`, `(1)`, `(1,1)`, `(2)`, `(2,2)`, `(4)`, so `dim Q_n = 2^(n−1)` for
+  `n ≥ 1`; a diagram without truncation would give `dim Q_4 = 14`.
+- `δ = 2`, level `2`: sizes `(1, 1)` at `t = 0, 2`, weights `1/4` and `3/4`, and
+  `1·(1/4) + 1·(3/4) = 1` is the normalised trace of `1`. Unit weights give `1/2`.
+- A diagram whose edges join `t` to `t` only would give size `1` at every level, contradicting
+  `dim Q_2 = 2` at every admissible `δ ≥ √2`.
+- `δ = 2` and `δ = 3`: the same diagram and the same AF algebra, but `τ_2` gives the level-`2` weights
+  `(1/4, 3/4)` and `τ_3` gives `(1/9, 8/9)` on the blocks `t = 0, 2`; both are compatible, so `B_2`
+  has more than one tracial state. A claim of trace uniqueness for every admissible `δ` is false.
+
+*Needs:* Subfactors 3.3 (`Q_n`, `B_δ`); CStarClassification CL2 (2.1, 2.2); TemperleyLieb Layer 1
+(`halfCount`); 1.4.
+
+### Examples
+
+- `δ = −1`: the signed forms `(−1)^n T_n` are positive at every level, and `s` identifies the
+  normalised tower with the tower at `δ = 1`, where every `Q_n = ℂ`.
+- `δ = −1/2`: `T_2(f_2) = −3/4` with `f_2 = 1 + 2e`, the first negative witness.
+- `δ = √2`: `B_δ` is the AF algebra of the diagram with sizes `1, 1, 2, 4, 8, …`.
+
+### Dependencies
+
+Layer 1 (1.3, 1.4); Subfactors 3.1–3.3; TemperleyLieb Layers 1 and 4; CStarClassification CL2;
+Tau Ceti `lift`, `hom_ext`, `strandIncl_e`, `e_ne_zero_two`, `markovTrace` and its trace lemmas.
+
+## Layer 3: The unitary Temperley–Lieb category
+
+### 3.1 The quotient category and its dagger
+
+For admissible `δ > 0` define the unitary Temperley–Lieb category, written UTL_δ, as a wrapper
+category: its objects wrap the objects `n` of TemperleyLieb Layer 3's `TL(ℂ, δ)`, and `Hom(n, m)` is
+a type synonym of the quotient of the complex diagram Hom space by its negligible subspace
+`negligibleIdeal (n, m)` of TemperleyLieb Layer 6. Use this quotient uniformly; for `δ ≥ 2` the
+negligible subspace is zero. Composition, scalar action, cups, caps and the diagram operations
+descend, and the canonical linear comparison maps commute with them. Equip the wrapper with its own
+conjugate-linear dagger, the descent of Layer 1.1's diagram adjoint (vertical reflection composed
+with coefficient conjugation), and prove the concrete laws `f†† = f`, `(f ≫ g)† = g† ≫ f†`,
+`(c·f)† = conj(c)·f†`, `(f + g)† = f† + g†`, `(𝟙 n)† = 𝟙 n`. The `End` stars of the wrapper come
+from this dagger; TemperleyLieb Layer 4's coefficient-fixing `star` is never installed on these Hom
+synonyms. Prove `End(n) ≅ Q_n` as *-algebras through 1.3.
+
+- UTL_δ is a ℂ-linear category with `Hom(n, m) = Hom_(TL)(n, m) ⧸ negligibleIdeal (n, m)`,
+  zero for `n + m` odd.
+- The dagger is a conjugate-linear involutive anti-functor fixing cups, caps and every `e_i`.
+- `End(n) ≅ Q_n` as *-algebras.
+
+**Checks.**
+
+- `Hom(1, 2) = 0` and `Hom(0, 1) = 0`: there is no planar matching on an odd number of points.
+- `Hom(0, 0) = ℂ` for every admissible `δ`, since `tr̂(𝟙 0) = 1 ≠ 0`.
+- `δ = 1`: `Hom(2, 2) = Q_2 = ℂ`, with the negligible subspace spanned by `f_2 = 1 − e`; the dagger
+  fixes `e`.
+- On `Hom(0, 2) = ℂ·cup`: `(i·cup)† = −i·cap` and `((i·cup)†)† = i·cup`. A ℂ-linear dagger would
+  give `(i·cup)† = i·cap`, and then `(i·cup)† ≫ (i·cup) = −δ·𝟙 0`, negative for `δ > 0`, while the
+  conjugate-linear dagger gives `δ·𝟙 0`.
+
+*Needs:* TemperleyLieb Layer 3 (`TL(ℂ, δ)`), Layer 6 (`negligibleIdeal`); 1.1, 1.3; Subfactors 3.3
+(`Q_n`).
+
+### 3.2 Hom positivity and the Hilbert-space norms
+
+For `n + m` even, bend the `n + m` boundary points of `Hom(n, m)` to `End((n+m)/2)` by TemperleyLieb
+Layer 3's corner-dragging isomorphisms, and prove that the closure pairing `(f, g) ↦ tr̂(f† ≫ g)` on
+`Hom(n, m)` corresponds to the pairing `H_((n+m)/2)` on `End((n+m)/2)`, with equal radicals. Deduce
+from Subfactors 3.2's positivity theorem that the descended pairing is a definite inner product on
+every `Hom(n, m)` of UTL_δ. For the additive envelope `Mat_(UTL_δ)` define the trace of an
+endomorphism as the sum of the diagonal closure traces, prove positivity and faithfulness of its
+`End` forms by summing the definite component forms, and identify each `Hom(n, m)` with a corner of
+`End(n ⊕ m)`. Apply Subfactors 3.3's finite-dimensional faithful-trace C*-lemma to `End(n ⊕ m)` and
+restrict its left-regular operator norm to each corner; prove independence of the envelope object
+used, and that on `End(n)` the norm is Subfactors 3.3's C*-norm on `Q_n`.
+
+- `Hom(n, m) ≅ End((n+m)/2)` for `n + m` even, carrying the closure pairing to `H_((n+m)/2)`.
+- The inner product `⟨f, g⟩ = tr̂(f† ≫ g)` is positive definite on every Hom space of UTL_δ.
+- The Hom norms make UTL_δ a C*-category in the sense of CA1a, with `‖f‖² = ‖f† ≫ f‖` and
+  `End(n) ≅ Q_n` isometrically.
+
+**Checks.**
+
+- `Hom(0, 2)`: `⟨a·cup, b·cup⟩ = conj(a)·b·δ`, positive definite for `δ > 0`; `‖cup‖ = √δ`.
+- `Hom(1, 3)` bends to `End(2)`, of dimension `2`; at `δ = 1` its radical is one-dimensional (the
+  image of `f_2`), so the unitary `Hom(1, 3)` is one-dimensional.
+- `‖e‖ = δ` on `End(n)`, `n ≥ 2`: `e† ≫ e = e² = δ e` and `e/δ` is a projection.
+- `‖e_i e_(i+1) e_i‖ = δ`, since the product is `e_i`; submultiplicativity alone only gives the
+  bound `δ³`, so the value is a computation of the C*-norm, not an estimate.
+
+*Needs:* TemperleyLieb Layer 3 (corner dragging), Layer 4 (`tr̂`); Subfactors 3.2
+(`markovTrace_nonneg_iff`, `R_n`), 3.3 (the C*-lemma); 3.1; CategoricalOperatorAlgebras CA1a.
+
+### 3.3 C*-tensor structure and unitary duality
+
+Instantiate CategoricalOperatorAlgebras CA1a's C*-category and CA2a's dagger tensor and
+unitary-duality interfaces on UTL_δ. Prove the C*-category axioms explicitly: bounded composition,
+`‖f† f‖ = ‖f‖²`, positivity of `f† f` in `End(X)`, and completeness of every finite-dimensional Hom
+space. Prove that the tensor product respects daggers, `(f ⊗ g)† = f† ⊗ g†`, and is contractive on
+morphisms, `‖f ⊗ g‖ ≤ ‖f‖ ‖g‖`, by an explicit *-homomorphism from the spatial tensor product
+`End(n) ⊗_min End(m)` of CStarAlgebras C5 to `End(n + m)`; the associators and unitors are
+identities, hence unitary. For admissible `δ` supply the cup `0 → 2` and cap `2 → 0` as the solution
+of the conjugate equations for the object `1` with itself, with cap `= cup†`, prove both zigzag
+identities, and prove that this solution is CA2a's balanced solution, with `‖cup‖² = ‖cap‖² = δ` the
+dimension of the object `1`. Extend to every object `n` by tensoring, prove that the dual tensorator
+is unitary and `(f∨)† = (f†)∨`, that the balanced solutions are transported along sums and
+subobjects as CA2a prescribes, and that their spherical trace is the positive closure trace `tr̂`
+descended to UTL_δ. This constructs the Temperley–Lieb example directly and uses no later
+categorical realisation theorem.
+
+- UTL_δ is a C*-category (CA1a) and a dagger tensor category with unitary structure maps (CA2a).
+- `‖f ⊗ g‖ ≤ ‖f‖ ‖g‖`, with equality on the spatial tensor product of endomorphism algebras.
+- `(cup, cap)` is a balanced solution of the conjugate equations for `1`, `dim 1 = δ`, and the
+  induced spherical trace is `tr̂`.
+
+**Checks.**
+
+- The zigzag `(cup ⊗ 𝟙 1) ≫ (𝟙 1 ⊗ cap) = 𝟙 1` holds for every `δ`; `cap ≫ cup = e` on `End(2)`
+  while `cup ≫ cap = δ·𝟙 0`, so the order of the two is not interchangeable.
+- `‖cup‖² = δ = dim 1`: the rescaled pair `r = c·cup`, `r̄ = conj(c)⁻¹·cup` with `|c| ≠ 1` still
+  solves the conjugate equations, but `‖r‖² = |c|² δ` and `‖r̄‖² = |c|⁻² δ` differ, so it is not
+  balanced; balanced solutions for `1` are exactly the pairs with `|c| = 1`.
+- `‖e ⊗ e‖ = δ²` in `End(4)`: `e ⊗ e = e_1 e_3 = e_3 e_1`, a product of commuting elements of norm
+  `δ`, and `(e_1 e_3)² = δ² e_1 e_3` shows the C*-norm is exactly `δ²`.
+- At `δ = 2`, `dim 1 = 2` and `End(1) = ℂ`: the object `1` is simple with dimension `2`, so UTL_2 is
+  not a fusion category of the Vec type; dimensions in UTL_δ are the quantum integers `[r+1]`, not
+  integers in general.
+
+*Needs:* 3.1, 3.2; CategoricalOperatorAlgebras CA1a, CA2a; CStarAlgebras C5 (spatial tensor
+product), C1–C4; TemperleyLieb Layer 3 (rigid and pivotal structure).
+
+### 3.4 Envelopes, simple objects and unitary fusion rules
+
+Transport TemperleyLieb Layer 7's additive and Karoubi envelope through the normed structure: prove
+that the finite biproducts of `Mat_(UTL_δ)` and the idempotent splittings of `Karoubi` preserve the
+completed Hom spaces and the dagger, that every idempotent of a finite-dimensional C*-algebra is
+similar to a self-adjoint projection, so that splitting an arbitrary idempotent is isomorphic to
+splitting a projection, and construct the unitary comparison between two splittings of the same
+projection. Prove a monoidal ℂ-linear equivalence `Karoubi(Mat_(UTL_δ)) ≃ Karoubi(Mat_(TL(ℂ,δ)))/N`
+with TemperleyLieb Layer 7's quotient by the negligible ideal, and transport its classification of
+simple objects: for `δ ≥ 2` the simples are the Jones–Wenzl objects `X_r`, `r ≥ 0`, with quantum
+dimension `[r+1]` and the untruncated rule
+
+```
+X_a ⊗ X_b ≅ ⊕_(c = |a−b|, |a−b|+2, …, a+b) X_c
+```
+
+(Chen, *The Temperley–Lieb categories and skein modules*, Theorems 2.4.6 and 3.3.5); for
+`δ = 2cos(π/m)` the simples are `X_0, …, X_(m−2)` and the range becomes
+
+```
+|a − b| ≤ c ≤ min(a + b, 2m − 4 − a − b),    c ≡ a + b (mod 2)
+```
+
+(Chen, Theorems 5.4.4 and 5.4.5, with Chen's `n` equal to `m`). Normalise the intertwiners to make
+these decompositions unitary: the inclusion `X_c → X_a ⊗ X_b` is the trivalent vertex scaled by the
+positive square root of its theta-net value, and the scaled inclusions are isometries with
+orthogonal ranges. Prove all surviving quantum dimensions positive, transport the fusion hypotheses
+of PivotalSpherical Layer 4 to `Karoubi(Mat_(UTL_δ))` for `δ = 2cos(π/m)`, and prove compatibility
+with 1.3's blocks: `End(X_a^(⊕k)) ≅ M_k(ℂ)` is the block of `Q_n` at `t = a`. The category at `δ ≥ 2`
+has infinitely many simple objects and is not declared a fusion category. Arbitrary idempotents are
+not declared self-adjoint.
+
+- `Karoubi(Mat_(UTL_δ))` is a C*-tensor category with unitary duals; its simples are the `X_r`.
+- The unitary fusion rules above, with isometric intertwiners.
+- For `δ = 2cos(π/m)`, PivotalSpherical's fusion hypotheses hold with simples `X_0, …, X_(m−2)` and
+  positive dimensions `[r+1]`.
+
+**Checks.**
+
+- `X_1 ⊗ X_1 ≅ X_0 ⊕ X_2` for every admissible `δ ≥ √2`, with dimensions `δ² = 1 + [3]`; the
+  isometric inclusion of `X_0` is `δ^(−1/2)·cup`.
+- `m = 3` (`δ = 1`): the only simple is `X_0`; `X_1 ≅ X_0` and `X_1 ⊗ X_1 ≅ X_0`.
+- `m = 4` (`δ = √2`): simples `X_0, X_1, X_2` with dimensions `1, √2, 1`; `X_1 ⊗ X_1 ≅ X_0 ⊕ X_2`,
+  `X_1 ⊗ X_2 ≅ X_1`, `X_2 ⊗ X_2 ≅ X_0`.
+- `m = 5` (`δ = (1+√5)/2`): simples `X_0, …, X_3` with dimensions `1, δ, δ, 1`;
+  `X_2 ⊗ X_2 ≅ X_0 ⊕ X_2` since `2m − 4 − 4 = 2`, and `X_3 ⊗ X_3 ≅ X_0` since `2m − 4 − 6 = 0`;
+  the untruncated rule would give `X_2 ⊗ X_2 ≅ X_0 ⊕ X_2 ⊕ X_4` with `X_4` absent.
+- The idempotent `e/δ ∈ End(2)` is already a projection. In `End(X_1 ⊕ X_1) ≅ M_2(ℂ)` the idempotent
+  `[[1, 1], [0, 0]]` is not self-adjoint, but it is similar to the projection `[[1, 0], [0, 0]]`, and
+  both split to `X_1`; a construction that only split self-adjoint idempotents would still produce
+  every object of the Karoubi envelope.
+
+*Needs:* 3.1–3.3; TemperleyLieb Layer 7; PivotalSpherical Layers 2–4; Subfactors 3.3 (`Q_n`); 1.3.
+
+### Examples
+
+- UTL_1 is equivalent to finite-dimensional Hilbert spaces with one simple object.
+- UTL_√2 has the Ising fusion rules on `X_0, X_1, X_2`.
+- UTL_((1+√5)/2) contains the Fibonacci rules on `X_0, X_2`.
+- UTL_2: infinitely many simples `X_r` of dimension `r + 1`.
+
+### Dependencies
+
+Layers 1–2; TemperleyLieb Layers 3, 4, 6, 7; Subfactors 3.2–3.3; PivotalSpherical Layers 2–4;
+CategoricalOperatorAlgebras CA1a, CA2a; CStarAlgebras C1–C5.
+
+## Layer 4: Affine diagrams and finite-dimensional standard modules
+
+Throughout, `δ ∈ ℂ` and `v ∈ ℂ^×` with `δ = −v − v⁻¹`; `v` is Tau Ceti's `q` and Graham–Lehrer's
+quantum parameter, and `−v` is the positive-loop parameter of Layers 1–3.
+
+### 4.1 Affine diagrams, the affine category and `ATL_n(δ)`
+
+Construct the affine Temperley–Lieb category at loop parameter `δ`. Its objects are the natural
+numbers. A morphism `n → m` is a complex linear combination of affine diagrams: non-intersecting
+curves on a cylinder joining `n` marked points on the bottom circle and `m` on the top, with
+contractible loops removed at the cost of a factor `δ`, essential circles retained as diagram data,
+and the integral winding of through strings around the cylinder retained as diagram data
+(Erdmann–Green, *On representations of affine Temperley–Lieb algebras, II*, 2.1.1–2.1.6, printed
+pp. 3–4, for the periodic-strip model; Graham–Lehrer, *Diagram algebras, Hecke algebras and
+decomposition numbers at roots of unity*, §4, printed pp. 487–489, for the cylinder picture and
+the generators). Represent diagrams as periodic rectangle diagrams with a marked seam, prove a
+discrete normal-form classification of affine diagrams up to isotopy fixing the marked boundaries
+(a through-string diagram is determined by its top and bottom matchings and one winding integer,
+Erdmann–Green, Proposition 2.4.4, printed p. 7; a diagram without through strings by its two
+matchings and the number of essential circles), so that equality, gluing and winding are
+combinatorially decidable. Composition is stacking in the order of the ordinary category. Prove
+associativity, identity, and the reflection formulas, including coefficient conjugation to the
+fiber at `conj δ`. Horizontal juxtaposition of annuli is not an ordinary tensor product and is not
+declared one.
+
+Let `ATL_n(δ)` be the endomorphism algebra of `n`. Give its diagram basis, through-string filtration,
+the rotation `τ` and its inverse for `n > 0`, the seam generators, and the cup, cap and generator
+computations. Prove the relations `e_i² = δ e_i`, `e_i e_(i±1) e_i = e_i` with indices modulo `n`,
+distant commutation, and `τ e_i τ⁻¹ = e_(i+1)` (Graham–Lehrer 2003, relations (TL) and the remark
+after them, printed p. 488; Erdmann–Green, Proposition 2.2.4, printed p. 5) where the indices make
+sense, without using the list as a presentation. Treat `n = 0, 1, 2` through the diagram
+definitions: `ATL_0(δ)` is the polynomial algebra on an essential circle, `ATL_1(δ)` is the Laurent
+algebra on the winding of the single through string. For `n > 0` prove `ATL_n(δ)` infinite-dimensional
+from the winding diagrams. Construct the insertion of an ordinary rectangle into the cut annulus,
+an injective algebra map `TL_n → ATL_n(δ)` (injective by distinct diagram bases), and the restriction
+of affine modules along it.
+
+- The affine category with its normal form, composition, associativity and reflections.
+- `ATL_n(δ)`: basis, filtration, rotation, relations, infinite dimension for `n > 0`,
+  `ATL_0(δ) ≅ ℂ[c]`, `ATL_1(δ) ≅ ℂ[u, u⁻¹]`.
+- The injective algebra map `TL_n → ATL_n(δ)` and restriction.
+
+**Checks.**
+
+- In `ATL_2(δ)` the two generators `e_1`, `e_2` are distinct diagrams (the arc crosses the seam or
+  not), and `e_1 e_2 e_1 = e_1`; in `TL_2` there is one generator.
+- `τ² ≠ 1` in `ATL_2(δ)`: `τ²` is the full twist of two through strings, a diagram with winding, so
+  `τ` has infinite order, whereas a model identifying `τ^n` with `1` is a different algebra.
+- `ATL_1(δ) ≅ ℂ[u, u⁻¹]`: the winding number is a complete invariant of the one-strand diagrams,
+  and no contractible loop can form.
+- In `ATL_0(δ)` the essential circle `c` satisfies no relation: `c^k` are linearly independent, and a
+  definition evaluating `c` to `δ` would collapse it to ℂ.
+
+*Needs:* TemperleyLieb Layers 1–3 (planar matchings, the ordinary diagram category); Mathlib
+`Polynomial`, `LaurentPolynomial`.
+
+### 4.2 The standard modules `W_(t,z)(n)`
+
+For `0 ≤ t ≤ n`, `n − t` even, and `z ∈ ℂ^×`, construct `W_(t,z)(n)` from the monic affine diagrams
+`t → n` (every source point joined to a distinct target point): quotient the right action of the
+winding by its character, one positive rotation of the `t` through strings acting by `z` and the
+negative rotation by `z⁻¹` when `t > 0`, and an essential circle acting by `z + z⁻¹` when `t = 0`; a
+composite that loses a through string acts by zero. Construct the left `ATL_n(δ)`-action and prove
+the module axioms, scalar compatibility and representative independence (Graham–Lehrer 1998,
+Definitions 2.5–2.6, printed p. 188, uncertified; Erdmann–Green, 2.5.4–2.5.5, printed p. 9, for
+the standard modules of the finite quotients and their dependence on the winding eigenvalue only).
+Give the finite standard basis, `dim W_(t,z)(n) = C(n, (n−t)/2)`, the matrices of the seam and
+winding actions, the functorial maps between object sizes and their composition rules. At `t = 0`
+compare `z` and `z⁻¹`: `W_(0,z)(n) = W_(0,z⁻¹)(n)` by construction.
+
+- `W_(t,z)(n)` is a left `ATL_n(δ)`-module of dimension `C(n, (n−t)/2)`.
+- Its restriction along `TL_n → ATL_n(δ)` is filtered by the ordinary cell modules.
+- `W_(0,z)(n) = W_(0,z⁻¹)(n)`; for `t > 0`, `W_(t,z)(n)` and `W_(t,z′)(n)` differ when `z ≠ z′`.
+
+**Checks.**
+
+- `n = 2`, `t = 0`: two monic diagrams (the arc passing either side of the seam), `dim = C(2,1) = 2`.
+- `n = 3`, `t = 1`: three monic diagrams, the defect at position `k` with an arc on the other two
+  points, `dim = C(3,1) = 3`; the rotation `τ` permutes them cyclically up to the winding character,
+  and `τ³`, the full turn, acts by the character of one positive rotation of the through string.
+- `n = 4`, `t = 0`: six monic diagrams, `dim = C(4,2) = 6`.
+- `n = 0`, `t = 0`: `W_(0,z)(0) = ℂ` with the essential circle acting by `z + z⁻¹`; `n = 1`, `t = 1`:
+  `W_(1,z)(1) = ℂ` with the winding acting by `z`.
+
+*Needs:* 4.1.
+
+### 4.3 Bilinear pairings, Gram matrices and simple heads
+
+Construct the invariant bilinear pairing `W_(t,z)(n) × W_(t,z⁻¹)(n) → ℂ` by gluing a monic diagram
+to the reflection of another, killing non-monic composites, and evaluating the resulting winding or
+essential circles by the character. Reflection here fixes coefficients and does not conjugate them.
+Prove the invariance `⟨a·u, w⟩ = ⟨u, a*·w⟩` for the coefficient-fixing reflection `a*`, compute its
+Gram matrix in the monic-diagram bases, define the left and right radicals, compare with the dual
+module, and prove specialisation along `ℂ[X, Z, Z⁻¹] → ℂ`. Define `L_(t,z)(n)` as the quotient of
+`W_(t,z)(n)` by the left radical. Prove that `L_(t,z)(n)` is zero or absolutely simple and that the
+radical is the unique maximal submodule when the head is nonzero (the cellular-algebra argument,
+Erdmann–Green, 2.5.6, printed p. 9). A bilinear perfect pairing between opposite winding
+parameters gives no Hilbert-space structure by itself.
+
+- The invariant pairing, its Gram matrix, radicals and dual comparison.
+- `L_(t,z)(n)` is zero or absolutely simple, with the radical the unique maximal submodule.
+
+**Checks.**
+
+- `n = 2`, `t = 0`, `a = z + z⁻¹`, `d = δ`: Gram matrix `[[d, a], [a, d]]` (gluing an arc to its own
+  reflection gives a contractible loop; to the other arc, an essential circle), determinant
+  `d² − a²`. It vanishes exactly for `z ∈ {v, v⁻¹, −v, −v⁻¹}`, that is `a = ∓d`.
+- `n = 3`, `t = 1`: each diagonal entry is `X`, the three off-diagonal pairs multiply around the
+  cycle to the full twist `Z^(±2)`, and the determinant is `X³ − 3X + Z² + Z⁻²`.
+- `t = n`: `W_(n,z)(n)` is one-dimensional with Gram matrix `[1]`; the pairing is perfect for every
+  `z`, and `L_(n,z)(n) = W_(n,z)(n)`.
+- The conjugate-linear variant `⟨κ u, w⟩` would pair `W_(t,z)` with `W_(t,conj(z)⁻¹)`, not
+  `W_(t,z⁻¹)`; for `|z| ≠ 1` these differ.
+
+*Needs:* 4.2; TemperleyLieb Layer 5 (the cellular argument for simple heads).
+
+### 4.4 Classification of finite-dimensional simple modules
+
+Classify the finite-dimensional simple `ATL_n(δ)`-modules over ℂ by the nonzero heads `L_(t,z)(n)`:
+the label equivalence is `(0, z) ∼ (0, z⁻¹)`, all other labels retain `z`, and the class
+`(0, v) ∼ (0, v⁻¹)` is removed when `v² = −1` and `n > 0` is even, where the head is zero
+(Graham–Lehrer 1998, Theorem 2.8, printed pp. 189–191, uncertified; Erdmann–Green, 2.5.6 and
+Remark 2.5.10, printed pp. 9–10, for the winding-eigenvalue parametrisation at `t > 0` and the
+exceptional even case at `t = 0`). Prove that distinct remaining classes have inequivalent heads
+(the minimal through-string level and the winding eigenvalue there are invariants), and
+completeness by choosing a winding eigenvector at the minimal through-string level of a
+finite-dimensional simple module and mapping the corresponding `W_(t,z)(n)` onto it. Include the
+`n = 0` characters of `ℂ[c]` and the `n = 1` characters of `ℂ[u, u⁻¹]`. The theorem quantifies over
+finite-dimensional modules; `ATL_n(δ)` itself is infinite-dimensional for `n > 0`.
+
+- Every finite-dimensional simple module is `L_(t,z)(n)` for a unique class `[(t, z)]` in the
+  stated domain.
+
+**Checks.**
+
+- `n = 1`: the simples are the characters `u ↦ z` of `ℂ[u, u⁻¹]`, one for each `z ∈ ℂ^×`, and
+  `L_(1,z)(1) = W_(1,z)(1)`.
+- `n = 0`: the simples are the characters `c ↦ z + z⁻¹`, and `(0, z) ∼ (0, z⁻¹)` is exactly the
+  fiber of `z ↦ z + z⁻¹`.
+- `n = 2`, `v = i` (`δ = 0`): the class `(0, i) ∼ (0, −i)` has `a = 0 = d`, Gram matrix zero, and
+  `L_(0,i)(2) = 0`; it is removed. For `v = i` and `n = 3` nothing is removed, since `n` is odd.
+- `n = 2`, `v` with `v² ≠ −1`: `W_(0,v)(2)` has Gram determinant `d² − a² = 0` with `a = −d ≠ 0`, so
+  the radical is one-dimensional and `L_(0,v)(2)` is one-dimensional, not zero.
+
+*Needs:* 4.2, 4.3.
+
+### 4.5 Intertwiners and the parameter order
+
+On the valid labels define the parameter order as the reflexive transitive closure of the
+elementary successors
+
+```
+0 ≤ t < s ≤ n,   s − t = 2k,   ε ∈ {+1, −1},
+z² = v^(εs),   y = z v^(−εk),   (t, z) ≼ (s, y),
+```
+
+descended through the `t = 0` label equivalence. Prove antisymmetry, finiteness of the upper sets
+and invariance under `v ↔ v⁻¹`. Construct the cell maps `W_(s,y)(n) → W_(t,z)(n)` as the explicit
+sums of standard diagrams with forest coefficients of Graham–Lehrer 1998, Theorem 3.4, printed
+pp. 197–201 (uncertified), prove their rotation covariance and cap cancellation through the
+forest-polynomial recurrence and the four diagram cases, and prove the successor maps injective.
+
+- The parameter order, antisymmetric with finite upper sets.
+- Injective `ATL_n(δ)`-module maps `W_(s,y)(n) → W_(t,z)(n)` for each elementary successor.
+
+**Checks.**
+
+- `n = 2`, `t = 0`, `s = 2`, `k = 1`: `z² = v^(±2)`, `z = ±v^(±1)`, `y = z v^(∓1) = ±1`; so
+  `W_(2,±1)(2)` embeds in `W_(0,±v^(±1))(2)`, exactly where 4.3's Gram determinant `d² − a²` vanishes.
+- `t = s` is excluded: no label is its own proper successor, and the identity map is the only
+  endomorphism counted in 4.7.
+- Invariance under `v ↔ v⁻¹`: replacing `v` by `v⁻¹` and `ε` by `−ε` gives the same pair of labels.
+- For `v` not a root of unity, an elementary successor of `(t, z)` at level `s` exists only when
+  `z² = v^(±s)`, which holds for at most one `s` and one `ε`; so every label has at most one
+  successor at each level and the upper sets are finite.
+
+*Needs:* 4.2, 4.3; TemperleyLieb Layer 6 (the Jones–Wenzl calculus used in the forest
+coefficients).
+
+### 4.6 The affine Gram determinant
+
+Compute the Gram determinant of 4.3 in the monic-diagram bases over `ℤ[X, Z, Z⁻¹]`, where `X` is the
+contractible-loop value and `Z` the winding character (at `t = 0` an essential circle evaluates to
+`Z + Z⁻¹`). Put `m = (n − t)/2` and
+
+```
+a_(n,r) = C(n, (n−r)/2) − C(n, (n−r)/2 − 1),     E_(n,r) = C(n, (n−r)/2),
+T_0(X) = 2,  T_1(X) = X,  T_(r+1)(X) = X T_r(X) − T_(r−1)(X),
+F_r(X, Z) = Z² + Z⁻² − (−1)^r T_r(X),
+```
+
+with a negative lower binomial index meaning zero. Prove the block triangularisation and the scalar
+Gram recurrences of Morin-Duchesne–Saint-Aubin, Corollary 4.2, equation (23), and Proposition 4.3,
+equation (29), with `C_j = cos(jΛ)`, `Λ = π − λ`, `β = −2C_1` their loop value and `α = Z + Z⁻¹`
+(their restriction product carries the ordinary cell multiplicities `a_(n,r)`), cancel the
+quantum-integer factors as rational-function identities, and prove the telescoping identity
+`Σ_(r ≤ s ≤ n, s ≡ r) a_(n,s) = E_(n,r)`, so the final exponent is `E_(n,r)`. Prove the
+Laurent-polynomial identity
+
+```
+det G_(t,Z)(n; X) = σ_(n,t) Π_(t < r ≤ n, r ≡ t mod 2) F_r(X, Z)^(E_(n,r)),
+σ_(n,t) = (−1)^((t+1) Σ_(t < r ≤ n, r ≡ t) E_(n,r)),
+```
+
+with matching reflected standard orders on the two bases. Fix the sign by comparing leading terms:
+each diagonal entry has leading `X`-term `X^m` with coefficient one, every off-diagonal entry has
+smaller `X`-degree, and `Σ_r r E_(n,r) = m C(n, m)`. For independent row and column permutations give
+the determinant sign adapter; reciprocal rescalings of the two bases cancel. The empty product for
+`t = n` is one, including `n = 0, 1`. At `X = δ = −v − v⁻¹` prove `T_r(δ) = (−1)^r (v^r + v^(−r))`, so
+the factors become `z² + z⁻² − v^r − v^(−r)`. The identity holds at every parameter; no rational
+expression is evaluated at a zero denominator. When another presentation of the periodic algebra
+is used, transport the bases, seam and character explicitly: a per-strand twist is not `Z`.
+
+- The universal Gram matrix over `ℤ[X, Z, Z⁻¹]` and its determinant formula with sign `σ_(n,t)`.
+- The telescoping identity and the leading-term identity `Σ_r r E_(n,r) = m C(n,m)`.
+- `T_r(−v − v⁻¹) = (−1)^r (v^r + v^(−r))`.
+
+**Checks.**
+
+- `n = 2`, `t = 0`: `F_2 = Z² + Z⁻² − (X² − 2) = (Z + Z⁻¹)² − X²`, `E_(2,2) = 1`, `σ_(2,0) = −1`, so the
+  determinant is `X² − (Z + Z⁻¹)²`, which is 4.3's `d² − a²`.
+- `n = 3`, `t = 1`: `F_3 = Z² + Z⁻² + X³ − 3X`, `E_(3,3) = 1`, `σ_(3,1) = 1`, matching 4.3. In
+  Morin-Duchesne–Saint-Aubin's per-step twist `u`, the same determinant reads `X³ − 3X + u⁶ + u⁻⁶`,
+  so `Z = u³` here; identifying `Z` with `u` is wrong, and a model whose three-cycle product were `Z`
+  would give `Z + Z⁻¹`.
+- `n = 4`, `t = 0`, with `d = X` and `a = Z + Z⁻¹`, one compatible simultaneous order has Gram matrix
+
+  ```
+  [d², d,  a,  a,  ad, a²]
+  [d,  d², ad, ad, a,  d ]
+  [a,  ad, d², a², d,  a ]
+  [a,  ad, a², d², d,  a ]
+  [ad, a,  d,  d,  d², ad]
+  [a², d,  a,  a,  ad, d²]
+  ```
+
+  with determinant `(d² − a²)⁴ ((d² − 2)² − a²)`: `E_(4,2) = 4`, `E_(4,4) = 1`, `σ_(4,0) = −1`,
+  `F_2 = a² − d²`, `F_4 = a² − (d² − 2)²`. At `d = 3`, `a = 0` it is `9⁴ · 49 = 321489`; at `d = a = 3`
+  the rank is two and the nullity four; with `a = 3` and `d = 3 + h` the leading term is `51840 h⁴`
+  (`1296 · 40`). These are standard-module values: for the first take `z = i` and either root of
+  `v² + 3v + 1 = 0`; for the second `z = (3 + √5)/2` and `v = −z`. Neither label is the excluded
+  zero-head class, since `v² ≠ −1` in both.
+- Telescoping at `n = 4`, `r = 0`: `a_(4,0) + a_(4,2) + a_(4,4) = 2 + 3 + 1 = 6 = E_(4,0)`; leading
+  terms at `n = 4`, `t = 0`: `2 E_(4,2) + 4 E_(4,4) = 12 = 2 · C(4,2)`.
+- Chen–Przytycki's type B determinant `Π_i (T_i(δ)² − α²)^(C(2n, n−i))` at `t = 0` (their §2,
+  printed pp. 1–2) has the same factors `T_r(X)² − a²` as `F_r · (conjugate factor)` at even `r`;
+  the six-state matrix above is their `n = 2` pairing with `⟨b_1, b_1⟩ = δ²`, `⟨b_1, b_2⟩ = α`,
+  `⟨b_1, b_3⟩ = αδ`.
+
+*Needs:* 4.3; TemperleyLieb Layer 0 (`qInt`), Layer 5 (`gramPoly`, `halfCount` multiplicities);
+Mathlib `Polynomial.Chebyshev.T`, `Matrix.det`.
+
+### 4.7 Specialisation, composition factors and Hom dimensions
+
+Keep `z` fixed and substitute the independent loop variable `x` into the universal Gram matrix of
+4.6, working over the discrete valuation ring `ℂ[x]_((x−δ))`. Its determinant is not the zero
+polynomial, so Smith normal form bounds the nullity of the specialised Gram matrix by
+
+```
+Σ_(t < r ≤ n, r ≡ t) E_(n,r) · ord_(x−δ) F_r(x, z),
+```
+
+where several factors can vanish together at a root of unity and a factor can vanish to higher
+order; sum the valuations with their multiplicities, never the number of vanishing labels. Compare
+the images of the injective successor maps of 4.5 and their intersections, including coincident
+factors and the exceptional zero-head class, with this bound. Then prove by induction on the finite
+parameter order, in the Grothendieck group `AbelianK0` of the essentially small abelian category of
+finite-dimensional `ATL_n(δ)`-modules (modelled by finite matrix representations; these modules have
+finite length),
+
+```
+[W_(t,z)(n)] = Σ_((t,z) ≼ (s,y)) [L_(s,y)(n)]
+```
+
+with every multiplicity one (Graham–Lehrer 1998, Theorem 5.1, printed pp. 212–215, uncertified;
+Graham–Lehrer 2003, §4, printed p. 489, records that the composition factors and multiplicities of
+`W_(t,z)(n)` were determined in characteristic zero). Deduce `dim Hom(W_(s,y)(n), W_(t,z)(n)) = 1`
+when `(t, z) ≼ (s, y)` and `0` otherwise, identity maps included, for labels in the nonzero-head
+domain, and give the radical filtrations and head dimensions. No semisimplicity of `ATL_n(δ)` is
+inferred.
+
+- The valuation bound on the specialisation nullity.
+- `[W_(t,z)(n)] = Σ_((t,z) ≼ (s,y)) [L_(s,y)(n)]` in `AbelianK0`, multiplicity one.
+- `dim Hom(W_(s,y)(n), W_(t,z)(n)) ∈ {0, 1}` as stated; radical filtrations and head dimensions.
+
+**Checks.**
+
+- `n = 2`, `t = 0`, `z = v`: `F_2(x, v) = (v + v⁻¹)² − x²` has a simple zero at `x = δ = −(v + v⁻¹)`
+  when `δ ≠ 0`, `E_(2,2) = 1`, so the nullity bound is `1`; `W_(0,v)(2)` has the one-dimensional
+  submodule `W_(2,1)(2)` (4.5) and `[W_(0,v)(2)] = [L_(0,v)(2)] + [L_(2,1)(2)]`, both of dimension one.
+- `n = 2`, `t = 0`, `z` generic: no factor vanishes, `W_(0,z)(2) = L_(0,z)(2)` is simple of dimension
+  two.
+- `v = i`, `n = 2`, `z = i`: `F_2(x, i) = −x²` vanishes to order two at `δ = 0`, bound `2`, and indeed
+  the Gram matrix is zero and `L_(0,i)(2) = 0`; counting vanishing labels instead of orders would
+  give `1`.
+- `t = n`: `W_(n,z)(n) = L_(n,z)(n)` and `Hom(W_(n,z)(n), W_(n,z)(n)) = ℂ`.
+
+*Needs:* 4.3, 4.5, 4.6; GrothendieckEulerForms Layer 2; Tau Ceti `AbelianK0`; Mathlib
+`IsDiscreteValuationRing`, `Module.Basis.SmithNormalForm`.
+
+### Examples
+
+- `ATL_1(δ) = ℂ[u, u⁻¹]` and `ATL_0(δ) = ℂ[c]`, with their characters as the simple modules.
+- `W_(0,z)(2)` with Gram determinant `δ² − (z + z⁻¹)²`, simple exactly when `z ∉ {±v^(±1)}`.
+- The six-state `W_(0,z)(4)` at `(d, a) = (3, 0)`, `(3, 3)` and `(3 + h, 3)`.
+- `W_(1,z)(3)` with determinant `δ³ − 3δ + z² + z⁻²`.
+
+### Dependencies
+
+TemperleyLieb Layers 0–3, 5, 6; GrothendieckEulerForms Layer 2; Tau Ceti `AbelianK0`; Mathlib
+`Polynomial.Chebyshev.T`, `LaurentPolynomial`, `Matrix.det`, `IsDiscreteValuationRing`,
+`Module.Basis.SmithNormalForm`.
+
+## Downstream consumers
+
+No roadmap consumes this roadmap at present. Subfactors and CategoricalOperatorAlgebras build the
+Temperley–Lieb material they need in Subfactors Layer 3 and consume it from there.
+
+## References
+
+- D. Penneys, *Unitary Quantum Symmetries Lite*, Part I, Chapter 4 (author's page): Lemma 4.3.8,
+  printed p. 147; Theorem 4.3.17, printed p. 150; Facts 4.4.14 (TB1)–(TB7), printed pp. 154–155;
+  Definition 4.5.1, Proposition 4.5.3 and Exercise 4.5.4, printed p. 158; Facts 4.5.5, printed
+  p. 159; Examples 4.6.12 and 4.6.14, printed pp. 163–164. Positive-loop convention `d = q + q⁻¹`.
+- D. Ridout and Y. Saint-Aubin, *Standard modules, induction and the structure of the Temperley–Lieb
+  algebra* (arXiv:1204.4505): Theorem 4.7, equation (4.20), printed p. 20; Corollary 4.8 and
+  Proposition 4.9, printed pp. 20–21.
+- K. Iohara, G. I. Lehrer and R. B. Zhang, *Temperley–Lieb algebras at roots of unity, a fusion
+  category and the Jones quotient* (author's page): Proposition 3.1 and Remark 3.2 (the radical of
+  the trace form is generated by the Jones–Wenzl idempotent). Loop value `−(q + q⁻¹)`.
+- J. Chen, *The Temperley–Lieb categories and skein modules* (arXiv:1502.06845): Theorem 2.3.2
+  (Jones–Wenzl recursion), Theorems 2.4.6 and 3.3.5 (generic multiplicities and tensor
+  decomposition), Theorem 4.0.8 (generic semisimplicity), Theorems 5.4.4 and 5.4.5 (truncated
+  rules and root-of-unity semisimplicity). Loop value `q + q⁻¹`.
+- A. Morin-Duchesne and Y. Saint-Aubin, *A homomorphism between link and XXZ modules over the
+  periodic Temperley–Lieb algebra* (arXiv:1203.4996): Corollary 4.2, equation (23), and
+  Proposition 4.3, equation (29); conventions `C_j = cos(jΛ)`, `Λ = π − λ`, loop `−2C_1`, and the
+  per-step twist parameter.
+- Q. Chen and J. H. Przytycki, *The Gram determinant of the type B Temperley–Lieb algebra*
+  (arXiv:0802.1083): §2, the annular pairing and its determinant.
+- J. J. Graham and G. I. Lehrer, *The representation theory of affine Temperley–Lieb algebras*,
+  L'Enseignement Mathématique 44 (1998), 173–218, doi:10.5169/seals-63902 (uncertified, cited by
+  locator): Definitions 2.5–2.6, printed p. 188; Theorem 2.8, printed pp. 189–191; Theorem 3.4,
+  printed pp. 197–201; Corollary 4.7, printed p. 211; Theorem 5.1, printed pp. 212–215.
+- J. J. Graham and G. I. Lehrer, *Diagram algebras, Hecke algebras and decomposition numbers at
+  roots of unity*, Annales scientifiques de l'École normale supérieure 36 (2003), 479–524
+  (Numdam): §4, printed pp. 487–489, the affine Temperley–Lieb algebras, their diagrammatic
+  description and the cell modules `W_(t,z)(n)`.
+- K. Erdmann and R. M. Green, *On representations of affine Temperley–Lieb algebras, II*, Pacific
+  Journal of Mathematics 191 (1999), 243–273 (arXiv:math/9811017): §2, printed pp. 3–10, affine
+  diagrams, generators and relations, winding numbers, the ideals `I_t`, the finite cellular
+  quotients and their standard modules.

@@ -6,270 +6,62 @@ import Mathlib
 import TauCeti.Algebra.TemperleyLieb.MarkovTrace
 
 /-!
-**This file is not the roadmap and is not exhaustive.**
-These are suggested forms. The README is the definitive specification.
-The native presentation and Markov trace are used directly. The synonym
-carries the conjugate-linear adjoint, distinct from coefficient-fixing
-algebraic reflection. Target theorem `sorry`s do not assert implemented proofs.
+# Temperley–Lieb operator algebras: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
+
+The one headline statable at the pins is the negative-loop-parameter positivity theorem of
+Layer 2 (`markovTrace_neg_one_pow_nonneg_iff`): for `δ < 0` the signed closure forms
+`(-1)^n T_n(x† x)` are nonnegative at every level exactly when `|δ|` is a Jones loop parameter.
+It is stated on Tau Ceti's presentation `TauCeti.TemperleyLieb ℂ δ n` with its Markov trace,
+for an arbitrary conjugate-linear star fixing the generators, which Subfactors 3.1 constructs
+and proves unique. The positive-parameter theorem itself, `markovTrace_nonneg_iff`, is
+Subfactors 3.2's headline and is not restated here.
+
+Not statable at the pins:
+
+* Layer 1's comparisons (the analytic adjoint against the vertical reflection of diagrams, the
+  Hermitian cell forms against the bilinear cell forms, the trace radical against the negligible
+  ideal, the path model against the block idempotents): they need the diagram category, cell
+  modules, Jones–Wenzl projections and negligible ideal of TemperleyLieb Layers 3–7, none of
+  which exist at the pins.
+* Layer 2's Bratteli-diagram presentation of the Jones tower: it needs Subfactors 3.3's
+  C*-inductive limit `B_δ` and CStarClassification CL2's Bratteli diagrams, neither at the pins.
+* Layer 3's unitary Temperley–Lieb category and its C*-tensor and unitary-duality axioms: they
+  need the diagram category and CategoricalOperatorAlgebras CA1a and CA2a.
+* Layer 4's affine classification and affine Gram determinant: no affine diagram category or
+  algebra exists at the pins.
 -/
 
 noncomputable section
 
 open scoped ComplexOrder
 
-namespace TemperleyLiebOperatorAlgebras
-
-/-- A real parameter allows an adjoint within the same complex algebra fiber. -/
-def AnalyticTL (δ : ℝ) (n : ℕ) := TauCeti.TemperleyLieb ℂ (δ : ℂ) n
-
-instance (δ : ℝ) (n : ℕ) : Semiring (AnalyticTL δ n) :=
-  inferInstanceAs (Semiring (TauCeti.TemperleyLieb ℂ (δ : ℂ) n))
-instance (δ : ℝ) (n : ℕ) : Ring (AnalyticTL δ n) :=
-  inferInstanceAs (Ring (TauCeti.TemperleyLieb ℂ (δ : ℂ) n))
-instance (δ : ℝ) (n : ℕ) : Algebra ℂ (AnalyticTL δ n) :=
-  inferInstanceAs (Algebra ℂ (TauCeti.TemperleyLieb ℂ (δ : ℂ) n))
-
-def generator (δ : ℝ) {n : ℕ} (i : Fin (n - 1)) : AnalyticTL δ n :=
-  TauCeti.TemperleyLieb.e (δ : ℂ) i
-
-/-- Coefficient conjugation on a free complex algebra, through its monoid-algebra model on the
-free monoid of words. -/
-def freeConj (X : Type) : FreeAlgebra ℂ X →+* FreeAlgebra ℂ X :=
-  (FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := ℂ) (X := X)).symm.toRingEquiv.toRingHom.comp
-    ((MonoidAlgebra.mapRingHom (FreeMonoid X) (starRingEnd ℂ)).comp
-      (FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := ℂ) (X := X)).toRingEquiv.toRingHom)
-
-/-- Coefficient conjugation fixes the free generators. -/
-theorem freeConj_ι (X : Type) (x : X) : freeConj X (FreeAlgebra.ι ℂ x) = FreeAlgebra.ι ℂ x := by
-  simp [freeConj, FreeAlgebra.equivMonoidAlgebraFreeMonoid, MonoidAlgebra.of_apply,
-    MonoidAlgebra.mapRingHom_single]
-
-/-- Coefficient conjugation conjugates scalars. -/
-theorem freeConj_algebraMap (X : Type) (c : ℂ) :
-    freeConj X (algebraMap ℂ (FreeAlgebra ℂ X) c) =
-      algebraMap ℂ (FreeAlgebra ℂ X) (starRingEnd ℂ c) := by
-  simpa [freeConj, AlgEquiv.commutes] using
-    (FreeAlgebra.equivMonoidAlgebraFreeMonoid (R := ℂ) (X := X)).symm.commutes (starRingEnd ℂ c)
-
-/-- Word reversal composed with coefficient conjugation, as a ring map from the free algebra to
-the opposite of the analytic fiber; it respects the native relations because `δ` is real. -/
-def adjointLift (δ : ℝ) (n : ℕ) : FreeAlgebra ℂ (Fin (n - 1)) →+* (AnalyticTL δ n)ᵐᵒᵖ :=
-  (RingHom.op (RingQuot.mkRingHom (TauCeti.TemperleyLieb.Rel ℂ (δ : ℂ) n))).comp
-    ((starRingEquiv : FreeAlgebra ℂ (Fin (n - 1)) ≃+* _).toRingHom.comp (freeConj _))
-
-/-- The reversed conjugate of each native defining relation is again a relation, because the
-loop value is real and the distant-commutation relation is symmetric in its indices. -/
-theorem adjointLift_rel (δ : ℝ) (n : ℕ) ⦃x y : FreeAlgebra ℂ (Fin (n - 1))⦄
-    (h : TauCeti.TemperleyLieb.Rel ℂ (δ : ℂ) n x y) : adjointLift δ n x = adjointLift δ n y := by
-  have hrel := fun {a b} (r : TauCeti.TemperleyLieb.Rel ℂ (δ : ℂ) n a b) =>
-    RingQuot.mkRingHom_rel r
-  have key : ∀ z, adjointLift δ n z =
-      MulOpposite.op (RingQuot.mkRingHom _ (star (freeConj _ z))) := fun _ => rfl
-  rw [key, key]
-  refine congrArg MulOpposite.op ?_
-  cases h with
-  | mul_self i =>
-    have h1 : star (freeConj _ (FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ i)) =
-        FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ i := by
-      simp only [map_mul, freeConj_ι, star_mul, FreeAlgebra.star_ι]
-    have h2 : star (freeConj _ ((δ : ℂ) • FreeAlgebra.ι ℂ i)) = (δ : ℂ) • FreeAlgebra.ι ℂ i := by
-      rw [Algebra.smul_def, map_mul, freeConj_ι, freeConj_algebraMap, Complex.conj_ofReal,
-        star_mul, FreeAlgebra.star_ι, FreeAlgebra.star_algebraMap, ← Algebra.commutes,
-        ← Algebra.smul_def]
-    rw [h1, h2]
-    exact hrel (.mul_self i)
-  | @adjacent i j hij =>
-    have h1 : star (freeConj _ (FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ j * FreeAlgebra.ι ℂ i)) =
-        FreeAlgebra.ι ℂ i * FreeAlgebra.ι ℂ j * FreeAlgebra.ι ℂ i := by
-      simp only [map_mul, freeConj_ι, star_mul, FreeAlgebra.star_ι, mul_assoc]
-    rw [h1, freeConj_ι, FreeAlgebra.star_ι]
-    exact hrel (.adjacent hij)
-  | distant hij =>
-    simp only [map_mul, freeConj_ι, star_mul, FreeAlgebra.star_ι]
-    simpa only [map_mul] using hrel (.distant hij.symm)
-
-/-- The conjugate-linear adjoint: reverse words and conjugate coefficients, descended through
-the native relations. -/
-def adjoint (δ : ℝ) (n : ℕ) (x : AnalyticTL δ n) : AnalyticTL δ n :=
-  MulOpposite.unop (RingQuot.lift ⟨adjointLift δ n, adjointLift_rel δ n⟩ x)
-
-theorem adjoint_involutive (δ : ℝ) (n : ℕ) :
-    Function.Involutive (adjoint δ n) := by sorry
-
-theorem adjoint_add (δ : ℝ) (n : ℕ) (x y : AnalyticTL δ n) :
-    adjoint δ n (x + y) = adjoint δ n x + adjoint δ n y := by
-  exact congrArg MulOpposite.unop
-    ((RingQuot.lift ⟨adjointLift δ n, adjointLift_rel δ n⟩).map_add x y)
-
-theorem adjoint_mul (δ : ℝ) (n : ℕ) (x y : AnalyticTL δ n) :
-    adjoint δ n (x * y) = adjoint δ n y * adjoint δ n x := by
-  exact congrArg MulOpposite.unop
-    ((RingQuot.lift ⟨adjointLift δ n, adjointLift_rel δ n⟩).map_mul x y)
-
-instance (δ : ℝ) (n : ℕ) : StarRing (AnalyticTL δ n) where
-  star := adjoint δ n
-  star_involutive := adjoint_involutive δ n
-  star_add := adjoint_add δ n
-  star_mul := adjoint_mul δ n
-
-@[simp] theorem adjoint_algebraMap (δ : ℝ) (n : ℕ) (c : ℂ) :
-    star (algebraMap ℂ (AnalyticTL δ n) c) =
-      algebraMap ℂ (AnalyticTL δ n) (star c) := by sorry
-
-@[simp] theorem adjoint_generator (δ : ℝ) {n : ℕ} (i : Fin (n - 1)) :
-    star (generator δ i) = generator δ i := by sorry
-
-instance (δ : ℝ) (n : ℕ) : StarModule ℂ (AnalyticTL δ n) where
-  star_smul c x := by
-    rw [Algebra.smul_def, star_mul, adjoint_algebraMap, Algebra.smul_def]
-    exact (Algebra.commutes (star c) (star x)).symm
-
-/-- Every real loop fiber has a unit quantum parameter for the signed native trace. -/
-theorem exists_loop_parameter (δ : ℝ) :
-    ∃ q : ℂˣ, (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)) := by
-  obtain ⟨s, hs⟩ := IsAlgClosed.exists_pow_nat_eq ((δ : ℂ) ^ 2 - 4) (n := 2) (by norm_num)
-  have hu : ((-(δ : ℂ) + s) / 2) * ((-(δ : ℂ) - s) / 2) = 1 := by
-    linear_combination (-1 / 4 : ℂ) * hs
-  refine ⟨⟨_, _, hu, by rw [mul_comm]; exact hu⟩, ?_⟩
-  show (δ : ℂ) = -((-(δ : ℂ) + s) / 2 + (-(δ : ℂ) - s) / 2)
-  ring
-
-/-- Choose a loop parameter only to access the existing spin implementation.
-The following comparison theorem makes the resulting trace independent of it. -/
-def closureTrace (δ : ℝ) (n : ℕ) : AnalyticTL δ n →ₗ[ℂ] ℂ :=
-  TauCeti.TemperleyLieb.markovTrace (exists_loop_parameter δ).choose
-    (exists_loop_parameter δ).choose_spec
-
-theorem closureTrace_eq_markovTrace (δ : ℝ) (q : ℂˣ)
-    (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ))) (n : ℕ) :
-    closureTrace δ n = TauCeti.TemperleyLieb.markovTrace q hq := by sorry
-
-@[simp] theorem closureTrace_one (δ : ℝ) (n : ℕ) :
-    closureTrace δ n 1 = (δ : ℂ) ^ n :=
-  TauCeti.TemperleyLieb.markovTrace_one _ _
-
-theorem closureTrace_mul_comm (δ : ℝ) (n : ℕ) (x y : AnalyticTL δ n) :
-    closureTrace δ n (x * y) = closureTrace δ n (y * x) :=
-  TauCeti.TemperleyLieb.markovTrace_mul_comm _ _ x y
-
-/-- The statement quantifies over every level and requires a positive real parameter. -/
-theorem closureTrace_positive_iff (δ : ℝ) (hδ : 0 < δ) :
-    (∀ n : ℕ, ∀ x : AnalyticTL δ n, 0 ≤ closureTrace δ n (star x * x)) ↔
-      2 ≤ δ ∨ ∃ m : ℕ, 3 ≤ m ∧ δ = 2 * Real.cos (Real.pi / (m : ℝ)) := by
-  sorry
-
-/-! ## A4: native positivity interfaces consumed by Subfactors
-
-These theorem targets belong to this TL-specific roadmap. The native presentation can be
-used with any conjugate-linear generator-fixing adjoint; A1 supplies its comparison with
-`AnalyticTL`, so the statements agree with `closureTrace_positive_iff` above.
--/
+namespace TauCetiRoadmap.TemperleyLiebOperatorAlgebras
 
 open TauCeti TauCeti.TemperleyLieb
 
-/-- The admissible loop parameters `{2cos(π/m) : m ≥ 3} ∪ [2,∞)`. A positive real `δ` lies in
-this set exactly when the Temperley–Lieb closure trace with loop value `δ` is positive at every
-level. The Jones index values `4cos²(π/m)` and `[4,∞)` are the squares `δ²` of its members. -/
-def jonesLoopParameters : Set ℝ :=
-  {δ | (∃ m : ℕ, 3 ≤ m ∧ δ = 2 * Real.cos (Real.pi / m)) ∨ 2 ≤ δ}
+/-! ## Layer 2: Sign isomorphism and negative loop parameters -/
 
-/-- **Jones's positivity theorem.** Let `δ > 0`, and let `q` be a unit with `δ = -(q + q⁻¹)`,
-the sign convention of `TauCeti.TemperleyLieb.markovTrace`. Give each Temperley–Lieb algebra
-`TL_n(ℂ, δ)` a conjugate-linear star-ring structure fixing the generators. Then the closure
-trace `T_n(x⋆x)` is real and nonnegative for every `n` and every `x` exactly when `δ` is
-admissible. Necessity is Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4,
-Theorem 4.3.17, printed p. 150. Sufficiency uses the positive path weights of §§4.4–4.5 there. -/
-theorem markovTrace_nonneg_iff {δ : ℝ} (hδ : 0 < δ) (q : ℂˣ)
+/-- **Positivity at negative loop parameters.** Let `δ < 0` be real and let `q` be a unit with
+`δ = -(q + q⁻¹)`, the sign convention of `TauCeti.TemperleyLieb.markovTrace`. Give each
+`TL_n(ℂ, δ)` a conjugate-linear star-ring structure fixing the generators (Subfactors 3.1
+constructs it and proves it unique). Then the signed closure forms `(-1)^n T_n(x† x)` are real
+and nonnegative for every `n` and every `x` exactly when `|δ| = -δ` lies in the Jones loop
+parameters `{2cos(π/m) : m ≥ 3} ∪ [2,∞)`. The sign isomorphism `TL_n(δ) ≅ TL_n(-δ)`,
+`e_i ↦ -e_i`, carries `T_n^δ` to `(-1)^n T_n^(-δ)`, and the theorem then reduces to Subfactors
+3.2's `markovTrace_nonneg_iff` at the parameter `-δ > 0`. The sign of the trace is Penneys,
+*Unitary Quantum Symmetries Lite*, Chapter 4, Facts 4.4.14 (TB6), printed p. 155. -/
+theorem markovTrace_neg_one_pow_nonneg_iff {δ : ℝ} (hδ : δ < 0) (q : ℂˣ)
     (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)))
     [∀ n, StarRing (TemperleyLieb ℂ (δ : ℂ) n)] [∀ n, StarModule ℂ (TemperleyLieb ℂ (δ : ℂ) n)]
     (he : ∀ (n : ℕ) (i : Fin (n - 1)), star (e (δ : ℂ) i) = e (δ : ℂ) i) :
-    (∀ (n : ℕ) (x : TemperleyLieb ℂ (δ : ℂ) n), 0 ≤ markovTrace q hq (star x * x)) ↔
-      δ ∈ jonesLoopParameters := by
+    (∀ (n : ℕ) (x : TemperleyLieb ℂ (δ : ℂ) n),
+        0 ≤ (-1 : ℂ) ^ n * markovTrace q hq (star x * x)) ↔
+      (∃ m : ℕ, 3 ≤ m ∧ -δ = 2 * Real.cos (Real.pi / m)) ∨ 2 ≤ -δ := by
   sorry
 
-/-- **The first bad level.** Let `0 < δ < 2` be inadmissible, write `δ = 2cos θ` with
-`0 < θ < π/2`, and put `k = ⌊π/θ⌋`. Then the closure trace on `TL_n(ℂ, δ)` is positive
-semidefinite exactly when `n < k`. The witness at level `k` is the Jones–Wenzl projection
-`f_k`, whose trace is the negative quantum integer `[k+1]`. Its image at every higher level stays
-negative, because adding a strand multiplies the trace by `δ > 0`. The value of `k` is
-Penneys, *Unitary Quantum Symmetries Lite*, Chapter 4, Lemma 4.3.8, and positivity below `k`
-is the semisimple tree-basis trace of §4.4 there. -/
-theorem markovTrace_nonneg_iff_lt_floor {δ : ℝ} (hδ₀ : 0 < δ) (hδ₂ : δ < 2)
-    (hδ : δ ∉ jonesLoopParameters) (q : ℂˣ) (hq : (δ : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)))
-    (n : ℕ) [StarRing (TemperleyLieb ℂ (δ : ℂ) n)] [StarModule ℂ (TemperleyLieb ℂ (δ : ℂ) n)]
-    (he : ∀ i : Fin (n - 1), star (e (δ : ℂ) i) = e (δ : ℂ) i) :
-    (∀ x : TemperleyLieb ℂ (δ : ℂ) n, 0 ≤ markovTrace q hq (star x * x)) ↔
-      n < ⌊Real.pi / Real.arccos (δ / 2)⌋₊ := by
-  sorry
+end TauCetiRoadmap.TemperleyLiebOperatorAlgebras
 
-/-- A trace radical uses the entire bilinear pairing, not just a vanishing scalar trace. -/
-def traceRadical (δ : ℝ) (n : ℕ) :
-    TwoSidedIdeal (AnalyticTL δ n) :=
-  TwoSidedIdeal.mk' {x | ∀ y, closureTrace δ n (x * y) = 0}
-    (by simp)
-    (by
-      intro x y hx hy z
-      change ∀ w, closureTrace δ n (x * w) = 0 at hx
-      change ∀ w, closureTrace δ n (y * w) = 0 at hy
-      simp only [add_mul, map_add, hx z, hy z, add_zero])
-    (by
-      intro x hx y
-      change ∀ w, closureTrace δ n (x * w) = 0 at hx
-      simp only [neg_mul, map_neg, hx y, neg_zero])
-    (by
-      intro a x hx y
-      have hcomm := closureTrace_mul_comm δ n a (x * y)
-      have hz : closureTrace δ n ((x * y) * a) = 0 := by
-        simpa only [mul_assoc] using hx (y * a)
-      simpa only [mul_assoc] using hcomm.trans hz)
-    (by
-      intro x a hx y
-      simpa only [mul_assoc] using hx (a * y))
-
-/-- Positivity identifies the bilinear trace radical with the Hermitian null space. -/
-theorem mem_traceRadical_iff (δ : ℝ) (n : ℕ)
-    (hpos : ∀ y : AnalyticTL δ n, 0 ≤ closureTrace δ n (star y * y))
-    (x : AnalyticTL δ n) :
-    x ∈ traceRadical δ n ↔ closureTrace δ n (star x * x) = 0 := by
-  sorry
-
-/-- Uniform quotient carrier, even when the radical is zero. -/
-abbrev JonesQuotient (δ : ℝ) (n : ℕ) := (traceRadical δ n).ringCon.Quotient
-
-def quotientMap (δ : ℝ) (n : ℕ) : AnalyticTL δ n →+* JonesQuotient δ n :=
-  (traceRadical δ n).ringCon.mk'
-
-theorem traceRadical_adjoint (δ : ℝ) (n : ℕ) (x : AnalyticTL δ n)
-    (hx : x ∈ traceRadical δ n) : star x ∈ traceRadical δ n := by sorry
-
-/-- The quotient adjoint is the representative-independent descended adjoint. -/
-def quotientAdjoint (δ : ℝ) (n : ℕ) : JonesQuotient δ n → JonesQuotient δ n :=
-  Quotient.map' (s₁ := (traceRadical δ n).ringCon.toSetoid)
-    (s₂ := (traceRadical δ n).ringCon.toSetoid) (fun x => star x) (by
-      intro x y hxy
-      change (traceRadical δ n).ringCon x y at hxy
-      change (traceRadical δ n).ringCon (star x) (star y)
-      rw [TwoSidedIdeal.rel_iff] at hxy ⊢
-      rw [← star_sub]
-      exact traceRadical_adjoint δ n _ hxy)
-
-theorem quotientAdjoint_mk (δ : ℝ) (n : ℕ) (x : AnalyticTL δ n) :
-    quotientAdjoint δ n (quotientMap δ n x) = quotientMap δ n (star x) := by sorry
-
-section DaggerInterface
-open CategoryTheory
-variable (C : Type*) [Category C] [Preadditive C] [Linear ℂ C]
-
-/-- Apply to the negligible quotient diagram category on wrapped objects.
-The Hom adjoint has explicit laws and does not inherit the algebraic End star. -/
-structure ConjugateDagger where
-  adj : ∀ {X Y : C}, (X ⟶ Y) → (Y ⟶ X)
-  involutive : ∀ {X Y : C} (f : X ⟶ Y), adj (adj f) = f
-  map_id : ∀ X : C, adj (𝟙 X) = 𝟙 X
-  map_comp : ∀ {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z),
-    adj (f ≫ g) = adj g ≫ adj f
-  map_add : ∀ {X Y : C} (f g : X ⟶ Y), adj (f + g) = adj f + adj g
-  map_smul : ∀ {X Y : C} (c : ℂ) (f : X ⟶ Y), adj (c • f) = star c • adj f
-
-end DaggerInterface
-end TemperleyLiebOperatorAlgebras
+end
