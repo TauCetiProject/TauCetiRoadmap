@@ -31,8 +31,8 @@ from the pinned libraries:
   dualizing sheaves. The rational geometric realization of the pairing in §7.6 also
   needs the differential space on X₀(N) and its rational Tate chart.
 * The Shimura isomorphism and rank-two Hecke freeness (Layer 14), the geometric
-  cohomology and saturation formulation of Ihara (§15.7), Shimura's dimension theorem
-  for A_f (Layer 16),
+  cohomology and saturation formulation of Ihara (§15.7), the `J₀(N)` quotient isogeny
+  and the Abel–Jacobi composite to the imported `A_f` (Layer 16),
   and Eichler–Shimura, modular monodromy and Taylor–Wiles freeness/augmentation
   (Layer 17) need the actual modular cohomology, Hecke actions, abelian quotients and
   auxiliary covers. Abstract cohomology and abelian-variety carriers alone do not
@@ -109,8 +109,9 @@ def IsCongruenceCharacter (N q : ℕ)
       ψ (Additive.ofMul g) = 0
 
 /-- An agreeing pair of ordinary characters under the two principal-level degeneracy
-restrictions is congruence (README §15.6; CDT Lemma 4.6.2). The second leg is specified
-by conjugation with `diag(p,1)`; the coefficient prime may equal p. -/
+restrictions is congruence (README §15.6; Calegari–Dimitrov–Tang Lemma 4.6.2). The
+second leg is specified by conjugation with `diag(p,1)`; the coefficient prime may
+equal p. -/
 theorem iharaPrincipal_congruenceKernel (N p q : ℕ) (hN : 3 ≤ N)
     (hp : p.Prime) (hq : q.Prime) (hpN : ¬ p ∣ N)
     (c : ↥(CongruenceSubgroup.Gamma N ⊓ CongruenceSubgroup.Gamma0 p) →*
@@ -146,8 +147,8 @@ theorem compactIhara_characters (N p q : ℕ) (hN : 5 ≤ N)
   sorry
 
 /-- A character whose every ambient conjugation difference is congruence is itself
-congruence (README §15.9; CDT Corollary 4.5.3). The ambient action factors through
-`SL₂(ℤ/N)` because inner conjugations fix additive characters. -/
+congruence (README §15.9; Calegari–Dimitrov–Tang Corollary 4.5.3). The ambient action
+factors through `SL₂(ℤ/N)` because inner conjugations fix additive characters. -/
 theorem congruenceClasses_invariant (N q : ℕ) (hN : 3 ≤ N) (hq : q.Prime)
     (ψ : AddMonoidHom (Additive (CongruenceSubgroup.Gamma N)) (ZMod q)) :
     letI : (CongruenceSubgroup.Gamma N).Normal := CongruenceSubgroup.Gamma_normal N
@@ -157,8 +158,8 @@ theorem congruenceClasses_invariant (N q : ℕ) (hN : 3 ≤ N) (hq : q.Prime)
   sorry
 
 /-- Agreement after restriction to `Γ(N) ∩ Γ₁(p)` still forces both ordinary
-characters to be congruence (README §15.10; CDT Lemma 4.6.3), for every coefficient
-prime, including primes dividing the intermediate covering degree. -/
+characters to be congruence (README §15.10; Calegari–Dimitrov–Tang Lemma 4.6.3), for
+every coefficient prime, including primes dividing the intermediate covering degree. -/
 theorem iharaPrincipalGamma1_congruenceKernel (N p q : ℕ) (hN : 3 ≤ N)
     (hp : p.Prime) (hq : q.Prime) (hpN : ¬ p ∣ N)
     (c : ↥(CongruenceSubgroup.Gamma N ⊓ CongruenceSubgroup.Gamma1 p) →*

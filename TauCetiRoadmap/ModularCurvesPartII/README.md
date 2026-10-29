@@ -14,7 +14,7 @@ The new generalized elliptic, full-level, fixed-pairing, composite-level and lev
 
 The generalized elliptic curve itself is imported, not defined here. AdicSpacesPartIII Layer R2.11 owns the carrier `GeneralisedEllipticCurve`, the standard polygons `EllipticModuli.nGon`, the n-gon Tate family `GeneralisedEllipticCurve.tateCurve` and, on its representable range (full level `N≥3` over `ℤ[1/N]`, cyclic level with an invertible factor `d≥5`), the fine compactified moduli scheme `GeneralisedEllipticCurve.moduli` with its universal curve and level. This roadmap proves Deligne–Rapoport's description of that carrier and builds on it the integral theory over `ℤ` at every level: stacks with inertia, contractions, Drinfeld structures in bad characteristic and the refined `Γ₀` problem. Likewise the lattice uniformization of complex abelian varieties and the genus-one family over the upper half-plane are AbelianSchemesAndArithmeticModuli A5.1 (`AbelianLattice`) and A5.8 (`SiegelFamily`), and the analytic cusp data and cusp ramification of Fuchsian quotients are FuchsianOrbifolds Layers 3–4; Layers 1, 3, 4 and 6 specialize them.
 
-The Albanese modular quotient `A_f=J₁(N)/B_f` and Shimura's dimension theorem of §§16.2–16.4 are the same object and theorem as CyclotomicClassGroupsAndStickelberger §4.3's shared modular quotient, with the same moduli model and Hecke action.
+The Albanese modular quotient `A_f=J₁(N)/B_f`, its quotient API and Shimura's dimension theorem are CyclotomicClassGroupsAndStickelberger §4.3's shared modular quotient and are imported there in §§16.2–16.3, with the same moduli model and Hecke action; Layer 16 adds the Hecke prime of a newform, the differentials of `A_f`, the `J₀(N)` quotient and its isogeny, oldforms and the Abel–Jacobi composite.
 
 The field-curve Jacobian, its dimension and principal polarization, and the pointed Abel–Jacobi construction are supplied by JacobianChallenge Layers D, E and F. JacobianChallengePartII §§1.2–1.4 supplies the positive-genus relative Jacobian with its canonical principal polarization and arbitrary-base-change comparisons; §13.1 specializes these to modular curves and retains the trivial principally polarized genus-zero case and modular functoriality. StableReduction supplies nodes, dual graphs, blowups, semistable existence and stabilization (Layers 1–4, 7–9); the new outputs here identify their components, inertia actions, thicknesses and modular operators. ModularForms supplies analytic quotient surfaces (10A), compact surface cohomology (10B), automorphy sections (10C), Hecke algebra and slash operators (2), Petersson theory and oldforms (3), primitive forms and multiplicity one (4–5, 8G), and integral full modular symbols and period quotients (8). The geometric symbol comparison here uses the cuspidal kernel and the coefficient dual, rather than identifying the full symbol module with compact cohomology.
 
@@ -141,10 +141,10 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 ### AbelianSchemesAndArithmeticModuli
 
 - **A2**: Scheme representability of abelian algebraic spaces (A2.1, `raynaudRepresentability`), dual abelian schemes and the Poincaré bundle (A2.2) and polarizations (A2.5). Section 13.1 uses JacobianChallengePartII §§1.2–1.4's canonical relative Jacobian polarization and proves the norm/pullback transpose identity; the underlying line-bundle norm is SchemeAndStackFoundations §3.5.
-- **A3**: Quotients by finite locally free subgroups (A3.3) and polarized Weil pairings (A3.7).
+- **A3**: Polarized Weil pairings (A3.7).
 - **A4**: The integral `ℓ`-adic Tate module (A4.1): actual `ℓ`-power torsion, its inverse limit of rank 2g and its Weil pairing. In characteristic p the weight-two special-fibre calculation uses Frobenius and Verschiebung from MC7E and the connected–étale structure of A4 over a perfect field. The curve-Picard Kummer comparison `T_ℓPic⁰≅H¹_et(−,ℤ_ℓ(1))` is §13.5's `jacobianTateModule_kummer`.
 - **A5**: Lattice uniformization of complex abelian varieties (A5.1, `AbelianLattice`), specialized to dimension one in §1.2; analytic families of complex tori and the algebraic comparison (A5.6), whose locally constant polarization type holds for one-dimensional families with their standard principal polarization; and the Siegel universal family (A5.8, `SiegelFamily`), whose genus-one case carries the marking of §3.13.
-- **A6**: Faithfulness on Tate modules (A6.2), Poincaré complete reducibility (A6.5), finite freeness of Hom (A6.7, `homFreeFinite`) and relative Hom with normal-base extension (A6.25, `relativeHom`). The quotient of an abelian variety by a positive-dimensional abelian subvariety is constructed from A6.5 and A3.3 in §16.2.
+- **A6**: Faithfulness on Tate modules (A6.2), Poincaré complete reducibility (A6.5), finite freeness of Hom (A6.7, `homFreeFinite`) and relative Hom with normal-base extension (A6.25, `relativeHom`). A6.5 enters the `J₀(N)` Tate-module comparison of §16.5 and the oldform isogeny of §16.6; the abelian-subvariety quotient itself is CyclotomicClassGroupsAndStickelberger §4.3's.
 
 ### AlgebraicModuliForArithmeticGeometry
 
@@ -287,7 +287,7 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 
 ### CyclotomicClassGroupsAndStickelberger
 
-- **§4.3** (shared abelian arithmetic and the modular quotient): the abelian-subvariety quotient over a field, the image-generated quotient `modularQuotient f` of `J₁(N)` for every normalized primitive weight-two newform with the Albanese Hecke action, its quotient API and Shimura's dimension theorem. Sections 16.2–16.4 are the same object and theorem in this roadmap's notation, identified through the universal property of the quotient map; the comparisons of §§16.3 and 16.5 use that quotient map.
+- **§4.3** (shared abelian arithmetic and the modular quotient): the abelian-subvariety quotient over a field, the image-generated quotient `modularQuotient f` of `J₁(N)` for every normalized primitive weight-two newform with the Albanese Hecke action, its quotient API, the rational Tate exactness of the quotient, `modularTate_rank_two` and Shimura's dimension theorem. Sections 16.2–16.3 import them under this roadmap's notation; §§16.4–16.7 use the quotient map and its universal property.
 
 ### Finite, compact-support and adic étale cohomology
 
@@ -2185,7 +2185,7 @@ The theorem is `cuspFieldsAndComponentLabels`.
 
 *Needs:* [§4.1](#41-formal-level-structures-at-cusps); [§4.2](#42-integral-γ₁-cusp-strata); [§4.5](#45-level-maps-and-diamond-operators); [§4.8](#48-tate-and-analytic-cusp-parameters); [§5.2](#52-integral-coarse-modular-curves); [§5.5](#55-prime-power-γ₀-cusp-rings); [ModularCurves Layer 2E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#2e-cartiernishi-duality-and-the-weil-pairing); Mathlib `cosetToCuspOrbit`.
 
-([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.2–4.8, pp.310–313; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226 (PDF p.2).)
+([Les schémas de modules de courbes elliptiques](https://publications.ias.edu/sites/default/files/Number22.pdf), VII §§4.2–4.8, pp.310–313; [Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf), §7, pp.94–96; [Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), I §1, p.226.)
 
 ### 6.4 The analytic comparison for a symplectic twist
 
@@ -2391,7 +2391,7 @@ The public interface should expose:
 
 *Needs:* [§4.4](#44-boundary-carriers-and-hodge-evaluation); [§5.2](#52-integral-coarse-modular-curves); [§7.4](#74-the-pullbacktrace-hecke-normalization); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out); `ComplexComparisonPartII` C−1.1–C−1.3 and C1.9 (analytification and proper coherent GAGA); `ComplexComparisonPartII` C2.1 (`gagaBaseChange`).
 
-([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34, p.39.)
+([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34, p.39.)
 
 ### 7.6 Perfection of the full Hecke pairing
 
@@ -2415,7 +2415,7 @@ The integral Serre pairing between differentials and `H¹(O)` is [§13.8](#138-i
 
 *Needs:* [§7.5](#75-the-full-hecke-first-coefficient-pairing); [ModularForms Layer 2](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-2-hecke-operators-and-the-hecke-algebra); [ModularCurves Layer 0E](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularCurves#0e-effective-descent-and-spreading-out).
 
-([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306 (PDF p.82); [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34 and proof, p.39.)
+([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), V §1, p.306; [Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), Lemma 1.34 and proof, p.39.)
 
 ### Examples
 
@@ -3975,7 +3975,7 @@ The public interface should expose:
 - The zero character kills every deeper principal subgroup.
 - Pulling back a character of `Γ(N)/Γ(M)` gives a member.
 - If `ψ` kills `Γ(M₁)` and `φ` kills `Γ(M₂)`, `ψ+φ` kills `Γ(lcm(M₁,M₂))`.
-- At `Γ(3)` with `F₅` coefficients the congruence subspace is zero, whereas ordinary `H¹` has dimension three. A nonzero ordinary character is therefore not a congruence class. Use the pro-3 level factor and the perfectness/abelianization of the other `SL₂(Z_p)` factors, as in CDT §4.5, to check the finite congruence quotients.
+- At `Γ(3)` with `F₅` coefficients the congruence subspace is zero, whereas ordinary `H¹` has dimension three. A nonzero ordinary character is therefore not a congruence class. Use the pro-3 level factor and the perfectness/abelianization of the other `SL₂(Z_p)` factors, as in Calegari–Dimitrov–Tang §4.5, to check the finite congruence quotients.
 - The zero character is congruence; every character pulled from `Γ(N)/Γ(M)` is congruence.
 - A character known only to have finite image is not thereby proved congruence.
 
@@ -4055,7 +4055,7 @@ The statement `congruenceClasses_invariant` in [Suggested.lean](Suggested.lean) 
 
 The coefficient prime may be 2 or 3; the proof retains the exceptional small-prime calculations.
 
-Establish this as follows. Pass to the restriction direct limit; its kernel from a finite level consists exactly of the congruence classes, and the hypothesis makes the image invariant. Follow CDT §§4.5.4–4.5.9: finite `SL₂` homology, continuous cohomology of `SL₂(Z_p)`, Künneth and Hochschild–Serre isolate coefficient primes 2,3,5 and show the relevant `H²` restriction vanishes at deeper levels. Use the genus-zero cusp representation at levels 3 and 5 with coefficients `F₃` and `F₅` respectively; at coefficient prime 2 use the level-8 to level-16 calculation. Lemma 4.5.11’s printed `F₃` at level 5 is replaced by `F₅`, as required in its application. Apply the two five-term sequences of (4.5.10) and the corrected finite-level invariant computations to kill the invariant limit class. The level-8/16 restriction and invariant calculation and the Lazard/adjoint-cohomology inputs must be proved in the precise continuous-cohomology setting specified above.
+Establish this as follows. Pass to the restriction direct limit; its kernel from a finite level consists exactly of the congruence classes, and the hypothesis makes the image invariant. Follow Calegari–Dimitrov–Tang §§4.5.4–4.5.9: finite `SL₂` homology, continuous cohomology of `SL₂(Z_p)`, Künneth and Hochschild–Serre isolate coefficient primes 2,3,5 and show the relevant `H²` restriction vanishes at deeper levels. Use the genus-zero cusp representation at levels 3 and 5 with coefficients `F₃` and `F₅` respectively; at coefficient prime 2 use the level-8 to level-16 calculation. Lemma 4.5.11’s printed `F₃` at level 5 is replaced by `F₅`, as required in its application. Apply the two five-term sequences of (4.5.10) and the corrected finite-level invariant computations to kill the invariant limit class. The level-8/16 restriction and invariant calculation and the Lazard/adjoint-cohomology inputs must be proved in the precise continuous-cohomology setting specified above.
 
 **Checks.**
 
@@ -4069,11 +4069,11 @@ Establish this as follows. Pass to the restriction direct limit; its kernel from
 
 ### 15.10 The enhanced principal-level kernel bound
 
-With N,p,q as in [§15.6](#156-principal-level-ihara-modulo-congruence-classes), the kernel of the same restriction difference into `H¹(Γ(N)∩Γ₁(p),F_q)` is also contained in `H¹_cong(Γ(N),F_q)²`. The congruence-invariance criterion of [§15.9](#159-congruence-invariance-of-ordinary-characters) used here says that if every conjugation difference for a character of a principal subgroup is congruence, then the character itself is congruence, as in CDT Corollary 4.5.3 with the `SL₂(Z/N)`-action induced by ambient `SL₂(ℤ)` conjugations.
+With N,p,q as in [§15.6](#156-principal-level-ihara-modulo-congruence-classes), the kernel of the same restriction difference into `H¹(Γ(N)∩Γ₁(p),F_q)` is also contained in `H¹_cong(Γ(N),F_q)²`. The congruence-invariance criterion of [§15.9](#159-congruence-invariance-of-ordinary-characters) used here says that if every conjugation difference for a character of a principal subgroup is congruence, then the character itself is congruence, as in Calegari–Dimitrov–Tang Corollary 4.5.3 with the `SL₂(Z/N)`-action induced by ambient `SL₂(ℤ)` conjugations.
 
 The statement in [Suggested.lean](Suggested.lean) is `iharaPrincipalGamma1_congruenceKernel`, with its second restriction specified by the same rational-matrix conjugation formula. This is still trivial-coefficient ordinary `H¹` and still a kernel bound, not automatic injectivity.
 
-Establish this as follows. Restriction to `Γ(N)∩Γ₁(p)` implies that the disagreement on `Γ(N)∩Γ₀(p)` is a congruence class because the quotient of these two groups is congruence. Follow the ambient conjugations in CDT Lemma 4.6.3 and apply Corollary 4.5.3 to the two source characters. Use the principal-level kernel bound after the congruence error is removed.
+Establish this as follows. Restriction to `Γ(N)∩Γ₁(p)` implies that the disagreement on `Γ(N)∩Γ₀(p)` is a congruence class because the quotient of these two groups is congruence. Follow the ambient conjugations in Calegari–Dimitrov–Tang Lemma 4.6.3 and apply Corollary 4.5.3 to the two source characters. Use the principal-level kernel bound after the congruence error is removed.
 
 **Checks.**
 
@@ -4087,7 +4087,7 @@ Establish this as follows. Restriction to `Γ(N)∩Γ₁(p)` implies that the di
 
 ### Examples
 
-For `Γ(3)`, ordinary mod-5 `H¹` has dimension three whereas its congruence-class subspace is zero; the ordinary principal kernel statement still names that subspace at every coefficient prime. At level 5 over `F₃` the 12-cusp permutation module has an invariant constant vector in the augmentation kernel because `12=0` in `F₃`. This detects the printed `F₃` coefficient in CDT Lemma 4.5.11; the intended level-5 calculation is over `F₅`. The matrix `[[p+1,T_p],[T_p,p+1]]` has determinant `(p+1)²−T_p²`. Reversing its sign preserves invertibility, whereas shifting the Lyndon connecting degree does not preserve exactness.
+For `Γ(3)`, ordinary mod-5 `H¹` has dimension three whereas its congruence-class subspace is zero; the ordinary principal kernel statement still names that subspace at every coefficient prime. At level 5 over `F₃` the 12-cusp permutation module has an invariant constant vector in the augmentation kernel because `12=0` in `F₃`. This detects the printed `F₃` coefficient in Calegari–Dimitrov–Tang Lemma 4.5.11; the intended level-5 calculation is over `F₅`. The matrix `[[p+1,T_p],[T_p,p+1]]` has determinant `(p+1)²−T_p²`. Reversing its sign preserves invertibility, whereas shifting the Lyndon connecting degree does not preserve exactness.
 
 ### Dependencies
 
@@ -4118,80 +4118,45 @@ Use Mathlib's `RingHom.ker` for the geometric eigenvalue character. Membership m
 
 ### 16.2 The modular abelian variety `A_f`
 
-With the Albanese Hecke action on `J₁(N)`, let `B_f` be the connected abelian subvariety generated by all images `t(J₁(N))`, `t∈p_f`. Define `A_f=J₁(N)/B_f` over Q with its surjective quotient map `q_f`. It has good reduction outside N and an action of the order `T₁(N)/p_f`; the `K_f` action is in `End⁰(A_f)`. This is a quotient by an actual abelian subvariety, not a pointwise module quotient or an assumed Galois representation.
+For f as in [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform) with `N≥5`, the modular abelian variety `A_f` is the shared Albanese quotient `modularQuotient f` of CyclotomicClassGroupsAndStickelberger §4.3: the quotient `J₁(N)/B_f` of the Jacobian of the point-of-exact-order model `X₁(N)` by the connected abelian subvariety `B_f` generated by the images `t(J₁(N))`, `t∈p_f`, with its surjective quotient map `q_f`, the action of the order `T₁(N)/p_f` and the rational action of `K_f` in `End⁰(A_f)`. The abelian-subvariety quotient `abelianSubvarietyQuotient`, the ideal quotient `modularQuotientForIdeal`, the universal property and base change of `q_f` (`modularQuotient_map`, `modularQuotient_kills`, `modularQuotient_lift`, `modularQuotient_hom_ext`, `modularQuotient_baseChange`) and the faithful action of the quotient order (`modularQuotient_hecke`) are that section's targets, consumed here by name; this roadmap constructs no quotient of `J₁(N)`.
 
-The same object, with the same Albanese action on the point-of-exact-order model, is the shared `modularQuotient f` of CyclotomicClassGroupsAndStickelberger §4.3. Its abelian-subvariety quotient over an arbitrary field restricts in characteristic zero to `abelianSubvarietyQuotient` below, its ideal quotient is `modularQuotientForIdeal`, and its dimension theorem is the statement of §16.4. The two constructions are identified by the universal property of the quotient map; no second convention is introduced.
+The conventions are fixed once. The Hecke action on `J₁(N)` is the Albanese action `( )_*` of [§13.2](#132-upper-and-lower-jacobian-hecke-operators) on the `(E,P)` model (Conrad Definition 5.13), whose cotangent action is the classical action on `S₂(Γ₁(N))`; the eigencharacter sends `T_n` to `a_n(f)` and `⟨a⟩` to `χ_f(a)`, and `p_f` is its kernel. A quotient formed with the Picard action on the same model is a separately constructed object, transported to `A_f` by `w_ζ` over a field containing ζ ([§16.4](#164-differentials-on-a_f)); neither the action nor the moduli model is changed on the same quotient. The hypothesis `N≥5` is the representability range of the `(E,P)` model.
 
-`N ≥ 5` (for `N < 5`, `S₂(Γ₁(N)) = 0`).
-
-Conrad Definition 5.13 uses the Albanese action `( )_*` on `J₁(N)` of the `(E,P)` model. A Picard-action quotient must be separately constructed and transported by `w_ζ` over a field containing `ζ`. Neither the action nor the moduli model is silently changed on the same quotient.
-
-Establish this as follows. Use the actual Albanese action to form the connected abelian subvariety generated by `t(J₁(N))`, `t∈p_f`; finite ideal generators suffice. Construct the quotient by the abelian subvariety `B_f` here: Poincaré complete reducibility (AbelianSchemesAndArithmeticModuli A6.5) gives a complement C with `B_f×C→J₁(N)` an isogeny, and the projection induces `J₁(N)→C/(B_f∩C)`, a quotient by a finite subgroup scheme (A3.3), with kernel `B_f` and the universal property of the quotient; its formation commutes with field extension. `A_f` has good reduction outside N by the Néron–Ogg–Shafarevich criterion (NeronModelsAndSemistableAbelianVarieties §5.1): `V_ℓ(A_f)` is a quotient of `V_ℓ(J₁(N))`, which is unramified at every `p∤Nℓ`. Finite-flat-kernel quotients alone do not give this positive-dimensional quotient.
-
-The public interface should expose:
-
-- `modularQuotient`: The actual abelian variety `J₁(N)/B_f`, using the Albanese action.
-- `modularQuotient_map`: The surjective Q-homomorphism `q_f:J₁(N)→A_f` with connected kernel `B_f`.
-- `modularQuotient_kills`: `q_f∘t=0` for every `t∈p_f`.
-- `modularQuotient_lift`: A homomorphism `h:J₁(N)→B` killing all `p_f` images descends uniquely through `q_f`.
-- `modularQuotient_baseChange`: Formation and the quotient map commute with field extension.
-- `modularQuotient_hecke`: The quotient order acts faithfully in characteristic zero; the induced rational action is `K_f` in `End⁰(A_f)`.
-- `abelianSubvarietyQuotient`: For an abelian subvariety B of an abelian variety A over a field of characteristic zero, the quotient `A→A/B` with kernel B and its universal property, constructed from a Poincaré complement.
-- `modularQuotientForIdeal`: For any ideal I of the supplied acting modular Hecke algebra, form the connected subvariety generated by its Albanese images and take `abelianSubvarietyQuotient`. modularQuotient f is this modular specialization at `I=p_f`.
-- `modularQuotient_lift_map`: The descended homomorphism composed with `q_f` equals the original h.
-- `modularQuotient_hom_ext`: Two homomorphisms out of `A_f` agree when their compositions with the surjective `q_f` agree.
+`A_f` has good reduction outside N, by the Néron–Ogg–Shafarevich criterion (NeronModelsAndSemistableAbelianVarieties §5.1): `V_ℓ(A_f)` is a quotient of `V_ℓ(J₁(N))` ([§16.3](#163-tate-module-and-shimuras-dimension-theorem)), which is unramified at every prime `p∤Nℓ`.
 
 **Checks.**
 
-- The modularQuotientForIdeal quotient attached to the zero ideal of an acting algebra is the supplied Jacobian itself.
-- The modularQuotientForIdeal quotient for the unit ideal is the zero abelian variety; this tests the image-generated-kernel convention.
-- For the rational weight-two newform of level 11 and trivial character, the `J₀(11)` quotient has dimension one.
-- No Jacobian quotient is defined for a weight-12 level-one newform by this constructor.
-- `A_f` is nonzero when f exists ([§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ)).
-- Agreement with CyclotomicClassGroupsAndStickelberger §4.3: on `E×E` with subvariety `E×0` both quotients are E; for the zero and unit ideals both give `J₁(N)` and 0; for the level-11 rational newform both have dimension one.
-- Do not assert a quotient of a modular-curve Jacobian for weight `> 2`.
+- For `N≤10` and for `N=12` the curve `X₁(N)` has genus zero, so `S₂(Γ₁(N))=0` and no newform exists; the first level with a weight-two newform is `N=11`.
+- At level 11, `X₁(11)` has genus one, so `J₁(11)` has dimension one and `T₁(11)=ℤ`; hence `p_f=0`, `B_f=0` and `q_f` is an isomorphism. A kernel generated by the images of the whole Hecke algebra would give the zero variety instead.
+- At level 23 with trivial character, `X₁(23)` has genus 12 and `J₀(23)` is simple of dimension two with `K_f=ℚ(√5)`, so `B_f` has dimension ten and `A_f` dimension two.
+- A weight-twelve level-one form is outside the weight hypothesis; no Jacobian quotient is attached to it.
 
-*Needs:* [§13.1](#131-modular-jacobians-and-norms); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.3](#133-the-geometric-integral-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); `AbelianSchemesAndArithmeticModuli` A6.5 (`poincareReducibility`) and A3.3; `NeronModelsAndSemistableAbelianVarieties` §5.1; CyclotomicClassGroupsAndStickelberger §4.3 (shared modular quotient, for agreement); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`.
+*Needs:* [§13.1](#131-modular-jacobians-and-norms); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.3](#133-the-geometric-integral-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); CyclotomicClassGroupsAndStickelberger §4.3 (`modularQuotient`, `abelianSubvarietyQuotient`, `modularQuotientForIdeal`, `modularQuotient_map`, `modularQuotient_kills`, `modularQuotient_lift`, `modularQuotient_hom_ext`, `modularQuotient_baseChange`, `modularQuotient_hecke`); `NeronModelsAndSemistableAbelianVarieties` §5.1; Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety`.
 
-([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29 (printed; PDF page 33).)
+([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29 (printed; PDF page 33).)
 
-### 16.3 Tate module of the actual modular quotient
+### 16.3 Tate module and Shimura's dimension theorem
 
-For the actual quotient `q_f:J₁(N)→A_f`, the induced map identifies `V_ℓ(A_f)` with `V_ℓ(J₁(N))/p_fV_ℓ(J₁(N))` as a module over `Q_ℓ⊗T₁(N)`, with the chosen Albanese convention. Exactness of rational Tate modules for the quotient is proved from the Poincaré-complement construction of §16.2, as in Conrad’s proof of Theorem 5.14; integral exactness is not inferred by tensoring this rational statement.
+`dim A_f=[K_f:ℚ]`, so `A_f≠0`, and `q_f` identifies `V_ℓ(A_f)` with `V_ℓ(J₁(N))/p_fV_ℓ(J₁(N))` as a module over `ℚ_ℓ⊗T₁(N)`, free of rank two over `ℚ_ℓ⊗_ℚK_f`; in particular `dim V_ℓ(A_f)=2[K_f:ℚ]`. These are the dimension theorem and `modularTate_rank_two` of CyclotomicClassGroupsAndStickelberger §4.3, proved there with the rational Tate exactness of `B_f→J₁(N)→A_f→0` obtained from the Poincaré complement of the quotient, as in Conrad's proof of Theorem 5.14; they are consumed here, not proved again. Integral exactness on `T_ℓ` is not part of the statement and is not inferred by tensoring the rational one.
 
-`ℓ` prime; base characteristic zero. `B_f` is the actual connected image-generated kernel from [§16.2](#162-the-modular-abelian-variety-a_f).
-
-Establish this as follows. Prove rational Tate exactness for `B_f→J₁(N)→A_f→0` from the isogeny `B_f×C→J₁(N)` of §16.2. Choose finitely many generators of `p_f`; the sum of their abelian images is `B_f` and gives a surjection `J^a→B_f`. Apply rational Tate exactness again to identify its image with `p_fV_ℓJ`.
-
-**Checks.**
-
-- Test: an isogeny `B → A` with kernel of order `ℓ` is surjective on `V_ℓ` but not on `T_ℓ`.
-
-*Needs:* [§16.2](#162-the-modular-abelian-variety-a_f); `AbelianSchemesAndArithmeticModuli §A4`; `AbelianSchemesAndArithmeticModuli §A6`.
-
-([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77).)
-
-### 16.4 Shimura's theorem: `dim A_f = [K_f : ℚ]`
-
-`dim A_f = [K_f : ℚ]`, and `V_ℓ(A_f) = V_ℓ(J₁(N))/p_f V_ℓ(J₁(N))` is free of rank 2 over `ℚ_ℓ ⊗_ℚ K_f`. In particular `A_f ≠ 0` and `dim V_ℓ(A_f) = 2[K_f : ℚ]`.
+The comparison with Layer 14 is the form in which Layers 16–17 use the theorem. [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra) proves `V_ℓ(J₁(N))` free of rank two over `ℚ_ℓ⊗T₁(N)`; with the Tate exactness above, `V_ℓ(A_f)=V_ℓ(J₁(N))/p_f` is free of rank two over `ℚ_ℓ⊗T₁(N)/p_f=ℚ_ℓ⊗K_f`, of `ℚ_ℓ`-dimension `2[K_f:ℚ]=2 dim A_f`. This recovers the imported statement from the cohomological freeness of Layer 14.
 
 The Frobenius characteristic polynomial on `V_ℓ(A_f)` is AutomorphicGaloisRepresentations’ statement, not a defining property of `A_f`.
-
-Establish this as follows. `V_ℓ(J₁(N))` is free of rank 2 over `ℚ_ℓ ⊗ T₁(N)` ([§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra)). [§16.3](#163-tate-module-of-the-actual-modular-quotient) applied to `p_f J₁(N) → J₁(N) → A_f → 0` identifies `V_ℓ(A_f)` with `V_ℓ(J₁(N))/p_f`. Hence `V_ℓ(A_f)` is free of rank 2 over `ℚ_ℓ ⊗ T₁(N)/p_f = ℚ_ℓ ⊗ K_f`, of `ℚ_ℓ`-dimension `2[K_f : ℚ] = 2` `dim A_f`.
 
 **Checks.**
 
 - For the rational trivial-character newform of level 11, `K_f=ℚ` and `dim A_f=1`.
-- For the trivial-character newform orbit of level 23, `K_f=ℚ(√5)` and `dim A_f=2`.
+- For the trivial-character newform orbit of level 23, `K_f=ℚ(√5)` and `dim A_f=2`, and `V_ℓ(A_f)` has `ℚ_ℓ`-dimension four, not two.
 - At level 23 with a nontrivial even character ε of order 11, `X₁(23)→X₀(23)` is an unramified cyclic cover of degree 11 with base genus 2 and total genus 12, so each such ε has a one-dimensional weight-two cusp eigenspace. Its newform has `ℚ(ζ₁₁)⊆K_f`; the ten forms are conjugate, so `K_f=ℚ(ζ₁₁)` and `dim A_f=10`. The level alone does not determine the dimension.
+- An isogeny `B→A` with kernel of order ℓ is surjective on `V_ℓ` but not on `T_ℓ`, so the rational exactness does not give integral exactness.
 
-*Needs:* [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); [§16.3](#163-tate-module-of-the-actual-modular-quotient); `AbelianSchemesAndArithmeticModuli §A4`.
+*Needs:* [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); [§16.2](#162-the-modular-abelian-variety-a_f); CyclotomicClassGroupsAndStickelberger §4.3 (dimension theorem, `modularTate_rank_two`, rational Tate exactness of the quotient); `AbelianSchemesAndArithmeticModuli §A4`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 73 (printed page; PDF page 77); [Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1, p. 28 (printed; PDF page 32).)
 
-### 16.5 Differentials on `A_f`
+### 16.4 Differentials on `A_f`
 
-For the Albanese-action quotient `q_f:J₁(N)→A_f` defined here, cotangent pullback identifies `H⁰(A_f,Ω¹)⊗ℂ` with the span of `f^σ`, `σ:K_f↪ℂ`, inside `S₂(Γ₁(N),ℂ)=Cot₀(J₁(N)_ℂ)`. If `A_f^Pic` is instead constructed with the Picard action on the same model, its separately defined quotient map has cotangent image `w_ζ` of this span over a field containing `ζ`. The two quotient maps are not identified without this transport.
+For the Albanese-action quotient `q_f:J₁(N)→A_f` of [§16.2](#162-the-modular-abelian-variety-a_f), cotangent pullback identifies `H⁰(A_f,Ω¹)⊗ℂ` with the span of `f^σ`, `σ:K_f↪ℂ`, inside `S₂(Γ₁(N),ℂ)=Cot₀(J₁(N)_ℂ)`. If `A_f^Pic` is instead constructed with the Picard action on the same model, its separately defined quotient map has cotangent image `w_ζ` of this span over a field containing `ζ`. The two quotient maps are not identified without this transport.
 
 Conrad's warning: the Picard action on `Cot₀` is the Petersson adjoint of the classical action; `w_ζ` conjugates one action into the other.
 
@@ -4202,17 +4167,17 @@ Establish this as follows. `Cot₀(A_f) ↪ Cot₀(J₁(N))` is the subspace kil
 - Fix the Hecke-action convention before identifying differentials; the two choices differ by `w_ζ`.
 - For a separately constructed Picard quotient retain the `w_ζ` transport; never change the action on the already defined Albanese quotient.
 
-*Needs:* [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.4](#134-polarization-and-hecke-adjoints); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§14.7](#147-hecke-operators-are-self-adjoint-for-the-w_ζ-twisted-pairing); [§16.2](#162-the-modular-abelian-variety-a_f); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality).
+*Needs:* [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§13.4](#134-polarization-and-hecke-adjoints); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§14.7](#147-hecke-operators-are-self-adjoint-for-the-w_ζ-twisted-pairing); [§16.2](#162-the-modular-abelian-variety-a_f); [§16.3](#163-tate-module-and-shimuras-dimension-theorem); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 68 (printed page; PDF page 72).)
 
-### 16.6 Trivial character: the quotient of `J₀(N)`
+### 16.5 Trivial character: the quotient of `J₀(N)`
 
-Let f be a normalized weight-two newform of primitive level `N≥5` with `χ_f=1`, and let `p_f⁰ ⊂ T₀(N)` be the kernel of the eigenvalue map on the Hecke algebra of `J₀(N)`. Form `A_f⁰ := J₀(N)/p_f⁰J₀(N)` with the connected image-generated kernel and Albanese action of [§16.2](#162-the-modular-abelian-variety-a_f). Then `dim A_f⁰=[K_f : ℚ]`, and pullback along `π:X₁(N)→X₀(N)` descends to a `K_f`-equivariant isogeny `u:A_f⁰→A_f`.
+Let f be a normalized weight-two newform of primitive level `N≥5` with `χ_f=1`, and let `p_f⁰ ⊂ T₀(N)` be the kernel of the eigenvalue map on the Hecke algebra of `J₀(N)`. Form `A_f⁰ := J₀(N)/B_f⁰` as the `abelianSubvarietyQuotient` of CyclotomicClassGroupsAndStickelberger §4.3 of `J₀(N)` by the connected abelian subvariety `B_f⁰` generated by the images `t(J₀(N))`, `t∈p_f⁰`, under the Albanese action of [§13.2](#132-upper-and-lower-jacobian-hecke-operators), with the conventions of [§16.2](#162-the-modular-abelian-variety-a_f). Then `dim A_f⁰=[K_f : ℚ]`, and pullback along `π:X₁(N)→X₀(N)` descends to a `K_f`-equivariant isogeny `u:A_f⁰→A_f`.
 
 Both `π^*:J₀(N)→J₁(N)` and its unnormalized norm `π_*:J₁(N)→J₀(N)` descend through the respective quotient maps `q_f⁰` and `q_f` to u and `v:A_f→A_f⁰`. Thus `u∘q_f⁰=q_f∘π^*` and `v∘q_f=q_f⁰∘π_*`. With `d=deg π>0` their composite satisfies `v∘u=[d]` on `A_f⁰`.
 
-Establish this as follows. Apply the `J₁` dimension argument to `J₀(N)`, using the `Γ₀` version of [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra). Under the Albanese convention of §13.2, compare `π^*` and `π_*` with trace and inclusion on cotangent forms. The trivial-diamond subspace `S₂(Γ₀(N))⊂S₂(Γ₁(N))` is stable under every good and bad Hecke operator. Restriction gives `T₁(N)→T₀(N)`, with `p_f` the inverse image of `p_f⁰`; the two Jacobian maps intertwine these actions. They therefore send each image-generated kernel into the other, so §16.2's quotient universal property gives u and v. The identity `π_*π^*=[d]` from §13.1 descends, by surjectivity of `q_f⁰`, to `v∘u=[d]`. Consequently ker u is a closed subgroup scheme of `A_f⁰[d]`, which is finite because `d>0`. A homomorphism of equal-dimensional abelian varieties with finite scheme-theoretic kernel is finite and surjective: its proper image has the full dimension of the target, and translation identifies its fibres with its finite kernel. Apply this criterion to u, using `dim A_f⁰=dim A_f=[K_f : ℚ]`.
+Establish this as follows. Prove `dim A_f⁰=[K_f : ℚ]` by the comparison route of [§16.3](#163-tate-module-and-shimuras-dimension-theorem) applied to `J₀(N)`: the argument of [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra) run on `X₀(N)`, with the perfect full-Hecke pairing of [§7.6](#76-perfection-of-the-full-hecke-pairing) in place of the `Γ₁` one, gives `V_ℓ(J₀(N))` free of rank two over `ℚ_ℓ⊗T₀(N)`, and rational Tate exactness of the subvariety quotient, from its Poincaré complement (AbelianSchemesAndArithmeticModuli A6.5) and the isogeny invariance of `V_ℓ` (A4), identifies `V_ℓ(A_f⁰)` with `V_ℓ(J₀(N))/p_f⁰`. Under the Albanese convention of §13.2, compare `π^*` and `π_*` with trace and inclusion on cotangent forms. The trivial-diamond subspace `S₂(Γ₀(N))⊂S₂(Γ₁(N))` is stable under every good and bad Hecke operator. Restriction gives `T₁(N)→T₀(N)`, with `p_f` the inverse image of `p_f⁰`; the two Jacobian maps intertwine these actions. They therefore send each image-generated kernel into the other, so the universal properties of the two quotients (`abelianSubvarietyQuotient` for `A_f⁰`, `modularQuotient_lift` for `A_f`, both of CyclotomicClassGroupsAndStickelberger §4.3) give u and v. The identity `π_*π^*=[d]` from §13.1 descends, by surjectivity of `q_f⁰`, to `v∘u=[d]`. Consequently ker u is a closed subgroup scheme of `A_f⁰[d]`, which is finite because `d>0`. A homomorphism of equal-dimensional abelian varieties with finite scheme-theoretic kernel is finite and surjective: its proper image has the full dimension of the target, and translation identifies its fibres with its finite kernel. Apply this criterion to u, using `dim A_f⁰=dim A_f=[K_f : ℚ]`.
 
 The public interface should expose:
 
@@ -4228,11 +4193,11 @@ The public interface should expose:
 - Equal dimensions are necessary: `u:E→E×E`, `x↦(x,0)`, and v the first projection satisfy `v∘u=[1]`, but u is not surjective.
 - For `u=v=id` and `d=1` the criterion includes the identity isogeny, also on the zero-dimensional abelian variety.
 
-*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§13.1](#131-modular-jacobians-and-norms) (`jacobianNorm_pull`); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); [§16.2](#162-the-modular-abelian-variety-a_f) (`modularQuotient_lift`, `modularQuotient_hom_ext`); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); AbelianSchemesAndArithmeticModuli A3.2 (`multiplicationAndDensity`); SchemeAndStackFoundations §0.7 (dimension of fibres); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
+*Needs:* [§7.6](#76-perfection-of-the-full-hecke-pairing); [§9.1](#91-compactified-hecke-degeneracy-maps); [§9.2](#92-diamond-operators); [§13.1](#131-modular-jacobians-and-norms) (`jacobianNorm_pull`); [§13.2](#132-upper-and-lower-jacobian-hecke-operators); [§14.14](#1414-h¹-is-free-of-rank-two-over-the-hecke-algebra); [§16.1](#161-the-hecke-prime-and-coefficient-field-of-a-newform); [§16.2](#162-the-modular-abelian-variety-a_f); [§16.3](#163-tate-module-and-shimuras-dimension-theorem); CyclotomicClassGroupsAndStickelberger §4.3 (`abelianSubvarietyQuotient`, `modularQuotient_lift`, `modularQuotient_hom_ext`); AbelianSchemesAndArithmeticModuli A3.2 (`multiplicationAndDensity`), A4 and A6.5 (`poincareReducibility`); SchemeAndStackFoundations §0.7 (dimension of fibres); Tau Ceti `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Chapter 2, §2.3.1.2, p. 29, and Appendix by B. Conrad, §5.1, Lemma 5.4, pp.67–68, Definition 5.13 and Theorem 5.14, p.73 (printed pages); [Milne, Abelian Varieties](https://www.jmilne.org/math/xnotes/AVs.pdf), §8, Proposition 8.1 and Theorem 8.2, pp.12–13.)
 
-### 16.7 Oldforms: `A_f` inside `J₁(M)` for N | M
+### 16.6 Oldforms: `A_f` inside `J₁(M)` for N | M
 
 Let f have primitive level N and weight two, and let `N|M`. For the anemic Hecke algebra at level M, the rational abelian factor attached to the Galois orbit of f is isogenous over Q to `A_f^{τ(M/N)}`, where `τ` counts positive divisors. The degeneracy images for `d|M/N` give that factor up to isogeny. This uses the complete fixed-character oldspace and cross-level multiplicity-one theorem imported from ModularForms Layers `4/5`; an eigenvector at raised level can be a linear combination of these images. The simple isogeny factor `A_f` is attached to the primitive eigensystem, whereas the full raised-level anemic quotient has the stated larger dimension.
 
@@ -4247,13 +4212,13 @@ Establish this as follows. Import the fixed-character oldspace basis `{V_d f:d|M
 - `M=N` gives one copy; `M=Np` with `p∤N` gives two; `M=Np²` gives three, not four.
 - No mod-`ℓ` saturation follows from this rational isogeny statement.
 
-*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§10.2](#102-classical-and-geometric-hecke-actions); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality); `AbelianSchemesAndArithmeticModuli §A6`.
+*Needs:* [§9.1](#91-compactified-hecke-degeneracy-maps); [§10.2](#102-classical-and-geometric-hecke-actions); [§14.5](#145-the-weight-two-shimura-isomorphism-is-hecke-equivariant); [§16.3](#163-tate-module-and-shimuras-dimension-theorem); [ModularForms Layer 4](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-4-eigenforms-newforms-primitive-forms-the-conductor); [ModularForms Layer 5](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-5-strong-multiplicity-one-and-the-eigenform-characterization); [ModularForms Layer 8G](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms#layer-8g-galois-stability-the-character-field-and-rationality); `AbelianSchemesAndArithmeticModuli §A6`.
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.6, p. 40; Corollary 5.9, pp. 69–70; Theorem 5.14, p. 73.)
 
-### 16.8 The Abel–Jacobi composite to `A_f` is nonconstant
+### 16.7 The Abel–Jacobi composite to `A_f` is nonconstant
 
-For any supplied rational base point `c∈X₁(N)(Q)`, the composite `q_f∘AJ_c:X₁(N)→A_f` is nonconstant and sends c to zero. The same assertion holds for a supplied point of `X₀(N)` and its trivial-character quotient. The argument uses `A_f≠0` and the generation of the Jacobian by `AJ_c`; it does not require the rational-cusp construction of Layer 17.
+For any supplied rational base point `c∈X₁(N)(Q)`, the composite `q_f∘AJ_c:X₁(N)→A_f` is nonconstant and sends c to zero. The same assertion holds for a supplied point of `X₀(N)` and its trivial-character quotient. The argument uses `A_f≠0` ([§16.3](#163-tate-module-and-shimuras-dimension-theorem)) and the generation of the Jacobian by `AJ_c`; it does not require the rational-cusp construction of Layer 17.
 
 `A_f ≠ 0`; the Abel–Jacobi map and its universal property are Tau Ceti JacobianChallenge Layer F.
 
@@ -4263,7 +4228,7 @@ Establish this as follows. Import `AJ_c` and its universal property for the supp
 
 - No isogeny to a target curve is asserted here (that is EllipticCurveModularity’s).
 
-*Needs:* [§16.2](#162-the-modular-abelian-variety-a_f); [§16.4](#164-shimuras-theorem-dim-a_f--k_f--ℚ); [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property).
+*Needs:* [§16.2](#162-the-modular-abelian-variety-a_f); [§16.3](#163-tate-module-and-shimuras-dimension-theorem); [JacobianChallenge Layer F](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/JacobianChallenge#layer-f-abeljacobi-and-the-universal-property).
 
 ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), Appendix by B. Conrad, p. 74 (printed page; PDF page 78).)
 
@@ -4273,7 +4238,7 @@ A rational-eigenvalue newform gives `[K_f:ℚ]=1` and a dimension-one `A_f`. For
 
 ### Dependencies
 
-Use Layer 9, Layer 10, Layer 13, Layer 14. External contracts: AbelianSchemesAndArithmeticModuli, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 9, Layer 10, Layer 13, Layer 14. External contracts: CyclotomicClassGroupsAndStickelberger §4.3 (the modular quotient), AbelianSchemesAndArithmeticModuli, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 17: Bad-prime and Taylor–Wiles interfaces
 
@@ -4537,7 +4502,7 @@ Locators use the versions specified here. Author-copy pagination is distinguishe
 - [Henri Darmon, Fred Diamond and Richard Taylor, Fermat’s Last Theorem](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf). Author-hosted exposition dated September 9, 2007, 166 pages; internal page numbers.
 - [J. S. Milne, Modular Functions and Modular Forms](https://www.jmilne.org/math/CourseNotes/MF.pdf). Version 1.31, March 22, 2017, 134 pages.
 - [Benjamin Bakker and Jacob Tsimerman, Errata to p-torsion monodromy representations of elliptic curves over geometric function fields](https://benjamin-bakker.github.io/P.torsion.erratum.pdf). Author-hosted erratum; undated erratum.
-- [Benedict H. Gross and Don B. Zagier, Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf). Published Invent. Math. 84 (1986), 225–320, MPIM author-hosted scan; printed page `=` PDF page `+224`.
+- [Benedict H. Gross and Don B. Zagier, Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf). Published Invent. Math. 84 (1986), 225–320, MPIM author-hosted scan whose page sequence is not a uniform offset of the printed pagination; locators above are printed pages.
 - [The Stacks Project authors, The Stacks Project](https://stacks.math.columbia.edu). Cited by stable tag.
 - [Benjamin Bakker and Jacob Tsimerman, p-torsion monodromy representations of elliptic curves over geometric function fields (preprint)](https://arxiv.org/pdf/1403.7168v2). arXiv:1403.7168v2, 31 pages; preprint page numbers.
 - [Bas Edixhoven, Minimal resolution and stable reduction of X₀(N)](https://www.numdam.org/article/AIF_1990__40_1_31_0.pdf). Published Ann. Inst. Fourier 40 (1990), 31–67, Numdam scan; first PDF page is a repository cover, so use printed page numbers.
