@@ -29,7 +29,7 @@ Hodge structure.
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | A0 | The carrier and its boundaries | `AbelianScheme`, fieldAndEllipticBoundary, abelianPicardInputs |
-| A1 | Rigidity, Serre tensor, normalized line bundles and relative extension | relativeProductsAndDimension, relativeRigidity, relativeInvariantForms, relativeSerreTensor, `relativeSeesaw`, `relativeCube`, relativeEllipticEquivalence, torsionRestriction, `weilExtension` |
+| A1 | Rigidity, Serre tensor, normalized line bundles and relative extension | relativeProductsAndDimension, relativeRigidity, relativeInvariantForms, relativeSerreTensor, `relativeSeesaw`, `relativeCube`, relativeEllipticEquivalence, `torsionRestriction`, `weilExtension` |
 | A2 | Duality, polarizations and ample classes | raynaudRepresentability, AbelianScheme.dual, mumfordMap, Polarization, Polarization.graphBundle, ampleCohomologyAndDegree, projectivePresentation, nefNormalizedLines, AbelianNS |
 | A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, multiplicationAndDensity, AbelianQuotient, `torsionDivisibility`, dualIsogenyCartierKernel, ThetaGroup, polarizedWeilPairing, FullLevel, Polarization.rosati, principalQuotient, symmetricHomRealization |
 | A4 | Realizations and deformations | AbelianTate, AbelianVectorExtension, AbelianH1dR, exteriorCohomology, BarsottiTate, AbelianPD, DieudonneCrystal.evaluate, grothendieckMessing, serreTate, SerreTate.q, oddPrimeLifting, dyadicOrdinaryLifting |
@@ -717,7 +717,7 @@ ComplexComparisonPartII C3.2d.2, C3.2f.1–C3.2f.2.
 
 ### Examples
 
-For an elliptic curve `E/K` the field adapters of A0.2 and the equivalence of A1.6 identify `AbelianScheme.ofAbelianVariety E`
+For an elliptic curve `E/K` the field adapters of A0.2 and the equivalence of A1.6 identify AbelianScheme.ofAbelianVariety E
 with ModularCurves' elliptic curve `E/Spec K`, and the dual of A2.2 with `E` through
 `a ↦ O([−a] − [0])`. For `S = Spec K[ε]/(ε²)` and the constant family `E_S`, A0.3 (2) identifies
 `Pic⁰_{E_S/S}(S)` with the rigidified degree-zero line bundles on `E_S`; its nonzero infinitesimal
@@ -814,7 +814,7 @@ Theorem 7.2 and its proof, pp. 101–102, and Theorem 7.5, p. 103; Chai–Conrad
 **Checks.**
 
 - For `M = R_R`, the map `r ⊗ a ↦ r(a)` gives the original `A`.
-- For `M = 0`, the representing scheme is `AbelianScheme.identity S`.
+- For `M = 0`, the representing scheme is AbelianScheme.identity S.
 - For `M = Rⁿ`, the tensor is `Aⁿ`, including `n = 0`.
 - Let `R = ℤ[√−5]` and `I = (2, 1 + √−5)`, an invertible nonprincipal ideal. For the complex
   elliptic curve with lattice `R` and its multiplication action, `I ⊗_R A` has lattice `I`.
@@ -919,16 +919,34 @@ A1.3; ModularCurves 1C, 1D.
 
 ### A1.7 Torsion restrictions of rigidified line bundles
 
-Prove torsionRestriction. For a rigidified line bundle `L` on `A/S` and `n ≥ 1`, the restriction
-of `L` to `A[n]` is torsion in `Pic(A[n])`: its `n²`-th power is trivial if `L` is symmetric, its
-`n`-th power if `L` is antisymmetric, and for arbitrary `L` the decomposition
-`L² = (L ⊗ [−1]^*L) ⊗ (L ⊗ ([−1]^*L)^{-1})` gives the exponent `2n²`. The same holds on every
-torsion multisection contained in `A[n]`, connected non-étale torsion included. The proof restricts
-`[n]^*L` (A1.5) to the kernel, where it is trivialized by the retained rigidification; the general
-bound avoids dividing by two in `Pic` (Xie–Yuan, Lemma 4.1(2) and its proof, p. 20). No
-reduced-points argument is used on `μ_p` or `α_p`. Here `A[n]` is the scheme-theoretic kernel of
-`[n]` (Tau Ceti's kernel of a group-scheme homomorphism); the statement does not need its finite
-flatness, which is A3.2. *Needs:* A1.5; Tau Ceti `GroupScheme/Kernel`.
+Prove `torsionRestriction`. For a rigidified line bundle `L` on `A/S` and every integer `n`, the
+restriction of `L` to `A[n]` is torsion in `Pic(A[n])`: its `n²`-th power is trivial if `L` is
+symmetric (`[−1]^*L ≅ L`), its `n`-th power if `L` is antisymmetric (`[−1]^*L ≅ L^{-1}`), and for
+arbitrary `L` the decomposition `L² = (L ⊗ [−1]^*L) ⊗ (L ⊗ ([−1]^*L)^{-1})` gives the exponent
+`2n²`. The same holds on every torsion multisection contained in `A[n]`, connected non-étale
+torsion included. The proof restricts `[n]^*L` (A1.5) to the kernel, where it is trivialized by the
+retained rigidification; the general bound avoids dividing by two in `Pic` (Xie–Yuan, Lemma 4.1(2)
+and its proof, p. 20). No reduced-points argument is used on `μ_p` or `α_p`. Here `A[n]` is the
+scheme-theoretic kernel of `[n]`, the fibre product of `[n]` with the zero section, which
+`TauCeti.GroupScheme.isPullback_kernel_scheme` identifies with Tau Ceti's kernel of a group-scheme
+homomorphism; the statement does not need its finite flatness, which is A3.2, and it holds for
+every integer `n` (`A[0] = A` with exponent `0`, and `A[−n] = A[n]`). *Needs:* A1.5; Tau Ceti
+`GroupScheme/Kernel`.
+
+**Checks.**
+
+- Over a field the statement has no content: `A[n]` is a finite `K`-scheme, the spectrum of a
+  semilocal ring, so `Pic(A[n])` is trivial. The content is over bases `S` with nontrivial
+  `Pic(S)`, which `A[n] → S` pulls back.
+- The rigidification cannot be dropped: for a line bundle `N` on `S` whose square is nontrivial in
+  `Pic(S)`, the pullback `π^*N` to `A` restricts to `A[1] = S` as `N`, whose square is not trivial.
+  For rigidified `L` and `n = 1`, the restriction is `e^*L`, trivial by the rigidification.
+- The three exponents follow from the cube identity. Writing `M` and `M′` for the restrictions of
+  `L` and `[−1]^*L` to `A[n]`, A1.5 gives `M^{n(n+1)/2} M′^{n(n−1)/2} = 1` and, applied to
+  `[−1]^*L`, `M′^{n(n+1)/2} M^{n(n−1)/2} = 1`. Their product gives `(MM′)^{n²} = 1` and their
+  quotient `(M/M′)^n = 1`, so `M^{2n²} = (MM′)^{n²} (M/M′)^{n²} = 1`; `M′ = M` gives `M^{n²} = 1` and
+  `M′ = M^{-1}` gives `M^n = 1`. A proof that divided by two in `Pic` would claim `M^{n²} = 1` for
+  every `L`, which this decomposition does not give.
 
 ### A1.8 Weil extension over Dedekind and regular bases
 
@@ -1062,7 +1080,7 @@ ComplexComparisonPartII C3.2f.2 (`picardZeroCriterion`).
 
 ### A2.2 The dual abelian scheme and the Poincaré bundle
 
-Define `AbelianScheme.dual A`, written `A^∨`, as the abelian scheme representing `Pic⁰_{A/S}`
+Define AbelianScheme.dual A, written `A^∨`, as the abelian scheme representing `Pic⁰_{A/S}`
 (A2.1), the subsheaf of the rigidified Picard sheaf of A0.3 of classes lying fibrewise in the
 identity component, together with AbelianScheme.poincare, the universal line bundle `P` on
 `A ×_S A^∨` rigidified along `e_A × id` and along `id × e_{A^∨}`, the two rigidifications agreeing
@@ -1316,7 +1334,7 @@ Define AbelianNS A for an abelian variety `A` over a field `K` as `Pic(A)/Pic⁰
 is the group of `K`-line-bundle classes algebraically equivalent to zero, equivalently the kernel of
 `L ↦ φ_L` (A2.3). Define AbelianNS.tensorQ A = AbelianNS A ⊗ ℚ, its real analogue, the ample cone
 (the positive real cone spanned by ample classes), and the geometric Picard number
-AbelianNS.picardNumber A = dim_ℚ NS(A_{K̄})_ℚ, independent of the algebraic closure. The group
+AbelianNS.picardNumber A, which is `dim_ℚ NS(A_{K̄})_ℚ`, independent of the algebraic closure. The group
 `NS(A_{K̄})` is distinct from `NS(A)` and from `NS(A_{K̄})^{Gal}`; the rank of `NS(A)` is a different
 arithmetic invariant from `ρ(A)`. Finite generation is a theorem (A6.16), not part of the definition
 (Milne 2022, Corollary 12.8 and its Mumford-map argument, p. 22; Conrad, *Polarizations*, the `Pic⁰`
@@ -2115,9 +2133,8 @@ images remain separate constructions of CrystallineCohomology §§CR.4.7 and CR.
 **The crystalline Dieudonné crystal of a Barsotti–Tate group.** Let `p` be a prime, `S` a scheme
 on which `p` is locally nilpotent, and `G` a Barsotti–Tate (`p`-divisible) group over `S` (A4.5). Its
 contravariant crystalline Dieudonné crystal is `D(G) = 𝓔xt¹(G, O_{S/ℤ_p})` on the big crystalline site
-of `S` over `(ℤ_p, (p), γ)`, using the base-compatible fppf site
-`Crystalline.CrisCompatibleFppfSite` of *Small and big crystalline sites*
-(CrystallineCohomology Layer CR.1), and with `G_crys(U,T) = G(U)`. In characteristic `p` this is
+of `S` over `(ℤ_p, (p), γ)`, using the base-compatible fppf crystalline site of *Small and big
+crystalline sites* (CrystallineCohomology Layer CR.1), and with `G_crys(U,T) = G(U)`. In characteristic `p` this is
 `CRIS_fppf(S/ℤ_p)`. Construct `D`, contravariant in `G` and
 compatible with base change `S′ → S`; prove that `D(G)` is a crystal of finite locally free modules of
 rank the height of `G`. When `S` has characteristic `p`, its relative Frobenius and
@@ -2736,11 +2753,11 @@ modulo `N`. The API is SiegelFamily.fibre, SiegelFamily.polarization, SiegelFami
 (the compatible period, lattice and fibre actions) and SiegelFamily.level. *Needs:* A3.7, A3.8, A5.2,
 A5.6; ComplexTori Milestones 2–3; Mathlib `Matrix.symplecticGroup`, `Matrix.PosDef`.
 
-The light predicate has intended signature
-`SiegelUpperHalfSpace (g : ℕ) : Set (Matrix (Fin g) (Fin g) ℂ)`, with symmetry and
+The light predicate SiegelUpperHalfSpace g has intended signature
+`(g : ℕ) → Set (Matrix (Fin g) (Fin g) ℂ)`, with symmetry and
 positive definiteness as its real body. Its API includes the genus-one comparison,
 the dimension-zero singleton and exclusion of singular imaginary part. The period
-formula `siegelAction M Ω` is defined on all integral block matrices and all complex
+formula siegelAction M Ω is defined on all integral block matrices and all complex
 period matrices using Mathlib's matrix inverse. Prove siegelAction_one and
 siegelAction_translation: the identity fixes every period, and
 `[[I, B], [0, I]]` sends `Ω` to `Ω + B` for symmetric integral `B`.
@@ -2753,9 +2770,9 @@ the invertibility assertion is what justifies the fractional formula there
 
 - For the identity block matrix, siegelAction returns `Ω`; swapping the block order fails.
 - The matrix `[[i, 1], [0, i]]` has positive definite imaginary part but is excluded from
-  `SiegelUpperHalfSpace 2` because it is not symmetric.
+  SiegelUpperHalfSpace 2 because it is not symmetric.
 - For `Ω = [[i, 1], [1, i]]` and the symplectic lower-unipotent matrix
-  `M = [[I, 0], [diag(1, 0), I]]`, `siegelAction M Ω` has entry `(2,1)` equal to
+  `M = [[I, 0], [diag(1, 0), I]]`, siegelAction M Ω has entry `(2,1)` equal to
   `1/(1+i)`. The left quotient has entry `1` there, distinguishing the side of multiplication.
 - In genus one, `[[1, 1], [0, 1]]` sends `τ` to `τ + 1`, while
   `[[0, −1], [1, 0]]` sends it to `−1/τ`; for `τ = i` the latter fixes `i`.
@@ -2853,7 +2870,7 @@ JacobianChallenge Layer E; Tau Ceti `ClosedSubgroupScheme`.
 
 ### A6.4 Simple abelian varieties
 
-Define `IsSimple A`: `A` is not zero-dimensional, and every abelian subvariety of `A` (a homomorphism
+Define IsSimple A: `A` is not zero-dimensional, and every abelian subvariety of `A` (a homomorphism
 `i : B ⟶ A` whose scheme morphism is a closed immersion) is zero-dimensional or an isomorphism. Prove
 simpleEndDivision: if `A` is simple, every nonzero `α ∈ End A` is an isogeny and `End⁰(A)` is a division
 algebra; for simple `A` and `B`, `Hom⁰(A, B) = 0` unless `A` and `B` are isogenous, in which case it is free
@@ -3519,7 +3536,7 @@ the locally constant finite-projective hypothesis is kept rather than treating j
 bundle (A6.25). The API is LocalizedHom.mk, LocalizedHom.comp, LocalizedHom.unitFunctor and
 LocalizedHom.extend (a further localization extends arrows and inverses).
 
-Define `localizedYoneda D A` on the category of all `S`-schemes, valued in `D`-modules, by
+Define localizedYoneda D A on the category of all `S`-schemes, valued in `D`-modules, by
 `A_D(T) = D ⊗_ℤ Hom_S(T, A)` and restriction by precomposition. This is a presheaf; no topology or
 sheafification enters its definition. The suggested signature localizedYoneda_obj identifies its
 value with this tensor product, and localizedYoneda_map_tmul specifies restriction on pure tensors.
@@ -3573,7 +3590,7 @@ base `Spec D`, with affine ring `O_P`, trivialized over `Spec D′` for a finite
 `D`-algebra `D′`. Form the `D`-module presheaf `A_D^P(T) = (A_D(T) ⊗_D O_P)^Z`, taking tensor products
 and the invariant equalizer pointwise for the diagonal coefficient action. Representation up to
 `D`-isogeny means an abelian scheme `B/S` together with a natural `D`-linear isomorphism
-`localizedYoneda D B ≅ A_D^P`. The comparison of A6.26 makes `B` unique up to a global `D`-isogeny;
+between localizedYoneda D B and `A_D^P`. The comparison of A6.26 makes `B` unique up to a global `D`-isogeny;
 write it as `A^P`. These are coefficient-module presheaves on all `S`-schemes. Torsors over the
 geometric base `S`, such as
 `Spec L → Spec K` for a quadratic extension, are not inputs; the quadratic twist is the geometric

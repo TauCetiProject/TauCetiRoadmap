@@ -13,7 +13,8 @@ import TauCeti.Algebra.Module.Torsion.TateModule
 The statements here give Lean forms for headline targets; discharging them finishes neither a
 layer nor the roadmap.
 
-The statements cover relative rigidity, seesaw, cube and regular-base Weil extension (A1),
+The statements cover relative rigidity, seesaw, cube, torsion restriction and regular-base Weil
+extension (A1),
 multiplication isogenies, finite-flat quotients, division by `n` and torsion density (A3), the rank
 of the geometric Tate module (A4), and Poincaré complete reducibility, finite-rank Hom, semisimplicity of rational endomorphisms, integral characteristic polynomials,
 their Tate-module comparison, internal positive square roots and the real positive-involution
@@ -151,6 +152,19 @@ theorem relativeCube (A : AbelianScheme S)
         c ^ (n * (n + 1) / 2) *
           (TauCeti.AlgebraicGeometry.LineBundleClass.pullback (A.mulBy (-1)).left c) ^
             (n * (n - 1) / 2) := by
+  sorry
+
+/-- **Torsion restriction** of a rigidified line bundle to the scheme-theoretic `n`-torsion
+`A[n]`, the fibre product of `[n]` with the zero section (README A1.7): for every integer `n` the
+restricted class has order dividing `2n²`, dividing `n²` when `L` is symmetric and dividing `n`
+when `L` is antisymmetric. -/
+theorem torsionRestriction (A : AbelianScheme S)
+    (L : TauCeti.AlgebraicGeometry.RigidifiedLineBundle η[A.toOver].left) (n : ℤ) :
+    let c := TauCeti.AlgebraicGeometry.LineBundleClass.mk L.lineBundle
+    let c' := TauCeti.AlgebraicGeometry.LineBundleClass.pullback (A.mulBy (-1)).left c
+    let m := TauCeti.AlgebraicGeometry.LineBundleClass.pullback
+      (pullback.fst (A.mulBy n).left η[A.toOver].left) c
+    m ^ (2 * n ^ 2) = 1 ∧ (c' = c → m ^ (n ^ 2) = 1) ∧ (c' = c⁻¹ → m ^ n = 1) := by
   sorry
 
 /-- Restriction to the generic fibre is bijective for maps from any smooth test scheme into an
