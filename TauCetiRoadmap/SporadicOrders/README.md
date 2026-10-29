@@ -103,10 +103,13 @@ transcribed wrongly enough to collapse the group would violate.
   Schreier generators `r s (r s)‾⁻¹`, `r ∈ R`, `s ∈ S`, generate `H`.
 - `MulAction.IsMultiplyPretransitive` (`Mathlib/GroupTheory/GroupAction/MultipleTransitivity.lean`),
   transitivity on injections `Fin k ↪ α`.
-- `PresentedGroup`, `PresentedGroup.toGroup` and `PresentedGroup.toGroup.of`
-  (`Mathlib/GroupTheory/PresentedGroup.lean`): a generator assignment on which every relator
-  evaluates to `1` lifts to a hom from the presented group that sends each generator to its
-  assigned value; `PresentedGroup.closure_range_of` says the generators generate.
+- `PresentedGroup`, `PresentedGroup.toGroup`, `PresentedGroup.toGroup.of` and
+  `PresentedGroup.toGroup.unique` (`Mathlib/GroupTheory/PresentedGroup.lean`): a generator
+  assignment on which every relator evaluates to `1` lifts to a hom from the presented group that
+  sends each generator to its assigned value, and it is the only hom with those values on the
+  generators; `PresentedGroup.closure_range_of` says the generators generate. `FreeGroup.lift`
+  (`Mathlib/GroupTheory/FreeGroup/Basic.lean`), the hom from the free group extending an
+  assignment of the generators.
 
 **From Tau Ceti** (at the pinned revision; this is CFSGStatement S0–S1).
 
@@ -116,22 +119,25 @@ transcribed wrongly enough to collapse the group would violate.
   each sporadic name, and `TauCeti.SporadicName.Group`, defined as
   `TauCeti.GroupPresentation.Group` of that presentation, which is the `PresentedGroup` of its
   compiled relators.
-- `TauCeti.GroupPresentation.homEquiv`
-  (`TauCeti/GroupTheory/Presentation/GroupPresentation.lean`): homs out of a
-  presentation's group `P.Group` correspond to assignments `τ` of the generators on which every
-  transcribed relator `t ∈ P.transcribed` satisfies `FreeGroup.lift τ t.toFreeGroup = 1`, with no
-  generation or injectivity condition. Its inverse is `PresentedGroup.toGroup`, through
-  `TauCeti.GroupPresentation.mem_relatorSet_iff`, which says that the relator set of `P.Group` is
-  the set of free-group elements denoted by the transcribed relators.
-- `TauCeti.Relator.eval` and `TauCeti.Relator.toFreeGroup`
-  (`TauCeti/GroupTheory/Presentation/Relator.lean`): the structural evaluation of a relator
-  expression under an assignment, and its value at the free generators; the two agree by
-  `TauCeti.Relator.lift_toFreeGroup`, `FreeGroup.lift τ t.toFreeGroup = TauCeti.Relator.eval τ t`,
-  so the condition of `homEquiv` is that every transcribed relator evaluates to `1` at `τ`. The
-  commutator constructor `TauCeti.Relator.comm` is Mathlib's `⁅r, s⁆ = r s r⁻¹ s⁻¹`; the
-  presentations write the literature's `[r, s] = r⁻¹ s⁻¹ r s` as `TauCeti.Relator.commInvInv r s`,
-  which is `comm (inv r) (inv s)` and evaluates to `r⁻¹ s⁻¹ r s` by
-  `TauCeti.Relator.eval_commInvInv`.
+- `TauCeti.GroupPresentation.mem_relatorSet_iff`
+  (`TauCeti/GroupTheory/Presentation/GroupPresentation.lean`): the relator set of `P.Group` is
+  exactly the set of free-group elements `t.toFreeGroup` for `t ∈ P.transcribed`. Consequently
+  homs out of `P.Group` correspond to assignments `τ` of the generators on which every transcribed
+  relator `t ∈ P.transcribed` satisfies `FreeGroup.lift τ t.toFreeGroup = 1`, with no generation
+  or injectivity condition: such an assignment gives `PresentedGroup.toGroup`, which sends each
+  generator to its assigned value by `PresentedGroup.toGroup.of`, and every hom with those values
+  on the generators is it by `PresentedGroup.toGroup.unique`.
+- `TauCeti.Relator.toFreeGroup` (`TauCeti/GroupTheory/Presentation/Relator.lean`), the value of a
+  relator expression at the free generators, with the computation rules
+  `TauCeti.Relator.toFreeGroup_gen`, `TauCeti.Relator.toFreeGroup_inv`,
+  `TauCeti.Relator.toFreeGroup_mul`, `TauCeti.Relator.toFreeGroup_pow` and
+  `TauCeti.Relator.toFreeGroup_comm`. The value of a relator expression `t` under an assignment
+  `τ` is `FreeGroup.lift τ t.toFreeGroup`, which by these rules is the structural evaluation of
+  `t` at `τ`, so the hom condition above is that every transcribed relator evaluates to `1` at
+  `τ`. The commutator constructor `TauCeti.Relator.comm` is Mathlib's `⁅r, s⁆ = r s r⁻¹ s⁻¹`;
+  the presentations write the literature's `[r, s] = r⁻¹ s⁻¹ r s` as `comm (inv r) (inv s)`,
+  whose value is `r⁻¹ s⁻¹ r s` by `TauCeti.Relator.toFreeGroup_comm` and
+  `TauCeti.Relator.toFreeGroup_inv`.
 
 Nothing is consumed from another roadmap beyond the CFSGStatement presentations that Tau Ceti
 already carries.
@@ -414,8 +420,9 @@ The ATLAS files are the provenance of the generator data.
 For each name in Layer 1, write `P = TauCeti.SporadicName.presentation <Name>` with generators
 indexed by `Fin m`. Choose permutations `τ₁, …, τₘ : Equiv.Perm (Fin n)` and prove:
 
-- every transcribed relator of `P` evaluates to `1` at `τ` (`TauCeti.Relator.eval`), a closed
-  equation between permutations of `Fin n`;
+- every transcribed relator `t` of `P` evaluates to `1` at `τ`, that is
+  `FreeGroup.lift τ t.toFreeGroup = 1` with `TauCeti.Relator.toFreeGroup`, a closed equation
+  between permutations of `Fin n`;
 - `Subgroup.closure {τ₁, …, τₘ}` equals the Layer 1 carrier: each `τᵢ` lies in the carrier, and
   each of `a` and `b` lies in the closure of the `τᵢ`.
 
@@ -423,8 +430,9 @@ How the `τᵢ` are found is not part of the target; the generation condition ma
 satisfies the relators acceptable, whether or not the presentation's generators are the ATLAS
 standard generators. When the presentation is on the ATLAS standard generators and the source
 composes left to right, the conventions above give the candidate `τ = (a⁻¹, b⁻¹)`. *Needs:* Tau
-Ceti `TauCeti.SporadicName.presentation`, `TauCeti.Relator.eval`; Layer 1 carriers; Layer 0.3, or
-an explicit word in the `τᵢ`, for the membership of `a`, `b` in the closure of the `τᵢ`.
+Ceti `TauCeti.SporadicName.presentation`, `TauCeti.Relator.toFreeGroup`, Mathlib `FreeGroup.lift`;
+Layer 1 carriers; Layer 0.3, or an explicit word in the `τᵢ`, for the membership of `a`, `b` in the
+closure of the `τᵢ`.
 
 **Checks.**
 
@@ -445,10 +453,11 @@ Prove `exists_surjective_M11`, `exists_surjective_M12`, `exists_surjective_M22`,
 `exists_surjective_M23`, `exists_surjective_M24`, `exists_surjective_J1`, `exists_surjective_J2`,
 `exists_surjective_HS`, `exists_surjective_McL` and `exists_surjective_Co3`: there is a surjective
 hom from `TauCeti.SporadicName.<Name>.Group` onto the carrier `<Name>`. The route is
-`PresentedGroup.toGroup` (equivalently `TauCeti.GroupPresentation.homEquiv`) applied to the
-assignment of 2.1, whose range is the closure of the `τᵢ` by `PresentedGroup.closure_range_of`,
-hence the carrier; corestrict to the carrier. *Needs:* 2.1, Mathlib `PresentedGroup.toGroup`,
-`PresentedGroup.closure_range_of`, Tau Ceti `TauCeti.GroupPresentation.homEquiv`.
+`PresentedGroup.toGroup` applied to the assignment of 2.1, its hypothesis discharged through
+`TauCeti.GroupPresentation.mem_relatorSet_iff`; its range is the closure of the `τᵢ` by
+`PresentedGroup.toGroup.of` and `PresentedGroup.closure_range_of`, hence the carrier; corestrict
+to the carrier. *Needs:* 2.1, Mathlib `PresentedGroup.toGroup`, `PresentedGroup.toGroup.of`,
+`PresentedGroup.closure_range_of`, Tau Ceti `TauCeti.GroupPresentation.mem_relatorSet_iff`.
 
 From a surjection and the Layer 1 order, derive that `TauCeti.SporadicName.<Name>.Group` is
 nontrivial and that `0 < Nat.card (TauCeti.SporadicName.<Name>.Group)` implies
@@ -477,8 +486,9 @@ surjection gives no finiteness: with Mathlib's junk value an infinite presented 
 
 Layer 1 (the carriers, and their orders for the corollaries). Tau Ceti
 `TauCeti.SporadicName.presentation`, `TauCeti.SporadicName.Group`,
-`TauCeti.GroupPresentation.homEquiv`, `TauCeti.Relator.eval` (CFSGStatement S0–S1). Mathlib
-`PresentedGroup.toGroup`, `PresentedGroup.closure_range_of`.
+`TauCeti.GroupPresentation.mem_relatorSet_iff`, `TauCeti.Relator.toFreeGroup` (CFSGStatement
+S0–S1). Mathlib `FreeGroup.lift`, `PresentedGroup.toGroup`, `PresentedGroup.toGroup.of`,
+`PresentedGroup.closure_range_of`.
 
 ## Downstream consumers
 
