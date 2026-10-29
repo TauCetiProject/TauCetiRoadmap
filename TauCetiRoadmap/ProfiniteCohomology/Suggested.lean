@@ -14,18 +14,24 @@ cites them by name in its supplier contracts instead of restating them here: the
 isomorphisms between the explicit and the canonical model, the finite-quotient colimit, the long
 exact and five-term sequences, Shapiro's lemma in every degree, dimension shifting, all-degree
 corestriction with `cor ∘ res`, its transitivity and the Mackey formula, Hilbert 90 and the Kummer
-isomorphism, the criteria for ordinary and strict cohomological dimension, the graded cup product
-with associativity, graded commutativity and the projection formula, and the index-two Evens norm
-with its identities, its exact sequences and its `D₁₆` pullback formula.
+isomorphism, the ordinary cohomological-dimension criteria, the graded cup product
+with associativity, graded commutativity and the projection formula, and the index-two graph
+construction on continuous characters, its identities and the index-two exact sequence. The
+cochain-level `D₁₆` pullback equation is supplied; descent to classes and its Galois transport
+are README targets, elementary packaging of these graph results through the degree-one character
+equivalence, rather than additional deep theorems.
 
-Two families of headline theorems remain, and both are stated below (Layer 11 of `README.md`):
+Three families of headline theorems remain, and all are stated below (Layer 11 of `README.md`):
 
 * the independence of `cd_p` and `scd_p` from the extra coefficient universe of Tau Ceti's
   invariants, between the value `v = u` used by the Tau Ceti theorems on subgroups and the value
-  `v = 0` used by its arithmetic consumers;
+  `v = 0`, which quantifies over the same coefficient universe;
+* the strict-dimension criterion (NSW (3.3.4)), testing the primary part of integral
+  cohomology of every open subgroup as well as the ordinary-dimension bound;
 * the class-module theorem for a group of strict `p`-cohomological dimension at most two
-  (NSW (3.6.4)) for an arbitrary open normal subgroup `V`. Tau Ceti proves it only when `G ⧸ V`
-  is a cyclic `p`-group.
+  (NSW (3.6.4)) for an arbitrary open normal subgroup `V`, including the cyclic case.
+  The carrier, extension class and change-of-group equivalences exist at the pin; the transfer,
+  inflation exactness and cyclic reduction in the proof route are README targets.
 
 One headline theorem is not statable at the pins. The general Evens norm
 `H^{2q}(U, A) → H^{2lq}(G, A)` of an open subgroup `U` of index `l` with coefficients in a discrete
@@ -47,6 +53,8 @@ universe u
 namespace TauCetiRoadmap.ProfiniteCohomology
 
 open TauCeti TauCeti.ContCohomology
+
+attribute [local instance] TopRep.distribMulAction TopRep.smulCommClass
 
 /-! ## Layer 11: cohomological dimension -/
 
@@ -70,6 +78,21 @@ additive, so they preserve `p`-primary components. -/
 theorem strictCohomologicalDimensionAt_universe_eq (p : ℕ) (G : Type u) [Group G]
     [TopologicalSpace G] [IsTopologicalGroup G] :
     strictCohomologicalDimensionAt.{u} p G = strictCohomologicalDimensionAt.{0} p G := by
+  sorry
+
+/-- **Strict dimension is detected by integral cohomology of open subgroups** (NSW (3.3.4)).
+For a prime `p`, profinite `G` and `n ≥ 0`, strict dimension is at most `n` exactly when ordinary
+p-dimension is at most `n` and every open subgroup has zero p-primary component in degree `n+1`
+with trivial integral coefficients. `ULift` places those coefficients in the group universe. -/
+theorem strictCriterion (p : ℕ) (hp : p.Prime) (G : Type u)
+    [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CompactSpace G] [TotallyDisconnectedSpace G] (n : ℕ) :
+    strictCohomologicalDimensionAt.{u} p G ≤ n ↔
+      cohomologicalDimensionAt.{u} p G ≤ n ∧
+        ∀ U : OpenSubgroup G, AddCommGroup.primaryComponent
+          (continuousCohomology (n + 1)
+            (TopRep.of (ContRepresentation.trivial ℤ U.toSubgroup
+              (ULift.{u} ℤ)))) p = ⊥ := by
   sorry
 
 /-- **The class module has trivial `H¹`** (NSW (3.6.4), degree one). Let `G` be a profinite group
