@@ -124,7 +124,10 @@ predual. Earlier algebraic and net-based theory has no separability restriction.
 `H →Lₚₜ[ℂ] H`, `PointwiseConvergenceCLM.tendsto_iff_forall_tendsto` and
 `ContinuousLinearMap.toPointwiseConvergenceCLM`
 (`Mathlib/Topology/Algebra/Module/Spaces/PointwiseConvergenceCLM.lean`); `banach_steinhaus`
-(`Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean`); the commutative Gelfand duality
+(`Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean`); the geometric Hahn–Banach separation
+theorems `geometric_hahn_banach_closed_point` and `geometric_hahn_banach_compact_closed` of a
+locally convex real topological vector space (`Mathlib/Analysis/LocallyConvex/Separation.lean`),
+applied in the weak and weak-star topologies; the commutative Gelfand duality
 `gelfandStarTransform`, `gelfandTransform_isometry` and `gelfandTransform_bijective` under
 `CommCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) and the compactness of
 `characterSpace ℂ A` for a unital normed algebra (`Mathlib/Analysis/Normed/Algebra/Basic.lean`);
@@ -171,7 +174,7 @@ convolution: the ring structure on `𝕋 Δ H R` with `HeckeCosetModule.single_m
 Each is used as stated at the pin.
 
 **From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
-annihilators, quotient duals, adjoints, Goldstine and Hahn–Banach separation;
+annihilators, quotient duals, adjoints and Goldstine;
 [B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
 James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
 quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
@@ -1206,13 +1209,13 @@ a linear functional τ on M by `τ(1)=1`, `τ(x*x)≥0` and `τ(xy)=τ(yx)`.
 First prove **V5.Dixmier**: the norm-closed convex hull of unitary
 conjugates of an element of a finite von Neumann algebra meets its
 center in a unique element D(x) (Dixmier's property: Peterson, Theorem 4.8.2, p. 75;
-Anantharaman–Popa, Theorem 6.4.1, p. 99). Prove that this assignment constructs
+Anantharaman–Popa, Theorem 6.4.1, p. 93). Prove that this assignment constructs
 the faithful normal center-valued trace and its scalar specialization (Peterson, Theorem 4.7.10,
-p. 72; Anantharaman–Popa, Theorem 6.4.4, p. 101),
+p. 72; Anantharaman–Popa, Theorem 6.4.4, p. 95),
 hence existence
 and uniqueness of the faithful normal normalized trace on a II₁
 factor, independently of the trace-range theorem (Anantharaman–Popa, Theorems 6.3.4 and 6.3.5,
-pp. 97–98). Prove uniqueness in the stronger form
+pp. 91–92). Prove uniqueness in the stronger form
 `tracialState_unique`: a factor has at most one tracial state, with no normality assumed. On a
 finite factor every tracial state is constant on the Dixmier hull of x and so equals τ(D(x));
 on an infinite factor the halving lemma writes 1 as the sum of two projections equivalent to 1,
@@ -1224,7 +1227,7 @@ before the range argument: split a nonminimal projection into two
 nonzero parts, choose one of trace at most half, and iterate. Thus
 arbitrarily small positive traces exist without assuming that every
 value is attained. Then obtain every trace value in [0,1] (the dimension function, Anantharaman–Popa, Theorem
-6.2.8, p. 94), continuous
+6.2.8, p. 88), continuous
 splitting, matrix subfactors of every positive order and unitary
 equivalence of equivalent projections in a finite factor.
 Prove the alternative small-trace increment argument for a II₁ factor:
@@ -1334,7 +1337,7 @@ of the finite-trace ideal; prove its equivalent projection criterion that
 every nonzero projection majorizes a nonzero finite-trace projection.
 Construct a faithful normal semifinite trace on every semifinite algebra (for factors:
 Peterson, Theorem 4.9.4, p. 78; the general definitions: Anantharaman–Popa, Definitions
-8.3.1–8.3.2, pp. 130–131).
+8.3.1–8.3.2, pp. 124–125).
 Use the central finite/properly-infinite splitting of V5. On a finite
 algebra with center-valued trace T, take a maximal orthogonal family
 of supports z_i of normal traces `ω_i∘T`, prove these supports central
@@ -1382,7 +1385,7 @@ the complete type decomposition by central projections and characterize type III
 of nonzero finite projections (Peterson, Theorem 3.3.1 and Corollary 3.3.2, pp. 49–50, and
 Theorem 3.3.9, p. 52, for the commutant; the trace comparison of projections: Peterson,
 Proposition 4.9.5, p. 79; Anantharaman–Popa, Corollary 8.3.5 and Propositions 8.3.6 and 8.3.8,
-pp. 132–133). Type I traces, finite traces and semifinite traces must use
+pp. 126–127). Type I traces, finite traces and semifinite traces must use
 the same positive-cone vocabulary. For V4.0.Decomposition central decompositions prove
 each type-I/II/III central projection is diagonal and its measurable
 support consists almost everywhere of fibers of that type. Include
@@ -1505,7 +1508,7 @@ proper class or a fixed countable bound. When H is separable, I is countable
 and this construction gives a countable amplification.
 
 State these constructions universe-polymorphically (the standard-amplification model of a normal
-module: Anantharaman–Popa, Proposition 8.2.2, pp. 129–130). For two given models
+module: Anantharaman–Popa, Proposition 8.2.2, p. 124). For two given models
 lift their carriers and index types to a common sufficiently large universe
 and use the disjoint sum of the lifted index sets. Construct the canonical
 isometries for these lifts and prove all action, trace and dimension
@@ -1515,7 +1518,7 @@ lives in one fixed small universe or replace a large Hilbert basis by ℕ.
 actions, V2's completed tensors, Mathlib `lp (fun j : J => G) 2`.
 
 **V7.AmplificationTrace — the normalized product trace.** (The canonical trace on the commutant
-of a tracial module: Anantharaman–Popa, Proposition 8.4.2, p. 134.) For every J identify
+of a tracial module: Anantharaman–Popa, Proposition 8.4.2, p. 128.) For every J identify
 the commutant of the left N-action on S_J with
 `A_J=N^op ⊗̄ B(ℓ²(J))`, using the right standard action
 `ρ(b^op)(xΩ)=xbΩ`. This identification is an early matrix-amplification
@@ -1574,7 +1577,7 @@ and zero-padding laws, not a prior dimension-invariance theorem.
 semifinite-trace vocabulary, Mathlib `ENNReal.tsum_comm`.
 
 **V7.Dimension — embedding and index-set independence.** (Anantharaman–Popa, Definition 8.5.4,
-pp. 139–140; Jones, Chapter 10, pp. 61–66.) For a normal module
+p. 133; Jones, Chapter 10, pp. 61–66.) For a normal module
 H and an N-linear isometry U:H→S_J, prove that `p_U=UU*` is the
 orthogonal **range** projection and belongs to A_J. The adjoint of an
 intertwiner is an intertwiner by the star laws. Define
@@ -1637,7 +1640,7 @@ the commutant-corner formula with its normalized commutant trace, the
 reciprocal dimensions, and the original vector-support formula
 `dim_N(H)=τ_N(q_ξ)/τ_(N')(p_ξ)` for ξ≠0, where p_ξ projects onto
 closure(Nξ) and q_ξ onto closure(N'ξ) (the Murray–von Neumann coupling constant:
-Anantharaman–Popa, pp. 140–141; Jones, Chapter 10). Prove its vector independence;
+Anantharaman–Popa, pp. 135–136; Jones, Chapter 10). Prove its vector independence;
 the two support projections lie in different algebras. Retain the
 cyclic/separating-vector criteria at dimension≤1/≥1, with the zero module
 and the stated finite-commutant hypotheses handled separately where used.
@@ -1656,7 +1659,7 @@ modules. For N of type II₁ with separable predual, retain realization of
 every dimension in [0,∞] by separable modules. For nonzero separable
 modules prove the commutant type II₁ exactly when dimension is finite,
 and type II∞ exactly when dimension is infinite (Anantharaman–Popa, Propositions 8.5.5, 8.6.1
-and 8.6.2, p. 140). The zero module is separate.
+and 8.6.2, p. 134). The zero module is separate.
 
 For N=M_m(ℂ), m≥1, construct every normal module as `ℂ^m⊗K` and prove
 `dim_N(H)=d_ℂ(K)/m` and N'=B(K), where d_ℂ(K) is the extended sum of1
@@ -1845,7 +1848,7 @@ the group von Neumann algebra of this layer for the discrete comparison.
 
 **V8.LCHRegularNormalBridge.** Before the compact-action application, supply the regular normal-action construction for every locally compact Hausdorff group G, a nonzero regular left Haar measure μ, an arbitrary concrete von Neumann algebra M⊂B(H), and an action α by normal star automorphisms with each orbit g↦α_g(x) ultraweakly continuous. No second-countability, sigma-compactness, sigma-finiteness or separability assumption is imposed on G, H or M. Prove that this continuity is equivalent to pointwise strong-star continuity, using the positive-vector norm identities for α_g(x)*α_g(x)=α_g(x*x). The zero Hilbert-space/zero-algebra case is treated separately; nonzero-vector faithfulness arguments apply to the nonzero case.
 
-First prove that the predual representation β_g(ω)=ω∘α_(g⁻¹) is norm-continuous on every orbit in M_*. Its initial continuity is weak continuity against (M_*)*=M, and each β_g is isometric. Own the following proof adapter here, consuming BanachSpaceTheory B1's Hahn–Banach separation and B2's exact James criterion, rather than assuming an unproved weak-to-strong continuity principle. A compact set of weakly continuous orbit values is weakly compact. Its norm-closed convex hull is weakly compact: every continuous linear functional attains its real-part supremum on the original compact set and hence on that hull, so James applies in the Banach space M_*. For a nonnegative C_c kernel, finite partitions controlling a finite family of scalar evaluations give convex-combination approximants to its normalized weak integral; weak compactness gives the barycentre in M_* and separation gives uniqueness. Split a complex kernel into its four nonnegative real/imaginary parts. This defines the smoothed vectors without first assuming Bochner measurability of the unsmoothed orbit. Their translation estimate is bounded by ‖ω‖ times the L¹ difference of translated kernels. Consume V8.RegularL2's `L¹` translation continuity (Mathlib's domain-action continuity) and AmenableGroups Layer 7's neighbourhood-indexed kernels h_U. Thus smoothed vectors have norm-continuous orbits and converge weakly to ω. The vectors with norm-continuous orbit form a norm-closed linear subspace (the action is isometric), hence a weakly closed subspace by Hahn–Banach; conclude that this subspace is all of M_*. After this argument the predual integrals may be taken as genuine Bochner integrals.
+First prove that the predual representation β_g(ω)=ω∘α_(g⁻¹) is norm-continuous on every orbit in M_*. Its initial continuity is weak continuity against (M_*)*=M, and each β_g is isometric. Own the following proof adapter here, consuming Mathlib's geometric Hahn–Banach separation and BanachSpaceTheory B2's exact James criterion, rather than assuming an unproved weak-to-strong continuity principle. A compact set of weakly continuous orbit values is weakly compact. Its norm-closed convex hull is weakly compact: every continuous linear functional attains its real-part supremum on the original compact set and hence on that hull, so James applies in the Banach space M_*. For a nonnegative C_c kernel, finite partitions controlling a finite family of scalar evaluations give convex-combination approximants to its normalized weak integral; weak compactness gives the barycentre in M_* and separation gives uniqueness. Split a complex kernel into its four nonnegative real/imaginary parts. This defines the smoothed vectors without first assuming Bochner measurability of the unsmoothed orbit. Their translation estimate is bounded by ‖ω‖ times the L¹ difference of translated kernels. Consume V8.RegularL2's `L¹` translation continuity (Mathlib's domain-action continuity) and AmenableGroups Layer 7's neighbourhood-indexed kernels h_U. Thus smoothed vectors have norm-continuous orbits and converge weakly to ω. The vectors with norm-continuous orbit form a norm-closed linear subspace (the action is isometric), hence a weakly closed subspace by Hahn–Banach; conclude that this subspace is all of M_*. After this argument the predual integrals may be taken as genuine Bochner integrals.
 
 Let A_c={x∈M : g↦α_g(x) is norm continuous}. Prove it is an invariant unital C*-subalgebra. For f∈C_c(G), define x_f by the adjoint of the bounded predual integral, equivalently ω(x_f)=∫f(g)ω(α_g(x))dμ(g) for every ω∈M_*. Prove ‖x_f‖≤‖f‖₁‖x‖ and ‖α_h(x_f)−x_f‖≤‖L_h f−f‖₁‖x‖, where L_h f(r)=f(h⁻¹r). The chosen normalized kernels shrinking to the identity give x_(u_U)→x ultraweakly, so A_c is ultraweakly dense in M. This same bridge supplies the following compact-action predual-continuity and smoothing claims; for compact G its normalized Haar average is the predual-adjoint average already specified there.
 
@@ -1857,7 +1860,8 @@ Consume V8.RegularL2 for the left-regular unitary representation and its strong 
 
 For two faithful normal concrete realizations of the same W*-algebra and action, construct the canonical normal isomorphism of these regular crossed products matching every coefficient π_α(x) and group unitary λ_s. Prove independence using V4's normal amplification/reducing-projection/spatial representation theorem and the induced intertwiners on the corresponding L² spaces, and prove composition and uniqueness on the generated von Neumann algebra. Prove compatibility with the existing discrete construction and with the later second-countable construction. This is a regular crossed product, with the stated comparison for regular representations; it does not assert a universal normal quotient map for every covariant pair. Record the obstruction already for M=ℂ and G=ℤ: a character unitary would demand a normal point-evaluation map L∞(𝕋)→ℂ, which does not exist for nonatomic Haar measure. OperatorAlgebraDynamics D1 retains the full C*-universal property. All second-countability assumptions on V11's subsequent dual-action, Takesaki-duality and dual-weight theorems remain as written.
 *Needs:* V8.RegularL2, AmenableGroups Layer 7 (kernels h_U, σ-compact localization),
-BanachSpaceTheory B1 and B2 (Hahn–Banach separation, James), V4's predual and normality criteria,
+Mathlib's geometric Hahn–Banach separation (`geometric_hahn_banach_closed_point`),
+BanachSpaceTheory B2 (James), V4's predual and normality criteria,
 V4.Normality's amplification/spatial representation theorem, Tau Ceti's measurability lemmas and
 `ContRepresentation.integratedOperatorL1`, Mathlib Haar measure and Bochner integration.
 
@@ -2860,8 +2864,9 @@ the sources; the Kadison–Sakai theorem is Sakai, *C*-algebras and W*-algebras*
 (cited by locator).
 
 For an n.s.f. weight φ and a unital von Neumann subalgebra N⊆M,
-prove Takesaki's conditional-expectation theorem (Hiai, Theorem 6.6; Takesaki II, Theorem
-IX.4.2): if N is σ^φ-invariant
+prove Takesaki's conditional-expectation theorem (for a faithful normal state: Hiai, Theorem
+6.6; for a faithful normal semifinite weight: Takesaki II, Theorem IX.4.2, cited by locator): if
+N is σ^φ-invariant
 and φ|N is semifinite, the GNS projection constructs the unique normal
 φ-preserving expectation E:M→N, which commutes with σ^φ. Prove
 the converse, restriction/support and composition laws. Specialize to
@@ -3542,9 +3547,9 @@ so this is a norm, that it is a C*-norm (`‖xy‖≤‖x‖‖y‖`, `‖x*x‖
 `‖a⊗b‖_min=‖a‖‖b‖`. Define `A⊗_min B` as the norm closure of the image, a C*-subalgebra of
 `B(H⊗̂K)`. Prove representation independence (Takesaki I, Theorem IV.4.9): for faithful
 representations π₁ of A on H₁ and π₂ of B on H₂, `‖(π₁⊗π₂)(x)‖=‖x‖_min` for every x∈A⊙B.
-Route: for a faithful representation π of a C*-algebra, the vector states ω_ζ∘π are weak-star
-dense in the state space (a state ρ outside their weak-star closed convex hull would be separated
-by a self-adjoint a with `ρ(a)>sup_ζ⟨ζ,π(a)ζ⟩=max σ(π(a))=max σ(a)`, which no state satisfies);
+Route: for a faithful representation π of a C*-algebra, the weak-star closed convex hull of the
+vector states ω_ζ∘π is the whole state space (a state ρ outside it would be separated by a
+self-adjoint a with `ρ(a)>sup_ζ⟨ζ,π(a)ζ⟩=max σ(π(a))=max σ(a)`, which no state satisfies);
 write `‖(π₁⊗π₂)(x)‖²` as the supremum of `ω(x*x)` over the positive functionals ω on A⊙B that
 are weak-star limits of vector functionals of π₁⊗π₂ on elementary tensors, and prove that this
 set of functionals, hence the supremum, is determined by the state spaces of A and B alone
@@ -3559,7 +3564,8 @@ this gives the concrete `M⊗_min M′⊆B(H)⊗_min M′⊆B(H⊗̂H)` used bel
 `M⊙M′` whichever of the two completions it is read in.
 *Needs:* V2's completed Hilbert tensors, bounded operator tensor maps and vector-functional
 slice maps; V0's states and GNS; Mathlib's continuous functional calculus and spectral
-permanence for `max σ(a)`; BanachSpaceTheory B1's Hahn–Banach separation.
+permanence for `max σ(a)`; Mathlib's geometric Hahn–Banach separation
+(`geometric_hahn_banach_closed_point` in the weak-star topology of `A*`).
 
 **Checks.**
 
@@ -3988,8 +3994,10 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - [BanachAlgebras](../BanachAlgebras/README.md) A7 consumes V11's closed double-dual embedding.
 - [TypeAHeckeAlgebras](../TypeAHeckeAlgebras/README.md) H3 consumes V2's reference-vector
   infinite tensor product.
-- CStarAlgebras consumes V0–V4 and V12.J; its C3–C4 consume V13a, and its C6–C9 consume the
-  semidiscreteness theorems and the spatial norm of V13b.
+- CStarAlgebras consumes V0–V4 and V12.J; its C3–C4 consume V13a; its C5 consumes
+  V13b.SpatialNorm's spatial norm, its representation independence, slice maps and inclusion
+  functoriality, and adds the maximal norm and the comparison of C*-norms; its C6–C9 consume the
+  semidiscreteness theorems of V13b.
 
 ## References
 
