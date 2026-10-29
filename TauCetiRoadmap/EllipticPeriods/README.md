@@ -329,6 +329,15 @@ conjecture to the statements `GPCᵏ` in each codimension, and prove `GPC¹` for
 and products of curves (§3). The established CM case, `trdeg = 2` (Layer 5), is used downstream,
 for instance by Kawabe (arXiv:2303.05030, §2.3) for CM Kummer surfaces.
 
+The classical transcendence results below Layer 5 are not owned here. Schneider's theorem (1937),
+that a nonzero period of a lattice with algebraic `g₂, g₃` is transcendental, follows from the
+Schneider–Lang criterion for meromorphic functions of finite order applied to `℘` (Waldschmidt,
+*Diophantine Approximation on Linear Algebraic Groups*, Theorem 4.1). LinearFormsInLogarithms
+(#451) owns only the criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (its target 5.7) and lists the meromorphic
+form and its elliptic analogues as out of scope; no roadmap owns them yet. Grothendieck names
+Schneider's theorem as the first visible case of the period conjecture (folder 18, p. 11:
+« contient le th. de Schneider », for curves without complex multiplication).
+
 ## References
 
 - J.-B. Bost and F. Charles, « Some remarks concerning the Grothendieck period conjecture »,
