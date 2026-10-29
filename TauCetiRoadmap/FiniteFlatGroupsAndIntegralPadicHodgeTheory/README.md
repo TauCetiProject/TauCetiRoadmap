@@ -121,9 +121,13 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   Herbrand functions with their tower and quotient compatibilities, the different and
   Hasse–Arf. Its filtration carriers assume `IsNonarchimedeanLocalField`, which includes local
   compactness. The extension to complete discretely valued fields with arbitrary perfect residue
-  field, in equal and mixed characteristic, including absolute upper numbering and completed
-  maximal unramified comparison, is the target §R07.6.1a of this roadmap; it restricts to the
-  supplied objects on their common domain. Layer 4 also supplies
+  field, in equal and mixed characteristic, including the absolute upper filtration of `G_K` and
+  the completed maximal unramified comparison, is PadicPeriodRings §0.3, which agrees with the
+  supplied objects on their common domain; Hasse–Arf over such fields of characteristic `0` is
+  PadicPeriodRings §2, and its equal-characteristic case, the structure of the lower quotients,
+  the wild inertia `G_K^{0+} = P_K` and the finite-separable transition functions are
+  ArithmeticGaloisRepresentations §3.0. This roadmap plans none of these; Layer R07.6 consumes
+  PadicPeriodRings §0.3. Layer 4 also supplies
   the finite-residue tame quotient `I_K/P_K ≅ lim_{p ∤ m} μ_m` and the tame character,
   which Tau Ceti implements as `TauCeti.inertiaTameCharacter` and
   `TauCeti.quotientWildInertiaSubgroupEquiv`. §R07.1.26 keeps only what lies beyond Layer 4:
@@ -166,7 +170,7 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   envelopes and universal thickenings.
 - AbelianSchemesAndArithmeticModuli §A4.CR.7.2 owns the crystalline Dieudonné crystal of a
   Barsotti–Tate group, its variance, Frobenius, Verschiebung and twists, and Grothendieck–Messing
-  deformation theory. Its public namespace is `TauCetiRoadmap.CrystallineCohomology`. The classical
+  deformation theory. Its public namespace is `TauCetiRoadmap.AbelianSchemesAndArithmeticModuli`. The classical
   Dieudonné theory of R07.2 over a perfect field evaluates this crystal at `W(k)`; §R07.2 owns the
   classification theorems.
 - PadicPeriodRings owns the early period-ring foundations: the completed algebraic closure,
@@ -175,6 +179,9 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   and the general-base topological period carriers, actions, invariant functors, rational
   predicates, fixed fields, regularity and underlying fundamental sequence (§§4.1–4.3).
   Its §§1.3 and 2 own the trace-ideal formula, upper-break spacing and Sen tower estimates.
+  Its §0.3 owns ramification theory over complete discretely valued fields with arbitrary
+  perfect residue field, the absolute upper filtration and the completed maximal unramified
+  comparison, which §§R07.6.2 and R07.6.5 consume.
   Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the
   crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
   both period-sequence long exact sequences and `blochKatoExp` supplied by
@@ -388,7 +395,8 @@ laws) with `FormalGroup.IsComm`.
 - **LocalFieldsRamification.** Layers 3–4 supply lower and upper numbering, Herbrand functions,
   normal-quotient compatibility, the different and Hasse–Arf for nonarchimedean local fields
   (finite residue field). Their extension to complete discretely valued fields with arbitrary
-  perfect residue field, in equal and mixed characteristic, is §R07.6.1a here. Layer 4 also
+  perfect residue field, in equal and mixed characteristic, is PadicPeriodRings §0.3, listed in
+  that roadmap's row. Layer 4 also
   supplies the finite-residue tame character `I_K/P_K ≅ lim μ_m` and its Frobenius twist.
 - **EllipticCurves.** Layer 4 (the Tate curve `E_q` and its `p`-torsion).
 - **ProfiniteCohomology.** Layer 9 (Hilbert `90` and Kummer theory for local fields).
@@ -437,8 +445,9 @@ laws) with `FormalGroup.IsComm`.
   groups and proves agreement on finite locally free groups. Layer A3 (isogenies over a base, quotients by
   finite locally free subgroups, and §A3.2 `multiplicationAndDensity`, including finite locally
   free `A[n]` of rank `|n|^{2g}` for integers `n ≠ 0` and base change). §A4.CR.7.2 supplies
-  `LogCrystalline.dieudonneEvaluation` (evaluation of `D(G)` on divided-power thickenings,
-  contravariant, with `FV = VF = p`), the variance-and-twist values `D(ℚ_p/ℤ_p) = (W(k), σ)` and
+  `DieudonneCrystal.evaluate`, `DieudonneCrystal.contravariant` and `DieudonneCrystal.fv`
+  (evaluation of `D(G)` on the base-compatible divided-power thickenings as a finite locally
+  free module, contravariance in `G`, and `FV = VF = p`), the variance-and-twist values `D(ℚ_p/ℤ_p) = (W(k), σ)` and
   `D(μ_{p^∞}) = (W(k), pσ)`, and Grothendieck–Messing (lifts of `G₀` along a locally PD-nilpotent
   thickening on which `p` is locally nilpotent correspond to lifts of the Hodge filtration).
 - **CrystallineCohomology.** §CR.4.7 *Slope decomposition on the existing isocrystal carrier*
@@ -459,6 +468,18 @@ laws) with `FormalGroup.IsComm`.
   Sections 1.3 and 2 supply `periodTraceIdeal`, `senUpperBreaks` and `senTowerEstimates`.
   Section 2 owns the separate geometric reciprocity input over algebraically closed residue
   fields used in these estimates.
+  Section 0.3 supplies, for every field `K` complete for a discrete valuation with perfect
+  residue field `k`, in either characteristic: Serre's lower numbering of a finite Galois group
+  on `TauCeti.IsLocalRing.ramificationGroupReal` with the lower index `i_G(g)`, the inertia
+  identification `G_0 = I(L/K)`, the different formula `ord_L(𝒟_{L/K}) = Σ_{g≠1} i_G(g)`, the
+  Herbrand function `φ_{L/K}(u) = ∫_0^u dt/[G_0 : G_t]` with its inverse `ψ_{L/K}` and the upper
+  numbering `G^v = G_{ψ(v)}`, the subgroup compatibility `H_u = G_u ∩ H`, Herbrand's quotient
+  theorem, transitivity in towers, the absolute upper filtration `G_K^v` of `G_K` (closed normal,
+  decreasing, `G_K^0 = I_K`, trivial intersection, compatible with closed normal quotients), the
+  equivalence of finite extensions of `K^un` and `K̂^un` identifying `I_K` with `G_{K̂^un}` and
+  carrying the lower and nonnegative upper filtrations of inertia, `ord_K(p)` and the normalized
+  different, and agreement with the pinned local-field Herbrand and upper-numbering declarations
+  when `k` is finite. Sections R07.6.2 and R07.6.5 consume exactly these.
   Section `3` supplies the principal `O_C` envelope, its presentation and completion, `θ_cris`
   and logarithm. Sections 4.1–4.3 supply the crystalline and semistable carriers, actions,
   period maps, invariant functors, rational predicates, fixed fields, regularity and underlying
@@ -697,8 +718,8 @@ Theorem 34, p. 37: order invertible implies étale.)
 - For a separably closed field `Ω`, the comparison agrees with
   `CommAlgCat.FiniteEtale.equivOfIsSepClosed Ω` and ModularCurves Layer 0D: finite étale groups
   become finite constant groups with trivial Galois action.
-- `etaleGroupEquivContAction_const`: the constant group `ℤ/nℤ ↔` trivial action; `μ_n` over `ℤ[1/n] ↔ (ℤ/n)(1)`, the cyclotomic character.
-- `etaleGroupEquivContAction_twist`: the twisted constant scheme `V(ρ)` of a representation `ρ : G_ℚ → GL_2(𝔽_p)` unramified outside `l∞` is a finite étale group scheme over `ℤ[1/l]` (for `p = l` only over
+- The constant group `ℤ/nℤ ↔` trivial action; `μ_n` over `ℤ[1/n] ↔ (ℤ/n)(1)`, the cyclotomic character.
+- The twisted constant scheme `V(ρ)` of a representation `ρ : G_ℚ → GL_2(𝔽_p)` unramified outside `l∞` is a finite étale group scheme over `ℤ[1/l]` (for `p = l` only over
   `ℤ[1/l]`, as `μ_p` is not étale at `p`).
 - A finite constant group `Γ_R` is étale over every base, and over a local base its
   order is `|Γ|`. The group `μ_p` over `F_p` is not étale: its algebra
@@ -733,16 +754,16 @@ henselian case.)
 
 **Checks.**
 
-- `finitePart_trivial`: for a quasi-finite flat group whose generic fibre is `ℤ/pℤ` but whose special
+- For a quasi-finite flat group whose generic fibre is `ℤ/pℤ` but whose special
   fibre is trivial (the open complement of the nonzero sections of `ℤ/pℤ` over the closed point), `𝒢^f`
   is the unit section.
-- `finitePart_of_finite`: for finite `𝒢, 𝒢^f = 𝒢`.
-- `finitePart_nonfinite_normalization`: in characteristic `p` let `f = Σ_{n≥1}t^{n!}`
+- For finite `𝒢, 𝒢^f = 𝒢`.
+- In characteristic `p` let `f = Σ_{n≥1}t^{n!}`
   be transcendental, `K = F_p(t,f^p)`, and `R = (K ∩ F_p⟦t⟧)^h`. The immediate
   purely inseparable extension `K^h(f)/K^h` has degree `p` and nonfinite normalization:
   a finite normalization would be free of rank `p` over `R` but have residue length one.
   Its valuation spectrum is still connected, so the point-extension argument applies.
-- `finitePart_points`: for that group over `ℤ_p`, `𝒢^f(K̄) = 0` while `𝒢(K̄) = ℤ/p`: the nonzero
+- For that group over `ℤ_p`, `𝒢^f(K̄) = 0` while `𝒢(K̄) = ℤ/p`: the nonzero
   generic points do not extend to `𝒪_L`-points, matching the description of `𝒢^f(K̄)`.
 
 **Special-fibre types and the ordinary counting identity.** For a finite flat commutative
@@ -826,9 +847,9 @@ formally smooth and formally étale morphisms, the infinitesimal lifting criteri
 
 **Checks.**
 
-- `multiplicativeTypeRigidity_muP`: `H = μ_p, N = μ_p` over `ℤ_p: Hom(μ_p, μ_p) = ℤ/p` is a constant
+- `H = μ_p, N = μ_p` over `ℤ_p: Hom(μ_p, μ_p) = ℤ/p` is a constant
   étale scheme; the identity of `μ_p ⊗ F_p` lifts uniquely to `ℤ_p`.
-- `multiplicativeTypeRigidity_alphaP`: rigidity fails for `N → H` with `H` multiplicative replaced by
+- Rigidity fails for `N → H` with `H` multiplicative replaced by
   `α_p: Hom(α_p, α_p)` over `F_p[ε]` contains `a ↦ (1 + cε)a` for all `c`, so homomorphisms out of `α_p` do
   not lift uniquely, and the vanishing locus of a section need not be open.
 - Over `R = ℤ₃[ζ₃], Hom(μ₃, (ℤ/3)_R)` has three geometric generic maps and only
@@ -856,9 +877,9 @@ Layer 0C.
 
 **Checks.**
 
-- `BarsottiTate.exact_levels_muPInfty`: for `μ_{p^∞}: 0 → μ_{p^v} → μ_{p^{v+t}} → μ_{p^t} → 0` with
+- For `μ_{p^∞}: 0 → μ_{p^v} → μ_{p^{v+t}} → μ_{p^t} → 0` with
   the second map `x ↦ x^{p^v}`.
-- `BarsottiTate.mul_p_degree`: multiplication by `p` on a group of height `h` has degree `p^h`; on
+- Multiplication by `p` on a group of height `h` has degree `p^h`; on
   `μ_{p^∞}` it is `x ↦ x^p`, of degree `p`, and it is not a monomorphism.
 
 ### R07.1.6 Homomorphisms and standard examples of `p`-divisible groups
@@ -905,21 +926,21 @@ The API:
 
 **Checks.**
 
-- `BarsottiTate.height_muPInfty`: `μ_{p^∞}` has height `1`: `μ_{p^v}` has rank `p^v`.
-- `BarsottiTate.height_zero`: a `p`-divisible group of height `0` has all levels trivial.
-- `BarsottiTate.not_of_constant_ZpZ`: the constant system `G_v = ℤ/pℤ` with identity transitions is
+- `μ_{p^∞}` has height `1`: `μ_{p^v}` has rank `p^v`.
+- A `p`-divisible group of height `0` has all levels trivial.
+- The constant system `G_v = ℤ/pℤ` with identity transitions is
   not a `p`-divisible group: every level has rank `p`, which is not `p^{hv}` for a fixed `h`.
-- `BarsottiTate.height_constQpZp`: the constant tower `ℚ_p/ℤ_p` has height `1` and is étale.
-- `BarsottiTate.hom_muPInfty`: `End(μ_{p^∞}) = ℤ_p` and `Hom(μ_{p^∞}, ℚ_p/ℤ_p) = 0` over a connected
+- The constant tower `ℚ_p/ℤ_p` has height `1` and is étale.
+- `End(μ_{p^∞}) = ℤ_p` and `Hom(μ_{p^∞}, ℚ_p/ℤ_p) = 0` over a connected
   base of characteristic `p`.
-- `BarsottiTate.ordinary_nonsplit`: for the Serre–Tate lift `E` of an ordinary elliptic curve over
+- For the Serre–Tate lift `E` of an ordinary elliptic curve over
   `F̄_p` with parameter `q ≠ 1`, the connected–étale sequence of `E[p^∞]` over `W(F̄_p)` does not
   split (§R07.1.9).
-- `BarsottiTate.supersingular_connected`: for `E` over `W(F̄_p)` with supersingular reduction,
+- For `E` over `W(F̄_p)` with supersingular reduction,
   `E[p^∞]` is connected of height `2`: its special fibre is connected (ModularCurves Layer 7E,
   PD-`5`), and over a henselian local ring a finite flat group with connected special fibre is
   connected.
-- `BarsottiTate.height_abelianScheme`: for an abelian scheme `A/S` of relative dimension `g`,
+- For an abelian scheme `A/S` of relative dimension `g`,
   `A[p^∞]` has height `2g`; for an elliptic curve it is ModularCurves' `E[p^∞]`, of height `2`.
 
 ### R07.1.7 The Cartier dual of a `p`-divisible group
@@ -951,12 +972,12 @@ TauCetiRoadmap.ModularCurves Layer 0B.
 
 **Checks.**
 
-- `BarsottiTate.cartierDual_constQpZp`: `(ℚ_p/ℤ_p)^D ≅ μ_{p^∞}`.
-- `BarsottiTate.cartierDual_height`: The dual has the same height.
-- `BarsottiTate.cartierDual_transition`: Using the duals of the inclusions `i_v` as transitions
+- `(ℚ_p/ℤ_p)^D ≅ μ_{p^∞}`.
+- The dual has the same height.
+- Using the duals of the inclusions `i_v` as transitions
   (instead of the duals of `j_v`) does not give a `p`-divisible group: for `μ_{p^∞}` it gives the maps
   `ℤ/p^{v+1} → ℤ/p^v`, which go the wrong way.
-- `BarsottiTate.cartierDual_zero`: The dual of the height-zero group is the height-zero group.
+- The dual of the height-zero group is the height-zero group.
 - A diagonalizable group `D(M)` (for instance `μ_N = D(ℤ/N)`) is of multiplicative
   type over every base: its Cartier dual is the constant group `M`
   (`TauCeti.DiagonalizableGroup.cartierDualIso`). The non-étaleness of `μ_p` in
@@ -993,14 +1014,14 @@ Mathlib `Module.Free`; Mathlib `HenselianLocalRing`.
 
 **Checks.**
 
-- `BarsottiTate.tateModule_muPInfty`: `T_p(μ_{p^∞}) ≅ ℤ_p(1)`, with Galois acting through the
+- `T_p(μ_{p^∞}) ≅ ℤ_p(1)`, with Galois acting through the
   cyclotomic character.
-- `BarsottiTate.tateModule_constQpZp`: `T_p(ℚ_p/ℤ_p) ≅ ℤ_p` with trivial action.
-- `BarsottiTate.tateModule_height_zero`: Height `0` gives the zero module.
-- `BarsottiTate.tateModule_not_direct_limit`: The direct limit `lim→ G_v(K̄)` (the 'Tate comodule'
+- `T_p(ℚ_p/ℤ_p) ≅ ℤ_p` with trivial action.
+- Height `0` gives the zero module.
+- The direct limit `lim→ G_v(K̄)` (the 'Tate comodule'
   `ℚ_p/ℤ_p ⊗ T_p`) is `p`-divisible torsion, not a free `ℤ_p`-module; a definition using it fails the
   freeness test.
-- `BarsottiTate.tateModule_elliptic`: for an elliptic curve `E` over `R` with good reduction,
+- For an elliptic curve `E` over `R` with good reduction,
   `T_p(E[p^∞])` is the `p`-adic Tate module of `E_K`.
 
 ### R07.1.9 The connected–étale sequence of a `p`-divisible group over a henselian local base
@@ -1039,11 +1060,11 @@ p. 38: the finite-level sequence; Stix 2012, §9.2(5), p. 56: the tower-level st
 
 **Checks.**
 
-- `BarsottiTate.connectedEtale_ordinary`: for an elliptic curve `E` over `W(𝔽̄_p)` with ordinary
+- For an elliptic curve `E` over `W(𝔽̄_p)` with ordinary
   reduction, `0 → Ê[p^∞] → E[p^∞] → E[p^∞]^{ét} → 0` has heights `1 + 1`; it is an extension of `ℚ_p/ℤ_p`
   by `μ_{p^∞}` whose class is the Serre–Tate parameter `q(E) ∈ 1 + pW`, and it splits exactly when `q(E) = 1`, that is, when `E` is the canonical lift.
-- `BarsottiTate.connectedEtale_supersingular`: supersingular reduction: `E[p^∞]` is connected, `G^{ét} = 0` and `h^0 = 2` (ModularCurves Layer 7E (PD-`4`), PD-`5`).
-- `BarsottiTate.connectedEtale_opposite`: over `ℤ_p`, every extension `0 → ℤ/pℤ → G → μ_p → 0` of finite
+- Supersingular reduction: `E[p^∞]` is connected, `G^{ét} = 0` and `h^0 = 2` (ModularCurves Layer 7E (PD-`4`), PD-`5`).
+- Over `ℤ_p`, every extension `0 → ℤ/pℤ → G → μ_p → 0` of finite
   flat groups splits, `G ≅ ℤ/pℤ × μ_p`, while nonsplit extensions `0 → μ_p → G → ℤ/pℤ → 0` exist (for
   instance the Katz–Mazur groups `G_ε` for units `ε ∉ ℤ_p^{×p}`).
 - At finite level, `μ_p` over `F_p` has local coordinate algebra and is connected,
@@ -1124,11 +1145,11 @@ DerivedModuleAlgebra §0.4 (the full cotangent complex); TauCetiRoadmap.ModularC
 
 **Checks.**
 
-- `btNRecognition_muP`: `μ_p` over `ℤ/p²` has every fibre a `BT₁` (the only fibre is `μ_p` over
+- `μ_p` over `ℤ/p²` has every fibre a `BT₁` (the only fibre is `μ_p` over
   `F_p`), so it is a `BT₁` over `ℤ/p²`.
-- `btNRecognition_alphaP`: over `F_p[ε]`, any finite locally free group whose special fibre is `α_p`
+- Over `F_p[ε]`, any finite locally free group whose special fibre is `α_p`
   fails `(ii)`, since `α_p` is not a `BT₁` (AbelianSchemesAndArithmeticModuli §A4.5a).
-- `btNRecognition_ranks`: for `G = μ_{p^n}`, `(i)` gives `ω_G` locally free of rank `1 = dim G` and
+- For `G = μ_{p^n}`, `(i)` gives `ω_G` locally free of rank `1 = dim G` and
   `ν_{G^D}` of rank `h − dim G = 0`; for `G = ℤ/p^n` the ranks are `0` and `1`.
 - For `G = μ_p` over `R = ℤ/p², ω_G = R/pR` is not free over `R`; nilpotence of `p`
   alone does not give `O_S`-local freeness. Over `F_p` it has rank `1`.
@@ -1183,11 +1204,11 @@ The API:
 
 **Checks.**
 
-- `FormalLieGroup.dim_multiplicative`: `Ĝ_m = (X + Y + XY)` has dimension `1`, and height `1` over `ℤ_p`.
-- `FormalLieGroup.not_isPDivisible_additive`: Over `𝔽_p, Ĝ_a (X + Y)` is not `p`-divisible: `[p] = 0` is
+- `Ĝ_m = (X + Y + XY)` has dimension `1`, and height `1` over `ℤ_p`.
+- Over `𝔽_p, Ĝ_a (X + Y)` is not `p`-divisible: `[p] = 0` is
   not finite.
-- `FormalLieGroup.dim_zero`: The zero-dimensional formal Lie group is `Spf Λ`, of height `0`.
-- `FormalLieGroup.height_elliptic`: For `E` over `W(𝔽̄_p), Ê` has dimension `1` and height `1` (ordinary) or
+- The zero-dimensional formal Lie group is `Spf Λ`, of height `0`.
+- For `E` over `W(𝔽̄_p), Ê` has dimension `1` and height `1` (ordinary) or
   `2` (supersingular) (ModularCurves Layer 7E (PD-`5`)).
 - For `Ĝ_m`, `nthSeries n=(1+X)^n−1` has linear term `nX`; its points on
   a complete local ring identify with `1+m`, with multiplication as the group law.
@@ -1216,10 +1237,10 @@ statement with a full proof.)
 
 **Checks.**
 
-- `equivFormalLieGroup_muPInfty`: `μ_{p^∞} ↔ Ĝ_m: lim Λ[T]/(T^{p^n} − 1) = Λ⟦X⟧` with `T = 1 + X`.
-- `equivFormalLieGroup_elliptic`: for `E` over `W(𝔽̄_p), E[p^∞]^0 ↔ Ê`, of height `1` (ordinary) or `2`
+- `μ_{p^∞} ↔ Ĝ_m: lim Λ[T]/(T^{p^n} − 1) = Λ⟦X⟧` with `T = 1 + X`.
+- For `E` over `W(𝔽̄_p), E[p^∞]^0 ↔ Ê`, of height `1` (ordinary) or `2`
   (supersingular).
-- `equivFormalLieGroup_etale`: an étale `p`-divisible group such as `ℚ_p/ℤ_p` is not connected and
+- An étale `p`-divisible group such as `ℚ_p/ℤ_p` is not connected and
   is not in the source category; its formal completion at the identity is the trivial formal group,
   of height `0`, not `1`.
 
@@ -1246,12 +1267,12 @@ The API:
 
 **Checks.**
 
-- `BarsottiTate.dim_muPInfty`: `dim μ_{p^∞} = 1`.
-- `BarsottiTate.dim_constQpZp`: `dim ℚ_p/ℤ_p = 0`.
-- `BarsottiTate.dim_supersingular`: For supersingular `E` over `W(𝔽̄_p), E[p^∞]` is connected of height
+- `dim μ_{p^∞} = 1`.
+- `dim ℚ_p/ℤ_p = 0`.
+- For supersingular `E` over `W(𝔽̄_p), E[p^∞]` is connected of height
   `2` but has dimension `1`: the dimension is not the height of the connected part.
-- `BarsottiTate.dim_height_zero`: A height-zero `p`-divisible group has dimension `0`.
-- `BarsottiTate.dim_abelianScheme`: `dim A[p^∞] = dim A` for an abelian scheme `A` over `Λ`.
+- A height-zero `p`-divisible group has dimension `0`.
+- `dim A[p^∞] = dim A` for an abelian scheme `A` over `Λ`.
 
 ### R07.1.15 `dim G + dim G^D =` height
 
@@ -1268,10 +1289,10 @@ injective on `G^{ét}`, and on `G⁰` its kernel has order `p^n`). `V` is dual t
 
 **Checks.**
 
-- `dim_add_dim_cartierDual_muPInfty`: `μ_{p^∞}`: `1 + 0 = 1`, since its dual is `ℚ_p/ℤ_p`.
-- `dim_add_dim_cartierDual_supersingular`: supersingular `E[p^∞]`: `1 + 1 = 2`; the dimension of a
+- `μ_{p^∞}`: `1 + 0 = 1`, since its dual is `ℚ_p/ℤ_p`.
+- Supersingular `E[p^∞]`: `1 + 1 = 2`; the dimension of a
   connected group is not its height.
-- `dim_add_dim_cartierDual_ordinary`: ordinary `E[p^∞]` over `F̄_p`, `μ_{p^∞} × ℚ_p/ℤ_p`: `1 + 1 = 2`.
+- Ordinary `E[p^∞]` over `F̄_p`, `μ_{p^∞} × ℚ_p/ℤ_p`: `1 + 1 = 2`.
 
 ### R07.1.16 The discriminant of the levels of a `p`-divisible group
 
@@ -1291,8 +1312,8 @@ Proposition 2 and Lemma 1, pp. 164–165: the statement.)
 
 **Checks.**
 
-- `discr_level_muP`: `μ_{p^v}: A_v = R[T]/(T^{p^v} − 1)` has discriminant `±p^{v p^v} (n = h = 1)`.
-- `discr_level_etale`: for étale `G (n = 0)` the discriminant is the unit ideal.
+- `μ_{p^v}: A_v = R[T]/(T^{p^v} − 1)` has discriminant `±p^{v p^v} (n = h = 1)`.
+- For étale `G (n = 0)` the discriminant is the unit ideal.
 
 ### R07.1.17 Invariant differentials of the levels and the absolute different
 
@@ -1703,10 +1724,10 @@ uniquely since `H^1(G_K, C(1)) = 0 = H^0(G_K, C(1))` (Stix Corollaries `92`–`9
 
 **Checks.**
 
-- `hodgeTate_muPInfty`: for `μ_{p^∞}`, `T_p ⊗ C = C(1)`, weight `1` of multiplicity `1 = dim μ_{p^∞}`; for `ℚ_p/ℤ_p`, weight `0`. A convention with `HT(χ) = −1` would give weight `−1` for
+- For `μ_{p^∞}`, `T_p ⊗ C = C(1)`, weight `1` of multiplicity `1 = dim μ_{p^∞}`; for `ℚ_p/ℤ_p`, weight `0`. A convention with `HT(χ) = −1` would give weight `−1` for
   `μ_{p^∞}`.
-- `hodgeTate_det`: `det V_p(G) ⊗ C ≅ C(dim G)` (Stix Corollary 94).
-- `hodgeTate_elliptic`: for an elliptic curve with good reduction, `V_p(E)` has Hodge–Tate weights
+- `det V_p(G) ⊗ C ≅ C(dim G)` (Stix Corollary 94).
+- For an elliptic curve with good reduction, `V_p(E)` has Hodge–Tate weights
   `0` and `1`, each of multiplicity one, whether the reduction is ordinary or supersingular; the
   weights do not see the reduction type.
 - For `μ_{3^∞}` over `ℤ₃, Ĝ(ℤ₃) = 1 + 3ℤ₃`, whereas `colim_n μ_{3^n}(ℤ₃) = {1}`.
@@ -1744,12 +1765,12 @@ a quotient Hopf order, rather than the closed subgroup `ℋ` in this target.
 
 **Checks.**
 
-- `schematicClosure_graph`: over `R = ℤ_p[ζ_p]` take `𝒢 = ℤ/pℤ × μ_p` and `H ⊂ 𝒢_K` the graph of the
+- Over `R = ℤ_p[ζ_p]` take `𝒢 = ℤ/pℤ × μ_p` and `H ⊂ 𝒢_K` the graph of the
   generic isomorphism `ℤ/pℤ ≅ μ_p, 1 ↦ ζ_p`. Its closure `ℋ` is a flat subgroup with generic fibre `H ≅ ℤ/pℤ`, and the two projections `ℋ → ℤ/pℤ` and `ℋ → μ_p` extend the identity; this is how suprema of
   prolongations are formed (§R07.1.24).
-- `schematicClosure_trivial`: the closure of the trivial subgroup is the unit section, and the
+- The closure of the trivial subgroup is the unit section, and the
   closure of `𝒢_K` is `𝒢`, since `𝒢` is flat.
-- `schematicClosure_needs_flat`: the closure need not be a subgroup when `R` is not Dedekind: over
+- The closure need not be a subgroup when `R` is not Dedekind: over
   `k[x, y]`, a torsion-free module need not be flat, and the argument through flatness of
   torsion-free modules fails.
 - Over `ℤ₂`, the generically invertible map `ℤ/2 → μ₂, 1 ↦ −1`, is categorically
@@ -1808,9 +1829,9 @@ TauCetiRoadmap.ModularCurves Layers 2B and `7E` (elliptic quotients and torsion 
 
 **Checks.**
 
-- `exists_of_tateModule_summand_self`: `M = T_p(F)` gives `Γ = F` (`i_0 = 0`); `M = 0` gives the
+- `M = T_p(F)` gives `Γ = F` (`i_0 = 0`); `M = 0` gives the
   zero group.
-- `exists_of_tateModule_summand_serre`: let `X/R` be an elliptic scheme with ordinary special
+- Let `X/R` be an elliptic scheme with ordinary special
   fibre and all geometric generic `p`-torsion `K`-rational. Choose independent
   `x, y ∈ X_K[p](K)` whose reductions satisfy `x̄ = ȳ = z ≠ 0`. Their schematic closures
   `H_x, H_y ⊆ X[p]` are constant étale groups of order `p`, with
@@ -1827,7 +1848,7 @@ TauCetiRoadmap.ModularCurves Layers 2B and `7E` (elliptic quotients and torsion 
   hence are equal. This contradicts the kernel
   containing `z` at level one. Thus `i_0 > 0` is necessary, and a realizing `φ` cannot be a
   closed immersion, since its levels would then be precisely the closures `E_v`.
-- `exists_of_tateModule_summand_canonicalLift`: for the canonical lift `X/W(F̄_p)` of an
+- For the canonical lift `X/W(F̄_p)` of an
   ordinary elliptic curve, take `F = X[p^∞] ≅ μ_{p^∞} × (ℚ_p/ℤ_p)` and `M` the Tate
   module of its étale factor (§R07.1.9). A nonzero rational `p`-torsion point in that
   factor has nonzero reduction, but the closures are already `(ℤ/p^vℤ)_R`:
@@ -1856,12 +1877,12 @@ Uniqueness: `A_v ⊆ A_v ⊗ K`. `(ii)` is `(i)` together with the equivalence b
 
 **Checks.**
 
-- `extend_genericFibre_hom_zero`: `Hom(ℚ_p/ℤ_p, μ_{p^∞}) = 0` over `ℤ_p` although both have `T_p ≅ ℤ_p` as
+- `Hom(ℚ_p/ℤ_p, μ_{p^∞}) = 0` over `ℤ_p` although both have `T_p ≅ ℤ_p` as
   modules: the Galois actions differ.
-- `extend_genericFibre_levels`: contrast with finite flat groups: at `e = p − 1` (for instance `ℤ_2`)
+- Contrast with finite flat groups: at `e = p − 1` (for instance `ℤ_2`)
   the generic fibre does not determine the finite flat model (§R07.1.31); `p`-divisibility removes the
   ambiguity for every `e`.
-- `extend_genericFibre_not_onto_tate`: over a DVR whose residue field is not perfect, or for the
+- Over a DVR whose residue field is not perfect, or for the
   `G_K`-equivariant maps of Tate modules when `K` is not complete, `(ii)` is not asserted; `(i)` needs
   only integral closedness.
 
@@ -1891,11 +1912,11 @@ correspondence rests.)
 
 **Checks.**
 
-- `isSimple_order_p`: over `ℤ, ℤ/pℤ` and `μ_p` are simple (every finite flat group of prime order is),
+- Over `ℤ, ℤ/pℤ` and `μ_p` are simple (every finite flat group of prime order is),
   and `ℤ/pℤ × μ_p` is not.
-- `isSimple_graph`: over `ℤ_p[ζ_p]`, the closure of the graph subgroup in `ℤ/pℤ × μ_p` is flat of order
+- Over `ℤ_p[ζ_p]`, the closure of the graph subgroup in `ℤ/pℤ × μ_p` is flat of order
   `p`, hence simple.
-- `deligne_killed_by_order`: `ℤ/p²` has order `p²` and is killed by `p²` but not by `p`; Deligne's
+- `ℤ/p²` has order `p²` and is killed by `p²` but not by `p`; Deligne's
   theorem gives the exponent bound `m`, not `p` for every `p`-group.
 
 ### R07.1.24 Finite flat models (prolongations) of a generic group scheme and their order
@@ -2023,9 +2044,9 @@ statement; the proof is on pp. 261–263.)
 
 **Checks.**
 
-- `exists_extension_of_levels_mu`: for `G = μ_{p^∞}` over `K = ℚ_p` the extension is `μ_{p^∞}`; its levels
+- For `G = μ_{p^∞}` over `K = ℚ_p` the extension is `μ_{p^∞}`; its levels
   have the unique models `μ_{p^n}` over `ℤ_p` when `p` is odd.
-- `exists_extension_of_levels_dyadic`: over `ℤ_2` the level `G_1 = μ₂` has two models, but the
+- Over `ℤ_2` the level `G_1 = μ₂` has two models, but the
   `p`-divisible extension is still unique.
 
 ### R07.1.26 Tame inertia and its fundamental characters
@@ -2098,11 +2119,11 @@ tame-inertia classification).
 
 **Checks.**
 
-- `perfectResidueFundamentalCharacter_one_surjective`: `θ_{p−1} : I_t → F_p^*` is surjective, and `θ_{p−1}^{p−1} = 1`.
-- `perfectResidueFundamentalCharacter_two_norm`: For `ψ = θ_{p²−1}: ψ^{p+1} = θ_{p−1}` and `ψ^{p²} = ψ, ψ^p ≠ ψ`.
-- `cyclotomic_restrict_ne_one`: For `e < p − 1` the restriction `χ̄|_{I_t} = θ_{p−1}^e` is not trivial,
+- `θ_{p−1} : I_t → F_p^*` is surjective, and `θ_{p−1}^{p−1} = 1`.
+- For `ψ = θ_{p²−1}: ψ^{p+1} = θ_{p−1}` and `ψ^{p²} = ψ, ψ^p ≠ ψ`.
+- For `e < p − 1` the restriction `χ̄|_{I_t} = θ_{p−1}^e` is not trivial,
   so `μ_p` is ramified.
-- `theta_one`: `d = 1: θ_1` is the trivial character and `K_1 = K_nr`.
+- `d = 1: θ_1` is the trivial character and `K_1 = K_nr`.
 - For finite residue field, the agreement theorem intertwines `θ`, every Frobenius power and
   the norm between levels, and gives the imported cyclotomic identity with exponent `e`.
 - `K = ℚ_p (e = 1): I_t` acts on `μ_p` by `θ_{p−1}`, which is surjective onto `F_p^*`; for `K = ℚ_p(ζ_p) (e = p − 1)` it acts by `θ_{p−1}^{p−1} = 1`, as `μ_p ⊂ K` requires.
@@ -2148,17 +2169,17 @@ Layer 0B.
 
 **Checks.**
 
-- `FVectorScheme.zModP`: `ℤ/pℤ` with its `𝔽_p`-action is an `𝔽_p`-vector scheme; so is `μ_p`.
-- `FVectorScheme.supersingular_E_p`: `E[p]` of a supersingular elliptic curve over `W(𝔽̄_p)` is an
+- `ℤ/pℤ` with its `𝔽_p`-action is an `𝔽_p`-vector scheme; so is `μ_p`.
+- `E[p]` of a supersingular elliptic curve over `W(𝔽̄_p)` is an
   `𝔽_{p²}`-vector scheme (rank `p²`).
-- `FVectorScheme.not_of_rank`: `ℤ/pℤ × ℤ/pℤ` with the diagonal `𝔽_p`-action is not an `𝔽_p`-vector scheme
+- `ℤ/pℤ × ℤ/pℤ` with the diagonal `𝔽_p`-action is not an `𝔽_p`-vector scheme
   in Raynaud's sense (rank `p² ≠ p`): `𝔽_p^×` acts freely on the `p² − 1` nonzero points with `p + 1`
   orbits, so each eigen-sheaf of the augmentation ideal has rank `p + 1`, not `1`. This holds over
   an integral base with fraction field of characteristic `0`, where the generic fibre is étale, so
   Proposition 1.2.2 needs its rank-`q` hypothesis; for `p = 3` the eigenranks are `4`, whereas
   constant `𝔽₃` has one scalar orbit and eigenrank `1`.
-- `FVectorScheme.cartierDual_zModP`: The Cartier dual of the `𝔽_p`-vector scheme `ℤ/pℤ` is `μ_p`.
-- `FVectorScheme.fp_eq_order_p`: for `F = 𝔽_p` the `F`-vector schemes are exactly the group schemes of
+- The Cartier dual of the `𝔽_p`-vector scheme `ℤ/pℤ` is `μ_p`.
+- For `F = 𝔽_p` the `F`-vector schemes are exactly the group schemes of
   order `p` of Oort–Tate (§R07.1.34).
 
 ### R07.1.28 Raynaud's classification of `F`-vector schemes
@@ -2188,12 +2209,12 @@ the valuation tuple is invariant under this change, with its cyclic labels retai
 
 **Checks.**
 
-- `FVectorScheme.classification_order_p`: `r = 1` recovers the Oort–Tate classification (§R07.1.34).
-- `FVectorScheme.classification_unramified`: over `W(𝔽̄_p)` (strictly henselian, `e = 1`), `F`-vector
+- `r = 1` recovers the Oort–Tate classification (§R07.1.34).
+- Over `W(𝔽̄_p)` (strictly henselian, `e = 1`), `F`-vector
   schemes of rank `q` are classified by `r`-tuples of `0s` and `1s: q = p` gives the two schemes `ℤ/pℤ (n = 0)` and `μ_p (n = 1)`, and for `q = p²` the `E[p]` of Raynaud's supersingular example, `X₁^{p²} = pX₁`, is
   the tuple `(n₁, n₂) = (0, 1)` (equivalently `(1, 0)` after the relabelling `i ↦ i + 1`, which changes
   the `F`-structure by Frobenius).
-- `FVectorScheme.classification_bound`: over `ℤ_p[ζ_p]` (`e = p − 1`) the order-`p` models have `n ∈ {0, …, p − 1}`, so there are `p` classes over the strict henselisation, not two; the bound `0 ≤ n_i ≤ e` depends on `e`.
+- Over `ℤ_p[ζ_p]` (`e = p − 1`) the order-`p` models have `n ∈ {0, …, p − 1}`, so there are `p` classes over the strict henselisation, not two; the bound `0 ≤ n_i ≤ e` depends on `e`.
 
 ### R07.1.29 Over a strictly henselian base the Jordan–Hölder factors are `F`-vector schemes
 
@@ -2223,9 +2244,9 @@ property rather than additional structure on every finite flat group.
 
 **Checks.**
 
-- `exists_fVector_composition_elliptic`: for `E[p]` with supersingular reduction over `W(𝔽̄_p)`, the
+- For `E[p]` with supersingular reduction over `W(𝔽̄_p)`, the
   only composition series is `E[p]` itself, an `𝔽_{p²}`-vector scheme; with ordinary reduction, `μ_p ⊂ E[p] → ℤ/pℤ`.
-- `exists_fVector_composition_cyclic`: for `ℤ/p²` the series `0 ⊂ ℤ/p ⊂ ℤ/p²` has both factors
+- For `ℤ/p²` the series `0 ⊂ ℤ/p ⊂ ℤ/p²` has both factors
   `ℤ/p`, which are `F_p`-vector schemes; `ℤ/p²` itself is not an `F`-vector scheme for any `F`,
   since it is not killed by `p`.
 - The zero group has the empty dévissage. Its product with `μ_p` has the
@@ -2342,11 +2363,11 @@ Corollaire 3.4.4, p.270; Serre 1987, §2.8, pp.189–190).
 
 **Checks.**
 
-- `tameInertia_exponents_muP`: for `μ_p` over `ℤ_p (e = 1, r = 1, n = 1)` inertia acts by `ψ = ω`, the
+- For `μ_p` over `ℤ_p (e = 1, r = 1, n = 1)` inertia acts by `ψ = ω`, the
   mod-`p` cyclotomic character; for `ℤ/pℤ, n = 0`.
-- `tameInertia_exponents_boundary`: for `e ≥ p − 1` the bound says nothing (Remark 3.4.6): every tame
+- For `e ≥ p − 1` the bound says nothing (Remark 3.4.6): every tame
   character of level `r` has such a form, and every `F`-vector scheme over `K` extends.
-- `tameInertia_exponents_supersingular`: over `W(F̄_p)` (`e = 1`), the `F_{p²}`-line `E[p]` of a
+- Over `W(F̄_p)` (`e = 1`), the `F_{p²}`-line `E[p]` of a
   supersingular elliptic curve has exponents `(n₁, n₂) = (0, 1)` up to relabelling, so inertia acts
   by a fundamental character of level `2`, not by a power of `θ_{p−1}`.
 - At level `r = 3`, valuations `(v(δ₀), v(δ₁), v(δ₂)) = (1, 0, 0)` give `ψ = ψ₀`
@@ -2394,11 +2415,11 @@ the absolute different and `𝔇(G)𝔇(G′) = (n)` for the Cartier dual `G′`
 
 **Checks.**
 
-- `raynaudDeterminant_muP`: `𝒢 = μ_p`: the Hopf algebra `R[x]/(x^p − 1)` has different `(p x^{p−1})`, so `𝔇 = (p) = π^e` and `det = μ_p` has character `θ_{p−1}^e = χ̄` (§R07.1.26). `𝒢 = ℤ/p`: étale, `𝔇 = R`, trivial
+- `𝒢 = μ_p`: the Hopf algebra `R[x]/(x^p − 1)` has different `(p x^{p−1})`, so `𝔇 = (p) = π^e` and `det = μ_p` has character `θ_{p−1}^e = χ̄` (§R07.1.26). `𝒢 = ℤ/p`: étale, `𝔇 = R`, trivial
   character. And `𝔇(μ_p)𝔇(ℤ/p) = (p)`.
-- `raynaudDeterminant_bound`: for `e > p − 1` the dévissage of Corollary 3.3.7 is unavailable and the
+- For `e > p − 1` the dévissage of Corollary 3.3.7 is unavailable and the
   theorem is not claimed.
-- `raynaudDeterminant_product`: for `𝒢 = μ_p × ℤ/p`, `𝔇 = (p)` and `det G = μ_p ⊗ ℤ/p ≅ μ_p`, with
+- For `𝒢 = μ_p × ℤ/p`, `𝔇 = (p)` and `det G = μ_p ⊗ ℤ/p ≅ μ_p`, with
   character `θ_{p−1}^e`; the determinant is multiplicative in the factors while the order `p²` is
   not what the character records.
 - In rank `p` with equation `X^p = X (δ = 1)`, the group is étale and its
@@ -2433,19 +2454,19 @@ form, with duality in part `(4)`; Schröer 2023, §5, the paragraph after Propos
 
 **Checks.**
 
-- `oortTate_Zp`: over `ℤ_p, v(w_p) = 1`, so one of `a, b` is a unit: every group of order `p` is étale (`a`
+- Over `ℤ_p, v(w_p) = 1`, so one of `a, b` is a unit: every group of order `p` is étale (`a`
   a unit) or multiplicative (`b` a unit), and since `ℤ_p^×/(ℤ_p^×)^{p−1} ≅ 𝔽_p^×` there are `p − 1` of
   each, the unramified twists of `ℤ/pℤ = G_{1,w_p}` and of `μ_p = G_{w_p,1}`. Over `W(𝔽̄_p)` only `ℤ/pℤ` and
   `μ_p` remain. Over `ℤ` with `p = 2` (`Λ = ℤ, u = ±1` acts by `(a, b) ↦ (ua, ub)`), exactly `ℤ/2ℤ` and `μ₂`.
   This gives the prime-order étale–multiplicative dichotomy over `ℤ_p`.
-- `oortTate_Fp`: over `𝔽_p` (a `Λ`-algebra, where `w_p = 0`) the pairs `(a, b) = (1, 0), (0, 1), (0, 0)`
+- Over `𝔽_p` (a `Λ`-algebra, where `w_p = 0`) the pairs `(a, b) = (1, 0), (0, 1), (0, 0)`
   give `ℤ/pℤ, μ_p` and `α_p`; `α_p` has no finite flat lift to `ℤ_p`, since its pair would need `ab = w_p`
   with both `a` and `b` in the maximal ideal, which forces `v(w_p) = v(p) ≥ 2`.
-- `oortTate_two_constant`: `p = 2, (L, a, b) = (ℤ, 1, 2): f² = f` and `f ⋆ g = f + g − 2fg` give `ℤ/2`;
+- `p = 2, (L, a, b) = (ℤ, 1, 2): f² = f` and `f ⋆ g = f + g − 2fg` give `ℤ/2`;
   with the plus sign `f = g = 1` would give `4`, not idempotent.
-- `oortTate_two_mu`: `p = 2, (ℤ, 2, 1): u = 1 − f` satisfies `u² = 1` and `(1 − f)(1 − g) = 1 − f ⋆ g`, so
+- `p = 2, (ℤ, 2, 1): u = 1 − f` satisfies `u² = 1` and `(1 − f)(1 − g) = 1 − f ⋆ g`, so
   the group is `µ₂`; its dual `(ℤ, 1, 2)` is `ℤ/2`.
-- `oortTate_dual`: over `O_K, G_{a,b}^D = G_{b,a}` (Oort–Tate §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Pilloni's proof of Lemma
+- Over `O_K, G_{a,b}^D = G_{b,a}` (Oort–Tate §2, Theorem 2, p. 12, and Remark 2 (Cartier duality), p. 15; Pilloni's proof of Lemma
   14.1.2 is a computation with it).
 
 ### R07.1.35 Group schemes of order `p` over rings of integers: Oort–Tate Theorem 3
@@ -2477,10 +2498,10 @@ TauCetiRoadmap.ModularCurves Layer 0E.
 
 **Checks.**
 
-- `oortTate_numberRing_Z`: over `ℤ`, exactly `ℤ/pℤ` and `μ_p`.
-- `oortTate_numberRing_Z_half`: over `ℤ[1/2]` with `p = 3` there are exactly eight: `χ ∈ {1, χ_{−4}, χ_8, χ_{−8}}` with `n = 0` and `χ ∈ ω·{1, χ_{−4}, χ_8, χ_{−8}}` with `n = 1`, where `χ_d` is the quadratic
+- Over `ℤ`, exactly `ℤ/pℤ` and `μ_p`.
+- Over `ℤ[1/2]` with `p = 3` there are exactly eight: `χ ∈ {1, χ_{−4}, χ_8, χ_{−8}}` with `n = 0` and `χ ∈ ω·{1, χ_{−4}, χ_8, χ_{−8}}` with `n = 1`, where `χ_d` is the quadratic
   character of `ℚ(√d)` and `ω` the mod-`3` cyclotomic character.
-- `oortTate_numberRing_local`: the integers `n_𝔭` recover the local Oort–Tate pairs: `G_𝔭` is étale iff
+- The integers `n_𝔭` recover the local Oort–Tate pairs: `G_𝔭` is étale iff
   `n_𝔭 = 0` and multiplicative iff `n_𝔭 = v_𝔭(p)`.
 
 ### R07.1.36 The Katz–Mazur group schemes `T_ε`
@@ -2510,10 +2531,10 @@ The API:
 
 **Checks.**
 
-- `katzMazur_one`: katzMazur `p 1 ≅ μ_p × ℤ/pℤ`.
-- `katzMazur_neg_one_two`: Over `ℤ` with `p = 2`, katzMazur `2 (−1)` is nonsplit, and its points generate
+- katzMazur `p 1 ≅ μ_p × ℤ/pℤ`.
+- Over `ℤ` with `p = 2`, katzMazur `2 (−1)` is nonsplit, and its points generate
   `ℚ(i)`.
-- `katzMazur_not_split`: Over `ℤ_p` (`p` odd), katzMazur `p (1 + p)` is not isomorphic to `μ_p × ℤ/pℤ`,
+- Over `ℤ_p` (`p` odd), katzMazur `p (1 + p)` is not isomorphic to `μ_p × ℤ/pℤ`,
   since `1 + p ∉ ℤ_p^{×p}`.
 
 ### R07.1.37 Schematic closure commutes with orthogonals: `J^D/M^⊥ = M^D`
@@ -2533,11 +2554,11 @@ the reader). (Pilloni 2020, §14.3, Lemma 14.3.2, p. 94: `J^D/M^⊥ = M^D` for s
 
 **Checks.**
 
-- `orthogonalSchematicClosure_graph`: `O_K = ℤ_p[ζ_p], J = ℤ/p × μ_p, M_K` the graph of `1 ↦ ζ_p: M` is
+- `O_K = ℤ_p[ζ_p], J = ℤ/p × μ_p, M_K` the graph of `1 ↦ ζ_p: M` is
   the graph of the `O_K`-morphism `ℤ/p → μ_p, 1 ↦ ζ_p`, so `M ≅ ℤ/p` and `M^D ≅ μ_p`; under the Cartier
   pairing `M_K^⊥ ⊂ J_K^D = μ_p × ℤ/p` is the graph of `b ↦ ζ_p^{−b}`, its closure `M^⊥ ≅ ℤ/p` is again a
   graph, and `J^D/M^⊥ ≅ μ_p ≅ M^D`.
-- `orthogonalSchematicClosure_needs_dvr`: the DVR hypothesis matters. Flatness of a schematic
+- The DVR hypothesis matters. Flatness of a schematic
   closure uses that torsion-free modules over a DVR are flat; over a two-dimensional regular base
   such as `ℤ_p⟦T⟧` a torsion-free module need not be flat, so the closures `M` and `M^⊥` need not be
   finite flat subgroups and `J^D/M^⊥` is not then a finite flat group.
@@ -2577,10 +2598,10 @@ flatness. Sources: Schoof 2003, Proposition 2.3, p.419; Stacks Tags 0BP2 and 0BP
 
 **Checks.**
 
-- `gluingEquiv_Z_l`: for `R = ℤ[1/l]` and `p ≠ l`: a finite flat `p`-group scheme over `ℤ[1/l]` is a
+- For `R = ℤ[1/l]` and `p ≠ l`: a finite flat `p`-group scheme over `ℤ[1/l]` is a
   `G_ℚ`-module unramified outside `pl∞` together with a finite flat model over `ℤ_p` of its restriction to
   `G_{ℚ_p}`.
-- `gluingEquiv_unit`: with `p` a unit in `R, R̂ = 0` and the triples are just `R`-groups.
+- With `p` a unit in `R, R̂ = 0` and the triples are just `R`-groups.
 - At `R_𝔭=ℤ_(p)`, a `ℤ_p`-model with its identified rational generic fibre
   produces a `ℤ_(p)`-model; the generic representation remains the original one.
 - For `μ_p` the intersection order is `ℤ_(p)[T]/(T^p−1)` inside
@@ -2607,8 +2628,8 @@ by §R07.1.38 (Schoof, proof of Corollary 2.4). (Schoof 2003, §2, Corollary 2.4
 
 **Checks.**
 
-- `mayerVietoris_mu_Z`: over `ℤ` with `G = μ_p, H = ℤ/pℤ (R = ℤ, p)`: the sequence computes `Ext¹_ℤ(μ_p, ℤ/pℤ)` from Galois cohomology over `ℤ[1/p]` and the local extensions over `ℤ_p`.
-- `mayerVietoris_variance`: the extensions are of `G` by `H`, `0 → H → X → G → 0`; the last step of
+- Over `ℤ` with `G = μ_p, H = ℤ/pℤ (R = ℤ, p)`: the sequence computes `Ext¹_ℤ(μ_p, ℤ/pℤ)` from Galois cohomology over `ℤ[1/p]` and the local extensions over `ℤ_p`.
+- The extensions are of `G` by `H`, `0 → H → X → G → 0`; the last step of
   Schoof's proof speaks of extensions of `H` by `G`, which is the other variance, and the sequence
   is stated here with the variance above.
 
@@ -2633,10 +2654,10 @@ to get exact sequences `0 → G → X → X′ → 0`.)
 
 **Checks.**
 
-- `raynaudAbelianEmbedding_muP`: over `ℤ_p, μ_p` embeds in `E[p]` for an elliptic curve `E` with good
+- Over `ℤ_p, μ_p` embeds in `E[p]` for an elliptic curve `E` with good
   ordinary reduction and `a_p ≡ 1 mod p` (the connected part of `E[p]` is then `μ_p`), and `E/μ_p` is
   again an elliptic curve.
-- `raynaudAbelianEmbedding_local`: the theorem gives an embedding over each member of a Zariski
+- The theorem gives an embedding over each member of a Zariski
   cover of `S`, not a global one; a statement with a single global `A` is a different claim.
 
 ### R07.1.41 `p`-divisible groups and finite locally free groups form stacks for the `p`-completely faithfully flat topology
@@ -2664,9 +2685,9 @@ finite projective modules, finite locally free group schemes and `p`-divisible g
 
 **Checks.**
 
-- `pCompleteFlatDescent_unramified`: `ℤ_p → W(F̄_p)` is `p`-completely faithfully flat; descent of
+- `ℤ_p → W(F̄_p)` is `p`-completely faithfully flat; descent of
   `p`-divisible groups along it restricts on special fibres to the Galois descent of §R07.2.7.
-- `pCompleteFlatDescent_bounded`: without bounded `p^∞`-torsion, `R/p^n → R′/p^n` need not be flat for a
+- Without bounded `p^∞`-torsion, `R/p^n → R′/p^n` need not be flat for a
   `p`-completely flat `R → R′`, and the levelwise descent argument fails (Anschütz–Le Bras, Example `A`.`4`
   gives a ring with unbounded `p^∞`-torsion).
 
@@ -3072,10 +3093,10 @@ nilpotent on local ones (Pink §15); dually for `V_G` via `V_G = (F_{G*})*`. (Pi
 
 **Checks.**
 
-- `canonicalDecomposition_types`: `ℤ/pℤ` is reduced–local, `μ_p` local–reduced, `α_p` local–local; `ℤ/ℓℤ (ℓ ≠ p)` is reduced–reduced.
-- `canonicalDecomposition_elliptic`: `E[p]` for an ordinary elliptic curve over `𝔽̄_p` is `μ_p ⊕ ℤ/pℤ`;
+- `ℤ/pℤ` is reduced–local, `μ_p` local–reduced, `α_p` local–local; `ℤ/ℓℤ (ℓ ≠ p)` is reduced–reduced.
+- `E[p]` for an ordinary elliptic curve over `𝔽̄_p` is `μ_p ⊕ ℤ/pℤ`;
   for a supersingular one it is local–local.
-- `canonicalDecomposition_not_perfect`: over the imperfect field `F_p(t)` the connected–étale
+- Over the imperfect field `F_p(t)` the connected–étale
   sequence of a finite group need not split (a nonsplit extension of `ℤ/p` by `α_p` exists), so
   perfectness is used.
 
@@ -3109,9 +3130,9 @@ Verschiebung (citing Oort–Zink, Proposition 1.3).)
 
 **Checks.**
 
-- `multiplicativePartFiltration_elliptic`: ordinary elliptic curve over a perfect `F_p`-algebra:
+- Ordinary elliptic curve over a perfect `F_p`-algebra:
   `E[p^∞] = μ_{p^∞}`-twist `⊕ (ℚ_p/ℤ_p)`-twist with `G^{oo} = 0`; supersingular: `G = G^{oo}`.
-- `multiplicativePartFiltration_not_split`: over a non-perfect base the filtration need not split:
+- Over a non-perfect base the filtration need not split:
   the Serre–Tate lift of an ordinary curve over `k[[t]]` with nonconstant `q`-parameter gives a nonsplit
   extension (§R07.1.9).
 
@@ -3138,9 +3159,9 @@ subgroup.)
 
 **Checks.**
 
-- `orderPSubgroupType_ordinary`: for `G = E[p]` with `E` ordinary over a connected base, `H =` the
+- For `G = E[p]` with `E` ordinary over a connected base, `H =` the
   canonical subgroup is `μ_p` everywhere: `S = S^m`.
-- `orderPSubgroupType_ranks`: without constant étale and multiplicative ranks (e.g. `E` over the
+- Without constant étale and multiplicative ranks (e.g. `E` over the
   `j`-line in characteristic `p`) the type of the kernel of Frobenius jumps from `μ_p` to `α_p` at
   supersingular points and `S^m` is not closed.
 
@@ -3173,10 +3194,10 @@ The API:
 
 **Checks.**
 
-- `DieudonneRing.comm_of_Fp`: For `k = 𝔽_p, E` is commutative and `≅ ℤ_p[F, V]/(FV − p)`.
-- `DieudonneRing.not_comm`: For `k = 𝔽_{p²}, F ξ ≠ ξ F` for `ξ = [a]` with `a ∉ 𝔽_p`, so `E` is not
+- For `k = 𝔽_p, E` is commutative and `≅ ℤ_p[F, V]/(FV − p)`.
+- For `k = 𝔽_{p²}, F ξ ≠ ξ F` for `ξ = [a]` with `a ∉ 𝔽_p`, so `E` is not
   commutative and the naive commutative ring `W(k)[F, V]/(FV − p)` is wrong.
-- `DieudonneRing.quot_F_V`: `E/(EF + EV) ≅ k`.
+- `E/(EF + EV) ≅ k`.
 - The zero module is a Dieudonné module (of the trivial group).
 
 ### R07.2.4 Finite Witt group schemes `W_n^m`
@@ -3207,10 +3228,10 @@ Mathlib `WittVector.verschiebung`; §R07.1.1.
 
 **Checks.**
 
-- `wittGroup_one`: `W_1 ≅ 𝔾_a` and `W_1^1 ≅ α_p`.
-- `wittGroupKer_order`: `W_n^m` has order `p^{nm}`.
-- `wittGroupKer_points_zero`: `W_n^m(k̄) = 0`: the group is infinitesimal.
-- `wittGroup_not_constant`: `W_n` is not the constant group `ℤ/p^n`: its `k`-points form `W_n(k)`, and for `k = 𝔽_p` these are `ℤ/p^n`, but `W_n` is a smooth group of dimension `n`.
+- `W_1 ≅ 𝔾_a` and `W_1^1 ≅ α_p`.
+- `W_n^m` has order `p^{nm}`.
+- `W_n^m(k̄) = 0`: the group is infinitesimal.
+- `W_n` is not the constant group `ℤ/p^n`: its `k`-points form `W_n(k)`, and for `k = 𝔽_p` these are `ℤ/p^n`, but `W_n` is a smooth group of dimension `n`.
 
 ### R07.2.6 The contravariant Dieudonné module of a finite commutative `p`-group scheme
 
@@ -3295,12 +3316,12 @@ in the connected group `Aut_{W(k̄)}(N)` and apply Lang's theorem to write `g = 
 
 **Checks.**
 
-- `dieudonneGaloisDescent_twist`: over `𝔽_p` (`p` odd), the twist `G` of `ℤ/pℤ` on which the Frobenius of
+- Over `𝔽_p` (`p` odd), the twist `G` of `ℤ/pℤ` on which the Frobenius of
   `Gal(𝔽̄_p/𝔽_p)` acts by `−1` has `M(G) = 𝔽_p` with `F = −1`, not isomorphic to `M(ℤ/pℤ) = 𝔽_p` with `F = 1`;
   over `k̄` both become `k̄` with `F = σ`, and only the Galois actions tell them apart.
 - On the constant `ℤ/p` over `k̄`, the module is `k̄` with `g(a)=g(a)` and identity action
   `1(a)=a`. For `a∉𝔽_p`, replacing every scalar action by `σ(a)=a^p` violates this identity law.
-- `dieudonneGaloisDescent_length`: length is preserved: `length_{W(k)} M(G) = length_{W(k̄)} M(G_{k̄})`.
+- Length is preserved: `length_{W(k)} M(G) = length_{W(k̄)} M(G_{k̄})`.
 
 ### R07.2.8 Dieudonné classification of finite commutative `p`-group schemes
 
@@ -3359,11 +3380,11 @@ comparison, with this scalar action retained.)
 
 **Checks.**
 
-- `dieudonneTangentSpace_alphaP`: `α_p`: both spaces have dimension one. For `x ↦ ax`,
+- `α_p`: both spaces have dimension one. For `x ↦ ax`,
   the action on `M(α_p)`, in the `W_1` scalar normalization, is `a^p`; the action on `T` is `a`.
   The `σ_k` pullback intertwines them even for `a ∉ F_p`.
-- `dieudonneTangentSpace_muP`: `μ_p: T = k` and `M(μ_p)/F = k (F = 0)`.
-- `dieudonneTangentSpace_zmodp`: `ℤ/pℤ: T = 0` and `F` is bijective.
+- `μ_p: T = k` and `M(μ_p)/F = k (F = 0)`.
+- `ℤ/pℤ: T = 0` and `F` is bijective.
 
 ### R07.2.10 Dieudonné classification of `p`-divisible groups
 
@@ -3391,10 +3412,10 @@ p. 2: the theorem, with exactness, base change and the dual `M^t`.)
 
 **Checks.**
 
-- `dieudonnePDivisible_standard`: `M(ℚ_p/ℤ_p) = W(k)` with `F = σ` and `V = pσ^{−1}`; `M(μ_{p^∞}) = W(k)`
+- `M(ℚ_p/ℤ_p) = W(k)` with `F = σ` and `V = pσ^{−1}`; `M(μ_{p^∞}) = W(k)`
   with `F = pσ` and `V = σ^{−1}` (§R07.2.12).
-- `dieudonnePDivisible_rank`: the height is the rank: `E[p^∞]` has a rank-two module (§R07.2.14).
-- `dieudonnePDivisible_torsion_free`: `M(G)` is `W(k)`-free. The inverse limit is taken along the
+- The height is the rank: `E[p^∞]` has a rank-two module (§R07.2.14).
+- `M(G)` is `W(k)`-free. The inverse limit is taken along the
   surjections `M(G_{n+1}) ↠ M(G_n)` induced by the inclusions `G_n ↪ G_{n+1}`; for `G = ℚ_p/ℤ_p` it
   is `W(k)`. The direct limit along the injections `M(G_n) ↪ M(G_{n+1})` induced by `p : G_{n+1} ↠ G_n` is `W(k)[1/p]/W(k)` instead, a torsion module that is not finitely generated, so a definition
   using it fails the freeness test.
@@ -3422,8 +3443,8 @@ Proposition 23.1 and §28, Proposition 28.4: its scalar transport; AbelianScheme
 
 **Checks.**
 
-- `dieudonneLieAlgebra_standard`: `μ_{p^∞}: M/FM = W/pW, dim 1`; `ℚ_p/ℤ_p: F` bijective, `dim 0`.
-- `dieudonneLieAlgebra_elliptic`: elliptic curves: `dim M/FM = dim M/VM = 1` (Yu p. 3).
+- `μ_{p^∞}: M/FM = W/pW, dim 1`; `ℚ_p/ℤ_p: F` bijective, `dim 0`.
+- Elliptic curves: `dim M/FM = dim M/VM = 1` (Yu p. 3).
 - The standard multiplicative module has Frobenius cokernel of length `1`, whereas
   the étale module has zero Frobenius cokernel; in particular the multiplicative image is proper.
 
@@ -3445,11 +3466,11 @@ Example `2`, p. 2: the rank-two models.)
 
 **Checks.**
 
-- `standardDieudonneModules_dim`: `dim μ_{p^∞} = 1` and `dim ℚ_p/ℤ_p = 0` via `M/FM`, agreeing with
+- `dim μ_{p^∞} = 1` and `dim ℚ_p/ℤ_p = 0` via `M/FM`, agreeing with
   §R07.1.14.
-- `standardDieudonneModules_M2`: M2 has no `F`-stable line on which `F` is bijective, so it has no étale
+- M2 has no `F`-stable line on which `F` is bijective, so it has no étale
   part.
-- `standardDieudonneModules_FV`: on `M2`, `FV e₁ = F e₂ = p e₁` and
+- On `M2`, `FV e₁ = F e₂ = p e₁` and
   `VF e₂ = V(p e₁) = p e₂`, so `FV = VF = p`. Changing only `Fe₂ = p e₁` to
   `Fe₂ = e₁` gives `(FV)e₁ = e₁ ≠ p e₁`, with `FV = diag(1,p)`, and is not a Dieudonné module.
 - Witt duality exchanges the standard étale and multiplicative modules, including
@@ -3485,11 +3506,11 @@ commutative group killed by `p`, connected with connected dual, is a successive 
 
 **Checks.**
 
-- `alphaPFiltration_supersingular`: `G = E[p]` for a supersingular elliptic curve `E/F̄_p`: an extension
+- `G = E[p]` for a supersingular elliptic curve `E/F̄_p`: an extension
   of `α_p` by `α_p` (its Dieudonné module is `M₂` of Yu's Example `2 mod p`).
-- `alphaPFiltration_needs_dual_connected`: the hypothesis that `G^D` is connected is needed: `μ_p` is
+- The hypothesis that `G^D` is connected is needed: `μ_p` is
   connected, killed by `p`, but has no `α_p` subquotient.
-- `alphaPFiltration_length`: `W_n^m` is killed by `p` exactly when `min(n,m) = 1`.
+- `W_n^m` is killed by `p` exactly when `min(n,m) = 1`.
   `W_1^m = ker F^m` on `𝔾_a` has `m` factors `α_p`; `W_n^1` has `n` factors `α_p`.
   In particular `W₂¹` is killed by `p` and has order `p²`, since `p = VF`.
 
@@ -3508,9 +3529,9 @@ with generators `e₁ = Fe₁` and `e₂ = Ve₂`, so `M ≅` M1, and `F^∞M` i
 
 **Checks.**
 
-- `ellipticDieudonne_ordinary`: ordinary: `M ≅ M(μ_{p^∞}) ⊕ M(ℚ_p/ℤ_p)`, matching ModularCurves Layer
+- Ordinary: `M ≅ M(μ_{p^∞}) ⊕ M(ℚ_p/ℤ_p)`, matching ModularCurves Layer
   7E (PD-`5`) `(E₀[p^∞] ≅ μ_{p^∞} × ℚ_p/ℤ_p)`.
-- `ellipticDieudonne_supersingular`: supersingular: M2 `⊗ L` is simple of slope `1/2` (§R07.2.16),
+- Supersingular: M2 `⊗ L` is simple of slope `1/2` (§R07.2.16),
   matching the connected height-two group of PD-`5`.
 
 ### R07.2.15 Integral consequences of the Dieudonné–Manin classification
@@ -3537,11 +3558,11 @@ existing isocrystal carrier*); Mathlib `WittVector.Isocrystal`.
 
 **Checks.**
 
-- `dieudonneManin_standard`: `E₀ = (L, σ)` is `M(ℚ_p/ℤ_p)[1/p], E₁ = (L, pσ)` is
+- `E₀ = (L, σ)` is `M(ℚ_p/ℤ_p)[1/p], E₁ = (L, pσ)` is
   `M(μ_{p^∞})[1/p]`, and `E_{1/2}` is the supersingular elliptic isocrystal.
-- `dieudonneManin_needs_closed`: over `F_p`, (`ℚ_p`, up), `u ∈ ℤ_p^×` with `u ≠ 1`, has slope `1`
+- Over `F_p`, (`ℚ_p`, up), `u ∈ ℤ_p^×` with `u ≠ 1`, has slope `1`
   and is not isomorphic to `(ℚ_p,p)`; the standard-block classification needs algebraic closure.
-- `dieudonneManin_endomorphisms`: `End(E_{1/2})` has dimension `4` and invariant `1/2`, while
+- `End(E_{1/2})` has dimension `4` and invariant `1/2`, while
   `End(E₀ ⊕ E₁) = ℚ_p × ℚ_p`. For `E_{1/3}`, the invariant is `−1/3 = 2/3`, not `1/3`.
 
 ### R07.2.16 Slopes, Newton polygon and a-number of a Dieudonné module
@@ -3573,13 +3594,13 @@ The API:
 
 **Checks.**
 
-- `slope_constQpZp`: `M(ℚ_p/ℤ_p) = M_{1,0}`: slope `0`.
-- `slope_muPInfty`: `M(μ_{p^∞}) = M_{0,1}`: slope `1`.
-- `slope_supersingular`: M2 `= M_{1,1}`: slope `1/2` with multiplicity `2`.
-- `slope_out_of_range`: The isocrystal StandardOneDimIsocrystal `2 (F = p²φ)` has slope `2` and contains
+- `M(ℚ_p/ℤ_p) = M_{1,0}`: slope `0`.
+- `M(μ_{p^∞}) = M_{0,1}`: slope `1`.
+- M2 `= M_{1,1}`: slope `1/2` with multiplicity `2`.
+- The isocrystal StandardOneDimIsocrystal `2 (F = p²φ)` has slope `2` and contains
   no `F,V`-stable lattice: `V = pF^{−1}` would not preserve it. So it is not `M ⊗ L` for any Dieudonné
   module.
-- `aNumber_M1`: `a`(M1) `= 0` while `a`(M2) `= 1`.
+- `a`(M1) `= 0` while `a`(M2) `= 1`.
 
 ### R07.2.17 Isogeny classification of `p`-divisible groups over a perfect field
 
@@ -3603,11 +3624,11 @@ sequences; the isogeny statement is derived here from Theorem 3 and Theorem 5.)
 
 **Checks.**
 
-- `isogenyClassification_supersingular`: supersingular elliptic curves: slopes `{1/2, 1/2}, dim 1`,
+- Supersingular elliptic curves: slopes `{1/2, 1/2}, dim 1`,
   height `2`.
-- `isogenyClassification_integrality`: the slope multiset `{1/2}` (multiplicity `1`) is excluded: slope
+- The slope multiset `{1/2}` (multiplicity `1`) is excluded: slope
   `1/2` needs multiplicity divisible by `2`.
-- `isogenyClassification_ordinary`: `μ_{p^∞} × ℚ_p/ℤ_p` and a supersingular `E[p^∞]` have the same
+- `μ_{p^∞} × ℚ_p/ℤ_p` and a supersingular `E[p^∞]` have the same
   height `2` and dimension `1` but slopes `{0, 1}` and `{1/2, 1/2}`, so they are not isogenous;
   height and dimension do not classify up to isogeny.
 
@@ -3631,7 +3652,7 @@ is injective on coordinates. (Lipnowski–Tsimerman 2018, §3, the Dieudonné-mo
 **Checks.**
 
 - `k = F_{p²}: W(k) = ℤ_{p²}` and its `F`-fixed ring is `ℤ_p`.
-- `wittFrobeniusFixed_disconnected`: connectedness matters. For the disconnected ring `A = k × k` the
+- Connectedness matters. For the disconnected ring `A = k × k` the
   Frobenius-fixed Witt vectors are `W(F_p × F_p) = ℤ_p × ℤ_p`, strictly larger than `ι(ℤ_p)`. (A ring
   with nilpotents such as `k[ε]` does not break the statement: `x^p = x` forces `x ∈ F_p` in a connected
   ring of characteristic `p`.)
@@ -3668,7 +3689,7 @@ Dieudonné module; the `ℤ_p`-integrality of the characteristic polynomial is d
 - `n = 1, T = (t)` with `t = bσ(t)b^{−1} = σ(t): t ∈ ℤ_p`
   and `charpoly(T) = X − t`, the image of its `p`-adic polynomial.
 - The empty matrix has characteristic polynomial `1`, which descends as `1`.
-- `charpolyDescent_needs_conjugation`: without the conjugation hypothesis, `T = (ζ)` with `ζ ∈ W(F_{p²})` a primitive `(p² − 1)`-th root of unity has `charpoly X − ζ ∉ ℤ_p[X]`.
+- Without the conjugation hypothesis, `T = (ζ)` with `ζ ∈ W(F_{p²})` a primitive `(p² − 1)`-th root of unity has `charpoly X − ζ ∉ ℤ_p[X]`.
 - For the constant group `ℚ_p/ℤ_p` over `F_{p²}`, `F = σ` is not Witt-linear,
   while `F² = 1` is Witt-linear and has characteristic polynomial `X − 1`. Its degree is odd,
   whereas the Frobenius polynomial of an abelian variety `A` has degree `2 dim A`, so this
@@ -3742,9 +3763,9 @@ AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Cartier pairing and Hodge exact s
 
 **Checks.**
 
-- `covariantModule_mu`: `M_cov(μ_{p^∞}) = (W, F = σ)` and `M_cov(ℚ_p/ℤ_p) = (W, F = pσ)`.
-- `covariantModule_lie_mu`: `dim_k M_cov(μ_{p^∞})/V = 1 = dim` Lie `μ_{p^∞}`, and `0` for `ℚ_p/ℤ_p`.
-- `linearDual_ne_covariant`: For `G = μ_{p^∞}` over `F_p, D^lin(G)` has `F_D = p` (transpose of `F = p`)
+- `M_cov(μ_{p^∞}) = (W, F = σ)` and `M_cov(ℚ_p/ℤ_p) = (W, F = pσ)`.
+- `dim_k M_cov(μ_{p^∞})/V = 1 = dim` Lie `μ_{p^∞}`, and `0` for `ℚ_p/ℤ_p`.
+- For `G = μ_{p^∞}` over `F_p, D^lin(G)` has `F_D = p` (transpose of `F = p`)
   while `M_cov(G)` has `F = 1`: the two realisations differ by exchanging `F` and `V`.
 - Over `F_{p²}`, let `M = We₁ ⊕ We₂` with
   `Fe₁ = Ve₁ = e₂` and `Fe₂ = Ve₂ = pe₁`. For `a ∉ F_p` and `α = [a]`, the automorphism
@@ -3754,8 +3775,8 @@ AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Cartier pairing and Hodge exact s
   The characteristic-three scalar comparison specializes to `p = 3, a² = −1`, with actions `a` and `−a`.
 - After `F_{p²} ↪ F̄_p`, the same bases and automorphism retain the actions `a` and `a^p`.
   For `b ∈ F̄_p, Ψ(b[f₂])([e₁]) = b^p`, so the base-change square uses `σ_{F̄_p}(b)`.
-- `covariantModule_zero`: Height `0` gives the zero module.
-- `covariantModule_supersingular`: for `E` supersingular over `F̄_p, M_cov(E[p^∞]) ≅ M(E[p^∞])` (`E[p^∞]`
+- Height `0` gives the zero module.
+- For `E` supersingular over `F̄_p, M_cov(E[p^∞]) ≅ M(E[p^∞])` (`E[p^∞]`
   is self-dual), with `dim M_cov/VM_cov = 1 = dim` Lie `E`.
 
 **Covariant crystalline evaluation over semiperfect bases.** Construct
@@ -3844,13 +3865,13 @@ The API:
 
 **Checks.**
 
-- `hasseInvariant_mu`: `Ha(μ_p)` is a unit and `Ha(ℤ/p) = 1`.
-- `hasseInvariant_supersingular`: For `E/F̄_p` supersingular, `Ha(E[p]) = 0`; for `E` ordinary it is
+- `Ha(μ_p)` is a unit and `Ha(ℤ/p) = 1`.
+- For `E/F̄_p` supersingular, `Ha(E[p]) = 0`; for `E` ordinary it is
   nonzero.
-- `hasseInvariant_weight`: `Ha` is a section of `(det ω)^{⊗(p−1)}`, not of `det ω`: a definition taking
+- `Ha` is a section of `(det ω)^{⊗(p−1)}`, not of `det ω`: a definition taking
   `det` of `V : ω^{(p)} → ω` (the wrong direction) gives a section of `(det ω)^{⊗(1−p)}` and fails the
   ordinary criterion's base-change law.
-- `hasseInvariant_dual`: For every isomorphism `λ : G ≅ G^D`, functoriality gives
+- For every isomorphism `λ : G ≅ G^D`, functoriality gives
   `λ*(Ha(G^D)) = Ha(G)`.
 
 ### R07.2.22 The Hasse–Witt maps of a `BT₁` and of its dual: the exact sequence of complexes
@@ -3884,15 +3905,28 @@ Only then are the images of `F*` and `V*` known to be locally free, and their ex
 checked on perfect-field fibres (Cais–Lau, (2.4.2)). Constancy of fibre ranks alone does not give
 local freeness over a non-reduced base.
 
-*Proof sketch.* `bt1DieudonneHodgeExact`: locally on `S` a `BT₁` is the `p`-torsion `H[p]` of a
-Barsotti–Tate group `H` (Illusie 1985, Theorem 4.4). The functor `D` on Barsotti–Tate groups is
-exact (Berthelot–Breen–Messing, Proposition 4.3.1 and Théorème 3.3.3, as cited by Cais–Lau §2.4),
-and the long exact `𝓔xt` sequence of `0 → H[p] → H →p H → 0` identifies the cokernel construction
-with `D(H)/pD(H)`; two resolutions or two local lifts are compared through their fibre product,
-which gives independence and gluing. `D(H)_S` is locally free of rank `h` (AbelianSchemesAndArithmeticModuli
-§A4.CR.7.2, Berthelot–Breen–Messing 3.3.10), so `D(G)_S = D(H)_S/p` is locally free of rank `h`
-over the `F_p`-scheme `S`. In characteristic `p`, `ω_{H[p]} = ω_H` and `Lie(H^D[p]) = Lie(H^D)`,
-so the Hodge sequence of `H` (Berthelot–Breen–Messing, Corollaire 3.3.5) reduces to that of `G`.
+*Proof sketch.* `bt1DieudonneHodgeExact`: the resolution `0 → G → H → H′ → 0` exists
+Zariski-locally on `S` (§R07.1.40), and the functor `D` on Barsotti–Tate groups is exact
+(Berthelot–Breen–Messing, Proposition 4.3.1 and Théorème 3.3.3, as cited by Cais–Lau §2.4), so
+`D(G) = coker(D(H′) → D(H))` is a crystal; two resolutions are compared through their fibre
+product, which gives independence and gluing. A `BT₁` is the `p`-torsion of a Barsotti–Tate
+group étale-locally on `S`, not Zariski-locally: the truncation maps `BT_{n+1}^h → BT_n^h` of
+§R07.2.23 are smooth, and their fibres over every algebraically closed field are nonempty by
+Illusie 1985, Théorème 4.4 (e) applied to that field, so they are surjective and over a strictly
+henselian local base each `BT_n` lifts
+to a `BT_{n+1}` (a smooth morphism to a henselian local scheme has a section through every
+rational point of its closed fibre, EGA IV₄, 18.5.17, and a nonempty smooth scheme over a
+separably closed field has rational points), and iterating gives a Barsotti–Tate group `H`
+with `H[p] ≅ G`; over a complete noetherian local base with perfect residue field this is
+Illusie 1985, Théorème 4.4 (e), whose hypotheses are exactly these. Over such a base the long
+exact `𝓔xt` sequence of `0 → H[p] → H →p H → 0` identifies `D(G)` with `D(H)/pD(H)`, and
+`D(H)_S` is locally free of rank `h` (AbelianSchemesAndArithmeticModuli §A4.CR.7.2,
+Berthelot–Breen–Messing 3.3.10), so `D(G)_S` is locally free of rank `h` over the `F_p`-scheme
+`S` étale-locally, hence everywhere, since finite local freeness descends along étale covers.
+In characteristic `p`, `ω_{H[p]} = ω_H` and `Lie(H^D[p]) = Lie(H^D)`, so the Hodge sequence of
+`H` (Berthelot–Breen–Messing, Corollaire 3.3.5) reduces, étale-locally and hence everywhere,
+to that of `G`. Berthelot–Breen–Messing 3.3.10 treats truncated groups directly from the
+resolution, as AbelianSchemesAndArithmeticModuli §A4.CR.7.2 records; either route serves.
 `bt1HasseWittDuality`: over a perfect field the claims are Dieudonné-module linear algebra: for `M = M(G)`
 killed by `p, ker F = im V` and `ker V = im F` (§R07.2.8; AbelianSchemesAndArithmeticModuli §A4.5a). Over `S`, the complex `𝓔 → 𝓔^{(p)} → 𝓔` of locally free modules is exact because it is exact at all perfect points and its images are
 locally free (Cais–Lau, discussion of (2.4.2)). Identify `F*` on the quotient `ω_{G^D}^∨` with the dual
@@ -3906,24 +3940,33 @@ of the sequence is general; Cais–Lau 2017, §2.4, (2.4.2), Definition 2.4.1 an
 pp. 10–11 (arXiv:1412.3174v2): exactness of the `F`–`V` complex of a Dieudonné crystal by reduction to
 perfect fields; the Hodge filtration and its compatibility with duality.)
 
-*Needs:* §R07.2.21; §R07.1.40; §R07.2.8; §R07.1.10;
+*Needs:* §R07.2.21; §R07.1.40; §R07.2.8; §R07.1.10; §R07.2.23 (smooth truncation
+maps, for the étale-local lift route only);
 AbelianSchemesAndArithmeticModuli §A4.5a (`TruncatedBT`) and §A4.CR.7.2 (the crystalline
 Dieudonné crystal, variance and Tate twists).
 
 **Checks.**
 
-- `bt1HasseWittDuality_muP`: `G = μ_p: ω_G` of rank `1` with `V*` an isomorphism; `G^D = ℤ/p` with `ω = 0`;
+- `G = μ_p: ω_G` of rank `1` with `V*` an isomorphism; `G^D = ℤ/p` with `ω = 0`;
   both `V*` have zero kernel and cokernel.
-- `bt1HasseWittDuality_alphaP`: without the exactness of the middle row the long exact sequence does
+- Without the exactness of the middle row the long exact sequence does
   not identify the two Hasse–Witt maps; for a non-`BT₁` group such as `α_p` the middle row is not exact.
 - For `G = μ_p × (ℤ/p)², dim G = 1` and `dim G^D = 2`; both Hasse–Witt maps
   are invertible, with ranks `1` and `2` and corank `0`. Equality of rank is not the duality invariant.
-- `bt1DieudonneHodgeExact_muP`: for `G = μ_p` over any `F_p`-scheme, `D(G)_S = O_S` with
+- For `G = μ_p` over any `F_p`-scheme, `D(G)_S = O_S` with
   `ω_G = O_S` and `ω_{G^D}^∨ = Lie(ℤ/p) = 0`; for `G = E[p]`, `E` an elliptic curve over `S`,
   `D(G)_S` has rank `2` with `ω_G` and `ω_{G^D}^∨` of rank `1`.
 - Over `R = F_p[ε]/(ε²)` the cokernel of `R →ε R` is `R/(ε)`: its fibre at the only perfect point
   has dimension `1`, but it is not flat over `R`. Local freeness of `D(G)_S` therefore needs the
-  local lift to a Barsotti–Tate group, not a fibrewise rank count.
+  étale-local lift to a Barsotti–Tate group or the resolution argument, not a fibrewise rank
+  count.
+- The lift is étale-local, not Zariski-local: over the non-henselian local ring
+  `R = F_p[t]_{(t)}` the finite étale cover `R[x]/(x² − x − t)` has no section, since
+  `x² − x = t` has no solution in `F_p(t)` (compare degrees of numerator and denominator), so a
+  smooth surjection onto `Spec R` need not have a section, and Illusie's lifting statement is
+  made only for complete noetherian local bases with perfect residue field. A sketch asserting a
+  Zariski-local lift would be wrong at this ring; the strict henselization `R^sh` has the
+  section.
 - The `BT₁` hypothesis is needed: `α_p` over a perfect field `k` has Dieudonné module `k` with
   `F = V = 0`, while `ω_{α_p}` and `Lie(α_p^D) = Lie(α_p)` are both one-dimensional, so no
   exact Hodge sequence `0 → ω → D → Lie(G^D) → 0` exists for it.
@@ -3965,13 +4008,13 @@ Illusie, Astérisque `127`).)
 
 **Checks.**
 
-- `btStackSmooth_elliptic`: for an elliptic curve `E` over the ordinary locus, `E[p]` gives a point of
+- For an elliptic curve `E` over the ordinary locus, `E[p]` gives a point of
   `BT₁²`; the map from the moduli of elliptic curves to `BT₁²` is smooth (Serre–Tate with
   Grothendieck–Messing) and the ordinary locus is dense, as the theorem predicts.
 - Over `R=𝔽₂[t]`, the Hopf algebra `R[x]/(x²)` with
   `Δx=x⊗1+1⊗x+t x⊗x` has BT₁ locus `D(t)`: there `1+tx` identifies the group with `μ₂`,
   while at `t=0` it is `α₂` with `F=V=0`. Thus the BT condition is not closed.
-- `btStackSmooth_needs_bt`: the stack of all finite locally free groups of order `p²` is not smooth
+- The stack of all finite locally free groups of order `p²` is not smooth
   (`α_p × α_p` and its deformations); the `BT` condition is what makes the stack smooth.
 - At `p = 2`, take `M = F₂²` with `Fe₁ = Ve₁ = e₂` and `Fe₂ = Ve₂ = 0`, paired by
   `B = [[1,1],[1,0]]`. This is perfect and satisfies skew self-duality, but `B(e₁,e₁) = 1`:
@@ -4004,9 +4047,9 @@ SchemeAndStackFoundations §0.14
 
 **Checks.**
 
-- `henselianLifting_Zp`: `C = ℤ_p, J = (p)`: every `p`-divisible group over `F_p` lifts to `ℤ_p` (for
+- `C = ℤ_p, J = (p)`: every `p`-divisible group over `F_p` lifts to `ℤ_p` (for
   instance a supersingular `E[p^∞]` to the `p`-divisible group of a lift of `E`).
-- `henselianLifting_not_unique`: the lift is not unique (deformations form a smooth formal moduli
+- The lift is not unique (deformations form a smooth formal moduli
   space of dimension `dim G · dim G^D`).
 - The trivial height-zero group lifts to the trivial group for every henselian pair;
   smooth-section lifting requires no noetherian hypothesis.
@@ -4066,17 +4109,17 @@ The API:
 
 **Checks.**
 
-- `BarsottiTate.universalCover_etale`: For `G = ℚ_p/ℤ_p`, identify
+- For `G = ℚ_p/ℤ_p`, identify
   `T_pG ≅ ℤ_p,cont` and `G̃ ≅ ℚ_p,cont`.
 - Over `R=𝔽_p`, take `A=C_lc(ℤ_p,𝔽_p)`, so `Spec A ≅ ℤ_p`. The compatible sections
   `f_n(x)=x mod p^n` define the identity map in `T_p(ℚ_p/ℤ_p)(A)` and its image in `G̃(A)`.
   This section has infinite image. Sections of the ordinary constant sheaves on this
   quasi-compact affine have finite image, so neither ordinary constant sheaf gives this section.
-- `BarsottiTate.universalCover_mu`: For `G = μ_{p^∞}` over a perfect `F_p`-algebra `R, G̃ ≅ Spf R[[x^{1/p^∞}]]`.
-- `BarsottiTate.universalCover_not_colim`: The direct limit of `G` along multiplication by `p` is not
+- For `G = μ_{p^∞}` over a perfect `F_p`-algebra `R, G̃ ≅ Spf R[[x^{1/p^∞}]]`.
+- The direct limit of `G` along multiplication by `p` is not
   `G̃`: for `G = ℚ_p/ℤ_p` it is again a torsion sheaf with no map onto `G` whose kernel is `ℤ_p,cont`; a
   definition using colimits instead of the inverse limit fails the exact sequence `0 → T_pG → G̃ → G → 0`.
-- `BarsottiTate.universalCover_zero`: Height `0` gives `G̃ = 0`.
+- Height `0` gives `G̃ = 0`.
 
 ### R07.2.26 Rigidity of `p`-divisible groups up to isogeny and of universal covers along nilpotent thickenings
 
@@ -4107,8 +4150,8 @@ theory).
 
 **Checks.**
 
-- `universalCoverRigidity_dual_numbers`: `S = F_p[ε]/ε² → R = F_p`: for `G = ℚ_p/ℤ_p, G̃(S) = ℚ_p = G̃(F_p)`; for `G = μ_{p^∞}, G̃(S) = G̃(F_p) = 0` although `μ_{p^∞}(S) ⊇ 1 + εF_p` is nonzero.
-- `universalCoverRigidity_integral`: the statement is false integrally: `Hom(G, H)` over `S` need not
+- `S = F_p[ε]/ε² → R = F_p`: for `G = ℚ_p/ℤ_p, G̃(S) = ℚ_p = G̃(F_p)`; for `G = μ_{p^∞}, G̃(S) = G̃(F_p) = 0` although `μ_{p^∞}(S) ⊇ 1 + εF_p` is nonzero.
+- The statement is false integrally: `Hom(G, H)` over `S` need not
   equal `Hom` over `R` (deformations of an ordinary elliptic curve have different integral
   endomorphisms), only after `⊗ℚ`.
 
@@ -4272,11 +4315,11 @@ to this restricted construction.
 
 **Checks.**
 
-- `deJong_finite_field`: over a finite field `E = F_q: D` is the classical Dieudonné module
+- Over a finite field `E = F_q: D` is the classical Dieudonné module
   (§R07.2.10), and full faithfulness recovers `End(G)` for `G` over `F_q`.
-- `deJong_idempotent`: for `A` over a field `E` finitely generated over `F_p`, an idempotent
+- For `A` over a field `E` finitely generated over `F_p`, an idempotent
   of `End(D(A[p^∞]))` comes from `End(A[p^∞])` by crystalline full faithfulness.
-- `deJong_zero`: the zero `p`-divisible group gives the zero crystal, whose only endomorphism
+- The zero `p`-divisible group gives the zero crystal, whose only endomorphism
   and idempotent is zero; the equivalence preserves it.
 
 ### R07.2.28 Scholze–Weinstein: Dieudonné theory over `f`-semiperfect rings
@@ -4328,7 +4371,7 @@ the integral `A_cris` evaluation, Cartier pairing and normalized rational Froben
 
 **Checks.**
 
-- `swDieudonne_perfect`: `R = k` perfect: `A_cris(k) = W(k)` and the theorem is the classical full
+- `R = k` perfect: `A_cris(k) = W(k)` and the theorem is the classical full
   faithfulness into `W(k)`-modules integrally and `W(k)[1/p]`-modules up to isogeny (§R07.2.10).
 - Over `R=F_p, G=ℚ_p/ℤ_p` has `End_R(G)=ℤ_p=End_{A,F,V}(M_A(G))`, whereas
   `End_{B,F,V}(M_B(G))=ℚ_p`. The endomorphism `p⁻¹id` exists only rationally and
@@ -4336,7 +4379,7 @@ the integral `A_cris` evaluation, Cartier pairing and normalized rational Froben
 - Over `R=F_p, H=μ_{p^∞}` has `φ_H=p⁻¹`, so `M_B(H)^{φ_H=1}=0=H̃(F_p)`;
   for `H=ℚ_p/ℤ_p, φ_H=1` and the fixed space is `ℚ_p`. Using bare `F=1` for
   `μ_{p^∞}` would incorrectly give a nonzero fixed space.
-- `swDieudonne_mu`: for `H = μ_{p^∞}` and `R = O_C/p`: the covariant `D(μ_{p^∞}) = L` with `φ = p^{−1}σ`
+- For `H = μ_{p^∞}` and `R = O_C/p`: the covariant `D(μ_{p^∞}) = L` with `φ = p^{−1}σ`
   gives `H̃(R) = B⁺_cris(R)^{φ = p}`, the period module of the cyclotomic character.
 - For `G = G′ = μ_{p^∞}` over a perfect field, `Hom(G,G′) = ℤ_p` and its rational
   `Hom` space is `ℚ_p`; `ℤ_p` is not a `p`-divisible group. The Frobenius-invariant linear
@@ -4452,13 +4495,13 @@ comparison); §R07.2.5; Mathlib `WittVector`.
 
 **Checks.**
 
-- `berthelot_field`: `A = k` perfect field: `σ_k^*M_B` recovers the classical crystalline
+- `A = k` perfect field: `σ_k^*M_B` recovers the classical crystalline
   normalization with `M(ℚ_p/ℤ_p) = (W(k), F = σ)` and `M(μ_{p^∞}) = (W(k), F = pσ)`.
 - Over `k = F_{p²}`, for `G = α_p` and `u : x ↦ ax` with `a ∉ F_p`, precomposition
   acts by a on `M_B(G)` and by `a^p` on `M(G)`. An ordinary `k`-linear natural
   identification of these two unshifted functors would force `a = a^p`; the scalar
   pullback in `berthelot_field` is necessary.
-- `berthelot_extension`: as used in Caraiani–Scholze, Lemma 4.2.16: for an isocrystal `D` over `F̄_p`
+- As used in Caraiani–Scholze, Lemma 4.2.16: for an isocrystal `D` over `F̄_p`
   and a perfect valuation ring `V` with fraction field `K, (D ⊗ W(V)[1/p])^{φ=1} = (D ⊗ W(K)[1/p])^{φ=1}`, which by full faithfulness extends homomorphisms from `K` to `V`.
 - For `G = 0, M_B(G) = 0` and `σ_A^*M_B(G) = 0`; the field case and the valuation-ring
   case both send the trivial group to the zero Dieudonné module.
@@ -4592,18 +4635,18 @@ The API:
 
 **Checks.**
 
-- `FilteredPhiNModule.unit_twist`: `unit⟨−1⟩` is `K₀` with `φ = pσ` and its single filtration jump
+- `unit⟨−1⟩` is `K₀` with `φ = pσ` and its single filtration jump
   in degree `1`; it is the module `Hom_{G_K}(ℚ_p(1), B_cris)` of Kisin's contravariant convention
   (`φ(t) = pt` and `t ∈ Fil¹`). A twist convention with `φ ↦ p^r φ` and the same filtration shift
   would give `φ = p^{−1}σ` with the jump in degree `1`, so `t_N = −1 ≠ 1 = t_H`, which is not weakly
   admissible (§R07.3.2).
-- `FilteredPhiNModule.zero`: the zero space is an object, with every structure zero; it is the zero
+- The zero space is an object, with every structure zero; it is the zero
   object of the additive category, is effective, and has `tH = 0` because all its graded pieces vanish.
-- `FilteredPhiNModule.not_abelian`: the identity of `K₀` from (`φ = σ`, jump in degree `0`) to (`φ = σ`, jump in degree `1`) is a bijective morphism that is not an isomorphism.
-- `FilteredPhiNModule.N_nonzero`: `D = K₀e₀ ⊕ K₀e₁` with `φ(e₀) = e₀`, `φ(e₁) = p e₁`, `N(e₁) = e₀`,
+- The identity of `K₀` from (`φ = σ`, jump in degree `0`) to (`φ = σ`, jump in degree `1`) is a bijective morphism that is not an isomorphism.
+- `D = K₀e₀ ⊕ K₀e₁` with `φ(e₀) = e₀`, `φ(e₁) = p e₁`, `N(e₁) = e₀`,
   `N(e₀) = 0` satisfies `Nφ = pφN`; with `N(e₀) = e₁` instead the relation fails (`N φ e₀ = e₁` but
   `p φ N e₀ = p² e₁`).
-- `FilteredPhiNModule.toIsocrystal_twist`: for `K = ℚ_p(√p)` the Cohen subfield is
+- For `K = ℚ_p(√p)` the Cohen subfield is
   `K₀ = ℚ_p`, and `toIsocrystal(unit⟨−m⟩)` is Mathlib's `WittVector.StandardOneDimIsocrystal p 𝔽_p m`,
   whose Frobenius is `p^m` times the Witt Frobenius; for `m = 1` this is `D*_cris(ℚ_p(1))`. The
   isocrystal has rank `1` over `K₀`, while `D_K` has `ℚ_p`-dimension `2`: the comparison is over
@@ -4650,14 +4693,14 @@ The API:
 
 **Checks.**
 
-- `isWeaklyAdmissible_rankOne`: `D = K₀ e` with `φ(e) = λ e` and its filtration jump in degree `r`
+- `D = K₀ e` with `φ(e) = λ e` and its filtration jump in degree `r`
   is weakly admissible exactly when `v_p(λ) = r`; so `unit` and `unit⟨−1⟩` are weakly admissible,
   and `K₀` with `φ = pσ` and jump in degree `0` is not.
-- `isWeaklyAdmissible_split_vs_line`: for `K = K₀` and `D = K₀e₁ ⊕ K₀e₂` with `φ = diag(σ, pσ)`, `N = 0`: with `Fil¹ D = K₀(e₁ + e₂)` and `Fil² = 0`, `D` is weakly admissible; with `Fil¹ D = K₀e₁`
+- For `K = K₀` and `D = K₀e₁ ⊕ K₀e₂` with `φ = diag(σ, pσ)`, `N = 0`: with `Fil¹ D = K₀(e₁ + e₂)` and `Fil² = 0`, `D` is weakly admissible; with `Fil¹ D = K₀e₁`
   it is not, since the subobject `K₀e₁` has `t_H = 1 > 0 = t_N`. A definition that checks only
   `t_H(D) = t_N(D)` accepts both.
-- `isWeaklyAdmissible_zero`: the zero module is weakly admissible (all conditions are empty).
-- `tN_basis_independent`: replacing `e` by `pe` in the rank-one example multiplies `λ` by `σ(p)/p = 1`, and replacing it by a unit `c` multiplies `λ` by the unit `σ(c)/c`; `t_N` is unchanged.
+- The zero module is weakly admissible (all conditions are empty).
+- Replacing `e` by `pe` in the rank-one example multiplies `λ` by `σ(p)/p = 1`, and replacing it by a unit `c` multiplies `λ` by the unit `σ(c)/c`; `t_N` is unchanged.
 
 ### R07.3.3 The semistable equivalence on the imported carrier and the eigenvector bound
 
@@ -4722,9 +4765,9 @@ semistable and crystalline representations); §R07.3.1; §R07.3.2; §R07.P2 (`bC
 
 **Checks.**
 
-- `dCris_cyclotomic`: `D_cris(ℚ_p(1)) = K₀ t^{−1}` with `φ = p^{−1}σ` and its jump in degree `−1`,
+- `D_cris(ℚ_p(1)) = K₀ t^{−1}` with `φ = p^{−1}σ` and its jump in degree `−1`,
   and `D*_cris(ℚ_p(1)) = K₀ f`, `f(e) = t`, with `φ = pσ` and its jump in degree `1`; both have `t_H = t_N`.
-- `dSt_tate_curve`: for the Tate curve `E_q` over `K` (`v(q) > 0`), `D_st(V_p E_q)` has `N ≠ 0`; it
+- For the Tate curve `E_q` over `K` (`v(q) > 0`), `D_st(V_p E_q)` has `N ≠ 0`; it
   is weakly admissible but not in the image of `D_cris`.
 - The period `t^n` has `φ(t^n) = p^n t^n` and filtration degree `n`, for every `n ∈ ℤ`,
   attaining equality in `crisEigenvector_filtration_bound`.
@@ -4733,8 +4776,8 @@ semistable and crystalline representations); §R07.3.1; §R07.3.2; §R07.P2 (`bC
   The induced-filtration subobject `D′ = ℚ_p e₂` has `t_H = 0 < 1 = t_N`.
   Thus it is not admissible and cannot be `D_st(W)` for a semistable subrepresentation,
   although `D` is weakly admissible. Its period coefficients require the inequality argument.
-- `dSt_zero`: the zero representation goes to the zero module.
-- `not_isAdmissible_of_not_wa`: `K₀` with `φ = pσ` and its jump in degree `0` is not the module of
+- The zero representation goes to the zero module.
+- `K₀` with `φ = pσ` and its jump in degree `0` is not the module of
   any representation, because it is not weakly admissible (§R07.3.2).
 
 ### R07.3.3a Small-weight filtered Frobenius modules
@@ -4838,7 +4881,7 @@ The API:
 
 **Checks.**
 
-- `FLModule.unit`: `W(k)/p` with `Fil^0 = M, Fil^1 = 0` and `φ^0 = σ` is in `MF_tor^{[0,0]}`, and its twist
+- `W(k)/p` with `Fil^0 = M, Fil^1 = 0` and `φ^0 = σ` is in `MF_tor^{[0,0]}`, and its twist
   by `j` (`Fil^i = M` for `i ≤ j, Fil^{j+1} = 0, φ^j = σ`) lies in `MF_tor^{[j,j]}`.
 - A nonzero filtered module all of whose `φ^i` vanish is not
   in `MF_tor`, since `Σ Im φ^i = 0 ≠ M`; for instance `W(k)/p` with `Fil^0 = M, Fil^1 = 0` and `φ^0 = 0` is a
@@ -4866,11 +4909,11 @@ cokernel: the image with the image filtration has `L̃ ≅ L` via `φ`, so `Fil^
 
 **Checks.**
 
-- `mfTorAbelian_not_morphism`: the identity of `W(k)/p` from the weight-`0` object to the weight-`1`
+- The identity of `W(k)/p` from the weight-`0` object to the weight-`1`
   object respects the filtrations but is not a morphism: `φ⁰ = σ` on the source while `φ⁰ = pφ¹ = 0` on
   the target.
-- `mfTorAbelian_range`: an extension of two objects of weights `[0, 1]` has weights `[0, 1]`.
-- `mfTorAbelian_strict`: a morphism in `MF_tor` is strict for the filtrations; in the larger
+- An extension of two objects of weights `[0, 1]` has weights `[0, 1]`.
+- A morphism in `MF_tor` is strict for the filtrations; in the larger
   category of all filtered modules the identity of the first check is a bijective non-strict map,
   which `MF_tor` excludes.
 
@@ -4911,10 +4954,10 @@ Mathlib `Field.absoluteGaloisGroup`; Mathlib `PreTilt`; Mathlib `WittVector.font
 
 **Checks.**
 
-- `ringS.contains_WR`: `W(R) ⊆ S`, with `Fil^0 S = S`.
-- `ringS.phi_teichmuller`: `Φ[x] = [x^p]` for `x ∈ R`.
-- `ringS.not_WR`: `S ≠ W(R): [x]/p ∈ S` for `v_R(x) = p`, and `[x]/p ∉ W(R)`.
-- `ringS.galois_fixed`: The Galois action is trivial on the image of `W(k) ⊆ S`.
+- `W(R) ⊆ S`, with `Fil^0 S = S`.
+- `Φ[x] = [x^p]` for `x ∈ R`.
+- `S ≠ W(R): [x]/p ∈ S` for `v_R(x) = p`, and `[x]/p ∉ W(R)`.
+- The Galois action is trivial on the image of `W(k) ⊆ S`.
 
 ### R07.3.7 The Fontaine–Laffaille functor on torsion modules
 
@@ -4937,9 +4980,9 @@ The API:
 
 **Checks.**
 
-- `flFunctor_unit`: `U_S` of the weight-`0` unit object `W(k)/p` is `𝔽_p` with trivial action.
-- `flFunctor_zero`: `U_S(0) = 0`.
-- `flFunctor_not_covariant`: `U_S` is contravariant: an injection `M′ ↪ M` gives a surjection `U_S(M) ↠ U_S(M′)`, not an injection.
+- `U_S` of the weight-`0` unit object `W(k)/p` is `𝔽_p` with trivial action.
+- `U_S(0) = 0`.
+- `U_S` is contravariant: an injection `M′ ↪ M` gives a surjection `U_S(M) ↠ U_S(M′)`, not an injection.
 
 ### R07.3.8 The simple objects `M(h; i)`
 
@@ -4963,10 +5006,10 @@ iff period `h`, and `End = 𝔽_{p^h}` (FL Proposition 4.4). (Fontaine–Laffail
 
 **Checks.**
 
-- `flSimpleObjects_distinct`: `M(1; 0)` and `M(1; p − 1)` are simple and non-isomorphic in
+- `M(1; 0)` and `M(1; p − 1)` are simple and non-isomorphic in
   `MF_tor^{[0,p−1]}`.
-- `flSimpleObjects_period`: `M(2; (0, 0))` has period `1`, so it is not simple: it is `M(1; 0)²`.
-- `flSimpleObjects_end`: `End M(2; (0, 1)) = F_{p²}`, not `F_p` and not `k`.
+- `M(2; (0, 0))` has period `1`, so it is not simple: it is `M(1; 0)²`.
+- `End M(2; (0, 1)) = F_{p²}`, not `F_p` and not `k`.
 - For `h = 3, i = (0,1,2), a ∈ F_{p³}` and `m` modulo `3`, both `φ^{i_m}v_a(e_m)`
   and `v_aφ^{i_m}(e_m)` equal `a^{p^{−m}}e_{m−1}`. The direction of the basis cycle
   is required for this commutation.
@@ -4990,15 +5033,15 @@ character.)
 
 **Checks.**
 
-- `flTameInertia_endpoint`: `U_S(M(1; 0))` and `U_S(M(1; p − 1))` are both the trivial character, since
+- `U_S(M(1; 0))` and `U_S(M(1; p − 1))` are both the trivial character, since
   `ω^{p−1} = 1` (FL 0.9): the endpoint collision.
-- `flTameInertia_level_two`: `M(2; (1, 0))` gives the fundamental character of level two, `χ_2^{1}`,
+- `M(2; (1, 0))` gives the fundamental character of level two, `χ_2^{1}`,
   which is not a power of `ω` on inertia.
-- `flTameInertia_field_action`: for `i = (1,0)`, choose `ϖ^{p²−1} = p, a₁ = ϖ` and
+- For `i = (1,0)`, choose `ϖ^{p²−1} = p, a₁ = ϖ` and
   `a₀ = ϖ^p`, so `a₀^p = pa₁` and `a₁^p = a₀`. Precomposition by `v_a` acts by a on
   `a₁`, giving inertia scalar `χ₂`. The identification `e_m ↦ a^{p^{−m}}e_m` instead
   gives `χ₂^p`.
-- `flTameInertia_sign`: `U_S(M(1; 1)) = ω`, the Galois module of `μ_p` on inertia; with the opposite
+- `U_S(M(1; 1)) = ω`, the Galois module of `μ_p` on inertia; with the opposite
   weight convention it would be `ω^{−1}`.
 
 ### R07.3.10 Theorem 3.3: `U_S` is exact, faithful and length-preserving
@@ -5021,8 +5064,8 @@ Fontaine–Laffaille 1982, §3.4, Remark, p. 562: invariant factors.)
 
 **Checks.**
 
-- `flExactFaithful_length`: `U_S(M(1; i))` has length `1` for `0 ≤ i ≤ p − 1`.
-- `flExactFaithful_invariant_factors`: `W(k)/p²` with weight `0` goes to `ℤ/p²` (same invariant factors).
+- `U_S(M(1; i))` has length `1` for `0 ≤ i ≤ p − 1`.
+- `W(k)/p²` with weight `0` goes to `ℤ/p²` (same invariant factors).
 
 ### R07.3.11 Theorem 6.1: full faithfulness away from the endpoint collision
 
@@ -5057,14 +5100,14 @@ uniformiser and dévissage; Fontaine–Laffaille 1982, §6.6, p. 584: the `MF″
 
 **Checks.**
 
-- `flFullFaithfulness_dyadic`: `p = 2: [0, p − 2] = [0, 0]`; weight-one objects such as the Dieudonné
+- `p = 2: [0, p − 2] = [0, 0]`; weight-one objects such as the Dieudonné
   data of `μ₂` are outside the safe range and are handled by Breuil–Kisin (R07.4).
-- `flFullFaithfulness_restricted`: the two restricted subcategories are different: `M(1; 0) ∈ MF′ ∖ MF″` and `M(1; p − 1) ∈ MF″ ∖ MF′`.
+- The two restricted subcategories are different: `M(1; 0) ∈ MF′ ∖ MF″` and `M(1; p − 1) ∈ MF″ ∖ MF′`.
 - For `r = p−1, N = W(k)/p²` with `Fil^i N = N` for `i ≤ r` and `0` for `i > r`,
   and `φ^i = p^{r−i}σ` for `i ≤ r`, is pure endpoint torsion. The sequence
   `0 → pN → N → N/pN → 0` is nonsplit even as `W(k)`-modules. Over `k̄` its ends are
   `M(1;r)`, so endpoint self-`Ext` in the full torsion category is nonzero.
-- `flFullFaithfulness_not_full`: on all of `MF_tor^{[0,p−1]}`, `Hom(M(1; 0), M(1; p − 1)) = 0` while
+- On all of `MF_tor^{[0,p−1]}`, `Hom(M(1; 0), M(1; p − 1)) = 0` while
   `Hom(U_S M(1; p − 1), U_S M(1; 0)) = F_p`; fullness fails at the endpoint.
 
 ### R07.3.12 The essential image on the safe interval is closed under subquotients
@@ -5090,9 +5133,9 @@ under subquotients is derived here.)
 
 **Checks.**
 
-- `flEssentialImage_sum`: every `G_K`-subrepresentation of `U_S(M(1; 0) ⊕ M(1; 1)) = 𝔽_p ⊕ ω` is `U_S` of
+- Every `G_K`-subrepresentation of `U_S(M(1; 0) ⊕ M(1; 1)) = 𝔽_p ⊕ ω` is `U_S` of
   a quotient.
-- `flEssentialImage_endpoint`: on all of `[0, p − 1]` the lemma needs `MF′` or `MF″: U_S` is not full
+- On all of `[0, p − 1]` the lemma needs `MF′` or `MF″: U_S` is not full
   there.
 
 ### R07.3.13 Strongly divisible lattices
@@ -5128,11 +5171,11 @@ The API:
 
 **Checks.**
 
-- `sdl_slope_zero`: `D = (K₀, Φ = σ, Fil^0 = D, Fil^1 = 0): W(k)` is strongly divisible.
-- `sdl_slope_one`: `D = (K₀, Φ = pσ, Fil^1 = D, Fil^2 = 0): W(k)` is strongly divisible.
-- `sdl_not_weakly_admissible`: `D = (K₀, Φ = σ, Fil^1 = D, Fil^2 = 0)` has `t_H = 1 ≠ t_N = 0`, so it
+- `D = (K₀, Φ = σ, Fil^0 = D, Fil^1 = 0): W(k)` is strongly divisible.
+- `D = (K₀, Φ = pσ, Fil^1 = D, Fil^2 = 0): W(k)` is strongly divisible.
+- `D = (K₀, Φ = σ, Fil^1 = D, Fil^2 = 0)` has `t_H = 1 ≠ t_N = 0`, so it
   has no strongly divisible lattice: `p^{−1}Φ(M) = p^{−1}M ≠ M` for every lattice `M`.
-- `sdl_zero`: `D = 0` has the unique strongly divisible lattice `0`.
+- `D = 0` has the unique strongly divisible lattice `0`.
 
 ### R07.3.14 The lattice functor: Propositions 7.14–7.15
 
@@ -5156,10 +5199,10 @@ Full faithfulness: from Theorem 6.1 at each level and a limit argument (FL Propo
 
 **Checks.**
 
-- `flLatticeFunctor_rankOne`: the slope-zero lattice `W(k)` (weight `0`) goes to `ℤ_p` with trivial
+- The slope-zero lattice `W(k)` (weight `0`) goes to `ℤ_p` with trivial
   action; the slope-one lattice of weight `1` goes to `ℤ_p(1)` (§R07.3.9 and §R07.3.16).
-- `flLatticeFunctor_rank`: rank is preserved: `rk U_S(M) = rk M`.
-- `flLatticeFunctor_range`: the hypothesis `Fil^p = 0` is needed: the lattice `W(k)` with `Φ = p^pσ`
+- Rank is preserved: `rk U_S(M) = rk M`.
+- The hypothesis `Fil^p = 0` is needed: the lattice `W(k)` with `Φ = p^pσ`
   and its jump in degree `p` has reductions outside `MF_tor^{[0,p−1]}`, and the theorem says nothing
   about it.
 
@@ -5184,13 +5227,13 @@ Theorem 8.4, pp. 595–596: the identification.)
 
 **Checks.**
 
-- `flPeriodComparison_xi`: `ξ = [p̃] − p` (`p̃ ∈ R` with `p̃^{(0)} = p`) lies in `Fil^1 S`, since `θ(ξ) = 0`
+- `ξ = [p̃] − p` (`p̃ ∈ R` with `p̃^{(0)} = p`) lies in `Fil^1 S`, since `θ(ξ) = 0`
   and `Φ(ξ) = [p̃]^p − p ∈ pS`, matching `ξ ∈ Fil^1 B_dR`; the element `p` lies in neither, although
   `Φ(p) = p ∈ pS`, so the condition on `Φ` alone does not define the filtration.
-- `flPeriodComparison_positive_period`: the jump-one unit has a nonzero period `s ∈ S_K`
+- The jump-one unit has a nonzero period `s ∈ S_K`
   with `Φ(s) = ps`. In `A_inf[1/p]` there is no such nonzero `s`: Frobenius preserves its
   `p`-adic order, whereas multiplication by `p` increases that order by one.
-- `flPeriodComparison_frobenius`: the comparison respects `Φ: Φ[x] = [x^p]` on both sides, and
+- The comparison respects `Φ: Φ[x] = [x^p]` on both sides, and
   `[p̃]^p/p ∈ S` lies in `A_cris`.
 - Over `K = Frac W(F_p(t)^perf)`, the weight-zero unit gives the trivial `ℚ_p`
   representation through the general-base period rings; no finite-`K` carrier is required.
@@ -5223,13 +5266,13 @@ the theorem; Fontaine–Laffaille 1982, §7.17, Proposition 7.17, p. 594: dimens
 
 **Checks.**
 
-- `flAdmissibility_cyclotomic`: `D = K₀` with `Φ = pσ, Fil^1 = D, Fil^2 = 0` (weight `1`) is admissible
+- `D = K₀` with `Φ = pσ, Fil^1 = D, Fil^2 = 0` (weight `1`) is admissible
   and `U_{S_K}(D) = ℚ_p(1)`: in the convention `HT(χ_cyc) = +1`, a filtration jump at `1` is Hodge–Tate
   weight `1` for this contravariant realization. The covariant realization of the same `D`
   is `ℚ_p(−1)`, with Hodge–Tate weight `−1`; covariant `D_cris(ℚ_p(1))` instead has jump `−1`.
-- `flAdmissibility_length`: a weakly admissible `D` with weights `{0, p}` (length `p + 1 > p`) is outside
+- A weakly admissible `D` with weights `{0, p}` (length `p + 1 > p`) is outside
   the theorem; such weights need Breuil–Kisin (R07.4).
-- `flAdmissibility_negative_twist`: `D = unit⟨1⟩` has jump `−1` and `Φ = p^{−1}σ`.
+- `D = unit⟨1⟩` has jump `−1` and `Φ = p^{−1}σ`.
   The unshifted `Hom(M,Ŝ)` is zero, since `f(e) = pΦ(f(e))` forces divisibility by every `p^n`;
   `U(D) = U_{S_K}`(unit)`(−1) = ℚ_p(−1)`.
 - For the zero filtered module, the period realization is zero and all admissibility
@@ -5261,10 +5304,10 @@ on lattices; the bijection is derived here.)
 
 **Checks.**
 
-- `flLatticeCorrespondence_cyclotomic`: `V = ℚ_p(1), D = (K₀, Φ = pσ, Fil^1 = D, Fil^2 = 0)`: every
+- `V = ℚ_p(1), D = (K₀, Φ = pσ, Fil^1 = D, Fil^2 = 0)`: every
   lattice `p^{−n}W(k)` is strongly divisible, and they correspond, reversing inclusions, to the
   `G_K`-stable lattices `p^n ℤ_p(1)`.
-- `flLatticeCorrespondence_dyadic`: `p = 2: [0, p − 2] = [0, 0]`, so only unramified representations
+- `p = 2: [0, p − 2] = [0, 0]`, so only unramified representations
   are covered.
 
 ### R07.3.18 Finite flat group schemes over `W(k)` and Fontaine–Laffaille modules of weights `[0, 1]`
@@ -5299,8 +5342,8 @@ equivalence between Honda systems and `MF_tor^{f,2}`, the anti-equivalence with 
 
 **Checks.**
 
-- `flFiniteFlat_rankOne`: `J = μ_p: M = k` with `Fil¹ = M` (`φ¹` bijective), the multiplicative object; `J = ℤ/p: M = k` with `Fil¹ = 0`, the étale object.
-- `flFiniteFlat_dyadic`: for `p = 2` the non-unipotent group `μ₂` over `ℤ₂` is not covered by (iii) for
+- `J = μ_p: M = k` with `Fil¹ = M` (`φ¹` bijective), the multiplicative object; `J = ℤ/p: M = k` with `Fil¹ = 0`, the étale object.
+- For `p = 2` the non-unipotent group `μ₂` over `ℤ₂` is not covered by (iii) for
   all `p`; its module `k` with `Fil¹ = k` is a quotient `N = N¹`, excluded from `MF_tor^{[0,1],u}`.
 - For `J = 0`, the Honda system and Fontaine–Laffaille module are zero, and
   the covector evaluation and the Galois realization both give zero.
@@ -5505,11 +5548,11 @@ PadicPeriodRings §4.1 (`B_st`); Mathlib `PowerSeries`; Mathlib `WittVector`; Ma
 - `N(u^i/⌊i/e⌋!) = −i u^i/⌊i/e⌋!` gives `N(S)⊆I_N` and `N(S_R)⊆J_N`.
   In particular `N(u)=−u∈I_N`, whereas `u∉Fil¹S` since its image is `π≠0`.
 - Frobenius sends `u` to `u^p` and restricts to Witt Frobenius on `W`.
-- `theta_eisenstein`: `θ_𝔖(E(u)) = 0` and `ker θ_𝔖 = E(u)𝔖`.
-- `Eisenstein.not_isUnit`: `E(u)` is not a unit of `𝔖 (θ_𝔖(E(u)) = 0)`, although it is a unit of `𝒪_ℰ`;
+- `θ_𝔖(E(u)) = 0` and `ker θ_𝔖 = E(u)𝔖`.
+- `E(u)` is not a unit of `𝔖 (θ_𝔖(E(u)) = 0)`, although it is a unit of `𝒪_ℰ`;
   the degree condition of `Eisenstein` is what excludes `E = 1`.
-- `eisensteinUnramified`: `e = 1, π = p: E(u) = u − p`, Eisenstein because `p` is a uniformiser of `W`.
-- `toWittR_equivariant`: the inclusions `𝔖 ⊂ 𝔖^ur ⊂ W(R)` and `𝒪_ℰ ⊂ 𝒪̂_{ℰ^ur} ⊂ W(Fr R)` are
+- `e = 1, π = p: E(u) = u − p`, Eisenstein because `p` is a uniformiser of `W`.
+- The inclusions `𝔖 ⊂ 𝔖^ur ⊂ W(R)` and `𝒪_ℰ ⊂ 𝒪̂_{ℰ^ur} ⊂ W(Fr R)` are
   `φ`-equivariant.
 
 ### R07.4.2 Kisin modules of finite `E`-height and their torsion versions
@@ -5557,12 +5600,12 @@ The API:
 
 **Checks.**
 
-- `KisinModule.unit_height_zero`: `(𝔖, φ)` has `E`-height `≤ 0`.
-- `KisinModule.eisenstein_height_one`: `𝔖e` with `φ(e) = E(u)e` has `E`-height `≤ 1` and not `≤ 0`.
-- `KisinModule.not_finite_height`: `𝔖e` with `φ(e) = p·e` is not of finite `E`-height: its cokernel `𝔖/p` is
+- `(𝔖, φ)` has `E`-height `≤ 0`.
+- `𝔖e` with `φ(e) = E(u)e` has `E`-height `≤ 1` and not `≤ 0`.
+- `𝔖e` with `φ(e) = p·e` is not of finite `E`-height: its cokernel `𝔖/p` is
   killed by no power of `E(u)`, since `E(u) ≡ u^e` is not nilpotent in `k⟦u⟧`.
-- `TorsionKisinModule.zero`: The zero module is in `(Mod/𝔖)` and is both étale and multiplicative.
-- `TorsionKisinModule.rankOne`: in `(Mod/𝔖), 𝔖/p` with `φ_𝔐 = φ` is multiplicative, and `𝔖/p·e` with `φ(e) = E(u)e` is étale; the two notions are exclusive on nonzero modules.
+- The zero module is in `(Mod/𝔖)` and is both étale and multiplicative.
+- In `(Mod/𝔖), 𝔖/p` with `φ_𝔐 = φ` is multiplicative, and `𝔖/p·e` with `φ(e) = E(u)e` is étale; the two notions are exclusive on nonzero modules.
 - The infinite direct sum `⊕_{n∈ℕ} 𝔖/p` with height-zero Frobenius is not an object:
   it is not finitely generated. The zero object is allowed by resolution length at most `1`.
 
@@ -5598,9 +5641,9 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3.
 
 **Checks.**
 
-- `kummerFieldOfNorms_Qp`: `K = ℚ_p, π = p: K_∞ = ℚ_p(p^{1/p^∞})` and `X ≅ F_p((u))` with `u` the class of
+- `K = ℚ_p, π = p: K_∞ = ℚ_p(p^{1/p^∞})` and `X ≅ F_p((u))` with `u` the class of
   `(p^{1/p^n})_n` for odd `p`, and `(−2^{1/2^n})_n` for `p = 2`.
-- `kummerFieldOfNorms_not_cyclotomic`: the cyclotomic tower `ℚ_p(μ_{p^∞})` gives the different field
+- The cyclotomic tower `ℚ_p(μ_{p^∞})` gives the different field
   of norms `F_p((ε − 1))` with a `Γ`-action; the Kummer tower is not Galois, and its field of norms has
   no residual group action.
 - For `K = ℚ₂` and `π₁ = √2, N(π₁) = −2`. Instead `N(−π_{n+1}) = −π_n`
@@ -5630,8 +5673,8 @@ Layer 9.
 
 **Checks.**
 
-- `etalePhiModules_unit`: the unit object `𝒪_ℰ` with `φ` gives `ℤ_p` with trivial action; a rank-one `φ(e) = ae, a ∈ W^×`, gives an unramified character (Lang).
-- `etalePhiModules_not_etale`: a `φ`-module whose linearised `φ` is not an isomorphism `(φ(e) = pe)` is
+- The unit object `𝒪_ℰ` with `φ` gives `ℤ_p` with trivial action; a rank-one `φ(e) = ae, a ∈ W^×`, gives an unramified character (Lang).
+- A `φ`-module whose linearised `φ` is not an isomorphism `(φ(e) = pe)` is
   not étale and has `(𝒪̂ ⊗ M)^{φ=1} = 0`.
 - In the Kummer frame, `φ(e) = u e` is étale over `𝒪_ℰ`, since `u` is a unit there, although over
   `𝔖` the same formula has linearisation with cokernel `𝔖/u𝔖`; inverting `u` is what makes a
@@ -5665,8 +5708,8 @@ equivalence; Kisin 2006, §2.1.4, Corollary (2.1.4), p. 21; Kisin 2008, §1.2, p
 
 **Checks.**
 
-- `kummerEtale_unit`: `T(𝒪_ℰ, φ) = ℤ_p` with trivial action.
-- `kummerEtale_rankOne`: rank one: `M = 𝒪_ℰe` with `φ(e) = a·e, a ∈ W^×`: by Lang's theorem there is `b ∈ W(k̄)^×` with `φ(b)a = b`, so `T(M) = ℤ_p·(b ⊗ e)` and `G_{K∞}` acts through an unramified character.
+- `T(𝒪_ℰ, φ) = ℤ_p` with trivial action.
+- Rank one: `M = 𝒪_ℰe` with `φ(e) = a·e, a ∈ W^×`: by Lang's theorem there is `b ∈ W(k̄)^×` with `φ(b)a = b`, so `T(M) = ℤ_p·(b ⊗ e)` and `G_{K∞}` acts through an unramified character.
 
 ### R07.4.6 Filtered `(φ, N)`-modules as `(φ, N_∇)`-modules over the open unit `disc`
 
@@ -5696,11 +5739,11 @@ with the filtration induced by `ξ_{[0,r)}` (1.2.6). Theorem (1.2.15): essential
 
 **Checks.**
 
-- `phiNNabla_unit`: `D = K₀` with `φ = σ, N = 0` and `Fil⁰D_K = D_K, Fil¹ = 0: 𝓜(D) = 𝒪` with `φ = φ_𝒪, E`-height `0`.
-- `phiNNabla_negative_twist`: `D = K₀` with `φ = p^{−1}σ` and filtration jump `−1`
+- `D = K₀` with `φ = σ, N = 0` and `Fil⁰D_K = D_K, Fil¹ = 0: 𝓜(D) = 𝒪` with `φ = φ_𝒪, E`-height `0`.
+- `D = K₀` with `φ = p^{−1}σ` and filtration jump `−1`
   is excluded by effectivity `(Fil⁰ = 0 ≠ D)`. Its Tate twist `D⟨−1⟩` is the weight-zero
   unit and lies in the effective category.
-- `phiNNabla_cyclotomic`: `D = K₀` with `φ = pσ` and `Fil¹D_K = D_K, Fil² = 0` (the module of `ℚ_p(1)` under
+- `D = K₀` with `φ = pσ` and `Fil¹D_K = D_K, Fil² = 0` (the module of `ℚ_p(1)` under
   Kisin's contravariant convention): `coker(1 ⊗ φ) ≅ 𝒪/E(u), E`-height exactly `1`.
 
 ### R07.4.7 The Robba ring and `φ`-modules over it
@@ -5752,13 +5795,13 @@ slopes); §R07.4.1; Mathlib `WittVector`; Mathlib `PowerSeries`; Mathlib `Lauren
 
 **Checks.**
 
-- `PhiModule.deg_twist`: the rank-one module `ℛ e` with `φ(e) = p e` has degree `1` and is pure of
+- The rank-one module `ℛ e` with `φ(e) = p e` has degree `1` and is pure of
   slope `1`; with `φ(e) = u e` it has degree `0` (`u` is a unit of `ℛ^b` of valuation `w(u) = 0`),
   so it is pure of slope `0`; a definition of degree through the `u`-adic order would give `1`.
-- `robba_unit_not_unit_in_O`: `u` is a unit in `ℛ` but not in `𝒪`; the slope theory lives on `ℛ`,
+- `u` is a unit in `ℛ` but not in `𝒪`; the slope theory lives on `ℛ`,
   not on the `disc`.
-- `PhiModule.zero`: the zero module is pure of every slope and has degree `0`.
-- `PhiModule.not_pure_sum`: `ℛ e₁ ⊕ ℛ e₂` with `φ = diag(1, p)` has slope `1/2` but is not pure: the
+- The zero module is pure of every slope and has degree `0`.
+- `ℛ e₁ ⊕ ℛ e₂` with `φ = diag(1, p)` has slope `1/2` but is not pure: the
   saturated submodule `ℛ e₁` has slope `0 < 1/2`, so it is not semistable either.
 
 ### R07.4.8 Kedlaya's slope filtration theorem
@@ -5804,14 +5847,14 @@ carrier*); §R07.4.7; §R07.2.15; Mathlib `WittVector`.
 
 **Checks.**
 
-- `standard_zero_negative`: `M_{0,1}` is the unit with `φ(e) = e`, of slope `0`;
+- `M_{0,1}` is the unit with `φ(e) = e`, of slope `0`;
   `M_{−1,1}` has `φ(e) = p^{−1}e`, of slope `−1`. Both are standard pure modules.
-- `standard_one_two`: `M_{1,2}` (`φ(e₁) = e₂`, `φ(e₂) = p e₁`) has rank `2`, degree `1` and slope
+- `M_{1,2}` (`φ(e₁) = e₂`, `φ(e₂) = p e₁`) has rank `2`, degree `1` and slope
   `1/2`, and it is pure of slope `1/2`: `p^{−1} φ²` fixes `e₁` and `e₂`. A slope read off as the
   least valuation of the entries of the matrix of `φ` would give `0`.
-- `slopeFiltration_split`: for `ℛ e₁ ⊕ ℛ e₂` with `φ = diag(1, p)` the slope filtration is `0 ⊂ ℛ e₁ ⊂ M`, with slopes `0 < 1`; the order of the steps is by increasing slope.
-- `slopeFiltration_pure`: for a pure module the filtration has one step.
-- `pure_descends_zero`: `ℛ e` with `φ(e) = u e` descends to `ℛ^b` (it is already defined there) and
+- For `ℛ e₁ ⊕ ℛ e₂` with `φ = diag(1, p)` the slope filtration is `0 ⊂ ℛ e₁ ⊂ M`, with slopes `0 < 1`; the order of the steps is by increasing slope.
+- For a pure module the filtration has one step.
+- `ℛ e` with `φ(e) = u e` descends to `ℛ^b` (it is already defined there) and
   is pure of slope `0`; `ℛ e` with `φ(e) = p e` does not descend to an étale module over `ℛ^int`.
 
 ### R07.4.8a Rational-fibre monodromy
@@ -5864,11 +5907,11 @@ slope filtration, as quoted by Kisin.)
 
 **Checks.**
 
-- `waSlopeZero_rankOne`: the rank-one module `𝓜(K₀e, φ = pσ, Fil¹ = D) (t_N = t_H = 1)` is pure of
+- The rank-one module `𝓜(K₀e, φ = pσ, Fil¹ = D) (t_N = t_H = 1)` is pure of
   slope `0`; the same module with `Fil⁰ = D, Fil¹ = 0` has `t_H = 0 ≠ 1 = t_N` and slope `1`.
-- `waSlopeZero_dual_boundary`: the height-one object of `ℚ_p(1)` is effective, while its
+- The height-one object of `ℚ_p(1)` is effective, while its
   tensor dual has filtration jump `−1` and is outside the effective category.
-- `waSlopeZero_rankTwo`: `K = K₀, D = K₀e₁ ⊕ K₀e₂` with `φ = diag(σ, pσ)`: with `Fil¹D = K₀(e₁ + e₂)` (and
+- `K = K₀, D = K₀e₁ ⊕ K₀e₂` with `φ = diag(σ, pσ)`: with `Fil¹D = K₀(e₁ + e₂)` (and
   `Fil² = 0`) `D` is weakly admissible, so `𝓜(D)` is pure of slope `0`; with `Fil¹D = K₀e₁` the line `K₀e₁` has
   `t_H = 1 > 0 = t_N`, so `𝓜(D)` is not pure of slope `0`.
 
@@ -5899,11 +5942,11 @@ Kisin 2006, Introduction, Theorem (0.1), p. 2: crystalline case.)
 
 **Checks.**
 
-- `kisinEmbedding_rankOne`: `ℚ_p ↦ (𝔖, φ)` and `ℚ_p(1) ↦ (𝔖e, φ(e) = a·E(u)e)` up to isogeny, with `a ∈ W^×` fixed by the normalisation (`E(0)/p` is a unit of `W`); `E`-heights `0` and `1`.
+- `ℚ_p ↦ (𝔖, φ)` and `ℚ_p(1) ↦ (𝔖e, φ(e) = a·E(u)e)` up to isogeny, with `a ∈ W^×` fixed by the normalisation (`E(0)/p` is a unit of `W`); `E`-heights `0` and `1`.
 - For the height-one rational-monodromy example of §R07.4.8a, `λ(0)=1` but the
   residue is `−N₀≠0`. Inverting `λ` alone therefore does not give a connection into
   ordinary differentials; inverting `uλ` does (Conrad, equation (2.4.6), p.21).
-- `kisinEmbedding_not_surjective`: the embedding is not essentially surjective (Kisin 2006,
+- The embedding is not essentially surjective (Kisin 2006,
   introduction): its image is cut out by the logarithmic-pole condition on `∇`.
 
 ### R07.4.11 Full faithfulness of `𝔐 ↦ 𝒪_ℰ ⊗ 𝔐`
@@ -5932,10 +5975,10 @@ Kisin 2008, Errata for `[Ki 2], (E.4)`, p. 34: the gap and its repair.)
 
 **Checks.**
 
-- `kisinEtaleFF_rankOne`: if `(p − 1) ∤ e`, there is no nonzero `φ`-map `𝒪_ℰe → 𝒪_ℰe′` with `φ(e) = E(u)e`
+- If `(p − 1) ∤ e`, there is no nonzero `φ`-map `𝒪_ℰe → 𝒪_ℰe′` with `φ(e) = E(u)e`
   and `φ(e′) = e′`: it would send `e` to `a·e′` with `φ(a) = E(u)a`, and after dividing a by a power of `p`,
   reduction to `k((u))` gives `(p − 1)·v_u(ā) = e`. So `Hom` in `Mod^φ_{/𝔖}` vanishes as well.
-- `kisinEtaleFF_faithful`: faithfulness is visible directly: `𝔐 ⊂ 𝒪_ℰ ⊗ 𝔐` because `𝔐` is free and `𝔖 ⊂ 𝒪_ℰ`.
+- Faithfulness is visible directly: `𝔐 ⊂ 𝒪_ℰ ⊗ 𝔐` because `𝔐` is free and `𝔖 ⊂ 𝒪_ℰ`.
 
 ### R07.4.12 `𝔖`-lattices of finite `E`-height: uniqueness, existence and all `G_{K∞}`-stable lattices
 
@@ -5965,12 +6008,12 @@ part `(2)`; Kisin 2008, §1.2, p. 4: part `(1)`.)
 
 **Checks.**
 
-- `finiteHeightLattices_unique`: `M = (𝒪_ℰ, φ)`: the lattice `u𝔖` is `φ`-stable, but the image of `1 ⊗ φ` on
+- `M = (𝒪_ℰ, φ)`: the lattice `u𝔖` is `φ`-stable, but the image of `1 ⊗ φ` on
   it is `u^p𝔖 = u^{p−1}·(u𝔖)`, and `𝔖/u^{p−1}` is killed by no power of `E(u) (E(0) ≠ 0)`; only `𝔖` has
   finite `E`-height, as uniqueness requires.
-- `finiteHeightLattices_zero`: the zero étale module has the unique zero `𝔖`-lattice,
+- The zero étale module has the unique zero `𝔖`-lattice,
   corresponding to the unique lattice of the zero representation.
-- `finiteHeightLattices_cyclotomic`: `ℚ_p(1)`: the `G_{K∞}`-stable lattices `pⁿℤ_p(1)` correspond, reversing
+- `ℚ_p(1)`: the `G_{K∞}`-stable lattices `pⁿℤ_p(1)` correspond, reversing
   inclusions, to `p^{−n}𝔖e ⊂ ℰe`, all of `E`-height `1`. These embeddings come from the
   contravariant `Hom` pairing.
 
@@ -6010,11 +6053,11 @@ objects); PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`; `B_st`, `D_s
 
 **Checks.**
 
-- `semistableFiniteHeight_cyclotomic`: `V = ℚ_p(1): D` has its only jump in degree `1`, and every
+- `V = ℚ_p(1): D` has its only jump in degree `1`, and every
   lattice has `E`-height exactly `1`.
-- `semistableFiniteHeight_weight_two`: `V = ℚ_p(2)` (weight `2, h = 2`): `E`-height `2`, not `≤ 1`, so `ℚ_p(2)`
+- `V = ℚ_p(2)` (weight `2, h = 2`): `E`-height `2`, not `≤ 1`, so `ℚ_p(2)`
   is not Barsotti–Tate.
-- `semistableFiniteHeight_tate_curve`: `V_p(E_q)` of a Tate curve is semistable and not crystalline
+- `V_p(E_q)` of a Tate curve is semistable and not crystalline
   (`N ≠ 0`), with weights `0, 1`; its lattices have `E`-height `≤ 1`, so finite height does not
   detect crystallinity.
 
@@ -6036,9 +6079,9 @@ sides are fully faithful, so restriction is fully faithful. (Kisin 2006, §2.1.1
 
 **Checks.**
 
-- `crystallineRestriction_cyclotomic`: `ℚ_p` and `ℚ_p(1): Hom_{G_K}(ℚ_p, ℚ_p(1)) = 0`, so by the theorem
+- `ℚ_p` and `ℚ_p(1): Hom_{G_K}(ℚ_p, ℚ_p(1)) = 0`, so by the theorem
   `Hom_{G_{K∞}}(ℚ_p, ℚ_p(1)) = 0` as well, i.e. `K_∞` does not contain `μ_{p^∞}`.
-- `crystallineRestriction_needs_crystalline`: the crystalline hypothesis is needed: if `μ_p ⊂ K`, then
+- The crystalline hypothesis is needed: if `μ_p ⊂ K`, then
   `K(π₁)/K` is Galois and totally ramified of degree `p`, and the permutation representation
   `ℚ_p[Gal(K(π₁)/K)]` is trivial on `G_{K∞}` but not on `G_K`; it is ramified, hence not crystalline.
 - For `V = ℚ_p(1)`, the effective `D*_cris(V)` has `φ = pσ` and filtration jump `1`;
@@ -6095,10 +6138,10 @@ the structure sequence `0 → M_tor → M → M_free → M̄ → 0`; Bhatt–Mor
 
 **Checks.**
 
-- `bkModule_torsion`: `M = 𝔖/p` with `φ_M` induced by `φ` is a Breuil–Kisin module with `M_tor = M, M_free = 0, M̄ = 0`.
-- `bkModule_ideal`: `M = (p, u) ⊂ 𝔖` with `φ` restricted: `M_free = 𝔖` and `M̄ = 𝔖/(p, u) = k`, which shows
+- `M = 𝔖/p` with `φ_M` induced by `φ` is a Breuil–Kisin module with `M_tor = M, M_free = 0, M̄ = 0`.
+- `M = (p, u) ⊂ 𝔖` with `φ` restricted: `M_free = 𝔖` and `M̄ = 𝔖/(p, u) = k`, which shows
   `M̄ ≠ 0` can occur.
-- `bkModule_ainf`: the analogous statement over `A_inf` fails without assuming `M[1/p]` free, which is
+- The analogous statement over `A_inf` fails without assuming `M[1/p]` free, which is
   why Breuil–Kisin–Fargues modules are defined with that hypothesis.
 - `𝔖/u𝔖` carries no Breuil–Kisin structure: `φ*(𝔖/u) = 𝔖/u^p`, and since `E ≡ E(0) ∈ pW(k)^×`
   modulo `u`, inverting `E` on these quotients inverts `p`, giving `K₀`-lengths `p` and `1`. This
@@ -6178,7 +6221,7 @@ the meromorphic linearisation of Definition 4.1.)
 
 **Checks.**
 
-- `bmsKisin_twist`: `T = ℤ_p(1): 𝔐(T) = 𝔖{1}` and
+- `T = ℤ_p(1): 𝔐(T) = 𝔖{1}` and
   `𝔖{1} ⊗_{𝔖,ι₁} A_inf = A_inf{1} = µ^{−1}(ℤ_p(1) ⊗_{ℤ_p} A_inf)`
   (BMS Corollary 4.33). Under the `W(C^♭)`-comparison transported by inverse scalar
   Frobenius, the `ι₀` Tate lattice is `φ^{−1}(µ)^{−1}(ℤ_p(1) ⊗_{ℤ_p} A_inf)`;
@@ -6186,7 +6229,7 @@ the meromorphic linearisation of Definition 4.1.)
 - For `K = ℚ_p, π = p` and `E(u) = u−p, θ(ι₀(E)) = 0` whereas
   `θ(ι₁(E)) = p^p−p ≠ 0`; `θ̃(ι₁(E)) = 0`. Thus the scalar maps cannot be
   interchanged in an integral filtered comparison.
-- `bmsKisin_height`: for `T = ℤ_p(−2)`, with covariant filtration jump `2`, the effective
+- For `T = ℤ_p(−2)`, with covariant filtration jump `2`, the effective
   `𝔐(T)` has `E`-height `2`, so the all-weight functor does not factor through `p`-divisible groups.
   For `ℤ_p(2)` its Frobenius is meromorphic rather than an effective height-one endomorphism.
 - For `V = ℚ_p(1), 𝔐(V)`'s `ε₁`-specialization has covariant `φ = p^{−1}σ` and jump `−1`;
@@ -6214,8 +6257,8 @@ inherited from (1.2.15). (Kisin 2006, §2.2.2, Proposition (2.2.2), p. 25: the p
 
 **Checks.**
 
-- `btType_rankOne`: `D` of `ℚ_p(1)` (weight `1`) `↦ 𝔖e` with `φ(e) = a·E(u)e` for a unit `a ∈ W^×`; `D` of `ℚ_p ↦ (𝔖, φ)`.
-- `btType_weight_two`: `D` of `ℚ_p(2)` is not of Barsotti–Tate type, and its `𝔐` has `E`-height `2`.
+- `D` of `ℚ_p(1)` (weight `1`) `↦ 𝔖e` with `φ(e) = a·E(u)e` for a unit `a ∈ W^×`; `D` of `ℚ_p ↦ (𝔖, φ)`.
+- `D` of `ℚ_p(2)` is not of Barsotti–Tate type, and its `𝔐` has `E`-height `2`.
 - The covariant `D_cris(ℚ_p(1))` has its jump at `−1` and is outside the
   effective `{0,1}` category; `D*_cris(ℚ_p(1))` lies inside it.
 
@@ -6254,13 +6297,13 @@ crystal); AbelianSchemesAndArithmeticModuli §A4.CR.7.2 (Grothendieck–Messing 
 
 **Checks.**
 
-- `BreuilModule.ofKisin_unit`: `S ⊗_{φ,𝔖} (𝔖, φ) =` (`S, Fil¹S, φ₁` of `S`).
-- `BreuilModule.fil_quotient_free`: `𝓜/Fil¹𝓜` is free over `𝒪_K` for every object.
-- `BreuilModule.not_surjective`: `(S, Fil¹ = Fil¹S, φ₁ = 0)` satisfies the filtration axiom but not
+- `S ⊗_{φ,𝔖} (𝔖, φ) =` (`S, Fil¹S, φ₁` of `S`).
+- `𝓜/Fil¹𝓜` is free over `𝒪_K` for every object.
+- `(S, Fil¹ = Fil¹S, φ₁ = 0)` satisfies the filtration axiom but not
   surjectivity of `φ*(Fil¹𝓜) → 𝓜`.
-- `BreuilModule.zero`: The zero module is an object, the image of the trivial `p`-divisible group.
-- `BreuilModule.ofPDivisible_standard`: `G = μ_{p^∞}: ω_G` has full rank, so `Fil¹𝓜 = 𝓜`; `G = ℚ_p/ℤ_p: ω_G = 0`, so `Fil¹𝓜 = Fil¹S·𝓜`.
-- `BreuilModule.fil_quotient_lie`: `𝓜(G)/Fil¹𝓜(G) ≅ Lie(G^∨)` is free of rank `dim G^∨` over `𝒪_K` (from `0 → ω_G → 𝔻(G)(𝒪_K) → Lie(G^∨) → 0`).
+- The zero module is an object, the image of the trivial `p`-divisible group.
+- `G = μ_{p^∞}: ω_G` has full rank, so `Fil¹𝓜 = 𝓜`; `G = ℚ_p/ℤ_p: ω_G = 0`, so `Fil¹𝓜 = Fil¹S·𝓜`.
+- `𝓜(G)/Fil¹𝓜(G) ≅ Lie(G^∨)` is free of rank `dim G^∨` over `𝒪_K` (from `0 → ω_G → 𝔻(G)(𝒪_K) → Lie(G^∨) → 0`).
 
 ### R07.4.19 The Tate module of a `p`-divisible group from its Breuil module and `A_cris`
 
@@ -6318,8 +6361,8 @@ lemma.)
 
 **Checks.**
 
-- `tateModuleAcris_etale`: `G = ℚ_p/ℤ_p: 𝓜(G) = S` with `Fil¹ = Fil¹S`, and the target is `A_cris^{φ=1} = ℤ_p = T_p(G)`, for every `p`.
-- `tateModuleAcris_mu`: `G = μ_{p^∞}: Fil¹𝓜(G) = 𝓜(G)`, so the target is `(Fil¹A_cris)^{φ=p}`, which
+- `G = ℚ_p/ℤ_p: 𝓜(G) = S` with `Fil¹ = Fil¹S`, and the target is `A_cris^{φ=1} = ℤ_p = T_p(G)`, for every `p`.
+- `G = μ_{p^∞}: Fil¹𝓜(G) = 𝓜(G)`, so the target is `(Fil¹A_cris)^{φ=p}`, which
   contains `t`; for `p = 2` it also contains `t/2`, since `t^{p−1} ∈ pA_cris`, which is how a cokernel
   killed by `2` can arise.
 - For `G = 0` the comparison source and target are zero, over every allowed
@@ -6354,9 +6397,9 @@ Introduction, Theorem (0.3), p. 3: theorem (0.3).)
 
 **Checks.**
 
-- `crystalline01_examples`: `V = ℚ_p(1) = V_p(μ_{p^∞})` and `V = ℚ_p = V_p(ℚ_p/ℤ_p)`; `V = V_p(E)` for an
+- `V = ℚ_p(1) = V_p(μ_{p^∞})` and `V = ℚ_p = V_p(ℚ_p/ℤ_p)`; `V = V_p(E)` for an
   elliptic curve with good reduction.
-- `crystalline01_weights`: `ℚ_p(2)` (weight `2`) and `ℚ_p(−1)` (weight `−1`) are crystalline but not
+- `ℚ_p(2)` (weight `2`) and `ℚ_p(−1)` (weight `−1`) are crystalline but not
   Barsotti–Tate.
 - For a `G_K`-stable lattice `p⁻¹T_p(G′)`, the finite subgroup is `G′[p]`.
   The quotient of §R07.1.20a realizes this larger lattice via the isogeny `[p]`.
@@ -6388,9 +6431,9 @@ Corollary (2.2.22), p. 29: the `p > 2` form of Kisin 2009.)
 
 **Checks.**
 
-- `kisinPDivisible_rankOne`: `𝔐(μ_{p^∞})` and `𝔐(ℚ_p/ℤ_p)` are the rank-one objects `(𝔖e, φ(e) = a·E(u)e)`
+- `𝔐(μ_{p^∞})` and `𝔐(ℚ_p/ℤ_p)` are the rank-one objects `(𝔖e, φ(e) = a·E(u)e)`
   with `a ∈ W^×` and `(𝔖, φ)`, in the order fixed by the contravariance.
-- `kisinPDivisible_dyadic`: `p = 2`: this argument alone gives essential surjectivity only up to
+- `p = 2`: this argument alone gives essential surjectivity only up to
   isogeny (Kisin 2006, 2.2.7); §R07.4.23 removes the isogeny.
 - For `G = ℚ_p/ℤ_p` and `H = ℤ/p, G/H ≅ G`; the quotient map multiplies
   Tate modules by `p` and its cokernel is `ℤ/p`, agreeing with the quotient contract.
@@ -6473,10 +6516,10 @@ connected case.)
 
 **Checks.**
 
-- `dyadic_rankOne`: `μ_{2^∞}` and `ℚ₂/ℤ₂` correspond to the two rank-one objects; `E[2^∞]` of an elliptic
+- `μ_{2^∞}` and `ℚ₂/ℤ₂` correspond to the two rank-one objects; `E[2^∞]` of an elliptic
   curve with good reduction over `𝒪_K` gives a rank-two object, connected iff the reduction is
   supersingular.
-- `dyadic_integral`: the statement is integral; at `p = 2` Kisin's (2.2.7) alone classifies
+- The statement is integral; at `p = 2` Kisin's (2.2.7) alone classifies
   `2`-divisible groups only up to isogeny, and Kisin 2009b, (0.8), integrally only the connected ones.
 - For `H = μ₂ ↪ μ_{2^∞}`, the quotient gives the integral isogeny `[2]` and
   the Tate-module cokernel `μ₂(K̄)`; the quotient construction uses no odd-prime hypothesis.
@@ -6509,8 +6552,8 @@ attributes the deduction to Breuil [Bre02, Theorem 3.4.3].)
 
 **Checks.**
 
-- `finiteFlatRestriction_muP`: `H = H′ = μ_p: Hom_{G_{K∞}}(μ_p, μ_p) = Hom_{G_K}(μ_p, μ_p) = 𝔽_p`.
-- `finiteFlatRestriction_needs_flat`: the finite flat hypothesis is needed: let `μ_p ⊂ K` and `V` the
+- `H = H′ = μ_p: Hom_{G_{K∞}}(μ_p, μ_p) = Hom_{G_K}(μ_p, μ_p) = 𝔽_p`.
+- The finite flat hypothesis is needed: let `μ_p ⊂ K` and `V` the
   extension `0 → μ_p → V → ℤ/p → 0` given by the Kummer class of `π`. On `G_{K∞}` the class dies `(π₁ ∈ K_∞)`, so `V ≅ μ_p ⊕ ℤ/p` there but not over `G_K`; consistently `V` is not finite flat: its splitting
   field `K(π^{1/p})` has Serre upper ramification break `pe/(p − 1)`, hence
   `u_{L/K} = pe/(p − 1) + 1` in Fontaine's numbering, exceeding Fontaine's bound
@@ -6548,9 +6591,9 @@ Dieudonné crystal).
 
 **Checks.**
 
-- `bkIntegral_rankOne`: `H = ℚ_p/ℤ_p: T_p(H)^∨ = ℤ_p` and `M(H) = 𝔖` with `φ(e) = e` (`E`-height `0`, étale);
+- `H = ℚ_p/ℤ_p: T_p(H)^∨ = ℤ_p` and `M(H) = 𝔖` with `φ(e) = e` (`E`-height `0`, étale);
   `H = μ_{p^∞}: T_p(H)^∨ = ℤ_p(−1)` and `M(H)` is the rank-one Breuil–Kisin module of `ℤ_p(−1)`, with `φ(e) = c·E(u)e` for a unit `c` (`E`-height exactly `1`); its reduction at `u = 0` is `D(μ_{p^∞})(W) = (W, F = pσ)`.
-- `bkIntegral_twist`: with `H ↦ 𝔐(T_p(H^∨))` instead, `ℚ_p/ℤ_p` would go to the Breuil–Kisin module of
+- With `H ↦ 𝔐(T_p(H^∨))` instead, `ℚ_p/ℤ_p` would go to the Breuil–Kisin module of
   `ℤ_p(1)`, whose reduction at `u = 0` is `D_cris(ℚ_p(1))` with Frobenius `p^{−1}σ`; no module with `φ(𝔐) ⊆ 𝔐`
   reduces to it, so the twisted functor does not land in `E`-height `1`.
 
@@ -6763,10 +6806,10 @@ PadicPeriodRings §§4.1–4.3 (`generalBasePeriodRings`); §R07.4.21; §R07.4.4
 
 **Checks.**
 
-- `wach_mu`: `G = μ_{p^∞}` over `O_F (r = 1): M(G) = 𝔖_cyc·e` is the Wach module of `ℤ_p(−1) = T_p(μ_{p^∞})^∨` (basis `u ⊗ e^∨`), with `φ(e) = (φ(u)/u)·e = E·e`, of `E`-height exactly `1`, and `γ(e) = (γ(u)/(χ(γ)u))·e`, a unit congruent to `1 mod u`; so `Γ` acts trivially on `M/uM` as the definition
+- `G = μ_{p^∞}` over `O_F (r = 1): M(G) = 𝔖_cyc·e` is the Wach module of `ℤ_p(−1) = T_p(μ_{p^∞})^∨` (basis `u ⊗ e^∨`), with `φ(e) = (φ(u)/u)·e = E·e`, of `E`-height exactly `1`, and `γ(e) = (γ(u)/(χ(γ)u))·e`, a unit congruent to `1 mod u`; so `Γ` acts trivially on `M/uM` as the definition
   requires. `Γ` does not act through the cyclotomic character on this basis.
-- `wach_dyadic`: for `p = 2` the theorem is not claimed; the frame `S` used in the proof needs `p > 2`.
-- `wach_unit`: `G = ℚ_p/ℤ_p` gives `M(G) = 𝔖_cyc` with `φ = φ` and trivial `Γ_K`, of `E`-height `0`.
+- For `p = 2` the theorem is not claimed; the frame `S` used in the proof needs `p > 2`.
+- `G = ℚ_p/ℤ_p` gives `M(G) = 𝔖_cyc` with `φ = φ` and trivial `Γ_K`, of `E`-height `0`.
 
 ### R07.4.27 Filtered `(φ, N, F/F′, E)`-modules and Weil–Deligne types
 
@@ -6815,14 +6858,14 @@ The API:
 
 **Checks.**
 
-- `dst_unramified_quadratic`: `F = F′ = E = ℚ_{p²}, D = F₀ ⊗ E` and `φ = σ ⊗ 1`.
+- `F = F′ = E = ℚ_{p²}, D = F₀ ⊗ E` and `φ = σ ⊗ 1`.
   Arithmetic Frobenius has `a(g) = 2`, so `r(g) = φ^{−2} = 1` is `F₀ ⊗ E`-linear;
   `φ^{−1}` would interchange the two embeddings and fail linearity.
-- `dst_cyclotomic_teichmuller`: For `F₁ = ℚ_p(ζ_p): D^{F₁}_{st,k}(ε^i ω̃^j λ_a) = E·e` with `N = 0, φ(e) = p^{k−i−1}a^{−1}e` and `g·e = ω̃^j(g)e` (Savitt, Example 2.13).
-- `trivial_descent`: `F′ = F`: the `Gal(F/F′)`-action is trivial and the object is a filtered `(φ, N)`-module with coefficients.
-- `not_commuting_action`: A `Gal(F/F′)`-action that does not commute with `φ` does not define an object,
+- For `F₁ = ℚ_p(ζ_p): D^{F₁}_{st,k}(ε^i ω̃^j λ_a) = E·e` with `N = 0, φ(e) = p^{k−i−1}a^{−1}e` and `g·e = ω̃^j(g)e` (Savitt, Example 2.13).
+- `F′ = F`: the `Gal(F/F′)`-action is trivial and the object is a filtered `(φ, N)`-module with coefficients.
+- A `Gal(F/F′)`-action that does not commute with `φ` does not define an object,
   even if `D_F` with its filtration is weakly admissible.
-- `galoisType_principal_series`: `τ(V)` for `V = ω̃^i ⊕ ω̃^j` (unramified twists) is `ω̃^i ⊕ ω̃^j` on `I`
+- `τ(V)` for `V = ω̃^i ⊕ ω̃^j` (unramified twists) is `ω̃^i ⊕ ω̃^j` on `I`
   (Example 2.16).
 
 ### R07.4.28 Potentially semistable representations and filtered modules with descent data
@@ -6849,10 +6892,10 @@ PadicLocalLanglandsForGL2Qp §0.2; PadicPeriodRings §4.1 (`B_st`).
 
 **Checks.**
 
-- `psDescent_weight_two`: `k = 2`: representations semistable over `F` with weights `{0,1}`
+- `k = 2`: representations semistable over `F` with weights `{0,1}`
   correspond to weakly admissible `D` with `Fil⁰ = D_F` and `Fil² = 0`. The potentially
   Barsotti–Tate subcategory additionally requires `N = 0`.
-- `psDescent_trivial`: `F = F′` recovers the Colmez–Fontaine equivalence for semistable
+- `F = F′` recovers the Colmez–Fontaine equivalence for semistable
   representations with coefficients.
 - The Tate-curve representation has weights `{0,1}` and nonzero monodromy `N`, which
   persists under finite extension. It is potentially semistable and is never potentially crystalline.
@@ -6884,11 +6927,11 @@ supercuspidal; Savitt 2005, §2.2, Proposition 2.21, p. 10: weak admissibility.)
 
 **Checks.**
 
-- `tameType_ordinary`: `x₁ = 1, x₂ = p` (the ordinary case): `D_{1,p}` is weakly admissible; the unit
+- `x₁ = 1, x₂ = p` (the ordinary case): `D_{1,p}` is weakly admissible; the unit
   root line is `E e₁`.
-- `tameType_supercuspidal`: the supercuspidal modules match Fontaine–Mazur's 'type IV' when `E = ℚ_p`
+- The supercuspidal modules match Fontaine–Mazur's 'type IV' when `E = ℚ_p`
   (Savitt, Remark 2.19).
-- `tameType_valuation`: `v_p(x₁x₂) = 1` is forced by weak admissibility (`t_N = t_H = 1`); `x₁ = x₂ = 1` gives `t_N = 0 ≠ 1` and no representation.
+- `v_p(x₁x₂) = 1` is forced by weak admissibility (`t_N = t_H = 1`); `x₁ = x₂ = 1` gives `t_N = 0 ≠ 1` and no representation.
 
 ### R07.4.30 Lattices in potentially Barsotti–Tate representations and `p`-divisible groups with descent data
 
@@ -6920,14 +6963,14 @@ defines a `G_{F′}`-action on `lim G(n)(O_{ℚ̄_p})`; the two constructions ar
 
 **Checks.**
 
-- `descentData_trivial`: `F = F′`: the unit law forces the sole map `[1]` to be the identity,
+- `F = F′`: the unit law forces the sole map `[1]` to be the identity,
   and the statement is the lattice form of §R07.4.20.
 - For `F = F′ = ℚ_p`, `p > 2` and the nonzero height-one group `G = ℚ_p/ℤ_p`, the family
   `[1] = 0` satisfies the cocycle equation but violates the unit law, so it is excluded. For
   any Galois group the all-zero family is excluded on every nonzero group. The module-side
   unit law for descent actions also excludes the all-zero action on a nonzero module.
-- `descentData_tame`: a potentially Barsotti–Tate lattice of tame type becoming crystalline over `F₁ = ℚ_p(ζ_p)` gives a `p`-divisible group over `ℤ_p[ζ_p]` with an action of `Gal(F₁/ℚ_p) ≅ (ℤ/p)^×`.
-- `descentData_cocycle`: the cocycle condition is `[gh] = (ᵍ[h]) ∘ [g]`; the condition `[gh] = [g] ∘ [h]` without the twist by `g` is not well typed, since `[h] : G → ʰG` and `[g] : G → ᵍG` have
+- A potentially Barsotti–Tate lattice of tame type becoming crystalline over `F₁ = ℚ_p(ζ_p)` gives a `p`-divisible group over `ℤ_p[ζ_p]` with an action of `Gal(F₁/ℚ_p) ≅ (ℤ/p)^×`.
+- The cocycle condition is `[gh] = (ᵍ[h]) ∘ [g]`; the condition `[gh] = [g] ∘ [h]` without the twist by `g` is not well typed, since `[h] : G → ʰG` and `[g] : G → ᵍG` have
   different targets.
 
 ### R07.4.31 Strongly divisible modules with tame descent data
@@ -7043,11 +7086,11 @@ The API:
 
 **Checks.**
 
-- `StronglyDivisibleModule.unit_is_object`: `S` with `Fil^{k−1}S` and `φ_{k−1}` is an object of
+- `S` with `Fil^{k−1}S` and `φ_{k−1}` is an object of
   `Mod^{k−1}_{cris}`: its derivation has `N(S)⊆I_N`; after coefficient extension
   the unit has `N(S_R)⊆J_N`. The condition `N(S)⊆Fil¹S` would fail on `u`.
-- `StronglyDivisibleModule.rank_one_character`: For `E = ℚ_p: S·e` with `Fil¹ = Fil¹S·e, φ(e) = a^{−1}e (a ∈ ℤ_p^×), ĝ(e) = ω̃^j(g)e` is an object (Savitt, Proposition 5.1).
-- `StronglyDivisibleModule.not_strongly_divisible`: `M = S e` with `Fil¹M = Fil¹S·e + pM` contains
+- For `E = ℚ_p: S·e` with `Fil¹ = Fil¹S·e, φ(e) = a^{−1}e (a ∈ ℤ_p^×), ĝ(e) = ω̃^j(g)e` is an object (Savitt, Proposition 5.1).
+- `M = S e` with `Fil¹M = Fil¹S·e + pM` contains
   `(Fil¹S)M`, but `e ∉ Fil¹M`, so `Fil¹M ∩ pM = pM ≠ p Fil¹M`: not strongly divisible.
 - Ring automorphisms acting on the ring itself give
   semilinear descent data; the scalar action can be nontrivial.
@@ -7058,7 +7101,7 @@ The API:
 - The countable direct sum of weight-two unit modules satisfies the filtration and
   Frobenius relations, but is excluded by finite rank and cannot represent a finite-height
   `p`-divisible group. The canonical-monodromy assertion applies only at `k = 2`.
-- `StronglyDivisibleModule.zero`: The zero module, corresponding to the trivial `p`-divisible group.
+- The zero module, corresponding to the trivial `p`-divisible group.
 - For `p = 3`, `F = ℚ₃` and `G = ℚ₃/ℤ₃`, the level-one module `M_π(G(1))` is free of rank one
   over `S/3S`. It is a nonzero object of `Mod¹_tor` killed by `3`, so it is not finite free over the
   `3`-torsion-free ring `S` and is not an object of `Mod¹_0`; only the limit `M_π(G)` is.
@@ -7102,9 +7145,9 @@ descent of the filtered module.)
 
 **Checks.**
 
-- `descentDataLattice_trivial`: `F = F′`: Breuil's classification of lattices in crystalline
+- `F = F′`: Breuil's classification of lattices in crystalline
   representations with Hodge–Tate weights `{0, 1}` for `p ≠ 2`.
-- `descentDataLattice_rankOne`: rank one: the strongly divisible module of Proposition 5.1 gives the
+- Rank one: the strongly divisible module of Proposition 5.1 gives the
   lattice `O_E(ε ω̃^j λ_a)` (Savitt, §5).
 - For `F = F′ = ℚ_p`, `p > 2` and the strongly divisible module of `G = ℚ_p/ℤ_p`, the `Hom`
   groups are `H_n(M) ≅ ℤ/pⁿ`, with `j_n` identified with multiplication by `p` into `ℤ/p^{n+1}`.
@@ -7162,14 +7205,14 @@ The API:
 
 - The coefficient ring has divided `φ_{p−1}`, but `k = p` is outside the module
   classification and `T_st` freeness/base-change range `1 ≤ k ≤ p−1`.
-- `StronglyDivisibleRModule.zp_coefficients`: `R = ℤ_p, k = 2`: the category is `Mod^1_{cris,dd}`
+- `R = ℤ_p, k = 2`: the category is `Mod^1_{cris,dd}`
   (Example 4.2).
-- `StronglyDivisibleRModule.no_descent_qp`: `F = F′ = ℚ_p`: these are Breuil–Mézard strongly divisible
+- `F = F′ = ℚ_p`: these are Breuil–Mézard strongly divisible
   `R`-modules with `N(M) ⊆ J_N M` (Example 4.3).
-- `StronglyDivisibleRModule.semistable_excluded`: A Breuil–Mézard strongly divisible module with
+- A Breuil–Mézard strongly divisible module with
   `N(M) ⊄ J_N M` (semistable, not crystalline) is not an object.
-- `StronglyDivisibleRModule.tst_rank_one`: For the rank-one module of Proposition 5.1, `T_st,2(M) ≅ O_E(ε ω̃^j λ_a)` is free of rank one.
-- `StronglyDivisibleRModule.baseChange_unramified`: `R → O_{E′}` for a finite extension `E′/E`
+- For the rank-one module of Proposition 5.1, `T_st,2(M) ≅ O_E(ε ω̃^j λ_a)` is free of rank one.
+- `R → O_{E′}` for a finite extension `E′/E`
   preserves strong divisibility (Remark 4.8).
 
 ### R07.4.34 Breuil modules with descent data, and the maximal and minimal ones
@@ -7219,19 +7262,19 @@ The API:
 
 **Checks.**
 
-- `BreuilModuleModP.rank_one_maximal`: `M′ = (k_E[u]/u^{e₁p})e` with `Fil¹ = u^{e₁}M′, φ₁(u^{e₁}e) = a^{−1}e` is maximal (Remark 5.6).
-- `BreuilModuleModP.minimal_example`: `Fil¹M′ = M′` with bijective Frobenius linearisation,
+- `M′ = (k_E[u]/u^{e₁p})e` with `Fil¹ = u^{e₁}M′, φ₁(u^{e₁}e) = a^{−1}e` is maximal (Remark 5.6).
+- `Fil¹M′ = M′` with bijective Frobenius linearisation,
   for instance `φ₁(e) = e` in rank one, is a minimal Breuil module (Remark 4.15).
-- `BreuilModuleModP.not_generating`: `Fil¹M′ = u^e M′` with `φ₁ = 0` does not generate `M′` and is not a
+- `Fil¹M′ = u^e M′` with `φ₁ = 0` does not generate `M′` and is not a
   Breuil module.
-- `BreuilModuleModP.zero`: For `M′ = M″ = 0`, both maximal and minimal conditions hold;
+- For `M′ = M″ = 0`, both maximal and minimal conditions hold;
   the unique realisation identification is induced by the zero morphism. The nonzero
   corollary does not apply.
 - Take `p = 5`, `F = F′ = ℚ_5` and two separately named copies `M′ = (𝔽_5[u]/u⁵)e′`,
   `M″ = (𝔽_5[u]/u⁵)e″` with `Fil¹Mᵢ = uMᵢ` and `φ₁(ueᵢ) = eᵢ`. Choose realization bases
   `t′, t″` matched by the basis identification, and fix `α(t′) = 2t″`. The unique lift to the
   maximal `M′` is `f(e″) = 3e′`, and `T_st(f)(t″) = 3t′ = α.symm(t″)`; it cannot equal `α`.
-- `BreuilModuleModP.freeness`: Breuil modules arising as reductions of strongly divisible
+- Breuil modules arising as reductions of strongly divisible
   `O_E`-modules are free over `(k_F ⊗ k_E)[u]/u^{ep}`; general ones with an action of `R/I` need not be
   (Savitt, §4).
 - In `k[u]/u^{ep}, u^e e` is nonzero but `φ₁(u^e e) = u^{ep}φ₁(e) = 0`.
@@ -7256,9 +7299,9 @@ p. 26: rank-one Breuil modules.)
 
 **Checks.**
 
-- `characters_cyclotomic`: `j = 0, a = 1`: the Breuil module with `T = ω`, i.e. the mod-`p` cyclotomic
+- `j = 0, a = 1`: the Breuil module with `T = ω`, i.e. the mod-`p` cyclotomic
   character, is `M_E(F₁/ℚ_p, e₁, 1, 0)`.
-- `characters_level_two`: the characters of level `2` appear only over `F₂` and through `ω̃₂^m`.
+- The characters of level `2` appear only over `F₂` and through `ω̃₂^m`.
 
 ### R07.4.36 Kisin modules with coefficients
 
@@ -7293,13 +7336,13 @@ The API:
 
 **Checks.**
 
-- `KisinModuleCoeff.coeff_zp`: `A = ℤ_p: (𝔖, φ)` with its evident `A`-action is an object, and it is
+- `A = ℤ_p: (𝔖, φ)` with its evident `A`-action is an object, and it is
   multiplicative.
-- `KisinModuleCoeff.dual_etale_multiplicative`: The rank-one étale object `𝔖_A e` with `φ(e) = E(u)e`
+- The rank-one étale object `𝔖_A e` with `φ(e) = E(u)e`
   has dual the rank-one multiplicative object.
-- `KisinModuleCoeff.not_projective`: `A = ℤ/p², 𝔐 = 𝔖/p` with its `A`-action is not in `(Mod FI/𝔖)_{ℤ/p²}`: it is not projective over `𝔖 ⊗ ℤ/p²`.
-- `KisinModuleCoeff.zero`: The zero module, étale and multiplicative at once.
-- `KisinModuleCoeff.coeff_zp_bt`: `A = ℤ_p: (Mod FI/𝔖)_{ℤ_p}` is `BT^φ_{/𝔖}`, finite free `𝔖`-modules of
+- `A = ℤ/p², 𝔐 = 𝔖/p` with its `A`-action is not in `(Mod FI/𝔖)_{ℤ/p²}`: it is not projective over `𝔖 ⊗ ℤ/p²`.
+- The zero module, étale and multiplicative at once.
+- `A = ℤ_p: (Mod FI/𝔖)_{ℤ_p}` is `BT^φ_{/𝔖}`, finite free `𝔖`-modules of
   `E`-height `≤ 1` (compare §R07.4.2).
 
 ### R07.4.37 Multiplicative and étale finite flat groups in terms of `(Mod/𝔖)`
@@ -7332,9 +7375,9 @@ multiplicative subobject and étale quotient.)
 
 **Checks.**
 
-- `dictionary_multiplicative`: `𝔐 = 𝔖/p` with `φ = φ_𝔖: 1 ⊗ φ` is an isomorphism, so `Gr^D(𝓜)` is
+- `𝔐 = 𝔖/p` with `φ = φ_𝔖: 1 ⊗ φ` is an isomorphism, so `Gr^D(𝓜)` is
   multiplicative of order `p`.
-- `dictionary_etale`: `𝔐 = 𝔖/p·e` with `φ(e) = E(u)e`: the image of `1 ⊗ φ` is `E(u)𝔐`, so `Gr^D(𝓜)` is étale
+- `𝔐 = 𝔖/p·e` with `φ(e) = E(u)e`: the image of `1 ⊗ φ` is `E(u)𝔐`, so `Gr^D(𝓜)` is étale
   of order `p`.
 
 ### R07.4.38 Breuil modules with coefficients and the functor from Kisin modules
@@ -7356,9 +7399,9 @@ if `𝓜` is free of rank `d` over `S_A, W ⊗_𝔖 𝔐 ≅ W ⊗_S 𝓜` is fr
 
 **Checks.**
 
-- `breuilCoeff_Fp`: `A = 𝔽_p`: the equivalence of objects killed by `p` of (1.1.11), with trivial
+- `A = 𝔽_p`: the equivalence of objects killed by `p` of (1.1.11), with trivial
   coefficients.
-- `breuilCoeff_Zp2`: for `A=ℤ/p²`, full faithfulness holds. There is also an
+- For `A=ℤ/p²`, full faithfulness holds. There is also an
   equivalence on these coefficient subcategories: Caruso–Liu, Theorem 2.3.1 and
   Proposition 2.3.2, pp.9–10, give an exact torsion inverse for `r=1<p−1`.
   Applying it to multiplication by `p` gives `ker(p)=p𝔐`, and lifting a mod-`p` basis
@@ -7385,9 +7428,9 @@ and the Frobenius argument of (1.2.2)`(4)` makes it free; ranks agree by Fontain
 
 **Checks.**
 
-- `etaleCoeff_cyclic`: `A = ℤ/pⁿ`: finite free `ℤ/pⁿ`-representations of `G_{K∞}` correspond to étale
+- `A = ℤ/pⁿ`: finite free `ℤ/pⁿ`-representations of `G_{K∞}` correspond to étale
   `φ`-modules free over `𝒪_ℰ/pⁿ`.
-- `etaleCoeff_needs_flat`: the rank statement fails without flatness: a representation that is not
+- The rank statement fails without flatness: a representation that is not
   `A`-flat gives an `M` that is not free over `𝒪_ℰ ⊗ A`.
 
 ### R07.4.40 Crystalline representations with coefficients and weakly admissible modules
@@ -7413,8 +7456,8 @@ in (1.2.7), since `D_cris` and `V_cris` commute with `⊗_A N` (1.3.5). (Kisin 2
 
 **Checks.**
 
-- `crystallineCoeff_Qp`: `A = ℚ_p`: Colmez–Fontaine's equivalence for crystalline representations.
-- `crystallineCoeff_E`: `A = E` a finite extension of `ℚ_p: E`-linear crystalline representations
+- `A = ℚ_p`: Colmez–Fontaine's equivalence for crystalline representations.
+- `A = E` a finite extension of `ℚ_p: E`-linear crystalline representations
   correspond to weakly admissible modules free over `E ⊗_{ℚ_p} K₀` with `E`-projective graded pieces.
 
 ### Examples
@@ -7475,9 +7518,9 @@ the proposition; Serre 1972, §1.9, Corollaire `3`, p. 270: Corollary 3.)
 
 **Checks.**
 
-- `formalGroupTorsion_height_one`: `h = 1` (the multiplicative formal group `X + Y + XY`): `V = μ_p` and
+- `h = 1` (the multiplicative formal group `X + Y + XY`): `V = μ_p` and
   `I_t` acts by `θ_{p−1}`, recovering §R07.1.26 for `e = 1`.
-- `formalGroupTorsion_height_two`: `h = 2`: the image of `I` is the non-split Cartan subgroup `F_{p²}^*`,
+- `h = 2`: the image of `I` is the non-split Cartan subgroup `F_{p²}^*`,
   of order `p² − 1`.
 - At height `1`, full inertia acts through `θ_{p−1}`, while wild inertia `P_K`
   acts trivially; when `p > 2` these are distinct actions.
@@ -7509,9 +7552,9 @@ abelian varieties).
 
 **Checks.**
 
-- `ordinaryTorsion_det`: the determinant of `E_p` on `I` is `θ_{p−1}^e`, consistent with `det = χ̄` from the
+- The determinant of `E_p` on `I` is `θ_{p−1}^e`, consistent with `det = χ̄` from the
   Weil pairing.
-- `ordinaryTorsion_canonical_lift`: for the canonical lift of an ordinary curve over `F̄_p` the
+- For the canonical lift of an ordinary curve over `F̄_p` the
   sequence splits and case `(b)` holds; Serre gives no simple general criterion between `(b)` and `(c)`
   (Serre 1972, p. 274, Remarque).
 - For good ordinary reduction and `p > 2`, wild inertia acts trivially on
@@ -7542,10 +7585,10 @@ abelian varieties).
 
 **Checks.**
 
-- `supersingularTorsion_tame`: the image of `I` has order `p² − 1`, prime to `p`, so `ρ̄|_I` is tame.
-- `supersingularTorsion_irreducible`: `E_p` is irreducible as an `I`-module: a stable line would
+- The image of `I` has order `p² − 1`, prime to `p`, so `ρ̄|_I` is tame.
+- `E_p` is irreducible as an `I`-module: a stable line would
   carry a character of level one, while `θ_{p²−1}` has level two.
-- `supersingularTorsion_ramified`: the hypothesis `e = 1` is used; for `e > 1` the characters are
+- The hypothesis `e = 1` is used; for `e > 1` the characters are
   other powers of fundamental characters, read off from the Newton polygon of `[p]` (Serre 1972,
   §1.10 and the Remarque on p. 275), and this target does not cover them.
 
@@ -7574,8 +7617,8 @@ Proposition 13, pp. 276–277: Proposition 13; Serre 1972, §1.12, p. 277: the c
 
 **Checks.**
 
-- `multiplicativeTorsion_tres`: the Tate curve over `ℚ_p` with `v(q) = 1` and `p` odd: `v(j) = −1 ≢ 0 mod p`, so case `(c)` holds and `E_p` is très ramifiée in the sense of §R07.5.5.
-- `multiplicativeTorsion_peu`: if `p | v(q)`, then `q = p^{v(q)}u` with `u ∈ ℤ_p^*` has the Kummer class
+- The Tate curve over `ℚ_p` with `v(q) = 1` and `p` odd: `v(j) = −1 ≢ 0 mod p`, so case `(c)` holds and `E_p` is très ramifiée in the sense of §R07.5.5.
+- If `p | v(q)`, then `q = p^{v(q)}u` with `u ∈ ℤ_p^*` has the Kummer class
   of the unit `u`, so `E_p` has trivial wild inertia or is peu ramifiée (the level-lowering case).
 - For the Tate curve over `ℚ_p` with `v(q) = 1`, wild inertia acts nontrivially
   on the extension while the full-inertia semisimplification is `1 ⊕ θ_{p−1}`.
@@ -7679,13 +7722,13 @@ The API:
   outside the domain of `IsPeuRamifiee`: the total unit-Kummer subspace and Serre's restricted
   predicate differ exactly on wild-trivial classes. Over `ℚ₂` the unit class of `5` gives the
   unramified quadratic extension, nonsplit and in `peuRamifieH1`, yet not `IsPeuRamifiee`.
-- `isPeuRamifiee_sqrt_neg_one`: `p = 2, K = ℚ₂(√−1)`: the class of `−1` is a unit class, so `(1 u; 0 1)`
+- `p = 2, K = ℚ₂(√−1)`: the class of `−1` is a unit class, so `(1 u; 0 1)`
   is peu ramifiée.
-- `isTresRamifiee_sqrt_two`: `p = 2, K = ℚ₂(√2): v₂(2) = 1` is odd, so `(1 u; 0 1)` is très ramifiée.
-- `not_extension_sensitive`: `β ≠ α + 1`, e.g. `ρ|_I = (χ̄² *; 0 1)` nonsplit with `p ≥ 5`: the peu/très
+- `p = 2, K = ℚ₂(√2): v₂(2) = 1` is odd, so `(1 u; 0 1)` is très ramifiée.
+- `β ≠ α + 1`, e.g. `ρ|_I = (χ̄² *; 0 1)` nonsplit with `p ≥ 5`: the peu/très
   distinction is not defined.
-- `tate_curve_tres`: The `p`-torsion of the Tate curve `E(q)` over `ℚ_p` with `v(q) = 1` is très ramifiée.
-- `tresRamifiee_characters`: très ramifiée is possible only if `ε₁ = ε₂`, and then `m = 1` or `2` (Serre
+- The `p`-torsion of the Tate curve `E(q)` over `ℚ_p` with `v(q) = 1` is très ramifiée.
+- très ramifiée is possible only if `ε₁ = ε₂`, and then `m = 1` or `2` (Serre
   1987, §2.4, Remarque 1).
 
 ### R07.5.6 Finite flat extensions of `ℤ/p` and `μ_p` over `ℤ_p^nr`
@@ -7720,9 +7763,9 @@ class; Serre 1987, §2.8, proof of Proposition 4, p. 190: part `(a)`.)
 
 **Checks.**
 
-- `finiteFlatKummer_unit`: the extension of `ℤ/p` by `μ_p` attached to `u = 1 + p ∈ ℤ_p^*` is finite flat
+- The extension of `ℤ/p` by `μ_p` attached to `u = 1 + p ∈ ℤ_p^*` is finite flat
   over `ℤ_p`; the one attached to `p` is not.
-- `finiteFlatKummer_local`: `(a)` uses that `R` is henselian local: there the connected component `J⁰` is
+- `(a)` uses that `R` is henselian local: there the connected component `J⁰` is
   an open and closed subgroup. Over a non-local base such as `ℤ` there is no connected–étale
   decomposition to split along (`ℤ/p` and `μ_p` are both étale over `ℤ[1/p]`), and `Ext¹` must instead be
   computed by gluing (§R07.1.39).
@@ -7817,11 +7860,11 @@ proof of Proposition 4, p. 190: the 'if' direction and its two cases.)
 - The unramified `𝔽_{p²}` scalar twist of the unit-Kummer extension in §R07.5.6a
   satisfies case `(ii)`, with no two-dimensional `𝔽_p`-model. The criterion applies to it
   using end objects of order `p²`.
-- `finiteFlatCriterion_elliptic`: `E[p]` for `E/ℚ_p` with good reduction and `p` odd: finite
+- `E[p]` for `E/ℚ_p` with good reduction and `p` odd: finite
   (abelian-scheme torsion), `det = χ̄`, and ordinary (type `ii`) or supersingular (type `i`).
-- `finiteFlatCriterion_tres`: `(χ̄ *; 0 1)` très ramifiée, e.g. the Tate curve with `v(q) = 1`, is not
+- `(χ̄ *; 0 1)` très ramifiée, e.g. the Tate curve with `v(q) = 1`, is not
   finite; Serre's weight is then `p + 1`.
-- `finiteFlatCriterion_level_two_exponent`: a representation on which `I_t` acts through `ψ² ⊕ ψ^{2p}` (`ψ` of level two) is not finite at `p`: for `e = 1` Raynaud's exponents lie in `{0, 1}`
+- A representation on which `I_t` acts through `ψ² ⊕ ψ^{2p}` (`ψ` of level two) is not finite at `p`: for `e = 1` Raynaud's exponents lie in `{0, 1}`
   (§R07.1.32), and `ψ²` is not of the form `ψ^{a + pb}` with `a, b ∈ {0, 1}`; a criterion that
   allowed every level-two character would accept it.
 
@@ -7845,9 +7888,9 @@ unit class gives a finite flat model. The discriminant of `ℚ₂(√d)` is `(4)
 
 **Checks.**
 
-- `dyadicDichotomy_examples`: `ℚ₂(√−1)`: finite (peu ramifiée), weight `2`; `ℚ₂(√2)`: not finite (très
+- `ℚ₂(√−1)`: finite (peu ramifiée), weight `2`; `ℚ₂(√2)`: not finite (très
   ramifiée), weight `4` (Serre 1987, §2.6).
-- `dyadicDichotomy_global`: Serre 1987, §4.5, Remarque `(2)`: the `2`-torsion of `y² + xy + y = x³ − x² − x − 14` (conductor `17`, discriminant `−17⁴`) is a nonsplit extension of `ℤ/2` by `μ₂` that is finite flat
+- Serre 1987, §4.5, Remarque `(2)`: the `2`-torsion of `y² + xy + y = x³ − x² − x − 14` (conductor `17`, discriminant `−17⁴`) is a nonsplit extension of `ℤ/2` by `μ₂` that is finite flat
   over `ℤ`, with `u` cutting out `ℚ(i)`; at `2` this is `ℚ₂(√−1)`, of discriminant `(4)`, peu ramifiée as the
   dichotomy requires.
 
@@ -7893,9 +7936,9 @@ newforms of level `Γ₁(pN)`.)
 
 **Checks.**
 
-- `savittReduction_newforms`: the weight-two newform case (Savitt, Proposition 6.18): for `f ∈ S₂(Γ₁(pN), χ_p^jχ_N)` with `j ∈ {1, …, p − 2}`, the reduction of `ρ_{f,p}` is ordinary (case `(1)` or
+- The weight-two newform case (Savitt, Proposition 6.18): for `f ∈ S₂(Γ₁(pN), χ_p^jχ_N)` with `j ∈ {1, …, p − 2}`, the reduction of `ρ_{f,p}` is ordinary (case `(1)` or
   `(2)`) when `f` has slope `0` or `1` and is `ω₂^{1+j} ⊕ ω₂^{p(1+j)}` on `I` when the slope lies in `(0, 1)`.
-- `savittReduction_excluded`: in the excluded case of Lemma 6.8 `(v_p(x₁) = 0, j = 1, x₁² ≡ w)` the
+- In the excluded case of Lemma 6.8 `(v_p(x₁) = 0, j = 1, x₁² ≡ w)` the
   two characters `λ_{x₁^{−1}}ε` and `ω̃λ_{x₁w^{−1}}` have the same reduction, so `ρ̄` has nontrivial
   centraliser and the theorem makes no claim.
 - In the level-two case, restriction to wild inertia `P_{ℚ_p}` is `1 ⊕ 1`. The
@@ -7951,10 +7994,10 @@ proof of Proposition 3.7, p. 143: the reducible tame supercuspidal case in the f
 
 **Checks.**
 
-- `savittResidual_p3`: `p = 3`, type `1 ⊕ ω̃ (i = 0, j = 1): k = 1 + 1 + 0 = 2`, so the irreducible
+- `p = 3`, type `1 ⊕ ω̃ (i = 0, j = 1): k = 1 + 1 + 0 = 2`, so the irreducible
   residual form is `ω₂² ⊕ ω₂^{6} = ω₂² ⊕ ω₂^{−2}` (`ω₂` has order `8`), and the reducible forms are
   extensions of `ω` by `ω` and of `1` by `ω²`.
-- `savittResidual_peu`: for the scalar case `i = j` in Gee's form: a très ramifiée extension of `1` by `ω`
+- For the scalar case `i = j` in Gee's form: a très ramifiée extension of `1` by `ω`
   has no potentially Barsotti–Tate lift of type `1 ⊕ 1`, because a lift of that type is crystalline
   with weights `{0, 1}`, hence comes from a `p`-divisible group, and its reduction would be finite flat
   (§R07.5.7); dropping the 'peu ramifiée' clause gives a false statement.
@@ -8008,13 +8051,13 @@ show that residual representations determine Hodge–Tate weights in small range
 
 **Checks.**
 
-- `flResidual_supersingular`: `k = 2, V` irreducible: `T̄|_I = ω₂ ⊕ ω₂^p`, the supersingular elliptic
+- `k = 2, V` irreducible: `T̄|_I = ω₂ ⊕ ω₂^p`, the supersingular elliptic
   curve case (§R07.5.3).
 - In the induced basis `Φ` has determinant `−θ_{k−1}(Φ²) = 1` before the twist,
   hence `µ^{−1}` after it; on inertia the determinant is
   `ω₂^{(p+1)(k−1)} = ω^{k−1}`. Setting `θ_{k−1}(Φ²) = 1` instead would
   give `−µ^{−1}` at `Φ`, a different determinant since `1 < k < p` implies `p` is odd.
-- `flResidual_endpoint`: at the endpoint weight `k − 1 = p − 1` the characters `ω^0` and `ω^{p−1}`
+- At the endpoint weight `k − 1 = p − 1` the characters `ω^0` and `ω^{p−1}`
   coincide, so the reduction no longer determines the weights; the length `< p − 1` hypothesis is
   needed.
 - For `ℚ_p` and `p` odd, `ℤ_p` and `ℤ_p(p − 1)` have isomorphic mod-`p` reductions,
@@ -8047,10 +8090,10 @@ the remark that the coefficients must be `ℤ_l`.)
 
 **Checks.**
 
-- `crystalline01Types_elliptic`: the dual `l`-adic Tate module of an elliptic curve over `ℚ_l` with good
+- The dual `l`-adic Tate module of an elliptic curve over `ℚ_l` with good
   ordinary reduction falls in the first case, with good supersingular reduction in the second
   (compare §R07.5.2 and §R07.5.3).
-- `crystalline01Types_coefficients`: with `O_E`-coefficients, `E ⊋ ℚ_l`, a rank-two crystalline
+- With `O_E`-coefficients, `E ⊋ ℚ_l`, a rank-two crystalline
   `O_E`-lattice with labelled weights `{0,1}` at one embedding and `{0,0}` or `{1,1}` at others can have
   other residual inertial types, which is why the lemma insists on `ℤ_l`.
 - For `l = 5, det E[5] = ε̄₅` and `det E[5]^∨ = ε̄₅⁻¹`; the displayed
@@ -8105,11 +8148,11 @@ The API:
 
 **Checks.**
 
-- `peuRamifieH1_Ql_finrank`: For `L = ℚ_l, l` odd, `χ̄ = 1: dim H¹ = 2` and `dim H¹_f = 1`.
-- `peuRamifieH1_nontrivial`: For `χ̄` nontrivial unramified, `H¹_f = H¹`.
-- `peuRamifieH1_uniformiser`: The Kummer class of a uniformiser of `L` is not in `H¹_f(G_L, F_l(ε̄))`: a
+- For `L = ℚ_l, l` odd, `χ̄ = 1: dim H¹ = 2` and `dim H¹_f = 1`.
+- For `χ̄` nontrivial unramified, `H¹_f = H¹`.
+- The Kummer class of a uniformiser of `L` is not in `H¹_f(G_L, F_l(ε̄))`: a
   definition using all of `H¹` fails this.
-- `peuRamifieH1_unit`: The Kummer class of a unit of `O_L` lies in `H¹_f(G_L, F_l(ε̄))`.
+- The Kummer class of a unit of `O_L` lies in `H¹_f(G_L, F_l(ε̄))`.
   For `L = ℚ₃`, the unit `4` gives a nonzero example: a `3`-adic unit cube is `±1` modulo `9`,
   whereas `4` is neither. Its wild action is nontrivial and it satisfies Serre's predicate.
 - The zero class lies in `H¹_f` and gives `ρ₀ = 1 ⊕ ε̄_l`, with trivial wild inertia
@@ -8143,9 +8186,9 @@ Layer 5 (local Tate duality).
 
 **Checks.**
 
-- `peuRamifieLifting_trivial`: `χ = 1, L = ℚ_l`: the map `ℤ_l^× ^ `(`l`-adic completion) `→ ℤ_l^×/(ℤ_l^×)^l`
+- `χ = 1, L = ℚ_l`: the map `ℤ_l^× ^ `(`l`-adic completion) `→ ℤ_l^×/(ℤ_l^×)^l`
   is visibly onto.
-- `peuRamifieLifting_full_H1`: on the full `H¹` with `χ = 1` the map is still onto `H¹(G_L, F_l(ε))`
+- On the full `H¹` with `χ = 1` the map is still onto `H¹(G_L, F_l(ε))`
   (Kummer theory), but onto `H¹_f` is the content needed for ordinary points; with `χ ≠ 1 = χ̄` the full
   `H¹(G_L, F_l(ε))` is not in the image.
 
@@ -8207,16 +8250,16 @@ TauCetiRoadmap.SmoothRepresentationsOfLocalGroups Layer SR.2 (compact induction)
 
 **Checks.**
 
-- `sym_dim`: `dim Sym^r F̄_p² = r + 1`; there are `p(p − 1)` Serre weights of `GL₂(ℚ_p)` up to the action
+- `dim Sym^r F̄_p² = r + 1`; there are `p(p − 1)` Serre weights of `GL₂(ℚ_p)` up to the action
   of `ϖ`. The labels are pairs `(r,s)` with `0 ≤ r ≤ p−1` and `s` modulo `p−1`.
   Homogeneous polynomials of degree `r` in two variables over `F_p` have dimension
   `r+1`. At `p=2` there are two labels (the determinant label is unique);
   at `p=3` there are six (three symmetric powers and two determinant twists).
-- `trivial_length_two`: For `σ` trivial and `λ = 1, I(σ)/(T − 1)` has length `2` (trivial character and
+- For `σ` trivial and `λ = 1, I(σ)/(T − 1)` has length `2` (trivial character and
   Steinberg).
-- `not_finite_dim`: `I(σ)` is infinite-dimensional, and so is `I(σ)/(T)`: a definition with ordinary
+- `I(σ)` is infinite-dimensional, and so is `I(σ)/(T)`: a definition with ordinary
   induction from `KZ` (not compact support) gives a different, non-admissible module.
-- `compactInduction_frobenius`: `Hom_G(I(σ), π) ≅ Hom_{KZ}(σ, π|_{KZ})` for every smooth `π`.
+- `Hom_G(I(σ), π) ≅ Hom_{KZ}(σ, π|_{KZ})` for every smooth `π`.
 - For `p = 5`, twisting the trivial-weight `λ = 1` length-two quotient by an
   unramified `χ` with `χ(5) = 2` gives central scalar `4` and Hecke eigenvalue `2` when
   the twist is absorbed into `σ`. The exceptional `±1` list uses the central scalar `1` normalization.
@@ -8288,79 +8331,12 @@ abelian scheme.)
 
 - For a positive-dimensional elliptic scheme, `A[0] = A` is not finite; the supplier
   applies to `n ≠ 0`, including `n = −1`, whose torsion has rank one.
-- `abelianTorsion_11a1`: `E =` 11a1 at `p = 3: E[3]` is the generic fibre of a finite flat `ℤ₃`-group
+- `E =` 11a1 at `p = 3: E[3]` is the generic fibre of a finite flat `ℤ₃`-group
   scheme of order `9`.
-- `abelianTorsion_bad_reduction`: at a prime of bad reduction the statement is false in general: for
+- At a prime of bad reduction the statement is false in general: for
   the Tate curve with `v(q) = 1` and `p` odd, `E[p]` is très ramifiée and not finite (§R07.5.7).
-- `abelianTorsion_rank`: `A[n]` has rank `n^{2g}`, not `n^g`: for an elliptic curve, `E[2]` has rank
+- `A[n]` has rank `n^{2g}`, not `n^g`: for an elliptic curve, `E[2]` has rank
   `4`, with three nonzero points of order `2` over `K̄` when `2` is invertible.
-
-### R07.6.1a Herbrand theory over complete DVRs with perfect residue field
-
-Prove `perfectResidueHerbrand`.
-Let `K` be complete discretely valued with arbitrary perfect residue field of characteristic
-`p>0`, and `L/K` finite Galois. The following package, in both equal and mixed
-characteristic, is a target of this roadmap. LocalFieldsRamification Layers 3–4 supply it
-only for nonarchimedean local fields: their filtration carriers assume
-`IsNonarchimedeanLocalField`, hence local compactness and a finite residue field.
-
-Use the existing congruence carrier `Ideal.ramificationGroup` for the maximal ideal of `O_L`
-and its real-indexed ceiling extension `TauCeti.IsLocalRing.ramificationGroupReal`.
-Use Serre's normalization
-`φ(s)=∫₀ˢ [G₀:G_t]⁻¹ dt` for `s≥0`, extended by `φ(s)=s` on `[-1,0]`, and its inverse `ψ`.
-Prove strict monotonicity, continuity, the inverse identities, subgroup
-compatibility of lower numbering, tower compatibility of the Herbrand functions and quotient
-compatibility of upper numbering for every normal subgroup, and the different formula
-`v_L(𝒟_{L/K})=Σ_{j≥0} (|G_j|−1)`, with `v_L` normalized to have value group `ℤ`.
-Full Hasse–Arf asserts that every upper jump of a finite abelian extension is integral,
-without a residue-finiteness hypothesis. The absolute upper filtration is the inverse limit
-of the finite upper filtrations, with surjective finite projections, `G_K^0=I_K`,
-`G_K^{0+}=P_K` and trivial intersection. For every finite separable `L/K` it satisfies
-`G_K^u ∩ G_L = G_L^{ψ_{L/K}(u)}` for `u≥−1`. For such `L/K`, use
-`φ_{L/K}=φ_{M/K} ∘ ψ_{M/L}` for a finite Galois closure `M/K`, independently of the closure.
-The package includes invariance of inertia, nonnegative upper ramification and the normalized
-different `v_K(𝒟_{L/K})=v_L(𝒟_{L/K})/e_{L/K}` after completed maximal unramified base change,
-with the finite extension there obtained by compositum. This supplies the algebraically
-closed residue reduction used in §R07.6.5.
-
-Prove that all groups, functions and different ideals agree with LocalFieldsRamification's
-finite-local-field API on the common domain. Use
-`TauCeti.IsLocalRing.lowerIndex` for the local-ring index, without assuming local compactness.
-(Serre, *Local Fields*, IV §§1–3, especially Propositions 4 and 14, and V §7, Theorem 1;
-Fontaine 1985, §§1.1–1.3, pp.517–518 and §2.1, p.525;
-Brinon–Conrad 2009, Exercise 1.4.4(3), p.10 and §13.1, pp.200–201.)
-
-*Construction.* Serre's arguments in IV §§1–3 use only the complete discrete valuation and
-the separability of the residue extension, so they run on the local-ring carriers below
-without local compactness. Completed maximal unramified base change preserves the inertia
-group with its lower filtration and the normalized different; Hasse–Arf and the absolute
-statements are then proved over an algebraically closed residue field and descended.
-
-*Needs:* LocalFieldsRamification Layers 3–4 (the finite-residue ramification package, used
-for the agreement statement); Mathlib `differentIdeal`;
-Tau Ceti `Ideal.ramificationGroup` (`RingTheory/Ideal/RamificationGroup.lean`) and
-`TauCeti.IsLocalRing.lowerIndex` (`RingTheory/LocalRing/RamificationGroup.lean`).
-
-**Checks.**
-
-- `K=Frac W(𝔽̄_p)` is permitted despite its infinite residue field. For odd `p`,
-  `K(ζ_p)/K` is tame of degree `p−1`, with `G₀=G`, `G₁=1` and different exponent `p−2`;
-  its only upper jump is `0`. For `p=3` this is `e=2` with different exponent `1`. The residue
-  field is already algebraically closed, so completed maximal unramified base change leaves
-  this extension and all these invariants unchanged.
-- On finite extensions of `ℚ_p`, the groups and `φ,ψ` are the supplied LocalFieldsRamification
-  objects, including the tame slope `1/e` after the last lower break.
-- A finite unramified extension has `G₀=1` and unit different; after completed maximal
-  unramified base change its compositum extension is trivial and has the same upper inertia.
-- Completed maximal unramified base change of `ℚ₃(ζ₉)/ℚ₃` retains its ramification index,
-  lower breaks, upper breaks and normalized different.
-- For any perfect `k` of characteristic `p`, the Artin–Schreier extension of `k((t))`
-  given by `y^p−y=t⁻¹` has degree `p`, lower and upper break `1`, and different exponent
-  `2(p−1)`. The element `y⁻¹` is a uniformizer, and each nonidentity automorphism changes
-  it by an element of valuation `2`; its integral upper break is a Hasse–Arf check.
-- For a finite unramified `L/K`, `ψ_{L/K}(u)=u`, so the open-subgroup identity is
-  `G_K^u ∩ G_L=G_L^u`. For a totally tamely ramified extension of degree `e`, it is
-  `G_K^u ∩ G_L=G_L^{eu}` for `u≥0`; keeping the same upper index would miss this rescaling.
 
 ### R07.6.2 Fontaine's normalisation of the ramification filtration
 
@@ -8374,9 +8350,11 @@ for all `ε > 0`. The different satisfies `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}
 normalised by `v_K(K^*) = ℤ` and extended to `K̄`; for `L/K` finite Galois with group `G, e_{L/K}` is its
 ramification index and `a^m_{L/K} = {x ∈ O_L : v_K(x) ≥ m}` (Fontaine 1985, §1). Serre's lower and
 upper numbering, Herbrand's functions, compatibility with quotients (Local Fields IV, Prop. `14`) and
-`v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality by
-§R07.6.1a in both characteristics, extending LocalFieldsRamification Layers 3–4. This
-target adds Fontaine's shifted normalisation and the invariants `u_{L/K}, i_{L/K}`.
+`v(𝒟) = Σ i_G(g)` (Local Fields IV, Prop. `4`) are supplied in this generality, in both
+characteristics, by PadicPeriodRings §0.3, which extends LocalFieldsRamification Layers 3–4
+from finite to arbitrary perfect residue fields; its absolute upper filtration of `G_K` is the
+one shifted here. This target adds Fontaine's shifted normalisation and the invariants
+`u_{L/K}, i_{L/K}`.
 
 *Construction.* Fontaine's `i_{L/K}(g)` is Serre's `i_G(g)` divided by `e_{L/K}` (`v_K` rather than `v_L`),
 which gives `G_j = G_((j+1)/e_{L/K})`; Herbrand's `φ` is rescaled the same way, giving `G^v = G^(v+1)`
@@ -8393,17 +8371,17 @@ The API:
 - `fontaineUpper_eq_serreUpper`: `G^(u) = G^{u−1}` in Serre's upper numbering.
 - `valuation_different_eq`: `v_K(𝒟_{L/K}) = u_{L/K} − i_{L/K}`.
 
-*Needs:* Mathlib `differentIdeal`; §R07.6.1a
-(Serre numbering, Herbrand functions, quotient compatibility, different and absolute upper
-filtration over perfect residue fields).
+*Needs:* Mathlib `differentIdeal`; PadicPeriodRings §0.3
+(Serre's lower and upper numbering, Herbrand functions, Herbrand's quotient theorem, the
+different formula and the absolute upper filtration over arbitrary perfect residue fields).
 
 **Checks.**
 
-- `cyclotomic_upper_break`: for `n ≥ 1` and `(p,n) ≠ (2,1), u_{ℚ_p(ζ_{p^n})/ℚ_p} = n` and `v_p(𝒟) = n − 1/(p − 1)`. At `(p,n) = (2,1)`
+- For `n ≥ 1` and `(p,n) ≠ (2,1), u_{ℚ_p(ζ_{p^n})/ℚ_p} = n` and `v_p(𝒟) = n − 1/(p − 1)`. At `(p,n) = (2,1)`
   the extension is the identity, its upper break is `0` and its different is the unit ideal.
-- `tame_upper_break`: A nontrivial tamely and totally ramified extension has `u_{L/K} = 1`.
-- `unramified`: `L/K` unramified: `i_{L/K}(g) = 0` for `g ≠ 1, u_{L/K} = 0` and `𝒟_{L/K} = O_L`.
-- `shift_non_example`: For `p` odd and `ℚ_p(ζ_p)/ℚ_p`, Serre's `G^v` is trivial for `v > 0` while Fontaine's
+- A nontrivial tamely and totally ramified extension has `u_{L/K} = 1`.
+- `L/K` unramified: `i_{L/K}(g) = 0` for `g ≠ 1, u_{L/K} = 0` and `𝒟_{L/K} = O_L`.
+- For `p` odd and `ℚ_p(ζ_p)/ℚ_p`, Serre's `G^v` is trivial for `v > 0` while Fontaine's
   `G^(u)` is
   all of `G` for `u ≤ 1`: the numberings differ by one.
 
@@ -8435,10 +8413,10 @@ put `d=|G_(i_{L/K})|`. Immediately below the last lower break, `φ` has slope `d
 - For `L=ℚ₃(ζ₉)`, `K=ℚ₃`, the values are `e=6`, `i_{L/K}=1/2`,
   `u_{L/K}=2`, `d=3` and boundary `m=11/6`. Thus `eψ(m)=8/3`; substituting
   the upper break for the lower break would give the incorrect `35/3`.
-- `krasnerCriterion_trivial`: `L = K: (P_m)` holds for every `m ≥ 0`, and `u_{L/K} = 0`.
-- `krasnerCriterion_tame_boundary`: for `K = ℚ₃` and `L = K(ζ₃), e_{L/K} = 2`
+- `L = K: (P_m)` holds for every `m ≥ 0`, and `u_{L/K} = 0`.
+- For `K = ℚ₃` and `L = K(ζ₃), e_{L/K} = 2`
   and `u_{L/K} = 1`, so `(P_{1/2})` fails; for `L = K, (P₀)` holds.
-- `krasnerCriterion_tame`: nontrivial tame totally ramified `L/K` of degree `m′ > 1`
+- Nontrivial tame totally ramified `L/K` of degree `m′ > 1`
   (so `e_{L/K} = m′`): `(P_m)` holds for `m > 1` and fails for `m = 1 − 1/m′` (the tame case of the proof of `(ii)`).
 
 ### R07.6.4 Lifting through topologically nilpotent divided powers and the bound on `u_{L/K}`
@@ -8482,12 +8460,12 @@ Proposition 1.7; Fontaine 1985, §1.8, Corollaire, p. 524: Corollary 1.8.)
 
 **Checks.**
 
-- `lciLifting_unit`: `a` a unit: `Ω¹_{B/O_K} = 0, B` is étale, `L/K` is unramified and `u_{L/K} = 0`;
+- `a` a unit: `Ω¹_{B/O_K} = 0, B` is étale, `L/K` is unramified and `u_{L/K} = 0`;
   in particular `B = O_K, a = 1` gives `L = K` and `u_{L/K} = 0`.
-- `lciLifting_muP`: `B = O_K[X]/(X^p − 1)` (the group `μ_p`) with `a = p: L = K(ζ_p)`, and `u_{L/K} ≤ e + e/(p − 1)`; for `K = ℚ_p` and `p` odd, `u = 1 ≤ 1 + 1/(p − 1)`;
+- `B = O_K[X]/(X^p − 1)` (the group `μ_p`) with `a = p: L = K(ζ_p)`, and `u_{L/K} ≤ e + e/(p − 1)`; for `K = ℚ_p` and `p` odd, `u = 1 ≤ 1 + 1/(p − 1)`;
   for `p = 2, L = K` and `u = 0`.
   Its Jacobian is `J = pX^{p−1}`, so `U = X^{p−1}` is a unit, whereas `J` is not.
-- `lciLifting_reduction_boundary`: `p = 3, B = ℤ₃[X]/(X³−1), a = 3, S = ℤ₃` and
+- `p = 3, B = ℤ₃[X]/(X³−1), a = 3, S = ℤ₃` and
   `I = 3ℤ₃`. The map `X ↦ 4 mod 9` is an approximate point; its reduction modulo `I`
   lifts uniquely to `X ↦ 1` in `ℤ₃`, which is not `X ↦ 4` modulo `aI = 9ℤ₃`.
 - For `K = L = ℚ₃` and `m = 1/4, a^m = 3ℤ₃` has least valuation `c = 1 > 1/2`.
@@ -8516,9 +8494,10 @@ locaux*, Astérisque `47`–`48, n`° 4.3), which is part of this target. For `e
 SmallRamificationAndAbelianVarietyBaseCases uses, the embedding is not needed (Fontaine 1985,
 2.2(a)).
 
-*Proof sketch.* Reduce to `k` algebraically closed using §R07.6.1a's
-completed maximal unramified comparison, preserving inertia, nonnegative upper numbering and
-the normalized different (Fontaine 1985, 2.1). `(a) ω_J` free over `O_K/pⁿ: J_k`
+*Proof sketch.* Reduce to `k` algebraically closed using PadicPeriodRings §0.3's
+completed maximal unramified comparison, which identifies inertia with the absolute Galois group
+of `K̂^un` and preserves its lower and nonnegative upper filtrations and the normalized
+different (Fontaine 1985, 2.1). `(a) ω_J` free over `O_K/pⁿ: J_k`
 is the product of an étale group and a connected group with affine algebra `k[X₁, …, X_h]/(X₁^{p^{r₁}}, …, X_h^{p^{r_h}})` (Dieudonné), so `B` is a local complete intersection, and
 `Ω¹_{B/O_K} ≅ B ⊗ ω_J` is a free `B/pⁿ`-module; apply §R07.6.4 with `a = pⁿ, v_K(a) = ne`. `(b)` General `J`:
 embed `J` in a Barsotti–Tate group `Γ`; then `J(K̄) ⊆ Γ_{pⁿ}(K̄)`, and from `0 → Γ_{pⁿ} → Γ → Γ → 0` one
@@ -8528,16 +8507,16 @@ gets `0 → ω_Γ → ω_Γ → ω_{Γ_{pⁿ}} → 0` with `ω_Γ` free over `O_
 Introduction, Théorème A, p. 515: Théorème A; Fontaine 1985, §2.1, Théorème 1, p. 525: Théorème 1;
 Fontaine 1985, §2.2, Remarque a), p. 526: the case `e = n = 1`.)
 
-*Needs:* §R07.6.4; §R07.6.1a (perfect-residue Herbrand theory,
-different and completed maximal unramified comparison);
+*Needs:* §R07.6.4; PadicPeriodRings §0.3 (perfect-residue Herbrand theory, the
+different and the completed maximal unramified comparison);
 §R07.6.2; §R07.6.1; §R07.1.6; §R07.1.40; §R07.1.17.
 
 **Checks.**
 
-- `fontaineBound_mu`: `J = μ_{pⁿ}` over `ℤ_p: L = ℚ_p(ζ_{pⁿ})` has `u_{L/ℚ_p} = n ≤ n + 1/(p − 1)`, except
+- `J = μ_{pⁿ}` over `ℤ_p: L = ℚ_p(ζ_{pⁿ})` has `u_{L/ℚ_p} = n ≤ n + 1/(p − 1)`, except
   `(p,n) = (2,1)`, where `L = ℚ₂` and `u = 0`; and
   `v_p(𝒟) = n − 1/(p − 1) < n + 1/(p − 1)`: the bound is sharp up to `1/(p − 1)`.
-- `fontaineBound_etale`: `J = ℤ/pⁿ` (étale): `L = K` and the bound is trivially met; for the `p`-torsion
+- `J = ℤ/pⁿ` (étale): `L = K` and the bound is trivially met; for the `p`-torsion
   of an elliptic curve with good reduction over `ℤ_p, L_λ` has `δ < 1 + 1/(p − 1)`.
 - For `J = μ₂` over `ℤ₂`, the splitting field is `ℚ₂` itself, with upper break `0`
   and unit different; the dyadic `n = 1` exception agrees with the bound.
@@ -8574,11 +8553,11 @@ the deformation theory of rings.)
 
 **Checks.**
 
-- `illusieObstruction_canonical_subgroup`: as used in Scholze, Corollary 3.2.2: for `G` finite locally
+- As used in Scholze, Corollary 3.2.2: for `G` finite locally
   free over a `p`-adically complete flat `ℤ_p^cycl`-algebra `R` and `C₁ ⊂ G ⊗ R/p`, if `p^ε` is homotopic to
   zero on `ℓ̌_{(G⊗R/p)/C₁}` with `ε < 1/2`, then `C₁` lifts to `C ⊂ G` with `C ⊗ R/p^{1−ε} = C₁ ⊗ R/p^{1−ε}`
   (the canonical subgroup).
-- `illusieObstruction_needs_flat`: for non-flat `H` (e.g. a closed subscheme that is not a subgroup
+- For non-flat `H` (e.g. a closed subscheme that is not a subgroup
   scheme flat over `A`) the obstruction group is not defined in this form.
 - For `u = id_H`, the cone of `ℓ̌_H → ℓ̌_H` is zero and the obstruction vanishes;
   the given lift of the target also lifts the source and the homomorphism.
@@ -8688,10 +8667,10 @@ pp.274–275, 280, applied without replacing the endomorphism kernel by scalars;
 
 **Checks.**
 
-- `flatDeformation_supersingular`: `ρ̄ = E[p]|_{G_{ℚ_p}}` for `E/ℤ_p` supersingular, `p > 2`: absolutely
+- `ρ̄ = E[p]|_{G_{ℚ_p}}` for `E/ℤ_p` supersingular, `p > 2`: absolutely
   irreducible (inertia acts through the two level-`2` fundamental characters), finite flat with `det = χ̄` and `End = F_p`, so `dim_(F_p) H¹_f(ad ρ̄) = 2`. The corresponding ring presentations use
   LocalGaloisDeformationRings §4.1.
-- `flatDeformation_range`: for `p = 2` or for `e ≥ p − 1` the Fontaine–Laffaille computation is
+- For `p = 2` or for `e ≥ p − 1` the Fontaine–Laffaille computation is
   unavailable (part `(ii)` is not claimed), although part `(i)` still holds.
 - The zero module and the identity equivalence satisfy the closure targets.
   The diagonal `M→M×M` tests injections; projection `M×N→M` tests quotients.
@@ -8760,9 +8739,9 @@ Corollaires 2.2.3 and 3.3.6, pp.261, 268; Serre 1987, §2.8, pp.189–190.
 
 **Checks.**
 
-- `finiteFlatTwist_unramified`: `V = μ_p ⊗ λ` for `λ` unramified of order dividing `p − 1`: finite flat
+- `V = μ_p ⊗ λ` for `λ` unramified of order dividing `p − 1`: finite flat
   (an étale twist of `μ_p`).
-- `finiteFlatTwist_ramified`: over `ℚ_p (e = 1 < p − 1)` the character `ω²` (second power of the mod-`p`
+- Over `ℚ_p (e = 1 < p − 1)` the character `ω²` (second power of the mod-`p`
   cyclotomic character) on `F_p` is not finite flat when `p > 3`, since Raynaud's exponents for `e = 1`
   are `0` or `1` (§R07.1.32), although `ω²` is a twist of the finite flat `ω`.
 - A trivial-inertia module with nontrivial Frobenius has a finite étale model;
@@ -8862,9 +8841,9 @@ over excellent regular local bases); §R07.1.8; §R07.1.14; §R07.1.9; §R07.1.1
 
 **Checks.**
 
-- `raynaudDet_examples`: `X = μ_{p^∞}: h = d = 1` and `det = χ`; `X = ℚ_p/ℤ_p: d = 0` and `det` is trivial;
+- `X = μ_{p^∞}: h = d = 1` and `det = χ`; `X = ℚ_p/ℤ_p: d = 0` and `det` is trivial;
   for an elliptic curve with good reduction, `det T_p(E) = χ` (Weil pairing), with `d = 1`.
-- `raynaudDet_strictly_henselian`: the statement is about `det` of the integral Tate module over a
+- The statement is about `det` of the integral Tate module over a
   strictly henselian base; over a non-strictly-henselian `R` the determinant can differ from `χ^d` by an
   unramified character (e.g. an unramified twist of `μ_{p^∞}`).
 - For a regular local `A` of dimension `2` with maximal ideal `m`, the finite subalgebra
@@ -8891,11 +8870,11 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 
 **Checks.**
 
-- `cyclotomicImage_p3`: `p = 3: v_3(𝒟_{ℚ_3(ζ_9)}) = 1 + 1/2 + 0 = 3/2`, which already violates
+- `p = 3: v_3(𝒟_{ℚ_3(ζ_9)}) = 1 + 1/2 + 0 = 3/2`, which already violates
   Fontaine's bound `v_3 < 3/2`.
-- `cyclotomicImage_mod_p`: the statement is about the mod-`p` image only; for a positive-dimensional
+- The statement is about the mod-`p` image only; for a positive-dimensional
   abelian variety, the field of `A[p²]` contains `ℚ_p(ζ_{p²})` (the Weil pairing puts `μ_{p²}` in it), so the analogue for `ρ_{A,p²}` is false.
-- `cyclotomicImage_dimension_zero`: for `A = Spec ℚ`, every torsion representation is trivial,
+- For `A = Spec ℚ`, every torsion representation is trivial,
   its local splitting field is `ℚ_p`, and both cyclotomic restrictions have trivial image.
 
 ### Examples
@@ -8909,8 +8888,10 @@ for good reduction at `p > 2`, by Fontaine's bound against the root discriminant
 ### Dependencies
 
 Layers R07.1–R07.4; AbelianSchemesAndArithmeticModuli Layer A3; DerivedModuleAlgebra §§0.4, 0.8;
-TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (finite-residue ramification, extended to
-perfect residue fields in §R07.6.1a);
+TauCetiRoadmap.LocalFieldsRamification Layers 3–4 (finite-residue ramification);
+PadicPeriodRings §0.3 (ramification over complete discretely valued fields with arbitrary
+perfect residue field, the absolute upper filtration and the completed maximal unramified
+comparison);
 PurityOfBranchLocus §§2.1–2.2 (purity for finite normal covers of regular bases);
 Mathlib `differentIdeal`, `IsKrasner.krasner`,
 `DividedPowers`, `KaehlerDifferential`, `WeierstrassCurve.HasGoodReduction`.
