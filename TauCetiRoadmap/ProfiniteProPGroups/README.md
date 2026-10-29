@@ -1,6 +1,6 @@
 # Roadmap: profinite and pro-`p` groups
 
-This roadmap develops the abstract group theory used throughout the arithmetic portfolio:
+**Summary.** This roadmap develops the abstract group theory used throughout the arithmetic portfolio:
 profinite foundations, supernatural order and Sylow theory, Frattini quotients and generator
 rank, free pro-`p` groups, cohomological dimension, lower `p`-series, completed group algebras,
 one-relator theory, and the classification of finite-rank Demushkin groups.
@@ -28,7 +28,7 @@ three facts this roadmap's own Sylow, free-object and rank milestones consume. `
 Layers 12–13 are the first consumer of the deferred three; they import them from
 `ProfiniteArithmetic`, not from here and not from a Belyi-local copy.
 
-## Scope and exported contract
+## Scope and ownership
 
 The roadmap exports canonical carriers and universal properties for free profinite and free
 pro-`p` groups, pro-`p` Sylow theory, the Frattini subgroup and generator-rank comparison,
@@ -86,8 +86,8 @@ The frozen downstream surface includes:
 | lifting along an extension class | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
 | embedding problems and projectivity | `IsProC`; Tau Ceti's `TauCeti.FiniteEmbeddingProblem`, `TauCeti.FiniteEmbeddingProblem.IsSolution`, `TauCeti.HasElementaryAbelianSolutions`, `TauCeti.HasPGroupSolutions`, `TauCeti.levelProblem`, `TauCeti.IsProjective`; `hasPGroupSolutions_of_isProjective`, `isProjective_iff_hasPGroupSolutions` |
 | `cd_p` of a Sylow subgroup | `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
-| Demushkin invariants | `trivialFp`, `cohomFp`, `fpPairing`, `fpPairing_bil`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
-| marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoOddTop`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two`, `isDemushkin_marked_of_q_two_odd_top`, `isDemushkin_marked_of_q_two_even_top` |
+| Demushkin invariants | `trivialFp`, `cohomFp`, `fpPairing`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty`; the defining equation of `fpPairing` is Tau Ceti's `TauCeti.fpPairing_bil_apply` |
+| marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoOddTop`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two`, `isDemushkin_marked_of_q_two_odd_top`, `isDemushkin_marked_of_q_two_even_top`; which pairs occur: `exists_isDemushkin_range_demushkinCharacter_eq_iff_of_even`, `exists_isDemushkin_range_demushkinCharacter_eq_iff_of_odd` |
 | standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation`, `standardD0Orientation_surjective`, `standardD0Orientation_unique`; the values on `A`, `S`, `Y` and on the relator are Tau Ceti's `TauCeti.standardD0Orientation_d0A`, `TauCeti.standardD0Orientation_d0S`, `TauCeti.standardD0Orientation_d0Y`, `TauCeti.standardD0Orientation_relator` |
 
 The orientation is a continuous character: `demushkinCharacter hG : G →ₜ* ℤ_[p]ˣ`, and
@@ -101,7 +101,7 @@ Four of these rows have named arithmetic consumers. `LocalGaloisGroups` uses
 absolute Galois group with twisted coefficients, the extension-lifting row to lift a surjection of
 relation modules to a surjective morphism of group extensions, and `demushkinCharacter_unique` to
 identify the orientation of `G_K(p)` with the descended cyclotomic character. It also reads the
-cup square `cupFp` through `fpPairing` and `fpPairing_bil`, to compare it with the Kummer cup
+cup square `cupFp` through `fpPairing` and its defining equation `TauCeti.fpPairing_bil_apply`, to compare it with the Kummer cup
 product after a choice of primitive root.
 `ClassFieldTheory` uses `cd_p_eq_of_isProPSylow` to compute the cohomological dimension of a
 local absolute Galois group from that of its Sylow subgroups.
@@ -124,7 +124,51 @@ The cup matrix of a relator `r` reads `H²(G, 𝔽_p)` as `𝔽_p` through the t
 to the inflation of `c`; with it the relator `(x₁, x₂)` has `tr(χ₁ ∪ χ₂) = -1` (Layer 9).
 Symplectic bases follow Mathlib's `Matrix.J = fromBlocks 0 (-1) 1 0`.
 
-## How to read the milestones
+## Exact supplier contracts
+
+**From Mathlib** (at the repository pin). The profinite carriers `ProfiniteGrp`,
+`ProfiniteGrp.profiniteCompletion` with `ProfiniteGrp.ProfiniteCompletion.lift`,
+`OpenNormalSubgroup`, `OpenSubgroup`, `ClosedSubgroup` and `Subgroup.topologicalClosure`; finite
+group theory through `Subgroup.index`, `IsPGroup`, `Sylow`, `frattini`,
+`IsPGroup.isCoatom_iff_index_eq_prime` and `IsPGroup.isNilpotent`; `FreeGroup`; `PadicInt` with
+`PadicInt.toZModPow`; `TopologicalAbelianization`; the cohomology carrier
+`continuousCohomology` on `TopRep`, valued in `TopModuleCat`; `Module.finrank`; `Matrix.J`;
+`MonoidAlgebra`, `PowerSeries` and `PowerSeries.aeval`. Each is used with exactly the hypotheses
+of its Mathlib statement; in particular `continuousCohomology` is the homogeneous-cochain
+construction, and nothing here assumes it agrees with discrete `groupCohomology` beyond the
+comparisons ProfiniteCohomology proves.
+
+**From Tau Ceti** (at the repository pin). The carriers of the alias table in the scope section,
+each consumed by reducible alias, so that every Tau Ceti lemma about them applies unchanged; the
+extension dictionary `TauCeti.ProfiniteGroupExtension`, with classes in the explicit `H²`; the
+cup square `TauCeti.cupFp` on `TauCeti.TopPairing`; the cohomological dimension
+`TauCeti.cohomologicalDimensionAt`, at the coefficient universe of `G`; and, milestone by
+milestone, the declarations named on each *In Tau Ceti:* line, read at their stated hypotheses.
+
+**From TauCetiRoadmap.ProfiniteCohomology** (on main), cited as `PC-<layer>`:
+- Layer 1: the carrier interface `TopRep`, `res`, `infl`, `coeffMap`, `ofDiscreteModule`,
+  `ofDiscreteModule_isSmoothDiscrete` and `ofDiscreteModuleRes`;
+- Layers 2 and 3: the explicit `H⁰`, `H¹`, `H²` and the comparisons
+  `explicitH1IsoContinuousCohomology` and `explicitH2IsoContinuousCohomology`;
+- Layer 5: the low-degree long exact sequence (`explicitDelta0`, `explicitDelta1`) and the
+  five-term sequence (`transgression`, `fiveTerm_exact_H2Q`), in degrees `≤ 2` only;
+- Layer 7: `Coind` and the explicit Shapiro isomorphisms `explicitShapiro0`, `explicitShapiro1`,
+  `explicitShapiro2`, in degrees `≤ 2` only;
+- Layer 10: the all-degree long exact sequence `delta`, `longExact_exact`, filtered colimits
+  `continuousCohomology_preservesFilteredColimits`, Shapiro in every degree `shapiroIso`,
+  dimension shifting `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`,
+  `dimensionShiftIso`, corestriction `corestriction`, `corestriction_comp_res`, and the descent
+  `exists_openSubgroup_res_eq_zero_of_res_eq_zero`;
+- Layer 11: `IsPPrimaryTorsion`, `isPPrimaryTorsion_continuousCohomology`, `cd_p`,
+  `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_of_isClosed` and
+  `cd_p_eq_of_index_not_dvd`;
+- Layer 12: the graded cup product `cup` and its agreement `explicitIso_cup` with the explicit
+  bidegree-`(1, 1)` cup, which `TauCeti.cupFp` must match.
+
+Any statement in every degree uses the Layer 10 exports; the Layer 5 and Layer 7 exports are used
+only in degrees `≤ 2`.
+
+## How to read the build
 
 `README.md` is the roadmap; `Suggested.lean` is its acceptance test, stating the headline
 theorems against the pinned Mathlib and Tau Ceti with the few definitions they need. In prerequisite
@@ -154,7 +198,7 @@ source declaration and the milestone component it supports.
   assemble the instances. An element that lies in every open normal subgroup is `1`. A
   subgroup is open if and only if it is closed of finite index. Open normal subgroups of
   `G ⧸ N` correspond to open normal subgroups of `G` above `N`.
-  *Needs:* M `closedSubgroup_eq_sInf_open`, M `ClosedSubgroup`, M `OpenSubgroup`.
+  *Needs:* M `ProfiniteGrp.closedSubgroup_eq_sInf_open`, M `ClosedSubgroup`, M `OpenSubgroup`.
 - **Inverse limits, unbundled.** Restate the limit description for consumers outside the
   category: a compatible family of elements of the finite quotients of `G` comes from a
   unique element. Prove the compactness lemma in the form that Layer 8 uses: a directed
@@ -189,6 +233,19 @@ source declaration and the milestone component it supports.
   general field is not second countable. Where a later theorem wants a countable
   neighbourhood basis, it carries "countably many open normal subgroups" as a hypothesis,
   which Layer 3 discharges for topologically finitely generated groups.
+
+#### Examples
+
+- `S₃` with the discrete topology is profinite; the discrete group `ℤ` is not compact, and its
+  profinite completion is `ℤ̂`, with completion map injective.
+- `ℤ̂ / ℤ` by the dense subgroup `ℤ` is not `T1`, so the quotient theorems need a closed normal
+  subgroup; `C₄ / C₂` is the discrete `C₂`.
+- In `ℤ₂`, the residues of `-1/3` modulo `2^k` lift to the single element `-1/3`.
+
+#### Dependencies
+
+Mathlib's profinite carriers, `OpenNormalSubgroup`, the quotient topology and
+`ProfiniteGrp.profiniteCompletion`. No earlier layer.
 
 ### Layer 1: supernatural order and index
 
@@ -262,11 +319,31 @@ source declaration and the milestone component it supports.
   *In Tau Ceti:* `Subgroup.profiniteIndex_topologicalClosure`, `Subgroup.profiniteIndex_eq_one_iff`,
   `Subgroup.profiniteOrder_eq_mul_profiniteIndex`, `OpenSubgroup.profiniteIndex_eq_ofNat_index`.
   *Source:* Ribes–Zalesskii §2.3, Prop. 2.3.2 for Lagrange.
+  **Checks.**
+  - `profiniteOrder C₆` has exponents `(v₂, v₃) = (1, 1)`, the factorization of `6`; a
+    definition by the supremum of the orders themselves agrees here but has no value on `ℤ_p`,
+    whose order is `p^∞` (exponent `∞` at `p`, `0` elsewhere).
+  - `profiniteOrder ℤ̂ = ∏_ℓ ℓ^∞` has infinite support, so a definition valued in `ℕ`, or in
+    finitely supported exponent vectors, cannot express it.
+  - `profiniteIndex (2ℤ₂) ℤ₂ = 2 = Subgroup.index`, while `profiniteIndex 1 ℤ₂ = 2^∞`, where
+    `Subgroup.index` returns its junk value `0`; and the dense subgroup `ℤ ≤ ℤ₂` has
+    `profiniteIndex = 1`, since its image in every finite quotient is everything.
+  - Lagrange for `C₃ ≤ S₃`: exponents `(1, 1) = (0, 1) + (1, 0)`, that is `6 = 3 · 2`.
 - **Pro-`p` in supernatural terms.** `G` is pro-`p` if and only if `profiniteOrder G` is
   supported at `p`. `H` is open if and only if it is closed of
   natural-number index.
   *Needs:* L1 order and index; L0 open-versus-closed.
   *In Tau Ceti:* `TauCeti.isProP_iff_profiniteOrder_apply_eq_zero`.
+
+#### Examples
+
+- `profiniteOrder C₆ = 2 · 3`, `profiniteOrder ℤ_p = p^∞`, `profiniteOrder ℤ̂ = ∏_ℓ ℓ^∞`.
+- `profiniteIndex (2ℤ₂) ℤ₂ = 2`, `profiniteIndex 1 ℤ₂ = 2^∞`, and the dense `ℤ ≤ ℤ₂` has index `1`.
+
+#### Dependencies
+
+Layer 0 (closed subgroups, quotients); Mathlib `Nat.card`, `Subgroup.index`, `OpenNormalSubgroup`;
+Tau Ceti `TauCeti.Supernatural`.
 
 ### Layer 2: profinite Sylow theory
 
@@ -292,6 +369,16 @@ source declaration and the milestone component it supports.
   - Edge cases: `p` not dividing the order, where `P = 1`; the trivial group.
   - Downstream interfaces: the abstract existence, conjugacy, containment, uniqueness, and
     surjective-image theorems; `LocalGaloisGroups` is an arithmetic consumer.
+
+  **Checks.**
+  - `S₃` at `p = 2`: `C₂ = ⟨(12)⟩` is closed, a `2`-group, of index `3`, so it is `2`-Sylow,
+    with three conjugates. A definition that drops the index condition also accepts `1`.
+  - `S₃` at `p = 3`: `C₃` has index `2`, is normal, and is the unique `3`-Sylow subgroup.
+  - `1 ≤ S₃` at `p = 2` is pro-`2` of index `6`, divisible by `2`: not Sylow. At `p = 5` the
+    same subgroup has index `6`, prime to `5`, and is the `5`-Sylow subgroup, the absent-prime
+    case; in the trivial group `1` is `p`-Sylow for every `p`.
+  - In `ℤ̂ = ∏_ℓ ℤ_ℓ`, the factor `ℤ_p` has index `∏_{ℓ ≠ p} ℓ^∞`, prime to `p`, so it is
+    `p`-Sylow; `ℤ̂` itself is not pro-`p`, and `pℤ_p × ∏_{ℓ ≠ p} ℤ_ℓ` has index `p`.
 - **Existence.** Every profinite group has a `p`-Sylow subgroup. Route: the sets of Sylow
   `p`-subgroups of the finite quotients form a surjective inverse system of nonempty finite
   sets, so the Layer 0 compactness lemma applies.
@@ -303,7 +390,8 @@ source declaration and the milestone component it supports.
   subgroup lies in a `p`-Sylow subgroup. A pro-`p` subgroup of index prime to `p` is maximal
   pro-`p`, and a maximal closed pro-`p` subgroup is `p`-Sylow. A normal `p`-Sylow subgroup
   is unique.
-  *Needs:* L2 existence; L0 compactness lemma; M `Sylow.conj_eq`.
+  *Needs:* L2 existence; L0 compactness lemma; M `Sylow.isPretransitive_of_finite` (Sylow's second
+  theorem on each finite quotient).
   *In Tau Ceti:* `TauCeti.IsProPSylow.exists_map_conj_eq`, `TauCeti.IsProP.exists_le_isProPSylow`
   (with no closedness hypothesis), `TauCeti.IsProPSylow.eq_of_le`,
   `TauCeti.isProPSylow_iff_isProP_and_maximal`, `TauCeti.IsProPSylow.eq_of_normal`.
@@ -328,6 +416,17 @@ source declaration and the milestone component it supports.
   which is not a target of this roadmap.
   *Needs:* L2 existence; L4 the rank-one identification chain.
   *In Tau Ceti:* `TauCeti.IsProPSylow.continuousMulEquivPadicInt`.
+
+#### Examples
+
+- `S₃`: the `2`-Sylow subgroups are the three `⟨(ij)⟩`, the `3`-Sylow subgroup is `A₃`, and the
+  `5`-Sylow subgroup is `1`.
+- `ℤ̂`: the `p`-Sylow subgroup is `ℤ_p`, unique because `ℤ̂` is abelian.
+
+#### Dependencies
+
+Layers 0 and 1; Mathlib `IsPGroup`, `Sylow`. The worked instance on `ℤ̂` also uses the rank-one
+identification of Layer 4; no other statement of this layer does.
 
 ### Layer 3: pro-`p` groups, the maximal pro-`p` quotient, Frattini theory, generation
 
@@ -357,8 +456,18 @@ source declaration and the milestone component it supports.
     (Layer 1); pro-`p` if and only if `proPKernel p G = ⊥`.
   - Naturality: the property is invariant under topological isomorphism.
   - Edge cases: the trivial group is pro-`p` for every `p`; a finite discrete `p`-group is
-    pro-`p`; a group that is pro-`p` for two different primes is trivial.
+    pro-`p`; a profinite group that is pro-`p` for two different primes is trivial. Without
+    compactness this fails: the connected group `ℝ` has no proper open subgroup, so it is
+    pro-`p` for every `p`.
   - Downstream interfaces: closed-subgroup and quotient constructions in later layers.
+
+  **Checks.**
+  - `C₄` at `p = 2`: its quotients by open normal subgroups are `C₄`, `C₂`, `1`, all
+    `2`-groups, so it is pro-`2`; `C₆` has the quotient `C₃` and is not.
+  - `ℤ_p` is pro-`p`; `ℤ̂` is not, because of the quotient `ℤ/ℓ` for `ℓ ≠ p`.
+  - The discrete direct sum `⊕_ℕ C₂` satisfies the predicate and is not compact, so the
+    predicate does not imply profiniteness; the compact product `∏_ℕ C₂` is pro-`2` and
+    profinite.
 - **The maximal pro-`p` quotient.** `proPKernel p G` is the intersection of the open normal
   subgroups with `p`-group quotient. It is closed, normal, characteristic for continuous
   automorphisms, and preserved by continuous homomorphisms. Then
@@ -386,6 +495,14 @@ source declaration and the milestone component it supports.
     trivial; a prime that does not divide the order.
   - Downstream interfaces: `LocalGaloisGroups` applies this universal quotient to an
     absolute Galois group; the resulting arithmetic carrier is defined there.
+
+  **Checks.**
+  - `S₃` at `p = 2`: `proPKernel = C₃` and the quotient is `C₂`; at `p = 3`: `proPKernel = S₃`
+    and the quotient is `1`, because the abelianization of `S₃` is `C₂`. Reading `G(p)` as a
+    Sylow subgroup gives `C₂` and `C₃` instead.
+  - `ℤ̂` at `p`: the kernel is `∏_{ℓ ≠ p} ℤ_ℓ` and the quotient is `ℤ_p`.
+  - `A₅` is perfect, so `proPKernel p A₅ = A₅` and `A₅(p) = 1` for every `p`, although each of
+    `2, 3, 5` divides `60`; for `ℤ_p`, `proPKernel p ℤ_p = 1`.
 - **The pro-`p` kernel has no `p`-quotient.** For profinite `G` and `N = proPKernel p G`, the
   maximal pro-`p` quotient of `N` is trivial: `proPKernel p N = ⊤`
   (`proPKernel_proPKernel_eq_top`). Equivalently, `N` has no nontrivial continuous finite
@@ -456,6 +573,13 @@ source declaration and the milestone component it supports.
     is unavailable; the difference from the unrestricted notion, which the convention above
     records.
   - Downstream interfaces: the Schreier bound below and the Euler formulas of Layers 6 and 7.
+
+  **Checks.**
+  - `d(C_p × C_p) = 2 = dim_{𝔽_p} Hom_cont(C_p², 𝔽_p)`, and `d(1) = 0`.
+  - `d(ℤ_p) = 1`, while `ℤ_p` as an abstract group is uncountable and needs uncountably many
+    generators: a definition by abstract generation gets the wrong value.
+  - `d(∏_ℕ C_p) = ℵ₀`, the coordinate vectors converging to `1`; a `ℕ`-valued definition has no
+    value, which is why `topologicalGeneratorRankNat` needs finite generation.
 - **Open subgroups of each index, and countability.** A topologically finitely generated
   profinite group has finitely many open subgroups of each index, because it has finitely
   many continuous maps to each finite group. Four consequences are proved here:
@@ -499,7 +623,7 @@ source declaration and the milestone component it supports.
   characteristic, and it equals both the intersection of the maximal open subgroups and
   `closure (Gᵖ[G,G])`. The Frattini quotient `G/Φ(G)` is elementary
   abelian, hence an `𝔽_p`-vector space.
-  *Needs:* M `frattini`, M `Subgroup.isCoatom_iff_index_eq_prime` (a maximal subgroup of a
+  *Needs:* M `frattini`, M `IsPGroup.isCoatom_iff_index_eq_prime` (a maximal subgroup of a
   finite `p`-group has index `p`, under `Group.IsNilpotent`, which M `IsPGroup.isNilpotent`
   supplies) and the finite Frattini lemmas; L3 `IsProP` API; L0 quotients.
   *In Tau Ceti:* `TauCeti.proPFrattini` with `TauCeti.isClosed_proPFrattini`,
@@ -520,6 +644,14 @@ source declaration and the milestone component it supports.
   - Edge cases: `Φ(G) = G` is impossible for nontrivial pro-`p` `G`; the abstract `frattini`
     differs when `G` is not finitely generated.
   - Downstream interfaces: Burnside below and the abstract rank formulas.
+
+  **Checks.**
+  - `Q₈`: the three index-`2` subgroups `⟨i⟩, ⟨j⟩, ⟨k⟩` meet in `{±1}`, so `Φ(Q₈) = {±1}` and
+    `Q₈/Φ = C₂²`, rank `2`. The commutator-only model `closure [G, G]` also gives `{±1}` here
+    and is separated on `C₄` below.
+  - `C₄`: `Φ = 2C₄ = C₂` from both the index-`2` form and the verbal form `Gᵖ[G,G]`; the
+    commutator-only model gives `1`.
+  - `ℤ_p`: `Φ = pℤ_p`, the unique open subgroup of index `p`; `C_p^n`: `Φ = 1`.
 - **Burnside basis theorem.** A subset generates `G` topologically if and only if its image
   generates `G/Φ(G)` topologically. The closure on the quotient side is needed: at infinite
   rank the image of a generating set spans only a dense subspace. Two further forms:
@@ -555,6 +687,16 @@ source declaration and the milestone component it supports.
   `dim_{𝔽_p} G/Φ(G)` when that quotient is finite; for a finite `p`-group, where topological and
   abstract generation coincide, this is Burnside's basis theorem.
 
+#### Examples
+
+- `S₃(2) = C₂`, `S₃(3) = 1`, `ℤ̂(p) = ℤ_p`, `A₅(p) = 1` for every `p`.
+- `Φ(Q₈) = {±1}`, `d(Q₈) = 2`; `d(ℤ_p) = 1`; `d(∏_ℕ C_p) = ℵ₀`.
+
+#### Dependencies
+
+Layers 0 to 2; Mathlib `frattini`, `IsPGroup.isCoatom_iff_index_eq_prime`, `IsPGroup.isNilpotent`;
+the Tau Ceti carriers of the alias table.
+
 ### Layer 4: free pro-`p` and pro-`C` groups on finite sets
 
 - **The class `C` as a structure.** `FiniteGroupClass` with the fields listed in the
@@ -584,6 +726,13 @@ source declaration and the milestone component it supports.
   - Edge cases: the class that contains only the trivial group, where the completion is
     trivial; a class that is not closed under extensions, which is why that field exists.
   - Downstream interfaces: `freeProC`, and Layer 10's free object on a profinite space.
+
+  **Checks.**
+  - `finiteGroupClassP 2` contains `C₄` and `Q₈` and not `C₃` or `S₃`.
+  - The finite nilpotent groups contain `C₃` and `C₂` but not their extension `S₃`, so a
+    structure without the extension field would admit them as a class.
+  - For the class `{1}` the completion of `ℤ̂` is `1`; for the class of all finite groups the
+    completion of the discrete group `ℤ` is `ℤ̂`; for `finiteGroupClassP p` it is `ℤ_p`.
 - **Construction of the free objects.**
   - `freeProfiniteGroup X := profiniteCompletion (FreeGroup X)`, the free profinite group,
     with its generators and its universal property;
@@ -622,6 +771,14 @@ source declaration and the milestone component it supports.
     an infinite generating set, where the rank is **not** `#X` and Layer 10 applies.
   - Downstream interfaces: presentations in Layer 5, the tower of Layer 8, the normal forms
     of Layer 9.
+
+  **Checks.**
+  - Continuous homomorphisms `freeProP 2 (Fin 2) → C₂` number `2² = 4`, one per assignment of
+    the generators; to `C₃` there is only the trivial one, while the free profinite group on two
+    generators has `3² = 9`.
+  - `freeProP p (Fin 1) ≅ ℤ_p`; the free profinite group on one generator is `ℤ̂`, so the wrong
+    construction is detected already in rank one.
+  - `freeProP p (Fin n)` has Frattini quotient `(ℤ/p)^n`, so `d = n`, and `H²(−, 𝔽_p) = 0`.
 - **Universal property.** A map `X → P` into a profinite group `P` in the class `C` extends
   uniquely to a continuous homomorphism. The free object is unique up to unique isomorphism,
   and it is functorial in `X`. The universal properties are used under their Tau Ceti names, as
@@ -708,6 +865,17 @@ several Layer 9 module arguments use it. Ribes–Zalesskii §4.3 is the source o
   that `ℤ_p` is the free `ℤ_p`-module of rank 1, and that the two notions of rank agree.
   *Needs:* L4 rank-one chain, L4 module structure.
 
+#### Examples
+
+- `freeProP p (Fin 0) = 1`, `freeProP p (Fin 1) ≅ ℤ_p`, and `freeProP 2 (Fin 3)`, the source of
+  `A²S⁴(S,Y)`.
+- `ℤ_p × ℤ/p²` has free rank `1` and torsion `ℤ/p²`; `∏_ℕ C_p` is not topologically finitely
+  generated, and the structure theorem does not apply to it.
+
+#### Dependencies
+
+Layers 0 and 3; Mathlib `FreeGroup`, `ProfiniteGrp.profiniteCompletion`, `PadicInt`.
+
 ### Layer 5: presentations, extensions, and the rank interpretations
 
 #### The coefficient objects, over the imported carrier
@@ -757,8 +925,9 @@ about the substrate.
   - Morphisms: inflation, restriction, corestriction, the connecting map, and the maps induced
     by a map of coefficients, all imported.
   - Functoriality: contravariant in the group, covariant in the coefficients, both imported.
-  - Comparison lemmas: `fpPairing_bil`, the defining equation of the pairing, read through
-    `TauCeti.trivialFpEquiv`; the imported `explicitIso_cup` relating the canonical cup to the
+  - Comparison lemmas: the defining equation of the pairing, Tau Ceti's
+    `TauCeti.fpPairing_bil_apply`, read through `TauCeti.trivialFpEquiv`: at `p = 3`,
+    `a = b = 2`, the pairing value and the product are both `1`; the imported `explicitIso_cup` relating the canonical cup to the
     explicit `(1,1)` shape.
   - Naturality: `cup_res`, `cup_infl`, `cup_coeffMap` and `cup_projection`, all imported.
   - Edge cases: the trivial group, where `H^n` vanishes for `n ≥ 1`; a finite group, where the
@@ -766,6 +935,15 @@ about the substrate.
     action, where `H⁰` is not all of `M`, which is the `I(χ)/p^i` system of Layer 7.
   - Downstream interfaces: cohomological dimension in Layer 6, the Demushkin predicate in
     Layer 7, and the rank interpretations below.
+
+  **Checks.**
+  - `G = C_p²`: `finrank H¹ = 2` and `finrank H² = 3`; for `G = ℤ_p`: `1` and `0`.
+  - At `p = 2`, `G = ℤ/2`: the cup square of the generator of `H¹` is the nonzero class of the
+    extension `ℤ/4`; for `G = ℤ/4` the cup square of the generator of `H¹` is `0`, since the
+    character lifts to `ℤ/4`. The zero pairing gets the first wrong; an alternating pairing gets
+    the first wrong at `p = 2`.
+  - `G = ℤ_p²` with dual basis `χ₁, χ₂`: `χ₂ ∪ χ₁ = -(χ₁ ∪ χ₂) ≠ 0`, and with the trace of the
+    conventions `tr(χ₁ ∪ χ₂) = -1`; for odd `p`, `χ₁ ∪ χ₁ = 0`.
 
 #### Presentations
 
@@ -799,6 +977,15 @@ about the substrate.
     and the closed normal closure.
   - Downstream interfaces: minimal presentations, the relation rank below, and the Layer 9
     normal forms.
+
+  **Checks.**
+  - `⟨x ∣ x⁴⟩` at `p = 2` is `C₄`, with `2` homomorphisms to `C₂`; `⟨x ∣ x³⟩` at `p = 2` is
+    trivial, because `3` is a unit of `ℤ₂`. The quotient of the discrete free group would give
+    `C₃`, which is not a `2`-group.
+  - `⟨x ∣ ∅⟩ = ℤ_p` and `⟨x₁, x₂ ∣ (x₁, x₂)⟩ = ℤ_p²`, with `d = 2` and one relation.
+  - In `freeProP p (Fin 1) = ℤ_p`, the algebraic normal closure of `x^p` is `pℤ`, dense in
+    `pℤ_p` and not closed; the quotient by it is not Hausdorff, which is why the closed normal
+    closure is used.
 - **Non-vacuity, with the map named.** `D₀ = ⟨A, S, Y ∣ A²S⁴(S,Y)⟩`, Tau Ceti's
   `TauCeti.demushkinD0`, is nontrivial, pro-`2` and topologically finitely generated. The proof
   is not "map it onto some finite `2`-group". The map is `φ : freeProP 2 (Fin 3) → ℤ/2` with
@@ -1014,7 +1201,7 @@ hypothesis, as a closed proof from Tau Ceti's API.
   `TauCeti.presentedProP.natCard_H2`, `TauCeti.presentedProP.natCard_H2_le_pow_iff`,
   `TauCeti.presentedProP.finite_H2_iff` and
   `TauCeti.presentedProP.topologicalGeneratorRankNat_quotient_pLowerCentralStep_eq`
-  (`ProP/RelationRank.lean`).
+  (`ProP/Relation/Rank.lean`).
   *Source:* Labute §1.4; NSW (3.9.5).
 - **Deficiency and one-relator groups.** For pro-`p` `G` that is topologically finitely
   generated with `H²(G, 𝔽_p)` finite-dimensional, both `d(G)` and `r(G)` are natural
@@ -1038,6 +1225,17 @@ hypothesis, as a closed proof from Tau Ceti's API.
 - **Sanity example.** `d((ℤ/p)ⁿ) = n` and `r((ℤ/p)ⁿ) = n(n+1)/2`. This count detects a wrong
   normalization of `H²`.
   *Needs:* L5 rank interpretations.
+
+#### Examples
+
+- `d(C_p^n) = n` and `r(C_p^n) = n(n + 1)/2`; `(d, r) = (2, 0)` for the free group of rank `2`.
+- `D₀ = ⟨A, S, Y ∣ A²S⁴(S,Y)⟩` with its orientation `A ↦ -1`, `S ↦ 1`, `Y ↦ (-3)⁻¹`.
+
+#### Dependencies
+
+Layers 0, 3 and 4; ProfiniteCohomology Layers 1, 2, 3 and 5 (degrees `≤ 2`); Mathlib
+`continuousCohomology`, `TopModuleCat`; Tau Ceti `TauCeti.ProfiniteGroupExtension`,
+`TauCeti.cupFp`.
 
 ### Layer 6: cohomological dimension of pro-`p` groups
 
@@ -1083,7 +1281,8 @@ would not agree with the standard `cd_p`.
   `p`-primary modules in one degree gives vanishing on all finite discrete `p`-primary
   modules in that degree. Route: the trivial-filtration theorem above, and the long exact
   sequence in that degree.
-  *Needs:* L6 trivial filtration; PC-5 the long exact sequence.
+  *Needs:* L6 trivial filtration; PC-10 `delta`, `longExact_exact` (the long exact sequence in
+  every degree; PC-5 covers only degrees `≤ 2`).
   *In Tau Ceti:* `TauCeti.IsProP.forall_subsingleton_continuousCohomology_iff`, in each degree.
   *Source:* Serre, *Galois Cohomology* I §3.
 - **Vanishing in one degree gives vanishing above it.** If `H²(G, M) = 0` for every finite
@@ -1092,7 +1291,13 @@ would not agree with the standard `cd_p`.
   Shapiro for the **closed** trivial subgroup, the long exact sequence for coefficients that
   are not finite, and the dévissage above. This is the theorem that turns the Layer 5
   vanishing theorem for free pro-`p` groups into `cd_p ≤ 1`.
-  *Needs:* L6 dévissage; PC-7 `Coind`, `shapiroIso` for a closed subgroup; L6 dimension shifting.
+  *Needs:* L6 dévissage; PC-7 `Coind`; PC-10 `shapiroIso` for a closed subgroup, `coindEmbedding`,
+  `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso`, `longExact_exact`, and
+  `continuousCohomology_preservesFilteredColimits` (the quotient `Coind_1^G M / M` is discrete
+  `p`-primary but not finite, so its `H²` is the colimit over its finite submodules).
+  Check at degree `3`: for `G = ℤ_p`, `H³(G, 𝔽_p) = 0` and `H²(G, Coind_1^G 𝔽_p / 𝔽_p) = 0`, and
+  the shift identifies them; for `G = C_p`, `H³(G, 𝔽_p) = 𝔽_p ≠ 0`, and the premise fails
+  already in degree two, `H²(C_p, 𝔽_p) = 𝔽_p`.
   *Source:* Serre, *Galois Cohomology* I §3.1; Ribes–Zalesskii 7.7.4.
 - **Free implies `cd ≤ 1`.** Layer 5's theorem `H²(F, M) = 0`, for `F` free pro-`p` of
   finite rank and `M` finite discrete `p`-primary, restated as `cd_p F ≤ 1`
@@ -1124,7 +1329,8 @@ would not agree with the standard `cd_p`.
   ⚠ The imported `ProfiniteCohomology.cd_p_eq_of_index_not_dvd` is the case of an open subgroup
   of index **prime to `p`**, which for pro-`p` `G` means `U = G`. It does not prove this
   milestone.
-  *Needs:* PC-11 `cd_p_le_of_isClosed`; PC-7 closed-subgroup Shapiro; L6 dévissage.
+  *Needs:* PC-11 `cd_p_le_of_isClosed`; PC-10 `shapiroIso` (Shapiro in every degree); L6
+  dévissage.
   *Source:* Serre, *Galois Cohomology* I §3.3.
 - **Restriction to a Sylow subgroup is injective.** For a `p`-Sylow subgroup `P` of a profinite
   `G`, a discrete `p`-primary torsion `G`-module `M` and every `n`, restriction
@@ -1215,6 +1421,16 @@ would not agree with the standard `cd_p`.
   possibly infinite rank, and the statement needs bases that converge to `1`. Do not state a
   truncated finite-rank version here.
 
+#### Examples
+
+- `cd_p ℤ_p = 1`, `cd_p (ℤ_p²) = 2`, `cd_p C_p = ∞` since `H^{2k}(C_p, 𝔽_p) ≠ 0`.
+- For `S₃` at `p = 3`, restriction to `A₃` is injective on `H*(−, 𝔽₃)`.
+
+#### Dependencies
+
+Layers 2 to 5; ProfiniteCohomology Layers 1, 5 and 7 in degrees `≤ 2`, Layer 10 in every
+degree, and Layer 11 (`cd_p`); Tau Ceti `TauCeti.cohomologicalDimensionAt`.
+
 ### Layer 7: Demushkin groups, their invariants, and the orientation
 
 - **The predicate.** `IsDemushkin p G` has the fields given in the conventions: `IsProP p G`,
@@ -1253,6 +1469,15 @@ would not agree with the standard `cd_p`.
   - Edge cases: rank 1, where only `ℤ/2` occurs; `q = 2`, where `(n, q)` is not a complete
     invariant; finite Demushkin groups, where only `ℤ/2` occurs.
   - Downstream interfaces: the classification of Layer 9 and `LocalGaloisGroups`.
+
+  **Checks.**
+  - `ℤ/2` at `p = 2`: `finrank H¹ = finrank H² = 1` and `χ ∪ χ ≠ 0`, so it is Demushkin with
+    `n = 1` and `q = 2`.
+  - `ℤ/4` at `p = 2`: `finrank H¹ = finrank H² = 1`, but `χ ∪ χ = 0`, so it is not Demushkin; a
+    definition that keeps only the two dimension conditions accepts it. `ℤ_p` (`H² = 0`) and
+    `C_p²` (`finrank H² = 3`) fail the dimension condition.
+  - `ℤ_p²`: `finrank H¹ = 2`, `finrank H² = 1`, `χ₁ ∪ χ₂ ≠ 0`, so it is Demushkin with `q = 0`;
+    `⟨x₁, x₂ ∣ x₁^{p²}(x₁, x₂)⟩` has abelianization `ℤ/p² × ℤ_p`, so `q = p²`.
 - **First examples and non-examples.** `ℤ/2` is Demushkin at `p = 2`, is the unique finite
   one, and is the unique one of rank 1; the cup square of the generator of `H¹(ℤ/2, 𝔽₂)`
   is the class of the extension `ℤ/4`. A free pro-`p` group is not Demushkin, because its
@@ -1348,6 +1573,17 @@ modulo `p^i`), and condition 2 is Tau Ceti's reformulation of condition 1:
   *Needs:* L5 the coefficient objects; PC-1 `coeffMap`; L7 the predicate; L4 `ℤ_p` chain; TC
   `TauCeti.HasPrescriptionProperty`.
   *Source:* Labute Prop. 6 and Thm 4.
+  **Checks.**
+  - `G = ℤ/2`, `χ` trivial: `H¹(G, ℤ/2^i) = Hom(C₂, ℤ/2^i)` is generated by `2^{i-1}`, which
+    reduces to `0` in `H¹(G, ℤ/2)` for `i ≥ 2`, so the prescription property fails. With the
+    sign character, crossed homomorphisms are all `a ∈ ℤ/2^i` and coboundaries are `2ℤ/2^i`,
+    so `H¹ = ℤ/2`, generated by `1`, reduces onto `H¹(G, ℤ/2)`: the canonical character is the
+    sign, with image `{±1}`. The model "χ is always trivial" fails here.
+  - `G = ℤ_p²`: the trivial character has the property, so `Im χ = 1 = 1 + qℤ_p` with `q = 0`.
+  - `G = ⟨x₁, x₂ ∣ x₁^p(x₁, x₂)⟩`, `p` odd, `q = p`: the marked theorem
+    `isDemushkin_marked_of_q_ne_two` gives `χ(x₁) = 1` and `χ(x₂)(1 - p) = 1`, so
+    `Im χ` is the closed subgroup generated by `(1 - p)⁻¹`, which is `1 + pℤ_p`. The trivial character, which works for
+    `ℤ_p²`, is excluded here because `q ≠ 0` forces `Im χ = 1 + qℤ_p ≠ 1`.
 - **The closed subgroups of `ℤ₂ˣ`.** This item is `ℤ_pˣ`-theory, with no cohomology. Named
   definitions first, for `f : ℕ∞` with `f ≥ 2`:
   - `U^(f) := 1 + 2^f ℤ₂`, with `U^(∞) = {1}`;
@@ -1398,6 +1634,15 @@ modulo `p^i`), and condition 2 is Tau Ceti's reformulation of condition 1:
   `Subgroup.zpowers (-1)` and `U^[f]` is `procyclicClosure u = (Subgroup.zpowers u).topologicalClosure`
   at `u = -1 + 2^f`, the forms Tau Ceti's classification uses.
   *Source:* the remark after the corollary to Labute Thm 4.
+  **Checks.**
+  - `f = 2`: `U^(2) = 1 + 4ℤ₂` has index `2`; `V^(2) = ℤ₂ˣ` has index `1 = 2⁰`; `U^[2]` is
+    the closure of `⟨3⟩`, with `3² = 9 = 1 + 8`, a generator of `U^(3)`, so
+    `U^[2] ∩ U^(2) = U^(3)` and `U^[2]` has index `2`.
+  - `f = 3`: `U^[3]` is the closure of `⟨7⟩`, with `7² = 49 = 1 + 16 · 3`, so
+    `U^[3] ∩ U^(2) = U^(4)` and the index is `4 = 2²`; an off-by-one parametrization would give
+    `U^(3)` or index `2`.
+  - `(A : A²)`: `2` for `U^(f)`, `U^[f]` and `{±1}`; `4` for `V^(f)` with `f < ∞`, whose
+    Frattini quotient is `C₂²`, so `V^(f)` is not procyclic.
 
 #### Demushkin duality, concretely
 
@@ -1482,7 +1727,9 @@ package of statements about finite discrete modules, and that package is stated 
   topologically finitely generated pro-`p` group need not be finitely presented. For a
   Demushkin group the hypothesis holds, since `dim H² = 1` is part of the definition, and
   that is the case the open-subgroup theorem uses.
-  *Needs:* PC-7 Shapiro; PC-5 the long exact sequence; L6 trivial filtration.
+  *Needs:* PC-7 Shapiro in degrees `≤ 2`; PC-5 the long exact sequence through `H²`; PC-10
+  `delta`, `longExact_exact` for the connecting map into `H³`, which vanishes because
+  `cd_p G ≤ 2` and makes the last map in degree two surjective; L6 trivial filtration.
 - **The open-subgroup theorem.** For `G` infinite Demushkin and `U ≤ G` open: `U` is
   Demushkin (`IsDemushkin.openSubgroup`); `n(U) - 2 = [G : U](n(G) - 2)` in `ℤ`
   (`IsDemushkin.demushkinRank_openSubgroup_sub_two`); and
@@ -1526,6 +1773,16 @@ package of statements about finite discrete modules, and that package is stated 
   equivalent condition phrased through a dualizing module; that formulation needs vocabulary
   this roadmap does not define, so it is not among the equivalences here.
 
+#### Examples
+
+- `ℤ/2` (`n = 1`, `q = 2`), `ℤ_p²` (`n = 2`, `q = 0`), `D₀` (`n = 3`, `q = 2`).
+- Non-examples: `1`, `ℤ_p`, `ℤ/4`, `C_p²`.
+
+#### Dependencies
+
+Layers 1 and 3 to 6; ProfiniteCohomology Layers 1, 5, 7 and 10; Tau Ceti
+`TauCeti.IsDemushkin`, `TauCeti.HasPrescriptionProperty`, `TauCeti.ZModTwist`.
+
 ### Layer 8: the central-tower comparison method and finite-quotient determinacy
 
 This layer states the classification method as a theorem about a finite inverse system, and
@@ -1564,8 +1821,8 @@ differs, the translation is stated once.
   make them well defined. The bracket is alternating (`TauCeti.gradedBracket_self`) and satisfies
   the Jacobi identity (`TauCeti.gradedBracket_jacobi`); `π` is additive in every degree `k ≥ 1`
   (`TauCeti.gradedPow_add_of_one_le`) and, for odd `p`, in degree zero too
-  (`TauCeti.gradedPow_add_zero_of_odd`); it commutes with scalars (`TauCeti.gradedPow_smul_zero`
-  in degree zero). A continuous homomorphism induces `TauCeti.gradedMap`, compatible with both
+  (`TauCeti.gradedPow_add_zero_of_odd`); it commutes with `𝔽_p`-scalars in every degree
+  (`TauCeti.gradedPow_smul`). A continuous homomorphism induces `TauCeti.gradedMap`, compatible with both
   operations by `TauCeti.gradedMap_gradedBracket` and `TauCeti.gradedMap_gradedPow`, and
   surjective in each degree for a continuous surjection (`TauCeti.gradedMap_surjective`).
   *Source:* Labute Prop. 1 and Prop. 2, in our indexing.
@@ -1695,6 +1952,13 @@ differs, the translation is stated once.
   - Downstream interfaces: `δ_j` and `T_j` below; the comparison schema; the span statements
     of Layer 9.
 
+  **Checks.**
+  - `C₄` at `p = 2`: `λ₀ = C₄`, `λ₁ = C₂`, `λ₂ = 1`, so `gr₀ = gr₁ = 𝔽₂` and `π : gr₀ → gr₁` is
+    the squaring isomorphism; the lower central series (commutators only) gives `λ₁ = 1`.
+  - `ℤ_p`: `λ_k = p^kℤ_p` and every `gr_k` is `𝔽_p`; a `1`-based reading would put `λ₁ = ℤ_p`.
+  - `F` free pro-`p` of rank `2`: `finrank gr₁(F) = 1 + 2 = 3`, the bracket `[x̄₁, x̄₂]` and
+    `π x̄₁, π x̄₂`; `Q₈` at `p = 2` has `λ₁ = {±1}` and `λ₂ = 1`.
+
 - **The tails `T_j`.** For `p = 2` the span statements use one further subspace. `T_j` is
   spanned by the iterated `p`-powers `π^j(x̄_i) ∈ gr_j(F)`, over the indices `i` with
   `c_i = 0`, that is over the generators whose exponent in the `p`-power part of the relator
@@ -1823,6 +2087,16 @@ Two applications are immediate corollaries:
 - the specialization used in Layer 9, where `S k` is the set of level-`k` basis changes that
   carry one Demushkin relator to another and respect the character.
 
+#### Examples
+
+- `λ_k(ℤ_p) = p^kℤ_p`; `λ₁(C₄) = C₂`; `finrank gr₁(F) = 3` for `F` free of rank `2`.
+- `ℤ_p` and `ℤ_p × ℤ_p` are told apart by the finite quotient `C_p²`, and `C₄` and `C₂²` by
+  `C₄`.
+
+#### Dependencies
+
+Layers 0, 1, 3, 4 and 7; Mathlib `PadicInt`; Tau Ceti graded pieces of the lower `p`-series.
+
 ### Layer 9: the classification of Demushkin groups
 
 The layer opens with its prerequisites: the normal forms of bilinear forms over `𝔽_p`, which
@@ -1890,9 +2164,14 @@ Index conventions:
   `a_{ik}` for every `p`, and the `p`-power coordinates `c_i` only at `p = 2`. A basis change
   `P` acts on the cup matrix by `B ↦ PᵀBP`, so a normal form for `B` makes the commutator part
   of `r̄`, and at `p = 2` all of `r̄`, equal to that of the normal-form word. At odd `p` the
-  vector `(c_i)` is normalized separately: it is the reduction modulo `p` of the exponent
-  vector of `r`, and the exponent-vector normalization of the Layer 9 successive approximation
-  carries it to `c = e₁` when `q = p` and to `c = 0` when `q = 0` or `p² ∣ q`.
+  vector `(c_i)` is normalized separately. Every exponent sum of `r ∈ Φ(F)` is divisible by
+  `p`, and `c_i` is the reduction modulo `p` of the `i`-th exponent sum divided by `p` in
+  `ℤ_p` (TC `TauCeti.freeProP.degreeOneBasis_repr_gradedMk_inl`, in
+  `Free/DegreeOneForm.lean`); reducing the exponent sums themselves gives `0` for every
+  relator. At `p = 3` the exponent vectors `(0, 0)`, `(3, 0)`, `(9, 0)` give
+  `c = (0, 0), (1, 0), (0, 0)`, the three branches `q = 0`, `q = p`, `p² ∣ q`. The
+  exponent-vector normalization of the Layer 9 successive approximation
+  carries `(c_i)` to `e₁` when `q = p` and to `0` when `q = 0` or `p² ∣ q`.
   ⚠ Counterexample to reading the cup matrix as the full set of coordinates: at odd `p`,
   `r = x₁^p(x₁, x₂)` has `c₁ = 1`, so `r̄ ≠ [ξ₁, ξ₂]`, while its cup matrix is that of
   `(x₁, x₂)`, with zero diagonal.
@@ -1961,6 +2240,12 @@ of the two even-rank families in the abstract classification.
     `(γ - 1)ⁿ = (-2)ⁿ⁻¹(γ - 1)` with `2` a unit of `ℤ₃`); a non-abelian `Γ`, where the algebra is not commutative and the
     coordinate does not apply.
   - Downstream interfaces: the module statements of Labute Thms 5 and 6, used in Layer 9.
+
+  **Checks.**
+  - `Γ = 1`: `Λ = ℤ_p`; `Γ = C₂`, `p = 2`: `Λ = ℤ₂[C₂]`, free of rank `2` over `ℤ₂`.
+  - `Γ = ℤ_p`: `Λ ≅ ℤ_p[[T]]` with `T = γ - 1` topologically nilpotent; the uncompleted group
+    ring `ℤ_p[ℤ]` is not compact and `γ - 1` is not topologically nilpotent in it.
+  - `Γ = S₃`: `Λ = ℤ_p[S₃]`, where `(12)(13) ≠ (13)(12)`, so `Λ` is not commutative.
 - **Compact modules.** `IsCompactModule p Γ M` is the predicate on a topological `Λ`-module
   saying that it is a topological additive group with continuous scalar action, compact and
   totally disconnected: Tau Ceti's `TauCeti.IsCompactModule` at the ring `Λ`. Over the compact
@@ -1982,6 +2267,14 @@ of the two even-rank families in the abstract classification.
   indiscrete with the reductions, and the quotient maps between them, every other hypothesis
   holds, but the compatible residues of `-1/3` modulo `2^k` come from no single integer, since
   `2^k ∣ 3a + 1` for all `k` has no solution.
+  **Checks.**
+  - `Λ` itself and `ℤ_p` with the trivial action are compact modules; `ℚ_p` is not compact, and
+    neither is `ℤ` with its `p`-adic topology, which is not complete.
+  - The quotient `ℤ_p / pℤ_p = 𝔽_p` by a closed submodule is a compact module; the quotient
+    `ℤ_p / ℤ` by the dense submodule `ℤ` is indiscrete and not Hausdorff, so closedness is
+    needed for the quotient statement.
+  - In `ℤ₂`, the residues of `-1/3` modulo `2^k` come from the single element `-1/3 ∈ ℤ₂`, the
+    positive instance of the uniqueness statement that fails for `ℤ` above.
 - **Power-series coordinates.** For a topological generator `γ` of an infinite commutative
   pro-`p` group `Γ`, so that `Γ ≅ ℤ_p`, the assignment `T ↦ γ - 1` extends to an isomorphism of
   `ℤ_p`-algebras `ℤ_p[[T]] ≅ completedGroupAlgebra p Γ`, Tau Ceti's
@@ -2002,9 +2295,13 @@ of the two even-rank families in the abstract classification.
   `ker_proj_comp_powerSeriesCoordinate`, `proj_powerSeriesCoordinate_eq_zero_iff`,
   `powerSeriesLevelEquiv` and `ker_proj` (`CompletedGroupAlgebra/Filtration.lean`).
   *Source:* Labute §1.5; Washington, *Introduction to Cyclotomic Fields*, §7.1.
-  ⚠ The finite levels are **not** the `T`-adic filtration. `ω_m` has `T`-order one and `ω_m / T`
-  has constant coefficient `p^m`, so `(ω_m)` is no power of `(T)`; and no level is the whole
-  algebra, since every projection is onto a nonzero ring.
+  ⚠ The finite levels are **not** the `T`-adic filtration. At `m = 0`, `ω₀ = T` and `(ω₀) = (T)`,
+  the kernel of the projection to the trivial quotient of `Γ`. For `m ≥ 1`, `ω_m` has `T`-order
+  one and `ω_m / T` has constant coefficient `p^m`, a non-unit, so `(ω_m)` is no power of `(T)`:
+  not `(T)`, since `ω_m / T` is not a unit, not `(T^k)` with `k ≥ 2`, by the `T`-order, and not
+  the unit ideal, since `ω_m` is not a unit. At `p = 2`, `ω₁ = T(2 + T)`; at `p = 3`,
+  `ω₁ = T(3 + 3T + T²)`. No level is the whole algebra, since every projection is onto a nonzero
+  ring.
 - **Evaluation.** For `ψ ∈ ℤ_p[[T]]` and `c` with `v_p(c) ≥ 1`, the point `c` is topologically
   nilpotent in `ℤ_p`, so Mathlib's `PowerSeries.aeval` evaluates `ψ` at `c`, as a continuous
   `ℤ_p`-algebra homomorphism with `X ↦ c`. The convergence hypothesis `v_p(c) ≥ 1` is carried in
@@ -2092,7 +2389,7 @@ no second scalar multiplication. The points that fix the object are these.
 2. **Its construction from `1 → R → F → G → 1`.** `χ` is the canonical character of `G`
    composed with `F ↠ G`, regarded as a character **on the free group** `F`
    (`demushkinRelatorCharacter`); `X = ker(χ : F → Γ)` contains `R`
-   (`demushkinRelatorCharacter_mem_ker`); and `Γ = F/X ≅ Im χ`, Mathlib's
+   (Tau Ceti's `TauCeti.demushkinRelatorCharacter_mem_ker`); and `Γ = F/X ≅ Im χ`, Mathlib's
    `QuotientGroup.quotientKerEquivRange`.
 3. **What it is not.** It is neither `R/[R, R]` nor `R/[F, R]`. Those are quotients of the
    relation subgroup, while `E` is built from the whole of `ker χ`. The relator enters through
@@ -2133,8 +2430,9 @@ no second scalar multiplication. The points that fix the object are these.
 The milestones are the existing structure, proved in Tau Ceti and Mathlib: the action in Labute's form, the module structure with its
 continuity, the map from `R^{ab}`, and finite generation of `E` over `Λ` by the classes of finitely
 many elements of `X`, for `F` topologically finitely generated pro-`p` and `χ` continuous. The
-roadmap names here are `demushkinRelatorCharacter`, `demushkinRelatorCharacter_mem_ker` and the
-relator class `labuteRelatorClass`, aliases of the Tau Ceti declarations of the same names.
+roadmap names here are `demushkinRelatorCharacter` and the relator class `labuteRelatorClass`,
+aliases of the Tau Ceti declarations of the same names; that the relator lies in `ker χ` is Tau
+Ceti's `TauCeti.demushkinRelatorCharacter_mem_ker`.
 *Needs:* L5 presentations; L7 canonical character; L9 the algebra and its compact modules; L4
 abelian pro-`p` structure theory.
 *In Tau Ceti:* `TopologicalAbelianization.instMulDistribMulActionQuotient`, `mk_smul_mk`,
@@ -2144,7 +2442,7 @@ with `completedGroupAlgebraModule_of_smul` and `continuousSMul_completedGroupAlg
 (`ProP/CompletedGroupAlgebraModule.lean`);
 `TauCeti.IsProP.exists_finite_span_completedGroupAlgebraModule_topologicalAbelianization_ker_eq_top`
 and `module_finite_completedGroupAlgebraModule_topologicalAbelianization_ker`
-(`ProP/RelationModule.lean`).
+(`ProP/Relation/Module.lean`).
 *Source:* Labute §4 Definition, p. 121.
 
 #### The module statements that the classification uses
@@ -2598,6 +2896,23 @@ Layer 8.
     2. `n` is odd and `n ≥ 3`, so `p = 2`, and `A = {±1} × U^(f)` with `f ≥ 2` or `f = ∞`;
     3. `n = 1` and `A = {±1}`.
 
+    Realized means: there is a relator `r` in the free pro-`p` group on `n` generators with
+    `F/(r)` Demushkin of rank `n` and orientation image `A`. The statement is two equivalences,
+    one per parity of `n`: `exists_isDemushkin_range_demushkinCharacter_eq_iff_of_even`, for every
+    `p`, with `(A : A^p) < p^n` as supernatural numbers, and
+    `exists_isDemushkin_range_demushkinCharacter_eq_iff_of_odd`, at `p = 2`, with `A = {±1}` for
+    every odd `n` or `n ≥ 3` and `A = {±1} × U^(f)` with `f ≥ 2`; situation 3 is the instance
+    `n = 1` of the odd one. Both directions are part of the statement, necessity for every `q`
+    including `q = 2`, and neither assumes a Demushkin group is given.
+    **Checks.**
+    - `(p, n, A) = (3, 2, 1)`: `(A : A³) = 1 < 9`, realized by `ℤ₃² = ⟨x₁, x₂ ∣ (x₁, x₂)⟩`.
+    - `(2, 2, ℤ₂ˣ)`: `ℤ₂ˣ = {±1} × U^(2)` has `(A : A²) = 4`, and `4 < 4` fails, so no
+      Demushkin group of rank `2` has image `ℤ₂ˣ`; `(2, 4, ℤ₂ˣ)` has `4 < 16` and is realized
+      by `x₁²(x₁,x₂)x₃⁴(x₃,x₄)`.
+    - `(2, 1, {±1})` is realized by `C₂ = ⟨x₁ ∣ x₁²⟩`; `(2, 1, {±1} × U^(2))` is not, since the
+      odd family needs `n ≥ 3`.
+    - `n = 0` never occurs: `(A : A^p) ≥ 1 = p⁰`.
+
     ⚠ The hypothesis that `A` is pro-`p` is part of the statement, because `A` is the image
     of a pro-`p` group under a continuous homomorphism. Without it the numerical condition
     admits impossible pairs: at `p = 3` and `n = 2`, the subgroup `A = ℤ₃ˣ` has
@@ -2608,6 +2923,11 @@ Layer 8.
   The small-rank cases are part of the statement. For the odd case Serre's Thm 3.2 covers
   `n = 2m + 1` with `m ≥ 1`; handle `n = 1` through NSW (3.9.10) and Labute Remark 2(iii).
   *Needs:* L9 normal forms and character values; L8 comparison schema; L3 Hopf property.
+  *In Tau Ceti:* `TauCeti.exists_isDemushkin_range_demushkinCharacter_eq_iff_of_even`
+  (`Demushkin/NormalForm/Two/Even/Image.lean`) and
+  `TauCeti.exists_isDemushkin_range_demushkinCharacter_eq_iff_of_odd`
+  (`Demushkin/NormalForm/Two/Odd/Image.lean`); the realization families are in
+  `Demushkin/NormalForm/Existence.lean`.
   *Source:* Labute Thms 1 and 2, and Remark 2.
 - **Consequences.** The open-subgroup theorem was proved in Layer 7 from the duality
   package. Here it acquires its classification content: for `U` open in an infinite
@@ -2617,6 +2937,17 @@ Layer 8.
   *Source:* Serre, *Structure de certains pro-p-groupes*, Thm 9.2.
   ⚠ At `n = 2` the rank formula gives `n(U) = 2` for every `U`, so the rank-2 groups with
   `q ≠ 2`, which are `ℤ_p ⋊ ℤ_p`, are the case to check first.
+
+#### Examples
+
+- `ℤ_p² = ⟨x₁, x₂ ∣ (x₁, x₂)⟩` (`q = 0`), `⟨x₁, x₂ ∣ x₁^p(x₁, x₂)⟩` (`q = p`, `Im χ = 1 + pℤ_p`).
+- At `p = 2`: `x₁²(x₁,x₂)` (`Im χ = {±1}`), `x₁⁶(x₁,x₂)` (`Im χ = U^[2]`), and `D₀` (`n = 3`).
+
+#### Dependencies
+
+Layers 0, 1, 3, 4, 5, 7 and 8; Mathlib `PowerSeries`, `PowerSeries.aeval`, `MonoidAlgebra`;
+Tau Ceti `LinearMap.BilinForm.Nondegenerate.exists_basis_toMatrix_eq_J_or_toMatrix_eq_one` and
+the Demushkin normal-form files.
 
 ### Layer 10: free pro-`C` groups on profinite spaces
 
@@ -2711,6 +3042,16 @@ a space.
 - Nothing later in this roadmap uses this layer, because Layer 9 needs only finite
   rank. Without it the theory is truncated.
 
+#### Examples
+
+- The free pro-`p` group on the one-point compactification of `ℕ`, with `∞` as base point, has
+  rank `ℵ₀`; on a finite pointed space of `n + 1` points it is `freeProP p (Fin n)`.
+- `ℤ_p × ℤ_p` has `cd_p = 2` and is not free.
+
+#### Dependencies
+
+Layers 3, 4 and 6; Tau Ceti `TauCeti.freeProCPointed` and the pointed Serre theorem.
+
 ## Worked examples
 
 Acceptance examples include free pro-`p` groups at finite rank, finite cyclic and elementary
@@ -2724,10 +3065,10 @@ Layers 0–3 establish the profinite and generator-rank substrate; Layers 4–6 
 objects and cohomological freeness; Layers 7–8 control one-relator quotients and finite
 approximations; Layers 9–10 complete the Demushkin classification and arbitrary-rank theory.
 
-## Arithmetic applications owned by other roadmaps
+## Downstream consumers
 
 The arithmetic of `G_K(p)`—finite generation, the `[K : ℚ_p] + 2` dichotomy, roots of unity,
-the canonical orientation, and the local Demushkin presentation—now belongs to
+the canonical orientation, and the local Demushkin presentation—belongs to
 `LocalGaloisGroups`. No theorem in this roadmap depends on a local field, and the
 `LocalGaloisGroups`, `LocalFieldsRamification` and `ClassFieldTheory` dependencies are one-way:
 they import this roadmap, while this roadmap imports none of them.

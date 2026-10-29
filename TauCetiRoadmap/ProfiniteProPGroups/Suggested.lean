@@ -26,6 +26,8 @@ import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.CohomologicalDimension
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Duality.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.NormalForm.LabuteModule.Relator
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.NormalForm.Marked
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.NormalForm.Two.Even.Image
+import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.NormalForm.Two.Odd.Image
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.NormalForm.Uniqueness
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.OpenSubgroup
 import TauCeti.Topology.Algebra.Group.Profinite.Demushkin.Orientation
@@ -494,22 +496,13 @@ with itself: Tau Ceti's `TauCeti.fpPairing`. Its cup product in bidegree `(1, 1)
 is the cup square `H¹(G, 𝔽_p) × H¹(G, 𝔽_p) → H²(G, 𝔽_p)` that the Demushkin predicate is
 stated against, and there is no second cup product in this roadmap.
 The pairing is the multiplication of `ZMod p`, which is `ZMod p`-bilinear, continuous because the
-coefficients are discrete, and equivariant because the action is trivial. -/
+coefficients are discrete, and equivariant because the action is trivial; its defining equation,
+`(fpPairing p G).bil a b = trivialFpEquiv.symm (trivialFpEquiv a * trivialFpEquiv b)`, is Tau Ceti's
+`TauCeti.fpPairing_bil_apply`. -/
 noncomputable abbrev fpPairing (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] :
     TauCeti.TopPairing (trivialFp p G) (trivialFp p G) (trivialFp p G) :=
   TauCeti.fpPairing p G
-
-/-- **Layer 5, the pairing is multiplication.** The defining equation of `fpPairing`, read
-through the identification `TauCeti.trivialFpEquiv` of the carrier with `ZMod p`: Tau Ceti's
-`TauCeti.fpPairing_bil_apply`. Without it the pairing would be an arbitrary bilinear map and
-every nondegeneracy statement below would be vacuous. It is kept under this name because
-`LocalGaloisGroups` consumes it to compare the cup square with the Kummer cup product. -/
-theorem fpPairing_bil (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] (a b : (trivialFp p G).V) :
-    TauCeti.trivialFpEquiv p G ((fpPairing p G).bil a b) =
-      TauCeti.trivialFpEquiv p G a * TauCeti.trivialFpEquiv p G b := by
-  rw [fpPairing, TauCeti.fpPairing_bil_apply, LinearEquiv.apply_symm_apply]
 
 /-- **Layer 5, the cup square on `H¹(G, 𝔽_p)`.** The bidegree-`(1,1)` cup product at the
 pairing above: Tau Ceti's `TauCeti.cupFp`, which is `(TauCeti.fpPairing p G).cup 1 1`
@@ -731,13 +724,6 @@ noncomputable abbrev demushkinRelatorCharacter {p : ℕ} [Fact p.Prime] {n : ℕ
     freeProP p (Fin n) →ₜ* ℤ_[p]ˣ :=
   TauCeti.demushkinRelatorCharacter hr
 
-/-- **The relator lies in `X`**, the kernel of its associated character, so its class `r̄ ∈ E` is
-defined: Tau Ceti's `TauCeti.demushkinRelatorCharacter_mem_ker`. -/
-theorem demushkinRelatorCharacter_mem_ker {p : ℕ} [Fact p.Prime] {n : ℕ}
-    {r : freeProP p (Fin n)} (hr : IsDemushkin p (presentedProP p (Fin n) {r})) :
-    r ∈ (demushkinRelatorCharacter hr).toMonoidHom.ker :=
-  TauCeti.demushkinRelatorCharacter_mem_ker hr
-
 /-! ### The module statements that the classification uses
 
 With `E` and `Λ` as above, these are the statements Labute's Theorems 5 and 6 run on: the
@@ -754,7 +740,7 @@ consumes. -/
 
 /-- **Layer 9, the module statement for Labute's Theorem 5**, the branch `Im χ = U^[f]` with
 `2 ≤ f < ∞`. For `r` a Demushkin relation in the free pro-`2` group `F` of even rank
-`n`, `χ` its associated character (`hχ`; `hrχ` then holds by `demushkinRelatorCharacter_mem_ker`),
+`n`, `χ` its associated character (`hχ`; `hrχ` then holds by `TauCeti.demushkinRelatorCharacter_mem_ker`),
 and `y ∈ F` with `χ(y) = -(1 + 2^f)`, there is `z ∈ E` with `r̄ = ((1 + 2^f) + ȳ) z`.
 This is Labute's `r̄ = (2 + 2^f + T) z̄₁` (§4.1, p. 123), with his `T = γ - 1` for the class `γ` of
 the basis element `y₂`, `χ(y₂) = -(1 + 2^f)^{-1}`, rewritten in Tau Ceti's convention: `ι` sends
@@ -1063,6 +1049,42 @@ theorem exists_continuousMulEquiv_map_demushkinRelator (n : ℕ) (r r' : freePro
   TauCeti.freeProP.exists_continuousMulEquiv_apply_eq_of_range_demushkinCharacter_eq hr hr' himage
 
 end MarkedNormalForms
+
+/-! ### Layer 9: which pairs `(rank, orientation image)` occur -/
+
+/-- **Layer 9, the existence theorem of the classification, even rank** (Labute Thm 1 and
+Remark 2; Serre, *Structure de certains pro-p-groupes*, Thm 3.2). Let `n` be even and let
+`A ≤ ℤ_pˣ` be closed and pro-`p`. Then `(n, A)` is the pair `(rank, Im χ)` of a Demushkin group
+presented on `n` generators by one relator exactly when `(A : A^p) < p^n` as supernatural numbers.
+Necessity covers every `q`, including `q = 2`; realization is by the normal-form words. At
+`p = 3`, `(n, A) = (2, 1)` gives `1 < 9` and is realized by `ℤ₃²`; at `p = 2`,
+`(2, ℤ₂ˣ)` gives `4 < 4`, false, and `(4, ℤ₂ˣ)` gives `4 < 16`, realized. The value `n = 0` is
+excluded since `1 < 1` fails. The pro-`p` hypothesis is needed: at `p = 3`, `A = ℤ₃ˣ` has
+`(A : A³) = 3 < 9` and is not the image of a pro-`3` group, since it contains `-1`. Proved in Tau
+Ceti as `TauCeti.exists_isDemushkin_range_demushkinCharacter_eq_iff_of_even`. -/
+theorem exists_isDemushkin_range_demushkinCharacter_eq_iff_of_even (p : ℕ) [Fact p.Prime] {n : ℕ}
+    (hn : Even n) {A : Subgroup ℤ_[p]ˣ} (hA : IsClosed (A : Set ℤ_[p]ˣ)) (hAp : IsProP p A) :
+    (∃ r : freeProP p (Fin n), ∃ hG : IsDemushkin p (presentedProP p (Fin n) {r}),
+        demushkinRank hG = n ∧ (demushkinCharacter hG).toMonoidHom.range = A) ↔
+      profiniteIndex ((A.map (powMonoidHom p)).subgroupOf A) <
+        TauCeti.Supernatural.primePower ⟨p, Fact.out⟩ n :=
+  TauCeti.exists_isDemushkin_range_demushkinCharacter_eq_iff_of_even hn hA hAp
+
+/-- **Layer 9, the existence theorem of the classification, odd rank** (Labute Thm 1 and
+Remark 2 (iii); Serre, Thm 3.2; NSW (3.9.10)). For `n` odd and `A ≤ ℤ₂ˣ`, `(n, A)` is the pair
+`(rank, Im χ)` of a Demushkin group presented on `n` generators by one relator exactly when
+`A = {±1}` (the level `f = ∞`, every odd `n`, `n = 1` being `ℤ/2`), or `n ≥ 3` and
+`A = {±1} × U^(f)` with `2 ≤ f < ∞`. It is stated at the prime `2` because odd rank occurs only
+there: for odd `p`, `q ≠ 2` and the cup form is alternating, so the rank is even
+(`TauCeti.IsDemushkin.even_demushkinRank_of_demushkinQ_ne_two`). Checks: `(1, {±1})` is realized
+by `C₂`; `(1, {±1} × U^(2))` is not, since `3 ≤ 1` fails; `(3, U^(2))` is not, since `-1 ∉ U^(2)`.
+Proved in Tau Ceti as `TauCeti.exists_isDemushkin_range_demushkinCharacter_eq_iff_of_odd`. -/
+theorem exists_isDemushkin_range_demushkinCharacter_eq_iff_of_odd {n : ℕ} (hn : Odd n)
+    {A : Subgroup ℤ_[2]ˣ} :
+    (∃ r : freeProP 2 (Fin n), ∃ hG : IsDemushkin 2 (presentedProP 2 (Fin n) {r}),
+        demushkinRank hG = n ∧ (demushkinCharacter hG).toMonoidHom.range = A) ↔
+      A = Subgroup.zpowers (-1 : ℤ_[2]ˣ) ∨ 3 ≤ n ∧ ∃ f, 2 ≤ f ∧ A = unitsPlusMinus f :=
+  TauCeti.exists_isDemushkin_range_demushkinCharacter_eq_iff_of_odd hn
 
 /-! ## Layer 2: profinite Sylow theory -/
 
@@ -1865,6 +1887,7 @@ each `#check` fails to elaborate if the pinned library no longer provides it. -/
 #check @TauCeti.IsTopologicallyFinitelyGenerated.isOpen_pLowerCentralSeries
 #check @TauCeti.completedGroupAlgebra.isMulCommutative_iff
 #check @TauCeti.freeProP.basisModificationDelta_apply
+#check @TauCeti.freeProP.degreeOneBasis_repr_gradedMk_inl
 #check @TauCeti.freeProP.finrank_gradedPiece_one
 #check @TauCeti.freeProP.fromFreeGroup_injective
 #check @TauCeti.freeProP.gradedMk_inv_mul_basisModification
