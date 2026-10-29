@@ -7,14 +7,15 @@ The roadmap is `README.md`; this file is not the roadmap. It states, against the
 pinned Mathlib and Tau Ceti, those headline statements of the roadmap that are
 statable there: the smoothness of the explicit projective models (the Fermat and
 elliptic quartic K3 surfaces and the Enriques K3 cover) on their punctured affine
-cones, and the involution of the Enriques cover.
+cones, and the absence of fixed points of the Enriques involution on its
+projective common zero set.
 
 Not statable at the pins, and therefore not stated here:
 * Freedman's classification of closed simply connected topological four-manifolds
-  and the homotopy classification by intersection forms: there is no cup product on
-  singular cohomology, no fundamental class of a closed oriented topological
-  manifold, hence no intersection form of a four-manifold, and no
-  Kirby–Siebenmann invariant.
+  and the homotopy classification by intersection forms: the missing inputs are
+  the manifold fundamental class and its intersection pairing, and the
+  Kirby–Siebenmann invariant. The singular cup product alone does not supply
+  these manifold constructions.
 * Donaldson's theorem that a definite intersection form of a closed simply
   connected smooth oriented four-manifold is diagonal: it needs the same intersection
   form, together with the moduli space of anti-self-dual SU(2) connections.
@@ -23,9 +24,15 @@ Not statable at the pins, and therefore not stated here:
 * The degree-two Pontryagin square `H²(−;ℤ/2) → H⁴(−;ℤ/4)`: it is a construction
   on cochains (cup-one products) that the pinned libraries lack, so it is a README
   target rather than a declaration here.
-* The quartic and Enriques projective subtypes, the descended free involution and
-  the diffeomorphism `E(2) ≅ K3`: they live on AffineMorseLefschetz A0's
-  projective zero-locus carrier, which is not at the pins.
+* The diffeomorphism `E(2) ≅ K3`, the elliptic-surface classification and the
+  Enriques quotient geometry: the projective zero sets are statable, but their
+  induced smooth atlases, elliptic fibrations and fiber sums are not supplied.
+* All-base ASD compactification and obstruction gluing: the Sobolev connection
+  quotient, deformation complex and Uhlenbeck compactification are missing.
+* Spinᶜ existence and the four-dimensional bundle classifications: the frame
+  lifts, determinant bundles and characteristic-class Postnikov maps are missing.
+* The exotic ℝ⁴ construction: its Casson-handle neighborhoods and their smooth
+  comparison inside K3 and the hyperbolic model are missing.
 -/
 
 namespace TauCetiRoadmap.FourManifolds
@@ -34,6 +41,8 @@ open scoped Manifold
 
 noncomputable section
 
+/-! ## Layer 7: Elliptic surfaces, K3 and boundary Spin data -/
+
 /-- The Fermat quartic `z₀⁴ + z₁⁴ + z₂⁴ + z₃⁴`. -/
 def fermatQuarticPolynomial : MvPolynomial (Fin 4) ℂ :=
   ∑ i : Fin 4, MvPolynomial.X i ^ 4
@@ -41,12 +50,6 @@ def fermatQuarticPolynomial : MvPolynomial (Fin 4) ℂ :=
 /-- Evaluation of the Fermat quartic on the affine cone `ℂ⁴`. -/
 def fermatQuarticMap (v : Fin 4 → ℂ) : ℂ :=
   MvPolynomial.eval v fermatQuarticPolynomial
-
-/-- The derivative of the Fermat quartic is `Σᵢ 4 vᵢ³ dzᵢ`. -/
-theorem fermatQuarticMap_fderiv (v : Fin 4 → ℂ) :
-    fderiv ℂ fermatQuarticMap v =
-      ∑ i : Fin 4, (4 * v i ^ 3) • ContinuousLinearMap.proj i := by
-  sorry
 
 /-- The Fermat quartic has no critical point on the punctured cone, so its
 projective zero locus is a smooth quartic (K3) surface. -/
@@ -77,7 +80,7 @@ theorem ellipticQuarticSeedMap_fderiv_surjective
 def enriquesQuadric (j : Fin 3) : MvPolynomial (Fin 6) ℂ :=
   ∑ i : Fin 6, ((i.val + 1 : ℂ) ^ j.val) • MvPolynomial.X i ^ 2
 
-/-- The free involution negates precisely the first three homogeneous coordinates. -/
+/-- The linear sign change negates precisely the first three coordinates. -/
 def enriquesInvolutionLinear : (Fin 6 → ℂ) ≃ₗ[ℂ] (Fin 6 → ℂ) where
   toFun v i := if i.val < 3 then -v i else v i
   invFun v i := if i.val < 3 then -v i else v i
@@ -99,9 +102,16 @@ theorem enriquesQuadricJacobian_surjective (v : Fin 6 → ℂ) (hv : v ≠ 0)
         MvPolynomial.eval w (enriquesQuadric j)) v) := by
   sorry
 
-/-- The projective Enriques involution squares to the identity. -/
-theorem enriquesProjectiveInvolution_involutive :
-    Function.Involutive enriquesProjectiveInvolution := by
+/-- The common zero set of the three Enriques quadrics in native complex projective space.
+Each equation vanishes on every vector of the represented line. -/
+def enriquesZeroSet : Set (Projectivization ℂ (Fin 6 → ℂ)) :=
+  {p | ∀ v ∈ p.submodule, ∀ j : Fin 3,
+    MvPolynomial.eval v (enriquesQuadric j) = 0}
+
+/-- The projective sign change has no fixed point on the Enriques K3 cover. -/
+theorem enriquesProjectiveInvolution_no_fixed_point
+    (p : Projectivization ℂ (Fin 6 → ℂ)) (hp : p ∈ enriquesZeroSet) :
+    enriquesProjectiveInvolution p ≠ p := by
   sorry
 
 end
