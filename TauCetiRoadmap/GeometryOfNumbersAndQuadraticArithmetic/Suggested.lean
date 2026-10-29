@@ -2,7 +2,6 @@ import Mathlib
 import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
 import TauCeti.NumberTheory.HurwitzClassNumber
 import TauCeti.RepresentationTheory.Continuous.Unitary.Basic
-import TauCetiRoadmap.SuccessiveMinima.Suggested
 
 /-!
 # Geometry of numbers and quadratic arithmetic: headline theorems
@@ -11,17 +10,24 @@ import TauCetiRoadmap.SuccessiveMinima.Suggested
 `README.md`. These statements give Lean forms for headline milestones; discharging them
 finishes neither a layer nor the roadmap. Each theorem is a proof target marked with `sorry`.
 
-The statements cover the intrinsic covolume identities (Layer 0), the upper half of Minkowski's
-second theorem (Layer 1), atomic normal forms over DVRs of any characteristic (Layer 2), finite hermitian embedding counts (Layer 3),
-Henk's bound, Davenport's multiset estimate, Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke,
-Gauss's three-square formula, Siegel's three-square lower bound, Euclidean transference,
-Mahler compactness and critical-lattice existence, Dani–Margulis nondivergence and Siegel's mean value theorem (Layer 4), and the LLL
-short-vector approximation factor (Layer 5). The successive minima are SuccessiveMinima's
-body minima `successiveMin`, real-valued on a `ConvexBody` and indexed by `Fin (finrank ℝ E)`.
-The definitions below specify only reducedness, finite counts, bounded-format multiplicities, shells, strong continuity, covering
-radius, star bodies and lattice transforms used in these statements.
-All have real bodies on native carriers; semialgebraicity, unitarity and Hurwitz class numbers
-use Tau Ceti.
+The statements cover the intrinsic covolume identities (Layer 0), atomic normal forms over DVRs
+of any characteristic (Layer 2), finite hermitian embedding counts (Layer 3), Davenport's multiset
+estimate, Howe–Moore and Moore ergodicity, Ratner's three theorems, Oppenheim, Duke, Gauss's
+three-square formula, Siegel's three-square lower bound, Mahler compactness and critical-lattice
+existence, Dani–Margulis nondivergence and Siegel's mean value theorem (Layer 4), and the LLL
+short-vector approximation factor (Layer 5). The definitions below specify only reducedness,
+finite counts, bounded-format multiplicities, shells, strong continuity, star bodies and lattice
+transforms used in these statements. All have real bodies on native carriers; semialgebraicity,
+unitarity and Hurwitz class numbers use Tau Ceti.
+
+Four headline theorems are not statable at the pins because their statements use the real
+successive minima of a lattice with respect to a convex body, the carrier `successiveMin` of
+SuccessiveMinima, which is not among the pinned Mathlib and Tau Ceti declarations: the upper half
+of Minkowski's second theorem `(∏ λ_i) μ(K) ≤ 2^d covol_μ L` (§1.3.3), Henk's lattice-point bound
+`|L ∩ K| < 2^{d-1} ∏ (⌊2/λ_i⌋ + 1)` (§4.1.12), Banaszczyk's transference bound
+`λ_i(L) λ_{n+1-i}(L*) ≤ n` (§4.4.13) and the covering transference bound
+`1/2 ≤ μ(L) λ_1(L*) ≤ n` (§4.4.14). The comparison of those minima with the squared-norm minima
+of IntegralLattices §2F (§1.2.14) lacks the same carrier. They are README targets.
 
 The Cho–Yamauchi formula and Siegel-polynomial functional equation (§3.2) are deferred here:
 the pins do not provide the local hermitian density, normalized Siegel polynomial or integral
@@ -181,36 +187,6 @@ theorem davenport_multiset_estimate (n m k ell : ℕ) (hn : 1 ≤ n) :
               r = volume.real ((fun x : Fin n → ℝ => fun i : s => x i) ''
                 Function.support M.multiplicity)}) := by sorry
 
-section MinkowskiSecondUpper
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
-
-/-- **Minkowski's second theorem, upper half** (1.3.3): `(∏ λ_i) μ(K) ≤ 2^d covol_μ L` for any
-additive Haar measure and any centrally symmetric convex body, with no interior hypothesis.
-Source: Henk, *Successive minima and lattice points*, Theorem 1.3 and its proof in §3. -/
-theorem prod_successiveMin_mul_measureReal_le_two_pow_mul_covolume
-    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    (K : ConvexBody E) (hsym : ∀ x ∈ K, -x ∈ K) (μ : Measure E) [μ.IsAddHaarMeasure] :
-    (∏ i : Fin (finrank ℝ E), SuccessiveMinima.successiveMin L K i) * μ.real (K : Set E) ≤
-      (2 : ℝ) ^ (finrank ℝ E) * ZLattice.covolume L μ := by sorry
-
-end MinkowskiSecondUpper
-
-section HenkProduct
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-
-/-- **Henk's Theorem 1.5** (4.1.12): `|L ∩ K| < 2^{d-1} ∏ (⌊2/λ_i⌋ + 1)` for `d ≥ 2`. -/
-theorem lattice_count_lt_successive_minima
-    (L : Submodule ℤ E) [DiscreteTopology L] [IsZLattice ℝ L]
-    (K : ConvexBody E) (hK : (0 : E) ∈ interior (K : Set E))
-    (hsym : ∀ x ∈ K, -x ∈ K) (hd : 2 ≤ finrank ℝ E) :
-    {x : E | x ∈ L ∧ x ∈ K}.ncard <
-      2 ^ (finrank ℝ E - 1) *
-        ∏ i : Fin (finrank ℝ E),
-          (Nat.floor (2 / SuccessiveMinima.successiveMin L K i) + 1) := by sorry
-
-end HenkProduct
-
 section HilbertDynamics
 variable {G H : Type*} [Group G] [TopologicalSpace G]
   [NormedAddCommGroup H] [InnerProductSpace ℂ H]
@@ -354,39 +330,6 @@ sequence excluding `7 mod 8` (4.3), including the small discriminants with extra
 theorem siegel_three_square_lower_bound (ε : ℝ) (hε : 0 < ε) :
     ∃ c : ℝ, 0 < c ∧ ∀ n : ℕ, 0 < n → Squarefree n → n % 8 ≠ 7 →
       c * Real.rpow (n : ℝ) (1 / 2 - ε) ≤ (Nat.card (ternaryShell n) : ℝ) := by sorry
-
-section PackingCovering
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
-
-/-- The covering radius `sup_x d(x, L)` (4.4.2). -/
-def latticeCoveringRadius (L : Submodule ℤ E) : ℝ :=
-  sSup (Set.range (fun x : E => Metric.infDist x (L : Set E)))
-
-end PackingCovering
-
-section Transference
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-
-/-- **Banaszczyk's transference theorem** (4.4.13): `λ_i(L) λ_{n+1-i}(L*) ≤ n`. -/
-theorem euclidean_dual_transference_upper (L : Submodule ℤ E)
-    [DiscreteTopology L] [IsZLattice ℝ L] (K : ConvexBody E)
-    (hK : (K : Set E) = Metric.closedBall 0 1)
-    (i j : Fin (finrank ℝ E)) (hij : i.val + j.val + 1 = finrank ℝ E) :
-    SuccessiveMinima.successiveMin L K i *
-      SuccessiveMinima.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) K j ≤
-        (finrank ℝ E : ℝ) := by sorry
-
-/-- **Covering transference** (4.4.14): `1/2 ≤ μ(L) λ_1(L*) ≤ n`. -/
-theorem covering_dual_transference (L : Submodule ℤ E)
-    [DiscreteTopology L] [IsZLattice ℝ L] (K : ConvexBody E)
-    (hK : (K : Set E) = Metric.closedBall 0 1) (hd : 0 < finrank ℝ E) :
-    (1/2 : ℝ) ≤ latticeCoveringRadius L *
-      SuccessiveMinima.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) K ⟨0, hd⟩ ∧
-    latticeCoveringRadius L *
-      SuccessiveMinima.successiveMin (LinearMap.BilinForm.dualSubmodule (innerₗ E) L) K ⟨0, hd⟩ ≤
-        (finrank ℝ E : ℝ) := by sorry
-
-end Transference
 
 section StarBodies
 variable (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
