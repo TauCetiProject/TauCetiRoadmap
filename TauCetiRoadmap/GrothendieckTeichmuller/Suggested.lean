@@ -132,7 +132,7 @@ noncomputable instance : Monoid Param where
 
 /-- **Layer 1.4.** Uniqueness of `f` given `β`, for unit exponents. Without `IsUnit p.lam` it is
 false: `(0, 1)` and `(0, [x, y])` have the same `β`. -/
-theorem eq_of_beta_eq {p q : Param} (hλ : IsUnit p.lam) (hp : p.f ∈ commutatorClosure)
+theorem eq_of_beta_eq {p q : Param} (hlam : IsUnit p.lam) (hp : p.f ∈ commutatorClosure)
     (hq : q.f ∈ commutatorClosure) (h : beta p = beta q) : p = q := by
   sorry
 
