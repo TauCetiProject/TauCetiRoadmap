@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Basic
 
 /-!
 # Stratified spaces, tubular data and tame topology: target signatures
@@ -12,7 +13,9 @@ The choices fixed here are: a stratification is a map to a poset that is continu
 upper-set (Alexandrov) topology, so closures of strata go *down* the poset; the open cone carries
 the uniform-collar topology at its apex rather than the quotient topology; an exit path is a path
 along which the stratum index is monotone; a cylinder over `Fin n → R` adds coordinate `0` and
-projects by `Fin.tail`, as in the cylindrical algebraic decomposition of RealAlgebraicGeometry.
+projects by `Fin.tail`, as in the cylindrical algebraic decomposition of RealAlgebraicGeometry;
+the semialgebraic structure is the one whose definable sets are `TauCeti.IsSemialgebraic`, and the
+semialgebraic triangulation theorem is the specialization of the general o-minimal one.
 The smoothness conditions of Thom--Mather control data are stated in `README.md`; the structure
 below records their topological part only.
 -/
@@ -290,5 +293,48 @@ theorem OMinimalStructure.exists_triangulation {R : Type u} [Field R] [LinearOrd
       Φ '' A = ⋃ τ ∈ T, openSimplex τ ∧ ContinuousOn (Function.invFunOn Φ A) (Φ '' A) ∧
       ∀ B ∈ ℬ, ∃ T' ⊆ T, Φ '' B = ⋃ τ ∈ T', openSimplex τ := by
   sorry
+
+/-! ## Layers 4.2 and 4.9: the semialgebraic structure and the specialization -/
+
+/-- The semialgebraic structure on `ℝ`: its definable sets are the `TauCeti.IsSemialgebraic` sets.
+Closure under the projection `Fin.tail` is Tau Ceti's `TauCeti.IsSemialgebraic.image_tail`
+(Tarski--Seidenberg); the one-variable axiom comes from the sign descriptions of semialgebraic
+sets and the finiteness of real roots. -/
+def semialgebraicStructure : OMinimalStructure ℝ where
+  Definable _ := {A | TauCeti.IsSemialgebraic A}
+  empty_mem := sorry
+  compl_mem := sorry
+  union_mem := sorry
+  tail_cylinder_mem := sorry
+  init_cylinder_mem := sorry
+  diagonal_mem := sorry
+  lt_mem := sorry
+  image_tail_mem := sorry
+  mem_one_iff := sorry
+
+theorem semialgebraicStructure_add_mem :
+    {x : Fin 3 → ℝ | x 0 = x 1 + x 2} ∈ semialgebraicStructure.Definable 3 := by
+  sorry
+
+theorem semialgebraicStructure_mul_mem :
+    {x : Fin 3 → ℝ | x 0 = x 1 * x 2} ∈ semialgebraicStructure.Definable 3 := by
+  sorry
+
+/-- The semialgebraic triangulation theorem, as the specialization of
+`OMinimalStructure.exists_triangulation` to `semialgebraicStructure`. For compact `A` this is the
+finite triangulation of a compact semialgebraic set compatible with finitely many semialgebraic
+subsets; AffineMorseLefschetz A4.1's existential statement is this one, while its CAD-based
+construction keeps the lifting data that RealAnalyticGeometry R2.1 consumes. -/
+theorem exists_triangulation_semialgebraic {n : ℕ} (A : Set (Fin n → ℝ))
+    (hA : TauCeti.IsSemialgebraic A) (ℬ : Finset (Set (Fin n → ℝ)))
+    (hℬ : ∀ B ∈ ℬ, TauCeti.IsSemialgebraic B ∧ B ⊆ A) :
+    ∃ (K : Geometry.SimplicialComplex ℝ (Fin n → ℝ)) (T : Set (Finset (Fin n → ℝ)))
+      (Φ : (Fin n → ℝ) → (Fin n → ℝ)),
+      K.faces.Finite ∧ T ⊆ K.faces ∧ semialgebraicStructure.DefinableMapOn A Φ ∧
+      ContinuousOn Φ A ∧ InjOn Φ A ∧ Φ '' A = ⋃ τ ∈ T, openSimplex τ ∧
+      ContinuousOn (Function.invFunOn Φ A) (Φ '' A) ∧
+      ∀ B ∈ ℬ, ∃ T' ⊆ T, Φ '' B = ⋃ τ ∈ T', openSimplex τ :=
+  semialgebraicStructure.exists_triangulation semialgebraicStructure_add_mem
+    semialgebraicStructure_mul_mem A hA ℬ hℬ
 
 end TauCetiRoadmap.StratifiedSpacesAndTameTopology
