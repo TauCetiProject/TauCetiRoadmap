@@ -14,8 +14,9 @@ its adic spectrum (P8.1–P8.2), invariants of a perfectoid Tate ring (P8.4), ca
 of pre-adic spaces with invertible group order and of perfectoid spaces under an invariant affinoid
 perfectoid cover (P8.6–P8.9), clean neighbourhoods (P8.13), perfectoidisation of integral
 extensions and of integral extensions of perfectoid pairs (P8.18), and the affine forms of torsor
-descent: descent of finite projective modules (P9.8), twisted invariants and their finite-level
-comparison (P9.9–P9.10) and integral effectivity in a chosen frame (P9.13).
+descent: descent of finite projective modules (P9.8), twisted invariants, their finite-level
+comparison and the finite projective rank-one finite-level line (P9.9–P9.10), and integral
+effectivity in a chosen frame (P9.13).
 
 The following headlines are not statable at the pins and stay README targets:
 the diamond of a finite quotient and free quotients as torsors (P8.11–P8.12), which need
@@ -69,7 +70,9 @@ variable [TopologicalSpace A] [IsTopologicalRing A]
 
 /-- For a finite group acting by continuous ring automorphisms on a Tate ring, `A^G` with the
 subspace topology is a Tate ring: `A₀^G` is a ring of definition for a `G`-stable ring of
-definition `A₀`, and `N(ϖ)` is a pseudouniformiser (Hansen Theorem 3.1(i), pp. 4–6). -/
+definition `A₀`, and `N(ϖ)` is a pseudouniformiser (part (i) of P8.1; Hansen §2, p. 3, with the
+invariant pseudouniformiser fixed in Step 1 of the proof of Theorem 3.1, p. 4, and the invariant
+ring of definition in the proof of Theorem 3.3, p. 7). -/
 theorem isTateRing_fixedPoints [IsTateRing A] [Finite G] [ContinuousConstSMul G A] :
     IsTateRing (FixedPoints.subring A G) := sorry
 
@@ -77,13 +80,15 @@ attribute [instance] isTateRing_fixedPoints
 
 variable [IsTateRing A]
 
-/-- `A⁺ ∩ A^G` is a ring of integral elements of `A^G` (Hansen Theorem 3.1(iii), p. 6). -/
+/-- `A⁺ ∩ A^G` is a ring of integral elements of `A^G` (part (iii) of P8.1; Hansen, Step 3 of the
+proof of Theorem 3.1, p. 6, where `A⁺` is the integral closure of `A⁺ ∩ A^G`). -/
 theorem isRingOfIntegralElements_comap_fixedPoints [Finite G] [ContinuousConstSMul G A]
     (P : Pair A) :
     IsRingOfIntegralElements (P.plus.comap (FixedPoints.subring A G).subtype) := sorry
 
 /-- The invariant Huber pair `(A^G, A^{+G})`, `A^{+G} = A⁺ ∩ A^G`, of a finite group acting by
-continuous ring automorphisms on a Tate ring (Hansen §2 and Theorem 3.1, pp. 3–6). No hypothesis
+continuous ring automorphisms on a Tate ring (Hansen §2, p. 3, and the proof of Theorem 3.1,
+Steps 1 and 3, pp. 4–6). No hypothesis
 on `|G|` is made. The theorems about it assume that `G` preserves `A⁺`. -/
 def invariantPair [Finite G] [ContinuousConstSMul G A] (P : Pair A) :
     Pair (FixedPoints.subring A G) where
@@ -403,6 +408,23 @@ theorem finite_character_comparison_linear {A B C G H : Type*}
     ∃ e : (twistedInvariants c).restrictScalars A ≃ₗ[A]
         (twistedInvariants c₀).restrictScalars A,
       ∀ z, i (e z).val = z.val * u := sorry
+
+/-- **Finite-level character lines.** Let a finite group `G` act on `B` with `B` finite and
+faithfully flat over `B^G` and the torsor map `B ⊗_{B^G} B → ∏_G B`, `b ⊗ b' ↦ (g ↦ b * g • b')`,
+bijective. For a unit cocycle `c(gh) = c(g) g(c(h))` the `c`-twisted invariants form a finite
+projective `B^G`-module of rank one at every prime: they descend the free line `B` along the
+finite étale torsor. No hypothesis on `|G|` is made (CHJ, paragraph after Proposition 2.27,
+pp. 21–22, and Theorem 2.28, p. 22). -/
+theorem finite_character_line {G B : Type*} [Group G] [Finite G] [CommRing B]
+    [MulSemiringAction G B] [Module.Finite (FixedPoints.subring B G) B]
+    [Module.FaithfullyFlat (FixedPoints.subring B G) B]
+    (htorsor : ∃ e : B ⊗[FixedPoints.subring B G] B ≃ₗ[FixedPoints.subring B G] (G → B),
+      ∀ b b' : B, e (b ⊗ₜ b') = fun g ↦ b * (g • b'))
+    (c : G → Bˣ) (hc : ∀ g h, (c (g * h) : B) = c g * (g • (c h : B))) :
+    Module.Finite (FixedPoints.subring B G) (twistedInvariants c) ∧
+      Module.Projective (FixedPoints.subring B G) (twistedInvariants c) ∧
+      ∀ 𝔭 : PrimeSpectrum (FixedPoints.subring B G),
+        Module.rankAtStalk (twistedInvariants c) 𝔭 = 1 := sorry
 
 /-! ### Descent of finite projective modules -/
 
