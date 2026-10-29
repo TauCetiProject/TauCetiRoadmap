@@ -107,16 +107,18 @@ NumberFieldArithmetic, layer 4, supplies the discriminant identities used in sca
 RepresentationTheory/LieGroups, layer 9, supplies Cartan and Iwasawa theory; simultaneous
 self-adjointness of a nested chain is proved in AA.3.3. GlobalQuadraticForms, layer 5,
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
-for approximation obstructions. ClassFieldTheory, layers 11–12, supplies quadratic idele
-characters, reciprocity and the global norm-index theorem, and the ray class fields with their
-Artin isomorphisms (layer 12). The continuation to a neighbourhood of one and the nonvanishing at
+for approximation obstructions. ClassFieldTheory supplies global reciprocity (layer 11), the
+global norm-index theorem and the ray-class Artin map (layer 12), the ray class fields with their
+Artin isomorphisms and the cyclic Hasse norm theorem (layer 13), and the local Brauer group with
+the global Brauer sequence (layers 5 and 10). The continuation to a neighbourhood of one and the nonvanishing at
 one of the L-function of a nontrivial finite-order Hecke character are owned by AA.2.4
 (*finite-order-hecke-at-one*), on the pinned ray class and Dirichlet-series declarations of Tau
 Ceti. RepresentationTheory/InductionRestriction,
 layer 6, supplies abstract Brauer induction; the pinned Tau Ceti Brauer, nilpotent monomiality
 and induction-transitivity theorems give integral combinations of induced linear characters.
-AA supplies the ramified local Artin-factor induction identity, the one-dimensional
-Artin–Hecke comparison and analytic assembly. RepresentationTheory/CompactGroups,
+AA supplies the ramified local Artin-factor induction identity and the one-dimensional
+Artin–Hecke comparison (*artin-local-factors*) and the analytic assembly (*convergence-factors*).
+RepresentationTheory/CompactGroups,
 layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the Haar probability
 measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
 measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
@@ -258,12 +260,12 @@ one, and a single weight of multiplicity two contributes the square.
 |---|---|---|
 | Relative roots and weights | RG2.1 targets `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`; `ReductiveGroupsPartII/README.md` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. The local modulus is RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus`, `ReductiveGroupsPartII/Suggested.lean`. |
 | Geometric torsors and classes | SchemeAndStackFoundations, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
-| Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula, the nonzero leading coefficient at one and its positivity for character lattices (README targets of *convergence-factors* and AA.2.5) | Determinants on inertia invariants and the nonzero leading coefficient at one. |
+| Finite-image Artin factors | AA.2.4 owns the local factors on inertia invariants, their induction formula and the one-dimensional comparison (*artin-local-factors*), and the nonzero leading coefficient at one with its positivity for character lattices (*convergence-factors*); AA.2.5 states the global consequence of the induction formula | Determinants on inertia invariants and the nonzero leading coefficient at one. |
 | Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
 | Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Brauer and monomial character induction | RepresentationTheory/InductionRestriction, layer 6; pinned `TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`: `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`, `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`; `TauCeti/GroupTheory/Elementary.lean`: `TauCeti.IsElementary.isNilpotent`; `TauCeti/RepresentationTheory/Induction/Monomial.lean`: `FDRep.exists_character_eq_indClassFun_of_isNilpotent`; `TauCeti/RepresentationTheory/Induction/ClassFunction.lean`: `TauCeti.indClassFun_indClassFun_subgroupOf` | For a finite group over an algebraically closed characteristic-zero field, write every character as an integral combination of characters induced from linear characters of subgroups. AA.2.4 owns the ramified local Artin-factor induction identity, one-dimensional Artin–Hecke comparison and analytic assembly. |
-| Finite-order Hecke L-functions at one | AA.2.4 owns (*finite-order-hecke-at-one*) the continuation of the L-function of a nontrivial ray class character to `Re s > 1 − 1/[F:ℚ]`, its nonzero value at one, the finite Euler correction between presentations and the reduction to the primitive character. Pinned inputs: `TauCeti.GlobalNumberFields.RayClassCharacter`, `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`, `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`, `TauCeti.GlobalNumberFields.RayClassCharacter.conductor`, `TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`, `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`, `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum` (`TauCeti/NumberTheory/NumberField/Global/RayClass/Character/`); `TauCeti.HasCancellation`, `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_eq_LSeries`, `TauCeti.differentiableAt_continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Cancellation.lean`), `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Cancellation/Nonvanishing.lean`); ClassFieldTheory, layer 12 (`rayClassField`, `gal_rayClassField_equiv_rayClassGroup`) | The nonzero value at one of the L-function of every nontrivial finite-order character, at every presentation, is the analytic input of *convergence-factors*. |
-| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by the finite Euler correction of *finite-order-hecke-at-one*; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
+| Finite-order Hecke L-functions at one | AA.2.4 owns (*finite-order-hecke-at-one*) the continuation of the L-function of a nontrivial ray class character to `Re s > 1 − 1/[F:ℚ]`, its nonzero value at one, the finite Euler correction between presentations and the reduction to the primitive character. Pinned inputs: `TauCeti.GlobalNumberFields.RayClassCharacter`, `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`, `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`, `TauCeti.GlobalNumberFields.RayClassCharacter.conductor`, `TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`, `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`, `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum` (`TauCeti/NumberTheory/NumberField/Global/RayClass/Character/`); `TauCeti.HasCancellation`, `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.HasCancellation.restrict`, `TauCeti.continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_eq_LSeries`, `TauCeti.differentiableOn_continuedLFunctionOfWeight`, `TauCeti.differentiableAt_continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`, `TauCeti.continuedLFunctionOfWeight_restrict` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Cancellation.lean`), `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Cancellation/Nonvanishing.lean`); ClassFieldTheory, layer 13 (`rayClassField`, `gal_rayClassField_equiv_rayClassGroup`) | The nonzero value at one of the L-function of every nontrivial finite-order character, at every presentation, is the analytic input of *convergence-factors*; it is stated as `FiniteOrderHecke.continuedLFunctionOfWeight_one_ne_zero`. |
+| One-dimensional Artin–Hecke comparison | ClassFieldTheory, layer 12 (`rayClassArtinMap`, `rayClassArtinMap_idealClass`), with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*artin-local-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by the finite Euler correction of *finite-order-hecke-at-one*; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
 
@@ -465,10 +467,12 @@ Global number fields:
 `TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`,
 `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`,
 `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum`,
-`TauCeti.HasCancellation`, `TauCeti.hasCancellation_iff_isBigO`,
+`TauCeti.HasCancellation`, `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.HasCancellation.restrict`,
 `TauCeti.continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_eq_LSeries`,
+`TauCeti.differentiableOn_continuedLFunctionOfWeight`,
 `TauCeti.differentiableAt_continuedLFunctionOfWeight`,
 `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`,
+`TauCeti.continuedLFunctionOfWeight_restrict`,
 `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
 `IsDedekindDomain.FiniteAdeleRing.quotientEquivClassGroup`, `QuaternionAlgebra.normForm`,
 `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`. Reduction and levels: `TauCeti.cholesky`,
@@ -513,9 +517,10 @@ NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/L
 (Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
-obstructions only). ClassFieldTheory, layers 11–12
-(quadratic idele characters, reciprocity, the global norm-index theorem, ray class fields and
-their Artin isomorphisms); the continuation and nonvanishing at one of finite-order Hecke
+obstructions only). ClassFieldTheory, layers 11–13
+(reciprocity; the global norm-index theorem and the ray-class Artin map; ray class fields with
+their Artin isomorphisms and the cyclic Hasse norm theorem) and layers 5 and 10 (the local Brauer
+group and the global Brauer sequence); the continuation and nonvanishing at one of finite-order Hecke
 L-functions are owned in AA.2.4, and AA assembles the finite-image Artin functions.
 AlgebraicTopology,
 stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layers 0–1
@@ -1991,6 +1996,72 @@ restriction of scalars.
   - For `G_m/𝒪_v` with `ω = dT/T`, it gives `(q_v − 1) q_v⁻¹ = 1 − q_v⁻¹`.
   - For `GL₂` at `q_v = 2`, `|ω|_v(GL₂(𝒪_v)) = 6/16 = 3/8`; a measure
     normalized by `vol(GL₂(𝒪_v)) = 1` satisfies the other clauses and gives `1`.
+- **Finite-image Artin local factors and the one-dimensional comparison.**
+  (*artin-local-factors*) For a number field `F` and a continuous complex representation
+  `ρ : Gal(F̄/F) → GL(V)` with finite image on a finite-dimensional complex vector space `V`, a
+  finite place `v` of `F` and a place `v̄` of `F̄` above it, let `I_v ⊆ D_v` be the inertia and
+  decomposition groups of `v̄` and `Φ_v ∈ D_v` an arithmetic Frobenius lift (`x ↦ x^{q_v}` on the
+  residue field). Use arithmetic Frobenius throughout; if a reciprocity API uses geometric
+  Frobenius, compose its reciprocity map with inversion before forming the Hecke character.
+  Define the local Artin factor `L_v(ρ, s) = det(1 − q_v^(−s) ρ(Φ_v) | V^{I_v})^(−1)` on the
+  inertia invariants `V^{I_v}` and prove:
+  - **Well defined.** The determinant does not depend on the lift `Φ_v` (two lifts differ by an
+    element of `I_v`, which acts trivially on `V^{I_v}`), nor on the place `v̄` above `v` (the
+    decomposition data of two such places are conjugate in `Gal(F̄/F)`), and it is invariant under
+    isomorphisms of representations ([Marzec–Neururer], Definition 5.11 and Remark 5.12, p. 62).
+  - **Multiplicativity.** `L_v(ρ ⊕ ρ′, s) = L_v(ρ, s) L_v(ρ′, s)`, the inertia invariants of a
+    direct sum being the direct sum of the inertia invariants ([Marzec–Neururer], Theorem 5.14(ii),
+    pp. 62–63). The factor of the trivial one-dimensional representation is `(1 − q_v^(−s))^(−1)`,
+    the Euler factor of `ζ_F` at `v`.
+  - **Induction at every finite place.** For a finite separable `E/F` and a continuous
+    finite-image representation `τ` of `Gal(F̄/E)`, `L_v(Ind_{G_E}^{G_F} τ, s) = ∏_{w ∣ v} L_w(τ, s)`
+    at every finite place `v` of `F`, including the places ramified in `E/F`, both sides computed
+    on inertia invariants: the restriction of the induced representation to `D_v` decomposes along
+    the double cosets of `D_v` and `Gal(F̄/E)` in `Gal(F̄/F)`, one for each place `w ∣ v` of `E`, and on the
+    summand of `w` the inertia invariants form cyclic blocks of length `f(w/v)` on which `Φ_v`
+    acts through `Φ_w = Φ_v^{f(w/v)}`, so each block contributes the characteristic polynomial of
+    `Φ_w` in the variable `q_v^{−f(w/v) s} = q_w^{−s}` ([Marzec–Neururer], Proposition 5.10,
+    pp. 61–62, and Theorem 5.14(iv), pp. 63–64). In particular, for `τ` trivial,
+    `L_v(Ind_{G_E}^{G_F} 1, s) = ∏_{w ∣ v} (1 − q_w^(−s))^(−1)`, the product of the Euler factors
+    of `ζ_E` above `v`.
+  - **One-dimensional comparison.** For a modulus `𝔪` of `F` and a character `ψ` of `Gal(F̄/F)`
+    of finite order whose conductor divides `𝔪`, so that `ψ` factors through the ray class field
+    `F_𝔪`, let `ψ̃` be the ray class character of `𝔪` with `ψ̃([𝔭]) = ψ(Frob_𝔭)` for every prime
+    `𝔭 ∤ 𝔪` (the ray-class Artin map of ClassFieldTheory, with arithmetic Frobenius). At every
+    prime `𝔭 ∤ 𝔪` the Artin factor `(1 − ψ(Frob_𝔭) N𝔭^(−s))^(−1)` equals the Euler factor of the
+    weight `w_{ψ̃}`; at a prime `𝔭 ∣ 𝔪` at which `ψ` is nontrivial on inertia both factors are `1`
+    (the inertia invariants of a line on which inertia acts nontrivially are zero, and
+    `w_{ψ̃}(𝔭) = 0`); at a prime `𝔭 ∣ 𝔪` at which `ψ` is trivial on inertia the Artin factor is
+    `(1 − ψ(Frob_𝔭) N𝔭^(−s))^(−1)` while the Hecke factor is `1`. Hence, with `S_ψ` the set of
+    primes dividing `𝔪` at which `ψ` is trivial on inertia, on `Re s > 1`
+    `L(ψ, s) = L_𝔪(s, ψ̃) ∏_{𝔭 ∈ S_ψ} (1 − ψ(Frob_𝔭) N𝔭^(−s))^(−1)`, where `L(ψ, s)` is the
+    Euler product of the local factors and `L_𝔪(s, ψ̃)` the presented Hecke L-function of
+    *finite-order-hecke-at-one*, a Dirichlet series there by the pinned
+    `TauCeti.continuedLFunctionOfWeight_eq_LSeries` ([Marzec–Neururer], Theorem 5.17, p. 65).
+    `S_ψ` is empty when `𝔪` is the conductor of `ψ`.
+  *Needs:* ClassFieldTheory, layer 12 (`rayClassArtinMap`, `rayClassArtinMap_idealClass`) and
+  layer 13 (`rayClassField`); Mathlib `LinearMap.det`; Tau Ceti
+  `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`,
+  `TauCeti.continuedLFunctionOfWeight_eq_LSeries`.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - For `ℚ(i)/ℚ` at `2`, inertia swaps the two basis vectors of `Ind 1`. Its invariant space is
+    the diagonal line, Frobenius is the identity there, and both sides of the induction identity
+    are `(1 − 2^(−s))^(−1)`; using the full two-dimensional space would square the factor.
+  - Rank-zero inertia invariants give factor one: for `χ₄` at `2`, inertia acts by `−1` on the
+    line, the Artin factor is `1`, and `w_{χ₄}((2)) = 0` gives Hecke factor `1`, so the comparison
+    at the conductor `4∞` has no correction.
+  - A residue-degree-two block has determinant `1 − z²`, not `(1 − z)²`: for `ℚ(i)/ℚ` at the
+    inert prime `3`, Frobenius swaps the two basis vectors of `Ind 1`, the factor is
+    `(1 − 3^(−2s))^(−1) = (1 − 3^(−s))^(−1) (1 + 3^(−s))^(−1)`, the product of the Euler factors
+    of `ζ` and of `L(s, χ₄)` at `3`, and equal to the Euler factor of `ζ_{ℚ(i)}` at the prime
+    `(3)` of norm `9`.
+  - `χ₄` presented at modulus `12∞`: `3 ∈ S_{χ₄}` since `3` is unramified in `ℚ(i)`, while
+    `2 ∉ S_{χ₄}`, and the comparison reads `L(χ₄, s) = L_{12∞}(s, χ̃₄) (1 + 3^(−s))^(−1)`, in
+    agreement with the Euler correction `L_{12∞}(s, χ̃₄) = L_{4∞}(s, χ₄) (1 + 3^(−s))` of
+    *finite-order-hecke-at-one*; reading `S_ψ` as every prime dividing `12` would insert a factor
+    at `2` with `Frob_2` undefined.
 - **Finite-order Hecke L-functions at one.** (*finite-order-hecke-at-one*) For a number field
   `F`, a modulus `𝔪` and a ray class character `χ` of `𝔪` (Tau Ceti's
   `TauCeti.GlobalNumberFields.RayClassCharacter`, a character of the finite ray class group
@@ -2008,15 +2079,18 @@ restriction of scalars.
     `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum`, and an eventual bound is a
     bound for all `x ≥ 1` (pinned `TauCeti.hasCancellation_iff_isBigO`). Hence `L_𝔪(s, χ)` is
     holomorphic on `Re s > 1 − 1/[F:ℚ]`, a half-plane containing `s = 1` (pinned
+    `TauCeti.differentiableOn_continuedLFunctionOfWeight`; at the points of `Re s ≥ 1`, pinned
     `TauCeti.differentiableAt_continuedLFunctionOfWeight`).
   - **Euler correction between presentations.** For `𝔪 ∣ 𝔫` and `χ′` the character of `𝔫`
     induced from `χ`, `w_{χ′}` is `w_χ` restricted away from the primes dividing `𝔫` (pinned
     `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`), so on `Re s > 1`
     `L_𝔫(s, χ′) = L_𝔪(s, χ) · ∏_{𝔭 ∣ 𝔫, 𝔭 ∤ 𝔪} (1 − χ([𝔭]) N𝔭^(−s))` (pinned
     `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`; the factors at the primes
-    dividing `𝔪` are `1` because `w_χ` vanishes there). For `χ ≠ 1` both sides are holomorphic
-    on the connected half-plane `Re s > 1 − 1/[F:ℚ]`, so the identity holds there, in particular
-    at `s = 1`, where every correction factor is nonzero since `|χ([𝔭]) N𝔭^(−1)| < 1`. Applied
+    dividing `𝔪` are `1` because `w_χ` vanishes there). For `χ ≠ 1` the identity holds on all of
+    `Re s > 1 − 1/[F:ℚ]` (pinned `TauCeti.continuedLFunctionOfWeight_restrict`, under the
+    cancellation of `w_χ`; the restricted weight `w_{χ′}` has cancellation by the pinned
+    `TauCeti.HasCancellation.restrict`), in particular at `s = 1`, where every correction factor
+    is nonzero since `|χ([𝔭]) N𝔭^(−1)| < 1`. Applied
     to the conductor `𝔣 = χ.conductor`: `χ` is induced from its primitive character `χ⁰` at `𝔣`
     (pinned `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`), `χ ≠ 1`
     exactly when `χ⁰ ≠ 1`, and `L_𝔪(1, χ)` is `L_𝔣(1, χ⁰)` times the nonzero correction at the
@@ -2027,16 +2101,17 @@ restriction of scalars.
     `TauCeti.dedekindZeta_eulerProduct_hasProd`), so `(s − 1) L_𝔪(s, 1)` tends to
     `Res_{s=1} ζ_F · ∏_{𝔭 ∣ 𝔪} (1 − N𝔭^(−1))` as `s → 1⁺`, a positive number (Mathlib
     `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`, `NumberField.dedekindZeta_residue_pos`).
-  - **Nonvanishing at one.** For `χ ≠ 1`, `L_𝔪(1, χ) ≠ 0` ([Marzec–Neururer], Corollary 5.18,
-    p. 66). Route: let `F_𝔪/F` be the ray class field of `𝔪` with its Artin isomorphism
-    `Cl_𝔪 ≅ Gal(F_𝔪/F)` (ClassFieldTheory, layer 12, with arithmetic Frobenius as in the
-    one-dimensional Artin–Hecke comparison of the supplier table), under which the nontrivial
-    ray class characters of `𝔪` are the nontrivial characters `ψ` of `Gal(F_𝔪/F)`. The ramified
-    induction identity of *convergence-factors* for the regular representation of `Gal(F_𝔪/F)`,
-    an identity of Euler factors prime by prime that takes no leading coefficient, gives
-    `ζ_{F_𝔪}(s) = ζ_F(s) ∏_{ψ ≠ 1} L(ψ, s)` with `L(ψ, s)` the Artin L-function on inertia
-    invariants ([Marzec–Neururer], Corollary 5.15, p. 64), and the one-dimensional comparison
-    gives `L(ψ, s) = L_𝔪(s, ψ̃) ∏_{𝔭 ∈ S_ψ} (1 − ψ(Frob_𝔭) N𝔭^(−s))^(−1)` with `S_ψ` the primes
+  - **Nonvanishing at one.** For `χ ≠ 1`, `L_𝔪(1, χ) ≠ 0`
+    (`FiniteOrderHecke.continuedLFunctionOfWeight_one_ne_zero`; [Marzec–Neururer],
+    Corollary 5.18, p. 66). Route: let `F_𝔪/F` be the ray class field of `𝔪` with its Artin
+    isomorphism `Cl_𝔪 ≅ Gal(F_𝔪/F)` (ClassFieldTheory, layer 13, with arithmetic Frobenius as in
+    the one-dimensional comparison of *artin-local-factors*), under which the nontrivial ray
+    class characters of `𝔪` are the nontrivial characters `ψ` of `Gal(F_𝔪/F)`. The induction
+    identity of *artin-local-factors* for the regular representation of `Gal(F_𝔪/F)`, an
+    identity of Euler factors prime by prime that takes no leading coefficient, together with its
+    multiplicativity, gives `ζ_{F_𝔪}(s) = ζ_F(s) ∏_{ψ ≠ 1} L(ψ, s)` on `Re s > 1`, with `L(ψ, s)`
+    the Artin L-function on inertia invariants ([Marzec–Neururer], Corollary 5.15, p. 64), and
+    the one-dimensional comparison of *artin-local-factors* gives `L(ψ, s) = L_𝔪(s, ψ̃) ∏_{𝔭 ∈ S_ψ} (1 − ψ(Frob_𝔭) N𝔭^(−s))^(−1)` with `S_ψ` the primes
     dividing `𝔪` at which `ψ` is trivial on inertia ([Marzec–Neururer], Theorem 5.17, p. 65),
     each such factor finite and nonzero at one. Since `ζ_{F_𝔪}` and `ζ_F` have simple poles at
     one with positive residues, `∏_{ψ ≠ 1} L_𝔪(s, ψ̃)` has a finite nonzero limit at `s = 1`,
@@ -2054,17 +2129,19 @@ restriction of scalars.
   `TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`,
   `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`,
   `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum`, `TauCeti.HasCancellation`,
-  `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.continuedLFunctionOfWeight`,
-  `TauCeti.continuedLFunctionOfWeight_eq_LSeries`,
+  `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.HasCancellation.restrict`,
+  `TauCeti.continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_eq_LSeries`,
+  `TauCeti.differentiableOn_continuedLFunctionOfWeight`,
   `TauCeti.differentiableAt_continuedLFunctionOfWeight`,
   `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`,
+  `TauCeti.continuedLFunctionOfWeight_restrict`,
   `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
   `TauCeti.dedekindZeta_eulerProduct_hasProd`; Mathlib `NumberField.dedekindZeta`,
   `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`, `NumberField.dedekindZeta_residue_pos`;
-  ClassFieldTheory, layer 12 (ray class fields and `gal_rayClassField_equiv_rayClassGroup`);
-  the inertia-invariant local factors, their induction identity and the one-dimensional
-  Artin–Hecke comparison of *convergence-factors*, which precede its leading coefficient.
-  *Lean:* none; specified in the README only.
+  ClassFieldTheory, layer 13 (ray class fields and `gal_rayClassField_equiv_rayClassGroup`);
+  *artin-local-factors* (the inertia-invariant local factors, their multiplicativity and
+  induction identity, and the one-dimensional Artin–Hecke comparison).
+  *Lean:* `FiniteOrderHecke.continuedLFunctionOfWeight_one_ne_zero` (nonvanishing at one).
 
   **Checks.**
   - Over `ℚ`, the odd character `χ₄` of modulus `4∞`: the cancellation exponent is `1 − 1/1 = 0`,
@@ -2074,7 +2151,7 @@ restriction of scalars.
     of `ζ_{ℚ(i)}` divided by the residue `1` of `ζ` recovers `L(1, χ₄)`; a weight equal to `1`
     at `(2)` instead of `0` would multiply the function by `(1 − 2^(−s))^(−1)` and the value at
     one by `2`.
-  - The same character presented at modulus `12`: the induced character vanishes at `(3)`, the
+  - The same character presented at modulus `12∞`: the induced character vanishes at `(3)`, the
     correction is `1 − χ₄(3) 3^(−s) = 1 + 3^(−s)` since `χ₄(3) = −1`, and the value at one is
     `(π/4)(4/3) = π/3`; a correction read with the presented character, which is `0` at `(3)`,
     would be `1`.
@@ -2097,13 +2174,8 @@ restriction of scalars.
   The split specialization is
   `L_v^split(r,s) = (1 − q_v^{−s})^{−r}` and
   `ρ_F^split(r) = (Res_{s=1} ζ_F)^r`.
-  AA owns the general finite-image Artin factors and analytic assembly: for a continuous finite-image
-  complex representation `ρ : Gal(F̄/F) → GL(V)` on a finite-dimensional complex vector
-  space `V`, construct the inertia-invariant subspace `V^{I_v}` and the determinant
-  `det(1 − q_v^{−s} ρ(Φ_v) | V^{I_v})`, where `Φ_v` is an arithmetic Frobenius lift.
-  Prove independence of the lift and of the chosen place above `v`, invariance under
-  representation isomorphisms, and multiplicativity under direct sums. Its reciprocal is
-  the local Artin factor; its induction formula includes ramified places.
+  The local factors are those of *artin-local-factors*, applied to the continuous finite-image
+  representation of `Gal(F̄/F)` on `X`; AA owns the analytic assembly.
   The global `L`-function is identified with the Euler product on `Re s > 1`;
   `(s−1)^r L(X,s)` has a finite nonzero limit,
   where `r = dim X^Gal`. For a character lattice this real limit is positive.
@@ -2114,17 +2186,19 @@ restriction of scalars.
   in the supplier table to express each character of the finite Galois image as an integral
   combination of characters induced from linear characters of subgroups. This reduces
   the Artin construction to finite-order Hecke characters.
-  Consume *finite-order-hecke-at-one* and the one-dimensional Artin–Hecke comparison of the
-  table above: the analytic input is the holomorphy at one and the nonzero value there of the
+  Consume *finite-order-hecke-at-one* and the one-dimensional Artin–Hecke comparison of
+  *artin-local-factors*: the analytic input is the holomorphy at one and the nonzero value there of the
   L-function of every nontrivial finite-order Hecke character, at every presentation, on the
   pinned ray class and continued-L-function carriers of Tau Ceti. The analytic hypotheses of
   the nonvanishing of the leading coefficient are precisely that Hecke/reciprocity input.
-  AA constructs the complex Artin factors, their ramified induction identity and analytic
-  assembly for these finite-image complex representations.
+  The one-dimensional comparison, with the continuation of *finite-order-hecke-at-one*, continues
+  the L-function of a nontrivial finite-order character of `Gal(Ē/E)`, for every intermediate
+  number field `E`, to `Re s > 1 − 1/[E:ℚ]` with a nonzero value at one, and the induction
+  identity of *artin-local-factors* writes `L(X, s)` as a product of integral powers of such
+  functions and of Dedekind zeta functions, which gives the leading coefficient.
   General Artin coefficients need not be completely multiplicative
   and do not inhabit `UnitaryIdealWeight`.
-  Use arithmetic Frobenius throughout; if a reciprocity API uses geometric Frobenius,
-  compose its reciprocity map with inversion before forming the Hecke character.
+  Arithmetic Frobenius is the convention of *artin-local-factors*.
   A one-dimensional unramified factor is
   `(1 − χ(Frob_v) q_v^(−s))⁻¹`. At conductor primes with nontrivial inertia the
   one-dimensional invariant space is zero and the factor is one. For a larger ray modulus,
@@ -2137,12 +2211,13 @@ restriction of scalars.
   factors' inverses at one; restoring those factors recovers the full coefficient.
   *Needs:* Tau Ceti `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
   `TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`; AA.2.1;
+  *artin-local-factors*;
   Mathlib `NumberField.dedekindZeta_residue_pos`,
   `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`;
   Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`;
   RepresentationTheory/InductionRestriction, layer 6, with the pinned Brauer/monomial
   and induction-transitivity contracts above; *finite-order-hecke-at-one*; ClassFieldTheory,
-  layers 11–12 (reciprocity and ray class fields).
+  layers 11–13 (reciprocity, the ray-class Artin map and ray class fields).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -2152,15 +2227,15 @@ restriction of scalars.
   - The nontrivial character of `ℚ(i)/ℚ` is the
     primitive character `χ₄`, under reciprocity the odd primitive ray class character of
     conductor `4∞`. Its factor at 2 is one and its germ at one is the value `L(1, χ₄) = π/4 ≠ 0`.
-    Raising the modulus 4 to 12 gives the correction `1 + 3^(−s)` (as `χ₄(3) = −1`), so the
-    function at modulus 12 takes the value `(π/4)(4/3) = π/3` at one. These are specializations
+    Raising the modulus `4∞` to `12∞` gives the correction `1 + 3^(−s)` (as `χ₄(3) = −1`), so the
+    function at modulus `12∞` takes the value `(π/4)(4/3) = π/3` at one. These are specializations
     of the one-dimensional Artin–Hecke comparison. Arithmetic Frobenius distinguishes eigenvalue `ζ` from `ζ⁻¹` for a
     nontrivial cube root of unity: at `q=2` and `s=1` the factors are distinct.
   - `Ind_{ℚ(i)}^ℚ 1 = 1 ⊕ χ₄` gives `ζ_{ℚ(i)}`
     on the convergence half-plane and as meromorphic germs. In general
     `L_F(Ind_E^F 1,s)=ζ_E(s)` for every finite
     separable extension, using the ramified induction identity at every place.
-    The inertia-fixed line at 2 is checked in AA.2.5 (*Inductivity of the convergence factors*).
+    The inertia-fixed line at 2 is checked in *artin-local-factors*.
 
   - Rank zero gives `L_v^split(0,s) = 1`, including at `s = 1`.
   - For a place of residue cardinality `2`, rank one at `s = 1` gives `2`, as for `G_m`.
@@ -2365,22 +2440,27 @@ gauge forms and the global discriminant; these are not supplied by the linear la
   - For `E = F`, `G = G_a`, `ω_E = dx` and `β = (b)`, the construction gives `ω_β = b⁻¹ dx`
     and `j_{β,v} = |b|_v⁻¹`.
 - **Inductivity of the convergence factors.** For a finite separable `E/F` and a finite-image
-  complex Galois representation `X` over `E`, prove that the induced representation satisfies
-  `L_v(Ind X, s) = ∏_{w|v} L_w(X, s)` at every finite `v`, including ramified `v` with inertia
-  invariants; consequently their global Euler products coincide for `Re(s) > 1` and their leading
-  coefficients coincide whenever the stated nonzero limits at `s = 1` exist.
-  The local identity is proved using the
-  decomposition-group double cosets and the determinant on the inertia-fixed
-  cyclic blocks of length `f(w/v)`. [Marzec–Neururer], Proposition 5.10, pp. 61–62,
-  and Theorem 5.14(iv), pp. 63–64. *Needs:* AA.2.4, finite-image Artin factors.
+  complex Galois representation `X` over `E`, prove that the global Euler product of
+  `Ind_{G_E}^{G_F} X` over the finite places of `F` and that of `X` over the finite places of `E`
+  coincide on `Re s > 1`, as the product over `v` of the place-by-place induction identity
+  `L_v(Ind X, s) = ∏_{w ∣ v} L_w(X, s)` of *artin-local-factors*, which includes the ramified `v`,
+  and that their leading coefficients at `s = 1` in the sense of *convergence-factors* coincide,
+  with the same order `r = dim X^{Gal(Ē/E)}` (Frobenius reciprocity gives
+  `dim (Ind X)^{Gal(F̄/F)} = dim X^{Gal(Ē/E)}`) ([Marzec–Neururer], Theorem 5.14(iv), pp. 63–64).
+  For `X` the trivial character this is `L_F(Ind_E^F 1, s) = ζ_E(s)` on `Re s > 1` and the
+  equality of the residues at one.
+  *Needs:* *artin-local-factors*; *convergence-factors*; Tau Ceti
+  `TauCeti.dedekindZeta_eulerProduct_hasProd`.
   *Lean:* none; specified in the README only.
 
-  **Checks.** For `ℚ(i)/ℚ` at `2`, inertia swaps the two basis vectors of
-  `Ind 1`. Its invariant space is the diagonal line, Frobenius is identity
-  there, and both factors are `(1−2^{−s})⁻¹`; using the full two-dimensional
-  space incorrectly squares the factor.
-  Rank-zero inertia invariants give factor one.
-  A residue-degree-two block has determinant `1−z²`, not `(1−z)²`.
+  **Checks.**
+  - For `ℚ(i)/ℚ` and `X = 1`: `Ind 1 = 1 ⊕ χ₄`, so the identity reads
+    `ζ_{ℚ(i)}(s) = ζ(s) L(s, χ₄)` on `Re s > 1`; both sides have a simple pole at one with residue
+    `π/4` (`1 · π/4` on the right), so the leading coefficients agree with `r = 1`; omitting the
+    ramified place `2` from the product on the left would leave residue `(π/4)(1 − 1/2) = π/8`.
+  - The order is computed over `E`: for the same example a wrong order `[E:F] · r = 2` would
+    predict a double pole of `ζ_{ℚ(i)}` at one, which has a simple pole.
+  - For `E = F` the induced representation is `X` itself and both statements are identities.
 
 - **Tamagawa measures and restriction of scalars.** (*tamagawa-restriction-scalars*) Let `E/F`
   be a finite extension of number fields and `G_E` a connected reductive `E`-group of dimension
@@ -2428,8 +2508,8 @@ and Euler product; ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII,
 RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
 Tau Ceti's ray class characters, their cancellation and continued L-functions (the pinned
-declarations of the supplier contracts); ClassFieldTheory, layers 11–12 (reciprocity and ray
-class fields);
+declarations of the supplier contracts); ClassFieldTheory, layers 11–13 (reciprocity, the
+ray-class Artin map and ray class fields);
 RepresentationTheory/InductionRestriction, layer 6 (Brauer and monomial induction).
 
 ## Layer 3: reduction and arithmetic quotients
@@ -4106,7 +4186,8 @@ quaternion norms and compact abelian Fourier limits.
   invariants for classical types, and the exceptional-type arguments, including `E₈`.
   The quaternion norm-one case in [Khayutin], §2.3, is one specialization.
   *Needs:* AA.4.1 coordinate/geometric comparison; ReductiveGroups simple-factor structure;
-  ClassFieldTheory local Brauer and norm theorems; GlobalQuadraticForms' form invariants.
+  ClassFieldTheory, layers 5, 10 and 13 (local Brauer group, global Brauer sequence, cyclic
+  Hasse norm theorem); GlobalQuadraticForms' form invariants.
   *Lean:* none; specified in the README only.
 - **Hasse kernel and injectivity.** Prove, over number
   fields for semisimple simply connected `G`, that a torsor is trivial iff it is trivial at every
@@ -5089,7 +5170,8 @@ positive scalar direction disappears in idele classes modulo squares, while a no
 Layers AA.1–AA.3; Mathlib's double cosets, action categories, properly discontinuous actions and
 covering maps; Tau Ceti's Hecke degrees, covering-map composition and quaternion norm form;
 ReductiveGroups, layers 1, 6 and 7; ReductiveGroupsPartII, RG2.3 and RG2.4; GlobalNumberFields,
-layers 1 and 6; Chebotarev, layer 10; GlobalQuadraticForms, layer 5; ClassFieldTheory, layer 12;
+layers 1 and 6; Chebotarev, layer 10; GlobalQuadraticForms, layer 5; ClassFieldTheory, layers 5,
+10 and 13;
 LocalFieldsRamification, layer 0; RepresentationTheory/CompactGroups, layer 5; the `p`-adic
 closed-subgroup development in AA.4.2 and the finite reductive order formula in AA.2.4.
 
