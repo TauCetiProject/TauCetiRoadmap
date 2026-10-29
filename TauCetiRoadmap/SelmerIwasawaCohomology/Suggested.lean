@@ -28,12 +28,11 @@ The small-weight realization and finite/ordinary comparisons (§§4.7–4.12), e
 Bloch–Kato comparison (§4.26) and finite-image adjoint finiteness (§4.27) require crystalline
 period realizations and finite-condition carriers. The unit/class-group dictionary and
 main-conjecture propositions (§§4.16–4.23) additionally need the arithmetic tower modules,
-characteristic ideals and normalized p-adic L-function data. The L-function-record comparison
-in §4.14 requires its analytic L-function record. Family parity (§4.28) needs the arithmetic
-Selmer complexes with their pairings and local diagrams. Cassels–Tate duality and infinite
-Selmer parity (§4.29) need abelian Sha and infinite elliptic Selmer carriers. Native finite
-2-Selmer groups do not supply these infinite groups. These headline statements remain in the
-README until their objects are available.
+characteristic ideals and normalized p-adic L-function data. Family parity (§4.28) needs the
+arithmetic Selmer complexes with their pairings and local diagrams. Cassels–Tate duality and
+infinite Selmer parity (§4.29) need abelian Sha and infinite elliptic Selmer carriers. Native
+finite 2-Selmer groups do not supply these infinite groups. These headline statements remain in
+the README until their objects are available.
 -/
 
 noncomputable section

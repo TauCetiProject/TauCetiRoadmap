@@ -18,7 +18,7 @@ IntegralIwasawaTheory §§2.0, 10.0–10.3 supplies the common finite p-primary 
 
 Already in the libraries and only cited: Mathlib's `AdicCompletion` with `AdicCompletion.map`, `AdicCompletion.map_id`, `AdicCompletion.map_comp` and `AdicCompletion.ofTensorProduct_bijective_of_finite_of_isNoetherian`; Mathlib's `Submodule.orthogonalBilin` with `Submodule.mem_orthogonalBilin`, `Submodule.orthogonalBilin_antitone`, `Submodule.orthogonalBilin_bot` and `Submodule.orthogonalBilin_top_eq_ker`; Mathlib's perfect pairings `LinearMap.IsPerfPair` (both curried maps bijective); Mathlib's `PontryaginDual`, `PadicComplex`, `BDeRhamPlus`, `BDeRham`, `Complex.Gammaℝ`, `Complex.Gammaℂ` and `cyclotomicCharacter`; Tau Ceti's finite-level Kummer theory (`TauCeti.kummerMap_surjective`, `TauCeti.kummerIso`, `TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`, the coefficient transition `TauCeti.kummerCoeffPow` with `explicitCoeff1_kummerCoeffPow_kummerMap` and `explicitCoeff1_kummerCoeffPow_surjective`), finiteness of local power classes (`TauCeti.finiteIndex_range_powMonoidHom`), the all-degree discrete Shapiro isomorphism (`TauCeti.ContinuousCohomology.shapiroIso`, `TauCeti.ContinuousCohomology.shapiroIsoTopRep`), the completed group algebra `TauCeti.completedGroupAlgebra`, and the Hodge carriers `TauCeti.Hodge.HodgeStructureOn` with `dual`, `tateTwist`, `prod`, `hodgeNumber` and `TauCeti.Hodge.tate`. Tau Ceti's `TauCeti.FiniteBilinearModule.orthogonalComplement` treats a finite module paired with itself into `ℚ/ℤ`; ArithmeticGaloisDuality §D7.7.1 supplies finite pairings of two independent `ℤ/n`-modules into `ℤ/n`. Tau Ceti's `TauCeti.instModulePadicCharacterContragredient` supplies the algebraic contragredient action on p-adic characters; §2.10 adds the continuous p-primary and completed-Iwasawa versions by comparison with PadicLocalLanglandsForGL2Qp §0.3.
 
-Not in this roadmap: the construction of p-adic L-functions, Euler and Kolyvagin systems and their bounds, proofs of main conjectures, Hida families as objects (they enter §4.28 as data), Heegner points, the Gross–Zagier formula and Kolyvagin's theorem, root numbers of modular forms and their constancy in families, general p-adic Hodge comparison theorems, `(φ, Γ)`-modules and regulators, and transverse (Kolyvagin) local conditions. The analytic half of Nekovář's parity theorem for ordinary modular forms (relating the Selmer parity of §4.28 to the order of vanishing of the L-function) consists of these excluded inputs; the full congruence is the target *Nekovář's parity theorem for ordinary modular forms* of HeegnerPointEulerSystems HE.8, which consumes §4.28.
+Not in this roadmap: the construction of p-adic L-functions, Euler and Kolyvagin systems and their bounds, proofs of main conjectures, Hida families as objects (they enter §4.28 as data), Heegner points, the Gross–Zagier formula and Kolyvagin's theorem, root numbers of modular forms and their constancy in families, general p-adic Hodge comparison theorems, `(φ, Γ)`-modules and regulators, and transverse (Kolyvagin) local conditions. The analytic half of Nekovář's parity theorem for ordinary modular forms (relating the Selmer parity of §4.28 to the order of vanishing of the L-function) consists of these excluded inputs; the full congruence is the target *Nekovář's parity theorem for ordinary modular forms* of HeegnerPointEulerSystems HE.8, which consumes §4.28. The completed L-function record with its Gamma factor on real and complex shift multisets, and the Gamma-factor divisor at arbitrary complex shifts, are also outside it: LFunctions Layer 0 and ZerosOfLFunctions Layer 1 own them and are consumers of §4.14, whose Hodge Gamma products and order formulas use Mathlib's scalar Gamma results directly and take only a Hodge realization.
 
 ## Conventions
 
@@ -136,17 +136,6 @@ Layer R02.1: §R02.1.2 (*Tate's inverse-limit theorem*; *Continuous sections of 
 
 §§A2.2–A2.3 supply the dual abelian variety, rigidified Poincaré bundle, biduality and Mumford map; §§A3.1–A3.5 and A3.7 supply isogenies, multiplication kernels, dual isogenies and the intrinsic and polarized Weil pairings. Section A5.1 supplies complex lattice uniformization; §2.12a constructs its real conjugation compatibility. These are the geometric inputs to §§2.12a and 4.29, including A2.2's positive elliptic self-duality `a ↦ O([−a] − [O])` and A3.5's inversion comparison with the other self-duality. Section A4.3 supplies the degree-one de Rham and vector-extension comparison used in §4.26.
 
-### Gamma products
-
-LFunctions Layer 0 (*Completed L-function data*)
-owns `AnalyticLFunctionData.gammaFactor` on the record's real and complex shift multisets;
-ZerosOfLFunctions Layer 1, items 5–6 (*Gamma-factor asymptotics and the continued L-function*),
-owns its arbitrary-complex-shift divisor and analytic reciprocal. Section 4.14 owns the
-Hodge/sign recipe, its integral pole count, Tate-dual transformation and the comparison
-of the Hodge product with that record's factor. Its Hodge order formulas use
-Mathlib's scalar Gamma results directly; they require only a Hodge realization. The record
-comparison consumes LFunctions Layer 0, independently of its arithmetic L-function constructions.
-
 ## How to read the build
 
 Layer 0 applies ArithmeticGaloisDuality §§R02.3.0a–R02.3.0c to local completion, Kummer comparisons and coefficient limits, and develops weak semisimplicity. Layer 2 specializes the supplied number-field Selmer fibres and extends their coefficients, using ArithmeticGaloisDuality §§D7.7.1–D7.7.6 for annihilators and mapping-fibre duality beyond the common lattice domain. Layer 2A identifies arithmetic compact support, proves the function-field dimension formula and compares Selmer complexes with deformation tangents, determinant fibres and derived coefficient change. Layer 3 fixes the Iwasawa algebras (§3.0), identifies the supplied induced Iwasawa coefficients and control maps, extends them to the general coefficients of §3.1, and computes Selmer-specific errors and determinants, and compares with étale cohomology (§3.15), then proves Greenberg's structure criteria under their explicit hypotheses. Layer 4 applies the supplied period rings, crystalline predicates and filtered modules to the small-weight realization and finite conditions, the archimedean criticality, the cyclotomic arithmetic dictionary and the parity theorems (§§4.28–4.29).
@@ -250,13 +239,13 @@ This S-unit Kummer adapter applies the completion comparison of ArithmeticGalois
 
 `S ⊇ {v | p∞}`, so `μ_{p^m}` is a `G_{F,S}`-module and `p` is an S-unit.
 
-Prove this as follows. The Kummer sequence for `G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H¹(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0` (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes `lim^1 H⁰`; `Set.unit_moduleFinite` of ArithmeticGaloisDuality §R02.3.0c makes the terms `𝓞_{F,S}^×/p^m` finite; `lim_m Pic[p^m] = T_p Pic = 0` because `Pic(𝓞_{F,S})` is finite. `lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^×` (ArithmeticGaloisDuality §R02.3.0c).
+Prove this as follows. The Kummer sequence for `G_{F,S}: 0 → 𝓞_{F,S}^×/p^m → H¹(G_{F,S}, μ_{p^m}) → Pic(𝓞_{F,S})[p^m] → 0` (ArithmeticGaloisDuality Layer R02.3). Pass to the limit: §0.7 removes `lim^1 H⁰`; finite generation of the S-units (the pinned `Set.unit_fg`, through the additive module adapter of ArithmeticGaloisDuality §R02.3.0c) makes the terms `𝓞_{F,S}^×/p^m` finite; `lim_m Pic[p^m] = T_p Pic = 0` because `Pic(𝓞_{F,S})` is finite. `lim 𝓞_{F,S}^×/p^m = ℤ_p ⊗ 𝓞_{F,S}^×` (ArithmeticGaloisDuality §R02.3.0c).
 
 (Milne, *Arithmetic Duality Theorems*, Chapter I, §4, proof of Lemma 4.12, p. 59 (PDF p. 67), and proof of Corollary 4.18, p. 63 (PDF p. 71), as in ArithmeticGaloisDuality §R02.3.3, *The Kummer sequence for S-units*; Rubin (1999 draft), Appendix B, Proposition 2.3, p. 152 (PDF p. 162).)
 
 The tower limit is §§3.1 and 4.19; Burungale–Tian §2.2.3 is a downstream Iwasawa étale-cohomology application (§3.15).
 
-*Needs:* §0.7 (The system `μ_{p^m}(K)` is Mittag-Leffler); HeightsAndUnits §4.2 (S-unit rank); ArithmeticGaloisDuality §R02.3.0c (S-unit rank and cardinality adapter, `Set.unit_moduleFinite`, and Completion of S-units); DerivedModuleAlgebra §1.T.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
+*Needs:* §0.7 (The system `μ_{p^m}(K)` is Mittag-Leffler); HeightsAndUnits §4.2 (S-unit rank); ArithmeticGaloisDuality §R02.3.0c (S-unit rank and cardinality adapter on the pinned `Set.unit_fg`, and Completion of S-units); DerivedModuleAlgebra §1.T.1 (*The Milnor sequence for towers of complexes*); ArithmeticGaloisDuality §R02.3.3 (*The Kummer sequence for S-units*).
 
 ### 0.10 Which inverse-limit hypotheses hold
 
@@ -280,7 +269,7 @@ The p-adic Kummer equivalence intertwines restriction with extension of scalars,
 
 Prove this as follows. Use the finite connecting-map squares and Tau Ceti's Kummer restriction and norm identities (`TauCeti.kummerIso_res`, `TauCeti.kummerIso_norm`). Apply cup naturality and the projection formula at every finite coefficient level; pass through the Milnor comparison with the actual derived-limit term when it does not vanish. Use Shapiro evaluation and its trace/corestriction compatibility at finite level, then the coefficient-limit comparison. No new cup or Shapiro theory is introduced.
 
-(Rubin (1999 draft), Appendix B §§4–5, pp. 155–158; Chapter I Example 2.1, p. 3.)
+(Rubin (1999 draft), Appendix B, Proposition 4.2, Remark 4.3, Corollary 4.4 and Proposition 4.5, printed p. 156 (PDF p. 166), for Shapiro, induced modules and the norm/restriction diagram; Chapter I Example 2.1, p. 3, for the Kummer class. Cup naturality is TauCetiRoadmap.ProfiniteCohomology Layer 12 and the projection formula its Layer 8.)
 
 **Checks.**
 
@@ -288,7 +277,7 @@ Prove this as follows. Use the finite connecting-map squares and Tau Ceti's Kumm
 - For `x=κ_K(b)`, the formula has the Tate-twist-two cup target.
 - For a base-field `a, κ_K(N a)=[L:K]κ_K(a)`, so replacing corestriction by restriction fails.
 
-*Needs:* §0.8 (The p-adic Kummer identification); PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); TauCetiRoadmap.ProfiniteCohomology Layer 7; TauCetiRoadmap.ProfiniteCohomology Layer 12.
+*Needs:* §0.8 (The p-adic Kummer identification); PerfectoidTowers §P9.0 (*Continuous cochains into an inverse limit*); TauCetiRoadmap.ProfiniteCohomology Layer 7; TauCetiRoadmap.ProfiniteCohomology Layer 8 (projection formula); TauCetiRoadmap.ProfiniteCohomology Layer 12.
 
 ### 0.12 Weak semisimplicity at the invariant eigenvalue
 
@@ -821,9 +810,9 @@ For a finite set `Σ` of places: `(i) S^Σ(K, T) = lim_M S^Σ(K, W_M)` and `S_Σ
 
 `Σ` finite; `T` a lattice unramified outside a finite set.
 
-Prove this as follows. `H¹(K, W) = colim_M H¹(K, W_M)`, and `H¹(K, T) = lim_M H¹(K, W_M)` by Tate's inverse-limit theorem (ArithmeticGaloisDuality §R02.1.2 (*Tate's inverse-limit theorem*); the `H⁰` are finite). The local groups at level `M` are finite, so the finite parts and singular quotients commute with the limits (Rubin, Corollary 3.10, using §2.15's description of `H¹_f(K, W_M)`). `ι_M(H¹(K, W_M)) = H¹(K, W)[M]`, and `ι_M^{−1}(S^Σ(K, W)[M]) = S^Σ(K, W_M)` by definition; for `S_Σ` the strict condition at `Σ` is not preserved under `ι_M^{−1}` (Rubin, Remark 5.5). Enlarging `Σ, S^Σ(K, A) = H¹(K_Σ/K, A)` (§2.9), which is finite for `A = W_M` (ArithmeticGaloisDuality §R02.3.1 (*Finiteness of `H¹(G_{K,S}, M)`*)); the other two statements follow by the limits.
+Prove this as follows. `H¹(K, W) = colim_M H¹(K, W_M)`, and `H¹(K, T) = lim_M H¹(K, W_M)` by Tate's inverse-limit theorem (ArithmeticGaloisDuality §R02.1.2 (*Tate's inverse-limit theorem*); the `H⁰` are finite). The local groups at level `M` are finite, so the finite parts and singular quotients commute with the limits (Rubin, Corollary 3.10, using §2.15's description of `H¹_f(K, W_M)`). `ι_M(H¹(K, W_M)) = H¹(K, W)[M]`, and `ι_M^{−1}(S^Σ(K, W)[M]) = S^Σ(K, W_M)` by definition; for `S_Σ` the strict condition at `Σ` is not preserved under `ι_M^{−1}` (Rubin, Remark 5.5). Enlarging `Σ, S^Σ(K, A) = H¹(K_Σ/K, A)` (§2.9), which is finite for `A = W_M` (ArithmeticGaloisDuality §R02.3.1 (*Finiteness of `H¹(G_{K,S}, M)`*)); the other two statements follow by the limits (Rubin, Lemma 5.7).
 
-(Rubin (1999 draft), Chapter I, §5, Proposition 5.6, printed p. 12 (PDF p. 22); Rubin (1999 draft), Chapter I, §5, Remark 5.5, printed p. 12 (PDF p. 22).)
+(Rubin (1999 draft), Chapter I, §5, Proposition 5.6, printed p. 12 (PDF p. 22), for the limits; Remark 5.5, printed p. 12 (PDF p. 22), for the strict exception; Lemma 5.7, printed p. 13 (PDF p. 23), for the finiteness and finite-generation clauses.)
 
 Both the relaxed and the strict Selmer groups are covered, with the strict-condition exceptions to Rubin Lemma 5.4 retained.
 
@@ -1013,7 +1002,7 @@ Write `S̃^ord` and `S̃^mod` for its ordinary and modified instances.
 That section supplies adapters to NoncommutativeAndEquivariantIwasawa §F.4's `arithmeticSelmerComplex`, their functoriality and
 quasi-isomorphism invariance, extending them to the coefficient complexes stated there. ArithmeticGaloisDuality §§R02.3.1, D7.5 supply the arithmetic complexes
 `C_v^mod` and maps `q_v`. Identify the strict modified instance with ArithmeticGaloisDuality §D7.5's
-Tate-modified carrier `Ĉ_c`, using finite-place cochains, complete real Tate cochains and zero complex-place terms. The projection forgetting the real Tate terms compares this carrier with the finite-place `GaloisCohomology.compactCochains`; it is a quasi-isomorphism under `(P)`, or whenever all real Tate terms are acyclic. With
+Tate-modified carrier `Ĉ_c`, using finite-place cochains, complete real Tate cochains and zero complex-place terms. The projection forgetting the real Tate terms compares this carrier with the finite-place compact-support complex of ArithmeticGaloisDuality §D7.5 (*Continuous cochains with compact support*); it is a quasi-isomorphism under `(P)`, or whenever all real Tate terms are acyclic. With
 `U_v^{−,mod} = Cone(i_v^mod)`, the supplied global and compact-support triangles of §2.21
 specialize to
 
@@ -1092,7 +1081,7 @@ sequence 6.1.3, §6.1.4, pp. 135–137; §5.7.2, pp. 131–132, for the ordinary
 
 **Checks.**
 
-- For `K=ℚ`, `S={2,∞}` and trivial `T=𝔽₂`, the strict modified fibre has `H^i=𝔽₂` for every `i<0`, from the complete real Tate term. The finite-place `GaloisCohomology.compactCochains` and the bounded ordinary `burnsFlachFiniteComplex` have no negative cohomology, so neither can replace this modified fibre.
+- For `K=ℚ`, `S={2,∞}` and trivial `T=𝔽₂`, the strict modified fibre has `H^i=𝔽₂` for every `i<0`, from the complete real Tate term. The finite-place compact-support complex of ArithmeticGaloisDuality §D7.5 and the bounded ordinary `burnsFlachFiniteComplex` have no negative cohomology, so neither can replace this modified fibre.
 - With `q = id`, the supplied comparison map is the identity of the ordinary fibre.
   With every `U_v⁺ = 0`, the modified fibre is `C_c^mod`; with every modified `i_v = id`, it is
   the global complex. Both identities use the displayed modified triangles.
@@ -1189,7 +1178,7 @@ and dual local conditions `U_v^{⊥+} → C_v^mod(ad ρ(1))` are given for the t
 complements*), for `U_v⁺ → C_v^mod` obtained by composing the ordinary condition with `q_v`.
 It gives a morphism from `S̃^mod(ad ρ, U⁺)` to the shift by `[−3]` of the `k`-dual of
 `S̃^mod(ad ρ(1), U^{⊥+})`, whose cone is `⊕_{v∈S} Err_v`
-(`localDualError`). When every `Err_v` is acyclic (`derivedComplement_iff`), `H²` of the first is
+in the sense of §D7.7.3. Derived complementarity there means that every `Err_v` is acyclic; then `H²` of the first is
 `k`-dual to the modified `H¹` of the second; replacing that group by its ordinary fibre `H¹`
 requires its own archimedean comparison. Otherwise the error terms are part of the statement. The
 determinant and trace-zero variants come from the trace sequence, as in §2A.4 *Determinant tangent
@@ -1364,9 +1353,11 @@ Let `R` be a complete Noetherian local ring with finite residue field of charact
 
 **Involution and twists.** Define the Iwasawa involution by the pinned `TauCeti.completedGroupAlgebra.domCongr` along inversion on the abelian group `Γ`. It gives the O-algebra involution `ι` of `Λ` with `ι(γ) = γ^{−1}` by `domCongr_of`; continuity follows from `continuous_map`, and involutivity from `map_comp` and `map_id`. For a continuous character `κ : Γ → O^×`, prove that there is a unique continuous O-algebra automorphism `Tw_κ` of `Λ` with `Tw_κ(γ) = κ(γ)γ` (from `completedGroupAlgebra.lift` applied to `γ ↦ κ(γ)γ`), with `Tw_1 = id, Tw_κ ∘ Tw_{κ′} = Tw_{κκ′}` and `ι ∘ Tw_κ ∘ ι = Tw_{κ^{−1}}`. With the cyclotomic character `χ_cyc` of the Conventions, `Tw_k := Tw_{χ_cyc^{−k}}`, so `Tw_k(γ) = χ_cyc(γ)^{−k}γ`. For a G-module `M` on which `Λ` acts compatibly, and the tautological character `χ_Γ : G → Γ ⊂ Λ^×`, define the twisted module `M⟨n⟩` (same `Λ`-module, `G` acting by `χ_Γ(g)^n g`) and `M^ι` (same G-module, `Λ` acting through `ι`); then `M⟨n⟩^ι = M^ι⟨−n⟩`.
 
-The involution statement on `TauCeti.completedGroupAlgebra O Γ` holds for every
-topological commutative ring `O` and profinite abelian group `Γ`. The definition
-The involution needs only a commutative ring `O` and a topological abelian group `Γ`.
+The involution is defined on `TauCeti.completedGroupAlgebra O Γ` by `domCongr` along inversion
+for every commutative ring `O` and topological abelian group `Γ`, and it is involutive there; its
+continuity holds once `O` carries a topology with continuous addition, as the pinned
+`continuous_map` requires. The profinite `Γ = ℤ_p^d × Δ` and complete `O` of this section are
+the case used.
 
 (Nekovář, *Selmer complexes*, §8.4.1–8.4.2, pp. 204–205 (Numdam PDF pp. 213–214); §8.4.8.1, p. 214, for the regular sequence.)
 
@@ -1645,7 +1636,7 @@ For a perfect `Λ`-Selmer complex `C`, define its arithmetic determinant line `�
 
 The construction proceeds as follows. Import the determinant functor, exact-triangle multiplicativity and fraction-field trivialization from PadicMeasuresIwasawaAlgebras §5.1. Localize at a height-one DVR and compute the determinant of a two-term free resolution of each torsion cohomology module. Multiply with the cohomological signs and transport through specialization/duality. Record local-error determinants as factors in these comparisons.
 
-(Nekovář, §8.9, pp. 238–244; §8.10, pp. 249–251; Kato, §12.2, pp. 220–221.)
+(PadicMeasuresIwasawaAlgebras §5.1, for the determinant functor, its fraction-field trivialization and the exponent `(−1)^i` of the inverse determinant line with its dual trivialization; Nekovář, §8.9, pp. 238–244, for the duality error terms; §8.10, pp. 249–251, for the specialization comparisons.)
 
 The library targets include the following operations and identities:
 
@@ -2052,12 +2043,8 @@ The library targets include the following operations and identities:
 **Hodge Gamma recipe and integer adapter.** For a real place, each off-diagonal pair `(a,b),(b,a), a<b`, contributes a complex shift `−a` with multiplicity `h^(a,b)`, and the diagonal sign `ε` contributes a real shift `ε−a` with multiplicity `h_a^ε`. For a complex place each type `(a,b)` contributes a complex shift `−`min`(a,b)` with its multiplicity. Finite support makes these lists finite. The integer carrier `gammaPoleOrder` sums multiplicities of complex factors with `m+`shift`≤0` and real factors with `m+`shift a nonpositive even integer. Products and pole orders include every archimedean place.
 
 Define `hodgeGammaFactor` as the weighted product of Mathlib's real and complex Gamma
-functions on these integral lists, and the Hodge shift expansion by repeating their multiplicities
-in two complex-shift multisets. For such a list `f` and a supplied LFunctions
-`AnalyticLFunctionData d` whose shift multisets `(d.gammaR, d.gammaC)` are the expansion of `f`, prove the equality
-`hodgeGammaFactor f s = d.gammaFactor s`, including totalized values. This is a comparison
-with the existing record's product and needs no analytic or arithmetic predicates on `d`.
-The Hodge product and its order formulas themselves take only the realization data.
+functions on these integral lists. The Hodge product and its order formulas take only the
+realization data; no L-function record enters them.
 
 `Suggested.lean` states `gammaPoleOrder_hodge_analytic` for a real-place realization and
 `gammaPoleOrder_complexHodge_analytic` for a complex-place Hodge structure: at each integer
@@ -2072,8 +2059,7 @@ the dual order formula follows by applying the Hodge theorem to the actual dual 
 
 (Deligne, §5.3 and Table 5.3, p. 329; Rodrigues Jacinto–Williams, §13.5.3, arXiv v2 p. 71;
 Mathlib `Analysis/SpecialFunctions/Gamma/Deligne.lean`, Gamma recurrence, scalar reciprocal
-analyticity and residue at zero, and `Analysis/Meromorphic/Order.lean`;
-LFunctions Layer 0, definition of `AnalyticLFunctionData.gammaFactor`.)
+analyticity and residue at zero, and `Analysis/Meromorphic/Order.lean`.)
 
 The library targets include the following operations and identities:
 
@@ -2082,8 +2068,6 @@ The library targets include the following operations and identities:
 - `hodgeGammaFactors` — Weighted real-place factor list.
 - For `a<b=w−a`, the dual complex shift is `b−1`; diagonal real shifts are `a−1` and a with the original `ε=0` and `ε=1` multiplicities.
 - Agreement up to permutation with the native Tate-dual realization and its negative transpose Betti involution.
-- Expansion into real and complex shift multisets.
-- The record comparison gives equality with `AnalyticLFunctionData.gammaFactor` when the record has the expanded Hodge shifts, including totalized values.
 - `gammaPoleOrder` — Weighted integer pole count.
 - Concatenation multiplies Gamma products and adds integer pole counts.
 - The real Tate line `ℚ_p(n)` gives `Γ_ℝ(s−n)`.
@@ -2091,20 +2075,19 @@ The library targets include the following operations and identities:
 
 **Checks.**
 
-- Zero realization gives product `1` and pole order `0`; directly at a complex place, `complexHodgeGammaFactors` of the zero carrier gives product `1`.
-- The real Tate type `(n,n)`, sign `(−1)^n` gives `Γ_ℝ(s−n)`. At a complex place `complexHodgeGammaFactors` of the type-`(2,2)` Tate line instead gives `Γ_ℂ(s−2)`.
+- Zero realization gives product `1` and pole order `0`; directly at a complex place, the complex-place factor list of the zero carrier gives product `1`.
+- The real Tate type `(n,n)`, sign `(−1)^n` gives `Γ_ℝ(s−n)`. At a complex place the complex-place factor list of the type-`(2,2)` Tate line instead gives `Γ_ℂ(s−2)`.
 - Weight-zero real sign `+` gives `Γ_ℝ(s)`, sign `−` gives `Γ_ℝ(s+1)`; their orders at `0` differ.
-- A real weight-one structure with `h^(0,1)=h^(1,0)=1` gives `Γ_ℂ(s)`, counted once. At a complex place the same two Hodge types give `Γ_ℂ(s)²`: `complexHodgeGammaFactors` has two zero shifts, rather than shifts `0` and `−1`.
+- A real weight-one structure with `h^(0,1)=h^(1,0)=1` gives `Γ_ℂ(s)`, counted once. At a complex place the same two Hodge types give `Γ_ℂ(s)²`: the complex-place factor list of the weight-one structure has two zero shifts, rather than shifts `0` and `−1`.
 - The dual factors of the zero realization have no positive multiplicities. The dual of the type `(0,0)`, sign `+` line has `Γ_ℝ(s−1)` and a pole at one; the dual of the type `(2,2)`, sign `+` line has `Γ_ℝ(s+1)` and no pole there.
-- Expanding a real shift `−2` of multiplicity two, a complex shift `1` of multiplicity one and a real shift of multiplicity zero preserves signs, kinds and multiplicities.
 - The weight-zero sign `+` Tate realization has totalized product zero at `0`, integer count `1` and analytic order `−1`.
-- A matching record with two real shifts `0` and one complex shift `0` has the same product as
-  the combined Hodge lists and order `−3` at `0`. The record's conductor, coefficients and
-  completed function do not enter this equality.
+- Concatenating two real shifts `0` and one complex shift `0`, each of multiplicity one, gives
+  product `Γ_ℝ(s)²Γ_ℂ(s)`, integer count `3` and analytic order `−3` at `0`; the complex shift
+  alone gives count `1`. Nothing beyond the three shifts enters.
 - At `−1` the weight-zero real Tate line has order `0`, whereas its complex-place factor
   has order `−1`. The zero realization has order `0` everywhere, including at `0`.
 
-*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); LFunctions Layer 0 (`AnalyticLFunctionData.gammaFactor`, for the record comparison); Mathlib `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Complex.differentiable_Gammaℝ_inv`, `Complex.differentiable_Gammaℂ_inv`, `Meromorphic.Gamma`, `meromorphicOrderAt` and its finite-product API.
+*Needs:* §4.13 (Archimedean realization on the existing Hodge carrier); Mathlib `Complex.Gammaℝ`, `Complex.Gammaℂ`, `Complex.differentiable_Gammaℝ_inv`, `Complex.differentiable_Gammaℂ_inv`, `Meromorphic.Gamma`, `meromorphicOrderAt` and its finite-product API.
 
 ### 4.15 The Gamma factor, `r_V` and criticality
 
@@ -2181,21 +2164,21 @@ Prove this as follows. For `p` odd the real-sign term of IntegralIwasawaTheory �
 
 ### 4.18 Leopoldt and the strict-at-p Tate Selmer group
 
-For a number field `F` and `W*=ℚ_p/ℤ_p(1)`, choose the Selmer condition strict at every p-adic place and the propagated finite condition away from `p`. The resulting Selmer group is finite iff the p-adic unit localization map `O_F^×⊗ℤ_p→⊕_(v|p)` completed `O_Fv^×` has `rank r₁+r₂−1` (Leopoldt). For a finite character `χ` of prime-to-p order, the corresponding `χ`-component is finite when Leopoldt holds for its splitting field; use the character idempotent only under the prime-to-p hypothesis. This is a statement/equivalence, not a proof of Leopoldt for all number fields.
+For a number field `F` and `W*=ℚ_p/ℤ_p(1)`, choose the Selmer condition strict at every p-adic place and the propagated finite condition away from `p`. The resulting Selmer group is finite iff `LeopoldtConjecture F p` of IntegralIwasawaTheory §2.2 holds, and its corank equals `leopoldtDefect F p`, the `ℤ_p`-rank of the kernel of that section's unit localization map `ι_F`; no second Leopoldt proposition or rank defect is defined here. For a finite character `χ` of prime-to-p order, the corresponding `χ`-component is finite when Leopoldt holds for its splitting field; use the character idempotent only under the prime-to-p hypothesis. This is a statement/equivalence, not a proof of Leopoldt for all number fields.
 
 Finite `F`; p-primary coefficient and local conditions specified. The strict `p` condition cannot be replaced by relaxed or the full finite unit condition.
 
-Prove this as follows. Use global Kummer and the finite class group to write the exact unit/class-group Selmer sequence. Strictness at `p` cuts out the kernel of the unit localization map; its corank is precisely the Leopoldt rank defect. The other class-group and finite torsion terms are finite. For `χ` use the prime-to-p idempotent and apply the same argument to the splitting field.
+Prove this as follows. Use global Kummer and the finite class group to write the exact unit/class-group Selmer sequence. Strictness at `p` cuts out the kernel of the supplied unit localization map; its corank is `leopoldtDefect F p`. The other class-group and finite torsion terms are finite. For `χ` use the prime-to-p idempotent and apply the same argument to the splitting field.
 
 (Rubin (1999 draft), Corollary I.6.4, p. 16; Remark II.2.7, p. 25.)
 
 **Checks.**
 
-- For `ℚ` the unit rank is zero and the strict Selmer group is finite.
+- For `ℚ` the unit rank is zero, so `leopoldtDefect ℚ p = 0` and the strict Selmer group is finite; for a field with positive unit rank `r₁+r₂−1` and a localization map replaced by zero, the group would have corank `r₁+r₂−1`, which the supplied defect detects.
 - Relaxing `p` admits local unit Kummer classes and no longer expresses the same rank-defect kernel.
 - If `p` divides the character group order, its integral averaging idempotent is unavailable.
 
-*Needs:* §0.9 (The Kummer identification for S-units); §4.17 (The closed-unit and class-group exact sequence); §2.2 (Compact and rational Selmer kernel).
+*Needs:* §0.9 (The Kummer identification for S-units); §4.17 (The closed-unit and class-group exact sequence); §2.2 (Compact and rational Selmer kernel); IntegralIwasawaTheory §2.2 (`leopoldtDefect`, `LeopoldtConjecture`).
 
 ### 4.19 Local units and the cyclotomic Euler system in Iwasawa cohomology
 
@@ -2632,6 +2615,8 @@ Layers 0, `2`, 3; PadicPeriodRings §§1.1–1.5, `2`–3, 4.1–4.3 (period car
 ## Downstream consumers
 
 HeightsRationalPointsAndObstructions §§1.0a–1.5 and 3.17a–3.17d consume the abelian Kummer/Sha carriers, all-place annihilators, cohomological Cassels–Tate pairing and radical API of §§2.12a and 4.29. It owns the torsor/divisor and Poincaré-biextension realizations, their comparison with this pairing and the Brauer–Manin applications.
+
+LFunctions Layer 0 may compare the Gamma factor of its completed L-function record, on its real and complex shift multisets, with `hodgeGammaFactor` on the factor lists of §4.14 with multiplicities expanded; ZerosOfLFunctions Layer 1 may specialise its Gamma-factor divisor at arbitrary complex shifts to the integral shifts and `gammaPoleOrder` of §4.14. Both come later than this roadmap and consume it.
 
 Euler-system arguments for the cyclotomic main conjecture use the completed units, the Kummer and norm compatibilities and the cyclotomic Selmer dictionary (§§0.8, 4.16–4.22). Main-conjecture arguments for ordinary modular forms use the Iwasawa Selmer complexes, corrected specialization, localization surjectivity and the Fitting/characteristic comparison (§§3.8–3.21). Regulator and p-adic Hodge arguments use the finite-condition comparisons (§§4.8–4.12), built on PadicPeriodRings §§1.1–1.5, `2`–3, 4.1–4.3 and FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a. Rank-zero and rank-one Bloch–Kato arguments for elliptic curves use the ordinary structure criteria, the elliptic Selmer comparison and the parity theorems (§§3.18–3.21, 4.26, 4.28–4.29). The Bloch–Kato arguments for Rankin–Selberg motives in the style of Liu–Tian–Xiao–Zhang–Zhu use the torsion-crystalline condition, its small-weight comparisons and the uniform away-p bound (§§4.8–4.11, 4.24–4.25). The adjoint Bloch–Kato argument for finite-image representations uses the restriction and class-group finiteness criterion (§4.27). Global deformation problems use the arithmetic Selmer comparisons and determinant and coefficient fibres of §§2A.1–2A.5.
 
