@@ -78,7 +78,10 @@ the archimedean test-function carrier, its continuous dual and point evaluation;
 place SmoothRepresentationsOfLocalGroups SR.1.1 supplies its locally constant compactly
 supported carrier. The additional targets here are scalar actions, finite-level
 Fourier identities and the local/adelic comparison; no new copies of the supplied
-spaces or Dirac functional are constructed.
+spaces or Dirac functional are constructed. The native-carrier definition
+`TateZeta.finiteSchwartzSpace` of Local uniqueness: `dim S′(ω) = 1` (AL.1.2.5) is
+SR.1.1's space written on Mathlib's `LocallyConstant` so that the finite-place
+uniqueness headline is statable, not a second carrier.
 
 Mathlib `LSeries` and `LSeriesSummable` supply the Maass finite series in its
 convergence domain. This roadmap adds its gamma completion, normalization comparisons
@@ -148,7 +151,9 @@ Canonical rank-one comparison (AL.1.5.3) identifies the standard integral with t
 - **SmoothRepresentationsOfLocalGroups**, SR.1.1 supplies finite-place compactly
   supported locally constant functions; SR.2–SR.3 supplies normalized induction and
   irreducible admissible inputs; SR.4 supplies spherical Satake classes. SR.2.3
-  *whittaker-functionals* gives `GL₂` uniqueness; SR.5.1 *mirabolic-derivatives* and
+  *whittaker-functionals* supplies the Whittaker functionals `Hom_U(V, ψ)` of every
+  quasi-split group, of which `AL3.whittakerFunctionals` is the `GLₙ` case, and gives
+  `GL₂` uniqueness; SR.5.1 *mirabolic-derivatives* and
   SR.5.3 *highest-derivative-adapter* give derivatives and their characteristic-zero
   adapter. Higher-rank uniqueness is Local Whittaker uniqueness (AL.3.1.1);
   generic newforms and conductor normalization use the
@@ -216,7 +221,7 @@ Canonical rank-one comparison (AL.1.5.3) identifies the standard integral with t
   arithmetic weight transports for that suite. The acceptance statements and
   their unramified cuspidal tensor-factor comparisons are AL.3 targets here.
 
-The mathematical hypotheses below define the scope of each target. `Suggested.lean` states the headline results expressible on the pinned carriers: point-supported finite jets, Bessel identities, local and global rank-one continuation and functional equations, local eigenline uniqueness, paired Hadamard factorization and positivity, generic newform lines in every rank, Casselman's `GL₂` dimension theorem and local Whittaker uniqueness in every rank. The module docstring identifies the objects needed for the remaining headline statements.
+The mathematical hypotheses below define the scope of each target. `Suggested.lean` states the headline results expressible on the pinned carriers: point-supported finite jets, Bessel identities, local and global rank-one continuation and functional equations, local eigenline uniqueness, the finite-place Godement–Jacquet theorem in every rank, paired Hadamard factorization and positivity, generic newform lines in every rank, Casselman's `GL₂` dimension theorem and local Whittaker uniqueness in every rank. The module docstring identifies the objects needed for the remaining headline statements.
 
 ## How to read the build
 
@@ -1095,6 +1100,11 @@ locally constant compactly supported and tempered-distribution carriers, respect
 The definitions `TateZeta.finiteSchwartzSpace`, `TateZeta.finitePullback` and
 `TateZeta.finiteEigenSpace` use the compactly supported submodule of native
 `LocallyConstant F ℂ`, its inverse scalar pullback and its algebraic dual.
+`TateZeta.finiteSchwartzSpace` is SmoothRepresentationsOfLocalGroups SR.1.1's
+`C_c^∞(F, ℂ)` for the l-space F, written on Mathlib's `LocallyConstant` so that
+the uniqueness headline is statable against the pinned libraries, and is identified
+with the supplied carrier; the scalar action and eigenspace on it are the targets
+of this layer.
 
 Work under the following hypotheses. F is a completion `k_v` of a number field k. Nonarchimedean: ring of integers O, maximal ideal `P = ϖO, q = #O/P, |ϖ| = q^{−1}, ord` : `F^× → ℤ`. Archimedean: `F = ℝ` with the usual `|x|`, or `F = ℂ` with `|x| = x·x̄`. `ω_s(x) = |x|^s`.
 
@@ -1515,6 +1525,8 @@ For `n≥1`, an irreducible admissible `π` of `GL_n(F)`, matrix coefficient `β
 
 Work under the following hypotheses. F is a local field; at infinity `π` is a Casselman–Wallach representation and `ℓ` a continuous contragredient vector.
 
+The definition `AL2.gjZetaIntegral` is this integral at a finite place on a native representation carrier: it takes the Haar measure dg, the modulus `|·|_F`, the coefficient function `β` and the test function `Φ` as arguments, with the rank `n` written as `n = m+1` and the determinant exponent `s+m/2`.
+
 Require the following API.
 
 - Z is the displayed integral in its convergence domain.
@@ -1563,6 +1575,8 @@ Require the following API.
 - For Satake roots `α_i, L(s,π)=∏_i(1−α_i q^(−s))^(−1)`.
 - `L(s,π⊗|det|^t)=L(s+t,π)`.
 
+The theorem `AL2.godementJacquetLocal` states the finite-place assertions of this target and of The Godement–Jacquet functional equation (AL.2.1.5) in every rank, for every irreducible smooth admissible `π` on a native representation carrier: a polynomial `P_π` with `P_π(0)=1` such that, for every smooth matrix coefficient `β` and every locally constant compactly supported `Φ`, the integral converges on a half-plane `Re(s)>c`, continues meromorphically, and `Z(s,β,Φ)·P_π(q^(−s))` is a Laurent polynomial in `q^(−s)`, with one such product nonzero at every `s₀`; this is the fractional-ideal statement, since the Laurent polynomials `Z·P_π` then generate the unit ideal of `C[q^s,q^(−s)]`, and it determines `P_π`. The rank-one theorem `TateZeta.localZetaIntegral_functionalEquation` is its `n=1` case. The archimedean assertion is a prose target: its Casselman–Wallach carrier has no native counterpart.
+
 **Checks.**
 
 - `L(s,1_F)=(1−q^(−s))^(−1)`.
@@ -1579,6 +1593,8 @@ Require the following API.
 With positive trace Fourier transform Φ̂(Y)=∫Φ(X)ψ(tr(XY))dX and self-dual additive measure, `Z(1−s,β̌,Φ̂)/L(1−s,π∨)=ε(s,π,ψ)Z(s,β,Φ)/L(s,π), β̌(g)=β(g^(−1))`. `ε` is a nonzero monomial in `q^(−s)` at finite places.
 
 Work under the following hypotheses. Haar and `ψ` conventions agree with AL.1; convert explicitly from native negative Fourier kernel.
+
+`AL2.godementJacquetLocal` states this equation at a finite place with `P_(π∨)(0)=1` and `ε·q^(−ks)` the nonzero monomial: `Z(1−s,β̌,Φ̂)·P_(π∨)(q^(s−1))` and `ε·q^(−ks)·Z(s,β,Φ)·P_π(q^(−s))` agree as germs at every point, with `Φ̂` the native negative-kernel Fourier integral against the trace pairing `AL2.tracePairing`, `(X,Y)↦tr(XY)`, evaluated at `−Y`. Its `ε` is relative to the additive Haar measure chosen on `Mat_n(F)` and equals `ε(s,π,ψ)` when that measure is self-dual for `ψ∘tr`.
 
 **Checks.**
 
@@ -1851,7 +1867,7 @@ AL.0–AL.1; the local and global analytic prefixes of AL.3 for the mean-square 
 
 #### AL.3.1.1 Local Whittaker uniqueness
 
-Let F be a nonarchimedean local field, `n≥1`, `ψ` a nontrivial additive character of F and `ψ_N(u)=ψ(Σ_{i=1}^{n−1}u_{i,i+1})` on the upper unipotent `N` of `GLₙ(F)`. For every irreducible admissible smooth complex representation `π` of `GLₙ(F)`, prove `dim Hom_N(π,ψ_N)≤1`; call `π` generic when the dimension is one. Genericity does not depend on the choice of `ψ`, since any two nondegenerate characters of `N` are conjugate under the diagonal torus. The submodule `AL3.whittakerFunctionals` of the algebraic dual collects the `ψ_N`-equivariant functionals on a native representation of `GLₙ(F)`, and the theorem `AL3.whittakerUniqueness` bounds its rank by one for every irreducible smooth admissible `π` and every nontrivial continuous `ψ`; the Whittaker functional of `AL2.genericNewform` is an element of that submodule. The bound is stated for the rank, since the finite rank of an infinite-dimensional space is zero.
+Let F be a nonarchimedean local field, `n≥1`, `ψ` a nontrivial additive character of F and `ψ_N(u)=ψ(Σ_{i=1}^{n−1}u_{i,i+1})` on the upper unipotent `N` of `GLₙ(F)`. For every irreducible admissible smooth complex representation `π` of `GLₙ(F)`, prove `dim Hom_N(π,ψ_N)≤1`; call `π` generic when the dimension is one. Genericity does not depend on the choice of `ψ`, since any two nondegenerate characters of `N` are conjugate under the diagonal torus. The space of Whittaker functionals is SmoothRepresentationsOfLocalGroups SR.2.3's `Hom_U(V, ψ)` for `G = GLₙ`, `U = N` and the character `ψ_N`; the submodule `AL3.whittakerFunctionals` of the algebraic dual is that `GLₙ` specialization written on a native representation of `GLₙ(F)`, declared so that the headline is statable against the pinned libraries and identified with the supplied space, and the theorem `AL3.whittakerUniqueness` bounds its rank by one for every irreducible smooth admissible `π` and every nontrivial continuous `ψ`. The equivariance hypothesis of `AL2.genericNewform` is membership of its Whittaker functional in that submodule. The bound is stated for the rank, since the finite rank of an infinite-dimensional space is zero.
 
 Work under the following hypotheses. Smoothness and admissibility as in SR.3; no unitarity, central character or conductor hypothesis; the archimedean statement is the continuous-functional version in Archimedean Whittaker comparisons (AL.R.1).
 
@@ -1863,7 +1879,7 @@ Work under the following hypotheses. Smoothness and admissibility as in SR.3; no
 
 (Source: Bernstein–Zelevinsky, §5, Theorem 5.16 and Corollary 5.17, p.50, proof in §7, pp.57–62; Cogdell, Fields lectures, Lecture 4, Theorem 4.1, printed p.32.)
 
-*Needs:* **SmoothRepresentationsOfLocalGroups**, SR.2.3 *whittaker-functionals* for `n=2`, SR.3, SR.5.1 *mirabolic-derivatives* and SR.5.3 *highest-derivative-adapter*.
+*Needs:* **SmoothRepresentationsOfLocalGroups**, SR.2.3 *whittaker-functionals* in every rank, for the Whittaker functionals `Hom_U(V, ψ)`, their Frobenius-reciprocity description and, for `n=2`, the uniqueness theorem; SR.3; SR.5.1 *mirabolic-derivatives* and SR.5.3 *highest-derivative-adapter*.
 
 #### AL.3.1.2 The Whittaker realization
 
@@ -2409,19 +2425,9 @@ The shtuka intersection-comparison API includes the middle extension, the local-
 
 *Needs:* Normalized scheme intersection-complex purity (AL.3.10.10); the HN targets (AL.3.10.5–AL.3.10.7) and Two-leg unramified shtukas (AL.3.10.8); EtaleCohomologyFoundations §§F.0–F.6 and F.8 for rational adic operations, duality and middle extension; DeligneWeightsAndPurity §§8.11–8.12 for the weight bounds and proper purity; AlgebraicModuliForArithmeticGeometry layers 2–5 for the local-model and central quotients; Lower-rank shtuka counting with a leg in the level (AL.3.10.9). The lower-rank correspondence is the rank-induction hypothesis below; this comparison precedes the rank-r purity conclusion.
 
-#### AL.3.10.12 Leveled shtukas and ramified rank induction
+#### AL.3.10.12 Essential cohomology and local factors
 
-Fix `ℓ≠char(𝔽_q)` and a finite-order central character. For every `r≥1` and effective level divisor D, construct rank-r two-leg shtukas with compatible D-trivializations, legs outside `supp(D)`, their HN truncations, compactifications, boundary strata and rational `ℓ`-adic cohomology/trace descent. Retain the singular strata and use Shtuka intersection cohomology and essential comparison (AL.3.10.11) at arbitrary level; the smooth proper no-level compactification is not a general-level assertion. Prove the essential-cohomology and truncated counting comparisons of VI.15–VI.27 for this level, assuming the full ramified correspondence, L/epsilon compatibility and temperedness in ranks strictly below r. The resulting rank-r automorphic-to-Galois construction gives an irreducible local system on X minus `supp(D)`, finite-order determinant and weight zero, with ramification exactly at the ramified automorphic places. Apply VI.11 and B.13, together with ramified-twist stability and the `ℓ`-adic trace/product formula, to construct the reverse correspondence; prove its uniqueness using function-field strong multiplicity one and finite-cover Frobenius density. Complete the local L/epsilon comparisons of VI.9(ii) before using this rank as the input to the next rank. Induct from ramified rank one, permitting every finite level at every smaller rank and the leg-in-level spaces and counts (AL.3.10.9) for boundary degenerators in D, then specialize the rank-r conclusion to `D=0`. None of the induction assumptions is drawn from the later unramified polynomial conclusions.
-
-**Checks.** Rank one at arbitrary D recovers modulus reciprocity; a lower-rank twist ramified at a place away from the two legs belongs to the induction family; `D=0` specializes to an everywhere-lisse sheaf, whereas positive-level local systems need not extend across `supp(D)`.
-
-(Source: Lafforgue, I.13, pp.31–32; IV.7, pp.97–99, V.14/V.19, pp.133–134 and 142–150; VI.9–VI.11, pp.158–162, VI.15–VI.27, pp.168–191.)
-
-*Needs:* The preceding function-field analytic/converse and ramified rank-one targets; Lower-rank shtuka counting with a leg in the level (AL.3.10.9); the HN targets (AL.3.10.5–AL.3.10.7) and Two-leg unramified shtukas (AL.3.10.8); Shtuka intersection cohomology and essential comparison (AL.3.10.11) and the rational finite-stabilizer descent and essential-cohomology construction of Essential cohomology and local factors (AL.3.10.13) at the stated level; EtaleCohomologyFoundations §§F.0–F.6, F.10.1–F.10.5, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7 and Frobenius density for finite covers from ArithmeticGaloisRepresentations §5.13. Construct every level and all lower-rank ramified inputs as part of this induction.
-
-#### AL.3.10.13 Essential cohomology and local factors
-
-Fix `ℓ≠char(𝔽_q)`, an identification of algebraic coefficient fields in `ℂ` and `Q̄_ℓ`, and finite-order central character. Construct the rational `ℓ`-adic cohomology of these particular finite-stabilizer compactifications by descent from scheme charts; prove compatibility with finite-group invariants, Künneth, proper base change and trace. Use Shtuka intersection cohomology and essential comparison (AL.3.10.11) for the intersection complexes, their purity and the identification of essential parts. The rational-coefficient hypothesis makes finite-group invariants exact; ordinary cohomology of a singular proper compactification is not asserted pure. A constituent on the two-leg base is r-negligible when it is a direct summand of an external tensor product of lisse irreducibles of ranks strictly below r; retain its complement in the semisimplification.
+Fix `ℓ≠char(𝔽_q)`, an identification of algebraic coefficient fields in `ℂ` and `Q̄_ℓ`, a finite-order central character, a rank `r≥1` and an effective level divisor D. Work under the following hypotheses: the ramified correspondence, L/epsilon compatibility and temperedness hold in every rank strictly below r. These lower-rank statements are hypotheses of this target, which is a conditional theorem; the rank induction that follows it discharges them and is the only target that proves them. Construct the rational `ℓ`-adic cohomology of these particular finite-stabilizer compactifications by descent from scheme charts; prove compatibility with finite-group invariants, Künneth, proper base change and trace. Use Shtuka intersection cohomology and essential comparison (AL.3.10.11) for the intersection complexes, their purity and the identification of essential parts. The rational-coefficient hypothesis makes finite-group invariants exact; ordinary cohomology of a singular proper compactification is not asserted pure. A constituent on the two-leg base is r-negligible when it is a direct summand of an external tensor product of lisse irreducibles of ranks strictly below r; retain its complement in the semisimplification.
 
 The essential shtuka cohomology API includes the negligible summand criterion,
 its stability under the commuting correspondences, the essential semisimplified
@@ -2435,13 +2441,25 @@ quotient, truncation comparison and boundary trace decomposition.
 
 Prove the proper unstable-open fixed-point comparison for these compactifications: for a correspondence generated by its dense Deligne–Mumford open part, étale first projection there and preservation of the open near its fixed points, sufficiently large compatible Frobenius iterates have stack-weighted fixed-point count equal to the alternating cohomological trace plus signed boundary-stratum traces. Local stabilization verifies the open-preservation hypothesis for the Hecke correspondences. Source: Lafforgue, Theorem IV.7, pp.97–99 and Theorem V.19, p.142 and proof pp.142–150; the no-level proper case in the remark on pp.188–189 uses this route.
 
-Boundary strata whose degenerators meet D use the lower-rank leg-in-level fixed-point calculations (AL.3.10.9), together with the full ramified lower-rank correspondence. The geometric targets are negligible boundary contributions, essential cohomology concentrated in degree `2r−2` and negligible kernels/cokernels under truncation change. Its weight `2r−2` purity follows from the specified essential comparison with intersection cohomology, not from ordinary proper cohomology. Its finite-dimensional summand carries commuting Hecke and partial-Frobenius actions. Compute traces with the unramified `t=0` truncated fixed-point formula: for distinct closed legs and sufficiently large equal total Frobenius degrees S, the cuspidal term is `q^((r−1)S)` times the sum over compatible cuspidal `π` of the Hecke trace, the inverse Satake power sum at the pole and the Satake power sum at the zero. Remaining terms are lower-rank products. Construct this counting comparison by double-coset/fixed-point and parabolic constant-term calculations before the purity conclusion. Hecke traces isolate the summand. Rank induction uses the full ramified lower-rank inputs of Leveled shtukas and ramified rank induction (AL.3.10.12), the function-field converse and strong multiplicity one, local/adelic zeta analysis and this counting formula. Complete the arbitrary-level induction before specializing to no level; the later polynomial/Riemann-hypothesis conclusions supply none of these inputs.
+Boundary strata whose degenerators meet D use the lower-rank leg-in-level fixed-point calculations (AL.3.10.9), together with the ramified lower-rank correspondence assumed above. The geometric targets are negligible boundary contributions, essential cohomology concentrated in degree `2r−2` and negligible kernels/cokernels under truncation change. Its weight `2r−2` purity follows from the specified essential comparison with intersection cohomology, not from ordinary proper cohomology. Its finite-dimensional summand carries commuting Hecke and partial-Frobenius actions. Compute traces with the unramified `t=0` truncated fixed-point formula: for distinct closed legs and sufficiently large equal total Frobenius degrees S, the cuspidal term is `q^((r−1)S)` times the sum over compatible cuspidal `π` of the Hecke trace, the inverse Satake power sum at the pole and the Satake power sum at the zero. Remaining terms are lower-rank products. Construct this counting comparison by double-coset/fixed-point and parabolic constant-term calculations before the purity conclusion. Hecke traces isolate the summand. This counting formula, together with the function-field converse and strong multiplicity one of Function-field local factors, multiplicity one and converse theorem (AL.3.10.3) and the local/adelic zeta analysis, is the rank-r input of the induction; the later polynomial/Riemann-hypothesis conclusions supply none of these inputs.
+
+*Needs:* the lower-rank hypotheses stated above; Shtuka intersection cohomology and essential comparison (AL.3.10.11); Lower-rank shtuka counting with a leg in the level (AL.3.10.9); Two-leg unramified shtukas (AL.3.10.8) and the HN targets (AL.3.10.5–AL.3.10.7); Function-field local factors, multiplicity one and converse theorem (AL.3.10.3); SchemeAndStackFoundations layer 2; EtaleCohomologyFoundations §§F.0–F.6, F.8 and F.10.1–F.10.5; DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7 and §§8.11–8.12; AlgebraicModuliForArithmeticGeometry layers 2–5.
+
+#### AL.3.10.13 Leveled shtukas and ramified rank induction
+
+Fix `ℓ≠char(𝔽_q)` and a finite-order central character. For every `r≥1` and effective level divisor D, construct rank-r two-leg shtukas with compatible D-trivializations, legs outside `supp(D)`, their HN truncations, compactifications, boundary strata and rational `ℓ`-adic cohomology/trace descent. Retain the singular strata and use Shtuka intersection cohomology and essential comparison (AL.3.10.11) at arbitrary level; the smooth proper no-level compactification is not a general-level assertion. Apply the essential-cohomology and truncated counting comparisons of VI.15–VI.27 at this level, which Essential cohomology and local factors (AL.3.10.12) proves under the hypothesis that the full ramified correspondence, L/epsilon compatibility and temperedness hold in ranks strictly below r; the induction hypothesis supplies exactly that. The resulting rank-r automorphic-to-Galois construction gives an irreducible local system on X minus `supp(D)`, finite-order determinant and weight zero, with ramification exactly at the ramified automorphic places. Apply VI.11 and B.13, together with ramified-twist stability and the `ℓ`-adic trace/product formula, to construct the reverse correspondence; prove its uniqueness using function-field strong multiplicity one and finite-cover Frobenius density. Complete the local L/epsilon comparisons of VI.9(ii) before using this rank as the input to the next rank. Induct from ramified rank one, permitting every finite level at every smaller rank and the leg-in-level spaces and counts (AL.3.10.9) for boundary degenerators in D, then specialize the rank-r conclusion to `D=0`. None of the induction assumptions is drawn from the later unramified polynomial conclusions.
+
+**Checks.** Rank one at arbitrary D recovers modulus reciprocity; a lower-rank twist ramified at a place away from the two legs belongs to the induction family; `D=0` specializes to an everywhere-lisse sheaf, whereas positive-level local systems need not extend across `supp(D)`.
+
+(Source: Lafforgue, I.13, pp.31–32; IV.7, pp.97–99, V.14/V.19, pp.133–134 and 142–150; VI.9–VI.11, pp.158–162, VI.15–VI.27, pp.168–191.)
+
+*Needs:* The preceding function-field analytic/converse and ramified rank-one targets; Lower-rank shtuka counting with a leg in the level (AL.3.10.9); the HN targets (AL.3.10.5–AL.3.10.7) and Two-leg unramified shtukas (AL.3.10.8); Shtuka intersection cohomology and essential comparison (AL.3.10.11) and the rational finite-stabilizer descent, essential-cohomology construction and counting formula of Essential cohomology and local factors (AL.3.10.12) at the stated level, applied at rank r under the induction hypothesis; EtaleCohomologyFoundations §§F.0–F.6, F.10.1–F.10.5, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7 and Frobenius density for finite covers from ArithmeticGaloisRepresentations §5.13. Construct every level and all lower-rank ramified inputs as part of this induction.
 
 #### AL.3.10.14 The unramified pure realization theorem
 
 The `D=0` specialization of that induction yields the **unramified pure realization theorem**: for an everywhere-unramified cuspidal `π` of `GLₙ(𝔸_K)` with finite-order central character, there is an irreducible rank-n lisse `Q̄_ℓ`-sheaf `V_π` on X, with finite-order determinant, pure of weight zero, such that its geometric-Frobenius characteristic polynomial at every closed point agrees with the unitary Satake polynomial under the chosen coefficient identification. Conversely such irreducible lisse sheaves give the corresponding unramified cusp representation; uniqueness fixes dual and degree-character comparisons, and matching Frobenius polynomials identifies tensor local factors. Tensor products need not be irreducible and no cuspidal tensor transfer is asserted. For a general unitary central character, first remove a unitary degree character to reduce to finite order, then restore that character as a Weil-sheaf twist. An arbitrary unitary complex degree character is not silently treated as a continuous `ℓ`-adic Galois character.
 
-The unramified pure realization API provides the rank, finite order of the determinant, purity of weight zero, the local polynomial, isomorphism invariance, duals and degree twists. **Checks.** rank one recovers reciprocity; the trivial line gives curve zeta factors; a self-pair with one degree self-twist has `H⁰` eigenvalue 1 and `H²` eigenvalue q, while non-inertially-equivalent inputs have neither extreme group. Prerequisites: Leveled shtukas and ramified rank induction (AL.3.10.12), Function-field local factors, multiplicity one and converse theorem (AL.3.10.3), and Shtuka intersection cohomology and essential comparison (AL.3.10.11) with the preceding geometric constructions; SchemeAndStackFoundations layer 2 scheme cohomology, EtaleCohomologyFoundations §§F.0–F.6 and F.10.1–F.10.5 and EtaleCohomologyFoundations §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity, all with their invertible finite coefficients, stated compactifications and rational `ℓ`-adic realization, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7, and the function-field automorphic realization and SR.4/IHG §3a.1 Hecke parameters. Sources: Lafforgue, Theorem I.13, pp.31–32; VI.15–VI.22, pp.168–182; VI.24–VI.27, pp.184–191; Theorems VI.9–VI.10, pp.158–159.
+The unramified pure realization API provides the rank, finite order of the determinant, purity of weight zero, the local polynomial, isomorphism invariance, duals and degree twists. **Checks.** rank one recovers reciprocity; the trivial line gives curve zeta factors; a self-pair with one degree self-twist has `H⁰` eigenvalue 1 and `H²` eigenvalue q, while non-inertially-equivalent inputs have neither extreme group. Prerequisites: Leveled shtukas and ramified rank induction (AL.3.10.13), Function-field local factors, multiplicity one and converse theorem (AL.3.10.3), and Shtuka intersection cohomology and essential comparison (AL.3.10.11) with the preceding geometric constructions; SchemeAndStackFoundations layer 2 scheme cohomology, EtaleCohomologyFoundations §§F.0–F.6 and F.10.1–F.10.5 and EtaleCohomologyFoundations §0.11 (smooth trace and curve duality), with §§0.9–0.10 for cycle classes and smooth-boundary purity, all with their invertible finite coefficients, stated compactifications and rational `ℓ`-adic realization, DeligneWeightsAndPurity DWP.0–DWP.1/DWP.5–DWP.7, and the function-field automorphic realization and SR.4/IHG §3a.1 Hecke parameters. Sources: Lafforgue, Theorem I.13, pp.31–32; VI.15–VI.22, pp.168–182; VI.24–VI.27, pp.184–191; Theorems VI.9–VI.10, pp.158–159.
 
 #### AL.3.10.15 Tensor cohomological determinant
 
