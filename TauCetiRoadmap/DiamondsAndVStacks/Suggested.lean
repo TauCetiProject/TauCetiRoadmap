@@ -2,37 +2,39 @@ import Mathlib
 import TauCeti.Topology.Spectral.ProConstructible
 import TauCeti.RingTheory.Huber.Basic
 import TauCeti.RingTheory.Huber.Pair
-import TauCeti.AlgebraicGeometry.AdicSpace.ValuationSpectrum.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Basic
-import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Hom
-import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
 # Diamonds and v-stacks: target signatures
 
-The README is the definitive specification. These signatures state milestones against Mathlib,
-Tau Ceti and the PerfectoidSpaces roadmap: spectral quotients, Hochster's theorem, the inverse
-topology and spectral submersions (D0); split open covers, totally disconnected and w-local spaces
-and automatic flatness (D1); the v-topology, v-descent of functions and the v-cohomology of `O`
-on the `κ`-small v-site (D2–D3); the Berkovich spectrum as the maximal Hausdorff
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`: the spectral quotient
+criterion, Hochster's theorem, the inverse topology and spectral submersions, cutoff cardinals and
+the flasque constant sheaf (D0); split open covers, Fargues' characterisation and the split-cover
+cohomology equivalence, and w-local spaces (D1); the Berkovich spectrum as the maximal Hausdorff
 quotient of `Spa` and components of compact-group quotients (D5); and seminormal rings,
 subintegral maps and the existence of seminormalizations (D6.9).
 
 The following headline theorems are not statable at the pins and are README targets only.
 [ECD] Theorem 1.5, `Y_ét ≃ Y^◇_ét` for an analytic adic space over `ℤ_p`, lacks diamonds, small
-v-stacks and `Spd`. Full faithfulness of diamondification on seminormal rigid spaces (D6.9) lacks
-rigid spaces, their seminormalization and the diamond functor. The almost acyclicity of `O⁺` in
-[ECD] Theorem 1.2 lacks the integral structure sheaf and the almost category over a perfectoid
-base. The ring-level seminormalization functor `A ↦ A^sn` with its unit lacks a construction at
-the pins; its existence and universal property are stated below without a chosen carrier.
+v-stacks and `Spd`. Affinoidness of totally disconnected perfectoid spaces (D1.3, [ECD] Lemma 7.5)
+lacks perfectoid spaces. Automatic flatness and faithful flatness of `R⁺/ϖ → S⁺/ϖ` (D1.6, [ECD]
+Proposition 7.23) lacks the perfectoid Tate predicate. The v-topology, the singleton v-cover
+criterion, the v-sheaf property and subcanonicity of `O` and the v-sheaf property of `T̲`
+(D2.2, D2.7, D3.10, [ECD] Theorem 8.7) lack perfectoid spaces. The degree-zero comparison and the
+affinoid v-acyclicity of `O` on the `κ`-small v-site (D2.7, D2.8, [ECD] Theorem 1.2 and
+Proposition 8.8) lack perfectoid spaces and `κ`-smallness. The almost acyclicity of `O⁺` in [ECD]
+Theorem 1.2 lacks the integral structure sheaf and the almost category over a perfectoid base. Full
+faithfulness of diamondification on seminormal rigid spaces (D6.9) lacks rigid spaces, their
+seminormalization and the diamond functor. The ring-level seminormalization functor `A ↦ A^sn`
+with its unit lacks a construction at the pins; its existence and universal property are stated
+below without a chosen carrier.
 -/
-
 noncomputable section
 
 namespace TauCetiRoadmap.DiamondsAndVStacks
 
 open CategoryTheory Topology TauCeti TauCeti.Huber TauCeti.ValuationSpectrum
-open TauCetiRoadmap.PerfectoidSpaces.Perfectoid TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace
 
 universe u
 
@@ -148,10 +150,6 @@ def IsCutoffCardinal (κ : Cardinal.{u}) : Prop :=
 theorem exists_isCutoffCardinal_gt (lam : Cardinal.{u}) : ∃ κ, lam < κ ∧ IsCutoffCardinal κ :=
   sorry
 
--- Negative control: `ℵ₀` is a strong limit but not a cutoff cardinal.
-example : ¬ IsCutoffCardinal Cardinal.aleph0.{u} :=
-  fun h ↦ lt_irrefl _ h.1
-
 /-! ## Layer D1: disconnected perfectoid spaces -/
 
 /-- *Every open cover splits*: for every open cover there is a locally constant choice of a member
@@ -183,11 +181,6 @@ theorem splitCoverCharacterisation (X : TopCat.{u}) [SpectralSpace X]
       ∀ F : Sheaf (Opens.grothendieckTopology X) AddCommGrpCat.{u},
         Subsingleton (Sheaf.H.{u} F 1)] := sorry
 
-/-- A pre-adic space is *totally disconnected* if it is quasicompact, quasiseparated and every open
-cover splits (ECD Definition 7.1, p. 29, for perfectoid spaces). -/
-def isTotallyDisconnected : ObjectProperty PreAdicSpace.{u} := fun X ↦
-  CompactSpace X ∧ QuasiSeparatedSpace X ∧ OpenCoversSplit X
-
 /-- A *w-local* space (BS15 Definition 2.1.1, p. 6; ECD Definition 7.4, p. 31): a spectral space
 all of whose open covers split and whose closed points form a closed subset. -/
 def IsWLocalSpace (X : Type u) [TopologicalSpace X] : Prop :=
@@ -198,146 +191,6 @@ components (BS15 Lemma 2.1.4, p. 6). -/
 theorem IsWLocalSpace.isHomeomorph_connectedComponentsMk {X : Type u} [TopologicalSpace X]
     (hX : IsWLocalSpace X) :
     IsHomeomorph fun x : {x : X | IsClosed ({x} : Set X)} ↦ ConnectedComponents.mk (x : X) := sorry
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- **Totally disconnected perfectoid spaces are affinoid** (ECD Lemma 7.5, p. 31). -/
-theorem isAffinoidPerfectoid_of_isTotallyDisconnected (X : Perfd.{u} p)
-    (hX : isTotallyDisconnected X.obj) : isAffinoidPerfectoid p X.obj := sorry
-
-section Flatness
-
-variable {R S : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
-  [IsTateRing R] [CompleteSpace R] [T2Space R]
-  [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S] [IsTateRing S]
-  [CompleteSpace S] [T2Space S]
-
-/-- **Automatic flatness** (ECD Proposition 7.23, pp. 38–39). Let `Spa(R, R⁺)` be totally
-disconnected (its underlying space is spectral, so this is the splitting of open covers) and
-`φ : (R, R⁺) → (S, S⁺)` a continuous map of perfectoid Tate pairs. For every pseudouniformiser
-`ϖ ∈ R⁺`, the map `R⁺/ϖ → S⁺/ϖ` is flat. -/
-theorem flat_quotientMap_of_openCoversSplit [IsPerfectoidTateRing p R]
-    [IsPerfectoidTateRing p S] (PR : Pair R) (PS : Pair S)
-    (hX : OpenCoversSplit (spa PR.plus)) (φ : R →+* S) (hφ : Continuous φ)
-    (hplus : ∀ x ∈ PR.plus, φ x ∈ PS.plus) (ϖ : PR.plus) (hϖ : IsPseudoUniformizer (ϖ : R)) :
-    (Ideal.quotientMap ((Ideal.span {ϖ}).map (φ.restrict PR.plus PS.plus hplus))
-      (φ.restrict PR.plus PS.plus hplus) Ideal.le_comap_map).Flat := sorry
-
-/-- The faithfully flat case of ECD Proposition 7.23: if moreover `Spa(S, S⁺) → Spa(R, R⁺)` is
-surjective, then `R⁺/ϖ → S⁺/ϖ` is faithfully flat. -/
-theorem faithfullyFlat_quotientMap_of_openCoversSplit [IsPerfectoidTateRing p R]
-    [IsPerfectoidTateRing p S] (PR : Pair R) (PS : Pair S)
-    (hX : OpenCoversSplit (spa PR.plus)) (φ : R →+* S) (hφ : Continuous φ)
-    (hplus : ∀ x ∈ PR.plus, φ x ∈ PS.plus)
-    (hsurj : ∀ x ∈ spa PR.plus, ∃ y ∈ spa PS.plus, comap φ y = x)
-    (ϖ : PR.plus) (hϖ : IsPseudoUniformizer (ϖ : R)) :
-    (Ideal.quotientMap ((Ideal.span {ϖ}).map (φ.restrict PR.plus PS.plus hplus))
-      (φ.restrict PR.plus PS.plus hplus) Ideal.le_comap_map).FaithfullyFlat := sorry
-
-end Flatness
-
-/-! ## Layer D2: the pro-étale and v-topologies -/
-
-/-- The *v-precoverage* on a category with an underlying-space functor `F`: a presieve on `X`
-covers if every quasicompact open `U` of `F X` is a finite union of images of quasicompact opens
-of members of the presieve (ECD Definition 8.1(iii), p. 39). -/
-def vPrecoverage {C : Type*} [Category C] (F : C ⥤ TopCat.{u}) : Precoverage C where
-  coverings X := {R | ∀ U : Set (F.obj X), IsOpen U → IsCompact U →
-    IsCompactOpenCovered (fun i : R.uncurry ↦ ((F.map i.1.2).hom : F.obj i.1.1 → F.obj X)) U}
-
-/-- The underlying topological space of a perfectoid space. -/
-abbrev perfdToTop : Perfd.{u} p ⥤ TopCat.{u} :=
-  ObjectProperty.ι _ ⋙ PreAdicSpace.forgetToTop
-
-/-- The *v-topology* on the category of perfectoid spaces (ECD Definition 8.1(iii)). -/
-def vTopology : GrothendieckTopology (Perfd.{u} p) :=
-  (vPrecoverage (perfdToTop p)).toGrothendieck
-
-/-- A map from a quasicompact perfectoid space to a quasiseparated one is a v-cover iff it is
-surjective (ECD Definition 8.1(iii), p. 39, as used in the proof of Theorem 8.7, p. 43).
-Surjectivity is detected on quasicompact open neighbourhoods of target points. -/
-theorem singleton_mem_vPrecoverage_iff_surjective {X Y : Perfd.{u} p} (f : Y ⟶ X)
-    [CompactSpace Y.obj] [QuasiSeparatedSpace X.obj] :
-    Presieve.singleton f ∈ vPrecoverage (perfdToTop p) X ↔
-      Function.Surjective ((perfdToTop p).map f).hom := sorry
-
-/-- The structure presheaf `X ↦ O_X(X)` on perfectoid spaces. -/
-def structurePresheaf : (Perfd.{u} p)ᵒᵖ ⥤ CommRingCat.{u} :=
-  (ObjectProperty.ι _ ⋙ PreAdicSpace.forgetToPresheafedSpace).op ⋙
-    AlgebraicGeometry.PresheafedSpace.Γ ⋙ TopCommRingCat.isCompleteSeparated.ι ⋙
-      forget₂ TopCommRingCat CommRingCat
-
--- Check `structurePresheaf_empty`: on an empty perfectoid space the value is a subsingleton ring,
--- by the sheaf condition for the empty cover (the zero ring maps to the terminal value `O_X(∅)`).
-example (X : Perfd.{u} p) [IsEmpty X.obj] :
-    Subsingleton ((structurePresheaf p).obj (Opposite.op X)) := by
-  have hX : PreAdicSpace.isSheafy X.obj := X.property.1
-  let Z : CompleteSeparatedTopCommRingCat.{u} :=
-    ⟨TopCommRingCat.of PUnit, TopCommRingCat.isCompleteSeparated_of_completeSpace_of_t0Space _⟩
-  have hT := TopCat.Sheaf.isTerminalOfEqEmpty ⟨_, hX⟩ (U := ⊤) (Subsingleton.elim _ _)
-  let f := (hT.from Z).hom.1
-  exact subsingleton_of_zero_eq_one
-    ((map_zero f).symm.trans ((congrArg f (Subsingleton.elim 0 1)).trans (map_one f)))
-
-/-- **`O` is a v-sheaf** (ECD Theorem 8.7, p. 43). -/
-theorem isSheaf_structurePresheaf : Presheaf.IsSheaf (vTopology p) (structurePresheaf p) := sorry
-
-/-- **The v-topology is subcanonical** (ECD Theorem 8.7, p. 43). -/
-theorem vTopology_subcanonical : (vTopology.{u} p).Subcanonical := sorry
-
-/-- The full subcategory of `κ`-small perfectoid spaces, the underlying category of the small
-v-site (ECD Definition 4.2, p. 20, and Definition 8.1, p. 39). -/
-abbrev PerfdKappa (κ : Cardinal.{u}) : Type (u + 1) :=
-  ObjectProperty.FullSubcategory (C := Perfd.{u} p) (IsKappaSmall p κ)
-
-/-- The v-topology on `κ`-small perfectoid spaces, generated by the same finite quasicompact
-image condition (ECD Definition 8.1(iii), p. 39). -/
-def vTopologyKappa (κ : Cardinal.{u}) : GrothendieckTopology (PerfdKappa p κ) :=
-  (vPrecoverage (ObjectProperty.ι _ ⋙ perfdToTop p)).toGrothendieck
-
-/-- An essentially small `κ`-small v-site has sheafification of abelian presheaves, through
-Mathlib's transport to a small model. -/
-instance (κ : Cardinal.{u}) [EssentiallySmall.{u} (PerfdKappa p κ)] :
-    HasSheafify (vTopologyKappa p κ) AddCommGrpCat.{u} :=
-  hasSheafifyEssentiallySmallSite _ _
-
-/-- For a cutoff cardinal `κ`, the additive structure presheaf is a sheaf on the `κ`-small
-v-site (ECD Theorem 8.7, p. 43; README D2.7). -/
-theorem isSheaf_additiveStructurePresheaf (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ) :
-    Presheaf.IsSheaf (vTopologyKappa p κ)
-      ((ObjectProperty.ι _).op ⋙ structurePresheaf.{u} p ⋙ forget₂ CommRingCat RingCat ⋙
-        forget₂ RingCat AddCommGrpCat) :=
-  sorry
-
-/-- The additive structure sheaf on the `κ`-small v-site (ECD Theorem 8.7; README D2.7). -/
-def additiveStructureSheaf (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ) :
-    Sheaf (vTopologyKappa p κ) AddCommGrpCat.{u} :=
-  ⟨(ObjectProperty.ι _).op ⋙ structurePresheaf.{u} p ⋙ forget₂ CommRingCat RingCat ⋙
-      forget₂ RingCat AddCommGrpCat,
-    isSheaf_additiveStructurePresheaf p κ hκ⟩
-
-/-- Degree-zero v-cohomology of the structure sheaf on the `κ`-small v-site is the additive group
-of global functions (ECD Theorem 1.2, p. 3; README D2.7). -/
-theorem structureSheaf_v_H0 (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ)
-    [EssentiallySmall.{u} (PerfdKappa p κ)]
-    [HasExt.{u+1} (Sheaf (vTopologyKappa p κ) AddCommGrpCat.{u})] (X : PerfdKappa p κ) :
-    Nonempty (Sheaf.H'.{u+1} (additiveStructureSheaf p κ hκ) 0 X ≃+
-      (structurePresheaf p).obj (Opposite.op X.obj)) := sorry
-
-/-- For a cutoff cardinal `κ`, the structure sheaf has zero positive v-cohomology on every
-`κ`-small affinoid perfectoid space (ECD Proposition 8.8, p. 43; README D2.8). -/
-theorem structureSheaf_v_acyclic (κ : Cardinal.{u}) (hκ : IsCutoffCardinal κ)
-    [EssentiallySmall.{u} (PerfdKappa p κ)]
-    [HasExt.{u+1} (Sheaf (vTopologyKappa p κ) AddCommGrpCat.{u})] (X : PerfdKappa p κ)
-    (hX : isAffinoidPerfectoid p X.obj.obj) (n : ℕ) :
-    Subsingleton (Sheaf.H'.{u+1} (additiveStructureSheaf p κ hκ) (n + 1) X) := sorry
-
-/-! ## Layer D3: effective descent and morphisms of stacks -/
-
-/-- For every topological space `T`, the presheaf `T̲ : X ↦ C(|X|, T)` is a v-sheaf (ECD §10,
-before Definition 10.12, p. 53). -/
-theorem isSheaf_yonedaPresheaf (T : Type u) [TopologicalSpace T] :
-    Presieve.IsSheaf (vTopology p) (ContinuousMap.yonedaPresheaf (perfdToTop p) T) := sorry
 
 /-! ## Layer D5: spatial geometry and Hausdorff reduction -/
 
@@ -350,10 +203,6 @@ def BerkovichSpectrum (R : Type u) [CommRing R] [TopologicalSpace R] (ϖ : R) : 
 instance (R : Type u) [CommRing R] [TopologicalSpace R] (ϖ : R) :
     TopologicalSpace (BerkovichSpectrum R ϖ) :=
   TopologicalSpace.induced (fun α : BerkovichSpectrum R ϖ ↦ (α.1 : R → ℝ)) inferInstance
-
--- Negative control: the normaliser `ϖ = 0` gives the empty spectrum.
-example (R : Type u) [CommRing R] [TopologicalSpace R] : IsEmpty (BerkovichSpectrum R 0) :=
-  ⟨fun α ↦ by have := α.2.2.2; rw [map_zero] at this; norm_num at this⟩
 
 /-- **The Berkovich spectrum is the maximal Hausdorff quotient of `Spa`** (ECD Proposition 13.9,
 p. 79). For a complete Hausdorff Tate ring `R` with a ring of integral elements `R⁺` and a

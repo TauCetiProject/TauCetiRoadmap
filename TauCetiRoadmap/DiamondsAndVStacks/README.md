@@ -112,7 +112,7 @@ The roadmap owns, layer by layer:
   symmetric powers are outside this scope; smallness of analytic Tate-pair diamonds follows from the
   atlas in D6.3, and smallness of the integral `X^◇` is D6.6.
 
-PerfectoidSpaces (imported) owns perfectoid Tate rings and spaces (`Perfd` and `Perf` as full
+PerfectoidSpaces (a supplier) owns perfectoid Tate rings and spaces (`Perfd` and `Perf` as full
 subcategories of Tau Ceti's `PreAdicSpace`, cut out by `isPerfectoidSpace`, which includes the sheaf
 condition on the structure presheaf), tilting, marked untilts and their classification by primitive
 Witt-vector elements (layer P1), rational-affinoid geometry, completed residue fields, completed
@@ -261,10 +261,11 @@ its nonanalytic points. `Perf.Spd p R` is this same definition restricted by `[I
 `Perf.SpdZp p` evaluates it at `(ℤ_p, ℤ_p)`. The carriers are absolute; analytic comparisons in D6.4
 additionally require a structural morphism to `Spa(ℤ_p, ℤ_p)`.
 
-The size convention is cardinal cutoffs inside fixed ambient Lean universes. In `Suggested.lean` the
-statements of D1–D2 are universe-polymorphic over PerfectoidSpaces' `Perfd.{u} p`, and `κ`-smallness
-is PerfectoidSpaces' `IsKappaSmall`. The suggested carriers of the README-only targets of D1–D6 are
-the following. `Geometry.Affinoid p c` has rings in `Type`, the ring universe of
+The size convention is cardinal cutoffs inside fixed ambient Lean universes. The perfectoid
+statements of D1–D2 are README targets, universe-polymorphic over PerfectoidSpaces' `Perfd.{u} p`,
+and `κ`-smallness is PerfectoidSpaces' `IsKappaSmall`; `Suggested.lean` imports no roadmap module
+and states only what the pinned Mathlib and Tau Ceti carry. The suggested carriers of the
+README-only targets of D1–D6 are the following. `Geometry.Affinoid p c` has rings in `Type`, the ring universe of
 AdicEtaleGeometry's `CAff`, and enters `PerfectoidSpace.Perfd.{1} p` through the universe lift
 `Geometry.Affinoid.ulift`. `Geometry.HasAffinoidCharts p c` selects the objects of `Perfd.{1} p`
 covered by open subspaces isomorphic to spectra of such lifts, and `Geometry.Spaces p c : Type 2` is
@@ -343,8 +344,9 @@ the docstrings of `Suggested.lean` refer to them by these numbers.
 ## Exact supplier contracts
 
 The pinned-declaration table lists Mathlib and Tau Ceti declarations used by `Suggested.lean` or
-cited by the targets. The sibling-interface table lists roadmap prototypes; importing their
-`Suggested.lean` files supplies interfaces with suggested proofs. The remaining tables and
+cited by the targets. The sibling-interface tables list the targets of supplier roadmaps, cited by
+roadmap and section; `Suggested.lean` imports no roadmap module, so a statement that needs a
+supplier's carrier is a README target. The remaining tables and
 paragraphs record the full supplier contracts. Names attributed to PerfectoidSpaces,
 AdicEtaleGeometry, AdicSpacesPartII, AdicSpacesPartIII, SchemeAndStackFoundations and
 ResolutionOfSingularitiesCharacteristicZero are targets of those roadmaps under their suggested
@@ -392,9 +394,9 @@ their stability API use `TauCetiRoadmap.AdicSpacesPartII.Topos` (AdicSpacesPartI
 | Quasicompact and quasiseparated objects; algebraic topoi | AdicSpacesPartII R0.19.10 | `TauCetiRoadmap.AdicSpacesPartII.Topos.IsQuasicompact`, `IsQuasiseparated`, `Hom.IsQuasicompact`, `Hom.IsQuasiseparated` and `IsAlgebraic`, including their stability API. |
 
 The geometric predicates of the README-only targets are specialisations of relative predicates on a
-site, as follows; all names in the next two tables are suggested names. In `Suggested.lean`, total
-disconnectedness is stated directly as `isTotallyDisconnected` (qcqs with `OpenCoversSplit`) on Tau
-Ceti's `PreAdicSpace`.
+site, as follows; all names in the next two tables are suggested names. In `Suggested.lean`, the
+splitting of open covers is `OpenCoversSplit` on a topological space; total disconnectedness of a
+pre-adic space (qcqs with split open covers) is the README target `isTotallyDisconnected`.
 
 | Geometric predicate (suggested) | Defining relative predicate (suggested) | Specialization |
 | --- | --- | --- |
@@ -409,7 +411,7 @@ this README only, in the subsection given in the last column.
 | Use | Local supplier (suggested) | Subsection |
 |---|---|---|
 | `inverse_patch_unchanged` | `Spectral.inverseTopology_constructible` | D0.5 |
-| Continuous-map descent, including `J = Perfd.vTopology sp` | `underlineSheaf.isVSheaf`; covering sieves and point-surjective pullbacks (the perfectoid instance is the Lean theorem `isSheaf_yonedaPresheaf`) | D3.10 |
+| Continuous-map descent, including `J = Perfd.vTopology sp` | `underlineSheaf.isVSheaf`; covering sieves and point-surjective pullbacks (the perfectoid instance is `isSheaf_yonedaPresheaf` of D3.10) | D3.10 |
 | `cutoff_zero` | `definition_IsCutoffCardinal_2` | D0.23 |
 | `clopen_nonterminal_constant` | `definition_DisjointDescent_3` | D0.22 |
 | `stalk_empty_factor` | `definition_UltrafilterStalk_2` | D0.22 |
@@ -474,8 +476,8 @@ Boolean functions used to compute proper clopen restriction. `ZMod.castHom` in
 | `CategoryTheory.Limits.CatCospanTransform`, `CategoricalPullback.CatCommSqOver.transform` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/CatCospanTransform.lean:48`; `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/Basic.lean:471` | Transport of a pullback cone along the three restriction functors and the pseudonaturality isomorphisms. |
 | `CategoryTheory.Limits.CategoricalPullback.mkIso`, `CategoryTheory.Cat.Hom.isoMk`, `CategoryTheory.Discrete.functor` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Categorical/Basic.lean:159`; `Mathlib/CategoryTheory/Category/Cat.lean:166`; `Mathlib/CategoryTheory/Discrete/Basic.lean:196` | Build pullback isomorphisms from their two components, turn natural isomorphisms into 2-cells of `Cat`, and include the discrete objects into a category. |
 | `CategoryTheory.LocallyDiscrete.mkPseudofunctor`, `CategoryTheory.Pseudofunctor.StrongTrans` | `Mathlib/CategoryTheory/Bicategory/Functor/LocallyDiscrete.lean:165`; `Mathlib/CategoryTheory/Bicategory/NaturalTransformation/Pseudo.lean:57` | Identity and composition constraints and strong naturality constraints are specified isomorphisms, with separate coherence equations. |
-| `CategoryTheory.Pseudofunctor.StrongTrans.Modification` | `Mathlib/CategoryTheory/Bicategory/Modification/Pseudo.lean:51` | Modifications between strong transformations, the 2-cells in the descent equivalence `Stack.quotient_descent` of D0.26. |
-| `CategoryTheory.Pseudofunctor.DescentData` | `Mathlib/CategoryTheory/Sites/Descent/DescentData.lean:59` | Descent for a family of arrows to one site object. The descent data of `Stack.quotient_descent` in D0.26 are instead taken along a groupoid of sheaves, including its nontrivial stabilizers. |
+| `CategoryTheory.Pseudofunctor.StrongTrans.Modification` | `Mathlib/CategoryTheory/Bicategory/Modification/Pseudo.lean:51` | Modifications between strong transformations, the 2-cells in the descent equivalence of D0.26 (iii). |
+| `CategoryTheory.Pseudofunctor.DescentData` | `Mathlib/CategoryTheory/Sites/Descent/DescentData.lean:59` | Descent for a family of arrows to one site object. The descent data of D0.26 (iii) are instead taken along a groupoid of sheaves, including its nontrivial stabilizers. |
 
 
 The 2-fibre product of SchemeAndStackFoundations §1.18, written `Stack.twoFibreProduct` in D0.26,
@@ -700,7 +702,7 @@ pairs, rational subsets and the adic structure presheaf.
 | Perfectoid disc and Gauss valuation | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.discPair` (the P4 disc-pair target), `Perfectoid.perfectedTateAlgebra`, `Perfectoid.perfectedTateAlgebra.rootX`, `gaussPoint` | The disc Checks in D0.1, D1.1, D1.10, D2.1, D2.4, D2.8, D3.2, D3.3 and D3.8 use the supplied ring, plus ring and coordinate valuations on `Geometry.Affinoid`. |
 | Completed cyclotomic field | `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.padicCyclotomic`, `isPerfectoidField_padicCyclotomic` | `s1_4_cyclotomic_field_is_not` uses this actual field with its power-bounded plus ring. |
 | Global functions and integral functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSections`, `globalPlus`, `globalPullback`, `globalPullback_chart`; the plus-ring clause of the pullback is this README's `Geometry.globalPullback_plus` (D2.6) | `Geometry.toPerfectoid` retains the underlying perfectoid space; `Geometry.ORing` and `Geometry.OplusRing` assemble these supplied rings into presheaves on the category with lifted Hom types. |
-| Cardinal bounds | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsKappaSmall`, `IsKappaSmall.mono` (PerfectoidSpaces `Suggested.lean`, P6 global cardinal predicates) | `Geometry.Perfdκ` is their full subcategory on `Geometry.Spaces`; no second smallness predicate is introduced. |
+| Cardinal bounds | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.IsKappaSmall`, `IsKappaSmall.mono` (PerfectoidSpaces layer P6, global cardinal predicates) | `Geometry.Perfdκ` is their full subcategory on `Geometry.Spaces`; no second smallness predicate is introduced. |
 | Affinoid functions | `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.globalSectionsAffinoidEquiv_spec` | The affinoid and cohomological comparisons in D2.7 use the supplied section ring and its chosen plus subring. |
 
 Mathlib's `CategoryTheory.IsCardinalFiltered` in
@@ -722,7 +724,7 @@ Huber pair; `Geometry.Affinoid.ulift` transports it to `Perfectoid.PairCat.{1} p
 `PerfectoidSpace.Perf.{1} p`. `Geometry.toPerfectoid` forgets the chart condition, the
 characteristic and the Hom lift. The following are PerfectoidSpaces roadmap interfaces and
 targets (names relative to `TauCetiRoadmap.PerfectoidSpaces`); their category prototypes are
-provided by that roadmap's `Suggested.lean`.
+targets of that roadmap.
 
 | Geometric input | Exact supplier | Local use |
 |---|---|---|
@@ -759,8 +761,8 @@ the perfectoid torsor presentation used in D6. PerfectoidTowers P9.8 and P9.12 c
 for their tower specialisations.
 
 `TauCetiRoadmap.PerfectoidSpaces.PerfectoidSpace.Perfd p` and its characteristic-`p` subcategory
-`Perf p` are full subcategories of Tau Ceti's `PreAdicSpace`; this is the carrier of the D1–D2
-statements of `Suggested.lean`. In the suggested carrier of the README-only targets,
+`Perf p` are full subcategories of Tau Ceti's `PreAdicSpace`; this is the carrier of the perfectoid
+D1–D2 targets. In the suggested carrier of the README-only targets,
 `Geometry.Perfd p` and `Geometry.Perf p` are the Hom-universe lifts of the full subcategories of
 `Perfd.{1} p` and `Perf.{1} p` on `Geometry.HasAffinoidCharts` (D1.11). `Geometry.space p c` is
 `PreAdicSpace.forgetToTop` applied after `Geometry.toPerfectoid` and the inclusion of `Perfd.{1} p`
@@ -925,13 +927,15 @@ The rational-space Checks in D2.1 use `Rat.interior_compact_eq_empty`
 
 ## How to read the build
 
-`Suggested.lean` carries the targets that can be stated against Mathlib, Tau Ceti and
-PerfectoidSpaces as they stand: the spectral topology and submersions of D0 with the cutoff
-cardinals and the flasque constant sheaf, the disconnected perfectoid spaces and split-cover
-cohomology of D1 with automatic flatness, the v-topology on PerfectoidSpaces' `Perfd p` with
+`Suggested.lean` carries the targets that can be stated against the pinned Mathlib and Tau Ceti:
+the spectral topology and submersions of D0 with the cutoff cardinals and the flasque constant
+sheaf, the split open covers, split-cover cohomology and w-local spaces of D1, the Berkovich
+spectrum and the component formula of D5, and seminormality, subintegrality and the existence of
+seminormalizations for rings (D6.9). The perfectoid statements of D1–D3 (affinoidness of totally
+disconnected spaces, automatic flatness, the v-topology on PerfectoidSpaces' `Perfd p` with
 v-descent, the degree-zero comparison and affinoid acyclicity of `O` on the `κ`-small v-site, and
-v-descent of continuous maps (D2–D3), the Berkovich spectrum and the component formula of D5, and
-seminormality, subintegrality and the existence of seminormalizations for rings (D6.9). Each subsection ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
+v-descent of continuous maps) need perfectoid spaces, which are PerfectoidSpaces targets absent at
+the pins, and are README targets. Each subsection ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
 specified in the README only (no Lean declaration). Every other declaration name of this roadmap in
 the text — the suggested definitions and lemmas, and the carriers `Geometry.*`, `Perf.*`, `Perfd.*`,
 `PreAdic.*`, `Rigid.*`, `Stack.*`, `Topos.*`, `Pro.*`, `Cofiltered.*`, `ClopenSheaves.*`,
@@ -943,7 +947,7 @@ not in the Lean file.
 Check labels `sM_N_case` identify the Checks of subsection DM.N; labels of the form
 `definition_Name_k`, and the other backticked labels in Check lists, identify the Checks of a
 definition target. Checks specify mathematical acceptance cases in prose. The `Lean:` lines
-identify milestone signatures and the three proved examples in `Suggested.lean`; the size
+identify milestone signatures in `Suggested.lean`; the size
 obstructions used in D3–D5 are README boundary statements. Italic slug labels such as
 (*spectral-quotient-criterion*) name targets for citation from other roadmaps; they are labels of this README and of the roadmaps that cite them. The
 geometric examples use `Geometry.Affinoid`, `Geometry.Spaces`, `Geometry.VSheaf` and
@@ -1266,7 +1270,7 @@ spectral transition maps.
 The generic pro-category, its double-limit Hom formula, cofiltered limits and the equivalence of
 spectral spaces with pro-objects in finite T₀ spaces are supplied by AdicSpacesPartII R0.19.9.
 Suggested names `Pro.bounded` and `Pro.bounded_mk` below are relative to this roadmap.
-PerfectoidSpaces P6.10 supplies the bounded pro-category: its `Suggested.lean` defines
+PerfectoidSpaces P6.10 supplies the bounded pro-category: it defines
 `HasKappaSmallPresentation κ Z` (a cofiltered presentation of the pro-object `Z` of `(Ind Cᵒᵖ)ᵒᵖ`
 with fewer than `κ` arrows, all arrows counted) and `PerfectoidSpace.ProKappa κ C`, the full
 subcategory `Pro_κ(C)`, with `HasKappaSmallPresentation.of_diagram`. `Pro.bounded κ C`, if the name
@@ -1941,7 +1945,7 @@ stays below `κ` ([ECD] §4, discussion after Lem. 4.1, pp. 19–20). *Needs:* M
 - `definition_IsCutoffCardinal_2` — Zero is not a cutoff.
 - `definition_IsCutoffCardinal_3` — The uncountable strong limit beth-omega fails the cofinality clause; this excludes the strong-limit-only alternative.
 
-Lean: `IsCutoffCardinal` and `exists_isCutoffCardinal_gt`, with a proved example excluding `ℵ₀`.
+Lean: `IsCutoffCardinal` and `exists_isCutoffCardinal_gt`.
 The remaining Checks and constructions are specified in the README only.
 
 ### D0.24 Cardinality of a completion
@@ -2072,19 +2076,20 @@ SchemeAndStackFoundations §1.21, from the groupoid axioms; its geometric specia
 pro-étale equivalence relation on a perfectoid space, whose quotient is a sheaf, is [ECD]
 Proposition 11.3(ii), p. 54, used in layer D4); (ii) the sheaf of isomorphism classes of `[X/R]`
 is the v-sheafification of the presheaf quotient `X/R`, and `[X/R]` is a v-sheaf exactly when
-every stabiliser is trivial (`Stack.quotient_isSheaf_iff`); (iii) for every category-valued v-stack
+every stabiliser is trivial; (iii) for every category-valued v-stack
 `G`, restriction along `Stack.quotient.π` is an equivalence from maps `[X/R] → G`, with
 modifications, to descent data for `G` along the groupoid `(X, R)`: objects `a` of `G(X)` (maps
 `X → G`) with an isomorphism `φ : s*a ≅ t*a` over `R` satisfying the cocycle condition over
-`R ×_X R`, and as morphisms the maps `a → a'` of `G(X)` compatible with `φ` and `φ'`
-(`Stack.quotient_descent`). Statement (iii) follows from the universal property
+`R ×_X R`, and as morphisms the maps `a → a'` of `G(X)` compatible with `φ` and `φ'`.
+Statement (iii) follows from the universal property
 `Stack.stackificationUniversal` of SchemeAndStackFoundations §1.18, which holds for
 category-valued targets and includes modifications, applied to the objectwise groupoid prestack
 `P` presenting `[X/R]`: a strong transformation `P → G` is an object `a` of `G(X)` on objects, an
 isomorphism `φ` on the arrows `R`, compatible with composition exactly when `φ` satisfies the
 cocycle condition, and its modifications are the compatible maps `a → a'`, which need not be
-invertible when `G` is not groupoid-valued. For groupoid-valued `G` this is the 2-coequaliser
-property of [Stacks stackification] Tag 044U with the cocycle of Tag 04MA (Lemma 044T). Statements
+invertible when `G` is not groupoid-valued. For groupoid-valued `G` the existence half is the
+2-coequaliser property of [Stacks stackification] Tag 044U, with the cocycle of Tag 04MA (Lemma
+044T); the equivalence itself is the universal property of §1.18. Statements
 (ii) and (iii) are this roadmap's v-site targets; §1.21 states the isomorphism-class sheaf and
 `.desc` for groupoid-valued targets. The atlas relation is recovered
 before isomorphism classes are sheafified, so the trivial torsor of `BG` keeps `G` as its
@@ -2117,7 +2122,7 @@ presentation). *Needs:* D0.25; SchemeAndStackFoundations §§1.18 and 1.21; D2.2
 - `s0_26_descent_stabilizer` — for the one-object groupoid of `ℤ` and `G` the constant stack of
   the one-object groupoid of `ℤ`, a descent datum may send the generator to a nonidentity
   automorphism; maps `Bℤ → G` are not determined by their value on objects.
-- `s0_26_descent_noninvertible_modification` — on the point site, take the one-object groupoid of
+- Noninvertible modification — on the point site, take the one-object groupoid of
   `ℤ` presenting `Bℤ` and the category-valued stack `G = [1]`, the category `0 → 1`, whose only
   automorphisms are identities. A descent datum is an object `a ∈ {0, 1}` with `φ = id`; the
   modification from the datum at `0` to the datum at `1` is the arrow `0 → 1`, which is not
@@ -2194,7 +2199,8 @@ trivial torsor, and a free discrete action has the sheaf quotient as its quotien
 modulo translation by `ℤ` is a non-Hausdorff quotient of a profinite set by a relation that is not
 closed.
 
-The proved D0 example in `Suggested.lean` excludes `ℵ₀` from the cutoff cardinals. The generic
+The uncountability clause of `IsCutoffCardinal` (D0.23) excludes `ℵ₀` from the cutoff cardinals. The
+generic
 locally spectral, constructible-topology, closure and generalizing quotient-map Checks are supplied
 by AdicSpacesPartII R0.0 and R0.19.1–R0.19.4.
 
@@ -2238,8 +2244,8 @@ disconnected cover `X̃ → X` of an affinoid perfectoid space, and classifies t
 spaces over a strictly totally disconnected base by spectral data on the underlying topological
 spaces. It works with the perfectoid spaces, completed residue fields, affinoid limits and pro-étale
 morphisms supplied by PerfectoidSpaces layers P2, P4, P5 and P6. In `Suggested.lean` the topological
-conditions are stated on Tau Ceti's `PreAdicSpace` and the perfectoid statements on
-PerfectoidSpaces' `Perfd p`; for the README-only targets the suggested geometric category is the Hom
+conditions are stated on topological spaces; the perfectoid statements are README targets on
+PerfectoidSpaces' `Perfd p`, and for the README-only targets the suggested geometric category is the Hom
 lift of the full subcategory of `PerfectoidSpace.Perfd.{1} p`, or of `PerfectoidSpace.Perf.{1} p` in
 characteristic `p`, on the objects covered by `Geometry.Affinoid` charts
 (`Geometry.HasAffinoidCharts`, D1.11); étaleness is the pullback of `PerfectoidSpace.IsEtale p`
@@ -2371,9 +2377,9 @@ The same `coverSplits` is tested on `Geometry.Spaces p c` with its actual open a
 
 - `finite_disjoint_union` — Discrete ℕ has split open covers but is not compact; splitting alone does not imply the qcqs condition.
 
-Lean: `OpenCoversSplit` and `isTotallyDisconnected` (quasicompact, quasiseparated, with split open
-covers, on Tau Ceti's `PreAdicSpace`). The Checks and remaining constructions are specified in
-the README only.
+Lean: `OpenCoversSplit`. Total disconnectedness of a pre-adic space (quasicompact,
+quasiseparated, with split open covers), the Checks and the remaining constructions are specified
+in the README only.
 
 ### D1.2 Fargues' characterisation of split covers
 
@@ -2428,9 +2434,7 @@ disconnected perfectoid space `X` is affinoid, by the quasicompactness argument 
 §7, Lem. 7.5 with proof, p. 31); this is what lets every later argument write `X = Spa(R, R⁺)`.
 These statements are `IsTotallyDisconnectedPerfectoid.pi0`,
 `IsTotallyDisconnectedPerfectoid.fibre_eq_spa`, `IsTotallyDisconnectedPerfectoid.of_components` and
-`IsTotallyDisconnectedPerfectoid.isAffinoid` (suggested names; the affinoidness statement is the
-Lean theorem `isAffinoidPerfectoid_of_isTotallyDisconnected`, for `X : Perfd p` whose underlying
-pre-adic space is `isTotallyDisconnected`), with hypothesis `Geometry.totallyDisconnected p c X` for
+`IsTotallyDisconnectedPerfectoid.isAffinoid` (suggested names), with hypothesis `Geometry.totallyDisconnected p c X` for
 `X : Geometry.Spaces p c`; the converse takes `qcqs (Geometry.space p c) X` and a
 `Geometry.ComponentModel p X z` for every component `z`. This is definitionally the open-cover
 predicate of D1.1. For `Spa(K, K⁺)` the space is its own unique component; for `X = S × Spa(C, O_C)`
@@ -2439,9 +2443,8 @@ PerfectoidSpaces layer P2 (perfectoid spaces and glued tilting; completed residu
 PerfectoidSpaces layer P4 (the injection of residue-field points); Mathlib `ConnectedComponents`,
 `Profinite`, `SpectralSpace`.
 
-Lean: `isAffinoidPerfectoid_of_isTotallyDisconnected` ([ECD] Lemma 7.5), with
-`t2Space_connectedComponents` of D0.6. The rest of this subsection is specified in the README only
-(no Lean declaration).
+Lean: none; the affinoidness statement ([ECD] Lemma 7.5) needs perfectoid spaces, absent at the
+pins, and this subsection is specified in the README only (no Lean declaration).
 
 ### D1.4 Strictly totally disconnected perfectoid spaces
 
@@ -2615,7 +2618,7 @@ Huber-pair map `f : R.toCAff ⟶ S.toCAff`, total disconnectedness of `Geometry.
 `ϖ : R.P.plus` whose image in `R.A` is a pseudouniformizer. The scalar action on the target quotient
 is induced by the restriction of this same `f` to the plus rings, followed by `Ideal.quotientMap`;
 faithful flatness additionally assumes surjectivity of `Geometry.space.map (Geometry.affineMap p f)`
-([ECD] Proposition 7.23, pp. 38–39). In `Suggested.lean` the two statements are
+([ECD] Proposition 7.23, pp. 38–39). The two ring-level statements are
 `flat_quotientMap_of_openCoversSplit` and `faithfullyFlat_quotientMap_of_openCoversSplit`, for
 complete Hausdorff Tate rings `R` and `S` that are perfectoid (`IsPerfectoidTateRing`) with Tau Ceti
 pairs `PR` and `PS`: total disconnectedness of `Spa(R, R⁺)` is the splitting
@@ -2624,8 +2627,8 @@ pairs `PR` and `PS`: total disconnectedness of `Spa(R, R⁺)` is the splitting
 `Ideal.quotientMap` from `R⁺/ϖ` to `S⁺/ϖ`; faithful flatness assumes that every point of
 `Spa(R, R⁺)` is the image of a point of `Spa(S, S⁺)`.
 
-Lean: `flat_quotientMap_of_openCoversSplit` and `faithfullyFlat_quotientMap_of_openCoversSplit`. The
-rest of this subsection is specified in the README only (no Lean declaration).
+Lean: none; the perfectoid Tate predicate is absent at the pins, and this subsection is specified
+in the README only (no Lean declaration).
 
 ### D1.7 w-local and w-strictly local perfectoid spaces
 
@@ -3685,7 +3688,7 @@ PerfectoidSpaces layer P2 (perfectoid spaces and glued tilting); PerfectoidSpace
   covering, since a nonempty quasicompact open `U` exists (`|X|` is locally spectral) and the empty
   union is not `U`. Here local spectrality is supplied by the perfectoid underlying-space functor
   `Geometry.space`, as stated by `Geometry.space_locallySpectral`. The general definitions
-  `vPrecoverage` (in `Suggested.lean`) and `Perfd.proEtalePrecoverage` impose no local spectrality
+  `vPrecoverage` and `Perfd.proEtalePrecoverage` impose no local spectrality
   hypothesis on an arbitrary functor `sp : C ⥤ TopCat`.
 - `s2_1_rational_compact_open_empty` — every compact open of `ℚ` is empty, by
   `Rat.interior_compact_eq_empty`.
@@ -3873,7 +3876,7 @@ with prespectral sources. Neither criterion treats an arbitrary continuous map a
 
 **`Perfd.vTopology`.** The generated topology `(vPrecoverage F).toGrothendieck` retains the proper
 covering arrow in the two-object test site; on PerfectoidSpaces' `Perfd p` with `F = perfdToTop` it
-is the Lean `vTopology`.
+is `vTopology`.
 
 **Checks.**
 
@@ -3919,8 +3922,8 @@ Definition 8.1, p. 39; Proposition 8.2, pp. 39–40).
 
 - `Perfd.vPrecoverage_not_le_proEtalePrecoverage` — A singleton family satisfying the compact-open image condition whose arrow is outside the selected pro-étale class is a v-cover but not a pro-étale cover.
 
-Lean: `vPrecoverage`, `perfdToTop`, `vTopology` and `singleton_mem_vPrecoverage_iff_surjective`.
-The Checks and remaining constructions are specified in the README only.
+Lean: none; the v-topology on `Perfd p` needs perfectoid spaces, absent at the pins, and this
+subsection is specified in the README only (no Lean declaration).
 
 ### D2.3 Cutoff independence and small sheaves
 
@@ -4294,7 +4297,7 @@ completed-tensor plus-ring almost formula).
 `Geometry.O_v_H0` and `Geometry.Oplus_v_H0` identify their degree-zero additive cohomology.
 `Geometry.vSubcanonical` is the named subcanonicity theorem on `Geometry.vTopology p`; the instance
 uses this theorem. `Geometry.subcanonical` states v and pro-étale subcanonicity in either
-characteristic convention ([ECD] Theorem 8.7, p. 43; Theorem 1.2, p. 3). In `Suggested.lean`,
+characteristic convention ([ECD] Theorem 8.7, p. 43; Theorem 1.2, p. 3). Here
 `structurePresheaf` is the ring-valued presheaf `X ↦ O_X(X)` on PerfectoidSpaces' `Perfd p`, built
 from Mathlib's `PresheafedSpace.Γ`; `isSheaf_structurePresheaf` is its v-sheaf property and
 `vTopology_subcanonical` the subcanonicity of `vTopology p`. Cohomology is taken on the small
@@ -4312,10 +4315,9 @@ supplies sheafification through a small model, and Ext in universe `u + 1`. The 
 `Perfd p` has no such sheafification for `AddCommGrpCat.{u}`: its covering sieves are not
 `u`-small. The statements for `O⁺` and the pro-étale site are specified in the README only.
 
-Lean: `structurePresheaf`, `isSheaf_structurePresheaf`, `vTopology_subcanonical`, `PerfdKappa`,
-`vTopologyKappa`, the sheafification instance on an essentially small `PerfdKappa p κ`,
-`isSheaf_additiveStructurePresheaf`, `additiveStructureSheaf` and `structureSheaf_v_H0`, with the
-proved empty-space example `structurePresheaf_empty`. The other Checks and constructions are specified in the README only.
+Lean: none; the structure presheaf on `Perfd p` and the `κ`-small v-site need perfectoid spaces
+and `κ`-smallness, absent at the pins, and this subsection is specified in the README only (no
+Lean declaration).
 
 ### D2.8 Higher v-acyclicity
 
@@ -4377,11 +4379,13 @@ specified universe ([ECD] Proposition 8.8, p. 43).
 - `integralScalar_detects_function` — Distinct functions give distinct transformations,
   detected by the unit section at the identity object of the slice.
 
-Lean: `structureSheaf_v_acyclic`, for a cutoff cardinal `κ`, an essentially small
-`PerfdKappa p κ` and an affinoid `X : PerfdKappa p κ`, states exact positive-degree vanishing for
+`structureSheaf_v_acyclic`, for a cutoff cardinal `κ`, an essentially small `PerfdKappa p κ` and
+an affinoid `X : PerfdKappa p κ`, states exact positive-degree vanishing for
 `additiveStructureSheaf` on `vTopologyKappa p κ` using Mathlib's objectwise `Sheaf.H'`.
-The integral almost-vanishing statement requires the integral sheaf and its scalar action and is
-specified in the README only.
+
+Lean: none; this statement needs perfectoid spaces and `κ`-smallness, absent at the pins, and the
+integral almost-vanishing statement needs the integral sheaf and its scalar action; both are
+specified in the README only (no Lean declaration).
 
 ### D2.9 Pro-étale and v vector bundles
 
@@ -4506,7 +4510,7 @@ where everything vanishes exactly; and `H⁰_v(Spa(R, R⁺), O) = R`, `H⁰_v(Sp
 the higher v-cohomology of `O` zero and that of `O⁺` almost zero, the content of [ECD] Thm 1.2; and
 the rank-`0` bundle and the empty space as the degenerate cases of the vector bundle comparison.
 
-The proved D2 example in `Suggested.lean` shows that global functions on an empty perfectoid
+The Check `structurePresheaf_empty` of D2.7 shows that global functions on an empty perfectoid
 space form a subsingleton ring.
 
 ### Dependencies
@@ -5467,7 +5471,7 @@ any topological space `T`. Its hypotheses are that every `J`-covering sieve indu
 from the coproduct of the underlying spaces of all its arrows, and that
 `|U ×_X V| → |U| ×_{|X|} |V|` is surjective for every pair of arrows to `X`. The conclusion is the
 sheaf condition for `ContinuousMap.yonedaPresheaf sp T`. Specializing this single theorem to
-`J = Perfd.vTopology sp` gives `T̲`; in `Suggested.lean` this instance is `isSheaf_yonedaPresheaf`:
+`J = Perfd.vTopology sp` gives `T̲`; this instance is `isSheaf_yonedaPresheaf`:
 for every topological space `T`, `ContinuousMap.yonedaPresheaf (perfdToTop p) T` is a sheaf for
 `vTopology p`. A quotient-map hypothesis for every covering family implies the sieve hypothesis by
 indexing the family by the arrows of the sieve. Mathlib's `equalizerCondition_yonedaPresheaf` treats
@@ -5695,9 +5699,9 @@ morphism-class and limit applications.
 - `Perfd.underlineSheaf_empty_of_isEmpty` — Continuous maps from an empty test space to the empty space form a singleton.
 - `Perfd.underlineSheaf_not_sheaf_without_quotient` — If a test arrow induces a continuous bijection that is not a quotient map, continuous maps into its source fail descent for that singleton family.
 
-Lean: `isSheaf_yonedaPresheaf` (the v-sheaf property of `T̲` on PerfectoidSpaces' `Perfd p`). The
-rest of this subsection, including the topological boundary statement `s3_10_large_group_escape`,
-is specified in the README only.
+Lean: none; the v-sheaf property of `T̲` on PerfectoidSpaces' `Perfd p` needs perfectoid spaces,
+absent at the pins, and this subsection, including the topological boundary statement
+`s3_10_large_group_escape`, is specified in the README only (no Lean declaration).
 
 ### Examples
 
@@ -5720,7 +5724,7 @@ split torsor `G̲ × X`, the finite étale Galois cover from a finite `G`, the t
 geometric point from a profinite `G`, and the pro-étale but not étale torsor from an infinite
 profinite `G`.
 
-In `Suggested.lean`, `isSheaf_yonedaPresheaf` states the v-sheaf property of `T̲`. The size
+`isSheaf_yonedaPresheaf` of D3.10 states the v-sheaf property of `T̲`. The size
 obstruction `s3_10_large_group_escape` of D3.10 and the geometric Checks, which need the perfectoid
 morphism classes, are specified in the README only.
 
@@ -8124,9 +8128,8 @@ Tate Huber pair and pseudouniformizer, and impose no continuity on `toSpa` ([ECD
 - `t2QuotientHomeomorph_zeroRing` — the quotient of the zero-ring spectrum is empty.
 - `t2QuotientHomeomorph_distinctSeminorms` — distinct seminorms have distinct inverse images.
 
-Lean: `BerkovichSpectrum` with its topology instance, and `nonempty_t2Quotient_spa_homeomorph`,
-with the proved empty-spectrum example `definition_BerkovichSpectrum_2` at the degenerate
-normalizer `ϖ = 0`. The other Checks and constructions are specified in the README only.
+Lean: `BerkovichSpectrum` with its topology instance, and `nonempty_t2Quotient_spa_homeomorph`.
+The Checks and other constructions are specified in the README only.
 
 ### D5.14 The Berkovich space of a small v-sheaf
 
@@ -8598,7 +8601,7 @@ point and not quasiseparated; `⊔_ℕ Spa(C, O_C) → Spa(C, O_C)`, locally spe
 `IsSpectralMap`; the lower-universe and two cardinal controls of D5.3; and
 `Spa(C', O_{C'}) → Spa(C, O_C)`, a v-surjection along which only the third descent statement of D5.12 applies.
 
-The proved D5 example in `Suggested.lean` excludes the degenerate normalizer `ϖ = 0`.
+The Check `definition_BerkovichSpectrum_2` of D5.13 excludes the degenerate normalizer `ϖ = 0`.
 `padicInteger_denseOrbitQuotient` is the connected orbit-space boundary for noncompact `ℤ`.
 
 ### Dependencies
