@@ -63,9 +63,11 @@ Suggested home: `TauCeti/RepresentationTheory/CharacterTable/` (deliverable C un
   `ℤ[ζ_e] = ℤ[X]/Φ_e` (`e = Monoid.exponent G`), for which `+`, `*`, and `DecidableEq` are genuine
   `def`s. Pin a definite embedding `ℤ[ζ_e] ↪ ℂ`. The complex table is the image of the exact table under
   this embedding; the correctness theorem says the *embedded* exact output satisfies the `ℂ`-valued
-  specification. Ordinary character values lie in `ℚ(ζ_e)`, and the Galois group acts on them by the
-  power maps `σ_k : ζ ↦ ζ^k` (Mathlib's `autEquivPow`); these two facts are **mandatory** before the
-  lift-correctness theorem, whereas full Brauer splitting (below) is not.
+  specification. Ordinary character values lie in `ℚ(ζ_e)`, and the Galois group of the cyclotomic field
+  `ℚ(ζ_e)` (not of `ℂ`) acts on them by the power maps `σ_k : ζ ↦ ζ^k` (Mathlib's `autEquivPow`);
+  these two facts are **mandatory** before the lift-correctness theorem. No automorphism of `ℂ`
+  extending `σ_k` is used anywhere: `ℂ/ℚ(ζ_e)` is transcendental, so such an extension would need a
+  transcendence-basis construction that nothing here requires.
 - **The primary spine is the group algebra; `FDRep` is the categorical mirror.** Develop the theory on
   the **module/algebra core** - `k[G] = MonoidAlgebra k G`, its modules, `Representation.character`, and
   `Representation.IsIrreducible` - because it is Mathlib-native, carries the semisimple structure theory,
@@ -85,8 +87,12 @@ Suggested home: `TauCeti/RepresentationTheory/CharacterTable/` (deliverable C un
   sums), not the ordinary character table `X`, `Xᵢ,ⱼ = χᵢ(gⱼ)`. They are related by
   `ωᵪ(Kⱼ) = |Cⱼ| · χ(gⱼ) / χ(1)`; name both, prove the conversion both ways, and treat the ordinary
   table as a final conversion step from `Ω`.
-- **Computable means `#eval`-able.** For deliverable C, "compute" means a definition that reduces by the
-  kernel evaluator, tested by `#eval`, on `[DecidableEq G] [Fintype G]` data. Every ingredient on the
+- **Computable means `#eval`-able.** For deliverable C, "compute" means a definition that the compiler
+  executes, tested by `#eval`, on `[DecidableEq G] [Fintype G]` data. Kernel reduction is not
+  required and not available: the pinned `TauCeti.Cyclotomic.lift` is executable but does not reduce
+  in the kernel, because `ZMod.inv` is `Nat.gcdA`, defined by well-founded recursion
+  (`TauCeti/RingTheory/Cyclotomic/Lift.lean`, module docstring); facts about it are proved through
+  its specification lemmas, not by `decide`. Every ingredient on the
   critical path (class enumeration via an executable `ClassData`, structure constants, finite-field
   linear algebra, the lift) must be a genuine `def`, never a `noncomputable` existence statement.
   Mathlib's `noncomputable` character API is the *specification* the algorithm is proved against, not a
@@ -150,6 +156,9 @@ nondegeneracy and pairing-to-Hom lemmas, `ClassFunction.le_span_irreducibleChara
 finite indexing maps. Native `Cyclotomic`, `DixonPrimeData`,
 `ClassData.centralCharacterSearch` and `ClassData.dixonCyclotomicCharacterTable?`
 supply the executable exact ring, modular search and all-embedding solver.
+Native `CharacterTable/CyclotomicAction` and
+`Induction/Cyclotomic/SplittingField` supply the cyclotomic Galois action on virtual and
+irreducible characters and Brauer's splitting-field theorem (Layer 4).
 Native `FrobeniusSchur`, `FrobeniusGroup`, `RepresentationRing` and `GL2` modules
 supply the corresponding existing application APIs. The milestone descriptions
 retain the complete mathematical programme; they are not assertions that these
@@ -559,12 +568,66 @@ For the finite-character-value bound, see
   `ωᵪ(Kⱼ) = |Cⱼ|χ(gⱼ)/χ(1)`, the sum `|G|/χ(1) = ∑ⱼ ωᵪ(Kⱼ) χ(gⱼ⁻¹)` (with `Kⱼ` the class sum and `gⱼ` a
   representative) is an algebraic integer; it is Galois-invariant, hence rational, hence (`isIntegral_iff`
   over `ℤ`) an integer, so **`χ(1) ∣ |G|`**.
-- **The Galois action.** `Gal(ℚ(ζ_e)/ℚ) ≃ (ZMod e)ˣ` (`autEquivPow`) acts on `VirtualCharacter G` by
-  `(σ_k · χ)(g) = χ(g^k)`, permuting the irreducibles; the fixed field of `χ`'s stabilizer is its field
-  of values. That ordinary character values lie in `ℚ(ζ_e)` and Galois acts by these power maps is
-  **mandatory** for Layer 6's lift; it is proved here.
+- **The Galois action, consumed in the cyclotomic field.** The action lives on `K = ℚ(ζ_e)`, never
+  on `ℂ`. Pinned Tau Ceti supplies it in
+  `TauCeti/RepresentationTheory/CharacterTable/CyclotomicAction.lean`: for a characteristic-zero
+  field `K` with a primitive `n`-th root `ζ`, `exponent G ∣ n`, and an algebraically closed
+  extension `L` (all in one universe), `IsPrimitiveRoot.cyclotomicVirtualCharacterEquiv` identifies
+  `virtualCharacters K G` with `virtualCharacters L G` by scalar extension;
+  `IsPrimitiveRoot.cyclotomicVirtualCharacterAction` is the resulting homomorphism
+  `Gal(K/ℚ) →* Multiplicative (AddAut (virtualCharacters L G))`, so the action laws are the
+  homomorphism laws; `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_apply` gives the value formula
+  `(σ · χ)(g) = χ(g ^ j)` with `j = (hζ.autToPow ℚ σ).val`;
+  `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_equiv_apply` says that on a descended character the action is
+  `σ` applied to the `K`-values; `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_mem_irreducibleCharacters` and
+  `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction`
+  (`Gal(K/ℚ) →* Equiv.Perm (irreducibleCharacters L G)`) give the permutation of the irreducible
+  characters, independent of any row enumeration. On native class functions the same twist is
+  `TauCeti.ClassFunction.powMap j` (`Representation.map_ofCharacter_eq_powMap`,
+  `TauCeti/RepresentationTheory/CharacterTable/Galois.lean`). The Galois action and the power maps
+  of group elements are related on the table by the class-power permutation of Layer 6.
+
+  The remaining target is the field of values.
+  `fieldOfValues_eq_map_fixedField_stabilizer`: for `G : Type` finite, `K` with
+  `IsCyclotomicExtension {exponent G} ℚ K` and a field embedding `ι : K → ℂ`, an irreducible
+  complex character `χ`, and the subgroup `H ≤ Gal(K/ℚ)` of those `σ` with `χ(g ^ j) = χ(g)` for
+  all `g` (`j` the cyclotomic exponent of `σ` relative to the distinguished primitive root of `K`;
+  this is the stabilizer of `χ` under the action above), the field `ℚ(χ) = ℚ(χ(g) : g ∈ G) ⊆ ℂ` is
+  the image under `ι` of the fixed field `K^H` (Isaacs, Chapter 9; Serre §12.4). Proof route: by the
+  descent equivalence, `χ = ι ∘ χ_K` for a `K`-valued `χ_K`; the value formula and the injectivity
+  of `ι` show that `σ ∈ H` iff `σ` fixes every `χ_K(g)`, that is iff `σ` fixes `ℚ(χ_K) ⊆ K`; the
+  Galois correspondence for the finite Galois extension `K/ℚ` gives `ℚ(χ_K) = K^H`, and `ι` maps
+  `ℚ(χ_K)` onto `ℚ(χ)`. The statement holds for every embedding `ι`, because `H` is defined from
+  `χ` alone. *Needs:* Mathlib `IsCyclotomicExtension`, `IsPrimitiveRoot.autToPow`,
+  `IntermediateField.fixedField` and the Galois correspondence (`IsGalois.fixedField_fixingSubgroup`);
+  pinned Tau Ceti `IsPrimitiveRoot.cyclotomicVirtualCharacterEquiv` and
+  `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_apply`.
+
+  Checks, computed: for `G = C₄ = ⟨g⟩` and `χ(g) = i`, `e = 4`, `K = ℚ(i)`, the nontrivial `σ` has
+  `j = 3` and `χ(g³) = −i ≠ i`, so `H = 1` and `ℚ(χ) = ℚ(i)`, not `ℚ`; for the sign character of
+  `S₃`, `e = 6` and `j = 5` gives `sgn(g⁵) = sgn(g)`, so `H = Gal(K/ℚ)` and `ℚ(χ) = ℚ` although
+  `K = ℚ(√−3) ≠ ℚ`, which a model "`ℚ(χ) = K`" gets wrong; for the two-dimensional character of
+  `Q₈` (values `2, −2, 0`), `e = 4`, `H = Gal(ℚ(i)/ℚ)` and `ℚ(χ) = ℚ`; for the trivial group
+  `e = 1`, `K = ℚ`, `j = 0` and `g⁰ = 1 = g`, so `H = ⊤` and both sides are `ℚ`. With an arbitrary
+  class function in place of `χ` the statement is false (for `G = C₃` and `f(g) = f(g²) = i`,
+  every `σ` fixes `f` in the sense of `H`, but `ℚ(f) = ℚ(i) ≠ ℚ`), which is why `χ` is
+  required to be an irreducible character.
 - **Application, off the critical path — Brauer and Burnside.** `ℚ(ζ_e)` is a **splitting field**
-  (Brauer): every irreducible `ℂ`-representation is realizable over `ℚ(ζ_e)`. **Burnside's `pᵃqᵇ`
+  (Brauer): every irreducible `ℂ`-representation is realizable over `ℚ(ζ_e)`. This is consumed
+  from pinned Tau Ceti `TauCeti/RepresentationTheory/Induction/Cyclotomic/SplittingField.lean`, not
+  planned again: `TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot` (virtual-character descent),
+  `FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot` and
+  `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension` (an absolutely irreducible
+  model over a field containing the roots of unity, including an abstract `K` with
+  `IsCyclotomicExtension {exponent G} ℚ K`, for any algebraically closed extension in the same
+  universe), and `FDRep.exists_simple_nonempty_iso_baseChange_adjoin_of_isPrimitiveRoot` (the
+  concrete intermediate field `ℚ⟮ζ⟯ ⊆ ℂ`, for `G : Type`). One adapter remains a target of this
+  layer: transport of the realization along `ULift`/`Shrink` for `G : Type v`, since the pinned
+  statements put `K`, `L` and `G` in one universe and `ℂ : Type`. Compatibility of the realization
+  field `ℚ⟮ζ⟯`, `ζ = TauCeti.Cyclotomic.complexRoot e`, with Layer 6's exact ring is not a second
+  target: it is Layer 6's generator-compatible `cyclotomicFieldEmbedding` and
+  `exists_exact_of_integral_mem_cyclotomic`, through which the Galois action of `ℚ⟮ζ⟯` becomes the
+  one used by the class-power alignment. **Burnside's `pᵃqᵇ`
   theorem** says every finite group of order `pᵃqᵇ`, for primes `p,q` and `a,b ≥ 0`, is solvable. This
   application is not a prerequisite for the algorithm and does not alter the Layer 5–6 dependency chain.
 
@@ -601,8 +664,8 @@ For the finite-character-value bound, see
      a semisimple endomorphism over ℂ with one eigenvalue is scalar.
      `Monoid.neZero_exponent_of_finite` supplies `NeZero e` for the primitive-root and norm
      arguments; `CyclotomicField` has its native number-field instance independently of that
-     nonzero-exponent hypothesis. The separate Galois power-map target remains required for
-     the algorithm's character-lattice action. Layer 6 also owns compatibility of a chosen
+     nonzero-exponent hypothesis. The cyclotomic Galois action consumed above is the one
+     the algorithm's character-lattice action uses. Layer 6 also owns compatibility of a chosen
      primitive-root embedding with its fixed exact cyclotomic-integer embedding.
 
   2. **Prime-power class obstruction for nonabelian simple groups.** For a finite nonabelian simple group
@@ -831,7 +894,8 @@ not replace these objects or weaken a successful output's certificate.
      class sizes. Powering is a conjugation-equivariant bijection on G,
      with inverse exponent modulo e, so it restricts to bijections of the
      corresponding class carriers. For an actual irreducible χ, Layer4's
-     Galois formula and the unchanged positive degree give
+     cyclotomic Galois formula (`σ_b` an automorphism of `ℚ(ζ_e)`, applied
+     to the descended values) and the unchanged positive degree give
      `Ω_χ(P_b(k))=σ_b(Ω_χ(k))`: this follows from
      `Ω_χ(C)=|C|χ(C)/χ(1)`, since both |C| and χ(1) are fixed.
      Transfer this identity to the SAME exact native cyclotomic elements
