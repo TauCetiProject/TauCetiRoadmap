@@ -15,8 +15,11 @@ extraction allows any nonempty family of characteristic-zero coefficient fields,
 ℓ-adic realizations in §4.4.
 
 The §1.5 bound is the numerical consequence of the Weil estimate for abelian varieties and needs
-no cohomology to state. The spectral formulations of DWP.1 (Frobenius on the Tate module and on
-`H¹` of the Jacobian, Weil numbers of its roots), the curve Weil estimate through the Jacobian,
+no cohomology to state. The numerical curve bound `|#C(𝔽_{q^m}) − q^m − 1| ≤ 2g·q^{m/2}` is
+supplied by SchemeAndStackFoundations §5.11 (`weil_bound`) and is not restated here. The
+spectral formulations of DWP.1 (Frobenius on the Tate module and on `H¹` of the Jacobian, the
+Weil numbers among the roots of the Jacobian's Frobenius polynomial, and the §1.6 point-count
+and zeta formulas in those roots, which need the Tate-module carrier),
 the symplectic coefficient estimate (DWP.2), pencil-factor rationality (DWP.3), smooth
 projective purity (DWP.4), local weight–monodromy and generalized majoration (DWP.5), sharp
 curve purity (DWP.6), and the general direct-image and integrality theorems (DWP.7) need

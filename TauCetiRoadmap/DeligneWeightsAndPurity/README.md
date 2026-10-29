@@ -27,10 +27,12 @@ weight–monodromy on finite-field curves, the purity theorems, mixed-complex
 estimates, weight filtrations, geometric semisimplicity, absolute Lefschetz and
 the weight-facing arithmetic and distribution exports of DWP.10.
 Section `9.7` owns the arbitrary-field graded-vector-space primitive kernel,
-decomposition and compatible-pairing core. StandardConjectures Layers `0`–`1`
-consume this core through the natural-grading comparison in §9.7 and package it
-in their characteristic-zero Lefschetz structures, with their additional `sl₂`,
-lowering-operator and grade-projector theory. There is no dependency in the reverse direction.
+decomposition and compatible-pairing core. A consumer that packages a
+characteristic-zero Lefschetz structure (an `sl₂` triple with its lowering
+operator and grade projectors on a naturally graded cohomology) takes this core
+through the natural-grading comparison in §9.7 and adds that theory downstream;
+EtaleDualityAndPerverseSheaves extends the same core to an abelian category
+with Tate twist. There is no dependency in the reverse direction.
 
 Use the scheme geometry of SchemeAndStackFoundations Layers `0`–`2`. Import finite
 cohomology, base change and Frobenius comparisons from EtaleCohomologyFoundations
@@ -61,8 +63,16 @@ ordinary purity agrees with Weil–Deligne purity when `N=0`. Rigid coefficient
 categories, relative hard Lefschetz and decomposition are outside this roadmap;
 perverse carriers used here are supplied by EtaleCohomologyFoundations §F.8.
 
-Import the existing Hasse theorem, Abel–Jacobi construction, symplectic invariant
-theory, reductive groups and compact representation theory. The contracts identify the base-point-free Picard and curve/Jacobian comparisons.
+The Hasse bound for elliptic curves is already in Tau Ceti
+(`WeierstrassCurve.hasse_bound` and its trace form); §1.8 only compares it with
+the root-modulus estimate. The numerical Weil bound
+`|#C(𝔽_{q^m}) − (q^m + 1)| ≤ 2g·q^{m/2}` for a smooth projective geometrically
+connected curve is supplied by SchemeAndStackFoundations §5.11 (the Weil bound
+via surfaces), over every `𝔽_{q^m}` by its genus base change (§3.1 there); §1.6
+here is the Jacobian variant that §5.11 does not state (the Weil numbers among
+the Frobenius roots, the point-count formula and the zeta function) together
+with the comparison of the two bounds. Import the Abel–Jacobi construction,
+symplectic invariant theory, reductive groups and compact representation theory. The contracts identify the base-point-free Picard and curve/Jacobian comparisons.
 Sections `3.6`–`3.7`, `5.15` and `10.6` supply the extra measure, curve-reduction and elliptic-monodromy
 comparisons needed by the weight arguments.
 The degree-refined finite-cover Chebotarev theorem is imported from
@@ -188,6 +198,8 @@ Use these declarations in their existing namespaces, at Mathlib `6b7abb3` and Ta
 
 - [TauCeti.AlgebraicGeometry.AbelianVariety](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean) and its `dim`: the abelian-variety carrier (a proper geometrically integral group scheme over a field, with its structure morphism) and its dimension as topological Krull dimension, used by the §1.5 point-count bound.
 
+- [WeierstrassCurve.hasse_bound](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/EllipticCurve/HasseBound.lean) and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (same file): for an elliptic Weierstrass curve `W` over a finite field with `q` elements, `(#W(𝔽_q) − (q + 1))² ≤ 4q`, the count including the point at infinity, and the trace form `a_q² ≤ 4q` for `W.frobeniusTrace = q + 1 − #W(𝔽_q)` (`WeierstrassCurve.frobeniusTrace_eq_card_point`, `TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Both are proved without `sorry`, through the degree of `rπ − s`. Used by §1.8, which compares them with §1.4's root-modulus estimate and restates nothing.
+
 - [Even.pow_nonneg](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Order/Ring/Basic.lean): even powers are nonnegative in an ordered ring, including the rational traces in §2.5.
 
 - [MonoidHom.mrange](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Group/Submonoid/Operations.lean) and `MonoidHom.mem_mrange`: use the image submonoid of the geometric representation directly. Membership is existence of a represented geometric group element; every such endomorphism is invertible. The image and its Zariski closure are distinguished throughout §8.14.
@@ -295,8 +307,7 @@ Use the lisse tensor–`Hom` adjunction and the induced perfect curve pairings.
 #### EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)
 
 Frobenius-equivariant projective-space and multiplicative-group cohomology, compact support and duality, in the shared Tate convention. These computations are used downstream in
-AutomorphicLFunctionsAndLocalFactors §AL.3,
-[the weight-facing acceptance suite](../AutomorphicLFunctionsAndLocalFactors/README.md#weight-facing-acceptance-suite).
+AutomorphicLFunctionsAndLocalFactors §AL.3.11 (the weight-facing acceptance suite).
 
 First Chern classes, pullback/base-change and additivity; divisor cycle classes and Gysin maps with projection/trace formulas; `Tr(c₁(L)^n)=deg_L(X)`. Uses: [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
 
@@ -449,9 +460,9 @@ Smooth projective compactification of a smooth curve over a perfect field, with 
 
 The nonnegative `3`,`4`,`1` trigonometric combination and exact-abscissa positivity used in WII §2. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
 
-#### EllipticCurves, Layer `3` (Hasse bound)
+#### SchemeAndStackFoundations §5.11 (the Weil bound via surfaces)
 
-Trace `a=q+1−#E(𝔽_q)` and the Hasse bound, to compare with the abelian characteristic polynomial. Uses: [1.8](#18-compatibility-with-the-hasse-bound-for-elliptic-curves).
+`weil_bound`: for a smooth proper geometrically integral curve `C` of genus `g` over a finite field with `q` elements, `|#C(𝔽_q) − (q + 1)| ≤ 2g√q`, proved by the Hodge index theorem on `C̄ × C̄` with the graph of the `q`-power Frobenius. With §3.1 there / `genus_baseChange` (a proper curve with `H⁰(O) = k` keeps `H⁰` and its genus under every field extension) it applies to `C ⊗ 𝔽_{q^m}` over `𝔽_{q^m}` and gives `|#C(𝔽_{q^m}) − (q^m + 1)| ≤ 2g·q^{m/2}` for every `m ≥ 1`, as ArithmeticGaloisRepresentations §5.13 already applies it. The supplier names the curve-cohomological route as a downstream comparison; §1.6 here is that comparison and does not restate the bound as a target. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian).
 
 #### JacobianChallenge, Layer `F` (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian trace comparison)
 
@@ -516,7 +527,7 @@ equality of vertex lists. No second polygon carrier is constructed here.
 | Layer | Development | Output |
 | --- | --- | --- |
 | DWP.0 | Numerical weights and spectra | Scalar, tensor, dual, exterior and pairing API |
-| DWP.1 | Rosati and Jacobians | Abelian-variety and curve Weil estimates |
+| DWP.1 | Rosati and Jacobians | Abelian-variety Weil estimate and its curve/Jacobian comparison |
 | DWP.2 | Symplectic tensor powers | Fundamental estimate and coarse curve bounds |
 | DWP.3 | Arithmetic pencil factors | Rational local factors |
 | DWP.4 | Dimension induction and powers | Smooth projective purity |
@@ -977,11 +988,17 @@ characteristic polynomials use `det(T−F)`.
 
 ### 1.6. The Weil estimate for curves, through the Jacobian
 
-Let `C` be a smooth projective geometrically connected curve of genus `g` over `𝔽_q`, `J` its Jacobian, and `P_{π_J}(X) = ∏(X − a_i)`. Then `#C(𝔽_{q^m}) = 1 − Σ_i a_i^m + q^m` for all `m ≥ 1`, the `a_i` are Weil `q`-numbers of weight `1`, `|#C(𝔽_{q^m}) − q^m − 1| ≤ 2g·q^{m/2}`, and `Z(C, t) = P_{π_J}^{rev}(t)/((1 − t)(1 − qt))` with `P^{rev}(t) = ∏(1 − a_i t)`.
+Let `C` be a smooth projective geometrically connected curve of genus `g` over `𝔽_q`, `J` its Jacobian, and `P_{π_J}(X) = ∏_{i=1}^{2g}(X − a_i)`. Then the `a_i` are Weil `q`-numbers of weight `1`, `#C(𝔽_{q^m}) = 1 − Σ_i a_i^m + q^m` for all `m ≥ 1`, and `Z(C, t) = P_{π_J}^{rev}(t)/((1 − t)(1 − qt))` with `P^{rev}(t) = ∏(1 − a_i t)`. The numerical bound `|#C(𝔽_{q^m}) − q^m − 1| ≤ 2g·q^{m/2}` is the supplied theorem of SchemeAndStackFoundations §5.11, applied over `𝔽_{q^m}`; it is not a target here. The point-count formula recovers it, since `|Σ_i a_i^m| ≤ 2g·q^{m/2}`, and the two bounds agree: this is the downstream cohomological comparison that §5.11 names. Only the Jacobian clauses are targets.
 
-Geometric connectedness is essential: conjugate components change counts. Use the imported curve/Jacobian fixed-point trace comparison.
+Geometric connectedness is essential: conjugate components change counts. Use the imported curve/Jacobian fixed-point trace comparison. Smooth geometric connectedness gives the geometric integrality that §5.11 requires, and `H⁰(C, O) = 𝔽_q`, so its genus base change applies.
 
-*Needs:* [1.4](#14-the-weil-estimate-for-abelian-varieties-over-𝔽_q), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian trace comparison)](#jacobianchallenge-layer-f-abeljacobi-schemeandstackfoundations-36-picard-torsors-and-inversegaloisandarithmeticfundamentalgroups-ig0t1-curvejacobian-trace-comparison), [0.12](#012-weights-under-a-finite-extension-of-the-finite-base-field).
+**Checks.**
+
+- For `ℙ¹` over `𝔽_q`: `g = 0`, `P_{π_J} = 1`, `#ℙ¹(𝔽_{q^m}) = q^m + 1` and `Z = 1/((1 − t)(1 − qt))`; both bounds read `0 ≤ 0`.
+- For an elliptic curve over `𝔽_2` with Frobenius trace `1`: `a_1 + a_2 = 1`, `a_1a_2 = 2`, `#E(𝔽_2) = 1 − 1 + 2 = 2`, and `|2 − 3| = 1 ≤ 2√2`; the supplied bound gives the same inequality, and `Z = (1 − t + 2t²)/((1 − t)(1 − 2t))`. For `m = 2`, `a_1² + a_2² = 1 − 4 = −3` and `#E(𝔽_4) = 1 + 3 + 4 = 8`, with `|8 − 5| = 3 ≤ 2·2`.
+- For `ℙ¹_{𝔽_{q²}}` viewed over `𝔽_q`, which is not geometrically connected, `#C(𝔽_q) = 0 ≠ q + 1` and `Z = 1/((1 − t²)(1 − q²t²))`; the formula with `g = 0` fails, as it must.
+
+*Needs:* [1.4](#14-the-weil-estimate-for-abelian-varieties-over-𝔽_q), [SchemeAndStackFoundations §5.11 (the Weil bound via surfaces)](#schemeandstackfoundations-511-the-weil-bound-via-surfaces), [EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)](#etalecohomologyfoundations-f0f4-f101f105-and-inversegaloisandarithmeticfundamentalgroups-ig0t1ig0t4-finite-cohomology-base-change-and-geometric-trace-formulas), [JacobianChallenge, Layer F (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian trace comparison)](#jacobianchallenge-layer-f-abeljacobi-schemeandstackfoundations-36-picard-torsors-and-inversegaloisandarithmeticfundamentalgroups-ig0t1-curvejacobian-trace-comparison), [0.12](#012-weights-under-a-finite-extension-of-the-finite-base-field).
 
 (Sources: [AV](#references), Chapter III, Theorem 11.1, p. 118; [AV](#references), Chapter III, Corollary 11.4, p. 119.)
 
@@ -997,11 +1014,11 @@ The Abel–Jacobi `H¹` comparison is Frobenius-equivariant without assuming a r
 
 ### 1.8. Compatibility with the Hasse bound for elliptic curves
 
-For an elliptic curve `E` over `𝔽_q` with `a = q + 1 − #E(𝔽_q)` (the trace of Frobenius of Tau Ceti EllipticCurves Layer `3`), `P_{π_E}(X) = X² − aX + q`, and the Weil estimate for abelian varieties `(g = 1)` gives `|a| ≤ 2√q`. This is the Hasse bound that Tau Ceti EllipticCurves Layer `3` proves independently. Import this polynomial identity and its Tate realization from
+For an elliptic curve `E` over `𝔽_q` given by a Weierstrass model `W`, with `a = q + 1 − #E(𝔽_q)` (the pinned `W.frobeniusTrace`, the count including the point at infinity), `P_{π_E}(X) = X² − aX + q`, and the Weil estimate for abelian varieties `(g = 1)` gives `|a| ≤ 2√q`, that is `a² ≤ 4q`. This inequality is the pinned Hasse bound `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`, whose point-count form is `WeierstrassCurve.hasse_bound`; it is proved in Tau Ceti without `sorry`, through the degree of `rπ − s`, and nothing of it is restated. Import the polynomial identity and its Tate realization from
 AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 (the elliptic Frobenius polynomial and its Tate realization). Using that supplied identity, compare §1.4's root-modulus estimate
-with the independent Hasse theorem of EllipticCurves Layer `3`.
+with the pinned integer inequality: for `y² = x³ − x` over `𝔽₃`, `a = 0`, the roots `±i√3` have modulus `3^{1/2}`, and the pinned statement reads `0 ≤ 12`; a model that counted only affine points would give `a = 1` and `P = X² − X + 3`, whose roots have modulus `√3` but whose trace is not the pinned `a_q`.
 
-*Needs:* [1.4](#14-the-weil-estimate-for-abelian-varieties-over-𝔽_q), [1.5](#15-point-counts-of-abelian-varieties-over-𝔽_qm-and-their-bounds), AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 (elliptic Frobenius polynomial and its Tate realization), [EllipticCurves, Layer 3 (Hasse bound)](#ellipticcurves-layer-3-hasse-bound).
+*Needs:* [1.4](#14-the-weil-estimate-for-abelian-varieties-over-𝔽_q), [1.5](#15-point-counts-of-abelian-varieties-over-𝔽_qm-and-their-bounds), AbelianSchemesAndArithmeticModuli §§A6.10–A6.11 (elliptic Frobenius polynomial and its Tate realization), `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` and `WeierstrassCurve.hasse_bound` ([From Mathlib and Tau Ceti](#from-mathlib-and-tau-ceti)).
 
 (Sources: [AV](#references), Chapter III, Theorem 11.1, p. 118.)
 
@@ -1056,7 +1073,7 @@ For `E:y²=x³−x` over `𝔽₃` there are three affine points and the point a
 
 ### Dependencies
 
-DWP.0; SchemeAndStackFoundations §0.29; AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A4.1, A4.4, A6.1, A6.10–A6.14, A6.21; ArithmeticGaloisRepresentations §§6.1–6.2; JacobianChallenge Layer `F`; SchemeAndStackFoundations §3.6; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1, IG.0.T3–IG.0.T4; EllipticCurves Layer `3`.
+DWP.0; SchemeAndStackFoundations §0.29; AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A4.1, A4.4, A6.1, A6.10–A6.14, A6.21; ArithmeticGaloisRepresentations §§6.1–6.2; JacobianChallenge Layer `F`; SchemeAndStackFoundations §3.6; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1, IG.0.T3–IG.0.T4; SchemeAndStackFoundations §§3.1, 5.11; Tau Ceti `WeierstrassCurve.hasse_bound` and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card`.
 
 ## Layer DWP.2: The symplectic tensor-power estimate
 
@@ -2515,7 +2532,28 @@ Let `f : X₀ → Y₀` be a proper morphism of schemes of finite type over `�
 
 ### 8.13. Pure complexes over `ℤ[1/ℓ]`
 
-For `X` of finite type over `ℤ[1/ℓ]` with structure map a : `X → Spec ℤ[1/ℓ]`, put `K′_X = Ra^!ℚ̄_ℓ` and `D′ = RHom(−, K′_X)`. Call `K ∈ D^b_c(X)` pure of weight `w` when `K` is mixed of weights `≤ w` (DWP.8/mixed-complexes, read on schemes of finite type over `ℤ[1/ℓ]`) and `D′K` is mixed of weights `≤ −w`. If `X` is of finite type over `𝔽_p` then `K′_X = K_X(−1)[−2]`, so `D′ = D(−1)[−2]` and this notion agrees with that of DWP.8/pure-complexes. Proper direct images preserve this purity: for `f : X → Y` proper over `ℤ[1/ℓ]` and `K` pure of weight `w`, `Rf_*K` is pure of weight `w`.
+For `X` of finite type over `ℤ[1/ℓ]` with structure map a : `X → Spec ℤ[1/ℓ]`, put `K′_X = Ra^!ℚ̄_ℓ` and `D′ = RHom(−, K′_X)`. Call `K ∈ D^b_c(X)` pure of weight `w` when `K` is mixed of weights `≤ w` (DWP.8/mixed-complexes, read on schemes of finite type over `ℤ[1/ℓ]`, where mixedness and punctual weights are tested at the closed points, whose residue fields are finite) and `D′K` is mixed of weights `≤ −w`. If `X` is of finite type over `𝔽_p` then `K′_X = K_X(−1)[−2]`, because `i^!ℚ̄_ℓ = ℚ̄_ℓ(−1)[−2]` for the closed point `i : Spec 𝔽_p → Spec ℤ[1/ℓ]`; so `D′ = D(−1)[−2]` and this notion agrees with that of DWP.8/pure-complexes. Proper direct images preserve this purity: for `f : X → Y` proper over `ℤ[1/ℓ]` and `K` pure of weight `w`, `Rf_*K` is pure of weight `w`.
+
+Its API includes:
+- `D′` is involutive on `D^b_c(X)` and exchanges `f^*` with `Rf^!` and `Rf_*` with `Rf_!` for morphisms of schemes of finite type over `ℤ[1/ℓ]` (EtaleCohomologyFoundations §F.5 over this base).
+
+- For `X` of finite type over `𝔽_p`, `D′K = (DK)(−1)[−2]`; hence `D′K` has weights `≤ −w` iff `DK` has, and `K` is pure of weight `w` here iff it is pure of weight `w` in §8.2.
+
+- For `X` smooth of relative dimension `n` over `ℤ[1/ℓ]`, `K′_X = ℚ̄_ℓ(n)[2n]`; for `X` smooth of dimension `n` over `𝔽_p`, `K′_X = ℚ̄_ℓ(n − 1)[2n − 2]`.
+
+- `K` is pure of weight `w` iff `D′K` is pure of weight `−w`; `K[1]` is pure of weight `w + 1` iff `K` is pure of weight `w`; `K(r)` is pure of weight `w − 2r` iff `K` is pure of weight `w`; extensions and direct summands of pure complexes of weight `w` are pure of weight `w`; the zero complex is pure of every weight.
+
+- For `f : X → Y` proper over `ℤ[1/ℓ]`, `Rf_*` preserves purity of weight `w`: weights `≤ w` of `Rf_*K` and of `D′Rf_*K = Rf_*D′K` are checked on the closed fibres of `Y`, where §8.8 applies after proper base change.
+
+**Checks.**
+
+- On `X = Spec 𝔽_p` viewed over `ℤ[1/ℓ]`, `K′_X = ℚ̄_ℓ(−1)[−2]` and `D′ℚ̄_ℓ = ℚ̄_ℓ(−1)[−2]`: its `ℋ²` is `ℚ̄_ℓ(−1)`, of weight `2 ≤ −0 + 2`, and `ℚ̄_ℓ` has weights `≤ 0`, so `ℚ̄_ℓ` is pure of weight `0`, as in §8.2. A definition with the twist but without the shift, `D(−1)`, would put `ℚ̄_ℓ(−1)` in degree `0`, of weight `2 > 0`, and `ℚ̄_ℓ` would be pure of no weight.
+
+- On `Spec 𝔽_p`, `ℚ̄_ℓ ⊕ ℚ̄_ℓ(1)` (eigenvalues `1` and `p⁻¹`, weights `0` and `−2`) is mixed of weights `≤ 0` but pure of no weight: `D′` of it is `(ℚ̄_ℓ(−1) ⊕ ℚ̄_ℓ(−2))[−2]`, whose `ℋ²` has weights `2` and `4`, and `4 ≤ −w + 2` forces `w ≤ −2` while weights `≤ w` forces `w ≥ 0`. A definition with the shift but without the twist, `D[−2]`, would call it pure of weight `0`, since `ℋ²` would then be `ℚ̄_ℓ ⊕ ℚ̄_ℓ(−1)`, of weights `0` and `2 ≤ 2`.
+
+- On `X = Spec ℤ[1/ℓ]` itself, `K′_X = ℚ̄_ℓ` and `D′ℚ̄_ℓ = ℚ̄_ℓ`; at every closed point `Spec 𝔽_p` the eigenvalue `1` has weight `0`, so `ℚ̄_ℓ` is pure of weight `0`, while `ℚ̄_ℓ(1)` (eigenvalue `p⁻¹` at `p`) has weights `≤ −2` and `D′ℚ̄_ℓ(1) = ℚ̄_ℓ(−1)` has weight `2 ≤ 2`, so it is pure of weight `−2`, pinning the twist clause.
+
+- On `ℙ¹_{𝔽_q}` with `j : 𝔾_m → ℙ¹`, `j_!ℚ̄_ℓ` is mixed of weights `≤ 0` but not pure of weight `0`: `K′_{𝔾_m} = ℚ̄_ℓ` by the smooth formula with `n = 1`, so `D′(j_!ℚ̄_ℓ) = Rj_*ℚ̄_ℓ`, whose `ℋ¹` at `0` and at `∞` is the tame inertia cohomology `ℚ̄_ℓ(−1)`, of weight `2 > −0 + 1`. This agrees with the §8.2 Check through `RΓ_c(𝔾_m)`; a definition that required only weights `≤ w` would accept it.
 
 *Needs:* [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), [8.8](#88-rf_-preserves-complexes-of-weights--w), [7.8](#78-delignes-fundamental-theorem-ri-f_-of-a-mixed-sheaf-of-weights--n-has-weights--n--i), [EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)](#etalecohomologyfoundations-f5-exceptional-inverse-image-and-verdier-duality), [EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)](#etalecohomologyfoundations-f5f6-smooth-purity-and-poincaré-duality).
 
@@ -3037,13 +3075,15 @@ and transport the degree-two operator, finite support, hard-Lefschetz
 bijections and compatible pairings through the extension.
 For `0≤j≤n`, identify `𝒱_nat(j)∩ker(λ^(n−j+1))` with
 `primitivePiece 𝒱 λ n (n−j)`.
-This is the common-core export to StandardConjectures §§0.1–0.4:
-`P_SC^j = primitivePiece 𝒱 λ n (n−j)`, where `𝒱` is the extended grading.
-Their Lefschetz structure packages this decomposition and pairing theory; its
-characteristic-zero `sl₂` triple, `Λ` and grade projectors are additional
-downstream constructions. This arbitrary-field core uses neither those
-operators nor a characteristic-zero assumption. EtaleDualityAndPerverseSheaves
-uses the same vector-space core for its categorical extension.
+This is the common-core export for every consumer with a naturally graded
+cohomology: its degree-`j` primitive space is `primitivePiece 𝒱 λ n (n−j)`,
+where `𝒱` is the extended grading. A characteristic-zero Lefschetz structure
+(an `sl₂` triple with its lowering operator `Λ` and grade projectors) packages
+this decomposition and pairing theory and adds those operators downstream.
+This arbitrary-field core uses neither those operators nor a
+characteristic-zero assumption. EtaleDualityAndPerverseSheaves uses the same
+vector-space core for its categorical extension to an abelian category with
+Tate twist.
 
 **Checks.**
 
@@ -3272,8 +3312,6 @@ All page numbers in the targets are printed page numbers of the specified editio
 - **[AV]** J. S. Milne, [Abelian Varieties](https://www.jmilne.org/math/CourseNotes/AV.pdf). Course notes, version 2.00, 16 March 2008. Chapter and printed-page locators.
 
 - **[Yu]** Hongjie Yu, [Comptage des systèmes locaux ℓ-adiques sur une courbe](https://arxiv.org/pdf/1807.04659v5). arXiv:1807.04659v5. Section and page locators refer to this author preprint.
-
-- **[Sch]** Olivier Schiffmann, [Indecomposable vector bundles and stable Higgs bundles over smooth projective curves](https://annals.math.princeton.edu/wp-content/uploads/annals-v183-n1-p06-p.pdf). Annals of Mathematics 183 (2016), 297–362.
 
 - **[Lef]** Pierre Deligne, [Théorème de Lefschetz et critères de dégénérescence de suites spectrales](https://www.numdam.org/article/PMIHES_1968__35__107_0.pdf). Publ. Math. IHÉS 35 (1968), 107–126. Printed pagination.
 
