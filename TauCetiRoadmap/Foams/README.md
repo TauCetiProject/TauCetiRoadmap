@@ -6,7 +6,9 @@ spatial duality, graphical calculus and a foam canopolis. Construct the
 corresponding oriented and unoriented Bar-Natan structures. The gl(N)
 construction follows [Robert–Wagner](https://arxiv.org/abs/1702.04140) for foam
 evaluation and then [Goertz–Marino–Wedrich](https://arxiv.org/abs/2602.11120)
-for the construction of monoidal 2-categories.
+for the construction of monoidal 2-categories. Carry a degree-zero unit
+σ recording the trace normalization. The default is σ=1, the sphere-trace
+convention of Ehrig–Tubbenhauer–Wedrich; σ=−1 recovers Robert–Wagner.
 
 This roadmap is intended as one of four roadmaps aimed at formalizing the
 functoriality of type A link homology:
@@ -98,6 +100,7 @@ and calculation lemmas for the objects it introduces.
    rank-two Frobenius specialization, compare the state spaces and disk
    categories with KhovanovHomology's circle tensors and formal surface calculus.
 
+
 The endpoints are the gl(N) foam 2-category and the oriented and unoriented
 Bar-Natan monoidal 2-categories of Goertz–Marino–Wedrich, with spatial duality,
 a usable graphical calculus and the corresponding canopolis constructions.
@@ -155,11 +158,12 @@ them with more detail.
 | Webs | Interval edges (arcs, including arcs with both ends at one vertex) and vertex-free circles; Goertz–Marino–Wedrich's "loops" are circles | Layer 0 |
 | Orientation marking | Where oriented and unoriented versions both exist, a bare name denotes the unoriented one and an arrow (prose) or the prefix `Oriented` (Lean) the oriented one | Layers 0, 1, 2, 4 |
 | Equivariant ring | `Λ_N = ℤ[e₁,…,e_N]`, `deg eᵢ = 2i`, identified with `ℤ[X₁,…,X_N]^(S_N)` by `eᵢ ↦ eᵢ(X₁,…,X_N)`, `deg X_j = 2` | Standing conventions |
-| Coefficients | `𝕜` is a commutative ℤ-graded ring, commutative without signs. In statements about an instance, R is its coefficient ring: `Λ_N` (equivariant gl(N)); a ring with a specified map `Λ_N → R`, with the construction carried out directly over R (specialized gl(N)); or the base ring of A (Bar-Natan) | Layers 0, 3, 4 |
+| Normalization | σ is a degree-zero unit; universal ring Λ_N[σ,σ⁻¹]. Default σ=1 (Ehrig–Tubbenhauer–Wedrich); literal Robert–Wagner formulas use σ=−1. The coefficient involution is the identity | Layers 1–2 |
+| Coefficients | `𝕜` is a commutative ℤ-graded ring, commutative without signs. In statements about an instance, R is its coefficient ring: `Λ_N` (equivariant gl(N)); a ring with a specified map `Λ_N → R` and degree-zero unit σ, with the construction carried out directly over R (specialized gl(N)); or the base ring of A (Bar-Natan) | Layers 0, 3, 4 |
 | Shift | `(M{a})_d = M_(d-a)`; a degree-d 2-morphism `f → g` is a degree-zero map `f → g{-d}`; on hom-categories `f⟦n⟧ = f{-n}`, so it is a `ShiftedHom f g d` | Layers 0, 3 |
 | Hom views | `Hom^•(f,g)` (full graded), its pieces `Hom^d(f,g)`, `Hom^0(f,g)` (degree zero) and `Hom^u(f,g)` (ungraded); each statement about 2-morphisms names one | Layer 3 |
 | Foam degree | `deg dec(F) - Σ_f k(N-k) χ(f) + Σ_s ((k+l)(N-k-l)+kl) χ(s) - Σ_v ((k+l+h)(N-k-l-h)+kl+lh+kh)` over facets of label k, all seams (also those ending on the boundary) with labels k, l, k+l, and singular vertices; boundary edges and vertices are not summed (Goertz–Marino–Wedrich, formula (3.10), Example 3.39) | Layer 1 |
-| 2-hom shift | gl(N): `σ(S,T) = ½(w_N(S)+w_N(T))`, an integer since `w_N(S) = w_N(T)`; Bar-Natan: `σ(S,T) = ½(c(s)+c(t))` | Layer 4 |
+| 2-hom shift | gl(N): `δ(S,T) = ½(w_N(S)+w_N(T))`, an integer since `w_N(S) = w_N(T)`; Bar-Natan: `δ(S,T) = ½(c(s)+c(t))` | Layer 4 |
 | Frobenius degrees | `deg m = deg η = 0`, `deg Δ = -deg ε = 2c`; the circle carries `A{-c}`; A is supported in even degrees before this shift | Layers 0, 1 |
 | Ordinary Khovanov specialization | `A = DualNumber R`, `deg 1 = 0`, `deg X = -2`, `c = -1`; the circle `A{1}` has degrees `+1,-1` on `1,X`. Quantum tensor symmetry is unsigned | KH1–KH4 |
 | Adjunctions | `unit : 𝟙 ⟶ f ≫ g`, `counit : g ≫ f ⟶ 𝟙`; zip and unzip have degree ab, blister open and blister close degree -ab; in `Hom^0` the adjunctions are `M ⊣ S{-ab}` and `S ⊣ M{ab}` | Layers 5, 6 |
@@ -172,7 +176,11 @@ them with more detail.
 - For the gl(N) instance, fix a positive evaluation rank N. Prove the
   Robert–Wagner identities over Λ_N = ℤ[e₁,…,e_N], with deg(eᵢ)=2i (identified
   with ℤ[X₁,…,X_N]^(S_N) by eᵢ ↦ eᵢ(X₁,…,X_N), with deg X_j = 2), then
-  specialize to ℤ and other commutative coefficient rings by specified maps. No
+  construct the unit-normalized family over Λ_N[σ,σ⁻¹] and specialize by
+  specified coefficient maps and units. The notation ev_N and 𝓕_N over Λ_N
+  denotes σ=1; write ev_(N,σ) and 𝓕_(N,σ) when the parameter varies.
+  Likewise NFoam and Can(b) use σ=1 unless a parameter is displayed.
+  Reserve ev_(N,RW) for the literal Robert–Wagner formula at σ=−1. No
   field or characteristic-zero hypothesis is imposed on these scalar extensions.
 - Develop two natural-label instances: arbitrary strictly positive
   natural-number labels, and arbitrary nonnegative natural-number labels, with
@@ -290,8 +298,10 @@ SurfaceTopology's realization theory and is not a prerequisite here.
 
 Use Goertz–Marino–Wedrich-style finite records, with indexed boundary
 components and incidence occurrences allowing the repeated incidences
-permitted by Robert–Wagner. Construct the following stages in order.
-The underlying records contain neither labels nor decorations.
+permitted by Robert–Wagner. Construct the unlabelled, labelled and linearized
+foam-record stages in that order. The Frobenius-algebra and coefficient-module
+foundations are independent developments. The underlying records contain
+neither labels nor decorations.
 
 ### Unlabelled closed webs
 
@@ -420,8 +430,10 @@ point left by an (a,0,a) web vertex and remove all-zero vertices. For foams,
 remove zero facets and join the surviving sheets, handling every zero
 pattern in a,b,c,a+b,b+c,a+b+c. Track circles created and changes of genus
 and boundary components. Since `Dec_R(0)=R`, extract decorations of deleted
-facets as scalar factors. Prove the gluing and evaluated-category comparisons;
-erasure does not identify unreduced records.
+facets as scalar factors. Prove compatibility with boundary and raw gluing
+here; erasure does not identify unreduced records. Layer 1 proves evaluation
+invariance, and Layer 2 constructs the state-space and evaluated-category
+comparisons.
 
 ### Frobenius algebra foundations
 
@@ -516,10 +528,10 @@ Ceti's differential graded `DGShiftClosure`.
 
 ## Layer 1: closed-foam evaluations
 
-### Robert–Wagner gl(N) evaluation
+### Robert–Wagner gl(N) evaluation formula
 
 For N > 0, construct the Λ_N-valued [Robert–Wagner
-evaluation](https://arxiv.org/abs/1702.04140) `ev_N` by finite colorings: each
+evaluation](https://arxiv.org/abs/1702.04140) `ev_(N,RW)` by finite colorings: each
 facet of label a receives an a-element subset of N colors (also called
 pigments), with disjoint union at each merge seam. Prove polynomiality,
 symmetry, degree, decoration linearity, isomorphism invariance, multiplicativity
@@ -555,6 +567,36 @@ gl(N) evaluation: such a facet cannot receive an a-element subset of the
 N colors, so the coloring set is empty. Preserve this vanishing under the
 specified scalar specializations. The foam remains an object of the abstract
 theory; it is not excluded by the definition or identified with the empty foam.
+
+### Unit-normalized gl(N) evaluation
+
+Define the linear-label Euler characteristic χ_lin(F) by summing the Euler
+characteristics of the monochrome surfaces of a coloring. Prove that this
+sum is independent of the coloring and give its formula from facet, seam
+and singular-vertex incidences, including the boundary version. It is
+distinct from the quadratic-label expression defining the foam degree.
+For closed colorable foams χ_lin(F) is even. Define
+
+    ev_(N,σ)(F) = (−σ)^(χ_lin(F)/2) ev_(N,RW)(F)
+
+over Λ_N[σ,σ⁻¹], and give uncolorable foams value zero. Extend linearly
+in decorations and foam representatives. Prove the evaluation laws above
+for this family, including reversal, zero-label erasure with its scalar
+factors, and vanishing above N. Negative Euler characteristics require σ
+to be a unit. Its degree is zero; no relation σ²=1 or square root is imposed.
+The specializations σ=−1 and σ=+1 recover respectively the literal
+Robert–Wagner evaluation and the positive one-color sphere normalization.
+Set `ev_N := ev_(N,1)` as the default evaluation for all subsequent layers.
+Use Khovanov–Kitchloo, equations (13)–(16) at p(x,y)=1, for the closed sign
+comparison; the extension to an arbitrary unit is a target here.
+
+For a circle of label a≤N, prove that the sphere decorated by the top
+rectangular Schur polynomial evaluates to `t_a(σ)=(-1)^(a(a-1)/2) σ^a`.
+This identifies the sphere normalization of Ehrig–Tubbenhauer–Wedrich,
+Example 2.5 and Remark 2.24, at σ=1. The elementary maps in Layers 5–6
+use the chosen evaluation and its canonical duality data. Construct specialized evaluations directly
+over every commutative Λ_N-algebra R with a specified unit σ; graded claims
+require a graded coefficient map and σ of degree zero.
 
 ### Bar-Natan evaluation and Frobenius grading
 
@@ -601,10 +643,12 @@ odd-degree circle states; cochain signs are outside this construction.
 
 ## Layer 2: state spaces and reconstruction
 
-First fix N > 0 and the Robert–Wagner evaluation `ev_N` from Layer 1, with
+First fix N > 0 and the default evaluation `ev_N = ev_(N,1)` from Layer 1, with
 values in `Λ_N = ℤ[e₁,…,e_N]`. The following gl(N) subsections use this
 evaluation and its specified scalar specializations. The final subsection gives
-the independent Bar-Natan construction. The universal-construction references
+the independent Bar-Natan construction. Also apply the construction to
+ev_(N,σ); the comparison below transports explicit planar decompositions
+to this family. The universal-construction references
 are Blanchet–Habegger–Masbaum–Vogel and its foam adaptation by
 Goertz–Marino–Wedrich. Define fillings, radicals and state spaces once, for an
 R-linear monoidal category with an R-linear evaluation of the endomorphisms of
@@ -635,6 +679,13 @@ For the comparison needed in reconstruction, also define `I₂(W,V) = {f | ev_N(
 on states, that I₁ ⊆ I₂, and that `Hom_(Foam₁)(∅,W) ≅ 𝓕_N(W)`. Thus 𝓕_N descends
 to Foam₁. The concrete planar reduction below proves I₁=I₂ where it is needed; a
 separate action-quotient category is not required.
+
+### Zero-label erasure after evaluation
+
+Use Layer 0's erasure and Layer 1's evaluation invariance to construct the
+maps on states and inverse maps in Foam₁. Prove both inverse identities by
+closure tests, retaining decorations on removed zero facets as scalars.
+Prove compatibility with composition, disjoint union and coefficient change.
 
 ### Vanishing above the evaluation rank
 
@@ -682,9 +733,39 @@ zero-erasure. Define `LinearPreFoamᵖˡ` as the full subcategory on these webs 
 ideals I₁,I₂ on retained objects agree with those in the unrestricted theory.
 No chosen presentation or embedding is part of an object.
 
-### Robert–Wagner relations with arbitrary abstract exteriors
+### Change of normalization on planar abstract webs
 
-For each required local relation `ℒ = Σ_α c_α ℒ_α` between fillings of a closed
+For two units σ,τ in the same coefficient ring R put r=σ τ⁻¹. Choose a
+crossing-free presentation for each retained abstract web W, with
+label-weighted turning number p(W). Define this integer combinatorially
+by summing turns in a planar presentation, normalized so a counterclockwise
+a-circle has value a. Prove agreement with the sum of monochrome turning
+numbers and independence of pigment assignments. A chosen presentation is
+comparison data; it is not extra data in the abstract-web carrier.
+
+For a colorable foam F:W→V, prove that
+`E(F)=(χ_lin(F)+p(W)−p(V))/2` is integral, using the parity of the Euler
+characteristic of an oriented surface and its boundary circles. Rescale F
+by r^E(F). Prove additivity under composition, identity preservation,
+transport of all closure-test radicals and invertibility by exchanging
+σ,τ. Uncolorable representatives vanish under every test and are zero in
+the quotient. If presentations are not chosen additively, give the tensor
+comparison `r^((p(W)+p(V)−p(W⊔V))/2)` and prove its coherence. Prove the
+comparison's independence of choices up to specified natural isomorphism.
+
+Obtain a graded R-linear symmetric monoidal equivalence between the planar
+evaluated categories, and the natural comparison of state functors after
+precomposing with it. This supplies the rescaling of local relation maps from the
+Robert–Wagner formula to the default σ=1 normalization. Check compatibility
+with disjoint union and the trace ideals before using the tensor comparison.
+This lemma is an ingredient for the parameterized state theory; it does
+not assert equivalence of specified duality or higher-category structures.
+
+### Local relations with arbitrary abstract exteriors
+
+Express the Robert–Wagner maps in the default σ=1 normalization using
+the preceding ordinary rescaling lemma, retaining their resulting unit
+factors. For each required local relation `ℒ = Σ_α c_α ℒ_α` between fillings of a closed
 web `W_ℓ`, prove `ℒ − Σ_α c_α ℒ_α ∈ Rad_N(W_ℓ)`, i.e. `ev_N(K ∘ ℒ) = Σ_α c_α
 ev_N(K ∘ ℒ_α)` for every admissible foam `K : W_ℓ → ∅`. Fix a coloring of K and
 sum over its extensions, allowing K to identify local facets. Verify
@@ -716,19 +797,59 @@ these equalities in Foam₁, before assuming I₁=I₂ or faithfulness of 𝓕_N
 ### Planar reduction and finite identity resolutions
 
 For a compatibly planar web W, remove labels greater than N by categorical
-vanishing and zero labels by the proved erasure maps. For the remaining
-bounded positive labels, give a terminating reduction using the preceding
-categorical maps. Robert–Wagner Lemmas 3.7–3.8 and the proof of Theorem 3.30
-give the strategy. Supply a separate terminating base case for labels {1,2}.
+vanishing and zero labels by the proved erasure maps. Work first over Λ_N
+with the default σ=1, using the normalized local maps. Prove a terminating web reduction certificate using the local
+relations, then lift it to retracts in Foam₁ before invoking reconstruction.
 
-Use the required parts of Robert, *A new way to evaluate MOY graphs*, Lemma 4.2,
-and Wu, *A colored sl(N) homology for links in S³*, Theorem 2.4. Lift Wu's
-induction on maximal label and the number of edges carrying it to categorical
-retracts. In particular, the polynomial relations `⟨Γ₁⟩ = [j][l]⟨Γ⟩` and `⟨Γ₀⟩ =
-⟨Γ₁⟩ + [m−1]⟨Γ₂⟩` of Wu's proof of Theorem 2.4, where `⟨Γ⟩ ∈ ℤ[q,q⁻¹]` is the
-MOY polynomial of Γ and Γ, Γ₀, Γ₁, Γ₂, j, l, m are as in that proof, must be
-realized by inclusions and retractions with shifts. No division by quantum
-integers or cancellation of categorical summands is used.
+**The {1,2}-labelled base.** Prove the certificate for all compatibly planar
+closed {1,2}-webs, not just resolved braid webs. Translate the moves and
+termination argument of Carpentier, Lemma 2, directly into web language:
+circle/digon reductions, the braidlike square switch, and the cyclic
+hexagon switch below. Formalize the finite path/lens descent which exposes
+a reducing configuration, with the number of trivalent vertices as the
+outer induction measure. Individual switches need not reduce that number.
+Include multiple edges, loops, disconnected webs and nested components;
+an Euler count alone does not guarantee a reducible square.
+
+For the cyclic switch, number six boundary points 0,…,5 cyclically with
+even points incoming, odd points outgoing, all of label 1. Let H_L be the
+clockwise directed hexagon with successive edge labels 2,1,2,1,2,1, and
+H_R the counterclockwise hexagon with labels 1,2,1,2,1,2 on those same
+edges. Let Q_01 be the arc (01) and the four-vertex square on 2,3,4,5;
+its cycle is counterclockwise, with labels 1,2,1,2 on the successive edges
+in the listed clockwise order. Let Q_34 be the arc (34) and the clockwise
+square on 0,1,2,5, with successive labels 2,1,2,1. All arcs run from even
+to odd endpoints.
+For N≥4 construct the stable isomorphism
+
+    H_R ⊕ [N−3] Q_01 ≅ H_L ⊕ [N−3] Q_34.
+
+Here `[r]X` is the sum of shifts of X with quantum-integer multiplicity
+[r], and `[0]X=0`. Complement the directed cycle using Robert–Wagner
+Lemma 3.21, expand the N−1 edge with Proposition 3.13 at parameters
+m=n=k=1, l=N−3, and reassociate twice. Complement the resulting directed
+square and then the adjacent hexagon; the opposite square decomposition
+gives the other side. Verify the incidence, orientations and both inverse
+foam identities. Both correction webs have four rather than six vertices.
+At N=3 use direct cycle complementation; at N=2 use complementation and
+zero erasure; at N=1 use the vanishing of label 2.
+
+With P_R=(01)(23)(45), P_L=(05)(12)(34), R₀=(01)(25)(34), also prove
+`Q_01 ≅ P_R ⊕ [N−2]R₀` and `Q_34 ≅ P_L ⊕ [N−2]R₀` for N≥2.
+Retain common summands in the resulting stable hexagon relation;
+categorical cancellation is not a prerequisite. These are local web
+relations; no separate four-valent graph theory is required.
+
+**Retracts and higher labels.** A switch
+`W_i ⊕ A_i ≅ W_(i+1) ⊕ B_i` makes W_i a retract of W_(i+1) ⊕ B_i.
+The correction webs are smaller. Propagate their retracts backwards along
+the finite certificate from a terminal reduction. Lift Wu, Theorem 2.4's
+induction on maximal label and its occurrence count using these base-case
+retracts and Robert–Wagner's categorical relations. Select a single shifted
+summand in a quantum-integer multiple when needed; do not divide by a
+quantum integer. Retain homogeneous inclusion and projection foams at every
+step. Auxiliary expansions may increase labels or vertices; the induction
+measures the endpoints and corrections, not these auxiliary webs.
 
 The target is a finite homogeneous retract `u:W→P_W`, `v:P_W→W`, `v ∘ u = id_W`,
 with `P_W = ⨁_r ∅{d_r}` in the additive category `Mat_((Foam₁ᵖˡ)^(sh))` with
@@ -761,6 +882,15 @@ with a finite sum of shifted empty webs. This establishes decomposition into shi
 gl(N) category. Retain explicit inclusions and projections satisfying both
 biproduct identities.
 
+### Parameter and coefficient transport of decompositions
+
+Transport the explicit σ=1 decompositions by coefficient extension and
+the ordinary rescaling lemma to obtain them for every σ, including the
+universal Laurent parameter. Use the actual inclusion/projection identities,
+not a general freeness theorem over an arbitrary R or an assertion that
+radicals commute with base change. These operations need not identify the
+original same-source Frobenius theories: their traces can differ.
+
 ### Reconstruction, tensor products and specialization
 
 Use these decompositions to prove the following concrete results on
@@ -780,25 +910,63 @@ Transport the explicit decompositions through the specified coefficient maps,
 including `Λ_N/(e₁,…,e_N) ≅ ℤ` and extensions to a commutative ring R. Prove the
 resulting state-space and category comparisons on planar objects. Use these
 finite identities to justify scalar change; do not assume pairing radicals
-commute with arbitrary base change. Graded specialization requires a graded
-coefficient map; other specializations are ungraded.
+commute with arbitrary base change. For ev_(N,σ) use the preceding normalization comparison and retain the
+parameter in all structure maps. Graded specialization requires a graded
+coefficient map and a degree-zero unit; other specializations are ungraded.
 
 ### Circle state spaces as Frobenius algebras
 
-For 0≤a≤N, equip the a-labeled circle state space with its commutative
-Frobenius Λ_N-algebra structure. The saddle gives multiplication, the opening
-and closing disks give unit and trace, and the reversed saddle gives
-comultiplication. Use the tensor isomorphisms to interpret disjoint circles.
-Prove the algebra, coalgebra and Frobenius laws, and perfectness of the trace
-pairing `(x,y) ↦ ε(xy)` from the explicit circle decomposition.
+For 0≤a≤N, identify the circle state module with the shift
+`A_(a,N){−a(N−a)}` of the following even-supported algebra:
 
-Record the degrees and the shift making multiplication and unit degree zero,
-and prove that the resulting normalized algebra is supported in even degrees.
-Export decoration actions, decorated-sphere traces and neck-cutting; prove
-compatibility with the specified scalar specializations. Package the shifted
-multiplication and unit using
-[GradedObject.monObjOfHomogeneous](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/CategoryTheory/GradedObject/MonObj.lean)
-and its commutativity and transport lemmas. For a>N the state space is zero.
+    A_(a,N) = Λ_N[c₁,…,c_a,b₁,…,b_(N−a)] /
+      (Σ_(i+j=r) c_i b_j − e_r : 1≤r≤N).
+
+Set c₀=b₀=1 and out-of-range coefficients to zero; deg(c_i)=deg(b_i)=2i.
+This is the algebraic presentation of equivariant Grassmannian cohomology;
+no geometric cohomology construction is a prerequisite. Prove that the
+decoration map is surjective with exactly this kernel. Construct the Schur
+basis s_λ(c), with λ in the a×(N−a) rectangle, of rank binomial(N,a).
+Give multiplication and the sphere trace, rather than identifying modules
+from equal ranks alone. Use Wu, §2.3, Theorem 2.10 and Remark 2.11, and
+Proposition 3.13 for the circle identification; prove the integral versions
+of these polynomial identities over Λ_N.
+
+Write ζ_a for the Λ_N-linear coefficient of the top rectangular Schur basis
+element: it is 1 there and zero on the other basis elements. Identify it with
+Wu's Sylvester functional. For a coefficient map Λ_N→R, use the algebra
+`R ⊗_(Λ_N) A_(a,N)`. For a unit σ in R its trace is
+
+    ε_σ = (-1)^(a(a−1)/2) σ^a ζ_a.
+
+For the a-variable alphabet A and equivariant alphabet S, the ε_σ-dual of
+s_λ(A) is `(-1)^(a(a−1)/2) σ^(−a) s_(λᶜ)(A−S)`, where λᶜ is the
+rotated rectangular complement and the difference alphabet is defined by
+the quotient of complete-symmetric generating series. Prove this identity,
+including its equivariant corrections. At σ=−1 the factor is
+(-1)^(a(a+1)/2), as in Robert–Wagner; at σ=+1 it is the factor in
+Ehrig–Tubbenhauer–Wedrich, Example 2.5 and Remark 2.24. Wu supplies the
+Sylvester pairing; the additional sign is a foam normalization convention.
+
+Identify opening, closing and saddle foams with the unit, trace,
+multiplication and comultiplication; prove their laws and perfect pairing
+from the explicit circle decomposition. Multiplication and unit have degree
+zero on A_(a,N), and the trace has degree −2a(N−a). Package the shifted maps
+using `GradedObject.monObjOfHomogeneous` and its transport lemmas. Export
+decoration actions, dual-basis neck-cutting and coefficient-change formulas.
+Include a=0,N, the specialization e_i=0, and the zero state space for a>N.
+
+As a mandatory calculation, for N=2,a=1 obtain
+
+    A = Λ₂[x]/(x²−e₁x+e₂),          basis (1,x), degrees (0,2),
+    multiplication by x = [[0,−e₂],[1,e₁]],
+    ε_σ(1)=0, ε_σ(x)=σ,             pairing = [[0,σ],[σ,σe₁]],
+    dual basis = (σ⁻¹(x−e₁), σ⁻¹).
+
+At the default σ=1 the dual basis is (x−e₁,1); at σ=−1 it is
+(e₁−x,−1). Omitting e₁ gives an incorrect equivariant dual basis. Identify A_(N,N)=R after coefficient change, with trace
+`ε_σ(1)=(-1)^(N(N−1)/2)σ^N`. In particular the default trace is
+`ε_1(1)=(-1)^(N(N−1)/2)`.
 
 ### Bar-Natan state spaces and circle decompositions
 
@@ -896,8 +1064,10 @@ there, not only rings concentrated in degree zero. In this instance vertical and
 horizontal composition and tensor on 2-morphisms are 𝕜-balanced and
 degree-additive; identities and tensorators have degree zero. In particular, the
 equivariant foam target is enrichment over `GrMod_(Λ_N)`, with tensor product
-over Λ_N and unit Λ_N. The instances used are `𝕜 = Λ_N`, `𝕜 = R` concentrated in
-degree zero, and the graded base ring of a graded Bar-Natan instance.
+over Λ_N and unit Λ_N at the default σ=1, and over Λ_N[σ,σ⁻¹] for the universal
+normalization. Also include the graded coefficient specializations R,
+in particular R concentrated in degree zero, and the graded base ring of
+a graded Bar-Natan instance.
 
 Construct and compare three views of this structure: the full graded hom-objects
 `Hom^•(f,g)` (degree pieces `Hom^d`, endomorphisms `End^•`); the ordinary
@@ -1019,11 +1189,11 @@ rank-bounded restrictions, for the planned quantum-web development. Its linear
 skein ideal and representation functor are subsequent constructions, not
 prerequisites for this quotient or the foam 2-category.
 
-For parallel S,T, define `Cl(S,T)` and its grading shift `σ(S,T) := ½(w_N(S) +
-w_N(T))` explicitly, and use `𝓕_N(Cl(S,T)){σ(S,T)}` as the primary 2-hom model
+For parallel S,T, define `Cl(S,T)` and its grading shift `δ(S,T) := ½(w_N(S) +
+w_N(T))` explicitly, and use `𝓕_(N,σ)(Cl(S,T)){δ(S,T)}` as the primary 2-hom model
 (Goertz–Marino–Wedrich, Example 4.33). Here `w_N(W) := Σ_e k_e(N−k_e) − Σ_v
 ((k+l)(N−k−l) + kl)` over the interval edges e (label k_e) and the vertices v
-(labels k, l, k+l) of W; prove `w_N(S) = w_N(T)`, so σ is an integer. Fix the
+(labels k, l, k+l) of W; prove `w_N(S) = w_N(T)`, so δ is an integer. Fix the
 degrees from Robert–Wagner's closed-foam convention and choose coherent boundary
 corrections so that the identity foam of each S has degree zero. State the
 resulting formulas and prove degree additivity of vertical composition,
@@ -1038,9 +1208,10 @@ in every closing context is a comparison target: prove equivalence with these
 generators and their complexes are outside this foam roadmap.
 
 Realize the Goertz–Marino–Wedrich construction in Layer 3's graded coefficient
-framework: `GrMod_(Λ_N)` for integral equivariant evaluation and `GrMod_R`, with
+framework: `GrMod_(Λ_N)` for the default σ=1, `GrMod_(Λ_N[σ,σ⁻¹])` for the universal
+normalization, and `GrMod_R`, with
 R in degree zero, for the nonequivariant instance. Over a commutative ring R
-with a specified ring map Λ_N → R, use `ev_N` followed by that map; its
+with a specified ring map Λ_N → R and degree-zero unit σ, use `ev_(N,σ)`; its
 comparison with scalar extension from Λ_N is Layer 2's planar comparison. Prove
 that closure-state composition and tensor are balanced over that coefficient
 ring, with the closure shifts and tensorators of the stated degrees. The
@@ -1068,6 +1239,7 @@ As a corollary of the preceding evaluation package, identify
 `End^•(id_∅) ≃ₐ[R] R`. In the graded setting use the full graded endomorphism
 algebra; its degree-zero part `End^0(id_∅)` corresponds to R₀.
 
+Write `NFoam_σ` when distinguishing parameters, suppressing σ when fixed.
 The concrete gl(N) theorem discharges the evaluation hypotheses; a construction
 conditional on the desired local calculus does not complete this layer.
 
@@ -1077,7 +1249,7 @@ Construct `BN_A^→` and `BN_A` using the nilvalent state spaces and closure
 operations. Oriented objects are words of signed points; unoriented objects are
 words of unsigned points. Their 1-morphisms are generated by identity strands,
 cups and caps, without merge/split vertices. Their 2-homs are the state modules
-of the resulting circle closures, with the shifts `σ(S,T) := ½(c(s)+c(t))` for
+of the resulting circle closures, with the shifts `δ(S,T) := ½(c(s)+c(t))` for
 `S,T : s → t` in the graded instances, where c(s) is c times the number of
 points of s (Goertz–Marino–Wedrich, Example 4.30).
 
@@ -1111,7 +1283,7 @@ structural reordering maps respect them.
 
 For every pair of parallel progressive webs S,T, retain **all** ambient
 2-morphisms, with the same grading shift: `Hom_(NFoam^prog)(S,T) :=
-Hom_(NFoam)(S,T) = 𝓕_N(Cl(S,T)){σ(S,T)}`. This is equality of full graded
+Hom_(NFoam_σ)(S,T) = 𝓕_(N,σ)(Cl(S,T)){δ(S,T)}`. This is equality of full graded
 coefficient modules. Apply the same restriction to degree-zero and ungraded
 presentations and include all formal shifts of progressive webs in the shifted
 enlargement `(NFoam^prog)^(sh)`. Thus each hom-category is the full subcategory
@@ -1150,6 +1322,8 @@ Use Goertz–Marino–Wedrich §4.6 and Theorem 4.35 for the foam construction; 
 and spatiality definitions cited there, including their version/numbering.
 
 First define the reusable duality data and axioms on the structure of Layer 3.
+For each fixed gl(N) parameter σ use its canonical construction; the
+unparameterized notation refers to σ=1.
 Then construct them on all three main instances `NFoam`, `BN_A^→`, `BN_A` of
 Layer 4: object duals, units and counits, adjoints for 1-morphisms, the two
 duality operations `(−)^∗` and `#` (`#` acting on 1-morphisms by the left mate
@@ -1290,15 +1464,15 @@ For parallel webs S,T, construct the following interpretation chain:
 ```
 FoamExpr(S,T)
   → DecoratedFoamWithBoundary L (Cl(S,T))
-  → 𝓕_ev(Cl(S,T)){σ(S,T)} = Hom_𝔅(S,T).
+  → 𝓕_ev(Cl(S,T)){δ(S,T)} = Hom_𝔅(S,T).
 ```
 
 Here 𝔅 is the Layer 4 instance in use, L its labelling datum and `𝓕_ev` its
-state space (`𝓕_N`; for gl(N) over R, the state space of `ev_N` followed by the
-specified map `Λ_N → R`; `𝓕_A^→`; `𝓕_A`); for `BN_A^→` and `BN_A` the middle
+state space (`𝓕_(N,σ)` for gl(N) over R with its specified map `Λ_N → R`
+and unit σ; `𝓕_A^→`; `𝓕_A`); for `BN_A^→` and `BN_A` the middle
 term is the module of decorated fillings of `Cl(S,T)` in `NilPreFoam^→`, resp.
 the unoriented model `NilPreFoam`, of Layer 0. The final state space carries
-Layer 4's specified grading shift σ. Recursively interpret the generators by
+Layer 4's specified grading shift δ. Recursively interpret the generators by
 their explicit abstract models and the expression operations by the structural
 abstract composition foams of Layer 4. Prove the boundary and admissibility
 conditions at every step, as well as invariance under boundary-preserving
@@ -1385,10 +1559,44 @@ In the degree-zero shifted presentation, translate each
 homogeneous expression and coefficient using Layer 3; do not discard the
 positive-degree coefficients by replacing R with R₀ in the spanning claim.
 
-This is a substantive spanning theorem about the full spaces defined in
-Layer 4. Supply a reduction to progressive expressions; neither defining
-the target as an image nor invoking decomposition into shifted empty webs without such a reduction
-proves it. Deduce that the progressive expression module modulo the compiler
+Prove this through the following internal-hom and annular argument.
+
+1. Use Layer 4's `Cl(S,T)` as the trace closure of the corresponding
+   composite of progressive webs, with its specified dual, order and shift.
+   Construct bending and unbending as inverse maps using the existing
+   internal-hom operations; prove that their closure conventions agree.
+2. Give an annular reduction certificate expressing its state space V as a
+   retract of a finite sum C of shifted state spaces of concentric labelled
+   circles, with homogeneous foam maps i:V→C, p:C→V and p∘i=id.
+   Adapt Queffelec–Rose, Proposition 5.1, using the direct-summand steps
+   described in Gorsky–Wedrich, Remark 4.21. Prove the local maps over Λ_N
+   from the contextual relations, then specialize and change normalization.
+   Keep labelled circles, rather than splitting them by rational Young
+   symmetrizers. Prove termination, p∘i=id_V and the formula for the
+   projector i∘p at each retract step; reserve two-sided inverse identities
+   for isomorphism and biproduct moves. An explicit homotopy equivalence
+   V[0] ≃ C• whose terms are finite sums of shifted circle-state spaces also
+   suffices: its homological degree-zero components give a retract of C⁰
+   onto V, since every chain homotopy on V[0] is zero. Require these components
+   to be homogeneous integral equivariant foam expressions. An abstract
+   equivalence, or one established only over complex coefficients, does not
+   by itself supply the required witnesses.
+3. Realize every annular slide used in those witnesses as a composite of
+   Layer 5's left and right # operations. Under unbending identify it with
+   a *-mate calculation. Check on each elementary family that the needed
+   mates are progressive expressions, including intermediate webs, degrees
+   and decoration transport, then extend under the three compositions.
+4. Decorated nested cups span the state spaces of concentric circles by
+   the explicit circle bases. Apply p to this family; its images span V.
+   Express each image as nested cups followed by a trace closure of
+   progressive expressions, and unbend to obtain the asserted surjection.
+
+The annular witnesses and their translation are proof obligations in this
+calculus, not consequences of defining the progressive category as an image.
+Nested cups are auxiliary state vectors, not extra progressive generators.
+Carry out the argument for each specified normalization, with σ=1 as the
+default, using its canonical duality maps. Deduce that the
+progressive expression module modulo the compiler
 kernel is isomorphic to the full 2-hom module, compatibly with the three
 compositions, decorations and grading. This does not claim that every
 geometric representative is isotopic to a progressive expression, or that
@@ -1529,10 +1737,15 @@ obtain the comparison with the Bar-Natan monoidal 2-category, coherently under
 changes of cut. No faithfulness, fullness, equivalence, or identification
 with gl(2) foams is asserted for J_B.
 
+
 ## Verification examples and theorem boundaries
 
 | Check | Error it should detect |
 | --- | --- |
+| N=2,a=1 equivariant circle and dual basis at σ=±1 | Lost equivariant correction or wrong trace normalization |
+| N=2,3,4 cyclic hexagon switches, including correction summands | Negative quantum multiplicity or unjustified categorical cancellation |
+| Nested decorated cups followed by annular retract projections | Abstract state spanning mistaken for progressive compiler spanning |
+| A positive-genus closed foam with formal unit σ | Missing inverse powers of σ |
 | Empty web and foam | Wrong evaluation normalization or tensor unit |
 | Decorated sphere and theta | Wrong sign, degree or decoration transport |
 | Circle Frobenius pairing and neck-cutting | Missing perfectness, grading shift or incorrect saddle interpretation |
@@ -1582,6 +1795,11 @@ with gl(2) foams is asserted for J_B.
 
 ## Mathematical references and dependency order
 
+- [Carpentier, From planar graphs to embedded graphs](https://arxiv.org/abs/math/0005128), Lemma 2: translate the finite planar switch/reduction argument directly to webs; its scalar proof does not itself prove categorical retracts.
+- [Wu, Equivariant colored sl(N)-homology for links](https://arxiv.org/abs/1002.2662), §2.3, Theorem 2.10, Remark 2.11 and Proposition 3.13: circle presentation, Schur pairing and circle identification. Prove the required identities integrally here.
+- [Khovanov–Kitchloo, A deformation of Robert–Wagner foam evaluation and link homology](https://arxiv.org/abs/2004.14197), equations (13)–(16): closed sign normalization. The unit family and ordinary rescaling used in Layer 2 are targets here.
+- [Queffelec–Rose, Sutured annular Khovanov–Rozansky homology](https://arxiv.org/abs/1506.08188), Proposition 5.1, and [Gorsky–Wedrich, Evaluations of annular Khovanov–Rozansky homology](https://arxiv.org/abs/1904.04481), Proposition 4.13, Corollary 4.20 and Remark 4.21: annular reduction and its direct-summand form. Layer 6 requires integral equivariant witnesses in the present calculus, without a general current-algebra or Schur-functor equivalence.
+
 - [Erickson, Computational Topology: Planar Graphs](https://jeffe.web.engr.illinois.edu/teaching/comptop/2023/notes/09-planar-graphs.html), sections on rotation systems and surface maps: finite edge-end, vertex and face permutations. Fix the composition convention explicitly when adapting it to web data.
 - [Blanchet–Habegger–Masbaum–Vogel, Topological quantum field theories derived from the Kauffman bracket](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/bhmv.pdf), Topology 34 (1995), 883–927: universal-construction reference for Layer 2.
 - [Khovanov, Universal construction of topological theories in two dimensions](https://arxiv.org/abs/2007.03361): supplementary universal-construction reference; no automatic strong monoidality.
@@ -1615,9 +1833,11 @@ of Layer 1 to construct gl(N) state spaces and planar decomposition, and
 independently the Bar-Natan circle decompositions. Layer 4 joins these with the
 higher-category interfaces. Layer 5 adds spatial duality; Layer 6 supplies the
 compiler and its relations. The compiler's core interpretation uses Layer 4, and
-its duality compatibility uses Layer 5. Layer 7 constructs the canopolis from
-the same state theory, compares it with Layers 4–5 and extends Layer 6's
-contextual relations. Every layer is a target.
+its duality compatibility uses Layer 5. Layer 7 constructs the canopolis
+from the same state theory, compares it with Layers 4–5 and extends Layer 6's
+contextual relations. Layer 2 supplies the ordinary rescaling needed for
+the parameterized state theory before its use in local relations and
+decompositions. All constructions default to σ=1. Every layer is a target.
 
 The Khovanov comparisons form a separate dependency chain: K2's chosen
 algebra supplies KH1; the nilvalent state construction and K2's circle tensors
@@ -1630,4 +1850,6 @@ categorical structures do not depend on KH1–KH4.
 
 ## Contributors
 
-This roadmap is part of an autoformalization working group at IPAM.
+This roadmap is part of an autoformalization working group at IPAM, including
+Juan Ramón Gómez García, Qiuyu Ren, Iordanis Romaidis, Paul Wedrich,
+Michael Willis and Hongjian Yang.

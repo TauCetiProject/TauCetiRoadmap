@@ -21,6 +21,8 @@ This prototype covers the following parts of the roadmap.
 * Layer 0, *The gl(N) labelling instances*: the data `LabelingDatum.glNonnegative` and
   `LabelingDatum.glPositive`, the Bar-Natan datum, and the equivariant coefficient ring
   `EquivariantRing N`.
+* Layers 1–2: the unit-valued circle trace coefficient and its sign
+  specializations. The default is σ=1; σ=-1 is the Robert–Wagner specialization.
 * Layer 0, *Web presentations*, and Layer 4, *The gl(N) foam monoidal 2-category*: signed
   boundary words, generating and basic webs, planar generator words `WebWord s t`, and the
   weighted Euler characteristic that fixes the shift of the 2-hom modules.
@@ -36,8 +38,7 @@ This prototype covers the following parts of the roadmap.
 Prefoams with boundary, their categories, decorations, linearization, evaluations, open-web
 incidence data, closures of words, the expression syntax `WebExpr s t` and its diagram
 quotient `WebDiagram s t`, the trace ideal `I₁`, Layer 3's enrichment, coefficient instances and
-formal shifts, the foam 2-categories themselves, spatial duality, the foam compiler and the
-canopolis are not stated here; their types do not
+formal shifts, the foam 2-categories themselves, spatial duality, the foam compiler and Layer 7's canopolis are not stated here; their types do not
 exist yet.
 
 The README's Khovanov comparison milestones KH1–KH4 specialize the nilvalent
@@ -60,7 +61,9 @@ These are unreduced combinatorial records, without a planar realization. In part
 an all-zero theta retains its two vertices. No zero-erasure procedure or foam carrier is
 specified here. The roadmap's admissibility and zero-removal targets remain necessary.
 
-Developed as part of an autoformalization working group at IPAM.
+Developed as part of an autoformalization working group at IPAM, including
+Juan Ramón Gómez García, Qiuyu Ren, Iordanis Romaidis, Paul Wedrich,
+Michael Willis and Hongjian Yang.
 The finite-record choices here are suggestions, not a required implementation of the roadmap.
 
 References: [A] Goertz–Marino–Wedrich, arXiv:2602.11120.
@@ -606,6 +609,30 @@ theorem toSymmetric_X (N : ℕ) (i : Fin N) :
 
 end EquivariantRing
 
+/-! ## Layers 1–2: circle trace normalization (default σ=1) -/
+
+namespace Normalization
+
+variable {R : Type*} [CommRing R]
+
+/-- The coefficient of Wu's normalized Sylvester trace on an `a`-labelled circle.
+README Layer 2, *Circle state spaces as Frobenius algebras*. The unit is assumed
+degree zero in graded applications; this definition concerns its underlying value. -/
+def circleTraceUnit (σ : Rˣ) (a : ℕ) : Rˣ :=
+  (-1) ^ (a.choose 2) * σ ^ a
+
+/-- Literal Robert–Wagner specialization, with exponent `a(a+1)/2`. -/
+theorem circleTraceUnit_robertWagner (a : ℕ) :
+    circleTraceUnit (-1 : Rˣ) a = (-1 : Rˣ) ^ ((a + 1).choose 2) := by
+  sorry
+
+/-- Default σ=1: the positive one-color normalization of Ehrig–Tubbenhauer–Wedrich. -/
+theorem circleTraceUnit_positive (a : ℕ) :
+    circleTraceUnit (1 : Rˣ) a = (-1 : Rˣ) ^ (a.choose 2) := by
+  simp [circleTraceUnit]
+
+end Normalization
+
 /-- **Standing conventions** (gl(N) bullet). The pigment ring `ℤ[X₁,…,X_N]`, `deg X_j = 2`
 (Robert–Wagner, §2.2): a second type synonym of `MvPolynomial (Fin N) ℤ`, with its own grading. -/
 def PigmentRing (N : ℕ) : Type := MvPolynomial (Fin N) ℤ
@@ -854,8 +881,8 @@ theorem weightedEulerChar_comp (N : ℕ) {s t u : BoundaryWord ℕ} (p : WebWord
 
 /-- **Layer 4, The gl(N) foam monoidal 2-category**. For parallel planar
 generator words `S T : s → t`, `w_N(S) = w_N(T)`. Hence the 2-hom shift
-`σ(S,T) = ½(w_N(S) + w_N(T))` equals the integer `weightedEulerChar N S`, and
-`Hom(S,T) = 𝓕_N(Cl(S,T)){σ(S,T)}`. Proof: both sides equal `½(c(s) + c(t))`. -/
+`δ(S,T) = ½(w_N(S) + w_N(T))` equals the integer `weightedEulerChar N S`, and
+`Hom(S,T) = 𝓕_N(Cl(S,T)){δ(S,T)}`. Proof: both sides equal `½(c(s) + c(t))`. -/
 theorem weightedEulerChar_eq_of_parallel (N : ℕ) {s t : BoundaryWord ℕ} (S T : WebWord s t) :
     weightedEulerChar N S = weightedEulerChar N T := by
   have hS := two_mul_weightedEulerChar_eq_add N S
@@ -1413,7 +1440,8 @@ open MonoidalCategory
 and *Bar-Natan state spaces and circle decompositions*; Goertz–Marino–Wedrich, Definition 2.7). An
 `R`-linear evaluation of closed morphisms, i.e. of endomorphisms of the tensor unit `𝟙_ C` (prose:
 closed foams `∅ → ∅`). No multiplicativity is assumed, as in Goertz–Marino–Wedrich §3.3. The
-instances are `ev_N` (gl(N)), `ev_A` and `ev_A^→` (Bar-Natan). -/
+instances are `ev_(N,σ)` (gl(N), with default `ev_N` at σ=1), `ev_A` and `ev_A^→`
+(Bar-Natan). -/
 abbrev ClosedEvaluation (R : Type w) [CommRing R] (C : Type u) [Category.{v} C] [Preadditive C]
     [Linear R C] [MonoidalCategory C] :=
   (𝟙_ C ⟶ 𝟙_ C) →ₗ[R] R
