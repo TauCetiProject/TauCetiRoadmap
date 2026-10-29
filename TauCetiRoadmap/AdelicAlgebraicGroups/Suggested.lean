@@ -9,8 +9,6 @@ import TauCeti.Algebra.AlgebraicGroup.GeneralLinear.FunctorOfPoints
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
-import TauCeti.NumberTheory.NumberField.Global.RayClass.Character.Weight
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation
 
 /-!
 # Adelic algebraic groups and arithmetic quotients: target signatures
@@ -20,8 +18,7 @@ import TauCeti.NumberTheory.ArithmeticDirichletSeries.Cancellation
 finishes neither a layer nor the roadmap. The declarations follow the README layers.
 
 The targets are restricted and convergent Haar products (AA.0), the integral-model restricted
-product comparison (AA.1), homogeneous quotient integration and the nonvanishing at one of the
-L-function of a nontrivial ray class character (AA.2), real reduction and general
+product comparison (AA.1), homogeneous quotient integration (AA.2), real reduction and general
 arithmetic covolume, class-number, finite-volume and compactness theorems (AA.3), semisimple weak
 and strong approximation, neat levels and their covering maps, quaternion norm images and compact
 abelian Fourier limits (AA.4), and GL₁ logarithmic tori and the upper-half-plane decomposition of
@@ -31,8 +28,9 @@ of character-norm kernels, so no Harish-Chandra logarithm is needed to state it.
 
 The following headlines are not stated here, because their objects are not carried by the pins:
 Tamagawa normalization and restriction of scalars (local gauge measures and finite-image Artin
-L-functions; their finite-order Hecke input, the nonvanishing at one, is stated below on the
-pinned ray class characters and continued L-functions); Siegel covering, finite overlap, cusps and Orr–Schnell containment (compatible
+L-functions; their finite-order Hecke input, the continuation and nonvanishing at one of the
+presented L-function of a nontrivial ray class character, is a theorem of LFunctions, not of
+this roadmap); Siegel covering, finite overlap, cusps and Orr–Schnell containment (compatible
 rational parabolic, relative-root and Cartan–Siegel data); Weil-restriction transport (the
 coefficient-natural Weil-restriction interface); the disconnected finite-volume criterion (the
 number-field geometric identity-component subgroup); the torsor Hasse principle (the affine/fppf
@@ -251,24 +249,6 @@ theorem exists_unique_quotientMeasure (H : Subgroup G) (hH : IsClosed (H : Set G
   sorry
 
 end HomogeneousMeasure
-
-namespace FiniteOrderHecke
-
-open TauCeti TauCeti.GlobalNumberFields
-
-/-- **Nonvanishing at one of a finite-order Hecke L-function** (AA.2.4, *finite-order-hecke-at-one*).
-For a nontrivial ray class character `χ` of a modulus `𝔪` of the number field `F`, the presented
-Hecke L-function `L_𝔪(s, χ)`, namely the continued L-function of the unitary ideal weight of `χ`
-(equal to `χ([𝔞])` on the integral ideals prime to `𝔪` and to `0` elsewhere), does not vanish at
-`s = 1` ([Marzec–Neururer], Corollary 5.18, p. 66). The pinned
-`TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` covers the characters whose
-square is nontrivial; the quadratic characters need the ray class field of `𝔪`. -/
-theorem continuedLFunctionOfWeight_one_ne_zero (F : Type) [Field F] [NumberField F]
-    (𝔪 : Modulus F) (χ : RayClassCharacter 𝔪) (hχ : χ ≠ 1) :
-    continuedLFunctionOfWeight χ.toUnitaryIdealWeight 1 ≠ 0 := by
-  sorry
-
-end FiniteOrderHecke
 
 /-! ## Layer 3: reduction and arithmetic quotients -/
 
