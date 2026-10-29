@@ -24,7 +24,7 @@ extension `TauCeti.genus_eq_genus_of_constantCompositum_eq_top`, the hyperellipt
 
 Headline theorems that are not statable at the pins, with the missing carrier:
 
-* the residue theorem for Kähler differentials over an arbitrary constant field (Layer 9):
+* the residue theorem for Kähler differentials over a perfect constant field (Layer 9):
   the pins have no residue of a differential at a place of a function field;
 * the smooth-model base change of the canonical regular projective model and its
   projectivity (Layer 12B), and the anti-equivalence between regular projective curves
@@ -48,7 +48,10 @@ regular extension, so `K ⊗[k] F` is an integral domain for every field extensi
 Both hypotheses are load-bearing: `ℂ ⊗[ℝ] ℂ(x) ≅ ℂ(x) × ℂ(x)` (constants not exact), and for
 `k = 𝔽_p(a, b)`, `F = k(x, y)` with `y ^ p = a + b x ^ p` (exact constants, no separating
 element) the element `y - a ^ (1/p) - b ^ (1/p) x` of `K ⊗[k] F`, for
-`K = k(a ^ (1/p), b ^ (1/p))`, is a nonzero nilpotent. -/
+`K = k(a ^ (1/p), b ^ (1/p))`, is a nonzero nilpotent. The function-field hypothesis `hF`
+follows from `hsep` (a separating element is transcendental with `F` finite over `k(x)`); it is
+kept so that the statement reads on the roadmap's carrier `TauCeti.IsFunctionField`, as the
+README states it. -/
 theorem isDomain_tensorProduct_of_isSeparable {k : Type u} {F : Type v} [Field k] [Field F]
     [Algebra k F] (hF : TauCeti.IsFunctionField k F) (hex : IsIntegrallyClosedIn k F)
     (hsep : ∃ x : F, Transcendental k x ∧ FiniteDimensional k⟮x⟯ F ∧

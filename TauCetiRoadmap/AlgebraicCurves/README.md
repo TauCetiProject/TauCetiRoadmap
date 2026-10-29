@@ -29,7 +29,8 @@ the scheme-cohomological world live.
 **Portfolio ownership.** This roadmap is the sole owner of general function-field places,
 divisors and `L(D)`, Weil differentials and Riemann–Roch, extension ramification and
 Riemann–Hurwitz, regular projective models, and the curve/function-field anti-equivalence.
-`BelyiMaps` consumes these exact carriers for algebraization and Belyi-specific constructions;
+`BelyiMaps` consumes the pinned carriers `TauCeti.IsFunctionField`, `TauCeti.Place` and
+`TauCeti.Divisor` for algebraization and Belyi-specific constructions;
 it does not define a parallel place, divisor, or Riemann–Roch theory.
 
 **Route decision (pinned).** The development is **function-field-first**, following
@@ -181,8 +182,8 @@ definite producers below, not assumed black-box propositions.
 
 ## What Mathlib already has (consume)
 
-Verified against the Mathlib the repository currently builds. "master:" flags newer
-material, to be consumed when the repository's Mathlib reaches it rather than rebuilt.
+Checked against the pinned Mathlib. What the pin lacks is built here in Mathlib's shape, so
+that adopting Mathlib's version is a deletion plus an import, never a rewrite.
 
 - **The chosen-generator function-field predicate**,
   `Mathlib/NumberTheory/FunctionField.lean`: `FunctionField Fq F` (an `abbrev` for
@@ -194,7 +195,7 @@ material, to be consumed when the repository's Mathlib reaches it rather than re
   `FunctionField.finiteDimensional_of_adjoin_transcendental` (*any* transcendental `y` has
   `F/Fq(y)` finite — the independence-of-the-variable engine) and
   `FunctionField.finiteDimensional_of_constantExtension` (finiteness of the constant
-  field). ⚠ The infinity-place API moved on 2026-04-14: use `RatFunc.inftyValuation`,
+  field). ⚠ The infinity-place API is `RatFunc.inftyValuation`,
   `RatFunc.inftyValued`, `RatFunc.CompletionAtInfty` in
   `Mathlib/FieldTheory/RatFunc/Valuation.lean`; the `FunctionField.inftyValuation*` and
   `FqtInfty` names are deprecated aliases.
@@ -322,11 +323,12 @@ relationships are in §[Coordination](#coordination).
   the same Stichtenoth-style route, with parts being upstreamed to Mathlib as open
   pull requests. The single largest overlap; the definite plan is in §Coordination.
 - **Mathlib's scheme-side campaign** (R. D. Giles): conditional Riemann–Roch
-  `χ(𝒪_X(D)) = deg D + χ(𝒪_X)` in draft, with the cycle/order-of-vanishing substrate
-  already on Mathlib master. That campaign owns the scheme-side divisor namespace;
-  Layer 12's dictionary milestones are stated against its vocabulary when the
-  repository's Mathlib reaches it, and this roadmap's function-field divisors never
-  fork a rival scheme-divisor notion.
+  `χ(𝒪_X(D)) = deg D + χ(𝒪_X)` (not at the pin), with the cycle/order-of-vanishing
+  substrate (`Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`,
+  `Mathlib/AlgebraicGeometry/AlgebraicCycle/Basic.lean`) at the pin. That campaign owns the
+  scheme-side divisor namespace; Layer 12's dictionary milestones are stated in its
+  vocabulary, and this roadmap's function-field divisors never fork a rival
+  scheme-divisor notion.
 - **The [JacobianChallenge](../JacobianChallenge/README.md) roadmap** (merged, in this
   repository): scheme divisors, coherent cohomology, `χ`-form RR, and Serre duality on
   the way to `Pic⁰` — the cohomological route this roadmap meets, by contract, in
@@ -361,7 +363,9 @@ relationships are in §[Coordination](#coordination).
 
 ## What is missing (build here)
 
-Everything curve-theoretic. The intrinsic function-field predicate and its equivalence
+Everything curve-theoretic that the pinned Tau Ceti does not already prove; where it does,
+the layer cites the pinned name and states the remaining targets against it. The subject, in
+build order: the intrinsic function-field predicate and its equivalence
 with `trdeg = 1` under `Algebra.EssFiniteType` (finite generation as a field
 extension, not `Algebra.FiniteType`). Places as first-class objects with the place at infinity a
 citizen equal to the `HeightOneSpectrum` places; degrees of places with their finiteness
@@ -631,18 +635,23 @@ Stichtenoth I.6–I.7.
   non-special divisor of degree `g` supported on ≥ `g` given rational places
   (Prop. 1.6.12).
 - **Genus 0**: `g = 0` **and a divisor of degree 1** ⟺ `F` rational (Prop. 1.6.3 — the
-  hypothesis is a degree-1 *divisor*, not a rational place; RR then produces the place);
+  hypothesis is a degree-1 *divisor*, not a rational place; RR then produces the place;
+  `TauCeti.nonempty_algEquiv_ratFunc_of_genus_eq_zero_of_divisor_degree_eq_one` forward,
+  `TauCeti.genus_eq_zero_of_adjoin_eq_top` back);
   ⚠ genus 0 alone does *not* force rationality — non-rational genus-0 fields exist
   (conics; Rem. 1.6.4, which also notes a degree-1 divisor always exists over
   algebraically closed or finite `k`) — record the non-theorem; Lüroth (in Mathlib)
   cited for the subfield picture.
-- **Strong approximation** (Thm. 1.6.5): for a *proper* subset `S ⊊ ℙ_F`, places
+- **Strong approximation** (Thm. 1.6.5;
+  `TauCeti.Place.exists_forall_mem_ord_sub_eq_and_forall_mem_integers`): for a *proper*
+  subset `S ⊊ ℙ_F`, places
   `P₁ … P_r ∈ S`, targets and orders as in weak approximation, there is `x` with
   `ord_{Pᵢ}(x − xᵢ) = nᵢ` for all `i` **and** `ord_P x ≥ 0` at every other place of
   `S` — free behaviour only outside `S`. The statement Goppa-style consumers (a future
   CurvesOverFiniteFields roadmap) want; proved from RR, which is why it is here and not
   in Layer 0.
-- **Weierstrass gaps** (Thm. 1.6.8): at a **rational** place `P` of a function field of
+- **Weierstrass gaps** (Thm. 1.6.8; `TauCeti.Place.card_weierstrassGaps`,
+  `TauCeti.Place.one_mem_weierstrassGaps`): at a **rational** place `P` of a function field of
   genus `g > 0`, exactly `g` numbers `i₁ < … < i_g` are pole gaps, with `i₁ = 1` and
   `i_g ≤ 2g − 1` — characteristic-free, the theorem of record. ⚠ Char-`p` honesty: the
   refined theory (all-but-finitely-many places share one gap sequence, Weierstrass
@@ -731,7 +740,9 @@ Stichtenoth III.1–III.3. `F′/k′` over `F/k`, `[F′ : F] < ∞`.
   after it is the quotient-valued form `deg (Con D) = n(F′/F) · deg D` available as
   API.
 - **The fundamental identity** `∑_{P′ ∣ P} e(P′∣P) · f(P′∣P) = [F′ : F]`
-  (Thm. 3.1.11 — no perfectness consumed): proved by the affine-model reconciliation —
+  (Thm. 3.1.11 — no perfectness consumed;
+  `TauCeti.Place.sum_ramificationIdx_mul_relativeDegree_eq_finrank_of_isFunctionField`): proved
+  by the affine-model reconciliation —
   consume `Ideal.sum_ramification_inertia` over `R_x ⊆ R′_x`, with the bridge lemmas
   `e = Ideal.ramificationIdx`, `f = Ideal.inertiaDeg` at the matching primes (one lemma
   each, per the convention table), plus the places-over-`∞` chart swap. Corollaries:
@@ -743,11 +754,12 @@ Stichtenoth III.1–III.3. `F′/k′` over `F/k`, `[F′ : F] < ∞`.
   Thm. 3.2.6, Cor. 3.2.8 — Thm. 3.2.6 needs no exact-constants hypothesis, per
   Rem. 3.2.7; `S` finite ⟹ PID, Prop. 3.2.10); `𝒪′_P = ` integral closure of `𝒪_P` in
   `F′` with **local integral bases** for separable `F′/F` (Cor. 3.3.5, Thm. 3.3.6:
-  almost every basis is one); **Kummer's theorem, with its hypotheses split as in the
-  source**. Hypotheses of record: `F′ = F(y)` with `y` **integral over `𝒪_P`** and `φ`
+  almost every basis is one, `TauCeti.Place.finite_setOf_not_isIntegralBasis`); **Kummer's
+  theorem, with its hypotheses split as in the source**. Hypotheses of record: `F′ = F(y)` with `y` **integral over `𝒪_P`** and `φ`
   its minimal polynomial over `F` (integrality, not just algebraicity); factor the
   reduction `φ̄ = ∏ᵢ γᵢ^{εᵢ}` into distinct monic irreducibles over `F_P`. Conclusion
-  A (Thm. 3.3.7, unconditional): for each `i` a place `Pᵢ′ ∣ P` with `f(Pᵢ′∣P) ≥ deg γᵢ`,
+  A (Thm. 3.3.7, unconditional; `TauCeti.Place.exists_injective_restrict_eq`): for each `i` a
+  place `Pᵢ′ ∣ P` with `f(Pᵢ′∣P) ≥ deg γᵢ`,
   pairwise distinct — the factorization **bounds** the splitting but does not determine
   it. Conclusion B (Cor. 3.3.8, under the **monogenicity hypothesis
   `𝒪′_P = 𝒪_P[y]`** — equivalently, `P` prime to the conductor of `𝒪_P[y]` in `𝒪′_P`,
@@ -759,8 +771,10 @@ Stichtenoth III.1–III.3. `F′/k′` over `F/k`, `[F′ : F] < ∞`.
   reconcile with the pin's `conductor_mul_differentIdeal` conductor vocabulary in
   Layer 7).
 - **Galois extensions, first pass** (III.7): the Galois action on `{P′ ∣ P}` is
-  transitive (Thm. 3.7.1); `e`, `f`, `d` constant over `P` and `e·f·r = [F′ : F]`
-  (Cor. 3.7.2); decomposition groups. (The finer inertia/ramification filtration
+  transitive (Thm. 3.7.1; `TauCeti.Place.exists_smul_eq_of_restrict_eq`); `e`, `f`, `d`
+  constant over `P` and `e·f·r = [F′ : F]` (Cor. 3.7.2;
+  `TauCeti.Place.ncard_mul_ramificationIdx_mul_relativeDegree_eq_finrank`); decomposition
+  groups, of order `e·f` (`TauCeti.Place.card_decompositionSubgroup`). (The finer inertia/ramification filtration
   appears in Layer 8, scoped; the *local* filtration theory — Herbrand, upper
   numbering, Hasse–Arf — belongs to the
   Local Fields and Ramification roadmap,
@@ -776,31 +790,40 @@ Hurwitz; the different theorem computes the exponents.
   **`d(P′∣P) := −v_{P′}(t)` for `C_P = t·𝒪′_P`** and
   `Diff(F′/F) := ∑ d(P′∣P) · P′ ≥ 0` (Def. 3.4.3, Rem. 3.4.4). Lean route: consume the
   pin's `differentIdeal` machinery over `R_x`-models, with the reconciliation
-  `v_{P′}(differentIdeal R R′) = d(P′∣P)` as the bridge milestone and the two-charts
+  `v_{P′}(differentIdeal R R′) = d(P′∣P)` (`TauCeti.Place.differentExponent_eq_multiplicity_center`)
+  as the bridge milestone and the two-charts
   device covering the places over `∞`; finite support via
   `dvd_differentIdeal_iff`/`Algebra.IsUnramifiedAt` finiteness. Hypothesis of record for
   this layer: **`F′/F` separable** (the different is degenerate otherwise; the
   inseparable case is flagged to Layer 8).
 - **Dedekind's different theorem** (Thm. 3.5.1): **(a)** `d(P′∣P) ≥ e(P′∣P) − 1`
   for each finite separable extension of these excellent DVRs, including inseparable
-  residue extensions; **(b)** under `Algebra.IsSeparable F_P F′_{P′}`, equality
+  residue extensions (`TauCeti.Place.ramificationIdx_le_differentExponent_add_one`);
+  **(b)** under `Algebra.IsSeparable F_P F′_{P′}`, equality
   holds iff the residue characteristic does not divide `e(P′∣P)`. In general define
-  **tame** by BOTH residue separability and that prime-to-characteristic condition;
-  **unramified** means `e=1` AND residue separability. Do not call an `e=1` fierce
-  extension unramified. Prove the general equivalence `d=0 ↔ unramified` via
-  the different ideal's unramified criterion. The equality/tame proof uses the
-  displayed residue hypothesis (Stichtenoth via `k` perfect, Lemma 3.5.3); The pin supplies `P^{e−1} ∣ 𝔡` and the ramified ⟺
-  divides criterion; the **exact tame value is built here** (the pin's file leaves it open)
-  — by a complete local route. First prove that localization preserves the trace dual
-  and different ideal. After completion, factor a finite tame extension with separable
-  residue extension into an unramified extension and a totally ramified extension;
-  prove the unramified different is trivial, prove `d=e-1` in the totally ramified
-  part by the uniformizer minimal-polynomial/trace computation, and combine them using
-  the tower formula. Prove separately that completion preserves the different exponent,
-  so the completed calculation returns the original affine-model valuation. (A direct
-  local proof may replace this chain only if it covers the residue-extension part, not
-  merely the totally ramified case.) This supplies the missing half of the pin's
-  `Different.lean` story. Here ramified means failure of the full unramified
+  **tame** by BOTH residue separability and that prime-to-characteristic condition
+  (`TauCeti.Place.IsTame`, read on the local model `𝒪_P ⊆ 𝒪′_P`, with `TauCeti.Place.IsWild`
+  its negation); **unramified** means `e=1` AND residue separability. Do not call an `e=1`
+  fierce extension unramified. The general equivalence `d=0 ↔ unramified` is
+  `TauCeti.Place.differentExponent_eq_zero_iff`, through the different ideal's unramified
+  criterion. Part (b) in the subtraction-free form `e = d + 1 ⟺ tame` is
+  `TauCeti.Place.ramificationIdx_eq_differentExponent_add_one_iff`, with `e ≤ d ⟺ wild`
+  (Cor. 3.5.5) `TauCeti.Place.ramificationIdx_le_differentExponent_iff` and the divisor form
+  `TauCeti.Divisor.tameDifferent_eq_different_iff` (`Diff = ∑ (e − 1) P′` iff every place is
+  tame); Stichtenoth proves it via `k` perfect (Lemma 3.5.3), the pin under the displayed
+  residue hypothesis alone. Mathlib's `RingTheory/DedekindDomain/Different.lean` supplies
+  `P^{e−1} ∣ 𝔡` (`pow_sub_one_dvd_differentIdeal`) and the ramified ⟺ divides criterion but
+  not the exact tame value. The complete local route is an alternative proof whose
+  intermediate statements Layer 8's general different computation consumes: prove that
+  localization preserves the trace dual and different ideal; after completion, factor a
+  finite tame extension with separable residue extension into an unramified extension and
+  a totally ramified extension; prove the unramified different is trivial, prove `d=e-1` in
+  the totally ramified part by the uniformizer minimal-polynomial/trace computation, and
+  combine them using the tower formula (`TauCeti.Place.differentExponent_restrict_add`).
+  Prove separately that completion preserves the different exponent, so the completed
+  calculation returns the original affine-model valuation. (A direct local proof may
+  replace this chain only if it covers the residue-extension part, not merely the totally
+  ramified case.) Here ramified means failure of the full unramified
   condition, and is equivalent to `P′ ∈ supp Diff` for arbitrary residue fields.
   In the residue-separable branch, wild means the residue characteristic divides e,
   and is equivalent to `d≥e` (Cor. 3.5.5). Without residue separability retain the
@@ -813,7 +836,8 @@ Hurwitz; the different theorem computes the exponents.
   uniqueness, and **`(Cotr ω) = Con (ω) + Diff(F′/F)`**, the divisor identity from
   which Hurwitz falls out); `F`-semilinearity and tower transitivity (Prop. 3.4.11),
   transitivity of the different `d(P″∣P) = e(P″∣P′)·d(P′∣P) + d(P″∣P′)`
-  (Cor. 3.4.12 — reconcile with the pin's
+  (Cor. 3.4.12; `TauCeti.Place.differentExponent_restrict_add` and, for divisors,
+  `TauCeti.Divisor.different_eq_conorm_add` — reconciled with Mathlib's
   `differentIdeal_eq_differentIdeal_mul_differentIdeal`).
 - **The Hurwitz genus formula** (Thm. 3.4.13 — no perfectness consumed):
   for `F′/F` finite **separable** with constant fields `k′/k`, in the
@@ -823,16 +847,23 @@ Hurwitz; the different theorem computes the exponents.
   exactly where Layer 6's integrality milestone applies (same-constant-field case
   included: there `[k′ : k] = 1` and the formula is the familiar
   `2g′ − 2 = n(2g − 2) + deg Diff`);
-  the `F/k(x)` normalization `2g − 2 = −2[F : k(x)] + deg Diff(F/k(x))` (Cor. 3.4.14,
-  via Cotr of Layer 5's `η`). Tame corollary: the inequality form
+  the `F/k(x)` normalization `2g − 2 = −2[F : k(x)] + deg Diff(F/k(x))` (Cor. 3.4.14;
+  `TauCeti.hurwitz_genus_formula_ratFunc`, via Cotr of Layer 5's `η`). Tame corollary: the
+  inequality form
   `2g′ − 2 ≥ n(2g − 2) + ∑ (e − 1) deg P′` (same-constant-field form, `n = [F′ : F]`)
-  **with equality iff every ramified local extension is tame**, with finite
-  separable residue extensions at every place as explicit input to this equality
-  criterion (Cor. 3.5.6). The inequality itself keeps arbitrary residue fields;
-  without that input compare the actual local different exponents, not merely e; ⚠ wild honesty: the Artin–Schreier worked
+  **with equality iff every place of `F′` is tame over `F`** in the full sense above
+  (Cor. 3.5.6; `TauCeti.two_mul_genus_sub_two_eq_iff_forall_isTame`, stated with the
+  geometric degree `TauCeti.geometricDegree` and the tame different
+  `TauCeti.Divisor.tameDifferent` under the hypotheses of `TauCeti.hurwitz_genus_formula`; no
+  residue separability is an input, an inseparable residue extension makes its place wild
+  and breaks the equality). The inequality itself keeps arbitrary residue fields; without
+  residue separability compare the actual local different exponents, not merely `e`;
+  ⚠ wild honesty: the Artin–Schreier worked
   example below is the mandatory acceptance test that no tameness assumption has crept
-  in. Corollaries: `g′ ≥ g` for same-constant-field separable extensions (Cor. 3.5.7);
-  every separable `F/k(x)` of degree > 1 with exact constants ramifies (Cor. 3.5.8);
+  in. Corollaries: `g′ ≥ g` for finite separable `F′/F` with exact constants on both sides
+  (Cor. 3.5.7; `TauCeti.genus_le_genus`);
+  every separable `F/k(x)` of degree > 1 with exact constants ramifies (Cor. 3.5.8;
+  `TauCeti.different_ne_zero_of_one_lt_finrank`);
   **the function-field Riemann–Hurwitz for `y² = f(x)`** (the degree-2 worked example,
   char `≠ 2`, via the Kummer-cover data `e = n/r_P`, `d = n/r_P − 1` of Prop. 3.7.3).
 
@@ -901,7 +932,11 @@ one** — this layer states them.
 - **Unramified constant extensions are a separate branch.** For algebraic K/k
   separable, prove that every place Q over P is unramified in Layer 7's full
   sense (`e(Q/P)=1` and κ(Q)/κ(P) separable), with the selected
-  component/residue-field identifications made explicit. Over perfect k every
+  component/residue-field identifications made explicit; for finite separable K/k this is
+  the pinned `TauCeti.Place.ramificationIdx_eq_one_of_constantCompositum_eq_top`,
+  `TauCeti.Place.differentExponent_eq_zero_of_constantCompositum_eq_top` and
+  `TauCeti.Place.isUnramifiedAt_of_constantCompositum_eq_top`, and the algebraic case
+  follows by finite subextension descent. Over perfect k every
   algebraic K/k is separable, so this recovers Thm. 3.6.3(a),(g) and the
   original simple compositum statement, for each chosen place and common
   ambient embedding. Separately, for arbitrary algebraic K/k with κ(P)/k
@@ -961,22 +996,37 @@ one** — this layer states them.
   by assuming k perfect everywhere.
 - **Galois II: decomposition, inertia and lower ramification over every residue
   field.** For a finite Galois extension of the function fields and a chosen
-  place P′ over P, construct D, I and the induced residue action. Writing
-  `f=f_sep*f_ins`, prove `|D/I|=f_sep`, `|I|=e*f_ins` and identify D/I with
+  place P′ over P, construct D, I and the induced residue action
+  (`TauCeti.Place.residueAut`). Writing `f=f_sep*f_ins`, `|D/I|=f_sep` is
+  `TauCeti.Place.card_decompositionQuotientInertia_eq_finSepDegree`, `|I|=e*f_ins` is
+  `TauCeti.Place.card_inertiaSubgroup_eq_ramificationIdx_mul_finInsepDegree`, and
+  `TauCeti.Place.decompositionQuotientInertiaEquivSeparableClosure` identifies D/I with
   the automorphism group of the separable part of `κ(P′)/κ(P)`; here `|D|=e*f`
-  follows from the fundamental identity and transitivity. Under
-  `Algebra.IsSeparable κ(P) κ(P′)`, recover `|I|=e` and the full residue Galois
-  quotient. No generic separability of F′/F eliminates residue inseparability.
-  Define `G_i` intrinsically by `v_P′(σb−b)≥i+1` for **every b in O_P′**,
-  i≥0, with D as G_-1 and I=G_0. Prove normality in D, descending inclusion,
-  eventual triviality and completion compatibility before any structure formula.
+  (`TauCeti.Place.card_decompositionSubgroup`) follows from the fundamental identity and
+  transitivity. Under `Algebra.IsSeparable κ(P) κ(P′)`, `|I|=e`
+  (`TauCeti.Place.card_inertiaSubgroup`) and the full residue Galois quotient follow. No
+  generic separability of F′/F eliminates residue inseparability.
+  `G_i` is defined intrinsically by `v_P′(σb−b)≥i+1` for **every b in O_P′**,
+  i≥0, with D as G_-1 and I=G_0 (`TauCeti.Place.ramificationGroup`,
+  `TauCeti.Place.ramificationGroup_zero`). Normality in D
+  (`TauCeti.Place.normal_ramificationGroup`), descending inclusion
+  (`TauCeti.Place.ramificationGroup_antitone`) and eventual triviality for finite inertia
+  (`TauCeti.Place.exists_forall_ramificationGroup_eq_bot`) are pinned; prove completion
+  compatibility before any structure formula.
   This all-elements definition works for fierce extensions too; testing only a
   uniformizer is not equivalent without the requisite residue-generation proof.
 - **Classical residue-separable branch.** With finite separable residue extension
-  as an explicit hypothesis, prove `G_0/G_1` cyclic of order prime to the positive
-  residue characteristic, `G_i/G_(i+1)` elementary abelian p for i≥1,
-  characteristic-zero residue ⇒G_1=1, and
-  `d(P′/P)=Σ_(i≥0)(|G_i|−1)`. The sum is finite by eventual triviality.
+  as an explicit hypothesis: `G_0/G_1` cyclic of order prime to the positive
+  residue characteristic (`TauCeti.Place.isCyclic_quotient_ramificationGroup_one`,
+  `TauCeti.Place.not_dvd_index_ramificationGroup_one`), `G_i/G_(i+1)` elementary abelian p
+  for i≥1 (`TauCeti.Place.commutator_ramificationGroup_le`,
+  `TauCeti.Place.pow_mem_ramificationGroup_of_charP`, which need no residue separability)
+  and characteristic-zero residue ⇒G_1=1 (`TauCeti.Place.ramificationGroup_one_eq_bot`) are
+  pinned; prove `d(P′/P)=Σ_(i≥0)(|G_i|−1)` from the pinned monogenic local form
+  `TauCeti.Place.differentExponent_eq_sum_ord_sub_aut_of_algebra_adjoin_eq_top` and the
+  local-ring counting identity reached through
+  `TauCeti.Place.ramificationGroup_eq_isLocalRing_ramificationGroup`. The sum is finite by
+  eventual triviality.
   The proof supplies an unramified residue extension then a totally ramified
   monogenic DVR extension, computes its minimal-polynomial derivative and proves
   the ramification-number/group-sum identity. This is Thm. 3.8.7 with its actual
@@ -1024,12 +1074,20 @@ one** — this layer states them.
   (Cor. 3.9.7) — the tower-builder's toolkit a future CurvesOverFiniteFields roadmap
   consumes.
 - **Inseparable extensions and genus estimates** (III.10–III.11): a purely inseparable
-  degree-`p` step has a unique place `P′` above each `P`; the residue extension is
-  purely inseparable and **`e(P′∣P) * f(P′∣P) = p`**. The clean conclusion
-  `e = p, f = 1` is stated only under `PerfectField F_P` (or an explicit triviality
-  hypothesis on the residue extension). The counterexample
+  degree-`p` step has a unique place `P′` above each `P`
+  (`TauCeti.Place.restrict_bijective_of_isPurelyInseparable`); the residue extension is
+  purely inseparable (`TauCeti.Place.isPurelyInseparable_residueField`) and
+  **`e(P′∣P) * f(P′∣P) = p`**
+  (`TauCeti.Place.ramificationIdx_mul_relativeDegree_eq_finrank_of_isPurelyInseparable`). The
+  clean conclusion `e = p, f = 1` is stated only under separability of the residue
+  extension, in particular under `PerfectField F_P`
+  (`TauCeti.Place.ramificationIdx_eq_finrank_of_isPurelyInseparable`,
+  `TauCeti.Place.relativeDegree_eq_one_of_isPurelyInseparable`). The counterexample
   `k = 𝔽_p(s)`, `F = k(t)`, `F′ = k(y)` with `t=y^p` at `P=(t-s)`—where `e=1` and
-  `f=p`—is a required guard theorem. Over perfect `k`, **every function field is separably generated**,
+  `f=p`—is the guard theorem (`TauCeti.Place.ramificationIdx_adicOfIrreducible_X_pow_sub_C`,
+  `TauCeti.Place.relativeDegree_adicOfIrreducible_X_pow_sub_C`, for any `k` of
+  characteristic `p` and `s ∉ k^p`). Over perfect `k`, **every function field is separably
+  generated** (`TauCeti.IsFunctionField.exists_transcendental_and_isSeparable_adjoin_of_perfectField`),
   any `z` with `v_P(z) ≢ 0 (mod p)` is separating, and Frobenius gives `F^{pⁿ} ≅ F`
   with the same genus (Prop. 3.10.2 — Layer 9's entry ticket); genus bounds:
   `g ≤ 1 + n(g₁ − 1) + deg C` (Prop. 3.11.1), **Castelnuovo's inequality**
@@ -1054,7 +1112,9 @@ Stichtenoth's.)
 
 - **`Ω[F⁄k]` is one-dimensional.** For `F/k` a function field with a separating element
   `x` (equivalently `F/k` separably generated; over perfect `k` always, by
-  Prop. 3.10.2): `dim_F Ω[F⁄k] = 1`, with basis `dx`; `dy = (dy/dx)·dx` and the formal
+  Prop. 3.10.2): `dim_F Ω[F⁄k] = 1` (`TauCeti.finrank_kaehlerDifferential_eq_one_of_separating`),
+  with basis `dx` (`TauCeti.kaehlerBasisOfSeparating`); `dy = (dy/dx)·dx`
+  (`TauCeti.derivativeOfSeparating_smul_D`) and the formal
   derivative calculus (Stichtenoth's derivation module: Def. 4.1.1–Lemma 4.1.6; his
   differential module `Δ_F` with the universal property Prop. 4.1.8(d)). ⚠ Two
   formal-vocabulary traps, pinned: (i) Stichtenoth *defines* `dt := 0` for
@@ -1110,18 +1170,21 @@ Stichtenoth's.)
   coefficient and geometric residue milestones use finite separable
   residue extensions and are not delegated to the finite-residue local-field
   roadmap.
-- **The comparison theorem** (IV.3): assume k perfect on this milestone,
-  including its geometric residue theorem. Fix one separating x and define
-  `δ(z)=(dz/dx)·Cotr_{F/k(x)}(η_x)` in Weil differentials, with Layer 5's
-  rational η_x. Prove δ is a k-derivation and, for every other separating y,
-  `Cotr_{F/k(y)}(η_y)=(dy/dx)·Cotr_{F/k(x)}(η_x)`; deduce independence
-  of the separating coordinate. Construct `μ : Ω[F⁄k] ≃ₗ[F] Ω_F`,
-  `z dx ↦ z·δ(x)` (Thm. 4.3.2).
-  Prove its local component at every place P is the trace residue
+- **The comparison theorem** (IV.3). The linear comparison needs only exact constants and
+  a separating `x`: with Layer 5's rational `η_x`, `δ(x) := Cotr_{F/k(x)}(η_x)` is the pinned
+  `TauCeti.weilDifferentialOfSeparating`, nonzero, and `μ : Ω[F⁄k] ≃ₗ[F] Ω_F`,
+  `z dx ↦ z·δ(x)`, is `TauCeti.kaehlerDifferentialEquivWeilDifferentialOfSeparating`
+  (Thm. 4.3.2), sending `dy` to `(dy/dx)·δ(x)`; the canonical divisor formula
+  `(dx)=−2(x)_∞+Diff(F/k(x))`, of degree 2g−2, is
+  `TauCeti.weilDifferentialDivisor_weilDifferentialOfSeparating` (Rem. 4.3.7(c)). Build
+  here, still without perfectness: for every other separating `y`,
+  `Cotr_{F/k(y)}(η_y)=(dy/dx)·Cotr_{F/k(x)}(η_x)`, so `δ(z)=(dz/dx)·δ(x)` is a
+  `k`-derivation independent of the separating coordinate and `μ` does not depend on `x`.
+  Assume `k` perfect on the residue part only: prove that the local component of `z·δ(x)`
+  at every place P is the trace residue
   `(z·δ(x))_P(u)=Tr_(F_P/k)(res_P(uz dx))`. Perfectness makes each
   finite residue extension separable, so the preceding completion charts
-  define these components. Deduce the canonical divisor formula
-  `(dx)=−2(x)_∞+Diff(F/k(x))`, degree 2g−2, and
+  define these components. Deduce the residue theorem
   `Σ_P Tr_(F_P/k)(res_P(ω))=0`. For algebraically closed k this is
   the ordinary sum of coefficient residues. Keep Layer 5's abstract
   Weil-differential sum identity at its stated generality; the geometric
@@ -1136,13 +1199,17 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   RR then produces the rational place, Prop. 6.1.6(a)). **Weierstrass equation over
   arbitrary k:** with exact constants, at a rational place P₀ the `ℓ(iP₀) = i` ladder
   gives x, y with pole divisors 2P₀ and 3P₀, `F = k(x,y)`, satisfying a long
-  Weierstrass equation over k (Prop. 6.1.2); no nonsingularity is asserted. Normal
-  forms of that equation: char ≠ 2 gives `y² = f(x)` with `f` a squarefree cubic in
-  `k[X]` (a repeated factor of a cubic is linear and would make F rational), and
+  Weierstrass equation over k (Prop. 6.1.2;
+  `TauCeti.Place.exists_isWeierstrassCoordinates_of_genus_eq_one`); no nonsingularity is
+  asserted. Normal forms of that equation: char ≠ 2 gives `y² = f(x)` with `f` a cubic in
+  `k[X]` (`TauCeti.Place.exists_isWeierstrassCoordinates_isCharNeTwoNF_of_genus_eq_one`),
+  squarefree (a repeated factor of a cubic is linear and would make F rational), and
   conversely every squarefree cubic gives genus 1 with exact constants; in
   characteristic 2 the coordinate changes reach Mathlib's two shapes
   `IsCharTwoJNeZeroNF`, **`Y² + XY = X³ + a₂X² + a₆`**, and `IsCharTwoJEqZeroNF`,
-  **`Y² + a₃Y = X³ + a₄X + a₆`**, again with no discriminant condition.
+  **`Y² + a₃Y = X³ + a₄X + a₆`**
+  (`TauCeti.Place.exists_isWeierstrassCoordinates_isCharTwoNF_of_genus_eq_one`), again with
+  no discriminant condition.
   **Nonsingularity is the smooth-model branch.** For such a Weierstrass equation W
   of F, `W.IsElliptic` holds iff the regular projective model X_F is smooth over k
   (Layer 8 item 3, 12B.0b): the projective cubic is the regular model, because its
@@ -1260,7 +1327,9 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   genus formula `g = (m−1)/2` (`m` odd) / `(m−2)/2` (`m` even)** and the list of
   ramified places (Prop. 6.2.3 — by Layer 7's RH with the Kummer-cover different;
   char-2 models via the Artin–Schreier calculus, flagged honest); **uniqueness of the
-  degree-2 rational subfield** (`[F : k(z)] ≤ g ⟹ k(z) ⊆ k(x)`) and the
+  degree-2 rational subfield** (`[F : k(z)] ≤ g ⟹ z ∈ k(x)`,
+  `TauCeti.mem_adjoin_of_finrank_adjoin_le_genus`, hence `k(z) = k(x)` whenever `g ≥ 2` and
+  `[F : k(z)] = 2`, `TauCeti.adjoin_eq_adjoin_of_finrank_adjoin_eq_two`) and the
   regular-differentials description of it (Prop. 6.2.4). Boundary: models over `ℤ`,
   Igusa invariants, cluster pictures → a future HyperellipticCurves roadmap.
 - **Smooth plane curves, by one function-field route** (Fulton Chs. 5, 8;
@@ -1293,8 +1362,14 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   what makes `Tⁿ − u` irreducible, so `[F′ : F] = n`; the practical sufficient form —
   some place has `gcd(v_P(u), n) = 1` — is its own lemma). Only after (a)–(d): the
   ramification data `e(P′∣P) = n / r_P`, `d(P′∣P) = n / r_P − 1` for
-  `r_P = gcd(n, v_P(u)) > 0`, the exact constant field criterion, and the closed genus
-  formula. **Artin–Schreier** `F′ = F(y)`, `y^p − y = u`, `char k = p > 0`
+  `r_P = gcd(n, v_P(u)) > 0` (pinned for prime `n`, with `n` invertible in `k` and `F′ = F(y)`:
+  `TauCeti.Place.ramificationIdx_eq_of_pow_eq_of_prime`,
+  `TauCeti.Place.differentExponent_eq_of_pow_eq_of_prime`; for every `n` the pin has the
+  totally ramified case `r_P = 1`, `TauCeti.Place.ramificationIdx_eq_of_pow_eq_of_gcd_ord_eq_one`
+  and `TauCeti.Place.differentExponent_add_one_eq_of_pow_eq_of_gcd_ord_eq_one`, and the
+  divisibility `n / r_P ∣ e`, `TauCeti.Place.div_gcd_ord_dvd_ramificationIdx_of_pow_eq`; the
+  general-`n` equality is built here), the exact constant field criterion, and the closed
+  genus formula. **Artin–Schreier** `F′ = F(y)`, `y^p − y = u`, `char k = p > 0`
   (Prop. 3.7.8; elementary abelian generalization Prop. 3.7.10) — hypotheses of
   record: the nontriviality `u ∉ {w^p − w ∣ w ∈ F}` (otherwise `T^p − T − u` splits
   and the "extension" is trivial — this is the degree-`p`-cyclic hypothesis), and the
@@ -1307,8 +1382,13 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   `a t^{-p}` term cannot in general be cancelled. If `u` itself has a pole of order
   divisible by `p`, the prime-to-`p` formula never applies without this input. Under the
   perfect-residue or supplied-representative hypothesis:
-  `d(P′∣P) = (p − 1)(m_P + 1)`, wildness at every ramified place,
-  and the genus formula. These two families are the acceptance tests for the tame and
+  `d(P′∣P) = (p − 1)(m_P + 1)` with total ramification at every pole of a reduced
+  representative (`TauCeti.Place.differentExponent_eq_of_sub_pow_sub_self_ord_eq_neg`),
+  wildness there (`TauCeti.Place.isWild_of_exists_reduced_artinSchreier_pole`), `e = 1` and
+  `d = 0` where a representative is regular
+  (`TauCeti.Place.differentExponent_eq_zero_of_exists_sub_pow_sub_self_mem_integers`), and
+  the genus formula with the reduced representatives as explicit input
+  (`TauCeti.two_mul_genus_sub_two_eq_of_exists_reduced_artinSchreier_poles`). These two families are the acceptance tests for the tame and
   wild halves of Layer 7, and the substrate the BelyiMaps roadmap and
   CurvesOverFiniteFields roadmaps would cite (Hermitian curves are VI.4/§7.4
   instances).
@@ -1437,8 +1517,9 @@ definitions.
   subextension descent. In particular, if k is algebraically closed, K/k is
   regular and F is relatively algebraically closed in Frac(F⊗[k]K).
   This char 0 cut, with X_F smooth and geometrically integral by 12B.0b, is the
-  generic supplier for BelyiMaps 9.1C; the fixed-t finite-Hom restriction/extension
-  proof belongs to that consumer and is not full faithfulness for arbitrary maps.
+  generic supplier for the BelyiMaps roadmap's Layer 9 (algebraic Belyi pairs, 9.1) where it
+  extends algebraically closed constants along a fixed `t`; the fixed-t finite-Hom
+  restriction/extension proof belongs to that consumer and is not full faithfulness for arbitrary maps.
 
   **12B.0b, whole-model geometric regularity.** Prove smooth↔geometrically regular
   for the locally finite-type model; establish geometric integrality from generic
@@ -1495,8 +1576,8 @@ definitions.
   extension reflects geometric integrality and finite étaleness off those
   sections; retain the witnesses and all scalar diagrams. This is a definite
   finite-model producer before Belyi 10.6, with no Belyi theorem/topological
-  enumeration/profinite comparison prerequisite. Belyi 9.1C owns the fixed-t
-  Hom comparison and Belyi 10.6 combines it with its own finite enumeration.
+  enumeration/profinite comparison prerequisite. BelyiMaps Layer 9 (algebraic Belyi pairs, 9.1) owns the fixed-t
+  Hom comparison and BelyiMaps 10.6 combines it with its own finite enumeration.
   The generic cuts remain in this single AlgebraicCurves owner.
 
 - **12A — dimension-one schemes, closed points, and orders of vanishing.**
@@ -1509,9 +1590,10 @@ definitions.
   closed point. *Output consumed by 12B–12D*: for regular `X`,
   `k(X) := X.functionField` satisfies `Algebra.EssFiniteType k k(X)` and
   `Algebra.trdeg k k(X) = 1`, hence is a function field by Layer 0; closed points give
-  places, matching residue fields and degrees. When the repository's Mathlib reaches
-  `AlgebraicGeometry/OrderOfVanishing.lean` and `AlgebraicCycle/Basic.lean`, restate
-  these milestones against that vocabulary, never against a rival one.
+  places, matching residue fields and degrees. These milestones are stated in the
+  vocabulary of the pinned `Mathlib/AlgebraicGeometry/OrderOfVanishing.lean` (the order of
+  vanishing at a codimension-one point) and `AlgebraicCycle/Basic.lean`, never in a rival
+  one.
 - **12B — normalize `ℙ¹_k` in `F`.**
   *Prerequisites*: Layer 2's finite-normalization theorem and compatible `R_x` and
   `R_{1/x}` charts; Mathlib's `Spec`, scheme gluing, finite morphisms, and projective
@@ -1685,7 +1767,7 @@ proceed in parallel with Layers 4–5; Layer 7 (different/Hurwitz) needs Layers 
 needs Layer 6; its field-regularity branch consumes early 12B.0a, while its
 smooth-model divisor/section branch consumes 12B.0b–c plus Layer 3 and Riemann's
 large-divisor equality. Early 12B.0 is extracted from Layer 2/native scheme algebra;
-it has no Layer 8 genus, Layer 11, full 12C category,12E or JacobianChallenge input.
+it has no Layer 8 genus, Layer 11, full 12C category, 12E or JacobianChallenge input.
 The general genus-drop/different statements also consume Layer 7 where specified. Layer 9's first subsection (`dim Ω[F⁄k] = 1`) needs Layers 0–3 only and can
 be drafted early; its coordinate residue transport consumes
 FormalLaurentPuiseux L1–L3, and its comparison theorem consumes Layer 7's cotrace
@@ -1803,9 +1885,8 @@ This section contains the normative division of labor needed to implement the ro
   repository's self-contained intrinsic-DVR-subring API differs, and the divergence is
   deliberate, not accidental.
 - **Mathlib's scheme-divisor and conditional-Riemann–Roch campaign** (R. D. Giles) —
-  Layer 12 tracks `AlgebraicGeometry/AlgebraicCycle/*` and `OrderOfVanishing` (on
-  Mathlib master) and states its
-  dictionary milestones against them when the repository's Mathlib reaches them; the
+  Layer 12 states its dictionary milestones against the pinned
+  `AlgebraicGeometry/AlgebraicCycle/*` and `OrderOfVanishing`; the
   function-field divisor here is a different (field-level) object, so no namespace
   collision, but the Layer-12 "Weil divisors on the regular model" side is **Mathlib's
   namespace, not ours** — contract statements there consume Mathlib's types, and any
