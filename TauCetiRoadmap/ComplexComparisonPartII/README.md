@@ -119,7 +119,11 @@ extension by zero along an open inclusion is the pinned Tau Ceti exact left adjo
 `SheafExtensionByZero`, and C6.1 adds its stalk and section formulas, c-soft resolutions,
 derived compact-support sections, the one-point-compactification comparison, localization
 triangles and the compact-support sheaf/singular bridge on CW pairs through
-CharacteristicClasses C1.2a; no earlier roadmap owns these.
+CharacteristicClasses C1.2a. Hyperfunctions HF3a states extension by zero, `f_!`, c-soft
+resolutions, the localization triangle, proper base change and the projection formula for
+sheaves of `ℂ`-modules on finite-dimensional locally compact Hausdorff spaces; C6.1's
+variant is for sheaves of modules over an arbitrary commutative ring (finite `Λ` in use)
+without finite-dimensionality, and is identified with HF3a's on the common domain.
 Generic direct local-system cochains and their topological identities come from
 AlgebraicTopology Stage 6.1.
 
@@ -265,6 +269,13 @@ here uses no stage of this roadmap.
   C5.1 supplies the nesting extension to semilocally contractible spaces and identifies
   its CW specialization with that resolution; Čech refinement and transport to CW-type
   bases remain in the supplier.
+- *Hyperfunctions, HF3a, “Conic sheaves and geometric derived functors”.* Extension by
+  zero for open inclusions, closed-inclusion direct image, direct image with proper support
+  `f_!` through c-soft resolutions, their acyclicity and resolution independence, the
+  support localization triangle, proper base change and the projection formula, for sheaves
+  of `ℂ`-modules on finite-dimensional locally compact Hausdorff spaces. C6.1 states the
+  variant for module sheaves over an arbitrary commutative ring on arbitrary locally compact
+  Hausdorff spaces and identifies the two on the common domain.
 - *CharacteristicClasses, C1.2a S0–S5.* Compact-relative singular cochains with
   module-valued local coefficients on locally compact Hausdorff closed pairs, their
   enlargement and cofinality, proper pullback and open extension, jointly proper homotopy
@@ -4035,7 +4046,12 @@ prove `RΓ_c(X, F) ≅ RΓ(X⁺, j_!F)` for `j : X ↪ X⁺` (including compact 
 localization triangle `RΓ_c(U, F|_U) → RΓ_c(X, F) → RΓ_c(Z, F|_Z)` for the closed
 complement `Z`, with its actual restriction and extension maps and boundary signs. No
 paracompactness of `X` is inserted. These are the canonical sheafified extension by zero and
-derived compact-support functor; no earlier roadmap owns them.
+derived compact-support functor. Hyperfunctions HF3a states the same constructions, with
+`f_!`, proper base change and the projection formula, for sheaves of `ℂ`-modules on
+finite-dimensional locally compact Hausdorff spaces; this variant is for sheaves of modules
+over an arbitrary commutative ring without finite-dimensionality, and on finite-dimensional
+spaces with `ℂ`-coefficients prove that the two agree, including their localization
+triangles.
 For locally proper separated continuous maps between such spaces that are also paracompact
 and locally contractible, construct `Rf_!` here with composition, proper agreement, base
 change and the open/localization specializations above. On the finitely triangulated
@@ -4062,7 +4078,8 @@ in *Exact supplier contracts*; EnhancedDerivedSheaves §§0.1–0.4 on topologic
 module sheaves, including `ClassicalDerived.tensorHom` and `ClassicalDerived.functorCoherence`;
 Tau Ceti `TauCeti.CategoryTheory.SheafExtensionByZero` (the exact left adjoint `j_!`);
 SchemeAndStackFoundations §§2.1–2.2 (injective and flabby resolutions, Čech comparison);
-CharacteristicClasses C1.2a S0–S5; AlgebraicTopology's supported cellular comparison.
+Hyperfunctions HF3a (the `ℂ`-module case, for the identification); CharacteristicClasses
+C1.2a S0–S5; AlgebraicTopology's supported cellular comparison.
 
 **Checks.**
 
