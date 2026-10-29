@@ -5,9 +5,9 @@ import TauCeti.CategoryTheory.GrothendieckGroup.Split
 /-!
 # Algebraic K-theory in low degrees: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, together with the
-few definitions with real bodies that they need.
+The roadmap is `README.md`; this file is not the roadmap and is not exhaustive. It states the
+roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`,
+together with the few definitions with real bodies that they need.
 
 The matrix headlines (Whitehead's lemma, the Dieudonné determinant and Bass–Vaserstein
 stability) are stated at finite matrix size, which is the form in which they are proved; the
@@ -19,9 +19,11 @@ Headline theorems of the roadmap that are not statable at the pins:
   A7, and every statement about the `K₀` map of a ring homomorphism: these need extension of
   scalars along an arbitrary ring homomorphism on finitely generated projective right modules
   over noncommutative rings. Mathlib's `ModuleCat.extendScalars` requires commutative rings,
-  and the pinned Tau Ceti has no balanced tensor product over a noncommutative ring.
-* The relative exact sequences of A3 and the boundary map of A6: these need that same
-  base change and the relative groups built on it.
+  and the pinned Tau Ceti's `TauCeti.BalancedTensorProduct` is only a module over the ground
+  ring, with no outer action of the target ring.
+* The relative exact sequences of A3 and the boundary map of A6: these need A3's relative
+  triple group and A2's automorphism presentation of `K₁`, which neither library has, and for
+  rings that same base change.
 * The universal central extension `St(R) → E(R)`, Matsumoto's presentation of `K₂` of a field
   and `K₂(𝔽_q) = 0` (A5): neither library has the Steinberg group.
 * The comparison of algebraic and topological `K₁` of a Banach algebra (A8): neither library
@@ -46,7 +48,7 @@ abbrev KZero (R : Type u) [Ring R] :=
   TauCeti.SplitK0.{u} (FiniteProjectiveRight R)
 
 /-- `K₀` of a division ring is `ℤ`, with the class of the free module of rank one going to `1`
-(Weibel, *The K-book*, Chapter II, §2, the division-ring example after Definition 2.1). -/
+(Weibel, *The K-book*, Chapter II, §2, the division-ring example before Lemma 2.1). -/
 theorem kZero_divisionRing (D : Type u) [DivisionRing D] :
     ∃ e : KZero D ≃+ ℤ,
       e (TauCeti.SplitK0.of
@@ -65,7 +67,7 @@ def elementary {R : Type u} [Ring R] (n : Type v) [Fintype n] [DecidableEq n] :
 
 /-- Whitehead's lemma, first half: the block sum of a commutator `ghg⁻¹h⁻¹` in `GLₙ(R)` with an
 identity block of the same size is a product of elementary matrices (Weibel, *The K-book*,
-Chapter III, Lemma 1.3.3). -/
+Chapter III, Whitehead's Lemma 1.3.3 and the factorization (1.3.4)). -/
 theorem whitehead_commutator_elementary {R : Type u} [Ring R]
     (n : Type v) [Fintype n] [DecidableEq n] (g h : Matrix.GeneralLinearGroup n R) :
     ∃ U : Matrix.GeneralLinearGroup (n ⊕ n) R,
@@ -76,8 +78,8 @@ theorem whitehead_commutator_elementary {R : Type u} [Ring R]
   sorry
 
 /-- Whitehead's lemma, second half: with at least three indices every elementary matrix is a
-commutator, so `Eₙ(R)` lies in the commutator subgroup of `GLₙ(R)` (Weibel, *The K-book*,
-Chapter III, Lemma 1.3.3). -/
+commutator, so `Eₙ(R)` is perfect and lies in the commutator subgroup of `GLₙ(R)` (Weibel,
+*The K-book*, Chapter III, Lemma 1.3.2). -/
 theorem elementary_le_commutator {R : Type u} [Ring R]
     (n : Type v) [Fintype n] [DecidableEq n] (hn : 3 ≤ Fintype.card n) :
     elementary (R := R) n ≤ commutator (Matrix.GeneralLinearGroup n R) := by
@@ -140,8 +142,8 @@ theorem hasStableRangeLE_one_of_finite_maximalSpectrum (A : Type u) [CommRing A]
   sorry
 
 /-- Bass's bound: a commutative Noetherian ring of Krull dimension at most `d` has stable range
-at most `d + 1` (Bass, *K-theory and stable algebra*, Theorem V.3.5, as recalled in Weibel,
-*The K-book*, Chapter I, Exercise 1.5(b)). -/
+at most `d + 1` (Bass, *Algebraic K-Theory*, Benjamin 1968, Theorem V.3.5, as recalled in
+Weibel, *The K-book*, Chapter I, Exercise 1.5(b)). -/
 theorem hasStableRangeLE_of_ringKrullDim_le (A : Type u) [CommRing A] [IsNoetherianRing A]
     (d : ℕ) (h : ringKrullDim A ≤ d) : HasStableRangeLE A (d + 1) := by
   sorry
