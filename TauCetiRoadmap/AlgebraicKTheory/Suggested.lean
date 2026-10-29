@@ -26,8 +26,9 @@ Headline theorems of the roadmap that are not statable at the pins:
   rings that same base change.
 * The universal central extension `St(R) → E(R)`, Matsumoto's presentation of `K₂` of a field
   and `K₂(𝔽_q) = 0` (A5): neither library has the Steinberg group.
-* The comparison of algebraic and topological `K₁` of a Banach algebra (A8): neither library
-  has topological K-theory of Banach or C*-algebras.
+* The surjection of algebraic `K₁` of a Banach algebra `A` onto its stable component group, the
+  colimit of `GLₙ(A)/GLₙ(A)₀`, and its kernel (A8): both groups are stable colimits over `GL(A)`,
+  a README target, and neither library has the stable component group.
 -/
 
 namespace TauCetiRoadmap.AlgebraicKTheory
