@@ -439,9 +439,9 @@ by `p`-curvatures (Bostan–Caruso–Roques 2024; Fürnsinn–Pannier).
   Turrittin », *Publ. Math. IHÉS* 39 (1970), 175–232, §5: (5.0) (`D^p`, the `p`-curvature,
   (5.0.4), (5.0.9)), Theorem 5.1 (Cartier), Proposition 5.2 with (5.2.4)–(5.2.8), Proposition 5.3
   (Deligne), Corollary 5.5, Definition 5.6, Propositions 5.7–5.8, Theorems 5.9–5.10.
-  (zbMATH 0221.14007; Numdam PMIHES_1970__39__175_0.)
+  (Numdam PMIHES_1970__39__175_0.)
 - N. M. Katz, « Algebraic solutions of differential equations (p-curvature and the Hodge
-  filtration) », *Invent. Math.* 18 (1972), 1–118. (zbMATH 0278.14004.)
+  filtration) », *Invent. Math.* 18 (1972), 1–118.
 - N. M. Katz, « A conjecture in the arithmetic theory of differential equations », *Bull. Soc.
   Math. France* 110 (1982), 203–239. (Numdam BSMF_1982__110__203_0.)
 - N. Jacobson, « Abstract derivation and Lie algebras », *Trans. Amer. Math. Soc.* 42 (1937),
