@@ -1,822 +1,760 @@
-# Hopfological algebra
+# Roadmap: hopfological algebra
 
-Hopfological algebra replaces the single square-zero differential of ordinary homological
-algebra by an action of a finite-dimensional Hopf algebra.  Its first layer is already useful:
-the stable category of modules over a finite-dimensional Hopf algebra is triangulated monoidal.
-Its relative layer starts with a left module algebra `A`, forms the smash product `A # H`, and
-uses a stronger, `A`-relative null-homotopy relation before localizing at the morphisms which
-become invertible in the stable category of `H`-modules.  This roadmap builds those reusable
-layers, their compact and Grothendieck-group theories, and the standard differential and
-root-of-unity examples.
+**Summary.** Hopfological algebra replaces the square-zero differential of homological algebra by
+an action of a finite-dimensional Hopf algebra `H`. This roadmap builds the theory from integrals
+and the Larson–Sweedler Frobenius theorem, through the stable category `H-StMod` as a
+triangulated monoidal category, left module algebras `A`, smash products `A # H` and the finite
+dual bridge to comodule algebras, to Qi's relative homotopy category `C(A,H)`, its derived
+category `D(A,H)`, cofibrant replacement, compact generation and Grothendieck groups. The
+differential examples are the exterior Hopf superalgebra, Sweedler's algebra, the truncated
+primitive algebras of characteristic `p` with their slash homology, one-generator Nichols and Taft
+algebras, and the Laugwitz–Qi multi-differential construction `O_n` in every characteristic. The
+end theorems are the Frobenius, Nakayama and symmetric-algebra criteria for finite Hopf algebras,
+the triangulated monoidal structure on `H-StMod`, the existence and universal property of `A # H`,
+the module-algebra/comodule-algebra equivalence over the finite dual, Qi's description of `D(A,H)`
+and its compact objects, Khovanov–Qi's slash-homology detection theorem, and the Grothendieck rings
+of the Taft stable categories and of `O_n`.
 
-The constructions here do not select a Hopf algebra for an ADE or E8 problem.  They do not
-quotient an affine null root, assert an E8 finiteness or specialness statement, or construct or
-categorify a lattice.  Roots of unity and the Jones--Wenzl projector appear only where a cited
-published theorem supplies a reusable example of the general theory.
+## Scope and ownership
 
-## Dependency boundary
+This roadmap owns: integrals and cointegrals of Hopf algebras over a field, the modular character,
+the Hopf-algebra form of the Nakayama automorphism and the symmetric criterion; the monoidal
+structure on the category of **all** left `H`-modules, its tensor ideal of projectives and its
+descent to `H-StMod`; left module algebras, smash products, right comodule algebras and the finite
+dual comparison; the relative hopfological theory `C(A,H)`, `D(A,H)`, property (P), cofibrant
+replacement, compactness and finiteness; Hopfological Grothendieck groups; the bicharacter-braided
+graded ambient, one-generator Nichols algebras, bosonization and the differential examples; and
+the Laugwitz–Qi category `O_n`.
 
-This roadmap extends, rather than replaces, four neighboring roadmaps.
+It leaves to named owners:
 
-- [Grothendieck groups, Euler forms, and numerical quotients](../GrothendieckEulerForms/README.md)
-  supplies exact- and triangulated-category Grothendieck groups, quotient presentations,
-  graded `K₀`, and the distinction between `K₀` and `G₀`.  This roadmap instantiates those
-  constructions and proves the Hopfological relations; it does not build a second `K₀` engine.
-- [DG and A-infinity algebra](../DGAInfinity/README.md) supplies ordinary cohomological DG
-  categories, perfect objects, derived localization, and ordinary chain homotopy.  The exterior
-  Hopf-superalgebra example below is compared to that implementation.  General hopfological
-  homotopy is not defined to be DG homotopy.
-- [Frobenius, stable, periodic, and curved homological algebra](../StablePeriodicCurved/README.md)
-  supplies Frobenius and self-injective algebras, exact Frobenius categories, stable morphisms
-  modulo projective-injectives, triangulated stable categories, and the periodic and curved
-  interfaces.  This roadmap proves finite Hopf algebras meet those hypotheses, proves that the
-  Hopf tensor product descends to make their stable category tensor-triangulated, and builds a
-  new **relative** Frobenius exact structure on smash-product modules.  It consumes the published
-  interface of that roadmap without prescribing a private implementation.
-- Tau Ceti already supplies Mathlib's `Bialgebra` and `HopfAlgebra` structures together with
-  antipode compatibility, the binomial coproduct of a primitive element, bialgebra quotients,
-  and Tau Ceti's right-comodule API.  Every milestone below uses those declarations directly.
+- Frobenius functionals, the Nakayama automorphism of a Frobenius functional, self-injectivity,
+  Frobenius exact structures, the stable category of a Frobenius exact structure and Happel's
+  triangulation are already in the library (Tau Ceti, see the supplier contracts). The remaining
+  stable-category interfaces (universal property of the additive quotient, exact functors between
+  Frobenius categories, idempotent completion) are stated by StablePeriodicCurved, Layers 0 and 1.
+- The monoidal and rigid category `FiniteHopfModuleCat` of finite-dimensional modules over a Hopf
+  algebra, with tensor over `k` through the coproduct, the counit unit, associator and unitors, the
+  right dual through `S` and the left dual through `S⁻¹` when `S` is bijective, is stated by
+  QuantumGroups, Q8 item 5. Layer 2 here extends it to all modules and compares the two on
+  finite-dimensional objects; it does not construct the finite case again.
+- The Hopf structure on the linear dual of a finite projective Hopf algebra is already in the
+  library as `TauCeti.ConvolutionDual.instHopfAlgebra`; Layer 3 consumes it.
+- Graded modules over a `ℤ`-graded algebra, with abelian structure and grading shift, are already
+  in the library as `TauCeti.GradedModuleCat`; Layers 7 and 8 use it for graded `H`-modules.
+- Ordinary DG algebras, chain homotopy, derived categories of DG modules and Verdier quotients of
+  DG categories are stated by DGAInfinity, Layers 0, 1, 5 and 7.
+- Exact and triangulated Grothendieck groups, their quotient presentations and Laurent-graded
+  `K₀` are stated by GrothendieckEulerForms, Layers 0, 2 and 6.
+
+The constructions here select no Hopf algebra for an ADE or E8 problem, quotient no affine null
+root, and construct or categorify no lattice. Roots of unity and the Jones–Wenzl projector appear
+only as published examples of the general theory.
 
 ## Conventions
 
-These choices are part of the specification.
+- `k` is a field. The core theory assumes `H` is a finite-dimensional Hopf algebra over `k`; a
+  Hopf algebra over a field is never the zero ring, since `ε(1)=1`. `S` is Mathlib's
+  `HopfAlgebra.antipode`. Its bijectivity is a theorem for finite-dimensional `H` (Layer 1); a
+  statement beyond finite dimension carries `Function.Bijective (HopfAlgebra.antipode k)` as a
+  hypothesis.
+- Unqualified modules are **left** modules. Sweedler notation `Δh = Σ h₁ ⊗ h₂` in prose denotes a
+  finite representation of Mathlib's `Coalgebra.comul`; Lean statements use `Coalgebra.Repr` and
+  never a chosen basis.
+- A left `H`-module algebra satisfies `h·1 = ε(h)1` and `h·(ab) = Σ (h₁·a)(h₂·b)`. Tau Ceti's
+  comodules are right comodules, `ρ : A → A ⊗ C`; a right comodule algebra has `ρ(1) = 1 ⊗ 1` and
+  `ρ(ab) = ρ(a)ρ(b)` in the tensor-product algebra.
+- The smash product `A # H` has carrier `A ⊗ H`, unit `1 # 1` and product
+  `(a # h)(b # l) = Σ a(h₁·b) # h₂l`.
+- The tensor action on modules is `h·(m ⊗ n) = Σ (h₁·m) ⊗ (h₂·n)`, with `h·c = ε(h)c` on the unit.
+- A left integral is a **nonzero** `Λ ∈ H` with `hΛ = ε(h)Λ`; the submodule of all such elements
+  together with `0` is `LeftIntegral`. A right cointegral is `φ ∈ H*` with `Σ φ(h₁)h₂ = φ(h)1`.
+  The modular character `α : H → k` of a left integral is defined by `Λh = α(h)Λ`.
+- Nakayama conventions. Tau Ceti's `LinearMap.IsFrobeniusFunctional.nakayamaAut` is the stable
+  convention `φ(ab) = φ(b ν_S(a))`, as in StablePeriodicCurved, Layer 0. The Hopf convention
+  `φ(xy) = φ(ν_H(y)x)` gives `ν_H = ν_S⁻¹`. Theorems about Hopf algebras state `ν_H` as the
+  inverse of the library automorphism.
+- Gradings are by `ℤ`, with Tau Ceti's shift `(M{r})_p = M_{p-r}`: an element of degree `i` of `M`
+  has degree `i + r` in `M{r}`, and `[M{1}] = q[M]` in graded `K₀`. The triangulated suspension `T`
+  is distinct from `{1}`.
+- The structural DG, `p`-DG and one-generator `N`-complex differentials have degree `+1`;
+  Qi–Sussan use degree `+2`, and Laugwitz–Qi's `d_k` has degree `n_k = n/p_k`.
+- Ordinary tensor products carry no Koszul sign. Super and `q`-graded examples use the braiding of
+  their ambient category, and that braiding produces the sign or the power of `q`.
+- `H-StMod` is the stable quotient of **all** left `H`-modules; `H-stmod` is its essentially small
+  full subcategory on finite-dimensional modules. A morphism of `C(A,H)` is a quasi-isomorphism
+  when its restriction to `H` is invertible in `H-StMod`.
 
-| Item | Convention |
-|---|---|
-| Base | `k` is a field.  The core hopfological theory assumes `H` is a nonzero finite-dimensional Hopf algebra over `k`. |
-| Antipode | `S` is Mathlib's `HopfAlgebra.antipode`.  Its bijectivity is proved from finite-dimensionality.  Any theorem stated beyond the finite-dimensional setting carries bijectivity explicitly. |
-| Modules | All unqualified algebra modules and Hopf modules are **left** modules. |
-| Module algebra | `A` is a left `H`-module algebra: `h·1 = ε(h)1` and `h·(ab) = Σ(h₁·a)(h₂·b)`. |
-| Comodule algebra | Tau Ceti's convention is right coaction `ρ : A → A ⊗ H`.  A right comodule algebra has `ρ(1)=1⊗1` and `ρ(ab)=ρ(a)ρ(b)`. |
-| Smash product | `B = A # H` has carrier `A ⊗ H`, unit `1 # 1`, and `(a # h)(b # l) = Σ a(h₁·b) # h₂l`. |
-| Tensor action | On left modules, `h·(m⊗n)=Σ(h₁·m)⊗(h₂·n)` and `h·c=ε(h)c` on the monoidal unit. |
-| Integral | A left integral is `0 ≠ Λ ∈ H` with `hΛ=ε(h)Λ`.  Left and right integrals and cointegrals are separate notions. |
-| Grading | Gradings are by `ℤ`.  An element of degree `i` in `M` has degree `i+r` in `M{r}`.  The class of `{1}` is the Laurent variable.  The triangulated suspension `T` is not the internal shift `{1}`. |
-| Differential degree | The structural DG, `p`-DG, and one-generator `N`-complex APIs put `d` in degree `+1`.  Regraded degree-`+2` `p`-DG aliases and theorems are supplied for the Qi--Sussan convention.  Laugwitz--Qi's `d_k` has degree `n/p_k`. |
-| Braiding and signs | Ordinary vector-space tensor products have no Koszul sign.  Super and `q`-graded examples use their braided tensor multiplication; the braiding, not an ad hoc rewrite, produces the sign or `q`-factor. |
-| Null ideal | In `A # H`-modules, hopfological null maps factor through an object `N ⊗ H`, equivalently through `m ↦ m⊗Λ`.  This is distinct from factoring through an ordinary `A # H`-projective. |
-| Stable notation | `H-StMod` is the stable quotient of **all** left `H`-modules and has arbitrary coproducts.  `H-stmod` is its essentially small finite-dimensional full subcategory, used for rigidity and `K₀`. |
-| Quasi-isomorphism | A morphism in the relative homotopy category is a quasi-isomorphism when restriction to `H` is an isomorphism in the large ordinary stable category `H-StMod`. |
+## Exact supplier contracts
 
-Sweedler notation in prose always denotes a finite representation of Mathlib's
-`Coalgebra.comul`; Lean statements use `Coalgebra.Repr` or equality of tensor-product maps and
-do not assume a chosen basis.
+**From Mathlib.** `HopfAlgebra`, `Bialgebra`, `Coalgebra.comul`, `Coalgebra.Repr` (the `ℛ`
+notation) and `IsGroupLikeElem`; `ModuleCat`; `Module.Dual`, `Module.Basis.dualBasis` and
+`Module.Dual.eval`; `WithConv`, `WithConv.toConv` and `WithConv.linearEquiv`;
+`Algebra.TensorProduct` for the algebra `A ⊗ C`; `CategoryTheory.HopfObj` for Hopf monoids in a
+braided category; `CategoryTheory.ObjectProperty.triangEnvelope` (thick envelopes, retracts
+included) and `CategoryTheory.ObjectProperty.trW` (Verdier localization at a triangulated
+subcategory); `Polynomial.cyclotomic` and `Polynomial.cyclotomic_prime` (the geometric sum for a
+prime); `IsPrimitiveRoot`. Each is used as it stands at the pin.
 
-## Existing API inventory
+**From Tau Ceti.**
 
-- `TauCeti.Algebra.Bialgebra.Primitive` proves the binomial formula for
-  `Δ(a^n)` when `a` is primitive.  This is the required input for the characteristic and sign
-  tests below.
-- `TauCeti.Algebra.Bialgebra.Quotient` constructs quotient bialgebras and their lift.
-- `TauCeti.Algebra.HopfAlgebra.Basic` and `.Antipode` provide preservation of antipodes and
-  anti-comultiplicativity.
-- `TauCeti.Algebra.Coalgebra.Comodule.Basic` provides right comodules and morphisms.  The
-  finite-comodule development already supplies monoidal and rigid categories where its
-  hypotheses apply.
-- `TauCeti.CategoryTheory.Exact.Abelian` defines `ExactStructure.abelian`, the exact structure of
-  all short exact sequences of an abelian category.  `TauCeti.CategoryTheory.Exact.Frobenius`
-  defines `ExactStructure.IsFrobenius` (enough relative projectives and injectives, and the two
-  classes agree), and `TauCeti.CategoryTheory.Exact.Stable` gives the stable category of a
-  Frobenius exact structure its triangulation.  Tau Ceti's `FGModuleCat.abelian_isFrobenius`
-  proves the finitely generated case for an algebra that is self-injective on both sides.  It
-  does not prove that a finite-dimensional Hopf algebra is self-injective, and it does not treat
-  modules that are not finitely generated.
-- Neither Mathlib nor Tau Ceti contains integrals of Hopf algebras, the finite-Hopf-to-Frobenius
-  theorem, Hopf module algebras, smash products, the stable category of Hopf modules, or the
-  relative hopfological category.  Those are real targets here.
+- `TauCeti.Comodule` (`TauCeti.Algebra.Coalgebra.Comodule.Basic`): right coaction with
+  coassociativity and counit laws, no multiplicativity. Layer 3 adds the comodule-algebra
+  condition.
+- `TauCeti.ConvolutionDual`, `TauCeti.ConvolutionDual.instHopfAlgebra` and
+  `TauCeti.ConvolutionDual.antipode_apply` (`TauCeti.Algebra.HopfAlgebra.FiniteDual.Basic`): the
+  Hopf algebra `H*` of a finite projective Hopf algebra over a commutative ring, with convolution
+  product, `Δf(x ⊗ y) = f(xy)`, `ε(f) = f(1)` and antipode precomposition with `S`.
+- `LinearMap.IsFrobeniusFunctional`, `LinearMap.IsSymmetricFrobeniusFunctional`,
+  `LinearMap.IsFrobeniusFunctional.nakayamaAut`, `LinearMap.IsFrobeniusFunctional.apply_mul_nakayamaAut`,
+  `LinearMap.IsFrobeniusFunctional.coe_nakayamaAut_eq` and
+  `LinearMap.IsFrobeniusFunctional.moduleInjective_self` (`TauCeti.Algebra.Algebra.Frobenius.Basic`):
+  nondegeneracy of `(a,b) ↦ φ(ab)`, the Nakayama automorphism in the stable convention with its
+  uniqueness, and self-injectivity, for finite-dimensional algebras over a field.
+- `TauCeti.ExactStructure.abelian` (`TauCeti.CategoryTheory.Exact.Abelian`): all short exact
+  sequences of an abelian category. `TauCeti.ExactStructure.IsFrobenius`
+  (`TauCeti.CategoryTheory.Exact.Frobenius`): enough relative projectives and injectives, and the
+  two classes agree. `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated`
+  (`TauCeti.CategoryTheory.Exact.Stable.Triangulated`): Happel's triangulation of the stable
+  category. `FGModuleCat.abelian_isFrobenius` (`TauCeti.Algebra.Category.FGModuleCat.Frobenius`):
+  the finitely generated module category of a two-sided self-injective finite-dimensional algebra;
+  it does not treat infinitely generated modules.
+- `TauCeti.Bialgebra.comul_pow_of_primitive` (`TauCeti.Algebra.Bialgebra.Primitive`): the binomial
+  formula for `Δ(a^n)` with `a` primitive, over any commutative semiring. The quotient bialgebras
+  of `TauCeti.Algebra.Bialgebra.Quotient` present the examples by generators and relations.
+- `TauCeti.InternalGrading` (`TauCeti.Algebra.Module.GradedModule.Internal`) and
+  `TauCeti.GradedModuleCat` with `TauCeti.GradedModuleCat.shiftFunctor`
+  (`TauCeti.Algebra.Category.GradedModuleCat.Basic`, abelian structure in `.Abelian`): genuine
+  internal `ℤ`-gradings, graded modules over `𝒜 : ℤ → Submodule k A` with degree-zero morphisms,
+  and the shift `(M{n})_p = M_{p-n}`. It carries no tensor product through a coproduct.
 
-There is no competing implementation or settled spelling for Hopf-module monoidality, stable
-categories of Hopf modules, or smash products.  New upstream Mathlib work is adopted if it lands,
-following Mathlib's naming and deleting the corresponding Tau Ceti duplicate.
+**From TauCetiRoadmap.QuantumGroups.** Q8 item 5: `FiniteHopfModuleCat k H`, its monoidal
+structure and its rigid structure (right duals through `S`, left duals through `S⁻¹` given
+bijectivity), for any Hopf algebra over a field.
 
-Every stable category in this roadmap is an instance of the stable/periodic/curved roadmap's
-construction, not a second quotient theory: `H-StMod`, `C(A,H)`, and the Laugwitz--Qi stable
-category `H_n-gmod` are each the additive quotient of a module category by the ideal of maps
-factoring through the relative projectives of a named Frobenius exact structure, their
-triangulations are Happel's, their Verdier quotients are Mathlib's `trW` localizations of thick
-subcategories, and their Grothendieck groups are the Grothendieck/Euler-forms roadmap's
-triangulated `K₀`.  Ring, module, and monoidal structures are added on top of those objects.
-Of the categorical targets, `Suggested.lean` states only that the abelian exact structure on
-`H-Mod` is Frobenius, `hMod_abelian_isFrobenius`, against Tau Ceti's `ExactStructure.abelian` and
-`ExactStructure.IsFrobenius`.  The monoidal structures, the relative categories `C(A,H)` and
-`D(A,H)`, and the graded Laugwitz--Qi categories are constructions that the pinned libraries lack,
-so they are targets of this README only.
+**From TauCetiRoadmap.StablePeriodicCurved.** Layer 0: the additive quotient by an ideal and its
+universal property, the ideal of maps factoring through a class of objects. Layer 1: exact
+functors between Frobenius categories descend to triangle functors; triangulated structure on
+extension-closed Frobenius subcategories.
+
+**From TauCetiRoadmap.DGAInfinity.** Layers 0 and 1: graded modules with Koszul signs, DG algebras
+and DG modules, chain homotopy. Layer 7: Verdier quotients and the comparison with DG quotients.
+
+**From TauCetiRoadmap.GrothendieckEulerForms.** Layer 0: exact structures and conflation-exact
+functors. Layer 2: the exact and triangulated Grothendieck groups and the quotient sequence for a
+Verdier quotient by a thick subcategory. Layer 6: Laurent coefficients and graded `K₀` over
+`ℤ[q,q⁻¹]`.
+
+## How to read the build
+
+Layer 1 proves that finite Hopf algebras are Frobenius and pins the integral, cointegral and
+Nakayama conventions. Layer 2 builds the monoidal category of all `H`-modules and its stable
+quotient `H-StMod`, triangulated and monoidal. Layer 3 builds module algebras, smash products,
+comodule algebras and the finite dual comparison. Layer 4 builds the relative Frobenius exact
+structure on `A # H`-modules and the homotopy category `C(A,H)`. Layer 5 localizes at
+quasi-isomorphisms, builds cofibrant replacement and proves compact generation. Layer 6 computes
+Grothendieck groups. Layer 7 constructs the differential examples, the braided graded ambient,
+Nichols and Taft algebras and slash homology. Layer 8 builds Laugwitz–Qi's `O_n` and computes
+its Grothendieck ring.
 
 ## Layer 1: finite Hopf algebras are Frobenius
 
-Build a usable theory of integrals before using the word Frobenius.
-
-1. Define submodules of left and right integrals in `H`:
-   `hΛ=ε(h)Λ` and `Λh=ε(h)Λ`.  Define left and right cointegrals as the corresponding
-   invariance equations in `H*`.  Prove closure, functoriality under Hopf equivalences, behavior
-   under the antipode, and the left/right conversions when the antipode is bijective.
-2. For nonzero finite-dimensional `H`, prove that each integral space is one-dimensional and
-   contains a nonzero element.  State precisely which result chooses a left integral in `H` and
-   which chooses a right cointegral in `H*`; do not conflate the two one-dimensional spaces.
-3. Prove the Larson--Sweedler Frobenius theorem in a form consumed by the Frobenius roadmap:
-   a nonzero right cointegral `λ : H → k` makes `(x,y) ↦ λ(xy)` nondegenerate, equivalently
-   `x ↦ (y ↦ λ(xy))` is a linear equivalence `H ≃ₗ[k] H*`.  Construct Frobenius dual bases and
-   pin the handed Nakayama convention.  For a chosen nonzero left integral `Λ`, define the
-   modular character `α : H → k` by `Λh=α(h)Λ`.  Define `ν` by
-   `λ(xy)=λ(ν(y)x)`.  With this convention prove
-
-   `ν(h)=Σ α(h₁)S²(h₂)
-         = a⁻¹(Σ α(h₂)S⁻²(h₁))a`,
-
-   where `a` is the distinguished group-like element of `H`; changing the cointegral or
-   defining-equation convention must change the displayed winding formula explicitly.  The
-   stable/Frobenius dependency uses the convention
-   `λ(ab)=λ(bν_S(a))`.  Nondegeneracy of `(x,y)↦λ(xy)` gives uniqueness and the required
-   orientation bridge `ν_H=ν_S⁻¹`; pass `ν_S=ν_H⁻¹`, not `ν_H`, to that interface.  Prove
-   the exact published criterion: a finite-dimensional Hopf algebra is symmetric **if and only
-   if** it is unimodular and `S²` is inner.  Symmetry is never inferred from finite
-   dimensionality alone.
-4. Prove that the antipode of a finite-dimensional Hopf algebra over a field is bijective.  Use
-   this theorem, rather than adding bijectivity redundantly to every finite-Hopf result.
-5. Instantiate the Frobenius/self-injective interface from `StablePeriodicCurved`.  Prove for
-   arbitrary left `H`-modules, not just finite-dimensional ones, that projective and injective
-   objects coincide, and hence that the abelian exact structure on `H-Mod` is Frobenius
-   (`hMod_abelian_isFrobenius`).  Separate the finite-dimensional essentially small subcategory used for
-   `K₀` from the large module category used for coproducts and compact generation.
-
-The main algebraic source for this layer is Larson--Sweedler.  Khovanov and Qi may be used for
-the consequences for module categories, but not as a substitute for the Frobenius proof.
-
-## Layer 2: Hopf modules and their stable monoidal category
-
-Construct left `H`-modules and their monoidal API over the existing bialgebra structure.
-
-- Define the diagonal action on `M ⊗ N`, prove it is independent of a chosen coproduct
-  representation, and construct associator and unit compatibility.  This layer needs only a
-  bialgebra.
-- For a Hopf algebra with bijective antipode, define dual actions on finite-dimensional modules
-  and prove rigidity.  Pin the action on the linear dual and relate left and right duals to `S`
-  and `S⁻¹`.
-- Prove `M ⊗ P`, `Hom_k(M,P)`, and `Hom_k(P,M)` are projective when `P` is projective, with
-  the correct antipode action on internal Hom.  These results make the ideal of morphisms
-  through `H`-projectives a tensor ideal.
-- Form the large category `H-StMod` from all modules using the ordinary Frobenius
-  stable-category interface, and define `H-stmod` as its essentially small full subcategory on
-  finite-dimensional modules.  The suspension on either category can be modeled, after choosing
-  `Λ`, by
-  `T(M)=M⊗(H/kΛ)` and its inverse by `M⊗ker ε`; prove independence up to natural isomorphism.
-  In the graded case, shift the homogeneous integral so that `m ↦ m⊗Λ` has degree zero.
-- Prove `H-StMod` is triangulated monoidal (tensoring on either side is a triangle functor), has
-  the arbitrary coproducts used for compact generation in Layer 5, and tensoring in
-  either variable is exact.  Prove its finite-dimensional subcategory `H-stmod` is closed under
-  tensor, suspension, and duals.  Both are symmetric monoidal when `H` is cocommutative.  For a
-  general `H` they are only monoidal; a braiding requires a quasitriangular or braided-Hopf
-  hypothesis and is never inferred from finite-dimensionality.
-
-This is the **ordinary stable quotient**: a morphism is zero exactly when it factors through an
-`H`-projective.  The relative null ideal of Layer 4 and the Laugwitz--Qi tensor ideal of Layer 8
-are compared to it, not identified with it by notation.
-
-## Layer 3: module algebras, comodule algebras, and smash products
-
-### Left module algebras
-
-Define a left `H`-module algebra using an action linear in `H` and `A`, the module laws, and the
-two displayed unit and product equations from the convention table.  Supply:
-
-- equivariant algebra morphisms, restriction along bialgebra morphisms, invariant subalgebras,
-  opposite and tensor constructions with exactly the cocommutativity or braiding hypotheses they
-  need;
-- the equivalence between left modules over `B=A#H` and left `A`-modules `M` with a left
-  `H`-action satisfying
-  `h·(am)=Σ(h₁·a)(h₂·m)`;
-- the smash-product algebra on `A ⊗ H`, associativity and unit from the literal formula
-  `(a#h)(b#l)=Σa(h₁·b)#h₂l`, and the canonical embeddings of `A` and `H`;
-- functoriality of `A#H` in equivariant algebra maps and Hopf maps, together with the expected
-  universal property.  The implementation reuses the existing quotient-bialgebra API when an
-  example is presented by generators and relations.
-
-The prototype therefore bundles an actual `k`-algebra `B`, a linear equivalence
-`B ≃ₗ[k] A⊗H`, pure-tensor multiplication and unit theorems, the two algebra embeddings, a
-pure-tensor spanning theorem, and the covariance universal property; its existence for every left
-module algebra is `smashProduct_nonempty`.  A type synonym for
-`A⊗H` which ignores the action is not a smash product.
-
-### Right comodule algebras
-
-Extend Tau Ceti's right `Comodule k C A` with the equations making the coaction an algebra
-map.  First instantiate the tensor-product algebra structure on `A ⊗ H` from the existing
-algebra structures, so the literal equation `ρ(ab)=ρ(a)ρ(b)` has its intended multiplication;
-do not hide this behind an unverified equality signature.  Build comodule-algebra morphisms and
-prove that the smash product has the right
-`H`-coaction
-
-`ρ(a#h) = Σ(a#h₁) ⊗ h₂`.
-
-Khovanov's original paper often starts with a left comodule algebra and also writes an example
-using a right module algebra.  Those are translated into the primary convention explicitly;
-there is no second overload of the smash product with silently reversed sides.
-
-### Finite-dual bridge
-
-For finite-dimensional `H`, construct the Hopf structure on `H*` and prove that a left
-`H`-module algebra structure on `A` is equivalent to a right `H*`-comodule algebra structure.
-For a finite basis `(e_i)` with dual basis `(e_i*)`, expose the formula
-
-`ρ(a)=Σ(e_i·a)⊗e_i*`
-
-and prove it is basis-independent.  State the inverse by evaluation.  Generalize over a
-commutative base ring only under the finite-projective and required flatness hypotheses; do not
-replace finite projectivity by finite generation.  Relate the module-algebra smash product to the
-finite-dual comodule construction and record all op/cop and left/right translations.
-
-## Layer 4: the relative hopfological category
-
-Fix `B=A#H`.  Give `B-Mod` the exact structure whose conflations are the short exact sequences
-which split after restriction to `A`.  Prove, using finite-dimensionality of `H`, bijectivity of
-its antipode, and the Frobenius result, that this is a Frobenius exact category.  Identify its
-projective-injective objects as retracts of the appropriate induced/coinduced objects and reconcile
-that description with the objects `N⊗H` carrying diagonal `B`-action.
-
-Choose a nonzero left integral `Λ`.  For a `B`-module `M`, construct the `B`-linear map
-
-`λ_M : M → M⊗H,   m ↦ m⊗Λ`.
-
-A `B`-linear morphism `f : M → N` is **hopfologically null-homotopic** when either of the
-following equivalent conditions holds:
-
-1. `f` factors through `X⊗H` for some `B`-module `X`;
-2. `f` factors through `λ_M`;
-3. under the invariant description of `B`-linear maps, `f=Λ·g` for an `A`-linear map `g`.
-
-For the third condition, construct Qi's `H`-action on `Hom_A(M,N)`:
-
-`(h·g)(m)=Σ h₂·g(S⁻¹(h₁)·m)`.
-
-Prove `Hom_B(M,N)=Hom_A(M,N)^H` and identify the hopfological morphism space with
-
-`Hom_A(M,N)^H / (Λ·Hom_A(M,N))`.
-
-The quotient category is `C(A,H)`, the stable category of the `A`-split relative Frobenius
-structure.  Construct its triangles, suspension and inverse suspension, and its right action by
-`H-StMod`; tensoring a hopfological module on the right by an arbitrary `H`-module is exact.
-At signature level, objects and conflation arrows are genuine `B`-modules and `B`-linear maps;
-only the chosen retraction/section is `A`-linear.  Likewise the Hom action is constructed on
-literal `Hom_A`, its invariants are identified with literal `Hom_B(M,N)`, and the property-(P)
-filtration below consists of `B`-submodules with `B`-linear cell-layer identifications.
-
-The following comparison is mandatory.
-
-- The ordinary stable category of the algebra `B` kills maps through **`B`-projectives**.
-- `C(A,H)` kills maps through the generally larger class `X⊗H` of relative
-  projective-injectives.  Every ordinary `B`-projective gives a relative projective, but equality
-  is not asserted.  When `A=k`, the relative quotient on all modules recovers `H-StMod`; its
-  finite-dimensional full subcategory recovers `H-stmod`.
-- Ordinary chain homotopy is the formula `f=dh+hd` in the exterior Hopf-superalgebra example.
-  The integral ideal above specializes to it only after the super grading and signs are installed.
-- A Verdier quotient localizes a triangulated category at a thick subcategory.  It is introduced
-  in Layer 5 and is not the additive ideal quotient used to define `C(A,H)`.
-
-## Layer 5: derived localization, property (P), and compact objects
-
-Restriction along `H ↪ A#H` gives an exact functor `C(A,H) → H-StMod`.  Define a morphism
-to be a quasi-isomorphism when its restriction is invertible.  Prove that these morphisms form a
-localizing class and that the following constructions agree:
-
-`D(A,H) = C(A,H)[quasi-isomorphisms⁻¹]
-         ≃ C(A,H) / (H-acyclic objects)`.
-
-Here `M` is `H`-acyclic exactly when its restriction is zero in `H-StMod`, equivalently is
-projective as an `H`-module.  The second expression is a Verdier quotient by the thick
-subcategory of acyclics.  The restriction functor `C(A,H) → H-StMod` is induced from restriction
-of modules by the universal property of the ideal quotient, a quasi-isomorphism is a morphism of
-`C(A,H)` whose image is invertible, and the two descriptions are related by a comparison functor
-that is proved to be an equivalence.  Build cones and prove the localization is triangulated,
-with the triangulated structure recorded as Mathlib instances on `D(A,H)`, and that it remains a
-right triangulated module category over `H-StMod`.
-
-### Cofibrant and property-(P) modules
-
-A `B`-module `P` is cofibrant when every `B`-map from `P` to the target of a surjective
-quasi-isomorphism lifts to its source.  Equivalently, the induced map on the invariant spaces
-`Hom_A(P,-)^H` is surjective.  Prove Qi's characterization: `P` is projective as an `A`-module
-and `Hom_A(P,K)` is `H`-projective for every acyclic `K`.
-
-Call a module **cellular property-(P)** when it has an exhaustive filtration
-
-`0 ⊂ F₀ ⊂ F₁ ⊂ ⋯ ⊂ P`
-
-such that every inclusion is split as an `A`-module map and `F₀` and each
-`F_{r+1}/F_r` is isomorphic to `A⊗V` for some `H`-module `V`, arbitrary and not assumed
-indecomposable.  Qi's (P3) phrases the layers as direct sums of `A⊗V` with `V` indecomposable;
-those are instances, since `A⊗(⊕V_i) ≅ ⊕(A⊗V_i)` as `B`-modules.  Prove the converse, that the
-two definitions give the same modules: since `H` is finite-dimensional, refine each layer along
-the radical filtration `V ⊃ JV ⊃ J²V ⊃ ⋯ ⊃ 0` of `V`, with `J` the Jacobson radical of `H` (finite, with semisimple layers, so each
-refined layer is a direct sum of `A⊗S` with `S` simple).  No statement uses a decomposition of an
-arbitrary `H`-module into indecomposables.  Every filtration stage is a `B`-submodule, every inclusion is `B`-linear, and its
-chosen splitting is only `A`-linear.  Each displayed layer is identified by a `B`-linear
-isomorphism with `A⊗V` carrying
-`(a#h)(b⊗v)=Σa(h₁·b)⊗h₂·v`; merely identifying underlying `A`-modules is insufficient.
-
-Following Qi's Definition 6.3, a module has **property (P)** when it is isomorphic in `C(A,H)`
-to a cellular module.  This is a homotopy-invariant condition on the isomorphism class in
-`C(A,H)`, while cofibrancy is a strict lifting condition on the module itself, and the two are
-kept apart because the first does not imply the second.  Cofibrancy is not invariant under
-adding relatively contractible summands: for `H = k`, `A = k[t]/(t²)`, and `M = A/(t)`, the
-category `C(A,k)` is zero, so `M` has property (P), yet every surjection is a quasi-isomorphism,
-so cofibrancy is projectivity over `A`, which `M` lacks.  For any nonsemisimple finite `H` acting
-trivially on the same `A`, the module `M⊗H` is relatively projective, hence zero in `C(A,H)`
-and in particular has property (P), but the surjective quasi-isomorphism `A⊗H → M⊗H` admits no
-lift of the identity.  Prove, with the strict cellular condition wherever a strict conclusion is
-drawn:
-
-- cellular modules are cofibrant;
-- the cofibrant objects are exactly the `B`-module retracts of cellular modules, the retraction
-  being an honest split pair of `B`-linear maps and not an isomorphism in `C(A,H)`;
-- cofibrant modules have property (P);
-- the bar replacement is a functor with a natural transformation to the identity whose
-  components are surjective quasi-isomorphisms; its values are cellular, hence cofibrant by their
-  filtration, not by an isomorphism in `C(A,H)`;
-- morphisms out of a cofibrant object agree in `C(A,H)` and `D(A,H)`;
-- the literal full subcategories of `C(A,H)` on cellular representatives and on cofibrant
-  representatives each map by an equivalence onto `D(A,H)`.  Their isomorphism closures in
-  `C(A,H)` coincide and are the objects with property (P); the retract distinction lives among
-  strict `B`-modules, where cofibrant modules are closed under `B`-module retracts and cellular
-  modules need not be.
-
-The two examples above are acceptance tests: `A/(t)` over `H = k` has property (P) and is not
-cofibrant, and `A/(t)⊗H` for nonsemisimple `H` is relatively projective and not cofibrant.
-The positive test is strict cofibrancy of the bar replacement.  Do not rename every cofibrant
-object “property P”, and do not infer strict cofibrancy from an isomorphism in `C(A,H)`: the
-idempotent-completion distinction and the strict/homotopy-invariant distinction are both
-theorems and both visible in the API.
-
-### Compact generation and finiteness
-
-Define compactness by preservation of the actual categorical coproducts by the preadditive
-representable `Hom(P,-) : D(A,H) → AddCommGrp`; equivalently, require preservation of every
-small discrete colimit, whose comparison is canonically induced by the coproduct injections.
-Do not store an arbitrary object-valued “coproduct” function or comparison bijection.  Prove `D(A,H)`
-is compactly generated by the finite set `{A⊗V}`, where `V` ranges over representatives of the
-simple finite-dimensional `H`-modules: each `A⊗V` is compact, and an object receiving no nonzero
-map from any shift of a generator is zero.  Then prove the Ravenel--Neeman description used by
-Qi: the compact objects are exactly the thick triangulated envelope (Mathlib's
-`ObjectProperty.triangEnvelope`) of the generators, so every compact object is a direct summand
-of a finite extension of shifts `T^n(A⊗V)`.
-
-The following finiteness words have fixed, noninterchangeable meanings.
-
-- Prove Qi's finite-Hopf smash-product result that `A` is left Noetherian if and only if `A#H`
-  is left Noetherian.  For the nontrivial direction, use finite freeness on the correct `A`-side
-  (the antipode gives the right-sided normal form), faithful flatness, and descent of finite
-  generation; finite freeness only on the evident left side is not a proof.  Under these
-  equivalent hypotheses, `Dᵇ(A,H)` is the strictly full subcategory of objects isomorphic to
-  a finitely generated `A`-module.
-- `Dᶠ(A,H)` consists of objects isomorphic to a finite-length `A`-module.  It is contained in
-  `Dᵇ`; if `A` is finite-dimensional over `k`, they coincide.
-- If `A` is Artinian, a compact object is isomorphic in the derived category to a finite
-  projective `A`-module.
-- Qi's “smooth basic” comparison assumes `A` is Artinian (or graded finite-dimensional), basic
-  in Qi's **split** sense, smooth in the precise sense that `A` has a finite projective resolution
-  as an `(A,A)`-bimodule, and has **trivial `H`-action**.  Under those hypotheses
-  `Dᶜ(A,H) ≃ Dᶠ(A,H)`.  ⚠ Pin “basic” to Qi's Definition 9.3: every simple `A`-module is
-  one-dimensional over `k`, equivalently `A/J(A) ≅ k^r`.  The ordinary weaker use of “basic” (no
-  repeated simple factors in the Morita class) permits nontrivial division algebras as
-  endomorphism rings and does **not** justify `Hom_A(P_i, S_i) = k`, which the `K₀` calculation of
-  Layer 6 uses; over a non-algebraically-closed field the two readings differ.
-- In the specialized `p`-DG terminology of Qi--Sussan, property (P) has filtration quotients
-  which are sums of `p`-DG direct summands of `A`; a finite-cell module has property (P) and is
-  finitely generated as an `A`-module.  This is not a synonym for compactness in an arbitrary
-  hopfological category.
-
-Implement the exact published Qi--Sussan finiteness test as a scoped worked theorem.  For their
-specific `p`-DG algebras `A=A_n^!` and `C=C_n` over a field of characteristic prime `p`, the
-categorified Jones--Wenzl functor `P` is represented by a finite-cell `(A,A)`-bimodule **if and
-only if `p` divides `n-1`**.  Outside that divisibility condition their Theorem 5.5 says this
-specific projector has no finite-cell representative.  It says neither that arbitrary
-hopfological objects are infinite nor that a particular root system has a finiteness property.
-
-## Layer 6: Grothendieck groups and rings
-
-Use the Grothendieck/Euler roadmap's construction throughout.
-
-1. For the essentially small stable category of finite-dimensional (graded) `H`-modules, the
-   full subcategory of `H-StMod` on objects represented by finitely generated modules,
-   construct `K₀(H-stmod)` as the dependency's triangulated `K₀`.  Tensor product makes it a
-   ring extending that group structure, with the class of a tensor product the product of the
-   classes; it is possibly noncommutative, and commutative when the stable category is
-   symmetric, in particular when `H` is cocommutative.  Prove the quotient from the ordinary
-   representation ring by the classes of projectives.
-2. Define the hopfological Grothendieck group to be `K₀(Dᶜ(A,H))`, the triangulated `K₀` of the
-   full subcategory of compact objects, not the group of the entire large derived category.
-   Prove it is a right module over the ring `K₀(H-stmod)` through the tensor action, that is, a
-   module over the opposite ring, since `K₀(H-stmod)` may be noncommutative, with the scalar
-   multiplication of classes the class of the action.
-3. Define `G₀(A,H)` from `Dᵇ(A,H)` and `G₀ᶠ(A,H)` from `Dᶠ(A,H)` under the Noetherian
-   hypotheses above.  Construct Qi's derived pairing and its sesquilinear Grothendieck-group
-   specialization under the Artinian hypotheses used in his smooth-basic section.
-
-   ⚠ The finite-target form `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` is **false** under the Noetherian
-   hypotheses alone, because `Dᶠ` is defined by finite length over `A`, not finite dimension over
-   `k`, and Artinian `A` does not repair it.  Take `k = 𝔽₂`, `H = k[d]/(d²)` with `d` primitive,
-   and `A = k(t)` with trivial `H`-action; put `P = M = A` with `d` acting by zero.  Then `A` is a
-   Noetherian Artinian `k`-algebra, `M` has `A`-length one, and `P = A ⊗ k` is the cellular
-   generator, hence cofibrant and compact in `D(A,H)`.  The derived Hom is represented by
-   `Hom_A(A,A) = A` with trivial `H`-action, and `stableHom_H(k, A) = A` because the integral `d`
-   acts by zero and kills no nonzero map.  That is infinite-dimensional over `k`, whereas
-   `stableHom_H(k, N)` is finite-dimensional for every finite-dimensional `N`; so the value does
-   not lie in `Dᶠ(k,H)`.
-
-   State the pairing in one of the two sound forms and keep them apart.  Either take
-   `Dᶜ(A,H) × Dᶠ(A,H) → H-StMod` into the large stable category under the Noetherian
-   hypotheses, with the finite-target refinement proved separately; or state
-   `Dᶜ(A,H) × Dᶠ(A,H) → Dᶠ(k,H)` with `A` finite-dimensional over `k`, or with the explicit
-   hypothesis that the finite-length `A`-modules in play are finite-dimensional over `k`.  Qi
-   §9.1 prints the broad pairing, and inheriting that literal wording is what introduces the
-   error; `Dᶠ` keeps its finite-length meaning throughout, as the finiteness glossary of Layer 5
-   requires, and is not silently redefined here.
-4. When `A` is commutative and `H` is cocommutative, the diagonal action descends through the
-   `A`-balanced tensor product; construct the internal tensor product of hopfological
-   `A`-modules under exactly those two hypotheses, prove it preserves compact objects, and prove
-   that `K₀(A,H)` is then a ring.  Commutativity of that ring requires a symmetric or adequately
-   braided structure; commutativity of `A` alone does not make `H` cocommutative.
-5. For a smooth basic `A` with trivial `H`-action, prove Qi's comparison
-   `K₀(A,H) ≅ K₀(A) ⊗_ℤ K₀(H-stmod)`, and its graded tensor product over
-   `ℤ[q,q⁻¹]`.  Preserve every hypothesis from Layer 5.
-
-The examples below must prove their displayed relation as a theorem about these general
-constructions, not install the desired quotient ring as a definition.
-
-## Layer 7: differential, super, Nichols, Sweedler, and Taft examples
-
-### Why ordinary dual numbers fail in characteristic zero
-
-Suppose an ordinary bialgebra over `k` contains a primitive `d` with `d²=0`.  Tau Ceti's
-primitive binomial theorem gives
-
-`Δ(d²)=d²⊗1 + 2(d⊗d) + 1⊗d²`.
-
-Since `Δ(0)=0`, square-zero forces `2(d⊗d)=0`.  Over a field with `char k ≠ 2`, a nonzero
-`d` has nonzero pure tensor `d⊗d`, so this is impossible.  In particular the quotient
-`k[d]/(d²)` cannot carry an **ordinary** characteristic-zero Hopf structure with the class of
-`d` nonzero and primitive.  `Suggested.lean` includes the binomial signature, a proof that a
-nonzero self-tensor over a field is nonzero, and the resulting contradiction.  The roadmap must
-also construct the failed quotient attempt through Tau Ceti's bialgebra-quotient criterion and
-show exactly where preservation of `(d²)` fails.
-
-There are two correct sign repairs.
-
-- In super vector spaces, take the exterior Hopf superalgebra `E(d)` with `d` odd,
-  `d²=0`, `Δd=d⊗1+1⊗d`, `εd=0`, and `Sd=-d`.  The super tensor multiplication
-  `(x⊗y)(x'⊗y')=(-1)^{|y||x'|}xx'⊗yy'` makes the two middle terms cancel.  A left
-  module-superalgebra is an ordinary DG algebra with
-  `d(ab)=d(a)b+(-1)^|a| a d(b)` for `a` in an actual component of its internal grading;
-  homogeneity is not an independent predicate.
-- Bosonize parity to Sweedler's ordinary four-dimensional Hopf algebra `H₄`: for
-  `char k ≠ 2`, use generators `g,d` with
-  `g²=1`, `d²=0`, `gd=-dg`,
-  `Δg=g⊗g`, `Δd=d⊗1+g⊗d`,
-  `εg=1`, `εd=0`, `Sg=g`, and `Sd=-gd`.
-  Then
-  `Δ(d)²=d²⊗1+(dg+gd)⊗d+g²⊗d²=0`.
-  On a module algebra with internal decomposition `A=⊕_r A_r`, prove
-  `g·a=(-1)^r a` for `a∈A_r` and `d·A_r⊆A_{r+1}`; then `d` obeys the signed Leibniz rule.
-  Thus `g` is tied to the actual grading rather than merely called a parity operator.  `H₄`
-  records parity, while the compatible `ℤ`-grading records the full DG degree.
-
-Prove that the hopfological null ideal in these super/bosonized models recovers the ordinary
-chain-homotopy formula with its signs.  This is a comparison theorem to the DG roadmap, not a
-new definition of chain homotopy.
-
-### Characteristic-`p` truncated primitives and `p`-DG algebras
-
-Let `p` be prime and `k` have characteristic `p`.  Construct
-
-`H_p=k[d]/(d^p),  Δd=d⊗1+1⊗d,  εd=0,  Sd=-d`.
-
-The intermediate binomial coefficients vanish in characteristic `p`, so `(d^p)` is a Hopf
-ideal.  Give the generator degree `+1` (and the explicit degree-`+2` regrading).  Module
-algebras are `p`-DG algebras with `d^p=0` and unsigned Leibniz rule
-`d(ab)=d(a)b+a d(b)`.  For `p`-complexes, prove that a degree-zero map is null exactly when
-
-`f = Σ_{i=0}^{p-1} d_N^i h d_M^{p-1-i}`
-
-for a map `h` of the required degree.  Construct the slash-homology groups of a finite-dimensional
-graded `p`-complex using the exact Khovanov--Qi formula
-
-`H^{/k}(M)=ker(d^{k+1})/(im(d^{p-k-1})+ker(d^k)),   0≤k≤p-2`.
-
-Prove homotopy invariance and, for finite-dimensional `M`, the detection theorem that all slash
-groups vanish **if and only if** `M` is projective (equivalently free) over `H_p`.  If `d` has
-degree `+1`, the homotopy `h` in the displayed `p`-null formula has degree `1-p`; in the
-Qi--Sussan degree-`+2` regrading it has degree `2-2p`.  Identify the resulting
-quasi-isomorphism test with restriction to `H_p-stmod`.  Attribute slash homology and its
-detection theorem to Khovanov--Qi (2015), as recalled for example by Qi--Sussan (2022), not to
-the 2017 hopfological-finiteness paper.
-
-For finite-dimensional graded modules, prove
-
-    K₀(H_p-stmod) ≅ ℤ[q,q⁻¹]/(1+q+⋯+q^(p-1)) = ℤ[q,q⁻¹]/(Φ_p(q)).
-
-The equality with one cyclotomic polynomial uses that `p` is prime.  Do not state the same
-identity for composite `N`.
-
-### One-dimensional Nichols algebras and Taft algebras
-
-First build the reusable ambient theory for `G`-graded vector spaces with braiding on homogeneous
-tensors determined by a multiplicative bicharacter `χ : G×G → kˣ`.  It must cover
-`G=ℤ` and `χ(i,j)=q^{ij}`, which is the ambient used by Laugwitz--Qi.  The super category is the
-specialization `G=ℤ/2`, `χ(i,j)=(-1)^{ij}`.  The ambient is an actual category: `G`-graded
-`k`-vector spaces with degree-preserving linear maps, whose carriers live in a universe
-containing that of `k` so that the monoidal unit (`k` in degree zero) is an object, a
-`MonoidalCategory` structure whose
-tensor product is the tensor product of vector spaces graded by total degree, and for each `χ` a
-`BraidedCategory` structure whose braiding sends a pure homogeneous tensor `v⊗w` to
-`χ(|v|,|w|) w⊗v`.  A Hopf algebra object in that ambient is a Hopf monoid object in Mathlib's
-sense (`HopfObj`) in the `χ`-braided category.  The hand-written record of graded pieces,
-bicharacter-twisted tensor multiplication, and Hopf equations used by the examples is the same
-thing as such a Hopf monoid object: prove the bridge in both directions, with the record's
-multiplication, comultiplication, and antipode recovered from the categorical structure maps on
-pure tensors, and the two round trips the identity.  Model the grading as the canonical internal
-decomposition into subspaces, require `1∈A_0` and `A_gA_h⊆A_{g+h}`, require the coproduct to
-land in the sum of bidegrees `(r,s)` with `r+s=g`, and require the counit to vanish off degree
-zero and the antipode to preserve degree.  Graded module actions must send
-`H_g·M_h` into `M_{g+h}`.  In that general ambient construct
-algebra/coalgebra/bialgebra/Hopf-algebra objects, braided primitives and Hopf ideals,
-Yetter--Drinfeld modules, Nichols algebras in the finite diagonal cases used here, and the
-Radford--Majid bosonization.  Prove the monoidal equivalence between modules internal to the
-braided category and the appropriate rational modules over the bosonization.  The exterior and
-Laugwitz--Qi algebras instantiate this API; they are not isolated structures with copied Hopf
-axioms, and they are not a parallel braided-Hopf foundation disconnected from the categorical
-one.
-
-Let `N≥2` and let `q` be a primitive `N`th root in a field whose characteristic does not divide
-`N`.  (For `N=1` the displayed quotient `k[d]/(d)` is `k` and loses the generator; with `q=1`
-in characteristic zero the one-dimensional Nichols algebra of the flip is the polynomial algebra
-`k[d]`, which is outside this construction.)  In the
-braided category of `q`-graded vector spaces, construct the one-dimensional Nichols algebra
-`B(V)=k[d]/(d^N)` with braided-primitive `d`.  Prove the `q`-binomial coproduct and show the
-intermediate Gaussian coefficients vanish at the primitive root.  At `q=-1`, this is the exterior
-superalgebra.
-
-Its cyclic bosonization is the Taft Hopf algebra in the pinned convention:
-
-`K^N=1,  d^N=0,  Kd=q dK`,
-
-`ΔK=K⊗K,  Δd=d⊗1+K⊗d`,
-
-`εK=1,  εd=0,  SK=K⁻¹,  Sd=-K⁻¹d`.
-
-Prove all Hopf equations, finite dimension `N²`, the integral and Frobenius data, and the
-module-algebra skew Leibniz equation
-
-`d(ab)=d(a)b+(K·a)d(b)`.
-
-Sweedler `H₄` is the `N=2`, `q=-1` case.  A rational graded Taft module has
-`K·m=q^|m|m`; under that restriction the skew Leibniz equation is the usual `q`-Leibniz rule.
-
-For every named example, separate **construction** from **recognition**.  Construct the algebra
-as the stated free-algebra/polynomial quotient, descend coproduct, counit, and antipode through
-the relation ideal, and prove the standard monomials form a basis.  The recognition records in
-`Suggested.lean` deliberately demand bases `d^i`, `g^i d^j`, `K^i d^j`, or the corresponding
-multi-monomials; hence `H=k`, `K=1`, `d=0` cannot inhabit them as fake Sweedler, Taft, or
-Laugwitz--Qi data.  Recognition data do not replace the quotient constructors.
-
-For Khovanov's graded Taft stable category, prove the relation
-
-`K₀ ≅ ℤ[q,q⁻¹]/(1+q+⋯+q^(N-1))`.
-
-When `N` is composite, `1+q+⋯+q^(N-1)` is not `Φ_N(q)`.  Thus a Taft stable category alone
-does not categorify the full ring of `N`th cyclotomic integers.
-
-## Layer 8: the Laugwitz--Qi characteristic-zero cyclotomic construction
-
-Implement the published construction for every integer `n≥2`, including characteristic zero,
-with its assumptions visible in every top-level theorem.  The construction of `O_n` and its
-Grothendieck-ring presentation hold for every `n`; the identification of that ring with the
-cyclotomic integers holds exactly when `n` has at most two distinct prime factors (see the end of
-this layer).
-
-Write
-
-`n=∏_{k=1}^t p_k^{a_k}`, `m=∏p_k`, `N=n²/m`,
-`n_k=n/p_k`, and `m_k=m/p_k`.
-
-The factorization object records `n≥2`, `t>0`, primality and pairwise distinctness of the
-`p_k`, positivity of every `a_k`, and the complete equality `n=∏p_k^{a_k}`.  Thus the prime
-list cannot omit a divisor.  The values `m`, `N`, `n_k`, and `m_k` are definitions derived from
-that object, never unrelated parameters.
-
-Let `k` contain a primitive `N`th root `q`; this implies `char k ∤ N`.  Put
-`ξ=q^(n/m)`, a primitive `n`th root, and `ξ_k=ξ^{m_k}=q^{n_k}`.  Record the order of `ξ_k`
-correctly: `gcd(N,n_k)=n_k`, so
-
-```text
-ord(ξ_k) = N/n_k = p_k·(n/m),
-```
-
-which is `p_k` exactly when `n` is squarefree.  For `n=4` and `p₁=2`, for instance, `ξ₁=q²` has
-order `4`, not `2`.  What is a primitive `p_k`th root is the **self-braiding** parameter of the
-generator, `ξ_k^{n_k}=q^{n_k²}`, whose order is `p_k` for every `n`; that is the number which
-makes the one-generator Nichols algebra truncate at `d_k^{p_k}`, and no theorem may assert
-primitivity of order `p_k` for `ξ_k` itself.  In `q`-graded vector spaces define
-
-`H_n=k[d₁,…,d_t]/(d₁^{p₁},…,d_t^{p_t}),   deg d_k=n_k`,
-
-with commuting generators, braided-primitive coproduct, zero counit, and `S(d_k)=-d_k`.
-Prove the braided Hopf equations, the Nichols-algebra description, Frobenius trace on the top
-monomial, and integral `Λ=∏d_k^{p_k-1}`.
-
-Although each generator is braided primitive, do not infer braided cocommutativity: for the
-Laugwitz--Qi braiding, the square of the braiding on `H_n ⊗ H_n` is generally nontrivial.
-
-Construct the ordinary Radford--Majid bosonization by `C_N`, with generator `K` and the exact
-relations
-
-`K^N=1`, `Kd_k=ξ_k d_kK`, `d_k^{p_k}=0`, `[d_k,d_l]=0`,
-
-`ΔK=K⊗K`, `Δd_k=d_k⊗1+K^{n_k}⊗d_k`,
-
-`SK=K⁻¹`, `Sd_k=-K^{-n_k}d_k`, `εK=1`, `εd_k=0`.
-
-The bosonization constructor consumes the factorization and root objects above, so its type uses
-the derived `N`, `n_k`, `m_k`, `ξ`, and `ξ_k`; it cannot accept inconsistent copies of those
-numbers.  Prove that the ordered monomials
-`K^j d_1^{e_1}⋯d_t^{e_t}` (`0≤j<N`, `0≤e_k<p_k`) form a basis, hence its dimension is
-`N·m` and the braided algebra `H_n` has dimension `m`.
-
-Prove that rational graded modules, on which `K` acts in degree `i` by `q^i`, recover modules
-over the braided `H_n`, monoidally.  Do not claim the whole bosonization module category is the
-same graded category.
-
-The stable category first has
-
-    K₀(H_n-gmod) ≅ ℤ[ν,ν⁻¹] / ( ∏_{k=1..t} [n]_ν/[n_k]_ν ),
-
-where `[r]_ν=1+ν+⋯+ν^(r-1)`.  Implement Laugwitz--Qi Definition 4.5 literally.  Let
-`H_{n_k}=k[d_k]/(d_k^{p_k}) ⊂ H_n`, with `k` its trivial module.  When `t>1`, put
-
-`W_k = H_n ⊗_{H_{n_k}} k`.
-
-The API constructs each `H_{n_k}` as the injectively embedded subalgebra generated by the
-concrete `d_k` in the fixed `CyclotomicBraidedDatum`, with its truncated-monomial basis and
-augmentation.  It defines `W_k` by the balanced-tensor universal property (or exposes a graded
-`H_n`-linear equivalence to that literal carrier); neither `H_n`, the inclusions, nor `W_k` is an
-independent family parameter.
-
-Then `I_k` is the full subcategory of direct summands of modules having a **finite** filtration
-by graded `H_n`-submodules whose successive quotients are genuine internal grading shifts
-`W_k{r}`, identified by degree-zero `H_n`-linear maps.  When
-`t=1`, Definition 4.5 instead takes `I_1` to be the projective-injective objects.  Definition
-4.12's `I` consists of objects isomorphic to finite direct sums
-`U_1⊕⋯⊕U_t` with `U_k∈I_k`; it is not the union of the `I_k`.  Prove Proposition 4.16 in the
-needed handed form: if `k≠l`, every degree-zero graded `H_n`-map from an object of `I_k` to an
-object of `I_l` factors through a graded projective and is null-homotopic.  First prove the
-cross-freeness statement for shifts of the concrete induced cells from the standard
-multi-monomial basis and the distinct prime factors, then deduce the filtered/retract case by
-devissage.  No such theorem is asserted for arbitrary algebras or arbitrary cell families.
-This cross-`I_k` vanishing is an explicit input to the proof that the
-image of `I` in the stable category is thick.  The stable category `H_n-gmod` is the
-dependency's stable category of the abelian Frobenius exact structure on finite-dimensional
-graded `H_n`-modules, with Happel's triangulation and the **monoidal** tensor product descended
-to it — the tensor product defined using the ambient braiding of the `q`-graded category, not a
-braiding on the `H_n`-module category or on its stable category.  Laugwitz--Qi are explicit about
-that distinction (§1.4), and for general `n` they supply no braiding axioms for the module
-category; the targets here need monoidality only, so do not state more.
-The image of `I` is an object property on that stable category; prove that it is a
-triangulated subcategory closed under retracts and a two-sided tensor ideal, and form the
-**Verdier quotient**
-
-`O_n = (H_n-gmod)/I`
-
-as the `trW` localization at that subcategory, with the localization functor monoidal.
-
-Write `v_k=[n]_ν/[n_k]_ν=1+ν^(n_k)+⋯+ν^((p_k-1)n_k)`, the graded dimension of the
-one-generator subalgebra `H_{n_k}`, and, for `t≥2`, `w_k=∏_{l≠k} v_l`, the graded dimension of
-`W_k` (Laugwitz--Qi, equation (4.5)).  Prove, as isomorphisms of rings in which the ring
-structure on `K₀(O_n)` comes from the tensor product and the class of `k{1}` goes to `ν`:
-
-- for `t≥2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(w_1,…,w_t)`;
-- for `t≤2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))`.
-
-The first statement needs `t≥2`: for `t=1` the empty product makes `w_1=1`, which would give the
-zero ring, whereas `I_1` consists of the projectives and `K₀(O_{p^a})=K₀(H_n-gmod)=ℤ[ν,ν⁻¹]/(v_1)`
-with `v_1=Φ_{p^a}`.  Route for the first statement: `K₀` of a Verdier quotient by a thick
-subcategory is the quotient of `K₀` by the image of the subcategory's classes; the graded
-dimension identifies `K₀(H_n-gmod)` with `ℤ[ν,ν⁻¹]/(v_1⋯v_t)`; the classes `[W_k{r}]=ν^r w_k` lie
-in the image; and conversely every object of `I_k` is graded free over the subalgebra generated
-by the `d_l` with `l≠k` (a finite `W_k`-filtration splits over that self-injective local
-subalgebra, and a graded retract of a graded free module over a finite-dimensional connected
-graded local algebra is graded free), so its graded dimension is a multiple of `w_k`.  Since
-`v_1⋯v_t=v_k w_k`, the image is the ideal `(w_1,…,w_t)`.
-
-For `t=2` with `n=p^a q^b`, `w_1=v_2` and `w_2=v_1`, `v_1=∏ Φ_d` over the divisors `d` of `n`
-divisible by `p^a`, `v_2` likewise for `q^b`, so `v_1=Φ_n x` and `v_2=Φ_n y` where `x` and `y`
-share no factor.  The ideal `(x,y)` is the unit ideal of `ℤ[ν]`: a maximal ideal containing
-`Φ_d` and `Φ_e` has finite residue field of some characteristic `ℓ`, in which `ν` has order the
-`ℓ`-free part of `d` and also of `e`, so `d/e` is a power of `ℓ`; for `d=p^a q^j` with `j<b`
-and `e=p^i q^b` with `i<a` it is not.  Hence `(w_1,w_2)=(Φ_n)`.
-
-For `t≥3` the cyclotomic identification is **false**, and the published Theorem 5.15 claims it
-for every `n`.  Each `v_l` is divisible by `Φ_n` exactly once, so every `w_k` is divisible by
-`Φ_n^(t-1)`, and reduction modulo `Φ_n²` is a surjective ring map
-`K₀(O_n) → ℤ[ν,ν⁻¹]/(Φ_n²)` sending `[k{1}]` to `ν`; it sends `Φ_n([k{1}])` to the nonzero
-class of `Φ_n(ν)`, so no normalized isomorphism with `ℤ[ν,ν⁻¹]/(Φ_n)` exists; additively, the
-rank of `K₀(O_n)` is at least `2φ(n)`, against `φ(n)` for the cyclotomic integers.  The error sits in the gcd step of the published
-proof (Laugwitz--Qi, proof of Theorem 5.15, final paragraph): the gcd of the classes `[W_l]`,
-`l≠k`, is `v_k` times a further multiple of `Φ_n` once `t≥3`, not `v_k`.
+### 1.1 Integrals and cointegrals
+
+Define the submodules `LeftIntegral` and `RightIntegral` of `H` by `hΛ = ε(h)Λ` and
+`Λh = ε(h)Λ`, and the predicate `IsRightCointegral` on `H*` by `Σ φ(h₁)h₂ = φ(h)1`; equivalently a
+right cointegral is a right integral of the convolution algebra `ConvolutionDual k H`. Define left
+cointegrals symmetrically. *Needs:* Mathlib `HopfAlgebra`, `Coalgebra.Repr`; Tau Ceti
+`TauCeti.ConvolutionDual`.
+
+- The integral spaces are closed under scalars and are mapped onto each other by Hopf algebra
+  isomorphisms.
+- `S` maps left integrals to right integrals, and `S⁻¹` maps right integrals to left integrals when
+  `S` is bijective.
+- `IsRightCointegral φ` holds exactly when `φ` is a right integral of `ConvolutionDual k H`.
+- For finite-dimensional `H`, `finrank_leftIntegral`: the left integrals form a one-dimensional
+  space (Larson–Sweedler, as recalled by Erdmann–Solberg–Wang, §2, p. 4). The same holds for right
+  integrals and for left and right cointegrals; the right-cointegral line is chosen in `H*` and the
+  left-integral line in `H`, and the two choices are independent.
 
 **Checks.**
 
-- `n=30`, `t=3`, `(p_k)=(2,3,5)`, `(n_k)=(15,10,6)`: `v_1=1+ν^15`, `v_2=1+ν^10+ν^20`,
-  `v_3=1+ν^6+ν^12+ν^18+ν^24`, each with `Φ_30` to multiplicity one, so each `w_k` has `Φ_30`
-  to multiplicity two and `v_1v_2v_3` to multiplicity three.  Over `ℚ` the gcd of `w_1,w_2,w_3`
-  is `Φ_6Φ_10Φ_15Φ_30²` of degree `30`, so `K₀(O_30)` has rank `30`, not `φ(30)=8`.  A
-  definition of `I` that recovered `Φ_30` would have to change the cells, not the polynomial
-  algebra.
-- `n=6`, `t=2`: `v_1=1+ν^3=Φ_2Φ_6`, `v_2=1+ν^2+ν^4=Φ_3Φ_6`, and
-  `(1+ν+ν²)−ν(1+ν)=1` shows `(Φ_2,Φ_3)` is the unit ideal, so `(w_1,w_2)=(Φ_6)` and
-  `K₀(O_6)≅ℤ[ν,ν⁻¹]/(ν²−ν+1)`.
-- `n=4`, `t=1`: `I_1` is the projectives, `v_1=1+ν²=Φ_4`, and `K₀(O_4)≅ℤ[ν,ν⁻¹]/(Φ_4)`; the
-  `t≥2` formula applied here would give the zero ring.
-- `n=12`, `t=2`: the gcd of `w_1=v_2=1+ν^4+ν^8` and `w_2=v_1=1+ν^6` over `ℚ` is `Φ_12`, of degree
-  `4=φ(12)`, and the resultant of the two cofactors is `1`.
+- For `H = k` both integral spaces are `k`, spanned by `1`; a definition that normalized `ε(Λ) = 1`
+  would also accept this, so it is the next Check that separates the two.
+- For `H = k[C₂]` with `char k = 2`, the integrals are spanned by `Λ = 1 + g`, and `ε(Λ) = 0`: an
+  integral need not have nonzero counit (Maschke fails), so a definition requiring `ε(Λ) = 1`
+  would make the space zero, contradicting `finrank_leftIntegral`.
+- In Sweedler's `H₄` (generators `g, x`, `g² = 1`, `x² = 0`, `xg = −gx`, `Δx = x ⊗ 1 + g ⊗ x`),
+  the left integrals are spanned by `(1 + g)x` and the right integrals by `x(1 + g) = x − gx`:
+  distinct lines, so a model identifying left and right integrals fails here.
+- In `H₄` the right cointegrals are spanned by the functional `x*` with `x*(x) = 1` and `x*` zero on
+  `1, g, gx`; the counit `ε` is not a cointegral (at `h = g` it gives `g ≠ 1`).
 
-This quotient is a third categorical operation: it follows the ordinary stable quotient and is
-not the relative hopfological ideal in `A#H`-modules.  For `n=p^a`, explain and prove the
-specialization to `p`-complexes with differential degree `p^{a-1}`.  In characteristic zero it is
-a braided/root-of-unity lift, never an ordinary primitive truncated-polynomial Hopf algebra.
+### 1.2 The Frobenius theorem and bijectivity of the antipode
 
-The tensor-triangulated category `O_n` and its Grothendieck ring are reusable input for
-root-of-unity and quantum-topological constructions.  This roadmap stops there: it does not
-build a Jones invariant, choose an ADE object, or infer a lattice categorification.
+For finite-dimensional `H`, prove `isFrobeniusFunctional_of_isRightCointegral`: a nonzero right
+cointegral is a Frobenius functional in Tau Ceti's sense, so `x ↦ (y ↦ φ(xy))` is a linear
+equivalence `H ≃ H*`, with Frobenius dual bases `{S(t₂), t₁}` for a right integral `t` normalized
+by `φ(t·) = ε` (Fischman–Montgomery–Schneider, Lemma 1.5, pp. 4861–4862). Prove
+`antipode_bijective` (Larson–Sweedler). Consume Tau Ceti's
+`LinearMap.IsFrobeniusFunctional.moduleInjective_self` for self-injectivity, and prove
+`hMod_abelian_isFrobenius`: for all left `H`-modules, not only finite-dimensional ones, projective
+and injective objects coincide, so `ExactStructure.abelian (ModuleCat H)` is Frobenius (Khovanov,
+Proposition 1). *Needs:* §1.1; Tau Ceti `LinearMap.IsFrobeniusFunctional`,
+`TauCeti.ExactStructure.abelian`, `TauCeti.ExactStructure.IsFrobenius`; for all modules, the
+standard fact that over a Frobenius algebra arbitrary projective and injective modules coincide.
 
-## Implementation order and completion criteria
+**Checks.**
 
-The layers are implemented in order, with reusable files rather than one theorem per source.
+- For `H₄` the cointegral `x*` gives the pairing with `x*(1·x) = 1`, `x*(g·gx) = x*(x) = 1`,
+  `x*(x·g) = x*(−gx) = 0`, `x*(gx·g) = x*(−x) = −1`: the Gram matrix on `1, g, x, gx` is
+  invertible.
+- `S` on `H₄` satisfies `S²(x) = −x`, so `S` has order four and `S⁻¹ ≠ S`: a model taking
+  `S⁻¹ = S` fails.
+- For `H = k`, `H-Mod` is semisimple and every module is projective and injective; for
+  `H = k[d]/(d²)` in characteristic two, `k` is neither projective nor injective while `H` is both,
+  so the Frobenius property is not the statement that every module is projective.
 
-1. Integrals, cointegrals, antipode bijectivity, Frobenius duality, and the bridge to the ordinary
-   stable interface.
-2. Monoidal Hopf modules, duals, internal Hom, tensor-triangulated `H-StMod`, and its
-   finite-dimensional subcategory `H-stmod`.
-3. Left module algebras, right comodule algebras, finite duals, and smash products.
-4. The `A`-split relative Frobenius category, integral null ideal, and `C(A,H)`.
-5. Quasi-isomorphisms, the Verdier derived category, property (P), cofibrant replacements,
-   compact generation, and finiteness subcategories.
-6. Stable and compact-derived `K₀`, module/ring structures, and smooth-basic comparisons.
-7. Super/exterior, characteristic-`p`, Sweedler, Nichols, and Taft examples, including the
-   characteristic-zero obstruction.
-8. Laugwitz--Qi's multi-differential bosonization, tensor ideal, and cyclotomic Verdier quotient;
-   the scoped Qi--Sussan finite-cell theorem.
+### 1.3 The modular character and the Nakayama automorphism
 
-A layer is not complete when only the displayed headline theorem exists.  Definitions require
-the normal morphism, functoriality, equivalence, grading-shift, op/cop, and simp/ext APIs needed
-by the following layer.  Every quotient comes with its universal property and comparison functor;
-every equivalence identifies the underlying carrier/action maps; and every finiteness theorem
-states field characteristic, Hopf dimension, antipode, Noetherian/Artinian, flatness,
-finite-projective, property-(P), and compactness assumptions at the point where they are used.
+For a nonzero left integral `Λ`, define the modular character `α : H → k` by `Λh = α(h)Λ`; it is
+an algebra map, unique given `Λ`, independent of rescaling `Λ` by a nonzero scalar. Prove
+`nakayamaAut_symm_eq_winding`: for a nonzero right cointegral `φ`, the inverse of Tau Ceti's
+`nakayamaAut` is `ν_H(h) = Σ α(h₁) S²(h₂)` (Fischman–Montgomery–Schneider, Lemma 1.5, p. 4862,
+stated there as `η(a) = S²(a ↼ α')` for the stable convention and the modular character `α'` of a
+right integral; `α' = α⁻¹` because `S(Λ)` is a right integral; Erdmann–Solberg–Wang, Theorem
+2.2(b)). Prove the companion formula `ν_H(h) = a⁻¹(Σ α(h₂) S⁻²(h₁)) a`, where `a` is the
+distinguished group-like element defined by `Σ φ(h₂)h₁ = φ(h)a⁻¹`. *Needs:* §§1.1–1.2; Tau Ceti
+`LinearMap.IsFrobeniusFunctional.nakayamaAut`, `LinearMap.IsFrobeniusFunctional.coe_nakayamaAut_eq`.
 
-## Source-to-layer map
+- `α ∘ S = α⁻¹` (convolution inverse) and `α ∘ S² = α`.
+- `ν_H = ν_S⁻¹`, and `ν_S` is what the stable-category interface consumes.
 
-| Source | Roadmap layers | Exact imported content and restrictions |
-|---|---|---|
-| Larson--Sweedler; Pareigis; Fischman--Montgomery--Schneider | 1 | Finite-dimensional Hopf algebras over a field are Frobenius via integrals/cointegrals; the handed winding/Nakayama formulas and the exact symmetric criterion.  Symmetry is not automatic. |
-| Khovanov | 2, 4, 6, 7 | Tensor-triangulated stable Hopf-module categories, the comodule/module-algebra hopfological quotient, prime-characteristic truncated primitives, and Taft stable `K₀`.  His prime cyclotomic equality is not extended to composite order. |
-| Khovanov--Qi; Qi--Sussan (2022) | 7 | Slash homology `H^{/k}`, homotopy invariance, and finite-dimensional projectivity detection for `p`-complexes. |
-| Qi | 2--6 | The left-module-algebra and smash convention, relative null ideal, triangles, quasi-isomorphisms, derived localization, property (P), cofibrant replacement, compact generators, and the Noetherian/Artinian/smooth-basic results with their stated hypotheses. |
-| Qi--Sussan (2017) | 5, 7 | `p`-DG conventions, finite-cell modules, and the scoped Jones--Wenzl finite-cell theorem in characteristic prime `p`: exactly `p ∣ n-1`. |
-| Radford and Majid | 7, 8 | Biproduct/bosonization and the passage from braided Hopf algebras to ordinary Hopf algebras. |
-| Laugwitz--Qi | 8 | The exact factorization data, braided multi-differential Hopf algebra, `C_N` bosonization, stable relation, thick tensor ideal, and Verdier quotient, over any field containing the specified primitive `N`th root.  Their `K₀(O_n)=ℤ[ν,ν⁻¹]/(Φ_n)` is used only for `n` with at most two distinct prime factors; for three or more the ring is `ℤ[ν,ν⁻¹]/(w_1,…,w_t)` and is not cyclotomic. |
-| Kapranov | 7, 8 | The characteristic-zero `q`-homological/`N`-complex motivation.  The implemented Hopf objects follow the braided/Taft hypotheses above. |
+**Checks.**
+
+- In `H₄`: `Λ = (1 + g)x`, `Λg = −Λ`, so `α(g) = −1`, `α(x) = 0`; then `ν_H(g) = −g` and
+  `ν_H(x) = α(g)S²(x) = x`. Direct computation with `φ = x*` confirms `φ(ag) = φ(ν_H(g)a)` for
+  all basis elements `a`.
+- In the Taft algebra with `N = 3` (`K³ = 1`, `d³ = 0`, `Kd = qdK`, `Δd = d ⊗ 1 + K ⊗ d`):
+  `α(K) = q`, `S²(d) = q⁻¹d`, so `ν_H(K) = qK`, `ν_H(d) = d`, while `ν_S(K) = q⁻¹K`. This separates
+  the two orientations, which coincide on `H₄`.
+- In `H₄` with `φ = x*`, `Σ φ(x₂)x₁ = g = φ(x)a⁻¹`, so `a = g`, and the companion formula gives
+  `ν_H(x) = g(−x)g = x`, agreeing with the first formula.
+- For a group algebra `k[G]`, `α = ε` and `S² = id`, so `ν_H = id`; with `Λ = 0` the defining
+  equation would hold for every algebra map `α`, which is why the integral is required nonzero.
+
+### 1.4 Symmetric finite Hopf algebras
+
+Define `IsSymmetricFrobenius` (some functional is a symmetric Frobenius functional),
+`IsUnimodular` (`LeftIntegral = RightIntegral`) and `AntipodeSquareIsInner`
+(`S²(h) = uhu⁻¹` for a unit `u`). Prove `symmetric_iff_unimodular_and_antipodeSquare_inner` for
+finite-dimensional `H` (Erdmann–Solberg–Wang, Theorem 2.2(c)). *Needs:* §1.3; Tau Ceti
+`LinearMap.IsSymmetricFrobeniusFunctional`.
+
+**Checks.**
+
+- `k[G]` and `k[d]/(d^p)` in characteristic `p` are unimodular with `S² = id`, hence symmetric.
+- `H₄`: `S²(x) = −x = gxg⁻¹` is inner, but `α(g) = −1 ≠ ε(g)`, so `H₄` is not unimodular and not
+  symmetric; this shows inner `S²` alone does not suffice.
+- Finite dimensionality alone does not give symmetry: the Taft algebras with `N ≥ 2` are not
+  unimodular.
+
+### Examples
+
+`H = k`, `k[C₂]` in characteristic two, Sweedler's `H₄` and the Taft algebras give the integral,
+cointegral and Nakayama values recorded in the Checks.
+
+### Dependencies
+
+Mathlib `HopfAlgebra`, `Coalgebra.Repr`, `ModuleCat`; Tau Ceti Frobenius functionals and Frobenius
+exact structures; StablePeriodicCurved, Layer 0 for the stable-category interfaces.
+
+## Layer 2: Hopf modules and their stable monoidal category
+
+### 2.1 The monoidal category of all `H`-modules
+
+Extend QuantumGroups Q8 item 5 from finite-dimensional modules to all left `H`-modules: the
+diagonal action on `M ⊗ N`, independent of the chosen coproduct representation, the unit `k`
+with action through `ε`, associator and unitors, all of which need only a bialgebra. Prove the
+inclusion of `FiniteHopfModuleCat k H` is a fully faithful monoidal functor. Prove that `M ⊗ P`,
+`P ⊗ M`, `Hom_k(M, P)` and `Hom_k(P, M)` are projective when `P` is projective, with the internal
+Hom action `(h·f)(m) = Σ h₁ f(S(h₂)m)`, so the maps factoring through projectives form a two-sided
+tensor ideal (Khovanov, Proposition 2; Qi, Lemma 2.3). *Needs:* QuantumGroups Q8 item 5; Layer 1
+for the finite-dimensional ideal statements.
+
+**Checks.**
+
+- For `H = k[C₂]`, `g(m ⊗ n) = gm ⊗ gn`, and the right dual action is `(g·f)(m) = f(g⁻¹m)`; these
+  agree with the values of QuantumGroups Q8 item 5 on finite-dimensional modules.
+- For `H₄`, `x(m ⊗ n) = xm ⊗ n + gm ⊗ xn`, so the tensor action is not the symmetric formula
+  `xm ⊗ n + m ⊗ xn`, which would not even define an action.
+- `H ⊗ M` is free of rank `dim M` for finite-dimensional `M`; for `H = k[d]/(d²)` in characteristic
+  two, `H ⊗ k ≅ H` while `k ⊗ k ≅ k` is not projective.
+
+### 2.2 The stable category `H-StMod`
+
+Form `H-StMod` as Tau Ceti's stable category of `ExactStructure.abelian (ModuleCat H)`, triangulated
+by `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated` through `hMod_abelian_isFrobenius`, and
+define `H-stmod` as its full subcategory on finite-dimensional modules. After choosing `Λ`, model
+the suspension by `T(M) = M ⊗ (H/kΛ)` and its inverse by `M ⊗ ker ε`, independent of `Λ` up to
+natural isomorphism (Khovanov, §1, p. 3). Prove that the tensor product descends, that tensoring on
+either side is a triangle functor, that `H-StMod` has arbitrary coproducts, and that `H-stmod` is
+closed under tensor products, suspension and duals. Both are symmetric monoidal when `H` is
+cocommutative; a braiding otherwise needs a quasitriangular structure. A morphism is zero exactly
+when it factors through a projective, and `Hom_{H-StMod}(M, N) = Hom_k(M,N)^H / Λ·Hom_k(M,N)`
+(Qi, Corollary 5.5). *Needs:* §2.1; Tau Ceti stable-category files; StablePeriodicCurved, Layer 1.
+
+**Checks.**
+
+- `H = k`: `H-StMod = 0`, since every module is projective.
+- `H = k[d]/(d²)`, characteristic two: `H/kΛ = H/(d) ≅ k`, so `T(k) ≅ k`; ungraded, the stable
+  category is the homotopy category of modules with a square-zero differential.
+- `H = k[d]/(d³)`, characteristic three: `H/kΛ = H/(d²)` is two-dimensional, so `T(k)` is not
+  isomorphic to `k`; a definition of `T` as the identity fails, while `T²(k) ≅ k`.
+
+### Examples
+
+`k[d]/(d^p)` in characteristic `p` gives the homotopy category of `p`-complexes. `k[C_p]` in
+characteristic `p` is isomorphic to `k[d]/(d^p)` as an algebra through `d = g − 1`, so the two stable
+categories agree as triangulated categories, but `g` is group-like and `d` primitive, so their
+tensor products are defined through different coproducts.
+
+### Dependencies
+
+Layer 1; QuantumGroups Q8 item 5; Tau Ceti `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated`;
+StablePeriodicCurved, Layers 0 and 1.
+
+## Layer 3: module algebras, comodule algebras and smash products
+
+### 3.1 Left module algebras and the smash product
+
+Define `LeftAction` and `LeftModuleAlgebra` with the two equations of the conventions. Define
+`smashMulPure` and the structure `SmashProduct`, which bundles a `k`-algebra, a linear equivalence
+with `A ⊗ H`, the pure-tensor product and unit, and the algebra maps `a ↦ a # 1` and `h ↦ 1 # h`.
+Prove `smashProduct_nonempty` (Qi, Example 2.8) and the universal property
+`SmashProduct.lift_unique` for pairs satisfying `SmashCompatible`, the covariance
+`fH(h)fA(a) = Σ fA(h₁·a) fH(h₂)`. *Needs:* Mathlib `Coalgebra.Repr`, `TensorProduct`; the quotient
+bialgebras of `TauCeti.Algebra.Bialgebra.Quotient` for examples presented by relations.
+
+- Equivariant algebra maps, restriction along bialgebra maps and invariant subalgebras.
+- `A # H`-modules are the same as `A`-modules with a compatible `H`-action, `h·(am) = Σ (h₁·a)(h₂·m)`.
+- The map `a ↦ a # 1` is injective for every `A`, since `H ≠ 0`. The map `h ↦ 1 # h` is injective
+  when `A` is nonzero; for `A = 0` the smash product is zero and the map has kernel `H`.
+  Restriction of scalars uses the algebra map in both cases.
+- Functoriality of `A # H` in equivariant algebra maps and Hopf maps.
+
+**Checks.**
+
+- `A = k`: `k # H ≅ H` through `h ↦ 1 # h`, injective.
+- `A = 0`: `0 # H = 0`, and `h ↦ 1 # h` sends `1` and `0` to `0`; any statement asserting
+  injectivity without `A ≠ 0` fails here.
+- `C₂` acting on `k[x]` (`char k ≠ 2`) by `g·x = −x`: `(1 # g)(x # 1) = −x # g`, so `A # H` is
+  noncommutative although `A` and `H` are commutative; the plain tensor-product algebra would give
+  `x # g`.
+- The trivial action `h·a = ε(h)a` is a module algebra and gives `A # H ≅ A ⊗ H`; an action by an
+  anti-automorphism of `A` fails the product equation.
+
+### 3.2 Right comodule algebras
+
+Define `IsRightComoduleAlgebra` on Tau Ceti's `TauCeti.Comodule k C A`: the coaction is unital
+and multiplicative for the tensor-product algebra `A ⊗ C`. Prove that `A # H` has the right
+coaction `ρ(a # h) = Σ (a # h₁) ⊗ h₂`, a comodule algebra (Qi, Definition 2.4). Khovanov uses left
+comodule algebras; they are translated into this convention explicitly. *Needs:* Tau Ceti
+`TauCeti.Comodule`; Mathlib `Algebra.TensorProduct`.
+
+**Checks.**
+
+- For `C = k[G]`, comodule algebras are `G`-graded algebras, `ρ(a) = a ⊗ g` for `a ∈ A_g`.
+- The trivial coaction `a ↦ a ⊗ 1` is a comodule algebra.
+- For `g ≠ 1`, `ρ(a) = a ⊗ g` is coassociative (`a ⊗ g ⊗ g` both ways) and counital
+  (`ε(g) = 1`), so it is a comodule, but `ρ(1) = 1 ⊗ g ≠ 1 ⊗ 1`, so it is not a comodule algebra.
+
+### 3.3 The finite dual comparison
+
+For finite-dimensional `H`, consume `TauCeti.ConvolutionDual.instHopfAlgebra` and prove
+`exists_leftModuleAlgebra_equiv_rightComoduleAlgebra`: left `H`-module algebra structures on `A`
+correspond bijectively to right comodule algebra structures over `ConvolutionDual k H`, with forward
+coaction `ρ(a) = Σ (eᵢ·a) ⊗ eᵢ*` for every basis `e` of `H` (hence independent of the basis) and
+inverse `h·a = (id ⊗ ev_h)(ρ(a))`, using `evalConv` (Montgomery's duality between `H`-modules and
+`H*`-comodules; the multiplicativity of `ρ` is the product equation of the module algebra, its
+unit law is `h·1 = ε(h)1`, and coassociativity is associativity of the action). Relate `A # H` to
+the comodule-algebra smash construction over `H*`. Over a commutative ring, the same comparison
+holds for finite projective `H`; finite generation alone does not suffice. *Needs:* §§3.1–3.2;
+Tau Ceti `TauCeti.ConvolutionDual`, `TauCeti.ConvolutionDual.antipode_apply`.
+
+**Checks.**
+
+- Sign action of `C₂` on `k[x]`: `ρ(x) = x ⊗ δ₁ − x ⊗ δ_g`, which evaluates to `x` at `1` and `−x`
+  at `g`; the basis `{1 + g, 1 − g}` gives the same tensor.
+- The trivial action gives `ρ(a) = a ⊗ ε`, and `ε` is the unit of the convolution algebra, so
+  `ρ(1) = 1 ⊗ 1`.
+- The formula `ρ(a) = Σ (S(eᵢ)·a) ⊗ eᵢ*` evaluates at `h` to `S(h)·a`, whose product rule uses
+  `Σ (S(h₂)·a)(S(h₁)·b)`; for a non-cocommutative `H` such as `H₄` it is not multiplicative, so the
+  antipode must not be inserted.
+
+### Examples
+
+Skew group algebras `A # k[G]`; differential graded algebras as module algebras over the exterior
+Hopf superalgebra (Layer 7); `G`-graded algebras as `k[G]`-comodule algebras.
+
+### Dependencies
+
+Layer 1 for finite dimension; Mathlib `Coalgebra.Repr`, `Algebra.TensorProduct`; Tau Ceti
+`TauCeti.Comodule`, `TauCeti.ConvolutionDual`.
+
+## Layer 4: the relative hopfological category
+
+### 4.1 The Hom action and the integral null ideal
+
+Let `B = A # H`. On `Hom_A(M, N)` define Qi's action `(h·g)(m) = Σ h₂·g(S⁻¹(h₁)·m)` (Qi,
+Definition 5.1), and prove `Hom_B(M, N) = Hom_A(M, N)^H` (Qi, Lemma 5.2). For a nonzero left
+integral `Λ`, construct the `B`-linear map `λ_M : M → M ⊗ H`, `m ↦ m ⊗ Λ`, where `M ⊗ H` has the
+diagonal `B`-action through the coaction of §3.2. A `B`-linear `f : M → N` is **hopfologically
+null-homotopic** when it factors through some `X ⊗ H`; prove this is equivalent to factoring through
+`λ_M` (Qi, Lemma 2.6) and to `f = Λ·g` for an `A`-linear `g`, so that the morphism space of
+`C(A,H)` is `Hom_A(M,N)^H / Λ·Hom_A(M,N)` (Qi, Corollary 5.5 and Lemma 5.4). The integral is
+required nonzero; the ideal is unchanged by rescaling `Λ`. *Needs:* Layers 1 and 3; Layer 1
+`antipode_bijective` for `S⁻¹`.
+
+**Checks.**
+
+- `H = A = k`, `M = N = k`: `Λ = 1`, `id = Λ·id`, so `id` is null and `C(k,k) = 0`. With `Λ = 0` the
+  condition would read `f = 0`, making only the zero map null; this is why `Λ ≠ 0` is part of the
+  definition.
+- `H = k[G]`: `(g·f)(m) = g f(g⁻¹m)`, and invariants are the `G`-equivariant `A`-linear maps.
+- `d` primitive with `S⁻¹(d) = −d`: `(d·f)(m) = d f(m) − f(dm)`, the commutator, which is the
+  Hom-complex differential once super signs are installed (Layer 7).
+
+### 4.2 The relative Frobenius exact structure and `C(A,H)`
+
+Give `B-Mod` the exact structure whose conflations are short exact sequences of `B`-modules that
+split as `A`-modules, the maps being `B`-linear and only the splitting `A`-linear. Prove it is
+Frobenius, with projective-injectives the retracts of the modules `X ⊗ H`, and define `C(A,H)` as
+its stable category; it is triangulated with `T(M) = M ⊗ (H/kΛ)` (Qi, Definition 3.1, Theorem 3.5)
+and is a right module category over `H-StMod` (Qi, Proposition 2.7). Compare with the ordinary
+stable category of `B`: every `B`-projective is relatively projective, and equality is not
+asserted. *Needs:* §4.1; GrothendieckEulerForms, Layer 0; StablePeriodicCurved, Layers 0 and 1;
+Tau Ceti `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated`.
+
+**Checks.**
+
+- `A = k`: every sequence splits over `k`, the exact structure is `ExactStructure.abelian` and
+  `C(k,H) = H-StMod`.
+- `H = k`: `A`-split sequences are split sequences, every object is projective-injective and
+  `C(A,k) = 0`, matching §4.1.
+- For `A = k[t]/(t²)` and `H = k`, the sequence `0 → (t) → A → A/(t) → 0` is exact but not split, so
+  it is not a conflation: the relative structure is not the abelian one.
+
+### Examples
+
+DG modules over a DG algebra (exterior Hopf superalgebra), `p`-DG modules over `p`-DG algebras
+(`H = k[d]/(d^p)`), and `H`-equivariant modules (`A = k`).
+
+### Dependencies
+
+Layers 1–3; DGAInfinity, Layer 1 for the comparison with chain homotopy; StablePeriodicCurved,
+Layers 0 and 1.
+
+## Layer 5: derived localization, property (P) and compact objects
+
+### 5.1 Quasi-isomorphisms and `D(A,H)`
+
+Restriction along `H → A # H` induces a triangle functor `C(A,H) → H-StMod`. A morphism is a
+quasi-isomorphism when its image is invertible. Prove the quasi-isomorphisms form a localizing
+class (Qi, Theorem 4.2), that `M` is acyclic exactly when it is projective as an `H`-module, and
+that `D(A,H) = C(A,H)[qis⁻¹]` is equivalent to the Verdier quotient of `C(A,H)` by the thick
+subcategory of acyclics, Mathlib's `CategoryTheory.ObjectProperty.trW` localization. `D(A,H)` is
+triangulated and a right module category over `H-StMod`. *Needs:* Layer 4; DGAInfinity, Layer 7;
+Mathlib `CategoryTheory.ObjectProperty.trW`.
+
+**Checks.**
+
+- `A = k`: quasi-isomorphisms are the isomorphisms of `H-StMod` and `D(k,H) = H-StMod`.
+- `H = k`: every morphism is a quasi-isomorphism and `D(A,k) = 0`.
+- For the exterior Hopf superalgebra, quasi-isomorphisms are the classical quasi-isomorphisms of DG
+  modules, and `D(A,H)` is the derived category of DGAInfinity, Layer 5.
+
+### 5.2 Cofibrant modules and property (P)
+
+A `B`-module `P` is cofibrant when every map from `P` to the target of a surjective
+quasi-isomorphism lifts (Qi, Definition 6.1). Prove `P` is cofibrant exactly when it is projective
+as an `A`-module and `Hom_A(P, K)` is a projective `H`-module for every acyclic `K` (Qi,
+Corollary 6.9). Call `P` cellular when it has an exhaustive filtration by `B`-submodules, split
+over `A`, whose layers are `B`-isomorphic to `A ⊗ V` for `H`-modules `V` with the action
+`(a # h)(b ⊗ v) = Σ a(h₁·b) ⊗ h₂v`; Qi's layers are sums of `A ⊗ V` with `V` indecomposable, and
+the two notions agree by refining along the radical filtration of `V`. A module has property (P)
+when it is isomorphic in `C(A,H)` to a cellular module (Qi, Definition 6.3). Prove: cellular
+modules are cofibrant (Qi, Corollary 6.5); cofibrant modules are the `B`-module retracts of
+cellular modules (Qi, Corollary 6.8); the bar resolution is functorial, cellular, and surjects by
+quasi-isomorphisms (Qi, Theorem 6.6); morphisms out of cofibrant objects agree in `C(A,H)` and
+`D(A,H)`; and the full subcategories on cellular and on cofibrant objects are each equivalent to
+`D(A,H)` (Qi, Corollary 6.10). *Needs:* §5.1.
+
+**Checks.**
+
+- `H = k`, `A = k[t]/(t²)`, `M = A/(t)`: `C(A,k) = 0`, so `M` has property (P), but every surjection
+  is a quasi-isomorphism, so cofibrant means `A`-projective, which `M` is not.
+- For nonsemisimple `H` acting trivially on the same `A`, `M ⊗ H` is relatively projective, zero in
+  `C(A,H)` and so has property (P), but the surjective quasi-isomorphism `A ⊗ H → M ⊗ H` has no
+  section.
+- `A ⊗ V` is cellular with a one-step filtration, hence cofibrant.
+
+### 5.3 Compact generation and finiteness
+
+Compactness of `P` in `D(A,H)` is preservation of coproducts by `Hom(P, −)` into abelian groups
+(Qi, Definition 7.1). Prove `D(A,H)` is compactly generated by the finite set `{A ⊗ V}`, `V` simple
+(Qi, Proposition 7.6), and that the compact objects are the thick envelope
+`CategoryTheory.ObjectProperty.triangEnvelope` of these generators (Qi, Corollary 7.15). Prove
+`A` is left Noetherian iff `A # H` is, using finite freeness of `A # H` over `A` on the side given by
+the antipode normal form; define `Dᵇ(A,H)` (objects isomorphic to finitely generated `A`-modules)
+and `Dᶠ(A,H)` (finite length over `A`) (Qi, Definition 9.1). For Artinian `A`, compact objects are
+isomorphic to finite projective `A`-modules (Qi, Lemma 9.6). For `A` smooth (finite projective
+bimodule resolution, Qi, Definition 9.4), basic in Qi's split sense (all simple modules
+one-dimensional, Qi, Definition 9.3) and with trivial `H`-action, `Dᶜ(A,H) ≃ Dᶠ(A,H)` (Qi,
+Proposition 9.8). For Qi–Sussan's `p`-DG algebras `A = A_n^!`, the categorified Jones–Wenzl
+projector has a finite-cell representative if and only if `p` divides `n − 1` (Qi–Sussan 2017,
+Theorem 5.5). *Needs:* §§5.1–5.2; Mathlib `CategoryTheory.ObjectProperty.triangEnvelope`.
+
+**Checks.**
+
+- `A = k`: the compact objects of `D(k,H) = H-StMod` are the objects isomorphic to
+  finite-dimensional modules, `H-stmod` (Qi, Corollary 9.9).
+- Over `k = ℝ`, `A = ℂ` with trivial action is Artinian and smooth but not basic in Qi's sense
+  (its simple module is two-dimensional), so the smooth-basic comparison does not apply.
+- `n = p + 1`: `p ∣ n − 1`, so the Jones–Wenzl projector is finite-cell; `n = 2` with `p ≥ 3` is not.
+
+### Examples
+
+`H = k[d]/(d²)` in characteristic two with a DG algebra `A`: compact objects are perfect DG modules,
+recovering DGAInfinity, Layer 5.
+
+### Dependencies
+
+Layer 4; DGAInfinity, Layers 5 and 7; Mathlib triangulated envelopes and `trW`.
+
+## Layer 6: Grothendieck groups and rings
+
+### 6.1 Stable and compact-derived `K₀`
+
+Using GrothendieckEulerForms, Layer 2, form `K₀(H-stmod)`; the tensor product makes it a ring
+(commutative when `H` is cocommutative), the quotient of the representation ring by the classes of
+projectives. Define `K₀(A,H) = K₀(Dᶜ(A,H))`, a right `K₀(H-stmod)`-module through the tensor action
+(Qi, §9; Khovanov, Corollary 1, states the left-module form for left comodule algebras). Define `G₀(A,H)` from `Dᵇ(A,H)` and `G₀ᶠ(A,H)` from `Dᶠ(A,H)` for
+Noetherian `A`. State Qi's pairing as `Dᶜ(A,H) × Dᶠ(A,H) → H-StMod`, or into `Dᶠ(k,H)` when the
+finite-length modules in play are finite-dimensional over `k`. When `A` is commutative and `H`
+cocommutative, construct the internal tensor product and the ring `K₀(A,H)`. For smooth basic `A`
+with trivial action, prove `K₀(A,H) ≅ K₀(A) ⊗_ℤ K₀(H-stmod)` (Qi, Proposition 9.10), and its
+graded form over `ℤ[q,q⁻¹]`. *Needs:* Layers 2 and 5; GrothendieckEulerForms, Layers 2 and 6.
+
+**Checks.**
+
+- The finite-target pairing fails without finite dimension: `k = 𝔽₂`, `H = k[d]/(d²)`, `A = k(t)`
+  with trivial action, `P = M = A`; the derived Hom is `A` with `d = 0`, and its stable invariants are
+  `A`, infinite-dimensional over `k`, so it does not lie in `Dᶠ(k,H)`.
+- `H = k[d]/(d²)` in characteristic two, graded with `deg d = 1`: `K₀(H-stmod) = ℤ[q,q⁻¹]/(1 + q)`.
+- `A = k`: `K₀(k,H) = K₀(H-stmod)` as a module over itself.
+
+### Examples
+
+For `H = k[d]/(d^p)` graded with `deg d = 1` and `A = k`, `K₀ = ℤ[q,q⁻¹]/(1 + q + ⋯ + q^(p−1))`
+(Layer 7).
+
+### Dependencies
+
+Layers 2 and 5; GrothendieckEulerForms, Layers 0, 2 and 6.
+
+## Layer 7: differential, super, Nichols, Sweedler and Taft examples
+
+### 7.1 The characteristic-zero obstruction and the two sign repairs
+
+Prove that an ordinary bialgebra over a field with `char k ≠ 2` has no nonzero primitive `d` with
+`d² = 0`: by `TauCeti.Bialgebra.comul_pow_of_primitive`, `0 = Δ(d²) = 2(d ⊗ d)`, and `d ⊗ d ≠ 0`.
+Construct the two repairs. The exterior Hopf superalgebra `E(d)`, `d` odd, `d² = 0`, `Δd = d ⊗ 1 + 1 ⊗ d`,
+`Sd = −d`, is a Hopf algebra in super vector spaces, where the super tensor multiplication makes the
+middle terms cancel; its module algebras are DG algebras with `d(ab) = d(a)b + (−1)^|a| a d(b)`.
+Sweedler's `H₄` (`g² = 1`, `d² = 0`, `gd = −dg`, `Δg = g ⊗ g`, `Δd = d ⊗ 1 + g ⊗ d`, `Sd = −gd`) is its
+bosonization; on a module algebra with internal `ℤ`-grading, `g` acts by `(−1)^r` in degree `r`
+and `d` raises degree by one. Prove that the hopfological null ideal in these models is the
+ordinary chain-homotopy ideal with its signs, comparing with DGAInfinity, Layer 1. *Needs:* Tau
+Ceti `TauCeti.Bialgebra.comul_pow_of_primitive`, `TauCeti.InternalGrading`; DGAInfinity, Layers 0–1.
+
+**Checks.**
+
+- In the ordinary tensor product, `(d ⊗ 1 + 1 ⊗ d)² = d² ⊗ 1 + 2(d ⊗ d) + 1 ⊗ d²`; in the super tensor
+  product the middle terms are `d ⊗ d + (−1)(d ⊗ d) = 0`.
+- In `H₄`, `Δ(d)² = d² ⊗ 1 + (dg + gd) ⊗ d + g² ⊗ d² = 0`, since `dg + gd = 0`.
+- In characteristic two `k[d]/(d²)` with `d` primitive is an ordinary Hopf algebra, so the
+  obstruction needs `char k ≠ 2`.
+
+### 7.2 Truncated primitives and slash homology
+
+Let `p` be prime and `char k = p`. Construct `H_p = k[d]/(d^p)` with `d` primitive; `(d^p)` is a Hopf
+ideal because the intermediate binomial coefficients vanish. Recognize it through the structure
+`TruncatedPrimitive` (a primitive `d` with `d^p = 0` whose powers below `p` form a basis) and the
+module differential `TruncatedPrimitive.moduleDifferential`. Module algebras are `p`-DG algebras
+with unsigned Leibniz rule. A degree-zero map of `p`-complexes is null exactly when
+`f = Σ_{i=0}^{p−1} d_N^i h d_M^(p−1−i)` with `h` of degree `1 − p` (degree `2 − 2p` in Qi–Sussan's
+regrading). Define `SlashHomology`, `H^{/j}(M) = ker(d^(j+1)) / (im(d^(p−j−1)) + ker(d^j))` for
+`0 ≤ j ≤ p − 2` (Khovanov–Qi, §2, p. 14), whose denominator lies in the cycles when `d^p = 0`. Prove
+homotopy invariance and `slashHomology_subsingleton_iff_projective`: a finite-dimensional module is
+projective iff all its slash homology groups vanish (Khovanov–Qi, §2, p. 14, decomposition (20)
+of a module as slash homology plus a maximal projective summand). Prove
+`K₀(H_p-stmod) ≅ ℤ[q,q⁻¹]/(1 + q + ⋯ + q^(p−1))` for `deg d = 1`, which equals
+`ℤ[q,q⁻¹]/(Φ_p(q))` by `Polynomial.cyclotomic_prime` (Khovanov, Proposition 5). *Needs:* §7.1;
+Layer 2; GrothendieckEulerForms, Layer 6; Mathlib `Polynomial.cyclotomic_prime`.
+
+**Checks.**
+
+- `p = 2`: `H^{/0}(M) = ker d / im d`, ordinary homology.
+- `p = 3`, `M = k` with `d = 0`: `H^{/0} = k`, `H^{/1} = 0`; `M = k[d]/(d²)`: `H^{/0} = kd` and
+  `H^{/1} = k`, both nonzero, and `M` is not projective; `M = H₃`: both vanish.
+- In characteristic two, `k[d]/(d⁴)` is also a Hopf algebra (Frobenius twice), with
+  `K₀ = ℤ[q,q⁻¹]/(1 + q + q² + q³)`, which is not `ℤ[q,q⁻¹]/(Φ₄)`: the cyclotomic identity is for
+  prime exponent only.
+
+### 7.3 The bicharacter-braided graded ambient, Nichols algebras and bosonization
+
+Build the category of `G`-graded vector spaces, `G` an abelian group, with tensor graded by total
+degree and, for a bicharacter `χ : G × G → kˣ`, the braiding `v ⊗ w ↦ χ(|v|,|w|) w ⊗ v`; it covers
+`G = ℤ`, `χ(i,j) = q^(ij)` and the super case `G = ℤ/2`, `χ(i,j) = (−1)^(ij)`. A Hopf algebra in it is
+a Hopf monoid `CategoryTheory.HopfObj`; prove the equivalence with records of graded pieces,
+braided tensor multiplication and Hopf equations. Construct Yetter–Drinfeld modules, braided
+primitives, Nichols algebras in the finite diagonal cases used here, and the Radford–Majid
+bosonization, with the monoidal equivalence between internal modules and rational modules over the
+bosonization (Laugwitz–Qi, Proposition 3.1 and Proposition 3.3). For `N ≥ 2` and `q` a primitive
+`N`th root with `char k ∤ N`, construct the Nichols algebra `k[d]/(d^N)` with `q`-binomial coproduct.
+Its bosonization is the Taft algebra `K^N = 1`, `d^N = 0`, `Kd = qdK`, `ΔK = K ⊗ K`,
+`Δd = d ⊗ 1 + K ⊗ d`, `SK = K⁻¹`, `Sd = −K⁻¹d`, of dimension `N²`, whose module algebras satisfy
+`d(ab) = d(a)b + (K·a)d(b)`. Prove Khovanov's `K₀ ≅ ℤ[q,q⁻¹]/(1 + q + ⋯ + q^(N−1))` for the graded
+Taft stable category (Khovanov, Proposition 7; Qi, §4.3, p. 19). *Needs:* §§7.1–7.2; Mathlib
+`CategoryTheory.HopfObj`; Tau Ceti `TauCeti.GradedModuleCat`; GrothendieckEulerForms, Layer 6.
+
+**Checks.**
+
+- `q = −1`, `N = 2` gives the exterior superalgebra and Sweedler's `H₄`.
+- `N = 1` gives `k[d]/(d) = k`, losing the generator; `q = 1` in characteristic zero gives the
+  polynomial algebra `k[d]`, not a truncation. Both are excluded by `N ≥ 2` and primitivity.
+- Taft with `N = 3`: `α(K) = q` and `dim = 9`; `N = 4`: `1 + q + q² + q³ = Φ₂Φ₄`, not `Φ₄`, so the
+  Taft category does not categorify the fourth cyclotomic integers.
+
+### Examples
+
+`E(d)`, `H₄`, `k[d]/(d^p)` in characteristic `p`, and the Taft algebras.
+
+### Dependencies
+
+Layers 2, 3 and 6; Tau Ceti `TauCeti.Bialgebra.comul_pow_of_primitive`, `TauCeti.GradedModuleCat`;
+DGAInfinity, Layers 0–1; GrothendieckEulerForms, Layer 6.
+
+## Layer 8: the Laugwitz–Qi cyclotomic construction
+
+### 8.1 Factorization data, `H_n` and its bosonization
+
+For an integer `n ≥ 2` write `n = ∏_{k=1}^t p_k^{a_k}` with distinct primes and `a_k ≥ 1`, and put
+`m = ∏ p_k`, `N = n²/m`, `n_k = n/p_k`, `m_k = m/p_k`; these are derived from the factorization,
+never independent parameters. Let `q ∈ k` be a primitive `N`th root, so `char k ∤ N`; put
+`ξ = q^(n/m)`, a primitive `n`th root, and `ξ_k = ξ^(m_k) = q^(n_k)`, of order `p_k·(n/m)`. The
+self-braiding `ξ_k^(n_k) = q^(n_k²)` has order `p_k`. In `q`-graded vector spaces define
+`H_n = k[d₁, …, d_t]/(d_k^(p_k))`, `deg d_k = n_k`, with commuting braided-primitive generators,
+`S(d_k) = −d_k`, Frobenius trace on the top monomial and integral `∏ d_k^(p_k − 1)` (Laugwitz–Qi,
+Definition 3.5, Lemmas 3.6 and 3.7). Its bosonization by `C_N` has `K^N = 1`, `Kd_k = ξ_k d_k K`,
+`Δd_k = d_k ⊗ 1 + K^(n_k) ⊗ d_k`, `Sd_k = −K^(−n_k)d_k`, basis `K^j d₁^(e₁)⋯d_t^(e_t)` and dimension
+`N·m` (Laugwitz–Qi, Lemmas 3.11 and 3.12). Rational graded modules recover graded `H_n`-modules,
+objects of `TauCeti.GradedModuleCat`, monoidally. The square of the braiding on `H_n ⊗ H_n` is in
+general nontrivial. *Needs:* §7.3; Tau Ceti `TauCeti.GradedModuleCat`; Mathlib `IsPrimitiveRoot`.
+
+**Checks.**
+
+- `n = 4`: `t = 1`, `m = 2`, `N = 8`, `n₁ = 2`; `ξ₁ = q²` has order `4`, not `2`, while
+  `ξ₁^(n₁) = q⁴` has order `2 = p₁`. `H_4 = k[d]/(d²)` with `deg d = 2`, bosonization of dimension `16`.
+- `n = 6`: `m = N = 6`, `(n₁, n₂) = (3, 2)`, `dim H_6 = 6`, bosonization of dimension `36`.
+- A prime list omitting a divisor of `n` (for `n = 12`, the list `(2)`) violates
+  `n = ∏ p_k^{a_k}`.
+
+### 8.2 The ideal `I`, the quotient `O_n` and its Grothendieck ring
+
+Let `H_n-gmod` be the stable category of finite-dimensional graded `H_n`-modules, monoidal through
+the braided coproduct. For `t > 1` let `W_k = H_n ⊗_{H_{n_k}} k`, `H_{n_k} = k[d_k]/(d_k^(p_k))`,
+and let `I_k` consist of direct summands of modules with a finite filtration by graded
+submodules whose layers are shifts `W_k{r}` (Laugwitz–Qi, Definitions 4.4 and 4.5); for `t = 1`,
+`I_1` is the projective-injectives. `I` consists of objects isomorphic to `U₁ ⊕ ⋯ ⊕ U_t` with
+`U_k ∈ I_k` (Laugwitz–Qi, Definition 4.12). Prove Laugwitz–Qi Proposition 4.16: for `k ≠ l`, every
+degree-zero map from an object of `I_k` to one of `I_l` factors through a graded projective; first
+for shifts of `W_k` and `W_l`, then by dévissage. Prove that `I` is a thick two-sided tensor ideal
+of `H_n-gmod` (Laugwitz–Qi, Theorem 5.5), form `O_n` as the `CategoryTheory.ObjectProperty.trW`
+localization (Laugwitz–Qi, Definition 5.6) with monoidal localization functor and descended
+tensor and Hom functors (Laugwitz–Qi, Lemma 5.8). With `v_k = 1 + ν^(n_k) + ⋯ + ν^((p_k−1)n_k)`, the
+graded dimension of `H_{n_k}`, and `w_k = ∏_{l≠k} v_l`, the graded dimension of `W_k` (Laugwitz–Qi,
+equation (4.5)), prove `K₀(H_n-gmod) ≅ ℤ[ν,ν⁻¹]/(v₁⋯v_t)` (Laugwitz–Qi, Lemma 5.14) and, as rings
+with `[k{1}] ↦ ν`:
+
+- for `t ≥ 2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(w₁, …, w_t)`;
+- for `t ≤ 2`, `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))`.
+
+Route: `K₀` of the Verdier quotient by a thick subcategory is `K₀(H_n-gmod)` modulo the classes of
+`I` (GrothendieckEulerForms, Layer 2); objects of `I_k` are graded free over the subalgebra
+generated by the `d_l`, `l ≠ k`, so their classes are multiples of `w_k`, and `[W_k{r}] = ν^r w_k`.
+For `t = 2`, `n = p^a q^b`, `v₁ = Φ_n x`, `v₂ = Φ_n y` with `(x, y)` the unit ideal of `ℤ[ν]`, since
+a maximal ideal containing `Φ_d` and `Φ_e` forces `d/e` to be a power of the residue
+characteristic. For `t ≥ 3` the cyclotomic identification fails, although Laugwitz–Qi Theorem 5.15
+(arXiv v4, pp. 27–28) asserts it for every `n`: each `w_k` is divisible by `Φ_n^(t−1)`, so reduction
+modulo `Φ_n²` is a surjective ring map `K₀(O_n) → ℤ[ν,ν⁻¹]/(Φ_n²)` with `Φ_n([k{1}]) ↦ Φ_n(ν) ≠ 0`;
+the gap is the gcd step in the final paragraph of that proof. *Needs:* §8.1; Layers 2 and 6;
+GrothendieckEulerForms, Layers 2 and 6; Mathlib `CategoryTheory.ObjectProperty.trW`,
+`Polynomial.cyclotomic`.
+
+**Checks.**
+
+- `n = 30`, `(p_k) = (2,3,5)`, `(n_k) = (15,10,6)`: `v₁ = 1 + ν^15`, `v₂ = 1 + ν^10 + ν^20`,
+  `v₃ = 1 + ν^6 + ⋯ + ν^24`, each with `Φ₃₀` to multiplicity one; the gcd of `w₁, w₂, w₃` over `ℚ` is
+  `Φ₆Φ₁₀Φ₁₅Φ₃₀²` of degree `30`, so `K₀(O₃₀)` has rank `30`, not `φ(30) = 8`.
+- `n = 6`: `v₁ = 1 + ν³ = Φ₂Φ₆`, `v₂ = 1 + ν² + ν⁴ = Φ₃Φ₆`, and `(1 + ν + ν²) − ν(1 + ν) = 1`, so
+  `K₀(O₆) ≅ ℤ[ν,ν⁻¹]/(ν² − ν + 1)`.
+- `n = 4`, `t = 1`: `I_1` is the projectives and `K₀(O₄) ≅ ℤ[ν,ν⁻¹]/(1 + ν²)`; the `t ≥ 2` formula
+  with the empty product `w₁ = 1` would give the zero ring.
+- `n = 12`: the gcd of `w₁ = 1 + ν⁴ + ν⁸` and `w₂ = 1 + ν⁶` over `ℚ` is `Φ₁₂`, of degree `4 = φ(12)`.
+
+### Examples
+
+For `n = p^a`, `O_n` is the homotopy category of graded `p`-complexes with differential of degree
+`p^(a−1)`; in characteristic zero `H_n` is a braided lift, never an ordinary primitive truncated
+polynomial Hopf algebra.
+
+### Dependencies
+
+Layers 2, 6 and 7; Tau Ceti `TauCeti.GradedModuleCat`; GrothendieckEulerForms, Layers 2 and 6;
+Mathlib `CategoryTheory.ObjectProperty.trW`, `Polynomial.cyclotomic`.
+
+## Downstream consumers
+
+StablePeriodicCurved cites this roadmap as the owner of the hopfological quotient of modules over a
+module algebra, kept distinct from its stable quotients. The tensor-triangulated categories
+`H-StMod`, `C(A,H)`, `D(A,H)` and `O_n` are inputs for root-of-unity categorification; this roadmap
+builds no Jones invariant and no lattice categorification.
 
 ## References
 
 - M. Khovanov, [*Hopfological algebra and categorification at a root of unity: the first
-  steps*](https://doi.org/10.1142/S021821651640006X), J. Knot Theory Ramifications 25
-  (2016), no. 3, 1640006, 26 pp. (preprint first circulated in 2005/06).
-- Y. Qi, [*Hopfological algebra*](https://doi.org/10.1112/S0010437X13007380), Compos. Math. 150
-  (2014), 1--45.
-- Y. Qi and J. Sussan, [*Categorification at prime roots of unity and hopfological
-  finiteness*](https://doi.org/10.1090/conm/683/13721), Contemp. Math. 683 (2017), 261--286.
+  steps*](https://arxiv.org/abs/math/0509083), J. Knot Theory Ramifications 25 (2016), no. 3,
+  1640006. Numbering of arXiv v2.
+- Y. Qi, [*Hopfological algebra*](https://arxiv.org/abs/1205.1814), Compos. Math. 150 (2014), 1–45,
+  [doi:10.1112/S0010437X13007380](https://doi.org/10.1112/S0010437X13007380). Numbering of arXiv v2.
 - M. Khovanov and Y. Qi, [*An approach to categorification of some small quantum
-  groups*](https://doi.org/10.4171/QT/63), Quantum Topol. 6 (2015), 185--311.
-- Y. Qi and J. Sussan, [*On some p-differential graded link
-  homologies*](https://doi.org/10.1017/fmp.2022.19), Forum Math. Pi 10 (2022), e26.
-- R. Laugwitz and Y. Qi, [*A categorification of cyclotomic
-  rings*](https://arxiv.org/abs/1804.01478), Quantum Topol. 13 (2022), 539--577,
-  [doi:10.4171/QT/172](https://doi.org/10.4171/QT/172).
-- R. G. Larson and M. E. Sweedler, [*An associative orthogonal bilinear form for Hopf
-  algebras*](https://doi.org/10.2307/2373270), Amer. J. Math. 91 (1969), 75--94.
-- B. Pareigis, [*When Hopf algebras are Frobenius
-  algebras*](https://doi.org/10.1016/0021-8693(71)90141-4), J. Algebra 18 (1971),
-  588--596.
-- S. Montgomery, [*Hopf Algebras and Their Actions on Rings*](https://bookstore.ams.org/cbms-82),
-  CBMS 82, AMS, 1993.
-- D. Fischman, S. Montgomery, and H.-J. Schneider, [*Frobenius extensions of subalgebras
-  of Hopf algebras*](https://doi.org/10.1090/S0002-9947-97-01814-X), Trans. Amer. Math.
-  Soc. 349 (1997), 4857--4895.
-- K. Erdmann, Ø. Solberg, and X. Wang, [*On the structure and cohomology ring of connected
-  Hopf algebras*](https://doi.org/10.1016/j.jalgebra.2019.02.030), J. Algebra 527 (2019),
-  366--398, Theorem 2.2 (published restatement of the Nakayama and symmetric criteria).
-- D. E. Radford, [*The structure of Hopf algebras with a
-  projection*](https://doi.org/10.1016/0021-8693(85)90124-3), J. Algebra 92 (1985), 322--347.
-- S. Majid, [*Comments on bosonisation and
-  biproducts*](https://arxiv.org/abs/q-alg/9512028), 1995; and *Foundations of Quantum Group
-  Theory*, Cambridge University Press, 1995.
-- M. Kapranov, [*On the q-analog of homological
-  algebra*](https://arxiv.org/abs/q-alg/9611005), 1996.
+  groups*](https://arxiv.org/abs/1208.0616), Quantum Topol. 6 (2015), 185–311. Pages of arXiv v3.
+- Y. Qi and J. Sussan, [*Categorification at prime roots of unity and hopfological
+  finiteness*](https://arxiv.org/abs/1509.00438), Contemp. Math. 683 (2017), 261–286.
+- R. Laugwitz and Y. Qi, [*A categorification of cyclotomic rings*](https://arxiv.org/abs/1804.01478),
+  Quantum Topol. 13 (2022), 539–577, [doi:10.4171/QT/172](https://doi.org/10.4171/QT/172). Pages of
+  arXiv v4.
+- D. Fischman, S. Montgomery and H.-J. Schneider, [*Frobenius extensions of subalgebras of Hopf
+  algebras*](https://doi.org/10.1090/S0002-9947-97-01814-X), Trans. Amer. Math. Soc. 349 (1997),
+  4857–4895.
+- K. Erdmann, Ø. Solberg and X. Wang, [*On the structure and cohomology ring of connected Hopf
+  algebras*](https://arxiv.org/abs/1710.11558), J. Algebra 527 (2019), 366–398. Numbering of the
+  arXiv preprint.
+- R. G. Larson and M. E. Sweedler, *An associative orthogonal bilinear form for Hopf algebras*,
+  Amer. J. Math. 91 (1969), 75–94, cited through the two preceding references.
+- S. Montgomery, *Hopf Algebras and Their Actions on Rings*, CBMS 82, AMS, 1993.
+- D. E. Radford, *The structure of Hopf algebras with a projection*, J. Algebra 92 (1985), 322–347;
+  S. Majid, [*Comments on bosonisation and biproducts*](https://arxiv.org/abs/q-alg/9512028), 1995.
+- M. Kapranov, [*On the q-analog of homological algebra*](https://arxiv.org/abs/q-alg/9611005), 1996.
