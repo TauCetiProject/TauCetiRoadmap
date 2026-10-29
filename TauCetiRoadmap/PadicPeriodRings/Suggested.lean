@@ -26,11 +26,12 @@ envelope is an actual subalgebra of `Localization.Away (p : A)` for a regular pa
 Inertia in the character criterion is the concrete set of algebraic automorphisms
 acting trivially on the residue field. Completed unramified descent of §2 needs
 the completed maximal unramified extension with its residue-Galois action over an
-arbitrary perfect residue field (§0.3); the pinned local-field ramification and
-reciprocity declarations require a finite residue field. Sen break-spacing needs the
-general-base upper ramification tower of §0.3, the proalgebraic unit group and its
-fundamental group. These objects are absent at the pins, so these statements are not
-included.
+arbitrary perfect residue field, which the roadmap consumes from LocalFieldsRamification
+(README §0.3); the pinned local-field ramification and reciprocity declarations require
+a finite residue field. Sen break-spacing needs the general-base absolute upper
+ramification filtration and the proalgebraic unit group consumed there, and the
+fundamental group of that unit group built in §2. These objects are absent at the pins,
+so these statements are not included.
 
 The regular-pair statements of §3 do not identify the perfectoid Fontaine kernel
 or construct the crystalline θ map and logarithm. The canonical de Rham topology, Tate period t and
