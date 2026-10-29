@@ -17,7 +17,7 @@ map and its naturality are specified in the README.
 
 The other headline results require mathematical objects absent from the pins:
 
-* C−1/C0's completed-stalk comparison and exact coherent analytification require complex
+* C-1/C0's completed-stalk comparison and exact coherent analytification require complex
   analytic spaces with their nonreduced holomorphic structure sheaves and the scheme/space
   analytification functors. Native locally ringed spaces and finitely presented module
   sheaves alone do not supply these objects.
