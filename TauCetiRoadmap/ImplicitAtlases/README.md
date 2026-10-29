@@ -11,14 +11,14 @@ This roadmap owns:
 - deformation spaces, partial and global virtual cochain complexes and their interval diagrams (Layer 2);
 - local orientability, the virtual orientation sheaf, partial and global purity and the virtual/Čech comparison (Layer 3);
 - the obstruction complex, the global relative trace and the rational virtual fundamental class with finite-subatlas independence (Layer 4);
-- the boundary exact triangle, boundary and cobordism laws, refinement invariance, functional pushforward, finite-CW realization, regular-manifold normalization and the Euler comparison (Layer 5);
+- the boundary exact triangle, boundary and cobordism laws, refinement invariance, functional pushforward, finite-CW realization, regular-manifold normalization, the zero-set atlas of a smooth section on a base with or without boundary and the Euler comparison (Layer 5);
 - cell-like stratified atlases, their normal lines and restricted atlases, the stratified virtual complex, product atlases and the compact Čech external product (Layer 6);
 - transverse fiber-product atlases over a manifold, the supported Gysin map and the fiber-product identity (Layer 7).
 
 What it builds on, and does not plan again:
 
-- **AlgebraicTopology.** Relative singular chains and local coefficients (Stage 2), subdivision, excision and Mayer–Vietoris (Stage 3), cochains, cup and cap products and the Eilenberg–Zilber comparison (Stage 6).
-- **CharacteristicClasses.** The constant-coefficient Čech/singular comparison on paracompact Hausdorff spaces of CW type (§C1.2b) and the Thom class of an oriented vector bundle (§C2, item 1).
+- **AlgebraicTopology.** Relative singular chains and local coefficients (Stage 2), subdivision, excision and Mayer–Vietoris (Stage 3), the Alexander–Whitney, shuffle and Eilenberg–Zilber maps with their relative and local-coefficient versions (Stage 5, item 1), cochains, cup and cap products, the cup/cross comparison, and manifold orientation and duality with the compact-support local-homology lemma on boundaryless second-countable manifolds (Stage 6).
+- **CharacteristicClasses.** The constant-coefficient Čech/singular comparison on paracompact Hausdorff spaces of CW type (§C1.2b) the Thom class of an oriented vector bundle (§C2, item 1) and the representation of the Euler class by the zero locus of a transverse section (§C2, item 3).
 - **DGAInfinity, Layer 0.** Signed graded tensor and Koszul-sign conventions for complexes.
 - **AbelianSchemesAndArithmeticModuliPartII, §B2.9.** Invariance of domain in equal real dimension: a continuous injection from an open subset of ℝ^m to ℝ^m is an open embedding, and its consequence for boundaryless topological manifolds. Layer 6 consumes it and proves only the cell-like-stratum consequences.
 
@@ -52,6 +52,7 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 - `CochainComplex.shiftFunctor` (Mathlib/Algebra/Homology/HomotopyCategory/Shift.lean): the shift `K[n]^i = K^(i+n)` with differential multiplied by `(−1)^n`. Used for every reindexing comparison in Layer 2, Layer 4 and Layer 7.
 - `CategoryTheory.cechComplexFunctor` (Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean): the Čech complex of a presheaf on a fixed cover. Used in §0.7 on a fixed cover and through §0.7 in §6.5.
 - `TopCat.Sheaf` (Mathlib/Topology/Sheaves/Sheaf.lean), `TopCat.Presheaf.stalk` (Mathlib/Topology/Sheaves/Stalks.lean), `TopCat.Sheaf.pushforward` and `TopCat.Sheaf.pullback` (Mathlib/Topology/Sheaves/Functors.lean): sheaves on a topological space, stalks, and pushforward and pullback along a continuous map. Mathlib has no extension by zero, no K-sheaves and no colimit-over-covers Čech cohomology; §0.6–§0.9 construct them.
+- `CategoryTheory.Sheaf.H` (Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean): derived-functor cohomology of an abelian sheaf on a site, the `Ext` groups from the constant sheaf ℤ. Not used: the engine uses only the Čech cohomology of §0.7, and no target of this roadmap compares the two.
 - `TopologicalSpace.Compacts`: compact subsets, the index category of K-presheaves in Layer 2 and Layer 3.
 - `ModuleCat`, `TopCat`, `Module.finrank`, `EuclideanSpace` and `Topology.IsOpenEmbedding`: the carriers of coefficients, spaces, obstruction dimensions, local models and open embeddings.
 
@@ -64,14 +65,16 @@ Signs are read in ℤ/2: an exponent such as d(q − d) with d negative is reduc
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-- Stage 2: relative singular chains, homology of pairs and local coefficient systems. Used in §0.2 and §0.4.
-- Stage 3: subdivision, excision and binary Mayer–Vietoris with local coefficients. Used in §3.2.
-- Stage 6: cochains, cup and cap products, the Eilenberg–Zilber comparison and manifold orientation and duality on its carriers. Used in §0.4, §5.5 and §7.3.
+- Stage 2: relative singular chains, homology of pairs and local coefficient systems. Used in §0.2, §0.4 and §0.10.
+- Stage 3: subdivision, excision and binary Mayer–Vietoris with local coefficients. Used in §0.10 and §3.2.
+- Stage 5, item 1: the Alexander–Whitney, shuffle and Eilenberg–Zilber chain-homotopy equivalences for singular chains with their natural, local-coefficient and relative versions. Used in §0.4.
+- Stage 6: cochains, cup and cap products, the cup/cross comparison, and manifold orientation and duality on its Hausdorff second-countable carriers, including the compact-support local-homology lemma: for a boundaryless m-manifold U, a compact K ⊆ U and a module-valued local system L, H_i(U, U∖K; L) = 0 for i > m. Used in §0.10, §5.5 and §7.3.
 
 ### From TauCetiRoadmap.CharacteristicClasses
 
 - §C1.2b: the Čech/singular comparison with constant coefficients on paracompact Hausdorff spaces of CW type. Used in §5.5.
 - §C2, item 1: the Thom class of an oriented real vector bundle with its naturality and uniqueness. Used for the diagonal Thom class in §7.3 and the Euler pairing in §5.6.
+- §C2, item 3: the zero locus of a transverse smooth section, with its orientation, represents the Euler class through the Thom class. Used in §5.6.
 
 ### From TauCetiRoadmap.DGAInfinity
 
@@ -137,7 +140,7 @@ Use Mathlib's `Representation.invariants` and averaging `Representation.averageM
 
 ### 0.4 Relative chains and product adapters
 
-Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChainComplex` as the quotient by subspace chains, extending the homological index by zero below 0 before integer reindexing. Construct the coefficient, pair-map, cone and finite-group adapters. Use the simplicial shuffle map with its signed symmetry and associativity, and construct its relative, local-coefficient and invariant versions on the pairs below, comparing with `TopCat.eilenbergZilberHomotopyEquiv`. Every strict identity used to define an interval diagram is proved on this chain model; an abstract monoidal derived equivalence is not a strict chain map.
+Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChainComplex` as the quotient by subspace chains, extending the homological index by zero below 0 before integer reindexing. Construct the coefficient, pair-map, cone and finite-group adapters. Use the Alexander–Whitney, shuffle and Eilenberg–Zilber maps with their relative and local-coefficient versions from AlgebraicTopology Stage 5 item 1, with the signed symmetry and associativity of the shuffle map, and construct their finite-group invariant versions on the pairs below, comparing with `TopCat.eilenbergZilberHomotopyEquiv`. Every strict identity used to define an interval diagram is proved on this chain model; an abstract monoidal derived equivalence is not a strict chain map.
 
 - The relative shuffle map is a chain map on pairs `(X, A) × (Y, B) → (X × Y, A × Y ∪ X × B)`, associative and unital, with symmetry sign `(−1)^(pq)` on degrees (p, q).
 - Twisted and invariant versions are natural in coefficient morphisms and equivariant maps.
@@ -148,7 +151,7 @@ Reuse Tau Ceti's `TopPair.singularChainComplexFunctor` and `TopPair.twistedChain
 - For (ℝ, ℝ∖0): H_1 = ℤ and H_0 = 0, since ℝ∖0 has two components and ℝ one.
 - The shuffle product of two 1-simplices followed by the factor swap differs from the swapped product by −1.
 
-*Needs:* Tau Ceti `TopPair.singularChainComplexFunctor`, `TopPair.twistedChainComplex`, `TopCat.eilenbergZilberHomotopyEquiv`; AlgebraicTopology Stages 2 and 6.
+*Needs:* Tau Ceti `TopPair.singularChainComplexFunctor`, `TopPair.twistedChainComplex`, `TopCat.eilenbergZilberHomotopyEquiv`; AlgebraicTopology Stage 2 and Stage 5 item 1.
 
 ### 0.5 Parity normalization
 
@@ -239,7 +242,7 @@ For an open inclusion j : U → X define j_! F as the subsheaf of j_* F of secti
 For a topological manifold M of dimension n, with no second countability or paracompactness assumed (Pardon, Convention A.6.1, p. 125), define the orientation sheaf o_M as the sheaf whose K-sections are H_n(M, M∖K), of parity n (Pardon, Definition A.6.2, p. 126). For M with boundary, inclusion j of the interior and i of the boundary, define `o_M = j_* o_(M∖∂M)` and `o_(M rel∂) = j_! o_(M∖∂M)`.
 
 - o_M and o_(M rel∂) on the interior are locally isomorphic to the constant sheaf ℤ, and `0 → o_(M rel∂) → o_M → i_* o_(∂M) → 0`, whose last map is the boundary map of the pair (M, ∂M), is exact on stalks (Pardon, Definition A.6.2, p. 126).
-- For compact K ⊆ M, H_q(M, M∖K) = 0 for q > n, uniformly in K. Route: Mayer–Vietoris induction over compact convex pieces of charts (Hatcher, Lemma 3.27(b), p. 236) with the half-space model added, where H∖K is contractible for a compact convex K meeting the boundary hyperplane.
+- For compact K ⊆ M and a local system L of R-modules, H_q(M, M∖K; L) = 0 for q > n, uniformly in K. For a boundaryless Hausdorff second-countable M this is the compact-support local-homology lemma of AlgebraicTopology Stage 6 (Hatcher, Lemma 3.27(b), p. 236), consumed and not proved again. For a boundaryless M without second countability, excision of the closed set M∖U (Stage 3) identifies H_q(M, M∖K; L) with H_q(U, U∖K; L) for a finite union U of charts containing K, which is Hausdorff and second countable. For M with boundary this roadmap adds the half-space model, where H∖K is contractible for a compact convex K meeting the boundary hyperplane, and runs the same Mayer–Vietoris induction over compact convex pieces of charts.
 - For a closed subset i : Z → M and a closed tamely embedded codimension-0 submanifold with boundary N ⊆ ∂M, with j : M° ∪ N° → M, there is a canonical isomorphism `H^•[C_(n−1−•)(N, N∖Z) → C_(n−•)(M, M∖Z)] ≅ Ȟ^•_c(Z; i^* j_! j^* o_M)`, and for N = ∅ `H_(n−•)(M, M∖Z) ≅ Ȟ^•_c(Z; i^* o_(M rel∂))` (Pardon, Lemma A.6.4, p. 127). The route is §0.6 Lemma A.6.3, purity (§0.8) on the one-point compactification of Z and §0.9.
 
 **Checks.**
@@ -248,7 +251,7 @@ For a topological manifold M of dimension n, with no second countability or para
 - For M = Z = [0, ∞) and N = ∅: H_(1−q)([0, ∞)) is ℤ at q = 1 and Ȟ^1_c([0, ∞); o_(M rel∂)) = Ȟ^1_c((0, ∞); ℤ) = ℤ, whereas Ȟ^•_c([0, ∞); o_M) = 0 in every degree: o_M in place of o_(M rel∂) is wrong.
 - For M = [0, ∞) and K = {0}: H_q(M, M∖0) = 0 for all q, so the boundary stalk of o_M is not the absolute local homology there; the stalk ℤ of o_M at 0 comes from j_*.
 
-*Needs:* §0.6, §0.8, §0.9; AlgebraicTopology Stage 2.
+*Needs:* §0.6, §0.8, §0.9; AlgebraicTopology Stages 2, 3 and 6.
 
 ### 0.11 Finite interval diagrams and pure gluing
 
@@ -274,7 +277,7 @@ The orientation line of ℝ with its reflection, the swap of two odd lines, the 
 
 ### Dependencies
 
-AlgebraicTopology Stages 2 and 6; DGAInfinity Layer 0; Mathlib and Tau Ceti as listed.
+AlgebraicTopology Stages 2, 3, 5 (item 1) and 6; DGAInfinity Layer 0; Mathlib and Tau Ceti as listed.
 
 ## Layer 1: Topological implicit atlases (V1)
 
@@ -382,7 +385,7 @@ for I ⊆ I' ⊆ J' ⊆ J ⊆ B ⊆ B', with new t-coordinates zero, the evident
 **Checks.**
 
 - For B = I = J = ∅: D = X_∅^reg and Z_K = K ∩ X_∅^reg.
-- For B = I = J = {α}, X_α = ℝ, s_α(x) = x, trivial Γ_α, d = 0: D = {(e, t, x) : x = t e, t ≥ 0} ≅ ℝ × ℝ_≥0 by (e, t), of dimension 0 + 1 + 1 = 2, and Z_X = {(0, t, 0) : t ≥ 0} is a closed noncompact half-line.
+- For B = I = J = {α}, X_α = ℝ, s_α(x) = x, trivial Γ_α, d = 0 and X_∅^reg = X = {0}: D = {(e, t, x) : x = t e, t ≥ 0} ≅ ℝ × ℝ_≥0 by (e, t), of dimension 0 + 1 + 1 = 2, and Z_X = {(0, t, 0) : t ≥ 0} is a closed noncompact half-line; the points with t = 0 lie in D because ψ_∅α(0) = 0 ∈ X_∅^reg. With X_∅^reg = ∅ instead, those points fail the condition ψ_∅α(x) ∈ X_∅^reg, so D ≅ ℝ × ℝ_>0 and Z_X is the open half-line t > 0, still closed in D.
 - For B = J = {α}, I = ∅ and X_∅^reg = ∅: the condition ψ_∅α(x) ∈ X_∅^reg is never satisfied, so D_(∅,α,α) = ∅.
 
 *Needs:* §1.1, §1.2; §0.10 for the tame-pair statements.
@@ -417,7 +420,7 @@ Apply the finite interval/flag total of §0.11 on the poset of subsets of B to o
 **Checks.**
 
 - For B = ∅: C_vir(K rel∂; ∅) = C_(d−•)(X, X∖K) (Pardon, equation (5.2.4), p. 43).
-- For B = {α}: the pairs I ⊆ J ⊆ B are (∅, ∅), (∅, α), (α, α), and the flags of subsets are ∅, {α} and ∅ ≺ {α}; the flag total is the (∅, ∅) and (α, α) complexes in flag length 0 plus the (∅, α) complex in flag length 1, shifted to cochain degree −1, glued by the arrows (∅, α) → (∅, ∅) and (∅, α) → (α, α) (Pardon, Definition A.7.2, p. 128). A total that also placed the (∅, α) complex in flag length 0 would have Euler characteristic changed by twice that complex's.
+- For B = {α}: the pairs I ⊆ J ⊆ B are (∅, ∅), (∅, α), (α, α), and the flags of subsets are ∅, {α} and ∅ ≺ {α}; the flag total is the (∅, ∅) and (α, α) complexes in flag length 0 plus the (∅, α) complex in flag length 1, shifted to cochain degree −1, glued by the arrows (∅, α) → (∅, ∅) and (∅, α) → (α, α) (Pardon, Definition A.7.2, p. 128). A total that placed the (∅, α) complex in flag length 0 instead of 1 would have Euler characteristic changed by twice that complex's, from −χ(C_(∅α)) to +χ(C_(∅α)); one that kept the flag-length-1 copy and added a second copy in flag length 0 would change it by χ(C_(∅α)).
 - For X = ∅ every deformation space is empty and C_vir(X; B) = 0.
 
 *Needs:* §2.2; §0.5; §0.11; Mathlib `CochainComplex.shiftFunctor`.
@@ -603,7 +606,7 @@ Prove that the dual connecting map sends the class of X to the class of ∂X, wi
 
 - For X = [0, 1]: [∂X] evaluates (a, b) ∈ Čech^0({0, 1}) to b − a, and its pushforward to a point is −1 + 1 = 0.
 - For W = X × [0, 1] the two ends give the same class, and reversing the orientation of one end gives the negative.
-- The family s_t(x) = x³ + t x, t ∈ [0, 1], on ℝ × [0, 1] has zero set {0} × [0, 1] and is a concordance from the atlas x³ to the atlas x³ + x, both of class 1; s(x) = x² and s(x) = x have classes 0 and 1, so no concordance joins them.
+- The family s_t(x) = x³ + t x, t ∈ [0, 1], on ℝ × [0, 1] has zero set {0} × [0, 1], and its zero-set atlas (§5.6) is a concordance whose boundary restrictions contain the atlases of x³ and of x³ + x as subatlases, both of class 1; s(x) = x² and s(x) = x have classes 0 and 1, so no concordance joins them.
 
 *Needs:* §5.1, §4.3.
 
@@ -652,7 +655,7 @@ For the oriented rational functional of §5.4, if Y is a finite CW complex, or i
 
 ### 5.6 Regular-manifold normalization and the Euler comparison
 
-If the empty-index regular footprint is all of X, replace the atlas by its empty subatlas and recover the pairing with the ordinary fundamental class, relative to the boundary where present, with its orientation coefficients (Pardon, Lemma 5.2.6, p. 43). Construct the zero-set atlas of a smooth finite-rank bundle section on a boundaryless smooth manifold with compact zero set from finite local obstruction maps and the surjective-linearization locus (Pardon, Definition 5.3.1, p. 44), and prove that its virtual class agrees with the compactly supported Euler/Thom pairing (Pardon, Proposition 5.3.4, p. 45, where o_X = o_B ⊗ o_E^∨ makes the atlas locally orientable). The comparison uses a transverse final section obtained from the original by a compactly supported perturbation and a compact-zero homotopy: choose finitely many frame sections with compactly supported cutoffs spanning each fiber near the zero set; the universal section over the coefficient space is transverse, Sard's theorem applied to its projection gives an arbitrarily small regular parameter, and the straight-line homotopy is supported in a fixed relatively compact neighborhood, so its zero locus is compact. In the boundary version a product collar is supplied on which the section is pulled back from its boundary restriction, that restriction is transverse, and perturbations are supported away from a smaller collar. Without boundary transversality no transverse final section fixed on the boundary is asserted. This construction uses its smooth bundle hypotheses and is not an input of the topological engine.
+If the empty-index regular footprint is all of X, replace the atlas by its empty subatlas and recover the pairing with the ordinary fundamental class, relative to the boundary where present, with its orientation coefficients (Pardon, Lemma 5.2.6, p. 43). Construct the zero-set atlas of a smooth section s of a smooth finite-rank vector bundle E over a smooth manifold B, with or without boundary, with compact zero set X = s⁻¹(0) (Pardon, Definition 5.3.1, p. 44): the index set consists of the thickening data (V, E_α, λ_α) with V ⊆ B open, E_α a finite-dimensional real vector space and λ_α : E_α × V → E|_V a smooth bundle map; the thickened space X_I is the zero set of `s + Σ_(α∈I) λ_α(·, e_α)` on (∩_(α∈I) V_α) × E_I with trivial groups, s_α the coordinate projection, forgetful footprint maps, and ∂X_I the part of X_I over ∂B. Define the regular locus X_I^reg as the set of points where the linearization `T_x B ⊕ E_I → E_x` of the thickened section is surjective and, at points over ∂B, where its restriction to `T_x ∂B ⊕ E_I` is also surjective. On a boundaryless base this is the source's locus; on a base with boundary the source's locus, ambient surjectivity alone, is not an atlas with boundary, since it need not be a manifold with boundary along ∂B (Checks below), and the boundary condition is required of every thickening datum. Prove that X_I^reg is open and is a smooth manifold with boundary `X_I^reg ∩ ∂X_I`: in a boundary chart extend the thickened section to a neighborhood in ℝ^n, its zero set there is a submanifold on which the boundary coordinate has nonzero differential, by the boundary-tangent surjectivity, so the half of that submanifold over the half-space is a manifold with boundary. Prove that the result is an implicit atlas with boundary of dimension dim B − rank E (§1.2) with a smooth enhancement (§1.3), and that its boundary restriction is the zero-set atlas of s|_(∂B) indexed by the thickening data restricted to ∂B. Prove that the virtual class of the zero-set atlas of a section on a boundaryless base agrees with the compactly supported Euler/Thom pairing (Pardon, Proposition 5.3.4, p. 45, where o_X = o_B ⊗ o_E^∨ makes the atlas locally orientable). Route: choose finitely many sections σ_i of E with compactly supported cutoffs that span every fiber over a neighborhood of X; the universal section (b, λ) ↦ s(b) + Σ λ_i σ_i(b) over B × ℝ^k is transverse to zero, and Sard's theorem applied to the projection of its zero set to ℝ^k gives an arbitrarily small regular parameter λ, so that s₁ = s + Σ λ_i σ_i is transverse with compact zero set. The collared homotopy `s̃(b, t) = s(b) + ρ(t) Σ λ_i σ_i(b)` on B × [0, 1], with ρ smooth, ρ ≡ 0 near 0 and ρ ≡ 1 near 1, has zero set inside (∪ supp σ_i) × [0, 1], which is compact, and agrees with s near t = 0 and with s₁ near t = 1; its zero-set atlas is an atlas with boundary of dimension dim B − rank E + 1 whose boundary restriction at t = 0 contains the zero-set atlas of s, and at t = 1 that of s₁, as subatlases through V ↦ V × [0, 1] and λ_α pulled back along the projection (Pardon, proof of Proposition 5.3.4, p. 45). The subatlas invariance of §5.3, the cobordism law of §5.2 and the normalization above identify the class of s with the fundamental class of the transverse zero set s₁⁻¹(0), which represents the compactly supported Euler class (CharacteristicClasses §C2 item 3). In the boundary version a product collar is supplied on which the section is pulled back from its boundary restriction, that restriction is transverse, and perturbations are supported away from a smaller collar. Without boundary transversality no transverse final section fixed on the boundary is asserted. This construction uses its smooth bundle hypotheses and is not an input of the topological engine.
 
 - If X_∅^reg = X, the class is the fundamental class of the compact manifold X.
 - For a smooth section with compact zero set, the class of its zero-set atlas equals the compactly supported Euler pairing.
@@ -662,8 +665,10 @@ If the empty-index regular footprint is all of X, replace the atlas by its empty
 - The section s(θ) = sin θ of the trivial line bundle on S¹ has zeros at 0 and π with local signs +1 and −1, and Euler number 0 = 1 − 1.
 - For the tangent bundle of S² any transverse vector field has signed zero count 2.
 - The section s(x) = x of the trivial line bundle on ℝ has compact zero set {0} and compactly supported Euler pairing 1; a compactly supported section is not transverse on the open set where it vanishes, which is why transversality is required of the final section only.
+- On B = ℝ × [0, 1] with the trivial line bundle, s̃(x, t) = x² − t χ(x) with χ compactly supported and χ ≡ 1 near 0, the uncollared straight-line homotopy from x² to the transverse section x² − χ: near (0, 0) the zero set is the parabola t = x², a line through the boundary point (0, 0). The ambient linearization (2x, −χ(x)) = (0, −1) is surjective there while its restriction to the boundary tangent space, 2x = 0, is not; so the ambient-surjectivity locus contains (0, 0) without being a manifold with boundary at it, and its boundary restriction would have regular locus {(0, 0)} at the empty index, whereas the zero-set atlas of x² has X_∅^reg = ∅. The collared homotopy has zero set {0} × [0, ε) near t = 0 with empty regular locus at the empty index, as the atlas of x² has.
+- The collar alone does not repair the ambient locus: with s̃(x, t) = x² for t near 0 and the thickening datum (ℝ × [0, 1], ℝ, λ(x, t, e) = −t e), the thickened zero set x² = t e near (0, 0, 1) is the surface t = x²/e, which meets t = 0 along the line x = 0 in its interior; the ambient linearization (0, −1, 0) is surjective and its boundary-tangent restriction is zero, so the boundary condition is needed in the regular locus of every thickening datum, not only at the empty index.
 
-*Needs:* §4.3, §5.2, §5.3; CharacteristicClasses §C2 item 1.
+*Needs:* §1.2, §1.3, §1.4, §4.3, §5.2, §5.3; CharacteristicClasses §C2 items 1 and 3.
 
 ### Examples
 

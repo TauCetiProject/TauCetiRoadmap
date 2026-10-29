@@ -15,7 +15,9 @@ the file states nothing. The headline theorems, and what each lacks, are:
   V0.11 applied to relative invariant singular chains on deformation spaces) and cover-colimit
   Čech cohomology with sheaf coefficients on compact Hausdorff spaces (Layer V0.7). None
   exists at the pins: Mathlib's `CategoryTheory.cechComplexFunctor` is the Čech complex of one
-  fixed cover, and the virtual class is a functional constructed from these complexes.
+  fixed cover, its `CategoryTheory.Sheaf.H` is derived-functor cohomology on a site that the
+  roadmap does not compare with its Čech cohomology, and the virtual class is a functional
+  constructed from these complexes.
 * The boundary law, cobordism and refinement invariance, regular-manifold normalization and the
   Euler comparison (Layer V5). They need the virtual class, relative Čech cohomology of the pair
   (X, ∂X) and, for the Euler comparison, the zero-set atlas of a smooth section.
