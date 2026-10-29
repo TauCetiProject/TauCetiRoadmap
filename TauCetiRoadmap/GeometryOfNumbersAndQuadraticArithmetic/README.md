@@ -422,13 +422,13 @@ Consumed from §2F: the minimum exists; the threshold form `λ_i^sq(L) ≤ N ↔
 
 - A positive rank-one Gram matrix `[4]` has squared minimum `4`: threshold `3` fails and threshold `4` holds.
 - For `diag(1,4)` the squared minima are `(1,4)`, simultaneously attained by the coordinate vectors; for the `A₂` Gram matrix `[[2,1],[1,2]]` both squared minima are `2`, attained by `e₁` and `e₂`.
-- For the semidefinite Gram matrix `diag(0,4)` the nonzero vector `e₁` has norm `0`, so `λ_0^sq` would be `0` while the first minimum of a lattice is taken over nonzero vectors: positive definiteness is load-bearing for `λ_0^sq(L) = min L`.
+- For the semidefinite Gram matrix `diag(0,4)` both `λ_0^sq` and `min L` are `0`, attained by the nonzero vector `e₁`, while `λ_1^sq = 4`: the identification `λ_0^sq(L) = min L` survives semidefiniteness, and positive definiteness is what makes every `λ_i^sq` positive. For the indefinite Gram matrix `[−1]` no nonzero vector has a natural norm, so `min L` is the junk value `0` of an empty natural infimum.
 - For `diag(1,1)` the attaining pair `(1,0),(1,1)` is linearly independent with norms `(1,2)`, not `(1,1)`; the pair `(1,0),(0,1)` attains, and attainment is a statement about some family, not every independent one.
 
 Prove `sqSuccessiveMin_eq_sq_successiveMin` (1.2.14): let L be a positive definite Tau Ceti `TauCeti.IntegralLattice` of rank `n ≥ 1` and e:L→E its real model with ‖e(x)‖²=B(x,x), so that e(L) is a discrete full lattice in E (ThetaSeries 2D `realModel`). For `i:Fin n`, transported to `Fin(dim_R E)` along `n=dim_R E`, the squared-norm minimum `λ_i^sq(L)` of §1.2.13a, a natural number, equals `λ_i(e(L), closedBall(0,1))²`.
-The squared-norm minima count Z-independence in L and real minima count R-independence in E; the two agree because e is injective and e(L) is discrete. Write `λ = λ_i(e(L), closedBall(0,1))`, which is `≥ 0` as an infimum of nonnegative dilation factors. The threshold form of §1.2.13a at `N = λ_i^sq(L)` puts `i+1` independent vectors of e(L) in `√N · closedBall(0,1)`, so `λ ≤ √N` by SuccessiveMinima 1.4 and `λ² ≤ N`. Conversely SuccessiveMinima 1.5 gives `i+1` independent vectors of norm at most `λ`; their norms `B(x,x)` are integers at most `λ²`, so `N ≤ ⌊λ²⌋ ≤ λ²`. Positivity of `λ` is not used.
+The squared-norm minima count Z-independence in L and real minima count R-independence in E; the two agree because e is injective and e(L) is discrete. Write `λ = λ_i(e(L), closedBall(0,1))`, which is `≥ 0` as an infimum of nonnegative dilation factors. The threshold form of §1.2.13a at `N = λ_i^sq(L)` puts `i+1` independent vectors of e(L) in `√N · closedBall(0,1)`, so `λ ≤ √N` by SuccessiveMinima 1.4 and `λ² ≤ N`. Conversely SuccessiveMinima 1.4 at `r = λ` gives `i+1 ≤ dim span(e(L) ∩ closedBall(0,λ))`, so that span contains `i+1` independent lattice vectors of norm at most `λ`; their norms `B(x,x)` are integers at most `λ²`, so `N ≤ ⌊λ²⌋ ≤ λ²`. Positivity of `λ` is not used.
 (Source: direct comparison of the two infimum definitions, Evertse2023, §2.3, printed p.23, and IntegralLattices §2F.)
-*Needs:* ThetaSeries 2D `realModel`, §1.2.13a (threshold form of the squared-norm minima), SuccessiveMinima 1.4 `successiveMin_le_iff_finrank` and 1.5 (attainment), Mathlib `Real.sInf_nonneg`, `Int.le_floor`.
+*Needs:* ThetaSeries 2D `realModel`, §1.2.13a (threshold form of the squared-norm minima), SuccessiveMinima 1.4 `successiveMin_le_iff_finrank` (at `r = √N` and at `r = λ`), Mathlib `Real.sInf_nonneg`, `Int.le_floor`.
 **Checks.**
 
 - In rank one with Gram entry 4 the real minimum is 2 and the squared minimum is 4; equating them without the square is false.
@@ -2526,7 +2526,7 @@ Specialised to finite-dimensional signed hermitian spaces over a nonarchimedean 
 6.4.2a. Prove that over a field `K` with `2` invertible, `ExactW0` of the exact category of finite-dimensional `K`-vector spaces with the dual-space duality is additively isomorphic to the Witt ring of QuadraticFormInvariants Layer 4 via `B ↦ q`, `q(x) = B(x,x)/2`; orthogonal sums and hyperbolic relations agree. This supplies no integral Witt ring or dyadic quadratic-refinement identification.
 The field Witt ring is Tau Ceti `WittRing K` with `WittGrothendieckRing K`; the comparison is an additive transport and uses 2.1.1 to match the categorical and quadratic hyperbolic planes.
 (Source: QuadraticFormInvariants, Layer 4, Witt and Witt–Grothendieck rings, in its supplier README; Schlichting2010, §2.2, printed p.111, for `W₀`.)
-*Needs:* 6.4 `ExactW0`, 2.1.1, 2.2 `IntegralQuadraticLattice.ofCarrier`, QuadraticFormInvariants Layer 4.
+*Needs:* 6.4 `ExactW0`, 2.1.1, QuadraticFormInvariants Layer 4.
 **Checks.**
 
 - Over `ℝ` the space `(ℝ, B(x,y) = 2xy)` goes to `q = x²`, the class `⟨1⟩`, which generates `W(ℝ) ≅ ℤ` by signature.
