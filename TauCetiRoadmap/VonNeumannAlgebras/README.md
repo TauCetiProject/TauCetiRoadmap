@@ -127,7 +127,9 @@ predual. Earlier algebraic and net-based theory has no separability restriction.
 (`Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean`); the geometric Hahn–Banach separation
 theorems `geometric_hahn_banach_closed_point` and `geometric_hahn_banach_compact_closed` of a
 locally convex real topological vector space (`Mathlib/Analysis/LocallyConvex/Separation.lean`),
-applied in the weak and weak-star topologies; the commutative Gelfand duality
+applied in the weak and weak-star topologies, which are locally convex by
+`WeakBilin.locallyConvexSpace` (`Mathlib/Analysis/LocallyConvex/WeakDual.lean`); the commutative
+Gelfand duality
 `gelfandStarTransform`, `gelfandTransform_isometry` and `gelfandTransform_bijective` under
 `CommCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`) and the compactness of
 `characterSpace ℂ A` for a unital normed algebra (`Mathlib/Analysis/Normed/Algebra/Basic.lean`);
@@ -174,7 +176,8 @@ convolution: the ring structure on `𝕋 Δ H R` with `HeckeCosetModule.single_m
 Each is used as stated at the pin.
 
 **From TauCetiRoadmap.BanachSpaceTheory.** [B1](../BanachSpaceTheory/README.md#b1-duality-and-weak-topologies)
-annihilators, quotient duals, adjoints and Goldstine;
+annihilators, quotient duals, adjoints and Goldstine, the weak/norm closure agreement for convex
+sets, and the weak and weak-star continuity criteria by evaluation;
 [B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
 James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
 quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
@@ -378,7 +381,10 @@ absolutely convergent square-summable vector pairings. Establish the shared cont
 and closed-convex-set results by locally convex separation, including the hypotheses on
 subspaces. Prove weak compactness of the operator unit ball.
 *Needs:* Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H` and their net criteria, `banach_steinhaus`,
-Banach–Alaoglu; BanachSpaceTheory B1's locally convex separation; Layer 0's C*-structure on `B(H)`.
+Banach–Alaoglu; Mathlib's `geometric_hahn_banach_closed_point` (with `WeakBilin.locallyConvexSpace`
+for the local convexity of the weak and weak-star topologies); BanachSpaceTheory B1's weak/norm
+closure agreement for convex sets and its weak and weak-star continuity criteria by evaluation;
+Layer 0's C*-structure on `B(H)`.
 
 **Weak limits of projections.** On every infinite-dimensional complete complex
 Hilbert space H, prove that the WOT closure of the orthogonal projections in
@@ -460,7 +466,9 @@ finite double centralizer; the topologies above.
 - Mathlib `ContinuousLinearMapWOT`, `H →Lₚₜ[ℂ] H`, `banach_steinhaus`, positive-operator order.
 - Layer 0 (C*-algebra structure on concrete algebras).
 - RepresentationTheory/SemisimpleAlgebras (finite-dimensional double centralizer).
-- BanachSpaceTheory B1 (locally convex separation and weak-star topology on the predual side).
+- Mathlib `geometric_hahn_banach_closed_point` and `WeakBilin.locallyConvexSpace`.
+- BanachSpaceTheory B1 (weak/norm closure agreement for convex sets and the weak-star continuity
+  criterion by evaluation on the predual side).
 
 ## Layer 2: Elementary algebra, corners, and tensors
 
@@ -3565,7 +3573,9 @@ this gives the concrete `M⊗_min M′⊆B(H)⊗_min M′⊆B(H⊗̂H)` used bel
 *Needs:* V2's completed Hilbert tensors, bounded operator tensor maps and vector-functional
 slice maps; V0's states and GNS; Mathlib's continuous functional calculus and spectral
 permanence for `max σ(a)`; Mathlib's geometric Hahn–Banach separation
-(`geometric_hahn_banach_closed_point` in the weak-star topology of `A*`).
+(`geometric_hahn_banach_closed_point` in the weak-star topology of `A*`); BanachSpaceTheory B1's
+weak-star continuity criterion by evaluation (the separating functional is evaluation at an
+element of A).
 
 **Checks.**
 
