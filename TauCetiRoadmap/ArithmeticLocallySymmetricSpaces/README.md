@@ -131,16 +131,19 @@ EtaleCohomologyFoundations §F.10.3 /
 `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`; bounded
 constructible/ctf categories are supplied by EtaleCohomologyFoundations §F.1 /
 `VanishingCycles.constructibleDerivedCategory` on the étale domain. The topological
-local-coefficient comparison, extension by zero, supported pushforward and compact supports for
-finite commutative coefficients are supplied by ComplexComparisonPartII §C6.1 /
-`topologicalCoefficientComparison`; compact-support Artin comparison is supplied by its §C6.4 /
-`artinComparisonCompactSupport` on separated finite-type complex schemes. ALS.F.2 supplies
-opposite-ring duality, noncommutative scalar-extension handedness, restriction of scalars and
-right-module Tor tests on the shared predicate; ALS.F.3 adapts the supplied topological
-functors. Over every commutative coefficient ring, TopologicalSheafCohomology supplies `R`-linear
-derived global sections (TS0.1), extension by zero, compact supports and the open–closed triangles
-(TS3.1–TS3.3), pullback (TS3.4), proper finite-fibre pushforward (TS3.5) and finite-group
-quotients (TS3.6) on locally compact Hausdorff spaces; ALS.F.3 proves the sheaf/singular
+local-coefficient comparison for finite commutative coefficients, and, over every commutative
+coefficient ring on locally compact Hausdorff spaces, extension by zero, c-soft resolutions,
+derived compact supports, supported pushforward and the open–closed localization triangle, are
+supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; compact-support
+Artin comparison is supplied by its §C6.4 / `artinComparisonCompactSupport` on separated
+finite-type complex schemes. The `R`-linear derived categories of module sheaves on a
+topological space, their K-injective replacements and the adjunction `f^* ⊣ Rf_*` are supplied
+by EnhancedDerivedSheaves §§0.1–0.2 and 0.4; the abelian derived pushforward, cohomology
+pullback and flasque computation of `Sheaf.H` by SchemeAndStackFoundations §§2.1 and 2.5. ALS.F.2 supplies opposite-ring duality,
+noncommutative scalar-extension handedness, restriction of scalars and right-module Tor tests
+on the shared predicate; ALS.F.3 adapts the supplied topological functors and owns the
+comparison of `R`-linear derived sections with Mathlib's abelian sheaf cohomology, the stalk
+formula and exactness of pushforward along proper finite-fibre maps, and the sheaf/singular
 comparison for local systems with arbitrary stalk modules and its relative form.
 DifferentialGeometry supplies differential forms (Layer 0), orientations (Layer 2), de Rham
 cohomology (Layer 6) and the de Rham theorem with real constant coefficients (Layer 8); this roadmap
@@ -453,13 +456,19 @@ apply on each transported open boundary stratum, with its own dimension and orie
 - **GeometricTopology**: Layer 11 (`IsTriangulable`). The smooth triangulation theorem is item 1
   ("Smooth implies PL") of its section *The smoothing-and-triangulation comparison*, outside its
   layers and without boundary; ALS.2.4 states the form with boundary as its own target.
-- **TopologicalSheafCohomology**: TS0.1 (`R`-linear derived global sections of module sheaves over
-  an arbitrary commutative ring, compared with the underlying abelian sheaf cohomology), TS3.1
-  (`j_! ⊣ j^*` with its stalk formula and exactness, c-soft resolutions), TS3.2–TS3.3 (compact
-  supports, the one-point-compactification comparison and the open/closed relative triangles),
-  TS3.4 (pullback and its comparison with pushforward), TS3.5 (proper finite-fibre pushforward and
-  its stalk formula), TS3.6 (quotients by finite groups and the invariant direct image), all on
-  locally compact Hausdorff spaces.
+- **EnhancedDerivedSheaves**: §0.1 (`ClassicalDerived.enhancedCategory`, the derived category of
+  module sheaves over a commutative ring on an essentially small site, here the site of opens of
+  a topological space, with its `D⁺` and the identification of its homotopy category with
+  Mathlib's `DerivedCategory`), §0.2 (`ClassicalDerived.replacements`, K-injective replacements;
+  a bounded-below complex of injectives is K-injective), §0.4 (`ClassicalDerived.functorCoherence`,
+  the adjunction `f^* ⊣ Rf_*` for an exact inverse image, with composition and agreement with
+  Mathlib's bounded-below right derived functor).
+- **SchemeAndStackFoundations**: §2.1 (`Sheaf.derivedPushforward` with `derivedPushforward_comp`,
+  `Sheaf.H.pullback` and the identification `RΓ(D, Rf_*F) = RΓ(C, F)` for a morphism of sites with
+  exact inverse image, applied to the site morphism `Opens.map f` of a continuous map), §2.5
+  (`flasque_cech_vanishing`, `sheafH_iso_godement`: a flasque resolution of an abelian sheaf on
+  a topological space computes `Sheaf.H`), §2.23 (scheme-domain equivariant sheaf cohomology,
+  which ALS.F.4 parallels on topological spaces).
 - **IntegralHeckeAndGaloisDeterminants**: Layers 0–1 (determinants, and semisimple reconstruction
   in §1.2), Layer 2 (§2.1 `HeckeImage.Supported`, `HeckeImage.derived_hom_finite`,
   `HeckeImage.IsGhost`; §2.2 `HeckeImage.ghost_nilpotence`, finite local factors and idempotent summands), Layer 3a
@@ -491,7 +500,7 @@ Direct hard suppliers for the shared foundations and arithmetic interfaces inclu
 AdelicAlgebraicGroups, SmoothRepresentationsOfLocalGroups,
 ReductiveGroupsPartII and IntegralHeckeAndGaloisDeterminants at the
 sections listed above, and DerivedModuleAlgebra, EtaleCohomologyFoundations,
-ComplexComparisonPartII, TopologicalSheafCohomology and ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
+ComplexComparisonPartII, EnhancedDerivedSheaves, SchemeAndStackFoundations and ClassifyingSpaces at the sections below. These contracts are dependencies of the mathematical
 specification; `Suggested.lean` imports only the pinned Mathlib and Tau Ceti modules.
 The inputs in the following subsection are hypotheses of the targets that use them, rather than
 existence theorems assigned to a supplier. KleinianGroups is an outbound scope boundary: its
@@ -501,8 +510,8 @@ hyperbolic-space specialization does not supply a prerequisite here.
 | --- | --- | --- |
 | Generic perfect complexes and traces | Supplied by DerivedModuleAlgebra §1.E.0 / `DerivedDeRham.IsPerfect`, `isPerfect_triangle`, `isPerfect_retract`, `isPerfect_baseChange`; EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity` | DerivedModuleAlgebra owns the ordinary-module predicate for every unital ring and its elementary finite-model and closure API; `PerfectComplex.IsPerfect` is its alias. EtaleCohomologyFoundations owns the enhanced DG/module and commutative compact/dualizable comparisons and traces. ALS.F.2 consumes the perfect full subcategory of `DerivedCategory (ModuleCat A)` through the realization equivalence `PerfectComplexInput(A)` constructed in §F.10.3, with its shift, scalar-extension, tensor, dual and trace compatibilities. ALS.F.2 retains opposite-ring duals, noncommutative scalar-extension handedness, restriction of scalars and right-module Tor tests. |
 | Bounded constructible/ctf categories | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | These are étale module-sheaf categories with explicit global cohomological and Tor bounds, not a boundedness assertion for non-neat arithmetic groupoid cohomology. |
-| Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The common finite-coefficient topological core has this owner. ALS.F.3 consumes its native local-system carrier, stalk/transport-preserving comparison and the same `j_!`, `Rf_!`, `RΓ_c`. Ordinary comparison uses locally contractible paracompact spaces; supports use locally compact Hausdorff spaces in that class and compact-support cochain comparison uses finite compatible triangulations. §C6.4 is the separated finite-type complex-scheme Artin comparison. Outside these domains the sheaf functors over arbitrary commutative rings are TopologicalSheafCohomology's (next row) and ALS.F.3 proves the arbitrary-stalk local-system comparison; ALS retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
-| Topological sheaf functors over arbitrary rings | Supplied by TopologicalSheafCohomology TS0.1 / `R`-linear derived global sections; TS3.1–TS3.6 / extension by zero, compact supports, open–closed triangles, pullback, proper finite-fibre pushforward and finite quotients | Arbitrary commutative `R` on locally compact Hausdorff spaces, which include `X̄_K`, `X_K`, `∂X̄_K` and `X̄^G × G(A^∞)^δ`. ALS.F.3 adds derived pushforward, the arbitrary-stalk local-system comparison and its relative form; ALS.F.4 adds the equivariant categories. |
+| Topological local-coefficient comparison and supports | Supplied by ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`; §C6.4 / `artinComparisonCompactSupport` | The finite-coefficient local-system comparison and the topological compact-support theory have this owner. ALS.F.3 consumes its native local-system carrier and stalk/transport-preserving comparison (finite `Λ`; locally contractible paracompact spaces; finite compatible triangulations for compact-support cochains) and, over every commutative ring on locally compact Hausdorff spaces, its `j_!` with stalks and exactness, c-soft resolutions, `RΓ_c`, the identifications `RΓ_c(X, F) ≅ RΓ(X⁺, j_!F)` and `RΓ_c(U, F|_U) ≅ RΓ_c(X, j_!F)`, the open–closed localization triangle and `Rf_!`. §C6.4 is the separated finite-type complex-scheme Artin comparison. ALS.F.3 proves the arbitrary-stalk local-system comparison and its relative form; ALS retains arithmetic slices, whole-inverse monodromy, level/translation and Hecke naturality, and relative Borel–Serre models. |
+| Derived module-sheaf categories over arbitrary rings | Supplied by EnhancedDerivedSheaves §0.1 / `ClassicalDerived.enhancedCategory`, §0.2 / `ClassicalDerived.replacements`, §0.4 / `ClassicalDerived.functorCoherence`; SchemeAndStackFoundations §2.1 / `Sheaf.derivedPushforward`, `Sheaf.H.pullback`, §2.5 / `flasque_cech_vanishing`, `sheafH_iso_godement` | Arbitrary commutative `R` on the site of opens of any topological space, which includes `X̄_K`, `X_K`, `∂X̄_K` and `X̄^G × G(A^∞)^δ`: `D⁺` of module sheaves, K-injective replacements, `f^* ⊣ Rf_*` with composition, the abelian `Rf_*`, the cohomology pullback, and flasque resolutions computing `Sheaf.H`. ALS.F.3 adds the comparison of `R`-linear derived sections with Mathlib's `Sheaf.H` (its `R`-linear injective objects are flasque), the proper finite-fibre stalk formula with `Rf_* = f_*`, the arbitrary-stalk local-system comparison and its relative form; ALS.F.4 adds the equivariant categories. |
 | Cellular freeness | Supplied by ClassifyingSpaces §Stage 3, item 13 / **CW structures and coverings**, free cellular chain and quotient-cell basis clause | ALS.1.6 discharges the Hausdorff CW and quotient-cover hypotheses for the discrete full group `G(F) × K`, transports chosen cell lifts to left group-ring modules, and proves finite orbit counts, boundedness, the relative/coefficient model and perfectness. |
 | Neat-component group cohomology | Supplied by ClassifyingSpaces §Stage 4, items 16–18 / item 17 **Homology**, local-coefficient cohomology clause | The contract requires cohomology with arbitrary `R[Γ]`-modules over every commutative `R` and a chain-level comparison natural in groups and coefficients; ALS.1.5 supplies the arithmetic slice action, deck/opposite identification, CW-model transport, sheaf/derived adapter, component assembly and non-neat descent. |
 | Proper action (outbound) | This roadmap ALS.0.5 / proper-action and discrete-image/finite-kernel clause of LocallySymmetric.symmetricSpace.contractible | KleinianGroups §Layer 1 / **What to build / Deliverables**, `properlyDiscontinuousSMul_of_discrete` is the `PSL₂(ℂ)` special case after an equivariant identification of its `H³` model with `PSL₂(ℂ)/PSU(2)` and verification of the trivial split centre; its model identification and Kleinian applications remain there. |
@@ -690,9 +699,12 @@ EtaleCohomologyFoundations §F.10.3 / `PerfectComplex.lefschetzNumber`,
 ### ALS.F.3 Arithmetic adapters for supplied topological sheaf functors
 
 The generic topological module-sheaf functors and comparison are supplied by
-ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison` for finite coefficients and by
-TopologicalSheafCohomology over arbitrary commutative rings. ALS.F.3 owns the arithmetic adapters
-to these packages, derived pushforward, and the arbitrary-stalk local-system comparison below.
+ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison` (the local-system comparison
+for finite coefficients; extension by zero, compact supports and the localization triangle over
+every commutative ring) and by EnhancedDerivedSheaves §§0.1–0.2 and 0.4 (derived categories of
+module sheaves over every commutative ring and `f^* ⊣ Rf_*`). ALS.F.3 owns the arithmetic
+adapters to these packages, the comparison with Mathlib's abelian sheaf cohomology, proper
+finite-fibre pushforward, and the arbitrary-stalk local-system comparison below.
 For finite commutative `Λ`, its local-system carrier is the finite-stalk full subcategory
 `FiniteModuleLocalSystem Λ T` of `TauCeti.LocalCoefficientSystem Λ T`. Its equivalence with
 locally constant module sheaves on locally path-connected, semilocally simply connected `T`
@@ -714,22 +726,46 @@ comparison. Bounded constructible/ctf coefficient
 categories on the étale side are supplied by EtaleCohomologyFoundations §F.1 /
 `VanishingCycles.constructibleDerivedCategory`.
 
-For a commutative ring `R`, the sheaf functors used outside the supplier's finite-ring,
-finite-local-system and finitely triangulated domains, including those of ALS.F.4, are
-TopologicalSheafCohomology's, on locally compact Hausdorff spaces: `R`-linear derived global
-sections and their identification with Mathlib's `Sheaf.H` on underlying abelian sheaves (TS0.1);
-`j_! ⊣ j^*` with its stalk formula and exactness (TS3.1); compact supports, with
-`RΓ_c(U,F) = RΓ(X,j_!F)` for `U` open in compact Hausdorff `X`, and the open–closed triangles
-(TS3.2–TS3.3); pullback and its comparison with pushforward (TS3.4); proper finite-fibre
-pushforward with its stalk formula (TS3.5); and finite-group quotients (TS3.6). Module sheaves
-on any topological space form a Grothendieck abelian category and so have enough injectives
-(Mathlib `CategoryTheory.Sheaf.isGrothendieckAbelian_of_essentiallySmall`,
-`CategoryTheory.IsGrothendieckAbelian.enoughInjectives`). Define the derived pushforward `Rf_*` of
-a continuous map `f` as the right derived functor of `f_*` on bounded-below complexes. Since `f_*`
-is right adjoint to the exact `f^*`, it preserves injectives; prove `R(g ∘ f)_* ≅ Rg_* ∘ Rf_*`,
-`RΓ(Y, Rf_*F) ≅ RΓ(X, F)`, and `Rf_* = f_*` for proper finite-fibre `f`. The comparisons retain
-restriction, coefficient maps, forget-supports maps and coherent finite-group actions. None of
-these statements asserts a finite Tor bound or perfectness.
+For a commutative ring `R` and a topological space `T`, module sheaves
+`Sh(T, R) = Sheaf (Opens.grothendieckTopology T) (ModuleCat R)` form a Grothendieck abelian
+category with enough injectives (Mathlib
+`CategoryTheory.Sheaf.isGrothendieckAbelian_of_essentiallySmall`,
+`CategoryTheory.IsGrothendieckAbelian.enoughInjectives`). The sheaf functors used outside the
+supplier's finite-ring, finite-local-system and finitely triangulated domains, including those
+of ALS.F.4, are: the `R`-linear derived category `D⁺(Sh(T, R))` with K-injective replacements
+and derived global sections `RΓ(T, −) : D⁺(Sh(T, R)) → D⁺(R)` (EnhancedDerivedSheaves §§0.1–0.2
+on the site of opens of `T`); for a continuous map `f : T → T′`, the adjunction `f^* ⊣ Rf_*` with
+`R(g ∘ f)_* ≅ Rg_* ∘ Rf_*` and `RΓ(T′, Rf_*F) ≅ RΓ(T, F)` (EnhancedDerivedSheaves §0.4 applied
+to Mathlib's `TopCat.Sheaf.pullback` and `TopCat.Sheaf.pushforward`, whose
+`TopCat.Sheaf.pullbackPushforwardAdjunction` has an exact left adjoint; the abelian form and the
+cohomology pullback `RΓ(T′, F) → RΓ(T, f^*F)` through the unit are SchemeAndStackFoundations
+§2.1); and, on locally compact Hausdorff spaces, `j_! ⊣ j^*` for an open `j : U → T` with its
+stalk formula and exactness, c-soft resolutions, `RΓ_c`, the identifications
+`RΓ_c(T, F) ≅ RΓ(T⁺, j_!F)` and `RΓ_c(U, F|_U) ≅ RΓ_c(T, j_!F)` (so `RΓ_c(U, F|_U) ≅ RΓ(T, j_!F)`
+for `T` compact), the open–closed localization triangle `j_!j^*F → F → i_*i^*F` with its boundary
+signs, and `Rf_!` (ComplexComparisonPartII §C6.1, over every commutative ring). Prove the two
+generic statements this roadmap owns. (i) Comparison with abelian sheaf cohomology: for
+`F ∈ Sh(T, R)` the `R`-module `H^n(RΓ(T, F))` is naturally isomorphic to Mathlib's
+`CategoryTheory.Sheaf.H` of the underlying abelian sheaf, compatibly with restriction, with the
+degree-`0` identification with sections, and with the long exact sequences of short exact
+sequences. Route: an injective object of `Sh(T, R)` is flasque, because the free module sheaf
+`R_U` on a representable open satisfies `Hom(R_U, F) ≅ F(U)` and `R_U → R_V` is a monomorphism
+for `U ⊂ V`, the argument of Tau Ceti's `isFlasque_of_injective` for abelian sheaves; a flasque
+resolution of an abelian sheaf computes `Sheaf.H` (SchemeAndStackFoundations §2.5 /
+`flasque_cech_vanishing`, `sheafH_iso_godement`, through Tau Ceti
+`subsingleton_H_succ_of_isFlasque`), so the forgetful image of an injective resolution in
+`Sh(T, R)` computes `Sheaf.H`. (ii) Proper finite-fibre pushforward: for a
+proper map `f : T → T′` (Mathlib `IsProperMap`) of locally compact Hausdorff spaces with finite
+fibres, the stalk of `f_*F` at `y` is `∏_{x ∈ f⁻¹(y)} F_x` (the zero module for an empty fibre),
+so `f_*` is exact and `Rf_* ≅ f_*`. Route: a proper map is closed (Mathlib
+`IsProperMap.isClosedMap`), so for every open `W ⊇ f⁻¹(y)` the open set `T′ ∖ f(T ∖ W)` contains
+`y` and its preimage lies in `W`; the finitely many points of `f⁻¹(y)` have pairwise disjoint
+open neighbourhoods, so such `W` may be taken to be disjoint unions of neighbourhoods of the
+fibre points, on which the sheaf condition gives the product of the sections, and the colimit
+over these `W` is the product of the stalks (Mathlib `TopCat.Presheaf.stalkPushforward` gives the
+comparison map). The comparisons retain restriction, coefficient maps, forget-supports maps and
+coherent finite-group actions. None of these statements asserts a finite Tor bound or
+perfectness.
 
 Define the arithmetic adapters LocallySymmetric.SheafDerived.pushforward,
 LocallySymmetric.SheafDerived.sections, LocallySymmetric.SheafDerived.pullback,
@@ -747,48 +783,78 @@ comparison below reruns the supplier's local-cochain resolution with arbitrary s
 [ACC+23, §2.1.2, pp. 911–912], for the arithmetic equivariant application.)
 
 *Needs:* EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory`
-on the étale domain; ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`, §C6.4 /
-`artinComparisonCompactSupport`; TopologicalSheafCohomology TS0.1 and TS3.1–TS3.6 on the wider
-coefficient domain; Mathlib `DerivedCategory`, `CategoryTheory.Sheaf.H`, `TopCat.Sheaf`,
-`ModuleCat`, `CategoryTheory.IsGrothendieckAbelian.enoughInjectives`.
+on the étale domain; ComplexComparisonPartII §C6.1 / `topologicalCoefficientComparison`
+(including its extension by zero, compact supports and localization triangle over every
+commutative ring), §C6.4 / `artinComparisonCompactSupport`; EnhancedDerivedSheaves §§0.1–0.2
+and 0.4; SchemeAndStackFoundations §§2.1 and 2.5; AlgebraicTopology Stages 2.6 and 6.1; Mathlib
+`DerivedCategory`, `CategoryTheory.Sheaf.H`, `TopCat.Sheaf`, `TopCat.Sheaf.pushforward`,
+`TopCat.Sheaf.pullback`, `TopCat.Sheaf.pullbackPushforwardAdjunction`,
+`TopCat.Presheaf.stalkPushforward`, `IsProperMap`, `IsProperMap.isClosedMap`, `ModuleCat`,
+`CategoryTheory.IsGrothendieckAbelian.enoughInjectives`; Tau Ceti
+`TauCeti.Topology.Sheaves.Flasque` (`TauCeti.Topology.isFlasque_of_injective`,
+`TauCeti.Topology.subsingleton_H_succ_of_isFlasque`).
 
 **Checks.**
 
-- For a point and finite commutative `R`, the supplied `D⁺(pt,R) ≃ D⁺(R)` makes derived
-  sections the identity. For other coefficient rings the same holds for TopologicalSheafCohomology
-  TS0.1's derived sections.
+- For a point and every commutative `R`, `Sh(pt, R) ≃ Mod(R)` makes derived sections the
+  identity of `D⁺(R)`, and the comparison (i) is the identity of `R`-modules in degree `0`.
+- For (i), an injective module sheaf is flasque but a flasque one need not be injective: on a
+  point, the constant sheaf `ℤ` over `R = ℤ` is flasque and not injective, while `ℚ` is both; the
+  route uses only the acyclicity of the forgetful image, not its injectivity.
+- For (ii) and the double cover `f : S¹ → S¹`, `z ↦ z²`, with constant `R`: every stalk of `f_*R`
+  is `R²`, `f_*R` is the rank-two local system whose monodromy swaps the two factors, and
+  `RΓ(S¹, f_*R) ≅ RΓ(S¹, R)` has `H⁰ = R` (the diagonal invariants of the swap) and `H¹ = R`
+  (its coinvariants).
+- For (ii) with a fixed point: `q : S¹ → [−1, 1]`, `z ↦ Re z`, is proper with fibres of one or
+  two points, `(q_*R)_{±1} = R` and `(q_*R)_t = R²` for `|t| < 1`; `q_*R` is not locally
+  constant, and `RΓ([−1, 1], q_*R) ≅ RΓ(S¹, R)` has `H¹ = R` although `[−1, 1]` is contractible.
+- Non-example for (ii): properness cannot be dropped. For the inclusion `f : (0, 1) → [0, 1]`,
+  which has finite fibres and is not proper, `(f_*R)_0 = R` while the fibre over `0` is empty.
 - On a compact triangulated manifold with a constant finite-field local system, the arithmetic
   comparison uses the same derived sheaf/singular equivalence as the supplier, with compact
   support equal to ordinary support. On `S¹`, `H⁰ = H¹ = R` and `H^i = 0` for `i ≥ 2`.
 - For `j : (0,1) → [0,1]`, the supplied localization triangle gives
-  `RΓ([0,1],j_!R) = R[−1]`; at `R = ℤ` this is the TS3.3 triangle over `ℤ`.
+  `RΓ([0,1],j_!R) = R[−1]` for every commutative `R`: the sections of `R` on `[0,1]` map
+  diagonally to those on `{0, 1}`, `R → R²`, with cokernel `R` in degree `1`.
 - On a point, `ℤ/2` over `R = ℤ/4` lies in the finite-coefficient comparison domain and has
   bounded cohomology, but is not perfect: its Tor groups with `ℤ/2` are nonzero in every degree.
 - Non-example: assume `R` is nonzero. `j_!` is not `j_*`: for this interval and constant `R`,
   their stalks at `0` are respectively `0` and `R`.
 
 **Local systems with arbitrary stalks — LocallySymmetric.SheafDerived.isoSingular.**
-Let `R` be a commutative ring, `T` a locally contractible Hausdorff space (every open subset is
-covered by open subsets contractible in themselves) and `L` a local system of `R`-modules on `T`
-with arbitrary stalks, viewed through AlgebraicTopology Stage 2.6 as a functor on the fundamental
-groupoid and as the associated locally constant sheaf. Prove a natural isomorphism
-`RΓ(T, L) ≅ C^•(T; L)` in `D(R)` with the direct singular cochains with local coefficients of
-AlgebraicTopology Stage 6.1, compatible with pullback along continuous maps, coefficient maps,
-restriction to open subsets and finite-group actions on the pair `(T, L)`, and agreeing with
-ComplexComparisonPartII §C6.1's comparison when `R` is finite and the stalks are finite. For `T`
-compact, `Z ⊂ T` closed and locally contractible, `U = T ∖ Z` and `j : U → T`, prove
-`RΓ(T, j_!(L|_U)) ≅ C^•(T, Z; L)` compatibly with the open–closed triangle and the long exact
-sequence of the pair. Route: on a contractible open set `L` is constant, so §C6.1's sheaf of small
-local cochains, built by trivializing `L` on such sets and gluing with its transport maps, is a
-resolution for every stalk module; its sections form a direct limit of surjections from the
-singular cochains, which makes it flasque and its global sections quasi-isomorphic to
-`C^•(T; L)` without any paracompactness hypothesis. The relative form follows from the absolute
-comparisons on `T` and `Z`, the TS3.3 triangle `j_!j^*L → L → i_*i^*L`, exactness of `i_*`, the
-surjective restriction `C^•(T; L) → C^•(Z; L)` with kernel `C^•(T, Z; L)`, and the five lemma.
-The statement assumes: `R` commutative; `T` locally contractible Hausdorff; for the relative form
-`T` compact and `Z` closed and locally contractible. ([Sel16, main theorem and Lemma 0.1,
-pp. 2–3], for constant coefficients, whose flasque direct-limit argument applies verbatim once `L`
-is trivialized on contractible open sets)
+Let `R` be a commutative ring, `T` a semi-locally contractible space (every open subset `U` is
+covered by open subsets `W ⊂ U` whose inclusions `W → U` are null-homotopic; a locally
+contractible space, in which every open subset is covered by open subsets contractible in
+themselves, is one) and `L` a local system of `R`-modules on `T` with arbitrary stalks, viewed
+through AlgebraicTopology Stage 2.6 as a functor on the fundamental groupoid and as the
+associated locally constant sheaf; a semi-locally contractible space is locally path-connected
+and semilocally simply connected, since a null-homotopy of `W → U` joins every point of `W` to
+one point by a path in `U` and kills every loop of `W` in `U`, so that identification applies.
+Prove a natural isomorphism `RΓ(T, L) ≅ C^•(T; L)` in `D(R)` with the direct singular cochains
+with local coefficients of AlgebraicTopology Stage 6.1, compatible with pullback along
+continuous maps, coefficient maps, restriction to open subsets and finite-group actions on the
+pair `(T, L)`, and agreeing with ComplexComparisonPartII §C6.1's comparison when `R` is finite
+and the stalks are finite. For `Z ⊂ T` closed and semi-locally contractible, `U = T ∖ Z` and
+`j : U → T`, prove `RΓ(T, j_!(L|_U)) ≅ C^•(T, Z; L)` compatibly with the open–closed triangle
+and the long exact sequence of the pair; when `T` is compact Hausdorff the left side is
+`RΓ_c(U, L|_U)` by §C6.1. Route: Sella's nesting-small cochains, taken with values in the stalk
+of `L` at the first vertex of each simplex, form for every open `U` a direct limit over nestings
+of surjective images of `C^•(U; L)`; the direct limit is a sheaf and each surjection is a
+quasi-isomorphism, so the complex is flasque with global sections quasi-isomorphic to
+`C^•(T; L)` without any paracompactness hypothesis. The sheaf and flasqueness steps do not
+involve the coefficients; the small-chains step is built on each singular simplex from
+operators on the standard simplex, whose output simplices lie in the image of that one simplex,
+so it lifts to local coefficients exactly as the subdivision operators of AlgebraicTopology
+Stage 2.6 do. The complex resolves `L` because a null-homotopic inclusion `W → U` pulls `L` back
+to a constant system on `W` and induces the zero map from the augmented cohomology of `U` to
+that of `W`, by the homotopy invariance of cohomology with local coefficients (Stage 6.1). The
+relative form follows from the absolute comparisons on `T` and `Z`, the §C6.1 triangle
+`j_!j^*L → L → i_*i^*L`, exactness of `i_*`, the surjective restriction
+`C^•(T; L) → C^•(Z; L)` with kernel `C^•(T, Z; L)`, and the five lemma. The statement assumes:
+`R` commutative; `T` semi-locally contractible; for the relative form `Z` closed and semi-locally
+contractible. ([Sel16, definitions p. 1, main theorem p. 2, Lemma 0.1 pp. 2–3, the nesting
+construction and its sheaf property pp. 6–8, and the small-chains homotopy pp. 8–19], for
+constant coefficients, extended to local coefficients as described)
 
 **Checks.**
 
@@ -798,9 +864,9 @@ is trivialized on contractible open sets)
   sides give `H⁰ = H¹ = ℚ`, outside the finite-coefficient supplier domain.
 - Relative form: for `T = [0,1]`, `Z = {0, 1}` and constant `R`, `RΓ([0,1], j_!R) = R[−1]` and
   `H^1([0,1], {0,1}; R) = R`, all other relative groups being zero.
-- Non-example: local contractibility cannot be dropped. The closed topologist's sine curve is
-  connected with two path components, so sheaf `H⁰` with constant `ℤ` is `ℤ` while singular
-  `H⁰` is `ℤ²`.
+- Non-example: semi-local contractibility cannot be dropped. The closed topologist's sine curve
+  is connected with two path components, so sheaf `H⁰` with constant `ℤ` is `ℤ` while singular
+  `H⁰` is `ℤ²`; it is not locally path-connected at the points of its limit segment.
 
 ### ALS.F.4 Equivariant sheaves for topological groups
 
@@ -841,7 +907,7 @@ equivariant injective resolution. For a closed `Γ`-stable `Z ⊂ X`, use the ri
 For an open `j` and complementary closed `i`, resolve `j_!F` and `i_*i^*F` separately to obtain
 the compact-support/open–closed triangle; exactness of `j_!` alone gives no preservation of
 injectives. The support and open–closed assertions assume `X` locally compact Hausdorff and use
-TopologicalSheafCohomology TS3.1–TS3.3 through ALS.F.3. ([NT16, §2.3, Definition 2.12, Lemma 2.13, Lemma 2.14, Corollary 2.15
+ComplexComparisonPartII §C6.1's extension by zero and localization triangle through ALS.F.3. ([NT16, §2.3, Definition 2.12, Lemma 2.13, Lemma 2.14, Corollary 2.15
 and Proposition 2.18, pp. 21–24]; [Stacks, Section 20.21 (0A39), Lemma 20.21.1 (0A3A)])
 
 The API: LocallySymmetric.EquivariantSheaf — the category `Sh_G(X, R)`;
@@ -1788,8 +1854,8 @@ Newton–Thorne's discrete equivariant model `RΓ(K, RΓ(𝔛_G, V_𝔛))`, whos
 complex of ALS.3.4. The construction uses no finiteness of `V`; finiteness and
 perfectness are the business of ALS.1.6 and
 ALS.2.4. The statement assumes: `R` commutative; `V` an
-`R[G(F) × K_S]`-module; the topological sheaf functors of ALS.F.3, from TopologicalSheafCohomology
-outside the finite-coefficient supplier's domain. ([ACC+23, §2.1.2, p. 911]; [NT16, §3.1, Corollary 3.3, p. 42]; [CN23, §2.1.2, after
+`R[G(F) × K_S]`-module; the topological sheaf functors of ALS.F.3 (EnhancedDerivedSheaves
+§§0.1 and 0.4 and ComplexComparisonPartII §C6.1, over every commutative ring). ([ACC+23, §2.1.2, p. 911]; [NT16, §3.1, Corollary 3.3, p. 42]; [CN23, §2.1.2, after
 Proposition 2.1.3, p. 11])
 
 The API: LocallySymmetric.RΓ — `RΓ(X_K,V)=RΓ(Q,RΓ(Ȳ,V̄))` in `D(R), Q=K/K₀` for a neat normal
@@ -2012,7 +2078,7 @@ ALS.F.2; Mathlib `Module.Projective`.
 
 ### ALS.1.7 Derived coefficient change and the universal-coefficient spectral sequence
 
-Prove LocallySymmetric.RΓ.baseChange. Let `R` be noetherian, `R → R′` a ring map, `K` neat and `V` a
+Prove LocallySymmetric.RΓ.baseChange. Let `R` be a commutative ring, `R → R′` a ring map, `K` neat and `V` a
 finite projective `R`-module with `R[G(F)×K_S]`-action (or, more generally, a bounded complex of such of
 uniform Tor-amplitude in `[a, b]`). Then `(i) RΓ(X_K, V) ⊗^L_R R′ ≅ RΓ(X_K, V ⊗_R R′)` and
 `RΓ_c(X_K, V) ⊗^L_R R′ ≅ RΓ_c(X_K, V ⊗_R R′)` naturally in `D(R′)`, compatibly with level maps; (ii)
@@ -2021,7 +2087,7 @@ convergent spectral sequence `E_2^{i,j} = Tor^R_{−i}(H^j(X_K, V), R′) ⇒ H^
 every Tor term present; for `R′ = R/ϖ^m` and `R` a discrete valuation ring it degenerates to the short
 exact sequences `0 → H^j(X_K, V)/ϖ^m → H^j(X_K, V/ϖ^m) → H^{j+1}(X_K, V)[ϖ^m] → 0`. Torsion-free
 cochains do not imply torsion-free cohomology: `H^{j+1}(X_K, V)[ϖ^m]` can be nonzero. The statement
-assumes: `R` noetherian; `K` neat; `V` finite projective over `R`, or a bounded complex of such with
+assumes: `R` commutative; `K` neat; `V` finite projective over `R`, or a bounded complex of such with
 Tor-amplitude in `[a, b]`. ([NT16, §3.1, Proposition 3.7(2), p. 48]; [NT16, §3.1, proof of Proposition
 3.7, p. 49])
 
@@ -2275,9 +2341,11 @@ smooth triangulation target and the CW-cover lifting of ClassifyingSpaces Stage 
 
 The cohomological clause applies ALS.1.4 and ALS.1.6 to this cell structure. Consequently:
 `(i) X_K` has the homotopy type of a finite CW complex; (ii) for `K′ ⊂ K` normal and both neat and `V`
-finite projective over a noetherian ring `R, RΓ_{K/K′}(X_{K′}, V)` and `RΓ_{c,K/K′}(X_{K′}, V)` are
+finite projective over a commutative ring `R, RΓ_{K/K′}(X_{K′}, V)` and `RΓ_{c,K/K′}(X_{K′}, V)` are
 perfect in `D(R[K/K′])` and `RΓ(X_K, V), RΓ_c(X_K, V), RΓ(∂X̄_K, V)` are perfect in `D(R)`; (iii)
-`H^*(X_K, V)` and `H^*_c(X_K, V)` are finitely generated `R`-modules, zero outside `[0, d_G]`; (iv)
+`H^*(X_K, V)` and `H^*_c(X_K, V)` are zero outside `[0, d_G]` and, when `R` is noetherian, finitely
+generated `R`-modules (the cohomology of a bounded complex of finite projective modules over a
+non-noetherian ring need not be finitely generated: see the Checks); (iv)
 for a discrete
 valuation ring `O` and any `O[G(F) × K_S]`-module `V` that is finite over `O, RΓ(X_K, V), RΓ_c(X_K, V)`
 and `RΓ(∂X̄_K, V)` are perfect in `D(O)`: by the triangles of ALS.1.2 for
@@ -2285,8 +2353,9 @@ and `RΓ(∂X̄_K, V)` are perfect in `D(O)`: by the triangles of ALS.1.2 for
 `V/V_tors`, which is
 finite free over `O`, and the graded pieces, which are finite projective over `O/ϖ`, so that (ii) over
 `O/ϖ` and ALS.F.2 (restriction along `O → O/ϖ`, a perfect `O`-module) apply. The
-statement assumes the geometric clause's hypotheses; `K′ ⊂ K` normal for (ii); `R` noetherian and
-`V` finite projective over `R` for (ii)–(iii), and `V` finite over the discrete valuation ring `O` for (iv).
+statement assumes the geometric clause's hypotheses; `K′ ⊂ K` normal for (ii); `V` finite projective
+over `R` for (ii)–(iii), `R` noetherian for the finite generation in (iii), and `V` finite over the
+discrete valuation ring `O` for (iv).
 ([ACC+23, §2.1.2, proof
 of Lemma 2.1.7, p. 912]; [ACC+23, §2.1.2, Lemma 2.1.4, p. 911]; [BS73, §11.1, pp. 481–483])
 
@@ -2310,6 +2379,16 @@ ALS.F.2 (restriction of scalars).
   level `K′`, freely permuted by `Q`. Cell freeness here is geometric and holds in every coefficient
   characteristic, including those dividing `|Q|`.
 - `H^*(X_K, ℤ)` is finitely generated for every neat `K`.
+- Non-example for the finite generation in (iii): `R` noetherian cannot be dropped. Let
+  `R = ℚ[x_1, x_2, …]/(x_1 x_i : i ≥ 1)`: the annihilator of `x_1` is the ideal `(x_1, x_2, …)`,
+  which is not finitely generated, and `1 + x_1` is a unit with inverse `1 − x_1`. For `GL_1` over
+  a real quadratic field `F` at a neat level `K`, as in the Check localSystem_monodromy_GL1 of
+  ALS.1.1, take `V = R(χ)` with `χ : F^× → R^×` a homomorphism with `χ(−1) = 1` and
+  `χ(ε) = 1 + x_1` for the fundamental unit `ε`; one exists because `F^×/{±1}` is free abelian
+  with `⟨ε⟩` a direct summand (its quotient by `⟨ε⟩` is the free group of principal fractional
+  ideals). A generator `±ε^m` of `O_F^× ∩ K` acts on the stalk by `(1 + x_1)^m = 1 + m x_1`. On
+  that circle component `RΓ(X_K, V)` is the perfect complex `R → R` given by `±m x_1`, so (ii)
+  holds, while `H⁰ = ker(m x_1) = (x_1, x_2, …)` is not finitely generated.
 - For `SL_2(ℤ)`-level the orbifold cohomology is not bounded
   (ALS.1.5), so neatness is needed for (ii).
 - (iv) at a neat modular-curve level with `O = ℤ_p` and `V = O/ϖ ⊕ O`, which is not projective over `O`
@@ -2543,12 +2622,12 @@ the
 natural map to `X̄_K` carries it onto the closure of the corresponding piece of the stratum `X^P_K`.
 Rounding its corners as in ALS.5a.1 gives a compact smooth manifold
 with boundary of dimension `d_P = dim e(P)`, which by the smooth triangulation target of ALS.2.4
-has a finite triangulation with the boundary a subcomplex. Consequently, for `R` noetherian and `V` finite projective over `R` with its
+has a finite triangulation with the boundary a subcomplex. Consequently, for a commutative ring `R` and `V` finite projective over `R` with its
 `R[P(F) × (L_g)_S]`-action (through `l ↦ g_S⁻¹ l g_S` on the `K_S`-factor),
 `RΓ(Y^P_{L_g}, V) ≅ RΓ(Ȳ^P_{L_g}, V̄)` and `RΓ_c(Y^P_{L_g}, V) ≅ RΓ(Ȳ^P_{L_g}, j_!V)` are perfect in
 `D(R)`, compatibly
 with transported level maps and translations, and the orientation local system `o_{P,g}` of
-`Y^P_{L_g}` extends over `Ȳ^P_{L_g}`. The statement assumes: `K` good; `R` noetherian; `V` finite
+`Y^P_{L_g}` extends over `Ȳ^P_{L_g}`. The statement assumes: `K` good; `R` commutative; `V` finite
 projective over `R`. ([BS73, §7, Proposition 7.3(i),
 p. 464]; [BS73, §9, Theorem 9.3, pp. 475–476, applied to the group `P`, and Proposition 9.4,
 p. 476]; [BS73, §9.5, p. 477]; [DH73, Theorem and Definition 6.2, pp. 487–489])
@@ -2761,7 +2840,7 @@ resolution `I^•` of the equivariant coefficient sheaf of ALS.1.1
 in this category, and put `M_V = Γ_Z(I^•)`. For the supported and boundary variants,
 resolve `j_!V_𝔛` and `i_*i^*V̄_𝔛` separately on the compactification; exactness of `j_!`
 does not assert that it preserves injectives. The sheaf functors and comparisons are those of
-ALS.F.3, from TopologicalSheafCohomology outside the finite-coefficient supplier domain. Define
+ALS.F.3, over every commutative ring. Define
 
 ```text
 heckeComplex(K, K′, V) = RΓ_U(M_V) ∈ D⁺(𝕋(Δ, U) ⊗ R) = D⁺(H(G^S, K^S) ⊗ R[K/K′]),
@@ -3972,7 +4051,7 @@ AlgebraicTopology, Stage 6; Mathlib `ModelWithCorners`.
 
 ### ALS.5a.2 Poincaré–Verdier duality for `X_K` with perfect coefficients and orientation twist
 
-Prove LocallySymmetric.verdierDuality. Let `K` be neat, `R` noetherian, `d = d_G`, and `V` a bounded
+Prove LocallySymmetric.verdierDuality. Let `K` be neat, `R` a commutative ring, `d = d_G`, and `V` a bounded
 complex of finite projective `R`-modules with `R[G(F) × K_S]`-action (a perfect coefficient complex);
 `V^∨ = Hom_R(V, R)`. Then there is a natural isomorphism in
 `D(R) RHom_R(RΓ_c(X_K, V), R) ≅ RΓ(X_K, V^∨ ⊗ o_K)[d]`, and likewise
@@ -3994,7 +4073,7 @@ is a compact topological manifold with boundary, Poincaré–Lefschetz duality w
 and the orientation system gives the isomorphisms on cohomology, and the finite projective models of
 ALS.1.6 (made effective by ALS.2.4)
 upgrade the chain-level cap product to an isomorphism in `D(R)` for perfect coefficient complexes. The
-statement assumes: `K` neat; `R` noetherian; `V` a bounded complex of finite projective `R`-modules. ([NT16,
+statement assumes: `K` neat; `R` commutative; `V` a bounded complex of finite projective `R`-modules. ([NT16,
 §3.1, Proposition 3.7(1), p. 48]; [ACC+23, §2.2.20, Proposition 2.2.21, p. 932])
 
 *Needs:* ALS.5a.1; ALS.1.6;
@@ -4014,7 +4093,7 @@ ALS.2.10.
 
 ### ALS.5a.3 Evaluation, cup-product and relative duality pairings
 
-Define LocallySymmetric.dualityPairing. For neat `K, R` noetherian and `V` as in
+Define LocallySymmetric.dualityPairing. For neat `K`, commutative `R` and `V` as in
 ALS.5a.2, define the cup-product pairings
 `⟨·,·⟩ : H^i_c(X_K, V) × H^{d−i}(X_K, V^∨ ⊗ o_K) → H^d_c(X_K, o_K) → R` (cup product with the
 evaluation `V ⊗ V^∨ → R`, then the
@@ -4024,7 +4103,7 @@ trace given by the fundamental class of the orientation local system) and the re
 `H^i(∂X̄_K, V) × H^{d−1−i}(∂X̄_K, V^∨ ⊗ o_K) → R`. These pairings are the evaluations of the
 isomorphisms of
 ALS.5a.2; over a field they are perfect. The statement assumes: `K` neat;
-`R` noetherian. ([NT16, §4, proof of Lemma 4.1, p. 54])
+`R` commutative. ([NT16, §4, proof of Lemma 4.1, p. 54])
 
 The API: LocallySymmetric.dualityPairing — `⟨·,·⟩ : H^i_c(X_K, V) × H^{d−i}(X_K, V^∨ ⊗ o_K) → R`;
 LocallySymmetric.dualityPairing_relative — The relative pairing on `(X̄_K, ∂X̄_K)` and the boundary
@@ -4085,7 +4164,7 @@ triangulated-category sign convention. It is Hecke-equivariant after applying th
 inverse-double-coset anti-involution `ι` on the dual side. For perfect coefficient complexes it
 commutes with derived coefficient change `R → R′`,
 with the dual on the base-changed side taken over `R′`. These clauses assume `K` neat, `R`
-noetherian and `V` a bounded complex of finite projective `R`-modules.
+commutative and `V` a bounded complex of finite projective `R`-modules.
 
 For localization assume separately `R = O` a complete DVR and a commutative finite Hecke image
 as in ALS.4.9. Duality carries the projector `e_𝔪` to its
@@ -4679,7 +4758,7 @@ ALS.1.2, compatibly with their exact triangle. For `K″⊂K′` with both `K″
 normal in `K` choose a common neat normal refinement inside `K″`: the two iterated derived-invariants
 identifications agree with direct `K/K″` descent, including the relative residual actions. If full `K`
 is good neat, the free full-level finite cell model proves `PerfectComplex.IsPerfect` over the
-possibly noncommutative ring `R[K/K′]` by ALS.F.2 (`R` noetherian).
+possibly noncommutative ring `R[K/K′]` by ALS.F.2.
 If only `K′` is neat, only underlying `R`-perfectness is asserted. The strict lift to `D(H⊗R[K/K′])` is
 the relative Hecke complex of ALS.3.4, and the descent isomorphism is its
 heckeComplex.invariants. This target exports finite-level descent and refinement maps; assembly
