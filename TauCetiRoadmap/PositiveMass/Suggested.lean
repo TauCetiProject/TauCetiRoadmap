@@ -22,10 +22,10 @@ Not statable at the pins:
   asymptotically Euclidean end with arbitrary other complete ends): there is no spin structure
   on a Riemannian manifold, that is no `Spin(n)` lift of the oriented orthonormal frame bundle;
   the pins have the algebraic spin group only.
-* P3a's torus obstruction (a closed oriented `d`-manifold, `3 ≤ d ≤ 7`, with a nonzero-degree
+* P3.1's torus obstruction (a closed oriented `d`-manifold, `3 ≤ d ≤ 7`, with a nonzero-degree
   map to `T^d` carries no metric of positive scalar curvature): the degree of a map between
   closed oriented manifolds is absent.
-* P1's weighted Fredholm theorems, P1c's round spinor spectrum and P6's Callias solvability:
+* P1's weighted Fredholm theorems, P1.3's round spinor spectrum and P6.1's Callias solvability:
   weighted Sobolev spaces of sections of a bundle over a manifold, and the spinor bundle with
   its Dirac operator, are absent.
 -/
@@ -75,7 +75,9 @@ def pullbackMetricCoeff {n : ℕ} {M : Type*} [TopologicalSpace M]
 /-- An asymptotically Euclidean end of `M` of order `t`: a smooth parametrization of an open
 subset of `M` by the exterior `{x : ‖x‖ > R}` of a ball, injective with bijective derivative
 there (hence a diffeomorphism onto its open image), in which the metric coefficients satisfy
-`|∂^α (g_ij − δ_ij)| ≤ C ‖x‖^(−t−|α|)` for `|α| ≤ 2` (Cecchini–Zeidler, Definition 2.1). -/
+`|∂^α (g_ij − δ_ij)| ≤ C ‖x‖^(−t−|α|)` for `|α| ≤ 2` (Cecchini–Zeidler, Definition 2.1). The
+integrability of the scalar curvature on the end, which Definition 2.1 also requires, is not
+part of this structure: the theorems carry it as the hypothesis `hint`. -/
 structure AsymptoticallyEuclideanEnd (n : ℕ) (M : Type*) [TopologicalSpace M]
     [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
     [RiemannianBundle (fun x : M ↦ TangentSpace (𝓡 n) x)] (t : ℝ) where

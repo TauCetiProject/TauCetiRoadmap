@@ -53,7 +53,8 @@ It leaves to other roadmaps:
   formula: SpinGeometry G3–G6;
 - integral-current minimization, compactness and codimension-one regularity in
   ambient dimension at most 7: GeometricCurrents G1–G7;
-- smooth triangulation of compact surfaces with boundary: GeometricTopology Layer 1;
+- smooth triangulation of compact surfaces with boundary: GeometricTopology, the
+  smoothing-and-triangulation comparison, item 1 (smooth implies PL);
 - cup and cap products, Poincaré duality, degree and Euler characteristic:
   AlgebraicTopology Stages 2–3, 6–7.
 
@@ -180,9 +181,11 @@ G7's smooth stable-limit and no-cancellation interfaces.
 
 ### From TauCetiRoadmap.GeometricTopology and TauCetiRoadmap.AlgebraicTopology (on main)
 
-GeometricTopology Layer 1: smooth triangulation of compact surfaces with boundary
-and the smooth/PL comparison. AlgebraicTopology Stages 2–3, 6–7: integral cup and
-cap products, degree, Poincaré duality, finite CW Euler characteristic.
+GeometricTopology, the smoothing-and-triangulation comparison, item 1 (smooth
+implies PL): every smooth manifold has a smooth triangulation (Whitehead); only the
+case of compact surfaces with boundary is used, for the Euler identification in 3.1.
+AlgebraicTopology Stages 2–3, 6–7: integral cup and cap products, degree, Poincaré
+duality, finite CW Euler characteristic.
 
 ## How to read the build
 
@@ -213,7 +216,10 @@ p. 5–6; Lee–Parker, §8 and §9). The order of interest is t>(n−2)/2. Defi
 `FiniteEndedAE n M t` as a finite nonempty family of such ends with pairwise
 disjoint images whose union has compact complement (Cecchini–Zeidler,
 Definition 2.3, p. 6, without boundary). The spin theorem with arbitrary other
-ends uses one end only and no finite-ended hypothesis.
+ends uses one end only and no finite-ended hypothesis. Cecchini–Zeidler's
+Definition 2.1 also makes integrability of the scalar curvature on the end part of
+an AE end; here it is a separate hypothesis, stated wherever a mass is asserted
+(0.2, 5.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd` is the decay condition alone.
 
 - An end image is connected and open, and the end radius `|x|∘φ⁻¹` is a proper
   function on it; a finite-ended structure gives a compact exhaustion of M by
@@ -681,12 +687,14 @@ For compact oriented surfaces with smooth boundary prove
 `k_g = ⟨∇_T T, inward conormal⟩`, including piecewise smooth corners with exterior
 angles, the triangulation and Euler identification, and naturality for exhaustion
 boundaries, from RiemannianGeometry R1, R5a, DifferentialGeometry's Stokes theorem,
-GeometricTopology Layer 1 and AlgebraicTopology Stage 7 (do Carmo, *Differential
-Geometry of Curves and Surfaces*, §4-5, Global Gauss–Bonnet theorem). A closed index
+the smooth triangulation of GeometricTopology's smoothing-and-triangulation comparison
+(item 1) and AlgebraicTopology Stage 7 (do Carmo, *Differential Geometry of Curves and
+Surfaces*, §4-5, Global Gauss–Bonnet theorem). A closed index
 formula alone is not the boundary theorem.
 
 *Needs:* GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b; AlgebraicTopology
-Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; GeometricTopology Layer 1; 3.0.
+Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; GeometricTopology,
+smoothing-and-triangulation comparison, item 1; 3.0.
 
 **Checks.**
 
@@ -785,9 +793,9 @@ as the model closed manifold of the obstruction.
 ### Dependencies
 
 Layers 0–2; GeometricCurrents G1–G7; RiemannianGeometry R1, R5a–R5b; AlgebraicTopology
-Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; GeometricTopology Layer 1;
-UnboundedOperators UO-D06; VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a;
-PDE Lane C.
+Stages 2–3, 6–7; DifferentialGeometry 2, 10, 12.2–12.5; GeometricTopology,
+smoothing-and-triangulation comparison, item 1; UnboundedOperators UO-D06;
+VariationalMethods V2.3, V5.1; ComplexKahlerGeometry K5a; PDE Lane C.
 
 ## Layer 4: spinors at infinity and the boundary mass identity
 
@@ -884,8 +892,9 @@ RiemannianGeometry R5b; 1.1.
 
 With `θ_ψ = Scal/4 + ψ² − |dψ|`, `θ̄_ψ = n Scal/[4(n−1)] + ψ² − |dψ|`,
 `η_ψ = (n−1)H/2 + ψ` and `η̄_ψ = nH/2 + ψ`, H the averaged mean curvature `tr A/(n−1)` for
-the inward normal,
-prove for compactly supported ψ and asymptotically constant u in `H¹_loc(X,S;χ)`:
+the inward normal, prove on a complete connected finite-ended AE spin manifold X with
+compact boundary and integrable scalar curvature, for compactly supported ψ and
+asymptotically constant u in `H¹_loc(X,S;χ)`:
 `(n−1)|S^(n−1)|/2 · Σ_E m(E) |u|²_(E,∞) + ‖B_ψ u‖² ≥ ‖∇u‖² + ∫θ_ψ|u|² + ∫_(∂X) η_ψ|u|²`
 and its twistor refinement with `n/(n−1)‖Pu‖²`, `θ̄_ψ`, `η̄_ψ` and the constant
 `n|S^(n−1)|/2` (Cecchini–Zeidler, Proposition 2.5, p. 9). Construct the twistor operator
@@ -918,8 +927,12 @@ For q=(n−2)/2 prove the weighted Poincaré estimate of 1.1 on a finite-ended A
 manifold with nonempty ends and its compact-boundary version. Prove Fredholmness and
 nonnegative index of `B_ψ : H¹_(−q)(S;χ) → L²(S)` for compactly supported ψ
 (Cecchini–Zeidler, Theorem 2.12, p. 12), identify its adjoint and cokernel, and prove
-the coercive estimate and surjectivity when `θ_ψ ≥ 0` and `η_ψ ≥ 0` (Cecchini–Zeidler,
-Lemma 3.4, p. 14–15). Include the small-negative-part estimate: if `η_ψ ≥ 0` and the
+the coercive estimate and surjectivity when `θ_ψ ≥ 0` and `η_ψ ≥ 0`, by the argument of
+Cecchini–Zeidler's Lemma 3.4 (p. 14–15) applied to the unbarred estimate of 5.2: a kernel
+element u has `|u|_(E,∞) = 0` at every end, so the estimate forces ∇u = 0, decay forces
+u = 0 near infinity, connectedness forces u = 0, and nonnegative index gives
+surjectivity. The lemma itself is stated for the barred potentials `θ̄_ψ ≥ 0`, `η̄_ψ ≥ 0`
+and the twistor estimate. Include the small-negative-part estimate: if `η_ψ ≥ 0` and the
 negative part of `θ_ψ` is supported in a connected region X₀ containing an AE end with
 `‖θ_ψ⁻‖_(L^∞_(−2)) ≤ c₀(X₀,g)`, then `B_ψ` is an isomorphism and
 `‖B_ψ u‖² ≥ c₀‖u‖²_(L²_(−q)(X₀))` (Cecchini–Zeidler, Theorem 4.1, p. 15–16). Surjectivity
@@ -935,6 +948,10 @@ is not inferred from injectivity alone.
   weighted Poincaré estimate fails; nonemptiness is required.
 - In the small-negative-part estimate, `θ_ψ⁻ = λ|df|` with `‖df‖_(L^∞_(−2))` fixed gives
   admissibility exactly for λ ≤ c₀/‖df‖_(L^∞_(−2)).
+- Barred against unbarred potentials: when Scal≥0, `θ_ψ ≤ θ̄_ψ` since `n/(n−1) > 1`, and
+  `η_ψ ≤ η̄_ψ` exactly when H≥0. On the exterior of the unit ball with ψ=0, H = −1 gives
+  `η_0 = −(n−1)/2 > η̄_0 = −n/2`, so neither pair of sign hypotheses implies the other in
+  general, and the unbarred surjectivity statement is not a restatement of the lemma.
 
 ### 6.2 Positivity and rigidity
 
@@ -968,15 +985,16 @@ Layers 0–2, 4–5.
 ### 7.1 Truncations and potentials
 
 Let M be complete, connected, spin and without boundary, with Scal≥0 and one
-specified AE end E satisfying 0.1; no AE or finite-end condition is imposed on the
-rest of M. Fix X₀ ⊂ E the complement of an open coordinate ball, K ⊂ X₀ the closure of
-a collar neighborhood of ∂X₀ in X₀, a smooth `f : X₀ → [0,1]` with f=0 on X₀∖K and f=1
-near ∂X₀, and a section ξ₀ of S over X₀, asymptotically constant on E with
-`|ξ₀|_(E,∞) ≠ 0` and support in X₀∖K, extended by zero (Cecchini–Zeidler, proof of
-Theorem A, p. 16). The admissible class for λ>0 consists of connected complete spin
-codimension-zero submanifolds X_λ ⊃ X₀ with Scal≥0, compact smooth (possibly empty)
-boundary, X_λ∖X₀ relatively compact, and `dist(∂X₀, ∂X_λ) > 1/λ`, the condition holding
-vacuously for empty boundary; λ₀ is the infimum of admissible λ. On the present
+specified AE end E satisfying 0.1 with integrable scalar curvature on E; no AE or
+finite-end condition is imposed on the rest of M. Fix X₀ ⊂ E the complement of an
+open coordinate ball, K ⊂ X₀ the closure of a collar neighborhood of ∂X₀ in X₀, a
+smooth `f : X₀ → [0,1]` with f=0 on X₀∖K and f=1 near ∂X₀, and a section ξ₀ of S over
+X₀, asymptotically constant on E with `|ξ₀|_(E,∞) ≠ 0` and support in X₀∖K, extended by
+zero (Cecchini–Zeidler, proof of Theorem A, p. 16). The admissible class for λ>0
+consists of connected complete spin codimension-zero submanifolds X_λ ⊃ X₀ with Scal≥0,
+compact smooth (possibly empty) boundary, X_λ∖X₀ relatively compact, and
+`dist(∂X₀, ∂X_λ) > 1/λ`, the condition holding vacuously for empty boundary; λ₀ is the
+infimum of admissible λ. On the present
 complete M every λ>0 is admissible, so λ₀=0; construct the X_λ from smooth proper
 exhaustions, using RiemannianGeometry R7.8's Lipschitz approximation and
 DifferentialGeometry 10's Sard theorem for regular boundaries.
@@ -991,8 +1009,12 @@ X_λ has the finite-ended compact-interior geometry with nonempty ends of Layer 
 
 **Checks.**
 
-- On flat ℝⁿ, X_λ can be a coordinate ball of radius larger than `R + 1/λ`, and `h_λ`
-  any function with the stated bounds.
+- On flat ℝⁿ with `X₀ = {|x| ≥ R}` no coordinate ball is admissible, since no ball
+  contains X₀. Admissible are `X_λ = ℝⁿ` (empty boundary, every λ>0) and, when
+  `1/λ + ε < R`, the exterior `{|x| ≥ R − 1/λ − ε}`, whose boundary sphere has distance
+  `1/λ + ε > 1/λ` from ∂X₀; both contain X₀ and have relatively compact `X_λ∖X₀`. On that
+  exterior the inward normal points away from the origin, so `H = −1/(R − 1/λ − ε)` and
+  `h_λ` must be at least `(n−1)/(2(R − 1/λ − ε))` on the boundary sphere.
 - `supp ψ_λ ∩ supp ξ₀ = ∅`: on X₀∖K, f=0, so ψ_λ=0 where ξ₀ may be nonzero; at a point
   where ψ_λ = λ > 0 we have ξ₀ = 0, so the residual `ψ_λ σ ξ₀` vanishes. Without the
   support condition the choice `ξ₀ = (v,0)`, `|v| = 1`, at a point with `ψ_λ = λ` leaves the
@@ -1061,10 +1083,25 @@ p. 13–15; Witten 1981, uncertified).
 ### 8.3 One AE end with arbitrary other ends
 
 A complete connected spin n-manifold without boundary, n≥3, with Scal≥0 and one
-specified AE end satisfying 0.1 has nonnegative mass at that end, and zero mass
-implies a global isometry with ℝⁿ (Cecchini–Zeidler, Theorem B, p. 3).
+specified AE end satisfying 0.1 with integrable scalar curvature on that end has
+nonnegative mass at that end, and zero mass implies a global isometry with ℝⁿ
+(Cecchini–Zeidler, Theorem B, p. 3, whose Definition 2.1 includes the integrability).
 
 *Needs:* Layers 0–2, 4–7.
+
+**Checks.**
+
+- Integrability is needed for the mass to exist: on ℝ³ with `g = u⁴δ` and
+  `u = 1 + (1+r²)^(−3/8)`, the metric is complete since u≥1, ℝ³ is spin, `g − δ = O_2(r^(−3/4))`
+  so the end has order 3/4 > 1/2, and `Δu = (3/4)(1+r²)^(−19/8)(−r²/4 − 3) < 0` gives
+  `Scal = −8u^(−5)Δu > 0` everywhere. But `Scal ≈ (3/2) r^(−11/4)` is not integrable against
+  `u⁶ r² dr`, and the normalized flux of 0.2, `−w′(r) r²/2` with `w = u⁴`, equals
+  `(3/2) u³ r³ (1+r²)^(−11/8) ≈ (3/2) r^(1/4)`: about 15 at r = 10⁴ and 150 at r = 10⁸, with
+  no limit. Without the integrability clause the statement would assert the sign of an
+  undefined number; with it, this metric is excluded.
+- Spatial Schwarzschild of mass m is scalar-flat, satisfies every hypothesis, and has mass
+  m; on two-ended Schwarzschild with m>0 either end may be the specified end, the other
+  entering only through completeness and Scal≥0.
 
 ### 8.4 Stability and the Green blow-up corollary
 
