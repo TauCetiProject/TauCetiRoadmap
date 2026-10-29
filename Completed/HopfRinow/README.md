@@ -4,8 +4,9 @@
 The restriction supplier (#19453) and joint connection-family regularity (#18707) are verified
 on actual main; #18707's complete source payload is present at
 [`1957bfc6fe2f`](https://github.com/TauCetiProject/TauCeti/commit/1957bfc6fe2f8491c98df2ff54c5c6d88be7d193).
-The archive remains a draft until the intrinsic variation in #21067 has passed its fresh normal
-review and genuine CI, landed, and the full native inventory has been replayed on actual main.
+The intrinsic variation in #21067 has passed current-head normal review and genuine PR CI.
+The archive remains a draft until that source lands through the normal merge pipeline and
+the full native inventory has been replayed on actual main.
 The historical Suggested.lean is a nonexhaustive interface prototype at the repository pin;
 its admitted interfaces are not a proof certificate.
 

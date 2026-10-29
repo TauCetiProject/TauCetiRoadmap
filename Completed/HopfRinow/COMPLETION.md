@@ -25,9 +25,19 @@ tested commit and tree match actual main `1957bfc6fe2f` exactly.
 #21067 was rebased after that verified landing. Candidate
 `7bd7c7558aa213b87ad9b17e4fd954e1bff82424` has sole parent `1957bfc6fe2f` and passes
 the local 197-module build (8,421 jobs), 35 key type/axiom
-checks and the four acceptance probes with warnings treated as errors. Its fresh current-head
-normal review, genuine CI and ordinary merge remain required; these local checks do not prove
-that variation has landed. The complete catalog must then pass on actual main.
+checks and the four acceptance probes with warnings treated as errors. All ten current-head
+normal review rubrics are green. Its original [genuine PR CI run 40796353184](https://github.com/TauCetiProject/TauCeti/actions/runs/40796353184)
+also succeeded: the offline sandboxed build completed 54,204 Lake jobs, the trusted audits
+passed, and the three changed modules' 127 declarations use only `propext`, `Classical.choice`
+and `Quot.sound`. The tested integration combines reviewed head `7bd7c7558aa2` with base
+`dd15cfab9dec`; its trusted tree is `5eda6a5a4a27e7ff96b65c5613310e5215ba8a68`.
+These checks do not prove that variation has landed. Ordinary merge and the complete catalog
+replay on actual main remain required.
+
+The final catalog retains all 197 previously audited modules and includes the later actual-main
+addition `Riemannian/Hyperbolic/ClosedSurface.lean`, for 198 modules. The original catalog and
+all acceptance probes are preserved. This larger catalog must pass on actual main containing
+#21067; a preliminary replay of the tested PR integration does not establish that condition.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
 `b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
@@ -70,11 +80,15 @@ baseline above. Its 25 key axiom reports contain only `propext`, `Classical.choi
 `Quot.sound`. The flat-space acceptance specializes the native APIs to dimension zero, and the
 open-unit-ball probe checks actual minimizing segments together with failure of completeness,
 properness and compactness of the specified closed ball. The boundary and corner probes compile
-with warnings treated as errors at the exact #18707 head above. #21067 has now passed its post-prerequisite rebase and local acceptance checks; fresh
-current-head review, genuine CI and normal main inclusion remain outstanding. The full 197-module catalog and native acceptance probes must
-pass again on actual main containing both remaining prerequisites. This is a source/API and
+with warnings treated as errors at the exact #18707 head above. #21067 has passed its
+post-prerequisite rebase, local acceptance checks, current-head normal review and genuine PR
+CI; normal main inclusion remains outstanding. The final 198-module catalog and native
+acceptance probes must pass again on actual main containing all three source prerequisites.
+This is a source/API and
 key-proof audit, not an independent replay of every transitive proof.
 
 The archived historical prototype continues to elaborate at the unchanged roadmap dependency
 pin. It does not import these newer implementation modules or certify their presence at that
 old revision. The merged revisions must be recorded before declaring the archive complete.
+
+AI assistance: source, CI and completion-status audit with Codex (GPT-6), 2026-10-29.
