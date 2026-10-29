@@ -268,10 +268,12 @@ prerequisites:
 5. **DiamondEtaleCohomology, §§C2.2–C2.5, C2.9–C2.12 and Layer C3.** Enhanced exact module-topos derived categories,
    `t`-structures, coherent truncations and pullbacks, the left-completion
    comparison for locally spatial diamonds, bounded-below agreement, the
-   discrete tensor `etTensor` of §C3.8, and the global-sections and limit
-   contracts `push_globalSections` and `push_limits` of §C3.2. Use §C3.11
-   for derived coefficient reduction. Transport `etTensor` to the left-completed
-   adic-site category; the global-sections right adjoint preserves Postnikov limits. These contracts
+   derived tensor product of §C3.8 on `D_et(Y,Λ)`, symmetric monoidal with
+   unit `Λ_Y` and compatible with pullback, and the right adjoint `Rf_*` of
+   §C3.2, exact and limit-preserving, with `RΓ(Y,−)` the mapping object out
+   of `Λ_Y`. Use §C3.11 for derived coefficient reduction. Transport the
+   §C3.8 tensor to the left-completed adic-site category; the global-sections
+   functor preserves Postnikov limits, being corepresented by `Λ_Y`. These contracts
    are stated for an arbitrary commutative coefficient ring, so they apply
    directly at every finite level `Λ/I^n` of L0.
 6. **AdicCoefficientsAndComparisons, Layer L0**, targets
@@ -415,9 +417,9 @@ The API is used by FS II.1.2 and II.1.17 to build the fixed-field product formul
 - Empty test (degenerate): For `T=Spa(0,0)=∅` with its unique empty marked untilt, `α_T` is the bijection `{*} ≃ {*}×{*}`. Here `p=0` is invertible; the unique maps to `Y` and `Spa(ℚ_p,ℤ_p)` exist. Both maps of the product comparison and their naturality include this test.
 - Teichmüller value (computation): For the inverse of `(f,u)`, `[ϖ]` maps to `f(ϖ)^♯`, a unit in the untilt Tate ring; its plus-ring membership does not assert that it is a plus-ring unit.
 - Compatible roots (computation): For `F=completion(𝔽_p((t^{1/p^∞})))`, choose the `ℚ_p(p^{1/p^∞})`-completion untilt with `t^♯=p` and compatible roots. The inverse of `(id_S,u)` sends every `[t^{1/p^m}]` to `p^{1/p^m}`, with the `p`-power relations retained and both `p` and `[t]` invertible in the untilt Tate field. No algebraic-closedness assumption is used. For the source family,
-  `tRoots(m+1)^p=tRoots(m)` is a hypothesis on the source family;
+  the relation `(t^{1/p^{m+1}})^p=t^{1/p^m}` is a hypothesis on the chosen roots in `F`;
   multiplicativity of `f` and sharp, together with the marked values, gives
-  `pRoots(m+1)^p=pRoots(m)` in the target.
+  `(p^{1/p^{m+1}})^p=p^{1/p^m}` in the target.
 
 ### Restriction and naturality of the point bijections
 
@@ -785,18 +787,16 @@ Checks: On the relevant boundary `|s_m|=1`, while `s_{m+1}^p=s_m`. The reciproca
 
 Checks: The compatible-root equation has an elementary algebraic verification,
 independently of the geometric construction. In a commutative
-ring `B`, take sequences `pRoot`, `varpiRoot` and `ratioRoot` indexed by natural
-numbers, with `ratioRoot(m)·varpiRoot(m)=pRoot(m)`, both numerator and denominator
-satisfying the `p`-power transition equations, and each `varpiRoot(m)` a unit.
-Then `ratioRoot(m+1)^p=ratioRoot(m)` by taking powers of the product equation
-and cancelling the unit denominator.
-For `p=2` in `ℚ`, numerator roots constantly 1 and denominator roots constantly 1
-give ratio roots constantly 1. A nonconstant real instance has `p=2`, numerator
-`4^(1/2^m)`, denominator `2^(1/2^m)`, and ratio `2^(1/2^m)` satisfy the same ratio
-transition. Dropping denominator regularity fails: in
-`ℤ/4`, take the numerator and denominator sequences constantly 0 and ratio roots
-constantly 2; the displayed product and power equations for numerator and
-denominator hold, but `2² ≠ 2`. The actual period chart inverts its denominator.
+ring `B`, take sequences `p_m`, `v_m` and `s_m` indexed by natural
+numbers, with `s_m·v_m=p_m`, `p_{m+1}^p=p_m`, `v_{m+1}^p=v_m`, and each `v_m` a unit.
+Then `s_{m+1}^p=s_m`: raising `s_{m+1}·v_{m+1}=p_{m+1}` to the `p`-th power gives
+`s_{m+1}^p·v_m=p_m=s_m·v_m`, and the unit `v_m` cancels.
+For `p=2` in `ℚ`, `p_m=v_m=1` for every `m` gives `s_m=1` for every `m`.
+A nonconstant real instance has `p=2`, `p_m=4^(1/2^m)`, `v_m=2^(1/2^m)` and
+`s_m=2^(1/2^m)`, which satisfies the same transition `s_{m+1}²=s_m`.
+Dropping the unit condition on `v_m` fails: in
+`ℤ/4`, take `p_m=v_m=0` and `s_m=2` for every `m`; the product equation `2·0=0`
+and the power equations `0²=0` hold, but `2²=0≠2`. The actual period chart inverts its denominator.
 
 ### The boundary supremum on an untilt neighborhood
 
@@ -961,8 +961,8 @@ containing an integer prime to `p`. L0 supplies derived `I`-completeness and the
 inverse-limit equivalence for `Λ/I^n`. Each finite level `Λ/I^n` is a discrete
 commutative ring, so the discrete comparisons apply to it directly.
 Transition natural transformations must be checked before taking the enhanced
-limit. Discrete tensor is C3.8's `etTensor`, transported to the left-completed
-adic-site category; adic tensor is derived `I`-completed tensor from L0. The constant `ℤ_ℓ`
+limit. Discrete tensor is the derived tensor product of §C3.8 on the diamond
+side, transported to the left-completed adic-site category; adic tensor is derived `I`-completed tensor from L0. The constant `ℤ_ℓ`
 system, `I=(ℓ)`, `ℓ≠p`, is the principal test. This adic route supplies neither an adic
 `ℤ_p` comparison nor a rational `ℓ`-adic theory without a separately specified
 localization.
@@ -1008,9 +1008,9 @@ Checks: A degree-zero module and any shift agree with the ordinary construction.
 
 Prove the global-sections comparison: Let `η^*` be the exact module-sheaf equivalence. For bounded-below `A` the natural map `RΓ(X_et,A)→RΓ(X^◇_et,η^*A)` induced by the site functor is an equivalence. For a left-completed object represented by the compatible tower `A_n=τ_{≥−n}A`, the corresponding completed global sections are `lim_n RΓ(X_et,A_n)`; compare them to `RΓ_et(X^◇,E_Λ A)` by the compatible actual finite-truncation comparison maps. The diamond right adjoint preserves this limit. Do not replace this map by a noncanonical equivalence of abstract cohomology groups.
 
-*Needs:* F5, the bounded-below comparison; F5, the left-completed comparison; DiamondEtaleCohomology §C3.2 (`push_globalSections`, `push_limits`); EnhancedDerivedSheaves §E3.4 (enhanced mates and ringed-site operations).
+*Needs:* F5, the bounded-below comparison; F5, the left-completed comparison; DiamondEtaleCohomology §C3.2 (the exact, limit-preserving right adjoint `Rf_*` and `RΓ(Y,−)` as the mapping object out of `Λ_Y`); EnhancedDerivedSheaves §E3.4 (enhanced mates and ringed-site operations).
 
-Identify the underived section maps by the terminal object under the site equivalence. Derive via the supplied enhancements; use the exact inverse equivalence for bounded-below objects. For the tower, use §C3.2's `push_globalSections` and `push_limits`, together with C2's truncation comparison; take the coherent limit of the maps.
+Identify the underived section maps by the terminal object under the site equivalence. Derive via the supplied enhancements; use the exact inverse equivalence for bounded-below objects. For the tower, use §C3.2's global sections `RΓ(X^◇,−)`, corepresented by the unit `Λ`, and the limit preservation of its right adjoint `Rf_*`, together with C2's truncation comparison; take the coherent limit of the maps.
 
 Checks: On constant `Λ` in degree zero the degree-zero comparison sends a section to itself through `η`. For a shifted bounded-below complex it is the shifted ordinary site map. On an unbounded Postnikov tower it is the coherent limit of the truncation maps. No invariant-sections formula omits derived Frobenius descent.
 
@@ -1018,9 +1018,9 @@ Checks: On constant `Λ` in degree zero the degree-zero comparison sends a secti
 
 ### Pullback and tensor compatibility of the derived comparison
 
-Prove pullback and tensor compatibility: For inclusions of imported rational and wandering charts, the completed derived comparison commutes with pullback via the coherent square of F3. For discrete coefficients use §C3.8's `etTensor` on the diamond side and its transport along `E_Λ` on the left-completed adic-site side, with unit `Λ`; prove that `E_Λ` is symmetric monoidal. For ordinary site complexes `A` and `B`, left completion of their ordinary derived tensor identifies with the transported tensor of their left completions. Adic coefficients use the derived `I`-completed tensor of L0. These natural isomorphisms agree on nested restrictions, associativity and units; tensor compatibility does not assert that a general inverse limit commutes with ordinary tensor.
+Prove pullback and tensor compatibility: For inclusions of imported rational and wandering charts, the completed derived comparison commutes with pullback via the coherent square of F3. For discrete coefficients use the derived tensor product of §C3.8 on the diamond side, symmetric monoidal with unit `Λ`, and its transport along `E_Λ` on the left-completed adic-site side; prove that `E_Λ` is symmetric monoidal. For ordinary site complexes `A` and `B`, left completion of their ordinary derived tensor identifies with the transported tensor of their left completions. Adic coefficients use the derived `I`-completed tensor of L0. These natural isomorphisms agree on nested restrictions, associativity and units; tensor compatibility does not assert that a general inverse limit commutes with ordinary tensor.
 
-*Needs:* F5, the left-completed comparison; F3, chart restriction of the site equivalence; DiamondEtaleCohomology §C3.8 (`etTensor`), §C3.11 (coefficient reduction); EnhancedDerivedSheaves §E3.4 (ringed-site coherence).
+*Needs:* F5, the left-completed comparison; F3, chart restriction of the site equivalence; DiamondEtaleCohomology §C3.8 (the derived tensor product on `D_et`, with unit `Λ_Y`), §C3.11 (coefficient reduction); EnhancedDerivedSheaves §E3.4 (ringed-site coherence).
 
 Enhance the sheaf-level chart square and its associators. Use the exact monoidal site equivalence and §C3.8's restriction of ordinary `v`-derived tensor. Relate the ordinary site-derived tensor to this structure by the completion comparison of ECD Proposition 14.15 and Lemma 17.7; retain the associativity, symmetry and unit maps. Use §C3.11 for coefficient-reduction transformations.
 
