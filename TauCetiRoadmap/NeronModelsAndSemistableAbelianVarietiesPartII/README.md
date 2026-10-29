@@ -15,7 +15,11 @@ their global reconstruction maps; the explicit quadratic pinching chart and its 
 specialization of multiple-fiber isogeny arguments; the extension from smooth generic curves to regular
 nonsmooth genus-one curves; and the geometric and arithmetic classification of the stated
 rational-elliptic-surface family. It also owns the surface realization of the Picard lattice and the local LLR
-comparison inputs not covered by semistable reduction alone.
+comparison inputs not covered by semistable reduction alone. It owns the general genus-one surface theory
+that the classification rests on: the genus-one fibration carrier over a smooth proper curve base (§2.1), the
+geometric fibre classification (§§2.3, 2.5), the canonical bundle formula and the degree of the Hodge line
+(§§4.1–4.2), the general-base Picard restriction and Shioda–Tate generation (§§4.7–4.8) and the regular minimal
+Jacobian fibration (§4.17); later roadmaps import these by section and do not restate them.
 
 Existing notions are used through their owners. StableReduction Layers 1–2 supply normalization, nodes, the
 conductor and normalization sequence, coherent genus and curve duality; Layer 3 supplies smooth-section
@@ -488,6 +492,14 @@ through the surjective restriction to Z∩U and refine U,V to matching principal
 **Checks.**
 
 - (AF) on Y implies the condition; curves and quasi-projective Y satisfy it.
+- For Y=P¹, Z={0,∞} and g the collapse to Z′=Spec k, the fibre g⁻¹(Z′)={0,∞} has the affine neighbourhood
+  U=P¹∖{1}, and with V=Z′ the condition U∩Z=g⁻¹V holds; the affine open U=P¹∖{0} is not compatible with any V,
+  since U∩Z={∞} is not a full fibre of g.
+- For Y the affine plane with doubled origin, Z its two origins and g their collapse to Spec k, the fibre has
+  no affine neighbourhood (an open containing both origins is not separated), so the hypothesis fails and no
+  compatible pair exists; the condition is not automatic for non-separated Y.
+- For Z=∅ every pair of affine opens is compatible, and for g the identity of Z the condition reads U∩Z=V,
+  satisfied by V=U∩Z because a closed subscheme of an affine scheme is affine.
 
 *Needs:* SchemeAndStackFoundations SF.0, quotient/localization/flat-module contracts;
 SchemeAndStackFoundations SF.1, scheme/étale-space contracts.
@@ -573,6 +585,15 @@ naturally isomorphic to identity, including morphisms.
 **Checks.**
 
 - Gluing trivial bundles with different units on Z can give different global line bundles.
+- For the nodal cubic, Y=P¹, Z={0,∞} and Z′=Spec k: the pairs of trivial bundles on Y and Z′ with the
+  identification φ=(u₀,u₁)∈k*×k* at the two points of Z are its degree-zero line bundles, and (u₀,u₁),
+  (λμ⁻¹u₀,λμ⁻¹u₁) are isomorphic through the automorphisms λ of the trivial bundle on Y and μ of that on Z′,
+  so the classes are k*×k* modulo the diagonal, which is k* through u₀/u₁, matching Pic⁰ of the nodal cubic;
+  a construction that forgot the identification on Z would give the trivial group.
+- For Z=∅ the pushout is Y⊔Z′ and the equivalence is Pic(Y)×Pic(Z′) with no identification.
+- The identification on Z must be an isomorphism: for the nodal cubic and the zero map in place of φ, the
+  kernel of the signed difference is the direct sum of the ideal sheaf of Z in Y and the structure sheaf of
+  Z′, whose fibre at the node has dimension at least two, so it is not invertible.
 
 *Needs:* §1.7; §1.3, flat-module patching; AlgebraicModuliForArithmeticGeometry Layer 7 §7.3,
 Picard-sheaf contracts.
@@ -3749,7 +3770,10 @@ AlgebraicModuliForArithmeticGeometry Layer 7 for the invertible-sheaf groupoid.
 The conductor comparisons are built in this order: the ring-level cokernel, annihilator and pushout
 comparisons (§§1.35–1.37), the flat ring comparison (§1.14), localization (§1.15), the conductor ideal sheaf
 (§1.16), its affine flat charts (§1.42), the global flat comparison with the source-ideal equality (§1.20), and
-then the subscheme isomorphisms and towers (§§1.38–1.41).
+then the subscheme isomorphisms and towers (§§1.38–1.41). The section numbers group the targets by topic;
+the build order of the whole layer, in which every `*Needs:*` reference points to an earlier target, is
+§§1.1–1.2, §1.4, §§1.12–1.13, §1.21, §1.3, §§1.5–1.11, §§1.22–1.25, §1.32, §§1.35–1.37, §§1.14–1.18,
+§§1.26–1.31, §§1.33–1.34, §1.19, §1.42, §1.20, §§1.38–1.41.
 
 ## Layer 2: genus-one fibers and binary elliptic curves
 
@@ -3992,6 +4016,13 @@ actual conjugate branches after field extension.
 **Checks.**
 
 - After quadratic extension it becomes split I₁; over `𝔽_q` its rational count is q+2.
+- Over `𝔽_{q²}` the node splits and the count is q², not q²+2: for q=2 the counts are 4 over F₂ and 4 over F₄,
+  the trace at the node changing from −1 to +1 (§§2.10–2.11).
+- The normalization sequence `0→O_C→ν_*O_{P¹}→(E/k)_x→0` gives h⁰=1 and h¹=dim E/k=1; pinching a rational point
+  (E=k) changes nothing and gives h¹=0, and pinching two rational points gives the split node with the same
+  h¹=1 but count q, so the genus does not separate split from nonsplit and the count does.
+- For a purely inseparable quadratic point (k=F₂(a), E=k(√a)) the same pinch is geometrically the cusp y²=x³,
+  type II, because E⊗_k k̄=k̄[ε]/(ε²) (§2.3); separability of E/k is what makes the pinch a node.
 
 *Needs:* §1.5; §2.6; StableReduction Layer 1; §2.28; §2.30.
 
@@ -4012,6 +4043,14 @@ keep the component vertices fixed while the two geometric nodes are conjugate.
 **Checks.**
 
 - Over `𝔽_q` the rational count is 2q+2; this form has fixed component vertices but conjugate edges.
+- Each component contributes q+1 rational points and the two nodes are conjugate, giving 2(q+1); over
+  `𝔽_{q²}` the nodes become rational and the count is 2(q²+1)−2=2q², so 6 over F₂ and 8 over F₄.
+- The conductor quotient is E²/E≅E of dimension two and the global map k²→E, (a,b)↦a−b, has kernel the diagonal
+  and cokernel of dimension one, so h⁰=h¹=1; pinching the two copies of Spec E to Spec k instead gives the
+  quotient E²/k of dimension three, cokernel of dimension two and arithmetic genus two, not a genus-one fibre.
+- Pinching the two geometric points of one copy of Spec E⊂P¹ to each other is the nonsplit I₁ of §2.7, with
+  one component and one rational node; I₂ needs two components and the identification of the two copies of
+  Spec E with each other.
 
 *Needs:* §1.5; §2.6; StableReduction Layer 1; §2.29; §2.30.
 
@@ -4161,8 +4200,8 @@ argument of Lang Theorem 2 to obtain a fixed point. For an abelian variety the L
 its differential is `−1`, so its image is open, and properness makes the image closed. Geometric
 connectedness gives surjectivity. This is the non-affine specialization of the supplied prose theorem.
 
-([Lang (1956)](https://wstein.org/papers/bib/Lang-Algebraic_Groups_Over_Finite_Fields.pdf), Theorem1,
-corollary and Theorem2 with proofs, pp556–558.)
+(Lang (1956), American Journal of Mathematics 78, Theorem 1, its corollary and Theorem 2 with proofs,
+pp. 556–558; the JSTOR record is given in the References.)
 
 **Checks.**
 
@@ -4471,6 +4510,13 @@ preceding paragraph.)
 
 - The group of order1 is the trivial ZMod1 group. Orders2,3,5 and especially4 use actual point addition; no
   group law is replanned.
+- On E₄, y²+xy=x³+x, doubling (1,0) has slope (3·1+1)/(1)=0 in F₂, so 2·(1,0)=(0,0); at (0,0) the tangent
+  denominator 2y+a₁x+a₃ vanishes, so 2·(0,0)=∞ and (1,0) has order four; (0,0) is the only point of order two,
+  so the group is Z/4 and not (Z/2)².
+- On E₅, y²+y=x³+x², the multiples of P=(0,0) are 2P=(1,1) (slope 0, x₃=a₂=1, y₃=1), 3P=(1,0) (slope 1),
+  4P=(0,1)=−P and 5P=∞, so P generates.
+- On E₃, y²+y=x³, doubling (0,0) gives (0,1)=−(0,0), so (0,0) has order three; a wrong doubling returning
+  (0,0) itself would make the group (Z/2)-generated, impossible for a group of order three.
 
 *Needs:* §2.23; `WeierstrassCurve.pointCount_eq_card_point`; `WeierstrassCurve.Affine.Point.add_some`;
 `WeierstrassCurve.Affine.Point.add_of_Y_eq`; `zmodAddEquivOfGenerator`.
@@ -5568,6 +5614,13 @@ principal-localization paragraph, with Lemma1.3(b) and its converse, pp556–557
 
 - This recovers the affine coordinate on the complement, including the cusp, without asserting that the
   original inclusion is surjective.
+- For q=t²+t+1 over F₂ the element t is not in `A_q=k+qk[t]`, while qt=t³+t²+t and q are; the inverse
+  equivalence sends t to the fraction (qt)/q of these two elements, and the identity (qt/q)·q=qt holds in the
+  localization.
+- For the cusp q=t² over F₂, `A_q` contains t² and t³ but not t; the formula gives t=t³/t², and the shorter
+  fraction t²/t would use the denominator t∉`A_q`.
+- For a unit q=1, `A_q=k[t]` and the formula t=(1·t)/1 is the identity; for q=0 both localizations are the zero
+  ring and the formula reads 0=0/0 in the zero ring, where no division is performed.
 
 *Needs:* §2.36; §2.26; `RingEquiv.ofBijective`; `RingEquiv.ofBijective_apply`; `RingEquiv.apply_symm_apply`;
 `IsLocalization.map_mk'`; `IsLocalization.eq_mk'_iff_mul_eq`.
@@ -6871,9 +6924,13 @@ The construction needs the following maps and laws.
 
 **Checks.**
 
-- Index false of the two-member open cover is the finite chart with its specified inclusion.
+- On the overlap D(t)⊂F and D(u)⊂I the two chart structure maps agree because the reciprocal transition
+  u=1/t, z=1/(tq) is a k-algebra map; for k=F₄ a transition twisted by the Frobenius a↦a² of the coefficients
+  is not k-linear, the two composites to Spec k differ on the overlap, and no structure map descends.
 
-- Index true of the two-member open cover is the infinity chart with its specified inclusion.
+- For q=t² (a=b=0, the cusp) the glued structure map agrees with that of the projective cuspidal cubic
+  Y²Z=X³ under the chart comparison, and for q=t²+t+1 over F₂ it is the unique morphism to Spec F₂; the
+  agreement of the two restrictions is a condition on the overlap and not on the charts separately.
 
 - The actual two-member cover is jointly surjective on the nonsplit F₂ model.
 
@@ -8420,6 +8477,13 @@ Layer 1; StableReduction Layers 1–2 and 4–6; AlgebraicCurves Layers 10 and 1
 ReductiveGroupsPartII §RG2.3.7; EllipticCurves Layers 1, 3 and 4; ComplexComparisonPartII
 §§C3.2d.2–C3.2d.4; foundational intersection and polarized descent.
 
+The section numbers group the targets by topic: the fibre geometry (§§2.1–2.16), the five binary curves
+(§§2.17–2.25) and the pinching charts (§§2.26–2.62). The build order, in which every `*Needs:*` reference
+points to an earlier target, is §§2.1–2.6, §§2.15–2.16, §§2.9–2.10, §§2.13–2.14, §§2.23–2.25, §§2.17–2.22,
+§2.27, §2.29, §2.32, §2.26, §§2.33–2.62, §2.28, §2.30, §§2.7–2.8, §2.31, §§2.11–2.12: the one-component
+cohomology §2.28 and the two nonsplit pinches §§2.7–2.8 are stated with the fibre theory that uses them, and
+are built once the chart comparison chain ending in §2.62 is available.
+
 ## Layer 3: multiple fibers and local isogenies
 
 ### 3.1 transverse horizontal DVR divisor
@@ -8581,6 +8645,13 @@ the image of the origin to the origin; the resulting pointed map between ellipti
 **Checks.**
 
 - No equality of the multiple schematic fiber with `E_k` is asserted.
+- For the trivial torsor X=E_R (multiplicity one) the reduced special fibre is `E_k` and the constructed
+  isogeny is the identity.
+- In the diagonal-quotient example of §3.10 with A elliptic and G of order n, the constructed map is the
+  quotient isogeny A→A/G of degree n, equal to the fibre multiplicity; the dual isogeny A/G→A is not the
+  constructed map.
+- If the reduced special fibre is a nodal rational curve (a torsor with multiplicative reduction), no isogeny
+  from `E_k` exists: the elliptic reduced fibre is a hypothesis of the statement, not a conclusion.
 
 *Needs:* §3.6; EllipticCurves Layer 1.
 
@@ -8641,6 +8712,15 @@ and the schematic special-fiber multiplicity from the totally ramified extension
 **Checks.**
 
 - Take an elliptic A and a nontrivial totally ramified extension to obtain a genuine multiple fiber.
+- Over k=F₂ no cyclic extension of k((s)) of odd degree is totally ramified with residue field k, since F₂ has
+  no nontrivial roots of unity; the Artin–Schreier extension u²+u=1/s with G=Z/2⊂E₂(F₂) gives a wild double
+  fibre whose reduced fibre E₂/G has two rational points and is therefore E₂ again (§2.22).
+- Freeness uses the translations: the action of G on A×Spec R′ through the Galois action on R′ alone fixes
+  every point of A over the closed point of R′, so it is not free, and its quotient is A×Spec R with reduced
+  special fibre A of multiplicity one.
+- The multiplicity equals |G|: total ramification writes the uniformizer s of R as u^n times a unit of R′, so
+  the special fibre of the quotient is the image of A×Spec R′/(uⁿ), of multiplicity n; for G trivial the
+  construction returns A×Spec R.
 
 *Needs:* AlgebraicModuliForArithmeticGeometry Layer 3 §3.5, effective polarized descent contract;
 NeronModelsAndSemistableAbelianVarieties Layers 1–2, Néron models and component groups; local LLR extension in
@@ -8914,6 +8994,13 @@ so unimodularity and the signature transport through the common resolution. The 
 **Checks.**
 
 - For the nine-blowup model the diagonal Gram matrix is(1,−1,…,−1).
+- Oddness is witnessed by O²=−1, from adjunction 2g(O)−2=−2=O²+K·O=O²−1 with K=−F (§4.4); it is not witnessed
+  by rank and signature, since the even lattice U⊕E₈(−1) has the same rank ten and signature (1,9).
+- The fibre–section plane (F,O) has Gram matrix [[0,1],[1,−1]] of determinant −1, and its orthogonal
+  complement W (§4.9) is negative definite of rank eight and determinant one; in the basis (F,O,W) the Gram
+  matrix is block diagonal but not diagonal.
+- The rank formula rank(Pic)+K²=10 needs K²=0 from §4.4: P² blown up in eight points has K²=1 and rank nine,
+  so it is not the lattice of a surface in this family.
 
 *Needs:* §4.0; §4.4; SchemeAndStackFoundations SF.5 intersection/adjunction;
 `TauCeti.IntegralLattice`; StableReduction Layer 4.
@@ -9122,6 +9209,11 @@ Ext¹ by H¹ of positive-degree line bundles on P¹, hence both extensions split
 **Checks.**
 
 - For a general higher-genus base those Ext¹ groups need not vanish.
+- On P¹ the two extension groups are Ext¹(O(−2),O)=H¹(O(2))=0 and Ext¹(O(−3),O⊕O(−2))=H¹(O(3))⊕H¹(O(1))=0, so
+  the bundle is O⊕O(−2)⊕O(−3) of degree −5; the wrong sign O²=+1 would give quotients O(2), O(3) and degree +5.
+- The successive quotients are the normal-bundle restrictions `O(nO)|_O ≅ O_P¹(n·O²) = O(−n)` for n=2,3, and the
+  surjection f_*O(nO)→O(−n) uses R¹f_*O((n−1)O)=0 for n−1≥1 (§4.11); at n=1 the map f_*O(O)→O(−1) is zero,
+  because f_*O(O)=O and O(−1) maps isomorphically onto R¹f_*O.
 
 *Needs:* §4.11; §4.4; SchemeAndStackFoundations SF.3, Picard/Brauer and curve-cohomology contracts;
 StableReduction Layer 2.
@@ -9171,6 +9263,13 @@ equation by s⁶ to obtain all five weights.
 
 - The transition uses s=1/t; no division of a polynomial in the same coordinate is called the second-chart
   polynomial.
+- Model 1 of §6.1, (t,t,t²,t⁴,t⁵+t⁶), reverses to (1,s,s,1,1+s), again within the weights 1,2,3,4,6, with
+  Δ′=s¹²·s⁻⁸=s⁴ and the split I₄ fibre at s=0; a coefficient a₆ of degree seven would reverse to s⁻¹, so the
+  weight bounds are exactly what makes the second chart polynomial.
+- The twists x=s⁻²x′, y=s⁻³y′ come from deg L=1 (§4.2): for E×P¹, with trivial Hodge line, the same five
+  coefficients are constants on both charts and the transition carries no twist.
+- The opposite twist x=s²x′, y=s³y′ gives aᵢ′=s⁻ⁱaᵢ(1/s), a polynomial in s only for aᵢ=0, so it cannot glue
+  a nonconstant equation; the sign of the weights is fixed by the bounds deg aᵢ≤i.
 
 *Needs:* §4.13; §4.12; §4.10; StableReduction Layer 2 relative duality.
 
@@ -9399,9 +9498,15 @@ contradiction of §5.9.
 
 **Checks.**
 
-- For the expression `1+10q+q²`, q=2 gives 25.
-- For the expression `1+10q+q²`, q=3 gives 40.
-- For the expression `1+10q+q²`, q=0 gives 1 and q=1 gives 12 as numerical expressions; neither is a finite-field size.
+- Constant Picard scheme gives trace ten and count `1+10q+q²`, which is 25 at q=2 and 40 at q=3; the
+  direction from the count to constancy is the one that needs the finite-order argument.
+- P² blown up at three closed points of degree three (nine geometric points in three Frobenius 3-cycles) is
+  geometrically rational of geometric Picard rank ten with Frobenius trace 1 on the lattice and exactly
+  #P²(F₂)=7 rational points, since the nine exceptional curves carry no rational point; 7≠25 and its Picard
+  scheme is not constant.
+- A Frobenius of order two on the rank-ten lattice with eigenvalues (1⁸,(−1)²) has trace 6 and count
+  1+6·2+4=17; with one eigenvalue −1 the count is 21; only trace ten gives 25, and trace ten forces every
+  eigenvalue, a root of unity with real part at most one, to be one.
 - A smooth rational ruled surface has rank two, so its q=2 count nine cannot be substituted into the rank-ten criterion.
 - A singular Weierstrass cubic can have fewer rational points than its smooth resolution.
 
@@ -9565,11 +9670,13 @@ contradicting25≤10+7+7=24.
 
 ### 5.10 lang configuration inputs as used
 
-Throughout, J→P¹_F₂ is a surface in the family of §7.4, with geometric configuration of singular fibres
+Throughout, J→P¹_F₂ is a smooth projective geometrically rational relatively minimal Jacobian elliptic
+surface over `P¹_F₂` with constant Picard scheme and at most one rational singular-semistable or
+smooth-supersingular fibre (the classification family of §6.1), with geometric configuration of singular fibres
 written over the rational points t=0, 1, ∞; r_a is the number of geometric components of the additive fibre,
 E_n is a smooth fibre with n rational points and Ĩ_m a nonsplit I_m fibre. Prove the following configuration
 exclusions. They are statements about which configurations occur; the coefficient normal forms are the
-separate targets of §5.14.
+separate targets of §7.3.
 
 - (C1) II+E₄+I₉ does not occur.
 - (C2) If the configuration is III+I_m with 6≤m≤9 over rational points, then m=6 or m=8.
@@ -9664,64 +9771,6 @@ contributes2n, and25=5+2m+2n forces m=8,n=2.
 
 *Needs:* §5.12; §5.9; §5.1; §5.10.
 
-### 5.14 characteristic-two normal forms at the additive fibre
-
-Let J be in the family of §7.4 with global equation y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆ of §4.14, deg aᵢ≤i, minimal on
-both charts, the additive fibre (or the nonreduced fibre if j=0) at t=0 and the configuration over t=0, 1, ∞
-as named. Below cᵢ, dᵢ, eᵢ, fᵢ denote polynomials in t of degree at most i, and the allowed changes are the
-admissible changes of §7.2: x↦x+r, y↦y+sx+w with r,s,w of weights 2,1,3, and base automorphisms of P¹ with
-the matching weight rescaling. Prove the following six normal-form statements.
-
-- (N1, configuration III+E₄+I₈, Lang case 2A) The equation can be brought to y²+txy+tc₂y=x³+tc₁x²+tc₃x+t²c₄
-  with t∤c₂, t∤c₃ and Δ=t⁴. Changes with t|r and t|w give c₂=c₃=1; then Δ=t⁴(1+t³+t³c₁+t⁴c₄)=t⁴ forces
-  c₁=1+αt, c₄=α, and α=1 gives E₂ at t=1. The result is model 8.
-- (N2, configuration I₁*+E₄+I₄, Lang case 5A) The equation can be brought to
-  y²+txy+t²c₁y=x³+td₁x²+t³e₁x+t⁴c₂ with t∤c₁ and t∤d₁; a change of coordinates gives c₁=1 and e₁=t. Then
-  Δ=t⁸(1+t+td₁+t²c₂+t³+t⁴) and the unit factor equals one, so (c₂,d₁)=(t+t²,1) or (1+t+t²,1+t). The second
-  has a nonsplit fibre at ∞, contrary to the configuration; the first is model 1.
-- (N3, configuration I₄*+E₂+E₄, Lang case 5D) The equation can be brought to y²+txy=x³+td₁x²+t⁴x with
-  deg d₁≤1 and t∤d₁, so d₁=1 or d₁=1+t. The base automorphism t↦t/(1+t) followed by x=u²x′, y=u³y′ with
-  u=1/(1+t) exchanges the two, and d₁=1 is model 7.
-- (N4, configuration III*+E₄+E₄, Lang case 7) The equation can be brought to
-  y²+txy+t³c₀y=x³+t²d₀x²+t³e₁x+t⁵f₁ with t∤e₁; changes give c₀=0 and e₁=1, and then Δ=t¹⁰(1+tf₁).
-  Singularity of the fibre over the closed point of degree two forces f₁=1+t, and d₀=1 gives E₂ at t=1, so
-  d₀=0. The result is model 2.
-- (N5, j=0, configuration I₁*+E₅+IV, Lang case 13A) The equation can be brought to
-  y²+t²c₁y=x³+td₁x²+t³e₁x+t⁴d₂ with t∤d₁ and t∤c₁. Then Δ=t⁸c₁⁴ forces c₁=1, a change y↦y+sx gives d₁=1,
-  and further changes remove the linear term of e₁ and the constant and quadratic terms of d₂, giving
-  y²+t²y=x³+tx²+t³e₀x+t⁵d₀. Only e₀=d₀=0 gives E₅ at t=1; this is model 9.
-- (N6, j=0, configurations IV*+E₅+III and IV*+E₃+IV, Lang case 14) The equation can be brought to
-  y²+t²c₁y=x³+t²d₀x²+t³e₁x+t⁴d₂ with t∤c₁. Then Δ=t⁸c₁⁴ forces c₁=1, a change y↦y+sx gives d₀=0, and the
-  equation becomes y²+t²y=x³+t³e₀x+t⁵d₀′. Only (e₀,d₀′)=(1,0) gives E₅ at t=1 (model 10), and only
-  (e₀,d₀′)=(0,0) gives E₃ at t=1 (model 11).
-
-The remaining configurations of (C4)–(C5) have the analogous normal forms obtained from Tate's algorithm at t=0:
-II*+E₄+I₁ and II*+E₂+Ĩ₁ reduce to models 5 and 6, III*+E₄+I₂ and III*+E₂+Ĩ₂ to models 3 and 4, and
-I₂*+E₄+Ĩ₂, I₃*+E₄+Ĩ₁ and IV*+E₄+Ĩ₂ to models 12, 13 and 14. These seven reductions are new proofs; the source
-leaves the cases other than N1–N6 to the reader and omits the last three configurations.
-
-([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), proof of Theorem 10.4, pp. 30–31, for N1–N4, and
-proof of Theorem 10.5, p. 32, for N5–N6; the case labels are those of Lang's configuration paper as cited
-there; EllipticCurves Layer 4 for Tate's algorithm.)
-
-**Checks.**
-
-- For N3, d₁=1 and d₁=1+t both give Δ=t¹². The excluded value d₁=0 also gives Δ=t¹², but violates t∤d₁:
-  substituting x=t²X, y=t³Y turns y²+txy=x³+t⁴x into Y²+XY=X³+X, of discriminant 1, so that equation is
-  not minimal at t=0. Discriminant and nondegeneracy alone do not identify the case.
-- For N1, α=1 gives the tuple (t,t+t²,t,t,t²), still with Δ=t⁴, but its fibre at t=1 is E₂; the configuration
-  III+E₄+I₈ needs α=0, and the Δ test alone does not exclude α=1.
-- For N2, both solutions have unit factor one, so Δ=t⁸ for each; only the split fibre at ∞ selects model 1, and
-  the other solution is not a second untwisted representative.
-- For N4, f₁=0 gives Δ=t¹⁰ with no singular fibre over the degree-two point, which is the configuration of
-  model 3 rather than III*+E₄+E₄; f₁=1+t gives Δ=t¹⁰(t²+t+1), as in model 2.
-- For N5 and N6, c₁=1+t gives Δ=t⁸(1+t)⁴ and a singular fibre at t=1, contradicting the smooth fibre there;
-  so the discriminant forces c₁=1 in both.
-- For N6, the values (e₀,d₀′)=(1,0) and (0,0) give the different smooth fibres E₅ and E₃ at t=1 (models 10
-  and 11), so one normal form carries two configurations.
-
-*Needs:* §4.14; §5.10; §7.1; §7.2; EllipticCurves Layer 4.
-
 ### Examples
 
 For q=2 the resolved-surface threshold is 1+20+4=25. If a finite-order rank-ten action has one eigenvalue −1
@@ -9736,7 +9785,7 @@ smooth supersingular E₃ has c₄=0 but Δ=1 and is a negative control for “c
 Layers 2 and 4; EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7, F.10.1–F.10.5
 (including F.10.2b) and §§0.9–0.11; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4;
 the projective-plane and point-blowup specializations of §5.0;
-native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer. The normal forms of §5.14 use the admissible changes of §§7.1–7.2, which depend only on Layer 4.
+native integral-lattice duals and ADE comparisons; the rational cycle-class realization constructed in this layer.
 
 ## Layer 6: the fourteen-model classification list
 
@@ -9746,8 +9795,8 @@ Give the fourteen equations over F₂(t) representing the classification family:
 geometrically rational relatively minimal Jacobian elliptic surfaces over `P¹_F₂` with constant Picard scheme
 and at most one rational singular-semistable or smooth-supersingular fibre. Establish their discriminants,
 functional j-invariants, resolved fibres, local minimality on both charts and resolved F₂-counts. The equations
-and their individual invariants below are Checks of this single list target; completeness and uniqueness are
-§7.4.
+and their individual invariants below are Checks of this single list target; completeness is §7.4, pairwise
+inequivalence of the models §§7.5–7.6 and the classification §7.7.
 
 The equation list uses the native carrier `Fin 14→WeierstrassCurve F₂[t]`, with model i at
 index i−1. Establish the five coefficient bounds, distinctness of the coefficient tuples and
@@ -9940,28 +9989,97 @@ smooth relatively minimal Jacobian hypotheses on both surfaces for the equation 
 *Needs:* §7.1; §4.14; StableReduction Layer 5 uniqueness of relatively minimal models;
 AlgebraicModuliForArithmeticGeometry Layer 1 §1.1 relative Proj; the native projective variable-change comparison.
 
+### 7.3 characteristic-two normal forms at the additive fibre
+
+Let J be in the classification family of §6.1 with global equation y²+a₁xy+a₃y=x³+a₂x²+a₄x+a₆ of §4.14, deg aᵢ≤i, minimal on
+both charts, the additive fibre (or the nonreduced fibre if j=0) at t=0 and the configuration over t=0, 1, ∞
+as named. Below cᵢ, dᵢ, eᵢ, fᵢ denote polynomials in t of degree at most i, and the allowed changes are the
+admissible changes of §7.2: x↦x+r, y↦y+sx+w with r,s,w of weights 2,1,3, and base automorphisms of P¹ with
+the matching weight rescaling. Prove the following six normal-form statements.
+
+- (N1, configuration III+E₄+I₈, Lang case 2A) The equation can be brought to y²+txy+tc₂y=x³+tc₁x²+tc₃x+t²c₄
+  with t∤c₂, t∤c₃ and Δ=t⁴. Changes with t|r and t|w give c₂=c₃=1; then Δ=t⁴(1+t³+t³c₁+t⁴c₄)=t⁴ forces
+  c₁=1+αt, c₄=α, and α=1 gives E₂ at t=1. The result is model 8.
+- (N2, configuration I₁*+E₄+I₄, Lang case 5A) The equation can be brought to
+  y²+txy+t²c₁y=x³+td₁x²+t³e₁x+t⁴c₂ with t∤c₁ and t∤d₁; a change of coordinates gives c₁=1 and e₁=t. Then
+  Δ=t⁸(1+t+td₁+t²c₂+t³+t⁴) and the unit factor equals one, so (c₂,d₁)=(t+t²,1) or (1+t+t²,1+t). The second
+  has a nonsplit fibre at ∞, contrary to the configuration; the first is model 1.
+- (N3, configuration I₄*+E₂+E₄, Lang case 5D) The equation can be brought to y²+txy=x³+td₁x²+t⁴x with
+  deg d₁≤1 and t∤d₁, so d₁=1 or d₁=1+t. The base automorphism t↦t/(1+t) followed by x=u²x′, y=u³y′ with
+  u=1/(1+t) exchanges the two, and d₁=1 is model 7.
+- (N4, configuration III*+E₄+E₄, Lang case 7) The equation can be brought to
+  y²+txy+t³c₀y=x³+t²d₀x²+t³e₁x+t⁵f₁ with t∤e₁; changes give c₀=0 and e₁=1, and then Δ=t¹⁰(1+tf₁).
+  Singularity of the fibre over the closed point of degree two forces f₁=1+t, and d₀=1 gives E₂ at t=1, so
+  d₀=0. The result is model 2.
+- (N5, j=0, configuration I₁*+E₅+IV, Lang case 13A) The equation can be brought to
+  y²+t²c₁y=x³+td₁x²+t³e₁x+t⁴d₂ with t∤d₁ and t∤c₁. Then Δ=t⁸c₁⁴ forces c₁=1, a change y↦y+sx gives d₁=1,
+  and further changes remove the linear term of e₁ and the constant and quadratic terms of d₂, giving
+  y²+t²y=x³+tx²+t³e₀x+t⁵d₀. Only e₀=d₀=0 gives E₅ at t=1; this is model 9.
+- (N6, j=0, configurations IV*+E₅+III and IV*+E₃+IV, Lang case 14) The equation can be brought to
+  y²+t²c₁y=x³+t²d₀x²+t³e₁x+t⁴d₂ with t∤c₁. Then Δ=t⁸c₁⁴ forces c₁=1, a change y↦y+sx gives d₀=0, and the
+  equation becomes y²+t²y=x³+t³e₀x+t⁵d₀′. At t=1 the four values of (e₀,d₀′) give the fibres E₃, E₅, E₃, E₁
+  for (0,0), (1,0), (0,1), (1,1). Only (e₀,d₀′)=(1,0) gives E₅ at t=1 (model 10). Two values give E₃ at t=1,
+  and the fibre at ∞ separates them: the reversed coefficients are a₃′=s, a₄′=e₀s, a₆′=d₀′s, so (0,0) has
+  type IV at ∞ (a₆′=0, b₈′=0, b₆′=s²) and realizes IV*+E₃+IV (model 11), whereas (0,1) has a₆′=s with s²∤a₆′
+  and so the wild type II at ∞, giving the configuration IV*+E₃+II, which is not in (C6). The source's step
+  that only (0,0) gives E₃ at t=1 omits (0,1); the exclusion of (0,1) is by its fibre at ∞.
+
+The remaining configurations of (C4)–(C5) have the analogous normal forms obtained from Tate's algorithm at t=0:
+II*+E₄+I₁ and II*+E₂+Ĩ₁ reduce to models 5 and 6, III*+E₄+I₂ and III*+E₂+Ĩ₂ to models 3 and 4, and
+I₂*+E₄+Ĩ₂, I₃*+E₄+Ĩ₁ and IV*+E₄+Ĩ₂ to models 12, 13 and 14. These seven reductions are new proofs; the source
+leaves the cases other than N1–N6 to the reader and omits the last three configurations.
+
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), proof of Theorem 10.4, pp. 30–31, for N1–N4, and
+proof of Theorem 10.5, p. 32, for N5–N6; the case labels are those of Lang's configuration paper as cited
+there; EllipticCurves Layer 4 for Tate's algorithm.)
+
+**Checks.**
+
+- For N3, d₁=1 and d₁=1+t both give Δ=t¹². The excluded value d₁=0 also gives Δ=t¹², but violates t∤d₁:
+  substituting x=t²X, y=t³Y turns y²+txy=x³+t⁴x into Y²+XY=X³+X, of discriminant 1, so that equation is
+  not minimal at t=0. Discriminant and nondegeneracy alone do not identify the case.
+- For N1, α=1 gives the tuple (t,t+t²,t,t,t²), still with Δ=t⁴, but its fibre at t=1 is E₂; the configuration
+  III+E₄+I₈ needs α=0, and the Δ test alone does not exclude α=1.
+- For N2, both solutions have unit factor one, so Δ=t⁸ for each; only the split fibre at ∞ selects model 1, and
+  the other solution is not a second untwisted representative.
+- For N4, f₁=0 gives Δ=t¹⁰ with no singular fibre over the degree-two point, which is the configuration of
+  model 3 rather than III*+E₄+E₄; f₁=1+t gives Δ=t¹⁰(t²+t+1), as in model 2.
+- For N5 and N6, c₁=1+t gives Δ=t⁸(1+t)⁴ and a singular fibre at t=1, contradicting the smooth fibre there;
+  so the discriminant forces c₁=1 in both.
+- For N6, the values (e₀,d₀′)=(1,0) and (0,0) give the different smooth fibres E₅ and E₃ at t=1 (models 10
+  and 11), so one normal form carries two configurations.
+- For N6, the value (e₀,d₀′)=(0,1), the equation y²+t²y=x³+t⁵, has Δ=t⁸, c₄=0 and E₃ at t=1 (its affine
+  points at t=1 are (1,0) and (1,1)), so the fibre at t=1 does not exclude it; at ∞ it is y²+sy=x³+s, singular
+  at the origin with s²∤a₆′, type II with Δ′=s⁴, and its resolved rational-fibre count is 15+3+3=21<25, so it
+  fails Picard constancy and lies outside the family. A test by the fibre at t=1 alone would admit it.
+- For N5, the four values (e₀,d₀)∈{0,1}² give counts 5, 3, 1, 3 at t=1 for (0,0), (1,0), (0,1), (1,1), so
+  the fibre at t=1 alone does select model 9 there.
+
+*Needs:* §4.14; §5.10; §7.1; §7.2; EllipticCurves Layer 4.
+
 ### 7.4 completeness of the fourteen-model list
 
 Prove that every smooth projective geometrically rational relatively minimal Jacobian elliptic surface over
 `P¹_F₂` with constant Picard scheme and at most one rational singular-semistable or smooth-supersingular fibre
-is equivalent under §7.2 to exactly one of the fourteen models of §6.1. Conversely, each model belongs to
-this family.
+(the classification family of §6.1) is equivalent under §7.2 to at least one of the fourteen models of §6.1.
+This is the completeness half of the classification: that the fourteen models are pairwise inequivalent is
+§§7.5–7.6, and §7.7 combines the two halves into "exactly one".
 
 Use §4.14 to obtain a global equation of weights 1,2,3,4,6 and §7.1 to normalize a₂. The weight bounds and
 admissible changes reduce the equations to finitely many normal forms. Follow Schröer's case analysis:
 for nonzero j put the unique additive fibre at t=0, then distinguish two ordinary rational fibres, a split
 semistable fibre at infinity, a nonsplit semistable fibre at infinity, and the small-additive configuration.
-Use the configuration exclusions of §5.10 and the normal forms of §5.14, with the count and additive-fibre
+Use the configuration exclusions of §5.10 and the normal forms of §7.3, with the count and additive-fibre
 results of §§5.9–5.13. Include the twisted semistable completion of §6.1 in the nonsplit case. For j=0 use
-the nonreduced-fibre and bad-place restrictions (C6) of §5.10, then the normal forms N5–N6 of §5.14.
+the nonreduced-fibre and bad-place restrictions (C6) of §5.10, then the normal forms N5–N6 of §7.3.
 
 For each normal form prove either that it fails Δ≠0, local minimality, geometric rationality, the Picard
 condition or the rational-fibre condition for a stated mathematical reason, or that it is equivalent to a
 model in §6.1. Discriminant identities and valuations settle smoothness and minimality; the Hodge/coherent
 cohomology argument of §6.1 settles rationality; the resolved count criterion of §5.2 settles the Picard condition for rational
 surfaces; the resolved fibres settle the rational-fibre condition. The admissible changes identify the
-remaining normal forms with the listed equations. Existence uses the list's Checks; uniqueness follows from
-the invariant separation in §§7.5–7.6 and the invariant distinction j=0 versus j≠0.
+remaining normal forms with the listed equations. Membership of the listed models in the family is the
+content of §6.1's Checks and is not used here; no uniqueness is asserted.
 
 ([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5 and proofs, pp. 29–32;
 twisted semistable completion in §6.1.)
@@ -9970,19 +10088,19 @@ twisted semistable completion in §6.1.)
 
 - The zero normalized equation has Δ=0 and cannot represent a surface in this family.
 - Models 12–14 satisfy the hypotheses with nonsplit infinity fibres and resolved count 25.
-- Models 3 and 4 have the same j=t² but different split fibre types and ordinary counts, so functional j
-  alone does not give uniqueness.
+- The normal form y²+t²y=x³+t⁵ (N6 of §7.3 with (e₀,d₀′)=(0,1)) has Δ=t⁸≠0 and is minimal on both charts,
+  so it is excluded by the Picard condition (resolved count 21) and not by the discriminant tests.
 - Smooth supersingular fibres count towards the fibre restriction; smooth ordinary fibres do not.
 
-*Needs:* §4.14; §§7.1–7.2; §6.1; §§5.9–5.14; §§7.5–7.6 for uniqueness.
+*Needs:* §4.14; §§7.1–7.3; §6.1; §§5.9–5.13.
 
-### 7.5 eleven nonzero-j classes
+### 7.5 pairwise inequivalence of the eleven nonzero-j models
 
-Within the family of §7.4, prove that the nonzero-j surfaces form exactly eleven equivalence classes,
-represented by models 1–8 and 12–14. Existence uses §6.1 and completeness uses the normal-form argument of
-§7.4. Prove pairwise non-equivalence directly from functional j up to base automorphism, resolved Kodaira
-types, multiplicative splitting and the point counts of the smooth rational fibres. This separation is
-independent of the completeness argument and supplies its uniqueness conclusion.
+Prove that the eleven nonzero-j models of §6.1, models 1–8 and 12–14, are pairwise inequivalent under §7.2,
+directly from functional j up to base automorphism, resolved Kodaira types, multiplicative splitting and the
+point counts of the smooth rational fibres. This separation uses only the invariants of the listed equations
+and their transport under §7.2; it is independent of the completeness argument of §7.4, and the class count
+eleven is drawn in §7.7.
 
 The different nonzero-j functions are separated by their degrees, poles and constancy under base
 automorphisms. For the common j=t² group (models 3, 4 and 12), distinguish III* from I₂*, then E₄/split I₂
@@ -9996,19 +10114,20 @@ the three twisted semistable models in §6.1 complete its nonzero-j list.)
 **Checks.**
 
 - Models 1–8 and 12–14 give eleven models with a₁=t and nonzero functional j.
-- Models 3, 4 and 12 all have j=t²; their resolved fibres distinguish all three classes.
-- Models 5, 6 and 13 all have j=t; their resolved fibres distinguish all three classes.
+- Models 3, 4 and 12 all have j=t²; their resolved fibres distinguish all three: III* at t=0 for models 3
+  and 4 against I₂* for model 12, then E₄ with split I₂ for model 3 against E₂ with nonsplit I₂ for model 4.
+- Models 5, 6 and 13 all have j=t; their resolved fibres distinguish all three: II* for models 5 and 6
+  against I₃* for model 13, then E₄ with split I₁ against E₂ with nonsplit I₁.
 - Model 1 has one order-four pole of j=t⁴, whereas model 14 has two geometric poles of order one and an
   infinity pole of order two, so their degree-four j-functions are inequivalent under a base automorphism.
 
-*Needs:* §6.1; §7.2; the normal-form completeness argument of §7.4 for the class count.
+*Needs:* §6.1; §7.2.
 
-### 7.6 three zero-j classes
+### 7.6 pairwise inequivalence of the three zero-j models
 
-Within the family of §7.4, prove that the zero-j surfaces form exactly three equivalence classes,
-represented by models 9, 10 and 11. Existence and the zero-j identity use §6.1; the normal-form argument of
-§7.4 gives completeness. Prove pairwise non-equivalence from the resolved fibre types and smooth-fibre counts,
-independently of completeness, to supply uniqueness for this part of §7.4.
+Prove that the three zero-j models of §6.1, models 9, 10 and 11, are pairwise inequivalent under §7.2, from
+the resolved fibre types and smooth-fibre counts. The zero-j identity is §6.1's Check. This separation is
+independent of the completeness argument of §7.4; the class count three is drawn in §7.7.
 
 Model 9 has I₁* and IV as its additive fibres. Models 10 and 11 both have IV*, but their other additive
 fibres are III and IV respectively, and their smooth rational fibres have counts five and three. These
@@ -10023,7 +10142,33 @@ unordered fibre invariants are preserved by §7.2 and separate all three classes
 - Models 10 and 11 have smooth rational fibres E₅ and E₃ and other additive fibres III and IV respectively.
 - Each model has exactly one smooth supersingular rational fibre and no singular semistable rational fibre.
 
-*Needs:* §6.1; §7.2; the normal-form completeness argument of §7.4 for the class count.
+*Needs:* §6.1; §7.2.
+
+### 7.7 classification of the family
+
+Prove that every surface in the classification family of §6.1 is equivalent under §7.2 to exactly one of the
+fourteen models, and that each model belongs to the family. Existence of a model is §7.4; uniqueness is
+§§7.5–7.6 together with the transport of functional j under §7.2 (j is composed with the base automorphism,
+so j=0 is preserved and a zero-j surface is never equivalent to a nonzero-j one); membership of the models is
+§6.1's Checks. Conclude that the nonzero-j surfaces of the family form exactly eleven equivalence classes,
+represented by models 1–8 and 12–14, and the zero-j surfaces exactly three, represented by models 9–11.
+
+([Schröer, arXiv v3](https://arxiv.org/pdf/2004.07025v3), Theorems 10.4–10.5, pp. 29 and 31; the printed
+lists have eight and three models, and models 12–14 are the twisted semistable completion of §6.1.)
+
+**Checks.**
+
+- Among the eleven nonzero-j classes there are seven functional j-invariants up to base automorphism
+  (t⁴; t²/(t²+t+1); t² shared by models 3, 4 and 12; t shared by models 5, 6 and 13; 1; t⁸; t⁴/(t²+t+1)),
+  so a classification by j alone would count seven, not eleven.
+- Models 3 and 4 have the same j=t² but different split fibre types and ordinary counts, so functional j alone
+  does not give uniqueness, and the fibre invariants of §7.5 are needed.
+- The equation y²+t²y=x³+t⁵ has j=0 and is in none of the fourteen classes, because it is outside the family
+  (§7.3, N6); the "exactly one" statement is about the family and not about all equations of the weights.
+- The two counts eleven and three add to fourteen; the source's printed lists add to eleven and omit models
+  12–14.
+
+*Needs:* §7.4; §7.5; §7.6; §6.1; §7.2.
 
 ### Examples
 
@@ -10034,8 +10179,8 @@ fibre types and splitting.
 
 ### Dependencies
 
-Layer 4 global equations and canonical bundles; Layer 5 resolved counts, the configuration exclusions of
-§5.10 and the normal forms of §5.14; Layer 6 classification-list Checks; native Weierstrass variable changes;
+Layer 4 global equations and canonical bundles; Layer 5 resolved counts and the configuration exclusions of
+§5.10; Layer 6 classification-list Checks; native Weierstrass variable changes;
 StableReduction Layers 2 and 5; AlgebraicModuliForArithmeticGeometry Layer 1 relative Proj and Layer 7
 cohomological flatness; the rationality criterion in §6.1.
 
@@ -10049,11 +10194,11 @@ satisfying precisely the two stated arithmetic conditions; quasielliptic surface
 nonsmooth targets. An application that, like the configuration table in the proof of Schröer's Proposition
 11.1 (p. 33), treats only the eleven printed configurations must also treat models 12–14.
 
-Applications use the single classification list of §6.1 and the completeness theorem of §7.4, with its
-exact geometric and arithmetic hypotheses. The equations' resolved fibre types, local minimality and
+Applications use the single classification list of §6.1 and the classification theorem of §7.7 (completeness
+§7.4, pairwise inequivalence §§7.5–7.6), with its exact geometric and arithmetic hypotheses. The equations' resolved fibre types, local minimality and
 25-point counts are the list's Checks. The fibration equivalence is the pointed geometric relation of §7.2;
 its equation comparison and invariant transport give the form of equivalence and uniqueness used by consumers.
-The eleven nonzero-j and three zero-j class theorems are §§7.5–7.6. The nonrational-fibre conclusions remain
+The eleven nonzero-j and three zero-j class counts are §7.7. The nonrational-fibre conclusions remain
 §§6.16–6.17.
 
 ## References
@@ -10106,7 +10251,7 @@ and the twisted semistable completion are mathematical targets and refinements o
   [Author version](https://szydlo.com/imperfect92803.pdf).
 - William E. Lang, *Configurations of singular fibers on rational elliptic surfaces in characteristic two*,
   Communications in Algebra 28 (2000), 5813–5836, DOI 10.1080/00927870008827190. Schröer §10 identifies the
-  configuration assertions needed in §5.10, whose independent proofs supply the normal-form classification
+  configuration assertions needed in §5.10, whose independent proofs supply the normal-form completeness
   argument of §7.4. [Bibliographic
   record](https://doi.org/10.1080/00927870008827190).
 - Tetsuji Shioda, *On the Mordell–Weil lattices*, Commentarii Mathematici Universitatis Sancti Pauli 39
