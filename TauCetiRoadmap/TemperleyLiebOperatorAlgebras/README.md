@@ -68,7 +68,8 @@ The roadmap leaves the following to named roadmaps:
   projections `f_k` with `T_k(f_k) = [k+1]`, the Hermitian form `H_n`, the trace radical `R_n`,
   Jones's positivity theorem `markovTrace_nonneg_iff`, the first-bad-level theorem
   `markovTrace_nonneg_iff_lt_floor`, Cauchy–Schwarz and the pullback criterion (3.2); the positive
-  path models `π_n` on paths of the half-line and of `A_(m−1)`, the weighted trace `τ_n`,
+  path models `π_n` on paths of the half-line and of `A_(m−1)`, the weighted trace on the path
+  model,
   `ker π_n = R_n`, the structure theorem `Q_n ≅ ⊕_t M_(#paths(n,t))(ℂ)`, the injective strand maps,
   the trace-preserving expectations `E_n` with the Markov formula, the finite-dimensional
   faithful-trace C*-lemma, the C*-inductive limit `B_δ` with its faithful trace, and its GNS
@@ -113,8 +114,8 @@ No roadmap consumes this roadmap at present.
   including `q = ±1` by evaluation. No quantum integer is defined by a singular rational expression.
 - **Signs of the quantum parameter.** Tau Ceti's `markovTrace q hq` has loop value
   `δ = −(q + q⁻¹)`. Penneys and Chen use the positive-loop parameter `q′` with `δ = q′ + q′⁻¹`, so
-  `q′ = −q`. Graham–Lehrer and Erdmann–Green use `δ = −(v + v⁻¹)`, so their `v` is Tau Ceti's `q`;
-  Layer 4 writes `v` for it.
+  `q′ = −q`. Graham–Lehrer use `δ = −(v + v⁻¹)`, so their `v` is Tau Ceti's `q`; Layer 4 writes
+  `v` for it. Erdmann–Green use the positive-loop convention `δ = v + v⁻¹`, so their `v` is `q′`.
 - **The closure trace.** `T_n` is the unnormalised closure trace, `T_n(1) = δ^n`,
   `T_(n+1)(ι x) = δ T_n(x)`, `T_(n+1)(ι(x) e_n) = T_n(x)`. On `TL_n` it is `markovTrace q hq` for
   any `q` with `δ = −(q + q⁻¹)`, independent of `q` by Subfactors 3.2 and TemperleyLieb Layer 4. For
@@ -215,9 +216,12 @@ diagram.
 - 3.3: for admissible `δ`, the path model `π_n` on `ℓ²` of the `n`-step paths from `0` on the
   half-line (for `δ ≥ 2`) or on `A_(m−1)` (for `δ = 2cos(π/m)`), with `π_n(U_i)` mixing the two
   continuations of a path at a vertex `s` by the matrix `[s+1]⁻¹ v vᵀ`, `v = (√[s], √[s+2])`; the
-  weighted trace `τ_n(X) = Σ_t [t+1] Tr(X_t)` with `τ_n ∘ π_n = T_n`; `ker π_n = R_n`;
-  `Q_n ≅ ⊕_t M_(#paths(n,t))(ℂ)`; injective strand maps `Q_n → Q_(n+1)`; the expectations `E_n`
-  with `τ_(n+1)(ι_n(x) p_n) = δ⁻¹ τ_n(x)`, `p_n = δ⁻¹ U_n`; the finite-dimensional faithful-trace
+  weighted trace `Σ_t [t+1] Tr(X_t)` on the path algebra (Subfactors writes it `τ_n`; composed with
+  `π_n` it is this README's `T_n`); `ker π_n = R_n`; `Q_n ≅ ⊕_t M_(#paths(n,t))(ℂ)`; injective
+  strand maps `Q_n → Q_(n+1)`; the expectations `E_n` with the Markov formula
+  `T_(n+1)(ι_n(x) p_n) = δ⁻¹ T_n(x)`, `p_n = δ⁻¹ U_n`, equivalently
+  `τ_(n+1)(ι_n(x) p_n) = δ⁻² τ_n(x)` for the normalised traces (Subfactors writes `τ_n` for this
+  README's `T_n` and `tr_n` for its `τ_n`); the finite-dimensional faithful-trace
   C*-lemma and the C*-norm on `Q_n`; the C*-inductive limit `B_δ` with faithful normalised trace;
   the faithful GNS representation and its weak closure with the normal extension of the trace and
   of the expectations.
@@ -427,7 +431,7 @@ quotient `Q_n` of 1.3 replaces any attempt to extend matrix units through a vani
 **Checks.**
 
 - `n = 2`, any `δ`: the paths `0→1→0` and `0→1→2` have weights `[1] = 1` and `[3] = δ² − 1`, summing
-  to `δ²`. With unit weights the sum is `2`, and already `τ_1(1) = 1 ≠ δ`.
+  to `δ²`. With unit weights the sum is `2`, and already `T_1(1) = 1 ≠ δ`.
 - `δ = 1`, `n = 3`: on `A_2` the single path `0→1→0→1` has weight `[2] = 1 = δ³`.
 - `δ = (1+√5)/2` (`m = 5`): the weights on `A_4` are `[1] = 1`, `[2] = δ`, `[3] = δ`, `[4] = 1`; the
   `3`-step paths from `0` end at `1` twice and at `3` once, and `2δ + 1 = δ³`.
@@ -597,8 +601,9 @@ synonyms. Prove `End(n) ≅ Q_n` as *-algebras through 1.3.
 - `δ = 1`: `Hom(2, 2) = Q_2 = ℂ`, with the negligible subspace spanned by `f_2 = 1 − e`; the dagger
   fixes `e`.
 - On `Hom(0, 2) = ℂ·cup`: `(i·cup)† = −i·cap` and `((i·cup)†)† = i·cup`. A ℂ-linear dagger would
-  give `(i·cup)† = i·cap`, and then `(i·cup)† ≫ (i·cup) = −δ·𝟙 0`, negative for `δ > 0`, while the
-  conjugate-linear dagger gives `δ·𝟙 0`.
+  give `(i·cup)† = i·cap`, and then `(i·cup) ≫ (i·cup)† = i·i·(cup ≫ cap) = −δ·𝟙 0` in `End(0)`,
+  negative for `δ > 0`, while the conjugate-linear dagger gives `(i·cup) ≫ (−i·cap) = δ·𝟙 0`. The
+  other order `(i·cup)† ≫ (i·cup)` lies in `End(2)`, where it is `−e` and `e` respectively.
 
 *Needs:* TemperleyLieb Layer 3 (`TL(ℂ, δ)`), Layer 6 (`negligibleIdeal`); 1.1, 1.3; Subfactors 3.3
 (`Q_n`).
@@ -712,7 +717,10 @@ not declared self-adjoint.
 
 - `X_1 ⊗ X_1 ≅ X_0 ⊕ X_2` for every admissible `δ ≥ √2`, with dimensions `δ² = 1 + [3]`; the
   isometric inclusion of `X_0` is `δ^(−1/2)·cup`.
-- `m = 3` (`δ = 1`): the only simple is `X_0`; `X_1 ≅ X_0` and `X_1 ⊗ X_1 ≅ X_0`.
+- `m = 3` (`δ = 1`): the simples are `X_0` and `X_1`, both of dimension `1`, and the range gives
+  `X_1 ⊗ X_1 ≅ X_0` since `min(2, 2m − 4 − 2) = 0`. `Hom(0, 1) = 0`, so `X_1 ≇ X_0` although
+  `End(n) = Q_n = ℂ` for every `n`; the object `n` is `X_0` or `X_1` according to the parity of `n`.
+  A definition with one simple would make `X_1` negligible, but `tr̂(𝟙 1) = δ = 1 ≠ 0`.
 - `m = 4` (`δ = √2`): simples `X_0, X_1, X_2` with dimensions `1, √2, 1`; `X_1 ⊗ X_1 ≅ X_0 ⊕ X_2`,
   `X_1 ⊗ X_2 ≅ X_1`, `X_2 ⊗ X_2 ≅ X_0`.
 - `m = 5` (`δ = (1+√5)/2`): simples `X_0, …, X_3` with dimensions `1, δ, δ, 1`;
@@ -727,7 +735,8 @@ not declared self-adjoint.
 
 ### Examples
 
-- UTL_1 is equivalent to finite-dimensional Hilbert spaces with one simple object.
+- UTL_1 has two simple objects `X_0`, `X_1` with the `ℤ/2` fusion rule `X_1 ⊗ X_1 ≅ X_0`; every
+  Hom space is `ℂ` or `0` according to the parity of `n + m`, and every endomorphism algebra is `ℂ`.
 - UTL_√2 has the Ising fusion rules on `X_0, X_1, X_2`.
 - UTL_((1+√5)/2) contains the Fibonacci rules on `X_0, X_2`.
 - UTL_2: infinitely many simples `X_r` of dimension `r + 1`.
@@ -764,10 +773,14 @@ declared one.
 
 Let `ATL_n(δ)` be the endomorphism algebra of `n`. Give its diagram basis, through-string filtration,
 the rotation `τ` and its inverse for `n > 0`, the seam generators, and the cup, cap and generator
-computations. Prove the relations `e_i² = δ e_i`, `e_i e_(i±1) e_i = e_i` with indices modulo `n`,
-distant commutation, and `τ e_i τ⁻¹ = e_(i+1)` (Graham–Lehrer 2003, relations (TL) and the remark
-after them, printed p. 488; Erdmann–Green, Proposition 2.2.4, printed p. 5) where the indices make
-sense, without using the list as a presentation. Treat `n = 0, 1, 2` through the diagram
+computations. Prove the relations `e_i² = δ e_i` and `τ e_i τ⁻¹ = e_(i+1)` for every `n ≥ 2` with
+indices modulo `n`, and for `n ≥ 3` the relations `e_i e_(i±1) e_i = e_i` and `e_i e_j = e_j e_i`
+for `j ≢ i ± 1 (mod n)` (Graham–Lehrer 2003, relations (TL) and the remark after them, printed
+p. 488; Erdmann–Green, Proposition 2.2.4, printed p. 5, both for `n ≥ 3`), without using the list
+as a presentation. For `n = 2` prove instead `e_1 e_2 e_1 = c² e_1` and `e_2 e_1 e_2 = c² e_2`,
+where `c` is the essential circle: the arc of `e_1` and the arc of `e_2` on the same side of the
+middle level close to a curve around the cylinder, not to a contractible loop. Treat `n = 0, 1, 2`
+through the diagram
 definitions: `ATL_0(δ)` is the polynomial algebra on an essential circle, `ATL_1(δ)` is the Laurent
 algebra on the winding of the single through string. For `n > 0` prove `ATL_n(δ)` infinite-dimensional
 from the winding diagrams. Construct the insertion of an ordinary rectangle into the cut annulus,
@@ -782,7 +795,11 @@ of affine modules along it.
 **Checks.**
 
 - In `ATL_2(δ)` the two generators `e_1`, `e_2` are distinct diagrams (the arc crosses the seam or
-  not), and `e_1 e_2 e_1 = e_1`; in `TL_2` there is one generator.
+  not), and `e_1 e_2 e_1 = c² e_1`, not `e_1`: on `W_(0,z)(2)` with basis `b_1`, `b_2` and
+  `a = z + z⁻¹`, `e_1 b_1 = δ b_1`, `e_2 b_1 = a b_2` and `e_1 b_2 = a b_1`, so
+  `e_1 e_2 e_1 b_1 = δ a² b_1` while `e_1 b_1 = δ b_1`; at `z = 2` the factor is `a² = 25/4`. On
+  `W_(2,z)(2)` both sides are zero. In `TL_2` there is one generator and the relation has no
+  instance.
 - `τ² ≠ 1` in `ATL_2(δ)`: `τ²` is the full twist of two through strings, a diagram with winding, so
   `τ` has infinite order, whereas a model identifying `τ^n` with `1` is a different algebra.
 - `ATL_1(δ) ≅ ℂ[u, u⁻¹]`: the winding number is a complete invariant of the one-strand diagrams,
@@ -858,9 +875,12 @@ parameters gives no Hilbert-space structure by itself.
 Classify the finite-dimensional simple `ATL_n(δ)`-modules over ℂ by the nonzero heads `L_(t,z)(n)`:
 the label equivalence is `(0, z) ∼ (0, z⁻¹)`, all other labels retain `z`, and the class
 `(0, v) ∼ (0, v⁻¹)` is removed when `v² = −1` and `n > 0` is even, where the head is zero
-(Graham–Lehrer 1998, Theorem 2.8, printed pp. 189–191, uncertified; Erdmann–Green, 2.5.6 and
-Remark 2.5.10, printed pp. 9–10, for the winding-eigenvalue parametrisation at `t > 0` and the
-exceptional even case at `t = 0`). Prove that distinct remaining classes have inequivalent heads
+(Graham–Lehrer 1998, Theorem 2.8, printed pp. 189–191, uncertified, for the full statement
+including the exceptional even case; Erdmann–Green, 2.5.5–2.5.6, printed p. 9, for the
+parametrisation by the winding eigenvalue at `t > 0` only). The exceptional case is this roadmap's
+own computation: at `v² = −1` the loop value is `δ = 0` and `z = v` gives `z + z⁻¹ = 0`, so every
+entry of the Gram matrix of `W_(0,v)(n)`, a monomial in `δ` and `z + z⁻¹` of positive degree,
+vanishes and the head is zero. Prove that distinct remaining classes have inequivalent heads
 (the minimal through-string level and the winding eigenvalue there are invariants), and
 completeness by choosing a winding eigenvector at the minimal through-string level of a
 finite-dimensional simple module and mapping the corresponding `W_(t,z)(n)` onto it. Include the
@@ -877,7 +897,10 @@ finite-dimensional modules; `ATL_n(δ)` itself is infinite-dimensional for `n > 
 - `n = 0`: the simples are the characters `c ↦ z + z⁻¹`, and `(0, z) ∼ (0, z⁻¹)` is exactly the
   fiber of `z ↦ z + z⁻¹`.
 - `n = 2`, `v = i` (`δ = 0`): the class `(0, i) ∼ (0, −i)` has `a = 0 = d`, Gram matrix zero, and
-  `L_(0,i)(2) = 0`; it is removed. For `v = i` and `n = 3` nothing is removed, since `n` is odd.
+  `L_(0,i)(2) = 0`; it is removed. For every even `n > 0` the `C(n, n/2)²` Gram entries of
+  `W_(0,i)(n)` are the monomials `d^k a^l` with `k + l ≥ 1` (the number of closed curves formed by
+  two matchings on `n` points), all zero, so `L_(0,i)(n) = 0`; at `n = 4` the `6 × 6` matrix of
+  4.6 at `d = a = 0` is zero. For `v = i` and `n = 3` nothing is removed, since `n` is odd.
 - `n = 2`, `v` with `v² ≠ −1`: `W_(0,v)(2)` has Gram determinant `d² − a² = 0` with `a = −d ≠ 0`, so
   the radical is one-dimensional and `L_(0,v)(2)` is one-dimensional, not zero.
 
@@ -959,9 +982,11 @@ is used, transport the bases, seam and character explicitly: a per-strand twist 
 - `n = 2`, `t = 0`: `F_2 = Z² + Z⁻² − (X² − 2) = (Z + Z⁻¹)² − X²`, `E_(2,2) = 1`, `σ_(2,0) = −1`, so the
   determinant is `X² − (Z + Z⁻¹)²`, which is 4.3's `d² − a²`.
 - `n = 3`, `t = 1`: `F_3 = Z² + Z⁻² + X³ − 3X`, `E_(3,3) = 1`, `σ_(3,1) = 1`, matching 4.3. In
-  Morin-Duchesne–Saint-Aubin's per-step twist `u`, the same determinant reads `X³ − 3X + u⁶ + u⁻⁶`,
-  so `Z = u³` here; identifying `Z` with `u` is wrong, and a model whose three-cycle product were `Z`
-  would give `Z + Z⁻¹`.
+  Morin-Duchesne–Saint-Aubin's per-site twist `w` (their `v = e^(iµ)`, renamed because `v` is Tau
+  Ceti's `q` here; their `u = e^(iλ/2)` is a root of the loop value, `u² + u⁻² = β`), the same
+  determinant reads `X³ − 3X + w⁶ + w⁻⁶`: their factor `α² − 4C²_(3/2)` with `α = w³ + w⁻³` equals
+  `α² − 2 − 2C_3 = w⁶ + w⁻⁶ + X³ − 3X` at `X = −2C_1`. So `Z = w³` here; identifying `Z` with `w` is
+  wrong, and a model whose three-cycle product were `Z` would give `Z + Z⁻¹`.
 - `n = 4`, `t = 0`, with `d = X` and `a = Z + Z⁻¹`, one compatible simultaneous order has Gram matrix
 
   ```
@@ -1074,7 +1099,7 @@ Temperley–Lieb material they need in Subfactors Layer 3 and consume it from th
 - A. Morin-Duchesne and Y. Saint-Aubin, *A homomorphism between link and XXZ modules over the
   periodic Temperley–Lieb algebra* (arXiv:1203.4996): Corollary 4.2, equation (23), and
   Proposition 4.3, equation (29); conventions `C_j = cos(jΛ)`, `Λ = π − λ`, loop `−2C_1`, and the
-  per-step twist parameter.
+  per-site twist parameter `v = e^(iµ)`, written `w` in 4.6.
 - Q. Chen and J. H. Przytycki, *The Gram determinant of the type B Temperley–Lieb algebra*
   (arXiv:0802.1083): §2, the annular pairing and its determinant.
 - J. J. Graham and G. I. Lehrer, *The representation theory of affine Temperley–Lieb algebras*,
