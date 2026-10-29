@@ -1,7 +1,4 @@
-import Mathlib.Analysis.Calculus.DifferentialForm.Basic
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Normed.Module.Alternating.Curry
+import Mathlib
 
 /-!
 **This file is not the roadmap and is not exhaustive.** README5.4a is definitive.

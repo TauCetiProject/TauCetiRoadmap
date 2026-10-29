@@ -276,8 +276,8 @@ characteristic identity `inner_rieszDual` and chartwise regularity
 Everything the layers specify beyond the inventory above. The layer order is the order of
 dependence, and the two hardest items — Banach smooth dependence (3.1) and the smoothing theorem
 for chains (8.3) — gate what follows them. `Suggested.lean` states the headline theorems of
-these layers against the pinned libraries; the companion files linked at 5.4a, 5.6 and 10.2a
-are nonexhaustive illustrations of particular signatures. `SuggestedGreen.lean` is an
+these layers against the pinned libraries; the companion files linked at 5.4, 5.4a, 5.6, 6.3 and
+10.2a are nonexhaustive illustrations of particular signatures. `SuggestedGreen.lean` is an
 import-only compatibility entrypoint for the same Green declarations in `Suggested.lean`; it
 defines no second copy. This README is definitive. A definition in a Lean file of this roadmap
 has a real body (`mpullback`, `flowDomain`/`flowOf`, `degreeAtRegularValue`, the gradient
@@ -331,8 +331,8 @@ replace the stated hypotheses.
   hypotheses on the pairings, since degree zero reduces them to `μ`. Specializations: the ℝ-valued
   `wedge` (pinned by `wedge_apply_one_one`), `wedgeMul` over a normed algebra, and `bracketWedge`
   along a skew bracket with graded skew-symmetry and Jacobi [Tu, *Differential Geometry*, GTM 275,
-  §21]; the interior product is Mathlib's `curryLeft`, whose calculus [Lee, Lemma 14.13] is built
-  here.
+  §21]; the interior product is Mathlib's `curryLeft` (`ι_v ∘ ι_v = 0` is its `curryLeft_same`), whose
+  calculus [Lee, Lemma 14.13] is built here.
 - **0.2 The smooth alternating bundle.** The `ContMDiffVectorBundle` instance for
   `fun x ↦ E₁ x [⋀^ι]→L[ℝ] E₂ x`, mirroring `VectorBundle/Hom.lean`; all form bundles specialize it.
 - **0.3 Rough forms and pullback.** The carrier is `RoughBundleForm I M V k`, with value fibre
@@ -510,7 +510,9 @@ Geometric Topology.
   would split the quotient without changing any tangent orientation — locally constant, and
   compatible with the sign of the transition Jacobian computed within `range I`;
   `Manifold.Orientation` is the quotient by the diagonal flip. Then `neg`, `orientationAt` (pinned
-  by `orientationAt_mk`), extensionality through it (`Manifold.Orientation.ext`), `Orientable`, and
+  by its characteristic equation: at the base point of a lift's own chart it is the model
+  orientation twisted by the chart sign there), extensionality through it
+  (`Manifold.Orientation.ext`), `Orientable`, and
   `eq_or_eq_neg` on preconnected `M`.
 - **2.2 Preserving maps and top forms.** `IsOrientationPreservingAt` and its reversing twin, the
   pullback orientation along local diffeomorphisms and product orientations [Lee, Prop. 15.15];
@@ -795,6 +797,8 @@ stronger quantifier order.
   normalized to vanish at a. In coordinates, prove `∂ₓg=P` and `∂ᵧg=Q` from
   `∂ᵧP=∂ₓQ`; differentiation under the compact parameter integral and FTC give the
   comparison directly. The formula at a=0 is `g(x,y)=x∫₀¹P(tx,ty)dt+y∫₀¹Q(tx,ty)dt`.
+  [PlanarPrimitiveTargets.lean](PlanarPrimitiveTargets.lean) pins the coordinate formula with its
+  smoothness, derivative and normalized-uniqueness signatures on a disk.
   For the separate vertical-disk formula, let `D={x+iy: |x+iy-a|<r}`, `r>0`,
   `a=a₁+ia₂`, and let `ω` be a smooth `F`-valued 2-form on `D`, for any complete normed real
   space `F`. Define its scalar-coordinate coefficient by `f(z)=−ω_z(1,i)`, since
@@ -1229,8 +1233,8 @@ specifies the full layer.
   (the wedge on cohomology), making `H^•_dR(M)` a graded-commutative ℝ-algebra and `H^•_c` a module
   over it.
 - **6.2 Degree zero and the Poincaré lemma.** The isomorphism of `H⁰_dR(M)` with
-  `LocallyConstant M ℝ`; the *relative* flat lemma `exists_extDerivWithin_eq_of_starConvex` (⚠
-  boundary-chart images are not ambient-open), at every regularity `n ≥ 1`; and its manifold
+  `LocallyConstant M ℝ`; the *relative* flat Poincaré lemma on star-convex sets, for
+  `extDerivWithin` (⚠ boundary-chart images are not ambient-open), at every regularity `n ≥ 1`; and its manifold
   corollary `exists_mextDeriv_eq_nhds` [Lee, Thm. 17.14]: every point `x` has an open
   neighbourhood `U` and a smooth form `ψ` on the open submanifold `U` with
   `mextDeriv ψ = φ.restrict U`. The primitive lives on `U`, not on `M`: no Hausdorff hypothesis is
@@ -1270,6 +1274,8 @@ specifies the full layer.
   premise from homotopy invariance and `SimplyConnectedSpace.paths_homotopic`. The normalized
   punctured-plane computation is owned by ComplexKahlerGeometry K5a. Apply the exactness criterion componentwise
   on an arbitrary open `Ω`; on the empty domain take the zero potential.
+  [SuggestedContinuousPaths.lean](SuggestedContinuousPaths.lean) pins the open-subtype covector
+  adapter, the local-potential predicate and the simply connected exactness statement.
 - **6.4 Compact supports.** `compactlySupportedForms`, the compactly supported de Rham complex and `H^•_c`, with the two
   functorialities of opposite variance, extension by zero along an open inclusion (⚠ on Hausdorff `M`: on the line with two
   origins a bump near one origin extends discontinuously) and pullback along proper maps — ⚠ nothing for a
@@ -1568,7 +1574,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   full finite-dimensional real model-with-corners scope.
   Coefficient images stored as ℤ-modules must pass through the restricted-scalar image of the
   constant-system isomorphism: the ℝ-linear isomorphism cannot be applied directly to that
-  restricted object. `restrictedConstantHomologyIso` is the typed adapter; its local naturality,
+  restricted object. That restricted-scalar adapter is a typed map of this layer; its local naturality,
   the integer-to-real local-map square, and smooth-relative-to-AT naturality are separate proof
   obligations. Derive the local route and smooth-representative formulas from those squares
   and the geometric local-simplex comparison.
@@ -1579,11 +1585,10 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   relative de Rham evaluation at β=0 and the one-chart integral identity, and assemble by finite
   additivity. At that β=0 step use that the simplex integral of the zero form vanishes,
   deriving that the chain integral of the zero form over every smooth chain is zero from the finite sum. The support-enlargement map for S⊆K is `(M,M\K)→(M,M\S)`, carrying the global
-  K-supported class to its local S-supported class; this is P3. Pin P5 as Kronecker
-  pushforward/pullback naturality along `(M,W)→(M,M∖S)`, P6 as linearity in the form α,
-  and P7 as finite additivity of the integral of top forms for the partition identity. Derive P7
-  directly from Layer 5.2's form-additivity theorem by finite induction. State these as
-  lemmas of the construction.
+  K-supported class to its local S-supported class. State as lemmas of the construction:
+  Kronecker pushforward/pullback naturality along `(M,W)→(M,M∖S)`, linearity in the form α,
+  and finite additivity of the integral of top forms for the partition identity, derived
+  directly from Layer 5.2's form-additivity theorem by finite induction.
   In dimension zero, identify the chosen class for compact support K with
   `Σ_(x∈K) ε_o(x)[x]`, where ε_o(x) is AT6.3's orientationSignAt o x,
   viewed as the integer ±1; compact K is finite because a zero-dimensional
@@ -1694,7 +1699,8 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   Own its sharp finite C^k refinement for boundaryless sources, first on
   Euclidean spaces and then through open charts: for positive target dimension, k>max(dim source−dim target,0).
   Follow Hirsch,
-  *Differential Topology*, Chapter3, Theorem1.3 (or Federer3.4.3), proving
+  *Differential Topology* (GTM 33), Chapter 3, Theorem 1.3, p. 69 (or Federer, *Geometric
+  Measure Theory*, 3.4.3), proving
   the critical-stratum induction at that bound rather than using the existing
   quadratic regularity threshold. An accessible detailed Euclidean proof is
   Azagra–Ferrera–Gómez-Gil, [The Morse–Sard theorem revisited](https://arxiv.org/abs/1511.05822),
@@ -1939,7 +1945,8 @@ Riesz duality.*
   `mfderiv` images. Prove
   `immersionMetric_contMDiff` for every `n : ℕ∞ω`, a C^(n+1) map and C^n target
   metric, consuming the native bilinear pullback regularity theorem. Prove
-  `immersionMetric_eq_induced` in the real-inner-product target case. Include
+  that it agrees with Tau Ceti's `inducedRiemannianMetric` in the real-inner-product target
+  case. Include
   restrictions, smooth isometry transport and identity/composition of pullbacks.
   Build product, `Opens` and boundary metrics. Consume the existing analytic
   `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`

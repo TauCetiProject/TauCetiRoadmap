@@ -20,15 +20,6 @@ noncomputable def planarRadialPrimitive (P Q : ℂ → F) (a z : ℂ) : F :=
   (z - a).re • (∫ t : ℝ in (0)..1, P (a + t • (z - a))) +
     (z - a).im • (∫ t : ℝ in (0)..1, Q (a + t • (z - a)))
 
-@[simp] theorem planarRadialPrimitive_center (P Q : ℂ → F) (a : ℂ) :
-    planarRadialPrimitive P Q a a = 0 := by
-  simp [planarRadialPrimitive]
-
-/-- The radial primitive of the constant form `c dy`. -/
-theorem planarRadialPrimitive_const_dy (c : F) (a z : ℂ) :
-    planarRadialPrimitive (fun _ => 0) (fun _ => c) a z = (z - a).im • c := by
-  simp [planarRadialPrimitive]
-
 /-- Smoothness follows from integration over a compact parameter interval. -/
 theorem planarRadialPrimitive_contDiffOn {P Q : ℂ → F} {a : ℂ} {r : ℝ}
     (hr : 0 < r) (hP : ContDiffOn ℝ ∞ P (ball a r))

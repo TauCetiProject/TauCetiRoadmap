@@ -279,12 +279,8 @@ theorem bracketWedge_jacobi {β : F₁ →L[ℝ] F₁ →L[ℝ] F₁} (hβ : ∀
   sorry
 
 /-- **Layer 0.1, the interior product.** Mathlib's `ContinuousAlternatingMap.curryLeft` *is*
-`ι_v`; what is built here is its calculus: `ι_v ∘ ι_v = 0` and the degree-`(−1)`
+`ι_v` and `ι_v ∘ ι_v = 0` is its `curryLeft_same`; what is built here is the degree-`(−1)`
 antiderivation rule [Lee, Lemma 14.13], stated for the paired wedge. -/
-theorem curryLeft_curryLeft (φ : E [⋀^Fin (k + 2)]→L[ℝ] F₁) (v : E) :
-    (φ.curryLeft v).curryLeft v = 0 :=
-  sorry
-
 theorem curryLeft_wedgeWith (φ : E [⋀^Fin (k + 1)]→L[ℝ] F₁) (ψ : E [⋀^Fin (l + 1)]→L[ℝ] F₂)
     (v : E) (w : Fin (k + 1 + l) → E) :
     (wedgeWith μ φ ψ).curryLeft v w =
@@ -371,13 +367,6 @@ noncomputable def bundleMpullback (I : ModelWithCorners ℝ E H)
     (f : M → M') (φ : RoughBundleForm I' M' V k) :
     RoughBundleForm I M (f *ᵖ V) k :=
   fun x ↦ (φ (f x)).compContinuousLinearMap (mfderiv I I' f x)
-
-theorem bundleMpullback_apply {V : M' → Type*}
-    [∀ y, AddCommGroup (V y)] [∀ y, Module ℝ (V y)] [∀ y, TopologicalSpace (V y)]
-    (f : M → M') (φ : RoughBundleForm I' M' V k) (x : M)
-    (v : Fin k → TangentSpace I x) :
-    bundleMpullback I I' f φ x v = φ (f x) (fun i ↦ mfderiv I I' f x (v i)) :=
-  rfl
 
 theorem bundleMpullback_id {V : M → Type*}
     [∀ x, AddCommGroup (V x)] [∀ x, Module ℝ (V x)] [∀ x, TopologicalSpace (V x)]
@@ -556,11 +545,6 @@ def IsSmoothForm [IsManifold I 1 M] (n : WithTop ℕ∞) (φ : RoughForm I M F k
 noncomputable def mpullback (I : ModelWithCorners ℝ E H) (I' : ModelWithCorners ℝ E' H')
     (f : M → M') (φ : RoughForm I' M' F k) : RoughForm I M F k :=
   bundleMpullback I I' f φ
-
-theorem mpullback_apply (f : M → M') (φ : RoughForm I' M' F k) (x : M)
-    (v : Fin k → TangentSpace I x) :
-    mpullback I I' f φ x v = φ (f x) (fun i ↦ mfderiv I I' f x (v i)) :=
-  rfl
 
 theorem mpullback_id (φ : RoughForm I M F k) : mpullback I I id φ = φ :=
   sorry
@@ -753,9 +737,6 @@ noncomputable def mextDerivWithin (φ : RoughForm I M F k) (s : Set M) (x : M) :
 noncomputable def mextDeriv (φ : RoughForm I M F k) : RoughForm I M F (k + 1) :=
   fun x ↦ mextDerivWithin φ univ x
 
-theorem mextDerivWithin_univ (φ : RoughForm I M F k) : mextDerivWithin φ univ = mextDeriv φ :=
-  rfl
-
 /-- **Layer 1.1.** Over the model space the manifold derivative is the flat one. -/
 theorem mextDeriv_eq_extDeriv (φ : RoughForm 𝓘(ℝ, E) E F k) (x : E) :
     mextDeriv φ x = extDeriv φ x :=
@@ -940,15 +921,6 @@ noncomputable def orientationAt (o : Manifold.Orientation I M ι) (x : M) :
         · simp [h]
           rfl)
     o
-
-/-- **Layer 2.1, the characteristic equation of `orientationAt`**: at the base point of its own
-chart, a lift's orientation is its model orientation twisted by the chart sign there
-(`TangentSpace I x` is `E` through that chart). -/
-theorem orientationAt_mk (l : OrientationLift I M ι) (x : M) :
-    orientationAt (Quotient.mk _ l) x =
-      (if l.sign x ⟨x, mem_chart_source H x⟩ = 1 then l.modelOrientation
-        else -l.modelOrientation : Orientation ℝ E ι) :=
-  sorry
 
 theorem orientationAt_neg (o : Manifold.Orientation I M ι) (x : M) :
     orientationAt o.neg x = -orientationAt o x :=
@@ -1878,10 +1850,6 @@ noncomputable def mextDerivₗ (k : ℕ) : SmoothForm I M ℝ k →ₗ[ℝ] Smoo
     (ContMDiff.of_le (mem_smoothForms.1 η.2) (WithTop.coe_le_coe.2 le_top)))
   map_smul' c φ := Subtype.ext (mextDeriv_smul c (φ : RoughForm I M ℝ k))
 
-theorem mextDerivₗ_apply (φ : SmoothForm I M ℝ k) :
-    (mextDerivₗ I M k φ : RoughForm I M ℝ (k + 1)) = mextDeriv φ :=
-  rfl
-
 theorem mextDerivₗ_comp_mextDerivₗ (k : ℕ) :
     (mextDerivₗ I M (k + 1)).comp (mextDerivₗ I M k) = 0 :=
   sorry
@@ -1925,11 +1893,6 @@ noncomputable def deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) 
   (deRhamComplex I M).moduleCatCyclesMk η.1 (k + 1)
     (by apply (ComplexShape.up ℕ).next_eq'; rfl)
     (by simp only [deRhamComplex, CochainComplex.of_d]; exact LinearMap.mem_ker.1 η.2)
-
-theorem iCycles_deRhamClosedFormCycle (k : ℕ) (η : ↥(closedForms I M k)) :
-    (deRhamComplex I M).iCycles k (deRhamClosedFormCycle I M k η) = η.1 := by
-  unfold deRhamClosedFormCycle
-  exact HomologicalComplex.iCycles_moduleCatCyclesMk _ _ _ _ _ _
 
 variable (I M) in
 /-- The class of a closed form. -/
@@ -1996,7 +1959,7 @@ theorem deRhamCohomology.map_comp {E'' : Type uE} {H'' : Type*} [NormedAddCommGr
   sorry
 
 /-- **Layer 6.2.** The manifold Poincaré lemma: closed forms are locally exact, manifolds with
-boundary included (via the relative flat lemma `exists_extDerivWithin_eq_of_starConvex`). The
+boundary included (via the relative flat Poincaré lemma on star-convex sets). The
 primitive is a smooth form on an open neighbourhood `U` of `x`, whose exterior derivative is the
 restriction of `φ` to `U` [Lee, Thm. 17.14]. ⚠ It is not a smooth form on all of `M`: on a
 non-Hausdorff line glued from two real lines along countably many small intervals by translations,
@@ -2044,7 +2007,8 @@ theorem subsingleton_deRhamCohomology_one_of_simplyConnected [SimplyConnectedSpa
 /-! ### Layer 6.4: compact supports -/
 
 variable (I M) in
-/-- **Layer 6.4.** Compactly supported smooth forms, pinned by `mem_compactlySupportedForms`. -/
+/-- **Layer 6.4.** Compactly supported smooth forms, pinned by the carrier
+`{φ | IsCompact φ.tsupport}`. -/
 def compactlySupportedForms (k : ℕ) : Submodule ℝ (SmoothForm I M ℝ k) where
   carrier := {φ | IsCompact (φ : RoughForm I M ℝ k).tsupport}
   zero_mem' := by simp [RoughForm.tsupport]
@@ -2746,16 +2710,6 @@ theorem immersionMetric_contMDiff (n : ℕ∞ω)
     let _ := immersionMetric f hinj
     IsContMDiffRiemannianBundle IS n ES (fun x : SM => TangentSpace IS x) := by
   sorry
-section EuclideanAgreement
-variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
-theorem immersionMetric_eq_induced (n : ℕ∞ω) (f : SM → F)
-    (hf : ContMDiff IS 𝓘(ℝ, F) (n + 1) f)
-    (hinj : ∀ x, Function.Injective (mvfderiv IS f x)) :
-    immersionMetric f (fun x => by exact hinj x) =
-      (⟨(TauCeti.inducedRiemannianMetric f hf hinj).toRiemannianMetric⟩ :
-        RiemannianBundle (fun x : SM => TangentSpace IS x)) := by
-  sorry
-end EuclideanAgreement
 end ImmersionMetrics
 
 section SupportedBoundaryDivergence

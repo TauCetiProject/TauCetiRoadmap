@@ -1,6 +1,4 @@
-import Mathlib.Geometry.Manifold.SmoothApprox
-import Mathlib.Analysis.Calculus.BumpFunction.FiniteDimension
-import Mathlib.Analysis.Calculus.ContDiff.Operations
+import Mathlib
 import TauCeti.Analysis.Fredholm.Basic
 import TauCeti.Analysis.Fredholm.LevelSet.GlobalParametric
 
@@ -24,17 +22,6 @@ variable {E V W P : Type*}
 
 def relativeTranslate (f : E → V) (beta : E → ℝ) (p : V) (x : E) : V :=
   f x + beta x • p
-
-omit [NormedAddCommGroup E] [NormedSpace ℝ E] in
-@[simp] theorem relativeTranslate_zero (f : E → V) (beta : E → ℝ) (x : E) :
-    relativeTranslate f beta 0 x = f x := by simp [relativeTranslate]
-
-omit [NormedAddCommGroup E] [NormedSpace ℝ E] in
-theorem relativeTranslate_eqOn (f : E → V) (beta : E → ℝ) (C : Set E)
-    (hzero : ∀ x ∈ C, beta x = 0) (p : V) :
-    Set.EqOn (relativeTranslate f beta p) f C := by
-  intro x hx
-  simp [relativeTranslate, hzero x hx]
 
 def relativeHomotopy (f : E → V) (beta : E → ℝ) (p : V)
     (t : ℝ) (x : E) : V :=
