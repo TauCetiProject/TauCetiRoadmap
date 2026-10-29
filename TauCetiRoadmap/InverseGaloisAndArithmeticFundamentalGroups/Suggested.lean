@@ -8,15 +8,16 @@ import TauCeti.FieldTheory.FunctionField.RiemannRoch.Genus
 # Inverse Galois theory and arithmetic fundamental groups: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for headline results; discharging them finishes neither a
-layer nor the roadmap.
+The statements here give the roadmap's headline theorems against the pinned Mathlib and Tau Ceti
+APIs; discharging them finishes neither a layer nor the roadmap.
 
 Layer IG.2 is represented by Hilbert irreducibility, including several parameters, full polynomial
 Galois groups, disjoint realizations, Weissauer's theorem, the failure of finite generation for
 absolute Galois groups of Hilbertian fields and the normal-subgroup theorem.
 Layer IG.3 contributes rational rigidity and the stable classification of generating braid orbits.
 Layer IG.4 contributes split nilpotent embedding problems, Shafarevich's theorem, supersolvable
-Grunwald prescriptions and realizations over extensions of collectively coprime degrees. Layer IG.5's Abhyankar theorem is stated in the equivalent function-field language, using Tau Ceti's genus,
+and quaternion Grunwald prescriptions and realizations over extensions of collectively coprime
+degrees. Layer IG.5's Abhyankar theorem is stated in the equivalent function-field language, using Tau Ceti's genus,
 places and ramification indices. Layer IG.6 contributes specialization of regular realizations and
 the implication between the named open inverse Galois problems.
 
@@ -47,6 +48,8 @@ noncomputable section
 open Polynomial
 
 universe u
+
+/-! ## Layer IG.2: Hilbert irreducibility and specialization -/
 
 namespace RationalSpecialization
 
@@ -123,6 +126,8 @@ theorem normal_subgroup_absoluteGaloisGroup_eq_bot (K : Type*) [Field K] [CharZe
     (hK : IsHilbertian K) (N : Subgroup (Field.absoluteGaloisGroup K)) [N.Normal]
     (hclosed : IsClosed (N : Set (Field.absoluteGaloisGroup K)))
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated N) : N = ⊥ := sorry
+
+/-! ## Layer IG.3: branch cycles, rigidity, braid orbits and lifting invariants -/
 
 /-- A branch tuple of length `r` in `G`. -/
 abbrev BranchTuple (r : ℕ) (G : Type*) := Fin r → G
@@ -242,6 +247,8 @@ theorem LiftingInvariant.stable_classification {G : Type*} [Group G] [Finite G] 
           BranchTuple.generated (fun i => (t i).val) = ⊤ ∧ LiftingInvariant.tuple c hc t = z) := by
   sorry
 
+/-! ## Layer IG.4: embedding problems, Shafarevich's theorem and unramified Γ-groups -/
+
 /-- Every finite split embedding problem over a number field with nilpotent kernel has a
 continuous surjective solution. -/
 theorem exists_proper_solution_of_split_nilpotent (K : Type*) [Field K] [NumberField K]
@@ -287,6 +294,31 @@ theorem exists_galois_with_local_prescriptions_of_supersolvable (K : Type u) [Fi
         (TensorProduct K v.Completion L ≃ₐ[v.Completion] (Fin m → Li v)) := by
   sorry
 
+open IsDedekindDomain NumberField in
+/-- Quaternion Grunwald prescriptions (Harpaz–Wittenberg, discussion after the corollary to
+Théorème B, p. 4): for the generalized quaternion group of order `2^(n+3)`, local Galois extensions
+whose groups embed in it are induced by one global realization at any finite set of places,
+including dyadic and infinite places. Each completed tensor product is a power of the local field. -/
+theorem exists_galois_with_local_prescriptions_of_quaternion (K : Type u) [Field K]
+    [NumberField K] (n : ℕ)
+    (Sf : Finset (HeightOneSpectrum (𝓞 K)))
+    (Si : Finset (InfinitePlace K))
+    (Lf : HeightOneSpectrum (𝓞 K) → Type u) [∀ v, Field (Lf v)]
+    [∀ v, Algebra (v.adicCompletion K) (Lf v)]
+    (hLf : ∀ v ∈ Sf, FiniteDimensional (v.adicCompletion K) (Lf v) ∧
+      IsGalois (v.adicCompletion K) (Lf v) ∧
+      ∃ φ : (Lf v ≃ₐ[v.adicCompletion K] Lf v) →* QuaternionGroup (2 ^ (n + 1)), Function.Injective φ)
+    (Li : InfinitePlace K → Type u) [∀ v, Field (Li v)] [∀ v, Algebra v.Completion (Li v)]
+    (hLi : ∀ v ∈ Si, FiniteDimensional v.Completion (Li v) ∧ IsGalois v.Completion (Li v) ∧
+      ∃ φ : (Li v ≃ₐ[v.Completion] Li v) →* QuaternionGroup (2 ^ (n + 1)), Function.Injective φ) :
+    ∃ (L : Type u) (_ : Field L) (_ : Algebra K L),
+      FiniteDimensional K L ∧ IsGalois K L ∧ Nonempty ((L ≃ₐ[K] L) ≃* QuaternionGroup (2 ^ (n + 1))) ∧
+      (∀ v ∈ Sf, ∃ m : ℕ, Nonempty
+        (TensorProduct K (v.adicCompletion K) L ≃ₐ[v.adicCompletion K] (Fin m → Lf v))) ∧
+      ∀ v ∈ Si, ∃ m : ℕ, Nonempty
+        (TensorProduct K v.Completion L ≃ₐ[v.Completion] (Fin m → Li v)) := by
+  sorry
+
 /-- Every finite group is realizable over finitely many extensions of a number field whose
 degrees have greatest common divisor one (Harpaz–Wittenberg, Remark 7.11). -/
 theorem exists_realizations_coprime_degrees (K : Type u) [Field K] [NumberField K]
@@ -298,6 +330,8 @@ theorem exists_realizations_coprime_degrees (K : Type u) [Field K] [NumberField 
           FiniteDimensional (E i) L ∧ IsGalois (E i) L ∧
           Nonempty ((L ≃ₐ[E i] L) ≃* G) := by
   sorry
+
+/-! ## Layer IG.5: configuration spaces and Hurwitz moduli -/
 
 /-- The normal subgroup generated by all elements of prime-power order for the prime `p`. -/
 abbrev pGenerated (p : ℕ) (G : Type*) [Group G] : Subgroup G :=
@@ -316,6 +350,8 @@ theorem abhyankar_affine_curve (k : Type*) (F : Type u) [Field k] [IsAlgClosed k
         ∀ P : TauCeti.Place k L, P.restrict k F ∉ D → P.ramificationIdx F = 1) ↔
       Group.rank (G ⧸ pGenerated p G) ≤ 2 * TauCeti.genus k F + D.card - 1 := by
   sorry
+
+/-! ## Layer IG.6: realizations and the inverse Galois problem -/
 
 /-- The inverse Galois problem over `ℚ`, a named open statement. -/
 def InverseGaloisProblem : Prop :=

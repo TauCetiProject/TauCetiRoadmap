@@ -240,7 +240,7 @@ point estimate of Layer IG.5, where it is an explicit hypothesis of the statemen
 | Field Galois theory and splitting fields | `IntermediateField`, `IsGalois`, `IsGalois.card_aut_eq_finrank`, `IsGalois.normalAutEquivQuotient`, `IsGalois.of_separable_splitting_field`, `Polynomial.SplittingField`, `Polynomial.Gal`, `AlgEquiv.autCongr` | IG.0, IG.6 |
 | Finite étale algebras and Galois categories | `CommAlgCat.FiniteEtale`, `Algebra.Etale`, `CategoryTheory.GaloisCategory`, `CategoryTheory.PreGaloisCategory.FiberFunctor`, `CategoryTheory.PreGaloisCategory.functorToContAction` | IG.0 |
 | Scheme morphisms | `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Scheme.Etale` | IG.0–IG.1 |
-| Groups | `Subgroup`, `Subgroup.closure`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `SemidirectProduct`, `DihedralGroup` | IG.3, IG.4 |
+| Groups | `Subgroup`, `Subgroup.closure`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
 | Group extensions and group homology | `GroupExtension`, `GroupExtension.Splitting`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `groupHomology.map`, `Rep.trivial`, `Abelianization`, `Finsupp`, `Submodule.basisOfPid`, `AddCommGroup.equiv_directSum_zmod_of_finite` | IG.3 |
 | Number fields | `NumberField`, `NumberField.finrank_eq_one_of_unramified` | IG.2, IG.4 |
 | Decomposition and inertia of primes in Galois extensions | `Ideal.inertia`, `Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.stabilizerQuotientInertiaEquiv`, `Ideal.card_inertia_eq_ramificationIdxIn` | IG.1 |
@@ -407,7 +407,8 @@ SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, 
 smooth proper geometrically integral curves over finite fields); ArithmeticGaloisDuality §R02.3.1
 (*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*), §R02.4.2
 (*Unramified classes are exact annihilators*, *Restricted products of local cohomology and `Ш^r_S`*,
-with `PoitouTate.sha_eq_absoluteSha`, and *`P^r_S(K, M)` is dual to `P^{2−r}_S(K, M^D)`*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
+with transport to the absolute localization kernel only when `S` is the set of all places,
+using the same modified archimedean groups, and *`P^r_S(K, M)` is dual to `P^{2−r}_S(K, M^D)`*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
 exact sequence*), together with §§R02.3.0d, R02.4.5a–R02.4.5b
 (localization, absolute finite duality and Grunwald–Wang), used by IG.4.2 twisting and cyclic
 prescriptions and IG.4.3 *Restricted-ramification localization adapter*;
@@ -3969,6 +3970,12 @@ ProfiniteCohomology Layers 1, 7 and 10; ClassFieldTheory Layer 5; LocalFieldsRam
 - If `S = T` is finite, the direct sum disappears and the row is the degree-one localization row
   of restricted-ramification Poitou–Tate. Taking `S` to be all places instead recovers absolute
   global cohomology, with ramification data still retained outside `T`.
+- For `F = ℚ(√−35)`, `A = ℤ/2` with trivial action and `S = T` the places above `2` and infinity,
+  the character of `L = ℚ(√5, √−7)` is a nonzero restricted localization-kernel class.
+  Indeed, `disc(L) = 5·(−7)·(−35) = 1225 = disc(F)²`, so `L/F` is unramified at finite places;
+  `−7 ≡ 1 mod 8` makes it split at `2`. At either place above `3`, `F_v = ℚ₃` and
+  `−7 ≡ 2 mod 3` is nonsquare, so its absolute localization is nonzero. Thus a restricted
+  kernel cannot be identified with the all-place kernel for this `S`.
 - For `p = 2` and `F = ℚ`, the real components of both degree-one groups are `ℤ/2`; their nonzero
   classes pair to `1/2 ∈ ℚ/ℤ`. They cannot be deleted from the sum.
 - For `k = ℚ`, `K = ℚ(i)` and `S ⊇ {2, ∞}`, `K ⊆ k_S` and `K_{S_K} = k_S`; restriction followed by
@@ -4690,6 +4697,11 @@ the version at every place.
 quotients of `SL_n`* (part (2)), *Approximation and nonabelian localization*, *Auxiliary cyclic
 prescriptions force full image*, *Supersolvable Grunwald prescriptions*.
 
+*Lean:* `exists_galois_with_local_prescriptions_of_quaternion` is the field form, using
+`QuaternionGroup (2 ^ (n + 1))` for `n : ℕ`, of order `4·2^(n+1) = 2^(n+3)`; thus `m = n + 3`
+ranges over every `m ≥ 3`. It uses the same finite and infinite completions and tensor-product
+conclusion as the supersolvable field form, with no residue-characteristic restriction.
+
 **Checks.**
 
 - For `Q₈`, the prescribed local groups must embed in `Q₈`, and dyadic places are allowed under this
@@ -4700,6 +4712,14 @@ prescriptions force full image*, *Supersolvable Grunwald prescriptions*.
 - Over `ℚ` with `S = {2}`, the unramified quartic extension of `ℚ₂`, with group `C₄ ⊂ Q₈`, is induced
   by a `Q₈`-field: a dyadic prescription excluded by the residue-characteristic hypothesis of
   *Supersolvable Grunwald prescriptions* and allowed here by the quaternion Brauer computation.
+  The completed tensor product has two factors: `L ⊗_ℚ ℚ₂ ≅ L_2 × L_2`, with dimension `8 = 2·4`.
+- At a real place for `Q₈`, the trivial prescription gives `ℝ⁸` of real dimension `8`, and the
+  quadratic prescription gives `ℂ⁴` of real dimension `4·2 = 8`; at a complex place the only
+  local field prescription is `ℂ`, giving `ℂ⁸`. These distinguish infinite-place prescriptions
+  from a theorem stated only at finite primes.
+- The parameters `n = 0, 1, 2` give `QuaternionGroup 2`, `QuaternionGroup 4`, `QuaternionGroup 8`
+  of orders `8, 16, 32`. The empty set of prescriptions still gives a field of the full group
+  order; a split algebra or a realization of a proper subgroup does not meet the conclusion.
 
 **Collectively coprime realization degrees.** Let `G` be a finite group and `k` a number field. Then
 there are finite extensions `k_1, …, k_r` of `k` with `gcd([k_i : k]) = 1` such that, for every `i`,
