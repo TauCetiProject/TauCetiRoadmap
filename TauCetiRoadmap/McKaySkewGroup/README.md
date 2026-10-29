@@ -47,7 +47,8 @@ trace normalization; the FKS curved categories in their left, parity-graded, alg
 the reflection kernels on bipartite zigzag algebras and their transport to `Λ(V) ⋊ Γ`; and the
 geometric McKay comparison maps of Layer 7 (invariant presentations of `ℂ²/Γ`, the transported
 resolution, the `Γ`-cluster scheme on the resolution, tautological bundles, the
-exceptional-lattice comparison and the fundamental cycle).
+exceptional-lattice comparison and the fundamental cycle), including the sheaf-level Reynolds
+image and its base-change comparison in §7.5.
 
 Already in the libraries at the pins, and consumed rather than rebuilt: Mathlib's skew monoid
 algebra `SkewMonoidAlgebra` with its multiplication, ring and algebra structure and universal
@@ -175,6 +176,13 @@ These choices are part of the statements, not implementation details.
   with their hypotheses (a crystallographic reduced irreducible root pairing with a base, over a
   field of characteristic zero).
 
+- `Representation.invariants`, `Representation.averageMap` and
+  `Representation.isProj_averageMap` in `Mathlib/RepresentationTheory/Invariants.lean`: the
+  invariant submodule and its averaging projection for a representation over a commutative ring
+  with finite Γ and invertible group order. `Module.Projective.of_split` in
+  `Mathlib/Algebra/Module/Projective.lean` supplies projectivity of a split summand; §7.5 glues
+  these module-level constructions on schemes.
+
 ### From Tau Ceti
 
 - `TauCeti.SimpleFDRepClasses` and `TauCeti.SimpleFDRepClasses.mk`, the isomorphism classes of
@@ -285,7 +293,8 @@ These choices are part of the statements, not implementation details.
 - SchemeAndStackFoundations §§1.17, 4.14, 5.1–5.3, 5.7: finite quotients, representability of
   projective Hilbert and Quot functors, cycles and degrees on proper curves, coherent classes.
 - AlgebraicVectorBundles L0: finite locally free sheaves with rank, tensor, Hom, determinant,
-  pullback and averaging images.
+  pullback and the affine equivalence with finite projective modules (L0B); the sheaf-level
+  Reynolds image is constructed in §7.5 here.
 - KacMoody KM0–KM1: the full affine realization of a singular Cartan matrix.
 
 ## How to read the build
@@ -726,10 +735,12 @@ Define `rootLatticeQuotientMap t`, the additive map `ℤ^(nodes of t) → ℤ^(n
 sending `x` to `x − x₀ δ` read at the nodes other than the affine node, in the Bourbaki numbering
 `TauCeti.AffineDynkinType.bourbakiNode`, where `x₀` is the affine coordinate and `δ = t.marks`.
 
-- It is additive, and onto: the basis vector at a finite node is the image of the basis vector at
-  the corresponding affine-diagram node.
-- Its kernel is `ℤδ`, because the mark of the affine node is `1`.
-- For `x, y` in `ℤ^(nodes of t)`, `x · C y` equals the finite Cartan form of the images, since
+- It is additive for every `t`. If `t.Valid`, it is onto: the basis vector at a finite node is
+  the image of the basis vector at the corresponding affine-diagram node.
+- If `t.Valid`, its kernel is `ℤδ`, because the affine mark is `1` and the Bourbaki nodes
+  enumerate exactly the other nodes.
+- If `t.Valid`, for all `x, y` in `ℤ^(nodes of t)`, `x · C y` equals the finite Cartan form of
+  the images, since
   `Cδ = 0`, `C` is symmetric and its principal submatrix away from the affine node is
   `t.finiteType.cartanMatrix`.
 
@@ -746,6 +757,9 @@ conflate this ordinary algebraic quotient with a categorical quotient.
 
 **Checks.**
 
+- For the invalid native type `t = .A 0`, the matrix is `[2]`, the marks are `[1]`, and the
+  finite rank is zero. For `x = y = [1]`, the affine form is `2` and the form of the images is
+  `0`; thus validity is necessary. This type is not the trivial-group McKay matrix `[0]`.
 - For `Γ = C₂` (`t = Ã₁`, `δ = (1, 1)`, affine node `0`) the composite sends the trivial class
   `(1, 0)` to `−1`, the sign class `(0, 1)` to `1` and `[ℂ[Γ]] = (1, 1)` to `0`; the McKay form on
   the sign class is `(0,1) · C (0,1) = 2`, matching the finite Cartan form `1 · 2 · 1`. Reading the
@@ -1461,10 +1475,16 @@ decomposition), Tau Ceti `IsIdempotentElem.cornerEquivalence`.
   E_(11) + E_(22)`, its primitive central idempotent; together with the four one-dimensional blocks
   this is `Σ_(i,r) p_(i,r) q_(i,r) = 1`. Summing only `p_(i,1) q_(i,1)` would give the basic
   idempotent `e`, not `1`.
-- The centre lift sends the vertex idempotent `e_c` of the centre of `D̃₄` to
-  `θ(e_c) = E^c_(11) + E^c_(22)`, the central idempotent of the two-dimensional block; for the
-  two-block central element `e_c + e_l` (centre and a leaf) it gives the sum of the two block
-  idempotents, and `θ(e) = 1`.
+- In the `Q₈` corner let `c` be the central vertex of `D̃₄` and `l` a leaf. The central
+  element `Ωe_c`, with `Ω = x ∧ y`, lifts to `θ(Ωe_c) = Ω(E^c_(11) + E^c_(22))`;
+  `Ω(e_c + e_l)` lifts to `Ω(E^c_(11) + E^c_(22) + E^l_(11))`, and `θ(e) = 1`.
+  Both products of `Ωe_c` with any degree-one arrow are zero, since exterior degree three
+  vanishes. Its lifted element commutes with degree-zero group elements because Γ fixes Ω
+  and the block projector is central in `ℂ[Γ]`.
+- The vertex idempotents themselves are not central in the whole corner: for a nonzero arrow
+  `a : c → l`, `e_c a = 0` and `a e_c = a`. For an arrow `b : c → l′` to a different leaf,
+  `(e_c + e_l)b = 0` and `b(e_c + e_l) = b`. Neither input belongs to `Z(B)`, even though
+  the corresponding block projectors belong to `Z(ℂ[Γ])`.
 - The inverse `w ↦ e w e` is only inverse on the centre: for the noncentral `w = E^c_(12)`,
   `e w e = E^c_(11) E^c_(12) E^c_(11) = 0`, so `θ(e w e) = 0 ≠ w`.
 
@@ -1967,9 +1987,35 @@ is supplied by the first bullet together with the separatedness of both sides ov
 
 ### 7.5 Tautological bundles and the exceptional lattice
 
-Let `R = p_* O_Z` be the universal algebra on `Y = Γ-Hilb(V)`, a locally free sheaf of rank `|Γ|`.
-Finite-group averaging gives `R ≅ ⊕_i ρ_i ⊗ T_i` with `T_i = Hom_Γ(ρ_i, R)` locally free of rank
-`δ_i` and `T_trivial = O_Y`.
+For any complex scheme `S`, a finite group Γ and a finite locally free `O_S`-module `F` with
+an `O_S`-linear Γ-action, construct its sheaf Reynolds projection `P_F : F → F` by
+`P_F = (1/|Γ|) Σ_g g`. The denominator is a unit in `O_S` since `|Γ| ≥ 1` and the base is complex.
+Glue the affine module projections along restriction maps, and define the invariant subsheaf
+`F^Γ` as their image. The base scheme has trivial Γ-action; no reducedness, connectedness or
+constant-rank hypothesis is imposed on `S` or `F`.
+
+- Prove `P_F² = P_F` and that its image is exactly the subsheaf of sections fixed by every g.
+  Write `i : F^Γ → F` for inclusion and `p : F → F^Γ` for the restricted projection;
+  prove `p ∘ i = id` and `i ∘ p = P_F`, and
+  `F ≅ F^Γ ⊕ ker(P_F)` by `v ↦ (P_F v, v − P_F v)`, with inverse addition.
+- Prove both summands finite locally free. On an affine open, their modules are finite images
+  and direct summands of a finite projective module; apply the affine comparison of
+  AlgebraicVectorBundles L0B. Their ranks are locally constant, not necessarily constant.
+- Prove naturality for Γ-equivariant `O_S`-linear maps and, for every morphism of complex schemes
+  `f : S′ → S`, construct the comparison `f*(F^Γ) ≅ (f*F)^Γ`, compatible with the inclusions and
+  projections. Pullback preserves this split decomposition, including when f is nonflat.
+
+This is the sheaf construction from the module averaging projection and the finite-projective
+splitting argument, not an assumption on a fibrewise image. Apply it on `Y = Γ-Hilb(V)` to
+`F = ρ_i* ⊗ R`, where `R = p_* O_Z` is the universal algebra of rank `|Γ|`, and define
+`T_i = (ρ_i* ⊗ R)^Γ = Hom_Γ(ρ_i, R)`. Construct the evaluation isomorphism
+`⊕_i ρ_i ⊗ T_i → R`, `v ⊗ h ↦ h(v)`, using the matrix-block decomposition of `ℂ[Γ]`.
+For every geometric point with algebraically closed residue field K, the fibre of R is the
+regular `K[Γ]`-module by 7.4. Base change identifies the fibre of `T_i` with
+`Hom_(K[Γ])(K ⊗_ℂ ρ_i, K[Γ])`, of K-dimension `δ_i`; hence `T_i` has rank `δ_i`.
+The unit `O_Y → T_trivial` is an isomorphism, since it is a fibrewise nonzero map between
+line bundles. This fixes the tautological convention of Kapranov–Vasserot
+[KV00, §1.1, p. 2, and §2.1, p. 5].
 
 - There is a bijection `b` from the nontrivial irreducibles to the exceptional curves such that
   `deg det(T_i)|_(E_(b(j))) = δ_ij` for nontrivial `i, j`; moreover `T_i` restricted to `E_(b(i))`
@@ -1999,8 +2045,10 @@ Finite-group averaging gives `R ≅ ⊕_i ρ_i ⊗ T_i` with `T_i = Hom_Γ(ρ_i,
   the exceptional set is empty and no cycle is asserted.
 
 *Needs:* 7.4, 1.1 (the highest-root lemma), Layer 2 (`rootLatticeQuotientMap` and the McKay
-form), AlgebraicVectorBundles L0 (determinants), SchemeAndStackFoundations §5.1–5.3 (degrees on
-proper curves).
+form), CharacterTheory Layers 2–3 (matrix blocks and regular multiplicities),
+AlgebraicVectorBundles L0A–L0C (tensor–Hom, affine finite-projective comparison, pullback and
+determinants), Mathlib `Representation.averageMap`, `Representation.isProj_averageMap`,
+`Module.Projective.of_split`, SchemeAndStackFoundations §5.1–5.3 (degrees on proper curves).
 
 The root-lattice quotient is not a quotient of `K₀(Y)` by the class of `R`, which has rank `|Γ|`
 and is nonzero in `K₀(Y)`, and the assignment `[ρ_i] ↦ [T_i]` is additive, not asserted to be
@@ -2008,6 +2056,19 @@ multiplicative.
 
 **Checks.**
 
+- Over `A = ℂ[ε]/(ε²)`, let `C₂` swap the basis of `A²`. Then
+  `P = ½[[1,1],[1,1]]`, `P² = P`, `im(P) = A(1,1)` and `ker(P) = A(1,−1)`.
+  The two generators have determinant `−2`, a unit, so their sum is `A²`. Reduction modulo ε
+  gives the same rank-one image over ℂ, testing nonflat base change. The unnormalised sum
+  has square `2[[1,1],[1,1]]`, so it is not the projection.
+- For the trivial group, `P_F = id_F` and the image is F, including `F = 0`. On two disjoint
+  points with `F = O²` and `C₂` acting trivially on one and by `−id` on the other, the image
+  ranks are `2` and `0`; finite local freeness does not mean constant rank. For `Γ = 1`,
+  `R = T_trivial = O_Y` and the evaluation map is multiplication, of rank one.
+- For `S₃` permuting the basis of `O_S³`, `P_F = ⅓J` with J the all-ones matrix, so
+  `P_F² = (1/9)3J = P_F`; the invariants have rank one and the kernel is the rank-two
+  sum-zero summand. For the regular `Q₈` fibres the multiplicity ranks are `(1,1,1,1,2)`,
+  giving `rank R = 4·1² + 2² = 8`, not the sum `6` of those ranks.
 - For `Γ = C₂` on the chart of 7.4, the sign summand of `R` along the exceptional curve is the
   quotient of the trivial bundle `V∗ ⊗ O` by the tautological line of linear forms vanishing on the
   cluster, which is `O(1)` on `P¹`: degree `+1`. The convention `Hom_Γ(R, ρ_i)` would give `−1`.

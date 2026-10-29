@@ -159,7 +159,8 @@ theorem exists_isMcKayLabelling_of_valid (t : TauCeti.AffineDynkinType) (ht : t.
 /-- The **quotient of the affine root lattice by the null vector**, in coordinates: the map
 `ℤ^(nodes of t) → ℤ^(nodes of the finite type)` sending `x` to `x − x₀ δ` read at the nodes other
 than the affine node `0`, in the Bourbaki numbering `TauCeti.AffineDynkinType.bourbakiNode`, where
-`δ = t.marks`.  Since the mark of the affine node is `1`, its kernel is `ℤ δ` and it is onto. -/
+`δ = t.marks`.  For `t.Valid`, the affine mark is `1` and the Bourbaki nodes enumerate its
+complement, so the kernel is `ℤ δ` and the map is onto; the additive definition is total. -/
 def rootLatticeQuotientMap (t : TauCeti.AffineDynkinType) :
     (Fin t.nodes → ℤ) →+ (Fin t.finiteType.rank → ℤ) where
   toFun x i := x (t.bourbakiNode i) - x t.affineNode * t.marks (t.bourbakiNode i)
