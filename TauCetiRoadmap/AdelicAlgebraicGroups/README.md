@@ -42,8 +42,9 @@ The roadmap owns:
   (Layer AA.1);
 - rational characters, the Harish-Chandra map `H_G`, the split component `A_G(ℝ)^0` and the
   norm-one subgroup, right-Haar quotient integration, rational quotient measures,
-  gauge forms and finite-image Artin convergence factors; Tamagawa measures and scalar
-  transport with the Artin and discriminant supplier theorems of AA.2.4–2.5
+  gauge forms and finite-image Artin convergence factors, with the continuation and
+  nonvanishing at one of the finite-order Hecke L-functions that they consume; Tamagawa measures
+  and scalar transport with the Artin and discriminant supplier theorems of AA.2.4–2.5
   (Layer AA.2);
 - the generic adelic reduction theory: rational parabolics and Iwasawa integration, real Siegel
   coordinates for one fixed maximal compact, primitive `GL_n` and closed-orbit reduction, adelic
@@ -107,8 +108,11 @@ RepresentationTheory/LieGroups, layer 9, supplies Cartan and Iwasawa theory; sim
 self-adjointness of a nested chain is proved in AA.3.3. GlobalQuadraticForms, layer 5,
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
 for approximation obstructions. ClassFieldTheory, layers 11–12, supplies quadratic idele
-characters, reciprocity and the global norm-index theorem. LFunctions supplies
-finite-order Hecke analysis through ThetaSeries. RepresentationTheory/InductionRestriction,
+characters, reciprocity and the global norm-index theorem, and the ray class fields with their
+Artin isomorphisms (layer 12). The continuation to a neighbourhood of one and the nonvanishing at
+one of the L-function of a nontrivial finite-order Hecke character are owned by AA.2.4
+(*finite-order-hecke-at-one*), on the pinned ray class and Dirichlet-series declarations of Tau
+Ceti. RepresentationTheory/InductionRestriction,
 layer 6, supplies abstract Brauer induction; the pinned Tau Ceti Brauer, nilpotent monomiality
 and induction-transitivity theorems give integral combinations of induced linear characters.
 AA supplies the ramified local Artin-factor induction identity, the one-dimensional
@@ -258,8 +262,8 @@ one, and a single weight of multiplicity two contributes the square.
 | Linear Haar scaling | MassFormula, Layer 2 | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA constructs gauge measures using RG2.0's nonlinear charts and change of variables; gauge forms, scalar-restriction Jacobians and the global discriminant assembly belong to AA. |
 | Rational tuple heights | [DiophantineApproximationAndTranscendence, §2.5](../DiophantineApproximationAndTranscendence/README.md#25-absolute-twisted-heights-and-subspace-weights), **Relative Euclidean projective normalization**: its targets `height2`, `arakelovMulHeight` and `arakelovMulHeight_eq_height2` on tuples indexed by a finite type, and `height2_baseExtension` with the relative extension-power transport. This roadmap is the sole supplier; no tuple height is pinned in Tau Ceti. | The relative finite-sup/archimedean-`ℓ²` projective height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with the adelic height of AA.3.5 (*adelic-height*) on rational points. Its value on the empty tuple is one. AA retains the adelic extension, properness, compact-translation estimates and quantitative counting. |
 | Brauer and monomial character induction | RepresentationTheory/InductionRestriction, layer 6; pinned `TauCeti/RepresentationTheory/Induction/Brauer/Induction.lean`: `TauCeti.ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`, `TauCeti.ClassFunction.character_mem_indCharacterSpanInt_isElementary`; `TauCeti/GroupTheory/Elementary.lean`: `TauCeti.IsElementary.isNilpotent`; `TauCeti/RepresentationTheory/Induction/Monomial.lean`: `FDRep.exists_character_eq_indClassFun_of_isNilpotent`; `TauCeti/RepresentationTheory/Induction/ClassFunction.lean`: `TauCeti.indClassFun_indClassFun_subgroupOf` | For a finite group over an algebraically closed characteristic-zero field, write every character as an integral combination of characters induced from linear characters of subgroups. AA.2.4 owns the ramified local Artin-factor induction identity, one-dimensional Artin–Hecke comparison and analytic assembly. |
-| Finite-order Hecke analysis | LFunctions, Layer 5 for continuation and Layer 7 for nonvanishing: `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
-| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by LFunctions' `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
+| Finite-order Hecke L-functions at one | AA.2.4 owns (*finite-order-hecke-at-one*) the continuation of the L-function of a nontrivial ray class character to `Re s > 1 − 1/[F:ℚ]`, its nonzero value at one, the finite Euler correction between presentations and the reduction to the primitive character. Pinned inputs: `TauCeti.GlobalNumberFields.RayClassCharacter`, `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`, `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`, `TauCeti.GlobalNumberFields.RayClassCharacter.conductor`, `TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`, `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`, `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum` (`TauCeti/NumberTheory/NumberField/Global/RayClass/Character/`); `TauCeti.HasCancellation`, `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_eq_LSeries`, `TauCeti.differentiableAt_continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Cancellation.lean`), `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Cancellation/Nonvanishing.lean`); ClassFieldTheory, layer 12 (`rayClassField`, `gal_rayClassField_equiv_rayClassGroup`) | The nonzero value at one of the L-function of every nontrivial finite-order character, at every presentation, is the analytic input of *convergence-factors*. |
+| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus the one-dimensional comparison owned by AA.2.4 (*convergence-factors*) | For a finite-order Galois character `χ`, choose its primitive ray class character with value `χ(Frob_v)` at unramified `v`. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by the finite Euler correction of *finite-order-hecke-at-one*; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
 
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
 
@@ -453,6 +457,19 @@ Global number fields:
 `TauCeti.GlobalNumberFields.finprod_normalizedAbsValue_eq_one`,
 `TauCeti.GlobalNumberFields.weakApproximation_denseRange`,
 `TauCeti.dedekindZeta_eulerProduct_hasProd`,
+`TauCeti.GlobalNumberFields.RayClassCharacter`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_mul`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.conductor`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`,
+`TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`,
+`TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum`,
+`TauCeti.HasCancellation`, `TauCeti.hasCancellation_iff_isBigO`,
+`TauCeti.continuedLFunctionOfWeight`, `TauCeti.continuedLFunctionOfWeight_eq_LSeries`,
+`TauCeti.differentiableAt_continuedLFunctionOfWeight`,
+`TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`,
+`TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
 `IsDedekindDomain.FiniteAdeleRing.quotientEquivClassGroup`, `QuaternionAlgebra.normForm`,
 `Matrix.SpecialLinearGroup.map_intCast_zmod_surjective`. Reduction and levels: `TauCeti.cholesky`,
 `TauCeti.cholesky_mul_transpose`, `HeckeCoset.degree_eq_relIndex`,
@@ -496,10 +513,11 @@ NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/L
 (Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
-obstructions only). LFunctions supplies primitive finite-order Hecke continuation in Layer 5,
-using ThetaSeries, and nonvanishing in Layer 7; AA assembles finite-image Artin functions.
-ClassFieldTheory, layers 11–12
-(quadratic idele characters, reciprocity, the global norm-index theorem). AlgebraicTopology,
+obstructions only). ClassFieldTheory, layers 11–12
+(quadratic idele characters, reciprocity, the global norm-index theorem, ray class fields and
+their Artin isomorphisms); the continuation and nonvanishing at one of finite-order Hecke
+L-functions are owned in AA.2.4, and AA assembles the finite-image Artin functions.
+AlgebraicTopology,
 stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layers 0–1
 (valuations and residue units, the input for the distance of `p`-adic roots of unity from one).
 SmoothRepresentationsOfLocalGroups, SR.1.1; RG2.4 local integration. IntegralLattices, 2F–2G. FuchsianOrbifolds,
@@ -1973,6 +1991,105 @@ restriction of scalars.
   - For `G_m/𝒪_v` with `ω = dT/T`, it gives `(q_v − 1) q_v⁻¹ = 1 − q_v⁻¹`.
   - For `GL₂` at `q_v = 2`, `|ω|_v(GL₂(𝒪_v)) = 6/16 = 3/8`; a measure
     normalized by `vol(GL₂(𝒪_v)) = 1` satisfies the other clauses and gives `1`.
+- **Finite-order Hecke L-functions at one.** (*finite-order-hecke-at-one*) For a number field
+  `F`, a modulus `𝔪` and a ray class character `χ` of `𝔪` (Tau Ceti's
+  `TauCeti.GlobalNumberFields.RayClassCharacter`, a character of the finite ray class group
+  `Cl_𝔪`), let `w_χ` be its unitary ideal weight
+  `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`, equal to `χ([𝔞])` on the
+  integral ideals `𝔞` prime to `𝔪` and to `0` on the others, and define the presented Hecke
+  L-function `L_𝔪(s, χ)` as the continued L-function `TauCeti.continuedLFunctionOfWeight w_χ`,
+  the partial-summation integral `s ∫_1^∞ (∑_{N𝔞 ≤ t} w_χ(𝔞)) t^(−s−1) dt`. On `Re s > 1` it is
+  the Dirichlet series `∑_𝔞 χ(𝔞) N𝔞^(−s)` (pinned `TauCeti.continuedLFunctionOfWeight_eq_LSeries`)
+  with its Euler product over the primes not dividing `𝔪` ([Marzec–Neururer], Proposition 4.9,
+  p. 52). Prove:
+  - **Cancellation and continuation.** For `χ ≠ 1`, `w_χ` has cancellation in the sense of
+    `TauCeti.HasCancellation`: its ideal partial sums are `O(x^(1 − 1/[F:ℚ]))`. The partial sums
+    of `w_χ` are the sums `∑_{N𝔞 ≤ x, (𝔞, 𝔪) = 1} χ([𝔞])` bounded by the pinned
+    `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum`, and an eventual bound is a
+    bound for all `x ≥ 1` (pinned `TauCeti.hasCancellation_iff_isBigO`). Hence `L_𝔪(s, χ)` is
+    holomorphic on `Re s > 1 − 1/[F:ℚ]`, a half-plane containing `s = 1` (pinned
+    `TauCeti.differentiableAt_continuedLFunctionOfWeight`).
+  - **Euler correction between presentations.** For `𝔪 ∣ 𝔫` and `χ′` the character of `𝔫`
+    induced from `χ`, `w_{χ′}` is `w_χ` restricted away from the primes dividing `𝔫` (pinned
+    `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`), so on `Re s > 1`
+    `L_𝔫(s, χ′) = L_𝔪(s, χ) · ∏_{𝔭 ∣ 𝔫, 𝔭 ∤ 𝔪} (1 − χ([𝔭]) N𝔭^(−s))` (pinned
+    `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`; the factors at the primes
+    dividing `𝔪` are `1` because `w_χ` vanishes there). For `χ ≠ 1` both sides are holomorphic
+    on the connected half-plane `Re s > 1 − 1/[F:ℚ]`, so the identity holds there, in particular
+    at `s = 1`, where every correction factor is nonzero since `|χ([𝔭]) N𝔭^(−1)| < 1`. Applied
+    to the conductor `𝔣 = χ.conductor`: `χ` is induced from its primitive character `χ⁰` at `𝔣`
+    (pinned `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`), `χ ≠ 1`
+    exactly when `χ⁰ ≠ 1`, and `L_𝔪(1, χ)` is `L_𝔣(1, χ⁰)` times the nonzero correction at the
+    primes of `𝔪` outside `𝔣`.
+  - **The trivial character.** `L_𝔪(s, 1)` is `ζ_F(s) ∏_{𝔭 ∣ 𝔪} (1 − N𝔭^(−s))` on `Re s > 1`
+    (the same restriction identity from modulus one, where the weight is the constant `1` and
+    the series is Mathlib's `NumberField.dedekindZeta` by the pinned
+    `TauCeti.dedekindZeta_eulerProduct_hasProd`), so `(s − 1) L_𝔪(s, 1)` tends to
+    `Res_{s=1} ζ_F · ∏_{𝔭 ∣ 𝔪} (1 − N𝔭^(−1))` as `s → 1⁺`, a positive number (Mathlib
+    `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`, `NumberField.dedekindZeta_residue_pos`).
+  - **Nonvanishing at one.** For `χ ≠ 1`, `L_𝔪(1, χ) ≠ 0` ([Marzec–Neururer], Corollary 5.18,
+    p. 66). Route: let `F_𝔪/F` be the ray class field of `𝔪` with its Artin isomorphism
+    `Cl_𝔪 ≅ Gal(F_𝔪/F)` (ClassFieldTheory, layer 12, with arithmetic Frobenius as in the
+    one-dimensional Artin–Hecke comparison of the supplier table), under which the nontrivial
+    ray class characters of `𝔪` are the nontrivial characters `ψ` of `Gal(F_𝔪/F)`. The ramified
+    induction identity of *convergence-factors* for the regular representation of `Gal(F_𝔪/F)`,
+    an identity of Euler factors prime by prime that takes no leading coefficient, gives
+    `ζ_{F_𝔪}(s) = ζ_F(s) ∏_{ψ ≠ 1} L(ψ, s)` with `L(ψ, s)` the Artin L-function on inertia
+    invariants ([Marzec–Neururer], Corollary 5.15, p. 64), and the one-dimensional comparison
+    gives `L(ψ, s) = L_𝔪(s, ψ̃) ∏_{𝔭 ∈ S_ψ} (1 − ψ(Frob_𝔭) N𝔭^(−s))^(−1)` with `S_ψ` the primes
+    dividing `𝔪` at which `ψ` is trivial on inertia ([Marzec–Neururer], Theorem 5.17, p. 65),
+    each such factor finite and nonzero at one. Since `ζ_{F_𝔪}` and `ζ_F` have simple poles at
+    one with positive residues, `∏_{ψ ≠ 1} L_𝔪(s, ψ̃)` has a finite nonzero limit at `s = 1`,
+    and as each factor is holomorphic at one by the continuation above, none vanishes there. For
+    `χ` of order at least three, `w_χ²` is the weight of the nontrivial character `χ²` (pinned
+    `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_mul`), so the pinned
+    `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq` gives `L_𝔪(s, χ) ≠ 0` on
+    all of `Re s ≥ 1` directly; the ray class field route is what covers the quadratic
+    characters, whose square is the trivial weight on the good ideals.
+  *Needs:* Tau Ceti `TauCeti.GlobalNumberFields.RayClassCharacter`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_mul`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.toUnitaryIdealWeight_induced`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.conductor`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.primitiveCharacter`,
+  `TauCeti.GlobalNumberFields.RayClassCharacter.induced_primitiveCharacter`,
+  `TauCeti.GlobalNumberFields.isBigO_rayClassCharacterPartialSum`, `TauCeti.HasCancellation`,
+  `TauCeti.hasCancellation_iff_isBigO`, `TauCeti.continuedLFunctionOfWeight`,
+  `TauCeti.continuedLFunctionOfWeight_eq_LSeries`,
+  `TauCeti.differentiableAt_continuedLFunctionOfWeight`,
+  `TauCeti.continuedLFunctionOfWeight_restrict_of_one_lt_re`,
+  `TauCeti.continuedLFunctionOfWeight_ne_zero_of_hasCancellation_sq`,
+  `TauCeti.dedekindZeta_eulerProduct_hasProd`; Mathlib `NumberField.dedekindZeta`,
+  `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`, `NumberField.dedekindZeta_residue_pos`;
+  ClassFieldTheory, layer 12 (ray class fields and `gal_rayClassField_equiv_rayClassGroup`);
+  the inertia-invariant local factors, their induction identity and the one-dimensional
+  Artin–Hecke comparison of *convergence-factors*, which precede its leading coefficient.
+  *Lean:* none; specified in the README only.
+
+  **Checks.**
+  - Over `ℚ`, the odd character `χ₄` of modulus `4∞`: the cancellation exponent is `1 − 1/1 = 0`,
+    so its partial sums are bounded (they take only the values `0` and `1`), the half-plane of
+    holomorphy is `Re s > 0`, and `L_4(1, χ₄) = 1 − 1/3 + 1/5 − ⋯ = π/4 ≠ 0`. The ray class
+    field is `ℚ(i)`, `ζ_{ℚ(i)}(s) = ζ(s) L(s, χ₄)`, and the residue `2π · 1 · 1/(4 · √4) = π/4`
+    of `ζ_{ℚ(i)}` divided by the residue `1` of `ζ` recovers `L(1, χ₄)`; a weight equal to `1`
+    at `(2)` instead of `0` would multiply the function by `(1 − 2^(−s))^(−1)` and the value at
+    one by `2`.
+  - The same character presented at modulus `12`: the induced character vanishes at `(3)`, the
+    correction is `1 − χ₄(3) 3^(−s) = 1 + 3^(−s)` since `χ₄(3) = −1`, and the value at one is
+    `(π/4)(4/3) = π/3`; a correction read with the presented character, which is `0` at `(3)`,
+    would be `1`.
+  - The trivial character presented at modulus `4` over `ℚ`: `L_4(s, 1) = ζ(s)(1 − 2^(−s))`,
+    with a simple pole at one of residue `1/2`, not `1`; it is excluded from the holomorphy and
+    nonvanishing statements by the hypothesis `χ ≠ 1`, and its partial sums grow like `x/2`,
+    failing cancellation.
+  - The character of order three modulo `7` over `ℚ`: its square is its conjugate, nontrivial,
+    so the pinned cancellation-of-the-square theorem applies and the value at one is nonzero
+    without the ray class field; `χ₄` has `w_{χ₄}² = w_1` on the odd ideals, whose partial sums
+    grow like `x/2`, so that theorem does not apply to it and the ray class field route is used.
+  - Over `ℚ(√−5)` at modulus one: the ray class group is the class group of order `2`, the
+    nontrivial character `χ` is `−1` on the nonprincipal class, the ray class field is the
+    Hilbert class field `ℚ(√−5, i)`, and `L(s, χ) = L(s, χ_{−4}) L(s, χ_5)`, with the value
+    `(π/4) · (2/√5) log((1 + √5)/2) ≠ 0` at one; the cancellation exponent is `1/2`.
 - **Convergence factors from the character module.** (*convergence-factors*) For `G = Spec H`
   affine algebraic over `F` with `H` finitely generated and `G` connected, let
   `X = X*(G_{F̄}) ⊗ ℂ` with its continuous finite-image Galois action. The local Artin
@@ -1997,11 +2114,11 @@ restriction of scalars.
   in the supplier table to express each character of the finite Galois image as an integral
   combination of characters induced from linear characters of subgroups. This reduces
   the Artin construction to finite-order Hecke characters.
-  Consume the Hecke and one-dimensional Artin–Hecke contracts in the table above, including `heckeLFunctionC_eq_primitive`
-  and `heckeLFunction_ne_zero_of_one_le_re`; the analytic dependency is
-  AA → LFunctions → ThetaSeries, with GlobalNumberFields and
-  ArithmeticDirichletSeries providing the carriers. The analytic hypotheses of
-  the nonvanishing of the leading coefficient are precisely that Hecke/reciprocity contract.
+  Consume *finite-order-hecke-at-one* and the one-dimensional Artin–Hecke comparison of the
+  table above: the analytic input is the holomorphy at one and the nonzero value there of the
+  L-function of every nontrivial finite-order Hecke character, at every presentation, on the
+  pinned ray class and continued-L-function carriers of Tau Ceti. The analytic hypotheses of
+  the nonvanishing of the leading coefficient are precisely that Hecke/reciprocity input.
   AA constructs the complex Artin factors, their ramified induction identity and analytic
   assembly for these finite-image complex representations.
   General Artin coefficients need not be completely multiplicative
@@ -2011,8 +2128,8 @@ restriction of scalars.
   A one-dimensional unramified factor is
   `(1 − χ(Frob_v) q_v^(−s))⁻¹`. At conductor primes with nontrivial inertia the
   one-dimensional invariant space is zero and the factor is one. For a larger ray modulus,
-  LFunctions' `eulerCorrection` deletes precisely its additional factors; compare germs at poles,
-  not totalized point values. Brauer induction and the zeta residue then give the limit:
+  the finite Euler correction of *finite-order-hecke-at-one* deletes precisely its additional
+  factors; compare germs at poles, not totalized point values. Brauer induction and the zeta residue then give the limit:
   [Marzec–Neururer], Definition 5.11 and Remark 5.12, p. 62; Theorem 5.14,
   pp. 62–64; Theorem 5.20 and Corollary 5.21, p. 67. Integral character lattices
   give positive real factors for real `s > 1`, hence a positive nonzero leading coefficient.
@@ -2024,7 +2141,8 @@ restriction of scalars.
   `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`;
   Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`;
   RepresentationTheory/InductionRestriction, layer 6, with the pinned Brauer/monomial
-  and induction-transitivity contracts above; the Hecke/reciprocity contracts above.
+  and induction-transitivity contracts above; *finite-order-hecke-at-one*; ClassFieldTheory,
+  layers 11–12 (reciprocity and ray class fields).
   *Lean:* none; specified in the README only.
 
   **Checks.**
@@ -2309,8 +2427,9 @@ characters with their Galois action, cotangent spaces, adjoint representation, d
 and Euler product; ReductiveGroups, layers 4, 5 and 7; ReductiveGroupsPartII,
 RG2.0, RG2.1, RG2.3 (Lang's theorem) and RG2.4 (adjoint-modulus comparison);
 GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4;
-LFunctions, Layer 5 for primitive finite-order Hecke continuation using ThetaSeries and Layer 7 for nonvanishing;
-ClassFieldTheory reciprocity;
+Tau Ceti's ray class characters, their cancellation and continued L-functions (the pinned
+declarations of the supplier contracts); ClassFieldTheory, layers 11–12 (reciprocity and ray
+class fields);
 RepresentationTheory/InductionRestriction, layer 6 (Brauer and monomial induction).
 
 ## Layer 3: reduction and arithmetic quotients
@@ -5408,9 +5527,10 @@ places strong approximation for `Spin`, Eichler's theorem, mass formulas for arb
 and dyadic density formulas for arbitrary lattices, extending the maximal case, in
 OrthogonalTamagawaAndLatticeMass. That consumer uses the shared inputs with their rank and
 maximality hypotheses.
-The finite-image Artin factors, induction and leading-coefficient statements referenced under
-`ArtinRepresentations` in LFunctions are owned by AA.2.4; LFunctions supplies the Hecke analytic
-statements used there. These ownership assignments concern the stated generic-measure and
+The finite-image Artin factors, induction and leading-coefficient statements, and the
+continuation and nonvanishing at one of the finite-order Hecke L-functions that they use, are
+owned by AA.2.4; completed Hecke L-functions, their functional equations and Grossencharacters
+lie outside this roadmap. These ownership assignments concern the stated generic-measure and
 finite-image targets, rather than all subjects envisaged under either successor name.
 
 ## References
@@ -5503,7 +5623,7 @@ number-field sources named there.
   p-adic reductive groups*. Draft of 1 May 1995; locators use its printed pages.
   <https://personal.math.ubc.ca/~cass/research/pdf/p-adic-book.pdf>
 - **Marzec–Neururer**: J. Marzec and M. Neururer, *L-functions and their applications*,
-  25 February 2020, Chapter 5, pp. 55–67.
+  25 February 2020, Chapters 4–5, pp. 49–67.
   <https://jmarzec.ukw.edu.pl/marzec,neururer-lecture.pdf>
 - **Stacks**: The Stacks Project, Tags [0245](https://stacks.math.columbia.edu/tag/0245),
   [04TY](https://stacks.math.columbia.edu/tag/04TY) and
