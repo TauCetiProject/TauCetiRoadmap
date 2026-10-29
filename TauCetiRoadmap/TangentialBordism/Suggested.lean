@@ -2,10 +2,29 @@ import Mathlib
 import TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis
 
 /-!
-This file suggests selected native carrier and construction signatures.
-README.md is definitive, and these signatures are not an exhaustive checklist.
-Native SingularManifold does not include Hausdorffness. Second countability
-follows from its compact Euclidean charted source through the native theorem.
+# Tangential bordism: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
+Mathlib and Tau Ceti, the headline theorem of the roadmap that is statable at the pins,
+the basis independence of the finite Arf invariant (B3.2(a),
+`finiteQuadraticArf_eq_of_symplecticBasis`), together with the native carriers the README
+fixes: closed cycles on Mathlib's `SingularManifold` with the Hausdorff hypothesis it lacks
+(second countability follows from its compact Euclidean charted source), the classifier
+record of B5.1, the real and complex Milnor incidence hypersurfaces of B4.6 and B6.1, and the
+Adams page carrier of B4.2.
+
+The other headline theorems are not statable at the pins:
+- the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)` and their low
+  tables (B2, B3.1–B3.4), Thom's ring `ΩO_* ≃ F2[x_d]` (B4.6) and Wall's presentation of
+  `ΩSO_*` (B6.2): Mathlib's `SingularManifold` has no bordism relation or quotient group;
+- the Pontryagin–Thom isomorphism `Ω^ξ_n(X,A) ≃ π_n(Mξ ∧ Σ∞(X/A))` (B5.4c) and the stable
+  framed isomorphism (B5.5): there are no Thom spectra or stable homotopy groups of spectra;
+- `H*(MO;F2)`, the Steenrod algebras and Adams convergence (B4.1–B4.8): there are no Steenrod
+  operations on singular cohomology;
+- the ABS genus and its Dirac comparison (B3.0), Rokhlin-type consequences (B3.4) and the
+  transfer kernel `ker(ΩSpin_n → KO_n) = im(ΩSpin_(n−8)(BPSp3) → ΩSpin_n)` (B6.6): there is
+  no `KO` spectrum;
+- the Cayley-plane theorems (B3.6–B3.9): the compact Albert algebra is not at the pins.
 -/
 
 open scoped ContDiff Manifold
