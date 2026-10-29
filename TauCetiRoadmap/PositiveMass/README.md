@@ -219,7 +219,8 @@ Definition 2.3, p. 6, without boundary). The spin theorem with arbitrary other
 ends uses one end only and no finite-ended hypothesis. Cecchini–Zeidler's
 Definition 2.1 also makes integrability of the scalar curvature on the end part of
 an AE end; here it is a separate hypothesis, stated wherever a mass is asserted
-(0.2, 5.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd` is the decay condition alone.
+(0.2, 0.4, 2.2, 4.2, 5.2, 6.2, 7.1, 8.1–8.3), so `AsymptoticallyEuclideanEnd` is the decay
+condition alone.
 
 - An end image is connected and open, and the end radius `|x|∘φ⁻¹` is a proper
   function on it; a finite-ended structure gives a compact exhaustion of M by
@@ -317,7 +318,9 @@ Prove that for a metric `ĝ = φ^(4/(n−2)) g` with φ smooth and positive,
 terms `2(n−1)(2/(n−2))|dφ|²/φ²` and `(n−1)(n−2)(2/(n−2))²|dφ|²/φ²` cancel
 (Lee–Parker, equation (1.1) and §2). Consequently `Δ_g U = 0` and `Scal_g = 0` on a
 region where `g = w^(4/(n−2)) δ` give `Δ_Eucl(Uw) = 0`. For
-`u = 1 + c r^(2−n) + o_2(r^(2−n))` prove that the mass of `u^(4/(n−2)) g` is
+`u = 1 + c r^(2−n) + o_2(r^(2−n))` on an end of order t>0 prove that the normalized fluxes
+of `u^(4/(n−2)) g` and of g at radius r differ by `2c + o(1)`, so that when g has a mass at
+the end (t>(n−2)/2 and integrable scalar curvature, 0.2) the mass of `u^(4/(n−2)) g` is
 `m(g) + 2c`, with the differentiated error bounds. Compute the lifts of ends to
 finite covers, the inversion of a normalized Green expansion, and the factor between this mass and
 the normalizations of Schoen–Yau 2017 and Lee–Parker (Definition 8.2).
@@ -331,6 +334,12 @@ the normalizations of Schoen–Yau 2017 and Lee–Parker (Definition 8.2).
   `Scal_ĝ = n(n−1)`, the round unit sphere. A law with `(n−2)/(4(n−1))` in place of
   `a_n` would give `Scal_ĝ ≠ n(n−1)`.
 - n=3: `a_3 = 8` and the exponents are `4/(n−2) = 4` and `−(n+2)/(n−2) = −5`.
+- Flux difference: with `w = u^(4/(n−2)) − 1 = (4/(n−2)) c r^(2−n) + o_1(r^(2−n))` the extra
+  flux integrand is `−(n−1) ∂_r w + o(r^(1−n)) = 4(n−1) c r^(1−n) + o(r^(1−n))`, whose
+  sphere integral divided by `2(n−1)|S^(n−1)|` tends to 2c; for g = δ this is the 0.2
+  Check for `(1+c r^(2−n))^(4/(n−2)) δ`. The metric `u⁴δ` on ℝ³ with `u − 1 = (1+r²)^(−3/8)`
+  (8.3 Checks) has u → 1 but no expansion `1 + c r^(−1) + o(r^(−1))`, and its flux
+  diverges: a version of the identity assuming only u → 1 would wrongly give it mass 0.
 
 ### Examples
 
@@ -579,10 +588,13 @@ Layers 6–7, not a limit of positive masses.
 
 ### 2.2 The zero-mass deformation
 
-If Scal≥0, the mass of one end is 0 and Ricci is nonzero somewhere, a compactly
+In the setting of 2.1 (finite-ended AE of order t>(n−2)/2, Scal≥0, integrable scalar
+curvature), if the mass of one end is 0 and Ricci is nonzero somewhere, a compactly
 supported variation `g + s h` followed by the conformal correction to nonnegative
-scalar curvature produces, for small s of the right sign, a metric with Scal≥0 and
-negative mass at that end: the first variation of the mass along the corrected
+scalar curvature produces, for small s of the right sign, a metric with Scal≥0,
+integrable scalar curvature (it equals `φ^(−4/(n−2)) Scal_g` for the corrected family's
+conformal factor φ, bounded between positive constants) and negative mass at that
+end: the first variation of the mass along the corrected
 family is a nonzero constant multiple of `∫⟨h, Ric⟩ dV`, nonzero for h a cutoff of Ric,
 and both signs of s are admissible. Prove the function-space solvability and the
 remainder control. After positivity, zero mass therefore implies Ric = 0
@@ -824,8 +836,10 @@ section and a global cutoff extension, and identify its Dirac and gradient error
 Extend the SpinGeometry Dirac and Lichnerowicz identities to compact domains with
 smooth boundary and to weak H¹ sections by density. With ν inward to the truncated
 domain define `G_r(u) = ∫_(S_r) Re⟨u, c(ν)Du + ∇_ν u⟩ dS_g`. For asymptotically constant
-solutions, `lim G_r(u) = −(n−1)|S^(n−1)| m |v_∞|²/2` (Cecchini–Zeidler, proof of
-Proposition 2.5, p. 9–10; Lee–Parker, Theorem 10.3); the positive mass side is −G_r.
+solutions on an end of order t>(n−2)/2 with integrable scalar curvature,
+`lim G_r(u) = −(n−1)|S^(n−1)| m |v_∞|²/2` (Cecchini–Zeidler, proof of Proposition 2.5,
+p. 9–10, whose Definition 2.1 includes the integrability; Lee–Parker, Theorem 10.3, "finite
+mass"); the positive mass side is −G_r.
 For weak solutions with correction in `H¹_(−q)` prove the annular cutoff, trace and error
 limits; weighted H¹ membership alone does not give an all-radius trace limit, so a
 justified exhaustion limit is used, and the mass remains the full radius limit.
@@ -840,6 +854,14 @@ justified exhaustion limit is used, and the mass remains the full radius limit.
   inward ν then gives `(n−1)|S^(n−1)| m |v_∞|²/2 ≥ 0` for a harmonic spinor.
 - The constant `(n−1)/2 · |S^(n−1)|` matches Cecchini–Zeidler's `(n−1)ω_(n−1)/2` with
   `ω_(n−1) = |S^(n−1)|`.
+- Integrability is needed for the limit: on ℝ³ with `g = u⁴δ`, `u = 1 + (1+r²)^(−3/8)` (8.3
+  Checks: complete, spin, order 3/4, Scal > 0 not integrable), the conformal covariance
+  `D_(f²δ)(f^(−1)ψ) = f^(−2) D_δ ψ` of dimension 3 with `f = u²` makes `u^(−2) v` g-harmonic
+  for every constant spinor v, asymptotically constant with `v_∞ = v` since
+  `(u^(−2) − 1) v ≈ −2 r^(−3/4) v` lies in `H¹_(−1/2)` (`∫ r^(−3/2) r^(−2) r² dr` and
+  `∫ r^(−7/2) r² dr` both finite). The integrated identity gives
+  `−G_r(u) ≥ ∫_(Ω_r) Scal|u|²/4 → +∞`, so `G_r(u)` has no limit; the clause excludes this
+  metric, and spatial Schwarzschild (scalar-flat) keeps the limit `−(n−1)|S^(n−1)| m |v|²/2`.
 
 ### Examples
 
@@ -955,9 +977,11 @@ is not inferred from injectivity alone.
 
 ### 6.2 Positivity and rigidity
 
-For a specified end and model spinor, let ξ₀ be asymptotically constant and nonzero
-at infinity on that end and zero on the other ends; solve `𝓓ξ = 𝓓ξ₀` with ψ=0 and set
-`u = ξ₀ − ξ`, a harmonic spinor; the mass identity gives `m(E) ≥ 0` at each end
+On a complete connected finite-ended AE spin manifold without boundary, with nonempty
+ends, Scal≥0 and integrable scalar curvature, for a specified end and model spinor, let
+ξ₀ be asymptotically constant and nonzero at infinity on that end and zero on the other
+ends; solve `𝓓ξ = 𝓓ξ₀` with ψ=0 and set `u = ξ₀ − ξ`, a harmonic spinor; the mass
+identity gives `m(E) ≥ 0` at each end
 (Cecchini–Zeidler, proof of Theorem 3.1, p. 15; Witten 1981, uncertified;
 Parker–Taubes 1982, uncertified). For zero mass the corrected spinors are parallel,
 their values span the spinor fibres, and the Clifford curvature identities force
@@ -971,6 +995,11 @@ flatness; 2.3 gives the global Euclidean isometry.
 - A parallel spinor family spanning the fibres gives `R(X,Y)u = 0` for all u, so the
   curvature acting through the spin representation is zero and R=0.
 - On two-ended Schwarzschild with m>0 the identity gives `(n−1)|S^(n−1)| m |v_∞|²/2 ≥ ‖∇u‖² > 0`.
+- The metric `u⁴δ` on ℝ³ of the 8.3 Checks satisfies every hypothesis except integrable
+  scalar curvature; its harmonic spinor `u^(−2) v` has `−G_r(u) → +∞` (4.2 Checks), so
+  without the clause `m(E) ≥ 0` would assert the sign of an undefined number.
+- The disjoint union of flat ℝⁿ and a flat torus is complete, spin, finite-ended with one
+  end of mass 0 and Scal = 0, and is not isometric to ℝⁿ; connectedness excludes it.
 
 ### Examples
 
@@ -1073,8 +1102,8 @@ Theorem 5.3; Lee–Parker, Theorem 10.1 and Lemma 10.7).
 
 ### 8.2 Spin positive mass, every n ≥ 3
 
-A complete finite-ended AE spin n-manifold, n≥3, with Scal≥0 and integrable scalar
-curvature has nonnegative mass at every end, and zero mass at one end implies a
+A complete connected finite-ended AE spin n-manifold, n≥3, with Scal≥0 and integrable
+scalar curvature has nonnegative mass at every end, and zero mass at one end implies a
 global isometry with ℝⁿ (Cecchini–Zeidler, Theorem 3.1 with empty boundary and ψ=0,
 p. 13–15; Witten 1981, uncertified).
 
