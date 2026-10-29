@@ -40,8 +40,11 @@ The roadmap owns:
   spreading out and the Dedekind local-to-global construction; the comparison with abelian-scheme models; étale base change; the
   invariant-differential lattice of a Néron model and its Hodge line;
 - the identity component and the finite étale component group of the special fibre, with the
-  distinction between rational and geometric components; the Chevalley decomposition of the
-  identity fibre; the toric character lattice of a Néron special fibre and its functoriality;
+  distinction between rational and geometric components; the Chevalley decomposition of every
+  smooth connected commutative group over a perfect field (2.3), applied to the identity fibre,
+  while the theorem for noncommutative groups and its comparison with 2.3 are
+  GroupSchemesOverABase GS4.2's, from which nothing is consumed here; the toric character
+  lattice of a Néron special fibre and its functoriality;
   functoriality under isogeny with the correct (non-exact) statements;
 - for elliptic curves: the identification of the equation-level filtration `E₁ ⊂ E₀ ⊂ E` with
   the Néron model, the smooth locus of the minimal regular model as the Néron model, the
@@ -67,6 +70,7 @@ The roadmap owns:
   conductor–discriminant formulas, the comparison with Mathlib's local polynomial,
   the conductor interface and semistable formula, and residual conductor comparisons;
 - the interfaces of Layer 6: Serre's independence and Noot's closed-point specialization,
+  the good-place and two-place realization of the semistable torsion interface,
   degeneracy-map functoriality, character exact sequences with
   verified kernels, semistable and isogeny behaviour of the differential lattice, connected-model
   Kummer and localization sequences, isogeny component defects and exact cotangents of semistable
@@ -376,6 +380,10 @@ the Galois representation on `T_ℓ(E)`.
 The abelian-variety carrier and base change are in
 `TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`; its rigidity supplier is
 `TauCeti.AlgebraicGeometry.isMonHom_of_one_hom` in `AbelianVariety/Hom/Rigidity.lean`.
+`TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`, in
+`TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean`, is the predicate that the underlying
+scheme morphism of a homomorphism is finite and surjective; it includes inseparable isogenies,
+and 5.2 states `GoodIsogeny` for it.
 The model uniqueness and flat generic-fibre extensionality suppliers are in
 `Curves/StableReduction/Model/Uniqueness.lean` and `Fibers/SchematicDensity.lean`.
 The affine component suppliers are in `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`
@@ -476,6 +484,29 @@ one-dimensional resolution; and §4.15 for the moduli of stable curves. The §4.
 concerns coherent modules and compatible morphisms on given proper schemes. The
 polarised algebraisation of the formal abelian quotient uses
 AbelianSchemesAndArithmeticModuli A4.8, whose polarised input is established in 3.13.
+
+### From `PadicMeasuresIwasawaAlgebras`
+
+Section 5.1 of that roadmap, "The determinant of a perfect complex", supplies `detLine`,
+`detLine_of_iso`, `detLine_quasiIso` (the canonical isomorphism for a quasi-isomorphism of
+perfect complexes and its transitivity), `detLine_shortExact`, `detLine_baseChange`,
+`detLine_dual`, `detLine_shift` and `detLine_acyclic`, for bounded complexes of finite projective
+modules over any commutative ring. What is assumed of them: the lines are graded, an invertible
+module with a locally constant parity in `ℤ/2`, with a rank-one module in degree `0` odd, the
+symmetry isomorphism carrying the Koszul sign `(−1)^{|L||L′|}`, and the shift inverting the line
+without changing the parity; the short-exact-sequence isomorphism is stated for degreewise split
+sequences, which is automatic for the complexes of 5.3d, since over a discrete valuation ring
+every term is finite free and a surjection onto a free module splits; base change is along an
+arbitrary ring map; and the acyclic trivialization of a two-term complex `[M --f--> N]` with `f`
+an isomorphism has coefficient `det(f)^{−1}` relative to independent bases, its inverse being the
+canonical section `1 ↦ det f`. Section 5.3d keeps the grading through every comparison and
+forgets the parity only at the final ungraded lines `λ_n`. The two-term witness fixing the
+conventions on both sides: `[R --π--> R]` in degrees `−1, 0` over a discrete valuation ring with
+uniformiser `π` has `detLine = R` of even parity and `H⁰ = R/(π)`; its rational trivialization
+sends the generator to `π⁻¹` and its canonical section sends `1` to `π`, so the section is `π`
+times an `R`-basis and the order convention of 5.3d assigns it order `1`, the coefficient `π⁻¹`
+of the inverse map being no order. Nothing geometric is imported from that roadmap; its own
+Checks on `A = ℚ[ε]/(ε²)` concern naturality data that 5.3d does not use.
 
 ### From `RigidAnalyticGeometry` and `AdicSpacesPartIII`
 
@@ -695,14 +726,29 @@ smooth test object with a non-injective or non-surjective restriction map refute
 
 **Checks.**
 
-- `nonextendible_test` (non-example) — one smooth `Y` and one generic morphism `Y_η → X_η` that no
-  `Y → X` restricts to refute `NeronMappingProperty j X`; a definition that tested only sections
-  would not see this failure.
-- `identity_test` — for smooth `X` with the property, an endomorphism `f : X → X` with
-  `(Over.pullback j).map f = 𝟙` equals `𝟙 X`.
-- `identity_base_test` (degenerate) — for `j = 𝟙 S` every object of `Over S` has the property, so
-  the predicate alone carries no arithmetic content; existence statements must restrict `j` to the
-  generic inclusion of a Dedekind base.
+- (non-example) `𝔾_{m,R}` over a discrete valuation ring `R` with uniformiser `π`: for the
+  smooth test object `Y = Spec R` the restriction map is `R^× → K^×`, which misses `π`, so the
+  property fails for `𝔾_{m,R}` although it is smooth, separated and of finite type. The witness
+  is one smooth `Y` and one generic morphism with no extension.
+- (non-example) The smooth locus of the blow-up of a good elliptic model at a closed point of
+  its special fibre (the weak model of 1.6): every étale test object extends into it, so a
+  definition testing only étale `Y` accepts it, but for `Y` the original smooth model the
+  identity of the generic fibre has no extension (the ideal of the centre is not invertible on
+  it), so the predicate is refuted by a smooth test object that is not étale.
+- For the Néron model `𝓔` of an elliptic curve with good reduction and a rational point
+  `P ≠ 0`, translation by `P` restricts to translation by `P` on the generic fibre and not to the
+  identity, and the identity is the only endomorphism of `𝓔` restricting to the identity; a
+  predicate whose restriction map were not injective could not conclude this.
+- (degenerate) For `j = 𝟙 S` every object of `Over S` has the property, so the predicate alone
+  carries no arithmetic content; existence statements must restrict `j` to the generic inclusion
+  of a Dedekind base.
+- (non-smooth test object) For the split Tate curve `E_q` with `v(q) = 1` and `R'` the valuation
+  ring of a ramified quadratic extension `K'` with uniformiser `π'`, the point `π'` of
+  `E_q(K') = K'^×/q^ℤ` lies on the non-identity component of the Néron model over `R'`
+  (`v'(π') = 1` is odd while `v'(q) = 2`), and the `R'`-points of the Néron model over `R` are
+  the points of the identity component, so `π'` has no extension to `Spec R'`; the predicate
+  asserts nothing for the non-smooth `Y = Spec R'`, and a definition quantifying over all flat
+  `Y` would be false for every Néron model of a Tate curve.
 
 ### 1.2 Marked finite-type Néron models
 
@@ -754,11 +800,20 @@ two marked models are mutually inverse) and `extend_isIso`. *Needs:* 1.1, 1.2.
 
 **Checks.**
 
-- `extend_identity_test` — extending the marking returns `𝟙 M.model`.
-- `extend_inverse_test` — for two marked models `M, N` of `A`, the composite
-  `extend M N.model N.genericIso.hom ≫ extend N M.model M.genericIso.hom` is `𝟙 N.model`.
-- `extend_restrict_test` — the extension of an arbitrary generic test map `f` has marked
-  restriction exactly `f`.
+- For the Néron model `𝓔` of an elliptic curve with good reduction, `Y = 𝓔` and `f` the
+  translation by a rational point `P ≠ 0`: the extension is translation by the `R`-point `P` of
+  the abelian scheme and sends the zero section to `P`; a construction that extended only
+  homomorphisms could not produce it.
+- Two markings of the same model: `M` with its marking `ι` and `M` with `ι ∘ [−1]`. The
+  extension from the first marked model to the second is `[−1]`, the unique endomorphism
+  restricting to `[−1]`, and the composite of the two canonical extensions is `[−1] ∘ [−1] = [1]`;
+  that the composite is the identity is forced by uniqueness, and the value `[−1]` shows that the
+  extension depends on the markings and not only on the models.
+- (degenerate) Extending the marking of `M` from `M.model` itself returns `𝟙`, by uniqueness;
+  this boundary case distinguishes no two constructions.
+- For the non-smooth `Y = Spec R'` of the last Check of 1.1 (ramified quadratic base change of a
+  Tate curve with `v(q) = 1`), the generic point `π'` has no extension, so the extension is
+  defined only for smooth `Y`; a total construction on all `Y` would return junk there.
 
 ### 1.4 Uniqueness of marked Néron models
 
@@ -816,7 +871,7 @@ tests; it asserts no uniqueness among arbitrary weak models. *Needs:* 1.2; Mathl
 
 **Checks.**
 
-- `structure_test` — the weak model is smooth, separated and quasi-compact. Converting
+- The weak model is smooth, separated and quasi-compact. Converting
   a Néron model preserves its total space, so its geometric components are not replaced
   by only the identity component.
 - Converting a model with a marking composed with a nonidentity generic automorphism
@@ -824,9 +879,9 @@ tests; it asserts no uniqueness among arbitrary weak models. *Needs:* 1.2; Mathl
 - For `j = 𝟙 S`, converting a marked Néron model retains the same generic isomorphism
   and structure morphism; it does not claim arithmetic existence or make all weak
   models unique.
-- `etale_extension_test` — a map from an étale generic test object has exactly one marked
+- A map from an étale generic test object has exactly one marked
   extension.
-- `identity_base_test` (degenerate) — for `j = 𝟙 S` every smooth separated quasi-compact `X` is
+- (degenerate) For `j = 𝟙 S` every smooth separated quasi-compact `X` is
   its own weak model; as in 1.1 the degenerate base carries no arithmetic content.
 - `WeakNeronBlowup` (non-example) — over a complete strictly henselian discrete
   valuation ring, blow up one closed point of the special fibre of a good elliptic
@@ -893,6 +948,10 @@ followed by 1.4. Define `GoodReduction` of `A` at a closed point
 `A`; it is not the equation-level predicate of EllipticCurves, and 6.5 proves the comparison.
 *Needs:* 1.4; AbelianSchemesAndArithmeticModuli A0.1–A1.2 (abelian schemes, pointed
 rigidity), A1.8 (Weil extension over a connected Dedekind base).
+
+*Lean:* `HasGoodModel` in `Suggested.lean` is this predicate over a discrete valuation ring,
+with a real body on the pinned carriers: a smooth proper geometrically connected group object of
+`Over (Spec R)` whose generic fibre is marked by `A`.
 
 **Checks.**
 
@@ -982,10 +1041,10 @@ affine charts.
 
 **Checks.**
 
-- `zero_dimension` (degenerate) — the zero abelian variety has `ω_M = 0` and trivial Hodge line.
-- `localization_test` — over a discrete valuation ring with good elliptic reduction the minimal
+- (degenerate) The zero abelian variety has `ω_M = 0` and trivial Hodge line.
+- Over a discrete valuation ring with good elliptic reduction the minimal
   invariant differential of EllipticCurves Layer 1 is a basis of `ω_M` (the comparison is 6.9).
-- `projective_test` (non-example) — for `S = Spec R` with `det ω_M` of nonzero class in `Pic R`,
+- (non-example) For `S = Spec R` with `det ω_M` of nonzero class in `Pic R`,
   the lattice `ω_M` is finite projective and not free; a definition carrying a free module would be
   wrong for such `R`.
 
@@ -1043,11 +1102,11 @@ connected components of a scheme.
 
 **Checks.**
 
-- `good_test` — for an elliptic curve with good reduction `M_k⁰` is the whole special fibre.
-- `split_tate_test` — for split multiplicative elliptic reduction with `ord(q) = n > 1`,
+- For an elliptic curve with good reduction `M_k⁰` is the whole special fibre.
+- For split multiplicative elliptic reduction with `ord(q) = n > 1`,
   `M_k⁰ = 𝔾_m` although the special fibre of the minimal regular model has `n` components; the
   identity component of the Néron model is not the special fibre of the regular model.
-- `nonaffine_test` (non-example) — for a positive-dimensional abelian variety with good
+- (non-example) For a positive-dimensional abelian variety with good
   reduction, `M_k` is a proper connected smooth group of positive dimension, so it is not affine;
   a construction that assumed an affine group would not apply.
 
@@ -1070,9 +1129,9 @@ RG2.3.1 (quotients over a discrete valuation ring and over a field).
 
 **Checks.**
 
-- `good_test` (degenerate) — good reduction gives `Φ_A = 0`, not a group with one nonzero class.
-- `tate_test` — for a split Tate curve with `ord(q) = n > 0`, `Φ_E(k^sep) = ℤ/n`.
-- `nonsplit_test` — for `k` finite and `E` with nonsplit multiplicative reduction and geometric
+- (degenerate) Good reduction gives `Φ_A = 0`, not a group with one nonzero class.
+- For a split Tate curve with `ord(q) = n > 0`, `Φ_E(k^sep) = ℤ/n`.
+- For `k` finite and `E` with nonsplit multiplicative reduction and geometric
   component group `ℤ/n`, residue Frobenius acts by `−1`, so `Φ_E(k)` has order `1` for odd `n`
   and `2` for even `n`; this differs from `n` exactly when `n ≥ 3`, the two counts agreeing at
   `n = 1, 2`. Check the fixed-point formula at `n = 4, 5, 1`, and exclude `n = 0`:
@@ -1089,11 +1148,9 @@ over `k` of its maximal torus `T` and its unipotent radical `U`; record the tori
 pp. 7–8). The structure theorem is applied to the identity component, not to the disconnected
 fibre. Its commutative case, for every smooth connected commutative group over a perfect field,
 is part of this target and is stated for such groups in general, not only for Néron fibres, so
-that the canonical subgroup `L` and quotient `B` have one construction: a general Chevalley
-theorem for possibly noncommutative groups, such as GroupSchemesOverABase GS4.2, restricts to
-this construction on commutative groups through its comparison theorem rather than choosing a
-second `L`. Over an imperfect field the exact smooth form is not asserted, and 2.4 records what
-descends. Tau Ceti's
+that the canonical subgroup `L` and quotient `B` have one construction; the ownership split with
+the theorem for noncommutative groups is recorded under Scope and ownership. Over an imperfect
+field the exact smooth form is not asserted, and 2.4 records what descends. Tau Ceti's
 `TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical` and `TauCeti.HopfIdeal.IsMaximalTorus` (affine groups) are the suppliers for
 `U` and `T` inside `L`. *Needs:* 2.1; Tau Ceti `unipotentRadical`, `IsMaximalTorus`.
 
@@ -1332,9 +1389,9 @@ variety.
 
 **Checks.**
 
-- `good_test` — an elliptic curve with good reduction is semistable with `t = 0`, `a = 1`.
-- `tate_test` — a split Tate curve is semistable with `t = 1`, `a = 0`, and is not good.
-- `additive_test` (non-example) — an elliptic curve with additive reduction has identity fibre
+- An elliptic curve with good reduction is semistable with `t = 0`, `a = 1`.
+- A split Tate curve is semistable with `t = 1`, `a = 0`, and is not good.
+- (non-example) An elliptic curve with additive reduction has identity fibre
   `𝔾_a` over `k̄`, which is not semi-abelian; a predicate that only asked for a torus inside the
   fibre would wrongly accept it.
 
@@ -1623,12 +1680,12 @@ JacobianChallenge Layer D; `AbelianSchemesAndArithmeticModuli:A2`.
 
 **Checks.**
 
-- `smooth_test` — for a smooth special fibre `Pic⁰_{X/R}` has no toric part and its special fibre
+- For a smooth special fibre `Pic⁰_{X/R}` has no toric part and its special fibre
   is the Jacobian of `X_k`.
-- `irreducible_node_test` — an irreducible rational curve with one split node has
+- An irreducible rational curve with one split node has
   `Pic⁰ = 𝔾_m`, not `0`; with a node whose two branches are conjugate over a quadratic
   extension it is the corresponding nonsplit one-dimensional torus, still not `0`.
-- `tree_test` (degenerate) — a nodal tree of rational curves has `Pic⁰ = 0` although each
+- (degenerate) A nodal tree of rational curves has `Pic⁰ = 0` although each
   component has nontrivial Picard group; the multidegree condition kills everything.
 - A split regular `I₂` model has two geometric special-fibre components and
   `Pic⁰_{X_k} = 𝔾_m` of dimension `g = 1`; `picardZeroCriterion` applies to this reducible fibre.
@@ -1661,7 +1718,7 @@ of this target. *Needs:* 1.4, 3.3, 3.8.
 
 ### 3.10 Semistable reduction after a finite separable extension
 
-Let `R` be an excellent discrete valuation ring. Prove `FiniteSeparableSemistableExtension`: there
+Let `R` be a discrete valuation ring. Prove `FiniteSeparableSemistableExtension`: there
 is a finite separable extension `K'/K` such that `A ×_K K'` is semistable at every discrete
 valuation ring of the integral closure of `R` in `K'` lying over `R` (Conrad, Theorem 4.2 and
 Proposition 4.3, pp. 9–10; §7, pp. 24–35). The proof is independent of the monodromy criterion.
@@ -1681,13 +1738,20 @@ a regular semistable model; a section is obtained by a further finite separable 
 needed. The semi-abelian Picard identity fibre of 3.8 and its Néron comparison 3.9 make the
 Jacobian semistable. Products and isogeny invariance (3.1–3.2) then give the assertion for `A`.
 Only the curve-reduction existence theorem is consumed here; the later curve–Jacobian criterion,
-which consumes this roadmap, is not an input. The integral closure of an excellent `R` is finite
-and semilocal; check each prime above `R`. At each such localisation `R'`, 3.8 and 3.9 apply to
+which consumes this roadmap, is not an input. The integral closure of `R` in `K'` is a finite
+`R`-module because `K'/K` is finite separable and `R` is a Noetherian integrally closed domain
+(the trace-form lattice argument, Mathlib `IsIntegralClosure.finite`), and it is a semilocal
+Dedekind domain (Mathlib `IsIntegralClosure.isDedekindDomain`); check each maximal ideal. No
+excellence of `R` enters, in agreement with Conrad, §4, p. 8, where the whole section is stated
+for an arbitrary discrete valuation ring. At each such localisation `R'`, 3.8 and 3.9 apply to
 the regular semistable model over `R'` itself, whatever its residue field, so no strict
 henselisation and no enlargement of the residue field is needed. *Needs:* 3.1, 3.2, 3.8, 3.9;
 StableReduction Layers 4 and 7 (curve existence); JacobianChallenge Layers D–F (Jacobians);
 AbelianSchemesAndArithmeticModuli A3 (isogenies) and A6.5 (`poincareReducibility`);
-SchemeAndStackFoundations §§0.20–0.21 (finiteness of integral closure).
+Mathlib `IsIntegralClosure.finite` and `IsIntegralClosure.isDedekindDomain` in
+`Mathlib/RingTheory/DedekindDomain/IntegralClosure.lean` (the integral closure of a Noetherian
+integrally closed domain in a finite separable extension of its fraction field is finite over it
+and, over a Dedekind domain, Dedekind).
 
 **Checks.**
 
@@ -1696,6 +1760,13 @@ SchemeAndStackFoundations §§0.20–0.21 (finiteness of integral closure).
 - For an elliptic curve with additive reduction and `j ∈ R`, a finite extension gives good
   reduction; the theorem asserts only semistability.
 - For a non-henselian `R` with two primes above it in `K'`, semistability is checked at both.
+- The zero-dimensional abelian variety over any discrete valuation ring, excellent or not, has
+  `K' = K`, integral closure `R` itself and model `Spec R`.
+- For a discrete valuation ring that is not Japanese (the one of SchemeAndStackFoundations
+  §0.22, whose integral closure in a purely inseparable extension of `K` is not finite), the
+  theorem still holds with a finite closure, because the extension it produces is separable; a
+  proof that enlarged `K'` by an inseparable extension would lose finiteness of the closure, and
+  a statement restricted to excellent rings would exclude this ring without reason.
 - For `R = 𝔽_p(s)[[t]]` the residue field `𝔽_p(s)` is imperfect, and the strict henselisation
   has residue field `𝔽_p(s)^sep`, which does not contain `s^{1/p}`
   ([Stacks, Lemma 10.155.2, tag 04GP](https://stacks.math.columbia.edu/tag/04GP)).
@@ -1705,9 +1776,14 @@ SchemeAndStackFoundations §§0.20–0.21 (finiteness of integral closure).
 
 ### 3.11 Grothendieck's monodromy criterion
 
-Let `R` be excellent and henselian and `ℓ ≠ char k`. Prove `MonodromyCriterion`: `A` is semistable over `R` if
+Let `R` be a henselian discrete valuation ring and `ℓ ≠ char k`. Prove `MonodromyCriterion`: `A` is semistable over `R` if
 and only if inertia acts unipotently on `T_ℓ(A)`, and in that case with exponent at most two
-(Conrad, Theorem 5.8 and proof, pp. 20–22; SGA 7 I, Exposé IX). The forward direction is 3.7. The
+(Conrad, Theorem 5.8 and proof, pp. 20–22; SGA 7 I, Exposé IX). For an arbitrary discrete
+valuation ring `R`, inertia is the inertia subgroup of a chosen place of `K^sep` above `R`; it is
+the inertia group of the henselisation `R^h` at that place, acting on the same module
+`T_ℓ(A)`, and `SemistableReduction.henselization_iff` of 3.1 transports the criterion to `R`
+(Conrad, Theorem 5.8, p. 20, is stated for an arbitrary discrete valuation ring with a chosen
+place). No excellence of `R` enters. The forward direction is 3.7. The
 converse uses potential semistability (3.10), proved independently by the Picard comparison.
 Pass to a strictly henselian base and an extension over which `A` is semistable. The fixed
 rational Tate spaces are equal before and after that extension (Conrad, Lemma 5.9, p. 21);
@@ -1720,7 +1796,7 @@ Their Zariski closures and the dimension argument of Conrad, pp. 21–22, give a
 abelian quotient. The target includes this divisible-system descent, not equality of every
 finite-level torsion group: `[[1, ℓ], [0, 1]]` and its `ℓ`-th power have equal fixed Tate
 lattices but different fixed points modulo `ℓ²`. Thus the finite-level inference printed on
-p. 21 is not used. *Needs:* 3.7, 3.10; `ArithmeticGaloisRepresentations:§§6.1–6.2`;
+p. 21 is not used. *Needs:* 3.1, 3.7, 3.10; `ArithmeticGaloisRepresentations:§§6.1–6.2`;
 EtaleCohomologyFoundations §F.3a for the trait inertia, residue action and
 finite-extension identifications;
 SchemeAndStackFoundations §§0.12–0.14; the special-fibre group theory of 2.3–2.4.
@@ -1733,7 +1809,7 @@ SchemeAndStackFoundations §§0.12–0.14; the special-fibre group theory of 2.3
 
 ### 3.12 Full level forces semistability
 
-Let `R` be excellent and henselian, and let `N ≥ 3` be invertible in `k`. Prove `FiniteTorsionSemistability`: if inertia acts trivially on
+Let `R` be a henselian discrete valuation ring, and let `N ≥ 3` be invertible in `k`. Prove `FiniteTorsionSemistability`: if inertia acts trivially on
 `A[N](K^sep)`, then `A` is semistable over `R`; in particular `A` acquires semistable reduction at
 every place not dividing `N` after adjoining its `N`-torsion (Conrad, Proposition 6.5 and proof,
 pp. 23–24). By 3.10, `A` becomes semistable over a finite separable extension; by 3.7,
@@ -1743,8 +1819,9 @@ the identity modulo `N` bounds every eigenvalue in the valuation ring of `Q̄_�
 odd prime `ℓ ∣ N`, in `1 + 4𝒪` for `ℓ = 2`), no nontrivial root of unity satisfies the bound, so
 the eigenvalues are `1` and 3.11 applies. The integral matrix argument at level `N` is part of
 this target; torsion-freeness of a group of scalar units is not the argument. No good reduction is
-claimed. For a non-henselian excellent DVR apply the criterion over its henselisation
-and then `SemistableReduction.henselization_iff` of 3.1.
+claimed. For an arbitrary discrete valuation ring apply the criterion over its henselisation
+and then `SemistableReduction.henselization_iff` of 3.1 (Conrad, Proposition 6.5 and proof,
+p. 23, reduces to the henselisation in the same way).
 *Needs:* 3.1, 3.7, 3.10, 3.11; `ArithmeticGaloisRepresentations:§§6.1–6.2`;
 EtaleCohomologyFoundations §F.3a for inertia restriction and the residue action over
 the finite separable extension. The general-trait supplier of 3.5 and 3.7 also supplies the
@@ -1896,8 +1973,9 @@ A4.1 for the Tate-module carrier, A4.8 for polarised formal effectivity and A6.5
 reducibility;
 EtaleCohomologyFoundations §F.3a for arbitrary henselian-trait inertia, the residue
 Galois action and tame characters;
-SchemeAndStackFoundations §§0.12–0.14, 0.20–0.21 and §§4.7–4.13 for henselisation,
-excellence and formal geometry; Mathlib's Zariski main theorem;
+SchemeAndStackFoundations §§0.12–0.14 and §§4.7–4.13 for henselisation and formal geometry;
+Mathlib's Zariski main theorem and `IsIntegralClosure.finite` (finite integral closure in a
+finite separable extension);
 RigidAnalyticGeometry §§6.1–6.2 and §§8.1–8.3
 and AdicSpacesPartIII F0 and R2.3 for analytic and formal carriers; EllipticCurves Layer 4 for the Tate curve; StableReduction Layers
 4 and 7 for curve existence and regular resolution; JacobianChallenge Layers D–F for Jacobians;
@@ -2293,19 +2371,19 @@ translated as above.
 
 **Checks.**
 
-- `tate_test` — for a split Tate curve with `ord(q) = n`, the self-dual rank-one pairing is
+- For a split Tate curve with `ord(q) = n`, the self-dual rank-one pairing is
   multiplication by `n`; composing with the polarisation `[m]`, `m > 0`, gives the form
   `[mn]` on `X_{A^∨}`, with value `mn > 0` at `(1, 1)`.
-- `ramification_test` — a base change of ramification index `e` changes the Tate pairing from
+- A base change of ramification index `e` changes the Tate pairing from
   `n` to `en`.
-- `weil_sign_test` — at `n = 5`, `e((1,0),(0,1)) = 1` and
+- At `n = 5`, `e((1,0),(0,1)) = 1` and
   `e((0,1),(1,0)) = -1`; `beta(0,1) = 1`, `alpha(0,1) = -1`, while
   `N(0,1) = (5,0)`. Thus the period map is `[5]` and the Weil-coordinate map is `[-5]`.
   At `(2,3)` the quotients are `beta = 3`, `alpha = -3`, and both kill `(0,0)`.
   At `n = 1,2` the same sign remains, and at `n = 0` both operators are zero.
   The two-term Weil values at `(2,3),(5,-7)` and in reverse order are `-29` and `29`;
   an equal pair or a zero vector gives zero.
-- `coefficient_two_test` — the levelwise period class for valuation `5` is `1` in `ℤ/4`,
+- The levelwise period class for valuation `5` is `1` in `ℤ/4`,
   whereas the Weil class is `3`; both reduce to `1` in `ℤ/2`. Testing only mod `2`
   would miss the sign. At level `1` both classes vanish. This computation uses the
   valuation quotient of fppf Kummer classes, also for `k = 𝔽₂`.
@@ -2313,7 +2391,7 @@ translated as above.
   `u(y,x) = y₁x₁ + 2y₁x₂ + 3y₂x₂`. Its adjoint at `y = (1,0)` evaluates
   to `2` on `x = (0,1)`; the transpose evaluates to `0`. Thus an adjoint that
   silently exchanges the two lattices fails even though symmetric rank-one tests pass.
-- `good_test` (degenerate) — good reduction has zero lattices and the zero pairing, not a
+- (degenerate) Good reduction has zero lattices and the zero pairing, not a
   positive-rank pairing. The adjoint is `y ↦ (x ↦ u(y, x))`: for `rankOne 5`,
   evaluating at `y = 1`, `x = 2` gives `10`; `rankOne 1` gives the ordinary product,
   whereas `rankOne 0` is degenerate and has infinite cokernel.
@@ -2415,13 +2493,13 @@ the comparison (§2, pp. 207–209); equivariance descends it to the residue fie
 
 **Checks.**
 
-- `tate_test` — on the specified rank-one classes both the lattice and obstruction values
+- On the specified rank-one classes both the lattice and obstruction values
   are `rs/n` modulo `ℤ`.
   At `n = 5`, `(r, s) = (1, 1)` gives `1/5` and `(1, 2)` gives `2/5`; the negative and zero
   forms fail these two tests.
-- `lift_test` — replacing `r` by `r + n` changes `rs/n` by the integer `s`.
-- `n1_test` (degenerate) — for `n = 1` both groups and the pairing are zero.
-- `class_test` — in either rank-one cokernel the class of `0` is zero, adding `n` to a
+- Replacing `r` by `r + n` changes `rs/n` by the integer `s`.
+- (degenerate) For `n = 1` both groups and the pairing are zero.
+- In either rank-one cokernel the class of `0` is zero, adding `n` to a
   representative preserves its class, and the class of `1` at modulus `5` is nonzero.
   These distinguish the chosen quotient representatives from arbitrary existential classes.
 
@@ -2672,17 +2750,17 @@ pp. 18–20, and SGA 7 I, Exposé IX, §§9.6, 10.2.
 For a global datum over a number field, define `SemistableTorsionGoodPlaceLaws` for
 a finite set `S` containing the bad-reduction places and all places above `ℓ`,
 relative to specified integral polynomials `P_v` at `v ∉ S`. The laws assert that
-inertia is trivial and `P_v(F_v) = 0` on `T`; the geometric realization identifies
-`P_v` with the actual good-fibre characteristic polynomial of 5.0b–5.0c. In a weight-two Hecke realization with
+inertia is trivial and `P_v(F_v) = 0` on `T`; they are laws relative to the given `P_v`, and
+the geometric realization that identifies `P_v` with the good-fibre characteristic polynomial
+is 6.0a, after the Frobenius comparisons of Layer 5. In a weight-two Hecke realization with
 specified `t_v,s_v ∈ 𝕋` and the compatible geometric correspondence identity, its
 Eichler–Shimura specialization is `F_v² − t_v F_v + N(v)s_v = 0` on `T`.
 Trivial determinant character gives `s_v = 1`; it is not imposed on general coefficient
 rings or characters. No Hecke realization or quadratic identity is inferred from a
-bare ring action. The geometric correspondence comparison is supplied by each producer;
-the good-reduction representation comparison is 5.0a–5.0c here (Ribet–Stein,
-Chapter 5 by B. Conrad, Theorem 5.12, p. 73, and §5.3, Theorem 5.16,
+bare ring action. The geometric correspondence comparison is supplied by each producer
+(Ribet–Stein, Chapter 5 by B. Conrad, Theorem 5.12, p. 73, and §5.3, Theorem 5.16,
 pp. 74–75, for the Hecke normalization). *Needs:* 3.13–3.14,
-4.14 specialization laws, 5.0a–5.0c; ArithmeticGaloisRepresentations §§2.1–2.2.
+4.14 specialization laws; ArithmeticGaloisRepresentations §§2.1–2.2.
 
 **Checks.**
 
@@ -2717,10 +2795,14 @@ toric identifications and specialization maps. The separate Prop structure
 `TwoPlaceSemistableTorsionLaws` requires the specialization laws at both places and
 the shared global good-place laws relative to the specified `P_v`. Keep the local
 Frobenius-law structures as additional hypotheses in the totally toric specialization
-with the specified compatible operators. Prove `TwoPlaceSemistableJacobianTorsion` for one Jacobian
-semistable at both places, by restricting its single global torsion representation.
-The two projections recover the same `T` and actions, not merely isomorphic copies.
-*Needs:* the preceding targets, 4.4–4.6, 5.0a–5.0c.
+with the specified compatible operators. Prove the local half of the two-place realization:
+for one Jacobian semistable at both places, restricting its single global torsion
+representation to the two decomposition groups gives a `TwoPlaceSemistableTorsionDatum` whose
+two local projections satisfy `SemistableTorsionLaws`, by `SemistableJacobianTorsion` at each
+place. The two projections recover the same `T` and actions, not merely isomorphic copies. The
+good-place laws of this datum need the Frobenius polynomials of Layer 5 and are completed in
+6.0a as `TwoPlaceSemistableJacobianTorsion`.
+*Needs:* the preceding targets, 4.4–4.6.
 
 **Checks.**
 
@@ -2736,7 +2818,7 @@ The producers are ModularCurvesPartII §12 (modular graph, with §13's actual He
 correspondences) and HilbertModularVarietiesAndShimuraCurves R18.5.17–R18.5.18
 (quaternionic graph and monodromy). Their geometric and operator comparisons instantiate
 these general targets. SerreWeightAndLevelOptimisation §§2.6–2.10 consumes the one-place
-and two-place interfaces. These are downstream realizations and applications; this
+and two-place interfaces (4.14 and 6.0a). These are downstream realizations and applications; this
 roadmap takes none of them as a prerequisite.
 
 ### Examples
@@ -2811,8 +2893,11 @@ reduction at `v` and `π_v` the `q_v`-Frobenius endomorphism of `A_v` (Tau Ceti'
 AbelianSchemesAndArithmeticModuli A6.10–A6.11 give integer coefficients, degree `2g` and
 `ℓ`-independence. Prove that this arithmetic Frobenius polynomial satisfies `X^{2g} P_v(q_v/X) = q_v^g P_v(X)`;
 for `g = 1` with `WeierstrassCurve.HasGoodReduction`, `P_v = X² − a_v X + q_v` with `a_v` Tau Ceti's
-`WeierstrassCurve.frobeniusTrace` of the reduction (Milne 2008, Ch. I, Prop. 10.20, p. 52, and Ch. IV,
-Thm 3.5, p. 141). *Needs:* 5.0a; AbelianSchemesAndArithmeticModuli A3.2, A4.1, A6.10–A6.11;
+`WeierstrassCurve.frobeniusTrace` of the reduction (Milne 2008, Ch. I, Prop. 10.20, p. 50, for
+the characteristic polynomial on `V_ℓ`; Ch. IV, Thm 3.5, p. 141, for unramifiedness at a good
+place, and the discussion following Cor. 3.6, p. 142, for `Frob_w` acting as `π_v`; Ch. II,
+Thm 1.1, p. 75, for the Riemann hypothesis, from which the reciprocal-root identity follows
+since `P_v` has real coefficients). *Needs:* 5.0a; AbelianSchemesAndArithmeticModuli A3.2, A4.1, A6.10–A6.11;
 ArithmeticGaloisRepresentations §6.1 (Tate-module representation);
 NumberFieldArithmetic Layer 5; LocalFieldsRamification Layer 2.
 
@@ -2833,7 +2918,7 @@ the supplied Euler factor is `det(1 − T Φ_v | H¹_ℓ(A)^{I_v})`, with
 Frobenius factor on homological coinvariants. Prove that this good-reduction
 polynomial has integer coefficients, degree `2g` and is independent of `ℓ`
 (Darmon–Diamond–Taylor 2007, §1.7, p. 46; Milne 2008, Ch. I, Prop. 10.20,
-p. 52, and Ch. IV, Thm 3.5, p. 141).
+p. 50, and Ch. IV, the discussion following Cor. 3.6, p. 142).
 *Needs:* 5.0b; ArithmeticGaloisRepresentations §2.5 and §6.3 **Local Euler factors**
 (the generic definition and coinvariant convention).
 
@@ -2847,7 +2932,7 @@ p. 52, and Ch. IV, Thm 3.5, p. 141).
 
 ### 5.1 Néron–Ogg–Shafarevich
 
-Let `R` be excellent and henselian and `ℓ ≠ char k`. Prove `NeronOggShafarevich`: `A` has good reduction over
+Let `R` be a henselian discrete valuation ring and `ℓ ≠ char k`. Prove `NeronOggShafarevich`: `A` has good reduction over
 `R` (an abelian-scheme model, 1.8) if and only if the inertia group acts trivially on `T_ℓ(A)`
 (Conrad, §4, discussion before Proposition 4.3, pp. 9–10; Theorem 5.8, pp. 20–22; SGA 7 I, Exposé IX,
 Theorem 10.4, p. 444). Good reduction makes the prime-to-`char k` torsion finite étale over `R`,
@@ -2861,8 +2946,9 @@ Its nondegeneracy forces `t = 0`, and `A` has good
 reduction by `toric_zero` of 3.1. The identification of the inertia operator of 3.7 with the
 monodromy pairing of 4.3 is part of this target. The statement concerns the whole `ℓ`-adic
 representation; triviality on one torsion level `A[N]` is a different hypothesis (3.12). For a
-non-henselian excellent discrete valuation ring the good-reduction predicate descends from the
-henselisation, and this descent is stated explicitly in 5.2. *Needs:* 1.8, 3.11, 4.3;
+non-henselian discrete valuation ring, inertia is that of a chosen place as in 3.11, the
+good-reduction predicate descends from the henselisation, and this descent is stated explicitly
+in 5.2; no excellence of `R` enters. *Needs:* 1.8, 3.11, 4.3;
 `ArithmeticGaloisRepresentations:§§6.1–6.2`; EtaleCohomologyFoundations §F.3a for the
 arbitrary-trait inertia interface and tame-character surjectivity.
 
@@ -2909,13 +2995,18 @@ criteria (Serre–Tate 1968, §1, Thm 1; §2, Thm 2 and corollaries). *Needs:* 1
 
 ### 5.2 Good reduction is isogeny invariant
 
-Let `R` be an excellent discrete valuation ring. Prove `GoodIsogeny`: isogenous abelian
-varieties over `K` have good reduction over `R` simultaneously (Conrad, Proposition 4.1, pp. 8–9, and pp. 9–10). An isogeny induces an
+Let `R` be a discrete valuation ring. Prove `GoodIsogeny`: isogenous abelian
+varieties over `K` have good reduction over `R` simultaneously (Conrad, Proposition 4.1, pp. 8–9, and pp. 9–10, stated for an arbitrary discrete valuation ring). An isogeny induces an
 isomorphism of the rational Tate modules `V_ℓ(A) ≅ V_ℓ(B)` even when `ℓ` divides its degree,
 inertia acts trivially on the torsion-free lattice `T_ℓ(A)` if and only if it does on `V_ℓ(A)`,
 and 5.1 applies; for a non-henselian `R` the abelian-scheme model descends from the henselisation
 (fpqc descent of the proper smooth model and of its group law), which is part of this target.
 *Needs:* 5.1; `ArithmeticGaloisRepresentations:§§6.1–6.2` (isogeny compatibility of Tate modules).
+
+*Lean:* `GoodIsogeny` in `Suggested.lean` states this theorem over every discrete valuation
+ring, for Tau Ceti's `TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny` (finite surjective
+homomorphisms, inseparable isogenies included), with the predicate `HasGoodModel` of 1.8 on
+both sides.
 
 **Checks.**
 
@@ -2925,6 +3016,10 @@ and 5.1 applies; for a non-henselian `R` the abelian-scheme model descends from 
   the statement is about good reduction, not about isomorphism of models.
 - Multiplication by `n ≠ 0` is an isogeny from `A` to itself. For `dim A > 0`,
   `[0]` has positive-dimensional kernel and is not an isogeny; it cannot test this theorem.
+- On a good elliptic curve over `ℤ_p`, the identity and `[p]` give the pair of values
+  (good, good); `[p]` has degree `p²` and is inseparable on the special fibre, and the theorem
+  still applies because `IsIsogeny` asks only for a finite surjective morphism. A Tate isogeny
+  `E_q → E_{q³}` gives (bad, bad). A statement for separable isogenies only would miss `[p]`.
 
 ### 5.3 Period rings and the `p`-adic comparison at the residue prime
 
@@ -3264,8 +3359,9 @@ of Elliptic Curves*, Ch. IV, §§5–6, 8–9). Over the completed strict hensel
 `m = 1, n, 1, 2, 3, 5, n + 5, 7, 8, 9` for `I_0, I_n, II, III, IV, I_0^*, I_n^*, IV^*, III^*, II^*`,
 in every residue characteristic including `2` and `3`. Prove the arithmetic comparison that
 passage from `R` to `R^{sh∧}` preserves `v(Δ_min)`, `f(E)` and `m`, the minimal regular model
-being compatible with this base change (Liu 1994, Introduction, p. 51; Silverman, *Advanced Topics*,
-Ch. IV, §6). *Needs:* 2.7, 2.8 (`KodairaConfiguration`), 2.9, 5.3a; StableReduction Layers 4–5
+being compatible with this base change (Liu 1994, Introduction, p. 53, where the remark is made
+for genus two by the same argument; Silverman, *Advanced Topics*, Ch. IV, §6, for the elliptic
+case). *Needs:* 2.7, 2.8 (`KodairaConfiguration`), 2.9, 5.3a; StableReduction Layers 4–5
 (intersection theory, minimal regular models, components and multiplicities); EllipticCurves Layer 4
 (`ReductionSymbol`, component count, independence of the minimal equation); Mathlib
 `WeierstrassCurve.IsMinimal`, `WeierstrassCurve.Δ`; Tau Ceti
@@ -3315,8 +3411,11 @@ connected generic fibre `C` of genus at least one, and relative dualizing line `
 `Rf_*ω` and `Rf_*ω²` are perfect and represented by bounded complexes of finite free
 `R`-modules, and define `λ_n` as the determinant line of such a representative of `Rf_*ω^n` for
 `n = 1, 2`. The determinant functor on bounded finite-projective complexes over any commutative
-ring, with its quasi-isomorphism invariance and transitivity, short-exact-sequence, dual, shift
-and ring-base-change isomorphisms, is imported from PadicMeasuresIwasawaAlgebras §5.1; it makes
+ring, with its quasi-isomorphism invariance and transitivity, short-exact-sequence (degreewise
+split, automatic here), dual, shift and ring-base-change isomorphisms, is imported from
+PadicMeasuresIwasawaAlgebras §5.1 (`detLine`, `detLine_quasiIso`, `detLine_shortExact`,
+`detLine_dual`, `detLine_shift`, `detLine_baseChange`, `detLine_acyclic`, with the graded
+conventions recorded under Exact supplier contracts); it makes
 `λ_n` independent of the representative. Its graded signs are kept through every comparison and
 the parity is forgotten only for the final ungraded lines. The geometric part is proved here:
 the comparison of `λ_n` with cohomology and flat base change of `R`, using coherent finiteness
@@ -3330,8 +3429,9 @@ invariant-differential line and its section with the minimal Weierstrass discrim
 (Saito 1988, §1 and Theorem 1; Knudsen–Mumford 1976, §I, Theorem 1;
 Deligne, *Le discriminant d'une courbe*, Appendix 3 to *Lettre à Quillen*;
 Liu 1994, §2.1, pp. 58–59, for the determinant-line formulation).
-*Needs:* PadicMeasuresIwasawaAlgebras §5.1 (determinant lines of perfect complexes and their
-coherence isomorphisms); SchemeAndStackFoundations §2.6 (proper coherent cohomology);
+*Needs:* PadicMeasuresIwasawaAlgebras §5.1 (`detLine` and its quasi-isomorphism,
+short-exact-sequence, dual, shift, base-change and acyclic-trivialization isomorphisms);
+SchemeAndStackFoundations §2.6 (proper coherent cohomology);
 StableReduction Layer 2 (relative dualizing line) and Layers 4–5 (regular models);
 Mathlib DVRs, valuations, finite modules and complexes. The perfectness and finite free
 representatives over the DVR, the base-change comparison, the generic Mumford isomorphism, the
@@ -3583,6 +3683,41 @@ specialization and the abelian-scheme comparison are subtargets here.
 - For `P = ℤ_ℓ`, surjectivity of the specialized image modulo `ℓ` forces equality with `P`.
 - A variety without an `F`-rational point still has closed specialization points of finite degree;
   over `ℂ` the cover `Y² = T` has split closed fibres, showing why the Hilbertian input is needed.
+
+### 6.0a Good-place realization of the semistable torsion interface
+
+Let `A` be an abelian variety over a number field `F`, `ℓ` a prime, `S` a finite set of places
+containing the places of bad reduction and those above `ℓ`, and `T = A[ℓ](F̄)` with a commutative
+ring `𝕋` acting through endomorphisms defined over `F`. Prove that `T` satisfies
+`SemistableTorsionGoodPlaceLaws` of 4.14 relative to `P_v := P_v(V_ℓA, X)` of 5.0b, the integral
+characteristic polynomial of the good-fibre Frobenius: at `v ∉ S` the finite-étale
+specialization of 5.0a makes inertia trivial on `A[ℓ]`, and the Cayley–Hamilton identity
+`P_v(T_ℓπ_v) = 0` on `T_ℓA` of 5.0b reduces modulo `ℓ` to `P_v(F_v) = 0` on `T`. Prove
+`TwoPlaceSemistableJacobianTorsion`: for the Jacobian of a curve semistable at two distinct
+places of residue characteristics different from `ℓ`, the datum of 4.14's two-place target
+satisfies `TwoPlaceSemistableTorsionLaws` with these `P_v`, its two local halves being
+`SemistableJacobianTorsion` at each place (4.14). In a weight-two Hecke realization with the
+compatible geometric correspondence identity, the Eichler–Shimura specialization
+`F_v² − t_v F_v + N(v) s_v = 0` of 4.14 is the instance `P_v = X² − t_v X + N(v) s_v`
+(Ribet–Stein, Chapter 5 by B. Conrad, Theorem 5.12, p. 73, and §5.3, Theorem 5.16, pp. 74–75).
+This target sits after Layer 5 because the polynomials `P_v` are those of 5.0b; the laws
+themselves and their local halves are Layer 4. *Needs:* 4.14, 5.0a–5.0c;
+ArithmeticGaloisRepresentations §§2.1–2.2.
+
+**Checks.**
+
+- For `y² = x³ − x` over `ℚ` at `v = 5`: the reduction has `8` points (`x = 0, 1, 4` give one
+  point each, `x = 2, 3` two each, plus the origin), so `a_5 = −2` and `P_5 = X² + 2X + 5`, with
+  `X² P_5(5/X) = 5 P_5(X)`. On `E[3]` the law reads `F_5² + 2F_5 + 2 = 0`. A sign error in `a_5`
+  would give `X² − 2X + 5`; the difference of the two polynomials is `4X ≡ X` modulo `3`, so an
+  invertible operator on the two-dimensional `E[3]` cannot satisfy both, and the wrong sign is
+  excluded.
+- At two good places of a Jacobian the local halves are vacuous (zero graph lattices and zero
+  specialization maps), and the two-place laws reduce to the good-place laws at both places; the
+  two Frobenius actions are different operators on the same `T`, so a datum that identified
+  them would be wrong.
+- A place above `ℓ` stays in `S` even when the reduction there is good: the law `P_v(F_v) = 0`
+  is not asserted there, since `A[ℓ]` need not be unramified at such a place.
 
 ### 6.1 Degeneracy maps and monodromy adjoints
 
@@ -4267,7 +4402,7 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   6.8 and the component groups of Layer 4.
 - **SerreWeightAndLevelOptimisation** (level-changing algebra): the character exact sequences
   and monodromy adjoints of 6.1–6.2, the component cokernel 4.5 and the one-place and
-  two-place torsion laws of 4.14 for its §§2.6–2.10.
+  two-place torsion laws of 4.14 and 6.0a for its §§2.6–2.10.
 - **HilbertModularVarietiesAndShimuraCurves** R18.5.17–R18.5.18: produces the
   quaternionic graph and semistable Jacobian realizations of 4.2 and 4.14.
 - **SmallRamificationAndAbelianVarietyBaseCases** (Schoof's semistable small-prime theorem):
@@ -4315,7 +4450,7 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   [author text](https://wstein.org/papers/serre/ribet-stein.pdf): §3.9, (3.1) and
   Lemma 3.17, pp. 45–47; B. Conrad's Chapter 5 in the same text, Theorem 5.12,
   p. 73, and §5.3, Theorem 5.16, pp. 74–75, for the geometric Hecke and
-  Frobenius comparisons instantiated in 4.14.
+  Frobenius comparisons instantiated in 4.14 and 6.0a.
 
 - A. Hatcher, *Algebraic Topology*, Cambridge University Press, 2002;
   [author text](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf): §1.A, Proposition 1A.1 and

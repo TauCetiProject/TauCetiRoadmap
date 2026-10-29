@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.AbelianVariety.Basic
 import TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.ProjModel
+import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 
 /-!
 # Néron models and semistable abelian varieties: headline target signatures
@@ -15,10 +16,17 @@ function field of any connected Dedekind scheme. The generic marking and the map
 for every smooth test scheme are expressed directly in Mathlib's `Over` category. For the
 global statement, the base is integral and Noetherian of dimension one, with integrally closed
 stalks; its function field and generic inclusion are Mathlib's own constructions.
+`HasGoodModel` (README §§1.8 and 5.2) is the local good-reduction predicate: existence of a
+smooth proper geometrically connected group-object model over the DVR marked by the given
+abelian variety, with a real body on the pinned `Over` and `GrpObj` carriers. `GoodIsogeny`
+(README §5.2) states that this predicate is invariant under Tau Ceti's isogenies
+(`AbelianVariety.IsIsogeny`, finite surjective homomorphisms, inseparable ones included), over
+every discrete valuation ring.
 `EquationGoodComparison` (README §6.5) identifies good reduction of a minimal Weierstrass
 equation with smoothness of its projective integral model and with the existence of a smooth
-proper geometrically connected group-scheme model of its generic fibre. These statements use
-the pinned scheme and abelian-variety carriers without auxiliary definitions.
+proper geometrically connected group-scheme model of its generic fibre. Apart from
+`HasGoodModel`, these statements use the pinned scheme and abelian-variety carriers without
+auxiliary definitions.
 
 The other geometric headlines require carriers absent from the pins. The special-fibre
 classification (Layer 2), semistable reduction and Grothendieck's monodromy criterion
@@ -32,9 +40,7 @@ Néron–Ogg–Shafarevich, potential good reduction, the Frobenius, conductor a
 comparisons (Layer 5), and independence, closed-point specialization and strict compatibility
 (Layer 6) require the general abelian Tate-system action, its specialization maps and the
 cohomological and Weil–Deligne realizations. The elliptic Tate representation alone does not
-supply these general carriers. The excellent-DVR hypothesis in the good-reduction isogeny
-theorem also has no predicate at the pins; existence of a good model itself is expressible as
-in `EquationGoodComparison`. The period comparisons use the generic potentially semistable
+supply these general carriers. The period comparisons use the generic potentially semistable
 realization of NoncommutativeAndEquivariantIwasawa §F.6, its normalization transport and
 filtered-module identification in README §5.3, and the filtered Raynaud realization.
 The connected-model Kummer, localization, isogeny-defect and cotangent theorems of
@@ -53,6 +59,8 @@ open CategoryTheory AlgebraicGeometry
 universe u
 
 attribute [local instance] Over.cartesianMonoidalCategory
+
+/-! ## Layer 1: Néron models and their uniqueness -/
 
 /-- Every abelian variety over the fraction field of any DVR has a marked smooth separated
 finite-type model with unique extension from every smooth test scheme
@@ -83,6 +91,31 @@ theorem DedekindExistence (S : Scheme.{u}) [IsIntegral S] [IsNoetherian S]
         Function.Bijective (fun f : Y ⟶ X =>
           (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by
   sorry
+
+/-! ## Layer 5: Tate modules, conductors and local factors -/
+
+/-- Good reduction of an abelian variety over the fraction field of a DVR: there is a smooth
+proper geometrically connected group object over `Spec R` whose generic fibre is marked by `A`
+(README §1.8; Bosch–Lütkebohmert–Raynaud, §1.2, Proposition 8, p. 15, identifies such a model
+with the Néron model). -/
+def HasGoodModel (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (A : TauCeti.AlgebraicGeometry.AbelianVariety K) : Prop :=
+  ∃ X : Over (Spec (.of R)),
+    Smooth X.hom ∧ IsProper X.hom ∧ GeometricallyConnected X.hom ∧ Nonempty (GrpObj X) ∧
+    Nonempty ((Over.pullback (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj X ≅ A.toOver)
+
+/-- Isogenous abelian varieties over the fraction field of any DVR have good reduction
+simultaneously; the isogeny may be inseparable (Conrad, *Semistable reduction for abelian
+varieties*, Proposition 4.1, pp. 8–9, and the good-reduction discussion, pp. 9–10). -/
+theorem GoodIsogeny (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K]
+    (A B : TauCeti.AlgebraicGeometry.AbelianVariety K) (f : A ⟶ B)
+    (hf : TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny f) :
+    HasGoodModel R K A ↔ HasGoodModel R K B := by
+  sorry
+
+/-! ## Layer 6: interfaces for modularity and finiteness -/
 
 /-- A minimal elliptic equation has good reduction exactly when its projective integral model
 is smooth, and exactly when its generic fibre admits an abelian-scheme model over the DVR
