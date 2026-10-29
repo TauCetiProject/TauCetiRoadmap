@@ -4,7 +4,7 @@ import TauCeti.NumberTheory.NumberField.Frobenius
 import TauCeti.NumberTheory.NumberField.Global.RayClass.Modulus
 
 /-!
-# GL₂ automorphic representations and transfer: headline theorems
+# GL₂ automorphic representations and transfer: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. These are suggested statements of substantive results on the pinned
