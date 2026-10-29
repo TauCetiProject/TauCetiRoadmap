@@ -6,7 +6,7 @@ import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
 import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
 
 /-!
-# Arithmetic Galois representations and conductors: headline statements
+# Arithmetic Galois representations and conductors: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
 These statements suggest Lean forms for headline theorems; discharging them finishes neither
@@ -24,10 +24,10 @@ The small definitions below use native integral closures, subrepresentations and
 The full Weil–Deligne adapter, purity and local constants require the local Weil group and the
 normalized Weil–Deligne parameter of the named suppliers, which have no Mathlib or Tau Ceti
 carrier. The all-perfect-residue conductor, integrality, induction, reduction and wild-bound
-statements use LocalFieldsRamification §§3a.1–3a.3 and 4a.1–4a.3's supplied `perfectResidueHerbrand`
-filtration and the break decomposition of §3.1. That section derives the eventual Herbrand formula
-from the supplied different and transition functions; §3.2 uses ClassFieldTheory Layer 7's
-`map_unitFiltration_normResidue` for the representation-theoretic character-conductor comparison.
+statements use §3.0's ramification filtrations over complete discretely valued fields with
+perfect residue field and the break decomposition of §3.1, and §3.2's unit-filtration reciprocity
+gives the character-conductor comparison; the absolute upper filtration and the local Artin map
+have no Mathlib or Tau Ceti carrier.
 The general Tate-module, pairing, determinant and coefficient adapters require the geometric
 abelian-scheme torsion and `AbelianTate` fibre; the elliptic Tate module alone does not supply them.
 Function-field recognition requires closed-point Frobenius on the restricted-ramification
@@ -42,6 +42,8 @@ namespace TauCetiRoadmap.ArithmeticGaloisRepresentations
 
 open Matrix Polynomial NumberField IsDedekindDomain
 open scoped TensorProduct ValuativeRel
+
+/-! ## Layer 1: continuous representations and integral models -/
 
 namespace ContinuousRep
 
@@ -77,6 +79,8 @@ theorem iso_of_charpoly_eq {k Γ V W : Type*} [Field k] [Monoid Γ]
   sorry
 
 end ContinuousRep
+
+/-! ## Layer 2: decomposition groups, inertia and Weil–Deligne representations -/
 
 namespace GaloisRep
 
@@ -117,6 +121,12 @@ theorem grothendieck_quasiUnipotent (K : Type*) [Field K] [ValuativeRel K] [Topo
               (T (TauCeti.inertiaPadicTameCharacter K hℓ σ).toAdd : ℚ_[ℓ])) ^ i) • N ^ i := by
   sorry
 
+end GaloisRep
+
+/-! ## Layer 4: residual images and oddness -/
+
+namespace GaloisRep
+
 /-- Complex conjugation at an infinite place, using embeddings of the actual algebraic closure
 (§4.1). -/
 def IsComplexConjugation {F : Type*} [Field F] [NumberField F]
@@ -133,31 +143,6 @@ theorem isAbsolutelyIrreducible_of_isOddAt {F k V : Type*} [Field F] [NumberFiel
     (hodd : ∀ c, IsComplexConjugation v c →
       ((2 : k) ≠ 0 ∧ LinearMap.det (ρ c) = -1) ∨ ((2 : k) = 0 ∧ ρ c ≠ 1)) :
     (ρ.baseChange (AlgebraicClosure k)).IsIrreducible := by
-  sorry
-
-/-- Chebotarev recognition (§5.3) over different coefficient fields: comparison takes place in a
-common Hausdorff field, with joint continuity on each original carrier. Agreement is at all
-arithmetic lifts above a density-one set, without a finite ramification assumption
-(DDT, Proposition 2.6(b); Deligne–Serre, Lemma 3.2). -/
-theorem iso_of_frobenius_charpoly_eq {F E₁ E₂ E V₁ V₂ : Type*} [Field F] [NumberField F]
-    [Field E₁] [TopologicalSpace E₁] [IsTopologicalRing E₁]
-    [Field E₂] [TopologicalSpace E₂] [IsTopologicalRing E₂]
-    [Field E] [TopologicalSpace E] [IsTopologicalRing E] [T2Space E]
-    [Algebra E₁ E] [ContinuousSMul E₁ E] [Algebra E₂ E] [ContinuousSMul E₂ E]
-    [AddCommGroup V₁] [Module E₁ V₁] [FiniteDimensional E₁ V₁]
-    [TopologicalSpace V₁] [IsModuleTopology E₁ V₁]
-    [AddCommGroup V₂] [Module E₂ V₂] [FiniteDimensional E₂ V₂]
-    [TopologicalSpace V₂] [IsModuleTopology E₂ V₂]
-    (ρ₁ : Representation E₁ (Field.absoluteGaloisGroup F) V₁)
-    (ρ₂ : Representation E₂ (Field.absoluteGaloisGroup F) V₂)
-    (hc₁ : Continuous fun p : Field.absoluteGaloisGroup F × V₁ => ρ₁ p.1 p.2)
-    (hc₂ : Continuous fun p : Field.absoluteGaloisGroup F × V₂ => ρ₂ p.1 p.2)
-    (h₁ : (ρ₁.baseChange E).IsSemisimpleRepresentation)
-    (h₂ : (ρ₂.baseChange E).IsSemisimpleRepresentation)
-    (Pl : Set (HeightOneSpectrum (𝓞 F))) (hPl : NumberField.Set.HasDirichletDensity Pl 1)
-    (hchar : ∀ σ ∈ frobeniusSet Pl,
-      (ρ₁ σ).charpoly.map (algebraMap E₁ E) = (ρ₂ σ).charpoly.map (algebraMap E₂ E)) :
-    Nonempty ((ρ₁.baseChange E).Equiv (ρ₂.baseChange E)) := by
   sorry
 
 end GaloisRep
@@ -188,6 +173,172 @@ theorem dickson_projectiveImage {p : ℕ} [Fact p.Prime] {k : Type*} [Field k] [
   sorry
 
 end GL2Subgroup
+
+/-! ## Layer 5: recognition by Frobenius polynomials -/
+
+namespace GaloisRep
+
+/-- Chebotarev recognition (§5.3) over different coefficient fields: comparison takes place in a
+common Hausdorff field, with joint continuity on each original carrier. Agreement is at all
+arithmetic lifts above a density-one set, without a finite ramification assumption
+(DDT, Proposition 2.6(b); Deligne–Serre, Lemma 3.2). -/
+theorem iso_of_frobenius_charpoly_eq {F E₁ E₂ E V₁ V₂ : Type*} [Field F] [NumberField F]
+    [Field E₁] [TopologicalSpace E₁] [IsTopologicalRing E₁]
+    [Field E₂] [TopologicalSpace E₂] [IsTopologicalRing E₂]
+    [Field E] [TopologicalSpace E] [IsTopologicalRing E] [T2Space E]
+    [Algebra E₁ E] [ContinuousSMul E₁ E] [Algebra E₂ E] [ContinuousSMul E₂ E]
+    [AddCommGroup V₁] [Module E₁ V₁] [FiniteDimensional E₁ V₁]
+    [TopologicalSpace V₁] [IsModuleTopology E₁ V₁]
+    [AddCommGroup V₂] [Module E₂ V₂] [FiniteDimensional E₂ V₂]
+    [TopologicalSpace V₂] [IsModuleTopology E₂ V₂]
+    (ρ₁ : Representation E₁ (Field.absoluteGaloisGroup F) V₁)
+    (ρ₂ : Representation E₂ (Field.absoluteGaloisGroup F) V₂)
+    (hc₁ : Continuous fun p : Field.absoluteGaloisGroup F × V₁ => ρ₁ p.1 p.2)
+    (hc₂ : Continuous fun p : Field.absoluteGaloisGroup F × V₂ => ρ₂ p.1 p.2)
+    (h₁ : (ρ₁.baseChange E).IsSemisimpleRepresentation)
+    (h₂ : (ρ₂.baseChange E).IsSemisimpleRepresentation)
+    (Pl : Set (HeightOneSpectrum (𝓞 F))) (hPl : NumberField.Set.HasDirichletDensity Pl 1)
+    (hchar : ∀ σ ∈ frobeniusSet Pl,
+      (ρ₁ σ).charpoly.map (algebraMap E₁ E) = (ρ₂ σ).charpoly.map (algebraMap E₂ E)) :
+    Nonempty ((ρ₁.baseChange E).Equiv (ρ₂.baseChange E)) := by
+  sorry
+
+section ImageAlgebra
+
+variable {k K Γ : Type*} [Field k] [Field K] [Algebra k K] [Group Γ] {n : ℕ}
+
+/-- Trace field (§5.5), on the native intermediate-field carrier. -/
+def traceField (ρ : Γ →* GL (Fin n) K) : IntermediateField k K :=
+  IntermediateField.adjoin k
+    (Set.range fun γ => Matrix.trace ((ρ γ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
+
+/-- The image algebra `B(ρ)`: the `k(ρ)`-subalgebra of `M_n(K)` generated by `ρ(Γ)`. -/
+def imageAlgebra (ρ : Γ →* GL (Fin n) K) :
+    Subalgebra (traceField (k := k) ρ) (Matrix (Fin n) (Fin n) K) :=
+  Algebra.adjoin (traceField (k := k) ρ)
+    (Set.range fun γ => ((ρ γ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
+
+/-- For `ρ` absolutely irreducible (`ρ(Γ)` spans `M_n(K)`, `K` algebraically closed, `n ≥ 1`),
+`B(ρ)` is central simple of dimension `n²` over `k(ρ)`, `K ⊗_{k(ρ)} B(ρ) ≅ M_n(K)` by
+multiplication, and the characteristic polynomial of every `b ∈ B(ρ)` has coefficients in `k(ρ)`
+(BLGGT 2014, proof of Lemma A.1.5; Chenevier 2008, Def.-Prop. 2.18). -/
+theorem imageAlgebra_isCentralSimple [IsAlgClosed K] [NeZero n] (ρ : Γ →* GL (Fin n) K)
+    (hρ : Submodule.span K
+      (Set.range fun γ => ((ρ γ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) = ⊤) :
+    Algebra.IsCentral (traceField (k := k) ρ) (imageAlgebra (k := k) ρ) ∧
+      IsSimpleRing (imageAlgebra (k := k) ρ) ∧
+      FiniteDimensional (traceField (k := k) ρ) (imageAlgebra (k := k) ρ) ∧
+      Module.finrank (traceField (k := k) ρ) (imageAlgebra (k := k) ρ) = n ^ 2 ∧
+      (∃ e : K ⊗[traceField (k := k) ρ] imageAlgebra (k := k) ρ ≃ₐ[K] Matrix (Fin n) (Fin n) K,
+        ∀ (c : K) (b : imageAlgebra (k := k) ρ),
+          e (c ⊗ₜ[traceField (k := k) ρ] b) = c • (b : Matrix (Fin n) (Fin n) K)) ∧
+      ∀ (b : imageAlgebra (k := k) ρ) (i : ℕ),
+        (Matrix.charpoly (b : Matrix (Fin n) (Fin n) K)).coeff i ∈ traceField (k := k) ρ := by
+  sorry
+
+
+/-- The field-of-definition obstruction (§§5.5–5.6): descent is equivalent to splitting the
+image algebra, in every characteristic (BLGGT, proof of Lemma A.1.5; Chenevier, §2). -/
+theorem realizable_iff_imageAlgebra_split [IsAlgClosed K] [NeZero n]
+    (ρ : Γ →* GL (Fin n) K)
+    (hρ : Submodule.span K (Set.range fun g => (ρ g : Matrix (Fin n) (Fin n) K)) = ⊤)
+    (L : IntermediateField (traceField (k := k) ρ) K) :
+    (∃ g : GL (Fin n) K, ∀ γ i j,
+      (g * ρ γ * g⁻¹ : Matrix (Fin n) (Fin n) K) i j ∈ L) ↔
+    Nonempty (L ⊗[traceField (k := k) ρ] imageAlgebra (k := k) ρ ≃ₐ[L]
+      Matrix (Fin n) (Fin n) L) := by
+  sorry
+
+end ImageAlgebra
+
+/-- Finite-field realization (§5.7): a semisimple representation descends to every subfield
+containing its characteristic-polynomial coefficients (Deligne–Serre, Lemma 6.13). -/
+theorem realizable_of_charpoly_mem {Φ : Type*} [Group Φ] {k' : Type*} [Field k'] [Finite k']
+    {n : ℕ} (φ : Φ →* GL (Fin n) k')
+    (hss : IsSemisimpleModule (MonoidAlgebra k' Φ)
+      (Representation.asModule ((Units.coeHom _).comp
+        ((Matrix.GeneralLinearGroup.toLin : GL (Fin n) k' ≃* _).toMonoidHom.comp φ))))
+    (k : Subfield k')
+    (hk : ∀ s i, (Matrix.charpoly ((φ s : GL (Fin n) k') : Matrix (Fin n) (Fin n) k')).coeff i ∈ k) :
+    ∃ g : GL (Fin n) k', ∀ s i j,
+      ((g * φ s * g⁻¹ : GL (Fin n) k') : Matrix (Fin n) (Fin n) k') i j ∈ k := by
+  sorry
+
+
+/-- The trace-field descent criterion with a split regular element (§5.7)
+(BLGGT, Lemma A.1.5). -/
+theorem conj_into_of_trace_mem_of_distinct_eigenvalues {Γ : Type*} [Group Γ]
+    {M : Type*} [Field M] [CharZero M] {Mbar : Type*} [Field Mbar] [Algebra M Mbar]
+    [IsAlgClosure M Mbar] {n : ℕ} (r : Γ →* GL (Fin n) Mbar)
+    (hss : IsSemisimpleModule (MonoidAlgebra Mbar Γ)
+      (Representation.asModule ((Units.coeHom _).comp
+        ((Matrix.GeneralLinearGroup.toLin : GL (Fin n) Mbar ≃* _).toMonoidHom.comp r))))
+    (htr : ∀ γ, Matrix.trace ((r γ : GL (Fin n) Mbar) : Matrix (Fin n) (Fin n) Mbar) ∈
+      (algebraMap M Mbar).range)
+    (γ₀ : Γ) (a : Fin n → M) (ha : Function.Injective a)
+    (hγ₀ : Matrix.charpoly ((r γ₀ : GL (Fin n) Mbar) : Matrix (Fin n) (Fin n) Mbar) =
+      ∏ i, (X - C (algebraMap M Mbar (a i)))) :
+    ∃ g : GL (Fin n) Mbar, ∀ γ i j,
+      ((g * r γ * g⁻¹ : GL (Fin n) Mbar) : Matrix (Fin n) (Fin n) Mbar) i j ∈
+        (algebraMap M Mbar).range := by
+  sorry
+
+/-- Carayol's strict-conjugacy theorem (§5.10), without a factorial-invertibility assumption
+(Chenevier, Theorem 2.22(i)). -/
+theorem carayol_conj_of_trace_eq {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
+    [CompactSpace Γ] [TotallyDisconnectedSpace Γ]
+    {R : Type*} [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    [IsAdicComplete (IsLocalRing.maximalIdeal R) R] [Finite (IsLocalRing.ResidueField R)]
+    [TopologicalSpace R] [IsTopologicalRing R] (hadic : ∀ s : Set R, s ∈ nhds (0 : R) ↔
+      ∃ m : ℕ, ((IsLocalRing.maximalIdeal R ^ m : Ideal R) : Set R) ⊆ s)
+    {d : ℕ} [NeZero d] (r r' : Γ →* GL (Fin d) R)
+    (hr : Continuous fun γ => ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R))
+    (hr' : Continuous fun γ => ((r' γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R))
+    (hres : ∀ γ, ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R) =
+      ((r' γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R))
+    (habs : Submodule.span (IsLocalRing.ResidueField R) (Set.range fun γ =>
+      ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R)) = ⊤)
+    (D : Set Γ) (hD : Dense D)
+    (htr : ∀ γ ∈ D, Matrix.trace ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R) =
+      Matrix.trace ((r' γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R)) :
+    ∃ g : GL (Fin d) R, ((g : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R) = 1) ∧
+      ∀ γ, r' γ = g * r γ * g⁻¹ := by
+  sorry
+
+end GaloisRep
+
+/-! ## Layer 6: Tate modules of elliptic curves and abelian varieties -/
+
+namespace TateModule
+
+/-- The finite Frattini quotient of a compact matrix group detects its full closed image
+(§6.4a; Masser–Zannier, proof of Lemma 5.1). -/
+theorem compact_matrix_frattini_isOpen (ℓ : ℕ) [Fact ℓ.Prime]
+    {E : Type*} [Field E] [Algebra ℚ_[ℓ] E] [FiniteDimensional ℚ_[ℓ] E]
+    [TopologicalSpace E] [IsTopologicalRing E] [IsModuleTopology ℚ_[ℓ] E] {n : ℕ}
+    (P : Subgroup (Matrix.GeneralLinearGroup (Fin n) E))
+    (hP : IsCompact (P : Set (Matrix.GeneralLinearGroup (Fin n) E))) :
+    IsOpen ((⨅ (M : OpenSubgroup P) (_ : IsCoatom M), M.toSubgroup) : Set P) := by
+  sorry
+
+/-- Multiplicative residual unramifiedness (§6.3) for split and nonsplit reduction, at every
+prime different from the residue characteristic (DDT, Proposition 2.12). The integer exponent
+of the native normalized multiplicative valuation is the negative additive valuation. -/
+theorem multiplicative_residual_unramified_iff (K : Type*) [Field K] [ValuativeRel K]
+    [TopologicalSpace K] [IsNonarchimedeanLocalField K] (W : WeierstrassCurve K)
+    [DecidableEq (AlgebraicClosure K)] [W.IsElliptic] [W.HasMultiplicativeReduction 𝒪[K]]
+    (p : ℕ) [Fact p.Prime] (hp : p ≠ ringChar 𝓀[K]) :
+    (∀ σ ∈ TauCeti.inertiaSubgroup K,
+      W.torsionGaloisAction (K := AlgebraicClosure K) p
+        (show AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K from σ) = 1) ↔
+    ∃ m : ℤ, IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K
+        (ValuativeRel.valuation K W.j) = (↑(Multiplicative.ofAdd m : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) ∧
+      (p : ℤ) ∣ m := by
+  sorry
+
+end TateModule
+
+/-! ## Layer 7: dimension-general arithmetic API -/
 
 namespace ResidualImage
 
@@ -300,108 +451,6 @@ end ResidualImage
 
 namespace GaloisRep
 
-section ImageAlgebra
-
-variable {k K Γ : Type*} [Field k] [Field K] [Algebra k K] [Group Γ] {n : ℕ}
-
-/-- Trace field (§5.5), on the native intermediate-field carrier. -/
-def traceField (ρ : Γ →* GL (Fin n) K) : IntermediateField k K :=
-  IntermediateField.adjoin k
-    (Set.range fun γ => Matrix.trace ((ρ γ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
-
-/-- The image algebra `B(ρ)`: the `k(ρ)`-subalgebra of `M_n(K)` generated by `ρ(Γ)`. -/
-def imageAlgebra (ρ : Γ →* GL (Fin n) K) :
-    Subalgebra (traceField (k := k) ρ) (Matrix (Fin n) (Fin n) K) :=
-  Algebra.adjoin (traceField (k := k) ρ)
-    (Set.range fun γ => ((ρ γ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
-
-/-- For `ρ` absolutely irreducible (`ρ(Γ)` spans `M_n(K)`, `K` algebraically closed, `n ≥ 1`),
-`B(ρ)` is central simple of dimension `n²` over `k(ρ)`, `K ⊗_{k(ρ)} B(ρ) ≅ M_n(K)` by
-multiplication, and the characteristic polynomial of every `b ∈ B(ρ)` has coefficients in `k(ρ)`
-(BLGGT 2014, proof of Lemma A.1.5; Chenevier 2008, Def.-Prop. 2.18). -/
-theorem imageAlgebra_isCentralSimple [IsAlgClosed K] [NeZero n] (ρ : Γ →* GL (Fin n) K)
-    (hρ : Submodule.span K
-      (Set.range fun γ => ((ρ γ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) = ⊤) :
-    Algebra.IsCentral (traceField (k := k) ρ) (imageAlgebra (k := k) ρ) ∧
-      IsSimpleRing (imageAlgebra (k := k) ρ) ∧
-      FiniteDimensional (traceField (k := k) ρ) (imageAlgebra (k := k) ρ) ∧
-      Module.finrank (traceField (k := k) ρ) (imageAlgebra (k := k) ρ) = n ^ 2 ∧
-      (∃ e : K ⊗[traceField (k := k) ρ] imageAlgebra (k := k) ρ ≃ₐ[K] Matrix (Fin n) (Fin n) K,
-        ∀ (c : K) (b : imageAlgebra (k := k) ρ),
-          e (c ⊗ₜ[traceField (k := k) ρ] b) = c • (b : Matrix (Fin n) (Fin n) K)) ∧
-      ∀ (b : imageAlgebra (k := k) ρ) (i : ℕ),
-        (Matrix.charpoly (b : Matrix (Fin n) (Fin n) K)).coeff i ∈ traceField (k := k) ρ := by
-  sorry
-
-
-/-- The field-of-definition obstruction (§§5.5–5.6): descent is equivalent to splitting the
-image algebra, in every characteristic (BLGGT, proof of Lemma A.1.5; Chenevier, §2). -/
-theorem realizable_iff_imageAlgebra_split [IsAlgClosed K] [NeZero n]
-    (ρ : Γ →* GL (Fin n) K)
-    (hρ : Submodule.span K (Set.range fun g => (ρ g : Matrix (Fin n) (Fin n) K)) = ⊤)
-    (L : IntermediateField (traceField (k := k) ρ) K) :
-    (∃ g : GL (Fin n) K, ∀ γ i j,
-      (g * ρ γ * g⁻¹ : Matrix (Fin n) (Fin n) K) i j ∈ L) ↔
-    Nonempty (L ⊗[traceField (k := k) ρ] imageAlgebra (k := k) ρ ≃ₐ[L]
-      Matrix (Fin n) (Fin n) L) := by
-  sorry
-
-end ImageAlgebra
-
-/-- Finite-field realization (§5.7): a semisimple representation descends to every subfield
-containing its characteristic-polynomial coefficients (Deligne–Serre, Lemma 6.13). -/
-theorem realizable_of_charpoly_mem {Φ : Type*} [Group Φ] {k' : Type*} [Field k'] [Finite k']
-    {n : ℕ} (φ : Φ →* GL (Fin n) k')
-    (hss : IsSemisimpleModule (MonoidAlgebra k' Φ)
-      (Representation.asModule ((Units.coeHom _).comp
-        ((Matrix.GeneralLinearGroup.toLin : GL (Fin n) k' ≃* _).toMonoidHom.comp φ))))
-    (k : Subfield k')
-    (hk : ∀ s i, (Matrix.charpoly ((φ s : GL (Fin n) k') : Matrix (Fin n) (Fin n) k')).coeff i ∈ k) :
-    ∃ g : GL (Fin n) k', ∀ s i j,
-      ((g * φ s * g⁻¹ : GL (Fin n) k') : Matrix (Fin n) (Fin n) k') i j ∈ k := by
-  sorry
-
-
-/-- The trace-field descent criterion with a split regular element (§5.7)
-(BLGGT, Lemma A.1.5). -/
-theorem conj_into_of_trace_mem_of_distinct_eigenvalues {Γ : Type*} [Group Γ]
-    {M : Type*} [Field M] [CharZero M] {Mbar : Type*} [Field Mbar] [Algebra M Mbar]
-    [IsAlgClosure M Mbar] {n : ℕ} (r : Γ →* GL (Fin n) Mbar)
-    (hss : IsSemisimpleModule (MonoidAlgebra Mbar Γ)
-      (Representation.asModule ((Units.coeHom _).comp
-        ((Matrix.GeneralLinearGroup.toLin : GL (Fin n) Mbar ≃* _).toMonoidHom.comp r))))
-    (htr : ∀ γ, Matrix.trace ((r γ : GL (Fin n) Mbar) : Matrix (Fin n) (Fin n) Mbar) ∈
-      (algebraMap M Mbar).range)
-    (γ₀ : Γ) (a : Fin n → M) (ha : Function.Injective a)
-    (hγ₀ : Matrix.charpoly ((r γ₀ : GL (Fin n) Mbar) : Matrix (Fin n) (Fin n) Mbar) =
-      ∏ i, (X - C (algebraMap M Mbar (a i)))) :
-    ∃ g : GL (Fin n) Mbar, ∀ γ i j,
-      ((g * r γ * g⁻¹ : GL (Fin n) Mbar) : Matrix (Fin n) (Fin n) Mbar) i j ∈
-        (algebraMap M Mbar).range := by
-  sorry
-
-/-- Carayol's strict-conjugacy theorem (§5.10), without a factorial-invertibility assumption
-(Chenevier, Theorem 2.22(i)). -/
-theorem carayol_conj_of_trace_eq {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
-    [CompactSpace Γ] [TotallyDisconnectedSpace Γ]
-    {R : Type*} [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
-    [IsAdicComplete (IsLocalRing.maximalIdeal R) R] [Finite (IsLocalRing.ResidueField R)]
-    [TopologicalSpace R] [IsTopologicalRing R] (hadic : ∀ s : Set R, s ∈ nhds (0 : R) ↔
-      ∃ m : ℕ, ((IsLocalRing.maximalIdeal R ^ m : Ideal R) : Set R) ⊆ s)
-    {d : ℕ} [NeZero d] (r r' : Γ →* GL (Fin d) R)
-    (hr : Continuous fun γ => ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R))
-    (hr' : Continuous fun γ => ((r' γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R))
-    (hres : ∀ γ, ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R) =
-      ((r' γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R))
-    (habs : Submodule.span (IsLocalRing.ResidueField R) (Set.range fun γ =>
-      ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R)) = ⊤)
-    (D : Set Γ) (hD : Dense D)
-    (htr : ∀ γ ∈ D, Matrix.trace ((r γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R) =
-      Matrix.trace ((r' γ : GL (Fin d) R) : Matrix (Fin d) (Fin d) R)) :
-    ∃ g : GL (Fin d) R, ((g : Matrix (Fin d) (Fin d) R).map (IsLocalRing.residue R) = 1) ∧
-      ∀ γ, r' γ = g * r γ * g⁻¹ := by
-  sorry
-
 /-- Quotient topology on Mathlib's projective general linear group (§7.6). -/
 abbrev projectiveTopology (n : ℕ) (k : Type*) [Field k] [TopologicalSpace k] :
     TopologicalSpace (ProjGenLinGroup (Fin n) k) :=
@@ -418,34 +467,5 @@ theorem exists_linear_lift {F : Type*} [Field F] [NumberField F]
   sorry
 
 end GaloisRep
-
-namespace TateModule
-
-/-- The finite Frattini quotient of a compact matrix group detects its full closed image
-(§6.4a; Masser–Zannier, proof of Lemma 5.1). -/
-theorem compact_matrix_frattini_isOpen (ℓ : ℕ) [Fact ℓ.Prime]
-    {E : Type*} [Field E] [Algebra ℚ_[ℓ] E] [FiniteDimensional ℚ_[ℓ] E]
-    [TopologicalSpace E] [IsTopologicalRing E] [IsModuleTopology ℚ_[ℓ] E] {n : ℕ}
-    (P : Subgroup (Matrix.GeneralLinearGroup (Fin n) E))
-    (hP : IsCompact (P : Set (Matrix.GeneralLinearGroup (Fin n) E))) :
-    IsOpen ((⨅ (M : OpenSubgroup P) (_ : IsCoatom M), M.toSubgroup) : Set P) := by
-  sorry
-
-/-- Multiplicative residual unramifiedness (§6.3) for split and nonsplit reduction, at every
-prime different from the residue characteristic (DDT, Proposition 2.12). The integer exponent
-of the native normalized multiplicative valuation is the negative additive valuation. -/
-theorem multiplicative_residual_unramified_iff (K : Type*) [Field K] [ValuativeRel K]
-    [TopologicalSpace K] [IsNonarchimedeanLocalField K] (W : WeierstrassCurve K)
-    [DecidableEq (AlgebraicClosure K)] [W.IsElliptic] [W.HasMultiplicativeReduction 𝒪[K]]
-    (p : ℕ) [Fact p.Prime] (hp : p ≠ ringChar 𝓀[K]) :
-    (∀ σ ∈ TauCeti.inertiaSubgroup K,
-      W.torsionGaloisAction (K := AlgebraicClosure K) p
-        (show AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K from σ) = 1) ↔
-    ∃ m : ℤ, IsNonarchimedeanLocalField.valueGroupWithZeroIsoInt K
-        (ValuativeRel.valuation K W.j) = (↑(Multiplicative.ofAdd m : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) ∧
-      (p : ℤ) ∣ m := by
-  sorry
-
-end TateModule
 
 end TauCetiRoadmap.ArithmeticGaloisRepresentations
