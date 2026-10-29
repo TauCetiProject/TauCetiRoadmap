@@ -14,8 +14,10 @@ uniqueness, Tate continuation and its local functional equation at every place, 
 continuation with the conductor-balanced functional equation for every unitary idele-class
 character, its polar divisor and complex norm twists. AL.2 states the paired Hadamard theorem
 and its positivity conclusions, the generic newform line in every positive rank, and Casselman's
-full GL₂ fixed-space dimension and central-character theorems. The local-field statements allow
-both characteristics. All definitions below have bodies on native carriers.
+full GL₂ fixed-space dimension theorem. AL.3 states local Whittaker uniqueness in every rank: the
+`ψ_N`-equivariant functionals on an irreducible smooth admissible representation of `GLₙ(F)` form
+a space of rank at most one. The local-field statements allow both characteristics. All
+definitions below have bodies on native carriers.
 
 The vector-space adelic Poisson theorem needs the supplied adelic Schwartz space and its
 completed tensor/Fourier realization, absent at these pins. The all-place Godement–Jacquet
@@ -372,22 +374,9 @@ end AL2
 namespace GL2Blueprint
 open _root_.Matrix
 open scoped ValuativeRel
-variable {R : Type*} [CommRing R]
 variable {F : Type*} [Field F] [ValuativeRel F]
   [TopologicalSpace F] [IsNonarchimedeanLocalField F]
 variable {G V : Type*} [Group G] [AddCommGroup V] [Module ℂ V]
-
-/-- The lower-left congruence subgroup of GL₂(R). Submonoid.units includes inversion;
-for a 2×2 unit it is equivalent to the single entry condition in the last-row convention. -/
-def k0 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
-  ({ carrier := {M : Matrix (Fin 2) (Fin 2) R | M 1 0 ∈ I}
-     one_mem' := by simp
-     mul_mem' := by
-       intro M N hM hN
-       change (M * N) 1 0 ∈ I
-       simpa [Matrix.mul_apply, Fin.sum_univ_two] using
-         I.add_mem (I.mul_mem_right (N 0 0) hM) (I.mul_mem_left (M 1 1) hN)
-   } : Submonoid (Matrix (Fin 2) (Fin 2) R)).units
 
 /-- Rank two of the last-row level used by the all-rank generic newform theorem. -/
 abbrev localK1 (F : Type*) [Field F] [ValuativeRel F]
@@ -433,33 +422,53 @@ theorem casselmanNewvector
       n + 1 - conductorExponent π (localK1 F)
         (newvectorLevelExists π hsm hadm hinf) := by sorry
 
-/-- The central-character assertion for the minimal K₀-line. For positive
-conductor the lower-right entry of an integral K₀ matrix is a unit; u is that
-unit, rather than an arbitrary value of the determinant. At conductor zero
-the fixed line is spherical. -/
-theorem casselmanNewvector_k0_character
-    (π : Representation ℂ (GeneralLinearGroup (Fin 2) F) V)
+end GL2Blueprint
+
+/-! ## Layer AL.3: Whittaker functionals -/
+
+namespace AL3
+open _root_.Matrix
+open scoped ValuativeRel
+
+/-- The `ψ_N`-Whittaker functionals on a representation `π` of `GL_{n+1}(F)`: the linear
+functionals `ℓ` with `ℓ(π(u)v) = ψ(Σᵢ u_{i,i+1}) ℓ(v)` for every upper unitriangular `u`, the
+character `ψ_N` of the upper unipotent subgroup being the sum of the superdiagonal entries
+composed with `ψ`. For `n = 0` the unipotent subgroup is trivial and this is the whole dual. -/
+def whittakerFunctionals {F V : Type*} [Field F] [AddCommGroup V] [Module ℂ V] (n : ℕ)
+    (π : Representation ℂ (GeneralLinearGroup (Fin (n+1)) F) V) (ψ : AddChar F Circle) :
+    Submodule ℂ (Module.Dual ℂ V) where
+  carrier := {ell | ∀ (u : GeneralLinearGroup (Fin (n+1)) F),
+      (∀ i j, j < i → u i j = 0) → (∀ i, u i i = 1) →
+      ∀ v : V, ell (π u v) = (ψ (∑ i : Fin n, u i.castSucc i.succ) : ℂ) * ell v}
+  zero_mem' := by intro u _ _ v; simp
+  add_mem' := by
+    intro a b ha hb u hu1 hu2 v
+    simp only [Set.mem_ofPred_eq] at ha hb
+    simp [ha u hu1 hu2 v, hb u hu1 hu2 v, mul_add]
+  smul_mem' := by
+    intro c a ha u hu1 hu2 v
+    simp only [Set.mem_ofPred_eq] at ha
+    simp [ha u hu1 hu2 v, mul_left_comm]
+
+/-- AL.3.1.1, local Whittaker uniqueness (Bernstein–Zelevinsky, Theorem 5.16; Gelfand–Kazhdan):
+for every irreducible smooth admissible representation of `GL_{n+1}(F)` over a nonarchimedean
+local field and every nontrivial continuous additive character `ψ`, the space of
+`ψ_N`-Whittaker functionals has rank at most one. The rank, not the finite rank, is bounded,
+since the finite rank of an infinite-dimensional space is zero. -/
+theorem whittakerUniqueness {F V : Type*} [Field F] [ValuativeRel F]
+    [TopologicalSpace F] [IsNonarchimedeanLocalField F]
+    [AddCommGroup V] [Module ℂ V] (n : ℕ)
+    (π : Representation ℂ (GeneralLinearGroup (Fin (n+1)) F) V)
     [Representation.IsIrreducible π]
     (hsm : ∀ v : V, IsOpen {g | π g v = v})
-    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin 2) F),
-      IsCompact (K : Set (GeneralLinearGroup (Fin 2) F)) →
-      IsOpen (K : Set (GeneralLinearGroup (Fin 2) F)) →
+    (hadm : ∀ K : Subgroup (GeneralLinearGroup (Fin (n+1)) F),
+      IsCompact (K : Set (GeneralLinearGroup (Fin (n+1)) F)) →
+      IsOpen (K : Set (GeneralLinearGroup (Fin (n+1)) F)) →
       FiniteDimensional ℂ (Representation.invariants (π.comp K.subtype)))
-    (hinf : ¬ FiniteDimensional ℂ V)
-    (ω : Fˣ →* ℂˣ)
-    (hcent : ∀ z v, π (GeneralLinearGroup.scalar (Fin 2) z) v = (ω z : ℂ) • v)
-    (hc : 0 < conductorExponent π (localK1 F)
-      (newvectorLevelExists π hsm hadm hinf))
-    (g : GeneralLinearGroup (Fin 2) 𝒪[F])
-    (hg : g ∈ k0 (𝓂[F] ^ conductorExponent π (localK1 F)
-      (newvectorLevelExists π hsm hadm hinf)))
-    (u : 𝒪[F]ˣ) (hu : (u : 𝒪[F]) = g.val 1 1)
-    (v : Representation.invariants (π.comp (localK1 F
-      (conductorExponent π (localK1 F)
-        (newvectorLevelExists π hsm hadm hinf))).subtype)) :
-    π (GeneralLinearGroup.map (algebraMap 𝒪[F] F) g) v.val =
-      (ω (Units.map (algebraMap 𝒪[F] F).toMonoidHom u) : ℂ) • v.val := by sorry
+    (ψ : AddChar F Circle) (hψ : Continuous ψ) (hψ1 : ψ ≠ 1) :
+    Module.rank ℂ (whittakerFunctionals n π ψ) ≤ 1 := by
+  sorry
 
-end GL2Blueprint
+end AL3
 
 end TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
