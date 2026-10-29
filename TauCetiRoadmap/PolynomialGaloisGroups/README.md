@@ -689,7 +689,7 @@ Field Arithmetic Layer 1.4; the base roadmap Layer 9.
 - BelyiMaps Layer 1.6 and its `6T6` record comparison use the reference family through degree
   eleven and the `6T6` comparison of 1.3.
 - Finite Group Invariants Layers 7 and 8: 7.2 and 8.3 are finite checks over the reference rows
-  of 1.3, and 7.2 cites the arithmetically equivalent pair of 4.3; 7.4 (Perlis' theorem, both
+  of 1.3; 7.4 (Perlis' theorem, both
   directions) takes its sufficient direction from 4.1; 7.6 (the number of fields arithmetically
   equivalent to a given one) uses 4.2 to pass from conjugacy of subgroups to isomorphism of fields.
 
