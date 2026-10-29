@@ -298,13 +298,15 @@ def SlashHomology {M : Type*} [AddCommGroup M] [Module k M]
     (LinearMap.range (d ^ (p - j - 1)) ⊔ LinearMap.ker (d ^ j)).comap
       (LinearMap.ker (d ^ (j + 1))).subtype
 
-/-- Khovanov–Qi: for `p` prime, `char k = p` and a finite-dimensional module over
-`H = k[d]/(d^p)`, all slash homology groups `H^{/j}`, `0 ≤ j ≤ p - 2`, vanish if and only if the
-module is projective (Khovanov–Qi, arXiv:1208.0616, §2, p. 14, decomposition (20)). -/
+/-- Khovanov–Qi: for `p` prime and a finite-dimensional module over `H = k[d]/(d^p)`, all slash
+homology groups `H^{/j}`, `0 ≤ j ≤ p - 2`, vanish if and only if the module is projective
+(Khovanov–Qi, arXiv:1208.0616, §2, p. 14, decomposition (20)). No characteristic hypothesis is
+stated: the record `TruncatedPrimitive` forces `char k = p`, since `0 = Δ(d^p)` expands by the
+binomial formula and `d ⊗ d^(p-1)` is a basis vector of `H ⊗ H`. -/
 theorem slashHomology_subsingleton_iff_projective
     {H M : Type*} [Ring H] [HopfAlgebra k H]
     [AddCommGroup M] [Module k M] [Module H M] [IsScalarTower k H M] [FiniteDimensional k M]
-    {p : ℕ} [Fact p.Prime] [CharP k p] (P : TruncatedPrimitive (k := k) H p) :
+    {p : ℕ} [Fact p.Prime] (P : TruncatedPrimitive (k := k) H p) :
     (∀ j ≤ p - 2, Subsingleton (SlashHomology p (P.moduleDifferential (M := M)) j)) ↔
       Module.Projective H M := by
   sorry
