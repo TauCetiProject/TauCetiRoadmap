@@ -18,18 +18,23 @@ Stated here (B6.0–B6.1):
   compact;
 * on a smooth good cover, each factor of Mathlib's native Čech complex of the locally constant
   real sheaf is a copy of `ℝ`, through the constant section given by the unit of the native
-  constant-sheaf adjunction, exactly when the tuple intersection is nonempty.
+  constant-sheaf adjunction, exactly when the tuple intersection is nonempty;
+* the sheaf of smooth real functions on a finite-dimensional Hausdorff second-countable smooth
+  manifold is acyclic: its sheaf cohomology `Sheaf.H` vanishes in every positive degree.
 
 Headline theorems of the README that are not statable at the pins, with the missing carrier:
 
-* Ehresmann's fibration theorem (B1.5): the pins have no manifold structure on a regular fibre
-  `π⁻¹(b₀)` of a submersion, so a smooth trivialization with that model fibre cannot be stated.
+* Ehresmann's fibration theorem (B1.5): the manifold structure on a regular fibre `π⁻¹(b₀)` of a
+  submersion is itself a target of this roadmap (B1.0), so a smooth trivialization with that model
+  fibre cannot be stated against the pins.
 * The free proper quotient theorem and `G → G/H` as a principal bundle (B1.4): the pins have no
   smooth manifold structure on the orbit space of a free proper smooth action.
 * Connections, curvature, the Atiyah sequence, Ambrose–Singer and the holonomy reductions
   (B3–B5): the pins have no differential forms on manifolds and no exterior derivative on them
   (Mathlib's `extDeriv` acts on functions between normed spaces only).
-* The flat-bundle dictionary with representations of `π₁(M)` (B5): it needs flat connections,
+* The reconstruction of a connection from smooth parallel transport (B5.1): it needs the thin
+  path groupoid and the transport functor, which are definitions of this roadmap.
+* The flat-bundle dictionary with representations of `π₁(M)` (B5.2): it needs flat connections,
   hence the same form carrier.
 * The finite-rank Hilbert space `L²(E,h,μ)` of sections, its completeness and its isometry with
   `MeasureTheory.Lp` for the trivial bundle (B2): the pins have no normed or inner-product
@@ -39,6 +44,8 @@ Headline theorems of the README that are not statable at the pins, with the miss
   bundle data and no first Chern class map into Tau Ceti's singular cohomology (an unnormalized
   bijection with `H²(M;ℤ)` would only compare cardinalities), no smooth structure on `ℂP¹` and
   no de Rham cohomology of manifolds.
+* The Yang–Mills variational formulas and the gauge-fixed operator (B8): the pins have no
+  curvature of principal connections and no Hodge star on bundle-valued forms.
 -/
 
 namespace TauCetiRoadmap.SmoothBundlesConnections
@@ -134,6 +141,15 @@ theorem cechTupleConstantSection_bijective_iff (C : SmoothGoodCover I (M := M)) 
     (i : Fin (p + 1) → C.Index) :
     Function.Bijective (cechTupleConstantSection I C i).hom ↔
       (cechIntersection I C i : Set M).Nonempty := by
+  sorry
+
+/-- Acyclicity of the sheaf of smooth real functions (B6.1): on a finite-dimensional Hausdorff
+second-countable smooth manifold, Mathlib's sheaf cohomology `Sheaf.H` of the native sheaf
+`smoothSheafAddCommGroup` of smooth `ℝ`-valued functions vanishes in every positive degree. The
+route is the fineness of this sheaf: smooth partitions of unity exist under these hypotheses. -/
+theorem subsingleton_H_smoothSheafAddCommGroup [IsManifold I ∞ M] [FiniteDimensional ℝ E]
+    [T2Space M] [SecondCountableTopology M] (n : ℕ) (hn : 0 < n) :
+    Subsingleton ((smoothSheafAddCommGroup I 𝓘(ℝ, ℝ) M ℝ).H n) := by
   sorry
 
 end SmoothGoodCovers
