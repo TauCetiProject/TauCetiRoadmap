@@ -302,12 +302,12 @@ over the opposite of the endomorphism ring of a simple module, fixing the opposi
 finite-dimensional semisimple algebra over an algebraically closed field.
 `TauCeti.WedderburnPresentation` (`Presentation.lean`, line 75) stores a natural block count,
 division rings, positive degrees through `instNeZeroDegree`, and a ring equivalence;
-`TauCeti.wedderburnPresentation` chooses one for a semisimple ring, and the algebra,
-finite-dimensional, and split variants in that file preserve these conditions. *Needs:* Mathlib
-`IsSemisimpleRing.exists_ringEquiv_pi_matrix_divisionRing`,
+`TauCeti.IsSemisimpleRing.wedderburnPresentation` (line 289) chooses one for a semisimple ring,
+and the algebra, finite-dimensional, and split variants in that file preserve these conditions.
+*Needs:* Mathlib `IsSemisimpleRing.exists_ringEquiv_pi_matrix_divisionRing`,
 `IsSimpleRing.exists_ringEquiv_matrix_end_mulOpposite`,
 `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed`; `TauCeti.WedderburnPresentation`,
-`TauCeti.wedderburnPresentation`.
+`TauCeti.IsSemisimpleRing.wedderburnPresentation`.
 
 **Checks.**
 
@@ -320,11 +320,12 @@ finite-dimensional, and split variants in that file preserve these conditions. *
 
 ### 2.2 The block dictionary
 
-`RingEquiv.exists_simpleSubmodule_of_pi_matrix` takes a presentation of R as a product, indexed
-by `Fin n`, of dᵢ × dᵢ matrix rings over division rings Dᵢ with every dᵢ positive, and
-produces simple left ideals S₁, …, Sₙ of R,
-pairwise nonisomorphic, such that every simple left ideal is isomorphic to exactly one Sᵢ.
-With §1.3 this enumerates the isomorphism classes of all simple R-modules by the blocks.
+`RingEquiv.exists_simpleSubmodule_of_pi_matrix` takes a presentation of a semisimple ring R as a
+product, indexed by `Fin n`, of dᵢ × dᵢ matrix rings over division rings Dᵢ with every dᵢ
+positive, and produces simple left ideals S₁, …, Sₙ of R, pairwise nonisomorphic, such that
+every simple left ideal is isomorphic to exactly one Sᵢ. Semisimplicity of R is an instance
+hypothesis of the theorem. With §1.3 this enumerates the isomorphism classes of all simple
+R-modules by the blocks.
 *Needs:* `RingEquiv.exists_simpleSubmodule_of_pi_matrix`; §1.3.
 
 **Checks.**
@@ -401,9 +402,10 @@ Mathlib's `Module.Finite.toModuleEnd_moduleEnd_surjective` says the natural map 
 endomorphisms of M over `Module.End R M` is surjective for a semisimple module M finite over its
 endomorphism ring. `TauCeti.toModuleEnd_moduleEnd_bijective` makes it bijective when M is also
 faithful, and `TauCeti.ringEquivEndEnd` packages the ring isomorphism;
-`TauCeti.toModuleEnd_moduleEnd_bijective_of_isSimpleRing` specializes to a simple module over a
-simple ring, where faithfulness is automatic. The hypothesis is finiteness over the
-endomorphism ring, not over a base field. *Needs:* Mathlib
+`TauCeti.toModuleEnd_moduleEnd_bijective_of_isSimpleRing` gives bijectivity for any nontrivial
+semisimple module over a simple ring that is finite over its endomorphism ring, since such a
+module is automatically faithful; a simple module over a simple ring is a special case. The
+hypothesis is finiteness over the endomorphism ring, not over a base field. *Needs:* Mathlib
 `Module.Finite.toModuleEnd_moduleEnd_surjective`; `TauCeti.toModuleEnd_moduleEnd_bijective`,
 `TauCeti.ringEquivEndEnd`, `TauCeti.toModuleEnd_moduleEnd_bijective_of_isSimpleRing`.
 
@@ -708,10 +710,12 @@ Splitting of a CSA is equivalent to its class mapping to 1 by
 074Y, p. 7). `TauCeti.Algebra.exists_isSplittingField_finiteDimensional_isSeparable`
 (`FiniteSeparable.lean`, line 45) supplies a finite intermediate field of the separable closure
 splitting any finite-dimensional central simple A; its separability is inherited.
-`TauCeti.Algebra.exists_isSplittingField_finrank_eq_deg` supplies a splitting maximal subfield of a
-finite-dimensional central division algebra D, of degree deg(D) (Stacks, Lemma 8.3, tag 0750,
-and Proposition 8.5, tag 0752, p. 7). *Needs:* `TauCeti.BrauerGroup.baseChange`,
-`TauCeti.BrauerGroup.baseChange_self`, `TauCeti.BrauerGroup.baseChange_comp`,
+`TauCeti.Algebra.exists_isSplittingField_finrank_eq_deg` supplies, for a finite-dimensional
+central division algebra D over K, a field L with a K-algebra homomorphism L → D, of degree
+deg(D) over K, that splits D; a subfield of that degree is a maximal subfield of D (Stacks,
+Lemma 8.3, tag 0750, and Proposition 8.5, tag 0752, p. 7). *Needs:*
+`TauCeti.BrauerGroup.baseChange`, `TauCeti.BrauerGroup.baseChange_self`,
+`TauCeti.BrauerGroup.baseChange_comp`,
 `TauCeti.Algebra.IsSplittingField`, `TauCeti.Algebra.isSplittingField_congr`,
 `TauCeti.Algebra.IsSplittingField.matrix`, `TauCeti.Algebra.IsSplittingField.of_isScalarTower`,
 `TauCeti.Algebra.isSplittingField_iff_deg`,
@@ -811,5 +815,4 @@ uses §6.1, and §6.3 uses §6.1–6.2.
   [Lemma 7.2](https://stacks.math.columbia.edu/tag/074U), p. 6; Definition 8.1,
   Lemma 8.3, and Proposition 8.5 (tags 074Y, 0750, 0752), p. 7.
   The source uses right modules; the left-module tensor actions and conjugation orientation
-  are specified above. The source key is stacks-brauer; the general conjugacy and centralizer
-  statements are at stacks-brauer line 215 and stacks-brauer line 235.
+  are specified above.
