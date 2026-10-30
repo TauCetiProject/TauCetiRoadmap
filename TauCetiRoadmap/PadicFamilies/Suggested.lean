@@ -4,8 +4,8 @@ import Mathlib
 # Ordinary projectors and perfect ordinary factors: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap’s headline theorems against the pinned APIs;
+discharging these signatures alone finishes neither a layer nor the roadmap.
 
 Layer 0a's locally finite ordinary decomposition (§0a.22), ordinary idempotent and perfect
 splitting (§0a.17), and independence of the perfect ordinary factor (§0a.25) are stated on
@@ -20,7 +20,7 @@ Buzzard eigenvariety, global symbol eigencurve and classicality comparisons (Lay
 and refined family eigensymbols, Selmer local conditions and Mellin transforms for Bellaïche's
 critical-eigensymbol and secondary L-function theorems, including Eisenstein refinements
 (Layer 3). Layer 4's family Galois modules, modular zeta classes, Iwasawa/Selmer cohomology,
-period regulators and relative Robba modules are also absent, as are Layer 5's quaternionic
+period regulators and the imported relative Robba realization are also absent, as are Layer 5's quaternionic
 ordinary towers, the imported positive-coefficient and standard-constant-integral Hilbert family
 lattices with their full and restricted Hecke pairings, constant obstruction and specialization
 sequence, their geometric tower comparisons, and quaternionic period modules. The family
