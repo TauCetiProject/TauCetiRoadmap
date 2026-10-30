@@ -384,7 +384,7 @@ theorem and leaves (Layer 4); integration of densities and forms (Layer 5); exis
 smooth Riemannian metric on a paracompact manifold and the comparison of densities with
 `TauCeti.riemannianVolume` (Layer 12).
 
-### From TauCetiRoadmap.HopfRinow
+### From Completed.HopfRinow
 
 The Levi-Civita connection and its regularity, the geodesic flow, the exponential map and its
 domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf–Rinow theorem
