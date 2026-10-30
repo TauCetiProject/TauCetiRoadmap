@@ -83,12 +83,13 @@ def coeff {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) (n : ℕ) : ℂ :=
 def coefficientRing {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) : Subring ℂ :=
   Subring.closure (Set.range (coeff f) ∪ Set.range (fun n : ℕ => f.dirichletLift n))
 
-/-- Coefficient-defined residual attachment: one coefficient reduction gives arithmetic
-Frobenius traces, determinants and unramifiedness away from the level and characteristic,
-as specified by AlgebraicModularFormsAndSerreWeights R15.6. -/
+/-- Coefficient-defined residual attachment: one coefficient reduction (a ring map into a field
+of characteristic `p`, so it kills `p`) gives arithmetic Frobenius traces, determinants and
+unramifiedness away from the level and characteristic, as specified by
+AlgebraicModularFormsAndSerreWeights §7.5. -/
 def ArisesFrom {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
     (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k) : Prop :=
-  ∃ φ : coefficientRing f →+* FpBar p, φ p = 0 ∧
+  ∃ φ : coefficientRing f →+* FpBar p,
     ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ p * N → IsUnramifiedAt ρ ℓ ∧
       ∀ σ : GQ, IsFrobAt σ ℓ →
         Matrix.trace (ρ σ : Matrix (Fin 2) (Fin 2) (FpBar p)) =
