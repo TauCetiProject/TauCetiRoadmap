@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.FieldTheory.GaloisGroups.Resolvent.Quintic.Basic
-import TauCeti.NumberTheory.ArithmeticDirichletSeries.Trivial
+module
+
+public import Mathlib
+public import TauCeti.FieldTheory.GaloisGroups.Resolvent.Quintic.Basic
+public import TauCeti.NumberTheory.ArithmeticDirichletSeries.Trivial
 
 /-!
 # Galois groups of polynomials, part III: target signatures
@@ -23,6 +25,8 @@ Headline theorems that are not statable at the pins:
 The class count `card_transitiveSubgroupClass` is the part of the classification that the native
 carriers express.
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.PolynomialGaloisGroupsPartIII
 
