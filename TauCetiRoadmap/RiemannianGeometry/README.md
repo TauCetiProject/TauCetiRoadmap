@@ -207,7 +207,18 @@ suspension-map comparison for sphere Freudenthal connectivity.
    implication use B5's local parallel frames, torsion-free closed coframes and
    DG's local primitives, then the shared manifold inverse-function theorem.
 4. Build smooth orthonormal geodesic frames at a point, including their induced
-   tensor frames. In a normal chart prove first derivatives of g vanish and
+   tensor frames. Pin their radial-parallel construction. Choose a star-shaped
+   normal ball B about 0 in T_pM and an orthonormal basis (e_i) at p. For v∈B set
+   `E_i(exp_p v)=P_(s↦exp_p(sv),0→1)(e_i)`, with E_i(p)=e_i.
+   Consume SBC B5's smooth parameter-dependent parallel transport to prove
+   this frame smooth jointly in v, including v=0, and orthonormal throughout
+   exp_p(B). Prove it is parallel along every radial geodesic and deduce
+   `∇_w E_i(p)=0` for every w∈T_pM, with the corresponding induced tensor-frame
+   identities. The coordinate frame `d(exp_p)_v(e_i)` and this transported
+   frame have the same value at p; they are not identified away from p.
+   Derive the vanishing covariant derivatives from radial parallelism, rather
+   than assuming d exp is parallel transport. In a normal chart prove first
+   derivatives of g vanish and
    characterize the quadratic/cubic jets by R and ∇R. With orthonormal vectors e_i at p,
    v in its tangent normal ball, pin
    `exp_p*g(e_i,e_j)=δ_ij−⅓⟨R(e_i,v)v,e_j⟩`
@@ -1134,13 +1145,55 @@ direction. Classify regular rotational minimal surfaces
 locally: planar pieces and the catenoid family, with complete connected
 nonplanar rotational examples classified up to rigid motion and scaling.
 Derive the correct generating-curve ODE without assuming g is an invertible
-parameter at every point. On the complete paraboloid prove every nonmeridional
-geodesic has infinitely many self-intersections by its conserved angular
-momentum, a unique turning radius and reflection symmetry for the **maximal
-all-time nonconstant** geodesic; establish the
-needed ODE limit estimates rather than inferring derivative limits from
-bounded monotonicity. Prove its vertex has no conjugate points by explicit
-radial/rotational exponential variations despite positive K.
+parameter at every point.
+
+#### R5a.3. Paraboloid geodesics and the vertex pole
+
+For the paraboloid z=x²+y², prove completeness of the induced metric using
+its closed proper graph embedding and the local comparison of intrinsic and
+coordinate distances. In polar coordinates away from the vertex the metric is
+`(1+4r²)dr²+r²dθ²`. For every maximal all-time nonconstant nonmeridional
+geodesic, reparametrize by unit speed and choose an angular orientation so
+`r²θ′=a>0`. Construct a real angular lift on all ℝ; the conserved nonzero
+momentum keeps the curve away from the vertex. Prove
+
+`(r′)²=(r²−a²)/(r²(1+4r²))`,
+
+`r″=a²/(r³(1+4r²))−4r(r′)²/(1+4r²)`.
+
+There is a unique turning time. Translate it to zero, with r(0)=a and
+θ(0)=θ₀, and prove `r(−t)=r(t)` and `θ(−t)=2θ₀−θ(t)`.
+Use uniqueness for the smooth second-order geodesic system, including
+`r″(0)=1/(a(1+4a²))>0`; uniqueness for the squared first integral does
+not establish passage through the turn. On the outgoing branch prove
+
+`T_a(R)=∫_a^R s√(1+4s²)/√(s²−a²) ds`,
+
+`A_a(R)=∫_a^R a√(1+4s²)/(s√(s²−a²)) ds`,
+
+with `t=T_a(r(t))` and `θ(t)−θ₀=A_a(r(t))` for t≥0.
+Prove integrability at a by comparison with `(s−a)^(−1/2)`, continuity
+from value zero, and strict increase on [a,∞). For R≥a prove
+`T_a(R)≥R²−a²` and `A_a(R)≥2a log(R/a)`. These integral comparisons
+prove r(t)→∞ and unbounded angular winding without inferring derivative
+limits from bounded monotonicity.
+
+For each n≥0 construct the unique R_n>a with `A_a(R_n)=(n+1)π` and
+put t_n=T_a(R_n). Prove t_n>0, both sequences strictly increase to infinity,
+and `γ(t_n)=γ(−t_n)`. The equal points have distinct radii R_n. Prove
+these crossings transverse: the polar tangent vectors are
+`(r′(t_n),a/R_n²)` and `(−r′(t_n),a/R_n²)`, with nonzero determinant.
+Thus the conclusion concerns infinitely many distinct self-intersection
+points of the all-time image; a restricted geodesic segment need not cross
+itself. The meridians are the separate a=0 case.
+
+At the vertex use the Cartesian chart and radial arclength
+`ℓ(r)=∫_0^r √(1+4s²) ds`. The radial/rotational exponential variations
+give a normal Jacobi field whose length is r(ℓ)>0 for ℓ>0. Combine this
+with the tangential Jacobi field to prove the vertex has no conjugate points,
+despite `K=4/(1+4r²)²>0`. Coordinate integral and crossing signatures are
+illustrated in [ParaboloidTargets.lean](ParaboloidTargets.lean); their geometric
+comparison consumes R5a's induced metric and R2's Jacobi API.
 
 ### R5b. General normal second variation and hypersurface stability
 
