@@ -1078,22 +1078,37 @@ pp. 47–48) and the dyadic Besov comparison. The K-method API includes:
 
 *Needs:* the common sum carrier and its quotient norm; native Lq spaces for dt/t.
 
-For a fixed 1<p<∞ and s₀≠s₁ pin
+For every fixed 1≤p≤∞, 1≤q≤∞, 0<θ<1 and distinct real s₀,s₁, prove on ℝⁿ,
+with finite-dimensional fibers, the identity with equivalent norms
 `(H^(s₀,p),H^(s₁,p))_(θ,q)=B^(s_θ)_(p,q)`
-(Bergh–Löfström, Theorem 6.4.5(4), pp. 152–153); define the Besov carrier by
+(Bergh–Löfström, Theorem 6.4.5(4), pp. 152–153), where
+`s_θ=(1−θ)s₀+θs₁`; define the Besov carrier by
 the dyadic Lp coefficient sequence norm for 1≤p,q≤∞ and real s.
 Choose a smooth inhomogeneous Fourier partition supported in a low-frequency ball and dyadic annuli, summing to 1;
 prove finite overlap, uniform rescaled derivative bounds, bounded dyadic
 analysis/reconstruction and equivalence for any two such partitions (Bergh–Löfström, §6.2,
 pp. 138–146, and Theorem 6.4.3, pp. 151–152). Prove
-`B^s_(p,1)⊂H^(s,p)⊂B^s_(p,∞)` using the multiplier bounds. Own the
+`B^s_(p,1)⊂H^(s,p)⊂B^s_(p,∞)` for every real s and 1≤p≤∞.
+For this endpoint range, prove the localized convolution estimates
+`‖J^s Δ_j u‖_p ≤ C_s 2^(js) ‖Δ_j u‖_p` for j≥1 and
+`‖J^s Δ_0 u‖_p ≤ C_s ‖Δ_0 u‖_p`, with C_s independent of j and p,
+whenever the indicated block is in Lp. Here J^s is the Bessel multiplier
+`(1+‖ζ‖²)^(s/2)` in Mathlib's Fourier variable. Obtain these estimates from
+uniform L¹ bounds on the rescaled convolution kernels: Tonelli and the integral
+norm bound give the L¹ and L∞ operator bounds, and PDE Lane B.9's
+Riesz–Thorin theorem gives the intervening p. Apply the estimates also
+with −s to obtain the reverse block estimates (Bergh–Löfström, Lemma 6.2.1,
+p. 140). Deduce the two embeddings and the real interpolation identity from
+these estimates (Theorem 6.2.4, pp. 142–143), componentwise for finite-rank
+fibers. Own the
 weighted-sequence K-method interpolation formula for distinct weights s₀,s₁,
 with ℓ^q coefficient norms and q=∞ included (Bergh–Löfström, Theorem 5.6.1,
 pp. 121–122). Use dyadic decomposition and
 these estimates to prove the stated Besov identification and its reverse
 inclusion, rather than only an operator interpolation inequality.
-Prove the bundle versions through
-the bounded localization/reconstruction retractions.
+Prove the bundle Bessel/Besov interpolation identity for 1<p<∞ through
+the bounded localization/reconstruction retractions; construct bundle Besov
+spaces and their partition comparisons for the full range 1≤p,q≤∞ by localization.
 For finite p define the little Besov subspace of B^s_(p,∞) by the condition
 `2^(js)‖Δ_j u‖_p → 0` as j→∞, using every localized component for bundles.
 On compact bases prove that this is exactly the norm closure of smooth
@@ -1107,7 +1122,8 @@ remain the targets of the real interpolation identity above.
 The Besov and localized Bessel API includes:
 
 - Dyadic analysis/reconstruction are bounded and independent, up to equivalent norms, of the partition.
-- The weighted-sequence K-method gives both inclusions in the Besov identification for s₀≠s₁.
+- The weighted-sequence K-method and localized convolution estimates give both inclusions
+  in the Euclidean Besov identification for s₀≠s₁ and 1≤p,q≤∞.
 - Bounded coordinate/frame transitions give complete bundle spaces; localized Bessel spaces
   H^(s,p), 1<p<∞, have smooth density and the specified bilinear density duality.
 - Smooth sections are dense in bundle B^s_(p,q) on compact bases for 1≤p,q<∞;
@@ -1124,6 +1140,16 @@ The Besov and localized Bessel API includes:
 - At s₀=0,s₁=2,θ=1/4, the interpolated order is 1/2, not 3/2.
 - A sequence of N unit weighted coefficients has ℓ¹ norm N and ℓ∞ norm 1;
   the two Besov bounds must retain their different q indices.
+- On ℝ, the constant distribution 1 has H^(0,∞) and H^(2,∞) norms both 1.
+  The inverse Bessel operator J^(−2) is convolution by the nonnegative mass-one
+  kernel π exp(−2π|x|), so H^(2,∞) embeds contractively into L∞ and
+  K(t,1)=min(1,t). At θ=1/2 and q=∞ the interpolation norm is 1;
+  its inhomogeneous Besov blocks are (1,0,0,…) and its Besov norm is also 1.
+  At q=2 the interpolation norm is √2, so the general identity uses equivalent norms.
+- At p=1 on ℝ, put g(x)=π^(−1/2)exp(−x²) and u=J^(−2)g with the same kernel.
+  Positivity and mass one give ‖u‖₁=‖J²u‖₁=1 and K(t,u)=min(1,t);
+  at θ=1/2,q=∞ its interpolation norm is 1. The zero input instead has norm 0.
+  This tests p=1 separately from the p=∞ constant, which is not integrable on ℝ.
 - On ℝ/(2πℤ) with measure dx/(2π), choose annular multipliers equal to 1 at their
   central frequency 2ʲ and 0 at the other dyadic centers, with the low block zero
   at 2ʲ for j≥1. For u=Σ_(j≥1)2^(−j)exp(i2ʲx), each weighted L² block
@@ -1142,10 +1168,14 @@ The Besov and localized Bessel API includes:
   2^(−N−1)/(1−2^(−q))^(1/q)→0; at q=2 and N=0 it is 1/√3.
   The original unit weighted sequence instead has infinite ℓ^q norm.
 
-*Needs:* the complex and real interpolation constructions, PDE Lane B multiplier estimates,
-dyadic partitions and finite-dimensional chart retractions.
+*Needs:* the real interpolation construction and weighted-sequence formula, dyadic partitions,
+the localized L¹ convolution-kernel bounds above, Tonelli, the integral norm bound
+and PDE Lane B.9's Riesz–Thorin theorem for the Euclidean real identity;
+finite-dimensional chart retractions for bundle Besov comparisons;
+the complex interpolation construction and PDE Lane B multiplier estimates for the
+interior-p bundle Bessel transitions.
 
-At nonnegative integer k
+For 1<p<∞ and nonnegative integer k,
 identify H^(k,p) with the bundle W^(k,p) weak-covariant-
 derivative carrier, identified with the smooth completion when p<∞.
 Apply PDE's scalar Calderón–Zygmund theory componentwise
