@@ -20,14 +20,15 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`: the resolve
 Kirby's list and the classical theorems of three-manifold topology that the roadmap's layers
 make statable. Every carrier used here exists at the pins; no definition is made.
 
-Of these, the proofs of the Smale conjecture (Layer 3), Alexander's theorem, the knot-group
-theorem, the Gordon–Luecke theorem and the JSJ theorem (Layer 8), and Mostow rigidity
-(Layer 7) are targets of this roadmap. The annulus theorem is proved here in dimension at most
-three; its higher-dimensional proof is GeometricTopology, Part II, and its four-dimensional
-proof is FourManifolds'. Geometrization, the Poincaré conjecture, Freedman's theorem,
-Watanabe's theorem, Agol's theorems and Manolescu's theorem are stated here as the end
-theorems the roadmap is built to state; their proofs are owned by the roadmaps named in the
-README's *Scope and ownership*.
+Of these, the proofs of Alexander's theorem and the knot-group theorem (Layer 8) are targets
+of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
+Gordon–Luecke theorem and the JSJ theorem (Layer 8) are GeometricTopology, Part II's, which
+starts from these statements. The annulus theorem is proved here in dimension at most three;
+its higher-dimensional proof is GeometricTopology, Part II's, and its four-dimensional proof
+is FourManifolds'. Geometrization, the Poincaré conjecture, Freedman's theorem, Watanabe's
+theorem, Agol's theorems and Manolescu's theorem are stated here as the end theorems the
+roadmap is built to state; their proofs are owned by the roadmaps named in the README's
+*Scope and ownership*.
 
 Not statable at the pins:
 * Li's rank-versus-genus theorem (Layer 9.2): there is no Heegaard genus;
