@@ -30,9 +30,19 @@ realizations and holomorphic comparisons.
 Supply runs in one direction. The suppliers of this roadmap are MorseTheory,
 DifferentialGeometry, ComplexKahlerGeometry, AlgebraicTopology,
 GeometricTopology, GeometricCurrents, CharacteristicClasses,
-CalibratedGeometry, SmoothBundlesConnections, FuchsianOrbifolds, LieGroups,
-HopfRinow, RiemannianGeometry, PDE, SelfAdjointSpectralTheory, DGAInfinity
-and CombinatorialHeegaardFloer, each cited by section where it is used.
+FuchsianOrbifolds, LieGroups, HopfRinow, RiemannianGeometry, PDE,
+SelfAdjointSpectralTheory, DGAInfinity and CombinatorialHeegaardFloer, each
+cited by section where it is used. Nothing is taken from CalibratedGeometry
+or from SmoothBundlesConnections: the integral-chain comparison of M.4 runs
+through GeometricCurrents G3's integral-current homology isomorphism, the
+smooth-family primitive of F2.1 is built from ComplexKahlerGeometry K5a's
+compact Hodge theory rather than from a good cover, and F2.6c proves the
+degree-two Wirtinger inequality for a compatible triple itself. The
+general-degree Wirtinger inequality on comass carriers, the integral
+smooth-simplex complex and the volume minimization of calibrated
+submanifolds belong to CalibratedGeometry; smooth good covers with their
+Čech comparisons belong to SmoothBundlesConnections; none of them is an
+input to a target here.
 DGFloer, MorseNovikov, AnalyticStableMaps, ComplexCurveModuli,
 ConvexityToric, CotangentLagrangian, HamiltonianReduction,
 HamiltonianSystems, HamiltonianFloerOperations, FukayaTheory and the
@@ -140,7 +150,14 @@ on smooth sections of finite-rank real or complex bundles over
 finite-dimensional Hausdorff second-countable boundaryless manifolds,
 with continuous restriction. For compact X, F0.4 identifies this carrier
 with its finite-atlas jet-norm model; it does not construct another
-boundaryless smooth-section topology.
+boundaryless smooth-section topology. Consume K5a's compact real Hodge
+theory on compact oriented Riemannian manifolds: the H² realization of the
+Hodge Laplacian, harmonic projection, Green operator, orthogonal
+harmonic/exact/coexact splitting, the de Rham Hodge theorem identified
+with DifferentialGeometry 8.5's de Rham cohomology, the sign law
+`d*=(−1)^(m(k+1)+1)*d*` and the Sobolev-scale elliptic estimate of the
+Green operator; Layer 1's Hodge-Laplacian target and F2.1's primitive
+selector use them.
 
 ## How to read the build
 
@@ -337,9 +354,12 @@ is a proof target here under M.0b's local-model hypotheses; the source's
 footnote 13 does not establish it for arbitrary original metrics. Consume
 [GeometricCurrents G1–G4a](../GeometricCurrents/README.md)'s integral carriers,
 boundary/pushforward, transverse pullback, dimension-drop and homology
-comparison, and CalibratedGeometry C2's integral smooth-chain comparison.
-Construct a face-transverse smooth/geometric chain subcomplex for the
-stable manifolds and all broken strata. Prove its inclusion is a
+comparison, and G3's isomorphism between integral-current homology and
+singular homology with integral coefficients, which carries the integral
+fundamental chains of the compactified strata into integral currents; no
+integral smooth-simplex complex is introduced here.
+Construct a face-transverse geometric chain subcomplex of integral currents
+for the stable manifolds and all broken strata. Prove its inclusion is a
 quasi-isomorphism by relative moving/approximation and prove the counting
 maps respect the actual integral geometric relations. Neither real currents
 nor normalized cubical coordinate degeneracies replace these integral APIs.
@@ -377,7 +397,7 @@ maps: six octagons, twelve quadrilaterals, eight hexagons, 48 vertices and
 including iterated flags, and compare them with the A,D,F identities;
 the f-vector alone is not the compactification theorem.
 
-*Needs:* M.3's complex; GeometricCurrents G1–G4a; CalibratedGeometry C2; MorseTheory M2's homotopy CW tower; Mathlib's singular homology; M.0b's local models for the smooth compactified evaluation.
+*Needs:* M.3's complex; GeometricCurrents G1–G4a (G3's integral homology comparison); MorseTheory M2's homotopy CW tower; Mathlib's singular homology; M.0b's local models for the smooth compactified evaluation.
 
 ### 1.5 Continuation and ordinary Cerf families (M.5)
 
@@ -1158,7 +1178,7 @@ are new targets; K5a supplies the generic closed elliptic realization.
 
 ### Dependencies
 
-MorseTheory M1–M6; DifferentialGeometry Layers 2, 3, 8 and 10; AlgebraicTopology Stages 5–6 and its local-coefficient cellular comparison; GeometricCurrents G1–G4a; CalibratedGeometry C2; ComplexKahlerGeometry K5a and K7.1–K7.2; CharacteristicClasses C2.3; Mathlib's chain complexes, singular homology and spectral-sequence carriers. Within this roadmap: F0.S, F0.0, F0.3, F0.4 and F0.7 for genericity and transversality, F1.4 for determinant lines.
+MorseTheory M1–M6; DifferentialGeometry Layers 2, 3, 8 and 10; AlgebraicTopology Stages 5–6 and its local-coefficient cellular comparison; GeometricCurrents G1–G4a; ComplexKahlerGeometry K5a and K7.1–K7.2; CharacteristicClasses C2.3; Mathlib's chain complexes, singular homology and spectral-sequence carriers. Within this roadmap: F0.S, F0.0, F0.3, F0.4 and F0.7 for genericity and transversality, F1.4 for determinant lines.
 
 ## Layer 2: the nonlinear-analysis substrate
 
@@ -2122,30 +2142,33 @@ Prove **global Moser** on compact finite-dimensional Hausdorff manifolds with
 boundaryless model (`[T2Space M]` and `[I.Boundaryless]`): the given
 families produce an isotopy from the identity with `φ_t*ω_t=ω_0`.
 Prove smooth-family primitive selection for exact positive-degree forms
-on compact manifolds as a separate target. Compactness gives sigma-compactness;
-the finite-dimensional model with corners supplies second countability of H,
-so `ChartedSpace.secondCountable_of_sigmaCompact` provides the manifold
-hypothesis needed by B6. Consume SmoothBundlesConnections
-B6.0's finite smooth good cover and B6.1's real-constant Čech–de Rham
-comparison. Run the exported smooth contractions
-and partition-of-unity zig-zag on slices of J×U_i, proving smooth dependence
-by differentiation under the homotopy integral. Its final finite-dimensional
-Cech cocycle of constants is a coboundary because the input is exact.
-Choose a fixed linear right inverse of the Cech coboundary on its image;
-apply it to the smooth parameter functions and back-substitute through the
-zig-zag. Prove the resulting one-form primitive varies jointly smoothly.
-For a cohomologous symplectic path, prove that the zig-zag cocycle map commutes
-with time differentiation. Its class is constant, so the derivative cocycle
-is a coboundary; the Čech–de Rham isomorphism implies ∂_tω_t is exact.
-Applying the constructed primitive selector gives the path corollary. Class equality
-without a symplectic path does not suffice. DG 8.5 supplies de Rham
-comparison independently of good covers; good-cover construction is B6's.
-Strengthen this same primitive selector to a continuous linear right
-inverse of d on exact smooth two-forms in the compact-source C-infinity
-topology, linear and therefore satisfying S(0)=0. Prove seminorm estimates
-`‖Sη‖Ck≤Ck‖η‖C(k+r_k)` with specified finite derivative losses and
-continuity of the Moser solution and flow in every Ck norm, uniformly
-on compact time and compact parameter subsets. Assemble continuity in
+on compact manifolds as a separate target, by Hodge theory. Orient M by
+ωⁿ, fix a Riemannian metric g, and consume ComplexKahlerGeometry K5a's
+harmonic projection H, Green operator G, orthogonal splitting
+`Ω^k=ℋ^k⊕dΩ^(k−1)⊕d*Ω^(k+1)` and de Rham Hodge theorem on the compact
+oriented Riemannian manifold (M,g), identified with DG 8.5's de Rham
+cohomology. Define the primitive selector `S=d*∘G` on all smooth k-forms;
+it is linear, so `S(0)=0`. For exact η the harmonic part Hη vanishes and
+`dGη=Gdη=0`, so `dSη=dd*Gη=η−Hη−d*dGη=η`: S is a linear right inverse of
+d on exact forms, and exactness enters only there. Prove that S is
+continuous in the compact-source C-infinity topology with the finite
+derivative loss `r_k=⌊dim M/2⌋`, that is `‖Sη‖_(C^k)≤C_k‖η‖_(C^(k+r_k))`,
+from K5a's Sobolev-scale elliptic estimate `‖Gη‖_(H^(s+2))≤C‖η‖_(H^s)`
+(two derivatives gained by G, one lost by d*) and the Sobolev embedding
+`H^s⊂C^k` for `s>k+dim M/2` on compact M. For a jointly smooth family
+`η_t` of k-forms over a finite-dimensional parameter manifold, prove that
+`σ_t=Sη_t` is jointly smooth: the C^k estimates applied to the difference
+quotients `η_(t+h)−η_t−h∂_tη_t` give differentiability in t in every C^k
+norm with `∂_tσ_t=S∂_tη_t`, and induction on the order of the t-derivative
+gives joint smoothness; no cover, partition of unity or Čech complex
+enters. For a cohomologous symplectic path, the harmonic part `Hω_t` is
+the Hodge representative of the constant de Rham class, so it is constant;
+H is continuous linear, so `H(∂_tω_t)=∂_t(Hω_t)=0`, and the closed form
+`∂_tω_t` with zero harmonic part is exact by the splitting. Applying the
+primitive selector gives the path corollary. Class equality without a
+symplectic path does not suffice. Prove continuity of the Moser solution
+and flow in every Ck norm, uniformly on compact time and compact parameter
+subsets, from the seminorm estimates of S. Assemble continuity in
 C-infinity; testing only smooth finite-dimensional parameter families
 does not establish it. Include support-controlled global flow when the
 field vanishes outside one fixed compact set on a noncompact manifold.
@@ -2188,8 +2211,9 @@ repository's author-coordination and licence requirements.
 - On ℝ² with ω=dx∧dy the Darboux chart at the origin is the identity, form₀ is ω itself and the standard model has m=1; on ℝ² with ω=e^x dx∧dy the chart (x,y)↦(e^x−1,y) pulls dx∧dy back to ω, so a theorem returning only linear charts would fail.
 - On ℝ⁴ the closed form x₁dx₁∧dx₂+dx₃∧dx₄ is degenerate along x₁=0, so no Darboux chart exists at the origin; the pointwise nondegeneracy hypothesis excludes it, and the odd-dimensional ℝ³ carries no nondegenerate two-form at all.
 - On T² the path ω_t=(1+t)dθ∧dφ has classes (1+t)[dθ∧dφ] that are not constant, so no isotopy with φ_t*ω_t=ω₀ exists; the exactness hypothesis ∂_tω_t=dα_t excludes it, while ω_t=dθ∧dφ+(t/2) d(sin θ dφ)=(1+(t/2)cos θ)dθ∧dφ is symplectic for every t∈[0,1], satisfies it, and Moser's isotopy exists.
+- On the flat T² with the product metric and orientation dθ∧dφ, the exact form η=cos θ dθ∧dφ has Δη=dd*η=η and η⊥dθ∧dφ, so Gη=η and the primitive selector gives Sη=d*η=−*d*η=sin θ dφ, with dSη=η; the opposite sign convention for d* would return −sin θ dφ, whose differential is −η. The harmonic part of (1+(t/2)cos θ)dθ∧dφ is dθ∧dφ for every t, while that of (1+t)dθ∧dφ is (1+t)dθ∧dφ, which is why the first path is cohomologous and the second is not.
 
-*Needs:* Tau Ceti `SmoothTwoForm`, `IsSymplectic`, `stdSymplecticForm`, the symplectic-basis API and the tame/compatible carriers; DifferentialGeometry 0.1, 0.3, 0.4, 1.1–1.4, 3.2–3.5, 5.4, 6.1–6.2 and 8.5; SmoothBundlesConnections B6.0–B6.1; ComplexKahlerGeometry's real Hodge star for the four-dimensional statement; McDuff–Salamon, *Introduction to Symplectic Topology*, §3.2 (source, by locator).
+*Needs:* Tau Ceti `SmoothTwoForm`, `IsSymplectic`, `stdSymplecticForm`, the symplectic-basis API and the tame/compatible carriers; DifferentialGeometry 0.1, 0.3, 0.4, 1.1–1.4, 3.2–3.5, 5.4, 6.1–6.2 and 8.5; ComplexKahlerGeometry K5a's harmonic projection, Green operator, Hodge splitting and Sobolev-scale elliptic estimate on compact oriented Riemannian manifolds, and its real Hodge star for the four-dimensional statement; McDuff–Salamon, *Introduction to Symplectic Topology*, §3.2 (source, by locator).
 
 ### 4.2 Local theory (F2.2)
 
@@ -2442,11 +2466,22 @@ and a conformal domain metric. Prove chart/conformal invariance, equality
 with `∫u*ω=ω(A)` for J-holomorphic maps, and the integral-homology/de Rham
 comparison. Include Stokes, positivity, zero-energy constancy, degree scaling
 and product projections. The native energy-density identity is a local input.
-For compatible J consume [CalibratedGeometry C4](../CalibratedGeometry/README.md#c4-hermitian-linear-algebra-and-k%C3%A4hler-calibrations)'s Hermitian linear
-Wirtinger inequality and positive complex-plane equality, on C1's comass
-carriers. This pointwise core requires no integrability. Apply C2/C3's
-integration and actual finite bounding-chain hypotheses for the resulting
-parametric area/minimization statements.
+For ω-compatible J with `g(v,w)=ω(v,Jw)` prove the degree-two Wirtinger
+inequality on each tangent space: `ω(v,w)≤|v∧w|_g`, where
+`|v∧w|_g²=g(v,v)g(w,w)−g(v,w)²`, with equality for linearly independent
+v, w exactly when `w=av+bJv` with `b>0`, that is, when the oriented plane
+(v,w) is J-complex with its complex orientation. The proof is
+Cauchy–Schwarz: `ω(v,w)=g(Jv,w)`, Jv is g-orthogonal to v and of the same
+length, and only the component of w orthogonal to v contributes to either
+side. This pointwise linear statement needs no integrability and no
+closedness. Deduce the pointwise chain
+`(1/2)|du|²≥|∂_su∧∂_tu|_g≥ω(∂_su,∂_tu)` for a map u from a conformal
+surface, the first with equality exactly when du is conformal and the
+second exactly when the image plane is J-complex and positively oriented,
+both together exactly when `∂_tu=J∂_su`; integrating gives
+`E(u)≥Area_g(u)≥ω(A)`, with equality throughout exactly for J-holomorphic
+u. For merely tame J only the energy identity for J-holomorphic maps above
+is used; the area inequality is stated for compatible J alone.
 
 For K compact in the C-infinity topology on smooth tame J and a=ω(A)>0,
 assume explicitly that every
@@ -2466,7 +2501,13 @@ quotient convergence and family/evaluation continuity, then compactness
 from the countable metrizable models. Include the standard ℂP² line
 moduli, dual-projective-plane and line-point incidence identifications.
 
-*Needs:* Tau Ceti's energy carriers; F2.3's fixed-domain compactness; F2.6a–b; CalibratedGeometry C1–C4; DifferentialGeometry Layer 8.
+**Checks.**
+
+- On ℂ with ω=dx∧dy, J=i and the Euclidean metric, v=1 and w=i give ω(v,w)=1=|v∧w|, equality with (a,b)=(0,1); w=−i gives ω(v,w)=−1<1=|v∧w|, so a model with J replaced by −J, whose equality planes are (v,−Jv), fails this witness; w=1+i gives ω(v,w)=1 and |v∧w|²=1·2−1²=1, equality with (a,b)=(1,1), so equality does not force w⊥v.
+- The holomorphic map z↦z² has ∂_su=2z, ∂_tu=2iz and ½|du|²=|∂_su∧∂_tu|=ω(∂_su,∂_tu)=4|z|² at every point, while z↦z̄ has ½|du|²=|∂_su∧∂_tu|=1 and ω(∂_su,∂_tu)=−1: its image planes are complex but negatively oriented, so its area equals the domain's while ∫u*ω is the negative; the orientation clause of the equality case separates the two.
+- The map x+iy↦x+2iy has ∂_su=1, ∂_tu=2i, so |∂_su∧∂_tu|=2=ω(∂_su,∂_tu) (its image planes are J-complex) but ½|du|²=5/2>2: area equality without energy equality, and u is not J-holomorphic, so the two equality cases are distinct.
+
+*Needs:* Tau Ceti's energy carriers; F2.3's fixed-domain compactness; F2.6a–b; F2.1's compatible-J carriers; the Wirtinger inequality above; DifferentialGeometry Layer 8; McDuff–Salamon, *J-holomorphic Curves and Symplectic Topology*, Lemma 2.2.1 (source, by locator).
 
 ### 4.6d Transversality and degree (F2.6d)
 
@@ -2901,7 +2942,7 @@ finrank and orthogonal-complement comparisons. Under the real-linear identificat
 
 ### Dependencies
 
-Tau Ceti `SmoothTwoForm`, `IsSymplectic`, `stdSymplecticForm`, the symplectic-basis API, `IsPseudoholomorphic`, the energy modules, `SmoothEmbedding`, `IsMaximalTotallyReal`, `tangentRange`, `FiniteHolomorphicMap`, `degree`, `biholomorphOfDegreeEqOne`, `PSL(2,ℂ)`, `lineStab`, `levelSetChartedSpace` and `isManifold_levelSet`; Mathlib `CFC.sqrt`, Hofer's lemma and `ContDiffMapSupportedIn`; DifferentialGeometry Layers 0, 1, 3, 5, 5.6, 6 and 8; SmoothBundlesConnections B6.0–B6.1; ComplexKahlerGeometry K1, K4 and K7.1–K7.2; LieGroups Layers 3–5 and 9; CalibratedGeometry C1–C4; FuchsianOrbifolds Layer 5; CharacteristicClasses; HopfRinow Layer 1; RiemannianGeometry R1 and R5a; GeometricTopology Layers 1 and 3; AlgebraicTopology Stages 2 and 6; PDE Lane C.13. Within this roadmap: F0.0, F0.3, F0.5, F1.1–F1.5.
+Tau Ceti `SmoothTwoForm`, `IsSymplectic`, `stdSymplecticForm`, the symplectic-basis API, `IsPseudoholomorphic`, the energy modules, `SmoothEmbedding`, `IsMaximalTotallyReal`, `tangentRange`, `FiniteHolomorphicMap`, `degree`, `biholomorphOfDegreeEqOne`, `PSL(2,ℂ)`, `lineStab`, `levelSetChartedSpace` and `isManifold_levelSet`; Mathlib `CFC.sqrt`, Hofer's lemma and `ContDiffMapSupportedIn`; DifferentialGeometry Layers 0, 1, 3, 5, 5.6, 6 and 8; ComplexKahlerGeometry K1, K4, K5a and K7.1–K7.2; LieGroups Layers 3–5 and 9; FuchsianOrbifolds Layer 5; CharacteristicClasses; HopfRinow Layer 1; RiemannianGeometry R1 and R5a; GeometricTopology Layers 1 and 3; AlgebraicTopology Stages 2 and 6; PDE Lane C.13. Within this roadmap: F0.0, F0.3, F0.5, F1.1–F1.5.
 
 ## Layer 5: Lagrangian Floer homology, exact case
 
