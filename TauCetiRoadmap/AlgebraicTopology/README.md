@@ -49,7 +49,12 @@ stated coefficient generality.
    Eilenberg–MacLane models; nonabelian classifying spaces, universal classes, loop comparisons,
    and primary relative obstruction cochains have explicit normalization and transport maps.
 
-The scope includes ordinary cohomology on arbitrary CW complexes and the tools needed for
+9. Compact metric spaces and closed pairs have Čech cohomology, closed-cover excision,
+   relative products and decreasing-compact-pair continuity. The relative cube module and
+   ENR comparison retain their coefficient, degree and cup-order conventions.
+
+The scope includes ordinary cohomology on arbitrary CW complexes, compact-metric Čech
+cohomology, and the tools needed for
 compact manifolds and finite CW-type spaces.  It
 does not include generalized cohomology theories, spectra, bordism, or surgery obstruction
 groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy interfaces.
@@ -1076,6 +1081,161 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Include its graded/local-coefficient signs and compatibility with the
    absolute, pair and coefficient connecting maps. Arbitrary closed-subset
    unions do not receive an unqualified singular relative product.
+
+   <a id="compact-metric-cech-closed-pairs"></a>
+   #### Compact-metric Čech cohomology of closed pairs
+
+   Construct `ČH^n(X,A;R)` for a compact metric space X, a closed subset A⊆X
+   and a commutative coefficient ring R, with absolute groups obtained by
+   A=∅ and negative-degree groups zero. This construction supplies cohomology
+   on compact invariant sets and their closed subsets, which need not be
+   manifolds, ENRs or CW complexes. It uses ordinary 6.1–6.2's cochain and
+   product algebra, finite simplicial chains and filtered colimits of
+   `ModuleCat R`; construct the finite simplicial comparison below as part of
+   this supplement. Stage 5's finite-cover descent double complex and the
+   good-cover de Rham comparison do not define this compact-set theory.
+   Follow the native simplicial/alternating-face-complex interfaces recorded
+   in the [Čech design discussion](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Cech.20Cohomology.html)
+   and [Mathlib's site-theoretic Čech work](https://github.com/leanprover-community/mathlib4/pull/35073)
+   where applicable; the construction here also owns the finite-cover
+   refinement colimit and closed-pair theorems specified below.
+
+   - **Cover nerves and the actual colimit.** Index covers by finite families
+     `U : Fin m → TopologicalSpace.Opens X` whose union is X, permitting empty
+     members and m=0 for X=∅. A nonempty finite vertex set σ is a simplex of
+     N(U) exactly when `⋂ i∈σ, U i` is nonempty; it is in the subcomplex
+     N_A(U) exactly when that intersection meets A. Build oriented simplicial
+     chains with the alternating boundary and relative cochains
+     `C^*(N(U),N_A(U);R)=ker(C^*(N(U);R)→C^*(N_A(U);R))`.
+     Construct their comparison with 6.1's singular cohomology of the finite
+     realization pair, naturally in simplicial maps and compatibly with
+     products, using subdivision and the simplex contraction. A refinement
+     V≺U with witnesses `V j⊆U(r j)` induces the simplicial pair map
+     `(N(V),N_A(V))→(N(U),N_A(U))`, hence a cohomology map in the opposite
+     direction. Prove that any two choices of r are contiguous as pair maps
+     and induce the same cohomology map. Common intersection refinements
+     make the refinement preorder directed; use it, rather than the category
+     of all chosen refinement functions, as the filtered index. Define
+     `ČH^n(X,A;R)=colim_U H^n(N(U),N_A(U);R)` along these maps. Prove the
+     representative/equality criterion: classes become equal exactly when
+     their images agree at a common refinement. Include reindexing and
+     cofinal-cover invariance, and coefficient-change naturality.
+
+   - **Pullback, exactness and closed-cover excision.** A continuous pair map
+     `f:(X,A)→(Y,B)` pulls a finite cover of Y back to a cover of X and gives
+     `(N(f⁻¹U),N_A(f⁻¹U))→(N(U),N_B(U))`. Pass to the colimit, proving
+     identity, composition and homeomorphism transport. For A⊆X closed,
+     prove the restricted covers are cofinal among finite covers of A by
+     extending covers to X and adjoining X∖A. Exactness of filtered module
+     colimits then gives the pair long exact sequence. For closed A⊆B⊆X,
+     apply the same construction to the triple and obtain
+     `…→ČH^n(X,B)→ČH^n(X,A)→ČH^n(B,A)→ČH^(n+1)(X,B)→…`, including all
+     connecting-map naturality. For any closed cover X=F∪G, prove that
+     inclusion induces `ČH^n(X,G;R)≅ČH^n(F,F∩G;R)` and derive the closed-cover
+     Mayer–Vietoris sequence. Supply the cover-level proof using finite
+     shrinkings and common refinements of neighborhoods of F and G; a
+     good-cover hypothesis is not required. If `H:X×[0,1]→Y` is a homotopy
+     carrying A×[0,1] into B, prove equality of the endpoint pullbacks by
+     refining a pulled-back cover and subdividing [0,1] into finitely many
+     intervals whose adjacent nerve maps are contiguous. Thus deformation
+     retractions of compact pairs induce isomorphisms.
+
+   - **Relative products for closed subsets.** Descend Alexander–Whitney
+     products and their simplicial comparison through common refinements to
+     `ČH^p(X,A;R)⊗ČH^q(X,B;R)→ČH^(p+q)(X,A∪B;R)` for every two closed
+     subsets A,B⊆X. At one cover use
+     `N_(A∪B)(U)=N_A(U)∪N_B(U)` and the relative cochain product; prove
+     refinement independence, naturality, associativity, the absolute unit,
+     graded commutativity and the connecting-map Leibniz signs. Construct
+     the corresponding relative cross products, their cup comparison and
+     finite iteration. In particular, if absolute classes restrict to zero
+     on F and G with X=F∪G closed, lift them by the pair sequence: their
+     product lies in `ČH^*(X,X;R)=0`. This statement belongs to the compact
+     Čech theory; 6.2's singular multiple-relative product retains its own
+     excisive-couple hypotheses.
+
+   - **Continuity on decreasing compact pairs.** For compact subsets
+     `X_(j+1)⊆X_j` and `A_(j+1)⊆A_j⊆X_j` of one compact metric space,
+     put X=⋂j X_j and A=⋂j A_j. Prove that restrictions induce
+     `colim_j ČH^n(X_j,A_j;R)≅ČH^n(X,A;R)` in every degree, naturally in
+     maps of these systems, coefficient maps, pair/triple sequences and
+     relative products. Prove both parts at the finite-cover level: every
+     class on the intersection is represented at some finite stage, and a
+     stage class zero on the intersection is zero at a later stage. Use
+     finite shrinkings and extensions of covers and the fact that a nested
+     sequence of compact sets is eventually contained in every open
+     neighborhood of its intersection; apply it also to the closed
+     relative subsets. Include empty intersections. Prove the analogous
+     continuity for a family indexed by t≥0 by restricting to the cofinal
+     integer times. An arbitrary inclusion of compact subsets is not
+     asserted to induce an isomorphism.
+
+   - **Comparison and the oriented cube module.** For a compact ENR X,
+     construct a partition-of-unity nerve map `X→|N(U)|`; it carries A into
+     `|N_A(U)|`. Its pullback, independent of the partition and compatible
+     with refinement, defines `ČH^*(X,A;R)→H^*sing(X,A;R)`. Prove it is an
+     isomorphism when both X and A are ENRs, including A=∅, by first proving
+     the absolute ENR comparison using a Euclidean neighborhood retraction
+     and then comparing pair exact sequences. Prove naturality in maps of
+     such pairs and compatibility with cup/cross products and connecting
+     maps. Here ENR means homeomorphic to a retract of an open subset of
+     some finite-dimensional Euclidean space; no ENR hypothesis is imposed
+     on the compact sets in the preceding bullets.
+
+     For every K≥0 put `Q^K=[0,1]^K` with coordinates ordered 1,…,K,
+     boundary the union of its coordinate faces and `∂Q^0=∅`. Construct
+     `u_K∈ČH^K(Q^K,∂Q^K;R)` from the integral relative orientation that
+     evaluates to +1 on the coordinate-ordered cube fundamental class,
+     followed by ℤ→R. Derive, through the ENR comparison and the earlier
+     sphere/pair calculation, `ČH^n(Q^K,∂Q^K;R)=0` for n≠K and the
+     isomorphism `R→ČH^K(Q^K,∂Q^K;R), c↦c u_K`; for K=0 this is the
+     degree-zero unit. Construct the cube fundamental class from its
+     coordinate-ordered triangulation and prove agreement with the earlier
+     relative orientation and product conventions.
+
+     For every compact metric space Z and integers a,K≥0 set
+     `B=Z×Q^a×Q^K`, `B⁻=Z×Q^a×∂Q^K`, let α:B→Z be projection and let
+     u be the pullback of u_K along the last projection of pairs. Contract
+     the Q^a factor as a pair. Prove finite product covers are cofinal among
+     finite open covers of Z×Q^K, using a Lebesgue number for a product
+     metric. Use arbitrary finite covers of Z and the open-star covers of
+     successive subdivisions of the coordinate-ordered triangulated cube;
+     the latter are cofinal cube covers, and their boundary nerves are the
+     boundary triangulations. Compare the relative chains of the product
+     nerve with the tensor product of the two nerve chain complexes by
+     relative Eilenberg–Zilber. Construct the cube relative chain-homotopy
+     equivalence with R concentrated in degree K, compatibly on cohomology
+     with subdivision, refinement and u_K. Dualize the finite free nerve
+     complexes and pass through the two filtered cover colimits to prove,
+     in every r≥0,
+     `Φ_r:ČH^r(Z;R)≅ČH^(r+K)(B,B⁻;R), v↦u∪α^*v`.
+     This construction requires no ENR or local-contractibility hypothesis
+     on Z and makes no singular comparison assertion for such Z. Prove
+     naturality in continuous maps of compact metric bases and coefficient
+     changes. It is an isomorphism of graded right cup modules after
+     shifting degrees by K: with `z·w=z∪α^*w`, prove
+     `Φ(v∪w)=Φ(v)·w`. Pin the order sign
+     `u∪α^*v=(−1)^(K r) α^*v∪u` for homogeneous degree-r v.
+     The same construction handles K=0 without an exit face.
+
+     Specialize to Z=S¹ and compute `ČH^*(S¹;R)=R[e]/(e²)` with |e|=1.
+     The two relative generators are u and `u∪α^*e` in degrees K and K+1;
+     moving the circle class past u gives `(−1)^K`. For a nontrivial R
+     both generators are nonzero.
+
+   Define normalized compact Čech cuplength as the supremum in ℕ∞ of lengths
+   of nonzero finite products of classes of degrees strictly greater than
+   zero, with empty supremum zero. Prove restriction preserves each
+   nonzero-product witness under an injective cohomology pullback, and
+   identify this cuplength with the preceding singular `lsCupLength` on
+   compact ENRs by the multiplicative comparison. For nonempty X the
+   unnormalized convention is `cl(X)=normalized cuplength(X)+1`; give the
+   empty space unnormalized value zero. Thus for nontrivial R the circle
+   has normalized cuplength 1 and unnormalized `cl(S¹)=2`. Degree-one
+   classes must be allowed: the degree condition is >0. For the annulus
+   application take R=ℝ. This supplement supplies compact-pair topology
+   and the relative product-block calculation; isolating-block flow and
+   critical-point arguments belong to the Morse-theory roadmap.
 
    #### Categorical covers and Lusternik–Schnirelmann bounds
 
