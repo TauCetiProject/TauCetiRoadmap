@@ -50,6 +50,8 @@ body:
         - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
@@ -103,6 +105,7 @@ body:
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
+        - QuaternionicAnalysis
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
@@ -117,7 +120,9 @@ body:
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
+        - SmoothBundlesConnections
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
@@ -129,6 +134,7 @@ body:
         - TemperleyLieb
         - ThetaSeries
         - TopologicalKTheory
+        - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
