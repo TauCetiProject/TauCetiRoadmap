@@ -11,8 +11,11 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
 with the few definitions on native carriers that those statements need.
 
-Stated here (B6.0–B6.1):
+Stated here (B1.0 and B6.0–B6.1):
 
+* a regular fibre of a smooth map between finite-dimensional boundaryless real manifolds
+  admits a smooth atlas with smooth embedding into the source and tangent image equal to the
+  derivative kernel, without any Hausdorff hypothesis;
 * every open cover of a finite-dimensional Hausdorff second-countable boundaryless smooth
   manifold has a locally finite refinement by a smooth good cover, finite when the manifold is
   compact;
@@ -24,9 +27,9 @@ Stated here (B6.0–B6.1):
 
 Headline theorems of the README that are not statable at the pins, with the missing carrier:
 
-* Ehresmann's fibration theorem (B1.5): the manifold structure on a regular fibre `π⁻¹(b₀)` of a
-  submersion is itself a target of this roadmap (B1.0), so a smooth trivialization with that model
-  fibre cannot be stated against the pins.
+* Ehresmann's fibration theorem (B1.5): the regular-fibre atlas is quantified existentially below,
+  but the smooth manifold-fibre bundle and its compatible local-trivialization carrier are
+  constructions of B1.1 and B1.5; the pins' topological `FiberBundle` does not include those data.
 * The free proper quotient theorem and `G → G/H` as a principal bundle (B1.4): the pins have no
   smooth manifold structure on the orbit space of a free proper smooth action.
 * Connections, curvature, the Atiyah sequence, Ambrose–Singer and the holonomy reductions
@@ -39,6 +42,8 @@ Headline theorems of the README that are not statable at the pins, with the miss
 * The finite-rank Hilbert space `L²(E,h,μ)` of sections, its completeness and its isometry with
   `MeasureTheory.Lp` for the trivial bundle (B2): the pins have no normed or inner-product
   structure on measurable sections of a vector bundle; constructing it is a README target.
+* The Čech–de Rham–singular comparison (B6.1): the pins lack the differential-form and de Rham
+  cohomology carriers on manifolds, needed to state the normalized integration comparison.
 * The classification of principal circle bundles by `H²(M;ℤ)`, the Hopf normalization, rank-one
   Chern–Weil and the flat ambiguity (B6.2–B6.6): the pins have no principal-bundle structure on
   bundle data and no first Chern class map into Tau Ceti's singular cohomology (an unnormalized
@@ -53,7 +58,37 @@ namespace TauCetiRoadmap.SmoothBundlesConnections
 open CategoryTheory
 open scoped Manifold ContDiff
 
-/-! ## B6: Smooth good covers and Čech coordinates -/
+/-! ## Layer 1: Principal bundles and descent -/
+
+/-- A regular fibre of a smooth map between finite-dimensional boundaryless real manifolds
+admits a smooth atlas of dimension `finrank ℝ E - finrank ℝ F`. Its inclusion is a smooth
+embedding, and its tangent image is the kernel of the derivative of the map. The fibre has
+its subspace topology, may be empty, and needs no Hausdorff hypothesis (B1.0). -/
+theorem exists_regularFiber_smoothEmbedding
+    {E F H K X Y : Type*}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
+    [TopologicalSpace H] [TopologicalSpace K]
+    (I : ModelWithCorners ℝ E H) (J : ModelWithCorners ℝ F K)
+    [I.Boundaryless] [J.Boundaryless]
+    [TopologicalSpace X] [ChartedSpace H X] [IsManifold I ∞ X]
+    [TopologicalSpace Y] [ChartedSpace K Y] [IsManifold J ∞ Y]
+    (f : X → Y) (c : Y) (hf : ContMDiff I J ∞ f)
+    (hreg : ∀ x, f x = c → Function.Surjective (mfderiv I J f x)) :
+    ∃ cs : ChartedSpace (Fin (Module.finrank ℝ E - Module.finrank ℝ F) → ℝ)
+        {x : X // f x = c},
+      letI := cs
+      IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - Module.finrank ℝ F) → ℝ) ∞
+        {x : X // f x = c} ∧
+      Manifold.IsSmoothEmbedding
+        𝓘(ℝ, Fin (Module.finrank ℝ E - Module.finrank ℝ F) → ℝ) I ∞
+        (Subtype.val : {x : X // f x = c} → X) ∧
+      ∀ z : {x : X // f x = c},
+        (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - Module.finrank ℝ F) → ℝ) I
+          Subtype.val z).range = (mfderiv I J f z.1).ker := by
+  sorry
+
+/-! ## Layer 6: Smooth good covers and Čech coordinates -/
 
 section SmoothGoodCovers
 

@@ -1,4 +1,4 @@
-# Smooth principal bundles, connections, and holonomy
+# Roadmap: smooth principal bundles, connections, and holonomy
 
 **Summary.** This roadmap develops smooth principal bundles and their associated vector bundles
 as usable geometric objects: local trivializations and cocycles, regular fibres and fibre products
@@ -60,6 +60,12 @@ roadmap. Algebraic vector bundles on schemes are
 [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md)'s objects; no analytification or
 algebraic-to-topological comparison is asserted here.
 
+Mathlib already provides smooth vector bundles and
+[`CovariantDerivative`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.html#CovariantDerivative),
+its `addOneForm` and `difference` API, and smoothness classes. Tau Ceti supplies curvature
+operators and their basic linearity and Bianchi results. Consume those objects, supplying
+principal/associated-bundle bridges and missing general bundle operations here.
+
 Consumers that build on these layers and own what lies beyond them:
 [LieGroupoidsPoisson](../LieGroupoidsPoisson/README.md) owns the Lie algebroid bracket on the
 Atiyah bundle, its integration by the gauge groupoid, the constant-rank theorem, the bracket
@@ -93,13 +99,9 @@ because LieGroupoidsPoisson applies them to non-Hausdorff arrow manifolds.
 
 Use Mathlib's `FiberBundle`, `FiberBundleCore`, `Trivialization`, `Bundle.TotalSpace`,
 `VectorBundle` and `ContMDiffVectorBundle`; principal structure is a mixin on this bundle data,
-following the principal-bundle and connection direction of Mathlib's open principal-bundle and
-connection-form pull requests
-([leanprover-community/mathlib4#30121](https://github.com/leanprover-community/mathlib4/pull/30121),
-[leanprover-community/mathlib4#38374](https://github.com/leanprover-community/mathlib4/pull/38374)):
-bundle mixins, opposite-group right actions, Lie-algebra-valued connection forms and frame bundles.
-Build the missing APIs in Tau Ceti with these interfaces, shaped so that Mathlib's declarations,
-once adopted, replace ours by a deletion and an import; nothing waits for them. A principal bundle has a **right** action, encoded
+using bundle mixins, opposite-group right actions, Lie-algebra-valued connection forms and frame
+bundles. Build the principal-bundle APIs in Tau Ceti with these interfaces. A principal bundle has
+a **right** action, encoded
 by `MulAction (MulOpposite G)`. Every atlas trivialization is equivariant on its source, not only
 the chosen trivialization at each point. Freeness and transitivity are fibrewise; smooth local
 triviality supplies the projection's surjectivity and submersion property. Do not introduce a
@@ -142,6 +144,10 @@ stereographic-coordinate basis is assumed. For the Hopf action `(z₁,z₂)·λ=
 connection `Im(z̄₁dz₁+z̄₂dz₂)`, require `∫_(ℂP¹)F=2π` in the complex orientation and
 `⟨c₁(P),[ℂP¹]⟩=1`; the dual-character line is O(1).
 
+On the two-torus use angular coordinates `x,y ∈ ℝ/(2πℤ)`, oriented by `dx∧dy`. Thus the
+periods of `a dx+b dy` are `(2πa,2πb)`: the coefficient lattice of gauge shifts is `ℤ²`,
+whereas the period lattice is `2πℤ²`. The angular coordinate θ on `S¹` has the same period.
+
 Use the alternating Čech coboundary `(δt)_ijk=t_jk−t_ik+t_ij` and total Čech/de Rham differential
 `D=δ+(-1)^p d` on Čech degree p. If `g_ij=exp(i φ_ij)`, the integer representative of the
 dual-character class is `−(δφ)_ijk/(2π)`; the comparison sends it to `[F/(2π)]` and gives the Hopf
@@ -157,12 +163,6 @@ around a subdivided loop, with final chart `i_n=i_0` and basepoint `p=s_(i_0)(γ
 `g_(i_(n−1)i_n)⁻¹⋯g_(i_0 i_1)⁻¹`, with the last crossing leftmost. For `p·a` conjugate this
 expression by `a⁻¹` and `a`. The dual-character line has the inverse transition cocycle, so its
 exponential connecting class is `β(h)`; B6.4 proves this dictionary and B7 tests it on lens spaces.
-
-Mathlib already provides smooth vector bundles and
-[`CovariantDerivative`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.html#CovariantDerivative),
-its `addOneForm` and `difference` API, and smoothness classes. Tau Ceti supplies curvature
-operators and their basic linearity and Bianchi results. Consume those objects, supplying
-principal/associated-bundle bridges and missing general bundle operations here.
 
 ## Exact supplier contracts
 
@@ -191,7 +191,7 @@ independent of B1–B5: they build smooth good covers and the Čech comparisons 
 combine both strands into the integral theory of circle and torus bundles. B7 fixes the acceptance
 examples. B8 consumes B2–B4 and ComplexKahlerGeometry K5a for the Yang–Mills variational calculus.
 
-## B1. Principal bundles and descent
+## Layer 1: Principal bundles and descent
 
 ### B1.0 Regular fibres, fibre products and kernel distributions of submersions
 
@@ -200,12 +200,13 @@ manifolds, with no Hausdorff hypothesis on the ambient manifolds; the fibre may 
 
 Define the regular fibre of a smooth map `f : X → N` over `c : N` as the subtype `{x : X // f x = c}`
 with its subspace topology, under the hypothesis that `mfderiv f x` is surjective at every point x
-of the fibre. Construct on it a charted-space structure modelled on `Fin (dim X − dim N) → ℝ` with
-its self model `𝓘`, and prove it is a smooth manifold for which `Subtype.val` is
+of the fibre. The headline `exists_regularFiber_smoothEmbedding` asserts the existence of a
+charted-space structure on it modelled on `Fin (dim X − dim N) → ℝ` with its self model `𝓘`,
+for which it is a smooth manifold and `Subtype.val` is
 `Manifold.IsSmoothEmbedding` with `range (mfderiv … Subtype.val z) = ker (mfderiv … f z)` at every
 point (Lee, *Introduction to Smooth Manifolds*, 2nd ed., Corollary 5.14 and Proposition 5.38, in
-the Hausdorff case; Kolář–Michor–Slovák §9.2 supplies the local form of a submersion). Route: in a
-target chart φ at c, apply Tau Ceti's zero-section theorem
+the Hausdorff case; Kolář–Michor–Slovák Lemma 2.2, p. 11, supplies the local form of a submersion).
+Route: in a target chart φ at c, apply Tau Ceti's zero-section theorem
 `exists_isManifold_sectionZero_of_contMDiff` and `sectionZeroChartedSpace` to the trivial-bundle
 section `x ↦ φ(f x) − φ(c)` on the open set `f⁻¹(φ.source)`, which contains the whole fibre, and
 transfer that one structure to the fixed subtype. Supply the atlas transfer from a general
@@ -225,6 +226,7 @@ Specialize to a model-space target, retaining the comparison with the manifold-t
 - Independence: the identity between the atlases of two target charts is a diffeomorphism.
 
 **Checks.**
+
 - For the coordinate projection `ℝⁿ → ℝᵐ` and any c, the fibre is the affine subspace `ℝⁿ⁻ᵐ`, the
   constructed charts are affine, and the tangent image is the coordinate kernel; a definition
   giving dimension n instead of n − m fails the tangent-kernel statement.
@@ -243,13 +245,16 @@ Define the transverse fibre product of smooth maps `f : X → N`, `g : Y → N` 
 `range (mfderiv f x) + range (mfderiv g y) = T_(f x) N` at every pair with `f x = g y`. Construct it
 as the regular fibre of `(x,y) ↦ φ(f x) − φ(g y)` in a target chart φ, glued over the target charts,
 with model `Fin (dim X + dim Y − dim N) → ℝ`; prove the local universal property before gluing.
-Prove that the inclusion is a smooth embedding, both projections are `ContMDiff`, the tangent space
-at (x,y) is `ker (mfderiv f x − mfderiv g y)`, the dimension is `dim X + dim Y − dim N`, the
-structure is independent of the charts, and the smooth universal property. Prove that either
-projection is a submersion when the other map is a submersion; for a submersion f the
-transversality hypothesis holds automatically.
+Its API consists of the following assertions.
+
+- The inclusion is a smooth embedding, the projections are `ContMDiff`, and the tangent space
+  at (x,y) is `ker (mfderiv f x − mfderiv g y)` with dimension `dim X + dim Y − dim N`.
+- The structure is independent of the charts and satisfies the smooth universal property.
+- Either projection is a submersion when the other map is a submersion; for a submersion f
+  the transversality hypothesis holds automatically.
 
 **Checks.**
+
 - For `f = g = id_X` the fibre product is the diagonal, diffeomorphic to X by either projection.
 - For f a submersion and g the constant map at m, the fibre product is `f⁻¹(m) × Y`, agreeing with
   the regular-fibre structure on the first factor.
@@ -264,7 +269,12 @@ submersion normal form (Mathlib's `Manifold.IsSubmersionAt`). Equip the kernel f
 `ContMDiffVectorBundle` structure modelled on `Fin (dim X − dim N) → ℝ` through the local frames,
 and prove smooth pullback along smooth maps into X. No Hausdorff hypothesis is used.
 
+- The kernel distribution has constant rank `dim X − dim N` and local submersion-coordinate frames.
+- Those frames give the stated smooth vector-bundle structure with its inherited fibre topology.
+- Pullback of the kernel bundle along a smooth map is smooth, with the pulled-back local frames.
+
 **Checks.**
+
 - For the coordinate projection `ℝⁿ → ℝᵐ` the kernel is the constant distribution spanned by the
   last `n − m` coordinate fields.
 - For the Hopf map `S³ → S²` the kernel is the line spanned by the fundamental field of the circle
@@ -309,7 +319,14 @@ trivializations prove `ker(dπ_p)=range(d(g↦p·g)_1)`, with the orbit map a di
 fibre; the vertical distribution is B1.0's kernel distribution of π. Isomorphisms have inverses,
 composition, restriction, transport and extensionality APIs.
 
+- Every principal trivialization intertwines the right action and the projection, and each fibre
+  is a G-torsor; bundle isomorphisms admit composition, inverse and restriction.
+- For points p,q in a common fibre, division is smooth on `P×_M P` and is the unique g with `p·g=q`.
+- Smooth maps from the base are exactly maps whose composites with the principal projection are
+  smooth; invariant total-space maps descend uniquely, compatibly with restriction and composition.
+
 **Checks.**
+
 - On the trivial bundle `M × G`, `δ((x,g),(x,h)) = g⁻¹h`; the other order of multiplication would
   give `h g⁻¹`, which fails `p·δ(p,q) = q` for non-abelian G.
 - On the Hopf bundle `S³ → ℂP¹` with action `(z₁,z₂)·λ`, `δ(p, pλ) = λ`, and `|z₁|²` descends to
@@ -325,9 +342,22 @@ composition, restriction, transport and extensionality APIs.
 
 Construct trivial bundles, restrictions, pullbacks and products over a common base, with universal
 properties and coherent identity/composition comparisons. Convert a left principal action to a
-right action by `p·g=g⁻¹p`; prove the infinitesimal generator changes sign.
+right action by `p·g=g⁻¹p`; prove the infinitesimal generator changes sign
+(Kolář–Michor–Slovák §§10.2, 10.6, pp. 87, 89–90).
+
+- The trivial bundle projects by `(x,g) ↦ x`, has section `x ↦ (x,1)`, and right action
+  `(x,g)·h = (x,gh)`.
+- Restriction to an open U is the pullback along its inclusion; the projection and action commute
+  with the map of total spaces.
+- For smooth `f:N→M`, equivariant maps to P covering f factor uniquely through `f*P`; pullback
+  along the identity and along a composite give coherent bundle isomorphisms.
+- The fibre product of a principal G-bundle and a principal H-bundle over M is principal for
+  `G×H`, with the componentwise action and projection universal property.
+- Converting a left action to the displayed right action preserves freeness and transitivity and
+  negates the derivative of `t ↦ exp(tA)·p`.
 
 **Checks.**
+
 - The pullback along the identity is the identity bundle, and the pullback of a trivial bundle is
   trivial.
 - The restriction of `M × G` to an open U is `U × G` through `Subtype.val`.
@@ -345,7 +375,13 @@ classification up to equivariant isomorphism, changes by a smooth 0-cochain, and
 cover refinement. Define nonabelian Čech H¹ as the pointed set of these cocycle classes, with its
 refinement maps.
 
+- Gluing a smooth transition cocycle produces a principal bundle with that cocycle in its chosen charts.
+- Changing sections by a smooth 0-cochain gives an isomorphic bundle; every isomorphism is locally
+  such a change, so nonabelian Čech H¹ classifies bundles.
+- Identity and composite refinements preserve the cocycle class and the reconstructed bundle.
+
 **Checks.**
+
 - The constant cocycle 1 gives the trivial bundle, the base point of the pointed set.
 - For the Hopf bundle with sections `s₀([1:z]) = (1,z)/√(1+|z|²)` and
   `s₁([w:1]) = (w,1)/√(1+|w|²)`, the pinned convention `s₁ = s₀ g₀₁` gives `g₀₁([1:z]) = z̄/|z|`;
@@ -359,8 +395,24 @@ refinement maps.
 
 ### B1.4 Slices, quotients and homogeneous spaces
 
-Prove the slice theorem for proper smooth actions (Meinrenken, Theorem 1.25; Lee, *Introduction
-to Smooth Manifolds*, 2nd ed., Theorem 21.10 for the free case). Free proper actions give smooth
+For a smooth action of a compact Lie group H on M and a smooth positive-definite auxiliary
+metric h, construct its average `h̄_x(v,w)=∫_H h_(a·x)(d(a·)_x v,d(a·)_x w) dμ_H(a)`, where
+μ_H is Haar probability measure. Prove smoothness by differentiating the chartwise integral over
+the compact parameter H, positivity for nonzero v, and H-invariance by right invariance of μ_H.
+At an H-fixed point x, use the exponential of h̄ to give an H-equivariant diffeomorphism from a
+small invariant ball in `T_x M` onto an invariant neighbourhood of x; its derivative at zero is
+the identity. These averaging and equivariant-chart constructions are targets here
+(Meinrenken, proof of Theorem 1.23, p. 11).
+
+Prove the free proper quotient theorem first by transverse local charts and properness
+(Meinrenken, proof of Theorem 1.21, pp. 10–11; Lee, *Introduction to Smooth Manifolds*, 2nd ed.,
+Theorem 21.10). For a general proper smooth G-action, prove that its stabilizer `H=G_x` is compact.
+Apply the preceding H-averaging, take the H-invariant orthogonal complement V of the orbit tangent,
+and shrink the equivariant chart on V to a ball B. Construct `G×_H B` using local principal charts
+of `G→G/H`, and prove that `[g,v] ↦ g·exp_x(v)` is a diffeomorphism onto a G-invariant open
+neighbourhood of the orbit, using properness for injectivity after shrinking. This is the slice
+and orbit tubular-neighbourhood theorem (Meinrenken, Theorem 1.25 and proof, p. 12).
+Free proper actions give smooth
 quotient manifolds with surjective submersion projection and a principal bundle (Meinrenken,
 Theorem 1.21). For proper locally free actions with finite stabilizers, construct transverse slices
 with finite isotropy actions and equivariant quotient-chart transitions. HamiltonianReduction owns
@@ -373,7 +425,20 @@ G/H; prove G→G/H is a principal H-bundle and its tangent quotient description
 construction for discrete actions (`Geometry/Manifold/Instances/Quotient.lean`) in that
 specialization.
 
+- Compact-group averaging preserves smoothness and positive definiteness and produces an invariant
+  metric; it fixes invariant metrics when Haar measure has total mass one.
+- The equivariant exponential chart fixes the origin and has identity derivative there.
+- The slice model maps `[g,v]` to `g·exp_x(v)` and identifies the zero section with the orbit;
+  in the free case its quotient charts make the projection a submersion.
+
 **Checks.**
+
+- For the coordinate-swapping action of `ℤ/2` on `ℝ²`, `h=diag(1,4)` is positive but
+  not invariant; its Haar average is `(diag(1,4)+diag(4,1))/2=diag(5/2,5/2)`, fixed by the swap.
+- For the trivial H-action the average equals h because `μ_H(H)=1`; replacing Haar probability
+  by twice that measure gives `2h` and fails this normalization.
+- For H trivial, the local exponential chart has derivative the identity; for the zero-dimensional
+  tangent space its ball and chart both consist of one point.
 - ℤ acting on ℝ by translation is free and proper; the quotient is `S¹` and `ℝ → S¹` is a principal
   ℤ-bundle.
 - The irrational linear flow of ℝ on `T²` is free but not proper; its orbit space is not Hausdorff,
@@ -386,7 +451,12 @@ specialization.
 - `SO(3)/SO(2) ≅ S²` with `SO(3) → S²` the principal `SO(2)`-bundle of oriented orthonormal frames.
 
 *Needs:* B1.1; LieGroups Layer 2; Tau Ceti `Geometry/Manifold/Instances/Quotient.lean`;
-DifferentialGeometry 12.1 (an invariant metric for the slice).
+DifferentialGeometry 12.1 (an auxiliary metric); HopfRinow Layer 1 (its exponential);
+Mathlib `MeasureTheory.Measure.haarMeasure`, `MeasureTheory.Measure.haarMeasure_self`,
+`MeasureTheory.Measure.isHaarMeasure_eq_of_isProbabilityMeasure` and
+`hasFDerivAt_integral_of_dominated_of_fderiv_le`. Normalize on the whole compact group; compactness
+bounds chartwise derivatives locally, and induction gives smoothness of the averaged metric.
+Compact-isotropy averaging and the equivariant-chart comparison are constructed in this subsection.
 
 ### B1.5 Ehresmann connections and Ehresmann's fibration theorem
 
@@ -408,7 +478,15 @@ smooth comparison maps. For disconnected B construct this bundle separately on e
 component; different components need not have diffeomorphic fibres. IntegrableSystems consumes this
 local trivialization.
 
+- The horizontal and vertical projections sum to the identity; pullback and restriction preserve
+  that splitting and agree on overlaps.
+- A horizontal lift is unique for its initial point on its maximal interval, with local smooth
+  dependence on the initial point and path parameters.
+- For a proper surjective submersion, local transport gives smooth product charts and
+  diffeomorphisms between fibres on each connected component of the base.
+
 **Checks.**
+
 - On the trivial bundle `M × F` the product connection has horizontal lifts constant in the fibre
   coordinate; transport is the identity of F.
 - On `ℝ × ℝ → ℝ` the connection with horizontal field `∂_x + y²∂_y` has transport `y ↦ y/(1−xy)`
@@ -432,9 +510,10 @@ transition function `g₀₁([1:z]) = z̄/|z|` of B1.3. The frame-bundle example
 
 B1.0 uses Tau Ceti's zero-section manifolds and Mathlib's submersion normal form only. B1.1–B1.3
 use B1.0 and Mathlib's fibre bundles. B1.4 uses B1.1, LieGroups Layer 2 and DifferentialGeometry
-12.1. B1.5 uses B1.0, B1.1, DifferentialGeometry Layer 4 and 12.1. Nothing in B1 uses B2–B8.
+12.1, HopfRinow Layer 1 and compact-group integration. B1.5 uses B1.0, B1.1, DifferentialGeometry
+Layer 4 and 12.1. Nothing in B1 uses B2–B8.
 
-## B2. Associated bundles, frames and square-integrable sections
+## Layer 2: Associated bundles, frames and square-integrable sections
 
 ### B2.1 Associated bundles and complex structures
 
@@ -458,7 +537,17 @@ applies this generic comparison to its real density line, including its absolute
 transition and pushforward laws; B2 does not construct that line. Build Hermitian bundle metrics
 with their real metric comparison, positivity, local matrices, dual/tensor and pullback APIs.
 
+- Associated-bundle charts intertwine the representation; sections correspond bijectively to
+  equivariant functions, naturally under pullback and representation intertwiners.
+- Tensor, dual, exterior-power, direct-sum and Hom bundle charts are the corresponding fibrewise
+  operations and agree with their associated-bundle descriptions.
+- Complexification commutes with real dual and tensor through the displayed maps; these maps
+  preserve real inclusions, commute with conjugation and are natural under bundle isomorphisms.
+- Hermitian metrics have positive local matrices, continuous real parts, and compatible dual,
+  tensor and pullback metrics.
+
 **Checks.**
+
 - The bundle associated to the trivial representation is `M × V`, and a section is a function
   `M → V`; the equivariant-map description gives constant-on-fibres functions `u(pg) = u(p)`.
 - For the frame bundle of a vector bundle E with the standard representation, `[f,v] ↦ f(v)` is
@@ -500,6 +589,9 @@ global norm a.e. measurability from a countable subatlas, and its equivalence to
 vector-space, norm and inner-product structures with `⟪s,t⟫=∫ x,⟪s x,t x⟫∂μ`; prove
 well-definedness, Cauchy–Schwarz, completeness and identification with Mathlib's
 `MeasureTheory.Lp` in the trivial bundle, using `MeasureTheory.L2.inner_def` for that comparison.
+Nicolaescu, Definition 10.2.30 and Proposition 10.2.31, pp. 487–488, give the metric-volume
+case; here the arbitrary-Borel-measure extension is constructed by countably many measurable
+unitary charts and native `MeasureTheory.Lp` completeness, with no connection or orientation.
 Finite-dimensionality of the model fibre F is a hypothesis in the signature of the completeness
 theorem, of the Hilbert-space structure and of the trivial-bundle isometry, not only of an ambient
 context. Completeness for an arbitrary measure holds in finite rank because each fibre norm is
@@ -524,17 +616,30 @@ second-countable finite-dimensional smooth manifold above. The map from smooth c
 sections has zero kernel precisely up to a.e. equality; under `IsOpenPosMeasure μ`, prove it is
 injective and `L²` is its Hilbert completion with the integral norm. Without that hypothesis use
 the quotient by the zero seminorm before completion. Prove separability using a countable atlas and
-the finite-dimensional coefficient Lp separability theorem.
+the finite-dimensional coefficient Lp separability theorem. The compact smooth-density case is
+Nicolaescu, Theorem 10.2.36(a)–(b), p. 490; the locally finite Borel-measure extension uses the
+pinned approximation theorems named here.
+
+- A continuous fibre metric induces the original fibre topology and a chart-independent norm;
+  in the real case its data are equivalent to the native continuous Riemannian metric.
+- Measurability, a.e. equality and the integral inner product are independent of the chosen atlas;
+  their quotient is a complete Hilbert space in finite rank for any Borel measure.
+- Unitary frames give isometries to the native L² space on the chart; general frames give bounded
+  coordinate comparisons on relatively compact domains with closure in the frame domain.
+- Locally finite measures give density of smooth compactly supported sections and separability;
+  open-positive measures make the smooth-section map injective.
 
 **Checks.**
+
 - For F the finitely supported real sequences with the ℓ² product, a one-point base with unit mass
   gives `L² ≅ Lp F 2 μ ≅ F`, which is not complete; the completeness theorem is false without the
   finite-rank hypothesis, which is why it appears in the signature.
 - For the trivial line bundle over ℝ with Lebesgue measure, the carrier is `L²(ℝ)` and the
   comparison isometry is the identity on representatives.
-- In the frame `e, 2e` of the trivial rank-2 bundle with the standard metric, the coordinate map
-  multiplies the norm of the second coordinate by 2, so it is bounded but not an isometry; the
-  Gram–Schmidt frame restores the isometry.
+- In the frame `(e₁,2e₂)` of the trivial rank-2 bundle with its standard orthonormal basis,
+  the coordinate map sends `e₂ ↦ (0,1/2)`, changing norm 1 to 1/2; synthesis sends
+  `(0,1) ↦ 2e₂`, changing norm 1 to 2. Both are bounded and neither is an isometry to the
+  standard coordinate metric; the Gram–Schmidt frame `(e₁,e₂)` restores the isometry.
 - For μ the zero measure every section is a.e. zero, `L² = 0`, and the smooth-section map has
   nonzero kernel; `IsOpenPosMeasure` excludes this.
 - The a.e.-measurability of a section is independent of the atlas: for the Möbius line bundle over
@@ -561,7 +666,8 @@ positive fibre operator H characterized by `h₁(u,v)=h₀(Hu,v)` and the unitar
 `H^(1/2)` from h₁ to h₀. Work in local h₀-unitary frames and prove independence of that choice,
 consuming finite-dimensional `CFC.sqrt` (`Matrix.PosSemidef.inv_sqrt`, `Matrix.PosSemidef.det_sqrt`
 and the positive-operator calculus) and proving the continuous bundle transport/local matrix
-comparison. For equivalent measures `ν=μ.withDensity w`, with measurable `w:M→ℝ≥0∞` and `0<w<∞`
+comparison (Nicolaescu, Theorem 10.2.36(a), p. 490, for compact metric equivalence; the square-root
+isometry is the specified finite-dimensional positive-operator construction). For equivalent measures `ν=μ.withDensity w`, with measurable `w:M→ℝ≥0∞` and `0<w<∞`
 μ-a.e., construct the unitary `s↦sqrt(w.toReal)s` from `L²(ν)` to `L²(μ)`, its inverse and integral
 identities. Prove mutual absolute continuity from `0<w<∞` and transfer a.e. measurability/equality
 between μ and ν before defining the class map. No boundedness of w or its inverse is required for
@@ -593,15 +699,29 @@ For a unitary bundle isomorphism A covering a `MeasurePreserving` diffeomorphism
 prove inverse, composition, a.e. transport and smooth compact-support compatibility. Its inverse is
 `(U_A⁻¹t)(x)=A_x⁻¹(t(φ(x)))`, the pullback used by GeometricQuantization's flow operators.
 
+- Restriction and zero extension split the Hilbert space orthogonally over a measurable subset
+  and its complement; essentially bounded bundle maps induce bounded operators with fibrewise adjoints.
+- The positive metric-change operator gives a unitary by its positive square root; an equivalent
+  measure gives the unitary multiplication by the square root of its density.
+- The Riesz map is conjugate-linear and transports the dual metric; bilinear integral evaluation
+  identifies dual sections complex-linearly with the strong dual of the section Hilbert space.
+- Real/imaginary decomposition gives the complexification isometry; unitary bundle maps over
+  measure-preserving diffeomorphisms give unitaries respecting inverse and composition.
+
 **Checks.**
+
 - For `h₁ = 4h₀` the fibre operator is `H = 4`, `H^(1/2) = 2`, and `‖2s‖²_(h₀) = 4‖s‖²_(h₀) = ‖s‖²_(h₁)`,
   so `s ↦ 2s` is unitary from `(L²,h₁)` to `(L²,h₀)`; the map `s ↦ s/2` would be its inverse, not
   the metric-change map.
 - For `ν = μ.withDensity w`, `∫ |√w·s|² dμ = ∫ |s|² w dμ = ∫ |s|² dν`, so `s ↦ √w s` is an isometry
   from `L²(ν)` onto `L²(μ)`; for `w = 0` on a set of positive μ-measure the map is not surjective
   and `0 < w` is used.
-- The multiplication operator by the indicator of a measurable set U is the orthogonal projection of
-  the splitting over U and its complement, with norm 1 unless U is null.
+- Multiplication by the indicator of a measurable set U is the orthogonal projection onto
+  sections supported a.e. in U. Its norm is 1 when μ is locally finite, `μ(U)>0`, and the fibre
+  rank is positive on U: a nonzero square-integrable section supported in U is fixed. Its norm
+  is 0 when U is null or the fibre rank is zero; for arbitrary μ, the exact criterion is that
+  the supported `L²` subspace be nonzero. For example, on a one-point base of infinite mass
+  even a rank-one bundle has `L²=0`, so positive measure and positive rank alone do not suffice.
 - The dual of the standard metric on the trivial bundle is the standard metric, and the Riesz map
   sends `u` to `⟨u,·⟩`, conjugate-linearly: `R(iu) = −i R(u)`.
 - For the real trivial line the complexification identity sends `(s,t)` to `s + it` with
@@ -623,7 +743,13 @@ measure-parametrized theory of B2.2–B2.3, not prerequisites silently supplied 
 ComplexKahlerGeometry K5 and GeometricQuantization Q2 consume this entire real/complex `L²`
 construction; no complex structure on the base is needed.
 
+- The locally defined density measures agree on overlaps and are natural under coordinate change.
+- A positive smooth density gives a locally finite Borel measure positive on nonempty opens.
+- Its integral agrees with the density integral; Riemannian and symplectic densities give the
+  Riemannian-volume and Liouville specializations.
+
 **Checks.**
+
 - The Lebesgue density on ℝⁿ gives Lebesgue measure.
 - The Riemannian density of the round unit circle gives total mass `2π`, agreeing with
   DifferentialGeometry 12.5's `volume_circle`.
@@ -660,7 +786,15 @@ assumed and its pullback compatibility. All equivalences expose maps on morphism
 naturality. The tangent/frame example uses Mathlib's tangent bundle and metric interfaces, with no
 competing tangent norms.
 
+- Frame evaluation recovers the original vector bundle, and this correspondence respects
+  isomorphisms, pullback and the unit/counit of the groupoid equivalence.
+- Reductions to a closed H correspond to sections of the associated `G/H`-bundle; extension
+  along a smooth group homomorphism respects composition and pullback.
+- The adjoint bundle has a well-defined pointwise bracket; Ad-invariant pairings descend to it,
+  remain nondegenerate when assumed, and commute with pullback.
+
 **Checks.**
+
 - The frame bundle of the trivial bundle `M × ℝⁿ` is `M × GL_n(ℝ)`, and `[f,v] ↦ f(v)` recovers
   `M × ℝⁿ`; the left action `g·f = g∘f` would not commute with the recovery map.
 - An orthogonal reduction of the frame bundle of E is the same as a Riemannian metric on E; the
@@ -681,14 +815,17 @@ LieGroups Layer 4 for immersed subgroups.
 
 The frame bundle of the tangent bundle with its orthonormal reductions; the trivial bundle with a
 non-standard metric; the Möbius line bundle over `S¹` with the Lebesgue measure of arc length, whose
-`L²` sections are the antiperiodic square-integrable functions on ℝ with period `2π`.
+`L²` sections are represented by measurable functions satisfying `f(t+2π)=−f(t)` a.e. and
+`∫_[0,2π) |f(t)|² dt < ∞`, modulo a.e. equality on that interval. The squared norm is this
+one-period integral. For `f(t)=sin(t/2)` it equals π, while the integral over ℝ is infinite;
+only the zero class is square-integrable on all of ℝ.
 
 ### Dependencies
 
 B2.1 and B2.5 use B1. B2.2–B2.3 use B2.1, Mathlib's `Lp` and the pinned matrix calculus; they use no
 connection. B2.4 uses DifferentialGeometry Layer 5 and 12.4.
 
-## B3. Connections and covariant differentiation
+## Layer 3: Connections and covariant differentiation
 
 ### B3.1 Principal connections
 
@@ -705,7 +842,14 @@ Kobayashi–Nomizu I, Ch. II §2). Prove the local-potential transformation `A�
 `s′=s·g` and the inverse gluing construction from local potentials satisfying it
 (Kolář–Michor–Slovák §11.4), and the left Maurer–Cartan equation with the normalization above.
 
+- Reproduction and equivariance identify connection forms with equivariant horizontal complements.
+- Restriction, pullback and bundle isomorphisms preserve connections; differences are basic
+  adjoint-valued one-forms, with addition and difference inverse affine operations.
+- Local potentials transform by the displayed law and glue uniquely; locally finite partitions
+  of unity give existence on the standing bases.
+
 **Checks.**
+
 - On the trivial bundle `M × G` the pullback of the Maurer–Cartan form by the second projection is
   a connection: `ω(A#) = A` since `A#_(x,g) = (0, dL_g A)`, and it is flat.
 - For G abelian the transformation law is `A′ = A + g⁻¹dg`; for the circle and `g = exp(iφ)` it is
@@ -728,7 +872,13 @@ Connections correspond to smooth splittings `s(X)=X^h`; for the injection `j(ξ)
 algebroid structure and integration by the gauge groupoid. Prove the horizontal-field identity
 `[X^h,Y^h]=[X,Y]^h−V_(F(X,Y))`.
 
+- The quotient tangent bundle has the stated exact sequence, with injection `j(ξ)=−V_ξ`.
+- Its sections are invariant vector fields, and smooth splittings correspond to connections.
+- The curvature measures failure of the horizontal splitting to preserve brackets, with the
+  displayed sign for j.
+
 **Checks.**
+
 - For the trivial bundle, `TP/G = TM ⊕ (M × 𝔤)` and the sequence splits by the trivial connection.
 - For M a point and `P = G`, an equivariant `ξ : G → 𝔤` has `ξ(g) = Ad(g⁻¹)ξ(e)` and `V_ξ` is the
   right-invariant field of `ξ(e)`; since right-invariant fields satisfy `[ξ^R,η^R] = −[ξ,η]^R`, one
@@ -750,7 +900,13 @@ local equivariance and covariant-derivative comparison. Construct metric- and sy
 connections by the corresponding principal reductions. Use Mathlib's `CovariantDerivative.leviCivitaConnection` and
 Tau Ceti's regularity results for Levi-Civita; this roadmap supplies its frame-bundle description.
 
+- The associated covariant derivative has local expression `d+ρ_*(A)` and respects pullback.
+- Dual, tensor, exterior-power and Hom connections obey the corresponding pairing rules.
+- Invariant vectors and tensors give parallel associated sections; structure-group reductions
+  produce compatible metrics and symplectic forms.
+
 **Checks.**
+
 - On the trivial circle bundle with real potential a, the line of the dual character `z ↦ z⁻¹` has
   induced operator `∇σ = dσ − ia σ` and curvature `−iF`, as the Conventions require; the standard
   character gives `dσ + ia σ` and curvature `iF`.
@@ -773,7 +929,7 @@ connection of the round sphere through `SO(3) → S²`.
 B3 uses B1–B2, DifferentialGeometry Layers 0–1 and 4, and LieGroups Layers 0–1. It uses nothing from
 B4–B8.
 
-## B4. Curvature and gauge transformations
+## Layer 4: Curvature and gauge transformations
 
 ### B4.1 Curvature and the exterior covariant derivative
 
@@ -788,7 +944,14 @@ used by HamiltonianReduction R5. Identify the endomorphism curvature with Tau Ce
 structure equation, Bianchi `d_AF=0` (Freed, equation (1.16)), pullback, dual/tensor curvature,
 and `F_(A+a)=F_A+d_Aa+½[a∧a]`.
 
+- Curvature is horizontal and equivariant, descends to the adjoint bundle and commutes with pullback.
+- The exterior covariant derivative satisfies the graded Leibniz rule, its curvature-square
+  identity and the Bianchi identity.
+- The invariant wedge pairing satisfies the paired Leibniz rule and the stated closed-manifold
+  integration-by-parts formula; induced curvature agrees with the native curvature operator.
+
 **Checks.**
+
 - For G abelian the bracket term vanishes and `F_(A+a) = F_A + da`; for the Hopf connection
   `F = dω` descends to `½ dvol` on the unit `S²`, with `∫F = 2π`.
 - The Maurer–Cartan form on `G → pt` has `dθ + ½[θ∧θ] = 0`, so its curvature vanishes; dropping
@@ -815,13 +978,22 @@ Coulomb slices for surface gauge reduction are HamiltonianReduction R5's work. C
 connection-preserving bundle maps covering base diffeomorphisms and their coherent
 pullback/composition identities, for GeometricQuantization.
 
+- Equivariant gauge functions identify with principal automorphisms; multiplication corresponds
+  to composition and inverse functions to inverse automorphisms.
+- The gauge actions on associated sections, connections and curvature are compatible, with
+  infinitesimal generators determined by pullback versus inverse pullback.
+- Connection-preserving maps covering base diffeomorphisms respect composition and pullback;
+  stabilizers identify with holonomy centralizers.
+
 **Checks.**
+
 - `Φ_u∘Φ_v(p) = p·v(p)·u(p·v(p)) = p·v(p)·v(p)⁻¹u(p)v(p) = Φ_(uv)(p)`, and
   `Φ_u(pg) = pg·g⁻¹u(p)g = Φ_u(p)g`; with the law `u(pg) = g u(p) g⁻¹` instead, `Φ_u` would not be
   equivariant for non-abelian G.
-- For the trivial circle bundle and `u = exp(iφ)`, the pullback action sends `A` to `A + i dφ`, and
-  for `u = exp(tξ)` the derivative is `dξ = d_Aξ`; the inverse-pullback action gives `A − i dφ`
-  and generator `−dξ`.
+- For the trivial circle bundle, a real potential A and `u = exp(iφ)`, the pullback action
+  sends `A` to `A+dφ`; in imaginary-valued coordinates this is `iA ↦ iA+i dφ`. For
+  `u = exp(itξ)` the real derivative is `dξ = d_Aξ`; inverse pullback gives `A−dφ` and
+  generator `−dξ`. Taking `φ=θ` shifts the angular coefficient by 1, as in the torus example.
 - A constant central `u` acts trivially on connections and curvature; the stabilizer of a connection
   is the centralizer of its holonomy group (B5.2), which for an irreducible connection is the
   centre of G.
@@ -832,14 +1004,16 @@ pullback/composition identities, for GeometricQuantization.
 ### Examples
 
 Gauge transformations of the trivial circle bundle over `T²` and their action on the flat
-connections `a dx + b dy`: `A ↦ A + i dφ` changes `(a,b)` by the periods of `dφ`, which lie in
-`2πℤ²`, so the gauge classes of flat connections form `(ℝ/2πℤ)²` (B6.5).
+real potentials `A=a dx+b dy`. The gauge `exp(i(mx+ny))`, for integers m,n, sends
+`A ↦ A+m dx+n dy`; hence coefficient classes form `(ℝ/ℤ)²`. Their period coordinates
+`(2πa,2πb)` identify the same quotient with `(ℝ/2πℤ)²` (B6.5). In particular `a=1,b=0`
+has holonomies `(exp(−2πi),1)=(1,1)` and is gauge-equivalent to `A=0`.
 
 ### Dependencies
 
 B4 uses B3, DifferentialGeometry Layers 1 and 5, and Tau Ceti's curvature operator.
 
-## B5. Parallel transport, holonomy, and flat bundles
+## Layer 5: Parallel transport, holonomy, and flat bundles
 
 ### B5.0 Horizontal lifts and the group equation
 
@@ -859,7 +1033,14 @@ B5 target, not an assumed LieGroups theorem. The autonomous Picard theorem in
 `Analysis/ODE/SmoothParameter.lean` requires a zero-field base parameter; use it only after time
 rescaling supplies that hypothesis, not directly on an augmented field whose time component is 1.
 
+- Horizontal transport exists on compact path intervals and is uniquely fixed by its initial point.
+- Constant paths, reversal, concatenation and reparametrization give identity, inverse and
+  composition of transports; principal equivariance and pullback commute with transport.
+- Smooth finite-dimensional path families give smooth transport in initial points and parameters,
+  and associated transport agrees with covariant differentiation along curves.
+
 **Checks.**
+
 - With `p = s(γ)g` horizontal, `Ad(g⁻¹)A(γ̇) + g⁻¹ġ = 0` gives `ġ = −dR_g(A(γ̇))`; the equation
   `ġ = dR_g(A(γ̇))` would make `s(γ)g` horizontal for `−ω`.
 - For the trivial circle bundle over `S¹` with constant potential `a dθ`, the lift from `(0,1)`
@@ -939,7 +1120,16 @@ construction and its curve-choice lemmas; apply it to the real Lie groups `GL_n(
 and the frame bundle of B2.5. Their Theorem 5.8 treats Hermitian/unitary bundles; prove the
 unrestricted real/complex fixed-bundle forms by the frame-group construction above.
 
+- Thin path classes form a groupoid with the stated composition and inverse; transport respects
+  its operations and smooth path families with varying endpoints.
+- Reconstructed local potentials are linear in velocity, smooth in the base and transform by
+  the displayed passive-frame law, so they glue to a covariant derivative.
+- The two constructions are inverse on smooth local sections and differentiable germs;
+  transport-intertwining bundle maps correspond to connection-preserving maps, including
+  noninvertible ones, and isometric transport corresponds to metric compatibility.
+
 **Checks.**
+
 - The trivial flat transport `P ≡ Id` reconstructs `A = 0` and `∇ = d`.
 - For a constant matrix potential A on the trivial bundle, `P(x,v,t) = exp(−tA(v))`, so
   `−∂_tP|_0 = A(v)`; the convention `A = +∂_tP` would reconstruct `−A`.
@@ -1004,7 +1194,15 @@ restricted-holonomy reduction there as well. Over M itself this reduction applie
 particular when M is simply connected. Prove the base-change and basepoint-conjugation comparisons
 on these actual bundles. Closedness of holonomy in G is not asserted.
 
+- Based holonomy changes by conjugation with the fibre point and gives the flat representation
+  dictionary, including its morphisms and inverse universal-cover construction.
+- Full and restricted holonomy have their immersed Lie-group topologies; Ambrose–Singer gives
+  the curvature-generated Lie algebra.
+- The holonomy reduction over M and the restricted reduction over its covering base preserve
+  the connection and distinguish discrete from connected holonomy.
+
 **Checks.**
+
 - `hol_(pg) = g⁻¹hol_p g`: for the subdivided-loop formula, `p·a` replaces each `s_(i_0)`-coordinate
   by its conjugate, giving `a⁻¹(⋯)a`; the formula `g hol_p g⁻¹` would correspond to a left action.
 - The flat connection `a dx + b dy` on the trivial circle bundle over `T²` has holonomy
@@ -1038,7 +1236,7 @@ B5.0 uses B3 and Tau Ceti's flow theory; B5.1 uses B2.5, B3 and B5.0; B5.2 uses 
 B5.0, DifferentialGeometry 4.3, LieGroups Layer 4 and Tau Ceti's universal cover. The countability
 theorem uses only point-set topology.
 
-## B6. Circle bundles, integral classes, and flat ambiguity
+## Layer 6: Circle bundles, integral classes, and flat ambiguity
 
 ### B6.0 Smooth good covers
 
@@ -1088,6 +1286,7 @@ layers and are inputs to DifferentialGeometry's homotopy operator.
   to subsets.
 
 **Checks.**
+
 - On ℝⁿ the one-member cover by ℝⁿ with centre 0 and `contract(t,x) = ρ(t)x` is a smooth good
   cover; without the step ρ the map `(t,x) ↦ tx` is fine on ℝⁿ but leaves a ball, so the
   reparametrization is what makes balls admissible.
@@ -1118,9 +1317,17 @@ Construct the locally constant integer sheaf and identify it with the exponentia
 exactness of `t↦exp(2πit)` on stalks. Prove acyclicity of smooth real functions by partitions of
 unity: `subsingleton_H_smoothSheafAddCommGroup`, the sheaf cohomology `Sheaf.H` of
 `smoothSheafAddCommGroup` with values in ℝ on a finite-dimensional Hausdorff second-countable smooth
-manifold vanishes in every positive degree.
+manifold vanishes in every positive degree (Nicolaescu, Example 7.5.31 and Proposition 7.5.32,
+p. 327; Remark 8.2.2, pp. 350–351, for the smooth exponential sequence). The partition-of-unity
+contraction also applies to models with corners; the acyclicity headline has no boundaryless
+hypothesis.
+
+*Needs:* Mathlib `smoothSheafAddCommGroup`, `smoothSheafCommGroup`,
+`smoothSheafAddCommGroup.compLeft`, `CategoryTheory.Sheaf.H`, smooth partitions of unity;
+local smooth logarithms of `Circle.exp`.
 
 **Checks.**
+
 - On `S¹` the constant sheaf ℝ has `H¹ = ℝ`, so acyclicity is specific to the fine sheaf of smooth
   functions and is not a property of all sheaves on a manifold.
 - On the two-arc cover of `S¹`, a smooth function on the two-component overlap is a difference
@@ -1154,9 +1361,21 @@ inverse and commute with every face restriction. Thus the native alternating-cof
 `δc(i)=Σ_j (-1)^j c(i∘j.succAbove)|_{∩U_{i_k}}` is exactly the displayed formula, for repeated
 tuples and empty intersections as well as distinct nonempty ones. Do this for integer and real
 locally constant coefficients; use the additive-group-valued native sheaf for `Additive Circle`,
-not a fictitious ℝ-module structure on the circle.
+not a fictitious ℝ-module structure on the circle (Stacks Project, Cohomology of Sheaves §9,
+Tag 01ED, pp. 9–10; Meinrenken, Example 3.16, p. 36, for locally constant coordinates).
+
+*Needs:* B6.0; Mathlib `CategoryTheory.cechComplexFunctor`, `CategoryTheory.constantSheaf`,
+`CategoryTheory.constantSheafAdj` and products in the coefficient category. The generic
+universe/product convention in the refinement paragraph applies to this native complex too.
+
+- The ordered-tuple intersection agrees with the categorical product open, including repetitions.
+- The locally constant sheaf has constant sections on connected nonempty intersections and only
+  its zero section on the empty intersection.
+- The constant-section map commutes with restriction; on nonempty good-cover intersections it
+  is bijective and gives the degreewise inverse coordinate comparison.
 
 **Checks.**
+
 - For `p = 1` and `i = (a,b)`, `δc(a,b) = c(b)|_W − c(a)|_W`, the pinned `(δt)_ij = t_j − t_i`; for
   `(a,b,c)` it is `c(b,c) − c(a,c) + c(a,b)`, the pinned `(δt)_ijk = t_jk − t_ik + t_ij`.
 - For an empty tuple intersection the factor is the zero module and the constant section `ℝ → 0`
@@ -1171,29 +1390,56 @@ not a fictitious ℝ-module structure on the circle.
 **Augmentation is a separate, conditional comparison.** For the actual terminal object `T=⊤` of
 `Opens M`, consume Tau Ceti's `cechAugmentation U hT P`. Its degree-zero component followed by the
 projection indexed by `a : Fin 1 → ι` is exactly `P.map (hT.from (∏ᶜ fun j : Fin 1 => U (a j))).op`
-(`cechAugmentation_f_zero_comp_π`). Prove this component equation for the locally constant,
+(`cechAugmentation_f_zero_comp_π`). Specialize this component equation to the locally constant,
 smooth-function, and additive-circle sheaves. Do not infer from this coordinate isomorphism that
 the augmentation is a quasi-isomorphism. Tau Ceti's criterion `quasiIsoAt_cechAugmentation_zero_iff`
 says the degree-zero statement holds exactly when the presieve sheaf condition holds, and the full
 statement additionally needs exactness of the native Čech complex in each positive degree; prove
 those hypotheses at the later good-cover/fine-sheaf comparison where they apply. A fixed-cover
-augmentation for an arbitrary presheaf or arbitrary cover is not automatically a quasi-isomorphism.
+augmentation for an arbitrary presheaf or arbitrary cover is not automatically a quasi-isomorphism
+(Stacks Project, Lemma 9.2, Tag 01EG, p. 10, and Lemma 11.6, Tag 01ET, p. 15).
 
-**Raw refinement maps and homotopies.** For an arbitrary topological space X, an arbitrary presheaf
-P on its opens with values in an abelian category, indexed open covers `U : ι → Opens X`,
-`V : κ → Opens X`, a function `r : κ → ι` and inclusions `V_a ⊆ U_(r a)`, construct the raw
+*Needs:* Tau Ceti `TauCeti.CategoryTheory.cechAugmentation`,
+`TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`,
+`TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`; the preceding native complex.
+
+**Checks.**
+
+- For the one-member cover `(X)`, augmentation is restriction along the identity and sends
+  `s ↦ s` in degree zero.
+- For a good cover of `S¹` with constant ℝ coefficients, the global-sections complex, concentrated in degree
+  zero, has zero degree-one cohomology, but the Čech complex has `H¹=ℝ`; full quasi-isomorphism fails.
+- For the smooth real sheaf on that circle cover, the partition-of-unity contraction gives
+  `H¹=0`; its degree-zero sections are exactly the glued smooth functions.
+
+**Raw refinement maps and homotopies.** Fix universes u, u′, v′, w, a topological space
+`X : Type u`, and an abelian category `A : Type u′` with `Category.{v′} A` and
+`CategoryTheory.Limits.HasProducts.{w} A`. For any presheaf P on `Opens X` with values in A,
+index types `ι,κ : Type w`, indexed open covers `U : ι → Opens X`, `V : κ → Opens X`, a function
+`r : κ → ι` and inclusions `V_a ⊆ U_(r a)`, construct the raw
 refinement cochain map on the native complexes: on tuple j precompose by `r ∘ j` and restrict to the
-smaller intersection. Prove the cochain-map equation, naturality in P and in coefficient change,
-the identity and composition equations. For two refinement functions of the same covers, build the
+smaller intersection. Prove the cochain-map equation, naturality under morphisms of A-valued presheaves, and
+the identity and composition equations. For a change of coefficient category use an additive
+functor preserving the stated products, with its product comparisons. For two refinement functions of the same covers, build the
 explicit native refinement cochain homotopy, so that the induced map in cohomology depends only on
-the two covers; repeated indices are retained, and the category of raw refinement functions is not
+the two covers. All complexes and homotopies retain these universe and product hypotheses;
+pass to degree-p cohomology with the `HomologicalComplex.HasHomology` instances for both
+complexes, supplied by the abelian-category hypotheses. Repeated indices are retained, and the
+category of raw refinement functions is not
 asserted to be filtered. From this obtain the strict diagram of Čech cohomology groups on the
 preorder of covers ordered by existence of a refinement, and its restriction to good covers of a
 manifold; cofinality of good covers among all covers is `exists_smoothGoodCover_refining`.
 TopologicalSheafCohomology's cover-colimit Čech cohomology on arbitrary and compact spaces and its
-derived comparison are not needed here and are not targets here.
+derived comparison are not needed here and are not targets here. The refinement homotopy is the
+finite alternating insertion formula of the Stacks Project, §15, Tag 09UY, p. 24; its proof uses
+only restrictions and addition and therefore applies to presheaves in any abelian category with
+the stated products, without a sheaf condition or exactness of infinite products.
+
+*Needs:* Mathlib `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.HasProducts`,
+`HomologicalComplex.Homotopy.homologyMap_eq` with the homology instances; no manifold hypothesis.
 
 **Checks.**
+
 - The identity refinement function induces the identity cochain map; composition of refinements
   induces the composite.
 - For the cover `U = (X, X)` with two copies of X and `V = (X)`, the two refinement functions
@@ -1203,22 +1449,44 @@ derived comparison are not needed here and are not targets here.
 - Refinement commutes with the coordinate identification: a coordinate cochain supported on
   nonempty intersections of a good cover pulls back to one supported on nonempty intersections of
   the finer good cover.
-- On the discrete two-point space with `P(∅) ≠ 0` the singleton cover refines every cover and
-  refinement does not kill the spurious degree-one classes coming from empty intersections; this is
-  why every comparison below is stated for sheaves, whose value on `∅` is zero.
+- On the discrete two-point space take `P(∅)=ℤ` and `P(U)=0` for every nonempty U, with
+  identity restriction on ∅ and zero restrictions into it. On the cover by the two singletons,
+  `C⁰=0`, `C¹=ℤ²` on tuples `(0,1),(1,0)`, and `ker d¹={(a,−a)}`, so `H¹=ℤ`.
+  This class survives refinement because the singleton cover refines every cover and composites
+  back to it induce the identity on cohomology. By contrast the constant presheaf ℤ has
+  `C⁰=ℤ²`, `C¹=ℤ⁴`, ranks `d⁰=1`, `d¹=3`, and `H¹=0` on that same cover.
+- On the ℕ-indexed repeated cover of a point with coefficients in `ModuleCat ℚ`, `C⁰=ℚ^ℕ`
+  and a refinement selects exactly its indexed coordinates. Finite-dimensional ℚ-vector spaces
+  have no such product, so the product hypothesis excludes that coefficient category without
+  excluding infinite covers.
 
-**Coefficient maps and the connecting morphism.** Prove the locally constant, smooth-function and
-additive-circle coefficient maps commute with the native Čech maps. Compare the stalk-exact
-sequence `0 → ℤ → C^∞(ℝ) → C^∞(Additive Circle) → 0`, with its maps fixed by `t ↦ exp(2πit)`, to
-the native exponential sequence of sheaves. Construct the induced connecting morphism by lifting
-cochains after a cover refinement, record its alternating-Čech sign, and prove the comparison
-square with AlgebraicTopology Stage 6.1's singular Bockstein commutes. Sheaf exactness is stalkwise:
-do not assert that the exponential sequence is sectionwise surjective on each arbitrary open set or
-that an arbitrary cover augmentation is a quasi-isomorphism. Use the good-cover/fine-sheaf
-hypotheses at the exact later comparison where they apply.
+**Coefficient maps and the connecting morphism.** Distinguish the two stalk-exact sequences
+`0 → ℤ_const → ℝ_const → (ℝ/ℤ)_const → 0` and
+`0 → ℤ_const → C∞(ℝ) → C∞(ℝ/ℤ) → 0`. Here the subscript const denotes the sheaf of locally
+constant functions, while C∞ denotes smooth functions; identify ℝ/ℤ with `Additive Circle` by
+`t mod ℤ ↦ exp(2πit)`. Inclusion of locally constant functions into smooth functions gives a
+morphism from the first sequence to the second, with identity on ℤ_const. Construct the native
+Čech coefficient maps and the connecting maps δ_const and δ_sm by local lifts, with the
+alternating-Čech sign. Prove, in every degree q, the naturality square
+`δ_sm ∘ H^q(j) = δ_const : H^q(M;(ℝ/ℤ)_const) → H^(q+1)(M;ℤ_const)`, where j is that inclusion
+and the vertical map on the target is the identity. Under the good-cover comparison for constant
+coefficients, δ_const is AlgebraicTopology Stage 6.1's singular Bockstein β; the smooth sequence
+is related to β only through `H^q(j)`. In degree one this gives the flat-bundle characteristic
+class, with the dual-character cocycle and holonomy convention of B6.4. Do not assert that
+`H^q(j)` is an isomorphism. Exactness of the smooth sequence is stalkwise; use local logarithms
+and the good-cover/fine-sheaf hypotheses where cochain lifts and comparisons require them
+(Nicolaescu, Theorem 7.5.28, p. 326, for natural connecting maps, and Remark 8.2.2,
+pp. 350–351, for the smooth sequence). On good covers, local logarithms on contractible
+intersections supply the smooth lifts; constant sheaf sections lift as constant functions. These
+are different lifting arguments, and neither assumes surjectivity on arbitrary open sections.
+
+*Needs:* the preceding sheaf exactness, native complex and refinement targets; B6.0; the
+constant-sheaf/singular comparison below; AlgebraicTopology Stage 6.1's coefficient Bockstein.
 
 **Čech–de Rham and Čech–singular comparisons.** Build Čech cochains, refinement and comparison with
-singular integral cohomology on smooth manifolds using B6.0's locally finite smooth good covers. In
+singular integral cohomology on smooth manifolds using B6.0's locally finite smooth good covers
+(Meinrenken, Theorem 3.17, p. 37; Nicolaescu, Theorem 7.5.34 and Corollary 7.5.35, p. 328,
+and Theorem 7.5.38, p. 329). In
 the double complex `Č^p(U;S^q)` use `D=δ+(-1)^p d_sing` and both edge inclusions. Require
 coefficient naturality for ℤ, ℝ and ℝ/ℤ and exact compatibility with connecting maps. Consume
 DifferentialGeometry 8.3–8.4's smooth singular chains, `smoothToSingular` and `chainIntegral` for
@@ -1241,18 +1509,27 @@ The following are targets here, with their hypotheses, not consumed from Differe
   homotopies and AlgebraicTopology Stage 3.2's small-chain theorem applied on W, and products of
   real modules preserve exactness. Hence the induced total map of double complexes is a
   quasi-isomorphism, by the Čech-degree filtration, finite in every total degree.
+  *Needs:* DifferentialGeometry 8.3; AlgebraicTopology Stage 3.2; products of real modules and
+  the bounded-in-each-total-degree double-complex comparison.
 - *Naturality of chain integration.* For a smooth map `f : M → N`, a smooth chain c on M and a form
   η on N, `chainIntegral (f_* c) η = chainIntegral c (f^* η)`; `chainIntegral` is DifferentialGeometry
   8.4's, and its column-zero square with the de Rham differential is Stokes for chains
   (`SmoothSimplex.integral_mextDeriv`).
+  *Needs:* DifferentialGeometry 8.4's simplex integral and pullback formula; no fundamental class.
 - *One de Rham comparison.* The cohomology comparison produced by the double complex agrees with
   DifferentialGeometry 8.4's `deRhamHom`, including the coefficient and sign normalization; there is
   one de Rham comparison.
+  *Needs:* DifferentialGeometry 5.4, Layer 6 and 8.4; B6.0's contractions, the native Čech
+  coordinate comparison and the preceding integration-naturality target.
 - *Fundamental-class pairing.* For a closed oriented M, `∫_M η = ⟨deRhamHom [η], [M]_ℝ⟩`, where
   `[M]_ℝ` is the real image of AlgebraicTopology Stage 6.3's integral fundamental class for the
   orientation local system compared with the smooth orientation by Stage 6.3's tangent-orientation
   comparison, and `∫_M` is DifferentialGeometry 5.2's top-form integral. Route: both sides are
-  natural and additive, and agree on a small top-dimensional simplex by Stage 6.3's local generator.
+  natural and additive, and agree on a small top-dimensional simplex by Stage 6.3's local generator
+  using DifferentialGeometry 8.4's chain Stokes formula and AlgebraicTopology Stage 6.3's
+  normalization of the local fundamental class.
+  *Needs:* DifferentialGeometry 5.2 and 8.4; AlgebraicTopology Stage 6.3's local generators,
+  tangent-orientation comparison and fundamental class; the preceding equality of de Rham maps.
 
 Prove the real-constant-coefficient Čech–de Rham isomorphism using the specified smooth contractions
 and partition-of-unity double-complex maps, with refinement naturality. Write the two edge cochains
@@ -1280,6 +1557,7 @@ theorem and prove its component/groupoid dictionary for this good-cover comparis
 duplicate its general proof.
 
 **Checks.**
+
 - On `S¹` with the good cover by three arcs, the Čech 1-cocycle of the locally constant integer
   sheaf with value 1 on one overlap and 0 on the others generates `Ȟ¹ = ℤ`, and the comparison sends
   it to the generator of `H¹(S¹;ℤ)` evaluating to 1 on the oriented circle; the de Rham edge sends
@@ -1291,9 +1569,13 @@ duplicate its general proof.
   the form `dθ` is not exact and maps to the nonzero class above.
 - The fundamental-class pairing on `S¹` with `η = dθ` gives `2π` on both sides (DifferentialGeometry
   8.5's `circleLoop` acceptance), and on `ℂP¹` with the Hopf curvature gives `2π` (B6.2).
-- The Bockstein square on `S¹`: the circle-valued function `z ↦ z` (winding number 1) has Bockstein
-  the generator of `H¹(S¹;ℤ)`; the Čech connecting map of the exponential sequence on the three-arc
-  cover produces the cocycle with value 1 on one overlap, matching.
+- On `S¹`, the smooth function `z ↦ z` has `δ_sm(z ↦ z)=1 ∈ H¹(S¹;ℤ)` in the positive
+  winding convention; it is not a locally constant section and not a singular 0-cocycle.
+- On a constant function `z ↦ exp(2πia)`, the constant-sequence connecting class and the smooth
+  connecting class are both zero, using the global lift a. In fact `β⁰=0` on `S¹`, since
+  `H⁰(S¹;ℝ) → H⁰(S¹;ℝ/ℤ)` is surjective.
+- On `S²`, `H¹((ℝ/ℤ)_const)=0` but `H¹(C∞(ℝ/ℤ))=ℤ` by smooth-real acyclicity and
+  `H²(S²;ℤ)=ℤ`; the vertical map is `0→ℤ`, not an isomorphism.
 
 *Needs:* B6.0; Mathlib `cechComplexFunctor`, `constantSheaf`, `constantSheafAdj`, `Sheaf.H`,
 `smoothSheafAddCommGroup`, `smoothSheafCommGroup`; Tau Ceti `cechAugmentation`,
@@ -1311,9 +1593,16 @@ Stage 6.3's integral fundamental class. Prove the Hopf normalization `⟨c₁(Ho
 theorem and prove circle-bundle classification by `H²(M;ℤ)`: `c₁` is a bijection from isomorphism
 classes of principal circle bundles to `H²(M;ℤ)`, natural under pullback. Tensor, dual and pullback
 give sum, negation and pullback. Construct tensor products of bundles **with connection** and prove
-curvature/holonomy addition and coherent associativity/unit.
+curvature/holonomy addition and coherent associativity/unit (Nicolaescu, Remark 8.2.2,
+pp. 350–351, for the exponential classification, with the dual-character sign fixed here).
+
+- The normalized first Chern class classifies circle bundles and is natural under smooth pullback.
+- Tensor product, dual and the trivial bundle give sum, negation and zero in integral cohomology.
+- Tensor product with connection adds curvatures and multiplies holonomies, coherently with the
+  unit and associativity isomorphisms.
 
 **Checks.**
+
 - `⟨c₁(Hopf),[ℂP¹]⟩ = 1` with the dual character; the standard-character line `O(−1)` has `−1`;
   the Hopf curvature integrates to `2π` and `F/(2π)` integrates to 1, consistent with B6.3.
 - The integer representative `−(δφ)_ijk/(2π)` for `g_ij = exp(iφ_ij)`: for the line with cocycle
@@ -1332,13 +1621,17 @@ Prove rank-one Chern–Weil: `c₁(P)_ℝ=[F/(2π)]` under DifferentialGeometry 
 identified with the Čech comparison by B6.1. A prescribed closed real two-form F is circle
 curvature iff its class divided by `2π` lies in the integral image. Prove adjustment of a chosen
 connection by a global one-form and the equivalent integral-period criterion on singular
-two-cycles.
+two-cycles (Nicolaescu, Remark 8.2.2, pp. 350–351, for the integral/de Rham comparison;
+the curvature adjustment uses B3.1 and the exact-form criterion of B6.1).
 
 **Checks.**
+
 - On the unit `S²`, `F = c·dvol` is a circle curvature iff `4πc ∈ 2πℤ`, that is `c ∈ ½ℤ`; `c = ½`
   is the Hopf connection and `c = 1/3` is excluded.
 - Changing the connection by a one-form a changes F by da, leaving the class unchanged; on `T²` the
-  forms `F = c·dx∧dy` with `c ∈ 2πℤ` are exactly the curvatures.
+  constant forms `F=c dx∧dy` are curvatures exactly when `2πc ∈ ℤ`, since their period is
+  `4π²c`. For `c=1/(2π)`, that period is `2π` and the Chern number is 1; for `c=1/(4π)`
+  they are π and 1/2, so the latter is excluded.
 - The period criterion on a torsion class: a flat bundle with nonzero torsion `c₁` has `F = 0`,
   all periods zero, and real class zero (B6.4), so the period criterion decides realizability of F,
   not the bundle.
@@ -1353,9 +1646,12 @@ Flat circle bundles with connection are classified by `H¹(M;ℝ/ℤ)`. On conne
 class is zero. Prove the kernel of `H²(M;ℤ) → H²(M;ℝ)` is the universal-coefficient subgroup
 `Ext(H₁(M;ℤ),ℤ)`. It equals the torsion subgroup when `H₁(M;ℤ)` is finitely generated; prove that
 specialization using universal coefficients. No finite-generation-free identification with torsion
-is asserted.
+is asserted (Kolář–Michor–Slovák, Theorem 11.7(7), for flat local trivializations;
+AlgebraicTopology Stage 6.1's coefficient sequence and universal coefficients supply the
+cohomological calculation).
 
 **Checks.**
+
 - On `S¹`, flat circle bundles with connection are `Hom(ℤ,ℝ/ℤ) = ℝ/ℤ`, the holonomy `−a mod 1` of
   the connection `a dθ` (B5.0), and all have `c₁ = 0`.
 - On the lens space `L(n,1)`, the flat bundle with holonomy character `exp(2πik/n)` has
@@ -1373,13 +1669,24 @@ torsor for `H¹(M;ℝ/ℤ)`. On a fixed underlying bundle with a curvature-F con
 equal-curvature gauge classes form a torsor for `H¹_dR(M;ℝ)/(2π·image of H¹(M;ℤ))`. The chosen
 origin `A₀` identifies it with that group by `[A]↦[A−A₀]`; replacing `A₀` by `A₁` translates
 coordinates by `−[A₁−A₀]`. Prove the exact-sequence relationship retaining torsion classes and the
-distinction between bundle and connection isomorphisms.
+distinction between bundle and connection isomorphisms. The proof tensors two realizations with
+one dual to produce a flat difference, then uses B6.4; on a fixed bundle, B4.2 identifies gauge
+shifts with closed one-forms of periods in `2πℤ` (Nicolaescu, Remark 8.2.2, pp. 350–351,
+combined with the natural exact sequence of Theorem 7.5.28, p. 326).
+
+- Tensoring by a flat bundle acts freely and transitively on realizations of a fixed curvature.
+- On a fixed bundle, differences from a reference connection are closed one-forms modulo the
+  integral-period lattice precisely when curvature agrees.
+- Changing the reference connection translates coordinates by the negative of its difference;
+  the coefficient exact sequence relates this quotient to all flat-bundle classes.
 
 **Checks.**
+
 - On `S¹` with `F = 0`, the gauge classes of flat connections on the trivial bundle are
   `H¹_dR(S¹)/2πℤ = ℝ/2πℤ`, parametrized by the holonomy; the change of origin from `A₀ = 0` to
   `A₁ = a dθ` subtracts `[a dθ]`.
-- On `T²` the torsor is `(ℝ/2πℤ)²`, matching the gauge computation of B4's Examples.
+- On `T²` the torsor in period coordinates is `(ℝ/2πℤ)²`; in angular coefficients `(a,b)`
+  it is `(ℝ/ℤ)²`. Multiplication by `2π` relates these coordinates, matching B4's Examples.
 - On `L(n,1)` with `F = 0`, bundle-with-connection classes form `ℤ/n` (torsion bundles, each with
   one flat connection up to gauge since `H¹_dR = 0`), so the two torsors differ: the first has n
   elements and the second one.
@@ -1394,15 +1701,30 @@ and the affine torus bundle torsors with fixed lattice local system Λ; morphism
 on Λ. Prove their characteristic class classification by singular cohomology with local
 coefficients `H²(M;Λ)`. Construct Čech cohomology of the locally constant sheaf Λ and its natural
 comparison with AlgebraicTopology's singular local-system cohomology carrier, compatible with the
-exponential connecting map. Prove triviality iff the class vanishes, refinement/naturality and the
+exponential connecting map. For additive transition sections pinned by `s_j=s_i+t_ij`, fix
+the characteristic class as the negative connecting class `−δ[t]`, so rank one agrees with
+the dual-character convention of B6.2. The proof of the exponential-sequence classification
+(Nicolaescu, Remark 8.2.2, pp. 350–351) applies in local integral frames: the vector-section
+sheaf is fine by Example 7.5.31, p. 327, and its kernel is the locally constant lattice sheaf.
+Prove triviality iff the class vanishes, refinement/naturality and the
 locally constant `GL_n(ℤ)` transition rule. This owns the topological torus-bundle obstruction for
 IntegrableSystems; its symplectic/Lagrangian obstruction is owned there.
 
+- Integral changes of local frame preserve the lattice and descend to smooth torus-bundle charts.
+- Torsor transition cocycles glue, and changing local sections changes them by a coboundary;
+  the negative connecting class gives the stated classification with fixed Λ.
+- The class is natural under pullback and refinement, vanishes precisely on the trivial torsor,
+  and has the circle normalization in rank one.
+
 **Checks.**
+
 - For the trivial rank-one system `Λ = ℤ` the torus bundle is the circle bundle `ℝ/ℤ`, and the class
   in `H²(M;ℤ)` is `c₁` of B6.2 (the two classifications agree).
 - For Λ the Möbius local system over `S¹` (monodromy −1), `H²(S¹;Λ) = 0`, so every affine torus
   bundle with this local system is trivial as a torsor, although the local system itself is not.
+- If lifts of an additive transition cocycle have `δt=1 ∈ ℤ`, its characteristic cocycle is
+  −1; in rank one `φ=2πt` gives `−δφ/(2π)=−1` as in B6.2. In rank zero both sheaves and
+  the characteristic group are zero, so there is exactly one torsor class.
 - The transition rule: a change of local integral basis acts by `GL_n(ℤ)` on the fibre coordinates
   and is locally constant; a transition in `GL_n(ℝ) ∖ GL_n(ℤ)` does not preserve Λ.
 
@@ -1420,7 +1742,7 @@ sites and smooth sheaves, Tau Ceti's Čech augmentation and subdivision, Differe
 5, 6 and 8, AlgebraicTopology Stages 3.2, 6.1, 6.3 and DGFloer Layer 1.1; nothing of B1–B5. B6.2–B6.6
 use B1–B5 and B6.1; B6.2 also uses ComplexKahlerGeometry K7.1.
 
-## B7. Acceptance examples and dependency order
+## Layer 7: Acceptance examples and dependency order
 
 B1 precedes B2; B3 uses B1–B2 and generic differential forms. B4 follows B3. B5 uses B3–B4,
 universal covers and Lie subgroup theory. B6.0–B6.1 use differential forms, smooth partitions of
@@ -1431,6 +1753,8 @@ convex-neighbourhood results from HopfRinow. B1's Hopf test consumes only the in
 projective charts/orientation layer ComplexKahlerGeometry K7.1, consuming AlgebraicTopology Stage
 4.6's projectivization topology. The local curvature identities and flat classification can be
 developed independently of B6's integral theory.
+
+### Examples
 
 In addition to the examples already named, compute circle bundles and connections on the
 two-torus, the trivial flat bundle with nontrivial holonomy, and a torsion circle bundle on a lens
@@ -1462,6 +1786,7 @@ holonomy `exp(2πik/n)` has `c₁=k u` in the dual-character convention. This is
 in addition to the Hopf test.
 
 **Checks.**
+
 - The map `[(v,λ)] ↦ ([v],vλ)` is well defined: `(vζ,ζ⁻¹λ) ↦ ([vζ], vζζ⁻¹λ) = ([v], vλ)`; with the
   relation `(vζ,ζλ)` it would not be.
 - For `k = 1` the image of `ℤ/n → Circle` is `μ_n`, the kernel is trivial, the holonomy bundle is
@@ -1473,7 +1798,14 @@ in addition to the Hopf test.
 - `c₁(p*Hopf) = u` has order n, nonzero in `H²(L(n,1);ℤ) = ℤ/n` and zero in `H²(L(n,1);ℝ) = 0`:
   nonzero integral class, zero real class, zero curvature for the flat connection.
 
-## B8. Yang–Mills energy and its variational calculus
+### Dependencies
+
+The lens-space calculations use B1.3, B5.2 and B6.1–B6.4; Tau Ceti's `LensSpace` and
+`LensSpace.fundamentalGroupMulEquiv`; AlgebraicTopology Stage 4's cellular-to-singular comparison
+and Stage 6.1's coefficient sequence. The Hopf projection comparison uses ComplexKahlerGeometry
+K7.1 and B1's projective-chart comparison.
+
+## Layer 8: Yang–Mills energy and its variational calculus
 
 ### B8.1 Formal adjoints and the energy
 
@@ -1493,7 +1825,14 @@ reference-connection-independent polynomial variation on every finite smooth fam
 one-forms. Prove nonnegativity, vanishing exactly for flat A, gauge invariance, and naturality
 under oriented Riemannian isometries and bundle isomorphisms preserving B.
 
+- The covariant codifferential is the formal adjoint for the specified L² pairing, also with
+  compact supports on a noncompact manifold.
+- The energy is nonnegative, vanishes exactly on flat connections and is gauge invariant.
+- The energy is natural under pairing-preserving bundle isomorphisms and oriented Riemannian
+  isometries and has reference-independent polynomial variations in smooth finite families.
+
 **Checks.**
+
 - The sign `(−1)^(n(r+1)+1)`: for `n = 2`, `r = 1` it is `−1`, and for `n = 3`, `r = 2` it is `+1`,
   the standard codifferential signs; on `ℝ²` with the flat metric and `A = 0`, `d^*(f dx) = −∂_x f`.
 - For the Hopf connection on the unit `S²`, `F = ½ dvol`, `|F|² = ¼`, `YM = ¼·4π = π`; with the
@@ -1537,7 +1876,14 @@ adjoint sections. These are linear statements at A; nonlinear gauge slices and t
 remain HamiltonianReduction R5's, FourManifolds F5's and InstantonFloerTheory IF1's
 dimension-specific constructions.
 
+- The zero-order curvature operator is self-adjoint and supplies the curvature term in the Hessian.
+- At a stationary connection the Hessian annihilates infinitesimal gauge directions; gauge fixing
+  has scalar positive principal symbol and preserves the Coulomb subspace.
+- Its self-adjoint L² realization has the stated Sobolev domain, compact resolvent and finite
+  kernel and negative spectral space; the Green inverse gives the smooth Coulomb decomposition.
+
 **Checks.**
+
 - Expanding `|F_A + t d_Aa + (t²/2)[a∧a]|²` and using `[a∧b] = [b∧a]` on one-forms gives the
   displayed `D` and `D²` with coefficient 2; the factor-1/2 normalization would halve both.
 - On the trivial circle bundle over `T²` at `A = 0`, `R_A = 0`, `D²YM(a,a) = 2‖da‖²_L² ≥ 0`,
@@ -1565,7 +1911,14 @@ torsor for `H¹_dR(M;ℝ)/(2π·image of H¹(M;ℤ))`. Retain torsion bundles an
 change-of-origin law. This is the same fixed-curvature quotient, not a second
 circle-classification construction.
 
+- The Hodge star and energy density transform by the displayed conformal powers, giving energy
+  and stationary-equation invariance in dimension four.
+- For circle bundles, stationarity is exactly harmonic curvature.
+- The harmonic representative gives stationary connections on every fixed circle bundle;
+  their gauge quotient is the fixed-curvature torsor with its existing change-of-origin law.
+
 **Checks.**
+
 - `*′ = e^((n−2r)φ)*`: on 2-forms in dimension 4 the exponent is 0, so `*` is conformally invariant;
   `|F|²_g′ = e^(−4φ)|F|²_g` and `dvol_g′ = e^(nφ)dvol_g` give `e^((n−4)φ)`.
 - On the unit `S²` scaled by the constant factor λ (`φ = log λ`), the Hopf energy becomes `π/λ²`,
@@ -1629,8 +1982,9 @@ equivalence.
 - J. M. Lee, *Introduction to Riemannian Manifolds*, 2nd ed., Springer, 2018: Lemma 6.16 and
   Theorem 6.17 (uniformly normal and geodesically convex neighbourhoods).
 - U. Schreiber and K. Waldorf, [*Parallel transport and functors*](https://arxiv.org/abs/0705.0452),
-  J. Homotopy Relat. Struct. 4 (2009): Proposition 4.7 with its proof in Appendix B.4, and
-  Theorem 5.8, for B5.1.
+  arXiv:0705.0452v5 (25 August 2014): Proposition 4.7, p. 30, with proof in Appendix B.4,
+  pp. 63–66, and Theorem 5.8, p. 39, for B5.1. These are the preprint's locators;
+  the journal publication is J. Homotopy Relat. Struct. 4 (2009).
 - D. S. Freed, [*Classical Chern–Simons theory, Part 1*](https://arxiv.org/abs/hep-th/9206021),
   Adv. Math. 113 (1995): §1, equations (1.5), (1.8)–(1.10), (1.13)–(1.16), for connections, curvature,
   Bianchi and gauge transformations.
@@ -1641,3 +1995,14 @@ equivalence.
 - J. Jiang, [*Yang–Mills minicourse notes*](https://web.ma.utexas.edu/SMC/2020/notes/YangMillsMinicourse.pdf),
   Propositions 2.9 and 2.12 and Exercise 2.11, for B8's first and second variations and the circle
   example; stationarity is distinguished from minimality.
+- The Stacks Project, [*Cohomology of Sheaves*](https://stacks.math.columbia.edu/download/cohomology.pdf),
+  §9, Tags 01ED–01EG, pp. 9–10 (ordered-tuple Čech complex and augmentation);
+  Lemma 11.6, Tag 01ET, p. 15 (acyclic-cover comparison); §15, Tag 09UY, p. 24 (refinement
+  homotopies), for B6.1.
+- L. I. Nicolaescu, [*Lectures on the Geometry of Manifolds*](https://academicweb.nd.edu/~lnicolae/Lectures.pdf),
+  author manuscript dated 21 February 2026: Theorem 7.5.28, p. 326; Example 7.5.31 and
+  Proposition 7.5.32, p. 327; Theorem 7.5.34 and Corollary 7.5.35, p. 328; Theorem 7.5.38,
+  p. 329; Remark 8.2.2, pp. 350–351; Definition 10.2.30 and Proposition 10.2.31,
+  pp. 487–488; Theorem 10.2.36(a)–(b), p. 490. The B2 arbitrary-measure extensions are
+  proved from the native measure-theoretic suppliers; the source's analytic statements use
+  metric volume. The lattice-coefficient specialization in B6.6 uses local integral frames.
