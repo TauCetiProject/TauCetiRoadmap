@@ -15,10 +15,11 @@ resolution, its path-space augmentation comparison and the resulting derived ten
 Those topological and infinite-basis targets are specified in README.md; neither finite
 matrix Maurer--Cartan data nor the finite `P → M` prototype supplies their resolution proof.
 
-Only the degree-one Hurewicz theorem (Layer 1) and the twisted square-zero theorem (Layer 4, over
-a DG algebra) are stated: they rest on material that exists in Mathlib and Tau Ceti today. The
-other headlines need carriers that do not exist yet (Moore paths and loop spaces, Serre
-fibrations and their spectral sequences, Liouville domains, Floer chain complexes); they are
+Only the Layer 1 homotopy-theoretic headlines (the degree-one Hurewicz theorem, mod-2
+vanishing, Lemma 3.41 and the existence of `K(A, n)`) and the twisted square-zero theorem
+(Layer 4, over a DG algebra) are stated: they rest on material that exists in Mathlib and Tau
+Ceti today. The other headlines lack carriers (Moore loop spaces, the Serre-fibration carrier,
+Liouville domains, Floer chain complexes); they are
 specified in README.md. In Layer 4, `P → M` stands for `M ⊗_A K_m`, where `K_m` is the twisted
 complex of free left modules of the README; the coefficient `m x y` acts on the right of `α`.
 The twisting equation is written in the source's homological sign convention on a
@@ -27,6 +28,8 @@ comparison with the DG roadmap's `(MC)` is acceptance criterion 2.
 -/
 
 namespace TauCetiRoadmap.DGFloer
+
+open scoped Topology
 
 /-! ## Layer 1: the Hurewicz theorem in degree one -/
 
@@ -37,6 +40,34 @@ theorem hurewiczOne (X : Type) [TopologicalSpace X] [PathConnectedSpace X] (x : 
     Nonempty (Additive (Abelianization (FundamentalGroup X x)) ≃+
       ((AlgebraicTopology.singularHomologyFunctor.{0, 0, 1}
         (ModuleCat.{0} ℤ) 1).obj (ModuleCat.of ℤ ℤ)).obj (TopCat.of X)) := by
+  sorry
+
+/-- **Mod-2 vanishing**: if `Y` is simply connected and `H_{i+1}(Y; ℤ/2) = 0` for all `i`, then
+squaring `g ↦ g * g` is a bijection of `π_{n+1}(Y)` for every `n`. This is the roadmap's own
+form of the source's Theorem 5.15 step; it feeds Theorem C. -/
+theorem mod2Vanishing (Y : Type) [TopologicalSpace Y] [SimplyConnectedSpace Y] (y : Y)
+    (hY : ∀ i : ℕ, Subsingleton
+      (((AlgebraicTopology.singularHomologyFunctor.{0, 0, 1} (ModuleCat.{0} (ZMod 2)) (i + 1)).obj
+        (@ModuleCat.of (ZMod 2) _ (ZMod 2) _ (@Semiring.toModule (ZMod 2) _))).obj
+          (TopCat.of Y))) :
+    ∀ n : ℕ, Function.Bijective (fun g : π_ (n + 1) Y y => g * g) := by
+  sorry
+
+/-- **Lemma 3.41**: a path-connected space is aspherical exactly when its double loop space has
+the homology of a point, for the fixed-interval loop model. -/
+theorem aspherical_iff_homology_loopSpace_loopSpace (Q : Type) [TopologicalSpace Q] (q : Q) :
+    (PathConnectedSpace Q ∧ ∀ n : ℕ, Subsingleton (π_ (n + 2) Q q)) ↔
+      ∀ i : ℕ, Subsingleton
+        (((AlgebraicTopology.singularHomologyFunctor.{0, 0, 1} (ModuleCat.{0} ℤ) (i + 1)).obj
+          (ModuleCat.of ℤ ℤ)).obj
+            (TopCat.of (LoopSpace (LoopSpace Q q) (Path.refl q)))) := by
+  sorry
+
+/-- **Existence of `K(A, n + 1)`**: every abelian group is the unique nonvanishing homotopy group
+of a path-connected space. -/
+theorem exists_eilenbergMacLane (A : Type) [AddCommGroup A] (n : ℕ) :
+    ∃ (X : Type) (_ : TopologicalSpace X) (x : X), PathConnectedSpace X ∧
+      Nonempty (Additive (π_ (n + 1) X x) ≃+ A) ∧ ∀ k ≠ n, Subsingleton (π_ (k + 1) X x) := by
   sorry
 
 /-! ## Layer 4: twisting cocycles and the twisted complex -/
