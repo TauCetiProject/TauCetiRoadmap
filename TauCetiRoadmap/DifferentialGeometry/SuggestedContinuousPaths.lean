@@ -41,13 +41,6 @@ noncomputable def flatOneFormCovectorEquiv
       (ℂ →L[ℝ] F) := by
   exact (ContinuousAlternatingMap.ofSubsingletonLIE (𝕜 := ℝ) (E := ℂ) (F := F) (ι := Fin 1) (0 : Fin 1)).symm.toContinuousLinearEquiv
 
-/-- Consume the existing fixed-coefficient degree-one form, without adding a parallel form type. -/
-noncomputable def smoothFlatCovectorField
-    (η : SmoothForm (PlaneModel) Ω F 1) : ContinuousMap Ω (ℂ →L[ℝ] F) where
-  toFun z := flatOneFormCovectorEquiv (F := F) Ω z ((η : RoughForm (PlaneModel) Ω F 1) z)
-  continuous_toFun := by
-    sorry
-
 /-- Local exactness is stated by the actual disk, `C¹` potential, and derivative equation. -/
 def HasLocalC1Potential
     (ω : ContinuousMap Ω (ℂ →L[ℝ] F)) : Prop :=

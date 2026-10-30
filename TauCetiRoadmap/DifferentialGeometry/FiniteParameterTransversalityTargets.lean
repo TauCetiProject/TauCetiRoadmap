@@ -68,12 +68,6 @@ theorem native_generic_parameters (g : E × P → V)
     htotal
     (fun z _ => WithTop.coe_le_coe.mpr le_top)
 
-/-- The actual source/slice permutation and incidence equality are retained. -/
-theorem regularIncidenceParameter_iff (F : E × P → V) (j : W → V) (p : P) :
-    regularIncidenceParameter F j p ↔
-      ∀ x y, F (x, p) = j y →
-        Function.Surjective (incidenceSliceLinearization F j x y p) := sorry
-
 theorem incidenceSliceLinearization_apply (F : E × P → V) (j : W → V)
     (hF : ContDiff ℝ ∞ F) (hj : ContDiff ℝ ∞ j)
     (x : E) (y : W) (p : P) (u : E) (v : W) :

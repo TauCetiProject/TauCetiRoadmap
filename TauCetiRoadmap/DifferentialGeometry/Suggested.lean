@@ -60,8 +60,8 @@ Existing Tau Ceti declarations are imported and consumed rather than restated: t
 boundary manifold (`TauCeti.isManifold_boundary`), the manifold inverse function theorem at
 interior points (`TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`, which discharges layer 10.1's
 boundaryless form in place), the maximal integral curve
-(`maximalIntegralCurve`, whose compact-manifold completeness discharges a former target of
-this file in place) and the finite-dimensional maximal flow (`maximalIntegralCurveFlowDomain`,
+(`maximalIntegralCurve`, whose compact-manifold completeness discharges 3.3's completeness on
+compact manifolds in place) and the finite-dimensional maximal flow (`maximalIntegralCurveFlowDomain`,
 `maximalIntegralCurve_add`, the escape lemma, which discharge 3.2's finite-dimensional targets in
 place), finite-dimensional smooth dependence of flows
 (`ODE.exists_contDiffAt_localFlow`), flat Sard (`Differentiable.dense_compl_image_criticalPoints`),
@@ -400,8 +400,8 @@ def IsSmoothBundleForm (I : ModelWithCorners ℝ E H) (F : Type*)
     (fun x ↦ TotalSpace.mk' (E [⋀^Fin k]→L[ℝ] F)
       (E := fun x ↦ TangentSpace I x [⋀^Fin k]→L[ℝ] V x) x (φ x))
 
-/-- **Layer 0.4.** Smooth bundle-valued forms, as a submodule of rough forms. The
-membership theorem pins the provisional submodule; no global `sorry` instance is installed. -/
+/-- **Layer 0.4.** Smooth bundle-valued forms, as the submodule of rough forms cut out by
+`IsSmoothBundleForm I F V ∞`, closed under the module operations by the section calculus. -/
 def smoothBundleForms (I : ModelWithCorners ℝ E H) (F : Type*)
     [NormedAddCommGroup F] [NormedSpace ℝ F] (V : M → Type*)
     [∀ x, AddCommGroup (V x)] [∀ x, Module ℝ (V x)] [∀ x, TopologicalSpace (V x)]
@@ -654,8 +654,7 @@ noncomputable def RoughForm.interior (V : (x : M) → TangentSpace I x)
   fun x ↦ ContinuousAlternatingMap.curryLeft (𝕜 := ℝ) (E := E) (F := F) (φ x) (V x)
 
 /-- **Layer 0.4.** The bundled `C^∞` forms, as the submodule of rough forms cut out by
-`IsSmoothForm I ∞`. Provisional: the submodule is pinned by `mem_smoothForms`; its closure
-under the module operations is the content of the target. -/
+`IsSmoothForm I ∞`. The submodule is pinned by `mem_smoothForms`. -/
 def smoothForms (I : ModelWithCorners ℝ E H) (M : Type*) [TopologicalSpace M] [ChartedSpace H M]
     [IsManifold I 1 M] (F : Type*) [NormedAddCommGroup F] [NormedSpace ℝ F] (k : ℕ) :
     Submodule ℝ (RoughForm I M F k) :=
@@ -1212,8 +1211,8 @@ theorem isCompleteVectorField_of_isCompact [IsManifold I 1 M] {v : (x : M) → T
   sorry
 
 /-- **Layer 3.3.** Every `C¹` field on a compact boundaryless manifold is complete: through every
-point there is a global integral curve. This former target is discharged in place by Tau
-Ceti's `isMIntegralCurve_maximalIntegralCurve`. -/
+point there is a global integral curve. Discharged by Tau Ceti's
+`isMIntegralCurve_maximalIntegralCurve`. -/
 theorem exists_isMIntegralCurve_of_compactSpace [IsManifold I 1 M] [CompactSpace M]
     {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun x ↦ (⟨x, v x⟩ : TangentBundle I M)))
@@ -1662,7 +1661,7 @@ end Gates
 
 /-! ### Layer 5.6: Green's theorem for planar regions and curves
 
-These suggested forms prototype the AC specialization and fix coordinates and integration
+These statements fix the AC specialization, its coordinates and its integration
 conventions using existing APIs. `TauCeti.Contour.windingNumber` is imported directly;
 there is no replacement index. The directional region and boundary-chain statements of
 5.6.2 remain requirements of the markdown.

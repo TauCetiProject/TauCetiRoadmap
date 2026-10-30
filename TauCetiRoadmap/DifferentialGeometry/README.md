@@ -242,15 +242,15 @@ Checked against the pin; re-grep before citing anything in code.
 
 ## Existing code to refactor
 
-**Smooth 2-forms**, currently defined separately in `Geometry/Manifold/TwoForm/Basic.lean` as
+**Smooth 2-forms**, defined in `Geometry/Manifold/TwoForm/Basic.lean` as
 `TauCeti.SmoothTwoForm`, with closedness `TauCeti.SmoothTwoForm.IsClosed` defined chartwise in
 `TwoForm/Closed.lean` and symplectic forms (`IsSymplectic`) built on both, migrate to the generic
 `SmoothForm I M ℝ 2` in layer 0.4. Refactor the existing implementation, its API and its
 symplectic consumers onto that carrier. Any retained `SmoothTwoForm` name is an abbreviation for
 the generic type, with compatibility operations derived from the generic API. Closedness becomes
-layer 1's `mextDeriv φ = 0`, with the chartwise description a theorem about it. The current
-definitions are imported in `Suggested.lean` only to state the migration's preservation laws
-against the pinned dependency.
+layer 1's `mextDeriv φ = 0`, with the chartwise description a theorem about it. The migration
+equivalence and its preservation laws are targets of 0.4; `Suggested.lean` states nothing against
+the old carrier.
 
 ### Existing distribution and Frobenius implementation
 
@@ -1482,7 +1482,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   `(α,β)↦(dα,α|_W−dβ)`. The coordinate map to the native shifted cone is
   `(α,β)↦(α,−β)`: its shifted differential in coordinates `(α,g)` is
   `(dα,−α|_W−dg)`. Prove this is an isomorphism of complexes.
-  The prototype `relativeDeRhamComplex` uses the native `mappingCocone` of
+  `relativeDeRhamComplex` uses the native `mappingCocone` of
   this extended restriction, which is exactly that minus-one shifted cone.
   The cone coordinates in each degree, in degree zero, and the differential in these
   coordinates pin the exported degree spaces and signs.
@@ -1594,7 +1594,7 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   viewed as the integer ±1; compact K is finite because a zero-dimensional
   manifold is discrete. Consume AT's positivePointClass and the shared
   general-model orientationSignAt, including its identification with the
-  Euclidean-zero-dimensional prototype through the fresh carrier.
+  Euclidean-zero-dimensional model through the fresh carrier.
   Prove that volume on EuclideanSpace ℝ (Fin 0) and Basis.addHaar of the
   empty basis are both the unit Dirac point mass. Positive point orientations
   use the one-chart formula. For negative point orientations apply the
@@ -1950,7 +1950,7 @@ Riesz duality.*
   restrictions, smooth isometry transport and identity/composition of pullbacks.
   Build product, `Opens` and boundary metrics. Consume the existing analytic
   `sphereRoundMetric` and its instances on spheres and Circle; `roundMetricCircle`
-  in the prototype selects that same native instance. The new circle target is
+  selects that same native instance. The new circle target is
   its volume comparison `volume_circle`, using the angular integral gate of 5.5a.
 - **12.2 Gradient.** Define `mgradient I f x` as the fibrewise Riesz dual of
   `mfderiv I 𝓘(ℝ) f x`, through the pinned `Riemannian.Tensor.rieszDual` of
@@ -1992,7 +1992,7 @@ Riesz duality.*
   Bochner junk value. The same result holds at C² manifold/C¹ metric/C¹
   field regularity where the connection and density identity are defined;
   specify those finite-regularity restrictions and their smoothing/direct
-  local proof. The representative prototype uses the smooth case.
+  local proof. The representative signature uses the smooth case.
 
   No global orientation is necessary: on oriented M identify this with
   5.3 applied to `ι_X dV`; in general patch the oriented chart identities
