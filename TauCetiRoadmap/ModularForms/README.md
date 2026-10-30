@@ -1018,7 +1018,25 @@ Each is a named definition with its basic API, mostly short once Layers 8 and 8G
   `IsSelfDual f ↔ ∀n, (aₙ).im = 0`; "self-dual up to twist" is a different notion and is not
   this predicate.
 - **Labels** (#33, #13): the LMFDB label `N.k.a.x` (level, weight, character Galois-orbit, newform
-  Galois-orbit), Conrey labels and Galois orbits of Dirichlet characters.
+  Galois-orbit), Conrey labels and Galois orbits of Dirichlet characters. The newform letter `x`
+  is well defined by a **separation theorem**. Write
+  `S_k(N,[χ])^{new} := ⊕_{χ' ∈ [χ]} S_k(N,χ')^{new}` and, for a Galois orbit `[f]` of newforms in
+  it (Layer 8G), its **trace form** `Tr[f] := Σ_{g ∈ [f]} g ∈ S_k(Γ₁(N))`, with coefficients
+  `tr aₙ := Tr_{CoefficientField f/ℚ}(aₙ(f)) ∈ ℤ` (Layers 8, 8G). Distinct orbits have distinct **trace vectors** `(tr a₁, …, tr a_B)`, where
+  `B = ⌊k·[SL₂(ℤ):Γ₁(N)]/12⌋` is the Sturm bound of `Γ₁(N)` in weight `k`: the orbits are disjoint
+  sets of newforms, which are linearly independent (Layer 5), so the two trace forms are distinct
+  forms in `S_k(Γ₁(N))`, and Layer 10's `sturm_bound_finiteIndex` applied to their difference,
+  whose constant term is `0`, gives an `n ≤ B` at which their coefficients differ. The orbits in
+  `S_k(N,[χ])^{new}` are ordered lexicographically by trace vector; by separation this is the
+  lexicographic order on the full sequences `(tr aₙ)_{n ≥ 1}`, and since
+  `tr a₁ = [CoefficientField f : ℚ]` is the dimension of the span of `[f]`, smaller orbits come
+  first. `x` is the position of `[f]` in this order, starting from `0`, in Cremona's base-26 letter
+  code (`a = 0, …, z = 25, ba = 26, …`). **Completeness**: the newforms with nebentypus in `[χ]`
+  form a basis of `S_k(N,[χ])^{new}` (Layer 5, with Layer 3's
+  `S_k(N,χ)^{new} = S_k(Γ₁(N))^{new} ∩ S_k(N,χ)`), so the orbit dimensions sum to
+  `dim S_k(N,[χ])^{new}`, and a finite set of pairwise distinct newform orbits whose dimensions sum
+  to `dim S_k(N,[χ])^{new}` is the set of all orbits. Layer 10C's newspace dimension identity
+  computes that total for the trivial character, and over all character orbits at once for `Γ₁(N)`.
 - **Bad primes** (#54): `badPrimes f = N.primeFactors`.
 
 ### Layer 10: the modular curve `Γ\ℍ` and the dimension formulas
@@ -1189,6 +1207,27 @@ Fuchsian module: that lower module points only toward `Fuchsian.LevelOne` as dis
   of the theorem, proved with it, not assumed). Weight `1` is stated with its two D–S cases
   (`ε∞^{reg} > 2g − 2` or not), as bounds and the `M₁`/`S₁` relation. `dim S_2(Γ) = g` is the
   statement that weight-two cusp forms are the holomorphic differentials on `X(Γ)`.
+- **The newspace dimension identity**, for every weight `k`:
+  ```text
+  dim S_k(Γ₁(N))^{new} = Σ_{M ∣ N} β(N/M)·dim S_k(Γ₁(M))
+  ```
+  with `β` the multiplicative function `β(p) = −2`, `β(p²) = 1`, `β(p^r) = 0` for `r ≥ 3`, so
+  that `β = μ * μ` is the Dirichlet inverse of the divisor-counting function `σ₀`
+  (`ArithmeticFunction.moebius`, `ArithmeticFunction.sigma 0`). Its input is the **newform
+  decomposition** `S_k(Γ₁(N)) = ⊕_{M ∣ N} ⊕_{d ∣ N/M} V_d S_k(Γ₁(M))^{new}` (Diamond–Shurman
+  Thm 5.8.3), an internal direct sum: the sum is Layer 3's old/new splitting iterated over the
+  divisors of `N`; it is direct because the forms `V_d g`, for newforms `g` of level `M ∣ N` and
+  `d ∣ N/M`, are linearly independent — distinct `g` have distinct eigensystems away from `N`
+  (Layer 5's cross-level strong multiplicity one), and for fixed `g` the `V_d g = q^d + ⋯` have
+  distinct leading exponents. Since each `V_d` is injective, this gives
+  `dim S_k(Γ₁(N)) = Σ_{M ∣ N} σ₀(N/M)·dim S_k(Γ₁(M))^{new}`, and Möbius inversion over the
+  divisors of `N` gives the identity. The same argument over Layer 3's fixed-character indexing
+  gives `dim S_k(N,χ)^{new} = Σ_{cond χ ∣ M ∣ N} β(N/M)·dim S_k(M, χ_M)`, whose trivial-character
+  case is the identity for `Γ₀(N)`. Acceptance: `dim S_2(Γ₀(11))^{new} = 1`,
+  `dim S_2(Γ₀(23))^{new} = 2`, `dim S_2(Γ₀(22))^{new} = 1·2 − 2·1 − 2·0 + 4·0 = 0` (summing over
+  `M = 22, 11, 2, 1`; both forms at level `22` are level raises of the level-`11` form), and
+  `dim S_2(Γ₁(13))^{new} = 2` while `dim S_2(Γ₀(13))^{new} = 0`, so the newspace at level `13`
+  lies entirely in nontrivial nebentypus.
 - `Suggested.lean` seeds this layer with concrete instances at levels `> 1`: `dim S_2(Γ₀(11)) = 1`,
   `dim S_2(Γ₀(23)) = 2`, `dim S_2(Γ₀(2)) = 0`, `dim M_2(Γ₀(11)) = 2`, and the non-`Γ₀`
   instance `dim S_2(Γ₁(13)) = 2`. The general even-weight
@@ -1361,6 +1400,9 @@ be reached this way.
   character is `η(z)η(23z)`, from the same `(N+1)k = 24` rule — so `a₂ = −2`, and `a₁₁ = 1` — computed
   from the product expansion; Layer 4's classification at `v₁₁(N) = 1`, `χ` trivial, pins it
   only to `±11^{(2−2)/2} = ±1`, so the sign is a computation, not a prediction.
+  Its LMFDB label is `11.2.a.a`: its orbit has dimension `1 = dim S_2(Γ₀(11))^{new}` (Layer 10C),
+  so by the completeness statement of Layer 9's labels it is the only newform orbit at level `11`
+  and weight `2` with trivial character.
 - **Level 37, weight 2** — the honest version, split by what is *derivable* and what is
   *computed*. Derivable here: `dim S₂(Γ₀(37)) = 2` (Layer 10); the space is **entirely new**,
   since `37` is prime and `S₂(SL₂(ℤ)) = 0` leaves no oldforms; semisimplicity of the commuting
@@ -1431,8 +1473,8 @@ Not a linear order: a graph, with the consumption edges named ("→" means "cons
 - **Layer 8** (modular symbols, the integral Hecke algebra, the coefficient field at `k ≥ 2`) → Layers 2, 4A; the negative-weight maximum principle is proved inside the layer, not consumed from Layer 10.
 - **Layer 8W** (the weight-one lattice, Deligne–Serre route) → Layers 2, 4A.
 - **Layer 8G** (Galois stability, the character field, rationality) → Layers 5, 8.
-- **Layer 9** (LMFDB invariants; inner twists) → Layers 8, 8G, and 4A (primitive associates of twists).
-- **Layer 10A** (the analytic curve) → Layer 0 conventions only. **10B** (surface cohomology) → 10A. **10C** (section spaces and dimension formulas) → 10A, 10B, Layer 1 (upper bounds), Mathlib's Sturm finiteness (fallback: AINTLIB).
+- **Layer 9** (LMFDB invariants; inner twists) → Layers 8, 8G, and 4A (primitive associates of twists); the separation of newform orbits → Layer 5 and Layer 10's Sturm bound.
+- **Layer 10A** (the analytic curve) → Layer 0 conventions only. **10B** (surface cohomology) → 10A. **10C** (section spaces and dimension formulas) → 10A, 10B, Layer 1 (upper bounds), Mathlib's Sturm finiteness (fallback: AINTLIB); the newspace dimension identity → Layers 3, 5.
 - **Layer 11** (the level-one trace formula) → Layers 2, 8 (the period-polynomial route), Mathlib's level-one dimension formula; feeds Layer 9's charpoly targets and cross-checks 10C at level one.
 
 **Status, per major block** — so "three source `sorry`s" is never read as "three remaining pieces of work":
