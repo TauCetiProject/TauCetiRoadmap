@@ -14,23 +14,26 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AbhyankarLemma
         - AdicEtaleGeometry
-        - AdicSpaces
         - AdicSpacesPartII
         - AdicSpacesPartIII
+        - AdicSpacesPartIV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
-        - AnalyticToricGeometry
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
+        - BorelEquivalenceRelations
+        - CFSGBasicProperties
         - CFSGStatement
-        - Chebotarev
+        - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
@@ -38,70 +41,76 @@ body:
         - CompactOperators
         - ComplexCurveModuli
         - ComplexKahlerGeometry
+        - ComplexManifolds
         - ComplexTori
-        - ConformalMapping
+        - ComputabilityTheory
+        - CountableModelCounting
         - DGAInfinity
         - DGFloer
-        - DenseGraphLimits
         - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
+        - EllipticIntegrals
         - EnhancedDerivedSheaves
         - EtaleCohomologyFoundations
-        - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
+        - GeometricCurrents
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
+        - GroebnerGeometry
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
         - Hyperfunctions
-        - InfinitaryLogic
+        - ImaginaryQuadraticClassNumber
+        - InfinitaryModelExistence
         - IntegralLattices
         - Isoperimetry
         - JacobianChallenge
         - KhovanovHomology
-        - LocalFieldsRamification
-        - LocalGaloisGroups
+        - LFunctions
+        - LocalPurity
+        - MarkovChainsAndRenewal
         - MassFormula
         - ModularCurves
         - ModularForms
         - MorseNovikov
         - MorseTheory
+        - Neuromanifolds
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
-        - NumberFieldArithmetic
-        - OneParameterSemigroups
         - OperatorAlgebraDynamics
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
-        - OrthogonalSpinGroups
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
-        - PeripheralActions
+        - PerfectoidSpaces
         - PivotalSpherical
-        - PolynomialGaloisGroups
         - PositiveScalarCurvature
-        - ProfiniteArithmetic
         - ProfiniteCohomology
-        - ProfiniteProPGroups
+        - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
-        - RealAlgebraicGeometry
+        - QuaternionicAnalysis
+        - RandomMatrices
+        - Rank24LatticeConstructions
+        - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
@@ -110,11 +119,23 @@ body:
         - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - SchubertGeometry
+        - SeibergWittenTheory
+        - SmoothBundlesConnections
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - SubspaceTheorem
+        - SuccessiveMinima
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
         - TaubesGromov
+        - TemperleyLieb
+        - ThetaSeries
+        - TopologicalKTheory
+        - TopologicalSheafCohomology
+        - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
     validations:
