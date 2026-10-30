@@ -301,9 +301,20 @@ by the following explicit chain.
 
    Construct Toda's σ'''∈π₁₂(S⁵) of order2 and
    σ''∈π₁₃(S⁶) of order4, prove Eσ'''=2σ'' for Toda's specified low-dimensional classes,
-   and prove σ'''
-   stabilizes to the order-two class in π₇ˢ (Toda Lemma5.13). Give the finite EHP
-   calculation and framing normalization. Set a₁=Eσ'''. Since it
+   and prove σ''' stabilizes to the order-two class in π₇ˢ. Construct
+   Toda's σ′∈π₁₄(S⁷) and σ₈∈π₁₅(S⁸) with H(σ₈)=ι₁₅.
+   Pin the 2-primary normalization using Lemmas5.13–5.14 and
+   Proposition5.15: let σ₂ be the 2-primary component of the stable
+   image of this σ₈. Prove σ₂ has order16 and
+   `E∞σ′=2σ₂`, `E∞σ′′=4σ₂`, `E∞σ′′′=8σ₂`.
+   Use `Eσ′′=2σ′`, `Eσ′′′=2σ′′` and the 2-primary relation
+   `2Eσ₈=E²σ′`, whose two sides lie in π₁₆(S⁹).
+   Build the primary-component comparisons on native
+   `AddCommGroup.primaryComponent` and transport the final order-two
+   identity to the integral stable stem by its subgroup inclusion.
+   The displayed Hopf relation is a 2-primary computation, not an
+   identity with the unprojected integral stable Hopf class. Give the
+   finite EHP calculation and framing normalization. Set a₁=Eσ'''. Since it
    is a suspension, 2ι₆∘a₁=2a₁=0; precomposition by2 is
    also zero. Prove Toda's particular identity
    Eσ'''∘η₁₃∈{2ι₆,Eσ''',2ι₁₃}⊆π₁₄(S⁶).
@@ -445,8 +456,8 @@ P6 uses these results and the stated stable-homotopy examples.
   Toda/Massey sign, Moore-map construction and complex e detection;
   §7 and the proof of Theorem7.2 give the real d_R comparison
   and detection in degrees1,2 modulo8.
-- Toda, *Composition Methods in Homotopy Groups of Spheres*, Lemma5.13,
-  Corollary3.7 and the finite EHP/π₁₄(S⁶) tables, for P6's named
+- Toda, *Composition Methods in Homotopy Groups of Spheres*, Lemmas5.13–5.14,
+  Proposition5.15 (pp48–50), Corollary3.7 and the finite EHP/π₁₄(S⁶) tables, for P6's named
   unstable base classes and Moore-space bracket identity.
 - Kachi–Mukai–Nozaki–Sumita–Tamaki, [*Some cohomotopy groups of suspended projective planes*](https://www.math.okayama-u.ac.jp/mjou/mjou43/_Kachi.pdf), Proposition4.4, for the integral π₁₄(S⁶) decomposition and the distinction between its 2-primary projection and the full quaternionic-Hopf formula. P6 owns the sphere-EHP and Hilton–Hopf comparisons used in the indeterminacy calculation.
 - Stolz, [*Positive scalar curvature—constructions and obstructions*](https://arxiv.org/abs/2202.05904), for the normal-type distinctions and proof references.
