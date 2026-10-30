@@ -46,6 +46,17 @@ groups to one universe. These cannot specialize directly to an actual larger-uni
 transport obligation. Defining a new transport by conjugating the comparison isomorphisms
 would make the square tautological and would not supply the required underlying maps.
 
+Actual algebra-level upward transport is now available in
+[`Algebra/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/8beb018f0e8958681cdd699e93b4da8e59f06f8d/TauCeti/Algebra/Algebra/ULift.lean)
+and [`CrossedProduct/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/8beb018f0e8958681cdd699e93b4da8e59f06f8d/TauCeti/Algebra/CrossedProduct/ULift.lean):
+`AlgEquiv.ulift` and `uliftAutEquiv` lift scalars, algebras and algebra automorphisms;
+`TwoCocycle.ulift` lifts the cocycle; and `CrossedProduct.uliftEquiv` identifies its
+crossed product with the actual lift of the original algebra, with coefficient and basis
+coordinate formulas. These are parts of the required transport, independent of the Brauer
+comparison. Transport of CSA/Brauer quotient classes, the absolute Galois group and the
+coefficient/continuous-cohomology objects, together with their Brauer-comparison naturality
+square, remains open.
+
 The inventory and checked proofs below describe only the covered targets. They do not claim
 this outstanding square or any equivalent cross-universe transport has been implemented.
 
