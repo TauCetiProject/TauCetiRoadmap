@@ -2141,6 +2141,135 @@ hyperbolic manifold is positive.
 *Needs:* Tau Ceti `TauCeti.IsFiniteVolumeHyperbolic`, `TauCeti.HyperbolicMetric.HasFiniteVolume`,
 `TauCeti.IsAtoroidal`; Layer 7.1, Layer 7.2, Layer 5.2, Layer 8.2.
 
+### 7.3.1 Cusp lattices, shapes and horoball patterns
+
+**Scope and geometric carriers.** For a connected, oriented, noncompact complete
+finite-volume hyperbolic `3`-manifold, build the following cusp-invariant API on
+the metric and cusp ends of this layer. A peripheral marking identifies the
+stabilizer of a chosen horoball with a rank-two translation lattice
+`L : Submodule ℤ ℂ`, with `DiscreteTopology L` and `IsZLattice ℝ L`.
+Construct the horotorus as the additive quotient `ℂ ⧸ L`, with its quotient flat
+metric, smooth structure and area measure; compare it with the actual cusp
+cross-section and with `UnitAddTorus (Fin 2)` after choosing a lattice basis.
+On the coordinate torus use the transported Gram metric of that basis, scaled
+by `h^(−2)` at height `h`, and its induced area measure. The standard product
+metric agrees only for a correspondingly orthonormal basis at that height.
+The comparison must preserve the peripheral marking, induced metric and measure,
+not just the underlying topology. The horotorus is the abstract quotient of a
+horosphere by its stabilizer. Its boundary parametrization into the manifold
+is an immersion; at maximal-cusp tangencies it can identify distinct points.
+Require an embedding before first contact and on the open cusp interior,
+and retain the immersed parametrization at contact, including contacts between
+different cusp boundaries. Prove the boundary image has zero three-dimensional
+volume, so its identifications do not change the cusp volume.
+Derive its hyperbolic end metric from the
+upper-half-space metric of curvature `−1`, and identify its volume measure with
+the restriction of `TauCeti.riemannianVolume` for the given `HyperbolicMetric`.
+The torus assertion uses orientability; Klein-bottle cusps retain the separate
+nonorientable treatment in the finite-volume theorem above.
+
+**Area, volume and shortest translations.** For the horosphere at height `h>0`,
+prove that a translation `v∈L` has length `‖v‖/h`, the horotorus has area
+`ZLattice.covolume L / h²`, and the cusp above it has volume
+`ZLattice.covolume L / (2h²)`. In particular the volume is half its boundary
+area. Prove these by quotient integration and the upper-half-space density
+`h^(−3)`, including finiteness, positivity and change-of-height formulas.
+For a `ℤ`-basis with complex periods `(a,b)`, identify the covolume with
+`|Im (conj a * b)|`. Prove existence of a shortest nonzero lattice vector,
+positivity of its length, and attainment of the shortest length among vectors
+real-linearly independent of a chosen shortest vector. Prove these two vectors
+form a `ℤ`-basis in dimension two. Retain the set of tied minimizing bases;
+the minimum length is independent of the tie. Prove invariance under a change
+of lift and upper-half-space normalization, with the stated similarity scaling
+for length and area. Thus the shortest parabolic translation is the systole
+of the chosen horotorus, with its scale fixed by the chosen cusp neighbourhood.
+
+**Maximal cusps.** Define a cusp neighbourhood by an equivariant family of
+horoballs with pairwise disjoint interiors; tangencies of their boundaries are
+allowed. For each cusp separately, prove that expansion of its own orbit has
+a finite attained maximum, characterized by first tangency of distinct lifts.
+This gives its individual maximal volume and the shortest translation on its
+maximal horotorus, normalized by placing a lift at height `1`. For several
+cusps also define the largest *total* volume over simultaneous pairwise
+interior-disjoint cusp neighbourhoods. Prove finiteness and attainment, using
+the finitely many cusp parameters, their individual upper bounds and the
+horoball separation constraints; justify compactness and that a maximizer has
+positive size at every cusp. Do not identify this total with the sum of the
+individual maxima. Separately construct sequential expansion: for a specified
+ordering of the cusps, maximize each while keeping the preceding choices fixed.
+Prove existence and its disjointness properties, retaining order and any
+remaining choice as parameters. It is not the simultaneous optimization.
+
+**Marked shapes and conformal classes.** For a link cusp marked by meridian and
+longitude with periods `(a,b)`, the Adams–Hildebrand–Weeks homological shape is
+`a/b`, **meridian divided by longitude**. Pin the peripheral orientations in the
+marking and prove its imaginary part is nonzero. For a shortest-vector basis
+as above the geometrical shape is likewise the first period divided by the
+second. Common complex rescaling leaves either ratio unchanged. Under the
+basis change `(a',b')=(p*a+q*b,r*a+s*b)`, with integer determinant `±1`, prove
+`a'/b'=(p*(a/b)+q)/(r*(a/b)+s)` and denominator nonvanishing. Define the source's
+conformal invariant as this `PGL(2,ℤ)` fractional-linear orbit in `ℂ ∖ ℝ`;
+prove independence of the lattice basis and of ties in a shortest-vector basis.
+It classifies lattices up to complex-linear similarity. Also construct the
+unoriented similarity class, allowing complex conjugation, and prove the
+comparison with the `GL(2,ℤ)` orbit in `UpperHalfPlane` for Mathlib's action
+(negative determinant acts with conjugation). These are different quotient
+conventions: complex conjugation of a raw shape is an additional identification
+for the unoriented class. A raw source ratio need not be in the upper half-plane,
+and replacing it by its reciprocal or conjugate needs the corresponding
+basis/orientation adapter. Never claim a tied complex representative is canonical.
+
+**Finite horoball patterns.** For a chosen disjoint cusp collection and a lift
+at infinity normalized to boundary height `1`, define the other lifted
+horoballs by their centres in `ℂ` and Euclidean diameters. Prove equivariance
+under the peripheral lattice and the diameter/separation inequalities coming
+from disjointness. For `0<α<1`, define the pattern modulo that lattice using
+exactly the balls of diameter **strictly greater than `α`**. Prove finiteness
+in a fundamental parallelogram by the induced packing/separation bound, including
+the fundamental-domain boundary identifications. Give finite enumeration and
+coverage certificates from a finite ideal triangulation with certified shapes
+and cusp data: bounds on how far the vertex horoballs extend beyond incident
+opposite faces must justify a terminating lift traversal that contains every
+ball above the cutoff. An uncertified traversal or a numerical picture is not
+coverage. Exact threshold equality must be handled explicitly. Prove independence
+of the triangulation for the same geometric cusp data and transport under
+isometries; normalized patterns are considered up to the induced Euclidean
+isometries and peripheral change of basis. For several cusps the pattern also
+depends on the specified cusp collection, including its sequential expansion
+order when that construction is used.
+
+**Source adapter and checks.** Adams–Hildebrand–Weeks,
+[*Hyperbolic invariants of knots and links*](https://doi.org/10.1090/S0002-9947-1991-0994161-2),
+Trans. AMS 326 (1991), 1–56, §2 and Tables 1–2, is the definition source.
+Its Table 1 lists individual maximal-cusp volumes; its multi-cusp Table 2
+pictures use sequential expansion, with cutoff `α=1/10`. Its reported
+`10^(−15)` volume accuracy supplies no per-row proof certificate. For the
+abstract square lattice with periods `(1,i)`, check covolume `1`, shortest
+length `1`, raw ratio `−i`, area `1/h²` and cusp-model volume `1/(2h²)`;
+this is a local cusp-model check, not a claim that it is a particular manifold's
+maximal cusp. For periods `(1,2i)` at height `1`, check area `2` and the
+unequal coordinate-loop lengths `1` and `2` in the transported torus metric.
+Check that swapping periods inverts the raw ratio and changes
+neither the lattice nor its conformal orbit. Check strict exclusion at diameter
+`α`, and that independently maximal cusps cannot be presumed disjoint.
+
+*Needs:* this layer's finite-volume cusp decomposition, native hyperbolic metric
+and Riemannian measure; its ideal-triangulation geometry for enumeration
+certificates; Mathlib `ZLattice`/`ZSpan`, `ZLattice.covolume`, quotient additive
+groups, Haar measure, complex real-linear algebra and `UpperHalfPlane` actions.
+Follow the quotient-torus design in
+[Mathlib PR 39460](https://github.com/leanprover-community/mathlib4/pull/39460)
+and its [torus discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/What.20Is.20A.20Torus.3F/with/595553420),
+the successive-minima design of
+[PR 35812](https://github.com/leanprover-community/mathlib4/pull/35812), and
+the full-lattice distinction in
+[PR 44365](https://github.com/leanprover-community/mathlib4/pull/44365).
+Build the required comparisons and missing lemmas here using those designs;
+adopt the Mathlib declarations when available. The associated
+`CuspInvariantTargets.lean` prototypes the lattice and model-volume interfaces;
+the geometric constructions and certified finite enumeration above are also
+required targets.
+
 ### 7.4 The Weeks manifold, virtual fibering and virtual Haken
 
 Define the Weeks manifold as the `(5, 1), (5, 2)` Dehn filling of the Whitehead link exterior
