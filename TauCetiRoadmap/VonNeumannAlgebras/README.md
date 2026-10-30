@@ -25,18 +25,23 @@ and a named target inside it as `Vk.Name`.
 
 It leaves the following to the named owners and consumes them by section.
 
-* [OperatorTheory](../OperatorTheory/README.md) is a consumer of this roadmap
-  (SelfAdjointSpectralTheory SA-B85 consumes V4.0.Fields), so nothing here is taken from it.
-  The Hilbert-space inputs of the theory are owned here: bounded polar decomposition
-  (V2.PolarDecomposition), the bounded Borel calculus of normal operators with its spectral
-  projections, scalar spectral measures and cyclic multiplication models (V2.BorelCalculus),
-  trace class as the Hilbert-space nuclear operators of BanachSpaceTheory B4 together with the
-  Hilbert–Schmidt class and the canonical trace (V4.Core), and closed operators, Cayley
-  transforms and the multiplier-form unbounded spectral theorem (V10.ClosedOperators).
-  General Hilbert geometry, Schatten ideals other than trace class and Hilbert–Schmidt,
-  abstract projection-valued measures and general principal angles stay in OperatorTheory.
-  V2 and V10 add algebra membership, affiliation, antilinear extensions and modular
-  consequences.
+* [OperatorTheory](../OperatorTheory/README.md) owns general Hilbert geometry
+  (OrthogonalGeometry); the bounded modulus and polar decomposition (PolarDecomposition
+  PD-A36–A45 and PD-B23–B36); the bounded Borel calculus of normal operators, projection-valued
+  measures, the PVM null filter, cyclic multiplication models, control measures, measurable
+  multiplicity and the classification of representations of `C(K)` and `C₀(X)` (the
+  Hahn–Hellinger theorem), and essentially bounded PVM symbols (SelfAdjointSpectralTheory
+  SA-B05–B13, SA-B26–B30, SA-B49–B57, SA-B85–B86); resolvents, Cayley transforms and spectral
+  measures of self-adjoint `LinearPMap` operators (SA-D14–D28, SA-E01–E02); the trace-class and
+  Hilbert–Schmidt ideals (OperatorIdeals OI-B29–B41); and general principal angles. V2, V4 and
+  V10 add what is about algebras or is not stated there: membership of Borel-calculus values and
+  polar factors in the generated von Neumann algebra, the canonical trace functional with its
+  cyclicity and the trace-class duality, the inverse Cayley correspondence, the multiplier-form
+  unbounded spectral theorem, polar decomposition of closed unbounded operators, affiliation,
+  antilinear extensions and modular consequences. The supply runs in one direction at the level
+  of targets: SA-B85–B86 consume V4.0.Fields, which uses no projection-valued-measure,
+  normal-operator or multiplicity input, and every target here that consumes SA-B85–B86 comes
+  after V4.0.Fields.
 * [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) owns C₀ semigroups, generators and
   resolvents. Stone's theorem is consumed from Tau Ceti. Modular automorphism groups and their
   KMS characterization belong here.
@@ -188,7 +193,42 @@ sets, and the weak and weak-star continuity criteria by evaluation;
 [B2](../BanachSpaceTheory/README.md#b2-weak-compactness-and-reflexivity) Krein–Šmulian and
 James; [B4](../BanachSpaceTheory/README.md#b4-approximation-and-banach-tensor-products) the
 quotient-norm nuclear operators with their nuclear norm, rank-one norm and series
-representation, and the compact Schmidt series with its nuclear-norm identity on Hilbert pairs.
+representation, and the compact Schmidt series with its nuclear-norm identity on Hilbert pairs,
+together with B4's isometric identification of the Hilbert nuclear operators with the
+trace-class ideal of OperatorIdeals OI-B29–B30.
+
+**From TauCetiRoadmap.OperatorTheory.** From
+[PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) Part A, the bounded
+modulus `|x|=√(x†x)` of a bounded operator between complete complex Hilbert spaces with its
+positivity, square, pointwise norm, kernel and norm laws (PD-A36–A45), and from Part B the
+canonical polar partial isometry v with initial space the closure of `range |x|`, equal to
+`(ker x)⊥`, final space the closure of `range x`, `v|x|=x`, the initial and final projection
+formulas, the polar factor of `x†` equal to `v†`, and uniqueness among maps that vanish off the
+initial space (PD-B23–B36). From
+[SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) Part B, for a
+normal bounded operator a on an arbitrary complex Hilbert space: the Borel calculus
+`borelCalculus a` with its agreement with the continuous calculus, star-homomorphism laws,
+norm bound and almost-everywhere invariance (SA-B05–B13); its indicator spectral projections
+(SA-B26–B30); the PVM null filter (SA-B49); the vector identity `‖f(a)ξ‖²=∫|f|²dμ_ξ` (SA-B52);
+strong convergence under uniformly bounded pointwise convergent sequences of symbols (SA-B53);
+the spectral commutant equality, that an operator commutes with a iff it commutes with every
+bounded Borel integral (SA-B57); the cyclic multiplication models for unital representations of
+`C(K)`, K compact metrizable, on arbitrary H, with, for separable H, the weighted finite control
+μ satisfying `μ(B)=0 ↔ P(B)=0`, the measurable multiplicity, the classification of
+representations of the same `C(K)` and of nondegenerate representations of `C₀(X)`, X
+second-countable locally compact Hausdorff, by control class and multiplicity, and the
+specialization to normal operators (SA-B85); and the essentially bounded symbol quotient with
+norm the P-essential supremum and its comparison with Mathlib's `L∞` of a control measure
+(SA-B86). From its Parts D and E, for a self-adjoint partial operator T on a complex Hilbert space:
+the off-real lower bound, bijectivity of `T−z` onto H and `‖(T−z)⁻¹‖≤|Im z|⁻¹` for `Im z≠0`
+(SA-D14–D19), the Cayley transform `U=(T−i)(T+i)⁻¹` with its unitarity and normality
+(SA-D24–D28), and the spectral PVM obtained from the Cayley PVM, which gives no mass to the
+point 1 (SA-E01–E02). From [OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), the
+nuclear gauge `ν(x)=∑ₙ aₙ(x)` and the trace-class ideal family (OI-B29–B31, OI-B23), and the
+Hilbert–Schmidt energy, its basis independence, the Hilbert–Schmidt norm with its operator-norm
+domination, adjoint invariance and ideal inequality, and the Hilbert–Schmidt family
+(OI-B32–B41). Each is assumed for arbitrary complex Hilbert spaces, with separability only where
+SA-B85–B86 state it.
 
 **From TauCetiRoadmap.AmenableGroups.** [Layers 5–7](../AmenableGroups/README.md#layer-5-følner-criteria-for-arbitrary-discrete-groups)
 invariant means, discrete Følner theory and abelian amenability, and from
@@ -216,15 +256,15 @@ In V4, V4.Core precedes V4.PositivePredual, which precedes V4.Normality, and the
 normality/representation conclusions consume that one criterion. V4.0.Fields constructs
 Hilbert and operator fields from countable fundamental sections and given measures,
 independently of projection-valued measures, multiplication models and central decomposition.
-V2.PolarDecomposition and V2.BorelCalculus open V2. In V8, V8.RegularL2 precedes
+In V8, V8.RegularL2 precedes
 V8.LCHRegularNormalBridge and the compact-action and dense-translation targets. In V11 the
 harmonic-analysis layer is built as V11.DoubleDualEmbedding, then V11.UnitizationCharacters and
 V11.FourierUniqueness, then inversion, Plancherel and duality. V13b.SpatialNorm opens V13b.
 V2.AbelianClassification and V2.AbelianRepresentationMultiplicity are applications after Fields
-and V2.BorelCalculus, with V4.Normality when a normal representation is used;
+and SelfAdjointSpectralTheory SA-B85–B86, with V4.Normality when a normal representation is used;
 only the elementary V2 carriers, the single-generator construction and the given-measure
 multiplication/MASA theorem precede Fields. V4.0.Decomposition consumes Fields, V4.Normality and
-V2.AbelianRepresentationMultiplicity and owns spectral/central reduction and measurable selection; V5's measurable
+SA-B85 and owns spectral/central reduction and measurable selection; V5's measurable
 trivialization and the central-reduction applications consume Decomposition. V5 delivers
 projection comparison and the trace of finite factors, V6 the standard form and semifinite
 classification, V7 modules and index, V8–V9 group algebras, crossed products and discrete series.
@@ -491,37 +531,14 @@ functions vanishing at zero. Prove its support projection belongs to the strong 
 by `SOT-lim (a/‖a‖)^(1/n)` for a≠0, with zero-constant polynomial approximants.
 *Needs:* Mathlib's nonunital continuous functional calculus; Layer 1's strong topology.
 
-**V2.PolarDecomposition.** For Hilbert spaces H, K and bounded x:H→K put
-`|x|=(x*x)^(1/2)` by Mathlib's continuous functional calculus. Prove ‖|x|ξ‖=‖xξ‖ for every ξ,
-construct the partial isometry v:H→K with initial space the closure of the range of |x|,
-equal to `(ker x)^⊥`, final space the closure of the range of x, and `x=v|x|`,
-`|x|=v*x`, `v*v|x|=|x|`; prove uniqueness of v among partial isometries with `ker v=ker x`,
-and the adjoint form `x*=v*|x*|` with `|x*|=v|x|v*` (Kadison–Ringrose I, §6.1). Include
-x=0 (v=0), x unitary (v=x, |x|=1) and the unilateral shift (v the shift, |x|=1).
-*Needs:* Mathlib continuous functional calculus and orthogonal projections.
-
-**V2.BorelCalculus.** For a normal bounded operator a on a Hilbert space H with spectrum K,
-and vectors ξ,η, let μ_ξ be the finite Borel measure on K given by `RealRMK.rieszMeasure` of the
-positive functional `f↦⟨f(a)ξ,ξ⟩` on continuous functions, and μ_(ξ,η) the polarization of
-these. For a bounded Borel function f on K define f(a) by `⟨f(a)ξ,η⟩=∫f dμ_(ξ,η)`. Prove that
-`f↦f(a)` is a unital star homomorphism from bounded Borel functions on K that extends the
-continuous functional calculus, has norm at most the supremum norm, and takes bounded pointwise
-convergent sequences to strongly convergent ones; that P_a(B)=1_B(a) is a projection-valued
-set function, countably additive in the strong topology, with `μ_ξ(B)=‖P_a(B)ξ‖²`; and that
-f(a) commutes with every operator commuting with a and a*, hence f(a)∈W*(a)⊆M for a in a von
-Neumann algebra M (Kadison–Ringrose I, §5.2; Conway, *A Course in Functional Analysis*, IX.2). For a
-countable family (ξ_n) with dense span, which exists exactly when H is separable, and positive
-weights w_n with `∑ w_n‖ξ_n‖²<∞`, prove that `μ=∑ w_n μ_(ξ_n)` is a finite control: μ(B)=0 iff P_a(B)=0, and f(a)=0 iff f=0
-μ-a.e., so `‖f(a)‖=essSup_μ|f|`. Prove the cyclic multiplication model for arbitrary H: by
-Zorn, H is the orthogonal sum of cyclic subspaces `closure(C*(a)ξ_i)`, each unitarily
-equivalent to `L²(K,μ_(ξ_i))` with a acting as multiplication by the coordinate and f(a) as
-multiplication by f. Include the zero space (empty family), a diagonal operator on ℓ² (atomic
-μ), and multiplication by t on `L²[0,1]` (Lebesgue class, no eigenvectors).
-*Needs:* Mathlib continuous functional calculus, `RealRMK.rieszMeasure`, `essSup`.
-
-Bounded Borel functions and spectral projections of self-adjoint elements lie in M by
-V2.BorelCalculus; modulus and polar-decomposition partial isometries of arbitrary elements lie
-in M by V2.PolarDecomposition, since |x|∈W*(x*x) and v commutes with every unitary of M′. Prove
+For a normal element a of a von Neumann algebra M, prove that every value of the Borel calculus
+`borelCalculus a` (SelfAdjointSpectralTheory SA-B05), in particular every spectral projection,
+lies in W*(a)⊆M: by SA-B57 it commutes with every operator commuting with a, hence with
+`W*(a)′`, and the bicommutant theorem of V1 gives membership. For x∈M prove that the modulus
+|x| (PolarDecomposition PD-A36) lies in W*(x*x) by the continuous calculus, and that the polar
+partial isometry v (PD-B24) lies in M: for a unitary u∈M′, `uvu*` satisfies `uvu*|x|=x` and
+vanishes on the orthogonal complement of the closure of `range |x|`, which u fixes, so
+`uvu*=v` by the uniqueness PD-B36; M′ is spanned by its unitaries, so v∈M″=M. Prove
 M is generated by its projections and by its unitaries; prove every element is a
 complex linear combination of at most four unitaries. For a unital C*-algebra A whose
 von Neumann closure is M, prove U(A) is strong-star dense in U(M): construct a bounded
@@ -688,15 +705,16 @@ algebra comparison below.
 *Needs:* Mathlib `L∞`, `essSup` and `Lp` multiplication; Layer 1's projections; the finite
 measure algebra above.
 
-**V2.AbelianClassification — after Fields and V2.BorelCalculus.** For an abelian
+**V2.AbelianClassification — after Fields and SA-B85–B86.** For an abelian
 M on separable H, choose the preceding generator a, so M=W*(a).
-Use V2.BorelCalculus's control measure μ on K=σ(a), built from a countable
-dense family of vectors, its spectral projections P_a and the equivalence
-`μ(B)=0 ↔ P_a(B)=0` for Borel B. For H≠0 normalize
+Consume SelfAdjointSpectralTheory SA-B85's control measure μ on K=σ(a) for the
+continuous-calculus representation of a, its spectral projections P_a and its
+equivalence `μ(B)=0 ↔ P_a(B)=0` for Borel B. For H≠0 normalize
 the finite nonzero control to a probability measure. For H=0 use the
 zero measure and the unique isomorphism of zero algebras; do not claim
-a probability control or choose a unit vector there. The symbol algebra is
-Mathlib's L∞(K,μ), with norm `essSup_μ|f|`.
+a probability control or choose a unit vector there. Consume SA-B86's
+P-essentially bounded symbol quotient, its norm equality and its comparison
+with Mathlib's L∞(K,μ), with norm `essSup_μ|f|`.
 VNA owns its comparison with this concrete generated algebra: construct
 
 ```
@@ -707,19 +725,19 @@ VNA owns its comparison with this concrete generated algebra: construct
 Require compatibility with continuous and bounded Borel calculus,
 `Φ_a([1_B])=P_a(B)`, the projection/measure-algebra correspondence and
 normality. The representative is an actual bounded Borel version of
-the a.e. class; the P-null comparison of V2.BorelCalculus supplies descent and
+the a.e. class; SA-B49's P-null comparison and SA-B86 supply descent and
 injectivity, not a new symbol or measure carrier. Prove onto-ness rather
 than putting it in a premise. For T∈W*(a), V1's Kaplansky theorem and
 bounded-set SOT metrizability give uniformly bounded continuous-calculus
-approximants f_n(a)→T strongly. The weighted control of V2.BorelCalculus and the
+approximants f_n(a)→T strongly. SA-B85's weighted control and SA-B52's
 vector L² identity `‖f(a)ξ‖²=∫|f|²dμ_ξ` make f_n Cauchy in L²(μ): control finitely many cyclic
 vectors and then the summable uniformly bounded tail. A subsequence
 converges μ-a.e. to a bounded Borel version f with the same uniform
-bound. P-null equivalence and the bounded convergence of V2.BorelCalculus give
+bound. P-null equivalence and SA-B53's bounded convergence give
 f_n(a)→f(a) strongly along that subsequence, so T=Φ_a([f]). Increasing
 bounded nonnegative symbols/projections and their vector integrals give
 normality, and the indicator laws identify the projection lattice.
-This is the algebra-membership/range theorem on the V2.BorelCalculus
+This is the algebra-membership/range theorem on the SA-B05 Borel
 calculus, not a second scalar-control or spectral construction. Changing generators or control choices gives the induced normal
 star isomorphism through M and its projection lattice; preserve the
 measure class, not an arbitrary pointwise representative.
@@ -730,8 +748,9 @@ finite/countable atomic set, a nonatomic L∞[0,1] part, or their direct
 sum, with either part allowed to vanish. Retain the zero algebra
 separately. This is not the classification of arbitrary-cardinality
 abelian algebras by one separable probability model.
-*Needs:* V2.BorelCalculus (control measure, P-null comparison, cyclic multiplication model), the
-single-generator construction above, V1's Kaplansky theorem and bounded-set metrizability, Mathlib
+*Needs:* SelfAdjointSpectralTheory SA-B05, SA-B49, SA-B52–B53 and SA-B85–B86 (Borel calculus,
+P-null comparison, vector L² identity, bounded convergence, control measure, essentially bounded
+symbols), the single-generator construction above, V1's Kaplansky theorem and bounded-set metrizability, Mathlib
 `L∞(K,μ)` and `essSup`; V4.Normality wherever normality is asserted.
 
 **V2.AbelianLocalizable — arbitrary cardinalities.** Retain the general
@@ -773,29 +792,27 @@ the strictly localizable disjoint union is built here.
 
 **V2.AbelianRepresentationMultiplicity — terminal application.** For
 normal representations of the separably acting abelian algebras on
-separable Hilbert spaces, prove the Hahn–Hellinger theorem: a nondegenerate
-representation π of C(K), K compact metrizable, on separable H is unitarily equivalent to
-multiplication on `⊕_(1≤n≤∞) L²(K,μ_n;ℂⁿ)` for mutually singular finite measures μ_n, and the
-measure classes [μ_n] are complete unitary invariants (Arveson, *An Invitation to
-C*-Algebras*, Ch. 2). Route: the cyclic multiplication model of V2.BorelCalculus, the
-control measure class of π(C(K))″, the abelian commutant-projection comparison of V2's
-projection lattice, and V4.0.Fields for the direct-integral form `∫⊕ ℂ^(m(t)) dμ(t)` with
-measurable multiplicity m and change-of-measure unitaries. Include multiplication by t on
-`L²[0,1]` (m=1), its double `L²[0,1]⊗ℂ²` (m=2) and the zero representation (μ=0). Apply this
-with V4.Normality and the preceding Φ_a comparison to normal representations of the separably
-acting abelian algebras: own restriction to the C*-algebra generated
-by a and comparison with its normal extension; use V4.Normality to
-recover the given representation from that restriction. V4.0.Decomposition consumes this
-model for its central-reduction and direct-integral applications.
-For representations on arbitrary Hilbert spaces retain the
-orthogonal cyclic-sum description of V2.BorelCalculus and V4.Normality's amplification API,
-without a separable measurable-multiplicity assertion. Elementary V2
-carriers, completed tensors, projection lattice, membership, generator
-and given-measure MASA APIs consumed by Fields
-remain independent of these later classification applications.
-*Needs:* V2.BorelCalculus's cyclic model and control measure class, V2's projection lattice,
-V4.0.Fields (direct integrals, change-of-measure unitaries), V4.Normality; Arveson, *An
-Invitation to C*-Algebras*, Chapter 2, is the source.
+separable Hilbert spaces, consume SelfAdjointSpectralTheory SA-B85's cyclic
+multiplication model, control measure class, measurable multiplicity and
+classification of representations of the same `C(K)` by control class and
+multiplicity, with V4.Normality and the preceding Φ_a comparison. Own
+restriction to the C*-algebra generated by a and comparison with its normal
+extension, and use V4.Normality to recover the given representation from that
+restriction: two normal representations of M=W*(a) on separable Hilbert spaces
+are unitarily equivalent iff their restrictions to `C(σ(a))` have equivalent
+control measures and equal multiplicities almost everywhere, and the control
+class of a normal representation is absolutely continuous with respect to the
+class of μ in V2.AbelianClassification. Include the identity representation of
+L∞[0,1] on `L²[0,1]` (multiplicity 1), its amplification on `L²[0,1]⊗ℂ²`
+(multiplicity 2, not equivalent to the first) and the zero representation (zero
+control). V4.0.Decomposition consumes SA-B85 for its central-reduction and
+direct-integral applications. For representations on arbitrary Hilbert spaces
+retain SA-B85's orthogonal cyclic-sum description and V4.Normality's
+amplification API, without a separable measurable-multiplicity assertion.
+Elementary V2 carriers, completed tensors, projection lattice, membership,
+generator and given-measure MASA APIs consumed by Fields remain independent of
+these later classification applications.
+*Needs:* SelfAdjointSpectralTheory SA-B85, V4.Normality, V2.AbelianClassification's Φ_a.
 
 **V2.NonmodularProjectionLattice.** On H=ℓ²⊕ℓ² let
 D(x)_n=x_n/(n+1), y_n=1/(n+1), A=ℓ²⊕0, B=graph D and C=ℓ²⊕ℂy.
@@ -812,21 +829,22 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 - On `ℓ²⊕ℓ²`, the subspaces `ℓ²⊕0`, the graph of `D(x)_n=x_n/(n+1)` and `ℓ²⊕ℂy` with
   `y_n=1/(n+1)` violate the modular law (V2.NonmodularProjectionLattice).
 - The support projection of a positive `a≠0` is the SOT limit of `(a/‖a‖)^(1/n)`.
-- The unilateral shift S has `|S|=1` and polar part S, while `|S*|=SS*` is the projection
-  onto the orthogonal complement of the first basis vector (V2.PolarDecomposition).
-- For multiplication by t on `L²[0,1]`, `1_[0,1/2](a)` is multiplication by the indicator, a
-  projection of infinite rank, and every one-point set has spectral projection 0
-  (V2.BorelCalculus).
+- In `ℓ∞` acting diagonally on `ℓ²`, `x=diag(x_n)` has modulus `diag(|x_n|)` and polar part
+  `diag(x_n/|x_n|)`, with 0 where `x_n=0`; both lie in `ℓ∞`, and the polar part is a
+  non-unitary partial isometry as soon as some `x_n=0`.
+- For a the multiplication by t on `L²[0,1]`, `W*(a)` is the multiplication algebra `L∞[0,1]`;
+  the spectral projection `1_[0,1/2](a)∈W*(a)` has infinite rank and every one-point set has
+  spectral projection 0, so `W*(a)` has no minimal projection.
 
 ### Dependencies
 
 - Layers 0 and 1.
 - Mathlib nonunital continuous functional calculus.
-- Mathlib `RealRMK.rieszMeasure` and `essSup` for V2.BorelCalculus and
-  V2.AbelianClassification.
-- V4.0.Fields and V4.Normality for V2.AbelianClassification and
-  V2.AbelianRepresentationMultiplicity; Mathlib's commutative Gelfand duality for
-  V2.AbelianLocalizable.
+- OperatorTheory PolarDecomposition PD-A36–A45 and PD-B23–B36, and SelfAdjointSpectralTheory
+  SA-B05–B13 and SA-B57, for the membership results.
+- SelfAdjointSpectralTheory SA-B49, SA-B52–B53 and SA-B85–B86, Mathlib `essSup`, V4.0.Fields and
+  V4.Normality for V2.AbelianClassification and V2.AbelianRepresentationMultiplicity.
+- Mathlib's commutative Gelfand duality and `RealRMK.rieszMeasure` for V2.AbelianLocalizable.
 
 ## Layer 3: Type I and finite-dimensional algebras
 
@@ -837,8 +855,8 @@ Construct matrix units from orthogonal equivalent projections, with their repres
 corner and tensor-product APIs. Prove a factor with a minimal projection is spatially
 `B(K) ⊗ 1_L` and classify type I_n and type I_∞ on separable spaces. Treat arbitrary
 cardinality in the basic type I classification. Give the commutant and multiplicity.
-*Needs:* Layers 1–2 (corners, projections, V2.PolarDecomposition for the connecting corner, completed
-tensors), Mathlib `Matrix` and `IsStarProjection`.
+*Needs:* Layers 1–2 (corners, projections, PolarDecomposition PD-B24–B36 for the connecting corner,
+completed tensors), Mathlib `Matrix` and `IsStarProjection`.
 
 **Checks.**
 
@@ -891,17 +909,17 @@ and the classification in dimensions1–3.
 
 ### Dependencies
 
-- Layers 1 and 2, with V2.PolarDecomposition.
+- Layers 1 and 2; OperatorTheory PolarDecomposition PD-B24–B36.
 
 ## Layer 4: Preduals, normality, and normal representations
 
 **V4.Core — duality and the easy normality direction.**
-Define trace class S₁(H) as the nuclear operators H→H of BanachSpaceTheory B4 with the
-nuclear norm ‖·‖₁, and prove that a bounded x is trace class iff `∑ ⟨|x|e_i,e_i⟩<∞` for one,
-equivalently every, orthonormal basis, with that sum equal to ‖x‖₁ (B4's Schmidt series and
-V2.PolarDecomposition). Define the Hilbert–Schmidt class S₂(H,K) by `∑‖xe_i‖²<∞` with norm
-`‖x‖₂=(∑‖xe_i‖²)^(1/2)`, and the canonical trace `Tr(x)=∑⟨xe_i,e_i⟩` in [0,∞] on positive
-operators (Reed–Simon I, §VI.6). Prove basis independence
+Use trace class S₁(H) as the trace-class ideal of OperatorIdeals OI-B29–B30, with trace norm
+`‖x‖₁=ν(x)=∑ₙ aₙ(x)`, identified with the Hilbert nuclear operators by BanachSpaceTheory B4, and
+the Hilbert–Schmidt class S₂(H,K) and norm ‖·‖₂ of OI-B32–B41. Define the canonical trace
+`Tr(x)=∑⟨e_i,xe_i⟩` in [0,∞] on positive operators and prove that a bounded x is trace class iff
+`Tr|x|<∞`, with `Tr|x|=‖x‖₁` (B4's Schmidt series and the modulus PD-A36; Reed–Simon I,
+§VI.6). Prove basis independence
 of positive extended trace, cyclicity of trace-class products and Hilbert–Schmidt pairings,
 `‖φ_h‖ = ‖h‖₁`, and the unitary identification of Hilbert–Schmidt operators H→K with
 `K ⊗̄ conjugate(H)`. Identify `B(H)` isometrically with the dual of trace class by the pairing
@@ -951,9 +969,10 @@ and zero H; no separability premise enters the general trace-class or
 quotient-duality construction. Specialize to concrete algebras. For group algebras of groups with at least two elements produce a nonzero trace-class
 annihilator to demonstrate that restrictions are not injective.
 *Needs:* BanachSpaceTheory B1 (annihilators, quotient duals), B2 (Krein–Šmulian), B4 (nuclear
-operators, Schmidt series, rank-one norm); V2.PolarDecomposition; Mathlib
+operators, Schmidt series, rank-one norm, identification with trace class); OperatorTheory
+OperatorIdeals OI-B29–B41 and PolarDecomposition PD-A36; Mathlib
 `LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, `SeparatingDual`, `WStarAlgebra`;
-Reed–Simon I §VI.6 is the source for the trace class.
+Reed–Simon I §VI.6 is the source for the canonical trace and the trace-class duality.
 
 **Checks.**
 
@@ -1140,11 +1159,9 @@ Radon–Nikodym derivatives, `gramSchmidt`; V2's completed tensors for constant 
 projection-valued-measure or normal-operator input.
 
 **V4.0.Decomposition — spectral and central decomposition.** Consume
-V4.0.Fields, V4.Normality and V2.AbelianRepresentationMultiplicity.
+V4.0.Fields, V4.Normality and SelfAdjointSpectralTheory SA-B85.
 For X second-countable locally compact Hausdorff and a nondegenerate
-representation of C₀(X) on separable H, apply the Hahn–Hellinger model of
-V2.AbelianRepresentationMultiplicity to its extension to the one-point
-compactification (metrizable since X is second countable) to obtain the diagonal
+representation of C₀(X) on separable H, consume SA-B85's diagonal
 representation, measurable multiplicity and change-of-measure unitary.
 
 For a separably acting von Neumann algebra disintegrate over a chosen
@@ -1170,7 +1187,7 @@ reduction theory is restricted to separable Hilbert spaces/standard
 API. OperatorAlgebraDynamics D5 consumes V4.0.Fields, SA-B85’s diagonal C₀ representation and V4.0.Decomposition’s reduction of separable C*-representations commuting with the diagonal
 and adds groupoid representation/disintegration, while V13 adds the
 injectivity/AFD applications.
-*Needs:* V4.0.Fields, V4.Normality, V2.AbelianRepresentationMultiplicity; OptimalTransport Layers 2
+*Needs:* V4.0.Fields, V4.Normality, SelfAdjointSpectralTheory SA-B85; OptimalTransport Layers 2
 and 8.2 (analytic sets, Jankov–von Neumann uniformization, finite-measure completion); Mathlib
 Polish spaces, `Measure` on standard Borel spaces and the one-point compactification
 (`OnePoint`).
@@ -1195,9 +1212,10 @@ Polish spaces, `Measure` on standard Borel spaces and the one-point compactifica
 ### Dependencies
 
 - Layers 0–3.
-- BanachSpaceTheory B1, B2 and B4; V2.PolarDecomposition for the trace norm.
+- BanachSpaceTheory B1, B2 and B4; OperatorTheory OperatorIdeals OI-B29–B41 and
+  PolarDecomposition PD-A36 for the trace class and trace norm.
 - Mathlib `LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, `SeparatingDual`.
-- V2.AbelianRepresentationMultiplicity and OptimalTransport Layers 2 and 8.2 for V4.0.Decomposition.
+- SelfAdjointSpectralTheory SA-B85 and OptimalTransport Layers 2 and 8.2 for V4.0.Decomposition.
 
 ## Layer 5: Projection comparison and finite factors
 
@@ -1220,7 +1238,7 @@ many equivalent projections with sum 1. Construct isometries v_n with
 isomorphism M≃M⊗̄B(ℓ²) with its corner and matrix-unit formulas.
 Use the ultraweakly closed ideal classification from V2 to prove a nonzero normal trace on a factor is faithful
 (the comparison theory: Anantharaman–Popa, §2.4, pp. 35–40; Peterson, §3.2, pp. 44–48).
-*Needs:* Layer 2's projection lattice, polar decomposition and ultraweakly closed ideals; Mathlib
+*Needs:* Layer 2's projection lattice, polar-part membership (PolarDecomposition PD-B24) and ultraweakly closed ideals; Mathlib
 `IsStarProjection` and the positive order; Zorn's lemma for the exhaustions.
 
 Define `IsFactor M` (nonzero identity and scalar centre), `IsFinite M` (every isometry of M is
@@ -1255,7 +1273,7 @@ Prove the alternative small-trace increment argument for a II₁ factor:
 for 0≤r≤1 take a projection q maximal subject to τ(q)≤r, using
 normality on chain suprema. If τ(q)<r, use the preceding
 small-projection theorem to choose nonzero e with τ(e)<r−τ(q);
-V3's factor connector in (1−q)Me and V2's polar decomposition give
+V3's factor connector in (1−q)Me and the polar part (PD-B24) with V2's membership give
 nonzero f≤1−q equivalent to a subprojection of e. Then
 0<τ(f)≤τ(e)<r−τ(q), so q+f contradicts maximality. Handle r=0,1
 directly. Trace
@@ -1265,7 +1283,7 @@ Prove algebraic simplicity of II₁ factors using the following explicit project
 extraction. For a nonzero positive a∈M set ε=‖a‖/2>0 and define the bounded
 nonnegative Borel function f_ε on ℝ by f_ε(t)=0 for t<ε and
 f_ε(t)=1/t for t≥ε. It is smooth on either side of its single
-jump, with 0≤f_ε≤1/ε. Consume V2.BorelCalculus and V2's membership result to prove
+jump, with 0≤f_ε≤1/ε. Consume SelfAdjointSpectralTheory SA-B05 and V2's membership result to prove
 f_ε(a)∈M and a f_ε(a)=1_[ε,∞)(a), a projection. Prove it is nonzero:
 otherwise the spectral calculus gives ‖a‖≤ε, a contradiction. For a nonzero
 two-sided algebraic ideal I choose x∈I∖{0}; then x* x∈I is nonzero
@@ -1278,7 +1296,7 @@ No norm closure or star-invariance of I is assumed; this is `isSimpleRing_of_isT
 von Neumann algebra embeds unitally and normally into every II₁ factor via its block-matrix
 embedding. Prove a concrete diffuse factor contains no nonzero compact operator, by finite-rank
 spectral projection extraction and the minimal-projection criterion.
-*Needs:* the comparison theory above, V2.BorelCalculus (for `f_ε(a)`), V2's membership results,
+*Needs:* the comparison theory above, SelfAdjointSpectralTheory SA-B05 (for `f_ε(a)`), V2's membership results,
 V3's connecting corner, Mathlib `IsSimpleRing`; the sources named at each claim.
 
 Prove a unital star homomorphism between II₁ factors is injective, and a surjective one
@@ -1344,7 +1362,7 @@ V2.NonmodularProjectionLattice; Mathlib `IsModularLattice`.
 
 ### Dependencies
 
-- Layers 2–4; V2's ultraweakly closed ideal classification; V2.BorelCalculus.
+- Layers 2–4; V2's ultraweakly closed ideal classification; SelfAdjointSpectralTheory SA-B05.
 - V4.0.Fields, V4.0.Decomposition and OptimalTransport for measurable trivialization.
 
 ## Layer 6: Tracial standard form and semifinite factors
@@ -1444,7 +1462,7 @@ combine V2's corner-factor theorem with injectivity on the center under
 z↦zp to prove factoriality in both directions. This is a projection/
 corner theorem before V11; it does not identify finite with infinite
 semifinite corners. V10.AffineType consumes this comparison.
-*Needs:* V2's central-support/kernel theorem, corner-factor theorem and polar decomposition; the
+*Needs:* V2's central-support/kernel theorem, corner-factor theorem and polar-part membership (PolarDecomposition PD-B24); the
 finite-projection definitions above.
 
 **V6.LatticeTypes — internal projection-logic type criteria.** Consume
@@ -2092,10 +2110,12 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 
 **V10.ClosedOperators — pre-tracial closed-operator calculus.**
 Use Mathlib's `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and
-`LinearPMap.isSelfAdjoint_def`. For a self-adjoint T prove that T±i is a bijection of its domain
-onto H (Reed–Simon I, Thm VIII.3), define the resolvent `(T−λ)⁻¹` for λ∉ℝ with `‖(T−λ)⁻¹‖≤|Im λ|⁻¹`, and the Cayley transform
-`U=(T−i)(T+i)⁻¹`, a unitary with 1 not an eigenvalue; prove the inverse correspondence from such
-unitaries back to self-adjoint operators (Rudin, *Functional Analysis*, Thm 13.19). Extend this to arbitrary densely
+`LinearPMap.isSelfAdjoint_def`. For a self-adjoint T consume SelfAdjointSpectralTheory
+SA-D14–D19 (`T−λ` is a bijection of its domain onto H for λ∉ℝ, with `‖(T−λ)⁻¹‖≤|Im λ|⁻¹`) and
+SA-D24–D28 (the Cayley transform `U=(T−i)(T+i)⁻¹` is unitary), and SA-E02, by which 1 is not an
+eigenvalue of U. Prove the inverse correspondence: a unitary U for which 1 is not an eigenvalue is the Cayley
+transform of exactly one self-adjoint operator, `T=i(1+U)(1−U)⁻¹` on the domain `range(1−U)`
+(Rudin, *Functional Analysis*, Thm 13.19). Extend this to arbitrary densely
 defined closed operators T: self-adjointness/positivity of T*T and TT*, equality of domains
 D(T)=D((T*T)^(1/2)), polar partial isometry with initial/final spaces the closures of
 range |T| and range T, uniqueness and `T=(TT*)^(1/2)v`. Supply the graph-core results
@@ -2107,16 +2127,17 @@ and resolvents with their actual domains. Prove the multiplier-form spectral the
 decompose an arbitrary self-adjoint operator into cyclic reducing summands, each unitarily
 L² of a finite scalar spectral measure with the operator acting as multiplication by a
 real measurable f on domain `{g : ∫|fg|²<∞}` (Reed–Simon I, Thm VIII.4). Apply the
-cyclic multiplication model of V2.BorelCalculus to the Cayley transform U (equivalently the
-bounded transform `T(1+T²)^(-1/2)`), whose spectral measure gives no mass to the point 1, and
-pull the coordinate back to the real line; prove the unbounded multiplier/domain
+cyclic multiplication model of SelfAdjointSpectralTheory SA-B85 to the Cayley transform U, whose
+spectral measure gives no mass to the point 1 (SA-E01–E02), and pull the coordinate back to the
+real line along the inverse Cayley map; prove the unbounded multiplier/domain
 transport by spectral truncation. For separable H combine the countably many
 summands into its one finite measure space; retain the
 direct-sum form without separability. Extend the adjoint and
 closed-graph machinery to conjugate-linear partial maps using the conjugate Hilbert space;
 prove graph orthogonality, closure and polar-decomposition statements with domains explicit.
 *Needs:* Mathlib `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed`, `LinearPMap.isSelfAdjoint_def`;
-V2.BorelCalculus's cyclic multiplication model; V2.PolarDecomposition; the conjugate Hilbert space;
+SelfAdjointSpectralTheory SA-D14–D28, SA-E01–E02 and SA-B85; PolarDecomposition PD-A36 and
+PD-B23–B36 for the bounded transform in the unbounded polar decomposition; the conjugate Hilbert space;
 Reed–Simon I, Theorems VIII.3–VIII.4, and Rudin, Theorem 13.19, are the sources.
 
 **Checks.**
@@ -2605,8 +2626,8 @@ Bost–Connes Theorem 5, Laca–Raeburn and Neshveyev are the sources (Reference
 ### Dependencies
 
 - Layers 0–8.
-- Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`; V2.BorelCalculus for
-  V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
+- Mathlib `LinearPMap.adjoint` and `LinearPMap.adjoint_isClosed`; SelfAdjointSpectralTheory
+  SA-D14–D28, SA-E01–E02 and SA-B85, and PolarDecomposition, for V10.ClosedOperators; Tau Ceti `TauCeti.Analysis.Semigroups.Group.Stone.Unbounded`.
 - Tau Ceti's Hecke-ring modules for V10.Hecke; GlobalNumberFields Layer 4 for V10.AffineHecke;
   ArithmeticDirichletSeries Layer 9 and the Tau Ceti Tauberian/transfer declarations named in
   V10.AffineAP.
@@ -3229,7 +3250,7 @@ the infinite dihedral group `C₂*C₂ ≃ ℤ⋊C₂` using its spectral involu
 same decomposition from the self-adjoint unitaries `2p-1`, `2q-1`. Own the generated-algebra
 classification here; general principal angles are not part of this roadmap (Jones, §7.3, p. 46,
 for the two-projection exercises).
-*Needs:* V2's projection lattice, parallelogram law and polar decomposition, V2's spatial tensor
+*Needs:* V2's projection lattice, parallelogram law and polar-part membership (PolarDecomposition PD-B24), V2's spatial tensor
 `B⊗̄M₂`, V3's matrix units.
 
 For a von Neumann algebra M define an operator-norm-bounded sequence (x_n)
@@ -4024,16 +4045,11 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 
 ## References
 
-- Richard V. Kadison and John R. Ringrose, *Fundamentals of the Theory of Operator Algebras I*,
-  §5.2 for the bounded Borel calculus of V2.BorelCalculus and §6.1 for V2.PolarDecomposition.
-- John B. Conway, *A Course in Functional Analysis*, 2nd ed., IX.2, for the spectral theorem
-  behind V2.BorelCalculus.
-- William Arveson, *An Invitation to C*-Algebras*, Chapter 2, for the Hahn–Hellinger
-  multiplicity theory of V2.AbelianRepresentationMultiplicity.
-- Michael Reed and Barry Simon, *Methods of Modern Mathematical Physics I*, §VI.6 for trace
-  class and Hilbert–Schmidt operators (V4.Core), Theorems VIII.3–VIII.4 for self-adjointness
+- Michael Reed and Barry Simon, *Methods of Modern Mathematical Physics I*, §VI.6 for the
+  canonical trace, `Tr|x|=‖x‖₁` and the trace-class duality (V4.Core), Theorems VIII.3–VIII.4 for self-adjointness
   and the multiplier-form spectral theorem (V10.ClosedOperators).
-- Walter Rudin, *Functional Analysis*, Theorem 13.19, for the Cayley transform of V10.ClosedOperators.
+- Walter Rudin, *Functional Analysis*, Theorem 13.19, for the inverse Cayley correspondence of
+  V10.ClosedOperators.
 - Vaughan F. R. Jones, [*Von Neumann Algebras*](https://math.berkeley.edu/~vfr/VonNeumann2009.pdf),
   lecture notes (2009): Chapter 3, p. 13, for the weak-limit remark on projections (V1); §7.3 for
   the two-projection exercises (V12); Chapter 10, pp. 61–66, for `dim_M H` (V7); §§16.1–16.3 and
