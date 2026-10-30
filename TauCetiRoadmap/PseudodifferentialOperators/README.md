@@ -128,6 +128,12 @@ above, consume the point-derivation equivalence and its inverse equation in
 `TauCeti/Geometry/Manifold/DerivationBundle.lean`, under finite dimension,
 Hausdorffness and the interior-point hypothesis. The global smooth-field
 identification in P1.0 extends this pointwise result.
+For §5.3 consume `TauCeti.lintegral_rpow_lintegral_mul_le` from
+`TauCeti/MeasureTheory/Integral/SchurTest.lean`: on SFinite measures, a jointly
+measurable nonnegative kernel and an a.e. measurable nonnegative input satisfy
+the finite-p integral bound with factor A^(p−1)B for real p≥1, given a.e. row
+and column integral bounds A and B. The finite-rank Bochner-kernel adapter
+and the p=∞ endpoint are the additional targets in §5.3.
 
 ## How to read the build
 
@@ -1114,19 +1120,31 @@ such that φ and φ⁻¹ have uniformly bounded derivatives of every positive or
 is a bounded isomorphism of B^s_(p,q)(ℝⁿ;F), inverse to pullback by φ⁻¹ and
 agreeing with distribution pullback; the operator norms depend on s, n, the
 partition and the derivative bounds, and not on p or q. Prove both by block
-decomposition: with a second dyadic partition equal to 1 on the supports of the
-first, write the transition T on a block as Σ_k Δ_j T Δ̃_k and show that the
+decomposition: choose smooth enlarged cutoffs ψ̃_k supported in a low-frequency
+ball for k=0 and enlarged dyadic annuli for k≥1, with finite overlap, uniform
+rescaled derivative bounds and ψ̃_k ψ_k=ψ_k. Let Δ̃_k be their Fourier multipliers.
+The analysis/synthesis identity is
+`Δ_j(Tu) = Σ_k (Δ_j T Δ̃_k)(Δ_k u)`, with convergence in tempered distributions
+(Bergh–Löfström, §6.4, equations (1)–(2), p. 150).
+The enlarged cutoffs need not sum to 1. Show that the
 kernel of Δ_j T Δ̃_k has L¹ bounds in each variable at most C_N 2^(−N|j−k|)
 for every N, integrating by parts against the higher-frequency block, which is
 2^(−N·max(j,k)) times derivatives of a Schwartz function by its annular Fourier
 support, and using P2–P4's localized kernel estimates, distribution pullbacks
-and the chain rule for the composed factor. Prove the Lp Schur test as part of
-this target: an integral kernel whose L¹ norms in each variable are at most A
-defines an operator of norm at most A on Lp for every 1≤p≤∞, by Tonelli at p=1,
-the integral norm bound at p=∞ and Hölder's inequality with Tonelli in between.
-It converts the kernel bounds into one Lp→Lp bound for every 1≤p≤∞, and the
-ℓ^q triangle inequality applied to the shifted weighted block sequences, with the
-factors 2^(−N|j|), gives the ℓ^q bound once N>|s|.
+and the chain rule for the composed factor. Prove the finite-rank Bochner-kernel
+adapter: for finite-dimensional fibers F,G, a jointly measurable kernel
+K(x,y):F→L[ℂ]G on ℝⁿ×ℝⁿ whose operator-norm row and column integrals are a.e.
+at most a finite real A≥0 defines a bounded map Lp(ℝⁿ;F)→Lp(ℝⁿ;G),
+u↦∫ K(·,y)u(y)dy, of norm at most A for every 1≤p≤∞.
+For finite p apply `TauCeti.lintegral_rpow_lintegral_mul_le` to the ENNReal
+norm kernel k(x,y)=‖K(x,y)‖ and input g(y)=‖u(y)‖, then use the Bochner integral
+norm inequality and take pth roots. For A>0 the factor is
+`(A^(p-1) A)^(1/p)=A`; for A=0 the kernel vanishes a.e. and the operator is zero.
+For p=∞ use the row bound and the integral norm inequality directly.
+Apply this adapter to each Δ_j T Δ̃_k acting on Δ_k u. The ℓ^q triangle
+inequality on the shifted weighted block sequences gives the ℓ^q bound for
+every 1≤q≤∞, since the comparison factors 2^(−(N−|s|)|j−k|) are summable
+when N>|s|.
 For s>0 the modulus-of-continuity norm of Bergh–Löfström, Theorem 6.2.5,
 pp. 144–146, with the chain rule and mean value theorem is an alternative route
 to the pullback bound; the general-s statement is the target.
@@ -1189,6 +1207,22 @@ The Besov and localized Bessel API includes:
 
 **Checks (Euclidean Besov transitions).**
 
+- On ℝ choose a smooth even cutoff χ, equal to 1 for |ξ|≤1 and zero for |ξ|≥2,
+  nonincreasing on [0,∞), with χ(3/2)=1/2. Set ψ₀=χ and
+  ψ_k(ξ)=χ(2^(−k)ξ)−χ(2^(1−k)ξ) for k≥1. At ξ=3 the only nonzero analysis
+  multipliers are ψ₁=ψ₂=1/2; choose the enlarged supports so only ψ̃₁=ψ̃₂=1
+  are nonzero there. For T=Id and u(x)=exp(6πix), which belongs to B⁰_(∞,∞),
+  the j=1 reconstruction multiplier is (1/2)(1·1/2+1·1/2)=1/2, agreeing with Δ₁u.
+  Omitting Δ_k u would give (1/2)(1+1)=1, and the enlarged cutoffs sum to 2 there.
+- For the scalar kernel K(x,y)=2·1_[0,1](x)1_[0,1](y) and u=1_[0,1],
+  both marginal bounds are 2, the input Lp norm is 1 and the output norm is 2
+  for p=1,2,∞. At p=2 the scalar integral estimate reads 4≤2^(2−1)·2·1=4.
+- On ℂ² the kernel 1_[0,1](x)1_[0,1](y)diag(2,3) has both operator-norm
+  marginal bounds 3; for u=1_[0,1](0,1), its input and output Lp norms are 1 and 3
+  for p=1,2,∞. The zero kernel gives 0 at every p, including A=0 and p=1.
+- A row bound alone does not give the finite-p conclusion: K(x,y)=1_[0,2](x)1_[0,1](y)
+  has row bound 1 and column bound 2, and sends 1_[0,1] to 1_[0,2].
+  Its L¹, L² and L∞ output norms are 2, √2 and 1, respectively, for input norm 1.
 - On ℝ with annular multipliers ψ(2^(−j)ξ), j≥1, the Fourier transform of u∘φ for
   φ(x)=2x is û(ξ/2)/2, so for j≥2 the block Δ_j(u∘φ) equals (Δ_(j−1)u)∘φ, with Lp norm
   2^(−1/p)‖Δ_(j−1)u‖_p; the weighted block 2^(js)‖Δ_j(u∘φ)‖_p is 2^(s−1/p) times the
@@ -1221,8 +1255,9 @@ The Besov and localized Bessel API includes:
 *Needs:* the real interpolation construction and weighted-sequence formula, dyadic partitions,
 the localized L¹ convolution-kernel bounds above, Tonelli, the integral norm bound
 and PDE Lane B.9's Riesz–Thorin theorem for the Euclidean real identity;
-P2–P4 localized kernel estimates and distribution pullbacks, Tonelli, the integral norm
-bound and Hölder's inequality for the Lp Schur test, and finite-dimensional chart retractions
+P2–P4 localized kernel estimates and distribution pullbacks,
+`TauCeti.lintegral_rpow_lintegral_mul_le`, the Bochner integral norm bound and
+the finite-rank kernel adapter above, and finite-dimensional chart retractions
 for the Euclidean Besov transition estimates and
 the bundle Besov carriers and comparisons at every 1≤p,q≤∞;
 the complex interpolation construction and PDE Lane B multiplier estimates for the
