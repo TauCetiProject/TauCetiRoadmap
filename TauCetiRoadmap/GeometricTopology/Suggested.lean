@@ -31,6 +31,8 @@ roadmap is built to state; their proofs are owned by the roadmaps named in the R
 *Scope and ownership*.
 
 Not statable at the pins:
+* the general normal-bundle tubular diffeomorphism theorem (Layer 1.5): there is no
+  compatible smooth normal vector bundle on which to state that diffeomorphism;
 * Li's rank-versus-genus theorem (Layer 9.2): there is no Heegaard genus;
 * the minimality of the Weeks manifold (Layer 7.4): there is no Weeks manifold;
 * Property P, Property R and the cyclic surgery theorem (Layers 5.3, 5.4): there is no Dehn

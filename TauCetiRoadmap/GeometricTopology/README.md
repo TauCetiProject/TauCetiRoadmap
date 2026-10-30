@@ -25,9 +25,9 @@ This roadmap owns the following, by layer.
 
 - **Layer 1.** Smooth collars of boundaries as data, complements of embedded balls, gluing
   along codimension-zero boundary faces, handle attachment, connected sum with explicit
-  choices and its independence, the tubular neighbourhood theorem in a general Riemannian
-  ambient manifold and the metric-independence of the normal bundle's smooth structure,
-  handle decompositions of compact cobordisms, handle cancellation and the Whitney move in
+  choices and its independence, the normal bundle and variable-radius tubes, the tubular
+  neighbourhood theorem in a general Riemannian ambient manifold and metric-independence
+  of the normal bundle's smooth structure, handle decompositions of compact cobordisms, handle cancellation and the Whitney move in
   dimension at least five, and the comparison between smooth and PL structures in
   dimension two.
 - **Layer 2.** The structural theory of locally flat embeddings beyond what Tau Ceti has at
@@ -207,7 +207,10 @@ This roadmap leaves the following to other roadmaps.
   `Manifold.IsSmoothEmbedding` and `Manifold.IsImmersion`; structure groupoids
   (`StructureGroupoid`, `Pregroupoid`, `contDiffGroupoid`, `continuousGroupoid`, `HasGroupoid`);
   the sphere `Metric.sphere` as an analytic manifold and `Circle` as a Lie group
-  (`Mathlib/Geometry/Manifold/Instances/Sphere.lean`).
+  (`Mathlib/Geometry/Manifold/Instances/Sphere.lean`);
+  `SmoothPartitionOfUnity.exists_isSubordinate`
+  (`Mathlib/Geometry/Manifold/PartitionOfUnity.lean`), subordinate smooth partitions on
+  Hausdorff sigma-compact finite-dimensional smooth manifolds.
 - Riemannian geometry: `RiemannianBundle`, `IsRiemannianManifold`, `riemannianEDist`,
   `EMetricSpace.ofRiemannianMetric`, `MetricSpace.ofRiemannianMetric`, path length
   (`Mathlib/Geometry/Manifold/Riemannian/`).
@@ -218,14 +221,18 @@ This roadmap leaves the following to other roadmaps.
   `Mathlib/AlgebraicTopology/SingularHomology/`; `AbstractSimplicialComplex` and
   `PreAbstractSimplicialComplex` (`Mathlib/AlgebraicTopology/SimplicialComplex/Basic.lean`).
 - Algebra: `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`, `LaurentPolynomial`
-  (notation `R[T;T⁻¹]`), `RatFunc`, `Quandle` and `Quandle.Dihedral`
+  (notation `R[T;T⁻¹]`) and `LaurentPolynomial.eval₂`, `LaurentPolynomial.eval₂_T`,
+  `LaurentPolynomial.eval₂_C` (`Mathlib/Algebra/Polynomial/Laurent.lean`): evaluation at a
+  specified unit along a coefficient ring homomorphism; `RatFunc`, `Quandle` and `Quandle.Dihedral`
   (`Mathlib/Algebra/Quandle.lean`), `PresentedGroup`, `Group.rank` for finitely generated groups
   (`Mathlib/GroupTheory/Rank.lean`), `Group.IsPerfect`, `commutator`, `ZMod`.
 
 ### From Tau Ceti
 
-Every declaration below exists at the pinned Tau Ceti and is consumed as it stands. What this
-roadmap adds on top of each is said in the layer that uses it.
+The following pinned declarations supply the carriers and results used below. Layer 1.5
+constructs the smooth normal bundle and variable-radius tubes, Layer 1.7 proves the compact
+PL comparison, Layer 4.6 constructs the HOMFLY coefficient substitution, and Layer 5.1
+constructs the compact link exterior.
 
 - **Boundaries and collars** (`Geometry/Manifold/Boundary/`): `TauCeti.isManifold_boundary`
   (the boundary of a `C^k` manifold over `𝓡∂ (n+1)` is a `C^k` manifold over `𝓡 n`) and
@@ -242,16 +249,13 @@ roadmap adds on top of each is said in the layer that uses it.
   `TauCeti.SmoothEmbedding.Concordant` and the collared `TauCeti.SmoothEmbedding.Concordance`
   between two smooth embeddings (`Concordance.lean`), with reflexivity, symmetry, transitivity
   and invariance under diffeomorphisms of either side.
-- **Euclidean tubular neighbourhoods** (`Geometry/Manifold/TubularNeighborhood/`): the predicate
-  `TauCeti.IsTubularNeighborhood`; for a smooth embedding `f : M → V` into a finite-dimensional
-  inner product space the normal subspace `TauCeti.normalSubspace`, the tube
-  `TauCeti.normalTube f ε` and `normalTubeOfRadius`, the compact-source open embedding
-  `TauCeti.exists_isOpenEmbedding_normalTube`, the positive-radius-function form
-  `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius` for non-compact sources (a continuous
-  radius; `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius_contMDiff_subset` gives a smooth
-  one), and the normal
-  bundle instances `TauCeti.normalFiberBundle`, `TauCeti.normalVectorBundle`,
-  `TauCeti.normalContMDiffVectorBundle` (`VectorBundle.lean`).
+- **Euclidean tubular neighbourhoods** (`Geometry/Manifold/TubularNeighborhood/Euclidean.lean`):
+  `TauCeti.IsTubularNeighborhood`, `TauCeti.normalSubspace`, `TauCeti.normalTube`, and
+  `TauCeti.exists_isOpenEmbedding_normalTube` for a compact boundaryless `C²` source,
+  a `C²` injective map into a finite-dimensional real inner product space, and injective
+  differential at every point. The instance
+  `TauCeti.instTopologicalSpaceTotalSpaceNormalSubspace` gives the normal total space its
+  subspace topology; it does not supply vector-bundle trivializations or smooth structure.
 - **Immersions** (`Geometry/Manifold/Immersion.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
 - **Morse functions** (`Geometry/Manifold/Morse/Basic.lean`): `TauCeti.IsMorse`,
   `TauCeti.IsMorseOn`, `TauCeti.IsManifoldNondegenerateCriticalPoint`.
@@ -294,8 +298,10 @@ roadmap adds on top of each is said in the layer that uses it.
   (`KnotGroup.lean`); sliceness `TauCeti.IsSmoothlySlice`, `TauCeti.IsTopologicallySlice`,
   `TauCeti.SmoothSliceSurface`, `TauCeti.sliceGenus` (`Slice/`), and the proposition
   `TauCeti.FreedmanSliceTheorem` (`Slice/Freedman.lean`); solid-torus neighbourhoods
-  `TauCeti.IsSolidTorusNeighborhood` and `TauCeti.knotExterior`
-  (`LowDimTopology/SolidTorusNeighborhood/`).
+  `TauCeti.IsSolidTorusNeighborhood` and its
+  `TauCeti.IsSolidTorusNeighborhood.exteriorFrontierHomeomorph`, identifying the frontier
+  of the complement of the open solid torus with its boundary torus in a Hausdorff ambient
+  space (`LowDimTopology/SolidTorusNeighborhood/Basic.lean`).
 - **Combinatorial knot theory** (`KnotTheory/`): `TauCeti.PDCode n`, `TauCeti.OrientedPDCode n`,
   `TauCeti.PDCode.IsPlanar`, the face permutation and face count (`PDCode/Planar.lean`), the
   state sum `TauCeti.PDCode.kauffmanBracket`, `normalizedKauffmanBracket`,
@@ -312,9 +318,8 @@ roadmap adds on top of each is said in the layer that uses it.
   `TauCeti.MarkovBraid.burauAlexander` (`Burau/`); `TauCeti.KnotTheory.tristramLevineForm`,
   `TauCeti.KnotTheory.tristramLevineSignature` with the Hermitian signature
   `Matrix.IsHermitian.signature` (`TristramLevine/`, `Analysis/Matrix/HermitianSignature.lean`);
-  `TauCeti.KnotTheory.jimboWeightedTrace`, `TauCeti.KnotTheory.homflySpecialization` (the
-  ring homomorphism substituting `a ↦ q^N`, `z ↦ q − q⁻¹` into `K(q)`),
-  the Markov trace on the Temperley–Lieb algebra (`Jimbo/`, `Homfly/`, and the
+  `TauCeti.KnotTheory.jimboWeightedTrace` (a weighted trace, before writhe normalization),
+  the Markov trace on the Temperley–Lieb algebra (`Jimbo/` and the
   `MarkovTrace` module of the `Algebra` folder).
 - **Slopes** (`LowDimTopology/DehnSurgery/Slope.lean`): `TauCeti.Slope M` (primitive classes
   up to sign), `TauCeti.BoundaryTorus`, `TauCeti.FramedBoundaryTorus` with `meridian`,
@@ -587,28 +592,44 @@ a fixed centre, together with the homogeneity of a connected manifold).
 
 ### 1.5 Tubular neighbourhoods
 
-Let `f : S → M` be a smooth embedding between boundaryless manifolds, `M` Riemannian
-(`RiemannianBundle` on its tangent bundle with a smooth metric). Define the normal bundle of
+Let `f : S → M` be a smooth embedding between finite-dimensional Hausdorff second-countable
+boundaryless manifolds, with `M` Riemannian (`RiemannianBundle` on its tangent bundle with
+a smooth metric). Define the normal bundle of
 `f` as the orthogonal complement of the image of `mfderiv f` in `TangentSpace (f x)`, a smooth
 vector bundle over `S` with fibre the codimension model `EuclideanSpace ℝ (Fin (dim M − dim S))`,
 and the normal exponential as the restriction of the Riemannian exponential (HopfRinow
 Layer 1) to this bundle on its natural open domain. Prove that the normal bundle is
 canonically isomorphic, as a smooth vector bundle, to the quotient bundle whose fibres are
 `TauCeti.SmoothEmbedding.NormalSpace f x`, so that its smooth structure does not depend on the
-metric.
+metric. Construct the local trivializations and the compatible `FiberBundle`, `VectorBundle`
+and `ContMDiffVectorBundle` structures, using the subspace topology in Euclidean ambient
+space. In that case, for a positive function `δ : S → ℝ`, define the variable-radius tube
+as `{(x,v) | v ∈ TauCeti.normalSubspace f x ∧ ‖v‖ < δ(x)}` and its map into the ambient
+space by `(x,v) ↦ f x + v` (Lee, *Introduction to Smooth Manifolds*, Theorem 6.24).
 
+- The normal bundle has rank `dim M − dim S`; the inclusion into the pulled-back tangent
+  bundle is fibrewise linear and smooth, and the orthogonal projection identifies it with
+  the quotient normal bundle. Restriction to an open subset of `S` preserves these data.
+- For continuous positive `δ` the tube is open in the normal total space and contains its
+  zero section; if `0 < δ' ≤ δ` pointwise, the smaller tube is contained in the larger one.
+  For constant `δ = ε > 0` in Euclidean ambient space its underlying set is
+  `TauCeti.normalTube f ε`.
 - **Tubular neighbourhood theorem.** There is a smooth positive function `δ : S → ℝ` such
   that the normal exponential restricted to `{v : ‖v‖ < δ(x)}` is a diffeomorphism onto an
   open neighbourhood of `f(S)`; for compact `S` the radius may be taken constant (Lee,
-  *Introduction to Riemannian Manifolds*, Theorem 5.25; in Euclidean ambient space
-  `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius` gives a continuous positive radius for
-  a `C²` embedding, `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius_contMDiff_subset` a
-  smooth one, and for compact `S` `TauCeti.exists_isOpenEmbedding_normalTube` a constant
-  one). The proof is the injectivity-radius argument:
+  *Introduction to Riemannian Manifolds*, Theorem 5.25). Include the Euclidean `C²` form:
+  for a `C²` embedding of a boundaryless manifold into a finite-dimensional real inner
+  product space, construct a continuous positive radius making `(x,v) ↦ f x + v` an open
+  embedding. On a smooth source choose the radius smooth, below any prescribed continuous
+  positive bound, with image in any prescribed open neighbourhood of `f(S)`; for smooth
+  `f` the resulting map is a diffeomorphism. No compactness or closed-image hypothesis is
+  imposed on this variable-radius statement. A proof can use local normal coordinates,
+  a locally finite shrinking and a partition of unity to choose a positive minorant:
   the normal exponential is a local diffeomorphism along the zero section by the direct-sum
   computation of its derivative, and `TauCeti.Manifold.edist_riemannianExp_le` bounds the
   base distance of two normal vectors with the same image. *Needs:* HopfRinow Layer 1
-  (exponential map), Layer 2 (normal neighbourhoods); Mathlib `RiemannianBundle`; Tau Ceti
+  (exponential map), Layer 2 (normal neighbourhoods); Mathlib `RiemannianBundle`,
+  `SmoothPartitionOfUnity.exists_isSubordinate`; Tau Ceti
   `TauCeti.SmoothEmbedding.NormalSpace`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`;
   DifferentialGeometry Layer 12 (existence of a smooth metric).
 - Any two tubular neighbourhoods of `f` are isotopic through tubular neighbourhoods (Hirsch,
@@ -619,7 +640,8 @@ metric.
   submanifolds for `ε < δ`, which is the form Dehn surgery (Layer 5) uses.
 - In Euclidean ambient space the orthogonal normal bundle is `TauCeti.normalSubspace` fibrewise
   and the tube map is `(x, v) ↦ f x + v` on `TauCeti.normalTube f ε`, so the general theorem
-  specializes to the native one and no second Euclidean construction is made.
+  extends the compact constant-radius theorem by constructing the variable-radius domain
+  and the compatible smooth bundle structure.
 
 **Checks.**
 - The unit circle in `ℝ²` has normal bundle the trivial line bundle, and for `ε ≤ 1` the tube
@@ -631,9 +653,14 @@ metric.
 - A point `{p} ⊂ M` has normal bundle `TangentSpace p` and its tube is a normal neighbourhood of
   HopfRinow Layer 2; the identity embedding `M → M` has rank-`0` normal bundle and the tube is
   `M` itself.
-- The two disjoint curves `y = 0` and `y = e^{−x}` in `ℝ²` have distance tending to `0`, so no
-  constant radius works for their union: the radius function is genuinely needed for
-  non-compact `S`.
+- For the disjoint circles of radius `1/n` centred at `(3n,0)`, `n ≥ 1`, any constant
+  `ε > 0` fails: for `n > 1/ε`, inward normal vectors of length `1/n < ε` all map to that
+  circle's centre. The smooth function equal to `1/(2n)` on component `n` gives annuli of
+  radii between `1/(2n)` and `3/(2n)`; adjacent outer radii sum to at most `9/4 < 3`, so
+  their images are disjoint. This excludes replacing the radius function by a constant.
+- For the unit circle, radii `1/4 ≤ 1/2` give nested annuli `(3/4,5/4) ⊂ (1/2,3/2)`.
+  Radius zero gives an empty strict tube, which does not contain the zero section; positivity
+  is required. For the empty source the normal bundle and both tubes are empty.
 - The figure-eight curve `t ↦ (sin t, sin 2t)` is an immersion but not an embedding, and the
   tube map fails to be injective near the double point: the embedding hypothesis is not
   removable.
@@ -685,10 +712,16 @@ homology.
 
 A PL manifold is a charted space `M` with `HasGroupoid M (TauCeti.PLGroupoid I)` for the
 Euclidean or half-space model; a PL map is a continuous map that is `TauCeti.IsPLOn` in every
-pair of charts. Prove that products, open subsets and boundaries of PL manifolds are PL, that
-a PL homeomorphism between PL manifolds has a PL inverse (on compact pieces by
-`TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact`), and that gluing along a PL homeomorphism
-of boundaries with PL collars produces a PL manifold, parallel to Layer 1.3.
+pair of charts. Prove the compact comparison: for finite-dimensional real normed spaces
+`E, F`, a map `f : E → F` and a compact subset `K ⊆ E`, `TauCeti.IsPLOn f K` implies
+`TauCeti.IsPiecewiseAffineOn f K`. A proof chooses finitely many closed polyhedral
+neighbourhoods subordinate to the local witnesses and intersects their cells with those
+neighbourhoods; taking an uncut union of the local cells would not control their overlap
+with the rest of `K` (Rourke–Sanderson, Chapter 2, local and finite polyhedral descriptions).
+Prove that products, open subsets and boundaries of PL manifolds are PL, that a
+homeomorphism between PL manifolds which is PL has a PL inverse, using finite polyhedral
+neighbourhoods in charts and inversion on their image cells, and that gluing along a PL
+homeomorphism of boundaries with PL collars produces a PL manifold, parallel to Layer 1.3.
 
 - The forgetful map from PL to topological manifolds is `TauCeti.PLGroupoid_le_continuousGroupoid`.
 - There is no inclusion of `contDiffGroupoid` into `TauCeti.PLGroupoid`: the smooth
@@ -704,9 +737,15 @@ of boundaries with PL collars produces a PL manifold, parallel to Layer 1.3.
   charts.
 - The map `x ↦ x³` is a homeomorphism of `ℝ` that is neither PL nor a diffeomorphism; it is a
   transition map of neither groupoid.
+- On `[-1,1]`, the map `x ↦ |x|` has two affine pieces with slopes `−1,1`; at `−1,0,1`
+  its values are `1,0,1`, excluding a single affine piece. The empty compact set needs
+  zero cells, and the singleton `{0}` needs at most one.
+- Compactness cannot be dropped from the finite-piece conclusion: the continuous linear
+  interpolation of `f(n)=n²` on integer intervals is locally PL on `ℝ`, but its slopes
+  `2n+1` take infinitely many values, so no finite affine cover represents it.
 
 *Needs:* Tau Ceti `TauCeti.PLGroupoid`, `TauCeti.IsPLOn`, `TauCeti.IsPiecewiseAffineOn`,
-`TauCeti.IsPLOn.isPiecewiseAffineOn_of_isCompact`; Mathlib `HasGroupoid`.
+Mathlib `HasGroupoid`, finite-dimensional compactness.
 
 ### 1.8 Compact smooth surfaces
 
@@ -1286,9 +1325,28 @@ Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero
 crossing number and a descending resolution of based diagrams (Lickorish, Chapter 15; Freyd,
 Yetter, Hoste, Lickorish, Millett, Ocneanu, Bull. Amer. Math. Soc. 12 (1985)), and the
 specializations `Δ_L(t) = P_L(1, −1, t⁻¹ᐟ² − t¹ᐟ²)` and `V_L(t) = P_L(t⁻¹, −t, t⁻¹ᐟ² − t¹ᐟ²)`.
-Prove the trace route through the Hecke algebra and the Ocneanu trace
-(TypeAHeckeAlgebras H1, H2; the `sl_N` specializations `a ↦ q^N`, `z ↦ q − q⁻¹` of the
-`(a, z)` form are `TauCeti.KnotTheory.homflySpecialization`).
+In the two-variable convention `a P(L₊) − a⁻¹ P(L₋) = z P(L₀)`, set `a = v⁻¹` and use
+`ℤ[a,a⁻¹,z,z⁻¹]`, represented by an iterated `LaurentPolynomial`, as coefficient ring.
+Construct the HOMFLY coefficient substitution by applying `LaurentPolynomial.eval₂` twice:
+for every field `K`, indeterminate `q` and integer `N ≥ 0`, its source is this iterated
+Laurent ring and its target is `K(q)`, with unit images `q^N` and
+`q − q⁻¹`, whose inverses are `q^(−N)` and `q/(q²−1)`; `q` and `q²−1` are nonzero
+polynomials over every field. This is the coefficient substitution for the `sl_N`
+comparison, with `N ≥ 1` in the normalized trace formula. Prove the geometric trace
+comparison after this substitution, consuming the algebraic Ocneanu braid invariant and
+its weighted-Jimbo comparison from TypeAHeckeAlgebras H1, H2, with their strand and writhe
+normalizations (Lickorish, Chapter 16, Proposition 16.10): for a braid `β` on `b ≥ 1`
+strands with closure `L`, the substituted value is
+`q^(−N w(β)) · tr_N(β) / [N]_q`, where `w` is writhe, `tr_N` is the weighted Jimbo trace
+and `[N]_q = Σ_{i=0}^{N−1} q^(N−1−2i)`. For `N ≥ 1` these distinct Laurent monomials have
+coefficient `1`, so `[N]_q ≠ 0` over every field.
+
+- The substitution sends `a,a⁻¹,z,z⁻¹` respectively to `q^N,q^(−N),q−q⁻¹,q/(q²−1)`.
+- A ring homomorphism from this integer Laurent ring to `K(q)` with these generator images
+  equals the substitution; the inverse-generator values follow from the unit equations.
+- For a field homomorphism `K → L`, extending it to rational functions commutes with the
+  substitution, with the same exponent `N` and indeterminate `q`.
+
 Prove existence and uniqueness of Kauffman's two-variable polynomial `F_L(a, x)` from the
 regular-isotopy invariant `Λ` with `Λ(L₊) + Λ(L₋) = x(Λ(L₀) + Λ(L∞))` and the curl factors
 `a^{±1}` (Lickorish, Chapter 15).
@@ -1317,8 +1375,21 @@ regular-isotopy invariant `Λ` with `Λ(L₊) + Λ(L₋) = x(Λ(L₀) + Λ(L∞)
   not exist; the component-detection statement `μ(L) ≥ 2 ⟹ P_L ≠ 1` follows from
   `V_L(1) = (−2)^{μ−1} ≠ 1`.
 
-*Needs:* Layer 4.2, Layer 4.4, Layer 4.5; TypeAHeckeAlgebras H1, H2; Tau Ceti
-`TauCeti.KnotTheory.homflySpecialization`; Mathlib `RatFunc`.
+**Coefficient-substitution Checks.**
+- At `N=2`, evaluating the generator images at `q=2` over `ℚ` sends `a,z,a⁻¹,z⁻¹` to `4,3/2,1/4,2/3`;
+  the unit products are `1`, and the images of `a+z` and `az` are `11/2` and `6`.
+- At `N=0` the algebraic substitution sends `a` to `1`; at `N=1` it sends `a` to `q`.
+  The zero-colour weighted trace has zero quantum dimension and cannot be normalized by
+  division by that dimension, so it is excluded from the normalized comparison.
+- Evaluation at `q=1` or `q=−1` would send the unit `z` to `0` in a nonzero field and is
+  not a homomorphism from this Laurent ring. In characteristic two with indeterminate `q`,
+  however, `q²−1=(q−1)²` is still nonzero, so the rational-function substitution exists.
+- For `N=2`, `q=2`, the quantum dimension is `5/2`: the weighted trace of the identity
+  on two strands is `25/4` and that of one positive crossing is `10`. The normalized
+  one-crossing closure has value `4⁻¹·10/(5/2)=1`, as does the unknot.
+
+*Needs:* Layer 4.2, Layer 4.4, Layer 4.5; TypeAHeckeAlgebras H1, H2; Mathlib
+`LaurentPolynomial.eval₂`, `LaurentPolynomial.eval₂_T`, `LaurentPolynomial.eval₂_C`, `RatFunc`.
 
 ### 4.7 Colourings, the determinant and the Arf invariant
 
@@ -1606,15 +1677,16 @@ unknotting-number theorems are Layer 5.4's; both consume this layer.
 Dehn surgery removes a tubular neighbourhood of a knot and reglues a solid torus along a
 slope. The slopes exist at the pin: `TauCeti.Slope`, `TauCeti.BoundaryTorus`,
 `TauCeti.FramedBoundaryTorus` with its meridian and longitude and
-`TauCeti.FramedBoundaryTorus.slopeEquiv : Slope T.H ≃ OnePoint ℚ`. Solid-torus neighbourhoods
-`TauCeti.IsSolidTorusNeighborhood` and the set `TauCeti.knotExterior` exist as topological
-objects. This layer builds the exterior as a manifold with boundary, the filling and its
-first identities, and states the surgery theorems of Kirby's list.
+`TauCeti.FramedBoundaryTorus.slopeEquiv : Slope T.H ≃ OnePoint ℚ`. Using solid-torus neighbourhoods
+`TauCeti.IsSolidTorusNeighborhood`, this layer constructs the compact exterior as a set
+and as a manifold with boundary, the filling and its first identities, and states the surgery theorems of Kirby's list.
 
 ### 5.1 The exterior of a link
 
 For a link `L ⊂ S³` with `μ` components define the compact exterior `X_L` as the complement of
-the open `ε`-tube of Layer 1.5 for any `ε` below the tube radius, a compact `3`-manifold with
+the union of the pairwise disjoint open `ε`-tubes of Layer 1.5, with `0 < ε` strictly below
+a common embedding radius for their closed extensions. Give this closed subset of `S³`
+its subtype topology and construct its smooth boundary charts, making it a compact `3`-manifold with
 boundary a disjoint union of `μ` tori, each identified with `S¹ × S¹` by the trivialization of
 the normal bundle given by the Seifert framing (the longitude has linking number `0` with its
 component). Prove independence of `ε` and of the tube up to a diffeomorphism that is the
@@ -1622,7 +1694,7 @@ identity outside a neighbourhood of the tubes, that the interior of `X_L` is dif
 `S³ ∖ L`, and that ambient isotopic links have diffeomorphic exteriors carrying the meridians
 and longitudes to each other (Layer 3.3). On each boundary torus the meridian `μ` (the
 boundary of a normal disc) and the Seifert longitude `λ` form a `TauCeti.FramedBoundaryTorus`
-with `μ · λ = 1`.
+with `μ · λ = 1` (Rolfsen, Chapter 2, §E; Chapter 9, §F).
 
 - The exterior of the unknot is a solid torus whose meridian disc is bounded by the
   longitude `λ`; the exterior of a nontrivial knot is not a solid torus (Layer 8.1, Dehn's
@@ -1640,9 +1712,12 @@ with `μ · λ = 1`.
 - Changing the framing by `n` full twists changes `λ` to `λ + n μ`: the Seifert framing is
   the one with `lk(λ, K) = 0`, and the blackboard framing of a diagram differs from it by the
   writhe.
+- For the empty link the union of open tubes is empty, so the exterior is `S³` and its
+  boundary is empty. For a single component, taking the complement of the closed tube
+  instead would omit the boundary torus and would give a noncompact open manifold.
 
 *Needs:* Layer 1.2, Layer 1.5, Layer 3.3; Tau Ceti `TauCeti.FramedBoundaryTorus`,
-`TauCeti.IsSolidTorusNeighborhood`, `TauCeti.knotExterior`; Layer 4.1.
+`TauCeti.IsSolidTorusNeighborhood`; Layer 4.1.
 
 ### 5.2 Dehn filling and surgery
 
