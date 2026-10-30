@@ -1566,6 +1566,60 @@ homology with one copy of the coefficient ring also assumes connectedness.
    Derive universal-coefficient consequences through the natural duality maps, and do not define a
    competing degree invariant.
 
+   **Product-ball intersection.** For p,q>=0 let D_p and D_q be the
+   closed unit balls in the coordinate-oriented Euclidean spaces R^p and
+   R^q, with S_p={x:||x||=1} and S_q={y:||y||=1}. In dimension0 the
+   ball is a point and this boundary is empty. Prove
+   `productBallImages_intersect`: continuous f:D_p→D_p×D_q and
+   g:D_q→D_p×D_q satisfying f(x)=(x,0) on S_p and g(y)=(0,y) on S_q
+   have a common image point. No embedding, differentiability or
+   transversality is assumed. In particular, this is an intersection in
+   the original product of balls, before taking any boundary quotient.
+   [ProductBallIntersectionTargets.lean](ProductBallIntersectionTargets.lean)
+   records this signature on the native Euclidean closed-ball carriers.
+
+   Supply the more general boundary-degree form on the same carriers.
+   Assume f(S_p)⊆S_p×{0} and g(S_q)⊆{0}×S_q. The first projection f_1
+   and second projection g_2 are maps of disk-boundary pairs; define their
+   integer coefficients d_f,d_g on H_p(D_p,S_p;Z) and H_q(D_q,S_q;Z)
+   using Stage2.5's coordinate-oriented reference classes and their native
+   `diskBoundaryPair` comparison. Prove d_f*d_g≠0 implies the images
+   intersect. The fixed-boundary case has d_f=d_g=1. Boundary-to-axis
+   containment alone is insufficient: for p,q>=1 the constant maps
+   f=(a,0), g=(0,b), with ||a||=||b||=1, have disjoint images and both
+   coefficients zero. For a dimension0
+   factor use H_0(point,empty;Z)=Z and coefficient1; retain all cases with
+   one or both dimensions zero. Export compatibility with relative
+   homotopies of these pair maps and with oriented linear isometries of
+   the balls, including the explicit reference-class signs.
+
+   Give the actual relative-homology calculation. Set
+   B=(S_p×D_q)∪(D_p×S_q) and
+   F(x,y)=(f_1(x)−g_1(y),f_2(x)−g_2(y)) in R^p×R^q.
+   If F vanishes on B, the required intersection is already present.
+   Otherwise use the homotopy
+   H_t(x,y)=(f_1(x)−(1−t)g_1(y),(1−t)f_2(x)−g_2(y)).
+   For t>0 its first component has norm at least t on S_p×D_q,
+   and its second has norm at least t on D_p×S_q. At t=0 use the
+   stated nonvanishing on B. Thus it is a homotopy of maps from
+   (D_p×D_q,B) to (R^p×R^q,(R^p×R^q)∖{0}). Using relative external
+   products, excision and the local coordinate generator, prove the
+   product-relative/local comparison: [D_p,S_p] cross [D_q,S_q] maps
+   to the local generator in coordinate order p then q. Prove that
+   identity on the p block and minus identity on the q block acts on
+   this generator by (−1)^q, using Stage6.3's determinant-sign theorem.
+   With these comparisons compute the coefficient of F as that of
+   H_1=(f_1,−g_2), namely
+   (−1)^q*d_f*d_g in the order p coordinates followed by q coordinates.
+   This is the coefficient of the induced relative homology map, using
+   the shared degree normalization, rather than a second degree API.
+   If the images were disjoint, F would factor through the punctured
+   target and this relative map would be zero, a contradiction. Compare
+   the coefficient with signed intersections when smooth transverse
+   representatives are supplied. The continuous theorem requires neither
+   that extra hypothesis nor a claim that intersections created by
+   collapsing boundaries lift to intersections of the original images.
+
 The proof spine is Hatcher Sections 3.1--3.3 for cohomology operations and duality, and Dold,
 *Lectures on Algebraic Topology*, Chapters VII--VIII for natural products and local coefficients.
 Collars fix the boundary sign; orientation is never reconstructed from a hand-written chart list.
@@ -1700,6 +1754,52 @@ items 1–7 are independent of those later constructions.
 5. Prove Whitehead's theorem for Hausdorff CW complexes using cellular approximation and skeletal
    induction.  Combine relative Hurewicz with the mapping cylinder to prove homological
    Whitehead for simply connected CW complexes, then extend both results to spaces of CW type.
+   **Abstract homotopy groups and the inducing-map hypothesis.** Construct
+   the finite based CW spaces X=RP²×S³ and Y=S²×RP³ on the Stage4.6
+   projective and native sphere carriers, with the standard unit-vector
+   basepoints. Prove both path connected, with π₁≃Z/2. Construct their
+   based universal covers from S²×S³, using respectively the antipodal
+   quotient on the first or second factor. Use covering lifting and
+   `HomotopyGroup.prodMulEquiv` to give explicit group isomorphisms
+   π_k(X)≃π_k(S²)×π_k(S³)≃π_k(Y) for every k>=2. Include the unique
+   component comparison in degree0. No values of the remaining sphere
+   homotopy groups are needed for these comparisons.
+
+   Compute H₂(X;Z)=0 and H₂(Y;Z)≃Z by the actual product Kunneth maps
+   and the finite projective cellular complexes; prove that all Tor
+   terms in this degree vanish. Homotopy invariance of singular homology
+   then proves X and Y are not homotopy equivalent. This example uses
+   Stage5.1's product-chain and integral Kunneth comparisons, with their
+   earlier Stage2–4 free-chain and cellular inputs; it requires neither
+   a bundle spectral sequence, manifold duality nor EM representability.
+
+   Also compute the extra structure forgotten by those abstract group
+   isomorphisms. Identify both π₂ groups with Z using sphere connectivity,
+   covering lifting and the natural degree-two Hurewicz map. The nonzero
+   element of π₁ acts by −1 for X and by +1 for Y. To obtain these actions,
+   compare deck transformations with native fundamental-group transport,
+   including a path from the transformed lift of the basepoint back to
+   the chosen lift; simple connectivity makes the comparison independent
+   of that path. For the S² antipodal map compute the homology coefficient
+   −1 from reversal of all three coordinates on (D³,S²): Stage2.5's
+   interval-product class has coefficient (−1)³, and the pair connecting
+   map and odd radial comparison transport it to S². Hurewicz naturality
+   gives the same action on π₂. For Y the deck transformation fixes the
+   S² factor and π₂(S³)=0. Keep the loop/deck convention in this comparison;
+   inversion does not change the unique order-two element.
+
+   Consume `TauCeti.map_fundamentalGroup_smul` for equivariance of every
+   induced map. For a map not preserving the reference basepoints, transport
+   its target image point along a chosen path to the reference point;
+   prove the following obstruction independent of that choice. Prove that
+   no map in either direction induces isomorphisms
+   on both π₁ and π₂: the automorphism of Z/2 fixes its nonzero element,
+   while an isomorphism of Z cannot intertwine negation with the trivial
+   action. Thus the abstract group comparisons are not induced together
+   by a weak equivalence. These finite computations are a consequence
+   and boundary example for ordinary Whitehead, not a premise for its
+   general proof or for the proper Whitehead extension below.
+
    First own the single predicate `SimplyConnectedAtInfinity`: for every
    compact K⊂X there is a compact L⊃K such that every continuous circle in
    X\L is nullhomotopic in X\K. A nullhomotopy stays in that complement;
@@ -2073,6 +2173,86 @@ items 1–7 are independent of those later constructions.
     carrier, characteristic-class definition or finite-projective comparison
     is constructed here.
 
+13. **Smooth representatives in codimensions one and two.** For a compact
+    boundaryless smooth Hausdorff second-countable m-manifold M, prove that
+    every class in H_(m−1)(M;F2), m>=1, is the push-forward of the mod2
+    fundamental class of a compact boundaryless smoothly embedded
+    (m−1)-manifold N. No orientation of M or N is required. For an oriented
+    M, prove the integral versions in H_(m−1)(M;Z), m>=1, and
+    H_(m−2)(M;Z), m>=2, with N oriented. Allow empty and disconnected M
+    and N; the zero class has the empty representative. Retain integral
+    torsion classes. Do not impose connectedness on the representative.
+    State the dimension bounds before subtracting natural-number degrees;
+    negative-degree vanishing is separate and is not an H_0 assertion.
+
+    Use Stage6's Poincare duality to pass to degree-one mod2, degree-one
+    integral or degree-two integral cohomology. Combine 8.10–8.12 with
+    AT8.7/GT's actual smooth triangulation of dimension m, keeping
+    its dimension bound rather than using finite CW type alone. Represent
+    a degree-one integral class by a map
+    to the native Circle, with generator normalized by the positive loop
+    t↦exp(2πit), 0<=t<=1. For mod2 degree one use a finite RP^N with N>=m;
+    for integral degree two use a finite CP^N with 2N>=m. Prove these
+    finite-stage factorizations by cellular approximation and the actual
+    projective skeleta. Use AT4.6's native real-projective smooth atlas
+    and CKG K7.1's native complex-projective atlas, with their already
+    specified CW/topological comparisons. Smooth the maps and make them
+    transverse to 1∈Circle, RP^(N−1)⊂RP^N or CP^(N−1)⊂CP^N, respectively.
+    This construction uses finite-dimensional transversality throughout.
+
+    Own the following hyperplane adapter on those same carriers. A first
+    coordinate functional defines a section of the dual tautological line
+    γ*; its zero locus is H_N={coordinate0=0}. In projective charts
+    prove the section transverse and identify νH with γ* restricted to H.
+    The real normal line need not be oriented; its mod2 Thom class maps to
+    C1.5's generator a=w_1(γ)=w_1(γ*). The complex normal line has its
+    complex orientation; its integral Thom class maps to the positive
+    hyperplane class h=c_1(O(1)), with ⟨h,[CP^1]⟩=+1. The tautological
+    O(−1) instead has class−h. Use CharacteristicClasses C1.5 and C2's
+    Thom/Euler/Gysin maps for these identifications, including finite-stage
+    restriction. Restrict to RP^1 and CP^1 and count the single transverse
+    hyperplane point: its mod2 count is1, and its complex-oriented integral
+    count is+1. The finite cellular restriction isomorphisms then identify
+    these Thom images with a and h, without assuming a later general c_1=Euler
+    theorem. The positively oriented normal of 1∈Circle similarly gives the normalized integral degree-one class.
+    This adapter precedes the representative theorem; it is not inferred
+    merely from the names of the cohomology generators.
+
+    For each transverse classifying map f, construct N=f^−1(H), its
+    native smooth embedding i:N→M, and the derivative-induced normal-bundle
+    isomorphism νN≃(f|N)*νH. In the integral cases orient N by normal-first
+    order νN then TN in a smooth splitting of TM|N, proving independence
+    of the splitting. Prove i_*[N]=PD_M(f* u), using the actual pullback
+    of the relative Thom class, tubular excision and Stage6's cup/cap signs;
+    here u is the corresponding point or hyperplane class. In the real
+    case prove the same formula over F2 without choosing a coorientation.
+    The circle normal is framed; the complex normal is an oriented real
+    two-plane bundle and is not assumed trivial. Export the embedding,
+    compactness, normal comparison and fundamental-class identity as data
+    and theorems on the native carriers. CharacteristicClasses C2 supplies
+    the generic transverse Gysin comparison; this item supplies its point
+    and projective-hyperplane applications, with no new characteristic-class
+    or projective-space definitions.
+
+    Prove stabilization and transverse-pullback naturality of these
+    comparisons. Pin every projective stage inclusion as appending zero
+    coordinates. For H_N={coordinate0=0}, prove j^−1(H_N')=H_N and
+    transversality of j to H_N'; this preserves the endpoint normal data.
+    For homotopies choose N'>=max(N_0,N_1), with N'>=m+1 over R or
+    2N'>=m+1 over C. First make the homotopy constant on endpoint
+    collars, then apply relative smoothing and transversality fixing them.
+    Construct the resulting
+    compact embedded bordism in I×M. With interval-first ambient orientation
+    and normal rank c, multiply its normal-first inverse-image orientation
+    by (−1)^c to obtain boundary −N_0 disjoint-union N_1 under the
+    outward-normal-first convention. In mod2 this sign disappears. This
+    proves independence of the chosen classifying-map representative in
+    the specified embedded-bordism sense. It does not identify all smooth
+    submanifolds with their homology classes. The companion
+    [TransverseRepresentativeTargets.lean](TransverseRepresentativeTargets.lean)
+    pins the smooth circle map, native cohomology pullback and surjective
+    derivative condition needed for the integral codimension-one construction.
+
 Hatcher Section 4.1 gives the absolute Hurewicz and Whitehead arguments; Whitehead, Chapters
 IV--VII, gives the relative and cellular forms.  May, *Simplicial Objects in Algebraic Topology*,
 Chapters 3 and 12, supplies the Kan-group construction and comparison route.
@@ -2110,6 +2290,7 @@ supplement or the categorical LS supplement unless named explicitly.
 | 8.11a mapping-space and based-loop CW type | Earlier CW/pair foundations (4) and HomotopySpheres §3A.1 compact-generation/product API only; no 8.10 or §3A.2 input | 7 |
 | 8.11b ordinary EM loops | 8.5, 8.10, 8.11a, DGFloer Layer 1 item 2 and standing/Layer 2 item 3 loop comparison, HomotopySpheres §3A.1 compact-generation/product API and §3A.2 adjunction, G2.1 foundation-only realization-product comparison | 7 |
 | 8.12 classical EM comparisons | 8.8b, 8.10, TopologicalKTheory T1.6 carrier construction and DGFloer 1.2 Serre LES via CharacteristicClasses C1.1 bundle adapter/C1.5 finite comparisons and universal sphere-bundle portion | 7 |
+| 8.13 smooth low-codimension representatives | ordinary6 duality and products, 8.7 dimension-bounded smooth triangulation, 8.10/8.12, AT4.6 real and CKG K7.1 complex projective atlases, CC C1.5 and C2 Thom/Gysin, GT/DG smoothing and relative transversality | 7 and 8.11b |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed
 Stage 5, except that Stage 2 alone feeds the product maps of Stage 5 item 1; and every stage from
@@ -2177,6 +2358,10 @@ downstream comparison theorem as input.
 - A fixed n-skeleton extends exactly when its obstruction cochain vanishes. Vanishing of
   its cohomology class permits alteration of the n-skeleton relative to the lower skeleton
   and the specified subcomplex. Fibre transport and difference signs agree with these maps.
+
+- Every class in the three stated low-codimension homology groups has an actual smooth
+  embedded representative, with the normal-bundle, Thom-class and fundamental-class
+  comparison; finite-stage homotopies preserve the chosen endpoint hyperplanes.
 
 ## References
 
