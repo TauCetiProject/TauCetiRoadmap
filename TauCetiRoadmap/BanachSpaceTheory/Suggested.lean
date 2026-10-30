@@ -2,10 +2,8 @@
 Copyright (c) 2026 Kim Morrison. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import Mathlib.Analysis.Normed.Module.Bases
-import Mathlib.Analysis.Normed.Module.DoubleDual
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Topology.Sequences
+import Mathlib
+import TauCeti.Analysis.Normed.Module.Complexification
 
 /-!
 **This file is not the roadmap and is not exhaustive.**
@@ -34,10 +32,11 @@ theorem james {𝕜 X : Type*} [RCLike 𝕜] [NormedAddCommGroup X]
   sorry
 
 /-- Approximation on compact subsets; finite rank refers to the algebraic range. -/
-def HasApproximationProperty (E : Type*) [NormedAddCommGroup E] [NormedSpace ℝ E] :
+def HasApproximationProperty (𝕜 E : Type*) [RCLike 𝕜]
+    [NormedAddCommGroup E] [NormedSpace 𝕜 E] :
     Prop :=
   ∀ K : Set E, IsCompact K → ∀ ε : ℝ, 0 < ε →
-    ∃ T : E →L[ℝ] E, FiniteDimensional ℝ (LinearMap.range T.toLinearMap) ∧
+    ∃ T : E →L[𝕜] E, FiniteDimensional 𝕜 (LinearMap.range T.toLinearMap) ∧
       ∀ x ∈ K, ‖T x - x‖ < ε
 
 namespace SchauderBasis
@@ -58,7 +57,7 @@ theorem reflexive_iff [CompleteSpace E] (b : _root_.SchauderBasis ℝ E) :
   sorry
 
 theorem approximationProperty [CompleteSpace E] (b : _root_.SchauderBasis ℝ E) :
-    HasApproximationProperty E := by
+    HasApproximationProperty ℝ E := by
   sorry
 
 end SchauderBasis
@@ -87,6 +86,17 @@ theorem dvoretzky [CompleteSpace E] (hE : ¬ FiniteDimensional ℝ E)
     (n : ℕ) (ε : ℝ) (hε : 0 < ε) (hε' : ε < 1) :
     ∃ T : EuclideanSpace ℝ (Fin n) →L[ℝ] E,
       ∀ x, (1 - ε) * ‖x‖ ≤ ‖T x‖ ∧ ‖T x‖ ≤ (1 + ε) * ‖x‖ := by
+  sorry
+
+/-- B4: the real strong dual of `E`, complexified with the native Taylor complexification, is
+boundedly complex-linearly equivalent to the complex strong dual of the complexification of `E`,
+by the complex-linear extension `φ(x+iy)=g(x)−h(y)+i(h(x)+g(y))` of `g+ih`. The formula determines
+the equivalence; no isometry is asserted. -/
+theorem exists_complexificationStrongDualEquiv :
+    ∃ e : TauCeti.Complexification (StrongDual ℝ E) ≃L[ℂ]
+        StrongDual ℂ (TauCeti.Complexification E),
+      ∀ (g h : StrongDual ℝ E) (x y : E),
+        e ⟨g, h⟩ ⟨x, y⟩ = (g x : ℂ) - (h y : ℂ) + Complex.I * ((h x : ℂ) + (g y : ℂ)) := by
   sorry
 
 end BanachSpaceTheory
