@@ -1,0 +1,182 @@
+# Checked native completion interfaces
+
+These are complete Lean proofs of specific acceptance examples and adapter formulas,
+composed from the existing native APIs. They are kept here rather than exported as redundant
+library wrappers. The code below was checked against Tau Ceti
+`cd83a3c6850b205de9e19206736a37bbdb7e79f8` with Lean `4.36.0-rc1` and the source's pinned
+Mathlib `2cabef97b63d3275776b8b060d802de6a6fa1055`. No declaration from the three completion
+PRs is used by these proofs. The separately added full-polar matrix comparison and dyadic
+control suite are linked in the [completion audit](README.md#completion-audit-2026-10-28).
+
+**Outstanding:** these checks do not prove the roadmap's actual upward-`ULift` transport or
+its Brauer/cohomology naturality square. That requires concrete transports of the field,
+CSA/Brauer classes, absolute Galois group and coefficients/cohomology across universes.
+The current same-universe base-change and cohomology-isomorphism interfaces do not provide
+it. This document is evidence for the covered targets only, not a certificate of completion
+of the full roadmap.
+
+To reproduce, extract the sole Lean block below into a temporary `.lean` file, then run
+`lake env lean /absolute/path/to/that/file.lean` from a checkout of that Tau Ceti revision
+with its dependencies built. The two axiom-print commands report only `propext`,
+`Classical.choice` and `Quot.sound`. The file has no admitted proofs.
+This source check is separate from the roadmap repository's older dependency pin and its
+historical prototype `Suggested.lean`.
+
+```lean
+import TauCeti.Algebra.CrossedProduct.CupProduct
+import TauCeti.LinearAlgebra.QuadraticForm.Binary
+import TauCeti.LinearAlgebra.QuadraticForm.Diagonal.Chain.Basic
+import TauCeti.LinearAlgebra.QuadraticForm.Witt.Decomposition
+import TauCeti.LinearAlgebra.QuadraticForm.Transfer.TraceForm
+import TauCeti.LinearAlgebra.QuadraticForm.Transfer.QuadraticExtension
+import TauCeti.LinearAlgebra.QuadraticForm.Transfer.Discriminant
+import TauCeti.NumberTheory.EffectiveBounds.TraceForm
+import TauCeti.NumberTheory.LocalField.QuadraticForm.Brauer
+import TauCeti.NumberTheory.LocalField.Quaternion.Invariant
+import Mathlib.NumberTheory.Padics.PadicNumbers
+
+noncomputable section
+
+open TauCeti QuadraticMap
+
+namespace QuadraticFormCompletion
+
+example : BinaryStep (fun _ : Fin 2 => (1 : ℚˣ))
+    (fun _ : Fin 2 => Units.mk0 (2 : ℚ) two_ne_zero) := by
+  refine BinaryStep.of_pair 0 1 (by decide) ?_ ?_
+  · intro i hi0 hi1
+    fin_cases i <;> contradiction
+  change (weightedSumSquares ℚ ![(1 : ℚ), 1]).Equivalent
+    (weightedSumSquares ℚ ![(2 : ℚ), 2])
+  have : Invertible (2 : ℚ) := invertibleOfNonzero two_ne_zero
+  have hu : ((Units.mk0 (2 : ℚ) two_ne_zero : ℚˣ) : ℚ) = 2 := rfl
+  have key := equivalent_binary_iff (R := ℚ) 1 1 (Units.mk0 2 two_ne_zero)
+    (Units.mk0 2 two_ne_zero)
+  simp only [hu, Units.val_one] at key
+  refine key.mpr ⟨⟨Units.mk0 2 two_ne_zero, by rw [one_mul, one_mul]⟩,
+    Units.mk0 2 two_ne_zero, ?_, ?_⟩
+  · refine mem_unitValueSet.mpr ((represents_iff _ _).mpr
+      (Set.mem_range.mpr ⟨![1, 1], ?_⟩))
+    norm_num [weightedSumSquares_apply, Fin.sum_univ_two]
+  · simpa [hu] using mem_unitValueSet_binary_left (R := ℚ) (Units.mk0 2 two_ne_zero) 2
+
+example : ¬ (presentedForm (⟨2, ![1, 1]⟩ : RegularFormPresentation ℚ)).Equivalent
+    (presentedForm (⟨2, ![1, -1]⟩ : RegularFormPresentation ℚ)) := by
+  let : Invertible (2 : ℚ) := invertibleOfNonzero two_ne_zero
+  intro h
+  have ha := h.anisotropic_iff.mp anisotropic_presentedForm_one_one
+  have hz : presentedForm (⟨2, ![1, -1]⟩ : RegularFormPresentation ℚ) ![1, 1] = 0 := by
+    rw [presentedForm_one_neg_one, hyperbolicPlane_apply]
+    norm_num
+  have h0 := congrFun (ha ![1, 1] hz) 0
+  norm_num at h0
+
+example (d : ℚ) :
+    ((QuadraticMap.sq (R := QuadraticAlgebra ℚ d 0)
+      (A := QuadraticAlgebra ℚ d 0)).traceTransfer ℚ).Equivalent
+      (weightedSumSquares ℚ ![(2 : ℚ), 2 * d]) :=
+  equivalent_traceTransfer_sq_weightedSumSquares d
+
+example (d : ℚ_[2]) :
+    ((QuadraticMap.sq (R := QuadraticAlgebra ℚ_[2] d 0)
+      (A := QuadraticAlgebra ℚ_[2] d 0)).traceTransfer ℚ_[2]).Equivalent
+      (weightedSumSquares ℚ_[2] ![(2 : ℚ_[2]), 2 * d]) :=
+  equivalent_traceTransfer_sq_weightedSumSquares d
+
+example : ((QuadraticMap.sq (R := ℂ) (A := ℂ)).traceTransfer ℝ).Equivalent
+      (weightedSumSquares ℝ ![(2 : ℝ), -2]) ∧
+    Algebra.discr ℝ ![1, Complex.I] = -4 := by
+  have hi : Complex.I ∉ Set.range (algebraMap ℝ ℂ) := by
+    rintro ⟨r, hr⟩
+    simpa using congrArg Complex.im hr
+  have hi2 : Complex.I ^ 2 = algebraMap ℝ ℂ (-1 : ℝ) := by simp
+  refine ⟨?_, ?_⟩
+  · simpa using equivalent_traceTransfer_sq_weightedSumSquares_of_sq
+      Complex.finrank_real_complex hi hi2
+  · rw [TauCeti.Algebra.discr_one_elem_eq_of_sq_algebraMap Complex.finrank_real_complex hi2 hi]
+    norm_num
+
+/-- The discriminant of a twisted quadratic trace form is `[d] + [N(a)]` when the
+extension is generated by a square root of `d`. This includes trace-zero `a`. -/
+theorem discr_traceTransfer {K L : Type*} [Field K] [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Invertible (2 : K)] {x : L} (d : Kˣ)
+    (hfin : Module.finrank K L = 2) (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (ha : (((a : L) • QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate)
+    (h1 : ((QuadraticMap.sq (R := L) (A := L)).traceTransfer K).Nondegenerate) :
+    RegularFormClass.discr (formClass _ ha) =
+      squareClass d + squareClass (Algebra.normUnits K a) := by
+  simp only [QuadraticMap.traceTransfer_eq_scharlauTransfer] at ha h1 ⊢
+  rw [discr_formClass_scharlauTransfer_smul_sq _ a ha h1]
+  congr 1
+  let two : Kˣ := Units.mk0 2 (isUnit_of_invertible (2 : K)).ne_zero
+  have he : ((QuadraticMap.sq (R := L) (A := L)).scharlauTransfer
+      (Algebra.trace K L)).Equivalent (presentedForm ⟨2, ![two, two * d]⟩) := by
+    have hw : (fun i => ((![two, two * d] i : Kˣ) : K)) = ![2, 2 * (d : K)] := by
+      ext i
+      fin_cases i <;> rfl
+    rw [presentedForm_eq_weightedSumSquares_coe, hw,
+      ← QuadraticMap.traceTransfer_eq_scharlauTransfer]
+    exact equivalent_traceTransfer_sq_weightedSumSquares_of_sq hfin hx hx2
+  rw [discr_formClass _ h1 ⟨2, ![two, two * d]⟩ he, Fin.prod_univ_two]
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, squareClass_mul]
+  rw [← add_assoc, ← two_nsmul, ZModModule.char_nsmul_eq_zero]
+  exact _root_.zero_add (M := SquareClassGroup K) _
+
+universe u
+
+example {K : Type u} [Field K] [Invertible (2 : K)] (a b c : Kˣ) :
+    brauer2EquivH2 K (Additive.ofMul
+      (⟨BrauerGroup.quaternionClass a b,
+        BrauerGroup.mem_twoTorsion.2 (BrauerGroup.quaternionClass_sq a b)⟩ *
+       ⟨BrauerGroup.quaternionClass a c,
+        BrauerGroup.mem_twoTorsion.2 (BrauerGroup.quaternionClass_sq a c)⟩)) =
+      (trivialF2TopPairing (AbsoluteGaloisGroup K)).cup 1 1 (kummerClass a) (kummerClass b) +
+        (trivialF2TopPairing (AbsoluteGaloisGroup K)).cup 1 1 (kummerClass a) (kummerClass c) := by
+  rw [ofMul_mul, map_add, brauer2EquivH2_quaternionClass, brauer2EquivH2_quaternionClass]
+
+example {K : Type u} [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] (h2 : (2 : K) ≠ 0) (π u v : Kˣ) (α β : ℤ) :
+    hilbertSymbol (π ^ α * u) (π ^ β * v) =
+      hilbertSymbol π π ^ (α * β) * hilbertSymbol π v ^ α *
+        hilbertSymbol u π ^ β * hilbertSymbol u v := by
+  rw [hilbertSymbol_mul_left h2, hilbertSymbol_mul_right h2,
+    hilbertSymbol_mul_right h2, hilbertSymbol_zpow_left h2,
+    hilbertSymbol_zpow_right h2, hilbertSymbol_zpow_left h2,
+    hilbertSymbol_zpow_right h2, ← zpow_mul]
+  group
+
+open TauCeti.ClassFieldTheory
+
+variable {K : Type} [Field K] [ValuativeRel K] [TopologicalSpace K]
+  [IsNonarchimedeanLocalField K] [Invertible (2 : K)]
+
+theorem invMap_quaternionSubgroup (x : BrauerGroup.quaternionSubgroup K) :
+    invMap K (brauerGroupEquivBr K (Additive.ofMul (x : BrauerGroup K))) =
+      if BrauerGroup.quaternionSubgroupSignEquiv x = 1 then 0
+      else ((1 / 2 : ℚ) : AddCircle (1 : ℚ)) := by
+  by_cases hx : x = 1
+  · subst x
+    simp
+  · have hs : BrauerGroup.quaternionSubgroupSignEquiv x ≠ 1 := by
+      intro hs
+      exact hx (BrauerGroup.quaternionSubgroupSignEquiv.injective (hs.trans (map_one _).symm))
+    rw [ite_eq_right hs]
+    exact (BrauerGroup.invMap_brauerGroupEquivBr_eq_half_iff K
+      ((BrauerGroup.quaternionSubgroup_eq_twoTorsion K) ▸ x.property)).mpr
+      (fun h => hx (Subtype.ext h))
+
+theorem invMap_hasseInvariant (q : RegularFormClass K) :
+    invMap K (brauerGroupEquivBr K (Additive.ofMul (RegularFormClass.hasseInvariant q))) =
+      if RegularFormClass.localHasse q = 1 then 0 else ((1 / 2 : ℚ) : AddCircle (1 : ℚ)) := by
+  simpa only [RegularFormClass.quaternionSubgroupSignEquiv_apply_hasseInvariant] using
+    invMap_quaternionSubgroup
+      (⟨RegularFormClass.hasseInvariant q,
+        RegularFormClass.hasseInvariant_mem_quaternionSubgroup q⟩ : BrauerGroup.quaternionSubgroup K)
+
+end QuadraticFormCompletion
+
+#print axioms QuadraticFormCompletion.invMap_hasseInvariant
+
+#print axioms QuadraticFormCompletion.discr_traceTransfer
+```
