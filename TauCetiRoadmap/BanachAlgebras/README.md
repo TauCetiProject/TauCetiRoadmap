@@ -68,7 +68,7 @@ criteria, and the isometric-calculus normality converse stated there; it consume
 the native normal-operator calculus for the comparison, rather than
 constructing general Hilbert-space continuous calculus. Hilbert-space Borel spectral theory belongs to
 [OperatorTheory](../OperatorTheory/README.md), and general semigroup generators
-belong to [OneParameterSemigroups](../OneParameterSemigroups/README.md).
+belong to [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md).
 Set-theoretic constructions of discontinuous homomorphisms and classification
 of radical valuation algebras are outside this scope.
 

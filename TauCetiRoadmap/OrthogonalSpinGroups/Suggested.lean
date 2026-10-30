@@ -931,7 +931,8 @@ norm lies in the diagonal image and not in the spinor kernel.
 Conventions, matching the README's Layer 3D. Finite places are indexed by `Nat.Primes`; the
 archimedean place is carried by a product decomposition rather than by a dependent type of places,
 so `G(𝔸) = G(ℝ) × G(𝔸_f)` is a definition; and `G(𝔸^S)` for a set of places containing `∞` is the
-restricted product over the finite places outside `S`, so at `S = {∞}` it is `G(𝔸_f)` on the nose.
+restricted product over the finite places outside `S`. At `S = {∞}`, canonical topological
+reindexing identifies it with `G(𝔸_f)`, preserving every local coordinate and the rational diagonal.
 
 ⚠ The local topologies are **instances**, fixed as Mathlib's `moduleTopology`, not typeclass
 parameters a caller may choose. That is what makes the compact-open hypotheses of
