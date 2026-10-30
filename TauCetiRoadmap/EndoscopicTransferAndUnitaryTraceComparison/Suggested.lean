@@ -3,10 +3,9 @@ import Mathlib
 /-!
 # Endoscopic transfer and unitary trace comparison: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti APIs whenever their actual
+carriers are available or need only a few simple definitions on native carriers.
 
 No headline theorem of this roadmap is statable against the pinned libraries. The required
 objects are not obtainable by a few definitions on the existing carriers:
@@ -17,10 +16,10 @@ objects are not obtainable by a few definitions on the existing carriers:
   constructions do not. Thus the stable-class classification, Kottwitz duality and
   Fourier compatibility of transfer have no signatures here.
 * Layers 3–4 require Hitchin stacks, their Picard actions, perverse ℓ-adic cohomology and
-  endoscopic transfer factors. These are needed to state Ngô's support theorem,
+  endoscopic transfer factors and weighted orbital distributions. These are needed to state Ngô's support theorem,
   geometric stabilization, the fundamental lemmas and existence of smooth transfer.
 * Layers 5–6 and 10–11 require local and automorphic admissible representations,
-  normalized intertwining operators, stable and twisted trace distributions, Weil–Deligne
+  normalized intertwining operators, weighted stable and twisted trace distributions, Weil–Deligne
   parameters and unitary packets. These carriers are needed for the stable–twisted
   identity, trace-defined local Langlands comparison and conditional packet formulas.
 * Layers 7–9 require tensor G-isocrystals, PEL moduli, Igusa varieties and equivariant
@@ -36,8 +35,8 @@ objects are not obtainable by a few definitions on the existing carriers:
   transfer, packet oldform dimensions, signed rational spectral factorization and their
   coherent exports. Numerical finite sums alone cannot state those comparisons.
 
-The headline statements are deferred here until these objects exist; all remain targets
-of their specified README layers.
+All headline theorems remain targets of their specified README layers; none is replaced
+here by a scalar identity, free predicate or auxiliary API catalogue.
 -/
 
 namespace TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
