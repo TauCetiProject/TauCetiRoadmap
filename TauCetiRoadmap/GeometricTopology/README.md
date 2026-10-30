@@ -17,7 +17,9 @@ Mostow rigidity, Agol's virtual fibering and virtual Haken theorems, the JSJ the
 geometrization and the Poincaré conjecture, Li's rank-versus-genus examples, the Weeks
 manifold, Property P and Manolescu's non-triangulable manifolds, together with Alexander's
 sphere theorem, the knot-group theorem and the Gordon–Luecke theorem. `Suggested.lean` states
-the fourteen of these that are statable against the pinned libraries.
+the fourteen of these that are statable against the pinned libraries, together with three
+classical theorems of three-manifold topology that the layers prove and the pins make
+statable: Moise's triangulation theorem, the sphere theorem and Waldhausen's theorem.
 
 ## Scope and ownership
 
@@ -888,8 +890,12 @@ annulus `TauCeti.CoboundAnnulus f g`, the closed region between them being the i
 embedding of `Sⁿ × [0, 1]` with the two spheres as its ends. It is a theorem in every
 dimension: for `n + 1 ≤ 3` by Schoenflies and the classification of surfaces together with
 the triangulation theorem of Layer 11.2, for `n + 1 ≥ 5` by Kirby (*Stable homeomorphisms
-and the annulus conjecture*, Ann. of Math. 89 (1969), 575–582, through the stable
-homeomorphism theorem and the torus trick), and for `n + 1 = 4` by Quinn (*Ends of maps III*,
+and the annulus conjecture*, Ann. of Math. 89 (1969), 575–582: Theorem 1 derives the stable
+homeomorphism conjecture in dimension `n + 1 ≥ 6` from the Hauptvermutung for tori through
+the torus trick, and the addenda extend it to dimension `5` by Wall's theorem on ends and
+obtain the Hauptvermutung for the `2ⁿ⁺¹`-fold covers of homotopy tori from the theorems of
+Wall and of Hsiang–Shaneson, which gives the annulus conjecture in every dimension
+`n + 1 ≥ 5`), and for `n + 1 = 4` by Quinn (*Ends of maps III*,
 J. Differential Geom. 17 (1982)). `Suggested.lean` states `annulus_conjecture` for every `n`.
 This roadmap owns the cases `n + 1 ≤ 3`; the torus trick and the surgery on homotopy tori it
 needs are GeometricTopology, Part II, and the four-dimensional case is FourManifolds'.
@@ -1453,9 +1459,10 @@ by the adequacy of the extreme states of the bracket. The split correction comes
 `span V_D ≤ c(D) + k − 1` for a diagram with `k ≤ s` connected pieces. Prove the converse
 through the Turaev surface: `span V_K + g_T(D) ≤ c(D)` for a connected diagram, where the
 Turaev genus `g_T(D)` is `(2 + n − s_A − s_B)/2` (Turaev, *A simple proof of the Murasugi and
-Kauffman theorems*, L'Enseignement Math. 33 (1987); Armond–Lowrance, *Turaev genus and
-alternating decompositions*, Algebr. Geom. Topol. 17 (2017), §2), and `g_T(D) = 0` iff `D` is
-a diagram connected sum of alternating diagrams: the state circles of a diagram connected sum
+Kauffman theorems*, L'Enseignement Math. 33 (1987); restated as inequality (1.1) of
+Armond–Lowrance, *Turaev genus and alternating decompositions*, Algebr. Geom. Topol. 17
+(2017)), and `g_T(D) = 0` iff `D` is a diagram connected sum of alternating diagrams (Turaev,
+op. cit.; used in Armond–Lowrance, §4): the state circles of a diagram connected sum
 satisfy `s_A(D₁ # D₂) = s_A(D₁) + s_A(D₂) − 1` and likewise for `s_B`, whichever regions the
 band joins. Hence a knot is alternating iff `span V_K = c(K)`. Prove the Morton–Franks–Williams inequality: for the closure of a braid on
 `k` strands with writhe `w`, the `v`-exponents of `P` lie in `[w − k + 1, w + k − 1]`, so
@@ -2202,7 +2209,8 @@ the locally flat case through Layer 11.2 and the PL proof). Prove Dehn's lemma a
 theorem: if `M` is a `3`-manifold with boundary and the kernel of `π₁(∂M) → π₁(M)` is
 nontrivial, some essential simple closed curve in `∂M` bounds an embedded disc in `M`; and the
 sphere theorem: if `π₂(M) ≠ 0` for an orientable `M`, some embedded two-sided sphere in `M`
-is homotopically nontrivial (Papakyriakopoulos, Ann. of Math. 66 (1957); Hatcher, Chapter 3).
+is homotopically nontrivial (Papakyriakopoulos, Ann. of Math. 66 (1957); Hatcher, Theorem 3.8,
+whose orientable case this is).
 Deduce that a knot in `S³` with knot group `ℤ` is the unknot, that an irreducible orientable
 `3`-manifold with infinite fundamental group is aspherical, and state the Gordon–Luecke
 theorem that knots with homeomorphic complements are carried onto each other by a
@@ -2212,20 +2220,31 @@ states Alexander's theorem as `alexander_sphere_bounds_ball`, the knot-group the
 `smoothAmbientIsotopic_unknot_of_knotGroup` and the Gordon–Luecke theorem as `gordon_luecke`;
 the proofs of the first two are targets of this layer, and the proof of the third, through
 the cyclic surgery theorem stated in Layer 5.4 and the analysis of reducible fillings, is
-GeometricTopology, Part II's.
+GeometricTopology, Part II's. It states the sphere theorem as `sphere_theorem`: for a smooth
+orientable `3`-manifold without boundary whose `π₂` at some base point is nontrivial, in the
+sense of Mathlib's `HomotopyGroup`, there is a locally flat closed embedding of `S²` (the shape
+of sphere that `TauCeti.IsSphereBoundsBall` tests, `TauCeti.IsLocallyFlat`) that is homotopic
+to no constant map. The smooth structure is there because the pinned `TauCeti.Orientable` is a
+predicate on `C^k` structures with `k ≥ 1`; by Layer 11.2 it costs no generality, and
+two-sidedness is automatic for a sphere in an orientable manifold. Its proof is a target of
+this layer.
 
 **Checks.**
 - The unknot has group `ℤ` and is the unknot; the trefoil has group `⟨x, y | xyx = yxy⟩`, which
   is not abelian, so Dehn's lemma does not apply, consistent with the trefoil being knotted.
 - `S² × S¹` has `π₂ ≠ 0` and the sphere `S² × {pt}` is essential and two-sided; `ℝP³` has
   `π₂ = 0` and is irreducible.
+- `S¹ × ℝP²` has `π₂ ≅ ℤ`, being double covered by `S¹ × S²`, but it is irreducible, so every
+  embedded sphere in it bounds a ball and is null-homotopic (Hatcher, Proposition 1.13 and the
+  remark after Theorem 3.8): the orientability hypothesis of the sphere theorem cannot be
+  dropped, and the non-orientable form allows a two-sided projective plane instead.
 - The granny and square knots have isomorphic knot groups but are not equivalent even up to
   mirror image (signatures `−4` and `0`), so by the Gordon–Luecke theorem their complements
   are not homeomorphic: the theorem is about complements, not about groups.
 
 *Needs:* Layer 11.2 (PL structures in dimension three), Layer 5.1, Layer 4.4; Tau Ceti
-`TauCeti.IsSphereBoundsBall`, `TauCeti.IsIncompressible`; Mathlib `FundamentalGroup`,
-`HomotopyGroup`.
+`TauCeti.IsSphereBoundsBall`, `TauCeti.IsIncompressible`, `TauCeti.IsLocallyFlat`,
+`TauCeti.Orientable`; Mathlib `FundamentalGroup`, `HomotopyGroup`.
 
 ### 8.2 Prime decomposition
 
@@ -2288,7 +2307,13 @@ surface with respect to any triangulation, and the existence of a Haken hierarch
 manifold is cut by finitely many successive incompressible surfaces into balls (Haken,
 Waldhausen; Hatcher, Chapter 3). Prove Waldhausen's theorem that a homotopy equivalence
 between closed Haken manifolds is homotopic to a homeomorphism (Waldhausen, *On irreducible
-3-manifolds which are sufficiently large*, Ann. of Math. 87 (1968)).
+3-manifolds which are sufficiently large*, Ann. of Math. 87 (1968)). `Suggested.lean` states it
+as `waldhausen_theorem`, for closed orientable Haken manifolds: the pinned
+`TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold` (irreducible, with a closed
+bicollared incompressible surface of infinite fundamental group, whose witness carries the
+closed connected `3`-manifold package) together with `TauCeti.Orientable` on a smooth
+structure, the conclusion being a homeomorphism homotopic to the given homotopy equivalence.
+Its proof is a target of this layer.
 
 **Checks.**
 - The torus `T² × {pt} ⊂ T³` is incompressible, so `T³` is Haken; every embedded sphere is
@@ -2298,10 +2323,14 @@ between closed Haken manifolds is homotopic to a homeomorphism (Waldhausen, *On 
   make every irreducible `3`-manifold Haken on account of a sphere bounding a ball.
 - Lens spaces have finite fundamental group, hence contain no incompressible surface of
   positive genus and are not Haken.
+- `L(7, 1)` and `L(7, 2)` are homotopy equivalent but not homeomorphic; neither is Haken, so
+  the Haken hypothesis of Waldhausen's theorem cannot be dropped.
 - The Weeks manifold is not Haken but is virtually Haken by Agol's theorem (Layer 7.4).
 
 *Needs:* Tau Ceti `TauCeti.IsIncompressible`, `TauCeti.IsHakenSurfaceEmbedding`,
-`TauCeti.IsPossiblyNonorientableHakenThreeManifold`; Layer 8.2, Layer 11.2.
+`TauCeti.IsPossiblyNonorientableHakenThreeManifold`,
+`TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold`, `TauCeti.Orientable`; Layer 8.2,
+Layer 11.2.
 
 ### 8.4 Seifert fibred spaces
 
@@ -2594,9 +2623,9 @@ foliation pulls back to a taut foliation under finite covers.
 - A closed connected orientable `3`-manifold with a taut transversely oriented codimension-one
   foliation that is not finitely covered by `S² × S¹` is aspherical and its universal cover is
   `ℝ³`: it is irreducible by the theorem, its fundamental group is infinite since a closed
-  transversal is essential, and the universal cover of a manifold with a Reebless foliation
-  other than `S² × S¹` is `ℝ³` (Palmeira, *Open manifolds foliated by planes*, Ann. of Math.
-  108 (1978), 109–131; Calegari, Theorem 4.38).
+  transversal is essential, and the universal cover of a closed manifold with a taut foliation
+  that is not finitely covered by `S² × S¹` is `ℝ³` (Palmeira, *Open manifolds foliated by
+  planes*, Ann. of Math. 108 (1978), 109–131; Calegari, Theorem 4.38).
 - The leaves of a taut foliation realize the Thurston norm of their homology class
   (Thurston); the norm itself is Part II.
 
@@ -2684,7 +2713,9 @@ diffeomorphism (Munkres, *Elementary Differential Topology*, §10, together with
 vanishing of the smoothing obstruction in dimension three), so that a topological
 `3`-manifold has a unique smooth structure and a homeomorphism between smooth `3`-manifolds
 is isotopic to a diffeomorphism. Relative versions keep a given structure on a neighbourhood
-of a closed subset.
+of a closed subset. `Suggested.lean` states the closed case of the triangulation theorem, that
+every closed topological `3`-manifold is triangulable, as `moise_triangulation`, the pinned
+`TauCeti.TriangulationConjecture 3`; its proof is a target of this layer.
 
 - Dimension two is PlanarTopology Layer 5 (Radó) and Layer 8; dimension one is the
   classification of `1`-manifolds.
@@ -2753,7 +2784,8 @@ manifold of one dimension less.
 
 The triangulation conjecture in dimension `n` is the pinned `TauCeti.TriangulationConjecture n`:
 every closed topological `n`-manifold is triangulable. It holds for `n ≤ 3` by Radó
-(PlanarTopology Layer 5) and Moise (Layer 11.2), and it fails for every `n ≥ 5`: there is a
+(PlanarTopology Layer 5) and Moise (Layer 11.2, `moise_triangulation`), and it fails for every
+`n ≥ 5`: there is a
 closed `n`-manifold admitting no simplicial triangulation (Manolescu, *Pin(2)-equivariant
 Seiberg–Witten Floer homology and the triangulation conjecture*, J. Amer. Math. Soc. 29 (2016),
 Corollary 1.3; survey arXiv 1607.08163, Theorem 1.1). `Suggested.lean` states it as

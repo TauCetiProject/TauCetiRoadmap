@@ -3,6 +3,8 @@ import TauCeti.Geometry.Diffeomorphism.Smale
 import TauCeti.Geometry.Diffeomorphism.Disc
 import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
 import TauCeti.Geometry.Manifold.Irreducible
+import TauCeti.Geometry.Manifold.Haken
+import TauCeti.Geometry.Manifold.Orientation
 import TauCeti.KnotTheory.Slice.Freedman
 import TauCeti.KnotTheory.SmoothLink.Isotopy
 import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
@@ -20,8 +22,9 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`: the resolve
 Kirby's list and the classical theorems of three-manifold topology that the roadmap's layers
 make statable. Every carrier used here exists at the pins; no definition is made.
 
-Of these, the proofs of Alexander's theorem and the knot-group theorem (Layer 8) are targets
-of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
+Of these, the proofs of Alexander's theorem, the sphere theorem and the knot-group theorem
+(Layer 8.1), Waldhausen's theorem (Layer 8.3) and Moise's triangulation theorem (Layer 11.2)
+are targets of this roadmap. The proofs of the Smale conjecture (Layer 3), Mostow rigidity (Layer 7), the
 Gordon–Luecke theorem and the JSJ theorem (Layer 8) are GeometricTopology, Part II's, which
 starts from these statements. The annulus theorem is proved here in dimension at most three;
 its higher-dimensional proof is GeometricTopology, Part II's, and its four-dimensional proof
@@ -39,8 +42,10 @@ Not statable at the pins:
   filling;
 * Kondo's theorem (Layer 4.13): there is no Alexander polynomial of a geometric knot and no
   unknotting number;
-* Cerf's theorem (Layer 3.4): there is no orientation-preserving predicate on
-  diffeomorphisms of the sphere;
+* Cerf's theorem (Layer 3.4) in its orientation-preserving form: there is no
+  orientation-preserving predicate on diffeomorphisms of the sphere; its `π₀` form, that
+  `Diff(S³)` has exactly two path components, follows from `smale_conjecture` because `O(4)`
+  has two components, so it is not stated separately;
 * the Kneser–Milnor theorem (Layer 8.2): there is no connected sum of manifolds;
 * the Novikov–Rosenberg theorem (Layer 10.2): the pinned foliations are smooth of a fixed
   leaf dimension but carry no transverse orientation, and incompressibility of a leaf is not
@@ -107,6 +112,20 @@ theorem alexander_sphere_bounds_ball :
     TauCeti.IsSphereBoundsBall (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1) := by
   sorry
 
+/-- The sphere theorem (Papakyriakopoulos; Hatcher, *Notes on Basic 3-Manifold Topology*,
+Theorem 3.8, orientable case): if a smooth orientable `3`-manifold without boundary has
+nontrivial `π₂` at some base point, it contains a locally flat embedded `2`-sphere that is
+homotopic to no constant map. Orientability is the pinned predicate on the smooth structure;
+without it the statement fails for `S¹ × ℝP²`. -/
+theorem sphere_theorem (M : Type u) [TopologicalSpace M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [IsManifold (𝓡 3) ∞ M] [T2Space M]
+    [SecondCountableTopology M] [TauCeti.Orientable (𝓡 3) ∞ M]
+    (x : M) (h : Nontrivial (HomotopyGroup.Pi 2 M x)) :
+    ∃ f : C((TopCat.sphere 2 : TopCat.{u}), M), Topology.IsClosedEmbedding f ∧
+      TauCeti.IsLocallyFlat (EuclideanSpace ℝ (Fin 2)) ℝ f ∧
+      ∀ y : M, ¬ f.Homotopic (ContinuousMap.const _ y) := by
+  sorry
+
 /-- The knot-group theorem (Dehn's lemma, Papakyriakopoulos): a knot in `S³` whose knot group
 is infinite cyclic at some basepoint of its complement is ambient isotopic to the unknot. -/
 theorem smoothAmbientIsotopic_unknot_of_knotGroup
@@ -126,6 +145,21 @@ theorem gordon_luecke
       ((range J)ᶜ : Set (sphere (0 : EuclideanSpace ℝ (Fin 4)) 1)))) :
     ∃ e : sphere (0 : EuclideanSpace ℝ (Fin 4)) 1 ≃ₜ sphere (0 : EuclideanSpace ℝ (Fin 4)) 1,
       e '' range K = range J := by
+  sorry
+
+/-- Waldhausen's theorem: a homotopy equivalence between closed orientable Haken
+`3`-manifolds (irreducible, containing a closed bicollared incompressible surface of infinite
+fundamental group) is homotopic to a homeomorphism. The pinned Haken predicate carries the
+closed connected `3`-manifold package; orientability is the pinned predicate on the smooth
+structure. -/
+theorem waldhausen_theorem (M N : Type u) [TopologicalSpace M] [TopologicalSpace N]
+    [ChartedSpace (EuclideanSpace ℝ (Fin 3)) M] [ChartedSpace (EuclideanSpace ℝ (Fin 3)) N]
+    [IsManifold (𝓡 3) ∞ M] [IsManifold (𝓡 3) ∞ N]
+    [TauCeti.Orientable (𝓡 3) ∞ M] [TauCeti.Orientable (𝓡 3) ∞ N]
+    (hM : TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold M)
+    (hN : TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold N)
+    (e : ContinuousMap.HomotopyEquiv M N) :
+    ∃ h : M ≃ₜ N, e.toFun.Homotopic (h : C(M, N)) := by
   sorry
 
 /-- The JSJ theorem (Jaco–Shalen, Johannson): every closed orientable irreducible `3`-manifold
@@ -148,6 +182,12 @@ theorem poincare_conjecture (M : Type u) [TopologicalSpace M]
   sorry
 
 /-! ## Layer 11: triangulations -/
+
+/-- Moise's theorem (Moise 1952; Bing 1959), closed case: every closed topological
+`3`-manifold is homeomorphic to the realization of a simplicial complex, the pinned
+triangulation conjecture in dimension three. -/
+theorem moise_triangulation : TauCeti.TriangulationConjecture.{u} 3 := by
+  sorry
 
 /-- Manolescu's theorem: the triangulation conjecture fails in every dimension `n ≥ 5`, that
 is, there is a closed topological `n`-manifold that is not homeomorphic to the realization
