@@ -15,7 +15,8 @@ theorem of DiophantineApproximationAndTranscendence §4.5 and is not restated he
 
 The other headline signatures require objects absent at the pins. Layer 0's topological
 nonabelian torsor classification, twisting and exact sequences need the native continuous
-nonabelian H¹ carrier; Layer 0 constructs that carrier and its quotient descent and inflation theory. Layer 1's curve and Artin-tower K(π,1) theorems need the scheme étale
+nonabelian H¹ carrier; Layer 0 constructs that carrier and its quotient descent and inflation theory. Layer 1's arbitrary-field smooth-curve and characteristic-zero product and Artin-tower
+K(π,1) theorems need the scheme étale
 fundamental group and its canonical cohomology comparison. Layer 2's unipotent realization
 and crystalline comparison theorems need geometric tensor categories, unipotent path
 torsors and their filtered realizations. Their abstract neutral tensor reconstruction
