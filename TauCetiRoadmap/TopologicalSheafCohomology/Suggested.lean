@@ -56,12 +56,12 @@ def fiberStalkMap (R : Type u) [CommRing R] {X Y : TopCat.{u}}
       x.property.symm) ≫
     TopCat.Presheaf.stalkPushforward (ModuleCat.{u} R) f F.obj x.val
 
-/-- For a proper map with finite fibers between locally compact Hausdorff spaces,
-the canonical direct-image stalk map is an isomorphism for every module sheaf.
+/-- For a proper map with finite fibers from a Hausdorff space, the canonical
+direct-image stalk map is an isomorphism for every module sheaf; no separation or
+local compactness of the target, and no local compactness of the source, is assumed.
 The empty fiber is allowed; the product is then the zero module. -/
 theorem properFiniteFiberStalk (R : Type u) [CommRing R] {X Y : TopCat.{u}}
-    [T2Space X] [T2Space Y] [LocallyCompactSpace X] [LocallyCompactSpace Y]
-    (f : X ⟶ Y) (hf : IsProperMap f)
+    [T2Space X] (f : X ⟶ Y) (hf : IsProperMap f)
     (hfin : ∀ y : Y, Finite { x : X // f x = y })
     (F : X.Sheaf (ModuleCat.{u} R)) (y : Y) :
     IsIso (fiberStalkMap R f F y) := by
