@@ -2150,7 +2150,7 @@ Use Rudolph,
 Topology 21 (1982), 325–327, with the explicit opposite-sign adapter;
 the first-Betti-number convention is also recorded in Feller,
 [*On the signature of positive braids*](https://boristheses.unibe.ch/958/1/14feller_p.pdf),
-§1.1. Consume Layer 4.3's realized band surfaces and Seifert matrices and
+p. 22. Consume Layer 4.3's realized band surfaces and Seifert matrices and
 this layer's integral-form invariance/inertia theory. No signature
 calculation may replace the component-orientation distinction in the Hopf
 example of Layer 4.5.
