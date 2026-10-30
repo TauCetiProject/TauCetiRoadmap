@@ -17,10 +17,23 @@ include `TauCeti/Geometry/Manifold/Bordism/` and
 ## Scope and ownership
 
 BordismFormalGroups owns real/complex orientation formal laws, completed
-projective coordinates and coefficient-law universality. StringOrientation S1–S2 owns the normalized String obstruction and its
-classifiers/lifts; StringOrientation and EllipticCohomology own the String/TMF
-genera and qualified transfer statements on B3’s fixed Cayley-plane carrier.
-Here B3.8 proves the carrier-specific H³/H⁴ nullhomotopy test it consumes.
+projective coordinates and coefficient-law universality. StringOrientation is
+a supplier of this roadmap: S1.1–S1.4 own the normalized String obstruction λ,
+its classifiers and lifts, and S1.3 the existence and H³-torsor of lifts; S1.5
+owns the Cayley plane OP² as the trace-one idempotents of the exceptional Jordan
+algebra, F₄ with its transitive action and Spin(9) isotropy, the cells S⁸∪e¹⁶,
+the ring H*(OP²;ℤ)=ℤ[u]/(u³), the classes p₂=6u, p₄=39u², Euler class 3u²,
+signature 1, the unique Spin structure and the unique String lift class, and the
+value p(HP²)=1+2u+7u²; S2.2 owns the structured Pontryagin–Thom isomorphism
+Ω^θ_n≅π_nMθ for every bundle diagram θ, S2.3 the framed isomorphism
+Ω^fr_n≅π_nS and the stem π₃S≅ℤ/24 with generator ν, and S5.3 the equivalence
+MSpin[1/2]≃MSO[1/2]. StringOrientation S4–S5 and EllipticCohomology own the
+Witten genus and the Cayley-plane kernel theorem; neither consumes anything
+from here. Layer 9 below adds to S1.5 only the identification of its Jordan
+algebra with LieHighestWeight's compact Albert carrier, the explicit idempotent
+charts, the Peirce Clifford module with its pinned volume sign, the F₄ type
+comparison, the smooth quotient through SmoothBundlesConnections B1.4, the Bott
+clutching sign witness for u, and the Pontryagin classes of every HP^k.
 PositiveScalarCurvature owns connection-metric
 estimates, surgery and PSC classification; it consumes the bordism transfer
 and KO kernel interfaces below.
@@ -36,16 +49,20 @@ HomotopySpheres: the mod p Steenrod algebras and Adams towers (B4.1–2,
 B4.7), the subalgebra A(1)=⟨Sq1,Sq2⟩, its Q0 Margolis split-injection
 criterion and the A(1) resolutions of B6.6; the finite Steenrod
 sub-Hopf algebras beyond A(1) and general Margolis theory remain
-BordismFormalGroups'. The finite framed Pontryagin–Thom bijection and the
-stable framed PT map (B5.2, B5.5) and the ΩSpin_2 filling theorem (B3.2(c))
-are owned here.
+BordismFormalGroups'. The finite-rank framed Pontryagin–Thom bijection
+(B5.2), the geometric bordism theories over spaces and pairs with their
+Pontryagin–Thom morphism of homology theories (B5.4) and the ΩSpin_2 filling
+theorem (B3.2(c)) are owned here; the stable coefficient isomorphisms
+Ω^θ_n≅π_nMθ and Ω^fr_n≅π_nS are StringOrientation S2.2 and S2.3, which B5.4c
+and B5.5 consume and compare with the finite constructions.
 
 SmoothBundlesConnections B1.4 owns free proper smooth quotients and their
 principal/submersion comparison; B1.5 imports them and adds only cycle-structure
 adapters. B1.7 owns the concrete quartic and elliptic-fibre-complement data
 needed for the bordism comparisons; FourManifolds consumes these constructions
-and this roadmap's quadratic, Wu and filling theorems. No FourManifolds or
-StringOrientation construction is a supplier to this roadmap.
+and this roadmap's quadratic, Wu and filling theorems. No FourManifolds
+construction is a supplier to this roadmap; StringOrientation supplies the
+sections named above and consumes nothing from here.
 
 Finite quadratic Arf classification is owned here, on native quadratic forms;
 SpinGeometry G4 supplies geometric Spin lifts. Generic bundle classifiers and
@@ -121,6 +138,7 @@ retain their native hypotheses and chosen smooth structures.
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5, 10.2 | 2.1's manifold orientation `Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5's face-indexed abstract boundary of a manifold with corners; 10.2's manifold Sard theorem `dense_isRegularValue` | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 derives transversality from 10.2 |
 | [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer11 and item1 of the smoothing-and-triangulation comparison | collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
+| StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, G1.1 morphisms of theories, G3.3's arbitrary-CW comparison theorem, G3.8 connective covers, finite duality and G5.2's unframed Thom collapse with its stabilized embedding comparison, compatible universal bundle diagrams with cofinal reindexing, MO/MSO/MSpin/MU^(2) and quaternionic smooth carriers, G5.5's ABS orientation | geometric cycles, ξ-lifts and PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6, C1.3, C1.4, C7.3, C7.3a | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions; C1.3's finite faithful unitary representations of compact Lie groups and their smooth Stiefel approximations of BG; C1.4's smooth representatives of continuous principal bundles with compact structure group over smooth bases, with their relative homotopy versions; `TSⁿ⊕ε¹≅ε^(n+1)`, `w(T RP^m)=(1+a)^(m+1)` and the immersion normal bundle | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
@@ -138,9 +156,10 @@ Layer 1 is independent finite quadratic algebra. Layers 2–3 construct geometry
 witnesses and the homology theory; Layer 4 constructs ordinary operations and
 Adams towers independently of bordism coefficients. Layer 5 proves the finite
 and stable structured comparison, and Layer 6 computes O and SO coefficients.
-Layers 7–8 give ABS and low geometric classifications. Layer 9 constructs the
-exceptional carrier and its characteristic numbers, and Layer 10 proves realization
-and projective-transfer theorems. The parenthesized B labels are stable target
+Layers 7–8 give ABS and low geometric classifications. Layer 9 identifies
+StringOrientation S1.5's Cayley plane with the compact Albert carrier and adds
+its explicit charts, Clifford module, sign witnesses and the HP^k Pontryagin
+classes, and Layer 10 proves realization and projective-transfer theorems. The parenthesized B labels are stable target
 locators: each subsection's Needs line specifies the actual inputs, including
 independent subtargets within its layer.
 
@@ -1079,7 +1098,7 @@ Its API includes:
 - For a single framed point, degree-one and constant sphere maps give respectively one positive point and the empty inverse image.
 - At n=k=0, ℝ⁰ contains at most one embedded point, so arbitrary disjoint-union addition is not a finite-stage operation.
 
-The classical stable coefficient theorem is Thom IV.8, p.75. The finite embedded ξ statement here is a target extending that setting; its proof requires the actual two inverse constructions in B5.1–3, with compact sources and CW classifiers.
+The classical stable coefficient theorem is Thom IV.8, p.75, and its form for every bundle diagram is StringOrientation S2.2; neither states a bijection at a fixed finite rank k. The finite embedded ξ statement here is a target extending that setting, with the embedding dependence of the labelled four-point example; its proof requires the actual two inverse constructions in B5.1–3, with compact sources and CW classifiers.
 
 *Needs:* B5.1 and B5.3 inverse; B1.6 transversality; GeneralizedCohomology G5.2 Thom quotients. Construction of the forward map uses B5.1 alone.
 
@@ -1106,7 +1125,7 @@ Its API includes:
 - A constant map at the Thom basepoint has empty regular inverse image.
 - For the two-point base and rank one, the commutator word has four labelled points as inverse image; forgetting their order would collapse its nontrivial class.
 
-Thom IV.8, p.75 supplies the classical coefficient comparison, not a theorem for arbitrary ξ and arbitrary pairs. The mapping-path, Grassmannian approximation and lift-transport steps are the extension proved here; each retains the stated finite-dimensional compact source and CW base hypotheses.
+Thom IV.8, p.75 supplies the classical coefficient comparison, not a theorem for arbitrary ξ and arbitrary pairs, and StringOrientation S2.2 supplies the stable isomorphism without a fixed-rank inverse. The mapping-path, Grassmannian approximation and lift-transport steps at fixed rank k are the extension proved here; each retains the stated finite-dimensional compact source and CW base hypotheses.
 
 *Needs:* B5.1; B1.6 relative transversality; GeneralizedCohomology G2.10 mapping paths; CharacteristicClasses C1 finite Grassmannians. The two identities complete B5.2 without assuming its bijectivity.
 
@@ -1137,7 +1156,9 @@ classifier/block-permutation laws in the same stabilized diagram.
 ξ-bordism homology theory of B1/B2, with the actual normal diagram and
 its structure maps; prove B2's witness/excision/continuity constructions
 for these ξ-structures before comparing theories. The finite bijection
-of items2–3 is its coefficient construction. For a closed embedded cycle
+of items2–3 is its coefficient construction. Items 4a–4b construct the
+theory over spaces and pairs, which StringOrientation S2.2 does not state;
+S2.2's coefficient isomorphism enters only in item 4c. For a closed embedded cycle
 (M,e,lift,ν-isomorphism,f), f:M→X continuous, construct
 `PT_(k,X):S^(n+k)→Th(ξ_k)∧X₊`. On a smaller normal disc tube use
 its inverse to write a point as (m,v); send it to the smash class of
@@ -1221,13 +1242,23 @@ small arbitrary cell sets. On the spectral side use G's sphere
 compactness, smash/homotopy-colimit and cofiber comparisons. Retain
 injectivity as well as surjectivity in these colimit comparisons; a
 class becoming zero has a compact witness at a later finite stage.
-Prove the coefficient transformation is an isomorphism: stabilize the
-actual finite inverse identities from items2–3, compare their colimit
-with π_nMξ in G's model, and compare the unit and suspension maps.
-The Thom cells have dimensions at least their bundle rank, so prove
-Mξ connective and the negative coefficient groups zero, matching the
-geometric zero extension. These statements require no coefficient
-ring calculation from B3, B4 or B6.
+The coefficient transformation is an isomorphism by StringOrientation
+S2.2. Identify the point specialization Ω^ξ_n(pt) of the geometric theory
+with S2.2's θ-bordism group of the same G5 bundle diagram: a cycle of B1–B2
+is a compact manifold with a stable normal ξ-lift taken as data, and the
+collar, embedding and witness records of B1–B2 are proved to exist for
+every S2.2 cycle and bordism, so the two quotients coincide. Identify
+PT_pt with S2.2's Pontryagin–Thom map, both the collapse onto a normal
+tube of an embedding in a sphere with the stabilized embedding comparison
+above. S2.2's isomorphism Ω^θ_n≅π_nMθ, natural in maps of diagrams and
+multiplicative for product diagrams, then transports along these
+identifications, together with its unit and suspension compatibilities.
+Compare the stabilized finite inverse identities of items2–3 with S2.2's
+inverse under the same identification; they give the inverse at each
+finite rank, which S2.2 does not state. The Thom cells have dimensions
+at least their bundle rank, so prove Mξ connective and the negative
+coefficient groups zero, matching the geometric zero extension. These
+statements require no coefficient ring calculation from B3, B4 or B6.
 
 Prove that the geometric ξ-bordism groups with B2's boundary maps form
 an unreduced homology theory on CW pairs in GeneralizedCohomology
@@ -1274,25 +1305,28 @@ Its API includes:
 
 The passage from this coefficient comparison to pairs is via the separately constructed homology-theory transformation and GeneralizedCohomology G3.3, not an extra assertion attributed to Thom IV.8.
 
-*Needs:* B5.1–B5.3; B1.6 stabilized isotopy; B2.1–B2.3; GeneralizedCohomology G1.1, G3.3 and G5.2–G5.4.
+*Needs:* B5.1–B5.3; B1.6 stabilized isotopy; B2.1–B2.3; StringOrientation S2.2 coefficient isomorphism; GeneralizedCohomology G1.1, G3.3 and G5.2–G5.4.
 
 ### 5.5 Framed and ordinary comparisons (B5.5)
 
 Define the stable framed PT map as the special case of item4 with B a
-point and ξ trivial, whose Thom spectrum is the sphere spectrum S; this
-item owns the resulting stable framed isomorphism Ω^fr_n≃π_n S, whose
-degree-zero value is the signed count. Compare
-the finite unstable framed embedded specialization of item2 with its
-stabilization. Compare the
+point and ξ trivial, whose Thom spectrum is the sphere spectrum S. The
+stable framed isomorphism Ω^fr_n≅π_nS is StringOrientation S2.3's, the
+case of S2.2 for the contractible diagram; identify this specialization
+with it through item4c's point comparison, and prove that its degree-zero
+value is the signed count. Compare
+the finite unstable framed embedded specialization of item2, which S2.3
+does not state, with its stabilization. Compare the
 fundamental-class maps of B2 with the actual Thom-to-HA spectral maps.
 Pin the positive interval boundary [1]−[0] and G's increasing left
 suspension/collapse coordinates. Prove the comparison of the geometric
 boundary operator with the spectral connecting morphism on an interval
 and in all dimensions; no simultaneous sign renormalization is left free.
 
-The framed isomorphism specializes Miller, Chapter 2, §1, Theorem 1.4,
-p.41 to the trivial sequence of structure groups, whose Thom spectrum is
-the sphere spectrum. The ordinary fundamental-class map is Chapter 1,
+The framed isomorphism is Miller, Chapter 2, §1, Theorem 1.4,
+p.41 specialized to the trivial sequence of structure groups, whose Thom
+spectrum is the sphere spectrum; it is consumed from StringOrientation S2.3,
+not reproved. The ordinary fundamental-class map is Chapter 1,
 §1, pp.1–2, and the ordinary Thom orientation is Chapter 1, §5, pp.12–14.
 The relative boundary comparison with the fixed left-suspension sign is
 proved here from B5.4 and the supplier’s connecting morphisms.
@@ -1308,7 +1342,7 @@ Its API includes:
 - The empty manifold gives stable degree 0.
 - The interval boundary gives 1−1=0 after passage to coefficients, with the endpoint signs retained before augmentation.
 
-*Needs:* B5.4; B2.4; GeneralizedCohomology G5 Thom-to-ordinary orientation and sphere spectrum.
+*Needs:* B5.4; B2.4; StringOrientation S2.3 framed isomorphism; GeneralizedCohomology G5 Thom-to-ordinary orientation and sphere spectrum.
 
 ### 5.6 Umkehr comparison (B5.6)
 
@@ -1378,7 +1412,7 @@ The labelled four-point commutator distinguishes finite embeddings; its stable l
 
 ### Dependencies
 
-Layers 2–3; GeneralizedCohomology G1.1, G2.10, G3.3 and G5.2–G5.4; CharacteristicClasses C1–C2.
+Layers 2–3; StringOrientation S2.2–S2.3; GeneralizedCohomology G1.1, G2.10, G3.3 and G5.2–G5.4; CharacteristicClasses C1–C2.
 
 ## Layer 6: unoriented and oriented coefficient rings
 
@@ -1499,12 +1533,15 @@ p-local comparison via degreewise finite generation and separated complete
 filtrations, and lift the algebra generators to obtain the p-local polynomial
 coefficient ring. B4.8 owns this spectral multiplicative proof; B6.1 owns
 explicit geometric generator representatives and the integral Newton lattice.
-Compare BSpin→BSO at odd p through its actual B(C2) fibre/Serre
-sequence and Thom map, giving MSpin_(p)≃MSO_(p). These targets
-depend only on AT ordinary cochains/EM, G spectral/Thom foundations
-(MSO and MSpin are GeneralizedCohomology G5.4's Thom spectra), CC's early
-rings and item7; they use no Pontryagin–Thom construction, and no MU or
-formal-group universality is presumed.
+Consume StringOrientation S5.3's equivalence MSpin[1/2]≃MSO[1/2], proved
+there through the K(ℤ/2,1) fibre of BSpin→BSO and the Thom isomorphism;
+its localization MSpin_(p)≃MSO_(p) at each odd p transports the
+comodule-algebra splitting, the Adams E₂ algebra and the p-local
+polynomial ring above to MSpin, which is the refinement owned here.
+These targets depend only on AT ordinary cochains/EM, G spectral/Thom
+foundations (MSO and MSpin are GeneralizedCohomology G5.4's Thom spectra),
+CC's early rings, S5.3 and item7; they use no Pontryagin–Thom
+construction, and no MU or formal-group universality is presumed.
 
 The classical odd-primary calculation is Milnor, §4, Theorems 4–5, p.519; the multiplicative Adams and parameter compatibility assertions here are additional proof targets.
 
@@ -1519,7 +1556,7 @@ The odd-primary comodule and Adams API includes:
 - At p=5, v₁ has stem 8 and C retains its degree-four generator; 2·1+1=3 is not a power of 5.
 - For every odd p, positive cohomology of B(C₂) over F_p vanishes, whereas at p=2 its degree-one class is nonzero. Thus the odd comparison does not identify Spin and SO at 2.
 
-*Needs:* B4.7; CharacteristicClasses C3.3 and C3.6; GeneralizedCohomology G3.9 and G5.4. No geometric PT input is used.
+*Needs:* B4.7; StringOrientation S5.3; CharacteristicClasses C3.3 and C3.6; GeneralizedCohomology G3.9 and G5.4. No geometric PT input is used.
 
 ### 6.5 Rational and odd-local oriented generators (B6.1)
 
@@ -1658,7 +1695,7 @@ H_R(2,4) has Newton number 1 modulo two; H_C(2,3) has Pontryagin Newton number �
 
 ### Dependencies
 
-Layers 2–5; CharacteristicClasses C3.6 and C7.3a; GeneralizedCohomology G3.9 and G5.4; IndexTheory I7.2.
+Layers 2–5; StringOrientation S5.3; CharacteristicClasses C3.6 and C7.3a; GeneralizedCohomology G3.9 and G5.4; IndexTheory I7.2.
 
 ## Layer 7: ABS and the low Spin comparison
 
@@ -1751,8 +1788,9 @@ ordinary-cohomology/covers comparison and the operation action. Compute
 D*:H*ko→H*MSpin on the Thom class and its degree counts below9.
 B6.6 consumes these calculations. Consume
 B4.2's mod2 Adams convergence and G3.9's finite-generation completion
-comparison. Own the odd-primary KO comparison here: consume B4.8's
-MSpin_(p)≃MSO_(p) and the independent oriented coefficient ring
+comparison. Own the odd-primary KO comparison here: consume StringOrientation
+S5.3's MSpin[1/2]≃MSO[1/2] localized at p, B4.8's odd-primary Spin
+coefficient ring and the independent oriented coefficient ring
 from B6.1–2. First use B1.7's quartic K3 carrier,
 c1=0,c2=24,p1=−48 and signature−16; B3.0 computes its complex index2.
 Use B3.0's spinABSComplexificationGenus: p1=−48 gives Â(K3)=2,
@@ -1859,8 +1897,10 @@ Prove ΩSpin_3=0 from item4's below8 ABS comparison, TopK's ko3=0
 and B5's geometric PT inverse. Construct the specified Lie-spin T3 filling
 as the E(1) fibre complement in B1.7; use its boundary Spin identification
 and complex-oriented signature −8. Distinguish its induced framing
-from the Lie framing: under framed PT the latter is η³=12ν≠0 in
-π3S=Z/24, although its Spin image is zero. A signature-zero Borromean
+from the Lie framing: under the framed isomorphism of StringOrientation
+S2.3, which supplies π₃S≅ℤ/24 with generator ν, the product Lie framing
+is η³ by B5.4c's external products, and η³=12ν≠0, although its Spin
+image is zero. A signature-zero Borromean
 trace does not identify the specified Lie Spin structure.
 
 **Checks.**
@@ -1869,7 +1909,7 @@ trace does not identify the specified Lie Spin structure.
 - The specified Lie-spin T³ bounds the signature −8 complement, so its Spin bordism class is 0 despite its nonzero product stable framing.
 - In framed coefficients the product represents η³=12ν, of order 2 in ℤ/24, while its KO image lies in KO₃=0. Forgetting a frame is not an injective invariant.
 
-*Needs:* B3.4, B5.4 and B1.7; TopologicalKTheory T5 connective KO coefficients.
+*Needs:* B3.4, B5.4 and B1.7; StringOrientation S2.3 for π₃S≅ℤ/24 and ν; TopologicalKTheory T5 connective KO coefficients.
 
 ### 8.4 Low coefficient tables and three-dimensional parallelization (B3.1)
 
@@ -2006,19 +2046,26 @@ The odd Spin torus has Arf 1; the Lie Spin T³ bounds the specified signature �
 
 ### Dependencies
 
-Layers 1–7; SpinGeometry G4; AlgebraicTopology Stages 6 and 8; GeometricTopology Layer 1; SpinRepresentations Layer 7; GeneralizedCohomology G4.
+Layers 1–7; StringOrientation S2.3; SpinGeometry G4; AlgebraicTopology Stages 6 and 8; GeometricTopology Layer 1; SpinRepresentations Layer 7; GeneralizedCohomology G4.
 
 ## Layer 9: exceptional projective geometry
 
 ### 9.1 Idempotent Cayley plane (B3.6)
 
-Construct the exceptional projective plane on the **same** compact real
-Albert algebra supplied by LieHighestWeight Layer8, with its Cayley–Dickson pair
-division carrier `TauCeti.DivisionOctonionReal`. Define octonionicProjectivePlane as the literal
-trace-one idempotent subtype `{A : compactAlbertAlgebra // A∘A=A ∧ tr A=1}`
-in its 27-coordinate Euclidean topology. Use the positive trace form to
-prove it is closed and bounded (tr A²=1), hence compact, Hausdorff and
-second countable. There is no module/associative projectivization over O.
+StringOrientation S1.5 owns the Cayley plane OP², defined as the trace-one
+idempotents of the exceptional Jordan algebra J₃(𝕆) of 3×3 Hermitian
+octonionic matrices, with its cells, cohomology ring and characteristic
+classes. Identify S1.5's J₃(𝕆) with the compact real Albert algebra supplied
+by LieHighestWeight Layer8, built on the Cayley–Dickson pair division carrier
+`TauCeti.DivisionOctonionReal`: a Jordan-algebra isomorphism matching the
+Hermitian positions, the unit and the trace form. Through it define
+octonionicProjectivePlane as the literal trace-one idempotent subtype
+`{A : compactAlbertAlgebra // A∘A=A ∧ tr A=1}` in its 27-coordinate
+Euclidean topology, which is S1.5's OP² on this carrier. Use the positive
+trace form to prove it is closed and bounded (tr A²=1), hence compact,
+Hausdorff and second countable; S1.5 obtains compactness from the
+homogeneous presentation, so this is the subtype-level comparison. There
+is no module/associative projectivization over O.
 The positive form is essential: on the split carrier a nonzero null a,
 N(a)=a star(a)=0, gives trace-one idempotents with A_00=1, A_10=t a,
 A_01=t star(a) and other entries zero for every real t, an unbounded
@@ -2036,15 +2083,16 @@ two-generator associative subalgebra and its conjugation closure for these
 identities, rather than regrouping arbitrary triple products. Prove coverage,
 chart inverses, smooth transitions, the embedded 16-dimensional manifold
 structure and inclusion/tangent/smooth-map criteria on this precise subtype.
-Construct the CW decomposition with one cell in dimensions0,8,16 on the
-same carrier. Its projective line is the trace-one idempotents in the lower
-Hermitian2×2 corner, with its two octonionic inverse charts and explicit
-homeomorphism to S8. Attach the top D16 by v=(sqrt(1−N(z)),z_1,z_2),
-z∈O², N(z)≤1, taking vv*; its S15 boundary is the specified octonionic
-Hopf map to that S8. Prove quotient/homeomorphism and cellular/cup
-comparisons, including Hopf invariant1. Obtain H*=Z[u]/(u³), |u|=8.
-Obtain connectedness and simple connectivity from these actual cells,
-before invoking transitivity or isotropy.
+The CW decomposition S⁸∪e¹⁶ with octonionic Hopf attaching map, the ring
+H*(OP²;ℤ)=ℤ[u]/(u³) with |u|=8, connectedness and simple connectivity are
+S1.5's. Exhibit S1.5's cells in these charts: the projective line is the
+trace-one idempotents in the lower Hermitian2×2 corner, with its two
+octonionic inverse charts and explicit homeomorphism to S8, and the top
+cell is the image of D16 under v=(sqrt(1−N(z)),z_1,z_2), z∈O², N(z)≤1,
+taking vv*, whose S15 boundary is the octonionic Hopf map to that S8.
+Prove that this characteristic map is S1.5's attaching map on the subtype
+carrier, so that S1.5's cellular and cup conclusions, including Hopf
+invariant1, hold in these coordinates.
 
 Its API includes:
 
@@ -2059,14 +2107,17 @@ Its API includes:
 
 The idempotent and projective geometry is Baez, §§3.4 and 4.2; the designated-chart and native-carrier comparisons are constructed here.
 
-*Needs:* LieHighestWeight Layer 8 compact Albert algebra and division octonions; AlgebraicTopology Stages 4 and 6 cells and cup products; Mathlib finite-dimensional real topology.
+*Needs:* StringOrientation S1.5; LieHighestWeight Layer 8 compact Albert algebra and division octonions; AlgebraicTopology Stages 4 and 6 cells and cup products; Mathlib finite-dimensional real topology.
 
 ### 9.2 Compact automorphisms and Spin isotropy (B3.7)
 
 Construct compactAlbertAutomorphismGroup as the closed subgroup of the
 native real linear-equivalence/GL27 group preserving the Jordan product,
-unit and positive trace form. Give its matrix realization, smooth action
-and compactness inside O27. Consume native
+unit and positive trace form; under item6's identification this is
+StringOrientation S1.5's F₄, a compact connected Lie group of dimension 52
+acting transitively on OP² with isotropy Spin(9) at diag(1,0,0), all of
+which S1.5 owns. Give its matrix realization, smooth action
+and compactness inside O27 on the Albert carrier. Consume native
 `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`
 (Geometry/Lie/Subgroup/Embedded.lean), choose and retain its actual data
 to define the subgroup atlas, and export the ambient-GL smooth-into
@@ -2076,9 +2127,8 @@ native LieGroups Layer2 Lie-algebra identification with the Lie algebra of
 compact Albert derivations. Call this concrete group compactF4; its type-F4
 comparison is owned here: compose the Lie(Aut)≃Der(J) identification
 with LHW Layer8's `compactAlbertDerivation_complexification` and
-`compactAlbertDerivation_killing_negDef`. Prove the group connected
-and simply connected using the actual Spin9 principal fibration and
-item6's cell model. Export its real derivation Lie-algebra isomorphism,
+`compactAlbertDerivation_killing_negDef`. Connectedness is S1.5's; prove simple connectivity here from the actual
+Spin9 principal fibration and S1.5's cell model. Export its real derivation Lie-algebra isomorphism,
 complexification to split typeF4 and negative-definite Killing form.
 Use LieGroups Layer4's full-faithful simply connected integration
 equivalence to prove uniqueness among connected simply connected
@@ -2087,19 +2137,20 @@ undefined designated complex F4 group or its real-form classification
 is a prerequisite.
 This type comparison follows the intrinsic geometry; all quotient/idempotent constructions use the actual
 group and derivation algebra independently of that classification.
-Prove automorphism transitivity here, using the supplier's actual inner
-derivations and the Peirce tangent space: for x∈J_(1/2)(E),
-`4[L_x,L_E](E)=x`. Exponentiating these skew-adjoint derivations gives
-product-preserving trace isometries and a locally surjective orbit map.
-Prove every orbit open; item6's connected cell model then gives
-a single orbit. This uses intrinsic Jordan frames and
-no supplier assumption of automorphism transitivity.
+Transitivity is S1.5's theorem; transport it along item6's identification.
+Its tangent witness on the Albert carrier is the supplier's inner
+derivations on the Peirce tangent space: for x∈J_(1/2)(E),
+`4[L_x,L_E](E)=x`, so exponentiating these skew-adjoint derivations gives
+product-preserving trace isometries and an orbit map that is a submersion
+at E, which the quotient comparison below needs.
 Construct the explicit native Spin9 inclusion through the Peirce
 decomposition at E_0:
 J≃R E_0 ⊕ (R⊕R9) ⊕ S9, S9≃O². The vector Clifford action on O²
 for (t,a)∈R⊕O is `(x,y)↦(tx+ay,star(a)x−ty)`; prove the positive
-Euclidean Clifford relation and adjointness. This roadmap owns this
-concrete real16-dimensional Cliff(9,0) module; no designated real Spin9
+Euclidean Clifford relation and adjointness. S1.5 states that the isotropy
+acts on the 16-dimensional complement by the real spin representation;
+this roadmap owns this concrete real16-dimensional Cliff(9,0) module with
+its pinned volume sign; no designated real Spin9
 module is presumed in SpinRepresentations. Pin O's basis to
 `(1,0),(i,0),(j,0),(k,0),(0,1),(0,i),(0,j),(0,k)` in the Cayley–Dickson
 pair model, R9 to t followed by that basis, and S9 to column0 entries
@@ -2119,7 +2170,7 @@ by the Spin centre. Thus its image is exactly the stabilizer. Supply
 inverse continuous/smooth comparisons on these actual group maps.
 Construct the quotient homeomorphism and diffeomorphism
 compactF4/Spin9≃octonionicProjectivePlane from the actual orbit map and
-SmoothBundlesConnections B1.4's free proper principal quotient, not an abstract existence equivalence. Give
+SmoothBundlesConnections B1.4's free proper principal quotient, not an abstract existence equivalence; this compares S1.5's homogeneous smooth structure with item6's chart atlas. Give
 smooth local sections, the tangent isotropy comparison, connectedness and
 simple connectivity, and all chart/homogeneous-carrier compatibility laws.
 
@@ -2135,75 +2186,72 @@ Its API includes:
 - The vector (0,1) swaps (x,y), again with square +id; it anticommutes with the previous vector, fixing the positive Clifford convention.
 - Write C₀ for the t-generator and C₁,…,C₈ for the eight ordered octonion generators above, composing rightmost first. Then C₀C₁⋯C₈ sends (1,0)∈𝕆² to (−1,0). Replacing only C₈ by −C₈ sends it to (1,0), although all generator squares and pairwise anticommutation relations persist; this excludes the opposite-volume representation.
 
-*Needs:* B3.6; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations; SpinRepresentations Layer 7.
+*Needs:* B3.6; StringOrientation S1.5; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations; SpinRepresentations Layer 7.
 
-### 9.3 Characteristic classes and nullhomotopies (B3.8)
+### 9.3 Normal Bott comparison and sign witness (B3.8)
 
-Prove w2=0 and the unique Spin lift on the preceding cell model; compute tangent characteristic
-classes without assuming the subsequent abstract F4 type calculation.
-The tangent isotropy bundle restricted to OP1=S8 is TS8 plus its
-normal real8-dimensional half-spin/Hopf bundle. Construct this normal
-bundle comparison from the Peirce charts and Spin9/Spin8 isotropy;
-compare its actual clutching with TopK T7's Cl(0,8) real Bott unit.
-Use the complexification `c(b)=u_KU^4` and CC's top Chern/Newton
-formula to obtain p2=±6 times the degree8 generator (and e_normal=±1),
-computing the signs through that explicit clutching comparison. Choose
-u by p2=6u. Since H4=H12=0, p1=p3=0. The cup/intersection
-computation gives signature1 in the u² orientation; consume Index I7's
-actual L-genus theorem, whose geometric proof does not use bordism
-coefficients, to solve p4=39u² from
-`(381p4−19p2²)/14175=signature`. This fixes the integral classes on
-the torsion-free chosen carrier without an unowned equal-rank Weyl
-invariant quotient theorem. Pin u by p2=6u and the orientation by
-⟨u²,[OP2]⟩=1; compute Euler class3u², χ=3, signature1 and Â=0.
-For every continuous map λ:BSpin→K(ℤ,4) and the fixed Spin classifier
-c:OP2→BSpin, prove that λ∘c is nullhomotopic and that its nullhomotopies
-form one homotopy class relative to their endpoints: H⁴(OP2;ℤ)=0 gives
-existence and H³(OP2;ℤ)=0 gives uniqueness. Apply AlgebraicTopology
-Stage 8.10 representability and Stage 8.11b's loop comparison to the
-mapping-path fibre from GeneralizedCohomology G2.10. This is a theorem
-about this OP2 carrier, with no choice of a universal fractional class.
-Its specialization to a normalized String obstruction is a downstream
-application of the same nullhomotopy, not an input to this construction.
-Riem/Spin/String consumers use this fixed carrier; their metric/genus/transfer
-calculations do not define another OP2.
+StringOrientation S1.5 owns w₂(OP²)=0 and the unique Spin structure,
+p₁=p₃=0, p₂=6u, p₄=39u², the Euler class 3u², χ=3, signature 1 and the
+orientation ⟨u²,[OP²]⟩=1, and the unique String lift class obtained from
+S1.3 with H⁴(OP²;ℤ)=0 for existence and H³(OP²;ℤ)=0 for uniqueness;
+consume them on item6's carrier. Own here the sign witness that pins
+S1.5's generator u in the chart coordinates of item6, independently of
+the homogeneous computation S1.5 cites. The tangent isotropy bundle
+restricted to OP1=S8 is TS8 plus its normal real8-dimensional
+half-spin/Hopf bundle. Construct this normal bundle comparison from the
+Peirce charts and item7's Spin9/Spin8 isotropy; compare its actual
+clutching with TopK T7's Cl(0,8) real Bott unit. Use the complexification
+`c(b)=u_KU^4` and CC's top Chern/Newton formula to obtain p2=±6 times
+the degree8 generator and e_normal=±1, computing the signs through that
+explicit clutching comparison, and prove that the generator so singled
+out is S1.5's u, normalized by p₂=6u. Prove that the cup/intersection
+computation in item6's cells gives signature1 in the u² orientation;
+with IndexTheory I7.2's L-genus theorem, whose geometric proof uses no
+bordism coefficient, this recovers p4=39u² from
+`(381p4−19p2²)/14175=signature` on the torsion-free carrier, a
+consistency witness for S1.5's value, not a second owner of it. Consumers
+of the Spin and String data of OP² use S1.5's statements on this fixed
+carrier; no second OP2 is defined here.
 
 For the homogeneous characteristic calculation compare Borel–Hirzebruch, §19, Theorem 19.4; the specified Bott clutching and sign comparison are proof obligations here.
 
-The characteristic and nullhomotopy API includes:
+The normal comparison API includes:
 
-- The normal Bott comparison fixes the generator u and the induced fundamental class used by every characteristic number.
-- For each fixed classifier and map to K(ℤ,4), endpoint-relative homotopies identify its nullhomotopies; the vanishing H³ group makes that set a singleton.
+- The normal Bott comparison fixes the generator u in the chart coordinates and the induced fundamental class used by every characteristic number.
+- The signs of the normal Euler class and of p₂ are computed from the same clutching map, so one convention fixes both.
 
 **Checks.**
 
-- With p₂=6u and p₄=39u², (381·39−19·36)/14175=1, fixing the signature sign.
-- The CW cells in dimensions 0,8,16 give H³=H⁴=0 and χ=3, so the obstruction is 0 and the difference group is 0.
-- On S³ the constant map to K(ℤ,4) also has zero obstruction, but its nullhomotopy classes form H³(S³;ℤ)=ℤ, excluding uniqueness without the H³ hypothesis.
+- With p₂=6u and p₄=39u², (381·39−19·36)/14175=1, fixing the signature sign; replacing u by −u changes p₂ to −6u but leaves p₂², p₄ and the signature unchanged, so the clutching witness, not the signature, pins u.
+- The normal bundle of OP¹=S⁸ in OP² has Euler number ⟨u²,[OP²]⟩=±1, so it is nontrivial; a trivial normal bundle would force u²=0.
+- The CW cells in dimensions 0,8,16 give H³=H⁴=0 and χ=3, so S1.5's lift class is unique; on S³ the constant map to K(ℤ,4) has zero obstruction but nullhomotopy classes forming H³(S³;ℤ)=ℤ, the control that S1.3's H³ hypothesis excludes.
 
-*Needs:* B3.6–B3.7; SpinGeometry G4; TopologicalKTheory T7; CharacteristicClasses C3; IndexTheory I7.2; AlgebraicTopology Stage 8.10–8.11b; GeneralizedCohomology G2.10.
+*Needs:* B3.6–B3.7; StringOrientation S1.3 and S1.5; TopologicalKTheory T7; CharacteristicClasses C3; IndexTheory I7.2.
 
 ### 9.4 Projective structure comparisons (B3.9)
 
-Prove the projective-plane structure table on these designated carriers:
+Prove the RP² and CP² rows of the projective-plane structure table on
+these designated carriers, and import the HP² and OP² rows from
+StringOrientation S1.5:
 
 | Carrier | Orientation | Spin | Degree-four obstruction test |
 | --- | --- | --- | --- |
 | RP2 | w1≠0 | absent | no oriented Spin lift |
 | CP2, complex orientation | oriented | w2 is nonzero mod2 hyperplane | no Spin lift |
 | HP2, standard quaternionic orientation | oriented | unique Spin lift | p1=2u; any integral λ with 2λ=p1 equals u≠0 |
-| OP2, orientation u² above | oriented | unique Spin lift | H4=H3=0: every map to K(ℤ,4) has one nullhomotopy class |
+| OP2, orientation u² above | oriented | unique Spin lift | H4=H3=0: one String lift class (StringOrientation S1.5) |
 
 For every k≥1 prove `p(T HP^k)=(1+u)^(2k+2)(1+4u)^(−1)` in
 H*(HP^k;Z)=Z[u]/(u^(k+1)), using G's right-H tautological carrier, the
 quaternionic Euler sequence and exact complex/real sign adapters, so u is
 the negative of G's ordinary c2 coordinate. At k=1 this is p=1 for S4;
-at k=2 it is p1=2u,p2=7u², and signature1 by I7.2's L-genus
-(7p2−p1²)/45=(49−4)/45=1. PositiveScalarCurvature consumes this formula
+at k=2 it is p1=2u,p2=7u², agreeing with StringOrientation S1.5's
+p(HP²)=1+2u+7u², and signature1 by I7.2's L-genus
+(7p2−p1²)/45=(49−4)/45=1. S1.5 states only k=2; the formula for every k
+is proved here, and PositiveScalarCurvature consumes it
 for its HP^k examples. Prove CP2 w2 and RP2 w1 by the single AT/CC
 projective carriers. This table separates the actual structure obstructions;
-a String/TMF kernel claim for Cayley-plane bundles remains the precisely
-qualified statement in the String/elliptic owner.
+the kernel theorem for Cayley-plane bundles is StringOrientation S5's.
 
 **Checks.**
 
@@ -2211,7 +2259,7 @@ qualified statement in the String/elliptic owner.
 - For HP² the expansion gives p₁=2u, p₂=7u², and (7·7−4)/45=1; an integral half-class is u≠0.
 - CP² has w₂ equal to the nonzero hyperplane class, while RP² has nonzero w₁. Neither reaches the Spin obstruction test on the OP² carrier.
 
-*Needs:* B3.8; GeneralizedCohomology G4; CharacteristicClasses C3 and C7.3a; IndexTheory I7.2.
+*Needs:* B3.8; StringOrientation S1.5; GeneralizedCohomology G4; CharacteristicClasses C3 and C7.3a; IndexTheory I7.2.
 
 ### Examples
 
@@ -2219,7 +2267,7 @@ HP² has p₁=2u and p₂=7u²; OP² has p₂=6u and p₄=39u².
 
 ### Dependencies
 
-Layers 2 and 4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G2.10, G4; AlgebraicTopology Stage 8.10–8.11b; IndexTheory I7.2.
+Layers 2 and 4; StringOrientation S1.3 and S1.5; SmoothBundlesConnections B1.4; LieHighestWeight Layer 8; LieGroups Layers 2 and 4; SpinRepresentations Layer 7; TopologicalKTheory T7; CharacteristicClasses C3, C7; GeneralizedCohomology G4; AlgebraicTopology Stages 4 and 6; IndexTheory I7.2.
 
 ## Layer 10: realization and projective transfers
 
@@ -2397,8 +2445,8 @@ MSpin-linearly using multiplicativity of D. Finally use G's
 connective-cover mapping vanishing: Σ8 MSpin∧BG₊ is8-connective, so
 its maps and homotopies into KO uniquely lift through ko. A zero point
 α-value or unrelated zero classes on finite skeleta do not supply these
-comparison maps. Let F=hofib(D:MSpin→ko) and construct the lift
-`spinHpTwoTransferLift : Σ8 MSpin∧BG₊→F` from this nullhomotopy.
+comparison maps. Let F=hofib(D:MSpin→ko) and construct from this nullhomotopy the lift
+of the transfer through the fibre, a map Σ8 MSpin∧BG₊→F.
 
 For the2-primary calculation construct the following usable ordinary
 cohomology and Adams APIs, rather than treating a kernel statement as
@@ -2589,12 +2637,11 @@ Layers 2–8; CharacteristicClasses C1.3–C1.4; ClassifyingSpaces Stage 4; Gene
 BordismFormalGroups and HomotopySpheres consume the ordinary operation, Adams,
 finite quadratic and framed PT interfaces. FourManifolds consumes B1.7's concrete
 examples, B3.2's quadratic/filling results and B4's ordinary Wu package.
-StringOrientation consumes the generic structured PT theorem and the OP2
-nullhomotopy calculation; it supplies their String-specific interpretation.
-EllipticCohomology uses the fixed exceptional carrier for its qualified genus
-statements. PositiveScalarCurvature consumes the associated-family transfer,
-point KO-kernel and homogeneous tangent calculations for its metric and surgery
-results. These consumers provide no prerequisite of the targets above.
+StringOrientation and EllipticCohomology precede this roadmap and consume
+nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
+point KO-kernel, homogeneous tangent and HP^k Pontryagin calculations for its
+metric and surgery results. These consumers provide no prerequisite of the
+targets above.
 
 ## References
 
