@@ -573,6 +573,24 @@ clopen subsets of the character space correspond bijectively to idempotents.
 Develop hulls and kernels of ideals and closed subsets with their Galois
 connection. Do not assert that every closed ideal is determined by its hull.
 
+For unital commutative complex Banach algebras and a unital complex-algebra
+homomorphism Φ:A→B, construct the character pullback `Φ*:B̂→Â`,
+`Φ*(χ)=χ∘Φ`, on the native character spaces. Scalar automatic continuity
+makes this a character even without assuming Φ continuous; evaluation at
+Φ(a) proves weak-star continuity of Φ*. Prove identity and contravariant
+composition laws and Gelfand naturality `Γ_B(Φ(a))=Γ_A(a)∘Φ*`.
+Compare the star-homomorphism specialization with native
+`WeakDual.CharacterSpace.compContinuousMap` and its functoriality lemmas.
+Dense range of Φ implies injectivity of Φ*. If Φ is continuous, has dense
+range, and `GL(B)∩Φ(A)=Φ(GL(A))`, prove its image is precisely
+`{χ∈Â : ker Φ⊆ker χ}`, and hence it is a homeomorphism onto this hull.
+For surjectivity, a character killing ker Φ factors through Φ(A); the
+inverse-lifting hypothesis gives `χ(a)∈σ_B(Φ(a))`, hence
+`|χ(a)|≤‖Φ(a)‖`, so this factor extends uniquely to B. Use only the scalar
+character and spectrum theory above; A5's general automatic-continuity
+results are downstream. This is Pedersen §4.2, Exercises11–12, with unital
+maps so pullback cannot be zero.
+
 Build the following examples with their norms, completeness, products, units
 or approximate units, and the indicated identifications.
 Use the entrywise ℓ¹ norm `∑ᵢⱼ ‖a_ij‖` for the finite Banach matrix
