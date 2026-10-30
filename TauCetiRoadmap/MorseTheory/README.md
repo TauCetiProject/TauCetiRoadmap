@@ -4,6 +4,8 @@ Develop the finite-dimensional topology of Morse and Morse–Bott functions:
 intrinsic Hessians and indices, normal forms, genericity, deformation of
 sublevels, handles and cells, proper exhaustions, strong inequalities and
 critical-submanifold attachments and compact-trapped gradient convergence.
+Compact isolating gradient pairs also supply shifted cup injections and
+critical-point bounds that allow arbitrary degeneracy.
 The resulting library supplies geodesic Morse theory,
 [AffineMorseLefschetz](../AffineMorseLefschetz/README.md) and Hamiltonian moment-map topology.
 
@@ -63,10 +65,13 @@ partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
 [AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
 chains, cofibrations, cellular/singular comparison, products, integral duality
 and relative homotopy. M4’s arbitrary-function LS bound consumes the
-categorical-cover/cup-length supplement after AT6.2; that supplement uses
+[categorical-cover/cup-length supplement in AT Stage 6](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality); that supplement uses
 only foundational products and native homotopies, not Morse theory or
 manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
-normal/tubular geometry, collars, handle gluing and disc bundles; [CharacteristicClasses C2](../CharacteristicClasses/README.md)
+normal/tubular geometry, collars, handle gluing and disc bundles; this
+roadmap owns Brown's bicollared generalized Schoenflies theorem as the input
+of M4.1, while GT Layer 2 keeps local flatness, codimension-one collaring and
+the annulus theorem. [CharacteristicClasses C2](../CharacteristicClasses/README.md)
 supplies ordinary Thom classes and their local orientation coefficients.
 
 This roadmap owns ordinary finite Morse deformation/attachment and their
@@ -74,7 +79,7 @@ abstract Morse–Bott extension. RiemannianGeometry R3 owns the broken-geodesic
 vertex carrier, Jacobi/index comparison and path-space limit, consuming this
 core. The symmetric-space and Bott applications use the same broken-path
 carrier and the attachments here, following
-[HomotopySpheres §4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284).
+HomotopySpheres §4B.
 [HeegaardFloer Lane M](../HeegaardFloer/README.md) owns stable/unstable
 manifolds, Morse–Smale trajectory spaces, compactification/gluing, Morse
 homology and its singular comparison. It consumes the finite Morse core here;
@@ -157,7 +162,9 @@ of f by constant subtraction, `range I=univ` and M1's `mfderiv` comparison;
 this supplies `hsurj`. `sectionLinearization_trivial` is a cross-check of
 that identification, not an input to the explicit constructor. Construct the actual zero-subtype/level
 homeomorphism induced by s(x)=0 iff f(x)=c and transfer these specific charts
-along it as `scalarRegularLevelChartedSpace`. The existential
+along it as the named scalar-level atlas, whose
+existence, smooth-embedding and tangent-range laws are packaged as
+`exists_scalarRegularLevelData`. The native existential
 `exists_isManifold_sectionZero_of_contMDiff` is a cross-check of the result.
 
 Export the chartAt/atlas, source/target, extend and inverse formulas for this
@@ -238,7 +245,7 @@ union of its reindexed lower/upper levels. Prove both smooth directions
 from these public source/target/apply/inverse laws; no private chartAt
 lemma or equality of differently typed `IsManifold` statements is an input.
 
-Consume [DifferentialGeometry 5.1's orientation interface](https://github.com/TauCetiProject/TauCetiRoadmap/blob/6e6a8ebc5fccd49a207365df0f9e74923f6bcae2/TauCetiRoadmap/DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
+Consume [DifferentialGeometry 5.1's orientation interface](../DifferentialGeometry/README.md#layer-5-integration-and-stokes-theorem)
 for `boundaryOrientation_spec`, on this native boundary manifold. Pin the
 metric-free outward co-orientation: df(v)>0 on ∂M_a and the upper band face,
 df(v)<0 on the lower band face. Mathlib's inward slot0 has outward vector
@@ -479,7 +486,7 @@ cohomology is torsion-free. Apply the proper-index≤d version of M2 to obtain
 those conclusions for noncompact M.
 
 **Arbitrary-function Lusternik–Schnirelmann inequality.** Consume
-AlgebraicTopology's categorical-cover supplement after Stage 6.2, with its
+[AlgebraicTopology Stage 6’s categorical covers and Lusternik–Schnirelmann bounds](../AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality), with its
 same `LSCategoricalCover`, `lsCategoryCount`, `normalizedLSCategory` and
 `lsCupLength` carriers. Here construct `lsCriticalPointBound` for **every
 smooth real-valued f on a compact boundaryless finite-dimensional smooth
@@ -575,16 +582,111 @@ smooth degenerate functions there. Manifolds with boundary are excluded:
 f(t)=t on [0,1] has no ordinary interior critical points. Relative/boundary
 Morse conditions require their own hypotheses and are not added here.
 
+### M4.1. Two critical points with arbitrary degeneracy
+
+Prove `nonempty_homeomorph_sphere_of_two_criticalPoints`: if M is compact,
+connected, boundaryless and smooth of real dimension m>0, and a smooth
+f:M→ℝ has exactly two distinct critical points, construct an actual
+homeomorphism M≃ₜS^m. Both critical points may be degenerate, including
+vanishing Hessians. The count is the same derivative-zero point count used
+above, not a count of critical values. Compact extrema and the boundaryless
+Fermat theorem identify the two points as the unique minimum p and maximum q,
+with a=f(p)<f(q)=b; every value in (a,b) is regular. This theorem is separate
+from the LS inequality: a categorical contraction or category bound does not
+recognize a disc or sphere. Do not perturb f to Morse while assuming its
+critical count stays two.
+
+First construct `exists_twoEuclideanOpenCover_of_two_criticalPoints`, with
+actual open subsets U,V covering M and homeomorphisms U≃ₜℝ^m and V≃ₜℝ^m.
+Choose a coordinate ball B at p with compact closure avoiding q and a coordinate
+ball V at q avoiding p. Consume the smooth metric and complete compact-manifold
+flow suppliers from DG3/DG12 already used in M2, using X=−grad f itself, not
+an adapted Morse pseudo-gradient. Its global flow Φ_t is a diffeomorphism
+with inverse Φ_−t and d(f∘Φ_t)/dt=−‖grad f‖². Since p is the unique minimum,
+choose ε>0 with {f≤a+ε}⊂B. This sublevel is invariant under the descending
+flow; no assertion that it is a disc is needed. K=M\V is compact and excludes
+the unique maximum, so choose δ>0 with f(K)≤b−δ. If K already lies below
+a+ε, use time0; otherwise on the compact critical-free band
+f⁻¹[a+ε,b−δ] the gradient norm has a strictly positive lower bound η.
+The energy identity gives a single T>0 sending every point of K into
+{f<a+ε}⊂B, by choosing T larger than the band width divided by η².
+Prove this uniform estimate, including trajectories which enter the invariant
+lower sublevel earlier. Then U=Φ_−T(B) covers K, and U∪V=M. The chart-ball
+homeomorphisms and Φ_T give the required Euclidean maps. This uses compact
+flow and elementary value estimates, not continuity of pointwise hitting times
+or the nondegenerate local normal form. Negating f gives the symmetric cover.
+
+Next prove **Brown's generalized Schoenflies theorem**, owned here as the
+topological input of M4.1: for m≥1 and a topological embedding
+β:S^(m−1)×[−1,1]→S^m, the complement of Σ=β(S^(m−1)×{0}) has exactly two
+components, each containing one open collar side, and the closure of each is
+homeomorphic to the closed ball D^m by a homeomorphism carrying its frontier
+Σ onto ∂D^m (Brown 1960, Theorem 5, p. 76). The separation statement is
+Jordan–Brouwer for a bicollared sphere, from the reduced singular homology of
+S^m∖Σ by Mayer–Vietoris on the collar
+([AlgebraicTopology Stage 3](../AlgebraicTopology/README.md#stage-3-subdivision-excision-and-mayer--vietoris)). Follow Brown's route: a cellular subset of an m-cell has an m-cell
+quotient (Theorems 0–2), a map of S^m onto itself whose only point preimages
+with more than one point are two sets A,B has A and B cellular (Theorems 3–4), and the map collapsing
+the two outer collar pieces to the poles has exactly those two inverse sets.
+The hypothesis is the explicit bicollar β; no local-flatness theorem,
+annulus theorem or Alexander-horned-sphere analysis is an input, and the
+statement is false for the horned sphere, which has no bicollar.
+GeometricTopology Layer 2 owns locally flat embeddings, Brown's 1962
+codimension-one collaring theorem and the annulus theorem; none of those is
+used here, because the bicollar below is written down in coordinates.
+
+Then prove the **two-open-cell lemma**
+`nonempty_homeomorph_sphere_of_two_euclidean_opens`. For any compact Hausdorff
+space X covered by two open subsets U,V each homeomorphic to ℝ^m, m>0,
+construct X≃ₜS^m. In U coordinates choose a closed round m-ball D of radius r
+whose interior contains the compact set X\V. Thus Σ=∂D lies in the open set
+U∩V, and by compactness so does a thin coordinate annulus
+{r−η≤|u|≤r+η}; radial coordinates on it give an explicit bicollar
+β:S^(m−1)×[−1,1]→V of Σ. The complement C=X\int D is compact and lies
+inside V. Identify the one-point compactification of V≃ₜℝ^m with S^m using
+native `Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`, and
+apply Brown's theorem to β there. The two open sets X\D and
+(int D∩V)∪{∞} partition S^m\Σ (the second is open because its complement
+C is compact in V), and β places one collar side in each. Hence C is the
+closure of the complementary component not containing ∞, and Brown gives
+C≃ₜD^m with its actual boundary map. D is the other closed cell. Compare
+their union with the boundary pushout, and extend the boundary gluing
+homeomorphism radially by the Alexander map to obtain X≃ₜS^m. Include m=1
+(two arcs and their two endpoints) explicitly; no high-dimensional surgery,
+Poincaré conjecture or differentiable Schoenflies statement is an input.
+For smooth M the cover of the previous paragraph consists of open sets
+diffeomorphic to ℝ^m, the hypothesis of Milnor 1959, Theorem 1(3), whose
+Corollary 1 (p. 442) is this topological conclusion; the lemma here needs
+only homeomorphisms.
+
+Compose the two constructions for the degenerate Reeb–Milnor/Rosen theorem.
+Its output is topological only; exotic smooth spheres are not identified
+diffeomorphically with the standard sphere. In the nondegenerate case compare
+this result with M1/M2's two-disc-handle route at the level of existence of a
+homeomorphism, without asserting that two arbitrary choices of homeomorphism
+are isotopic. The all-smooth theorem does not assert that every small regular
+sublevel at a degenerate extremum is a disc or that its regular level is a
+standard sphere.
+
+As a degenerate regression take standard height h:S^m→[−1,1] and
+f=h−h³/3, m>0. Compute df=(1−h²)dh: its critical set is exactly the two poles,
+and both intrinsic Hessians vanish. Apply the all-smooth theorem directly;
+M1's nondegenerate chart theorem is inapplicable to this f. Retain all empty,
+dimension0, boundary, infinite-critical-count and arbitrary-function LS cases
+above unchanged; they are not extra hypotheses on this positive-dimensional
+sphere theorem.
+
 Acceptance: standard height on S^m; cosine functions on T^m with binomial
 critical counts; the two-dimensional torus's minimum/saddles/maximum; explicit
 integer counts satisfying weak inequalities/Euler but violating a strong
 inequality; and closed connected positive-dimensional M with exactly two
-critical points is homeomorphic to a sphere. The last conclusion follows from
-two disc handles and the topological radial extension of the boundary gluing;
-no diffeomorphism-to-standard-sphere assertion is made. Complex projective
-moment functions use [ComplexKahlerGeometry K7.1 and K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
+critical points is homeomorphic to a sphere. For a Morse function the last conclusion follows from M1/M2's two disc
+handles and radial boundary extension. For an arbitrary smooth function,
+including degenerate extrema, use M4.1's Euclidean-open-cover and two-open-cell
+construction. Neither route asserts a diffeomorphism to the standard sphere. Complex projective
+moment functions use [ComplexKahlerGeometry K7.1 and K7.2](../ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
-through K1/#279's real restriction of the complex affine charts, the concrete
+through K1's real restriction of the complex affine charts, the concrete
 real self-model `Ireal_n:=𝓘(ℝ,Fin n→ℂ)`, its `Ireal_n.Boundaryless` and
 `IsManifold Ireal_n ∞` structures, and complex orientation. Use the actual
 root theorem `finrank_real_of_complex` and `Module.finrank_pi` to identify
@@ -607,6 +709,164 @@ carrier and use the quadratic coordinate function with three distinct weights:
 three critical points and no perfect Morse function over ℚ, contrasted with
 its perfect F₂ count. More generally π₁(M)≠0 and b₁(M;ℚ)=0 obstruct
 perfection over ℚ by the necessary 1-cells in a connected CW model.
+
+<a id="m42-isolating-gradient-cup-bound"></a>
+### M4.2. Isolating gradient pairs, degenerate critical counts and cup injection
+
+Develop the compact-isolating-pair form of the critical-point bound used in
+Golé, Appendix 2, §§62–63. Here the ambient manifold need not be compact and
+critical points need not be nondegenerate. Consume [AT6's compact-metric
+Čech closed-pair supplement](../AlgebraicTopology/README.md#compact-metric-cech-closed-pairs)
+for Čech cohomology of compact metric spaces and closed pairs, its continuity,
+closed excision, exact sequences, relative cups and cube-product theorem.
+Write `Ȟ` for that theory, with coefficients in a commutative ring R;
+require `Nontrivial R` for the nonvanishing and counting statements. Use its
+comparison with singular cohomology only on the compact manifold/CW carriers
+where that comparison is proved. The maximal invariant set can be a wild
+compactum and is not assumed to have such a comparison.
+
+**Regular pair and complete flow.** Let W be smooth on a neighborhood of a
+compact subset P of a boundaryless manifold, with a smooth Riemannian metric
+there. Construct a compactly supported smooth cutoff χ, equal to 1 on a
+neighborhood of P, and extend `X=−χ grad W` by zero. Using DG3/DG12's compact
+support and flow suppliers, prove this field has a complete flow φ and agrees
+with the original negative gradient near P. Prove the flow/group/inverse laws
+and `d(W(φ_t x))/dt=−‖grad W(φ_t x)‖²` for orbit segments in P. No global
+extension of W beyond the cutoff neighborhood is needed. Prove compactness
+and metrizability of P and all the closed subsets below from the ambient
+Hausdorff second-countable manifold hypotheses.
+
+A regular pair here consists of compact P and closed L⊂P such that L is
+positively invariant relative to P, every orbit leaving P first meets L,
+and `I=Inv(P)={x∈P | ∀t∈ℝ, φ_t x∈P}` lies in `int(P\L)`. Include the
+regularity hypothesis that the first-hitting time
+`τ(x)=inf{t≥0 | φ_t x∈L}`, with value ∞ when the set is empty, is continuous
+`P→[0,∞]`, is zero on L, and every segment through time τ remains in P
+up to its endpoint. For τ=∞ this means every finite forward segment remains
+in P. Prove attainment when τ is finite and continuity of the stopped maps
+`F_s(x)=φ_(min(s,τ(x))) x` for finite s≥0, jointly in s and x. In a true
+regular isolating block, whose exit points leave P immediately, identify τ
+with the regular first-exit time from P. For a collar index pair, use the
+first hit of L with the stated relative invariance and exit hypotheses;
+it need not be the first exit from P. These hypotheses, including regularity,
+are data to check for an application, not consequences of compactness alone.
+
+**Survivors and their maps.** For t≥0 define
+
+`S_t={x∈P | φ_[0,t](x)⊂P}` and
+`T_t=φ_t(S_t)={x∈P | φ_[−t,0](x)⊂P}`.
+
+Prove this equality using the inverse flow law, compactness of S_t and T_t,
+`T_(t+s)⊂T_t⊂P`, and compactness of
+`T_∞=⋂_(n:ℕ) T_n={x∈P | φ_(−s)x∈P for every s≥0}`.
+Use these contained survivor sets throughout. A full flow image φ_t(P)
+need not lie in P and does not define a relative triple inside P.
+
+Set `K_t=T_t∪L`. The stopped map F_t has image in K_t: either it first hits
+L, or its entire t-segment survives and its endpoint is in T_t. Thus it
+factors as `r_t:P→K_t`. Construct the homotopy `H(a,x)=F_(a*t)(x)` from
+`id_P` to the inclusion composed with r_t. It fixes L pointwise. For
+x∈T_t, adjoining the original length-t backward segment to each forward
+segment before stopping proves `H(a,x)∈T_t` until it hits L; after that it
+is fixed in L. Hence H preserves K_t throughout. Restricting H to K_t gives
+the other inverse homotopy, so inclusion induces the relative homotopy
+equivalence `(K_t,L)→(P,L)`. This is a homotopy equivalence of pairs;
+H need not fix every point of K_t.
+
+Prove these equivalences commute with inclusions for increasing integer t.
+Continuity for the decreasing compact closed pairs `(K_n,L)`, followed by
+closed excision for `K_∞=T_∞∪L`, gives the actual restriction isomorphism
+
+`Ȟ^q(P,L;R) → Ȟ^q(T_∞,T_∞∩L;R)`.
+
+Next put `B_t=φ_(−t)(T_∞)`. Prove these are nested compact subsets of T_∞
+with intersection I. The maps `x↦φ_(−a*t)x`, a∈[0,1], stay in T_∞ and
+preserve B_t, giving homotopy inverse data for the inclusion `B_t→T_∞`.
+Continuity for B_n therefore identifies restriction along `I→T_∞` as an
+isomorphism `Ȟ^*(T_∞;R)→Ȟ^*(I;R)`, including ring compatibility.
+These constructions own the flow-to-Čech bridge; neither singular continuity
+on arbitrary compacta nor an unspecified Conley-index theorem is an input.
+
+**Shifted relative cup-module injection.** Let P₀⊂P be compact, let
+`α:P→P₀` be a retraction, let K≥0, and let `u∈Ȟ^K(P,L;R)` satisfy, for
+every j≥0, the degreewise isomorphism
+
+`v↦u∪α^*v : Ȟ^j(P₀;R) ≃ Ȟ^(j+K)(P,L;R)`.
+
+Prove that `(α|I)^*:Ȟ^*(P₀;R)→Ȟ^*(I;R)` is injective and preserves cups
+and units. Indeed, if `(α|I)^*v=0`, the preceding absolute restriction
+isomorphism implies `(α|T_∞)^*v=0`. Relative-cup naturality then sends
+`u∪α^*v` to zero in `Ȟ^*(T_∞,T_∞∩L;R)`. The relative restriction
+isomorphism forces `u∪α^*v=0`, and the assumed shifted isomorphism forces
+v=0. State this degreewise, without identifying the degree-K class u with
+a degree-zero class or assuming a ring isomorphism across the shift.
+
+For the product-pair specialization, supply a pair homeomorphism
+`(P,L)≃(P₀×Q^p×Q^K, P₀×Q^p×∂Q^K)`, where `Q^d=[0,1]^d`, with α the
+projection after identifying P₀ with fixed interior cube coordinates. Use
+AT6's cube relative generator and its cup/cross compatibility to construct
+u and prove the displayed shifted module isomorphism over R. Contract the
+Q^p factor as a pair; retain the degree K and the cup-order sign. Include
+K=0 with `∂Q^0=∅`. The product-pair theorem constructs this hypothesis; an
+arbitrary pair is not assumed to have product topology.
+
+**Arbitrary-degenerate count on the invariant compactum.** For every
+nonzero product `a₁∪⋯∪a_r` in `Ȟ^*(I;R)` with each factor of strictly
+positive degree, prove
+
+`(r+1 : ℕ∞) ≤ ({x∈I | dW_x=0}).encard`.
+
+Include r=0 when the empty product/unit is nonzero, equivalently I is
+nonempty. Infinite critical sets have encard ∞, so satisfy every such finite
+bound. For a finite critical set, use the gradient Lyapunov identity on I:
+forward and backward limit sets are nonempty compact connected invariant
+sets; W is constant on each, and the identity forces them into the critical
+locus. Finiteness makes each limit set a singleton. Prove these facts here
+for compact invariant trajectories, without a Morse Hessian, linearization
+or a dependency on M6's exponential-convergence theory. A nonconstant
+connecting orbit strictly decreases W, so two critical points at the same
+value cannot be connected. Construct the singleton Morse decomposition,
+ordered by critical value and with any order among tied values, including
+isolation of each singleton using its small compact neighborhood and the
+same forward/backward limit argument.
+
+Own the finite gradient Morse-decomposition cup estimate, with a concrete
+critical-value induction. Between successive distinct critical values choose
+`a<b` in their critical-free gap, and set `A=I∩{W≤b}` and
+`B=I∩{W≥a}`. These compact sets cover I; A is forward invariant and B
+backward invariant. Prove that the decreasing compact images `φ_n(A)`
+and `φ_(−n)(B)` have intersections `I_A=Inv(A)` and `I_B=Inv(B)`,
+respectively. Their flow homotopies preserve A and B and their nested
+images. Continuity therefore makes restriction `Ȟ^*(A)→Ȟ^*(I_A)` and
+`Ȟ^*(B)→Ȟ^*(I_B)` ring isomorphisms. The two grouped invariant sets
+partition the critical points into the lower and upper value groups.
+For classes restricting to zero on A and B respectively, exactness lifts
+them to `Ȟ^*(I,A)` and `Ȟ^*(I,B)`; their relative cup lies in
+`Ȟ^*(I,A∪B)=Ȟ^*(I,I)=0`. If the two groups have n_A and n_B critical
+points, induction makes every n_A-fold positive-degree product vanish on
+A and every n_B-fold such product vanish on B. Split an (n_A+n_B)-fold
+product into those consecutive groups and apply the relative-cup vanishing.
+This proves the required subadditivity and the point count. At a single
+critical value the forward and backward limits have the same W-value, so
+the energy identity makes every orbit constant: that invariant set is a
+finite discrete set of critical points. Its positive-degree groups vanish,
+giving cup bound one, at most its number of points; a singleton has bound
+one. Thus tied critical values need no artificial regular separator. Handle
+the empty invariant set separately. The induction proves the count for
+compact invariant gradient sets, so applies also to I_A and I_B without
+requiring new isolating-pair data. This counts distinct critical points,
+including arbitrarily degenerate ones; no perturbation is assumed to
+preserve their number.
+
+Combine this count with the injection to obtain the same r+1 lower bound
+from every nonzero r-fold positive-degree product on P₀. Acceptance includes
+`P₀=S¹`, its nonzero degree-one class and the resulting two-point bound for
+any such regular product pair; arbitrary exit dimension K, including zero;
+degenerate equilibria and tied critical values; and an infinite critical
+set. This is the reusable finite-dimensional supplier for annulus-action
+applications. Those applications must construct their actual pair, its
+regular exit data and the product identification, and identify its critical
+points with the fixed points being counted.
 
 ## M5. Morse–Bott normal bundles and attachments
 
@@ -643,7 +903,7 @@ and finite convergence on compact M. Deduce Morse–Bott strong inequalities
 with the shifted critical-component Betti polynomials and the correct negative-
 orientation coefficients. Prove the ordinary Morse specialization is M2/M4.
 Hamiltonian [ConvexityToric T2](../SymplecticGeometry/ConvexityToric/README.md) consumes this attachment theorem and supplies
-complex negative bundles/equivariant perfection; Riemannian/PR284 path
+complex negative bundles/equivariant perfection; RiemannianGeometry and HomotopySpheres path
 applications supply their own critical components and Jacobi negative bundles.
 
 ## M6. Gradient convergence and exponential decay
@@ -682,6 +942,17 @@ hypotheses.
 ## References and course targets
 
 - Milnor, *Morse Theory*, §§2–6 for local/deformation/CW/inequality proofs.
+  Theorem4.1 and Remark1 distinguish the nondegenerate two-disc proof from
+  the general degenerate statement. For M4.1's additional topological bridge,
+  see Milnor, [*Sommes de variétés différentiables et structures différentiables
+  des sphères*](https://numdam.org/articles/10.24033/bsmf.1538/), Bull. Soc.
+  Math. France87 (1959), Theorem1(3) and Corollary1 (p. 442), and R. H. Rosen,
+  *A weak form of the star conjecture for manifolds*, Notices Amer. Math.
+  Soc.7 (1960), abstract570-28, p.380, Lemma1. The required construction is
+  specified in M4.1 above.
+- M. Brown, [*A proof of the generalized Schoenflies theorem*](https://www.ams.org/journals/bull/1960-66-02/S0002-9904-1960-10400-4/S0002-9904-1960-10400-4.pdf),
+  Bull. Amer. Math. Soc.66 (1960) 74–76, Theorems 0–5; Theorem 5 (p. 76) is
+  the bicollared Schoenflies theorem owned in M4.1.
 - Cohen, Iga and Norbury, [Topics in Morse Theory](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
   classical part, for manifold normal forms, sublevels and cellular comparison.
 - Thomas Mark's *Math240 Riemannian Geometry* lecture/homework notes,

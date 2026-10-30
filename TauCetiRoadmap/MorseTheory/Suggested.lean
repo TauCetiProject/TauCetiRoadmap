@@ -1,19 +1,14 @@
+import Mathlib
 import TauCeti.Geometry.Manifold.Morse.Basic
 import TauCeti.Geometry.Manifold.Morse.Index
 import TauCeti.Analysis.Calculus.Morse.NormalForm
-import Mathlib.Geometry.Manifold.LocalDiffeomorph
-import Mathlib.Geometry.Manifold.SmoothEmbedding
-import Mathlib.Geometry.Manifold.MFDeriv.NormedSpace
-import Mathlib.Topology.Homotopy.Equiv
-import Mathlib.Topology.Homotopy.Contractible
-import Mathlib.Data.Set.Card
 
 /-!
 These are suggested forms, not an exhaustive checklist. The README is the
 specification. Use native Tau Ceti critical-point, Morse and index predicates;
 these interfaces add normalized manifold charts, finite critical-set/count
-and compact-band deformation statements. M2's scalar-level block names its
-specific charted-space construction and inclusion/tangent-kernel laws; M4's
+and compact-band deformation statements. M2's scalar-level block states the
+regular-level atlas with its inclusion/tangent-kernel laws; M4's
 LS block states categorical covers and critical-count bounds for arbitrary
 smooth functions. Counts have extended natural values before finiteness is proved.
 -/
@@ -29,42 +24,9 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   {I : ModelWithCorners ℝ E H} [I.Boundaryless]
   [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ∞ M]
 
-/-- M2: the specified explicit native section-zero atlas, transported to the scalar level.
-The README fixes the trivial line bundle, preferred derivatives, complement
-projection and chart formulas; this definition is an honest construction target. -/
-@[instance_reducible]
-noncomputable def scalarRegularLevelChartedSpace (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    ChartedSpace (Fin (Module.finrank ℝ E - 1) → ℝ) {x : M // f x = c} := by
-  sorry
-
-theorem scalarRegularLevel_isManifold (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    letI := scalarRegularLevelChartedSpace (I := I) f c hf hregular
-    IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) ∞ {x : M // f x = c} := by
-  sorry
-
-theorem scalarRegularLevel_isSmoothEmbedding (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    letI := scalarRegularLevelChartedSpace (I := I) f c hf hregular
-    Manifold.IsSmoothEmbedding
-      𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I ∞
-      (Subtype.val : {x : M // f x = c} → M) := by
-  sorry
-
-theorem scalarRegularLevel_tangentRange (f : M → ℝ) (c : ℝ)
-    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
-    (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
-    letI := scalarRegularLevelChartedSpace (I := I) f c hf hregular
-    ∀ z : {x : M // f x = c},
-      (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I Subtype.val z).range =
-        (mfderiv I 𝓘(ℝ) f z.1).ker := by
-  sorry
-
-/-- The existential interface is a corollary of the named construction and its laws. -/
+/-- M2: a regular scalar level carries a smooth atlas modelled on `Fin (dim E - 1) → ℝ`
+for which the inclusion is a smooth embedding with tangent range `ker df`. The README
+specifies the explicit section-zero atlas realising it. -/
 theorem exists_scalarRegularLevelData (f : M → ℝ) (c : ℝ)
     (hf : ContMDiff I 𝓘(ℝ) ∞ f)
     (hregular : ∀ x, f x = c → Function.Surjective (mfderiv I 𝓘(ℝ) f x)) :
@@ -77,10 +39,7 @@ theorem exists_scalarRegularLevelData (f : M → ℝ) (c : ℝ)
         ∀ z : {x : M // f x = c},
           (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - 1) → ℝ) I Subtype.val z).range =
             (mfderiv I 𝓘(ℝ) f z.1).ker := by
-  refine ⟨scalarRegularLevelChartedSpace (I := I) f c hf hregular, ?_⟩
-  exact ⟨scalarRegularLevel_isManifold (I := I) f c hf hregular,
-    scalarRegularLevel_isSmoothEmbedding (I := I) f c hf hregular,
-    scalarRegularLevel_tangentRange (I := I) f c hf hregular⟩
+  sorry
 
 /-- The critical set uses the native manifold derivative. -/
 def criticalPoints (f : M → ℝ) : Set M :=
@@ -261,5 +220,46 @@ theorem minimumCriticalCount_eq_extended_sInf
       sInf {m : ℕ∞ | ∃ f : M → ℝ,
         ContMDiff I 𝓘(ℝ) ∞ f ∧ totalCriticalCount (I := I) f = m} := by
   sorry
+
+
+/-! M4.1: the all-smooth two-critical-point bridge. No `IsMorse` or
+nondegeneracy assumption is added to these targets. The second theorem is
+the two-open-cell recognition of the sphere, from Brown's generalized
+Schoenflies theorem (Brown 1960, Theorem 5) as owned in README M4.1. -/
+
+/-- Two actual Euclidean open sets obtained by a uniform compact-flow estimate. -/
+theorem exists_twoEuclideanOpenCover_of_two_criticalPoints
+    [CompactSpace M] [ConnectedSpace M] [SecondCountableTopology M]
+    (hdim : 0 < Module.finrank ℝ E) (f : M → ℝ)
+    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (hcrit : totalCriticalCount (I := I) f = 2) :
+    ∃ U V : TopologicalSpace.Opens M,
+      (∀ x : M, x ∈ U ∨ x ∈ V) ∧
+      Nonempty ({x : M // x ∈ U} ≃ₜ (Fin (Module.finrank ℝ E) → ℝ)) ∧
+      Nonempty ({x : M // x ∈ V} ≃ₜ (Fin (Module.finrank ℝ E) → ℝ)) := by
+  sorry
+
+/-- The genuine two-open-cell topological construction, with m=1 included. -/
+theorem nonempty_homeomorph_sphere_of_two_euclidean_opens
+    {X : Type*} [TopologicalSpace X] [T2Space X] [CompactSpace X]
+    (m : ℕ) (hm : 0 < m) (U V : TopologicalSpace.Opens X)
+    (hcover : ∀ x : X, x ∈ U ∨ x ∈ V)
+    (hU : Nonempty ({x : X // x ∈ U} ≃ₜ (Fin m → ℝ)))
+    (hV : Nonempty ({x : X // x ∈ V} ≃ₜ (Fin m → ℝ))) :
+    Nonempty (X ≃ₜ Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1) := by
+  sorry
+
+/-- Degenerate Reeb--Milnor/Rosen: exactly two critical POINTS, no Hessian hypothesis. -/
+theorem nonempty_homeomorph_sphere_of_two_criticalPoints
+    [CompactSpace M] [ConnectedSpace M] [SecondCountableTopology M]
+    (hdim : 0 < Module.finrank ℝ E) (f : M → ℝ)
+    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (hcrit : totalCriticalCount (I := I) f = 2) :
+    Nonempty (M ≃ₜ Metric.sphere
+      (0 : EuclideanSpace ℝ (Fin (Module.finrank ℝ E + 1))) 1) := by
+  obtain ⟨U, V, hcover, hU, hV⟩ :=
+    exists_twoEuclideanOpenCover_of_two_criticalPoints (I := I) hdim f hf hcrit
+  exact nonempty_homeomorph_sphere_of_two_euclidean_opens
+    (Module.finrank ℝ E) hdim U V hcover hU hV
 
 end TauCetiRoadmap.MorseTheory
