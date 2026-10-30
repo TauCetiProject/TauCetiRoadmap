@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
-import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.ClassModule.Basic
+module
+
+public import Mathlib
+public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
+public import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.ClassModule.Basic
 
 /-!
 # Continuous cohomology of profinite groups: target signatures
@@ -47,6 +49,8 @@ family is likewise a construction (a chain isomorphism of homogeneous cochain co
 homology classes). `README.md` specifies it as a target, and only its consequence for the
 invariants is stated here.
 -/
+
+public section
 
 universe u
 
@@ -123,4 +127,6 @@ theorem abelianizationProPClass_generates (p : ℕ) (hp : p.Prime) (G : Type u) 
   sorry
 
 end TauCetiRoadmap.ProfiniteCohomology
+
+end
 
