@@ -14,11 +14,13 @@ ClassFieldTheory owns cohomological local symbols, local and global Artin maps, 
 
 The current Tau Ceti library supplies `Matrix.exists_smith_normal_form_of_det_ne_zero` and `Matrix.smith_normal_form_unique` in `TauCeti.LinearAlgebra.Matrix.SmithNormalForm`; their square-matrix statements are inputs. It also supplies the primitive-generator discriminant/index identity, local reciprocity and Kummer cup-product machinery, integral semilocal comparisons, and both the split and exact Grothendieck groups of finite projectives. Their exact restrictions matter: ordinary character induction does not supply field-of-definition induction, and a cohomological symbol needs an invariant-normalised coordinate before its sign can be compared with an Artin definition. The current library also has the primitive character of a fundamental discriminant (TauCeti.Multiquadratic.fundamentalDiscriminantChar, with its quadraticity, its value at −1, its values at odd primes and `isPrimitive_fundamentalDiscriminantChar`), so these are not targets here; Layer 1 adds the rest of its value table. For a quadratic presentation θ² = d it has the direction from a solution of the negative Pell equation to a unit of norm `−1 (NumberField.exists_norm_eq_neg_one_of_sq_sub_mul_sq_eq_neg_one)`, the narrow class of an element of negative norm `(NumberField.mkPrincipal_eq_mkPrincipal_gen_of_norm_neg)` and the injectivity criterion `NarrowClassGroup.toClassGroup_injective_iff_exists_norm_eq_neg_one`; Layer 5 adds the converse direction through cubing, the triviality criterion for the narrow class of θ and the two-primary form of the comparison. Its tameness predicate TauCeti.IsTamelyRamified is for extensions of nonarchimedean local fields; Layer 7 uses the predicate for extensions of Dedekind domains at every prime, which includes residue separability.
 
-FormalLaurentPuiseux L5 owns coefficient Newton polygons and their product law over Laurent fields. §§3.11, 3.18, 3.33 and 3.46 extend these interfaces to general real-valued valuations; their Laurent-field specialization uses L5's polygon, with the orientation comparison specified in §3.18.
+NewtonPolygons owns the general supporting-value, contact, width, slope-multiset, product, root and Eisenstein–Dumas theory (§§0.3, 2.2–2.3, 3.1–3.3 and 6.1). §§3.11, 3.18, 3.32–3.33, 3.46 and 3.52–3.53 here consume those interfaces in reflected coefficient coordinates and supply their arithmetic applications. FormalLaurentPuiseux L5 supplies the Laurent-field specialization through NewtonPolygons §§1.2 and 2.1; §3.18 fixes the sign comparison.
 
 HeightsAndUnits §1.3 owns scalar Kronecker and the absolute scalar power laws on the DiophantineApproximationAndTranscendence height foundation; §§6.15–6.16 consume these results. ArithmeticGaloisRepresentations §2.7 owns Deligne–Langlands local constants and completed finite-image Artin equations, using AdelicAlgebraicGroups AA.2.4 for the arithmetic-Frobenius Artin function. AutomorphicLFunctionsAndLocalFactors AL.0–AL.1 supplies the standard trace characters, self-dual measures and rank-one Tate factors. §§7.13 and 7.30 here own their Fröhlich–Taylor normalization adapters, determinant comparisons and tame symplectic signs.
 
 Four further lower-tier roadmaps supply inputs. TauCetiRoadmap.AdelicAlgebraicGroups supplies the group SL₁(D) (§3.4) and strong approximation (§4.2); TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants supplies the Azumaya reduced-norm determinant and its characteristic polynomial (§§0.5–0.6); TauCetiRoadmap.DiophantineApproximationAndTranscendence supplies primitive minimal polynomials, heights, the house and Mahler measure of an algebraic number and bounded-house finiteness (§§0.1–0.3), the existence of recurrence closed forms (§2.4) and the relative Siegel lemma (§2.8); and GeometryOfNumbersAndQuadraticArithmetic supplies the analytic Jacobi triple product (§4.3). Minkowski's convex body theorem is Mathlib's. The recurrence target here adds uniqueness to the closed-form existence statement. Pseudobases and Steinitz classes of lattices over a Dedekind domain are targets here ([Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0)). IntegralLattices B4 supplies the proper-automorphism/norm-one-unit equivalence; [Proper automorphs of indefinite binary forms and the Pell equation](#layer-4-topic-0) supplies its Pell-coordinate comparison.
+
+TauCetiRoadmap.AnalyticNumberTheoryPartI supplies the continued Dedekind zeta function and the L-functions of class-group characters (§§2.5, 2.12), the hypotheses DedekindERH and HeckeGRH (§2.42), Weil's explicit formula (§1.8) and the analytic inputs of its conditional effective Chebotarev theorem (§2.49). Layer 5 owns the factor-base, saturation and residue statements built on them; §§5.1b, 5.1c and clauses (i)–(ii) of §5.16a carry those hypotheses explicitly, and every other Layer 5 target is unconditional.
 
 General Catalan–Mihăilescu is outside the elementary exponential-equation scope: the cyclotomic-unit, Stickelberger-ideal and Thaine arguments need a cyclotomic arithmetic development. The powers-of-two/three result here is an elementary special case. Markoff orbit growth and strong-approximation theorems belong to ArithmeticDynamics; this roadmap supplies their carriers, moves, reductions and the surjectivity predicate. ArithmeticStatistics consumes the negative-Pell families; ComputationalNumberTheory consumes the intrinsic arithmetic comparisons; K2SymbolsBrauer and HigherLocalFields consume the degree-n norm-residue symbol; QSeriesPartitionsAndMockModularForms consumes the formal triple product; KTheoryLowDegrees consumes stable equality and scalar-change comparisons; LogarithmicPotentialTheoryAndAlgebraicIntegers consumes the capacity and rationality interfaces. None of these consumers supplies a prerequisite back to this roadmap.
 
@@ -82,7 +84,7 @@ To use this input, apply the characteristic polynomial of a determinant law (Tau
 - For a scalar c in degree d the polynomial is (T−c)ᵈ, not T−c.
 - The constant term agrees with the reduced-norm construction including the parity sign.
 
-*Needs:* [TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.5 characteristic polynomial law](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#05-characteristic-coefficients-and-trace-comparisons); [TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#06-duals-projective-modules-and-reduced-norms); [Reduced norm of a semisimple number-field algebra](#layer-7-topic-10).
+*Needs:* TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.5 characteristic polynomial law; TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant; [Reduced norm of a semisimple number-field algebra](#layer-7-topic-10).
 
 ## Conventions
 
@@ -98,9 +100,13 @@ Absolute logarithmic height is `NumberField.absLogHeight₁`, with transcendenta
 
 ## Exact supplier contracts
 
-### From [TauCetiRoadmap.FormalLaurentPuiseux, L5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FormalLaurentPuiseux/README.md#l5-newton-polygons-and-formal-newtonpuiseux)
+NumberFieldArithmetic is specified under Completed/NumberFieldArithmetic. The Mathlib and Tau Ceti declarations listed below are library inputs; the other contracts are targets of their named supplier roadmaps.
 
-L5 supplies the coefficient Newton polygon, its faces and slope widths, and the product/Minkowski-sum law over F=k((t)), using LaurentSeries k and the integer order HahnSeries.orderTop. §§3.11, 3.18, 3.33 and 3.46 supply the general real-valued-valuation interfaces. On F, identify these with the supplied polygon by embedding integer orders into the reals and reflecting the coefficient abscissae as in §3.18; the comparison preserves widths and transports L5's product law.
+### From NewtonPolygons §§0.3, 2.2–2.3, 3.1–3.3 and 6.1
+
+The supplier owns supporting values, active coefficient indices, face widths, finite slope multisets, polynomial products, root valuations and Eisenstein–Dumas irreducibility. Its coefficient coordinates are `(i,v(a_i))`, with supporting value `S_f(σ) = min_i(v(a_i) − σi)` and root valuation `−σ`. Here the notation `v_r(f) = S_f(−r)` and `m_r(f)` for the multiplicity of slope `−r` uses the same data after reflection `(i,y) ↦ (−i,y)`. No second general polygon carrier or collection of general polygon laws is introduced.
+
+NewtonPolygons §§1.2 and 2.1 compare this interface with FormalLaurentPuiseux L5 over F=k((t)), using LaurentSeries k and the integer order HahnSeries.orderTop. §3.18 here supplies the reflected-coordinate adapter, preserving widths and Minkowski addition. The coefficient arguments apply to arbitrary real-valued additive valuations; normed-field comparisons use the supplier's compatible normalization.
 
 ### From Mathlib and Tau Ceti
 
@@ -130,15 +136,15 @@ For a characteristic-zero field F and x algebraic over Q, the supplier's `absMul
 
 `siegelRelativeKernelBasis`: for a finite extension F/K of number fields of degree r, K of degree D, and `A ∈ F^(M×V)` whose equations restricted to `K^V` have rank R < V, the K-kernel has an integral K-basis `x_1`, …, `x_k (k = V − R)` with `∏ Habs(x_j) ≤ |disc K|^(k/(2D)) ∏_i H₂,proj(A_i)^r`. It is used with K = ℚ and F = ℚ(α) for Dobrowolski's auxiliary polynomial ([Dobrowolski's auxiliary polynomial](#layer-6-topic-12)).
 
-### From [TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §§0.5–0.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#05-characteristic-coefficients-and-trace-comparisons)
+### From TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §§0.5–0.6
 
 The characteristic polynomial law of a determinant law (§0.5), and the Azumaya reduced-norm determinant: for an Azumaya algebra R of constant rank d² over A, `Nrd_R` : R → A is the unique degree-d determinant law that becomes Matrix.det under every faithfully flat matrix splitting (§0.6).
 
-### From [TauCetiRoadmap.AdelicAlgebraicGroups, §4.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#42-strong-approximation-and-arithmetic-closures)
+### From TauCetiRoadmap.AdelicAlgebraicGroups, §4.2
 
 Strong approximation for a connected, absolutely almost simple, simply connected group G over a number field F with respect to a finite set S of places containing the archimedean ones and with `G(F_S)` noncompact, in the form `G(𝔸^S) = G(F)U` for every open subgroup U. It is applied to the groups SL₁(C) of [Inner forms meet the strong-approximation hypotheses](#layer-7-topic-44), with S the archimedean places.
 
-### From [TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic, §4.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#43-oppenheim-and-duke)
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic, §4.3
 
 Layer 4, §4.3 (the finite coefficient bridge): the analytic Jacobi triple product `J(z; q) = (z; q)_∞(q/z; q)_∞(q; q)_∞ = Σ_{k∈ℤ}(−1)^k q^{k(k−1)/2} z^k` for complex q, z with 0 < |q| < 1 and z ≠ 0, with absolute convergence of product and series (the intermediate triple product from which GeometryOfNumbersAndQuadraticArithmetic derives `jacobi_product_specialization`), stated as a named target so that formal consequences can cite it.
 
@@ -206,15 +212,15 @@ For a finite extension L/K of nonarchimedean local fields: the unramified predic
 
 For nonarchimedean local fields: the predicate IsTamelyRamified; a finite totally and tamely ramified L/K of degree e is K(α) with `α^e` a uniformiser of K; such L/K is Galois exactly when `μ_e ⊆ K`, and then `Gal(L/K) ↪ μ_e` by σ ↦ σ(α)/α; an Eisenstein polynomial `X^e − π_K` defines a totally ramified extension in which its root is a uniformiser; in a totally ramified extension `𝒪_L = 𝒪_K[π_L]`; stability of tameness in towers.
 
-### From [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary)
+### From [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary)
 
 Dedekind Galois prime action, decomposition/inertia and residue action, with the inseparable residue case retained; no unconditional inertia-index=e assertion.
 
-### From [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant)
+### From [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant)
 
 The relative discriminant over a Dedekind base, its tower formula and trace-dual localization. The absolute index–discriminant square formula is Layer3; its relative form, used by [Integral composita under arithmetic disjointness](#layer-7-topic-34), is Johnston’s generalised-index argument with this discriminant.
 
-### From [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places)
+### From [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places)
 
 Completions and their valuation rings, the semilocal decomposition `K_v⊗L≅∏L_w` with its integral form integralSemilocalEquiv, and the conjugation maps between factors (§§5.1–5.7). Lattice patching from local data is built in [Ideles and lattice gluing for an arithmetic order](#layer-7-topic-72) and [Lattices are determined by their completions](#layer-7-topic-55).
 
@@ -252,7 +258,7 @@ The virtual character ring, restriction and induction with the projection formul
 
 Simple modules and Artin–Wedderburn with its dimension formula (Layers1–2), Skolem–Noether (Layer5), and Layer6: base change of central simple algebras, finite separable splitting fields, splitting by maximal subfields, and the Brauer groups of finite fields and of ℝ. The étale embedding criterion is proved inside [Local–global realization of separable reduced characteristic polynomials](#layer-7-topic-45); reduced norms are those of TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants §0.6.
 
-### From [TauCetiRoadmap.AdelicAlgebraicGroups, §3.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#34-adelic-reduction-and-arithmetic-quotients)
+### From TauCetiRoadmap.AdelicAlgebraicGroups, §3.4
 
 For a central division algebra D over a number field F, the affine group SL₁(D) has the reduced-norm-one units as its points over each commutative F-algebra; its Hopf-group structure and splitting comparison are supplied there. Layer 7 uses this division-algebra carrier in constructing the corresponding group for matrix components, products and restriction of scalars, and proves the arithmetic restricted-product comparison.
 
@@ -260,17 +266,21 @@ For a central division algebra D over a number field F, the affine group SL₁(D
 
 For a nondegenerate binary lattice of nonsquare discriminant, B4 supplies SO(L) ≅ {u ∈ 𝒪(L)ˣ : N(u)=1}, including positive discriminant. §4.0 consumes this equivalence for a primitive indefinite binary form and computes its matrix in Pell coordinates.
 
-### From [TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants)
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants
 
 The analytic carriers `tateLocalConstant` and `epsilonWeil`, their Deligne–Langlands existence and uniqueness, exact-sequence multiplicativity, degree-zero induction, measure scaling and additive-character laws, and §2.7's completed finite-image functional equation. Its rank-one constants are identified with AL.1's Tate factors under the same character and measure. §3.3 supplies the conductor dependence of epsilon factors; §3.5 supplies `a_F(Ind_E/F θ)=f(E/F)a_E(θ)+v_F(discriminant(E/F))deg θ`. The primary locators are Deligne (1973), §3.12(A)–(D), pp.533–534, Theorem4.1, p.535, and §8.12, p.572; the conductor induction formula is Serre (1961), n°3.7, (31), p.138, as cited by §3.5. §§7.13 and 7.30 consume this one local-constant theory and equation. For our arithmetic character χ use the supplier on χ∨: its rank-one character through geometric reciprocity is χ∘artinMap, and its geometric-Frobenius Euler polynomial is AA.2.4's arithmetic-Frobenius polynomial for χ. The exact additive-character, different, induction and global completion conversions are stated in those adapters.
 
-### From [TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 finite-image Artin functions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization)
+### From TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 finite-image Artin functions
 
 The convergence-factors target supplies arithmetic-Frobenius local determinants on inertia invariants, ramified induction, the Artin–Hecke comparison and meromorphic assembly by Brauer induction. §7.30 uses this Artin function in its conductor-balanced completion, rather than constructing another finite Euler product.
 
-### From [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#standard-additive-character)
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1
 
 `AL0.StandardAdditiveCharacter.conductor`, `.diagonal` and `.nontrivial` fix the trace character with positive infinity component and negative finite component. `TateZeta.epsilonFactor`, `TateZeta.epsilonFactor_smul_char`, `TateZeta.epsilonFactor_mul_inv`, `TateZeta.epsilonFactor_unramified_zero` and `TateZeta.epsilonFactor_real_sign` supply the analytic one-dimensional factors and their character-change laws. AL.0 supplies self-dual Haar measure. Kudla (2004), §3, Propositions3.5–3.8, pp.120–124, and §4, pp.127–129, fixes these normalizations; §7.30 transports them to the finite additive character of §7.13 and the infinite factor of Fröhlich (1976), (2.3), p.390.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI, §§1.8, 2.5, 2.12, 2.42 and 2.49
+
+§2.5 identifies the continued Dedekind zeta function with `NumberField.dedekindZeta K` on Re s > 1 and its residue at 1 with `NumberField.dedekindZeta_residue K`; §2.12 supplies L(s, χ) for a finite class character χ, with Euler factors `(1 − χ(P) N(P)^(−s))^(−1)`. A character of Cl(K) is used through the narrow class group and is primitive of trivial modulus. §2.42's DedekindERH K and HeckeGRH χ say that the continued functions have no zero with 0 < Re s < 1 off the line Re s = 1/2; §§5.1b, 5.1c and 5.16a carry them as explicit premises. §1.8 is Weil's explicit formula for a pair of completed functions with Gamma factors and Euler products over the rational primes, applied here to the completed L-functions of class-group characters. §2.49 supplies, on its conditional route, the truncated explicit formula for ψ_K and the zero count of `ζ_K`.
 
 ### Layers 6–7 ownership index
 
@@ -287,7 +297,7 @@ The convergence-factors target supplies arithmetic-Frobenius local determinants 
 
 ## How to read the build
 
-Read the numbered layers in order. Inside each layer, prerequisite results precede their consumers; definitions also name the later API laws they are designed to support. Layer 0 fixes congruences, Layer 1 fixes reciprocity conventions, Layer 2 develops sequence interfaces, Layer 3 supplies matrix normal forms and polynomial arithmetic, Layer 4 gives classical equations, Layer 5 compares ideal and unit presentations with number-field invariants, Layer 6 builds small-height algebraic-number theory, and Layer 7 constructs integral Galois-module obstructions. Each auxiliary, analytic, counting or convention comparison target is part of its layer, including when the cited source states only the application; its proof is required here.
+Read the numbered layers in order; within a layer, implement prerequisites in the order specified by the *Needs:* lists. Section numbers organize the subjects rather than prescribe an implementation order. In Layer 5, introduce the subgroup predicate of §5.1a, prove §5.1 and the remaining subgroup laws of §5.1a, then §§5.1b–5.1c and the presentation map of §5.2; prove the presentation-surjectivity comparison in §5.2 after constructing that map. Forward references in Checks illustrate applications rather than supply hypotheses. Layer 0 fixes congruences, Layer 1 fixes reciprocity conventions, Layer 2 develops sequence interfaces, Layer 3 supplies matrix normal forms and polynomial arithmetic, Layer 4 gives classical equations, Layer 5 compares ideal and unit presentations with number-field invariants, Layer 6 builds small-height algebraic-number theory, and Layer 7 constructs integral Galois-module obstructions. Each auxiliary, analytic, counting or convention comparison target is part of its layer, including when the cited source states only the application; its proof is required here.
 
 ## Layer 0: divisibility and congruences
 
@@ -814,14 +824,14 @@ K = ℚ(i) with IsCyclotomicExtension {4} ℚ K and `i ∈ 𝓞_K` a primitive 4
 The supporting API comprises:
 
 - `IsPrimaryGaussian`: α is primary: `(1 + i)^3` divides α − 1 in `𝓞_K`.
-- `isPrimaryGaussian_add_mul_iff`: a + b i is primary if and only if (a ≡ 1 and b ≡ 0 mod 4) or (a ≡ 3 and b ≡ 2 mod 4).
+- the primary congruence criterion: a + b i is primary if and only if (a ≡ 1 and b ≡ 0 mod 4) or (a ≡ 3 and b ≡ 2 mod 4).
 - `exists_unique_unit_mul_isPrimaryGaussian`: If N(α) is odd there is exactly one unit u ∈ {1, i, −1, −i} with uα primary.
 - `IsPrimaryGaussian.mul`: Products of primary elements are primary.
 - `IsPrimaryGaussian.conj`: The complex conjugate of a primary element is primary.
-- `isPrimaryGaussian_intCast_iff`: A rational integer m is primary exactly when m ≡ 1 (mod 4).
-- `IsPrimaryGaussian.div_intCast`: If α is primary, m ≡ 1 (mod 4) is a rational integer and m divides α, then α/m is primary.
-- `IsPrimaryGaussian.norm_sub_one_div_four`: For primary α = a + b i: (N(α) − 1)/4 ≡ (a − 1)/2 (mod 2).
-- `IsPrimaryGaussian.exists_prod_primary_primes`: A primary nonunit is a finite product of primary primes.
+- the rational-integer primary criterion: A rational integer m is primary exactly when m ≡ 1 (mod 4).
+- primary rational divisors: If α is primary, m ≡ 1 (mod 4) is a rational integer and m divides α, then α/m is primary.
+- the primary norm quotient: For primary α = a + b i: (N(α) − 1)/4 ≡ (a − 1)/2 (mod 2).
+- factorization into primary primes: A primary nonunit is a finite product of primary primes.
 
 (Nancy Xu, [Reciprocity Laws](#reference-xu-reciprocity-2021), §5, Proposition 5.1, Definitions 5.3–5.4 and Propositions 5.5–5.6, pp. 14–15.) Defines primary nonunits of ℤ[i] as `α ≡ 1 mod (1 + i)^3`, states the coordinate criterion and the existence and uniqueness of the primary associate (deferring both proofs to Ireland–Rosen §9.7), and remarks that primary elements are products of primary irreducibles; the coordinate criterion is printed incompletely.
 
@@ -1976,20 +1986,22 @@ Two m-th roots of unity congruent modulo a prime above p' ∤ m are equal ([The 
 
 ### 1.57 The dyadic factor μ₂(α, β) depends only on α and β modulo 8
 
-Let K be a number field and α, β, α', `β' ∈ 𝓞_K` odd with α ≡ α' and `β ≡ β' (mod 8𝓞_K)`. Then μ₂(α, β) = μ₂(α', β').
+Let K be a number field and α, β, α', `β' ∈ 𝓞_K` odd with α ≡ α' and `β ≡ β' (mod 8𝓞_K)`. Then μ₂(α, β) = μ₂(α', β'). In addition, for arbitrary nonzero `α ∈ 𝓞_K` and odd β, δ with `β ≡ δ (mod 8𝓞_K)`, one has `μ₂(α, β) = μ₂(α, δ)`.
 
-α, β, α', β' odd; congruences modulo `8𝓞_K`.
+Both-variable constancy assumes all four arguments odd. Constancy in the second argument assumes only α ≠ 0 and β, δ odd; these assertions concern the dyadic factor μ₂.
 
 (John Friedlander, Henryk Iwaniec, Barry Mazur and Karl Rubin, [The spin of prime ideals](#reference-fimr-spin-2013), §2, Lemma 2.3 and its proof, arXiv v2 p. 7.) States that μ₂(α, β) depends only on α, β modulo 8 and proves it by the binomial series for √(1 + 8x).
 
 To prove this, if `η ∈ 𝓞_K` and η ≡ 1 (mod 8), then η is a square in `K_v` for every dyadic place v: the binomial series `√(1 + 8x) = 1 + Σ_{ℓ≥1} c_ℓ (4x)^ℓ/ℓ!`, `c_ℓ = ∏_{0≤k<ℓ}(1 − 2k)`, converges 2-adically because `4^ℓ/ℓ!` has positive 2-adic valuation (alternatively Hensel's lemma).
 
-Write α' = αη with η = α'/α ≡ 1 (mod 8) in `𝓞_{K_v}` (α is a v-adic unit); then `(α', β)_v = (α, β)_v(η, β)_v = (α, β)_v`, since `(η, β)_v = 1` for a square η (bimultiplicativity and (c², β) = 1). The same for β.
+Write α' = αη with η = α'/α ≡ 1 (mod 8) in `𝓞_{K_v}` (α is a v-adic unit); then `(α', β)_v = (α, β)_v(η, β)_v = (α, β)_v`, since `(η, β)_v = 1` for a square η (bimultiplicativity and (c², β) = 1). The same for β. For the second-argument assertion, `δ/β ∈ 1 + 8𝓞_{K_v}` is a square at every dyadic v. Thus `(α, δ)_v = (α, β)_v` by bimultiplicativity, regardless of the valuation of α. Multiplication over the dyadic places proves the assertion.
 
 **Checks.**
 
 - For K = ℚ: `(a, b)_2` for odd a, b depends only on a, b mod 4 (it is `(−1)^{((a−1)/2)((b−1)/2)}`), a fortiori mod 8.
 - 17 ≡ 1 (mod 8) is a square in `ℚ_2`, so μ₂(17α, β) = μ₂(α, β).
+- For K = ℚ, α = 2, β = 1 and δ = 9, the second-argument assertion gives `μ₂(2,1) = μ₂(2,9) = 1` although α is even.
+- Congruence modulo 4 is insufficient for that assertion: `μ₂(2,1) = 1` and `μ₂(2,5) = −1`.
 
 *Needs:* [The completed quadratic residue symbol |α/β| of a number field](#layer-1-topic-48); [Bimultiplicativity, the Steinberg relation and skew symmetry of the norm-residue symbol](#layer-1-topic-25); [The degree-n norm-residue symbol at a place of a number field](#layer-1-topic-24).
 
@@ -2311,7 +2323,7 @@ For α with 1 + α odd, the auxiliary symbol [α/β] = μ₂(α, β)|α/β| = μ
 
 Apply this to 2 and to 2α (both have 1 + (·) odd): [2/β] = [2/δ] for β ≡ δ (mod 4) and [2α/β] = [2α/δ] for β ≡ δ (mod 4α); multiplying, and since 4 is a square, [α/β] = [α/δ] for β ≡ δ (mod 4α).
 
-For β ≡ δ (mod 8α), μ₂(α, β) = μ₂(α, δ) by the previous lemma, so |α/β| = |α/δ|; for totally positive β, δ, |α/·| = (α/·).
+For β ≡ δ (mod 8α), μ₂(α, β) = μ₂(α, δ) by the second-argument assertion of §1.57, which permits even α, so |α/β| = |α/δ|; for totally positive β, δ, |α/·| = (α/·).
 
 **Checks.**
 
@@ -2881,16 +2893,16 @@ The supporting API comprises:
 - `DFAO`: A DFAO: step : σ → α → σ, start : σ, output : σ → Δ.
 - `DFAO.evalFrom`: Run from a state on a word, head first.
 - `DFAO.eval`: Run from the initial state.
-- `DFAO.evalFrom_append`: evalFrom s (x ++ y) = evalFrom (evalFrom s x) y.
+- evaluation on concatenated words: evalFrom s (x ++ y) = evalFrom (evalFrom s x) y.
 - `DFAO.toDFA`: The acceptor DFA with accepting states output⁻¹(S).
-- `DFAO.eval_toDFA`: (toDFA S).eval = eval.
-- `DFAO.mem_accepts_toDFA`: x ∈ (toDFA S).accepts iff output (eval x) ∈ S.
+- the Boolean-output automaton comparison: (toDFA S).eval = eval.
+- the accepted-word criterion: x ∈ (toDFA S).accepts iff output (eval x) ∈ S.
 - `DFAO.mapOutput`: Change the output alphabet along f : Δ → Δ'.
 - `DFAO.prod`: The product automaton, with output pairs.
-- `DFAO.evalFrom_nil`: Running from a state s on the empty word returns s.
-- `DFAO.evalFrom_cons`: Running from s on a :: x is running from step s a on x.
-- `DFAO.eval_mapOutput`: Changing the output map by f does not change the state reached: (mapOutput f).eval = eval, so the output becomes f ∘ output.
-- `DFAO.eval_prod`: The product automaton reaches the pair of the states the two factors reach: (prod M N).eval w = (M.eval w, N.eval w).
+- evaluation on the empty word: Running from a state s on the empty word returns s.
+- evaluation on a leading letter: Running from s on a :: x is running from step s a on x.
+- evaluation after changing outputs: Changing the output map by f does not change the state reached: (mapOutput f).eval = eval, so the output becomes f ∘ output.
+- evaluation in a product automaton: The product automaton reaches the pair of the states the two factors reach: (prod M N).eval w = (M.eval w, N.eval w).
 
 (Andrew Bridy, [Automatic sequences and curves over finite fields](#reference-bridy-automaticcurves-2016), Section 2.1, p. 3.) The structure. Bridy takes the input alphabet, the output alphabet and the states finite; here the structure assumes none of these, IsAutomatic adds a Fintype of states and fixes the finite input alphabet Fin k, and the output alphabet stays arbitrary (only the range of the output map is finite).
 
@@ -2928,7 +2940,7 @@ The supporting API comprises:
 
 - `kernel`: The set `{n ↦ a(k^e n + r) | e ≥ 0, r < k^e}`.
 - `self_mem_kernel`: a ∈ kernel k a.
-- `kernel_subset`: If b ∈ kernel k a then kernel k b ⊆ kernel k a.
+- containment of the radix kernel: If b ∈ kernel k a then kernel k b ⊆ kernel k a.
 
 (Jakub Byszewski, Jakub Konieczny, [Automatic sequences and generalised polynomials](#reference-byszewski-konieczny-automatic-2017), Section 1, Definition 1.4, p. 7.) The definition.
 
@@ -3677,9 +3689,9 @@ The supporting API comprises:
 - `IsAutomatic`: a is k-automatic (least significant digit first, canonical digits).
 - `IsAutomatic.map`: If a is k-automatic so is f ∘ a.
 - `IsAutomatic.prod`: If a and b are k-automatic so is n ↦ (a n, b n).
-- `IsAutomatic.finite_range`: A k-automatic sequence takes finitely many values.
-- `isAutomatic_const`: Constant sequences are k-automatic.
-- `isAutomatic_of_eventually_periodic`: Eventually periodic sequences are k-automatic for every k.
+- finiteness of the output range: A k-automatic sequence takes finitely many values.
+- automaticity of constant sequences: Constant sequences are k-automatic.
+- automaticity of eventually periodic sequences: Eventually periodic sequences are k-automatic for every k.
 
 (Andrew Bridy, [Automatic sequences and curves over finite fields](#reference-bridy-automaticcurves-2016), Section 2.1, p. 3.) The definition, with Bridy's reverse-reading convention (`f_M(w) = τ(δ(q₀, w^R))` for the most-significant-first word w), which is Mathlib's Nat.digits order.
 
@@ -4053,7 +4065,7 @@ The supporting API comprises:
 
 (Victor Shoup, [A Computational Introduction to Number Theory and Algebra (Version 2)](#reference-shoup-v2), Section 18.1, Example 18.1, printed pp. 487 to 488.) The shift-register update is the action of C(p)ᵀ, with `p = X^k − ∑ cⱼXʲ`.
 
-To prove this, define C(p) := Matrix.of fun i j ↦ if i = j + 1 then 1 else if j + 1 = d then −p.coeff i else 0, indexed by Fin p.natDegree.
+To prove this, define `C(p) := Matrix.of fun i j ↦ if i.val = j.val + 1 then 1 else if j.val + 1 = p.natDegree then −p.coeff i.val else 0`, indexed by Fin p.natDegree. Both comparisons use natural values; no addition takes place in Fin p.natDegree.
 
 Multiplication by X: `X·Xʲ = X^{j+1}` for j < d − 1 and `X·X^{d−1} = X^d = −∑ p.coeff i Xⁱ` modulo p; this is column j of C(p), so `Algebra.leftMulMatrix` of the root of `AdjoinRoot p` in `AdjoinRoot.powerBasis'` is C(p).
 
@@ -4068,7 +4080,7 @@ Over a field, for monic p: minpoly K C(p) = minpoly K (root p), because `Algebra
 - C(X² − X − 1) over ℤ, reindexed along natDegree = 2, is [[0, 1], [1, 1]].
 - C(X² − tX + d) reindexed to Fin 2 is [[0, −d], [1, t]], the body of Tau Ceti's `TauCeti.companionFinTwo t d` (`TauCeti.companionFinTwo_def`).
 - C(1) is the empty matrix and its characteristic polynomial is 1.
-- C(X² + 1) over ℤ is not equal to its transpose: the orientation (last column, not last row) is part of the definition.
+- For p = X² + 1 over ℤ and i = 0, j = 1, the subdiagonal comparison is `0 = 2`, which is false, and the last-column branch gives −1. Fin-index wraparound would incorrectly give 1. The resulting matrix is not equal to its transpose.
 - In rank 2, C(X² − tX + d) is [[0, −d], [1, t]], the body of `TauCeti.companionFinTwo t d`.
 - Its characteristic polynomial is p ([The characteristic polynomial of the companion matrix](#layer-2-topic-60)) and its minimal polynomial over a field is p (companion matrices are non-derogatory).
 - The orientation matters: C(X² + 1) = [[0, −1], [1, 0]] is not its own transpose.
@@ -4086,15 +4098,15 @@ R is any commutative ring; P and Q are arbitrary (no coprimality, no non-degener
 The supporting API comprises:
 
 - `lucasU`: Uₙ(P, Q): U₀ = 0, U₁ = 1, `U_{n+2} = P U_{n+1} − Q Uₙ`.
-- `lucasU_zero`: U₀ = 0.
-- `lucasU_one`: U₁ = 1.
-- `lucasU_add_two`: `U_{n+2} = P U_{n+1} − Q Uₙ`.
+- the first-kind value at zero: U₀ = 0.
+- the first-kind value at one: U₁ = 1.
+- the first-kind recurrence law: `U_{n+2} = P U_{n+1} − Q Uₙ`.
 - `isSolution_lucasU`: lucasU P Q solves the Mathlib recurrence ⟨2, ![−Q, P]⟩ (= ofMonic (X² − P X + Q)).
-- `lucasU_mul_sub`: If α + β = P and αβ = Q then (α − β)Uₙ = αⁿ − βⁿ (Binet).
+- the first-kind addition identity: If α + β = P and αβ = Q then (α − β)Uₙ = αⁿ − βⁿ (Binet).
 - `map_lucasU`: f (Uₙ(P, Q)) = Uₙ(f P, f Q) for a ring homomorphism f.
-- `lucasU_succ_eq_eval_dickson`: `U_{n+1}(P, Q) = (dickson 2 Q n)(P)`, Mathlib's Dickson polynomial of the second kind.
-- `lucasU_two_mul`: `U_{2n} = Uₙ Vₙ`.
-- `lucasU_one_neg_one`: Uₙ(1, −1) = Nat.fib n.
+- the first-kind Dickson comparison: `U_{n+1}(P, Q) = (dickson 2 Q n)(P)`, Mathlib's Dickson polynomial of the second kind.
+- the first-kind doubling identity: `U_{2n} = Uₙ Vₙ`.
+- the Fibonacci specialization: Uₙ(1, −1) = Nat.fib n.
 
 (R. D. Carmichael, [On the numerical factors of the arithmetic forms αⁿ ± βⁿ](#reference-carmichael-arithmeticforms-1913), Introduction, p. 30.) Carmichael's Dₙ is Uₙ(P, Q) with P = α + β, Q = αβ; the result drops his standing hypotheses (coprime, nonzero), which only the divisibility theorems use.
 
@@ -4239,11 +4251,11 @@ The supporting API comprises:
 - `thueMorse`: t(n) = s₂(n) mod 2 ∈ ZMod 2.
 - `thueMorse_two_mul`: t(2n) = t(n).
 - `thueMorse_two_mul_add_one`: t(2n + 1) = 1 + t(n).
-- `isAutomatic_thueMorse`: t is 2-automatic.
-- `kernel_thueMorse`: The 2-kernel of t is {t, 1 + t}.
+- automaticity of Thue–Morse: t is 2-automatic.
+- the Thue–Morse kernel: The 2-kernel of t is {t, 1 + t}.
 - `thueMorse_algebraic`: (1 + X)³T² + (1 + X)²T + X = 0 in 𝔽₂⟦X⟧ for T = ∑ t(n)Xⁿ.
 
-(Jakub Byszewski, Jakub Konieczny, [Automatic sequences and generalised polynomials](#reference-byszewski-konieczny-automatic-2017), Section 1, p. 6 and p. 8.) Source for `thueMorse_two_mul`, `thueMorse_two_mul_add_one` and `kernel_thueMorse`; the definition is on p. 6 (`'t_n = 1` if s₂(n) is odd and `t_n = 0` if s₂(n) is even').
+(Jakub Byszewski, Jakub Konieczny, [Automatic sequences and generalised polynomials](#reference-byszewski-konieczny-automatic-2017), Section 1, p. 6 and p. 8.) Source for `thueMorse_two_mul`, `thueMorse_two_mul_add_one` and the Thue–Morse kernel; the definition is on p. 6 (`'t_n = 1` if s₂(n) is odd and `t_n = 0` if s₂(n) is even').
 
 (G. Christol, T. Kamae, M. Mendès France, G. Rauzy, [Suites algébriques, automates et substitutions](#reference-christol-suitesalgebriques-1980), Section 2, pp. 402 to 403.) Source for `thueMorse_algebraic` (p. 403), the model instance of Christol's theorem; p. 402 also records that a sequence is eventually periodic exactly when its series is rational (algebraic of degree 1), which is the step from the nonperiodicity test to nonrationality.
 
@@ -4323,7 +4335,7 @@ At U=V, p(b+d)=q(a+c), so the reduced target equals the reduced mediant. Well-fo
 
 ### 2.55 Every eventually periodic sequence is automatic
 
-For any k≥1, a sequence f:ℕ→Δ satisfying f(t+p)=f(t) for all t≥N, with p≥1, is k-automatic in the existing canonical-digit convention. It is the API lemma `isAutomatic_of_eventually_periodic` of [k-automatic sequences](#layer-2-topic-33), stated here as a separate result; it introduces no second definition.
+For any k≥1, a sequence f:ℕ→Δ satisfying f(t+p)=f(t) for all t≥N, with p≥1, is k-automatic in the existing canonical-digit convention. It is the API lemma automaticity of eventually periodic sequences of [k-automatic sequences](#layer-2-topic-33), stated here as a separate result; it introduces no second definition.
 
 Base 1 uses Mathlib’s unary digit-list convention and is treated separately. No finiteness assumption on Δ is needed.
 
@@ -4532,15 +4544,15 @@ R any commutative ring; P, Q arbitrary.
 The supporting API comprises:
 
 - `lucasV`: Vₙ(P, Q): V₀ = 2, V₁ = P, `V_{n+2} = P V_{n+1} − Q Vₙ`.
-- `lucasV_zero`: V₀ = 2.
-- `lucasV_one`: V₁ = P.
-- `lucasV_add_two`: `V_{n+2} = P V_{n+1} − Q Vₙ`.
-- `lucasV_eq_add_pow`: If α + β = P and αβ = Q then Vₙ = αⁿ + βⁿ.
-- `lucasV_eq_eval_dickson`: Vₙ(P, Q) = (dickson 1 Q n)(P), Mathlib's Dickson polynomial of the first kind.
-- `lucasV_sq_sub`: Vₙ² − (P² − 4Q)Uₙ² = 4Qⁿ.
+- the second-kind value at zero: V₀ = 2.
+- the second-kind value at one: V₁ = P.
+- the second-kind recurrence law: `V_{n+2} = P V_{n+1} − Q Vₙ`.
+- the second-kind root-power identity: If α + β = P and αβ = Q then Vₙ = αⁿ + βⁿ.
+- the second-kind Dickson comparison: Vₙ(P, Q) = (dickson 1 Q n)(P), Mathlib's Dickson polynomial of the first kind.
+- the Lucas discriminant identity: Vₙ² − (P² − 4Q)Uₙ² = 4Qⁿ.
 - `map_lucasV`: f (Vₙ(P, Q)) = Vₙ(f P, f Q) for a ring homomorphism f.
 
-(R. D. Carmichael, [On the numerical factors of the arithmetic forms αⁿ ± βⁿ](#reference-carmichael-arithmeticforms-1913), Introduction, p. 30, and Section 2, p. 36.) The definition (Carmichael's Sₙ) and the lemma `lucasV_sq_sub`, with (α − β)² = P² − 4Q.
+(R. D. Carmichael, [On the numerical factors of the arithmetic forms αⁿ ± βⁿ](#reference-carmichael-arithmeticforms-1913), Introduction, p. 30, and Section 2, p. 36.) The definition (Carmichael's Sₙ) and the lemma the Lucas discriminant identity, with (α − β)² = P² − 4Q.
 
 To prove this, define lucasV P Q by the recursion.
 
@@ -5595,28 +5607,20 @@ Let K be a field with an additive valuation v : K → ℝ ∪ {∞} (v(0) = ∞,
 
 Valuation with values in ℝ ∪ {∞} (Mathlib AddValuation K (WithTop ℝ)); the minimum over the support of f.
 
-For Laurent fields this is the supporting-line interface of FormalLaurentPuiseux L5's polygon, under §3.18's comparison.
+Supplied by NewtonPolygons §§0.3 and 2.2. Here `v_r(f) = S_f(−r)` is reflected-coordinate notation for its supporting value, including the all-infinite value at f = 0; §3.18 gives the comparison for Laurent fields.
 
-The supporting API comprises:
+In reflected notation the supplied API gives:
 
-- `slopedValuation`: `v_r(f)`.
-- `SlopedValuation.zero`: `v_r(0) = ⊤`.
-- `SlopedValuation.C_mul_X_pow`: `v_r(c Xⁿ) = v(c) + r n` for c ≠ 0.
-- `SlopedValuation.le_coeff`: `v_r(f) ≤ v(a_i) + r i` for every i.
-- `SlopedValuation.min_le_add`: `min(v_r f, v_r g) ≤ v_r(f + g)`.
-- `SlopedValuation.zero_slope`: `v_0` is the Gauss valuation `min_i v(a_i)`.
+- Sloped supporting value: `v_r(f)`.
+- Zero polynomial: `v_r(0) = ⊤`.
+- Monomials: `v_r(c Xⁿ) = v(c) + r n` for c ≠ 0.
+- Coefficient bound: `v_r(f) ≤ v(a_i) + r i` for every i.
+- Ultrametric inequality: `min(v_r f, v_r g) ≤ v_r(f + g)`.
+- Slope zero: `v_0` is the Gauss valuation `min_i v(a_i)`.
 
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Section 2, p. 2.) The target is this definition for ordinary (untwisted) polynomials, the case d = 0 of the source.
 
-To prove this, define `v_r(f)` as the infimum over the support of f in WithTop ℝ (Finset.inf), so `v_r(0) = ⊤`.
-
-Monomial: `v_r(c X^n) = v(c) + r n`.
-
-Each term bounds it: `v_r(f) ≤ v(a_i) + r i`.
-
-Ultrametric: `v_r(f + g) ≥ min(v_r(f), v_r(g))`.
-
-r = 0 gives the Gauss valuation `min_i v(a_i)`.
+To transport this, evaluate the supplier's supporting function at σ = −r. The coefficient expression becomes `v(a_i) + r i`, including ∞ for a zero coefficient. Its monomial, coefficient, addition and slope-zero formulas give the displayed laws.
 
 **Checks.**
 
@@ -5625,7 +5629,7 @@ r = 0 gives the Gauss valuation `min_i v(a_i)`.
 - `v_r(0) = ⊤`.
 - `v_r(0) = ∞`.
 
-*Needs:* Mathlib `AddValuation`; Mathlib `AddValuation.map_mul`; Mathlib `AddValuation.map_add`; Mathlib `Polynomial.support`.
+*Needs:* NewtonPolygons §§0.3 and 2.2; Mathlib `AddValuation`; Mathlib `AddValuation.map_mul`; Mathlib `AddValuation.map_add`; Mathlib `Polynomial.support`.
 
 <a id="layer-3-topic-12"></a>
 
@@ -5836,36 +5840,26 @@ Let I ⊂ ℕ be a nonempty finite set and y : I → ℝ (the points `(i, y_i)`)
 
 I ⊂ ℕ finite and nonempty; y : I → ℝ. (Points with `y_i = ∞`, such as zero coefficients, are left out of I.)
 
-For F=k((t)) and nonzero f∈F[X], use FormalLaurentPuiseux L5's coefficient polygon. Express it in coefficient coordinates `(i,ord(a_i))` and reflect (i,y)↦(−i,y), embedding the integer orders into ℝ. Prove that its supporting intercept at slope r is `μ_r`, its contact indices are `C_r` and its edge widths are `m_r`. Reflection negates the geometric slopes and preserves widths and Minkowski addition. Thus the sloped valuation, multiplicities and product law of §§3.11, 3.33 and 3.46 act on the supplied Laurent-field polygon.
+Supplied by NewtonPolygons §0.3 and §§2.2–2.3, including finite-support envelopes, supporting values and active coefficient endpoints. The target here is the reflection adapter: with `a(i) = y_i` on I and ∞ outside I, identify `μ_r = S_a(−r)`, `C_r` with the active coefficient set at parameter −r, and `m_r` with the supplier's face width at slope −r. Active coefficient indices need not include every integer on a geometric face. For F=k((t)), embed integer orders into ℝ and use NewtonPolygons §§1.2 and 2.1 to compare FormalLaurentPuiseux L5's coefficient polygon. Reflection `(i,y) ↦ (−i,y)` negates geometric slopes and preserves widths and Minkowski addition; no general convex-envelope theory is reconstructed here.
 
-The supporting API comprises:
+In reflected notation the supplied API gives:
 
-- `newtonSupport`: `μ_r(y) :=` the minimum over i ∈ I of `y_i + r·i`, for a finite nonempty I ⊂ ℕ and y : I → ℝ.
-- `newtonContact`: `C_r(y) := {i ∈ I | y_i + r·i = μ_r(y)}`, nonempty `(NewtonPolygon.newtonContact_nonempty)`.
-- `NewtonPolygon.newtonSupport_le`: `μ_r(y) ≤ y_i + r·i` for all i ∈ I; with `NewtonPolygon.mem_newtonContact_iff`, equality holds `iff i ∈ C_r(y)`.
-- `newtonWidth`: `m_r(y) := max C_r − min C_r`.
-- `NewtonPolygon.finite_setOf_newtonWidth_pos`: `{r | 0 < m_r(y)}` is finite.
-- `NewtonPolygon.sum_newtonWidth`: `Σ_{r : m_r > 0} m_r(y) = max I − min I`.
-- `NewtonPolygon.max_newtonContact_le_min`: `r < r′ → max C_{r′}(y) ≤ min C_r(y)` (slope ordering).
-- `NewtonPolygon.newtonSide_endpoints`: y at `max C_r` equals y at `min C_r` minus `r·m_r(y)`.
-- `NewtonPolygon.concaveOn_newtonSupport`: `r ↦ μ_r(y)` is concave on ℝ.
-- `NewtonPolygon.newtonSupport_polynomial`: For f ≠ 0 over a valued field with I = supp f and `y_i = v(a_i)`: `μ_r(y) = v_r(f)` and `m_r(y) = m_r(f)` ([The sloped valuation of a polynomial over a valued field](#layer-3-topic-11), [The Newton polygon, by slope multiplicities](#layer-3-topic-33)).
+- Supporting value: `μ_r(y) :=` the minimum over i ∈ I of `y_i + r·i`, for a finite nonempty I ⊂ ℕ and y : I → ℝ.
+- Active coefficient set: `C_r(y) := {i ∈ I | y_i + r·i = μ_r(y)}`, nonempty by the supplier’s active-index theorem.
+- Supporting bound: `μ_r(y) ≤ y_i + r·i` for all i ∈ I; with the contact equality criterion, equality holds `iff i ∈ C_r(y)`.
+- Face width: `m_r(y) := max C_r − min C_r`.
+- Finitely many positive widths: `{r | 0 < m_r(y)}` is finite.
+- Total width: `Σ_{r : m_r > 0} m_r(y) = max I − min I`.
+- Slope ordering: `r < r′ → max C_{r′}(y) ≤ min C_r(y)` (slope ordering).
+- Endpoint heights: y at `max C_r` equals y at `min C_r` minus `r·m_r(y)`.
+- Concavity: `r ↦ μ_r(y)` is concave on ℝ.
+- Polynomial specialization: For f ≠ 0 over a valued field with I = supp f and `y_i = v(a_i)`: `μ_r(y) = v_r(f)` and `m_r(y) = m_r(f)` ([The sloped valuation of a polynomial over a valued field](#layer-3-topic-11), [The Newton polygon, by slope multiplicities](#layer-3-topic-33)).
 
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Section 1, p. 1, and Section 2 up to Corollary 2, pp. 1–2.) Defines the Newton polygon as the lower convex hull of the points `(−i, v(P_i))`, the slope multiset with multiplicities equal to the widths, and the sloped valuation as the intercept of the supporting line of slope r; the proof of Corollary 2 uses that the endpoints of the side of slope r are where the supporting lines of slightly smaller and larger slope touch.
 
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Section 1, p. 1.) The total width of the slope multiset is the degree span, which is (c) for the support of a polynomial.
 
-To prove this, `μ_r` is a minimum over a finite nonempty set (Mathlib Finset.inf' over I), `C_r` is nonempty, and (a) is the definition.
-
-(d): for `i ∈ C_{r′}` and `j ∈ C_r`, `y_i + r′i ≤ y_j + r′j` and `y_j + rj ≤ y_i + ri`; adding, (r′ − r)(i − j) ≤ 0, so i ≤ j.
-
-(b) and (c): by (d) the contact intervals `[ℓ_r, u_r]` of the r with `m_r > 0` are ordered decreasingly in r and overlap only at endpoints; such r is the slope `(y_j − y_i)/(i − j)` of a pair i < j in I, so there are finitely many. For r larger than every such slope `C_r = {min I}`, for r smaller `C_r = {max I}`, and as r decreases through the finitely many critical values the contact interval moves from min I to max I, its widths adding to max I − min I.
-
-(e): `ℓ_r` and `u_r` both lie on the supporting line.
-
-(f): μ is the minimum of finitely many affine functions of r.
-
-Polynomial case: with `y_i = v(a_i)` on supp f, `μ_r` and `C_r` are those of the sloped valuation and `m_r` is the slope multiplicity of [The sloped valuation of a polynomial over a valued field](#layer-3-topic-11) and [The Newton polygon, by slope multiplicities](#layer-3-topic-33); those polynomial results are the specialization of this one (they cite it), so this result does not depend on them.
+To prove the adapter, substitution σ = −r identifies each affine expression with `y_i + r i`, hence identifies its minimizers and extreme indices. Apply the supplier's finite-face width, slope-order and supporting-function laws. For the Laurent specialization first embed integer orders into ℝ; this preserves minima and contact indices. Reflection preserves horizontal lengths and commutes with addition of points, so it also preserves widths and Minkowski sums.
 
 **Checks.**
 
@@ -5879,7 +5873,7 @@ Polynomial case: with `y_i = v(a_i)` on supp f, `μ_r` and `C_r` are those of th
 - The points of X⁵ + 2X² + 4 over ℚ₂, (0, 2), (2, 1), (5, 0): `C_{1/2} = {0, 2}`, `C_{1/3} = {2, 5}`, widths 2 and 3, summing to 5 = 5 − 0, and `u_{1/2} = 2 ≤ ℓ_{1/3} = 2`.
 - Supporting-side decomposition as used for φ-adic expansions: a side from (s, u) to (s + ed, u − hd) with slope parameter h/e is exactly the statement that `μ_{h/e} = u + (h/e)s` with `C_{h/e} ⊆ [s, s + ed]` containing both endpoints.
 
-*Needs:* Mathlib `ConcaveOn`; [TauCetiRoadmap.FormalLaurentPuiseux, L5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FormalLaurentPuiseux/README.md#l5-newton-polygons-and-formal-newtonpuiseux).
+*Needs:* NewtonPolygons §§0.3, 1.2 and 2.1–2.3; Mathlib `ConcaveOn`; [TauCetiRoadmap.FormalLaurentPuiseux, L5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FormalLaurentPuiseux/README.md#l5-newton-polygons-and-formal-newtonpuiseux).
 
 <a id="layer-3-topic-19"></a>
 
@@ -6277,11 +6271,11 @@ For f, g ∈ K[X] and r ∈ ℝ, `v_r(f g) = v_r(f) + v_r(g)`.
 
 K a field with an additive valuation to ℝ ∪ {∞}.
 
+Supplied by NewtonPolygons §3.1 supporting values and active-index products. The arithmetic statements below use its general theorem with the reflection of §3.18.
+
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Section 2, Proposition 1 and its proof, p. 2.) The target is Proposition 1 in the untwisted case (d = 0, r₀ = ∞); display (1) of the source has a misprint .
 
-To prove this, if f or g is 0 both sides are ∞. Otherwise the coefficient of `X^k` in f g is `Σ_{i+j=k} a_i b_j` (Mathlib `Polynomial.coeff_mul`), each term of value `v(a_i) + v(b_j) (AddValuation.map_mul)`, so `v_r(f g) ≥ v_r(f) + v_r(g)` by the ultrametric inequality `(AddValuation.map_add)`.
-
-Let `i_0`, `j_0` be the least indices minimising `v(a_i) + r i` and `v(b_j) + r j`. In the coefficient of `X^{i_0 + j_0}` the term `a_{i_0} b_{j_0}` has value exactly `v_r(f) + v_r(g) − r(i_0 + j_0)`, and every other term (`i < i_0` or `j < j_0`) has strictly larger value; so the coefficient has that exact value and `v_r(f g) ≤ v_r(f) + v_r(g)`.
+To transport this, use the supporting-value product theorem of NewtonPolygons §3.1 at σ = −r. Its extreme active-index formulas give the least and greatest minimizing indices used in §3.46. A zero factor has supporting value ∞ on both sides.
 
 **Checks.**
 
@@ -6289,7 +6283,7 @@ Let `i_0`, `j_0` be the least indices minimising `v(a_i) + r i` and `v(b_j) + r 
 - For r = 0 this is Gauss's lemma for the Gauss valuation.
 - It fails for non-ultrametric absolute values.
 
-*Needs:* [The sloped valuation of a polynomial over a valued field](#layer-3-topic-11); Mathlib `Polynomial.coeff_mul`; Mathlib `AddValuation.map_mul`; Mathlib `AddValuation.map_add`.
+*Needs:* NewtonPolygons §3.1; [The sloped valuation of a polynomial over a valued field](#layer-3-topic-11); Mathlib `Polynomial.coeff_mul`; Mathlib `AddValuation.map_mul`; Mathlib `AddValuation.map_add`.
 
 <a id="layer-3-topic-33"></a>
 
@@ -6299,30 +6293,22 @@ For a nonzero `f = Σ a_i X^i ∈ K[X]` and r ∈ ℝ, let `S_r` be the set of i
 
 Orientation pinned: slopes are valuations of roots (the lower convex hull of the points `(−i, v(a_i))`); in the usual picture with points `(i, v(a_i))` this is the negative of the geometric slope.
 
-For Laurent fields these widths are those of FormalLaurentPuiseux L5's polygon under §3.18's reflection comparison.
+Supplied by NewtonPolygons §§0.2–0.3 and 2.3. The notation `m_r(f)` is the multiplicity of slope −r in the supplier's multiset, with its zero-polynomial convention. Reflection changes the slope sign and preserves widths, including for the Laurent specialization of §3.18.
 
-The supporting API comprises:
+In reflected notation the supplied API gives:
 
-- `newtonSlopeMultiplicity`: `m_r(f)`, the width of the edge of slope r.
-- `NewtonSlopeMultiplicity.X_sub_C`: `m_r(X − c) = 1` if v(c) = r and 0 otherwise (c ≠ 0).
-- `NewtonSlopeMultiplicity.C_mul`: `m_r(c f) = m_r(f)` for c ≠ 0.
-- `NewtonSlopeMultiplicity.finite_support`: Only finitely many r have `m_r(f) ≠ 0`.
-- `NewtonSlopeMultiplicity.C_mul_X_pow`: A monomial has no slopes.
-- `NewtonSlopeMultiplicity.sum_eq`: For f ≠ 0 the widths add up: `Σ_r m_r(f) = deg f − ord₀ f` (a finite sum by `finite_support`); for example X⁵ + 2X² + 4 over ℚ₂ has widths 2 at r = 1/2 and 3 at r = 1/3.
+- Reflected slope multiplicity: `m_r(f)`, the width of the edge of slope r.
+- the linear-factor width formula: `m_r(X − c) = 1` if v(c) = r and 0 otherwise (c ≠ 0).
+- the scalar-invariance formula: `m_r(c f) = m_r(f)` for c ≠ 0.
+- Finite support: Only finitely many r have `m_r(f) ≠ 0`.
+- Monomial widths: A monomial has no slopes.
+- Sum of widths: For f ≠ 0 the widths add up: `Σ_r m_r(f) = deg f − ord₀ f` (a finite sum by `finite_support`); for example X⁵ + 2X² + 4 over ℚ₂ has widths 2 at r = 1/2 and 3 at r = 1/3.
 
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Section 1, p. 1.) The target records exactly this multiset, as the function r ↦ width; the source draws the points `(−i, v(P_i))`, which is the pinned orientation.
 
 (Paul Garrett, [Newton polygons](#reference-garrett-newtonpolygons-2005), Theorem, p. 1.) The same data in the other orientation (points `(i, ord c_i)`, slope `−m_j` for roots of `ord m_j`); the result's orientation makes the sign disappear.
 
-To prove this, define `S_r` by filtering the support of f and `m_r` as the difference of its largest and least element (0 if `S_r` is empty, i.e. f = 0).
-
-Linear factor: for X − c with c ≠ 0 both indices attain `v_r` exactly when v(c) = r, so `m_r = 1` if r = v(c) and 0 otherwise.
-
-Scaling by c ≠ 0 shifts every term by v(c) and does not change `S_r`.
-
-Finiteness: `m_r(f) > 0` needs two indices i < i′ with `v(a_i) + r i = v(a_{i′}) + r i′`, which determines r; there are finitely many pairs.
-
-Sum of widths: as r increases, the minimising index set moves from the largest to the least index of the support, and the widths of the edges add up to the length of the support interval.
+To transport this, map the supplier's finite slope multiset by negation. Its linear-factor, scalar-invariance, finite-support and total-width formulas give precisely the stated reflected formulas; the initial factor X contributes no finite slope.
 
 **Checks.**
 
@@ -6333,7 +6319,7 @@ Sum of widths: as r increases, the minimising index set moves from the largest t
 - `m_{−1/2}(X² − π) = 0` (orientation check).
 - A monomial has no slopes.
 
-*Needs:* [The sloped valuation of a polynomial over a valued field](#layer-3-topic-11); Mathlib `AddValuation`; Mathlib `Polynomial.support`; [The lower Newton polygon of a finite point family](#layer-3-topic-18).
+*Needs:* NewtonPolygons §§0.2–0.3 and 2.3; [The sloped valuation of a polynomial over a valued field](#layer-3-topic-11); Mathlib `AddValuation`; Mathlib `Polynomial.support`; [The lower Newton polygon of a finite point family](#layer-3-topic-18).
 
 <a id="layer-3-topic-34"></a>
 
@@ -6677,17 +6663,13 @@ For nonzero f, g ∈ K[X] and every r ∈ ℝ, `m_r(f g) = m_r(f) + m_r(g)`: the
 
 K a field with an additive valuation to ℝ ∪ {∞}; f, g ≠ 0; no completeness or splitting hypothesis.
 
-On Laurent fields this is FormalLaurentPuiseux L5's product law transported through §3.18's polygon comparison.
+Supplied by NewtonPolygons §3.2. Negating every slope transports its multiset-union law to the notation `m_r` without changing multiplicities. The Laurent specialization uses the same comparison as §3.18.
 
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Corollary 2, p. 2.) The target is Corollary 2 in the untwisted case (r₀ = ∞), proved through the extreme minimising indices.
 
 (Edward J. Barbeau, [Polynomials, Chapter Six: Irreducibility and factorization (draft)](#reference-barbeau-irreducibility-2010), Section 2, printed p. 47.) The classical statement over ℤ with the p-adic valuation.
 
-To prove this, by [Gauss's lemma for sloped valuations](#layer-3-topic-32) the least minimising index of f g for `v_r` is `i_0 + j_0`, the sum of the least minimising indices of f and g (the proof of that lemma exhibits the term `a_{i_0} b_{j_0}` as the unique term of least value in its coefficient, and no smaller index attains the minimum).
-
-Symmetrically (largest indices, same argument with the largest minimising indices) the largest minimising index of f g is the sum of the largest ones.
-
-Subtracting: the width `m_r(f g)` is `m_r(f) + m_r(g)`.
+To transport this, apply NewtonPolygons §3.2 and map both slope multisets by negation. Negation preserves multiset union, so the multiplicity at r in reflected coordinates is the multiplicity at −r before reflection.
 
 **Checks.**
 
@@ -6695,7 +6677,7 @@ Subtracting: the width `m_r(f g)` is `m_r(f) + m_r(g)`.
 - Barbeau's example (his orientation, slopes of the polygon with points `(i, α_i)`): g has slope −2 with width 2 and slope 1 with width 3, h has slope 0 with width 3 and slope 3 with width 1, and g·h has slope −2 (width 2), 0 (width 3), 1 (width 3), 3 (width 1); with the orientation fixed here negate the slopes. Barbeau's printed lists {−2,−2,1,1}, {0,3} and {−2,−2,0,1,1,3} count edges between marked lattice points, not widths, so they do not test `m_r`.
 - Over ℚ with `v_p` for a prime p, X²−p has one edge from (−2,0) to (0,1), with no interior ℤ²-lattice point, and is irreducible by [The Eisenstein–Dumas irreducibility criterion](#layer-3-topic-53). That criterion requires a nonzero constant coefficient and an integer-valued valuation. For comparison, X(X−1) has just the edge from (−2,0) to (−1,0), yet is reducible.
 
-*Needs:* [The Newton polygon, by slope multiplicities](#layer-3-topic-33); [Gauss's lemma for sloped valuations](#layer-3-topic-32); [The lower Newton polygon of a finite point family](#layer-3-topic-18).
+*Needs:* NewtonPolygons §3.2; [The Newton polygon, by slope multiplicities](#layer-3-topic-33); [Gauss's lemma for sloped valuations](#layer-3-topic-32); [The lower Newton polygon of a finite point family](#layer-3-topic-18).
 
 <a id="layer-3-topic-47"></a>
 
@@ -6850,13 +6832,13 @@ If `f = c ∏_{k} (X − c_k)` with c ≠ 0 and all `c_k ≠ 0` (a finite multis
 
 f splits over K itself (no extension of the valuation is used); the roots are nonzero.
 
+Supplied by NewtonPolygons §3.3 polynomial root multisets. The arithmetic statements below use its general theorem with the reflection of §3.18.
+
 (Kiran S. Kedlaya, [p-adic differential equations (18.787, MIT, fall 2007): Newton polygons](#reference-kedlaya-newtonpolygons-2007), Corollary 3, p. 2.) The target is Corollary 3 with nonzero roots (the source allows a zero root with slope +∞ separately).
 
 (Paul Garrett, [Newton polygons](#reference-garrett-newtonpolygons-2005), Theorem and proof, p. 1.) The same theorem proved through symmetric functions; its proof has slips of direction and index .
 
-To prove this, `m_r` is additive ([Dumas's theorem: Newton polygons multiply](#layer-3-topic-46)) and invariant under scaling `(NewtonSlopeMultiplicity.C_mul)`.
-
-Each linear factor contributes 1 exactly at `r = v(c_k) (NewtonSlopeMultiplicity.X_sub_C)`; induct on the multiset.
+To apply NewtonPolygons §3.3, use K itself as the splitting field and the given valuation as its extension. Its slope multiset consists of the negatives of nonzero root valuations. Reflection negates those slopes once more, giving the stated count with multiplicities.
 
 **Checks.**
 
@@ -6864,7 +6846,7 @@ Each linear factor contributes 1 exactly at `r = v(c_k) (NewtonSlopeMultiplicity
 - X² − 1 has the slope 0 twice.
 - Garrett's example X⁵ + 2X² + 4 with the 2-adic valuation: `m_{1/3} = 3` and `m_{1/2} = 2`, computed from the coefficients; over a field where it splits, three roots have valuation 1/3 and two have 1/2.
 
-*Needs:* [Dumas's theorem: Newton polygons multiply](#layer-3-topic-46); [The Newton polygon, by slope multiplicities](#layer-3-topic-33).
+*Needs:* NewtonPolygons §3.3; [Dumas's theorem: Newton polygons multiply](#layer-3-topic-46); [The Newton polygon, by slope multiplicities](#layer-3-topic-33).
 
 <a id="layer-3-topic-53"></a>
 
@@ -6874,15 +6856,13 @@ Let K be a field with a discrete valuation v : K → ℤ ∪ {∞} and `f = Σ_{
 
 Discrete (ℤ-valued) valuation; `a_0 a_n ≠ 0`; the coprimality and the lower-bound conditions (D1), (D2).
 
+Supplied by NewtonPolygons §6.1 denominator and irreducibility criteria. The arithmetic statements below use its general theorem with the reflection of §3.18.
+
 (Martin Juráš, [Eisenstein–Dumas criterion and the action of 2 × 2 nonsingular triangular matrices on polynomials in one variable](#reference-juras-eisensteindumas-2015), Theorem 1.1, p. 2.) The target is Theorem 1.1 for the value group ℤ, where (D1) is `gcd(v(a_0) − v(a_n), n) = 1`; the source cites Brown for the proof, and the proof steps derive it from Dumas's theorem.
 
 (Paul Garrett, [Newton polygons](#reference-garrett-newtonpolygons-2005), Corollary (Irreducibility criterion), p. 2.) The complete-field version, proved there through ramification indices.
 
-To prove this, view v as real-valued. By (D2) the only slope of f is `λ = (v(a_0) − v(a_n))/n`, with `m_λ(f) = n`.
-
-Suppose f = g h with deg g = k, 0 < k < n. By [Dumas's theorem: Newton polygons multiply](#layer-3-topic-46), g has the single slope λ with multiplicity k, so its extreme coefficients satisfy `v(g_0) − v(g_k) = k λ` (the edge from index 0 to k has slope λ).
-
-`v(g_0) − v(g_k)` is an integer, so n divides `k (v(a_0) − v(a_n))`; as `gcd(v(a_0) − v(a_n), n) = 1`, n | k, contradicting 0 < k < n.
+To apply NewtonPolygons §6.1, (D2) gives a single coefficient-coordinate slope `(v(a_n) − v(a_0))/n`, the negative of the reflected slope λ. The reduced denominator is n by (D1). The supplier's denominator criterion forces the degree of a nonconstant factor to be a positive multiple of n. This gives irreducibility, and `v(a_n) = 0`, `v(a_0) = 1` gives the Eisenstein specialization.
 
 **Checks.**
 
@@ -6890,7 +6870,7 @@ Suppose f = g h with deg g = k, 0 < k < n. By [Dumas's theorem: Newton polygons 
 - X⁴ − p²: the difference 2 is not coprime to 4 and indeed X⁴ − p² = (X² − p)(X² + p).
 - Eisenstein's criterion for `X^n − p` is the case of one segment from (0, 1) to (n, 0).
 
-*Needs:* [Dumas's theorem: Newton polygons multiply](#layer-3-topic-46); [The Newton polygon, by slope multiplicities](#layer-3-topic-33); Mathlib `AddValuation`.
+*Needs:* NewtonPolygons §6.1; [Dumas's theorem: Newton polygons multiply](#layer-3-topic-46); [The Newton polygon, by slope multiplicities](#layer-3-topic-33); Mathlib `AddValuation`.
 
 <a id="layer-3-topic-54"></a>
 
@@ -7677,12 +7657,12 @@ The supporting API comprises:
 
 - `markoffSet`: X(R) ⊆ R³ (as Fin 3 → R), the zero set of x₀² + x₁² + x₂² − 3x₀x₁x₂.
 - `markoffSetNonzero`: X*(R) = X(R) ∖ {0}.
-- `markoffSet.mem_iff`: x ∈ X(R) ↔ x₀² + x₁² + x₂² = 3x₀x₁x₂.
+- the Markoff membership criterion: x ∈ X(R) ↔ x₀² + x₁² + x₂² = 3x₀x₁x₂.
 - `markoffSetNonzero.mem_iff`: x ∈ X*(R) ↔ x ∈ X(R) ∧ x ≠ 0.
-- `markoffSet.zero_mem`: (0, 0, 0) ∈ X(R).
-- `markoffSet.ones_mem`: (1, 1, 1) ∈ X(R) for every commutative ring R.
-- `markoffSet.map_mem`: For a ring homomorphism f : R → S and x ∈ X(R), f ∘ x ∈ X(S); for f = id this is the identity and it is compatible with composition.
-- `markoffSet.comp_perm_mem_iff`: For σ ∈ Equiv.Perm (Fin 3): x ∘ σ⁻¹ ∈ X(R) ↔ x ∈ X(R).
+- membership of the zero triple: (0, 0, 0) ∈ X(R).
+- membership of the root triple: (1, 1, 1) ∈ X(R) for every commutative ring R.
+- scalar change of the Markoff locus: For a ring homomorphism f : R → S and x ∈ X(R), f ∘ x ∈ X(S); for f = id this is the identity and it is compatible with composition.
+- permutation invariance of the Markoff locus: For σ ∈ Equiv.Perm (Fin 3): x ∘ σ⁻¹ ∈ X(R) ↔ x ∈ X(R).
 
 (Daniel E. Martin, [A new proof of Chen's theorem for Markoff graphs](#reference-martin-markoff-2025), §1, equation (1.1), arXiv v1 p. 1 (published version p. 623).) The coefficient-three equation defining X(R); the source works over ℤ and `𝔽_p` and says any ring works.
 
@@ -8043,8 +8023,8 @@ D a finite set of positive integers; r ∈ ℚ.
 The supporting API comprises:
 
 - `IsEgyptianExpansion`: IsEgyptianExpansion `r D ↔ 0 ∉ D ∧ Σ_{d∈D} (1 : ℚ)/d = r`.
-- `isEgyptianExpansion_empty_iff`: IsEgyptianExpansion r ∅ ↔ r = 0.
-- `isEgyptianExpansion_singleton`: For n ≠ 0, IsEgyptianExpansion (1/n) {n}.
+- the empty Egyptian expansion criterion: IsEgyptianExpansion r ∅ ↔ r = 0.
+- the singleton Egyptian expansion criterion: For n ≠ 0, IsEgyptianExpansion (1/n) {n}.
 - `IsEgyptianExpansion.union`: Expansions of r and s with disjoint denominator sets combine to an expansion of r + s.
 - `IsEgyptianExpansion.split`: If n > 1, n ∈ D, n + 1 ∉ D and n(n + 1) ∉ D, then replacing n by n + 1 and n(n + 1) gives another expansion of the same r.
 - `IsEgyptianExpansion.pos`: If D is nonempty then r > 0.
@@ -8299,11 +8279,11 @@ R commutative; the moves are defined on all of R³, not only on X(R). Indices ar
 The supporting API comprises:
 
 - `markoffVieta`: `R_i` : R³ → R³.
-- `markoffVieta_apply_self`: `(R_i x)_i = 3 x_{i+1} x_{i+2} − x_i`.
-- `markoffVieta_apply_of_ne`: `(R_i x)_j = x_j` for j ≠ i.
-- `markoffVieta_add_self`: `(R_i x)_i + x_i = 3 x_{i+1} x_{i+2}`.
-- `markoffVieta_zero`: `R_i 0 = 0`.
-- `markoffVieta_map`: For a ring homomorphism f : R → S, `f ∘ (R_i x) = R_i (f ∘ x)`.
+- the changed Vieta coordinate: `(R_i x)_i = 3 x_{i+1} x_{i+2} − x_i`.
+- the unchanged Vieta coordinates: `(R_i x)_j = x_j` for j ≠ i.
+- the Vieta coordinate-sum identity: `(R_i x)_i + x_i = 3 x_{i+1} x_{i+2}`.
+- the Vieta move at the zero triple: `R_i 0 = 0`.
+- scalar change of Vieta moves: For a ring homomorphism f : R → S, `f ∘ (R_i x) = R_i (f ∘ x)`.
 - `markoffGraph`: The simple graph on M with x ~ y iff x ≠ y and `y = R_i x` for some i.
 - `markoffGraph_adj_iff`: x ~ y in the Markoff graph ↔ x ≠ y ∧ ∃ i, `R_i x = y`.
 
@@ -8729,13 +8709,13 @@ n ≥ 1; the results of Gamburd–Magee–Ronan take n ≥ 3, a ≥ 1 and k ∈ 
 The supporting API comprises:
 
 - `markoffHurwitzSet`: `V_{n,a,k}(R)` as a subset of Fin n → R.
-- `markoffHurwitzSet.mem_iff`: `x ∈ V_{n,a,k}(R) ↔ Σ_i x_i² = a·∏_i x_i + k`.
-- `markoffHurwitzSet.map_mem`: For a ring homomorphism f : R → S and `x ∈ V_{n,a,k}(R)`, `f ∘ x ∈ V_{n,f a,f k}(S)`.
-- `markoffHurwitzSet.comp_perm_mem_iff`: For σ ∈ Equiv.Perm (Fin n): `x ∘ σ ∈ V_{n,a,k}(R) ↔ x ∈ V_{n,a,k}(R)`.
-- `markoffHurwitzSet.signChange_mem_iff`: For ε : Fin n → ℤˣ with `∏ ε_i = 1`: `(i ↦ ε_i·x_i) ∈ V_{n,a,k}(R) ↔ x ∈ V_{n,a,k}(R)`.
+- the Hurwitz membership criterion: `x ∈ V_{n,a,k}(R) ↔ Σ_i x_i² = a·∏_i x_i + k`.
+- scalar change of the Hurwitz locus: For a ring homomorphism f : R → S and `x ∈ V_{n,a,k}(R)`, `f ∘ x ∈ V_{n,f a,f k}(S)`.
+- permutation invariance of the Hurwitz locus: For σ ∈ Equiv.Perm (Fin n): `x ∘ σ ∈ V_{n,a,k}(R) ↔ x ∈ V_{n,a,k}(R)`.
+- the Hurwitz sign-change criterion: For ε : Fin n → ℤˣ with `∏ ε_i = 1`: `(i ↦ ε_i·x_i) ∈ V_{n,a,k}(R) ↔ x ∈ V_{n,a,k}(R)`.
 - `markoffHurwitzPositive`: `V_{n,a,k}(ℤ₊) = {x ∈ V_{n,a,k}(ℤ) : ∀ i, 0 < x i}`.
-- `markoffHurwitzSet_three_three_zero`: `V_{3,3,0}(R) = markoffSet R` ([The Markoff surface X(R) and its nonzero locus X*(R)](#layer-4-topic-3)).
-- `markoffHurwitzSet_three_one`: `V_{3,1,k}(R) = markoffLevelSet R k` ([The Markoff level surfaces `V_k` and Chen's trace-coordinate surface X](#layer-4-topic-58)).
+- the Markoff specialization of the Hurwitz locus: `V_{3,3,0}(R) = markoffSet R` ([The Markoff surface X(R) and its nonzero locus X*(R)](#layer-4-topic-3)).
+- the coefficient-one Hurwitz locus: `V_{3,1,k}(R) = markoffLevelSet R k` ([The Markoff level surfaces `V_k` and Chen's trace-coordinate surface X](#layer-4-topic-58)).
 
 (Alex Gamburd, Michael Magee and Ryan Ronan, [An asymptotic formula for integer points on Markoff–Hurwitz varieties](#reference-gamburd-magee-ronan-2018-v3), §1, equation (1.1), p. 2 (arXiv v3); Annals 190 (2019), p. 752.) The generalised Markoff–Hurwitz equation in n variables with parameters a and k, and its integer solutions (Markoff–Hurwitz tuples).
 
@@ -8833,7 +8813,7 @@ A purely formal alternative avoiding analysis is Pak's bijective proof of (b) (a
 - Coefficients of x⁰, …, x⁴ in (a): 1, a + a⁻¹, 0, 0, a² + a⁻² (computation of the finite product with n ≤ 3).
 - Consistency with Mathlib's pentagonal number theorem `(PowerSeries.WithPiTopology.hasProd_one_sub_X_pow)`: in (b) the substitution t = x³, s = −x⁻¹ is legitimate coefficientwise (`s^k t^{k(k+1)/2}` becomes `±x^{k(3k+1)/2}`, a nonnegative exponent) and turns the product into `∏(1 − x^{3i})(1 − x^{3i−1})(1 − x^{3i−2}) = ∏(1 − xⁿ)` and the sum into `Σ(−1)^k x^{k(3k+1)/2}`.
 
-*Needs:* [TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic, §4.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#43-oppenheim-and-duke); [Coefficientwise identities of infinite products specialise along ring homomorphisms](#layer-4-topic-20); Mathlib `LaurentPolynomial`; Mathlib `LaurentPolynomial.isUnit_T`; Mathlib `HasFPowerSeriesAt.eq_formalMultilinearSeries`; Mathlib `Polynomial.eq_zero_of_infinite_isRoot`; Mathlib `PowerSeries.WithPiTopology.multipliable_one_add_of_tendsto_order_atTop_nhds_top`; Mathlib `PowerSeries.WithPiTopology.summable_of_tendsto_order_atTop_nhds_top`.
+*Needs:* TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic, §4.3; [Coefficientwise identities of infinite products specialise along ring homomorphisms](#layer-4-topic-20); Mathlib `LaurentPolynomial`; Mathlib `LaurentPolynomial.isUnit_T`; Mathlib `HasFPowerSeriesAt.eq_formalMultilinearSeries`; Mathlib `Polynomial.eq_zero_of_infinite_isRoot`; Mathlib `PowerSeries.WithPiTopology.multipliable_one_add_of_tendsto_order_atTop_nhds_top`; Mathlib `PowerSeries.WithPiTopology.summable_of_tendsto_order_atTop_nhds_top`.
 
 <a id="layer-4-topic-41"></a>
 
@@ -9223,16 +9203,16 @@ R commutative, a ∈ R; the moves are defined on all of Rⁿ. `Γ_{n,a}(R)` is t
 The supporting API comprises:
 
 - `markoffHurwitzMove`: `m_j` : (Fin n → R) → (Fin n → R) for a ∈ R and j ∈ Fin n.
-- `markoffHurwitzMove_apply_self`: `(m_j x)_j = a·∏_{i≠j} x_i − x_j`.
-- `markoffHurwitzMove_apply_of_ne`: `(m_j x)_i = x_i` for i ≠ j.
-- `markoffHurwitzMove_involutive`: `m_j (m_j x) = x`.
-- `markoffHurwitzMove_mem`: `x ∈ V_{n,a,k}(R) → m_j x ∈ V_{n,a,k}(R)`.
-- `markoffHurwitzMove_map`: `f ∘ m_j x = m_j (f ∘ x)` for a ring homomorphism f, with parameter f a.
+- the changed Hurwitz coordinate: `(m_j x)_j = a·∏_{i≠j} x_i − x_j`.
+- the unchanged Hurwitz coordinates: `(m_j x)_i = x_i` for i ≠ j.
+- involutivity of a Hurwitz move: `m_j (m_j x) = x`.
+- preservation of the Hurwitz equation: `x ∈ V_{n,a,k}(R) → m_j x ∈ V_{n,a,k}(R)`.
+- scalar change of Hurwitz moves: `f ∘ m_j x = m_j (f ∘ x)` for a ring homomorphism f, with parameter f a.
 - `markoffHurwitzGroup`: `Γ_{n,a}(R)` : Subgroup (Equiv.Perm (Fin n → R)), the closure of the moves, permutations and even sign changes.
 - `markoffHurwitzNarrowGroup`: The subgroup generated by the permutations and even sign changes.
 - `markoffHurwitzGroup.apply_mem`: `g ∈ Γ_{n,a}(R)` and `x ∈ V_{n,a,k}(R)` imply `g x ∈ V_{n,a,k}(R)`.
-- `markoffHurwitzMove_three_one`: For n = 3, a = 1: `m_j x = Function.update x j (x_{j+1} x_{j+2} − x_j)`, the Vieta involution of Ghosh–Sarnak.
-- `markoffHurwitzMove_three_three`: For n = 3, a = 3: `m_j = markoffVieta j` ([The Vieta moves R₀, R₁, R₂ and the integer Markoff graph](#layer-4-topic-23)).
+- the coefficient-one Hurwitz move: For n = 3, a = 1: `m_j x = Function.update x j (x_{j+1} x_{j+2} − x_j)`, the Vieta involution of Ghosh–Sarnak.
+- the coefficient-three Hurwitz move: For n = 3, a = 3: `m_j = markoffVieta j` ([The Vieta moves R₀, R₁, R₂ and the integer Markoff graph](#layer-4-topic-23)).
 
 (Alex Gamburd, Michael Magee and Ryan Ronan, [An asymptotic formula for integer points on Markoff–Hurwitz varieties](#reference-gamburd-magee-ronan-2018-v3), §1, p. 4 (arXiv v3); Annals, p. 755.) The move `m_j` replaces `x_j` by the other root `a∏_{i≠j}x_i − x_j` of (1.1) viewed as a quadratic in `x_j`, and yields a new solution.
 
@@ -9338,9 +9318,9 @@ This is the elementary form of the Hasse–Minkowski argument the source cites (
 
 ### 4.60 Jacobi's identity `∏(1 − xⁿ)³ = Σ (−1)ⁿ(2n + 1)x^{n(n+1)/2}`
 
-In R⟦x⟧ for every commutative ring R (any topology, pi topology on R⟦x⟧): `∏_{n≥1}(1 − xⁿ)³ = Σ_{n≥0} (−1)ⁿ(2n + 1) x^{n(n+1)/2}`, the product multipliable and the sum summable; equivalently `(1/2)Σ_{n∈ℤ}(−1)ⁿ(2n + 1)x^{n(n+1)/2}` over ℤ, where the terms n and −n − 1 coincide.
+For every commutative ring R, stabilized coefficients define a formal product P and a formal sum S with `P = S`, expressed as `∏_{n≥1}(1 − xⁿ)³ = Σ_{n≥0} (−1)ⁿ(2n + 1) x^{n(n+1)/2}`. With any topology on R and the pi topology on R⟦x⟧, the factors have HasProd P and the summands have HasSum S. If R is Hausdorff, the displayed equality also holds for Mathlib's chosen tprod and tsum. The bilateral form is `2P = Σ_{n∈ℤ}(−1)ⁿ(2n + 1)x^{n(n+1)/2}`, since terms n and −n − 1 coincide; division by 2 requires 2 invertible.
 
-R commutative; the identity has integer coefficients and is the image of the case R = ℤ.
+R commutative; the coefficient identity is the image of the case R = ℤ. No topology is needed for stabilized coefficients; HasProd and HasSum hold for any topology, and tprod/tsum equalities require `[T2Space R]`.
 
 (Igor Pak, [Partition bijections, a survey](#reference-pak-partition-bijections-2002), §6.1.4, p. 35.) The identity `∏(1 − tⁱ)³ = Σ_{n≥0}(−1)ⁿ(2n + 1)t^{n(n+1)/2}`, posed as a consequence of the triple product.
 
@@ -9358,6 +9338,7 @@ Specialise w ↦ 1 ([Coefficientwise identities of infinite products specialise 
 
 - Coefficients up to x⁶: 1, −3, 0, 5, 0, 0, −7.
 - This is identity (2) of Hirschhorn's proof of Jacobi's four-square theorem.
+- For R = ℤ with the indiscrete topology, both families have infinite support; every net converges to every point. P and S still have the common stabilized coefficients, but pinned Mathlib chooses tprod = 1 and tsum = 0. The Hausdorff hypothesis excludes this failure of equality.
 
 *Needs:* [Jacobi's triple product identity in formal power series](#layer-4-topic-40); [Coefficientwise identities of infinite products specialise along ring homomorphisms](#layer-4-topic-20).
 
@@ -9365,9 +9346,9 @@ Specialise w ↦ 1 ([Coefficientwise identities of infinite products specialise 
 
 ### 4.61 The theta-product specialisations of the triple product
 
-In R⟦x⟧ for every commutative ring R (any topology, pi topology): `(ii) ∏_{n≥1}(1 + x^{2n−1})²(1 − x^{2n}) = Σ_{n∈ℤ} x^{n²}`; `(iii) 2·∏_{n≥1}(1 + x^{2n})²(1 − x^{2n}) = Σ_{r∈ℤ} x^{r²+r}`, equivalently `∏_{n≥1}(1 + x^{2n})²(1 − x^{2n}) = Σ_{r≥0} x^{r(r+1)}` (the form valid over every ring, since the terms r and −r − 1 coincide); `(iv) (x; x)_∞ = (−x; x)_∞ · Σ_{n∈ℤ}(−1)ⁿ x^{n²}`, i.e. `∏(1 − xⁿ)/(1 + xⁿ) = Σ(−1)ⁿx^{n²}`, where `(−x; x)_∞ = ∏(1 + xⁿ)` is a unit; and Euler's identity `(−x; x)_∞ · ∏_{n≥1}(1 − x^{2n−1}) = 1`.
+In R⟦x⟧ for every commutative ring R, using products and sums defined by stabilized coefficients: `(ii) ∏_{n≥1}(1 + x^{2n−1})²(1 − x^{2n}) = Σ_{n∈ℤ} x^{n²}`; `(iii) 2·∏_{n≥1}(1 + x^{2n})²(1 − x^{2n}) = Σ_{r∈ℤ} x^{r²+r}`, equivalently `∏_{n≥1}(1 + x^{2n})²(1 − x^{2n}) = Σ_{r≥0} x^{r(r+1)}` (the form valid over every ring, since the terms r and −r − 1 coincide); `(iv) (x; x)_∞ = (−x; x)_∞ · Σ_{n∈ℤ}(−1)ⁿ x^{n²}`, i.e. `∏(1 − xⁿ)/(1 + xⁿ) = Σ(−1)ⁿx^{n²}`, where `(−x; x)_∞ = ∏(1 + xⁿ)` is a unit; and Euler's identity `(−x; x)_∞ · ∏_{n≥1}(1 − x^{2n−1}) = 1`.
 
-R commutative; each identity is the image of the case R = ℤ, and the products and sums are multipliable and summable.
+R commutative; each identity is the image of the case R = ℤ. For any topology on R, with the pi topology on R⟦x⟧, each product family has HasProd equal to its stabilized product and each sum family has HasSum equal to its stabilized sum. For `[T2Space R]` these are the chosen tprod and tsum, and the displayed identities are equalities of those chosen values. The inverse in (iv) is the inverse of the stabilized unit product; its tprod description also carries the Hausdorff hypothesis.
 
 (M. D. Hirschhorn, [A simple proof of Jacobi's four-square theorem](#reference-hirschhorn-four-squares-1987), §2, pp. 2–3 of the author's version.) The two theta products `Σx^{s²} = ∏(1 + x^{2n−1})²(1 − x^{2n})` and `Σx^{r²+r} = 2∏(1 + x^{2n})²(1 − x^{2n})`, and the identity `∏((1 − xⁿ)/(1 + xⁿ)) = Σ(−1)ⁿx^{n²}`, each taken from the triple product to express the fourth power of the theta series.
 
@@ -9385,6 +9366,7 @@ Euler: `∏(1 + xⁿ)(1 − xⁿ) = ∏(1 − x^{2n})` and `∏(1 − xⁿ) = �
 
 - (ii) coefficients up to x⁹: 1, 2, 0, 0, 2, 0, 0, 0, 0, 2; (iv) up to x⁴: 1, −2, 0, 0, 2.
 - (iii) needs the factor 2: the constant coefficient of the sum is 2 (r = 0 and r = −1).
+- For (ii) over indiscrete ℤ, the product and bilateral sum have infinite support. Pinned Mathlib chooses tprod = 1 and tsum = 0, although the stabilized coefficient identity and both HasProd/HasSum assertions hold.
 
 *Needs:* [Jacobi's triple product identity in formal power series](#layer-4-topic-40); [Coefficientwise identities of infinite products specialise along ring homomorphisms](#layer-4-topic-20).
 
@@ -10979,7 +10961,7 @@ The tuple (1,1,1) satisfies the coefficient-three equation, while (2,3,5) lies o
 
 Earlier internal inputs are Layer 3. The declarations and supplier layers used by this layer are:
 
-- [TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic, §4.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GeometryOfNumbersAndQuadraticArithmetic/README.md#43-oppenheim-and-duke).
+- TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic, §4.3.
 - Mathlib `AddChar.sum_mulShift`.
 - Mathlib `ArithmeticFunction.IsMultiplicative`.
 - Mathlib `ArithmeticFunction.IsMultiplicative.eq_iff_eq_on_prime_powers`.
@@ -11123,7 +11105,7 @@ Earlier internal inputs are Layer 3. The declarations and supplier layers used b
 
 ## Layer 5: number-field presentations and comparisons
 
-Turn ideal bases, relation matrices and regulator bounds into intrinsic arithmetic comparisons. Compare quadratic Pell equations with units, narrow classes and the Galois action on the full unit group.
+Turn ideal bases, relation matrices and regulator bounds into intrinsic arithmetic comparisons. Certify generation of the class group by small primes, unconditionally or under the generalized Riemann hypothesis, and certify p-saturation of unit groups and relation lattices by residue characters. Compare quadratic Pell equations with units, narrow classes and the Galois action on the full unit group.
 
 <a id="layer-5-topic-1"></a>
 
@@ -11151,13 +11133,113 @@ So the multiplicities of I vanish at every prime outside `T = {P : N(P) ≤ M_K}
 
 *Needs:* Mathlib `NumberField.exists_ideal_in_class_of_norm_le`; Mathlib `Ideal.absNorm_dvd_absNorm_of_le`; Mathlib `Ideal.absNorm`; Mathlib `ClassGroup.mk0`; Tau Ceti `ClassGroup.mk0_mem_closure_of_count_eq`; Tau Ceti `IsDedekindDomain.HeightOneSpectrum.classGroupMk`; Mathlib `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime`.
 
+<a id="layer-5-topic-1a"></a>
+
+### 5.1a Factor-base bounds for the class group
+
+For a number field K and a real number T, IsFactorBaseBound K T states that the classes `ClassGroup.mk0 P` of the nonzero prime ideals P of `𝓞_K` with `N(P) ≤ T` generate Cl(K) (Mathlib `Subgroup.closure`). The predicate is monotone in T; [The class group is generated by the primes of norm at most the Minkowski bound](#layer-5-topic-1) is the instance IsFactorBaseBound K `M_K`; for T < 2 it holds exactly when `h_K = 1`; and a bound T may be lowered to `T_0` once the class of every prime of norm at most T lies in the subgroup generated by the primes of norm at most `T_0` (only the primes of norm in `(T_0, T]` need checking).
+
+T is real and `N(P) = Ideal.absNorm P` is compared in ℝ; the primes range over the members of `(Ideal 𝓞_K)⁰`, so the zero ideal is excluded. The primes of norm at most T form a finite family (Mathlib `Ideal.finite_setOfPred_absNorm_le`). The comparison with a presentation map is stated in §5.2 after that map is constructed.
+
+The supporting API comprises:
+
+- `IsFactorBaseBound`: the predicate above.
+- Monotonicity: IsFactorBaseBound K T and T ≤ T′ give IsFactorBaseBound K T′.
+- `isFactorBaseBound_minkowski`: IsFactorBaseBound K `M_K`, with `M_K` written out as in §5.1.
+- Below the least prime norm: for T < 2, IsFactorBaseBound K T holds if and only if `h_K = 1`.
+- Lowering a bound: if IsFactorBaseBound K T and the class of every prime of norm at most T lies in the subgroup generated by the primes of norm at most `T_0`, then IsFactorBaseBound K `T_0`.
+
+(Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#reference-belabas-diazydiaz-friedman-2008), Section 1, printed pp. 1185–1186.) The source's factor base B(T) consists of the primes of norm below T, `T_min(K)` is the least T for which B(T) generates the class group, and its last step proves that the primes of B(T) outside `B(T_0)` lie in the subgroup generated by `B(T_0)`; the predicate uses the non-strict bound of §5.1.
+
+To prove this, monotonicity is Mathlib `Subgroup.closure_mono` applied to the inclusion of generating sets. The Minkowski instance is §5.1 read through the definition.
+
+Every nonzero prime has `N(P) ≥ 2`, since `𝓞_K/P` is a field. For T < 2 the generating set is therefore empty and the subgroup is ⊥, which is ⊤ exactly when Cl(K) is trivial, that is `h_K = 1` (Mathlib `NumberField.classNumber`).
+
+For the reduction, the hypothesis places every generator for T in the subgroup for `T_0` (Mathlib `Subgroup.closure_le`), so that subgroup is the whole group.
+
+**Checks.**
+
+- IsFactorBaseBound ℚ T holds for every real T, including T < 2, because `h_ℚ = 1`.
+- K = ℚ(√−14): IsFactorBaseBound K 3 holds, since the class of `p_3` has order `4 = h_K` (§5.18). IsFactorBaseBound K 2 fails: the only prime of norm at most 2 is `p_2`, with `p_2² = (2)`, and its class generates a subgroup of order 2.
+- For the same field and T = 3/2 the generating set is empty, and IsFactorBaseBound K (3/2) fails because `h_K = 4 ≠ 1`.
+
+*Needs:* [The class group is generated by the primes of norm at most the Minkowski bound](#layer-5-topic-1); Mathlib `Subgroup.closure`; Mathlib `Subgroup.closure_mono`; Mathlib `Subgroup.closure_le`; Mathlib `ClassGroup.mk0`; Mathlib `Ideal.absNorm`; Mathlib `Ideal.finite_setOfPred_absNorm_le`; Mathlib `NumberField.classNumber`.
+
+<a id="layer-5-topic-1b"></a>
+
+### 5.1b Bach's factor-base bound under the generalized Riemann hypothesis
+
+Let K be a number field with `Δ_K = |d_K|`, and assume GRH(K): the continued Dedekind zeta function `ζ_K` and the continued L-function L(s, χ) of every nontrivial character χ of Cl(K) have no zero with Re s > 1/2. Then every nontrivial character χ of Cl(K) satisfies χ([P]) ≠ 1 for some nonzero prime P with `N(P) ≤ 12 (log Δ_K)²`, and consequently IsFactorBaseBound K `12 (log Δ_K)²`.
+
+GRH(K) is a stated premise: DedekindERH K together with HeckeGRH χ for every nontrivial character χ of Cl(K), in the terms of AnalyticNumberTheoryPartI §2.42. It has no Lean carrier at the pins. Mathlib `NumberField.dedekindZeta` is the Dirichlet series, meaningful only for Re s > 1; Tau Ceti `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub` continues `ζ_K` only to `Re s > 1 − 1/[K:ℚ]`; and the L-functions of class-group characters have no carrier. This is therefore a README target without a Lean signature. For K = ℚ the bound is 0 and IsFactorBaseBound ℚ 0 holds without the premise (§5.1a).
+
+The supporting API comprises:
+
+- `exists_prime_apply_ne_one_of_grh`: under GRH(K), each nontrivial character χ : Cl(K) → ℂ× has χ([P]) ≠ 1 for some nonzero prime P with `N(P) ≤ 12 (log Δ_K)²`.
+- `isFactorBaseBound_of_grh`: under GRH(K), IsFactorBaseBound K `12 (log Δ_K)²`.
+
+(Eric Bach, [Explicit bounds for primality testing and related problems](#reference-bach-explicit-bounds-1990), Section 7, Theorem 4, printed p. 375, and the class-group consequence after its proof, printed p. 376; the Extended Riemann Hypothesis is stated in Section 3, printed p. 360.) The first clause of Theorem 4 bounds the least prime P with χ(P) ≠ 1 by `N(P) ≤ 3 (log(Δ_K² N𝔣))²` for a nonprincipal character of conductor 𝔣; a class-group character has 𝔣 = 1, which gives `12 (log Δ_K)²`. The source assumes the hypothesis for all Hecke L-functions; the argument uses it for `ζ_K` and L(s, χ) only.
+
+(Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#reference-belabas-diazydiaz-friedman-2008), Section 1, printed p. 1186.) The source names the two zero sums of Bach's argument, over the zeros of L(s, χ) and over those of `ζ_K`; these are the two parts of GRH(K).
+
+To prove this, the character form implies generation. If the subgroup H generated by the primes of norm at most `12 (log Δ_K)²` were proper, Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff` would give a character of the finite group Cl(K) that is trivial on H and nontrivial.
+
+For the character form, suppose χ ≠ 1 and χ([P]) = 1 whenever `N(P) ≤ T`. Apply Weil's explicit formula (AnalyticNumberTheoryPartI §1.8) to the completed L-functions of χ and of the trivial character, with Bach's weight supported in [0, log T]. The prime sides of the two formulas agree, so their difference equates the pole term of `ζ_K` at 1, which grows like √T, with the two zero sums.
+
+Under GRH(K) every zero in the strip has real part 1/2, and Stark's formula bounds the zero sums by multiples of `log Δ_K`. Bach's constants (his Lemmas 7.1 and 7.2 with a = 1) give a contradiction for `T = 12 (log Δ_K)²`. The completed functions and their functional equations are those of AnalyticNumberTheoryPartI §2.12 for χ and §2.5 for `ζ_K`.
+
+**Checks.**
+
+- K = ℚ(√−14): `12 (log 56)² ≈ 194.4`, far above `M_K ≈ 4.76`; both are factor-base bounds, and by monotonicity only the smaller is used.
+- For imaginary quadratic fields, `12 (log Δ)²` is below `M_K = (2/π)√Δ` exactly when Δ exceeds about `3.16 · 10⁷`; at `Δ = 10⁸` the two bounds are about 4072 and 6366.
+- GRH(K) does not reduce to DedekindERH K: the argument controls the zeros of L(s, χ) with χ ≠ 1, which are zeros of the Dedekind zeta function of the Hilbert class field and need not be zeros of `ζ_K`.
+
+*Needs:* [Factor-base bounds for the class group](#layer-5-topic-1a); TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.5 Dedekind continuation; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions; Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`; Mathlib `NumberField.discr`.
+
+<a id="layer-5-topic-1c"></a>
+
+### 5.1c The Belabas–Diaz y Diaz–Friedman factor-base criterion
+
+Let K have degree n, `r_1` real places and `Δ_K = |d_K|`, and assume that L(s, χ) has no zero with Re s > 1/2 for every nontrivial character χ of Cl(K). If T > 1 satisfies
+
+`Σ log N(P) · N(P)^(−m/2) · (1 − log N(P)^m / log T) > (1/2) log Δ_K − 1.9 n − 0.785 r_1 + (2.468 n + 1.832 r_1) / log T`,
+
+the sum running over the nonzero primes P and integers m ≥ 1 with `N(P)^m < T`, then the classes of the primes of norm less than T generate Cl(K); in particular IsFactorBaseBound K T.
+
+The premise is HeckeGRH χ (AnalyticNumberTheoryPartI §2.42) for the nontrivial class-group characters only. DedekindERH K is not assumed: the criterion uses the zero sum of `ζ_K` through its exact value in the explicit formula instead of bounding it. As in §5.1b the premise has no carrier at the pins, so this is a README target. The left side tends to +∞ with T, so for every K some T satisfies the inequality.
+
+The supporting API comprises:
+
+- `isFactorBaseBound_of_weil_inequality`: assume T > 1, the stated HeckeGRH premises, and a continuous F : [0,∞) → ℝ with F ≥ 0, F(0) = 1 and support in [0, log T]. Require that the even extension `F_even(x) = F(|x|)` satisfies the admissible Weil test-function predicate of AnalyticNumberTheoryPartI §1.3 with c = 0, and that `2∫₀^∞ F(x) cos(tx) dx ≥ 0` for every real t. Put `I(F) = ∫₀^∞ (1 − F(x))/(2 sinh(x/2)) dx` and `J(F) = ∫₀^∞ F(x)/(2 cosh(x/2)) dx`. Then
+  `2 Σ_(P,m≥1) log N(P) · N(P)^(−m/2) F(m log N(P)) > log Δ_K − n(γ + log(8π)) + n I(F) − r_1 J(F)`
+  implies generation by primes of norm less than T, hence IsFactorBaseBound K T; γ is Euler's constant. The two archimedean integrals are convergent integrals. In I(F) the numerator is combined before integration; its two subtraction terms are not integrated separately.
+- `isFactorBaseBound_of_sum_gt`: the displayed numerical criterion, obtained from the admissible triangle `F(x) = max(1 − x/log T, 0)`.
+
+(Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman, [Small generators of the ideal class group](#reference-belabas-diazydiaz-friedman-2008), Theorem 1.1 with inequality (2), printed pp. 1186–1187, Theorem 2.1, printed pp. 1188–1189, and Corollary 2.2, printed p. 1190.) Theorem 2.1 is the weighted form, Corollary 2.2 its specialisation to F(x) = 1 − x/log T, and Theorem 1.1 the numerical form of the archimedean terms.
+
+To prove this, suppose the primes of norm less than T generate a proper subgroup; as in §5.1b some nontrivial character κ of Cl(K) is trivial on all of them. Subtract Weil's explicit formula (AnalyticNumberTheoryPartI §1.8) for L(s, κ) from the one for `ζ_K`, with the weight F. The prime sums cancel, since κ(P) = 1 for N(P) < T and F vanishes beyond log T, and the archimedean terms cancel because κ is unramified.
+
+What remains equates the zero sum of `ζ_K` minus that of L(s, κ) with the pole term of `ζ_K`. Under the premise each zero of L(s, κ) contributes a value of the cosine transform of F, which is nonnegative, so that sum can be dropped. Substituting the zero sum of `ζ_K` from its own explicit formula gives the negation of the weighted inequality above. Admissibility bounds `|F(x) − 1|` by a constant times x near zero, so I(F) converges there; compact support gives convergence at infinity, and J(F) converges absolutely.
+
+For `L = log T > 0`, the even triangle is continuous and piecewise affine with compact support. Its difference quotient is constant on each side of zero near zero and is `−1/x` outside [−L,L], hence has bounded variation, including its finite jump at zero. Multiplication by the exponential weight preserves integrability and bounded variation on this compact support. Its cosine transform is `2(1 − cos(tL))/(L t²)` for t ≠ 0, with value L at t = 0, so it is nonnegative. Bounds on I(F) and J(F) give the numerical criterion.
+
+**Checks.**
+
+- K = ℚ(ζ_11) (n = 10, `r_1 = 0`, `Δ_K = 11⁹`): the inequality first holds at T ≈ 19.25, so the source's T(K) is 19, against Bach's `12 (9 log 11)² ≈ 5589` and Minkowski's `M_K ≈ 59.0`.
+- K = ℚ(√−14) (n = 2, `r_1 = 0`, `Δ_K = 56`): the inequality first holds at T ≈ 5.903, so under the premise the primes of norm at most 5 generate Cl(K); Bach's bound is about 194.4.
+- Regularity is essential: for T = e, `a_j = exp(−2^j)` and `F(x) = Σ_{j≥1} 2^(−j) max(1 − x/a_j, 0)` on x ≥ 0, uniform convergence gives continuity, F(0) = 1, nonnegativity and compact support; each triangle has nonnegative cosine transform. But `∫₀¹ (1 − F(x))/x dx = Σ_{j≥1} 2^(−j)(1 + 2^j) = ∞`, so I(F) diverges and the even extension is not admissible.
+- For the single triangle, the difference quotient has finite one-sided values ±1/log T at zero; admissibility does not require differentiability there.
+- The criterion is sufficient, not necessary: for ℚ(√−14) and T = 3 the left side is about 0.18 and the right side about 2.71, although IsFactorBaseBound K 3 holds (§5.1a); for a field with `h_K = 1` the premise is empty and the conclusion holds for every T, yet ℚ(ζ_11), of class number one, needs T > 19.25 to pass.
+
+*Needs:* [Factor-base bounds for the class group](#layer-5-topic-1a); [Bach's factor-base bound under the generalized Riemann hypothesis](#layer-5-topic-1b); TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.3 admissible Weil test functions; TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions; Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`.
+
 <a id="layer-5-topic-2"></a>
 
 ### 5.2 The class-group presentation by a family of ideals and its relation lattice
 
 Let `I_1`, …, `I_N` be nonzero ideals of `𝓞_K`. The presentation map is `φ_I` : `ℤ^N → Cl(K)`, `e ↦ ∏ [I_i]^{e_i}` (a group homomorphism from the additive group `ℤ^N`, written multiplicatively), and the relation lattice is `Λ_I = ker φ_I ⊆ ℤ^N`: for e ≥ 0, `e ∈ Λ_I` exactly when the ideal `∏ I_i^{e_i}` is principal. If the classes `[I_i]` generate Cl(K), `φ_I` induces `Cl(K) ≅ ℤ^N / Λ_I` and `Λ_I` has index `h_K`.
 
-The `I_i` are nonzero ideals (nonzero divisors of the ideal monoid); N ≥ 0. Relations are recorded as column vectors (the lattice convention of Layer 3).
+The `I_i` are nonzero ideals (nonzero divisors of the ideal monoid); N ≥ 0. Relations are recorded as column vectors (the lattice convention of Layer 3). For the finite family of all nonzero prime ideals of norm at most T, the surjectivity assertion is equivalent to IsFactorBaseBound K T of §5.1a: both state that those ideal classes generate Cl(K).
 
 The supporting API comprises:
 
@@ -11192,7 +11274,7 @@ If surjective, the first isomorphism theorem (Mathlib QuotientGroup.quotientKerE
 - In a field with `h_K = 1` every vector is a relation.
 - For K = ℚ(√−14) and `I = (p_2, p_3)`, Λ contains (2, 0) and (1, 2).
 
-*Needs:* Mathlib `ClassGroup`; Mathlib `ClassGroup.mk0`; Mathlib `NumberField.classNumber`; Mathlib `QuotientGroup.quotientKerEquivOfSurjective`; Mathlib `Submodule.IsPrincipal`.
+*Needs:* [Factor-base bounds for the class group](#layer-5-topic-1a); Mathlib `ClassGroup`; Mathlib `ClassGroup.mk0`; Mathlib `NumberField.classNumber`; Mathlib `QuotientGroup.quotientKerEquivOfSurjective`; Mathlib `Submodule.IsPrincipal`.
 
 <a id="layer-5-topic-3"></a>
 
@@ -11215,6 +11297,38 @@ Write `R(u)=j R_K` with j a positive integer. From `L≤R_K` and R(u)<2L obtain 
 - Rank 0 (imaginary quadratic): the empty family has `R = 1 = R_K`, and any L ∈ (1/2, 1] establishes that `μ_K` is the whole unit group.
 
 *Needs:* Mathlib `NumberField.Units.regOfFamily_div_regulator`; Mathlib `NumberField.Units.IsMaxRank`; Mathlib `NumberField.Units.regOfFamily`; Mathlib `NumberField.Units.regulator`; Mathlib `NumberField.Units.regulator_pos`; Mathlib `NumberField.Units.torsion`; Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`.
+
+<a id="layer-5-topic-3a"></a>
+
+### 5.3a Discrete-logarithm certificates for p-saturated units
+
+Let K have unit rank r and torsion order `w_K = |μ_K|`, let ζ generate `μ_K`, let p be a prime, and let `P_1, …, P_m` be maximal ideals of `𝓞_K` with `p | N(P_i) − 1`. A finite family `v_1, …, v_s` in `𝓞_K` is p-power-residue independent at the `P_i` if every e ∈ ℕ^s with `∏_j v_j^(e_j (N(P_i) − 1)/p) ≡ 1 (mod P_i)` for all i has `p | e_j` for all j. For units `u_1, …, u_r`: (a) if `p ∤ w_K` and u is p-power-residue independent, then u has maximal rank and `p ∤ [𝓞_K^× : ⟨u⟩·μ_K]`; (b) if `(u_1, …, u_r, ζ)` is p-power-residue independent, which can happen only when `p | w_K`, the same conclusion holds. In both cases u and ζ generate `𝓞_K^×` modulo p-th powers.
+
+Assume additionally that `v_j ∉ P_i` for every i and j. Fixing a generator `g_i` of the cyclic group `(𝓞_K/P_i)^×`, independence then says exactly that the m × s matrix of discrete logarithms `log_(g_i)(v_j mod P_i)`, reduced modulo p, has rank s over `𝔽_p`; the definition uses the p-th power residue characters `x ↦ x^((N(P_i) − 1)/p)` and needs no choice of generators. The residue characteristic of each `P_i` differs from p, and units stay units modulo `P_i`. When `p ∤ w_K` the root of unity ζ is a p-th power and carries no information; when `p | w_K` its column is needed (third check below).
+
+The supporting API comprises:
+
+- `PowerResidueIndependent`: the predicate above, for a finite family in `𝓞_K` and exponents in ℕ.
+- `isMaxRank_and_not_dvd_index_of_powerResidueIndependent`: case (a).
+- `isMaxRank_and_not_dvd_index_of_powerResidueIndependent_torsion`: case (b).
+
+(Jean-François Biasse and Claus Fieker, [New techniques for computing the ideal class group and a system of fundamental units in number fields](#reference-biasse-fieker-new-techniques-2012), Section 5.3, p. 14.) For primes Q with `p | N(Q) − 1` the source maps a group of S-units to the residue field modulo p-th powers and enlarges the group until the joint kernel of these maps is its subgroup of p-th powers; for S = ∅ this is the test above, with the torsion treated as in (a) and (b). The later paper [Subexponential class group and unit group computation in large degree number fields](#reference-biasse-fieker-classgroup-2014), Section 6, printed p. 402, refers to this saturation method.
+
+To prove this, write G = `𝓞_K^×`. Each residue character factors through `G/G^p`, and an integer exponent vector reduces modulo p to one in ℕ; so independence makes the images of the family linearly independent in the `𝔽_p`-vector space `G/G^p`.
+
+By Dirichlet's unit theorem (Mathlib `NumberField.Units.rank`, with `NumberField.Units.torsion` cyclic of order `w_K`), `G/G^p` has dimension r when `p ∤ w_K` and r + 1 when `p | w_K`. The family is therefore a basis, and G = ⟨u, ζ⟩·`G^p`.
+
+If u were dependent modulo torsion, dividing a relation by its p-content (G/μ_K is torsion-free) would give one with some exponent prime to p. It puts a product of the `u_j` times a power of ζ in `G^p`, and when `p ∤ w_K` that power of ζ is itself a p-th power; this contradicts independence. Hence u has maximal rank (Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`). Finally `G/⟨u⟩μ_K` is finite and equals its subgroup of p-th powers, so its order is prime to p.
+
+**Checks.**
+
+- K = ℚ(√2), ε = 1 + √2 (r = 1, `w_K = 2`), p = 3 and P = (7, √2 − 3): ε ≡ 4 and `4² = 16 ≡ 2 ≢ 1 (mod 7)`, so (ε) is 3-power-residue independent and `3 ∤ [𝓞_K^× : ⟨ε⟩·{±1}]`, which is 1.
+- Same field, p = 2, P = (7, √2 − 3) and P′ = (7, √2 − 4): the quadratic characters of (ε, −1) are (0, 1) at P (ε ≡ 4 is a square, −1 ≡ 6 is not) and (1, 1) at P′ (ε ≡ 5 is not a square), an invertible matrix over `𝔽_2`; ε and −1 generate the units modulo squares.
+- The column of ζ is needed when `p | w_K`: u = −ε² has nonsquare residues 5 at P and 3 at P′, so its column alone has rank 1 = r, yet `[𝓞_K^× : ⟨−ε²⟩·{±1}] = 2`. With the column of −1 the two columns coincide, the rank is 1 < 2, and (b) refuses.
+- Rank zero: for K = ℚ(i) and p = 3 the empty family passes and `[𝓞_K^× : μ_K] = 1`.
+- K = ℚ, p = 2, P = (3) and v = (0): the residue product is `0^e`, equal to 1 only for e = 0, so PowerResidueIndependent holds. The discrete logarithm of zero is undefined, showing why the matrix interpretation requires `v_j ∉ P_i`.
+
+*Needs:* [A regulator lower bound establishes a fundamental system of units](#layer-5-topic-3); Mathlib `NumberField.Units.IsMaxRank`; Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`; Mathlib `NumberField.Units.rank`; Mathlib `NumberField.Units.torsion`; Mathlib `NumberField.Units.torsionOrder`; Mathlib `Ideal.Quotient.mk`; Mathlib `Ideal.absNorm`; Mathlib `Subgroup.index`.
 
 <a id="layer-5-topic-4"></a>
 
@@ -11341,12 +11455,12 @@ No field or chosen fundamental unit is part of this definition.
 
 The supporting API comprises:
 
-- `quadraticUnitAction_add`: `τ_s(x+y)=τ_s(x)+τ_s(y)`.
+- additivity of the quadratic unit action: `τ_s(x+y)=τ_s(x)+τ_s(y)`.
 - `quadraticUnitAction_involutive`: `τ_s(τ_s(x))=x` for every x.
-- `quadraticUnitAction_free_generator`: `τ_s(1,0)=(-1,s)`.
-- `quadraticUnitAction_torsion_generator`: `τ_s(0,1)=(0,1)`.
-- `quadraticUnitAction_parameter`: `τ_s=τ_t iff s=t`.
-- `quadraticUnitAction_norm`: `x+τ_s(x)=(0,s·(x.1 mod 2))`, the conjugation norm in additive coordinates.
+- the action on the free unit generator: `τ_s(1,0)=(-1,s)`.
+- the action on the torsion generator: `τ_s(0,1)=(0,1)`.
+- the unit action parameter: `τ_s=τ_t iff s=t`.
+- the unit norm-sign formula: `x+τ_s(x)=(0,s·(x.1 mod 2))`, the conjugation norm in additive coordinates.
 
 (Peter Koymans and Carlo Pagano, [On Stevenhagen’s conjecture](#reference-koymans-pagano-2022-v1), Introduction, p. 3, second paragraph (the remark after Theorem 1.1 on the unit Galois module).) Koymans and Pagano remark that the Galois module structure of the unit group of a real quadratic field is determined by the solubility of the negative Pell equation, and name the soluble case: ℤ ⊕ ℤ/2ℤ with (1,0) sent to (−1,1) and (0,1) fixed. The insoluble alternative `τ_0` and the coordinate statement are derived here from the Dirichlet decomposition and the norm identity; the paper gives no proof.
 
@@ -11471,6 +11585,36 @@ Multiplicativity of the index along `Aℤ^N ⊆ Λ_I ⊆ ℤ^N` (Mathlib `Subgro
 - Found relations alone never prove completeness: a lower bound for `h_K` (or for `h_K R_K`) is needed ([The class-number–regulator completeness criterion](#layer-5-topic-16)).
 
 *Needs:* [The class-group presentation by a family of ideals and its relation lattice](#layer-5-topic-2); Mathlib `AddSubgroup.index_eq_natAbs_det`; Mathlib `Subgroup.relIndex_mul_index`; Mathlib `NumberField.classNumber`.
+
+<a id="layer-5-topic-11a"></a>
+
+### 5.11a p-saturation certificates for class-group presentations
+
+Let `J_1, …, J_N` be nonzero ideals of `𝓞_K`, `n_i ≥ 1` and `a_i ∈ 𝓞_K` with `J_i^(n_i) = (a_i)`, and let p be a prime. The family J is p-saturated if, whenever `∏ J_i^(e_i)` is principal and `n_i | p e_i` for all i, also `n_i | e_i` for all i. Let `w_1, …, w_s` be units generating `𝓞_K^×` modulo p-th powers, and `P_1, …, P_m` maximal ideals with `p | N(P_k) − 1` and `a_i ∉ P_k` whenever `p | n_i`. If the family of the `w_j` and of the `a_i` with `p | n_i` is p-power-residue independent at the `P_k` ([Discrete-logarithm certificates for p-saturated units](#layer-5-topic-3a)), then J is p-saturated. If the classes `[J_i]` generate Cl(K) and J is p-saturated for every prime p dividing `∏ n_i`, then `⊕ ℤ/n_i ℤ → Cl(K)`, `e ↦ ∏ [J_i]^(e_i)`, is an isomorphism and `h_K = ∏ n_i`.
+
+The `n_i` satisfy `[J_i]^(n_i) = 1` but need not be the orders. A square relation matrix of nonzero determinant reduces to this shape: the Smith normal form of [The class group from a complete relation matrix](#layer-5-topic-10) changes the generators to a family with diagonal relation matrix diag(`n_i`). Units generating modulo p-th powers are certified by §5.3a; the test needs no lower bound for `h_K R_K`, in contrast with §5.16.
+
+The supporting API comprises:
+
+- `dvd_of_isPrincipal_prod_pow_of_powerResidueIndependent`: the residue-character certificate implies p-saturation.
+- `classNumber_eq_prod_of_saturated`: generation, `[J_i]^(n_i) = 1` with `n_i ≥ 1`, and p-saturation for every prime `p | ∏ n_i` give `h_K = ∏ n_i`.
+- `classGroupEquivOfSaturated`: under the same hypotheses, the additive isomorphism `(Π i, ZMod n_i) ≃+ Additive Cl(K)` sending the i-th basis vector to `[J_i]`.
+
+(Jean-François Biasse and Claus Fieker, [New techniques for computing the ideal class group and a system of fundamental units in number fields](#reference-biasse-fieker-new-techniques-2012), Section 5.3, p. 14.) The source runs the residue-character test on the group of S-units defined by the relations; the units and the generators `a_i` used here are elements of that group, and a p-th root in it of a product of them is the missing relation that p-saturation excludes.
+
+To prove this, let `∏ J_i^(e_i) = (b)` with `n_i | p e_i`, and write `p e_i = n_i q_i`. Then `(b^p) = ∏ (a_i)^(q_i)`, so `b^p = v ∏ a_i^(q_i)` for a unit v, and `v = ∏ w_j^(c_j) t^p` with `c_j` reduced to [0, p). When `p ∤ n_i`, p divides `q_i`.
+
+Hence `y = ∏_(p | n_i) a_i^(q_i) · ∏ w_j^(c_j)` is the p-th power of an element z of K, and z lies in `𝓞_K` because `𝓞_K` is integrally closed (Mathlib `IsIntegrallyClosed.pow_dvd_pow_iff`). Modulo each `P_k`, y and so z are units, so `y^((N(P_k) − 1)/p) = z^(N(P_k) − 1) ≡ 1`. Independence gives `p | q_i` for every i, so `e_i = n_i (q_i/p)`.
+
+For the isomorphism, the map from `⊕ ℤ/n_i ℤ` is well defined and surjective. A nontrivial kernel would contain an element of some prime order p dividing `∏ n_i`; its representative e with `0 ≤ e_i < n_i` satisfies `n_i | p e_i` and `∏ [J_i]^(e_i) = 1` (Mathlib `ClassGroup.mk0_eq_one_iff`), and p-saturation forces e = 0. The class number is then the order `∏ n_i`, as in §5.10.
+
+**Checks.**
+
+- K = ℚ(√−14), J = `p_3` = (3, √−14 − 1), n = 4, a = 5 − 2√−14 (norm 81, in `p_3` and not in `p_3′` = (3, √−14 + 1)), w = (−1) and p = 2. At `p_3′` (norm 3) the quadratic characters of (−1, a) are (1, 0), since −1 ≡ 2 is a nonsquare and a ≡ 1; at (5, √−14 − 1) they are (0, 1), since −1 ≡ 4 is a square and a ≡ 3 is not. The matrix is the identity, so J is 2-saturated; as `[p_3]` generates (§5.1a), Cl(K) ≅ ℤ/4 and `h_K = 4`, as in §5.18.
+- A false presentation is refused: claiming n = 8 with `p_3^8 = (a²)` replaces a by the square a², whose column vanishes modulo squares, so the test never certifies ℤ/8.
+- N = 0: the empty family generates exactly when `h_K = 1`, no prime divides the empty product, and `h_K = 1` is the empty product; for example K = ℚ(i).
+
+*Needs:* [The class-group presentation by a family of ideals and its relation lattice](#layer-5-topic-2); [Discrete-logarithm certificates for p-saturated units](#layer-5-topic-3a); [The class group from a complete relation matrix](#layer-5-topic-10); Mathlib `ClassGroup.mk0_eq_one_iff`; Mathlib `IsIntegrallyClosed.pow_dvd_pow_iff`; Mathlib `Ideal.span_singleton_pow`; Mathlib `Ideal.Quotient.mk`; Mathlib `NumberField.classNumber`.
 
 <a id="layer-5-topic-12"></a>
 
@@ -11615,6 +11759,114 @@ Then `Cl(K) ≅ ℤ^N/Aℤ^N` by [The class group from a complete relation matri
 - The comparison checks the class group and the units together; neither index is specified from found relations or found units alone.
 
 *Needs:* [Found relations bound the class number from above](#layer-5-topic-11); [A regulator lower bound establishes a fundamental system of units](#layer-5-topic-3); [The class group from a complete relation matrix](#layer-5-topic-10); Mathlib `NumberField.Units.regOfFamily_div_regulator`; Mathlib `NumberField.classNumber`.
+
+<a id="layer-5-topic-16a"></a>
+
+### 5.16a A lower bound for the class number times the regulator from a truncated Euler product
+
+Let `κ_K = NumberField.dedekindZeta_residue K = 2^(r_1) (2π)^(r_2) h_K R_K / (w_K √Δ_K)` be the residue of `ζ_K` at 1, n = [K:ℚ], `ψ_K = TauCeti.primePsi K Set.univ` and `ψ = Chebyshev.psi`, and for T ≥ 2 let `S_K(T) = Σ_(2 ≤ m ≤ T) (Λ_K(m) − Λ(m)) / (m log m)`, where `Λ_K(m)` is the sum of log N(P) over the prime powers `P^k` of norm m (Tau Ceti `TauCeti.primeVonMangoldtCoeff K Set.univ`) and Λ is Mathlib's `ArithmeticFunction.vonMangoldt`.
+
+(i) Under DedekindERH K, every x ≥ 100 satisfies `|ψ_K(x) − x| ≤ √x ((log x/(2π) + 2) log Δ_K + (log² x/(8π) + 2) n)`; for K = ℚ, under RiemannHypothesis, this bounds `|ψ(x) − x|`.
+
+(ii) Put `L = log T`, `a = (n + 1)/(8π)`, `b = log Δ_K/(2π)`, `c = 2 log Δ_K + 2(n + 1)` and
+
+`ε_K(T) = T^(−1/2) [a(3L + 6) + b(3 + 2/L) + c(3/L + 2/L²)]`.
+
+Under DedekindERH K and RiemannHypothesis, for every T ≥ 100, `|log κ_K − S_K(T)| ≤ ε_K(T)`, and `ε_K(T) → 0` as T → ∞.
+
+(iii) If `|log κ_K − S| ≤ ε` for real numbers S and ε, then `h* = w_K √Δ_K / (2^(r_1) (2π)^(r_2)) · exp(S − ε)` satisfies `h* ≤ h_K R_K ≤ h* · exp(2ε)`.
+
+With `S = S_K(T)` and `ε = ε_K(T)`, the lower bound of (iii) is the specified `h*` of [The class-number–regulator completeness criterion](#layer-5-topic-16), and the interval of (iii) gives the a and η of §5.22. Equivalently `S_K(T) = Σ 1/(k N(P)^k) − Σ 1/(k p^k)`, the first sum over the prime powers `P^k` of norm at most T and the second over the rational prime powers `p^k ≤ T`: a truncation of the logarithm of the Euler product of `ζ_K/ζ`. Clauses (i) and (ii) carry DedekindERH K (AnalyticNumberTheoryPartI §2.42), which has no carrier at the pins, so they are README targets; RiemannHypothesis is Mathlib's. Clause (iii) has a Lean signature.
+
+The supporting API comprises:
+
+- `abs_primePsi_sub_le_of_dedekindERH`: clause (i).
+- `abs_log_dedekindZeta_residue_sub_le_of_dedekindERH`: clause (ii).
+- `classNumber_mul_regulator_bounds_of_abs_log_residue_sub_le`: clause (iii).
+
+(Loïc Grenié and Giuseppe Molteni, [Explicit versions of the prime ideal theorem for Dedekind zeta functions under GRH](#reference-grenie-molteni-2016), Corollary 1.2 and inequality (1.5), p. 3, Theorem 1.1, p. 2, and the proof of Corollary 1.2, pp. 13–15, Tables 1–3; the hypothesis `ζ_K(s) ≠ 0` for Re s > 1/2 is stated in Section 1, p. 2, and the case K = ℚ is covered in the proof of Corollary 1.2, p. 13.) Clause (i) is Corollary 1.2; clause (ii) is its partial-summation consequence for K and ℚ with the remainder displayed above.
+
+(Jean-François Biasse and Claus Fieker, [Subexponential class group and unit group computation in large degree number fields](#reference-biasse-fieker-classgroup-2014), Section 4.3, printed p. 398.) The source writes `hR = (|μ| √|Δ| / (2^(r_1) (2π)^(r_2))) · lim_(s→1) (s − 1) ζ_K(s)` and certifies with a bound `h*` satisfying `h* ≤ hR < 2h*`, obtained from the Euler product under GRH; clause (iii) reads that formula as an interval.
+
+The following three auxiliary targets belong to this section. They supply the numerical bounds and finite-range inequalities needed for clause (i); the asymptotic bounds of AnalyticNumberTheoryPartI §2.49 supply the qualitative route, without these constants.
+
+**Explicit zero estimates.** For any number field K, write each nontrivial zero with multiplicity as `ρ = β + iγ`, let `N_K(U)` count those with `|γ| ≤ U`, and put `W_K(U) = log Δ_K + n log(U/(2π))`. For every U ≥ 5, prove
+
+`N_K(U) ≤ ((U + 1.45) W_K(U) − (U − 8.93)n + 8.66)/π`,
+
+without a Riemann-hypothesis premise. Under DedekindERH K, also prove `Σ_(|γ|≤5) 1/|ρ| ≤ 1.02 log Δ_K − 1.63n + 7.04`. Under the same premise, for the finite part `r_K = lim_(s→0) (ζ′_K(s)/ζ_K(s) − (r_1+r_2−1)/s)`, also prove `|r_K| ≤ 1.02 log Δ_K − 2.10n + 8.35`. All decimals denote exact rational numbers. These are targets here, not consequences of an unspecified implied constant. The zero count and partial summation bound the high-zero sums; the low-zero bound includes zeros on the real axis.
+
+(Grenié–Molteni, Section 2, (2.7)–(2.8), p. 5; Lemma 3.1, pp. 7–8; (3.5)–(3.6), p. 8.) Prove the numerical majorant and its Gamma/logarithmic-derivative inequalities with exact bounds, including the finite coefficient inequalities in the proof of Lemma 3.1.
+
+**Checks.**
+
+- U = 5 belongs to the zero-count range, and zeros with |γ| = 5 belong to the low sum; a high/low decomposition uses a strict complementary cutoff.
+- A possible zero ρ = 1/2 contributes 2 to the low sum; there is no division by γ.
+- For K = ℚ, `W_ℚ(5) = log(5/(2π)) < 0`; the count retains this term and the degree and constant terms, rather than assuming W is nonnegative.
+
+**Explicit truncated prime-ideal estimate.** For K under DedekindERH K, x ≥ 3 and U ≥ 5, put `q = log(U/(2π))`, `d = r_1+r_2−1` and
+
+`F(x,U) = √x/π · (q + 6.01 + 5.84/U + 5.52/U²) + 1.02`,
+
+`G(x,U) = √x/π · (q²/2 + (2 + 5.84/U + 5.52/U²)q − 1.41 + 29.04/U + 31.46/U²) − 2.10`,
+
+`H(x,U) = x/U + √x/π · (25.57 + 25.97/U + 28.57/U²) + max(0, d log x − 1.44 n √x/U) + 8.35 + 1.22 · 1_(n≤2)/x`.
+
+Prove `|ψ_K(x) − x| ≤ F(x,U) log Δ_K + G(x,U)n + H(x,U)`, retaining the inclusive definition of ψ_K at prime-power norms. This section owns the constants, the integrated explicit formula and its finite-difference remainder estimates.
+
+(Grenié–Molteni, Theorem 1.1, (1.3)–(1.4), p. 2; Lemmas 2.1–2.2, pp. 5–6; Section 4, pp. 10–13.) Apply the preceding zero bounds to the integrated explicit formula and bound both finite differences by the stated remainder inequalities.
+
+**Checks.**
+
+- The boundary values x = 3 and U = 5 are included; choosing a height below 5 is excluded.
+- For K = ℚ or an imaginary quadratic field, d = 0, so the maximum term is zero.
+- For n > 2 the last `1.22/x` term vanishes; for n ≤ 2 it remains, including at prime-power endpoints.
+
+**Small-discriminant and finite-range inequalities.** Under DedekindERH K, the deduction of (i) from the preceding estimate includes the discriminant bounds `log Δ_K ≥ n log(11.916) − 5.8507` for n ≥ 8 and `Δ_K ≥ 1609, 9747, 184607` for n = 5, 6, 7 respectively. Prove these bounds here with the explicit-formula discriminant estimates and their finite-degree specializations, and prove that for n ≥ 5 the height `U = 8√x/log x` makes the preceding truncated estimate at most the right side of (i) for every x ≥ 100. For 2 ≤ n ≤ 4 let C(n,r_2) be
+
+| n | r_2 | C(n,r_2) |
+| --- | --- | --- |
+| 2 | 0 | 172921407 |
+| 2 | 1 | 103995324 |
+| 3 | 0 | 1350275 |
+| 3 | 1 | 369421 |
+| 4 | 0 | 10311 |
+| 4 | 1 | 2584 |
+| 4 | 2 | 648 |
+
+Writing `B_K(x)` for the right side of (i), prove that a height `U = c√x/log x` with `4.8 ≤ c ≤ 8` makes the preceding estimate at most B_K(x) for every x ≥ 100 whenever Δ_K > C(n,r_2), and for every x ≥ X_n for all remaining fields, where `X_2 = 1566020`, `X_3 = 980`, `X_4 = 184`. In the remaining finite ranges, prove `B_K(m) − |ψ_K(m) − m| ≥ 1` for every integer `100 ≤ m ≤ X_n` and every degree-n field with Δ_K ≤ C(n,r_2). This is a mathematical inequality for all fields under the stated cutoffs, including proof that any finite field list used exhausts them; an unchecked list or numerical evaluation is not a premise.
+
+(Grenié–Molteni, proof of Corollary 1.2, pp. 13–15, Tables 1–3, including the last paragraph on p. 15; the discriminant inputs are identified on p. 14.) The height comparisons use their monotonicity inequalities. The finite integer margin implies the real-variable estimate because ψ_K is constant between consecutive integers, B_K is increasing on x ≥ 100 and `|ψ_K(m) − x| ≤ |ψ_K(m) − m| + 1` for `m ≤ x < m+1`.
+
+**Checks.**
+
+- Degree 2 and Δ_K = 3 fall in the finite-range branch up to 1566020, so a large-discriminant height comparison cannot discharge this case.
+- In degree 4 and signature (0,2), Δ_K = 648 is included in the small-discriminant branch; Δ_K > 648 uses the uniform height comparison.
+- At an integer prime-power norm m, ψ_K(m) includes the jump. The unit margin controls the whole interval [m,m+1), including its left endpoint.
+
+For clause (i), use these three targets, splitting the ranges exactly as stated; K = ℚ follows from the conditional rational ψ estimate, also proved here with its explicit constant `√x log²x/(8π)` for x ≥ 100 (Grenié–Molteni (1.1), p. 2). The exact constants and the threshold 100 follow from the three explicit targets above.
+
+For (ii), set `A(t) = ψ_K(t) − ψ(t)` and `f(t) = 1/(t log t)`. Clause (i) for K and ℚ gives `|A(t)| ≤ √t (a log² t + b log t + c)` for t ≥ 100. Hence `A(t) f(t) → 0`, and `∫_100^∞ |A(t) f′(t)| dt` converges. Partial summation first proves convergence of the series at 1 and expresses its tail beyond T as `−A(T) f(T) − ∫_T^∞ A(t) f′(t) dt`, including when T is a prime-power norm.
+
+Since `−f′(t) = (log t + 1)/(t² log² t)`, the absolute value of the tail is at most
+
+`T^(−1/2) (aL + b + c/L) + ∫_T^∞ t^(−3/2) [a log t + a + b + (b + c)/log t + c/log² t] dt`.
+
+Use `1/log t ≤ 1/L`, `∫_T^∞ t^(−3/2) dt = 2/√T` and `∫_T^∞ t^(−3/2) log t dt = (2L + 4)/√T`. Adding the boundary term gives precisely `ε_K(T)`; each term tends to zero.
+
+For real σ > 1 the Euler products of `ζ_K` (Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`) and of ζ give `log ζ_K(σ) − log ζ(σ) = Σ_m (Λ_K(m) − Λ(m)) m^(−σ) / log m`. The convergence at 1 just proved permits Abel's theorem for Dirichlet series. As σ → 1⁺ the left side tends to `log κ_K` (Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT` and `riemannZeta_residue_one`), identifying the sum at 1 with `log κ_K`.
+
+Clause (iii) is Mathlib `NumberField.dedekindZeta_residue_def` solved for `h_K R_K`.
+
+**Checks.**
+
+- K = ℚ(i), x = 10⁴: `ψ_K(x) ≈ 10041.9`, so `|ψ_K(x) − x| ≈ 41.9`, well inside the bound of (i), about 1555.5; for ℚ, `|ψ(10⁴) − 10⁴| ≈ 13.4` against about 537.5.
+- K = ℚ(i): `S_K(10⁴) ≈ −0.24117`, against `log κ_K = log(π/4) ≈ −0.24156`. The displayed formula gives `ε_K(10⁴) ≈ 0.077885` and the interval `0.92543 ≤ h_K R_K = 1 ≤ 1.08142`.
+- K = ℚ: `Λ_K = Λ`, so `S_K(T) = 0` for every T, and `κ_ℚ = 1`; (ii) holds with any ε ≥ 0, and (iii) gives `h* = exp(−ε) ≤ 1 = h_ℚ R_ℚ`.
+- The truncated sum alone gives no lower bound: for ℚ(i), `(4/π) exp(S_K(10⁴)) ≈ 1.0004 > h_K R_K = 1`. The error term of (ii) is what makes `h*` a lower bound.
+- At the endpoint T = 100 for K = ℚ(i), `S_K(100) ≈ −0.242013` and `ε_K(100) ≈ 0.966517`; the actual logarithmic error is about 0.000449, and `L = log 100 > 0` makes every denominator well defined. At T = 121, the inert prime 11 contributes a jump `1/242` to S_K; `A(T)` includes the jump at the cutoff.
+
+*Needs:* [The class-number–regulator completeness criterion](#layer-5-topic-16); TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil’s explicit formula; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions; TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem; Mathlib `NumberField.dedekindZeta_residue`; Mathlib `NumberField.dedekindZeta_residue_def`; Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`; Mathlib `riemannZeta_residue_one`; Mathlib `RiemannHypothesis`; Mathlib `Chebyshev.psi`; Mathlib `ArithmeticFunction.vonMangoldt`; Mathlib `sum_mul_eq_sub_integral_mul`; Tau Ceti `TauCeti.primePsi`; Tau Ceti `TauCeti.primeVonMangoldtCoeff`; Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
 
 <a id="layer-5-topic-17"></a>
 
@@ -11862,19 +12114,32 @@ Quadratic examples distinguish ℤ[√d] from the full integer ring when d≡1 m
 
 Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier layers used by this layer are:
 
+- TauCetiRoadmap.AnalyticNumberTheoryPartI, §1.8 Weil's explicit formula.
+- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.5 Dedekind continuation.
+- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.12 ideal-character Hecke L-function.
+- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.42 extended Riemann hypothesis for Dedekind and Hecke L-functions.
+- TauCetiRoadmap.AnalyticNumberTheoryPartI, §2.49 effective Chebotarev density theorem.
 - Mathlib `AddSubgroup.index_eq_natAbs_det`.
 - Mathlib `Algebra.discr`.
 - Mathlib `Algebra.discr_of_matrix_vecMul`.
+- Mathlib `ArithmeticFunction.vonMangoldt`.
+- Mathlib `Chebyshev.psi`.
 - Mathlib `ClassGroup`.
 - Mathlib `ClassGroup.mk0`.
+- Mathlib `ClassGroup.mk0_eq_one_iff`.
+- Mathlib `CommGroup.forall_monoidHom_apply_eq_one_iff`.
 - Mathlib `CommGroup.mem_primaryComponent`.
 - Mathlib `CommGroup.primaryComponent`.
 - Mathlib `Ideal`.
+- Mathlib `Ideal.Quotient.mk`.
 - Mathlib `Ideal.absNorm`.
 - Mathlib `Ideal.absNorm_dvd_absNorm_of_le`.
 - Mathlib `Ideal.absNorm_span_singleton`.
+- Mathlib `Ideal.finite_setOfPred_absNorm_le`.
 - Mathlib `Ideal.natAbs_det_basis_change`.
+- Mathlib `Ideal.span_singleton_pow`.
 - Mathlib `IsCyclotomicExtension.Rat.discr`.
+- Mathlib `IsIntegrallyClosed.pow_dvd_pow_iff`.
 - Mathlib `Matrix.det_apply`.
 - Mathlib `Matrix.det_isEmpty`.
 - Mathlib `Module.Basis`.
@@ -11886,6 +12151,7 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Mathlib `NumberField.RingOfIntegers.basis`.
 - Mathlib `NumberField.Units.IsMaxRank`.
 - Mathlib `NumberField.Units.isMaxRank_iff_closure_finiteIndex`.
+- Mathlib `NumberField.Units.rank`.
 - Mathlib `NumberField.Units.regOfFamily`.
 - Mathlib `NumberField.Units.regOfFamily_div_regulator`.
 - Mathlib `NumberField.Units.regOfFamily_eq_det`.
@@ -11893,19 +12159,28 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Mathlib `NumberField.Units.regulator`.
 - Mathlib `NumberField.Units.regulator_pos`.
 - Mathlib `NumberField.Units.torsion`.
+- Mathlib `NumberField.Units.torsionOrder`.
 - Mathlib `NumberField.classNumber`.
 - Mathlib `NumberField.classNumber_pos`.
+- Mathlib `NumberField.dedekindZeta_residue`.
+- Mathlib `NumberField.dedekindZeta_residue_def`.
 - Mathlib `NumberField.discr`.
 - Mathlib `NumberField.discr_eq_discr`.
 - Mathlib `NumberField.exists_ideal_in_class_of_norm_le`.
+- Mathlib `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`.
 - Mathlib `Pell.IsFundamental.eq_zpow_or_neg_zpow`.
 - Mathlib `Pell.IsFundamental.exists_of_not_isSquare`.
 - Mathlib `Pell.Solution₁`.
 - Mathlib `Pell.is_pell_solution_iff_mem_unitary`.
 - Mathlib `QuotientGroup.quotientKerEquivOfSurjective`.
+- Mathlib `RiemannHypothesis`.
 - Mathlib `RingOfIntegers.exponent_eq_one_iff`.
 - Mathlib `RingOfIntegers.isPrincipalIdealRing_of_isPrincipal_of_norm_le_of_isPrime`.
 - Mathlib `RingOfIntegers.monicFactorsMod`.
+- Mathlib `Subgroup.closure`.
+- Mathlib `Subgroup.closure_le`.
+- Mathlib `Subgroup.closure_mono`.
+- Mathlib `Subgroup.index`.
 - Mathlib `Subgroup.index_eq_one`.
 - Mathlib `Subgroup.relIndex_eq_one`.
 - Mathlib `Subgroup.relIndex_mul_index`.
@@ -11916,6 +12191,8 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Mathlib `Zsqrtd.lift`.
 - Mathlib `Zsqrtd.norm`.
 - Mathlib `Zsqrtd.norm_eq_one_iff`.
+- Mathlib `riemannZeta_residue_one`.
+- Mathlib `sum_mul_eq_sub_integral_mul`.
 - Tau Ceti `ClassGroup.mk0_mem_closure_of_count_eq`.
 - Tau Ceti `IsDedekindDomain.HeightOneSpectrum.classGroupMk`.
 - Tau Ceti `NumberField.NarrowClassGroup.mkPrincipal_eq_one_iff`.
@@ -11932,6 +12209,9 @@ Earlier internal inputs are Layer 3, Layer 4. The declarations and supplier laye
 - Tau Ceti `NumberField.norm_eq_neg_one_of_isTotallyPositive_smul_gen`.
 - Tau Ceti `NumberField.ringOfIntegersQuadraticConj`.
 - Tau Ceti `NumberField.unitsMulEquivTorsionProdMultiplicative`.
+- Tau Ceti `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`.
+- Tau Ceti `TauCeti.primePsi`.
+- Tau Ceti `TauCeti.primeVonMangoldtCoeff`.
 
 ## Layer 6: special algebraic numbers and Mahler measure
 
@@ -11944,7 +12224,7 @@ Polynomial Mahler measure uses Mathlib's `Polynomial.mahlerMeasure` and `Polynom
 **Checks.**
 
 - p = (X − 2)² has root multiset {2, 2}, M(p) = 4 and logMahlerMeasure(p) = 2 log 2.
-- M(pq) = M(p)M(q) for all complex polynomials p, q (`Polynomial.mahlerMeasure_mul`), including p = q = X − 2. For pq ≠ 0 the logarithmic measures add; the nonzero hypothesis is necessary when one factor is zero and the other has nonzero logarithmic measure.
+- M(pq) = M(p)M(q) for all complex polynomials p, q (`Polynomial.mahlerMeasure_mul`), including p = q = X − 2. For pq ≠ 0 the logarithmic measures add (`Polynomial.logMahlerMeasure_mul_eq_add_logMahlerMeasure`); the nonzero hypothesis is necessary when one factor is zero and the other has nonzero logarithmic measure.
 - The zero polynomial has both measures zero, whereas the constant polynomial 1 has multiplicative measure 1 and logarithmic measure 0. Thus exponentiating the zero polynomial's logarithmic measure does not give its multiplicative measure.
 
 <a id="layer-6-topic-1"></a>
@@ -11959,17 +12239,17 @@ The supporting API comprises:
 
 - `IsPisot`: IsPisot θ :⟺ θ integral over ℤ, 1 < θ, and |z| < 1 for every complex root z ≠ θ of minpoly ℤ θ.
 - `IsPisot.isIntegral`: IsPisot θ → θ is an algebraic integer.
-- `IsPisot.one_lt`: IsPisot θ → 1 < θ.
-- `IsPisot.norm_lt_one`: IsPisot θ, z a complex root of minpoly ℤ θ, z ≠ θ → |z| < 1.
-- `IsPisot.eq_of_one_le_norm`: IsPisot θ, z a complex root of minpoly ℤ θ with |z| ≥ 1 → z = θ: θ is the only conjugate outside the open unit disc.
-- `isPisot_iff_minpoly_rat`: IsPisot θ ⟺ θ integral over ℤ, 1 < θ and every complex root z ≠ θ of minpoly ℚ θ has |z| < 1 (the definition read with Mathlib's minimal polynomial over ℚ).
-- `isPisot_natCast_iff`: For n ∈ ℕ: IsPisot n ⟺ n ≥ 2.
+- the strict lower bound for a Pisot number: IsPisot θ → 1 < θ.
+- the bound on other Pisot conjugates: IsPisot θ, z a complex root of minpoly ℤ θ, z ≠ θ → |z| < 1.
+- the distinguished Pisot conjugate criterion: IsPisot θ, z a complex root of minpoly ℤ θ with |z| ≥ 1 → z = θ: θ is the only conjugate outside the open unit disc.
+- the rational minimal-polynomial Pisot criterion: IsPisot θ ⟺ θ integral over ℤ, 1 < θ and every complex root z ≠ θ of minpoly ℚ θ has |z| < 1 (the definition read with Mathlib's minimal polynomial over ℚ).
+- the integer Pisot classification: For n ∈ ℕ: IsPisot n ⟺ n ≥ 2.
 
 (Chris Smyth, [Seventy years of Salem numbers](#reference-smyth-salem-survey-2015), Section 1, p. 5 (arXiv v3).) Exactly the definition; the source's condition that the number exceed 1 presupposes a real number.
 
 (Varun Srivastava and Sanjay Gollapudi, [Pisot numbers (Euler Circle student paper)](#reference-srivastava-pisot-2018), Section 1, Definition 3 and the Example, p. 1.) Same definition; the Example (the golden ratio) is the first Check below.
 
-(Varun Srivastava and Sanjay Gollapudi, [Pisot numbers (Euler Circle student paper)](#reference-srivastava-pisot-2018), Section 2, Proposition 5, p. 1.) The pinned degree-one convention (`isPisot_natCast_iff`).
+(Varun Srivastava and Sanjay Gollapudi, [Pisot numbers (Euler Circle student paper)](#reference-srivastava-pisot-2018), Section 2, Proposition 5, p. 1.) The pinned degree-one convention (the integer Pisot classification).
 
 To prove this, define IsPisot θ as the conjunction of IsIntegral ℤ θ, 1 < θ and the modulus condition on the roots of minpoly ℤ θ in ℂ other than θ.
 
@@ -11977,9 +12257,9 @@ Projections isIntegral, `one_lt`, `norm_lt_one` are the three conjuncts.
 
 `eq_of_one_le_norm`: a root z with |z| ≥ 1 cannot be ≠ θ by the modulus condition.
 
-`isPisot_iff_minpoly_rat`: for θ integral over ℤ, minpoly ℤ θ maps to `minpoly ℚ θ (minpoly.isIntegrallyClosed_eq_field_fractions')`, so the two root multisets in ℂ agree.
+the rational minimal-polynomial Pisot criterion: for θ integral over ℤ, minpoly ℤ θ maps to `minpoly ℚ θ (minpoly.isIntegrallyClosed_eq_field_fractions')`, so the two root multisets in ℂ agree.
 
-`isPisot_natCast_iff`: minpoly ℤ n = X − n has the single root n, so the modulus condition is vacuous and IsPisot n ⟺ n > 1 ⟺ n ≥ 2.
+the integer Pisot classification: minpoly ℤ n = X − n has the single root n, so the modulus condition is vacuous and IsPisot n ⟺ n > 1 ⟺ n ≥ 2.
 
 **Checks.**
 
@@ -12007,17 +12287,17 @@ The supporting API comprises:
 
 - `IsSalem`: IsSalem τ :⟺ τ integral over ℤ, 1 < τ, |z| ≤ 1 for every complex root z ≠ τ of minpoly ℤ τ, and some complex root has |z| = 1.
 - `IsSalem.isIntegral`: IsSalem τ → τ is an algebraic integer.
-- `IsSalem.one_lt`: IsSalem τ → 1 < τ.
-- `IsSalem.norm_le_one`: IsSalem τ, z a complex root of minpoly ℤ τ, z ≠ τ → |z| ≤ 1.
-- `IsSalem.exists_norm_eq_one`: IsSalem τ → some complex root of minpoly ℤ τ has modulus 1.
-- `IsSalem.not_isPisot`: IsSalem τ → ¬ IsPisot τ: the two classes are disjoint.
-- `IsSalem.isConjRoot_inv`: IsSalem τ → τ and τ⁻¹ are conjugate over ℚ (IsConjRoot ℚ τ τ⁻¹).
-- `IsSalem.four_le_natDegree`: IsSalem τ → deg τ ≥ 4.
-- `IsSalem.even_natDegree`: IsSalem τ → deg τ is even.
+- the strict lower bound for a Salem number: IsSalem τ → 1 < τ.
+- the bound on other Salem conjugates: IsSalem τ, z a complex root of minpoly ℤ τ, z ≠ τ → |z| ≤ 1.
+- existence of a unit-circle Salem conjugate: IsSalem τ → some complex root of minpoly ℤ τ has modulus 1.
+- exclusion of Pisot numbers: IsSalem τ → ¬ IsPisot τ: the two classes are disjoint.
+- the reciprocal Salem conjugate: IsSalem τ → τ and τ⁻¹ are conjugate over ℚ (IsConjRoot ℚ τ τ⁻¹).
+- the lower bound on the Salem degree: IsSalem τ → deg τ ≥ 4.
+- evenness of the Salem degree: IsSalem τ → deg τ is even.
 
 (Chris Smyth, [Seventy years of Salem numbers](#reference-smyth-salem-survey-2015), Lemma 1, p. 2 (arXiv v3).) The hypotheses of Lemma 1 are taken as the definition (the source calls it the usual definition); the source's own definition becomes [Salem's lemma: the conjugates of a Salem number](#layer-6-topic-24).
 
-(Chris Smyth, [Seventy years of Salem numbers](#reference-smyth-salem-survey-2015), Section 1, p. 1.) The equivalent form, `IsSalem.isConjRoot_inv` and `IsSalem.four_le_natDegree`.
+(Chris Smyth, [Seventy years of Salem numbers](#reference-smyth-salem-survey-2015), Section 1, p. 1.) The equivalent form, the reciprocal Salem conjugate and the lower bound on the Salem degree.
 
 (Chris Smyth, [The Mahler measure of algebraic numbers: a survey](#reference-smyth-mahler-survey-2008), Section 8.1, printed p. 335.) Third equivalent description used for the Mahler measure computation M(τ) = τ.
 
@@ -12431,11 +12711,11 @@ The disc is open. Real coefficients are part of the object, rather than a realit
 
 The supporting API comprises:
 
-- `RealSchurSeries.function_unique`: Two holomorphic witnesses with the specified HasSum expansion agree throughout the open unit disc.
+- uniqueness of the holomorphic witness: Two holomorphic witnesses with the specified HasSum expansion agree throughout the open unit disc.
 - `RealSchurSeries.conj`: For a witness f, f(conj z)=conj(f(z)) on the disc.
 - `RealSchurSeries.constant`: The constant sequence `e_0=c`, `e_j=0` for j>0 is Schur exactly when |c|≤1.
 - `RealSchurSeries.mul`: The coefficient convolution of two real Schur series is a real Schur series.
-- `RealSchurSeries.coeff_zero_eq`: Its constant coefficient is f(0), and its formal coefficients are exactly PowerSeries.coeff j (PowerSeries.mk e).
+- the constant-coefficient formula: Its constant coefficient is f(0), and its formal coefficients are exactly PowerSeries.coeff j (PowerSeries.mk e).
 
 (C. J. Smyth, [On the Product of the Conjugates outside the unit circle of an Algebraic Integer](#reference-smyth-1971), §2 lemma, pp. 170–171.) The coefficient estimates apply to real-coefficient bounded holomorphic functions; this definition removes the unnecessary neighbourhood-of-the-closed-disc restriction.
 
@@ -12466,9 +12746,9 @@ The supporting API comprises:
 - `feketeDiameter_nonneg`: `δ_n(K)≥0` and d(K)≥0 for compact K.
 - `feketeDiameter_attained`: For nonempty compact K and n≥2, a tuple in `K^n` attains `δ_n(K)`.
 - `feketeDiameter_mono`: Compact K⊆L implies `δ_n(K)≤δ_n(L)` and d(K)≤d(L).
-- `transfiniteDiameter_affine`: d(aK+b)=|a|d(K), including a=0; `δ_n` has the same rule for n≥2.
-- `transfiniteDiameter_finite`: A finite set has d=0; `δ_n=0` once n exceeds its cardinality.
-- `finiteFeketeDiameter_two`: For nonempty compact K, the two-point Fekete diameter δ₂(K) equals the metric diameter of K; the limiting diameter is identified with the Chebyshev limit by the key theorem below.
+- the affine transfinite-diameter law: d(aK+b)=|a|d(K), including a=0; `δ_n` has the same rule for n≥2.
+- the diameter of a finite set: A finite set has d=0; `δ_n=0` once n exceeds its cardinality.
+- the two-point Fekete diameter: For nonempty compact K, the two-point Fekete diameter δ₂(K) equals the metric diameter of K; the limiting diameter is identified with the Chebyshev limit by the key theorem below.
 
 (Françoise Bertrandias, [Diamètre transfini dans un corps valué. Application au prolongement analytique](#reference-bertrandias-1964), §1.1, p. 1; 1.4.1–1.4.4, p. 2.) The pairwise-distance supremum defines the finite diameter; its limit is monotone under inclusion and scales like length.
 
@@ -12571,12 +12851,12 @@ The +1 shift corresponds to the Laurent coefficient extracted by `∮G(z)z^k dz`
 
 The supporting API comprises:
 
-- `shiftedHankelDet_zero`: D₀(a)=1.
-- `shiftedHankelDet_one`: D₁(a)=a₁.
-- `shiftedHankelDet_two`: D₂(a)=a₁a₃−a₂².
-- `shiftedHankelDet_map`: A ring homomorphism φ sends `D_n(a)` to `D_n(φ∘a)`.
-- `shiftedHankelDet_integer`: For integer a, its complex determinant is the integer cast of `D_n(a)`; hence a nonzero determinant has complex norm at least 1.
-- `shiftedHankelDet_monic_basis`: Replacing powers `X^i` in both rows and columns by monic degree-i polynomials leaves the determinant of the moment matrix unchanged.
+- the empty shifted Hankel determinant: D₀(a)=1.
+- the size-one shifted Hankel determinant: D₁(a)=a₁.
+- the size-two shifted Hankel determinant: D₂(a)=a₁a₃−a₂².
+- scalar change of the shifted Hankel determinant: A ring homomorphism φ sends `D_n(a)` to `D_n(φ∘a)`.
+- integrality of the shifted Hankel determinant: For integer a, its complex determinant is the integer cast of `D_n(a)`; hence a nonzero determinant has complex norm at least 1.
+- invariance under monic basis change: Replacing powers `X^i` in both rows and columns by monic degree-i polynomials leaves the determinant of the moment matrix unchanged.
 
 (Vesselin Dimitrov, [A proof of the Schinzel–Zassenhaus conjecture on polynomials](#reference-dimitrov-2019), §4, Hankel determinant in the proof of Theorem 4, pp. 13–14.) The matrix uses the coefficient shift `a_(i+j+1)`.
 
@@ -13085,14 +13365,14 @@ The line segment is a real affine segment in ℂ, not an order interval of compl
 
 The supporting API comprises:
 
-- `radialHedgehog_mem`: z∈K(a) iff some endpoint index i and t∈[0,1] satisfy `z=t a_i`.
-- `radialHedgehog_compact`: Every finite radial hedgehog is compact.
-- `radialHedgehog_zero_mem`: For a nonempty index type, 0∈K(a).
-- `radialHedgehog_norm_le`: For z∈K(a), |z|≤R(a).
-- `radialHedgehog_mono_lengths`: Replacing endpoints by longer endpoints on the same rays enlarges the hedgehog.
-- `radialHedgehog_affine_scale`: For c∈ℂ, K(ca)=cK(a) and R(ca)=|c|R(a).
-- `radialHedgehog_complement`: For a nonempty family the plane complement is connected; its sphere complement is simply connected, and the inverted domain contains 0.
-- `radialHedgehog_eq_iUnion_segment`: `K(a)=⋃_i` segment `ℝ 0 (a_i)`, with Mathlib’s real affine segment in ℂ.
+- the radial hedgehog membership criterion: z∈K(a) iff some endpoint index i and t∈[0,1] satisfy `z=t a_i`.
+- compactness of radial hedgehogs: Every finite radial hedgehog is compact.
+- membership of the hedgehog origin: For a nonempty index type, 0∈K(a).
+- the radial norm bound: For z∈K(a), |z|≤R(a).
+- monotonicity in radial lengths: Replacing endpoints by longer endpoints on the same rays enlarges the hedgehog.
+- scaling of radial hedgehogs: For c∈ℂ, K(ca)=cK(a) and R(ca)=|c|R(a).
+- the radial hedgehog complement: For a nonempty family the plane complement is connected; its sphere complement is simply connected, and the inverted domain contains 0.
+- the radial-segment union formula: `K(a)=⋃_i` segment `ℝ 0 (a_i)`, with Mathlib’s real affine segment in ℂ.
 
 (Vesselin Dimitrov, [A proof of the Schinzel–Zassenhaus conjecture on polynomials](#reference-dimitrov-2019), §3, definition before Theorem 3, p. 12.) The singularities are enclosed in a finite union of radial segments.
 
@@ -13289,7 +13569,7 @@ The supporting API comprises:
 - `eq_plasticNumber_of_cube`: x ∈ ℝ, x³ = x + 1 → x = θ₀ (the real root is unique).
 - `plasticNumber_mem_Ioo`: 1.3247 < θ₀ < 1.3248.
 - `minpoly_plasticNumber`: minpoly ℤ θ₀ = X³ − X − 1.
-- `isPisot_plasticNumber`: θ₀ is a Pisot number.
+- the Pisot property of the plastic number: θ₀ is a Pisot number.
 - `plasticNumber_not_isConjRoot_inv`: θ₀ is not conjugate to θ₀⁻¹ (it is nonreciprocal).
 - `mahlerMeasure_plasticNumber`: Mathlib's Mahler measure of X³ − X − 1 mapped to ℂ[X] equals θ₀.
 
@@ -13983,7 +14263,7 @@ Every Pisot number θ satisfies θ ≥ θ₀; θ₀ itself is a Pisot number.
 
 (Varun Srivastava and Sanjay Gollapudi, [Pisot numbers (Euler Circle student paper)](#reference-srivastava-pisot-2018), Section 6, Theorem 12, p. 2.) Same statement (the source's polynomial x³ − x + 1 is a misprint).
 
-To prove this, θ₀ is Pisot (`isPisot_plasticNumber` of [The smallest Pisot number θ₀](#layer-6-topic-48)).
+To prove this, θ₀ is Pisot (the Pisot property of the plastic number of [The smallest Pisot number θ₀](#layer-6-topic-48)).
 
 If θ is conjugate to θ⁻¹ then θ ≥ (3 + √5)/2 > θ₀ ([Reciprocal Pisot numbers are quadratic units](#layer-6-topic-28)).
 
@@ -14466,7 +14746,7 @@ The supporting API comprises:
 - `StableEquivalent.refl`: P is stably equivalent to itself, with n=0.
 - `StableEquivalent.symm`: StableEquivalent(P,Q) implies StableEquivalent(Q,P).
 - `StableEquivalent.trans`: StableEquivalent(P,Q) and StableEquivalent(Q,T) imply StableEquivalent(P,T).
-- `StableEquivalent.of_equiv`: An R-linear isomorphism P≅Q gives stable equivalence with n=0.
+- stable equivalence from an isomorphism: An R-linear isomorphism P≅Q gives stable equivalence with n=0.
 - `StableEquivalent.prod`: Stable equivalences are preserved by finite direct sums.
 
 (Charles A. Weibel, [The K-book, Chapter II: The Grothendieck Group K₀](#reference-w-ii), II§1 Proposition1.1 and Corollary1.3, pp.1–2; II§2, p.5.) Group-completion equality admits a common additive witness; finite projectives permit replacing that witness by a finite free module.
@@ -14572,7 +14852,7 @@ To prove this, import the Wedderburn decomposition and, on each simple component
 - On a split matrix algebra it is Mathlib matrix determinant.
 - On Hamilton quaternions Nrd(1+i)=2, whereas the determinant of left multiplication by 1+i on ℍ as a four-dimensional real space is 4=Nrd(1+i)².
 
-*Needs:* [TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#06-duals-projective-modules-and-reduced-norms); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
+*Needs:* TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant; [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
 
 <a id="layer-7-topic-11"></a>
 
@@ -14662,7 +14942,7 @@ To prove the adapter, reindex the degree-one conductor sum to compare it with th
 - Over Q₇ take the cubic residue character ω with ω(3)=ζ₃ and ω(7)=1. Put ζ₇=exp(2πi/7). Then τ(χ)=(ζ₇+ζ₇⁶)+ζ₃(ζ₇³+ζ₇⁴)+ζ₃²(ζ₇²+ζ₇⁵), which differs from τ(χ̄) since cos(6π/7)≠cos(4π/7). Here detχ(−1)=1 and τ(χ)τ(χ̄)=7, so E⁻(1/2,χ)=τ(χ̄)/√7=√7/τ(χ), not τ(χ)/√7.
 - For K/F and θ=1, `τ_F`(Ind 1)`/τ_K(1)=(N_F discriminant(K/F))^(1/2)/λ_K/F⁻`. Degree-zero induction cannot omit this factor for a character of positive degree.
 
-*Needs:* [TauCetiRoadmap.ArithmeticGaloisRepresentations, §§2.7, 3.3, 3.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants); [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#local-epsilon-gamma-factors); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); Mathlib `gaussSum`.
+*Needs:* TauCetiRoadmap.ArithmeticGaloisRepresentations, §§2.7, 3.3, 3.5; TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0–AL.1; [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/InductionRestriction, layer 6 the virtual character ring artin and brauer induction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/InductionRestriction/README.md#layer-6-the-virtual-character-ring-artin-and-brauer-induction); Mathlib `gaussSum`.
 
 <a id="layer-7-topic-14"></a>
 
@@ -14706,7 +14986,7 @@ To prove this, use ideal CRT for the pairwise coprime powers `P_iᵉ`. In each q
 - p = 3 (inert, e = 1): the formula is the field trace of 𝔽₉/𝔽₃, (a + bi) + (a + bi)³ = 2a.
 - p = 5 (split): two primes with e = 1, and the trace 2a is the sum of the two residues a + 2b and a − 2b modulo 5 (i ≡ ±2).
 
-*Needs:* [Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0); [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
+*Needs:* [Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0); [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
 
 <a id="layer-7-topic-16"></a>
 
@@ -14724,7 +15004,7 @@ To prove this, use the CRT factorization of cyclotomic Galois groups and local c
 - L = ℚ(√−3) ⊆ ℚ(ζ₉): the cut at 3² gives L ⊆ ℚ(ζ₃).
 - ℚ(i) ⊆ ℚ(ζ₄) is wild at 2, and the 2-cut would put it inside ℚ, so the tameness hypothesis cannot be dropped.
 
-*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
+*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
 
 <a id="layer-7-topic-17"></a>
 
@@ -14793,7 +15073,7 @@ Mathlib's `Algebra.trace_quotient_eq_of_isDedekindDomain` identifies the left si
 - For p unramified (e = 1) the formula is the sum of the residue traces.
 - For ℤ[i] and p = 2 (e = 2, g = 1) both sides vanish identically in `𝔽_2`.
 
-*Needs:* Mathlib `Algebra.trace_quotient_eq_of_isDedekindDomain`; Mathlib `Ideal.ramificationIdxIn`; Mathlib `Algebra.intTrace`; [Tamely ramified extensions of Dedekind domains](#layer-7-topic-2); Mathlib `IsDedekindDomain.quotientEquivPiOfProdEq`; [Trace through the prime-power filtration](#layer-7-topic-15); [Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0); [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
+*Needs:* Mathlib `Algebra.trace_quotient_eq_of_isDedekindDomain`; Mathlib `Ideal.ramificationIdxIn`; Mathlib `Algebra.intTrace`; [Tamely ramified extensions of Dedekind domains](#layer-7-topic-2); Mathlib `IsDedekindDomain.quotientEquivPiOfProdEq`; [Trace through the prime-power filtration](#layer-7-topic-15); [Pseudobases and Steinitz classes of lattices over a Dedekind domain](#layer-7-topic-0); [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
 
 <a id="layer-7-topic-19"></a>
 
@@ -15005,7 +15285,7 @@ To prove this, write each central-simple component as `M_r(D)`. Use the division
 - For split C it agrees with the determinant-one matrix group from ReductiveGroups.
 - Over ℝ, SL₁(ℍ) is compact; it does not satisfy the archimedean noncompactness needed for strong approximation.
 
-*Needs:* [TauCetiRoadmap.AdelicAlgebraicGroups, §3.4 norm-one group](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#34-adelic-reduction-and-arithmetic-quotients); [Reduced norm of a semisimple number-field algebra](#layer-7-topic-10); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
+*Needs:* TauCetiRoadmap.AdelicAlgebraicGroups, §3.4 norm-one group; [Reduced norm of a semisimple number-field algebra](#layer-7-topic-10); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields).
 
 <a id="layer-7-topic-27"></a>
 
@@ -15121,7 +15401,7 @@ The full conductor in the equation is `Cχ=|disc F|^(deg χ)Nfχ`. At a finite v
 - For virtual −χ, the root number, Gauss factor and infinite factor are inverted; every comparison is multiplicative on the virtual-character group.
 - For the zero character, Λ=1 and both root factors are 1, so uniqueness also applies at virtual rank zero.
 
-*Needs:* [Tame local Galois Gauss sums](#layer-7-topic-13); [TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants and completed finite-image equations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisRepresentations/README.md#27-local-constants); [TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 convergence factors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#24-gauge-forms-and-tamagawa-normalization); [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0 trace characters and self-dual measures](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#standard-additive-character); [TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.1 analytic epsilon factors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicLFunctionsAndLocalFactors/README.md#local-epsilon-gamma-factors); [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 7 the frobenius schur indicator and realquaternionic type](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-7-the-frobenius-schur-indicator-and-realquaternionic-type); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
+*Needs:* [Tame local Galois Gauss sums](#layer-7-topic-13); TauCetiRoadmap.ArithmeticGaloisRepresentations, §2.7 local constants and completed finite-image equations; TauCetiRoadmap.AdelicAlgebraicGroups, AA.2.4 convergence factors; TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.0 trace characters and self-dual measures; TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors, AL.1 analytic epsilon factors; [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 7 the frobenius schur indicator and realquaternionic type](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-7-the-frobenius-schur-indicator-and-realquaternionic-type); [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
 
 <a id="layer-7-topic-31"></a>
 
@@ -15175,7 +15455,7 @@ To prove this, the displayed function satisfies the H-equivariance condition. Th
 - H = 1: the module is `M^{|G|}`, functions G → M with no condition.
 - G = C₂, H = 1, M = S: the module is S[C₂], and σ exchanges the two values of f.
 
-*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Balanced extension for noncommutative orders](#layer-7-topic-8).
+*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Balanced extension for noncommutative orders](#layer-7-topic-8).
 
 <a id="layer-7-topic-34"></a>
 
@@ -15193,7 +15473,7 @@ To prove this, field linear disjointness gives the generic tensor isomorphism. A
 - F = ℚ, L = ℚ(i), K = ℚ(√2): the discriminants −4 and 8 are not coprime, and ℤ[i, √2] has index 2 in ℤ[ζ₈] (ζ₈ = (1 + i)/√2 is not in it).
 - For L = F the statement is `O_F ⊗ O_K ≅ O_K`.
 
-*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant); [Balanced extension for noncommutative orders](#layer-7-topic-8).
+*Needs:* [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant); [Balanced extension for noncommutative orders](#layer-7-topic-8).
 
 <a id="layer-7-topic-35"></a>
 
@@ -15231,10 +15511,10 @@ The supporting API comprises:
 - `IntegralGaloisModule.IsNIBGenerator`: α generates a normal integral basis: `(gα)_g` is an A-basis of B.
 - `IntegralGaloisModule.HasNIB`: B has a normal integral basis over A.
 - `IntegralGaloisModule.IsNIBGenerator.basis`: The A-basis of B indexed by G defined by a generator.
-- `IntegralGaloisModule.IsNIBGenerator.basis_apply`: basis g = g·α.
+- the conjugate-basis formula: basis g = g·α.
 - `IntegralGaloisModule.isNIBGenerator_iff_bijective`: α generates exactly when x ↦ x·α, A[G] → B, is bijective (B free of rank one over A[G]).
-- `IntegralGaloisModule.IsNIBGenerator.unit_smul`: u·α generates for every unit u of A[G].
-- `IntegralGaloisModule.IsNIBGenerator.exists_unit`: Two generators differ by a unit of A[G].
+- invariance under a group-ring unit: u·α generates for every unit u of A[G].
+- the group-ring unit comparison: Two generators differ by a unit of A[G].
 - `IntegralGaloisModule.IsNIBGenerator.isGenerator`: For number fields a normal integral basis generator is a normal basis generator of L/K.
 
 (Henri Johnston, [Notes on Galois Modules](#reference-johnston-galois-modules-2016), Definition 1.6 (printed p. 2).) The definition in the conventions used here, stated for any Galois group of B/A so that the number-field and local cases are the same declaration.
@@ -15285,7 +15565,7 @@ If every P over p is tame: the residue extension of `P_1` is separable, so its t
 - For ℤ[i]/ℤ and p = 2: Tr(ℤ[i]) = 2ℤ ⊆ (2).
 - For `ℤ[ζ_p]/ℤ`, p odd: `Tr(ℤ[ζ_p]) = ℤ` is contained in no prime.
 
-*Needs:* [The trace modulo a prime in a Galois extension](#layer-7-topic-18); [Tamely ramified extensions of Dedekind domains](#layer-7-topic-2); Mathlib `Algebra.trace_eq_zero_of_not_isSeparable`; Mathlib `Algebra.trace_ne_zero`; [Trace through the prime-power filtration](#layer-7-topic-15); [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
+*Needs:* [The trace modulo a prime in a Galois extension](#layer-7-topic-18); [Tamely ramified extensions of Dedekind domains](#layer-7-topic-2); Mathlib `Algebra.trace_eq_zero_of_not_isSeparable`; Mathlib `Algebra.trace_ne_zero`; [Trace through the prime-power filtration](#layer-7-topic-15); [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
 
 <a id="layer-7-topic-38"></a>
 
@@ -15337,7 +15617,7 @@ Choose left coset representatives R of `G_w` in G; the product is `⊕_{g∈R} g
 - For v unramified and split completely, `G_w = 1` and the module is `𝒪̂_v[G] ⊗ 𝒪̂_v = 𝒪̂_v[G]`.
 - For v inert, `G_w = G` and the statement is `𝒪̂_v ⊗ 𝓞_L = 𝒪_{L_w}`.
 
-*Needs:* [The ring of integers as a module over the group ring](#layer-7-topic-1); Mathlib `MonoidAlgebra`; Mathlib `Ideal.isPretransitive_of_isGaloisGroup`; [Balanced extension for noncommutative orders](#layer-7-topic-8); [Balanced induction and the finite coset model](#layer-7-topic-33); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+*Needs:* [The ring of integers as a module over the group ring](#layer-7-topic-1); Mathlib `MonoidAlgebra`; Mathlib `Ideal.isPretransitive_of_isGaloisGroup`; [Balanced extension for noncommutative orders](#layer-7-topic-8); [Balanced induction and the finite coset model](#layer-7-topic-33); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 
 <a id="layer-7-topic-40"></a>
 
@@ -15469,7 +15749,7 @@ To prove this, after a splitting field this is `SL_d`; descend the connected, se
 - C the Hamilton quaternions over ℚ: SL₁(C)(ℝ) = SU(2) is compact, the excluded case.
 - `C = M₂(ℍ_ℚ)` of degree 4: SL₁(C)(ℝ) = SL₂(ℍ) is noncompact, so Eichler's condition allows matrix algebras over definite quaternions.
 
-*Needs:* [Norm-one groups of semisimple matrix components](#layer-7-topic-26); [Eichler’s condition for semisimple algebras](#layer-7-topic-11); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); [TauCetiRoadmap.AdelicAlgebraicGroups, §4.2 Strong approximation and arithmetic closures](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#42-strong-approximation-and-arithmetic-closures).
+*Needs:* [Norm-one groups of semisimple matrix components](#layer-7-topic-26); [Eichler’s condition for semisimple algebras](#layer-7-topic-11); [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups); TauCetiRoadmap.AdelicAlgebraicGroups, §4.2 Strong approximation and arithmetic closures.
 
 <a id="layer-7-topic-45"></a>
 
@@ -15487,7 +15767,7 @@ To prove this, for a separable algebra E=F[X]/f, its embedding in C with total d
 - C the Hamilton quaternions over ℚ: f = X² + 1 is realised by i, while f = X² − 2 is not, because its reduced norm −2 is negative and ℚ(√2) does not split C at the real place.
 - f = (X − 1)² is not separable and lies outside the statement.
 
-*Needs:* [Reduced norm of a semisimple number-field algebra](#layer-7-topic-10); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields); [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Reduced characteristic polynomials](#reduced-characteristic-polynomial-input).
+*Needs:* [Reduced norm of a semisimple number-field algebra](#layer-7-topic-10); [TauCetiRoadmap.RepresentationTheory/SemisimpleAlgebras, layer 6 the brauer group and splitting fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/SemisimpleAlgebras/README.md#layer-6-the-brauer-group-and-splitting-fields); [TauCetiRoadmap.ClassFieldTheory, layer 10 global carriers the brauer sequence and the sum of local invariants](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-10-global-carriers-the-brauer-sequence-and-the-sum-of-local-invariants); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places); [Reduced characteristic polynomials](#reduced-characteristic-polynomial-input).
 
 <a id="layer-7-topic-46"></a>
 
@@ -15561,7 +15841,7 @@ To prove this, the pinned A-algebra structure on `Â_v` sends a∈A to its image
 - 2ℤ ⊆ ℤ: the two lattices differ only after completing at 2.
 - For a field there are no nonzero primes and the family detects nothing, so the nonfield hypothesis is needed.
 
-*Needs:* Mathlib `IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`; Mathlib `IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletionIntegers_apply`; Mathlib `IsDedekindDomain.flat_iff_torsion_eq_bot`; Mathlib `ValuationSubring.isLocalRing`; Mathlib `Module.FaithfullyFlat.of_flat_of_isLocalHom`; [Central flat scalar change for finite-order Hom modules](#layer-7-topic-32); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+*Needs:* Mathlib `IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`; Mathlib `IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletionIntegers_apply`; Mathlib `IsDedekindDomain.flat_iff_torsion_eq_bot`; Mathlib `ValuationSubring.isLocalRing`; Mathlib `Module.FaithfullyFlat.of_flat_of_isLocalHom`; [Central flat scalar change for finite-order Hom modules](#layer-7-topic-32); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 
 <a id="layer-7-topic-49"></a>
 
@@ -15802,9 +16082,9 @@ To prove this, l = K[G]·α freely (tensor with K).
 
 ### 7.58 Normal integral bases of arithmetically disjoint composita
 
-Let K₁, K₂ ⊆ N be Galois number fields over ℚ, linearly disjoint (their discriminants coprime, which forces this), with K₁K₂ = N, so that Gal(N/ℚ) = Gal(K₁/ℚ) × Gal(K₂/ℚ). If `α_i` generates a normal integral basis of `K_i/ℚ`, then α₁α₂ generates a normal integral basis of N/ℚ. More generally (Johnston 6.4(i)), over a base F with coprime different ideals, a normal integral basis of L/F stays one of LK/K.
+Let K₁, K₂ ⊆ N be Galois number fields over ℚ, linearly disjoint (their discriminants coprime, which forces this), with K₁K₂ = N, so that Gal(N/ℚ) = Gal(K₁/ℚ) × Gal(K₂/ℚ). If `α_i` generates a normal integral basis of `K_i/ℚ`, then α₁α₂ generates a normal integral basis of N/ℚ. More generally, let L/F be a finite Galois extension of number fields and K/F a finite extension, in a common algebraic closure, linearly disjoint over F with coprime relative discriminant ideals in `𝓞_F` (equivalently, coprime differents after extension to LK). A normal integral basis generator of L/F then remains a normal integral basis generator of LK/K, with `Gal(LK/K) ≅ Gal(L/F)`.
 
-K₁, K₂ Galois over ℚ with coprime discriminants and compositum N.
+K₁, K₂ Galois over ℚ with coprime discriminants and compositum N. Over F, arithmetic disjointness includes both linear disjointness and coprimality; coprimality alone does not suffice.
 
 (Henri Johnston, [Notes on Galois Modules](#reference-johnston-galois-modules-2016), Proposition 6.4 (printed p. 11).) Part (i); part (ii), with K/F Galois of group H and generator β, gives `O_{LK} = O_F[G × H]·αβ`, which is the result over ℚ.
 
@@ -15818,11 +16098,14 @@ Combine with the ℤ-basis `(τα₁)_τ` of `𝓞_{K₁} (Module.Basis.smulTowe
 
 Under Gal(N/ℚ) = Gal(K₁/ℚ) × Gal(K₂/ℚ), (τ, σ)(α₁α₂) = τα₁·σα₂.
 
+For the relative assertion, §7.34 identifies `𝓞_L ⊗[𝓞_F] 𝓞_K` with `𝓞_{LK}` under both hypotheses. Tensor the normal basis over `𝓞_F` with `𝓞_K`; linear disjointness identifies the conjugate index set with Gal(LK/K).
+
 **Checks.**
 
 - For `ℚ(ζ_3)` and `ℚ(ζ_5)`, `ζ_3ζ_5` is a primitive fifteenth root and generates a normal integral basis of `ℚ(ζ_15)`. With `ζ_n=exp(2πi/n)`, this product is `ζ_15⁸`.
 - The coprimality hypothesis is needed: ℚ(i) and ℚ(√2) are not arithmetically disjoint.
 - Taking K₁=ℚ and α₁=1 leaves the normal generator of K₂ unchanged.
+- Linear disjointness cannot be omitted over F: take `F = ℚ(√14)`, `ε = −15 − 4√14`, `L = F(√ε)` and `α = (1 + √ε)/2`. The polynomial `X² − X + (4 + √14)` has unit discriminant ε, so `𝓞_L = 𝓞_F[α]` and the relative different is the unit ideal. The conjugates α and 1 − α form an integral basis, but `N_{L/ℚ}(α) = 2`, so α is not a unit. For K = L the two differents are coprime while α cannot generate the rank-one integral basis of L/L.
 
 *Needs:* Mathlib `Module.Basis.ofIsCoprimeDifferentIdeal`; Mathlib `Module.Basis.ofIsCoprimeDifferentIdeal_apply`; Mathlib `NumberField.linearDisjoint_of_isGalois_isCoprime_discr`; Mathlib `NumberField.isCoprime_differentIdeal_of_isCoprime_discr`; Mathlib `Module.Basis.smulTower`; [Normal integral bases](#layer-7-topic-36); [Integral composita under arithmetic disjointness](#layer-7-topic-34).
 
@@ -16167,7 +16450,7 @@ To prove this, only finitely many local lattices differ from `Λ_v`. Clear denom
 - For a commutative number field this is the fractional ideal obtained from the existing local valuations.
 - Having `α_p=p` at infinitely many rational primes is not an idele relative to `ℤ_p×`.
 
-*Needs:* [Orders in finite-dimensional algebras](#layer-7-topic-4); [Lattices are determined by their completions](#layer-7-topic-55); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+*Needs:* [Orders in finite-dimensional algebras](#layer-7-topic-4); [Lattices are determined by their completions](#layer-7-topic-55); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 
 <a id="layer-7-topic-73"></a>
 
@@ -16418,7 +16701,7 @@ The abelian form follows from the resolvent formula.
 - ℚ(√5): θ = (1 + √5)/2 gives `5 = d_K`.
 - ℚ(i): θ = 1 + i gives `−16 = 4·d_K`; index 2.
 
-*Needs:* [Normal integral bases](#layer-7-topic-36); [The discriminant of a normal basis is the product of squared resolvents](#layer-7-topic-76); Mathlib `Algebra.discr_of_matrix_mulVec`; Mathlib `NumberField.discr_eq_discr`; Mathlib `NumberField.discr`; [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant).
+*Needs:* [Normal integral bases](#layer-7-topic-36); [The discriminant of a normal basis is the product of squared resolvents](#layer-7-topic-76); Mathlib `Algebra.discr_of_matrix_mulVec`; Mathlib `NumberField.discr_eq_discr`; Mathlib `NumberField.discr`; [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant).
 
 <a id="layer-7-topic-83"></a>
 
@@ -16696,7 +16979,7 @@ By [The completed ring of integers is induced from a decomposition group](#layer
 - `ℚ(ζ_p)/ℚ`: locally free (indeed free).
 - ℚ(i)/ℚ: not locally free at 2 (wild).
 
-*Needs:* [Noether's theorem for local fields](#layer-7-topic-88); [The completed ring of integers is induced from a decomposition group](#layer-7-topic-39); [Locally free lattices over an order](#layer-7-topic-54); [Tamely ramified extensions of Dedekind domains](#layer-7-topic-2); [Balanced induction and the finite coset model](#layer-7-topic-33); [Dedekind completions jointly detect finite-module equality](#layer-7-topic-48); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+*Needs:* [Noether's theorem for local fields](#layer-7-topic-88); [The completed ring of integers is induced from a decomposition group](#layer-7-topic-39); [Locally free lattices over an order](#layer-7-topic-54); [Tamely ramified extensions of Dedekind domains](#layer-7-topic-2); [Balanced induction and the finite coset model](#layer-7-topic-33); [Dedekind completions jointly detect finite-module equality](#layer-7-topic-48); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 
 <a id="layer-7-topic-96"></a>
 
@@ -16876,7 +17159,7 @@ Each factor is `𝒪̂_v[G]` ([Noether: tame extensions have locally free rings 
 - For K = ℚ the rank is one and the statement is [Noether: tame extensions have locally free rings of integers](#layer-7-topic-95).
 - The rank is [K : ℚ], not 1: `𝓞_K[G]` itself is free of rank [K : ℚ] over ℤ[G].
 
-*Needs:* [Noether: tame extensions have locally free rings of integers](#layer-7-topic-95); [Locally free lattices over an order](#layer-7-topic-54); [The restriction map on projective K₀](#layer-7-topic-43); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+*Needs:* [Noether: tame extensions have locally free rings of integers](#layer-7-topic-95); [Locally free lattices over an order](#layer-7-topic-54); [The restriction map on projective K₀](#layer-7-topic-43); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 
 <a id="layer-7-topic-104"></a>
 
@@ -16901,7 +17184,7 @@ Tame ⇒ equality, global case: at every v the completed module is free over `�
 - ℚ(i)/ℚ: `A_{L/K} ⊋ ℤ[G]`.
 - `ℚ(ζ_p)/ℚ`: `A_{L/K} = ℤ[G]`.
 
-*Needs:* [The associated order of a Galois extension](#layer-7-topic-41); [The only order over which the integers can be free](#layer-7-topic-57); [Tame ramification is surjectivity of the trace](#layer-7-topic-50); [Noether's theorem for local fields](#layer-7-topic-88); [Noether: tame extensions have locally free rings of integers](#layer-7-topic-95); [Lattices are determined by their completions](#layer-7-topic-55); [Central flat scalar change for finite-order Hom modules](#layer-7-topic-32); [Dedekind completions jointly detect finite-module equality](#layer-7-topic-48); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+*Needs:* [The associated order of a Galois extension](#layer-7-topic-41); [The only order over which the integers can be free](#layer-7-topic-57); [Tame ramification is surjectivity of the trace](#layer-7-topic-50); [Noether's theorem for local fields](#layer-7-topic-88); [Noether: tame extensions have locally free rings of integers](#layer-7-topic-95); [Lattices are determined by their completions](#layer-7-topic-55); [Central flat scalar change for finite-order Hom modules](#layer-7-topic-32); [Dedekind completions jointly detect finite-module equality](#layer-7-topic-48); [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 
 <a id="layer-7-topic-105"></a>
 
@@ -17395,9 +17678,9 @@ The Gaussian integer extension has a rational normal basis and no integral norma
 
 The declarations and supplier layers used by this layer are:
 
-- [TauCetiRoadmap.AdelicAlgebraicGroups, §4.2 Strong approximation and arithmetic closures](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdelicAlgebraicGroups/README.md#42-strong-approximation-and-arithmetic-closures).
-- [TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#06-duals-projective-modules-and-reduced-norms).
-- [TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.5 characteristic polynomial law](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/IntegralHeckeAndGaloisDeterminants/README.md#05-characteristic-coefficients-and-trace-comparisons).
+- TauCetiRoadmap.AdelicAlgebraicGroups, §4.2 Strong approximation and arithmetic closures.
+- TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.6 Azumaya reduced-norm determinant.
+- TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, §0.5 characteristic polynomial law.
 - Mathlib `Algebra.IsInvariant`.
 - Mathlib `Algebra.IsSeparable`.
 - Mathlib `Algebra.IsSeparable.trans`.
@@ -17509,9 +17792,9 @@ The declarations and supplier layers used by this layer are:
 - [TauCetiRoadmap.ClassFieldTheory, layer 7 the absolute local artin map its normalizations and conductors](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassFieldTheory/README.md#layer-7-the-absolute-local-artin-map-its-normalizations-and-conductors).
 - [TauCetiRoadmap.LocalFieldsRamification, layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius).
 - [TauCetiRoadmap.LocalFieldsRamification, layer 3 ramification the tame and wild cases and the filtration](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-3-ramification-the-tame-and-wild-cases-and-the-filtration).
-- [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
-- [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant).
-- [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
+- [TauCetiRoadmap.NumberFieldArithmetic, layer 1 the splitting dictionary](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-1-the-splitting-dictionary).
+- [TauCetiRoadmap.NumberFieldArithmetic, layer 4 the relative discriminant](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-4-the-relative-discriminant).
+- [TauCetiRoadmap.NumberFieldArithmetic, layer 5 the global local dictionary at finite places](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/Completed/NumberFieldArithmetic/README.md#layer-5-the-global-local-dictionary-at-finite-places).
 - [TauCetiRoadmap.ReductiveGroups, layer 6 reductive and semisimple groups](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ReductiveGroups/README.md#layer-6-reductive-and-semisimple-groups).
 - [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 3 the character table idempotents completeness second orthogonality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-3-the-character-table-idempotents-completeness-second-orthogonality).
 - [TauCetiRoadmap.RepresentationTheory/CharacterTheory, layer 4 the arithmetic of character values](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/RepresentationTheory/CharacterTheory/README.md#layer-4-the-arithmetic-of-character-values).
@@ -17615,6 +17898,14 @@ Page numbers in the layers refer to the edition or preprint version named below;
 
 - **Abdallah Assi and Pedro A. García-Sánchez**. [Numerical semigroups and applications](https://arxiv.org/pdf/1411.6093v1). arXiv:1411.6093v1 (22 November 2014).
 
+<a id="reference-bach-explicit-bounds-1990"></a>
+
+- **Eric Bach**. [Explicit bounds for primality testing and related problems](https://www.ams.org/journals/mcom/1990-55-191/S0025-5718-1990-1023756-8/S0025-5718-1990-1023756-8.pdf). Mathematics of Computation 55 (1990), no. 191, 355–380, doi:10.1090/S0025-5718-1990-1023756-8, publisher PDF (freely served).
+
+<a id="reference-bach-euler-products-1995"></a>
+
+- **Eric Bach**. Improved approximations for Euler products. In Number Theory (Halifax, NS, 1994), CMS Conference Proceedings 15, American Mathematical Society (1995), 13–28; no freely available copy, cited by title, with the summary of [zbMATH Open, Zbl 0842.11046](https://zbmath.org/?q=an:0842.11046).
+
 <a id="reference-bala-strongdivisibility-2014"></a>
 
 - **Peter Bala**. [Divisibility sequences from strong divisibility sequences](https://oeis.org/A238600/a238600.pdf). Note of March 2014 attached to OEIS A238600 (10 pages).
@@ -17630,6 +17921,10 @@ Page numbers in the layers refer to the edition or preprint version named below;
 <a id="reference-belabas-computational-2004"></a>
 
 - **Karim Belabas**. [Topics in computational algebraic number theory](https://www.numdam.org/item/JTNB_2004__16_1_19_0.pdf). Journal de Théorie des Nombres de Bordeaux 16 (2004), 19–63; Numdam scan.
+
+<a id="reference-belabas-diazydiaz-friedman-2008"></a>
+
+- **Karim Belabas, Francisco Diaz y Diaz and Eduardo Friedman**. [Small generators of the ideal class group](https://www.ams.org/journals/mcom/2008-77-262/S0025-5718-07-02003-0/S0025-5718-07-02003-0.pdf). Mathematics of Computation 77 (2008), no. 262, 1185–1197, doi:10.1090/S0025-5718-07-02003-0, publisher PDF (freely served).
 
 <a id="reference-bennett-siksek-erdos-2020"></a>
 
@@ -17654,6 +17949,10 @@ Page numbers in the layers refer to the edition or preprint version named below;
 <a id="reference-biasse-fieker-classgroup-2014"></a>
 
 - **Jean-François Biasse and Claus Fieker**. [Subexponential class group and unit group computation in large degree number fields](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/4387ACB036E3358143A563F196E386CB/S1461157014000345a.pdf/div-class-title-subexponential-class-group-and-unit-group-computation-in-large-degree-number-fields-div.pdf). LMS Journal of Computation and Mathematics 17 (Special issue A) (2014), 385–403, doi:10.1112/S1461157014000345.
+
+<a id="reference-biasse-fieker-new-techniques-2012"></a>
+
+- **Jean-François Biasse and Claus Fieker**. [New techniques for computing the ideal class group and a system of fundamental units in number fields](https://arxiv.org/pdf/1204.1294v1). arXiv:1204.1294v1 (2012), author preprint; printed PDF pages.
 
 <a id="reference-bloom-unit-fractions-2023"></a>
 
@@ -17810,6 +18109,10 @@ Page numbers in the layers refer to the edition or preprint version named below;
 <a id="reference-ghosh-sarnak-2022-v3"></a>
 
 - **Amit Ghosh and Peter Sarnak**. [Integral points on Markoff type cubic surfaces](https://arxiv.org/pdf/1706.06712v3). arXiv:1706.06712v3 (30 May 2022), the final arXiv version of Invent. Math. 229 (2022), 689–749; findings scoped to this preprint.
+
+<a id="reference-grenie-molteni-2016"></a>
+
+- **Loïc Grenié and Giuseppe Molteni**. [Explicit versions of the prime ideal theorem for Dedekind zeta functions under GRH](https://arxiv.org/pdf/1312.4463v4). arXiv:1312.4463v4 (2015), author version of Mathematics of Computation 85 (2016), 889–906, doi:10.1090/mcom3031; page numbers of the arXiv version.
 
 <a id="reference-hatcher-topologyofnumbers-2024"></a>
 
