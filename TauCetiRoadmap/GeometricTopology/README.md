@@ -402,7 +402,8 @@ theorem, and Layer 8 the uniqueness of PL and smooth structures in dimension two
 ### From TauCetiRoadmap.TypeAHeckeAlgebras
 
 H1 supplies the finite type-A Hecke algebras and H2 the Ocneanu trace and its braid-closure
-invariance; Layer 4 uses them only for the trace route to the HOMFLY polynomial.
+invariance. Layer 4 consumes them for the HOMFLY trace theorem and the low-strand
+Jones/Burau block comparisons; it owns the geometric closure and native-matrix adapters.
 
 ## How to read the build
 
@@ -1323,6 +1324,111 @@ Chapter 16).
 
 *Needs:* Tau Ceti `TauCeti.PDCode.kauffmanBracket`, `TauCeti.OrientedPDCode.jonesPolynomial`,
 `TauCeti.KnotTheory.jimboWeightedTrace`; Layer 4.2.
+
+### 4.5.1 Low-strand Burau identities and braid obstructions
+
+**Burau normalization and low-strand Jones identities.** For a word `b` on
+`n≥1` strands with knot closure, let `e` be its exponent sum and let `B_n(b;t)`
+be the actual native `TauCeti.KnotTheory.reducedBurauCol` matrix. Pin its
+generator convention: in row `i` the nonidentity entries are `1,−t,t`, at
+columns `i−1,i,i+1` when present. The normalized Alexander polynomial has
+`Δ(t⁻¹)=Δ(t)` and `Δ(1)=1`. Prove the exact determinant comparison
+
+`(1+t+⋯+t^(n−1)) Δ(t) = t^((n−1−e)/2) det(I−B_n(b;t))`.
+
+Prove `e≡n−1 (mod 2)` from the endpoint `n`-cycle. Construct the Laurent
+quotient, prove its symmetry, normalization, uniqueness and agreement with
+the Seifert/Fox invariant of the realized closure from Layer 4.4. This is an
+equality with the unit fixed, beyond association with the native unreduced
+corner minor. Consume the native reduced-determinant/corner-minor comparison
+where available; this layer supplies the geometric normalization and its fixed
+unit. Use `u=t^(1/2)` in the native Jones ring: the Laurent exponent
+in the determinant numerator is then `n−1−e`, and the denominator is
+`Σ_(j<n) u^(2j)`. First prove the identities over the generic Laurent/fraction
+field and then clear denominators and use injectivity to obtain Laurent
+identities; specialization must not divide by a vanishing quantum integer.
+
+For every three-strand word, prove the trace comparison
+
+`V_cl(b)(t)=(-u)^e (t+t⁻¹+tr B_3(b;t))`.
+
+For knot closures `e` is even. Combine the determinant character
+`det B_3=(-t)^e` with `det(I−B_3)=1−tr B_3+det B_3` to prove
+
+`V_cl(b)(t)=t^(e/2)(t+t⁻¹+1+t^e−t^(e/2−1)(1+t+t²)Δ(t))`.
+
+The `+t` term is required: for `σ₁σ₂`, with `e=2` and `Δ=1`, the result
+must be the unknot value `1`. Check also `σ₁³σ₂`, whose closure has
+`Δ=t−1+t⁻¹` and `V=t+t³−t⁴`, and their mirrors. Keep the small-term reading
+in the course scan separate from this calibrated mathematical identity.
+
+For four-strand knot closures `e` is odd. Prove the reciprocal identity
+
+`t^(−e)V(t)+t^e V(t⁻¹) =`
+`(u⁻³+u⁻¹+u+u³)(u^e+u^(−e))−(t⁻²+t⁻¹+2+t+t²)Δ(t)`.
+
+Construct its exact generic Hecke/Temperley–Lieb block comparison rather than
+assuming the formula: the three blocks have dimensions `1,3,2`, the
+three-dimensional block is the native reduced Burau representation, and the
+two-dimensional block `R` has determinant `−t^e`. With
+`s=u+u⁻¹`, `D=t+1+t⁻¹` and `C=t²+t+1+t⁻¹+t⁻²`, prove for odd `e`
+`V=u^e(C+D tr B_4+tr R)/s`. Prove the parameter-inversion/dual comparisons,
+the two-dimensional relation `tr R⁻¹=tr R/det R`, and the three-dimensional
+determinant expansion. They cancel the two-dimensional traces in the
+reciprocal combination and give the displayed identity after clearing
+denominators. Consume the generic block and trace theory from
+[TypeAHeckeAlgebras H1–H2](../TypeAHeckeAlgebras/README.md) and the positive
+quotient theory from
+[TemperleyLiebOperatorAlgebras A1–A3](../TemperleyLiebOperatorAlgebras/README.md);
+this layer owns their identification with the native Burau matrices and
+realized-closure Jones invariant, including the explicit block weights and
+all specialization adapters. Check `σ₁σ₂σ₃`, the four-strand unknot.
+
+**Root-value braid obstructions and a source counterexample.** In the native
+Burau-column basis, for a unit-circle parameter `t≠−1`, define the Hermitian
+tridiagonal matrix with diagonal `1`, upper off-diagonal `−t/(1+t)` and
+lower off-diagonal its complex conjugate. Prove that every elementary Burau
+matrix preserves it, and hence so do inverse letters and all braid words.
+For three strands at `t=i`, its two leading principal minors are `1,1/2`.
+For four strands at `ζ=exp(2πi/5)`, they are
+`1,(√5−1)/2,√5−2`. Prove positivity and convert this Hermitian unitarity
+to ordinary unitarity. Supply the finite-dimensional determinant estimate
+`|det(I−U)|≤2^d` for a unitary `d×d` matrix, and the determinant-formula
+evaluation adapters. The Alexander denominator has modulus `1` at each
+specified root. Thus three-braid knot closures have `|Δ(i)|≤4`;
+symmetry and `Δ(1)=1` make `Δ(i)` an odd integer, giving `|Δ(i)|≤3`.
+Four-braid knot closures have the valid bound `|Δ(ζ)|≤8`. Export the
+contrapositives as obstructions to *any* three- or four-strand presentation
+of the knot, through the geometric closure invariance. These uniform bounds
+are not claims of optimality, and no nondegenerate Hermitian form is called
+positive without the principal-minor proof. The invariant-form construction
+follows Squier,
+[*The Burau representation is unitary*](https://doi.org/10.1090/S0002-9939-1984-0727232-8),
+Proc. AMS 90 (1984), 199–202, with the stated native-basis adapter.
+
+The course's embedded Jones article, physical p93, Corollary 24, asserts
+the stronger one-sided threshold `Δ(ζ)>6.5`. This claim is false in the
+stated normalization. Give the explicit four-strand word with signed
+one-based generator indices
+
+`[2,2,−3,2,3,1,2,2,1,3,−1,3,2,2,1,−2,−3,−3,1]`.
+
+Prove its exponent sum `9` and endpoint permutation `[2,0,3,1]`, a
+four-cycle `(0 2 3 1)` on zero-based labels, so its realized closure is a
+knot. Prove its exact native determinant/normalized Alexander calculation
+
+`Δ(t)=27−17(t+t⁻¹)+(t²+t⁻²)+5(t³+t⁻³)−3(t⁴+t⁻⁴)+(t⁵+t⁻⁵)`.
+
+It has `Δ(1)=1` and
+`Δ(ζ)=36−13√5>13/2`, with the inequality certified by
+`59²>26²·5`. Supply the actual finite braid/PD realization and determinant
+certificates; a numerical evaluation is not the counterexample proof.
+Retain the literal threshold as a refuted source assertion, not a theorem
+target. The historical statement that the three-braid test settles 43 of
+59 listed cases still requires the individual finite table identifications
+and root evaluations; a uniform obstruction alone proves no such count.
+`LowStrandBurauTargets.lean` suggests native polynomial and matrix interfaces
+for these targets.
 
 ### 4.6 The HOMFLY and Kauffman polynomials
 
