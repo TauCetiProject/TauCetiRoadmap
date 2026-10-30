@@ -34,10 +34,11 @@ classification or realization theorem belong to `GlobalQuadraticForms`.
 
 **Audit status: incomplete. This roadmap remains active.**
 The three implementation PRs below close specific examples and comparison gaps, but they do
-not implement the actual upward-`ULift` transport and naturality square required by stage 2
-of the retained three-stage universe programme. The roadmap must remain active until that
-square is proved on the transported field, CSA/Brauer classes, absolute Galois group and
-coefficient/cohomology objects.
+not discharge the full upward-`ULift` naturality square required by stage 2 of the retained
+three-stage universe programme. The roadmap must remain active until that square is proved
+for the independently transported field, CSA/Brauer classes, absolute Galois group and
+coefficient/cohomology objects. The transport constructions audited below are concrete progress
+toward that remaining comparison.
 
 The existing native `BrauerGroup.baseChange` and crossed-product naturality bind both fields
 to the same universe, and `ContinuousMulEquiv.continuousCohomologyIso` likewise binds the two
@@ -67,15 +68,34 @@ proves compatibility with restriction to identified normal subextensions, and
 proves the corresponding finite-cocycle and cohomology inflation equations for compatible
 maps of finite normal subextensions.
 
-Stage 2 still requires the actual upward-`ULift` transport on CSA/Brauer quotient classes
-and its full Brauer/cohomology naturality square. `BrauerGroup.baseChange` and
-`brauerCohomologyEquiv_baseChange` retain their same-universe field parameters. The new
-group/coefficient/cohomology transports and finite-inflation equations are concrete progress
-toward the square; the roadmap remains active until the quotient transport and full square
-are constructed and proved.
+The reviewed source at
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8)
+also supplies actual upward transport on Brauer quotient classes in
+[`BrauerGroup/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/daa66339a578b8c1c41c20b94839ca25444cc1e8/TauCeti/Algebra/BrauerGroup/ULift.lean).
+`BrauerGroup.uliftEquiv` identifies `BrauerGroup.{u, u} K` with
+`BrauerGroup.{max u w, max u w} (ULift.{w} K)` for an arbitrary field `K : Type u`,
+without a smallness hypothesis on `K`. Its action on a central simple representative is
+scalar extension `ULift K ⊗[K] A`, by `uliftEquiv_mk`. Quotient well-definedness and
+multiplicativity are proved directly; injectivity uses splitting, and surjectivity derives
+smallness of a finite-dimensional representative and shrinks it to the original universe.
+[`Quaternion/BaseChange.lean`](https://github.com/TauCetiProject/TauCeti/blob/daa66339a578b8c1c41c20b94839ca25444cc1e8/TauCeti/Algebra/Quaternion/BaseChange.lean)
+proves `uliftEquiv_quaternionClass` and `uliftEquiv_quaternionClassOnSquareClasses`,
+compatibility with quaternion symbols and the actual map on square classes.
+
+Stage 2 still requires the full Brauer/cohomology naturality square for every Brauer class.
+For `e := (ULift.ringEquiv : ULift.{w} K ≃+* K).symm`, the required explicit comparison is
+`brauerExplicitH2Equiv (ULift K) (Additive.ofMul (BrauerGroup.uliftEquiv K x)) =
+e.unitsH2Congr (brauerExplicitH2Equiv K (Additive.ofMul x))` for every
+`x : BrauerGroup.{u, u} K`, together with its continuous-cohomology form through the
+canonical explicit-to-continuous comparison. `brauerCohomologyEquiv_baseChange` retains
+same-universe field parameters. The finite-inflation equations and quaternion formulas
+do not yet identify the independently defined quotient transport with the comparison on
+all classes. The cohomological `ClassFieldTheory.brCongr` alone does not supply this
+identification with actual CSA/Brauer quotient classes. The roadmap remains active until
+the full square is proved; no edge may be defined by conjugating the comparison maps.
 
 The inventory and checked proofs below describe only the covered targets. They do not claim
-this outstanding square or any equivalent cross-universe transport has been implemented.
+the outstanding full comparison square has been implemented.
 
 The three independent implementation PRs that close the covered gaps are
 [TauCeti#22016](https://github.com/TauCetiProject/TauCeti/pull/22016),
