@@ -1187,14 +1187,14 @@ example (k : Type u) [Field k] {M : Type u} [TopologicalSpace M]
   let := m.cw
   let := m.finite
   simpa [FiniteCWTypeModel.eulerCharacteristic, cellularChainComplex,
-    finiteCWEulerCharacteristic] using
+    finiteCWEulerCharacteristic, TauCeti.cwEulerChar_def] using
     (TauCeti.eulerChar_cellularChainComplex (Set.univ : Set m.X) (ModuleCat.of k k))
 
 /-- The space-level cell count is the native cellular-complex Euler characteristic. -/
 example (k : Type u) [Field k] (X : Type u) [TopologicalSpace X] [T2Space X]
     [CWComplex (Set.univ : Set X)] [CWComplex.Finite (Set.univ : Set X)] :
     (cellularChainComplex k X).eulerChar = finiteCWEulerCharacteristic X := by
-  simpa [cellularChainComplex, finiteCWEulerCharacteristic] using
+  simpa [cellularChainComplex, finiteCWEulerCharacteristic, TauCeti.cwEulerChar_def] using
     (TauCeti.eulerChar_cellularChainComplex (Set.univ : Set X) (ModuleCat.of k k))
 
 theorem finiteCWEulerCharacteristic_eq_of_homotopyEquiv

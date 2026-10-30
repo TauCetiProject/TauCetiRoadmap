@@ -2561,7 +2561,9 @@ Its theorems on subgroups and on strict dimension are stated at `v = u` for `G :
 (for instance `TauCeti.strictCohomologicalDimensionAt_le_of_isClosed` and
 `TauCeti.cohomologicalDimensionAt_eq_of_not_dvd_index`), whereas `v = 0` gives the same coefficient universe `Type u`.
 These two instantiations motivate the universe comparison below; no arithmetic
-cohomological-dimension theorem is assumed here.
+cohomological-dimension theorem is assumed here. This roadmap reads its invariants at `v = u`,
+so coefficients live in `Type u`, as in §3; this also fixes Mathlib's auxiliary cochain universe
+to the convention used by Tau Ceti's pro-`p`, Sylow and Demushkin dimension theorems.
 So `cd_p G ≤ n ↔ CohomologicalDimensionLE p G n` (`TauCeti.cohomologicalDimensionAt_le_iff`),
 and `cd_p G = ⊤` exactly when no bound holds; likewise for `scd_p`
 (`TauCeti.strictCohomologicalDimensionAt_le_iff`). Finally `cd G = ⨆ p, cd_p G` in `ℕ∞`, over
@@ -3630,7 +3632,7 @@ Locators refer to the editions listed.
   Layer 2): Thm. 3.9 (Shapiro), Thm. 3.10 (`cor ∘ res = (G : H)`), Thm. 3.14
   (inflation-restriction-transgression in degree `n`), Thm. 3.16 (inductive limits), §3.9 (cup
   products); Ch. 5 (cd of pro-`p` groups through `Hⁿ(G, 𝔽_p)`, Def. 5.1) and Ch. 6 (generator and
-  relation ranks through `H¹` and `H²`), which is the `../ProfiniteProPGroups/` interface.
+  relation ranks through `H¹` and `H²`), which is the `../../Completed/ProfiniteProPGroups/` interface.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed. (2006), Ch. I §0: the continuous-cochain
   conventions (p. 2), cup-product properties (0.1.1)-(0.1.6), Remark 0.11 (Shapiro for `M_*`),
   Remark 0.10 (`Ext` colimits), Prop. 0.15 (conjugation acts trivially), the reference point for
