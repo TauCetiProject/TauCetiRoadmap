@@ -1,13 +1,17 @@
 # Effective bounds: native-source evidence
 
 This is evidence against the full [roadmap README](README.md), which remains definitive.
-The native certificate below was checked on 2026-10-29 with Lean `4.36.0-rc1` and Mathlib
+The historical native certificate below was checked on 2026-10-29 with Lean `4.36.0-rc1` and Mathlib
 `2cabef97b63d3275776b8b060d802de6a6fa1055`, on actual Tau Ceti main
 [`bfee8dc2e376`](https://github.com/TauCetiProject/TauCeti/commit/bfee8dc2e376b98439f7b7c3ecdd2d82aad183b9).
 All fifteen inventory modules build there (8,513 Lake jobs), and the verbatim certificate plus
 supplementary nonzero/nontorsion height-gap and Euclidean measure/covolume probes compile with
 warnings treated as errors. Their eleven axiom reports contain only `propext`,
 `Classical.choice`, and `Quot.sound`. No source or integration patches were needed.
+The source contracts remain verified on actual main
+[`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288).
+The shared final actual-main replay has not run; the build and certificate results here retain
+their recorded `bfee8dc2e376` scope.
 
 Layer 0's Mathlib reconciliation from
 [#22092](https://github.com/TauCetiProject/TauCeti/pull/22092) (`35edf89e32bd`), the regulator bound
@@ -16,8 +20,8 @@ covolume normalization from [#22064](https://github.com/TauCetiProject/TauCeti/p
 (`1b334efdcc44`) have all landed through the normal review, CI and Bors pipeline. #22059's own
 [Bors batch 2129 CI](https://github.com/TauCetiProject/TauCeti/actions/runs/40806766981) passed all
 four jobs, including 54,056 offline build jobs and the standard-only axiom audit of 424,065
-declarations. Its tested candidate and tree match actual main. Six of the seven changed source
-files across these PRs match the reviewed heads exactly; `Height/House.lean` also contains an
+declarations. Its tested candidate and tree matched the promoted main `bfee8dc2e376`. At that
+promotion, six of the seven changed source files across these PRs matched the reviewed heads exactly; `Height/House.lean` also contains an
 additive Liouville-bound section from #19276, with every existing #22059 declaration and proof
 retained verbatim.
 
@@ -26,7 +30,7 @@ the roadmap checkout's Lean `4.35.0-rc3`, Tau Ceti `358314d4ab97`, and Mathlib `
 Its old `box` names and its account of
 missing Layer-3 results describe that older source snapshot. It is not evidence that the current
 native interfaces have those names, or that its old-pin build checks the new results. The code
-block below is a separate current-source check, extracted verbatim and run with
+block below is a separate native-source check at its recorded revision, extracted verbatim and run with
 `lake env lean -DwarningAsError=true`.
 
 ## Full normative inventory

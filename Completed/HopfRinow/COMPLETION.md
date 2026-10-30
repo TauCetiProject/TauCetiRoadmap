@@ -1,43 +1,53 @@
 # Hopf–Rinow completion audit
 
 This inventory checks the full approved README, including the nondegenerate supplier and both
-worked examples. It is a completion candidate, not a declaration that the pending source has
-merged. The baseline replayed is actual Tau Ceti main
+worked examples. All three Layer 1 source prerequisites have landed through the normal pipeline;
+their payloads and reviewed later extensions are verified on actual Tau Ceti main
+[`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288).
+The final expanded native replay has not run, so this remains a completion candidate.
+The historical baseline replay below used actual main
 [`f5604a970624`](https://github.com/TauCetiProject/TauCeti/commit/f5604a97062487140a029c405f32d8f199f2316b).
 The Layer 1 source prerequisites are:
 
 - [#18707](https://github.com/TauCetiProject/TauCeti/pull/18707): joint smoothness of the actual
   Levi–Civita connection coefficients of a bundled metric family, with its coordinate API.
-  All eight reviewed source files are verified verbatim on actual main
+  All eight reviewed source files were verified verbatim on actual main
   [`1957bfc6fe2f`](https://github.com/TauCetiProject/TauCeti/commit/1957bfc6fe2f8491c98df2ff54c5c6d88be7d193).
+  The later Family extension in #21067 preserves that API and is verified on current main.
 - [#19453](https://github.com/TauCetiProject/TauCeti/pull/19453): nondegenerate metric restriction,
   local-isometry comparison and agreement of the restricted connections on ambient fields.
-  This supplier is verified on the baseline main revision above.
+  This supplier was verified on the historical baseline above; its later tangent-extension
+  additions preserve the restriction comparisons and are reviewed on current main.
 - [#21067](https://github.com/TauCetiProject/TauCeti/pull/21067): intrinsic metric variation and the
-  connection-variation formula along any smooth parameter curve.
+  connection-variation formula along any smooth parameter curve. All three changed files on
+  current main match reviewed head `7bd7c7558aa213b87ad9b17e4fd954e1bff82424` exactly.
 
-All three PRs target main separately. #19453 and #18707 have fulfilled their normal landing
+All three PRs targeted main separately and have fulfilled their normal landing
 gates. #18707 passed Bors batch 2122's own [genuine CI run 40794264282](https://github.com/TauCetiProject/TauCeti/actions/runs/40794264282):
 all four jobs succeeded, including the offline sandboxed build (54,018 Lake jobs) and the
 audit of 423,717 declarations against the standard three axioms. The trusted H/B/T artifact's
 tested commit and tree match actual main `1957bfc6fe2f` exactly.
 
-#21067 was rebased after that verified landing. Candidate
-`7bd7c7558aa213b87ad9b17e4fd954e1bff82424` has sole parent `1957bfc6fe2f` and passes
-the local 197-module build (8,421 jobs), 35 key type/axiom
+#21067 was rebased after that verified landing. Reviewed head
+`7bd7c7558aa213b87ad9b17e4fd954e1bff82424` has sole parent `1957bfc6fe2f` and passed
+the historical local 197-module build (8,421 jobs), 35 key type/axiom
 checks and the four acceptance probes with warnings treated as errors. All ten current-head
-normal review rubrics are green. Its original [genuine PR CI run 40796353184](https://github.com/TauCetiProject/TauCeti/actions/runs/40796353184)
+normal review rubrics approved that exact head. Its original [genuine PR CI run 40796353184](https://github.com/TauCetiProject/TauCeti/actions/runs/40796353184)
 also succeeded: the offline sandboxed build completed 54,204 Lake jobs, the trusted audits
 passed, and the three changed modules' 127 declarations use only `propext`, `Classical.choice`
 and `Quot.sound`. The tested integration combines reviewed head `7bd7c7558aa2` with base
 `dd15cfab9dec`; its trusted tree is `5eda6a5a4a27e7ff96b65c5613310e5215ba8a68`.
-These checks do not prove that variation has landed. Ordinary merge and the complete catalog
-replay on actual main remain required.
+Those build results describe the reviewed head and its tested PR integration. #21067 later landed
+normally in [Bors batch 2166](https://bors.taucetiproject.org/batches/2166); its exact reviewed
+payload is now verified on actual main. The complete final native replay remains required.
 
-The final catalog retains all 197 previously audited modules and includes the later actual-main
-addition `Riemannian/Hyperbolic/ClosedSurface.lean`, for 198 modules. The original catalog and
-all acceptance probes are preserved. This larger catalog must pass on actual main containing
-#21067; a preliminary replay of the tested PR integration does not establish that condition.
+The current catalog retains all 197 previously audited modules and adds the later actual-main
+modules `Riemannian/Hyperbolic/ClosedSurface.lean` and `Riemannian/HodgeStar.lean`, for 199 modules.
+It covers all 157 Riemannian subtree modules and retains the original supplier roots and acceptance
+probes. The combined nine-roadmap inventory now has 921 roots, 16 unchanged probes and 128 expected
+axiom reports, including Hopf's 35 reports and four independent acceptance files. The static import
+closure on current main has 14,063 modules; focused semantic reviews cover 55 changed source
+paths. The final native replay has not run.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
 `b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
@@ -50,7 +60,8 @@ both factors to `EuclideanQuadrant 2` and checks the same native endpoints at th
 corner origin, again proving non-interiority. The ordinary unrestricted-derivative
 formulas remain the distinct interior corollaries. This closes the previously recorded boundary
 obligation mathematically. All ten current-head review rubrics and genuine CI pass for this
-exact #18707 head, now verified on actual main. The dependent #21067 landing remains required.
+exact #18707 head, subsequently verified on actual main. The dependent #21067 landing is also
+fulfilled; the full final actual-main replay remains required.
 
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
@@ -75,20 +86,22 @@ Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise 
 | Flat-space acceptance, including dimension zero | `Riemannian/Geodesic/Euclidean.lean` explicitly computes the affine geodesic, maximal interval, exponential domain/map/derivative, normal balls and logarithm. Its model-space hypotheses do not require the space to be nontrivial. |
 | Open-unit-ball rejection test | `Riemannian/Geodesic/Examples/OpenUnitBall.lean` computes the finite-time boundary behavior and radial minimizing segments. The associated `RealOpenUnitBall` API proves non-completeness/non-compactness, so the existence of minimizing segments does not imply properness. |
 
-A fresh build of all 192 already-merged inventory modules passes in 8,411 Lake jobs on the
+The historical build of all 192 then-merged inventory modules passed in 8,411 Lake jobs on the
 baseline above. Its 25 key axiom reports contain only `propext`, `Classical.choice` and
 `Quot.sound`. The flat-space acceptance specializes the native APIs to dimension zero, and the
 open-unit-ball probe checks actual minimizing segments together with failure of completeness,
 properness and compactness of the specified closed ball. The boundary and corner probes compile
-with warnings treated as errors at the exact #18707 head above. #21067 has passed its
-post-prerequisite rebase, local acceptance checks, current-head normal review and genuine PR
-CI; normal main inclusion remains outstanding. The final 198-module catalog and native
-acceptance probes must pass again on actual main containing all three source prerequisites.
-This is a source/API and
-key-proof audit, not an independent replay of every transitive proof.
+with warnings treated as errors at the exact #18707 head above. These historical results are
+not a replay of the current 199-module catalog on `baddd4f02eb7`. That catalog and every native
+acceptance probe must pass on final actual main. The shared archive also awaits the normal main
+landing of the ConformalMapping citation repairs
+[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) and
+[#23036](https://github.com/TauCetiProject/TauCeti/pull/23036).
+This is a source/API and key-proof audit, not an independent replay of every transitive proof.
 
 The archived historical prototype continues to elaborate at the unchanged roadmap dependency
 pin. It does not import these newer implementation modules or certify their presence at that
-old revision. The merged revisions must be recorded before declaring the archive complete.
+old revision. Final source verification and native replay results must be recorded before
+declaring the archive complete.
 
-AI assistance: source, CI and completion-status audit with Codex (GPT-6), 2026-10-29.
+AI assistance: source, CI and completion-status audit with Codex (GPT-6), 2026-10-30.

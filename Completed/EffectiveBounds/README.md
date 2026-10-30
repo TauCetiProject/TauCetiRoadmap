@@ -1,14 +1,16 @@
 # Roadmap: effective arithmetic bounds and geometry of numbers
 
-**Completion evidence (2026-10-29).** The full normative inventory and checked native
+**Completion evidence (2026-10-29 native replay; 2026-10-30 source audit).** The full normative inventory and checked native
 acceptance examples are in [NativeCompletion.md](NativeCompletion.md). Layer 0's required
 removal of the redundant box wrapper (#22092), the full unit-log Euclidean covolume
 normalization (#22064), and the explicit regulator lower bound in every rank (#22059) have
-landed through normal review, genuine CI and Bors. All are verified on actual Tau Ceti main
+landed through normal review, genuine CI and Bors. The recorded native replay verified them on main
 [`bfee8dc2e376`](https://github.com/TauCetiProject/TauCeti/commit/bfee8dc2e376b98439f7b7c3ecdd2d82aad183b9).
 The full fifteen-module native inventory builds there; the verbatim acceptance certificate and
 supplementary scope probes compile with warnings treated as errors and produce eleven axiom
-reports containing only the standard three axioms.
+reports containing only the standard three axioms. Their source contracts remain verified on
+actual main `baddd4f02eb78e8c1abf661b979fda4b510f9288`; the shared final actual-main native replay
+has not run.
 The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration.
 Historical reports and the older pinned prototype are retained as dated snapshots; they do not
 certify the newer source interfaces.

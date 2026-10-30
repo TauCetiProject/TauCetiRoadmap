@@ -1,12 +1,14 @@
 # Roadmap: geodesics, the exponential map, and the Hopf–Rinow theorem
 
 **Archive candidate.** The complete specification is audited in [COMPLETION.md](COMPLETION.md).
-The restriction supplier (#19453) and joint connection-family regularity (#18707) are verified
-on actual main; #18707's complete source payload is present at
-[`1957bfc6fe2f`](https://github.com/TauCetiProject/TauCeti/commit/1957bfc6fe2f8491c98df2ff54c5c6d88be7d193).
-The intrinsic variation in #21067 has passed current-head normal review and genuine PR CI.
-The archive remains a draft until that source lands through the normal merge pipeline and
-the full native inventory has been replayed on actual main.
+The restriction supplier (#19453), joint connection-family regularity (#18707) and intrinsic
+variation (#21067) have landed through the normal pipeline; their source payloads are verified
+on actual main [`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288),
+including the reviewed later extensions. #18707 landed before #21067's dependent rebase.
+The current 199-module Hopf catalog awaits the final actual-main replay as part of the combined
+921-root inventory, with 16 unchanged probes and 128 expected axiom reports. That replay has not
+run. The shared archive remains a draft pending the ConformalMapping citation repairs and the
+final source and native checks.
 The historical Suggested.lean is a nonexhaustive interface prototype at the repository pin;
 its admitted interfaces are not a proof certificate.
 

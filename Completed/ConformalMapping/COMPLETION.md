@@ -1,11 +1,14 @@
 # Conformal mapping: completion audit
 
-**Archive candidate.** Later source refactors removed the Mathlib #33505 prior-work references
-from `Conformal/Morera.lean` and `Conformal/Hurwitz.lean`. The full README requires these
-references in every L0–L3 file. [Tau Ceti #22743](https://github.com/TauCetiProject/TauCeti/pull/22743)
-restores them and must pass normal review and genuine CI, land on main, and be checked there
-before this archive is declared complete. The historical mathematical replay below remains
-evidence for its stated revision; it does not establish that this later repair has landed.
+**Archive candidate (2026-10-30).** Nineteen of the twenty-one source prerequisites of the nine-roadmap archive, including
+[Tau Ceti #22743](https://github.com/TauCetiProject/TauCeti/pull/22743), are verified on actual main
+[`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288).
+The remaining prior-work citation repairs are
+[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) (Vitali) and
+[#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) (the zero-count, inverse, square-root,
+hyperbolic-length and RMT-using no-holes suppliers). Both must land through the normal pipeline
+and be verified on main. The final actual-main native replay has not run; the historical checks
+below establish only their stated revisions.
 
 The complete [README](README.md), including the general planar Jordan-separation target of L5,
 is the completion criterion. The historical interface file is neither exhaustive nor the
@@ -31,8 +34,8 @@ Paths below are relative to `TauCeti/Analysis/Complex/`, except the stated topol
 | L5: boundary correspondence | `Conformal/Caratheodory.lean` and `Conformal/Jordan/Approach.lean` give the continuous extension for every conformal disc map of a bounded Jordan domain, injectivity on the closed disc and the homeomorphism of closures. |
 | L6: polygonal maps | `Conformal/SchwarzChristoffel/{Integrand,Primitive,Vertex,JordanPolygon}.lean` supply the explicit polygonal maps, vertex values and the domain-qualified forms, including the unbounded half-strip case retained in the suggested interfaces. |
 
-A fresh actual-main replay built 88 entry modules across conformal mapping, global arithmetic
-and heights in 10,659 Lake jobs. It also recompiled the full 503-line interface-check file with
+A historical actual-main replay at `f5604a970624` built 88 entry modules across conformal mapping,
+global arithmetic and heights in 10,659 Lake jobs. It also recompiled the full 503-line interface-check file with
 warnings treated as errors, using the native APIs at `f5604a970624`. The only API adaptation
 was replacing the old Jordan-specific continuity theorem by its stronger locally-connected
 boundary supplier and deriving that instance from the same Jordan hypothesis. The theorem
@@ -40,9 +43,16 @@ statements were unchanged. The replay imports the new general Jordan-separation 
 The two-component theorem, component classification, closure homeomorphism and polygonal map
 report only `propext`, `Classical.choice` and `Quot.sound` under axiom inspection.
 
-The prototype kept in this repository is separately built at Tau Ceti `358314d4ab97`,
-Mathlib `f6090c7095e1`, Lean `4.35.0-rc3`. Its old API names are historical. The native replay
-uses Mathlib `2cabef97b63d` and Lean `4.36.0-rc1`; it verifies current source rather than
-mistaking the old-pin certificate for current-main presence.
+The prepared final replay covers the union of 921 native modules, sixteen unchanged probes and
+128 expected axiom reports. Its compilation scope includes 239 conformal-area modules (including
+external suppliers), 136 global-number-field suppliers, 117 height/unit suppliers and 199
+Hopf–Rinow modules; these inventories overlap. The current conformal certificate has 509 lines,
+28 imports and four axiom reports, and remains nonexhaustive. Compiling additional prime-end and
+other companion modules does not declare those follow-on targets complete.
 
-AI assistance: scope, source and acceptance audit with Codex (GPT-6), 2026-10-28–29.
+The prototype kept in this repository is separately built at Tau Ceti `358314d4ab97`,
+Mathlib `f6090c7095e1`, Lean `4.35.0-rc3`. Its old API names are historical. The recorded native
+replay used Mathlib `2cabef97b63d` and Lean `4.36.0-rc1`; it establishes the stated source revision,
+not the pending final actual-main replay.
+
+AI assistance: scope, source and acceptance audit with Codex (GPT-6), 2026-10-28–30.
