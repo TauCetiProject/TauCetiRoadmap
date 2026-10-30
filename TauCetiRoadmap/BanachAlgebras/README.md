@@ -130,6 +130,29 @@ For a nonzero unital Banach algebra construct the equivalent norm
 `‖a‖_* = ‖leftMultiplication(a)‖`. Prove
 `‖a‖/‖1‖≤‖a‖_*≤‖a‖`, submultiplicativity, completeness and
 `‖1‖_*=1`, and the bounded algebra equivalence with the original norm.
+Test the closest-scalar prescription separately. On B=ℂ³ with pointwise
+multiplication and the Banach-algebra norm `N(z)=2‖z‖∞`, the identity
+`e=(1,1,1)` has N(e)=2. For every z prove the unique existence of a scalar
+λ_z minimizing `N(z−λe)`: use coercivity in λ and properness of ℂ for
+existence, and the complex parallelogram identity at the midpoint of two
+minimizers for uniqueness. Set `q(z)=N(z−λ_z e)+|λ_z|`. This formula does
+not define a norm. With `a=(−1,1,i)` and `b=(1,1,i)`, prove
+
+`λ_a=0`, `λ_b=(1+i)/2`, `λ_(a+b)=1+i`,
+
+`q(a)=2`, `q(b)=3√2/2`, `q(a+b)=3√2>q(a)+q(b)`.
+
+Each minimizing center is certified by half the distance of a pair of
+coordinates and attainment of that bound; the third coordinate lies in the
+same closed disk. Prove the scaled supremum norm is complete and
+submultiplicative, so the counterexample has exactly the unnormalized-unit
+setting of Short Assignment4, question2. Uniqueness makes the failure
+independent of any choice of minimizers. This closest-scalar formula and
+the bounded linear projection sum norm below are distinct constructions;
+the preceding left-multiplication norm supplies the algebra renorming.
+[ClosestScalarTargets.lean](ClosestScalarTargets.lean) illustrates the
+nearest-center and triangle-failure statements.
+
 For a closed subalgebra B of a unital algebra A with 1_A∉B, prove the
 unitization map `(λ,b)↦λ1_A+b` identifies B′ with the closed algebra
 B+ℂ1_A, as a bounded algebra equivalence. The inherited norm need not
@@ -157,6 +180,77 @@ unitization algebra with span{I,E₁₂}⊂M₂(ℂ) and
 comparison with the matrix operator norm on `EuclideanSpace ℂ (Fin 2)`, including
 max(|λ|,|a|)≤‖λI+aE₁₂‖≤|λ|+|a|, and compute
 σ(E₁₂)={0}. It is an algebra example, not a star subalgebra.
+
+**A1.PositiveFunctionals.** Let A be a unital complex Banach *-algebra
+with isometric involution. A positive functional is an algebraic complex-linear
+φ:A→ℂ satisfying `φ(a*a)∈ℝ≥0` for every a; no continuity is assumed.
+Prove Hermitian symmetry, the Cauchy–Schwarz inequality and automatic
+continuity, with `|φ(a)|≤φ(1)‖a‖` and
+`φ(a*a)≤φ(1)‖a‖²`. For nonzero A retain
+`φ(1)/‖1‖≤‖φ‖≤φ(1)`; conclude `‖φ‖=φ(1)` when `‖1‖=1`.
+Construct the self-adjoint square root of `1−h` for self-adjoint
+`‖h‖<1` by the real binomial series. Apply this with a strict radius
+larger than the norm and pass to the limit to obtain the closed-ball
+positivity bound.
+
+Construct the GNS space as the Hilbert completion of A modulo
+`N_φ={a:φ(a*a)=0}`, using native complex inner-product conventions
+`⟪[a],[b]⟫=φ(a*b)`. Prove N_φ is a left ideal and
+`φ(b*a*ab)≤‖a‖²φ(b*b)`, so left multiplication gives bounded
+operators with `‖π_φ(a)‖≤‖a‖`, preserves star and multiplication,
+is unital, and has cyclic vector `[1]` with `φ(a)=⟪[1],π_φ(a)[1]⟫`.
+Include φ=0 and uniqueness of the cyclic realization up to the unique
+unitary carrying the cyclic vectors to one another. For a unital normed
+*-algebra with isometric star and a **continuous** positive functional,
+extend it positively to the Banach completion and obtain the same
+construction and bound. Also prove that every algebraic *-homomorphism
+from a possibly nonunital Banach *-algebra with isometric star to a
+C*-algebra is contractive, using unitization and spectral-radius
+comparison. This is the Banach-input representation interface;
+VonNeumannAlgebras V0 owns the C*-algebra specialization and its general
+faithful-representation theory.
+
+Completeness cannot be dropped from automatic positivity bounds. On
+`ℂ[X]` with coefficientwise conjugation and the supremum norm on
+`[−1,1]`, the positive functional
+`φ(p)=∫_ℝ p(t)exp(−t²)dt` is unbounded: test the polynomials `X^(2n)`,
+whose algebra norms are one and whose Gaussian moments are unbounded.
+In its polynomial GNS pre-Hilbert space, coordinate multiplication is
+unbounded, as seen from
+`‖X^(n+1)‖_φ²/‖X^n‖_φ²=n+1/2`.
+Thus algebraic positivity on an arbitrary normed *-algebra does not give
+a representation by bounded operators. No C*-order structure on A is
+assumed in these Banach *-algebra statements.
+
+**A1.SwappedStarExample.** On a distinct type copy S of the coordinatewise
+algebra ℂ×ℂ put `star(z,w)=(conj(w),conj(z))` and
+`‖(z,w)‖=max(|z|,|w|)`. Transport the native product ring, complex algebra
+and Banach-space structures to this copy, then install the displayed
+isometric involution. Prove the star laws, completeness and submultiplicative
+norm. The default coordinatewise star on ℂ×ℂ is a different structure;
+the example must not replace that native instance. This is Rieffel's
+C*-algebra notes p27 example of a *-algebra with no nonzero positive functionals
+or *-representations.
+
+For `e₁=(1,0)`, `e₂=(0,1)` prove `star(e₁)=e₂`, `star(e₂)=e₁`,
+`e₁e₂=e₂e₁=0` and `e₁+e₂=1`. Every algebraic complex-linear functional
+positive on star-squares is zero. One proof uses `h=(1,−1)`, with
+`star(h)h=−1`, to force φ(1)=0 and then applies the algebraic
+Cauchy–Schwarz inequality. Hence the state space is empty and every
+positive-functional GNS quotient is the zero Hilbert space.
+
+Prove every possibly nonunital algebraic *-homomorphism from S into any
+complex C*-algebra is zero, without a continuity premise. Its images of e₁,e₂
+have zero adjoint-square, so vanish, and complex linearity kills the whole
+algebra. In particular it has no faithful Hilbert-space *-representation.
+For any native `RingSeminorm S` satisfying `q(star(a)a)=q(a)²`, prove q=0:
+first apply the identity to `(z,0)` and `(0,w)`, then use the triangle
+inequality. Consequently S admits no C*-norm; the zero map S→0 has the
+universal property for maps to C*-algebras when morphisms need not preserve1.
+This gives an explicit zero C*-envelope of a nonzero complete Banach *-algebra.
+[SwappedStarTargets.lean](SwappedStarTargets.lean) states the functional,
+representation and seminorm targets on the native product algebra with the
+involution written explicitly, before transporting it to the type copy.
 
 ## A2. Holomorphic functional calculus
 
@@ -316,6 +410,30 @@ this converse with native normal-operator continuous functional calculus.
 
 ### Finite spectra, jets and resolvent power bounds
 
+For every finite-dimensional complex normed space E and bounded
+endomorphism T, put K=σ(T) with its finite subspace topology. Prove the
+following equivalent: T is diagonalizable; E has a basis of T-eigenvectors;
+there is a unital complex-algebra homomorphism
+`Ψ:C(K,ℂ)→(E→L[ℂ]E)` sending the restricted coordinate to T; and
+`T=Σ_(λ∈K) λP_λ` for nonzero pairwise annihilating idempotents P_λ
+with `Σ P_λ=I`. Distinct λ index distinct spectral values, with repeated
+eigenvalues grouped. The algebraic calculus in this statement is automatically
+continuous and unique. Construct it by
+`Ψ(f)=Σ_(λ∈K) f(λ)P_λ`, and prove
+`‖Ψ(f)‖≤(Σ_(λ∈K)‖P_λ‖)‖f‖∞`.
+
+Recover the idempotents from the characteristic functions of the singletons
+and from the Lagrange polynomials
+`P_λ=∏_(μ∈K,μ≠λ) (T−μI)/(λ−μ)`; prove range(P_λ) is exactly the
+λ-eigenspace and compare these same maps with the existing Riesz/generalized
+eigenspace projections. Construct the direct-sum equivalence and an eigenbasis
+from bases of their ranges, with the inverse given by the P_λ. This criterion
+allows arbitrary complex eigenvalues and has no normality hypothesis or
+self-adjointness assertion for P_λ. For E=0, K is empty: the empty basis,
+empty sums and unique map between the zero algebras give the corresponding
+statements, and the calculus norm is0. Retain the separate real-interval C^r
+and Hilbert-space isometric/star comparisons below.
+
 For a finite-dimensional complex normed space and T in its bounded endomorphism
 algebra, consume `Module.End.maxGenEigenspace`,
 `Module.End.iSup_maxGenEigenspace_eq_top`, the minimal-polynomial API and
@@ -454,6 +572,24 @@ invertibility iff the transform has no zeros, and the Šilov idempotent theorem:
 clopen subsets of the character space correspond bijectively to idempotents.
 Develop hulls and kernels of ideals and closed subsets with their Galois
 connection. Do not assert that every closed ideal is determined by its hull.
+
+For unital commutative complex Banach algebras and a unital complex-algebra
+homomorphism Φ:A→B, construct the character pullback `Φ*:B̂→Â`,
+`Φ*(χ)=χ∘Φ`, on the native character spaces. Scalar automatic continuity
+makes this a character even without assuming Φ continuous; evaluation at
+Φ(a) proves weak-star continuity of Φ*. Prove identity and contravariant
+composition laws and Gelfand naturality `Γ_B(Φ(a))=Γ_A(a)∘Φ*`.
+Compare the star-homomorphism specialization with native
+`WeakDual.CharacterSpace.compContinuousMap` and its functoriality lemmas.
+Dense range of Φ implies injectivity of Φ*. If Φ is continuous, has dense
+range, and `GL(B)∩Φ(A)=Φ(GL(A))`, prove its image is precisely
+`{χ∈Â : ker Φ⊆ker χ}`, and hence it is a homeomorphism onto this hull.
+For surjectivity, a character killing ker Φ factors through Φ(A); the
+inverse-lifting hypothesis gives `χ(a)∈σ_B(Φ(a))`, hence
+`|χ(a)|≤‖Φ(a)‖`, so this factor extends uniquely to B. Use only the scalar
+character and spectrum theory above; A5's general automatic-continuity
+results are downstream. This is Pedersen §4.2, Exercises11–12, with unital
+maps so pullback cannot be zero.
 
 Build the following examples with their norms, completeness, products, units
 or approximate units, and the indicated identifications.
@@ -713,6 +849,49 @@ and combination of left and right bounded approximate identities, with bound
 `C+D+CD`. Prove convergence of a bounded approximate identity on the appropriate
 essential module.
 
+**A4.DoubleCentralizers.** Consume native
+[`DoubleCentralizer`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/CStarAlgebra/Multiplier.html#DoubleCentralizer)
+`𝓜(ℂ,A)`, its bounded-linear components, algebra operations, norm
+`max(‖S‖,‖T‖)` and completeness for a Banach algebra A.
+For A with zero left and right annihilators, identify this native model
+with the complex-linear pairs satisfying
+`S(ab)=S(a)b`, `T(ab)=aT(b)` and `aS(b)=T(a)b`.
+Prove that algebraic complex-linear pairs satisfying these identities
+are automatically bounded by the closed graph theorem: a graph limit
+of S at zero is annihilated on the left, and a graph limit of T at zero
+is annihilated on the right. A two-sided approximate identity suffices
+to make both annihilators zero; completeness of A and these annihilator
+hypotheses are explicit in the automatic-boundedness assertion.
+For bounded pairs under these hypotheses, the native centrality equation
+implies the two module identities. Reuse the native operations to give
+`(S,T)(S',T')=(SS',T'T)`, identity `(id,id)` and
+`a↦(L_a,R_a)`; prove the latter is a homomorphism onto a closed
+two-sided ideal when A has a bounded two-sided approximate identity.
+
+If the approximate identity is contractive, prove
+`‖S‖=‖T‖`, `‖L_a‖=‖R_a‖=‖a‖`, and that this embedding is
+isometric. Its image is essential in the annihilator sense: a multiplier
+annihilating A on either side is zero. For a bound `C>0` rather than one,
+retain `‖a‖/C≤max(‖L_a‖,‖R_a‖)≤‖a‖`, and do not claim
+isometry or equality of the component norms. For isometric star on A,
+consume the native involution
+`(S,T)*=(a↦T(a*)*,a↦S(a*)*)`, prove compatibility with the embedding,
+and retain the Banach *-algebra norm. CStarAlgebras C1 owns the additional
+C*-identity, strict-topology and maximal-essential-C*-extension targets.
+
+For a Banach space E and a bounded algebra representation
+`π:A→B(E)` with `closure(span π(A)E)=E`, assume A has a two-sided
+approximate identity bounded by `C>0`. Construct the unique unital bounded
+representation `π̃:𝓜(ℂ,A)→B(E)` such that
+`π̃(m)π(a)x=π(S_m(a))x`. Prove the finite-sum formula is well-defined,
+extends by continuity, and satisfies
+`‖π̃(m)‖≤C‖π‖‖m‖`; prove intertwiner compatibility and uniqueness
+from the dense span. This applies to arbitrary bounded actions on E.
+For a Hilbert-space *-representation of an isometric Banach *-algebra,
+prove that the extension preserves star; the preceding automatic
+contractivity and a contractive approximate identity give a contractive
+extension. Include the zero space and zero algebra conventions.
+
 Prove Cohen–Hewitt factorization: if `A` has a left approximate identity bounded
 by `C>0`, `E` is a Banach left module, and `x∈closure(span(A·E))`, then for every
 `ε>0` there are `a∈A`, `y∈closure(A·x)` with `x=a·y`, `‖a‖≤C` and
@@ -874,6 +1053,47 @@ not amenable.
 
 ## A7. Group algebras and Johnson's theorem
 
+**A7.ProductDomains — product topology and the Haar domain.** Before group
+algebras, supply the following elementary product-space prerequisite. For an
+arbitrary index type I, including the empty type, assume every X_i is nonempty,
+locally compact and Hausdorff. Prove
+
+`LocallyCompactSpace (Π i, X_i) ↔ Set.Finite {i | ¬ CompactSpace X_i}`
+
+for the ordinary product topology. Retain the nonempty-factor hypothesis:
+an empty factor makes the product empty regardless of the remaining factors.
+For necessity take a compact neighborhood of a chosen product point and a
+basic cylinder contained in it, with restrictions in a finite set F. For
+any i outside F, its projection contains all of X_i, so that factor is compact
+as the continuous image of the compact neighborhood. For sufficiency use the
+canonical product homeomorphism splitting F from its complement; the first
+factor is a finite product of locally compact spaces and the tail is compact
+by Tychonoff. Consume native `Pi.locallyCompactSpace_of_finite`,
+`Pi.locallyCompactSpace` and the compact-product API, retaining their existing
+vocabulary. Prove invariance under product reindexing and homeomorphisms of
+the factors; no countability or sequence hypothesis is imposed.
+
+In particular prove `LocallyCompactSpace (I → ℝ) ↔ Finite I` and hence
+ℝ^ℕ with its product topology is not locally compact. Native compact-product
+instances give compactness of Circle^I, and existing finite-product instances
+give the usual ℝⁿ/Circleⁿ locally compact models. These statements distinguish
+the domains to which the Haar/group-algebra construction below applies.
+
+Use the native additive compact group `(ℕ → ZMod 2)` with the product topology.
+Compose `cantorSetHomeomorphNatToBool` with the coordinatewise finite-discrete
+homeomorphism Bool→ZMod2, false↦0 and true↦1, to construct the homeomorphism
+from the standard real Cantor set onto that group. Pin its digit formula and
+both inverse maps: for the representatives b_n∈{0,1} of the ZMod2 coordinates,
+the real inverse is `Σ_n 2b_n/3^(n+1)`. Thus the binary group values0,1 correspond
+to ternary Cantor digits0,2. Match this series with native base-3 `ofDigits`.
+Transport the coordinate addition through this homeomorphism
+and prove it is digitwise XOR, with zero the all-zero digit sequence and every
+element its own inverse. Prove continuity with the inherited Cantor-set topology;
+this transported law is distinct from ambient real addition. These are Conway,
+*A Course in Functional Analysis*, second edition, VII.9's opening product
+examples. [ProductDomainTargets.lean](ProductDomainTargets.lean) illustrates
+the general criterion, real-power case and exact binary-coordinate comparison.
+
 Let `G` be locally compact Hausdorff and `μ` a nonzero regular left Haar measure.
 There is no standing second-countability or sigma-finiteness assumption. Use
 the AmenableGroups Layer 7 construction of scalar convolution, its
@@ -965,6 +1185,31 @@ Prove completeness, associativity, norm bounds, the unit `δ₁`, the embedding
 of `L¹(G)` as a closed two-sided ideal, and `δ_g*δ_h=δ_gh`. The measure
 involution is conjugation followed by inversion; its restriction gives the
 displayed modular formula on `L¹`.
+
+**A7.MeasureMultipliers.** Prove that L¹(G) is essential in M(G):
+`ν*L¹(G)=0` implies ν=0, and likewise `L¹(G)*ν=0` implies ν=0.
+With A7.ChosenApproximateIdentity's integral-one kernels u_U, prove
+`ν*u_U→ν` and `u_U*ν→ν` against every C₀(G) test function.
+Use these weak-star limits to prove both annihilator assertions;
+nonvanishing at a single point of an L¹ representative does not establish
+nonvanishing of its almost-everywhere class.
+
+Prove Wendel's multiplier theorem as the isometric star-algebra
+isomorphism `M(G)≃𝓜(ℂ,L¹(G))` sending ν to
+`(f↦ν*f,f↦f*ν)`. Prove both components have operator norm `‖ν‖`
+and identify L¹'s canonical measure embedding with A4's multiplier
+embedding. Establish also the one-sided versions: every bounded left
+centralizer `S(f*h)=S(f)*h` is uniquely left convolution by a finite
+regular complex measure, and every bounded right centralizer is uniquely
+right convolution. For surjectivity take a weak-star cluster subnet of
+`S(u_U)` in `C₀(G)*`, use its uniform norm bound and regular-measure
+representation, and prove the resulting convolution identity on L¹;
+the right-handed construction is analogous. A4's automatic-boundedness
+comparison then identifies algebraic double-centralizer pairs as well.
+Give the inverse, norm identities, multiplication and involution
+compatibility on these actual carriers, at the standing arbitrary locally
+compact Hausdorff generality and without a global sigma-finiteness
+assumption.
 
 Extend essential
 `L¹(G)` bimodules to `M(G)` by factorization. For a Banach algebra with bounded
@@ -1203,6 +1448,14 @@ compact-commutation theorem just proved.
 
 ## Sources and API alignment
 
+* Rieffel, *C*-algebras* course notes, physical pages
+  [26–30](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-026.md)
+  (positive functionals and Banach *-algebra GNS),
+  [49–50](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-049.md)
+  and [109–111](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-109.md)
+  (Banach double centralizers and extensions), and
+  [126–128](../../sources/course-notes/transcripts/rieffel-main-luna-01a137d1/page-126.md)
+  (measure convolution and essentiality).
 * Dales, *Banach Algebras and Automatic Continuity*: §§1.3–1.5 and 2.1–2.3
   (ideals, radicals, spectra and characters), §2.4 (holomorphic calculus,
   Theorem 2.4.4 and Corollaries 2.4.5–2.4.6), §2.6 (Arens products,
