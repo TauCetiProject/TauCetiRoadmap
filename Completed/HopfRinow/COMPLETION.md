@@ -3,7 +3,7 @@
 This inventory checks the full approved README, including the nondegenerate supplier and both
 worked examples. All three Layer 1 source prerequisites have landed through the normal pipeline;
 their payloads and reviewed later extensions are verified on actual Tau Ceti main
-[`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288).
+[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4).
 The final expanded native replay has not run, so this remains a completion candidate.
 The historical baseline replay below used actual main
 [`f5604a970624`](https://github.com/TauCetiProject/TauCeti/commit/f5604a97062487140a029c405f32d8f199f2316b).
@@ -44,10 +44,10 @@ payload is now verified on actual main. The complete final native replay remains
 The current catalog retains all 197 previously audited modules and adds the later actual-main
 modules `Riemannian/Hyperbolic/ClosedSurface.lean` and `Riemannian/HodgeStar.lean`, for 199 modules.
 It covers all 157 Riemannian subtree modules and retains the original supplier roots and acceptance
-probes. The combined nine-roadmap inventory now has 921 roots, 16 unchanged probes and 128 expected
+probes. The combined nine-roadmap inventory now has 922 roots, 16 unchanged probes and 128 expected
 axiom reports, including Hopf's 35 reports and four independent acceptance files. The static import
-closure on current main has 14,063 modules; focused semantic reviews cover 55 changed source
-paths. The final native replay has not run.
+closure on current main has 14,066 modules; focused semantic reviews and citation checks cover
+all 58 changed reachable source paths. The final native replay has not run.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
 `b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
@@ -92,10 +92,9 @@ baseline above. Its 25 key axiom reports contain only `propext`, `Classical.choi
 open-unit-ball probe checks actual minimizing segments together with failure of completeness,
 properness and compactness of the specified closed ball. The boundary and corner probes compile
 with warnings treated as errors at the exact #18707 head above. These historical results are
-not a replay of the current 199-module catalog on `baddd4f02eb7`. That catalog and every native
+not a replay of the current 199-module catalog on `ec93262aafc8`. That catalog and every native
 acceptance probe must pass on final actual main. The shared archive also awaits the normal main
-landing of the ConformalMapping citation repairs
-[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) and
+landing of the remaining ConformalMapping citation repair
 [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036).
 This is a source/API and key-proof audit, not an independent replay of every transitive proof.
 

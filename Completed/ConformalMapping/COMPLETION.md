@@ -1,14 +1,17 @@
 # Conformal mapping: completion audit
 
-**Archive candidate (2026-10-30).** Nineteen of the twenty-one source prerequisites of the nine-roadmap archive, including
-[Tau Ceti #22743](https://github.com/TauCetiProject/TauCeti/pull/22743), are verified on actual main
-[`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288).
-The remaining prior-work citation repairs are
-[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) (Vitali) and
-[#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) (the zero-count, inverse, square-root,
-hyperbolic-length and RMT-using no-holes suppliers). Both must land through the normal pipeline
-and be verified on main. The final actual-main native replay has not run; the historical checks
-below establish only their stated revisions.
+**Archive candidate (2026-10-30).** Twenty of the twenty-one source prerequisites of the
+nine-roadmap archive are verified on actual main
+[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4),
+including [#22743](https://github.com/TauCetiProject/TauCeti/pull/22743) (Morera/Hurwitz) and
+[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) (Vitali).
+The remaining citation repair [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036),
+head `b49262a9ba27`, has passed all ten normal reviews and
+[genuine CI](https://github.com/TauCetiProject/TauCeti/actions/runs/41007757860).
+Normal merge eligibility has also passed; Bors assignment, its candidate CI and actual-main
+inclusion remain pending.
+The final actual-main native replay has not run; the historical checks below establish only
+their stated revisions.
 
 The complete [README](README.md), including the general planar Jordan-separation target of L5,
 is the completion criterion. The historical interface file is neither exhaustive nor the
@@ -43,10 +46,10 @@ statements were unchanged. The replay imports the new general Jordan-separation 
 The two-component theorem, component classification, closure homeomorphism and polygonal map
 report only `propext`, `Classical.choice` and `Quot.sound` under axiom inspection.
 
-The prepared final replay covers the union of 921 native modules, sixteen unchanged probes and
+The prepared final replay covers the union of 922 native modules, sixteen unchanged probes and
 128 expected axiom reports. Its compilation scope includes 239 conformal-area modules (including
-external suppliers), 136 global-number-field suppliers, 117 height/unit suppliers and 199
-Hopf–Rinow modules; these inventories overlap. The current conformal certificate has 509 lines,
+external suppliers), 136 global-number-field suppliers, 117 height/unit suppliers, 199
+Hopf–Rinow modules and 85 local-field modules; these inventories overlap. The current conformal certificate has 509 lines,
 28 imports and four axiom reports, and remains nonexhaustive. Compiling additional prime-end and
 other companion modules does not declare those follow-on targets complete.
 

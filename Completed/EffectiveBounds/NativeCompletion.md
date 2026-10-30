@@ -9,7 +9,7 @@ supplementary nonzero/nontorsion height-gap and Euclidean measure/covolume probe
 warnings treated as errors. Their eleven axiom reports contain only `propext`,
 `Classical.choice`, and `Quot.sound`. No source or integration patches were needed.
 The source contracts remain verified on actual main
-[`baddd4f02eb7`](https://github.com/TauCetiProject/TauCeti/commit/baddd4f02eb78e8c1abf661b979fda4b510f9288).
+[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4).
 The shared final actual-main replay has not run; the build and certificate results here retain
 their recorded `bfee8dc2e376` scope.
 

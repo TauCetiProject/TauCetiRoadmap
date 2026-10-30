@@ -9,7 +9,7 @@ landed through normal review, genuine CI and Bors. The recorded native replay ve
 The full fifteen-module native inventory builds there; the verbatim acceptance certificate and
 supplementary scope probes compile with warnings treated as errors and produce eleven axiom
 reports containing only the standard three axioms. Their source contracts remain verified on
-actual main `baddd4f02eb78e8c1abf661b979fda4b510f9288`; the shared final actual-main native replay
+actual main `ec93262aafc8c3daaa4057352705faab817907e4`; the shared final actual-main native replay
 has not run.
 The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration.
 Historical reports and the older pinned prototype are retained as dated snapshots; they do not

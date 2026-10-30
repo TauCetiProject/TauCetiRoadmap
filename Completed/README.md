@@ -62,9 +62,8 @@ revision against which an earlier version elaborated.
 - [global number fields, ray classes, adeles, and Hecke characters](GlobalNumberFields/README.md)
   (declared complete 2026-10-28)
 - [Conformal mapping and the geometric theory of holomorphic functions](ConformalMapping/README.md)
-  (archive candidate 2026-10-30; awaiting source citation repairs
-  [#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) and
-  [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036), plus final actual-main native replay)
+  (archive candidate 2026-10-30; awaiting source citation repair
+  [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) and final actual-main native replay)
 - [peripheral actions on free pro-`p` groups](PeripheralActions/README.md)
   (declared complete 2026-10-28)
 - [analytic toric geometry](AnalyticToricGeometry/README.md)

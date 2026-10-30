@@ -1,11 +1,14 @@
 # Roadmap: local fields and ramification
 
-**Completion evidence, 2026-10-28.** Implementation
+**Completion evidence (2026-10-28 replay; 2026-10-30 source audit).** Implementation
 [PR #22018](https://github.com/TauCetiProject/TauCeti/pull/22018),
 [PR #22046](https://github.com/TauCetiProject/TauCeti/pull/22046), and
-[PR #22047](https://github.com/TauCetiProject/TauCeti/pull/22047) are verified on actual upstream
-`302238ea98ea621d689041f67e935f0b4eb1285e`. All 84 native inventory modules and the acceptance
-and scope probes pass there. [COMPLETION.md](COMPLETION.md) records the full audit.
+[PR #22047](https://github.com/TauCetiProject/TauCeti/pull/22047) were verified on actual upstream
+`302238ea98ea621d689041f67e935f0b4eb1285e`. All 84 then-inventoried modules built, and the acceptance
+and scope probes passed there. Their source contracts remain verified on actual main
+`ec93262aafc8c3daaa4057352705faab817907e4`. The prepared 85-module catalog adds the tame/DVR
+comparison supplier; its final native replay within the shared 922-root inventory has not run.
+[COMPLETION.md](COMPLETION.md) records the full audit. The specification below is unchanged.
 
 This roadmap owns the local-field substrate: normalized valuations, unit filtrations,
 unramified extensions, lower and upper ramification groups, Herbrand functions, wild inertia,
