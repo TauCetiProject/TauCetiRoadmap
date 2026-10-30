@@ -21,12 +21,43 @@ analytic. Series in one variable over an ultrametric field (Layer 8) are Mathlib
 evaluated with `FormalMultilinearSeries.ofScalarsSum`. The declarations in the namespaces
 `SchneiderLangProof` and `PadicBakerProof` are the steps of the proofs of 5.7 and 8.10, in
 namespaces of their own because they serve only those proofs. Every target name that
-`README.md` uses is declared here. The targets elaborate against the pinned Mathlib and are
-stated with `sorry` (allowed in this human-owned roadmap library); the checks marked as proved
-below are proved.
+`README.md` uses is declared here, and the Mathlib declarations it cites in these namespaces are
+pinned by `#check` below. The targets elaborate against the pinned Mathlib and are stated with
+`sorry` (allowed in this human-owned roadmap library).
 -/
 
 open scoped NNReal
+
+/-! ## Mathlib declarations that `README.md` cites -/
+
+#check @NumberField.of_module_finite
+#check @Complex.cpow
+#check @PadicComplex.isAlgClosed
+#check @IsUltrametricDist.of_normedAlgebra
+#check @FormalMultilinearSeries.ofScalars_sum_eq
+#check @HasFPowerSeriesAt.apply_eq_zero
+#check @HasFPowerSeriesOnBall.compContinuousLinearMap
+#check @HasFPowerSeriesOnBall.factorial_smul
+#check @HasFPowerSeriesOnBall.iteratedFDeriv_eq_sum_of_completeSpace
+#check @Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le
+#check @Complex.norm_le_of_forall_mem_frontier_norm_le
+#check @Complex.differentiableOn_dslope
+#check @HasFPowerSeriesAt.has_fpower_series_iterate_dslope_fslope
+#check @Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO
+#check @Complex.exp_eq_exp_ℂ
+#check @Polynomial.taylor
+#check @Polynomial.le_rootMultiplicity_iff
+#check @Polynomial.rootMultiplicity_eq_natTrailingDegree
+#check @NumberField.norm_norm_le_norm_mul_house_pow
+#check @NumberField.house.exists_ne_zero_int_vec_house_le
+#check @Padic.norm_eq_zpow_neg_valuation
+#check @Padic.valuation_natCast
+#check @IsUltrametricDist.norm_tsum_le_of_forall_le_of_nonneg
+#check @PowerSeries.coeff_derivative
+#check @PowerSeries.gaussNorm
+#check @Polynomial.gaussNorm_mul
+#check @Polynomial.factorial_smul_hasseDeriv
+#check @Polynomial.degreeLTEquiv
 
 namespace TauCetiRoadmap.LinearFormsInLogarithms
 
@@ -52,18 +83,6 @@ theorem FormalMultilinearSeries.apply_eq_sum_mvCoeff [DecidableEq ι]
     (p : FormalMultilinearSeries 𝕜 (ι → 𝕜) F) (k : ℕ) (z : ι → 𝕜) :
     p k (fun _ => z) = ∑ α ∈ Finset.univ.piAntidiag k,
       (∏ i, z i ^ α i) • FormalMultilinearSeries.mvCoeff p α :=
-  sorry
-
-/-- **Layer 0.3**, the multi-index coefficient of the zero series. -/
-@[simp] theorem FormalMultilinearSeries.mvCoeff_zero (α : ι → ℕ) :
-    FormalMultilinearSeries.mvCoeff (0 : FormalMultilinearSeries 𝕜 (ι → 𝕜) F) α = 0 :=
-  sorry
-
-/-- **Layer 0.3**, the multi-index coefficient is additive in the series. -/
-@[simp] theorem FormalMultilinearSeries.mvCoeff_add (p q : FormalMultilinearSeries 𝕜 (ι → 𝕜) F)
-    (α : ι → ℕ) :
-    FormalMultilinearSeries.mvCoeff (p + q) α =
-      FormalMultilinearSeries.mvCoeff p α + FormalMultilinearSeries.mvCoeff q α :=
   sorry
 
 /-- **Layer 0.3**, the multi-index coefficient commutes with scalars. -/
@@ -107,11 +126,6 @@ theorem HasFPowerSeriesAt.mvTaylorCoeff_eq {f : (ι → 𝕜) → F}
     {p : FormalMultilinearSeries 𝕜 (ι → 𝕜) F} {x : ι → 𝕜} (hp : HasFPowerSeriesAt f p x)
     (α : ι → ℕ) : mvTaylorCoeff f x α = FormalMultilinearSeries.mvCoeff p α :=
   sorry
-
-/-- **Layer 0.4**, the value off the domain of analyticity is `0` (proved). -/
-theorem mvTaylorCoeff_of_not_analyticAt {f : (ι → 𝕜) → F} {x : ι → 𝕜} (h : ¬ AnalyticAt 𝕜 f x)
-    (α : ι → ℕ) : mvTaylorCoeff f x α = 0 := by
-  simp [mvTaylorCoeff, h]
 
 /-- **Layer 0.4, the coefficient of order `0`** is the value. -/
 theorem AnalyticAt.mvTaylorCoeff_zero {f : (ι → 𝕜) → F} {x : ι → 𝕜} (hf : AnalyticAt 𝕜 f x) :
@@ -297,8 +311,8 @@ theorem NumberField.one_le_norm_embedding_mul_house_pow {α : K} (hint : IsInteg
     1 ≤ ‖σ α‖ * house α ^ (Module.finrank ℚ K - 1) :=
   sorry
 
-/-- **Layer 3.2**, the house of a product over an indexed family, in the form of Mathlib
-PR #42911. -/
+/-- **Layer 3.2**, the house of a product over an indexed family, in the form of
+M. Karatarakis's Mathlib formalisation of Gelfond–Schneider. -/
 theorem NumberField.house_prod_le {ι : Type*} (s : Finset ι) (f : ι → K) :
     house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i) :=
   sorry
@@ -553,13 +567,13 @@ theorem transcendental_of_isAlgebraic_exp {x : ℂ} (hx : x ≠ 0)
   sorry
 
 /-- **Layer 6.3, Hermite–Lindemann** for the exponential of an algebraic number, with the name
-and statement of Mathlib PR #28013. -/
+and statement of Yuyang Zhao's Mathlib formalisation of Lindemann–Weierstrass. -/
 theorem transcendental_exp {a : ℂ} (a0 : a ≠ 0) (ha : IsAlgebraic ℤ a) :
     Transcendental ℤ (Complex.exp a) :=
   sorry
 
 /-- **Layer 6.3, Hermite–Lindemann** for the principal logarithm of an algebraic number, with
-the name and statement of Mathlib PR #28013. -/
+the name and statement of Yuyang Zhao's Mathlib formalisation of Lindemann–Weierstrass. -/
 theorem transcendental_log {u : ℂ} (hu0 : Complex.log u ≠ 0) (hu : IsAlgebraic ℤ u) :
     Transcendental ℤ (Complex.log u) :=
   sorry
@@ -571,7 +585,7 @@ theorem transcendental_exp_mul {x b : ℂ} (hx : x ≠ 0) (h : IsAlgebraic ℚ (
   sorry
 
 /-- **Layer 6.4, Gelfond–Schneider**, in Mathlib's principal branch, with the name and statement
-of Mathlib PR #42911. -/
+of M. Karatarakis's Mathlib formalisation. -/
 theorem GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational (α β : ℂ)
     (hα : IsAlgebraic ℚ α) (hβ : IsAlgebraic ℚ β) (htriv : α ≠ 0 ∧ α ≠ 1)
     (hirr : ∀ i j : ℤ, β ≠ i / j) : Transcendental ℚ (α ^ β) :=
@@ -812,17 +826,6 @@ noncomputable def Polynomial.expDerivFactor {R : Type*} [CommRing R] (c : R) (m 
     R[X] →ₗ[R] R[X] :=
   (derivative + c • LinearMap.id) ^ m
 
-/-- **Layer 8.4**, no derivative (proved). -/
-@[simp] theorem Polynomial.expDerivFactor_zero {R : Type*} [CommRing R] (c : R) (P : R[X]) :
-    Polynomial.expDerivFactor c 0 P = P := by
-  simp [Polynomial.expDerivFactor]
-
-/-- **Layer 8.4**, one more derivative (proved). -/
-theorem Polynomial.expDerivFactor_succ {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) :
-    Polynomial.expDerivFactor c (m + 1) P =
-      derivative (Polynomial.expDerivFactor c m P) + C c * Polynomial.expDerivFactor c m P := by
-  simp [Polynomial.expDerivFactor, pow_succ', Module.End.mul_apply, Polynomial.smul_eq_C_mul]
-
 /-- **Layer 8.4, the binomial form** `∑ j ≤ m, (m choose j) c ^ (m - j) P⁽ʲ⁾`. -/
 theorem Polynomial.expDerivFactor_eq_sum {R : Type*} [CommRing R] (c : R) (m : ℕ) (P : R[X]) :
     Polynomial.expDerivFactor c m P =
@@ -848,12 +851,6 @@ theorem PowerSeries.iterate_derivative_coe_mul_rescale_exp {A : Type*} [CommRing
         ((Q : PowerSeries A) * PowerSeries.rescale ψ (PowerSeries.exp A)) =
       (Polynomial.expDerivFactor ψ m Q : PowerSeries A) *
         PowerSeries.rescale ψ (PowerSeries.exp A) :=
-  sorry
-
-/-- A rejection test: off the disc the exponential series diverges and `NormedSpace.exp` takes
-the value `0`, which is algebraic; so every target of Layer 8 assumes `‖ℓ‖ < p ^ (-1 / (p - 1))`
-(with `ℓ = 1`, 8.10 without it would give `-1 + 1 · 1 = 0` with nonzero coefficients). -/
-theorem PadicComplex.exp_one_eq_zero : NormedSpace.exp (1 : ℂ_[p]) = 0 :=
   sorry
 
 namespace PadicBakerProof
@@ -977,10 +974,12 @@ end Layer8
 
 /-! ## Worked examples -/
 
-/-- `e` is transcendental, with the name and statement of Mathlib PR #28013 (6.3). -/
+/-- `e` is transcendental, with the name and statement of Yuyang Zhao's Mathlib formalisation of
+Lindemann–Weierstrass (6.3). -/
 theorem transcendental_e : Transcendental ℤ (Complex.exp 1) := sorry
 
-/-- `π` is transcendental, with the name and statement of Mathlib PR #28013 (6.3). -/
+/-- `π` is transcendental, with the name and statement of Yuyang Zhao's Mathlib formalisation of
+Lindemann–Weierstrass (6.3). -/
 theorem transcendental_pi : Transcendental ℤ Real.pi := sorry
 
 /-- `e ^ π = (-1) ^ (-i)` is transcendental (6.4). -/
@@ -998,47 +997,5 @@ theorem transcendental_log_two_div_log_three :
 
 /-- `π + log 2` is transcendental (7.3). -/
 theorem transcendental_pi_add_log_two : Transcendental ℚ (Real.pi + Real.log 2) := sorry
-
-/-! ## Normalisation checks and rejection tests -/
-
-namespace Examples
-
-/-- The factor `α!` of 0.4: the Taylor coefficient of `z ^ 2` at `0` is `1`. -/
-theorem mvTaylorCoeff_sq : mvTaylorCoeff (fun z : Fin 1 → ℂ => z 0 ^ 2) 0 (fun _ => 2) = 1 :=
-  sorry
-
-/-- The factor `α!` of 0.4: the second derivative of `z ^ 2` at `0` is `2`. -/
-theorem iteratedFDeriv_sq :
-    iteratedFDeriv ℂ 2 (fun z : Fin 1 → ℂ => z 0 ^ 2) 0 (fun _ => Pi.single 0 1) = 2 :=
-  sorry
-
-/-- Gelfond–Schneider (6.4) fails for a rational exponent (proved). -/
-theorem four_cpow_half : (4 : ℂ) ^ ((1 : ℂ) / 2) = 2 := by
-  have h : ((4 : ℝ) : ℂ) ^ (((1 / 2 : ℝ)) : ℂ) = (((4 : ℝ) ^ (1 / 2 : ℝ) : ℝ) : ℂ) :=
-    (Complex.ofReal_cpow (by norm_num) _).symm
-  have h2 : (4 : ℝ) ^ (1 / 2 : ℝ) = 2 := by
-    rw [show (4 : ℝ) = 2 ^ (2 : ℝ) by norm_num, ← Real.rpow_mul (by norm_num)]
-    norm_num
-  push_cast at h
-  rw [h, h2]
-  norm_num
-
-/-- Baker's theorem (7.2) fails without the `ℚ`-linear independence of the logarithms
-(proved). -/
-theorem two_mul_log_two_sub_log_four : 2 * Complex.log 2 - Complex.log 4 = 0 := by
-  have h2 := Complex.ofReal_log (x := 2) (by norm_num)
-  have h4 := Complex.ofReal_log (x := 4) (by norm_num)
-  push_cast at h2 h4
-  rw [← h2, ← h4, show (4 : ℝ) = 2 ^ 2 by norm_num, Real.log_pow]
-  push_cast
-  ring
-
-/-- A quotient of logarithms of algebraic numbers (6.4) can be rational (proved). -/
-theorem log_four_div_log_two : Real.log 4 / Real.log 2 = 2 := by
-  rw [show (4 : ℝ) = 2 ^ 2 by norm_num, Real.log_pow,
-    mul_div_assoc, div_self (Real.log_pos one_lt_two).ne']
-  norm_num
-
-end Examples
 
 end TauCetiRoadmap.LinearFormsInLogarithms
