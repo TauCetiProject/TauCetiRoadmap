@@ -377,8 +377,15 @@ normalization terms. Supply interpolation with bounded higher covariant
 derivatives, so decay in the zeroth norm yields decay of every derivative on
 positive-time slabs.
 
-**R3.3 — Continuation.** For a finite maximal time T, prove
-`sup_(M×[0,T)) |Rm|=∞`. A curvature bound controls g and g⁻¹ on finite time
+**R3.3 — Continuation.** For a finite maximal time T, put
+`Q(t)=max_(x∈M)|Rm(x,t)|`. Prove both `sup_(t<T) Q(t)=∞` and the
+stronger terminal-time assertion `Q(t)→∞` as t↑T. For the unnormalized
+flow, derive the upper scalar comparison `D⁺Q≤C_n Q²`, with a positive
+dimensional constant, from R4's curvature evolution and maximum principle.
+Apply its ODE bound at every restart time and the uniform-bound extension
+criterion to prove `Q(t)≥1/(C_n(T−t))` for every 0≤t<T. This supplies
+terminal divergence, not merely an unbounded subsequence.
+A curvature bound controls g and g⁻¹ on finite time
 intervals, R3.2 controls all covariant derivatives, and R1's connection variation
 transfers these to a fixed background atlas. Construct a C∞ positive limit at T
 and restart R2. Establish equivalence of the relevant fixed/covariant norms
