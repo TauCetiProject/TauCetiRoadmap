@@ -37,10 +37,11 @@ It leaves to named owners:
   Stokes' theorem with corners (DifferentialGeometry 5.5) is not used, since the Cauchy theorems here
   hold under pointwise differentiability and are proved through Mathlib's divergence theorem;
 - the divergence theorem on axis-aligned boxes, the Lebesgue change of variables under linear maps,
-  Haar measure in polar form and the volume of balls to Mathlib;
+  pointwise naturality of the flat exterior derivative, Haar measure in polar form and the
+  volume of balls to Mathlib;
 - analyticity of complex-differentiable functions of several variables to Tau Ceti;
 - the one-variable complex theory, including the classification of conformal maps, to
-  ConformalMapping; no quaternionic conformal classification is stated here;
+  ConformalMapping; no quaternionic conformal classification is stated here (ConformalMapping Layer L3);
 - Morera-type theorems, primitives, rectifiable-chain versions of the Cauchy theorems, Laurent and
   power-series expansions of regular functions and the Liouville theorem to a Part II roadmap.
 
@@ -48,7 +49,7 @@ It leaves to named owners:
 
 - **Coordinates.** `q = t + i x + j y + k z`, in the order `(t, x, y, z) = (re, imI, imJ, imK)`.
   The units are the constructors `qi = ⟨0,1,0,0⟩`, `qj = ⟨0,0,1,0⟩`, `qk = ⟨0,0,0,1⟩`, and `e = (1, i, j, k)`
-  indexed by `Fin 4`. The coordinate map `toTuple : ℍ ≃ₗ[ℝ] (Fin 4 → ℝ)` is Mathlib's
+  indexed by `Fin 4`. The coordinate map `χ = toTuple : ℍ ≃ₗ[ℝ] (Fin 4 → ℝ)` is Mathlib's
   `QuaternionAlgebra.linearEquivTuple (-1) 0 (-1)`; its target carries the sup norm and is used only
   as an integration domain. No measure instance is placed on `ℍ`.
 - **Multiplication maps.** For `a = α + iβ + jγ + kδ`, `Lₐ(h) = a*h` and `Rₐ(h) = h*a`. `Lₐ` is
@@ -77,7 +78,7 @@ It leaves to named owners:
 - **Vocabulary.** "Biholomorphic" is never used without saying which derivative notion the map and
   its inverse are required to have. "Real analytic on `Ω`" is `AnalyticOnNhd ℝ f Ω`.
 - **Generality.** Every statement is for an arbitrary function `f : ℍ → ℍ` with hypotheses on a set;
-  the affine change of variables of §5.4 is stated for every `n` and every complete real normed
+  the affine change of variables of §5.2 is stated for every `n` and every complete real normed
   codomain.
 
 ## Exact supplier contracts
@@ -104,14 +105,18 @@ All at the pinned Mathlib; file paths under `Mathlib/`.
 - Real Fréchet calculus: `HasFDerivAt`, `HasFDerivAt.mul'` (`Analysis/Calculus/FDeriv/Mul.lean`
   line 198, derivative `a x • b' + a' <• b x` of a product in a normed algebra), `hasFDerivAt_inv'`
   (line 735, derivative `-mulLeftRight 𝕜 R x⁻¹ x⁻¹` of inversion at `x ≠ 0`), `HasFDerivAt.comp`
-  (`Analysis/Calculus/FDeriv/Comp.lean` line 107), `second_derivative_symmetric`
-  (`Analysis/Calculus/FDeriv/Symmetric.lean` line 482), `hasFDerivAt_of_restrictScalars`
-  (`Analysis/Calculus/FDeriv/RestrictScalars.lean` line 89, hypothesis `g'.restrictScalars 𝕜 = f'`),
+  (`Analysis/Calculus/FDeriv/Comp.lean` line 107), `second_derivative_symmetric_of_eventually`
+  (`Analysis/Calculus/FDeriv/Symmetric.lean` line 463, with a derivative on a neighbourhood),
+  `hasFDerivAt_of_restrictScalars`
+  (`Analysis/Calculus/FDeriv/RestrictScalars.lean` line 89, hypothesis `f'.restrictScalars 𝕜 = g'`),
   `iteratedFDeriv_succ_eq_comp_left` (`Analysis/Calculus/ContDiff/FTaylorSeries.lean` line 843),
   `hasFDerivAt_integral_of_dominated_of_fderiv_le` (`Analysis/Calculus/ParametricIntegral.lean`
   line 208).
 - Analytic functions: `AnalyticOnNhd` and `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`
   (`Analysis/Analytic/Uniqueness.lean` line 223).
+- `extDeriv_pullback` (`Analysis/Calculus/DifferentialForm/Basic.lean` line 259): naturality at
+  a point where the coefficient form is differentiable and the map is `C²`; an affine map
+  meets the latter hypothesis. The coordinate cofactor identity of §5.4 specializes this.
 - The Laplacian: the instance `Laplacian (E → F) (E → F)` for a finite-dimensional real inner product
   space `E` and real normed space `F` (`Analysis/InnerProductSpace/Laplacian.lean` line 138) with
   `laplacian_eq_iteratedFDeriv_orthonormalBasis` (line 171), applied to `E = F = ℍ`.
@@ -124,19 +129,20 @@ All at the pinned Mathlib; file paths under `Mathlib/`.
   `face i = Icc (a ∘ Fin.succAbove i) (b ∘ Fin.succAbove i)`, `frontFace i = Fin.insertNth i (b i)`,
   `backFace i = Fin.insertNth i (a i)`. No continuity of the derivative is required.
 - Measure theory: `Real.map_linearMap_volume_pi_eq_smul_volume_pi`
-  (`MeasureTheory/Measure/Lebesgue/Basic.lean` line 429), `MeasureTheory.integral_map`
-  (`MeasureTheory/Integral/Bochner/Basic.lean` line 1076), `MeasureTheory.setIntegral_map`
-  (`MeasureTheory/Integral/Bochner/Set.lean` line 554), `MeasureTheory.ContinuousOn.hasBoxIntegral`
+  (`MeasureTheory/Measure/Lebesgue/Basic.lean` line 429), `MeasureTheory.integral_map_equiv`
+  (`MeasureTheory/Integral/Bochner/Basic.lean` line 1100), `MeasureTheory.setIntegral_map_equiv`
+  (`MeasureTheory/Integral/Bochner/Set.lean` line 581), both for arbitrary integrands under a
+  measurable equivalence, `MeasureTheory.ContinuousOn.hasBoxIntegral`
   (`Analysis/BoxIntegral/Integrability.lean` line 305), `BoxIntegral.Box.coe_ae_eq_Icc`
-  (`Analysis/BoxIntegral/Partition/Measure.lean` line 70), `MeasureTheory.Measure.integral_fun_norm_addHaar`
+  (`Analysis/BoxIntegral/Partition/Measure.lean` line 70), `MeasureTheory.integral_fun_norm_addHaar`
   (`MeasureTheory/Constructions/HaarToSphere.lean` line 296:
   `∫ x, f ‖x‖ ∂μ = dim E • μ.real (ball 0 1) • ∫ y in Ioi 0, y^(dim E − 1) • f y`),
   `InnerProductSpace.volume_ball_of_dim_even` (`MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean`
-  line 359: `volume (ball x r) = r^(2k) * π^k / k!` when `finrank ℝ E = 2k`).
+  line 359: `volume (ball x r) = r^(2k) * π^k / k!` when `[Nontrivial E]`, `r ≥ 0` and `finrank ℝ E = 2k`).
 - The cutoff `Real.smoothTransition` (`Analysis/SpecialFunctions/SmoothTransition.lean`): zero
   exactly on `x ≤ 0`, one for `1 ≤ x`, `contDiff`, monotone.
 - `ModelWithCorners.ofConvexRange` (`Geometry/Manifold/IsManifold/Basic.lean` line 318), for the
-  cube's own model with corners in §5.3.
+  cube's own model with corners in §5.4.
 
 ### From Tau Ceti
 
@@ -150,9 +156,9 @@ All at the pinned Mathlib; file paths under `Mathlib/`.
 
 - Layers 0–2: real differential forms on normed spaces and manifolds, the exterior derivative with
   its naturality under pullback, and chart-sign orientations, all valid over any model with corners.
-  Consumed in §5.1 for the smooth-coefficient reading of `dq` and `Dq` and in §5.3.
+  Consumed in §5.1 for the smooth-coefficient reading of `dq` and `Dq` and in §5.4.
 - Layer 5.2: `integralTopForm` and its chart characterisation `integralTopForm_of_tsupport_subset_chart`.
-  Consumed in §5.3 for the facetwise comparison of the smooth-coefficient face integrals. That
+  Consumed in §5.4 for the facetwise comparison of the smooth-coefficient face integrals. That
   roadmap's "Boundary and corners" policy is respected: the cubical boundary is never treated as one
   manifold, and Layer 5.5 (Stokes with corners) is not invoked.
 
@@ -164,8 +170,8 @@ of the prescribed shape, proves their limit characterisations and their exact ca
 the non-examples. Layer 3 proves the rigidity theorems by transporting a one-sided derivative to a
 complex-linear one and using the several-variable analyticity theorem from Tau Ceti. Layer 4
 defines the Fueter operators and the pointwise regularity predicates and relates them to Layers 2
-and 3. Layer 5 builds the forms, the affine face adapter over Mathlib's divergence theorem, the
-affine change of variables, and proves the Cauchy theorems and Cauchy–Fueter formulas under
+and 3. Layer 5 builds the forms, the affine change of variables and the affine face adapter over
+Mathlib's divergence theorem, and proves the Cauchy theorems and Cauchy–Fueter formulas under
 pointwise hypotheses. Layer 6 draws the regularity consequences: harmonicity, real analyticity, the
 uniqueness principle and the universal derivative estimates. Each layer uses only earlier layers
 and the suppliers listed above.
@@ -193,6 +199,9 @@ Its API:
   the matrix of `Rₐ` applied to it is the coordinate vector of `q*a`;
 - the two matrices agree exactly when `a` is real, and both are then `α` times the identity.
 
+*Needs:* Mathlib `Quaternion.re_mul`, `Quaternion.imI_mul`, `Quaternion.imJ_mul`, `Quaternion.imK_mul`,
+`QuaternionAlgebra.linearEquivTuple`, matrices over `ℝ`.
+
 **Checks.**
 
 - `a = i`, `q = j`: the matrix of `Lᵢ` sends `(0,0,1,0)` to `(0,0,0,1)`, the coordinates of `ij = k`;
@@ -206,7 +215,12 @@ Its API:
 
 Prove `Lₐ∘L_b = L_{ab}`, `Rₐ∘R_b = R_{ba}`, `Lₐ∘R_b = R_b∘Lₐ`, `Lₐ⁻¹ = L_{a⁻¹}` and `Rₐ⁻¹ = R_{a⁻¹}`
 for `a ≠ 0`, `‖Lₐ(q)‖ = ‖Rₐ(q)‖ = ‖a‖‖q‖`, and `det Lₐ = det Rₐ = ‖a‖⁴`, from associativity, the
-multiplicativity of the norm, and the matrices of §1.1.
+multiplicativity of the norm, and the matrices of §1.1. The composition and determinant
+identities are derived from those matrices (`Quaternion.re_mul`, `Quaternion.imI_mul`,
+`Quaternion.imJ_mul`, `Quaternion.imK_mul`, `Mathlib/Algebra/Quaternion.lean`, lines 823–835);
+the inverse and multiplicative norm conventions are FL08, §2.1, p. 7, equations following (16).
+
+*Needs:* §1.1; Mathlib quaternion associativity, inverses, `norm_mul` and matrix determinants.
 
 **Checks.**
 
@@ -230,7 +244,12 @@ and of the form `Rₐ` exactly when
 `K_t = L_x = M_y = N_z`, `K_x = −L_t = −M_z = N_y`, `K_y = L_z = −M_t = −N_x`, `K_z = −L_y = M_x = −N_t`.
 
 These systems characterise the two multiplication subspaces among all real-linear maps; they are
-not the Fueter equations of §4.
+not the Fueter equations of §4. This is the entrywise characterization derived from §1.1
+and `Quaternion.re_mul`, `Quaternion.imI_mul`, `Quaternion.imJ_mul`, `Quaternion.imK_mul`
+(`Mathlib/Algebra/Quaternion.lean`, lines 823–835): evaluation at `1` determines the proposed
+multiplier and the displayed equalities determine the other three columns.
+
+*Needs:* §1.1; Mathlib `HasFDerivAt`, coordinate linear maps and differentiation of compositions.
 
 **Checks.**
 
@@ -245,8 +264,8 @@ not the Fueter equations of §4.
 ### Examples
 
 The identity is `L_1 = R_1`; left multiplication by `i` is `Lᵢ`, whose matrix is the block
-`[[0,−1],[1,0]]` on `(t,x)` and `[[0,1],[−1,0]]` on `(y,z)`; right multiplication by `i` is the same
-on `(t,x)` and the opposite sign on `(y,z)`.
+`[[0,−1],[1,0]]` on both `(t,x)` and `(y,z)`; right multiplication by `i` has the same
+`(t,x)` block and `[[0,1],[−1,0]]` on `(y,z)`. Thus `Lᵢ(j) = k` and `Rᵢ(j) = −k`.
 
 ### Dependencies
 
@@ -260,7 +279,7 @@ determinants over `ℝ`.
 Define `HasLeftQuotientFDerivAt f q b` as `HasFDerivAt f R_b q` with `R_b = (ContinuousLinearMap.mul ℝ ℍ).flip b`,
 and `HasRightQuotientFDerivAt f q a` as `HasFDerivAt f L_a q` with `L_a = ContinuousLinearMap.mul ℝ ℍ a`.
 These are the primary definitions; the quotient limits are theorems (§2.2). (D12, §1, p. 2,
-lines 46–55 for the two limits; Sudbery 1979, Theorem 1.)
+D12 line 46 for the two limits; Sudbery 1979, Theorem 1.)
 
 Its API:
 
@@ -271,6 +290,9 @@ Its API:
 - sum rule and real-scalar rule on each side, with slopes added and scaled;
 - the pointwise and setwise interfaces: `f` is left (right) quotient differentiable at `q` when some
   slope exists, and on `Ω` when it exists at every point of `Ω`.
+
+*Needs:* §1.1; Mathlib `HasFDerivAt`, `HasFDerivAt.unique`, `ContinuousLinearMap.mul`, sum and
+real-scalar derivative rules.
 
 **Checks.**
 
@@ -294,7 +316,13 @@ right:  (f(q+h) − f(q)) * h⁻¹ → a   iff   ‖f(q+h) − f(q) − a*h‖ /
 
 and that the right-hand sides are `HasLeftQuotientFDerivAt f q b` and `HasRightQuotientFDerivAt f q a`.
 Each direction follows from the identity `‖h⁻¹*(Δ) − b‖ = ‖h⁻¹*(Δ − h*b)‖ = ‖Δ − h*b‖/‖h‖` for
-`Δ = f(q+h) − f(q)`, by multiplicativity of the norm; the increment is never replaced by its inverse.
+`Δ = f(q+h) − f(q)`, by multiplicativity of the norm; the increment is never replaced by its inverse. D12, §1,
+p. 2 states the ordered limits; their remainder equivalence is derived here using
+`hasFDerivAt_iff_isLittleO_nhds_zero` (`Mathlib/Analysis/Calculus/FDeriv/Basic.lean`, line 815)
+and the norm identity of FL08, §2.1, p. 7.
+
+*Needs:* §2.1; Mathlib `hasFDerivAt_iff_isLittleO_nhds_zero`, `norm_mul`, `norm_inv` and punctured
+neighbourhoods.
 
 **Checks.**
 
@@ -322,8 +350,8 @@ displayed derivative is a one-sided multiplication map only when the commutator 
 every `h`, which in the division ring `ℍ` forces the stated alternative. For composition, if `g`
 has left slope `b_g` at `q` and `f` has left slope `b_f` at `g(q)`, then `f ∘ g` has left slope
 `b_g*b_f` at `q`; with right slopes `a_g`, `a_f` it has right slope `a_f*a_g`; both by `HasFDerivAt.comp`
-and associativity. State the general real Fréchet product and inverse rules separately; they
-never imply that a quaternionic subclass is closed when the criteria fail. *Needs:* §2.1, Mathlib
+and associativity. These quaternionic closure criteria consume the native real product,
+inverse and chain rules; the criteria determine precisely when their derivatives have the required shape. *Needs:* §2.1, Mathlib
 `HasFDerivAt.mul'`, `hasFDerivAt_inv'`, `HasFDerivAt.comp`.
 
 **Checks.**
@@ -348,7 +376,10 @@ one-sided slope at any point (their derivatives have rank one, while `R_b` and `
 or `4`); and `q ↦ q²` has neither slope on any nonempty open set (every nonempty open set contains a
 nonreal point, and §2.1 applies there). The quotient-differentiable classes carry no loop theorem
 for the ordered quaternion-valued 1-form `dq`: this is recorded by the Check below and is unrelated
-to the 3-form Cauchy theory of §5.
+to the 3-form Cauchy theory of §5. These are calculations from §1.1 and §2.1–§2.3,
+using the component products at `Mathlib/Algebra/Quaternion.lean`, lines 823–835.
+
+*Needs:* §1.2, §2.1–§2.3; Mathlib interval integration for the four explicit edge parametrizations.
 
 **Checks.**
 
@@ -367,7 +398,11 @@ Prove that if `f` has left slope `b` and right slope `a` at the same point then 
 real-linear maps, hence `a = b` (evaluate at `h = 1`) and `a*h = h*a` for every `h`, so `a = b` is
 real. Prove that this is not implied by bijectivity plus a one-sided differentiable inverse:
 `q ↦ i*q` and `q ↦ −i*q` are mutually inverse bijections, each with right slope `±i`, and the slope is
-not real.
+not real. This pointwise conclusion is derived from `HasFDerivAt.unique`
+(`Mathlib/Analysis/Calculus/FDeriv/Basic.lean`, line 174) and the comparison of multiplication
+matrices in §1.1; D12, §1, p. 2 gives the global classification rather than this lemma.
+
+*Needs:* §1.1, §2.1; Mathlib `HasFDerivAt.unique`.
 
 **Checks.**
 
@@ -395,10 +430,18 @@ Prove from the native coordinates that `q = v + j w` with `v = t + i x`, `w = y 
 for `Φᵣ(q) = (v, w)`. Prove that `R_b` commutes with `•ₗ` and `L_a` commutes with `•ᵣ`
 (associativity), so a real derivative `R_b` is complex-linear for the left structure and `L_a` for
 the right one. Prove that if `f(q) = g(v,w) + j h(v,w)` then `Φₗ ∘ f ∘ Φₗ⁻¹` has coordinates
-`(g, conj h)` and `Φᵣ ∘ f ∘ Φᵣ⁻¹` has coordinates `(g, h)`.
+at `(z₁,z₂)` equal to `(g(z₁,conj z₂), conj(h(z₁,conj z₂)))`, while
+`Φᵣ ∘ f ∘ Φᵣ⁻¹` at the same input is `(g(z₁,z₂), h(z₁,z₂))`. These are coordinate consequences of
+`Quaternion.re_mul`, `Quaternion.imI_mul`, `Quaternion.imJ_mul`, `Quaternion.imK_mul`
+(`Mathlib/Algebra/Quaternion.lean`, lines 823–835), not an additional regularity hypothesis.
+
+*Needs:* §1.1–§1.2; Mathlib quaternion component multiplication, the complex embedding and real
+continuous linear equivalences.
 
 **Checks.**
 
+- `f = id`, `g(v,w) = v`, `h(v,w) = w`: the left conjugate at `(0,i)` is
+  `(0,conj(conj i)) = (0,i)`; conjugating only the output would give `(0,−i)`.
 - `λ = i`, `q = j`: `i •ₗ j = k`, whose decomposition is `v = 0`, `w = −i` (since `j·(−i) = k`), so
   `Φₗ(k) = (0, i) = i·(0, 1) = i·Φₗ(j)`; the uncorrected coordinates `(v, w)` would give `(0, −i) = −i·(0,1)`,
   which is conjugate-linear.
@@ -418,12 +461,13 @@ and apply `hasFDerivAt_of_restrictScalars` to get `HasFDerivAt ℂ Fₗ Dℂ`, h
 `DifferentiableOn ℂ Fₗ (Φₗ(Ω))`. Apply `DifferentiableOn.analyticOnNhd_of_finiteDimensional` with
 `E = V = ℂ × ℂ` to get `AnalyticOnNhd ℂ Fₗ (Φₗ(Ω))`, so `f` is `C²` on `Ω`: this derived regularity
 replaces any `C¹` or `C²` hypothesis. Write `Df(q) = R_{b(q)}`. Symmetry of the second derivative
-(`second_derivative_symmetric`) gives `h*Db(k) = k*Db(h)`; `k = 1` gives `Db(h) = h*c` with
+(`second_derivative_symmetric_of_eventually`, applied on a ball inside `Ω`, with no
+condition on `f` outside `Ω`) gives `h*Db(k) = k*Db(h)`; `k = 1` gives `Db(h) = h*c` with
 `c = Db(1)`, and `h = i`, `k = j` give `(ij − ji)*c = 2k*c = 0`, so `c = 0`. Hence `b` is locally
 constant, constant on the connected `Ω`, and `f − q*b` is constant. Prove also the local form on each
 connected component of an arbitrary open set, and uniqueness of `a` and `b` when `Ω` is nonempty.
 *Needs:* §2.1, §3.1, Tau Ceti `DifferentiableOn.analyticOnNhd_of_finiteDimensional`, Mathlib
-`hasFDerivAt_of_restrictScalars`, `second_derivative_symmetric`.
+`hasFDerivAt_of_restrictScalars`, `second_derivative_symmetric_of_eventually`.
 
 **Checks.**
 
@@ -440,7 +484,9 @@ Prove that `T(f)(q) = conj(f(conj q))` sends a right slope `a` of `f` at `q` to 
 `conj a` of `T(f)` at `conj q`, since `D(Tf)(conj q)(h) = conj(a * conj h) = h * conj a`. Deduce
 `rightQuotient_rigidity`: on connected open `Ω`, `f` has a right slope at every point exactly when
 `f(q) = a + b*q` on `Ω`, from §3.2 applied to `T(f)` on `star '' Ω`, which is connected and open.
-*Needs:* §3.2.
+This follows from quaternion conjugation reversing products (FL08, §2.1, p. 7) and
+`HasFDerivAt.comp` (`Mathlib/Analysis/Calculus/FDeriv/Comp.lean`, line 107).
+*Needs:* §2.1, §3.2; Mathlib quaternion conjugation and `HasFDerivAt.comp`.
 
 **Checks.**
 
@@ -498,11 +544,14 @@ Its API:
 - `LeftFueterAt f q` implies `DifferentiableAt ℝ f q`, and the witness `D` is `fderiv ℝ f q`;
 - `LeftFueterOn` and `RightFueterOn` are monotone in `Ω`.
 
+*Needs:* §1.1, §1.3; Mathlib `HasFDerivAt`, `HasFDerivAt.unique` and `fderiv`.
+
 **Checks.**
 
 - `f(q) = a + q*b`: `D = R_b`, and `D(1) + i*D(i) + j*D(j) + k*D(k) = b + i i b + j j b + k k b = b − 3b = −2b`;
-  left regular exactly when `b = 0`. The wrong-order expression `D(1) + D(i)*i + …` gives
-  `b + b i i + b j j + b k k = −2b` as well, so this example does not separate the two operators.
+  left regular exactly when `b = 0`. The opposite-order expression is
+  `b + i b i + j b j + k b k = −2 conj b`; it also vanishes exactly when `b = 0`,
+  but at `b = i` the left value is `−2i` and the right value is `2i`.
 - `f(q) = a + b*q`: `D = L_b`, `D(1) + D(i)*i + … = b + b i i + b j j + b k k = −2b`; right regular
   exactly when `b = 0`.
 - `f(q) = t + i x`: `∂ₜf = 1`, `∂ₓf = i`, `∂ᵧf = ∂_zf = 0`, so `∂̄ₗ f = 1 + i*i = 0` and `∂̄ᵣ f = 1 + i*i = 0`:
@@ -528,7 +577,12 @@ right: Kt − Lx − My − Nz = 0,  Lt + Kx − Ny + Mz = 0,
        Mt + Nx + Ky − Lz = 0,  Nt − Mx + Ly + Kz = 0,
 ```
 
-at every point where `f` is differentiable, by expanding `i*(∂ₓf)` etc. with the matrices of §1.1.
+at every point where `f` is differentiable, by expanding `i*(∂ₓf)` etc. with the matrices of §1.1
+and `Quaternion.re_mul`, `Quaternion.imI_mul`, `Quaternion.imJ_mul`, `Quaternion.imK_mul`
+(`Mathlib/Algebra/Quaternion.lean`, lines 823–835). The ordered operators being expanded are
+FL08, Definition 1, p. 8; the component systems are derived here.
+
+*Needs:* §1.1, §1.3, §4.1; Mathlib quaternion component multiplication.
 
 **Checks.**
 
@@ -547,7 +601,8 @@ and on the right-affine class `q ↦ a + b*q` the right Fueter operator is the c
 each one-sided affine class Fueter regularity is equivalent to zero slope, and by §3 a function with
 a one-sided slope throughout a connected open set is Fueter regular on the corresponding side
 exactly when it is constant. Exhibit `f(q) = t + i x` as nonconstant, regular on both sides, and
-with no one-sided slope on any nonempty open set (§4.1 Checks). *Needs:* §3.2, §4.1.
+with no one-sided slope on any nonempty open set (§4.1 Checks). These are the substitutions of
+the affine derivatives into FL08, Definition 1, p. 8. *Needs:* §3.2, §3.3, §4.1.
 
 **Checks.**
 
@@ -563,12 +618,12 @@ translation of the argument, real dilation of the argument `q ↦ f(r*q)` for `r
 constant multiplication: left regularity is preserved by `f ↦ f*b`, right regularity by `f ↦ b*f`,
 for constant `b`. All follow from the ordered equation and the chain rule; none follows from the
 quotient criteria of §2.3, and no closure under products or compositions of regular functions is
-claimed (FL08, p. 8). Prove that `T(f)(q) = conj(f(conj q))` is left regular at
+claimed (FL08, Definition 1 and the following paragraph, p. 8). Prove that `T(f)(q) = conj(f(conj q))` is left regular at
 `conj q` exactly when `f` is right regular at `q`, and right regular at `conj q` exactly when `f` is
 left regular at `q`, with the derivative `D' = D(Tf)(conj q)` satisfying
 `D'(1) + i D'(i) + j D'(j) + k D'(k) = conj(D(1) + D(i) i + D(j) j + D(k) k)` (FL08, Proposition 2,
 p. 8). Regularity of `f` on `Ω` corresponds to regularity of `T(f)` on `star '' Ω`.
-*Needs:* §4.1.
+*Needs:* §4.1; Mathlib sum, scalar, product and chain rules for `HasFDerivAt`.
 
 **Checks.**
 
@@ -596,16 +651,42 @@ p. 8). Regularity of `f` on `Ω` corresponds to regularity of `T(f)` on `star ''
 
 ### 5.1 The forms `dq` and `Dq`
 
-Define `dq = dt + i dx + j dy + k dz` and the ordered quaternion-valued 3-form
+Define the constant quaternion-valued 1-form `dq = dt + i dx + j dy + k dz`: at each
+base point its value is the real continuous linear map `(Fin 4 → ℝ) →L[ℝ] ℍ` sending
+`h` to `h 0 + i*(h 1) + j*(h 2) + k*(h 3)`. Define also the ordered quaternion-valued 3-form
 `Dq = dx∧dy∧dz − i dt∧dy∧dz − j dt∧dz∧dx − k dt∧dx∧dy` as alternating maps on `(Fin 4 → ℝ)` with
 values in `ℍ`, through DifferentialGeometry Layer 0 for their smooth-coefficient reading. `Dq` is
 the form `Dx` of FL08, equation (18), p. 9, since `dt∧dz∧dx = −dt∧dx∧dz`. Prove the value
-of `Dq` on the raw `insertNth` tangent triples of §5.3, the effect of quaternion conjugation
+of `Dq` on the ordered coordinate triples obtained by deleting one coordinate, the effect of quaternion conjugation
 `σ(q) = conj q` on it, and the pointwise identity `Σᵢ ∂ᵢ(eᵢ * f) = ∂̄ₗ f`, `Σᵢ ∂ᵢ(f * eᵢ) = ∂̄ᵣ f`, which is
 `d(Dq·f) = (∂̄ₗ f) dV` and `d(f·Dq) = (∂̄ᵣ f) dV` for `C¹` coefficients (FL08, Proposition 4, p. 9,
-lines 379–384).
+FL08 line 379).
 
-**Checks.**
+The API of `dq` (FL08, §2.2, p. 8, definition of `dX`) specializes the evaluation and pairing
+operations of DifferentialGeometry Layer 0:
+
+- at every base point, evaluation on `h` is the inverse coordinate map `χ⁻¹(h)`, independent
+  of the base point, so evaluation on the four coordinate vectors is `1, i, j, k`;
+- evaluation is additive and real-linear in the tangent argument;
+- for `a ∈ ℍ`, the ordered coefficient forms evaluate as `(a·dq)(h) = a*dq(h)` and
+  `(dq·a)(h) = dq(h)*a`, using the ordered quaternion multiplication pairing.
+
+The API of `Dq` consists of real multilinearity and alternation, the four basis-triple values,
+the conjugation pullback law and the two ordered divergence identities above; a linearly
+dependent tangent triple has value zero.
+
+*Needs:* §1.1, §4.1; Mathlib continuous alternating maps; DifferentialGeometry Layer 0 for smooth forms
+and ordered pairings, Layer 1 for the smooth exterior-derivative identities.
+
+**Checks for `dq`.**
+
+- `dq(e_t) = 1`, whereas a form omitting `dt` gives `0`.
+- `dq(e_x + e_y) = i + j = dq(e_x) + dq(e_y)`; the conjugated form gives `−i − j`.
+- at `q = j`, `(q·dq)(e_x) = ji = −k`, while `(dq·q)(e_x) = ij = k`;
+  commuting coefficients would identify these unequal values.
+- on the unit square of §2.4, the edge integrals give `∮ q dq = 2k` and `∮ dq q = −2k`.
+
+**Checks for `Dq`.**
 
 - `Dq(e_x, e_y, e_z) = 1`, `Dq(e_t, e_y, e_z) = −i`, `Dq(e_t, e_x, e_z) = +j` (since
   `dt∧dz∧dx (e_t, e_x, e_z) = −1`), `Dq(e_t, e_x, e_y) = −k`; so `Dq` on the triple obtained by deleting
@@ -614,9 +695,43 @@ lines 379–384).
 - `σ*Dq = −conj(Dq)`: `σ = diag(1,−1,−1,−1)` sends `dx∧dy∧dz` to `−dx∧dy∧dz` and fixes the three
   terms containing `dt`; the result is `−(dx∧dy∧dz + i dt∧dy∧dz + j dt∧dz∧dx + k dt∧dx∧dy) = −conj(Dq)`.
 - `f ≡ 1`: `Σᵢ ∂ᵢ(eᵢ * 1) = 0 = ∂̄ₗ 1`; `f(q) = q`: `Σᵢ ∂ᵢ(eᵢ * q) = Σᵢ eᵢ eᵢ = 1 − 3 = −2 = ∂̄ₗ q`.
-- the 1-form `dq` on the unit square of §2.4: `∮ q dq = 2k` and `∮ dq q = −2k`.
+- `Dq(e_x, e_x, e_z) = 0` by alternation, excluding a nonalternating product of coordinates.
 
-### 5.2 The raw affine face functional
+### 5.2 Affine change of variables
+
+For every finite `n`, an invertible continuous linear `L : (Fin n → ℝ) →L[ℝ] (Fin n → ℝ)`, a
+translation `p`, the affine map `A(u) = p + L(u)`, a complete real normed space `E`
+(`[NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]`) and any function
+`w : (Fin n → ℝ) → E`, prove the totalized Bochner identity
+
+```text
+∫ u in Icc (0 : Fin n → ℝ) 1, |det L| • w (A u) = ∫ x in A '' Icc 0 1, w x.
+```
+
+There are no continuity, measurability or integrability hypotheses on `w`: `A` is a measurable
+equivalence transporting `volume` to `|det L|⁻¹ • volume` by
+`Real.map_linearMap_volume_pi_eq_smul_volume_pi` and translation invariance, so
+`MeasureTheory.integral_map_equiv` and `MeasureTheory.setIntegral_map_equiv` give the identity, and when one side is not integrable
+neither is the other and both are `0`. For quaternion-valued coefficients use `E = ℍ` and
+`w(x) = f(χ⁻¹ x)`, keeping the codomain quaternion-valued. The theorem is used with `n = 3` for face
+scaling, parameter reflections and the axis-face match, and with `n = 4` for bulk parallelepiped
+integration. This is the affine specialization of
+`Real.map_linearMap_volume_pi_eq_smul_volume_pi` (`Mathlib/MeasureTheory/Measure/Lebesgue/Basic.lean`,
+line 429), with `MeasureTheory.integral_map_equiv` (`Mathlib/MeasureTheory/Integral/Bochner/Basic.lean`,
+line 1100) and `MeasureTheory.setIntegral_map_equiv` (`Mathlib/MeasureTheory/Integral/Bochner/Set.lean`,
+line 581). The signed cofactor identity is a separate pointwise target in §5.4. *Needs:* Mathlib
+`Real.map_linearMap_volume_pi_eq_smul_volume_pi`, `MeasureTheory.integral_map_equiv`,
+`MeasureTheory.setIntegral_map_equiv`, translation invariance of volume.
+
+**Checks.**
+
+- `n = 1`, `L = 2`, `p = 0`: `∫₀¹ 2 w(2u) du = ∫₀² w`.
+- `n = 1`, `L = −1`, `p = 0`: `∫₀¹ w(−u) du = ∫_{−1}^{0} w`; a signed-determinant version would give the
+  negative.
+- `n = 2`, `L = diag(2,3)`, `w ≡ 1`: both sides are `6`.
+- `n = 1`, `L = 1`, `w(x) = 1/x` on `[0,1]` (not integrable): both sides are the junk value `0`.
+
+### 5.3 The raw affine face functional
 
 For every affine map `A(u) = p + L(u)` on `[0,1]⁴`, `L` linear and possibly singular or of negative
 determinant, and every continuous quaternion-valued coefficient, define the raw boundary
@@ -636,6 +751,12 @@ contribute `Jφ` exactly once. For invertible `L` write `C = A([0,1]⁴)`; the r
 with the geometric outward orientation exactly when `det L > 0`, and the geometric Cauchy formula
 of §5.6 is stated for `det L > 0`.
 
+This adapter is defined here from the outward-first convention of FL08, §2.2, p. 9,
+equation (18) and the paragraph before Lemma 6, and the face integrals in
+`MeasureTheory.integral_divergence_of_hasFDerivAt_off_countable`
+(`Mathlib/MeasureTheory/Integral/DivergenceTheorem.lean`, line 266). Its reparametrization laws
+are consequences of this definition and §5.2, not statements of FL08.
+
 Its API:
 
 - bound: `‖∫ A‖ ≤ sup_u ‖A(u)‖ = Jφ · sup_{q∈F} ‖B(q)‖ = vol₃(F) · sup_F ‖B‖`, the parameter cube having
@@ -647,6 +768,8 @@ Its API:
   `σ*Dq = −conj(Dq)`; `ρ` and `σ` both have determinant `−1`, so `σ∘A∘ρ` has positive determinant
   whenever `A` does and parametrizes the reflected parallelepiped with positive orientation;
 - rectangular subdivision additivity and cancellation of paired internal facets.
+
+*Needs:* §5.1, §5.2; Mathlib Bochner integration, continuity on compact cubes and finite additivity.
 
 **Checks.**
 
@@ -660,7 +783,7 @@ Its API:
 - `σ∘id` on `[0,1]⁴`, coefficient `Dq·1`: `Raw(σ, Dq·1) = Raw(id, σ*Dq·1) = −Raw(id, conj(Dq)·1) = 0`,
   and `det σ = −1`.
 
-### 5.3 Axis-box boundary match and the face-integral comparisons
+### 5.4 Axis-box boundary match and the face-integral comparisons
 
 Expose the axis-box boundary sum in the exact form of Mathlib's divergence theorem: for
 `a, b : Fin 4 → ℝ` and a family of face integrands `F i : (Fin 4 → ℝ) → ℍ`, define
@@ -669,7 +792,7 @@ with `face i = Icc (a ∘ Fin.succAbove i) (b ∘ Fin.succAbove i)`, `frontFace 
 and `backFace i x = Fin.insertNth i (a i) x`. Prove that for `a < b` coordinatewise, `Raw` of the
 axis box `A(u) = a + (b − a)·u` with coefficient `Dq·f` equals `boxBoundarySum a b (fun i x => eᵢ * f(χ⁻¹ x))`
 where `χ = toTuple`, and likewise for the other three ordered coefficients: match each of the eight
-adapter facets to one front or back term by the 3-dimensional change of variables of §5.4, the
+adapter facets to one front or back term by the 3-dimensional change of variables of §5.2, the
 face Jacobian `∏_{j≠i} (b j − a j)` occurring exactly once; since `Dq` on the raw `insertNth` triple is
 `(−1)^i eᵢ`, reflect the front-face parameter exactly when `i` is odd and the back-face parameter
 exactly when `i` is even, giving outward-first coefficient `+eᵢ` on every front face and `−eᵢ` on
@@ -684,15 +807,44 @@ oriented facet: represent the parameter cube `I = Icc (0 : Fin 3 → ℝ) 1` as 
 corners by `ModelWithCorners.ofConvexRange` (its range is convex with nonempty interior, with a
 continuous coordinate clamp as retraction), whose identity map is one global chart on the closed
 cube; give each facet its own model, affine chart and outward-first orientation; and apply
-`integralTopForm_of_tsupport_subset_chart` coefficientwise on that chart. Prove pointwise naturality
-of pullback and exterior derivative for the fixed affine map (the generic pullback theorem has
-stronger smoothness hypotheses). The entire cubical boundary is never treated as a manifold.
-*Needs:* §5.1, §5.2, §5.4, Mathlib `integral_divergence_of_hasFDerivAt_off_countable` (for the form
-of the sum), `ContinuousOn.hasBoxIntegral`, `Box.coe_ae_eq_Icc`, `ModelWithCorners.ofConvexRange`,
-DifferentialGeometry 5.2.
+`integralTopForm_of_tsupport_subset_chart` coefficientwise on that chart.
+
+For the pointwise affine flux comparison, consume `extDeriv_pullback`
+(`Mathlib/Analysis/Calculus/DifferentialForm/Basic.lean`, line 259), whose coefficient form needs
+only differentiability at the image point, and prove its explicit coordinate consequence.
+For every real normed space `E`, an invertible linear map `L` on `Fin 4 → ℝ`, `A(u) = p + Lu`,
+and a field `F : (Fin 4 → ℝ) → (Fin 4 → E)`, define the pulled field
+`H : (Fin 4 → ℝ) → (Fin 4 → E)` by the first formula; whenever `F` is differentiable at `A(u)`,
+prove the second:
+
+```text
+H_j(u) = det(L) • Σ_i (L⁻¹)_{ji} • F_i(A(u)),
+div H(u) = det(L) • div F(A(u)).
+```
+
+Prove the second identity by `HasFDerivAt.comp` (`Mathlib/Analysis/Calculus/FDeriv/Comp.lean`,
+line 107): the coefficient of `∂_k F_i` is
+`det(L) Σ_j (L⁻¹)_{ji} L_{kj} = det(L) δ_{ki}`. Identify these coefficients with the affine
+pullback of the flux 3-form `Σ_i (−1)^i F_i dx_0∧…∧omit(dx_i)∧…∧dx_3`, by expansion of its
+three-column determinants. This coordinate cofactor comparison is the additional target here;
+generic smooth manifold naturality is supplied by DifferentialGeometry §1.2. The determinant in this flux identity is
+signed, unlike the absolute determinant in §5.2. The entire cubical boundary is never treated
+as a manifold.
+*Needs:* §5.1–§5.3, Mathlib `integral_divergence_of_hasFDerivAt_off_countable` (for the form
+of the sum), `HasFDerivAt.comp`, `extDeriv_pullback`, matrix inverse and determinant identities,
+`ContinuousOn.hasBoxIntegral`, `Box.coe_ae_eq_Icc`, `ModelWithCorners.ofConvexRange`,
+DifferentialGeometry Layers 0–2 and 5.2 for the smooth-form comparison.
 
 **Checks.**
 
+- `L = diag(2,1,1,1)`, `p = 0`, `f(q) = t + i x`, `F_i = eᵢ*f`: the pulled field is
+  `(f∘A, 2i(f∘A), 2j(f∘A), 2k(f∘A))`, with divergence `2 + 2i² = 0 = 2 div F`;
+  its boundary flux is `2 − 2 = 0`. Naive precomposition has Fueter value `2 + i² = 1`.
+- `L = diag(−1,1,1,1)`, `F_0(x) = x_0`, `F_1 = F_2 = F_3 = 0`: `H_0(u) = −u_0`,
+  so `div H = −1 = det(L) div F`, and flux is `−1`; replacing `det(L)` by its absolute value fails.
+- `L(u) = (u_0+u_1,u_1,u_2,u_3)`, `p = 0`, `F(x) = (x_1,0,0,0)`: `H(u) = (u_1,0,0,0)`
+  and both divergences are `0`; using the transpose inverse gives `(u_1,−u_1,0,0)` and divergence `−1`.
+- `L = id` gives `H = F∘A` and `div H = div F∘A`; for `F = 0`, both sides are `0` for every `L`.
 - the unit box `a = 0`, `b = 1` and `F i x = eᵢ`: `boxBoundarySum = Σᵢ (eᵢ − eᵢ) = 0`.
 - the unit box and `F i x = eᵢ * x i`: front faces have `x i = 1`, back faces `x i = 0`, so the sum is
   `Σᵢ eᵢ = 1 + i + j + k`; a definition summing back minus front gives the negative.
@@ -701,35 +853,6 @@ DifferentialGeometry 5.2.
 - `i = 1` (the `x`-direction): `Dq` on `(e_t, e_y, e_z)` is `−i`, so the front face `x = b 1` is
   reflected to give `+i` and the back face is left alone to give `−i`; without the reflection rule the
   `x`-pair would enter with the sign of `(−1)^1`.
-
-### 5.4 Affine change of variables
-
-For every finite `n`, an invertible continuous linear `L : (Fin n → ℝ) →L[ℝ] (Fin n → ℝ)`, a
-translation `p`, the affine map `A(u) = p + L(u)`, a complete real normed space `E`
-(`[NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]`) and any function
-`w : (Fin n → ℝ) → E`, prove the totalized Bochner identity
-
-```text
-∫ u in Icc (0 : Fin n → ℝ) 1, |det L| • w (A u) = ∫ x in A '' Icc 0 1, w x.
-```
-
-There are no continuity, measurability or integrability hypotheses on `w`: `A` is a measurable
-equivalence transporting `volume` to `|det L|⁻¹ • volume` by
-`Real.map_linearMap_volume_pi_eq_smul_volume_pi` and translation invariance, so `integral_map`,
-`setIntegral_map` and `Measure.restrict_map` give the identity, and when one side is not integrable
-neither is the other and both are `0`. For quaternion-valued coefficients use `E = ℍ` and
-`w(x) = f(χ⁻¹ x)`, keeping the codomain quaternion-valued. The theorem is used with `n = 3` for face
-scaling, parameter reflections and the axis-face match, and with `n = 4` for bulk parallelepiped
-integration and the determinant/cofactor pullback. *Needs:* Mathlib
-`Real.map_linearMap_volume_pi_eq_smul_volume_pi`, `integral_map`, `setIntegral_map`.
-
-**Checks.**
-
-- `n = 1`, `L = 2`, `p = 0`: `∫₀¹ 2 w(2u) du = ∫₀² w`.
-- `n = 1`, `L = −1`, `p = 0`: `∫₀¹ w(−u) du = ∫_{−1}^{0} w`; a signed-determinant version would give the
-  negative.
-- `n = 2`, `L = diag(2,3)`, `w ≡ 1`: both sides are `6`.
-- `n = 1`, `L = 1`, `w(x) = 1/x` on `[0,1]` (not integrable): both sides are the junk value `0`.
 
 ### 5.5 The Cauchy theorems
 
@@ -741,11 +864,14 @@ and `right_cauchy_box`, with integrands `f(χ⁻¹ x) * eᵢ` under right regula
 vanishes, so the divergence is integrable and the boundary sum is `0`. The hypotheses are exactly
 continuity on the closed box and pointwise differentiability with the Fueter equation in its
 interior; no continuity of the derivative is used. (FL08, Corollary 8, p. 9, stated
-there for `C¹` functions and piecewise `C¹` boundaries.) Extend to affine parallelepipeds `C = A([0,1]⁴)`
+there for regular functions on a neighbourhood of the closure, with regularity defined using
+`C¹` functions and with piecewise `C¹` boundaries; the pointwise extension here is proved from
+`MeasureTheory.integral_divergence_of_hasFDerivAt_off_countable`,
+`Mathlib/MeasureTheory/Integral/DivergenceTheorem.lean`, line 266.) Extend to affine parallelepipeds `C = A([0,1]⁴)`
 with `det A > 0`: `Raw(A, Dq·f) = 0` for `f` continuous on `C` and left regular on its interior, and
-`Raw(A, f·Dq) = 0` under right regularity, by the cofactor pullback of §5.4 with `n = 4`, the
-naturality of §5.3 and the box theorem. The right statements also follow from the left ones by the
-reflection `T` and the laws of §5.2 applied to `σ∘A∘ρ`. *Needs:* §4.1, §5.1–§5.4, Mathlib
+`Raw(A, f·Dq) = 0` under right regularity, by the pointwise cofactor identity of §5.4, applying the native box divergence theorem
+to the pulled flux field `H`. The right statements also follow from the left ones by the
+reflection `T` and the laws of §5.3 applied to `σ∘A∘ρ`. *Needs:* §4.1, §5.1–§5.4, Mathlib
 `integral_divergence_of_hasFDerivAt_off_countable`.
 
 **Checks.**
@@ -807,7 +933,9 @@ formula is proved either directly, with the field `f * eᵢ * G` and the right k
 `(∂̄ᵣ f) * G + f * (∂̄ₗ G) = 0`, or from the left formula by the reflection `T` at `conj q₀`, which
 conjugates the kernel (`conj G(r) = G(conj r)`) and reverses coefficient order. Prove also that the
 same boundary sums are `0` when `q₀` lies outside the closed box, by §5.5 applied to the kernel-weighted
-field. Extend both formulas to affine parallelepipeds `C = A([0,1]⁴)` with `det A > 0` and `q₀` in the
+field. Apply the same cofactor transformation of §5.4 to the kernel-weighted field
+`F_i = G * eᵢ * f` (respectively `f * eᵢ * G`), and to its cutoff field, whose divergence is
+transformed by the signed determinant. Extend both formulas to affine parallelepipeds `C = A([0,1]⁴)` with `det A > 0` and `q₀` in the
 interior of `C`, with `Raw(A, G·Dq·f)` and `Raw(A, f·Dq·G)` in place of the box sums; the reflected
 set `σ '' C` is parametrized by the positive-determinant map `σ∘A∘ρ`, and `Raw(σ∘A, ω) = Raw(A, σ*ω)`
 with the `ρ` law supplies the sign. General rectifiable chains, Morera theorems and primitives are
@@ -837,7 +965,8 @@ on every box and the formula reproduces `f(q₀)` at every interior point.
 ### Dependencies
 
 §4; §5.1–§5.4 within the layer; Mathlib's divergence theorem, Lebesgue change of variables,
-polar-coordinates integral and ball volume; DifferentialGeometry Layers 0–2 and 5.2 for §5.3 only.
+polar-coordinates integral and ball volume; DifferentialGeometry Layer 0 and Layer 1 for
+§5.1, and Layers 0–2 and 5.2 for the smooth-form comparison in §5.4.
 
 ## Layer 6: regularity consequences and estimates
 
@@ -864,8 +993,9 @@ the `Laplacian` instance and `laplacian_eq_iteratedFDeriv_orthonormalBasis`.
   regular and not harmonic.
 - `f(q) = t² − x²`: harmonic (`Δ f = 2 − 2 = 0`) but `∂̄ₗ f = 2t − 2i x ≠ 0`; harmonic does not imply
   regular, so the implication is one-directional.
-- the kernel `G` off `0`: harmonic, since `G = −½ ∇(‖r‖⁻²)` and `‖r‖⁻²` is harmonic on `ℍ ∖ {0}`
-  (FL08, Proposition 3).
+- the kernel `G` off `0`: harmonic, since `G = −½ (∂ₜ − i∂ₓ − j∂ᵧ − k∂_z)(‖r‖⁻²)`
+  and `‖r‖⁻²` is harmonic on `ℍ ∖ {0}` (FL08, Proposition 3, p. 8). At `r = i` the operator
+  gives `2i`, hence `G(i) = −i`; the Euclidean gradient instead gives `−2i` and the wrong value `+i`.
 
 ### 6.2 Real analyticity
 
@@ -883,8 +1013,7 @@ valid when `|u| < 1`; on the ball of increments of radius less than `δ(√2 −
 summable terms by total degree in `h`, integrate each coefficient over the finite faces against
 `eᵢ f`, and prove that the resulting series has a summable majorant and represents the box formula
 on a smaller ball: a `HasFPowerSeriesOnBall` statement for `f` at `q₀`. The derivative estimates of
-§6.4 are not used for this, and arbitrary `C^∞` bounds would not give it. (FL08, p. 10,
-lines 448–451; Sudbery 1979.) *Needs:* §5.6, §6.1, Mathlib `HasFPowerSeriesOnBall`.
+§6.4 are not used for this, and arbitrary `C^∞` bounds would not give it. (FL08, §2.2, p. 10, remark after Theorem 9; FL08 line 448.) *Needs:* §5.6, §6.1, Mathlib `HasFPowerSeriesOnBall`.
 
 **Checks.**
 
@@ -938,7 +1067,11 @@ Use the homogeneity `G(λr) = λ⁻³ G(r)`, hence `‖D^m G(r)‖ ≤ c_m ‖r�
 side `R` centred at `q₀`, whose vertices are at distance `R·√4/2 = R` from `q₀`, so that it lies in
 `closedBall q₀ R`; its faces are at distance `R/2` from `q₀`, its face Jacobians scale as `R³` and the
 differentiated kernel on them is bounded by `c_m (R/2)^(−3−m)`; the constant depends on `m` and the
-dimension only, never on `f`, `q₀`, `R` or `Ω`, and no sharp value is required. *Needs:* §5.6, §6.1,
+dimension only, never on `f`, `q₀`, `R` or `Ω`, and no sharp value is required. The representation
+and bound are derived from §5.6 and `hasFDerivAt_integral_of_dominated_of_fderiv_le`
+(`Mathlib/Analysis/Calculus/ParametricIntegral.lean`, line 208), with
+`iteratedFDeriv_succ_eq_comp_left` (`Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean`, line 843);
+FL08, Theorem 9, p. 10 supplies the classical integral formula, not this derivative estimate. *Needs:* §5.6, §6.1,
 Mathlib `iteratedFDeriv_succ_eq_comp_left`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
 
 **Checks.**
@@ -986,11 +1119,11 @@ regular functions, and a Clifford-analysis roadmap generalising the Fueter opera
 ## References
 
 - **FL08**: Igor Frenkel and Matvei Libine, *Quaternionic analysis, representation theory and
-  physics*, [arXiv:0711.2699](https://arxiv.org/abs/0711.2699) (Adv. Math. 218 (2008), 1806–1877).
+  physics*, [arXiv:0711.2699v5](https://arxiv.org/abs/0711.2699v5) (Adv. Math. 218 (2008), 1806–1877).
   Locators (page, item and equation numbers) refer to the arXiv version v5: Definition 1, Propositions 2–4,
   Corollaries 5 and 8, Lemma 6, Proposition 7 and Theorem 9 of §2.
 - **D12**: Omar Dzagnidze, *On the differentiability of quaternion functions*,
-  [arXiv:1203.5619](https://arxiv.org/abs/1203.5619); §1, p. 2 for the two one-sided quotient
+  [arXiv:1203.5619v1](https://arxiv.org/abs/1203.5619v1); locators refer to v1, §1, p. 2 for the two one-sided quotient
   limits and the statement of the classification of the one- and two-sided differentiable functions.
 - **Sudbery 1979**: A. Sudbery, *Quaternionic analysis*, Math. Proc. Cambridge Philos. Soc. 85
   (1979), 199–225, [doi:10.1017/S0305004100055638](https://doi.org/10.1017/S0305004100055638);

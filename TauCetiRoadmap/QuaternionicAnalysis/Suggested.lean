@@ -14,9 +14,9 @@ Headline theorems not statable at the pins:
 
 * the Cauchy theorem and the Cauchy–Fueter formula on an affine parallelepiped `A([0,1]⁴)` with
   `det A > 0` (README §5.5 and §5.6): their boundary integral is the raw affine face functional
-  of README §5.2, a Layer 5 target with no carrier in the pinned libraries. Only the axis-aligned
+  of README §5.3, a Layer 5 target with no carrier in the pinned libraries. Only the axis-aligned
   box case is stated here, through `boxBoundarySum`;
-* the facetwise agreement of the face integrals with the integral of a top form (README §5.3):
+* the facetwise agreement of the face integrals with the integral of a top form (README §5.4):
   the DifferentialGeometry roadmap's `integralTopForm` is not in the pinned Tau Ceti.
 
 Multiplication order is part of every statement: `h ↦ h * b` is the derivative of a
