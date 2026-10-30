@@ -1,28 +1,30 @@
-import Mathlib
-import TauCeti.AlgebraicTopology.Cohomology.HomotopyInvariance
-import TauCeti.AlgebraicTopology.Cohomology.Relative
-import TauCeti.AlgebraicTopology.Singular.Subdivision.Homotopy
-import TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Equiv
-import TauCeti.AlgebraicTopology.UniversalCover.Circle.FundamentalGroup
-import TauCeti.Analysis.Calculus.Sard.EqualDimension
-import TauCeti.Analysis.ODE.InitialCondition
-import TauCeti.Geometry.Lie.IntegralCurve
-import TauCeti.Geometry.Manifold.Boundary.Charts
-import TauCeti.Geometry.Manifold.IntegralCurve.Flow
-import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
-import TauCeti.Geometry.Manifold.LocalDiffeomorph
-import TauCeti.Geometry.Manifold.LocallyFlat.Basic
-import TauCeti.Geometry.Manifold.Riemannian.Sphere
-import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
-import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
-import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
-import TauCeti.Analysis.Contour.Winding.Number.Basic
-import TauCeti.Analysis.Contour.PiecewiseC1On
-import TauCeti.Analysis.Contour.Winding.Number.Homotopy
-import TauCeti.Analysis.Contour.Winding.Proximity
-import TauCeti.Analysis.Contour.Winding.UnboundedComponent
-import TauCeti.Analysis.Normed.Module.FilledHull
-import TauCeti.MeasureTheory.Integral.DivergenceTheorem
+module
+
+public import Mathlib
+public import TauCeti.AlgebraicTopology.Cohomology.HomotopyInvariance
+public import TauCeti.AlgebraicTopology.Cohomology.Relative
+public import TauCeti.AlgebraicTopology.Singular.Subdivision.Homotopy
+public import TauCeti.AlgebraicTopology.Singular.Subdivision.Small.Equiv
+public import TauCeti.AlgebraicTopology.UniversalCover.Circle.FundamentalGroup
+public import TauCeti.Analysis.Calculus.Sard.EqualDimension
+public import TauCeti.Analysis.ODE.InitialCondition
+public import TauCeti.Geometry.Lie.IntegralCurve
+public import TauCeti.Geometry.Manifold.Boundary.Charts
+public import TauCeti.Geometry.Manifold.IntegralCurve.Flow
+public import TauCeti.Geometry.Manifold.IntegralCurve.Maximal
+public import TauCeti.Geometry.Manifold.LocalDiffeomorph
+public import TauCeti.Geometry.Manifold.LocallyFlat.Basic
+public import TauCeti.Geometry.Manifold.Riemannian.Sphere
+public import TauCeti.Geometry.Manifold.Riemannian.VolumeDensity.Volume
+public import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Regularity
+public import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Riesz
+public import TauCeti.Analysis.Contour.Winding.Number.Basic
+public import TauCeti.Analysis.Contour.PiecewiseC1On
+public import TauCeti.Analysis.Contour.Winding.Number.Homotopy
+public import TauCeti.Analysis.Contour.Winding.Proximity
+public import TauCeti.Analysis.Contour.Winding.UnboundedComponent
+public import TauCeti.Analysis.Normed.Module.FilledHull
+public import TauCeti.MeasureTheory.Integral.DivergenceTheorem
 
 /-!
 # Differential geometry — forms, de Rham cohomology, flows, and degree: target signatures
@@ -86,6 +88,8 @@ point of use; finite dimension, Hausdorffness and σ-compactness are written whe
 statements carry `[MeasurableSpace M] [BorelSpace M]`. Elaborates against the pinned
 toolchain (sorry-warnings only).
 -/
+
+public section
 
 open Bundle Set
 open scoped Manifold Bundle Topology ContDiff InnerProductSpace
@@ -1040,6 +1044,7 @@ variable (I M) in
 tangent space. ⚠ Its topology is *not* the sigma topology (see *Statements that must not
 enter*): it is the one induced by chart trivializations, a README 2.4 target together with the
 covering property of `proj`. -/
+@[expose]
 def OrientationCover : Type _ :=
   (x : M) × Orientation ℝ (TangentSpace I x) (Fin (Module.finrank ℝ E))
 
@@ -1127,20 +1132,24 @@ omit [CompleteSpace E] in
 Ceti's `isMIntegralCurveOn_maximalIntegralCurve`). -/
 theorem isMIntegralCurveOn_flowOf [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) (x : M) :
-    IsMIntegralCurveOn (fun t ↦ flowOf v t x) v {t | (t, x) ∈ flowDomain v} :=
-  isMIntegralCurveOn_maximalIntegralCurve hv
+    IsMIntegralCurveOn (fun t ↦ flowOf v t x) v {t | (t, x) ∈ flowDomain v} := by
+  simpa [flowDomain, flowOf] using
+    (isMIntegralCurveOn_maximalIntegralCurve (x := x) hv)
 
 omit [T2Space M] in
 theorem mem_flowDomain_zero [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) (x : M) :
-    ((0 : ℝ), x) ∈ flowDomain v :=
-  zero_mem_maximalIntegralCurveInterval hv.contMDiffAt
+    ((0 : ℝ), x) ∈ flowDomain v := by
+  simpa [flowDomain] using
+    (zero_mem_maximalIntegralCurveInterval (x := x) hv.contMDiffAt)
 
 omit [T2Space M] in
 theorem flowOf_zero [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) (x : M) :
-    flowOf v 0 x = x :=
-  maximalIntegralCurve_zero (mem_flowDomain_zero hv x)
+    flowOf v 0 x = x := by
+  have h0 : (0 : ℝ) ∈ maximalIntegralCurveInterval v x := by
+    simpa [flowDomain] using mem_flowDomain_zero hv x
+  exact maximalIntegralCurve_zero h0
 
 omit [CompleteSpace E] in
 /-- **Layer 3.2, the fundamental theorem of flows** [Lee, Thm. 9.12], finite-dimensional: the
@@ -1186,10 +1195,15 @@ already have this generality, discharged in place. -/
 theorem flowOf_add [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) {s t : ℝ} {x : M}
     (hs : (s, x) ∈ flowDomain v) (ht : (t, flowOf v s x) ∈ flowDomain v) :
-    (s + t, x) ∈ flowDomain v ∧ flowOf v t (flowOf v s x) = flowOf v (s + t) x :=
+    (s + t, x) ∈ flowDomain v ∧ flowOf v t (flowOf v s x) = flowOf v (s + t) x := by
+  have hs' : s ∈ maximalIntegralCurveInterval v x := by
+    simpa [flowDomain] using hs
+  have ht' : t ∈ maximalIntegralCurveInterval v (maximalIntegralCurve v x s) := by
+    simpa [flowDomain, flowOf] using ht
   have hst : s + t ∈ maximalIntegralCurveInterval v x :=
-    (TauCeti.mem_maximalIntegralCurveInterval_maximalIntegralCurve_iff hv hs).1 ht
-  ⟨hst, (TauCeti.maximalIntegralCurve_add hv hs hst).symm⟩
+    (TauCeti.mem_maximalIntegralCurveInterval_maximalIntegralCurve_iff hv hs').1 ht'
+  exact ⟨by simpa [flowDomain] using hst,
+    (TauCeti.maximalIntegralCurve_add hv hs' hst).symm⟩
 
 /-- **Layer 3.2, the escape lemma** [Lee, Lemma 9.19], one-sided: at a finite right endpoint of
 the interval of existence the curve eventually leaves every compact set. Tau Ceti's
@@ -1197,8 +1211,12 @@ the interval of existence the curve eventually leaves every compact set. Tau Cet
 theorem eventually_flowOf_notMem [IsManifold I 1 M] {v : (x : M) → TangentSpace I x}
     (hv : ContMDiff I I.tangent 1 (fun y ↦ (⟨y, v y⟩ : TangentBundle I M))) {x : M} {b : ℝ}
     (hb : IsLUB {t | (t, x) ∈ flowDomain v} b) {K : Set M} (hK : IsCompact K) :
-    ∀ᶠ t in 𝓝[<] b, flowOf v t x ∉ K :=
-  eventually_notMem_nhdsLT_maximalIntegralCurve hv (mem_flowDomain_zero hv x) hb hK
+    ∀ᶠ t in 𝓝[<] b, flowOf v t x ∉ K := by
+  have h0 : (0 : ℝ) ∈ maximalIntegralCurveInterval v x := by
+    simpa [flowDomain] using mem_flowDomain_zero hv x
+  have hb' : IsLUB (maximalIntegralCurveInterval v x) b := by
+    simpa [flowDomain] using hb
+  exact eventually_notMem_nhdsLT_maximalIntegralCurve hv h0 hb' hK
 
 /-- **Layer 3.3.** A vector field is complete when its flow is defined for all time. -/
 def IsCompleteVectorField (v : (x : M) → TangentSpace I x) : Prop :=
@@ -2824,7 +2842,7 @@ local instance : Fact (Module.finrank ℝ ℂ = 1 + 1) := ⟨by simp⟩
 
 /-- **Layer 12.1.** The round metric on the circle, the pullback of the ambient inner product along
 the inclusion; `volume_circle` is the gate `vol(S¹) = 2π`, reusing the angular integral gate from 5.5a. -/
-@[instance_reducible]
+@[expose, instance_reducible]
 noncomputable def roundMetricCircle : RiemannianBundle (fun x : Circle ↦ TangentSpace (𝓡 1) x) :=
   inferInstanceAs (RiemannianBundle
     (fun x : Metric.sphere (0 : ℂ) 1 ↦ TangentSpace (𝓡 1) x))
