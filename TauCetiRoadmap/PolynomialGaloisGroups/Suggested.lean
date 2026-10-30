@@ -70,6 +70,28 @@ theorem isSolvable_gal_iff_forall_rootSet_mem_solvableByRad
       ∀ x ∈ q.rootSet (AlgebraicClosure F), x ∈ solvableByRad F (AlgebraicClosure F) := by
   sorry
 
+/-- **Separation of the quintic `F₂₀` resolvent** (Chapman's note on Dummit's *Solving solvable
+quintics*). Over a field in which `5 ≠ 0`, the resolvent sextic of a monic separable irreducible
+quintic has six distinct roots: a coincidence among the values of Dummit's invariant on the six
+cosets of `F₂₀` in `S₅` would propagate along a `5`-cycle of the Galois group and force a root of
+the quintic into the base field. Over `𝔽₅` the Artin–Schreier quintic `X⁵ − X − 1` shows that
+the hypothesis `5 ≠ 0` is needed. -/
+theorem separable_specialize_quinticF20Spec
+    {F : Type*} [Field F] [NeZero (5 : F)] {f : F[X]} (hf : f.Monic) (hsep : f.Separable)
+    (hirr : Irreducible f) (hdeg : f.natDegree = 5) :
+    (TauCeti.quinticF20Spec.specialize F f).Separable := by
+  sorry
+
+/-- **Dummit's criterion for quintics, group form** (Dummit, *Solving solvable quintics*,
+Theorem 1, with Chapman's separation argument). Over a field in which `5 ≠ 0`, a monic separable
+irreducible quintic has solvable Galois group exactly when its `F₂₀` resolvent sextic has a root
+in the base field. No separation hypothesis on the sextic is needed. -/
+theorem isSolvable_gal_iff_exists_isRoot_quinticF20
+    {F : Type*} [Field F] [NeZero (5 : F)] {f : F[X]} (hf : f.Monic) (hsep : f.Separable)
+    (hirr : Irreducible f) (hdeg : f.natDegree = 5) :
+    Group.IsSolvable f.Gal ↔ ∃ a : F, (TauCeti.quinticF20Spec.specialize F f).IsRoot a := by
+  sorry
+
 /-- **Dummit's criterion for quintics** (Dummit, *Solving solvable quintics*, Theorem 1, with
 Chapman's separation argument). In characteristic zero, the roots of a monic irreducible quintic
 are expressible by radicals exactly when its `F₂₀` resolvent sextic has a root in the base field.
@@ -94,6 +116,18 @@ theorem dedekindZetaCoeff_fixedField_eq_of_almostConjugate
         Nat.card {g : E ≃ₐ[ℚ] E // g ∈ C.carrier ∧ g ∈ K}) (n : ℕ) :
     TauCeti.dedekindZetaCoeff (IntermediateField.fixedField H) n =
       TauCeti.dedekindZetaCoeff (IntermediateField.fixedField K) n := by
+  sorry
+
+/-- **Isomorphic fixed fields and conjugate subgroups.** For a finite Galois extension `E/F` and
+subgroups `H, K` of its Galois group, the fixed fields of `H` and `K` are isomorphic as
+`F`-algebras exactly when `H` and `K` are conjugate, `K = g H g⁻¹` for some `g`: an isomorphism
+extends to an automorphism of `E` by normality, which carries `fixedField H` onto the fixed field
+of the conjugate subgroup, and the Galois correspondence is injective. -/
+theorem nonempty_fixedField_algEquiv_iff_exists_map_conj_eq
+    {F E : Type*} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E] [IsGalois F E]
+    (H K : Subgroup (E ≃ₐ[F] E)) :
+    Nonempty (IntermediateField.fixedField H ≃ₐ[F] IntermediateField.fixedField K) ↔
+      ∃ g : E ≃ₐ[F] E, H.map (MulAut.conj g).toMonoidHom = K := by
   sorry
 
 /-- **Nonisomorphic number fields with the same zeta function** (Gassmann). There are two number
