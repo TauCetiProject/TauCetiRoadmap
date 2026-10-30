@@ -135,16 +135,6 @@ def holomorphicHull (Ω K : Set ℂ) : Set ℂ :=
   {z | z ∈ Ω ∧ ∀ f : ℂ → ℂ, DifferentiableOn ℂ f Ω →
     ∀ B : ℝ, (∀ w ∈ K, ‖f w‖ ≤ B) → ‖f z‖ ≤ B}
 
-/-- The hull of a compact subset of an open plane set is compact and fills exactly the
-relatively compact complementary components (Rainer, Lemma 11.3, pp. 27–28). -/
-theorem holomorphicHull_eq_fill {Ω K : Set ℂ}
-    (hΩ : IsOpen Ω) (hK : IsCompact K) (hKΩ : K ⊆ Ω) :
-    IsCompact (holomorphicHull Ω K) ∧
-      holomorphicHull Ω K = K ∪ {z | z ∈ Ω \ K ∧
-        IsCompact (closure (connectedComponentIn (Ω \ K) z)) ∧
-        closure (connectedComponentIn (Ω \ K) z) ⊆ Ω} := by
-  sorry
-
 /-- **GH0, Runge.** Every ambient-neighborhood holomorphic function is uniformly
 approximable on `K` by functions holomorphic on `Ω` exactly for compact Runge pairs. -/
 theorem isRungeCompactPair_iff_approximation {Ω K : Set ℂ}
@@ -154,6 +144,17 @@ theorem isRungeCompactPair_iff_approximation {Ω K : Set ℂ}
       ∀ f : ℂ → ℂ, DifferentiableOn ℂ f U →
         ∀ ε > 0, ∃ g : ℂ → ℂ, DifferentiableOn ℂ g Ω ∧
           ∀ z ∈ K, ‖f z - g z‖ < ε := by
+  sorry
+
+/-- The hull of a compact subset of an open plane set is compact and fills exactly the
+relatively compact complementary components; the inclusion of those components is the
+maximum principle, the reverse inclusion uses scalar Runge (Rainer, Lemma 11.3, pp. 27–28). -/
+theorem holomorphicHull_eq_fill {Ω K : Set ℂ}
+    (hΩ : IsOpen Ω) (hK : IsCompact K) (hKΩ : K ⊆ Ω) :
+    IsCompact (holomorphicHull Ω K) ∧
+      holomorphicHull Ω K = K ∪ {z | z ∈ Ω \ K ∧
+        IsCompact (closure (connectedComponentIn (Ω \ K) z)) ∧
+        closure (connectedComponentIn (Ω \ K) z) ⊆ Ω} := by
   sorry
 
 /-- **GH0, finite-rank Runge operator.** Fix a compact collar L inside the holomorphy

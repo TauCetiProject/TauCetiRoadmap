@@ -13,9 +13,12 @@ The local holomorphic, analytic-order, meromorphic and compact-convergence carri
 Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti.
 DifferentialGeometry, Layers 0–1 and 6.1–6.2, owns generic manifold forms, their exterior
 derivative and the real de Rham quotient; its §5.6.3 owns finite-cycle Green.
-ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here builds
-fixed-coefficient postcomposition and its naturality on the supplied forms; pullback
-naturality alone does not supply this coefficient operation.
+ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here owns
+only the planar coordinate forms on an open subset of ℂ: the coordinate differentials
+dx, dy, dz, dz̄ as exterior derivatives of coordinate functions, products of smooth
+coefficients with forms through the supplied paired wedge, coefficient extraction for
+two-forms, and real and complex two-form exactness. No operation on forms over a general
+manifold is constructed here.
 
 ZerosOfLFunctions, Layer 5.2–5.5, owns the zero-support API, the genus-one factor and its
 basic API, its canonical product under order-one growth, and the entire logarithm.
@@ -25,11 +28,13 @@ without an entire function or growth bound as input. Layer 5 proves full factori
 finite-order hypotheses. These are extensions of the stated contracts, not a reassignment
 of their genus-one special case; ZerosOfLFunctions is a supplier, not a consumer.
 
-Hyperfunctions HF2.AnalyticPreparation owns the real-even-dimensional filled exhaustion,
-including the plane case. Its generic topological construction is not a target here.
-Layer 2 instead constructs the holomorphic hull of an arbitrary compact set and applies
-that hull to native compact exhaustions to obtain Runge exhaustions. Hyperfunctions already
-uses this roadmap's one-variable input, so it is not an input to this construction.
+Hyperfunctions HF2.AnalyticPreparation owns the generic topological filled-compact
+exhaustion of an open subset of ℝ^(2n), in every even dimension, by a route that uses no
+holomorphic function; that construction is not a target here. Layer 2 owns the holomorphic
+hull of a compact subset of a plane domain and the plane Runge exhaustion obtained by
+applying that hull to native compact exhaustions. Hyperfunctions consumes this roadmap's
+one-variable results and is downstream, so nothing of it is an input here; on a plane
+domain the two exhaustions deliver the same filledness property.
 ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
 de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
 
@@ -117,12 +122,15 @@ rectangle-conservative criterion. No alias of these statements is an acceptance 
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
-Consume §0.1's determinant-normalized paired wedge, §§0.3–0.4's rough and smooth forms,
-§1.1's chartwise exterior derivative, §1.2's pullback naturality, §1.3's regularity,
-§1.4's fixed-bilinear-pairing Leibniz law, §5.6.3's local finite-cycle Green theorem,
-and §§6.1–6.2's real de Rham complex and quotient. The coefficient postcomposition and
-its commutation with d are local construction targets in Layer 7.2, before their use
-in two-form exactness; they are not assumed supplier contracts.
+Consume §0.1's determinant-normalized paired wedge, §§0.3–0.4's rough and smooth forms
+with `RoughForm.ofFunction` and `RoughForm.wedgeWith`, §1.1's chartwise exterior derivative
+with `mextDeriv_ofFunction`, §1.2's pullback naturality, §1.3's `mextDeriv_mextDeriv` and
+regularity, §1.4's fixed-bilinear-pairing Leibniz law `mextDeriv_wedgeWith`, §5.6.3's local
+finite-cycle Green theorem, and §§6.1–6.2's real de Rham complex and quotient. Products of
+smooth coefficient functions with forms are the paired wedge with the fixed real-bilinear
+multiplication pairing of ℝ or of ℂ, and complex coordinate differentials are exterior
+derivatives of complex-valued coordinate functions; no coefficient-postcomposition
+operation on forms is consumed, and none is constructed here.
 
 ### From TauCetiRoadmap.ZerosOfLFunctions
 
@@ -355,8 +363,9 @@ recovers its Radon–Nikodym density. Each comparison is local on a compact rect
 
 **Checks.**
 
-- For f=z², fx=2z and fy=2iz, so fy−i fx=0 and every rectangle integral is zero.
-- For f=z̄, fx=1 and fy=−i, so fy−i fx=−2i; the unit-square integral is −2i, not zero.
+- For f=z², fx=2z and fy=2iz, so i fx−fy=0 and every rectangle integral is zero.
+- For f=z̄, fx=1 and fy=−i, so i fx−fy=2i; the counterclockwise unit-square integral of z̄ dz
+  is 2i, not zero, in agreement with Layer 6's identity ∮F dz=2i∫∂̄F dA.
 - For φ(x,y)=y and F=R=[0,1]², the scalar boundary difference and area derivative integral
   are both 1, so the estimate reads 0≤0. For a horizontal singleton slice F, both are zero.
 - For interpolation data g(0)=0, g(1)=1 with N=1, the gap slope is 1 and the endpoint
@@ -435,7 +444,7 @@ For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has w
 
 Native real/complex calculus and measure theory; Tau Ceti Morera. No later layer supplies an input.
 
-## Layer 1: primary factors and locally uniform products
+## Layer 1: preparatory primary factors and locally uniform products
 
 ### 1.1 Arbitrary genera and compact summability
 
@@ -682,10 +691,14 @@ ZerosOfLFunctions Layer 5.2–5.5 and native product/analytic-order APIs. No glo
 Define `holomorphicHull`, the Ω-holomorphic hull of nonempty compact K⊆Ω by all z∈Ω satisfying
 |g(z)|≤sup_(w∈K)|g(w)| for every g holomorphic on Ω; the empty set has empty
 hull. Equivalently every real bound for an Ω-holomorphic function on K holds at the point;
-this formulation also forces the empty hull to be empty. In `holomorphicHull_eq_fill`,
-prove that it equals K together with every component of Ω∖K whose closure
-is compact and contained in Ω. Prove compactness, idempotence and monotonicity,
-and identify hull equality with absence of relatively compact complementary components.
+this formulation also forces the empty hull to be empty. Prove extensivity, monotonicity
+and idempotence directly from the definition. Prove compactness without any approximation
+theorem: the hull is relatively closed in Ω, the identity function bounds it inside the
+closed disk of radius sup_(w∈K)|w|, and for ζ∉Ω the function 1/(z−ζ) gives
+dist(z,ζ)≥dist(K,ζ) on the hull, so the hull is closed in ℂ and bounded. Prove the
+maximum-principle inclusion: every component of Ω∖K whose closure is compact and contained
+in Ω has boundary inside K and lies in the hull. The reverse inclusion is
+`holomorphicHull_eq_fill` in 2.5, after scalar Runge.
 For compact K⊆Ω and open Ω, prove equality of the extended set distances to the complement:
 `(⨅ z∈K̂_Ω, ⨅ w∈Ωᶜ, edist z w) = (⨅ z∈K, ⨅ w∈Ωᶜ, edist z w)`.
 Empty infima are ∞, covering K=∅ and Ω=ℂ. For nonempty K and nonempty complement,
@@ -696,15 +709,18 @@ Construct the Runge exhaustion from holomorphic hulls: start with a native compa
 exhaustion of Ω, choose each next compact stage with the preceding hull in its interior,
 and take its Ω-holomorphic hull. Compactness of each hull and compact cofinality make
 these choices possible. The result has nested interiors, union Ω, compact cofinality and
-no relatively compact complementary component (Rainer, Lemma 11.3, pp. 27–28, and the
+no relatively compact complementary component: a component of Ω∖K̂ with compact closure
+in Ω would lie in the hull of K̂, which is K̂ itself, by the maximum-principle inclusion
+and idempotence (Rainer, Lemma 11.3, items (1), (2) and (4), pp. 27–28, and the
 construction in the proof of Theorem 12.1, p. 31). The ordinary distance exhaustion used
 for the comparison metric below does not require this hull operation.
 
-The hull API includes compactness, extensivity, monotonicity, idempotence, the complementary-
-component description and the distance and convex-hull comparisons. The exhaustion API
+The hull API includes compactness, extensivity, monotonicity, idempotence, the
+maximum-principle inclusion of relatively compact complementary components, and the
+distance and convex-hull comparisons. The exhaustion API
 has nested interiors and compact cofinality, and each stage equals its holomorphic hull.
-These are Rainer, Lemma 11.3, pp. 27–28 (rainer line 1437); the exhaustion is its
-recursive compact-cofinal consequence.
+These are Rainer, Lemma 11.3, pp. 27–28 (rainer line 1437), apart from its item (3), which
+is the hull equality of 2.5; the exhaustion is its recursive compact-cofinal consequence.
 
 **Checks.**
 
@@ -716,15 +732,14 @@ recursive compact-cofinal consequence.
 - In Ω=ℂ, the radius-n closed ball is its own hull and a valid exhaustion stage,
   agreeing with the plane instance of the topological exhaustion owner.
 
-*Needs:* Mathlib compact exhaustions and connected components; Layer 2.5's scalar Runge
-and separation implication for the hull equality, and elementary maximum-principle and
-separation arguments. Prove scalar Runge first; its statement and route use no hull theorem.
+*Needs:* Mathlib compact exhaustions and connected components; the maximum principle and
+the elementary separating functions z, 1/(z−ζ) and exp(az). No later subsection is used.
 
 ### 2.2 Holomorphic functions with compact-open convergence
 
 Define `HolomorphicMapSpace` as follows. For an open set `U : TopologicalSpace.Opens ℂ`, use Mathlib's native bundled analytic maps
 `H(U) = ContMDiffMap (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) U ℂ ω`
-([native analytic-map bundle](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Geometry/Manifold/ContMDiffMap.lean)).
+(`Mathlib/Geometry/Manifold/ContMDiffMap.lean`).
 The complex charted-space and analytic-manifold structures on U are the native restrictions
 of those on ℂ. The order is analytic `ω`. Equality is equality of functions on U.
 
@@ -890,7 +905,18 @@ function holomorphic on every open neighborhood U of K can be uniformly approxim
 on K by functions holomorphic on Ω holds if and only if no component of Ω\K is
 relatively compact in Ω. Quantify over U and f in this equivalence. For any individual
 such f, the no-hole condition supplies approximants with error below each ε>0. Also expose the equivalent hull equality and
-the point-separation criterion, with their directions stated. Specialize to polynomial
+the point-separation criterion, with their directions stated. Prove `holomorphicHull_eq_fill`:
+for compact K⊆Ω, the hull equals K together with every component of Ω∖K whose closure is
+compact and contained in Ω (Rainer, Lemma 11.3, item (3), pp. 27–28, rainer line 1437).
+Layer 2.1 supplies the inclusion of these components. For the reverse inclusion, let K̃ be
+K together with those components. Prove K̃ compact: Ω∖K̃ is open as a union of components
+of Ω∖K, and for a relatively compact open neighborhood W of K in Ω only finitely many
+relatively compact components of Ω∖K leave W, since each such component meets ∂W and
+contains one of finitely many disks disjoint from K that cover ∂W. Prove that Ω∖K̃ has no
+relatively compact component, so (Ω,K̃) is a Runge pair, and apply the point-separation
+direction of the scalar equivalence to K̃: every a∈Ω∖K̃ has an f∈H(Ω) with
+|f(a)|>sup_K̃|f|≥sup_K|f|, so a∉K̂_Ω. Hence K̂_Ω=K holds exactly when Ω∖K has no
+relatively compact component. Specialize to polynomial
 approximation on compact `K ⊂ ℂ` iff `ℂ \ K` is connected. Include the rational approximation
 variant with a specified pole set meeting every component of the complement in the sphere.
 Develop pole-pushing on nested compacta, rather than treating a picture or a single pole move as
@@ -956,7 +982,7 @@ are the explicit cutoff/quadrature and Hermite-interpolation consequences above.
 
 *Needs:* Layer 0.3's cutoff reconstruction and uniform quadrature, Cauchy estimates, finite
 pole-pushing and compact connected-component arguments; native polynomial CRT for finite jets.
-The hull formulation uses Layer 2.1 after the scalar equivalence is proved.
+The hull equality uses Layer 2.1's hull API after the scalar equivalence is proved.
 
 
 
@@ -966,7 +992,7 @@ The annulus hull is the closed radius-3 disk in the disk ambient domain and the 
 
 ### Dependencies
 
-Layer 0 for scalar Runge; native compact-convergence and topology for function spaces. Within this layer prove scalar Runge before its hull characterization.
+Layer 0 for scalar Runge; native compact-convergence and topology for function spaces. Within this layer, 2.1's hull API precedes 2.5, and 2.5's hull equality follows its scalar equivalence.
 
 ## Layer 3: prescribed zeros and divisor realization (GH1)
 
@@ -1778,86 +1804,80 @@ closed completion follow by subtracting solutions and applying the operator to �
 extension-by-zero adapters, and holomorphic Cauchy derivative estimates. Closed completion
 uses the scalar solver and Layer 0.1; no Layer 6 input is needed.
 
-### 7.2 Fixed-coefficient maps and planar forms
+### 7.2 Planar coordinate forms and two-form exactness
 
-For a finite-dimensional real smooth manifold M modeled by I and real normed coefficient
-spaces F,G, construct the postcomposition map from smooth F-valued k-forms to smooth
-G-valued k-forms for every fixed continuous real-linear L:F→G. Define its evaluation by
-(L_*ω)ₓ(v₁,…,vₖ)=L(ωₓ(v₁,…,vₖ)); prove smoothness in the supplied alternating bundle.
-For complete F and G, prove d(L_*ω)=L_*(dω) for smooth ω, by the continuous-linear chain
-rule and the alternating derivative formula in charts. These are construction targets here,
-not consequences of pullback naturality: the base manifold stays fixed.
-
-The coefficient-map API is:
-
-- Identity postcomposition fixes every form, and postcomposition by L₂∘L₁ is the composite
-  of the two maps, with source and target coefficient spaces retained.
-- Postcomposition is real-linear in the form and commutes with restriction and smooth base pullback.
-- For complete coefficient spaces, it commutes with d on smooth forms in every degree.
-
-**Checks.**
-
-- For L:ℝ→ℂ, L(t)=t, followed by Re, the form x dy has coefficient x and derivative
-  dx∧dy after both maps; the composite coefficient map is the identity.
-- For L(t)=it, the value of L_*(dx) on eₓ(1) is i; using only real-part projection would give zero.
-- Zero postcomposition gives zero in every degree, and in degree zero the law reads
-  d(L∘u)=L∘du; for u(x,y)=x² and L(t)=2t, both sides on (1,0) are 4x.
-
-*Needs:* DifferentialGeometry §§0.3–0.4 and 1.1–1.3; Mathlib continuous-linear
-postcomposition of alternating maps and the Fréchet chain rule. This is a direct
-chartwise derivation from those definitions, with the preceding evaluations fixing the map.
-
-For differential-form exactness, take `U : TopologicalSpace.Opens ℂ`, the open subtype
-`M := ↥U` and model `I := 𝓘(ℝ, ℂ)`. The inclusion `ι : M → ℂ` induces a smooth
-identification of the tangent bundle with the trivial bundle of fibre ℂ: at `z : M`,
-`mfderiv I I ι z : TangentSpace I z →L[ℝ] ℂ` and its inverse are the mutually inverse
-coordinate tangent maps. Write `e_z : ℂ ≃L[ℝ] TangentSpace I z` for the inverse
-identification. For every ambient `u : ℂ → ℂ`, prove the restriction comparison
+Take `U : TopologicalSpace.Opens ℂ`, the open subtype `M := ↥U` and the model
+`I := 𝓘(ℝ, ℂ)`; `M` is a finite-dimensional real smooth manifold without boundary.
+The inclusion `ι : M → ℂ` induces a smooth identification of the tangent bundle with the
+trivial bundle of fibre ℂ: at `z : M`, `mfderiv I I ι z : TangentSpace I z →L[ℝ] ℂ` and its
+inverse are the mutually inverse coordinate tangent maps. Write `e_z : ℂ ≃L[ℝ] TangentSpace I z`
+for the inverse identification. For every ambient `u : ℂ → ℂ`, prove the restriction comparison
 `ContDiffOn ℝ ∞ u (U : Set ℂ) ↔ ContMDiff I I ∞ (fun z : M => u z)`, using the native
-open-subtype smoothness API. Throughout, `d v` for a smooth coefficient function `v` means
-`mextDeriv (RoughForm.ofFunction I v)`, with its smoothness supplied by DG1.3.
+open-subtype smoothness API, and the same comparison for real-valued functions with the
+target model `𝓘(ℝ, ℝ)`. Throughout, `d v` for a smooth coefficient function `v` with values
+in ℝ or in ℂ means `mextDeriv (RoughForm.ofFunction I v)` on DG0.3's carrier. Prove that the
+degree-zero form of a smooth function on `M` is a smooth form in DG0.3's sense, by its
+chartwise definition; DG1.3 then supplies the smoothness of `d v`, and DG1.1's
+`mextDeriv_ofFunction` evaluates `d v` as `mfderiv`.
 
-Define real one-forms `dx = d(Re ∘ ι)` and `dy = d(Im ∘ ι)`. For a fixed `c : ℂ`, let
-`L_c : ℝ →L[ℝ] ℂ` be `L_c(t)=c*(t:ℂ)`. On DG0.3/0.4's generic form carrier define
-dz=(L₁)_*dx+(Lᵢ)_*dy and dz̄=(L₁)_*dx−(Lᵢ)_*dy, where i=Complex.I and
-postcomposition is the bundled map constructed in §7.2. A product of a smooth complex function with a form
-means the paired wedge of its degree-zero form with that form, using complex multiplication
-as a continuous real-bilinear pairing; these formulas require no separate form carrier.
+Define the real coordinate differentials `dx = d(Re ∘ ι)` and `dy = d(Im ∘ ι)`, real-valued
+one-forms, and the complex coordinate differentials `dz = d ι` and `dz̄ = d(conj ∘ ι)`,
+complex-valued one-forms, where `conj` is `starRingEnd ℂ`. These are exterior derivatives
+of smooth coordinate functions, so `d(dx)=d(dy)=d(dz)=d(dz̄)=0` by DG1.3's
+`mextDeriv_mextDeriv`. A product of a smooth coefficient function with a form means the
+paired wedge `RoughForm.wedgeWith` of its degree-zero form with that form, with pairing the
+continuous real-bilinear multiplication of ℝ for real coefficients and of ℂ for complex
+coefficients; `dx∧dy` and `dz∧dz̄` are the paired wedges with the same pairings. No
+coefficient space is changed anywhere: a real-valued form is never regarded as
+complex-valued, and no postcomposition of a form by a linear map is used.
 
 For smooth `u : M → ℂ`, define its real coordinate derivatives by evaluating `mfderiv`
-on `e_z 1` and `e_z i`. Put `∂z u=(∂x u−i*∂y u)/2` and
-`∂barz u=(∂x u+i*∂y u)/2`, and prove `du=(∂z u) dz+(∂barz u) dbarz`.
-For ambient smooth-on-`U` functions, prove these derivatives of the restriction agree with
-the ambient derivatives used by GH5, including `barDerivative`. By DG's determinant wedge
-evaluation, prove dz∧dz̄=(L₋₂ᵢ)_*(dx∧dy); its value on
-`(e_z 1,e_z i)` is `−2i`. Every smooth complex-valued two-form `η` therefore has the unique
-form `η=h dz∧dbarz`, where `h(z)=η_z(e_z 1,e_z i)/(−2i)`; prove `h` is smooth.
-Extend `h` by zero off `U`; the restriction comparison gives an ambient function smooth on
-`U`. Apply GH5 to it, restrict the solution to `M`, and use DG's
-`mextDeriv_wedgeWith` Leibniz rule to obtain `d(−u dz)=η`, with sign
-`−du∧dz=(∂barz u) dz∧dbarz`. For a real two-form, include coefficients by `L_1`, take a
-complex primitive and then take its real part; §7.2's coefficient naturality and
-`Re ∘ L_1 = id` give a real primitive. Thus the real degree-two de Rham quotient vanishes.
-CKG K5a consumes the complex exactness on this same open-subtype carrier and owns its
-complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
+on `e_z 1` and `e_z i`. Put `∂z u=(∂x u−i*∂y u)/2` and `∂barz u=(∂x u+i*∂y u)/2`, and prove
+`du=(∂z u) dz+(∂barz u) dbarz` as an identity of complex-valued one-forms: both sides are
+the real-linear map `v ↦ ∂x u·Re v+∂y u·Im v` at every tangent vector. For ambient
+smooth-on-`U` functions, prove these derivatives of the restriction agree with the ambient
+derivatives used by GH5, including `barDerivative`. By DG0.1's determinant wedge evaluation,
+`dz∧dz̄` takes the value `1·(−i)−i·1=−2i` on `(e_z 1,e_z i)`, and `dx∧dy` takes the value
+`1·1−0·0=1` there. A real-alternating two-form on the two-dimensional real space ℂ is
+determined by its value on the pair `(1,i)`, so every smooth complex-valued two-form `η`
+has the unique form `η=h dz∧dbarz` with `h(z)=η_z(e_z 1,e_z i)/(−2i)`, and every smooth
+real-valued two-form `η` has the unique form `η=h dx∧dy` with `h(z)=η_z(e_z 1,e_z i)`; prove
+`h` smooth in both cases. Extend `h` by zero off `U`; the restriction comparison gives an
+ambient function smooth on `U`.
 
-The coordinate-form API includes the tangent trivialization, ambient/restricted smoothness
-comparison, dx and dy as real coordinate differentials, dz and dz̄ as their complex linear
-combinations, unique coefficient extraction for two-forms, and real/complex exactness.
-These are direct consequences of the coefficient map, the determinant wedge convention
-and Layer 7.1, not an additional generic form carrier.
+For the complex case, apply GH5 to `h`, obtaining `u` with `∂barz u=h`, restrict to `M`, and
+use DG1.4's `mextDeriv_wedgeWith` Leibniz rule with `d(dz)=0` to obtain
+`d(−u dz)=−du∧dz=(∂barz u) dz∧dbarz=η`, since `dz∧dz=0`. For the real case, apply GH5 to
+the datum `h/2`, obtaining `u` with `∂barz u=h/2`, and set `β=(Im u) dx+(Re u) dy`, a
+real-valued one-form with the real smooth coefficients `Re ∘ u` and `Im ∘ u`. The real
+Leibniz rule with `d(dx)=d(dy)=0` gives `dβ=((Re u)_x−(Im u)_y) dx∧dy=2 Re(∂barz u) dx∧dy=η`.
+Thus every smooth real-valued two-form on `M` is exact and the real degree-two de Rham
+quotient vanishes. CKG K5a consumes the complex exactness on this same open-subtype carrier
+and owns its complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
+
+The coordinate-form API includes the tangent trivialization, the ambient/restricted
+smoothness comparison for real and complex values, smoothness of degree-zero forms, dx, dy,
+dz and dz̄ as exterior derivatives of coordinate functions with their evaluations and
+vanishing exterior derivatives, the decomposition of du, unique coefficient extraction for
+real and complex two-forms, and real and complex exactness. These are direct consequences
+of the supplied exterior derivative, Leibniz rule and determinant wedge convention together
+with Layer 7.1, not an additional generic form carrier or a generic operation on forms.
 
 **Checks.**
 
-- dx and dy on (eₓ1,eₓi) give rows (1,0) and (0,1); exchanging them reverses orientation.
-- dz and dz̄ give rows (1,i) and (1,−i), whose determinant is −2i; hence the coefficient
-  of dz∧dz̄ in itself is (−2i)/(−2i)=1.
-- For η=dz∧dz̄, take u=z̄; then d(−z̄ dz)=dz∧dz̄, with coefficient +1.
-- For η=dx∧dy, h=1/(−2i)=i/2; taking the real part of −(i/2)z̄ dz gives
-  (x dy−y dx)/2, whose derivative is dx∧dy. Its value on (1,i) is 1.
+- dx and dy on (e_z 1, e_z i) give rows (1,0) and (0,1), and dz and dz̄ give rows (1,i) and
+  (1,−i); exchanging dx and dy reverses orientation, and omitting conj would make dz̄ equal dz.
+- dz∧dz̄ on (e_z 1, e_z i) is −2i and dx∧dy is 1; hence the coefficient of dz∧dz̄ in itself is
+  (−2i)/(−2i)=1, and the opposite order dz̄∧dz would give +2i.
+- For η=dz∧dz̄, h=1 and u=z̄; then d(−z̄ dz)=dz∧dz̄, with coefficient +1. Using +u dz instead
+  would give −dz∧dz̄.
+- For η=dx∧dy, h=1 and the datum is 1/2; u=z̄/2 has Re u=x/2 and Im u=−y/2, so
+  β=(x dy−y dx)/2, whose derivative is dx∧dy; its value on (e_z 1, e_z i) is 1. Taking
+  β=(Re u) dx+(Im u) dy instead would give dβ=((Im u)_x−(Re u)_y) dx∧dy=0.
 
-*Needs:* Layer 7.1 and this subsection's coefficient maps, DifferentialGeometry §§0.1,
-0.3–0.4, 1.1–1.4 and 6.1–6.2; native open-subtype tangent and smoothness comparisons.
+*Needs:* Layers 7.1 and 0.1; DifferentialGeometry §§0.1, 0.3–0.4, 1.1, 1.3–1.4 and
+6.1–6.2; native open-subtype tangent and smoothness comparisons, `Complex.reCLM`,
+`Complex.imCLM` and `starRingEnd ℂ`.
 
 ### 7.3 Coordinate worked examples
 
@@ -1912,8 +1932,8 @@ Verify `b_i-b_j=c_ij`, so `∂̄b_i` is one global smooth datum; solve `∂̄u=�
 and check `b_i-u` are holomorphic and glue with the required differences. For the Mittag–Leffler application,
 use `Ω₀=Ω\E` and small disjoint disks around the marked points, and verify this is an open
 cover. For the de Rham consequence consume DG Layer 6.1–6.2's real smooth de Rham complex and quotient
-carrier. The coordinate calculation above gives exactness for every complex-valued smooth 2-form;
-real and imaginary parts give real-coefficient exactness. CKG K5a consumes the complex exactness
+carrier. Layer 7.2 gives exactness for every complex-valued and every real-valued smooth
+two-form on the open subtype. CKG K5a consumes the complex exactness
 statement and proves its own complex de Rham comparison on the generic form carrier. The open plane
 domain is Hausdorff and paracompact. This uses no singular/de Rham comparison or fundamental class.
 
