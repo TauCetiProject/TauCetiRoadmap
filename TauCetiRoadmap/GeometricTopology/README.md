@@ -312,7 +312,8 @@ roadmap adds on top of each is said in the layer that uses it.
   `TauCeti.MarkovBraid.burauAlexander` (`Burau/`); `TauCeti.KnotTheory.tristramLevineForm`,
   `TauCeti.KnotTheory.tristramLevineSignature` with the Hermitian signature
   `Matrix.IsHermitian.signature` (`TristramLevine/`, `Analysis/Matrix/HermitianSignature.lean`);
-  `TauCeti.KnotTheory.jimboWeightedTrace`, `TauCeti.KnotTheory.homflySpecialization`,
+  `TauCeti.KnotTheory.jimboWeightedTrace`, `TauCeti.KnotTheory.homflySpecialization` (the
+  ring homomorphism substituting `a ↦ q^N`, `z ↦ q − q⁻¹` into `K(q)`),
   the Markov trace on the Temperley–Lieb algebra (`Jimbo/`, `Homfly/`, and the
   `MarkovTrace` module of the `Algebra` folder).
 - **Slopes** (`LowDimTopology/DehnSurgery/Slope.lean`): `TauCeti.Slope M` (primitive classes
@@ -1286,7 +1287,8 @@ crossing number and a descending resolution of based diagrams (Lickorish, Chapte
 Yetter, Hoste, Lickorish, Millett, Ocneanu, Bull. Amer. Math. Soc. 12 (1985)), and the
 specializations `Δ_L(t) = P_L(1, −1, t⁻¹ᐟ² − t¹ᐟ²)` and `V_L(t) = P_L(t⁻¹, −t, t⁻¹ᐟ² − t¹ᐟ²)`.
 Prove the trace route through the Hecke algebra and the Ocneanu trace
-(TypeAHeckeAlgebras H1, H2; the specializations `TauCeti.KnotTheory.homflySpecialization`).
+(TypeAHeckeAlgebras H1, H2; the `sl_N` specializations `a ↦ q^N`, `z ↦ q − q⁻¹` of the
+`(a, z)` form are `TauCeti.KnotTheory.homflySpecialization`).
 Prove existence and uniqueness of Kauffman's two-variable polynomial `F_L(a, x)` from the
 regular-isotopy invariant `Λ` with `Λ(L₊) + Λ(L₋) = x(Λ(L₀) + Λ(L∞))` and the curl factors
 `a^{±1}` (Lickorish, Chapter 15).
@@ -1540,8 +1542,9 @@ Prove Kondo's theorem: for every Laurent polynomial `Δ ∈ ℤ[t, t⁻¹]` with
 `Δ(1) = 1` there is a knot with unknotting number one whose Alexander polynomial is `Δ`
 (Kondo, *Knots of unknotting number 1 and their Alexander polynomials*, Osaka J. Math. 16
 (1979), Theorem 3: the knot is a normal form built from one unknotting band with integer
-parameters solving the linear system of equation (8)). Deduce that the genus of knots with
-unknotting number one is unbounded, since `span Δ ≤ 2g`. The surgery-theoretic theorems
+parameters solving Kondo's linear system (*), and his formula (8) for the Alexander
+polynomial of the normal form shows that such a solution gives the prescribed `Δ`). Deduce
+that the genus of knots with unknotting number one is unbounded, since `span Δ ≤ 2g`. The surgery-theoretic theorems
 about unknotting number one, that `u(K) = 1` implies `K` prime and the Kanenobu–Murakami
 criterion for two-bridge knots, are Layer 5.4's, since they rest on the cyclic surgery
 theorem stated there.
@@ -2745,6 +2748,8 @@ and 8; Mathlib CW complexes.
   **AffineMorseLefschetz** and **ComplexKahlerGeometry** consume Layer 1: collars, gluing,
   connected sums, tubular neighbourhoods and the metric-independent normal bundle, and the
   handle decompositions.
+- **MorseTheory** also consumes Layer 2.2's generalized Schoenflies theorem for a bicollared
+  sphere, which is proved here and is the topological input of its target M4.1.
 - **TeichmullerGeometry** consumes Layer 3's topological group `Diff(M)` and isotopy
   extension.
 - **KhovanovHomology** and **CombinatorialHeegaardFloer** consume Layer 4's geometric and
@@ -2820,8 +2825,8 @@ and 8; Mathlib CW complexes.
   E. Elrifai, H. Morton, *Algorithms for positive braids*, Quart. J. Math. Oxford 45 (1994),
   479–497.
 - H. Kondo, *Knots of unknotting number 1 and their Alexander polynomials*, Osaka J. Math. 16
-  (1979), 551–559, Theorem 3 and equation (8). M. Scharlemann, *Unknotting number one knots
-  are prime*, Invent. Math. 82 (1985), 37–55. T. Kanenobu, H. Murakami, *Two-bridge knots with
+  (1979), 551–559, Theorem 3, the linear system (*) and formula (8). M. Scharlemann,
+  *Unknotting number one knots are prime*, Invent. Math. 82 (1985), 37–55. T. Kanenobu, H. Murakami, *Two-bridge knots with
   unknotting number one*, Proc. Amer. Math. Soc. 98 (1986), 499–502. S. Taylor, *Adding
   2-handles to sutured manifolds*, arXiv 0806.1572, for a second proof. C. Ernst, D. Sumners, *The growth of the
   number of prime knots*, Math. Proc. Cambridge Philos. Soc. 102 (1987), 303–315. O. Bernardi,
