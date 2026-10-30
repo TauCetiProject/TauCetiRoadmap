@@ -1,5 +1,11 @@
 # Global number fields: completion audit
 
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+The final positive compile inventory covers 138 global-arithmetic suppliers.
+The dated evidence below retains its original revision scope.
+
 The definitive specification is [README.md](README.md), including its carrier conventions,
 twelve layers, consumer contracts and twenty-four rejection tests. The admitted historical
 `Suggested.lean` is a design aid, not a proof certificate.

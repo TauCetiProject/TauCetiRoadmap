@@ -11,11 +11,13 @@ example, `5d2883167f8a0b24d9ea580342c683f7960277ca`),
 reviewed head on that main revision, and the obsolete Teichmüller module is absent after its
 canonical relocation. The original inventory baseline is upstream
 `36f24f5d94ccf25e167520cf4c0f1a028c064fb0`; the historical actual-main replay is recorded below.
-Their source contracts remain verified on actual main
-[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4).
-The prepared catalog now has 85 modules, adding `TamelyRamified/Comparison.lean` to compare the
-canonical local-field and DVR tame predicates. Its final native replay within the shared
-922-root, sixteen-probe, 128-report inventory has not run.
+
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+The full 85-module catalog, including `TamelyRamified/Comparison.lean`, and the two local-field
+probes pass at that revision, producing 26 standard-only axiom reports. The earlier 84-module
+replay below remains dated evidence at its stated source revision.
 
 The review reads the whole normative README: Layers 0–4, their API lists and hypotheses, the Counting Totally Ramified Extensions consumer boundary, the acceptance examples, and the implementation-provenance appendix. The table groups implementations by mathematical requirement, rather than equating the admitted suggested forms with completion. `Suggested.lean` is retained at the roadmap repository's older `358314d4ab97` pin as a prototype; it contains target placeholders and old finite-extension aliases. It is not a proof certificate for current source.
 

@@ -3,8 +3,14 @@
 This inventory checks the full approved README, including the nondegenerate supplier and both
 worked examples. All three Layer 1 source prerequisites have landed through the normal pipeline;
 their payloads and reviewed later extensions are verified on actual Tau Ceti main
-[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4).
-The final expanded native replay has not run, so this remains a completion candidate.
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8).
+All 21 source prerequisites of the combined archive are verified there, including the final
+ConformalMapping citation repair #23036. Normal Bors batch 2204's original
+[genuine CI run 41041868635](https://github.com/TauCetiProject/TauCeti/actions/runs/41041868635)
+passed all four jobs and required statuses. Its trusted head and tested commit are both
+`daa66339a578b8c1c41c20b94839ca25444cc1e8`, with tested tree
+`4813e5fa8a876016ab49a67d36c9da0efbfe9881`, matching actual main.
+The final expanded native replay passed on that exact actual main.
 The historical baseline replay below used actual main
 [`f5604a970624`](https://github.com/TauCetiProject/TauCeti/commit/f5604a97062487140a029c405f32d8f199f2316b).
 The Layer 1 source prerequisites are:
@@ -39,15 +45,30 @@ and `Quot.sound`. The tested integration combines reviewed head `7bd7c7558aa2` w
 `dd15cfab9dec`; its trusted tree is `5eda6a5a4a27e7ff96b65c5613310e5215ba8a68`.
 Those build results describe the reviewed head and its tested PR integration. #21067 later landed
 normally in [Bors batch 2166](https://bors.taucetiproject.org/batches/2166); its exact reviewed
-payload is now verified on actual main. The complete final native replay remains required.
+payload is now verified on actual main. The final unified native replay on `daa66339a578` has
+passed, as recorded below.
 
-The current catalog retains all 197 previously audited modules and adds the later actual-main
-modules `Riemannian/Hyperbolic/ClosedSurface.lean` and `Riemannian/HodgeStar.lean`, for 199 modules.
-It covers all 157 Riemannian subtree modules and retains the original supplier roots and acceptance
-probes. The combined nine-roadmap inventory now has 922 roots, 16 unchanged probes and 128 expected
-axiom reports, including Hopf's 35 reports and four independent acceptance files. The static import
-closure on current main has 14,066 modules; focused semantic reviews and citation checks cover
-all 58 changed reachable source paths. The final native replay has not run.
+The current catalog has 209 Hopf modules and covers all 167 Riemannian subtree modules.
+It preserves the full earlier mathematical scope: the old `Riemannian/SMulGroupoid.lean` module
+has moved to the canonical `Riemannian/SMulGroupoid/Basic.lean`, retaining every old public
+declaration, proof and hypothesis, with an added local-isometry API. The added
+`Riemannian/SMulGroupoid/Curvature.lean` and the later closed-surface, Hodge-star,
+volume-divergence, Hessian, Jacobi, geometric-hyperbolic and positive-scalar-curvature modules
+are included. The historical catalogs remain evidence of their respective source revisions.
+
+The combined nine-roadmap inventory has 934 roots and a complete 14,089-module static import
+closure on actual main, with no missing imports. All 48 changed reachable source files in the
+latest audited delta have independent semantic reviews. The sixteen probes retain every
+mathematical body and all 128 expected axiom-report identifiers, including Hopf's 35 reports
+and four independent acceptance files. The only probe edit replaces the deleted
+`Riemannian.SMulGroupoid` import by its canonical `.Basic` and `.Curvature` imports.
+The final native replay passed on this exact actual main: all 934 roots built in 24,174 Lake
+jobs, all sixteen probes exited successfully with warnings treated as errors, and all 128 named
+axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`. Hopf's 35 report names
+and all four independent acceptance files are preserved and passed. The boundary, codimension-two
+corner, arbitrary-parameter variation, zero-dimensional normal/logarithm/Gauss, and open-ball
+rejection checks run against the native source interfaces. See the
+[shared closeout audit](../CloseoutAudit-20261030.md) for the exact source, inputs and results.
 
 **Boundary completion checked, 2026-10-28.** Candidate #18707 head
 `b9e6ce94f83c66d8f4f121f46091ac7e908a8866` proves joint native coefficient smoothness throughout
@@ -61,7 +82,7 @@ corner origin, again proving non-interiority. The ordinary unrestricted-derivati
 formulas remain the distinct interior corollaries. This closes the previously recorded boundary
 obligation mathematically. All ten current-head review rubrics and genuine CI pass for this
 exact #18707 head, subsequently verified on actual main. The dependent #21067 landing is also
-fulfilled; the full final actual-main replay remains required.
+fulfilled; the final unified actual-main replay has also passed, as recorded above.
 
 Paths in this inventory are under `TauCeti/Geometry/Manifold/` unless otherwise stated.
 
@@ -92,15 +113,15 @@ baseline above. Its 25 key axiom reports contain only `propext`, `Classical.choi
 open-unit-ball probe checks actual minimizing segments together with failure of completeness,
 properness and compactness of the specified closed ball. The boundary and corner probes compile
 with warnings treated as errors at the exact #18707 head above. These historical results are
-not a replay of the current 199-module catalog on `ec93262aafc8`. That catalog and every native
-acceptance probe must pass on final actual main. The shared archive also awaits the normal main
-landing of the remaining ConformalMapping citation repair
-[#23036](https://github.com/TauCetiProject/TauCeti/pull/23036).
+not a replay of the current 209-module catalog on `daa66339a578`. The remaining source citation
+repair [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) has landed and its exact payload
+is verified there. The full catalog and every native acceptance probe passed in the final
+934-root/16-probe/128-report actual-main replay described above.
 This is a source/API and key-proof audit, not an independent replay of every transitive proof.
 
 The archived historical prototype continues to elaborate at the unchanged roadmap dependency
 pin. It does not import these newer implementation modules or certify their presence at that
-old revision. Final source verification and native replay results must be recorded before
-declaring the archive complete.
+old revision. The final source verification and native replay results above establish the
+current native implementation independently of that prototype.
 
 AI assistance: source, CI and completion-status audit with Codex (GPT-6), 2026-10-30.

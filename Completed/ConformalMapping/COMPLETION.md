@@ -1,17 +1,14 @@
 # Conformal mapping: completion audit
 
-**Archive candidate (2026-10-30).** Twenty of the twenty-one source prerequisites of the
-nine-roadmap archive are verified on actual main
-[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4),
-including [#22743](https://github.com/TauCetiProject/TauCeti/pull/22743) (Morera/Hurwitz) and
-[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) (Vitali).
-The remaining citation repair [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036),
-head `b49262a9ba27`, has passed all ten normal reviews and
-[genuine CI](https://github.com/TauCetiProject/TauCeti/actions/runs/41007757860).
-Normal merge eligibility has also passed; Bors assignment, its candidate CI and actual-main
-inclusion remain pending.
-The final actual-main native replay has not run; the historical checks below establish only
-their stated revisions.
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+All twenty-one source prerequisites of the nine-roadmap audit are qualified there, including
+[#22743](https://github.com/TauCetiProject/TauCeti/pull/22743),
+[#22936](https://github.com/TauCetiProject/TauCeti/pull/22936) and
+[#23036](https://github.com/TauCetiProject/TauCeti/pull/23036). The final repair’s six source blobs
+match reviewed head `8a1f9ef261b0`; normal Bors batch 2204 promoted the tested candidate to main.
+The dated checks below retain their original revision scope.
 
 The complete [README](README.md), including the general planar Jordan-separation target of L5,
 is the completion criterion. The historical interface file is neither exhaustive nor the
@@ -46,16 +43,18 @@ statements were unchanged. The replay imports the new general Jordan-separation 
 The two-component theorem, component classification, closure homeomorphism and polygonal map
 report only `propext`, `Classical.choice` and `Quot.sound` under axiom inspection.
 
-The prepared final replay covers the union of 922 native modules, sixteen unchanged probes and
-128 expected axiom reports. Its compilation scope includes 239 conformal-area modules (including
-external suppliers), 136 global-number-field suppliers, 117 height/unit suppliers, 199
-Hopf–Rinow modules and 85 local-field modules; these inventories overlap. The current conformal certificate has 509 lines,
-28 imports and four axiom reports, and remains nonexhaustive. Compiling additional prime-end and
-other companion modules does not declare those follow-on targets complete.
+The final replay built 934 distinct entry modules, whose static import closure contains 14,089 modules,
+and ran sixteen probes producing exactly 128 axiom reports. Its overlapping positive inventories include
+239 conformal-area modules (including external suppliers), 138 global-number-field suppliers,
+117 height/unit suppliers, 209 Hopf–Rinow modules and 85 local-field modules. The conformal certificate
+has 509 lines, 28 imports and four axiom reports and remains nonexhaustive. Compiling additional
+prime-end and companion modules does not declare those follow-on targets complete. All 53 mapped
+L0–L3 supplier files contain the required Mathlib #33505 prior-work reference; the finite implementing-PR
+description audit and its maintenance exclusions are recorded in the shared audit.
 
 The prototype kept in this repository is separately built at Tau Ceti `358314d4ab97`,
 Mathlib `f6090c7095e1`, Lean `4.35.0-rc3`. Its old API names are historical. The recorded native
 replay used Mathlib `2cabef97b63d` and Lean `4.36.0-rc1`; it establishes the stated source revision,
-not the pending final actual-main replay.
+separately from the successful final actual-main replay recorded above.
 
 AI assistance: scope, source and acceptance audit with Codex (GPT-6), 2026-10-28–30.

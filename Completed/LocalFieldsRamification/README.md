@@ -1,14 +1,12 @@
 # Roadmap: local fields and ramification
 
-**Completion evidence (2026-10-28 replay; 2026-10-30 source audit).** Implementation
-[PR #22018](https://github.com/TauCetiProject/TauCeti/pull/22018),
-[PR #22046](https://github.com/TauCetiProject/TauCeti/pull/22046), and
-[PR #22047](https://github.com/TauCetiProject/TauCeti/pull/22047) were verified on actual upstream
-`302238ea98ea621d689041f67e935f0b4eb1285e`. All 84 then-inventoried modules built, and the acceptance
-and scope probes passed there. Their source contracts remain verified on actual main
-`ec93262aafc8c3daaa4057352705faab817907e4`. The prepared 85-module catalog adds the tame/DVR
-comparison supplier; its final native replay within the shared 922-root inventory has not run.
-[COMPLETION.md](COMPLETION.md) records the full audit. The specification below is unchanged.
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+The full 85-module local-field catalog includes the canonical local-field/DVR tame comparison;
+the acceptance and scope probes produce 26 standard-only axiom reports.
+[COMPLETION.md](COMPLETION.md) retains the earlier 84-module replay and the full target mapping.
+The specification below is unchanged.
 
 This roadmap owns the local-field substrate: normalized valuations, unit filtrations,
 unramified extensions, lower and upper ramification groups, Herbrand functions, wild inertia,

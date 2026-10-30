@@ -25,6 +25,13 @@ conjugators, one for each of `P`, `T` and `C = (PT)⁻¹`.
 
 ## Completion audit (2026-10-28)
 
+The final source audit on 2026-10-30 verified the complete roadmap against normal-merged
+Tau Ceti [`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8).
+The [combined closeout audit](../CloseoutAudit-20261030.md) records the 934-root build
+(24,174 Lake jobs), sixteen successful warning-as-error acceptance probes and 128 axiom
+reports, all using only `propext`, `Classical.choice` and `Quot.sound`. The source and nine
+dependency pins remained unchanged. The earlier results below retain their original revisions.
+
 [TauCeti#22013](https://github.com/TauCetiProject/TauCeti/pull/22013) is verified on actual upstream
 `4b880006155ed7c7394a7596e13c6d00d2de6c5a`: its dyadic source is byte-identical to reviewed head
 `1837f77243ab67475b442cdfc842c86111ec575d`. The full source audit initially checked

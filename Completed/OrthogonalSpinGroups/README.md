@@ -1,5 +1,12 @@
 # Roadmap: orthogonal and spin groups
 
+The final source audit on 2026-10-30 verified the complete roadmap against normal-merged
+Tau Ceti [`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8).
+The [combined closeout audit](../CloseoutAudit-20261030.md) records the 934-root build
+(24,174 Lake jobs), sixteen successful warning-as-error acceptance probes and 128 axiom
+reports, all using only `propext`, `Classical.choice` and `Quot.sound`. The source and nine
+dependency pins remained unchanged. The earlier results below retain their original revisions.
+
 The completion audit is supported by the native square-class codomain refactor in
 [Tau Ceti PR #22023](https://github.com/TauCetiProject/TauCeti/pull/22023), checked at
 [`40bc1c43779d`](https://github.com/TauCetiProject/TauCeti/commit/40bc1c43779db5d437068c7c5c0250f535e22cec),

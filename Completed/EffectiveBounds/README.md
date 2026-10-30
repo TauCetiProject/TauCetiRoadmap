@@ -1,20 +1,13 @@
 # Roadmap: effective arithmetic bounds and geometry of numbers
 
-**Completion evidence (2026-10-29 native replay; 2026-10-30 source audit).** The full normative inventory and checked native
-acceptance examples are in [NativeCompletion.md](NativeCompletion.md). Layer 0's required
-removal of the redundant box wrapper (#22092), the full unit-log Euclidean covolume
-normalization (#22064), and the explicit regulator lower bound in every rank (#22059) have
-landed through normal review, genuine CI and Bors. The recorded native replay verified them on main
-[`bfee8dc2e376`](https://github.com/TauCetiProject/TauCeti/commit/bfee8dc2e376b98439f7b7c3ecdd2d82aad183b9).
-The full fifteen-module native inventory builds there; the verbatim acceptance certificate and
-supplementary scope probes compile with warnings treated as errors and produce eleven axiom
-reports containing only the standard three axioms. Their source contracts remain verified on
-actual main `ec93262aafc8c3daaa4057352705faab817907e4`; the shared final actual-main native replay
-has not run.
-The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration.
-Historical reports and the older pinned prototype are retained as dated snapshots; they do not
-certify the newer source interfaces.
-
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+The fifteen-module effective-bounds inventory, verbatim acceptance certificate and supplementary
+nonzero/nontorsion height-gap and canonical Euclidean covolume probes pass at that revision.
+[NativeCompletion.md](NativeCompletion.md) retains the earlier dated replay and the complete target mapping.
+The mathematical targets below are unchanged. Brauer–Siegel remains an aspiration. Historical reports
+and the older pinned prototype retain their recorded scope.
 
 Mathlib has Minkowski's convex-body theorem, the canonical embedding, the Minkowski
 bound, and even the qualitative summit (Minkowski's lower bound on the discriminant

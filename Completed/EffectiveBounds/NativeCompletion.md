@@ -8,10 +8,12 @@ All fifteen inventory modules build there (8,513 Lake jobs), and the verbatim ce
 supplementary nonzero/nontorsion height-gap and Euclidean measure/covolume probes compile with
 warnings treated as errors. Their eleven axiom reports contain only `propext`,
 `Classical.choice`, and `Quot.sound`. No source or integration patches were needed.
-The source contracts remain verified on actual main
-[`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4).
-The shared final actual-main replay has not run; the build and certificate results here retain
-their recorded `bfee8dc2e376` scope.
+
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+The final replay rechecks all fifteen inventory modules and both effective-bounds probes, with
+eleven axiom reports. The earlier `bfee8dc2e376` results above remain dated historical evidence.
 
 Layer 0's Mathlib reconciliation from
 [#22092](https://github.com/TauCetiProject/TauCeti/pull/22092) (`35edf89e32bd`), the regulator bound

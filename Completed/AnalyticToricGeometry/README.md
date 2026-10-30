@@ -1,5 +1,12 @@
 # Roadmap: analytic toric geometry
 
+The final source audit on 2026-10-30 verified the complete roadmap against normal-merged
+Tau Ceti [`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8).
+The [combined closeout audit](../CloseoutAudit-20261030.md) records the 934-root build
+(24,174 Lake jobs), sixteen successful warning-as-error acceptance probes and 128 axiom
+reports, all using only `propext`, `Classical.choice` and `Quot.sound`. The source and nine
+dependency pins remained unchanged. The earlier results below retain their original revisions.
+
 The completion audit is supported by the scheme-action comparison in
 [Tau Ceti PR #22017](https://github.com/TauCetiProject/TauCeti/pull/22017), checked at
 [`1c14e0ea516a73fe31c89c429c63b2f0bd51cee8`](https://github.com/TauCetiProject/TauCeti/commit/1c14e0ea516a73fe31c89c429c63b2f0bd51cee8)

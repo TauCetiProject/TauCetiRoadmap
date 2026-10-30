@@ -1,12 +1,10 @@
 # Conformal mapping and the geometric theory of holomorphic functions
 
-**Archive candidate (2026-10-30).** The [completion audit](COMPLETION.md) records the verified
-source prerequisites and historical native checks. The Vitali citation from
-[Tau Ceti #22936](https://github.com/TauCetiProject/TauCeti/pull/22936) is verified on main. The
-remaining repair [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) has passed normal
-review, genuine CI and normal merge eligibility. Bors assignment, its candidate CI and main
-inclusion remain pending.
-The final actual-main native replay remains pending. The specification below is unchanged.
+**Final native audit (2026-10-30).** The [shared final audit](../CloseoutAudit-20261030.md) verifies the full owned specification on actual Tau Ceti main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8). All 934 entry modules built, and all sixteen acceptance probes passed with warnings treated as errors;
+all 128 axiom reports contain only `propext`, `Classical.choice` and `Quot.sound`.
+All source prerequisites, including the prior-work citation repairs, are present on that main revision.
+The specification below is unchanged.
 
 The narrative roadmap for the conformal-mapping / geometric-function-theory area of complex
 analysis, with the **Riemann mapping theorem** as its summit; `Suggested.lean` states the

@@ -17,6 +17,11 @@ certificate without changing the mathematics, the certificate is updated along w
 dependency pin. Git history and each revision's `lake-manifest.json` retain the exact dependency
 revision against which an earlier version elaborated.
 
+The [nine-roadmap closeout audit](CloseoutAudit-20261030.md) records actual-main source, full native
+scope and reproducible acceptance evidence for the 2026-10-30 batch. Its retained historical
+`Suggested.lean` prototypes are design aids at the roadmap dependency pin; the separate current-source
+replay supplies the native evidence.
+
 - [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](OrthogonalL2Bases/README.md)
   (declared complete 2026-08-16)
 - [Contour integration and the Hungerbühler–Wasem generalized residue theorem](ContourIntegration/README.md)
@@ -62,8 +67,7 @@ revision against which an earlier version elaborated.
 - [global number fields, ray classes, adeles, and Hecke characters](GlobalNumberFields/README.md)
   (declared complete 2026-10-28)
 - [Conformal mapping and the geometric theory of holomorphic functions](ConformalMapping/README.md)
-  (archive candidate 2026-10-30; awaiting source citation repair
-  [#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) and final actual-main native replay)
+  (declared complete 2026-10-30)
 - [peripheral actions on free pro-`p` groups](PeripheralActions/README.md)
   (declared complete 2026-10-28)
 - [analytic toric geometry](AnalyticToricGeometry/README.md)
@@ -77,4 +81,4 @@ revision against which an earlier version elaborated.
 - [effective arithmetic bounds and geometry of numbers](EffectiveBounds/README.md)
   (declared complete 2026-10-29)
 - [geodesics, the exponential map, and the Hopf–Rinow theorem](HopfRinow/README.md)
-  (archive candidate 2026-10-30; source prerequisites verified on main; final actual-main native replay pending)
+  (declared complete 2026-10-30)

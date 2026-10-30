@@ -1,14 +1,22 @@
 # Roadmap: geodesics, the exponential map, and the Hopf–Rinow theorem
 
-**Archive candidate.** The complete specification is audited in [COMPLETION.md](COMPLETION.md).
+**Completion audit (2026-10-30).** The complete specification is audited in [COMPLETION.md](COMPLETION.md).
 The restriction supplier (#19453), joint connection-family regularity (#18707) and intrinsic
-variation (#21067) have landed through the normal pipeline; their source payloads are verified
-on actual main [`ec93262aafc8`](https://github.com/TauCetiProject/TauCeti/commit/ec93262aafc8c3daaa4057352705faab817907e4),
-including the reviewed later extensions. #18707 landed before #21067's dependent rebase.
-The current 199-module Hopf catalog awaits the final actual-main replay as part of the combined
-922-root inventory, with 16 unchanged probes and 128 expected axiom reports. That replay has not
-run. The shared archive remains a draft pending the remaining ConformalMapping citation repair
-[#23036](https://github.com/TauCetiProject/TauCeti/pull/23036) and the final source and native checks.
+variation (#21067) have landed through the normal pipeline; their payloads and reviewed later
+extensions are verified on actual main
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8).
+#18707 landed before #21067's dependent rebase. All 21 source prerequisites of the combined
+archive, including the final ConformalMapping citation repair #23036, are verified there.
+Normal Bors batch 2204's original
+[genuine CI run 41041868635](https://github.com/TauCetiProject/TauCeti/actions/runs/41041868635)
+passed all four jobs and required statuses; its trusted tested commit and tree match this main.
+The current 209-module Hopf catalog covers all 167 Riemannian modules in the combined
+934-root, 14,089-module import closure. The canonical `SMulGroupoid` module move is reflected
+in the catalog and an import-only probe port; every mathematical probe body and all 128 report
+identifiers are preserved. The final actual-main replay passed all 934 roots in 24,174 Lake build jobs and all sixteen
+probes with warnings treated as errors. All 128 named axiom reports contain only
+`propext`, `Classical.choice` and `Quot.sound`; see the
+[shared closeout audit](../CloseoutAudit-20261030.md).
 The historical Suggested.lean is a nonexhaustive interface prototype at the repository pin;
 its admitted interfaces are not a proof certificate.
 
