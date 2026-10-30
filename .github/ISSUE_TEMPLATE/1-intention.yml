@@ -87,6 +87,7 @@ body:
         - Isoperimetry
         - JacobianChallenge
         - KhovanovHomology
+        - LFunctions
         - LocalFieldsRamification
         - LocalPurity
         - MarkovChainsAndRenewal
