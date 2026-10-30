@@ -29,6 +29,10 @@ smooth locus, proper DM structure, node-smoothing coordinates and level
 normalizations. Reuse Mathlib's schemes, étale
 sites, `Pseudofunctor.IsStack`, `DescentData`,
 `SheafOfModules.IsQuasicoherent`, `WeierstrassCurve` and `FormalGroup`.
+Tau Ceti owns the universal Weierstrass curve and coefficient specialization.
+PadicMeasuresIwasawaAlgebras §§1.6 and 2.1 own character integration and
+moments on Mathlib's measure carrier; E5 owns the elliptic orientation's
+Kummer-congruence and Eisenstein integrality conditions.
 
 ModularForms owns the analytic modular forms and q-expansions; this roadmap
 owns their algebraic stack sections and the comparison with that analytic
@@ -86,13 +90,24 @@ these are carrier/descent interfaces, not a constructed elliptic stack.
 For continuous functions use `mahler`, `PadicInt.hasSum_mahler` and
 `PadicInt.mahlerEquiv` from Mathlib/NumberTheory/Padics/MahlerBasis.lean,
 retaining completeness, the ultrametric norm and bounded ℤ_p action.
+For p-adic measures consume `AbstractMeasure`, `AbstractMeasure.dirac` and
+`AbstractMeasure.dirac_apply` from Mathlib/NumberTheory/Padics/Measure/Basic.lean.
+The carrier is the continuous R-linear maps from `C(X, R)` to the value
+module E, with the native topological ring/module hypotheses; it does not
+impose positivity or total mass one. Dirac evaluation sends f to f(x).
 Use `Matrix.orthogonalGroup` from Mathlib/LinearAlgebra/UnitaryGroup.lean
 for E5's finite orthogonal groups.
 
 ### From Tau Ceti
 
-No Tau Ceti declaration is used by the target signatures. The mathematical
-constructions below use the named roadmap contracts as well as Mathlib.
+Consume `WeierstrassCurve.Coeff`, `WeierstrassCurve.Universal.curve`,
+`WeierstrassCurve.specialize`, `WeierstrassCurve.specialize_X` and
+`WeierstrassCurve.map_specialize` from
+TauCeti/AlgebraicGeometry/EllipticCurve/Universal.lean. The coefficient type
+has constructors A₁, A₂, A₃, A₄, A₆. For every commutative ring R and
+Weierstrass curve W over R, specialization is a ring homomorphism from
+`MvPolynomial WeierstrassCurve.Coeff ℤ` to R, taking Aᵢ to W.aᵢ and
+recovering W from the universal curve, including singular W and the zero ring.
 
 ### From TauCetiRoadmap.GeneralizedCohomology
 
@@ -132,7 +147,19 @@ its smooth locus and nodal charts; (g,n)=(1,1) satisfies 2g−2+n=1>0.
 EllipticCurves Layer 1(i) supplies the curve's formal group law.
 ModularForms' standing conventions, library comparison and Layer 1
 supply the analytic level-one forms and their q-expansions and valence
-principle; E1 constructs the integral algebraic comparison.
+principle; E1 constructs the integral algebraic comparison. Layer 2(b)
+supplies the normalized Hecke action and its q-expansion formula used in
+E5's orientation criterion.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+§1.6 supplies continuous-character integration on unit measures, including
+Dirac evaluation and the total-mass character. §2.1 supplies weighted
+measures, ordinary moments and their Amice comparison, retaining its
+coefficient-algebra hypotheses. E5 uses moments μ(x↦xᵏ) on ℤ_pˣ and the
+corresponding even characters on ℤ_pˣ/{±1}, for every prime p, on
+`AbstractMeasure` with the scalar and value-module topologies specified
+by the p-adic coefficient objects.
 
 ## How to read the build
 
@@ -328,9 +355,10 @@ stack cohomology. Prove the integral algebraic modular-form ring is
 H⁰(Mbar_ell,ω^*)=ℤ[c₄,c₆,Δ]/(c₄³−c₆²−1728Δ), with weights 4,6,12, and its
 ℤ[1/6] presentation. In Hopf-algebroid form this is Deligne's computation
 of the invariants of (A,Γ) (Bauer, *Computation of the homotopy of the
-spectrum tmf*, §3), stated on the universal curve `universalWeierstrass`
-over ℤ[a₁,a₂,a₃,a₄,a₆]: a polynomial f in the five coefficients, evaluated
-on a curve W over a commutative ring by `evalCoeff`, is an integral
+spectrum tmf*, §3, pp. 15–16), stated on
+`WeierstrassCurve.Universal.curve` over
+`MvPolynomial WeierstrassCurve.Coeff ℤ`: a polynomial f in the five
+coefficients, evaluated on W by `WeierstrassCurve.specialize`, is an integral
 modular form of weight k (`IsIntegralModularForm`: f(C•W)=u⁻ᵏf(W) for
 every coordinate change C over every commutative ring) exactly when f lies
 in the subring ℤ[c₄,c₆,Δ] and is weighted homogeneous of weight k for the
@@ -365,10 +393,9 @@ above.
 
 *Needs:* E1's cubic groupoid, Hodge descent and depth-two extension;
 Mathlib `MvPolynomial.aeval`, `Algebra.adjoin`,
-`MvPolynomial.IsWeightedHomogeneous` and `WeierstrassCurve.c_relation`.
-The universal curve and coefficient evaluation have the following API:
-- Evaluating its five coordinate polynomials on W returns W's five
-  coefficients, and evaluation preserves sums, products and integer constants.
+`MvPolynomial.IsWeightedHomogeneous` and `WeierstrassCurve.c_relation`;
+Tau Ceti `WeierstrassCurve.Universal.curve` and `WeierstrassCurve.specialize`.
+The modular-form predicate and coefficient weights have the following API:
 - Weight-k invariance is preserved under addition and scalar multiplication;
   the product of weights k and l has weight k+l over every commutative ring.
 - Coefficient weights are 1,2,3,4,6; they grade the integral invariant
@@ -376,7 +403,7 @@ The universal curve and coefficient evaluation have the following API:
 
 **Checks.**
 - Evaluating the universal curve at (0,0,0,−1,0) returns y²=x³−x;
-  evaluation of a₄ is −1, not the fourth entry of a reordered list.
+  specialization of A₄ is −1, using the coefficient constructor A₄.
 - Evaluation of 1+a₁a₃ at (a₁,a₃)=(2,3) is 7 and evaluation of zero is
   zero, also over the zero ring; the predicate still quantifies over
   every ring, so testing the zero ring alone proves no invariance.
@@ -1276,9 +1303,11 @@ and synthetic Leibniz comparison (CDvN Propositions 6.19 and 7.2).
   (3+20,1+4); using the undivided sphere class gives filtration 3.
 - At 3, α₁β₁² has (23,5)=(3+2·10,1+2·2); its product with β₁
   has (33,7), matching the sphere fifth obstruction.
-- Multiplying g by 5 replaces h₂g by 5h₂g; since h₂g is 2-torsion,
-  5h₂g=h₂g. The initial differential therefore survives the allowed
-  choice change, while its construction still records that choice.
+- The mod-τ class h₂g has order 4: 2h₂g≠0 and 4h₂g=0 (CDvN
+  Lemma 6.28, p. 62). In ℤ/4, 2·1=2≠0, 4·1=0 and 5·1=1.
+  Multiplying g by 5 therefore leaves h₂g unchanged, so the initial
+  differential survives the allowed choice change, while its construction
+  still records that choice.
 
 Identify the signature filtered E∞ algebra of Smf[J⁻¹]
 with the E3 Tmf[J⁻¹] descent tower for every set J of primes, including
@@ -1548,9 +1577,21 @@ its comparison with the Igusa functions, including weight/Adams actions
 and q-expansion injectivity. Describe the space of E∞ maps MString→R as
 the space of lifts of bstring→bgl₁(S)→bgl₁(R) through the fibre of
 bgl₁(S)→bgl₁(R) (ABGHR Theorem 4.9; Ando–Hopkins–Rezk Definition 5.3),
-with its obstruction fibre sequence. Construct p-adic measures and
-moments, Kummer congruences and the Eisenstein-series integrality
-relations used in the orientation criterion (Ando–Hopkins–Rezk §§10–12).
+with its obstruction fibre sequence. Formulate the orientation's
+Kummer congruences on the supplied measures and moments: for each prime p,
+a sequence z_k∈ℚ_p[[q]], k≥4, satisfies these congruences if every finite
+polynomial Σ_(k≥4)b_k xᵏ with b_k∈ℚ_p taking values in ℤ_p on ℤ_pˣ
+has Σ b_k z_k∈ℤ_p[[q]] (Ando–Hopkins–Rezk Definition 9.6,
+coefficientwise in q). For g_k∈MF_k⊗ℚ, k≥4, prove that g is the
+characteristic sequence of an E∞ orientation MString→tmf if and only if
+all three conditions hold: g_k(q)+B_k/(2k)∈ℤ[[q]];
+for every prime p and c∈ℤ_pˣ, the sequence
+z_k=(1−cᵏ)(g_k(q)−p^(k−1)g_k(qᵖ)) satisfies those congruences;
+and g_k|T(p)=(1+p^(k−1))g_k for every prime p
+(Ando–Hopkins–Rezk Theorem 12.1). Prove these conditions for the normalized
+Eisenstein sequence G_k, with G_k=0 for odd k; its even moments arise
+from measures on ℤ_pˣ/{±1} valued in the p-adic modular forms
+(Ando–Hopkins–Rezk Proposition 10.10 and Theorem 12.3).
 Prove the height 1/2 and arithmetic compatibility and the obstruction
 vanishing, with the normalization selecting the orientation whose
 characteristic series is the sequence of Eisenstein series {G_k}_(k≥4)
@@ -1590,7 +1631,11 @@ the constant-term map KO[[q]]→KO, q↦0 (Ando–Hopkins–Rezk Theorem 6.1).
 *Needs:* E5's MString, units and obstruction fibre; E2.4's Igusa
 realization and θ operations; E3's KO[[q]] and constant-term map;
 E4's coefficients and normalized q-expansions; GeneralizedCohomology
-G5.5-ABS (Ando–Hopkins–Rezk §§5,10–12, Theorems 6.1 and 12.3).
+G5.5-ABS; ModularForms Layer 2(b)'s Hecke action; Mathlib `AbstractMeasure`
+and `AbstractMeasure.dirac_apply`;
+PadicMeasuresIwasawaAlgebras §§1.6 and 2.1's character integration and
+moments (Ando–Hopkins–Rezk Definition 9.6, Proposition 10.10 and
+Theorems 6.1, 12.1 and 12.3).
 
 **Checks.**
 - For ℤ_p-valued measures on ℤ_p×, the Dirac measure at 1 has kth moment
@@ -1598,6 +1643,16 @@ G5.5-ABS (Ando–Hopkins–Rezk §§5,10–12, Theorems 6.1 and 12.3).
   δ₁−δ_(−1) has moment 0 for even k and 2 for odd k. Replacing measures
   by their total mass identifies δ₁−δ_(−1) with the zero measure and loses
   the odd moments.
+- For k=4, the smoothed Eisenstein moment has constant term
+  (1−c⁴)(1−p³)/240 and q coefficient 1−c⁴. At (p,c)=(2,3) these
+  are 7/3 and −80; at (p,c)=(3,2) they are 13/8 and −15, integral
+  in ℤ₂ and ℤ₃ respectively. Omitting 1−c⁴ leaves −7/240 and
+  −13/120, which are not integral at the respective primes. For c=1
+  all smoothed moments vanish, as does the corresponding measure.
+- At weight 4 the q coefficient of T(2)G₄ is σ₃(2)=9, equal to
+  (1+2³) times the q coefficient 1 of G₄; at T(3) it is 28=1+3³.
+  The constants are respectively 9/240 and 28/240. The reciprocal
+  Hecke normalization would fail these identities.
 - A Dirac measure at a satisfies every moment congruence inherited
   from evaluation at a; in particular (x^p−x)(a) is divisible by p for
   a∈ℤ_p×. At p=2,a=3 it equals 6, and at p=3,a=2 it equals 6.
@@ -1744,7 +1799,8 @@ moments and the q=0 Hirzebruch series distinguish the orientation data.
 
 ### Dependencies
 
-The MString construction uses G2–G5; orientation uses E2–E4; the B-side
+The MString construction uses G2–G5; orientation uses E2–E4 and
+PadicMeasuresIwasawaAlgebras §§1.6 and 2.1; the B-side
 surjectivity argument also uses the independently constructed E6 DA(1)
 comparison. The sevenfold calculations are not surjectivity inputs.
 
