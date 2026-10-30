@@ -1083,6 +1083,35 @@ identify its cohomology with DifferentialGeometry's de Rham object.
 Own `d*=(−1)^(m(k+1)+1)*d*` on real k-forms of an oriented m-manifold
 and `*Δ_d=Δ_d*`; PDO P1.1, Riem R7.4 and K5b consume these identities.
 
+<a id="k5a-planar-hodge-signs"></a>
+**K5a: planar Hodge and Laplacian conventions.** On an arbitrary open subset
+of the Euclidean plane, use orientation `dx∧dy`, the standard metric, and the
+complex-linear extension of the real Hodge star. Prove the coordinate comparisons
+on DG's generic differential-form carrier:
+`*1=dx∧dy`, `*(dx∧dy)=1`, `*dx=dy`, `*dy=−dx`, hence
+`*dz=−i dz` and `*dbarz=i dbarz`. For a `C¹` complex-valued one-form
+`α=P dx+Q dy`, prove
+`dα=(∂ₓQ−∂ᵧP) dx∧dy` and `δ α=−(∂ₓP+∂ᵧQ)`.
+For a top form with a `C¹` coefficient h,
+`δ(h dx∧dy)=(∂ᵧh) dx−(∂ₓh) dy`; δ is zero on functions.
+These are the actual coefficients of `δ=d*=−*d*` in real dimension2.
+The formal-adjoint comparison uses compactly supported tests in the open set,
+so it introduces no boundary condition on the pointwise formulas.
+
+For forms with `C²` coefficients on the open set, prove `Δ_H=dδ+δd` acts
+coefficientwise as the negative Euclidean Laplacian in every degree0,1,2.
+For a `C²` complex-valued function u, use
+`∂z=(∂ₓ−i∂ᵧ)/2`, `∂barz=(∂ₓ+i∂ᵧ)/2` to prove
+`Δ_H u=−(∂ₓ²u+∂ᵧ²u)=−4∂z∂barz u`;
+compare with native `Laplacian.laplacian` and DG's `div grad` sign.
+Calibrate `Δ_H(x²+y²)=−4`, whereas `div grad(x²+y²)=4`.
+For compactly supported smooth α, prove
+`⟨Δ_H α,α⟩_L²=‖dα‖²_L²+‖δα‖²_L²`, using the Hermitian pairing for
+complex coefficients. The coordinate formulas agree with the generic star,
+formal adjoint and Laplacian through these comparisons, including restrictions
+to open subsets. Representative coefficient formulas and signatures are in
+[`PlanarHodgeTargets.lean`](PlanarHodgeTargets.lean).
+
 **K5a.ComponentwiseCompact — analytic transport for locally finite rank.**
 For a compact locally connected boundaryless manifold M and a smooth real or
 complex bundle family assembled from native fixed-model bundles E_C on its
