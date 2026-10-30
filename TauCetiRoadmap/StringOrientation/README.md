@@ -116,10 +116,15 @@ comparisons. Neither layer consumes those later roadmaps.
   the difference from `H₀` to `H₁` is `reverse(H₀)` followed by `H₁`.
 - **Smooth global hypotheses.** Finite-dimensional manifold inputs to S3’s
   differential constructions and S5’s smooth bundle constructions are Hausdorff
-  and second-countable. In particular their bases admit smooth
-  partitions of unity and good covers. The local submersion and fibre-product
-  statements in S3.0 are also stated without separation assumptions; closed
-  embeddedness there requires a Hausdorff base.
+  and second-countable, and are boundaryless unless a boundary model is
+  specified. Their boundaryless bases admit smooth partitions of unity and
+  good covers with Euclidean intersections. The products with [0,1] in S3.1
+  use their actual manifold-with-boundary structure; smooth singular prisms
+  use simplex products with corners, with smoothness given by local extension
+  in charts. Their contractible local models are treated separately in S3.0.
+  The local submersion and fibre-product statements in S3.0 are for boundaryless
+  manifolds and need no separation assumptions; closed embeddedness requires
+  a Hausdorff base.
 - **Differential forms.** Forms are real; curvatures of circle bundles, gerbes
   and 2-gerbes have integral periods; holonomy is `exp(2πi∫)`. Waldorf's
   curvatures are real forms of the same normalization (waldorf-string-connections
@@ -191,7 +196,8 @@ comparisons. Neither layer consumes those later roadmaps.
   covers), G5.0 (stable Spin classifier, finite-rank maps, stabilization
   homotopies, `stableBSpin_hopfGenerator_cTwo`), G5.3 (sequential Thom spectra),
   G5.6 (rational cohomology of Eilenberg–Mac Lane spaces).
-- **AlgebraicTopology** Stage 6 (universal coefficients, fundamental classes),
+- **AlgebraicTopology** Stage 4.5 (pair-to-mapping-cone comparison), Stage 5
+  item 1 (Künneth), Stage 6 (universal coefficients, fundamental classes),
   Stage 8 (8.3 Hurewicz, 8.5 Whitehead, 8.7 finite CW models of compact Lie
   groups, 8.10 representability, 8.11b loop comparison).
 - **CharacteristicClasses** finite compact-Lie classifying spaces, p₁ and w₄ on
@@ -213,12 +219,15 @@ comparisons. Neither layer consumes those later roadmaps.
   class, chart independence, equality of the D-topology with the manifold
   topology, open restrictions, common refinements and the finite-product
   comparison with its topology compatibility).
-- **DifferentialGeometry** forms, smooth singular chains, Stokes, de Rham.
+- **DifferentialGeometry** §5.4 (homotopy operator with boundary), §5.5 (Stokes
+  with corners), §6.2 (Poincaré lemma on boundary charts), §§8.3–8.5 (smooth
+  singular chains, Stokes and de Rham); forms and exterior derivative.
 - **ModularForms** level-one modular forms, dimension formula, q-expansions.
 - **BordismFormalGroups** F3–F5 (BP, BP⟨1⟩, cooperations, Hopf rings,
   Adams–Novikov tower).
 - **SchemeAndStackFoundations** §4.13 `bertini_smoothness`.
-- **AffineMorseLefschetz** A0 `complexProjectiveZeroLocus`.
+- **AffineMorseLefschetz** A0 `complexProjectiveZeroLocus`; A5–A6 weak Lefschetz
+  for smooth projective complete intersections via Veronese embeddings.
 - **EllipticCohomology** E4.S (independent third stable stem and generator),
   E4 (coefficients, Δ-power lifts, localization), E5
   (`π₁₂(S⁹)≅π₃S≅ℤ/24`, MString, σ, genus comparison), E6 (unit images, localization criterion).
@@ -382,6 +391,22 @@ representability. Applying inverse lifts to the specified stable trivialization
 of `TM⊕ν` gives the tangential-to-normal comparison. The loop direction in the
 Conventions fixes the minus sign in gauge transport.
 
+Fix the relative obstruction as follows. For a CW pair (X,A), classifier c and
+specified boundary nullhomotopy `H_A:λc|_A→0`, use AlgebraicTopology Stage 8.11b's
+mapping cone with A attached at t=1 and apex at t=0. The map to K(ℤ,4) is λc on
+X and `H_A(a,1−t)` on its cone. Pull back the universal degree-4 class and
+transport it through Stage 4.5's pair-to-mapping-cone comparison to obtain
+`o(c,H_A)∈H⁴(X,A;ℤ)`. Its absolute image is c*λ, and it vanishes exactly when
+the boundary lift extends, up to homotopy relative to A. If H₀ extends over X
+and α is the difference from H₀|_A to H_A in S1.3's torsor, prove
+`o(c,H_A)=−δα`, where δ is the ordinary pair connecting map, normalized by
+`⟨δα,[X,A]⟩=⟨α,∂[X,A]⟩` when the pair has a relative fundamental class.
+Indeed Stage 8.11b gives `δ=c_AT*σ_right` in degree 3, while the reversed
+boundary nullhomotopy contributes `−σ_right(α)`. The obstruction defined
+instead as δα is the negative of this mapping-path convention; its zero
+criterion agrees. Changing the extending reference changes α by a restricted
+class from X and hence leaves δα unchanged.
+
 - Transport is functorial up to the prescribed homotopies.
 - A gauge loop of the classifier acts by the negative of the λ-class of its
   mapping torus slanted against the positively oriented circle; on the trivial
@@ -397,11 +422,15 @@ Conventions fixes the minus sign in gauge transport.
   generator.
 - Direct sum of the trivial-bundle lifts with differences α and β on `S³` has
   difference α+β; the inverse of the lift with difference α has difference −α.
-- Relative pair `(D⁴,S³)` with the trivial bundle: a lift on `S³` with difference
-  α∈`H³(S³;ℤ)=ℤ` from the restricted trivial lift has relative obstruction ±α in
-  `H⁴(D⁴,S³;ℤ)=ℤ`, so it extends over D⁴ iff α=0.
+- Orient D⁴ in the standard way and S³ by its boundary orientation. For the
+  trivial bundle and a boundary lift of difference α from the trivial lift,
+  `⟨δα,[D⁴,S³]⟩=⟨α,[S³]⟩`, whereas the mapping-path obstruction pairs as −α.
+  Thus α=0,1,2 give connecting values 0,1,2 and obstruction values 0,−1,−2;
+  extension holds exactly at α=0. The sign-flipped obstruction fails the latter
+  two comparisons even though it has the same zero set.
 
-*Needs:* S1.1–S1.3; GeneralizedCohomology G5.0; AlgebraicTopology Stage 8.
+*Needs:* S1.1–S1.3; GeneralizedCohomology G5.0; AlgebraicTopology Stages 4.5,
+8.10 and 8.11b (relative representability and signed cone comparison).
 
 ### 1.5 The Cayley plane (S1.5)
 
@@ -465,7 +494,7 @@ S³ with its ℤ-torsor of String lifts, the quaternionic Hopf line on S⁴ with
 
 ### Dependencies
 
-GeneralizedCohomology G2, G3, G5.0, G5.6; AlgebraicTopology Stages 6 and 8;
+GeneralizedCohomology G2, G3, G5.0, G5.6; AlgebraicTopology Stages 4.5, 6 and 8;
 CharacteristicClasses; DGFloer Layer 1 item 2 and Layer 11 item 3;
 RepresentationTheory/LieHighestWeight Layer 8.
 
@@ -621,7 +650,7 @@ SpinGeometry G4.1.
 ### 3.0 Principal bundles, connections, good covers and submersion fibre products (S3.0)
 
 For a Lie group G (Mathlib `LieGroup`) and a finite-dimensional Hausdorff
-second-countable smooth manifold M,
+second-countable boundaryless smooth manifold M,
 define a smooth principal G-bundle `P→M` as a smooth free right action of G on P
 over M with local smooth sections over an open cover, each giving a G-equivariant
 diffeomorphism `U×G≅P|_U`. Define a connection as a 𝔤-valued 1-form A on P with
@@ -630,14 +659,24 @@ diffeomorphism `U×G≅P|_U`. Define a connection as a 𝔤-valued 1-form A on P
 exist under these global hypotheses, by gluing local trivial connections with Mathlib's
 `SmoothPartitionOfUnity.exists_isSubordinate`, and form an affine space over
 `Ω¹(M;ad P)`. Define a good cover as an open cover all of whose nonempty finite
-intersections are diffeomorphic to `ℝⁿ`; every Hausdorff second-countable manifold
-has a good cover refining any given open cover, by geodesically convex balls of a
-Riemannian metric (Bott–Tu, *Differential Forms in Algebraic Topology*, Theorem 5.1);
+intersections are diffeomorphic to `ℝⁿ`; every Hausdorff second-countable
+boundaryless n-manifold has a good cover refining any given open cover, by
+geodesically convex balls of a Riemannian metric (Bott–Tu, *Differential Forms in Algebraic Topology*, Theorem 5.1);
 the existence of convex balls of positive radius at every point (Whitehead's
 convexity theorem) is part of this target.
+For the boundary prisms `M×[0,1]` used in S3.1, take products of such a cover
+with relatively open interval covers. Nonempty intersections are U×J with
+U diffeomorphic to ℝⁿ and J an interval, possibly containing an endpoint of
+[0,1]; prove these are smoothly contractible in their boundary models.
+They need not be diffeomorphic to ℝⁿ⁺¹. Apply DifferentialGeometry §5.4's
+homotopy operator and §6.2's boundary-chart Poincaré lemma to these contractions,
+obtaining `dK+Kd=id−ev_0*` on the models and simplex-product corner models of
+smooth singular prisms. This supplies the local exactness for S3.1's real
+Čech–Deligne comparison; its homotopy formula uses DifferentialGeometry §§5.5
+and 8.3–8.5 for corner Stokes, locally extendable smooth chains and de Rham.
 For a surjective `Manifold.IsSubmersion` `π:Y→M` between finite-dimensional
-manifolds, without separation assumptions for the local assertions, prove that
-π has a smooth local section through every point of Y (from
+boundaryless manifolds, without separation assumptions for the local assertions,
+prove that π has a smooth local section through every point of Y (from
 the local normal form), and that for k≥1 each iterated fibre product `Y^[k]` is an
 embedded submanifold of `Y^k`, locally given by the projection normal form, with
 smooth projections that are again surjective submersions. If M is Hausdorff,
@@ -666,6 +705,13 @@ of that diagonal under the product map
 - `S¹` with two arcs is a good cover only if each intersection is connected; the
   standard two-arc cover has `U∩V` with two components, so it is not good, while
   three arcs give a good cover.
+- On ℝ, interval good covers have nonempty intersections diffeomorphic to ℝ.
+  At 0 in `[0,ε)`, local H₁ is 0, whereas at an interior point of ℝ it is ℤ;
+  thus the boundary model is not a Euclidean good-cover intersection. It still
+  contracts by `(t,x)↦(1−t)x`. For the homotopy from 0 to x, `K(dx)=x` and
+  `dK(dx)=dx`, while `K(dc)=0` for a constant c; the same calculation in each
+  coordinate works at a quadrant corner. In dimension zero a point is ℝ⁰;
+  the empty manifold has the cover with empty index set.
 - For the projection `ℝ²→ℝ`, the self fibre product is
   `{((x,u),(x,v)):x,u,v∈ℝ}`, a closed 3-manifold, with dimension `2·2−1=3`.
   For the chart cover `ℝ⊔ℝ→M` of the line with doubled origin, a cross-component
@@ -680,7 +726,8 @@ of that diagonal under the product map
   would give `4τ₃dx∧dy`, so the comparison is a theorem, not a convention.
 
 *Needs:* Mathlib `LieGroup`, `SmoothPartitionOfUnity.exists_isSubordinate`,
-`Manifold.IsSubmersion`; DifferentialGeometry (forms, exterior derivative);
+`Manifold.IsSubmersion`; DifferentialGeometry (forms, exterior derivative;
+§§5.4–5.5, 6.2, 8.3–8.5 for the prism comparison);
 RiemannianGeometry (geodesics and exponential maps); CharacteristicClasses C4.1
 (the carrier comparison).
 
@@ -711,9 +758,10 @@ for K fixes its sign even though the product is written with M first.
 For k≥1 construct the good-cover Čech–Deligne comparison using the real complex
 `ℤ→Ω⁰→…→Ω^(k−1)` in degrees 0 through k, evaluating its degree-k cocycles on
 smooth (k−1)-cycles. Derive the comparison and independence of good cover from
-the Poincaré lemma and the partition-of-unity contraction on S3.0’s good covers;
-the exact sequences above and the five lemma prove that evaluation is an
-isomorphism. This is the real-coefficient version of Bunke’s Lemma 3.5,
+the Poincaré lemma and the partition-of-unity contraction on S3.0’s
+boundaryless good covers and, for `M×[0,1]`, on its separately specified
+smoothly contractible product cover; the exact sequences above and the five
+lemma prove that evaluation is an isomorphism. This is the real-coefficient version of Bunke’s Lemma 3.5,
 pp. 33–34, equation (23), p. 38, and Corollary 3.131, p. 68
 (bunke-differential-cohomology lines 1264, 1442, 2619): the source uses complex
 forms and ℂ/ℤ, while the same contraction and de Rham argument here use real
@@ -1086,28 +1134,88 @@ Prove: a set S generates `π_*MString[1/6]` if (1) for each n>1 it contains M⁴
 `ord_p(s_n[M⁴ⁿ])=1` for every p>3 with `2n=pⁱ−1` or `2n=pⁱ+pʲ` (0≤i≤j) and 0 for
 all other p>3, and (2) for each p>3 and 0<i<j it contains N of dimension
 `2(pⁱ+pʲ)` with `s_((pⁱ+pʲ)/2)[N]=0` and `s_((pⁱ+1)/2,(pʲ−1)/2)[N]≢0 mod p²`
-(mctague-cayley-plane Theorem 4, line 324). Construct the total spaces over
-products of smooth complete intersections in complex projective space of degrees 2
-and 3: smoothness of a general complete intersection follows from
-SchemeAndStackFoundations §4.13 `bertini_smoothness`, applied inductively to the
-very ample systems `O(d)`, and the Jacobian-rank comparison owned here turns the
-smooth complete intersection into AffineMorseLefschetz A0's
-`complexProjectiveZeroLocus` submanifold. Use the tangent sequence
-`0→TV→i*TCP→⊕O(d_j)→0`, the vertical contribution `4n_f²(x₁²+x₂²)`, and λ=0 from
-the integral class on the torsion-free degree-4 cohomology. Choose degrees by
-`n=3a+8b`, solvable for every n≥14 (mctague-cayley-plane Lemma 8, line 1030).
+(mctague-cayley-plane Theorem 4, line 324). For every n≥4 construct the
+families below, and their integral linear combinations as bordism classes
+(mctague-cayley-plane lines 972–975). Let `m,m′≥0`, `m+m′=2n−8`, and let
+`V=V^m(2^a,3^b)⊂CP^(m+a+b)` and
+`V′=V^m′(2^a′,3^b′)⊂CP^(m′+a′+b′)` be smooth complete intersections;
+here a,b count equations of degrees 2,3, not powers occurring as single degrees.
+Let x₁,x₂ denote the first Chern classes of O(1) on the two projective factors,
+and also their restrictions to `W=V×V′`. Smoothness of general such intersections
+follows from SchemeAndStackFoundations §4.13 `bertini_smoothness`, inductively
+on the very ample systems O(d); the Jacobian-rank comparison gives
+AffineMorseLefschetz A0's `complexProjectiveZeroLocus` submanifold.
+
+For an integer `n_f≥1`, specify the classifier
+`W→CP∞×CP∞→BT′→BF₄`, where T′ is the common maximal torus in Spin(9) and F₄.
+The middle map is induced by the torus homomorphism whose character pullbacks
+are `(e₁,e₂,e₃,e₄)↦n_f(x₁,x₁,x₂,−x₂)`. This is integral: the character-lattice
+basis `e₂,e₃,e₄,(e₁−e₂−e₃−e₄)/2` pulls back to
+`n_f(x₁,x₂,−x₂,0)`. Pull back `OP²→BSpin(9)→BF₄` along this classifier to
+obtain `π:E→W`, of real dimension `16+2(m+m′)=4n`
+(mctague-cayley-plane lines 976–997, p. 16).
+
+From `0→TV→i*TCP→⊕O(d_j)→0`, obtain
+`p₁(TV)=(m+1−3a−8b)x₁²` and `c₁(TV)=(m+1−a−2b)x₁`.
+The vertical tangent class is `4n_f²π*(x₁²+x₂²)`, by substituting the stated
+character pullbacks into `2Σe_i²`. Set the auxiliary integers
+`L=4n_f²+m+1` and `L′=4n_f²+m′+1`, and impose
+`3a+8b=L`, `3a′+8b′=L′`. Lemma 8 applies to L,L′≥14, achieved by increasing
+n_f for every n≥4; no lower bound of 14 is imposed on n. The equations make
+the base first Chern coefficients even and hence supply base Spin structures;
+S5.1 supplies the vertical Spin structure. They give `p₁(TE)=0`.
+Prove integral H⁴(E) is torsion-free: smooth complete intersections have free
+integral cohomology by AffineMorseLefschetz A5–A6's weak Lefschetz and
+AlgebraicTopology Stage 6's duality and universal coefficients; use Künneth on W
+and S1.5's `H^j(OP²;ℤ)=0` for 1≤j≤7 in the Serre sequence to identify
+`π*:H⁴(W;ℤ)≅H⁴(E;ℤ)`. Thus `2λ=0` implies λ=0, and S1.3 supplies a String lift.
+These are the tangent-sequence and root calculation of mctague-cayley-plane
+lines 998–1027, p. 16, with the square on n_f dictated by the quadratic class.
+
 Prove the gcd valuations by Kummer and Lucas and the prime-square congruences
 (mctague-cayley-plane Lemma 12, line 1131; Proposition 11, line 1114).
+For the condition-(1) valuations at p>3 require `p∤n_f`: the homogeneous
+pushforward carries the factor `n_f^(2n−8)` and the complete-intersection
+degrees are powers of 2 and 3 (Proposition 10, lines 1066–1079).
+One may take n_f a sufficiently large power of 2 to retain this simultaneously
+at all p>3. For condition (2) choose `n_f≡1 mod p`, as in the prime-square
+argument at lines 1392–1419; sufficiently large powers `2^(k(p−1))` satisfy
+this and the degree bounds. Integral linear combinations provide the prescribed
+characteristic-number values, with disjoint union and bordism inverse realizing
+addition and negation.
+
+Supply the degree-8 and degree-12 generators separately from S5.3's String
+bordism presentation, together with S4.2's Witten genus: over ℤ[1/6] their
+polynomial subring maps isomorphically onto the modular-form ring generated in
+weights 4 and 6 (mctague-cayley-plane lines 949–969, p. 15). These degrees
+are below the minimum total dimension 16 of an OP² bundle.
 
 **Checks.**
-- n=13 has no solution of `3a+8b=13` (b=0: 13/3; b=1: 5/3), while 14=3·2+8,
-  15=3·5, 16=8·2; 13 is the Frobenius number `3·8−3−8`.
+- The auxiliary L=13 has no solution of `3a+8b=13` (b=0: 13/3; b=1: 5/3),
+  while 14=3·2+8, 15=3·5, 16=8·2. For n=4, m=m′=0 and n_f=2,
+  L=L′=17=3·3+8: the base has 24·24=576 points and the total space is
+  576 copies of OP², a unit multiple of OP² over ℤ[1/6].
+- For n=5, m=2, m′=0 and n_f=2, L=19=3+8·2 and L′=17=3·3+8.
+  On `V²(2,3,3)⊂CP⁵`, `c₁=−2x₁`, `p₁=(6−4−9−9)x₁²=−16x₁²`
+  and `∫x₁²=18`. The vertical contribution is +16x₁², so total p₁ and λ
+  vanish; the zero-dimensional second factor has H⁴=0. A constant classifier
+  instead gives `λ=−8x₁²`, pairing −144 on this surface and thus no String lift.
+- At n_f=2 the lattice basis pulls back to `(2x₁,2x₂,−2x₂,0)` and
+  `2Σe_i²=16(x₁²+x₂²)`; omitting the square would give 8, leaving coefficient
+  −8 in the preceding cancellation. For p=5, n_f=16 is 1 modulo 5 and a
+  unit; the prime-square residual factor `p(8n_f^(pⁱ+pʲ−8)−4n_f²)` is
+  20 modulo 25, whereas taking n_f=5 makes it 0 modulo 25 (0<i<j).
 - n=2 (dimension 8): `2n=4=5¹−1`, so condition (1) asks `ord_5(s₂)=1` and
-  `ord_p(s₂)=0` for p≥7.
-- n=3 (dimension 12): `6=7−1=5⁰+5¹`, so condition (1) asks `ord_5=ord_7=1`.
+  `ord_p(s₂)=0` for p≥7. There can be no OP² bundle of dimension 8 since
+  its base would have real dimension −8.
+- n=3 (dimension 12): `6=7−1=5⁰+5¹`, so condition (1) asks
+  `ord_5=ord_7=1`; a putative OP² bundle would have base dimension −4.
 
-*Needs:* S5.3; SchemeAndStackFoundations §4.13 `bertini_smoothness`;
-AffineMorseLefschetz A0 `complexProjectiveZeroLocus`; CharacteristicClasses; S1.3.
+*Needs:* S5.1–S5.3; S4.2; S1.3, S1.5;
+SchemeAndStackFoundations §4.13 `bertini_smoothness`;
+AffineMorseLefschetz A0 `complexProjectiveZeroLocus`, A5–A6 (weak Lefschetz);
+CharacteristicClasses; AlgebraicTopology Stage 5 item 1 (Künneth),
+Stage 6 (duality and universal coefficients); DGFloer Layer 1 item 2 (Serre sequence).
 
 ### 5.5 The kernel theorem and the integral questions (S5.5)
 
@@ -1134,12 +1242,13 @@ Corollary 2, line 146).
 ### Examples
 
 OP² itself, the degree-8 and degree-12 generators with their Witten genera, and the
-complete-intersection families for n≥14.
+complete-intersection families in dimensions 4n for every n≥4.
 
 ### Dependencies
 
 S1–S4; BordismFormalGroups F3–F5;
-SchemeAndStackFoundations §4.13; AffineMorseLefschetz A0; EllipticCohomology E5.
+SchemeAndStackFoundations §4.13; AffineMorseLefschetz A0, A5–A6;
+AlgebraicTopology Stages 5–6; DGFloer Layer 1 item 2; EllipticCohomology E5.
 
 ## Layer 6: curvature questions and refined classes (S6)
 
