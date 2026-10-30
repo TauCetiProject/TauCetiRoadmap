@@ -50,10 +50,9 @@ Headline theorems of the README that are not statable at the pins, with the miss
 * The classification of principal circle bundles by `H²(M;ℤ)`, the Hopf normalization, rank-one
   Chern–Weil and the flat ambiguity (B6.2–B6.6): the pins have no principal-bundle structure on
   bundle data and no first Chern class map into Tau Ceti's singular cohomology (an unnormalized
-  bijection with `H²(M;ℤ)` would only compare cardinalities), no smooth structure on `ℂP¹` and
-  no de Rham cohomology of manifolds.
-* The Yang–Mills variational formulas and the gauge-fixed operator (B8): the pins have no
-  curvature of principal connections and no Hodge star on bundle-valued forms.
+  bijection with `H²(M;ℤ)` would only compare cardinalities), no de Rham cohomology of manifolds,
+  and the orbit manifold `ℂP¹ = S³/Circle` only through the existential atlas of the quotient
+  theorem above, so the Hopf normalization has no fixed carrier to be stated on.
 -/
 
 namespace TauCetiRoadmap.SmoothBundlesConnections

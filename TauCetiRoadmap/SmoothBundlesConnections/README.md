@@ -9,15 +9,16 @@ theorem and the holonomy reductions, the finite-rank Hilbert space of square-int
 of a metrized bundle, smooth good covers, the comparison of the native Čech complex of a good
 cover with locally constant, smooth and circle-valued coefficients, and the integral
 classification of circle bundles with connection by `H²(M;ℤ)` with its flat ambiguity
-`H¹(M;ℝ/ℤ)`. It ends with the Yang–Mills energy and its first and second variations on a closed
-Riemannian manifold. Its end theorems are Ehresmann's fibration theorem, the free proper quotient
+`H¹(M;ℝ/ℤ)`. Its end theorems are Ehresmann's fibration theorem, the free proper quotient
 theorem, the flat-bundle dictionary with representations of the fundamental group, Ambrose–Singer,
 the reconstruction of connections from smooth parallel transport, the Čech–de Rham–singular
 comparison on good covers, the classification of principal circle bundles by `H²(M;ℤ)` with the
-Hopf normalization `⟨c₁(Hopf),[ℂP¹]⟩ = 1`, rank-one Chern–Weil, and the Yang–Mills
-variational formulas with their gauge-fixed elliptic operator. The output supports differential
+Hopf normalization `⟨c₁(Hopf),[ℂP¹]⟩ = 1` on the orbit manifold `ℂP¹ = S³/Circle` of its own
+quotient theorem, and rank-one Chern–Weil. The output supports differential
 geometry, symplectic reduction and prequantization, Lie groupoids and gauge theory without a
-separate bundle or connection language in each application.
+separate bundle or connection language in each application. It stops before the Yang–Mills
+energy and its variational calculus, which need the elliptic theory of bundle-valued forms that
+is built on these layers.
 
 ## Scope and ownership
 
@@ -38,8 +39,9 @@ and the countability of the fundamental group of a connected second-countable ma
 smooth good covers, the identification of the native Čech complex of a good cover in locally
 constant, smooth and circle coefficients, raw refinement maps and refinement homotopies of native
 Čech complexes on an arbitrary space, the Čech–de Rham and Čech–singular comparisons on good
-covers, and the integral theory of circle bundles and lattice torus bundles (B6); the Yang–Mills
-energy, its variations and its linear gauge-fixed operator (B8).
+covers, and the integral theory of circle bundles and lattice torus bundles (B6), with the Hopf
+bundle, its orbit manifold `ℂP¹ = S³/Circle` and the Hopf normalization stated on that orbit
+manifold (B1.4, B6.2, B7).
 
 It leaves to named roadmaps: generic differential forms, wedge, exterior derivative, pullback,
 Stokes, de Rham cohomology and theorem, the homotopy operator, orientations, smooth structures on
@@ -49,14 +51,23 @@ the exponential map, adjoint representation, closed-subgroup theorem and immerse
 (the carrier `integralSubgroup`) to [LieGroups](../RepresentationTheory/LieGroups/README.md)
 (Layers 0–2, 4); singular cohomology, cup and cap products, coefficient sequences and the
 Bockstein, orientation local systems and fundamental classes, and the projectivization topology
-to [AlgebraicTopology](../AlgebraicTopology/README.md) (Stages 3.2, 4.6, 6.1, 6.3); the
-degree-one Hurewicz isomorphism to [DGFloer](../DGFloer/README.md) Layer 1.1; the Levi-Civita
+to [AlgebraicTopology](../AlgebraicTopology/README.md) (Stages 3.2, 6.1, 6.3); the Levi-Civita
 connection, geodesics, the exponential map, normal neighbourhoods, the local logarithm and the Gauss
-lemma to [HopfRinow](../HopfRinow/README.md) (Layers 1–2); the projective charts on `ℂP¹`, the
-density line bundle, the real Hodge star and the compact real Hodge theorem to
-[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) (K7.1 and K5a); the universal cover's
+lemma to [HopfRinow](../HopfRinow/README.md) (Layers 1–2); the universal cover's
 manifold structure to Tau Ceti and the [UniversalCovers](../../Completed/UniversalCovers/README.md)
-roadmap. Algebraic vector bundles on schemes are
+roadmap. Two roadmaps that consume this one are never its suppliers:
+[DGFloer](../DGFloer/README.md) consumes B1.4 and owns the degree-one Hurewicz isomorphism, and
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) consumes B2–B4 and B6 and owns the
+projective charts, complex structure and complex orientation of `ℂP¹` on the `Projectivization`
+carrier (K7.1) together with the density line, the real Hodge star, the elliptic and Sobolev theory
+of bundle-valued forms and the compact real Hodge theorem (K5a). Everything that would need those
+results is left to SmoothBundlesConnections, Part II, which begins where this roadmap stops: the
+identification of the orbit manifold `S³/Circle` used here with the projective carrier, with
+matching orientations; the identification of the degree-one singular group `H¹(M;A)` with
+`Hom(π₁(M),A)` through the Hurewicz isomorphism and its agreement with the holonomy dictionary of
+B6.4; and the Yang–Mills energy on a closed Riemannian manifold with its formal adjoints, first and
+second variations, gauge-fixed elliptic operator, conformal scaling and stationary circle
+connections. Algebraic vector bundles on schemes are
 [AlgebraicVectorBundles](../AlgebraicVectorBundles/README.md)'s objects; no analytification or
 algebraic-to-topological comparison is asserted here.
 
@@ -85,7 +96,10 @@ Kept variants: the Čech complex used here is Mathlib's native fixed-cover compl
 cover, identified degreewise with coordinate cochains, not a cover-colimit Čech cohomology; the
 holonomy groups carry the immersed Lie-group topology, never the subspace topology of `G`; the
 `L²` space is parametrized by an explicit fibre metric and a Borel measure, never by a density
-alone.
+alone; the Hopf bundle is the orbit projection onto the orbit manifold `S³/Circle` of B1.4, with
+its unit-sphere identification descended from `S³`, whereas the Hopf bundle on the native complex
+projective line and that carrier's comparison with the unit sphere are
+[RiemannianGeometry](../RiemannianGeometry/README.md) R3.3c's, a consumer of this roadmap.
 
 ## Conventions
 
@@ -140,9 +154,22 @@ denotes the first Chern class of this associated line. The line associated to th
 character has the opposite class. Scaling to coefficients `ℝ/ℤ` is `t ↦ t/(2π)`. The circle
 Lie-algebra identification with ℝ is `t ↦ t • (mfderiv 𝓘(ℝ,ℝ) (𝓡 1) Circle.exp 0 1)`. Prove this
 is a linear equivalence and that its exponential is `t↦exp(it)`; no sign of the chosen
-stereographic-coordinate basis is assumed. For the Hopf action `(z₁,z₂)·λ=(z₁λ,z₂λ)` and
-connection `Im(z̄₁dz₁+z̄₂dz₂)`, require `∫_(ℂP¹)F=2π` in the complex orientation and
-`⟨c₁(P),[ℂP¹]⟩=1`; the dual-character line is O(1).
+stereographic-coordinate basis is assumed.
+
+Throughout, `ℂP¹` denotes the orbit manifold `S³/Circle` of the Hopf action `(z₁,z₂)·λ=(z₁λ,z₂λ)`
+on the unit sphere `S³ ⊂ ℂ²`, with the smooth structure of B1.4's free proper quotient theorem;
+`[z₁:z₂]` denotes the orbit of `(z₁,z₂)`, and the Hopf bundle is the orbit projection. No
+projective-space carrier, chart or complex structure is used; the identification of this orbit
+manifold with the projective carrier is not this roadmap's (Scope and ownership). Orient `ℂP¹` by
+the quotient orientation: `ℂ²` carries `dx₁∧dy₁∧dx₂∧dy₂`, `S³` the boundary orientation of the unit
+ball (outward normal first), and a frame `(v₁,v₂)` of `T_bℂP¹` is positive when `(ṽ₁,ṽ₂,X)` is a
+positive frame of `S³`, for lifts `ṽ_k` of `v_k` at a point over b and the fundamental field `X` of
+the action; the lifts are unique modulo X, so the choice does not matter. For the connection
+`Im(z̄₁dz₁+z̄₂dz₂)`, require `∫_(ℂP¹)F=2π` in this orientation and `⟨c₁(P),[ℂP¹]⟩=1`; the
+dual-character line is O(1). B6.2 computes both values and proves that the parametrization
+`z ↦ [1:z]` preserves orientation from `ℂ`. The invariant map `(z₁,z₂) ↦ (2z̄₁z₂, |z₁|²−|z₂|²)`
+descends, through B1.1, to an orientation-preserving diffeomorphism of `ℂP¹` with the unit sphere
+`S² ⊂ ℝ³` (outward normal first); a Check that speaks of the unit `S²` uses this identification.
 
 On the two-torus use angular coordinates `x,y ∈ ℝ/(2πℤ)`, oriented by `dx∧dy`. Thus the
 periods of `a dx+b dy` are `(2πa,2πb)`: the coefficient lattice of gauge shifts is `ℤ²`,
@@ -168,14 +195,12 @@ exponential connecting class is `β(h)`; B6.4 proves this dictionary and B7 test
 
 | Supplier | Exact interface consumed |
 | --- | --- |
-| Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`; `Projectivization`. |
+| Mathlib, at the pin | `FiberBundle`, `FiberBundleCore`, `Trivialization` (with `Bundle.Trivialization.restrictPreimage`, `Bundle.Trivialization.localFrame`), `Bundle.TotalSpace`, `VectorBundle`, `ContMDiffVectorBundle`; `GroupLieAlgebra`, `LieGroup`; `Manifold.IsSubmersionAt`, `Manifold.IsSubmersion`, `Manifold.IsSmoothEmbedding`; `MulAction.instChartedSpaceQuotient` (properly discontinuous actions only); `CovariantDerivative`, `CovariantDerivative.addOneForm`, `CovariantDerivative.difference`, `CovariantDerivative.leviCivitaConnection`; `IsContinuousRiemannianBundle`, `Bundle.ContinuousRiemannianMetric`, `EMetricSpace.ofRiemannianMetric` (which requires `T3Space`); `Circle`, `Circle.exp`, `FundamentalGroupoid`, `FundamentalGroup`; `MeasureTheory.Lp`, `MeasureTheory.L2.inner_def`, `MeasureTheory.Lp.dense_hasCompactSupport_contDiff`, `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`, `MeasurableEmbedding.subtype_coe`, `map_comap_subtype_coe`; `InnerProductSpace.toDual`, `InnerProductSpace.ofCoreOfTopology`; `Matrix.GeneralLinearGroup`, `Matrix.linftyOpNormedRing`, `CFC.sqrt` with `Matrix.PosSemidef.inv_sqrt` and `Matrix.PosSemidef.det_sqrt`; `CategoryTheory.constantSheaf`, `CategoryTheory.constantSheafAdj`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.Limits.isTerminalTop`, `CategoryTheory.Sheaf.H`; `smoothSheafCommGroup`, `smoothSheafAddCommGroup` and `smoothSheafAddCommGroup.compLeft`. |
 | Tau Ceti, at the pin | `TauCeti.sectionZeroChartedSpace`, `TauCeti.isManifold_sectionZero`, `TauCeti.exists_isManifold_sectionZero_of_contMDiff`, `TauCeti.hasMFDerivAt_coe_sectionZero`, `TauCeti.isImmersionOfComplement_coe_sectionZero`, `TauCeti.sectionLinearization_trivial` (regular zero sets of smooth sections); `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`; `TauCeti.leftInvariantDerivationLieEquivGroupLieAlgebra`, `TauCeti.mulInvariantExp`, `TauCeti.lieExp_eq_mulInvariantExp`, `TauCeti.extChartPartialDiffeomorph`, `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`; `CovariantDerivative.curvatureOperator` and its Bianchi and linearity results; `TauCeti.Manifold.contMDiffOn_maximalIntegralCurve`, `ODE.exists_contDiffAt_localFlow`, `ODE.exists_contDiffAt_picard_solution` (whose zero-field base-parameter hypothesis is honoured in B5.0); `TauCeti.riemannianLog`, `TauCeti.Manifold.IsNormalDomain` and `TauCeti.Manifold.IsNormalDomain.contMDiffOn_riemannianLog`; `TauCeti.riemannianVolume`; `Matrix.linftyOpTopologicalSpace` (Tau Ceti's `L∞`-operator topology on matrices); `TauCeti.UniversalCover` with its `ChartedSpace` and `IsManifold` instances; `TauCeti.LensSpace`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`; `TauCeti.CategoryTheory.cechAugmentation` and `TauCeti.CategoryTheory.cechAugmentation_f_zero_comp_π`, `TauCeti.CategoryTheory.quasiIsoAt_cechAugmentation_zero_iff`; `TauCeti.singularSubdivisionHomotopy`, `TauCeti.smallSingularChainHomotopyEquiv`; the smooth quotient construction for discrete actions in `Geometry/Manifold/Instances/Quotient.lean`. |
 | DifferentialGeometry | Layer 0 (`SmoothBundleForm`, its fixed-coefficient specialization, the paired wedge and `CurvatureForm`), Layer 1 (`mextDeriv`, pullback), 2.3 (smooth structures on covering spaces), 3.5 (time-dependent flows), 4.1–4.3 (distributions, integral manifolds and the local Frobenius theorem on the native carriers), 5.2–5.5 (integration of top forms, Stokes, the homotopy operator `homotopyOperator` on `M × Icc 0 1`, densities and `integralDensity`), Layer 6 (the de Rham complex and cohomology), 8.3 (`SmoothSimplex`, smooth chains, `smoothToSingular` and the smoothing theorem with its chain homotopies, under T2, σ-compact, finite-dimensional hypotheses), 8.4 (`fullSimplex`, `simplexFace`, `chainIntegral`, `SmoothSimplex.integral_mextDeriv`, `deRhamHom`), 8.5 (`deRhamEquiv`), 9.1 (`poincarePairing`), 12.1 (`nonempty_contMDiffRiemannianMetric`), 12.4 (`riemannianVolumeForm`, `riemannianDensity`). |
 | LieGroups | Layer 0 (`lieExp`, one-parameter subgroups), Layer 1 (`Ad`, `ad`), Layer 2 (the closed-subgroup theorem and embedded Lie subgroups), Layer 4 (`integralSubgroup`, `IsImmersedLieSubgroup`). |
-| AlgebraicTopology | Stage 3.2 (the small-chain theorem for an open cover), Stage 4 (cellular chains and the cellular-to-singular comparison as a chain-homotopy equivalence), Stage 4.6 (the quotient topology on `Projectivization`), Stage 6.1 (absolute and relative singular cochains, the coefficient long exact sequence and the Bockstein for `0→ℤ→ℝ→ℝ/ℤ→0` and `0→ℤ→[×2]ℤ→F₂→0`, universal coefficients), Stage 6.3 (the integral orientation local system, the tangent-orientation comparison and the fundamental class of a closed oriented manifold). |
-| DGFloer | Layer 1.1: the degree-one Hurewicz isomorphism `π₁(X)ᵃᵇ ≅ H₁(X;ℤ)` for path-connected X, natural in X. |
+| AlgebraicTopology | Stage 3.2 (the small-chain theorem for an open cover), Stage 4 (cellular chains and the cellular-to-singular comparison as a chain-homotopy equivalence), Stage 6.1 (absolute and relative singular cochains, the coefficient long exact sequence and the Bockstein for `0→ℤ→ℝ→ℝ/ℤ→0` and `0→ℤ→[×2]ℤ→F₂→0`, universal coefficients), Stage 6.3 (the integral orientation local system, the tangent-orientation comparison and the fundamental class of a closed oriented manifold). |
 | HopfRinow | Layer 1 (the geodesic flow and `exp_p`), Layer 2 (normal neighbourhoods, `log_p` on a normal ball, the Gauss lemma, radial minimization). |
-| ComplexKahlerGeometry | K7.1: the `Projectivization ℂ (Fin 2 → ℂ)` carrier of `ℂP¹`, its projective charts and underlying real smooth structure and complex orientation. K5a: the real density line bundle, the pointwise real Hodge star and form metric, the linear elliptic and Sobolev theory and the compact real Hodge theorem (consumed only by B8). |
 | UniversalCovers (completed) | the universal cover's path model, its deck group and the identification of the deck group with `π₁`, as implemented in Tau Ceti. |
 
 Every declaration named in this table is consumed, never restated.
@@ -189,7 +214,7 @@ curvature and gauge transformations on these bundles. B5 develops parallel trans
 directions (lifting and reconstruction), holonomy groups and flat bundles. B6.0–B6.1 are
 independent of B1–B5: they build smooth good covers and the Čech comparisons on them. B6.2–B6.6
 combine both strands into the integral theory of circle and torus bundles. B7 fixes the acceptance
-examples. B8 consumes B2–B4 and ComplexKahlerGeometry K5a for the Yang–Mills variational calculus.
+examples.
 
 ## Layer 1: Principal bundles and descent
 
@@ -513,17 +538,21 @@ local trivialization.
 
 ### Examples
 
-The trivial bundle `M × G` and the Hopf circle bundle `S³ → ℂP¹`. Consume ComplexKahlerGeometry
-K7.1's projective charts and their underlying real structure (the chart construction does not
-depend on B2's associated bundles); prove the Hopf projection/chart comparison here, with the
-transition function `g₀₁([1:z]) = z̄/|z|` of B1.3. The frame-bundle example belongs to B2.
+The trivial bundle `M × G` and the Hopf circle bundle `S³ → ℂP¹`, the orbit projection of the
+free proper Hopf action (B1.4) onto the orbit manifold `ℂP¹ = S³/Circle` of the Conventions. Its
+two affine parametrizations `z ↦ [1:z]` and `w ↦ [w:1]` are the composites of the smooth maps
+`z ↦ (1,z)/√(1+|z|²)` and `w ↦ (w,1)/√(1+|w|²)` into `S³` with the orbit projection; prove that
+they are diffeomorphisms of `ℂ` onto the open sets `z₁ ≠ 0` and `z₂ ≠ 0` (their inverses descend,
+through B1.1, from the invariant functions `z₂/z₁` and `z₁/z₂`), with transition `z ↦ 1/z` on
+`z ≠ 0`, and that the orbit projection is a principal circle bundle with the transition function
+`g₀₁([1:z]) = z̄/|z|` of B1.3 in these parametrizations. The frame-bundle example belongs to B2.
 
 ### Dependencies
 
 B1.0 uses Tau Ceti's zero-section manifolds and Mathlib's submersion normal form only. B1.1–B1.3
 use B1.0 and Mathlib's fibre bundles. B1.4 uses B1.1, LieGroups Layer 2 and DifferentialGeometry
 12.1, HopfRinow Layer 1 and compact-group integration. B1.5 uses B1.0, B1.1, DifferentialGeometry
-Layer 4 and 12.1. Nothing in B1 uses B2–B8.
+Layer 4 and 12.1. Nothing in B1 uses B2–B7.
 
 ## Layer 2: Associated bundles, frames and square-integrable sections
 
@@ -816,7 +845,7 @@ competing tangent norms.
   `ad(P) ≅ End(E)` with the commutator bracket.
 - The negative of the Killing form of `𝔰𝔲(2)` is Ad-invariant and positive definite, so it induces
   a positive fibre pairing on `ad(P)` for every `SU(2)`-bundle; the Killing form itself is negative
-  definite and is excluded from B8's positivity hypothesis.
+  definite, so a positive pairing on `ad(P)` is its negative, never the form itself.
 - The extension of a circle bundle along `z ↦ z²` is its tensor square, with class `2c₁`; along
   `z ↦ z⁻¹` it is the dual, with class `−c₁` (B6.2).
 
@@ -898,8 +927,9 @@ the negative injection j fixes the bracket convention.
 - For M a point and `P = G`, an equivariant `ξ : G → 𝔤` has `ξ(g) = Ad(g⁻¹)ξ(e)` and `V_ξ` is the
   right-invariant field of `ξ(e)`; since right-invariant fields satisfy `[ξ^R,η^R] = −[ξ,η]^R`, one
   gets `[V_ξ,V_η] = −V_[ξ,η]`, so `j = −V` preserves brackets and `V` itself does not.
-- For the Hopf connection, `[X^h,Y^h] − [X,Y]^h = −V_(F(X,Y))` with `F = ½ dvol` on the unit `S²`
-  (B8 Checks), nonzero, so the horizontal distribution is not involutive.
+- For the Hopf connection, `[X^h,Y^h] − [X,Y]^h = −V_(F(X,Y))` with `F` the curvature of the
+  Conventions, which integrates to `2π` over `ℂP¹` and is therefore nonzero; the horizontal
+  distribution is not involutive.
 
 *Needs:* B3.1; Mathlib `VectorField.mlieBracket`.
 
@@ -942,7 +972,7 @@ connection of the round sphere through `SO(3) → S²`.
 ### Dependencies
 
 B3 uses B1–B2, DifferentialGeometry Layers 0–1 and 4, and LieGroups Layers 0–1. It uses nothing from
-B4–B8.
+B4–B7.
 
 ## Layer 4: Curvature and gauge transformations
 
@@ -1588,9 +1618,13 @@ form therefore maps to a Čech coboundary; export this implication and the expli
 Consume AlgebraicTopology Stage 6.1's coefficient long exact sequence and Bockstein on its actual
 absolute/relative singular cochain complexes, including `0→ℤ→[×2]ℤ→F₂→0` and `0→ℤ→ℝ→ℝ/ℤ→0` on
 arbitrary spaces/pairs. Prove the good-cover/sheaf comparison commutes with those maps, with
-naturality and the exponential normalization above. Consume DGFloer Layer 1.1's degree-one Hurewicz
-theorem and prove its component/groupoid dictionary for this good-cover comparison; do not
-duplicate its general proof.
+naturality and the exponential normalization above. In degree one, export the explicit value of the
+comparison on a cover-small loop: for a Čech 1-cocycle `c` with locally constant coefficients, the
+image singular class evaluates on a loop subdivided into pieces lying in cover members, crossing
+from member i to member j at each subdivision point, to the sum of the `c_ij` over the crossings
+(a crossing in the reverse direction contributes `c_ji = −c_ij`). B6.4 identifies this sum with a
+holonomy character. The comparison is a statement about cochains and connecting maps; it does not
+pass through the fundamental group, and no Hurewicz theorem is used or restated here.
 
 **Checks.**
 
@@ -1612,20 +1646,27 @@ duplicate its general proof.
   `H⁰(S¹;ℝ) → H⁰(S¹;ℝ/ℤ)` is surjective.
 - On `S²`, `H¹((ℝ/ℤ)_const)=0` but `H¹(C∞(ℝ/ℤ))=ℤ` by smooth-real acyclicity and
   `H²(S²;ℤ)=ℤ`; the vertical map is `0→ℤ`, not an isomorphism.
+- The degree-one evaluation on `S¹` with the three-arc cover and the integer cocycle of the first
+  Check: the loop once around in the positive direction crosses `0→1`, `1→2`, `2→0` and evaluates
+  to `1 + 0 + 0 = 1`, the value of the generator on the oriented circle; a loop that enters `U₁`
+  from `U₀` and returns the same way evaluates to `1 − 1 = 0`, as a null-homotopic loop must.
 
 *Needs:* B6.0; Mathlib `cechComplexFunctor`, `constantSheaf`, `constantSheafAdj`, `Sheaf.H`,
 `smoothSheafAddCommGroup`, `smoothSheafCommGroup`; Tau Ceti `cechAugmentation`,
 `singularSubdivisionHomotopy`, `smallSingularChainHomotopyEquiv`; DifferentialGeometry 5.2, 5.4,
-Layer 6, 8.3, 8.4; AlgebraicTopology Stages 3.2, 6.1, 6.3; DGFloer Layer 1.1.
+Layer 6, 8.3, 8.4; AlgebraicTopology Stages 3.2, 6.1, 6.3.
 
 ### B6.2 The first Chern class and the classification of circle bundles
 
 Define `c₁(P)` using the exponential connecting map on the transition cocycle for the
 **dual-character** associated line. With the comparison fixed in B6.1, use the fundamental-class
-pairing of B6.1 on ComplexKahlerGeometry K7.1's `ℂP¹` carrier, oriented by its complex orientation
-and AlgebraicTopology Stage 6.3's tangent-orientation comparison: `∫_(ℂP¹)η=⟨deRhamHom[η],[ℂP¹]_ℝ⟩`.
+pairing of B6.1 on the orbit manifold `ℂP¹ = S³/Circle` of B1.4, oriented by the quotient
+orientation of the Conventions and AlgebraicTopology Stage 6.3's tangent-orientation comparison:
+`∫_(ℂP¹)η=⟨deRhamHom[η],[ℂP¹]_ℝ⟩`.
 The integral uses DifferentialGeometry Layer 5's top-form carrier; the class is the real image of
-Stage 6.3's integral fundamental class. Prove the Hopf normalization `⟨c₁(Hopf),[ℂP¹]⟩ = 1` as a
+Stage 6.3's integral fundamental class. Prove that the parametrization `z ↦ [1:z]` of B1's Examples
+preserves orientation from `ℂ` with `du∧dv` (`z = u + iv`), and compute the Hopf curvature in it as
+`2 du∧dv/(1+|z|²)²`. Prove the Hopf normalization `⟨c₁(Hopf),[ℂP¹]⟩ = 1` as a
 theorem and prove circle-bundle classification by `H²(M;ℤ)`: `c₁` is a bijection from isomorphism
 classes of principal circle bundles to `H²(M;ℤ)`, natural under pullback. Tensor, dual and pullback
 give sum, negation and pullback. Construct tensor products of bundles **with connection** and prove
@@ -1639,6 +1680,18 @@ pp. 350–351, for the exponential classification, with the dual-character sign 
 
 **Checks.**
 
+- The quotient orientation at `[1:0]`: the fundamental field at `(1,0)` is `∂_(y₁)`; the lifts of
+  `∂_u, ∂_v` along `z ↦ (1,z)/√(1+|z|²)` are `∂_(x₂), ∂_(y₂)`, horizontal because `ω_(1,0) = dy₁`;
+  and `(∂_(x₁), ∂_(x₂), ∂_(y₂), ∂_(y₁))` is an even permutation of `(∂_(x₁), ∂_(y₁), ∂_(x₂), ∂_(y₂))`.
+  So `(∂_u, ∂_v)` is positive and `z ↦ [1:z]` preserves orientation. Along this parametrization
+  `z₁` is real, so `Im(dz̄₁∧dz₁) = 0`, and `Im(dz̄₂∧dz₂) = 2 du∧dv/(1+|z|²)²`; hence
+  `∫_(ℂP¹)F = ∫_ℂ 2 du dv/(1+|z|²)² = 2π`. The opposite orientation gives `−2π` and
+  `⟨c₁(Hopf),[ℂP¹]⟩ = −1`.
+- The identification with the unit `S²`: along `z ↦ [1:z]` the map `(2z̄₁z₂, |z₁|²−|z₂|²)` is
+  `(2z/(1+|z|²), (1−|z|²)/(1+|z|²))`, sending `(∂_u, ∂_v)` at `z = 0` to `(2∂_X, 2∂_Y)` at the north
+  pole, a positive frame for the outward-normal-first orientation of `S²`; with first coordinate
+  `2z₁z̄₂` instead, the image would be `(2∂_X, −2∂_Y)`, negative. Hence `F = ½ dvol` on the unit
+  `S²`, as `∫F = 2π = ½·4π` and F is a constant multiple of `dvol` by `U(2)`-invariance.
 - `⟨c₁(Hopf),[ℂP¹]⟩ = 1` with the dual character; the standard-character line `O(−1)` has `−1`;
   the Hopf curvature integrates to `2π` and `F/(2π)` integrates to 1, consistent with B6.3.
 - The integer representative `−(δφ)_ijk/(2π)` for `g_ij = exp(iφ_ij)`: for the line with cocycle
@@ -1648,7 +1701,7 @@ pp. 350–351, for the exponential classification, with the dual-character sign 
 - Pullback along a constant map gives `c₁ = 0`; pullback of the Hopf bundle along a degree-d map
   `S² → S²` has class d.
 
-*Needs:* B1.3, B2.5, B3.3, B4.1, B6.1; ComplexKahlerGeometry K7.1; AlgebraicTopology Stage 6.3;
+*Needs:* B1.3, B1.4, B2.5, B3.3, B4.1, B6.1; AlgebraicTopology Stage 6.3;
 DifferentialGeometry 5.2, 8.4.
 
 ### B6.3 Rank-one Chern–Weil
@@ -1676,8 +1729,20 @@ the curvature adjustment uses B3.1 and the exact-form criterion of B6.1).
 
 ### B6.4 Flat circle bundles
 
-Flat circle bundles with connection are classified by `H¹(M;ℝ/ℤ)`. On connected based M this is
-`Hom(π₁(M),ℝ/ℤ)`; use the groupoid or product over components otherwise. Their Chern class is
+Flat circle bundles with connection are classified by `H¹(M;ℝ/ℤ)`. Construct the class from B5.2
+and B1.3: a flat connection has parallel local sections over the members of a good cover (B5.2),
+whose transition functions `g_ij = exp(iφ_ij)` are locally constant, and the class of the flat
+bundle is the Čech class `[−φ/(2π)]` of its dual-character cocycle in the locally constant sheaf
+`(ℝ/ℤ)_M`, carried to singular `H¹(M;ℝ/ℤ)` by B6.1's comparison. Prove that it is well defined (a
+change of parallel sections changes φ by a locally constant 0-cochain), natural under pullback, and
+a bijection from isomorphism classes of flat circle bundles with connection: a locally constant
+cocycle glues, by B1.3, a bundle whose local sections are declared parallel, and the resulting
+connection is flat. On connected based M, B5.2's dictionary identifies the same isomorphism
+classes with `Hom(π₁(M),ℝ/ℤ)`, conjugation being trivial for the abelian circle; prove that the two
+classifications agree, by the subdivided-loop holonomy formula of the Conventions: B6.1's
+degree-one evaluation of `[−φ/(2π)]` on a loop γ is the holonomy character
+`h(γ) = arg hol(γ)/(2π)`, and the evaluation of the principal cocycle's class `[φ/(2π)]` is
+`−h(γ)`. Use the groupoid or product over components otherwise. Their Chern class is
 `β(h)` for the holonomy convention fixed above. Flatness exists on a fixed bundle iff its real Chern
 class is zero. Prove the kernel of `H²(M;ℤ) → H²(M;ℝ)` is the universal-coefficient subgroup
 `Ext(H₁(M;ℤ),ℤ)`. It equals the torsion subgroup when `H₁(M;ℤ)` is finitely generated; prove that
@@ -1690,13 +1755,18 @@ cohomological calculation).
 
 - On `S¹`, flat circle bundles with connection are `Hom(ℤ,ℝ/ℤ) = ℝ/ℤ`, the holonomy `−a mod 1` of
   the connection `a dθ` (B5.0), and all have `c₁ = 0`.
+- On the two-arc cover of `S¹`, the locally constant cocycle `g₀₁ = exp(2πia)` on one component of
+  the overlap and 1 on the other has subdivided-loop holonomy `1·exp(−2πia)`, character `h = −a`;
+  the principal class `[φ/(2π)]` evaluates on the loop to `a − 0 = a = −h` and the dual-character
+  class `[−φ/(2π)]` to `h`, so the dual-character cocycle is the one whose class is the holonomy
+  character. Using `g_ij` in place of `g_ij⁻¹` in the loop formula would reverse both signs.
 - On the lens space `L(n,1)`, the flat bundle with holonomy character `exp(2πik/n)` has
   `c₁ = k·u` (B7), torsion of order `n/gcd(n,k)`, and zero real class.
 - `ker(H²(ℤ)→H²(ℝ)) = ker(H²(ℤ)→Hom(H₂,ℤ)) = Ext(H₁,ℤ)` because `Hom(H₂,ℤ)→Hom(H₂,ℝ)` is injective;
   for a space with `H₁ = ℚ` the kernel `Ext(ℚ,ℤ)` is torsion-free and uncountable, so finite
   generation is needed for the identification with torsion.
 
-*Needs:* B5.2, B6.1, B6.2; AlgebraicTopology Stage 6.1; DGFloer Layer 1.1.
+*Needs:* B1.3, B5.2, B6.1, B6.2; AlgebraicTopology Stage 6.1.
 
 ### B6.5 Fixed curvature and the torsor of connections
 
@@ -1775,8 +1845,9 @@ nontrivial holonomy, and the torsion circle bundles on lens spaces of B7.
 
 B6.0 uses HopfRinow Layers 1–2 and DifferentialGeometry 12.1 and 5.4. B6.1 uses B6.0, Mathlib's
 sites and smooth sheaves, Tau Ceti's Čech augmentation and subdivision, DifferentialGeometry Layers
-5, 6 and 8, AlgebraicTopology Stages 3.2, 6.1, 6.3 and DGFloer Layer 1.1; nothing of B1–B5. B6.2–B6.6
-use B1–B5 and B6.1; B6.2 also uses ComplexKahlerGeometry K7.1.
+5, 6 and 8 and AlgebraicTopology Stages 3.2, 6.1, 6.3; nothing of B1–B5. B6.2–B6.6
+use B1–B5 and B6.1; B6.2 also uses B1.4's Hopf quotient and the affine parametrizations of B1's
+Examples.
 
 ## Layer 7: Acceptance examples and dependency order
 
@@ -1785,9 +1856,8 @@ universal covers and Lie subgroup theory. B6.0–B6.1 use differential forms, sm
 unity and the cohomological/convex-neighbourhood suppliers independently of B1–B5. The
 circle-bundle and connection items B6.2–B6.6 consume B1–B5 as specified above, singular cohomology
 and the de Rham comparison, while B6.0–B6.1 build the Čech/sheaf comparison and
-convex-neighbourhood results from HopfRinow. B1's Hopf test consumes only the independent
-projective charts/orientation layer ComplexKahlerGeometry K7.1, consuming AlgebraicTopology Stage
-4.6's projectivization topology. The local curvature identities and flat classification can be
+convex-neighbourhood results from HopfRinow. B1's Hopf test uses only B1.4's quotient theorem and
+B1.1's descent; no projective-space carrier is consumed anywhere. The local curvature identities and flat classification can be
 developed independently of B6's integral theory.
 
 ### Examples
@@ -1838,148 +1908,8 @@ in addition to the Hopf test.
 
 The lens-space calculations use B1.3, B5.2 and B6.1–B6.4; Tau Ceti's `LensSpace` and
 `LensSpace.fundamentalGroupMulEquiv`; AlgebraicTopology Stage 4's cellular-to-singular comparison
-and Stage 6.1's coefficient sequence. The Hopf projection comparison uses ComplexKahlerGeometry
-K7.1 and B1's projective-chart comparison.
-
-## Layer 8: Yang–Mills energy and its variational calculus
-
-### B8.1 Formal adjoints and the energy
-
-On a closed oriented Riemannian n-manifold, n≥2, let P be a principal compact-Lie-group bundle with
-a specified positive-definite Ad-invariant real pairing B on its Lie algebra. Use B1–B4's affine
-connection space, adjoint bundle, bracket wedge and gauge action. This layer is a consumer of B2–B4
-and ComplexKahlerGeometry K5a's pointwise real Hodge-star/form-metric layer; it is not a
-prerequisite of that layer, of B1–B7 or of the scalar/linear Hodge construction. Tensor that star
-with the adjoint-bundle identity. Use increasing orthonormal wedges and B2's geometric `L²` pairing,
-with no additional factorials. Construct `d_A*:Ω^r(ad P)→Ω^(r−1)(ad P)` for `1≤r≤n`, with
-`d_A*=(-1)^(n(r+1)+1)*d_A*`, where the two stars on the right are Hodge stars, and prove the
-formal-adjoint identity by B4's paired Leibniz rule and Stokes (Donaldson §2.1; Jiang, proof of
-Proposition 2.9). On a noncompact base retain compact support for these identities.
-
-Define `YM(A)=∫_M |F_A|² dvol`, with no factor 1/2 (Donaldson §2.1; Jiang §2). Construct its
-reference-connection-independent polynomial variation on every finite smooth family of adjoint
-one-forms. Prove nonnegativity, vanishing exactly for flat A, gauge invariance, and naturality
-under oriented Riemannian isometries and bundle isomorphisms preserving B.
-
-- The covariant codifferential is the formal adjoint for the specified L² pairing, also with
-  compact supports on a noncompact manifold.
-- The energy is nonnegative, vanishes exactly on flat connections and is gauge invariant.
-- The energy is natural under pairing-preserving bundle isomorphisms and oriented Riemannian
-  isometries and has reference-independent polynomial variations in smooth finite families.
-
-**Checks.**
-
-- The sign `(−1)^(n(r+1)+1)`: for `n = 2`, `r = 1` it is `−1`, and for `n = 3`, `r = 2` it is `+1`,
-  the standard codifferential signs; on `ℝ²` with the flat metric and `A = 0`, `d^*(f dx) = −∂_x f`.
-- For the Hopf connection on the unit `S²`, `F = ½ dvol`, `|F|² = ¼`, `YM = ¼·4π = π`; with the
-  factor 1/2 the value would be `π/2`.
-- `YM(A) = 0` iff `F_A = 0`, since the integrand is pointwise nonnegative and continuous and the
-  measure has full support; for the negative-definite Killing form of `𝔰𝔲(2)` the integrand would
-  be nonpositive, which is why B is required positive.
-- Gauge invariance for B4.2's left action: `F_(u·A) = Ad(u)F_A` pointwise and B is
-  Ad-invariant, so `|F|²` is unchanged. For its SO(3) torus example at x=0, the transformed
-  curvature coefficient is Y, while the pullback right action gives −Y; both squared norms
-  are 1. The curvature sign distinguishes the actions even though the energies agree.
-
-*Needs:* B2.2, B2.5, B4.1, B4.2; ComplexKahlerGeometry K5a (pointwise Hodge star); DifferentialGeometry
-5.3, 12.4.
-
-### B8.2 First and second variations and the gauge-fixed operator
-
-For smooth one-forms a, b, prove
-
-```text
-F_(A+t a)=F_A+t d_A a+(t²/2)[a∧a],
-D YM_A(a)=2(F_A,d_A a)_L²=2(d_A*F_A,a)_L²,
-D² YM_A(a,b)=2(d_A a,d_A b)_L²+2(F_A,[a∧b])_L².
-```
-
-(Jiang, Propositions 2.9 and 2.12, with the normalization fixed here.) Thus stationarity is exactly
-`d_A*F_A=0`; Bianchi is the separate identity `d_AF_A=0`. A stationary connection is not asserted to
-be a local minimum. Define the zero-order self-adjoint bundle map `R_A` by its pointwise equation
-`⟨R_A a,b⟩=⟨F_A,[a∧b]⟩`, using the finite-dimensional metric Riesz map. Prove the linearization of
-`A↦d_A*F_A` is `L_A=d_A*d_A+R_A`, and identify the Hessian with `2L_A`. Supply local expressions,
-transition and gauge-conjugation equations for these operators, including all signs of the
-bracket-wedge convention.
-
-At a stationary A prove `L_A(d_A ξ)=0` and its formal-adjoint identity `d_A*L_A=0`, by
-differentiating gauge covariance. The gauge generator for our left action is `−d_A ξ`. Construct
-the gauge-fixed operator `J_A=L_A+d_Ad_A*` (Donaldson §2.1); with the positive-Laplacian
-principal-symbol convention its symbol at a real covector ζ is `|ζ|² id`. Prove formal
-self-adjointness, ellipticity and preservation of the Coulomb subspace `ker d_A*`. After K5a's
-linear elliptic/Sobolev theory, construct its self-adjoint `L²` realization with `H²` domain,
-compact resolvent, finite-dimensional kernel and finite negative spectral space. Prove
-`ker J_A=ker L_A∩ker d_A*`. Construct the orthogonal decomposition of smooth one-forms into
-`im d_A` and `ker d_A*` using the Green inverse of `d_A*d_A` on the complement of the parallel
-adjoint sections. These are linear statements at A; nonlinear gauge slices and their stabilizers
-remain HamiltonianReduction R5's, FourManifolds F5's and InstantonFloerTheory IF1's
-dimension-specific constructions.
-
-- The zero-order curvature operator is self-adjoint and supplies the curvature term in the Hessian.
-- At a stationary connection the Hessian annihilates infinitesimal gauge directions; gauge fixing
-  has scalar positive principal symbol and preserves the Coulomb subspace.
-- Its self-adjoint L² realization has the stated Sobolev domain, compact resolvent and finite
-  kernel and negative spectral space; the Green inverse gives the smooth Coulomb decomposition.
-
-**Checks.**
-
-- Expanding `|F_A + t d_Aa + (t²/2)[a∧a]|²` and using `[a∧b] = [b∧a]` on one-forms gives the
-  displayed `D` and `D²` with coefficient 2; the factor-1/2 normalization would halve both.
-- On the trivial circle bundle over `T²` at `A = 0`, `R_A = 0`, `D²YM(a,a) = 2‖da‖²_L² ≥ 0`,
-  vanishing exactly for closed a; the stationary connections are all flat ones.
-- At `A = 0` on a trivial bundle, `J_A = d^*d + dd^*` is the Hodge Laplacian on `𝔤`-valued
-  one-forms, with symbol `|ζ|²·id`; the convention with the opposite sign would make `J_A`
-  negative.
-- At `A = 0` on a trivial bundle, `L_A(dξ) = d^*d(dξ) = 0` and `d^*L_A = d^*d^*d = 0` for every ξ;
-  the sign of `R_A` is fixed by the `+2(F_A,[a∧b])` term of the second variation, and the
-  candidate `d_A*d_A − R_A` is not the Hessian.
-
-*Needs:* B4.1, B4.2, B8.1; ComplexKahlerGeometry K5a (linear elliptic and Sobolev theory).
-
-### B8.3 Conformal scaling and stationary circle connections
-
-For `g′=e^(2φ)g`, prove `*′=e^((n−2r)φ)*` on r-forms and the energy density scaling
-`|F|²_g′ dvol_g′=e^((n−4)φ)|F|²_g dvol_g`. In dimension 4 deduce conformal invariance of the energy
-and of its stationary equation (Donaldson §2.2, p. 3). The self-dual/anti-self-dual energy and charge
-comparisons, BPST solution and moduli applications have the FourManifolds F5 owner. For `Circle`
-with B the ordinary real product, prove stationarity is harmonic curvature (Jiang, Exercise 2.11).
-After B6 and K5a's compact real Hodge theorem, construct a stationary connection on each fixed
-circle bundle: its real curvature is `2π` times the harmonic representative of `c₁(P)_ℝ`. Prove its
-space of connections is an affine torsor for closed real one-forms, and its gauge classes form a
-torsor for `H¹_dR(M;ℝ)/(2π·image of H¹(M;ℤ))`. Retain torsion bundles and the B6.5
-change-of-origin law. This is the same fixed-curvature quotient, not a second
-circle-classification construction.
-
-- The Hodge star and energy density transform by the displayed conformal powers, giving energy
-  and stationary-equation invariance in dimension four.
-- For circle bundles, stationarity is exactly harmonic curvature.
-- The harmonic representative gives stationary connections on every fixed circle bundle;
-  their gauge quotient is the fixed-curvature torsor with its existing change-of-origin law.
-
-**Checks.**
-
-- `*′ = e^((n−2r)φ)*`: on 2-forms in dimension 4 the exponent is 0, so `*` is conformally invariant;
-  `|F|²_g′ = e^(−4φ)|F|²_g` and `dvol_g′ = e^(nφ)dvol_g` give `e^((n−4)φ)`.
-- On the unit `S²` scaled by the constant factor λ (`φ = log λ`), the Hopf energy becomes `π/λ²`,
-  not π: the energy is not conformally invariant in dimension 2.
-- For the circle, `d^*F = 0` and `dF = 0` make F harmonic; `A = A₀ + a` is stationary iff
-  `d^*da = 0`, iff `da` is harmonic and exact, iff `da = 0` on a closed manifold; so the stationary
-  connections form a torsor for closed one-forms, and on `S¹` every connection is stationary.
-- On `L(n,1)` the torsion bundle `p*Hopf` has `c₁(P)_ℝ = 0`, harmonic representative 0, and its
-  stationary connections are exactly the flat ones.
-
-*Needs:* B6.3, B6.5, B8.1, B8.2; ComplexKahlerGeometry K5a (compact real Hodge theorem).
-
-### Examples
-
-The Hopf connection with energy π on the unit `S²`; flat connections on `T²` as stationary
-connections with `D²YM ≥ 0`; the torsion lens-space bundle with stationary connections equal to the
-flat ones.
-
-### Dependencies
-
-B8.1 uses B2, B4 and K5a's pointwise Hodge star; B8.2 uses B8.1 and K5a's elliptic theory; B8.3
-uses B6.3, B6.5 and K5a's Hodge theorem. Nothing in B1–B7 uses B8.
+and Stage 6.1's coefficient sequence. The Hopf bundle and its affine parametrizations are those of
+B1.4 and B1's Examples.
 
 ## Downstream consumers
 
@@ -1993,10 +1923,13 @@ quotient atlas, B2's complexification, B3.2's Atiyah bundle sequence, B5.2's fla
 and countability theorem; the Lie algebroid/groupoid structures and their integrations are owned
 there. [IntegrableSystems](../SymplecticGeometry/IntegrableSystems/README.md) consumes B1.5's
 Ehresmann trivialization and B6.1/B6.6's Čech comparison and affine torus classification.
-ComplexKahlerGeometry K5 consumes B2's `L²` construction and B2.1's complexification comparison.
-OperatorAlgebraDynamics consumes B5.2's countability theorem. CharacteristicClasses and
-TopologicalKTheory consume the circle-bundle classification and the frame-bundle groupoid
-equivalence.
+ComplexKahlerGeometry K5 consumes B2's `L²` construction and B2.1's complexification comparison,
+and its K7.2 compares the Fubini–Study class with B6.2's Hopf class through B6.3. DGFloer Layer 1
+consumes B1.4's free proper quotients. OperatorAlgebraDynamics consumes B5.2's countability
+theorem. CharacteristicClasses and TopologicalKTheory consume the circle-bundle classification and
+the frame-bundle groupoid equivalence. SmoothBundlesConnections, Part II consumes B1–B7 together
+with ComplexKahlerGeometry K5a and K7.1 for the Yang–Mills variational calculus, the identification
+of `S³/Circle` with the projective carrier and the Hurewicz identification of B6.4's dictionary.
 
 ## References
 
@@ -2029,13 +1962,6 @@ equivalence.
 - D. S. Freed, [*Classical Chern–Simons theory, Part 1*](https://arxiv.org/abs/hep-th/9206021),
   Adv. Math. 113 (1995): §1, equations (1.5), (1.8)–(1.10), (1.13)–(1.16), for connections, curvature,
   Bianchi, and equations (1.18)–(1.19), p. 9, for gauge transformations.
-- S. K. Donaldson, [*Mathematical uses of gauge theory*](https://cims.nyu.edu/~gromov/lectures%20on%20Curvature%202025/donaldson.pdf),
-  §1.2 (gauge transformations and gauge fixing), §2.1 (the Yang–Mills functional and the
-  gauge-fixed elliptic operator), and §2.2, p. 3 (conformal invariance), for B8; coefficients follow
-  the energy normalization fixed here.
-- J. Jiang, [*Yang–Mills minicourse notes*](https://web.ma.utexas.edu/SMC/2020/notes/YangMillsMinicourse.pdf),
-  Propositions 2.9 and 2.12 and Exercise 2.11, for B8's first and second variations and the circle
-  example; stationarity is distinguished from minimality.
 - The Stacks Project, [*Cohomology of Sheaves*](https://stacks.math.columbia.edu/download/cohomology.pdf),
   §9, Tags 01ED–01EG, pp. 9–10 (ordered-tuple Čech complex and augmentation);
   Lemma 11.6, Tag 01ET, p. 15 (acyclic-cover comparison); §15, Tag 09UY, p. 24 (refinement
