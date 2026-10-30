@@ -152,11 +152,41 @@ Construct the period homomorphism by integrating loops, with homotopy, concatena
 homology and de Rham naturality. Specialize the regular-cover classification to
 surjections π₁(X)→H, using π₁-abelianization; π*α is exact iff periods vanish on
 that kernel. Build the lifted smooth structure, metric/vector field and primitive,
-with deck-equivariance and positive/negative flow comparison. This condition does
-not give a short exact sequence on H₁ of the cover. For integral period classes
-construct the circle-valued map and its pullback cover, then identify a connected
-component and the divisibility of its deck generator. Every real class, including
-irrational ones, has a period-kernel cover.
+with deck-equivariance and positive/negative flow comparison. For a connected
+regular cover with abelian deck group H, prove that
+`H₁(X̃;ℤ) → H₁(X;ℤ) → H → 0` is exact at H₁(X;ℤ) and surjective onto H,
+using the subgroup of π₁(X) defining the cover and the natural abelianization
+maps. The first arrow need not be injective.
+
+Make that failure explicit on the Klein bottle
+`X=([0,1]×(ℝ/ℤ))/((1,y)∼(0,−y))`. Use GT's smooth gluing and AT's
+fundamental-group/abelianization APIs to construct the connected smooth cover `C=ℝ_s×(ℝ_y/2ℤ)` and its commuting
+deck transformations `A(s,y)=(s+1,−y)`, `B(s,y)=(s,y+1)`. Prove B has
+order2 and that these generate a free proper action of `H=ℤ⊕ℤ/2`, with
+quotient the same Klein bottle X. The integral closed form α=ds descends
+to X, its pullback has primitive s, and `P(n,e)=n`, `N(n,e)=−n`.
+Prove that this cover is the universal abelian cover: for the based section
+a at y=0 and fiber loop b, use `π₁(X)=⟨a,b | aba⁻¹=b⁻¹⟩`, identify the
+cover subgroup with ⟨b²⟩, and identify its deck quotient with H₁(X;ℤ).
+
+The cover retracts onto its length-two fiber circle, so H₁(C;ℤ)=ℤ. Its
+positive fiber generator maps to b² on π₁ and to `2[b]=0` on H₁(X;ℤ).
+Thus the induced H₁ map is zero on a nonzero group, although the covering
+map induces an injective map of fundamental groups. Identify
+H₁(X;ℤ)→H with the isomorphism sending [a] to (1,0) and [b] to (0,1).
+The native integer/mod2 calibration is in
+[`AbelianCoverHomologyTargets.lean`](AbelianCoverHomologyTargets.lean).
+
+For integral period classes construct the circle-valued map and its pullback
+cover, then identify a connected component and the divisibility of its deck
+generator. Every real class, including irrational ones, has a period-kernel
+cover. In the preceding example the minimal period-kernel cover instead has
+deck group ℤ and kills b; distinguish it from the larger abelian cover C,
+whose period map has kernel ℤ/2. With downward monomial t=A⁻¹ and g=B,
+compare N1's completion to `(ℤ[ℤ/2])((t))`, retaining both coefficients at
+each period. Exhibit the nonzero factors 1−g and 1+g with product0. This
+geometric cover realizes a deck group with torsion. Apply N4's total-quotient
+construction to this ring with zero divisors.
 
 For a Morse–Smale pair on compact X, establish a lifted moduli space
 for each pair of lifted critical points, with translation quotient and expected
