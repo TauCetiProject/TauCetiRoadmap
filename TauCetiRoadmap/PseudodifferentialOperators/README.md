@@ -26,12 +26,6 @@ this roadmap and NoncommutativeIntegration §§2.2–2.4, whose noncommutative
 Lp and Lorentz identifications use that generic theory. No reverse supply from
 noncommutative integration is needed for the Bessel/Besov comparisons here.
 
-The required closed-form representation and Friedrichs completion belong to an
-extension of OperatorTheory's unbounded-operator theory. OperatorTheory on main
-has no closed-form representation target; the exact unsupplied contract is
-recorded below. This roadmap owns the geometric smooth-core and covering
-comparisons with that construction, not a second abstract form theory.
-
 ## Conventions
 
 Manifolds are finite-dimensional, smooth, Hausdorff, second countable and
@@ -134,32 +128,6 @@ above, consume the point-derivation equivalence and its inverse equation in
 `TauCeti/Geometry/Manifold/DerivationBundle.lean`, under finite dimension,
 Hausdorffness and the interior-point hypothesis. The global smooth-field
 identification in P1.0 extends this pointwise result.
-
-**Required OperatorTheory extension: closed forms and Friedrichs realization.**
-For real or complex Hilbert H and a dense continuously injected form domain
-j:V→H, a Hermitian sesquilinear form q, conjugate-linear in the first slot,
-has lower bound γ when Re q(u,u)≥γ‖j(u)‖²; write q[u]=Re q(u,u).
-Require completeness of V in the norm
-`(q[u]+α‖j(u)‖²)^(1/2)` for α>−γ. The required representation is a
-self-adjoint partial operator A, with domain contained in j(V), characterized by
-`j(u) in dom A iff there exists h in H, forall v in V, q(u,v)=inner(h,j(v))`,
-and A j(u)=h. Require the same lower bound, uniqueness, independence of α,
-unitary transport, and identification of the Friedrichs extension of a densely
-defined semibounded symmetric S with the operator represented by the completion
-of q_S(u,v)=⟨Su,v⟩. These are prerequisite contracts, not supplied declarations.
-P7a uses the graph characterization to compare the smooth energy-form completion
-with the H² realization. The completion comparison is required in addition to
-existence of a self-adjoint extension.
-
-**Checks.**
-
-- For V=H=ℂ, j=id and q(u,v)=conj(u)v, the graph equation gives h=u;
-  shifts α=1 and α=2 both give A=id, not 2id or 3id.
-- On the circle with q(f,g)=∫conj(f′)g′, the mode exp(ikx) has form eigenvalue
-  k²; the represented operator is −∂² with domain H², and k=0,1,2 give
-  eigenvalues 0,1,4.
-- For the zero Hilbert space, j has dense range {0}; the represented operator
-  has domain {0} and action 0. Uniqueness must include this case.
 
 ## How to read the build
 
@@ -704,8 +672,11 @@ continuous dual of all smooth sections with its Fréchet seminorm topology,
 rather than construct a second LF/Fréchet comparison. Prove
 the Schwartz kernel theorem: continuous linear maps
 `C_c^∞(N;E)→D′(M;F)` correspond uniquely to distributional kernels on M×N
-with coefficient bundle `F⊠(E*⊗Density_N)` (Dyatlov, MIT 18.155,
-Fall 2021, Lecture 7, p. 11, for the Euclidean scalar correspondence;
+with coefficient bundle `F⊠(E*⊗Density_N)` (Hörmander I, Theorem 5.2.1,
+for the Euclidean scalar correspondence with its proof; Melrose, Introduction
+to Microlocal Analysis, Theorem 1.2, p. 16, states the tempered version
+`𝓢(ℝᵐ)→𝓢′(ℝⁿ)` with kernel in `𝓢′(ℝⁿ⁺ᵐ)`, and Dyatlov, MIT 18.155,
+Fall 2021, Lecture 7, p. 11, states the compactly supported version;
 the finite-rank and density comparison is obtained by the chart patching below).
 Use the LF source topology and
 native compact-convergence distribution topology, with bilinear evaluation
@@ -936,7 +907,10 @@ inclusion in L². On native `LinearPMap` represent D as a closed densely
 defined L² operator, using the weak-derivative identity to prove graph
 closedness. Normalized exponentials e^(λx) show it is unbounded in the L²
 norm. Distinguish this domain from the C_c∞ completion H₀¹(0,1);
-no self-adjoint boundary-condition classification is part of this example.
+no self-adjoint boundary-condition classification is part of this example
+(Brezis, Theorem 8.2 for the absolutely continuous representative, Theorem 8.7
+for density of smooth restrictions, Theorem 8.12 for the H₀¹ characterization
+by vanishing endpoint values).
 Transport PDE's compact-support
 Gagliardo–Nirenberg–Sobolev estimate componentwise and through partitions
 to obtain W^(1,1)→L^(n/(n−1)) for n≥2, consuming native
@@ -950,7 +924,11 @@ For r>n prove compactness into C^l and W^(l,∞). At n=1 the critical
 W^(1,1)→C⁰ theorem is the absolutely-continuous representative/FTC
 comparison; its unit ball need not be equicontinuous, so no C⁰
 compactness is asserted there. Include the concentrating smooth-bump
-counterexample at r=n. These statements are for positive-dimensional
+counterexample at r=n. The Euclidean scalar inputs are Adams–Fournier,
+Theorem 4.12 (Part I, cases A–C, including the p=1, r=n continuous map into
+bounded continuous functions) and Theorem 6.3 (Rellich–Kondrachov, with the
+strict exponent margins for compactness); Brezis, Theorems 9.9 and 9.16,
+give the first-order p=1 inequality and the bounded-domain compactness. These statements are for positive-dimensional
 compact bases, with finite bundle charts and their actual covariant norms;
 for 1≤p≤∞ and integers k>l≥0 prove compact W^(k,p)→W^(l,p)
 on compact bases. The single Ehrling target below consumes these
@@ -1158,8 +1136,8 @@ Also construct the little Hölder space h^(k,α), the closure of smooth
 sections in this norm, as a closed Banach subspace. Characterize it by
 vanishing small-scale α-Hölder modulus of the kth derivatives in the
 finite chart/parallel-transport comparison, and prove independence of
-those choices. This is the completion of smooth sections in the source
-course's Hölder norm. Distinguish it from the full Hölder space: a local
+those choices. This is the completion of smooth sections in the
+`C^(k,α)` norm. Distinguish it from the full Hölder space: a local
 cutoff times |x|^α lies in C^(0,α) but fails the vanishing-modulus test.
 Prove smooth density on h^(k,α), the resulting completion maps from
 Sobolev spaces, and restriction of the bounded operator mappings above
@@ -1169,7 +1147,11 @@ maps. In particular prove the algebra property of W^(k,p) for integer
 k>n/p, 1≤p≤∞, and of H^(s,p) for s>n/p, 1<p<∞, with continuous
 multiplication in those norms. Prove Ehrling:
 for integers k>l≥0, 1≤p≤∞ and ε>0, the compact-base bound
-`‖u‖_(W^(l,p))≤ε‖u‖_(W^(k,p))+C_ε‖u‖_(Lp)` from interpolation/Rellich.
+`‖u‖_(W^(l,p))≤ε‖u‖_(W^(k,p))+C_ε‖u‖_(Lp)` from the compact embedding
+W^(k,p)→W^(l,p) and the continuous embedding W^(l,p)→Lp. Argue by
+contradiction: if the bound fails for some ε, normalize a failing sequence to
+`‖u_j‖_(W^(k,p))=1`; then `‖u_j‖_(W^(l,p))>ε` while `‖u_j‖_(Lp)→0`, and a
+W^(l,p)-convergent subsequence has a limit of W^(l,p) norm at least ε and Lp norm zero.
 Include the Euclidean common-compact-support versions, consuming K5a's
 p=2 Rellich and compact C^k embeddings; translations disprove
 unqualified whole-space Rellich. Work out the shear (x,y)↦(x,y+x³): prove
@@ -1230,7 +1212,10 @@ identifications and order shift are Taylor, Lecture I, (3.32)–(3.34), p. 12.
 
 Prove smoothing operators send distributions to smooth sections locally and
 act compactly between fixed finite Sobolev orders on compact bases. Negative-
-order operators are compact H^s→H^s there by the strict-order Rellich inclusion.
+order operators are compact H^s→H^s there by the strict-order Rellich inclusion
+(Atiyah–Singer I, (5.2), p. 513: on a compact base the order-m operators with
+vanishing principal symbol are exactly the compact maps H^s→H^(s−m) in the
+closure of the class).
 Prove the distribution-extension and smooth-input constructions agree; do not
 infer weak regularity from an estimate proved only for smooth inputs.
 
@@ -1320,7 +1305,10 @@ s and r<s+m, an estimate with fixed-data C
 `‖u‖_(H^(s+m))≤C(‖Pu‖_(H^s)+‖u‖_(H^r))`.
 
 Prove the corresponding interior cutoff estimates and the 1<p<∞ H^(s,p)
-versions; give the localized Schauder version:
+versions (Taylor, Lecture II, (3.1)–(3.8), pp. 31–32, whose parametrix
+iteration applies verbatim to smooth elliptic symbols); give the localized
+Schauder version, from the same parametrix and the Zygmund mapping theorem
+with the Hölder identification of §5.4 (Taylor, Lecture I, (3.32)–(3.34), p. 12):
 for a smooth-coefficient elliptic differential operator or a properly
 supported classical elliptic ΨDO, in both cases of integer order m
 with k+m≥0,
@@ -1338,7 +1326,9 @@ Fredholm/compact-parametrix APIs to `P:H^(s+m)(E)→H^s(F)`; give finite-dimensi
 kernel, closed range, cokernel-dual identification by the formal adjoint and
 solvability iff the finite adjoint-kernel compatibility conditions vanish.
 Prove kernel, cokernel and integer index independence of s and metric, and local constancy in elliptic parameter families with common
-orders. On the kernel-orthogonal complement prove the lower-order term can be
+orders (Atiyah–Singer I, §6, pp. 517–519: Fredholm property from the two-sided
+parametrix, independence of the index from s, (6.2) homotopy invariance of the
+index in the symbol, and (6.3) invariance under change of order). On the kernel-orthogonal complement prove the lower-order term can be
 removed, including W^(k,p) estimates with L² orthogonality to the smooth
 kernel for 1<p<∞; the finite-dimensional kernel projection extends to those
 spaces. No coercive estimate without that condition is claimed.
@@ -1348,11 +1338,13 @@ so de Rham/Dolbeault Hodge theory uses the same analytic objects. Degreewise
 d has noninvertible symbol in dimension at least two; in dimension one
 d:Ω⁰→Ω¹ is elliptic. P7 supplies the common-order elliptic-complex Hodge development.
 Acceptance includes curl and Laplace symbols, distributional weak-test solutions and the failure of coercivity on nonzero
-kernels. Prove the nonlinear course example: on a compact 4-manifold, if D
+kernels. Prove the nonlinear bootstrap example: on a compact 4-manifold, if D
 is first-order elliptic and Df=Q(f,f) for a smooth fiberwise bilinear Q with
 f∈W^(1,3), then f is smooth. Use W^(1,3)→L¹², Q(f,f)∈L⁶,
 elliptic W^(1,6) regularity, its bounded/Hölder embedding, and the P5 product
-estimates to bootstrap every order.
+estimates to bootstrap every order. The iteration pattern is Taylor,
+Lecture II, (5.1)–(5.8), pp. 35–36; the exponents come from Adams–Fournier,
+Theorem 4.12.
 
 **Checks.**
 
@@ -1471,7 +1463,9 @@ The elliptic-power and parameter-symbol API includes:
 
 *Needs:* P6 maximal adjoint-domain regularity and compact resolvents; P4 parameter-symbol
 composition; native compact symmetric spectral theorem; K5a's connection-Laplacian realization.
-The contour construction uses Seeley, pp. 288–307, and Grubb–Hansen, Definition 2.1 and §4.
+The contour construction uses Shubin, Chapter II, §§9–11 (parameter-dependent
+symbols and the resolvent, definition and structure of the complex powers),
+Seeley, pp. 288–307, and Grubb–Hansen, Definition 2.1 and §4.
 
 ### 7.2 Equivariant product index
 
@@ -1626,7 +1620,16 @@ Finally export the finite-dimensional identifications
 `ker D⁺ ≃ (ker P⊗ker Q)⊕(coker P⊗coker Q)` and
 `coker D⁺ ≃ (coker P⊗ker Q)⊕(ker P⊗coker Q)`,
 using the adjoint-kernel/cokernel isomorphisms and positive tensor-sum
-eigen-expansions. Their difference gives the equivariant product index.
+eigen-expansions. Their difference gives the equivariant product index. The block operator and
+its square, whose kernel and cokernel are read off from the block-diagonal
+operators D*D and DD* once the two factors commute, follow Atiyah–Singer I,
+§9, pp. 526–530,
+where the product is built from commuting lifted factors on a fibre bundle; the
+length-one representative `[[σ_P⊗1,−1⊗σ_Q*],[1⊗σ_Q,σ_P*⊗1]]` of the external
+product of symbol complexes is Atiyah–Singer I, §2, p. 490. The small-cone
+cutoff A_χ and the norm approximation D_ε are the additions needed here because
+the factors act on independent product coordinates rather than on a fibre bundle
+with commuting liftings.
 
 The equivariant-index and product API includes:
 
@@ -1662,7 +1665,9 @@ continuous actions and representation ring; native Fredholm openness.
 Prove elliptic-complex symbols, Laplacians, Hodge splitting and finite cohomology on
 compact bases for finite complexes whose differential operators have a common
 positive order m, so the Hodge Laplacians have order 2m and exact symbol
-complexes imply ellipticity. Build their self-adjoint realizations, compact
+complexes imply ellipticity (Atiyah–Singer I, §7, pp. 520–522: the symbol
+complex, ellipticity of `Δ_i=d_(i−1)d_(i−1)*+d_i*d_i`, harmonic sections and
+the Euler characteristic as the index of the rolled-up operator). Build their self-adjoint realizations, compact
 inverse on the kernel complement and Hodge decomposition using the positive
 elliptic spectral construction above applied first to 1+Δ. Restrict Δ to
 its finite-kernel orthogonal complement. If that complement is zero, set
@@ -1721,19 +1726,18 @@ Thus `Δ` has pure point spectrum, a smooth eigenbasis and finite multiplicities
 zero eigenvalue. For each isometry `q:X→X`, prove Riemannian volume preservation and
 naturality of `d*d` under the inverse-pullback action, first on smooth functions and then on
 `H¹` and `H²` using P5's chartwise estimates and density. Prove the action is unitary and
-preserves `dom Δ=H²`, commutes with `Δ`, and preserves its closed form. Deduce that
+preserves `dom Δ=H²`, commutes with `Δ`, and preserves the energy form
+`q(f,g)=∫⟨df,dg⟩` on `H¹(X)`. Deduce that
 `L²(X)^H` reduces `Δ` for every `H≤Q`: the finite averaging projection preserves the domain
 and commutes with `Δ`. Only then apply P7's invariant-operator results to its eigenspaces.
 
-Also identify this operator with the Friedrichs realization through the required
-OperatorTheory extension in the exact supplier contracts. For
-q(f,g)=∫⟨df,dg⟩, P5 smooth density identifies the completion of C∞(X) in
-`(q[f]+‖f‖²)^(1/2)` with H¹. Prove directly from integration by parts and
-P6 regularity that the represented operator has domain H² and equals Δ=L−1:
-the graph equation is precisely the weak equation Δf=h. Uniqueness and shift
-independence then identify the Friedrichs extension of Δ restricted to smooth
-functions with that H² realization. This smooth-core comparison is a target
-here; it is not assumed to follow from the mere existence of K5a's realization.
+For the energy form `q(f,g)=∫⟨df,dg⟩` on `H¹(X)`, write `q[f]=q(f,f)`. P5 smooth
+density identifies the completion of `C∞(X)` in the norm `(q[f]+‖f‖²)^(1/2)` with
+`H¹(X)`. Prove the weak identity `q(f,g)=⟨Δf,g⟩` for `f∈H²(X)` and `g∈H¹(X)` by
+integration by parts on smooth functions and density on both sides. The
+realization used throughout P7a is K5a's `H²` realization; no abstract
+form-representation theorem is an input, and the energy form enters only
+through this weak identity and its transport in §8.2.
 
 The quotient and scalar-realization API includes:
 
@@ -1750,7 +1754,7 @@ The quotient and scalar-realization API includes:
   form eigenvalue and operator eigenvalue are k², so the H² realization has the correct sign.
 
 *Needs:* RiemannianGeometry R4.7 quotient geometry; P5 density and chart estimates;
-P6 weak regularity; P7 spectral realization; the exact closed-form prerequisite above.
+P6 weak regularity; P7 spectral realization.
 
 ### 8.2 Normalized pullback and transplantation
 
@@ -1768,9 +1772,9 @@ and that `Jᵢ` transports `Δ_Yᵢ` to the invariant part of `Δ_X`: the intert
 `L²(X)`, so it extends from the dense smooth subspace to `H²(Yᵢ)`. This route uses only K5a's
 `H²` realizations on `X` and `Yᵢ` and the `H²` comparison for `Jᵢ`, not the form
 representation. Prove the corresponding resolvent and spectral-projection intertwining
-identities. Also verify the closed-form identity `q_X(Jᵢf,Jᵢg)=q_Yᵢ(f,g)` on `H¹(Yᵢ)`; with
-the uniqueness clause of the required closed-form representation applied to the unitarily transported form on the reducing
-subspace `L²(X)^{Hᵢ}`, it gives the same transport for the Friedrichs realizations. The transplantation
+identities. Also verify the energy-form identity `q_X(Jᵢf,Jᵢg)=q_Yᵢ(f,g)` on `H¹(Yᵢ)`: on smooth
+`f,g` it is the local isometry together with the degree-`|Hᵢ|` integration formula, and
+both sides are continuous on `H¹(Yᵢ)`, so it extends by density. The transplantation
 and Sobolev/resolvent comparisons follow the route of Bérard, §II,
 Theorem 14, Lemma 16 and Comment 18(iii)–(iv), pp. 158–159, with the
 H² graph-domain equality established above.
@@ -1819,7 +1823,7 @@ order-two subgroups of S₃ give a nonabelian consistency test.
 ### Dependencies
 
 P5–P7; ComplexKahlerGeometry K5a; RiemannianGeometry R4.7;
-InductionRestriction Layer 2.1; the required OperatorTheory closed-form extension.
+InductionRestriction Layer 2.1.
 
 ## Layer 9: Wave front sets and microlocal regularity (P8)
 
@@ -1964,6 +1968,28 @@ add their own geometric or algebraic constructions.
   [Continuity of the fundamental operations on distributions having a specified
   wave front set](https://arxiv.org/abs/1409.7662v2), arXiv:1409.7662v2 (2016),
   Theorem 4.6, Proposition 5.1 and Theorems 6.1, 6.3, pp. 13–14, 21–22.
+- M. F. Atiyah and I. M. Singer, [The index of elliptic operators: I](https://doi.org/10.2307/1970715),
+  Annals of Mathematics 87 (1968), 484–530, §2 (p. 490), (5.2) (p. 513), §6
+  (pp. 517–519), §7 (pp. 520–522) and §9 (pp. 526–530): symbol products,
+  compact negative-order operators, Fredholm elliptic operators, elliptic
+  complexes and the multiplicative property of the index.
+- Richard Melrose, [Introduction to Microlocal Analysis](https://math.mit.edu/~rbm/iml90.pdf),
+  MIT lecture notes, Theorem 1.2, p. 16: the tempered Schwartz kernel theorem.
+- Lars Hörmander, *The Analysis of Linear Partial Differential Operators I*,
+  Grundlehren 256, Springer, 2nd ed. 1990, Theorem 5.2.1: the Schwartz kernel
+  theorem (cited by locator; the text is not open).
+- Robert A. Adams and John J. F. Fournier, *Sobolev Spaces*, 2nd ed., Academic
+  Press, 2003, Theorems 4.12 and 6.3: the Sobolev embedding and
+  Rellich–Kondrachov theorems with their p=1 endpoints (cited by locator; the
+  text is not open).
+- Haim Brezis, *Functional Analysis, Sobolev Spaces and Partial Differential
+  Equations*, Springer, 2011, Theorems 8.2, 8.7, 8.12, 9.9 and 9.16: one-dimensional
+  Sobolev functions, the first-order Sobolev inequality and Rellich–Kondrachov
+  (cited by locator; the text is not open).
+- M. A. Shubin, *Pseudodifferential Operators and Spectral Theory*, 2nd ed.,
+  Springer, 2001, Chapter II, §§9–11: parameter-dependent symbols, the
+  resolvent and complex powers of elliptic operators (cited by locator; the
+  text is not open).
 - Gerd Grubb, [Distributions and Operators, chapter 8](https://web.math.ku.dk/~grubb/dist8.pdf):
   coordinate transformations, compact-manifold bundles and elliptic Fredholm
   theory.
@@ -1973,10 +1999,6 @@ add their own geometric or algebraic constructions.
   resolvent powers for classical pseudodifferential operators.
 - R. Seeley, *Complex powers of an elliptic operator*, Proc. Sympos. Pure Math. 10
   (1967), 288–307, for P7's resolvent construction.
-- The source courses are Thomas Mark's Index Theory and Thomas Mark's Math 240 Riemannian
-  Geometry. The explicit symbol, weight, shear, square-partition, Ehrling,
-  Morrey and nonlinear-bootstrap acceptance statements above include the
-  differential-operator and Sobolev exercises.
 - The [mathlib PDE Theory discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/PDE.20Theory/near/578491976)
   identifies interpolation/Fredholm/spectral foundations. Follow native Bessel,
   distribution and Fourier designs, and implement required missing calculus in
