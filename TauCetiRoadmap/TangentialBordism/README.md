@@ -1353,7 +1353,15 @@ the coherent sum maps needed to combine those data with a cycle. Use the
 resulting Mξ Thom orientation in the spectral construction. For O every real virtual bundle is oriented; for SO and Spin
 require respectively the compatible oriented and Spin virtual normal data.
 Use an embedding of g into P×ℝ^r and its normal Thom collapse, independent
-of the stabilized embedding. On a transverse smooth representative
+of the stabilized embedding. More explicitly, for the graph embedding
+i=(g,j):N→P×ℝ^r, its normal bundle ν_i has rank r+e−d and
+ν_i⊕TN≅g*TP⊕ε^r. Derive the umkehr by composing the collapse
+Σ^r P₊→Th(ν_i) with the Mξ Thom isomorphism: suspension adds r
+to homological degree and the Thom isomorphism subtracts r+e−d,
+giving n+d−e. This is the structured graph-collapse construction of
+B5.1 and B5.4, using the tubular construction and stabilized normal
+comparison of GeneralizedCohomology G5.2 on the graph; the transverse
+relative extension below is proved by B1.6 and B5.4b. On a transverse smooth representative
 f:M→P it is the fibre product M×_P N with its induced stable structure;
 for continuous f use B1.6 approximation and its comparison witnesses.
 Prove the geometric-to-spectral comparison with GeneralizedCohomology G5's
@@ -1379,10 +1387,11 @@ Its API includes:
 **Checks.**
 
 - For the identity N→N the shift is d−d=0 and the fibre product is M.
+- Stabilizing a graph embedding by one coordinate changes the suspension degree from r to r+1 and the normal rank from r+e−d to r+1+e−d; both give the shift d−e.
 - For a point inclusion in an oriented circle, the shift is −1; a degree-one circle cycle has one positive preimage point.
 - Two transverse projective lines in RP² have one mod2 intersection point, although there is no SO fundamental orientation on RP².
 
-*Needs:* B5.4–B5.5; B1.6; GeneralizedCohomology G5 finite duality and oriented Thom collapse.
+*Needs:* B5.1, B5.4–B5.5; B1.6; GeneralizedCohomology G4.3's homological Thom isomorphism, G5.1–G5.2 finite duality and G5.3's bundle diagrams.
 
 ### 5.7 Bordism AHSS (B5.7)
 
@@ -1420,7 +1429,8 @@ Layers 2–3; StringOrientation S2.2–S2.3; GeneralizedCohomology G1.1, G2.10, 
 
 Compute H*(MO;F2) and its A action from the Thom formula; prove the
 actual A-free basis and degree counts. Construct the underlying/additive
-equivalence MO≃∨_d Σ^d HF2 with the specified multiplicities. Justify
+equivalence MO≃∨_d Σ^d HF2 with the specified multiplicities
+(Miller, Chapter 1, Theorems 12.3–12.4, pp.32–34). Justify
 HF2 detection: first compute π0MO=F2 and nullhomotope2 id_MO using
 its ring unit. The comparison cofiber has bounded-exponent homotopy,
 so a least nonzero group would be detected by stable integral Hurewicz
@@ -1447,11 +1457,16 @@ The additive splitting API includes:
 Define all SW numbers and the joint invariants
 ⟨w_I(TM) cup f* a,[M,∂M]⟩, with
 a∈H^(n−|I|)(X,A;F2). Prove their witness invariance and the converse
-detection theorem for ΩO_n(X,A), using B5 and the actual additive MO
-calculation. Arbitrary CW and arbitrary coefficient cardinality are
-included; characteristic numbers at a point do not detect all cycles
-over X. Give the ordinary closed-manifold Thom converse and its
-constructive nullbordism consequence.
+detection theorem for ΩO_n(X,A). At a point, the assertion that a closed
+manifold with all Stiefel–Whitney numbers zero bounds, and the equivalent
+comparison of two closed manifolds, are Thom IV.10 and Corollary IV.11,
+p.77. Prove the arbitrary-CW-pair extension here using B5.4's comparison,
+B4.4's additive MO splitting and AlgebraicTopology Stage 6's
+field-coefficient duality: the joint invariants evaluate the ordinary
+homology components of the split theory against all complementary-degree
+classes. No finite-dimensionality assumption on the relative homology
+groups is imposed; characteristic numbers at a point do not detect all
+cycles over X. Give the resulting constructive nullbordism consequence.
 
 Its API includes:
 
@@ -2244,7 +2259,9 @@ StringOrientation S1.5:
 For every k≥1 prove `p(T HP^k)=(1+u)^(2k+2)(1+4u)^(−1)` in
 H*(HP^k;Z)=Z[u]/(u^(k+1)), using G's right-H tautological carrier, the
 quaternionic Euler sequence and exact complex/real sign adapters, so u is
-the negative of G's ordinary c2 coordinate. At k=1 this is p=1 for S4;
+the negative of G's ordinary c2 coordinate (Borel–Hirzebruch I, §15.5,
+equation (13), p.519, with q=k+1 and u=−c₂ of the designated
+quaternionic line regarded as a complex rank-two bundle). At k=1 this is p=1 for S4;
 at k=2 it is p1=2u,p2=7u², agreeing with StringOrientation S1.5's
 p(HP²)=1+2u+7u², and signature1 by I7.2's L-genus
 (7p2−p1²)/45=(49−4)/45=1. S1.5 states only k=2; the formula for every k
@@ -2319,17 +2336,21 @@ operation calculations above, including their pair extension.
 
 ### 10.2 Associated-family transfers (B6.4)
 
-Construct the general associated-F-bundle bordism transfer for a compact
-smooth fibre, numerable G action and a chosen compatible vertical
-tangential structure. For each parameter pair it sends the class of
+Construct the general associated-F-bundle bordism transfer for a closed
+smooth fibre F (compact with empty boundary), a specified G-action by
+smooth diffeomorphisms continuous in the C∞ topology, a chosen compatible
+G-equivariant vertical tangential structure, and numerable principal
+G-bundles. For each parameter pair it sends the class of
 a base cycle with map into BG×X to the actual total-space cycle over
 X; relative boundaries map into A. The total space needs a smooth
 principal bundle over the smooth source. Consume CharacteristicClasses
 C1.4: for compact Lie G a continuous principal G-bundle over a smooth
 base has a smooth representative, and its relative homotopy version
-keeps the bundle fixed where it is already smooth. Apply it on a compact
-source or witness M with corners, relative to a neighbourhood of a
-closed union of faces C on which P is already smooth; apply the same
+keeps the bundle fixed where it is already smooth. For other structure
+groups require the smooth representatives and their relative concordance
+comparisons as input on cycles and witnesses. Apply the compact Lie group
+smoothing theorem on a compact source or witness M with corners, relative
+to a neighbourhood of a closed union of faces C on which P is already smooth; apply the same
 relative version on M×I rel M×{0,1}∪C×I for uniqueness up to a smooth
 isomorphism that is the identity near C. Apply it to the
 structure groups SO3, PU3⋊C2 and PSp3 below, and to witnesses with
@@ -2339,7 +2360,11 @@ Prove connectivity bounds for those spaces, skeletal section extension,
 compatibility at all stabilizations and global parameter homotopy
 independence. Stagewise homotopies do not alone remove phantom or
 lim1 obstructions. Prove module/pullback/base-change/composition laws
-and the geometric-to-spectral transfer comparison.
+and the geometric-to-spectral transfer comparison (Führing §3,
+pp.359–363, especially the closed-fibre hypothesis on p.359 and
+Proposition 3.4, p.362). Prove the extension to pairs and collared
+witnesses here: the boundary of P×_G F over M is exactly
+(P|∂M)×_G F, so its parameter map lands in A.
 
 Its API includes:
 
@@ -2350,7 +2375,8 @@ Its API includes:
 
 - For trivial group and base point, transfer sends 1 to [F]; the empty base sends 0 to 0.
 - For a trivial F-bundle over M the result is [M]·[F], in dimension dim M+dim F.
-- The boundary of a positive interval times F is F minus F, so the transferred boundary has total coefficient 0.
+- For F=S¹ with its chosen orientation, ∂(I×S¹)=S¹−S¹; the two end coefficients are +1 and −1 and sum to 0.
+- For G trivial, base point and A empty, F=I would give a total space with two boundary points and is excluded. The square I×I has four boundary edges, whereas I×S¹ has only its two end circles; compactness alone would not justify the boundary formula.
 
 *Needs:* B1–B2 and B5.4; CharacteristicClasses C1.3–C1.4; GeneralizedCohomology G5 bundle-diagram collapses and coherent comparison.
 
