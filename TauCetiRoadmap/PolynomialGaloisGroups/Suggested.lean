@@ -1,6 +1,8 @@
-import Mathlib
-import TauCeti.GroupTheory.Solvable
-import TauCeti.FieldTheory.GaloisGroups.Resolvent.Quintic.Basic
+module
+
+public import Mathlib
+public import TauCeti.GroupTheory.Solvable
+public import TauCeti.FieldTheory.GaloisGroups.Resolvent.Quintic.Basic
 
 /-!
 # Radical solvability for Galois groups of polynomials: target signatures
@@ -13,6 +15,8 @@ are not restated here.
 Every headline theorem of the roadmap is statable at the pins; none is omitted for want of a
 carrier.
 -/
+
+public section
 
 namespace TauCetiRoadmap.PolynomialGaloisGroups
 
