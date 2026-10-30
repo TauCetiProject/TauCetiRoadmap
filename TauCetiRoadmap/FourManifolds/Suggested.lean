@@ -5,10 +5,11 @@ import Mathlib
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the
 pinned Mathlib and Tau Ceti, those headline statements of the roadmap that are
-statable there: the smoothness of the explicit projective models (the Fermat and
-elliptic quartic K3 surfaces and the Enriques K3 cover) on their punctured affine
+statable there: the smoothness of the explicit projective models (the
+elliptic quartic K3 surface and the Enriques K3 cover) on their punctured affine
 cones, and the absence of fixed points of the Enriques involution on its
-projective common zero set.
+projective common zero set, and the existence of a smooth manifold homeomorphic
+but not diffeomorphic to Euclidean four-space.
 
 Not statable at the pins, and therefore not stated here:
 * Freedman's classification of closed simply connected topological four-manifolds
@@ -18,7 +19,8 @@ Not statable at the pins, and therefore not stated here:
   these manifold constructions.
 * Donaldson's theorem that a definite intersection form of a closed simply
   connected smooth oriented four-manifold is diagonal: it needs the same intersection
-  form, together with the moduli space of anti-self-dual SU(2) connections.
+  form, as a manifold invariant; the ASD moduli space is proof machinery, not
+  an additional carrier needed in that theorem statement.
 * Rokhlin's theorem `16 ∣ σ(M)` for closed smooth Spin four-manifolds: there is no
   Spin structure on a manifold and no signature of a manifold.
 * The degree-two Pontryagin square `H²(−;ℤ/2) → H⁴(−;ℤ/4)`: it is a construction
@@ -31,31 +33,26 @@ Not statable at the pins, and therefore not stated here:
   quotient, deformation complex and Uhlenbeck compactification are missing.
 * Spinᶜ existence and the four-dimensional bundle classifications: the frame
   lifts, determinant bundles and characteristic-class Postnikov maps are missing.
-* The exotic ℝ⁴ construction: its Casson-handle neighborhoods and their smooth
-  comparison inside K3 and the hyperbolic model are missing.
+* The disk-embedding theorem with geometric duals, controlled disk embedding,
+  controlled five-dimensional product theorem and dimension-four normal surgery:
+  the framed generic-immersion, grope, control and normal-map carriers are missing.
+* The general presentation-realization theorem: the native fundamental group exists,
+  as does `PresentedGroup`, but the oriented manifold structure and its
+  comparison with the boundary orientation are not supplied.
+* Nonrecognition of a fixed connected sum of copies of S² × S²: the finite
+  manifold-triangulation input type, its realization and the connected-sum
+  comparison are missing.
+The detailed Casson-handle realization of the exotic four-space requires
+additional carriers; the existence headline itself needs only native manifolds.
 -/
 
 namespace TauCetiRoadmap.FourManifolds
 
-open scoped Manifold
+open scoped Manifold ContDiff
 
 noncomputable section
 
 /-! ## Layer 7: Elliptic surfaces, K3 and boundary Spin data -/
-
-/-- The Fermat quartic `z₀⁴ + z₁⁴ + z₂⁴ + z₃⁴`. -/
-def fermatQuarticPolynomial : MvPolynomial (Fin 4) ℂ :=
-  ∑ i : Fin 4, MvPolynomial.X i ^ 4
-
-/-- Evaluation of the Fermat quartic on the affine cone `ℂ⁴`. -/
-def fermatQuarticMap (v : Fin 4 → ℂ) : ℂ :=
-  MvPolynomial.eval v fermatQuarticPolynomial
-
-/-- The Fermat quartic has no critical point on the punctured cone, so its
-projective zero locus is a smooth quartic (K3) surface. -/
-theorem fermatQuarticMap_fderiv_surjective (v : Fin 4 → ℂ) (hv : v ≠ 0) :
-    Function.Surjective (fderiv ℂ fermatQuarticMap v) := by
-  sorry
 
 /-- A smooth quartic seed containing the two specified disjoint coordinate lines. -/
 def ellipticQuarticSeedPolynomial : MvPolynomial (Fin 4) ℂ :=
@@ -112,6 +109,22 @@ def enriquesZeroSet : Set (Projectivization ℂ (Fin 6 → ℂ)) :=
 theorem enriquesProjectiveInvolution_no_fixed_point
     (p : Projectivization ℂ (Fin 6 → ℂ)) (hp : p ∈ enriquesZeroSet) :
     enriquesProjectiveInvolution p ≠ p := by
+  sorry
+
+/-! ## Layer 8: Presentation realization, nonrecognition and exotic four-space -/
+
+/-- A smooth four-manifold exists that is homeomorphic, but not diffeomorphic,
+to standard Euclidean four-space (Gompf, Theorem 1.2). -/
+theorem exoticFourSpace_exists :
+    ∃ (M : Type) (t : TopologicalSpace M) (c : @ChartedSpace
+      (EuclideanSpace ℝ (Fin 4)) inferInstance M t),
+      letI : TopologicalSpace M := t
+      letI : ChartedSpace (EuclideanSpace ℝ (Fin 4)) M := c
+      IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin 4)) ∞ M ∧
+      Nonempty (M ≃ₜ EuclideanSpace ℝ (Fin 4)) ∧
+      IsEmpty (Diffeomorph 𝓘(ℝ, EuclideanSpace ℝ (Fin 4))
+        𝓘(ℝ, EuclideanSpace ℝ (Fin 4)) M
+        (EuclideanSpace ℝ (Fin 4)) ∞) := by
   sorry
 
 end
