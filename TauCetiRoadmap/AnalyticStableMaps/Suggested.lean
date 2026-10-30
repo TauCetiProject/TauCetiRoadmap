@@ -42,8 +42,8 @@ None of these is statable at the pins:
 - Theorem 5 and the arbitrary-target branch (§2.18–§2.22) need product almost complex
   structures on products of manifolds and weighted Sobolev spaces on punctured surfaces,
   neither of which is at the pin.
-- Theorem 6 needs the implicit-atlas structure of ImplicitAtlases, a roadmap still in a
-  pull request.
+- Theorem 6 needs the implicit-atlas structure of ImplicitAtlases §1.1, which is not in the
+  pinned Tau Ceti.
 
 The node-matching subspace of §2.2 and the virtual dimension of §0.1 are README targets
 with their Checks; they are not stated here as stand-ins for the headlines above.
