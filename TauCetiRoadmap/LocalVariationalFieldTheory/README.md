@@ -1,18 +1,42 @@
-# Local variational field theory: finite jets, Euler operators, and Noether identities
+# Roadmap: local variational field theory
 
-This roadmap owns the finite-order local variational calculus for smooth fields: jet-local densities, their Euler expressions and boundary terms, differential identities, symmetry currents, gauge identities, and metric variation. It treats actions only on specified domains with stated support/boundary hypotheses. It does not assert path-integral measures, existence of global solutions, or minimizers. Physical equations are model assumptions or consequences of an explicitly chosen Lagrangian; they are not universal mathematical axioms.
+**Summary.** Build general smooth-bundle jets and their variational bicomplex, all-order first variation, global variational cohomology, Noether I/II, classical Cauchy brackets, model-specific Koszul–Tate resolutions and Dirac/stress comparisons. The library develops jet-local densities, their Euler expressions and boundary terms, differential identities, symmetry currents, gauge identities, and metric variation. It treats actions only on specified domains with stated support/boundary hypotheses. It does not assert path-integral measures, existence of global solutions, or minimizers. Physical equations are model assumptions or consequences of an explicitly chosen Lagrangian; they are not universal mathematical axioms.
 
-## Mathematical carriers and conventions
+## Scope and ownership
 
-Work on a smooth fiber bundle `π:E→M` with finite-dimensional smooth fiber F;
-fields are local smooth sections. Consume smooth bundle charts, sections, vertical
-tangent bundles, forms and densities from [DifferentialGeometry](../DifferentialGeometry/README.md)
-and [SmoothBundlesConnections](../SmoothBundlesConnections/README.md).
-LVF1 constructs the jets of this general fiber bundle. Compare its vector-bundle
-specialization with the linear jet bundles and differential operators owned by
-[PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core).
-P1.0's formal transpose covers smooth base coefficients; this roadmap owns the
-jet-dependent formal-adjoint calculus and its comparison after evaluation on a section.
+LVF owns general nonlinear field-bundle jets, joint field/parameter jets, jet-dependent
+variational transposes, orientation-twisted variational cohomology, admissible classical
+Cauchy functionals and their graded bracket, model equation resolutions, and the
+Lorentzian Dirac/stress adapters. These extend the linear vector-bundle jets and
+smooth-base transposes of PseudodifferentialOperators P1.0. The all-signature local
+Yang–Mills equation and identity theory extends SmoothBundlesConnections B8.1–B8.2:
+for a positive metric its density is −one-half of that supplier's curvature-norm
+energy density, so its first variation has Euler one-form −D_A†F_A.
+
+DifferentialGeometry Layers 0–2, 5–6 and 12 own ordinary forms, orientation, Stokes,
+de Rham cohomology and the positive metric/density comparison. SmoothBundlesConnections
+B2–B4 owns principal/associated bundles, densities, connections and curvature;
+B6.0–B6.1 owns good covers and the constant-coefficient Čech–de Rham comparison.
+HopfRinow Layer 1 owns the general nondegenerate metric/family Levi–Civita theory.
+IntegrableSystems I3 owns particle mechanics, and SpinRepresentations Layer 7 owns
+the real Spin covers. None of these constructions is replanned here.
+
+Real descent and rank are already in Tau Ceti: consume the fixed-point equivalence,
+its pure-tensor and inverse formulas, and the rank theorem in
+`TauCeti/LinearAlgebra/Complex/Conjugation.lean`. LVF owns the category and polynomial-jet
+comparisons. The analytic test-function core of the fundamental lemma is already in
+Mathlib; LVF owns its continuous bundle/source-form and jet-realization adapters.
+Quantum fields, causal propagators, Fock/operator domains and quantum constraints
+remain with the downstream roadmaps named below; they are not prerequisites.
+
+## Conventions
+
+Work on a smooth fiber bundle π:E→M with finite-dimensional real base and fiber,
+on Hausdorff second-countable smooth manifolds. Fields are local smooth sections;
+compactness, boundary, support and integrability are imposed only where stated.
+Complex fields are realified unless a polynomial or complex-bilinear carrier is
+explicitly chosen. Modules and bundles may have rank zero; scalar divisions use ℝ
+or ℂ. Boundary integrals use smooth boundary domains or the declared collar branch.
 
 For an N-dimensional fiber over an n-manifold, use symmetric multi-indices (equivalently, unordered multisets of base indices) for jet coordinates. A derivative indexed by an ordered tuple is the same coordinate, not a distinct jet variable; translate the ordered-index sums in Borcherds p.37 by the corresponding multiplicities. Write `u^a_I`, `|I|≤r`, for coordinates of `J^rE`, and `D_μ u^a_I=u^a_(I+e_μ)`. Let `θ^a_I=du^a_I−Σ_μ u^a_(I+e_μ)dx^μ`. The contact generator with `|I|=r` is realized on `J^(r+1)E`; its exterior derivative and contact splitting are realized on `J^(r+2)E`.
 
@@ -43,7 +67,93 @@ Grassmann-valued extension uses the already declared exterior coefficient algebr
 reversal involution; it retains the same even phase transformations, gamma matrices and
 ordered bilinears, with graded integration by parts and right odd canonical momenta.
 
-## LVF1. Jet-local differential algebra
+## Exact supplier contracts
+
+**From Mathlib.** Use `ContDiff`, `ContMDiff`, `fderiv`, `FiberBundle`,
+`VectorBundle` and `ContMDiffVectorBundle` for smooth finite-dimensional charts and
+bundle calculus. Use `MvPolynomial`, `KaehlerDifferential` and `KaehlerDifferential.D`
+(`Mathlib/RingTheory/Kaehler/Basic.lean`) for polynomial coefficients and their
+universal degree-one derivation; the higher differential complex is constructed in
+Layer 1. Use `ExteriorAlgebra` and `SymmetricAlgebra` for the two antifield parities,
+`CliffordAlgebra.ι` and `CliffordAlgebra.lift` for the real Clifford representation,
+and `Matrix.fromBlocks`, `Matrix.adjugate`, `Matrix.conjTranspose` for its matrices.
+The analytic test input is `IsOpen.ae_eq_zero_of_integral_contDiff_smul_eq_zero`
+(`Mathlib/Analysis/Distribution/AEEqOfIntegralContDiff.lean`): its coefficient is
+locally integrable on an open finite-dimensional real domain and its conclusion
+is almost-everywhere vanishing. Everywhere vanishing additionally uses continuity
+and full support of the chosen positive smooth density. The positive-metric
+comparison uses `CovariantDerivative.leviCivitaConnection` and
+`CovariantDerivative.IsLeviCivitaConnection` from
+`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`, with
+its Riemannian bundle hypotheses.
+
+**From Tau Ceti.** Use `TauCeti.realPoints`, `TauCeti.realPointsEquiv`,
+`TauCeti.realPointsEquiv_tmul`, `TauCeti.realPointsEquiv_symm_apply`,
+`TauCeti.finrank_realPoints`, `TauCeti.tmulConj` and `TauCeti.tmulConj_baseChange`
+from `TauCeti/LinearAlgebra/Complex/Conjugation.lean`. The fixed-point carrier
+requires a conjugate-linear map; descent requires its involutivity. For a native
+star module take `(starLinearEquiv ℂ).toLinearMap` with `star_star`; fixed points
+are `selfAdjoint`. The rank identity is valid even without finite dimensionality,
+with the native zero finrank in infinite dimension. Use the real/imaginary parts
+and decomposition in `Mathlib/LinearAlgebra/Complex/Module.lean` for this adapter.
+For finite Dirac use `TauCeti.realCliffordForm`,
+`TauCeti.realCliffordThreeOneVectorEquivHermitian`,
+`TauCeti.realCliffordThreeOneEvenEquivComplexMatrix_ι`,
+`TauCeti.realSpinThreeOneEquivSpecialLinear` and
+`TauCeti.realSpinThreeOneEquivSpecialLinear_action` from
+`TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` and
+`TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean`.
+The positive-metric smooth comparison uses
+`CovariantDerivative.contMDiffOn_leviCivitaConnection` and
+`CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection` from
+`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Regularity.lean`.
+
+**From TauCetiRoadmap.DifferentialGeometry.** Layers 0–2 provide forms, exterior
+derivative and orientation; §§5.2–5.5 provide top-form/density integration, Stokes
+and homotopy; Layer 6 gives ordinary de Rham cohomology; §§12.3–12.4 provide the
+positive metric/divergence/density comparison. Each integral retains that
+supplier's support, orientation and boundary hypotheses.
+
+**From TauCetiRoadmap.SmoothBundlesConnections.** B2.1 and B2.4–B2.5 supply
+associated bundles, density measures and frames; B3.1–B3.3 and B4.1–B4.2 supply
+principal/associated connections, curvature and gauge transformations. B6.0–B6.1
+supplies locally finite good covers and constant-coefficient Čech–de Rham
+comparison. B8.1–B8.2 supplies positive Riemannian Yang–Mills first variation for
+the normalization comparison in Layer 4.
+
+**From TauCetiRoadmap.PseudodifferentialOperators.** P1.0 supplies linear
+vector-bundle jets, differential-operator factorization, density-dual transpose
+and formal adjoint with fixed pairings and positive density. Its coefficients
+are smooth base coefficients; evaluation of LVF jet coefficients is compared to it.
+
+**From TauCetiRoadmap.HopfRinow.** Layer 1 supplies smooth nondegenerate
+Levi–Civita connections and metric families, including the tensorial connection
+variation identity. LVF imposes no completeness or positive signature on this input.
+
+**From TauCetiRoadmap.SymplecticGeometry.IntegrableSystems.** I3 supplies intrinsic
+first variation, Cartan form and quasi-invariant currents for time-dependent
+particle mechanics; Legendre comparison is local under regularity and global
+under hyperregularity.
+
+**From TauCetiRoadmap.RepresentationTheory.SpinRepresentations.** Layer 7 supplies
+real Spin covers, their vector action and smooth Lie-algebra comparison; its
+norm-±1 covers and the native norm-one subgroup are distinguished.
+
+## How to read the build
+
+Layers 1 and 2 construct jets and first variation. Layer 3's transpose and Cauchy
+constructors are independent of the Noether theorems in Layers 4 and 5; its finite
+Dirac matrices use only native algebra. The model current and gauge comparisons
+in Layer 3 are read after those generic Noether theorems, as specified in their
+own dependencies. Layer 5's equation coordinates precede identity presentations
+and the Koszul–Tate contraction. Layer 6 then constructs global spinor variation
+and stress. The labels LVF1–LVF6 refer to these six layers. Suggested.lean states
+the native finite Dirac headlines and identifies the missing carriers for all
+other headlines; the model calculations below are Checks.
+
+## Layer 1: jet-local differential algebra
+
+### 1.1 General jets and holonomic prolongation
 
 Construct `J^rE` from equivalence classes of local smooth sections at x: two
 sections have the same value and the same symmetric derivatives through order r
@@ -64,53 +174,214 @@ factorization. Define holonomic prolongation `j^r s`, prove its local chain rule
 and restriction identities, and characterize the contact ideal by its pullback
 vanishing on every prolonged local section, with the required raised jet stage.
 
-For the real/complex field correspondence, use a native complex module Φ
-with `StarAddMonoid Φ` and `StarModule ℂ Φ` for the conjugate-linear
-involution. Its real form is the existing `selfAdjoint Φ`, with its
-ℝ-module structure, rather than a new fixed-point carrier. Consume native
-`realPart`, `imaginaryPart` and `realPart_add_I_smul_imaginaryPart`.
-Construct the complex-linear equivalence
-`ℂ⊗[ℝ](selfAdjoint Φ)≃ₗ[ℂ]Φ`, z⊗v↦z•v,
-with inverse `x↦1⊗realPart(x)+i⊗imaginaryPart(x)`.
-Prove both inverse identities and naturality for every complex-linear map
-commuting with star. Conversely equip ℂ⊗[ℝ]W with conjugation on the first
-factor and prove w↦1⊗w identifies W with its fixed real part. Construct the
-two functors on real modules and complex modules with the stated involutions,
-and prove the natural unit/counit and triangle identities. These give the
-source's equivalence of categories; they do not assert literal equality of
-carriers or require a chosen Hermitian metric. Restrict to finite-dimensional
-objects and prove `finrank ℝ (selfAdjoint Φ)=finrank ℂ Φ`, including Φ=0.
-Transport this correspondence to the polynomial field-jet model: extend the
-involution to coefficients and jet generators, prove it commutes with total
-derivatives, and compare real fields and conjugate-paired complex fields
-under evaluation. Suggested forms for the native scalar-extension and
-dimension interfaces are in [RealFieldsSuggested.lean](RealFieldsSuggested.lean).
+
+Use Anderson, Chapter 1 §A, for jet coordinates and prolongation; the nonlinear finite-stage chart and affine comparisons are the construction specified here.
+
+*Needs:* smooth bundle charts; PseudodifferentialOperators P1.0 for the vector-bundle comparison.
+
+The defining construction has the following API.
+
+- Prove jet equivalence is chart independent, truncations compose, and every finite jet is locally realized by a smooth section.
+- For positive order, identify the difference of jets over a fixed lower jet with the symmetric vertical tensor; compare prolongation, restriction and contact pullback.
+
+**Checks.**
+
+- For u(x)=x² at x=1, the second jet is (1,2,2) and θ₀ on its prolonged tangent is 2−2=0; on a vertical unit tangent it is 1.
+- On u>0 under v=u², the jet (u,u₁,u₂)=(2,3,5) becomes (4,12,38); changing only u₂ from 5 to 6 changes v₂ by 4, not by 1.
+- The section a+bx+cx²/2 has jet (a,b,c) at zero; a cutoff equal to one nearby leaves that jet unchanged. For order zero the jet is just the field value a.
+
+
+### 1.2 Real descent and field evaluations
+
+For the real/complex field correspondence, use a complex module Φ with
+`StarAddMonoid Φ` and `StarModule ℂ Φ`, and its real fixed subspace `selfAdjoint Φ`.
+Use the supplier's equivalence z⊗v↦z•v and inverse
+x↦1⊗realPart(x)+i⊗imaginaryPart(x). Construct the functors on real modules and
+complex modules with conjugation, their natural unit/counit and triangle identities,
+using the native base-change conjugation law. Transport the correspondence to
+polynomial field jets: extend conjugation to coefficients and generators, prove
+compatibility with total derivatives, and compare real and conjugate-paired field
+evaluations. No Hermitian metric is part of this correspondence.
+
+
+The new assertion is categorical and polynomial-jet compatibility of the native maps, with Borcherds p.35 as the source-model comparison.
+
+*Needs:* the real-descent and conjugation supplier contracts; tensor and symmetric algebras.
+
+The defining construction has the following API.
+
+- Construct natural realification/complexification functors with unit, counit and triangle identities from the supplied equivalence.
+- Extend conjugation through polynomial jets and prove it commutes with total derivatives and field evaluation.
+
+**Checks.**
+
+- For Φ=ℂ with conjugation, 1⊗2+i⊗3 maps to 2+3i, while i⊗1 maps to i; the zero map fails the latter.
+- For Φ=0, ℂ, ℂ², the real fixed ranks and complex ranks are (0,0), (1,1), (2,2); underlying real dimensions would instead be 0,2,4.
+- For f(w)=2w and i⊗3, both naturality composites give 6i; conjugation gives −3i before and −6i after f.
+
+
+### 1.3 Finite stages, contact forms and the locally finite-order sheaf
 
 Build the finite-stage field algebra, horizontal/contact forms, symmetric-index operations, pullback maps, and a locally finite-order sheaf via sheafification of the filtered presheaf. Prove bounded order on compact subsets of E with the specified neighborhood hypothesis, restriction, coordinate-change, and product compatibility. Define the prolongation of sections and prove jet-surjectivity: for each `z∈J^k_xE` a local smooth section has jet z (using a trivialization and a polynomial with a bump function). Define the stagewise differentials above and prove transition compatibility, bicomplex identities, and finite stage-order estimates. Include the polynomial model using either `MvPolynomial` over the full indexed family of field-jet variables or explicit stage algebras with transition maps: a fixed finite variable set is not closed under total derivatives. Define total derivatives as derivations raising the stage, then construct the polynomial Kähler differentials and the exterior/de Rham complex as an LVF-owned layer (Mathlib’s Kähler differential carrier alone is not a de Rham complex). Map polynomial expressions into the smooth jet algebra and state precisely which identities are preserved. This is a model, not an equality of polynomial and smooth theories.
 
+
+Use Anderson, Chapter 1 and Chapter 2 §B, for the bicomplex identities; finite stages and sheafification retain the explicitly stated order obligations.
+
+*Needs:* §1.1; DifferentialGeometry Layers 0–1; native polynomial and Kähler carriers.
+
+The defining construction has the following API.
+
+- Prove raised-stage pullback compatibility for both differentials and their squares and anticommutator.
+- Construct sheafification, products and coordinate changes; prove locally bounded order and a finite bound near each compact set under the stated neighborhood hypothesis.
+- Construct the higher polynomial differential complex and its map to smooth contact forms.
+
+**Checks.**
+
+- For f=xu₀² at (x,u₀,u₁)=(1,2,3), Df=4+12=16. A derivative omitting the jet term gives 4.
+- For f=u₀, d_Vd_Hf=−dx∧θ₁ and d_Hd_Vf=dx∧θ₁; their sum is zero. In two base dimensions d_H²u₀=(u₁₂−u₂₁)dx¹∧dx²=0.
+- On disjoint base intervals escaping to infinity, nonzero bump multiples χ_k u_k require orders 1,2,3,…; each compact meets finitely many. A global uniform bound would fail.
+- Under x↦−x, dx changes to −dx and the positive density is unchanged; the orientation twist contributes the second minus sign.
+
+
+### 1.4 Polynomial generators, completion and differential comparison
+
 **LVF1.SourcePolynomialComparison — real form, formal series and the course's two differentials.** In the source's affine-base polynomial model, Φ is the finite-dimensional complex space of **field generators**, with conjugate-linear involution c. Put W=fix(c). A real classical field is a real-linear evaluation `W→C∞(ℝ^d,ℝ)`, equivalently a section of `ℝ^d×W*`; it is not a W-valued field under this generator convention. Fix complex coefficients for the source algebra: use `Sym_ℂ(⊕_(0≤k≤r) Sym^k(T_ℂ)⊗Φ)` at jet order r, where T is the constant translation space, and compare it with the complexification of the real polynomial algebra on the dual of the real W*-valued jet space. The symmetric differential-operator generators act by total derivations, not as extra scalar coefficients. All these tensors are over the stated scalar field.
 
-Consume native `TauCeti.realPoints`, `TauCeti.realPointsEquiv`, `realPointsEquiv_tmul` and `tmulConj`. For `e:ℂ⊗[ℝ]W≃ₗ[ℂ]Φ`, `e(z⊗w)=zw`, prove `c∘e=e∘tmulConj`, first on pure tensors and then by tensor induction. Construct the unit/counit comparisons, naturality for real-linear maps and conjugation-preserving complex-linear maps, and both inverse identities; these functorial statements are targets here, not already packaged by the native declarations. Transport them to the symmetric jet-generator algebra and its field evaluations. Constant vector fields generate T; all smooth vector fields form a larger coefficient module.
+For `e:ℂ⊗[ℝ]W≃ₗ[ℂ]Φ`, `e(z⊗w)=zw`, prove `c∘e=e∘tmulConj`, first on pure tensors and then by tensor induction. Construct the unit/counit comparisons, naturality for real-linear maps and conjugation-preserving complex-linear maps, and both inverse identities; the target is the functorial polynomial-jet comparison. Transport them to the symmetric jet-generator algebra and its field evaluations. Constant vector fields generate T; all smooth vector fields form a larger coefficient module.
 
 For the p.35 formal-series remark, restrict to this polynomial linear-field model, or its vector-bundle specialization with fibre-linear transition maps, and complete at its zero-jet section in the field-degree filtration at each finite jet stage. Fibre-linear transitions, including their base derivatives, preserve this filtration; general nonlinear fibre coordinates need not. This completion is not asserted for LVF1’s arbitrary nonlinear field bundle. Prove the degree-k product coefficient is the finite sum over degree splits and that total derivatives preserve this filtration while raising jet order by at most one, giving continuous coefficientwise maps to the next-stage completion. Extend the finite-stage first-variation/Euler identities coefficientwise: a field partial derivative lowers the filtration by one, total derivatives preserve it, and the Euler expression uses the stated raised jet stage. Prove these continuity/filtration shifts before using the formal identities. Keep a smooth base-coefficient algebra and its base derivatives when potentials depend on position. Formal evaluation means a formal coefficient identity or evaluation in a nilpotent target; evaluation as an actual smooth function requires a separately stated convergence hypothesis. Consume the existing odd-jet involution and bigraded sign conventions for the fermionic extension.
 
 For p.49 use the relative polynomial Kähler complex over the base coefficients, with the independent symmetric jet generators and the lifted commuting total derivatives. Denote its vertical differential by `d_alg`; its full exterior algebra and `d_alg²=0` are part of LVF1, beyond the native degree-one Kähler module. In the source's affine coordinate chart, α carries all smooth base coefficients. In its vertical-first notation use `α∈Ω_alg^q` and a **constant-coefficient** `β∈Λ^p((ℝ^d)*)`, tensored over ℂ after complexification, and put `D_H⁰(α⊗β)=Σ_μD_μα⊗(dx^μ∧β)`. Prove `(D_H⁰)²=0` and `d_alg D_H⁰=D_H⁰ d_alg`. Under the contact substitution `d_alg u_I↦θ_I` and vertical-first wedge map `α⊗β↦α∧β`, prove the actual LVF horizontal differential is `d_H=(-1)^qD_H⁰`, while `d_V=d_alg`. Thus `d_V+d_H` squares to zero and the comparison has exactly the bicomplex signs fixed above. For the horizontal-first map `α⊗β↦β∧α=(-1)^(pq)α∧β`, prove instead `d_H=D_H⁰`, `d_V=(-1)^p d_alg`, and the corresponding signed total formula. Horizontal constant forms have field parity zero, so the same displayed bidegree signs hold for odd generators under the pinned `(-1)^(pq+ab)` braiding; their field parity signs enter the vertical coefficient algebra. This supplies the source's double-differential comparison without assuming that two unsigned commuting differentials anticommute.
 
-## LVF2. First variation and Euler operator
+
+These are the polynomial/formal comparisons to Borcherds pp.35 and 49; the sign comparison also follows from Anderson, Chapter 1, on the declared wedge order.
+
+*Needs:* §§1.1–1.3; native symmetric algebra, Kähler derivation and conjugation.
+
+The defining construction has the following API.
+
+- Compare field generators with the dual-valued field evaluations, including real forms.
+- Construct the zero-section degree completion for fibre-linear transitions; prove finite convolution, continuity and the derivative filtration shifts.
+- Identify both wedge-order conventions with the signed horizontal and vertical differential.
+
+**Checks.**
+
+- For W=ℝ² and evaluation (2,3), e₁ maps to 2, e₂ to 3 and 2e₁ to 4; values are covectors on W.
+- For (1+u+u²+…)(1−u), degree zero is 1 and every positive-degree coefficient is 1−1=0. For ε²=0 the series gives 1+ε; at u=2 its partial sums 1,3,7 diverge.
+- D(u₀²)=2u₀u₁ has degree two, whereas ∂u₀(u₀²)=2u₀ has degree one. Translation u↦u+1 sends u to an expression with constant term 1 and does not preserve the zero-section filtration.
+- For α=d_alg u₀ and q=1, vertical-first D_H⁰ gives θ₁∧dx=−dx∧θ₁; multiplying by −1 gives d_Hθ₀. For p=1, d_V(u₀dx)=−dx∧θ₀ fixes the horizontal-first sign.
+
+
+### Examples
+
+The nonlinear change v=u², the compact-order example and the formal nilpotent evaluation distinguish the three jet carriers.
+
+### Dependencies
+
+§§1.1–1.4; DifferentialGeometry Layers 0–2; SmoothBundlesConnections B2; PseudodifferentialOperators P1.0; native real descent and polynomial algebra.
+
+## Layer 2: first variation and Euler operator
+
+### 2.1 Euler source, first variation and Lepage equivalents
 
 For order-r `L`, define the first variation density and the section `E(L)∈V(E)^*⊗Density(M)` using repeated finite multi-index integration by parts. Prove the order bound `ord E(L)≤2r`. Prove the coordinate identity
 
 `δL = ⟨E(L),δu⟩ + d_H Θ_L`,
 
-where each term is a density-valued horizontal n-form; keep the integral/action equation separate and add compact support or boundary integrals only when used. Boundary terms are local choices; compute their overlap and improvement law. Define a Lepage equivalent ρ as an n-form on a specified finite jet stage (or locally finite-order carrier) whose horizontalization is λ and whose one-contact component of dρ is the Euler source form. Construct it globally and prove gluing, the contact-component identities and explicit order bounds. Give the canonical first-order Poincaré–Cartan form on `J¹E` and its contact structure. Distinguish this full Lepage class from the boundary form `Θ∈Ω^{n−1,1}` in the first-variation identity. In the locally finite-order boundary-form class, local positive-contact exactness makes Θ unique for n=1 and gives the ambiguity `Θ↦Θ+d_Hη`, `η∈Ω^{n−2,1}`, for n≥2, already for first-order L when no order restriction is imposed. In base dimension n=1 an n-form has no two-contact component: in this full Lepage class, the difference is a `(0,1)`-form with zero d_H, so positive-contact exactness at horizontal degree zero gives uniqueness. For n≥2, adding an n-form of contact degree at least two also preserves the defining horizontal and one-contact components. State uniqueness of any selected finite-order/contact-normalized representative within its explicitly defined class, and derive it from the coefficient identities.
+where each term is a density-valued horizontal n-form; keep the integral/action equation separate and add compact support or boundary integrals only when used. Boundary terms are local choices; compute their overlap and improvement law and construct a global first-variation boundary form (Anderson, §5A, Corollary 5.3, printed p.197). Define a Lepage equivalent ρ as an n-form on a specified finite jet stage (or locally finite-order carrier) whose horizontalization is λ and whose one-contact component of dρ is the Euler source form. Construct it globally and prove gluing, the contact-component identities and explicit order bounds (Anderson, §5A, Corollary 5.5, printed p.200; the finite-order bounds are the LVF extension). Give the canonical first-order Poincaré–Cartan form on `J¹E` and its contact structure. Distinguish this full Lepage class from the boundary form `Θ∈Ω^{n−1,1}` in the first-variation identity. In the locally finite-order boundary-form class, local positive-contact exactness makes Θ unique for n=1 and gives the ambiguity `Θ↦Θ+d_Hη`, `η∈Ω^{n−2,1}`, for n≥2, already for first-order L when no order restriction is imposed. In base dimension n=1 an n-form has no two-contact component: in this full Lepage class, the difference is a `(0,1)`-form with zero d_H, so positive-contact exactness at horizontal degree zero gives uniqueness. For n≥2, adding an n-form of contact degree at least two also preserves the defining horizontal and one-contact components. State uniqueness of any selected finite-order/contact-normalized representative within its explicitly defined class, and derive it from the coefficient identities.
 
-For even commuting fields, prove the fundamental lemma for continuous coefficients against all compactly supported smooth tests, componentwise in local frames. Prove uniqueness of source forms from that lemma and jet-surjectivity; use uniqueness for chart independence, `E(d_HB)=0`, and the Euler chain rule. For odd fields use the algebraic interior-Euler argument specified above instead. For the local converse, state the horizontal homotopy with both bidegrees. On a local bundle trivialization restricted to a star-shaped base ball and a star-shaped fiber-coordinate patch, and for **positive contact degree** `q≥1`, the horizontal rows are locally exact below top degree: for `0≤p<n`, `h_H^{p+1,q}d_H+d_Hh_H^{p,q}=id`. At `p=0` this formula is valid because `q≥1`; do not extend it to the unaugmented zero-contact row, where `d_H`-closed horizontal functions include constants and the row begins with `ℝ→Ω^{0,0}`. At top horizontal degree, use the augmented contact row `Ω^{n−1,q}→Ω^{n,q}→F_q→0`: `ω=I_q(ω)+d_H h_H^{n,q}ω`, with `I_q²=I_q`, `I_q d_H=0`, and `F_q=im I_q`. Thus `ker I_q=im d_H` at top degree; do not say the unaugmented top contact row is acyclic. For zero contact degree, the top row is augmented by the Euler operator `E:Ω^{n,0}→F₁`, with `E∘d_H=0`; on these star-shaped total-space patches and for `n>0`, `ker E=im d_H`. Its bottom augmentation is the locally constant functions. In contact degree one, the interior Euler projection `I₁:Ω^{n,1}→F₁` has image the source forms and `E=I₁∘d_V`. On such a fiber patch, choose its center and the vertical-fiber scaling cylinder `s:[0,1]×J→J`; global scaling of a general fiber bundle is not assumed. Define `Kω=∫₀¹ι_(∂t)s*ωdt` and prove `d_VK+Kd_V=id−s₀*` and `Kd_H=−d_HK`. Combine this with the base radial homotopy on a star-shaped coordinate ball to prove `E(L)=0 ⇒ L=L₀(x)+d_HB`; for n>0, `L₀` is locally exact, while n=0 is separately stated.
 
-Globalize on the locally finite-order sheaf on E using these total-space patches. For `q≥1`, prove exactness of the contact row through its image `F_q=im I_q`, including `ker I_q=im d_H` at top degree. For `q=0`, the Euler–Lagrange complex is `ℝ→Ω^{0,0}→⋯→Ω^{n,0}→F₁→F₂→⋯`, where the next map `F₁→F₂` is the Helmholtz operator. Prove exactness through `Ω^{n,0}` (`ker E=im d_H` locally); do not assert `E:Ω^{n,0}→F₁` is onto, since Helmholtz conditions make its image proper. Prove the relevant sheaves fine and the asserted rows exact before using fine-sheaf acyclicity; fineness alone does not make an unaugmented complex exact. Use a global Lepage construction and [SmoothBundlesConnections B6.0–B6.1](../SmoothBundlesConnections/README.md#b6-circle-bundles-integral-classes-and-flat-ambiguity)'s locally finite good covers and Čech–de Rham double complex `D=δ+(-1)^p d`. Keep two global complexes separate. For the untwisted complex on a fiber bundle `π:E→M`, horizontal cohomology below top degree is `H^p_dR(E)` and the Euler–Lagrange complex has top variational cohomology `ker(E:Ω^{n,0}→F₁)/im(d_H:Ω^{n−1,0}→Ω^{n,0})≅H^n_{dR}(E)`; the raw quotient `Ω^{n,0}/im d_H` is not this cohomology. For density-valued Lagrangians and currents on an unoriented base, use the orientation-local-system complex twisted by `π^*o_M`; its horizontal cohomology below top degree is `H^p(E;π^*o_M)` and its top variational cohomology is `H^n(E;π^*o_M)`, which for a vector bundle is `H^n(M;o_M)`. On an oriented base the selected orientation trivializes the twist and recovers the untwisted statement. The density-twisted Čech–de Rham comparison is an LVF-owned local-system construction; B6.1 only supplies the constant-coefficient good-cover complex. In both carriers the top obstruction need not vanish. For positive-contact augmented rows, prove exactness at every term including `ker I_q` in top degree, then use the specified locally finite sheaf hypotheses to globalize. Give the mapping-cone/open-pair formulation when relative boundary data are used; do not identify relative forms with a kernel for arbitrary open pairs.
+The global locators are Anderson, §5A, Corollaries 5.3 and 5.5, pp.197 and 200.
+
+*Needs:* Layer 1; finite integration by parts; DifferentialGeometry Layers 0–1.
+
+The defining construction has the following API.
+
+- Construct the density-dual Euler source of order at most 2r and its first-variation boundary form.
+- Prove horizontalization and one-contact identities for a global Lepage equivalent, the n=1 uniqueness and the stated higher-contact ambiguities.
+
+**Checks.**
+
+- For L=u₁²/2, E=−u₂ and D(u₁δu)=u₂δu+u₁δu₁, so Eδu+D(u₁δu)=u₁δu₁.
+- For L=u₂²/2, E=D²u₂=u₄ and the order is 4=2r; a first-order formula would give zero.
+- For n=1 and L=u₁²/2, the Lepage form is u₁du−u₁²dx/2 and its horizontalization is u₁²dx/2. In n=2 the addition θ¹∧θ² has zero horizontal and one-contact derivative components, excluding unrestricted uniqueness.
+
+
+### 2.2 Source-form uniqueness and local homotopies
+
+For even commuting fields, apply `IsOpen.ae_eq_zero_of_integral_contDiff_smul_eq_zero` to locally integrable coefficients in each open frame domain. For continuous coefficients and a positive smooth density, full support upgrades almost-everywhere vanishing to pointwise vanishing; prove the bundle/source-form adapter using arbitrary compactly supported smooth tests. Prove uniqueness of source forms from that lemma and jet-surjectivity; use uniqueness for chart independence, `E(d_HB)=0`, and the Euler chain rule. For odd fields use the algebraic interior-Euler argument specified above instead. For the local converse, state the horizontal homotopy with both bidegrees. On a local bundle trivialization restricted to a star-shaped base ball and a star-shaped fiber-coordinate patch, and for **positive contact degree** `q≥1`, the horizontal rows are locally exact below top degree: for `0≤p<n`, `h_H^{p+1,q}d_H+d_Hh_H^{p,q}=id`. At `p=0` this formula is valid because `q≥1`; do not extend it to the unaugmented zero-contact row, where `d_H`-closed horizontal functions include constants and the row begins with `ℝ→Ω^{0,0}`. At top horizontal degree, use the augmented contact row `Ω^{n−1,q}→Ω^{n,q}→F_q→0`: `ω=I_q(ω)+d_H h_H^{n,q}ω`, with `I_q²=I_q`, `I_q d_H=0`, and `F_q=im I_q`. Thus `ker I_q=im d_H` at top degree; do not say the unaugmented top contact row is acyclic. For zero contact degree, the top row is augmented by the Euler operator `E:Ω^{n,0}→F₁`, with `E∘d_H=0`; on these star-shaped total-space patches and for `n>0`, `ker E=im d_H`. Its bottom augmentation is the locally constant functions. In contact degree one, the interior Euler projection `I₁:Ω^{n,1}→F₁` has image the source forms and `E=I₁∘d_V`. On such a fiber patch, choose its center and the vertical-fiber scaling cylinder `s:[0,1]×J→J`; global scaling of a general fiber bundle is not assumed. Define `Kω=∫₀¹ι_(∂t)s*ωdt` and prove `d_VK+Kd_V=id−s₀*` and `Kd_H=−d_HK`. Combine this with the base radial homotopy on a star-shaped coordinate ball to prove `E(L)=0 ⇒ L=L₀(x)+d_HB`; for n>0, `L₀` is locally exact, while n=0 is separately stated.
+
+
+Use Anderson, §2B, Definition 2.11, Theorem 2.12 and Corollary 2.13(i), pp.44–49; §4A, Propositions 4.1–4.3, pp.114–115.
+
+*Needs:* §2.1; Layer 1 jet-surjectivity; the native test theorem; DifferentialGeometry homotopy integration.
+
+The defining construction has the following API.
+
+- Upgrade almost-everywhere vanishing to pointwise source uniqueness under continuity and a full-support positive density.
+- Construct the positive-contact horizontal homotopy and interior Euler projection, with top-degree augmentation.
+- Construct vertical scaling only on a star-shaped fibre patch; prove its homotopy identity and signed horizontal commutation.
+
+**Checks.**
+
+- A coefficient f=1 against a nonnegative smooth compact test of integral 1 gives 1, while f=0 gives 0 for every test.
+- For L=u₀²u₁, E=2u₀u₁−D(u₀²)=0; for L=u₀, E=1, so the entire image of E is not an equation ideal.
+- For q=0, d_H1=0 but id(1)=1; the unaugmented horizontal homotopy cannot hold there. For Kdu=u, d_VKdu=du while both sides of id−s₀* on 1 are zero.
+
+
+### 2.3 Global variational cohomology and density twisting
+
+Globalize on the locally finite-order sheaf on E using these total-space patches. For `q≥1`, prove exactness of the contact row through its image `F_q=im I_q`, including `ker I_q=im d_H` at top degree. For `q=0`, the Euler–Lagrange complex is `ℝ→Ω^{0,0}→⋯→Ω^{n,0}→F₁→F₂→⋯`, where the next map `F₁→F₂` is the Helmholtz operator. Prove exactness through `Ω^{n,0}` (`ker E=im d_H` locally); do not assert `E:Ω^{n,0}→F₁` is onto, since Helmholtz conditions make its image proper. Prove the relevant sheaves fine and the asserted rows exact before using fine-sheaf acyclicity; fineness alone does not make an unaugmented complex exact. Use a global Lepage construction and [SmoothBundlesConnections B6.0–B6.1](../SmoothBundlesConnections/README.md#b6-circle-bundles-integral-classes-and-flat-ambiguity)'s locally finite good covers and Čech–de Rham double complex `D=δ+(-1)^p d`. Keep two global complexes separate. For the untwisted complex on a fiber bundle `π:E→M`, horizontal cohomology below top degree is `H^p_dR(E)` and the Euler–Lagrange complex has top variational cohomology `ker(E:Ω^{n,0}→F₁)/im(d_H:Ω^{n−1,0}→Ω^{n,0})≅H^n_{dR}(E)`; the raw quotient `Ω^{n,0}/im d_H` is not this cohomology (Anderson, §5A, Theorem 5.9, printed pp.203–204, interpreted using its Euler-augmented complex (5.25)). For density-valued Lagrangians and currents on an unoriented base, use the orientation-local-system complex twisted by `π^*o_M`; its horizontal cohomology below top degree is `H^p(E;π^*o_M)` and its top variational cohomology is `H^n(E;π^*o_M)`, which for a vector bundle is `H^n(M;o_M)`. On an oriented base the selected orientation trivializes the twist and recovers the untwisted statement. The density-twisted Čech–de Rham comparison is an LVF-owned local-system construction; B6.1 only supplies the constant-coefficient good-cover complex. In both carriers the top obstruction need not vanish. For positive-contact augmented rows, prove exactness at every term including `ker I_q` in top degree, then use the specified locally finite sheaf hypotheses to globalize. Give the mapping-cone/open-pair formulation when relative boundary data are used; do not identify relative forms with a kernel for arbitrary open pairs.
+
+
+Use Anderson, §5A, Theorem 5.1, p.191 and Theorem 5.9, pp.203–204; orientation twisting and the locally finite-order comparison are the stated LVF extensions.
+
+*Needs:* §2.2; Layer 1 sheafification; DifferentialGeometry Layer 6; SmoothBundlesConnections B6.0–B6.1.
+
+The defining construction has the following API.
+
+- Construct the Euler-augmented complex and its untwisted de Rham comparison through top degree.
+- Construct the orientation-local-system comparison and mapping-cone relative version with its boundary maps; prove zero-section comparison for vector bundles.
+
+**Checks.**
+
+- On E=S¹×ℝ, λ=dθ has E(λ)=0 and integral 2π; a globally exact current has integral zero, so the obstruction is nonzero.
+- For λ=u₀dθ, E(λ)=1: its class in the raw quotient by divergences is not a class in ker E/im d_H.
+- Under orientation reversal in dimension one, both dx and the orientation generator change sign, so their product is unchanged. Omitting the twist gives −dx instead.
+
+
+### 2.4 Polynomial nonlinearity comparison
 
 **LVF2.SourceNonlinearityQualification.** For the p.37 free/nonlinear shorthand, in the polynomial linear-field or vector-bundle model with fibre-linear transitions, prove degree at most two in the field-jet variables gives an affine-linear Euler expression; it is homogeneous linear only after eliminating its linear-source term. Degree greater than two alone does not imply a nonlinear Euler expression: `u²D₁u=D₁(u³/3)` has zero Euler operator. Compute the actual quartic interaction's cubic term separately in the Source scope and boundaries calculations below. These qualifications do not change any physical massive sign or normalization.
 
-## LVF3. Formal adjoints, field redefinitions, and models
+
+This qualifies Borcherds p.37 using the Euler formula of §2.1.
+
+*Needs:* §2.1 and the fibre-linear polynomial model of §1.4.
+
+The defining construction has the following API.
+
+- Prove degree at most two gives an affine-linear Euler expression and identify its linear-source term.
+- Distinguish nonlinear density from nonlinear Euler expression by calculating the actual latter.
+
+**Checks.**
+
+- E(u²/2)=u is homogeneous linear; E(u²/2+3u)=u+3 is affine, not homogeneous.
+- E(u²u₁)=2uu₁−D(u²)=0 despite cubic degree.
+- E(−λu⁴/24)=−λu³/6, giving −4 when λ=3,u=2.
+
+
+### Examples
+
+The order-two density u₂²/2, the circle period and the n=1 Lepage form distinguish general variation from first-order coordinate calculations.
+
+### Dependencies
+
+Layer 1; DifferentialGeometry Layers 5–6; SmoothBundlesConnections B6.0–B6.1; the native analytic test theorem.
+
+## Layer 3: formal adjoints, field redefinitions, and models
+
+### 3.1 Jet-coefficient transpose and differential redefinition
 
 **LVF3.FormalAdjoints — density-dual and graded jet-coefficient transpose.**
 
@@ -143,9 +414,47 @@ corresponding fields. At α=0 the map is the identity. Keep `v=u²` as a separat
 nonlinear example: its transpose factor2u loses invertibility at u=0, while a fixed
 nonzero-sign branch has a local order-zero inverse.
 
+Use Anderson, §2B, first variation and interior Euler projection; compare the integration-by-parts transpose with Barnich–Fulp–Lada–Stasheff, §3.2, equations (25)–(26), p.16.
+
+*Needs:* Layers 1–2; PseudodifferentialOperators P1.0.
+
+The construction has the following API.
+
+- Construct the density-dual transpose and Green current, then compare the separate Hermitian adjoint using the actual density and pairing.
+- Construct the linearization of a differential substitution; prove the Euler chain rule with order at most 2r+2s and the stationary converse under an inverse or the stated decay condition.
+
+**Checks.**
+
+- For A=xD, Aᵗ1=−D(x)=−1; moving x outside the derivative would give 0.
+- For A=D, ρ=e^x and H=1, A†1=−e^(−x)D(e^x)=−1; the unit-density value is 0.
+- For v=u+u′ and L=e^xv, E_v=e^x but E_u=(1−D)e^x=0. The kernel ce^x decays at both ends only for c=0.
+- For v=u² and L=v, E_u=2u vanishes at u=0 although E_v=1; this excludes a stationary converse across the singular point.
+
+
+### 3.2 Model equations and cyclic solution modules
+
 Give complete coordinate calculations for the vibrating string with fixed-endpoint variations, real Lorentzian Klein–Gordon field, polynomial scalar interaction, complex scalar, first-order Abelian gauge potential with `F=dA`, and an odd quadratic model checking left/right signs. Compare the one-dimensional mechanics case with [IntegrableSystems I3](../SymplecticGeometry/IntegrableSystems/README.md#i3-hamiltonian-and-lagrangian-mechanics), which owns particle mechanics. LVF owns this comparison for arbitrary smooth finite-dimensional configuration manifolds Q, first-order time-dependent Lagrangians and fixed-endpoint variations: identify the density-valued jet Euler expression and endpoint term with I3's intrinsic Euler–Lagrange and Cartan-form formulas. Compare its quasi-invariant current with `⟨FL,ξ_Q⟩−B_ξ`, retaining the regular/local versus hyperregular/global Legendre hypotheses; no regularity assumption is needed for the first-variation comparison itself. Include Borcherds' Ω(V)/Kähler-differential current calculation, Lagrangians modulo divergences, current ambiguity by `d` of an `(n−2)`-form, and Stokes charge conservation. Define the Euler–Lagrange differential ideal and solution homomorphisms commuting with total derivatives; state its relation to the polynomial model.
 
 **LVF3.SourceCyclicODE — smooth cyclic-module comparison.** For the p.40 linear analogy, additionally prove the exact elementary cyclic-module theorem. For a unital complex algebra A, P∈A and a left A-module N, evaluation on the class of 1 gives the natural ℂ-linear bijection `Hom_A(A/(A·P),N)≃{u∈N:P·u=0}`. The kernel is taken as a complex vector subspace, which need not be A-stable. Here A·P is a left ideal and the quotient is a left module; the inverse sends u to `[a]↦a·u`. Prove well-definedness, naturality and both inverse identities. Realize the displayed ODE on `N=C∞(ℝ,ℂ)` using multiplication X by x and differentiation D, with `DX−XD=1`, and the concrete unital operator algebra they generate in `End_ℂ(N)`. For `P=XD²+D+X`, prove its action is `x f″+f′+xf`, so the cyclic-module bijection is precisely the smooth solution correspondence. Continuous functions alone do not form this differentiation module. The statement does not require a holonomic classification or an identification with a universal Weyl algebra. For the nonlinear comparison retain the separate differential-algebra evaluation theorem and the fixed prolonged Euler ideal `I_∞(L)=(D_I E_a(L))`; the image of the Euler operator on every possible density is not this ideal (`E_a(u^a)=1`).
+
+The scalar/ODE comparisons are Borcherds pp.37–40; the cyclic bijection follows directly from the stated left-module universal property.
+
+*Needs:* §3.1; IntegrableSystems I3; native module quotients; the prolonged Euler ideal of Layer 2.
+
+The construction has the following API.
+
+- Compare mechanics first variation and endpoint terms on arbitrary configuration manifolds, with regularity required only for Legendre inversion.
+- Construct the cyclic-module solution bijection, its inverse and naturality; compare smooth differential-operator actions and nonlinear solution homomorphisms.
+
+**Checks.**
+
+- For the oscillator, m=2,u=1,u₂=6 gives E=−(4+6)=−10. For the two-coordinate Klein–Gordon check, m=2,u=3,u₀₀=7,u₁₁=2 gives E=−7+2−12=−17.
+- For P=0 the cyclic Hom space is N, and for P=1 both the quotient and kernel are zero. These distinguish the left ideal A·P from a two-sided quotient.
+- In A=M₂(ℂ), P=diag(1,0), the vector e₂ is killed by P but e₁₂e₂=e₁ is not; the kernel is not an A-submodule.
+- For f=x², (XD²+D+X)f=2x+2x+x³=4x+x³, equal to 5 at x=1; (DX−XD)f=f.
+
+
+### 3.3 Cauchy phase bundles and admissible domains
 
 **LVF3.CauchyPhase — classical Cauchy data and domains.** Before the field Hamiltonians and canonical generators below, construct their classical functional carrier here. Fix a smooth Hausdorff second-countable spatial manifold Σ of finite dimension, and a smooth finite-dimensional configuration bundle `E_Σ→Σ`. A time-dependent model supplies its actual product/slicing `I×Σ` and jet/velocity comparison; no Cauchy slicing of an arbitrary Lorentzian spacetime is presumed. Write `Dens_Σ` for the density line. The phase bundle over `E_Σ` is `P_Σ=V*E_Σ⊗π_E*Dens_Σ`; a phase section consists of a smooth field q and a smooth vertical-covector-density momentum p along q. Construct its manifold-fibre bundle charts, coordinate changes and restriction/pullback laws from LVF1 and SBC. In field coordinates its tautological vertical one-form is `θ=p_a δq^a`, with values in the pulled-back density line. Construct `ω=−d_vert θ`, the fibrewise nondegenerate density-valued two-form whose coordinate expression is `δq^a∧δp_a`. Prove invariance under base-dependent nonlinear field coordinates, including the inhomogeneous momentum-variation terms. Its inverse identifies vertical covector densities with vertical phase vectors without a metric on the fields. All differential statements use actual finite-dimensional phase-bundle jets and smooth finite-parameter families of sections, with their support bounds; no strong symplectic form or unrestricted inverse on a manifold of all smooth functionals is assumed.
 
@@ -159,9 +468,47 @@ For the charged Maxwell branch supply the reference data explicitly: a smooth el
 
 For compact Σ with smooth boundary construct a full explicit boundary branch on all smooth phase sections: fix a collar and take density integrands independent of every positive-order phase jet on that collar. Spatially differentiated densities supported away from the collar and arbitrary order-zero collar densities belong to this class. Prove zero first-variation boundary term, closure of the canonical bracket and smooth tangent variations on this unrestricted phase domain; in the collar the bracket is the pointwise order-zero bracket. Also construct the support-relative branch with variations and Hamiltonian vector fields zero near the boundary and its restriction to interior tests. A derivative-dependent bare Maxwell or scalar Hamiltonian at the boundary is not thereby admitted: a model using it must supply its actual trace/compatibility conditions, boundary variation and tangent closure, rather than claiming every boundary condition yields a Hamiltonian domain. Nonvanishing boundary or asymptotic gauge parameters use the full differentiable bulk-plus-charge generator constructed in CauchyConstraints below. This retains their explicit finite-boundary and flux examples without calling a nonzero boundary variation zero, and does not impose compact support on the general local variational or global stress-energy theory.
 
+The phase construction is the vertical cotangent-density construction; the domain extensions are proved here from Layer 2 and Stokes, not inferred from a global divergence quotient. The local bracket comparison is Barnich–Fulp–Lada–Stasheff, §3.2, equation (27), p.17.
+
+*Needs:* Layers 1–2; SmoothBundlesConnections B2–B4; DifferentialGeometry §5.5 density integration.
+
+The construction has the following API.
+
+- Construct the vertical cotangent-density phase bundle, tautological form and nondegenerate vertical two-form; prove affine-reference and nonlinear-coordinate invariance.
+- Construct closed, compact-perturbation, Schwartz/flux and collar domains, with their tangent and differentiated coefficient estimates.
+- Prove reference-transport comparisons, preserving the flux sector and including time-dependent transport terms.
+
+**Checks.**
+
+- For Q=q² on q>0 and P=p/(2q), P dQ=p dq. At q=2,p=6, Q=4,P=3/2 and dQ∧dP=dq∧dp; ignoring the q-derivative of P would spoil general variations.
+- For compactly supported q on ℝ, ∫q is finite but its Euler covector is 1 everywhere and X=(0,−1) is not a compact perturbation; integrability alone fails the domain test.
+- Outside a ball let Φ₀=c/r and E₀=c x/r³. Then E₀+∇Φ₀=0 and flux is 4πc; c=1 retains nonzero flux while the normalized Hamiltonian derivative vanishes on the reference.
+- On [0,1], the variation of ∫q′ is δq(1)−δq(0), equal to 1 for δq=x. An order-zero collar integrand q² instead has no boundary variation.
+
+
+### 3.4 Actual integral functionals and their derivative
+
 **LVF3.CauchyFunctionals — densities, equality and spatial first variation.** On each preceding domain construct finite-order spatial jet density integrands h, evaluated integral functionals `F_h(s)=∫_Σ h(j^r s)`, their addition/scalar operations and pullback/restriction maps with the declared support, reference and boundary data. Derive spatial first variation from LVF2, not from an infinite-dimensional symplectic inverse: `dF_h(s)[v]=∫_Σ⟨E_Σ(h)(j^k s),v⟩` when the explicit boundary term vanishes. Construct the intrinsic vertical phase Euler covector density and its field-coordinate formula with a finite order bound; prove compatibility with affine/nonlinear phase charts, variation of a momentum whose base field changes, and smooth finite-parameter differentiation. For nonzero boundary terms keep the trace term as part of the derivative and determine whether it has an admitted Hamiltonian representative.
 
 In spatial dimension zero the divergence space is zero and integration reduces to its admitted point/finite-sum carrier. For positive spatial dimension define admissible divergences by actual global spatial `(dimΣ−1)` currents on the chosen phase-jet carrier with zero boundary integral on every admitted section: compact support, boundary-zero pullback, periodicity, or the proved decay estimate supplies that condition. Stokes gives equality of functionals after adding such a divergence, with explicit boundary correction when it does not vanish. Keep the quotient of density integrands by these divergences and its map to integral functionals separate from the functional carrier, which is the image of the integral map, equivalently the quotient by equality of integrals on the actual phase domain. Prove that equality of functionals forces equality of Euler covectors on its admitted jet locus, using arbitrary compactly supported test directions, the fundamental lemma and the local realization of those jets. Consequently derivatives and Hamiltonian vectors descend to actual functionals. Do not assert that the kernel of the integral map equals all global divergences without a theorem at those precise bundle/domain/topological hypotheses. On contractible total-space patches construct the LVF2 homotopy comparison; for global or relative carriers retain its de Rham/orientation and boundary obstruction, reference normalization and any componentwise constant functional. Restricting to a Gauss constraint surface is a later operation and cannot supply the arbitrary test directions used in this argument.
+
+Use Anderson, §5A, Theorem 5.9 for the global obstruction and Barnich–Fulp–Lada–Stasheff, §3.2, pp.15–17 for the contractible local-functional comparison.
+
+*Needs:* §3.3; Layer 2 spatial first variation and fundamental lemma; DifferentialGeometry Stokes.
+
+The construction has the following API.
+
+- Construct the image of the evaluated integral map, equivalently quotient by equality on the actual phase domain, and prove derivatives descend.
+- Construct the separate divergence quotient and its comparison; retain global periods, boundary traces and componentwise constants.
+
+**Checks.**
+
+- On a circle of length 2π, adding Dq changes the integral by 0, while adding the constant density 1 changes it by 2π despite zero Euler derivative.
+- On [0,1], ∫Dq=q(1)−q(0), equal to 1 for q=x; it is not the zero functional on unrestricted boundary data.
+- On a single spatial point, F(q,p)=q²/2 has derivative qδq and there is no degree-minus-one current or divergence quotient.
+
+
+### 3.5 Canonical bracket, grading and multilocal algebra
 
 **LVF3.CauchyBracket — canonical bracket and locality.** For an admissible F in the even real branch define its vertical phase vector field by `ι_(X_F)ω=dF` in the preceding density-valued variational sense. This is the pointwise finite-dimensional inverse of the Euler covector, with its tangent/support estimates proved for the chosen domain. In vector or affine coordinates it is `X_F=(δF/δp,−δF/δq)`. Define
 
@@ -177,11 +524,49 @@ The parity extension uses the finite-stage exterior coefficient algebra, reversa
 
 Prove its consistency with `{q^a,p_b}=δ^a_b`, `{p_b,q^a}=−(−1)^(ε_a)δ^a_b`, the graded antisymmetry, graded Leibniz and graded Jacobi, using the specified derivative and product orders. For even Hamiltonians and gauge generators retain `δ_G F={F,G}` and prove agreement with `ι_(X_G)ω=dG`; it gives the actual right-odd momentum equations. For general homogeneous G distinguish this right bracket action from the left graded derivation `L_G(F)={G,F}`, related by ` {F,G}=−(−1)^(|F||G|)L_G(F)`. Give the corresponding parameter-parity/Koszul conversion rather than asserting the ordinary ungraded Hamiltonian-vector convention for odd generators. Extend to the density/module charts and supported finite-parameter coefficient tests. Real odd fields are not points of an ordinary real smooth manifold and do not use a real fundamental lemma in their odd coordinates; the exterior-coefficient identities and the even smooth coefficient tests supply the extension. For commuting complex fields realify first and derive the π,π̄ convention and cross brackets below from the real bracket, not by independently postulating four complex brackets.
 
+Use Barnich–Fulp–Lada–Stasheff, §3.2, equation (27), p.17; the graded and domain-preserving extensions use the specific preceding constructions.
+
+*Needs:* §§3.3–3.4; Layer 1 graded coefficient algebra; second variation with the declared support estimates.
+
+The construction has the following API.
+
+- Prove representative independence, chart/domain closure, graded antisymmetry, Leibniz and Jacobi; compare the Hamiltonian-vector commutator with its fixed sign.
+- Construct smeared brackets and their distributional kernel; extend the bracket to actual finite sums/products of local functionals.
+
+**Checks.**
+
+- On one even phase pair, {q,p}=1 and {p,q}=−1; for one odd pair both values are 1. The opposite sign fails graded antisymmetry.
+- For F=q²/2 and G=p²/2, {F,G}=qp and [X_F,X_G]=(−q,p)=−X_(qp), not X_(qp).
+- On a circle of length 2π, f=2,g=3 gives {Q_f,P_g}=12π, while {Q_f,Q_g}={P_f,P_g}=0.
+- The mixed second variation of (∫q)² on disjoint supports is 2(∫h)(∫k), equal to 2 for unit-integral h,k; a local integral has zero such mixed variation.
+
+
+### 3.6 Primary constraints and differentiable generators
+
 **LVF3.CauchyConstraints — actual primary and gauge interfaces.** For each singular model used, construct the actual Legendre image as a subset of its ambient phase domain, supply its primary equations and prove equality with their zero set in that model. Do not assert that the image of an arbitrary singular Legendre map is a smooth submanifold or a finite zero set. Construct the model’s differentiated constraints, vanishing ideal and Hamiltonian-derivation tangency tests. A constraint surface is not automatically a Poisson submanifold. Define the total Hamiltonian with its multiplier fields, prove preservation/secondary constraints by its derivatives and brackets, and specify changes of multiplier in time-dependent generators. Supply differentiability, support, boundary and reference comparisons before calling a displayed spatial integral a generator. For Maxwell and Yang–Mills parameters nonzero at the boundary construct the surface charge with the sign fixed by integration by parts. Prove that the bulk-plus-charge generator equals the integral of the order-zero-in-phase expression pairing momentum with the actual gauge variation (and its matter term); derivatives of the external parameter are allowed coefficients. This belongs to the unrestricted collar branch above even when the bare divergence constraint integral does not. Prove its derivative/tangent vector and compute brackets of these full differentiable generators, including the actual parameter Lie bracket and any specified boundary contribution. A surface charge alone need not be an ambient smooth Hamiltonian functional; its comparison on a constraint surface uses the constructed presymplectic/constraint interface and only a proved reduction, not an assumed Poisson-submanifold restriction. A constant-at-infinity parameter and a fixed-flux sector retain their actual surface term and decay estimates; it is not discarded by a compact-support argument.
 
 Apply this construction to the scalar–Maxwell model below with the independent pair `(A₀,Π_(A₀))`, its primary constraint and subsequent Gauss constraint, on the full ambient phase space first. Compute the Abelian constraint bracket and full time-dependent generator and multiplier variation using CauchyBracket, then compare its transformations to LVF5's joint-parameter Noether identity. External fixed A has no dynamical Maxwell constraint imposed on it. The Dirac model application consumes the independently constructed FiniteDirac matrix/Spin data below; that application is not a premise of the generic Cauchy construction. For the commuting or Grassmann Dirac model construct independent spinor/momentum variables and the actual singular-Legendre image. Specify whether its density is the flat unsymmetrized complex density or its Hermitian real representative. On the formal complexified phase carrier compute the primary equations for independent ψ,ψ̄, including the unsymmetrized right odd `π_ψ=iψ†` convention and its conjugate-slot equation. On the real phase carrier use the real density and derive its actual primary equations separately. Construct the momentum translation induced by the time-boundary current when changing representatives, its spatial-boundary comparison and its conjugation/reversal and real-locus laws; do not reuse the unsymmetrized complex primary equations as the unchanged constraints of a different real action. Derive multiplier/consistency and the field-equation comparison on each actual carrier with the appropriate graded bracket. Do not eliminate those constraints and retain an undeclared canonical bracket on the remaining spinors; a reduced Dirac bracket requires its own constraint-matrix/inverse/domain comparison if used. CAR and quantum operator ordering remain with the named quantum consumers.
 
 This classical Cauchy theory is owned by LVF and consumes LVF1–2, LVF3.FormalAdjoints, the actual bundle/density foundations and the stated integration estimates. It does not consume generic Noether II or later quantum constructions. Finite-dimensional particle mechanics remains with IntegrableSystems I3. The source comparison with [Barnich–Fulp–Lada–Stasheff, *The sh Lie structure of Poisson brackets in field theory*, §3.2 equation(27)](https://arxiv.org/html/hep-th/9702176v1), uses the variational-derivative bracket and descent modulo divergences only at their proved domain hypotheses; its contractible horizontal-resolution model is not an unrestricted global quotient theorem here. The later Gauss/Noether comparison and primary-constraint examples consume this constructed carrier rather than the delta notation as a premise.
+
+The definitions follow the explicit Legendre images and Green boundary terms; compare the field-equation and gauge identities with Barnich–Brandt–Henneaux, §6.6.
+
+*Needs:* §§3.3–3.5; the specified model Legendre maps; finite Dirac data for its spinor application.
+
+The construction has the following API.
+
+- Construct each model Legendre image and prove its equality with the displayed primary zero set; derive tangency, secondary constraints and multiplier variation.
+- Construct full differentiable bulk-plus-charge generators with their boundary terms, and compare real versus complex Dirac primary equations by the actual momentum translation.
+
+**Checks.**
+
+- For L=v²/2 the Legendre image has p=v; for L=0 it has p=0 for every v. The second example admits no velocity inverse.
+- For Maxwell, the momentum of A₀ is 0; preservation produces Gauss, whereas an external fixed A has no such dynamical constraint.
+- For constant α on [0,1], ∫α p′−[αp]₀¹=0; p=x,α=1 gives 1−1=0. Dropping the surface term gives the wrong generator.
+- For a commuting spinor, the symmetrized kinetic density has coefficients iψ̄Γ⁰/2 and −iΓ⁰ψ/2 in the two velocity slots; the unsymmetrized density has iψ̄Γ⁰ and 0.
+
+
+### 3.7 Legendre interaction comparison
 
 Include decay-at-infinity separately from compact support, with its own boundary-term hypotheses. Define the field Hamiltonian on its declared Legendre domain. A sufficient theorem for
 `H_int=−L_int` is `L=L₀+L_int`, where L_int is independent of every time-derivative jet
@@ -197,6 +582,24 @@ v=π is `(1/2−g)π²`, generally different. Allocate the UNSW scalar-field
 Hamiltonian/current/charge examples on pp.13–14 and Dirac bilinear/current examples on
 pp.19–20 explicitly; no identity is asserted for arbitrary velocity dependence.
 
+These are the stated interaction comparison and the UNSW pp.13–14 and p.41 model tests.
+
+*Needs:* §§3.3–3.6; IntegrableSystems I3 for regular finite-dimensional Legendre comparison.
+
+The construction has the following API.
+
+- For a velocity-independent interaction prove unchanged momenta/inverse velocities and H_int=−L_int.
+- For singular kinetic actions retain the actual primary-constraint Hamiltonian and distinguish it from the regular case.
+
+**Checks.**
+
+- For L=v²/2−u², p=v and H=p²/2+u², so H_int=−L_int=u².
+- For L=v²/2+gv² with g=1,p=3, the exact H=9/6=3/2 while substitution into H₀−L_int at v=p gives −9/2.
+- At g=−1/2 the kinetic coefficient is 0 and p=0 for every velocity; the division by 1+2g is excluded.
+
+
+### 3.8 Scalar electrodynamics and the gauge comparison
+
 **LVF3.UNSW41ScalarLegendre — classical canonical comparison.** On a flat time-first Minkowski domain with `η=(+---)` and the coordinate density `dt d³x`, take a commuting complex scalar `φ=x+iy`, a real smooth electromagnetic potential with lower components A_μ, real e and m, and `D_μ=∂_μ+ieA_μ`. Initially treat A as an external background. For `L=(D₀φ)̄D₀φ−Σ_i(D_iφ)̄D_iφ−m²φ̄φ`, use the real canonical covector: if `p_x=∂L/∂dot x`, `p_y=∂L/∂dot y`, put `π=(p_x−ip_y)/2`, `π̄=(p_x+ip_y)/2`, so `π δφ+π̄ δφ̄=p_x δx+p_y δy`. Prove `π=dot φ̄−ieA₀φ̄`, `π̄=dot φ+ieA₀φ`, and invert this scalar velocity map explicitly. The Legendre density is
 `H=ππ̄+ieA₀(φ̄π̄−φπ)+Σ_i(D_iφ)̄D_iφ+m²φ̄φ`.
 With `L=L₀+L_int` relative to A=0 and `H₀=ππ̄+Σ_i∂_iφ̄∂_iφ+m²φ̄φ`, prove the exact identity
@@ -207,6 +610,25 @@ For a dynamical Maxwell field retain its primary constraint `Π_(A₀)=0`; do no
 Keep any A₀=0 gauge choice and its constraint-preservation proof separate from the general singular Legendre map. RQFT9 consumes this classical comparison and owns the matched regulated action/Hamiltonian/CCR construction, quantum operator domains/order, dynamical photon/Coulomb constraints, projected contact terms and coefficientwise continuum comparison with the covariant action-derived one-photon/seagull rules; those quantum statements do not follow from this Legendre identity.
 
 The Lorentzian Klein–Gordon model uses `η=diag(+1,−1,−1,−1)`, `□=∂₀²−Σᵢ∂ᵢ²`, and `L=( (∂₀φ)²−Σᵢ(∂ᵢφ)²−m²φ² )/2`. Under this README's convention `E(L)=∂L/∂φ−D_μ(∂L/∂(∂_μφ))`, derive `E(L)=−∂₀²φ+Σᵢ∂ᵢ²φ−m²φ`; its zero set is exactly `(□+m²)φ=0`. Borcherds p.44 uses twice this density but omits φ after m² in its final variation parentheses; derive the correct `−2δφ(□φ+m²φ)` coefficient and keep that literal omission separate. This agrees with [RelativisticQuantumFieldTheory RQFT0–RQFT1](../RelativisticQuantumFieldTheory/README.md#milestone-rqft0--conventions-test-functions-and-exact-solution-carriers), which fixes signature `(+---)` and owns the Lorentzian equation/causal Green-operator bridge. Check the pinned stress convention against this model by deriving the nonnegative energy density stated in LVF6.
+
+The scalar comparison is UNSW p.41; its gauge-identity comparison uses Barnich–Brandt–Henneaux, §6.6, equation (6.27), p.48.
+
+*Needs:* §§3.3–3.7; the scalar block of the Legendre map; Layer 5 only for the final Noether-II comparison.
+
+The construction has the following API.
+
+- Prove the complex canonical coordinate and Legendre identities, the A₀-dependent correction and the actual Gauss constraint.
+- Compute the full time-dependent generator, its momentum transformations and multiplier change under the fixed gauge convention.
+
+**Checks.**
+
+- For p_x=2,p_y=4, π=1−2i and π̄=1+2i; with δφ=3+5i both real and complex pairings give 26.
+- For φ=1,π=π̄=0,e=A₀=1 and zero spatial/mass terms, H=H₀=0 while −L_int at the free velocity is −1; the correction +1 restores equality.
+- For α=t², the full primary generator gives δA₀=−2t and δu=−2; omitting the primary term would give δA₀=0.
+- On a torus ∫div Π=0, so Gauss gives total charge zero; a noncompact Coulomb reference with flux 4π permits total charge 4π in the corresponding normalization.
+
+
+### 3.9 Quadratic normalization and sourced Maxwell
 
 **LVF3.Borcherds52Quadratic — operator, Euler derivative and source normalization.** In p52's flat scalar example take compactly supported smooth real φ and test variation h, or state boundary conditions making the displayed integration by parts valid. Put `P=□+m²`, `A=−P/2`, and use the source's bilinear pairing `(f,g)=∫f g d⁴x`, with no complex conjugation. Prove `S(φ)=∫((∂φ)²−m²φ²)/2=(φ,Aφ)`, formal symmetry of A on this test domain, `dS_φ(h)=2(h,Aφ)` and `E(S)=2Aφ=−Pφ`; the functional Hessian is the bilinear operator `2A=−P`. The source labels Aφ itself “Euler–Lagrange equation”: Aφ=0 has the same stationary zero set, but Aφ is half the pinned Euler coefficient. For the complex-bilinear extension retain this pairing rather than silently replacing it by a Hermitian inner product; real-valued action/real-field or realification hypotheses must be stated separately. For `S+(J,φ)` derive the Euler coefficient `2Aφ+J` and the corresponding stationary equation. RQFT5 consumes this exact quadratic/Hessian/source dictionary in its finite Gaussian formulas; RQFT6 owns any infinite-dimensional realization on its stated Green-kernel source/solution or boundary/quotient carrier. No inverse of A on all smooth fields is asserted.
 
@@ -221,6 +643,24 @@ the A-equation `E(L_A)=J` therefore implies conservation of J. If J is a dynamic
 matter current, use the full coupled LVF5 identity and its matter equations instead
 of asserting off-shell conservation of that current. Derive J=0 as the source-free
 specialization. UNSW p31 displays only the vacuum density but claims the sourced equation: retain that omission separately and use the derived coupling/sign. RQFT1 consumes this local variation model and owns its causal solution/constraint realization.
+
+The source normalizations are Borcherds pp.46–48 and 52; the conservation comparison uses Barnich–Brandt–Henneaux, §6.6.
+
+*Needs:* §3.1 and Layers 1–2; Layer 5 only for the generic Noether-II comparison.
+
+The construction has the following API.
+
+- Compare quadratic action, Euler coefficient and Hessian with the bilinear operator A=−(□+m²)/2.
+- Derive the sourced Maxwell Euler expression, gauge variation and conservation equivalence for fixed smooth J; retain the separate coupled-matter identity.
+
+**Checks.**
+
+- For a unit-normalized real mode with Pφ=4φ and φ-amplitude 1, S=−2 and its amplitude derivative is −4; Aφ=−2φ is half the Euler coefficient.
+- Adding a source J=3 on that mode gives Euler coefficient −4+3=−1, not −2+3=1.
+- For fixed J with div J=1 and a compact χ of integral 1, δχS_J=1; for div J=0 it is 0 for every χ. This tests both directions of the conservation criterion.
+
+
+### 3.10 Finite Dirac Clifford and Spin comparison
 
 **LVF3.FiniteDirac — native Weyl carrier and pinned local variational model.**
 
@@ -245,6 +685,15 @@ Hermitian pairing has matrix H₀=`[[0,I],[I,0]]`; on the original coordinates i
 `T†H₀T=[[0,ε],[−ε,0]]`. First define the physical **vector** Clifford map
 `C(x)=[[0,X(x)],[adj(X(x)),0]]`, with C(x)²=g(x)I and
 `C(Λx)=ρ_W(A) C(x) ρ_W(A)⁻¹` for the Hermitian-congruence vector action Λ.
+The acceptance definitions `timeFirstToNative`, `diracVector` and `diracWeyl`
+are respectively P, the matrix C evaluated at native v=P x, and ρ_W evaluated
+through the native Spin–SL₂ equivalence. The headline
+`diracClifford_spin_comparison` asserts existence of a real algebra homomorphism
+with the stated vector images and exact Spin restriction;
+`dirac_covariance_and_pairing` asserts C(s·v)ρ_W(s)=ρ_W(s)C(v) and
+ρ_W(s)†H₀ρ_W(s)=H₀ for every native Spin element and physical vector.
+Their four-dimensional matrix carrier is indexed by the two Weyl summands.
+
 Define the real-algebra Clifford representation c by `CliffordAlgebra.lift` of
 `c(Px)=−iC(x)`, acting on the complex4-dimensional carrier with scalars restricted
 to ℝ. Prove that its Spin restriction agrees with ρ_W through the actual native
@@ -311,11 +760,68 @@ the pinned real canonical/primary-constraint conventions. FiniteDirac's matrix/S
 construction uses the native suppliers independently of the Noether theorems. No
 generic Noether theorem depends on these worked model currents or generators.
 
-## LVF4. Noether I and symmetry currents
+The algebra comparison uses the pinned ThreeOne generator formulas. The field/source comparisons are Borcherds pp.107, 110 and 115–118 and UNSW pp.19–20.
+
+*Needs:* the native ThreeOne Spin/Clifford contracts; Layer 2 for variation and Layer 4 only for model currents.
+
+The construction has the following API.
+
+- For `timeFirstToNative`, prove the metric/permutation dictionary; for `diracVector`, prove linearity and the exact Clifford square, with dual-frame and chirality comparisons.
+- For `diracWeyl`, prove the group law and pairing invariance; prove the two acceptance headlines and the explicit T and U transports.
+- Compare the real flat density, paired equations, phase/axial currents and their separate Grassmann extension.
+
+**Checks.**
+
+- P e₀ is the native timelike basis b₃ and Q(P e₀)=−1. Its Hermitian matrix is I₂, so C(P e₀)=H₀ and C(P e₀)²=I₄; the zero Clifford map fails.
+- P e₁=b₂ gives X=diag(1,−1); C(P e₁)²=−I₄. For x=e₀+e₁, X=diag(2,0) and C(P x)²=0, while C(P x) is nonzero.
+- For A=diag(2,1/2), the lower Weyl block is diag(1/2,2), giving ρ†H₀ρ=H₀. For A=[[1,1],[0,1]], the lower block is [[1,0],[−1,1]]; replacing it by bar A fails this identity.
+- For every basis pair b_i,b_j, compare −C(b_i)C(b_j) with the native even-Clifford product: b₃² gives −I₄, while b₂b₃ gives diag(−σ₃,σ₃). This pins the actual Spin restriction.
+- With spatial order (σ₃,σ₁,σ₂), Γ⁵=diag(I₂,−I₂) and (Γ⁵)²=I₄; the unphased four-gamma product squares to −I₄. Weyl swapping changes Γ⁵ to diag(−I₂,I₂).
+
+
+### Examples
+
+The oscillator, noninvertible substitution, charged reference and finite Dirac matrices test distinct interfaces.
+
+### Dependencies
+
+Generic constructors use Layers 1–2, the exact bundle/integration/transpose contracts and native Spin algebra. Only the labelled model current and gauge comparisons use Layers 4–5; none supplies a premise of those generic Noether theorems.
+
+## Layer 4: Noether I and symmetry currents
+
+### 4.1 Evolutionary symmetries, currents and improvement
 
 Define a finite-order evolutionary characteristic and its prolongation, and prove first variation for a vertical symmetry up to a horizontal divergence. State the current as an `(n−1)`-form with the fixed convention `j↦Σ_μ(−1)^(μ−1)j^μ dx¹∧…∧dx̂^μ∧…∧dxⁿ`, twisted by orientation when needed. Prove current transformation under adding `d_HB` and improvement modulo `d_H`-exact `(n−2)`-forms. Include Abelian, scalar-electrodynamics and non-Abelian gauge examples, with all jet-dependent generator coefficients. Define `δ=d†` and the gauge-covariant formal adjoint `D_A†` by LVF3’s actual Green identity for the fixed metric/density and invariant fibre pairing. With the pinned negative gauge action `L=−F²/4`, its metric-identified Euler one-form is `e=−δdA`, respectively `e_A=−D_A†F_A`; the intrinsic Euler source remains density-dual-valued and is compared through the chosen pairing/density identifications. In flat coordinates this is exactly the displayed `E^μ=∂_νF^{νμ}`, respectively `D_νF^{νμ}`, not its negative. The zero sets alone are not the sign convention. Represent a connection on the affine bundle `Conn(P)` relative to an arbitrary reference connection `A₀` by `A=A₀+a`; derive the jet formula and prove the Euler/Noether identities are independent of the chosen reference connection. A base vector field ξ with field variation φ has evolutionary characteristic `Q=φ−ξ^μu_μ`; translation and Lorentz transformations are not mislabeled as vertical variations. Derive their currents and on-shell conservation under explicit constant-coefficient/metric-preservation assumptions. For Maxwell with `L=−F_{μν}F^{μν}/4`, `E^μ=∂_νF^{νμ}`, and `δA_μ=∂_με`, derive `J^μ_ε=∂_ν(εF^{νμ})−εE^μ`, so the superpotential is `U^{νμ}_ε=εF^{νμ}`. For Yang–Mills with the fixed invariant pairing, `E^μ=D_νF^{νμ}` and `δA_μ=D_με`, derive `J^μ_ε=∂_ν⟨ε,F^{νμ}⟩−⟨ε,E^μ⟩`, with `U^{νμ}_ε=⟨ε,F^{νμ}⟩`; state boundary and pairing conventions. A current's charge is conserved only when the domain, support/decay and boundary flux hypotheses justify Stokes.
 
-## LVF5. Noether II, reducibility, and identities
+Use Anderson, §5A, Corollary 5.3, pp.197–198, and Barnich–Brandt–Henneaux, §6.6 for the current identity; Stokes retains the stated flux hypotheses.
+
+*Needs:* Layers 1–2; §3.1; SmoothBundlesConnections B3–B4; DifferentialGeometry Stokes.
+
+The construction has the following API.
+
+- Construct finite-order evolutionary prolongation and the current Θ−K; prove divergence equals minus the Euler pairing and derive the improvement law.
+- Construct gauge superpotentials with density-dual versus metric-identified Euler comparison, including affine reference independence.
+- Compare the all-signature action with SmoothBundlesConnections B8.1–B8.2 on a positive Riemannian metric: −F²/4 is −one-half of its norm-square density, and its +2 first variation becomes −D_A†F.
+
+**Checks.**
+
+- For L=u₁²/2 and constant shift δu=1, j=u₁ and Dj=u₂=−E; reversing the sign of j fails.
+- For L→L+D(u²/2), the shift boundary term increases by u and K increases by u, so Θ−K stays u₁.
+- For an Abelian field with F¹⁰=f(x¹) and ε=x¹, J⁰=∂₁(x¹f)−x¹∂₁f=f; with f=2 both sides are 2.
+- For a positive two-plane curvature F₁₂=a, |F|²=a² and −F²/4=−a²/2; their amplitude derivatives are 2a and −a. At a=3 they are 6 and −3.
+
+
+### Examples
+
+The oscillator and gauge superpotentials fix the current sign; the positive two-plane test fixes the Yang–Mills normalization.
+
+### Dependencies
+
+Layers 1–2 and §3.1; SmoothBundlesConnections B3–B4 and B8.1–B8.2 for positive comparison; DifferentialGeometry Stokes. No Cauchy constraint or KT exactness is a premise.
+
+## Layer 5: Noether II, reducibility, and identities
+
+### 5.1 Joint-parameter Noether II
 
 Define a gauge generator `R_u` as a finite-order operator in sections ε of a fixed smooth parameter vector bundle `P→M`, with jet-local coefficients in the physical section u and values in its vertical variation bundle. Form the joint bundle `E×_M P→M`, prove its finite-jet comparison with the fibre product of field and parameter jets, and prolong the variation on that carrier. For base dimension n≥1, a density of field order r and an operator of parameter order s whose coefficients have field order a, construct **one** current operator `B_L,R(j^N u,j^N ε)`, linear and homogeneous in the parameter jets. It takes values in the density-twisted horizontal `(n−1)`-forms; it is not a separate primitive chosen after each ε. Use LVF2's selected global first-variation/Lepage data and LVF3's Green current to construct it with a definite finite-stage bound; `N=2r+2a+2s+2` is a conservative common stage to prove. Show restriction, bundle/parameter-frame change and refinement compatibility, with the change-of-Lepage improvement law. For locally finite-order data construct the same single sheaf operator with locally bounded order, not a global order bound on arbitrary noncompact field values.
 
@@ -330,15 +836,71 @@ Prove `supp(B(u,ε))⊆supp ε` and its compact-supported parameter-family versi
 
 In base dimension n=0 there is no horizontal current of degree−1: set the divergence term to zero and prove the finite-dimensional algebraic identity `δ_(Rε)λ=⟨R^tE(λ),ε⟩`. Vanishing for every parameter is equivalent to `R^tE(λ)=0` by the ordinary dual pairing, or its graded coefficient version; do not apply a compact-support integration argument or adjoin a degree−1 form. The pure Yang–Mills n=0 resolution below remains separate.
 
+Use Barnich–Brandt–Henneaux, §6.6, equation (6.27), p.48, for the enlarged parameter-jet formulation; the finite-stage bound and sheaf/global adapters are required here.
+
+*Needs:* Layers 1–2; §3.1; Layer 4 first-variation current.
+
+The construction has the following API.
+
+- Construct joint field/parameter jets and one linear homogeneous current operator with the stated order bound and restriction/frame laws.
+- Prove both directions of the universal divergence/transpose identity, retaining parameter support and the separate algebraic n=0 case.
+
+**Checks.**
+
+- For λ=u dx and Rε=ε in n=1, RᵗE=1 and δλ=ε dx; a chosen primitive ∫ε dx for each ε is nonlocal and does not satisfy the joint-local conclusion.
+- For λ=u₁²dx/2 and Rε=Dε, δλ=u₁ε″, RᵗE=u₃ and B=u₁ε′−u₂ε; u₃ε+DB=u₁ε″.
+- For ε=0 all parameter jets and B vanish. If ε is zero on an open set, every derivative and B vanish there too; an added parameter-independent constant current violates this normalization.
+- In n=0, λ=u²/2 and Rε=2ε give δλ=2uε=⟨RᵗE,ε⟩ with no current; at u=3,ε=4 both sides equal 24.
+
+
+### 5.2 Gauge identities and configuration stabilizers
+
 Use three explicit model complexes; their hypotheses are part of the theorem statements, not a generic regularity escape clause.
 
 * **Free Abelian electrodynamics on four-dimensional flat Minkowski space.** For a potential `A∈Ω¹(M)`, take `R(ε)=dε`, `e(A)=−δdA`, and the Noether operator `N(e)=δe`; fix the Lorentz metric and formal-adjoint convention so `N∘e=−δ²d=0`. The gauge-parameter complex is `ℝ→C∞(M) --d→ Ω¹(M)`, exact at `C∞` on each connected chart; the configuration stabilizer is `ker d`, locally constant parameters; it vanishes under compact support on connected noncompact Minkowski space. This fixed-configuration kernel is not a local reducibility operator. For the constant-coefficient identity calculation, let `S=ℝ[ξ₀,…,ξ₃]`, `q(ξ)=ξ₀²−ξ₁²−ξ₂²−ξ₃²`, and the mixed-index symbol `M(ξ)^μ_ν=q(ξ)δ^μ_ν−ξ^μξ_ν`. Its left kernel is generated by the covector `ξ_μ`. Prove `ker_S(·M)=S·ξ` by cancelling the relatively-prime factors `q` and `ξ_μ`, and prove exactness of the Koszul complex on `(ξ₀,…,ξ₃)` at `S⊗Λ^kℝ⁴` for `k>0`. This fixes the generator and relations of the translation-invariant Noether-identity module; the proof does not claim the same classification for arbitrary variable-coefficient operators without a separate filtered argument.
 * **Scalar electrodynamics on a connected four-dimensional Minkowski domain.** Fix `D_μ=∂_μ+ieA_μ` and `δ_εA=dε`, `δ_εφ=−ieεφ`, `δ_εφ̄=ieεφ̄` (or state and prove the equivalent all-sign-reversed convention). For `L=−F²/4+(D_μφ)̄D^μφ−V(x,φ̄φ)` with real smooth gauge-invariant V, use the paired complex-field Euler expressions and derive the exact identity `−∂_μE_A^μ−ieφE_φ+ieφ̄E_{φ̄}=0` by formal adjunction of this `R_φ`. At a fixed configuration the stabilizer is `{ε : dε=0 ∧ εφ=0}` (with `e≠0`), hence on a connected domain it is the constants `c` with `cφ=0`. Keep this configuration stabilizer separate from local reducibility of the gauge generator.
 * **Yang–Mills on a fixed principal bundle.** With connection `A`, curvature `F_A`, invariant pairing, `R_A(ε)=D_Aε`, and `e_A=−D_A†F_A`, derive `D_A†e_A=0` from gauge invariance with the fixed adjoint/density comparison; do not assume `(D_A†)²=0` on arbitrary forms. Keep every base dimension: the regular n≥2 and degenerate n=0,1 equation resolutions are distinguished below. At a fixed connection the stabilizer is the parallel-section space `ker D_A`; it vanishes for compact support on a connected noncompact chart, while globally it depends on the stabilizer of A. This configuration stabilizer is distinct from a local differential reducibility operator. Gauge fixing changes both the generator complex and identity module; derive its new complex separately. For boundary parameters, replace compact support by the exact boundary domain and retain the boundary charge term.
 
+Use Barnich–Brandt–Henneaux, §§5.1.3–5.2 and §6.6; the polynomial-symbol comparison uses the stated regular coordinate sequence.
+
+*Needs:* §5.1; the fixed Maxwell/scalar/Yang–Mills actions; §3.1 transposes.
+
+The construction has the following API.
+
+- Construct the actual gauge-parameter and identity complexes and distinguish configuration kernels from finite-order reducibility operators.
+- For the translation-invariant Maxwell symbol prove its polynomial left-kernel presentation and positive-degree Koszul exactness.
+
+**Checks.**
+
+- For a flat U(1) connection, D_A1=0; a compactly supported constant on connected noncompact space must instead be 0.
+- In scalar electrodynamics with e≠0, φ=0 permits constant stabilizers; φ=1 forces ε=0. For e=0 that latter conclusion would fail.
+- At ξ=(1,0,0,0), M=diag(0,1,1,1) and ξM=0; at ξ=(1,1,0,0), q=0 and M has rank one, so its pointwise left kernel is larger than the polynomial-module rank-one presentation.
+- For non-Abelian covariant differentiation, D_A²ε=[F_A,ε]; in sl₂(ℝ), F_A=E₁₂ and ε=E₂₁ give diag(1,−1), not zero. Thus the Noether identity cannot come from asserting D_A²=0 on all inputs.
+
+
+### 5.3 Equation Koszul complex and stationary coefficients
+
 **LVF5.StrictKoszul — carriers before completeness.** Work first in an even real local field chart (complex scalar fields are real pairs), with symmetric multi-indices and the LVF1 stage maps. For these second-order models let `A_r=C∞(J^rE|_U,ℝ)`, `r≥2`, and let `e_(a,I)` be odd generators of antifield number1 for `|I|+2≤r`. They are the local equation-antifield jets, with the density-dual frame-change law of the Euler coefficients. The initial complex is the actual graded-commutative algebra `K_r=ExteriorAlgebra A_r (labels_r→₀A_r)`, written `Λ_(A_r)(e_(a,I))`, with `δ_K A_r=0`, `δ_K e_(a,I)=D_Iℰ_a`, graded Leibniz and `δ_K²=0`. Put `I_r=(D_Iℰ_a : |I|+2≤r)` and `Ā_r=A_r/I_r`. Transition maps and total derivatives respectively preserve and raise this jet budget; the local finite-order colimit and its sheafification are the LVF1 carriers, not one fixed finite jet algebra. All module statements below concern these coefficients and strict equalities, before any quotient by horizontal divergences.
 
 A differential identity `Q(ℰ)=Σ_(a,I)q^(a,I)D_Iℰ_a=0` corresponds to the degree-one cycle `Σq^(a,I)e_(a,I)`. Prove the normal-form/operator-to-cycle comparison by arbitrary test-section jet-surjectivity, with the dual-density and frame transformations; distinguish formal differential operators from their value on this particular ℰ. The trivial syzygies are precisely the degree-one boundaries from the equation-only degree-two exterior products. In particular `δ_K(e_b z)=ℰ_b z` for a degree-one cycle z, and the same holds for prolonged equations. Thus `H₁(K)` is naturally a module over the **stationary ring** `Ā=F_loc/I_∞`, `I_∞=(D_Iℰ_a)`. An `F_loc` presentation must retain these equation-ideal annihilator relations. They are not stage-1 differential reducibility operators and do not disappear when the physical gauge generator is strictly irreducible.
+
+Use Barnich–Brandt–Henneaux, §5.2, Theorem 5.1, pp.33–34; the strict stationary-coefficient presentation and stage bookkeeping are as specified here.
+
+*Needs:* Layer 1 stages; §5.2 model Euler coefficients; native exterior algebra.
+
+The construction has the following API.
+
+- Construct equation-antifield jets with δe=D_Iℰ, their frame/stage laws and square-zero differential.
+- Identify strict operators with degree-one cycles, trivial syzygies with boundaries, and equation-ideal annihilation of homology.
+
+**Checks.**
+
+- With two equations L₁=x,L₂=y, δ(e₁e₂)=xe₂−ye₁ and δ²(e₁e₂)=xy−yx=0.
+- For a cycle z and δe=x, δ(ez)=xz; hence x[z]=0 in homology although x need not vanish in the original coefficient ring.
+- At r=2 there are equation antifields with |I|=0 and no |J|+3≤r gauge antifields; at r=3 first equation derivatives and J=0 gauge labels enter. A fixed-stage total derivative would exceed the budget.
+
+
+### 5.4 Regular equation coordinates
 
 **LVF5.RegularCoordinates — an explicit regularity theorem.** The Maxwell and scalar-electrodynamics models above are the four-dimensional Minkowski models. The following pure Yang–Mills construction is required on every smooth n-dimensional base with `n≥2`, every fixed principal bundle with finite-dimensional Lie group, a nondegenerate `Ad`-invariant symmetric Lie-algebra pairing κ, a fixed smooth nondegenerate metric of any signature, and a fixed positive smooth density `ρ|dx|`. It is local and reference-connection independent. It asserts no regularity for arbitrary modified/higher-derivative Lagrangians. On a bundle/base chart put `A=A_μdx^μ`, retain `L=−κ(F_μν,F^{μν})/4`, and use density Euler coefficients `ℰ_a^μ` defined by `δS=∫ℰ_a^μ δA_μ^a dx` plus the boundary term. Prove explicitly their invertible comparison with the metric-identified one-form `−D_A†F`: locally `ℰ_a^μ=ρ κ_ab g^{μν}(−D_A†F)^b_ν`. This is the component basis for the following split; it is not the raw lowered one-form basis.
 
@@ -358,7 +920,26 @@ The associated field-jet leaders are `A_(i,I+2e₀)` for i≥1 and all I, and `A
 
 For the four-dimensional scalar-electrodynamics model, add all prolonged real-pair scalar equations to `L_ind` and the leaders `φ_(I+2e₀)` for each real scalar component. Fix its standard action `−F²/4+(D_μφ)̄D^μφ−V(x,φ̄φ)` with real smooth gauge-invariant V and the stated gauge signs. The scalar principal block is a fixed invertible real-pair kinetic matrix times `g^{00}`. Its potential, mass and minimal-coupling terms have lower maximal jet order; the Maxwell matter current has at most first scalar derivatives. Prove the resulting simultaneous triangular construction for every field value, including zero scalar field. No `φ=0/φ≠0` stratification or assumed regularity is used. The free Maxwell case is the Abelian, matter-free specialization. Any claimed extension to a degenerate kinetic form or a different action must compute its own actual equation/identity complex; it does not inherit this theorem by its name.
 
-**LVF5.IdentityNormalForm — stationary coefficients and all relations.** In the density basis the pure Yang–Mills identity is `R^t(ℰ)=−D_μℰ^μ=0`; scalar electrodynamics has exactly the displayed matter terms as well. For `|J|≤r−3`, express `D_J(R^tℰ)` as a linear combination of the finite `L_ind,L_dep`. Its coefficient on `D_(J+e₀)ℰ^0` is minus the identity; all other dependent equations have strictly smaller total derivative order. Prove the finite triangular matrix is invertible, including every connection, metric/density-adapter and matter coefficient. Eliminating a dependent equation `D_Iℰ^0` recursively lowers its total derivative order at every substitution, so each branch of the recursion has depth at most `|I|≤r−2`; no equation or field jet of order above r enters. It follows that the dependent equations are smooth linear combinations of `L_ind`; do not replace this assertion by independence of the gauge principal symbol alone.
+Compare the flat split with Barnich–Brandt–Henneaux, §5.1.3, equations (5.10)–(5.13), pp.31–32. Mixed metrics and the finite-stage smooth coordinate theorem are the explicitly owned extension.
+
+*Needs:* §§5.1–5.3; smooth metric/density and bundle charts; finite-dimensional smooth inversion.
+
+The construction has the following API.
+
+- Prove invertibility of the mixed-metric principal block and construct the smooth triangular equation-coordinate change with the stated order budget.
+- Include the scalar kinetic block without excluding zero scalar values and prove reference/frame independence.
+
+**Checks.**
+
+- For inverse metric [[2,1],[1,3]], a=2,b=5,B=[5],C₁=0 and det B=5=2⁰det g. No diagonal-metric assumption is needed.
+- For inverse metric [[2,1,1],[1,3,0],[1,0,4]], B=[[5,−1],[−1,7]], det B=34=2·17 and C=(0,3). Omitting C₂ loses the coefficient 3 of the A₀ leader.
+- In n=2,r=2,d=1,m=0 there are N_r=2 leaders; in n=4,r=2,d=1,m=2 there are 6. At φ=0 the two scalar kinetic coefficients remain nonzero.
+- In null coordinates with g⁰⁰=0 the proposed inversion is undefined; choosing a nondegenerate orthogonal cotangent basis supplies an admissible chart instead of excluding that metric.
+
+
+### 5.5 Identity normal form and stationary presentation
+
+**LVF5.IdentityNormalForm — stationary coefficients and all relations.** In the density basis the pure Yang–Mills identity is `R^t(ℰ)=−D_μℰ^μ=0`; scalar electrodynamics has exactly the displayed matter terms as well. For r≥3 and `|J|≤r−3`, express `D_J(R^tℰ)` as a linear combination of the finite `L_ind,L_dep`. Its coefficient on `D_(J+e₀)ℰ^0` is minus the identity; all other dependent equations have strictly smaller total derivative order. Prove the finite triangular matrix is invertible, including every connection, metric/density-adapter and matter coefficient. Eliminating a dependent equation `D_Iℰ^0` recursively lowers its total derivative order at every substitution, so each branch of the recursion has depth at most `|I|≤r−2`; no equation or field jet of order above r enters. It follows that the dependent equations are smooth linear combinations of `L_ind`; do not replace this assertion by independence of the gauge principal symbol alone.
 
 Apply the same invertible matrix to equation antifields. Write η for those belonging to `L_ind` and `z_J=D_J(R^t(e))` for the resulting odd cycles. Prove the actual `A_r`-algebra chain comparison
 
@@ -366,9 +947,27 @@ Apply the same invertible matrix to equation antifields. Write η for those belo
 
 On an adapted-coordinate product, with the independent-equation domain star-shaped about zero, or on such product germs around a stationary point, the coordinate Koszul complex has homology `Ā_r` in degree0 and zero in positive degree. Prove this by the explicit smooth Hadamard contraction in the equation coordinates; off the stationary locus an invertible equation gives the contraction. Therefore
 
-`H₁(K_r) ≃ ⊕_(|J|≤r−3) Ā_r·[z_J]`.
+`H₁(K_r) ≃ ⊕_(|J|+3≤r) Ā_r·[z_J]`.
 
 This is a **local stationary-coefficient** presentation, with the adjoint-bundle component index included in J. Over `A_r` its kernel of coefficients is exactly `I_r·A_r^(J)`; over `Ā_r` this particular normal-model basis has no further relations. It is not a relation-free `F_loc` presentation, nor a global scalar cyclic module on a nontrivial bundle. Pass to the compatible locally finite-order/sheaf version with sheafified direct sums and chart-change comparisons. Keep the separate translation-invariant Maxwell result `ker_S(·M)=S·ξ≃S` on its polynomial-symbol carrier; its generator is the row ξ, not the identically zero expression `ξ_μℰ^μ` viewed as an ordinary function.
+
+Use Barnich–Brandt–Henneaux, §5.2, Theorem 5.1, pp.33–34, for the contracting-pair route; the finite-stage stationary presentation follows from §5.4 rather than a symbol-only argument.
+
+*Needs:* §5.4 equation coordinates; §5.1 density-basis identity; §5.3 Koszul complex.
+
+The construction has the following API.
+
+- Construct the invertible equation/antifield basis transformation and identify dependent equations through lower-order triangular substitution.
+- Prove the local stationary-coefficient presentation, its equation-ideal kernel over the original coefficients, and sheaf/frame comparisons.
+
+**Checks.**
+
+- For the abelian identity −D₀ℰ⁰−D_iℰⁱ=0, the coefficient of D₀ℰ⁰ is −1, and solving gives D₀ℰ⁰=−D_iℰⁱ.
+- For one independent coordinate L and one closed odd z, δ=L∂η gives H₁=(A/(L))z; the coefficient L produces the boundary δ(ηz)=Lz.
+- At r=2 the dependent identity-label set is empty, so its displayed direct sum is zero; at r=3, J=0 supplies one basis cycle per Lie-algebra component. For gauge rank zero both sets are empty.
+
+
+### 5.6 Koszul–Tate resolution and contraction
 
 **LVF5.KTResolution — order-controlled contracting pairs.** Add even antifields `c_J` of antifield number2 and jet budget `|J|+3≤r`, with `δ_KT c_J=z_J`; coefficients have differential zero. In the preceding coordinates the differential is
 
@@ -377,6 +976,25 @@ This is a **local stationary-coefficient** presentation, with the adjoint-bundle
 Construct the graded radial contraction using `h=Σ_a η_a∂/∂L_a+Σ_J c_J∂/∂z_J` and simultaneous scaling of these paired variables, obtaining `δH+Hδ=id−ιπ`, where π sets all paired variables to zero and retains y. The actual carrier is the graded tensor product of the native exterior algebra on odd labels and the native symmetric algebra on even labels over `A_r`. Antifield variables are polynomial graded generators (odd exterior, even symmetric), not a completed or unrestricted BRST algebra. This homotopy is real-linear, and on a coordinate product `C∞(y)`-linear; it is **not** asserted `A_r`-linear and need not commute with total derivatives. Its underlying exactness proves the claimed `A_r`-module homology statement.
 
 Prove every displayed coordinate/basis change, inverse and H stays within stage r with the weighted budgets above, and is compatible with truncation pullbacks. `D_μ` raises the stage by at most one and commutes with δ; no fixed finite stage is closed under all total derivatives. Use exactness of filtered colimits and sheafification to obtain `H₀=F_loc/I_∞` and `H_p=0` for every p>0, hence H₂=0, for these normal models on the locally finite-order sheaf. Prove frame/reference-connection independence. Local contractions preserve the base point and hence base-support restrictions; a claim on compact-supported/global sections must state the partition-of-unity/gluing and locally bounded-order argument. No uniform jet bound is claimed over arbitrary noncompact field values, no support in the higher-jet directions is promised, and no compact-support assumption repairs an algebraic missing identity. The finite-stage contraction and its smooth-coordinate version are LVF5-owned developments on the native exterior/symmetric algebra carriers, not a claim that a cited regular-sequence API already supplies this jet-sheaf theorem.
+
+Use Barnich–Brandt–Henneaux, §5.2, Theorem 5.1 and its paired-variable proof, pp.33–34; the smooth/order/sheaf version is the construction here.
+
+*Needs:* §5.5 normal form; native exterior and symmetric algebras; filtered colimits and sheafification.
+
+The construction has the following API.
+
+- Construct the even degree-two antifields, differential and smooth radial contraction on the declared equation-coordinate products.
+- Prove H₀ is the stationary algebra and all positive homology vanishes, preserving jet budgets, chart changes and the stated support scope.
+
+**Checks.**
+
+- For δc=z, δz=0 and h=c∂z, (δh+hδ)c=c and (δh+hδ)z=z; on c² it is 2c², so the radial normalization divides by degree two.
+- For δη=L, the normalized homotopy satisfies H(L)=η and δH(L)=L. But H(1)=0, so H is not A-linear: H(L·1)≠L H(1).
+- For a constant f(y), both δH+Hδ and id−ιπ give 0; for Lη the latter gives Lη. Off the stationary locus L=1 gives the contraction δ(ηf)=f for a cycle f.
+- At r=3 the pair c₀,z₀ lies within the budget; a total derivative moves it to r=4. No equality asserts closure inside r=3.
+
+
+### 5.7 Dimensions zero and one, and reducibility
 
 **LVF5.LowDimensions — pure Yang–Mills is retained.** In n=1, curvature and the pure Yang–Mills Euler expressions vanish identically. Thus `I_∞=0`, `δ_K e_(a,I)=0`, and the complete initial identity module is the free module on **every** equation-antifield jet, including order0. The equation-antifield resolution adds even degree-two `b_(a,I)` with `δb_(a,I)=e_(a,I)`; these pairs give `H₀=F_loc`, `H_p=0` for p>0, with jet budget `|I|+2` for both generators. The physical gauge identity `D_J(R_A^t e)` factors through these complete zeroth-order identities. It is not their full list: for the flat one-dimensional U(1) control, the gauge-only differential `δc_k=−e_(k+1)` leaves `e_0` nonboundary. If one retains the redundant physical-gauge antifields c as well as b, add odd degree-three t with `δt_J=c_J−D_J(R_A^t b)`; the transformed c/t are another contractible pair. Prove these statements and order bounds directly, without identifying identity-resolution generators with a larger physical gauge-parameter group.
 
@@ -387,9 +1005,55 @@ For n≥1 the physical generators d, the stated scalar generator, and `D_A` have
 Compare the flat normal-form and contracting-pair route with [Barnich–Brandt–Henneaux, §§5.1.3–5.2](https://arxiv.org/abs/hep-th/0002245), equations(5.10)–(5.13). Their metric convention is not used to change the action sign here. The variable-metric/density, finite-order/sheaf and explicit low-dimensional comparisons just stated remain owned theorem targets, not results certified by that citation.
 
 
-## LVF6. Background geometry and stress-energy
+These low-dimensional equation resolutions are proved directly; the two-direction split in Barnich–Brandt–Henneaux, §5.1.3, does not cover them.
+
+*Needs:* §5.3; §5.6 paired-variable contraction; the n=0 and n=1 pure Yang–Mills actions.
+
+The construction has the following API.
+
+- Construct the complete equation resolution in n=1 from all zeroth-order equation identities and eliminate redundant gauge pairs.
+- Construct the n=0 minimal resolution and its redundant-pair comparison; distinguish strict operator reducibility from stabilizers and weak identities.
+
+**Checks.**
+
+- In n=1, F=0 and ℰ=0, so δe₀=0; using only δc_k=−e_(k+1) leaves the class of e₀ nonzero.
+- Adding b₀ with δb₀=e₀ kills that class; with redundant c_J, δ(c_J−D_J(Rᵗb))=z_J−z_J=0 and a t_J preimage kills it.
+- In n=0 there are zero one-form components, and the minimal resolution is A in degree zero. A redundant even c with δc=0 gives a nonzero H₂ class until δs=c is imposed.
+- For n≥1 the symbol ξ₀Z(ξ)=0 forces polynomial Z=0; in n=0 the physical gauge operator is zero and Z=id is a nonzero strict reducibility.
+
+
+### Examples
+
+The mixed-metric block, stationary annihilator and n=0,1 complexes distinguish the resolution claims.
+
+### Dependencies
+
+Layers 1–2, §3.1, Layer 4 and the fixed model actions; SmoothBundlesConnections B3–B4; native exterior/symmetric algebras. Regular coordinates precede identity normal form and the KT contraction.
+
+## Layer 6: background geometry and stress-energy
+
+### 6.1 Hilbert stress and the global Dirac bundle
 
 For a base vector field with a specified field-bundle lift derive the density Lie derivative and balance law, keeping background-field terms. Define Hilbert stress-energy by `δS=(1/2)∫√|g| T_{μν}δg^{μν}=−(1/2)∫√|g|T^{μν}δg_{μν}` for compactly supported metric variations; pin signature, density and pairing conventions and derive the equivalence by varying the inverse metric and density. Pin the canonical translation tensor as `T^μ_ν=(∂L/∂(∂_μu^a))∂_νu^a−δ^μ_νL`, summing field components. Check `T^{00}=((∂₀φ)²+|∇φ|²+m²φ²)/2≥0` for real Klein–Gordon with `m²≥0`. For Maxwell with `L=−F²/4`, prove the **Hilbert/Belinfante** tensor is `T^H_{μν}=−F_{μα}F_ν{}^α+(1/4)g_{μν}F²`, with `T_H^{00}=(|E|²+|B|²)/2≥0`. The canonical tensor is gauge dependent: with `F^{i0}=E^i` and `A₀=Φ`, prove `T_can^0_0=T_H^0_0+E·∇Φ`; on free shells this difference is `∇·(ΦE)`. Prove the corresponding integrated-energy equality under the stated boundary/decay condition, rather than pointwise positivity of the canonical tensor. Preserve Borcherds p.47’s literal `−¼δ^μ_νF²` separately as a source-side sign error; the canonical Maxwell term in the pinned convention is `+¼δ^μ_νF²`. Relate Hilbert to canonical translation current only on shell and with the explicit improvement. Prove Belinfante under Lorentz invariance of a first-order Lagrangian, specified spin current, and metric-compatible connection, deriving the superpotential and its sign from the pinned variation convention. Include Dirac fields in this full metric/Hilbert scope through **LVF6.GlobalDirac**, on a smooth Hausdorff paracompact Lorentzian four-manifold with chosen orientation, time orientation and a chosen smooth Spin lift `P→Fr⁺↑_g(TM)`. The lift is data, not a consequence of orientability alone. Use the native norm-one ThreeOne Spin group and LVF3.FiniteDirac's fixed signature/permutation dictionary to its `SO₀(+---)` vector action and complex Dirac representation; consume [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md#layer-7-real-clifford-algebras-bott-periodicity-and-spinp-q) for the smooth cover/Lie-algebra comparison. Its full norm-±1 covers supply the separately specified disconnected Lorentz transformations. Construct the global associated bundle `S=P×_ρℂ⁴`, invariant Dirac pairing and Clifford multiplication with restriction, pullback and change-of-spin-frame laws. Lift each metric-compatible principal `SO₀(+---)` connection uniquely to P through the differential of the covering map, and induce its Clifford connection using SmoothBundlesConnections B2–B4. Prove Clifford compatibility and `∇^S_μ=∂_μ+ρ_*(ω_μ)` in local frames, hence the curved dual-frame Dirac operator. Local coframes trivialize this global construction; no global coframe or trivial spin bundle is assumed.
+
+Use Bär–Gauduchon–Moroianu, §6, pp.16–17, for spinor stress and §5 for the connection comparison; the scalar/Maxwell tensors follow from the specified actions.
+
+*Needs:* Layers 1–4; §3.10; SmoothBundlesConnections B2–B4; SpinRepresentations Layer 7.
+
+The construction has the following API.
+
+- Construct Hilbert and canonical stresses with the fixed inverse-metric convention, and derive their on-shell improvement comparison.
+- Construct the associated global Dirac bundle, invariant pairing and lifted Clifford connection with restriction/pullback and spin-frame laws.
+
+**Checks.**
+
+- For scalar jets ∂₀φ=2, spatial gradient norm 3, m=1,φ=4, T⁰⁰=(4+9+16)/2=29/2.
+- For |E|=2, |B|=3, Maxwell T_H⁰⁰=13/2; when E·∇Φ=−10 the canonical value is −7/2. Pointwise positivity of the latter is false.
+- On the trivial Spin lift with constant coframe and zero connection, ∇^S=∂ and the Dirac matrix is the §3.10 one; changing spin frame by A=diag(2,1/2) preserves H₀ by ρ†H₀ρ=H₀.
+- For a pure gauge A=dχ, F=0 and the Hilbert Maxwell tensor is zero, whereas gauge-dependent canonical formulas must be compared through their actual improvement.
+
+
+### 6.2 Real Dirac action with independent connection
 
 **LVF6.DiracRealAction — independent connections and the torsion trace.** Pin the real global action, for real m, by the Hermitian density
 
@@ -407,19 +1071,63 @@ Thus the old flat divergence identity is recovered for Levi–Civita connections
 
 Derive the paired density Euler expressions of λ_sym, including the trace term: after the invariant pairing/density comparison the ψ equation is `[iΓ^μ∇^S_μ−(i/2)(t_ρ)_μΓ^μ−m]ψ=0` and its paired equation is `−i(∇^S_μψ̄)Γ^μ+(i/2)(t_ρ)_μψ̄Γ^μ−mψ̄=0`. This is the symmetrized independent-connection model; the flat Minkowski specialization with constant coframe, constant density and trivial spin connection recovers LVF3's flat equations. For `ρ=ρ_g`, vanishing torsion trace removes the explicit trace term; for a general positive density its vanishing condition is `t_ρ=0`. These conditions retain the curved Clifford coefficients and spin covariant derivative. A claim that the unsymmetrized and symmetrized actions have the same Euler expressions requires the displayed bulk correction to vanish or to be included explicitly. Compact support removes an integrated divergence, not that bulk term. The coframe/connection Euler terms and Levi–Civita-restricted variation below refer to this pinned λ_sym.
 
+Bär–Gauduchon–Moroianu, §5, treats metric-induced Dirac variation. The independent torsionful connection and density correction here are derived from the displayed divergence/Green identity.
+
+*Needs:* §6.1; §3.1 Green identity; Layer 2 graded variation; density divergence adapter of §6.3.
+
+The construction has the following API.
+
+- Construct the Hermitian density, compare it to the unsymmetrized density with the torsion-trace/density correction, and prove global reality.
+- Derive both paired Euler equations and spin-frame/reversal laws, retaining independent metric-compatible connections.
+
+**Checks.**
+
+- For torsion trace t=0 and ρ=ρ_g, the difference from the unsymmetrized density is −(i/2)d_HJ; the bulk correction is 0.
+- At a point with div_ρg V=0 and t(V)=2, ∇_μV^μ=2 and the bulk comparison is −iρ_g; compact support alone does not change this pointwise value.
+- For ρ=e^xρ_g with t=0, t_ρ=−dx; the Dirac Euler trace term is +(i/2)Γ^xψ. Omitting the density derivative would give 0.
+- For two real odd generators, (θ₁θ₂)*=θ₂θ₁=−θ₁θ₂; an unreversed involution would give +θ₁θ₂.
+
+
+### 6.3 Metric transport, coframe variation and reduced stress
+
 For compactly supported smooth metric variations near g₀, take a sufficiently small parameter interval on which g_t has the same Lorentzian signature and agrees with g₀ outside a fixed compact set. Construct A_t by g_t(v,w)=g₀(A_t v,w), and the near-identity real-analytic inverse-square-root b_t=A_t^(-1/2). Prove existence, uniqueness in the chosen near-identity branch, g₀-self-adjointness, smooth dependence on (t,x), invertibility and g_t(b_t v,b_t w)=g₀(v,w). Build this matrix/bundle comparison here, using smooth inversion and the local inverse-function or convergent power-series construction; auxiliary positive norms only control convergence, not the spacetime signature. Compactness of the support supplies one small interval, and uniqueness/naturality of the branch glues chartwise constructions; b_t=id off the support. Transport the spin lift P₀ by f↦b_t∘f, keeping the abstract P₀ and associated S=P₀×_ρℂ⁴ fixed while soldering, Clifford multiplication, connection and Dirac operator vary. Prove transported local formulas, pairing/density comparisons and first variation on this fixed global carrier. Every compactly supported symmetric metric direction h is realized by g₀+t h for sufficiently small t. On noncompact M integrate the compactly supported Lagrangian difference or assume action integrability.
 
 For a general smooth parameter family retain the full fixed-signature metric-family connection target below. Its global spinor version carries a chosen compatible relative Spin lift over parameter×M; construct the associated relative spinor/Clifford-connection bundles, restrictions and pullback comparisons. Any fixed-carrier differentiation along a parameter path additionally supplies or constructs actual comparison transport from the chosen initial lift. The near-identity construction supplies it for the metric variations above. No canonical global trivialization over arbitrary metric parameter spaces, or comparison of arbitrary equal-signature endpoint metrics, is presumed.
 
 For independent variables use a solder form e on this fixed principal Spin bundle and an independent principal spin connection ω, with `g_{μν}=e^a_μe^b_ν η_{ab}` in local frames. Construct their global variation spaces, coframe/connection Euler terms, spin current and local Lorentz Noether identity. Construct `e↦(e,ω_LC(e))` using the general metric-family supplier below, and prove the reduced-action chain rule `δS_red=(δ_e S)(δe)+(δ_ω S)(Dω_LC[e]δe)` plus spinor variation, with integration by parts and boundary terms. Compute `Dω_LC` from connection variation and the moving-frame comparison. Derive the Hilbert/spin-current/Belinfante comparison with precise on-shell and improvement qualifications; holding ω fixed is not the Levi–Civita-restricted metric variation. Give the higher-order comparison using LVF2’s Lepage boundary term and LVF4’s current-improvement law.
 
-For positive-definite metrics consume Mathlib's `CovariantDerivative.leviCivitaConnection`, `IsLeviCivitaConnection` and Koszul/uniqueness API, together with Tau Ceti's `CovariantDerivative.contMDiffOn_leviCivitaConnection` and `instContMDiffCovariantDerivativeLeviCivitaConnection`; compare on differentiable local fields. The pinned source interfaces are [Mathlib LeviCivita](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean) and [Tau Ceti LeviCivita.Regularity](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Regularity.lean). Their `RiemannianBundle` hypotheses do not supply an indefinite metric or a varying metric parameter.
+For positive-definite metrics consume Mathlib's `CovariantDerivative.leviCivitaConnection`, `CovariantDerivative.IsLeviCivitaConnection` and Koszul/uniqueness API, together with Tau Ceti's `CovariantDerivative.contMDiffOn_leviCivitaConnection` and `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`; compare on differentiable local fields. The pinned source interfaces are [Mathlib LeviCivita](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean) and [Tau Ceti LeviCivita.Regularity](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Regularity.lean). Their `RiemannianBundle` hypotheses do not supply an indefinite metric or a varying metric parameter.
 
-Consume **[Hopf–Rinow L1](../HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map)'s nondegenerate Levi–Civita supplier** for smooth symmetric nondegenerate sections of `Hom(TM,Hom(TM,ℝ))`. This general contract owns smooth musical isomorphisms and inverses, the Koszul construction, torsion-free/metric-compatible uniqueness on differentiable local fields, chart overlap/restriction/naturality and along-curve comparisons, and positive-definite native agreement. It also owns jointly smooth metric families, fixed signature on each component, joint parameter/base smoothness of Christoffel coefficients and the tensorial identity `2g((∂_t∇)_X Y,Z)=(∇_Xh)(Y,Z)+(∇_Yh)(X,Z)−(∇_Zh)(X,Y)` for `h=∂_t g_t` and parameter-independent X,Y,Z. Build this general supplier in Tau Ceti on native covariant-derivative/bilinear-form carriers without a Riemannian distance, completeness or positive-definiteness premise; the positive-definite canonical-metric connection alone does not discharge it.
+Consume **[Hopf–Rinow L1](../HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map)'s nondegenerate Levi–Civita supplier** for smooth symmetric nondegenerate sections of `Hom(TM,Hom(TM,ℝ))`. This general contract owns smooth musical isomorphisms and inverses, the Koszul construction, torsion-free/metric-compatible uniqueness on differentiable local fields, chart overlap/restriction/naturality and along-curve comparisons, and positive-definite native agreement. It also owns jointly smooth metric families, fixed signature on each component, joint parameter/base smoothness of Christoffel coefficients and the tensorial identity `2g((∂_t∇)_X Y,Z)=(∇_Xh)(Y,Z)+(∇_Yh)(X,Z)−(∇_Zh)(X,Y)` for `h=∂_t g_t` and parameter-independent X,Y,Z. Use that contract on its native covariant-derivative/bilinear-form carriers without a Riemannian distance, completeness or positive-definiteness premise.
 
 Consume [SmoothBundlesConnections B3–B4](../SmoothBundlesConnections/README.md#b3-connections-and-covariant-differentiation)'s principal/associated-bundle connections, `CovariantDerivative.curvatureOperator`, structure equation and Bianchi identities when curvature enters. LVF6 owns the metric/family adapter to index operations, `|det g|^(1/2)|dx¹…dxⁿ|`, divergence and integration by parts, including `δg⁻¹=−g⁻¹hg⁻¹` and `δ(dvol_g)=(1/2)tr_g(h)dvol_g`. Prove chart compatibility and consume DifferentialGeometry Stokes. This applies to every finite-dimensional base and nondegenerate signature in the standing setting; the four-dimensional GlobalDirac example is a specialization. Prove agreement with DifferentialGeometry 12.3/12.4 on positive-definite metrics. No positive-definite Hodge or Laplacian theorem supplies a Lorentzian claim.
 
-## Source scope and boundaries
+Use Bär–Gauduchon–Moroianu, §5, Theorem 5.1, p.14, for the fixed-transport variation route and §6 for stress; general connection variation is the named HopfRinow input.
+
+*Needs:* HopfRinow Layer 1 nondegenerate metric families; §6.1; Layer 2 and Layer 4; native smooth inversion.
+
+The construction has the following API.
+
+- Construct near-identity metric square-root transport with branch uniqueness, compact-support uniform interval and relative Spin-lift comparisons.
+- Construct density/index variation, solder/connection variation and the Levi–Civita-restricted chain rule; derive the qualified Hilbert/spin-current/Belinfante comparison.
+
+**Checks.**
+
+- For g_t=(1+t)g₀ near t=0, A_t=(1+t)Id and b_t=(1+t)^(−1/2)Id; g_t(b_tv,b_tw)=g₀(v,w) and b′₀=−Id/2.
+- For h=g₀ in dimension four, δg⁻¹=−g₀⁻¹ and δρ=2ρ; differentiating (1+t)²ρ gives the same 2ρ.
+- For a variable conformal direction h=f g at a flat point, 2g((δ∇)_X Y,Z)=X(f)g(Y,Z)+Y(f)g(X,Z)−Z(f)g(X,Y); with orthogonal unit X=Y and Z, the last term is −Z(f), which is lost by fixing the connection.
+- For g_t=g₀ outside the compact support, A_t=b_t=Id there; the other square-root branch −Id fails the near-identity normalization.
+
+
+### Examples
+
+Scalar and Maxwell energies, torsion trace and the conformal metric path fix the stress and action conventions.
+
+### Dependencies
+
+Layers 1–5; §3.10 finite Dirac algebra; HopfRinow Layer 1; SmoothBundlesConnections B2–B4; SpinRepresentations Layer 7; DifferentialGeometry Stokes/density comparison. Construct the metric/density adapter in §6.3 before using it in §6.2; it uses no Dirac variation conclusion.
+
+## Worked examples
 
 Compute the literal scalar examples on Borcherds pp.35/37/38 separately from the physical massive convention. Their positive mass terms under the stated `(+−)` metric give `□φ=m²φ`; the physical massive target uses a negative mass term and `(□+m²)φ=0`. The p.37 interaction line writes `∂_μ∂^μφ` instead of the kinetic product expected by its subsequent variation; preserve that source typo and derive the target from `L=(1/2)∂φ·∂φ−(m²/2)φ²−(λ/4!)φ⁴`. Record the normalized cubic coefficient λ/3! and the source's unnormalized coefficient2λ distinctly. For pp115–117 distinguish the literal L+h.c. from ReL=(L+L†)/2. Prove L+h.c.=2ReL and compute its explicit divergence comparison with2L for the flat source model in the chosen graded involution. In the independent-connection global extension consume LVF6.DiracRealAction's additional torsion-trace/density term; do not promote the flat divergence comparison to every metric-compatible connection. Multiplying the full density by2 preserves its Euler zero-set but rescales the action and Noether current; pin that normalization before comparing source currents. On pp.117–118 differentiate the finite phase symmetries: `δψ=iψ`, `δψ̄=−iψ̄`, and for the axial phase `δψ=iΓ⁵ψ`, `δψ̄=+iψ̄Γ⁵`, using the physical gamma convention of LVF3. The source omits i in its infinitesimal generators. Derive the vector/axial Noether currents with the declared variation sign. Converting the source's axial order uses the valid identity `ψ̄γ⁵γ^μψ=−ψ̄γ^μγ⁵ψ`; that reordering identity is not a source error.
 
@@ -454,10 +1162,16 @@ signs. Retain the blotted minus/cyclic-index uncertainty and prove instead
 
 The source editions used for coverage are the complete collection artifacts labelled `Quantum Field Theory - Borcherds.pdf` (121 physical pages, 5,634,883 bytes; inventory SHA-256 `9e1f914a5a9ddf776b03c726012a476252131d50c565fc3da43ae1444867247a`) and `Quantum Field Theory -UNSW.pdf` (62 physical pages, 2,121,006 bytes; inventory SHA-256 `b9251b85889102a5366fec3b3654a7ab736961fa817a49b6afeccda2e95b51c2`). The first contains dated handwritten 2001 notes and a p26 course-home reference to [Berkeley Math275](https://math.berkeley.edu/~reb/courses/275/index.html); the second begins “Assignment on Quantum Field Theory. 1999”. These filenames are collection labels: authorship and institutional attribution are not established solely by a filename or course URL. Physical paginations and inventory version identifiers fix the editions used here. The Berkeley page provides related course context, without identifying an exact public copy of either scan; Barnard's different typed notes remain a distinct supplementary source. All source page numbers refer to these physical-page editions, with the stated glyph uncertainties retained. LVF scope includes the local variational, polynomial/differential-algebra, EL-ideal, current, charge, field-Hamiltonian, gauge, stress and Dirac material listed above, including Borcherds pp.35–49, 107, 110, 115–118 and UNSW pp.1–4, 11–14, 19–20, 23–24, 27–35, 40–41, 45, 51, 60. Include every exercise and side calculation within this local variational scope, with its pinned field, support, domain and sign hypotheses and the exact prerequisite owners named above.
 
+## Downstream consumers
+
 [PseudodifferentialOperators P1.0](../PseudodifferentialOperators/README.md#p10-differential-operator-core) owns the smooth-base linear differential-operator, vector-bundle jet and transpose layer. [SmoothBundlesConnections B6.0–B6.1](../SmoothBundlesConnections/README.md#b6-circle-bundles-integral-classes-and-flat-ambiguity) owns its locally finite good-cover and Čech–de Rham interface. [IntegrableSystems I3](../SymplecticGeometry/IntegrableSystems/README.md#i3-hamiltonian-and-lagrangian-mechanics) owns finite-dimensional mechanics. [Hopf–Rinow L1](../HopfRinow/README.md#layer-1-the-geodesic-equation-the-flow-and-the-exponential-map) owns the nondegenerate metric/family/connection-variation contract stated in LVF6, separately from its positive-definite distance theory. LVF6 owns the density/index adapter, global Lorentzian spin lift, fixed-carrier metric variation and independent-connection-to-Levi–Civita comparison. LVF owns general fiber-bundle and joint field/parameter jets, their vector-bundle comparison, the jet-coefficient variational/formal-adjoint calculus, and the classical Cauchy phase/functionals/canonical-bracket/constraint construction with its support, boundary, affine/nonlinear and graded comparisons. Its Noether-II theorem uses one joint-local current operator. These classical producers precede the field-theory and quantum consumer bridges. [NoncompactQuantumSymmetry M4–M6](../NoncompactQuantumSymmetry/README.md) owns covered Poincaré representations, little groups and selected one-particle models; it supplies no local fields. [QuantumFoundations' QF Fock-operator API and QF4–QF6](../QuantumFoundations/README.md#qf-fock-operator-api-on-d8-carriers) own their tensor/Fock operator carriers and selected operational model interfaces, while [OperatorAlgebraDynamics D8](../OperatorAlgebraDynamics/README.md#d8-car-weyl-algebras-and-free-equilibrium-states) owns CAR/Weyl algebras and free Fock carriers. [UnboundedOperators UO1–UO5](../OperatorTheory/UnboundedOperators/README.md#milestone-names-and-dependency-order) owns operator domains, closures, spectral calculus, cores and evolution. [RelativisticQuantumFieldTheory RQFT0–RQFT1](../RelativisticQuantumFieldTheory/README.md#milestone-rqft0--conventions-test-functions-and-exact-solution-carriers) owns distributional Lorentzian KG/Dirac/Maxwell equations and causal propagators; [RQFT2–RQFT4](../RelativisticQuantumFieldTheory/README.md#milestone-rqft2--lorentz-spinors-and-classical-to-quantum-field-bridges) owns spinor-field bridges, free fields, Wightman/Haag–Kastler axioms and their theorem hypotheses; [RQFT5–RQFT6](../RelativisticQuantumFieldTheory/README.md#milestone-rqft5--graph-combinatorics-amplitudes-and-formal-perturbation-theory) owns graph distributions, products and renormalization; [RQFT9](../RelativisticQuantumFieldTheory/README.md#milestone-rqft9--electromagnetic-examples-and-perturbative-qed) owns perturbative QED examples. Infinite-dimensional path-integral measures are not defined by those formal perturbation targets or by a local action. Coulomb-gauge reachability and Fourier/distribution estimates belong to the explicit RQFT1/RQFT0 targets and their stated PDE/Fourier inputs.
 
 ## References
 
-Ian M. Anderson, [*The Variational Bicomplex* (1989)](https://ncatlab.org/nlab/files/AndersonVariationalBicomplex.pdf), is the primary mathematical source for the infinite-jet variational bicomplex. Chapter 2, §B, Definition 2.11 (printed p44) defines the interior Euler operator; Theorem 2.12 (pp46–47) gives its projection, local horizontal-exact decomposition and naturality, and Corollary 2.13(i), equation(2.42) (p49), gives `E=I∘d_V`; Chapter 4, §A gives the local homotopy for the augmented horizontal rows on a trivial bundle `ℝⁿ×ℝᵐ→ℝⁿ`, explicitly with positive contact degree `q≥1`; Chapter 5, §A globalizes horizontal cohomology on a general fiber bundle, including top-degree Euler augmentation and de Rham obstructions `H^p_{dR}(E)`; Chapter 5, §C constructs global first-variation/Lepage equivalents. These are infinite-jet source results. Their finite-stage filtered-colimit and locally finite-order sheaf versions, including the stated compact-order and fineness hypotheses, are separate LVF obligations rather than consequences of the citation. [Tau Ceti DifferentialGeometry](../DifferentialGeometry/README.md), [PseudodifferentialOperators](../PseudodifferentialOperators/README.md), [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), [IntegrableSystems](../SymplecticGeometry/IntegrableSystems/README.md), and [HopfRinow](../HopfRinow/README.md) are the precise named interfaces above.
+Ian M. Anderson, [*The Variational Bicomplex* (1989)](https://ncatlab.org/nlab/files/AndersonVariationalBicomplex.pdf), is the primary mathematical source for the infinite-jet variational bicomplex. Chapter 2, §B, Definition 2.11 (printed p44) defines the interior Euler operator; Theorem 2.12 (pp46–47) gives its projection, local horizontal-exact decomposition and naturality, and Corollary 2.13(i), equation(2.42) (p49), gives `E=I∘d_V`; Chapter 4, §A gives the local homotopy for the augmented horizontal rows on a trivial bundle `ℝⁿ×ℝᵐ→ℝⁿ`, explicitly with positive contact degree `q≥1`; Chapter 5, §A globalizes horizontal cohomology on a general fiber bundle, including top-degree Euler augmentation and de Rham obstructions `H^p_{dR}(E)`; Chapter 5, §A, Corollary 5.3 (printed p.197) gives global first variation and Corollary 5.5 (p.200) gives global Lepage existence and uniqueness in dimension one; Theorem 5.9 (pp.203–204) compares the Euler-augmented complex with de Rham cohomology. Chapter 5, §C treats generalized Poincaré–Cartan forms and naturality. These are infinite-jet source results. Their finite-stage filtered-colimit and locally finite-order sheaf versions, including the stated compact-order and fineness hypotheses, are separate LVF obligations rather than consequences of the citation. [Tau Ceti DifferentialGeometry](../DifferentialGeometry/README.md), [PseudodifferentialOperators](../PseudodifferentialOperators/README.md), [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), [IntegrableSystems](../SymplecticGeometry/IntegrableSystems/README.md), and [HopfRinow](../HopfRinow/README.md) are the precise named interfaces above.
 
 For LVF6.GlobalDirac metric-path transport and Dirac variation use Bär–Gauduchon–Moroianu, [*Generalized Cylinders in Semi-Riemannian and Spin Geometry*, arXiv:math/0303095v1](https://arxiv.org/abs/math/0303095v1), §5 and Theorem5.1, with §6 for spinor stress-energy. Prove the sign/Clifford and Spin-cover comparison with LVF3.FiniteDirac's conventions; this reference does not replace that adapter.
+
+Barnich–Brandt–Henneaux, [*Local BRST cohomology in gauge theories*, arXiv:hep-th/0002245v3](https://arxiv.org/abs/hep-th/0002245v3), §5.1.3, equations (5.10)–(5.13), pp.31–32; §5.2, Theorem 5.1, pp.33–34; §6.6, equation (6.27), p.48.
+
+Barnich–Fulp–Lada–Stasheff, [*The sh Lie structure of Poisson brackets in field theory*, arXiv:hep-th/9702176v1](https://arxiv.org/abs/hep-th/9702176v1), §3.2, especially equation (27), p.17, on its stated local-functional/horizontal-resolution domain.
