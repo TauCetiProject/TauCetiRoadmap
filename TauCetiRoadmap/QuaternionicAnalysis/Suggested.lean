@@ -7,15 +7,14 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, together with the
 few definitions needed to state them: the two one-sided quotient-derivative predicates, the left
 and right Fueter predicates, the Cauchy–Fueter kernel, the coordinate identification of `ℍ` with
-`Fin 4 → ℝ`, and the ordered boundary sum of an axis-aligned box in the form of Mathlib's
-divergence theorem.
+`Fin 4 → ℝ`, the ordered boundary sum of an axis-aligned box in the form of Mathlib's divergence theorem,
+and its cofactor pullback for affine parallelepipeds. The headlines are the four exact
+product/inverse criteria, three connected-open rigidity classifications, left/right affine
+Cauchy vanishing and Cauchy–Fueter representation, and left/right analyticity, harmonicity,
+uniqueness and universal derivative bounds.
 
 Headline theorems not statable at the pins:
 
-* the Cauchy theorem and the Cauchy–Fueter formula on an affine parallelepiped `A([0,1]⁴)` with
-  `det A > 0` (README §5.5 and §5.6): their boundary integral is the raw affine face functional
-  of README §5.3, a Layer 5 target with no carrier in the pinned libraries. Only the axis-aligned
-  box case is stated here, through `boxBoundarySum`;
 * the facetwise agreement of the face integrals with the integral of a top form (README §5.4):
   the DifferentialGeometry roadmap's `integralTopForm` is not in the pinned Tau Ceti.
 
@@ -170,52 +169,74 @@ noncomputable def boxBoundarySum (a b : Fin 4 → ℝ) (F : Fin 4 → (Fin 4 →
       ∫ x in Set.Icc (a ∘ Fin.succAbove i) (b ∘ Fin.succAbove i),
         F i (Fin.insertNth i (a i) x))
 
-/-- Left Cauchy theorem on an axis-aligned box: for `f` continuous on the closed box
-`C = toTuple⁻¹ [a, b]` and left Fueter regular at every point of its interior, the ordered
-boundary integral `∫_{∂C} Dq f` vanishes. In coordinates the face integrand on the `i`-th pair of
-faces is `eᵢ * f`, where `eᵢ` is the `i`-th quaternion unit `1, i, j, k`. -/
-theorem left_cauchy_box (a b : Fin 4 → ℝ) (hab : a ≤ b) (f : ℍ → ℍ)
-    (hc : ContinuousOn f (toTuple.symm '' Set.Icc a b))
-    (hd : ∀ x ∈ Set.pi Set.univ (fun i => Set.Ioo (a i) (b i)), LeftFueterAt f (toTuple.symm x)) :
-    boxBoundarySum a b (fun i x => toTuple.symm (Pi.single i 1) * f (toTuple.symm x)) = 0 := by
+/-- The signed affine boundary flux for `A u = p + L u`: integrate the cofactor pullback
+`H j u = det L • ∑ i, (L⁻¹) j i • F i (A u)` over the unit-cube boundary.
+For continuous fields this equals the raw oriented face integral of the flux 3-form;
+when `det L > 0` its orientation is outward-first (README §5.4). -/
+noncomputable def affineFluxBoundary
+    (L : (Fin 4 → ℝ) ≃L[ℝ] (Fin 4 → ℝ)) (p : Fin 4 → ℝ)
+    (F : Fin 4 → (Fin 4 → ℝ) → ℍ) : ℍ :=
+  boxBoundarySum 0 1 (fun j u =>
+    (LinearMap.det L.toLinearMap) •
+      ∑ i : Fin 4, (L.symm (Pi.single i 1) j) • F i (p + L u))
+
+/-- Left Cauchy theorem on a positively oriented affine parallelepiped: continuity on the
+closed parallelepiped and pointwise left Fueter regularity in its interior imply that the
+boundary integral of `Dq f` vanishes. No continuity of the derivative is assumed. -/
+theorem left_cauchy_affine
+    (L : (Fin 4 → ℝ) ≃L[ℝ] (Fin 4 → ℝ)) (p : Fin 4 → ℝ)
+    (hL : 0 < LinearMap.det L.toLinearMap) (f : ℍ → ℍ)
+    (hc : ContinuousOn f (toTuple.symm '' ((fun u => p + L u) '' Set.Icc 0 1)))
+    (hd : ∀ u ∈ Set.pi Set.univ (fun _ : Fin 4 => Set.Ioo (0 : ℝ) 1),
+      LeftFueterAt f (toTuple.symm (p + L u))) :
+    affineFluxBoundary L p
+      (fun i x => toTuple.symm (Pi.single i 1) * f (toTuple.symm x)) = 0 := by
   sorry
 
-/-- Right Cauchy theorem on an axis-aligned box: for `f` continuous on the closed box and right
-Fueter regular at every point of its interior, `∫_{∂C} f Dq = 0`, the face integrand on the
-`i`-th pair of faces being `f * eᵢ`. -/
-theorem right_cauchy_box (a b : Fin 4 → ℝ) (hab : a ≤ b) (f : ℍ → ℍ)
-    (hc : ContinuousOn f (toTuple.symm '' Set.Icc a b))
-    (hd : ∀ x ∈ Set.pi Set.univ (fun i => Set.Ioo (a i) (b i)),
-      RightFueterAt f (toTuple.symm x)) :
-    boxBoundarySum a b (fun i x => f (toTuple.symm x) * toTuple.symm (Pi.single i 1)) = 0 := by
+/-- Right Cauchy theorem on a positively oriented affine parallelepiped: continuity on the
+closure and pointwise right Fueter regularity in the interior give `∫ f Dq = 0`. -/
+theorem right_cauchy_affine
+    (L : (Fin 4 → ℝ) ≃L[ℝ] (Fin 4 → ℝ)) (p : Fin 4 → ℝ)
+    (hL : 0 < LinearMap.det L.toLinearMap) (f : ℍ → ℍ)
+    (hc : ContinuousOn f (toTuple.symm '' ((fun u => p + L u) '' Set.Icc 0 1)))
+    (hd : ∀ u ∈ Set.pi Set.univ (fun _ : Fin 4 => Set.Ioo (0 : ℝ) 1),
+      RightFueterAt f (toTuple.symm (p + L u))) :
+    affineFluxBoundary L p
+      (fun i x => f (toTuple.symm x) * toTuple.symm (Pi.single i 1)) = 0 := by
   sorry
 
-/-- Left Cauchy–Fueter formula on an axis-aligned box (Frenkel–Libine, Theorem 9, left form;
-Sudbery 1979, §4): for `f` continuous on the closed box, left Fueter regular at every point of its
-interior, and `q₀` interior,
-`f q₀ = (1 / (2π²)) ∫_{∂C} G(q - q₀) Dq f(q)`, the face integrand on the `i`-th pair of faces being
-`G(q - q₀) * eᵢ * f q`. -/
-theorem left_cauchyFueter_box (a b : Fin 4 → ℝ) (f : ℍ → ℍ)
-    (hc : ContinuousOn f (toTuple.symm '' Set.Icc a b))
-    (hd : ∀ x ∈ Set.pi Set.univ (fun i => Set.Ioo (a i) (b i)), LeftFueterAt f (toTuple.symm x))
-    (q₀ : ℍ) (hq₀ : toTuple q₀ ∈ Set.pi Set.univ (fun i => Set.Ioo (a i) (b i))) :
+/-- Left Cauchy–Fueter representation on a positively oriented affine parallelepiped:
+for a continuous function on its closure, pointwise left Fueter regular in its interior,
+and an interior pole, `f q₀ = (2π²)⁻¹ ∫ G(q - q₀) Dq f(q)`.
+This is the pointwise extension of Frenkel–Libine, Theorem 9, proved by the cutoff route
+of README §5.6. -/
+theorem left_cauchyFueter_affine
+    (L : (Fin 4 → ℝ) ≃L[ℝ] (Fin 4 → ℝ)) (p : Fin 4 → ℝ)
+    (hL : 0 < LinearMap.det L.toLinearMap) (f : ℍ → ℍ)
+    (hc : ContinuousOn f (toTuple.symm '' ((fun u => p + L u) '' Set.Icc 0 1)))
+    (hd : ∀ u ∈ Set.pi Set.univ (fun _ : Fin 4 => Set.Ioo (0 : ℝ) 1),
+      LeftFueterAt f (toTuple.symm (p + L u)))
+    (q₀ : ℍ) (hq₀ : L.symm (toTuple q₀ - p) ∈
+      Set.pi Set.univ (fun _ : Fin 4 => Set.Ioo (0 : ℝ) 1)) :
     f q₀ = (1 / (2 * Real.pi ^ 2)) •
-      boxBoundarySum a b (fun i x =>
+      affineFluxBoundary L p (fun i x =>
         cauchyFueterKernel (toTuple.symm x) q₀ * toTuple.symm (Pi.single i 1) *
           f (toTuple.symm x)) := by
   sorry
 
-/-- Right Cauchy–Fueter formula on an axis-aligned box (Frenkel–Libine, Theorem 9, right form):
-for `f` continuous on the closed box, right Fueter regular at every point of its interior, and `q₀`
-interior, `f q₀ = (1 / (2π²)) ∫_{∂C} f(q) Dq G(q - q₀)`, the face integrand on the `i`-th pair of
-faces being `f q * eᵢ * G(q - q₀)`. -/
-theorem right_cauchyFueter_box (a b : Fin 4 → ℝ) (f : ℍ → ℍ)
-    (hc : ContinuousOn f (toTuple.symm '' Set.Icc a b))
-    (hd : ∀ x ∈ Set.pi Set.univ (fun i => Set.Ioo (a i) (b i)),
-      RightFueterAt f (toTuple.symm x))
-    (q₀ : ℍ) (hq₀ : toTuple q₀ ∈ Set.pi Set.univ (fun i => Set.Ioo (a i) (b i))) :
+/-- Right Cauchy–Fueter representation under the corresponding pointwise right regularity
+hypothesis: `f q₀ = (2π²)⁻¹ ∫ f(q) Dq G(q - q₀)` on a positively oriented affine
+parallelepiped, with continuity on its closure and an interior pole. -/
+theorem right_cauchyFueter_affine
+    (L : (Fin 4 → ℝ) ≃L[ℝ] (Fin 4 → ℝ)) (p : Fin 4 → ℝ)
+    (hL : 0 < LinearMap.det L.toLinearMap) (f : ℍ → ℍ)
+    (hc : ContinuousOn f (toTuple.symm '' ((fun u => p + L u) '' Set.Icc 0 1)))
+    (hd : ∀ u ∈ Set.pi Set.univ (fun _ : Fin 4 => Set.Ioo (0 : ℝ) 1),
+      RightFueterAt f (toTuple.symm (p + L u)))
+    (q₀ : ℍ) (hq₀ : L.symm (toTuple q₀ - p) ∈
+      Set.pi Set.univ (fun _ : Fin 4 => Set.Ioo (0 : ℝ) 1)) :
     f q₀ = (1 / (2 * Real.pi ^ 2)) •
-      boxBoundarySum a b (fun i x =>
+      affineFluxBoundary L p (fun i x =>
         f (toTuple.symm x) * toTuple.symm (Pi.single i 1) *
           cauchyFueterKernel (toTuple.symm x) q₀) := by
   sorry

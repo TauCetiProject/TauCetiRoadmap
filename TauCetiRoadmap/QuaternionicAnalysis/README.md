@@ -830,6 +830,21 @@ three-column determinants. This coordinate cofactor comparison is the additional
 generic smooth manifold naturality is supplied by DifferentialGeometry §1.2. The determinant in this flux identity is
 signed, unlike the absolute determinant in §5.2. The entire cubical boundary is never treated
 as a manifold.
+
+For a continuous linear equivalence `L : (Fin 4 → ℝ) ≃L[ℝ] (Fin 4 → ℝ)`, a translation
+`p : Fin 4 → ℝ` and `F : Fin 4 → (Fin 4 → ℝ) → ℍ`, define `affineFluxBoundary L p F : ℍ`
+as `boxBoundarySum 0 1 (fun j u => det(L) • Σ_i (L⁻¹)_{ji} • F i (p + L u))`.
+This is the signed cofactor flux on the parameter cube, defined for either sign of the
+nonzero determinant; the Cauchy formulas use the positive sign. Its API is:
+
+- if every component of `F` is continuous on each affine face, equality with the raw
+  affine face integral of its flux 3-form by the three-column cofactor expansion above; in particular it equals each of the
+  four ordered raw integrals of §5.3 for the corresponding ordered field;
+- additivity and real linearity for fields continuous on the closed parallelepiped, by
+  integrability of every pulled face coefficient;
+- for `L = id` and `p = 0`, equality with `boxBoundarySum 0 1 F`; for positive diagonal
+  `L = diag(b − a)` and `p = a`, equality with `boxBoundarySum a b F` by §5.2.
+
 *Needs:* §5.1–§5.3, Mathlib `integral_divergence_of_hasFDerivAt_off_countable` (for the form
 of the sum), `HasFDerivAt.comp`, `extDeriv_pullback`, matrix inverse and determinant identities,
 `ContinuousOn.hasBoxIntegral`, `Box.coe_ae_eq_Icc`, `ModelWithCorners.ofConvexRange`,
@@ -844,7 +859,9 @@ DifferentialGeometry Layers 0–2 and 5.2 for the smooth-form comparison.
   so `div H = −1 = det(L) div F`, and flux is `−1`; replacing `det(L)` by its absolute value fails.
 - `L(u) = (u_0+u_1,u_1,u_2,u_3)`, `p = 0`, `F(x) = (x_1,0,0,0)`: `H(u) = (u_1,0,0,0)`
   and both divergences are `0`; using the transpose inverse gives `(u_1,−u_1,0,0)` and divergence `−1`.
-- `L = id` gives `H = F∘A` and `div H = div F∘A`; for `F = 0`, both sides are `0` for every `L`.
+- `L = id`, `p = 0`: `affineFluxBoundary L p F = boxBoundarySum 0 1 F`;
+  for `F_i(x) = eᵢ x_i`, both sides are `1 + i + j + k`. More generally `L = id` gives
+  `H = F∘A` and `div H = div F∘A`; for `F = 0`, both sides are `0` for every `L`.
 - the unit box `a = 0`, `b = 1` and `F i x = eᵢ`: `boxBoundarySum = Σᵢ (eᵢ − eᵢ) = 0`.
 - the unit box and `F i x = eᵢ * x i`: front faces have `x i = 1`, back faces `x i = 0`, so the sum is
   `Σᵢ eᵢ = 1 + i + j + k`; a definition summing back minus front gives the negative.
@@ -856,9 +873,9 @@ DifferentialGeometry Layers 0–2 and 5.2 for the smooth-form comparison.
 
 ### 5.5 The Cauchy theorems
 
-Prove `left_cauchy_box`: for `a ≤ b` in `Fin 4 → ℝ`, `f` continuous on the closed box `χ⁻¹(Icc a b)` and
+Prove the left box Cauchy theorem: for `a ≤ b` in `Fin 4 → ℝ`, `f` continuous on the closed box `χ⁻¹(Icc a b)` and
 left regular at every point of the open box, `boxBoundarySum a b (fun i x => eᵢ * f(χ⁻¹ x)) = 0`;
-and `right_cauchy_box`, with integrands `f(χ⁻¹ x) * eᵢ` under right regularity. Apply
+and the right box Cauchy theorem, with integrands `f(χ⁻¹ x) * eᵢ` under right regularity. Apply
 `integral_divergence_of_hasFDerivAt_off_countable` to the field `Fᵢ(x) = eᵢ * f(χ⁻¹ x)` (respectively
 `f(χ⁻¹ x) * eᵢ`): its divergence at an interior point is `∂̄ₗ f` (respectively `∂̄ᵣ f`) by §5.1, which
 vanishes, so the divergence is integrable and the boundary sum is `0`. The hypotheses are exactly
@@ -868,14 +885,19 @@ there for regular functions on a neighbourhood of the closure, with regularity d
 `C¹` functions and with piecewise `C¹` boundaries; the pointwise extension here is proved from
 `MeasureTheory.integral_divergence_of_hasFDerivAt_off_countable`,
 `Mathlib/MeasureTheory/Integral/DivergenceTheorem.lean`, line 266.) Extend to affine parallelepipeds `C = A([0,1]⁴)`
-with `det A > 0`: `Raw(A, Dq·f) = 0` for `f` continuous on `C` and left regular on its interior, and
-`Raw(A, f·Dq) = 0` under right regularity, by the pointwise cofactor identity of §5.4, applying the native box divergence theorem
+with `A(u) = p + Lu` and `det L > 0`: prove `left_cauchy_affine`,
+`affineFluxBoundary L p (fun i x => eᵢ * f(χ⁻¹ x)) = Raw(A, Dq·f) = 0` for `f` continuous on `C` and left regular on its interior, and
+prove `right_cauchy_affine`,
+`affineFluxBoundary L p (fun i x => f(χ⁻¹ x) * eᵢ) = Raw(A, f·Dq) = 0`, under right regularity, by the pointwise cofactor identity of §5.4, applying the native box divergence theorem
 to the pulled flux field `H`. The right statements also follow from the left ones by the
 reflection `T` and the laws of §5.3 applied to `σ∘A∘ρ`. *Needs:* §4.1, §5.1–§5.4, Mathlib
 `integral_divergence_of_hasFDerivAt_off_countable`.
 
 **Checks.**
 
+- `L = diag(2,1,1,1)`, `p = 0`, `f(q) = (t + i x)j`: the left affine flux is
+  `2j − 2j = 0`, whereas the right affine flux is `2j + 2j = 4j`; using the wrong side's
+  regularity would make the right theorem false. For `f(q) = j(t + i x)` the values swap.
 - `f ≡ c`: the boundary sum is `Σᵢ (eᵢ c − eᵢ c) = 0` directly.
 - `f(q) = t + i x` on the unit box: left regular, and the sum vanishes; computed directly, the
   `t`-pair contributes `(1 + i/2) − i/2 = 1`, the `x`-pair contributes `i·(1/2 + i) − i·(1/2) = −1`,
@@ -914,14 +936,14 @@ variable `‖χ⁻¹ x − q₀‖` (never the sup norm of the tuple): by `integ
 whose boundary sum equals that of `G * eᵢ * f` since `ψ = 1` on the boundary, gives
 `boxBoundarySum = 2π² f(q₀) + ∫ ε⁻¹ ψ'(‖r‖/ε) ‖r‖⁻³ (f(q) − f(q₀))`, and the last term is bounded by
 `2π²` times the oscillation of `f` on the annulus, which tends to `0` with `ε`. Hence
-`left_cauchyFueter_box`: for `f` continuous on the closed box, left regular on the open box, and
+the left box representation: for `f` continuous on the closed box, left regular on the open box, and
 `q₀` in the open box,
 
 ```text
 f(q₀) = (1/(2π²)) · boxBoundarySum a b (fun i x => G(χ⁻¹ x − q₀) * eᵢ * f(χ⁻¹ x)),
 ```
 
-that is `f(q₀) = (1/(2π²)) ∫_{∂C} G(q − q₀) Dq f(q)`; and `right_cauchyFueter_box`:
+that is `f(q₀) = (1/(2π²)) ∫_{∂C} G(q − q₀) Dq f(q)`; and the right box representation:
 
 ```text
 f(q₀) = (1/(2π²)) · boxBoundarySum a b (fun i x => f(χ⁻¹ x) * eᵢ * G(χ⁻¹ x − q₀)),
@@ -936,8 +958,13 @@ same boundary sums are `0` when `q₀` lies outside the closed box, by §5.5 app
 field. Apply the same cofactor transformation of §5.4 to the kernel-weighted field
 `F_i = G * eᵢ * f` (respectively `f * eᵢ * G`), and to its cutoff field, whose divergence is
 transformed by the signed determinant. Extend both formulas to affine parallelepipeds `C = A([0,1]⁴)` with `det A > 0` and `q₀` in the
-interior of `C`, with `Raw(A, G·Dq·f)` and `Raw(A, f·Dq·G)` in place of the box sums; the reflected
-set `σ '' C` is parametrized by the positive-determinant map `σ∘A∘ρ`, and `Raw(σ∘A, ω) = Raw(A, σ*ω)`
+interior of `C`, retaining continuity on `C` and the corresponding pointwise regularity on its
+interior. For `A(u) = p + Lu`, these are `left_cauchyFueter_affine` and
+`right_cauchyFueter_affine`: replace the box sums by `affineFluxBoundary L p` of the same ordered
+fields, equal to `Raw(A, G·Dq·f)` and `Raw(A, f·Dq·G)` by §5.4.
+The interior-pole condition is `L⁻¹(χ(q₀) − p) ∈ (0,1)⁴`; it keeps the kernel pole off every
+face, so each boundary integrand is continuous despite the totalized value `G(0) = 0`.
+The reflected set `σ '' C` is parametrized by the positive-determinant map `σ∘A∘ρ`, and `Raw(σ∘A, ω) = Raw(A, σ*ω)`
 with the `ρ` law supplies the sign. General rectifiable chains, Morera theorems and primitives are
 not part of this roadmap. *Needs:* §4.1, §4.4, §5.1–§5.5, Mathlib `Real.smoothTransition`,
 `integral_fun_norm_addHaar`, `InnerProductSpace.volume_ball_of_dim_even`,
@@ -954,6 +981,10 @@ not part of this roadmap. *Needs:* §4.1, §4.4, §5.1–§5.5, Mathlib `Real.sm
   are cubes and the value changes.
 - `f ≡ c` on the unit box with `q₀` its centre: the formula gives `c`, so the boundary sum of
   `G * eᵢ * c` is `2π² c`; a normalization `1/π²` or `1/(4π²)` fails on this example.
+- `L = diag(2,1,1,1)`, `p = 0`, `q₀ = 1 + (i+j+k)/2`, `f ≡ j`: both affine
+  boundary integrals are `2π² j`, so both formulas return `j`; the inverse image of the pole
+  is `(1/2,1/2,1/2,1/2)`. At `q₀ = 0` it is `(0,0,0,0)`, outside the open cube, so the
+  interior formula makes no boundary-pole assertion.
 - `q₀` outside the closed box, `f ≡ 1`: the boundary sum of `G(q − q₀) eᵢ` is `0`.
 
 ### Examples
