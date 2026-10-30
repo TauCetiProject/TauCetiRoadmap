@@ -8,7 +8,8 @@ coefficients, low-dimensional Spin examples, characteristic-number detection
 and projective-bundle transfers. A group at a point does not supply the theory
 over a space, and a spectral isomorphism does not supply an explicit filling.
 
-`README.md` is definitive. `Suggested.lean` states the finite Arf classification headlines against the pinned
+`README.md` is definitive. `Suggested.lean` states the finite Arf classification and smooth oriented
+three-manifold parallelization headlines against the pinned
 APIs; its docstring identifies the missing carriers for the geometric and spectral headlines. Implementation homes
 include `TauCeti/Geometry/Manifold/Bordism/` and
 `TauCeti/AlgebraicTopology/Bordism/`.
@@ -104,7 +105,12 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 Use `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` and
 `LinearMap.BilinForm.IsAlt.even_finrank` from
 `TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean` for the finite quadratic
-basis. The orientation and closed-subgroup declarations in the contracts below
+basis. Use `TauCeti.IsOrientedAtlas` and
+`TauCeti.IsOrientedAtlas.det_fderivWithin_pos` from
+`TauCeti/Geometry/Manifold/Orientation.lean` for the chosen orientation in
+`orientedThreeManifold_parallelization`: the atlas covers the manifold,
+lies in its maximal smooth atlas, and has positive transition determinants.
+The orientation and closed-subgroup declarations in the contracts below
 retain their native hypotheses and chosen smooth structures.
 
 ### From TauCetiRoadmap suppliers
@@ -252,20 +258,29 @@ This item owns the following.
   smooth, with S and N without boundary, and F and its restriction to
   ∂M×S are transverse to a closed embedded submanifold Z⊂N, then for a
   dense set of s∈S both F(−,s) and its boundary restriction are
-  transverse to Z (Lee, Chapter 6, the parametric transversality
-  theorem); for corners apply it to the interior of each face, which
+  transverse to Z (Lee, Theorem 6.35, pp.145–146, for the boundaryless
+  parametric theorem); for corners apply it to the interior of each face, which
   are countably many. Prove relative Whitney approximation: a continuous
   map from a manifold with corners into N that is smooth on a
   neighbourhood of a closed subset C is homotopic rel C, by an
-  arbitrarily small homotopy, to a smooth map (Lee, Chapter 6, Whitney
-  approximation; DifferentialGeometry 8.3 uses only the simplex case).
+  arbitrarily small homotopy, to a smooth map (Lee, Theorem 6.26, p.141,
+  for manifolds with boundary; the corner extension is constructed here;
+  DifferentialGeometry 8.3 uses only the simplex case).
   Deduce relative transversality approximation: a continuous map from a
-  compact manifold with corners to N, already smooth and transverse to Z
-  near C, is homotopic rel C, by an arbitrarily small homotopy, to a
+  compact manifold with corners to N, already smooth near C and with
+  every face restriction transverse to Z near C (including the interior
+  stratum), is homotopic rel C, by an arbitrarily small homotopy, to a
   smooth map transverse to Z on every face, using the finite-dimensional
   linear parameter family of a Euclidean embedding of N composed with
   GeometricTopology Layer1's tubular retraction. Apply it to the zero
-  section of the finite smooth Grassmannian Thom spaces of B5.3.
+  section of the finite smooth Grassmannian Thom spaces of B5.3. The
+  homotopy fixes the prescribed face data on C at every time; any face
+  required to stay fixed in its entirety is included in C and must
+  already satisfy this facewise transversality condition.
+  This relative facewise theorem extends Lee’s Theorem 6.36,
+  pp.146–147: multiply its ambient perturbation parameters by a smooth
+  cutoff vanishing near C, retain transversality on the fixed neighbourhood,
+  and apply the parametric theorem on each remaining face stratum.
   Transverse preimages are neat submanifolds with normal bundle the
   pulled-back normal bundle of Z.
 - **Corner rounding.** For manifolds with boundary M and N construct a
@@ -294,6 +309,7 @@ Its API includes:
 **Checks.**
 
 - The function t↦t has a regular zero with derivative 1; t↦t² at 0 has derivative 0 and is not a transverse model.
+- On M=[0,1], C={0}, Z={0}⊂ℝ, f(t)=t has ambient derivative 1 but derivative of rank 0 on the fixed endpoint face: no homotopy rel C can make that face transverse. The map f(t)=1+t misses Z on that face and satisfies the fixed-face condition.
 - The rounded quadrant has one smooth boundary arc; the corner point cannot be kept as a smooth boundary chart unchanged.
 - The double of [0,1] is S¹; the double of the empty manifold is empty.
 - For a compact interval K in ℝ an exhaustion sublevel with larger radius contains K in its interior; equality at the endpoint radius fails this interior condition.
@@ -433,6 +449,13 @@ independence, and round product/gluing corners relative to fixed faces.
 Prove that stabilized bundle structures glue and the induced boundary
 structures have the stated signs. Prove reflexivity, symmetry and
 transitivity by these witnesses, including their relative versions.
+
+The ordinary oriented witnesses and collar gluing are Milnor–Stasheff,
+§§17.1–17.2, Lemmas 17.1–17.2, pp.206–207; parameter maps occur in
+Miller, Chapter 1, §1, Definitions 1.1–1.2, pp.1–2, and stable structure
+lifts in Chapter 2, §1, Definitions 1.1 and 1.3, pp.39–41. The simultaneous
+relative-face, structure-gluing and rounding comparisons here extend those
+constructions using B1.1, B1.5 and B1.6, with the boundary data retained.
 
 Its API includes:
 
@@ -602,6 +625,13 @@ sum is bordant to disjoint union, with chosen structure gluings. Without
 such a path, apply the statement only within a path component of X. For disconnected
 cycles sum over components; do not introduce an unsupported dimension0
 connected-sum operation.
+
+For external products over spaces use Miller, Chapter 1, §1, p.2;
+for the oriented coefficient product and its interchange sign use
+Milnor–Stasheff, §17.2, pp.207–208. The relative structured products and
+connected-sum comparison here are additional geometric constructions:
+the latter attaches a single one-handle between the chosen balls on the
+outgoing boundary of the disjoint cylinders, using the selected path in X.
 
 Its API includes:
 
@@ -959,6 +989,13 @@ The generic tube is an open-subset diffeomorphism, including empty
 embeddings; whole-total-space PartialDiffeomorph corollaries retain
 their nonempty-source hypothesis.
 
+The underlying classifier-factor collapse and its parameter coordinate are
+Miller, Chapter 1, §§2–3, pp.3–7; Chapter 2, §1, pp.39–41 introduces the
+stable lift data. Thom, §IV.4, Theorem IV.6, p.74 gives the classical
+embedded comparison. The arbitrary ξ_k lift and relative-face adapters
+here are additional constructions from the specified bundle maps and
+collars; Thom IV.8, p.75 is only the stable coefficient comparison.
+
 Its API includes:
 
 - The classifier isomorphism covers the identity of M on total spaces and is fibrewise linear.
@@ -1253,6 +1290,13 @@ suspension/collapse coordinates. Prove the comparison of the geometric
 boundary operator with the spectral connecting morphism on an interval
 and in all dimensions; no simultaneous sign renormalization is left free.
 
+The framed isomorphism specializes Miller, Chapter 2, §1, Theorem 1.4,
+p.41 to the trivial sequence of structure groups, whose Thom spectrum is
+the sphere spectrum. The ordinary fundamental-class map is Chapter 1,
+§1, pp.1–2, and the ordinary Thom orientation is Chapter 1, §5, pp.12–14.
+The relative boundary comparison with the fixed left-suspension sign is
+proved here from B5.4 and the supplier’s connecting morphisms.
+
 Its API includes:
 
 - The framed transformation is natural under stabilization and preserves the point unit.
@@ -1285,7 +1329,8 @@ and transverse base change for a Cartesian square of closed smooth manifolds,
 with the pulled-back normal orientation. For the relative version let A⊂P be a closed embedded submanifold, assume
 g transverse to A, and put B=g⁻¹(A). Use cycles f:(M,∂M)→(P,A) whose
 interior and boundary restrictions are transverse to g; relative approximation
-is fixed near any prescribed transverse face. Construct
+is fixed near prescribed faces only when all incident face restrictions
+are already transverse there, as in B1.6. Construct
 g!:Ω^ξ_n(P,A)→Ω^ξ_(n+d−e)(N,B) by the fibre product and its collared
 boundary, and prove its comparison with B5.4b. For open interiors use
 the compact support retained by these relative cycles and collapse maps;
@@ -1793,6 +1838,13 @@ product Lie-spin torus has q(a)=q(b)=1, hence Arf1, and generates. This
 is the degree2 coefficient; a nonsingular algebraic quadratic form alone
 is not the geometric bordism theorem.
 
+Compare Atiyah, §4, Proposition 4.1 and Theorem 3′, p.58: his
+Spin-boundary criterion uses the mod2 Spin index and yields the count
+of bounding Spin structures. Here B3.2(b)’s geometric quadratic refinement,
+the realization of its q-zero Lagrangian and the actual surgery filling
+are constructed from the stated geometric suppliers; the algebraic
+classification alone is not cited as a proof of this filling theorem.
+
 **Checks.**
 
 - The sphere has zero H₁ and bounds a Spin ball, giving Arf 0 on both sides.
@@ -1846,14 +1898,26 @@ is zero and whose h4 has Pontryagin Newton number±3. Compare CP2
 by its signature1 to obtain the integral generator and inverse.
 Neither B6 input uses this low-group table. Rational Hurewicz alone
 cannot establish the absence of2-torsion or an integral index.
-**Oriented three-manifold parallelization.** Complete the tangent-bundle
-exercise on physical87 of Kirby's notes: every oriented smooth Hausdorff
+**Oriented three-manifold parallelization.** Prove that every oriented smooth Hausdorff
 second-countable three-manifold, with boundary allowed and without a
 compactness or connectedness assumption, has a smooth orientation-preserving
 vector-bundle isomorphism `TM≃M×ℝ³`. Construct its actual three vector
 fields, their pointwise basis and smooth inverse; for a chosen Riemannian
 metric obtain an oriented orthonormal frame by smooth Gram–Schmidt.
-This is an honest rank-three trivialization.
+This is an honest rank-three trivialization. The closed case is
+Benedetti–Lisca, *Framing 3-manifolds with bare hands*, arXiv:1806.04991v2,
+Theorem 1, p.1; their §2.1, pp.2–3 describes the Wu/Spin proof.
+The boundary, noncompact and componentwise extensions are proved here
+by the compact-neighbourhood and obstruction arguments below.
+
+The headline `orientedThreeManifold_parallelization` uses a chosen
+`TauCeti.IsOrientedAtlas` on the native half-space model of dimension three.
+It produces a pointwise `Module.Basis` of the native `TangentSpace`, with
+positive determinant after differentiation of every chart in that atlas.
+The map from M×ℝ³ to `TangentBundle` sends (x,c) to the linear combination
+of the frame with coefficients c; its inverse sends a tangent vector to
+its basepoint and basis coordinates. Both maps are smooth and are inverse
+by `Module.Basis.equivFun`; no frame or trivialization is assumed.
 
 For a closed source use the preceding Wu/Spin conclusion. Extend w₂=0
 to noncompact sources by testing against every mod2 singular two-cycle,
@@ -1888,6 +1952,8 @@ early lift criterion does not depend on this bordism application.
 - In dimension 0 the O count is 1 modulo two and the SO/Spin signed point count is 1; opposite signs cancel in the latter groups.
 - RP⁴ has (w₄,w₂²) evaluations (1,0), while RP²×RP² has (1,1), so the two degree-four O generators are independent.
 - CP² has signature 1 and SW-number vector (1,1), matching RP²×RP² after forgetting orientation; complex K3 has signature/16=−1 in Spin degree four.
+- The coordinate frame on ℝ³ and on the closed half-space has determinant 1, with coordinate maps inverse to each other; negating its first vector gives determinant −1 and fails positivity for the same orientation.
+- A countable disjoint union of oriented half-spaces admits the componentwise coordinate frames, each of determinant 1; compactness and connectedness are unnecessary. On the empty manifold the frame and both total-space maps are empty functions.
 
 *Needs:* B2.4; B3.2(c), B3.3–B3.4; B4.3–B4.6; B6.1–B6.2; B1.5–B1.6; SpinGeometry G4; SpinRepresentations Layer 7; AlgebraicTopology Stage 8; CharacteristicClasses C1.
 
@@ -1910,6 +1976,16 @@ qC↦q i q⁻¹ has degree −1: at q=1 the chart q=1+j(x+iy)
 has derivative (x,y)↦−2xk−2yj. The horizontal real-complex
 comparison contributes (−1)^(n−1), so the total sign is (−1)^n. For n=1 give D2 and D3 separately. Positive-dimensional projective generators elsewhere
 must not be used to replace these filling constructions.
+
+For the complex projective bounding construction see Milnor–Stasheff,
+§16.3, p.194. Its fibre over HP^(n−1) is S², as the real dimension
+difference (4n−2)−(4n−4)=2 requires. The actual homogeneous comparison
+and outward-first sign above are proved here. For the real projective
+construction, the fibrewise map from the unit sphere of γ_C to that of
+γ_C^⊗2, v↦v⊗v, identifies precisely v and −v; it therefore identifies
+the boundary with S^(2n−1)/{±1}. Its smooth quotient comparison uses
+SmoothBundlesConnections B1.4 (Lee, Theorems 21.10 and 21.13,
+pp.544–545 and 549); the chosen disk filling and its orientation are constructed here.
 
 The disk-filling API includes:
 
@@ -2057,6 +2133,7 @@ Its API includes:
 - The identity automorphism fixes diag(1,0,0) and every Peirce component.
 - The Clifford vector (t,a)=(1,0) acts as (x,y)↦(x,−y), whose square is +id.
 - The vector (0,1) swaps (x,y), again with square +id; it anticommutes with the previous vector, fixing the positive Clifford convention.
+- Write C₀ for the t-generator and C₁,…,C₈ for the eight ordered octonion generators above, composing rightmost first. Then C₀C₁⋯C₈ sends (1,0)∈𝕆² to (−1,0). Replacing only C₈ by −C₈ sends it to (1,0), although all generator squares and pairwise anticommutation relations persist; this excludes the opposite-volume representation.
 
 *Needs:* B3.6; SmoothBundlesConnections B1.4; LieGroups Layers 2 and 4; LieHighestWeight Layer 8 derivations; SpinRepresentations Layer 7.
 
@@ -2549,7 +2626,8 @@ results. These consumers provide no prerequisite of the targets above.
   Problems 16-C–F, pp.203–204 of that edition, for the complex-to-real
   Newton comparison and the real/complex incidence hypersurfaces;
   Chapter 17 for bordism and Chapter 18 for the classical Thom comparison.
-- H. Miller, *Notes on Cobordism*, MIT lecture notes, for the spectral MO
+- H. Miller, *Notes on Cobordism*, MIT lecture notes, version December 5, 2001,
+  [institutional copy](https://rezk.web.illinois.edu/miller-lecture-notes.pdf), for the spectral MO
   computation and the distinction between additive splitting and ring proof.
 - S. Führing, *Bordism and projective space bundles*, Münster J. Math.
   15(2022),355–388,
@@ -2592,3 +2670,12 @@ results. These consumers provide no prerequisite of the targets above.
   1999, §§3.1 and 8.3, for quartic and rational elliptic examples and their
   handle descriptions; the marked boundary Spin comparison is an additional
   target here, not inferred from characteristic-number equality.
+
+- M. F. Atiyah, *Riemann surfaces and spin structures*, Ann. Sci. École Norm.
+  Sup. (4) 4 (1971), 47–62,
+  [open archive](https://www.numdam.org/item/ASENS_1971_4_4_1_47_0/),
+  §4, Proposition 4.1 and Theorem 3′, p.58, for the mod2 Spin-index
+  boundary criterion and the count of bounding surface Spin structures.
+- R. Benedetti and P. Lisca, *Framing 3-manifolds with bare hands*, 2018,
+  [arXiv:1806.04991v2](https://arxiv.org/abs/1806.04991v2), Theorem 1, p.1,
+  and §2.1, pp.2–3, for closed three-manifold parallelization and its Wu/Spin route.

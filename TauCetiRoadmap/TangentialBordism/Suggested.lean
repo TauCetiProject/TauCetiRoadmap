@@ -1,13 +1,16 @@
 import Mathlib
 import TauCeti.LinearAlgebra.BilinearForm.SymplecticBasis
+import TauCeti.Geometry.Manifold.Orientation
 
 /-!
 # Tangential bordism: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, the finite quadratic classification headlines: basis independence,
-the intrinsic Gauss sum and the Arf-zero Lagrangian criterion (Layer 1, B3.2(a)).
-Only the finite quadratic definitions and their symplectic-basis construction are needed.
+the intrinsic Gauss sum and the Arf-zero Lagrangian criterion (Layer 1, B3.2(a)),
+and smooth oriented three-manifold parallelization (Layer 8, B3.1).
+Only the finite quadratic definitions and their symplectic-basis construction are needed;
+parallelization uses native tangent bundles and a chosen native oriented atlas.
 
 The other headline theorems are not statable at the pins:
 - the geometric bordism groups `Ω^O_n(X,A)`, `Ω^SO_n(X,A)`, `Ω^Spin_n(X,A)` and their low
@@ -114,5 +117,36 @@ theorem finiteQuadraticArf_eq_zero_iff_lagrangian [FiniteDimensional (ZMod 2) V]
   sorry
 
 end FiniteQuadraticArf
+
+/-! ## Layer 8: smooth oriented three-manifold parallelization -/
+
+open scoped Manifold ContDiff
+
+/-- Every Hausdorff second-countable smooth oriented three-manifold, allowing boundary,
+has a positive tangent frame whose associated bundle map and inverse are smooth.
+Positivity is measured in every chart of the chosen oriented atlas. No compactness or
+connectedness hypothesis is imposed. -/
+theorem orientedThreeManifold_parallelization
+    (M : Type*) [TopologicalSpace M] [T2Space M] [SecondCountableTopology M]
+    [ChartedSpace (EuclideanHalfSpace 3) M]
+    [IsManifold (modelWithCornersEuclideanHalfSpace 3) ∞ M]
+    (A : Set (OpenPartialHomeomorph M (EuclideanHalfSpace 3)))
+    (hA : TauCeti.IsOrientedAtlas (modelWithCornersEuclideanHalfSpace 3) ∞ A) :
+    ∃ b : (x : M) → Module.Basis (Fin 3) ℝ
+        (TangentSpace (modelWithCornersEuclideanHalfSpace 3) x),
+      (∀ e ∈ A, ∀ x ∈ e.source,
+        0 < Matrix.det (fun i j : Fin 3 ↦
+          WithLp.ofLp (mfderiv (modelWithCornersEuclideanHalfSpace 3)
+            (modelWithCornersEuclideanHalfSpace 3) e x (b x j)) i)) ∧
+      ContMDiff ((modelWithCornersEuclideanHalfSpace 3).prod 𝓘(ℝ, Fin 3 → ℝ))
+        (modelWithCornersEuclideanHalfSpace 3).tangent ∞
+        (fun p : M × (Fin 3 → ℝ) ↦
+          (⟨p.1, (b p.1).equivFun.symm p.2⟩ :
+            TangentBundle (modelWithCornersEuclideanHalfSpace 3) M)) ∧
+      ContMDiff (modelWithCornersEuclideanHalfSpace 3).tangent
+        ((modelWithCornersEuclideanHalfSpace 3).prod 𝓘(ℝ, Fin 3 → ℝ)) ∞
+        (fun v : TangentBundle (modelWithCornersEuclideanHalfSpace 3) M ↦
+          (v.proj, (b v.proj).equivFun v.2)) := by
+  sorry
 
 end TauCetiRoadmap.TangentialBordism
