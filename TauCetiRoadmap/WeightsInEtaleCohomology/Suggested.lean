@@ -2,9 +2,10 @@ import Mathlib
 import TauCeti.NumberTheory.ModularForms.Newforms.Fields
 
 /-!
-# Weights in étale cohomology: headline target
+# Weights in étale cohomology: target signatures
 
-**This file is not the roadmap and is not exhaustive.** README.md is definitive.
+The roadmap is README.md; this file is not the roadmap. It states the roadmap’s
+headline theorems against the pinned APIs.
 
 R34.6's good-prime Hecke-root purity and Ramanujan bound are stated together in
 `newform_ramanujan`, for Tau Ceti's normalized cuspidal newforms of every level,
@@ -21,8 +22,8 @@ representation interface. Abelian varieties and elliptic Tate modules exist,
 but the general abelian Tate/H¹ and curve–Jacobian comparisons needed here do not.
 
 R34.3's proper specialization, Picard–Lefschetz, crystalline weight spectral
-sequence, correspondence traces and semistable-period comparison require nearby
-cycles, log-crystalline/Hyodo–Kato cohomology and structured period modules.
+sequence, correspondence traces and Saito-specific semistable-period identifications
+require nearby cycles, log-crystalline/Hyodo–Kato cohomology and structured period modules.
 R34.4's descended-pencil and open-monodromy comparisons require the arithmetic
 vanishing-cycle local system and its radical quotient. R34.5's parabolic purity,
 Kuga–Sato/Hilbert projectors, modular Jacobian realization and arithmetic hard
@@ -37,7 +38,7 @@ geometric results have no substitute statements here.
 
 open Polynomial UpperHalfPlane
 
-namespace TauCeti.Weights
+namespace TauCetiRoadmap.WeightsInEtaleCohomology
 
 variable {N : ℕ} [NeZero N] {k : ℤ}
 
@@ -61,4 +62,4 @@ theorem newform_ramanujan (f : HeckeRing.GL2.Newform N k) (hk : 2 ≤ k)
         2 * Real.rpow (p : ℝ) (((k : ℝ) - 1) / 2) := by
   sorry
 
-end TauCeti.Weights
+end TauCetiRoadmap.WeightsInEtaleCohomology
