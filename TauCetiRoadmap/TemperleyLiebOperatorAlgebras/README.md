@@ -45,6 +45,8 @@ This roadmap owns:
   algebra of TemperleyLieb Layer 7's root-of-unity quotient (Layer 1);
 - the comparison of Subfactors 3.3's positive path model with the algebraic path and block
   idempotents of TemperleyLieb Layers 6–7 (Layer 1);
+- the positive-real spin/Powers-state comparison, its sided weighted slices, and its
+  trace-GNS cyclic-subspace and normal-representation comparisons (Layer 1.5);
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
   and the positivity classification at negative loop parameters (Layer 2);
 - the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
@@ -442,6 +444,115 @@ quotient `Q_n` of 1.3 replaces any attempt to extend matrix units through a vani
 
 *Needs:* Subfactors 3.3; TemperleyLieb Layer 1 (`halfCount`, the half-diagram/path bijection),
 Layers 6–7 (path and block idempotents); 1.3.
+
+### 1.5 Positive spin matrices and the Powers-state comparison
+
+For `t>0` put `r=√t>0`, `δ=r+r⁻¹≥2` and
+`τ=δ⁻²=t/(1+t)²`. Use `false=0,true=1` for the one-site basis of
+`ℂ²`, and order the two-site basis as `00,01,10,11`. Define the faithful
+one-site density and the two-site orthogonal projection by
+
+`D_t=diag(1,t)/(1+t)`,
+
+`p_t=(1/(1+t)) [[0,0,0,0],[0,1,r,0],[0,r,t,0],[0,0,0,0]]`.
+
+Prove `Tr D_t=1`, strict positivity of `D_t`, self-adjointness and
+idempotence of `p_t`, and its rank-one description as the projection onto
+`(0,1,r,0)`. On `m` physical sites use the actual configuration space
+`Fin m → Bool`, with its standard Hilbert norm, and let `p_i` act on
+adjacent sites and as the identity elsewhere. Prove the disjoint-site
+commutation and adjacent relation `p_i p_(i±1) p_i=τp_i` in both orders.
+Construct the generator-preserving comparison with the native
+`TauCeti.TemperleyLieb.spinRep` at `q=−r`: its unnormalized generator
+`e_i=δp_i` has block `[[r⁻¹,1],[1,r]]` on `01,10`. Prove the algebra
+map is compatible with the analytic adjoint and ordinary matrix conjugate
+transpose. The complex-parameter spin representation alone does not assert
+this self-adjoint positive-real interpretation.
+
+**Density, normalization and side of the slice.** Put
+`φ_m(X)=Tr(D_t^(⊗m) X)`. Prove positivity, faithfulness and normalization
+on the full matrix algebra, and commutation of `D_t^(⊗m)` with every
+generator and hence the whole TL image. Its restriction to that image is
+a trace; `φ_m` on all matrices is tracial exactly when `t=1` for `m≥1`.
+For zero sites the scalar state is tracial at every parameter. Derive
+the explicit right/last-site weighted slice
+
+`(id⊗φ_1)(p_t)=τ I₂`.
+
+The left/first-site slice instead is
+
+`(φ_1⊗id)(p_t)=diag(t²,1)/(1+t)²`.
+
+Prove both entry formulas and carry their different normalizations through
+all tensor reindexings. The last-site formula uses the physical ordering
+`Fin.snoc`; native `Matrix.extendLast`'s reindexed Kronecker convention
+must be compared with that ordering explicitly. For the TL images prove
+`φ_(m+1)(ι_m(x))=φ_m(x)` and
+`φ_(m+1)(ι_m(x)p_m)=τφ_m(x)`, with the initial scalar inclusions treated
+separately when needed. For the unnormalized native closure trace prove
+
+`T_m(x)=δ^m φ_m(spinRep_(−r)(x))`.
+
+Compare its spin weights `r,r⁻¹` with the density entries
+`t/(1+t),1/(1+t)` in native `true,false` order. Include the unit, arbitrary
+words, analytic adjoints and tower inclusions in this comparison. For
+`δ≥2`, identify the spin representation's kernel with the trace radical
+using the faithful matrix state, and consume the positive-parameter
+trace/path theorem to conclude that the kernel is zero. This comparison
+is a consequence of that theorem, not a replacement for its proof.
+
+**Powers product state and the trace-GNS subspace.** Consume
+VonNeumannAlgebras V2's reference-vector incomplete Hilbert tensor product,
+with one-site Hilbert space `HS(ℂ²)`, inner product `⟨A,B⟩=Tr(A*B)`
+using the unnormalized matrix trace, and unit vector `D_t^(1/2)`; the
+local `M₂(ℂ)` acts by left multiplication. Identify finite prefixes with
+the GNS representation of `φ_m`, and construct the compatible infinite
+product state `φ=⊗φ_1` on the resulting weak closure. Prove its local
+matrix formulas, faithfulness and cyclic/separating product vector using
+the general GNS/tensor suppliers, rather than introducing another generic
+infinite tensor carrier. The local modular action is
+`X↦D_t^(is) X D_t^(−is)`. Show each TL generator is fixed, so the product
+state restricts to a normal trace on the TL weak closure. For `t≠1` it
+is not a trace on the ambient product algebra.
+
+Let `K` be the closure of the TL algebra applied to the product vector.
+Construct the generator-preserving unitary from the abstract TL trace-GNS
+space onto `K`, and prove that it intertwines local inclusions, the
+norm-closed TL inductive limit and its weak closure. Compare the faithful
+normal trace on the ambient TL weak closure with the cyclic-subspace
+representation to obtain the normal *-isomorphism. Do not identify `K`
+with the whole ambient product-state Hilbert space. These are terminal
+representation comparisons; no positivity classification or basic
+construction takes this product-state comparison as an input.
+
+**Index and parameter checks.** Native `TL_m` has `m−1` generators on
+`m` physical sites; `TL_0` and `TL_1` have their separate scalar models.
+The course's `A_n` has `n` projections, so this realization uses `m=n+1`,
+physical Hilbert dimension `2^(n+1)`, and unnormalized trace factor
+`δ^(n+1)`. Its `A_0=ℂ` acts as scalars on one physical two-dimensional
+site. The full finite product-state GNS dimension is `4^m`, whereas the
+cyclic TL GNS space has its own dimension. These dimensions are distinct
+from the course scan's literal `ℂ^(2n+2)`; retain the scan reading and
+its intended-model comparison as source qualifications. The formulas here
+specify this tensor model without authenticating that printed exponent.
+At `t=1` check the projection onto `(01+10)/√2`, `δ=2`, `τ=1/4` and ordinary normalized
+matrix trace. Prove that simultaneous spin flip at every site carries
+`D_t,p_t` to `D_(1/t),p_(1/t)` and transports the full state/tower data;
+this pins the reciprocal-parameter convention. No type-III factor
+classification is part of this comparison.
+
+*Needs:* the analytic adjoint and positive trace/quotient/path theorems cited
+above, the existing TL trace-GNS tower, CStarAlgebras C1–C5's finite matrices
+and inductive limits, VonNeumannAlgebras V1/V2's GNS, normal closures and
+reference-vector tensors and V10's modular theory for the final modular
+comparison; Mathlib matrix Kronecker products, trace, positive forms and
+finite-dimensional Hilbert spaces. Use V2's generic slice maps and tensor
+coherence. The general signed/countable Hecke models remain with
+TypeAHeckeAlgebras H3; this target is the ordinary TL spin/Powers-state
+comparison. `PowersTensorTargets.lean` gives suggested finite-matrix and
+native trace interfaces. The source passage is the embedded Jones article
+in Knot Theory physical p91; no Potts/ice partition-function identification
+is inferred from the local TL relations alone.
 
 ### Examples
 
