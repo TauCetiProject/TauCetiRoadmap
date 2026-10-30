@@ -781,7 +781,10 @@ remove the subprincipal commutators.
 
 Prove coordinate and frame transformation formulas by the amplitude calculus;
 the principal symbol transforms intrinsically as a Hom-bundle-valued function
-on T*M\0. Patch properly supported operators on bundles and show independence
+on T*M\0 (Taylor, Lecture I §8, (8.1)–(8.3), pp. 23–24, for the
+compact scalar class; finite-rank frame changes follow entrywise from §4.1,
+and proper support gives the locally finite noncompact construction).
+Patch properly supported operators on bundles and show independence
 of atlas, partition and local quantization modulo smoothing operators, for a
 family of compatible full local symbols: on each chart overlap the two full
 symbols are related by the complete coordinate and frame transformation
@@ -792,14 +795,35 @@ whereas quantizing ξ² in x gives `−∂ₓ²`, a difference of order 1. Build
 quotient, principal symbol exact sequence and quantization of every smooth
 homogeneous principal symbol; two quantizations of the same principal symbol
 differ by an operator of order m−1. In the classical class the order-m kernel
-of the principal-symbol map is order m−1. Construct a quantization continuous on compact parameter families
-and prove homotopies of principal symbols admit continuous operator lifts.
+of the principal-symbol map is order m−1. Derive this exact sequence by
+restricting the local symbol quotient to classical symbols and patching:
+a zero leading homogeneous term is precisely an order-m−1 classical symbol,
+and a smooth degree-m homogeneous symbol is lifted using a fixed frequency
+cutoff (Melrose, Chapter 2, §2.9, Lemma 2.5, p. 45, for the local quotient
+sequence; Introduction to Microlocal Analysis, §5.3, Proposition 5.2,
+(5.32)–(5.36), pp. 133–134, for the global patching argument).
+
+With charts, partitions, frequency cutoffs and proper-support kernel cutoffs
+fixed, construct a continuous linear quantization Q from smooth degree-m
+homogeneous bundle symbols to properly supported classical order-m operators,
+with σ_m(Q(a))=a. Use the C∞ seminorms on compact subsets of the cosphere
+bundle for the source, and the localized classical coefficient, remainder
+and smooth-kernel seminorms for the target. Deduce continuity on compact
+parameter families and continuous lifts of symbol homotopies in these
+topologies. This is a deduction from the explicit patching in Melrose,
+Introduction to Microlocal Analysis, §5.3, proof of Proposition 5.2,
+(5.35)–(5.36), p. 134: frequency-cutoff extension is linear and continuous
+on homogeneous symbols, and the P2–P3 seminorm estimates control each
+localized quantization. For a prescribed initial operator P₀ with symbol a₀,
+the lift of a_t is Q(a_t)+P₀−Q(a₀).
 Keep the residual smoothing term in equalities, including cross-chart terms.
 Define membership in the global properly supported classical class by a
 properly supported distribution kernel smooth off the diagonal, such that
 every chart compression φPψ with compactly supported smooth chart cutoffs
 is Op(a) plus a smooth-kernel operator for a local classical order-m symbol.
-Prove equivalence with the patching construction and independence of charts.
+Prove equivalence with the patching construction and independence of charts
+(Taylor, Lecture I §8, pp. 23–24; Melrose, Introduction to Microlocal
+Analysis, §5.3, Proposition 5.1, (5.26)–(5.28), p. 133).
 Identify every P1.0 differential operator of order at most m with the classical
 properly supported pseudodifferential operator given in charts by quantizing
 its polynomial symbol. Prove exact equality on smooth inputs and distributions,
@@ -814,11 +838,23 @@ compactly x-supported quantization composed on either side with the native
 Bessel multipliers remains in this controlled calculus, without pretending
 those multipliers are properly supported. Recover symbols by testing on
 exponentials, interpreted by the oscillatory/distribution construction:
-`a(x,ξ)=exp(−ix·ξ)Op(a)(exp(i·ξ))(x)` for full Euclidean quantization.
+`a(x,ξ)=exp(−ix·ξ)Op(a)(exp(i·ξ))(x)` for full Euclidean quantization
+(Melrose, Chapter 2, §2.8, (2.75)–(2.77), pp. 43–44: the inverse full-symbol
+map). Interpret the exponential through its Fourier point mass, so this
+identity does not assume a general operator action on noncompact smooth
+inputs.
 For a closed compact K⊂ℝⁿ define output support in K by
 `supp(Op(a)f)⊆K` for every compactly supported smooth f. Prove this is
 equivalent to x-support of the full symbol a being contained in K, using
 the distribution kernel and Fourier injectivity in its second variable.
+This support equivalence is a deduction: output support in K means that the
+kernel vanishes on (ℝⁿ\K)×ℝⁿ; in the displacement variable z=x−y,
+the angular-frequency Fourier transform of the kernel K_a(x,x−z) is
+a(x,ξ), hence vanishes exactly when a does.
+Use P3's kernel correspondence (Dyatlov, Lecture 7, p. 11) and Fourier
+injectivity on tempered distributions (Melrose, Introduction to Microlocal
+Analysis, §1.7, Corollary 1.1, p. 21). Localize in x to apply the tempered
+statement when the symbol has only local x estimates.
 Distinguish this from compact support only in the input variable or merely
 proper support of the kernel. These are exact full-quantization statements.
 For proper-support truncation state recovery modulo smoothing, not an exact
@@ -837,10 +873,17 @@ The global-class and quantization API includes:
   whereas quantizing ξ² in x gives 0. Equal leading symbols do not imply a smoothing difference.
 - For a(x,ξ)=χ(x), full quantization is multiplication by χ and symbol recovery returns χ;
   χ supported in K has output support in K, while the identity symbol 1 does not for proper K⊊ℝⁿ.
+- In one dimension a(x,ξ)=1+ξ has displacement kernel δ₀−iδ₀′; its
+  angular-frequency Fourier transform is 1+ξ. At ξ=2 recovery gives 3,
+  whereas reversing the displacement sign would give 1−ξ=−1.
 - For a square partition at a point with χ₁=χ₂=1/√2, Σχ_j²=1; the unsquared sum is √2.
+- On the circle, take m=1, a_t(ξ)=(1+t)ξ and Q(a_t)=(1+t)D. If P₀=D+2Id,
+  the prescribed-initial-value lift is (1+t)D+2Id: its symbol is (1+t)ξ and its
+  value at t=0 is D+2Id. Dropping the correction would start at D.
 
 *Needs:* §4.1 calculus; P3 kernels; P2 symbols; P1 differential polynomial symbols and
-SmoothBundlesConnections B2 frame transitions.
+SmoothBundlesConnections B2 frame transitions; P2–P3 localized seminorm estimates
+and native Fourier injectivity for the parameter and recovery deductions.
 
 ### Examples
 
@@ -1035,11 +1078,11 @@ pp. 47–48) and the dyadic Besov comparison. The K-method API includes:
 
 *Needs:* the common sum carrier and its quotient norm; native Lq spaces for dt/t.
 
-For a fixed p and s₀≠s₁ pin
+For a fixed 1<p<∞ and s₀≠s₁ pin
 `(H^(s₀,p),H^(s₁,p))_(θ,q)=B^(s_θ)_(p,q)`
 (Bergh–Löfström, Theorem 6.4.5(4), pp. 152–153); define the Besov carrier by
-the dyadic Lp coefficient sequence norm. Choose a smooth inhomogeneous Fourier
-partition supported in a low-frequency ball and dyadic annuli, summing to1;
+the dyadic Lp coefficient sequence norm for 1≤p,q≤∞ and real s.
+Choose a smooth inhomogeneous Fourier partition supported in a low-frequency ball and dyadic annuli, summing to 1;
 prove finite overlap, uniform rescaled derivative bounds, bounded dyadic
 analysis/reconstruction and equivalence for any two such partitions (Bergh–Löfström, §6.2,
 pp. 138–146, and Theorem 6.4.3, pp. 151–152). Prove
@@ -1050,12 +1093,29 @@ pp. 121–122). Use dyadic decomposition and
 these estimates to prove the stated Besov identification and its reverse
 inclusion, rather than only an operator interpolation inequality.
 Prove the bundle versions through
-the bounded localization/reconstruction retractions. The Besov and localized Bessel API includes:
+the bounded localization/reconstruction retractions.
+For finite p define the little Besov subspace of B^s_(p,∞) by the condition
+`2^(js)‖Δ_j u‖_p → 0` as j→∞, using every localized component for bundles.
+On compact bases prove that this is exactly the norm closure of smooth
+sections, independent of the localization and dyadic partition; in ℝⁿ the
+corresponding closure is that of compactly supported smooth functions.
+Derive the closure description from dyadic truncation and the finite-p
+approximation of each fixed block; compare the finite-q density and q=∞
+closure distinction with Bergh–Löfström, Theorem 3.4.2(b,c), p. 47.
+The full q=∞ Besov spaces
+remain the targets of the real interpolation identity above.
+The Besov and localized Bessel API includes:
 
 - Dyadic analysis/reconstruction are bounded and independent, up to equivalent norms, of the partition.
 - The weighted-sequence K-method gives both inclusions in the Besov identification for s₀≠s₁.
-- Bounded coordinate/frame transitions give complete bundle spaces, smooth density for finite p,
-  and the specified bilinear density duality.
+- Bounded coordinate/frame transitions give complete bundle spaces; localized Bessel spaces
+  H^(s,p), 1<p<∞, have smooth density and the specified bilinear density duality.
+- Smooth sections are dense in bundle B^s_(p,q) on compact bases for 1≤p,q<∞;
+  for 1≤p<∞ and q=∞ their closure is the little Besov subspace just defined.
+- The little subspace is closed with complete inherited norm; inclusion into B^s_(p,∞)
+  is isometric for the same chosen dyadic norm.
+- Equivalent partitions and bundle localizations give the same little subspace with equivalent norms;
+  bounded coordinate/frame transitions restrict to it by smooth approximation.
 
 **Checks.**
 
@@ -1064,6 +1124,23 @@ the bounded localization/reconstruction retractions. The Besov and localized Bes
 - At s₀=0,s₁=2,θ=1/4, the interpolated order is 1/2, not 3/2.
 - A sequence of N unit weighted coefficients has ℓ¹ norm N and ℓ∞ norm 1;
   the two Besov bounds must retain their different q indices.
+- On ℝ/(2πℤ) with measure dx/(2π), choose annular multipliers equal to 1 at their
+  central frequency 2ʲ and 0 at the other dyadic centers, with the low block zero
+  at 2ʲ for j≥1. For u=Σ_(j≥1)2^(−j)exp(i2ʲx), each weighted L² block
+  2ʲ‖Δ_j u‖₂ equals 1; the partial sum through N has B¹_(2,∞) error exactly 1.
+  Every smooth v has weighted blocks tending to 0, so ‖u−v‖_(B¹_(2,∞))≥1.
+  This excludes smooth density at q=∞ even though p=2.
+
+**Checks (little Besov spaces).**
+
+- The preceding series has weighted tails 1 and is excluded; zero and each finite
+  trigonometric polynomial have eventually zero blocks and belong to the little space.
+- Replacing the coefficients by 2^(−2j) gives weighted blocks 2^(−j) at s=1.
+  The B¹_(2,∞) error after N terms is 2^(−N−1)→0, so this series is in the
+  little space; requiring only bounded tails would also admit the preceding non-example.
+- For these same coefficients and 1≤q<∞, the weighted tail norm is
+  2^(−N−1)/(1−2^(−q))^(1/q)→0; at q=2 and N=0 it is 1/√3.
+  The original unit weighted sequence instead has infinite ℓ^q norm.
 
 *Needs:* the complex and real interpolation constructions, PDE Lane B multiplier estimates,
 dyadic partitions and finite-dimensional chart retractions.
@@ -1213,7 +1290,7 @@ identifications and order shift are Taylor, Lecture I, (3.32)–(3.34), p. 12.
 Prove smoothing operators send distributions to smooth sections locally and
 act compactly between fixed finite Sobolev orders on compact bases. Negative-
 order operators are compact H^s→H^s there by the strict-order Rellich inclusion
-(Atiyah–Singer I, (5.2), p. 513: on a compact base the order-m operators with
+(Atiyah–Singer I, (5.2), p. 512: on a compact base the order-m operators with
 vanishing principal symbol are exactly the compact maps H^s→H^(s−m) in the
 closure of the class).
 Prove the distribution-extension and smooth-input constructions agree; do not
@@ -1221,8 +1298,12 @@ infer weak regularity from an estimate proved only for smooth inputs.
 
 For smooth compact-Lie actions on M and smooth fiberwise-linear actions on
 E,F over it, choose invariant metrics/density and prove symbol/operator averaging preserves order,
-classical homogeneous terms, continuity and invariant principal symbols.
-Differentiate the coefficient integral under Haar integration and prove
+classical homogeneous terms, continuity and invariant principal symbols
+(Atiyah–Singer I, (5.5)–(5.6), pp. 516–517, for conjugation continuity and
+averaging in the closure calculus). Prove preservation of the actual classical
+class separately through its coefficient and remainder seminorms; operator-norm
+closure alone does not supply that conclusion. Differentiate the coefficient
+integral under Haar integration and prove
 uniform seminorm bounds on compact group parameter sets; compare it with the
 Bochner integral in the Sobolev operator spaces constructed above.
 
@@ -1948,7 +2029,7 @@ add their own geometric or algebraic constructions.
 - Semyon Dyatlov, [MIT 18.155, Fall 2021, Lecture 7](https://math.mit.edu/~dyatlov/18.155-F21/Lecture7.pdf),
   p. 11: the Euclidean scalar Schwartz kernel correspondence and the identity kernel.
 - Jöran Bergh and Jörgen Löfström, [Interpolation Spaces: An Introduction](https://www.math.chalmers.se/~bergh/Interpolation.pdf)
-  (1976), §2.3, §3.1, §4.1 and §§5.1, 5.6, 6.2, 6.4: compatible couples,
+  (1976), §2.3, §3.1, Theorem 3.4.2(b,c) (p. 47), §4.1 and §§5.1, 5.6, 6.2, 6.4: compatible couples,
   the complex and real methods, and Euclidean Bessel/Besov comparisons.
 - Peter Gilkey, [The spectral geometry of operators of Dirac and Laplace type](https://pages.uoregon.edu/gilkey/dirPDF/E27Handbook.pdf),
   author manuscript with 2007 imprint, §2, Lemma 2.1 and the following paragraph,
@@ -1959,7 +2040,9 @@ add their own geometric or algebraic constructions.
   finite-group transplantation, Sobolev comparisons and isospectrality.
 - Richard Melrose, [Pseudodifferential operators on Euclidean space,
   Chapter 2](https://math.mit.edu/~rbm/18.199-S08/Chapter2.pdf), MIT 18.199 (2008),
-  §2.5, Proposition 2.3 and (2.55)–(2.57), pp. 39–40: asymptotic summation.
+  §2.5, Proposition 2.3 and (2.55)–(2.57), pp. 39–40: asymptotic summation;
+  §§2.8–2.9, (2.75)–(2.77) and Lemma 2.5, pp. 43–45: full quantization and
+  the principal-symbol sequence.
 - Michael Taylor, [Pseudodifferential Operators: Four Lectures at MSRI,
   September 2008](https://mtaylor.web.unc.edu/wp-content/uploads/sites/16915/2018/04/msripde.pdf),
   Lecture I §§1–4,7–8: quantization, symbols, mapping estimates, parametrices and
@@ -1969,12 +2052,15 @@ add their own geometric or algebraic constructions.
   wave front set](https://arxiv.org/abs/1409.7662v2), arXiv:1409.7662v2 (2016),
   Theorem 4.6, Proposition 5.1 and Theorems 6.1, 6.3, pp. 13–14, 21–22.
 - M. F. Atiyah and I. M. Singer, [The index of elliptic operators: I](https://doi.org/10.2307/1970715),
-  Annals of Mathematics 87 (1968), 484–530, §2 (p. 490), (5.2) (p. 513), §6
-  (pp. 517–519), §7 (pp. 520–522) and §9 (pp. 526–530): symbol products,
+  Annals of Mathematics 87 (1968), 484–530, §2 (p. 490), (5.2) (p. 512), §6
+  (pp. 517–519), (5.6) (p. 517), §7 (pp. 520–522) and §9 (pp. 526–530): symbol products,
   compact negative-order operators, Fredholm elliptic operators, elliptic
   complexes and the multiplicative property of the index.
 - Richard Melrose, [Introduction to Microlocal Analysis](https://math.mit.edu/~rbm/iml90.pdf),
-  MIT lecture notes, Theorem 1.2, p. 16: the tempered Schwartz kernel theorem.
+  MIT lecture notes, Theorem 1.2, p. 16, and §1.7, Corollary 1.1, p. 21:
+  the tempered Schwartz kernel theorem and Fourier injectivity; §5.3,
+  Propositions 5.1–5.2, (5.26)–(5.36), pp. 133–134: global kernels, symbols
+  and the explicit quantization used for continuous parameter lifts.
 - Lars Hörmander, *The Analysis of Linear Partial Differential Operators I*,
   Grundlehren 256, Springer, 2nd ed. 1990, Theorem 5.2.1: the Schwartz kernel
   theorem (cited by locator; the text is not open).
