@@ -234,10 +234,11 @@ theorem prod_infinitePlace_comap_pow_mult {K L : Type*} [Field K] [NumberField K
 -- `NumberField.FinitePlace.equivHeightOneSpectrum_symm_apply_algebraMap`; it is consumed, not restated.
 
 /-- Under a finite extension of number fields the relative height of a tuple is raised to the
-degree `[L : K]`; the zero tuple has value one in both fields. -/
-theorem mulHeight_algebraMap {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L]
+degree `[L : K]`; the zero tuple has value one in both fields. Named and shaped as in
+mathlib4#41606. -/
+theorem mulHeight_pow_finrank {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L]
     [Algebra K L] {ι : Type*} [Finite ι] (x : ι → K) :
-    Height.mulHeight (algebraMap K L ∘ x) = Height.mulHeight x ^ Module.finrank K L := by sorry
+    Height.mulHeight x ^ Module.finrank K L = Height.mulHeight (algebraMap K L ∘ x) := by sorry
 
 /-- Relative heights are invariant under isomorphisms of number fields. -/
 theorem mulHeight_ringEquiv {K K' : Type*} [Field K] [NumberField K] [Field K']
@@ -246,7 +247,7 @@ theorem mulHeight_ringEquiv {K K' : Type*} [Field K] [NumberField K] [Field K']
 
 /-- Mathlib's absolute height of an element of a number field `K` is the `[K : ℚ]`-th root of
 its relative height in `K`. -/
-theorem absMulHeight₁_eq_rpow {K : Type*} [Field K] [NumberField K] (x : K) :
+theorem absMulHeight₁_eq {K : Type*} [Field K] [NumberField K] (x : K) :
     NumberField.absMulHeight₁ x = Height.mulHeight₁ x ^ ((Module.finrank ℚ K : ℝ)⁻¹) := by sorry
 
 /-- The absolute height depends only on the minimal polynomial over `ℚ`, so conjugates and
@@ -572,6 +573,31 @@ end DiophantineApproximation
 /-! ## Layer 1: auxiliary polynomials and Roth’s theorem -/
 
 open scoped ENNReal
+
+namespace Finsupp
+
+/-- The height of the coercion to a function on the whole index type, with no finiteness on it,
+equals `Finsupp.mulHeight`, which is defined on the support; this is not definitional. -/
+theorem mulHeight_coe_eq {K α : Type*} [Field K] [Height.AdmissibleAbsValues K] (x : α →₀ K) :
+    Height.mulHeight ⇑x = _root_.Finsupp.mulHeight x := by sorry
+
+/-- `Finsupp.logHeight` unfolds to the log of the height of the coercion on the whole index type;
+this bridges it to the log of `Finsupp.mulHeight`, which is defined on the support. -/
+theorem logHeight_eq_log_finsuppMulHeight {K α : Type*} [Field K]
+    [Height.AdmissibleAbsValues K] (x : α →₀ K) :
+    _root_.Finsupp.logHeight x = Real.log (_root_.Finsupp.mulHeight x) := by sorry
+
+/-- The height is computed on any finite reindexing that covers the support. -/
+theorem mulHeight_eq_mulHeight_comp {K α ι : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    [Finite ι] (x : α →₀ K) {e : ι → α} (he : Function.Injective e)
+    (hs : ↑x.support ⊆ Set.range e) :
+    _root_.Finsupp.mulHeight x = Height.mulHeight (x ∘ e) := by sorry
+
+theorem mulHeight_smul_eq_mulHeight {K α : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    (x : α →₀ K) {c : K} (hc : c ≠ 0) :
+    _root_.Finsupp.mulHeight (c • x) = _root_.Finsupp.mulHeight x := by sorry
+
+end Finsupp
 
 namespace Polynomial
 
@@ -1419,6 +1445,26 @@ theorem closedFormRecurrence (E : _root_.LinearRecurrence ℂ)
       (∀ θ ∈ E.charPoly.roots, (P θ).degree < (E.charPoly.rootMultiplicity θ : WithBot ℕ)) ∧
       ∀ n : ℕ, u n = ∑ θ ∈ E.charPoly.roots.toFinset, (P θ).eval (n : ℂ) * θ ^ n := sorry
 
+/-- The tuple sum bound: sums of coordinates of one projective point cost `#s ^ totalWeight K`. -/
+theorem Height.mulHeight_sum_comp_le {K : Type*} [Field K] [Height.AdmissibleAbsValues K]
+    {ι κ α : Type*} [Finite ι] [Finite κ] {s : Finset α} (hs : s.Nonempty) (f : α → ι → κ)
+    (w : κ → K) :
+    Height.mulHeight (fun i ↦ ∑ a ∈ s, w (f a i)) ≤
+      (s.card : ℝ) ^ Height.totalWeight K * Height.mulHeight w := by sorry
+
+/-- The signed tuple sum bound, which the Leibniz expansion of a determinant needs. -/
+theorem Height.mulHeight_sum_sign_comp_le {K : Type*} [Field K]
+    [Height.AdmissibleAbsValues K] {ι κ α : Type*} [Finite ι] [Finite κ] {s : Finset α}
+    (hs : s.Nonempty) {ε : α → ι → K} (hε : ∀ a i, ε a i = 1 ∨ ε a i = -1) (f : α → ι → κ)
+    (w : κ → K) :
+    Height.mulHeight (fun i ↦ ∑ a ∈ s, ε a i * w (f a i)) ≤
+      (s.card : ℝ) ^ Height.totalWeight K * Height.mulHeight w := by sorry
+
+/-- The naive two-tuple sum bound fails for every constant. -/
+theorem exists_mulHeight_add_gt (C : ℝ) :
+    ∃ x y : Fin 2 → ℚ, C * Height.mulHeight x * Height.mulHeight y < Height.mulHeight (x + y) := by
+  sorry
+
 /-- Relative matrix height is the tuple height of the entries, rather than of the maximal minors. -/
 def matrixMulHeight {K m n : Type*} [Field K] [Height.AdmissibleAbsValues K]
     [Finite m] [Finite n] (A : Matrix m n K) : ℝ :=
@@ -1631,9 +1677,10 @@ theorem finite_subspaceHeight_le {ι : Type*} [Fintype ι] [LinearOrder ι] (B :
   sorry
 
 /-- For a rational subspace, `H_2(T)` is the Euclidean norm of the wedge of a `ℤ`-basis of
-`T ∩ ℤ^n`, i.e. the covolume of that lattice (Evertse–Ferretti §6.1 and Mathlib's lattice carrier). -/
-theorem subspaceHeight_rat_eq_covolume {ι : Type*} [Fintype ι] [LinearOrder ι]
-    (T : Submodule ℚ (ι → ℚ)) (hT : T ≠ ⊥) (p : ℕ)
+`T ∩ ℤ^n` (Evertse–Ferretti §6.1); the covolume form is the `K = ℚ` case of
+`kernelLattice_covolume`. -/
+theorem subspaceHeight_rat_eq_norm_plucker {ι : Type*} [Fintype ι] [LinearOrder ι]
+    (T : Submodule ℚ (ι → ℚ)) (p : ℕ)
     (b : Fin p → ι → ℤ) (hb : ∀ y : ι → ℤ, (fun j ↦ (y j : ℚ)) ∈ T ↔
       ∃ c : Fin p → ℤ, y = ∑ i, c i • b i) (hbi : LinearIndependent ℤ b) :
     subspaceHeight T =
