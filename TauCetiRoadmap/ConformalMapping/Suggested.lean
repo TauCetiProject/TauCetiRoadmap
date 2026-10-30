@@ -1,125 +1,77 @@
 import Mathlib
-import TauCeti.Analysis.Complex.Conformal.Caratheodory
-import TauCeti.Analysis.Complex.Conformal.BoundaryCorrespondence
-import TauCeti.Analysis.Complex.Conformal.Jordan.Approach
-import TauCeti.Analysis.Complex.Conformal.SchwarzChristoffel.Formula
-import TauCeti.Analysis.Complex.Conformal.SchwarzChristoffel.PolygonalDomain
+import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
+import TauCeti.Analysis.Complex.Conformal.Hyperbolic.Distance
+import TauCeti.Analysis.Complex.Conformal.SchwarzChristoffel.Primitive
+import TauCeti.Analysis.Contour.PiecewiseC1On
+import TauCeti.Analysis.Contour.Winding.Number.Basic
 
 /-!
-# Conformal mapping: representative native-provider consumers
+# Conformal mapping: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The README is definitive. Its targets
-remain broader than the examples here. The proved wrappers consume Tau Ceti L5/L6 results;
-the final two signatures are owned targets with honest admissions.
-The Jordan-domain provider proves the full homeomorphism of closures using the separate
-extension-injectivity theorem in `Jordan/Approach.lean`.  The finite-index L6 wrapper preserves
-the side, sector, and finite-limit nonvertex hypotheses of the polygonal-domain provider.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, so that the finished
+roadmap is tested against exactly these statements.
+
+The headline theorems of Layers 0–4 that the pinned Tau Ceti already proves are not restated:
+Hurwitz's theorem for injective limits (`TauCeti.hurwitz_injOn`), Montel's criterion
+(`TauCeti.isCompact_closure_range_iff_isLocallyBoundedOn`), the infinitesimal Schwarz–Pick
+inequality (`TauCeti.norm_deriv_div_one_sub_norm_sq_le`), the Riemann mapping theorem
+(`TauCeti.riemannMapping`), the reflection principle
+(`TauCeti.exists_differentiableOn_eqOn_conj_of_symmetric`), the Carathéodory correspondence
+(`TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier`) and the
+Schwarz–Christoffel theorem for bounded polygonal Jordan domains
+(`TauCeti.exists_bijOn_const_mul_schwarzChristoffelPrimitive_add_of_isJordanCurve_frontier`).
+
+Two headline theorems are not statable at the pins and are therefore not stated: the continuous
+Jordan index theorem (§5.6 of the README) and the continuous-boundary argument principle (§5.7).
+Both are about the integer index of a continuous closed loop about a point off its trace, which is
+the roadmap's own construction (§5.4); no carrier for it exists in the pinned Mathlib or Tau Ceti,
+and `TauCeti.Contour.windingNumber` is a principal-value integral that is junk on a nonrectifiable
+loop. The piecewise-`C¹` case of the Jordan index theorem is statable and is stated below.
 -/
 
 namespace TauCetiRoadmap.ConformalMapping
 
 open Bornology Complex Filter Metric Set Topology UpperHalfPlane TauCeti
 
-/-- The bounded Jordan-domain L5 theorem: a conformal image of the disc has a continuous
-extension to the closed disc and remains bijective on the open disc.  This is the native
-Carathéodory provider's exact conclusion; injectivity on the closed disc is not asserted. -/
-theorem L5_continuous_extension_and_interior_bijection {Ω : Set ℂ}
-    (hΩo : IsOpen Ω) (hΩc : IsConnected Ω) (hΩb : IsBounded Ω)
-    (hΩJ : TauCeti.IsJordanCurve (frontier Ω)) :
-    ∃ g : ℂ → ℂ, ContinuousOn g (closedBall 0 1) ∧
-      DifferentiableOn ℂ g (ball 0 1) ∧ BijOn g (ball 0 1) Ω := by
-  exact TauCeti.exists_continuousOn_closedBall_bijOn_ball_of_isJordanCurve_frontier
-    hΩo hΩc hΩb hΩJ
+/-! ## Layer 2: Schwarz–Pick and Poincaré geometry -/
 
-/-- The full Jordan-domain boundary correspondence, including injectivity on the closed disc.
-This consumes the native theorem that derives closed-disc injectivity from Jordan approach regions.
--/
-theorem L5_closed_disc_homeomorphism {Ω : Set ℂ}
-    (hΩo : IsOpen Ω) (hΩc : IsConnected Ω) (hΩb : IsBounded Ω)
-    (hΩJ : TauCeti.IsJordanCurve (frontier Ω)) :
-    ∃ g : ℂ → ℂ, ContinuousOn g (closedBall 0 1) ∧
-      DifferentiableOn ℂ g (ball 0 1) ∧ BijOn g (ball 0 1) Ω ∧
-      ∃ e : closedBall (0 : ℂ) 1 ≃ₜ closure Ω,
-        ∀ z : closedBall (0 : ℂ) 1, (e z : ℂ) = g z := by
-  exact TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier
-    hΩo hΩc hΩb hΩJ
+/-- **The Cayley comparison of the two hyperbolic metrics.** Mathlib's distance on the upper
+half-plane is twice the disc hyperbolic distance `TauCeti.hyperbolicDist` of the Cayley images
+`c z = (z − i)/(z + i)`: the disc distance `Real.artanh |z − w|/|1 − w̄ z|` carries the
+infinitesimal metric `|dz|/(1 − |z|²)` and the half-plane distance carries `|dz|/Im z`, which is
+twice its Cayley transport. For `z = i`, `w = 2i` both sides equal `log 2`. -/
+theorem upperHalfPlane_dist_eq_two_mul_hyperbolicDist (z w : UpperHalfPlane) :
+    dist z w = 2 * TauCeti.hyperbolicDist (((z : ℂ) - Complex.I) / ((z : ℂ) + Complex.I))
+      (((w : ℂ) - Complex.I) / ((w : ℂ) + Complex.I)) := by
+  sorry
 
-/-- Generic closure correspondence for any bounded `U`.  The Jordan-domain L5 consumer above
-obtains extension injectivity from the native `Jordan/Approach.lean` result. -/
-noncomputable def L5_closure_homeomorph_of_injective_extension {U : Set ℂ} {f F : ℂ → ℂ}
-    (hUb : IsBounded U) (hFc : ContinuousOn F (closure U)) (hFf : EqOn F f U)
-    (hFi : InjOn F (closure U)) : closure U ≃ₜ closure (f '' U) :=
-  TauCeti.closureHomeomorph hUb hFc hFf hFi
+/-! ## Layer 4: analytic continuation, reflection and removability -/
 
-/-- Finite-index Schwarz--Christoffel formula, specialized to `Fin n` without changing the
-native side, corner, derivative, or infinity hypotheses. It only specializes the index type;
-it does not construct polygon local geometry. The normalization point lies in the
-upper half-plane, hence is not one of the finite real prevertices. -/
-theorem L6_fin_sc_formula (n : ℕ) (a e : Fin n → ℝ) (ha : Function.Injective a)
-    (he : ∀ i, e i ∈ Ioo (-1 : ℝ) 1) (z₀ : UpperHalfPlane) {f : ℂ → ℂ}
-    (hf : DifferentiableOn ℂ f upperHalfPlaneSet)
-    (hfn : ∀ z ∈ upperHalfPlaneSet, deriv f z ≠ 0)
-    (hside : ∀ x : ℝ, (∀ i, a i ≠ x) → ∃ r > 0, ∃ q b : ℂ, b ≠ 0 ∧
-      ContinuousOn f (Metric.ball (x : ℂ) r ∩ {z : ℂ | 0 ≤ z.im}) ∧
-      InjOn f (Metric.ball (x : ℂ) r ∩ {z : ℂ | 0 ≤ z.im}) ∧
-      (∀ z ∈ Metric.ball (x : ℂ) r, z.im = 0 → ((f z - q) / b).im = 0) ∧
-      ∀ z ∈ Metric.ball (x : ℂ) r, 0 < z.im → 0 < ((f z - q) / b).im)
-    (hcorner : ∀ i, ∃ r > 0, ∃ b : ℂ, b ≠ 0 ∧
-      ContinuousOn f (Metric.ball ((a i : ℝ) : ℂ) r ∩ {z : ℂ | 0 ≤ z.im}) ∧
-      InjOn f (Metric.ball ((a i : ℝ) : ℂ) r ∩ {z : ℂ | 0 ≤ z.im}) ∧
-      (∀ z ∈ Metric.ball ((a i : ℝ) : ℂ) r, 0 < z.im →
-        |((f z - f (a i : ℂ)) / b).arg| < (e i + 1) * Real.pi / 2) ∧
-      ∀ z ∈ Metric.ball ((a i : ℝ) : ℂ) r, z.im = 0 → f z ≠ f (a i : ℂ) →
-        |((f z - f (a i : ℂ)) / b).arg| = (e i + 1) * Real.pi / 2)
-    {L : ℂ} (hinfty : Tendsto (fun z => z * logDeriv (deriv f) z)
-      (cobounded ℂ ⊓ 𝓟 upperHalfPlaneSet) (𝓝 L)) :
-    EqOn f (fun z => deriv f z₀ / schwarzChristoffelIntegrand a e z₀ *
-      schwarzChristoffelPrimitive a e z₀ z + f z₀) upperHalfPlaneSet := by
-  exact TauCeti.eqOn_const_mul_schwarzChristoffelPrimitive_add_of_polygonal_boundary
-    a e ha he z₀ hf hfn hside hcorner hinfty
+/-- **Removability of a finite-length arc.** Let `γ` be continuous and injective on `[a, b]`,
+`a < b`, with finite variation (a rectifiable Jordan arc). A function continuous on an open
+`V ⊆ ℂ` and holomorphic off the arc is holomorphic on `V`. The hypothesis is finite length of the
+arc, not smoothness; the proof is Morera's theorem with a grid cover of the arc
+(Besicovitch, Proc. London Math. Soc. (2) 32 (1931), the finite-length case). -/
+theorem differentiableOn_of_continuousOn_of_differentiableOn_diff_rectifiable_arc
+    {V : Set ℂ} {F : ℂ → ℂ} {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
+    (hγc : ContinuousOn γ (Icc a b)) (hγi : InjOn γ (Icc a b))
+    (hγv : eVariationOn γ (Icc a b) ≠ ⊤)
+    (hV : IsOpen V) (hFc : ContinuousOn F V)
+    (hFd : DifferentiableOn ℂ F (V \ γ '' Icc a b)) :
+    DifferentiableOn ℂ F V := by
+  sorry
 
-/-- The excluded finite limit value cannot equal a prescribed finite vertex value. -/
-theorem L6_finite_limit_not_vertex {n : ℕ} (a : Fin n → ℝ) {p : ℂ}
-    {v : Fin n → ℂ} {f : ℂ → ℂ} (hfv : ∀ i, f (a i) = v i)
-    (hpf : p ∉ f '' {z : ℂ | 0 ≤ z.im}) (i : Fin n) : p ≠ v i := by
-  intro hpv
-  apply hpf
-  refine ⟨(a i : ℂ), by simp, ?_⟩
-  rw [hfv i, hpv]
+/-! ## Layer 5: Carathéodory correspondence, Jordan separation and boundary index -/
 
-/-- A normalization point in the upper half-plane is distinct from every real finite prevertex. -/
-theorem L6_normalization_point_not_prevertex {n : ℕ} (z₀ : UpperHalfPlane)
-    (a : Fin n → ℝ) (i : Fin n) : (z₀ : ℂ) ≠ (a i : ℂ) := by
-  intro h
-  have hpos := z₀.im_pos
-  have him : z₀.im = 0 := by simpa using congrArg Complex.im h
-  rw [him] at hpos
-  exact (lt_irrefl 0 hpos)
-
-/-- Finite-index Schwarz--Christoffel representation for a conformal map onto a domain with
-locally straight sides and sector corners.  The finite limit `p` at infinity is excluded from the
-closed-upper-half-plane image, so it is not one of the finite vertex values. -/
-theorem L6_fin_polygonal_domain_finite_limit (n : ℕ) (U : Set ℂ) (a e : Fin n → ℝ)
-    (ha : Function.Injective a) (he : ∀ i, e i ∈ Ioo (-1 : ℝ) 1)
-    (z₀ : UpperHalfPlane) {v : Fin n → ℂ} {p : ℂ} {f : ℂ → ℂ}
-    (hf : DifferentiableOn ℂ f upperHalfPlaneSet)
-    (hfc : ContinuousOn f {z : ℂ | 0 ≤ z.im})
-    (hfi : InjOn f {z : ℂ | 0 ≤ z.im})
-    (hfU : f '' upperHalfPlaneSet = U) (hfv : ∀ i, f (a i) = v i)
-    (hp : Tendsto f (cobounded ℂ ⊓ 𝓟 {z : ℂ | 0 ≤ z.im}) (𝓝 p))
-    (hpf : p ∉ f '' {z : ℂ | 0 ≤ z.im})
-    (hside : ∀ w ∈ frontier U, (∀ i, w ≠ v i) → ∃ ρ > 0, ∃ q b : ℂ, b ≠ 0 ∧
-      ∀ z ∈ ball w ρ, (z ∈ U ↔ 0 < ((z - q) / b).im))
-    (hcorner : ∀ i, ∃ ρ > 0, ∃ b : ℂ, b ≠ 0 ∧ ∀ z ∈ ball (v i) ρ, z ≠ v i →
-      (z ∈ U ↔ |((z - v i) / b).arg| < (e i + 1) * Real.pi / 2)) :
-    EqOn f (fun z => deriv f z₀ / schwarzChristoffelIntegrand a e z₀ *
-      schwarzChristoffelPrimitive a e z₀ z + f z₀) upperHalfPlaneSet := by
-  exact TauCeti.eqOn_const_mul_schwarzChristoffelPrimitive_add_of_polygonal_domain
-    a e ha he z₀ hf hfc hfi hfU hfv hp hpf hside hcorner
-
-/-- The chosen-map closure correspondence: the extension agrees with the specified f.
-This is an owned integration target over the native extension and injectivity providers. -/
-theorem L5_chosen_map_closed_disc_homeomorphism {Ω : Set ℂ} {f : ℂ → ℂ}
+/-- **The closed-disc homeomorphism of a chosen Riemann map.** For a holomorphic bijection `f` of
+the disc `ball c r`, `0 < r`, onto a Jordan domain `Ω`, the continuous extension `F` of this same
+`f` to the closed disc exists and is a homeomorphism of `closedBall c r` onto `closure Ω`.
+This assembles the pinned extension, boundary-injectivity and closure-homeomorphism providers for a
+map fixed in advance rather than for the existentially chosen map of
+`TauCeti.exists_homeomorph_closedBall_closure_of_isJordanCurve_frontier`
+(Pommerenke, *Boundary Behaviour of Conformal Maps*, Thm 2.6). -/
+theorem chosen_map_closed_disc_homeomorphism {Ω : Set ℂ} {f : ℂ → ℂ}
     {c : ℂ} {r : ℝ} (hr : 0 < r) (hΩ : TauCeti.IsJordanDomain Ω)
     (hf : DifferentiableOn ℂ f (ball c r)) (hbij : BijOn f (ball c r) Ω) :
     ∃ F : ℂ → ℂ, ContinuousOn F (closedBall c r) ∧ EqOn F f (ball c r) ∧
@@ -127,10 +79,12 @@ theorem L5_chosen_map_closed_disc_homeomorphism {Ω : Set ℂ} {f : ℂ → ℂ}
         ∀ z : closedBall c r, (e z : ℂ) = F z := by
   sorry
 
-/-- Full ambient Jordan separation, with no local-line or boundary-regularity premise.
-The two displayed components exhaust the complement, and the bounded one is the filled interior.
-This is a new target; the native conditional-frontier and locally-straight results are inputs. -/
-theorem L5_jordan_separation {C : Set ℂ} (hC : TauCeti.IsJordanCurve C) :
+/-- **The Jordan curve theorem in the plane.** The complement of a Jordan curve `C ⊆ ℂ` has
+exactly two connected components, one bounded and one unbounded; the bounded one is
+`filledHull C \ C`, it is open and connected, and both components have frontier `C`. No
+smoothness, polygonality or locally straight point is assumed (Thomassen, Amer. Math. Monthly 99
+(1992), §2). -/
+theorem jordan_separation {C : Set ℂ} (hC : TauCeti.IsJordanCurve C) :
     ∃ a ∈ Cᶜ, ∃ b ∈ Cᶜ,
       connectedComponentIn Cᶜ a ≠ connectedComponentIn Cᶜ b ∧
       IsBounded (connectedComponentIn Cᶜ a) ∧
@@ -141,6 +95,71 @@ theorem L5_jordan_separation {C : Set ℂ} (hC : TauCeti.IsJordanCurve C) :
       frontier (connectedComponentIn Cᶜ b) = C ∧
       ∀ z ∈ Cᶜ, connectedComponentIn Cᶜ z = connectedComponentIn Cᶜ a ∨
         connectedComponentIn Cᶜ z = connectedComponentIn Cᶜ b := by
+  sorry
+
+/-- **The Jordan index theorem for piecewise-`C¹` contours.** A closed piecewise-`C¹` curve
+`γ` on `[a, b]`, `a < b`, injective on `[a, b)`, has a Jordan curve `C = γ '' [a, b]` as its trace,
+and its winding number `TauCeti.Contour.windingNumber γ a b w` is one sign `σ ∈ {1, −1}` at every
+point `w` of the bounded complementary component `filledHull C \ C` and `0` off `filledHull C`.
+The sign depends on the parametrization and is a conclusion: the counterclockwise unit circle gives
+`σ = 1`, its reversal `σ = −1`. This is the piecewise-`C¹` case of the continuous Jordan index
+theorem of §5.6 of the README, which is not statable at the pins. -/
+theorem jordan_index_of_isPiecewiseC1On {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
+    (hγ : TauCeti.Contour.IsPiecewiseC1On γ a b) (hclosed : γ a = γ b)
+    (hinj : InjOn γ (Ico a b)) :
+    TauCeti.IsJordanCurve (γ '' Icc a b) ∧
+      ∃ σ : ℤ, (σ = 1 ∨ σ = -1) ∧
+        (∀ w ∈ filledHull (γ '' Icc a b) \ γ '' Icc a b,
+          TauCeti.Contour.windingNumber γ a b w = σ) ∧
+        ∀ w ∉ filledHull (γ '' Icc a b), TauCeti.Contour.windingNumber γ a b w = 0 := by
+  sorry
+
+/-- **Darboux boundary injectivity for Jordan domains.** Let `Ω` be a Jordan domain and `f`
+continuous on `closure Ω`, holomorphic on `Ω` and injective on `frontier Ω`. Then `f '' frontier Ω`
+is a Jordan curve, `f` maps `Ω` bijectively onto the bounded complementary component of that
+curve, and `f` restricts to a homeomorphism of `closure Ω` onto the closure of that component.
+The continuous Jordan frontier is arbitrary; nothing is assumed about `f` on the boundary beyond
+continuity and injectivity (Burckel, *An Introduction to Classical Complex Analysis I*, Ch. IX,
+the Darboux–Picard theorem). -/
+theorem darboux_boundary_injectivity {Ω : Set ℂ} {f : ℂ → ℂ} (hΩ : TauCeti.IsJordanDomain Ω)
+    (hfc : ContinuousOn f (closure Ω)) (hfd : DifferentiableOn ℂ f Ω)
+    (hfi : InjOn f (frontier Ω)) :
+    TauCeti.IsJordanCurve (f '' frontier Ω) ∧
+      BijOn f Ω (filledHull (f '' frontier Ω) \ f '' frontier Ω) ∧
+      ∃ e : closure Ω ≃ₜ closure (filledHull (f '' frontier Ω) \ f '' frontier Ω),
+        ∀ z : closure Ω, (e z : ℂ) = f z := by
+  sorry
+
+/-! ## Layer 6: Schwarz–Christoffel theory for polygonal Jordan domains -/
+
+/-- **Schwarz–Christoffel necessity with source infinity at a finite vertex.** Let `f` be
+holomorphic on the upper half-plane, continuous and injective on the closed half-plane, with
+image `U` and vertex values `f (a i) = v i` at distinct real prevertices `a i` for the vertices
+`i ≠ k`, and let `f` tend to the remaining vertex value `v k` at infinity in the closed
+half-plane, `v k` not being a value of `f` there. Suppose every nonvertex frontier point of `U`
+has a local half-plane model and every vertex `v i` a local sector model of opening
+`(e i + 1) π`, `e i ∈ (−1, 1)`. Then on the upper half-plane `f` is an affine image of the
+Schwarz–Christoffel primitive of the prevertices `a` and exponents `e` restricted to `i ≠ k`,
+with constants read off at `z₀`, and the restricted exponents sum to `−2 − e k`
+(Driscoll–Trefethen, *Schwarz–Christoffel Mapping*, Ch. 2, the vertex-at-infinity formula). -/
+theorem eqOn_const_mul_schwarzChristoffelPrimitive_add_of_source_infinity_at_vertex
+    {n : ℕ} {k : Fin n} (a : {i : Fin n // i ≠ k} → ℝ) (e : Fin n → ℝ)
+    (ha : Function.Injective a) (he : ∀ i, e i ∈ Ioo (-1 : ℝ) 1) (z₀ : UpperHalfPlane)
+    {U : Set ℂ} {v : Fin n → ℂ} {f : ℂ → ℂ}
+    (hf : DifferentiableOn ℂ f upperHalfPlaneSet)
+    (hfc : ContinuousOn f {z : ℂ | 0 ≤ z.im})
+    (hfi : InjOn f {z : ℂ | 0 ≤ z.im})
+    (hfU : f '' upperHalfPlaneSet = U)
+    (hfv : ∀ i : {i : Fin n // i ≠ k}, f (a i) = v i)
+    (hk : Tendsto f (cobounded ℂ ⊓ 𝓟 {z : ℂ | 0 ≤ z.im}) (𝓝 (v k)))
+    (hvk : v k ∉ f '' {z : ℂ | 0 ≤ z.im})
+    (hside : ∀ w ∈ frontier U, (∀ i, w ≠ v i) → ∃ ρ > 0, ∃ q b : ℂ, b ≠ 0 ∧
+      ∀ z ∈ ball w ρ, (z ∈ U ↔ 0 < ((z - q) / b).im))
+    (hcorner : ∀ i, ∃ ρ > 0, ∃ b : ℂ, b ≠ 0 ∧ ∀ z ∈ ball (v i) ρ, z ≠ v i →
+      (z ∈ U ↔ |((z - v i) / b).arg| < (e i + 1) * Real.pi / 2)) :
+    EqOn f (fun z => deriv f z₀ / schwarzChristoffelIntegrand a (fun i => e i) z₀ *
+        schwarzChristoffelPrimitive a (fun i => e i) z₀ z + f z₀) upperHalfPlaneSet ∧
+      ∑ i : {i : Fin n // i ≠ k}, e i = -2 - e k := by
   sorry
 
 end TauCetiRoadmap.ConformalMapping
