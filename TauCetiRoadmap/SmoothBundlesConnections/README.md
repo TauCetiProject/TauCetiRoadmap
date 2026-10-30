@@ -1096,7 +1096,11 @@ rescaling supplies that hypothesis, not directly on an augmented field whose tim
 **Checks.**
 
 - With `p = s(γ)g` horizontal, `Ad(g⁻¹)A(γ̇) + g⁻¹ġ = 0` gives `ġ = −dR_g(A(γ̇))`; the equation
-  `ġ = dR_g(A(γ̇))` would make `s(γ)g` horizontal for `−ω`.
+  `ġ = dR_g(A(γ̇))` instead gives horizontality for the connection with potential `−A` in this
+  fixed trivialization, whose form is `θ_MC − Ad(g⁻¹)A` (B3.1). On the trivial circle bundle over
+  ℝ, take `ω = dθ + dx` and `γ(t)=t`: the positive-sign solution `θ(t)=t` gives `ω(ṗ)=2` and
+  `(−ω)(ṗ)=−2`, whereas `(dθ−dx)(ṗ)=0` and `(dθ−dx)(∂_θ)=1`. Negating ω preserves its kernel
+  and gives `(−ω)(∂_θ)=−1`, violating reproduction of the vertical generator.
 - For the trivial circle bundle over `S¹` with constant potential `a dθ`, the lift from `(0,1)`
   is `θ ↦ (θ, exp(−iaθ))`, and the transport around the loop multiplies the fibre by `exp(−2πia)`;
   the opposite sign convention would give `exp(2πia)`.
@@ -1639,8 +1643,13 @@ pass through the fundamental group, and no Hurewicz theorem is used or restated 
   the form `dθ` is not exact and maps to the nonzero class above.
 - The fundamental-class pairing on `S¹` with `η = dθ` gives `2π` on both sides (DifferentialGeometry
   8.5's `circleLoop` acceptance), and on `ℂP¹` with the Hopf curvature gives `2π` (B6.2).
-- On `S¹`, the smooth function `z ↦ z` has `δ_sm(z ↦ z)=1 ∈ H¹(S¹;ℤ)` in the positive
-  winding convention; it is not a locally constant section and not a singular 0-cocycle.
+- On `S¹`, let e be the integral class evaluating to 1 on the positively oriented circle. Then
+  the smooth function `z ↦ z` has `δ_sm(z ↦ z)=−e`: with `t=θ/(2π)` and successive arcs
+  `0→1→2→0`, choose local logarithms whose differences at the crossings are `0, 0, −1`
+  (the branch on the first arc is `t−1` near the final crossing). Their sum is `−1`.
+  Also `Df=δf+df` for the local logarithms f, so `[δf]=−[df]` in the total complex;
+  `df=dθ/(2π)` integrates to 1. The identity function is not a locally constant section and
+  not a singular 0-cocycle.
 - On a constant function `z ↦ exp(2πia)`, the constant-sequence connecting class and the smooth
   connecting class are both zero, using the global lift a. In fact `β⁰=0` on `S¹`, since
   `H⁰(S¹;ℝ) → H⁰(S¹;ℝ/ℤ)` is surjective.
