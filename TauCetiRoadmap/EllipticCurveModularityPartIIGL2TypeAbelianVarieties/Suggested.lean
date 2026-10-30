@@ -3,42 +3,41 @@ import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
 import TauCeti.AlgebraicGeometry.AbelianVariety.Product
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
 import TauCeti.AlgebraicGeometry.AbelianVariety.TangentSpace
-import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 
 /-!
-# Abelian varieties of GL₂-type and ℚ-curves: headline theorem statements
+# Abelian varieties of GL₂-type and modularity of ℚ-curves: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive specification is
-`README.md`. These statements use Mathlib `6b7abb3` and Tau Ceti `a91d3aa`.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
+simple definitions needed to state them.
 
-GT.1 is represented by Ribet's centralizer and simple-power decomposition theorem and
-its totally-real-or-CM alternative. GT.5 is represented by Tate's trivial-action
-cohomology vanishing and Ribet's construction of a simple GL₂-type variety containing
-a non-CM ℚ-curve geometrically. Rational endomorphisms, simplicity and geometric
-conjugation are defined on the native abelian varieties; cohomology uses discrete
-units with trivial action.
+Stated here: Ribet's centralizer and simple-power decomposition theorem for a GL₂-type
+variety (§1.3), the totally-real-or-CM alternative for the endomorphism field of a ℚ-simple
+GL₂-type variety (§1.5), and Ribet's theorem that every non-CM ℚ-curve is a geometric factor
+of a ℚ-simple GL₂-type variety over ℚ (§5.6). Rational endomorphisms, simplicity and geometric
+conjugation are defined on the native abelian varieties.
 
-The modular-Jacobian conclusions of GT.1, GT.3 and GT.5 require the varieties
-`X₁(N)`, `J₁(N)`, `J₀(N)` and the Hecke quotient `A_f`, absent at these pins.
-Although the native newform and its coefficient field exist, they do not supply
-these geometric objects. GT.2's compatible-system results and GT.6's newform Galois
-comparison require the abelian λ-adic components, λ-torsion and newform Galois
-representations. GT.4 additionally requires the abelian conductor, local Euler factors
-and Weil–Deligne parameters; its L-function and functional equation cannot be stated
-without them. The Rosati assertion in GT.1 and the Weil-restriction and quadratic
-endomorphism-algebra assertions in GT.5 require native polarizations and Weil
-restriction. GT.6's solvable-field automorphy and quadratic-field modularity require
-automorphic representations and their local factors, including the CM alternative.
-These conclusions are deferred as Lean statements until their objects exist.
+Not statable at the pins. The modular-Jacobian conclusions of Layers 1, 3 and 5 need the
+curves `X₁(N)`, `X₀(N)`, the Jacobians `J₁(N)`, `J₀(N)` and the Hecke quotient `A_f`; the
+native newform and its coefficient field exist, but these geometric objects do not. The
+compatible-system results of Layer 2 and the newform Galois comparison of Layer 6 need the
+abelian λ-adic components, the λ-torsion and the newform Galois representations. Layer 4
+needs in addition the abelian conductor, the local Euler factors and the Weil–Deligne
+parameters; its L-function and functional equation cannot be stated without them. The Rosati
+assertion of §1.5 and the Weil-restriction and quadratic endomorphism-algebra assertions of
+Layer 5 need native polarizations and Weil restriction. The solvable-field automorphy and
+quadratic-field modularity of Layer 6 need automorphic representations and their local
+factors, including the CM alternative. Tate's vanishing `H²(G_ℚ, ℚ̄ˣ) = 0` (§5.3) is a
+supplier's theorem and is not restated here.
 -/
 
 noncomputable section
 open CategoryTheory CategoryTheory.Limits
 open scoped TensorProduct
 
-attribute [local instance] CategoryTheory.Over.cartesianMonoidalCategory
+namespace TauCetiRoadmap.EllipticCurveModularityPartIIGL2TypeAbelianVarieties
 
-namespace TauCeti.GL2Type
+/-! ## Layer 1: Abelian varieties of GL₂-type and their endomorphism algebras -/
 
 abbrev Qbar := AlgebraicClosure ℚ
 abbrev GQ := Field.absoluteGaloisGroup ℚ
@@ -64,9 +63,10 @@ def IsGeometricQCurve (C : TauCeti.AlgebraicGeometry.AbelianVariety Qbar) : Prop
       σ.toRingHom.toAlgebra) ⟶ C,
       TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ
 
-/-- Ribet's Theorem 2.1 (GT.1): E is its own centralizer; simplicity is equivalent
+/-- Ribet's Theorem 2.1 (§1.3): E is its own centralizer; simplicity is equivalent
 to E being the whole rational endomorphism algebra. Every GL₂-type variety has the
-corresponding matrix algebra and simple-power isogeny decomposition. -/
+corresponding matrix algebra and simple-power isogeny decomposition
+(Ribet92, Theorem 2.1, p. 3). -/
 theorem ribetTheorem21 (A : AVQ) {E : Type} [Field E] [NumberField E]
     (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim) :
     (∀ x : End0 A, (∀ y : E, x * ι y = ι y * x) ↔ x ∈ Set.range ι) ∧
@@ -80,13 +80,17 @@ theorem ribetTheorem21 (A : AVQ) {E : Type} [Field E] [NumberField E]
         ∃ φ : piObj (fun _ : Fin (Module.finrank F E) => B) ⟶ A,
           TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ := sorry
 
-/-- The endomorphism field of a simple GL₂-type variety is totally real or CM (GT.1). -/
+/-- The endomorphism field of a ℚ-simple GL₂-type variety is totally real or CM (§1.5;
+Ribet92, §3, p. 4). -/
 theorem totallyRealOrCm (A : AVQ) {E : Type} [Field E] [NumberField E]
     (ι : E →ₐ[ℚ] End0 A) (hd : (Module.finrank ℚ E : WithBot ℕ∞) = A.dim)
     (hs : IsSimpleOverQ A) : NumberField.IsTotallyReal E ∨ NumberField.IsCMField E := sorry
 
-/-- Every non-CM geometric ℚ-curve is a factor of a simple GL₂-type variety over ℚ,
-whose geometric base change is isogenous to the corresponding power of the curve. -/
+/-! ## Layer 5: ℚ-curves as factors of abelian varieties of GL₂-type -/
+
+/-- Ribet's Theorem 6.1 (§5.6): every non-CM geometric ℚ-curve is a factor of a ℚ-simple
+GL₂-type variety over ℚ, whose geometric base change is isogenous to the corresponding power
+of the curve (Ribet92, Theorem 6.1, p. 12). -/
 theorem ribetTheorem61 (C : TauCeti.AlgebraicGeometry.AbelianVariety Qbar)
     (hC : IsGeometricQCurve C) (nonCM : Nonempty (ℚ ≃ₐ[ℚ] End0 C)) :
     ∃ A : AVQ, IsSimpleOverQ A ∧
@@ -97,41 +101,4 @@ theorem ribetTheorem61 (C : TauCeti.AlgebraicGeometry.AbelianVariety Qbar)
         piObj (fun _ : Fin (Module.finrank ℚ A.TangentSpace) => C),
         TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny φ := sorry
 
-end TauCeti.GL2Type
-
-namespace TauCeti.QCurve
-open TauCeti.GL2Type
-
-/-! The coefficient action here is TRIVIAL, including on algebraic units.
-It is distinct from the natural Galois action on ℚ̄. These local instances are
-fixed inside the resulting TopRep. Their topology is discrete. -/
-section UnitCoefficients
-variable (F : Type) [Field F]
-local instance : TopologicalSpace (Additive Fˣ) := ⊥
-local instance : DiscreteTopology (Additive Fˣ) := ⟨rfl⟩
-local instance : DistribMulAction GQ (Additive Fˣ) where
-  smul _ x := x
-  one_smul _ := rfl
-  mul_smul _ _ _ := rfl
-  smul_zero _ := rfl
-  smul_add _ _ _ := rfl
-local instance : SMulCommClass GQ ℤ (Additive Fˣ) := ⟨fun _ _ _ => rfl⟩
-local instance : ContinuousSMul ℤ (Additive Fˣ) := ⟨continuous_of_discreteTopology⟩
-
-/-- Discrete multiplicative units, additively presented with trivial Galois action. -/
-def trivialUnitsCoefficients : TopRep ℤ GQ :=
-  TauCeti.ofDiscreteModule ℤ GQ (Additive Fˣ)
-
-/-- Canonical continuous degree-two cohomology of the discrete trivial unit module. -/
-abbrev unitCohomology2 : TopModuleCat ℤ :=
-  continuousCohomology 2 (trivialUnitsCoefficients F)
-
-end UnitCoefficients
-end TauCeti.QCurve
-
-namespace TauCeti.GL2Type
-
-/-- Ribet Theorem 6.3: trivial-action H² of discrete algebraic units vanishes. -/
-theorem tateVanishingQbar (x : TauCeti.QCurve.unitCohomology2 Qbar) : x = 0 := sorry
-
-end TauCeti.GL2Type
+end TauCetiRoadmap.EllipticCurveModularityPartIIGL2TypeAbelianVarieties
