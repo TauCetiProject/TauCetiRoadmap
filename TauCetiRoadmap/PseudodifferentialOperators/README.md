@@ -1087,7 +1087,7 @@ the dyadic Lp coefficient sequence norm for 1≤p,q≤∞ and real s.
 Choose a smooth inhomogeneous Fourier partition supported in a low-frequency ball and dyadic annuli, summing to 1;
 prove finite overlap, uniform rescaled derivative bounds, bounded dyadic
 analysis/reconstruction and equivalence for any two such partitions (Bergh–Löfström, §6.2,
-pp. 138–146, and Theorem 6.4.3, pp. 151–152). Prove
+pp. 139–146, and Theorem 6.4.3, pp. 151–152). Prove
 `B^s_(p,1)⊂H^(s,p)⊂B^s_(p,∞)` for every real s and 1≤p≤∞.
 For this endpoint range, prove the localized convolution estimates
 `‖J^s Δ_j u‖_p ≤ C_s 2^(js) ‖Δ_j u‖_p` for j≥1 and
@@ -1103,12 +1103,34 @@ these estimates (Theorem 6.2.4, pp. 142–143), componentwise for finite-rank
 fibers. Own the
 weighted-sequence K-method interpolation formula for distinct weights s₀,s₁,
 with ℓ^q coefficient norms and q=∞ included (Bergh–Löfström, Theorem 5.6.1,
-pp. 121–122). Use dyadic decomposition and
+pp. 122–123). Use dyadic decomposition and
 these estimates to prove the stated Besov identification and its reverse
 inclusion, rather than only an operator interpolation inequality.
-Prove the bundle Bessel/Besov interpolation identity for 1<p<∞ through
-the bounded localization/reconstruction retractions; construct bundle Besov
-spaces and their partition comparisons for the full range 1≤p,q≤∞ by localization.
+Before the bundle construction, prove the Euclidean Besov transition
+estimates for every real s and 1≤p,q≤∞: multiplication by a smooth matrix A
+with every derivative, including order 0, uniformly bounded is bounded
+`B^s_(p,q)(ℝⁿ;F)→B^s_(p,q)(ℝⁿ;G)`, and pullback by a diffeomorphism φ of ℝⁿ
+such that φ and φ⁻¹ have uniformly bounded derivatives of every positive order
+is a bounded isomorphism of B^s_(p,q)(ℝⁿ;F), inverse to pullback by φ⁻¹ and
+agreeing with distribution pullback; the operator norms depend on s, n, the
+partition and the derivative bounds, and not on p or q. Prove both by block
+decomposition: with a second dyadic partition equal to 1 on the supports of the
+first, write the transition T on a block as Σ_k Δ_j T Δ̃_k and show that the
+kernel of Δ_j T Δ̃_k has L¹ bounds in each variable at most C_N 2^(−N|j−k|)
+for every N, integrating by parts against the higher-frequency block, which is
+2^(−N·max(j,k)) times derivatives of a Schwartz function by its annular Fourier
+support, and using P2–P4's localized kernel estimates, distribution pullbacks
+and the chain rule for the composed factor. The Schur test converts these kernel
+bounds into one Lp→Lp bound for every 1≤p≤∞, and the convolution of the sequence
+2^(−N|j|) with the weighted block sequence gives the ℓ^q bound once N>|s|.
+For s>0 the modulus-of-continuity norm of Bergh–Löfström, Theorem 6.2.5,
+pp. 144–146, with the chain rule and mean value theorem is an alternative route
+to the pullback bound; the general-s statement is the target.
+Then prove the bundle Bessel/Besov interpolation identity for 1<p<∞ through
+the bounded localization/reconstruction retractions, and construct bundle Besov
+spaces and their partition and localization comparisons for the full range
+1≤p,q≤∞ by finite chart localization, using the transition estimates just
+stated for the choice-independence of the norms.
 For finite p define the little Besov subspace of B^s_(p,∞) by the condition
 `2^(js)‖Δ_j u‖_p → 0` as j→∞, using every localized component for bundles.
 On compact bases prove that this is exactly the norm closure of smooth
@@ -1124,14 +1146,18 @@ The Besov and localized Bessel API includes:
 - Dyadic analysis/reconstruction are bounded and independent, up to equivalent norms, of the partition.
 - The weighted-sequence K-method and localized convolution estimates give both inclusions
   in the Euclidean Besov identification for s₀≠s₁ and 1≤p,q≤∞.
-- Bounded coordinate/frame transitions give complete bundle spaces; localized Bessel spaces
-  H^(s,p), 1<p<∞, have smooth density and the specified bilinear density duality.
+- The Euclidean Besov transition estimates hold for every real s and 1≤p,q≤∞, with
+  constants independent of p and q; the resulting bounded coordinate/frame transitions give
+  complete bundle Besov spaces for 1≤p,q≤∞ and complete bundle Bessel spaces for 1<p<∞,
+  with norms independent of atlas, frame and partition up to equivalence; localized Bessel
+  spaces H^(s,p), 1<p<∞, have smooth density and the specified bilinear density duality.
 - Smooth sections are dense in bundle B^s_(p,q) on compact bases for 1≤p,q<∞;
   for 1≤p<∞ and q=∞ their closure is the little Besov subspace just defined.
 - The little subspace is closed with complete inherited norm; inclusion into B^s_(p,∞)
   is isometric for the same chosen dyadic norm.
 - Equivalent partitions and bundle localizations give the same little subspace with equivalent norms;
-  bounded coordinate/frame transitions restrict to it by smooth approximation.
+  bounded coordinate/frame transitions restrict to it, since the Euclidean transition estimates
+  are bounded and preserve compactly supported smooth functions, whose closure it is.
 
 **Checks.**
 
@@ -1157,6 +1183,26 @@ The Besov and localized Bessel API includes:
   Every smooth v has weighted blocks tending to 0, so ‖u−v‖_(B¹_(2,∞))≥1.
   This excludes smooth density at q=∞ even though p=2.
 
+**Checks (Euclidean Besov transitions).**
+
+- On ℝ with annular multipliers ψ(2^(−j)ξ), j≥1, the Fourier transform of u∘φ for
+  φ(x)=2x is û(ξ/2)/2, so for j≥2 the block Δ_j(u∘φ) equals (Δ_(j−1)u)∘φ, with Lp norm
+  2^(−1/p)‖Δ_(j−1)u‖_p; the weighted block 2^(js)‖Δ_j(u∘φ)‖_p is 2^(s−1/p) times the
+  weighted block j−1 of u, and the blocks j=0,1 of u∘φ are controlled by the blocks 0,1 of u.
+  At p=1 the factor is 1/2 for s=0 and 2 for s=2: pullback is bounded for every p and q but is
+  not an isometry, and its norm depends on s. The derivative bounds of φ and φ⁻¹ are 2 and 1/2.
+- At p=q=∞ on ℝ, with annular multipliers equal to 1 at their central frequency 2ʲ and 0 at
+  the other dyadic centers, and the low block 0 there, multiplication by a(x)=exp(2πi2^J x),
+  J≥1, sends the constant 1 (every annular block zero, norm 1) to a function whose only
+  nonzero block is j=J, of weighted norm 2^(Js); at s=1 and J=3 it is 8 although sup|a|=1.
+  A transition bound with constant sup|A| is wrong; the derivatives of a, of size 2π2^J,
+  enter the constant.
+- At p=q=2 on ℝⁿ, Plancherel and the two-sided bound of Σ_j 2^(2js)|ψ_j(ξ)|² by
+  constant multiples of (1+‖ξ‖²)^s give B^s_(2,2)=H^(s,2) with equivalent norms, so the
+  shear (x,y)↦(x,y+x³) of §5.4, whose pullback is unbounded on H¹, is unbounded on
+  B¹_(2,2): its derivative 3x² is unbounded, so the hypothesis of bounded derivatives
+  of every positive order cannot be dropped.
+
 **Checks (little Besov spaces).**
 
 - The preceding series has weighted tails 1 and is excluded; zero and each finite
@@ -1171,7 +1217,9 @@ The Besov and localized Bessel API includes:
 *Needs:* the real interpolation construction and weighted-sequence formula, dyadic partitions,
 the localized L¹ convolution-kernel bounds above, Tonelli, the integral norm bound
 and PDE Lane B.9's Riesz–Thorin theorem for the Euclidean real identity;
-finite-dimensional chart retractions for bundle Besov comparisons;
+P2–P4 localized kernel estimates and distribution pullbacks, the Schur test and
+finite-dimensional chart retractions for the Euclidean Besov transition estimates and
+the bundle Besov carriers and comparisons at every 1≤p,q≤∞;
 the complex interpolation construction and PDE Lane B multiplier estimates for the
 interior-p bundle Bessel transitions.
 
@@ -1233,9 +1281,10 @@ C^(k,α) for k≥0 and 0<α<1 using kernel cancellation estimates. No general st
 L¹ or L∞ order-zero bound or integer Hölder endpoint is asserted.
 Before the bundle mapping theorem, construct the compact-base bundle C^r_*
 carrier for every real r by finite chart/frame localization of distributions.
-Prove the local dyadic estimates for multiplication by smooth matrices and
-pullback by smooth chart diffeomorphisms, including negative r, using
-P2–P4's localized kernels and distribution pullbacks. Prove completeness,
+Take the local dyadic estimates for multiplication by smooth matrices and
+pullback by smooth chart diffeomorphisms, including negative r, from the
+(p,q)=(∞,∞) case of §5.3's Euclidean Besov transition estimates, proved there
+with P2–P4's localized kernels and distribution pullbacks. Prove completeness,
 bounded localization/reconstruction and equivalence of the finite-atlas
 norms under atlas, frame and partition changes. Transport the dyadic
 operator estimates through these maps to obtain the bundle theorem above.
@@ -1312,6 +1361,7 @@ The Hölder and Zygmund API includes:
   ‖u‖≤ε‖u‖+C_ε‖u‖; at ε=1/2 one needs C_ε≥1/2.
 
 *Needs:* P2–P4 localized kernels, dyadic estimates and distribution coordinate changes;
+§5.3's Euclidean Besov transition estimates at (p,q)=(∞,∞);
 PDE Lane A.7 Hölder conventions; §5.2 compact embeddings. The Euclidean Zygmund
 identifications and order shift are Taylor, Lecture I, (3.32)–(3.34), p. 12.
 
