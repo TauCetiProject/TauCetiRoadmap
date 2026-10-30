@@ -9,6 +9,10 @@ few definitions needed to state them: the compact form pair, its energy, its con
 the form-domain part of the operator domain, the restricted differential operator and the
 min–max value of a subspace.
 
+The coercive solution maps of Layer 2.3 are UnboundedOperators UO-D06's theorem specialized to
+a compact form pair, and the weak-closure counterexample of Layer 1.3 is a negative control:
+both are README targets, not headlines, and are not stated here.
+
 Headline theorems not statable at the pins, and what each lacks:
 
 * the identification of Layer 5.1, "the operator of a compact form pair is UnboundedOperators
@@ -78,15 +82,6 @@ theorem compactMap_continuousOn_weak_bounded
       (toWeakSpace ℝ V '' B) := by
   sorry
 
-/-- The unit sphere of an injective map on an infinite-dimensional space is not weakly closed:
-zero lies in its weak closure, whether or not the map is compact. -/
-theorem zero_mem_weak_closure_embedded_unitSphere
-    {F : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]
-    (J : V →L[ℝ] F) (hinj : Function.Injective J)
-    (hinf : ¬ FiniteDimensional ℝ V) :
-    toWeakSpace ℝ V 0 ∈ closure (toWeakSpace ℝ V '' {u | ‖J u‖ = 1}) := by
-  sorry
-
 end DirectMethod
 
 /-! ## Layer 3: compactly embedded form domains and admissible spheres -/
@@ -128,17 +123,6 @@ def CompactFormPair.energy (P : CompactFormPair 𝕜 E H) (u : E) : ℝ :=
 def CompactFormPair.unitConstraint (P : CompactFormPair 𝕜 E H)
     (W : Submodule 𝕜 H) : Set E :=
   {u | P.inclusion u ∈ W ∧ ‖P.inclusion u‖ = 1}
-
-/-- Forcing maps of the shifted form `a_α = a + α⟨j·,j·⟩`, `α ≥ ω`: the `H`-forcing solution map
-is complex linear and the dual-forcing solution map is conjugate linear, for the first-slot
-conjugate-linear form convention. -/
-theorem CompactFormPair.exists_shifted_solution_maps
-    (P : CompactFormPair 𝕜 E H) (α : ℝ) (hα : P.shift ≤ α) :
-    ∃ (S : H →L[𝕜] E) (F : StrongDual 𝕜 E →L⋆[𝕜] E),
-      (∀ h v, P.form (S h) v + (α : 𝕜) * inner 𝕜 (P.inclusion (S h)) (P.inclusion v) =
-        inner 𝕜 h (P.inclusion v)) ∧
-      (∀ ℓ v, P.form (F ℓ) v + (α : 𝕜) * inner 𝕜 (P.inclusion (F ℓ)) (P.inclusion v) = ℓ v) := by
-  sorry
 
 /-- The constrained Rayleigh minimum: on the sphere of a closed submodule `W` of `H` that
 contains a nonzero form-domain image, the energy attains its minimum. Compactness is used on

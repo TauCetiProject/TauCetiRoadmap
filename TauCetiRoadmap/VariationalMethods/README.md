@@ -51,6 +51,9 @@ Owned elsewhere and consumed here:
   its represented operator, and the real spectral restriction `realSpectralRestriction` with
   its projection family and bounded real calculus. Here: the compact-pair specialization
   (Layer 5), which consumes that operator by its graph and adds nothing to the general theory.
+  Layer 2.3's route to the coercive solution map (the direct method of 1.4 with the weak
+  equation and `I`-test of 2.2) is a second proof of UO-D06's adapter, not its owner, and
+  nothing stated in this roadmap is an input to UO-D06.
 - [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5.5-RealHilbert owns the Hilbert
   complexification of a complete real inner-product space (its complex inner product, norm
   `√(‖x‖²+‖y‖²)`, isometric real inclusion, antilinear conjugation, completeness, comparison
@@ -333,8 +336,8 @@ For a compact continuous linear map `j` from a normed space `V` to a normed spac
 Prove the counterexample that fixes the limits of these statements: in an infinite-dimensional
 `V` with injective `j`, every weak basic neighbourhood of `0` meets `{u | ‖j u‖ = 1}`, because
 the common kernel of finitely many functionals contains a nonzero vector, which is normalized
-by its `j`-norm; so `0` is in the weak closure of this sphere
-(`zero_mem_weak_closure_embedded_unitSphere`), the sphere is not weakly closed, and `j` is not
+by its `j`-norm; so `0` is in the weak closure of this sphere, the sphere is not weakly
+closed, and `j` is not
 globally weak-to-norm continuous. With compact `j` the same sphere is sequentially weakly
 closed. Give the native example on `ℓ²`: the diagonal map with coefficients `1/(n+1)` is
 compact (norm limit of its finite-rank truncations) and injective. *Needs:* Mathlib
@@ -395,7 +398,7 @@ energy; Hunter §4.2, p. 95, names the direct method and takes the Riesz route i
 
 ### Examples
 
-For the diagonal inclusion `j : ℓ² → ℓ²`, `(j u)ₙ = uₙ/(n+1)`, the energy `E(u) = ‖u‖² − 2 Re⟨e₀, u⟩`
+For the diagonal map `j : ℓ² → ℓ²`, `(j u)ₙ = uₙ/(n+1)`, the energy `E(u) = ‖u‖² − 2 Re⟨e₀, u⟩`
 on `S = ℓ²` has bounded sublevels (`‖u‖² − 2‖u‖ ≤ b` bounds `‖u‖`) and is weakly lower
 semicontinuous (1.2); its minimizer is `e₀` with value `−1`. The sphere `{‖j u‖ = 1}` contains
 `(n+1) eₙ`, which is unbounded and has no weakly convergent subsequence, so the direct method
@@ -494,11 +497,11 @@ For a coercive Hermitian form `a` on `V` (`c‖u‖² ≤ q(u)`, `c > 0`), const
 `V` with the inner product `a`, a complete inner-product space whose identity map to `V` is a
 continuous linear equivalence, by the two-sided norm inequalities
 `c‖u‖² ≤ q(u) ≤ ‖a‖ ‖u‖²`; completeness is transported through the equivalence. Consume the
-coercive solution of UnboundedOperators UO-D06 over `[RCLike 𝕜]` (equivalently: minimize
-`E(u) = q(u) − 2 Re ℓ(u)` on the real restriction by Layer 1.4, whose sublevels are bounded by
-coercivity and which is weakly lower semicontinuous by 1.2, and apply 2.2's weak equation with
-the `I`-test). Package the two solution maps of a compact form pair with shift `α ≥ ω`
-(`CompactFormPair.exists_shifted_solution_maps`): the **`H`-forcing** map `S_α : H →L[𝕜] V`,
+coercive solution of UnboundedOperators UO-D06 over `[RCLike 𝕜]`; a second proof, which
+does not make this roadmap the owner of that adapter, minimizes `E(u) = q(u) − 2 Re ℓ(u)` on the real
+restriction by Layer 1.4, whose sublevels are bounded by coercivity and which is weakly lower
+semicontinuous by 1.2, and applies 2.2's weak equation with the `I`-test. Package the two
+solution maps of a compact form pair with shift `α ≥ ω`: the **`H`-forcing** map `S_α : H →L[𝕜] V`,
 `a_α(S_α h, v) = inner h (j v)`, which is `𝕜`-linear since the right side is conjugate linear in
 `h` and `a_α` is conjugate linear in its first slot; and the **dual-forcing** map
 `F_α : StrongDual 𝕜 V →L⋆[𝕜] V`, `a_α(F_α ℓ, v) = ℓ v`, which is conjugate linear. Prove the
@@ -543,8 +546,8 @@ Gårding constant `γ`). *Needs:* 2.3.
 
 ### Examples
 
-For the diagonal pair on `ℓ²` with `(j u)ₙ = uₙ/(n+1)` on `V = ℓ²` and
-`a u v = Σ conj(uₙ) vₙ`: `c = 1`, `ω = 0`, `S_0 h = j† h`, that is `(S_0 h)ₙ = hₙ/(n+1)`; the
+For the diagonal-map pair on `ℓ²` (`V = H = ℓ²`, `(j u)ₙ = uₙ/(n+1)` as in 1.3, and
+`a u v = Σ conj(uₙ) vₙ`): `c = 1`, `ω = 0`, `S_0 h = j† h`, that is `(S_0 h)ₙ = hₙ/(n+1)`; the
 weak equation `a(u, v) = inner h (j v)` reads `uₙ = hₙ/(n+1)`.
 
 ### Dependencies
@@ -577,12 +580,16 @@ the native `j` and `a`; no Sobolev space is reconstructed. *Needs:* Mathlib `IsC
 
 - `V = H = 𝕜ᵈ`, `j = id` (compact in finite dimension), `a` a Hermitian matrix: a pair with
   `c = 1`, `ω = ‖a‖ + 1`.
-- The diagonal pair on `ℓ²`: `V = {u | Σ (n+1)² |uₙ|² < ∞}` with its norm, `H = ℓ²`, `j` the
-  inclusion (compact: norm limit of truncations, injective, dense since it contains the finitely
-  supported vectors), `a u v = Σ (n+1)² conj(uₙ) vₙ`, `c = 1`, `ω = 0`.
+- The **weighted pair**, the running example of Layers 3–6: `V = {u | Σ (n+1)² |uₙ|² < ∞}`
+  with the norm `‖u‖_V² = Σ (n+1)² |uₙ|²`, `H = ℓ²`, `j` the inclusion (compact: norm limit of
+  truncations, injective, dense since it contains the finitely supported vectors),
+  `a u v = Σ (n+1)² conj(uₙ) vₙ`, `c = 1`, `ω = 0`. It is the diagonal-map pair of Layer 2
+  (`V = H = ℓ²`, `(j u)ₙ = uₙ/(n+1)`) transported along the isometry `u ↦ ((n+1) uₙ)` of `V`
+  onto `ℓ²` (the change of variable above); `eₙ` here has `‖eₙ‖_V = n+1` and `‖j eₙ‖ = 1`,
+  and corresponds to `(n+1) eₙ` there.
 - Non-examples: `j = id` on an infinite-dimensional `ℓ²` is not compact; `j = 0` into `H ≠ 0` is
   not dense; the inclusion `ℓ² → ℓ²` of the first coordinate line is not dense.
-- The finite sum of the diagonal pair with the `𝕜¹` pair `a = (−3)`: `ω = max(0, 4) = 4`,
+- The finite sum of the weighted pair with the `𝕜¹` pair `a = (−3)`: `ω = max(0, 4) = 4`,
   `c = 1`.
 
 ### 3.2 Constrained spheres and their minima
@@ -611,12 +618,13 @@ Tau Ceti `IsCoercive.isLeast_rayleighQuotient`.
 
 **Checks.**
 
-- Diagonal pair, `W = H`: the minimum is `1` at `u = e₀`; `q(e₀)/‖j e₀‖² = 1`.
-- Diagonal pair, `W = {e₀}ᗮ`: the minimum is `4` at `e₁`.
-- Diagonal pair, `W = span{x}` with `xₙ = 1/(n+1)`: `x ∈ ℓ²` but `Σ (n+1)² |xₙ|² = ∞`, so `x ∉ V`
+- Weighted pair, `W = H`: the minimum is `1` at `u = e₀`; `q(e₀)/‖j e₀‖² = 1`.
+- Weighted pair, `W = {e₀}ᗮ`: the minimum is `4` at `e₁`.
+- Weighted pair, `W = span{x}` with `xₙ = 1/(n+1)`: `x ∈ ℓ²` but `Σ (n+1)² |xₙ|² = ∞`, so `x ∉ V`
   and `W ∩ range j = 0`; `S_W = ∅` although `W ≠ 0`.
-- The sphere `S_H` of the diagonal pair is not weakly closed (1.3): `(n+1) eₙ ∈ S_H` is unbounded
-  and `0` is in the weak closure; the sublevel `{q ≤ 1}` on `S_H` is `{e₀ · phase}`, compact.
+- The sphere `S_H` of the weighted pair is not weakly closed (1.3): `eₙ ∈ S_H` (`‖j eₙ‖ = 1`)
+  has `‖eₙ‖_V = n+1`, so `S_H` is unbounded in `V`, and `0` is in its weak closure; the sublevel
+  `{q ≤ 1}` on `S_H` is `{e₀ · phase}`, compact.
 
 ### 3.3 The restricted Euler–Lagrange equation
 
@@ -631,8 +639,8 @@ for successive minima uses the earlier eigenvectors (Layer 4.1). *Needs:* 2.2, 3
 
 **Checks.**
 
-- Diagonal pair, `W = H`, `u = e₀`: `a e₀ v = v₀ = q(e₀) inner e₀ v` with `q(e₀) = 1`.
-- Diagonal pair, `W = {e₀}ᗮ`, `u = e₁`: `a e₁ v = 4 v₁ = q(e₁) inner e₁ v` for `v ⊥ e₀`; the
+- Weighted pair, `W = H`, `u = e₀`: `a e₀ v = v₀ = q(e₀) inner e₀ v` with `q(e₀) = 1`.
+- Weighted pair, `W = {e₀}ᗮ`, `u = e₁`: `a e₁ v = 4 v₁ = q(e₁) inner e₁ v` for `v ⊥ e₀`; the
   equation also holds for `v = e₀` (both sides `0`), as Layer 4.1 proves in general.
 - `𝕜 = ℂ`, `V = H = ℂ²`, `a = diag(1, 2)`, `W = H`: the minimizer `e₀` satisfies the equation
   with the phase test; the vector `u = (1, 1)/√2` with `q(u) = 3/2` is not a minimizer and
@@ -649,15 +657,19 @@ minimizer with `q = 0` lies in `N`, so its image is a unit vector in `j N ∩ (j
 subspace. Include the case `W = 0` (then `N` has `j N = H`, forced by density to be finite
 dimensional, so `H` is finite dimensional), the kernel projections, forcing annihilating `N`,
 uniqueness modulo `N`, and the best-constant characterization of `δ`. Solve `a u v = ℓ v` for
-`ℓ` vanishing on `N`, modulo `N`, and identify the result at `𝕜 = ℝ` with Tau Ceti
-`fredholmAlternative_formPerturbation` after the shifted-coercive reduction
-(`a = a_α − α inner (j·) (j·)` is a compact perturbation of the coercive `a_α`). Nothing here
-uses Layer 4. *Needs:* 2.2, 3.2, 3.3; Tau Ceti `fredholmAlternative_formPerturbation`,
+`ℓ` vanishing on `N`, modulo `N`: at `𝕜 = ℝ`, after the shifted-coercive reduction
+(`a = a_α − α inner (j·) (j·)` is a compact perturbation of the coercive `a_α`), Tau Ceti
+`fredholmAlternative_formPerturbation` supplies only the dichotomy (a nonzero homogeneous
+solution, or unique solvability for every forcing), so for `N ≠ 0` it places the problem in
+its first case and says nothing about which `ℓ` are solvable; the annihilator criterion
+(solvable iff `ℓ` vanishes on `N`, solutions unique modulo `N`) is proved here, by the
+`δ`-coercivity of `q` on `{j u ⊥ j N}` and the direct method. Nothing here uses Layer 4. *Needs:* 2.2, 3.2, 3.3; Tau Ceti `fredholmAlternative_formPerturbation`,
 `finiteDimensional_ker_one_sub_smul_formPerturbationOperator`.
 
 **Checks.**
 
-- Diagonal pair with `a u v = Σ n² conj(uₙ) vₙ` (so `e₀` has energy `0`): `N = span e₀`, `δ = 1`
+- The weighted pair with its form replaced by `a u v = Σ n² conj(uₙ) vₙ` (still a pair, with
+  `c = 1/2`, `ω = 1`; `e₀` has energy `0`): `N = span e₀`, `δ = 1`
   attained at `e₁`, and `q(u) ≥ ‖j u‖²` for `u ⊥ e₀`.
 - `a = diag(1, −1)` on `𝕜²` is not nonnegative; `q(1, 1) = 0` but `(1, 1) ∉ N`: the hypothesis
   `q ≥ 0` is used in identifying `N` with `{q = 0}`.
@@ -708,12 +720,12 @@ and separability of `H` follow only after 4.2. *Needs:* 3.2, 3.3; Mathlib `Hilbe
 
 **Checks.**
 
-- Diagonal pair: `uₙ = eₙ`, `λₙ = (n+1)²`, strictly increasing and divergent.
+- Weighted pair: `uₙ = eₙ`, `λₙ = (n+1)²`, strictly increasing and divergent.
 - `𝕜³` with `a = diag(1, 1, 3)`: `λ₀ = λ₁ = 1`, `λ₂ = 3`; the eigenvectors for `λ = 1` are any
   orthonormal pair in the plane `x₂ = 0`, so the family is not canonical and the statement is an
   existence statement.
 - `H = 0`: the empty family; `𝕜¹` with `a = (−3)`: `λ₀ = −3 ≥ −ω` for `ω = 4`.
-- An energy-orthogonal complement is not an `H`-orthogonal complement: in the diagonal pair,
+- An energy-orthogonal complement is not an `H`-orthogonal complement: in the weighted pair,
   for `u = e₀ + e₁` the `a`-orthogonal complement is `{v | v₀ + 4 v₁ = 0}` and the
   `H`-orthogonal complement of `j u` is `{v | v₀ + v₁ = 0}`. The constraints of 4.1 are
   `H`-orthogonality to eigenvectors, where the two agree: for `u = e₀` both are `{v | v₀ = 0}`.
@@ -737,10 +749,10 @@ Tau Ceti `exists_hilbertBasis_forall_apply_eq_smul_inner`.
 
 **Checks.**
 
-- Diagonal pair: `(eₙ)` is a Hilbert basis of `ℓ²`; in the energy inner product `a_0`, the
+- Weighted pair: `(eₙ)` is a Hilbert basis of `ℓ²`; in the energy inner product `a_0`, the
   vectors `eₙ/(n+1)` are orthonormal.
 - Completeness needs the successive construction, not only divergence: the subfamily
-  `(e_{2n})` of the diagonal pair is orthonormal with eigenvalues `(2n+1)² → ∞` but misses `e₁`.
+  `(e_{2n})` of the weighted pair is orthonormal with eigenvalues `(2n+1)² → ∞` but misses `e₁`.
   The vector `e₁` is energy-orthogonal to every `e_{2n}` and has Rayleigh quotient `4 < ∞`; no
   contradiction arises because `e₁` was never a competitor at a step of the subfamily, whereas
   in the full construction it is a competitor at step `1`.
@@ -761,7 +773,7 @@ of `H`, and the finite-dimensional zero eigenspace when `q ≥ 0`. *Needs:* 4.2;
 
 **Checks.**
 
-- Diagonal pair, `u = e₀ + e₁`: `q(u) = 1 + 4 = 5 = 1·|1|² + 4·|1|²`, and with `α = 1`:
+- Weighted pair, `u = e₀ + e₁`: `q(u) = 1 + 4 = 5 = 1·|1|² + 4·|1|²`, and with `α = 1`:
   `q(u) + ‖j u‖² = 5 + 2 = 2·1 + 5·1 = 7`.
 - `x = (1/(n+1))ₙ ∈ ℓ²`: `Σ (n+1)² |xₙ|² = Σ 1 = ∞`, so `x ∉ range j`, consistent with 3.2's
   Check; `x = (1/(n+1)²)ₙ` has `Σ (n+1)² /(n+1)⁴ < ∞` and lies in `range j`.
@@ -858,13 +870,13 @@ compactness and symmetry, `mem_resolventSet_subScalar_iff`, `resolvent_subScalar
 
 **Checks.**
 
-- Diagonal pair: `dom A = {x | Σ (n+1)⁴ |xₙ|² < ∞}`, `(A x)ₙ = (n+1)² xₙ`,
+- Weighted pair: `dom A = {x | Σ (n+1)⁴ |xₙ|² < ∞}`, `(A x)ₙ = (n+1)² xₙ`,
   `S_α eₙ = eₙ/((n+1)² + α)`; `R_A(−α) e₀ = e₀/(−α − 1) = −S_α e₀`, confirming the sign.
 - `𝕜²`, `a = diag(1, −3)`, `ω = 4`, `α = 4`: `S_4 = diag(1/5, 1)`, positive; `α = 2` is not
   admissible, and `A + 2 = diag(3, −1)` is invertible but not positive: the positivity claim is
   for `α ≥ ω` only.
 - `H = 0`: `A` and `S_α` are the zero maps on the zero space; every statement is trivial.
-- Witness independence: the diagonal pair with `ω = 0, c = 1` and with `ω = 5, c = 1` has the
+- Witness independence: the weighted pair with `ω = 0, c = 1` and with `ω = 5, c = 1` has the
   same graph `{(x, ((n+1)² xₙ))}`.
 
 ### 5.2 Domain expansions, spectrum and weak equations
@@ -899,14 +911,14 @@ SA-C39, SA-D02, SA-E03, SA-E05; UO-D06 (`realSpectralRestriction`, `P_R`).
 
 **Checks.**
 
-- Diagonal pair, `x = (1/(n+1)³)ₙ`: `Σ (n+1)⁴ /(n+1)⁶ < ∞`, so `x ∈ dom A` with
+- Weighted pair, `x = (1/(n+1)³)ₙ`: `Σ (n+1)⁴ /(n+1)⁶ < ∞`, so `x ∈ dom A` with
   `(A x)ₙ = 1/(n+1)`; `x = (1/(n+1)²)ₙ` is in `range j` (4.3) but `Σ (n+1)⁴/(n+1)⁴ = ∞`, so
   `x ∉ dom A`: form domain and operator domain differ.
-- Spectrum of the diagonal pair: `{1, 4, 9, …}`; `z = 0` is a resolvent point with
+- Spectrum of the weighted pair: `{1, 4, 9, …}`; `z = 0` is a resolvent point with
   `‖R_A(0)‖ = 1 = 1/dist(0, {1, 4, …})`; `z = 4` is not, since `(4 − A) e₁ = 0`.
 - Complex realification: `𝕜 = ℂ`, `H = ℂ`, eigenvalue `λ₀ = 1` of multiplicity `1`; the real
   restriction has the orthonormal eigenvectors `1` and `i`, multiplicity `2`.
-- Weak equation at `λ = 1` in the diagonal pair with `ℓ = inner e₀ (j ·)`: no solution, since
+- Weak equation at `λ = 1` in the weighted pair with `ℓ = inner e₀ (j ·)`: no solution, since
   `ℓ e₀ ≠ 0`; with `ℓ = inner e₁ (j ·)`: the solutions are `e₁/(4 − 1) + t e₀`.
 
 ### 5.3 The differential-energy adapter
@@ -934,21 +946,21 @@ API; Mathlib `LinearPMap.comp` is not this operator, since it requires all of `r
 
 **Checks.**
 
-- Diagonal pair with `K = ℓ²` and `(D u)ₙ = (n+1) uₙ`: `a u v = inner (D u) (D v)`; `D₀†` has
+- Weighted pair with `K = ℓ²` and `(D u)ₙ = (n+1) uₙ`: `a u v = inner (D u) (D v)`; `D₀†` has
   domain `{y | ((n+1) yₙ) ∈ ℓ²}` and action `y ↦ ((n+1) yₙ)`; `D u ∈ dom D₀†` iff
   `((n+1)² uₙ) ∈ ℓ²`, which is 5.1's domain, and `D₀† (D u) = ((n+1)² uₙ) = A (j u)`.
 - `D = 0`: the form is `0`, `operatorDomainV = V`, `D₀ = 0` on `range j`, `dom D₀† = K`, and
   `D₀† (D u) = 0 = A (j u)`.
 - `V = H = K = ℂ`, `j = id`, `D = id`: `D₀ = id`, `D₀† = id`, `A = id`; `D = 2·id` gives
   `a = 4 inner`, `D₀† = 2·id` and `A = 4·id`, so the representative is `D₀†(D u) = 4u`, not `2u`.
-- The composite is not `LinearPMap.comp`: in the diagonal example `u = (1/(n+1)²)ₙ` lies in
+- The composite is not `LinearPMap.comp`: in the weighted pair `u = (1/(n+1)²)ₙ` lies in
   `V` (`Σ (n+1)²/(n+1)⁴ < ∞`) but `D u = (1/(n+1))ₙ` is not in `dom D₀†` (`(n+1) · 1/(n+1) = 1`
   is not square summable), so `range D₀ ⊄ dom D₀†`; the restricted composite has domain
   `{j u | ((n+1)² uₙ) ∈ ℓ²}`.
 
 ### Examples
 
-For the diagonal pair with `D` as in 5.3 and `α = 0`, the three operators are
+For the weighted pair with `D` as in 5.3 and `α = 0`, the three operators are
 `S_0 = diag(1/(n+1)²)`, `A = diag((n+1)²)` on `dom A = {x | ((n+1)² xₙ) ∈ ℓ²}`, and
 `D₀† D₀ = A`; the resolvent at `z = 1/2` has norm `1/(1 − 1/2) = 2`.
 
@@ -959,7 +971,7 @@ Layers 2–4; UnboundedOperators UO-D06; SelfAdjointSpectralTheory Parts C–E; 
 
 ## Layer 6: Ritz–Galerkin approximation
 
-**Sources:** Ivrii §13.1, Corollary 1 (corrected as in 4.4); Hunter Theorem 4.37 (p. 122).
+**Sources:** Ivrii §13.1, Corollary 1 (corrected as in 4.4); Babuška–Osborn §8.
 
 ### 6.1 Ritz–Galerkin convergence
 
@@ -974,7 +986,9 @@ the eigenvalues of the Hermitian matrix `G_m^{−1/2} A_m G_m^{−1/2}` in Polar
 order after the conversion `k ↦ d − 1 − k`. Coordinate changes must transport the generalized
 equation; a basis is not assumed `H`-orthonormal. Prove the convergence theorem
 (`CompactFormPair.tendsto_rayleighMinMax`): for every `n`, `rayleighMinMax Vₘ n → λₙ` as
-`m → ∞`, for any Hilbert basis of form-domain eigenvectors with nondecreasing eigenvalues.
+`m → ∞`, for any Hilbert basis of form-domain eigenvectors with nondecreasing eigenvalues
+(Babuška–Osborn §8, the Rayleigh–Ritz method for a self-adjoint variational eigenvalue
+problem; the proof below is self-contained).
 Lower estimate: `rayleighMinMax Vₘ n ≥ rayleighMinMax ⊤ n = λₙ` by 4.4, once `dim Vₘ > n`.
 Upper estimate: approximate `u₀, …, uₙ` in the norm of `V` by vectors of `Vₘ`; for large `m`
 they are linearly independent with `H`-Gram matrix close to the identity, and the supremum of
@@ -992,7 +1006,7 @@ blocks. *Needs:* 4.4; PolarDecomposition PD-A50–PD-A53; Mathlib `Matrix.IsHerm
 
 **Checks.**
 
-- Diagonal pair, `Vₘ = span{e₀, …, e_{m−1}}`: the Ritz values are exactly `1, 4, …, m²`
+- Weighted pair, `Vₘ = span{e₀, …, e_{m−1}}`: the Ritz values are exactly `1, 4, …, m²`
   (invariant subspaces give equality), and `rayleighMinMax Vₘ n = (n+1)²` for `n < m`.
 - `V₁ = span{e₀ + e₁}`: the Ritz value is `q(e₀+e₁)/‖j(e₀+e₁)‖² = 5/2 ≥ λ₀ = 1`, and the Gram
   matrix `G = 2 ≠ 1` shows why the generalized problem, not `A_m` alone (which gives `5`), is
@@ -1027,7 +1041,7 @@ Layers 3–5; Tau Ceti `ker_formSolutionOperator`, `Analysis/PDE/Spectrum`.
 
 ### Examples
 
-For the diagonal pair with `Vₘ = span{e₀, …, e_{m−1}}` the Ritz vectors are the exact
+For the weighted pair with `Vₘ = span{e₀, …, e_{m−1}}` the Ritz vectors are the exact
 eigenvectors and all error bounds are `0`; for `Vₘ = span{e₀ + e₁/m, e₁, …, e_{m−1}}` the Ritz
 value for `n = 0` is `≤ q(e₀ + e₁/m)/‖j(e₀ + e₁/m)‖² = (1 + 4/m²)/(1 + 1/m²) → 1`.
 
@@ -1043,7 +1057,14 @@ Layers 3–5; PolarDecomposition PD-A50–PD-A53; Tau Ceti `Variational/Spectrum
   represented operator of 5.1 with its compact resolvent and eigen-expansions, and 5.3's
   abstract adapter with `K = L²(F)` and `D` a first-order operator; it owns the identification
   of the operator domain with `H²` by elliptic regularity, the smoothness of eigensections and
-  the Hodge-theoretic consequences for `D = d + d*`.
+  the Hodge-theoretic consequences for `D = d + d*`. The carriers it consumes are: for the
+  represented operator, 5.1's graph characterization and `CompactFormPair.operatorDomainV`
+  with `CompactFormPair.exists_compact_selfAdjoint_shifted_inverse` (there is no separate
+  operator declaration; UO-D06's `closedFormOperator` is the operator); for the coercive
+  solution over `𝕜` and its real comparison, 2.3's `S_α` and `F_α` with 2.2's identification
+  at `𝕜 = ℝ` through Mathlib `IsCoercive.continuousLinearEquivOfBilin` and Tau Ceti
+  `IsCoercive.formSolutionMap`; for the eigen-expansions, 4.3 and
+  `CompactFormPair.mem_operatorDomainV_iff_summable`.
 - PseudodifferentialOperators P6–P7 consume K5a's realization and, through it, Layer 5.
 - PDE Lane D–E keep their bounded-domain constructions on Mathlib and Tau Ceti directly; Tau
   Ceti `Analysis/PDE/Spectrum` is an instance of Layers 3–5 and is used here only as an example.
@@ -1060,8 +1081,12 @@ Layers 3–5; PolarDecomposition PD-A50–PD-A53; Tau Ceti `Variational/Spectrum
 - J. K. Hunter, *Notes on Partial Differential Equations*, Chapter 4 "Elliptic PDEs":
   Definition 4.3 and Proposition 4.5 (p. 93–94), Corollary 4.6 (p. 95), Theorem 4.20 (Lax–Milgram,
   p. 103), Theorems 4.21–4.22 (p. 103–105), §4.8 (compactness of the resolvent, p. 105–106),
-  Theorem 4.25 and Example 4.26 (§4.10, p. 109), Theorem 4.37 (p. 122),
+  Theorem 4.25 and Example 4.26 (§4.10, p. 109), Theorem 4.37 (p. 122, the spectral theorem
+  for compact self-adjoint operators, cited in Layer 4),
   <https://www.math.ucdavis.edu/~hunter/pdes/pde_notes.pdf>.
+- I. Babuška and J. Osborn, "Eigenvalue problems", in *Handbook of Numerical Analysis*, Vol. II,
+  North-Holland, 1991, pp. 641–787, §8 (the Rayleigh–Ritz method), DOI
+  10.1016/S1570-8659(05)80042-0.
 - Mathlib: `Mathlib/Analysis/LocallyConvex/WeakSpace.lean`, `Mathlib/Analysis/Normed/Module/DoubleDual.lean`,
   `Mathlib/Topology/Semicontinuity/Basic.lean`, `Mathlib/Analysis/Calculus/LocalExtr/Basic.lean`,
   `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`, `Mathlib/Analysis/InnerProductSpace/Rayleigh.lean`,
