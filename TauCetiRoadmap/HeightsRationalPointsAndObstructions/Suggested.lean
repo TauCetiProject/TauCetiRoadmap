@@ -9,9 +9,10 @@ import TauCeti.AlgebraicGeometry.Cohomology.Genus
 `README.md`. These statements suggest Lean forms for headline milestones; discharging them
 finishes neither a layer nor the roadmap.
 
-The statements are Mordell–Weil (§1.7), Mordell finiteness (§§4.6, 5.12, 6.4), Siegel
-finiteness (§4.8), characteristic-zero Manin–Mumford (§5.6), and finite-rank Mordell–Lang
-(§5.13), together with the genus-zero Hasse principle (§6.2). Number-field rational-point
+The statements are Mordell–Weil (§1.7), Néron's theorem over finitely generated fields of
+characteristic zero (§5.13b), Mordell finiteness (§§4.6, 5.12, 6.4), Siegel finiteness (§4.8),
+characteristic-zero Manin–Mumford (§5.6), and finite-rank Mordell–Lang (§5.13), together with
+the genus-zero Hasse principle (§6.2). Number-field rational-point
 coset finiteness (§5.9) follows from Mordell–Weil and finite-rank Mordell–Lang. Points and
 abelian-variety embeddings use the native over-Hom and homomorphism carriers. Over an
 algebraically closed field, a Zariski-closed support specifies its unique reduced closed
@@ -24,7 +25,8 @@ completion. The native genus requires finite-dimensional H¹(𝒪).
 The other headlines need objects absent from Mathlib `6b7abb3` and Tau Ceti `a91d3aa`.
 The generalized Weil machine and general abelian canonical heights need generalized global
 fields, polarized function-field heights and the line-bundle height machine; the native
-canonical height is elliptic. Lang–Néron and the function-field height kernel need the K/k-trace.
+canonical height is elliptic. Lang–Néron itself and the function-field height kernel need the
+K/k-trace; only its trace-free corollary over finitely generated fields (§5.13b) is stated.
 The Brauer–Manin pairing, Harari's formal lemma, descent comparisons, genus-one sufficiency
 and the statistical obstruction theorems need scheme Brauer evaluation, geometric adelic
 spaces, torsors and their Selmer/Picard interfaces. Field Brauer groups and discrete-module
@@ -57,6 +59,16 @@ abbrev AbelianVariety.Points {K : Type u} [Field K]
 is finitely generated. -/
 theorem AbelianVariety.fg_points {K : Type u} [Field K] [NumberField K]
     (A : TauCeti.AlgebraicGeometry.AbelianVariety K) :
+    AddGroup.FG (AbelianVariety.Points A K) := by
+  sorry
+
+/-- Néron's theorem over finitely generated fields of characteristic zero (§5.13b): the point
+group of every abelian variety over a field that is finitely generated as a field extension of ℚ
+is finitely generated. The hypothesis `Algebra.EssFiniteType ℚ K` is finite generation as a field
+extension (Mathlib's `IntermediateField.fg_top_iff`), not as a ℚ-algebra. Source: Conrad,
+*Chow's K/k-image and K/k-trace, and the Lang–Néron theorem*, Corollary 7.2. -/
+theorem AbelianVariety.finitelyGeneratedField_points_fg {K : Type u} [Field K] [CharZero K]
+    [Algebra.EssFiniteType ℚ K] (A : TauCeti.AlgebraicGeometry.AbelianVariety K) :
     AddGroup.FG (AbelianVariety.Points A K) := by
   sorry
 
