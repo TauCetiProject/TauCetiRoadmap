@@ -54,7 +54,7 @@ It does not own, and consumes by name:
   central series with its graded pieces and bracket, which are Tau Ceti's lower `p`-series at
   `p = 0` (`TauCeti.pLowerCentralSeries 0`, `TauCeti.gradedPiece`, `TauCeti.gradedBracket`), both
   under the names **ProfiniteArithmetic** gives them;
-- from **ProfiniteArithmetic** itself: the groups `ContinuousAut` and `ContinuousOut` with the
+- from **ProfiniteArithmetic** itself: the groups `TauCeti.ContinuousAut` and `TauCeti.ContinuousOut` with the
   congruence topology, the unit-exponent lemmas for `padicPow`, the `ℤ_p`-linearity of the
   bracket, the spanning theorem, and the exterior-square description of `gr_1` of a free pro-`p`
   group;
@@ -112,14 +112,18 @@ implements them; this roadmap consumes the implementation directly. The principa
 | Burnside and Hopf | `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`, `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective` |
 | the `ℤ_p`-power as a continuous homomorphism | `TauCeti.IsProP.padicPowHom` |
 
-### From `TauCetiRoadmap.ProfiniteArithmetic`
+### Canonical Tau Ceti carriers and ProfiniteArithmetic theorems
+
+The carriers below are consumed from `TauCeti`; the archived ProfiniteArithmetic certificate
+retains the selected power and bracket theorem signatures. Unqualified carrier names in that
+certificate are imports of Tau Ceti declarations, not exports in a second namespace.
 
 | Use here | Exact declarations |
 |---|---|
 | `ℤ_p`-powers | `padicPow` (Tau Ceti's `TauCeti.IsProP.padicPow`), `padicPow_one`, `padicPow_add`, `padicPow_padicPow`, `map_padicPow`, `padicPow_conj`, `inv_padicPow`, `continuous_padicPow`, `padicPow_units_inv`, `padicPow_units_injective`, `closedZpowers_padicPow_units` |
 | profinite powers | `zpowHat` (Tau Ceti's `TauCeti.zHat.lift`, applied to an exponent in `ẑ = Additive TauCeti.zHat`), `map_zpowHat`, the idempotent `zHat.idem`, `closedZpowers`, `isProP_closedZpowers_zpowHat_idem`, `zpowHat_idem_of_isProP` |
-| automorphisms | `ContinuousAut`, `ContinuousAut.conj`, `ContinuousAut.conj_apply`, `ContinuousOut`, the congruence topology, `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`, `ContinuousAut.continuous_eval`, and the closed conjugacy relation `isClosed_isConj_pair` on `F × F` |
-| the closed lower central series | `closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `isClosed_closedLowerCentralSeries`, `iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `lcsGradedPiece`, `lcsGradedMk`, `lcsGradedMk_conj`, `lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsGradedPiece_zero_freeProP_bijective`, `lcsGradedPiece_one_freeProP_bijective`, `lcsBracket_freeProP_ne_zero` |
+| automorphisms | `TauCeti.ContinuousAut`, `TauCeti.ContinuousAut.conj`, `TauCeti.ContinuousAut.conj_apply`, `TauCeti.ContinuousOut`, the congruence topology, `TauCeti.ContinuousAut.compactSpace`, `TauCeti.ContinuousAut.t2Space`, `TauCeti.ContinuousAut.continuous_eval`, and the closed conjugacy relation `TauCeti.isClosed_isConj_pair` on `F × F` |
+| the closed lower central series | `TauCeti.closedLowerCentralSeries` (Tau Ceti's `pLowerCentralSeries 0`), `TauCeti.isClosed_closedLowerCentralSeries`, `TauCeti.iInf_closedLowerCentralSeries_eq_bot`, `commutator_mem_closedLowerCentralSeries`, `TauCeti.lcsGradedPiece`, `TauCeti.lcsGradedMk`, `lcsGradedMk_conj`, `TauCeti.lcsBracket`, `lcsBracket_mk`, `lcsBracket_add_left`, `lcsBracket_add_right`, `lcsBracket_padicPow_left`, `lcsBracket_padicPow_right`, `lcsGradedPiece_eq_sum_bracket`, `lcsGradedPiece_zero_freeProP_bijective`, `lcsGradedPiece_one_freeProP_bijective`, `lcsBracket_freeProP_ne_zero` |
 
 ### From `TauCetiRoadmap.BelyiMaps`
 
@@ -169,7 +173,7 @@ layer here, `PA-<layer>` an export of ProfiniteArithmetic, `BM-PC` a helper lemm
   `TauCeti.freeProP.topologicalClosure_closure_range_of_eq_top`,
   `TauCeti.isTopologicallyFinitelyGenerated_freeProP`,
   `TauCeti.isTopologicallyFinitelyGenerated_congr`; PA-1 `padicPow`; PA-2
-  `ContinuousAut`, `ContinuousAut.conj`; PA-3 `lcsGradedPiece` at degree zero and
+  `TauCeti.ContinuousAut`, `TauCeti.ContinuousAut.conj`; PA-3 `TauCeti.lcsGradedPiece` at degree zero and
   `lcsGradedPiece_zero_freeProP_bijective`; M `List.ofFn`,
   `Fin.snoc`, `IsConj`.
 
@@ -260,7 +264,7 @@ Because `z̄ = -(x̄_1 + ⋯ + x̄_r)` and the bracket is biadditive, that submo
 (PA-3.3 `lcsGradedPiece_eq_sum_bracket` with the basis as generating set), and `u` is a unit.
 So `c'`, `d'` can be chosen to make the class of `Ψ (c * c', d * d')` vanish, that is
 `(c * c', d * d') ∈ S (n + 1)`. Lifting the classes `c̄'_i`, `d̄'` to elements of `γ_{n-1}(F)` uses
-only that `lcsGradedMk` is surjective. ∎
+only that `TauCeti.lcsGradedMk` is surjective. ∎
 
 *Needs:* PA-3.1, PA-3.2, PA-3.3; PA-1.3; M `commutatorElement_mul_left_eq_conj_mul` for the
 bookkeeping of the inserted commutators.
@@ -273,7 +277,7 @@ step multiplies `c 0` by `c' 0 = 1`, so it carries `T n` into `T (n + 1)`. The f
 decreasing and `F^r × F` is compact, so `⋂_n T n` is nonempty
 (M `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`). For `(c, d)` in the
 intersection, `c 0 = 1` and `Ψ (c, d) ∈ ⋂_n γ_n(F) = ⊥` (PA-3.1
-`iInf_closedLowerCentralSeries_eq_bot`, `F` being pro-`p`), so `Ψ (c, d) = 1`. Intersecting with
+`TauCeti.iInf_closedLowerCentralSeries_eq_bot`, `F` being pro-`p`), so `Ψ (c, d) = 1`. Intersecting with
 `{c 0 = 1}` is what makes the limit keep the normalization; a point of `⋂_n S n` alone need not.
 
 *Needs:* PA-3.1; M compactness of products, `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`.
@@ -361,7 +365,7 @@ hold, on the principal units, is Layer 3.5.
   `φ⁻¹` to `φ y = c⁻¹ * (y ^[p] u) * c`, taking `u⁻¹`-th powers (`padicPow_units_inv`) and using
   that a `u`-th power determines its base (`padicPow_units_injective`).
 - **The subgroup.** `peripheralAut x : Subgroup (ContinuousAut F)` is the set of `φ` for which some
-  `u` has `IsPeripheralAut x u φ`; it contains the range of `ContinuousAut.conj`.
+  `u` has `IsPeripheralAut x u φ`; it contains the range of `TauCeti.ContinuousAut.conj`.
 - **The exponent.** `exponent x : peripheralAut x →* ℤ_pˣ` sends `φ` to the unique `u` of Layer 0;
   it is a homomorphism by the closure computation, and its kernel is the subgroup of peripheral
   automorphisms of exponent one, which contains the inner automorphisms.
@@ -374,11 +378,11 @@ hold, on the principal units, is Layer 3.5.
 - **The graph.** The set `R` of pairs `(φ, u)` with `IsPeripheralAut x u φ` is closed in
   `ContinuousAut F × ℤ_pˣ` (`isClosed_peripheralGraph`). For each element `y` of the peripheral
   tuple, the condition `IsConj (y ^[p] u) (φ y)` is the preimage of the set of conjugate pairs of
-  `F`, closed in `F × F` (PA-2.2 `isClosed_isConj_pair`), under the map
-  `(φ, u) ↦ (y ^[p] u, φ y)`, which is continuous (PA-2.2 `ContinuousAut.continuous_eval`, PA-1.3
+  `F`, closed in `F × F` (PA-2.2 `TauCeti.isClosed_isConj_pair`), under the map
+  `(φ, u) ↦ (y ^[p] u, φ y)`, which is continuous (PA-2.2 `TauCeti.ContinuousAut.continuous_eval`, PA-1.3
   `continuous_padicPow`). Both coordinates vary with `(φ, u)`, which is why the binary relation is
   the input. `R` is the intersection of these `r + 1` closed sets. Since `ContinuousAut F` is
-  profinite (PA-2.2 `ContinuousAut.compactSpace`) and `ℤ_pˣ` is compact, `R` is compact.
+  profinite (PA-2.2 `TauCeti.ContinuousAut.compactSpace`) and `ℤ_pˣ` is compact, `R` is compact.
 - **Closedness.** `peripheralAut x` is the image of `R` under the first projection, a compact and
   hence closed subset of the Hausdorff space `ContinuousAut F` (`isClosed_peripheralAut`). So
   `peripheralAut x` is a profinite group.
@@ -387,8 +391,8 @@ hold, on the principal units, is Layer 3.5.
   uniqueness of the exponent (Layer 0). Its source is compact and its target Hausdorff, so it is a
   homeomorphism, and `exponent x` is the second projection composed with its inverse, hence
   continuous (`continuous_exponent`). No finite quotient of `F` is needed.
-  *Needs:* L0 `exponent_unique`; PA-2.2 `ContinuousAut.compactSpace`, `ContinuousAut.t2Space`,
-  `ContinuousAut.continuous_eval`, `isClosed_isConj_pair`, each applied with the topological
+  *Needs:* L0 `exponent_unique`; PA-2.2 `TauCeti.ContinuousAut.compactSpace`, `TauCeti.ContinuousAut.t2Space`,
+  `TauCeti.ContinuousAut.continuous_eval`, `TauCeti.isClosed_isConj_pair`, each applied with the topological
   finite generation of `F` (TC `TauCeti.isTopologicallyFinitelyGenerated_freeProP`, transported
   along `e` by `TauCeti.isTopologicallyFinitelyGenerated_congr`); PA-1.3
   `continuous_padicPow`; M `IsClosed.preimage`, `isClosed_iInter`, `IsCompact.image`,

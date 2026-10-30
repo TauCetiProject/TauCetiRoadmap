@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.ProfiniteArithmetic.Suggested
+import Completed.ProfiniteArithmetic.Suggested
 import TauCeti.Topology.Algebra.Group.Profinite.Free.ProP
 import TauCeti.Topology.Algebra.Group.Generation
 import TauCetiRoadmap.BelyiMaps.Suggested
@@ -20,14 +20,15 @@ The carrier is an abstract profinite group `F` with a marked topological isomorp
 `basis p e i := e.symm (TauCeti.freeProP.of i)` and the cusp is the inverse of the ordered product
 of the basis. Pro-`p` groups, free pro-`p` groups and topological finite generation are Tau Ceti's
 (`TauCeti.IsProP`, `TauCeti.freeProP`, `TauCeti.IsTopologicallyFinitelyGenerated`), used directly.
-Powers are `ProfiniteArithmetic.padicPow`, automorphisms are `ProfiniteArithmetic.ContinuousAut`,
-and the central-series arguments use `ProfiniteArithmetic.closedLowerCentralSeries`. No arithmetic
-object appears.
+Powers are `ProfiniteArithmetic.padicPow`, automorphisms are Tau Ceti's `TauCeti.ContinuousAut`,
+and the central-series arguments use Tau Ceti's `TauCeti.closedLowerCentralSeries`, as realized in
+the archived `Completed/ProfiniteArithmetic` certificate. No arithmetic object appears.
 -/
 
 namespace TauCetiRoadmap.PeripheralActions
 
 open TauCetiRoadmap.ProfiniteArithmetic
+open TauCeti (ContinuousAut closedLowerCentralSeries)
 
 universe u
 
@@ -67,7 +68,7 @@ def IsPeripheralAut (hF : TauCeti.IsProP p F) (x : Fin r → F) (u : ℤ_[p]ˣ) 
 
 /-- **Layer 0.** Inner automorphisms are peripheral of exponent one. -/
 theorem isPeripheralAut_conj (hF : TauCeti.IsProP p F) (x : Fin r → F) (g : F) :
-    IsPeripheralAut p hF x 1 (ContinuousAut.conj F g) :=
+    IsPeripheralAut p hF x 1 (TauCeti.ContinuousAut.conj g) :=
   sorry
 
 /-- **Layer 0.** The exponent of a peripheral automorphism of a free pro-`p` group of positive
@@ -227,7 +228,7 @@ theorem exponent_surjective (hF : TauCeti.IsProP p F) (e : F ≃ₜ* TauCeti.fre
 
 /-- **Layer 3.1.** The inner automorphisms lie in the kernel of the exponent. -/
 theorem conj_mem_peripheralAut (hF : TauCeti.IsProP p F) (x : Fin r → F) (g : F) :
-    ContinuousAut.conj F g ∈ peripheralAut p hF x :=
+    TauCeti.ContinuousAut.conj g ∈ peripheralAut p hF x :=
   sorry
 
 /-- **Layer 3.2, the graph.** The pairs `(φ, u)` with `IsPeripheralAut x u φ` form a closed subset
@@ -250,8 +251,8 @@ theorem isClosed_peripheralGraph (hF : TauCeti.IsProP p F) (e : F ≃ₜ* TauCet
     (continuous_padicPow p hF).comp
       (continuous_const.prodMk (Units.continuous_val.comp continuous_snd))
   have heval : Continuous fun q : ContinuousAut F × ℤ_[p]ˣ => q.1 (peripheralTuple (basis p e) i) :=
-    (ContinuousAut.continuous_eval F hfg).comp (continuous_fst.prodMk continuous_const)
-  exact (isClosed_isConj_pair F).preimage (hpow.prodMk heval)
+    (TauCeti.ContinuousAut.continuous_eval hfg).comp (continuous_fst.prodMk continuous_const)
+  exact (TauCeti.isClosed_isConj_pair F).preimage (hpow.prodMk heval)
 
 /-- **Layer 3.2.** The peripheral automorphisms form a closed subgroup for the congruence
 topology of ProfiniteArithmetic: the projection of the closed graph along the compact factor

@@ -43,7 +43,7 @@ generators, monogenicity, the different, the discriminant, and the tame criterio
 they are specified and where their API accrues; the contract this roadmap consumes from it is
 listed below. It also does not own higher ramification groups, Herbrand functions or Hasse–Arf
 (same roadmap); local class field theory; adic or Huber-theoretic geometry over `K`, which is the
-[adic spaces roadmap](../AdicSpaces/README.md); or archimedean local fields, which
+[adic spaces roadmap](../../Completed/AdicSpaces/README.md); or archimedean local fields, which
 `IsNonarchimedeanLocalField` excludes and which never enter.
 
 ## Standing conventions
