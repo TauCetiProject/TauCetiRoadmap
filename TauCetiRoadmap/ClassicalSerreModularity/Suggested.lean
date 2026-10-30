@@ -2,11 +2,11 @@ import Mathlib
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 /-!
-# Classical Serre modularity: headline theorems
+# Classical Serre modularity: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline results; discharging them
-finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap's headline theorems against the pinned APIs;
+discharging them finishes neither a layer nor the roadmap.
 
 The statements are qualitative Serre modularity, Khare's level-one modularity and finiteness
 corollary, the positive-density auxiliary-prime theorem, and odd Artin weight-one modularity.
@@ -20,8 +20,10 @@ require the residual Artin conductor and Serre's local weight recipe, neither su
 pins. The finite-flat weight-two export additionally requires the coefficient-independent
 finite-flat residual predicate and its group-scheme model. The regular-system theorem and
 Layer I's prescribed lifts and modularity transfers require compatible-system carriers, local
-period conditions and deformation problems. The weight-reduction and conductor-induction
-statements likewise require the missing arithmetic invariants. The Katz weight-one step,
+period conditions and deformation problems. R33.1's global arithmetic action and
+type-support/cycle comparisons additionally require completed automorphic towers, patched
+modules and local deformation-cycle carriers, absent at the pins. The weight-reduction and
+conductor-induction statements likewise require the missing arithmetic invariants. The Katz weight-one step,
 geometric reduction theorem and descent require geometric modular forms, their integral
 spaces and Hecke actions. These results are specified in the README, without compiled
 signatures here. The exact-conductor Artin refinement also requires the Artin conductor;
@@ -31,7 +33,7 @@ determinants, without naming a characteristic-zero attachment absent at the pins
 
 noncomputable section
 
-namespace TauCeti.SerreConjecture
+namespace TauCetiRoadmap.ClassicalSerreModularity
 
 open NumberField
 open HeckeRing.GL2 (Newform)
@@ -103,15 +105,7 @@ def toRepresentation {G R : Type*} [Group G] [CommRing R]
     (ρ : G →* GL (Fin 2) R) : Representation R G (Fin 2 → R) :=
   (Units.coeHom _).comp (Matrix.GeneralLinearGroup.toLin.toMonoidHom.comp ρ)
 
-/-! ## Modularity and level-one finiteness -/
-
-/-- `R27.5/hypothesis-H-and-theorem-9-1` and `R33.5/qualitative-serre-theorem`:
-every continuous, odd, absolutely irreducible residual representation is attached to a
-classical newform of weight at least two. -/
-theorem serre_conjecture_weak {p : ℕ} [Fact p.Prime]
-    (ρ : GQ →* GL (Fin 2) (FpBar p)) (hρ : IsSType ρ) :
-    ∃ (N : ℕ) (_ : NeZero N) (k : ℤ) (f : Newform N k), 2 ≤ k ∧ ArisesFrom ρ f := by
-  sorry
+/-! ## Layer R26.1: Level-one modularity -/
 
 /-- `R26.1/level-one-theorem-and-the-meaning-of-arises-from`: a representation unramified
 outside its characteristic is attached to a level-one newform of weight at least two. -/
@@ -121,6 +115,8 @@ theorem khare_level_one {p : ℕ} [Fact p.Prime]
     ∃ (k : ℤ) (f : Newform 1 k),
       2 ≤ k ∧ ArisesFrom ρ f := by
   sorry
+
+/-! ## Layer R26.6: Level-one finiteness -/
 
 /-- `R26.6/finiteness-corollary-1-3`: finitely many isomorphism classes of continuous,
 semisimple, odd representations unramified outside the coefficient characteristic. -/
@@ -132,19 +128,7 @@ theorem finite_level_one_semisimple (p : ℕ) [Fact p.Prime] :
         ∃ τ ∈ S, ∃ B : GL (Fin 2) (FpBar p), ∀ g, τ g = B * ρ g * B⁻¹ := by
   sorry
 
-/-- `R27.6/odd-artin-weight-one-modularity`: every odd irreducible Artin representation
-is attached to a weight-one newform, including its determinant character and all good-prime
-traces. Open kernel expresses finite-image continuity on the Krull Galois group. -/
-theorem weight_one_artin_modularity (ρ : GQ →* GL (Fin 2) ℂ)
-    (hcont : IsOpen (ρ.ker : Set GQ)) (hodd : IsOdd ρ) (hirr : IsAbsIrreducible ρ) :
-    ∃ (N : ℕ) (_ : NeZero N) (f : Newform N 1),
-      ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ N → IsUnramifiedAt ρ ℓ ∧
-        ∀ σ : GQ, IsFrobAt σ ℓ →
-          coeff f ℓ = Matrix.trace (ρ σ : Matrix (Fin 2) (Fin 2) ℂ) ∧
-          f.dirichletLift ℓ = Matrix.det (ρ σ : Matrix (Fin 2) (Fin 2) ℂ) := by
-  sorry
-
-/-! ## The auxiliary-prime theorem -/
+/-! ## Layer R27.1: The auxiliary-prime theorem -/
 
 /-- `ρ_proj(a)` and `ρ_proj(b)` are conjugate in the projective image: `ρ(a)` is a scalar multiple
 of `ρ(τ b τ⁻¹)` for some `τ`. -/
@@ -176,6 +160,30 @@ theorem lemma_8_2 {p : ℕ} [Fact p.Prime] (hp : p % 4 = 1) (ρ : GQ →* GL (Fi
     ∃ δ : ℝ, 0 < δ ∧ NumberField.Set.HasDirichletDensity (primesOfRat (auxiliaryPrimes ρ c)) δ := by
   sorry
 
-end TauCeti.SerreConjecture
+/-! ## Layer R27.5: Qualitative Serre modularity -/
+
+/-- `R27.5/hypothesis-H-and-theorem-9-1` and `R33.5/qualitative-serre-theorem`:
+every continuous, odd, absolutely irreducible residual representation is attached to a
+classical newform of weight at least two. -/
+theorem serre_conjecture_weak {p : ℕ} [Fact p.Prime]
+    (ρ : GQ →* GL (Fin 2) (FpBar p)) (hρ : IsSType ρ) :
+    ∃ (N : ℕ) (_ : NeZero N) (k : ℤ) (f : Newform N k), 2 ≤ k ∧ ArisesFrom ρ f := by
+  sorry
+
+/-! ## Layer R27.6: Artin weight-one modularity -/
+
+/-- `R27.6/odd-artin-weight-one-modularity`: every odd irreducible Artin representation
+is attached to a weight-one newform, including its determinant character and all good-prime
+traces. Open kernel expresses finite-image continuity on the Krull Galois group. -/
+theorem weight_one_artin_modularity (ρ : GQ →* GL (Fin 2) ℂ)
+    (hcont : IsOpen (ρ.ker : Set GQ)) (hodd : IsOdd ρ) (hirr : IsAbsIrreducible ρ) :
+    ∃ (N : ℕ) (_ : NeZero N) (f : Newform N 1),
+      ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ N → IsUnramifiedAt ρ ℓ ∧
+        ∀ σ : GQ, IsFrobAt σ ℓ →
+          coeff f ℓ = Matrix.trace (ρ σ : Matrix (Fin 2) (Fin 2) ℂ) ∧
+          f.dirichletLift ℓ = Matrix.det (ρ σ : Matrix (Fin 2) (Fin 2) ℂ) := by
+  sorry
+
+end TauCetiRoadmap.ClassicalSerreModularity
 
 end
