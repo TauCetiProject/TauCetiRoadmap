@@ -21,10 +21,10 @@ of RD.2 require differential and Frobenius modules over those rings. Mathlib's
 coefficient and general Frobenius categories of those targets.
 
 The frame independence, Dwork–Berthelot convergence, Katz–Crew correspondence and
-Étesse descent of RD.3 require tubes, strict neighbourhoods and convergent and
+coefficient equivalences of RD.3 require tubes, strict neighbourhoods and convergent and
 overconvergent isocrystal categories. The Monsky–Washnitzer, Gysin, dagger and log
 comparisons of RD.4 and the finiteness, descent, full faithfulness, Poincaré duality,
-Künneth and semistable reduction of RD.5 require these categories and rigid cohomology
+Künneth, Étesse descent and semistable reduction of RD.5 require these categories and rigid cohomology
 with its support functors. None of these coefficient or cohomology carriers exists
 at the pins.
 
