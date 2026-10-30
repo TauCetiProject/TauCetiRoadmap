@@ -111,7 +111,7 @@ The contracts below distinguish general supplied theory from the specializations
 
 **[ArithmeticGaloisDuality](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticGaloisDuality/README.md).** Local duality with coefficient fields (D7) and global finiteness (R02.4). Layers used: `D7.4`, `R02.4.4`.
 
-**[NeronModelsAndSemistableAbelianVarieties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NeronModelsAndSemistableAbelianVarieties/README.md).** The polarized rigid uniformization of a semistable abelian variety, with its lattice and valuation pairing (§3.14, §3.14); §H6.5 uses it with Rapoport's Tate HBAV, whose real multiplication and polarization module are computed there. The character lattice of a semistable Jacobian with its graph-homology description, the thickness-weighted monodromy pairing and the component group (Layer 4). The shared [weighted graph](../NeronModelsAndSemistableAbelianVarieties/README.md#weighted-graph) and [Hecke family](../NeronModelsAndSemistableAbelianVarieties/README.md#hecke-family) interfaces (§4.2) own the geometry-free weighted bipartite graph, its Gram map and component cokernel, and `HeckeFamily` with incidence and adjoint compatibility. The [torsion interface](../NeronModelsAndSemistableAbelianVarieties/README.md#semistable-torsion-datum) (§4.14) owns `SemistableTorsionDatum` over a commutative Hecke ring with distinguished bad-place operators. The latter separates the torsion, Galois, toric and specialization data from their exactness, Frobenius and Hecke laws; its `TwoPlaceSemistableTorsionDatum` uses one torsion module with both local structures. Sections R18.5.17a–R18.5.18 supply the quaternionic realizations on these interfaces. Section R18.5.14 constructs resolution of thickness for the nonregular `xy=π^m` charts of arithmetic quotients, so that weighted pairings can be compared (§R18.5.14). Layers used: `§3.14`, `Layer 4`, `§4.2`, `§§4.3–4.4`.
+**[NeronModelsAndSemistableAbelianVarieties](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/NeronModelsAndSemistableAbelianVarieties/README.md).** The polarized rigid uniformization of a semistable abelian variety, with its lattice and valuation pairing (§3.14, §3.14); §H6.5 uses it with Rapoport's Tate HBAV, whose real multiplication and polarization module are computed there. The character lattice of a semistable Jacobian with its graph-homology description, the thickness-weighted monodromy pairing and the component group (Layer 4). The shared weighted-graph and Hecke-family interfaces of [§4.2](../NeronModelsAndSemistableAbelianVarieties/README.md#42-characters-are-integral-graph-cycles) own the geometry-free weighted bipartite graph, its Gram map and component cokernel, and `HeckeFamily` with incidence and adjoint compatibility. The torsion interface of [§4.14](../NeronModelsAndSemistableAbelianVarieties/README.md#414-semistable-torsion-with-commuting-coefficient-actions) owns `SemistableTorsionDatum` over a commutative Hecke ring with distinguished bad-place operators. The latter separates the torsion, Galois, toric and specialization data from their exactness, Frobenius and Hecke laws; its `TwoPlaceSemistableTorsionDatum` uses one torsion module with both local structures. Sections R18.5.17a–R18.5.18 supply the quaternionic realizations on these interfaces. Section R18.5.14 constructs resolution of thickness for the nonregular `xy=π^m` charts of arithmetic quotients, so that weighted pairings can be compared (§R18.5.14). Layers used: `§3.14`, `Layer 4`, `§4.2`, `§§4.3–4.4`.
 
 **[SelmerIwasawaCohomology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/SelmerIwasawaCohomology/README.md).** Selmer structures and adjoint dual Selmer groups (§§2A.1–2A.5). The MS Lemma 4.10 detecting-element, prime-selection and dimension calculations over arbitrary totally real F are targets of §R18.4.20 here, with no unramifiedness assumption on l in F. Layers used: `§§2A.1–2A.5`.
 
@@ -799,7 +799,7 @@ Its API:
 
 ### H3.3 Positive unit action on polarizations
 
-**Construction.** For the fine `DP μ_N` object, `η∈U⁺` sends `(A, ι, λ, μ_N)` to `(A, ι, ηλ, μ_N)`. This gives an action compatible with base change and the H1 moduli comparisons. The O-linear `automorphism[η]` gives `(A, ι, η²λ, η⁻¹μ_N, ηα)≅(A, ι, λ, μ_N, α)`, with the last marking on `A∨`. The scalar isomorphisms from `U_N` make `S_N` act trivially, so the action factors through `Δ(N)`. This factorization does not identify geometric point stabilizers with `S_N`.
+**Construction.** For the fine `DP μ_N` object, `η∈U⁺` sends `(A, ι, λ, μ_N)` to `(A, ι, ηλ, μ_N)`. This gives an action compatible with base change and the H1 moduli comparisons. The O-linear automorphism [η] of A gives `(A, ι, η²λ, η⁻¹μ_N, ηα)≅(A, ι, λ, μ_N, α)`, with the last marking on `A∨`. The scalar isomorphisms from `U_N` make `S_N` act trivially, so the action factors through `Δ(N)`. This factorization does not identify geometric point stabilizers with `S_N`.
 
 *Construction.* Scale the ordered identification by a positive unit; evaluation remains an isomorphism. Use Rosati adjointness and the actual dual level convention to verify the three isomorphism diagrams. Use the explicit scalar diagrams to kill `S_N`. Rigidity of a polarized marked object does not exclude an isomorphism between distinct polarization scalings.
 
@@ -808,7 +808,7 @@ Its API:
 - The `U⁺` action on the c-polarized fine moduli functor.
 - The unit 1 acts identically.
 - `ηθ` acts as `η` after `θ`.
-- The `displayed[η]` isomorphism identifies square polarization changes with tame/dual-level scalar changes.
+- The isomorphism induced by [η] identifies the square polarization change `λ ↦ η²λ` with the scalar changes `μ_N ↦ η⁻¹μ_N` and `α ↦ ηα` of the tame and dual-level markings.
 
 **Checks.**
 
@@ -854,7 +854,7 @@ Its API:
 **Checks.**
 
 - For `F=ℚ` the totally positive unit quotient is trivial at every positive M.
-- At `M=0` the arbitrary-subgroup quotient is P itself; `P=⊥` is trivial even for `F=ℚ(√2)`, whereas the full or totally positive unit group of positive unit rank is infinite.
+- The bound concerns square classes, not the groups themselves: for a subgroup P of U the quotient `P/P²` has order at most `2^g`, and it is trivial for `P=1` even when `F=ℚ(√2)`, where `U/U²` has order 4; by contrast `Δ(0)=U⁺/U_0²=U⁺` is infinite as soon as the unit rank is positive, so the theorem needs `M>0`.
 - The quotient uses squares of `U_M`, including roots that are not totally positive; replacing them by squares of `U_M∩U⁺` can change its size.
 
 (Source: [BHW23](#references) Proposition 8.4, p.1766.)
@@ -1949,7 +1949,7 @@ Its API:
 - On the integer line with edge distance `|x−y|, n` acts by `x ↦ x+3n`; every nonzero n has displacement at least 3.
 - The free action `n: x ↦ x+2n` fails: `n=1` has displacement 2.
 - An action with a nonidentity element fixing a vertex fails even if other orbits have long displacement.
-- The rule `move(g,v)=v+3` for every element of C₂ fails the identity axiom and is not a MulAction input, even though every nonidentity displacement exceeds two.
+- The rule `move(g,v)=v+3` for every element of C₂ fails the identity axiom, so it is not a group action at all, even though every nonidentity displacement exceeds two.
 
 (Source: [BC91](#references) Part III §5.3.1, pp.141–142 (Strict displacement greater than two allows standard formal vertex charts to descend and glue))
 
@@ -2035,7 +2035,7 @@ Distinguished level is maximal and its multiplier subgroup is `O_K` units; other
 
 (Source: [BZ22](#references) §5, Definitions 5.3 and 5.6, Proposition 5.4, Lemma 5.10, Proposition 5.11, pp.35–40; Theorem 6.3 proof, pp.44–45 (The polarized local-factor decomposition, its action and the corrected height translation))
 
-*Needs:* [R18.5.8 Auxiliary PEL height lattice](#r1858-auxiliary-pel-height-lattice), [R18.5.5 Drinfeld representability theorem](#r1855-drinfeld-representability-theorem), [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`, `R07.2`; [PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md) `M2`.
+*Needs:* [R18.5.8 Auxiliary PEL height lattice](#r1858-auxiliary-pel-height-lattice), [R18.5.5 Drinfeld representability theorem](#r1855-drinfeld-representability-theorem), [R18.5.6 Height action and Frobenius descent](#r1856-height-action-and-frobenius-descent); [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`, `R07.2`; PELModuli M0–M1 (the auxiliary PEL datum and its moduli carriers).
 
 ### R18.5.12a Auxiliary integral PEL moduli and deformation comparison
 
@@ -2061,7 +2061,7 @@ Its API:
 
 For any two geometric special-fibre objects of §R18.5.12a, prove that there is an order-linear rational quasi-isogeny respecting their homogeneous polarizations up to F×. Prove the unpolarized order-linear quasi-isogeny comparison for these geometric special-fibre objects. For a fixed object A₀, prove that the natural maps End⁰_order(A₀) ⊗ ℚ_p → End⁰_order(A₀[p∞]) and End⁰_order(A₀) ⊗ A_f^p → End_order⊗A_f^p(V^p A₀) are isomorphisms, respecting the Rosati involutions. These are the basic-isogeny endomorphism comparisons of BZ (6.8), restricted to this auxiliary datum. All local factors, including the rigidified factors away from v, participate. Then prove the polarized correction: if an unpolarized quasi-isogeny pulls λ₂ back to λ₁u, solve u = f d* d in the order-linear rational endomorphism algebra, with f ∈ F× and d invertible. Here * is the Rosati involution of λ₁; solutions form the similitude torsor for the actual F-multiplier group of the BZ datum.
 
-Establish its local-to-global principle by identifying the derived group and abelian quotient of this group and its inner form. Transport PELModuli M0.9 and M3.2's simply connected and even-rank unitary Hasse arguments through restriction from F to ℚ, retaining F-valued multipliers: the abelian quotient reduces to the CM norm-one torus and the split multiplier torus, so its obstruction is killed by the cyclic Hasse norm theorem. Prime-to-p levels give the local polarized comparison away from p; the framed special and rigidified factors give it at p; positivity gives it at every real place. This proves the torsor has a rational point. KRZ's rational-multiplier unitary datum is not identified with BZ's group without this comparison. Only existence of a rational quasi-isogeny is needed here; no prime-to-p degree conclusion is imported. (Sources: [BZ22](#references), (6.8)–(6.11), p.42, and Proposition 6.2, p.43; [KRZ20](#references), Proposition 7.1.11 and proof, pp.115–116.)
+Establish its local-to-global principle by identifying the derived group and abelian quotient of this group and its inner form. Transport PELModuli M0.9 and M3.2's simply connected and even-rank unitary Hasse arguments through restriction from F to ℚ, retaining F-valued multipliers: the abelian quotient reduces to the CM norm-one torus and the split multiplier torus, so its obstruction is killed by the cyclic Hasse norm theorem. Prime-to-p levels give the local polarized comparison away from p; the framed special and rigidified factors give it at p; positivity gives it at every real place. This proves the torsor has a rational point. KRZ's rational-multiplier unitary datum is not identified with BZ's group without this comparison. Only existence of a rational quasi-isogeny is needed here; no prime-to-p degree conclusion is imported. (Sources: [BZ22](#references), (6.8)–(6.11), p.42, and Proposition 6.2, p.43; [KRZ20](#references), Proposition 7.1.11 and proof, pp.117–118.)
 
 **Checks.**
 
@@ -2082,7 +2082,7 @@ The target is the completed coarse PEL model of §R18.5.12a. On the special fibr
 
 The proof uses §R18.5.12a for étaleness and §R18.5.12b for surjectivity on geometric points. Prove that two framed objects have the same image exactly when their framings differ by I(ℚ), using rigidity of quasi-isogenies; thus the quotient map is also universally injective. At sufficiently small tame level the effective action is free, and an étale universally injective surjection is an isomorphism. Descend from a normal small tame level by the same finite group on both sides.
 
-Equip the source with Weil descent by postcomposing each ρᵢ with the relative Frobenius Xᵢ → τ*Xᵢ, covering τ on coefficients; prove Θ intertwines it with the target's base-change datum. Establish the cocycle by composition of relative Frobenius and transport through Serre–Tate lifting. This is the raw PEL datum of BZ (6.15); §R18.5.12's corrected (1,1) translation and §R18.1.1a's canonical central twist are subsequent comparisons. (Sources: [BZ22](#references), Proposition 6.2 and (6.15), p.43; [KRZ20](#references), Lemma 7.3.1, p.120, and Proposition 7.3.2, p.121.)
+Equip the source with Weil descent by postcomposing each ρᵢ with the relative Frobenius Xᵢ → τ*Xᵢ, covering τ on coefficients; prove Θ intertwines it with the target's base-change datum. Establish the cocycle by composition of relative Frobenius and transport through Serre–Tate lifting. This is the raw PEL datum of BZ (6.15); §R18.5.12's corrected (1,1) translation and §R18.1.1a's canonical central twist are subsequent comparisons. (Sources: [BZ22](#references), Proposition 6.2 and (6.15), p.43; [KRZ20](#references), Lemma 7.3.1, p.122, and Proposition 7.3.2, p.123.)
 
 Its API:
 
@@ -2116,7 +2116,7 @@ Consume the formal isomorphism of §R18.5.12c, whose deformation, polarized isog
 
 (Source: [BZ22](#references) §6, Proposition 6.2 and Theorem 6.3, pp.43–45; (6.22), p.45; (6.29)–(6.31), p.46; Definition 6.5, Proposition 6.6 and Theorem 6.7 with its proof, pp.47–51 (Source-specific quaternionic inclusion, central-kernel injectivity, complete component coverage, and descent transport))
 
-*Needs:* §R18.5.12c (basic PEL uniformisation); central twist from the BZ datum (§R18.1.1a); [R18.5.12 Local factors of the auxiliary quaternionic PEL space](#r18512-local-factors-of-the-auxiliary-quaternionic-pel-space), [R18.5.7 Arithmetic Drinfeld quotient](#r1857-arithmetic-drinfeld-quotient), [R18.1.1 One-real-split quaternionic datum](#r1811-one-real-split-quaternionic-datum); [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2`; [PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md) `M2`, `M4`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`, `groupCohomology.H1ofAutOnUnitsUnique`, `groupCohomology.exists_div_of_norm_eq_one`.
+*Needs:* §R18.5.12c (basic PEL uniformisation); central twist from the BZ datum (§R18.1.1a); [R18.5.12 Local factors of the auxiliary quaternionic PEL space](#r18512-local-factors-of-the-auxiliary-quaternionic-pel-space), [R18.5.7 Arithmetic Drinfeld quotient](#r1857-arithmetic-drinfeld-quotient), [R18.1.1 One-real-split quaternionic datum](#r1811-one-real-split-quaternionic-datum); [AdicSpacesPartIII](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AdicSpacesPartIII/README.md) `R2`; [PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md) `M4`; Mathlib `DoubleCoset.Quotient`, `DoubleCoset.eq`, `groupCohomology.H1ofAutOnUnitsUnique`, `groupCohomology.exists_div_of_norm_eq_one`.
 
 ### R18.5.14 Kurihara graph with lengths for arithmetic quotients
 
@@ -2145,7 +2145,7 @@ For `K=ℚ_p` the tree is (p+1)-regular and the radius-one ball has p+2 vertices
 
 ### Dependencies
 
-This layer uses earlier layers R18.1; AbelianSchemesAndArithmeticModuli (A1–A4, A4.CR.7.2); ClassFieldTheory (Layer 13); AdelicAlgebraicGroups (Layer 3, Layer 4); AdicSpacesPartIII (F0, R2); FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.1, R07.2); NeronModelsAndSemistableAbelianVarieties (Layer 4); PELModuli (M0–M1, M2, M3.2, M4); ReductiveGroupsPartII (RG2.2); the Tau Ceti roadmaps StableReduction; Mathlib `AddSubgroup`, `DoubleCoset.Quotient`, `DoubleCoset.eq`, `LinearMap`, `MulAction`, `groupCohomology.H1ofAutOnUnitsUnique`, `groupCohomology.exists_div_of_norm_eq_one`.
+This layer uses earlier layers R18.1; AbelianSchemesAndArithmeticModuli (A1–A4, A4.CR.7.2); ClassFieldTheory (Layer 13); AdelicAlgebraicGroups (Layer 3, Layer 4); AdicSpacesPartIII (F0, R2); FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.1, R07.2); NeronModelsAndSemistableAbelianVarieties (Layer 4); PELModuli (M0–M1, M3.2, M4); ReductiveGroupsPartII (RG2.2); the Tau Ceti roadmaps StableReduction; Mathlib `AddSubgroup`, `DoubleCoset.Quotient`, `DoubleCoset.eq`, `LinearMap`, `MulAction`, `groupCohomology.H1ofAutOnUnitsUnique`, `groupCohomology.exists_div_of_norm_eq_one`.
 
 ## Layer R18.2, part 1: Quaternionic PEL comparisons
 
@@ -2333,7 +2333,7 @@ All local factors match BZ (6.31); sufficiently small `U^v` for the final stable
 
 (Source: [BZ22](#references) Theorem 6.7 and Corollary 6.8, pp.49–50.)
 
-*Needs:* central twist from the BZ datum (§R18.1.1a); [R18.5.7 Arithmetic Drinfeld quotient](#r1857-arithmetic-drinfeld-quotient), [R18.2.1 Quaternionic auxiliary PEL instance](#r1821-quaternionic-auxiliary-pel-instance), [R18.1.3 Canonical quaternionic curve and uniformization](#r1813-canonical-quaternionic-curve-and-uniformization), [R18.1.2 Quaternionic reflex field and dimension](#r1812-quaternionic-reflex-field-and-dimension), [R18.5.13 Quaternionic transfer from basic PEL uniformisation](#r18513-quaternionic-transfer-from-basic-pel-uniformisation); [PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md) `M2`.
+*Needs:* central twist from the BZ datum (§R18.1.1a); [R18.5.7 Arithmetic Drinfeld quotient](#r1857-arithmetic-drinfeld-quotient), [R18.2.1 Quaternionic auxiliary PEL instance](#r1821-quaternionic-auxiliary-pel-instance), [R18.1.3 Canonical quaternionic curve and uniformization](#r1813-canonical-quaternionic-curve-and-uniformization), [R18.1.2 Quaternionic reflex field and dimension](#r1812-quaternionic-reflex-field-and-dimension), [R18.5.13 Quaternionic transfer from basic PEL uniformisation](#r18513-quaternionic-transfer-from-basic-pel-uniformisation), [R18.5.12c Basic PEL uniformisation and its Weil datum](#r18512c-basic-pel-uniformisation-and-its-weil-datum).
 
 ### R18.5.16 Rational-field comparison
 
@@ -2390,7 +2390,7 @@ The integral Brandt matrices on free vertex and edge divisor modules, dual to th
 
 (Source: [Zha14](#references) §3.4, pp.208–209, (3.14)–(3.17); [BC91](#references) Part III §5.4, pp.144–146; the general-field comparison is the displayed local stabilizer calculation and AdelicAlgebraicGroups AA.4.4.)
 
-*Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§§0.1–0.3, 3.1`, with the order interface in Exact supplier contracts; [AdelicAlgebraicGroups AA.4.4](../AdelicAlgebraicGroups/README.md#s-arithmetic-double-cosets) and [AA.4.2](../AdelicAlgebraicGroups/README.md#quaternion-norm-one-strong-approximation); [GL2AutomorphicRepresentationsAndTransfer §R17.1.5](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-1-swapped-quaternion-invariants); [NeronModelsAndSemistableAbelianVarieties Layer 4](../NeronModelsAndSemistableAbelianVarieties/README.md#layer-4-picard-schemes-of-semistable-curves-and-the-monodromy-pairing) for the [weighted graph](../NeronModelsAndSemistableAbelianVarieties/README.md#weighted-graph) and [`HeckeFamily`](../NeronModelsAndSemistableAbelianVarieties/README.md#hecke-family); [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization); [R18.5.14 Kurihara graph with lengths for arithmetic quotients](#r18514-kurihara-graph-with-lengths-for-arithmetic-quotients).
+*Needs:* [QuaternionicModularForms](../QuaternionicModularForms/README.md) `§§0.1–0.3, 3.1`, with the order interface in Exact supplier contracts; [AdelicAlgebraicGroups AA.4.4](../AdelicAlgebraicGroups/README.md#s-arithmetic-double-cosets) and [AA.4.2](../AdelicAlgebraicGroups/README.md#quaternion-norm-one-strong-approximation); [GL2AutomorphicRepresentationsAndTransfer §R17.1.5](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-1-swapped-quaternion-invariants); [NeronModelsAndSemistableAbelianVarieties Layer 4](../NeronModelsAndSemistableAbelianVarieties/README.md#layer-4-picard-schemes-of-semistable-curves-and-the-monodromy-pairing), [§4.2](../NeronModelsAndSemistableAbelianVarieties/README.md#42-characters-are-integral-graph-cycles) for the weighted graph and `HeckeFamily`; [R18.3.6 Split Hecke normalization](#r1836-split-hecke-normalization); [R18.5.14 Kurihara graph with lengths for arithmetic quotients](#r18514-kurihara-graph-with-lengths-for-arithmetic-quotients).
 
 ### R18.5.18 Quaternionic character lattice and monodromy
 
@@ -2432,7 +2432,7 @@ where the map to the dual lattice is the thickness-weighted monodromy map. The g
 
 (Source: [BC91](#references) Part III §5.4, pp.144–146; [Zha14](#references) §6.3, pp.228–229, for the inertia-invariant torsion extension; NeronModelsAndSemistableAbelianVarieties §§4.2–4.5 for graph monodromy and the component cokernel.)
 
-*Needs:* [R18.5.15 Čerednik–Drinfeld uniformisation](#r18515-čerednikdrinfeld-uniformisation), [R18.5.17a Definite class-set graph at a split prime](#r18517a-definite-class-set-graph-at-a-split-prime), [R18.5.18 Quaternionic character lattice and monodromy](#r18518-quaternionic-character-lattice-and-monodromy); [NeronModelsAndSemistableAbelianVarieties Layer 4](../NeronModelsAndSemistableAbelianVarieties/README.md#layer-4-picard-schemes-of-semistable-curves-and-the-monodromy-pairing), including its [two-place torsion interface](../NeronModelsAndSemistableAbelianVarieties/README.md#semistable-jacobian-torsion), and `§§5.0a–5.0c`; [GL2AutomorphicRepresentationsAndTransfer §R17.1.5](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-1-swapped-quaternion-invariants); [R18.3.15 Residual quaternionic Hecke ideal](#r18315-residual-quaternionic-hecke-ideal).
+*Needs:* [R18.5.15 Čerednik–Drinfeld uniformisation](#r18515-čerednikdrinfeld-uniformisation), [R18.5.17a Definite class-set graph at a split prime](#r18517a-definite-class-set-graph-at-a-split-prime), [R18.5.18 Quaternionic character lattice and monodromy](#r18518-quaternionic-character-lattice-and-monodromy); [NeronModelsAndSemistableAbelianVarieties Layer 4](../NeronModelsAndSemistableAbelianVarieties/README.md#layer-4-picard-schemes-of-semistable-curves-and-the-monodromy-pairing), including its two-place torsion interface in [§4.14](../NeronModelsAndSemistableAbelianVarieties/README.md#414-semistable-torsion-with-commuting-coefficient-actions) (`TwoPlaceSemistableTorsionDatum`, `SemistableJacobianTorsion`), and `§§5.0a–5.0c`; [GL2AutomorphicRepresentationsAndTransfer §R17.1.5](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-1-swapped-quaternion-invariants); [R18.3.15 Residual quaternionic Hecke ideal](#r18315-residual-quaternionic-hecke-ideal).
 
 ### R18.5.20 Compatible Drinfeld level structures on the uniformized tower
 
@@ -2460,7 +2460,7 @@ At each actual finite moduli level take a fine tame cover on which the universal
 
 Exact CDN20 tower convention `Ǧ_n` retained; U sufficiently small.
 
-*Proof route.* Construct the generic Drinfeld covers from the universal formal module and matching local congruence levels. Use the basic Rapoport–Zink uniformisation of the auxiliary PEL family with p-level structures on the rigid generic fibre (PELModuli M2 contract), transported through the open-and-closed component comparison; it identifies the v-part of the quaternionic p-divisible group with the pullback of the universal special formal module, so the level-n covers on both sides are the same torsors of level structures. The maximal-level theorem alone does not give the tower. Apply CDN Proposition 5.4 and verify the commuting transitions and away-level actions.
+*Proof route.* Construct the generic Drinfeld covers from the universal formal module and matching local congruence levels. Use the identification of §R18.5.20: through the maximal-level isomorphism of §R18.5.15 (built on §§R18.5.12c and R18.5.13 and BC Part III Théorème (5.2)), the v-part of the quaternionic p-divisible group H of §R18.2.3 is the pullback of the universal special formal module, so the level-n covers on both sides are the torsors of level structures of one and the same p-divisible group, obtained by applying the finite torsion-level functors of §R18.5.4 to it. No uniformisation of the auxiliary PEL family at p-level is used, and the good-prime theory of PELModuli M2 contributes nothing at the division prime. The maximal-level theorem alone does not give the tower: the compatibility of the trivialisations in n is the content of §R18.5.20. Apply CDN Proposition 5.4 and verify the commuting transitions and away-level actions.
 
 **Checks.**
 
@@ -2470,7 +2470,7 @@ Exact CDN20 tower convention `Ǧ_n` retained; U sufficiently small.
 
 (Source: [CDN20](#references) §5.2.1–5.2.2, pp.40–43, Proposition 5.4; [BC91](#references) Part III §5.5, Théorème (5.5), p.146.)
 
-*Needs:* central twist from the BZ datum (§R18.1.1a); [R18.5.5 Drinfeld representability theorem](#r1855-drinfeld-representability-theorem), [R18.5.15 Čerednik–Drinfeld uniformisation](#r18515-čerednikdrinfeld-uniformisation), [R18.2.3 Quaternionic p-divisible sheaf](#r1823-quaternionic-p-divisible-sheaf), [R18.5.20 Compatible Drinfeld level structures on the uniformized tower](#r18520-compatible-drinfeld-level-structures-on-the-uniformized-tower); [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`; [PELModuli](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/PELModuli/README.md) `M2`.
+*Needs:* central twist from the BZ datum (§R18.1.1a); [R18.5.5 Drinfeld representability theorem](#r1855-drinfeld-representability-theorem), [R18.5.15 Čerednik–Drinfeld uniformisation](#r18515-čerednikdrinfeld-uniformisation), [R18.2.3 Quaternionic p-divisible sheaf](#r1823-quaternionic-p-divisible-sheaf), [R18.5.20 Compatible Drinfeld level structures on the uniformized tower](#r18520-compatible-drinfeld-level-structures-on-the-uniformized-tower), [R18.5.4 Special formal quaternionic moduli](#r1854-special-formal-quaternionic-moduli); [FiniteFlatGroupsAndIntegralPadicHodgeTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md) `R07.1`.
 
 ### Examples
 
@@ -2478,7 +2478,7 @@ For B over `ℚ` of discriminant pq with p a division prime, the special fibre o
 
 ### Dependencies
 
-This layer uses earlier layers R18.5, R18.2, R18.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.1); ModularCurvesPartII (§§3.1, 3.14, 8.1); NeronModelsAndSemistableAbelianVarieties (Layer 4); PELModuli (M2); WeightsInEtaleCohomology (R34.3); the Tau Ceti roadmaps StableReduction.
+This layer uses earlier layers R18.5, R18.2, R18.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.1); ModularCurvesPartII (§§3.1, 3.14, 8.1); NeronModelsAndSemistableAbelianVarieties (Layer 4); WeightsInEtaleCohomology (R34.3); the Tau Ceti roadmaps StableReduction.
 
 ## Layer R18.2, part 2: Integral quaternionic models and Hodge comparisons
 
@@ -2961,8 +2961,7 @@ Its API:
 - `T_v` evaluates to `tr ρ̄(Frob_v)`.
 - `S_v` evaluates to `q_v⁻¹ det ρ̄(Frob_v)`.
 - Surjective `O→k` makes the evaluation kernel maximal.
-- For an acting quotient `𝕋^S/I` with `I⊆m_ρ̄`, the abstract evaluation factors uniquely through that quotient.
-- ActingFactor is defined under the explicit relation-kernel inclusion, with uniqueness and commutation with polynomial evaluation
+- For an acting quotient `𝕋^S/I` with `I⊆m_ρ̄`, the abstract evaluation factors uniquely through that quotient; the factorisation is constructed only under this explicit relation-kernel inclusion, and it commutes with polynomial evaluation.
 
 **Checks.**
 
@@ -3005,8 +3004,7 @@ v is finite and `D_v` is division; `ν_D` is normalized to be surjective.
 
 Its API:
 
-- For any commutative ring R, unit r and integers n,m, `r^(n+m) = r^n r^m`; the parity-value function is multiplicative in the valuation.
-
+- `τ_r` is a character of `D_v×`: `ν_D` is additive, so `τ_r(gh)=τ_r(g)τ_r(h)`, and a central uniformizer π has `τ_r(π)=r²`.
 - `ν_D` is additive and its kernel is `O_D×`.
 - The quotient by scalar and compact elements is `ℤ/2ℤ`.
 - `τ_r(g)=r^{ν_D(g)}` and `τ_r(Π)=r`.
@@ -3036,7 +3034,9 @@ KW noncompact variant allowed only at the specified dyadic division factors; wei
 
 Its API:
 
-- Restriction to the compact action; central compatibility; changeSign with identity/composition; reduction identified through the identity coefficient map
+- Each extension restricts to the given compact coefficient action on `U_v⁰F_v×` and is compatible with the central character.
+- Changing the sign at a place of `Σ₀` is an involution on the set of extensions; sign changes at distinct places commute, and changing no sign is the identity.
+- The two extensions at a place have equal reductions to the residue field of characteristic two, with no change of coefficients.
 
 **Checks.**
 
@@ -3085,7 +3085,7 @@ Complexification is via a fixed embedding `K→C`; p-adic algebraic norm factors
 
 - Changing `ψ` without the algebraic norm correction fails the central-character comparison.
 
-(Source: [BR10](#references) §§9.2–9.3, pp.18–20, Remark 9.6; §13.1, p.32 (The real discrete-series and quaternionic type have matching parameters and the elliptic character sign); [Tay06](#references) Lemma 1.3 and its proof, pp.741–742 (Supplies the p-adic to complex conversion and the dual weight in the function realization); [Car86a](#references) §0.10, p.412 (Specifies the quaternionic symmetric-power type including its norm twist))
+(Source: [BR10](#references) §§9.2–9.3, pp.18–20, Remark 9.6; §13.1, p.32 (The real discrete-series and quaternionic type have matching parameters and the elliptic character sign); [Tay06](#references) Lemma 1.3 and its proof, pp.740–742 (Supplies the p-adic to complex conversion and the dual weight in the function realization); [Car86a](#references) §0.10, pp.411–412 (Specifies the quaternionic symmetric-power type including its norm twist))
 
 *Needs:* GL2AutomorphicRepresentationsAndTransfer §§R17.1.1–R17.3.9; [R18.3.2 Quaternionic integral weights](#r1832-quaternionic-integral-weights); [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); Tau Ceti `TauCeti.SU2.symPower`, `TauCeti.SU2.finrank_symPower`, `TauCeti.SU2.isIrreducible_symPower`, `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`.
 
@@ -3108,7 +3108,7 @@ The general inner-form assertion concerns a global division algebra B. For globa
 - An integral congruence between cusp and norm branches does not imply an integral direct-sum decomposition.
 - The globally split algebra is not an instance of the division-spectrum assertion; its noncuspidal Eisenstein representations are not silently called cuspidal.
 
-(Source: [BR10](#references) Theorem 18.1 and Proposition 18.2, pp.44–45 (Proved global discrete transfer and its cuspidal/residual distinction replace reliance on the conjectural converse in the older source); [JL70](#references) Theorem 14.4, p.238; Theorem 16.1 and proof discussion, pp.252–254 (Classical quaternionic formulation; the converse proof is only sketched there, so this source alone is not used to close that direction); [Tay06](#references) Lemma 1.3, pp.741–742 (The definite all-finite-split case realizes exactly the weight space quotient by norm forms))
+(Source: [BR10](#references) Theorem 18.1 and Proposition 18.2, pp.44–45 (Proved global discrete transfer and its cuspidal/residual distinction replace reliance on the conjectural converse in the older source); [JL70](#references) Theorem 14.4, p.238; Theorem 16.1 and proof discussion, pp.252–254 (Classical quaternionic formulation; the converse proof is only sketched there, so this source alone is not used to close that direction); [Tay06](#references) Lemma 1.3, pp.740–741 (The definite all-finite-split case realizes exactly the weight space quotient by norm forms))
 
 *Needs:* GL2AutomorphicRepresentationsAndTransfer §§R17.1.1–R17.3.9; [R18.3.19 Finite quaternion local transfer needed by the definite comparison](#r18319-finite-quaternion-local-transfer-needed-by-the-definite-comparison), [R18.3.20 Real weight and dual convention in quaternion transfer](#r18320-real-weight-and-dual-convention-in-quaternion-transfer), [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms), [R18.3.7 Norm-factor forms and Eisenstein support](#r1837-norm-factor-forms-and-eisenstein-support); [GL2AutomorphicRepresentationsAndTransfer, §§R16.2.13, R16.4.5, R16.6.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/GL2AutomorphicRepresentationsAndTransfer/README.md#r1663-hilbert-cohomological-algebraic-weights); [AutomorphicSpectralTheory](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/AutomorphicSpectralTheory/README.md) `§4.5`, `§4.7`, `Layer 6`.
 
@@ -3154,7 +3154,7 @@ Its API:
 - For `C₃` over `Z_2` averaging makes every residual invariant liftable. For the cyclic coordinate-shift action on `ℤ³`, both integral and mod-two invariants are diagonal, and every residual diagonal has an integral invariant lift.
 - For the direct sum of the trivial and sign `Z_2` characters the liftable subspace has dimension one while residual invariants have dimension two. The same representation on `ℤ²` has liftable image `{(a,0):a∈F_2}` under coordinatewise reduction.
 
-(Source: [KW09](#references) Lemma 7.4(1) and proof, pp.64–65 (The comparison is between images of integral reduction, not all residual forms); [Tay06](#references) Corollary 1.2, p.739 (Prime-to-p isotropy is the stronger situation where arbitrary base change is available))
+(Source: [KW09](#references) Lemma 7.4(1) and proof, pp.64–65 (The comparison is between images of integral reduction, not all residual forms); [Tay06](#references) Corollary 1.2, p.738 (Prime-to-p isotropy is the stronger situation where arbitrary base change is available))
 
 *Needs:* [R18.3.3 Fixed-central-character algebraic forms](#r1833-fixed-central-character-algebraic-forms); Mathlib `Representation.invariants`, `Module.Free`, `Module.Finite`.
 
@@ -3332,7 +3332,7 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 - At `l=2` a rank-one sign monodromy becomes trivial modulo two; characteristic-zero H⁰ vanishing alone does not supply the residual criterion.
 - A good-place eigensystem `(T_v,S_v)=(1,2)` over `F₇` has adjoint `(4,4)`. These maximal ideals differ, so vanishing of the dual group at m cannot replace its vanishing at m*.
 
-(Source: [CDN20](#references) §5.2.1, p.41; [NT16](#references) Proposition 3.7(3), p.32, for inverse-double-coset adjoints.)
+(Source: [CDN20](#references) §5.2.1, p.41; [NT16](#references) Proposition 3.7(3), pp.31–32, for inverse-double-coset adjoints.)
 
 *Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [ArithmeticLocallySymmetricSpaces, ALS.5a.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md#als5a4-hecke-adjoints-inverse-double-cosets-and-restrictioncorestriction); [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
 
@@ -3735,7 +3735,7 @@ The local deformation models and global ramification set satisfy MS §4.2, with 
 
 - The auxiliary q has repeated eigenvalues; `Q_n` has distinct eigenvalues and excludes q.
 - A framed ring with determinant `θ` cannot map by forgetting frames to an unframed ring with determinant `ψ`.
-- A totally real F ramified at l remains in scope; the selection uses finite-level Taylor–Wiles prime datum (§R18.4.20), finite-level Taylor–Wiles prime datum (§R18.4.20) and finite-level Taylor–Wiles prime datum (§R18.4.20) here rather than the unramified-field supplier.
+- A totally real F ramified at l remains in scope; the selection uses the three theorems of §R18.4.20 (the detecting Frobenius class, the prime selection and the dimension count) here rather than the unramified-field supplier.
 
 (Source: [MS19](#references) §4.2 and Lemma 4.10, pp.22–24 (Taylor–Wiles primes, global framed presentations and matching numerical dimensions are available under these image hypotheses))
 
@@ -4327,7 +4327,7 @@ The targets distinguish the following mathematical hypotheses and domains.
 - In the ordinary case of Taylor's Lemma 1.2 (p.11) the polarization module is made principal through the norm from the class group of N. The argument there uses the wide Hilbert class field of M, so it proves surjectivity onto the wide class group only; an ordered isomorphism j needs the narrow class. §H6.5 therefore adds the hypothesis (C6), which holds when N/M is ramified at some finite place. Taylor leaves Lemma 1.3 to the reader; §H6.5 (O3) supplies its route.
 - The algebraic-space construction of §H2.2 is refined to a scheme by scheme representability of the DP model (§H2.2b); every global scheme use of the DP model includes this refinement.
 - The pointwise bridge extension and filtered comparison of §§R18.2.16–R18.2.18 require verified finite-local crystalline lattice descent, including the bridge tensor. The τ-part and determinant comparisons of §§R18.2.17–R18.2.18 additionally require `F_v/ℚ_p` unramified. Yuan–Zhang take τ-quotients of the Hodge pieces of H″ (p.575), which are not exact there, and H″ is not a strict `O_v`-module, so the saturated construction of §R18.2.14 does not apply. A relative filtered tensor comparison for such groups would be needed.
-- The separated quotient of the formal Drinfeld curve by a discrete cocompact group, its effective finite quotients and an ample line bundle on it (§§R18.5.7, R18.5.11) are constructed here from AdicSpacesPartIII §§F0.7–F0.8, R2.2–R2.6. Basic PEL uniformisation for the auxiliary datum is constructed in §R18.5.13 using the PELModuli moduli objects.
+- The separated quotient of the formal Drinfeld curve by a discrete cocompact group, its effective finite quotients and an ample line bundle on it (§§R18.5.7, R18.5.11) are constructed here from AdicSpacesPartIII §§F0.7–F0.8, R2.2–R2.6. Basic PEL uniformisation for the auxiliary datum is constructed in §§R18.5.12a–R18.5.12c on the PELModuli M0–M1 carriers and consumed by §R18.5.13.
 
 The local targets retain these hypotheses and construct the quotients, uniformisation and patching inputs specified above.
 
@@ -4364,7 +4364,7 @@ Page numbers are printed pages unless an entry says otherwise. Each source is ci
 - **[Dim05]** Mladen Dimitrov, [Compactifications arithmétiques des variétés de Hilbert et formes modulaires de Hilbert pour Γ₁(c,𝔫)](https://gitlabpages.univ-lille.fr/dimitrov/articles/Pad15-Di.pdf). Author-hosted typeset text, printed pp.525–551.
 - **[EGS15]** Matthew Emerton, Toby Gee and David Savitt, [Lattices in the cohomology of Shimura curves](https://arxiv.org/pdf/1305.1594v3). arXiv:1305.1594v3, 19 November 2014; internal pages.
 - **[JL70]** Hervé Jacquet and Robert P. Langlands, [Automorphic Forms on GL(2)](https://publications.ias.edu/sites/default/files/automorphic-forms-on-gl2-rpl_1.pdf). Lecture Notes in Mathematics 114 (1970); author-hosted typed reproduction.
-- **[KRZ20]** Stephen Kudla, Michael Rapoport and Thomas Zink, [On the p-adic uniformization of unitary Shimura curves](https://arxiv.org/pdf/2007.05211v1). arXiv:2007.05211v1 (10 July 2020).
+- **[KRZ20]** Stephen Kudla, Michael Rapoport and Thomas Zink, [On the p-adic uniformization of unitary Shimura curves](https://arxiv.org/pdf/2007.05211v2). arXiv:2007.05211v2 (16 May 2023).
 - **[KL05]** Mark Kisin and King Fai Lai, [Overconvergent Hilbert modular forms](http://people.math.harvard.edu/~kisin/dvifiles/hmf.dvi). American Journal of Mathematics 127 (2005), 735–783; locators use the pages of the author's version (TeX output dated 4 February 2004).
 - **[Kis08]** Mark Kisin, [Potentially semi-stable deformation rings](https://www.ams.org/journals/jams/2008-21-02/S0894-0347-07-00576-0/S0894-0347-07-00576-0.pdf). Journal of the American Mathematical Society 21 (2008), 513–546; published PDF.
 - **[KW09]** Chandrashekhar Khare and Jean-Pierre Wintenberger, [Serre’s modularity conjecture (II)](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf). Author copy proofs.pdf, 98 pages, dated 30 May 2009; published Inventiones 178 (2009), 505–586.
