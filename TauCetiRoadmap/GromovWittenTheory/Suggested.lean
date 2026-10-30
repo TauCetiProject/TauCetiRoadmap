@@ -1,52 +1,55 @@
-import Mathlib.Algebra.MonoidAlgebra.Basic
-import Mathlib.Basic.Real.Basic
+import Mathlib
 
 /-!
-This file suggests forms for the Gromov–Witten development; the README is definitive and this file is not exhaustive.
+# Gromov–Witten theory of closed symplectic manifolds: target signatures
 
-MorseNovikov N1 owns the generic finite-below Novikov completion. This sketch does not duplicate the generic completion. It records the concrete symplectic curve-class weights and their finite-support grading interface; the README specifies how the GW operation consumes N1.
+**This file is not the roadmap.** The definitive document is `README.md`. This file states
+the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`,
+and names the ones that are not statable at the pins together with the carrier each lacks.
+
+The headline theorems are:
+
+1. **The Gromov–Witten operations and the Kontsevich–Manin properties** (Layers 2–6): for a
+   closed symplectic manifold `(X, ω)` with a tame almost complex structure, a class
+   `A ∈ H₂(X; ℤ)` and `2g − 2 + n > 0`, the linear maps
+   `I_(g,n,A) : H^*(X; ℚ)^(⊗n) → H^*(M̄_(g,n); ℚ)` defined by the weighted pairing against the
+   stable-map virtual functional, independent of the tame structure along compact paths, and
+   satisfying effectivity, covariance, grading, fundamental class, divisor, mapping to a point,
+   splitting and genus reduction.
+2. **The genus-one degree-zero normalization** (§3.4): `I_(1,1,0)(1) = χ(X) · 1`.
+3. **The unital cohomological field theory and the quantum product** (§7.1–§7.2): the
+   Novikov-completed classes form a unital cohomological field theory over
+   `Nov(ℚ, H₂(X; ℤ), ω)`, and the quantum product `⋆` is associative, graded commutative
+   and unital with the cup product as its degree-zero term.
+4. **Descendants** (§8.4–§8.6): the string, dilaton and divisor equations and the genus-zero
+   topological recursion relation for ancestors.
+
+None of these is statable at the pins:
+
+- Theorems 1–4 need the moduli space of stable pseudoholomorphic maps with its retained-arrow
+  groupoid and its rational dual-Čech virtual functional. These are the targets of
+  AnalyticStableMaps (Layers 1–9) and ImplicitAtlases (Layer 4), roadmaps still in pull
+  requests; the pinned Tau Ceti has no stable map, no nodal curve and no implicit atlas, and
+  its `SmoothAlmostComplexStructure` has only the constant, negated and product constructors,
+  so no Riemann surface is a domain at the pin.
+- Theorems 1–4 need the coarse moduli space of stable pointed curves `M̄_(g,n)` with the
+  weighted rational pairing of its retained-arrow groupoid, the targets of ComplexCurveModuli
+  D5–D8 and Orbifolds O5, which are not in the pinned Tau Ceti.
+- Theorem 3 needs the period-controlled Novikov ring `Nov(ℚ, H, N)` of MorseNovikov N1 for an
+  abelian group `H` with a homomorphism `N : H → ℝ`; the pinned Mathlib has `LaurentSeries`
+  and `HahnSeries` over ordered groups, not this completion of a group ring by a real-valued
+  period.
+- Theorems 1, 2 and 4 need the rational Chern classes of a complex vector bundle and the
+  first Chern class of a topological line bundle on a compact Hausdorff space, the targets of
+  CharacteristicClasses C3, which are not in the pinned Tau Ceti.
+
+The Chern grading `deg q^A = 2c₁(A)` and the finite-support grading of the uncompleted group
+ring are README targets of Layer 0 with their Checks; they are not stated here as stand-ins
+for the headlines above.
 -/
 
-namespace TauCeti.GromovWitten
+namespace TauCetiRoadmap.GromovWittenTheory
 
-/-- The two homomorphisms on integral curve classes used by the GW coefficient
-specialization: symplectic area and the first Chern number. The intended carrier
-is `H₂(X; ℤ)`; generic Novikov completion belongs to MorseNovikov N1. -/
-structure CurveClassWeights (H : Type*) [AddCommGroup H] where
-  area : H →+ ℝ
-  firstChern : H →+ ℤ
+-- No headline theorem is statable at the pins; see the module docstring and README.md.
 
-namespace CurveClassWeights
-
-variable {H : Type*} [AddCommGroup H]
-
-/-- The grading homomorphism assigned to the monomial of curve class `A`. -/
-def quantumDegreeHom (w : CurveClassWeights H) : H →+ ℤ where
-  toFun A := 2 * w.firstChern A
-  map_zero' := by simp
-  map_add' := by
-    intro A B
-    rw [map_add, mul_add]
-
-/-- The integer cohomological degree of the curve-class monomial. -/
-def quantumDegree (w : CurveClassWeights H) (A : H) : ℤ :=
-  w.quantumDegreeHom A
-
-@[simp] theorem quantumDegree_add (w : CurveClassWeights H) (A B : H) :
-    w.quantumDegree (A + B) = w.quantumDegree A + w.quantumDegree B := by
-  exact map_add w.quantumDegreeHom A B
-
-/-- A finite group-ring element has only finitely many monomial degrees. This
-records the finite-support grading before passing to the N1 completion. -/
-def finiteSupportDegrees {R : Type*} [Semiring R] [DecidableEq H]
-    (w : CurveClassWeights H) (f : AddMonoidAlgebra R H) : Finset ℤ :=
-  f.coeff.support.image w.quantumDegreeHom
-
-@[simp] theorem mem_finiteSupportDegrees {R : Type*} [Semiring R] [DecidableEq H]
-    (w : CurveClassWeights H) (f : AddMonoidAlgebra R H) (d : ℤ) :
-    d ∈ w.finiteSupportDegrees f ↔ ∃ A, A ∈ f.coeff.support ∧ w.quantumDegree A = d := by
-  simp [finiteSupportDegrees, quantumDegree]
-
-end CurveClassWeights
-
-end TauCeti.GromovWitten
+end TauCetiRoadmap.GromovWittenTheory
