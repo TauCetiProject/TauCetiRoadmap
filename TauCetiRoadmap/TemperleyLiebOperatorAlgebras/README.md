@@ -47,6 +47,8 @@ This roadmap owns:
   idempotents of TemperleyLieb Layers 6–7 (Layer 1);
 - the positive-real spin/Powers-state comparison, its sided weighted slices, and its
   trace-GNS cyclic-subspace and normal-representation comparisons (Layer 1.5);
+- finite Potts/FK partition functions, their planar medial-loop and six-vertex comparisons,
+  explicit transfer closures and free/noncrossing wired boundaries (Layer 1.6);
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
   and the positivity classification at negative loop parameters (Layer 2);
 - the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
@@ -551,8 +553,227 @@ coherence. The general signed/countable Hecke models remain with
 TypeAHeckeAlgebras H3; this target is the ordinary TL spin/Powers-state
 comparison. `PowersTensorTargets.lean` gives suggested finite-matrix and
 native trace interfaces. The source passage is the embedded Jones article
-in Knot Theory physical p91; no Potts/ice partition-function identification
-is inferred from the local TL relations alone.
+in Knot Theory physical p91; the following finite partition-function
+comparison supplies its statistical-mechanics assertion.
+
+### 1.6 Finite Potts, planar loops and the ice-model comparison
+
+Specify the finite partition-function equivalence from the embedded Jones
+article in Knot Theory physical p91. This comparison is algebraic and needs
+neither an infinite-volume Gibbs state nor the Powers factor. Use the native
+TL spin representation and the ordinary diagram category, and build the
+following partition-specific graph/ribbon adapters here. Consume
+[GraphConnectivityAndFlows1.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f6b76780f3c3e16e87b17e1b32b3f50caa6f8185/TauCetiRoadmap/GraphConnectivityAndFlows/README.md)
+for general edge-labelled graph paths, component counts and their
+simple-graph bridge; those general objects retain that owner.
+
+**Potts and Fortuin–Kasteleyn sums.** Use Mathlib's `Graph V E`, retaining
+loops and distinct parallel edges. Write `V_G=G.vertexSet` and
+`E_G=G.edgeSet` for the actual subtypes, and assume these are finite; the
+ambient types need not be finite. For `A⊆E_G`, let `G_A` be the spanning
+restriction, retaining every vertex, and let `k(A)` count its connected
+components, including isolated vertices. Use `Graph.restrict`,
+`Graph.toSimpleGraph` and `SimpleGraph.ConnectedComponent` for this count;
+compare it with the supplier's graph paths and component API. Conversion
+to a simple graph is only for connectivity: edge products, contraction and
+ribbon data retain the original edge identities. Build the partition-specific finite
+component equivalences and counting lemmas, restriction functoriality,
+isomorphism invariance, disjoint-union and isolated-vertex formulas.
+
+For a commutative ring `R`, `Q∈R` and edge weights `v:E_G→R`, define
+
+`Z_FK(G;Q,v)=Σ_(A⊆E_G) Q^(k(A)) Π_(e∈A) v_e`.
+
+For `q∈ℕ`, sum over all colorings `σ:V_G→Fin q` and define
+
+`Z_Potts(G;q,v)=Σ_σ Π_(e=uv) (1+v_e [σ(u)=σ(v)])`.
+
+The factor is independent of the choice/order of endpoints, including a
+loop. Prove `Z_Potts(G;q,v)=Z_FK(G;(q:R),v)` by expanding edge subsets and
+identifying colorings constant on A-components with functions from those
+components to `Fin q`. Include `q=0`: the empty graph contributes1 and a
+nonempty vertex set contributes0. Give the multivariate polynomial form,
+base change/evaluation and graph-isomorphism transport. Prove the empty
+edge-set value `Q^|V_G|`, disjoint-union multiplicativity and
+nonloop deletion–contraction
+`Z_G=Z_(G\e)+v_e Z_(G/e)`; loops instead give
+`Z_G=(1+v_e)Z_(G\e)`, and bridges give
+`Z_G=(Q+v_e)Z_(G/e)`. Construct contraction by deleting its selected edge
+and applying `Graph.map` to the vertex quotient identifying its endpoints;
+retain all resulting loops and distinct parallel edges. Supply the
+component and weight transport that proves these identities, rather than
+using simple-graph contraction. Include relabelling and iterated quotient
+compatibility. For real inverse temperature β and couplings J_e, set
+`v_e=exp(βJ_e)−1` and compare with the usual Boltzmann spin sum. For
+`q≥1` this has a positive normalizer; random-cluster probability weights
+require `Q>0,v_e≥0`. Prove finite normalization and the spin/cluster
+coupling when `q≥1,v_e≥0`: conditionally on σ, equal-colored edges are
+independently occupied with probability `v_e/(1+v_e)` and unequal-colored
+edges are absent; conditionally on A, independently color its components
+uniformly in `Fin q`. Use finite `PMF`s and prove both marginals. No
+probability interpretation is asserted for arbitrary complex weights.
+
+**Ribbon boundary cycles and planar loops.** Equip G with orientable ribbon
+data: two darts per edge, the fixed-point-free edge involution, cyclic orders
+at vertices and explicit isolated vertices. Reuse native
+`TauCeti.BipartiteRibbonGraph` from
+`TauCeti.Combinatorics.RibbonGraph.Basic` on the incidence subdivision:
+black vertices are the nonisolated original vertices, white vertices are
+original edges, and its edges are original darts. A white vertex has
+degree2, including the two distinct darts of an original loop; its rotation
+is the edge involution. Build this adapter and its inverse, preserving
+incidences and cyclic orders. Reuse its `facePerm`, `Face`, connected
+components and isomorphism APIs; include isolated vertices separately,
+since its surjective endpoint maps exclude them. Build relabelling,
+deletion, nonloop contraction and restriction to spanning A through this
+adapter, including empty dart sets. Let `ell(A)` count boundary circles of the
+vertex-disc/edge-band neighbourhood of `G_A`; an isolated vertex contributes
+one circle. Construct these circles from boundary permutations and prove the
+regular-neighbourhood comparison and the Euler formula, in integers,
+
+`ell(A)=2k(A)+|A|−|V_G|−2g(A)`,
+
+where g(A) is the sum of genera of its connected neighbourhoods. For each
+nontrivial connected component consume native
+`BipartiteRibbonGraph.IsConnected.two_sub_two_mul_genus` from
+`TauCeti.Combinatorics.RibbonGraph.Genus`, and assign isolated vertices
+genus0. Build the componentwise sum and its regular-neighbourhood
+comparison. Native `BipartiteRibbonGraph.genus` on a disconnected graph
+is a truncated Euler quotient, so do not substitute it for this sum. A planar input
+has genus zero on every spanning restriction; prove this from a genus-zero
+ribbon certificate. An abstract planar underlying graph with an arbitrary
+rotation system is insufficient.
+
+Construct the medial network with a vertex for each original edge and the
+two noncrossing resolutions labelled **absent** and **occupied** by the
+vertex-disc/edge-band construction. Include crossing-free circle components,
+so an edgeless graph still has its vertex circles. Prove that choosing
+occupied resolutions at exactly A gives the boundary circles above.
+For a unit δ and `Q=δ²`, the planar identity is
+
+`Z_FK(G;δ²,v)=δ^|V_G| Σ_A δ^(ell(A)) Π_(e∈A)(v_e/δ)`.
+
+The sum on the right evaluates **every** closed circle as δ. It uses the
+unnormalized TL closure, not the Jones normalization assigning a single
+circle1. Prove it term by term from Euler's formula and compare the
+resulting TL diagram scalar, including all prefactors. Also give the
+orientable-ribbon scalar identity with exponent `ell(A)+2g(A)` in place
+of `ell(A)`, making the genus correction explicit. This identity does not
+identify a torus partition function with an ordinary planar closure.
+The division by δ requires a unit; the Potts/FK polynomial identity above
+continues to include Q=0 independently.
+
+**Six-vertex weights and the native spin model.** Over ℂ choose `r∈ℂˣ`,
+`δ=r+r⁻¹≠0` and native quantum parameter `q_native=−r`. Use `00,01,10,11`
+in the physical tensor order. For a straight two-input/two-output chart
+let I be the through resolution and E the cap/cup resolution. The local
+operator `L(a,b)=aI+bE` has matrix
+
+```
+[[a, 0,       0,      0],
+ [0, a+b/r,   b,      0],
+ [0, b,       a+b*r,  0],
+ [0, 0,       0,      a]].
+```
+
+Prove this by the native `spinRep` generator formula, and identify the six
+allowed arrow configurations with the two-in/two-out ice rule, fixing
+which boundary legs are inputs. Define the ice partition function as the
+finite sum over internal Bool labels of the product of these vertex
+entries and the declared boundary tensors. In a chart where absent=I
+and occupied=E use `(a,b)=(1,v_e/δ)`; where those resolutions interchange
+use `(a,b)=(v_e/δ,1)`. Keep these homogeneous pairs, so a zero bond weight
+does not require division by v_e. Chart rotations use the actual cup/cap
+bending maps, not a raw permutation of matrix indices.
+
+Pin those maps by the native cup matrix and cap matrix, indexed by0,1:
+
+`C=[[0,1],[r,0]]`, `A=[[0,r⁻¹],[1,0]]=C⁻¹`.
+
+Prove both snake identities and `Σ_ab A_ab C_ab=δ`. For clockwise bending
+use the entry convention
+`Rot(T)_(ab,cd)=Σ_uv C_au T_(bv,uc) A_vd`; prove
+`Rot(I)=E`, `Rot(E)=I`, its iterates on these TL tensors and the resulting chart-change laws.
+On arbitrary four-leg tensors the fourth rotation is conjugation by
+`W_r⊗W_r`, not necessarily the identity; prove that it is the identity
+on the TL image using the native spin-weight centralizer lemma.
+The native cup/cap are algebraic duals. For real r>0, rescale them by
+`r^(−1/2)` and `r^(1/2)` respectively to make them Hilbert adjoints, and
+prove that snakes, E, the loop and closure weights are unchanged.
+Construct the planar diagram-to-spin tensor evaluation from these maps;
+prove independence of Morse slicing, height perturbations, inserted snakes
+and compatible chart changes, and compatibility with composition, tensor
+product and linear combinations. A checked finite slicing presentation
+records the ordered local vertices, cups, caps and identity strands, with
+its boundary matching and circle data, and must reconstruct the medial
+network. Supply such presentations for finite plane inputs and rectangular
+lattices with both horizontal and vertical bonds, including their two
+vertex types and zero-width/empty cases. This supplies an actual transfer
+network rather than a shared TL relation alone.
+
+Prove equality of the spin contraction and the TL loop sum, and hence
+`Z_Potts=Z_FK=δ^|V_G| Z_ice` at the compatible parameters. For open strips
+give the boundary matrix entries and gluing sums, with explicit cup/cap
+boundary vectors; compose the transfer matrices in the declared stacking
+order. For an m-strand endomorphism X closed in the plane, derive
+
+`Z_closed=Tr(W_r^(⊗m) spinRep_(−r)(X))`,
+`W_r=diag(r⁻¹,r)`.
+
+This is the native unnormalized Markov trace. If the closure is already
+contracted using its cups and caps, do not insert W a second time. Compare
+both descriptions, initial scalar levels, added strands and generator
+closures. For real r>0 compare `W_r=δD_(r²)` and the positive-spin density
+from the preceding section, giving `Z_closed=δ^m φ_m(spinRep X)`.
+The finite graph comparison itself uses no analytic-GNS prerequisite.
+Nonnegative local matrix weights hold for real r>0 and a,b≥0. Positive
+Potts weights for integer q<4 may require complex r in this presentation;
+no positive ice probability measure follows merely from the partition
+identity. A periodic cylindrical strip needs its specified seam closure;
+ordinary matrix trace or a torus identification is a different boundary
+model and does not replace the displayed planar closure.
+
+**Boundary conditions and checks.** Free boundary means all vertex colors
+are summed. For a noncrossing partition ξ of designated boundary vertices,
+wire each block by equality constraints, still summing each block's color
+freely; distinct blocks may take the same color. Realize the wiring by a
+specified noncrossing exterior forest and its planar quotient certificate.
+Prove `Z_wired=Z_FK(G/ξ;Q,v)` with exponent `k_ξ(A)` and planar prefactor
+`δ^|V_G/ξ|`, preserving the original edge weights and any quotient loops.
+Construct the corresponding medial caps and ice boundary tensors and prove
+their gluing/quotient compatibility. For a nonempty single wired block and
+q≥1, fixing its color instead divides the freely summed wired partition
+by q over ℂ; prove this by color symmetry. Do not apply that factor to
+several independently prescribed blocks.
+
+Check an edgeless v-vertex graph (`Q^v`), one nonloop edge
+(`Q²+Qv_e`), one loop (`Q(1+v_e)`), parallel edges and a rectangular
+plaquette. Wiring the one-edge endpoints gives the one-loop formula.
+Verify each through spin, FK, loop and ice contractions with its boundary
+normalization. Include r=1 (`δ=2,Q=4,W=I`) and reciprocal-r transport.
+
+*Needs:* Mathlib finite sets/sums and `PMF`, `Graph.restrict`, `Graph.map`,
+`Graph.toSimpleGraph`, `SimpleGraph.ConnectedComponent`, finite permutation
+orbits, matrices/Kronecker products and the native TL spin/Markov trace;
+TemperleyLieb Layers1–4's planar diagram, linear category, presentation
+and closure comparison. The general graph API retains its
+GraphConnectivityAndFlows1.1 owner, and native bipartite ribbon graphs
+retain their BelyiMaps Layer2 owner. The partition-specific component,
+incidence-subdivision, Euler, medial, boundary and tensor-evaluation
+adapters above belong to this section.
+Follow the native set-based graph design and the component direction of
+[Mathlib PR37861](https://github.com/leanprover-community/mathlib4/pull/37861)
+and endpoint API of
+[PR38325](https://github.com/leanprover-community/mathlib4/pull/38325),
+with the [multigraph design discussion](https://leanprover.zulipchat.com/#narrow/stream/252551-graph%20theory/topic/multigraph%20definition).
+Build required missing pieces in Tau Ceti and adopt Mathlib's API as it
+lands. `PottsIceTargets.lean` prototypes the finite sums, Euler-to-loop
+scalar identity, native six-vertex entries, duality contractions and
+weighted transfer closure; the full construction above remains definitive.
+Historical sources are Temperley–Lieb,
+[*Relations between the ‘percolation’ and ‘colouring’ problem…* (1971)](https://doi.org/10.1098/rspa.1971.0067),
+and Baxter–Kelland–Wu,
+[*Equivalence of the Potts model or Whitney polynomial with an ice-type model* (1976)](https://doi.org/10.1088/0305-4470/9/3/009).
 
 ### Examples
 
