@@ -1,4 +1,4 @@
-# Roadmap: Heegaard Floer homology, analytically
+# Roadmap: analytic Heegaard Floer homology
 
 **Summary.** Build integral Morse and Morse–Bott homology, the Fredholm and
 Cauchy–Riemann analytic foundations, holomorphic-curve compactness and gluing,
@@ -319,7 +319,12 @@ maps: six octagons, twelve quadrilaterals, eight hexagons, 48 vertices and
 including iterated flags, and compare them with the A,D,F identities;
 the f-vector alone is not the compactification theorem.
 
-**M.5 Continuation and ordinary Cerf families.** Construct endpoint-fixed function/metric paths and
+**M.5 Continuation and ordinary Cerf families.** For the continuation chain map,
+digon homotopy and triangle composition use Hutchings, §4.1–4.2,
+Lemmas 4.1–4.3, pp. 20–22; the constant-family identity is §4,
+Exercise 1, p. 22. These are the ordinary continuation inputs, not
+a source for the relative Cerf and higher-parameter extensions below.
+Construct endpoint-fixed function/metric paths and
 admissible parameter vector fields with positive parameter component.
 Specify endpoint critical-index shifts and the universal transversality
 condition; slice-wise Morse–Smale is not the parameterized condition.
@@ -916,7 +921,14 @@ by collapse for degree reasons, with no additive extension ambiguity.
 Consume DGFloer1.2's multiplicative cohomological Serre sequence to prove
 `H*(SU(3);ℤ)=Λ_ℤ(x₃,x₅)`, including the generator and product comparisons.
 
-**M.9 Products and duality.** Construct the signed product complex and
+**M.9 Products and duality.** Hutchings, §3, Exercises 2, 4 and 5,
+p. 18, gives the Morse-comparison route to Künneth and oriented
+Poincaré–Lefschetz duality. The integral Tor and arbitrary local-system
+comparisons here additionally use AlgebraicTopology Stage 5 item 1
+and Stage 6 items 1–4; the nonorientable statement retains the ambient
+orientation local system. Those exercises alone do not supply these
+coefficient extensions or their geometric chain maps. Construct the signed
+product complex and
 its actual chain comparison for product Morse data. Prove Künneth with
 Tor over ℤ and the local-coefficient variants. Identify opposite-function
 orientation lines and the dual complex with the correct dimension shifts,
@@ -1985,7 +1997,7 @@ with boundary versions from Oh and Floer–Hofer–Salamon:
       then makes φ=a holomorphic. This proof uses no full Micallef–White
       normal form, root-of-unity exclusion or simple-branch isolation.
    Construct the closed-source simple/somewhere-injective comparison in
-   AnalyticStableMaps M0.1 from this local floor; F2.6b is its sphere application.
+   AnalyticStableMaps §0.5 from this local floor; F2.6b is its sphere application.
    Construct Oh's boundary-injectivity for totally real boundary separately.
 3. **Compactness** (MS Chapter4, including Theorem4.1.2, Lemmas4.3.1/4.3.4/4.5.1 and Exercises4.5.2/4.5.5). Construct interior and boundary mean-value/ε-regularity estimates, monotonicity, and finite-Dirichlet-energy puncture removal on almost complex manifolds of real dimension2n, under compact-image and uniform geometry hypotheses. Supply a smooth symplectic form ω taming J on a neighborhood of the fixed compact target-image set K. At boundary punctures use a native `SmoothEmbedding` i:L→M with closed image, and the native `TauCeti.IsMaximalTotallyReal` condition pointwise on `i.tangentRange`. Compare it with dim_ℝL=n and TL⊕JTL=TM|L through the native complement/finrank API. Require all boundary images in a specified compact K_L⊂L, with uniform smooth geometry on fixed neighborhoods; compact L is the case K_L=L. Include Lagrangian boundary as a specialization; the maximal totally real branch does not require ω|TL=0.
 
@@ -2089,7 +2101,7 @@ spherical homology class and ω(A)>0. Reuse native almost-complex structures,
 its C-infinity topology and comparisons to sufficiently high W(k,p), p>2,
 with the derivative budget from F0.
 
-Consume [AnalyticStableMaps M0.1](../AnalyticStableMaps/README.md)'s
+Consume [AnalyticStableMaps §0.5](../AnalyticStableMaps/README.md)'s
 arbitrary-genus nonconstant closed-curve factorization, constructed from this
 roadmap's earlier F2.2a–c local vanishing/coincident-germ and F2.3 removal floors.
 The generic Γ₀/closure, local multiplicity and holomorphic quotient-chart
@@ -2635,6 +2647,10 @@ interpretation as manifold invariants.
 
 **F4.A. Geometric pointed diagrams and the represented manifold.** Before
 putting a count on incidence data, construct geometric cut-system diagrams.
+Use Ozsváth–Szabó, arXiv:math/0101206v4, §2.1, pp. 5–7,
+for the geometric diagram and Morse description; Proposition 7.1, p. 51,
+supplies pointed-move connectivity. The based markings and comparison
+maps specified here remain part of the construction.
 For a connected closed oriented smooth surface Σ of genus g, take two actual
 handlebodies with boundary identifications, complete systems of compression
 discs and their boundary curves, and a basepoint z outside the curves. Curves
@@ -2680,9 +2696,15 @@ its specified basepoint-moving map, not an identity imposed by quotienting.
 nonvanishing-vector-field model and s_z(x) by modifying the adapted Morse
 field along the trajectories selected by x. Construct c₁ of its oriented
 orthogonal two-plane field and the affine H²(Y;ℤ) action. With the arc
-orientation in F4.A prove s_z(x)−s_z(y)=PD(ε(x,y)); check the sign under
-reversal and relabelling. Prove the basepoint-change law separately with
-its actual traced one-cycle. Construct the topological Spinᶜ torsor and all
+orientation in F4.A prove s_z(y)−s_z(x)=PD(ε(x,y))
+(Ozsváth–Szabó, arXiv:math/0101206v4, Definition 2.11, p. 11,
+and Lemma 2.19, pp. 16–17). Reversal negates both sides.
+For a basepoint arc from z₁ to z₂ disjoint from the β curves, crossing
+α_i with intersection number +1 and all other α curves with number 0,
+prove s_(z₂)(x)−s_(z₁)(x)=α_i*, with α_i* the Poincaré dual
+of the corresponding positive-crossing cycle (the same lemma).
+Retain the actual traced cycle in the general basepoint-change comparison.
+Construct the topological Spinᶜ torsor and all
 its structures, even if a particular diagram has no generator in a chosen
 structure; never define Spinᶜ(Y) as the image of its generators.
 
@@ -2693,17 +2715,23 @@ naturality for each pointed move. For singly pointed diagrams identify this
 normalized periodic-domain group with H₂(Y;ℤ); give the corresponding exact
 sequence when unnormalized domains include the whole surface. Prove by
 relative Euler obstruction on the capped surface that
-⟨c₁(s_z(x)),H(P)⟩=e(P)+2n_x(P).
+⟨c₁(s_z(x)),H(P)⟩=e(P)+2n_x(P)
+(Lipshitz, arXiv:math/0502404v2, Lemma 4.11, p. 984).
 Compare F1's clutching/spectral-flow index for an actual Whitney class φ
 with the geometric domain formula
-μ(φ)=e(D(φ))+n_x(D(φ))+n_y(D(φ)). Use the actual Euler data extracted in
+μ(φ)=e(D(φ))+n_x(D(φ))+n_y(D(φ))
+(Lipshitz, arXiv:math/0502404v2, Corollary 4.10, p. 983,
+with the index argument corrected by arXiv:1301.4919v1).
+Use the actual Euler data extracted in
 F4.A. Establish its integrality on these geometric classes and its
 concatenation, reversal and periodic-translation laws. Native
 `maslovIndex` is a rational additive expression with an Euler-data argument;
 integrality and this analytic comparison are additional theorems, not
 properties of an arbitrary incidence record. For a general periodic
 Whitney class the identity is
-μ(P)−2n_z(P)=⟨c₁(s_z(x)),H(P−n_z(P)Σ)⟩.
+μ(P)−2n_z(P)=⟨c₁(s_z(x)),H(P−n_z(P)Σ)⟩
+(Ozsváth–Szabó, arXiv:math/0101206v4, Theorem 4.9, p. 37,
+with its periodic-class normalization).
 Prove the relative-homotopy/domain exact sequence and the sphere-class
 ambiguity in the genera where it applies. Verify the genus-zero/one/two
 variants or their specified stabilization comparisons before using the
@@ -2723,12 +2751,49 @@ the transported Spinᶜ and relative grading data. Construct these laws before
 using a graded invariant; the first ungraded 𝔽₂ complex remains an earlier
 milestone. This construction precedes the absolute rational lift in item5.
 
+The comparison API includes:
+
+- Under a geometric generator identification, transport ε and the affine
+  difference in the same order y minus x; concatenation adds those differences.
+- Reversing an allowed basepoint crossing changes its Spinᶜ increment from
+  α_i* to −α_i*; a path constant at the basepoint has increment zero.
+- A Whitney class from x to y in one Spinᶜ summand retains the grading
+  difference gr(x)−gr(y)=μ(φ)−2n_z(φ); the Spinᶜ difference convention
+  does not reverse this grading convention.
+
+**Checks.**
+
+- In the genus-one diagram on ℝ²/ℤ² with α=(1,0), β=(1,3),
+  x=(0,0) and y=(1/3,0), take the α displacement (1/3,0) and returning
+  β displacement (−1/3,−1). Their sum is (0,−1). In
+  H₁(Y)=ℤ²/⟨(1,0),(1,3)⟩=ℤ/3, write b=[(0,1)] and choose PD(b)=1.
+  Then ε(x,y)=2 and s_z(y)−s_z(x)=2, whereas s_z(x)−s_z(y)=1;
+  the reversed pair gives 1=1, and a self-pair gives 0=0.
+- For the genus-one S¹×S² presentation, take a positive basepoint arc
+  across α and away from β, with α* the generator of H²(Y;ℤ).
+  Identifying α* with 1 gives increment +1, its reverse −1, and the
+  constant path 0. This distinguishes basepoint motion from reversing
+  a generator pair; the endpoint basepoints need not be in the same region.
+- In one Spinᶜ summand an index-one disk with n_z=0 has
+  gr(x)−gr(y)=1−0=1, so its differential lowers degree by one.
+  In the higher-genus sphere-class range, μ=2 and n_z=1 give 2−2=0;
+  multiplication by U changes gr([x,i]) by 2(i−1)−2i=−2.
+  These tests do not impose an absolute origin or a connecting disk
+  between the distinct Spinᶜ summands of the order-three example.
+
+*Needs:* F4.A's geometric domain and arc comparison; F1.4–F1.5's
+Maslov and Cauchy–Riemann index comparisons; the capped periodic surfaces,
+vector-field Spinᶜ action and relative-homotopy comparison constructed in
+F4.B. These inputs precede the differential and its grading laws.
+
 **F4.C. Admissible presentations and globally connecting moves.** Define weak
 admissibility for a fixed s using nonzero normalized periodic P with
 ⟨c₁(s),H(P)⟩=0: P has positive and negative coefficients. Define strong
 admissibility for fixed s by requiring that every nonzero normalized P with
 ⟨c₁(s),H(P)⟩=2r≥0 has a coefficient greater than r. Keep these distinct
-from native `WeaklyAdmissible`, which tests all normalized periodic domains.
+from native `WeaklyAdmissible`, which tests all normalized periodic domains
+(Ozsváth–Szabó, arXiv:math/0101206v4, Definition 4.10 and Remark 4.11,
+pp. 37–38, for the fixed-Spinᶜ conditions).
 Give the precise implication from that stronger incidence condition and
 the comparison on the zero-pairing sublattice; do not identify the
 predicates by their names.
@@ -2757,6 +2822,11 @@ the compatible triangle and compact-parameter versions consumed by F4.3a;
 prove their topological winding part without using later Floer counts.
 Then item3 proves the positive-domain finiteness and analytic energy
 bounds on these data. This is the global presentation/connectivity input
+(Ozsváth–Szabó, arXiv:math/0101206v4, Lemmas 5.2 and 5.4,
+pp. 44–46, Lemmas 5.6 and 5.8, p. 47, and Proposition 7.2, p. 52,
+for the single-structure existence and move theorems).
+The finite-set, family and marking comparisons above are additional
+construction targets with their stated uniform estimates. Use this input
 for promoting the specified move equivalences of item4 to HF̂(Y,s).
 
 **F4.M. Balanced multipointed geometry shared with reconciliation1.**
@@ -3045,7 +3115,10 @@ asserted additive under breaking. Prove Hausdorffness and the sequential-to-topo
 passage on the declared countable presentations, rather than assuming the
 quotient is a manifold.
 
-Build the symmetric cylindrical-end compactness theorem in the BEHWZ regime.
+Build the symmetric cylindrical-end compactness theorem in the BEHWZ regime
+(Bourgeois–Eliashberg–Hofer–Wysocki–Zehnder, arXiv:math/0308183v3,
+Theorems 10.1–10.3, p. 849; the sequential formulations are
+Theorems 10.4–10.6, p. 850).
 The end datum on a closed oriented (2m-1)-manifold V is a stable-Hamiltonian
 pair `(lambda,omega_V)`: omega_V is closed of rank2m-2,
 `lambda wedge omega_V^(m-1)` is positive, and its normalized characteristic
@@ -3073,6 +3146,9 @@ bounds, interior bubbles, no residual neck energy, finite level/graph bounds,
 removal and convergence to a stable building. For splitting/stretching a
 closed target along a cooriented hypersurface prove the corresponding
 symmetry/adjusted hypotheses and the one-parameter compactness statement.
+Theorems 10.1 and 10.2 concern closed cylindrical cross-sections;
+Theorem 10.3 concerns splitting a closed target with its adjusted symmetric
+neck. Their energy bound is the total-energy bound just specified.
 These closed-end results do not themselves supply Lagrangian boundary
 compactness. Construct the **additional** boundary monotonicity and rescaling,
 boundary removal, strip/chord asymptotics and corner/flag matching for the
@@ -3094,6 +3170,68 @@ exactly the asserted finite set of broken/boundary strata. Higher or covered
 strata remain part of compactness and are excluded from these counts only by
 the proved dimension/positivity argument, not by deleting them from the
 compactified carrier.
+
+For the closed cylindrical sector, use the following APIs with the
+source's stability and energy conventions (BEHWZ §5.3, pp. 820–821;
+§7.1–7.3, pp. 831–838). A constant connected component with genus h
+and n special points is stable precisely when 2h−2+n>0. A cylindrical
+level must contain a component other than an unmarked trivial cylinder;
+trivial cylinders can occur alongside other components. The compact-core
+and bordered stability conditions retain their own domain data.
+
+- For stability, prove invariance under labelled domain isomorphisms and
+  the allowed level translations. Retain both flags of each node and
+  each original mark when counting special points on a constant component.
+- For the energies, prove nonnegativity and invariance under domain
+  reparametrization and cylindrical translation. The omega-energy of
+  a trivial cylinder is zero, whereas its end energy is the positive
+  action of its orbit, counted with covering multiplicity. Retain
+  omega-energy additivity without inferring additivity of the end-energy
+  supremum.
+- For the topology, construct convergence on the stable building classes
+  with their labels and matching data, independently of representatives.
+  Prove uniqueness of the limiting equivalence class and the metric
+  comparison in the closed cylindrical sector (BEHWZ Appendix B,
+  Proposition B.4); the corresponding boundary/corner comparison is an
+  additional F5.2 target with F5.0's domain and asymptotic data.
+
+**Checks.**
+
+- A constant sphere has E_omega=E_lambda=0. With two special points,
+  2h−2+n=0 and it is unstable; with three distinct special points this
+  number is 1; when these are three individually labelled marks,
+  its marked-domain automorphism group is trivial.
+  For a constant torus, no marks give 0 and one mark gives 1; energy
+  zero is therefore not itself a stability criterion.
+- For an orbit γ of period T>0 with λ(γdot)=1, the cylinder
+  u(s,t)=(Ts,γ(Tt)), with t in ℝ/ℤ, has E_omega=0 and
+  E_lambda=T²∫_ℝ φ(Ts) ds=T. Its translates by a=2 and a=−3
+  represent the same level class and have the same energy T. As a
+  standalone unmarked level it fails the nontrivial-component stability
+  condition; it remains a valid energy and level-equivalence test.
+- The k-fold cylinder for k≥1 has E_omega=0 and
+  E_lambda=(kT)²∫_ℝ φ(kTs) ds=kT. At T=1, k=1,2,3 give end
+  energies 1,2,3 despite the common omega-energy 0. Thus an omega-energy
+  bound alone cannot bound action when asymptotics vary; this does not
+  assert failure of compactness with fixed asymptotic data.
+- For a constant rational component with a self-node and one ordinary
+  mark, the node has two distinct flags, so n=3 and 2h−2+n=1.
+  Counting the node only once would give 0 and wrongly declare this
+  component unstable. Conversely, erasing the pairing leaves a smooth
+  three-marked sphere, not the same nodal-domain class; convergence
+  must retain that pairing as well as the constant target image.
+- Two three-marked constant spheres at different V-points of distance 1
+  have the same stable domain and energies (0,0), but their projected
+  maps have uniform distance 1. They represent distinct building classes;
+  domain convergence and energy convergence alone cannot identify their
+  limits. Level translations change the a-coordinate, not these V-points.
+
+*Needs:* F5.0's labelled-domain, stabilization and plumbing interfaces;
+F1's weighted-end estimates and zero-mode matching; F2's local energy,
+monotonicity and removal results; F4.C's admissibility for the exclusions
+in the HF count; F5.1's corrected indices, degree and boundary conditions.
+The topology and stability use domain data before the regular-count
+exclusions, and the boundary extension requires its own stated estimates.
 
 **F5.3. Gluing, counts and the symmetric-product comparison.** For each regular
 broken configuration in those compactifications construct the weighted
