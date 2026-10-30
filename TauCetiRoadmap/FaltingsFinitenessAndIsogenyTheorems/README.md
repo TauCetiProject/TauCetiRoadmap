@@ -29,12 +29,12 @@ The end theorems are Satz 1 (R28.1.11), the corrected Satz 2 (R28.3.4), Satz 3 a
 
 | Layer | Title | Headline targets |
 | --- | --- | --- |
-| R28.1 | Semiabelian models, modular heights and finiteness of bounded height | `hodgeLine_picard`, `SemiabelianModel.unique`, `CorrespondenceStack`, `modular_hodge_commensurable`, `modularHeight`, `HermitianMetric.HasLogSingularities`, `northcott_logSingular`, `hermiteMinkowski`, `finite_ppav_bounded_height`, `Polarization.descend`, `principalReduction_uniform` |
-| R28.2 | Heights under isogeny and the determinant identity | `height_isogeny`, `height_isogeny_padicVal_bounds`, `inertia_trivial_quotient`, `card_invDiff_level`, `ladicChar_eq_cyclotomic_pow_mul_finite`, `sum_local_dims_eq` |
-| R28.3 | The erratum and the stationarity of heights | `closure_tower_lDivisible`, `toric_intersection_lDivisible`, `height_stationary`, `PolarizationReduction`, `exists_isomorphic_quotients` |
-| R28.4 | Semisimplicity and the Tate conjecture | `quatMatrix`, `QuaternionIsotropic.subspace`, `exists_idempotent_image`, `tate_semisimple`, `tate_end_iso`, `tate_hom_iso`, `isogenous_iff_localFactors`, `finite_of_tateModules_iso` |
-| R28.5 | Finiteness of isogeny classes and the Shafarevich conjecture | `finite_weilPolynomials`, `frobeniusTestSet`, `finite_isogenyClasses`, `raynaud_determinant`, `finite_stableLattices`, `shafarevich`, `zarhinTrick`, `shafarevich_unpolarized`, `rationalTorelli`, `finite_curves_goodReduction` |
-| R28.6 | Elliptic curves and the integral commutant | `ellipticBridge`, `elliptic_semisimple`, `elliptic_tate_hom_iso`, `elliptic_isogenous_iff_ap`, `finite_ellipticIsogenyClass`, `hom_isogenous_cyclic`, `commutant_almostAll` |
+| R28.1 | Semiabelian models, modular heights and finiteness of bounded height | the stable-Picard Hodge comparison, uniqueness of semiabelian models, the correspondence stack, uniform commensurability of modular and Hodge lines, the modular height, `HermitianMetric.HasLogSingularities`, Northcott finiteness for logarithmically singular metrics, the fixed-degree Hermite–Minkowski statement, bounded-height finiteness, polarization descent, uniform principal reduction |
+| R28.2 | Heights under isogeny and the determinant identity | the isogeny height formula, the isogeny valuation bounds, trivial inertia on the Tate quotient, the differential count at a divisible-group level, cyclotomic decomposition of the character, the local-dimension identity |
+| R28.3 | The erratum and the stationarity of heights | the shifted closure tower, divisibility of the shifted toric intersection, stationarity of heights, a polarization reduction, existence of infinitely many isomorphic quotients |
+| R28.4 | Semisimplicity and the Tate conjecture | the quaternion matrix, the two-graph subspace, realization of stable subspaces by idempotents, Tate semisimplicity, the integral Tate endomorphism comparison, the integral Tate Hom comparison, the isogeny criterion by local factors, finiteness with prescribed Tate modules |
+| R28.5 | Finiteness of isogeny classes and the Shafarevich conjecture | finiteness of Weil polynomials, the finite Frobenius test set, `finite_isogenyClasses`, Raynaud’s determinant identity, `finite_stableLattices`, the polarized Shafarevich theorem, Zarhin’s trick, `shafarevich_unpolarized`, rational Torelli, `finite_curves_goodReduction` |
+| R28.6 | Elliptic curves and the integral commutant | the elliptic-to-abelian comparison, `elliptic_semisimple`, `elliptic_tate_hom_iso`, `elliptic_isogenous_iff_ap`, `finite_ellipticIsogenyClass`, the cyclic Hom theorem, integral commutant generation at almost all primes |
 
 ## Scope and ownership
 
@@ -146,7 +146,7 @@ This roadmap does not own, and cites:
   The exact statements consumed are listed under *Exact supplier contracts*.
 
 This roadmap gives no effective global height bound in Satz 6: that bound comes from a finiteness
-argument. Auxiliary constants such as `auxBound` have explicit values in worked Checks. It does not prove the
+argument. Auxiliary constants such as the auxiliary bound have explicit values in worked Checks. It does not prove the
 Mordell conjecture by the Vojta–Bombieri or Lawrence–Venkatesh methods, nor Siegel's theorem by
 Diophantine approximation; it does not develop Arakelov intersection theory beyond the degree of a
 metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties over function fields.
@@ -228,11 +228,12 @@ metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties ove
   (a polarization when one is fixed).
 - **Lean.** Declarations live in `TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems`; names below are
   relative to it. `Suggested.lean` declares `hasGoodReductionAt`,
-  `finite_isogenyClasses`, `finite_directFactors`, `shafarevich_unpolarized`,
+  `finite_isogenyClasses`, `isStableLattice`, `finite_stableLattices`,
+  `finite_directFactors`, `shafarevich_unpolarized`,
   `curveHasGoodReductionAt`, `finite_curves_goodReduction`,
   `ellipticRationalRepresentation`, `elliptic_semisimple`, `elliptic_tate_hom_iso`,
   `elliptic_isogenous_iff_rationalTateModule`, `elliptic_isogenous_iff_ap` and
-  `finite_ellipticIsogenyClass`. These state finiteness for abelian varieties and curves,
+  `finite_ellipticIsogenyClass`. These state stable-lattice finiteness, finiteness for abelian varieties and curves,
   and the elliptic Tate and isogeny theorems against the pinned carriers. Good reduction
   uses smooth proper local models with geometrically connected fibres, with a
   commutative group structure for abelian varieties. The rational elliptic representation
@@ -294,7 +295,7 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   on a finite module) and `TauCeti.finiteLocallyFreeCommAffineGroupSchemeProperty` (finite locally free
   commutative group schemes with Cartier duality).
 - `LinearMap.BilinForm.prod` in `TauCeti.LinearAlgebra.BilinearForm.Prod` gives the
-  block-diagonal sum of two bilinear forms. `sumForm` evaluates it on the two coordinatewise
+  block-diagonal sum of two bilinear forms. the orthogonal-sum form evaluates it on the two coordinatewise
   sums over `Fin 4`; those coordinatewise forms have no dedicated pinned carrier.
 
 ### From TauCetiRoadmap roadmaps
@@ -313,7 +314,7 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   its Galois action, reduction types and `a_v`. Used in Layer R28.6.
 - *JacobianChallenge, Layers D and E*: Picard representability and the principal polarization
   of a pointed curve's Jacobian by the theta divisor, independent of translation of theta.
-  R28.5.14 obtains `jacobianCanonicalPolarization` on the unpointed Jacobian of
+  R28.5.14 obtains the field specialization of the canonical Jacobian polarization on the unpointed Jacobian of
   SchemeAndStackFoundations §3.6 by specializing JacobianChallengePartII §1.4 to `S = Spec(k)`.
 
 ### From the roadmaps this one builds on
@@ -328,7 +329,10 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   Section 3.5 supplies `lineBundleNorm`, `lineBundleNorm_pullback` and
   `lineBundleNorm_baseChange` for R28.1.3, with §3.2 `scheme_riemann_hurwitz`.
   Section 3.6 supplies `jacobian` and `jacobian_dim` without a rational-point hypothesis;
-  §1.1 supplies descent of sheaf morphisms for R28.5.14.
+  §1.1 supplies descent of sheaf morphisms for R28.5.14. Sections 1.18–1.20 supply
+  effective descent, finite-presentation and proper-stack carriers, and the groupoid
+  of lifts with a specified generic identification for R28.1.4; §§0.20–0.21 supply
+  finite normalization over excellent bases.
 - *AlgebraicModuliForArithmeticGeometry*: §5.4 `DMSchematicClosure.stack`, `DMNormalization.stack`,
   `DMNormalization.finite`.
 - *JacobianChallengePartII*: §1.2 the relative Jacobian `J(X/S) = Pic⁰_{X/S}`, which over a field
@@ -365,8 +369,8 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   fixed separable closure, with bounded degree and unramified at finite places outside a
   finite set. R28.1.9 retains only the fixed-degree and ambient-closure adapters.
 - *ArithmeticGaloisRepresentations*: §1.3 “The Mackey decomposition”, using pinned
-  `Rep.mackeyDecomposition` and `ContinuousRep.finite_doubleCoset_mackey`, and
-  `ContinuousRep.det_ind`. Induction is from an open subgroup of a compact group on a finite-rank
+  `Rep.mackeyDecomposition` for the abstract isomorphism, and the prose targets
+  “The Mackey decomposition” and “The determinant of an induced representation”. Induction is from an open subgroup of a compact group on a finite-rank
   free module; the Mackey restriction subgroup is closed. §1.6
   stable lattices; §1.8 Brauer–Nesbitt (`ContinuousRep.iso_of_charpoly_eq`) in its trace form:
   semisimple representations of dimension `d` with equal traces are isomorphic when `d!` is
@@ -398,9 +402,11 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   at each place.
 - *HeightsAndUnits*: §1.1 `instNorthcottProjectivizationMulHeight` and
   `instNorthcottProjectivizationLogHeight`; *DiophantineApproximationAndTranscendence*: §§0.2–0.3
-  `absoluteProjectiveTupleHeight`, `mulHeight_algebraMap` and `finite_setOf_absMulHeight₁_le`.
+  `absoluteProjectiveTupleHeight`, `mulHeight_pow_finrank` and `finite_setOf_absMulHeight₁_le`.
   For a finite extension `L/K` of number fields and a finite tuple `x` over `K`,
-  `mulHeight_algebraMap` supplies `H_rel,L(x) = H_rel,K(x)^[L:K]`, with coordinates mapped to `L`;
+  `mulHeight_pow_finrank` in §0.2 states `H_rel,K(x)^[L:K] = H_rel,L(x)`
+  for a tuple indexed by any finite type; reversing this equality gives the orientation used here,
+  with coordinates mapped along the number-field algebra map `K → L`;
   the zero tuple has height `1`. Applying this to `(x,1)` gives the scalar comparison.
   The absolute tuple height is `H_abs(x) = H_rel,K(x)^(1/[K:ℚ])` and is invariant under
   extension, since `[L:ℚ] = [L:K][K:ℚ]` cancels the relative-height power
@@ -417,7 +423,7 @@ The Weierstrass Hom modules are `TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny
   abelian varieties over `𝔽_q`).
 - *FiniteFlatGroupsAndIntegralPadicHodgeTheory*: R07.1.3 `finitePart`; R07.1.8 `BarsottiTate.tateModule`;
   R07.1.14 `BarsottiTate.dim`; R07.1.16 `BarsottiTate.discr_level`; R07.1.17
-  `invariantDifferentialsAndAbsoluteDifferent` (`ω_{G[p^v]} ≅ (R/p^vR)^d`; `v_R(𝔇(𝒢)) = length_R ω_𝒢`); R07.1.19 `BarsottiTate.hodgeTate` (`hodgeTate_det`); R07.1.20 `schematicClosure_flat`;
+  `invariantDifferentialsAndAbsoluteDifferent` (`ω_{G[p^v]} ≅ (R/p^vR)^d`; `v_R(𝔇(𝒢)) = length_R ω_𝒢`); R07.1.19 `BarsottiTate.hodgeTate` (the determinant consequence); R07.1.20 `schematicClosure_flat`;
   R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` (quotients by finite flat subgroups);
   R07.1.21 `BarsottiTate.exists_of_tateModule_summand` (Tate's Proposition 12); R07.1.33
   `raynaudDeterminantTameDifferent` (Raynaud's Théorème 4.1.1, over a strictly henselian base with `e ≤ p − 1`).
@@ -457,7 +463,7 @@ ArakelovGeometryAndAbelianHeights §2.0 `GroupScheme.IsSemiAbelianFamily` and
 a proper toroidal stack over all of `ℤ`, a normal projective minimal coarse scheme over `ℤ`,
 and a positive Hodge power pulled back from an ample line on that scheme. The integral
 base and all primes are retained; a space over `ℤ[1/n]` alone does not provide this contract.
-This roadmap's `CorrespondenceStack` adds a stable-curve family and a saturated
+This roadmap's the correspondence stack adds a stable-curve family and a saturated
 Hodge subline over an integral proper correspondence, rather than a second Siegel compactification.
 
 ## How to read the build
@@ -472,8 +478,6 @@ and Satz 4 by Zarhin's argument and the quaternion construction, with Korollare 
 and Satz 6, removes the polarization, and deduces the finiteness of curves with good reduction outside
 `S`, the input to Parshin's implication. R28.6 exports the results to elliptic curves and proves the
 integral commutant statement at almost all primes. Subsections are in dependency order within each layer; some Checks and applications point forward.
-
-<a id="r28-1"></a>
 
 ## Layer R28.1: Semiabelian models, modular heights and finiteness of bounded height
 
@@ -494,7 +498,7 @@ For a semiabelian scheme `p : A → S` of relative dimension `g`
 ArakelovGeometryAndAbelianHeights §2.0 `GroupScheme.IsSemiAbelianFamily`), with
 zero section `s`, use the Hodge line `s^*(Ω^g_{A/S})` supplied by
 SchemeAndStackFoundations §3.8 and AlgebraicVectorBundles Layers L0B–L0C.
-Prove `hodgeLine_picard` (Faltings 1983, §2, Bemerkung c), p. 351): if `S` is integral Noetherian and
+Prove the stable-Picard Hodge comparison (Faltings 1983, §2, Bemerkung c), p. 351): if `S` is integral Noetherian and
 `A = Pic^τ(C/S) = Pic^0(C/S)` for a stable curve `q : C → S` of genus `g ≥ 2`, then
 `ω_{A/S} ≅ Λ^g q_*(ω_{C/S})`, where `ω_{C/S}` is the relative dualising sheaf, compatibly with
 every base change between integral Noetherian bases. This target is an adapter: the Lie comparison
@@ -555,10 +559,10 @@ Faltings' Lemma 1 (§2, p. 350) is the extension theorem for homomorphisms of se
 a normal base, which this roadmap takes from ArakelovGeometryAndAbelianHeights §2.0
 `GroupScheme.semiAbelianHom_extend`: for a Noetherian normal `S`, a dense open `U` and
 semiabelian `G, H` over `S`, restriction `Hom_S(G, H) → Hom_U(G_U, H_U)` is bijective. Prove from it
-`SemiabelianModel.unique`: for a Dedekind scheme `S = Spec(R)` with fraction field `K` and an abelian
+uniqueness of semiabelian models: for a Dedekind scheme `S = Spec(R)` with fraction field `K` and an abelian
 variety `A/K`, two semiabelian models of `A` over `S` are isomorphic by a unique isomorphism inducing
 the identity on `A`, and every `K`-homomorphism `A_1 → A_2` of abelian varieties with semiabelian
-models extends uniquely to a homomorphism of the models (`SemiabelianModel.extendHom`).
+models extends uniquely to a homomorphism of the models (extension of model homomorphisms).
 
 *Proof route.* Spread a generic-fibre homomorphism to a dense open `U ⊆ S`: the models are locally
 of finite presentation, and quasi-compactness of the abelian generic fibre permits a finite cover
@@ -586,19 +590,19 @@ Fix `g ≥ 1`. Let `𝔄_g` be the Deligne–Mumford stack over `ℤ` of princip
 of relative dimension `g`, with universal abelian scheme `A` and coarse space `A_g`; fix `r > 0` with
 `ω_{A/𝔄_g}^{⊗r}` descending to a very ample line bundle on `A_g ⊗ ℚ`, let `Ā_g/ℚ ⊆ ℙ^N_ℚ` be the
 resulting projective minimal (Baily–Borel) compactification, `Ā_g/ℤ` its closure in `ℙ^N_ℤ` and
-`M = O(1)`. Construct `CorrespondenceStack g` (Faltings 1983, §2, Lemma 2, p. 352): a proper
+`M = O(1)`. Construct the correspondence stack for dimension `g` (Faltings 1983, §2, Lemma 2, p. 352): a proper
 integral Deligne–Mumford stack `J` over `Spec(ℤ)`, an open substack `U ⊆ J` and a proper morphism `ψ : U → 𝔄_g`
 extending to `ψ̄ : J ⊗ ℚ → Ā_g/ℚ`, together with
 
-- (a) a stable curve `q : C → J` of some genus `g̃ ≥ max(g, 2)` (`CorrespondenceStack.curve`);
+- (a) a stable curve `q : C → J` of some genus `g̃ ≥ max(g, 2)` (the stable curve);
 - (b) a line subbundle `L ⊆ Λ^g q_*(ω_{C/J})` which is locally a direct summand
-  (`CorrespondenceStack.subbundle`);
+  (the Hodge subline);
 - (c) over `U`, homomorphisms `α : Pic^τ(C/J) → ψ^*A` and `β : ψ^*A → Pic^τ(C/J)` with `α ∘ β = [d]` for
-  some integer `d ≠ 0` (`CorrespondenceStack.alpha_beta`);
+  some integer `d ≠ 0` (the two Picard homomorphisms);
 - (d) over `J ⊗ ℚ` an isomorphism `L^{⊗r} ≅ ψ̄^*M`, where over `U ⊗ ℚ` the bundle `L` is the image of
   `α^* : ψ^*ω_{A/𝔄_g} → Λ^g q_*(ω_{C/J})` and the isomorphism restricts to the `ψ^*`-pull-back of
-  `ω^{⊗r} ≅ M` (`CorrespondenceStack.subbundle_eq_image`, `CorrespondenceStack.modular_iso`);
-- (e) `ψ̄` is surjective and `ψ̄^{−1}(A_g ⊗ ℚ) ⊆ U` (`CorrespondenceStack.psi_surjective`).
+  `ω^{⊗r} ≅ M` (the generic image identification, the modular-line comparison);
+- (e) `ψ̄` is surjective and `ψ̄^{−1}(A_g ⊗ ℚ) ⊆ U` (surjectivity of the generic projection).
 
 Faltings prints the dualising sheaf in (b) as `ω_{C/ℤ}`; it is the relative one over `J`. He does not
 state (e); the Korollar (R28.1.4) uses it, and the `J` built below has it.
@@ -616,15 +620,15 @@ section. SchemeAndStackFoundations §3.2 `scheme_riemann_hurwitz` gives genus at
 For a finite morphism `f : C' → C` of smooth proper geometrically connected curves over this
 characteristic-zero field, use its finite locally free structure and §3.5 `lineBundleNorm`,
 `lineBundleNorm_pullback` and `lineBundleNorm_baseChange`, together with JacobianChallenge
-Layer D's Picard representability. Within `CorrespondenceStack`, restrict norm and pullback
+Layer D's Picard representability. Within the correspondence stack, restrict norm and pullback
 to `Pic⁰`, by preservation of the identity component, and prove
 `Norm_f ∘ f^* = [deg f]`, compatibly with field extension (Stacks 0BCY, 0BCZ, 0BD2).
 For the double cover this is `[2]`, so norm is surjective; compose these maps with `α, β`.
-This covering and Picard-map construction belongs to `CorrespondenceStack`.
+This covering and Picard-map construction belongs to the correspondence stack.
 The curve gives a rational map from the resulting dominant cover to `M̄_{g̃}`.
 First close its graph over `𝔄_g`; projection to `𝔄_g` is proper because `M̄_{g̃}` is proper,
 so this constructs the open correspondence `U`. Its compactification, including the extension
-of the stable curve, is part of `CorrespondenceStack.compactify` below; properness of the open
+of the stable curve, is part of the integral compactification of the correspondence below; properness of the open
 projection alone does not compactify the base. After normalization obtain `J` proper over `ℤ`; (a) holds by pulling back the universal stable curve, and (c) by
 extending `α` and `β` from the generic point with the extension theorem of R28.1.2,
 `Pic^τ(C/J) = Pic^0(C/J)` being semiabelian. Over `U ⊗ ℚ`, (d) prescribes `L` as the image of `α^*`, which
@@ -635,7 +639,7 @@ isomorphism over one normal `J̃` proper and dominant over `J ⊗ ℂ`: take the
 component of `J ×_{Ā_g} 𝒩` dominating `J`, where `φ : 𝒩 → Ā_g(ℂ)` is a smooth toroidal compactification
 of a neat-level cover over which the universal family extends to a semiabelian scheme with
 `ω^{⊗r} ≅ φ^*M`; over `J̃` the maps `α, β` extend by R28.1.2 and `α^*` identifies the extended `ω` with
-`L`. Prove `CorrespondenceStack.compactify`: the generic graph construction admits an integral
+`L`. Prove the integral compactification of the correspondence: the generic graph construction admits an integral
 proper DM extension with this stable curve and Hodge subbundle, leaving its proper open
 projection to `𝔄_g` intact. This is the all-prime completion implicit in Faltings' Lemma 2,
 p. 352; it is included in the target, rather than inferred from a good-prime PEL compactification.
@@ -660,21 +664,22 @@ SchemeAndStackFoundations §4.15 `StableCurves.Mbar` and `Mbar_algebraic_proper_
 AbelianSchemesAndArithmeticModuli A6.5 `poincareReducibility`; R28.1.1, R28.1.2;
 Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
 
-The construction exposes `CorrespondenceStack` with `compactify`, `curve`, `subbundle`, `alpha_beta`, `subbundle_eq_image`, `modular_iso`,
-`psi_surjective` as above.
+Its API consists of the integral compactification, stable curve, saturated Hodge subline,
+two Picard homomorphisms, generic image identification, modular-line comparison and
+surjectivity properties specified above.
 
 **Checks.**
-- `curve_genus_ge_two`: the curve has genus `g̃ ≥ max(g, 2)`; even for `g = 1` the construction uses a
+- The curve has genus `g̃ ≥ max(g, 2)`; even for `g = 1` the construction uses a
   ramified double cover of the elliptic curve. A degree-one line bundle with a reduced degree-two
   branch divisor gives genus `2` by Riemann–Hurwitz and norm composed with pullback `[2]`.
-- `alpha_not_iso`: `α` is not an isomorphism when `g̃ > g` (the relative dimensions of `Pic^τ(C/J)` and
+- `α` is not an isomorphism when `g̃ > g` (the relative dimensions of `Pic^τ(C/J)` and
   `ψ^*A` are `g̃` and `g`); a construction producing an isomorphism is stronger than the source and wrong.
-- `compactify_all_primes`: `CorrespondenceStack.compactify` is over all of `ℤ`. A construction
+- The integral compactification of the correspondence is over all of `ℤ`. A construction
   over `ℤ[1/N]` fails this contract at primes dividing `N`; the supplier's good-prime compactification
   does not supply the missing fibres.
-- `proper_over_Z`: `J` is proper over `Spec(ℤ)` while `𝔄_g` is not; `ψ̄` is asserted only over `ℚ`, and the
+- `J` is proper over `Spec(ℤ)` while `𝔄_g` is not; `ψ̄` is asserted only over `ℚ`, and the
   Korollar first replaces `J` so that `ψ̄` is defined over `ℤ`.
-- `subbundle_saturated`: pulled back along a point `Spec(R') → J` with generic point in `U`, `L` is the
+- Pulled back along a point `Spec(R') → J` with generic point in `U`, `L` is the
   saturation of the image of `α^*(ω_{A/R'})` in `Λ^g q_*(ω_{C/R'})`; defining `L` as the image of `α^*` over
   all of `J` would not give a subbundle.
 - For `g = 1` every principally polarized abelian variety of dimension one is its own Jacobian, and the
@@ -683,30 +688,67 @@ The construction exposes `CorrespondenceStack` with `compactify`, `curve`, `subb
 
 ### R28.1.4 The modular and Hodge line bundles are commensurable
 
-Prove `modular_hodge_commensurable` (Faltings 1983, §2, Korollar to Lemma 2, pp. 352–353): there is
+Prove uniform commensurability of modular and Hodge lines (Faltings 1983, §2, Korollar to Lemma 2, pp. 352–353): there is
 an integer `e_g > 0`, depending only on `g`, such that for every number field `K` with ring of integers
 `R` and every semiabelian `p : A → Spec(R)` whose generic fibre is proper and carries a principal
 polarization, the moduli point `ρ : Spec(K) → A_g ⊗ ℚ` extends to `ρ : Spec(R) → Ā_g/ℤ` and, under the
 isomorphism `ρ^*M ⊗_R K ≅ ω_{A/R}^{⊗r} ⊗_R K`,
 `e_g·ρ^*M ⊆ ω_{A/R}^{⊗r} ⊆ e_g^{−1}·ρ^*M`.
 
+**Integral lifting after a finite extension.** Prove the following arithmetic extension
+statement: for a number field `K`, `R = O_K`, a proper finitely presented Deligne–Mumford
+stack `X → Spec(R)` and an object `x ∈ X(K)`, there are a finite extension `L/K` and
+`x_R ∈ X(O_L)` with a specified isomorphism `x_R|_L ≅ x_L`. The extension is allowed
+to ramify. Apply this statement to `X = J ×_{Ā_g} Spec(R)`, once a generic lift of `ρ`
+has been chosen over a finite extension (Deligne–Mumford, Theorem 4.19, p. 103,
+for the local existence step).
+
+The proof route spreads `x` over a nonempty open of `Spec(R)` using finite presentation.
+At each of the finitely many omitted primes, prove the finite-extension DVR existence
+criterion for a proper DM stack, retaining the specified generic isomorphism; unlike a
+scheme lift, this can require ramification. Take a common finite normal extension containing
+the finitely many extensions obtained in these DVR tests. The integral closures are finite
+because `R` is excellent. Spread the resulting local objects to neighborhoods of all the
+primes above the omitted set. The diagonal is finite (proper and unramified), so a given
+generic isomorphism between two such objects extends uniquely on their normal overlaps;
+the cocycle identities follow from their generic restrictions. Effective étale descent then
+glues the objects over `O_L`. This target owns the finite-extension existence and arithmetic
+gluing steps; the stack, lift-groupoid and descent carriers are those of
+SchemeAndStackFoundations §§1.18–1.20.
+
 *Proof route.* Replace `J` by the normalisation of the closure of the graph of `ψ̄` in `J ×_ℤ Ā_g/ℤ`, so
 that `ψ̄ : J → Ā_g/ℤ` is proper and R28.1.3 continues to hold. `ρ` extends by the valuative criterion,
 `Ā_g/ℤ` being projective. By R28.1.3 (e) there are a finite extension `K'/K` with ring of integers `R'`
-and a lift `ρ̃ : Spec(R') → J` with generic point in `U` (lift through the proper surjective `ψ̄` after a
-finite extension, through a finite surjective scheme cover of `J`, then use the valuative criterion for
-the proper `J`). Clearing denominators on a finite affine cover of the noetherian `J` gives `e_1 > 0`
+and a lift `ρ̃ : Spec(R') → J` with generic point in `U`: a nonempty finite-type
+geometric fibre over `ρ_K` has a point over a finite extension, and the integral lifting
+target above extends that generic object after a further finite extension. Clearing
+denominators on a finite affine étale atlas of the noetherian `J`, and descending the
+inclusions of line bundles, gives `e_1 > 0`
 with `e_1·L^{⊗r} ⊆ ψ̄^*M ⊆ e_1^{−1}·L^{⊗r}`. After base change to `R'` (R28.1.1) compare `ω_{A/R'}` with `ρ̃^*L`:
 `α, β` pull back and extend over `Spec(R')` by R28.1.2 with `α ∘ β = [d]`; `ρ̃^*L` is the saturation of
 `α^*(ω_{A/R'})`, and since `β^*α^* = d^g` on `ω_{A/R'}` one gets `d^g·ρ̃^*L ⊆ α^*(ω_{A/R'}) ⊆ ρ̃^*L`. So
 `e_g = e_1·d^{gr}` works, `d` the least common multiple of the integers of (c) over the finitely many
 components of `U`.
 
-*Needs:* R28.1.1–R28.1.3; PELModuli M6.5 (moduli point) and M6.3 (the finite scheme covers
-`A_{g,1,n} → 𝔄_g ⊗ ℤ[1/n]`, `n = 3, 4`); Mathlib `AlgebraicGeometry.IsProper.eq_valuativeCriterion`,
-`NumberField.RingOfIntegers`.
+*Needs:* R28.1.1–R28.1.3 (proper DM correspondence and its generic projection);
+PELModuli M6.5 (moduli point) and M6.3 (finite level covers by fine smooth algebraic
+spaces `A_{g,1,n} → 𝔄_g ⊗ ℤ[1/n]`, `n = 3, 4`);
+SchemeAndStackFoundations §§1.18–1.20 (effective descent, finite presentation,
+proper-stack and compatible valuative-lift carriers), §§0.20–0.21 (finite normalization over
+excellent bases); Mathlib `AlgebraicGeometry.IsProper.eq_valuativeCriterion`
+(for the projective scheme `Ā_g/ℤ`), `NumberField.RingOfIntegers`.
 
 **Checks.**
+- In residue characteristic `2`, level `3` is invertible (`3 = 1` in `𝔽₂`);
+  in characteristic `3`, level `4` is invertible (`4 = 1` in `𝔽₃`). These two opens
+  cover every prime; the fine level spaces are algebraic spaces.
+- For `X = ℙ¹_R`, the point `[1:2]` extends as that same section with `L = K`.
+  For the proper DM stack `B(ℤ/2)` over `ℤ_(2)`, the generic torsor `ℚ(√2)`
+  has discriminant `8` and cannot extend as a finite étale torsor before extension.
+  Over `ℚ(√2)` it becomes the trivial two-sheeted torsor and extends, showing why
+  a finite ramified extension is permitted.
+- For `X = 𝔾_m` over `ℤ_(2)`, the generic point `2` has valuation `1`, and valuation
+  `e > 0` after any finite extension; it never becomes a unit. Properness cannot be dropped.
 - `e_g` depends only on `g` (through `J`, `r` and `M`), not on `K`, `A` or the class number of `K`; this is
   what Satz 1 uses.
 - Without the boundary control of R28.1.3 the isomorphism holds only over `K`, and nothing is bounded at
@@ -717,19 +759,19 @@ components of `U`.
 
 ### R28.1.5 Faltings' degree and the modular height
 
-For a number field `K` with ring of integers `R`, use `metrizedDegree (P, ‖·‖)` as the
+For a number field `K` with ring of integers `R`, use the metrized degree of `(P, ‖·‖)` as the
 alias of the supplied degree of a metrized line bundle on `Spec(R)` (Conventions): `deg(P, ‖·‖) = log #(P/R·p) − Σ_{v|∞} ε_v log ‖p‖_v` for any nonzero
 `p ∈ P`, and for a semiabelian `p : A → Spec(R)` with proper generic fibre of dimension `g` use the alias
-`modularHeight A = deg(ω_{A/R}, ‖·‖)/[K : ℚ]`, the Hodge line carrying at each infinite place `v` the
+`h(A) = deg(ω_{A/R}, ‖·‖)/[K : ℚ]`, the Hodge line carrying at each infinite place `v` the
 metric `‖α‖_v² = 2^{−g} i^{g²} ∫_{A_σ(ℂ)} α ∧ ᾱ` for an embedding `σ` inducing `v` (Faltings 1983, §3,
 pp. 353–354). These are adapters to ArakelovGeometryAndAbelianHeights Layers 1–3,
 with the following supplied identities in this notation:
 
-- `metrizedDegree_indep`: the degree does not depend on the choice of `p`;
-- `metrizedDegree_baseChange`: `deg(P ⊗_R R') = [K' : K]·deg(P)` for `K'/K` finite with ring of integers
+- The degree does not depend on the choice of `p`;
+- `deg(P ⊗_R R') = [K' : K]·deg(P)` for `K'/K` finite with ring of integers
   `R'`;
-- `modularHeight_baseChange`: `h(A_{R'}) = h(A)`;
-- `modularHeight_iso`: by R28.1.2, `h(A)` depends only on the abelian variety `A_K`; write `h(A_K)`.
+- `h(A_{R'}) = h(A)`;
+- By R28.1.2, `h(A)` depends only on the abelian variety `A_K`; write `h(A_K)`.
 
 Faltings prints the archimedean factor as `(i/2)^g` and integrates over `A(K_v)`; the corrected factor
 is that of the Conventions, and at a real place the integral is over `A_σ(ℂ)`. This degree is the
@@ -759,13 +801,13 @@ with rescaling parameter `−log t`.
 - For an elliptic curve `E/ℚ` with semistable reduction everywhere and Néron differential `ω_E`,
   `h(E) = −½·log((i/2) ∫_{E(ℂ)} ω_E ∧ ω̄_E)`: minus half the logarithm of the covolume of the period
   lattice of `ω_E`.
-- `metrizedDegree_indep` on `P = R` with the trivial metric: for `p = 1` the degree is `0`, and for
+- Independence of the metrized degree from its section on `P = R` with the trivial metric: for `p = 1` the degree is `0`, and for
   `p = x ∈ R∖{0}` it is `log|N(x)| − log|N(x)| = 0`.
-- `fractional_generator`: over `ℚ` with `I = (1/2)ℤ` and `c = 1`, `N(I) = 1/2` and the degree is
+- Over `ℚ` with `I = (1/2)ℤ` and `c = 1`, `N(I) = 1/2` and the degree is
   `log 2`. With section `p = 1/2`, the index is `1` and `−log|p| = log 2`, agreeing with the formula.
-- `metric_rescaling`: on the unit ideal with constant norm factor `t > 0`, the degree is
+- On the unit ideal with constant norm factor `t > 0`, the degree is
   `−[K : ℚ]·log t`; over `ℚ` with `t = 2` it is `−log 2`. A plus sign fails this test.
-- `zero_ideal_nonexample`: the zero fractional ideal is not an invertible line bundle and has no
+- The zero fractional ideal is not an invertible line bundle and has no
   nonzero section. The light formula is total there, but the geometric interpretation excludes it.
 - With weight `1` instead of `2` at complex places the degree depends on `p` (take `K = ℚ(i)`,
   `P = R`, `p = 2`: the index is `4` but the archimedean sum would be `log 2`), and `h` is not invariant
@@ -790,27 +832,27 @@ no additional definition by resolution here. The line extension across `Y` is fi
 `HermitianMetric.hasLogSingularities_of_modification`.
 
 **Checks.**
-- `hasLogSingularities_log_metric`: on `X = ℙ^1(ℂ)`, `Y = {0}`, `M = O`, the metric with `‖1‖(t) = |log|t||`
+- On `X = ℙ^1(ℂ)`, `Y = {0}`, `M = O`, the metric with `‖1‖(t) = |log|t||`
   for `0 < |t| ≤ 1/2` (glued to a constant metric away from `0`) has logarithmic singularities
   with `C = n = 1` throughout this punctured interval: writing `s = −log|t| ≥ log 2`,
   both `s` and `1/s` are at most `1 + s`, since `(log 2)(1 + log 2) > 1`.
   After gluing away from zero enlarge `C` if necessary.
-- `not_hasLogSingularities_power_metric`: on the same data the metric with `‖1‖(t) = |t|^{−1/2}` near `0`
+- On the same data the metric with `‖1‖(t) = |t|^{−1/2}` near `0`
   does not, since `|t|^{−1/2}` is not bounded by `C(1 + |log|t||)^n` as `t → 0`; a definition allowing
   polynomial growth in `1/|f|` accepts it.
-- `hasLogSingularities_empty`: for `Y = ∅` every continuous hermitian metric qualifies.
-- `hasLogSingularities_tate_curve`: for the universal elliptic curve near the cusp `q = 0`, with `ω`
+- For `Y = ∅` every continuous hermitian metric qualifies.
+- For the universal elliptic curve near the cusp `q = 0`, with `ω`
   generated by `du/u = 2πi·dz` on the Tate curve, `‖du/u‖² = 4π²·Im τ = −2π·log|q|`, so the Hodge metric
   has growth exponent `1/2` along `q = 0`, hence satisfies the predicate with integer exponent `1`.
 
 ### R28.1.7 The Hodge metric has logarithmic singularities along the boundary
 
-Use the alias `hodgeMetric_hasLogSingularities` of ArakelovGeometryAndAbelianHeights §5.3
+Use the alias logarithmic growth of the Hodge metric of ArakelovGeometryAndAbelianHeights §5.3
 (Faltings 1983, §3, p. 355; Faltings–Chai V Proposition 4.5, pp. 168–169): for a smooth
 complex variety `X`, a normal-crossings divisor `Y` and a semiabelian scheme `A → X`
 which is abelian and principally polarized over `X − Y`, the supplied Hodge metric on the
 fixed extension `ω_{A/X}` has logarithmic singularities along `Y`. The base need not be proper;
-the local predicate of R28.1.6 applies. Use `modularMetric_hasLogSingularities` as the
+the local predicate of R28.1.6 applies. Use logarithmic growth of the modular metric as the
 specialization of its §5.4 `SiegelModuli.modularMetric_logSing` to the Hodge-metrized ample
 power `M` on the minimal compactification. The smooth toroidal cover supplies the local charts;
 the minimal compactification itself need not be smooth or have a normal-crossings boundary.
@@ -827,7 +869,7 @@ the minimal compactification itself need not be smooth or have a normal-crossing
 
 ### R28.1.8 Northcott for metrics with logarithmic singularities
 
-Use `northcott_logSingular`, the fixed-field specialization of
+Use Northcott finiteness for logarithmically singular metrics, the fixed-field specialization of
 ArakelovGeometryAndAbelianHeights §5.2 (Faltings 1983, §3, Lemma 3, p. 356): let `X ⊆ ℙ^n_ℤ` be Zariski closed,
 `Y ⊆ X` closed, and `‖·‖` a hermitian metric on `O(1)|(X(ℂ) − Y(ℂ))`, invariant under complex
 conjugation, with logarithmic singularities along `Y(ℂ)`. For a number field `K` with ring of integers `R`
@@ -888,7 +930,7 @@ DiophantineApproximationAndTranscendence §§0.2–0.3 (absolute normalization a
 
 ### R28.1.9 Hermite–Minkowski with prescribed ramification
 
-Use `hermiteMinkowski`, the fixed-degree specialization of ArithmeticGaloisDuality
+Use the fixed-degree Hermite–Minkowski statement, the fixed-degree specialization of ArithmeticGaloisDuality
 R02.3.1 `RestrictedRamification.finite_unramifiedOutside_of_finrank_le`
 (Faltings 1983, §3, Lemma 4, p. 357; Milne, *Abelian varieties*, IV
 Theorem 3.1, p. 139): for a number field `K`, a finite set `S` of places of `K` and an integer `n`, there are
@@ -936,7 +978,7 @@ TauCetiRoadmap NumberFieldArithmetic Layer 4.3 (`ramifiedSupport` and its member
 
 ### R28.1.10 Descent from geometric to rational isomorphism classes
 
-Prove `finite_forms_semiabelian` (Faltings 1983, §3, proof of Satz 1, p. 357): for a number field `K` with
+Prove finiteness of semistable rational forms (Faltings 1983, §3, proof of Satz 1, p. 357): for a number field `K` with
 ring of integers `R` and a principally polarized abelian variety `(A_0, λ_0)` over `K`, only finitely many
 `K`-isomorphism classes of principally polarized `(A, λ)` over `K` have a semiabelian model over `R` and
 satisfy `(A, λ) ⊗ K̄ ≅ (A_0, λ_0) ⊗ K̄`. Without the semiabelian hypothesis the statement is false.
@@ -966,7 +1008,7 @@ A6.18 `polarizedAutomorphisms` (finiteness of `Aut(A, λ)` and level-3 rigidity;
 
 ### R28.1.11 Satz 1: finiteness of bounded modular height
 
-Prove `finite_ppav_bounded_height` (Faltings 1983, §3, Satz 1, pp. 356–357): fix `g`, a number field `K`
+Prove bounded-height finiteness (Faltings 1983, §3, Satz 1, pp. 356–357): fix `g`, a number field `K`
 with ring of integers `R`, and `c`. Then there are only finitely many isomorphism classes of pairs
 consisting of a semiabelian `p : A → Spec(R)` of relative dimension `g` with proper generic fibre and a
 principal polarization of `A_K`, with `h(A) ≤ c`. By R28.1.2 an isomorphism of pairs is the same as a
@@ -998,15 +1040,15 @@ with semiabelian models in it.
 For an abelian variety `A` over a field `k` of characteristic `0` and a polarization `λ` of `A` (Conventions),
 let `e^λ` be the pairing on the finite group scheme `ker λ`. Prove:
 
-- `Polarization.kernelPairing`: `e^λ` is alternating and nondegenerate, so `deg λ = #ker λ` is a square and a
+- `e^λ` is alternating and nondegenerate, so `deg λ = #ker λ` is a square and a
   maximal isotropic subgroup of `ker λ` has order `√(deg λ)`;
-- `Polarization.descend` (Milne, *Abelian varieties*, I Proposition 13.8 and Remark 13.9, p. 60; Mumford,
+- Polarization descent (Milne, *Abelian varieties*, I Proposition 13.8 and Remark 13.9, p. 60; Mumford,
   *Abelian varieties*, §23): for an isogeny `π : A → B` over `k`, there is a polarization `μ` of `B` with
   `λ = π^∨ ∘ μ ∘ π` if and only if `ker π ⊆ ker λ` and `e^λ` is trivial on `ker π × ker π`; `μ` is then unique and
   `deg λ = deg μ·(deg π)²`. In particular, for `H ⊆ ker λ` maximal isotropic and `π : A → A/H`, `μ` is principal.
-- `Polarization.descend_weilPairing`: `e^μ_l(πx, πy) = e^λ_l(x, y)` for `x, y ∈ T_l(A)` (Milne, I Proposition 13.2(b),
+- `e^μ_l(πx, πy) = e^λ_l(x, y)` for `x, y ∈ T_l(A)` (Milne, I Proposition 13.2(b),
   p. 58).
-- `Polarization.prod`: for polarizations `λ` of `A` and `μ` of `B`, `λ × μ` is a polarization of `A × B` of degree
+- For polarizations `λ` of `A` and `μ` of `B`, `λ × μ` is a polarization of `A × B` of degree
   `deg λ·deg μ`, whose Weil pairing on `T_l(A × B) = T_l(A) ⊕ T_l(B)` is the orthogonal sum.
 
 *Proof route.* Over `k̄` choose an ample `L` with `λ = φ_L`; the pairing on `ker λ = K(L)` is the commutator
@@ -1039,7 +1081,7 @@ statement is the definition of the product polarization through `(A × B)^∨ = 
 
 ### R28.1.13 The polarization reduction over a uniform extension
 
-Prove `principalReduction_uniform` (Faltings 1983, §5, proof of Korollar 3, p. 362, and §6, proof of
+Prove uniform principal reduction (Faltings 1983, §5, proof of Korollar 3, p. 362, and §6, proof of
 Satz 6, p. 363, where it is used without a separate statement): let `K` be a number field, `S` a finite
 set of finite places and `g, d ≥ 1`. There is a finite Galois extension `K'/K`, depending only on
 `K, S, g, d`, such that
@@ -1104,8 +1146,6 @@ PELModuli M2, M6; ShimuraVarieties Layers 2 and 8; ArakelovGeometryAndAbelianHei
 ArakelovGeometryAndAbelianHeights Layers 1–3 and §§5.1–5.4. R28.1.12 concerns abelian
 varieties over a field with no dependence on heights.
 
-<a id="r28-2"></a>
-
 ## Layer R28.2: Heights under isogeny and the determinant identity
 
 This layer is Section 4 of Faltings 1983 up to the height formula on p. 359. It computes the change of
@@ -1122,7 +1162,7 @@ Throughout, `K` is a number field of degree `m`, `R = O_K`, `A/R` is semiabelian
 
 ### R28.2.1 Lemma 5: the isogeny height formula
 
-Use the alias `height_isogeny` of ArakelovGeometryAndAbelianHeights §§4.1–4.2
+Use the alias the isogeny height formula of ArakelovGeometryAndAbelianHeights §§4.1–4.2
 (Faltings 1983, §4, pp. 357–358, Lemma 5): let `A_1, A_2` be semiabelian over
 `Spec(R)` of relative dimension `g` with proper generic fibres, `s` the zero section of `A_1`, and
 `φ : A_1 → A_2` an isogeny (by R28.1.2 it suffices to give `φ` on generic fibres). Then `φ` is flat,
@@ -1160,7 +1200,7 @@ same inclusion of differential lattices for Néron models); Tau Ceti `AbelianVar
 
 ### R28.2.2 The primes in the height quotient
 
-Use `height_isogeny_padicVal_bounds`, a consequence of the stronger valuation bounds of
+Use the isogeny valuation bounds, a consequence of the stronger valuation bounds of
 ArakelovGeometryAndAbelianHeights §4.4 (Faltings 1983, §4, p. 358, Bemerkung after Lemma 5): in the
 situation of R28.2.1, `exp(2m·(h(A_2) − h(A_1))) = deg(φ)^m·(#s^*(Ω^1_{G/R}))^{−2}` is a rational number in
 whose numerator and denominator only primes dividing `deg φ` occur, and for every prime `p`,
@@ -1192,7 +1232,7 @@ completion of `A_{R_i}` along the whole special fibre. Write the special fibre a
 `0 → T_s → A_s → B_s → 0` of an abelian variety by a torus and lift `T_s` to a torus `T` over `R_i`. Then
 `Ĥ_i = Â[l^∞]` is the formal completion of an `l`-divisible group `H_i` over `R_i`, `H_i ⊗ K_i` is an
 `l`-divisible subgroup of `A[l^∞] ⊗ K_i`, and likewise for `T[l^∞]`, giving lattices
-`T_l(T) ⊆ T_l(H_i) ⊆ T_l(A)`. Prove `inertia_trivial_quotient` (Faltings 1983, §4, pp. 358–359, Lemma 6):
+`T_l(T) ⊆ T_l(H_i) ⊆ T_l(A)`. Prove trivial inertia on the Tate quotient (Faltings 1983, §4, pp. 358–359, Lemma 6):
 the inertia group `I_i ⊆ D_i = Gal(K̄_i/K_i)` acts trivially on `T_l(A)/T_l(H_i)`, and `D_i/I_i ≅ ℤ̂` acts on it
 through a finite quotient.
 
@@ -1225,7 +1265,7 @@ FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.8 `BarsottiTate.tateModule`
 
 ### R28.2.4 Invariant differentials of the levels of an `l`-divisible group
 
-Prove `card_invDiff_level` (Faltings 1983, §4, p. 359, applying Tate, *p-divisible groups*, §2,
+Prove the differential count at a divisible-group level (Faltings 1983, §4, p. 359, applying Tate, *p-divisible groups*, §2,
 Proposition 2): let `K_i/ℚ_l` be finite of degree `m_i` with valuation ring `R_i`, and `Γ` an `l`-divisible
 group over `R_i` whose connected part has dimension `d`. Then for every `n ≥ 0`,
 `#s^*(Ω^1_{Γ[l^n]/R_i}) = l^{n·m_i·d}`. Consequently, if `A → A'` is an isogeny of semiabelian schemes over `R_i`
@@ -1252,7 +1292,7 @@ finite part; for the isogeny the cokernel of `φ^*` is `s^*(Ω^1_{A/A'}) = s^*(�
 
 Let `G ⊆ A[l^∞]` be an `l`-divisible subgroup over `K` of height `h`, and `C_i` the completion of `K̄_i`.
 Suppose `(H_i)`: the `D_i`-stable subspace `W_i = V_l(G) ∩ V_l(H_i)` of `V_l(A)` is the rational Tate module of
-an `l`-divisible group `Γ_i` over `R_i` of height `h_i` and dimension `d_i`. Prove `det_hodgeTate_local`
+an `l`-divisible group `Γ_i` over `R_i` of height `h_i` and dimension `d_i`. Prove the local Hodge–Tate determinant identity
 (Faltings 1983, §4, p. 359): `Λ^h V_l(G) ⊗_{ℚ_l} C_i ≅ C_i(d_i)` as semilinear `D_i`-modules. Faltings takes
 `Γ_i = G ∩ H_i`, which by the erratum is an `l`-divisible group over `R_i` only after replacing `A` by a
 member `A_k` of the tower with `k` large (R28.3.1–R28.3.3).
@@ -1263,7 +1303,7 @@ trivially and `D_i` through a finite quotient, so `U ⊗ C_i ≅ C_i^{h − h_i}
 image becomes trivial after `⊗ C_i`). Determinants are multiplicative in `0 → W_i → V_l(G) → U → 0`.
 
 *Needs:* R28.2.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19 `BarsottiTate.hodgeTate` (with
-`hodgeTate_det`: `det V_p(G) ⊗ C ≅ C(dim G)`); PadicPeriodRings §2 `tateSen_character`
+the determinant consequence: `det V_p(G) ⊗ C ≅ C(dim G)`); PadicPeriodRings §2 `tateSen_character`
 (Tate's theorems on `C(ψ)` and the Hodge–Tate decomposition: a representation with finite image on
 inertia is `C`-trivial); Mathlib `cyclotomicCharacter`.
 
@@ -1276,7 +1316,7 @@ inertia is `C`-trivial); Mathlib `cyclotomicCharacter`.
 
 ### R28.2.6 `l`-adic characters of `Gal(ℚ̄/ℚ)`
 
-Prove `ladicChar_eq_cyclotomic_pow_mul_finite` (Faltings 1983, §4, p. 360): for a prime `l` and every
+Prove cyclotomic decomposition of the character (Faltings 1983, §4, p. 360): for a prime `l` and every
 continuous homomorphism `χ : Gal(ℚ̄/ℚ) → ℤ_l^×` there are a unique `a ∈ ℤ_l` and a character `ψ` of finite
 order with `χ = ⟨χ_0⟩^a·ψ` (`⟨·⟩` as in the Conventions). For `k ∈ ℤ`, `χ·χ_0^{−k}` has finite order if and only
 if `a = k`. No ramification hypothesis is needed; over a number field other than `ℚ` the statement fails,
@@ -1303,7 +1343,7 @@ part and finite torsion) and hence the dense subgroup they generate. A continuou
 
 Let `π = Gal(K̄/K) ⊆ π̃ = Gal(ℚ̄/ℚ)`, `W̃ = Ind_π^{π̃} T_l(G) ⊆ Ṽ = Ind_π^{π̃} T_l(A)` (of rank `mh`), and
 `L = Λ^{mh}(W̃) ⊆ Λ^{mh}(Ṽ)`, on which `π̃` acts by a character `χ : π̃ → ℤ_l^×`. Let `D ⊆ π̃` be a decomposition
-group at `l` and `C` the completion of `ℚ̄_l`. Prove `det_induced_at_l` (Faltings 1983, §4, p. 360): if `(H_i)`
+group at `l` and `C` the completion of `ℚ̄_l`. Prove the induced determinant identity at l (Faltings 1983, §4, p. 360): if `(H_i)`
 of R28.2.5 holds at every `v_i | l`, then `L ⊗_{ℤ_l} C ≅ C(Σ_i m_i d_i)` as semilinear `D`-modules.
 
 *Proof route.* By Mackey, `Res_D Ind_π^{π̃} T_l(G) ≅ ⊕_i Ind_{D_i}^D (T_l(G)|_{D_i})`, with
@@ -1315,11 +1355,15 @@ of `D` into that of `D_i`, so `η_i ∘ Ver` and the signs have finite image on 
 on `L` is `χ_0^{Σ m_i d_i}` times a character with finite image on inertia, which is `C`-trivial.
 
 *Needs:* R28.2.5; ArithmeticGaloisRepresentations §1.3 “The Mackey decomposition” (`Rep.mackeyDecomposition`,
-`ContinuousRep.finite_doubleCoset_mackey`), `ContinuousRep.det_ind`, §7.1
+the continuous Mackey decomposition target), “The determinant of an induced representation”, §7.1
 `ContinuousRep.extPower`; PadicPeriodRings §2 `tateSen_character`;
 Mathlib `Representation.ind`, `MonoidHom.transfer`, `cyclotomicCharacter`.
 
 **Checks.**
+- For the trivial rank-one representation of the identity subgroup in `C₂`,
+  the nonidentity element acts on the induced two-dimensional representation by
+  `[[0,1],[1,0]]`, whose determinant is `−1 = sgn(C₂)·1`. Restriction back to
+  the identity subgroup is the sum of two trivial lines, as Mackey predicts.
 - `K = ℚ` (`m = 1`): `D_1 = D`, there is no induction, and the statement is R28.2.5.
 - `l` totally split in `K` (all `m_i = 1`): `L ⊗ C ≅ C(Σ_i d_i)`, one factor per place.
 - `l` inert in `K` of degree `m`: one place, `m_1 = m`, twist `m·d_1`; the transfer raises `χ_0` to the power
@@ -1327,7 +1371,7 @@ Mathlib `Representation.ind`, `MonoidHom.transfer`, `cyclotomicCharacter`.
 
 ### R28.2.8 Frobenius weights on the induced Tate module
 
-Prove `frobenius_weights_induced` (Faltings 1983, §4, p. 360): let `p ≠ l` be a prime unramified in `K` such
+Prove the induced Frobenius weight statement (Faltings 1983, §4, p. 360): let `p ≠ l` be a prime unramified in `K` such
 that `A` has good reduction at every place of `K` above `p` (all but finitely many `p`). Then
 `Ṽ = Ind_π^{π̃} V_l(A)` is unramified at `p`, every eigenvalue of an arithmetic Frobenius `F_p` on `Ṽ` is an
 algebraic number all of whose complex conjugates have absolute value `p^{1/2}`, and
@@ -1345,7 +1389,7 @@ are `f_𝔭`-th roots of those of `Frob_𝔭`.
 
 *Needs:* WeightsInEtaleCohomology R34.2, “Purity and integral polynomials at good reduction”;
 ArithmeticGaloisRepresentations §1.3 “The Mackey decomposition” (`Rep.mackeyDecomposition`,
-`ContinuousRep.finite_doubleCoset_mackey`); DeligneWeightsAndPurity DWP.1 §1.4 (the
+the continuous Mackey decomposition target); DeligneWeightsAndPurity DWP.1 §1.4 (the
 Weil estimate for abelian varieties over finite fields); NeronModelsAndSemistableAbelianVarieties §5.1
 `NeronOggShafarevich`.
 
@@ -1356,7 +1400,7 @@ Weil estimate for abelian varieties over finite fields); NeronModelsAndSemistabl
 
 ### R28.2.9 The determinant identity
 
-Prove `sum_local_dims_eq` (Faltings 1983, §4, pp. 359–360): let `A/K` have a semiabelian model over `R`, `G ⊆ A[l^∞]`
+Prove the local-dimension identity (Faltings 1983, §4, pp. 359–360): let `A/K` have a semiabelian model over `R`, `G ⊆ A[l^∞]`
 an `l`-divisible subgroup over `K` of height `h`, `m_i = [K_{v_i} : ℚ_l]`, and suppose `(H_i)` of R28.2.5 holds at
 every `v_i | l`. Then `Σ_{i=1}^r m_i d_i = mh/2`.
 
@@ -1395,8 +1439,6 @@ Layers 2, 3, 5, 6; ArithmeticGaloisRepresentations Layers 1, 6, 7; WeightsInEtal
 DeligneWeightsAndPurity DWP.1; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; PadicPeriodRings §2;
 ArakelovGeometryAndAbelianHeights §2.0; ArakelovGeometryAndAbelianHeights §§4.1–4.4; Layer R28.1.
 
-<a id="r28-3"></a>
-
 ## Layer R28.3: The erratum and the stationarity of heights
 
 Faltings' Satz 2 (§4, p. 358) asserts that the heights `h(A_n)` along an `l`-divisible tower `A_n = A/G_n` are
@@ -1415,7 +1457,7 @@ its semiabelian model, by isogeny invariance of semistable reduction). For `k �
 
 ### R28.3.1 Erratum (a): closures form an `l`-divisible group after a shift
 
-Use `closure_tower_lDivisible` as the specialization of FiniteFlatGroupsAndIntegralPadicHodgeTheory
+Use the shifted closure tower as the specialization of FiniteFlatGroupsAndIntegralPadicHodgeTheory
 R07.1.21 `BarsottiTate.exists_of_tateModule_summand` to `F = H_i` and `M = W`
 (Faltings 1984, part a; Tate, *p-divisible groups*, (4.2), Proposition 12 and proof,
 pp. 181–182). Here `R_i` is a complete mixed-characteristic DVR with finite, hence perfect,
@@ -1447,7 +1489,7 @@ R07.1.20a `BarsottiTate.quotientFiniteFlatSubgroup` and R07.1.21
 
 ### R28.3.2 Erratum (b): the toric intersection is `l`-divisible after a shift
 
-Prove `toric_intersection_lDivisible` (Faltings 1984, part b): the intersection `G ∩ H_i` of
+Prove divisibility of the shifted toric intersection (Faltings 1984, part b): the intersection `G ∩ H_i` of
 `l`-divisible groups over `K_i` need not be `l`-divisible, but there is `s_1` such that for `k ≥ s_1` the
 intersection `(G/G_k) ∩ H_i^{(k)}` inside `A_k[l^∞] ⊗ K_i` is an `l`-divisible group over `K_i` whose rational
 Tate module is `V_l(G) ∩ V_l(H_i) ⊆ V_l(A) = V_l(A_k)`. The defect lives already over `K_i`.
@@ -1472,7 +1514,7 @@ maximal divisible subgroup.
 
 ### R28.3.3 The differential count along the shifted tower
 
-Prove `card_invDiff_shifted` (Faltings 1983, §4, p. 359, as corrected by Faltings 1984): there is `s_0`
+Prove the shifted differential count (Faltings 1983, §4, p. 359, as corrected by Faltings 1984): there is `s_0`
 such that for every `k ≥ s_0` and every `i`: the schematic closure in `Â_k` of `(G/G_k) ∩ H_i^{(k)}` is an
 `l`-divisible group `Γ_i` over `R_i` with `V_l(Γ_i) = V_l(G) ∩ V_l(H_i)`; for all `n ≥ 0` the finite part of the
 kernel of `A_k → A_{k+n}` over `R_i` is `Γ_i[l^n]`; and with `d_i = dim Γ_i`,
@@ -1510,7 +1552,7 @@ NeronModelsAndSemistableAbelianVarieties §3.5 `FiniteFlatToricFiltration` and �
 
 ### R28.3.4 Satz 2 as corrected: the heights become stationary
 
-Prove `height_stationary` (Faltings 1983, §4, Satz 2, p. 358, with the note added in proof, p. 366, and
+Prove stationarity of heights (Faltings 1983, §4, Satz 2, p. 358, with the note added in proof, p. 366, and
 Faltings 1984): for `A`, `G`, `A_n` as above, the sequence `h(A_n)` becomes stationary: there is `s_0` with
 `h(A_n) = h(A_{s_0})` for all `n ≥ s_0`. In particular `h(A_n) ≤ max(h(A_0), …, h(A_{s_0}))` for all `n`. The printed
 conclusion `h(A_n) = h(A)` for all `n` is false; `s_0` is not effective.
@@ -1533,7 +1575,7 @@ The `d_i` are dimensions of `l`-divisible groups `Γ_i` with `V_l(Γ_i) = V_l(G)
 
 ### R28.3.5 The polarization reduction
 
-Construct `PolarizationReduction (A, λ)` (Faltings 1983, §5, proof of Satz 3 and Satz 4, p. 361, and proof
+Construct a polarization reduction of `(A, λ)` (Faltings 1983, §5, proof of Satz 3 and Satz 4, p. 361, and proof
 of Korollar 3, p. 362): for an abelian variety `A` over a number field `K` with a polarization `λ` of degree
 `d`, the data of a finite extension `L/K` over which `ker λ` is constant, a subgroup `H ⊆ (ker λ)_L` maximal
 isotropic for `e^λ`, the quotient `π : A_L → B = A_L/H` and the principal polarization `μ` of `B` with
@@ -1544,15 +1586,15 @@ enlarged.
 
 The API consists of the following statements:
 
-- `PolarizationReduction.comp_eq`: `λ_L = π^∨ ∘ μ ∘ π`.
-- `PolarizationReduction.isogeny_degree`: `deg π = √(deg λ)`.
-- `PolarizationReduction.isPrincipal`: `deg μ = 1`.
-- `PolarizationReduction.ker_isotropic`: `ker π = H` is maximal isotropic for `e^λ`, of order `√(deg λ)`.
-- `PolarizationReduction.of_principal`: if `λ` is principal, `L = K`, `H = 0`, `B = A`, `μ = λ`, `π = id` is a
+- `λ_L = π^∨ ∘ μ ∘ π`.
+- `deg π = √(deg λ)`.
+- `deg μ = 1`.
+- `ker π = H` is maximal isotropic for `e^λ`, of order `√(deg λ)`.
+- If `λ` is principal, `L = K`, `H = 0`, `B = A`, `μ = λ`, `π = id` is a
   polarization reduction.
-- `PolarizationReduction.baseChange`: for a further finite `L'/L` the base change is a polarization
+- For a further finite `L'/L` the base change is a polarization
   reduction over `L'`.
-- `PolarizationReduction.semistable`: a further finite `L'/L` over which `B` has a semiabelian model over `O_{L'}`.
+- A further finite `L'/L` over which `B` has a semiabelian model over `O_{L'}`.
 
 *Proof route.* `ker λ` is a finite étale group scheme of order `d` with nondegenerate alternating `e^λ`
 (R28.1.12), so `d` is a square and maximal isotropic subgroups have order `√d`. Choose `L` with all points
@@ -1563,20 +1605,20 @@ reduction after a finite extension gives the last item.
 and §3.12 `FiniteTorsionSemistability`; Tau Ceti `AbelianVariety.baseChange`, `AbelianVariety.IsIsogeny`.
 
 **Checks.**
-- `degree_square_root`: for an elliptic curve with `λ = n·λ_E` and `E[n] ⊆ E(L)`, a cyclic `H` of order `n` gives
+- For an elliptic curve with `λ = n·λ_E` and `E[n] ⊆ E(L)`, a cyclic `H` of order `n` gives
   `deg π = n = √(n²)` and principal `μ`.
-- `principal_degenerate`: `d = 1` needs no extension for the polarization quotient and `π = id`;
+- `d = 1` needs no extension for the polarization quotient and `π = id`;
   a further extension may still be needed for semistable reduction.
-- `not_whole_kernel`: the quotient by the whole kernel fails (R28.1.12, second check); a definition
+- The quotient by the whole kernel fails (R28.1.12, second check); a definition
   allowing non-isotropic `H` is wrong.
-- `field_extension_needed`: for `E/ℚ` with surjective mod-`l` representation and `λ = l·λ_E`, no subgroup of
+- For `E/ℚ` with surjective mod-`l` representation and `λ = l·λ_E`, no subgroup of
   order `l` of `E[l]` is defined over `ℚ`, so `L ≠ ℚ`; a definition insisting on `L = K` fails.
-- `weil_pairing_compatibility`: `e^μ(πx, πy) = e^λ(x, y)` on `T_l(A_L)`, the relation the tower argument uses
+- `e^μ(πx, πy) = e^λ(x, y)` on `T_l(A_L)`, the relation the tower argument uses
   to transport isotropy.
 
 ### R28.3.6 Powers of a principally polarized semiabelian model
 
-Prove `ppav_pow` (Faltings 1983, §5, p. 361): if `A/K` has a principal polarization `λ` and a semiabelian
+Prove the principally polarized power construction (Faltings 1983, §5, p. 361): if `A/K` has a principal polarization `λ` and a semiabelian
 model `𝒜` over `R`, then for `k ≥ 1` the power `A^k` carries the principal polarization `λ^k`, the fibre power
 `𝒜^k` is a semiabelian model of `A^k`, `T_l(A^k) = T_l(A)^k` as `π`-modules, and the Weil pairing of `λ^k` is the
 orthogonal sum of `k` copies of that of `λ`. Faltings uses `k = 8` (and `k = 2`).
@@ -1595,7 +1637,7 @@ the functoriality of the arithmetic adapter and §6.2 the product comparison of 
 
 ### R28.3.7 Invariance of Satz 3 and Satz 4 under finite extension and isogeny
 
-Prove `tate_invariance` (Faltings 1983, §5, pp. 360–361): let `A/K` be an abelian variety, `V = V_l(A)`,
+Prove invariance under finite extension and isogeny (Faltings 1983, §5, pp. 360–361): let `A/K` be an abelian variety, `V = V_l(A)`,
 `π_K = Gal(K̄/K)`.
 
 - (i) If `L/K` is finite and `V` is a semisimple `π_L`-module, it is a semisimple `π_K`-module.
@@ -1627,7 +1669,7 @@ and A6.1 `Hom.deg`; ArithmeticGaloisRepresentations §6.1; Mathlib `IsSemisimple
 
 ### R28.3.8 Infinitely many isomorphic quotients along a maximal isotropic tower
 
-Prove `exists_isomorphic_quotients` (Faltings 1983, §5, proof of Satz 3 and Satz 4, p. 361, read with the
+Prove existence of infinitely many isomorphic quotients (Faltings 1983, §5, proof of Satz 3 and Satz 4, p. 361, read with the
 correction of Satz 2): let `A/K` have a principal polarization `λ` and a semiabelian model over `R`, and let
 `W ⊆ V_l(A)` be a `π`-stable subspace, maximal isotropic for the Weil pairing of `λ`. Let `G ⊆ A[l^∞]` be the
 `l`-divisible subgroup with `T_l(G) = W ∩ T_l(A)` and `A_n = A/G_n`. Then `G`, the `G_n`, the `A_n` and the isogenies
@@ -1666,8 +1708,6 @@ Layers R28.1 and R28.2; AbelianSchemesAndArithmeticModuli A2, A3, A6; NeronModel
 Layer 3; ArithmeticGaloisRepresentations Layer 6; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1; Tau
 Ceti abelian varieties; Mathlib semisimple modules.
 
-<a id="r28-4"></a>
-
 ## Layer R28.4: Semisimplicity and the Tate conjecture
 
 This layer is Section 5 of Faltings 1983. From the infinitely many isomorphic quotients along a
@@ -1684,7 +1724,7 @@ Throughout, `K` is a number field, `π = Gal(K̄/K)`, `l` is any prime (`l = 2` 
 
 ### R28.4.1 `−1` is a sum of four squares in `ℤ_l`
 
-Prove `exists_sum_four_squares_eq_neg_one`: for every prime `l` there are `a, b, c, d ∈ ℤ_l` with
+Prove the four-square representation of −1: for every prime `l` there are `a, b, c, d ∈ ℤ_l` with
 `a² + b² + c² + d² = −1`. Faltings chooses such a quadruple in `ℚ_l` without comment (§5, p. 361).
 
 *Proof route.* For `l` odd choose integers `b, c` with `b² + c² ≡ −2 (mod l)` and `d = 0`; then
@@ -1701,11 +1741,11 @@ Prove `exists_sum_four_squares_eq_neg_one`: for every prime `l` there are `a, b,
 
 ### R28.4.2 Zarhin's quaternion construction
 
-This is the construction of Faltings 1983, §5, p. 361; the same matrix appears in Zarhin's trick (Milne,
-*Abelian varieties*, I Theorem 13.12, p. 60). Let `V` be a finite-dimensional `ℚ_l`-vector space with a
-nondegenerate alternating form `e` (the argument `B` of the Lean declarations), and let a group act on `V` by similitudes of `e` (`e(σx, σy) = c(σ)·e(x, y)`). For `a, b, c, d` in a commutative ring let
-`quatMatrix a b c d` be the matrix of right multiplication by `a + bi + cj + dk` in the basis `1, i, j, k` (the
-matrix printed in Milne's proof of Zarhin's trick),
+This is the construction of Faltings 1983, §5, p. 361; the same matrix appears in
+Zarhin's trick (Milne, I Theorem 13.12, p. 60). Let `V` be a vector space over a field
+`k`, with an alternating form `e`, and let a group act by similitudes with nonzero factors.
+For `a, b, c, d` in any commutative ring, define the quaternion matrix as right
+multiplication by `a + bi + cj + dk` in the basis `1, i, j, k`:
 
 ```text
        ⎛ a  −b  −c  −d ⎞
@@ -1714,42 +1754,35 @@ matrix printed in Milne's proof of Zarhin's trick),
        ⎝ d   c  −b   a ⎠
 ```
 
-so that `v·vᵀ = vᵀ·v = (a² + b² + c² + d²)·1` (left multiplication would serve equally; only this identity is
-used). The scalar matrix identities are over any commutative ring. The `matAct`, `sumForm` and
-subspace constructions use an arbitrary field `k`; isotropy and invariance hold
-in any characteristic, whereas the dimension and recovery statements assume characteristic zero
-(and dimension assumes finite-dimensional `V`). The similitude factor is nonzero. This generality
-specializes to `k = ℚ_l`, including `l = 2`. Also prove the companion targets
-`QuaternionIsotropic.finrank_subspace_of_two_ne_zero` and
-`QuaternionIsotropic.map_recover_subspace_of_two_ne_zero` over any field with `2 ≠ 0`,
-with the same remaining hypotheses (finite dimension and nondegeneracy for the former).
-The graph and recovery proofs below use only invertibility of `2`; these companions supply
-finite fields of odd characteristic as well as the characteristic-zero signatures.
-Give `V^4 = V ⊗ ℚ_l^4` and `V^8 = V^4 × V^4` the orthogonal-sum forms
-(`sumForm`) and let `v` act on `V^4` through the factor `ℚ_l^4` (`matAct`), the
-`ℚ_l`-linear map of Mathlib's scoped `Matrix.Module.matrixModule` action. Its identity,
-zero and composition rules are `one_smul`, `zero_smul` and `mul_smul`.
-For a subspace `W ⊆ V` with orthogonal complement `W^⊥` and
-`a² + b² + c² + d² = −1`, define `QuaternionIsotropic.subspace B v W`
-`= {(x, vx) : x ∈ W^4} ⊕ {(y, −vy) : y ∈ (W^⊥)^4} ⊆ V^8`.
+It satisfies `v·vᵀ = vᵀ·v = (a² + b² + c² + d²)·1` over every commutative ring.
+Give `V^4` and `V^8 = V^4 × V^4` the orthogonal-sum forms, and let scalar matrices
+act on `V^4` by Mathlib's scoped `Matrix.Module.matrixModule` action, with identity,
+zero and composition laws `one_smul`, `zero_smul` and `mul_smul`.
+For `W ⊆ V` and `a² + b² + c² + d² = −1`, define the subspace
+`W_1 = {(x, vx) : x ∈ W^4} + {(y, −vy) : y ∈ (W^⊥)^4} ⊆ V^8`
+as the ordinary sum of the two graph subspaces. Isotropy and invariance hold in every
+characteristic. Directness and recovery require `2 ≠ 0`; the dimension and maximal-isotropy
+conclusions additionally require finite-dimensional `V` and nondegenerate `e`.
+These hypotheses include `k = ℚ_l` for every prime `l`, including `l = 2`.
 
 The API consists of the following statements:
 
-- `quatMatrix_mul_transpose`, `quatMatrix_transpose_mul`: `quatMatrix a b c d · (quatMatrix a b c d)ᵀ = (a² + b² + c² + d²)·1`,
+- The quaternion matrix satisfies `v·vᵀ = (a² + b² + c² + d²)·1`,
   and likewise with the factors exchanged.
-- `sumForm_isAlt`, `sumForm_block`: alternating `e` gives an alternating orthogonal-sum form;
+- An alternating `e` gives an alternating orthogonal-sum form;
   inputs supported in distinct blocks pair to zero, and inputs in one block pair by `e`.
-- `QuaternionIsotropic.subspace_isotropic`: `W_1` is isotropic for the orthogonal-sum form on `V^8`.
-- `QuaternionIsotropic.finrank_subspace`: `dim W_1 = 4·dim V = ½·dim V^8`; hence `W_1` is maximal isotropic.
-- `QuaternionIsotropic.subspace_invariant`: if a group acts on `V` by similitudes of `e` and `W` is stable, `W_1` is
+- `W_1` is isotropic for the orthogonal-sum form on `V^8`.
+- If `2 ≠ 0`, the graph sum is direct. If also `V` is finite-dimensional and `e`
+  nondegenerate, `dim W_1 = 4·dim V = ½·dim V^8`, so `W_1` is maximal isotropic.
+- If a group acts on `V` by similitudes of `e` and `W` is stable, `W_1` is
   stable under the diagonal action on `V^8`.
-- `QuaternionIsotropic.map_recover_subspace`: the linear map `V^8 → V^4`, `(s, t) ↦ ½(s + v^{−1}t)`, maps `W_1` onto `W^4`.
-- `QuaternionIsotropic.subspace_tateModule`: for `V = V_l(A)` with the Weil pairing of a principal
+- If `2 ≠ 0`, the linear map `V^8 → V^4`, `(s, t) ↦ ½(s + v^{−1}t)`, maps `W_1` onto `W^4`.
+- For `V = V_l(A)` with the Weil pairing of a principal
   polarization, `V^8 = V_l(A^8)` and the orthogonal-sum form is the Weil pairing of `λ^8` (R28.3.6).
 
 *Proof route.* `v·vᵀ = −1` by multiplication, so `v^{−1} = −vᵀ`. For a scalar `4 × 4` matrix `u`, `e(ux, x') = e(x, uᵀx')`,
 so `e((x, vx), (x', vx')) = e(x, x') + e(x, vᵀvx') = 0` and likewise for the second summand; the cross terms are
-`e(x, y) − e(x, vᵀvy) = 2e(x, y) = 0` for `x ∈ W^4`, `y ∈ (W^⊥)^4`. The sum is direct (`(x, vx) = (y, −vy)` forces
+`e(x, y) − e(x, vᵀvy) = 2e(x, y) = 0` for `x ∈ W^4`, `y ∈ (W^⊥)^4`. When `2 ≠ 0`, the sum is direct (`(x, vx) = (y, −vy)` forces
 `x = y`, `2vx = 0`), and `dim W + dim W^⊥ = dim V` by nondegeneracy. The group commutes with the scalar `v` and
 preserves `W` and `W^⊥`. Every element of `W_1` is `(x + y, v(x − y))`, which the recovery map sends to `x`.
 
@@ -1769,18 +1802,25 @@ preserves `W` and `W^⊥`. Every element of `W_1` is `(x + y, v(x − y))`, whic
   A cross pairing would fail this test.
 - Placing the pair in both blocks gives `2`; constant inputs in all eight
   coordinates pair to `8e(u, w)`. An averaged sum gives the wrong values.
-- For the degenerate form, `e = 0` gives zero; a nonzero symmetric form in characteristic
-  zero fails the alternating API.
-- For `W = 0`, `W_1` is the graph of `−v` on `V^4`; for `W = V`, the graph of `v`.
-- For `dim V = 2` and `W` a line (so `W^⊥ = W`), `W_1 = W^4 × W^4`, an 8-dimensional
+- For the degenerate form, `e = 0` gives zero. Over `𝔽₅` with `V = 𝔽₅`,
+  `W = V` and `v = 2I₄`, both graphs sum to all of `V^8`, of dimension `8`,
+  not `4·dim V = 4`; this excludes dropping nondegeneracy from the dimension theorem.
+  A nonzero symmetric form in characteristic zero fails the alternating API.
+- For nondegenerate `e`, `W = 0` gives the graph of `−v` on `V^4`;
+  `W = V` gives the graph of `v`. For `V = 0` both graphs and their sum have dimension `0`.
+- When `2 ≠ 0`, for symplectic `V` of dimension `2` and `W` a line (so `W^⊥ = W`), `W_1 = W^4 × W^4`, an 8-dimensional
   isotropic subspace of the 16-dimensional `V^8`.
-- `QuaternionIsotropic.not_isotropic_identity`: over a field with `2 ≠ 0`, the identity
+- Over `𝔽₂`, take symplectic `V = 𝔽₂²`, `W = ⟨e₁⟩ = W^⊥` and `v = I₄`.
+  Both graphs coincide: each has `16` elements, their ordinary sum has `16` elements
+  and dimension `4`, while the external direct sum has `256` elements and dimension `8`.
+  The sum is isotropic; neither directness nor recovery nor dimension `8` is asserted.
+- Over a field with `2 ≠ 0`, the identity
   graph pairs a symplectic pair to `2`, so it is not isotropic. The condition `v·vᵀ = −1`
   is essential; the identity matrix has `v·vᵀ = +1`.
 
 ### R28.4.3 Zarhin's lemma for maximal isotropic subspaces
 
-Prove `exists_idempotent_image_of_isotropic` (Faltings 1983, §5, p. 361, attributed to Zarhin; Milne,
+Prove realization of maximal isotropic subspaces by idempotents (Faltings 1983, §5, p. 361, attributed to Zarhin; Milne,
 *Abelian varieties*, IV Lemma 2.4, pp. 136–137): let `A/K` have a principal polarization and a semiabelian
 model over `R`, and `W ⊆ V_l(A)` a `π`-stable maximal isotropic subspace. Then there is `u ∈ 𝓔` with `u(V_l(A)) = W`,
 and hence an idempotent `e ∈ 𝓔` with `e(V_l(A)) = W`.
@@ -1807,7 +1847,7 @@ and `W = u(V) ⊆ e(V) ⊆ W`.
 
 ### R28.4.4 Every stable subspace is the image of an idempotent
 
-Prove `exists_idempotent_image` (Faltings 1983, §5, p. 361; Milne, *Abelian varieties*, IV proof of
+Prove realization of stable subspaces by idempotents (Faltings 1983, §5, p. 361; Milne, *Abelian varieties*, IV proof of
 Theorem 2.5(a), p. 138): let `A/K` have a principal polarization and a semiabelian model over `R`. Every
 `π`-stable subspace `W ⊆ V_l(A)` is `e(V_l(A))` for an idempotent `e ∈ 𝓔`; the same holds for `A × A`.
 
@@ -1829,7 +1869,7 @@ compatibly with `T_l`); Mathlib `IsSemisimpleRing.ideal_eq_span_idempotent`; Tau
 
 ### R28.4.5 Satz 3 and Satz 4
 
-Prove `tate_semisimple` and `tate_end_iso` (Faltings 1983, §5, Satz 3 and Satz 4, p. 360): for an abelian
+Prove Tate semisimplicity and the integral Tate endomorphism comparison (Faltings 1983, §5, Satz 3 and Satz 4, p. 360): for an abelian
 variety `A` over a number field `K` and any prime `l`, the action of `π` on `V_l(A)` is semisimple, and the
 natural map `End_K(A) ⊗_ℤ ℤ_l → End_π(T_l(A))` is an isomorphism.
 
@@ -1857,7 +1897,7 @@ torsion-free cokernel), A6.8 `endQ_isSemisimple`; ArithmeticGaloisRepresentation
 
 ### R28.4.6 Korollar 1: the Hom form
 
-Prove `tate_hom_iso` (Faltings 1983, §5, Korollar 1 and its proof, p. 361; Milne, *Abelian varieties*, IV
+Prove the integral Tate Hom comparison (Faltings 1983, §5, Korollar 1 and its proof, p. 361; Milne, *Abelian varieties*, IV
 Theorem 1.3, p. 132): for abelian varieties `A_1, A_2` over `K` and any prime `l`,
 `Hom_K(A_1, A_2) ⊗_ℤ ℤ_l → Hom_π(T_l(A_1), T_l(A_2))` is an isomorphism, and so is
 `Hom_K(A_1, A_2) ⊗ ℚ_l → Hom_π(V_l(A_1), V_l(A_2))`.
@@ -1880,7 +1920,7 @@ the blocks.
 
 ### R28.4.7 Korollar 2: the isogeny criterion
 
-For abelian varieties `A_1, A_2` over `K` and a prime `l`, prove `isogenous_iff_localFactors` (Faltings 1983,
+For abelian varieties `A_1, A_2` over `K` and a prime `l`, prove the isogeny criterion by local factors (Faltings 1983,
 §5, Korollar 2 and its proof, p. 361): the following are equivalent:
 
 - (i) `A_1` and `A_2` are isogenous over `K`;
@@ -1923,7 +1963,7 @@ subset), §6.1, §6.3 `TateModule.localEulerFactor`
 
 ### R28.4.8 Korollar 3: finiteness with prescribed Tate modules
 
-Prove `finite_of_tateModules_iso` (Faltings 1983, §5, Korollar 3 and its proof, p. 362): for an abelian
+Prove finiteness with prescribed Tate modules (Faltings 1983, §5, Korollar 3 and its proof, p. 362): for an abelian
 variety `A/K` and `d > 0` (only squares occur as degrees), only finitely many isomorphism classes of `d`-fold
 polarized abelian varieties
 `B/K` satisfy `T_l(A) ≅ T_l(B)` as `π`-modules for every prime `l`.
@@ -1961,8 +2001,6 @@ NeronModelsAndSemistableAbelianVarieties Layer 5; TauCetiRoadmap Chebotarev (Lay
 varieties and the double centralizer theorem; Mathlib `p`-adic integers, Hensel's lemma, bilinear forms,
 semisimple rings.
 
-<a id="r28-5"></a>
-
 ## Layer R28.5: Finiteness of isogeny classes and the Shafarevich conjecture
 
 This layer is Section 6 of Faltings 1983. Satz 5 (finitely many isogeny classes with good reduction
@@ -1979,7 +2017,7 @@ Throughout, `K` is a number field of degree `m`, `S` a finite set of places of `
 
 ### R28.5.1 Finitely many Weil polynomials
 
-Prove `finite_weilPolynomials`: for a real number `r` and an integer `n ≥ 0`, there are only finitely many
+Prove finiteness of Weil polynomials: for a real number `r` and an integer `n ≥ 0`, there are only finitely many
 monic `P ∈ ℤ[X]` of degree `n` all of whose complex roots have absolute value `r`. With `r = q^{w/2}` this is the
 finiteness of Weil `q`-polynomials of weight `w` (Faltings 1983, §6, proof of Satz 5, p. 362; Milne,
 *Abelian varieties*, IV proof of Theorem 3.10, p. 144).
@@ -2007,7 +2045,7 @@ and Mahler measure is supplied by Mathlib.
 
 ### R28.5.2 A finite Frobenius test set
 
-Prove `frobeniusTestSet` (Deligne, *Preuve des conjectures de Tate et de Shafarevitch*, Théorème 3.1 and its
+Prove the finite Frobenius test set (Deligne, *Preuve des conjectures de Tate et de Shafarevitch*, Théorème 3.1 and its
 proof, p. 40; Milne, *Abelian varieties*, IV Lemma 3.8, pp. 142–143; the argument of Faltings 1983, §6, proof
 of Satz 5, pp. 362–363): let `S` be a finite set of finite places of `K`, `l` a prime and `d ≥ 1`. There is a finite
 set `T` of finite places of `K`, disjoint from `S` and from the places above `l`, such that two semisimple
@@ -2051,6 +2089,28 @@ scheme with geometrically connected fibres whose generic fibre is group-isomorph
 to `A`. The finite set in the Lean statement consists of finite places; including
 infinite places in `S` does not affect good reduction.
 
+The API of `hasGoodReductionAt` includes:
+
+- A smooth proper commutative model with geometrically connected fibres and a
+  group-scheme identification of its generic fibre introduces the predicate.
+- A group isomorphism `A ≅ B` transports the predicate in both directions by
+  composing that generic identification; a bare scheme map does not supply it.
+- The predicate is closed under products, using the product model and the product
+  of the generic group identifications.
+
+**Checks for `hasGoodReductionAt`.**
+
+- The zero abelian variety has model `Spec(R) → Spec(R)`; each geometric fibre
+  has one point and dimension `0`. This gives good reduction at every finite place.
+- The projective elliptic model `y² = x³ − x` at `5` has discriminant `64 ≡ 4`
+  modulo `5`, a unit, and its zero section supplies the group-compatible generic
+  identification. It therefore gives good reduction.
+- A candidate with special fibre `Spec(𝔽₂[ε]/(ε²))` cannot witness the predicate:
+  `ε ≠ 0` but `ε² = 0`, so that fibre is not geometrically reduced and hence not smooth.
+  This rejects the candidate model, not every possible model of its generic fibre.
+- Translation by a nonzero point on an elliptic curve sends `0` to that point,
+  and fails the group-homomorphism condition on the generic identification.
+
 *Proof route.* For `g = 0` there is just the zero abelian variety. Assume `g > 0` and fix a prime `l`. For `A` of dimension `g` with good reduction outside `S`, `V_l(A)` is unramified outside
 `S` and the places above `l` (Néron–Ogg–Shafarevich) and semisimple (R28.4.5). Take `T` from R28.5.2 for the finite
 places of `S` and `d = 2g`. For `v ∈ T`, use the monic characteristic polynomial
@@ -2077,9 +2137,9 @@ and DeligneWeightsAndPurity DWP.1 §1.4
 
 For an abelian variety `A/K` of dimension `g`, let `n` be the product of the primes `l` at which `K/ℚ` is ramified or `A` has
 bad reduction at some place above `l`. Choose a prime `p ∤ n`, and for `0 ≤ h ≤ 2gm` let
-`P_h(T) = det(T − F_p | Λ^h Ind_π^{π̃} T_l(A))` for a prime `l ∤ pn`. Prove `auxPoly_spec` (Faltings 1983, §6, proof of
+`P_h(T) = det(T − F_p | Λ^h Ind_π^{π̃} T_l(A))` for a prime `l ∤ pn`. Prove the auxiliary-polynomial identities (Faltings 1983, §6, proof of
 Satz 6, pp. 363–364): the `P_h` have integer coefficients, are independent of `l`, and their complex roots have
-absolute value `p^{h/2}`. Define `auxBound A p` as an integer `N ≥ max(2, np)` such that no prime `l > N` divides any
+absolute value `p^{h/2}`. Define the auxiliary bound `N` for `(A,p)` as an integer `N ≥ max(2, np)` such that no prime `l > N` divides any
 of the nonzero integers `P_h(±p^j)` with `0 ≤ h ≤ 2gm`, `0 ≤ j ≤ gm`, `j ≠ h/2`.
 
 *Proof route.* Since `p ∤ n`, `F_p` permutes `π̃/π` in orbits corresponding to the places `v | p`, of lengths `f_v`, and
@@ -2093,11 +2153,11 @@ absolute value `p^{1/2}`, so `P_1` has roots `α_1, …, α_{2gm}` of absolute v
 typographical variant of `≠`.
 
 *Needs:* ArithmeticGaloisRepresentations §1.3 “The Mackey decomposition” (`Rep.mackeyDecomposition`,
-`ContinuousRep.finite_doubleCoset_mackey`), §7.1 `ContinuousRep.extPower`;
+the continuous Mackey decomposition target), §7.1 `ContinuousRep.extPower`;
 AbelianSchemesAndArithmeticModuli A6.33 `weilRestrictionTate`; WeightsInEtaleCohomology R34.2 and
 DeligneWeightsAndPurity DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1.4; Mathlib `Representation.ind`.
 
-**Checks for `auxPoly_spec`.**
+**Checks for the auxiliary-polynomial identities.**
 - At an inert quadratic place (`f_v = 2`), `|α| = p` for a root of `Q_v`; a root `z`
   of `Q_v(T²)` has `|z| = √p`, not `p`.
 - `P_0 = T − 1`, and for `j ≠ h/2` the values `P_h(±p^j)` are nonzero by their root
@@ -2105,7 +2165,7 @@ DeligneWeightsAndPurity DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1
 - `K = ℚ`, an elliptic curve with good reduction at `p`: `P_0 = T − 1`, `P_1 = T² − a_p T + p`,
   `P_2 = T − p`; for `11a1` and `p = 2`, `P_1 = T² + 2T + 2`.
 
-**Checks for `auxBound`.**
+**Checks for the auxiliary bound.**
 - For `11a1/ℚ` and `p = 2`, `n = 11` and `N = 22` satisfies the bound: in the
   ranges `0 ≤ h ≤ 2`, `0 ≤ j ≤ 1`, `j ≠ h/2`, the nonzero evaluations have prime factors
   only `2, 3, 5`.
@@ -2117,7 +2177,7 @@ DeligneWeightsAndPurity DWP.0 §0.14 (eigenvalues of exterior powers), DWP.1 §1
 
 Let `B_1/K` be semistable everywhere, `l` a prime, `G ⊆ B_1[l]` a `π`-stable subgroup of order `l^h`,
 `W_l = G(K̄) ⊆ B_1[l](K̄)`, `W̃_l = Ind_π^{π̃} W_l` (an `𝔽_l`-space of dimension `mh`), `χ : π̃ → 𝔽_l^×` the character of `π̃`
-on `Λ^{mh} W̃_l`, and `ε` the sign character of Conventions. Prove `twistedDet_unramified` (Faltings 1983, §6, proof
+on `Λ^{mh} W̃_l`, and `ε` the sign character of Conventions. Prove unramifiedness of the twisted determinant (Faltings 1983, §6, proof
 of Satz 6, p. 364): `χ·ε^h` is unramified at every prime `p' ≠ l`.
 
 *Proof route.* Determinant of an induced representation: `χ = ε^h·(det W_l ∘ Ver)`, with `Ver` the transfer
@@ -2125,7 +2185,7 @@ of Satz 6, p. 364): `χ·ε^h` is unramified at every prime `p' ≠ l`.
 in the explicit transfer formula lie in inertia groups of places of `K` above `p'`, which act unipotently on
 `B_1[l]` (semistable reduction, Grothendieck's criterion) and hence on `W_l`, with determinant `1`.
 
-*Needs:* ArithmeticGaloisRepresentations §1.3 `ContinuousRep.det_ind`; NeronModelsAndSemistableAbelianVarieties §3.7
+*Needs:* ArithmeticGaloisRepresentations §1.3 “The determinant of an induced representation”; NeronModelsAndSemistableAbelianVarieties §3.7
 `InertiaSquareZero` and §3.11 `MonodromyCriterion`; Mathlib `MonoidHom.transfer`,
 `MonoidHom.transfer_eq_prod_quotient_orbitRel_zpowers_quot`, `LinearMap.det`.
 
@@ -2137,7 +2197,7 @@ in the explicit transfer formula lie in inertia groups of places of `K` above `p
 
 ### R28.5.6 Mod-`l` characters of `Gal(ℚ̄/ℚ)` unramified outside `l`
 
-Prove `modl_char_cyclotomic` (Faltings 1983, §6, proof of Satz 6, p. 364, where it is attributed to class field
+Prove the mod-l cyclotomic character statement (Faltings 1983, §6, proof of Satz 6, p. 364, where it is attributed to class field
 theory): a continuous character `ψ : Gal(ℚ̄/ℚ) → 𝔽_l^×` unramified at every prime `p' ≠ l` is a power of the mod-`l`
 cyclotomic character `χ_0`.
 
@@ -2163,7 +2223,7 @@ generated by `χ_0`.
 Let `A/K` be semistable everywhere, `N` as in R28.5.4, `B_1, B_2` abelian varieties over `K` isogenous to `A`, and
 `φ : B_1 → B_2` an isogeny whose kernel `G` is killed by a prime `l > N`, with `deg φ = l^h`. Let `χ` and `ε` be as in
 R28.5.5 for `G ⊆ B_1[l]`, and `l^d = #s^*(Ω^1_{G/R})` for the closure of `G` in the semiabelian model of `B_1`
-(`0 ≤ d ≤ gm`). Prove `raynaud_determinant` (Faltings 1983, §6, proof of Satz 6, p. 364; Raynaud, *Schémas en
+(`0 ≤ d ≤ gm`). Prove Raynaud’s determinant identity (Faltings 1983, §6, proof of Satz 6, p. 364; Raynaud, *Schémas en
 groupes de type (p, …, p)*, Théorème 4.1.1, p. 272): `χ·ε^h = χ_0^d`.
 
 *Proof route.* `l > N ≥ n` makes `K/ℚ` unramified at `l` (so `e = 1 ≤ l − 1` at every `v | l`) and `B_1` of good
@@ -2190,7 +2250,7 @@ onto `𝔽_l^×`, `k ≡ d (mod l − 1)`. Faltings cites Raynaud's theorem as "
 
 ### R28.5.8 Heights agree along isogenies of large prime-power degree
 
-Prove `height_eq_of_large_prime_isogeny` (Faltings 1983, §6, proof of Satz 6, pp. 364–365; Milne,
+Prove height invariance for large-prime isogenies (Faltings 1983, §6, proof of Satz 6, pp. 364–365; Milne,
 *Abelian varieties*, IV, account of Faltings 1983, p. 159): with `A`, `N` as above, if `φ : B_1 → B_2` is an isogeny
 between abelian varieties over `K` isogenous to `A` whose degree is a power of a prime `l > N`, then
 `h(B_1) = h(B_2)`.
@@ -2212,21 +2272,35 @@ where `χ(F_p) = ±p^d` is meant.
 
 ### R28.5.9 Finitely many stable lattices in a semisimple representation
 
-**Local maximal-order lattices.** Prove `maximalOrder_lattices_iso`: let `F/ℚ_l` be a finite
-extension, `R = O_F`, `D` a finite-dimensional central simple `F`-algebra, `O` a maximal
+**Local maximal-order lattices.** Prove the maximal-order lattice classification: let
+`R` be a discrete valuation ring, `F` its fraction field, `D` a finite-dimensional
+central simple `F`-algebra, `O` a maximal
 `R`-order and `M` a finite left `D`-module. Any two full `O`-lattices in `M` are
 `O`-linearly isomorphic, and the isomorphism extends to a `D`-linear automorphism of `M`
 (Yu, Theorem 4.8(2), pp. 13–14; Reiner, Theorems 18.1 and 18.7).
 Use the order predicates of ClassicalArithmeticCompletion §§7.4, 7.21.
-Construct as part of this auxiliary the valuation on a finite-dimensional central division
+First, for a complete DVR, construct the valuation on a finite-dimensional central division
 algebra over `F`, its unique maximal order, principality of its one-sided ideals and the
-freeness of its finite torsion-free modules. Then construct the integral Morita equivalence
-for matrix orders and conjugacy of maximal orders, to obtain the asserted lattice
-classification. For a semisimple `ℚ_l`-algebra, pass to each finite-extension center and
-apply the central-simple result factorwise, retaining the multiplicity in each factor.
+freeness of its finite torsion-free modules. Integral Morita equivalence for matrix orders
+and conjugacy of maximal orders give the complete-DVR classification (Yu §4.3,
+Lemma 4.4 and Theorem 4.5, pp. 12–13).
+For an arbitrary DVR, prove preservation and reflection of maximality on completion,
+and that two full `O`-lattices in the same `D`-module are isomorphic whenever their
+completions are. For the latter, finite presentation identifies completed Hom with Hom
+of completions; approximate an invertible completed Hom element modulo the maximal
+ideal by an integral Hom element. Its determinant is a unit, so it is an isomorphism.
+This supplies the descent step of Yu §4.4, Theorem 4.8(2), pp. 13–14; uniqueness of a
+maximal order in a division algebra is asserted only in the complete case.
+The case `F/ℚ_l` finite and `R = O_F` is an application. For a semisimple `ℚ_l`-algebra,
+apply the central-simple result at each finite-extension center, retaining the
+multiplicity in each simple factor.
 
-**Checks for `maximalOrder_lattices_iso`.**
-- For `D = F` and `O = R`, the lattices `R` and `lR` are isomorphic, although not equal.
+**Checks for maximal-order lattice classification.**
+- For `D = F`, `O = R` and a uniformizer `π`, multiplication by `π` maps `R`
+  isomorphically onto `πR`; its rational inverse is multiplication by `π⁻¹`.
+- For both `R = 𝔽₂[[t]]` and the noncomplete DVR `𝔽₂[t]_(t)`, multiplication by
+  `t` gives `R ≅ tR` and rational determinant `t ≠ 0`. The quotient `R/tR` has
+  two elements, so equality of the two lattices would be false in both cases.
 - For `D = M₂(F)`, `O = M₂(R)` acting on `F²`, every full stable lattice is isomorphic
   to `R²`; the simple lattice is not a free rank-one `M₂(R)`-module.
 - In `D = F × F`, the modules `F × 0` and `0 × F` have the same total `F`-dimension
@@ -2239,17 +2313,40 @@ with a group `Γ` acting `ℚ_l`-linearly and semisimply, and let some `Γ`-stab
 there is a finite set of stable lattices such that every stable lattice is `g(Λ)` for one of them and some
 `g ∈ Aut_Γ(V)`.
 
+Define `isStableLattice ρ Λ` to mean that `Λ : Submodule ℤ_[l] V` satisfies
+Mathlib's `Submodule.IsLattice ℚ_[l] Λ` and `ρ(γ)(Λ) ⊆ Λ` for every `γ ∈ Γ`.
+The `ℤ_l`-module structure on `V` and scalar tower `ℤ_l → ℚ_l → V` are explicit;
+semisimplicity means that the associated group-algebra module is semisimple.
+
+Its API consists of the following facts:
+
+- Every such lattice is finitely generated and has full rational span.
+- Since `Γ` is a group, the invariance inclusions are equalities, by applying `γ⁻¹`.
+- A rational linear automorphism commuting with `ρ` carries stable lattices to stable
+  lattices, with the inverse giving transport back.
+
+**Checks for `isStableLattice`.**
+
+- For the trivial action on `ℚ_l²`, `ℤ_l²` has rank `2` and rational span `ℚ_l²`;
+  `diag(l,1)` transports it to `lℤ_l × ℤ_l`, another stable lattice.
+- In nonzero `V = ℚ_l²`, the zero submodule has rational span dimension `0 ≠ 2`,
+  so fails the predicate even though it is invariant. In `V = 0`, it has full span
+  and is the unique stable lattice, giving one representative.
+- Let a generator of `Γ = ℤ` act on `ℚ_l` by `l`. The full lattice `ℤ_l` is
+  preserved by that generator, but its inverse sends `1` to `l⁻¹ ∉ ℤ_l`.
+  Invariance under the whole group, not one chosen generator alone, is required.
+
 *Proof route.* Let `B ⊆ End(V)` be the `ℚ_l`-span of the image of `Γ` and `O ⊆ B` the `ℤ_l`-span (an order, contained in
 `End(Λ_0)` for a stable `Λ_0`). `B` is semisimple, having the faithful semisimple module `V`. The trace form of `B`
 is nondegenerate (characteristic `0`), and every order containing `O` lies in the dual `O^♯` of `O` for it,
 traces of elements of an order being integral. ClassicalArithmeticCompletion §7.56 gives
 a maximal order `O' ⊇ O`. Its decomposition into the simple factors and
-`maximalOrder_lattices_iso` give the classification of full `O'`-lattices in the fixed
+the maximal-order lattice classification gives the classification of full `O'`-lattices in the fixed
 `B`-module `V`. For a stable `Λ`, `O'Λ` is an `O'`-lattice, isomorphic to a fixed `Λ'_0` with the same span, and
 `l^k O' ⊆ O` for some `k` gives `l^k·O'Λ ⊆ Λ ⊆ O'Λ`; so `Λ` is isomorphic to one of the finitely many `O`-submodules
 between `l^kΛ'_0` and `Λ'_0`.
 
-*Needs:* `maximalOrder_lattices_iso` above; ClassicalArithmeticCompletion §§7.4
+*Needs:* the maximal-order lattice classification above; ClassicalArithmeticCompletion §§7.4
 `IntegralOrder.IsOrder`, 7.21 `IntegralOrder.IsMaximalOrder`, 7.56 (containing maximal order);
 Mathlib `IsSemisimpleModule`, `IsSemisimpleRing`, `Algebra.traceForm`, `Submodule.IsLattice`
 (TauCeti `TauCeti.Submodule.IsLattice.finrank_eq_finrank` and
@@ -2259,12 +2356,13 @@ Mathlib `IsSemisimpleModule`, `IsSemisimpleRing`, `Algebra.traceForm`, `Submodul
 - The statement is about lattices up to isomorphism of `Γ`-modules, not up to equality or scaling: for trivial
   `Γ` on `ℚ_l²` every lattice is isomorphic to `ℤ_l²`.
 - Semisimplicity is necessary: for `Γ = {(1 x; 0 1) : x ∈ ℤ_l}` acting on `ℚ_l²`, the lattices `ℤ_l e_1 ⊕ l^k ℤ_l e_2`
-  (`k ≥ 0`) are stable and pairwise non-isomorphic, every `Γ`-automorphism of `V` being `(α β; 0 α)`.
+  (`k ≥ 0`) are stable and pairwise non-isomorphic: their coinvariants are
+  `ℤ_l ⊕ ℤ_l/l^k`, with torsion orders `1, l, l², …`. Every `Γ`-automorphism of `V` is `(α β; 0 α)`.
 - For `V = V_l(A)` the only input from the Tate conjecture is the semisimplicity (R28.4.5).
 
 ### R28.5.10 The small primes in an isogeny class
 
-Prove `finite_padicVal_heightQuotient` (Faltings 1983, §6, proof of Satz 6, p. 363): let `A/K` be semistable
+Prove finiteness of height-quotient valuations (Faltings 1983, §6, proof of Satz 6, p. 363): let `A/K` be semistable
 everywhere and fix a prime `l`. As `B` ranges over the abelian varieties over `K` isogenous to `A`, the `l`-adic
 valuation of the rational number `exp(2m·(h(B) − h(A)))` takes only finitely many values.
 
@@ -2283,7 +2381,7 @@ on the isomorphism class of `Λ_B`, and R28.5.9 (with R28.4.5) gives finitely ma
 
 ### R28.5.11 Satz 6: the Shafarevich conjecture
 
-Prove `shafarevich` (Faltings 1983, §6, Satz 6 and its proof, pp. 363–365): for a number field `K`, a finite
+Prove the polarized Shafarevich theorem (Faltings 1983, §6, Satz 6 and its proof, pp. 363–365): for a number field `K`, a finite
 set `S` of places, `g ≥ 0` and `d > 0` (only squares occur as degrees, Conventions), there are only finitely many
 isomorphism classes of `d`-fold polarized
 abelian varieties of dimension `g` over `K` with good reduction outside `S`.
@@ -2313,14 +2411,14 @@ good reduction outside `S` and Lemma 4.
 
 ### R28.5.12 Zarhin's trick and the finiteness of direct factors
 
-Use `zarhinTrick`, the field specialization of PadicDifferentialEquationsAndRigidCohomology
+Use Zarhin’s trick, the field specialization of PadicDifferentialEquationsAndRigidCohomology
 §RD.5.116, including its finite-flat graph-descent construction: for every abelian variety
 `A/k`, `(A × A^∨)^4` carries a principal polarization over `k`. An abelian variety over a
 field has a polarization over that field, so the supplier applies over `Spec(k)` without
 an extension. Sources: Milne, *Abelian varieties*, I Theorem 13.12, p. 60; Zarhin,
 Theorem 1.1(ii) with `O = ℤ`, p. 2, and §4, pp. 4–5 (arXiv:2010.07995v5).
 
-**Arithmetic closed-orbit adapter.** Prove `IntegralOrder.finite_closedConjugacyOrbits`:
+**Arithmetic closed-orbit adapter.** Prove the arithmetic closed-orbit adapter:
 for a finite-dimensional semisimple `ℚ`-algebra `E`, a `ℤ`-order `O ⊆ E` and a
 geometrically closed conjugacy orbit `X ⊆ E` of the algebraic group `E^×`, the set
 `X(ℚ) ∩ O` has finitely many `O^×`-orbits. Construct this specialization of arithmetic
@@ -2332,14 +2430,14 @@ stabilizer of the lattice `O`. The supplied Siegel-domain reduction and lattice 
 must be transported to this subgroup action; this adapter includes that transport and the
 finite-index changes of arithmetic subgroup.
 
-**Checks for `IntegralOrder.finite_closedConjugacyOrbits`.**
+**Checks for the arithmetic closed-orbit adapter.**
 - A central scalar orbit is a point; its integral intersection is empty or a singleton.
 - For `E = M₂(ℚ)` and `O = M₂(ℤ)`, the rank-one idempotent orbit contains infinitely
   many matrices `(1 n; 0 0)`, all conjugate under `GL₂(ℤ)`.
 - The nonzero nilpotent orbit is not closed: `nE₁₂`, `n ≥ 1`, have distinct
   `GL₂(ℤ)`-orbits, detected by the gcd of the entries. Omitting closedness is false.
 
-**Integral idempotents.** Prove `IntegralOrder.finite_idempotentConjugacyClasses`: for a
+**Integral idempotents.** Prove finiteness of integral idempotent conjugacy classes: for a
 `ℤ`-order `O` in a finite-dimensional semisimple `ℚ`-algebra `E`, its integral idempotents
 have finitely many conjugacy classes under `O^×` (Milne, I Proposition 15.4 and
 Application 15.8, pp. 65–67). Equivalently, take a finite free `ℤ`-algebra `O` with
@@ -2350,7 +2448,7 @@ matrix block it is cut out by `e² = e` and `tr(e) = r`, since characteristic is
 idempotents are diagonalizable. Thus no projectivity assertion about the space of images
 alone is needed to establish closedness of the conjugacy orbit.
 
-**Checks for `IntegralOrder.finite_idempotentConjugacyClasses`.**
+**Checks for finiteness of integral idempotent conjugacy classes.**
 - For `O = ℤ`, the two idempotents are `0, 1`.
 - For `O = M₂(ℤ)`, there are three classes, represented by `0`, `diag(1,0)`, `1`.
 - Rational idempotents `(1 1/n; 0 0)` have unbounded least denominators and infinitely
@@ -2366,8 +2464,8 @@ isomorphic factors. Finite generation of Hom and rational semisimplicity identif
 ClassicalArithmeticCompletion §7.4 `IntegralOrder.IsOrder`; AdelicAlgebraicGroups AA.3.3
 (the three reduction contracts above); AbelianSchemesAndArithmeticModuli A2.2
 `AbelianScheme.dual`, A6.7 `homFreeFinite`, A6.8 `endQ_isSemisimple`;
-`IntegralOrder.finite_closedConjugacyOrbits` and
-`IntegralOrder.finite_idempotentConjugacyClasses` above.
+the arithmetic closed-orbit adapter and
+finiteness of integral idempotent conjugacy classes above.
 
 **Checks.**
 - For a principally polarized `A`, `(A × A^∨)^4 ≅ A^8`; taking the principal
@@ -2408,7 +2506,7 @@ NeronModelsAndSemistableAbelianVarieties §5.1.
 
 ### R28.5.14 The rational Torelli theorem
 
-**Canonical polarization without a curve point.** Obtain `jacobianCanonicalPolarization`:
+**Canonical polarization without a curve point.** Obtain the field specialization of the canonical Jacobian polarization:
 for a smooth projective geometrically connected curve `C` of genus `g ≥ 1` over a field `k`, the
 abelian variety `jacobian C = Pic⁰_{C/k}` of SchemeAndStackFoundations §3.6 has a canonical
 principal polarization `θ_C`, compatible with field extension, and equal to the theta
@@ -2421,7 +2519,7 @@ the degree-zero component of JacobianChallenge Layer D's Picard scheme, and the 
 respects the group law and the comparisons under field extension. Transport `λ_X` along it.
 Sources: Milne, *Abelian varieties*, III Theorem 6.6 and Summary 6.11, pp. 105–108.
 
-**Checks for `jacobianCanonicalPolarization`.**
+**Checks for the field specialization of the canonical Jacobian polarization.**
 - If `C(k)` is nonempty, the construction agrees with the supplied pointed polarization
   (the field-fibre clause of JacobianChallengePartII §1.4 for the degree-one divisor `[P]`);
   replacing the point changes theta by translation and preserves the homomorphism.
@@ -2433,7 +2531,7 @@ Sources: Milne, *Abelian varieties*, III Theorem 6.6 and Summary 6.11, pp. 105�
 - For `g = 1` and a genus-one curve `C` with `C(k) = ∅`, `θ_C` is the principal polarization of
   the elliptic curve `jacobian C`, although `C` carries no theta divisor over `k`.
 
-Prove `rationalTorelli` (Milne, *Abelian varieties*, III Theorem 12.1, p. 120, Corollary 12.2, p. 121, with the
+Prove rational Torelli (Milne, *Abelian varieties*, III Theorem 12.1, p. 120, Corollary 12.2, p. 121, with the
 proof in III §13, pp. 122–127, after Martens; IV Theorem 4.2, p. 144): for smooth projective geometrically
 connected curves `C, C'` of genus `g ≥ 2` over a perfect field `k`, if the canonically polarized Jacobians
 `(J(C), θ_C)` and `(J(C'), θ_{C'})` are isomorphic over `k`, then `C ≅ C'` over `k`. Over an algebraically closed field
@@ -2462,7 +2560,7 @@ A non-hyperelliptic curve has no automorphism inducing `−1` on its Jacobian, s
 determined by `β` and descends with `α`; for hyperelliptic curves it is fixed to `+` first. Over `k̄` with `g ≤ 1` the conclusion holds because
 both curves have points: genus-zero curves are `ℙ¹`, and a genus-one curve is its Jacobian.
 
-*Needs:* `jacobianCanonicalPolarization` above; JacobianChallengePartII §1.2 (relative Jacobian
+*Needs:* the field specialization of the canonical Jacobian polarization above; JacobianChallengePartII §1.2 (relative Jacobian
 and its field specialization), §1.3 (base change) and §1.4 (canonical principal polarization);
 AbelianSchemesAndArithmeticModuliPartII B4.1 (geometric strong Torelli);
 SchemeAndStackFoundations §3.6 `jacobian`, `jacobian_dim` and §1.1 (descent); TauCetiRoadmap
@@ -2494,14 +2592,38 @@ The statement `finite_curves_goodReduction` uses native schemes over `K`, with g
 expressed as the rank of `H¹(C, O_C)` and good reduction expressed by
 `curveHasGoodReductionAt`: a smooth proper model with geometrically connected fibres
 over each local ring outside `S`. Smooth proper curves over a field are projective;
-no rational-point hypothesis is imposed.
+no rational-point hypothesis is imposed. The predicate is defined for schemes over `K`;
+relative dimension one and the genus bound are separate hypotheses of the theorem.
+
+The API of `curveHasGoodReductionAt` includes:
+
+- A smooth proper model with geometrically connected fibres and an isomorphism
+  of its generic fibre to `C` introduces the predicate.
+- An isomorphism of schemes over `K`, `C ≅ D`, transports the predicate in both
+  directions by composition on the generic fibre.
+- For smooth proper curves, a witnessing model has constant genus on the trait;
+  no marked point or lower genus bound belongs to this predicate.
+
+**Checks for `curveHasGoodReductionAt`.**
+
+- `ℙ¹_ℤ_(2)` witnesses good reduction of `ℙ¹_ℚ` at `2`, with `H¹(O) = 0` and
+  genus `0`. The condition `g ≥ 2` belongs to the finiteness theorem.
+- The smooth proper hyperelliptic model of `y² = x⁵ − x + 1` over `ℤ_(5)` has
+  genus `2`: modulo `5` the derivative of the right side is `−1`, so the polynomial
+  is squarefree. At infinity use `u = 1/x`, `z = y/x³`, giving
+  `z² = u − u⁵ + u⁶`; the derivative in `u` at `(0,0)` is `−1`, also a unit.
+- The projective model `y² = x³ + x² + 5` has generic discriminant `−11120 ≠ 0`,
+  but reduces to `y² = x²(x+1)` modulo `5`. At `(0,0)` both partial derivatives
+  vanish and the tangent cone is `(y−x)(y+x)`, with two distinct lines.
+  This nodal special fibre makes that candidate fail smoothness, despite its
+  smooth generic fibre; it does not by itself test all other possible models.
 
 *Proof route.* `X ↦ (J(X), θ_X)` sends such curves to principally polarized abelian varieties of dimension `g` with
 good reduction outside `S` (good reduction of a curve gives good reduction of its Jacobian: Milne, IV
 Proposition 4.1, p. 144). Satz 6 with `d = 1` gives finitely many `(J, θ)`, and R28.5.14 makes the map injective on
 `K`-isomorphism classes.
 
-*Needs:* R28.5.11, R28.5.14 `jacobianCanonicalPolarization` and `rationalTorelli`;
+*Needs:* R28.5.11, R28.5.14 the field specialization of the canonical Jacobian polarization and rational Torelli;
 SchemeAndStackFoundations §3.6 `jacobian`, `jacobian_dim`; NeronModelsAndSemistableAbelianVarieties
 §3.8–§3.9 (`PicardNeronIdentity`: for a smooth model the degree-zero Picard scheme is the abelian scheme).
 
@@ -2530,8 +2652,6 @@ R07.1; ClassicalArithmeticCompletion §§7.4, 7.21, 7.56; AdelicAlgebraicGroups 
 PadicDifferentialEquationsAndRigidCohomology §RD.5.116; Mathlib (polynomials, induced
 representations, transfer, cyclotomic fields, semisimple rings, lattices).
 
-<a id="r28-6"></a>
-
 ## Layer R28.6: Elliptic curves and the integral commutant
 
 This layer states the results for elliptic curves over number fields in terms of Tau Ceti's Weierstrass curves with their homomorphism groups (the zero map and the isogenies), their
@@ -2544,7 +2664,7 @@ discriminant (Mathlib `WeierstrassCurve` with `IsElliptic`); `Hom_K(E, E')` is T
 
 ### R28.6.1 Elliptic curves as one-dimensional abelian varieties
 
-Prove `ellipticBridge` (Milne, *Abelian varieties*, I §1, Corollary 1.2, p. 9, and III §6,
+Prove the elliptic-to-abelian comparison (Milne, *Abelian varieties*, I §1, Corollary 1.2, p. 9, and III §6,
 Proposition 6.1, p. 104, applied to a pointed genus-one curve; used tacitly by Faltings 1983, §5): for an
 elliptic curve `E/K` let `E_ab` be the one-dimensional abelian variety with
 `E_ab(L) = E(L)` for every field `L ⊇ K` (the Weierstrass curve as a group scheme). Then
@@ -2666,7 +2786,7 @@ Layer 4.
 
 ### R28.6.6 Homomorphisms to an isogenous curve form an infinite cyclic group
 
-Prove `hom_isogenous_cyclic`: for elliptic curves `E, E'` over a field `K` of characteristic `0` with
+Prove the cyclic Hom theorem: for elliptic curves `E, E'` over a field `K` of characteristic `0` with
 `Hom_K(E, E') ≠ 0` and `End_K(E') = ℤ` (every endomorphism is multiplication by an integer), `Hom_K(E, E')` is infinite
 cyclic: it has a nonzero generator `f_0`, and each `f` has a unique expression `n·f_0` for `n ∈ ℤ`.
 Every nonzero `f` has `n ≠ 0`, and `deg f = n²·deg f_0`. No finiteness or
@@ -2687,7 +2807,7 @@ injective additive map `Hom_K(E, E') → End_K(E') = ℤ`, so its image is a non
 
 ### R28.6.7 Bemerkung 2: the integral commutant at almost all primes
 
-Prove `commutant_almostAll` (Faltings 1983, §6, Bemerkung 2 after Satz 7, p. 365; Deligne, *Preuve des
+Prove integral commutant generation at almost all primes (Faltings 1983, §6, Bemerkung 2 after Satz 7, p. 365; Deligne, *Preuve des
 conjectures de Tate et de Shafarevitch*, Théorème 2.7, p. 39): for an abelian variety `A` over a number field `K`, for
 all but finitely many primes `l` the `ℤ_l`-subalgebra of `End_{ℤ_l}(T_l(A))` generated by the image of `π` is the full
 commutant of `End_K(A) ⊗ ℤ_l`. Both sources state the result and indicate the method (Zarhin's) without writing it
@@ -2697,7 +2817,7 @@ varieties*, IV Corollary 2.7, p. 138).
 *Proof route.* Use R28.5.13 and isogeny invariance of good reduction to choose finitely
 many representatives `B_j` of the `K`-isogeny class of `A`, with fixed `K`-isogenies
 `β_j : A → B_j`. No extension of `K` or polarization of an arbitrary quotient is required.
-Construct `quotient_torsion_image`: for a prime `l`, a `π`-stable `W ⊆ A[l]`,
+Construct the quotient torsion-image identity: for a prime `l`, a `π`-stable `W ⊆ A[l]`,
 `q : A → A/W` and `f : A/W → A` with `f q = [l]`, the image of
 `f : (A/W)[l] → A[l]` is `W`. If `β : A → A/W` has degree prime to `l`, then
 `im((f β) mod l) = W`. Indeed `q f = [l]` as well; lifting an element of `(A/W)[l]`
@@ -2723,7 +2843,7 @@ second-row entries. The double centralizer theorem now identifies the `𝔽_l`-s
 of `π` with the commutant of `E_l`.
 
 The commutant of `End_K(A) ⊗ ℤ_l` in `End(T_l(A))` reduces onto that of `End_K(A) ⊗ 𝔽_l` for
-almost all `l` by the following named auxiliary statement, `order_centralizer_reduce`. For a
+almost all `l` by the following named auxiliary statement, the centralizer base-change identity. For a
 finite free separable `ℤ_l`-algebra `O` acting on a finite free module `T`,
 `Cent_End(T)(O) ⊗ 𝔽_l ≅ Cent_End(T/lT)(O/lO)`. A separability element
 `Σ a_j ⊗ b_j` gives the projector `f ↦ Σ a_j f b_j` onto the centralizer, commuting with base change.
@@ -2733,7 +2853,7 @@ inverting a fixed integer (clear its denominators), so this applies to `End_K(A)
 of the Tate map alone. Nakayama then lifts the generation from
 `𝔽_l` to `ℤ_l`.
 
-*Needs:* R28.4.5, R28.5.13; `quotient_torsion_image` above;
+*Needs:* R28.4.5, R28.5.13; the quotient torsion-image identity above;
 AbelianSchemesAndArithmeticModuli A3.3 `AbelianQuotient`, A6.1 `Hom.deg`,
 A6.8 (endomorphisms of products); ArithmeticGaloisRepresentations §6.1
 (the torsion maps of isogenies); AbelianSchemesAndArithmeticModuli A6.7
@@ -2744,14 +2864,14 @@ characteristic zero); Tau Ceti
 (`Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`).
 
 **Checks.**
-- `quotient_torsion_image` with `W = 0` gives `f = [l]` and zero torsion image;
+- The quotient torsion-image identity with `W = 0` gives `f = [l]` and zero torsion image;
   with `W = A[l]` one may take `q = [l]`, `f = id`, and the image is all `A[l]`.
 - For a positive-dimensional principally polarized `A` and `W = A[l]`, the polarization
   `lλ` cannot descend through `[l]`: the degree formula would give `l^{−2g}`. The
   quotient argument uses no such polarization; `l²λ` would have different descent data.
 - With a `β_j` of degree divisible by `l`, its torsion map need not be invertible, so
   `im(f β_j)` need not equal `W`; these primes are excluded explicitly.
-- `order_centralizer_reduce_counterexample`: `order_centralizer_reduce` needs separability.
+- The centralizer base-change identity needs separability.
   Let `O = ℤ_l[ε]/(ε²)` act on `ℤ_l²`
   by `ε = lE₁₂`. Its integral centralizer consists of `(a b; 0 a)`, whereas modulo `l`
   the action of `ε` is zero and the centralizer is all `M₂(𝔽_l)`. Saturation of an
@@ -2823,6 +2943,11 @@ then bounds the fibres of the map to curve isomorphism classes.
   finiteness of Weil polynomials and the Frobenius test set in the generality of R28.5.1 and R28.5.2.
 
 ## References
+
+- P. Deligne and D. Mumford, *The irreducibility of the space of curves of given genus*,
+  Publications Mathématiques de l’IHÉS 36 (1969), 75–109, Theorem 4.19, p. 103
+  (finite-extension valuative existence for proper DM stacks).
+  [Numdam archive](https://www.numdam.org/item/PMIHES_1969__36__75_0/).
 
 - Yuri G. Zarhin, *Abelian varieties, quaternion trick and endomorphisms*,
   arXiv:2010.07995v5 (2022), Theorem 1.1(ii), p. 2, and §4, pp. 4–5.

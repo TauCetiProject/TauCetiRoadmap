@@ -11,7 +11,7 @@ import TauCeti.AlgebraicGeometry.LineBundle.Basic
 # Faltings finiteness and isogeny theorems: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These are suggested forms for headline theorems; discharging them finishes
+`README.md`. These state the roadmap’s headline theorems against the pinned APIs; discharging them finishes
 neither a layer nor the roadmap. The definitions have real bodies and the theorems use `sorry`.
 
 On Tau Ceti's abelian varieties, this file states finiteness of isogeny classes with good
@@ -25,6 +25,9 @@ It also states finiteness of curves of any fixed genus at least two with good re
 outside a finite set (R28.5.15), on native schemes over the number field. Their genus is
 the vector-space rank of the first cohomology of the structure sheaf; good reduction is
 the existence of a smooth proper model with geometrically connected fibres.
+
+It also states finite classification of stable full lattices in a finite-dimensional
+semisimple rational l-adic representation admitting a stable lattice (R28.5.9).
 
 For Weierstrass elliptic curves over number fields, it states semisimplicity, the integral
 Tate Hom comparison, the isogeny criteria by rational Tate representations and by almost
@@ -53,6 +56,8 @@ namespace TauCetiRoadmap.FaltingsFinitenessAndIsogenyTheorems
 open CategoryTheory AlgebraicGeometry NumberField IsDedekindDomain
 open scoped TensorProduct WeierstrassCurve
 
+/-! ## Layer R28.5: Finiteness and the Shafarevich theorems -/
+
 /-- Good reduction of an abelian variety at a finite place: a smooth proper commutative
 model with geometrically connected fibres over the local ring, and a group-scheme
 isomorphism of its generic fibre with `A` (R28.5.3, R28.5.13). -/
@@ -72,6 +77,26 @@ theorem finite_isogenyClasses {K : Type*} [Field K] [NumberField K]
       ∀ A : TauCeti.AlgebraicGeometry.AbelianVariety K,
         A.dim = g → (∀ v, v ∉ S → hasGoodReductionAt A v) →
           ∃ B ∈ F, ∃ f : A ⟶ B, TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny f := by
+  sorry
+
+/-- Stable full lattices, using the native lattice predicate. -/
+def isStableLattice {l : ℕ} [Fact l.Prime] {Γ V : Type*} [Group Γ]
+    [AddCommGroup V] [Module ℚ_[l] V] [Module ℤ_[l] V] [IsScalarTower ℤ_[l] ℚ_[l] V]
+    (ρ : Representation ℚ_[l] Γ V) (L : Submodule ℤ_[l] V) : Prop :=
+  L.IsLattice ℚ_[l] ∧ ∀ γ x, x ∈ L → ρ γ x ∈ L
+/-- A finite-dimensional semisimple rational l-adic representation admitting a stable
+full integral lattice has finitely many stable lattices up to equivariant rational
+automorphism (R28.5.9, Faltings 1983, p. 363). -/
+theorem finite_stableLattices {l : ℕ} [Fact l.Prime] {Γ V : Type*} [Group Γ]
+    [AddCommGroup V] [Module ℚ_[l] V] [Module ℤ_[l] V] [IsScalarTower ℤ_[l] ℚ_[l] V] [FiniteDimensional ℚ_[l] V]
+    (ρ : Representation ℚ_[l] Γ V)
+    [IsSemisimpleModule (MonoidAlgebra ℚ_[l] Γ) ρ.asModule]
+    (h : ∃ L, isStableLattice ρ L) :
+    ∃ F : Finset (Submodule ℤ_[l] V),
+      (∀ L ∈ F, isStableLattice ρ L) ∧ ∀ L, isStableLattice ρ L →
+        ∃ L₀ ∈ F, ∃ e : V ≃ₗ[ℚ_[l]] V,
+          (∀ γ x, e (ρ γ x) = ρ γ (e x)) ∧
+          L₀.map (e.restrictScalars ℤ_[l]).toLinearMap = L := by
   sorry
 
 /-- An abelian variety over any field has finitely many direct factors up to isomorphism
@@ -117,6 +142,8 @@ theorem finite_curves_goodReduction {K : Type*} [Field K] [NumberField K]
       (∀ v, v ∉ S → curveHasGoodReductionAt C v) →
         ∃ D ∈ F, Nonempty (C ≅ D) := by
   sorry
+
+/-! ## Layer R28.6: Elliptic curves and the integral commutant -/
 
 open scoped Classical in
 /-- The rational Tate representation of an elliptic curve, obtained from its integral
