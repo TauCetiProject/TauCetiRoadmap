@@ -5,18 +5,20 @@ import TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois
 import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
 
 /-!
-# Modularity of elliptic curves over ℚ: headline statements
+# Modularity of elliptic curves over ℚ: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These are suggested Lean forms of its headline results; discharging them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti APIs.
 
 The statements cover rational endomorphisms and finiteness of exceptional primes
+and the rational 3-, 5- and 15-isogeny classifications
 (R29.1), rationality of attached newforms (R29.3), every local factor and Dirichlet
 coefficient (R29.4), and unconditional modularity, absolute irreducibility of the
-rational Tate representation, coefficient summability and the completed functional
+rational Tate representation, number-field coefficient summability and the completed functional
 equation (R29.6). The conditional analytic comparison takes an attached form directly.
 All elliptic statements include curves with geometric complex multiplication.
+The small-isogeny conclusions use native j-invariants and geometric point subgroups;
+they require no modular-curve carrier in their statements.
 
 At Mathlib `6b7abb3` and Tau Ceti `a91d3aa`, the arithmetic elliptic and Artin
 conductors, Serre weight and finite-flat residual attachment API are absent. Thus the
@@ -36,7 +38,7 @@ noncomputable section
 open Polynomial
 open scoped Classical
 
-namespace TauCeti.EllipticCurve.Modularity
+namespace TauCetiRoadmap.EllipticCurveModularity
 
 open HeckeRing.GL2 (Newform)
 
@@ -88,26 +90,42 @@ theorem rationalEndomorphisms_eq_int
 /-- The four exceptional-prime clauses exclude only finitely many primes, including for geometric CM. -/
 theorem exceptionalPrimes_finite (E : WeierstrassCurve ℚ) [E.IsElliptic] : (exceptionalPrimes E).Finite := sorry
 
-/-! ## Layer R29.3: rationality of attached newforms -/
+/-- A rational cyclic 3-isogeny gives a noncuspidal rational Hauptmodul parameter.
+Barrios, Theorem 2.3 and Table 1, arXiv:2208.05603v1. -/
+theorem three_isogeny_j (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (h3 : HasRationalCyclicSubgroup E 3) :
+    ∃ u : ℚ, u ≠ 0 ∧ E.j * u = (u + 27) * (u + 3) ^ 3 := sorry
 
-variable (E : WeierstrassCurve ℚ) [E.IsElliptic]
+/-- A rational cyclic 5-isogeny gives a noncuspidal rational Hauptmodul parameter.
+Barrios, Theorem 2.3 and Table 1, arXiv:2208.05603v1. -/
+theorem five_isogeny_j (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (h5 : HasRationalCyclicSubgroup E 5) :
+    ∃ v : ℚ, v ≠ 0 ∧ E.j * v = (v ^ 2 + 10 * v + 5) ^ 3 := sorry
+
+/-- The four j-invariants of elliptic curves over ℚ with rational cyclic 15-isogenies.
+The coprime stable kernels of orders 3 and 5 generate the cyclic kernel of order 15. -/
+theorem fifteen_isogeny_j (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (h3 : HasRationalCyclicSubgroup E 3) (h5 : HasRationalCyclicSubgroup E 5) :
+    E.j ∈ ({-25 / 2, -349938025 / 8, -121945 / 32, 46969655 / 32768} : Finset ℚ) := sorry
+
+/-! ## Layer R29.3: rationality of attached newforms -/
 
 /-- `EllipticCurveModularity:R29.3/rational-coefficient-field`: every coefficient of a newform attached to `E` is
 a rational integer. -/
-theorem IsNewformOf.coeff_int {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
+theorem IsNewformOf.coeff_int (E : WeierstrassCurve ℚ) [E.IsElliptic] {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
     ∃ m : ℤ, coeff F n = m := sorry
 
 /-! ## Layer R29.4: every local factor and coefficient -/
 
 /-- `EllipticCurveModularity:R29.4/bad-euler-factors`: every local factor of `E`, in Mathlib's convention, is the
 Euler factor of a newform `F` attached to `E`. -/
-theorem IsNewformOf.localPolynomial_eq {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (ℓ : ℕ)
+theorem IsNewformOf.localPolynomial_eq (E : WeierstrassCurve ℚ) [E.IsElliptic] {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (ℓ : ℕ)
     [Fact ℓ.Prime] :
     ∃ a : ℤ, coeff F ℓ = a ∧ (E.baseChange ℚ_[ℓ]).localPolynomial ℤ_[ℓ] =
       1 - C a * X + (if ℓ ∣ M then 0 else C (ℓ : ℤ) * X ^ 2) := sorry
 
 /-- All coefficients agree: `a_n(F) = a_n(E)` for every `n`, bad primes included. -/
-theorem IsNewformOf.coeff_eq {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
+theorem IsNewformOf.coeff_eq (E : WeierstrassCurve ℚ) [E.IsElliptic] {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
     coeff F n = (lCoeff E n : ℂ) := sorry
 
 /-! ## Layer R29.6: modularity and analytic continuation -/
@@ -119,17 +137,18 @@ theorem span_range_rationalTateRep (E : WeierstrassCurve ℚ) [E.IsElliptic]
     Submodule.span ℚ_[r] (Set.range (fun σ : GQ => LinearMap.baseChange ℚ_[r]
       (E.tateModuleGaloisRepresentation (K := AlgebraicClosure ℚ) r σ))) = ⊤ := sorry
 
-/-- The elliptic Dirichlet coefficients are absolutely summable for `Re s > 3/2`.
-Hasse's bound and the local recurrences give the divisor majorant `d(n)√n`. -/
-theorem lCoeff_LSeriesSummable (E : WeierstrassCurve ℚ) [E.IsElliptic]
-    (s : ℂ) (hs : 3 / 2 < s.re) :
-    LSeriesSummable (fun n => (lCoeff E n : ℂ)) s := sorry
+/-- Over every number field the native elliptic Dirichlet series is absolutely summable
+for `Re s > 3/2`. Hasse's bound gives an ideal-divisor majorant, grouped by ideal norm. -/
+theorem lCoeff_LSeriesSummable {K : Type*} [Field K] [NumberField K]
+    (W : WeierstrassCurve K) [W.IsElliptic] (s : ℂ) (hs : 3 / 2 < s.re) :
+    LSeriesSummable (fun n => (W.LFunction n : ℂ)) s := sorry
 
 /-- An attached form supplies an entire completed L-series with its own level M.
 It agrees with the literal series for `Re s > 3/2` using elliptic summability
 and holomorphic extension of the Mellin comparison. The README identifies M
 with the conductor. -/
 theorem IsNewformOf.exists_entire_completed_LSeries
+    (E : WeierstrassCurve ℚ) [E.IsElliptic]
     {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) :
     ∃ Λ : ℂ → ℂ, Differentiable ℂ Λ ∧
       (∀ s : ℂ, 3 / 2 < s.re →
@@ -139,18 +158,18 @@ theorem IsNewformOf.exists_entire_completed_LSeries
 /-- Every elliptic curve over ℚ has an attached weight-two newform of trivial character
 at a positive level, with every Fourier coefficient equal to the corresponding `a_n(E)`.
 The exact-conductor comparison identifies its level with the conductor. -/
-theorem modularity :
+theorem modularity (E : WeierstrassCurve ℚ) [E.IsElliptic] :
     ∃ (N : ℕ) (_ : NeZero N) (F : Newform N 2),
       IsNewformOf E F ∧ ∀ n : ℕ, coeff F n = (lCoeff E n : ℂ) := sorry
 
 /-- Every elliptic curve over ℚ has an entire completed L-series with sign ±1.
 The positive level is shared with its attached form and equals the conductor through
 R29.4's conductor comparison. Agreement uses the literal series only for Re s > 3/2. -/
-theorem exists_entire_completed_LSeries :
+theorem exists_entire_completed_LSeries (E : WeierstrassCurve ℚ) [E.IsElliptic] :
     ∃ (N : ℕ) (_ : NeZero N) (F : Newform N 2), IsNewformOf E F ∧
       ∃ Λ : ℂ → ℂ, Differentiable ℂ Λ ∧
         (∀ s : ℂ, 3 / 2 < s.re →
           Λ s = (N : ℂ) ^ (s / 2) * (2 * Real.pi : ℂ) ^ (-s) * Complex.Gamma s * E.LSeries s) ∧
         ∃ w : ℤ, (w = 1 ∨ w = -1) ∧ ∀ s : ℂ, Λ s = w * Λ (2 - s) := sorry
 
-end TauCeti.EllipticCurve.Modularity
+end TauCetiRoadmap.EllipticCurveModularity
