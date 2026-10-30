@@ -1,9 +1,6 @@
 import Mathlib
 import TauCeti.Geometry.Symplectic.Manifold.TwoForm
 import TauCeti.Geometry.Symplectic.StandardCompatible
-import TauCeti.Geometry.Symplectic.SymplecticTransport
-import TauCeti.Geometry.Manifold.Morse.Basic
-import TauCeti.Geometry.Manifold.Morse.Index
 import TauCeti.Topology.Compactification.OnePoint.ProjectiveLine
 import TauCeti.Topology.Algebra.Matrix.ProjectiveSpecialLinearGroup
 import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
@@ -11,44 +8,98 @@ import TauCeti.Geometry.Manifold.SmoothEmbedding.NormalSpace
 /-!
 # Heegaard Floer homology, analytically: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for particular milestones, so that
-contributors and reviewers converge on names and signatures; discharging all of them
-finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti APIs. The native statements
+below cover sharp finite-dimensional Sard, Banach-manifold Sard–Smale, Darboux normal forms, sphere triple
+normalization, nonsqueezing and the compact Lagrangian holomorphic-disc theorem.
 
-The narrative roadmap is in `README.md`: the analytic tower — Morse homology
-(Lane M), the Fredholm/Sard–Smale substrate (Lane F0), the Cauchy–Riemann elliptic
-package (Lane F1), J-holomorphic curves (Lane F2), exact Lagrangian Floer homology
-(Lane F3), and `HF̂` via holomorphic disks in `Sym^g(Σ)` (Lanes F4–F5). The
-combinatorial bodies of theory live in the sibling `CombinatorialHeegaardFloer`
-roadmap; the reconciliation theorems that join each combinatorial invariant to its
-holomorphic counterpart are owned here, since they depend on this analytic tower.
+The following headlines require constructions specified in the README before their
+full statements can be expressed at the pins:
 
-The Darboux targets are stated on Tau Ceti's `SmoothTwoForm` and its `IsSymplectic`
-predicate (closed and fiberwise nondegenerate). F2.1's Moser package (the contraction
-inverse `ω♭`, families of forms on `↥J × M` with their vertical slices and time derivatives,
-parametrized and compact-family primitives, and the compact Moser theorems) is not statable
-at the pins: neither Mathlib nor Tau Ceti has smooth k-forms on manifolds for general k,
-their pullback or the exterior derivative of one-forms, which DifferentialGeometry Layers 0–1
-build. The remaining analytic and Floer constructions are specified in the README; their missing
-types and connecting APIs are themselves roadmap targets.
-The scalar spectral-flow sign checks below are actual differential identities;
-they do not supply the L² domain, Fredholm theorem or cokernel classification.
+* Integral Morse and Morse–Bott homology, continuation, and the singular-homology
+  comparison (M.3–M.7): the signed trajectory/cascade differentials on the geometric
+  Morse and orientation-local-system chain carriers are missing.
+* Filtered and Serre comparison (M.8): the trajectory-filtered Bott complex and its
+  geometric comparison maps to the bundle's filtered singular chains are missing.
+* Products, Poincaré duality and cup-product comparison (M.9): the Morse/Bott complexes,
+  their geometric product and their chain-level comparison maps are missing.
+* Witten comparison (M.10): the manifold Witten Laplacian with its operator domain,
+  spectral subcomplex and integration map to the Morse complex is missing.
+* Fredholm determinant families and orientation transport (F0.0): the determinant
+  line bundle on the native Fredholm-operator carrier and its orientation cover are
+  missing. The sharp Fredholm-map regular-value theorem itself is stated below.
+* Spectral-flow/index and Cauchy–Riemann Riemann–Roch (F1.3–F1.5): the asymptotic strip
+  operators with Sobolev domains, CR bundle operators and boundary index adapters are missing.
+* Moser's theorem (F2.1): the common manifold differential-form calculus with one-form
+  exterior derivative, pullbacks and smooth families of primitives is missing.
+* Sphere-moduli compactness/evaluation, rulings and the equal-area symplectomorphism-group
+  theorem (F2.6b–h): the simple-sphere moduli/evaluation families and smooth symplectomorphism
+  group topology needed for these statements are missing.
+* The Liouville nonexactness and componentwise first-homology consequences (F2.7): the
+  manifold Liouville pullback and its singular/de Rham integration comparison are missing.
+* Exact Lagrangian Floer invariance and Morse comparison (F3): the geometric strip-count
+  complex, its differential and continuation maps are missing.
+* Heegaard Floer invariance, gradings and naturality (F4): smooth pointed Heegaard diagrams,
+  holomorphic-disc complexes and their based move maps are missing; the native incidence
+  and periodic-domain algebra does not supply them.
+* Cylindrical equivalence, bordered pairing and knot Floer theory (F5): the cylindrical
+  complexes, analytic bordered modules and pairing maps, and knot-filtered complexes
+  with their analytic differentials are missing.
+* Stable combinatorial/holomorphic hat reconciliation (R1): the balanced multipointed
+  holomorphic complex and its basepoint comparison maps are missing.
+* Lattice/minus reconciliation (R2): the holomorphic minus complex, completed surgery
+  comparison and compatible lattice map are missing.
+* Grid/knot reconciliation (R3): the holomorphic knot-filtered complex and the geometric
+  rectangle-to-disc comparison maps are missing.
 
-The ordinary Lane M/F0 construction targets include
-`fixedFiniteRegularity_morseSmale_residual`, `smoothRelative_morseSmale_residual`,
-`largeConstantProductContinuation` and
-`invariantRegularMoment_currentDifferential_eq_boundary`, together with the
-explicit quartic face maps and compact-projective invariant-metric obstruction.
-The declarations below do not assert these global theorems. The finite-Ck theorem
-has arbitrary Ck metrics; fixed smooth normal models belong to the separate C∞
-relative theorem. Its product-slab and fixed-base-lift family extensions
-are also README construction targets, with fixed face data and explicit genericity.
+The scalar, matrix and finite-chain computations are README Checks, not replacements
+for these geometric theorems.
 -/
 
 namespace TauCetiRoadmap.HeegaardFloer
 
 open scoped Manifold ContDiff
+
+/-! ## Layer F0: sharp finite-dimensional Sard -/
+
+/-- On an open subset of a finite-dimensional real normed space, the critical values
+of a C^k map have additive Haar measure zero when k > max(dim E - dim F, 0).
+Sard, Theorems 4.1 and 7.2 (1942), with the lower-source-dimension case supplied by
+local Lipschitz dimension estimates. -/
+theorem sharp_sard
+    {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [NormedAddCommGroup F] [NormedSpace ℝ F] [FiniteDimensional ℝ F]
+    [MeasurableSpace F] [BorelSpace F]
+    (ν : MeasureTheory.Measure F) [MeasureTheory.Measure.IsAddHaarMeasure ν]
+    {U : Set E} (hU : IsOpen U) {k : ℕ} (hk : Module.finrank ℝ E - Module.finrank ℝ F < k)
+    (f : E → F) (hf : ContDiffOn ℝ (k : ℕ∞ω) f U) :
+    ν (f '' (U ∩ {x | ¬ Function.Surjective (fderiv ℝ f x)})) = 0 := by
+  sorry
+
+/-- Sharp Sard–Smale for a C^k Fredholm map of boundaryless Banach manifolds
+with second-countable source: critical values are meagre when k is positive and
+strictly exceeds the derivative's integer Fredholm index at every source point. -/
+theorem sharp_sardSmale
+    {E H F G M N : Type*}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E]
+    [NormedAddCommGroup F] [NormedSpace ℝ F] [CompleteSpace F]
+    [TopologicalSpace H] [TopologicalSpace G]
+    {I : ModelWithCorners ℝ E H} {J : ModelWithCorners ℝ F G}
+    [TopologicalSpace M] [ChartedSpace H M] [T2Space M] [SecondCountableTopology M]
+    [TopologicalSpace N] [ChartedSpace G N] [T2Space N]
+    {k : ℕ} (hk : 0 < k)
+    [IsManifold I (k : ℕ∞ω) M] [BoundarylessManifold I M]
+    [IsManifold J (k : ℕ∞ω) N] [BoundarylessManifold J N]
+    (f : M → N) (hf : ContMDiff I J (k : ℕ∞ω) f)
+    (hFredholm : ∀ x, (mfderiv I J f x).IsFredholm)
+    (hindex : ∀ x,
+      (Module.finrank ℝ (mfderiv I J f x).ker : ℤ) -
+        (Module.finrank ℝ (TangentSpace J (f x) ⧸ (mfderiv I J f x).range) : ℤ) <
+          (k : ℤ)) :
+    IsMeagre (f '' {x | ¬ Function.Surjective (mfderiv I J f x)}) := by
+  sorry
+
+/-! ## Layer F2: symplectic geometry and holomorphic curves -/
 
 section Darboux
 
@@ -70,14 +121,6 @@ theorem exists_darbouxChart [FiniteDimensional ℝ E] [BoundarylessManifold I M]
           form₀ (mfderiv I 𝓘(ℝ, E) chart x v) (mfderiv I 𝓘(ℝ, E) chart x w)) := by
   sorry
 
-/-- Transport the existing symplectic basis to the pinned standard product model. -/
-theorem exists_standardSymplectomorphism [FiniteDimensional ℝ E]
-    (form : TauCeti.SymplecticForm E) :
-    ∃ (m : ℕ) (e : E ≃L[ℝ] (EuclideanSpace ℝ (Fin m) × EuclideanSpace ℝ (Fin m))),
-      TauCeti.SymplecticForm.IsSymplectomorphism form
-        (TauCeti.stdSymplecticForm (V := EuclideanSpace ℝ (Fin m))) e.toLinearEquiv := by
-  sorry
-
 /-- The composed Darboux chart takes values in the standard symplectic model. -/
 theorem exists_standardDarbouxChart [FiniteDimensional ℝ E] [BoundarylessManifold I M]
     (form : TauCeti.SmoothTwoForm I M) (hform : form.IsSymplectic) (x₀ : M) :
@@ -96,58 +139,9 @@ theorem exists_standardDarbouxChart [FiniteDimensional ℝ E] [BoundarylessManif
 
 end Darboux
 
-section MorseCarriers
-
-variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-  [TopologicalSpace H] [TopologicalSpace M] [ChartedSpace H M]
-
-/-- M.3's generators on native critical-point and Morse-index carriers. -/
-abbrev MorseCriticalAtIndex (I : ModelWithCorners ℝ E H) (f : M → ℝ) (i : ℕ) :=
-  {p : M // mvfderiv I f p = 0 ∧ TauCeti.manifoldMorseIndex I f p = i}
-
-/-- The ordinary integer chain module; geometry must still construct its differential. -/
-abbrev MorseChainModule (I : ModelWithCorners ℝ E H) (f : M → ℝ) (i : ℕ) :=
-  MorseCriticalAtIndex I f i →₀ ℤ
-
-end MorseCarriers
-
-section ScalarSpectralFlowSign
-
-/-- F1 uses ∂s−A(s), with the scalar positive crossing A(s)=tanh(s). -/
-noncomputable def scalarCrossingOperator (u : ℝ → ℝ) (s : ℝ) : ℝ :=
-  deriv u s - Real.tanh s * u s
-
-/-- The formal adjoint, before imposing its L² operator domain. -/
-noncomputable def scalarCrossingFormalAdjoint (u : ℝ → ℝ) (s : ℝ) : ℝ :=
-  -deriv u s - Real.tanh s * u s
-
-theorem scalarCrossing_cosh (s : ℝ) :
-    scalarCrossingOperator Real.cosh s = 0 := by
-  simp [scalarCrossingOperator, Real.deriv_cosh, Real.tanh_eq_sinh_div_cosh,
-    (Real.cosh_pos s).ne']
-
-theorem scalarCrossingFormalAdjoint_sech (s : ℝ) :
-    scalarCrossingFormalAdjoint (fun t => (Real.cosh t)⁻¹) s = 0 := by
-  have h : deriv (fun t : ℝ => (Real.cosh t)⁻¹) s =
-      -Real.sinh s / Real.cosh s ^ 2 :=
-    ((Real.hasDerivAt_cosh s).inv (Real.cosh_pos s).ne').deriv
-  rw [scalarCrossingFormalAdjoint, h, Real.tanh_eq_sinh_div_cosh]
-  field_simp [(Real.cosh_pos s).ne']
-  ring
-
-end ScalarSpectralFlowSign
-
 section ClosedSphereAutomorphisms
 
 open scoped MatrixGroups
-
-/-- The finite native center gives the complex PSL quotient a Hausdorff topology. -/
-instance pslComplex_t2 : T2Space PSL(2, ℂ) := by
-  let _ : Finite (Subgroup.center SL(2, ℂ)) :=
-    Matrix.SpecialLinearGroup.finite_center (R := ℂ)
-  let _ : IsClosed ((Subgroup.center SL(2, ℂ) : Subgroup SL(2, ℂ)) : Set SL(2, ℂ)) :=
-    Set.toFinite _ |>.isClosed
-  infer_instance
 
 variable [dec : DecidableEq ℂ]
 
@@ -161,6 +155,29 @@ theorem sphereAut_existsUnique_map_triple (x y z : OnePoint ℂ)
   sorry
 
 end ClosedSphereAutomorphisms
+
+section Nonsqueezing
+
+open InnerProductSpace
+
+/-- Gromov nonsqueezing: a smooth symplectic embedding of the open radius-r ball
+in complex Euclidean n-space into the radius-R cylinder in its first complex
+coordinate requires r ≤ R. Gromov (1985), §0.3.A, Corollary, pp. 309–310. -/
+theorem nonsqueezing {n : ℕ} (hn : 0 < n) {r R : ℝ}
+    (hr : 0 < r) (hR : 0 < R)
+    (f : EuclideanSpace ℂ (Fin n) → EuclideanSpace ℂ (Fin n))
+    (hsmooth : ContDiffOn ℝ ∞ f (Metric.ball 0 r))
+    (hembed : Topology.IsEmbedding
+      (fun x : Metric.ball (0 : EuclideanSpace ℂ (Fin n)) r => f x))
+    (hsympl : ∀ x ∈ Metric.ball (0 : EuclideanSpace ℂ (Fin n)) r,
+      ∀ v w : EuclideanSpace ℂ (Fin n),
+      (inner ℂ (fderiv ℝ f x v) (fderiv ℝ f x w)).im =
+        (inner ℂ v w).im)
+    (hcylinder : ∀ x ∈ Metric.ball (0 : EuclideanSpace ℂ (Fin n)) r,
+      ‖f x ⟨0, hn⟩‖ < R) : r ≤ R := by
+  sorry
+
+end Nonsqueezing
 
 section ForcedLagrangianDisc
 
@@ -195,42 +212,6 @@ theorem exists_nonconstant_holomorphic_disc_in_component
         u z ∈ i '' connectedComponent x₀) ∧
       ∃ z ∈ Metric.ball (0 : ℂ) 1, ∃ w ∈ Metric.ball (0 : ℂ) 1, u z ≠ u w := by
   sorry
-
-
-/-- Compact embedded Lagrangian disc theorem in standard complex Euclidean space.
-The model dimension and pointwise isotropy encode the half-dimensional Lagrangian condition.
-The smooth embedding is the native carrier, with no private embedding predicate. -/
-theorem exists_nonconstant_holomorphic_disc
-    {n : ℕ} (hn : 1 ≤ n)
-    {L : Type*} [TopologicalSpace L]
-    [ChartedSpace (EuclideanSpace ℝ (Fin n)) L]
-    [IsManifold 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) ∞ L]
-    [T2Space L] [CompactSpace L] [Nonempty L]
-    (i : TauCeti.SmoothEmbedding
-      𝓘(ℝ, EuclideanSpace ℝ (Fin n))
-      𝓘(ℝ, EuclideanSpace ℂ (Fin n)) ∞ L (EuclideanSpace ℂ (Fin n)))
-    (hisotropic : ∀ (x : L)
-      (v w : TangentSpace 𝓘(ℝ, EuclideanSpace ℝ (Fin n)) x),
-      (inner ℂ
-        ((NormedSpace.fromTangentSpace (𝕜 := ℝ) (i x))
-          (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
-            𝓘(ℝ, EuclideanSpace ℂ (Fin n)) i x v))
-        ((NormedSpace.fromTangentSpace (𝕜 := ℝ) (i x))
-          (mfderiv 𝓘(ℝ, EuclideanSpace ℝ (Fin n))
-            𝓘(ℝ, EuclideanSpace ℂ (Fin n)) i x w))).im = 0) :
-    ∃ u : ℂ → EuclideanSpace ℂ (Fin n),
-      ContDiffOn ℝ ∞ u (Metric.closedBall 0 1) ∧
-      DifferentiableOn ℂ u (Metric.ball 0 1) ∧
-      (∀ z ∈ Metric.sphere (0 : ℂ) 1, u z ∈ Set.range i) ∧
-      ∃ z ∈ Metric.ball (0 : ℂ) 1, ∃ w ∈ Metric.ball (0 : ℂ) 1, u z ≠ u w := by
-  classical
-  let x₀ : L := Classical.choice ‹Nonempty L›
-  obtain ⟨u, huC, huD, huB, huN⟩ :=
-    exists_nonconstant_holomorphic_disc_in_component hn x₀ i hisotropic
-  refine ⟨u, huC, huD, ?_, huN⟩
-  intro z hz
-  rcases huB z hz with ⟨x, hx, hix⟩
-  exact ⟨x, hix⟩
 
 end ForcedLagrangianDisc
 
