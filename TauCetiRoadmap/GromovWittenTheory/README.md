@@ -12,7 +12,7 @@ where `M̄_(g,n)` is the coarse space of stable pointed curves equipped with the
 
 This roadmap owns:
 
-- the realized effective set of a tame structure, the specialization of the Novikov ring of MorseNovikov N1 to `H₂(X; ℤ)` with the area homomorphism, the completed state module `V ⊗̂ Λ_ω` with its support filtration and Chern grading, and the finiteness of integral curve classes below an energy bound (Layer 0);
+- the effective set of a tame structure, the specialization of the Novikov ring of MorseNovikov N1 to `H₂(X; ℤ)` with the area homomorphism, the completed state module `V ⊗̂ Λ_ω` with its support filtration and Chern grading, and the finiteness of integral curve classes below an energy bound (Layer 0);
 - the combined evaluation–stabilization diagrams on actual stable-map charts, the comparison of map-level and domain-level forgetting and stabilization, and the stable-range conventions for unstable pointed signatures (Layer 1);
 - the weighted pairing and weighted adjoint on compact Deligne–Mumford targets, the definition of `I_(g,n,A)` by the weighted pairing against the virtual functional, and its endpoint equality along compact collared paths of tame structures and auxiliary reductions (Layer 2);
 - the orientation and isotropy-weight conventions, the Hodge bundle on nodal stable domains constructed as a scalar family with Hardy boundary traces, the constant-map obstruction model, the master concordance to the equivariant Euler atlas and the constant-map Euler class computation (Layer 3);
@@ -28,7 +28,7 @@ What it builds on, and does not plan again:
 - **ComplexCurveModuli.** The countable stable pointed chart groupoid (D5), analytic properness and the finite-action universal charts (D6, in particular D6 item 4), the universal curve, one-mark contraction, `forgetAuxiliarySet`, collision charts and clutching with the smoothing line `T_* ⊗ T_**` (D7 items 1–3), and the late Orbifolds target adapter with the weighted pairing on `M̄_(g,n)` and its product comparison with `X^n` (D8). Its domain theorems concern pointed-stable domains; map-dependent stability and map compactness are AnalyticStableMaps'.
 - **Orbifolds** O1–O5: retained-arrow charts, the coarse triangulation and finite-CW witness, orbibundles and the weighted rational integration, Thom classes and Gysin maps (O5 items 1, 4 and 5), used only on the compact Deligne–Mumford targets after ComplexCurveModuli D8, never on the singular map zero locus.
 - **MorseNovikov** N1: the period-controlled completed group ring `Nov(R, H, N)` with its exact finite-below support condition, its `AddMonoidAlgebra` embedding, the nonnegative subring and strictly positive ideal, and the pushforward along period-compatible homomorphisms. It states no completed tensor-product identification; §0.2 proves the one it needs for finite-dimensional state spaces.
-- **CharacteristicClasses.** The Thom class of an oriented bundle and the representation of the Euler class by a transverse zero locus (C2 items 1 and 3), integral Chern classes with their Whitney, dual, line-twist and tensor-product formulas and `c_r(E) = e(E_ℝ)` (C3 item 2), and the Čech/singular comparison on paracompact spaces of CW type (C1.2b). It constructs no Hodge family and no isotropy-weighted trace.
+- **CharacteristicClasses.** The Thom class of an oriented bundle, the representation of the Euler class by a transverse zero locus and `e(TM)[M] = χ(M)` (C2 items 1 and 3), integral Chern classes with their Whitney, dual, line-twist and tensor-product formulas and `c_r(E) = e(E_ℝ)` (C3 item 2), and the Čech/singular comparison on paracompact spaces of CW type (C1.2b). It constructs no Hodge family and no isotropy-weighted trace.
 - **AlgebraicTopology.** Singular cochains and the universal-coefficient sequence (Stage 6 item 1), cup and cap products (Stage 6 item 2), the Eilenberg–Zilber and Künneth maps (Stage 5 item 1), the Euler–Poincaré identity for spaces of finite CW type (Stage 7 item 1) and the finite CW type of compact smooth manifolds (Stage 8 item 7).
 - **GeometricTopology**, smoothing-and-triangulation comparison item 1: smooth triangulation of a compact smooth manifold, giving the finite CW witness of §0.3 and §2.1.
 - **DifferentialGeometry** 8.3–8.5: smooth chains, integration over chains and the de Rham comparison, supplying the closed two-forms and their pairing with homology in §0.3.
@@ -66,7 +66,7 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 
 ### From Tau Ceti
 
-- `SmoothTwoForm.IsSymplectic`, `SmoothTwoForm.Tames` (TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean) and `SmoothAlmostComplexStructure` (TauCeti/Geometry/Symplectic/Manifold/AlmostComplex.lean): the closed symplectic target and its tame structures. `SmoothAlmostComplexStructure` has at the pin only the constant, negated and product constructors; the almost complex structure of a Riemann surface is a ComplexCurveModuli carrier.
+- `SmoothTwoForm.IsSymplectic`, `SmoothTwoForm.Tames` (TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean) and `SmoothAlmostComplexStructure` (TauCeti/Geometry/Symplectic/Manifold/AlmostComplex.lean): the closed symplectic target and its tame structures. `SmoothAlmostComplexStructure` bundles any smooth tangent endomorphism with `J² = −1` on a native manifold, with named constant, negated and product constructors; what the pin lacks is the compact nodal domain with its stable-domain and stable-map moduli, which are ComplexCurveModuli and AnalyticStableMaps carriers.
 - `stdComplexLineEnergyDensity`, `stdComplexLineEnergy` and `Tames.stdComplexLineEnergyDensity_pos` (TauCeti/Geometry/Symplectic/Manifold/Energy.lean): the pointwise energy and its positivity under taming, the local input of §0.1's positivity of area.
 - `IsPseudoholomorphic` (TauCeti/Geometry/Symplectic/Manifold/JHolomorphic.lean): the derivative-level pseudoholomorphicity predicate on which AnalyticStableMaps' carrier is built.
 - `singularCohomologyFunctor` and the cup product (TauCeti/AlgebraicTopology/Cohomology/Basic.lean, Cup.lean): `H^*(X; ℚ)` with its ring structure, the state space of every operation.
@@ -111,45 +111,57 @@ Outside this roadmap: the Chow-correspondence condition of Kontsevich–Manin 2.
 
 ### From TauCetiRoadmap.CharacteristicClasses
 
-- C2 item 1: the Thom class of an oriented real vector bundle. C2 item 3: the zero locus of a transverse section represents the Euler class. C3 item 2: integral Chern classes with pullback, Whitney, dual, line-twist and tensor-product formulas and `c_r(E) = e(E_ℝ)`; in particular `c_m(L ⊗ V) = Σ_(k=0)^m c₁(L)^k c_(m−k)(V)` for a line bundle `L` and a rank-`m` bundle `V`. C1.2b: the Čech/singular comparison on paracompact Hausdorff spaces of CW type.
+- C2 item 1: the Thom class of an oriented real vector bundle. C2 item 3: the zero locus of a transverse section represents the Euler class, and `e(TM)[M] = χ(M)` for a closed oriented manifold `M`. C3 item 2: integral Chern classes with pullback, Whitney, dual, line-twist and tensor-product formulas and `c_r(E) = e(E_ℝ)`; in particular `c_m(L ⊗ V) = Σ_(k=0)^m c₁(L)^k c_(m−k)(V)` for a line bundle `L` and a rank-`m` bundle `V`. C1.2b: the Čech/singular comparison on paracompact Hausdorff spaces of CW type.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-- Stage 6 item 1: singular cochains and the universal-coefficient sequence over a PID, under its stated coefficient hypotheses. Stage 6 item 2: cup and cap products with their signs. Stage 5 item 1: Eilenberg–Zilber and the Künneth isomorphism over a field. Stage 7 item 1: Euler–Poincaré for spaces of finite CW type, so that `χ(X) = ∫_X c_m(TX)` is `Σ_i (−1)^i dim H^i(X; ℚ)`. Stage 8 item 7: finite CW type of compact smooth manifolds.
+- Stage 6 item 1: singular cochains and the universal-coefficient sequence over a PID, under its stated coefficient hypotheses. Stage 6 item 2: cup and cap products with their signs. Stage 5 item 1: Eilenberg–Zilber and the Künneth isomorphism over a field. Stage 7 item 1: Euler–Poincaré for spaces of finite CW type, so that the `χ(X)` of CharacteristicClasses C2 item 3 is `Σ_i (−1)^i dim H^i(X; ℚ)`. Stage 8 item 7: finite CW type of compact smooth manifolds.
 
-### From the remaining roadmaps on main
+### From TauCetiRoadmap.GeometricTopology
 
-- GeometricTopology, smoothing-and-triangulation comparison item 1: a compact smooth manifold has a finite smooth triangulation.
-- DifferentialGeometry 8.3–8.5: smooth singular chains, integration of forms over chains, Stokes for chains and the de Rham comparison `deRhamEquiv` on a Hausdorff σ-compact finite-dimensional manifold.
-- ComplexKahlerGeometry K5b: Dolbeault Hodge theory and Serre duality on compact complex manifolds, applied to the smooth normalization components of a nodal domain with the sheaf `𝒪` and the canonical sheaf.
-- HeegaardFloer Lane F1 items 1–3 and Lane F2 item 1; PDE Lane A items 1 and 6: the local Sobolev, Calderón–Zygmund, Fredholm and trace floor on discs, strips and Lipschitz domains. Nothing in them concerns a compact Riemann surface with circle boundaries, which §3.2 constructs.
-- HamiltonianFloerOperations H1 and H7 are consumers, not suppliers: they take Layer 0's class group with its energy and Chern maps and Layer 7's quantum product.
+- Smoothing-and-triangulation comparison item 1: a compact smooth manifold has a finite smooth triangulation.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+- 8.3–8.5: smooth singular chains, integration of forms over chains, Stokes for chains and the de Rham comparison `deRhamEquiv` on a Hausdorff σ-compact finite-dimensional manifold.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+- K5b: Dolbeault Hodge theory and Serre duality on compact complex manifolds, applied to the smooth normalization components of a nodal domain with the sheaf `𝒪` and the canonical sheaf.
+
+### From TauCetiRoadmap.HeegaardFloer
+
+- Lane F1 items 1–3: Sobolev spaces of maps of surfaces, the Calderón–Zygmund interior estimate and bootstrapping, linear Cauchy–Riemann operators on discs and strips as Fredholm operators. Lane F2 item 1: tame and compatible structures. Nothing here concerns a compact Riemann surface with circle boundaries, which §3.2 constructs.
+
+### From TauCetiRoadmap.PDE
+
+- Lane A items 1 and 6: weak Sobolev spaces, trace and extension on Lipschitz domains, the local trace floor of §3.2.
 
 ## How to read the build
 
-Layer 0 fixes the coefficients: the realized effective set, the Novikov ring on `H₂(X; ℤ)`, the completed state module and the finiteness of classes below an energy bound. Layer 1 builds the combined evaluation–stabilization diagrams on actual stable-map charts and fixes the stable-range conventions. Layer 2 defines `I_(g,n,A)` by the weighted pairing on the Deligne–Mumford target against the virtual functional and proves its independence of the tame structure along compact paths. Layer 3 fixes orientations and isotropy weights, constructs the Hodge bundle on nodal domains and computes the constant-map operations, including `I_(1,1,0)(1) = χ(X)·1`. Layers 4–6 prove the eight Kontsevich–Manin properties, the two gluing identities of Layer 6 requiring the boundary Thom, transfer and spine constructions of §6.4–§6.6. Layer 7 sums the operations into Novikov-completed classes, proves the unital cohomological field theory and constructs the associative quantum product. Layer 8 constructs cotangent lines and ψ-classes, the descendant and ancestor brackets and their equations. Numbering: Layer k is the k-th stage in build order and carries the label Gk by which HamiltonianFloerOperations cites it; subsection k.n is the n-th target of that layer.
+Layer 0 fixes the coefficients: the effective set, the Novikov ring on `H₂(X; ℤ)`, the completed state module and the finiteness of classes below an energy bound. Layer 1 builds the combined evaluation–stabilization diagrams on actual stable-map charts and fixes the stable-range conventions. Layer 2 defines `I_(g,n,A)` by the weighted pairing on the Deligne–Mumford target against the virtual functional and proves its independence of the tame structure along compact paths. Layer 3 fixes orientations and isotropy weights, constructs the Hodge bundle on nodal domains and computes the constant-map operations, including `I_(1,1,0)(1) = χ(X)·1`. Layers 4–6 prove the eight Kontsevich–Manin properties, the two gluing identities of Layer 6 requiring the boundary Thom, transfer and spine constructions of §6.4–§6.6. Layer 7 sums the operations into Novikov-completed classes, proves the unital cohomological field theory and constructs the associative quantum product. Layer 8 constructs cotangent lines and ψ-classes, the descendant and ancestor brackets and their equations. Numbering: Layer k is the k-th stage in build order and carries the label Gk by which HamiltonianFloerOperations cites it; subsection k.n is the n-th target of that layer.
 
 ## Layer 0: Coefficients, effective classes and finiteness (G0)
 
 ### 0.1 Realized effective classes and the area homomorphism
 
-Fix `(g, n, J)`. Define the realized effective set `Eff(g, n, J) ⊆ H₂(X; ℤ)` as the set containing `0` and every class represented by a stable map of type `(g, n)` for `J` (AnalyticStableMaps §1.1 for the class of a map). Define the area homomorphism `ω : H₂(X; ℤ) → ℝ` by pairing with the de Rham class of `ω` (DifferentialGeometry 8.4–8.5). Prove that a nonconstant component of a `J`-holomorphic stable map has positive area, by the pinned pointwise positivity `Tames.stdComplexLineEnergyDensity_pos` and the energy–area identity of AnalyticStableMaps §0.1, so that a stable map of area zero is constant and has `A = 0`, and so that every class in `Eff(g, n, J)` other than `0` has positive area. Retain the area homomorphism as a map to ℝ even when its image is not discrete.
+Fix `(g, n, J)`. Define the effective set `Eff(g, n, J) ⊆ H₂(X; ℤ)` as the set of classes represented by a stable map of type `(g, n)` for `J`, with `0` adjoined (AnalyticStableMaps §1.1 for the class of a map). Define the area homomorphism `ω : H₂(X; ℤ) → ℝ` by pairing with the de Rham class of `ω` (DifferentialGeometry 8.4–8.5). Prove that a nonconstant component of a `J`-holomorphic stable map has positive area, by the pinned pointwise positivity `Tames.stdComplexLineEnergyDensity_pos` and the energy–area identity of AnalyticStableMaps §0.1, so that a stable map of area zero is constant and has `A = 0`, and so that every class in `Eff(g, n, J)` other than `0` has positive area. Retain the area homomorphism as a map to ℝ even when its image is not discrete.
 
-- `0 ∈ Eff(g, n, J)` for every `(g, n)`, realized by the constant maps.
-- `A ∈ Eff(g, n, J)` and `A ≠ 0` imply `ω(A) > 0`; a nonzero torsion class is in no realized effective set.
+- `0 ∈ Eff(g, n, J)` for every `(g, n)` by definition; `0` is represented by a constant stable map exactly when `2g − 2 + n > 0` and `X` is nonempty. For the unstable pointed signatures `(0, 0)`, `(0, 1)`, `(0, 2)`, `(1, 0)`, and for `X = ∅`, the stable-map space of class `0` is empty although `0 ∈ Eff(g, n, J)`.
+- `A ∈ Eff(g, n, J)` and `A ≠ 0` imply `ω(A) > 0`; a nonzero torsion class is in no effective set.
 - For `A ∉ Eff(g, n, J)` the stable-map space is empty, and every operation of class `A` is zero (Layer 4).
 
 **Checks.**
 
 - `ℂP²` with the Fubini–Study form of line area 1: `H₂ = ℤ·ℓ`, `ω(dℓ) = d`, and `Eff(0, 3, J) = {dℓ : d ≥ 0}` for the standard `J`; a class `dℓ` with `d < 0` has negative area and is excluded by positivity alone.
-- The product `T² × T²` of two tori of areas `1` and `√2`: `H₂` has rank 6, the area image `ℤ + √2ℤ` is dense in ℝ, and for the product complex structure the realized classes in genus one are the combinations `aF₁ + bF₂` with `a, b ≥ 0` of the two factor classes, of areas `a + b√2`; no discreteness of the area image is available or used.
-- An Enriques surface with a Kähler form: `H₂(X; ℤ) ≅ ℤ^10 ⊕ ℤ/2`, and the nonzero torsion class has area `0`, so it is realized by no nonconstant map and lies in no realized effective set although it lies in the kernel of the area homomorphism.
+- The product `T² × T²` of two tori of areas `1` and `√2`: `H₂` has rank 6, the area image `ℤ + √2ℤ` is dense in ℝ, and for a product complex structure `E₁ × E₂` the degree-`a` covers of a fibre `E₁ × {y}` and the degree-`b` covers of a fibre `{x} × E₂` represent `aF₁` and `bF₂` in genus one, of areas `a` and `b√2`; no discreteness of the area image is available or used. Mixed classes occur: for `E₁ = E₂ = E` the diagonal of `E × E` is a genus-one holomorphic curve whose class has nonzero Künneth component in `H₁ ⊗ H₁`, so it pairs to `1` with a suitable `α₁ ⌣ β₂` while every `aF₁ + bF₂` pairs to `0`, and its area is `1 + √2`. No classification of genus-one effective classes is asserted.
+- An Enriques surface with a Kähler form: `H₂(X; ℤ) ≅ ℤ^10 ⊕ ℤ/2`, and the nonzero torsion class has area `0`, so it is represented by no nonconstant map and lies in no effective set although it lies in the kernel of the area homomorphism.
 
 *Needs:* Tau Ceti `SmoothTwoForm.Tames`, `Tames.stdComplexLineEnergyDensity_pos`; AnalyticStableMaps §0.1, §1.1; DifferentialGeometry 8.4–8.5.
 
 ### 0.2 The Novikov coefficient ring and the completed state module
 
-Define `Λ_ω = Nov(ℚ, H₂(X; ℤ), ω)`, the period-controlled completed group ring of MorseNovikov N1 for the additive group `H₂(X; ℤ)` and the period homomorphism `ω`; it is a commutative ℚ-algebra and need not be a field or a domain. For a finite-dimensional rational vector space `V` define `V ⊗̂ Λ_ω` as the space of functions `H₂(X; ℤ) → V` satisfying the N1 support condition, with its support filtration `U_C(V)` and the Cauchy product `(V ⊗̂ Λ_ω) × (W ⊗̂ Λ_ω) → (V ⊗ W) ⊗̂ Λ_ω`. Prove that the canonical map `V ⊗ Λ_ω → V ⊗̂ Λ_ω` is an isomorphism for finite-dimensional `V`, by choosing a finite basis of `V` and taking the finite union of the coordinate supports; this is a statement about finite-dimensional `V` and not a completed base-change theorem. Prove that the Cauchy product is bilinear and continuous for the support filtration, and that for a finite free graded state module with a perfect pairing the induced `Λ_ω`-bilinear pairing is perfect degreewise in the completed grading. Define the degree of the monomial `q^A` as `2c₁(A)` and prove that `Λ_ω` is a graded ring for this degree, that `V ⊗̂ Λ_ω` is graded by total degree when `V` is graded, and that the Cauchy product respects the grading. A homogeneous element of the completed module may have infinitely many monomials of distinct `c₁`; the completed graded module is not the direct sum of its homogeneous pieces.
+Define `Λ_ω = Nov(ℚ, H₂(X; ℤ), ω)`, the period-controlled completed group ring of MorseNovikov N1 for the additive group `H₂(X; ℤ)` and the period homomorphism `ω`; it is a commutative ℚ-algebra and need not be a field or a domain. For a finite-dimensional rational vector space `V` define `V ⊗̂ Λ_ω` as the space of functions `H₂(X; ℤ) → V` satisfying the N1 support condition, with its support filtration `U_C(V)` and the Cauchy product `(V ⊗̂ Λ_ω) × (W ⊗̂ Λ_ω) → (V ⊗ W) ⊗̂ Λ_ω`. Prove that the canonical map `V ⊗ Λ_ω → V ⊗̂ Λ_ω` is an isomorphism for finite-dimensional `V`, by choosing a finite basis of `V` and taking the finite union of the coordinate supports; this is a statement about finite-dimensional `V` and not a completed base-change theorem. Prove that the Cauchy product is bilinear and continuous for the support filtration, and that for a finite free graded state module with a perfect pairing the induced `Λ_ω`-bilinear pairing is perfect and pairs the homogeneous pieces defined next. Define the degree of the monomial `q^A` as `2c₁(A)`. For an integer `D` let `Λ_ω^D` be the elements supported in `{A : 2c₁(A) = D}`, and for graded `V` let `(V ⊗̂ Λ_ω)^D` be the functions `A ↦ v_A` with `v_A ∈ V^(D − 2c₁(A))` for every `A`; these homogeneous pieces are closed in the support filtration. Prove that `Λ_ω^D · Λ_ω^E ⊆ Λ_ω^(D+E)` and that the Cauchy product maps `(V ⊗̂ Λ_ω)^D × (W ⊗̂ Λ_ω)^E` into `((V ⊗ W) ⊗̂ Λ_ω)^(D+E)`, so that `⊕_D Λ_ω^D` is a graded ring and `⊕_D (V ⊗̂ Λ_ω)^D` a graded module over it in the ordinary sense. Prove that every element of `V ⊗̂ Λ_ω` is the sum, convergent in the support filtration, of its homogeneous components (for each `C` only finitely many components meet `{ω < C}`), and that every such convergent sum of homogeneous elements lies in `V ⊗̂ Λ_ω`; so `Λ_ω` and `V ⊗̂ Λ_ω` are the filtered completions of these direct sums and are not themselves internally graded. A homogeneous element of degree `D` has its Chern numbers in the finite set `{(D − k)/2 : V^k ≠ 0}`, and may still have infinitely many monomials when infinitely many classes share a Chern number; a general element may have components in infinitely many degrees.
 
 - `Λ_ω` contains `ℚ[H₂(X; ℤ)]` through N1's embedding, and the embedding is onto exactly when `ω = 0` on `H₂(X; ℤ)`.
 - `deg(q^A q^B) = deg q^A + deg q^B`, `deg q^0 = 0`; `q^A` is a unit of degree `2c₁(A)` with inverse `q^(−A)` of degree `−2c₁(A)`.
@@ -158,6 +170,7 @@ Define `Λ_ω = Nov(ℚ, H₂(X; ℤ), ω)`, the period-controlled completed gro
 **Checks.**
 
 - `X = S²` with area 1: `H₂ = ℤ`, `ω(k) = k`, and N1's comparison identifies `Λ_ω` with the Laurent series ring `ℚ((q))`; `deg q = 2c₁([S²]) = 4`. For `ℂP²` the line class has `deg q^ℓ = 6`; for a K3 surface every class has degree `0`.
+- `X = S²`: the series `Σ_(k≥0) q^k ∈ ℚ((q))` has components in the degrees `0, 4, 8, …`, so it is neither homogeneous nor a finite sum of homogeneous elements and lies only in the completion; for `V = ℚ` in degree `0` a homogeneous element of degree `D` is a single monomial `a q^(D/4)`. On `T² × T²` with `c₁ = 0` the series `Σ_(a,b ≥ 0) q^(aF₁ + bF₂)` has infinitely many monomials and is homogeneous of degree `0`.
 - `V = ℚ²` with basis `e₁, e₂`: the element sending `A ↦ e₁` for `A` in a sublevel-finite support `S₁` and `A ↦ e₂` on a disjoint `S₂` is `e₁ ⊗ f₁ + e₂ ⊗ f₂` with `f_i` the indicator series of `S_i`, so it lies in `V ⊗ Λ_ω`; for `V = ℚ^(∞)` with basis `e₁, e₂, …` the function `A_k ↦ e_k` on classes `A_k` of area `k` satisfies the support condition but is not a finite sum of pure tensors, so the isomorphism fails for infinite-dimensional `V` and finite dimension is used.
 - `T² × T²` with areas `1` and `√2` and `c₁ = 0`: `Λ_ω` is concentrated in degree `0`, the series `Σ_(a,b ≥ 0) q^(aF₁ + bF₂)` converges in the area filtration because `{(a, b) : a + b√2 < C}` is finite for every `C`, and the series `Σ_(a ≥ 0) q^(aF₁ − aF₂)` with areas `a(1 − √2) → −∞` violates the support condition and is not an element of `Λ_ω`.
 - On `T²` with `H₂ = ℤ`, the pairing `∫ α ⌣ β = 1` on `H¹` extends to a perfect pairing of `H^*(T²; ℚ) ⊗̂ Λ_ω` of total degree `−2` over `Λ_ω`, and the odd generators remain odd in the completed grading since `deg q^A = 0`.
@@ -199,7 +212,7 @@ Consume the stable-map groupoid of AnalyticStableMaps §1.1 with its retained au
 **Checks.**
 
 - A degree-one map `ℂP¹ → ℂP¹` with no marks is map-stable, of pointed signature `(0, 0)`: its automorphism group is trivial, its moduli space is a point with `d_(0,0,ℓ) = 2(−2 + 2 + 0) = 0`, and no stabilization map exists.
-- A constant sphere with two marks has automorphism group `ℂ^*`, is not a stable map, and the constant class with `(g, n) = (0, 2)` has empty moduli space and `d = 2(m − 3) + 4 − 2m = −2`.
+- A constant sphere with two marks has automorphism group `ℂ^*` and is not a stable map, so the class `0` with `(g, n) = (0, 2)` has empty moduli space although `d_(0,2,0) = 2(m − 3 + 2) = 2m − 2`; for `X = ℂP¹` the carrier is empty, `d = 0` and the numerical operation is `0`. The emptiness comes from stability, not from the dimension.
 - A constant torus with one mark is a stable map with automorphism group of order 2 generically, pointed signature `(1, 1)`, and `d_(1,1,0) = 2(0 + 0 + 1) = 2`, the dimension of `M̄_(1,1) × X` minus the obstruction rank `2m`.
 
 *Needs:* AnalyticStableMaps §1.1–§1.2, §3.7, §11.1–§11.2, §12.1–§12.2; ComplexCurveModuli D5–D6.
@@ -278,7 +291,7 @@ For a compact collared path `J_t`, `t ∈ [0, 1]`, of tame structures, consume t
 **Checks.**
 
 - Lines in `ℂP²` for the integrable `J` and for a tame perturbation `J'`: both give `⟨I_(0,3,ℓ)(pt, pt, H)⟩ = 1`, the endpoint relation reading `[M_1] − [M_0] = 0` on the test class `1`.
-- The zero-set atlases of `z ↦ z` and `z ↦ z²` on ℂ (ImplicitAtlases §5.2 Checks) have classes `1` and `0` and admit no concordance: two atlases without a common refinement or cobordism witness are not compared, which is why the witnesses are hypotheses.
+- The zero-set atlases of `x ↦ x` and `x ↦ x²` on ℝ (ImplicitAtlases §5.2 Checks) have classes `1` and `0` and admit no concordance; on ℂ the atlases of `z ↦ z` and `z ↦ z²` have classes `1` and `2`, the complex double zero having multiplicity `2` (AnalyticStableMaps §10.2 Checks), and admit none either: two atlases without a common refinement or cobordism witness are not compared, which is why the witnesses are hypotheses.
 - A path of tame structures that is not collared at its endpoints is first reparametrized to one that is; the relative family of §10.1 requires the collar.
 
 *Needs:* §2.2, §0.3; AnalyticStableMaps §10.1–§10.2, §13.4; ImplicitAtlases §4.3, §5.2–§5.3; ComplexCurveModuli D8.
@@ -316,9 +329,9 @@ Construct the rank-`g` Hodge bundle `𝔼_g` on the stable-domain groupoid of Co
 
 **Checks.**
 
-- The irreducible nodal rational curve, `g = 1`: normalization `ℂP¹` with branches `0` and `∞`, `dz/z` has residues `+1` and `−1`, and the fibre is one-dimensional; a definition allowing independent residues would give dimension 2, and one forbidding poles would give 0.
+- The irreducible nodal rational curve, `g = 1`: normalization `ℂP¹` with branches `0` and `∞`, the differentials with at most simple poles there form `ℂ · dz/z`, with residues `+1` and `−1`, and the fibre is one-dimensional; here the residue theorem already forces opposite residues, so the matching condition is not tested, while a definition forbidding poles would give `0`.
 - Two spheres joined at one node, `g = 0`: a differential with one simple pole on `ℂP¹` has zero residue by the residue theorem, hence is holomorphic, hence zero; the fibre is `0 = 0 + 0`.
-- Two elliptic curves joined at one node, `g = 2`: each component contributes its holomorphic differential and a pole is excluded as before; dimension `1 + 1 + 0 = 2`. Two spheres joined at two nodes, `g = 1`: `b₁ = 1`, one differential with poles at the two branches on each sphere and matched residues, dimension `0 + 1 = 1`.
+- Two elliptic curves joined at one node, `g = 2`: each component contributes its holomorphic differential and a pole is excluded as before; dimension `1 + 1 + 0 = 2`. Two spheres joined at two nodes, `g = 1`: `b₁ = 1`; on each sphere the differentials with simple poles at its two branch points form a line, `c₁ dz/z` and `c₂ dw/w`, so the unmatched space has dimension `2`, and opposite residues at the paired branches impose the single condition `c₂ = −c₁` (the second node gives the same condition by the residue theorem), dimension `0 + 1 = 1`; a definition allowing independent residues would give `2`.
 - On `M̄_(1,1)` the elliptic involution acts by `−1` on `𝔼₁`, so the generic ineffective `ℤ/2` acts nontrivially on `𝔼₁^∨ ⊗ T_xX`.
 
 *Needs:* ComplexCurveModuli D3 item 5, D4, D5, D6; ComplexKahlerGeometry K5b; HeegaardFloer Lane F1 items 1–3; PDE Lane A items 1 and 6.
@@ -337,7 +350,7 @@ On the constant-map charts of AnalyticStableMaps for `A = 0`, restrict to `Z = M
 
 ### 3.4 The constant-map Euler class and the genus-one normalization
 
-For `A = 0` the constant-map chart is `M̄_(g,n) × X` with obstruction bundle `𝔼_g^∨ ⊠ TX` of complex rank `mg` (Kontsevich–Manin 2.4.5, p. 10, where `E = R¹π_*𝒪` is the dual of `𝔼_g`). Construct the weighted Euler/Thom functional of the finite-chart equivariant obstruction representation by the local Thom construction (CharacteristicClasses C2 item 1), descend the rational Čech classes over the compact domain charts and take the weighted trace, retaining ineffective stabilizers; compare chartwise with the D8 weighted pairing, including the kernel factor, and prove invariance under finite refinements. Through the concordance of §3.3 and the Euler comparison of ImplicitAtlases §5.6 identify the virtual functional on the constant locus with this Euler/Thom functional. Prove that the Euler class is `c_(mg)(𝔼_g^∨ ⊠ TX)` and, for `g = 1`, expand `c_m(𝔼₁^∨ ⊠ TX) = Σ_(k=0)^m (−λ₁)^k c_(m−k)(TX)` by the line-twist formula of CharacteristicClasses C3 item 2, where `λ₁ = c₁(𝔼₁)`. Pair with a test class `α` of top degree on `M̄_(1,1)`: only the term `c_m(TX)` has full degree in `X`, the terms with `k ≥ 1` have lower `X`-degree and integrate to zero over `X`, and on `M̄_(1,1)` the terms with `k ≥ 2` also vanish by domain dimension; the functional is `χ(X) ∫^wt_(M̄_(1,1)) α` with `χ(X) = ∫_X c_m(TX)` (C3 item 2 with `c_m = e(TX_ℝ)`, AlgebraicTopology Stage 7 item 1), and the weighted pairing of a constant class `c` with `α` is `c ∫^wt α`, so perfectness gives
+For `A = 0` the constant-map chart is `M̄_(g,n) × X` with obstruction bundle `𝔼_g^∨ ⊠ TX` of complex rank `mg` (Kontsevich–Manin 2.4.5, p. 10, where `E = R¹π_*𝒪` is the dual of `𝔼_g`). Construct the weighted Euler/Thom functional of the finite-chart equivariant obstruction representation by the local Thom construction (CharacteristicClasses C2 item 1), descend the rational Čech classes over the compact domain charts and take the weighted trace, retaining ineffective stabilizers; compare chartwise with the D8 weighted pairing, including the kernel factor, and prove invariance under finite refinements. Through the concordance of §3.3 and the Euler comparison of ImplicitAtlases §5.6 identify the virtual functional on the constant locus with this Euler/Thom functional. Prove that the Euler class is `c_(mg)(𝔼_g^∨ ⊠ TX)` and, for `g = 1`, expand `c_m(𝔼₁^∨ ⊠ TX) = Σ_(k=0)^m (−λ₁)^k c_(m−k)(TX)` by the line-twist formula of CharacteristicClasses C3 item 2, where `λ₁ = c₁(𝔼₁)`. Pair with a test class `α` of top degree on `M̄_(1,1)`: only the term `c_m(TX)` has full degree in `X`, the terms with `k ≥ 1` have lower `X`-degree and integrate to zero over `X`, and on `M̄_(1,1)` the terms with `k ≥ 2` also vanish by domain dimension; the functional is `χ(X) ∫^wt_(M̄_(1,1)) α` with `χ(X) = ∫_X c_m(TX)` (C3 item 2 with `c_m = e(TX_ℝ)`, and CharacteristicClasses C2 item 3 for `e(TX)[X] = χ(X)` on a closed oriented manifold, with AlgebraicTopology Stage 7 item 1 for `χ(X) = Σ_i (−1)^i dim H^i(X; ℚ)`), and the weighted pairing of a constant class `c` with `α` is `c ∫^wt α`, so perfectness gives
 
     I_(1,1,0)(1) = χ(X) · 1 ∈ H⁰(M̄_(1,1); ℚ).
 
@@ -353,7 +366,7 @@ For general `g` retain the full top Euler class `c_(mg)(𝔼_g^∨ ⊠ TX)` and 
 - `X = ℂP¹`, `δ = pt`: `⟨I_(1,1,0)(pt)⟩ = −(1/24) ∫ c₀ ⌣ pt = −1/24`; the genus-reduction identity of §6.3 restricted to the boundary point of `M̄_(1,1)` gives `ξ^* I_(1,1,0)(1) = Σ_(a,b) g^(ab) ∫_X Δ_a Δ_b = Σ_a (−1)^(deg Δ_a) = χ(X)`, consistent with the value above and computed only after Layer 6 is proved.
 - The expansion for `m = 2`: `c₂(L ⊗ V) = c₂(V) + c₁(L)c₁(V) + c₁(L)²`; for `L = 𝔼₁^∨` on `M̄_(1,1)` the last term is `λ₁² = 0` by dimension, and the middle term pairs to zero over `X` against the insertion `1`.
 
-*Needs:* §3.1–§3.3; ImplicitAtlases §5.6; CharacteristicClasses C2 item 1, C3 item 2; AlgebraicTopology Stage 7 item 1; ComplexCurveModuli D8; Orbifolds O5 item 5.
+*Needs:* §3.1–§3.3; ImplicitAtlases §5.6; CharacteristicClasses C2 items 1 and 3, C3 item 2; AlgebraicTopology Stage 7 item 1; ComplexCurveModuli D8; Orbifolds O5 item 5.
 
 ### Examples
 
@@ -376,7 +389,7 @@ Prove that `I_(g,n,A) = 0` for `A ∉ Eff(g, n, J)` (Kontsevich–Manin 2.2.0, p
 
 - `ℂP²`, `A = −ℓ`: negative area, empty moduli, `I = 0`.
 - A nonzero torsion class: area zero, no nonconstant representative, `I = 0`; `A = 0` with constant maps is not excluded.
-- `A = 2ℓ` on `ℂP²` with `(g, n) = (0, 0)`: realized by conics, and the realized set is not `{0}`.
+- `A = 2ℓ` on `ℂP²` with `(g, n) = (0, 0)`: represented by conics, and the effective set is not `{0}`.
 
 *Needs:* §0.1, §2.2; AnalyticStableMaps §1.1.
 
@@ -501,8 +514,9 @@ For `g = g₁ + g₂`, `n = n₁ + n₂`, disjoint ordered `S₁ ⊔ S₂ = {1, 
 **Checks.**
 
 - The admissible factor signatures: `(g_i, n_i) = (0, 2)` gives `n_i + 2g_i − 2 = 0`, factor `(0, 3)` after the node mark; `(0, 1)` gives `−1` and is excluded, its factor `(0, 2)` being unstable; `(1, 0)` gives `0`, factor `(1, 1)`.
-- `ℂP²`, `(0, 4, ℓ)`, insertions `pt, pt, H, H`, `S₁ = {1, 2}`, `S₂ = {3, 4}`: the only decomposition with both sides nonzero is `(A₁, A₂) = (ℓ, 0)`, with `⟨pt, pt, Δ_a⟩_ℓ g^(ab) ⟨Δ_b, H, H⟩_0 = ⟨pt, pt, H⟩_ℓ ⟨1, H, H⟩_0 = 1 · 1 = 1`, the pairing of `φ_S^* I` with the point class of the product.
-- Conics in `ℂP²`: from `N₁ = 1` the splitting identity on `M̄_(0,4)` with insertions `pt, pt, H, H` and `A = 2ℓ` gives `N₂ = 1`, the number of conics through five points (§7.2).
+- `ℂP²`, `(0, 4, ℓ)`, insertions `pt, pt, H, H`, `S₁ = {1, 2}`, `S₂ = {3, 4}`: `I_(0,4,ℓ)(pt, pt, H, H)` has degree `12 − 10 = 2`, so its restriction to the point `M̄_(0,3) × M̄_(0,3)` is `0`. On the right only `(A₁, A₂) = (ℓ, 0)` and `Δ_a = H` give a first factor of degree `0`, and the inverse pairing pairs `H` with `H` (`g^(H,H) = 1`, `g^(H,1) = 0`), so the term is `⟨pt, pt, H⟩_ℓ · ⟨H, H, H⟩_0 = 1 · ∫ H³ = 0`; replacing `g^(H,H)` by the entry `g^(H,1)` would wrongly give `1`.
+- `ℂP²`, `(0, 4, ℓ)`, insertions `pt, H, H, H`, `S₁ = {1, 2}`, `S₂ = {3, 4}`: `I_(0,4,ℓ)(pt, H, H, H)` has degree `10 − 10 = 0`, a multiple `c · 1`. On the right only `(A₁, A₂) = (ℓ, 0)` with `(Δ_a, Δ_b) = (pt, 1)` contributes, the coefficient `g^(pt,1)` being `1`: `⟨pt, H, pt⟩_ℓ · ⟨1, H, H⟩_0 = 1 · ∫ H² = 1`, so `c = 1`; the decomposition `(0, ℓ)` gives first factors of positive degree on the point `M̄_(0,3)`.
+- Conics in `ℂP²`: for `A = 2ℓ` and insertions `pt, pt, H, H` the operation has degree `12 − 4 − 12 = −4` and vanishes, `d_(0,4,2ℓ) = 18` exceeding the insertion degree `12`; the four-point splitting identity of degree `2ℓ` with these insertions contains no conic count.
 
 *Needs:* §6.1, §6.4–§6.6, §2.1–§2.2, §0.3; ComplexCurveModuli D7 item 3.
 
@@ -527,13 +541,14 @@ Let `ξ : M̄_(g−1,n+2) → M̄_(g,n)` be the self-clutching map of D7 item 3 
 On the compact weighted target define, for a separating clutching map `φ_S` and the self-clutching map `ξ`, the pushforwards `φ_(S*)` and `ξ_*` as weighted adjoints as in §2.1. Define the normalized boundary Thom class `τ_D`, once for each unordered local node branch, as the supported Thom class (Orbifolds O5 item 5, CharacteristicClasses C2 item 1) of its normal smoothing line `T_* ⊗ T_**` of D7 item 3, whose plumbing parameter is defined up to a nonvanishing unit. Compute the pullback of `τ_D` under stabilization by the smoothing product of §6.5; it is not the clutching adjoint. Separately compute the transfers `ξ_* χ` and `φ_(S*) χ` from ordered branch lifts, source and target stabilizers and the quotient map, and prove the transfer degrees: for the self-clutching map the weighted transfer has degree `2` over the normalized unordered-node Thom class, from the ordered-branch double cover; for a separating clutching map the degree is `2` exactly in the symmetric unmarked case `n = 0`, `g₁ = g₂`, and `1` otherwise. These degrees are derived chartwise from branch lifts and stabilizers, not inserted into the formulas, and there is no single factor `1/2` covering both map types.
 
 - `τ_D` is a degree-two class supported near the boundary stratum, pulled back along `st` as in §6.5.
-- `ξ_* 1 = 2 τ_D` and `φ_(S*) 1 = τ_D` or `2 τ_D` according to the stated rule, on the stratum where the maps are embeddings.
-- The transfer degree is the order of the generic branch-swap stabilizer of the target over the source.
+- `ξ_* 1 = 2 τ_D` and `φ_(S*) 1 = τ_D` or `2 τ_D` according to the stated rule, near the open stratum of curves with exactly one node, computed in local ordered-branch charts.
+- At a generic point `y` of the image the transfer degree is `Σ_x |Aut(y)| / |Aut(x)|`, summed over the coarse preimages `x` of `y`: a coarsely two-sheeted map with equal stabilizers and a coarsely one-sheeted map with stabilizer index `2` both have degree `2`; the degree is not in general the order of an automorphism of the target object.
 
 **Checks.**
 
-- The irreducible nodal genus-two curve whose normalization is an elliptic curve with two ordered preimages: the source `M̄_(1,2)` has trivial generic automorphism, the target boundary stratum of `M̄_(2,0)` has generic branch-swap stabilizer of order `2`, the coarse map is injective there, and the weighted adjoint has transfer degree `2`.
-- `φ_S : M̄_(1,1) × M̄_(1,1) → M̄_(2,0)` with `n = 0`, `g₁ = g₂ = 1`: the factor swap is a target automorphism, transfer degree `2`; `φ_S : M̄_(0,3) × M̄_(1,1) → M̄_(1,2)`: no swap, degree `1`.
+- The irreducible nodal genus-two curve whose normalization is an elliptic curve `E` with two points `p, q`: `(E, p, q) ≅ (E, q, p)` by the involution of `E` exchanging `p` and `q`, so the coarse map from `M̄_(1,2)` is injective there; the source has trivial generic stabilizer and the target stabilizer `{1, swap}` has order `2`, degree `1 · 2/1 = 2`.
+- `ξ : M̄_(3,2) → M̄_(4,0)` at a generic point: `(C, p, q)` and `(C, q, p)` are non-isomorphic, all stabilizers are trivial, degree `2 · 1/1 = 2`.
+- `φ_S : M̄_(1,1) × M̄_(1,1) → M̄_(2,0)` with `n = 0`, `g₁ = g₂ = 1`, at two glued non-isomorphic pointed elliptic curves: no automorphism exchanges the components, the two ordered preimages are distinct, and source and target stabilizers are both `ℤ/2 × ℤ/2`, degree `2 · 4/4 = 2`. `φ_S : M̄_(0,3) × M̄_(1,1) → M̄_(1,2)`: one preimage, source and target stabilizers of order `2`, degree `1 · 2/2 = 1`.
 - `ξ : M̄_(0,3) → M̄_(1,1)`: the boundary point of `M̄_(1,1)` has isotropy of order `2`, the source is a point with trivial isotropy, and `ξ_* 1 = 2 [pt]^∨` as computed in §2.1.
 
 *Needs:* §2.1; ComplexCurveModuli D7 item 3, D8; Orbifolds O5 item 5; CharacteristicClasses C2 item 1.
@@ -550,7 +565,7 @@ with the source and target chart weights and boundary orientations, on the map c
 
 - A rational bridge of two nodes contracted to one stabilized node: `P` has two edges, `t = u t₁ t₂`, and the pulled-back supported class counts each of the two nodes once; counting once per stabilized node would give `1`, counting every node of a tree with a side branch would overcount.
 - A tail of one node contracted onto a marked point: `P` is empty for a node-free stabilization and no boundary class is pulled back; the tail contributes to `D_i` of §8.5 instead.
-- Lines in `ℂP²`, `(0, 4, ℓ)` with `st^* τ_D` for the boundary point `{12|34}` of `M̄_(0,4)`: `Φ(ev^*(pt, pt, H, H) ⌣ st^* τ_D)` equals the splitting value `1` of §6.2, obtained as the single cut contribution of the stratum where the line carries marks `1, 2` and a constant component carries `3, 4`, the stratum with marks `1, 2` on a constant component contributing `0` by degree.
+- Lines in `ℂP²`, `(0, 4, ℓ)` with `st^* τ_D` for the boundary point `{12|34}` of `M̄_(0,4)`: `Φ(ev^*(pt, pt, H, H) ⌣ st^* τ_D)` is `0`, the integrand having degree `12 + 2 = 14 ≠ 12 = d_(0,4,ℓ)`. With insertions `pt, H, H, H` the degree is `10 + 2 = 12` and `Φ(ev^*(pt, H, H, H) ⌣ st^* τ_D) = 1`, the splitting value of §6.2, obtained as the single cut contribution of the stratum where the line carries marks `1, 2` and a constant component carries `3, 4` (the line through the point and `H₃ ∩ H₄`), the stratum with marks `1, 2` on a constant component contributing `0` by degree.
 
 *Needs:* §6.4, §1.2; ComplexCurveModuli D7 items 1 and 3; AnalyticStableMaps §7.3, §12.2; ImplicitAtlases §5.3; TopologicalSheafCohomology §1.2.
 
@@ -560,8 +575,8 @@ For the node-matching step consume the two-space evaluation chart and joint mode
 
 **Checks.**
 
-- `ℂP²`, insertions `pt, pt` on one side and `H, H` on the other, `A = ℓ`: the node-matching Casimir reduces to `Σ_a ⟨pt, pt, Δ_a⟩_ℓ ⟨Δ^a, H, H⟩_0` with `Δ^a` the dual basis, and only `Δ_a = H`, `Δ^a = H` contributes.
-- Two marks on lines in `ℂP²` with the diagonal: the joint model has normal coordinate in `T_x ℂP²`, real dimension `4`, and the fibre over the diagonal is empty, as a line is embedded.
+- `ℂP²`, `A = ℓ`: the node-matching Casimir reduces to `Σ_a ⟨γ₁, γ₂, Δ_a⟩_ℓ ⟨Δ^a, γ₃, γ₄⟩_0` with `Δ^a` the dual basis. For `pt, pt | H, H` only `Δ_a = H`, `Δ^a = H` survives the degree count and the term is `1 · ∫ H³ = 0`; for `pt, H | H, H` only `Δ_a = pt`, `Δ^a = 1` survives and the term is `1 · ∫ H² = 1`.
+- Two marks on lines in `ℂP²` with the diagonal: the joint model has normal coordinate in `T_x ℂP²`, real dimension `4`. On the locus of smooth-domain maps with distinct marks the fibre over the diagonal is empty, a line being embedded; on `M̄_(0,2)(ℂP², ℓ)`, of complex dimension `4`, the fibre is the collision-bubble stratum (a line with a constant sphere carrying both marks, parametrized by a line and a point on it) of complex dimension `3`, not the expected `2`. The intersection is excess, so neither emptiness nor transversality is used; this is why the constrained models of AnalyticStableMaps §12.1 enter, whose own emptiness Check holds only on the smooth-domain locus.
 - The Künneth comparison for `M̄_(0,3) × M̄_(1,1)`: `H^*(pt) ⊗ H^*(M̄_(1,1); ℚ)` with the weighted pairing `1 · (1/2)` of the product, the product of the factor weights.
 
 *Needs:* §6.5, §2.1; AnalyticStableMaps §12.1; ImplicitAtlases §6.4–§6.5, §7.3; Orbifolds O5 item 1; AlgebraicTopology Stage 5 item 1; TopologicalSheafCohomology §1.2; §0.3.
@@ -569,7 +584,7 @@ For the node-matching step consume the two-space evaluation chart and joint mode
 ### Examples
 
 - `T²`: the signed Casimir contraction `χ(T²) = 0`.
-- `ℂP²`: the splitting identity for `(0, 4, ℓ)` and the count `N₂ = 1`.
+- `ℂP²`: the splitting identity for `(0, 4, ℓ)`, zero for the insertions `pt, pt, H, H` and `1` for `pt, H, H, H`.
 
 ### Dependencies
 
@@ -579,9 +594,9 @@ Layers 0–5; ComplexCurveModuli D7–D8; AnalyticStableMaps §7.3, §12; Implic
 
 ### 7.1 Novikov-completed classes and the unital cohomological field theory
 
-Define `Ω_(g,n) = Σ_A q^A I_(g,n,A)` in `H^*(M̄_(g,n); ℚ) ⊗ Hom(H^*(X; ℚ)^(⊗n), ℚ) ⊗̂ Λ_ω`, and prove convergence in the area filtration and finiteness of the decomposition sums from §0.3; the completed grading is the total degree with `deg q^A = 2c₁(A)`, and the completed object is not the direct sum of its homogeneous pieces when a series has infinitely many terms of distinct `c₁`. With the even nondegenerate Poincaré pairing on `H^*(X; ℚ)` prove that `(H^*(X; ℚ), Ω_(g,n))` is a **unital cohomological field theory** over `Λ_ω`: `S_n`-covariance (§4.2), the splitting identity (§6.2) and genus reduction (§6.3) in the form of Kontsevich–Manin Definition 6.1 with axioms 6.1.1–6.1.3 (p. 31), and the flat-unit identity `Ω_(g,n+1)(γ₁, …, γ_n, 1) = π^* Ω_(g,n)(γ₁, …, γ_n)` for non-basic signatures together with the three-point rule `⟨Ω_(0,3)(γ₁, γ₂, 1)⟩ = ∫_X γ₁ ⌣ γ₂` from §5.2. Definition 6.1 has no unit axiom; the unit is proved here. Unstable signatures carry no class, only the numerical conventions of §2.2.
+Define `Ω_(g,n) = Σ_A q^A I_(g,n,A)` in `H^*(M̄_(g,n); ℚ) ⊗ Hom(H^*(X; ℚ)^(⊗n), ℚ) ⊗̂ Λ_ω`, and prove convergence in the area filtration and finiteness of the decomposition sums from §0.3. The grading is that of §0.2 with `deg q^A = 2c₁(A)`: the closed homogeneous pieces of total degree, their direct sum as an ordinary graded module, and the completed module as its filtered completion, in which a general element has components in infinitely many degrees. With the even nondegenerate Poincaré pairing on `H^*(X; ℚ)` prove that `(H^*(X; ℚ), Ω_(g,n))` is a **unital cohomological field theory** over `Λ_ω`: `S_n`-covariance (§4.2), the splitting identity (§6.2) and genus reduction (§6.3) in the form of Kontsevich–Manin Definition 6.1 with axioms 6.1.1–6.1.3 (p. 31), and the flat-unit identity `Ω_(g,n+1)(γ₁, …, γ_n, 1) = π^* Ω_(g,n)(γ₁, …, γ_n)` for non-basic signatures together with the three-point rule `⟨Ω_(0,3)(γ₁, γ₂, 1)⟩ = ∫_X γ₁ ⌣ γ₂` from §5.2. Definition 6.1 has no unit axiom; the unit is proved here. Unstable signatures carry no class, only the numerical conventions of §2.2.
 
-- `Ω_(g,n)` is homogeneous of degree `2(g − 1)m` as a map from `H^*(X)^(⊗n)` to `H^*(M̄_(g,n)) ⊗̂ Λ_ω`.
+- `Ω_(g,n)` maps a homogeneous `γ` with `Σ_i deg γ_i = s` into the closed homogeneous piece of degree `s + 2(g − 1)m` of `H^*(M̄_(g,n)) ⊗̂ Λ_ω`, whose Chern numbers lie in a finite set since `deg I_(g,n,A)(γ) ∈ [0, 6g − 6 + 2n]`.
 - The `A = 0` term of `Ω_(g,n)` is `I_(g,n,0)`.
 - The axioms of Definition 6.1 hold with `K = Λ_ω` after extension of scalars, the Casimir being the one of §6.1.
 
@@ -608,7 +623,7 @@ on `H^*(X; ℚ) ⊗̂ Λ_ω`, using the reconstruction `v = Σ_j (∫_X v ⌣ e_
 **Checks.**
 
 - `ℂP¹` with `x = pt`: `e_0 = 1, e_1 = x`, `e^0 = x, e^1 = 1`; `x ⋆ x = q ⟨x, x, x⟩_ℓ e^1 = q · 1`, degree `4 = 2 + 2`; `1 ⋆ x = Σ_j (∫ x ⌣ e_j) e^j = x`. With the shift `deg q^A = −2c₁(A)` the product would have degree `−4` on this term.
-- `ℂP²` with `H`: `H ⋆ H = H² + 0`, `H ⋆ H² = q N₁ · 1 = q`, `H² ⋆ H² = q N₁ H = qH`, and associativity `(H ⋆ H) ⋆ H² = H ⋆ (H ⋆ H²)` reads `H² ⋆ H² = qH`, i.e. `N₂ = N₁² = 1`; the recursion of the splitting identity gives `N₃ = 12` from `N₁ = N₂ = 1`, the number of rational cubics through eight points.
+- `ℂP²` with `H` and `q = q^ℓ`: `H ⋆ H = H²`, `H ⋆ H² = q ⟨H, H², H²⟩_ℓ · 1 = q`, `H² ⋆ H² = q ⟨H², H², H⟩_ℓ H = qH`, every positive-degree coefficient being the line count `N₁ = 1` (a class `2ℓ` would need insertion degree `d_(0,3,2ℓ) = 16 > 12`). Associativity `(H ⋆ H) ⋆ H² = H ⋆ (H ⋆ H²)` reads `qN₁H = qN₁H`; it holds independently of the conic number and does not determine it.
 - `T²` with `∫ α ⌣ β = 1`: the left duals are `e^α = −β`, `e^β = α`, since `∫ (−β) ⌣ α = 1`; a right-dual convention would give `e^α = β`, and the reconstruction `v = Σ (∫ v ⌣ e_j) e^j` applied to `v = α` gives `(∫ α ⌣ β) e^β = α` only with the left duals.
 
 *Needs:* §7.1, §6.2, §5.2, §4.2, §0.2; AlgebraicTopology Stage 6 item 2.
@@ -616,7 +631,7 @@ on `H^*(X; ℚ) ⊗̂ Λ_ω`, using the reconstruction `v = Σ_j (∫_X v ⌣ e_
 ### Examples
 
 - `ℂP¹`: `QH^*(ℂP¹) = ℚ((q))[x]/(x² − q)` with `deg q = 4`.
-- `ℂP²`: `x³ = q`, with `N₁ = N₂ = 1`, `N₃ = 12`.
+- `ℂP²`: `QH^*(ℂP²) = ℚ((q))[x]/(x³ − q)` with `deg q = 6`, every structure constant of the small product being the line count `N₁ = 1`.
 
 ### Dependencies
 
@@ -626,15 +641,19 @@ Layers 0, 2, 4–6; AlgebraicTopology Stage 6; MorseNovikov N1.
 
 ### 8.1 Cotangent lines on stable domains
 
-Construct the domain cotangent line `L̄_i` on the stable pointed-curve groupoid of ComplexCurveModuli D5 as the relative cotangent bundle of the universal curve of D7 restricted to the i-th section, prove arrow equivariance and base-change compatibility, and set `ψ̄_i = c₁(L̄_i)`. In genus zero with `n ≥ 4` prove `ψ̄₁ = Σ [D_I]` over boundary divisors `D_I` with `1 ∈ I`, `2, 3 ∉ I`, `|I| ≥ 2`, by the universal plumbing charts and the branch normal line of D7 item 3. For forgetting the last mark prove `L̄_i^((n+1)) ≅ π^* L̄_i^((n)) ⊗ 𝒪(D_(i,n+1))`, with `D_(i,n+1)` the divisor where marks `i` and `n + 1` lie on a rational tail contracted by stabilization, from the cross-ratio section and the plumbing coordinate. On a boundary divisor with mark `1` on the first factor the marking line restricts to `pr₁^* L̄₁` of that factor and is not the node cotangent line; the node cotangent lines `L_*`, `L_**` enter the normal smoothing line `T_* ⊗ T_**` with `c₁ = −ψ_* − ψ_**`. Start the induction from `ψ̄ = 0` on the point `M̄_(0,3)`.
+Construct the domain cotangent line `L̄_i` on the stable pointed-curve groupoid of ComplexCurveModuli D5 as the relative cotangent bundle of the universal curve of D7 restricted to the i-th section, prove arrow equivariance and base-change compatibility, and set `ψ̄_i = c₁(L̄_i)`. In genus zero with `n ≥ 4` prove `ψ̄₁ = Σ [D_I]` over boundary divisors `D_I` with `1 ∈ I`, `2, 3 ∉ I`, `|I| ≥ 2`, by the universal plumbing charts and the branch normal line of D7 item 3. For forgetting the last mark prove `L̄_i^((n+1)) ≅ π^* L̄_i^((n)) ⊗ 𝒪(D_(i,n+1))`, with `D_(i,n+1)` the divisor where marks `i` and `n + 1` lie on a rational tail contracted by stabilization, from the cross-ratio section and the plumbing coordinate. On a boundary divisor with mark `1` on the first factor the marking line restricts to `pr₁^* L̄₁` of that factor and is not the node cotangent line; the node cotangent lines `L_*`, `L_**` enter the normal smoothing line `T_* ⊗ T_**` with `c₁ = −ψ_* − ψ_**`. Start the induction from `ψ̄ = 0` on the point `M̄_(0,3)`. In the algebraic setting the comparison, the restriction law and the genus-zero boundary expression are Kock, *Notes on psi classes*, Lemma 1.3.1 (p. 12), Lemma 1.2.6 (p. 10) and 1.5.2 (p. 15); here they are proved on the analytic stable-domain groupoid of ComplexCurveModuli.
+
+- `L̄_i` is an arrow-equivariant complex line bundle on the stable-domain groupoid, compatible with base change and with the refinements of D5, and `ψ̄_i ∈ H²(M̄_(g,n); ℚ)`; relabelling the marks by `σ ∈ S_n` carries `ψ̄_i` to `ψ̄_(σ(i))`.
+- For the forgetful map `π : M̄_(g,n+1) → M̄_(g,n)` with `2g − 2 + n > 0`, `ψ̄_i = π^* ψ̄_i + [D_(i,n+1)]` and `ψ̄_i ⌣ [D_(i,n+1)] = 0` (Kock, Lemma 1.3.1 and the identity preceding it, p. 12).
+- Under a clutching map the restriction of `ψ̄_i` is the pullback of the cotangent class of mark `i` on the factor carrying it; in genus zero with `n ≥ 4`, `ψ̄₁ = Σ [D_I]` over `1 ∈ I`, `2, 3 ∉ I`, and `∫_(M̄_(0,n)) ψ̄₁^(k₁) ⋯ ψ̄_n^(k_n) = (n − 3)!/(k₁! ⋯ k_n!)` when `Σ k_i = n − 3` (Kock, Lemma 1.5.1, p. 15; Kontsevich–Manin 1998, equation (11), p. 5).
 
 **Checks.**
 
 - `M̄_(0,4) ≅ ℂP¹`: the divisors with `1 ∈ I`, `2, 3 ∉ I`, `|I| ≥ 2` reduce to `I = {1, 4}`, so `∫ ψ̄₁ = 1`; the formula with the anchors `2, 3` replaced by `2, 4` gives the same degree by symmetry, and a formula without anchors would give `3`.
-- `M̄_(0,5)`: `∫ ψ̄₁² = 1` and `∫ ψ̄₁ ψ̄₂ = 2`, the values `(n − 3)!/∏ k_i!` for `n = 5`; the comparison `L̄₁^((5)) ≅ π^* L̄₁^((4)) ⊗ 𝒪(D_(1,5))` gives `ψ̄₁^((5)) = π^* ψ̄₁^((4)) + [D_(1,5)]` and `∫ ψ̄₁² = 0 + ∫ [D_(1,5)] ⌣ ψ̄₁ = 1`.
+- `M̄_(0,5)`: `∫ ψ̄₁² = 1` and `∫ ψ̄₁ ψ̄₂ = 2`, the values `(n − 3)!/∏ k_i!` for `n = 5`; the comparison `L̄₁^((5)) ≅ π^* L̄₁^((4)) ⊗ 𝒪(D_(1,5))` gives `ψ̄₁^((5)) = a + D` with `a = π^* ψ̄₁^((4))` and `D = [D_(1,5)]`; from `∫ a² = 0`, `∫ a D = ∫_(M̄_(0,4)) ψ̄₁ = 1` and `∫ D² = −1`, `∫ ψ̄₁² = 0 + 2 − 1 = 1`, and `∫ ψ̄₁ ⌣ D = 1 − 1 = 0`, as the restriction law requires (mark `1` lies on the three-pointed component of `D_(1,5)`, where the cotangent class is pulled back from the point `M̄_(0,3)`).
 - `M̄_(1,1)`: `∫^wt ψ̄₁ = 1/24 = ∫^wt λ₁`; the coarse unweighted integral would be `1/12`.
 
-*Needs:* ComplexCurveModuli D5, D7 items 1 and 3; CharacteristicClasses C3 item 2; Orbifolds O4.
+*Needs:* ComplexCurveModuli D5, D7 items 1 and 3; CharacteristicClasses C3 item 2; Orbifolds O4, O5 item 1.
 
 ### 8.2 The cotangent line on the stable-map groupoid and the class `ψ_i`
 
@@ -642,7 +661,11 @@ Construct the complex cotangent line `L_i` on the stable-map groupoid from the r
 
     ψ_i = (1/N) c₁(L_i^(⊗N)) ∈ Ȟ²(|M̄_(g,n)(X, A)|; ℚ).
 
-Prove independence of `N`, of the chart choices, of auxiliary marks and of refinements, and the pullback and boundary formulas under forgetting and clutching, each proved by the equivariant tensor-power isomorphism and the naturality of the finite-cover classifying construction, never by a smooth structure on the zero locus. Descendant insertions are Čech cup products with `ψ_i^k` paired against the dual-Čech functional; no Čech-to-singular comparison is used on the source.
+Prove independence of `N`, of the chart choices, of auxiliary marks and of refinements, and the pullback and boundary formulas under forgetting and clutching, each proved by the equivariant tensor-power isomorphism and the naturality of the finite-cover classifying construction, never by a smooth structure on the zero locus. Descendant insertions are Čech cup products with `ψ_i^k` paired against the dual-Čech functional; no Čech-to-singular comparison is used on the source. In the algebraic setting the forgetful comparison and the restriction law for stable maps are Kock, *Notes on psi classes*, (5.1.7.1)–(5.1.7.2), pp. 50–51; the finite-isotropy descent on the compact zero locus is this roadmap's construction.
+
+- `L_i` is a finite-group-equivariant topological complex line bundle on the compact zero locus, compatible with arrows, coordinate changes and refinements; `ψ_i ∈ Ȟ²(|M̄_(g,n)(X, A)|; ℚ)` is independent of `N`, of the chart choices, of auxiliary marks and of refinements, and relabelling by `σ ∈ S_n` carries `ψ_i` to `ψ_(σ(i))`.
+- For a map-stable forgetful map `π : M̄_(g,n+1)(X, A) → M̄_(g,n)(X, A)`, `ψ_i = π^* ψ_i + [D_(i,n+1)]`, where `D_(i,n+1)` is the supported class of the locus on which marks `i` and `n + 1` lie alone on a constant genus-zero component, and `ψ_i ⌣ [D_(i,n+1)] = 0`.
+- Under a clutching map of stable maps the restriction of `ψ_i` is the pullback of `ψ_i` of the factor carrying mark `i`; for `X` a point, `ψ_i = ψ̄_i`.
 
 **Checks.**
 
@@ -658,7 +681,11 @@ Define the descendant numbers
 
     ⟨τ_(k₁)(γ₁) ⋯ τ_(k_n)(γ_n)⟩_(g,A) = Φ_(g,n,A)(ev₁^* γ₁ ⌣ ψ₁^(k₁) ⌣ ⋯ ⌣ ev_n^* γ_n ⌣ ψ_n^(k_n))
 
-on every map-stable signature, and the cohomology-valued descendants by pairing with `st^*` of a target test class in the stable range. Define the ancestor bracket by replacing each `ψ_i` by `ψ̄_i = st^* c₁(L̄_i)`, which requires `2g − 2 + n > 0`. Set `τ_(−1)(γ) = 0`. The three numerical equations of §8.4 assume only that the map signature is stable and that the displayed forgetful map of stable maps exists; they use the map-level functional and need no Deligne–Mumford target. The primary three-point cases use the exception of §5.2; no value is assigned to an unstable pointed moduli space by convention.
+on every map-stable signature, and the cohomology-valued descendants by pairing with `st^*` of a target test class in the stable range. Define the ancestor bracket by replacing each `ψ_i` by `ψ̄_i = st^* c₁(L̄_i)`, which requires `2g − 2 + n > 0`. Set `τ_(−1)(γ) = 0`. The three numerical equations of §8.4 assume only that the map signature is stable and that the displayed forgetful map of stable maps exists; they use the map-level functional and need no Deligne–Mumford target. The primary three-point cases use the exception of §5.2; no value is assigned to an unstable pointed moduli space by convention. The brackets are the conventional and generalized correlators of Kontsevich–Manin 1998, §1.1, equations (1)–(2), p. 2, there in the algebraic setting.
+
+- Both brackets are `ℚ`-multilinear in the insertions, and reordering the pairs `(k_i, γ_i)` changes them by the Koszul sign of the permutation of the odd `γ_i` and nothing else.
+- Degree selection: the descendant bracket vanishes unless `Σ_i (deg γ_i + 2k_i) = d_(g,n,A)`, and so does the ancestor bracket.
+- With all `k_i = 0` both brackets equal the numerical operation `⟨I_(g,n,A)(γ₁, …, γ_n)⟩` of §2.2; in the stable range the ancestor bracket equals `∫^wt_(M̄_(g,n)) ψ̄₁^(k₁) ⋯ ψ̄_n^(k_n) ⌣ I_(g,n,A)(γ₁, …, γ_n)`, by the defining identity of §2.2 with the test class `ψ̄₁^(k₁) ⋯ ψ̄_n^(k_n)`.
 
 **Checks.**
 
@@ -682,7 +709,7 @@ and, for a degree-two class `δ`, the divisor equation
 
     ⟨τ₀(δ) ∏_(i=1)^n τ_(k_i)(γ_i)⟩_(g,A) = ⟨A, δ⟩ ⟨∏_(i=1)^n τ_(k_i)(γ_i)⟩_(g,A) + Σ_(j : k_j > 0) ⟨∏_(i=1)^n τ_(k_i − δ_(ij))(γ_i^((j)))⟩_(g,A),
 
-with `γ_i^((j)) = δ ⌣ γ_j` for `i = j` and `γ_i` otherwise. Derive them from the forgetful map of §5.1, the line comparison `L_i^((n+1)) ≅ π^* L_i^((n)) ⊗ 𝒪(D_(i,n+1))` of §8.1 transported to the map groupoid by §8.2, and the relative class and projection formula of §5.1, keeping the primary three-point exception of §5.2.
+with `γ_i^((j)) = δ ⌣ γ_j` for `i = j` and `γ_i` otherwise. Derive them from the forgetful map of §5.1, the line comparison `L_i^((n+1)) ≅ π^* L_i^((n)) ⊗ 𝒪(D_(i,n+1))` of §8.1 transported to the map groupoid by §8.2, and the relative class and projection formula of §5.1, keeping the primary three-point exception of §5.2. In the algebraic setting the divisor equation is Kontsevich–Manin 1998, Lemma 1.5.2, equation (12), p. 5, and the dilaton equation is its Lemma 1.5.3, p. 6; for a point target the string and dilaton equations are Kock, *Notes on psi classes*, Lemma 1.4.2 (p. 14) and 1.6.2 (p. 16), and the push-down `π_* ψ_(n+1) = 2g − 2 + n` behind the dilaton equation is its (5.1.7.3), p. 51, for stable maps. The proofs here follow those routes on the analytic carrier.
 
 **Checks.**
 
@@ -698,7 +725,7 @@ A map cotangent line is not in general the pullback of the stabilized-domain cot
 
     L_i ≅ st^* L̄_i ⊗ 𝒪(D_i),    ψ_i = ψ̄_i + [D_i]_(supp,vir),
 
-where `[D_i]_(supp,vir)` is constructed from the simple-zero plumbing parameter, its zero-section Euler class and the auxiliary-augmented chart trace of §6.5 on the map carrier, not by pulling back a Deligne–Mumford boundary divisor under `st`; include every positive class and every finite-isotropy weight in the supported sum and prove the empty and codimension-zero degeneracies instead of assuming an effective Cartier divisor on a singular base. The line morphism is the derivative of stabilization on the marked tangent line away from contracted tails; on a tail chart its vanishing order is computed from the plumbing coordinate. Define ancestors by pullback from the stabilized domain and prove the descendant–ancestor identities with this boundary correction, descending tensor powers through finite isotropy as in §8.2.
+where `[D_i]_(supp,vir)` is constructed from the simple-zero plumbing parameter, its zero-section Euler class and the auxiliary-augmented chart trace of §6.5 on the map carrier, not by pulling back a Deligne–Mumford boundary divisor under `st`; include every positive class and every finite-isotropy weight in the supported sum and prove the empty and codimension-zero degeneracies instead of assuming an effective Cartier divisor on a singular base. The line morphism is the derivative of stabilization on the marked tangent line away from contracted tails; on a tail chart its vanishing order is computed from the plumbing coordinate. Define ancestors by pullback from the stabilized domain and prove the descendant–ancestor identities with this boundary correction, descending tensor powers through finite isotropy as in §8.2. In the algebraic setting the class identity in genus zero is Kock, *Notes on psi classes*, Lemma 5.1.9, p. 51 (`st^* ψ̄₁ = ψ₁ − E₁`), and the all-genus comparison of descendant and generalized correlators is Kontsevich–Manin 1998, Theorem 1.2, equation (4), p. 2, whose proof there is a sketch (p. 3); the supported virtual class `[D_i]_(supp,vir)` on the analytic carrier is this roadmap's construction.
 
 **Checks.**
 
@@ -714,7 +741,7 @@ For ancestors, `n ≥ 3`, `k ≥ 0` and realized `A`, sum over decompositions `A
 
     ⟨τ̄_(k+1)(α) ∏_(i=2)^n τ_(k_i)(γ_i)⟩_(0,A) = Σ_(A₁+A₂=A) Σ_(S⊔T) ε(S, T) Σ_(a,b) g^(ab) ⟨τ̄_k(α) ∏_(i∈S) τ_(k_i)(γ_i) Δ_a⟩_(0,A₁) ⟨Δ_b ∏_(j∈T) τ_(k_j)(γ_j)⟩_(0,A₂).
 
-Both factors are stable after adding their node marks since `|T| ≥ 2`. For `n = 3` there is no admissible partition and the left side vanishes, `M̄_(0,3)` being a point with zero cotangent class. Derive the relation from `ψ̄₁ = Σ [D_I]` of §8.1 pulled back by `st` and the splitting identity of §6.2 with descendant insertions, and convert it to descendants by §8.5; the forgetful-family and cobordism diagrams are AnalyticStableMaps §12.2, the relative class and integration §5.1 and the boundary trace §6.5.
+Both factors are stable after adding their node marks since `|T| ≥ 2`. For `n = 3` there is no admissible partition and the left side vanishes, `M̄_(0,3)` being a point with zero cotangent class. Derive the relation from `ψ̄₁ = Σ [D_I]` of §8.1 pulled back by `st` and the splitting identity of §6.2 with descendant insertions, and convert it to descendants by §8.5 (in the algebraic setting: Kock, *Notes on psi classes*, Proposition 5.1.8, p. 51, and the splitting lemma 5.2.1, p. 53; the three-point descendant case is Kontsevich–Manin 1998, Corollary 1.3, equation (4a), p. 3); the forgetful-family and cobordism diagrams are AnalyticStableMaps §12.2, the relative class and integration §5.1 and the boundary trace §6.5.
 
 **Checks.**
 
@@ -741,4 +768,6 @@ Layers 1–2, 5–6; ComplexCurveModuli D5, D7; AnalyticStableMaps §9.1–§9.2
 ## References
 
 - M. Kontsevich and Yu. Manin, *Gromov–Witten classes, quantum cohomology, and enumerative geometry*, Comm. Math. Phys. 164 (1994), 525–562, [arXiv:hep-th/9402147v2](https://arxiv.org/abs/hep-th/9402147v2). Page numbers are those of the arXiv version. Cited for: Definition 2.2 and the properties 2.2.0 (effectivity), 2.2.1 (covariance) and 2.2.2 (grading, equation (2.2)), p. 4; basic classes (2.3) and codimension (2.4), p. 4; 2.2.3 fundamental class, equations (2.6)–(2.7), p. 5; 2.2.4 divisor, p. 5; 2.2.5 mapping to a point, equation (2.8), p. 5, and equations (2.9)–(2.10), p. 6, where the coefficient of (2.9) is corrected in §3.4; 2.2.6 splitting, equation (2.11), p. 6; 2.2.7 genus reduction, equation (2.12), p. 6; 2.2.8 motivic axiom, p. 6, outside this roadmap; 2.4.5 mapping to a point with the obstruction sheaf `E ⊠ TV` of rank `g · dim V`, p. 10; Theorem-Definition 4.5, p. 19, the quantum cohomology ring conditional on the axioms; Definition 6.1 with axioms 6.1.1–6.1.3, p. 31, the cohomological field theory without a unit.
+- M. Kontsevich and Yu. Manin, *Relations between the correlators of the topological sigma-model coupled to gravity*, Comm. Math. Phys. 196 (1998), [arXiv:alg-geom/9708024v1](https://arxiv.org/abs/alg-geom/9708024v1). Page numbers are those of the arXiv version. Cited for: §1.1, equations (1)–(2), p. 2, descendant and generalized correlators; Theorem 1.2, equation (4), p. 2, with its proof sketch, p. 3, the descendant–ancestor comparison; Corollary 1.3, equation (4a), p. 3, the three-point genus-zero recursion; equation (11), p. 5, the genus-zero ψ̄-integrals; Lemma 1.5.2, equation (12), p. 5, the divisor equation; Lemma 1.5.3, p. 6, the dilaton equation. All in the algebraic setting.
+- J. Kock, *Notes on psi classes*, preliminary version of 6 June 2001, author's page (https://mat.uab.cat/~kock/GW/notes/psi-notes.pdf). Cited for: Lemma 1.2.6, p. 10, restriction of cotangent lines to boundary divisors; the identity `ψ_i · D_(i,0) = 0` and Lemma 1.3.1, p. 12, the forgetful comparison; Lemma 1.4.2, p. 14, the string equation; Lemma 1.5.1 and 1.5.2, p. 15, the genus-zero integrals and boundary expression of `ψ̄₁`; 1.6.2, p. 16, the dilaton equation; (5.1.7.1)–(5.1.7.3), pp. 50–51, the stable-map analogues; Proposition 5.1.8 and Lemma 5.1.9, p. 51, the genus-zero boundary expression and descendant–ancestor comparison for stable maps; Lemma 5.2.1, p. 53, the splitting lemma. All in the algebraic setting.
 - J. Pardon, *An algebraic approach to virtual fundamental cycles on moduli spaces of pseudo-holomorphic curves*, Geom. Topol. 20 (2016), 779–1034, [arXiv:1309.2370v6](https://arxiv.org/abs/1309.2370v6). Page numbers are those of arXiv v6. Cited for: Theorem 9.2.10 (the Gromov–Witten implicit atlas), Definition 9.3.1 (the Gromov–Witten invariant as a pushforward of the virtual class to `H_•(M̄_(g,n) × X^n; ℚ)`) and Lemma 9.3.2 (its independence of `J`), p. 100; the §5 introduction, p. 40, where the fiber-product formula is named as a desired property not proved there; and the remark, p. 95, that proving the Kontsevich–Manin axioms from implicit atlases needs further properties of the virtual class. The analytic content of §9 and Appendix B is consumed through AnalyticStableMaps, the engine of §§3–6 and Appendix A through ImplicitAtlases.

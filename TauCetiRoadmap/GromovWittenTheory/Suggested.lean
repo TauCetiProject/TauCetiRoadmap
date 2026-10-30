@@ -28,10 +28,10 @@ None of these is statable at the pins:
 
 - Theorems 1–4 need the moduli space of stable pseudoholomorphic maps with its retained-arrow
   groupoid and its rational dual-Čech virtual functional. These are the targets of
-  AnalyticStableMaps (Layers 1–9) and ImplicitAtlases (Layer 4), roadmaps still in pull
-  requests; the pinned Tau Ceti has no stable map, no nodal curve and no implicit atlas, and
-  its `SmoothAlmostComplexStructure` has only the constant, negated and product constructors,
-  so no Riemann surface is a domain at the pin.
+  AnalyticStableMaps (Layers 1–9) and ImplicitAtlases (Layer 4). The pinned Tau Ceti has no
+  compact nodal domain, no moduli space of stable maps and no implicit atlas; its
+  `SmoothAlmostComplexStructure` accepts any smooth `J` with `J² = −1` on a native manifold,
+  so what is missing is the nodal-domain and stable-map moduli carrier, not a smooth domain.
 - Theorems 1–4 need the coarse moduli space of stable pointed curves `M̄_(g,n)` with the
   weighted rational pairing of its retained-arrow groupoid, the targets of ComplexCurveModuli
   D5–D8 and Orbifolds O5, which are not in the pinned Tau Ceti.
