@@ -7,9 +7,9 @@ import TauCeti.Geometry.Manifold.DerivationBundle
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, the roadmap's headline theorems that are statable there: the scalar
 cotangent and derivation dictionaries of P1.0, the inverse principal symbol of an elliptic
-classical symbol (P2/P6), the Euclidean quantization on Schwartz input with its Sobolev
-mapping theorem for compactly x-supported symbols and the uniform order-zero
-Calderón–Vaillancourt theorem (P3/P5), and the ordinary Fredholm path lemma of P7.
+classical symbol (P2/P6), Borel asymptotic summation (P2), and Euclidean quantization
+on Schwartz input with its Sobolev mapping theorem for compactly x-supported symbols and the uniform order-zero
+Calderón–Vaillancourt theorem (P3/P5).
 Local symbols use smooth continuous-linear coefficients and all mixed derivative bounds;
 quantization uses Mathlib's Fourier transform with the angular-frequency symbol evaluated
 at ξ = 2πζ.
@@ -19,11 +19,17 @@ Not statable at the pins, for lack of a carrier:
   formula `δ(u+iv) = Xu − Yv + i(Yu + Xv)`: there is no real/imaginary-part map on
   `C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯` and no module structure of complex smooth functions on sections;
 * jet bundles, differential operators between bundles and their principal symbols (P1.0),
-  Peetre's theorem (P1.1): there is no bundle differential-operator or bundle
-  distribution carrier;
+  the Bochner decomposition and Peetre's theorem (P1): there is no bundle
+  differential-operator or bundle distribution carrier;
+* the manifold Schwartz kernel theorem (P3): the bundle test-section and
+  bundle distribution carriers, including their density-valued duals, are missing;
+* the complex/real interpolation identifications and bundle Besov/Zygmund
+  mapping theorems (P5): the compatible-couple interpolation, bundle Besov and
+  bundle Zygmund carriers are missing;
 * the global pseudodifferential classes, parametrices, bundle Sobolev Fredholm theory and
   elliptic regularity (P4–P6): there is no compact-bundle Sobolev scale `H^s(M;E)`;
-* elliptic powers, the equivariant product index and finite-deck isospectrality
+* elliptic powers, the equivariant product index, elliptic-complex Hodge theory and
+  finite-deck isospectrality
   (P7, P7a): these need the bundle Sobolev scale and the self-adjoint realizations of
   Laplace-type operators on it;
 * wave front sets, distribution pullback and pushforward (P8): there is no distribution
@@ -36,6 +42,8 @@ namespace TauCetiRoadmap.PseudodifferentialOperators
 
 open scoped ContDiff FourierTransform SchwartzMap RealInnerProductSpace
 open MeasureTheory
+
+/-! ## Layer 1: Differential operators, jets and symbols -/
 
 section ScalarDifferentialCore
 
@@ -77,29 +85,6 @@ def derivationVectorField
   pointDerivationEquivTangentSpace x BoundarylessManifold.isInteriorPoint
     (Derivation.evalAt x D)
 
-omit [SecondCountableTopology M] in
-/-- The field of `D` evaluates on `df_x` to `(D f)(x)`. -/
-theorem derivationVectorField_apply
-    (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯)
-    (f : C^∞⟮I, M; ℝ⟯) (x : M) :
-    mvfderiv I f x (derivationVectorField D x) = (D f) x := by
-  change tangentToPointDerivation x
-    (pointDerivationEquivTangentSpace x BoundarylessManifold.isInteriorPoint
-      (Derivation.evalAt x D)) f = (D f) x
-  rw [tangentToPointDerivation_pointDerivationEquivTangentSpace]
-  rfl
-
-omit [SecondCountableTopology M] in
-/-- The pointwise field is linear over smooth functions: `field(fD)(x) = f(x) field(D)(x)`. -/
-theorem derivationVectorField_smul (f : C^∞⟮I, M; ℝ⟯)
-    (D : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯) (x : M) :
-    derivationVectorField (f • D) x = f x • derivationVectorField D x := by
-  unfold derivationVectorField
-  have heval : Derivation.evalAt x (f • D) = f x • Derivation.evalAt x D := by
-    ext g
-    rfl
-  rw [heval, map_smul]
-
 /-- The pointwise field of an arbitrary algebraic derivation is a smooth section of the
 tangent bundle. -/
 theorem contMDiff_derivationVectorField
@@ -122,19 +107,7 @@ theorem exists_derivationEquivSmoothVectorField
 
 end ScalarDifferentialCore
 
-/-- The ordinary index is constant on a continuous Fredholm family over a
-preconnected parameter space; in particular this applies to a path on [0,1]. -/
-theorem fredholmIndex_eq_of_preconnected
-    {𝕜 X Y B : Type*} [NontriviallyNormedField 𝕜] [CompleteSpace 𝕜]
-    [NormedAddCommGroup X] [NormedAddCommGroup Y]
-    [NormedSpace 𝕜 X] [NormedSpace 𝕜 Y] [CompleteSpace X]
-    [TopologicalSpace B] [PreconnectedSpace B]
-    (T : B → X →L[𝕜] Y) (hT : Continuous T)
-    (hFredholm : ∀ b, (T b).IsFredholm) (a b : B) :
-    (T a).index = (T b).index := by
-  apply TotallyDisconnectedSpace.eq_of_continuous (fun c ↦ (T c).index)
-  exact continuous_iff_continuousAt.mpr fun c ↦
-    (hFredholm c).index_continuousAt.comp hT.continuousAt
+/-! ## Layer 2: Symbols and asymptotic expansions -/
 
 /-- The Euclidean coordinate space `ℝⁿ` of a chart. -/
 abbrev CoordinateSpace (n : ℕ) := EuclideanSpace ℝ (Fin n)
@@ -206,20 +179,20 @@ structure ClassicalSymbol (n : ℕ) (V W : Type*) [NormedAddCommGroup V]
     (remainder N).coefficient (x, ξ) = symbol.coefficient (x, ξ) -
       ∑ j ∈ Finset.range N, cutoff.toFun ξ • (terms j).coefficient (x, ξ)
 
-/-- A substantive condition on the actual principal term. -/
-def ClassicalSymbol.IsElliptic {m : ℝ} (a : ClassicalSymbol n V W m) : Prop :=
-  ∀ x ξ, ξ ≠ 0 → Function.Bijective ((a.terms 0).coefficient (x, ξ))
-
-/-- The pointwise inverse of the principal term of an elliptic classical symbol is itself a
-smooth homogeneous symbol of order `-m`, two-sided inverse at every nonzero covector. -/
-theorem exists_inversePrincipalSymbol {m : ℝ} (a : ClassicalSymbol n V W m)
-    [FiniteDimensional ℂ V] [FiniteDimensional ℂ W] (ha : a.IsElliptic) :
-    ∃ b : HomogeneousSymbol n W V (-m), ∀ (x ξ : CoordinateSpace n), ξ ≠ 0 →
-      ((b.coefficient (x, ξ)).comp ((a.terms 0).coefficient (x, ξ)) =
-          ContinuousLinearMap.id ℂ V ∧
-        ((a.terms 0).coefficient (x, ξ)).comp (b.coefficient (x, ξ)) =
-          ContinuousLinearMap.id ℂ W) := by
+/-- Borel summation for local symbols: a decreasing sequence of orders tending to minus
+infinity admits a symbol whose remainder after the first `N` terms has order `orders N`. -/
+theorem exists_asymptoticSum
+    [FiniteDimensional ℂ V] [FiniteDimensional ℂ W]
+    (orders : ℕ → ℝ) (hmono : Antitone orders)
+    (hlim : Filter.Tendsto orders Filter.atTop Filter.atBot)
+    (a : (j : ℕ) → Symbol n V W (orders j)) :
+    ∃ b : Symbol n V W (orders 0), ∀ N : ℕ,
+      ∃ r : Symbol n V W (orders N), ∀ x ξ,
+        b.coefficient (x, ξ) - ∑ j ∈ Finset.range N, (a j).coefficient (x, ξ) =
+          r.coefficient (x, ξ) := by
   sorry
+
+/-! ## Layer 3: Oscillatory kernels and local quantization -/
 
 /-- Actual single integral; integrability is a separate theorem, not built into notation. -/
 def quantizeSchwartzValue {m : ℝ} (a : Symbol n V W m)
@@ -228,17 +201,7 @@ def quantizeSchwartzValue {m : ℝ} (a : Symbol n V W m)
     Complex.exp (((2 * Real.pi * inner ℝ x ζ : ℝ) : ℂ) * Complex.I) •
       a.coefficient (x, (2 * Real.pi) • ζ) ((𝓕 u) ζ)
 
-theorem integrable_quantizeSchwartz {m : ℝ} (a : Symbol n V W m)
-    (u : SchwartzMap (CoordinateSpace n) V) (x : CoordinateSpace n) :
-    Integrable (fun ζ : CoordinateSpace n =>
-      Complex.exp (((2 * Real.pi * inner ℝ x ζ : ℝ) : ℂ) * Complex.I) •
-        a.coefficient (x, (2 * Real.pi) • ζ) ((𝓕 u) ζ)) := by
-  sorry
-
-theorem contDiff_quantizeSchwartzValue {m : ℝ} (a : Symbol n V W m)
-    (u : SchwartzMap (CoordinateSpace n) V) :
-    ContDiff ℝ ∞ (quantizeSchwartzValue a u) := by
-  sorry
+/-! ## Layer 5: Sobolev, Lp and Hölder mapping estimates -/
 
 /-- Native all-real-order carrier, without a private completion. -/
 def schwartzToSobolev (s : ℝ) (u : SchwartzMap (CoordinateSpace n) V) :
@@ -265,6 +228,23 @@ theorem exists_quantizeUniformOrderZero (a : Symbol n V W 0)
         BesselPotentialSpace (CoordinateSpace n) W 0 2,
       ∀ (u : SchwartzMap (CoordinateSpace n) V) (φ : SchwartzMap (CoordinateSpace n) ℂ),
         (T (schwartzToSobolev 0 u)).toDistr φ = ∫ x, φ x • quantizeSchwartzValue a u x := by
+  sorry
+
+/-! ## Layer 6: Ellipticity, parametrices and Fredholm theory -/
+
+/-- A substantive condition on the actual principal term. -/
+def ClassicalSymbol.IsElliptic {m : ℝ} (a : ClassicalSymbol n V W m) : Prop :=
+  ∀ x ξ, ξ ≠ 0 → Function.Bijective ((a.terms 0).coefficient (x, ξ))
+
+/-- The pointwise inverse of the principal term of an elliptic classical symbol is itself a
+smooth homogeneous symbol of order `-m`, two-sided inverse at every nonzero covector. -/
+theorem exists_inversePrincipalSymbol {m : ℝ} (a : ClassicalSymbol n V W m)
+    [FiniteDimensional ℂ V] [FiniteDimensional ℂ W] (ha : a.IsElliptic) :
+    ∃ b : HomogeneousSymbol n W V (-m), ∀ (x ξ : CoordinateSpace n), ξ ≠ 0 →
+      ((b.coefficient (x, ξ)).comp ((a.terms 0).coefficient (x, ξ)) =
+          ContinuousLinearMap.id ℂ V ∧
+        ((a.terms 0).coefficient (x, ξ)).comp (b.coefficient (x, ξ)) =
+          ContinuousLinearMap.id ℂ W) := by
   sorry
 
 end TauCetiRoadmap.PseudodifferentialOperators
