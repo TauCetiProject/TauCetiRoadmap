@@ -318,6 +318,26 @@ construction targets precede the elliptic gluing.
    Prove vanishing from formal smoothness of invariant mod-p functions,
    ind-étaleness and positive-degree continuous-cohomology vanishing.
 
+   **Checks.**
+   - Spf V∞hat represents pairs (C,φ) of a curve of Mbar_ell over a ring
+     with p nilpotent and an isomorphism φ:Ĝ_m≃Ĉ (such C are ordinary);
+     V∞hat is Katz's ring of generalized p-adic modular functions, the
+     p-complete K-homology K₀tmf (Goerss, Theorem 4.13 and the discussion
+     before it). The element −1∈ℤ_p× acts trivially, since [−1]:C→C is
+     an isomorphism from (C,φ) to (C,φ∘[−1]); so Γ=ℤ₂×/{±1} at 2 loses
+     nothing.
+   - On the Tate curve with its canonical trivialization the canonical
+     subgroup is μ_p and Tate(q)/μ_p=Tate(q^p), so ψᵖ acts on
+     q-expansions by f(q)↦f(q^p), and θ(f)=(f(q^p)−f(q)^p)/p is integral
+     because a^p≡a mod p on ℤ_p: at p=2, θ(1+q)=−q. The identity is not a
+     Frobenius lift: it would make θ(1+q)=(−q−q²)/2.
+   - At p=2 the level-1 stage trivializes Ĉ[2]≃μ₂, whose automorphism
+     group (ℤ/2)× is trivial, so that stage is the ordinary locus itself,
+     with [−1] in every stabilizer, and is not representable; at level 2,
+     [−1] acts on μ₄≃Ĉ[4] by inversion, which is nontrivial, so the stage
+     is a scheme. For odd p inversion is already nontrivial on μ_p, which
+     is why level 1 suffices there.
+
    For odd p realize the finite p-level model and lift its (ℤ/p)×
    action coherently by the group-cohomology obstruction tower; prove
    vanishing using p-completeness and the prime-to-p group order.
@@ -664,6 +684,20 @@ Transport changes of the chosen sphere defining system and its
 indeterminacy along the same unit map. These arguments use algebraic
 cohomology and the constructed sheaf, not the Gap Theorem or MU_*tmf.
 
+**Checks.**
+- κ̄_S and unit(κ̄_S) lie in bidegree (20,2) and κ̄_ell in (20,4);
+  π_(20,2)Smf/τ=H²(Mbar_ell,ω¹¹)_(2)=0, so unit(κ̄_S) reduces to zero
+  mod τ, and defining κ̄_ell as unit(κ̄_S) itself, without the
+  τ²-division, would name a class invisible on the E₂ page.
+- 4κ̄_ell=ν²κ holds in π_(20,4)Smf_(2) and reduces to 4g=h₂²d; the
+  change of sphere choice κ̄_S↦κ̄_S+ν²κ=5κ̄_S (the indeterminacy ⟨ν²κ⟩
+  with 4κ̄_S=ν²κ) replaces κ̄_ell by 5κ̄_ell and g by 5g, another
+  generator of ℤ/8.
+- In π_(20,4)Smf/τ≅ℤ/8 the relation 4ȳ=4g has exactly the four
+  solutions ȳ∈{g,3g,5g,7g}, so the relation alone does not determine
+  κ̄_ell; the τ²-division does, by the injectivity of τ² on
+  π_(20,4)Smf_(2), which rests on the vanishing of π_(21,1)Smf/τ².
+
 Use the finite τ-torsion of ν³κ̄_S, the unit equation
 unit(κ̄_S)=τ²κ̄_ell, the normalized h₂ and g detections, the synthetic
 Leibniz/total-differential comparison and the algebraic source/target
@@ -712,11 +746,26 @@ this ordered basis:
 a₁⁶/3−7a₁³a₃−27a₃²`
 (CDvN Proposition 4.6).
 Identify the right-unit formulas and prove
-`Tr(1)=8`, `Tr(3η_R(a₁a₃))=2c₄`,
-`Tr(−η_R(a₃²))=2c₆`. Deduce that 8,2c₄,2c₆, and their ideal
+`Tr(1)=8`, `Tr(3η_R(a₁a₃))=2c₄` and
+`Tr(27η_R(a₃²))=2c₆`; 27 is a unit in ℤ_(2), so 2c₆ lies in the
+transfer image. Deduce that 8,2c₄,2c₆, and their ideal
 in filtration 0, are permanent cycles in the level-one DSS (CDvN
-Corollary 4.9). These are
+Corollary 4.9, whose display has −η_R(a₃²) where the trace values
+require 27η_R(a₃²)). These are
 the transfer outputs used in the independent Gap calculation.
+
+**Checks.**
+- At (a₁,a₃)=(1,1) the eight basis traces give Tr(η_R(a₃²))=−362/27
+  while 2c₆=−362: the displayed values force the unit factor 27, not a
+  sign, and Tr(−η_R(a₃²))=2c₆ fails at this point.
+- Tr(η_R(a₁))=0 and Tr(η_R(a₃))=0: the level-one ring has no forms of
+  weight 1 or 3, so a nonzero value there would contradict the
+  identification of Tr with the algebraic trace (CDvN Theorem 4.4).
+- Tr(η_R(a₁⁴))=24c₄ and Tr(η_R(a₁³a₃))=2c₆, the latter an integral
+  identity needing no 2-local unit; the trace is the sum of the eight
+  conjugates, so Tr(1)=8, and a normalization by the average would give
+  Tr(1)=1 and is not even 2-integral.
+
 This level/sheaf/transfer sublane precedes coefficient calculations and
 uses neither the Gap Theorem nor the DA(1) equivalence. Construct the
 four-fold systems in Smf/τ¹⁰ detecting ν₂ and ν₆, first constructing
@@ -854,10 +903,33 @@ equality is insufficient. Compute the genus of σ: the composite
 π_*MString→π_*tmf→ℤ[[q]] through E4's edge map and E3's q-expansion is
 the ring map whose KO-characteristic series is Witten's
 `σ(L,q)=(L^(1/2)−L^(−1/2))∏_(n≥1)(1−qⁿL)(1−qⁿL⁻¹)/(1−qⁿ)²`
-(Ando–Hopkins–Rezk §1), with logarithm coefficients 2G_(2k)(q)/(2k)! in
-E4's Bernoulli normalization (Ando–Hopkins–Rezk Proposition 10.9). Prove the comparison at the Tate cusp,
+(Ando–Hopkins–Rezk §1). Its Hirzebruch characteristic power series is
+the reciprocal `x/σ(eˣ,q)`, whose logarithm is
+`Σ_(k≥1) 2G_(2k)(q)x^(2k)/(2k)!` in E4's Bernoulli normalization
+(Ando–Hopkins–Rezk Proposition 10.9); the characteristic sequence
+{G_k}_(k≥4) of Theorem 12.3 is half of these logarithm coefficients
+(Ando–Hopkins–Rezk Proposition 5.14, `t_k=2b_k`), and the x² term
+2G₂(q)x²/2 is not part of the sequence, which is indexed by
+π_(2k)bstring for k≥4. Prove the comparison at the Tate cusp,
 MString→tmf→KO[[q]], and the comparison with G5.5-ABS's orientation after
 the constant-term map KO[[q]]→KO, q↦0 (Ando–Hopkins–Rezk Theorem 6.1).
+
+**Checks.**
+- BString=BO⟨8⟩→BO is an isomorphism on π_i for i≥8 and kills
+  π₁BO=ℤ/2, π₂BO=ℤ/2 and π₄BO=ℤ, the only nonzero homotopy of BO below
+  degree 8, while BSpin=BO⟨4⟩ keeps π₄. Accordingly the unit S→MString is
+  an isomorphism on π_i for i≤6 and onto on π₇, so π₃MString≅ℤ/24 and
+  π₄MString=0, whereas π₄MSpin≅ℤ: the Spin cover is the wrong input.
+- bstring=τ_(≥8)ko≃Σ⁸ko has π₈=ℤ, π₉=π₁₀=ℤ/2, π₁₁=0 and π₁₂=ℤ; its
+  complex analogue Σ⁸ku has π₉=0 and π₁₀=ℤ, so π₉BString=π₈O=ℤ/2 forces
+  the real theory.
+- At q=0 the Hirzebruch series x/σ(eˣ,0)=x/(e^(x/2)−e^(−x/2)) has
+  logarithm −Σ_(k≥1)B_(2k)x^(2k)/(2k·(2k)!): its x⁴/4! coefficient is
+  −B₄/4=1/120=2G₄(0), while log(σ(eˣ,0)/x) has −1/120 there. The
+  reciprocal series, not σ itself, carries the Eisenstein coefficients,
+  and the resulting sequence −B_(2k)/(4k)=G_(2k)(0) is the
+  Atiyah–Bott–Shapiro sequence of Theorem 6.1 (Ando–Hopkins–Rezk
+  Example 5.15).
 
 Determine the image of σ_* on π_* and its torsion information,
 including the orientation's surjectivity theorem. Construct
@@ -896,6 +968,22 @@ and prove the sevenfold computations
 `Δ⁵ε∈⟨ε,5ν,4ν,3ν,2ν,ν,κ̄⁵⟩`, including indeterminacy and
 cell-by-cell obstructions. The surjectivity proof uses Proposition 5.9,
 independently of these sevenfold computations.
+
+**Checks.**
+- H_*(ΩS⁹)=ℤ[x₈] and H_*(ΩS¹³)=ℤ[x₁₂], so the Serre spectral sequence
+  of ΩS⁹→N→ΩS¹³ is even and collapses, H_*(N) has Poincaré series
+  1/((1−t⁸)(1−t¹²)), and the Thom isomorphism gives BP_*B=BP_*[b₄,y₆];
+  with S⁸ in place of S⁹ the fibre ΩS⁸ has the tensor algebra on an odd
+  class x₇ and B would have odd cells.
+- 2ν has order 12 in π₁₂S⁹≅π₃S≅ℤ/24, the order of π₁₂O(10)≅ℤ/12, so
+  f↦2ν is injective and ν itself is not a boundary; the composite
+  S¹²→S⁹→B²String is null because π₁₂B²String=π₁₁BString=π₁₀O=0,
+  whereas the corresponding group for a 13-sphere, π₁₃B²String=π₁₁O=ℤ,
+  does not vanish.
+- H_*(B;F₂)=F₂[ζ₁⁸,ζ₂⁴] sits in H_*(tmf;F₂)=F₂[ζ₁⁸,ζ₂⁴,ζ₃²,ζ₄,…] with
+  first missing class ζ₃² in degree 14, consistent with B→tmf being an
+  equivalence in dimensions at most 12; rationally π_*B⊗ℚ=ℚ[b₄,y₆]→
+  ℚ[c₄,c₆] is onto in degrees 8 and 12 (Devalapurkar Proposition 3.5).
 
 Own the special E1 Thom/quotient refinement for these loop maps: construct
 the loop-multiplicative spherical-fibration diagram, its derived Thom
@@ -974,6 +1062,25 @@ indecomposable congruences from integral polynomial identities.
 E5 constructs its B-smash comparison separately from this tmf-module
 equivalence. Distinguish 2-localization from 2-completion in these statements and prove any
 completion comparison used in the coefficient calculation.
+
+**Checks.**
+- The question-mark complex Q has cells in dimensions 0, 2, 6, so Q∧DQ
+  has nine cells in dimensions −6,−4,−2,0,0,0,2,4,6 and Euler
+  characteristic 9; splitting off S⁰ uses that χ(Q)=3 is a 2-local unit,
+  and the six-fold suspension of the complement has cells in dimensions
+  0,2,4,6,6,8,10,12 (Mathew Definition 4.2). At the prime 3 this
+  splitting is unavailable and a different three-cell complex X₃ gives
+  tmf∧X₃≃tmf₁(2).
+- H_*(DA(1);F₂) is spanned by ξ₁^(2a)ζ₂^(2b), 0≤a≤3, 0≤b≤1, with
+  Poincaré polynomial (1+t²+t⁴+t⁶)(1+t⁶)=(1−t⁸)(1−t¹²)/((1−t²)(1−t⁶)),
+  the quotient of the Poincaré series of ℤ_(2)[a₁,a₃] by that of
+  ℤ_(2)[c₄,c₆]: the rational comparison already forces eight cells in
+  exactly these degrees.
+- Sq² and Sq⁴ act nontrivially on the bottom class, so the 2-cell is
+  attached by η and the 4-cell by a map detected by Sq⁴; a wedge of
+  eight even spheres has the same cell count, but tmf∧(wedge) has
+  η-torsion one degree above every cell, whereas ℤ_(2)[a₁,a₃] is
+  torsion-free.
 
 Construct the primary and secondary detection maps that String-bordism
 consumers use: low-stem unit images, the q-expansion edge and the torsion
