@@ -60,7 +60,7 @@ namespace TauCetiRoadmap.HeegaardFloer
 
 open scoped Manifold ContDiff
 
-/-! ## Layer F0: sharp finite-dimensional Sard -/
+/-! ## Layer 2: the nonlinear-analysis substrate -/
 
 /-- On an open subset of a finite-dimensional real normed space, the critical values
 of a C^k map have additive Haar measure zero when k > max(dim E - dim F, 0).
@@ -99,7 +99,7 @@ theorem sharp_sardSmale
     IsMeagre (f '' {x | ¬ Function.Surjective (mfderiv I J f x)}) := by
   sorry
 
-/-! ## Layer F2: symplectic geometry and holomorphic curves -/
+/-! ## Layer 4: J-holomorphic curves -/
 
 section Darboux
 
@@ -162,7 +162,7 @@ open InnerProductSpace
 
 /-- Gromov nonsqueezing: a smooth symplectic embedding of the open radius-r ball
 in complex Euclidean n-space into the radius-R cylinder in its first complex
-coordinate requires r ≤ R. Gromov (1985), §0.3.A, Corollary, pp. 309–310. -/
+coordinate requires r ≤ R. Gromov (1985), §0.3.A, Corollary, pp. 310–311. -/
 theorem nonsqueezing {n : ℕ} (hn : 0 < n) {r R : ℝ}
     (hr : 0 < r) (hR : 0 < R)
     (f : EuclideanSpace ℂ (Fin n) → EuclideanSpace ℂ (Fin n))
