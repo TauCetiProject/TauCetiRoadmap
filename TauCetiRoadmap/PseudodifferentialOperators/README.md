@@ -327,6 +327,17 @@ derivation corresponds to X+iY by
 two real derivations, and prove the inverse formula and uniqueness. Compare
 the scalar-function module actions, restrictions and complexified brackets.
 
+The acceptance declarations are the instance `realComplexContMDiffRing`, the
+constant-function ring map `complexSmoothConstants` with the algebra
+`complexSmoothFunctionsAlgebra` it induces, the real-to-complex inclusion
+`ofRealSmooth`, and the theorem
+`exists_complexDerivationEquivComplexifiedVectorField`: a complex-linear
+equivalence from complex-linear derivations of A_ℂ onto `ℂ⊗[ℝ]Γ∞(TM)` that
+sends δ to `1⊗X+i⊗Y` exactly when `δ(u)=X(u)+i·Y(u)` for every real smooth u,
+on a finite-dimensional, Hausdorff, second-countable boundaryless real manifold.
+Since 1 and i form a real basis of ℂ, every element of `ℂ⊗[ℝ]Γ∞(TM)` is
+`1⊗X+i⊗Y` for a unique pair (X,Y), so this condition fixes the equivalence.
+
 The complex smooth-function and section API includes:
 
 - Real and imaginary parts reconstruct a complex smooth function and commute with restriction.
@@ -2088,7 +2099,7 @@ the fixed target cone obtained from Γ∪(C×{0}), not a cone varying with u;
 and Theorem 6.3, pp. 13–14 and 21–22](https://arxiv.org/abs/1409.7662v2)
 for the Euclidean seminorm and duality proof route. Prove the manifold and
 finite-rank bundle versions by localization in charts, componentwise estimates
-and the coordinate/frame comparisons of P1–P5. This supplies [RQFT5](../RelativisticQuantumFieldTheory/README.md#milestone-rqft5--graph-combinatorics-amplitudes-and-formal-perturbation-theory)'s compact-support functor and [RQFT6](../RelativisticQuantumFieldTheory/README.md#milestone-rqft6--distribution-products-extension-and-renormalization)'s proper-support integration; Fourier restriction for nonproper integration remains a separate application of the pullback theorem.
+and the coordinate/frame comparisons of P1–P5.
 
 The distribution-operation API includes:
 
@@ -2135,8 +2146,7 @@ IndexTheory I2/I4 consumes the elliptic symbol, parametrix and equivariant produ
 results. RiemannianGeometry R7 consumes the differential and Bochner comparisons;
 LieGroupoidsPoisson G1.1 consumes smooth-section modules; ContactGeometry CG5
 consumes first jets of real line bundles. FuchsianOrbifolds L9 consumes finite-deck
-scalar isospectrality. RelativisticQuantumFieldTheory RQFT5–RQFT6 consumes the
-wavefront pullback, product and proper-pushforward contracts. These applications
+scalar isospectrality. These applications
 add their own geometric or algebraic constructions.
 
 ## References

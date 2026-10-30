@@ -6,7 +6,7 @@ import TauCeti.Geometry.Manifold.DerivationBundle
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, the roadmap's headline theorems that are statable there: the scalar
-cotangent and derivation dictionaries of P1.0, the inverse principal symbol of an elliptic
+cotangent, real derivation and complexified derivation dictionaries of P1.0, the inverse principal symbol of an elliptic
 classical symbol (P2/P6), Borel asymptotic summation (P2), and Euclidean quantization
 on Schwartz input with its Sobolev mapping theorem for compactly x-supported symbols and the uniform order-zero
 Calderón–Vaillancourt theorem (P3/P5).
@@ -15,9 +15,6 @@ quantization uses Mathlib's Fourier transform with the angular-frequency symbol 
 at ξ = 2πζ.
 
 Not statable at the pins, for lack of a carrier:
-* the complexified derivation dictionary `Der_ℂ(A_ℂ) ≃ ℂ ⊗ Γ∞(TM)` of P1.0 with its
-  formula `δ(u+iv) = Xu − Yv + i(Yu + Xv)`: there is no real/imaginary-part map on
-  `C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯` and no module structure of complex smooth functions on sections;
 * jet bundles, differential operators between bundles and their principal symbols (P1.0),
   the Bochner decomposition and Peetre's theorem (P1): there is no bundle
   differential-operator or bundle distribution carrier;
@@ -103,6 +100,48 @@ theorem exists_derivationEquivSmoothVectorField
     ∃ e : Derivation ℝ C^∞⟮I, M; ℝ⟯ C^∞⟮I, M; ℝ⟯ ≃ₗ[ℝ]
         ContMDiffSection I E ∞ (fun x : M ↦ TangentSpace I x),
       ∀ D x, e D x = derivationVectorField D x := by
+  sorry
+
+/-- Complex addition and multiplication are smooth for the real manifold structure of `ℂ`,
+so complex-valued smooth functions on a real manifold form a commutative ring. -/
+instance realComplexContMDiffRing : ContMDiffRing 𝓘(ℝ, ℂ) ∞ ℂ :=
+  { instNormedSpaceLieAddGroup with
+    contMDiff_mul := by
+      rw [contMDiff_iff]
+      refine ⟨continuous_mul, fun x y ↦ ?_⟩
+      simp only [mfld_simps]
+      rw [contDiffOn_univ]
+      exact contDiff_mul }
+
+/-- Constant complex functions, as a ring map into the complex smooth functions `A_ℂ`. -/
+def complexSmoothConstants : ℂ →+* C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯ where
+  toFun z := ContMDiffMap.const z
+  map_zero' := by ext x; rfl
+  map_one' := by ext x; rfl
+  map_add' z w := by ext x; rfl
+  map_mul' z w := by ext x; rfl
+
+/-- The `ℂ`-algebra structure of `A_ℂ` given by constant complex functions. -/
+instance complexSmoothFunctionsAlgebra : Algebra ℂ C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯ :=
+  (complexSmoothConstants (I := I) (M := M)).toAlgebra
+
+/-- A real smooth function viewed as a complex smooth function. -/
+def ofRealSmooth (f : C^∞⟮I, M; ℝ⟯) : C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯ :=
+  ⟨fun x ↦ (f x : ℂ), Complex.ofRealCLM.contDiff.contMDiff.comp f.contMDiff⟩
+
+open scoped TensorProduct in
+/-- The complexified derivation dictionary: complex-linear derivations of `A_ℂ` correspond
+complex-linearly and bijectively to `ℂ ⊗[ℝ] Γ∞(TM)`, the derivation `δ` going to `1 ⊗ X + i ⊗ Y`
+exactly when `δ u = X u + i (Y u)` for every real smooth `u`; equivalently
+`δ (u + i v) = X u − Y v + i (Y u + X v)`. -/
+theorem exists_complexDerivationEquivComplexifiedVectorField
+    [FiniteDimensional ℝ E] [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M] :
+    ∃ e : Derivation ℂ C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯ C^∞⟮I, M; 𝓘(ℝ, ℂ), ℂ⟯ ≃ₗ[ℂ]
+        ℂ ⊗[ℝ] ContMDiffSection I E ∞ (fun x : M ↦ TangentSpace I x),
+      ∀ δ X Y, e δ = (1 : ℂ) ⊗ₜ[ℝ] X + Complex.I ⊗ₜ[ℝ] Y ↔
+        ∀ (u : C^∞⟮I, M; ℝ⟯) (x : M), δ (ofRealSmooth u) x =
+          (mvfderiv I (u : C^∞⟮I, M; ℝ⟯) x (X x) : ℂ) +
+            (mvfderiv I (u : C^∞⟮I, M; ℝ⟯) x (Y x) : ℂ) * Complex.I := by
   sorry
 
 end ScalarDifferentialCore
