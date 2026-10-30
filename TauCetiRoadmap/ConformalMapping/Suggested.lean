@@ -22,17 +22,30 @@ inequality (`TauCeti.norm_deriv_div_one_sub_norm_sq_le`), the Riemann mapping th
 Schwarz–Christoffel theorem for bounded polygonal Jordan domains
 (`TauCeti.exists_bijOn_const_mul_schwarzChristoffelPrimitive_add_of_isJordanCurve_frontier`).
 
-Two headline theorems are not statable at the pins and are therefore not stated: the continuous
-Jordan index theorem (§5.6 of the README) and the continuous-boundary argument principle (§5.7).
-Both are about the integer index of a continuous closed loop about a point off its trace, which is
-the roadmap's own construction (§5.4); no carrier for it exists in the pinned Mathlib or Tau Ceti,
-and `TauCeti.Contour.windingNumber` is a principal-value integral that is junk on a nonrectifiable
-loop. The piecewise-`C¹` case of the Jordan index theorem is statable and is stated below.
+The continuous Jordan index theorem (§5.6) and continuous-boundary argument principle (§5.7)
+use the real-body argument-lift definition `continuousIndex` below, on native functions and
+intervals. The compactness criterion (§1.1) uses native continuous maps. All headline theorems
+listed here are statable at the pins; none requires an unstated carrier. The integral winding
+number is used only for piecewise-`C¹` contours, not for arbitrary continuous loops.
 -/
 
 namespace TauCetiRoadmap.ConformalMapping
 
 open Bornology Complex Filter Metric Set Topology UpperHalfPlane TauCeti
+
+/-! ## Layer 1: normal families -/
+
+/-- A family of holomorphic maps into a proper complex normed space is compact in the
+compact-open topology precisely when it is closed and bounded uniformly on each compact subset
+of its open domain (Conway, VII.2.9). Ambient representatives impose holomorphy only on `Ω`. -/
+theorem compact_holomorphic_family {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℂ E] [ProperSpace E] (Ω : TopologicalSpace.Opens ℂ)
+    (S : Set C(Ω, E))
+    (hS : ∀ f ∈ S, ∃ F : ℂ → E, DifferentiableOn ℂ F Ω ∧ ∀ z : Ω, f z = F z) :
+    IsCompact S ↔ IsClosed S ∧
+      ∀ K : Set ℂ, K ⊆ Ω → IsCompact K → ∃ M : ℝ,
+        ∀ f ∈ S, ∀ z : Ω, (z : ℂ) ∈ K → ‖f z‖ ≤ M := by
+  sorry
 
 /-! ## Layer 2: Schwarz–Pick and Poincaré geometry -/
 
@@ -83,7 +96,7 @@ theorem chosen_map_closed_disc_homeomorphism {Ω : Set ℂ} {f : ℂ → ℂ}
 exactly two connected components, one bounded and one unbounded; the bounded one is
 `filledHull C \ C`, it is open and connected, and both components have frontier `C`. No
 smoothness, polygonality or locally straight point is assumed (Thomassen, Amer. Math. Monthly 99
-(1992), §2). -/
+(1992), Theorem 2.12, p. 122). -/
 theorem jordan_separation {C : Set ℂ} (hC : TauCeti.IsJordanCurve C) :
     ∃ a ∈ Cᶜ, ∃ b ∈ Cᶜ,
       connectedComponentIn Cᶜ a ≠ connectedComponentIn Cᶜ b ∧
@@ -97,13 +110,51 @@ theorem jordan_separation {C : Set ℂ} (hC : TauCeti.IsJordanCurve C) :
         connectedComponentIn Cᶜ z = connectedComponentIn Cᶜ b := by
   sorry
 
+/-- The integer argument increment of a continuous closed loop avoiding `w` on `[a,b]`.
+Choose the integer realized by a continuous real argument lift; outside these hypotheses, or
+if there is no such integer, return zero. On the stated domain the integer exists and is
+independent of the lift, including for loops of infinite length. -/
+noncomputable def continuousIndex (γ : ℝ → ℂ) (a b : ℝ) (w : ℂ) : ℤ := by
+  classical
+  exact if h : ∃ n : ℤ, a ≤ b ∧ ContinuousOn γ (Icc a b) ∧ γ a = γ b ∧
+      w ∉ γ '' Icc a b ∧ ∃ θ : ℝ → ℝ, ContinuousOn θ (Icc a b) ∧
+      (∀ t ∈ Icc a b, γ t - w = (‖γ t - w‖ : ℂ) * exp (Complex.I * (θ t : ℂ))) ∧
+      θ b - θ a = 2 * Real.pi * (n : ℝ)
+    then h.choose else 0
+
+/-- Every continuous Jordan loop has one index sign on its bounded complementary component
+and index zero outside its filled hull. No rectifiability or differentiability is assumed. -/
+theorem continuous_jordan_index {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
+    (hc : ContinuousOn γ (Icc a b)) (hclosed : γ a = γ b)
+    (hi : InjOn γ (Ico a b)) :
+    TauCeti.IsJordanCurve (γ '' Icc a b) ∧
+      ∃ σ : ℤ, (σ = 1 ∨ σ = -1) ∧
+        (∀ w ∈ filledHull (γ '' Icc a b) \ γ '' Icc a b,
+          continuousIndex γ a b w = σ) ∧
+        ∀ w ∉ filledHull (γ '' Icc a b), continuousIndex γ a b w = 0 := by
+  sorry
+
+/-- For a function continuous on a closed Jordan domain and holomorphic inside, the index of
+its image of the positively oriented boundary about an avoided value equals its interior zero
+count with analytic multiplicities. The finitely supported sum includes every interior point. -/
+theorem continuous_boundary_argument_principle {Ω : Set ℂ} {f : ℂ → ℂ}
+    (hΩ : TauCeti.IsJordanDomain Ω) (hc : ContinuousOn f (closure Ω))
+    (hd : DifferentiableOn ℂ f Ω) {γ : ℝ → ℂ}
+    (hγ : ContinuousOn γ (Icc 0 1)) (hclosed : γ 0 = γ 1)
+    (hi : InjOn γ (Ico 0 1)) (htrace : γ '' Icc 0 1 = frontier Ω)
+    (hpositive : ∀ z ∈ Ω, continuousIndex γ 0 1 z = 1)
+    {w : ℂ} (hw : w ∉ f '' frontier Ω) :
+    continuousIndex (f ∘ γ) 0 1 w =
+      ∑ᶠ z : Ω, (analyticOrderNatAt (fun x => f x - w) (z : ℂ) : ℤ) := by
+  sorry
+
 /-- **The Jordan index theorem for piecewise-`C¹` contours.** A closed piecewise-`C¹` curve
 `γ` on `[a, b]`, `a < b`, injective on `[a, b)`, has a Jordan curve `C = γ '' [a, b]` as its trace,
 and its winding number `TauCeti.Contour.windingNumber γ a b w` is one sign `σ ∈ {1, −1}` at every
 point `w` of the bounded complementary component `filledHull C \ C` and `0` off `filledHull C`.
 The sign depends on the parametrization and is a conclusion: the counterclockwise unit circle gives
 `σ = 1`, its reversal `σ = −1`. This is the piecewise-`C¹` case of the continuous Jordan index
-theorem of §5.6 of the README, which is not statable at the pins. -/
+theorem `continuous_jordan_index`, through the integral comparison in README §5.5. -/
 theorem jordan_index_of_isPiecewiseC1On {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
     (hγ : TauCeti.Contour.IsPiecewiseC1On γ a b) (hclosed : γ a = γ b)
     (hinj : InjOn γ (Ico a b)) :
@@ -141,7 +192,7 @@ has a local half-plane model and every vertex `v i` a local sector model of open
 `(e i + 1) π`, `e i ∈ (−1, 1)`. Then on the upper half-plane `f` is an affine image of the
 Schwarz–Christoffel primitive of the prevertices `a` and exponents `e` restricted to `i ≠ k`,
 with constants read off at `z₀`, and the restricted exponents sum to `−2 − e k`
-(Driscoll–Trefethen, *Schwarz–Christoffel Mapping*, Ch. 2, the vertex-at-infinity formula). -/
+(Driscoll–Trefethen, *Schwarz–Christoffel Mapping*, Theorem 2.1, p. 10, equation (2.2)). -/
 theorem eqOn_const_mul_schwarzChristoffelPrimitive_add_of_source_infinity_at_vertex
     {n : ℕ} {k : Fin n} (a : {i : Fin n // i ≠ k} → ℝ) (e : Fin n → ℝ)
     (ha : Function.Injective a) (he : ∀ i, e i ∈ Ioo (-1 : ℝ) 1) (z₀ : UpperHalfPlane)

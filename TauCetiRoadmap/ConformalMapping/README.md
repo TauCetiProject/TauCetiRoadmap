@@ -8,8 +8,8 @@ removability (Layer 4); the Carathéodory correspondence for Jordan domains (Lay
 Schwarz–Christoffel theorem for bounded polygons and for polygons with a sector or half-strip end
 (Layer 6). Its own targets are the results that connect these into a usable library and the
 theorems the library still lacks: the compactness and closedness criteria for families of univalent
-maps, the Cayley comparison of the half-plane and disc hyperbolic metrics, the conformal packaging
-of the Riemann map, reflection across analytic arcs through explicit straightening charts,
+maps, the Cayley comparison of the half-plane and disc hyperbolic metrics, reflection across
+analytic arcs through explicit straightening charts,
 removability of a rectifiable arc, the Jordan curve theorem for an arbitrary Jordan curve, the
 integer index of a continuous closed loop with the Jordan index theorem and the continuous-boundary
 argument principle, Darboux's boundary-injectivity theorem, and the Schwarz–Christoffel
@@ -44,12 +44,14 @@ injectivity (§5.8), removability of a rectifiable Jordan arc (§4.3), the Cayle
 argument principle, Rouché, Hurwitz, Morera and the local degree (Layer 0); Montel's criterion
 and Vitali's theorem (Layer 1); Schwarz–Pick in contraction, infinitesimal and rigidity form, the
 Poincaré metric and the disc automorphism group (Layer 2); the Riemann mapping theorem with its
-normalized and uniqueness forms (Layer 3); analytic continuation along paths, the monodromy
+normalized and uniqueness forms, the homeomorphism bundle, inverse holomorphy and conformality
+(Layer 3); analytic continuation along paths, the monodromy
 theorems, reflection across the real axis and across charted analytic arcs, and removability of a
 charted real locus (Layer 4); the Carathéodory correspondence with boundary injectivity and the
 closure homeomorphism, its converse, and Jordan separation for curves with a straight piece
 (Layer 5); and the Schwarz–Christoffel existence, necessity, angle-sum and prevertex-uniqueness
-theorems for bounded polygons and for polygons with a sector or half-strip end (Layer 6). These
+theorems for bounded polygons, existence and necessity for polygons with a sector or half-strip
+end, and the power and logarithmic end asymptotics (Layer 6). These
 are consumed by name in the supplier contracts below and are not targets. Mathlib's
 `Analysis/Complex/RiemannMapping.lean` contains two public lemmas toward the Riemann mapping
 theorem (`Complex.exists_injective_not_dense_image_deriv_ne_zero`,
@@ -213,6 +215,14 @@ All modules are under `TauCeti.Analysis.Complex.Conformal` unless a path says ot
   `TauCeti.riemannMapping_openPartialHomeomorph` (`RiemannMapping.Conformal`);
   `TauCeti.exists_bijOn_differentiableOn_invFunOn_of_isSimplyConnected`,
   `TauCeti.nonempty_homeomorph_of_isSimplyConnected` (`RiemannMapping.Equivalence`).
+  For any holomorphic bijection of an open `U` onto `V`,
+  `DifferentiableOn.toHomeomorphOfBijOn`, `DifferentiableOn.toHomeomorphOfBijOn_apply` and
+  `DifferentiableOn.toHomeomorphOfBijOn_symm_apply` (`Biholomorph`) supply `U ≃ₜ V` and both
+  coercions. `DifferentiableOn.invFunOn` (`Inverse.Function`) supplies inverse holomorphy;
+  `DifferentiableOn.differentiableOn_toOpenPartialHomeomorph_symm`,
+  `DifferentiableOn.conformalAt_of_isOpen_of_injOn` and
+  `DifferentiableOn.conformalAt_toOpenPartialHomeomorph_symm` (`Biholomorph`) supply inverse
+  holomorphy and conformality on the respective open sets. No boundedness is required.
 - *Layer 4.* `TauCeti.IsAnalyticContinuationAlong f γ s` (`Continuation.Basic`): germs
   `f : X → ℂ → E` along `γ : X → ℂ` on the parameter set `s`, continuous path, analytic germs,
   local agreement; no completeness in the definition; uniqueness
@@ -325,13 +335,18 @@ All modules are under `TauCeti.Analysis.Complex.Conformal` unless a path says ot
   `TauCeti.eqOn_const_mul_schwarzChristoffelPrimitive_add_of_unbounded_polygonal_domain`,
   `TauCeti.exponent_sum_eq_sub_one_of_unbounded_polygonal_domain`,
   `TauCeti.tendsto_schwarzChristoffelPrimitive_div_cpow_atInfinity_of_neg_one_lt_sum`
-  (`SchwarzChristoffel.Infinity.Power`); half-strip ends
+  (`SchwarzChristoffel.Infinity.Power`): for any finite real data `a, e` with
+  `S = Σ eᵢ > −1`, the normalized primitive satisfies `F(z)/z^{S+1} → 1/(S+1)` through the
+  entire upper half-plane at infinity, with principal powers; no polygonality, distinctness
+  or ordering is required. Half-strip ends
   `TauCeti.exists_bijOn_const_mul_schwarzChristoffelPrimitive_add_of_isJordanCurve_of_halfStrip`,
   `TauCeti.exponent_sum_eq_neg_one_of_isJordanCurve_of_halfStrip`,
   `TauCeti.eqOn_const_mul_schwarzChristoffelPrimitive_add_of_halfStrip_polygonal_domain`,
   `TauCeti.exponent_sum_eq_neg_one_of_halfStrip_polygonal_domain`,
   `TauCeti.tendsto_schwarzChristoffelPrimitive_sub_log_atInfinity`
-  (`SchwarzChristoffel.Infinity.Logarithmic`). Simple polygons:
+  (`SchwarzChristoffel.Infinity.Logarithmic`): for any finite real data with `Σ eᵢ = −1`,
+  `F(z) − log z → TauCeti.schwarzChristoffelLogConstantAtInfinity a e z₀` through the entire
+  upper half-plane, using the principal logarithm and the specified base point. Simple polygons:
   `Polygon.IsSimple`, `Polygon.IsSimple.three_le`, `Polygon.boundaryParamCircle`,
   `Polygon.IsSimple.boundaryParamCircle_injective`, `Polygon.IsSimple.isJordanCurve_boundary`,
   `Polygon.IsSimple.exists_mem_nhds_inter_boundary_eq` (`TauCeti.Geometry.Polygon.Simple`).
@@ -348,8 +363,9 @@ them with the hypotheses listed above; nothing about contours is re-proved here.
 Layers are in build order. Layer 0 adds the cycle-level argument principle and the multiplicity
 bookkeeping that §5.7 consumes. Layer 1 states the compactness and closedness criteria for
 families of holomorphic and univalent maps on `C(↥Ω, ℂ)`. Layer 2 proves the Cayley comparison
-of the hyperbolic metrics and transports the infinitesimal metric and geodesics. Layer 3 packages
-the pinned Riemann map conformally. Layer 4 builds straightening charts for real-analytic arcs,
+of the hyperbolic metrics and transports the infinitesimal metric and geodesics. Layer 3 uses
+the conformal Riemann-map interfaces from the supplier contracts. Layer 4 builds straightening
+charts for real-analytic arcs,
 reflects across them, and proves removability of a rectifiable arc. Layer 5 is the core: the
 closed-disc homeomorphism of a chosen map, the Jordan curve theorem, the continuous index, the
 Jordan index theorem, the continuous-boundary argument principle, Darboux boundary injectivity,
@@ -408,8 +424,9 @@ Mathlib `analyticOrderNatAt`, the identity theorem.
   had a critical point.
 - `f z = z` composed with `φ z = z²` on the unit disc, `φ` not injective: the order at `0` is
   `2 ≠ 1`, the negative control for the injectivity hypothesis.
-- `f z = sin(1/(1 − z))` on the unit disc is continuous nowhere on the frontier near `1`; the
-  hypothesis fails and the zero set is infinite, the negative control for finiteness.
+- `f z = sin(1/(1 − z))` on the unit disc has no continuous extension at `1`, though it is
+  analytic near every other boundary point. Its zeros `zₙ = 1 − 1/(nπ)`, `n ≥ 1`, tend to `1`;
+  at `xₙ = 1 − 1/(π/2 + 2nπ)` its values are `1`, so the two limits disagree.
 
 ### Examples
 
@@ -426,8 +443,8 @@ Mathlib Cauchy theory; Tau Ceti `ArgumentPrinciple`, `Rouche`, `Hurwitz`, `Morer
 ### 1.1 The compactness criterion in the space of continuous maps
 
 For `Ω : Opens ℂ`, `E` a proper complex normed space and a set `𝓕 ⊆ C(↥Ω, E)` of restrictions of
-maps holomorphic on `Ω`, prove that `𝓕` is compact iff it is closed in `C(↥Ω, E)` and locally
-bounded on `Ω`, and that the closure of a locally bounded such set consists of restrictions of
+maps holomorphic on `Ω`, prove `compact_holomorphic_family`: `𝓕` is compact iff it is closed
+in `C(↥Ω, E)` and locally bounded on `Ω`, and that the closure of a locally bounded such set consists of restrictions of
 holomorphic maps (Conway, VII.2.9; Remmert, *Classical Topics in Complex Function Theory*,
 Ch. 7). The adapter between a family `F : ι → ℂ → E` and its restrictions is
 `⇑(f i) = Ω.domRestrict (F i)`; compact-open convergence in `C(↥Ω, E)` is
@@ -445,8 +462,9 @@ Ch. 7). The adapter between a family `F : ι → ℂ → E` and its restrictions
 **Checks.**
 - `F n z = zⁿ` on the unit disc is locally bounded and converges locally uniformly to `0`; its
   closure in `C(↥𝔻, ℂ)` is compact.
-- `F n z = n z` on the unit disc is not locally bounded (unbounded at every point), and has no
-  convergent subsequence: the criterion's necessity.
+- `F n z = n z` on the unit disc is `0` at `z = 0` for every `n`, is pointwise unbounded
+  at each `z ≠ 0`, and is unbounded on every neighbourhood of `0`. On the compact disc
+  `|z| ≤ 1/2`, the suprema are `n/2`, so local boundedness and subsequential convergence fail.
 - `F n z = n` on `ℂ`: pointwise divergence everywhere, not locally bounded, a definition reading
   "bounded at each point" instead of "bounded on each compact" gets this case wrong in the same
   way.
@@ -475,12 +493,15 @@ isolated-zero theorem. *Needs:* `TauCeti.hurwitz_injOn`, `TauCeti.rouche`,
 **Checks.**
 - `F n z = z/(n + 1)`, `Ω` the unit disc: every `F n` is injective, the limit is the constant
   `0`; a statement claiming injectivity of every limit is refuted.
-- `F n z = z + z²/n`, `Ω` the disc of radius `1/4`: injective for every `n`, limit `z`,
-  injective; with `a = 0`, `b = 1/8` the values `0 ≠ 1/8` survive, the two-point criterion
-  applies.
-- `F n z = (1 − 1/n) z` with `f(0) = 0`, `f′(0) = 1` prescribed: the limit is `z`, which keeps
-  both normalizations; the family with `f′(0) = 1` is closed, while `F n z = z/n`, which does
-  not keep `f′(0) = 1`, is outside it and collapses.
+- `F n z = z + z²/(4(n + 1))`, `n ∈ ℕ`, on the unit disc: `F n 0 = 0`, `(F n)′(0) = 1`.
+  For distinct `z,w`, the difference quotient is `1 + (z + w)/(4(n + 1))`, of modulus at
+  least `1 − 1/(2(n + 1)) ≥ 1/2`; every member is injective, including `n = 0`, and the limit
+  is `z`. Thus this is a family satisfying the derivative-one normalization at every index.
+- For the same family, `F n (1/8) = 1/8 + 1/(256(n + 1)) → 1/8` and `F n 0 = 0`; the
+  limiting values are distinct, so the nonconstant-limit criterion applies, although the
+  family does not keep the second value fixed.
+- `F n z = z/(n + 1)` has derivative `1/(n + 1)` at `0`, equal to `1` only at `n = 0`, and
+  collapses to `0`; it is not a family with derivative-one normalization.
 - Non-example: a family on a disconnected `Ω` (two disjoint discs) can converge to a map that is
   constant on one disc and injective on the other, so preconnectedness is needed.
 
@@ -549,13 +570,10 @@ Tau Ceti `PseudoHyperbolic`, `Hyperbolic.Distance`, `Hyperbolic.ClosedForm`, `Sc
 ### 3.1 Conformal packaging of the Riemann map
 
 For `Ω` open, simply connected and not `univ`, the pinned `TauCeti.riemannMapping` gives a
-holomorphic bijection `f` of `Ω` onto the unit disc (Conway, VII.4.2). Prove the packaging: `f` is
-`ConformalAt` every point of `Ω` (its derivative is nonzero by `TauCeti.deriv_ne_zero_of_injOn`),
-its inverse `Function.invFunOn f Ω` is holomorphic on the disc and `ConformalAt` every point, and
-the pair is a bundled equivalence `Ω ≃ 𝔻` whose coercions are `f` and its inverse, compatible
-with `TauCeti.riemannMapping_openPartialHomeomorph`. For the normalized map
-(`f(z₀) = 0`, `f′(z₀) > 0`) prove that the bundled equivalence is unique and that precomposing
-with a disc automorphism changes it by that automorphism. Keep the proof route of the theorem
+holomorphic bijection `f` of `Ω` onto the unit disc (Conway, VII.4.2). Use the bundle and
+inverse from the Layer 3 supplier contract, with the normalization
+`f(z₀) = 0`, `f′(z₀) > 0`. The uniqueness provider compares maps `Ω → 𝔻` by postcomposing
+with a disc automorphism `a`; the inverse of `a ∘ f` is `f⁻¹ ∘ a⁻¹`. Keep the proof route
 explicit in the docstrings: nonemptiness of the pointed injective family by the square-root
 construction (`TauCeti.isSimplyConnected_iff_hasHolomorphicSquareRoots`), normality by Layer 1,
 and surjectivity of a maximizer of `|f′(z₀)|` by the Koebe argument. *Needs:*
@@ -563,7 +581,6 @@ and surjectivity of a maximizer of `|f′(z₀)|` by the Koebe argument. *Needs:
 `TauCeti.riemannMapping_normalized`, `TauCeti.exists_eqOn_unitDiscStandardAutomorphismFormula_comp`,
 Mathlib `ConformalAt`, Tau Ceti `DifferentiableOn.toOpenPartialHomeomorph` (`Biholomorph`).
 
-- `ConformalAt f z` for `z ∈ Ω` and for the inverse at every point of the disc.
 - Any two simply connected proper domains are conformally equivalent, by composing a Riemann map
   with the inverse of another (`TauCeti.exists_bijOn_differentiableOn_invFunOn_of_isSimplyConnected`).
 
@@ -598,7 +615,8 @@ so that `Γ′` never vanishes and `Γ` is injective, and take the holomorphic i
 conjugation-invariant disc and the arc is exactly the real locus of the chart source:
 `e.source ∩ {z | Im(e z) = 0} = γ(I₀ ∩ e-preimage)`. Choose the sign of `e` (replace `e` by
 `−e`) so that a designated side of the arc maps to `Im(e z) > 0` (Ahlfors, *Complex Analysis*,
-Ch. 4 §6.5, the reflection across analytic arcs). Mere containment of the arc in the real locus is
+Ch. 6 §1.4, Theorem 4 and its preceding construction, pp. 234–235). Mere containment of the arc
+in the real locus is
 not enough: the exact equality and the chosen side are the content. Möbius maps straighten only
 circles and lines, so a general analytic arc needs this chart. *Needs:* Mathlib
 `AnalyticAt`, `HasFPowerSeriesAt`, the holomorphic inverse function theorem as Tau Ceti's
@@ -631,7 +649,9 @@ continuous on the closed positive side of the source arc, holomorphic on the ope
 into `d.source`, and carrying the arc into the target arc: `f` extends holomorphically across the
 source arc, agreeing with `f` on the closed positive side and intertwining the chart reflections
 `e.symm ∘ conj ∘ e` and `d.symm ∘ conj ∘ d` (Conway, IX.1.1 for the real axis; Ahlfors,
-Ch. 4 §6.5). This is the pinned charted reflection applied to the charts of §4.1; the adapter is
+Ch. 4 §6.5, Theorem 24, pp. 172–173 for real-axis reflection; Ch. 6 §1.4, Theorem 4,
+p. 235 for analytic arcs). This is the pinned charted reflection applied to the charts of §4.1;
+the adapter is
 the verification of its hypotheses, in particular `Im(d(f z)) = 0` on the arc from the arc
 condition. For the real axis, the extension is `TauCeti.schwarzReflection f`. *Needs:* §4.1,
 `TauCeti.exists_differentiableOn_eqOn_chartedReflection_of_symmetric`,
@@ -656,7 +676,7 @@ condition. For the real axis, the extension is `TauCeti.schwarzReflection f`. *N
 Prove `differentiableOn_of_continuousOn_of_differentiableOn_diff_rectifiable_arc`: for `γ`
 continuous and injective on `[a, b]`, `a < b`, with `eVariationOn γ (Icc a b) ≠ ⊤`, an open
 `V ⊆ ℂ`, and `F` continuous on `V` and holomorphic on `V \ γ '' [a, b]`, `F` is holomorphic on
-`V` (Besicovitch, Proc. London Math. Soc. (2) 32 (1931), 115–128, for sets of finite length). The
+`V` (Besicovitch, Proc. London Math. Soc. (2) 32 (1931), pp. 1–9, for sets of finite length). The
 route is Morera: holomorphy is local, so fix a closed square `Q ⊆ V`; at mesh `δ` the arc of
 length `L` meets at most `O(1 + L/δ)` grid squares; on each such square subtract the value of `F`
 at a corner and bound the contour integral by `4δ·ω(√2 δ)`, with `ω` the modulus of continuity
@@ -757,7 +777,7 @@ given on the closed disc. *Needs:* §5.1, the two pinned theorems named.
 Prove `jordan_separation`: for every Jordan curve `C ⊆ ℂ`, with no smoothness, polygonality or
 locally straight point assumed, `ℂ \ C` has exactly two connected components, one bounded and
 one unbounded; the bounded one is `filledHull C \ C`, open and connected; both have frontier `C`
-(Thomassen, Amer. Math. Monthly 99 (1992), §2). Route: the two-component statement on the sphere
+(Thomassen, Theorem 2.12, p. 122). Route: the two-component statement on the sphere
 is the pinned `TauCeti.natCard_zerothHomotopy_sphere_compl_range_eq_two`
 (`TauCeti.AlgebraicTopology.Singular.JordanBrouwer`) for an embedded circle in `S²`; transport it
 to the plane through the one-point compactification, where the component of `∞` is the unbounded
@@ -789,11 +809,14 @@ homeomorphism with the sphere, `TauCeti.IsJordanCurve.frontier_connectedComponen
 
 ### 5.4 The topological index of a continuous closed loop
 
-Define, for a continuous `γ : ℝ → ℂ` on `[a, b]`, `a ≤ b`, with `γ a = γ b` and `w` off
+Define `continuousIndex`, for a continuous `γ : ℝ → ℂ` on `[a, b]`, `a ≤ b`, with
+`γ a = γ b` and `w` off
 `γ '' [a, b]`, the index of `γ` about `w` as the integer `(θ(b) − θ(a))/(2π)`, where `θ` is a
 continuous real argument of `γ t − w` on `[a, b]`, which exists by
 `TauCeti.Contour.exists_continuousOn_arg_lift_with_partition`; prove that the difference is an
-integer multiple of `2π` (since `γ a = γ b`) and independent of the lift (two lifts differ by a
+integer multiple of `2π` (since `γ a = γ b`) and independent of the lift. Set the total
+function to `0` when these domain conditions fail
+or no integer increment exists (two lifts on the valid domain differ by a
 constant multiple of `2π` on the connected interval). Equivalently, normalize `(γ t − w)/|γ t − w|`
 to `Circle`, read it in `AddCircle (2π)` through `AddCircle.homeomorphCircle'`, and lift through
 the covering `ℝ → AddCircle (2π)` with `IsCoveringMap.liftPath`; prove the two descriptions
@@ -824,19 +847,24 @@ Mathlib `IsCoveringMap.liftPath`, `IsCoveringMap.eq_liftPath_iff`, `AddCircle.is
 - The reversed circle `t ↦ exp(−2πit)` about `0`: index `−1`; a definition taking the absolute
   value of the increment gets `1` and fails sign reversal.
 - The circle traversed twice `t ↦ exp(4πit)` on `[0, 1]`: index `2` about `0`.
-- The constant loop: index `0` about every other point.
+- The constant loop: index `0` about every other point, including on `[a,a]`, since the lift
+  increment is `0`. If `w` is on the trace, or `a > b`, the total function is `0` by its guard;
+  this fallback is not an index theorem about those inputs.
 - A nonrectifiable Jordan parametrization of the Koch snowflake about an interior point: the
   index is defined and equals `±1` by §5.6, while `TauCeti.Contour.windingNumber` is undefined
   there; a definition through the integral has no value to compare.
 
 ### 5.5 Comparison with the integral winding number and proximity invariance
 
-Prove that for a closed piecewise-`C¹` loop `γ` on `[a, b]` and `w` off its trace, the index of
+Prove that for a closed piecewise-`C¹` loop `γ` on `[a, b]`, `a ≤ b`, and `w` off its trace,
+the index of
 §5.4 cast to `ℂ` equals `TauCeti.Contour.windingNumber γ a b w`: the argument lift `θ` satisfies
 `θ′ = Im(γ′/(γ − w))` off the breakpoints, so `θ(b) − θ(a) = Im ∫ γ′/(γ − w)`, and the real part
-of the integral vanishes since `log|γ − w|` returns to its value. Prove the pointwise proximity
+of the integral vanishes since `log|γ − w|` returns to its value (Ahlfors, Ch. 4 §2.1,
+Lemma 1 and the index definition, pp. 114–116). Prove the pointwise proximity
 criterion for continuous closed loops: if `dist(δ t, γ t) < dist(γ t, w)` for all `t`, then the
-indices of `δ` and `γ` about `w` agree, by the straight-line homotopy `s ↦ (1 − s)γ + sδ`, which
+indices of `δ` and `γ` about `w` agree (the continuous analogue of
+`TauCeti.Contour.windingNumber_eq_of_dist_lt_dist`), by the straight-line homotopy `s ↦ (1 − s)γ + sδ`, which
 avoids `w`. Give the equivalent smooth-approximation construction of the index: a continuous loop
 avoiding `w` has positive distance `ρ` from `w`; a smooth approximant within `ρ/3` with the same
 endpoints exists; its integral winding number is an integer, independent of the approximant by
@@ -865,10 +893,12 @@ loops. *Needs:* §5.4, `TauCeti.Contour.windingNumber_eq_of_dist_lt_dist`,
 
 ### 5.6 The Jordan index theorem
 
-Prove that for every Jordan parametrization, a homeomorphism `γ : Circle → C` onto a Jordan curve
+Prove `continuous_jordan_index`: for every Jordan parametrization, a homeomorphism `γ : Circle → C` onto a Jordan curve
 `C`, read as a loop on `[0, 1]`, there is one sign `σ ∈ {1, −1}` such that the index of `γ` is
 `σ` at every point of `filledHull C \ C` and `0` on the unbounded component. The sign depends on
-the parametrization and is a conclusion. Route: §5.3 gives the bounded Jordan domain `Ω` with
+the parametrization and is a conclusion. The route combines Thomassen, Theorem 2.12,
+p. 122, with Ahlfors, Ch. 4 §5.2, Theorem 18, pp. 152–153, on interior circles and the
+continuous-index comparison of §5.5: §5.3 gives the bounded Jordan domain `Ω` with
 frontier `C`; `TauCeti.IsJordanDomain.isSimplyConnected` and Layer 3 give a holomorphic bijection
 `F` of the disc onto `Ω`, and §5.1 its closed-disc homeomorphism, whose boundary circle
 parametrizes `C`. For `w ∈ Ω` with unique preimage `ζ₀`, apply Layer 0's analytic argument
@@ -909,7 +939,7 @@ injective on `[a, b)`, the trace is a Jordan curve and `TauCeti.Contour.windingN
 
 ### 5.7 The continuous-boundary argument principle
 
-Prove: for a Jordan domain `Ω`, `f` continuous on `closure Ω` and holomorphic on `Ω`, and `w`
+Prove `continuous_boundary_argument_principle`: for a Jordan domain `Ω`, `f` continuous on `closure Ω` and holomorphic on `Ω`, and `w`
 outside `f '' frontier Ω`, the index of the loop `f ∘ β` about `w`, where `β` is a positively
 oriented Jordan parametrization of `frontier Ω` (`σ = +1` in §5.6), equals the number of zeros
 of `f − w` in `Ω` counted with analytic multiplicity. Nonvanishing of `f − w` on the compact
@@ -920,7 +950,9 @@ holomorphic on the open disc with finitely many zeros, and nonvanishing on the c
 Layer 0 on interior circles of radius `r < 1` enclosing all zeros, transport multiplicities
 through the conformal bijection (§0.2), and pass to the boundary by uniform continuity and the
 proximity criterion of §5.5. The conclusion is an integer zero count on a continuous loop, not a
-boundary line integral. *Needs:* §§0.2, 5.1, 5.4, 5.5, 5.6,
+boundary line integral. This extends Ahlfors, Ch. 4 §5.2, Theorem 18, pp. 152–153,
+by the interior-circle limit just specified, rather than assuming boundary differentiability.
+*Needs:* §§0.2, 5.1, 5.4, 5.5, 5.6,
 `TauCeti.argumentPrinciple_windingNumber_of_analyticOnNhd`.
 
 - If `f` is injective on `Ω`, every value `w ∈ f '' Ω` off the image of the frontier has index
@@ -976,10 +1008,13 @@ component, and its closure is the image of `closure Ω`. *Needs:* §§5.3, 5.6, 
 
 ### 5.9 The Jordan-contour argument principle
 
-For a closed piecewise-`C¹` contour `γ` on `[a, b]`, injective on `[a, b)`, with trace `C`,
-and `f` as in §0.1 with `S ∩ C = ∅`, prove
+Let `a < b`, let `γ` be closed and piecewise `C¹` on `[a, b]`, injective on `[a, b)`,
+and put `C = γ '' [a, b]`. For an open `U` with `filledHull C ⊆ U`, finite `S` avoiding `C`,
+and `f` analytic and nonvanishing on `U \ S` and meromorphic of integer order `ord s` at
+`s ∈ S ∩ U`, prove
 `∮_γ f′/f = 2πi σ Σ_{s ∈ S ∩ (filledHull C \ C)} ord s`, where `σ` is the sign of §5.6 for `γ`;
-the positive-orientation specialization is `σ = 1`. This follows from Layer 0's finite-`S`
+the positive-orientation specialization is `σ = 1` (Ahlfors, Ch. 4 §5.2, Theorem 18,
+pp. 152–153, combined with §5.6). This follows from Layer 0's finite-`S`
 argument principle, the component identification of §5.3, and the piecewise-`C¹` Jordan index
 theorem (`jordan_index_of_isPiecewiseC1On`), which supplies the winding numbers `σ` inside and
 `0` outside; `γ` is null-homologous in every open `U ⊇ filledHull C` since its winding number
@@ -997,6 +1032,12 @@ of a Green or argument-principle theorem. *Needs:* §§0.1, 5.3, 5.6,
 - The counterclockwise square with vertices `±1 ± i` and `f z = (z − 1/2)/(z + 3)`: `2πi`, the
   zero inside and the pole outside.
 
+- With `U = ℂ`, the counterclockwise unit circle and `f z = 1/z`, `S = {0}`, both sides
+  are `−2πi`. With `U = {1/2 < |z| < 2}` and `S = ∅`, the integral is still `−2πi` but the
+  sum is `0`; `filledHull C ⊆ U` fails because `0 ∉ U`.
+- At `a = b` a constant curve is injective on the empty `[a, b)` but its trace is a singleton,
+  not Jordan; the strict interval guard excludes it.
+
 ### 5.10 Extension across analytic boundary arcs
 
 Prove the analytic-boundary extension adapter: let `Ω` be a Jordan domain, `f : 𝔻 → Ω` a chosen
@@ -1013,7 +1054,9 @@ on the arc; §4.2 extends it holomorphically across `J₀`. Do the same for the 
 inverse boundary homeomorphism, and prove the two composition identities on the reflected
 neighbourhoods by the identity theorem, since they hold on the interior side. Conclude that the
 extension of `f` across `J₀` is locally injective with a local holomorphic inverse, and state the
-agreement on the original closed side and the source and target reflection identities. *Needs:*
+agreement on the original closed side and the source and target reflection identities
+(Ahlfors, Ch. 6 §1.4, Theorem 4, pp. 234–235, with the one-sidedness and inverse adapters
+specified here). *Needs:*
 §§4.1, 4.2, 5.1, 5.3.
 
 - The extended map carries `J₀` onto `J₁` and reflects the exterior of the circle near `J₀` to
@@ -1072,7 +1115,8 @@ half-plane model `z ∈ U ↔ Im((z − q)/b) > 0` on a ball, and at each vertex
 `bᵢ ≠ 0` with `z ∈ U ↔ |arg((z − vᵢ)/bᵢ)| < (eᵢ + 1)π/2` for `z ∈ ball vᵢ ρ`, `z ≠ vᵢ`. The
 two-edge neighbourhood gives the boundary shape; a separate interior-side argument, using `σ`,
 selects the sector belonging to `U`, including openings larger than `π`; the side theorem alone
-does not give corner geometry. *Needs:* `Polygon.IsSimple` and its API, §5.3,
+does not give corner geometry (Driscoll–Trefethen, §2.1, pp. 9–10, for the angle convention;
+the local side selection uses §5.3). *Needs:* `Polygon.IsSimple` and its API, §5.3,
 `TauCeti.IsJordanCurve.isJordanDomain_filledHull_sdiff_of_locally_eq_line`,
 `TauCeti.exists_ball_openSegment_eq_line`, Mathlib `Complex.arg`.
 
@@ -1120,10 +1164,16 @@ matched vertices. Affine covariance: record how the base point and the output si
   three prevertices match.
 
 **Checks.**
-- The square: exponents `−1/2` four times, sum `−2`; the prevertices `±1, ±√2` give the square
-  (the Jacobi form `∫ dz/√((1 − z²)(1 − k²z²))` with `k = 1/√2`, where the quarter periods
-  `K` and `K′` agree), while `±1, ±2` give a rectangle that is not a square: the prevertices are
-  solved from the polygon, not assigned.
+- The square: exponents `−1/2` four times, sum `−2`; the prevertices `±1, ±(3 + 2√2)`
+  give a square. In the Jacobi form `∫ dz/√((1 − z²)(1 − k²z²))`, adjacent side lengths are
+  proportional to `2K(k)` and `K(√(1 − k²))`, where `K(k) = ∫₀^{π/2}(1 − k² sin² t)^{−1/2} dt`.
+  For `k = 3 − 2√2`, both lengths are approximately `3.16510345445`, ratio `1`; the square
+  condition is `2K(k) = K(√(1 − k²))` (Ahlfors, Ch. 6 §2.3, pp. 238–240, after a real Möbius
+  change of prevertices). Explicitly, with `L = 3 + 2√2` and `d = 1 + √2`,
+  `T(x) = (Lx − d)/(x + d)` carries `−1, 0, 1, ∞` to `−L, −1, 1, L`, respectively;
+  its determinant `d(L + 1)` is positive. The negative control `±1, ±√2` has `k = 1/√2`, with lengths
+  `3.70814935460` and `1.85407467730`, ratio `2`, although `K = K′`. Output similarity preserves
+  that ratio; prevertices must be solved from the polygon.
 - The equilateral triangle: exponents `−2/3` three times, sum `−2`; the map
   `∫ (z − a₁)^{−2/3}(z − a₂)^{−2/3}(z − a₃)^{−2/3}` with three matched prevertices is unique.
 - A prevertex tuple containing `∞`, such as `−1, 0, 1, ∞`, is outside this normalization and is
@@ -1139,8 +1189,9 @@ continuous and injective on the closed half-plane, with image `U`, vertex values
 distinct real prevertices `a : {i // i ≠ k} → ℝ`, and `f → vₖ` at infinity in the closed
 half-plane with `vₖ ∉ f '' {Im z ≥ 0}`. Then on the half-plane
 `f = f′(z₀)/Fₖ′(z₀)·Fₖ + f(z₀)` with `Fₖ = schwarzChristoffelPrimitive a (e ∘ val) z₀`, and
-`Σ_{i ≠ k} eᵢ = −2 − eₖ` (Driscoll–Trefethen, *Schwarz–Christoffel Mapping*, Ch. 2, the
-vertex-at-infinity formula). Prove also `z f″(z)/f′(z) → −2 − eₖ` at infinity, the tail
+`Σ_{i ≠ k} eᵢ = −2 − eₖ` (Driscoll–Trefethen, *Schwarz–Christoffel Mapping*, Theorem 2.1,
+p. 10, equation (2.2)). Derive, by differentiating the product and integrating its tail,
+`z f″(z)/f′(z) → −2 − eₖ` at infinity, the tail
 asymptotics `f′(z) = O(z^{−2−eₖ})`, hence `f(z) − vₖ = O(z^{−1−eₖ})` since `eₖ > −1`, and that
 the compactified closed half-plane `insert ∞ (coe '' {Im z ≥ 0}) ⊆ OnePoint ℂ` is carried
 homeomorphically onto `closure U` with `∞ ↦ vₖ`, by §5.1 through the Cayley map extended by
@@ -1176,8 +1227,9 @@ Mathlib `OnePoint`.
 - The square with one vertex `k` at source infinity and prevertices `−1, 0, 1` for the other
   three: exponents `−1/2` three times, restricted sum `−3/2 = −2 − (−1/2)`; the primitive
   `∫ (z + 1)^{−1/2} z^{−1/2} (z − 1)^{−1/2}` maps the half-plane onto a rectangle, which is a
-  square because `z ↦ −1/z` preserves the prevertex set `{−1, 0, 1, ∞}` and the differential up
-  to a unimodular constant.
+  square because `z ↦ (z − 1)/(z + 1)` cyclically permutes the four prevertices
+  `−1 → ∞ → 1 → 0 → −1` and carries the differential to a constant of modulus `1` times
+  itself, so adjacent sides have equal length; the half-turn `z ↦ −1/z` alone would not suffice.
 - The equilateral triangle with one vertex at infinity: `∫ (z − a₁)^{−2/3}(z − a₂)^{−2/3}`,
   restricted sum `−4/3 = −2 − (−2/3)`, tail `f′ = O(z^{−4/3})`, `f − vₖ = O(z^{−1/3})`.
 - `z f″/f′ → −3/2` for the square: the pre-Schwarzian `Σ_{i≠k} eᵢ/(z − aᵢ)` times `z` tends to
@@ -1189,10 +1241,14 @@ Mathlib `OnePoint`.
 
 ### 6.4 The disc formula
 
-For the bounded case, prove the disc form: for distinct `wᵢ ∈ ∂𝔻` the disc primitive
-`TauCeti.schwarzChristoffelDiscPrimitive` has derivative `∏ᵢ (1 − ζ/wᵢ)^{eᵢ}`, each factor in
-the right half-plane inside the disc, fixing the principal power; integrated from `0` and
-followed by an affine normalization it gives the conformal map of the disc onto `U`. Own the
+For any distinct `wᵢ ∈ ∂𝔻`, the disc primitive
+`TauCeti.schwarzChristoffelDiscPrimitive` has derivative `∏ᵢ (1 − ζ/wᵢ)^{eᵢ}`; each base
+`1 − ζ/wᵢ` is in the right half-plane inside the disc, fixing the principal power.
+For the prescribed bounded polygon `U`, prove that there exist such prevertices and constants
+`A ≠ 0`, `B` for which the affine image of this primitive maps the disc conformally onto `U`:
+choose the half-plane prevertices from §6.2 and transport them through Cayley. Arbitrary
+circle data specify a derivative but do not prescribe the image polygon (Ahlfors, Ch. 6 §2.2,
+pp. 236–238, equations (3)–(5); Driscoll–Trefethen, §1.1, pp. 3–4). Own the
 adapter from `TauCeti.exists_bijOn_const_mul_schwarzChristoffelDiscPrimitive_add_with_infty_of_bijOn`
 through the all-finite sum `Σ eᵢ = −2` and `TauCeti.schwarzChristoffelDiscPrimitive_option_zero`:
 the auxiliary infinity prevertex carries exponent `0` in this normalization and its factor is
@@ -1205,6 +1261,9 @@ the auxiliary infinity prevertex carries exponent `0` in this normalization and 
 **Checks.**
 - The square with `wᵢ = iᵏ`: `∏ (1 − ζ/iᵏ)^{−1/2} = (1 − ζ⁴)^{−1/2}`, the classical disc map of
   the square.
+- Cayley transport of `±1, ±(3 + 2√2)` gives side ratio `1`; transport of `±1, ±√2` gives
+  ratio `2`, with the same exponents `−1/2`. Distinct circle prevertices alone do not give the
+  prescribed square.
 - `ζ = 0`: every factor is `1`, the derivative at the centre is `1` before normalization.
 - Non-example: a prevertex `wᵢ` inside the disc makes `1 − ζ/wᵢ` vanish at `ζ = wᵢ`, so the
   hypothesis `|wᵢ| = 1` is needed for the principal power.
@@ -1215,10 +1274,11 @@ For `U` connected and open with `insert ∞ (frontier U)` a Jordan curve in `One
 finite vertices with local sectors of opening `(eᵢ + 1)π`, local half-plane models at other finite
 boundary points, and the far-field sector condition `ρ < ‖z − c‖ → (z ∈ U ↔ |arg((z − c)/b)| <
 βπ/2)` for some `ρ, c, b ≠ 0` and `β ∈ (0, 2)`, consume the pinned existence and necessity
-theorems: the map is an affine image of the primitive and `Σ eᵢ = β − 1`. Prove the normalized
-power asymptotic `F(z)/z^{S+1} → 1/(S + 1)`, `S = Σ eᵢ = β − 1 > −1`, from
-`TauCeti.tendsto_schwarzChristoffelPrimitive_div_cpow_atInfinity_of_neg_one_lt_sum` with its
-branch and approach-filter conventions, and the escape of `f` to infinity. Include the disc
+theorems: the map is an affine image of the primitive and `Σ eᵢ = β − 1`
+(`TauCeti.exists_bijOn_const_mul_schwarzChristoffelPrimitive_add_of_isJordanCurve_insert_infty`,
+`TauCeti.eqOn_const_mul_schwarzChristoffelPrimitive_add_of_unbounded_polygonal_domain`).
+Use the power asymptotic from the supplier contract with `S + 1 = β > 0` to obtain escape
+of `f` to infinity. Include the disc
 normalization with the extra prevertex `1` of exponent `−β − 1`. *Needs:* the pinned sector-end
 theorems, §6.1 for the finite vertex data.
 
@@ -1237,10 +1297,11 @@ theorems, §6.1 for the finite vertex data.
 Treat the parallel-sided end separately, with the far-field condition
 `ρ < ‖z − c‖ → (z ∈ U ↔ 0 < Re((z − c)/b) ∧ Im((z − c)/b) ∈ (0, π))`, `b ≠ 0`, the spherical
 Jordan frontier, finite vertices and local models as in §6.5. Consume the pinned existence and
-necessity theorems with `Σ eᵢ = −1` and the logarithmic escape at infinity; prove the finite
-limit of `F(z) − log z` from `TauCeti.tendsto_schwarzChristoffelPrimitive_sub_log_atInfinity`
-with its base-point-dependent constant and approach filter. *Needs:* the pinned half-strip
-theorems, §6.1.
+necessity theorems with `Σ eᵢ = −1`
+(`TauCeti.exists_bijOn_const_mul_schwarzChristoffelPrimitive_add_of_isJordanCurve_of_halfStrip`,
+`TauCeti.eqOn_const_mul_schwarzChristoffelPrimitive_add_of_halfStrip_polygonal_domain`).
+Use the logarithmic limit in the supplier contract to obtain escape at infinity.
+*Needs:* the pinned half-strip theorems, §6.1.
 
 - The half-strip normalization is distinct from the sector normalization: `Σ eᵢ = −1` and
   logarithmic growth.
@@ -1252,26 +1313,36 @@ theorems, §6.1.
 
 ### 6.7 Source normalization for unbounded polygons
 
-For both unbounded cases, prove the uniqueness normalization: source infinity maps to target
-infinity, so an intervening source automorphism fixes infinity and is positive affine
-`z ↦ αz + β`, `α > 0`; two distinct matched finite prevertices fix it, and if fewer than two
-finite vertices are marked an interior source base point is fixed instead. Prove the reduction to
-the stabilizer of infinity through the compactified boundary correspondence and the prescribed
-end behaviour; the bounded three-prevertex theorem is not a supplier here. *Needs:* §§6.5, 6.6,
-`TauCeti.exists_prevertex_cayley_automorphism`.
+For two holomorphic bijections `f, g : ℍ → U` onto the same open domain, first compare them
+without any boundedness assumption: `g⁻¹ ∘ f : ℍ → ℍ` has holomorphic inverse `f⁻¹ ∘ g`.
+Conjugate by Cayley and apply the disc automorphism classification to obtain a real Möbius
+map with positive determinant (Ahlfors, Ch. 3 §3.4, pp. 83–84; the classification provider below).
+For the maps of §§6.5–6.6, use their continuous finite-boundary extensions and their prescribed
+escape at infinity to show this Möbius map fixes infinity: otherwise its value at infinity is a
+finite real point `r`, and `f = g ∘ (g⁻¹ ∘ f)` would tend to the finite boundary value `g(r)`.
+Its denominator coefficient is therefore zero, so it has the form `z ↦ αz + β`, `α > 0`,
+`β ∈ ℝ`. Two distinct matched finite prevertices force `α = 1`, `β = 0`; with fewer marks,
+fixing an interior source point instead gives the same conclusion by its imaginary and real
+parts. This owns the unbounded comparison and stabilizer argument; its inputs are the inverse
+and classification contracts, not the bounded prevertex theorem. *Needs:* §§6.5, 6.6,
+`DifferentiableOn.invFunOn` (`Inverse.Function`),
+`TauCeti.exists_forall_unitDisc_eq_unitDiscStandardAutomorphismEquiv`
+(`UnitDisc.Automorphism.Classification`), the Cayley bijections and derivatives in Layer 2's
+supplier contract.
 
 - The finite-index core indexed by `Fin n` is an adapter to the `Fintype` statements of the pin.
 
 **Checks.**
 - The quadrant with the single finite vertex `0` and prevertex `0`: the stabilizer is `z ↦ αz`,
-  fixed by a base point `i ↦ i`.
-- The half-strip with prevertices `−1`, `1`: both matched, the automorphism is the identity.
+  fixed by a base point `i ↦ i`: imaginary parts give `α = 1`.
+- The half-strip with prevertices `−1`, `1`: `−α + β = −1` and `α + β = 1`, so
+  `α = 1`, `β = 0`, and the automorphism is the identity.
 - Non-example: a Möbius map not fixing infinity, such as `z ↦ −1/z`, is excluded by the end
   behaviour; it would move the unbounded end to a finite point.
 
 ### Examples
 
-The unit square: §6.1 gives `σ = +1`, exponents `−1/2`; §6.2 gives the prevertices `±1, ±√2`,
+The unit square: §6.1 gives `σ = +1`, exponents `−1/2`; §6.2 gives the prevertices `±1, ±(3 + 2√2)`,
 unique up to `PSL(2, ℝ)`; §6.3 with one vertex at source infinity gives the three-factor
 elliptic integral with prevertices `−1, 0, 1`; §6.4 gives the disc map with derivative
 `(1 − ζ⁴)^{−1/2}`.
@@ -1304,8 +1375,9 @@ Layers 2, 3, 5; Tau Ceti `SchwarzChristoffel.*`, `Geometry.Polygon.Simple`; Math
   (Schwarz–Christoffel), Ch. 8 §1.6 (monodromy).
 - L. V. Ahlfors, *Conformal Invariants*, McGraw–Hill, 1973, Ch. 1 (the Poincaré metric,
   Schwarz–Pick).
-- A. S. Besicovitch, On sufficient conditions for a function to be analytic, Proc. London Math.
-  Soc. (2) 32 (1931), 115–128 (removability of sets of finite length).
+- A. S. Besicovitch, *On Sufficient Conditions for a Function to be Analytic, and on Behaviour
+  of Analytic Functions in the Neighbourhood of Non-Isolated Singular Points*, Proc. London
+  Math. Soc. (2) 32 (1931), 1–9, DOI 10.1112/plms/s2-32.1.1 (finite-length removability).
 - R. B. Burckel, *An Introduction to Classical Complex Analysis I*, Birkhäuser, 1979, Ch. IV
   (the index), Ch. IX (the Darboux–Picard theorem).
 - J. B. Conway, *Functions of One Complex Variable I*, 2nd ed., Springer, 1978: IV.7 (open
@@ -1317,6 +1389,6 @@ Layers 2, 3, 5; Tau Ceti `SchwarzChristoffel.*`, `Geometry.Polygon.Simple`; Math
 - R. Remmert, *Classical Topics in Complex Function Theory*, Springer, 1998, Ch. 7 (Montel,
   Vitali).
 - C. Thomassen, The Jordan–Schönflies theorem and the classification of surfaces, Amer. Math.
-  Monthly 99 (1992), 116–130, §2 (the Jordan curve theorem).
-- L. C. Paulson, Riemann mapping theorem, Isabelle/HOL Archive of Formal Proofs (the theorem's
-  formalizability).
+  Monthly 99 (1992), 116–130, Theorem 2.12, p. 122 (the Jordan curve theorem).
+- L. C. Paulson, Isabelle/HOL, *Riemann_Mapping*, theorem Riemann_mapping_theorem
+  (the theorem's formalizability).
