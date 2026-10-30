@@ -10,7 +10,9 @@ import TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Defect
 import TauCeti.NumberTheory.LocalField.QuadraticForm.Bimultiplicativity
 import TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic
-import TauCeti.LinearAlgebra.Matrix.PinPlusPlane
+import TauCeti.LinearAlgebra.Matrix.PinPlusPlane.Basic
+import TauCeti.LinearAlgebra.Matrix.PinPlusPlane.CartanDieudonne
+import TauCeti.LinearAlgebra.Matrix.PinPlusPlane.GaloisAction
 import TauCeti.Algebra.Quaternion.Binary
 import TauCeti.Algebra.Quaternion.NormForm
 import TauCeti.Algebra.Quaternion.SplittingCriterion
@@ -495,6 +497,31 @@ theorem signedDiscr_eq_sign_mul_discr [Invertible (2 : K)] {n : ℕ}
         discr (Quotient.mk _ ⟨n, w⟩) := by
   rw [signedDiscr_mk, discr_mk, QuotientGroup.mk_mul]
 
+/-- The discriminant is the square class of the Gram determinant in any finite basis. -/
+theorem discr_formClass_gram [Invertible (2 : K)] {V : Type v}
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (b : Module.Basis ι K V) {u : Kˣ}
+    (hu : (u : K) = Q.discr b) :
+    discr (TauCeti.formClass Q hQ) = QuotientGroup.mk u := by
+  rw [discr, TauCeti.discr_formClass_eq_squareClass Q hQ b hu,
+    MulEquiv.symm_apply_eq, TauCeti.multiplicativeSquareClassEquiv_mk]
+
+/-- The signed discriminant is the Gram determinant with the pinned dimension sign. -/
+theorem signedDiscr_formClass_gram [Invertible (2 : K)] {V : Type v}
+    [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (b : Module.Basis ι K V) {u : Kˣ}
+    (hu : (u : K) = Q.discr b) :
+    signedDiscr (TauCeti.formClass Q hQ) =
+      QuotientGroup.mk ((-1 : Kˣ) ^
+        (Module.finrank K V * (Module.finrank K V - 1) / 2) * u) := by
+  rw [signedDiscr, TauCeti.RegularFormClass.signedDiscr_eq_sign_add_discr,
+    TauCeti.rank_formClass,
+    TauCeti.discr_formClass_eq_squareClass Q hQ b hu, MulEquiv.symm_apply_eq,
+    TauCeti.multiplicativeSquareClassEquiv_mk, TauCeti.squareClass_mul,
+    TauCeti.squareClass_pow, Nat.choose_two_right]
+
 /-! ## Layer 5: the Brauer group and the Hasse invariant
 
 The carrier and group law are native. `qfiNativeBrauerCommGroup` selects
@@ -728,14 +755,14 @@ example [Invertible (2 : K)] {n : ℕ} (hn : 0 < n) :
   TauCeti.fundamentalIdeal_pow_eq_addClosure hn
 
 /-- **Layer 4, a 2-fold Pfister form is round**, Tau Ceti's
-`TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet`, with the 1-fold case
-`TauCeti.oneFoldPfister_smul_equivalent_of_mem_unitValueSet`: every unit that `⟨⟨a,b⟩⟩` represents
+`TauCeti.twoFoldPfister_smul_equivalent_iff`, with the 1-fold case
+`TauCeti.oneFoldPfister_smul_equivalent_iff`: every unit that `⟨⟨a,b⟩⟩` represents
 is a similarity factor. Roundness of `n`-fold forms for `n ≥ 3` is excluded. -/
 example (a b : K) (c : Kˣ)
     (hc : c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![1, -a, -b, a * b])) :
     ((c : K) • weightedSumSquares K ![1, -a, -b, a * b]).Equivalent
       (weightedSumSquares K ![1, -a, -b, a * b]) :=
-  TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet a b c hc
+  (TauCeti.twoFoldPfister_smul_equivalent_iff a b c).mpr hc
 
 open TauCeti.BrauerGroup in
 /-- **Layer 5, the Clifford invariant.** The Brauer class of `C(q)` in even rank and of

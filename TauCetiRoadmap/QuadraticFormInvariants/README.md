@@ -30,6 +30,77 @@ pairing. Class Field Theory owns that pairing and Hilbert reciprocity; this road
 derives the sign product formula from it. Hasse--Minkowski and every global
 classification or realization theorem belong to `GlobalQuadraticForms`.
 
+## Completion audit (2026-10-28)
+
+**Audit status: incomplete. This roadmap remains active.**
+The three implementation PRs below close specific examples and comparison gaps, but they do
+not implement the actual upward-`ULift` transport and naturality square required by stage 2
+of the retained three-stage universe programme. The roadmap must remain active until that
+square is proved on the transported field, CSA/Brauer classes, absolute Galois group and
+coefficient/cohomology objects.
+
+The existing native `BrauerGroup.baseChange` and crossed-product naturality bind both fields
+to the same universe, and `ContinuousMulEquiv.continuousCohomologyIso` likewise binds the two
+groups to one universe. These cannot specialize directly to an actual larger-universe
+`ULift`. Direct polymorphic constructions at arbitrary `u` do not discharge that separate
+transport obligation. Defining a new transport by conjugating the comparison isomorphisms
+would make the square tautological and would not supply the required underlying maps.
+
+The inventory and checked proofs below describe only the covered targets. They do not claim
+this outstanding square or any equivalent cross-universe transport has been implemented.
+
+The three independent implementation PRs that close the covered gaps are
+[TauCeti#22016](https://github.com/TauCetiProject/TauCeti/pull/22016),
+[TauCeti#22020](https://github.com/TauCetiProject/TauCeti/pull/22020), and
+[TauCeti#22022](https://github.com/TauCetiProject/TauCeti/pull/22022).
+The audit compared the layers and acceptance examples with Tau Ceti
+`cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with commits
+`506afb054d52ec8631644ab4bee59954502c80b1`,
+`96bd0f474e68c05fd01274f26ff3f677f58302f5`, and
+`31cf538fcad7b23f519a7026577fb4cb18038e24` from those PRs.
+
+| Layer | Native implementation and completion evidence |
+|---|---|
+| 0: diagonal descent and chains | `LinearAlgebra/QuadraticForm/Diagonal/Chain/`; the rational `BinaryStep` example in [the checked interfaces](NativeCompletion.md) |
+| 1: hyperbolic and Witt decomposition | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/Decomposition.lean`, the explicit rational non-isometry is checked in `NativeCompletion.md` |
+| 2: quaternion norm forms and splitting | `Algebra/Quaternion/SplittingCriterion.lean`, including the four-fold splitting criterion |
+| 3: discriminants | `LinearAlgebra/QuadraticForm/RegularFormClass/Discriminant.lean`; `Matrix.lean` gives full-polar matrix and determinant normalization; the multiplicative Gram adapters are in `Suggested.lean` |
+| 4: Witt ring and Pfister forms | `LinearAlgebra/QuadraticForm/Witt/`, including its `Pfister/` directory |
+| 5: Brauer-valued Hasse and Clifford invariants | `LinearAlgebra/QuadraticForm/RegularFormClass/Hasse/Basic.lean` and `Clifford.lean` |
+| 6: local symbols, defect, norm tables, classification and realization | `NumberTheory/LocalField/QuadraticForm/`; `Invariants.lean:172` is `localInvariantsEquiv`; `NativeCompletion.md` composes the Hasse-class invariant and uniformizer-unit decomposition formulas from the existing comparison and bimultiplicativity APIs |
+| 7: Brauer comparison, Kummer cups and norm equations | `Algebra/CrossedProduct/`, `FieldTheory/GaloisCohomology/MuTwo/`; `CupProduct.lean` identifies each symbol with its cup, and additivity yields the product-to-cups formula checked in `NativeCompletion.md`; the final five `LocalSymbol.lean` comparisons are universe polymorphic |
+| 8: Stiefel–Whitney classes and invariant comparisons | `FieldTheory/QuadraticForm/StiefelWhitney/`, including class descent, base change, Hasse and Clifford comparisons |
+| 9: Scharlau and trace transfer, Evens norm and Kahn formula | `LinearAlgebra/QuadraticForm/Transfer/` and `FieldTheory/QuadraticForm/StiefelWhitney/`; the latter's `QuadraticExtension.lean:249` gives the degree-two relative formula |
+
+All paths in this table are below `TauCeti/`. The general quadratic trace diagonalization
+already applies to every radicand. The complete proofs in `NativeCompletion.md` explicitly
+specialize it over `ℚ` and `ℚ₂` and compare its `ℂ/ℝ` instance with the EffectiveBounds trace
+discriminant. They also compose `discr_traceTransfer` for every twisted line, including the
+trace-zero case, from the existing generic Scharlau discriminant and quadratic trace APIs.
+
+The explicit dyadic controls are in
+[NormControl.lean](https://github.com/TauCetiProject/TauCeti/blob/31cf538fcad7b23f519a7026577fb4cb18038e24/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NormControl.lean)
+and [NegOne/Norm.lean](https://github.com/TauCetiProject/TauCeti/blob/31cf538fcad7b23f519a7026577fb4cb18038e24/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NegOne/Norm.lean).
+The first proves that `1 + √2` is a unit norm for radicand `5` over the ramified base
+`ℚ₂(√2)`, proves the even-valuation norm criterion for that radicand, and excludes every
+integral square-root-coordinate representation and both incorrect integral families.
+The second verifies the depth-two norm containment for `ℚ₂(i)`, the sum-of-two-squares
+representatives `1` and `5`, and the depth-one nonnorm `3`.
+The earlier `DyadicSqrt/Five/` trace, square-class, Stiefel–Whitney and relative-formula
+examples remain the eight-unit-class acceptance suite.
+
+The changed native modules and their dependency closures were built with Lean `4.36.0-rc1`.
+Their source-style, header and axiom checks passed; the new comparison and obstruction theorems
+use only `propext`, `Classical.choice` and `Quot.sound`.
+
+This is an inventory of covered native-source targets, separate from the prototype certificate
+and the outstanding upward-`ULift` comparison.
+The repository dependency pin remains `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`;
+`Suggested.lean` retains its prototype proof holes and is not represented as a compiled
+certificate for the newer native implementation. The two added multiplicative Gram adapters
+were independently elaborated against that existing pin with minimal imports.
+Historical status and progress reports retain their original source dates.
+
 ## Suggested homes
 
 The homes below mirror Mathlib's directory conventions.
@@ -657,7 +728,7 @@ or comparison; the milestone is not a licence to construct a second public carri
 | Classical local Hilbert symbol | `TauCeti.NumberTheory.HilbertSymbol.Basic`: `hilbertSymbol`, norm/splitting comparisons; `LocalField.QuadraticForm.Bimultiplicativity`: `quadraticNormSubgroup_index_eq_two_of_not_isSquare`, `hilbertSymbol_mul_right`, `exists_hilbertSymbol_eq_neg_one` | Preserve the explicit dyadic tables, defect/conductor witnesses and cohomological-normalization comparison as separate outputs |
 | Local classification | `LocalField.QuadraticForm.Classification`: `RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`, under the actual local-field and invertible-two hypotheses | Compare the roadmap tuple and plain/signed discriminants with the native class-level invariants; retain realization and every rank boundary |
 | Crossed products | `TauCeti.Algebra.CrossedProduct.Basic`: `TwoCocycle`, `CrossedProduct`, `inc`, `basis`, `finrank_eq_finrank_mul_card`, `finrank_eq_finrank_sq` | Translate the existing public cocycle convention to the native one; use its finitely supported carrier and unnormalized scalar embedding |
-| Mod-two coefficients and cup norm | `TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic`: `mu2EquivZMod2`, `kummerCoeffIsoTrivialF2`; `MuTwo.CupNorm`: `cup_kummerClass_eq_zero_iff` | Retain the coefficient/group/ring dictionaries to CFT. The native cup-norm/comparison statements that bind `K : Type` do not by themselves prove an arbitrary-`Type u` export |
+| Mod-two coefficients and cup norm | `TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic`: `mu2EquivZMod2`, `kummerCoeffIsoTrivialF2`; `MuTwo.CupNorm`: `cup_kummerClass_eq_zero_iff` | Retain the coefficient/group/ring dictionaries to CFT. The audited native Brauer and cup-norm comparisons bind `K : Type u`; the final local-symbol comparison exports are generalized by TauCeti#22016 |
 | Transfer and degree-one relative formula | `TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic`: `QuadraticMap.scharlauTransfer`; `StiefelWhitney.Transfer`: `sw1Class_traceTransfer_mk_rankOne` | The public argument-order wrapper consumes the native construction. The degree-two Evens/Kahn formula and its cochain-level value calculation remain explicit milestones |
 | Matrix Pin-plus model | `TauCeti.LinearAlgebra.Matrix.PinPlusPlane`: `pinE1`, `pinE2`, `pinVec`, `IsPinLift`, `pinT`, `pinDihedral`, `pinLift` | Compare the public total formulas and the matrix-orthogonality predicate with the native proof-parameterized maps before the Galois/descent calculation |
 
@@ -696,8 +767,9 @@ The higher-universe comparison has three mandatory earlier stages, in this order
    with the quadratic crossed-product cocycle and hence the native quaternion class.
    The splitting criterion gives the quadratic field norm equation; the square case is
    handled by the split algebra. Prove restriction/corestriction and coefficient-transport
-   squares before using local invariant normalization. The native universe-zero cup-norm
-   theorem is the specialization comparison, not a proof of this larger-universe target.
+   squares before using local invariant normalization. The audited native cup-norm theorem already preserves `K : Type u`; its universe-zero
+   instance is a specialization, and the broader comparison is supplied by that polymorphic
+   construction.
 
 These stages are retained proof obligations with their actual maps and laws. They precede
 arbitrary-universe Layers 7B/7C consumers; they neither assume the final cup-norm theorem nor
@@ -2567,15 +2639,13 @@ Prerequisites: **[Layer 2]**, **[Layer 6C]** for the local identification only,
 
 Consume the actual native `FieldTheory/QuadraticForm/StiefelWhitney/` API.
 `Basic.lean` defines `TauCeti.sw1` and `sw2` on tuples with polymorphic field
-universes. `Class.lean` descends `sw1Class` at arbitrary `Type u`; its `sw2Class`
-and `Hasse.lean` comparisons currently bind `K : Type`. Use those actual native
-specializations and their formulas. For the retained arbitrary-universe second-class
-output, first complete the earlier universe-polymorphic Brauer/cup-norm construction,
-then use the same permutation, binary-replacement and rank-one descent proof.
-Compare it with native `sw2Class` at universe zero by the presentation formula and
-uniqueness of descent. No universe-zero theorem is silently exported at arbitrary
-`Type u`. The public tuple/order wrappers below are comparisons with these native
-objects; they do not commission a second Stiefel–Whitney engine.
+universes. At the audited native revision, `Class.lean` descends both `sw1Class` and
+`sw2Class` for `K : Type u`, and `Hasse.lean` states its comparisons in the same generality.
+Their permutation, binary-replacement and rank-one descent proofs consume the native
+universe-polymorphic Brauer/cup-norm construction. Use those canonical definitions and
+formulas; the public tuple/order wrappers below are comparisons with them and do not
+commission a second Stiefel–Whitney engine. No theorem restricted to universe zero is
+silently exported at arbitrary `Type u`.
 
 Prerequisites:
 
