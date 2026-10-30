@@ -1430,6 +1430,85 @@ and root evaluations; a uniform obstruction alone proves no such count.
 `LowStrandBurauTargets.lean` suggests native polynomial and matrix interfaces
 for these targets.
 
+### 4.5.2 Signed braid Jones support and orientation scope
+
+Let `w : TauCeti.BraidWord n`, with `n≥1`, have `p` positive letters and
+`q` negative letters. Counts refer to this word, before cancellation; prove
+`p+q=w.length` and that its exponent sum is `p−q`. Use the native Jones
+variable `u=t^(1/2)` and the actual coefficient support
+`w.closure.jonesPolynomial.coeff.support`. Prove the uniform bounds
+
+`p−3q−n+1 ≤ k ≤ 3p−q+n−1`
+
+for every exponent `k` in that support. Give coefficientwise vanishing outside
+the interval and transport the estimates to the realized oriented closure.
+The endpoints are integers in the `u` variable; divide by two only when
+expressing degrees in `t`.
+
+**State-circle supplier and proof.** For arbitrary native `PDCode` states,
+prove that changing one crossing's smoothing changes the circle count by
+at most one. Prove the resulting bound by the number of differing crossing
+choices, using the native perfect-matchings/traversal model and retaining
+all crossing-free circles. This bound does not require planarity or an
+assertion that every change is exactly `±1`.
+
+For the braid closure the vertical oriented state is
+`s₀(j)=decide(w[j].sign=1)`, equivalently the code's `overPair` function.
+Prove that its local `smoothingChoice` is constantly `true`, pairing slots
+`0–1` and `2–3`, and that it has exactly `n` circles, including strands
+that encounter no crossing. For any state let `r₊` count positive crossings
+changed from this state and `r₋` negative crossings changed from it.
+The native Jones state weight is
+`(-1)^(p+q) u^(p−q+r₊−r₋)` and the circle count `c` is at most
+`n+r₊+r₋`. Prove `c≥1` from nonemptiness of the closure before replacing
+the native truncated natural subtraction in `c−1` by integer subtraction.
+The loop factor `(-u−u⁻¹)^(c−1)` has support between `−(c−1)` and
+`c−1`. Every state term therefore has exponents at least
+`p−q−n+1−2r₋≥p−3q−n+1`, and at most
+`p−q+n−1+2r₊≤3p−q+n−1`. Carry these support inclusions through the
+finite state sum; no noncancellation of extreme states is assumed.
+
+**Mirror distinction and its orientation scope.** The closure has `μ≥1`
+components and `V(1)=(-2)^(μ−1)≠0`, so its support is nonempty. If
+`p−3q−n+1>0`, prove that every exponent is strictly positive. Laurent
+inversion then gives support in strictly negative exponents; hence the Jones
+polynomial differs from its inverse and from `1`. Conclude that the realized
+closure is not an unknot and has no mirror equivalence preserving the
+orientations of its components, even allowing component permutation or
+simultaneous reversal of all orientations. For knots, simultaneous reversal
+is the only extra orientation choice, so this detects ordinary chirality.
+For links with several components the conclusion concerns oriented links;
+independent reversal of some components requires its actual linking-number
+phase and does not preserve the Jones polynomial in general.
+
+**Checks and source convention.** The empty word on `n≥1` strands has
+Jones polynomial `(-u−u⁻¹)^(n−1)` and reaches both support endpoints.
+The positive one-letter word on two strands has lower endpoint `0` and
+unknot polynomial `1`; it must not be declared chiral merely because the
+word is a nonidentity braid. The three-positive-letter trefoil has lower
+endpoint `2` and native polynomial `u²+u⁶−u⁸`. Swapping positive and
+negative letters under mirroring negates the support interval endpoints.
+
+For `σ₁²`, prove `p=2,q=0,n=2`, Jones polynomial `−u−u⁵` and lower
+endpoint `1`, and identify its closure with the oriented positive Hopf link.
+At the same time identify the underlying Hopf link with the coordinate
+circles in `S³⊂ℂ²` and construct the ambient orientation-reversing symmetry
+`(z,w)↦(conj z,w)`. It preserves those circles setwise and reverses exactly
+one component orientation. This proves the Hopf link is amphicheiral after
+forgetting component orientations, while its oriented mirror has a different
+Jones polynomial. Knot Theory physical p91's Theorem 5 uses the signed
+word-count hypothesis above; retain its amphicheirality wording with this
+explicit orientation distinction. Its cited positive-braid signature route
+is additionally specified in Layer 6.2; the state-sum proof here has no
+dependency on that later signature theorem.
+
+*Needs:* Layers 4.1–4.2 for realized braid closures and mirror/orientation
+transport; Layer 4.5's native Jones state sum, mirror inversion and value at
+one; native `PDCode` perfect matchings and state traversal; Mathlib finite
+sets, permutation orbits, `Finsupp` support and Laurent arithmetic.
+`BraidJonesSupportTargets.lean` gives suggested forms for the circle-count,
+state-weight, support and polynomial-obstruction targets.
+
 ### 4.6 The HOMFLY and Kauffman polynomials
 
 Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero subring of
@@ -2037,6 +2116,44 @@ root of `Δ_K`, where the two signatures agree. Define the classical signature
 - The signature is the signature of the intersection form of the double branched cover's
   spanning `4`-manifold, and at `ω = −1` the form is `TauCeti.KnotTheory.tristramLevineForm_neg_one`'s
   value `2(V + Vᵀ)`, whose signature is that of `V + Vᵀ`.
+
+**Positive braid links.** Extend the classical signature at `−1` to realized
+oriented links using their integral Seifert matrices, allowing odd matrix
+sizes and degenerate symmetrizations. Prove independence of the connected
+Seifert surface, mirror sign change, invariance under simultaneous orientation
+reversal, split-union additivity and vanishing on unlinks. Compare a
+disconnected split Seifert surface with a connected one by specified joining
+tubes and their Seifert-form matrices; preserve the signature without
+applying the knot-only nondegeneracy or evenness assertions to links.
+
+For a positive braid word on `n≥1` strands with `p` letters, let `s` be
+the number of connected components of the graph with all `n` strands as
+vertices and one edge for each letter between its adjacent strands.
+Construct the canonical `n`-disc/`p`-band surface and prove it has `s`
+components and total first Betti number `r`, with the natural-number identity
+`r+n=p+s`. Thus `r=p+s−n`; interpret `p−n+s` as integer arithmetic if
+using that equivalent expression. Prove Rudolph's theorem
+in the convention where the right-handed trefoil has signature `−2`:
+if `r>0`, its oriented closure has strictly negative classical
+signature. Supply the finite band-surface reductions and integral
+Seifert-form/inertia comparisons in that proof. If `r=0`, the
+surface components are discs and the closure is an unlink with signature
+zero. Conversely the strict-sign theorem excludes an unlink in the positive
+rank case. Thus this describes all positive braid closures, including split
+ones and unused strands. Nontriviality here concerns the closure, beyond a
+nonidentity braid word. This supplies the positive-word signature argument
+cited on Knot Theory physical p91, while the signed-word Jones support
+argument in Layer 4.5 is independent of it.
+
+Use Rudolph,
+[*Non-trivial positive braids have positive signature*](https://doi.org/10.1016/0040-9383(82)90014-3),
+Topology 21 (1982), 325–327, with the explicit opposite-sign adapter;
+the first-Betti-number convention is also recorded in Feller,
+[*On the signature of positive braids*](https://boristheses.unibe.ch/958/1/14feller_p.pdf),
+§1.1. Consume Layer 4.3's realized band surfaces and Seifert matrices and
+this layer's integral-form invariance/inertia theory. No signature
+calculation may replace the component-orientation distinction in the Hopf
+example of Layer 4.5.
 
 **Checks.**
 - Right-handed trefoil: `V + Vᵀ = [[−2, 1], [1, −2]]` is negative definite, so `σ = −2`
