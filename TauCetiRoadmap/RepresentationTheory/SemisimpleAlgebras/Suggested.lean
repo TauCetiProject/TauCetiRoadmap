@@ -3,16 +3,19 @@ import Mathlib
 /-!
 # Semisimple algebras: target signatures
 
-The roadmap is README.md; this file is not the roadmap. It states the remaining headline
-theorems against the pinned APIs: Skolem–Noether for a simple source in a finite-dimensional
-central simple ambient algebra, and centralizer simplicity, the dimension product, and the
-double-centralizer equality for a simple subalgebra of that ambient algebra.
+The roadmap is README.md; this file is not the roadmap. It states the headline theorems of the
+roadmap against the pinned APIs: Skolem–Noether for a simple source in a finite-dimensional
+central simple ambient algebra, and centralizer simplicity and the double-centralizer equality
+for a simple subalgebra of that ambient algebra.
 
 The semisimple block dictionary, Wedderburn uniqueness, density, central-simple tensor and
 opposite theory, degree, Brauer operations, splitting fields, index, and real Brauer classification
 are consumed results listed in README.md. The central-source versions of conjugacy and
-centralizers are consumed as well. All four remaining headlines are statable on native carriers;
-none requires an unavailable carrier or a new definition.
+centralizers are consumed as well, and so is the dimension product
+dimₖ B · dimₖ Cₐ(B) = dimₖ A for a simple subalgebra B, which Tau Ceti proves from simplicity
+of B ⊗ₖ Aᵒᵖ (`TauCeti.finrank_mul_finrank_centralizer_of_isSimpleRing_tensorProduct_mulOpposite`).
+All three headlines are statable on native carriers; none requires an unavailable carrier or a
+new definition.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras
@@ -38,16 +41,6 @@ theorem centralizer_isSimpleRing {K : Type u} {A : Type v}
     [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
     (B : Subalgebra K A) [IsSimpleRing B] :
     IsSimpleRing (Subalgebra.centralizer K (B : Set A)) := sorry
-
-/-- The dimensions of a simple subalgebra and its centralizer multiply to the dimension
-of the finite-dimensional central simple ambient algebra.
-Stacks, Brauer Groups, Theorem 7.1(2) (tag 074T). -/
-theorem finrank_mul_finrank_centralizer {K : Type u} {A : Type v}
-    [Field K] [Ring A] [Algebra K A]
-    [Algebra.IsCentral K A] [IsSimpleRing A] [FiniteDimensional K A]
-    (B : Subalgebra K A) [IsSimpleRing B] :
-    Module.finrank K B * Module.finrank K (Subalgebra.centralizer K (B : Set A))
-      = Module.finrank K A := sorry
 
 /-- Taking the centralizer twice recovers a simple subalgebra of a finite-dimensional
 central simple algebra. Stacks, Brauer Groups, Theorem 7.1(3) (tag 074T). -/
