@@ -212,8 +212,27 @@ For a bounded T on native ℓ² define its finite sections by the first n+1
 coordinates; their identity is I_(n+1). Transport to HardySpace using
 `hardyBasis.repr`. Prove the norm bound and strong convergence of the
 zero extensions `P_nTP_n→T` and their adjoints to T†. Define condition number on invertible
-sections as `κ(A_n)=‖A_n‖‖A_n⁻¹‖`. Prove convergence of finite-section
-solutions for stable sections when the limiting operator is invertible.
+sections as `κ(A_n)=‖A_n‖‖A_n⁻¹‖`.
+
+Prove that stability of these square finite sections forces T invertible.
+Write J_n for the coordinate inclusion, `P_n=J_n J_n†` and
+`A_n=J_n† T J_n`. Given an actual eventual bound `‖A_n⁻¹‖≤C`, C>0,
+pass the lower bounds for A_n and A_n† to T and T† using the two strong
+limits. Prove T has closed range and `ker T†=0`, hence is onto, and
+`‖T⁻¹‖≤C`. This argument uses the adjoint limit to prove surjectivity.
+For `B_n=J_n A_n⁻¹ J_n†`, prove strong convergence of B_n to T⁻¹ and
+of B_n† to `(T⁻¹)†`. Arbitrary finitely many initial choices do not
+change these limits. For y=T⁻¹b and x_n=B_n b, prove on the stable tail
+`x_n−P_n y=B_n T(1−P_n)y`, hence
+`‖x_n−y‖≤(1+C‖T‖)‖(1−P_n)y‖`.
+For finite right-hand sides b_n with `J_n b_n→b`, add
+`C‖J_n b_n−P_n b‖` to this error bound and deduce convergence of
+the corresponding computed solutions. An eventual bound C is specified;
+a finite limsup gives such a bound for every strictly larger C.
+Compute T=I: B_n=P_n converges strongly to I but `‖B_n−I‖=1`, so
+operator-norm convergence is not asserted. The inverse extensions always
+have finite rank on the infinite-dimensional ambient space.
+
 The unitary that swaps successive coordinate pairs has singular odd-sized
 sections, showing that invertibility of T alone does not establish stability.
 
