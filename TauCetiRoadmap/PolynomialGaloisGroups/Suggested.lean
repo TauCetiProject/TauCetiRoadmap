@@ -49,6 +49,24 @@ theorem isSolvable_gal_iff_forall_rootSet_mem_solvableByRad
       ∀ x ∈ q.rootSet (AlgebraicClosure F), x ∈ solvableByRad F (AlgebraicClosure F) := by
   sorry
 
+/-- **The some-root radical criterion** (Milne, Theorem 5.34, and irreducibility).
+In characteristic zero, an irreducible polynomial has solvable Galois group exactly when
+some root in an algebraic closure belongs to the radical closure of the base field. -/
+theorem isSolvable_gal_iff_exists_rootSet_mem_solvableByRad
+    (F : Type*) [Field F] [CharZero F] (q : F[X]) (hq : Irreducible q) :
+    Group.IsSolvable q.Gal ↔
+      ∃ x ∈ q.rootSet (AlgebraicClosure F), x ∈ solvableByRad F (AlgebraicClosure F) := by
+  sorry
+
+/-- **The prime-degree obstruction to radicals** (Milne, Proposition 4.16, and Abel–Ruffini).
+An irreducible rational polynomial of prime degree at least five with exactly two nonreal
+complex roots has no root in the radical closure of `ℚ` in its algebraic closure. -/
+theorem not_mem_solvableByRad_of_prime_degree_two_nonreal
+    (q : ℚ[X]) (hq : Irreducible q) (hp : q.natDegree.Prime) (h5 : 5 ≤ q.natDegree)
+    (hc : Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2) :
+    ∀ x ∈ q.rootSet (AlgebraicClosure ℚ), x ∉ solvableByRad ℚ (AlgebraicClosure ℚ) := by
+  sorry
+
 /-! ## Layer 3: Dummit's quintic criterion -/
 
 /-- **Separation of the quintic resolvent** (Chapman's note to Dummit). For a monic irreducible

@@ -5,9 +5,9 @@
 permutation-group and resolvent machinery, the transitive groups of degree at most five, the
 quintic criterion "solvable Galois group iff the `F₂₀` resolvent sextic has a root" under a
 separability hypothesis on the sextic, and the realization of `Sₙ` over `ℚ`. For radicals it has
-only Mathlib's implication from "some root is a radical expression" to "the Galois group is
-solvable". This roadmap proves the converse in characteristic zero, first for finite Galois
-extensions and then for polynomials, removes the separability hypothesis from the base's quintic
+only Mathlib's implication, for an irreducible polynomial, from "some root is a radical
+expression" to "the Galois group is solvable". This roadmap proves the converse in characteristic
+zero, first for finite Galois extensions and then for polynomials, removes the separability hypothesis from the base's quintic
 criterion, and combines the two into Dummit's criterion in its classical form: an irreducible
 quintic over a field of characteristic zero is solvable by radicals exactly when its resolvent
 sextic has a root in the base field.
@@ -68,8 +68,9 @@ It owns nothing else. In particular:
 
 **From Mathlib** (at the pin):
 
-- `Polynomial.Gal`, `Polynomial.rootSet`, `Polynomial.Gal.galActionHom` in
-  `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`.
+- `Polynomial.Gal` and `Polynomial.Gal.galActionHom` in
+  `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`; `Polynomial.rootSet` in
+  `Mathlib/Algebra/Polynomial/Roots.lean`.
 - `solvableByRad`, `solvableByRad.rad_mem`, `isSolvable_gal_minpoly` and
   `isSolvable_gal_of_irreducible` (if `q` is irreducible and has a root in `solvableByRad F E`,
   then `q.Gal` is solvable) in `Mathlib/FieldTheory/AbelRuffini.lean`.
@@ -161,7 +162,8 @@ radical closure because `ζ^N = 1`.
   solvable, and by `isSolvable_gal_of_irreducible` no root of `X⁵ − 4X + 2` is in the radical
   closure; both sides fail.
 - Negative control for the ambient field: let `E` be the cubic subfield of `ℚ(ζ₇)`, real and
-  cyclic of degree 3 over `ℚ`. If `x ∈ E ∖ ℚ` had `xⁿ ∈ ℚ`, then `ℚ(x) = E` would be normal, so a
+  cyclic of degree 3 over `ℚ`. If `x ∈ E ∖ ℚ` had `xⁿ ∈ ℚ` for some `n ≠ 0`, then `ℚ(x) = E`
+  would be normal, so a
   conjugate `x' ≠ x` of `x` would lie in `E` with `x'/x` a real root of unity, hence `x' = −x`, and
   then the conjugates of `x` would come in pairs `±`, impossible in odd degree 3. So
   `solvableByRad ℚ E = ℚ` does not contain `E`, although `Gal(E/ℚ) ≅ C₃` is solvable. The
@@ -190,17 +192,20 @@ in characteristic zero, separable even when `q` has repeated factors, hence Galo
 
 ### 2.2 Some root, for irreducible polynomials
 
-Prove that for `q` irreducible over `F` of characteristic zero, `q.Gal` is solvable exactly when
-some root of `q` in `AlgebraicClosure F` lies in the radical closure. One direction is
-`isSolvable_gal_of_irreducible`; the other is 2.1, since an irreducible polynomial has a root. For a
-reducible `q` the some-root form is false (Examples).
+Prove `isSolvable_gal_iff_exists_rootSet_mem_solvableByRad`: for `q` irreducible over `F` of
+characteristic zero, `q.Gal` is solvable exactly when some root of `q` in `AlgebraicClosure F`
+lies in the radical closure (Milne, Theorem 5.34, p. 77, with the irreducible some-root deduction).
+One direction is `isSolvable_gal_of_irreducible`; the other is 2.1, since an irreducible polynomial
+has a root. For a reducible `q` the some-root form is false (Examples).
 
 *Needs:* 2.1; Mathlib `isSolvable_gal_of_irreducible`.
 
 ### 2.3 Prime degree with two nonreal roots
 
-Prove that if `q : ℚ[X]` is irreducible of prime degree `p ≥ 5` and has exactly two nonreal roots in
-`ℂ`, no root of `q` in `AlgebraicClosure ℚ` lies in the radical closure (Milne, Proposition 4.16,
+Prove `not_mem_solvableByRad_of_prime_degree_two_nonreal`: if `q : ℚ[X]` is irreducible of prime
+degree `p ≥ 5` and has exactly two nonreal roots in `ℂ`, expressed as
+`Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2`, no root of `q` in
+`AlgebraicClosure ℚ` lies in the radical closure (Milne, Proposition 4.16,
 p. 52, for the group). The group acts on the `p` roots as `S_p` by
 `Polynomial.Gal.galActionHom_bijective_of_prime_degree`, which is not solvable by
 `Equiv.Perm.not_isSolvable`; conclude by `isSolvable_gal_of_irreducible`. For `p = 2, 3` the
@@ -220,6 +225,8 @@ symmetric group is solvable and there is no conclusion.
 - `q = X⁵ − 4X + 2` satisfies the hypotheses of 2.3 with `p = 5` (three real roots, as computed in
   Layer 1); `q = X³ − 2` has exactly two nonreal roots but prime degree 3, its group `S₃` is
   solvable, and its roots `2^(1/3) ζ₃ᵏ` are radical.
+- Irreducibility cannot be omitted in 2.3: `(X² + 1)(X − 1)(X − 2)(X − 3)` has prime degree five
+  and exactly two nonreal roots, but its roots `i, −i, 1, 2, 3` are all radical and its group is `C₂`.
 
 ### Dependencies
 
@@ -277,7 +284,7 @@ Layer 2 `isSolvable_gal_iff_forall_rootSet_mem_solvableByRad` for the radical fo
 - `f = X⁵ − X − 1` over `ℚ`: the sextic is `X⁶ − 8X⁵ + 40X⁴ − 160X³ + 400X² − 3637X + 9631`; its
   constant term `9631` is prime and neither `±1` nor `±9631` is a root, so it has no rational root;
   the group is `S₅` and no root is radical.
-- Reducibility is necessary in 3.1: `X⁵ − X` over `ℚ` is separable but reducible, and its sextic
+- Irreducibility cannot be omitted in 3.1: `X⁵ − X` over `ℚ` is separable but reducible, and its sextic
   `(X − 2)⁴ (X² + 16)` is inseparable (Tau Ceti `TauCeti.resolventSextic_X_pow_five_sub_X`).
 - `(5 : F) ≠ 0` is necessary in 3.1: over `𝔽₅`, `f = X⁵ − X − 1` is irreducible (Artin–Schreier)
   with roots `α, α + 1, …, α + 4`. Numbering the root `α + k` by `k`, the generator `x ↦ x + 1` of
