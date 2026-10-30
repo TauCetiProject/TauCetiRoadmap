@@ -238,7 +238,7 @@ Layer 1; Mathlib as listed under *Needs*.
 
 Prove `separable_specialize_quinticF20Spec`: for `f : F[X]` monic and irreducible of degree five
 with `(5 : F) ≠ 0`, the sextic `TauCeti.quinticF20Spec.specialize F f` is separable (Chapman's note
-to Dummit, lines 8–30 of `chapman-quintics`). Under these hypotheses `f` is separable, since an
+to Dummit, the whole one-page argument). Under these hypotheses `f` is separable, since an
 irreducible inseparable polynomial has degree divisible by the characteristic. The Galois group is
 transitive on the five roots, so it contains a 5-cycle; number the roots so that it is
 `a ↦ a + 1` on `ℤ/5`, which fixes `θ₁ = Φ(x)` and permutes `θ₂, …, θ₆` cyclically. If two of the
@@ -307,11 +307,15 @@ radicals in characteristic zero consumes Layer 2.
 
 ## References
 
-- J. S. Milne, *Fields and Galois Theory*, version 5.10 (2022), author's course notes: Proposition
-  4.16 (p. 52), Proposition 5.27 (p. 74), Lemma 5.33 (p. 76), Theorem 5.34 (p. 77). Source id
+- J. S. Milne, *Fields and Galois Theory*, version 5.10 (2022),
+  [author's course notes](https://www.jmilne.org/math/CourseNotes/FT.pdf): Proposition 4.16
+  (p. 52), Proposition 5.27 (p. 74), Lemma 5.33 (p. 76), Theorem 5.34 (p. 77). Source id
   `milne-fields`.
-- D. S. Dummit, *Solving solvable quintics*, Math. Comp. 57 (1991), 387–401, author's copy: the
-  invariant and its stabilizer `F₂₀` (§2, p. 388), the sextic (formula (2) and the trinomial case,
-  p. 389), Theorem 1 (p. 389), the characteristic remark (p. 387). Source id `dummit-quintics`.
-- R. Chapman, *Note on Solving Solvable Quintics by D. Dummit* (1992), one page, on Dummit's page:
+- D. S. Dummit, *Solving solvable quintics*, Math. Comp. 57 (1991), 387–401,
+  [author's copy](https://site.uvm.edu/ddummit/files/2021/04/Solving_Solvable_Quintics__Math_Comp_57_no195_1991__pp_387_401.pdf):
+  the invariant and its stabilizer `F₂₀` (§2, p. 388), the sextic (formula (2) and the trinomial
+  case, p. 389), Theorem 1 (p. 389), the characteristic remark (p. 387). Source id
+  `dummit-quintics`.
+- R. Chapman, *Note on Solving Solvable Quintics by D. Dummit* (22 January 1992), one page,
+  [on Dummit's page](https://site.uvm.edu/ddummit/files/2021/04/Solving_Solvable_Quintics_note_by_Robin_Chapman.pdf):
   the separation of the sextic's roots for irreducible quintics. Source id `chapman-quintics`.
