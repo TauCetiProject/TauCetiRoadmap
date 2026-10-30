@@ -136,9 +136,8 @@ uses the other.
   `HasEnoughRootsOfUnity.exists_primitiveRoot`.
 - `Mathlib/FieldTheory/Galois/Basic.lean`: `IsGalois.normalAutEquivQuotient`,
   `IsGalois.sup_right`, `IntermediateField.restrictRestrictAlgEquivMapHom_injective`,
-  `IntermediateField.fixingSubgroup_fixedField`, `IntermediateField.finrank_eq_fixingSubgroup_index`,
-  `IsGalois.map_fixingSubgroup` (the fixing subgroup of `σ(E)` is `σ (Fix E) σ⁻¹`) and
-  `IsGalois.of_separable_splitting_field`; `Field.exists_primitive_element`;
+  `IntermediateField.fixingSubgroup_fixedField`, `IntermediateField.finrank_eq_fixingSubgroup_index`
+  and `IsGalois.of_separable_splitting_field`; `Field.exists_primitive_element`;
   `AlgHom.liftNormal` (`Mathlib/FieldTheory/Normal/Basic.lean`).
 - `Mathlib/Analysis/Complex/Polynomial/Basic.lean`:
   `Polynomial.Gal.galActionHom_bijective_of_prime_degree` (an irreducible rational polynomial of
@@ -179,6 +178,9 @@ uses the other.
   `TauCeti.not_forall_exists_le_map_conj_of_isRoot_specialize_quinticF20Spec`.
 - `GroupTheory/Solvable.lean`: `Group.IsSolvable.exists_normal_index_prime` (a nontrivial finite
   solvable group has a normal subgroup of prime index).
+- `FieldTheory/Galois/FixedField.lean`: `Subgroup.fixedField_map_conj` (for a subgroup `H` of
+  `E ≃ₐ[F] E` and an automorphism `g`, the fixed field of `g H g⁻¹` is the image of `fixedField H`
+  under `g`, with no hypothesis on `E/F`).
 - `NumberTheory/ArithmeticDirichletSeries/Trivial.lean`: `TauCeti.dedekindZetaCoeff` and
   `TauCeti.dedekindZeta_eq_LSeries_dedekindZetaCoeff`.
 - `NumberTheory/RamificationInertia/DoubleCoset/`: `Ideal.doubleCosetQuotientEquivPrimesOver` (the
@@ -637,11 +639,11 @@ are isomorphic as `F`-algebras exactly when `H` and `K` are conjugate, `K = g H 
 for number fields with a common Galois closure in Sutherland, introduction, p. 1,
 `sutherland-arith-equiv` lines 30–31). An `F`-isomorphism `fixedField H → fixedField K` extends to an automorphism `g` of `E`
 (`AlgHom.liftNormal`), `g` carries `fixedField H` onto `fixedField (g H g⁻¹)`
-(`IsGalois.map_fixingSubgroup`), and the Galois correspondence is injective
+(`Subgroup.fixedField_map_conj`), and the Galois correspondence is injective
 (`IntermediateField.fixingSubgroup_fixedField`).
 
-*Needs:* Mathlib `AlgHom.liftNormal`, `IsGalois.map_fixingSubgroup`,
-`IntermediateField.fixingSubgroup_fixedField`.
+*Needs:* Mathlib `AlgHom.liftNormal`, `IntermediateField.fixingSubgroup_fixedField`; Tau Ceti
+`Subgroup.fixedField_map_conj`.
 
 **Checks.**
 
@@ -691,8 +693,8 @@ trivial case of 4.1.
 
 ### Dependencies
 
-Tau Ceti number-field and Dirichlet-series API; Induction–Restriction Layers 2.1 and 2.2; Number
-Field Arithmetic Layer 1.4; the base roadmap Layer 9.
+Tau Ceti number-field, Dirichlet-series and fixed-field API; Induction–Restriction Layers 2.1 and
+2.2; Number Field Arithmetic Layer 1.4; the base roadmap Layer 9.
 
 ## Downstream consumers
 
