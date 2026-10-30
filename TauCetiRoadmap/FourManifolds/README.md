@@ -10,13 +10,22 @@ theorem does not replace its geometric or analytic prerequisites.
 ## Scope and ownership
 
 Generic collars, boundary gluing, handles, connected sums and surgery carriers
-come from GeometricTopology. Its comparison
-item 3 specifies the Kirby–Siebenmann obstruction to PL structure;
-its tangent-microbundle and stable-classifier interfaces are required below; its high-dimensional PL existence
-theorem is not applied in dimension four. Its Layer 3 concerns
-diffeomorphism groups; the algebraic surgery, normal-bundle and
-transversality contracts needed in F3 below are additional generic inputs,
-not exports of that layer. Ordinary chains, products, orientations,
+come from GeometricTopology Layer 1; locally flat embeddings and Brown's
+collaring theorem from its Layer 2; framed links, linking numbers, Seifert
+surfaces and Seifert matrices from its Layer 4; Dehn surgery from its
+Layer 5. Item 3 of its smoothing-and-triangulation comparison names the
+Kirby–Siebenmann obstruction to PL structure; its high-dimensional PL
+existence theorem is not applied in dimension four. GeometricTopology
+Layer 2 states the annulus theorem in every dimension; its dimension-four
+case, and Freedman's theorem that a knot with Alexander polynomial one is
+topologically slice, are proved here in §3.6 from §3.2–§3.6, and nothing is
+supplied back to GeometricTopology. The tangent-microbundle,
+stable-classifier, algebraic-surgery, controlled K-theory, normal-bundle,
+transversality and CW-type inputs that F3 needs are stated by no
+GeometricTopology layer; each is declared as a gap, one slug each, in the
+supplier contracts below. Handle slides and Kirby moves on framed links and
+the Arf invariant of a knot or proper link are targets of §1.4 and §1.6.
+Ordinary chains, products, orientations,
 duality, CW comparison, obstruction theory and representability come from
 AlgebraicTopology. Use the actual integral forms
 and boundary dictionaries of IntegralLattices,
@@ -42,6 +51,21 @@ of signature −8, with its actual Lie Spin boundary marking. F6 retains
 the general blowup laws, coefficient discriminant comparison and torus
 factorization theory; F7 retains E(n), the elliptic-quartic comparison,
 the Enriques cover and the Rokhlin application to the imported filling.
+
+HomotopySpheres 6B owns the signed E₈ tree plumbing in every dimension 4k,
+including its k=1 branch with homology-three-sphere boundary, and its
+Stage 7 owns degree-one normal maps, normal bordism, the surgery kernel,
+the simply connected surgery groups L_n(ℤ) with the σ/8 normalization in
+dimension 4k, L₅(ℤ)=0 and the E₈ realization. §1.6 and §3.9 keep only the
+comparison of the orientation-reversed plumbing with the pinned
+`TauCeti.e8Plumbing` lattice, its Poincaré-sphere boundary and its
+topological cap; §3.6 keeps the TOP normal-map variant, which differs from
+HomotopySpheres 7A in one respect: its stable normal data are a TOP stable
+normal complement, with no Lie frame. SmoothBundlesConnections stops
+before the Yang–Mills energy and its variational calculus; the
+four-dimensional calculus Layer 5 uses, namely the energy identity, the
+first and second variations, the gauge-fixed operator and conformal
+invariance, is a target of Layer 5, since no earlier roadmap states it.
 
 ## Conventions
 
@@ -94,48 +118,175 @@ projective quotient. These supply the polynomial and projective statements
 in Layer 7 without an assumed smooth atlas on their zero sets. From Tau Ceti,
 use `TopCat.singularCup` in `TauCeti.AlgebraicTopology.Cohomology.Cup` for
 the cohomology pairing; its manifold fundamental-class comparison is an
-AlgebraicTopology Stage 6 input. The roadmap suppliers are listed below.
+AlgebraicTopology Stage 6 input. Use `TauCeti.IsLocallyFlat`,
+`TauCeti.CoboundAnnulus` and `TauCeti.AnnulusConjecture` in
+`TauCeti.Geometry.Manifold.LocallyFlat.Annulus` and `TauCeti.brownBicollaring`
+in `TauCeti.Geometry.Manifold.LocallyFlat.Brown`. The annulus statement
+`TauCeti.AnnulusConjecture 3` quantifies over two locally flat maps of the
+unit three-sphere into ℝ⁴, local flatness read in the model
+`EuclideanSpace ℝ (Fin 3) × ℝ`, places the image of the second in the open
+region bounded by the first through `TauCeti.filledHull`, and concludes an
+embedding of S³ × [0,1] whose image is the closed region between them and
+whose two ends are the two spheres; it prescribes no boundary marking.
+Use `TauCeti.FreedmanSliceTheorem` in `TauCeti.KnotTheory.Slice.Freedman`
+with `TauCeti.IsTopologicallySlice` (a locally flat slice disc in the closed
+unit four-ball) and `TauCeti.SmoothCircleEmbedding.HasPerfectCommutatorSubgroup`
+(the commutator subgroup of the knot group is perfect at every basepoint of
+the complement): it quantifies over smooth circle embeddings in the unit
+three-sphere. Use `TauCeti.PlumbingGraph` with its `intersectionMatrix`,
+`intersectionForm` and `characteristicVectors` in
+`TauCeti.LowDimTopology.Plumbing`, and the negative-definite
+`TauCeti.e8Plumbing` in `TauCeti.LowDimTopology.Plumbing.E8`, every framing
+−2 on a chain of seven vertices with the eighth attached to the third, as
+the lattice of the E₈ plumbing; the plumbed four-manifold itself is
+HomotopySpheres 6B's. The roadmap suppliers are listed below.
 
 | Supplier | Exact use and ownership here |
 | --- | --- |
-| GT Layers1–3 and comparison3 | Handles, collars, locally flat charts and generic chart and PL foundations, with the additional generic contracts below. F3 owns the dimension-four disk-embedding and classification arguments. |
-| GT Layer4 carriers, Layer6 application | Framed links, linking, Seifert surfaces and Arf precede F1/F3. Layer6 consumes F3's cyclic surgery and zero-form theorem for Alexander-one slicing; Layer4's Freedman application then consumes Layer6. |
+| GT Layers 1, 2, 4 and 5; its smoothing-and-triangulation comparison, item 3 | Handles, collars, gluing, connected sum and tubular neighbourhoods; locally flat embeddings and Brown's collaring, pinned as `TauCeti.brownBicollaring`; framed links, linking numbers, Seifert surfaces and Seifert matrices; Dehn surgery; the statement of the Kirby–Siebenmann obstruction. What these layers do not state is declared as gaps below. F3 owns the dimension-four disk-embedding, classification, annulus and slice theorems; no GeometricTopology layer consumes this roadmap. |
 | AT Stages2–4,6,8 | Native chains/cochains, normalized sphere generators, orientation-local-system duality, ordinary obstruction/EM comparisons and proper8.5 plus its end API for the early opened cobordism and product theorem. F1/F2 own the actual handle/link/intersection computations. |
 | IntegralLattices | Native integral symmetric lattices, inertia, parity, characteristic vectors and indefinite/unimodular classification. F3/F5/F7 prove manifold realizations/restrictions. |
 | CKG K7, TopK T1/T6 and G4.0b | One native projective/Grassmannian carrier, its smooth model comparison and tautological bundles. F6/F7 own blowup, hypersurface and elliptic constructions on them. |
 | AffineMorseLefschetz A4.0 and A0/A5/A6; GroebnerGeometry G1 | A4.0's generic noncompact boundary/BM/support duality precedes the early proper cobordism; single projective zero-locus carrier, weak hyperplane theorem and finite Veronese comparison; single elimination/saturation engine. F6/F7 own cubic/quartic discriminant and elliptic-example comparisons. |
-| CC C1.2a/C2/C3; TB B4.1–2 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; single ordinary characteristic/Thom and cup-i/Sq APIs. F4 owns the oriented4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
-| Spin G6.7; Index I7.2/I7.5; TB B1.7/B3.4 | Untwisted quaternionic kernels, signature and analytic Rokhlin formulas; the concrete K3 and marked E(1) complement with their Spin data; the K3 KO genus. |
+| CC C1.2a/C2/C3; TB B4.1 and B4.3 | C1.2a S0–S5's independent supported cochains and collared-pair sequence precede the proper cobordism; single ordinary characteristic/Thom, cup-i/Sq and Wu-class APIs. F4 owns the oriented4/Spinᶜ/torsion consequences and Z/4 Pontryagin square. |
+| Spin G6.7; Index I7.2/I7.5; TB B1.7/B3.2(a)/B3.3/B3.4/B5.2 | Untwisted quaternionic kernels, signature and analytic Rokhlin formulas; the concrete K3 and marked E(1) complement with their Spin data; `finiteQuadraticArf` on finite F₂ quadratic forms; Spin three-manifold fillings; the K3 KO genus; the finite embedded Pontryagin–Thom comparison that §2.3's coloured-link collapse specializes. |
 | StringOrientation S1 | Actual stable/finite-rank BString lift and H³ torsor; F4 owns the dimension≤4 consequences on its specified real vector-bundle Spin reduction. |
-| HomotopySpheres §3C/§4B/§6C/§9 | Unstable link/Hopf, real stable-space and low-stem inputs to F2/F3; only its stated contracts are consumed. |
-| SBC B1–4, CKG K5, PDO P5–7, Index I4/I7 and HF F0 | Shared principal/connection and Sobolev carriers, estimates/Fredholm theory and generic Sard–Smale. F5 constructs the nonlinear four-dimensional gauge slices, transversality, bubbling and gluing. |
+| HomotopySpheres §3C/§4B/§6B/§6C/§7A–7C/§9 | Unstable link/Hopf, real stable-space and low-stem inputs to F2/F3; the signed E₈ tree plumbing with its dimension-four branch; degree-one normal maps, normal bordism, surgery kernels, L_n(ℤ) with σ/8 in dimension 4k and L₅(ℤ)=0. F3 owns the TOP normal-map variant and every dimension-four surgery statement. |
+| SBC B1–B5, CKG K5, PDO P5–7, Index I4/I7 and HF F0 | Shared principal bundles, connections, curvature, the Bianchi identity, parallel transport and Sobolev carriers, estimates/Fredholm theory and generic Sard–Smale. F5 constructs the four-dimensional Yang–Mills variational calculus, the nonlinear gauge slices, transversality, bubbling and gluing. |
 
-### Additional generic input contracts for F3
+### What GeometricTopology must provide
 
-The following contracts specify the inputs to F3's proof routes. GeometricTopology
-Layers 1–3 and its smoothing comparison do not specify these stronger interfaces.
-They require an extension of the generic theory, with the following boundaries.
+GeometricTopology's Layers 1, 2, 4 and 5 and its smoothing-and-triangulation
+comparison state none of the following inputs of F3's proof routes; each is
+declared as a gap, one slug each, for GeometricTopology to provide, and every
+use below names its slug. F3 consumes them only in the forms stated here and
+derives none of them from the dimension-four theorems it proves. The simply
+connected normal maps, surgery kernels, L_n(ℤ), the σ/8 normalization and the
+E₈ realization are not gaps: they are HomotopySpheres 7A–7C.
 
-- Algebraic surgery: a spherical-fibration classifier BG, compatible G/PL
-  and TOP/PL fibres, quadratic Poincaré-chain L-groups, and the degree-four
-  G/PL class with its mod-two square relation. The integral normalization
-  is σ/8 in L₄(ℤ); L₅(ℤ)=0, whereas the Laurent splitting gives
-  L₅(ℤ[ℤ])≅L₅(ℤ)⊕L₄(ℤ)≅ℤ, retaining this action in cyclic surgery.
-- Controlled torsion coefficients: a compatible K/Whitehead spectrum on
-  neighborhood fundamental groups, Wh, reduced K₀ and negative K-groups,
-  with all three kinds vanishing for 1 and ℤ. This is the input to the
-  locally finite spectral-sequence calculation, not a consequence of good
-  fundamental group alone.
-- Relative geometric foundations: the punctured-torus immersion and its
-  bounded lift, Brown's bicollared generalized Schoenflies theorem, proper
-  locally flat Euclidean embeddings and stable normal complements, the
-  low-codimension normal-neighborhood theorems, relative PL structure
-  theory in dimension five, compatible low-dimensional PL smoothing,
-  and the stated Kirby–Siebenmann and Marin transversality ranges.
+What GeometricTopology must provide (gap:top-manifold-cw-type): every
+topological manifold, Hausdorff, second countable and locally Euclidean or
+half-space modelled, is a separable metric ANR, by Hanner's local-to-global
+theorem (Hanner, *Some theorems on absolute neighborhood retracts*, Ark.
+Mat. 1 (1951)), and therefore has the homotopy type of a countable CW
+complex through AlgebraicTopology 8.11a's ANR domination and CW-domination
+criterion; this is Milnor's Corollary 1, that every separable manifold has
+the homotopy type of a countable CW complex (Milnor, *On spaces having the
+homotopy type of a CW-complex*, Trans. Amer. Math. Soc. 90 (1959),
+Theorem 1 and Corollary 1; `milnor1959` lines 20 and 37). §2.1 uses it
+without a triangulation.
 
-These generic contracts supply F3; its dimension-four disk, smoothing and
-surgery theorems supply the knot-slicing application in GeometricTopology
-Layer 6. The listed contracts cannot be inferred from that later application.
+What GeometricTopology must provide (gap:tangent-microbundle-stable-classifier):
+the tangent microbundle of a TOP n-manifold and its Kister–Mazur
+representation by an ℝⁿ-bundle with structure group TOP(n), unique up to
+isomorphism (Kister, *Microbundles are fibre bundles*, Ann. of Math. 80
+(1964)); the classifying spaces BTOP(n) and BTOP with the
+stabilization BPL→BTOP and the Kirby–Siebenmann class in H⁴(BTOP;ℤ/2) as the
+obstruction to a stable PL reduction, in the form GeometricTopology's
+comparison item 3 states it; and for every TOP n-manifold a proper locally
+flat embedding into some ℝ^(n+k) with a stable normal microbundle, the stable
+normal complement being unique up to stable isomorphism (Kirby–Siebenmann,
+*Foundational Essays*, Essay III and Essay IV). §3.5's graph construction,
+§3.6's TOP normal maps and §3.8's definition of the Kirby–Siebenmann number
+consume exactly these.
+
+What GeometricTopology must provide (gap:brown-schoenflies): Brown's
+generalized Schoenflies theorem: for n ≥ 1 and a bicollared embedding of
+Sⁿ⁻¹ in Sⁿ, each complementary closure is homeomorphic to Dⁿ by a
+homeomorphism restricting to the given parametrization on the sphere
+(Brown, *A proof of the generalized Schoenflies theorem*, Bull. Amer. Math.
+Soc. 66 (1960), Theorems 4 and 5; `brown1960` lines 84 and 101); with
+`TauCeti.brownBicollaring` this gives the locally flat form. §3.5's marked ball theorem uses the case n=4.
+
+What GeometricTopology must provide (gap:torus-trick-immersion): the
+immersion of the punctured n-torus into ℝⁿ obtained from its parallelization
+by the Hirsch immersion theorem, and the bounded-lift comparison: a
+homeomorphism of ℝⁿ sufficiently close to the identity on a compact set
+pulls back through that immersion to a homeomorphism of the punctured torus
+that extends over the torus and lifts to a bounded homeomorphism of its
+universal cover (Kirby, *Stable homeomorphisms and the annulus conjecture*,
+Ann. of Math. 89 (1969); Edwards–Kirby, *Deformations of spaces of
+imbeddings*, Ann. of Math. 93 (1971)). §3.4's
+Černavskii–Edwards–Kirby construction consumes it with its own Alexander
+isotopy.
+
+What GeometricTopology must provide (gap:relative-pl-five): the relative
+PL structure theory in dimension five: the product structure theorem, that a
+PL structure on M×ℝ agreeing with a given one near a closed set is
+concordant rel that set to a product structure (Kirby–Siebenmann, Essay I,
+the Product Structure Theorem), the classification of PL structures on a
+TOP manifold of dimension at least five rel boundary by homotopy classes of
+lifts of its stable tangent microbundle to BPL, concordance implying
+isotopy (Kirby–Siebenmann, Essays IV and V, where π₃(TOP/PL)=ℤ/2 and all
+other homotopy groups vanish), and the compatible low-dimensional PL
+smoothing: a PL manifold of dimension at most seven admits a smoothing,
+unique up to concordance in dimension at most six, because
+π_i(PL/O)=Γ_i vanishes for i ≤ 6 (Hirsch–Mazur, *Smoothings of Piecewise
+Linear Manifolds*, Ann. of Math. Studies 80 (1974); Cerf, *Sur les
+difféomorphismes de la sphère de dimension trois*, LNM 53 (1968), for
+Γ₄=0). §3.5's controlled Hauptvermutung, stable smoothing
+and punctured smoothing consume these.
+
+What GeometricTopology must provide (gap:low-codimension-normal-bundles):
+in a TOP manifold of dimension at least five, every locally flat
+codimension-two submanifold has a normal ℝ²-bundle, unique up to ambient
+isotopy, with structure group reducible to TOP(2) (Kirby–Siebenmann, *Normal
+bundles for codimension 2 locally flat imbeddings*, in *Geometric Topology*,
+LNM 438 (1975), 310–324); codimension one is Brown's collaring.
+§3.5's normal-bundle theorem for TOP four-manifolds consumes the
+ambient-five case after stabilizing by ℝ.
+
+What GeometricTopology must provide (gap:marin-stable-transversality):
+submanifold and map transversality for topological microbundles when nothing
+of dimension four is involved (Kirby–Siebenmann, Essay III), and Marin's
+stabilized-microbundle transversality on stable normal microbundle germs
+(Marin, *La transversalité topologique*, Ann. of Math. 106 (1977), 269–293,
+Definition 1.6). The excluded cases are exactly: the ambient
+manifold has dimension four; a submanifold of dimension four meets one of
+codimension one or two; the expected intersection has dimension four; and,
+for maps, the domain or the expected preimage has dimension four
+(Freedman–Quinn §9.12, printed pp. 168–169, `freedmanquinn` lines 5879–5887).
+§3.5 owns every excluded case.
+
+What GeometricTopology must provide (gap:spherical-classifier-g-top): the
+classifier BG of stable spherical fibrations with the stabilization maps
+BO→BPL→BTOP→BG; the homotopy fibres G/PL and TOP/PL, with π_i(TOP/PL)=ℤ/2
+for i=3 and 0 otherwise (Kirby–Siebenmann, Essay V) and
+π_i(G/PL)=0, ℤ/2, 0, ℤ, 0 for i=1,…,5, with the integral degree-four class
+whose mod-two reduction is the square of the degree-two class (Madsen–Milgram,
+*The classifying spaces for surgery and cobordism of manifolds*, Ann. of Math.
+Studies 92 (1979)); and Wall's quadratic L-groups L_n(ℤ[π]) with their
+four-periodicity and their chain-level algebraic Poincaré-complex model,
+agreeing for π=1 with HomotopySpheres 7B's L_n(ℤ) (Ranicki, *Algebraic
+L-theory and topological manifolds*, Cambridge Tracts 102 (1992), §1, p. 25;
+`ranicki1992` line 1125).
+§3.6 constructs BTOP→BG, G/TOP and its fourth Postnikov stage from these.
+
+What GeometricTopology must provide (gap:laurent-l-group-splitting):
+Shaneson's splitting L_n(ℤ[π×ℤ]) ≅ L_n(ℤ[π]) ⊕ L_(n−1)(ℤ[π]) with its
+geometric realization by crossing with a circle (Shaneson, *Wall's surgery
+obstruction groups for G×ℤ*, Ann. of Math. 90 (1969), 296–334),
+specialized to π=1: L₄(ℤ[ℤ]) ≅ L₄(ℤ) ≅ ℤ by σ/8 and
+L₅(ℤ[ℤ]) ≅ L₅(ℤ) ⊕ L₄(ℤ) ≅ ℤ, the summand acting geometrically; and
+Wh(ℤ)=0, since K₁(ℤ[t,t⁻¹]) ≅ K₁(ℤ) ⊕ K₀(ℤ) is generated by the units ±tⁿ
+(Bass–Heller–Swan, *The Whitehead group of a polynomial extension*, Publ.
+Math. IHÉS 22 (1964), Theorem 2, p. 63; `bassHellerSwan` line 101), so the
+simple and ordinary groups agree. §3.6's cyclic surgery consumes it.
+
+What GeometricTopology must provide (gap:controlled-k-whitehead-spectrum):
+a functor from groups to spectra S(π) with π₁S(π)=Wh(π),
+π₀S(π)=K̃₀(ℤ[π]) and π_(−i)S(π)=K_(−i)(ℤ[π]) for i ≥ 1, natural in
+homomorphisms, so that the neighbourhood fundamental groups of a reference
+map p:E→X define the coefficient cosheaf S(p) of §3.4's locally finite
+homology H₁^lf(X;S(p)) (Freedman–Quinn §7.4, printed pp. 112–113; Quinn,
+*Ends of maps I*, Ann. of Math. 110 (1979), 275–331); together with the
+vanishing of all three for the trivial group, Wh(1)=0, K̃₀(ℤ)=0 and
+K_(−i)(ℤ)=0, and for ℤ, Wh(ℤ)=0, K̃₀(ℤ[ℤ])=0 and K_(−i)(ℤ[ℤ])=0 for i ≥ 1,
+by the Laurent splitting K_n(ℤ[t,t⁻¹]) ≅ K_n(ℤ) ⊕ K_(n−1)(ℤ) of a regular
+ring (Bass–Heller–Swan, Theorem 2, p. 63, `bassHellerSwan` line 101, for
+n=1; Bass, *Algebraic K-theory*, Benjamin (1968), the fundamental theorem
+and the negative K-groups, for n ≤ 0). §3.4 uses these vanishings, not
+goodness of the group, to conclude q₁=0 for local groups 1 and ℤ.
 
 ## How to read the build
 
@@ -233,13 +384,15 @@ is the attaching framing and the off-diagonal pairing is the oriented
 linking number. The intersection matrix is the full framed linking matrix.
 Pin signs against +1-framed and 0-framed unknots and the positive Hopf link.
 *Needs:* GeometricTopology Layers 1, 4 and 5; AlgebraicTopology
-Stages 3 and 6; §1.1's orientations.
+Stages 3 and 6; §1.1's orientations; §1.6's Kirby moves for the
+basis-change bullet.
 
 The framed-link handlebody has the following API.
 
 - Core-plus-spanning-surface classes form the marked H₂ basis.
 - Framings give diagonal entries and oriented linking gives off-diagonal entries.
-- Kirby moves induce the stated integral changes of basis on this same form.
+- Handle slides and blow-ups, the Kirby moves of §1.6, induce the stated
+  integral changes of basis on this same form.
 
 **Checks.**
 
@@ -247,6 +400,46 @@ The framed-link handlebody has the following API.
 - The zero-framed unknot gives matrix [0], while the +1-framed unknot gives [1].
 - The positive Hopf link with both framings zero gives H and determinant −1;
   reversing one component changes the off-diagonal signs, not the diagonal entries.
+
+Define the Arf invariant of an oriented knot in S³, and of a proper link,
+one in which every component has even total linking number with the others,
+as follows. For a Seifert surface F with Seifert matrix V from GeometricTopology
+Layer 4, the Seifert quadratic refinement q(x)=V(x,x) mod 2 on H₁(F;F₂)
+refines the mod-two intersection form of F; q vanishes on the radical of that
+form exactly when the link is proper, so it descends to the nonsingular
+quotient, and the Arf invariant is TangentialBordism 1.1's
+`finiteQuadraticArf` of that quotient. Prove independence of F through
+S-equivalence of Seifert matrices and the congruence Arf(K)=0 exactly when
+Δ_K(−1)≡±1 mod 8 (Lickorish, *An Introduction to Knot Theory*, GTM 175,
+Chapter 10; Robertello, *An invariant of knot cobordism*, Comm. Pure Appl.
+Math. 18 (1965), 543–555, for proper links).
+
+The Arf invariant has the following API.
+
+- q(x+y)=q(x)+q(y)+x·y on H₁(F;F₂), and q(x) is the mod-two number of
+  full twists of the band of F along a curve representing x.
+- S-equivalent Seifert matrices give the same invariant; the invariant of a
+  connected sum is the sum, and it vanishes on slice knots.
+- Arf(K)=0 exactly when Δ_K(−1)≡±1 mod 8, with Δ_K the Conway-normalized
+  Alexander polynomial of GeometricTopology Layer 4.
+
+**Checks.**
+
+- The unknot has Δ=1 and Arf 0. The right-handed trefoil has Δ=t−1+t⁻¹,
+  so Δ(−1)=−3≡5 mod 8, and on a symplectic basis of its genus-one Seifert
+  surface q(a)=q(b)=1, so Arf=1; forgetting the band twists would give 0.
+- The figure-eight knot has Δ=−t+3−t⁻¹ and Δ(−1)=5, so Arf 1 although its
+  signature is 0; the stevedore knot 6₁ has Δ=−2t+5−2t⁻¹ and Δ(−1)=9≡1,
+  so Arf 0 although it is nontrivial. The Alexander polynomial at 1 is
+  always 1 and detects nothing.
+- The positive Hopf link bounds an annulus with one full twist: q(core)=1
+  on the radical of the mod-two form, linking number 1 is odd, the link is
+  not proper and no Arf invariant is assigned. The (2,4)-torus link's annulus
+  has two full twists, q(core)=0, the link is proper and its Arf invariant is 0.
+
+*Needs:* GeometricTopology Layer 4's Seifert surfaces, Seifert matrices,
+S-equivalence and Alexander polynomial; TangentialBordism 1.1's
+`finiteQuadraticArf` and its zero-Lagrangian criterion.
 
 ### 1.5 Boundary kernel and cokernel
 
@@ -275,26 +468,52 @@ The boundary comparison has the following API.
 
 Realize every symmetric integral matrix by an explicit framed link,
 using crossings/clasps for off-diagonal entries and integer framings for
-the diagonal. Prove the realization and changes under Kirby moves on the
-existing link/handle carriers. Construct the +2 E₈ plumbing and identify
-its oriented boundary and intersection generators. Compare its cap in F3;
-no arbitrary homology-sphere boundary is silently replaced by S³.
+the diagonal. Own the Kirby moves on these framed links: a handle slide of
+one component over another, realized by the isotopy of attaching maps of
+GeometricTopology Layer 1's handle attachment, replaces the framed linking
+matrix Q by the congruent matrix PᵀQP for the elementary matrix P of that
+slide; a blow-up adds a ±1-framed unknot and changes the handlebody by
+connected sum with ±CP², the form by an orthogonal summand ⟨±1⟩ after the
+basis change recording the strands it links; a blow-down is its inverse
+(Gompf–Stipsicz, §5.1, pp. 139–153). Prove that framed links related by
+these moves give oriented diffeomorphic handlebodies with the displayed
+form comparison. Take the E₈ plumbing from HomotopySpheres 6B in its
+dimension-four branch: eight disk bundles of TS² plumbed along the E₈ tree,
+with the negative E₈ matrix; its lattice is the pinned `TauCeti.e8Plumbing`,
+whose `intersectionMatrix` is the negative Cartan matrix and which
+`e8Plumbing_isNegativeDefinite` proves negative definite. The positive
+plumbing used in §3.9 is its orientation reversal. Identify its oriented
+boundary and intersection generators as the core spheres, compare the
+lattice statements, determinant 1, the leading principal minors and the
+characteristic covectors `characteristicVectors`, with
+`TauCeti.PlumbingGraph.intersectionForm` and IntegralLattices' E₈ form, and
+compare its cap in F3; no arbitrary homology-sphere boundary is silently
+replaced by S³.
 
 The matrix-realization construction has the following API.
 
 - Every symmetric integral matrix occurs with its labelled generators.
 - Reversing the orientation negates all intersection entries.
-- Handle slides compare forms by integral congruence, preserving determinant up to a square of a unit.
+- Handle slides compare forms by integral congruence, preserving the
+  determinant; blow-ups add an orthogonal ⟨±1⟩ summand.
 
 **Checks.**
 
 - The 0×0 matrix is realized by the empty link and has determinant 1.
 - Framings 1,2 with linking 1 give [[1,1],[1,2]], determinant 1.
-- The positive E₈ plumbing has rank 8, determinant 1 and signature 8;
-  reversing its orientation gives signature −8 with the same determinant.
+- Sliding a 0-framed unknot over a disjoint +1-framed unknot, P=[[1,0],[1,1]],
+  turns diag(0,1) into [[1,1],[1,1]]: the determinant 0 is preserved while
+  the matrix itself changes, so a slide is not the identity on forms.
+  Sliding the +1-framed one over the 0-framed one instead leaves diag(0,1).
+- The pinned `TauCeti.e8Plumbing` has every framing −2 and signature −8; the
+  positive plumbing here has every framing +2, the Cartan matrix itself,
+  determinant 1 and signature 8. Both have determinant 1, so the determinant
+  alone cannot detect the orientation convention.
 
-*Needs:* GeometricTopology Layers 4–5's framed links and handle slides;
-F1's preceding generator and boundary comparisons; IntegralLattices' E₈ form.
+*Needs:* GeometricTopology Layer 1's handle attachment and attaching-map
+isotopies and Layers 4–5's framed links; HomotopySpheres 6B's E₈ plumbing;
+Tau Ceti `TauCeti.e8Plumbing`; F1's preceding generator and boundary
+comparisons; IntegralLattices' E₈ form.
 
 ### Examples
 
@@ -313,14 +532,33 @@ in the later topological applications of the handle calculations.
 
 ## Layer 2: The homotopy classification
 
+### 2.1 The punctured manifold and the mapping cone
+
 For any connected simply connected closed oriented topological four-manifold M,
 remove an embedded coordinate ball with its locally flat sphere boundary.
-GT's topological CW-type theorem applies without a triangulation. Duality and
+The CW type of M and of its punctured manifold is the declared
+gap:top-manifold-cw-type; it applies without a triangulation. Duality and
 the pair sequence compute the punctured manifold's homology. Relative Hurewicz
 and the simply connected homological Whitehead theorem give its homotopy
 equivalence to a finite wedge of two-spheres, naturally with a chosen H₂ basis.
 The ball collar gives a cofibration; compare M with the actual mapping cone of
-an attaching map S³→∨ʳS².
+an attaching map S³→∨ʳS² (Gompf–Stipsicz, proof of Theorem 1.2.25, p. 14;
+`gompfstipsicz` lines 730–734).
+
+**Checks.**
+
+- S⁴ minus a ball is contractible: r=0 and the wedge is a point, so the
+  mapping cone of the unique map S³→point is S⁴.
+- CP² minus a ball is homotopy equivalent to S², with H₂ generated by the
+  line; the attaching map is the Hopf map, not a constant.
+- S²×S² minus a ball is homotopy equivalent to S²∨S², rank 2; the product
+  itself is not a wedge, since its top cell is attached by the Whitehead product.
+
+*Needs:* gap:top-manifold-cw-type; GeometricTopology Layer 1's collars;
+AlgebraicTopology Stages 4, 6 and 8's cofibrations, duality, relative
+Hurewicz and homological Whitehead theorem.
+
+### 2.2 Attaching coordinates and π₃ of the wedge
 
 Compute π₃ of this wedge as a free abelian group on the Hopf maps ηᵢ and the
 pairwise Whitehead maps for i<j. Consume the generic Hopf/Whitehead operations
@@ -338,6 +576,20 @@ positively linked Hopf link with framings1 and2: its handle matrix is
 Q=[[1,1],[1,2]], while C=[[2,−1],[−1,1]], so the attachment has
 coordinates2η₁+η₂−[ι₁,ι₂]. CP² and the hyperbolic product remain the
 rank1/product sign tests, rather than the only basis-conversion tests.
+
+**Checks.**
+
+- For r=0, 1 and 2 the rank of π₃ of the wedge is 0, 1 and 3, equal to
+  r+r(r−1)/2; a formula omitting the Whitehead products would give 2 for r=2.
+- For the handle matrix Q=[[1,1],[1,2]], C=Q⁻¹=[[2,−1],[−1,1]] and QC=I;
+  using Q itself as the coordinate matrix would give coordinates η₁+2η₂+[ι₁,ι₂].
+- For CP² the single coordinate is C₁₁=1, the Hopf generator; the hyperbolic
+  product has C=H, so coordinates 0η₁+0η₂+[ι₁,ι₂].
+
+*Needs:* §2.1's wedge; HomotopySpheres §3C.1–2's Hopf and Whitehead
+operations; AlgebraicTopology Stage 6's cup product and sphere generators.
+
+### 2.3 Coloured framed links and the Pontryagin–Thom comparison
 
 Own the unstable colored-framed-link comparison for this finite wedge:
 a map S³→∨ʳS², made smooth near one selected regular value in each
@@ -368,8 +620,13 @@ The coloured-link and mapping-cone comparisons have the following API.
 - A positive two-colour Hopf link has off-diagonal coordinate 1;
   two unlinked zero-framed unknots give all coordinates zero.
 
-*Needs:* GeometricTopology's smooth tubular collapse and link bordism;
-HomotopySpheres §3C; AlgebraicTopology's cofibres, cup product and sphere generators.
+*Needs:* TangentialBordism 5.2's finite embedded collapse comparison,
+specialized here to maps from S³ to a wedge of two-spheres with its
+tubular inverse; GeometricTopology Layer 1's tubular neighbourhoods and
+Layer 4's framed links and linking numbers; HomotopySpheres §3C;
+AlgebraicTopology's cofibres, cup product and sphere generators.
+
+### 2.4 Isotropic splitting and the homotopy classification
 
 Consume IntegralLattices Layer6A's indefinite unimodular normal forms and
 Layer0F's primitive splitting to derive
@@ -389,8 +646,25 @@ Prove basis-change and orientation-change laws. Two such manifolds are
 orientation-preserving homotopy equivalent exactly when their integral forms
 are isometric; without a prescribed orientation allow isometry with either Q
 or −Q. Construct the homotopy equivalence from a form isometry through the
-attaching-map calculation. This statement does not classify smooth structures
-or identify the two Kirby–Siebenmann choices of an odd form.
+attaching-map calculation (Gompf–Stipsicz, Theorem 1.2.25, p. 14;
+`gompfstipsicz` line 728, which states the unoriented form). This statement
+does not classify smooth structures or identify the two Kirby–Siebenmann
+choices of an odd form.
+
+**Checks.**
+
+- H has the primitive isotropic vector (1,0) and diag(1,−1) has (1,1);
+  diag(1,−2) is indefinite but x²=2y² has no nonzero integral solution,
+  so the unimodular hypothesis cannot be dropped.
+- CP² and −CP² have forms (1) and (−1): they are homotopy equivalent by an
+  orientation-reversing map, and not orientation-preservingly, since no
+  isometry carries (1) to (−1).
+- S²×S² and CP²#(−CP²) have forms H and diag(1,−1) of the same rank and
+  signature; they are not homotopy equivalent, since one form is even and
+  the other odd.
+
+*Needs:* §2.2's attaching coordinates; IntegralLattices Layers 0F and 6A;
+AlgebraicTopology Stage 6's cup pairing and fundamental class.
 
 ### Examples
 
@@ -403,16 +677,32 @@ attaching coordinates 2η₁+η₂−[ι₁,ι₂]. The zero-rank case has no
 
 F1 supplies the handle generators and intersection pairing; AlgebraicTopology
 Stages 2–4, 6 and 8 supply duality, Hurewicz and CW comparison;
-HomotopySpheres §3C supplies Hopf and Whitehead operations;
-IntegralLattices Layers 0F and 6A supply primitive splitting and normal forms.
+gap:top-manifold-cw-type supplies the CW type of the punctured manifold;
+HomotopySpheres §3C supplies Hopf and Whitehead operations; TangentialBordism
+5.2 supplies the finite embedded collapse; IntegralLattices Layers 0F and 6A
+supply primitive splitting and normal forms.
 
 ## Layer 3: Topological surgery, realization and classification
 
 ### 3.1 Disk embedding and its local TOP consequences
 
-Construct these
-items in the following order, using GT's collars, microbundle charts
-and CW-type theorem.
+The layer is built in the order of its subsections. §3.2 constructs the
+smooth-ambient immersion data, the decomposition-space and tower carriers,
+good groups and the two disk-embedding theorems; §3.3 their controlled
+forms; §3.4 the PL-input controlled h-cobordism theorems, the proper
+simply connected five-dimensional product theorem and
+approximation-implies-isotopy; §3.5 the controlled Hauptvermutung,
+smoothing, the ℝ⁴ recognition and marked ball theorems, normal bundles and
+TOP transversality; §3.6 normal invariants, TOP surgery, the topological
+five-dimensional product theorem, caps and the two end theorems of the
+layer. Those end theorems are the dimension-four annulus theorem
+`annulusTheorem_four`, which is the pinned statement `TauCeti.AnnulusConjecture 3`,
+and Freedman's slice theorem `freedmanSliceTheorem`, which is the pinned
+statement `TauCeti.FreedmanSliceTheorem`; both are stated in `Suggested.lean`
+and proved in §3.6. §3.7–§3.9 then realize and classify the closed simply
+connected manifolds. The TOP inputs are GeometricTopology Layer 1's collars
+and the declared gaps; no triangulation of a topological four-manifold is
+assumed anywhere in the layer.
 
 ### 3.2 Smooth-ambient immersion data and the disk engine
 
@@ -550,10 +840,12 @@ moves. The framed version uses the same good-group hypothesis
 5.2.1, pp. 87–88, for the Whitney-disc argument). Prove tubing,
 π₁-null grope and counting/control lemmas with their label homomorphisms;
 1 and ℤ are applications. Also own
-Freedman–Quinn Proposition2.9's group-reduction construction for a
-specified finite normal series with finite/cyclic quotients: replace
-caps after height raising so the grope image is π₁-null, preserving
-its body, attaching region and transverse spheres. Prove the finite
+Freedman–Quinn Proposition 2.9.1's group-reduction construction (printed
+p. 36; `freedmanquinn` line 1496): for a homomorphism from the ambient
+fundamental group to a poly-(finite or cyclic) group and a properly
+immersed disk-like capped grope of height at least 3, replace caps after
+height raising so that the grope image is π₁-null under that homomorphism,
+preserving its body, attaching region and transverse spheres. Prove the finite
 stage-label pigeonhole case, the cyclic word-growth case and induction
 through the series, with the size bounds used in §3.3.
 
@@ -635,15 +927,15 @@ over a simplicial map K→L and neighborhood deformation retractions
 whose homotopies commute with that map. Build restriction, locally
 finite/cofinal models and the controlled relative2-complex extension
 comparison. Construct the local Whitehead coefficient cosheaf from
-the required K/Whitehead spectra of the neighborhood fundamental
-groups. Define its locally finite homology H₁^lf(X;S(p)) with
+the K/Whitehead spectra of gap:controlled-k-whitehead-spectrum on the
+neighborhood fundamental groups. Define its locally finite homology H₁^lf(X;S(p)) with
 restriction, relative support and cofinal-NDR-model comparisons;
 build its cellular spectral sequence and the convergence/truncation
 needed in total degree1. Identify its coefficients Wh, reduced K₀
 and negative K-groups. Construct the controlled based-chain torsion
 q₁(W,M₀), including basis/change-of-control, additivity and the
-comparison with this homology. For local groups1 orℤ use the required coefficient
-vanishing of all these groups to prove q₁=0.
+comparison with this homology. For local groups1 orℤ use that gap's
+coefficient vanishing of all these groups to prove q₁=0.
 
 The reference, coefficient and torsion constructions have the following API
 (Freedman–Quinn §§7.4–7.6, pp. 112–114).
@@ -658,10 +950,10 @@ The reference, coefficient and torsion constructions have the following API
 - The identity reference on an interval has identity neighborhood retractions; all retraction tracks have diameter 0.
 - A product M×I over a point has q₁=0; if M is noncompact the constant control map is not proper, since the inverse image of the compact point is the entire noncompact product. This excludes applying the proper theorem from torsion vanishing alone.
 
-*Needs:* The generic K/Whitehead coefficient contract; AlgebraicTopology's
-locally finite chains and relative CW comparisons; §3.3's control estimates.
-The coefficient-spectrum and convergence constructions require the generic
-extension specified in the supplier contracts.
+*Needs:* gap:controlled-k-whitehead-spectrum for the coefficient spectra
+and their vanishings; AlgebraicTopology's locally finite chains and relative
+CW comparisons; §3.3's control estimates (Freedman–Quinn, Theorems 7.5 and
+7.6, printed pp. 113–114; `freedmanquinn` lines 3854 and 3906).
 
 Given open V⊂U⊂X and positive control ε, choose δ so that a
 δ-1-connected δ-h-cobordism over U^(2ε), supplied with a δ-small
@@ -702,9 +994,9 @@ and positive target control ε, construct δ-close embedding conditions
 on g:U→N that yield an ε-small ambient isotopy of h, constant
 outside U, agreeing with g on C. Retain continuous inverse maps,
 supports, boundary collars and parameter/relative-neighborhood forms.
-Consume the required punctured-torus immersion and bounded-lift
-comparison, and construct the Alexander isotopy used in this controlled
-torus trick. Prove local
+Consume gap:torus-trick-immersion's punctured-torus immersion and
+bounded-lift comparison, and construct the Alexander isotopy used in this
+controlled torus trick. Prove local
 deformation of embedding spaces by that construction, then handle/chart
 induction and locally finite fragmentation/gluing, retaining the controls. It turns the controlled
 approximation supplied above into the structure isotopies in §3.5.
@@ -712,8 +1004,9 @@ approximation supplied above into the structure isotopies in §3.5.
 ### 3.5 Smoothing, TOP charts and transversality
 
 Use §3.2–§3.4 and
-the required relative dimension-five PL structure theory first to prove Quinn's
-controlled Hauptvermutung: a homeomorphism of smooth/PL4-manifolds,
+gap:relative-pl-five's relative dimension-five PL structure theory first to
+prove Quinn's controlled Hauptvermutung (Freedman–Quinn, Theorem 8.2, printed
+p. 119; `freedmanquinn` line 4064): a homeomorphism of smooth/PL4-manifolds,
 already a structure isomorphism on the boundary, is isotopic to a
 structure isomorphism near a prescribed1-complex; for a2-complex
 first allow a displacement by ambient TOP isotopy or regular homotopy.
@@ -721,7 +1014,7 @@ Keep support in the specified neighborhood and the prescribed small
 control. Obtain the approximation from the PL5 mapping-cylinder
 smoothing obstruction, whose H⁴ term is H³ of that complex, then
 apply §3.4's singular-set control and approximation-implies-isotopy.
-Use the required compatible PL four-dimensional smoothing to obtain the smooth version.
+Use gap:relative-pl-five's compatible PL four-dimensional smoothing to obtain the smooth version.
 Construct punctured smoothings, relative to boundary collars, by
 locally finite chart gluing with these controlled comparisons.
 
@@ -786,9 +1079,9 @@ contractible TOP4-manifold with its specified collared, oriented boundary
 homeomorphism to S³ is homeomorphic to closed D⁴ extending that marking.
 Its interior is contractible and simply connected at infinity by the
 boundary collar. Under the preceding ℝ⁴ comparison, the inner collar
-sphere is bicollared in S⁴=OnePoint(ℝ⁴). the required independent
-Brown generalized Schoenflies theorem identifies its bounded complementary closure
-with D⁴; reattach the collar and use Alexander extension to fix the given
+sphere is bicollared in S⁴=OnePoint(ℝ⁴). Brown's generalized Schoenflies
+theorem, gap:brown-schoenflies (`brown1960` lines 84–101, Theorems 4 and 5),
+identifies its bounded complementary closure with D⁴; reattach the collar and use Alexander extension to fix the given
 boundary marking. This construction uses no four-dimensional annulus
 theorem, global form classification or F4 Spin/KS formula.
 
@@ -810,8 +1103,8 @@ Given a compact TOP4 manifold with a prescribed boundary smoothing,
 its stable tangent admits the corresponding smooth reduction exactly
 when its relative KS class is zero; realize each such reduction by a
 smoothing after finitely many interior S²×S² stabilizations. Construct
-a smoothing of M×ℝ from the required relative dimension-five theory and
-PL/O comparison. Apply the controlled Hauptvermutung and Browder's
+a smoothing of M×ℝ from gap:relative-pl-five's product structure theorem
+and PL/O comparison. Apply the controlled Hauptvermutung and Browder's
 ambient0/1/2-surgeries (Browder, *Surgery on simply-connected manifolds*,
 Chapter V §2, especially V.2.6; FQ8.15) to a transverse slice, with actual traces,
 framings and support, until the inserted pieces are simply connected
@@ -848,8 +1141,8 @@ structure and vector-bundle reduction, with the obstruction groups
 and noncompact-relative vanishings. Own the normal block-bundle/open
 regular-neighborhood carrier, its map to the stable TOP/O fiber and the
 k-connected stabilization of block TOP(k)/O(k) used for codimension k>2;
-codimension1 uses the Brown collar input and codimension2 uses the required
-low-codimension normal-bundle theorem with the given smooth boundary germ. Retain relative boundary reductions; use the5-connected stabilization
+codimension1 uses the Brown collar input and codimension2 uses
+gap:low-codimension-normal-bundles with the given smooth boundary germ. Retain relative boundary reductions; use the5-connected stabilization
 comparison and higher-dimensional product structure to match the
 tangent/normal smoothings. For compact components use puncturing and
 retain the TOP chart data at the punctures in the applications below.
@@ -864,8 +1157,9 @@ linear normal bundle neighborhood, unique by ambient isotopy rel the
 submanifold and a smaller prescribed neighborhood of a closed subset.
 Pin its zero-section/neighborhood embedding, relative boundary germ and
 radial extension property. Codimension1 uses the Brown collar input;
-codimension2 stabilizes the locally flat embedding by ℝ, applies the required
-ambient-five codimension-two normal theorem and TOP(2) reduction, then descends by
+codimension2 stabilizes the locally flat embedding by ℝ, applies
+gap:low-codimension-normal-bundles' ambient-five codimension-two normal
+theorem and TOP(2) reduction, then descends by
 the radial controlled5-cobordism construction with ε(r)<r/10 and §3.4.
 Supply its PL handle input through the punctured smoothing before descent.
 For curves construct the rank3 normal atlas by successive interval-chart
@@ -893,8 +1187,10 @@ The normal-neighborhood construction has the following API
   its source onto a proper disk subbundle: its prescribed image already
   fills every ambient fibre. The radial tube has room for the extension.
 
-*Needs:* §3.4's relative control and §3.5's punctured smoothing; the generic
-low-codimension normal and PL structure contracts; the stated radial descent.
+*Needs:* §3.4's relative control and this section's punctured smoothing;
+gap:low-codimension-normal-bundles and gap:relative-pl-five; the stated
+radial descent (Freedman–Quinn, Theorem 9.6, printed p. 144;
+`freedmanquinn` line 4983).
 
 Define generic TOP immersed surfaces by local sheet embeddings
 modelled on transverse coordinate planes in ℝ⁴, finitely or locally
@@ -902,26 +1198,56 @@ finitely many double points, plumbed rank2 linear normal neighborhoods,
 signs, framings and regular-homotopy comparisons. Transfer λ,µ and
 both disk theorems through the punctured smooth/PL construction,
 retaining the geometric duals, boundary framings and the good-group
-hypothesis in both TOP disk theorems. Separate the transversality targets:
+hypothesis in both TOP disk theorems.
+
+The generic TOP immersed surfaces have the following API.
+
+- Sheet charts restrict to open subsets and transport under ambient
+  homeomorphisms; every double point is isolated with exactly two
+  transverse sheets, and the sheet order determines the label involution.
+- λ and µ transferred from §3.2 agree with their smooth values on the
+  punctured smoothing and do not depend on the puncture charts chosen.
+- Both TOP disk theorems keep the good-group hypothesis and produce
+  locally flat disks with the same framed boundaries and generically
+  immersed framed geometric duals.
+
+**Checks.**
+
+- The two coordinate planes ℝ²×0 and 0×ℝ² in ℝ⁴ form a generic immersed
+  surface with one double point, of sign +1 for the product orientation of
+  both sheets; reversing the orientation of one sheet gives −1.
+- The plumbed normal neighbourhood of an embedded sphere with Euler number
+  −1 is the disk bundle of 𝒪(−1), with self-intersection −1; the product
+  S²×D² would give self-intersection 0 and is a different neighbourhood.
+- A sphere in S⁴ that is wild at one point, locally knotted so that the
+  complement is not simply connected near it, has no sheet chart there; the
+  sheet-chart condition excludes it, so the TOP disk theorems make no claim
+  about it.
+
+*Needs:* §3.2's immersion data and disk theorems; this section's punctured
+smoothing and normal-bundle theorem.
+
+Separate the transversality targets:
 ambient4 submanifold transversality with supplied normal product data;
 high-ambient TOP map transversality with expected preimage dimension4,
-via the submanifold-smoothing/product-structure argument; and the required
-Kirby–Siebenmann range of transversality outside its stated exceptional dimensions.
+via the submanifold-smoothing/product-structure argument; and
+gap:marin-stable-transversality's range outside its excluded dimensions.
 Own map transversality for topological four-manifold domains for a TOP4 domain and arbitrary
 codimension q with expected preimage dimension<4. Its target data are an
 actual TOP normal microbundle of Y⊂X,
 including its zero section and relative germs; no global linear reduction
-of a rank3 or rank4 normal bundle is assumed. For q≥3, use the required proper
-locally flat Euclidean embedding of the domain to replace f by its graph
-in X×ℝ^D and Y by Y×ℝ^D. Apply the required
-Kirby–Siebenmann submanifold-transversality theorem: the ambient dimension is increased above4,
+of a rank3 or rank4 normal bundle is assumed. For q≥3, use
+gap:tangent-microbundle-stable-classifier's proper locally flat Euclidean
+embedding of the domain to replace f by its graph in X×ℝ^D and Y by Y×ℝ^D.
+Apply gap:marin-stable-transversality's Kirby–Siebenmann submanifold
+transversality: the ambient dimension is increased above4,
 the domain4 submanifold meets a target of codimension≥3, and the expected
 intersection dimension4−q is not4. Recover the perturbed map, inverse-image
 TOP manifold and actual pulled-back normal neighborhood from this graph
 construction, retaining the map homotopy and its support. For q=1,2 own
 the remaining exceptional graph/handle induction using the preceding
 noncompact submanifold-smoothing and relative product-structure theorem,
-GT's low-codimension normal reductions when applicable, and the
+gap:low-codimension-normal-bundles when applicable, and the
 Kirby–Siebenmann local straightening proof modified by FQ8.19
 (FQ9.12.3; Quinn, *Topological transversality holds in all dimensions*,
 1988). Give the local normal-neighborhood comparison before invoking smooth
@@ -933,42 +1259,76 @@ data; it does not assert simultaneous transversality of every fiber.
 Keep the expected-preimage4 theorem separate. Construct the normal
 pullback, restriction/gluing and stabilization comparisons,
 boundary and compact-puncture forms and the Pontryagin–Thom comparison.
-Also construct the all-dimension4 extension of the required
-Marin stable-map transversality theorem on its precise stable normal microbundle
+Also construct the all-dimension4 extension of gap:marin-stable-transversality's
+Marin stable-map transversality on its precise stable normal microbundle
 germs: retain the locally flat inverse image and the homotopy of the
 stabilized map to a germ morphism with inverse image P×0 fixed at every
 time, exactly as in Marin's Definition1.6.
-For codimension≥3 and expected preimage dimension≠4 consume the required
-Marin theorem, including domain dimension4; that case requires no
+For codimension≥3 and expected preimage dimension≠4 consume Marin's
+theorem from that gap, including domain dimension4; that case requires no
 FQ adaptation. For expected preimage dimension4 adapt the ordinary proof
 with FQ8.19's relative product structure and stable-germ uniqueness/symmetry.
 For codimension1–2 stabilize the preceding ordinary normal-microbundle
 theorem and compare stable germs. In codimension2 with ambient target
 dimension4 own stable map transversality for codimension-two submanifolds of TOP four-manifolds for all
 domain dimensions, using this section's the normal-bundle theorem for locally flat submanifolds of TOP four-manifolds;
-The other low-codimension normal constructions are generic inputs. Retain the
+The other low-codimension normal constructions are
+gap:low-codimension-normal-bundles. Retain the
 exceptional domain/preimage4 arguments above, the full locally flat inverse
 image and controlled relative homotopies. These cases are not assigned to
 Marin's codimension≥3 proof. Include the expected-preimage4
 branch after its preceding submanifold-smoothing construction. Arbitrary
 block atlases or open regular neighborhoods do not replace these data.
-The normal-bordism5 preimage case consumes the generic transversality input. Construct the
-disk, dual-sphere,
+The normal-bordism5 preimage case consumes gap:marin-stable-transversality.
+Construct the disk, dual-sphere,
 characteristic-surface and embedded-circle normal charts used here;
 circle traces allow arbitrary ambient π₁. Give restriction, gluing,
 isotopy and stabilization comparisons. TOP controlled-input product
 results follow these immersion/handle constructions.
 
+The map-transversality construction has the following API.
+
+- The perturbed map is homotopic to the given one by a homotopy supported
+  in the prescribed neighbourhood; its inverse image is a TOP manifold
+  carrying the pulled-back normal microbundle of Y.
+- Restriction to open sets, gluing of locally finite families and
+  stabilization by ℝ commute with the construction and with its
+  Pontryagin–Thom comparison.
+- The expected-preimage-four branch retains the relative product structure
+  of the submanifold-smoothing theorem; it is not deduced from the q≥3
+  graph construction.
+
+**Checks.**
+
+- For q=5 on a TOP4 domain the expected preimage dimension 4−5 is
+  negative: the conclusion is that the perturbed map misses Y, as a map
+  from S⁴ to a 5-manifold can be made to miss a point.
+- For q=1 the graph construction is not used: for the projection of
+  M×ℝ to ℝ with Y a point, the inverse image is M×{0} with its product
+  collar, supplied by the collar input, whereas a dimension-four
+  submanifold meeting codimension one is an excluded case of the gap.
+- A map from a TOP4 manifold to S² with Y a point has expected preimage
+  dimension 2 and codimension 2, again outside the gap's range; this
+  section supplies it. The expected-preimage-4 case, for instance a map
+  from a TOP5 manifold to ℝ with Y a point, is the separate branch and is
+  not an instance of the TOP4-domain theorem.
+
+*Needs:* this section's submanifold-smoothing, product-structure and
+normal-bundle theorems; gap:marin-stable-transversality;
+gap:tangent-microbundle-stable-classifier; gap:low-codimension-normal-bundles
+(Freedman–Quinn §9.12, printed pp. 168–169; `freedmanquinn` lines 5879–5887;
+Quinn, *Topological transversality holds in all dimensions*, Bull. Amer.
+Math. Soc. 18 (1988), 145–148).
+
 ### 3.6 Normal invariants and relative TOP surgery
 
-Consume the required
-stable spherical classifier BG, quadratic surgery groups and their
-algebraic periodicity. Construct BTOP→BG by fiberwise one-point
+Consume gap:spherical-classifier-g-top's stable spherical classifier BG,
+quadratic surgery groups and their algebraic periodicity. Construct BTOP→BG by fiberwise one-point
 compactification and define G/TOP as its actual homotopy fiber. Build
 the comparison G/PL→G/TOP, its stabilization and boundary maps. Define
 its homotopy groups through degree5: π₁=π₃=π₅=0, π₂=ℤ/2,
-π₄=ℤ normalized by the surgery obstruction σ/8. From the required
-TOP/PL fiber and G/PL Postnikov stage prove that its fourth stage is
+π₄=ℤ normalized by the surgery obstruction σ/8. From that gap's TOP/PL fiber and G/PL Postnikov stage prove that its
+fourth stage is
 K(ℤ/2,2)×K(ℤ,4). Pin the G/PL comparison: the integral degree4
 class b pulls back to the integral degree-four G/PL class, with mod2 reduction equal to the
 square of the degree2 class;
@@ -991,16 +1351,19 @@ The G/TOP fibre and normal-invariant comparison have the following API
 - S² has degree-two choices 0 and 1 in ℤ/2 and no degree-four coordinate.
 - S⁴ has integral degree-four coordinate; the zero choice has σ-defect 0 and the positive generator has σ-defect 8, distinguishing σ/8 from σ/16.
 
-*Needs:* AlgebraicTopology Stage 8's EM models and relative lifts; the
-spherical-classifier, G/PL and quadratic-surgery generic contracts; §3.5's TOP charts.
+*Needs:* AlgebraicTopology Stage 8's EM models and relative lifts;
+gap:spherical-classifier-g-top; §3.5's TOP charts.
 
-Define a degree-one geometric TOP normal map by a proper map of compact pairs
-f:N→M of degree1, a specified stable TOP bundle ξ on M, a stable bundle
-map ν_N→ξ covering f, and a fiber homotopy equivalence of ξ's spherical
-fibration with ν_M's. Include the actual normal trivializations and
-boundary identification; ν uses GT's stable normal complement, with no
-Lie-SO frame requirement. Define relative normal bordism on TOP5 pairs
-with those stable maps. Prove the normal-invariant correspondence with
+Specialize HomotopySpheres 7A's degree-one normal map and normal bordism
+to the TOP category. A degree-one geometric TOP normal map is a proper map
+of compact pairs f:N→M of degree1 with a specified stable TOP bundle ξ on
+M, a stable bundle map ν_N→ξ covering f, and a fiber homotopy equivalence
+of ξ's spherical fibration with ν_M's, where ν is the stable normal
+complement of gap:tangent-microbundle-stable-classifier; this is the one
+difference from 7A, whose normal data carry a Lie frame. Include the actual
+normal trivializations and boundary identification. Define relative normal
+bordism on TOP5 pairs with those stable maps, agreeing with 7A's on smooth
+input. Prove the normal-invariant correspondence with
 relative maps to G/TOP, change-of-reference and coefficient maps,
 identity, pullback under the supplied transversality, and addition/action.
 
@@ -1024,9 +1387,10 @@ The normal-map and normal-bordism constructions have the following API
   degree 1 but cannot identify its stable normal bundle with ξ:
   w₂(ν_CP²)=h mod2≠0 whereas w₂(ξ)=0.
 
-*Needs:* §3.5's TOP transversality and normal charts; the stable normal
-complement and spherical-fibration inputs; AlgebraicTopology Stage 6's
-degree and Stage 8's relative lifting theory.
+*Needs:* HomotopySpheres 7A; §3.5's TOP transversality and normal charts;
+gap:tangent-microbundle-stable-classifier's stable normal complement and
+gap:spherical-classifier-g-top; AlgebraicTopology Stage 6's degree and
+Stage 8's relative lifting theory.
 
 Own the pinch self-equivalence normal-invariant formula after this correspondence:
 for α∈π₂(M), construct h_α=id∨(α∘η∘Ση) with its actual M→M∨S⁴
@@ -1038,14 +1402,16 @@ comparison; do not replace G/PL by a product. Compare the hyperbolic
 hypersurface homeomorphism with this PL surgery construction here.
 §3.8 consumes the same pinch map and action without redefining them.
 
-Build the based quadratic surgery kernel of a normal map after the
-relative π₁ surgery, with its form, normal-framing quadratic refinement
-and functorial comparison to the generic algebraic Poincaré-chain model.
-Consume L₄(ℤ)≅ℤ with σ/8 and L₅(ℤ)=0; prove the TOP obstruction
-and zero-obstruction surgery exact sequence in dimension4 for targets
-with π₁=1 orℤ by item1's framed-disk controls. For the cyclic case
-consume the required Laurent L-group splitting and Wh(ℤ)=0; retain its
-nonzero L₅ action. Retain the prescribed
+Build the based quadratic surgery kernel of a TOP normal map after the
+relative π₁ surgery, with its form and normal-framing quadratic refinement
+as in HomotopySpheres 7B, and its functorial comparison to
+gap:spherical-classifier-g-top's algebraic Poincaré-chain model.
+Consume HomotopySpheres 7B–7C's L₄(ℤ)≅ℤ with σ/8 and L₅(ℤ)=0; prove the
+TOP obstruction and zero-obstruction surgery exact sequence in dimension4
+for targets with π₁=1 orℤ by §3.2's framed-disk controls (Freedman–Quinn
+§11.4 and Theorem 11.5, printed pp. 212–213; `freedmanquinn` line 7469).
+For the cyclic case consume gap:laurent-l-group-splitting's Shaneson
+splitting and Wh(ℤ)=0; retain its nonzero L₅ action. Retain the prescribed
 boundary normal map/homeomorphism, the L₅ action and the normal-invariant
 difference. The geometric TOP kernel and its signature are compared to
 these algebraic groups, rather than another definition of them.
@@ -1072,40 +1438,68 @@ the single degree2 obstruction with the generator of
 and its actual boundary/clutching maps. Prove Arf(K)=0 yields a compact
 TOP4 normal filling (W,M_K)→(S¹×D³,S¹×S²), degree1 with its actual
 extending stable normal bundle map and the original boundary map fixed.
-Use GT4's Seifert refinement and TB B3's Spin bordism over S¹ for the
-geometric filling, then own the normal-data extension/rectification via
-the displayed G/TOP obstruction; an unmarked Spin filling alone is
-insufficient. For Δ_K=1 prove g is a ℤ[ℤ]-chain equivalence through
-GT4's actual Seifert matrix and cyclic-cover chain presentation.
+Use §1.4's Arf invariant on GeometricTopology Layer 4's Seifert matrix and TB B3's Spin bordism
+over S¹ for the geometric filling, then own the normal-data
+extension/rectification via the displayed G/TOP obstruction; an unmarked
+Spin filling alone is insufficient. For Δ_K=1 prove g is a ℤ[ℤ]-chain
+equivalence through GeometricTopology Layer 4's actual Seifert matrix and cyclic-cover chain
+presentation, and prove Arf(K)=0 from Δ_K(−1)=1 by §1.4's congruence.
+
+Prove the end theorem `freedmanSliceTheorem`, the pinned statement
+`TauCeti.FreedmanSliceTheorem`: a smooth circle embedding K in S³ whose knot
+group has perfect commutator subgroup at every basepoint is topologically
+slice, bounding a locally flat disc in the closed unit four-ball. Compare the
+hypothesis with Δ_K=1 through the Alexander module H₁ of the infinite cyclic
+cover, presented over ℤ[t,t⁻¹] by tV−Vᵀ from GeometricTopology Layer 4's Seifert matrix: the
+commutator subgroup is perfect exactly when this module vanishes, which is
+the order ideal being the unit ideal, which is Δ_K≐1 (Crowell; Freedman–Quinn
+§11.9, printed p. 225, `freedmanquinn` lines 7925–7930). Take the normal
+filling (W,M_K)→(S¹×D³,S¹×S²) above, apply the ℤ[ℤ]-homology-surgery
+theorem to make W→S¹×D³ a homotopy equivalence with the boundary map
+fixed, attach a 2-handle to W along the meridian of K in M_K, whose
+surgery returns S³, and obtain a compact contractible TOP4 manifold with
+collared boundary marked by S³; the marked contractible TOP four-ball
+theorem of §3.5 identifies it with D⁴, and the cocore of the 2-handle is a
+locally flat slice disc for K whose complement has fundamental group ℤ
+(Freedman–Quinn, Theorem 11.7B, which is Theorem 11.11, printed p. 224, in
+the 2013 reformat; `freedmanquinn` lines 7884–7922). The unknot is the
+degenerate instance: its knot group is ℤ with trivial commutator subgroup,
+and its slice disc is the standard one.
 
 Prove the topological five-dimensional h-cobordism product theorem: a compact simply connected
 TOP5 h-cobordism with boundary4 and fixed product side collar is a
 product rel incoming boundary/side collar, by the controlled TOP handles
 and disk replacements. Apply the controlled product theorem to
 a simplicial-NDR p:E→X over a locally compact metric X with local
-fundamental-group images1 orℤ, in §3.3.2's sense. A δ-h-cobordism W→E has deformation retractions to
+fundamental-group images1 orℤ, in §3.3's sense. A δ-h-cobordism W→E has deformation retractions to
 both boundaries whose control tracks have radius<δ and is
-(δ,1)-connected in item1b's relative-complex sense. For every positive
+(δ,1)-connected in §3.3's relative-complex sense. For every positive
 continuous ε prove there is positive continuous δ such that each
 such TOP5 cobordism admits an ε-small product homeomorphism with
-its fixed side collar. Consume1b.2's single controlled based-chain
+its fixed side collar. Consume §3.4's single controlled based-chain
 torsion q₁, its H₁^lf(X;S(p)) obstruction, neighborhood restriction and
 Wh/reduced K₀/negative K coefficient comparisons; use its vanishing
 for local groups1 andℤ. Give the
 compatible locally finite exhaustion version, controlling both maps
 and inverse maps at the end. This supplies the cap/end applications.
 
-Own the four-dimensional topological annulus theorem: two disjoint nested locally flat
-S³ embeddings in ℝ⁴ have an actual closed complementary-region product
-S³×[0,1], with one prescribed boundary marking and the induced other
-marking. Construct Quinn's relative end/controlled5-h-cobordism by the
-preceding TOP handle and disk machinery, reduce its local fundamental
-groups to the simply connected controlled product case, and descend its
-product with tapering control to the four-dimensional region. Give the
-collar, proper-height, inverse and boundary-identification comparisons
-(Quinn's dimension4 annulus theorem; FQ7.8). Compatible pairs of boundary
-markings require their comparison data. GT Layer2 consumes this n=4
-theorem; the earlier marked ball proof uses Brown and is independent.
+Prove the end theorem `annulusTheorem_four`, the pinned statement
+`TauCeti.AnnulusConjecture 3`: for two locally flat embeddings of the unit
+three-sphere in ℝ⁴, the image of the second lying in the open region
+bounded by the first, the closed region between them is the image of an
+embedding of S³×[0,1] whose ends are the two spheres. Construct Quinn's
+relative end/controlled5-h-cobordism by the preceding TOP handle and disk
+machinery, reduce its local fundamental groups to the simply connected
+controlled product case, and descend its product with tapering control to
+the four-dimensional region (Quinn, *Ends of maps III: dimensions 4 and 5*,
+J. Differential Geom. 17 (1982), 503–521; Freedman–Quinn §7.8, printed
+p. 118, `freedmanquinn` lines 4041–4043, which names the five-dimensional
+special case of Theorem 7.5 that suffices). The pinned statement prescribes
+no boundary marking; own separately the marked form, with one prescribed
+boundary marking and the induced other marking, with its collar,
+proper-height, inverse and boundary-identification comparisons, and the
+comparison data that compatible pairs of markings require. The earlier
+marked ball proof uses Brown's theorem and is independent of this one.
 
 Own the homology-four-manifold point-flattening theorem: if a locally compact metrizable
 ANR integral homology4-manifold W is a TOP4-manifold outside p and
@@ -1135,7 +1529,7 @@ integral homology3-sphere Σ, with its boundary identification. Start with
 boundary circles of disjoint embedded surfaces with trivial normal
 bundles, using their induced circle framings. Compute the resulting simply
 connected cobordism's hyperbolic form and its geometric dual spheres;
-apply item1 to the Whitney disks and surger the resulting framed
+apply §3.2's framed disk-embedding theorem to the Whitney disks and surger the resulting framed
 embedded spheres, preserving the simply connected complement. This
 constructs the homology plus-cobordism from Σ to itself. Glue a
 countable sequence of these and compactify its end by one point;
@@ -1146,16 +1540,17 @@ connectivity and contractibility, the relative normal/Spin comparisons,
 and the relative cap-uniqueness/homeomorphism statements used by the
 framed-link construction. Its absolute H⁴ is0; its fixed-smooth-boundary
 relative PL obstruction can be nonzero. Prove the early characteristic
-Arf comparison in F4 from item1's local controls before using it for
+Arf comparison in F4 from §3.2's local controls before using it for
 the even-form KS constraint below. A vanishing signature alone is not
 asserted to provide a framed geometric surgery kernel.
 
 Own the geometric realization/action of L₄(ℤ[ℤ])≅ℤ on these fillings:
 a positive generator changes the kernel signature by8 while fixing the
 boundary normal map and the meridian marking. Construct the signature8
-TOP block from the E₈ plumbing capped by the independently constructed
-the contractible TOP cap of an integral homology sphere, its degree-one normal map and its comparison
-with the positive π₄(G/TOP) generator. Prove disjoint interior insertion,
+TOP block from §1.6's positive E₈ plumbing capped by the independently
+constructed contractible TOP cap of its Poincaré-sphere boundary, its
+degree-one normal map and its comparison with the positive π₄(G/TOP)
+generator. Prove disjoint interior insertion,
 addition, reversal and the resulting obstruction-change formula. §3.7's
 general unimodular realization consumes this early block. Thus any
 integer cyclic surgery obstruction can be killed before applying the
@@ -1172,14 +1567,22 @@ framed link and knot it with an Arf-one knot. Prove this preserves
 the full linking matrix and changes the characteristic-link Arf by1;
 F4's formula then gives the other KS value on the same form.
 The parity constraint belongs to the even branch, not to the existence
-of a topological realization of a unimodular form.
+of a topological realization of a unimodular form (Freedman–Quinn,
+Theorem 10.10, existence, printed p. 184; `freedmanquinn` line 6416).
+
+*Needs:* §1.4 and §1.6's framed-link handlebodies, Kirby moves and Arf
+invariant; §3.6's contractible caps, the signature-8 block and the pinch
+formula; §4.2's characteristic-surface formula for the Kirby–Siebenmann
+values; IntegralLattices' unimodular classification.
+
 ### 3.8 Homeomorphism classification
 
 Prove the oriented homeomorphism classification by form plus
 Kirby–Siebenmann number, including the realization of a given form
 isometry by an oriented homeomorphism. State orientation reversal and
 connected-sum laws. Use native AT cohomology for the obstruction class and
-GT's stable tangent microbundle for its definition. Construct the F2
+gap:tangent-microbundle-stable-classifier's stable tangent microbundle for
+its definition. Construct the F2
 homotopy equivalence from the given isometry. Its normal invariant has
 (a,0), since the signatures agree; equality of KS gives ⟨a²,[M]⟩=0.
 By Wu and Hurewicz choose α∈π₂(M) lifting PD(a) with
@@ -1190,13 +1593,23 @@ Compose with this self-equivalence to kill the normal invariant,
 construct its normal bordism, and use L₅(ℤ)=0 and the TOP5 product
 theorem to realize the original isometry by a homeomorphism. Pin the
 composition actions and chosen orientations. The KS obstruction remains
-distinct from existence of an unstabilized smooth structure.
+distinct from existence of an unstabilized smooth structure
+(Freedman–Quinn, Theorem 10.10, uniqueness, printed p. 184;
+`freedmanquinn` line 6416).
+
+*Needs:* §2.4's homotopy classification; §3.6's pinch formula, normal
+bordism and topological five-dimensional product theorem; HomotopySpheres
+7C's L₅(ℤ)=0; gap:tangent-microbundle-stable-classifier for the
+Kirby–Siebenmann number; AlgebraicTopology Stage 8's Hurewicz theorem.
+
 ### 3.9 Definite and rank-zero examples
 
-Construct the E₈ and 2E₈ examples and their KS numbers. Pin the
-positive E₈ plumbing to the eight-vertex tree with arms of lengths1,2,4
-at its trivalent vertex, every framing+2 and linking signs compared with
-the native positive E₈ lattice by an explicit signed basis change.
+Construct the E₈ and 2E₈ examples and their KS numbers. The positive E₈
+plumbing of §1.6 is the orientation reversal of HomotopySpheres 6B's
+dimension-four plumbing: the eight-vertex tree with arms of lengths1,2,4
+at its trivalent vertex, every framing+2, with linking signs compared
+with the native positive E₈ lattice and with the pinned `TauCeti.e8Plumbing`
+by an explicit signed basis change.
 Identify its oriented boundary with the appropriately oriented Poincaré
 homology sphere Σ. The boundary-connected double plumbing has form2E₈
 and boundary Σ#Σ. Cap with §3.6's actual contractible TOP cap and retain
@@ -1212,10 +1625,16 @@ marked contractible TOP four-ball theorem with the
 relative-surgery proof: construct the marked degree-one normal map to D⁴;
 relative H² and signature vanish, and F4's relative Spin/KS formula with
 ρ(S³)=0 gives zero relative KS. Identify its vanishing normal invariant
-and surgery obstruction and the product comparison from item2, including
+and surgery obstruction and the product comparison from §3.6, including
 L₅(ℤ)=0. This is a second proof of the same marked ball export, rather than
-a second constructor; GT Layer6 consumes the early theorem without these
-later classification inputs. No smooth4 Schoenflies theorem is asserted.
+a second constructor; §3.6's slice theorem consumes the early theorem
+without these later classification inputs. No smooth4 Schoenflies theorem
+is asserted.
+
+*Needs:* §1.6's positive E₈ plumbing and its boundary; §3.6's contractible
+cap, marked ball theorem and relative surgery; §4.2's characteristic-surface
+formula; §5.3's definite-form theorem for the non-smoothability statements;
+IntegralLattices' indefinite normal forms.
 
 ### Examples
 
@@ -1229,9 +1648,10 @@ L₅(ℤ[ℤ])≅L₅(ℤ)⊕L₄(ℤ)≅ℤ. The positive E₈ cap has
 
 F1–F2 supply the form and homotopy comparisons. The local disk/control
 constructions precede the normal-map and product theorems; F4's early
-characteristic-surface comparison precedes form realization. The generic
-TOP, PL, normal-bundle and algebraic-surgery inputs are the contracts stated
-at their individual uses above.
+characteristic-surface comparison precedes form realization. HomotopySpheres
+7A–7C supply normal maps and the simply connected surgery groups. The
+generic TOP, PL, normal-bundle and algebraic-surgery inputs are the gaps
+declared in the supplier contracts and named at their individual uses above.
 
 ## Layer 4: Spinᶜ, Wu and torsion
 
@@ -1290,13 +1710,14 @@ Spinᶜ lifting theorem. An even form implies Spin when H₁ has no2-torsion,
 in particular under simple connectivity; retain w₂=0 as the general criterion.
 F7's Enriques example has an even free form and a nonzero torsion w₂.
 
-*Needs:* TangentialBordism B4.1–B4.2's Wu identities;
+*Needs:* TangentialBordism B4.3's Wu classes and B4.1's cup-i operations;
 AlgebraicTopology Stage 6's torsion/UCT duality; F4's determinant lifts.
 
 
 
-For topological four-manifolds use the stable tangent TOP microbundle and its
-w₂-nullhomotopy for the topological Spin condition, not a Lie-SO frame bundle.
+For topological four-manifolds use the stable tangent TOP microbundle of
+gap:tangent-microbundle-stable-classifier and its w₂-nullhomotopy for the
+topological Spin condition, not a Lie-SO frame bundle.
 Own the early characteristic-surface comparison for a closed simply
 connected oriented TOP4 manifold M and an embedded oriented characteristic
 surface F with its actual rank2 normal microbundle, normal Euler number
@@ -1314,7 +1735,7 @@ smooth Rokhlin theorem of SpinGeometry G6.7 and IndexTheory I7.5.
 Own its relative-boundary version with the actual boundary Spin
 Rokhlin invariant. Define this invariant using TB B3.3's smooth Spin3
 filling; order TangentialBordism B1.7 → B3 → this F4 application, while the
-F3 local engine and analytic Index supplier are independent of that filling. Prove the TOP extension by §3.1's punctured smoothing,
+F3 local engine and analytic Index supplier are independent of that filling. Prove the TOP extension by §3.5's punctured smoothing,
 relative cap/normal-bordism comparison and the low G/PL→G/TOP
 coefficient calculation, keeping the KS defect in the boundary term.
 Consume §3.5's stable smoothing of topological four-manifolds. Compare the characteristic
@@ -1328,7 +1749,7 @@ Prove that the resulting boundary is simply connected and that both signature
 and the KS characteristic number are bordism invariant by the boundary
 fundamental-class calculation. Apply the simply connected relation to prove
 the topological Spin four-manifold KS/signature formula in this general scope.
-These traces use §3.1's supplied TOP normal charts, without a Lie Spin frame.
+These traces use §3.5's supplied TOP normal charts, without a Lie Spin frame.
 Compare it with the smooth Rokhlin theorem from SpinGeometry's untwisted
 four-dimensional quaternionic Dirac modules and IndexTheory I7.5; Â integrality
 alone gives only divisibility by8, whereas the quaternionic comparison gives16.
@@ -1351,8 +1772,8 @@ The membrane refinement and boundary invariant have the following API.
 - On a symplectic torus basis a,b, q(a)=q(b)=1 gives q(a+b)=1
   and Arf=1; q(a)=q(b)=0 gives q(a+b)=1 and Arf=0.
 
-*Needs:* §3.1's immersed normal charts and punctured smoothing;
-TangentialBordism B3.2–B3.3; IndexTheory I7.5; the low G/PL-to-G/TOP
+*Needs:* §3.5's immersed normal charts and punctured smoothing;
+TangentialBordism B3.2–B3.3; IndexTheory I7.5; §3.6's low G/PL-to-G/TOP
 coefficient comparison for the TOP extension.
 
 ### 4.3 Pontryagin square and bundle classification
@@ -1449,10 +1870,46 @@ comparison on four-dimensional bases.
 
 ## Layer 5: Anti-self-dual gauge theory and the definite-form theorem
 
-Consume [SmoothBundlesConnections B8](../SmoothBundlesConnections/README.md#b8-yangmills-energy-and-its-variational-calculus)
-for Yang–Mills stationarity, its Hessian, the linear gauge-fixed operator
-and four-dimensional conformal invariance, with the energy normalization below.
-The nonlinear slices and ASD moduli constructions remain here.
+Own the Yang–Mills variational calculus this layer uses, since
+SmoothBundlesConnections stops before the Yang–Mills energy and no earlier
+roadmap states it. On a closed oriented Riemannian four-manifold with a
+principal SU(2) bundle, consuming SmoothBundlesConnections B3–B5's
+connections, curvature, Bianchi identity and gauge action, define the
+energy E(A) below, prove its gauge invariance and its first variation
+dE_A(a)=2⟨F_A,d_Aa⟩, so that A is stationary exactly when d_A*F_A=0, and
+prove that every ASD connection is stationary by the Bianchi identity.
+Prove the second variation at an ASD connection to be the quadratic form
+a↦2‖d_A⁺a‖² on the Coulomb slice, whose kernel is H_A¹ below, and define the
+gauge-fixed elliptic operator d_A*⊕d_A⁺ from one-forms to zero-forms plus
+self-dual two-forms. Prove four-dimensional conformal invariance: the Hodge
+star on two-forms, hence self-duality, the energy and the ASD equations,
+are unchanged when the metric is multiplied by a positive smooth function.
+The nonlinear slices and ASD moduli constructions follow.
+
+The Yang–Mills calculus has the following API.
+
+- The energy is gauge invariant and its first variation is the pairing of
+  the curvature with d_A of the variation; stationarity is d_A*F_A=0.
+- At an ASD connection the second variation is 2‖d_A⁺a‖² and the
+  gauge-fixed operator d_A*⊕d_A⁺ is elliptic of first order.
+- Conformal changes of the four-dimensional metric preserve self-duality
+  of two-forms, the energy and the ASD condition.
+
+**Checks.**
+
+- The trivial flat connection on S⁴ has F=0, energy 0 and first variation
+  0; the BPST instanton has F⁺=0 and is stationary by Bianchi, whereas a
+  connection with F⁺≠0 and the same charge has strictly larger energy.
+- Multiplying the metric by λ² scales the energy density |F|² by λ⁻⁴ and
+  the volume form by λ⁴ in dimension four, so E is unchanged; in dimension
+  n the energy scales by λ^(n−4), so the invariance is special to n=4.
+- For the product metric on S²×S², the self-dual harmonic two-forms are
+  spanned by ω₁+ω₂ and the second variation at the trivial flat connection
+  vanishes on no nonzero a in the Coulomb slice: H_A¹=0 there, agreeing with
+  the index count (3,0,3) below.
+
+*Needs:* SmoothBundlesConnections B3–B5; ComplexKahlerGeometry K5's Hodge
+star and L² pairing on forms; the energy normalization below.
 
 Build principal SU(2) connections and gauge transformations on the existing
 bundle carriers, Sobolev affine connection spaces and gauge groups for s≥3,
@@ -1491,8 +1948,9 @@ The connection, gauge quotient and BPST constructions have the following API.
 - A regular irreducible has central stabilizer {±1}, dimension 0; an S¹ reducible instead has dimension 1 and weight-two normal action.
 - A charge-one ASD bubble has energy 8π²; replacing it by a flat connection gives charge 0 and energy 0, not the same ideal bubble.
 
-*Needs:* SmoothBundlesConnections B1–B4 and B8; ComplexKahlerGeometry
-K5; PseudodifferentialOperators P5–P7; the S⁴ chart and clutching comparison.
+*Needs:* SmoothBundlesConnections B1–B5 and this layer's Yang–Mills
+calculus; ComplexKahlerGeometry K5; PseudodifferentialOperators P5–P7; the
+S⁴ chart and clutching comparison.
 
 ### 5.1 All-base deformation and flat strata
 
@@ -1549,8 +2007,8 @@ The deformation, stabilizer and Kuranishi constructions have the following API.
   6−0−12=−6=−3(1−8+9). The metric derivative at a flat is 0,
   so this example cannot become regular through metric transversality.
 
-*Needs:* SmoothBundlesConnections B1–B4 and B8; ComplexKahlerGeometry K5's
-Hodge and Sobolev comparisons; PseudodifferentialOperators P5–P7's closed
+*Needs:* SmoothBundlesConnections B1–B5 and this layer's Yang–Mills
+calculus; ComplexKahlerGeometry K5's Hodge and Sobolev comparisons; PseudodifferentialOperators P5–P7's closed
 range and elliptic regularity; IndexTheory I4; the Coulomb slice above
 (Feehan–Leness §3.1, pp. 16–17).
 
@@ -1642,8 +2100,8 @@ The flat Maurer–Cartan and holonomy comparisons have the following API.
   dimension 12 each, and H⁰=0. Holonomy does not erase this obstruction.
 
 *Needs:* §5.1's Coulomb and Hodge splittings; AlgebraicTopology's
-local-coefficient cohomology; SmoothBundlesConnections' parallel transport,
-Bianchi identity and Yang–Mills energy identity.
+local-coefficient cohomology; SmoothBundlesConnections B4–B5's Bianchi
+identity and parallel transport; this layer's Yang–Mills energy identity.
 
 ### 5.2 Metric transversality on its positive-charge branch
 
@@ -1714,8 +2172,9 @@ irreducible ASD solutions for those metrics, with H_A²=0. No arbitrary-base,
 charge-zero or flat-stratum metric-regularity theorem is asserted here.
 
 *Needs:* §5.1's slices and harmonic complements; the local stabilizer
-continuation and bounded splitting constructed in G1; HeegaardFloer F0's
-parameterized Sard–Smale theorem; the stated Sobolev regularity estimates.
+continuation and bounded splitting constructed in this subsection;
+HeegaardFloer F0's parameterized Sard–Smale theorem; the stated Sobolev
+regularity estimates.
 
 ### 5.3 All-charge compactification and obstruction gluing
 
@@ -1730,11 +2189,11 @@ Prove the critical-norm approximation/compactness step and higher-L^p
 regularity, and transport to controlled metric charts with scale-invariant
 L² curvature. Quantize each ASD bubble by its actual S³ clutching class
 and compare that charge with the BPST c₂ normalization. Construct the
-Uhlenbeck compactification for every charge on the general bases of G0,
+Uhlenbeck compactification for every charge on the general bases of §5.1,
 including the actual flat and reducible lower-charge strata; do not
 assume the compactification is a manifold.
 
-Construct gluing from the actual G0 deformation complexes and stabilizer
+Construct gluing from the actual §5.1 deformation complexes and stabilizer
 representations. The local one-bubble obstruction and stabilizer model is
 [Feehan–Leness, arXiv:1910.14580v1, Theorem 3 and Corollaries 5–7,
 pp. 7–9](https://arxiv.org/abs/1910.14580v1), whose base is any closed
@@ -1756,7 +2215,7 @@ norms and compact parameter ranges and prove the uniform projected-inverse,
 quadratic-error and contraction estimates there, with their scale/end
 comparisons. A right inverse to the unprojected operator is used only
 after its actual cokernel has been proved zero. The charge1 unobstructed
-branch supplies the actual collar and reducible cones below; G1 does not
+branch supplies the actual collar and reducible cones below; §5.2 does not
 replace their separate reducible-regularity proof.
 
 The compactification and projected gluing constructions have the following API.
@@ -1815,10 +2274,11 @@ space has index 8−3=5, while each regular reducible link is CP².
 
 ### Dependencies
 
-SmoothBundlesConnections B8 supplies Yang–Mills calculus;
+SmoothBundlesConnections B1–B5 supply bundles, connections, curvature and
+parallel transport, and the Yang–Mills calculus is this layer's;
 PseudodifferentialOperators P5–P7 supplies estimates; IndexTheory I4/I7
-supplies the index. G0's harmonic complements precede G1's universal
-linearization and G2's projected gluing. F1's form generators enter only
+supplies the index. §5.1's harmonic complements precede §5.2's universal
+linearization and §5.3's projected gluing. F1's form generators enter only
 the final definite-form application.
 
 ## Layer 6: Blowups, pencils and torus monodromy
@@ -1854,7 +2314,8 @@ Layer 1's smooth gluing and tubular neighborhoods.
 Extend the incidence/tautological-line model to the blowup of an arbitrary
 complex surface at a point, gluing it to the unchanged complement.
 Prove the exceptional normal 𝒪(−1), oriented connected-sum diffeomorphism,
-H₂ generator, Chern, Euler and signature formulas. Use the same projective
+H₂ generator, Chern, Euler and signature formulas (Gompf–Stipsicz, §2.2,
+pp. 41–47). Use the same projective
 smooth structure and tautological line as K7/T6.6. Consume Affine A6's
 finite-degree Veronese embedding, local inverse, homogeneous equations
 and O(1)-pullback comparison when applying A5 to hypersurfaces.
@@ -1878,7 +2339,7 @@ The general complex blowup has the following API.
 
 *Needs:* TangentialBordism B1.7's incidence model; ComplexKahlerGeometry
 K7's projective atlas and tautological line; §1.3's gluing and generator
-comparisons; CharacteristicClasses C2–C3.
+comparisons; CharacteristicClasses C2–C3 (Gompf–Stipsicz, §2.2, pp. 41–47).
 
 On the finite coefficient spaces used here own the projective
 discriminant comparison, consuming GroebnerGeometry G1's single
@@ -1947,16 +2408,18 @@ to b+a, hence the matrix [[1,1],[0,1]]. Specify base reversal, fibre
 orientation, curve/basis and conjugacy comparisons; an unmarked bundle
 only determines the corresponding conjugacy class. Construct actual
 diffeomorphisms and fibration/relative-collar comparisons, not an answer
-inferred from the word fishtail or from the normal Euler number alone.
+inferred from the word fishtail or from the normal Euler number alone
+(Gompf–Stipsicz, §8.2, pp. 292–303, for the vanishing cycle and its
+Dehn-twist monodromy; TangentialBordism 2.7 for the node model uv=t).
 
 This local construction uses the ordinary C^2 atlas, explicit plumbing
 charts, smooth ODE/trivialization and surface/tube/Dehn-twist interfaces.
 It precedes the global cubic/discriminant/existence calculation and
-requires none of its projective pencils or E1 models. Prove the local
+requires none of its projective pencils or E(1) models. Prove the local
 holomorphic Morse coordinate theorem when comparing a general complex
 nondegenerate node with this model. The later §6.3 comparison on its
 actual blow-up/elliptic atlas remains mandatory for that global consumer;
-no global E1 or specified boundary framing follows from the local model.
+no global E(1) or specified boundary framing follows from the local model.
 
 The marked local-node comparison has the following API.
 
@@ -1978,9 +2441,11 @@ The marked local-node comparison has the following API.
   These have respectively 0, 2 and 0 boundary components, but compactness
   separates the first and third.
 
-*Needs:* TangentialBordism B1.7's node model; smooth plumbing and boundary
-collars; the ordinary holomorphic Morse coordinate theorem for the
-comparison with a general nondegenerate critical point.
+*Needs:* TangentialBordism B1.7's node model; the smooth plumbing of disk
+bundles by GeometricTopology Layer 1's gluing, and its boundary collars;
+the ordinary holomorphic
+Morse coordinate theorem for the comparison with a general nondegenerate
+critical point (Gompf–Stipsicz, §8.2, pp. 292–303).
 
 ### 6.3 Cubic parameter and monodromy comparisons
 
@@ -1990,19 +2455,38 @@ pencil with a projective line of equations. These parameters describe
 embedded equations, not curve isomorphism classes. Apply §6.1's
 projective discriminant comparison to the pencil and §6.2's monodromy
 comparison to its twelve nodal fibres, retaining the section and the
-ordered fibre basis. The comparison with the local model is on the
-specified blowup atlas, rather than an inference from the Euler number.
+ordered fibre basis (Gompf–Stipsicz, §3.1, pp. 67–77; TangentialBordism
+2.7). The comparison with the local model is on the specified blowup
+atlas, rather than an inference from the Euler number.
 
 Own the torus mapping-class comparison with SL₂(ℤ), consuming GT's surface
 and diffeomorphism carriers and proving the necessary disk/curve isotopy
 comparisons. For the ordered symplectic basis a·b=+1, use column action
 `A=[[1,1],[0,1]]`, `B=[[1,0],[-1,1]]` and
 `S=[[0,-1],[1,0]]`, so B=SAS⁻¹ and (AB)⁶=I.
-Construct the monodromy factorization of E1 and prove its Hurwitz/conjugation
+Construct the monodromy factorization of E(1) and prove its Hurwitz/conjugation
 comparisons. Compute SL₂(ℤ) abelianization as ℤ/12 with every positive
-primitive Dehn twist of class1; every nonempty positive identity factorization
-has length divisible by12. The lower bound applies to every such factorization,
-not only alternating A/B words.
+primitive Dehn twist of class1, from the amalgam presentation
+SL₂(ℤ)≅ℤ/4 *_(ℤ/2) ℤ/6 generated by S and AB (Serre, *Trees*, Chapter I,
+§4.2); every nonempty positive identity factorization has length divisible
+by12. The lower bound applies to every such factorization, not only
+alternating A/B words.
+
+**Checks.**
+
+- SAS⁻¹=[[1,0],[−1,1]]=B, AB=[[0,1],[−1,1]], (AB)³=−I and (AB)⁶=I; a
+  convention with row action would conjugate every matrix by transposition
+  and change B to [[1,−1],[0,1]].
+- The length-six positive word (AB)³ factorizes −I, not I, so a positive
+  identity factorization of length 6 does not exist; the length-twelve word
+  (AB)⁶ does factorize I.
+- A¹² is a positive word of length 12 with product [[1,12],[0,1]]≠I: length
+  divisible by 12 is necessary for an identity factorization, not sufficient.
+
+*Needs:* §6.1's discriminant comparison; §6.2's marked node monodromy;
+GeometricTopology Layer 3's diffeomorphism-group carriers for the torus;
+TangentialBordism 2.7's E(1); AffineMorseLefschetz A0's cubic coefficient
+space.
 
 ### Examples
 
@@ -2079,8 +2563,9 @@ The seed polynomial and evaluation map have the following API.
   the derivative claim does not assume membership in the zero cone.
 
 *Needs:* Mathlib polynomial evaluation and complex derivatives; F6's
-node and discriminant comparisons; AffineMorseLefschetz A0; the
-proper-submersion theorem of SmoothBundlesConnections for the family comparison.
+node and discriminant comparisons; AffineMorseLefschetz A0;
+SmoothBundlesConnections B1.5's Ehresmann fibration theorem for the family
+comparison.
 
 In the coefficient subspace of quartics containing these two lines,
 prove a nonempty open set gives smooth quartics and a basepoint-free Lefschetz fibration
@@ -2105,7 +2590,7 @@ and smooth each compact parameter path inside that open set. Restrict A0's
 joint incidence family to a lift of such a path in A0's coefficient vector
 space P_d outside the discriminant cone, prove properness by projective
 compactness and submersion by the fiberwise Jacobian. Consume
-SmoothBundlesConnections' proper-submersion Ehresmann theorem to connect
+SmoothBundlesConnections B1.5's Ehresmann fibration theorem to connect
 every smooth quartic to the elliptic model through this same family.
 This proves the oriented diffeomorphism E2≅K3; it does not assert every quartic
 is elliptic as a complex surface. Retain the fiber, section and form comparisons.
@@ -2124,7 +2609,7 @@ The elliptic fibre-sum and quartic-family comparisons have the following API.
 
 *Needs:* TangentialBordism B1.7's marked E(1) and K3; F6's monodromy,
 discriminant and blowup comparisons; AffineMorseLefschetz A0/A5/A6;
-SmoothBundlesConnections' proper-submersion theorem; IntegralLattices' form classification.
+SmoothBundlesConnections B1.5; IntegralLattices' form classification.
 
 ### 7.3 The Enriques cover
 
@@ -2204,7 +2689,8 @@ oriented smooth n-manifold for every n≥4. Use a finite presentation complex,
 a general-position embedding into ℝⁿ⁺¹ and a compact smooth regular
 neighborhood; identify the boundary fundamental group through the dual handles
 and retain the marking by the presented group. This is a mathematical existence
-and comparison theorem.
+and comparison theorem (Gompf–Stipsicz, Theorem 1.2.33, p. 17;
+`gompfstipsicz` line 838).
 
 Prove that there exists a fixed positive integer k for which no algorithm on
 finite triangulations of closed connected four-manifolds decides homeomorphism
@@ -2220,6 +2706,13 @@ nontrivial fundamental group excludes it in the other branch
 undecidability theorems and the reduction are mathematical proof targets here;
 no executable simulation, triangulation routine or recognition program is a
 deliverable. No sphere-recognition assertion is made.
+
+*Needs:* GeometricTopology Layer 1's tubular neighbourhoods and handle
+attachment, from which the smooth regular neighbourhood of the embedded
+presentation complex is built; AlgebraicTopology Stages 2 and 4's van Kampen theorem and
+presentation complexes; §3.8's homeomorphism classification and §4.2's
+Kirby–Siebenmann computation for the trivial-group branch; Mathlib
+`PresentedGroup`; Tancer, Theorems 1–2 and Proposition 5; Rabin's theorem.
 
 ### 8.2 Form isometries and topological classification
 
@@ -2254,6 +2747,11 @@ orientation allows either Q′ or −Q′
 - For the +1-framed unknot, x=1, σ=1, xᵀQx=1 and Arf(C)=0, so KS=0;
   the signature term alone would not give the required integral quotient.
 
+*Needs:* §1.4's framed-link handlebodies and Arf invariant of a proper link;
+§3.6's contractible cap; §3.8's classification; §4.2's membrane formula;
+IntegralLattices' indefinite classification; Bastl et al., Theorem 5.3,
+Proposition 5.6 and Lemma 6.5.
+
 ### 8.3 Exotic four-space
 
 Prove `exoticFourSpace_exists`: there is a type M with a topology and
@@ -2280,8 +2778,8 @@ surgery comparison. Let X=#3(S²×S²) minus an open coordinate ball.
 Use F3's Casson/re-embedding controls to construct collared TOP embeddings
 i:X→K3 and j:X→#3(S²×S²), with i realizing its3H summand,
 j realizing all H₂, and an actual diffeomorphism between neighborhoods
-of the images that intertwines i and j. Own the needed
-the hyperbolic-neighborhood re-embedding theorem theorem on these fixed models.
+of the images that intertwines i and j. Own the hyperbolic-neighbourhood
+re-embedding theorem on these fixed models.
 Choose the integral3H basis in F7's K3 form, represent its six classes
 by smooth generic immersed spheres using F2 Hurewicz and §3.2's
 immersion moves, and pin their framed self-intersection0 and hyperbolic
@@ -2332,8 +2830,10 @@ undecidability proof described in §8.1.
 ## Downstream consumers
 
 SeibergWittenTheory SW1 consumes F4's Spinᶜ frame lifts and determinant
-line. The topological slicing application of GeometricTopology Layer 6
-uses the disk and cyclic-surgery constructions. Elliptic and exotic
+line. A later roadmap that needs the dimension-four annulus theorem or
+Freedman's slice theorem imports §3.6's `annulusTheorem_four` and
+`freedmanSliceTheorem`; GeometricTopology states both on its pinned
+carriers and consumes nothing from here. Elliptic and exotic
 four-manifold comparisons retain their actual orientations and marked
 intersection forms for subsequent geometric applications.
 
@@ -2357,3 +2857,42 @@ via maps of Banach manifolds with corners and applications to gauge theory*,
 arXiv:1910.14580v1, §3.1 and Theorem 3/Corollaries 5–7; and Kirby–Melvin,
 *Canonical framings for 3-manifolds*, §2(c), p. 99, footnote 3. The cited
 preprint versions determine the theorem numbering used above.
+
+The remaining works cited inline are Powell–Ray–Teichner, *The 4-dimensional
+disc embedding theorem and dual spheres*, arXiv:2006.05209; Gabai, Gay,
+Hartman, Krushkal and Powell, *Pseudo-isotopies of simply connected
+4-manifolds*, arXiv:2311.11196; Tancer, *Recognition of the sphere and
+other 4-manifolds is undecidable*, arXiv:2310.07421v2; Bastl, Kasprowski,
+Powell and Ray, *Simply connected topological 4-manifolds and the
+isometries of their intersection forms*, arXiv:2411.08775v2; Rabin,
+*Recursive unsolvability of group theoretic problems*, Ann. of Math. 67
+(1958); Browder, *Surgery on Simply-Connected Manifolds*, Springer (1972),
+Chapter V; Quinn, *Ends of maps I*, Ann. of Math. 110 (1979), *Ends of maps
+III: dimensions 4 and 5*, J. Differential Geom. 17 (1982), and *Topological
+transversality holds in all dimensions*, Bull. Amer. Math. Soc. 18 (1988);
+Marin, *La transversalité topologique*, Ann. of Math. 106 (1977);
+Lees, *Immersions and surgeries of topological manifolds*, Bull. Amer. Math.
+Soc. 75 (1969), and Lashof, *The immersion approach to triangulation and
+smoothing*, Proc. Sympos. Pure Math. 22 (1971); Kirby–Siebenmann,
+*Foundational Essays on Topological Manifolds, Smoothings, and
+Triangulations*, Ann. of Math. Studies 88 (1977), and *Normal bundles for
+codimension 2 locally flat imbeddings*, LNM 438 (1975); Kirby, *Stable
+homeomorphisms and the annulus conjecture*, Ann. of Math. 89 (1969);
+Edwards–Kirby, *Deformations of spaces of imbeddings*, Ann. of Math. 93
+(1971); Kister, *Microbundles are fibre bundles*, Ann. of Math. 80 (1964);
+Brown, *A proof of the generalized Schoenflies theorem*, Bull. Amer. Math.
+Soc. 66 (1960); Milnor, *On spaces having the homotopy type of a
+CW-complex*, Trans. Amer. Math. Soc. 90 (1959); Bass–Heller–Swan, *The
+Whitehead group of a polynomial extension*, Publ. Math. IHÉS 22 (1964);
+Bass, *Algebraic K-theory*, Benjamin (1968); Shaneson, *Wall's surgery
+obstruction groups for G×ℤ*, Ann. of Math. 90 (1969); Madsen–Milgram, *The
+classifying spaces for surgery and cobordism of manifolds*, Ann. of Math.
+Studies 92 (1979); Ranicki, *Algebraic L-theory and topological manifolds*,
+Cambridge Tracts 102 (1992); Hirsch–Mazur, *Smoothings of Piecewise Linear
+Manifolds*, Ann. of Math. Studies 80 (1974); Cerf, *Sur les
+difféomorphismes de la sphère de dimension trois*, LNM 53 (1968);
+Farrell–Taylor–Wagoner, *The Whitehead theorem in the proper category*,
+Compositio Math. 27 (1973); Lickorish, *An Introduction to Knot Theory*,
+GTM 175 (1997); Robertello, *An invariant of knot cobordism*, Comm. Pure
+Appl. Math. 18 (1965); Serre, *Trees*, Springer (1980); and Gompf, *Three
+exotic ℝ⁴'s and other anomalies*, J. Differential Geom. 18 (1983).

@@ -1,14 +1,20 @@
 import Mathlib
+import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
+import TauCeti.KnotTheory.Slice.Freedman
 
 /-!
 # Four-dimensional manifolds, intersection forms and elliptic examples: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the
 pinned Mathlib and Tau Ceti, those headline statements of the roadmap that are
-statable there: the smoothness of the explicit projective models (the
+statable there: the two end theorems of Layer 3 on their pinned carriers, namely
+the dimension-four annulus theorem `TauCeti.AnnulusConjecture 3` and Freedman's
+theorem `TauCeti.FreedmanSliceTheorem` that a knot whose knot group has perfect
+commutator subgroup, equivalently with Alexander polynomial one, is topologically
+slice; the smoothness of the explicit projective models (the
 elliptic quartic K3 surface and the Enriques K3 cover) on their punctured affine
 cones, and the absence of fixed points of the Enriques involution on its
-projective common zero set, and the existence of a smooth manifold homeomorphic
+projective common zero set; and the existence of a smooth manifold homeomorphic
 but not diffeomorphic to Euclidean four-space.
 
 Not statable at the pins, and therefore not stated here:
@@ -51,6 +57,25 @@ namespace TauCetiRoadmap.FourManifolds
 open scoped Manifold ContDiff
 
 noncomputable section
+
+/-! ## Layer 3: Topological surgery, realization and classification -/
+
+/-- The four-dimensional annulus theorem (Quinn): two locally flat three-spheres in
+`ℝ⁴`, the second inside the open region bounded by the first, cobound a closed region
+that is the image of an embedding of `S³ × [0, 1]` with the two spheres as its ends.
+This is the pinned statement `TauCeti.AnnulusConjecture 3`; the README proves it in
+§3.6 from the controlled five-dimensional product theorem (Freedman–Quinn, §7.8). -/
+theorem annulusTheorem_four : TauCeti.AnnulusConjecture 3 := by
+  sorry
+
+/-- Freedman's theorem: a smooth knot in the unit three-sphere whose knot group has perfect
+commutator subgroup, equivalently whose Alexander polynomial is one, bounds a locally flat
+disc in the closed unit four-ball. This is the pinned statement
+`TauCeti.FreedmanSliceTheorem`; the README proves it in §3.6 by the normal filling of the
+zero surgery, `ℤ[ℤ]`-homology surgery and the marked contractible ball theorem
+(Freedman–Quinn, Theorem 11.7B). -/
+theorem freedmanSliceTheorem : TauCeti.FreedmanSliceTheorem := by
+  sorry
 
 /-! ## Layer 7: Elliptic surfaces, K3 and boundary Spin data -/
 
