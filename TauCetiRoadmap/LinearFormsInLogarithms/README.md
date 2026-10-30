@@ -97,13 +97,23 @@ normed `ℚ_[p]`-algebra whose norm has the normalised absolute value as a power
 convergence milestone for `localExponential` can be derived from 8.1. This roadmap does not depend
 on that one.
 
+The
+[Diophantine approximation and transcendence](../DiophantineApproximationAndTranscendence/README.md)
+roadmap uses Layers 0–8. It owns generalisations of three statements here: `exp (π α)` is
+transcendental for every algebraic `α ∉ ℚ · I`, of which the worked example `transcendental_exp_pi`
+is the case `α = 1`; the homogeneous Schneider–Lang corollary under a rank hypothesis on the
+`ℚ`-span of the `xᵢ`, where 6.1 takes them linearly independent; and the auxiliary family with
+separate degree and frequency budgets `T₀` and `T₁`, where 5.1 takes `T₀ = T₁ = T`. This roadmap
+does not depend on that one.
+
 Not in this roadmap, and not owned by any other roadmap unless stated:
 - the Schneider–Lang criterion for algebraically independent entire functions of finite order
   whose partial derivatives are polynomials in them (Waldschmidt, Theorem 4.1), and its extension
   to meromorphic functions; both need the growth theory of entire functions of finite order in
   several variables;
 - effective lower bounds for linear forms in logarithms (Baker–Wüstholz, Matveev); Baker's
-  theorem here is qualitative;
+  theorem here is qualitative. The Diophantine approximation and transcendence roadmap owns them,
+  at archimedean and `p`-adic places (its 3.6 and 3.7);
 - Siegel's theorem on integral points, whose proofs need Roth's theorem or effective lower bounds
   for linear forms in logarithms; the [Elliptic curves](../EllipticCurves/README.md) roadmap
   excludes it for the same reason. The Thue–Siegel lemma of 3.4 is Siegel's box-principle lemma,
@@ -111,9 +121,11 @@ Not in this roadmap, and not owned by any other roadmap unless stated:
 - the Lindemann–Weierstrass theorem, which is proved by Hermite's method rather than by the
   criterion. Mathlib has the analytic part of that method
   (`Mathlib/NumberTheory/Transcendental/Lindemann/AnalyticalPart.lean`), and Mathlib PR #28013
-  proves the theorem; see *Coordination with Mathlib*;
+  proves the theorem; see *Coordination with Mathlib*. The Diophantine approximation and
+  transcendence roadmap owns it (its 3.2);
 - algebraic independence (Schanuel's conjecture, Nesterenko's theorem) and the six exponentials
-  theorem;
+  theorem; the Diophantine approximation and transcendence roadmap owns the consequences of
+  Schanuel's conjecture taken as a hypothesis (its 3.8) and Ax–Schanuel (its 5.6);
 - the `p`-adic Schneider–Lang criterion, and elliptic analogues;
 - a `p`-adic logarithm function on `ℂ_[p]`: Layer 8 is stated through the exponential;
 - Weierstrass division and preparation, and the theory of Tate algebras, which the
