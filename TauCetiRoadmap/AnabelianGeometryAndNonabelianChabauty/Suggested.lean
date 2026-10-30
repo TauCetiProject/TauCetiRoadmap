@@ -2,33 +2,28 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.Cohomology.Genus
 
 /-!
-# Anabelian geometry and nonabelian Chabauty: headline target signatures
+# Anabelian geometry and nonabelian Chabauty: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for particular milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned APIs, where their carriers exist.
 
-Two headline results can be stated against the pinned carriers:
-
-* Layer 3: Isom reconstruction for proper hyperbolic curves over sub-p-adic fields,
-  expressed through Mathlib's categories of finite étale scheme maps and their
-  constant-cover functors. This includes the number-field Isom theorem and requires
-  no rational point on either curve.
-* Layer 7: Siegel finiteness for the thrice-punctured line over every ring of rational
-  S-integers, expressed as finiteness of the elements x for which x and 1 − x are units
-  in Mathlib's `Set.integer`.
+The proper hyperbolic Isom theorem over sub-p-adic fields is statable through
+Mathlib's finite étale scheme-map categories and constant-cover functors. It includes
+the number-field Isom theorem and requires no rational point on either curve.
+The S-integral finiteness consequence for the thrice-punctured line is the S-unit
+theorem of DiophantineApproximationAndTranscendence §4.5 and is not restated here.
 
 The other headline signatures require objects absent at the pins. Layer 0's topological
 nonabelian torsor classification, twisting and exact sequences need the native continuous
-nonabelian H¹ carrier; the specified `TauCeti.NonabelianH1` modules are not in the pinned
-Tau Ceti revision. Layer 1's curve and Artin-tower K(π,1) theorems need the scheme étale
+nonabelian H¹ carrier; Layer 0 constructs that carrier and its quotient descent and inflation theory. Layer 1's curve and Artin-tower K(π,1) theorems need the scheme étale
 fundamental group and its canonical cohomology comparison. Layer 2's unipotent realization
 and crystalline comparison theorems need geometric tensor categories, unipotent path
 torsors and their filtered realizations. Their abstract neutral tensor reconstruction
 and tensor-isomorphism torsors are supplied by MotivesAndAlgebraicCycles §§6.1–6.3
 and 6.8; Layer 2 specializes them to unipotent categories in characteristic zero.
-Layer 3's Hom theorems need the arithmetic
-fundamental-group extensions and their relative geometric pro-p quotients.
+Layer 3's general Hom theorem for smooth pro-varieties and hyperbolic pro-curves
+needs the arithmetic fundamental-group extensions and their relative geometric
+pro-p quotients, including the finite-cover/limit comparison for those schemes.
 
 Layers 4–6 need algebra-valued unipotent cohomology, represented Selmer varieties,
 Albanese and period maps, Jacobians with rational Kummer maps, mixed extensions and
@@ -38,7 +33,7 @@ conjectures need geometric section classes and the rational-point map. Soulé's 
 needs the restricted-ramification Galois group with its rational Tate representations;
 the graded-character, Selmer-vanishing, dimension and eventual-equality statements need
 graded geometric unipotent groups and the resulting Selmer and Kim loci.
-The S-integral finiteness consequence above needs none of these missing carriers.
+
 -/
 
 namespace TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
@@ -75,15 +70,6 @@ theorem anabelian_isom
         MorphismProperty.Over.pullback P ⊤ (Y ↘ Spec (.of K))) →
       ∃! f : X ≅ Y, f.hom.IsOver (Spec (.of K)) ∧
         Nonempty (e.functor ≅ MorphismProperty.Over.pullback P ⊤ f.inv) := by
-  sorry
-
-/-- Layer 7: the S-integral points of the thrice-punctured line are finite.
-Here x and 1 − x being units is exactly the condition of avoiding 0, 1 and ∞ over
-Mathlib's ring of rational S-integers. -/
-theorem thricePuncturedLine_sIntegralPoints_finite
-    (S : Finset (IsDedekindDomain.HeightOneSpectrum ℤ)) :
-    {x : (S : Set (IsDedekindDomain.HeightOneSpectrum ℤ)).integer ℚ |
-      IsUnit x ∧ IsUnit (1 - x)}.Finite := by
   sorry
 
 end TauCetiRoadmap.AnabelianGeometryAndNonabelianChabauty
