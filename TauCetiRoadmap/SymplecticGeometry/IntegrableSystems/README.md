@@ -18,6 +18,8 @@ LieGroups supplies the exponential floor. LieGroupoidsPoisson G0.1 supplies regu
 manifolds, HopfRinow the inverse function theorem, and DifferentialGeometry Frobenius,
 complete flows and integration of one-forms. Bundle connections/Ehresmann theory come from SmoothBundlesConnections; singular-system
 examples below build their own monodromy rather than silently assuming global angle coordinates.
+I5 treats the closed annulus through open collar extensions; its finite-action
+gradient flow lives on the boundaryless configuration quotient.
 
 ## I1. Involutive functions and regular fibers
 
@@ -276,7 +278,194 @@ prove conservation of J_ξ=⟨FL,ξ_Q⟩−B_ξ and its coordinate-independent t
   This supplies the nonlinear monodromy proof; the quadratic focus-focus Hessian alone does not.
   Conclude failure of global action-angle coordinates around this value.
 
+<a id="i5-strict-annulus-fixed-points"></a>
+## I5. The strict annulus fixed-point theorem
+
+Prove the following theorem with the constructions below. Let A=(ℝ/ℤ)×[0,1], let ω be a smooth
+positive area form, and let f:A→A be a smooth diffeomorphism preserving ω and each boundary
+component. Fix a degree-one lift F of f commuting with T(x,y)=(x+1,y). Require strict opposite
+boundary displacements: F^x(x,0)<x and F^x(x,1)>x for every x. The conclusion is at least two
+distinct fixed points with zero displacement for this chosen lift; no nondegeneracy or
+monotone-interior-twist hypothesis is imposed. For the reversed boundary inequalities apply the same
+statement to f⁻¹. Compactness gives uniform positive margins in the inequalities. For an
+orientation-preserving boundary circle lift, a positive uniform displacement gives positive rotation
+number by iteration, and negative gives negative. Conversely a lift with a zero displacement has
+rotation number zero; continuity and periodicity then show nonzero signed rotation number gives the
+corresponding strict pointwise sign. Expose this equivalence with the actual rotation-number
+definition and chosen lift, rather than changing lift halfway through the proof.
+
+Construct compatible smooth extensions to open collars of the closed annulus. Extend the periodic coordinate functions using boundary charts and a periodic partition of unity; the inverse derivative identity at the boundary and the inverse function theorem give local inverses. Compactness on the annulus quotient and injectivity on the closed annulus give injectivity after shrinking the collars. Lift this collar diffeomorphism to the strip. Use the native `CircleDeg1Lift` translation-number API for the boundary lifts and prove the displacement/translation-number comparison above. [AnnulusFixedPointTargets.lean](AnnulusFixedPointTargets.lean) gives the standard-area lifted signature on actual open partial homeomorphisms.
+
+### I5.0. Carrier, area and generating conventions
+
+A general positive density ρ(x,y)dx∧dy is normalized explicitly. Put s(x)=∫_0^1ρ(x,r)dr and
+a=∫_0^1s(x)dx>0. The coordinates u=a⁻¹∫_0^x s(t)dt modulo1, v=s(x)⁻¹∫_0^yρ(x,r)dr give a
+boundary-preserving orientation-preserving diffeomorphism with a du∧dv=ω. Prove inverse smoothness
+and the endpoint identities by positivity and the inverse function theorem. Degree-one boundary
+conjugacy transports the lift inequalities, or equivalently rotation signs. Thus work below with
+dx∧dy.
+
+Use the generating convention y=−∂_1S, Y=∂_2S, so S is the negative of CotangentLagrangian C3's
+generator. With W=ΣS_k, derive ∂_kW=Y_(k−1)−y_k and negative-gradient velocity xdot_k=y_k−Y_(k−1).
+Prove all signs from these equations.
+
+### I5.1. Smooth area-preserving isotopy and finite twist factorization
+
+Construct an isotopy through orientation-preserving, boundary-component-preserving smooth
+diffeomorphisms from id to f. One precise route consumes [SurfaceTopology Layer
+9](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md)'s
+rel-boundary annulus mapping-class group ℤ, its core Dehn twist, and [PlanarTopology Layer
+8](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md)'s
+smooth-isotopy comparison on the standard compatible annulus. Lift the two boundary maps b_±.
+Interpolating x to (1−y)b_−(x)+y b_+(x), with y fixed, has positive x-derivative and gives a smooth
+boundary-preserving isotopy B_t realizing the boundary maps. Then B_1⁻¹f fixes the boundary
+pointwise; its rel-boundary class is a power of the core twist (x,y)↦(x+my,y). That twist is
+isotopic to identity when boundary rotations are allowed, and the remaining rel-boundary isotopy
+supplies the desired path h_t. Smoothly reparameterize concatenations. The standard annulus's
+compatible finite smooth triangulation and its compatibility with the half-plane charts must be constructed before applying that comparison.
+
+Make this path area-preserving without assuming a Hamiltonian isotopy. Write h_t*(dx∧dy)=ρ_t dx∧dy,
+g_t=ρ_t−1, and bar_g_t(y)=∫_0^1g_t(x,y)dx. Set `a_t(y)=−∫_0^y bar_g_t(r)dr`,
+`b_t(x,y)=∫_0^x(g_t(s,y)−bar_g_t(y))ds`, `β_t=a_t dx+b_t dy`. Total area gives a_t(0)=a_t(1)=0, b_t
+is periodic, and dβ_t=(ρ_t−1)dx∧dy. For the auxiliary parameter s interpolate the POSITIVE two-forms
+ω_(t,s)=(1+s(ρ_t−1))dx∧dy. The field ι_Xω_(t,s)=−β_t is tangent to both boundary circles because its
+y-component vanishes there. Extend smoothly to a common open collar and cut off away from A. DG3's
+time-dependent flow and boundary invariance by uniqueness give its full s-flow ψ_(t,s), smooth in t.
+The map k_t=h_t∘ψ_(t,1) preserves area. At t=0,1 the density is1, β_t=0, so ψ_(t,1)=id and the
+endpoints remain id,f. This explicit boundary-tangent construction supplies the boundary case; the
+compact-boundaryless global Moser theorem is not applied unchanged. Adjust the lifted path by an
+integer rigid-rotation loop if necessary so its endpoint is exactly the specified F, then retain
+that lift throughout.
+
+In the C¹ topology, continuity on the compact path interval gives a finite partition such that each
+increment lies in a prescribed small identity neighborhood U. Fix a shear R_c(x,y)=(x+cy,y), c>0.
+For U sufficiently small, H∈U implies N=R_c⁻¹H has N_Xx>0 and N_Xy<0 throughout A, while R_c has
+X_x=1 and X_y=c>0. Thus each increment is R_c∘N, and the exact lifted composition is F=F_(2K)⋯F_1,
+K≥1, with odd factors negative twist, even factors positive twist, and EVERY factor X_x>0. All
+factors preserve area and both boundaries. Prove these uniform derivative inequalities from C¹
+closeness; the generic fact that twist maps are open alone does not install X_x>0.
+
+For each factor the coordinate map (x,y)↦(x,X_k(x,y)) is a global diffeomorphism from the strip onto
+its boundary-graph band, with the chosen smooth extension near the closed band. The form YdX−ydx is
+closed. Its period under simultaneous integer translation is zero: on the lower boundary y=Y=0 it
+vanishes on tangent vectors. Path integration on the simply connected band supplies S_k, and that
+zero period makes S_k(x+1,X+1)=S_k(x,X). Expose smoothness up to an open neighborhood of the closed
+admissible band and the derivative equations. This proves the required exactness and finite global
+generating functions on the actual closed bands and their collar neighborhoods.
+First construct S_k on the closed band and prove smoothness up to its boundary;
+then extend S_k periodically to an open band, retaining its mixed-derivative sign
+by shrinking. Its generating equations there can define a symplectic collar
+extension agreeing with the factor on the closed strip. An arbitrary initial
+collar extension of the factor is not assumed area-preserving outside that strip.
+
+### I5.2. Finite action, quotient and periodic-orbit dictionary
+
+Use cyclic configurations (x_1,…,x_(2K)), x_(2K+1)=x_1, in the common open domain of the S_k, modulo
+simultaneous integer translation of all positions. The quotient is an open subset of
+ℝ^(2K)/ℤ≅S^1×ℝ^(2K−1), with the explicit coordinates (x_1 mod1,x_2−x_1,…,x_(2K)−x_1). Define
+W=ΣS_k(x_k,x_(k+1)), a smooth function on that quotient. The diagonal integer quotient is necessary
+for compactness and for counting marked fixed points correctly. The inherited Euclidean metric on
+position space is deck invariant and descends to the metric used for −grad W.
+
+For every configuration put y_k=−∂_1S_k and Y_k=∂_2S_k. Then F_k(x_k,y_k)=(x_(k+1),Y_k). Criticality
+is exactly Y_(k−1)=y_k at every k, hence precisely a zero-displacement fixed point of F with all
+intermediate factor states admissible. Conversely the successive factor states of such a fixed point
+are unique. Prove this gives a bijection after the diagonal deck quotient, so two critical points
+imply two distinct phase-space fixed points. Do not count different lifts of one point or different
+cyclic markings as distinct orbits.
+
+### I5.3. The actual compact block and all face directions
+
+Let P be the closed admissible configurations 0≤y_k≤1. Compactness follows after the diagonal
+quotient: x_1 lies on S^1 and every successive displacement X_k(x_k,y_k)−x_k is uniformly bounded on
+its compact periodic strip. All boundary/generating functions extend to an open neighborhood of P.
+There, multiply −grad W by a compactly supported smooth cutoff equal1 near P and extend by zero in
+S^1×ℝ^(2K−1). DG3.3 supplies a complete flow; the dynamics on P are unchanged. Only Crit(W) in
+Inv(P) is counted.
+
+At a face y_k=c∈{0,1}, boundary preservation gives Y_k=c. Let B_k(x)=X_k(x,c); B_k′>0.
+Differentiating c=−∂_1S_k(x,B_k(x)) gives S_11=−S_12 B_k′ at that face. Also S_12=−1/(X_ky), so it
+is negative for even factors and positive for odd ones. Along negative gradient,
+`ydot_k=S_11(Y_(k−1)−y_k)+S_12(Y_k−y_(k+1))`. For a positive factor this points weakly inward on
+BOTH faces; for a negative factor it points weakly outward. Equality occurs exactly when BOTH
+neighboring incoming momenta equal the same c: Y_(k−1)=c iff y_(k−1)=c because the preceding factor
+is a boundary-preserving diffeomorphism. Evaluate these derivatives at the stated action-coordinate
+pair.
+
+Prove the edge cases, not only open faces. Take a maximal cyclic run of inputs equal to c. It cannot
+be the full cycle, since that would give a fixed lift on the corresponding boundary, contradicting
+the strict boundary inequality. If the run has a negative-factor endpoint, its outward derivative is
+strict. If both endpoints are positive-factor inputs and the run contains a negative-factor input,
+an adjacent negative input has zero first derivative but a strict outward SECOND derivative. Indeed
+on a boundary face dY_j=(1/B_j′)dy_j; at a negative face with zero first derivative the
+coefficient-derivative terms vanish, giving `yddot_k=S_11 ydot_(k−1)/B_(k−1)′−S_12 ydot_(k+1)`. Its
+neighboring positive-face derivatives have the inward sign, one strict at a run endpoint, giving the
+claimed strict outward acceleration. If the boundary point has only positive-factor faces, each has
+strict inward derivative, so the reverse flow exits. Thus every boundary point exits in at least one
+time direction, and the closed positive exit set is EXACTLY `L={x∈P : y_k=0 or1 for some odd k}`.
+Prove the Taylor-sign statements in a common smooth extension neighborhood. No critical point lies
+on the boundary. Establish the regular index-pair/exit-collapsed semiflow data of [MorseTheory
+M4.2](../../MorseTheory/README.md#m42-isolating-gradient-cup-bound): first exit is immediate on L;
+its time tends to0 for points of P approaching L by the strict first/second-order exit; away from L
+all active positive faces are strictly entering, and every positive-time trajectory before its first
+exit is interior. An interior trajectory's first finite exit cannot have only second-order outward
+tangencies: such a face is outside for both sufficiently small positive and negative time about that
+event, contradicting its first-exit property. Therefore some active odd face has strict first-order
+outward derivative at every first finite exit reached from the interior. The implicit function
+theorem and compact-time interior margin give continuity of that exit time away from L. At L, for
+every small positive reference time the actual trajectory is already strictly outside P; continuous
+dependence makes nearby points exit by that time, so their exit times tend to0. At an inflow point
+with no odd face active, every active positive face is strictly inward, giving a common initial
+interior segment for nearby points of P. These statements also give lower semicontinuity at infinite
+exit time. Prove the corresponding joint quotient-flow continuity, including time0/basepoint, from
+these estimates and compactness. This supplies the typed survivor/excision hypotheses; the raw image
+Φ^t(P) is not used as a subset of P.
+
+### I5.4. Pair deformation and the correct shifted cup module
+
+Use (x_1,y_1,…,y_(2K)) to reconstruct successive positions by X_k and impose the single equation
+G=x_(2K+1)−x_1=0. Put u for the K even (positive) incoming momenta and v for the K odd (negative)
+momenta. Since EVERY X_kx>0, the chain rule gives ∂G/∂u_i>0 and ∂G/∂v_i<0. At all inputs0,
+G=F^x(x_1,0)−x_1<0; at all inputs1 it is G=F^x(x_1,1)−x_1>0. Thus for each (x_1,v),
+G(x_1,0,v)<0<G(x_1,1,v). The unique diagonal root u=t(x_1,v)·1 lies in the open positive cube and
+depends smoothly/periodically on (x_1,v).
+
+Construct an explicit strong deformation retraction of each positive-input level fiber to that root.
+For u with G=0, first interpolate a_s=(1−s)u+s t·1. Choose τ∈[−1,1] such that
+G(x_1,clamp(a_s+τ·1,0,1),v)=0, using the endpoint signs and the intermediate value theorem. Although
+τ can have a plateau at a vertex, the resulting VECTOR is unique: increasing τ makes every
+coordinate nondecreasing, and any strict coordinate increase strictly increases G. Continuity
+follows by compactness of [−1,1], subsequences and uniqueness of that vector. At s=0 it is u, at s=1
+it is t·1, and the root remains fixed throughout. The construction preserves (x_1,v) and is periodic
+in x_1. Therefore it is a homotopy equivalence of PAIRS `(P,L) ≃ (S^1×[0,1]^K, S^1×∂([0,1]^K))`,
+commuting with the circle projection. This proves the pair/module comparison for every K. In
+particular the relative orientation class has degree K.
+
+Choose v_0 in the open negative cube. The root section at v_0 embeds a circle P_0⊂P, and α:P→P_0
+given by x_1 is a retraction. [AlgebraicTopology's compact-metric Čech
+supplement](../../AlgebraicTopology/README.md#compact-metric-cech-closed-pairs)'s Čech pair homotopy
+invariance, ENR-model comparison and relative cube product supply u∈H^K(P,L;ℝ) with shifted
+isomorphisms H^j(P_0;ℝ)→H^(j+K)(P,L;ℝ), v↦u cup α*v; identify the chosen relative cube orientation
+and the Koszul sign (−1)^(Kj) when changing cup order in degree j. [MorseTheory
+M4.2](../../MorseTheory/README.md#m42-isolating-gradient-cup-bound)'s actual survivor/index-pair
+Floer injection then gives H*(S^1)→H*(Inv(P)), and its arbitrary-degenerate gradient count gives at
+least two distinct critical points. I5.2 converts them to the required two fixed points. Each
+topology, flow, relative-cup and orbit-dictionary construction is a required part of the theorem;
+prove the stated maps and identities on the constructed carriers.
+
+Acceptance: for F(x,y)=(x+(2y−1)/8,y), take c=1 and K=1. With d=x_2−x_1, derive −7/8≤d≤−1/8 and
+W(d)=1/32−(d+1/2)^2/6. The descended Euclidean negative gradient has d′=(2/3)(d+1/2), so both
+endpoints exit and the relative orientation degree is 1. Verify the action, face, pair and counting
+formulas on this example and on the general strict-twist construction. Fixed points of an iterate
+are phase points; a separate orbit-count argument is required for claims about geometrically
+distinct periodic orbits.
+
 ## Acceptance and order
+
+I5 consumes C3's generating calculus, I2.0's independent period-one circle,
+DifferentialGeometry's complete parameter flows, the named surface isotopy
+comparisons, AT's compact-metric Čech supplement and Morse M4.2. Its
+factorization and finite action precede its block/pair/cup argument.
 
 I2.0 is independent of I1. I1 and I2.0 precede the Liouville–Arnold construction in I2; I3 consumes
 cotangent geometry and Hamiltonian foundations; I4 consumes I1–I3 and reduction as needed. Verify every action-angle chart by pulling back ω and differentiating H, not only

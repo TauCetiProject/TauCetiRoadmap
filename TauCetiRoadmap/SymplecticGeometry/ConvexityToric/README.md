@@ -55,12 +55,45 @@ LieGroups Layer6 owns maximal tori and the compact real root/Weyl adapter;
 compact coadjoint chamber/centralizer application. T3 consumes that quotient and owns the
 symplectic cross-section and convexity theorem. R2 is independent of this integral refinement.
 
-Construct an invariant compatible almost complex structure and metric by averaging and polar
-normalization; averaging an arbitrary compatible J does not preserve J²=−1. Prove a compact group's
-fixed locus is a union of embedded symplectic submanifolds, tangent equal to invariant vectors, with
-symplectic normal representation. Construct an equivariant tubular neighborhood; prove equivariant
-Darboux near a fixed point and relative normal form along a fixed component using equivariant Moser, with
-GeometricTopology Layer1’s generic tubular neighborhood as the nonequivariant floor.
+### T1.1. Fixed loci with a preserved metric
+
+Let K be an arbitrary group acting on M by smooth diffeomorphisms preserving ω and a
+specified smooth positive definite Riemannian metric g. No topology or Lie-group structure
+on K is required. Define M^K as the common fixed set. Prove it is closed and each connected
+component is an embedded symplectic submanifold, with
+`T_p(M^K)={v∈T_pM : d(k)_p v=v for every k∈K}` at every fixed p. Components
+may have different even dimensions. Construct the restricted symplectic form, tangent
+inclusion and symplectic normal bundle, and prove naturality under equivariant
+symplectic diffeomorphisms. Each component is totally geodesic for g. This theorem
+requires neither completeness of g nor compactness of M or K.
+
+Use HopfRinow's transport of local exponential maps under smooth Riemannian isometries.
+For each fixed p choose a tangent ball on which exp_p is a diffeomorphism onto its
+image. Every d(k)_p preserves that same ball, so equivariance and injectivity identify
+the common fixed set in its image with the ball's intersection with the common fixed
+subspace. This supplies the embedded charts and tangent identity without intersecting
+submanifolds transversely. Construct the derivative representation at p using native
+`Representation ℝ K (TangentSpace I p)` and its `Representation.invariants` submodule.
+
+Polar-normalize the bundle endomorphism A defined by `g(Au,v)=ω(u,v)`:
+`J=A(−A²)^(−1/2)`. Prove smoothness, `J²=−1`, positivity `ω(v,Jv)>0` for v≠0,
+and invariance under every element of K. The common fixed tangent subspace is J-stable;
+testing a vector against Jv proves nondegeneracy of the restricted form. This uses the
+given invariant metric directly. As examples, an irrational rotation of the first
+factor of ℂ² generates an infinite cyclic group with fixed locus `{0}×ℂ`; the
+symplectic shear `(q,p)↦(q+p,p)` on ℝ² instead has a Lagrangian fixed line and
+preserves no positive definite smooth Riemannian metric. Prove both claims, using
+the derivative at the origin for the shear's metric obstruction.
+[FixedLocusTargets.lean](FixedLocusTargets.lean) gives the invariant-subspace and local-chart
+signatures. For the invariant-J/exponential method see also
+[Cannas da Silva, Homework21, exercise2](https://www.math.ist.utl.pt/~acannas/Books/symplectic.pdf#page=182).
+
+For a compact Lie group with a smooth symplectic action, average a smooth Riemannian
+metric and apply this theorem and its polar construction. Averaging an arbitrary
+compatible J does not preserve J²=−1. Construct an equivariant tubular neighborhood;
+prove equivariant Darboux near a fixed point and relative normal form along a fixed
+component using equivariant Moser, with GeometricTopology Layer1's generic tubular
+neighborhood as the nonequivariant floor.
 
 For a torus-fixed p choose a unitary weight decomposition of its tangent space. In local coordinates
 ω=Σdqᵢ∧dpᵢ and
@@ -153,6 +186,96 @@ eigenvalues. Prove Schur–Horn in both directions and equivalence with majoriza
 sorted entries and total trace). Repeated eigenvalues give lower-dimensional smooth coadjoint orbits but the same convex-hull
 statement. Construct a 2×2 Hermitian matrix for every majorized diagonal and given eigenvalues and rank-one CP^(n−1) simplex as acceptance cases.
 
+### T3.1. The word121 Bott–Samelson moment polygon
+
+Use [SchubertGeometry S2 and its word121 incidence comparison](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1224)
+for the existing smooth projective threefold
+`X={(L₁,P,L):L₁⊂P₀, L₁⊂P, L⊂P}`, where P₀=span(e₁,e₂)⊂ℂ³,
+L₁,L are lines and P is a plane. Use its actual embedding in
+Gr₁(ℂ³)×Gr₂(ℂ³)×Gr₁(ℂ³), its complex-point/manifold comparison,
+and π:X→Flag(ℂ³), π(L₁,P,L)=(L,P). T=(S¹)³ acts diagonally and
+preserves P₀. The full ambient U(3) action does not preserve this fixed
+P₀ incidence condition; a restricted Hermitian-valued ambient map is
+not asserted to be a U(3) moment map on X. This is the worked
+moment-map question from Knutson semester2 p72, with p73's repeated
+line factor made explicit. Preserve the unclear diagram and arrow labels.
+
+**Forms and the projector formula.** On a complex Grassmannian let Π_V
+be the orthogonal projector for the standard Hermitian form, using native
+`Submodule.starProjection` on `EuclideanSpace ℂ (Fin 3)`. Construct its
+smooth dependence on the subspace through the existing Grassmannian
+charts and the unitary orbit map. Identify the orbit of rank-r projectors
+with this same Grassmannian, for r=1,2, with tangent and action maps.
+Use R2's KKS form σ_r, pairing `⟨H,ξ⟩=−i tr(Hξ)`, and inclusion
+moment map V↦Π_V. Compare the form with the Plücker pullback of
+ComplexKahlerGeometry K7.2's positive Fubini–Study form of projective-line
+area1: in these conventions `σ_r=−2π Plücker*ω_FS`. Prove the sign
+and factor in a rank-one affine chart and then by unitary invariance.
+
+For a,b,c>0 restrict `aσ₁+bσ₂+cσ₁` from the three factors to X.
+Prove it is closed and nondegenerate: its negative is the restriction
+of a positive product Kähler form through the holomorphic immersion.
+The ambient diagonal U(3) moment is
+`H=aΠ_(L₁)+bΠ_P+cΠ_L`. Restrict to T and prove its actual moment map
+is `μ=diag(H)∈ℝ³`, with `ι_(ξ_X)ω=d⟨μ,ξ⟩` in the standing convention.
+Its coordinate sum is S=a+2b+c. Prove the kernel of the T action is
+exactly the diagonal circle, so the effective torus has dimension2 and
+the image lies in that affine trace plane. If using the positive
+Kähler form −ω, transport the moment map to −μ; reflect the entire
+polygon and retain the same period normalization.
+
+**Fixed points and exact image.** Write ij for span(e_i,e_j).
+Prove that X has precisely the following eight T-fixed flags, by the
+coordinate-subspace criterion and the incidence conditions. In the table
+L₁=e_i and L=e_j denote their spans.
+
+| (L₁,P,L) | μ |
+| --- | --- |
+| (e₁,12,e₁) | (a+b+c,b,0) |
+| (e₁,12,e₂) | (a+b,b+c,0) |
+| (e₁,13,e₁) | (a+b+c,0,b) |
+| (e₁,13,e₃) | (a+b,0,b+c) |
+| (e₂,12,e₁) | (b+c,a+b,0) |
+| (e₂,12,e₂) | (b,a+b+c,0) |
+| (e₂,23,e₂) | (0,a+b+c,b) |
+| (e₂,23,e₃) | (0,a+b,b+c) |
+
+Use T3's torus convexity theorem to identify μ(X) with the convex
+hull of this actual finite list. Prove its exact inequality description
+
+`x+y+z=S,  0≤x≤a+b+c,  0≤y≤a+b+c,  0≤z≤b+c`.
+
+Give both inclusions and a finite convex-combination or half-plane
+vertex argument. Its six vertices, in cyclic order, are rows
+1,3,4,8,7,6. Prove these are all the extreme points and that each
+listed inequality cuts out the stated edge in the trace plane.
+Rows2 and5 lie strictly inside the edge z=0, which joins rows1 and6:
+with D=a+c, their coefficients of row6 on that segment are c/D
+and a/D, respectively. They have the same image exactly when a=c;
+their fixed flags are distinct even then. For a≠c there are eight
+distinct fixed-point images and six vertices; for a=c there are seven
+distinct images and six vertices. Thus the T action on this real
+six-dimensional X has complexity1; T5's complexity-zero identification
+of fixed points with vertices is not applied here.
+
+At a=b=c=1 give the six vertices
+`(3,1,0),(3,0,1),(2,0,2),(0,2,2),(0,3,1),(1,3,0)`
+and the common nonvertex fixed value `(2,2,0)`. At the boundary a=0,
+b,c>0, identify H with the pullback through π of `bΠ_P+cΠ_L`.
+Its image is the flag permutahedron of eigenvalues (b+c,b,0), since
+π is onto. The form at this boundary is π* of the flag KKS form
+and is degenerate along the exceptional P¹ fibres; the image claim
+uses the flag and surjectivity, not a symplectic theorem on a degenerate
+form. Prove these comparisons through the existing π and its exceptional
+locus, rather than identifying diagrams by their vertex counts.
+
+The native projector and convex-hull signature examples are in
+[BottSamelsonMomentTargets.lean](BottSamelsonMomentTargets.lean).
+For the product-Grassmannian construction compare
+[Escobar, *Brick manifolds and toric varieties of brick polytopes*, §§3.3 and4.1](https://www.combinatorics.org/ojs/index.php/eljc/article/download/v23i2p25/pdf/);
+the explicit weights, signs, inequalities and boundary maps above are
+part of this target.
+
 ## T4. Liouville and Duistermaat–Heckman
 
 Construct the orientation and smooth positive volume density ω^n/n! on a 2n-manifold and its Radon
@@ -229,11 +352,37 @@ presentation of the equivariant ring first, then quotient by the linear lattice 
 and small corner chops/symplectic blowups are worked acceptance models with exact volume and lattice
 checks; the algebraic fan dictionary consumes AnalyticToricGeometry’s `Toric.IsIntegralLattice` and integral cone/fan API.
 
-For the weighted circle action with coprime positive weights a,b on C² and fixed positive quadratic
-level, compute S³/ellipsoid quotient, topological sphere, axial stabilizers of orders a,b and local
-orbifold charts/cone angles 2π/a,2π/b. Use z_j↦e^(-ia_jθ)z_j, μ=(a|z₁|²+b|z₂|²)/2 and reduction at ε>0;
-the orbifold area is 2πε/(ab). General weighted
-projective spaces and labeled rational simple polytopes extend Delzant to effective toric orbifolds
+For the weighted oscillator take coprime positive integers a,b, ε>0,
+`ω=dx₁∧dy₁+dx₂∧dy₂`, and `μ=(a|z₁|²+b|z₂|²)/2` on C².
+The negative rotations `θ·(z₁,z₂)=(e^(−iaθ)z₁,e^(−ibθ)z₂)` are its
+Hamiltonian flow in the fixed convention. Prove that their least period is
+2π when both coordinates are nonzero, and 2π/a or 2π/b on the respective
+axes. Construct the equivariant diffeomorphism from the ellipsoid E_ε=μ⁻¹(ε)
+to the unit S³ by `(z₁,z₂)↦(√(a/(2ε))z₁,√(b/(2ε))z₂)`.
+
+Give the reduced orbifold two actual slice charts. Over z₁≠0 use
+`w↦(√((2ε−b|w|²)/a),w)` on `|w|<√(2ε/b)`, with residual group ℤ/a
+acting by `w↦e^(−2πibk/a)w`. Over z₂≠0 use
+`u↦(u,√((2ε−a|u|²)/b))` on `|u|<√(2ε/a)`, with residual ℤ/b action
+`u↦e^(−2πiak/b)u`. Prove these identify the slice quotients with the
+indicated open quotient sets and construct their compatible changes of charts
+on the overlap, retaining the finite groups. Coprimality makes each residual
+action effective, free away from its center. The axial stabilizers have
+orders a,b; an order-one chart is an ordinary smooth point. Compare the
+rotation representations with the standard cone charts of angles 2π/a,2π/b.
+Construct the coarse homeomorphism to CP¹ by
+`[(z₁,z₂)]↦[z₁^b:z₂^a]`, including orbit separation and the two poles.
+
+Pull the reduced form back to each slice and prove it is respectively
+`d(Re w)∧d(Im w)` and `d(Re u)∧d(Im u)`. Using T4's inverse-stabilizer
+integration, the first chart, whose omitted pole has measure zero, gives
+`area(E_ε/S¹)=(1/a)π(2ε/b)=2πε/(ab)`.
+At the notes' level ε=1/2 this is π/(ab). Compare the a=b=1 case with
+T4's Hopf reduction and its curvature convention. These slice calculations
+consume R3's locally-free reduction and T4's orbifold forms/integration;
+they do not require the general classification below.
+
+General weighted projective spaces and labeled rational simple polytopes extend Delzant to effective toric orbifolds
 (Lerman–Tolman), with facet multiplicity labels; prove orbifold convexity and reconstruction/uniqueness in that model;
 smoothness is equivalent to unit labels **and** unimodular vertex cones.
 Do not erase finite stabilizers or identify unequal weights with an ordinary smooth CP¹ symplectically.
