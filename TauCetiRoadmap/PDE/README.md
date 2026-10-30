@@ -1411,8 +1411,15 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
   Calderón–Zygmund, BMO. Baby versions in Stein–Shakarchi vol. 4, §3.3.
 - T. Tao, *Nonlinear Dispersive Equations: Local and Global Analysis*: Strichartz
   estimates and the dispersive stretch goals.
-- N. V. Krylov, *An Analytic Approach to SPDEs*; G. Da Prato, A. Debussche, *Stochastic
-  Navier–Stokes*: the stochastic stretch goals.
+- N. V. Krylov, *An Analytic Approach to SPDEs*: analytic Lp stochastic PDE.
+- G. Da Prato and A. Debussche, [*Strong Solutions to the Stochastic Quantization
+  Equations*](https://doi.org/10.1214/aop/1068646370), Ann. Probab.31(4) (2003),
+  1900–1916, Theorem4.2: periodic two-dimensional Wick-polynomial quantization,
+  with global existence for invariant-law-almost-every initial datum. Stronger
+  all-initial-data conclusions require the separate dissipative estimates.
+- G. Da Prato and A. Debussche, *Two-dimensional Navier–Stokes equations driven
+  by a space-time white noise*, J. Funct. Anal.196 (2002),180–210: the distinct
+  stochastic Navier–Stokes model.
 - The **Carleson project** (van Doorn–Thiele), <https://github.com/fpvandoorn/carleson>,
   the path-finding high-analysis Lean project; the source to vendor the Hardy–Littlewood
   maximal function, Vitali covering, and Calderón–Zygmund machinery from.
