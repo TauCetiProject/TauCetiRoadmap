@@ -1067,12 +1067,49 @@ Do not assert extension of this factor to all `Lᵖ(ν)` with arbitrary codomain
 Use the closed dual unit ball as a subtype of `WeakDual 𝕜 E`, with the inherited
 compact topology and its Borel measurable structure, for the carrier of `ν`.
 
+**B6.Cotype2 — Gaussian comparison and the finite-Hilbert summing bound.**
+For a finite family y in a real Banach space Y, put
+`R₂(y)=(E_ε‖Σ ε_i y_i‖²)^(1/2)` on the uniform finite sign cube and
+`G₂(y)=(E_g‖Σ g_i y_i‖²)^(1/2)` for independent real standard Gaussians.
+Define a cotype-2 bound C≥1 by `√(Σ‖y_i‖²)≤C R₂(y)` for every finite
+y. Supply reindexing, zero-padding, homogeneity, closed-subspace and bounded-
+isomorphism transport, Hilbert cotype with C=1, and finite Hilbert-direct-sum
+bounds. Use these same definitions on the underlying real space of a complex
+Banach space. Construct the shared finite Gaussian model here, before its
+use in this argument and Grothendieck's inequality below; prove the required
+Banach-valued integrability and sign/Gaussian law comparisons.
+
+Prove Gaussian weak-2 domination: if `Σ|f(x_i)|²≤Σ|f(y_j)|²` for every
+real continuous functional f, then `G₂(x)≤G₂(y)`. Construct the finite
+Euclidean contraction relating the coefficient maps, its orthogonal dilation,
+and the rotational-invariance/Jensen argument. A Rademacher cotype bound C
+gives the Gaussian cotype bound with the same C by applying it to Gaussian-
+weighted families and integrating. Deduce for `U:ℓ₂ⁿ(ℝ)→Y` that
+`π₂(U)≤C G₂(Ue_i)`: every weak-2-unit family in ℓ₂ⁿ is dominated by its
+orthonormal basis, so apply the preceding comparison before taking the
+2-summing supremum.
+
+Choose t=t(C)>0 with `C(E[g² 1_{|g|>t}])^(1/2)≤1/2`. Split each Gaussian
+into its bounded and tail parts. Sign contraction bounds the bounded sum by
+`t R₂(y)`; the 2-summing/Pietsch bound and the tail covariance bound its
+L² norm by `C(E[g² 1_{|g|>t}])^(1/2)G₂(y)`. Absorption proves
+`G₂(y)≤2t(C)R₂(y)` and hence `π₂(U)≤2C t(C)R₂(Ue_i)`.
+For complex-linear U, pass to its realification and the real orthonormal basis
+`(e_i,i e_i)`: compare the real and complex weak-2 norms and use the Gaussian
+triangle inequality to obtain `π₂(U)≤4C t(C)R₂(Ue_i)`.
+All constants are independent of n and Y apart from its declared C. Treat
+empty families and the zero space, and retain the separate Gaussian-cotype
+hypothesis version of the first bound. This is Pisier, *Factorization of
+Linear Operators and Geometry of Banach Spaces*, §3, Lemma3.5,
+Proposition3.7, Lemma3.8 and Theorem3.9 (pp33–37). It uses neither a
+noncommutative Khintchine theorem nor a predual cotype assertion.
+
 Prove the real and complex Grothendieck inequalities with finite universal
 constants `κ_ℝ=8` and `κ_ℂ=16`: for any finite scalar matrix `a`, the supremum of
 `|∑ aᵢⱼ ⟨uᵢ,vⱼ⟩|` over Hilbert unit-ball vectors is bounded by `κ_𝕜` times the
 supremum of `|∑ aᵢⱼ sᵢtⱼ|` over scalar unit balls. First use finite-dimensional
 Euclidean vectors; pass from any Hilbert space to their finite-dimensional
-linear span. For real scalars, construct a finite independent Gaussian model
+linear span. For real scalars, reuse the finite independent Gaussian model
 of that span and prove `𝔼g⁴=3(𝔼g²)²`. Handle the zero matrix, then normalize
 the nonzero scalar matrix bound to one. Define `Γ(a)` as the supremum over
 all real inner-product spaces; prove that it equals the supremum in
