@@ -360,19 +360,37 @@ subcomplexes. Supply restrictions, compatible subdivisions and dimension
 comparison. Own semialgebraic dimension from CAD
 cells, its independence, finite-union/product/closure and fiber-dimension API,
 and comparison with smooth real and reduced complex analytic dimensions.
-Follow Bochnak–Coste–Roy §9.2: prove generic linear changes making the finite
-polynomial family quasi-monic in the last variable; after compatible base
-refinements prove continuous extension of bounded section functions to cell
-closures. Construct the inductive simplicial lift over a triangulated base
-and finite-family compatibility refinement. Prove compact extension, gluing
-and bijectivity; compact-to-Hausdorff gives inverse continuity. CAD cells
-alone are not a triangulation.
+For each nonzero input polynomial p of total degree d, let H_p be its
+nonzero homogeneous degree-d part. For the shear `(y,t)↦(y+a t,t)`, prove
+that its coefficient of t^d is the constant H_p(a,1). On the parameter
+set where this is nonzero it is the last-variable leading coefficient.
+Prove simultaneous nonvanishing for a nonempty open dense set of a, using
+the nonzero product of these dehomogenized polynomials; treat zero and
+constant polynomials separately. This supplies the generic-direction claim.
+Then construct the derivative/slicing-family completion of
+Bochnak–Coste–Roy §9.1, Proposition9.1.2, retaining every original sign
+marker. Prove that its cylindrical cells project to lower cells and that
+each cell closure is a union of cells, with the compatible graph-section
+restrictions of Theorem9.1.4. Own this preparation before triangulation;
+a bare sign-invariant CAD is not assumed to have the frontier property.
+Choose the lower-dimensional base triangulation compatible with the projected
+strata and signs. Prove continuous extension of bounded section roots to
+closed base simplices when the witnessing polynomial specializes to a
+nonzero polynomial at every point of the closed simplex. Quasi-monicity
+supplies this hypothesis. Use finiteness of the boundary roots, compactness
+of the bounded vertical interval, and connected intersections of small balls
+with the simplex interior to prove existence and continuity of the limit.
+Construct the inductive simplicial lift and finite-family compatibility
+refinement. Prove compact extension, gluing and bijectivity;
+compact-to-Hausdorff gives inverse continuity. CAD cells alone are not a
+triangulation.
 
 Expose a parametrized finite compact lifting theorem. Its input is a
 caller-supplied finite quasi-monic polynomial family F closed under last-variable
 differentiation ∂_t, with zero and constant derivatives handled separately,
-the projection CAD adapted to this family, and a compatible base triangulation
-with its map. Choose M>0 bounding the compact set's last coordinate, include
+the frontier-compatible cylindrical refinement prepared above, and a base
+triangulation compatible with every projected stratum, with its map. Choose
+M>0 bounding the compact set's last coordinate, include
 `t²−M²` and its derivatives in F, and retain only section heights in [−M,M]
 in every completed list. The bounding sections are retained on every face;
 all section-coverage claims concern this closed bounded vertical interval.
@@ -445,28 +463,42 @@ face restrictions. For the band transfer consume
 [RealAnalyticGeometry R2 Lemmas11–12 and Lemma14's closed-band continuity](https://github.com/TauCetiProject/TauCetiRoadmap/blob/525a920850e39a4db23a778eec27cb75308b877a/TauCetiRoadmap/RealAnalyticGeometry/README.md#L179-L193),
 with the base map as g on each compact closed base simplex. Verify the
 collapsed-endpoint condition on every face using the completed lists.
-For subdivision use R2 step8's boundary-preserving coning construction on
-its rectilinear affine cells. Prove that this stage's concrete completed
-cells satisfy that construction's inputs: the vertex heights are the
-prescribed closure-section values, the affine interpolants have step7's
-projection/order/endpoint/face properties IV(1)–(4), every graph is an affine
-simplex and every closed band is the convex hull of its lower and upper
-endpoint vertices. Show every face is a finite union of the controlling
-lower-dimensional completed cells, including zero-width faces. These
-comparisons identify the exact finite cell family on which step8's
-relative subdivision maps act; retain their boundary restrictions and
-common-face identifications. This application uses only the displayed
-endpoint calculus, compact-base continuity and rectilinear-cell coning,
-not the preceding analytic-coordinate induction or the property(A) conclusions.
+For subdivision construct here a coherent pulling triangulation of these
+completed affine bands and graphs. Their vertices are the prescribed upper
+and lower endpoints over base vertices, identifying coincident endpoints.
+Prove that all their faces have the same graph/band form over base faces,
+and that any two cells meet in a common face, using the equal-or-consecutive
+section restrictions. Include all such faces. Fix one total order on the
+finite set of endpoint vertices. Recursively triangulate a polytope by
+coning its least vertex to the pulling triangulations of the facets not
+containing it. Prove coverage, simplicial intersections and restriction to
+every face, with the same vertex order. All cones use existing vertices;
+no interior lifted vertex is added.
+
+Export the normal projection property of the resulting lift. Let K_b be
+the final base complex after the two specified refinements, and let
+`Ψ_b:|K_b|→B` include their canonical subdivision homeomorphisms and the
+original base map. For the lifted complex K_l and triangulation map Φ,
+construct a simplicial vertex map `p:K_l→K_b`: every lifted simplex projects
+onto a base simplex, allowing dimension drop on vertical faces. Prove the
+commuting identity `π∘Φ=Ψ_b∘|p|`, where π drops the last coordinate.
+In the rectilinear realization identify |p| with that coordinate projection.
+Retain this identity on every face and on restrictions to the marked subsets.
+The endpoint-only pulling construction supplies this guarantee; generic
+coning to a new interior point does not preserve the final base vertices.
+
+This application consumes R2's displayed endpoint calculus and compact-base
+band continuity, not its analytic-coordinate induction or property(A).
 The bounded affine and real multiprojective semialgebraic application in
 RealAnalyticGeometry R2.1 consumes the exported vertex orders, completed
 lists, restriction/extension maps and distinguished vertices to prove the
 Nash/analytic-simplex invariant of these same maps. That refinement is a
 downstream comparison, not an input to this compact semialgebraic lifting.
-A4.1 owns its completed lists, extension/restriction maps and application
-to the finite polynomial family. The cited R2 band and rectilinear-cell
-subdivision constructions retain their RealAnalyticGeometry owner.
-The CAD dimension API precedes lifting and uses neither that analytic
+A4.1 owns the frontier preparation, completed lists, extension/restriction
+maps, projection-compatible pulling triangulation and finite-polynomial
+application. R2 retains its generic band-transfer and relative coning
+constructions; the interior-point coning is not the present lifting step.
+The CAD dimension API precedes lifting and uses neither the analytic
 invariant nor RealAnalyticGeometry's Stein/manifold triangulation results.
 
 Apply this to real/imaginary polynomial equations and to projective sets
