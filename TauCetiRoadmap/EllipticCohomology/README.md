@@ -9,9 +9,10 @@ structure.
 
 ## Conventions and suppliers
 
-HomotopySpheres is cited by stage: Stage 3C for three-fold Toda brackets
-and secondary composition, Stage 4 for stable SO, real Bott periodicity and
-the stable J-homomorphism.
+BordismFormalGroups F4 supplies every Toda operation used here: three-fold
+brackets of spectra and of right modules over a ring spectrum, the
+higher-arity coherent systems and their reversal and juggling comparisons.
+No other Toda-bracket supplier is used.
 
 Use GeneralizedCohomology's chosen spectral models, commutative spectral rings,
 derived limits and Postnikov/connective-cover machinery. BordismFormalGroups
@@ -19,7 +20,7 @@ owns the native formal-group, MU/BP, exact-functor and algebraic Lubin–Tate
 deformation theory and F6's Bousfield/chromatic localization. ModularCurves
 owns elliptic schemes over arbitrary bases, their Weierstrass presentation,
 effective descent, complete-local formal completions, p-divisible groups and
-its specified Serre–Tate comparison. EllipticCurves Layer1(i) supplies the
+its specified Serre–Tate comparison. EllipticCurves Layer 1(i) supplies the
 formal group law over the coefficient ring; this roadmap owns its descent
 under coordinate changes and the residue-field descent required below.
 Consume SchemeAndStackFoundations §§1.18–1.22 for stacks, presentations,
@@ -31,10 +32,14 @@ sites, `Pseudofunctor.IsStack`, `DescentData`,
 
 ModularForms owns the analytic modular forms and q-expansions; this roadmap
 owns their algebraic stack sections and the comparison with that analytic
-theory. StringOrientation owns BString, the coherent MString Thom ring, its
-primary Witten q-series genus and geometric Cayley-plane questions. This
-roadmap owns the Ando–Hopkins–Rezk E∞ orientation and its comparison with
-that genus. Neither orientation nor the String genus constructs the elliptic
+theory. This roadmap owns the E∞ String bordism spectrum MString, the Thom
+spectrum of the 7-connected cover BString=BO⟨8⟩→BO, the Ando–Hopkins–Rezk
+E∞ orientation σ:MString→tmf, and the characteristic series and q-expansion
+of σ on π_*MString, which is the Witten genus in spectral form. Geometric
+String structures, geometric String bordism, the index-theoretic Witten
+genus of String manifolds and the Cayley-plane kernel questions are not
+constructed here; a geometric consumer compares its genus with E5's
+spectral one. Neither the orientation nor the genus constructs the elliptic
 sheaf or proves its existence.
 
 Let M_ell be the stack of smooth elliptic curves and Mbar_ell its
@@ -74,8 +79,8 @@ flatness hypotheses. Construct local cohomology with support, its
 localization triangle and long exact sequence. These are stack targets
 here; the scheme/algebraic-space site and cohomology suppliers do not
 already give them. Construct the compactified stack's coherent trace
-and derived duality comparisons needed in E4. After inverting6 identify
-the dualizing line as ω^(−10) with cohomological shift1 and prove the
+and derived duality comparisons needed in E4. After inverting 6 identify
+the dualizing line as ω^(−10) with cohomological shift 1 and prove the
 perfect pairing of finitely generated projective ℤ[1/6]-modules
 `H⁰(ω^k)⊗H¹(ω^(−10−k))→H¹(ω^(−10))≃ℤ[1/6]`.
 Integrally construct the
@@ -90,6 +95,29 @@ line-bundle descent. Define ω, c₄∈H⁰(ω⁴), c₆∈H⁰(ω⁶), Δ∈H�
 with c₄³−c₆²=1728Δ, their coordinate weights and base-change laws.
 Use native `WeierstrassCurve` on the atlas and its `IsElliptic` instance.
 
+**Checks.**
+- On the Γ₁(3) form y²+a₁xy+a₃y=x³ the native invariants are
+  c₄=a₁⁴−24a₁a₃, c₆=−a₁⁶+36a₁³a₃−216a₃² and Δ=a₁³a₃³−27a₃⁴; at
+  (a₁,a₃)=(0,1) they are (0,−216,−27) and at (1,0) they are (1,−1,0),
+  and c₄³−c₆²=1728Δ holds at both (−46656=1728·(−27) and 1−1=0). The
+  opposite discriminant sign, used in part of the literature, gives
+  c₄³−c₆²=−1728Δ and fails the first instance.
+- The sign of c₆ is invisible to the relation c₄³−c₆²=1728Δ; it is pinned
+  by the Tate curve, whose c₆ has q-expansion −E₆(q)=−1+504q+…, as in
+  E4's q-expansion pin. The convention c₆=b₂³−36b₂b₄+216b₆ gives the
+  constant term +1 and is excluded.
+- Under the scaling C=(u,0,0,0) the native laws give c₄↦u⁻⁴c₄,
+  c₆↦u⁻⁶c₆ and Δ↦u⁻¹²Δ, so c₄,c₆,Δ have weights 4,6,12 for the
+  transformation law u⁻ᵏ of a weight-k section; reading the weights off
+  u⁴,u⁶,u¹² contradicts the invariant-differential law
+  φ_C*ω_W=u⁻¹ω_(C•W) below.
+- The nodal cubic y²=x³+x² has (c₄,c₆,Δ)=(16,−64,0) and lies in the
+  compactified stack but not in M_ell; the cuspidal cubic y²=x³ has
+  c₄=c₆=Δ=0 and lies in the excluded locus V(c₄,Δ); the elliptic curve
+  y²=x³+1 has c₄=0 and Δ=−432. So the compactified locus is where
+  (c₄,Δ) generates the unit ideal: Δ≠0 alone excludes the nodal curve and
+  c₄≠0 alone excludes y²=x³+1.
+
 Consume the stable genus-one compactification and labelled nodal charts
 from §4.15 and construct their comparison with one-component generalized
 elliptic curves. Extend ω and Δ through these supplied curves and
@@ -101,7 +129,7 @@ group scheme G=Spec ℤ[u,u⁻¹,r,s,t] by x=u²x′+r and
 y=u³y′+su²x′+t. Identify its R-points with native
 [`WeierstrassCurve.VariableChange`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/EllipticCurve/VariableChange.lean).
 Use its group multiplication and left action on coefficients: the product is
-`(u,r,s,t)(v,R,S,T)=(uv,rv²+R,vs+S,tv³+rSv²+T)`,
+`(u,r,s,t)(v,R,S,T)=(uv,rv²+R,vs+S,tv³+rSv²+T)`.
 For the curve morphism φ_(C,W):C•W→W given by
 `(x′,y′)↦(u²x′+r,u³y′+su²x′+t)`, prove
 `φ_(CC′,W)=φ_(C′,W)∘φ_(C,C′•W)`: it is
@@ -140,7 +168,44 @@ the Hartogs comparison on H⁰(ω^k) before computing those sections.
 Compute the Weierstrass Hopf-algebroid/cobar comparison with the supplied
 stack cohomology. Prove the integral algebraic modular-form ring is
 H⁰(Mbar_ell,ω^*)=ℤ[c₄,c₆,Δ]/(c₄³−c₆²−1728Δ), with weights 4,6,12, and its
-ℤ[1/6] presentation. Compare over ℂ with ModularForms' level-one
+ℤ[1/6] presentation. In Hopf-algebroid form this is Deligne's computation
+of the invariants of (A,Γ) (Bauer, *Computation of the homotopy of the
+spectrum tmf*, §3), stated on the universal curve `universalWeierstrass`
+over ℤ[a₁,a₂,a₃,a₄,a₆]: a polynomial f in the five coefficients, evaluated
+on a curve W over a commutative ring by `evalCoeff`, is an integral
+modular form of weight k (`IsIntegralModularForm`: f(C•W)=u⁻ᵏf(W) for
+every coordinate change C over every commutative ring) exactly when f lies
+in the subring ℤ[c₄,c₆,Δ] and is weighted homogeneous of weight k for the
+weights `coefficientWeight`=(1,2,3,4,6) of a₁,a₂,a₃,a₄,a₆
+(`isIntegralModularForm_iff`); and the kernel of ℤ[C₄,C₆,D]→ℤ[a₁,…,a₆],
+C₄,C₆,D↦c₄,c₆,Δ, is the principal ideal (C₄³−C₆²−1728D)
+(`ker_aeval_c₄_c₆_Δ`). The relation holds by native
+`WeierstrassCurve.c_relation`; the converse inclusion uses that c₄ and c₆
+are algebraically independent (at a₁=a₂=a₃=0 they are −48a₄ and −864a₆)
+and that ℤ[C₄,C₆,D]/(C₄³−C₆²−1728D) is ℤ-torsion-free, the relation being
+a primitive polynomial. The weight condition is forced by the scalings
+C=(u,0,0,0) over ℤ[u,u⁻¹]; the quantification over all coefficient rings
+matters, since over ℤ alone u=±1 separates weights only modulo 2. The
+compactified-stack form follows through the depth-two Hartogs comparison
+above.
+
+**Checks.**
+- c₄ is an integral modular form of weight 4 and of no other weight: its
+  monomials a₁⁴, a₁²a₂, a₂², a₁a₃ and a₄ have weight 4, and
+  c₄(C•W)=u⁻⁴c₄(W) by the native law.
+- c₄+Δ lies in ℤ[c₄,c₆,Δ] but is an integral modular form of no weight:
+  under C=(u,0,0,0) it becomes u⁻⁴c₄+u⁻¹²Δ, which is no single power of
+  u⁻¹ times c₄+Δ. A weight-free statement, membership in ℤ[c₄,c₆,Δ]
+  equivalent to having some weight, is therefore false, and the theorem
+  is stated weight by weight.
+- a₁ and b₂=a₁²+4a₂ are weighted homogeneous of weights 1 and 2 but not
+  invariant: a₁(C•W)=u⁻¹(a₁+2s) and b₂(C•W)=u⁻²(b₂+12r); the subring
+  ℤ[c₄,c₆,Δ] has no nonzero element of weight 1, 2 or 3.
+- The zero polynomial has every weight and 1 has weight 0 only. With the
+  coefficient ring restricted to ℤ, u=±1 and 1 would also pass the
+  weight-4 test, so a definition quantified over ℤ-points alone is wrong.
+
+Compare over ℂ with ModularForms' level-one
 analytic forms through the Tate q-expansions, the ring presentations and
 q-expansion injectivity, including holomorphy at the cusp and the integral
 lattice. This specifies the comparison without assuming an unnamed
@@ -151,7 +216,7 @@ differential, and its smooth Tate curve after inverting q. Identify the
 latter over ℤ[1/N]((q)) with ModularCurves' Tate curve and level maps.
 Construct the formal cusp neighbourhood and transition maps; the formal
 multiplicative group belongs to the smooth identity component, including
-at q=0. Prove the ordinary height1 and supersingular height2 strata and
+at q=0. Prove the ordinary height 1 and supersingular height 2 strata and
 their formal deformation comparison, including p=2,3. Consume
 ModularCurves' algebraically closed residue-field Serre–Tate theorem and
 F5's algebraic Lubin–Tate deformation. Construct the Tate–Messing
@@ -165,9 +230,9 @@ its automorphism data. This descent precedes the spectral realizations.
 Separate the supersingular and ordinary cases. At supersingular points
 C[p^∞] is connected, so Def(C)≃Def(Ĉ) by Serre–Tate and Tate–Messing.
 At an ordinary point, Serre–Tate identifies Def(C) with deformations of
-the full connected–étale p-divisible extension. The map to the height1
+the full connected–étale p-divisible extension. The map to the height 1
 connected formal-group deformation is formally smooth of relative
-dimension1, with the extension's Serre–Tate parameter; it is not an
+dimension 1, with the extension's Serre–Tate parameter; it is not an
 equivalence. Prove these two statements with their marked special-fibre
 and residue-field descent data. The nodal Tate chart uses its separately
 constructed q-parameter and multiplicative identity component.
@@ -180,7 +245,7 @@ trivialization, construct its formal group on the native carrier and
 the graded periodic coefficient ring R[u,u⁻¹], |u|=2. Prove the
 Landweber condition when the classified map Spec R→Mbar_ell is flat,
 using F5: for each prime p, p is injective on R, v₁ is injective on
-R/p, and v₂ is a unit on the height2 quotient (higher quotients vanish).
+R/p, and v₂ is a unit on the height 2 quotient (higher quotients vanish).
 Identify v₁ with the Hasse invariant in the chosen coordinate and
 prove that it is a unit on the nodal multiplicative locus. Apply F6's
 p-local height-bound theorem to the localized theory E_(p), obtaining
@@ -203,7 +268,7 @@ construction targets precede the elliptic gluing.
    sequences, products, naturality and convergence hypotheses.
    Consume native root `mahler`, `PadicInt.hasSum_mahler` and
    `PadicInt.mahlerEquiv`, with their complete ultrametric normed additive
-   group, bounded ℤ_p-module and continuous-function hypotheses.
+   group, bounded ℤ_p-module and continuous-function hypotheses,
    for continuous functions on ℤ_p; use completed function/tensor modules,
    not uncompleted polynomial rings. Prove the translation-difference exact
    sequence on C(ℤ_p,ℤ_p) from the binomial basis and transport through a
@@ -211,7 +276,7 @@ construction targets precede the elliptic gluing.
    continuous functions on ℤ_p×, and the Adams-summand/KO comparisons by
    μ-homotopy fixed points. For K(1)-local X, establish the fibre sequence
    `X→L_K(1)(B smash X)→L_K(1)(B smash X)` with second map ψ_g−1,
-   where B is the odd-prime Adams summand or KO at2. Retain the generator
+   where B is the odd-prime Adams summand or KO at 2. Retain the generator
    dependence and the distinction between the summand and the 2-primary case.
 2. For h∈{1,2}, realize F5's Lubin–Tate deformation as the even-periodic
    Morava E spectrum of a specified height-h formal group over a perfect
@@ -238,8 +303,8 @@ construction targets precede the elliptic gluing.
 4. On the ordinary locus (including the nodal identity component)
    construct the Igusa stages classifying μ_(p^k)≃Ĉ[p^k], their
    étale torsor maps and the ℤ_p× tower action. Prove affine
-   representability at k≥1 for odd p and k≥2 at2, including the
-   Weierstrass jet/rigidity calculations at2 and3. Set
+   representability at k≥1 for odd p and k≥2 at 2, including the
+   Weierstrass jet/rigidity calculations at 2 and 3. Set
    `V∞hat=lim_m colim_k V_k/p^m`, with the completion/continuous-action
    comparisons. Construct Frobenius lift ψᵖ, θ with ψᵖ(a)=aᵖ+pθ(a),
    and continuous Adams operations, using the canonical subgroup quotient
@@ -257,8 +322,8 @@ construction targets precede the elliptic gluing.
    action coherently by the group-cohomology obstruction tower; prove
    vanishing using p-completeness and the prime-to-p group order.
    Take homotopy fixed points and use F6's K(1)-local norm comparison.
-   At2 use the separate reduced-θ construction of DFHH12§7 and
-   AppendixA: Γ=ℤ₂×/{±1}, graded algebra (KO₂)_*⊗_(ℤ₂)V_red,
+   At 2 use the separate reduced-θ construction of DFHH Chapter 12 §7 and
+   Appendix A: Γ=ℤ₂×/{±1}, graded algebra (KO₂)_*⊗_(ℤ₂)V_red,
    with Bott-periodic meaning this specified KO-module shape. Prove
    its ordinary instance has V_red=V∞hat; V_red is not the Igusa
    level-zero ring. For shrinking open subgroups G_j⊂Γ construct
@@ -266,15 +331,15 @@ construction targets precede the elliptic gluing.
    KO₂≃L_K(1) hocolim_j T_j. Prove the completed K-homology,
    continuous-function/coinduction and local-completion comparisons
    giving this equivalence and the projective resolution below.
-   [-1] acts trivially on V∞hat, the level4 affine comparison and
+   [-1] acts trivially on V∞hat, the level 4 affine comparison and
    H_c^s(Γ,V∞hat/2)=0 for s>0. Build the KO-based simplicial free
    resolution, its finite-Galois dualizable projective spectra,
    spiral exact sequence and reduced-θ obstruction theory in this
    restricted category, verifying its continuous-cohomology hypotheses.
    Prove the KO/K completed-homology comparison and degreewise
-   vanishing, including the modulo8 shifts, before constructing the
+   vanishing, including the modulo 8 shifts, before constructing the
    2-primary ordinary model. The odd-prime finite-action argument
-   is not used for a group whose order is divisible by2.
+   is not used for a group whose order is divisible by 2.
 
    For étale charts over the ordinary locus prove relative θ-cotangent
    complexes vanish, construct the local algebra spectra, and lift the
@@ -288,7 +353,7 @@ construction targets precede the elliptic gluing.
    Weil-pairing action; no primitive Nth root is fixed unless the base
    and level problem specify it. Algebraize the universal formal
    supersingular curve with this level and construct its ordinary
-   restriction and completed Igusa pullbacks. Prove DFHH8 Lemmas8.3–8.6:
+   restriction and completed Igusa pullbacks. Prove DFHH Chapter 8, Lemmas 8.3–8.6:
    completed coinduction/descent identifies the homology rings, positive
    group cohomology vanishes for these torsor modules, and the resulting
    homotopy-fixed-point spectral sequences collapse. Prove the K(1)-local
@@ -315,8 +380,8 @@ construction targets precede the elliptic gluing.
    completing it; compare with G3's derived completion.
    Prove the spectral pullback has the original
    line-power coefficients and the specified formal group.
-   At2 construct the chromatic transition with reduced-θ/KO obstruction
-   groups and the level4 comparison; the odd-prime prime-to-p action proof
+   At 2 construct the chromatic transition with reduced-θ/KO obstruction
+   groups and the level 4 comparison; the odd-prime prime-to-p action proof
    does not replace it. For the rational model use the normalized formal
    logarithm and the Hℚ-algebra on the graded line powers. Cover rational
    moduli by c₄≠0 and Δ≠0, construct their compatible arithmetic maps
@@ -366,7 +431,7 @@ weight k. Use E1's local-cohomology triangle for the cuspidal support
 removed from the cubic stack, its cobar/localization comparison and
 derived coherent duality. Prove the cubic cobar complex has no negative-
 weight terms, and derive the negative-weight groups from supported
-cohomology, retaining the integral higher-filtration torsion at2 and3,
+cohomology, retaining the integral higher-filtration torsion at 2 and 3,
 base change and product pairings. Consume E1's depth-two Hartogs
 comparison for H⁰. Include these groups and their differentials/extensions in the compactified
 descent calculation. Identify the connective cover through E3's actual map.
@@ -378,12 +443,12 @@ MU/BP resolution, normalized cobar, convergence and coherent Toda APIs.
 These are upstream of the elliptic DSS and Gap Theorem. Use the same
 spectral sphere and its p-localizations, not a private stable-stem carrier.
 
-1. At2 construct homogeneous normalized BP-cobar representatives and
-   their resolution lifts detecting η, ν, ε and κ, with κ in stem14
-   and Adams–Novikov filtration2. Prove that these classes are permanent
+1. At 2 construct homogeneous normalized BP-cobar representatives and
+   their resolution lifts detecting η, ν, ε and κ, with κ in stem 14
+   and Adams–Novikov filtration 2. Prove that these classes are permanent
    cycles with nonzero image, and prove 2κ=0. The proof computes the
    2-local Adams–Novikov E₂-term Ext_(BP_*BP)^(s,t)(BP_*,BP_*) in the
-   finite range of internal degrees needed for stems14,20 and29 and
+   finite range of internal degrees needed for stems 14, 20 and 29 and
    their adjacent differentials, and identifies its classes with the
    exact-couple classes of the actual sphere tower. Prove the
    filtration and connectivity bounds showing that no differential
@@ -393,16 +458,18 @@ spectral sphere and its p-localizations, not a private stable-stem carrier.
 2. Construct compatible nullhomotopies of the consecutive composites
    and chosen lower faces defining ⟨κ,2,η,ν⟩ in π₂₀S_(2).
    Compute its indeterminacy as ⟨ν²κ⟩, prove that π₂₀S_(2) is cyclic
-   of order8 and that this bracket is a coset of generators, and prove
-   ν²κ is its nonzero order2 element. Choose κ̄_S in this bracket with
+   of order 8 and that this bracket is a coset of generators, and prove
+   ν²κ is its nonzero order 2 element (the sphere facts of
+   Carrick–Davies–van Nigtevecht, below CDvN, Lemma 5.6). Choose κ̄_S in this bracket with
    its complete defining system; prove 4κ̄_S=ν²κ and keep the change
    of choice κ̄_S↦κ̄_S+ν²κ explicit. Construct the corresponding
-   filtration2 sphere ANSS detection and its comparison with the
+   filtration 2 sphere ANSS detection and its comparison with the
    classical bracket via F4's tower maps. This calculation includes
    the lower κ/η/ν/ε bracket and product relations used for detection;
-   in particular construct ηκ∈⟨2ν,ν,ε⟩ with its actual stem15 target
-   and indeterminacy. Do not infer κ from cancellation of η.
-3. In the same independent sphere calculation prove π₂₉S_(2)=0:
+   in particular construct ηκ∈⟨2ν,ν,ε⟩ with its actual stem 15 target
+   and indeterminacy (CDvN Proposition 5.4). Do not infer κ from cancellation of η.
+3. In the same independent sphere calculation prove π₂₉S_(2)=0
+   (CDvN Lemma 5.8):
    give the finite cobar/resolution reductions, all relevant sphere
    differentials and convergence/extension bounds making the stem's
    associated graded zero. Turn this into an actual nullhomotopy of
@@ -410,13 +477,14 @@ spectral sphere and its p-localizations, not a private stable-stem carrier.
    than an imported sphere table or a completed tmf calculation, is
    the exported input. A nullhomotopy is supplied as a map in the
    chosen sphere model, with its change-of-choice comparison.
-4. At3 construct α₁ in stem3 and β₁ in stem10, with a complete
+4. At 3 construct α₁ in stem 3 and β₁ in stem 10, with a complete
    defining system for β₁∈⟨α₁,α₁,α₁⟩. In F4's BP-cobar convention
    construct the algebraic Greek-letter class β₃/₃ in E₂^(2,36),
    and representatives for α₁∈E₂^(1,4) and β₁∈E₂^(2,12).
    Prove in the SPHERE ANSS that
    d₅(β₃/₃)=±α₁β₁³ in E₅^(7,40), with nonzero target and a single
-   consistent generator/sign choice. Construct the filtered lift of
+   consistent generator/sign choice (the Toda differential used in CDvN
+   Proposition 7.2). Construct the filtered lift of
    the β₃/₃ representative through the first four stages; calculate
    its fifth obstruction using the Moore/cofiber connecting maps
    and chosen defining homotopies, identify that obstruction with
@@ -501,10 +569,10 @@ derived category, local branch and hypercompletion throughout this
 programme; none is replaced by an even-only theory.
 
 Construct the exact symmetric monoidal equivalence
-E:QCoh(M_FG)≃C_ev, with topological internal degree2k corresponding
-to Hodge weightk. Pin the shift direction: define (T_kM)_n=M_(n+2k)
+E:QCoh(M_FG)≃C_ev, with topological internal degree 2k corresponding
+to Hodge weight k. Pin the shift direction: define (T_kM)_n=M_(n+2k)
 and prove E(P⊗ω^k)≃T_kE(P). Thus the free unit whose generator is in
-degree−2 maps to ω, and one whose generator is in degree+2 maps to
+degree −2 maps to ω, and one whose generator is in degree +2 maps to
 ω⁻¹. On cohomology fix
 Ext^(s,2k)(MU_*,E(P))≃H^s(M_FG,P⊗ω^k), with the same cobar and
 Hodge-trivialization convention. Construct the exact fully faithful
@@ -518,8 +586,8 @@ Prove S²=T_(−1) and the tensor formula
 (P,Q)⊗(P′,Q′)≃
 (P⊗P′ ⊕ Q⊗Q′⊗ω⁻¹, P⊗Q′ ⊕ Q⊗P′).
 Construct the associativity/unit/distributivity and symmetry comparisons
-from the actual graded tensor product: odd–odd interchange has sign−1,
-even–odd has sign+1, with the canonical ω⁻¹ line transports. Prove the
+from the actual graded tensor product: odd–odd interchange has sign −1,
+even–odd has sign +1, with the canonical ω⁻¹ line transports. Prove the
 pentagon, hexagon, reindexing and S/T_k diagrams, including the triple-
 odd associator and the square of (0,O), which is (ω⁻¹,0).
 This retains odd objects without creating a square root of ω in ordinary
@@ -550,7 +618,7 @@ the cubic algebra with its normalized Hopf-algebroid cochain model and
 E∞ multiplication using this same regrading. Carry these functors,
 shifts, units and products into the local Cτ-module comparison above.
 For an arbitrary parity pair retain both group formulas: its even
-internal degree2k gives H^s(P⊗ω^k), and degree2k+1 gives
+internal degree 2k gives H^s(P⊗ω^k), and degree 2k+1 gives
 H^s(Q⊗ω^k); their tensor/symmetry comparisons use the displayed twist.
 Only the structure-sheaf pushforwards used below have Q=0.
 
@@ -584,11 +652,14 @@ product, differential and abutment-detection diagrams. The sphere class
 κ̄_S and the elliptic class below are distinct named data. From the
 algebraic stack/cobar computation prove the mod-τ vanishings in
 bidegrees (21,1),(21,2),(20,2),(20,3); use the τ² cofiber sequence to
-prove τ²:π_(20,4)Smf_(2)→π_(20,2)Smf_(2) is an isomorphism.
-Define κ̄_ell as the unique preimage of unit(κ̄_S), prove its mod-τ
-reduction is the order8 generator g, and prove 4κ̄_ell=ν²κ.
+prove τ²:π_(20,4)Smf_(2)→π_(20,2)Smf_(2) is an isomorphism (CDvN
+Proposition 5.9). Define κ̄_ell as the unique preimage of unit(κ̄_S),
+prove its mod-τ reduction is the order 8 generator g (Proposition 5.9,
+Notation 5.10), and prove 4κ̄_ell=ν²κ (Corollary 5.11); the relation
+4κ̄_S=τ²ν²κ in the synthetic sphere is Lemma 5.7.
 Construct κ's detection by d using the ηκ bracket, the relevant
-mod-τ vanishings and nonzero Massey detection; never cancel η.
+mod-τ vanishings and nonzero Massey detection; never cancel η
+(Proposition 5.4).
 Transport changes of the chosen sphere defining system and its
 indeterminacy along the same unit map. These arguments use algebraic
 cohomology and the constructed sheaf, not the Gap Theorem or MU_*tmf.
@@ -596,10 +667,12 @@ cohomology and the constructed sheaf, not the Gap Theorem or MU_*tmf.
 Use the finite τ-torsion of ν³κ̄_S, the unit equation
 unit(κ̄_S)=τ²κ̄_ell, the normalized h₂ and g detections, the synthetic
 Leibniz/total-differential comparison and the algebraic source/target
-bounds to force d₅(Δ)=±h₂g at2. At3 transport E4.S's actual sphere
+bounds to force d₅(Δ)=±h₂g at 2 (CDvN Proposition 6.19). At 3 transport
+E4.S's actual sphere
 fifth obstruction and α₁/β₁ detections; the only possible hit on
 α₁β₁³ is d₅(±β₁Δ), so permanence of β₁ and the product calculation
-force d₅(Δ)=±α₁β₁². Prove these uniqueness/nonzero assertions from
+force d₅(Δ)=±α₁β₁² (CDvN Proposition 7.2). Prove these uniqueness/nonzero
+assertions from
 the computed E₂ groups, including all earlier differentials and
 indeterminacy. Fix signs by the same generators, keep the later higher
 atomic differentials as separate targets, and export these two atomic
@@ -615,7 +688,8 @@ synthetic spectra*](https://arxiv.org/abs/2407.01507v2), including its
 derived-comodule and log-site comparisons. Before using the Gap Theorem, construct the map
 Φ from the derived cubic-stack pushforward to Smf/τ as E∞ Cτ-algebras,
 using the specified local derived-comodule comparison. Prove the split
-injection on bigraded groups and isomorphism for 5s≤n+12 by the full
+injection on bigraded groups and isomorphism for 5s≤n+12 (CDvN
+Proposition 4.3) by the full
 cubic and compactified-stack cohomology computations in this E4,
 using E1’s local-cohomology triangle and depth-two localization. Transport the normalized cobar
 Massey systems along this algebra map. Prove
@@ -625,36 +699,39 @@ sheaves to construct synthetic transfers for finite log-étale maps:
 construct the enriched span category, its pullback/composition coherence
 and the additive extension of the spectral sheaf, with base change and
 projection formulas. Identify reduction mod τ with the actual algebraic
-cohomology trace. In particular construct the 2-local Γ₁(3)-to-level-one
+cohomology trace (CDvN Theorem 4.4). In particular construct the 2-local Γ₁(3)-to-level-one
 transfer and its cubic Hopf-algebroid comparison in the connective region.
 Before the Gap Theorem compute H^s(Mbar₁(3)_(2),ω^t)=0 for s>1 and
 all integral t, identify its synthetic signature E₂ page with these
 groups, and prove its DSS collapses. Present the Bauer §7 change
-`(A_(2),Γ_(2))→(A′,Γ′)` and the pushforward p_*O as the free rank8
+`(A_(2),Γ_(2))→(A′,Γ′)` and the pushforward p_*O as the free rank 8
 left A′-module Γ′, with basis 1,s,s²,s³,t,st,s²t,s³t. Construct the
 transfer as the trace of multiplication and calculate its values on
 this ordered basis:
 `8,−4a₁,2a₁²,−a₁³,a₁³/3−4a₃,−2a₁a₃,−a₁⁵/3+9a₁²a₃,
-a₁⁶/3−7a₁³a₃−27a₃²`.
+a₁⁶/3−7a₁³a₃−27a₃²`
+(CDvN Proposition 4.6).
 Identify the right-unit formulas and prove
 `Tr(1)=8`, `Tr(3η_R(a₁a₃))=2c₄`,
 `Tr(−η_R(a₃²))=2c₆`. Deduce that 8,2c₄,2c₆, and their ideal
-in filtration0, are permanent cycles in the level-one DSS. These are
+in filtration 0, are permanent cycles in the level-one DSS (CDvN
+Corollary 4.9). These are
 the transfer outputs used in the independent Gap calculation.
 This level/sheaf/transfer sublane precedes coefficient calculations and
 uses neither the Gap Theorem nor the DA(1) equivalence. Construct the
 four-fold systems in Smf/τ¹⁰ detecting ν₂ and ν₆, first constructing
-the prerequisite ν₄. Pin ν₆ to bidegree(147,1) and construct its
+the prerequisite ν₄. Pin ν₆ to bidegree (147,1) and construct its
 system `⟨ν₄,2ντ⁴,ντ⁴,κ̄²⟩` and all detection/extension choices
-in full, as well as ν₂; the ν₆ argument is its own construction.
+in full, as well as ν₂ (CDvN Proposition 6.69); the ν₆ argument is its
+own construction.
 Prove the singleton and mod-τ⁴ detection assertions before the
 d₁₃ differentials that use them. In Smf/τ²⁴ construct
 τ²κ̄∈⟨κ,2,η,ν⟩ and the compatible shuffle
 `τ¹⁶κ̄⁴·⟨κ,2,η,ν⟩·τ⁴κ̄=⟨τ¹⁶κ̄⁴,κ,2,η⟩·τ⁴νκ̄`.
 Prove every proper sub-bracket equals {0}, using the π_(95,1)
 vanishing and the reduction-map injectivity lifting τ⁴νκ̄=0 from
-mod τ¹² to mod τ²⁴. Derive τ²²κ̄⁶=0 and, by the truncated
-signature comparison, d₂₃(h₁Δ⁵)=g⁶. Retain the defined systems and
+mod τ¹² to mod τ²⁴ (CDvN Lemma 6.57). Derive τ²²κ̄⁶=0 and, by the
+truncated signature comparison, d₂₃(h₁Δ⁵)=g⁶ (CDvN Proposition 6.58). Retain the defined systems and
 actual indeterminacy. Carry out the 2- and 3-primary
 DSS differentials and extension bounds in stems n>−21 to prove the Gap
 Theorem, then the remaining negative stems. The MU-homology comparison
@@ -662,8 +739,8 @@ for Tmf comes from this sheaf construction. Only after the Gap Theorem,
 prove Mathew's connective-cover comparison identifying MU_*tmf and its
 cubic Hopf-algebroid presentation; construct its ANSS and compare it with
 the computed descent filtration. Pin the induced retract and connective
-region 5s≤n+12, the initial d₃ comparison at2 and the no-line-crossing
-statement from E₅ onward, with the corresponding3-primary comparison.
+region 5s≤n+12, the initial d₃ comparison at 2 and the no-line-crossing
+statement from E₅ onward, with the corresponding 3-primary comparison.
 Derive the mod-p homology comparisons
 from these maps. This order does not use a tmf ANSS computation to
 establish its own coefficient input. Supply the synthetic/filtered version
@@ -688,39 +765,41 @@ Tmf, using E4.S's independent sphere calculations, E4.U's unit and
 atomic inputs, and F4's single generic Adams–Novikov/cobar and coherent
 Toda APIs, with separate p=2 and p=3 descent calculations, the torsion-free
 calculation away from 6 and the arithmetic square. In the 2-local
-ring, construct the six-fold systems of Bauer Lemma8.6 and Corollary8.7,
+ring, construct the six-fold systems of Bauer Lemma 8.6 and Corollary 8.7,
 including a value of `⟨ν,2ν,ν,4ν,ν,η⟩` detected by g and generating
-the order8 summand in degree20, with its full indeterminacy. Choose
+the order 8 summand in degree 20, with its full indeterminacy. Choose
 the representative called κ̄ through this system and its detection;
 any inference from ηκ̄ must account for ker(η), including 2κ̄.
-For degree110 pin the common target form
+For degree 110 pin the common target form
 `Δ⁴κ∈⟨κ,4ν,3ν,2ν,ν,κ̄⁴⟩`. Construct its complete system and
 compare with Bauer’s `⟨κ̄⁴,ν,2ν,ν,4ν,κ⟩` using F4 reversal and
 inner juggling: in π₃S_(2)≅ℤ/8 use 12ν=4ν and verify the proper
-sub-bracket/compatible-choice hypotheses for moving the factor3.
-Construct the nested systems in Bauer Lemma8.6 and Corollary8.7 with
+sub-bracket/compatible-choice hypotheses for moving the factor 3.
+Construct the nested systems in Bauer Lemma 8.6 and Corollary 8.7 with
 their actual inner choices; determine the sign and designated class
-under this comparison. Derive the hidden 2-extension in stem110 from
+under this comparison. Derive the hidden 2-extension in stem 110 from
 the appropriate τ-truncation connecting maps and total differentials,
 checking all bidegrees. Prove the detection/injectivity on the relevant
-filtration pieces used to pass from its κ̄³-multiple in stem170; do not
+filtration pieces used to pass from its κ̄³-multiple in stem 170; do not
 cancel κ̄ as a unit. Give complete
 generators, relations, additive orders, differentials and hidden
 additive/multiplicative extensions, with their detection maps; a table
 of E₂ terms alone is not a homotopy-ring computation. Prove the rational
 comparison and
-π_*tmf[1/6]≅ℤ[1/6][c₄,c₆], in degrees 8 and12, with the designated
+π_*tmf[1/6]≅ℤ[1/6][c₄,c₆], in degrees 8 and 12, with the designated
 normalizations. Pin c₄(q)=E₄(q)=240G₄(q) and
-c₆(q)=−E₆(q)=504G₆(q) for String's Bernoulli-normalized G_(2k).
-These factors are not units over ℤ[1/6]; the coefficient-ring
+c₆(q)=−E₆(q)=504G₆(q), where G_(2k)(q)=−B_(2k)/(4k)+Σ_(n≥1)σ_(2k−1)(n)qⁿ
+is the Bernoulli-normalized Eisenstein series (Ando–Hopkins–Rezk (10.8));
+B₄=−1/30 and B₆=1/42 give the constant terms 1 and −1.
+The factors 240 and 504 are not units over ℤ[1/6]; the coefficient-ring
 polynomial generators are c₄,c₆, not the unscaled G₄,G₆.
 
-Construct the integral permanent-cycle lift of Δ²⁴ in degree576 and
+Construct the integral permanent-cycle lift of Δ²⁴ in degree 576 and
 prove the corresponding localization tmf[(Δ²⁴)⁻¹]≃TMF and
 Tmf[(Δ²⁴)⁻¹]≃TMF, with their ring and q-expansion maps. Include the
-degree192 periodicity at2 from Δ⁸, degree72 periodicity at3 from Δ³ and the degree24 period
+degree 192 periodicity at 2 from Δ⁸, degree 72 periodicity at 3 from Δ³ and the degree 24 period
 after inverting 6, verifying the actual powers/permanent cycles.
-Do not treat Δ as an integral degree24 homotopy element without this
+Do not treat Δ as an integral degree 24 homotopy element without this
 calculation. Construct tmf's connective-cover comparison with Tmf and
 identify its effect on nonnegative and negative groups separately.
 Build the edge map π_(2k)tmf→H⁰(Mbar_ell,ω^k) and determine its
@@ -737,44 +816,85 @@ the holomorphic target is the connective map's target.
 
 ## E5. Coherent String orientation and the Witten comparison
 
-Consume StringOrientation S2's actual E∞ MString model. Construct the
-Ando–Hopkins–Rezk orientation σ:MString→tmf as an E∞ map.
+Construct the E∞ String bordism spectrum MString here. Form
+bstring=τ_(≥8)ko from G5's connective real K-theory spectrum ko by G3.8's
+connective cover and prove bstring≃Σ⁸ko by the Bott periodicity of G2.8's
+KO, so that BString=Ω^∞bstring is the 7-connected cover BO⟨8⟩→BO, with
+π₈BString≅ℤ and π_iBString=0 for i<8. Build the units spectrum gl₁(R) of
+a commutative ring spectrum R on G's commutative-ring model, its
+adjunction with Σ^∞_+Ω^∞ (Ando–Blumberg–Gepner–Hopkins–Rezk, below ABGHR,
+Theorem 5.2) and bgl₁(R)=Σgl₁(R). Construct the stable J-homomorphism as
+a map of spectra bo→bgl₁(S) whose infinite loop map BO→BGL₁(S)
+classifies the universal stable spherical fibration, from G5.3/G5.4's
+permutative Grassmannian model of BO under Whitney sum. Define MString as
+the E∞ Thom spectrum of the composite bstring→bo→bgl₁(S) (ABGHR
+Definition 4.2; Ando–Hopkins–Rezk §5, (5.1)). Prove that its underlying
+spectrum is the Thom spectrum of the induced stable spherical fibration
+over BString (ABGHR Lemma 4.8) and compare it with G5.3's sequential Thom
+spectrum of the finite-rank diagram of 7-connected covers BO⟨8⟩(n)→BO(n)
+with the pulled-back universal bundles. Construct the E∞ map
+MString→MSpin along bstring→bspin=τ_(≥4)ko, and prove the E∞ comparison
+between the Thom spectrum of bspin→bgl₁(S) and G5.4's commutative MSpin,
+so that G5.5-ABS's E∞ orientation MSpin→KO restricts to MString.
+Construct the Ando–Hopkins–Rezk orientation σ:MString→tmf as an E∞ map.
 Consume E2's K(1)-local realization, Igusa tower, p-adic modular forms
 and θ operations. Construct Katz's p-adic modular-form completion and
 its comparison with the Igusa functions, including weight/Adams actions
-and q-expansion injectivity. Build the units spectrum gl₁(R), the Thom-orientation mapping-space
-description and its obstruction fibre sequence on G's commutative-ring
-model. Construct p-adic measures and moments, Kummer congruences and
-the Eisenstein-series integrality relations used in the orientation
-criterion. Prove the height1/2 and arithmetic compatibility and the
-obstruction vanishing, with the normalization selecting the Witten
-orientation; rational characteristic-series equality is insufficient.
-Prove comparison with the String S4 genus on the edge map and at the
-Tate cusp, and with the specified KO/ABS orientation after the
-appropriate constant-term map.
+and q-expansion injectivity. Describe the space of E∞ maps MString→R as
+the space of lifts of bstring→bgl₁(S)→bgl₁(R) through the fibre of
+bgl₁(S)→bgl₁(R) (ABGHR Theorem 4.9; Ando–Hopkins–Rezk Definition 5.3),
+with its obstruction fibre sequence. Construct p-adic measures and
+moments, Kummer congruences and the Eisenstein-series integrality
+relations used in the orientation criterion (Ando–Hopkins–Rezk §§10–12).
+Prove the height 1/2 and arithmetic compatibility and the obstruction
+vanishing, with the normalization selecting the orientation whose
+characteristic series is the sequence of Eisenstein series {G_k}_(k≥4)
+(Ando–Hopkins–Rezk Theorem 12.3); rational characteristic-series
+equality is insufficient. Compute the genus of σ: the composite
+π_*MString→π_*tmf→ℤ[[q]] through E4's edge map and E3's q-expansion is
+the ring map whose KO-characteristic series is Witten's
+`σ(L,q)=(L^(1/2)−L^(−1/2))∏_(n≥1)(1−qⁿL)(1−qⁿL⁻¹)/(1−qⁿ)²`
+(Ando–Hopkins–Rezk §1), with logarithm coefficients 2G_(2k)(q)/(2k)! in
+E4's Bernoulli normalization (Ando–Hopkins–Rezk Proposition 10.9). Prove the comparison at the Tate cusp,
+MString→tmf→KO[[q]], and the comparison with G5.5-ABS's orientation after
+the constant-term map KO[[q]]→KO, q↦0 (Ando–Hopkins–Rezk Theorem 6.1).
 
-Give natural ring maps on geometric String bordism via S2's PT
-isomorphism, pullback/product/forgetting laws and effects of changes
-of String lift. Determine the image on π_* and its torsion information,
+Determine the image of σ_* on π_* and its torsion information,
 including the orientation's surjectivity theorem. Construct
-Devalapurkar's loop-space Thom E1 ring B and its map to MString:
-use the O(9)→O(10) fibre sequence and the specified clutching element
-mapping to 2ν to construct BN, N=ΩBN and N→BString. Prove
-BP_*B=BP_*[b₄,y₆], degrees8,12, its low-cell and Steenrod comparisons,
-and the 2- and 3-local Adams–Novikov differentials and Toda relations
-that lift all tmf generators. For the higher operations use F4's coherent
+Devalapurkar's loop-space Thom E1 ring B and its map to MString. Own the
+finite unstable inputs of this construction: the fibre bundle
+O(9)→O(10)→S⁹ given by the last column on Mathlib's
+`Matrix.orthogonalGroup`, with S⁹=O(10)/O(9) and the associated bundle
+O(10)×_(O(9))ℝ⁹ identified with the tangent bundle of S⁹, so that the
+fibre sequence S⁹→BO(9)→BO(10) classifies that bundle; the stable
+identification π₁₂S⁹≅π₃S≅ℤ/24 by G2.5's Freudenthal theorem and E4.S's
+stem-3 calculation; and a clutching element f∈π₁₂O(10) whose boundary
+image in π₁₂S⁹ is 2ν, equivalently the nullity of the composite of 2ν
+with the tangent classifier S⁹→BO(9), proved from the fibrations
+O(k)→O(k+1)→S^k for 9≤k≤12 and the EHP calculations of π₁₁S^k and π₁₂S^k
+in that range (the group is Kervaire's π₁₂O(10)≅ℤ/12; Devalapurkar
+Construction 3.1). Use f to construct BN as the homotopy pullback of
+S¹³→BO(10)←BO(9), N=ΩBN with its fibre sequence ΩS⁹→N→ΩS¹³, and the loop
+map N→BString extending the generator of π₈BString along the composite
+S¹²→S⁹→B²String=Ω^∞Σ²bstring, which is null because
+π₁₂B²String=π₁₀O=0. Prove BP_*B=BP_*[b₄,y₆], degrees 8, 12, by the Thom
+isomorphism and the even-cell collapse of the Atiyah–Hirzebruch spectral
+sequence (Devalapurkar Proposition 3.2), the equivalence of B→MString→tmf
+in dimensions at most 12, and the mod-2 homology F₂[ζ₁⁸,ζ₂⁴] with F2's
+Steenrod-dual coaction. Prove the 2- and 3-local Adams–Novikov
+differentials and Toda relations that lift all tmf generators. For the higher operations use F4's coherent
 systems and E4's detections. In particular construct a system in B whose
 image is the six-fold system
 Δ⁴κ∈⟨κ,4ν,3ν,2ν,ν,κ̄⁴⟩⊆π_110 tmf_(2), and compute the target
 indeterminacy needed for the lift. Construct the B-side defining systems
-and image comparisons for all of Devalapurkar Proposition5.9(a)–(h).
+and image comparisons for all of Devalapurkar Proposition 5.9(a)–(h).
 In particular the lift route for 2Δ⁵ν and Δ⁵ε uses its threefold
 systems `⟨2ν,Δ⁴ν,κ̄⟩` and `⟨ε,Δ⁴ν,κ̄⟩`, with their coherent
 B-side lifts. Separately construct the filtered J₅(S⁴)^μ Thom form
 and prove the sevenfold computations
 `2Δ⁵ν∈⟨2ν,5ν,4ν,3ν,2ν,ν,κ̄⁵⟩` and
 `Δ⁵ε∈⟨ε,5ν,4ν,3ν,2ν,ν,κ̄⁵⟩`, including indeterminacy and
-cell-by-cell obstructions. The surjectivity proof uses Proposition5.9,
+cell-by-cell obstructions. The surjectivity proof uses Proposition 5.9,
 independently of these sevenfold computations.
 
 Own the special E1 Thom/quotient refinement for these loop maps: construct
@@ -784,8 +904,9 @@ comparison with G5.3's underlying bundle-diagram Thom spectrum. Construct
 the relative Thom form over S//σ from ΩS⁹→N→ΩS¹³, and its multiplicative
 comparison used for BP_*B and B→BP. Prove its
 E1 cell-attachment/quotient universal property and the James-filtration
-Thom comparisons used above. Consume S2's particular E∞ MString model
-and compare the constructed map B→MString with its underlying E1 model.
+Thom comparisons used above. Compare the constructed E1 map B→MString,
+the Thomification of N→BString into the E∞ MString above, with its
+underlying E1 model.
 Build the auxiliary finite complex DA(1) and E6's specific 2-local
 Γ₁(3) module comparison, including the unit-induced tmf→tmf∧DA(1)
 map and its effect on the chosen classes. Own here the additional
@@ -800,12 +921,13 @@ successive B-side attachment obstructions, and prove that the descended
 B classes have the required tmf detections, including extension choices.
 The commuting T(2) square is an input to these cell-by-cell lifts.
 Then perform arithmetic reconstruction.
-The classical unstable homotopy calculations consume HomotopySpheres
-Stage 4's Bott/J constructions and TangentialBordism's Adams theory. Keep the edge-map image a separate
+Keep the edge-map image a separate
 calculation: surjectivity onto tmf does not make every integral modular
-form a Witten genus. StringOrientation owns the geometric I_OP inclusion
-and equality questions; this roadmap supplies the spectrum, orientation
-and the q-expansion/torsion comparisons they require.
+form a Witten genus. The geometric kernel questions, which String bordism
+classes have vanishing image under σ and whether that kernel is a given
+geometric ideal, belong to a consumer; this roadmap supplies the
+spectrum, the orientation and the q-expansion/torsion comparisons they
+require.
 
 ## E6. Levels, boundary maps and reusable applications
 
@@ -853,10 +975,12 @@ E5 constructs its B-smash comparison separately from this tmf-module
 equivalence. Distinguish 2-localization from 2-completion in these statements and prove any
 completion comparison used in the coefficient calculation.
 
-Construct the primary and secondary detection maps used by String
-bordism: low-stem unit images, the q-expansion edge and the torsion
-kernel, and the connective-to-periodic change. Supply the maps and coefficient comparisons consumed by
-StringOrientation S6's positive-Ricci TMF vanishing question.
+Construct the primary and secondary detection maps that String-bordism
+consumers use: low-stem unit images, the q-expansion edge and the torsion
+kernel, and the connective-to-periodic change, with the localization
+criterion that x∈π_n tmf maps to zero in π_n TMF exactly when D^j·x=0 in
+π_(n+576j)tmf for some j≥0, where D is E4's degree-576 permanent class
+with tmf[D⁻¹]≃TMF.
 Do not deduce torsion-sensitive vanishing from zero rational or modular
 q-expansion. General elliptic indices of field theories are not
 assumed in this spectral construction.
@@ -866,27 +990,33 @@ assumed in this spectral construction.
 E1 and F5's deformation and F6's localization lanes precede E2. E2 plus E1 descent supplies E3;
 E6’s early log-level construction then supplies E4’s synthetic transfers;
 E4.S independently constructs the needed sphere classes, relations,
-nullhomotopies and3-primary differential using F4. E4.A constructs the
+nullhomotopies and 3-primary differential using F4. E4.A constructs the
 full/even category adapters and synthetic sphere, then Smf and E4.U's
 unit/normalization/atomic comparisons. These and the early E6 lane
 supply E4's independent DSS/Gap computation; completed tmf coefficients
 are not inputs. After the Gap Theorem E6 proves the connective DA(1)
-comparison. E5 uses E3/E4, E6’s independently constructed Γ₁(3)/DA(1) sublane
-and String S2/S4, while the
-String S4 genus uses F/G and index theory independently of E5;
-E5 owns its identification with the spectral orientation and q-expansion,
-and String S5/S6 consume that identification. E6’s early lane uses E1–E3 and the specified ModularCurves level
-problems; its connective coefficient lane additionally uses E4. All obstruction, convergence and descent
-inputs are targets in these layers.
+comparison. E5 uses E3/E4 and E6’s independently constructed Γ₁(3)/DA(1)
+sublane; its MString, units and J-homomorphism targets use only G2–G5,
+and its orientation, genus and surjectivity targets use those together
+with E2's K(1)-local realization. E6’s early lane uses E1–E3 and the
+specified ModularCurves level problems; its connective coefficient lane
+additionally uses E4. All obstruction, convergence and descent inputs are
+targets in these layers.
+
+Downstream, the geometric String-bordism roadmap StringOrientation
+consumes E4's permanent classes Δ⁸, Δ³ and Δ²⁴ with the localization
+tmf[D⁻¹]≃TMF, E5's orientation and genus comparison, and E6's detection
+maps and localization criterion; nothing in this roadmap is consumed from
+it.
 
 - Goerss, [*Topological modular forms (after Hopkins, Miller, and Lurie)*](https://arxiv.org/abs/0910.5130), for the realization and algebraic geometry.
 - Hill–Lawson, [*Topological modular forms with level structure*](https://arxiv.org/abs/1312.7394), for the log-étale sheaf and boundary construction.
-- Douglas–Francis–Henriques–Hill, [*Topological Modular Forms*](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/TMF-DFHH.pdf), Chapters6–8,12,16, for the chosen realization, obstruction and fracture construction.
-- Hopkins, [*Algebraic topology and modular forms*](https://arxiv.org/abs/math/0212397), Proposition4.6, for the integral edge-image basis (with the stated c₆ convention comparison).
+- Douglas–Francis–Henriques–Hill (eds.), *Topological Modular Forms*, Mathematical Surveys and Monographs 201, American Mathematical Society, 2014, Chapters 6–8, 12 and 16, for the chosen realization, obstruction and fracture construction; cited by chapter and lemma number, with no open copy.
+- Hopkins, [*Algebraic topology and modular forms*](https://arxiv.org/abs/math/0212397), Proposition 4.6, for the integral edge-image basis (with the stated c₆ convention comparison).
 - Bauer, [*Computation of the homotopy of the spectrum tmf*](https://arxiv.org/abs/math/0311328), for integral coefficients and higher Toda calculations.
 - Pstrągowski, [*Synthetic spectra and the cellular motivic category*](https://arxiv.org/abs/1803.01804), for the spherical spectral-sheaf model and its algebraic/topological comparisons.
 - Carrick–Davies–van Nigtevecht, [*The descent spectral sequence for topological modular forms*](https://arxiv.org/abs/2412.01640v2), for the independent DSS/Gap calculation and subsequent connective ANSS comparison.
 - Mathew, [*The homology of tmf*](https://arxiv.org/abs/1305.6100), for the Gap-dependent connective homology and the Γ₁(3) finite-complex comparison.
-- Ando–Hopkins–Rezk, [*Multiplicative orientations of KO-theory and of the spectrum of topological modular forms*](https://www-users.cse.umn.edu/~tlawson/tmf-mirror/koandtmf.pdf), for the orientation criterion.
+- Ando–Hopkins–Rezk, [*Multiplicative orientations of KO-theory and of the spectrum of topological modular forms*](https://rezk.web.illinois.edu/koandtmf.pdf), preprint (2010), for the orientation criterion, the Eisenstein normalization and the ABS comparison.
 - Ando–Blumberg–Gepner–Hopkins–Rezk, [*Units of ring spectra, orientations, and Thom spectra via rigid infinite loop space theory*](https://arxiv.org/abs/1403.4320), for the coherent Thom/units machinery.
 - Devalapurkar, [*The Ando–Hopkins–Rezk orientation is surjective*](https://arxiv.org/abs/1911.10534), for the coefficient-image theorem and its additional proof constructions.
