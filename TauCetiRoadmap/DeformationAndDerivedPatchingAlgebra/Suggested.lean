@@ -10,13 +10,13 @@ import TauCeti.AlgebraicGeometry.LineBundle.Basic
 finishes neither a layer nor the roadmap.
 
 The statements cover formal presentations and flat completion (§§1.9, 1.13),
-Auslander–Buchsbaum, Lescot's criterion, finite actions, top local cohomology and
-Hilbert–Samuel theory (§§3.1–3.3, 3.7, 3.11–3.13), integral points (§4.2),
+Lescot's criterion, finite actions, top local cohomology and
+Hilbert–Samuel theory (§§3.2–3.3, 3.7, 3.11–3.13), integral points (§4.2),
 balanced and free-module patching (§§5.5–5.6), CI parafactoriality (§6.9), minimal representatives (§§7.3, 7.5),
 and codimension, CM concentration and regular-source canonical duals (§§9.2–9.3).
 Finite projective representatives express Tor amplitude on native cochain complexes;
 regular-base CM concentration is expressed by native local cohomology. Residue Ext
-defines the depth used in Auslander–Buchsbaum and the CM-base action theorem.
+defines the depth used in the CM-base action theorem.
 
 The hull equation bound (§2.5) needs labelled Artinian coefficient categories, hulls
 and complete socle obstruction theories, absent from the pins. The complete patch
@@ -140,14 +140,6 @@ theorem flatCompletion_finiteComparison
 
 /-! ## Layer 3: Homological dimension, local duality and multiplicity -/
 
-/-- Auslander–Buchsbaum for every nonzero finite module of finite projective dimension. -/
-theorem auslanderBuchsbaum [IsLocalRing A] [IsNoetherianRing A]
-    (N : Type u) [AddCommGroup N] [Module A N] [Module.Finite A N] [Nontrivial N]
-    (hpd : CategoryTheory.projectiveDimension (ModuleCat.of A N) < ⊤) :
-    CategoryTheory.projectiveDimension (ModuleCat.of A N) +
-      (residueExtDepth A N : WithBot ℕ∞) = (residueExtDepth A A : WithBot ℕ∞) := by
-  sorry
-
 /-- The finite-pd module version keeps nonzeroness and the quotient direction. -/
 theorem lescot_module_regular_iff (N : Type u) [AddCommGroup N] [Module A N]
     [IsLocalRing A] [IsNoetherianRing A]
@@ -223,12 +215,12 @@ theorem exists_integral_point_of_not_nilpotent
 /-! ## Layer 5: Module patching -/
 
 /-- Balanced finite-level modules with compatible scalar images and augmentation give a free
-specialized module over the deformation quotient. -/
+specialized module over the deformation quotient, for a complete coefficient DVR with finite
+residue field of any characteristic `p`, including `p = 2` and equal characteristic. -/
 theorem balanced_module_patching
-    (p q : ℕ) [Fact p.Prime] (hp : 3 ≤ p) (hq : 1 ≤ q)
+    (p q : ℕ) [Fact p.Prime] (hq : 1 ≤ q)
     (O R : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)]
-    [Algebra ℤ_[p] O] [Module.Finite ℤ_[p] O] [CharZero O]
     [CharP (ResidueField O) p]
     [CommRing R] [IsLocalRing R] [IsNoetherianRing R] [Algebra O R]
     [IsLocalHom (algebraMap O R)] [IsAdicComplete (maximalIdeal R) R]
