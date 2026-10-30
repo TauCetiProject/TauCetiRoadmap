@@ -27,23 +27,60 @@ certificate, the completeness of the pinned solver at every strong prime and the
 its prime search, the arbitrary-universe irreducibility criterion for the `GL₂` principal series,
 and the quartic transverse energy of the two-particle spring.
 
-Headline theorems of the README that are not stated here, and what each lacks at the pins: the
-cross-universe regrouping theorem of §3.2 and the character-recognition theorem of §3.4 need the
-canonical irreducible index with its finite models (§2.2), which no pinned declaration carries; the
-classification of the irreducibles of a product group (§3.6) needs the same index; the class-power
-Galois identity of §6.6 needs the descended `ℚ(ζ_e)`-valued table, a §4.4 construction; the
-explicit `GL₂(𝔽_q)` character values (§9.2) need the pinned class representatives as a
-`ConjClasses`-indexed family, which the pinned classification does not expose.
+The regrouping into the native irreducible models and the classification of irreducibles of a
+product group are also stated below. Character recognition and the class-indexed `GL₂` table
+are consumed from the pinned library, as specified in README.md.
+The descended class-power identity is stated by existentially quantifying the `K`-valued row
+and tying its image to the native central-character table. Thus it needs no auxiliary table
+carrier. The headline statements retained here are all expressible on these pinned carriers.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.CharacterTheory
 
 open scoped Classical Matrix
+open CategoryTheory
 open Representation
 
-universe u v
+universe u v w
 
-/-! ## Layer 3: faithful tensor generation and the tensor-multiplicity series -/
+/-! ## Layer 3: regrouping, product groups and faithful tensor generation -/
+
+/-- The multiplicity of the native `i`-th irreducible model in a finite-dimensional representation,
+as the dimension of the space of intertwiners from that model. -/
+noncomputable def intrinsicMultiplicity {k : Type u} {G : Type v} {V : Type w}
+    [Field k] [Group G] [Finite G] [IsAlgClosed k] [Invertible (Nat.card G : k)]
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V]
+    (ρ : Representation k G V) (i : Fin (Nat.card (ConjClasses G))) : ℕ :=
+  Module.finrank k (Representation.IntertwiningMap (TauCeti.irreducibleRepresentation k i) ρ)
+
+/-- **Regrouping at arbitrary carrier universes.** A finite-dimensional representation over a
+split semisimple group algebra is the direct sum of its native irreducible models, with the
+multiplicity of each model given by equivariant Hom from it. -/
+theorem nonempty_regrouping {k : Type u} {G : Type v} {V : Type w}
+    [Field k] [Group G] [Finite G] [IsAlgClosed k] [Invertible (Nat.card G : k)]
+    [AddCommGroup V] [Module k V] [FiniteDimensional k V] (ρ : Representation k G V) :
+    Nonempty (ρ.asModule ≃ₗ[MonoidAlgebra k G]
+      (Π₀ i : Fin (Nat.card (ConjClasses G)),
+        Fin (intrinsicMultiplicity ρ i) → (TauCeti.irreducibleRepresentation k i).asModule)) := by
+  sorry
+
+/-- The external tensor product: `(g,h)` acts on `v ⊗ w` as `g v ⊗ h w`. -/
+noncomputable def externalTensor {k : Type u} {G : Type v} {H : Type w}
+    [Field k] [Group G] [Group H] (V : FDRep k G) (W : FDRep k H) : FDRep k (G × H) :=
+  FDRep.of (Representation.tprod (V.ρ.comp (MonoidHom.fst G H))
+    (W.ρ.comp (MonoidHom.snd G H)))
+
+/-- **Product-group irreducibles.** Every simple representation of `G × H` is an external tensor
+product of simple representations, uniquely up to isomorphism of each factor (Fulton–Harris,
+Exercise 2.36, p. 24; uniqueness follows from orthogonality). -/
+theorem externalTensor_classification {k : Type u} {G : Type v} {H : Type w}
+    [Field k] [IsAlgClosed k] [CharZero k] [Group G] [Group H] [Finite G] [Finite H]
+    (X : FDRep k (G × H)) [CategoryTheory.Simple X] :
+    ∃ V : FDRep k G, ∃ W : FDRep k H,
+      CategoryTheory.Simple V ∧ CategoryTheory.Simple W ∧ Nonempty (externalTensor V W ≅ X) ∧
+      ∀ (V' : FDRep k G) (W' : FDRep k H), CategoryTheory.Simple V' → CategoryTheory.Simple W' →
+        Nonempty (externalTensor V' W' ≅ X) → Nonempty (V' ≅ V) ∧ Nonempty (W' ≅ W) := by
+  sorry
 
 section FaithfulTensor
 
@@ -143,6 +180,20 @@ theorem fieldOfValues_eq_map_fixedField_stabilizer {G : Type} [Group G] [Finite 
   sorry
 
 /-! ## Layer 6: exact reconstruction for the executable solver -/
+
+/-- **The descended class-power identity.** Every native central-character row descends to the
+exponent cyclotomic field; an automorphism taking its primitive root to the `b`-th power takes
+the value on the class of `g` to that on the class of `g^b`. -/
+theorem exists_centralRow_classPower {G : Type v} [Group G] [Fintype G]
+    {K : Type} [Field K] [CharZero K] [Algebra K ℂ]
+    (e : ℕ) [NeZero e] (he : e = Monoid.exponent G)
+    [IsCyclotomicExtension {e} ℚ K] (i : Fin (Nat.card (ConjClasses G))) :
+    ∃ w : ConjClasses G → K,
+      (∀ C, algebraMap K ℂ (w C) = TauCeti.centralCharacterTable ℂ G i C) ∧
+      ∀ (b : ℕ), Nat.Coprime b e → ∀ σ : Gal(K/ℚ),
+        σ (IsCyclotomicExtension.zeta e ℚ K) = IsCyclotomicExtension.zeta e ℚ K ^ b →
+        ∀ g : G, w (ConjClasses.mk (g ^ b)) = σ (w (ConjClasses.mk g)) := by
+  sorry
 
 /-- **The ring-of-integers comparison on the same generator.** For `K = CyclotomicField e ℚ` with
 its distinguished primitive root `ζ`, there are a ring isomorphism `E` from the exact ring
@@ -248,10 +299,7 @@ theorem characterTableDixon_isSome {G : Type v} [Group G] [Fintype G] [Decidable
     (d : TauCeti.ClassData G) (e : ℕ) [NeZero e] (he : e = Monoid.exponent G)
     (q : TauCeti.DixonPrimeData G) (hq : 2 * centralCoefficientBound G e < q.p) :
     (d.dixonCyclotomicCharacterTable? e he q).isSome = true := by
-  obtain ⟨out, hs, _, hb⟩ := exists_bounded_exact_character_table d e he
-  apply d.isSome_dixonCyclotomicCharacterTable_of_spec e he q out.omega out.table out.degree hs
-  intro i k j
-  exact lt_of_le_of_lt (Nat.mul_le_mul_left 2 (hb i k j)) hq
+  sorry
 
 /-- **Termination of the prime search.** Some finite budget makes the pinned search
 `characterTableDixon?` succeed; this is a totality theorem, not success-conditional soundness. -/

@@ -5,11 +5,10 @@ algebra `k[G]` and its categorical mirror `FDRep k G`, from Mathlib's trace char
 Schur and Artin–Wedderburn and from the pinned Tau Ceti character-table library (class functions
 and their bilinear pairing, class sums and structure constants, completeness, the labeled table,
 column orthogonality, central characters, primitive central idempotents, degree divisibility, the
-cyclotomic Galois action, Brauer's splitting field, Burnside's `pᵃqᵇ` theorem, and the exact
+Brauer's splitting field, Burnside's `pᵃqᵇ` theorem, and the exact
 cyclotomic Burnside–Dixon–Schneider solver with its checker and soundness theorem). What it adds
-are the theorems those objects do not yet carry: the canonical irreducible index with finite
-models and the cross-universe regrouping of a finite-dimensional representation into isotypic
-pieces; character recognition in characteristic zero; the irreducibles of a product group as
+are the theorems those objects do not yet carry: the cross-universe regrouping of a finite-dimensional representation into isotypic
+pieces and the positive-characteristic multiplicity congruence; the irreducibles of a product group as
 external tensor products; the Burnside–Brauer faithful tensor-generation theorem and the
 generating series of tensor multiplicities; the field of values of an irreducible character as a
 fixed field; the exact-coordinate bound `B_G = |G|·A_e` on central characters, which makes the
@@ -41,11 +40,9 @@ Suggested home: `TauCeti/RepresentationTheory/CharacterTable/`, mirroring Mathli
 
 The roadmap owns:
 
-- the canonical index of the irreducible `k[G]`-modules with a finite model in each class, the
-  universe-independent class lookup of a simple module, and the regrouping of a finite-dimensional
-  representation into `m_ρ(i)` copies of the `i`-th finite model (Layer 2, Layer 3);
-- the intrinsic multiplicities `m_ρ(i)`, their API, the character expansion `ρ.character = ∑ᵢ m_ρ(i) • χᵢ`, the modular congruence criterion and characteristic-zero character recognition
-  at arbitrary carrier universes (Layer 3);
+- the regrouping of a finite-dimensional representation into `m_ρ(i)` copies of the native
+  `i`-th finite model, with multiplicities defined by equivariant Hom (Layer 3);
+- the intrinsic multiplicities `m_ρ(i)`, their API, the character expansion `ρ.character = ∑ᵢ m_ρ(i) • χᵢ`, the positive-characteristic congruence criterion at arbitrary carrier universes (Layer 3);
 - external tensor products of representations of a product group `G × H`, the classification of
   the irreducibles of `G × H` as external products, the Kronecker-product character table, the
   external Hom representation, and the `G × G`-bimodule comparison of the Wedderburn map (Layer 3);
@@ -55,7 +52,8 @@ The roadmap owns:
   `ℂ`: it is finite-group character theory with no McKay-specific input, and the McKaySkewGroup
   roadmap (§1.1, the McKay matrix) already consumes this roadmap's Layers 2–3, so the acyclic
   arrangement is that McKaySkewGroup cites this subsection rather than proving the theorem itself;
-- the cyclotomic lift of character values with its embedding adapter, the `ULift`/`Shrink`
+- the descended cyclotomic action on virtual characters, its action and value laws and its
+  preservation of irreducibles, the cyclotomic lift of character values with its embedding adapter, the `ULift`/`Shrink`
   transport of Brauer's splitting-field theorem, and the **field of values** of an irreducible
   character as the image of a fixed field (Layer 4);
 - the exact-coordinate reconstruction for the pinned solver: the computable bound `A_e` on the
@@ -67,7 +65,7 @@ The roadmap owns:
   strong prime, and the termination of its prime search (Layer 6);
 - the comparisons that tie the pinned Frobenius–Schur, Frobenius-group and `GL₂(𝔽_q)` theorems to
   the table and the pairing of this roadmap, the arbitrary-universe transport of the
-  principal-series irreducibility criterion, and the explicit `GL₂` character values (Layers 7–9);
+  principal-series irreducibility criterion (Layers 7–9);
 - the small finite-group representations (symmetric powers of the `S₃` standard module, the cube
   modules of `S₄`, restriction to `A₄`) and the spring-system applications, with their explicit
   intertwiners and spectra (Layers 10–11).
@@ -81,9 +79,15 @@ It does not own, and consumes by name:
   characters and their integrality, degree divisibility, the class-multiplication matrices, the
   eigenrow characterization and the specification: all are Tau Ceti's
   `RepresentationTheory/CharacterTable` library (the contract below);
-- the cyclotomic Galois action on virtual and irreducible characters
-  (`TauCeti/RepresentationTheory/CharacterTable/CyclotomicAction.lean` and `Galois.lean`) and
-  Brauer's splitting-field theorem (`Induction/Cyclotomic/SplittingField.lean`);
+- virtual-character inversion/conjugation (`CharacterTable/VirtualCharacter.lean`), finite
+  irreducible models and their enumeration (`CharacterTable/Table.lean`), the block/simple-module
+  classification at arbitrary carrier universes (`CharacterTable/IrreducibleClassification.lean`),
+  product and biproduct characters (`FDRep.lean`), module/representation equivalences
+  (`AsModule.lean`), and character recognition over every characteristic-zero field
+  (`CharacterTable/Determined.lean`): these are pinned Tau Ceti objects;
+- the power-map identity over an algebraically closed coefficient field (`CharacterTable/Galois.lean`)
+  and Brauer's splitting-field theorem (`Induction/Cyclotomic/SplittingField.lean`); the descended
+  action over the cyclotomic field is the distinct construction of §4.4;
 - Burnside's `pᵃqᵇ` theorem and the coprime zero-or-scalar alternative
   (`TauCeti/RepresentationTheory/CharacterTable/Solvable.lean`): the character-theoretic route is
   recalled in Layer 4 as background, not planned again;
@@ -96,7 +100,10 @@ It does not own, and consumes by name:
   Frobenius's theorem with the bundled kernel subgroup, the T.I. isometry and the degree-corrected
   exceptional extension (`FrobeniusGroup/`, `Induction/TrivialIntersection.lean`); the `GL₂`
   Borel, principal series, Steinberg, non-split torus and cuspidal objects with their dimension
-  and irreducibility theorems (`CharacterTable/GL2/`);
+  and irreducibility theorems, all four families of character values, the class parametrization
+  and the assembled class-indexed table (`CharacterTable/GL2/Table.lean`,
+  `CharacterTable/GL2/CharacterValues.lean`, `CharacterTable/GL2/PrincipalSeries/CharacterValues.lean`,
+  `CharacterTable/GL2/Cuspidal/Basic.lean`, `LinearAlgebra/Matrix/GeneralLinearGroup/ConjugacyClasses.lean`);
 - the Schur collapse `End_{k[G]}(S) ≃ₐ[k] k` for a simple module over an algebraically closed
   field and the block/simple-module dictionary: **SemisimpleAlgebras** Layer 1 (simple modules,
   Schur, isotypic components) and Layer 2;
@@ -105,8 +112,8 @@ It does not own, and consumes by name:
   Layers 3–4;
 - the `G × G`-isotypic decomposition `L²(G) ≅ ⨁̂_π End(V_π)` of a compact group:
   **CompactGroups** Layer 5 (the isotypic decomposition), compared here on a finite group;
-- the categorical Frobenius–Schur indicator of a pivotal category: **PivotalSpherical**, compared
-  here on `FDRep G`;
+- the categorical Frobenius–Schur indicator and its comparison on `FDRep G` with the standard
+  pivotal structure, at `n = 2`: **PivotalSpherical** Layer 8;
 - Thompson's theorem that a Frobenius kernel is nilpotent, and the Deligne–Lusztig theory the
   cuspidal series of `GL₂` specializes: neither is planned in this roadmap.
 
@@ -167,7 +174,7 @@ It does not own, and consumes by name:
 | first orthogonality and Hom dimensions | `FDRep.char_orthonormal`, `FDRep.scalar_product_char_eq_finrank_equivariant`, `Representation.card_inv_mul_sum_char_mul_char_eq_finrank`, `Representation.average_char_eq_finrank_invariants`, `FinGroupCharZero.simple_iff_char_is_norm_one` |
 | Maschke, semisimplicity, Schur | `MonoidAlgebra.isSemisimpleRing` (Maschke), `IsSemisimpleModule`, `IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp`, `LinearMap.bijective_or_eq_zero`, `finrank_endomorphism_simple_eq_one`, `finrank_hom_simple_simple`, `FDRep.simple_iff_end_is_rank_one`, `IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule` |
 | Artin–Wedderburn | `isSemisimpleRing_iff_pi_matrix_divisionRing`, `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed` |
-| intertwiners and invariants | `Representation.IntertwiningMap`, `Representation.IntertwiningMap.equivLinearMapAsModule`, `Representation.asModuleEquiv`, `Representation.invariantsEquivIntertwiningMap`, `Representation.invariantsEquivFDRepHom`, `Representation.isIntertwiningMap_of_mem_center`, `Subrepresentation.subrepresentationSubmoduleOrderIso`, `Representation.tprod`, `Representation.dual`, `Representation.linHom`, `Action.mkIso` |
+| intertwiners and invariants | `Representation.IntertwiningMap`, `Representation.IntertwiningMap.equivLinearMapAsModule`, `Representation.asModuleEquiv`, `Representation.invariantsEquivIntertwiningMap`, `Representation.linHom.invariantsEquivFDRepHom`, `Representation.isIntertwiningMap_of_mem_center`, `Subrepresentation.subrepresentationSubmoduleOrderIso`, `Representation.tprod`, `Representation.dual`, `Representation.linHom`, `Action.mkIso` |
 | conjugacy classes, computably | `ConjClasses`, `ConjClasses.carrier`, `Fintype (ConjClasses α)`, `DecidableRel IsConj` for `[DecidableEq α] [Fintype α]`, `card_comm_eq_card_conjClasses_mul_card`, `Subgroup.index_centralizer_eq_ncard` |
 | concrete groups and the group algebra | `Equiv.Perm (Fin n)`, `alternatingGroup`, `DihedralGroup n`, `QuaternionGroup n`, `Multiplicative (ZMod n)`, `MonoidAlgebra` |
 | integrality | `IsIntegral`, `IsIntegral.add`, `IsIntegral.mul`, `Representation.isIntegral_character`, `FDRep.isIntegral_character`, `IsIntegrallyClosed`, `IsIntegral.ratCast_iff`, `isIntegral_algHom_iff`, `NumberField.RingOfIntegers` |
@@ -187,18 +194,24 @@ It does not own, and consumes by name:
 | the table and its specification | `TauCeti.characterTable`, `TauCeti.characterDegree`, `TauCeti.centralCharacterTable`, `TauCeti.sum_characterTable_mul_conj`, `TauCeti.IsCharacterTableSpec`, `TauCeti.isCharacterTableSpec_characterTable`, `TauCeti.characterTable_unique_rows`, `TauCeti.classMultMatrix`, `TauCeti.classMultMatrix_commute`, `TauCeti.isClassEigenrow_centralCharacterTable`, `TauCeti.isClassEigenrow_iff_exists_algHom`, `TauCeti.isClassEigenrow_def`, `TauCeti.classSumRow_apply` |
 | central characters and idempotents | `TauCeti.Representation.centralCharacter`, `TauCeti.Representation.centralCharacter_classSumCenter_mul_character_one`, `TauCeti.Representation.isIntegral_centralCharacter_classSumCenter`, `TauCeti.Representation.finrank_dvd_card`, `TauCeti.Representation.primitiveCentralIdempotent` |
 | kernels, tensor powers, finite models | `Representation.char_eq_finrank_iff`, `FDRep.ker_eq_bot_iff`, `Representation.tensorPower`, `Representation.char_tensorPower`, `FDRep.ofShrink`, `FDRep.simple_iff_isIrreducible`, `FDRep.character_of`, `FDRep.char_biprod`, `FDRep.finrank_hom_eq_sum_of_character_eq`, `FDRep.nonempty_iso_of_character_eq`, `TauCeti.standardRepresentation` |
-| Galois action and splitting field | `IsPrimitiveRoot.cyclotomicVirtualCharacterEquiv`, `IsPrimitiveRoot.cyclotomicVirtualCharacterEquiv_apply`, `IsPrimitiveRoot.cyclotomicVirtualCharacterAction`, `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_apply`, `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_equiv_apply`, `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_mem_irreducibleCharacters`, `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction`, `TauCeti.ClassFunction.powMap`, `Representation.map_ofCharacter_eq_powMap`, `TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot`, `FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`, `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension`, `FDRep.exists_simple_nonempty_iso_baseChange_adjoin_of_isPrimitiveRoot` |
+| finite models and classification | `TauCeti.finEquivIrreducibleCharacters`, `TauCeti.irreducibleRepresentation`, `TauCeti.character_irreducibleRepresentation`, `TauCeti.exists_nonempty_equiv_blockRepresentation`, `TauCeti.nonempty_equiv_index_simpleSubmoduleClasses`, `TauCeti.ClassFunction.exists_nonempty_equiv`, `TauCeti.ClassFunction.basisOfIrreducibleCharacters` |
+| conjugation, additivity and recognition | `TauCeti.conj_apply_of_mem_virtualCharacters`, `Representation.char_prod`, `FDRep.char_biprod`, `Representation.nonempty_equiv_of_character_eq` (finite group, finite-dimensional representations, characteristic-zero field; no algebraic closure) |
+| module/representation equivalences | `TauCeti.Representation.equivOfAsModuleLinearEquiv`, `TauCeti.Representation.asModuleLinearEquivOfEquiv`, `TauCeti.Representation.nonempty_equiv_iff` |
+| Galois value identity and splitting field | `TauCeti.ClassFunction.powMap`, `TauCeti.Representation.map_ofCharacter_eq_powMap`, `TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot`, `FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`, `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension`, `FDRep.exists_simple_nonempty_iso_baseChange_adjoin_of_isPrimitiveRoot` |
 | Burnside | `Representation.char_eq_zero_or_exists_apply_eq_smul`, `TauCeti.isSolvable_of_card_eq_prime_pow_mul_prime_pow` |
 | the exact ring | `TauCeti.Cyclotomic`, `TauCeti.Cyclotomic.zeta`, `TauCeti.Cyclotomic.coeff`, `TauCeti.Cyclotomic.coeffs`, `TauCeti.Cyclotomic.ofCoeffList`, `TauCeti.Cyclotomic.equivAdjoinRoot`, `TauCeti.Cyclotomic.complexRoot`, `TauCeti.Cyclotomic.isPrimitiveRoot_complexRoot`, `TauCeti.Cyclotomic.complexEmbedding`, `TauCeti.Cyclotomic.complexEmbedding_zeta`, `TauCeti.Cyclotomic.complexEmbedding_injective`, `TauCeti.Cyclotomic.evalRingHom`, `TauCeti.Cyclotomic.reduceRingHom`, `TauCeti.Cyclotomic.coeffs_intCast_mul`, `TauCeti.Cyclotomic.primitiveExponent`, `TauCeti.Cyclotomic.conjugateRoot`, `TauCeti.Cyclotomic.conjugateResidues`, `TauCeti.Cyclotomic.lift`, `TauCeti.Cyclotomic.lift_eq_of_conjugateResidues_eq` |
 | the executable solver | `TauCeti.ClassData`, `TauCeti.ClassData.equivConjClasses`, `TauCeti.ClassData.centralCharacterSearch`, `TauCeti.kernelBasis`, `TauCeti.eigenvalueSearch`, `TauCeti.DixonPrimeData`, `TauCeti.DixonPrimeData.candidates`, `TauCeti.IsGoodDixonPrime`, `TauCeti.exists_isGoodDixonPrime`, `TauCeti.ClassData.CyclotomicCharacterTableData`, `TauCeti.ClassData.IsCyclotomicCharacterTableSpec`, `TauCeti.ClassData.cyclotomicCharacterTableChecker`, `TauCeti.ClassData.complexTableOfCyclotomic`, `TauCeti.ClassData.complexTableOfCyclotomic_apply_classOf`, `TauCeti.ClassData.IsCyclotomicCharacterTableSpec.isCharacterTableSpec`, `TauCeti.ClassData.dixonCyclotomicCharacterTable?`, `TauCeti.ClassData.isCharacterTableSpec_of_dixonCyclotomicCharacterTable?_eq_some`, `TauCeti.ClassData.isSome_dixonCyclotomicCharacterTable_of_spec`, `TauCeti.ClassData.characterTableDixon?`, `TauCeti.dihedralGroupThreeCharacterTable`, `TauCeti.symmetricGroupFourCharacterTable`, `TauCeti.alternatingGroupFourClassData`, `TauCeti.alternatingGroupFourExactCharacterTable`, `TauCeti.alternatingGroupFourOmega` |
 | the representation ring | `TauCeti.repRing`, `TauCeti.repRingCharacter`, `TauCeti.repRingCharacter_mem_classFunction`, `TauCeti.repRingCharacter_injective` |
 | Frobenius–Schur and real classes | `FDRep.frobeniusSchurIndicator`, `TauCeti.Representation.frobeniusSchurIndicator`, `TauCeti.Representation.frobeniusSchurIndicator_def`, `TauCeti.Representation.frobeniusSchurIndicator_eq_one_or_eq_zero_or_eq_neg_one`, `TauCeti.Representation.frobeniusSchurIndicator_eq_one_iff`, `TauCeti.Representation.frobeniusSchurIndicator_eq_neg_one_iff`, `TauCeti.Representation.IsInvariantForm`, `Representation.IsRealForm`, `Representation.IsRealizableOverReal`, `Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`, `TauCeti.frobeniusSchurIndicatorRow`, `TauCeti.card_squareRoot_eq_sum_frobeniusSchurIndicatorRow_mul_characterTable`, `TauCeti.IsRealClass`, `TauCeti.card_realValued_eq_card_realClasses` |
 | Frobenius groups | `TauCeti.IsFrobeniusComplement`, `TauCeti.IsTISubgroup`, `TauCeti.IsTISet`, `TauCeti.isometry_ind_of_isTISet`, `TauCeti.frobeniusKernel`, `TauCeti.frobeniusKernelSubgroup`, `TauCeti.coe_frobeniusKernelSubgroup`, `TauCeti.frobeniusKernelSubgroup_normal`, `TauCeti.frobeniusKernel_isComplement'`, `TauCeti.ClassFunction.indExtend`, `TauCeti.ClassFunction.characterPairing_indExtend_indExtend` |
-| `GL₂(𝔽_q)` | `TauCeti.card_conjClasses_GL2`, `TauCeti.GL2Borel`, `TauCeti.GL2PrincipalSeries`, `TauCeti.character_one_GL2PrincipalSeries`, `TauCeti.simple_GL2PrincipalSeries_iff` (stated for `F : Type`), `TauCeti.GL2Steinberg`, `TauCeti.GL2NonSplitTorus`, `TauCeti.GL2Cuspidal`, `TauCeti.finrank_GL2Cuspidal`, `Algebra.IsQuadraticExtension` |
+| `GL₂(𝔽_q)` | `TauCeti.GL2CharacterTable`, `TauCeti.GL2CharacterTable_eq_submatrix_characterTable`, `TauCeti.GL2CharacterParam.characterPairing_classFunction`, `TauCeti.conjClassesGLFinTwoEquiv`, `TauCeti.gl2FieldThreeCharacterTable`, `TauCeti.card_conjClasses_GL2`, `TauCeti.GL2Borel`, `TauCeti.GL2PrincipalSeries`, `TauCeti.character_one_GL2PrincipalSeries`, `TauCeti.simple_GL2PrincipalSeries_iff` (stated for `F : Type`), `TauCeti.GL2Steinberg`, `TauCeti.GL2NonSplitTorus`, `TauCeti.GL2Cuspidal`, `TauCeti.finrank_GL2Cuspidal`, `Algebra.IsQuadraticExtension` |
 
-The pinned Galois action is stated for a characteristic-zero field `K` containing a primitive
-`n`-th root `ζ` with `exponent G ∣ n`, an algebraically closed extension `L`, and `K`, `L`, `G` in
-one universe. The pinned `simple_GL2PrincipalSeries_iff` specializes the field to `Type`; its
+The virtual-character descent theorem requires a characteristic-zero field `K` containing a
+primitive `n`-th root `ζ`, `n ≠ 0`, `exponent G ∣ n`, an algebraically closed extension `L`,
+and `K`, `L`, `G` in one universe. The separate
+`TauCeti.Representation.map_ofCharacter_eq_powMap` requires an algebraically closed coefficient
+field, `(n : k) ≠ 0`, `g^n = 1` for every `g`, and an endomorphism raising every `n`-th root to
+the same `j`-th power; it does not itself define an action over `K`. The pinned `simple_GL2PrincipalSeries_iff` specializes the field to `Type`; its
 arbitrary-universe form is a target of Layer 9.
 
 ### From `TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras`
@@ -225,20 +238,20 @@ arbitrary-universe form is a target of Layer 9.
 
 | Use here | Section |
 |---|---|
-| the categorical Frobenius–Schur indicator on a pivotal category, compared with the finite-group indicator on `FDRep G` | its Frobenius–Schur indicator section |
+| the categorical Frobenius–Schur indicator and its agreement with the finite-group indicator on `FDRep G`, with the standard pivotal structure and `n = 2` | Layer 8, Frobenius–Schur indicators |
 
 ## How to read the build
 
 Layers 0 and 1 are supplier layers: they fix the names and conventions of the class-function and
 class-algebra objects this roadmap consumes and add the two executable adapters it needs. Layer 2
-builds the irreducible index and finite models, Layer 3 the multiplicity theory, character
-recognition, product groups, the Burnside–Brauer theorem and the generating series; Layer 4 the
+fixes the native irreducible enumeration and finite models, Layer 3 builds multiplicity theory,
+regrouping, the characteristic-positive congruence, product groups, the Burnside–Brauer theorem and the generating series; Layer 4 the
 arithmetic of values and the field of values. Layer 5 records the specification the solver is
 proved against. Layer 6 is the summit of strand C: the exact-coordinate bound and the completeness
 and termination of the pinned solver. Layers 7–9 are independent applications built on Layer 3 and
 the pinned library; Layers 10 and 11 are worked families on Layers 0–3. `README.md` is normative;
 `Suggested.lean` states the headline theorems (the two solver theorems, Burnside–Brauer and its
-generating series, the field of values, the exact-ring comparisons and bounds, the
+generating series, cross-universe regrouping, product classification, the field of values, the exact-ring comparisons and bounds, the
 arbitrary-universe principal-series criterion, and the quartic transverse energy) against the
 pinned APIs with the few definitions they need, and nothing else.
 
@@ -261,11 +274,10 @@ declarations named.
 symmetric and nondegenerate when `Nat.card G` is invertible in `k`
 (`TauCeti.ClassFunction.characterPairing_nondegenerate`); its value is the raw sum of Mathlib's
 `char_orthonormal` (`TauCeti.ClassFunction.characterPairing_apply`), so `char_orthonormal` reads
-`⟨χᵢ, χⱼ⟩ = δᵢⱼ` on irreducibles. One adapter is a target of this layer: over `ℂ`, for a virtual
-character `f`, `f g⁻¹ = conj (f g)`, so the pairing of two virtual characters is the Hermitian
-inner product `(Nat.card G)⁻¹ ∑ g, f₁ g * conj (f₂ g)` (Isaacs, Ch. 2; Serre, §2.3). *Needs:*
-Tau Ceti `TauCeti.virtualCharacters`; Mathlib `Representation.char_dual`, the unit-modulus
-eigenvalues of a finite-order operator (Layer 4.1).
+`⟨χᵢ, χⱼ⟩ = δᵢⱼ` on irreducibles. Over `ℂ`, virtual-character inversion gives
+`f g⁻¹ = conj (f g)` by `TauCeti.conj_apply_of_mem_virtualCharacters`, so the pairing of two
+virtual characters is `(Nat.card G)⁻¹ ∑ g, f₁ g * conj (f₂ g)`.
+*Needs:* Tau Ceti `TauCeti.conj_apply_of_mem_virtualCharacters` and the pairing declarations above.
 
 **Checks.**
 - Nondegeneracy needs the invertibility hypothesis: for `k = 𝔽₂` and `G = C₂`, the normalization
@@ -344,24 +356,17 @@ block/simple-module dictionary `blocks_equiv_simpleModules` of its Layer 2, whic
 instead of reproving. *Needs:* Mathlib `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed`,
 Maschke; Tau Ceti as named.
 
-### 2.2 The canonical irreducible index and finite models
+### 2.2 The native irreducible enumeration and finite models
 
-Define the index of isomorphism classes of simple `k[G]`-modules, with `character`, `degree` and
-the equivalence with the Wedderburn block index, and for each class `i` choose a representative
-`Zᵢ : Representation k G (Fin (degree i) → k)` whose associated `k[G]`-module is simple. The carrier
-lies in the universe of `k`, so `FDRep.of Zᵢ` is an object of `FDRep k G`; build the
-representative by transporting a basis of a finite-dimensional simple module to this finite model.
-
-Prove the universe-independent class lookup: a simple `k[G]`-module `S` in any universe has a
-unique class `i` with `Nonempty (S ≃ₗ[k[G]] Zᵢ.asModule)`. Route:
-`IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule` identifies `S` with a simple left
-ideal of `k[G]`, the regular-module/isotypic class bijection assigns that ideal its class, and a
-finite basis transports the class representative to `Zᵢ`. This lookup lets the finite
-simple-submodule decomposition of §3.2 be regrouped without placing its submodules in `FDRep`;
-`char_orthonormal` is consumed on the finite models through `FDRep.of Zᵢ` and does not define the
-lookup. *Needs:* Mathlib `IsSemisimpleRing.exists_linearEquiv_ideal_of_isSimpleModule`,
-`Representation.asModuleEquiv`; §2.1; SemisimpleAlgebras Layer 2 `blocks_equiv_simpleModules`.
-
+Use `TauCeti.finEquivIrreducibleCharacters k G`, indexed by `Fin (Nat.card (ConjClasses G))`,
+with degree `TauCeti.characterDegree k i` and model `TauCeti.irreducibleRepresentation k i` on
+`Fin (TauCeti.characterDegree k i) → k`. Write `Zᵢ` for that model. A simple module in any
+carrier universe is assigned its class through the block classification and its module-class
+bijection; the enumeration is chosen, while the isomorphism class is intrinsic. This is the
+lookup used to regroup the simple summands in §3.2.
+*Needs:* §2.1; `TauCeti.exists_nonempty_equiv_blockRepresentation`,
+`TauCeti.nonempty_equiv_index_simpleSubmoduleClasses`,
+`TauCeti.ClassFunction.exists_nonempty_equiv`, and `TauCeti.irreducibleRepresentation`.
 **Checks.**
 - For `G = S₃` and `k = ℂ` the index has three elements with degrees `1, 1, 2`; `∑ nᵢ² = 6`.
 - For the trivial group the index is a singleton with `Z = (Fin 1 → k)` and the trivial action.
@@ -398,9 +403,8 @@ finite-dimensional representations at arbitrary carrier universes.
 
 The irreducible characters span `ClassFunction k G`
 (`TauCeti.ClassFunction.le_span_irreducibleCharacters`); with `char_orthonormal` and the count they
-are an orthonormal basis `Basis (index) k (ClassFunction k G)`. Prove that `Representation.prod` has
-character the sum of the two characters, that `Representation.directSum` over a finite index has
-character the finite sum, and the finite-biproduct identity in `FDRep` (`FDRep.char_biprod`); use
+are an orthonormal basis `Basis (index) k (ClassFunction k G)`. Use `Representation.char_prod` and `FDRep.char_biprod` for binary sums. Prove the finite
+`Representation.directSum` character identity by induction on the finite index; use
 `char_iso` to transport across equivalent presentations. *Needs:* Mathlib `char_iso`; Tau Ceti as
 named.
 
@@ -411,11 +415,11 @@ For finite-dimensional `ρ : Representation k G V` and `σ : Representation k G 
 `⟨σ.character, ρ.character⟩ = finrank k (IntertwiningMap ρ σ)`, with only the finite-group and
 invertible-order hypotheses; in `FDRep` it is `FDRep.scalar_product_char_eq_finrank_equivariant`.
 Own the comparison `finrank k (FDRep.of Zᵢ ⟶ V) = finrank k (IntertwiningMap Zᵢ V.ρ)` through
-`invariantsEquivFDRepHom` and `invariantsEquivIntertwiningMap`; do not reprove either pinned
+`Representation.linHom.invariantsEquivFDRepHom` and `Representation.invariantsEquivIntertwiningMap`; do not reprove either pinned
 identity.
 
 Under finite `G`, algebraically closed `k` and invertible `Nat.card G`, define the **intrinsic
-multiplicity** `m_ρ(i) := finrank k (IntertwiningMap Zᵢ ρ)` for finite-dimensional `ρ`, with `Zᵢ`
+multiplicity** `intrinsicMultiplicity`, written `m_ρ(i) := finrank k (IntertwiningMap Zᵢ ρ)` for finite-dimensional `ρ`, with `Zᵢ`
 the finite model of §2.2; the pairing identity gives `⟨ρ.character, Zᵢ.character⟩ = m_ρ(i)`.
 
 Prove the cross-universe regrouping: Maschke makes `k[G]` semisimple and finite-dimensionality
@@ -426,43 +430,61 @@ decomposes it into finitely many simple submodules `Sⱼ`, possibly in a univers
 zero when the classes differ, and when they agree a chosen equivalence identifies it with
 `Module.End k[G] Zᵢ.asModule`, a finite-dimensional division `k`-algebra, which SemisimpleAlgebras
 Layer 1 collapses to `k`. Package the two cases as the cross-universe Hom-dimension formula, and
-prove the regrouping theorem: the number of summands in class `i` is `m_ρ(i)`, by additivity of
+prove `nonempty_regrouping`: the number of summands in class `i` is `m_ρ(i)`, by additivity of
 equivariant Hom over the finite sum, so `ρ.asModule` is a finite direct sum of exactly `m_ρ(i)`
-copies of `Zᵢ.asModule`. *Needs:* §2.2; Mathlib `IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp`,
+copies of `Zᵢ.asModule`, expressed as `Π₀ i, Fin (m_ρ(i)) → Zᵢ.asModule`.
+This is the finite-model regrouping refinement of the canonical isotypic decomposition
+(Fulton–Harris, §2.4, formula (2.31), p. 23; multiplicities: Corollary 2.16, p. 16). *Needs:* §2.2; Mathlib `IsSemisimpleModule.exists_linearEquiv_fin_dfinsupp`,
 `LinearMap.bijective_or_eq_zero`, `IntertwiningMap.equivLinearMapAsModule`; SemisimpleAlgebras
 Layer 1.
 
+- Multiplicity is invariant under equivalences of representations and under transport of the carrier.
+- It is additive on finite direct sums, is `1` on its own simple model and `0` on other models.
+- The regrouping equivalence has an inverse and is `k[G]`-linear; its existence is intrinsic,
+  although choosing bases of multiplicity spaces is needed to choose an equivalence.
+
 **Checks.**
 - For `ρ` the regular representation of `S₃`, `m_ρ(i) = degree i`, giving `1, 1, 2`.
-- For `ρ = Zⱼ`, `m_ρ(i) = 1` when `i = j` and `0` otherwise; a model using `finrank k (IntertwiningMap ρ Zᵢ)` with the arguments reversed gives the same numbers only because `k` is
-  algebraically closed, and the orientation is fixed as stated.
-- For the trivial group and `ρ` on `Fin 3 → k`, `m_ρ = 3`.
+- For `ρ = Zⱼ`, `m_ρ(i) = 1` when `i = j` and `0` otherwise; a model using `finrank k (IntertwiningMap ρ Zᵢ)` with the arguments reversed gives the same dimensions in any finite semisimple category, even over a nonsplit field,
+  and cannot fix orientation: for the trivial group over `ℝ`, both `Hom(ℝ, ℝ²)` and
+  `Hom(ℝ², ℝ)` have dimension `2`. The source and target in the definition fix orientation.
+- For the trivial group and `ρ` on `Fin 3 → k`, `m_ρ = 3`; on the zero module it is `0`,
+  and every summand of the regrouped module is zero.
 
-### 3.3 Module-to-representation adapters
+### 3.3 The finite-sum comparison
 
-Build the conversions: a `k[G]`-linear equivalence `ρ.asModule ≃ₗ[k[G]] σ.asModule` induces
-`Representation.Equiv ρ σ` (through `Representation.asModuleEquiv` and
-`IntertwiningMap.equivLinearMapAsModule`); a `k[G]`-linear equivalence identifies
-`(Representation.directSum Z).asModule` with the finite `Π₀ i, Zᵢ.asModule` of
-`exists_linearEquiv_fin_dfinsupp`; a simple submodule of `ρ.asModule` becomes a representation on
-its carrier through `Subrepresentation.subrepresentationSubmoduleOrderIso`. These transport the
-primary decomposition into a `Representation.Equiv` statement at arbitrary universes; use
-`Rep.equivalenceModuleMonoidAlgebra` for the categorical mirror, and to lift the finite
-decomposition to `FDRep`, put its finite-dimensional summands into `FDRep` and derive additivity of
-the forgetful functor from `PreservesFiniteColimits`. *Needs:* the Mathlib declarations named.
+For a finite family of finite-dimensional representations `ρᵢ`, construct the `k[G]`-linear
+comparison from `(Representation.directSum ρ).asModule` to `Π₀ i, ρᵢ.asModule`, sending a vector
+in summand `i` to the same vector in the `i`-th component. Transport the regrouping of §3.2
+through `TauCeti.Representation.equivOfAsModuleLinearEquiv` to representations. For a simple
+submodule use `Subrepresentation.subrepresentationSubmoduleOrderIso`; for finite-dimensional
+summands use `FDRep.of` and `Rep.equivalenceModuleMonoidAlgebra` for the categorical mirror.
+This comparison is induced by the direct-sum universal property (Fulton–Harris, §3.4,
+pp. 36–37, the equivalence of group representations and group-algebra modules).
+*Needs:* §3.2; Mathlib `Representation.directSum`, `Representation.asModuleEquiv`,
+`Subrepresentation.subrepresentationSubmoduleOrderIso`; Tau Ceti's module-equivalence adapter.
 
-### 3.4 Multiplicity API and character recognition
+- The forward map and inverse send each supported vector to itself; their composites are identities.
+- The comparison intertwines the `k[G]`-action and is natural for a family of intertwining maps.
+- It commutes with reindexing the family, including the empty and singleton families.
+
+**Checks.**
+- An empty family gives the zero module on both sides, with dimension `0`.
+- One trivial summand on `k²` sends `(1,0)` to `(1,0)` in both directions; a zero map fails.
+- For `C₂` over `ℂ`, trivial and sign summands send `(2,3)` to `(2,3)`, and the generator sends
+  this to `(2,−3)` on both sides; swapping the summands without reindexing gives `(−2,3)`.
+
+### 3.4 Multiplicity API and congruence of characters
 
 The intrinsic multiplicities obey `m_{ρ.prod σ}(i) = m_ρ(i) + m_σ(i)`, `m_{Zⱼ}(i) = δᵢⱼ`, and
 `finrank k V = ∑ᵢ m_ρ(i) * degree i`; with §3.1 and the regrouping,
 `ρ.character = ∑ᵢ (m_ρ(i) : k) • χᵢ`. For `[CharP k p]` with `0 < p`, `p ∤ |G|` and `k`
 algebraically closed, the character basis gives the sharp criterion
-`ρ.character = σ.character ↔ ∀ i, Nat.ModEq p (m_ρ(i)) (m_σ(i))`. If `k` is algebraically closed of
-characteristic zero, casts of natural multiplicities are injective and
-`Nonempty (Representation.Equiv ρ σ) ↔ ρ.character = σ.character` for finite-dimensional
-representations at arbitrary carrier universes; for `V W : FDRep k G` obtain the categorical
-statement from the representation result with `Action.mkIso` (compare Tau Ceti's
-`FDRep.nonempty_iso_of_character_eq`, which is the `FDRep` form). *Needs:* §3.1–3.3.
+`ρ.character = σ.character ↔ ∀ i, Nat.ModEq p (m_ρ(i)) (m_σ(i))`. This is a deduction from the character-basis expansion: equality of coordinates means equality
+of the natural-number casts in `k`, equivalent to congruence modulo `p`. The inputs are
+`TauCeti.ClassFunction.basisOfIrreducibleCharacters` and Mathlib `CharP.cast_eq_iff_mod_eq`;
+the characteristic-zero analogue is Fulton–Harris, Corollaries 2.14–2.16, p. 16, not a source
+claim about characteristic `p`. *Needs:* §3.1–3.3 and these two pinned declarations.
 
 **Checks.**
 - For the trivial group over `k` of characteristic `p`, one trivial copy and `p + 1` trivial copies
@@ -498,31 +520,44 @@ class-column entry is the value at any representative. *Needs:* Tau Ceti as name
 
 ### 3.6 External tensor products and irreducibles of product groups
 
-For finite `G, H` and an algebraically closed characteristic-zero `k`, construct the external tensor
-product on `V ⊗[k] W`, `(g,h)·(v ⊗ w) = (ρ g v) ⊗ (σ h w)`, as `Representation.tprod` of the
+For groups `G, H` and a field `k`, construct the external tensor
+product `externalTensor` on `V ⊗[k] W`, `(g,h)·(v ⊗ w) = (ρ g v) ⊗ (σ h w)`, as `Representation.tprod` of the
 pullbacks of `ρ` and `σ` along the two projections; export the pure-tensor equation, the group laws,
 transport of intertwiners and equivalences, and the associativity, factor-swap, unit, dual and
 finite-direct-sum comparisons. Keep it distinct from `Representation.prod` (a direct sum) and from
 the internal tensor product of two representations of the same group.
 
-Prove `χ_{ρ ⊠ σ}(g, h) = χ_ρ(g) χ_σ(h)` and the factorization of the pairing of Layer 0; for
+For the classification and Fourier comparison assume finite `G, H` and algebraically closed
+characteristic-zero `k`. Prove `χ_{ρ ⊠ σ}(g, h) = χ_ρ(g) χ_σ(h)` and the factorization of the pairing of Layer 0; for
 irreducible `ρ, σ` the external product has norm one, hence is irreducible by the semisimple
 irreducibility criterion, and two external products are equivalent iff their factors are.
 Construct `ConjClasses (G × H) ≃ ConjClasses G × ConjClasses H` with its representative and
 class-size equations; Layer 2's count and the pairwise distinct external irreducibles prove
 completeness; construct the bijection between the index of `G × H` and the product of the indices,
-with inverse and representative-equivalence equations. Every finite-dimensional irreducible of the
+with inverse and representative-equivalence equations. The headline
+`externalTensor_classification` asserts existence and uniqueness up to factorwise isomorphism
+for every simple object of `FDRep k (G × H)`. Every finite-dimensional irreducible of the
 product, at arbitrary carrier universes, is assigned its pair by §2.2's lookup: constructing some
 external irreducibles alone is not the classification. For `k = ℂ`, under these row and column
 equivalences, Layer 3's table of `G × H` is the Kronecker product of the two tables; degrees
 multiply, the trivial pair gives the trivial character, and regular multiplicities are products of
-the factor degrees.
+the factor degrees (Fulton–Harris, Exercise 2.36, p. 24, with uniqueness deduced from
+pairing factorization and row orthogonality, Theorem 2.12, p. 16). The same algebraic argument
+works over every algebraically closed characteristic-zero field.
 
 Construct the external Hom representation on `V →ₗ[k] W`, `(g,h)·f = σ(h) ∘ f ∘ ρ(g⁻¹)`, compare it
 with `V* ⊠ W` (in that factor order) through the pinned dual, `linHom` and dual-tensor-Hom
 equivalence after the product pullbacks, and with `ContRepresentation.biLinHom` on finite discrete
 groups through its explicit factor-order conversion; its character is `χ_ρ(g⁻¹) χ_σ(h)`, and it is
-irreducible when its two constituents are.
+irreducible when its two constituents are (Fulton–Harris, Exercise 1.2, p. 4, and
+Exercise 2.36, p. 24; apply the latter to the dual first factor).
+
+- The linear comparison `V* ⊗ W → (V →ₗ[k] W)` sends `φ ⊗ w` to `v ↦ φ(v) • w`; its
+  inverse sends `f` to `∑ᵢ eᵢ* ⊗ f(eᵢ)` for any basis, independently of that basis.
+- Both composites are identities; the comparison is equivariant, contravariantly natural in `V`
+  and covariantly natural in `W`.
+- The finite-discrete continuous comparison sends a linear map to the same continuous linear
+  map, with the first group acting on its domain and the second on its codomain.
 
 For `G = H` prove the bimodule compatibility of Layer 2's Wedderburn map: on `k[G]`, `(a, b)` sends
 `e_g` to `e_{a g b⁻¹}`; on each `End(Vᵢ)` it sends `T` to `ρᵢ(a) T ρᵢ(b⁻¹)`; the Fourier map sends
@@ -531,8 +566,19 @@ that the left regular multiplicity of `Vᵢ` is `dim Vᵢ`. Identifying `k[G]` w
 coefficients, its multiplication is the unnormalized convolution `(f * g)(x) = ∑_y f(y) g(y⁻¹ x)`,
 not pointwise multiplication; for probability-Haar convolution the comparison multiplies
 coefficient functions by `|G|`: prove that scaling and the Fourier inverse and trace conventions,
-and compare over `ℂ` with the isotypic decomposition of CompactGroups Layer 5 on the finite group.
-The separate left and right actions need not be algebra automorphisms. *Needs:* §2.1–2.3, §3.2,
+and compare over `ℂ` with the isotypic decomposition of CompactGroups Layer 5 on the finite group
+(Fulton–Harris, §3.4, Exercises 3.31–3.32, p. 38; the probability normalization follows by
+substituting `|G| f` in the displayed finite convolution).
+The separate left and right actions need not be algebra automorphisms.
+
+- The Fourier map is `f ↦ (∑_g f(g) ρᵢ(g))ᵢ`, from coefficient functions with convolution to
+  `∏ᵢ End(Vᵢ)`; its inverse is `f(g) = |G|⁻¹ ∑ᵢ dim(Vᵢ) trace(ρᵢ(g⁻¹) Tᵢ)`.
+- Prove both inverse laws, multiplication preservation in this order, and equivariance for the
+  two-sided actions above; changing a model by an intertwiner conjugates its matrix block.
+- The map from coefficient to probability convolution is `f ↦ |G| f`, with inverse `F ↦ F/|G|`;
+  its Fourier map is `F ↦ (|G|⁻¹ ∑_g F(g) ρᵢ(g))ᵢ`. The order is nonzero in characteristic zero.
+
+*Needs:* §2.1–2.3, §3.2,
 §3.5; Mathlib `Representation.tprod`, `Representation.dual`, `Representation.linHom`; Tau Ceti
 `ContRepresentation.biLinHom`; CompactGroups Layer 5.
 
@@ -542,8 +588,20 @@ The separate left and right actions need not be algebra automorphisms. *Needs:* 
 - A trivial factor: the table of `G × 1` is the table of `G`.
 - For `G = H = S₃`, the external product of the two-dimensional representation with itself has
   degree `4` and norm `1·1 = 1`; the internal tensor product of the same two has character
-  `(4, 0, 1)` and norm `2`, so the two notions differ.
+  `(4, 0, 1)` and self-pairing `(16 + 2)/6 = 3`, so the two notions differ.
 - The left regular multiplicity of the two-dimensional irreducible of `S₃` is `2 = dim`.
+- External Hom for `C₃ × C₂`, `χ(g) = ω` and sign at `h`: its character is `−ω²`, whereas
+  omitting inversion gives `−ω`; `φ ⊗ w` maps to `v ↦ φ(v)w` in this factor order.
+- External Hom from or to the zero space is zero: dimension and character `0`; no simple object results.
+- External Hom from the trivial one-dimensional factor to `W` is `W`: the maps send `f` to `f(1)`
+  and `w` to `a ↦ aw`; with `W = ℂ` of sign character the value at the generator is `−1`.
+- On `C₂`, `δ₁ * δ₁ = δ₁`, while `δ₁ ⋆ δ₁ = δ₁/2` and `(2δ₁) ⋆ (2δ₁) = 2δ₁` for probability
+  convolution; the scaling and its inverse send `δ₁ ↦ 2δ₁ ↦ δ₁`.
+- On `C₂`, the Fourier image of `δ₁` is `(1,1)`; inverse Fourier gives `(1+1)/2 = 1` at `1`
+  and `(1−1)/2 = 0` at the generator. The probability unit `2δ₁` has the same image.
+- In `S₃`, for `a = (12)` and `b = (23)` with rightmost factor acting first, `δ_a * δ_b = δ_(123)`
+  and `δ_b * δ_a = δ_(132)`. Their Fourier blocks are respectively `ρ(a)ρ(b)` and `ρ(b)ρ(a)`,
+  distinct on the faithful standard module.
 
 ### 3.7 Faithful tensor generation over ℂ (Burnside–Brauer)
 
@@ -701,20 +759,33 @@ integer: `χ(1) ∣ |G|` (`TauCeti.Representation.finrank_dvd_card`). *Needs:* T
 
 ### 4.4 The Galois action and the field of values
 
-The action lives on `K = ℚ(ζ_e)`, never on `ℂ`. Tau Ceti supplies it: for a characteristic-zero
-`K` with a primitive `n`-th root `ζ`, `exponent G ∣ n`, and an algebraically closed extension `L`
-in the same universe, `IsPrimitiveRoot.cyclotomicVirtualCharacterEquiv` identifies
-`virtualCharacters K G` with `virtualCharacters L G` by scalar extension;
-`IsPrimitiveRoot.cyclotomicVirtualCharacterAction` is the homomorphism
-`Gal(K/ℚ) →* Multiplicative (AddAut (virtualCharacters L G))`, so the action laws are the
-homomorphism laws; `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_apply` is the value formula
-`(σ · χ)(g) = χ(g ^ j)` with `j = (hζ.autToPow ℚ σ).val`;
-`IsPrimitiveRoot.cyclotomicVirtualCharacterAction_equiv_apply` says that on a descended character
-the action is `σ` on the `K`-values; `IsPrimitiveRoot.cyclotomicVirtualCharacterAction_mem_irreducibleCharacters`
-and `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction` (`Gal(K/ℚ) →* Equiv.Perm (irreducibleCharacters L G)`) give the permutation of the irreducible characters, independent of
-any row enumeration. On class functions the same twist is `TauCeti.ClassFunction.powMap j`
-(`Representation.map_ofCharacter_eq_powMap`). The Galois action and the power maps of group
-elements meet on the table in the class-power identity of §6.6.
+For a characteristic-zero field `K` containing a primitive `n`-th root `ζ`, `n ≠ 0`,
+`exponent G ∣ n`, and an algebraically closed extension `L` with `K`, `L`, `G` in one universe,
+construct the additive equivalence from `TauCeti.virtualCharacters K G` to
+`TauCeti.virtualCharacters L G` by scalar extension. Its surjectivity is
+`TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot`; injectivity follows pointwise from the
+field embedding. For `K = ℚ(ζ_e)` define the action of `Gal(K/ℚ)` on the latter lattice by
+transporting the pointwise action on the former. These are targets of this subsection
+(Serre, §§12.3–12.4; the action is the transport of the scalar-extension bijection).
+
+- The equivalence sends `f` to `ι ∘ f`; its inverse is the unique descended function, with both
+  inverse laws, and it preserves the integer coefficients of virtual characters.
+- The action satisfies `1 · f = f` and `(στ) · f = σ · (τ · f)`; on a descended value it sends
+  `ι(f(g))` to `ι(σ(f(g)))`. It is independent of the realization chosen for a character.
+- For `j = (hζ.autToPow ℚ σ).val`, prove `(σ · χ)(g) = χ(g^j)`: over `K`, the operator of any
+  realization of `g` has eigenvalues among the powers of `ζ`, since its minimal polynomial
+  divides the separable polynomial `X^n − 1`. Trace is the sum of these eigenvalues with their
+  multiplicities, and `σ` raises each to the `j`-th power. Extend additively to virtual characters.
+- Prove preservation of irreducible characters, hence a permutation action on that set: a simple
+  `L`-representation has an absolutely irreducible model over `K` by
+  `FDRep.exists_simple_nonempty_iso_baseChange_of_isPrimitiveRoot`; twisting its matrices by `σ`
+  preserves absolute irreducibility, and scalar extension gives the required irreducible row.
+
+This value calculation uses only automorphisms of `K`; it does not apply the algebraically
+closed coefficient-field theorem `TauCeti.Representation.map_ofCharacter_eq_powMap` to `K`.
+The resulting action supplies the fixed-field theorem below and the class-power identity of §6.6.
+*Needs:* §4.1–4.2; the two pinned descent declarations above; Mathlib
+`IsPrimitiveRoot.autToPow`, finite-dimensional eigenvalue decomposition and field embeddings.
 
 The target of this subsection is `fieldOfValues_eq_map_fixedField_stabilizer`: for `G : Type`
 finite, `K` with `IsCyclotomicExtension {exponent G} ℚ K` and a field embedding `K → ℂ`, an
@@ -728,11 +799,11 @@ equivalence `χ = ι ∘ χ_K` for a `K`-valued `χ_K`; the value formula and in
 correspondence for `K/ℚ` gives `ℚ(χ_K) = K^H`; and `ι` maps `ℚ(χ_K)` onto `ℚ(χ)`. The statement
 holds for every embedding, since `H` is defined from `χ` alone. *Needs:* Mathlib
 `IsCyclotomicExtension`, `IsPrimitiveRoot.autToPow`, `IntermediateField.fixedField`,
-`IsGalois.fixedField_fixingSubgroup`; Tau Ceti `IsPrimitiveRoot.cyclotomicVirtualCharacterEquiv`,
-`IsPrimitiveRoot.cyclotomicVirtualCharacterAction_apply` (equivalently
-`TauCeti.virtualCharacters_eq_map_of_isPrimitiveRoot` with `Representation.map_ofCharacter_eq_powMap`).
+`IsGalois.fixedField_fixingSubgroup`; the descent equivalence, action, and value law constructed in this subsection.
 
 **Checks.**
+- On `C₅`, `χ(g) = ζ₅`, the automorphism of exponent `2` gives `ζ₅²`; inverse exponent `3`
+  gives `ζ₅³ ≠ ζ₅²`. Applying exponent `2` twice gives `ζ₅⁴`, and exponent `3` undoes it.
 - `G = C₄ = ⟨g⟩`, `χ(g) = i`, `e = 4`, `K = ℚ(i)`: the nontrivial `σ` has `j = 3` and
   `χ(g³) = −i ≠ i`, so `H = 1` and `ℚ(χ) = ℚ(i)`, not `ℚ`.
 - The sign character of `S₃`, `e = 6`, `j = 5`: `sgn(g⁵) = sgn(g)`, so `H = Gal(K/ℚ)` and `ℚ(χ) = ℚ`
@@ -790,7 +861,7 @@ characters, `ℚ` for the others) and `A₅` (`ℚ(√5)` for the two three-dime
 ### Dependencies
 
 Layer 3's table and Layer 1's integral class center; Mathlib cyclotomic fields, Galois theory;
-Tau Ceti `CyclotomicAction`, `Galois`, `SplittingField`, `Solvable`.
+Tau Ceti `Galois`, `SplittingField`, `Solvable`; the descended action of §4.4.
 
 ## Layer 5: the Dixon–Schneider characterization (the specification)
 
@@ -891,9 +962,10 @@ identifies the exact ring with the same quotient, and the embedding is the one o
 **Checks.**
 - `e = 1`: `Cyclotomic 1 = ℤ[X]/(X − 1) ≅ ℤ`, `K = ℚ`, `𝓞 K = ℤ`, `φ(1) = 1`, `zeta 1 = 1`,
   `complexRoot 1 = 1`; the coordinate of `x` is `x` itself.
-- `e = 4`: `Φ₄ = X² + 1`, `𝓞 K = ℤ[i]`, `complexRoot 4 = i`; `zeta 4 ^ 2` has coordinates
-  `(−1, 0)`, and `E` must send it to `−1`, which the clause `E (zeta e) = ζ` enforces; an
-  isomorphism sending `zeta` to `−i` would satisfy every clause except that one.
+- `e = 4`: `Φ₄ = X² + 1`, `𝓞 K = ℤ[i]`, `complexRoot 4 = i`; `zeta 4` has coordinates
+  `(0,1)` and complex image `i`. Sending it to `−ζ` instead gives coordinates `(0,−1)` and
+  complex image `−i`, so the generator, embedding and coordinate clauses all exclude conjugation.
+  Squaring gives `−1` under both maps and cannot distinguish them.
 - `e = 3`: `ζ²` has coordinates `(−1, −1)` on the basis `1, ζ` since `ζ² = −1 − ζ`.
 
 ### 6.2 Executable input and the left-row convention
@@ -996,22 +1068,29 @@ permutations. The tuple is indexed by `Fin φ(e)` through `TauCeti.Cyclotomic.pr
 trivial when `p ≡ 1 (mod e)`. The inequality `2|coeff(w_C, k)| < p` is exactly the hypothesis of
 `TauCeti.Cyclotomic.lift_eq_of_conjugateResidues_eq`.
 
-Two further theorems about the central rows, stated on `TauCeti.centralCharacterTable ℂ G`:
+Two further theorems about the central rows, tied to `TauCeti.centralCharacterTable ℂ G`.
+For `G : Type v`, `K : Type` an exponent cyclotomic field with an embedding into `ℂ`,
+`exists_centralRow_classPower` asserts existence of a `K`-valued row whose embedded values are
+the native row, with the power identity for every root-compatible automorphism:
 
-- **The class-power Galois identity.** For `gcd(b, e) = 1`, powering `g ↦ g^b` is a
+- **The class-power Galois identity** (`exists_centralRow_classPower`). For `gcd(b, e) = 1`, powering `g ↦ g^b` is a
   conjugation-equivariant bijection of `G` with inverse exponent modulo `e`, so it induces a
   permutation `P_b` of `ConjClasses G` that is representative-independent, fixes the identity class
   and preserves class sizes. For an irreducible `χ`, `Ω_χ(P_b(C)) = σ_b(Ω_χ(C))`, where `σ_b` is
   the automorphism `ζ ↦ ζ^b` of `ℚ(ζ_e)` applied to the descended values (§4.4): this follows from
   `Ω_χ(C) = |C| χ(C)/χ(1)`, since `|C|` and `χ(1)` are fixed by `σ_b` and `χ(g^b) = σ_b(χ(g))`.
   Transfer the identity to the exact elements of §6.4 through the injective generator-compatible
-  embedding, and derive the corresponding identity of reductions at the conjugate roots.
+  embedding, and derive the corresponding identity of reductions at the conjugate roots
+  (Serre, §12.4, for the root action; the central-value identity is derived here by substitution
+  in `TauCeti.Representation.centralCharacter_classSumCenter_mul_character_one`).
 - **The degree identity.** With `n = |G|`, `s_C = |C|` (`s_C ∣ n`, so `n/s_C` is exact natural
   division) and `C⁻¹` the class of inverses, `∑_C (n/s_C) Ω_χ(C) Ω_χ(C⁻¹) = (n/χ(1))²` in `ℚ(ζ_e)`,
   from §5.2; and the positive integer `m` with `m² · T = n²` is unique, since `T ≠ 0` in a field of
-  characteristic zero and positive integer squares determine their roots.
+  characteristic zero and positive integer squares determine their roots. This is a deduction
+  from row orthogonality (Fulton–Harris, Theorem 2.12, p. 16): substituting `Ω = s_C χ/d` gives
+  `T = (n/d²) ∑_C s_C χ(C)χ(C⁻¹) = n²/d²`, using `d > 0` and `n > 0`.
 
-*Needs:* §4.4, §5.2, §6.4, §6.5; Tau Ceti as named.
+*Needs:* §4.4–4.5, §5.2, §6.4, §6.5; Tau Ceti as named.
 
 **Checks.**
 - `S₃`, `e = 6`, `b = 5`: `P_5` fixes every class (`t⁵ = t`, `r⁵ = r⁻¹ ∼ r`), and `σ_5` is complex
@@ -1019,8 +1098,10 @@ Two further theorems about the central rows, stated on `TauCeti.centralCharacter
 - `C₅`, `χ(g) = ζ₅`, `b = 2`: `P_2` sends the class of `g` to that of `g²`, and
   `Ω(g²) = ζ₅² = σ_2(ζ₅)`; the inverse convention `σ_{b⁻¹} = σ_3` would give `ζ₅³`. For `e = 3`
   the two conventions coincide (`2⁻¹ ≡ 2 (mod 3)`), so `C₃` is not a witness.
-- `A₅`, `b = 2`: `P_2` swaps the two classes of `5`-cycles and `σ_2(√5) = −√5`, exchanging the two
-  three-dimensional rows' values `(1 ± √5)/2`.
+- `A₅`, `e = 30`, `b = 7`: `gcd(7,30) = 1` and `7 ≡ 2 (mod 5)`, so `P_7` swaps the
+  `5`-cycle classes and `σ_7(√5) = −√5`, exchanging the values `(1 ± √5)/2`.
+- For `A₅`, `b = 2` fails: `1² = ((12)(34))² = 1`, so there is no class permutation;
+  `ζ₃₀²` has order `15`, so it cannot be the image of `ζ₃₀` under a field automorphism.
 - `S₃`, degree-`2` row `(1, 0, −1)`: `T = 6·1·1 + 2·0 + 3·(−1)(−1) = 9 = (6/2)²`; `m = 2` is the
   unique positive solution of `m² · 9 = 36`.
 - `e = 1` (trivial group): `b = 0` is the only residue, `P_0` is the identity on the single class.
@@ -1099,8 +1180,8 @@ indicator `TauCeti.frobeniusSchurIndicatorRow`) is the degree-weighted signed su
 `#{g : g² = 1} = ∑_χ ν₂(χ) χ(1)`, distinct from the unweighted `∑_χ ν₂(χ) = #orthogonal − #quaternionic`. A real class `TauCeti.IsRealClass C` has `g ∼ g⁻¹`; the number of real-valued rows of
 `TauCeti.characterTable ℂ G` equals the number of real classes
 (`TauCeti.card_realValued_eq_card_realClasses`). The categorical mirror is the indicator of
-PivotalSpherical on `FDRep G` with its standard pivotal structure; own the comparison. *Needs:*
-Tau Ceti as named; PivotalSpherical.
+PivotalSpherical Layer 8 on `FDRep G`, with its standard pivotal structure and `n = 2`; use
+that layer's agreement theorem. *Needs:* Tau Ceti as named; PivotalSpherical Layer 8.
 
 **Checks.**
 - `D₄` and `Q₈` share the table (four degree-`1` rows, one degree-`2`); on the degree-`2` row
@@ -1108,11 +1189,18 @@ Tau Ceti as named; PivotalSpherical.
 - `S₃`, `S₄`, `A₅` are totally orthogonal (every `ν₂ = +1`): `#{g² = 1}` is `4 = 1+1+2`, `10 = 1+1+2+3+3`, `16 = 1+3+3+4+5`.
 - `C₃`: the two nontrivial characters have `ν₂ = 0` (`χ(g²) = ω²`, `1 + ω² + ω = 0`), one real class
   (`{1}`) and one real-valued row; the unweighted sum `1` and the weighted sum `#{g² = 1} = 1` agree
-  here but differ for `D₄` (`5` versus `6`).
+  here but differ for `D₄` (`5` versus `6`). The categorical comparison gives the same values
+  `+1`, `−1`, `0` for the degree-two `D₄`, degree-two `Q₈`, and nontrivial `C₃` representations.
+- In `TauCeti.gl2FieldThreeCharacterTable` column order, the sizes are `(1,1,6,6,6,8,8,12)`
+  and squaring sends columns to `(0,0,1,2,2,5,5,0)` (zero-based). The three cuspidal
+  square-character sums are `4+12+24−16+24 = 48` and twice `4−12+0−16+24 = 0`, giving
+  indicators `(+1,0,0)`. All eight rows give the degree-weighted sum `2+2+6+4 = 14`,
+  equal to the number of matrices with square `1`.
 
 ### Examples
 
-`D₄` versus `Q₈`; `C₃`; `GL₂(𝔽₃)` (its degree-`2` cuspidal rows are quaternionic).
+`D₄` versus `Q₈`; `C₃`; `GL₂(𝔽₃)` (one orthogonal and two complex-conjugate degree-`2`
+cuspidal rows, with indicators `(+1,0,0)`).
 
 ### Dependencies
 
@@ -1196,12 +1284,15 @@ InductionRestriction Layers 2–4; Mathlib `Shrink`.
 
 ### 9.2 Character values and the table
 
-The table is not fixed by the dimension counts: pin the explicit values of the linear, Steinberg,
-principal-series and cuspidal rows on each of the four class families (central, split, unipotent,
-elliptic), consuming the pinned `GL2` character formulas, and prove the tally
-`(q−1)·1² + (q−1)·q² + ½(q−1)(q−2)·(q+1)² + ½q(q−1)·(q−1)² = (q²−1)(q²−q)` with `#irreducibles = q² − 1 = #classes`. The acceptance criterion is the full `(q²−1) × (q²−1)` table with the four
-dimension families `1, q, q+1, q−1`, rows orthonormal for the pairing, for `q ≥ 3` where all four
-families are nonempty (Fulton–Harris, §5.2; Bonnafé). *Needs:* §9.1; Layer 3.
+Use `TauCeti.GL2CharacterTable F E` on the actual conjugacy classes, its identification
+`TauCeti.GL2CharacterTable_eq_submatrix_characterTable`, and
+`TauCeti.GL2CharacterParam.characterPairing_classFunction`. They supply all four row families
+and the orthonormality assertion. Use `TauCeti.conjClassesGLFinTwoEquiv` for the column labels.
+The dimension tally is
+`(q−1)·1² + (q−1)·q² + ½(q−1)(q−2)·(q+1)² + ½q(q−1)·(q−1)² = (q²−1)(q²−q)`,
+with `q²−1` rows and columns; for `q = 2` the empty principal-series family contributes zero.
+Here `F : Type`, as in the assembled table; the arbitrary-universe extension in this layer is
+only the principal-series criterion in §9.1. *Needs:* the named Tau Ceti declarations; §9.1.
 
 **Checks.**
 - `GL₂(𝔽₃)`, order `48`: degrees `1,1,2,2,2,3,3,4` (two linear, two Steinberg of degree `q = 3`,
@@ -1442,9 +1533,12 @@ these are symmetric spanning sets, not a canonical basis in an irreducible. *Nee
 - `u = (A qᵢ)ᵢ` with `A = diag(1, −1, 0)` satisfies `H u = −2u`; with `A = [[0,1,0],[1,0,0],[0,0,0]]`,
   `H u = −4u`; with `A = I`, `H u = −8u`; with `A = [[0,1,0],[−1,0,0],[0,0,0]]` or `u = (t)ᵢ`,
   `H u = 0`.
-- The transposition `(2 3)` acts by the orthogonal `R` with `R q₂ = q₃`, `R q₃ = q₂`, `R q₄ = q₄`,
-  and the induced `12 × 12` matrix commutes with `H`; a model with `(σ·u)ᵢ = R_σ u_{σ(i)}` fails to
-  commute.
+- Let `σ = (123)`, `τ = (12)`, with rightmost factor acting first, and let `u` be supported
+  only at vertex `1`, where `u₁ = q₄ ≠ 0`. The correct action sends both `σ·(τ·u)` and
+  `(στ)·u` to the vector supported at vertex `3`, of value `q₄`. For the wrong rule
+  `(B_σ u)ᵢ = R_σ u_{σ(i)}`, `B_σ B_τ u` is supported at vertex `1`, while `B_(στ) u` is
+  supported at vertex `3`: the group law fails. A transposition alone equals its inverse
+  and cannot distinguish the conventions.
 - The `D₄`-seed `diag(−1, 2, −1)` has orbit `{diag(2,−1,−1), diag(−1,2,−1), diag(−1,−1,2)}` under
   `S₄`, whose sum is `0`.
 
