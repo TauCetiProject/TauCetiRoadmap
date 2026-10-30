@@ -119,10 +119,8 @@ The paths in this section are relative to the Mathlib repository.
 
 ### From Tau Ceti
 
-Declarations in Tau Ceti files carry the prefix `TauCeti`, except the three block theorems
-`RingEquiv.exists_simpleSubmodule_of_pi_matrix`, `RingEquiv.card_blocks_eq`, and
-`RingEquiv.wedderburn_blocks_unique`, which their files declare in the root namespace
-`RingEquiv`. The file paths are relative to the Tau Ceti repository. The hypotheses of every
+The Tau Ceti declarations consumed below carry the prefix `TauCeti`.
+The file paths are relative to the Tau Ceti repository. The hypotheses of every
 declaration are part of the contract, including nontriviality where it is needed; the layer that
 consumes a declaration states them.
 
@@ -140,6 +138,14 @@ consumes a declaration states them.
   `TauCeti/RingTheory/Semisimple/BlockCount.lean`, `TauCeti/Algebra/Matrix/Pi.lean`, and
   `TauCeti/RingTheory/Semisimple/DimensionCount.lean`: chosen presentations, the block
   dictionary, intrinsic invariants, uniqueness, and dimension counts (Layer 2).
+  In particular, `TauCeti.blocks_equiv_simpleModules` and
+  `TauCeti.exists_simpleSubmodule_of_ringEquiv_pi` enumerate simple modules for the matrix
+  and finite-simple-factor presentations of a semisimple ring, respectively.
+  `TauCeti.card_blocks_eq` counts positive-size division-ring matrix blocks;
+  `TauCeti.card_eq_of_ringEquiv_pi_of_isSimpleRing` and
+  `TauCeti.exists_equiv_factors_of_ringEquiv_pi` count and match arbitrary finite families
+  of simple factors. `TauCeti.wedderburn_blocks_unique` matches division rings and positive
+  natural matrix sizes in `Fin`-indexed presentations (§§2.2–2.3).
 - `TauCeti/RingTheory/Semisimple/DoubleCentralizer.lean`,
   `TauCeti/RingTheory/Semisimple/SimpleArtinian.lean`, and
   `TauCeti/RingTheory/Semisimple/EndAlgebra.lean`: density and modules over simple Artinian
@@ -300,9 +306,9 @@ as a finite product of matrix rings of positive size over division rings;
 over the opposite of the endomorphism ring of a simple module, fixing the opposite convention;
 `IsSemisimpleRing.exists_algEquiv_pi_matrix_of_isAlgClosed` gives the split form of a
 finite-dimensional semisimple algebra over an algebraically closed field.
-`TauCeti.WedderburnPresentation` (`Presentation.lean`, line 75) stores a natural block count,
+`TauCeti.WedderburnPresentation` (`Presentation.lean`, line 77) stores a natural block count,
 division rings, positive degrees through `instNeZeroDegree`, and a ring equivalence;
-`TauCeti.IsSemisimpleRing.wedderburnPresentation` (line 289) chooses one for a semisimple ring,
+`TauCeti.IsSemisimpleRing.wedderburnPresentation` (line 291) chooses one for a semisimple ring,
 and the algebra, finite-dimensional, and split variants in that file preserve these conditions.
 *Needs:* Mathlib `IsSemisimpleRing.exists_ringEquiv_pi_matrix_divisionRing`,
 `IsSimpleRing.exists_ringEquiv_matrix_end_mulOpposite`,
@@ -320,13 +326,17 @@ and the algebra, finite-dimensional, and split variants in that file preserve th
 
 ### 2.2 The block dictionary
 
-`RingEquiv.exists_simpleSubmodule_of_pi_matrix` takes a presentation of a semisimple ring R as a
+`TauCeti.blocks_equiv_simpleModules` (`Wedderburn/Blocks.lean`, line 180) takes a presentation
+of a semisimple ring R as a
 product, indexed by `Fin n`, of dᵢ × dᵢ matrix rings over division rings Dᵢ with every dᵢ
 positive, and produces simple left ideals S₁, …, Sₙ of R, pairwise nonisomorphic, such that
 every simple left ideal is isomorphic to exactly one Sᵢ. Semisimplicity of R is an instance
 hypothesis of the theorem. With §1.3 this enumerates the isomorphism classes of all simple
-R-modules by the blocks.
-*Needs:* `RingEquiv.exists_simpleSubmodule_of_pi_matrix`; §1.3.
+R-modules by the blocks. `TauCeti.exists_simpleSubmodule_of_ringEquiv_pi` (line 148)
+gives the same family and exhaustion for a presentation of a semisimple R as a product
+of simple rings indexed by any finite type.
+*Needs:* `TauCeti.blocks_equiv_simpleModules`,
+`TauCeti.exists_simpleSubmodule_of_ringEquiv_pi`; §1.3.
 
 **Checks.**
 
@@ -334,6 +344,8 @@ R-modules by the blocks.
   (1, 0) acts as the identity on one and as zero on the other. For M₂(K) the two column ideals
   are isomorphic, so the dictionary lists one class, not two.
 - Without positivity, the presentation K ≅ K × M₀(K) would index two classes for a ring with one.
+- For the empty product, R is the zero ring: there are zero blocks and zero simple-module
+  classes, so both enumeration statements give the empty family.
 
 ### 2.3 Intrinsic invariants and uniqueness
 
@@ -344,17 +356,24 @@ as a natural number. `TauCeti.blockDivisionRingEquiv` and
 and `TauCeti.blockMultiplicity_pos` makes the multiplicity of a simple module over a semisimple
 ring positive. `TauCeti.WedderburnPresentation.exists_equiv_degree_eq_blockMultiplicity`
 matches the chosen degrees of any presentation with these intrinsic multiplicities along an
-enumeration of the simple modules. `RingEquiv.card_blocks_eq` says two presentations of the same
-ring as `Fin`-indexed products of positive-size matrix rings over simple rings have the same
-number of blocks; semisimplicity of the ring is not assumed. `RingEquiv.wedderburn_blocks_unique`
-takes two presentations of a ring as products of matrix rings over division rings, with
-arbitrary block index sets and finite nonempty matrix index types, and gives a bijection of the
-index sets matching the matrix sizes and the division rings up to ring isomorphism; the finite
-positive-size presentations of §2.1 are its specialization. *Needs:* `TauCeti.blockDivisionRing`,
+enumeration of the simple modules. `TauCeti.card_blocks_eq` (`BlockCount.lean`, line 268)
+says two presentations of the same ring as `Fin`-indexed products of positive-size matrix
+rings over division rings have the same number of blocks; semisimplicity of the ring is not
+assumed. More generally, `TauCeti.card_eq_of_ringEquiv_pi_of_isSimpleRing` (line 77) gives
+equal cardinalities for presentations by simple rings indexed by arbitrary finite types,
+including positive-size matrix rings over simple coefficient rings.
+`TauCeti.exists_equiv_factors_of_ringEquiv_pi` (line 252) matches the simple factors of two
+such finite products by a bijection and factor ring equivalences compatible with the given
+product equivalence on elements supported in one coordinate.
+`TauCeti.wedderburn_blocks_unique` (`Wedderburn/Uniqueness.lean`, line 47) takes two
+presentations indexed by `Fin m` and `Fin n`, with blocks of positive natural sizes over
+division rings, and gives a bijection matching those sizes and the division rings up to ring
+isomorphism. These are the presentations of §2.1. *Needs:* `TauCeti.blockDivisionRing`,
 `TauCeti.blockMultiplicity`, `TauCeti.blockDivisionRingEquiv`,
 `TauCeti.blockMultiplicity_eq_of_linearEquiv`, `TauCeti.blockMultiplicity_pos`,
 `TauCeti.WedderburnPresentation.exists_equiv_degree_eq_blockMultiplicity`,
-`RingEquiv.card_blocks_eq`, `RingEquiv.wedderburn_blocks_unique`; §2.2.
+`TauCeti.card_blocks_eq`, `TauCeti.card_eq_of_ringEquiv_pi_of_isSimpleRing`,
+`TauCeti.exists_equiv_factors_of_ringEquiv_pi`, `TauCeti.wedderburn_blocks_unique`; §2.2.
 
 **Checks.**
 
@@ -366,6 +385,13 @@ positive-size presentations of §2.1 are its specialization. *Needs:* `TauCeti.b
   dimension 4 but block counts 1 and 4, so the block count alone shows they are not isomorphic.
 - Nonemptiness of the matrix index types is essential: M₀(D) is the zero ring for every D, so a
   presentation could otherwise be padded with blocks over arbitrary division rings.
+- The simple-factor presentations M₂(K) and M₁(M₂(K)) both have one factor, so the general
+  count gives 1 = 1. Their displayed matrix sizes are 2 and 1: the coefficient M₂(K) is
+  simple but not a division ring, so the division-ring uniqueness statement does not apply.
+- Under the transposition M₂(K) × K → K × M₂(K), (X, 0) maps to (0, X) and (0, a) to
+  (a, 0); the matched sizes satisfy 2 = 2 and 1 = 1. An identity permutation would match
+  sizes 2 and 1 and fail. For two empty presentations the count is 0 = 0 and factor
+  matching is the unique bijection of empty types.
 
 ### 2.4 Dimension counts
 
