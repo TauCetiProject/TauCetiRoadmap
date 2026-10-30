@@ -156,7 +156,8 @@ existence of a self-adjoint extension.
 - For V=H=ℂ, j=id and q(u,v)=conj(u)v, the graph equation gives h=u;
   shifts α=1 and α=2 both give A=id, not 2id or 3id.
 - On the circle with q(f,g)=∫conj(f′)g′, the mode exp(ikx) has form eigenvalue
-  k²; the represented operator is −∂² with domain H², and k=0 gives eigenvalue 0.
+  k²; the represented operator is −∂² with domain H², and k=0,1,2 give
+  eigenvalues 0,1,4.
 - For the zero Hilbert space, j has dense range {0}; the represented operator
   has domain {0} and action 0. Uniqueness must include this case.
 
@@ -180,7 +181,9 @@ as the ideal I_x={f:f(x)=0}. Prove the global algebraic ideal identity
 `I_x²={f:f(x)=0 and df_x=0}`, where the square consists of finite sums of
 products, on every manifold in scope, including noncompact M. The acceptance declarations are `smoothVanishingIdeal` and
 `mem_smoothVanishingIdeal_sq_iff`. Use the smooth
-Hadamard factorization in a chart and nested compactly supported cutoffs.
+Hadamard factorization in a chart and nested compactly supported cutoffs
+(Kolář–Michor–Slovák, §§1.3–1.6, pp. 5–7, for the partition-of-unity,
+germ and local factorization inputs; the global finite-sum argument follows).
 First cut off the chart expression in the chart target, so it extends smoothly
 to the whole model space before applying `hadamardFactor`. Its coefficients
 at x are the coordinate derivatives of f, hence zero when df_x=0. Localized
@@ -254,7 +257,8 @@ The section-module API includes:
 
 For every smooth finite-rank real vector bundle V, construct its first-jet bundle
 `J¹V` from the value and first derivative of local sections, with transition
-maps given by the first-order chain/product rules. Prove smooth gluing,
+maps given by the first-order chain/product rules (Kolář–Michor–Slovák,
+§§12.16–12.17, pp. 124–125, specialized to vector bundles). Prove smooth gluing,
 projection to V, open restriction, pullback by base diffeomorphisms and
 naturality under bundle isomorphisms. Construct the exact sequence
 `0 → T*M ⊗ V → J¹V → V → 0`, and the jet extension of a smooth section,
@@ -301,7 +305,7 @@ without assuming a derivation is continuous, using the preceding section module.
 Evaluate the derivation at each point and use the native point
 equivalence to define `derivationVectorField`; prove smoothness as
 `contMDiff_derivationVectorField` from its values on bump-localized coordinate
-functions. Prove inverse evaluation `δ(f)(x)=df_x(X_x)`, locality and
+functions (Kolář–Michor–Slovák, Lemma 3.3, p. 16). Prove inverse evaluation `δ(f)(x)=df_x(X_x)`, locality and
 restriction to open sets. Prove `field(fδ)=f·field(δ)` pointwise before
 bundling it as a C∞-linear equivalence. The acceptance theorem
 `exists_derivationEquivSmoothVectorField` states the underlying real-linear
@@ -390,7 +394,9 @@ defined by local finite-coordinate derivative expressions of bounded order.
 Prove the equivalent factorization
 through the order-m jet bundle, and vanishing of m+1 iterated commutators with
 scalar multiplication. Build the jet bundle from finite Taylor coefficients,
-coordinate-chain-rule transition maps and truncation exact sequences; prove
+coordinate-chain-rule transition maps and truncation exact sequences
+(Kolář–Michor–Slovák, §§12.2–12.5, pp. 117–119, and §§12.16–12.17,
+pp. 124–125); prove
 those equivalences by a local Hadamard lemma and induction on order. Do not
 assume a bare locality condition implies a uniform order bound. P1.0 owns these linear vector-bundle jets, extending its first-jet subtarget.
 The differential-operator and jet construction uses smooth sections and bundle
@@ -469,9 +475,11 @@ Prove D*D is Laplace type, with D* the formal adjoint for the canonical
 Riemannian density of g and the chosen fiber metrics. Relative to an arbitrary
 chosen metric connection the remainder has order≤1; construct the unique Bochner
 connection absorbing the first-order term before asserting a zeroth-order
-remainder. Prove that this connection is metric, and the zeroth-order remainder
-fiberwise self-adjoint, when the Laplace-type operator is formally self-adjoint
-for the canonical Riemannian density and those fiber metrics. Acceptance includes
+remainder (Gilkey, §2, Lemma 2.1, p. 289, applied to c⁻¹ times the operator
+when its leading coefficient is c>0). Prove that this connection is metric,
+and the zeroth-order remainder fiberwise self-adjoint, when the Laplace-type
+operator is formally self-adjoint for the canonical Riemannian density and
+those fiber metrics (Gilkey, paragraph after Lemma 2.1, p. 289). Acceptance includes
 the failure for another density: on the standard circle with the trivial real
 line, D=∂ₓ is of Dirac type, its formal adjoint for the density `e^(sin x) dx` is
 `−∂ₓ−cos x`, the product `−∂ₓ²−cos(x)∂ₓ` is formally self-adjoint for that
@@ -504,9 +512,12 @@ Consume K5a's pointwise real Hodge star and its codifferential; construct curl i
 oriented dimension 3 and the de Rham operator examples, comparing their symbols
 with P1.0. Consume K5a's real codifferential sign and star/Laplacian
 commutation identities. Consume K5a's Fréchet topology on all smooth bundle sections. Prove Peetre's
-local finite-order statement for continuous linear local maps in that topology,
-with order bounded on compact subsets, and distinguish it from globally
-bounded order. This theorem consumes P1.0's operator core and K5a's topology;
+local finite-order statement for linear local maps between smooth section spaces,
+without assuming continuity: for every compact K there is an integer r such that
+j^r_x u=j^r_x v implies (Pu)(x)=(Pv)(x) for all x∈K
+(Kolář–Michor–Slovák, Theorem 19.1, pp. 176–177).
+Distinguish this from globally bounded order; deduce continuity in the
+smooth-section Fréchet topology from the local differential expressions. This theorem consumes P1.0's operator core and K5a's topology;
 K5a's Laplace-type regularity does not consume this theorem.
 
 **Checks.**
@@ -608,19 +619,38 @@ classical operators carry its integer-step refinements for each exponent class,
 and composition adds those classes. Keep this distinction in every algebra and
 principal-symbol exact-sequence statement.
 
-The homogeneous and cutoff API includes:
+The homogeneous-symbol API includes:
 
 - Restriction and coefficient composition preserve positive homogeneity with the stated degrees.
 - Extending a homogeneous term by zero at ξ=0 is a value convention; smoothness is required only off zero.
-- Multiplying a homogeneous term by the frequency cutoff gives a smooth symbol of its degree.
+- Multiplying a homogeneous term by a frequency cutoff gives a smooth symbol of its degree.
 
 **Checks.**
 
 - For ξ², scaling ξ=1 by t=2 gives 4=2²·1, whereas degree-one homogeneity would give 2.
-- For degree zero the term equal to 1 off zero has assigned value 0 at zero; it is not
+- On ℝ, for degree zero the term equal to 1 off zero has assigned value 0 at zero; it is not
   continuous there, while its cutoff product is smooth.
-- Every frequency cutoff has values 0 at |ξ|=1 and 1 at |ξ|=2; the constant function 1
-  violates the first equation, and the constant function 0 violates the second.
+- In one dimension |ξ| is smooth off zero and positively homogeneous of degree 1:
+  |2·1|=2|1|=2, while its values at 1 and −1 are both 1. Positive homogeneity
+  imposes no odd-parity condition.
+
+The frequency-cutoff API includes:
+
+- The cutoff is identically zero on the closed unit ball and identically one outside the radius-two ball.
+- Its derivatives of positive order vanish outside the transition annulus; every derivative is bounded.
+- Two cutoffs differ by a smooth compactly supported function; multiplying their difference by
+  a homogeneous term extended by zero gives a smoothing symbol.
+
+**Checks.**
+
+- On ℝ, put h(t)=exp(−1/t) for t>0 and h(t)=0 for t≤0, and set
+  χ(ξ)=h(|ξ|−1)/(h(|ξ|−1)+h(2−|ξ|)). The denominator is positive since
+  |ξ|−1 and 2−|ξ| cannot both be nonpositive. The values at radii 1, 3/2 and 2
+  are 0, 1/2 and 1; flatness of h at zero and constancy near ξ=0 give smoothness.
+- The step equal to 0 for |ξ|<3/2 and 1 otherwise has the endpoint values 0 and 1,
+  but its one-sided limits at radius 3/2 are 0 and 1, so it is not a frequency cutoff.
+- The smooth function χ+4χ(1−χ) has the same endpoint values as χ, but at radius 3/2
+  it equals 3/2>1. The range condition excludes it.
 
 The classical-expansion and summation API includes:
 
@@ -633,11 +663,18 @@ The classical-expansion and summation API includes:
 - For a=ξ²+1, the homogeneous degrees 2,1,0 have terms ξ²,0,1; after the third
   cutoff term the remainder is (1−χ)(ξ²+1), compact in frequency.
 - For m_j=−j, a₀=1 and a_j=0 for j≥1, b=1 gives remainder 1 at N=0 and 0 for every N≥1.
+- For a=ξ of classical order 1, the leading term is ξ and every later homogeneous
+  term is zero; for every N≥1 the remainder is (1−χ)ξ. At ξ=3 it is 0,
+  whereas at ξ=1 it is 1, so a nonzero smoothing remainder is allowed.
 - The symbol 〈ξ〉^(1/2)+1 has no classical expansion of order 1/2 with integer steps:
   after its leading term the constant 1 cannot have order −1/2, since 〈k〉^(1/2)→∞.
 - For a₀=1, a₁=2, all later terms zero and orders 0,0,−1,−2,…, b=3 has remainders
   3,2,0 at N=0,1,2. Equal successive orders are allowed; tending to −∞ is essential
   for uniqueness modulo smoothing. The same equalities hold for a constant parameter family.
+- Put r=〈ξ〉, m_j=−j−1 and a_j=(−1)^j r^(−j−1). Then b=1/(r+1)
+  has remainder (−1)^N r^(−N)/(r+1), of order −N−1. At ξ=0, b=1/2 and
+  the first three remainders are 1/2, −1/2, 1/2. The original series at ξ=0
+  does not converge; an asymptotic sum is not defined as its pointwise sum.
 
 *Needs:* §2.1 symbol seminorms and cutoff estimates; finite-dimensional coefficient spaces;
 compactness of the parameter set for uniform seminorm bounds. Classical expansions use
@@ -667,7 +704,10 @@ continuous dual of all smooth sections with its Fréchet seminorm topology,
 rather than construct a second LF/Fréchet comparison. Prove
 the Schwartz kernel theorem: continuous linear maps
 `C_c^∞(N;E)→D′(M;F)` correspond uniquely to distributional kernels on M×N
-with coefficient bundle `F⊠(E*⊗Density_N)`. Use the LF source topology and
+with coefficient bundle `F⊠(E*⊗Density_N)` (Dyatlov, MIT 18.155,
+Fall 2021, Lecture 7, p. 11, for the Euclidean scalar correspondence;
+the finite-rank and density comparison is obtained by the chart patching below).
+Use the LF source topology and
 native compact-convergence distribution topology, with bilinear evaluation
 of E and E*. K5a owns the smooth density line bundle and local frame dictionary.
 On fixed compact
@@ -952,10 +992,11 @@ conjugate-linear Hermitian Riesz comparison as in K5a, using the fixed smooth
 positive density and bundle metrics. After this construction,
 transport the Euclidean interpolation theorems to bundles by the bounded
 localization/reconstruction retractions.
-Build the complex interpolation space for 0<θ<1 and compatible Banach couples embedded
-in a common Hausdorff topological vector space (using distributions for the
-Bessel-space application): construct the intersection and
-sum norms and the Banach space of bounded continuous functions on the closed
+Build compatible Banach couples embedded in a common Hausdorff topological vector
+space, with intersection and sum norms (Bergh–Löfström, §2.3, Lemma 2.3.1,
+pp. 24–25), using distributions for the Bessel-space application. For 0<θ<1,
+build the complex interpolation space (Bergh–Löfström, §4.1, Lemma 4.1.1
+and Theorem 4.1.2, pp. 87–88): construct the Banach space of bounded continuous functions on the closed
 strip into X₀+X₁, holomorphic inside, whose boundary maps t↦F(j+it) are
 continuous into X_j and tend to zero as |t|→∞. Its norm is
 `max_(j=0,1) sup_t ‖F(j+it)‖_(X_j)`. Build the evaluation-at-θ quotient
@@ -965,12 +1006,16 @@ Prove completeness, exact operator
 interpolation, endpoint embeddings, retraction compatibility and equivalent-
 norm naturality. Prove Stein's analytic-family interpolation and imaginary
 Bessel-power bounds using PDE Lane B's multiplier estimates. First prove the
-finite-dimensional-fiber Lebesgue space identity `[L^p₀,L^p₁]_θ=L^p_θ`:
+finite-dimensional-fiber Lebesgue space identity `[L^p₀,L^p₁]_θ=L^p_θ`
+(Bergh–Löfström, Theorems 5.1.1–5.1.2, pp. 106–107):
 construct analytic families for simple functions by complex powers of their
 norm and fixed unit directions, then use density, duality and three lines for
 the two continuous inclusions. Deduce
 `[H^(s₀,p₀),H^(s₁,p₁)]_θ=H^(s_θ,p_θ)`, where
-`s_θ=(1−θ)s₀+θs₁` and `1/p_θ=(1−θ)/p₀+θ/p₁`, with 1<p₀,p₁<∞.
+`s_θ=(1−θ)s₀+θs₁` and `1/p_θ=(1−θ)/p₀+θ/p₁`, with 1<p₀,p₁<∞
+(Bergh–Löfström, Theorem 6.4.5(7), pp. 152–153, when s₀≠s₁;
+for s₀=s₁ use the common Bessel isomorphism and Theorem 5.1.2;
+finite-rank bundle comparisons use the retractions just specified).
 The compatible-couple and complex-method API includes:
 
 - Intersection and sum use their maximum and infimum norms on one common ambient space.
@@ -995,7 +1040,8 @@ Also build the real K-method space for
 0<θ<1 and 1≤q≤∞ with
 `K(t,u)=inf_(u=u₀+u₁)(‖u₀‖+t‖u₁‖)` and norm
 `‖t^(−θ)K(t,u)‖_(L^q(dt/t))`, including q=∞, its Banach/functorial API
-and the dyadic Besov comparison. The K-method API includes:
+(Bergh–Löfström, §3.1, Theorem 3.1.2, pp. 38–41, and Theorem 3.4.2,
+pp. 47–48) and the dyadic Besov comparison. The K-method API includes:
 
 - For t>0 the functional is the infimum over decompositions in the common sum space.
 - The real-method norm includes q=∞, is complete, and is functorial for couple morphisms.
@@ -1012,14 +1058,17 @@ and the dyadic Besov comparison. The K-method API includes:
 *Needs:* the common sum carrier and its quotient norm; native Lq spaces for dt/t.
 
 For a fixed p and s₀≠s₁ pin
-`(H^(s₀,p),H^(s₁,p))_(θ,q)=B^(s_θ)_(p,q)`; define the Besov carrier by
+`(H^(s₀,p),H^(s₁,p))_(θ,q)=B^(s_θ)_(p,q)`
+(Bergh–Löfström, Theorem 6.4.5(4), pp. 152–153); define the Besov carrier by
 the dyadic Lp coefficient sequence norm. Choose a smooth inhomogeneous Fourier
 partition supported in a low-frequency ball and dyadic annuli, summing to1;
 prove finite overlap, uniform rescaled derivative bounds, bounded dyadic
-analysis/reconstruction and equivalence for any two such partitions. Prove
+analysis/reconstruction and equivalence for any two such partitions (Bergh–Löfström, §6.2,
+pp. 138–146, and Theorem 6.4.3, pp. 151–152). Prove
 `B^s_(p,1)⊂H^(s,p)⊂B^s_(p,∞)` using the multiplier bounds. Own the
 weighted-sequence K-method interpolation formula for distinct weights s₀,s₁,
-with ℓ^q coefficient norms and q=∞ included. Use dyadic decomposition and
+with ℓ^q coefficient norms and q=∞ included (Bergh–Löfström, Theorem 5.6.1,
+pp. 121–122). Use dyadic decomposition and
 these estimates to prove the stated Besov identification and its reverse
 inclusion, rather than only an operator interpolation inequality.
 Prove the bundle versions through
@@ -1136,14 +1185,40 @@ The Hölder and Zygmund API includes:
 - Properly supported classical operators shift the Zygmund order, and their smooth-input
   action restricts the noninteger Hölder mapping to the little spaces.
 
-**Checks.**
+**Checks (full Hölder spaces).**
 
-- For f(x)=|x|^α near 0 with 0<α<1, |f(h)−f(0)|/|h|^α=1; it lies in the full
-  Hölder space but fails the little-space modulus limit 0.
-- For a smooth f with bounded derivative, that quotient is at most C|h|^(1−α)→0;
-  the constant function 1 has quotient 0 at every scale.
-- In the dyadic model, a block at j=2 of L∞ norm 1 contributes 2^(2r);
-  r=0 gives 1 and r=1 gives 4, fixing the sign of the Zygmund weight.
+- On the trivial line over a nonempty compact base, the constant 1 has sup norm 1 and
+  Hölder seminorm 0; the seminorm alone would incorrectly give norm 0.
+- For f(x)=|x|^α near 0 with 0<α<1, the quotient
+  |f(h)−f(0)|/|h|^α=1. A compactly supported cutoff of this function is α-Hölder.
+- For 0<β<α, the corresponding quotient for |x|^β is |h|^(β−α)→∞;
+  at α=3/4, β=1/4 and h=1/16 it is 4. A cutoff does not cure this local failure.
+
+**Checks (little Hölder spaces).**
+
+- The α-cusp has quotient 1 at every small scale and is excluded from h^(0,α).
+  For any smooth g the quotient of g(h)−g(0) tends to 0, so the Hölder seminorm
+  of |x|^α−g near zero is at least 1; smooth norm approximation is impossible.
+- For a smooth f with bounded derivative the quotient is at most C|h|^(1−α)→0;
+  the constant 1 has quotient 0 at every scale and belongs to the little space.
+- For 0<α<β<1, a cutoff of |x|^β has small-scale α-Hölder modulus at most
+  C r^(β−α)→0. With α=1/4, β=3/4, its quotient between 0 and h=1/16 is 1/4,
+  and tends to 0 as h tends to 0; little Hölder membership does not require smoothness.
+
+**Checks (Zygmund spaces).**
+
+- On ℝ, the constant 1 has low block Δ₀1=1 and every annular block zero, hence norm 1
+  for every r. Omitting the inhomogeneous low block would give 0.
+- In the dyadic sequence model, a block at j=2 of L∞ norm 1 contributes 2^(2r);
+  r=0 gives 1 and r=1 gives 4, fixing the sign of the weight.
+- On ℝ take annular multipliers ψ(2^(−j)ξ), j≥1, with nonzero inverse Fourier
+  transform of sup norm c>0. For δ₀ the jth block has sup norm c·2^j:
+  at j=1,2 it is 2c,4c. Weight 2^(−j) gives c,c and a bounded sequence,
+  while weight 1 gives an unbounded sequence; thus δ₀ belongs to C^(−1)_*
+  and does not belong to C^0_*.
+
+**Checks (Ehrling).**
+
 - For a constant nonzero section with trivial connection, Ehrling reduces to
   ‖u‖≤ε‖u‖+C_ε‖u‖; at ε=1/2 one needs C_ε≥1/2.
 
@@ -1683,7 +1758,9 @@ For almost-conjugate subgroups `H₁,H₂≤Q`, write `Yᵢ=X/Hᵢ` and `πᵢ:X
 identifies `C∞(Yᵢ)` with the `Hᵢ`-invariant smooth functions on `X` and
 `Δ_X(πᵢ* f)=πᵢ*(Δ_Yᵢ f)`. With Riemannian volume on both quotients, prove
 `‖πᵢ* f‖²_(L²(X))=|Hᵢ|‖f‖²_(L²(Yᵢ))`; hence `Jᵢ=|Hᵢ|^(−1/2)πᵢ*` is the normalized
-unitary onto the invariant subspace. Using covering charts and P5's Sobolev norms, prove that
+unitary onto the invariant subspace (Bérard, §II, Lemma 16, p. 159;
+his quotient norms incorporate the covering degree, whereas these norms use
+Riemannian volume, giving the displayed factor). Using covering charts and P5's Sobolev norms, prove that
 `Jᵢ` identifies `H¹(Yᵢ)` and `H²(Yᵢ)` with the corresponding invariant subspaces on `X`.
 Prove the exact operator-domain identity `Jᵢ(H²(Yᵢ))=H²(X)^{Hᵢ}=dom Δ_X∩L²(X)^{Hᵢ}`
 and that `Jᵢ` transports `Δ_Yᵢ` to the invariant part of `Δ_X`: the intertwining
@@ -1693,7 +1770,10 @@ and that `Jᵢ` transports `Δ_Yᵢ` to the invariant part of `Δ_X`: the intert
 representation. Prove the corresponding resolvent and spectral-projection intertwining
 identities. Also verify the closed-form identity `q_X(Jᵢf,Jᵢg)=q_Yᵢ(f,g)` on `H¹(Yᵢ)`; with
 the uniqueness clause of the required closed-form representation applied to the unitarily transported form on the reducing
-subspace `L²(X)^{Hᵢ}`, it gives the same transport for the Friedrichs realizations.
+subspace `L²(X)^{Hᵢ}`, it gives the same transport for the Friedrichs realizations. The transplantation
+and Sobolev/resolvent comparisons follow the route of Bérard, §II,
+Theorem 14, Lemma 16 and Comment 18(iii)–(iv), pp. 158–159, with the
+H² graph-domain equality established above.
 
 Consume [InductionRestriction Layer 2.1](../RepresentationTheory/InductionRestriction/README.md#layer-21-almost-conjugacy-and-permutation-representations),
 `Gassmann.almostConjugate_iff_permutation_equiv`, for almost-conjugacy and the complex left-coset
@@ -1703,7 +1783,8 @@ permutation-module equivalence. For each eigenvalue `λ`, identify `E_λ(Yᵢ)` 
 IR (`Rep.indResAdjunction` and `TauCeti.indTrivialIso`), with evaluation at the identity coset.
 The permutation-module
 equivalence gives equal dimensions of these Hom spaces for every `λ`, so the scalar Laplacians
-on `Y₁,Y₂` are isospectral with multiplicities. The pure-point and finite-multiplicity statements
+on `Y₁,Y₂` are isospectral with multiplicities (Bérard, §II, Theorem 17,
+p. 159). The pure-point and finite-multiplicity statements
 here follow from the P7 conclusions just cited. The scope of P7a is scalar Laplacians on
 closed manifolds with free finite-group actions. FuchsianOrbifolds L9
 consumes this theorem after constructing its compact hyperbolic covering surfaces and normal
@@ -1855,6 +1936,23 @@ add their own geometric or algebraic constructions.
 
 ## References
 
+- Ivan Kolář, Peter W. Michor and Jan Slovák,
+  [Natural Operations in Differential Geometry](https://www.mat.univie.ac.at/~michor/kmsbookh.pdf),
+  author's electronic edition of the 1993 book: §§1.3–1.6, Lemma 3.3,
+  §§12.2–12.5, §§12.16–12.17 and Theorem 19.1, with the printed page numbers
+  used above, for local Hadamard factors, derivations, jets and Peetre's theorem.
+- Semyon Dyatlov, [MIT 18.155, Fall 2021, Lecture 7](https://math.mit.edu/~dyatlov/18.155-F21/Lecture7.pdf),
+  p. 11: the Euclidean scalar Schwartz kernel correspondence and the identity kernel.
+- Jöran Bergh and Jörgen Löfström, [Interpolation Spaces: An Introduction](https://www.math.chalmers.se/~bergh/Interpolation.pdf)
+  (1976), §2.3, §3.1, §4.1 and §§5.1, 5.6, 6.2, 6.4: compatible couples,
+  the complex and real methods, and Euclidean Bessel/Besov comparisons.
+- Peter Gilkey, [The spectral geometry of operators of Dirac and Laplace type](https://pages.uoregon.edu/gilkey/dirPDF/E27Handbook.pdf),
+  author manuscript with 2007 imprint, §2, Lemma 2.1 and the following paragraph,
+  p. 289: the Bochner connection and formal self-adjointness for canonical density.
+- Pierre Bérard, [Transplantation et isospectralité I](https://www.numdam.org/item/TSG_1990-1991__9__153_0/),
+  Séminaire de Théorie spectrale et géométrie 9 (1990–1991), §II,
+  Theorem 14, Lemma 16, Theorem 17 and Comment 18, pp. 158–160:
+  finite-group transplantation, Sobolev comparisons and isospectrality.
 - Richard Melrose, [Pseudodifferential operators on Euclidean space,
   Chapter 2](https://math.mit.edu/~rbm/18.199-S08/Chapter2.pdf), MIT 18.199 (2008),
   §2.5, Proposition 2.3 and (2.55)–(2.57), pp. 39–40: asymptotic summation.
