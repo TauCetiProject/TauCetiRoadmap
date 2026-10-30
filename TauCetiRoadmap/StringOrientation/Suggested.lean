@@ -41,9 +41,9 @@ namespace TauCetiRoadmap.StringOrientation
 
 /-- The third stable stem in its stable range (S2.3): for every `n ≥ 5`, the homotopy
 group `π_(n+3)` of the unit sphere `Sⁿ ⊂ ℝ^(n+1)`, based at the first standard basis
-vector, is cyclic of order 24. By Freudenthal, these groups are the stable stem
-`π₃S ≅ ℤ/24{ν}` (Toda, *Composition Methods in Homotopy Groups of Spheres*,
-Chapters V and XIII); the range `n ≥ 5` is exactly `n + 3 ≤ 2n − 2`, and
+vector, is cyclic of order 24. By Freudenthal, these groups identify with
+EllipticCohomology E4.S’s supplied stable stem `π₃S ≅ ℤ/24{ν}` and E5’s
+`π₁₂(S⁹)` instance; the range `n ≥ 5` is exactly `n + 3 ≤ 2n − 2`, and
 `π₇(S⁴) ≅ ℤ ⊕ ℤ/12` shows that `n = 4` must be excluded. -/
 theorem homotopyGroup_sphere_three_stem (n : ℕ) (hn : 5 ≤ n) :
     Nonempty (π_ (n + 3) (Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1)
