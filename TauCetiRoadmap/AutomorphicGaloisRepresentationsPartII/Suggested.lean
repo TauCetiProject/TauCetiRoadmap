@@ -32,7 +32,7 @@ of AG2.7 need these constructions and the polarized-extension and lattice-reduct
 Those headline statements are deferred until their mathematical objects are available.
 -/
 
-namespace TauCeti.AutomorphicGalois
+namespace TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
 
 open Polynomial
 open scoped BigOperators NumberField
@@ -94,4 +94,4 @@ theorem infinitelyManyDecomposedGenericPrimes
     (h : ∃ p, FiniteModelDecomposedGenericPrime r p) :
     {p : ℕ | FiniteModelDecomposedGenericPrime r p}.Infinite := sorry
 
-end TauCeti.AutomorphicGalois
+end TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII
