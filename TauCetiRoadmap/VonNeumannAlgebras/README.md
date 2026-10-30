@@ -849,8 +849,9 @@ This elementary Hilbert/projection result is consumed by V5.LatticeFinite.
 - Mathlib nonunital continuous functional calculus.
 - OperatorTheory PolarDecomposition PD-A36–A45 and PD-B23–B36, and SelfAdjointSpectralTheory
   SA-B05–B13 and SA-B57, for the membership results.
-- SelfAdjointSpectralTheory SA-B49, SA-B52–B53 and SA-B85–B86, Mathlib `essSup`, V4.0.Fields and
-  V4.Normality for V2.AbelianClassification and V2.AbelianRepresentationMultiplicity.
+- SelfAdjointSpectralTheory SA-B05, SA-B49, SA-B52–B53 and SA-B85–B86, Layer 1's Kaplansky
+  theorem and bounded-set metrizability, Mathlib `L∞` and `essSup`, and V4.Normality for
+  V2.AbelianClassification and V2.AbelianRepresentationMultiplicity.
 - Mathlib's commutative Gelfand duality and `RealRMK.rieszMeasure` for V2.AbelianLocalizable.
 
 ## Layer 3: Type I and finite-dimensional algebras
