@@ -15,8 +15,6 @@ open Bundle MeasureTheory Set Manifold TauCeti
 open scoped ContDiff Manifold
 noncomputable section
 
-set_option linter.unusedVariables false
-set_option linter.overlappingInstances false
 
 namespace GT7FiniteVolume
 
