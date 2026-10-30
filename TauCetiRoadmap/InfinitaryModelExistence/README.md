@@ -805,19 +805,70 @@ countability, and Layer 6 to remove function symbols: the well-ordered-chain hyp
 reconstruction, and `lt` is a base relation, preserved on the nose by both.
 
 Route for the relational core. Add Henkin constants and rational constants `d_q` (coded into `ℕ`,
-rational constants at even indices). The members are `{φ} ∪ {d_q < d_r : q < r} ∪ σ` with `σ` finite
-and, for every `α < ω₁`, a model of `φ` with a well-ordered chain in which the constants of `σ` can
-be placed so that the rational constants, in increasing order, sit at chain positions
-`b₁ < … < bₙ` with `α ≤ b₁` and `bᵢ + α ≤ bᵢ₊₁` (Marker's condition (*)). The initial gap
-`α ≤ b₁` is what permits insertion to the left of the current finite support. The disjunction
-clause uses regularity of `ω₁` (uncountably many `α` choose one of countably many disjuncts)
-and downward closure of (*) in `α`; the witness clause for a constant between two rational
-constants inserts the new point inside a gap, at `b_s + α` in a model chosen for some
-`β > α + α`. Marker checks two clauses and leaves the rest as an exercise; all of them are
-targets. `model_existence` then realizes the full positive diagram, and `q ↦ d_q` is the map.
-Boundedness is the contrapositive (a well-founded relation has no chain from the negative
-rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order type of a
-well-order.
+rational constants at even indices), and let `D = {lt(d_q, d_r) : q < r}`. A sentence is
+*finitely supported* if it mentions only finitely many constants; a finite set of Lω₁ω sentences
+need not be, since a countable conjunction can mention infinitely many. Let `σ` be a finite set of
+finitely supported sentences, and `q₁ < … < qₙ` the rationals whose constants occur in `σ`. An
+*`α`-witness* for `σ` is a model `M` of `φ`, a chain `f : γ → M` (`RelChain lt f`) of some
+countable length `γ`, and an interpretation of the constants of `σ` in `M`, with `M ⊨ σ` and
+`d_{qᵢ}` interpreted as `f bᵢ`, where
+
+```text
+b₁ < … < bₙ,   α ≤ b₁,   bᵢ + α ≤ bᵢ₊₁ (1 ≤ i < n),   bₙ + α < γ,
+```
+
+and `α < γ` when `n = 0`. The members are the sets `{φ} ∪ D ∪ σ`, with `σ` the sentences outside
+`{φ} ∪ D`, such that `σ` has an `α`-witness for every `α < ω₁`. These are Marker's gap conditions
+(*) together with a terminal reserve `bₙ + α < γ` and the empty-support case, which the clause
+checks below need. Without the terminal reserve the family is not a consistency property: if `φ`
+says that `lt` is a strict linear order with a greatest element, `σ = {∀x, lt(x, d₀) ∨ x = d₀}`
+has witnesses placing `d₀` at the top of `α + 1`, and the `all` clause then requires
+`lt(d₁, d₀) ∨ d₁ = d₀`, which contradicts `lt(d₀, d₁) ∈ D`. An `α`-witness is an `α'`-witness for
+every `α' ≤ α`, so it suffices to have `α`-witnesses for unboundedly many `α`.
+
+The clause checks, each a target:
+
+* **Initial member.** `{φ} ∪ D` (`σ = ∅`) is a member: a model of `φ` with a chain of length
+  `α + 1` is an `α`-witness.
+* **Local truth.** An `α`-witness satisfies `φ`, `σ` and every sentence of `D` whose constants
+  occur in `σ`, since the named rationals sit at increasing chain positions. This gives
+  `no_falsum` and `no_contradiction`: a sentence of `D` and its negation in `σ` have the same
+  constants.
+* **Placement.** If `σ` has `α`-witnesses for every `α` and `d_q` does not occur in `σ`, then for
+  every `α` some `α`-witness for `σ` also places `d_q`, with the conditions above for the
+  enlarged list. Take a `β`-witness for `β = (α + 1) + α + 1` and put `d_q` at `p = α` if no named
+  rational is below `q`, and at `p = bᵢ + (α + 1)` if `qᵢ` is the largest named rational below
+  `q`. The summand `1` makes `p` strictly later than `bᵢ` even when `α = 0`; since
+  `(α + 1) + α < β`, the gaps of size `β` leave reserve `α` on both sides of `p` and `p` below the
+  next named position, and at the right end `(bₙ + (α + 1)) + α < bₙ + β < γ`. The other
+  conditions weaken from `β` to `α`. The model and its interpretation of `σ` are unchanged.
+* **Conjunctive clauses** (`not_imp`, `iInf`, `not_iSup`) add a subformula of a sentence of
+  `{φ} ∪ σ`. Every witness satisfies it, and its constants already occur in `σ` (or nowhere, for a
+  subformula of `φ`).
+* **Disjunctive clauses** (`imp`, `iSup`, `not_iInf`). Every `α`-witness satisfies one of
+  countably many disjuncts, so by regularity of `ω₁` a single disjunct is satisfied by
+  `α`-witnesses for unboundedly many `α`, hence for all `α`. Its constants already occur in `σ`.
+* **`all`.** The instance at `c` holds in every witness of the universal sentence. If `c` occurs in
+  `σ`, nothing else changes. A new Henkin constant is interpreted arbitrarily (the model is
+  nonempty, since `γ > α ≥ 0`). A new rational constant is placed as above, and the instance holds
+  because the model satisfies the universal sentence. This is the clause that needs the terminal
+  reserve.
+* **`not_all`.** Choose a Henkin constant (odd index) not occurring in `σ`, which exists by finite
+  support, and interpret it in each witness by an element witnessing the negated instance.
+* **Equality.** The closed terms of the relational `L[[ℕ]]` are its constants. `eq_refl`, and
+  `eq_name` with `c` the constant `t` itself, add `t = t`, placing `t` if it is a new rational and
+  interpreting it if it is a new Henkin constant. For `eq_subst`, the equation `t = t'` lies in
+  `σ`. If `inst φ t ∈ σ`, every witness satisfies it and the equation, hence `inst φ t'`. If
+  `inst φ t ∈ D`, the other constant of that atomic sentence may be new; place it, after which
+  `inst φ t'` holds because `t` and `t'` name the same chain point.
+* **Finite support and countability.** Each clause adds one sentence, which mentions at most one
+  constant not already in `σ` (subformulas mention no new constants), so `σ` stays finite and
+  finitely supported; every member is countable.
+
+`model_existence` applied to `{φ} ∪ D` gives a countable nonempty model of `φ` in which `q ↦ d_q`
+is a chain. Boundedness is the contrapositive (a well-founded relation has no chain from the
+negative rationals), and undefinability follows because each `α + ω` with `α < ω₁` is the order
+type of a well-order.
 
 **Acceptance example.** A map `f : ℚ → M` with `RelChain lt f` makes `lt` ill-founded in `M`, via
 `f (-1), f (-2), …`.
@@ -866,8 +917,8 @@ prove. The following chains must be visible:
 * fragment → Morley theory and types → first-order presentation;
 * inseparable pairs → model existence → relational Craig → graph translation → Craig → PC
   separation, with Lyndon and Malitz as refinements of the separator class;
-* Marker's gap condition → model existence → the rational chain → graph translation →
-  boundedness → undefinability.
+* the gap-and-reserve consistency property → model existence → the rational chain → graph
+  translation → boundedness → undefinability.
 
 A theorem proved for a privately redefined entailment, fragment notion or consistency property
 does not discharge its target.
