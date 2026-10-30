@@ -50,6 +50,8 @@ body:
         - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
@@ -117,7 +119,9 @@ body:
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
+        - SmoothBundlesConnections
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
@@ -129,6 +133,7 @@ body:
         - TemperleyLieb
         - ThetaSeries
         - TopologicalKTheory
+        - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
