@@ -9,19 +9,24 @@ import Mathlib
 
 The roadmap is README.md; this file is not the roadmap. It states headline theorems
 against the pinned APIs: maximal multiplication operators, Hilbert-basis cardinal
-classification, closed-form representation, and Nelson essential self-adjointness
-and commutation of the closures' resolvents.
+classification, the spectrum alternatives of a closed symmetric operator, the
+closed-form representation, the existence of the Friedrichs extension, and Nelson
+essential self-adjointness and commutation of the closures' resolvents.
 
 The unbounded spectral-integral, normal spectral, joint-PVM, spectral-type,
 staircase-approximation and tensor spectral-calculus headlines cannot yet be stated
 on their intended carriers: the pins have no normalized projection-valued-measure
 carrier or unbounded spectral integral. The square-root form-domain identity and
 real spectral restriction likewise require that integral and the supplier's Hilbert
-complexification; the Friedrichs and singular-endpoint headlines additionally need
-the closed-form completion and minimal/maximal differential-operator constructions.
-The analytic-perturbation spectral-branch and geometric Nelson-counterexample
-headlines require the corresponding spectral-subspace and translation-surface
-constructions described in the README. No planning prototype is imported here.
+complexification. Of the Friedrichs theorem only the existence of a self-adjoint
+extension with the same lower bound is stated: its form-order extremality and the
+form-domain identities need the form completion, which is not at the pins. The
+singular-endpoint headlines need the minimal/maximal differential-operator
+constructions. The analytic-perturbation spectral-branch and geometric
+Nelson-counterexample headlines require the corresponding spectral-subspace and
+translation-surface constructions described in the README. The resolvent points of
+a partial operator are stated through the bounded two-sided inverse itself, not
+through a library resolvent set. No planning prototype is imported here.
 -/
 
 open MeasureTheory
@@ -53,6 +58,43 @@ theorem nonempty_linearIsometryEquiv_iff_lift_mk_eq
     (b : HilbertBasis ι ℂ H) (c : HilbertBasis κ ℂ K) :
     Nonempty (H ≃ₗᵢ[ℂ] K) ↔
       Cardinal.lift.{v} (Cardinal.mk ι) = Cardinal.lift.{u} (Cardinal.mk κ) := by
+  sorry
+
+/-- `z` is a resolvent point of the partial operator `S` when `zI − S` has a bounded
+two-sided inverse: `R` takes values in the domain, `(zI − S)(R y) = y` for every `y`
+(the graph condition), and `R((zI − S)x) = x` on the domain. -/
+def IsResolventPoint {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
+    (S : H →ₗ.[ℂ] H) (z : ℂ) : Prop :=
+  ∃ R : H →L[ℂ] H, (∀ y : H, (R y, z • R y - y) ∈ S.graph) ∧
+    ∀ x : S.domain, R (z • (x : H) - S x) = x
+
+/-- Spectrum alternatives for a closed densely defined symmetric operator on a complex
+Hilbert space: its resolvent set is empty, exactly the open lower half-plane, exactly
+the open upper half-plane, or contains every nonreal point; and it is self-adjoint
+exactly when every nonreal point is a resolvent point (Teschl, Theorem 2.18). -/
+theorem resolventPoint_alternatives_of_isClosed_symmetric
+    {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (S : H →ₗ.[ℂ] H) (hdense : Dense (S.domain : Set H)) (hclosed : S.IsClosed)
+    (hsym : S.IsFormalAdjoint S) :
+    ((∀ z : ℂ, ¬ IsResolventPoint S z) ∨
+      ((∀ z : ℂ, z.im < 0 → IsResolventPoint S z) ∧
+        ∀ z : ℂ, 0 ≤ z.im → ¬ IsResolventPoint S z) ∨
+      ((∀ z : ℂ, 0 < z.im → IsResolventPoint S z) ∧
+        ∀ z : ℂ, z.im ≤ 0 → ¬ IsResolventPoint S z) ∨
+      (∀ z : ℂ, z.im ≠ 0 → IsResolventPoint S z)) ∧
+    (IsSelfAdjoint S ↔ ∀ z : ℂ, z.im ≠ 0 → IsResolventPoint S z) := by
+  sorry
+
+/-- Friedrichs extension, existence part: a densely defined symmetric partial operator
+bounded below by `γ` has a self-adjoint extension with the same lower bound
+(Teschl, Theorem 2.12). The order is graph inclusion of partial operators. -/
+theorem friedrichs_exists_selfAdjoint_extension
+    {𝕜 H : Type*} [RCLike 𝕜] [NormedAddCommGroup H] [InnerProductSpace 𝕜 H]
+    [CompleteSpace H] (S : H →ₗ.[𝕜] H) (hdense : Dense (S.domain : Set H))
+    (hsym : S.IsFormalAdjoint S) (γ : ℝ)
+    (hγ : ∀ x : S.domain, γ * ‖(x : H)‖ ^ 2 ≤ RCLike.re (inner 𝕜 (S x) (x : H))) :
+    ∃ T : H →ₗ.[𝕜] H, IsSelfAdjoint T ∧ S ≤ T ∧
+      ∀ x : T.domain, γ * ‖(x : H)‖ ^ 2 ≤ RCLike.re (inner 𝕜 (T x) (x : H)) := by
   sorry
 
 /-- A bounded Hermitian form on a complete Hilbert form domain, with a continuous
