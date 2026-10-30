@@ -1,20 +1,159 @@
-# Global holomorphic functions of one complex variable
+# Roadmap: global holomorphic functions of one complex variable
 
-This roadmap owns approximation, prescribed isolated singularities and divisors, entire canonical
-products, and global smooth ∂̄ solvability on arbitrary open subsets of ℂ. It consumes the local
-complex-analysis, contour and geometric-function APIs under their stated hypotheses.
+**Summary.** Build global one-variable approximation, prescribed isolated singularities and
+divisors, arbitrary-genus primary products and full Weierstrass factorization from the local
+complex-analysis and contour libraries. Develop compact-open holomorphic function spaces,
+Cauchy–Green, global smooth ∂̄ solvability, Cousin I and exactness of planar two-forms on
+arbitrary open subsets of ℂ.
 
-## Scope and foundations
+## Scope and ownership
 
-Work scalar-valued functions on arbitrary open `Ω : Set ℂ`; establish connected-component
-versions by applying the theorems componentwise. Treat the empty domain and finite/discrete-set
-edge cases. Use `DifferentiableOn ℂ` / native analytic predicates and the native meromorphic order
-and locally-finite support carriers after checking their precise hypotheses. Do not introduce a
-parallel definition of holomorphic function merely to restate the same API.
+This roadmap owns the global plane-domain results and their analytic comparison interfaces.
+The local holomorphic, analytic-order, meromorphic and compact-convergence carriers are in
+Mathlib; contour cycles, winding and primitive/logarithm results are in Tau Ceti.
+DifferentialGeometry, Layers 0–1 and 6.1–6.2, owns generic manifold forms, their exterior
+derivative and the real de Rham quotient; its §5.6.3 owns finite-cycle Green.
+ConformalMapping L5 owns Jordan separation and filled-hull topology. Layer 7.2 here builds
+fixed-coefficient postcomposition and its naturality on the supplied forms; pullback
+naturality alone does not supply this coefficient operation.
 
-### Preparatory real-plane calculus and compact-support Cauchy–Green
+ZerosOfLFunctions, Layer 5.2–5.5, owns the zero-support API, the genus-one factor and its
+basic API, its canonical product under order-one growth, and the entire logarithm.
+Layer 1 here extends that mathematics to arbitrary genera, arbitrary compact-summable
+holomorphic deviations, and weighted divisors given directly with inverse-square summability,
+without an entire function or growth bound as input. Layer 5 proves full factorization without
+finite-order hypotheses. These are extensions of the stated contracts, not a reassignment
+of their genus-one special case; ZerosOfLFunctions is a supplier, not a consumer.
 
-Define the Wirtinger operators by the native real Fréchet derivative:
+Hyperfunctions HF2.AnalyticPreparation owns the real-even-dimensional filled exhaustion,
+including the plane case. Its generic topological construction is not a target here.
+Layer 2 instead constructs the holomorphic hull of an arbitrary compact set and applies
+that hull to native compact exhaustions to obtain Runge exhaustions. Hyperfunctions already
+uses this roadmap's one-variable input, so it is not an input to this construction.
+ComplexKahlerGeometry K2 owns parameter-dependent solvers, and K5a owns the complex-coefficient
+de Rham comparison; they consume this roadmap's scalar results and complex two-form exactness.
+
+The native sine product and cotangent series, and the exponential finite-product majorant,
+are supplied results, not new theorems. Layer 6 retains their comparison calculations as
+proof-route examples. The sharp finite-product inequality is a distinct target.
+
+## Conventions
+
+Work with scalar functions on arbitrary open Ω⊆ℂ, including empty and disconnected Ω.
+Use `DifferentiableOn ℂ`, native analytic orders and native locally finite divisors.
+Analytic order ∞ is distinguished from order zero; the zero function's totalized native
+meromorphic divisor is zero, so equal-divisor factorization requires both functions nonzero.
+Smoothness means `ContDiffOn ℝ ∞`, whereas analytic manifold maps use order `ω`.
+All function-space uniformities are scoped, and all index types are universe-polymorphic.
+Unordered products use the cofinite finite-subset product filter; an explicitly paired
+series has only the stated pairing. Empty products equal one.
+
+The positive real basis of ℂ is (1,i), dA=dx dy is native Lebesgue area, and
+∂̄=(∂x+i∂y)/2, ∂z=(∂x−i∂y)/2. Thus dz∧dz̄ evaluated on (1,i) is −2i.
+An outer boundary is counterclockwise and holes are clockwise. For the unit disk,
+∮ dz/z=2πi and ∫dA=π. For the annulus 1<|z|<2, the outer-minus-inner index at
+0 is 1−1=0 and its oriented area is 4π−π=3π. These normalizations are used in every layer.
+Rainer's domain means a nonempty open set, not necessarily connected (§Notation, p. v);
+the empty cases here follow directly from the definitions.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Function.locallyFinsuppWithin` in `Mathlib/Topology/LocallyFinsupp.lean` is a function
+  supported inside the specified set with support locally finite there. Openness is a
+  separate hypothesis. `MeromorphicOn.divisor` in `Mathlib/Analysis/Meromorphic/Divisor.lean`
+  uses that carrier and sends infinite order to zero. Use `AnalyticOnNhd.divisor_apply`,
+  `AnalyticAt.analyticOrderAt_eq_natCast` and `meromorphicOrderAt_eq_int_iff` with their
+  analytic-unit and neighborhood hypotheses.
+- `ContMDiffMap` in `Mathlib/Geometry/Manifold/ContMDiffMap.lean` supplies the analytic map
+  subtype, not a chosen compact-convergence uniformity. `ContinuousMap.compactConvergenceUniformSpace`,
+  `ContinuousMap.tendsto_iff_tendstoLocallyUniformly` and the complete-space instance in
+  `Mathlib/Topology/UniformSpace/CompactConvergence.lean` apply to the locally compact
+  open subtype and complete codomain ℂ. `CompactExhaustion` supplies ordinary compact
+  exhaustions, without a Runge condition.
+- `Summable.hasProdUniformlyOn_one_add` in
+  `Mathlib/Analysis/Normed/Module/MultipliableUniformlyOn.lean` requires a summable eventual
+  majorant on the specified set. `Complex.logDeriv_tendsto` in
+  `Mathlib/Analysis/Complex/LocallyUniformLimit.lean` requires local uniform convergence,
+  eventual holomorphy and a nonzero limit at the point. `logDeriv_tprod_eq_tsum` in
+  `Mathlib/Analysis/Calculus/LogDerivUniformlyOn.lean` also requires summable logarithmic
+  derivatives and factor nonvanishing.
+- `Real.prod_one_add_le_exp_sum` in `Mathlib/Analysis/Complex/Exponential.lean` applies to
+  nonnegative real terms. `Finset.norm_prod_one_add_sub_one_le`,
+  `multipliable_one_add_of_summable` and `tprod_one_add_ne_zero_of_summable` in
+  `Mathlib/Analysis/SpecialFunctions/Log/Summable.lean` supply the exponential estimate
+  and pointwise product consequences.
+- `Complex.integerComplement`, `summable_cotTerm`, `cot_series_rep`,
+  `HasProdLocallyUniformlyOn_euler_sin_prod` and
+  `multipliableUniformlyOn_euler_sin_prod_on_compact` supply integer exclusions, the paired
+  cotangent series and sine products. Their files are `Mathlib/Analysis/Complex/IntegerCompl.lean`
+  and `Mathlib/Analysis/SpecialFunctions/Trigonometric/Cotangent.lean`.
+  The quotient sin(πz)/(πz) has totalized value zero at z=0, whereas the product there is one.
+- `Complex.GammaSeq_tendsto_Gamma` in `Mathlib/Analysis/SpecialFunctions/Gamma/Beta.lean`
+  and `Real.tendsto_harmonic_sub_log` in `Mathlib/NumberTheory/Harmonic/EulerMascheroni.lean`
+  supply the reciprocal-Gamma normalization; pole exclusions remain explicit for logarithmic derivatives.
+- `SmoothPartitionOfUnity.exists_isSubordinate` in
+  `Mathlib/Geometry/Manifold/PartitionOfUnity.lean` applies on a finite-dimensional,
+  Hausdorff, σ-compact smooth manifold to an open cover of a closed set.
+  `contMDiff_inclusion` handles open-subtype inclusions.
+- `Complex.volume_preserving_equiv_real_prod` fixes area normalization.
+  The low-regularity route uses locally compact Baire, product Fubini,
+  `MeasureTheory.integral_eq_of_hasDerivAt_off_countable_of_le`,
+  `VectorMeasure.exists_extension_of_isSetSemiring_of_le_measure`,
+  `variation_le_of_forall_enorm_le`, the signed/complex Radon–Nikodym declarations and
+  `VitaliFamily.ae_tendsto_average_norm_sub` under the explicit hypotheses in Layer 0.2.
+
+### From Tau Ceti
+
+Use `TauCeti.Contour.Cycle` and its trace, integral and winding number from
+`TauCeti/Analysis/Contour/Cycle/Basic.lean`, and its homology-Cauchy and integer-index API.
+Use `TauCeti.Contour.isExactOn_of_forall_closed_integral_eq_zero`,
+`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_isExactOn`, and
+`TauCeti.Contour.exists_differentiableOn_eqOn_exp_comp_of_filledHull_subset`
+from `TauCeti/Analysis/Contour/Primitive.lean`: retain openness, continuity or holomorphy,
+all closed-path periods, and nowhere-zero hypotheses. `TauCeti.morera` supplies the
+rectangle-conservative criterion. No alias of these statements is an acceptance target here.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+Consume §0.1's determinant-normalized paired wedge, §§0.3–0.4's rough and smooth forms,
+§1.1's chartwise exterior derivative, §1.2's pullback naturality, §1.3's regularity,
+§1.4's fixed-bilinear-pairing Leibniz law, §5.6.3's local finite-cycle Green theorem,
+and §§6.1–6.2's real de Rham complex and quotient. The coefficient postcomposition and
+its commutation with d are local construction targets in Layer 7.2, before their use
+in two-form exactness; they are not assumed supplier contracts.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+Consume Layer 5.2's countable locally finite zero support, Layer 5.3's genus-one factor
+and basic API, Layer 5.4's growth-to-summability canonical product, and Layer 5.5's entire
+logarithm. The inverse-square-input and arbitrary-genus extensions are stated in Layer 1.
+Use the native contour logarithm implementation for the logarithm contract.
+
+### From TauCetiRoadmap.ConformalMapping
+
+Consume L5's Jordan separation and filled-hull topology for Layer 6's boundary construction.
+Its orientation-to-winding comparison and finite-hole assembly are targets of Layer 6.
+No geometric mapping theorem enters the scalar Cauchy–Green or global ∂̄ solver.
+
+## How to read the build
+
+Layer 0 develops real-plane calculus and compact-support Cauchy–Green. Layer 1 develops
+primary factors and summable products. Layer 2 (GH0) supplies hulls, compact-open spaces
+and Runge; Layer 3 (GH1) realizes divisors and boundary noncontinuation; Layer 4 (GH2)
+realizes isolated singularities; Layer 5 (GH3) gives full factorization. Layer 6 (GH4)
+applies these results to products, approximation and contours. Layer 7 (GH5) solves global
+∂̄ and Cousin I and proves planar two-form exactness. Each route lists its own inputs;
+Layer 7's scalar solver does not use Layer 6's Green theorem. Suggested.lean states the
+headline theorems on pinned carriers; generic form and de Rham endpoints remain prose
+because their intended carriers are supplied by DifferentialGeometry.
+
+## Layer 0: real-plane calculus and compact-support Cauchy–Green
+
+### 0.1 Wirtinger operators
+
+Define `barDerivative` and `zDerivative`, the Wirtinger operators, by the native real Fréchet derivative:
 `∂̄u(z)=(fderiv ℝ u z 1+i*fderiv ℝ u z i)/2` and
 `∂_z u(z)=(fderiv ℝ u z 1−i*fderiv ℝ u z i)/2`.
 Under `DifferentiableAt ℝ u z`, prove `∂̄u(z)=0` iff `DifferentiableAt ℂ u z`;
@@ -22,9 +161,25 @@ derive the open-set versions under real differentiability at each point. Smoothn
 `ContDiffOn ℝ ∞`, with `open scoped ContDiff`; native `⊤` in this order type is analytic
 order `ω`, and does not express the smooth compact-support inputs.
 
-#### Low-regularity Cauchy–Riemann criterion (Looman–Menchoff)
+The operator API is:
 
-For an open `Ω ⊆ ℂ` and `f = u + i v : ℂ → ℂ` with `ContinuousOn f Ω`, prove that
+- Both operators are complex-linear in smooth coefficient functions and satisfy the product rule.
+- For real-differentiable u, du=∂z u dz+∂̄u dz̄; vanishing ∂̄ is equivalent to complex differentiability.
+- Restriction to an open neighborhood preserves both operators; iterated operators commute on smooth functions.
+
+**Checks.**
+
+- For u(z)=z, (∂z u,∂̄u)=(1,0); omitting 1/2 would give (2,0).
+- For u(z)=z̄, the pair is (0,1); exchanging signs would reverse the two entries.
+- For u(z)=|z|², the pair is (z̄,z); at z=i this is (−i,i), distinguishing conjugation.
+
+These are direct real-coordinate differentiations; the differential convention agrees with
+Rainer, §10, equation (10.1), p. 23 (rainer line 1189).
+*Needs:* Mathlib `fderiv`, real/complex differentiability and the chain and product rules.
+
+### 0.2 Low-regularity Cauchy–Riemann criterion (Looman–Menchoff)
+
+The target `differentiableOn_complex_of_continuous_real_lineDerivatives_cr` states: for an open `Ω ⊆ ℂ` and `f = u + i v : ℂ → ℂ` with `ContinuousOn f Ω`, prove that
 existence at every point of `Ω` of the four real coordinate partial derivatives, together
 with `u_x = v_y` and `u_y = -v_x`, implies `DifferentiableOn ℂ f Ω`. Encode the two
 directional complex derivatives with `HasLineDerivAt ℝ f` in directions `1` and
@@ -35,7 +190,7 @@ of the partial derivatives, or replace coordinate partial existence by real Fré
 differentiability. Keep the separate countable-exception / almost-everywhere-CR extension
 outside this assertion.
 
-Use this proof route. If the conclusion fails, let `E` be the points of `Ω` having no
+One proof route is as follows. If the conclusion fails, let `E` be the points of `Ω` having no
 relative neighborhood on which `f` is holomorphic. Then `E` is relatively closed in `Ω`;
 if it is empty the conclusion already holds. Regard `Ω` as an open subtype of `ℂ` and
 `E` as a closed subtype of `Ω`. Install their local `LocallyCompactSpace` structures
@@ -188,7 +343,33 @@ the measurability/Fubini instantiation, finite-grid rectangle content, complex s
 elimination, square-to-ball adapter, and all-corner Morera bridge. Use native
 `VectorMeasure`/`ComplexMeasure` carriers throughout.
 
-#### Compact-support Cauchy–Green
+The headline is Gray–Morris, Theorem 3, p. 247 (gray-morris line 66).
+The rectangle route adapts their Appendix, Lemma 1 and proof, pp. 252–254
+(gray-morris line 310); the balanced-cell, local-Baire and dominated-measure details above
+are the explicit local versions needed for that argument.
+
+The proof constructions have the following API: the bad set is relatively closed; its
+increment-bound sets are relatively closed and cover it; slice interpolation preserves
+endpoint values and the Lipschitz bound; the rectangle content is additive, dominated and
+recovers its Radon–Nikodym density. Each comparison is local on a compact rectangle.
+
+**Checks.**
+
+- For f=z², fx=2z and fy=2iz, so fy−i fx=0 and every rectangle integral is zero.
+- For f=z̄, fx=1 and fy=−i, so fy−i fx=−2i; the unit-square integral is −2i, not zero.
+- For φ(x,y)=y and F=R=[0,1]², the scalar boundary difference and area derivative integral
+  are both 1, so the estimate reads 0≤0. For a horizontal singleton slice F, both are zero.
+- For interpolation data g(0)=0, g(1)=1 with N=1, the gap slope is 1 and the endpoint
+  difference is 1; the constant interpolant fails the endpoint law.
+- A centered square of half-side r has area 4r² and its containing ball has area 2πr²;
+  at r=1 the average-comparison factor is π/2, not 2π.
+
+*Needs:* Mathlib locally compact Baire, rectangle Cauchy–Goursat, off-countable FTC,
+product Fubini, dominated vector-measure extension, variation, signed/complex Radon–Nikodym,
+Besicovitch/Vitali differentiation and density; Tau Ceti Morera. The new interpolation,
+content and comparison steps are the targets specified above, independent of all later layers.
+
+### 0.3 Compact-support Cauchy–Green
 
 Let `dA` be native Lebesgue `volume` on ℂ, normalized by
 `Complex.volume_preserving_equiv_real_prod`. Prove local integrability of `1/z` in two real
@@ -202,7 +383,8 @@ kernel for each z. For smooth compactly supported input, prove transfer of deriv
 the convolution and all smoothness conclusions used below. These scalar analytic results
 use native real-plane measure and calculus, independently of a manifold-form implementation.
 
-Establish the compact-support Cauchy–Green identity used in its
+Define `cauchyGreen` by the integral below. Establish `cauchyGreen_barDerivative` and
+`cauchyGreen_barDerivative_reconstruct`, the compact-support Cauchy–Green identities used in its
 Cauchy/Pompeiu route: for `φ∈C_c^∞(ℂ)`, `Tφ(z)=(1/π)∫φ(ζ)/(z−ζ) dA(ζ)` is smooth and
 `∂̄Tφ=φ`; moreover `T(∂̄φ)=φ`. Fix the normalization/sign by this displayed kernel. For a
 cutoff `α` equal to one near `K`, apply the compact-support formula to `αf`; the remaining
@@ -218,13 +400,49 @@ later coordinate identity; this scalar lemma uses real-plane Bochner area measur
 from K. The cutoff satisfies `HasCompactSupport α`, `tsupport α ⊆ U`, and `α=1` near K;
 f is holomorphic on U and αf is extended by zero outside U.
 
+The transform API is:
 
-### Preparatory primary factors and locally uniform products
+- For bounded measurable compactly supported data the defining integral is integrable at every point.
+- It is complex-linear on such data and commutes with translations; smooth compactly supported
+  data give smooth outputs, with derivatives transferred to the datum.
+- On smooth compactly supported data it is a right inverse to ∂̄, and its application to ∂̄φ
+  reconstructs φ. No compact support of the output is claimed.
 
-Define `E₀(w)=1-w` and `E_p(w)=(1-w) exp(w + … + w^p/p)` for p>0. For a finite or countable sequence of nonzero zeros `a_n` repeated according to multiplicity,
+**Checks.**
+
+- For φ=0, Tφ=0, ∂̄Tφ=0 and T(∂̄φ)=0.
+- For a radial smooth cutoff φ with φ(0)=1 and φ=0 beyond radius 1,
+  the weak kernel integral is −1: its radial expression is ∫₀¹φ′(r)dr=−1.
+  Reversing z−ζ to ζ−z would change the right-inverse sign.
+- The kernel norm integral over a radius-r disk is 2πr; at r=1 it is 2π, although
+  the kernel has no finite bound near zero.
+- For constant G=c the quadrature sum and integral both equal c·Area(K₁), with error 0;
+  for zero-area K₁ both vanish, including every boundary cell.
+
+The inverse and reconstruction are Rainer, Theorem 10.2 and proof, pp. 23–24;
+the cutoff identity is Theorem 10.3, p. 24 (rainer lines 1255, 1295).
+The quadrature estimate is derived from uniform continuity and area additivity as above.
+*Needs:* Layer 0.1; real-plane Lebesgue integration, polar change of variables, smooth cutoffs,
+differentiation under integrals and the scalar circle Cauchy formula. No manifold Stokes theorem is an input.
+
+
+
+### Examples
+
+For z and z̄ the operator pairs are (1,0) and (0,1); a unit radial cutoff has weak kernel integral −1. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Native real/complex calculus and measure theory; Tau Ceti Morera. No later layer supplies an input.
+
+## Layer 1: primary factors and locally uniform products
+
+### 1.1 Arbitrary genera and compact summability
+
+Define `elementaryFactor` by E₀(w)=1−w and `E_p(w)=(1-w) exp(w + … + w^p/p)` for p>0. For a finite or countable sequence of nonzero zeros `a_n` repeated according to multiplicity,
 allow the empty and finite cases (empty product `1`), and for an infinite sequence require
 `|a_n|→∞`. Prove local-uniform convergence of `∏ E_{p_n}(z/a_n)` under
-`Σ_n (R/|a_n|)^(p_n+1)<∞` for every `R>0`, and prove its exact zero divisor. State the local
+`Σ_n (R/|a_n|)^(p_n+1)<∞` for every `R>0`, and prove its exact zero divisor in `exists_entire_primary_product_exact`. State the local
 order equality `analyticOrderAt F z = Nat.card {n | a_n=z}` when the set is finite; multiplicity
 indexing, rather than distinct zero support, supplies the general repeated-zero statement. Prove the sharp estimate `|1−E_p(w)|≤|w|^(p+1)` for `|w|≤1`, the local-uniform
 primary-product theorem and its exact zero divisor. Also prove the general locally-uniform product
@@ -244,17 +462,37 @@ compact-dependent adapter. For the additional germ-order and unit-tail conclusio
 discard finitely many terms so `|u_j|≤1/2`, sum the logarithmic series, and treat the finite
 factors separately. The weaker uniform-absolute-tail criterion below remains a separate target.
 
-#### Genus-one products over weighted zero support
+The primary-factor and product API is:
 
-This roadmap owns the general primary factors and their basic API, including
-`E_p(0)=1`, `E_p(w)=0 ↔ w=1`, and the specialization `E₁(w)=(1-w) exp(w)`.
-Writing `Q_p(w)=Σ_(k=1)^p w^k/k`, prove `E_p'(w)=−w^p exp(Q_p(w))` everywhere
-and `logDeriv E_p(w)=−w^p/(1-w)` away from `w=1`, including `p=0`. In particular, prove
-`E₁'(w)=−w exp(w)`, `E₁'/E₁=−w/(1-w)` off `1`, and
-`log ‖E₁(w)‖ ≤ 2‖w‖` everywhere, with Lean's convention `Real.log 0=0` at `w=1`.
-The sharp deviation estimate above gives `‖E₁(w)−1‖≤‖w‖²` on the unit disk;
-also supply `log ‖E₁(w)‖≤‖w‖²` there, using
-`‖E₁(w)‖≤1+‖E₁(w)−1‖` and `log(1+t)≤t`, treating a zero factor separately.
+- Every primary factor is entire, normalized to one at zero and has precisely one simple zero at one.
+- The compact-summability product has the specified locally uniform limit and the sum of finite
+  zero-fiber multiplicities as its exact analytic order.
+- Reindexing by an equivalence and grouping finite multiplicity fibers preserve the normalized product.
+
+**Checks.**
+
+- E₀(0)=1 and E₀(1)=0, whereas E₀(−1)=2; dropping the linear factor fails the zero check.
+- E₁(1)=0 and E₁′(1)=−e, exactly the supplier's genus-one normalization.
+- An empty index has product 1 and order 0 everywhere; two genus-zero factors at a=1
+  give (1−z)² and order 2 at 1, not the cardinality 1 of the distinct support.
+
+The product theorem is Rainer, Theorem 14.3, pp. 35–36, and the primary factors are
+Remark 15.4, p. 38 (rainer lines 1868, 2030); unordered and repeated-index forms are
+obtained from absolute compact summability. For the sharp deviation estimate, expand 1−Eₚ as a power series: its coefficients are
+nonnegative real numbers, vanish through degree p, and sum to 1 at w=1. Thus at |w|≤1
+the absolute sum is at most |w|ᵖ⁺¹, including p=0 and w=1.
+*Needs:* ZerosOfLFunctions Layer 5.3; Mathlib uniform product majorants, holomorphic limits,
+analytic order and power series. Exact-order bookkeeping uses a unit tail and the finite product rule.
+
+### 1.2 Genus-one products over weighted zero support
+
+For arbitrary p, the primary-factor API extends the genus-one contract in Scope and
+ownership. Writing Qₚ(w)=Σₖ₌₁ᵖ wᵏ/k, prove Eₚ(0)=1, Eₚ(w)=0 iff w=1,
+Eₚ′(w)=−wᵖ exp(Qₚ(w)), and Eₚ′/Eₚ=−wᵖ/(1−w) for w≠1. At p=1,
+identify this factor with the supplied genus-one factor. The sharp deviation bound gives
+the stronger normalized estimate log ‖E₁(w)‖≤‖w‖² on the unit disk;
+treat w=1 separately using Real.log 0=0. These identities follow by differentiation of
+the defining formula (Rainer, Remark 15.4, p. 38); the small-disk estimate uses Layer 1.1.
 
 Supply the following weighted-support specialization without choosing an enumeration.
 Let `S⊂ℂ\{0}` be countable, meet each compact set in finitely many points, and carry
@@ -285,19 +523,29 @@ with factors `E₁(z/ρ)^((D ρ).toNat)` and native divisor exactly D. Derive co
 and compact finiteness from D rather than asking the consumer to supply them.
 The real cast agrees with the natural multiplicity because D is nonnegative.
 
-ZerosOfLFunctions, Layer 5, a later roadmap,
-consumes this genus-one specialization and the entire-logarithm theorem in GH3. Its
-`E₁` is this roadmap's `E_p` at `p=1`. The L-function roadmap owns `OrderLE`, the
-growth/counting and partial-summation argument giving weighted inverse-square
-summability, the degree bound on the exponential factor in order-one Hadamard
-factorization, and the L-function applications. For an entire f with `f(0)≠0`, take S to
-be the support of `MeromorphicOn.divisor f Set.univ` and m its nonnegative values converted
-to ℕ; the nonzero basepoint excludes 0 from S. This roadmap supplies the countable,
-compact-finite support adapters from the native locally finite divisor and the resulting
-product with exactly that divisor. No finite-order growth hypothesis is needed here,
-and no dependency from this roadmap to ZerosOfLFunctions is introduced.
+The signatures `exists_entire_genusOne_product` and
+`exists_entire_genusOne_product_of_divisor` test this summability-input extension.
+When D is the divisor of an order-one entire function nonzero at zero, the normalized
+product is the supplied canonical product, by uniqueness of its locally uniform limit.
+The growth/counting argument and the linear bound on the exponential factor belong to
+the supplier contract; neither is an input to the summability-input theorem.
 
-#### Variable exponents, genus, and logarithmic derivatives
+The weighted-product API identifies the grouped and repeated-index limits, their normalization,
+analytic orders and native divisors; restriction to compact disks and insertion of zero
+multiplicities preserve the limit. This is the inverse-square-input consequence of Layer 1.1,
+using Rainer, Theorem 14.3, pp. 35–36 (rainer line 1868).
+
+**Checks.**
+
+- S=∅ or D=0 gives P=1 and divisor 0, with P(0)=1.
+- S={1}, m(1)=2 gives P(z)=(1−z)² exp(2z); the analytic order and divisor at 1 are both 2.
+- S={2}, m(2)=0 contributes factor 1 and order 0; forbidding zero multiplicity would lose this input.
+- For S={1}, m=2, the repeated-index majorant is 2R²=R²·2, fixing the real multiplicity cast.
+
+*Needs:* Layer 1.1; ZerosOfLFunctions Layer 5.2's support API; finite-fiber grouping for
+locally uniform products and the native analytic-order/divisor comparison.
+
+### 1.3 Variable exponents, genus, and logarithmic derivatives
 
 For any escaping sequence, the universal choice `p_n=n−1`, indexed by n≥1, is admissible:
 on each disk of radius R the tail has `R/|a_n|≤1/2`, hence its majorant is at most `2^(−n)`.
@@ -319,8 +567,24 @@ partial-product sequence when an order is part of the data. Consume
 the finite-product rule with their exact derivative and nonvanishing hypotheses. An unpaired
 series of principal parts receives no value from a paired-product identity.
 
+The genus API assigns the least admissible constant genus, is invariant under permutation
+and finite insertion, and distinguishes absolute convergence from prescribed pairing.
+Logarithmic derivatives are taken only on the simultaneous nonvanishing locus.
 
-#### Sharp finite-product majorant
+**Checks.**
+
+- A finite or empty zero list has genus 0; its reciprocal-power sum is a finite sum or 0.
+- For aₙ=n, Σ1/n diverges and Σ1/n² converges, giving genus 1; pairing ±n can nevertheless
+  produce convergent factors 1−z²/n².
+- For aₙ=2ⁿ, Σₙ≥₁1/2ⁿ=1, giving genus 0. With variable pₙ=n−1 and ratio at most 1/2,
+  the tail bound is 2⁻ⁿ, whose sum from N is 2¹⁻ᴺ.
+
+This is derived from the primary-factor expansion and Rainer, Remark 15.4, p. 38
+(rainer line 2030); logarithmic-derivative passage uses the pinned theorem in the supplier contract.
+*Needs:* Layer 1.1; native power-series estimates and `Complex.logDeriv_tendsto` with
+nonzero limit and holomorphic approximants; the finite-product derivative rule.
+
+### 1.4 Sharp finite-product majorant
 
 For every finite set `s` and `u : ι → ℂ`, put `P_s=∏_(i∈s)(1+u_i)` and
 `A_s=∏_(i∈s)(1+‖u_i‖) : ℝ`. Prove both inequalities
@@ -331,7 +595,7 @@ The first is a separate sharp finite-induction target: the native
 `Finset.norm_prod_one_add_sub_one_le` supplies the exponential consequence but does not
 state this intermediate bound. For insertion of a fresh index, use
 `P_(insert i s)−1=(P_s−1)(1+u_i)+u_i`, the triangle inequality,
-`‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. The second bound is not a new target: it is the pinned
+`‖1+u_i‖≤1+‖u_i‖`, and `A_s≥1`. For the second bound use
 `Real.prod_one_add_le_exp_sum` (`Mathlib/Analysis/Complex/Exponential.lean`) applied to the
 nonnegative family `t_i=‖u_i‖`. Expose the combined bound `‖P_s−1‖≤exp(Σ_(i∈s)‖u_i‖)−1`
 for consumers.
@@ -340,8 +604,20 @@ for the empty set `P_s=A_s=1` and the sharp error is zero. These finite estimate
 the arbitrary-set uniform-tail and holomorphic product targets below. They do not introduce
 a logarithm of a vanishing factor or replace either sequential or unordered convergence.
 
+The finite-product API includes insertion, disjoint-union multiplication and the sharp error
+bound, with no nonvanishing hypotheses. The sharp inequality is the monomial expansion
+in Rainer, proof of Proposition 14.2, p. 35 (rainer line 1843).
 
-#### Uniform-tail product criterion
+**Checks.**
+
+- The empty product gives ‖1−1‖=0 and 1−1=0.
+- With two terms u₁=u₂=1, both sharp sides are 3, while the exponential comparison is 4≤e².
+- With u₁=−1 and u₂=0, the product is 0 and both sharp sides are 1; division by a factor is invalid.
+
+*Needs:* Mathlib finite products, triangle inequality and `Real.prod_one_add_le_exp_sum`;
+the sharp step uses only finite induction, independently of all infinite-product conclusions.
+
+### 1.5 Uniform-tail product criterion
 
 For an arbitrary set X and functions `u_n : X → ℂ`, assume each u_n is bounded on X,
 each series `Σ_n |u_n(x)|` converges, and these series have uniformly vanishing tails on X:
@@ -374,11 +650,40 @@ When no factor vanishes identically on the component, these orders are finite an
 identity is a finite sum. Use native analytic order and its factorization characterization.
 The stronger compact-sup-summability criterion is also a useful sufficient condition.
 
-### GH0. Plane domains, compact hulls, and Runge approximation
+The uniform-tail product API supplies sequential and unordered convergence, nonvanishing
+exactly off the union of factor zero sets, and addition of germ orders. It is the
+uniform-tail form of Rainer, Theorem 14.3, pp. 35–36 (rainer line 1868).
 
-Define the Ω-holomorphic hull of nonempty compact K⊆Ω by all z∈Ω satisfying
+**Checks.**
+
+- On an empty set every uniform error bound is vacuous, and the empty product is 1.
+- One factor u₀=−1 followed by zero deviations gives product 0 and infinite germ order;
+  omitting zero germs would make the order statement false.
+- On X=ℕ, set uₙ(x)=1/(n+1) when x=n and 0 otherwise. The uniform absolute tail is
+  1/(N+1)→0, while Σₙ supₓ|uₙ(x)| is the divergent harmonic series.
+
+*Needs:* Layer 1.4, native pointwise product and nonvanishing theorems, holomorphic local-uniform
+limits and analytic orders; the finite-head bound supplies uniform Cauchy control.
+
+
+
+### Examples
+
+The double factor at 1 has order 2, and the empty product has value 1 and order 0. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+ZerosOfLFunctions Layer 5.2–5.5 and native product/analytic-order APIs. No global factorization is used.
+
+## Layer 2: plane domains, compact hulls, and Runge approximation (GH0)
+
+### 2.1 Holomorphic hulls and Runge exhaustions
+
+Define `holomorphicHull`, the Ω-holomorphic hull of nonempty compact K⊆Ω by all z∈Ω satisfying
 |g(z)|≤sup_(w∈K)|g(w)| for every g holomorphic on Ω; the empty set has empty
-hull. Prove that it equals K together with every component of Ω∖K whose closure
+hull. Equivalently every real bound for an Ω-holomorphic function on K holds at the point;
+this formulation also forces the empty hull to be empty. In `holomorphicHull_eq_fill`,
+prove that it equals K together with every component of Ω∖K whose closure
 is compact and contained in Ω. Prove compactness, idempotence and monotonicity,
 and identify hull equality with absence of relatively compact complementary components.
 For compact K⊆Ω and open Ω, prove equality of the extended set distances to the complement:
@@ -387,37 +692,47 @@ Empty infima are ∞, covering K=∅ and Ω=ℂ. For nonempty K and nonempty com
 deduce the ordinary distance equality to ∂Ω. Prove also `K̂_Ω⊆conv(K)`, using
 `sup_{w∈K} ℓ(w)` for each continuous real-linear functional ℓ to separate points from the
 ordinary convex hull; exponential holomorphic functions realize these real support bounds.
-Own the filled compact exhaustion in its generic topological form. Let `E` be a real normed
-space of finite dimension and `Ω ⊆ E` open. Construct compact `K_n ⊆ Ω` with
-`K_n ⊆ int K_{n+1}`, `⋃ K_n = Ω`, every compact subset of `Ω` contained in some `K_n`, and
-no connected component of `Ω∖K_n` whose closure is compact and contained in `Ω`. Take
-`K_n` to be the points of norm at most n whose extended distance to `Ωᶜ` is at least `1/n`
-(for `Ω = E` the distance to the empty complement is infinite, so `K_n` is the closed ball of
-radius n; the real-valued distance to the empty set would be zero and must not be used).
-No filling step is needed: a point x of `Ω∖K_n` either has distance less than `1/n` to some
-y in `Ωᶜ`, and then the segment from x towards y stays in `Ω∖K_n` until its first point of
-`Ωᶜ`, which lies in the closure of x's component; or it has `‖x‖>n`, and then the ray
-`t ↦ (1+t)x` stays outside the ball of radius n, so x's component is unbounded or its
-closure meets `Ωᶜ`. Prove compactness (closed and bounded in a proper space), nesting into
-interiors, compact cofinality (a compact subset of `Ω` is bounded and has positive distance
-to the closed set `Ωᶜ`), and the absence of relatively compact complementary components; empty
-early stages are allowed. For `E = ℂ` this is the condition of `IsRungeCompactPair`, so every
-`K_n` is a compact Runge set in `Ω`. The statement and proof use no holomorphy; the
-filled-compact exhaustion of Hyperfunctions HF2.AnalyticPreparation is its instance
-`E = ℂ^d ≅ ℝ^(2d)`, and Hyperfunctions already consumes GH0, so this roadmap is the one owner.
+Construct the Runge exhaustion from holomorphic hulls: start with a native compact
+exhaustion of Ω, choose each next compact stage with the preceding hull in its interior,
+and take its Ω-holomorphic hull. Compactness of each hull and compact cofinality make
+these choices possible. The result has nested interiors, union Ω, compact cofinality and
+no relatively compact complementary component (Rainer, Lemma 11.3, pp. 27–28, and the
+construction in the proof of Theorem 12.1, p. 31). The ordinary distance exhaustion used
+for the comparison metric below does not require this hull operation.
 
-#### Holomorphic functions with compact-open convergence
+The hull API includes compactness, extensivity, monotonicity, idempotence, the complementary-
+component description and the distance and convex-hull comparisons. The exhaustion API
+has nested interiors and compact cofinality, and each stage equals its holomorphic hull.
+These are Rainer, Lemma 11.3, pp. 27–28 (rainer line 1437); the exhaustion is its
+recursive compact-cofinal consequence.
 
-For an open set `U : TopologicalSpace.Opens ℂ`, use Mathlib's native bundled analytic maps
+**Checks.**
+
+- For K=∅, the universal bound B=−1 for f=0 excludes every point, so its hull is ∅;
+  both extended distance infima are ∞.
+- For K={2≤|z|≤3} in Ω={|z|<4}, the hull is {|z|≤3}; the common distance to Ωᶜ is 1.
+- For the same K in Ω={1<|z|<4}, the hull is K. The function 1/z excludes |z|<2;
+  filling this ambient hole would be wrong.
+- In Ω=ℂ, the radius-n closed ball is its own hull and a valid exhaustion stage,
+  agreeing with the plane instance of the topological exhaustion owner.
+
+*Needs:* Mathlib compact exhaustions and connected components; Layer 2.5's scalar Runge
+and separation implication for the hull equality, and elementary maximum-principle and
+separation arguments. Prove scalar Runge first; its statement and route use no hull theorem.
+
+### 2.2 Holomorphic functions with compact-open convergence
+
+Define `HolomorphicMapSpace` as follows. For an open set `U : TopologicalSpace.Opens ℂ`, use Mathlib's native bundled analytic maps
 `H(U) = ContMDiffMap (modelWithCornersSelf ℂ ℂ) (modelWithCornersSelf ℂ ℂ) U ℂ ω`
 ([native analytic-map bundle](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Geometry/Manifold/ContMDiffMap.lean)).
 The complex charted-space and analytic-manifold structures on U are the native restrictions
 of those on ℂ. The order is analytic `ω`. Equality is equality of functions on U.
 
-Send such a map to its underlying native continuous map `ι : H(U) → C(U,ℂ)` and prove
+Define `HolomorphicMapSpace.toContinuousMap` by sending such a map to its underlying native continuous map `ι : H(U) → C(U,ℂ)` and prove
 injectivity. Equip H(U) with the uniformity induced by ι from native compact convergence on
 `C(U,ℂ)`; its topology is compact-open. Install this as a scoped instance in the
-function-space namespace, opened explicitly by consumers: the reducible analytic-map alias
+`HolomorphicMapTopology.compactConvergenceUniformity`, with the supporting
+`HolomorphicMapTopology.openSubtypeLocallyCompact` instance, opened explicitly by consumers: the reducible analytic-map alias
 must not install a global uniformity on all native `ContMDiffMap` users. Prove the precise range comparison:
 `g ∈ range ι` iff the ambient representative
 `g₀(z) = if hz : z∈U then g ⟨z,hz⟩ else 0` satisfies `DifferentiableOn ℂ g₀ U`.
@@ -466,6 +781,7 @@ Prove the representative-level equivalence with `TendstoLocallyUniformlyOn` on t
 ambient set Ω, and independence from the exhaustion. For every compact K⊆Ω, restriction
 to native `C(K,ℂ)` is uniformly continuous, using cofinality and the same quantitative bound.
 
+The headline `complete_holomorphicMapSpace` asserts completeness for this induced uniformity.
 For completeness, the open subtype U is locally compact Hausdorff and therefore compactly
 coherent. Native `ContinuousMap.compactConvergenceUniformSpace` and its completeness theorem
 make `C(U,ℂ)` complete. After the metric/uniformity comparison, prove that range ι is closed:
@@ -485,8 +801,30 @@ and prove its compact-open continuity by the native locally uniform derivative t
 Cauchy estimates on compact neighborhoods. These are function-space results independent of
 Montel; ConformalMapping L1 consumes this topology for its compactness criterion.
 
+The function-space API is:
 
-#### Neighborhood-holomorphic restrictions on a compact set
+- The continuous-map inclusion is injective, identifies its range with ambient holomorphic
+  restrictions, and is a uniform embedding with closed image.
+- The induced uniformity is complete; the displayed metric induces exactly this uniformity,
+  independently of the exhaustion, and compact restrictions are uniformly continuous.
+- Pointwise algebra, point evaluation, open restriction and differentiation are continuous;
+  the inclusion preserves pointwise multiplication and constants.
+
+**Checks.**
+
+- On U=∅ there is one map; every compact seminorm and the distance are 0.
+- On a nonempty U with every exhaustion stage nonempty, constants differing by 1 have
+  distance Σₙ≥₁2⁻ⁿ/2=1/2; replacing the comparison metric by an unbounded sup norm is wrong.
+- On ℂ the constant functions 1/(n+1) are Cauchy on every compact and tend to the holomorphic
+  zero map; their displayed distance to zero is 1/(n+2).
+- For t=1, min(1,t)/2=t/(1+t)=1/2≤1, fixing both comparison constants.
+
+The metric, completeness and derivative-continuity targets are Rainer, §11, equation (11.2)
+and Exercises 19–20, p. 25 (rainer lines 1313, 1329).
+*Needs:* Mathlib analytic maps, compact-convergence uniformity/completeness, compact exhaustions,
+open-subtype smoothness and holomorphic local-uniform limits; no Runge or Montel theorem is needed.
+
+### 2.3 Neighborhood-holomorphic restrictions on a compact set
 
 For compact K⊆ℂ, define O(K) as the complex subspace of native `C(K,ℂ)` consisting of
 restrictions of functions holomorphic on some open neighborhood of K. Neighborhoods may depend
@@ -504,7 +842,22 @@ extension near the closed disk would have bounded derivative near 1, a contradic
 Thus O(K) is not closed. These are counterexamples to a general open/closed assertion;
 for finite K, O(K)=C(K,ℂ) by polynomial interpolation, including empty K.
 
-#### Contour integration and compact-open closure
+The neighborhood-restriction API includes complex subspace operations, restriction to smaller
+compacts, the continuous restriction from H(Ω), and its dense image under the Runge condition.
+The carrier is Rainer, §11, p. 25 (rainer line 1333); the examples are derived using power series.
+
+**Checks.**
+
+- For K=∅, both O(K) and C(K,ℂ) contain exactly one function.
+- For K={0,1}, a+(b−a)z realizes arbitrary values (a,b), so O(K)=C(K,ℂ).
+- On the closed unit disk, εz̄ has norm |ε| and is not in O(K) for ε≠0, whereas 0 is.
+- For Σzⁿ/(n+1)² the uniform coefficient tail tends to 0, but at radius 1 its formal
+  derivative sum Σₙ≥₁ n/(n+1)² diverges, excluding a neighborhood extension.
+
+*Needs:* Mathlib continuous-map subspaces, polynomial interpolation and power-series differentiation;
+Layer 2.5 for the density conclusion only.
+
+### 2.4 Contour integration and compact-open closure
 
 For finite piecewise-C¹ curves on compact parameter intervals [a,b] with a≤b, prove the integral estimate
 `|∫_γ f−∫_γ g| ≤ sup_(trace γ)|f−g| · length(γ)` with `TauCeti.Contour`’s integral and
@@ -518,9 +871,21 @@ Mathlib’s `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn` d
 consume `TendstoLocallyUniformlyOn.differentiableOn`; the contour argument is a reusable
 proof route and continuity result, rather than a second holomorphic-limit predicate.
 
-#### Runge equivalences, pole pushing, and interpolation
+**Checks.**
 
-Prove the universal Runge equivalence: for compact K⊆Ω, the property that every
+- A constant path has length 0 and integral 0.
+- On the unit circle f−g=1, the integral difference is 0 and the estimate is 0≤2π.
+- Reversing a unit circle changes ∫dz/z from 2πi to −2πi, with the same length 2π.
+
+This is the norm estimate for the native interval integral and the native rectangle Morera
+criterion, applied with the stated continuity hypotheses.
+*Needs:* Tau Ceti piecewise-C¹ integrals and finite cycles; Mathlib Bochner integral norm bounds
+and `Complex.isConservativeOn_and_continuousOn_iff_isDifferentiableOn`.
+
+### 2.5 Runge equivalences, pole pushing, and interpolation
+
+Define `IsRungeCompactPair` by openness, compact containment and absence of relatively
+compact complementary components. Prove `isRungeCompactPair_iff_approximation`, the universal Runge equivalence: for compact K⊆Ω, the property that every
 function holomorphic on every open neighborhood U of K can be uniformly approximated
 on K by functions holomorphic on Ω holds if and only if no component of Ω\K is
 relatively compact in Ω. Quantify over U and f in this equivalence. For any individual
@@ -559,7 +924,7 @@ complementary components using the geometric-series expansions, control errors u
 and pass to hulls and an exhaustion. Prove the compactness and connected-component lemmas
 used at each step, then derive the point-separation criterion with its precise quantifiers.
 
-Also prove the finite-rank linear Runge operator used by GH5 and CKG K2. If K⊆Ω is compact
+Also prove `exists_finite_rank_runge_operator`, the finite-rank linear Runge operator used by GH5 and CKG K2. If K⊆Ω is compact
 and Runge and U⊃K is open, choose a compact collar L⊂U∩Ω with K⊂int L. For every ε>0,
 construct N<∞, points ζ₁,…,ζ_N∈int L, weights w_j∈ℂ and g_j∈H(Ω), all independent of
 f, such that the fixed linear operator
@@ -573,9 +938,41 @@ support/collar choices that make all estimates uniform. The finite-rank form is 
 commutes with differentiation in external smooth parameters and preserves holomorphic dependence
 on external complex parameters.
 
-### GH1. Prescribed zeros and divisor realization on an open plane set
+The Runge-pair API includes equivalence with approximation and hull equality, restriction
+of the approximation conclusion to smaller compacts, finite-jet interpolation and the fixed
+finite-rank operator. Rainer, Theorem 11.1, p. 25 and Theorem 11.7, p. 29
+(rainer lines 1338, 1550) supply scalar and rational Runge; the finite-rank and jet statements
+are the explicit cutoff/quadrature and Hermite-interpolation consequences above.
 
-For a relatively closed discrete `E ⊆ Ω` and multiplicity `m : E → ℕ`, construct `f` holomorphic
+**Checks.**
+
+- A closed disk inside a larger disk has no relatively compact complementary component;
+  polynomials approximate its neighborhood-holomorphic functions.
+- The annulus K={2≤|z|≤3} inside {|z|<4} fails the condition: 1/z has circle period 2πi,
+  whereas every disk-holomorphic approximant has period 0.
+- The same K inside {1<|z|<4} satisfies the condition: 1/z itself is an admissible approximant.
+- For K=∅, choose L=∅ and N=0; the finite-rank estimate has no evaluation points and is vacuous.
+  For f=0, B=0, both sides of every nonempty-K estimate are 0.
+
+*Needs:* Layer 0.3's cutoff reconstruction and uniform quadrature, Cauchy estimates, finite
+pole-pushing and compact connected-component arguments; native polynomial CRT for finite jets.
+The hull formulation uses Layer 2.1 after the scalar equivalence is proved.
+
+
+
+### Examples
+
+The annulus hull is the closed radius-3 disk in the disk ambient domain and the annulus itself in the annular ambient domain. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Layer 0 for scalar Runge; native compact-convergence and topology for function spaces. Within this layer prove scalar Runge before its hull characterization.
+
+## Layer 3: prescribed zeros and divisor realization (GH1)
+
+### 3.1 Divisors and zero-free Runge approximation
+
+In `exists_holomorphic_with_zero_orders`, for a relatively closed discrete `E ⊆ Ω` and multiplicity `m : E → ℕ`, construct `f` holomorphic
 on Ω with zero order exactly `m z` at every z in E and no other zeros, including the all-zero
 multiplicity and empty-E cases. State the local order using the existing analytic/meromorphic
 order APIs, including `AnalyticAt.analyticOrderAt_eq_natCast` and
@@ -583,11 +980,12 @@ order APIs, including `AnalyticAt.analyticOrderAt_eq_natCast` and
 nonzero and unit hypotheses instead of reproving them here. Use the native locally-finite divisor
 carrier when its hypotheses match; do not introduce a parallel closed-discrete predicate.
 
-Extend to integer divisors `ν : E → ℤ`: produce a meromorphic function with order `ν z` at each
+In `exists_meromorphic_with_divisor`, extend to integer divisors `ν : E → ℤ`: produce a meromorphic function with order `ν z` at each
 z in E and order zero outside E, and require `meromorphicOrderAt f z ≠ ⊤` at every z∈Ω. This
 excludes identically-zero components and makes the divisor statement meaningful. For every native
 `MeromorphicOn F Ω`, construct holomorphic f,g with
 `∀ᶠ z in codiscreteWithin Ω, g z ≠ 0 ∧ F z = f z / g z`.
+The headline `exists_holomorphic_quotient` in Layer 4 states this consequence.
 This is equality off a relatively closed discrete exceptional set, equivalently equality of the
 meromorphic germs; arbitrary total-function values at exceptional points are not constrained.
 Require g not identically zero on each nonempty connected component of Ω, including components
@@ -595,7 +993,7 @@ on which F has zero germ. State componentwise behavior when Ω is disconnected. 
 positive and negative parts of the divisor and the two realization theorems; it is not the
 finite-support `extract_zeros_poles` result.
 
-First prove zero-free Runge approximation: if K is Runge in Ω and u is holomorphic and
+First prove `exists_zero_free_holomorphic_approximation`, zero-free Runge approximation: if K is Runge in Ω and u is holomorphic and
 nowhere zero on a neighborhood of K, approximate u uniformly on K by a function holomorphic
 and nowhere zero on all of Ω. Prove the winding-class extension needed for this result;
 ordinary scalar Runge approximation only controls zeros near K. If Ω is disconnected, carry the
@@ -674,9 +1072,29 @@ product is nonzero off E; prove exact orders at E and nonvanishing of the tail p
 consume only earlier preparatory results and GH0; the later full factorization theorem
 does not supply a prerequisite to this milestone.
 
-#### Boundary zeros and domains of holomorphy
+The divisor-realization API includes exact orders, finite nonzero germs on every component,
+restriction and products/quotients corresponding to addition/subtraction of divisor data.
+The zero-free approximation API retains a nonvanishing approximant on the whole ambient domain.
+These are Rainer, Proposition 15.2 and Theorem 15.3, pp. 36–38
+(rainer lines 1950, 1997); the explicit finite-cycle proof supplies the winding extension.
 
-For every open Ω construct a holomorphic f on Ω with no meromorphic continuation through
+**Checks.**
+
+- The zero divisor is realized by 1, whose analytic and meromorphic orders are 0 everywhere;
+  the identically zero function has analytic order ∞ and is excluded.
+- The divisor 2[0]−[1] is realized by z²/(z−1) as a meromorphic germ, with orders 2 and −1.
+- For Ω=∅ the order assertions have no points; for two disjoint disks constant 1 on both
+  has order 0 on both, so no connectedness hypothesis is needed.
+- On an annulus, u=z has winding 1 and is already a global zero-free approximant;
+  exponentials alone have winding 0 and cannot supply the whole approximation theorem.
+
+*Needs:* Layers 1 and 2, native divisors and analytic orders; Tau Ceti closed periods,
+integer winding and primitive-to-logarithm. The cycle-composition and finite-grid dual cycles
+are the explicit targets in this subsection, not an assumed homology basis.
+
+### 3.2 Boundary zeros and domains of holomorphy
+
+The headline `exists_holomorphic_no_meromorphic_boundary_germ` states: for every open Ω construct a holomorphic f on Ω with no meromorphic continuation through
 any local boundary germ. Precisely, for every ξ∈∂Ω, disk D centered at ξ and connected component
 C of D∩Ω with ξ∈closure C, no meromorphic function on D agrees with f on C.
 
@@ -709,7 +1127,24 @@ from z to a point of `D_r(z)\Ω` and take its first exit. The component containi
 at that boundary point, contradicting the centered result. Thus `D_r(z)⊆Ω`. State that the identity
 principle is applied on the connected component containing the initial agreement neighborhood.
 
-##### A simpler whole-overlap zero-set construction
+The shell-zero API gives local finiteness inside Ω and accumulation in every boundary branch,
+so the identity theorem excludes continuation of each local branch.
+This strengthens the shell proof of Rainer, Theorem 15.5, p. 39 (rainer line 2086) to
+meromorphic extensions using finite pole order.
+
+**Checks.**
+
+- For Ω=∅ or ℂ the boundary is empty and f=1 satisfies the boundary clause vacuously.
+- In the unit disk, zeros 1−1/n (n≥2) accumulate at 1 and force any meromorphic extension
+  there to have infinitely many zeros near an interior point; its only possible extension
+  germ is zero, contradicting any nonzero interior value.
+- A compact subset contained in K_N meets no chosen disk from shells n≥N+2,
+  so its zero count is bounded by the finite number of earlier chosen disks.
+
+*Needs:* Layer 3.1, Layer 2 compact exhaustion, shrinking shell covers, and the analytic
+identity theorem after removing a finite-order pole.
+
+### 3.3 Whole-overlap zero-set construction
 
 As an alternative explicit zero-set construction for the whole-overlap consequence,
 for every open Ω construct one holomorphic f on Ω admitting no
@@ -742,13 +1177,36 @@ This dense-boundary construction gives an alternative direct proof of the whole-
 and connected-larger-domain consequences of the stronger theorem. It does not establish accumulation through every local component; the
 shell-cover construction above supplies the stronger meromorphic branchwise theorem.
 
+**Checks.**
 
-### GH2. Mittag–Leffler principal parts on arbitrary plane domains
+- On the unit disk, each fixed dense-boundary point aⱼ is a limit of selected zeros with
+  distances less than 1/n, hence limit distance 0.
+- For D_m, levels n≥m contribute 0 points; the earlier levels contribute finitely many.
+- Adding a disjoint disk to a domain permits the value 0 on that new component without
+  changing f on Ω, so connectedness of a strict larger domain is essential.
 
-For a relatively closed discrete set E in Ω and a finite principal part `p_a(w) =
+This is the whole-overlap consequence of Layer 3.2; its alternative zero construction uses
+the same identity-theorem argument as Rainer, Theorem 15.5, p. 39 (rainer line 2086).
+*Needs:* Layer 3.1, the metric exhaustion in Layer 2.2, separability of the boundary and the identity theorem.
+
+
+
+### Examples
+
+The divisor 2[0]−[1] is realized by z²/(z−1); shell zeros accumulate only at the boundary. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Layers 1–2, native analytic orders, and Tau Ceti period/logarithm and winding contracts.
+
+## Layer 4: Mittag–Leffler and isolated singularities (GH2)
+
+### 4.1 Principal parts and singular germs
+
+The target `exists_meromorphic_prescribed_principal_parts` states: for a relatively closed discrete set E in Ω and a finite principal part `p_a(w) =
 Σ_(k=1..N_a) c_(a,k) (w−a)^(−k)` at every a ∈ E, construct meromorphic f on Ω having exactly
 those principal parts and no other poles. Prove uniqueness modulo addition of a holomorphic
-function and natural restriction/translation/scaling rules. Also prove the general isolated-singularity
+function and natural restriction/translation/scaling rules. Also prove `exists_holomorphic_prescribed_isolated_singularities`, the general isolated-singularity
 version: for each a∈E let U_a be an open neighborhood of a and φ_a holomorphic on U_a\{a}. Construct f holomorphic
 on Ω\E such that f−φ_a has a holomorphic extension near a. This includes essential
 singularities; the finite-principal-part meromorphic theorem is its pole-only
@@ -767,12 +1225,41 @@ prove locally uniform convergence away from E and holomorphic extension of the
 difference at each marked point. Prove Laurent-coefficient extraction and the
 finite-principal-part specialization.
 
-### GH3. Entire products and full Weierstrass factorization
+The singularity API includes uniqueness modulo H(Ω), restriction, translation/scaling and
+finite principal-part specialization. The holomorphic quotient consequence retains equality
+on the codiscrete nonzero-denominator locus, not arbitrary assigned pole values.
+This is Rainer, Theorem 12.1, p. 31 and Theorem 15.6, p. 39 (rainer lines 1603, 2116).
+
+**Checks.**
+
+- Empty singularity data allow f=0; no spurious pole is required.
+- At a=0, the principal part 2/z is realized by f=2/z with zero holomorphic remainder.
+- The punctured germ exp(1/z) is allowed by the isolated-singularity theorem and excluded
+  by finite-pole data; its remainder can again be 0.
+- Altering a total meromorphic function at its pole changes no punctured germ: at 0 the
+  assigned value can be 7 while the quotient representation agrees away from 0.
+
+*Needs:* Layers 1–3, native Laurent decomposition and local analytic/meromorphic orders,
+Runge exhaustion corrections and locally uniform convergence away from the discrete support.
+
+
+
+### Examples
+
+The prescribed germs 2/z and exp(1/z) distinguish poles from essential singularities. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Layers 1–3, Laurent decomposition, Runge corrections and holomorphic local-uniform closure.
+
+## Layer 5: full Weierstrass factorization (GH3)
+
+### 5.1 Equal divisors and full factorization
 
 Consume the preparatory primary-product existence and exact-order theorem under its stated
 convergence hypotheses.
 
-Supply the reusable equal-divisor quotient theorem: if f and F are entire, neither is
+Supply `exists_entire_exp_mul_of_divisor_eq`, the reusable equal-divisor quotient theorem: if f and F are entire, neither is
 identically zero, and their native divisors on ℂ agree, then `f=exp(g) F` for some entire g.
 Construct the removable extension q of f/F, prove `f=qF` everywhere and that q never
 vanishes, then apply the entire-logarithm theorem. Nontriviality of both functions is
@@ -780,7 +1267,7 @@ essential: the native divisor of the identically zero function is zero and canno
 distinguish it from a nonvanishing entire function. This theorem applies in particular
 to the genus-one product and the original function with the same divisor.
 
-For every nonzero entire f with zero order m at 0 and nonzero zeros listed with multiplicity,
+The headline `entire_weierstrass_factorization` states: for every nonzero entire f with zero order m at 0 and nonzero zeros listed with multiplicity,
 prove `f(z)=z^m exp(g(z)) ∏ E_{p_n}(z/a_n)` for an admissible sequence p_n and entire g. Prove
 that the zero-free quotient extends through its removable singularities, then consume the native
 contour primitive-to-logarithm API on ℂ to obtain its entire logarithm and exponential factor. State nonuniqueness under
@@ -788,14 +1275,40 @@ choice of p_n; for a fixed product and fixed f, two possible logarithms g differ
 2πik with k∈ℤ, constant on ℂ. The product and factorization theorems allow a variable sequence of primary-factor
 genera and impose no finite-order hypothesis on the entire function.
 
-### GH4. Products, approximation, and contour examples
+The factorization API includes exact multiplicities, normalization of the primary product,
+removable quotient extension and the ambiguity 2πik of the entire logarithm for a fixed product.
+The full factorization is Rainer, Remark 15.4, p. 38 (rainer lines 2030, 2050); equal-divisor
+factorization is the same removable-quotient argument with an arbitrary entire product.
+
+**Checks.**
+
+- For f=z, m=1, the nonzero-zero index is empty, P=1 and g=0 give z=z·1·1.
+- For f=(z−1)², choose p=0, P=(1−z)² and g=0; the power is 2, not 1.
+- For f=exp(z), m=0, P=1 and g=z; the empty zero set does not force f to be constant.
+- For f=0 and F=1, both native divisors are zero but exp(g)·1 cannot vanish;
+  this explains both nontriviality hypotheses in the equal-divisor theorem.
+
+*Needs:* Layer 1 primary products, native isolated zeros and analytic orders, removable
+singularities, and the supplier's entire logarithm (implemented by the Tau Ceti contour API).
+
+
+
+### Examples
+
+The cases z, (z−1)² and exp(z) separate the origin order, repeated zeros and zero-free exponential factor. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Layer 1 exact products, local order/removable singularity APIs and the entire logarithm supplier.
+
+## Layer 6: products, approximation, and contour examples (GH4)
 
 The following formulas and examples are explicit targets with the stated convergence hypotheses.
 
-#### Sine, cosine, cotangent, and shifted sine
+### 6.1 Sine, cosine, cotangent, and shifted sine
 
-Prove
-`sin(πz) = πz ∏_(n≥1) (1 − z²/n²)` and `cos(πz) = ∏_(n≥1) (1 − 4z²/(2n−1)²)`.
+Starting with the supplied sine product, derive the cosine product
+`cos(πz) = ∏_(n≥1) (1 − 4z²/(2n−1)²)`.
 The respective simple zero sets are `ℤ` and `ℤ+1/2`. On `ℂ\ℤ`, derive from compact-uniform
 product convergence
 `π cot(πz) = z⁻¹ + Σ_(n≥1) 2z/(z² − n²)`,
@@ -810,8 +1323,8 @@ integers. Also prove the all-z identity
 entire with simple zeros exactly at the nonpositive integers and agrees with native reciprocal
 Gamma on its regular locus. State pole exclusions when using native Gamma or digamma.
 Reuse `Complex.tendsto_euler_sin_prod` in `EulerSineProd.lean`; the cotangent series theorem is
-root-namespaced `cot_series_rep` in `Cotangent.lean`, not `Complex.cot_series_rep`. The compact-uniform
-product convergence is already supplied by `HasProdLocallyUniformlyOn_euler_sin_prod` and
+root-namespaced `cot_series_rep` in `Cotangent.lean`, not `Complex.cot_series_rep`. For compact-uniform
+product convergence use `HasProdLocallyUniformlyOn_euler_sin_prod` and
 `multipliableUniformlyOn_euler_sin_prod_on_compact`; consume these with their stated compact and
 zero-exclusion hypotheses, and derive the cosine product from `sin(2πz)=2sin(πz)cos(πz)` by splitting even and odd factors in finite products, passing to the locally uniform limit, and checking the constant at zero. For reciprocal Gamma,
 pass from the native Gamma sequence to the normalized product using the harmonic/logarithmic
@@ -845,11 +1358,23 @@ Mathlib's `Gamma/Beta.lean` and `Gamma/Digamma.lean`. Name the harmonic/logarith
 logarithmic derivatives. These native special-function facts do not replace the sine-product
 proof or global product API.
 
-#### Independent paired-cotangent strip proof
+**Checks.**
 
-Develop this second proof of the paired cotangent identity alongside the preceding
-product/logarithmic-derivative proof. It does not consume that identity, the sine product,
-or native `cot_series_rep` as a premise. Write
+- At z=0 the cosine product is 1, and reciprocal Gamma is 0 because of its origin factor.
+- At z=1/2, the cosine product has a zero factor, so both sides are 0.
+- For α=1/2, the shifted-sine prefactor is sin(π/2)=1 and the linear exponent coefficient
+  π cot(π/2)=0, recovering the cosine product.
+
+These are derived product comparisons from Layer 1 and the native sine, cotangent, Gamma
+sequence and Euler-constant limits in the supplier contracts; the shift uses absolute summability.
+*Needs:* Layers 1 and 5, native sine/cosine identities, cotangent series, Gamma sequence and
+harmonic-logarithmic limit, with the specified nonzero denominators.
+
+### 6.2 Independent paired-cotangent strip proof
+
+Use the following strip argument as a worked comparison route for the supplied paired
+cotangent identity, alongside its product/logarithmic-derivative route. Its intermediate
+estimates belong to this README's examples. Write
 `U=ℂ\{(k:ℂ) | k∈ℤ}`,
 `q_N(z)=Σ_(k=−N)^N (z−k)⁻¹`, and
 `q(z)=z⁻¹+Σ_(n≥1)((z−n)⁻¹+(z+n)⁻¹)`.
@@ -900,8 +1425,23 @@ excluded from the Riemann/vertical-limit claims; integers are excluded from the 
 No absolute convergence of `Σ_(k∈ℤ)(z−k)⁻¹` is claimed. This alternative does not remove
 the existing sine/cosine/Gamma/shifted-product or contour examples.
 
+The paired-series API in this worked route consists of symmetric-truncation convergence,
+integer residues, period one and the strip and imaginary-axis estimates; it uses the native
+integer complement and paired series rather than a new regular-locus carrier.
 
-#### Theta, hyperbolic sine, divisors, and ratio products
+**Checks.**
+
+- With N=0, q₀(z+1)−q₀(z)=(z+1)⁻¹−z⁻¹, exactly the stated boundary correction.
+- At z=i, a paired term is −2i/(1+n²); both terms have negative imaginary part.
+- At y=1, S₁=(π coth π−1)/2, so π/2−S₁ is about 0.4941, inside [0,1].
+- The model and paired limits are both −πi as y→∞, so their difference has constant value 0.
+
+This is a direct finite-sum, improper-integral and Liouville derivation of the supplied
+cotangent identity; it does not define an additional theorem of the library.
+*Needs:* native sine/cosine derivatives, removable singularities, inverse-square summability,
+arctangent integral and Liouville; the displayed bounds are the intermediate mathematical estimates.
+
+### 6.3 Theta, hyperbolic sine, divisors, and ratio products
 
 For real `0<r<1`, define
 `H_r(z) = ∏_(n≥1) (1 + r^(2n−1) e^z)(1 + r^(2n−1) e^(−z))`.
@@ -947,7 +1487,25 @@ value near that pole. The pole closure `{1/n²:n≥1}∪{0}` therefore gives the
 holomorphy domain for this example, including exclusion of continuation across the accumulation
 point 0 by its nearby genuine poles.
 
-#### Polynomial and rational approximation examples
+The example-product API supplies local-uniform convergence, exact zeros, the theta shift,
+ordering independence for absolutely convergent products and exclusion of pole accumulation points.
+All are derived from Layer 1's product theorem (Rainer, Theorem 14.3, pp. 35–36,
+rainer line 1868) and the explicit estimates above.
+
+**Checks.**
+
+- For r=1/2, the theta shift factor at z=0 is 2; the finite reindexing ratio tends to 2,
+  fixing the inverse power r⁻¹ and the sign of z.
+- The Manhattan shell N=1 has 4 points of norm 1; its four reciprocal cubes sum to 4,
+  below the displayed bound 8√2. The shell N=2 has 8 points.
+- For aₙ=2ⁿ the deviation tail from N is R·2¹⁻ᴺ; at R=1,N=2 it is 1/2.
+- In the ratio example b₁=1 and a₁=2, the factor has a genuine pole at 1; cancellation
+  would require m²=2n², which has no positive integer solutions.
+
+*Needs:* Layers 1 and 5, native sine/hyperbolic identities, lattice shell counts and compact
+separation from the pole closure; every ratio denominator is bounded away from zero on the stated compact.
+
+### 6.4 Polynomial and rational approximation examples
 
 For the crescent `Ω={z∈ℂ: |z|<1 and |2z−1|>1}`, prove compact-open polynomial density in
 `H(Ω)` and the failure of global uniform approximation for all holomorphic functions.
@@ -971,7 +1529,17 @@ Apply GH0’s compact-support Cauchy/Pompeiu identity, uniform Riemann-sum lemma
 finite-chain pole-pushing and rational pole-set theorem to these approximation examples.
 Use their stated compact separation, error bounds and sphere-complement pole-set hypotheses.
 
-#### Full-boundary Cauchy–Pompeiu formula
+**Checks.**
+
+- At z=−1/2, |z|=1/2 and |2z−1|=2, so the point lies in the crescent.
+- At z=−t with t↓0, |1/z|=1/t→∞, whereas every polynomial is bounded on the unit disk.
+- At z=−1+t with t↓0, |1/(z+1)|=1/t→∞, giving the second distinct boundary obstruction.
+
+These are direct applications of rational Runge (Rainer, Theorem 11.7, p. 29) and the
+computed complement geometry, not global-uniform approximation theorems.
+*Needs:* Layer 2.5, the holomorphic hull construction, compact exhaustion and polynomial boundedness on a closed disk.
+
+### 6.5 Full-boundary Cauchy–Pompeiu formula
 
 Give piecewise-`C¹` Jordan parametrizations `γ₀,…,γₘ`, with `m<∞`, and write `Dⱼ` for the
 bounded Jordan component enclosed by the image of `γⱼ`. Require the closed hole interiors
@@ -991,6 +1559,11 @@ does not state that winding conclusion. Suppose `Ω` is open, `closure(Δ)⊆Ω`
 `C¹` on `Ω` as a real map, and `ξ∈Δ`. The formal theorem target is the area-integral identity
 
 `f(ξ) = (2πi)⁻¹ ∫_(C_Δ) f(z)/(z−ξ) dz − π⁻¹ ∫_Δ ∂̄f(z)/(z−ξ) dA(z)`.
+
+The signature `cauchyPompeiu` states this on a native cycle C: Δ is bounded and open,
+closure Δ⊆Ω with Ω open, trace C=∂Δ, and off that trace the cycle index is 1 on Δ
+and 0 elsewhere. These hypotheses also allow cycles beyond finite Jordan boundaries.
+The preceding boundary construction proves them for every specified Jordan region.
 
 Here `dA` is positive planar Lebesgue measure. Record the source's equivalent plus-wedge display
 as the coefficient identity `dz∧dz̄=−2i dA` in the positive basis `(1,i)`; do not introduce
@@ -1032,8 +1605,7 @@ The region-boundary adapter must prove the Jordan separation/orientation-to-wind
 cancellation, then identify the geometric boundary with `trace(C_Δ)`; it must not assume a graph-cell
 decomposition. Consume DG 5.6.3 for local fields on an open set and finite integer-weighted AC
 cycles; its full target specializes to native `TauCeti.Contour.Cycle` and imposes no nonzero-speed or
-finite-cell-division hypothesis. GH4 owns only the local `Cycle.integral` real/imaginary-coordinate
-comparison above, not a duplicate AC-cycle theorem. GH0 and GH5’s scalar solver remain independent of the DG Green theorem and
+finite-cell-division hypothesis. Use the local `Cycle.integral` real/imaginary-coordinate comparison above with that AC-cycle theorem. GH0 and GH5’s scalar solver remain independent of the DG Green theorem and
 ConformalMapping; GH5’s form consequences consume DG0–DG1 and DG6 as stated below. GH4 consumes
 DG 5.6.3 and ConformalMapping L5 for Jordan separation. DG has no reverse dependency on GH,
 and there is no CKG edge for this boundary formula.
@@ -1081,7 +1653,26 @@ from holomorphic polynomial approximation, which requires connected complement. 
 open `Ω`, approximate by `H(Ω)` or rational functions under GH0's actual complement and pole-set
 conditions, not by complex polynomials without extra hypotheses.
 
-#### Product logarithmic derivatives and boundary examples
+The oriented boundary-cycle API includes trace equality, indices inside the region and holes,
+integer additivity and the real/imaginary circulation comparison, with the source and target
+cycle and integral carriers specified above. The scalar formula is Rainer, Proposition 10.1,
+p. 23 (rainer line 1216); the finite-cycle generalization uses DifferentialGeometry §5.6.3.
+
+**Checks.**
+
+- On the unit disk with f=1 and ξ=0, the boundary term is (2πi)⁻¹·2πi=1 and the area term is 0.
+- With f(z)=z̄ and ξ=0, the boundary integral and the odd area integral ∫1/z are both 0.
+- With f(z)=|z|² and ξ=0, the boundary term is 1 and π⁻¹∫1 dA=1, giving 0=1−1;
+  reversing the area sign would give 2.
+- On 1<|z|<2 the index at the hole center is 1−1=0, while the index at 3/2 is 1−0=1.
+- For the point-normalized polynomials with n=1, the bound is (1/2)/(1−1/2)=1;
+  the denominator is bounded below by 1/2, not merely assumed nonzero.
+
+*Needs:* DifferentialGeometry §5.6.3; ConformalMapping L5 for Jordan separation only;
+Tau Ceti cycles, winding, circle integrals and Layer 0.1 derivatives. The boundary adapter,
+coordinate comparison and small-circle/error estimates are the local targets above.
+
+### 6.6 Product logarithmic derivatives and boundary examples
 
 For each pole family identify principal parts before summing. Cotangent poles at integers have
 residue one; the regularized series is `1/z+Σ_{n≥1}2z/(z²-n²)`. Derive this by symmetric
@@ -1095,10 +1686,32 @@ and its shell-cover proof, including the arbitrary-disk and interior-germ coroll
 The product and cotangent examples here retain their explicit pole, residue, and
 logarithmic-derivative calculations.
 
-### GH5. Global smooth `∂̄` solvability on an arbitrary plane domain
+**Checks.**
 
-This milestone owns the global one-variable inhomogeneous Cauchy–Riemann equation, not just a
-closed-form identity for a particular exercise. For every open `Ω⊆ℂ` and every `f∈C^∞(Ω)`,
+- Near z=0 the cotangent principal part is 1/z, with residue 1.
+- Near a simple product zero a, the logarithmic derivative has principal part 1/(z−a);
+  a double zero changes the residue to 2.
+- The shifted sine at α=1/2 has poles at half-integers in its logarithmic derivative,
+  with residue 1 and none at the integers.
+
+*Needs:* Layers 1, 3 and 5, the native paired cotangent formula and local meromorphic orders.
+These are the explicit local-pole calculations for the preceding examples.
+
+
+
+### Examples
+
+On the unit disk the |z|² Cauchy–Pompeiu identity at zero is 0=1−1; clockwise holes subtract their index. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Layers 0–5 as used by each example; DifferentialGeometry §5.6.3 and ConformalMapping L5 only for the boundary formula.
+
+## Layer 7: global smooth ∂̄ solvability and Cousin I (GH5)
+
+### 7.1 Global smooth solvability and closed completion
+
+Prove the global one-variable inhomogeneous Cauchy–Riemann theorem. In `exists_smooth_barDerivative_eq`, for every open `Ω⊆ℂ` and every `f∈C^∞(Ω)`,
 construct `g∈C^∞(Ω)` with `∂̄g=f`; no simple connectivity is assumed. Use `ContDiffOn ℝ ∞` for smoothness, with `open scoped ContDiff`; native `⊤`
 in this order type denotes analytic order `ω`, so it does not express the smooth
 compact-support input. Consume the preparatory Wirtinger operators, real-differentiability
@@ -1139,12 +1752,60 @@ For `f(z)=z`, the particular solution `u₀(z)=|z|²`; all solutions are
 `|z|²+h(z)` for h entire. For the related exactness exercise, `dg=f dz` with smooth g forces
 `∂̄g=0`, hence g is holomorphic. Merely `∂_z g=f` does not: `f=0`, `g(z)=z̄` is a counterexample.
 
-For every smooth `f` on an arbitrary open Ω, construct a smooth `g` such that
+In `exists_smooth_closed_completion`, for every smooth `f` on an arbitrary open Ω, construct a smooth `g` such that
 `ω=g dz+f dz̄` is closed. Apply global solvability to the smooth datum `∂_z f`,
 obtaining `∂̄g=∂_z f`, and prove
 `dω=(∂_z f−∂̄g) dz∧dz̄=0` on the differential-form carrier below.
 For a fixed f, all such coefficients are `g=g₀+h`, with h holomorphic on Ω.
 The conclusion is closedness; a global primitive additionally requires vanishing periods.
+
+The solver API is:
+
+- Every smooth datum on an open plane set has a smooth global solution, with no connectivity assumption.
+- Solutions form an affine space under H(Ω), with unique holomorphic difference from a chosen solution.
+- Closed completion solves ∂̄g=∂z f; all completing coefficients differ by a holomorphic function.
+
+**Checks.**
+
+- For f=z̄, u=z̄²/2 has ∂̄u=z̄; at z=1 both sides equal 1.
+- For f=z, u=|z|² gives ∂̄u=z; for closed completion g=z̄ gives ∂̄g=∂z f=1.
+- For f=z exp(−|z|²), u=−exp(−|z|²) has the stated derivative; at z=1 it is e⁻¹.
+- For f=0, g=z̄ has ∂z g=0 but dg=dz̄≠0; specifying ∂z g alone does not specify dg.
+
+The solver is Rainer, Theorem 12.2, p. 31 (rainer line 1630); the affine solution space and
+closed completion follow by subtracting solutions and applying the operator to ∂z f.
+*Needs:* Layers 0 and 2, native smooth partition of unity, the stated shell support and
+extension-by-zero adapters, and holomorphic Cauchy derivative estimates. Closed completion
+uses the scalar solver and Layer 0.1; no Layer 6 input is needed.
+
+### 7.2 Fixed-coefficient maps and planar forms
+
+For a finite-dimensional real smooth manifold M modeled by I and real normed coefficient
+spaces F,G, construct the postcomposition map from smooth F-valued k-forms to smooth
+G-valued k-forms for every fixed continuous real-linear L:F→G. Define its evaluation by
+(L_*ω)ₓ(v₁,…,vₖ)=L(ωₓ(v₁,…,vₖ)); prove smoothness in the supplied alternating bundle.
+For complete F and G, prove d(L_*ω)=L_*(dω) for smooth ω, by the continuous-linear chain
+rule and the alternating derivative formula in charts. These are construction targets here,
+not consequences of pullback naturality: the base manifold stays fixed.
+
+The coefficient-map API is:
+
+- Identity postcomposition fixes every form, and postcomposition by L₂∘L₁ is the composite
+  of the two maps, with source and target coefficient spaces retained.
+- Postcomposition is real-linear in the form and commutes with restriction and smooth base pullback.
+- For complete coefficient spaces, it commutes with d on smooth forms in every degree.
+
+**Checks.**
+
+- For L:ℝ→ℂ, L(t)=t, followed by Re, the form x dy has coefficient x and derivative
+  dx∧dy after both maps; the composite coefficient map is the identity.
+- For L(t)=it, the value of L_*(dx) on eₓ(1) is i; using only real-part projection would give zero.
+- Zero postcomposition gives zero in every degree, and in degree zero the law reads
+  d(L∘u)=L∘du; for u(x,y)=x² and L(t)=2t, both sides on (1,0) are 4x.
+
+*Needs:* DifferentialGeometry §§0.3–0.4 and 1.1–1.3; Mathlib continuous-linear
+postcomposition of alternating maps and the Fréchet chain rule. This is a direct
+chartwise derivation from those definitions, with the preceding evaluations fixing the map.
 
 For differential-form exactness, take `U : TopologicalSpace.Opens ℂ`, the open subtype
 `M := ↥U` and model `I := 𝓘(ℝ, ℂ)`. The inclusion `ι : M → ℂ` induces a smooth
@@ -1158,9 +1819,8 @@ open-subtype smoothness API. Throughout, `d v` for a smooth coefficient function
 
 Define real one-forms `dx = d(Re ∘ ι)` and `dy = d(Im ∘ ι)`. For a fixed `c : ℂ`, let
 `L_c : ℝ →L[ℝ] ℂ` be `L_c(t)=c*(t:ℂ)`. On DG0.3/0.4's generic form carrier define
-`dz = mapCoeff L_1 dx + mapCoeff L_i dy` and
-`dbarz = mapCoeff L_1 dx − mapCoeff L_i dy`, where `i := Complex.I` and each `mapCoeff`
-is the bundled fixed-coefficient map. A product of a smooth complex function with a form
+dz=(L₁)_*dx+(Lᵢ)_*dy and dz̄=(L₁)_*dx−(Lᵢ)_*dy, where i=Complex.I and
+postcomposition is the bundled map constructed in §7.2. A product of a smooth complex function with a form
 means the paired wedge of its degree-zero form with that form, using complex multiplication
 as a continuous real-bilinear pairing; these formulas require no separate form carrier.
 
@@ -1169,26 +1829,46 @@ on `e_z 1` and `e_z i`. Put `∂z u=(∂x u−i*∂y u)/2` and
 `∂barz u=(∂x u+i*∂y u)/2`, and prove `du=(∂z u) dz+(∂barz u) dbarz`.
 For ambient smooth-on-`U` functions, prove these derivatives of the restriction agree with
 the ambient derivatives used by GH5, including `barDerivative`. By DG's determinant wedge
-evaluation, prove `dz∧dbarz = mapCoeff L_(−2i) (dx∧dy)`; its value on
+evaluation, prove dz∧dz̄=(L₋₂ᵢ)_*(dx∧dy); its value on
 `(e_z 1,e_z i)` is `−2i`. Every smooth complex-valued two-form `η` therefore has the unique
 form `η=h dz∧dbarz`, where `h(z)=η_z(e_z 1,e_z i)/(−2i)`; prove `h` is smooth.
 Extend `h` by zero off `U`; the restriction comparison gives an ambient function smooth on
 `U`. Apply GH5 to it, restrict the solution to `M`, and use DG's
 `mextDeriv_wedgeWith` Leibniz rule to obtain `d(−u dz)=η`, with sign
 `−du∧dz=(∂barz u) dz∧dbarz`. For a real two-form, include coefficients by `L_1`, take a
-complex primitive and then take its real part; DG1.2's coefficient naturality and
+complex primitive and then take its real part; §7.2's coefficient naturality and
 `Re ∘ L_1 = id` give a real primitive. Thus the real degree-two de Rham quotient vanishes.
 CKG K5a consumes the complex exactness on this same open-subtype carrier and owns its
 complex-coefficient quotient comparison, including `H²_dR(U;ℂ)=0`.
 
-**GH5 coordinate worked examples.** Keep these scalar computations in GH5; the disk moment is
+The coordinate-form API includes the tangent trivialization, ambient/restricted smoothness
+comparison, dx and dy as real coordinate differentials, dz and dz̄ as their complex linear
+combinations, unique coefficient extraction for two-forms, and real/complex exactness.
+These are direct consequences of the coefficient map, the determinant wedge convention
+and Layer 7.1, not an additional generic form carrier.
+
+**Checks.**
+
+- dx and dy on (eₓ1,eₓi) give rows (1,0) and (0,1); exchanging them reverses orientation.
+- dz and dz̄ give rows (1,i) and (1,−i), whose determinant is −2i; hence the coefficient
+  of dz∧dz̄ in itself is (−2i)/(−2i)=1.
+- For η=dz∧dz̄, take u=z̄; then d(−z̄ dz)=dz∧dz̄, with coefficient +1.
+- For η=dx∧dy, h=1/(−2i)=i/2; taking the real part of −(i/2)z̄ dz gives
+  (x dy−y dx)/2, whose derivative is dx∧dy. Its value on (1,i) is 1.
+
+*Needs:* Layer 7.1 and this subsection's coefficient maps, DifferentialGeometry §§0.1,
+0.3–0.4, 1.1–1.4 and 6.1–6.2; native open-subtype tangent and smoothness comparisons.
+
+### 7.3 Coordinate worked examples
+
+ Keep these scalar computations in GH5; the disk moment is
 proved by polar area integration and has no DG or CKG dependency. On all of `ℂ`, prove
 `d(i z²)=2iz dz` and `d(i|z|²)=i(z̄ dz+z dz̄)`, as identities of
 complex-valued real one-forms with the coefficient pairing specified above. Also prove
 `d(|z|²)=2(x dx+y dy)` and `d(|z|⁴)=4(x²+y²)(x dx+y dy)`. On `ℂ\{0}`, prove
 `d((log|z|)²)=log(x²+y²)(x dx+y dy)/(x²+y²)`, using
 `log|z|=½ log(x²+y²)`; keep the expression `(log|z|)²` distinct from `log(|z|²)`.
-Using the already-defined GH5 Wirtinger operators, for `m,n∈ℤ` prove on `ℂ\{0}`
+Using the Layer 0 Wirtinger operators, for `m,n∈ℤ` prove on `ℂ\{0}`
 `∂_z(z^mz̄^n)=m z^(m−1)z̄^n` and
 `∂_{z̄}(z^mz̄^n)=n z^mz̄^(n−1)`. For `m,n∈ℕ`, prove the corresponding formulas on
 all of `ℂ`, reading the derivative term as zero when its exponent is zero: `∂_z=0` if `m=0`
@@ -1203,12 +1883,31 @@ exponents; negative powers are not part of this disk-integrability claim. GH4's 
 real/imaginary Green specialization supplies a Stokes cross-check, not a prerequisite for this
 GH5 computation.
 
-### GH5.1. Cousin I and planar de Rham consequences
+These are derived coordinate computations using the real chain and product rules and the
+polar Jacobian r, not attributed exercise statements. For the differential convention use
+Rainer, §10, equation (10.1), p. 23 (rainer line 1189); the polar kernel calculation in the
+proof of Proposition 10.1, p. 23 (rainer line 1237), uses the same area normalization.
 
-For additive Cousin I, for every open `Ω⊆ℂ` and locally finite open
-cover `{U_i}`, prove: every
+**Checks.**
+
+- At z=1 in direction 1, d(iz²)=2i and d(i|z|²)=2i; at z=i in direction 1 they are
+  −2 and 0 respectively, distinguishing the two functions.
+- At z=2 in direction 1, d(|z|²)=4 and d(|z|⁴)=32; the logarithm-square formula gives
+  2 log(2)·(1/2)=log 2 on the left and log(4)·2/4=log 2 on the right.
+- For (m,n)=(0,0), both monomial derivatives vanish; for (1,1) they are (z̄,z).
+  On the punctured plane m=−1,n=0 gives ∂z(z⁻¹)=−z⁻², equal to −1 at z=1.
+- The disk moments for (m,n)=(0,0),(1,0),(1,1) are π, 0 and π/2, respectively;
+  the denominator m+1 is always positive. Negative exponents are excluded.
+
+*Needs:* Layer 0.1, native real differentiation and polar change of variables; Layer 7.2
+only for the bundled form presentation. The scalar disk calculation uses no Green theorem.
+
+### 7.4 Cousin I and planar de Rham consequences (GH5.1)
+
+For `additive_cousin_I`, for every open Ω⊆ℂ and arbitrary open
+cover {Uᵢ}, prove: every
 holomorphic additive 1-cocycle `c_ij` with `c_ij+c_jk+c_ki=0` is a coboundary. Choose a smooth
-locally finite partition `ρ_k` subordinate to the cover and set `b_i=Σ_k ρ_k c_ik` on `U_i`.
+partition ρₖ with locally finite supports subordinate to the cover and set `b_i=Σ_k ρ_k c_ik` on `U_i`.
 Verify `b_i-b_j=c_ij`, so `∂̄b_i` is one global smooth datum; solve `∂̄u=∂̄b_i` by GH5,
 and check `b_i-u` are holomorphic and glue with the required differences. For the Mittag–Leffler application,
 use `Ω₀=Ω\E` and small disjoint disks around the marked points, and verify this is an open
@@ -1218,26 +1917,53 @@ real and imaginary parts give real-coefficient exactness. CKG K5a consumes the c
 statement and proves its own complex de Rham comparison on the generic form carrier. The open plane
 domain is Hausdorff and paracompact. This uses no singular/de Rham comparison or fundamental class.
 
-## Dependencies, references, and explicit boundaries
+The Cousin API permits arbitrary index types and open covers, with the convention
+cᵢⱼ=bᵢ−bⱼ; only the subordinate partition's supports need be locally finite. A refinement
+restricts the solution, and the difference of two solutions glues to a global holomorphic function.
+This is Rainer, Proposition 12.3 and Theorem 12.4, p. 32 (rainer lines 1658, 1689).
+The degree-two de Rham vanishing is the quotient consequence of Layer 7.2's exactness.
 
-Consume Mathlib Cauchy/power-series/isolated-zero/meromorphic-order/local-uniform-limit APIs,
-Mathlib's uniform-on product topology, and the Tau Ceti contour/residue/winding API under their
-actual pinned hypotheses. GH0 owns its planar hull and Runge theorems. GH0 and GH5 do not consume a
-ConformalMapping contract or DifferentialGeometry Green theorem; GH4 alone consumes ConformalMapping
-L5's Jordan separation/filled-hull target and DifferentialGeometry 5.6.3's finite-cycle Green target,
-with the GH-owned Jordan orientation/winding and `Cycle.integral` coordinate adapters stated above.
-Neither provider depends on GH4, so these edges are acyclic. This owner provides GH0 Runge/exhaustion
-(the exhaustion in the generic finite-dimensional form used by Hyperfunctions HF2) and the scalar compact-support Cauchy–Green operator to CKG K2, and GH5.1 complex 2-form exactness
-to CKG K5a. Those CKG targets own the parameter and complex-carrier comparison arguments
-respectively.
-It builds the global one-variable Runge, Mittag–Leffler, zero-divisor, quotient, entire-factorization,
-and arbitrary-domain smooth ∂̄ results itself; it does not depend on
-the several-variable Runge or local preparation contracts. It does not duplicate the local
-holomorphic/meromorphic carriers, Cauchy theorem, geometric Riemann mapping, or local
-several-variable preparation theorem.
+**Checks.**
 
-References for proof routes: Conway, *Functions of One Complex Variable I*, chapters on Runge,
-Mittag–Leffler and Weierstrass products; Ahlfors, *Complex Analysis*, chapters on infinite
-products and approximation. For global ∂̄ solvability, use a one-variable Cauchy–Green solution
-operator and the exhaustion/Runge correction argument specified in GH5. These references guide
-proofs; they do not replace Lean targets.
+- For a two-set cover with c₁₂=1 and c₂₁=−1, choose b₁=1,b₂=0; the differences are 1 and −1.
+- On a one-set cover the triple equation is 3c₁₁=0, forcing c₁₁=0; b₁=0 works.
+- For the empty cover of the empty domain, all intersection equations are vacuous.
+- Countably many copies Uᵢ=Ω form a non-locally-finite cover when Ω≠∅, but the zero cocycle
+  still has bᵢ=0; local finiteness of the cover is not a necessary hypothesis.
+
+*Needs:* Layer 7.1, native subordinate smooth partitions with locally finite supports,
+restriction/gluing of smooth functions and the homogeneous CR criterion. The de Rham
+conclusion additionally uses Layer 7.2 and DifferentialGeometry §6.1's quotient.
+
+### Examples
+
+The constant two-set cocycle has coboundary (1,0), and d((x dy−y dx)/2)=dx∧dy. The subsection Checks fix the detailed conventions.
+
+### Dependencies
+
+Layers 0 and 2 for the scalar solver; DifferentialGeometry Layers 0–1 and 6.1–6.2 for form consequences. ComplexKahlerGeometry is a consumer only.
+
+## Downstream consumers
+
+ComplexKahlerGeometry K2 consumes GH0's compact-support transform, finite-rank Runge
+operators and planar exhaustion for its parameter solver; K5a consumes GH5.1's complex
+two-form exactness for its complex de Rham comparison. Hyperfunctions HF2 uses the
+one-variable input through those analytic layers. ConformalMapping's compact-open
+applications can use Layer 2's holomorphic function space; its L5 boundary topology is
+an independent input only to Layer 6. ZerosOfLFunctions remains an earlier supplier.
+
+## References
+
+- Armin Rainer, *Advanced Complex Analysis*, 112-page institutional version hosted in 2025,
+  based on the Vienna 2016–2017 course. [Legal institutional text](https://www.tuwien.at/mg/arainer/wp-content/uploads/2025/03/advanced-complex-analysis.pdf).
+  Proposition 10.1 and Theorems 10.2–10.3, pp. 23–24; §11, equation (11.2), Exercises 19–20,
+  Theorem 11.1, Lemma 11.3 and Theorem 11.7, pp. 25–29; Theorems 12.1–12.4,
+  pp. 31–32; Propositions 14.1–14.2 and Theorem 14.3, pp. 34–36;
+  Proposition 15.2, Theorem 15.3, Remark 15.4 and Theorems 15.5–15.6, pp. 36–39.
+  Locators use printed pages, not PDF page numbers; rainer lines 1189–2130.
+- J. D. Gray and S. A. Morris, *When Is a Function That Satisfies the Cauchy–Riemann
+  Equations Analytic?*, American Mathematical Monthly 85 (1978), 246–256.
+  [Legal author copy](https://www.sidneymorris.net/Morris51.pdf).
+  Theorem 3, p. 247; Appendix, Lemma 1 and proof, pp. 252–254;
+  gray-morris lines 66 and 310–396. The local Baire and balanced-rectangle details in
+  Layer 0 specify the hypotheses used in transporting this proof.
