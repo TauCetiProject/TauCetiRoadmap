@@ -501,6 +501,61 @@ Weitzenböck/star specialization on the same carrier.
    flat-line twist. This is a construction on supplied bundles, not an assertion
    that every oriented bundle is spin.
 
+4a. **Skeletal frames and low-rank stabilization.** On a Hausdorff CW base X,
+   construct the following comparison with G4.2's actual lifts. In positive
+   rank, unrestricted orthonormal frames over X⁰ which admit extension to X¹,
+   modulo homotopy over X⁰, classify C1.0's determinant-cover orientations.
+   Their existence obstruction is w₁; when nonempty they form an
+   H⁰(X;Z/2) torsor. An identification with H⁰ requires a chosen orientation.
+
+   Fix an orientation and rank n≥3. Define skeletal Spin data to be positive
+   orthonormal frames over X¹ which admit extension to X², modulo homotopy
+   through frame sections over X¹. Extension is a property, not extra chosen
+   data. Allow the frames at vertices to move during the homotopy. Construct
+   an equivalence between this quotient and the isomorphism classes of
+   G4.2's Spin lifts. This quotient does not retain the lifts' H⁰(X;Z/2)
+   automorphisms. Consume SpinRepresentations Layer2's
+   `SpinCompactTopologyFoundation`: π₀Spin(n)=π₁Spin(n)=0 lets a lift admit a
+   Spin frame over X², and makes any two choices homotopic over X¹. Project
+   its restriction to obtain the skeletal class. Use AT8.9's actual cellular
+   obstruction/cochain machinery and the CW weak topology, including infinite
+   CW bases; no finiteness or global framing of V is assumed.
+
+   Identify each 2-cell's frame-extension loop under the Spin-cover
+   monodromy π₁SO(n)≃Z/2 with G4.3/C3.5's obstruction cocycle. Its class is
+   w₂(V). A fixed skeletal frame extends precisely when its obstruction
+   cochain vanishes; existence of some such frame is equivalent to w₂(V)=0.
+   For two extendible frames, choose paths between their vertex frames and
+   take the edge-loop monodromies. Prove these form a cellular 1-cocycle;
+   changing the vertex paths changes it by a coboundary. Homotopies with
+   moving vertex frames give precisely the same H¹ class. Identify this
+   difference and its free transitive action with G4.4's central-bundle twist.
+   Construct the inverse comparison using G4.3 to choose an initial lift and
+   G4.4 to correct its skeletal difference by twisting. Prove independence
+   of that choice and both inverse laws. Give pullback naturality for cellular
+   maps, skeletal restriction, cellular subdivision and metric-change
+   comparisons. The bijection with H¹ requires a chosen Spin structure.
+
+   For n=1,2 fix the standard framed positive trivial summand ε^(3−n).
+   Prove stabilization and reduction are inverse equivalences of Spin-lift
+   groupoids for V and V⊕ε^(3−n). Construct the block inclusions and identify
+   the actual pullback double cover
+   `Spin(3) ×_(SO(3)) SO(n) ≃ Spin(n)`; at n=1 it is μ₂ over the trivial
+   SO(1), and at n=2 it is the circle squaring cover. Apply the skeletal model
+   to this stabilized rank-three bundle. For rank two, an unstabilized frame
+   over X¹ extending to X² instead forces e(V)=0. Prove Spin existence iff
+   e(V) belongs to 2H²(X;Z), including torsion, using ρe=w₂ and the integral
+   coefficient exact sequence. Compare G5.3's square-root description,
+   retaining the root isomorphism as part of the data. For rank one an
+   orientation trivializes V, but its Spin lifts still form the H¹ torsor.
+   Rank zero retains G4.4's separate geometric μ₂ and orientation conventions.
+
+   Check the distinction on TS²: its Euler number is 2, it has a unique Spin
+   structure, and the radial stable framing TS²⊕ε¹≃ε³ from C7.3 supplies
+   skeletal data although TS² has no global frame. Match the edge differences
+   on S¹ and T² with G6.5's two circle lifts and four torus lifts, including
+   the lift defined by the Lie framing and their G4.4 twists.
+
 ## G5. Spinor bundles, chiral products and rank-two roots
 
 0. **Real regular Clifford spinors.** Construct `realCliffordSpinorBundle`
@@ -852,7 +907,9 @@ SpinRepresentations L7's remaining universal-cover comparison. The item order
 is G4.1a → CharacteristicClasses C3.5 → G4.3. G4.1b's smooth refinement
 uses G4.1a and native Lie differential APIs, independently of C3.5.
 G4.4's torsor uses a given lift and central-bundle descent independently of
-that obstruction equality. G5 follows G1–G4. G6 follows G3/G5 and uses
+that obstruction equality. G4.4a additionally consumes AT8.9's CW obstruction
+API and SpinRepresentations Layer2's independent compact-real simple-connectivity
+foundation; its low-rank root comparison follows G5.3. G5 follows G1–G4. G6 follows G3/G5 and uses
 K5/PDO analysis; the exterior instance only needs G2/G3. Numerical topological index theorems are separate consumers of this development. For each object supply constructors/characterization,
 extensionality, regularity, naturality, local-frame/gluing comparison and edge
 cases, not only the headline theorem.
