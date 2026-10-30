@@ -28,14 +28,15 @@ String bordism and its low-stem and framing comparisons; integral differential
 cohomology by differential characters, bundle gerbes and 2-gerbes, the basic
 gerbe and Chern–Simons 2-gerbe of Spin(n), geometric String structures, string
 connections and transgression, with the smooth principal bundles, connections,
-good covers and submersion fibre products they are built on (S3.1–S3.2); the
-bridges from Mathlib's diffeological spaces to manifolds and functional mapping
-spaces needed for transgression; the octonionic projective plane OP² with its
+good covers and submersion fibre products they are built on (S3.0); the
+bridges from the manifold diffeology to `ContMDiff` and to the functional
+diffeologies on mapping spaces needed for transgression (S3.5); the octonionic projective plane OP² with its
 F₄/Spin(9) isotropy and characteristic classes (S1.5); the structured
 Pontryagin–Thom theorem for tangential structures given by bundle diagrams, rational
 characteristic-number detection and the odd-primary comparison of Spin and
 oriented bordism (S2.2, S5.3); the framed comparison `Ω^fr_n≅π_nS`, the stem
-`π₃S≅ℤ/24` with its generator ν and the stable J-homomorphism in degree 3 (S2.3); the
+`π₃S≅ℤ/24` in its stable-range form `π_(n+3)(Sⁿ)`, n≥5, with its generator ν,
+and the stable J-homomorphism in degree 3 (S2.3); the
 characteristic series and the integral Witten genus on Spin and String bordism;
 Cayley-plane bundles, their family vanishing, McTague's generator criterion and
 the kernel theorem away from 6; and the curvature questions of S6.
@@ -62,10 +63,24 @@ It leaves to named roadmaps:
   BP⟨1⟩, cooperations and the Adams–Novikov tower.
 - SchemeAndStackFoundations §4.13 owns `bertini_smoothness`; AffineMorseLefschetz
   A0 owns `complexProjectiveZeroLocus` and its Jacobian-rank submanifold test.
+- Orbifolds O2 item 6 owns the manifold diffeology on Mathlib's
+  `DiffeologicalSpace`: its construction from chart plots, chart independence, the
+  equality of its D-topology with the manifold topology, open restrictions and
+  the finite-product comparison with its topology compatibility. S3.5 builds on
+  it the comparison with `ContMDiff` and the subspace, pullback and functional
+  diffeologies.
 - Mathlib owns `ContinuousMap.Homotopy`, the diffeology class and its plot API in
   `Mathlib/Geometry/Diffeology/Basic.lean`, `ContMDiffMap`, and the Levi-Civita
   connection, and the local-normal-form submersion `Manifold.IsSubmersion`; Tau
   Ceti owns `CovariantDerivative.ricciTensor`.
+
+Three objects stated here are also stated by roadmaps this one does not consume:
+smooth principal bundles, connections, curvature, good covers and submersion
+fibre products by SmoothBundlesConnections B1.1, B3.1, B4.1, B6.0 and B1.0;
+submersion fibre products by LieGroupoidsPoisson G0; and `π₃S≅ℤ/24{ν}` by
+HomotopySpheres Stage 9. S3.0 and S2.3 state the versions this roadmap uses,
+with their conventions fixed by the Checks there, and consume nothing from those
+roadmaps.
 
 ## Conventions
 
@@ -122,8 +137,9 @@ It leaves to named roadmaps:
   (`Mathlib/Geometry/Diffeology/Basic.lean`): the diffeology class, plots, smooth
   maps, plot construction on open domains, and the complete lattice of
   diffeologies on a type. That file constructs no product, subspace, pullback or
-  functional diffeology and no manifold diffeology; S3.5 constructs them as
-  instances of this class.
+  functional diffeology and no manifold diffeology; Orbifolds O2 item 6
+  constructs the manifold diffeology and S3.5 the others, as instances of this
+  class.
 - `ContMDiffMap`, `ContMDiff` (`Mathlib/Geometry/Manifold/ContMDiffMap.lean`):
   bundled smooth maps between manifolds.
 - `CovariantDerivative.leviCivitaConnection`, `CovariantDerivative.IsLeviCivitaConnection`
@@ -143,8 +159,9 @@ It leaves to named roadmaps:
 
 ### From TauCetiRoadmap suppliers
 
-- **GeneralizedCohomology** G2 (mapping-path carrier, G2.10 Hurewicz lifting,
-  compactly generated comparison), G3 (telescope Milnor sequence, G3.8 connective
+- **GeneralizedCohomology** G2 (mapping-path carrier, G2 item 5 Freudenthal for
+  (k−1)-connected pointed CW spaces, G2.10 Hurewicz lifting, compactly generated
+  comparison), G3 (telescope Milnor sequence, G3.8 connective
   covers), G5.0 (stable Spin classifier, finite-rank maps, stabilization
   homotopies, `stableBSpin_hopfGenerator_cTwo`), G5.3 (sequential Thom spectra),
   G5.6 (rational cohomology of Eilenberg–Mac Lane spaces).
@@ -153,10 +170,16 @@ It leaves to named roadmaps:
   groups, 8.10 representability, 8.11b loop comparison).
 - **CharacteristicClasses** finite compact-Lie classifying spaces, p₁ and w₄ on
   each BSpin(n), C4 Chern–Weil and C4.3 universal connections.
-- **TopologicalKTheory** stable BO/BSO comparison, virtual bundles and
-  symmetric/exterior operations.
+- **TopologicalKTheory** stable BO/BSO comparison, T2.1 virtual bundles, exterior
+  powers, and T2.3's λ-series `λ_t` on virtual classes with its product and
+  inverse identities; it states no symmetric-power operation, and S4.1 defines
+  `Sym_t` from `λ_t`.
 - **SpinGeometry** G4.1 Spin covers, G6 Lichnerowicz.
 - **DGFloer** Layer 1 item 2 (normalized long exact sequence of a homotopy fibre).
+- **Orbifolds** O2 item 6 (manifold diffeology from chart plots on Mathlib's
+  class, chart independence, equality of the D-topology with the manifold
+  topology, open restrictions, common refinements and the finite-product
+  comparison with its topology compatibility).
 - **DifferentialGeometry** forms, smooth singular chains, Stokes, de Rham.
 - **ModularForms** level-one modular forms, dimension formula, q-expansions.
 - **BordismFormalGroups** F3–F5 (BP, BP⟨1⟩, cooperations, Hopf rings,
@@ -212,9 +235,13 @@ sequence and the vanishing of H³ of these 3-connected stages over ℤ and 𝔽�
   is −c₂" is off by the factor 2.
 - Mod 2 on the Hopf line: λ=−1 is odd and w₄ of the underlying real rank-4
   bundle is its Euler class mod 2, the nonzero class.
-- Negative control on a torsion base: on the Moore space `X=S⁴∪_2e⁵`,
-  `H⁴(X;ℤ)=ℤ/2`; by S1.3's dimension-≤7 classification the nontrivial stable Spin
-  bundle has `λ≠0` and `p₁=2λ=0`, so `p₁=0` does not determine λ.
+- Negative control on a torsion base: on the Moore space `X=S³∪_2e⁴`, the
+  cellular cochain complex is `ℤ→ℤ`, multiplication by 2, in degrees 3 and 4, so
+  `H³(X;ℤ)=0` and `H⁴(X;ℤ)=ℤ/2`; by S1.3's dimension-≤7 classification
+  `[X,BSpin]≅ℤ/2`, and the nontrivial stable Spin bundle has `λ≠0` and
+  `p₁=2λ=0`, so `p₁=0` does not determine λ. The 5-dimensional Moore space
+  `S⁴∪_2e⁵` tests nothing: its multiplication-by-2 cochain map sits in degrees 4
+  and 5, so `H⁴=0`, `H⁵=ℤ/2`, and every stable Spin bundle on it is trivial.
 
 *Needs:* GeneralizedCohomology G5.0 (`stableBSpin_hopfGenerator_cTwo`), G3;
 CharacteristicClasses (p₁, w₄, c₂ on finite classifying spaces); AlgebraicTopology
@@ -288,7 +315,9 @@ specified homotopy (G2.10) and to nullhomotopies of `λ∘c`
 - `X=S³`, trivial bundle: lifts form a torsor under `H³(S³;ℤ)=ℤ`.
 - `X=S⁴` with the quaternionic Hopf line: `λ=−1≠0`, so no lift; the bundle is
   trivial on the 3-skeleton, so 3-skeleton triviality does not characterize lifts.
-- `X=S⁴∪_2e⁵`, nontrivial bundle: `p₁=0` and `λ≠0`, so no lift.
+- `X=S³∪_2e⁴`, the nontrivial stable Spin bundle (`[X,BSpin]≅H⁴(X;ℤ)=ℤ/2`):
+  `p₁=0` and `λ≠0`, so no lift; the trivial bundle has a one-point torsor, since
+  `H³(X;ℤ)=0`.
 - `X=S¹×S²`: `H³=ℤ`; `[X,BSpin]≅H⁴(X)=0`, so every stable Spin bundle on X is
   trivial and has a ℤ-torsor of lifts.
 
@@ -376,7 +405,7 @@ cohomology, fundamental classes), Stage 8.7 (finite CW models of compact Lie gro
 ### Examples
 
 S³ with its ℤ-torsor of String lifts, the quaternionic Hopf line on S⁴ with
-`λ=−1`, the torsion example `S⁴∪_2e⁵`, and OP² with one lift class.
+`λ=−1`, the torsion example `S³∪_2e⁴`, and OP² with one lift class.
 
 ### Dependencies
 
@@ -470,7 +499,11 @@ contractible diagram `EO(n)→BO(n)`, whose Thom spectrum is the sphere spectrum
 Prove `π₃S≅ℤ/24`, generated by the stable class ν of the Hopf construction on
 quaternionic multiplication `S⁷→S⁴`, by the Serre spectral sequence computation of
 the 2- and 3-primary parts (Toda, *Composition Methods in Homotopy Groups of
-Spheres*, Chapters V and XIII, uncertified). Prove that the stable J-homomorphism
+Spheres*, Chapters V and XIII, uncertified). The stem is reached in its
+stable-range form: Sⁿ is (n−1)-connected, so GeneralizedCohomology G2 item 5's
+Freudenthal theorem makes the suspension `π_(n+3)(Sⁿ)→π_(n+4)(S^(n+1))` an
+isomorphism when `n+3≤2n−2`, that is for n≥5, and `π₃S≅π_(n+3)(Sⁿ)` for every
+n≥5; the computation is carried out on `π₈(S⁵)`. Prove that the stable J-homomorphism
 `J:π₃SO→π₃S` is onto with kernel 24ℤ: the invariant `e(M)=½p₁(W,M) mod 24` of a
 framed 3-manifold M bounding a Spin 4-manifold W is well defined because the
 signature of a closed Spin 4-manifold is divisible by 16, so `½p₁` of a closed
@@ -486,6 +519,8 @@ and export the sign conversion.
 
 - `π_i MString≅π_i S` for i≤6, and `π₇S→π₇MString` is onto.
 - `π₃S≅ℤ/24` with generator ν, and `J:π₃SO≅ℤ→π₃S` is onto with kernel 24ℤ.
+- For every n≥5, `π_(n+3)(Sⁿ)≅ℤ/24` on Mathlib's `HomotopyGroup` of the unit
+  sphere in `ℝ^(n+1)` (`homotopyGroup_sphere_three_stem`).
 - For g with `Ωλ(g)=−1`, increasing the torsor coordinate on S³ by 1 changes the
   framed class by `−J(g)`.
 
@@ -498,9 +533,11 @@ and export the sign conversion.
   would give a ℤ/48-valued invariant and the wrong order.
 - `π₃S` has order 24, not 12 or 48: its 2-primary part is ℤ/8 and its 3-primary
   part ℤ/3.
+- The stable range begins at n=5: `π₇(S⁴)≅ℤ⊕ℤ/12` is not ℤ/24, while `π₈(S⁵)`
+  and `π₉(S⁶)` are both ℤ/24; stating the stem on `S⁴` would be false.
 
 *Needs:* S1.4, S2.1, S2.2; IndexTheory I7; SpinGeometry G4.1; GeneralizedCohomology
-G5.0, G5.6.
+G2 item 5, G5.0, G5.6.
 
 ### Examples
 
@@ -509,8 +546,9 @@ generator of `Ω₃^String≅ℤ/24`, and K3 as a Spin manifold that is not Stri
 
 ### Dependencies
 
-S1; EllipticCohomology E5; GeneralizedCohomology G3.8, G5, G5.0, G5.3, G5.6;
-GeometricTopology Layer 1; CharacteristicClasses; IndexTheory I7; SpinGeometry G4.1.
+S1; EllipticCohomology E5; GeneralizedCohomology G2 item 5, G3.8, G5, G5.0, G5.3,
+G5.6; GeometricTopology Layer 1; CharacteristicClasses; IndexTheory I7;
+SpinGeometry G4.1.
 
 ## Layer 3: differential String structures (S3)
 
@@ -538,6 +576,11 @@ transverse to it, with smooth projections that are again surjective submersions
 (Lee, *Introduction to Smooth Manifolds*, 2nd ed., Theorem 4.26 and Theorem 6.30).
 
 - `F_(g·A)=Ad(g⁻¹)F_A` under gauge, and `dF_A=[F_A∧A]` (Bianchi).
+- On a principal bundle presented with the data CharacteristicClasses C4.1
+  applies its invariant polynomials to (a smooth principal bundle, a principal
+  connection and its curvature 2-form), the connection and curvature defined here
+  agree with the ones C4.1 feeds to Chern–Weil, so that S3.1's "one half of the
+  `p₁` Chern–Weil form" is a statement about a single carrier.
 - The face maps `Y^[k]→Y^[k−1]` omitting one factor and the diagonal degeneracies
   are smooth, the face maps are surjective submersions, and together they satisfy
   the simplicial identities.
@@ -555,10 +598,15 @@ transverse to it, with smooth projections that are again surjective submersions
   three arcs give a good cover.
 - The non-submersion `x↦x²` from ℝ onto `[0,∞)⊂ℝ` fails the local-section property
   at 0, and its self fibre product `{(x,y):x²=y²}` is not a manifold at the origin.
+- Carrier comparison on the trivial bundle `M×G` with the connection pulled back
+  from `A∈Ω¹(M;𝔤)`: both carriers assign the curvature `dA+½[A∧A]`; on the SU(2)
+  example above this is `2τ₃dx∧dy`, and a carrier whose bracket term were `[A∧A]`
+  would give `4τ₃dx∧dy`, so the comparison is a theorem, not a convention.
 
 *Needs:* Mathlib `LieGroup`, `SmoothPartitionOfUnity.exists_isSubordinate`,
 `Manifold.IsSubmersion`; DifferentialGeometry (forms, exterior derivative);
-RiemannianGeometry (geodesics and exponential maps).
+RiemannianGeometry (geodesics and exponential maps); CharacteristicClasses C4.1
+(the carrier comparison).
 
 ### 3.1 Differential characters and the refinement of λ (S3.1)
 
@@ -615,8 +663,9 @@ For Spin(n), n≥5, construct the basic gerbe representing the generator
 `η_λ∈H³(Spin(n);ℤ)` whose universal transgression is λ, with its multiplicative
 structure and invariant connection; the curvature is the closed 3-form
 `⅙⟨θ∧[θ∧θ]⟩` for the inner product normalized so that it represents the
-generator (waldorf-string-connections lines 726–730; meinrenken-basic-gerbe §4,
-Proposition 4.3, line 437). Prove `H³(Spin(n);ℤ)≃H⁴(BSpin(n);ℤ)` by transgression,
+generator (waldorf-string-connections lines 726–730; meinrenken-basic-gerbe §5.2,
+line 524, where the same 3-form is written `¹⁄₁₂ θ·[θ,θ]` for his basic inner
+product, and §5.4, line 627, for general simply connected G). Prove `H³(Spin(n);ℤ)≃H⁴(BSpin(n);ℤ)` by transgression,
 multiplicativity iff transgressive (cjmsw-bundle-gerbes Theorem 5.8, line 1109),
 and build the Chern–Simons 2-gerbe of a Spin bundle with its connection
 (waldorf-string-connections Lemma 3.1.2, line 759). Stabilize ranks below 5.
@@ -668,16 +717,19 @@ Define a geometric String structure as a trivialization of the Chern–Simons
 
 ### 3.5 Diffeological manifold and mapping-space bridges (S3.5)
 
-Construct the manifold diffeology with `DiffeologicalSpace.ofCorePlotsOn`: on open
-Euclidean domains its plots are exactly the `ContMDiffOn` maps. Prove atlas
-independence and `DSmooth f ↔ ContMDiff I J ∞ f` for finite-dimensional
-boundaryless source manifolds, and identify the bundled smooth maps with
-`ContMDiffMap`. Construct product, subspace, pullback and functional diffeologies
+Take the manifold diffeology of Orbifolds O2 item 6 on Mathlib's
+`DiffeologicalSpace`, with its chart independence, the equality of its D-topology
+with the manifold topology, its open restrictions and its finite-product
+comparison. Prove that on open Euclidean domains its plots are exactly the
+`ContMDiffOn` maps and that `DSmooth f ↔ ContMDiff I J ∞ f` for
+finite-dimensional boundaryless source manifolds, and identify the bundled smooth
+maps with `ContMDiffMap`. Construct subspace, pullback and functional diffeologies
 as instances of Mathlib's class, with universal properties; a family
 `p:U→C^∞(X,M)` is a plot exactly when `(u,x)↦p(u)(x)` is smooth. Prove smooth
-evaluation, composition, currying and uncurrying, equality of the D-topology with
-the manifold topology, and compatibility with product topologies when one factor
-is locally compact; elsewhere carry `Diffeology.IsDTopologyCompatible` and
+evaluation, composition, currying and uncurrying, and, for the functional
+diffeology, compatibility of the D-topology of `C^∞(X,M)×X` with the product
+topology when X is locally compact, the manifold factors being Orbifolds'
+finite-product comparison; elsewhere carry `Diffeology.IsDTopologyCompatible` and
 `Diffeology.IsContDiffCompatible` explicitly. Construct plotwise forms, exterior
 derivative, wedge and pullback, and fibre integration over a compact oriented X
 with the parameter-first orientation, with Stokes. The lean-catdg development is
@@ -693,10 +745,10 @@ introduced.
 - Fibre integration over S¹ sends `du∧dθ` to `2π du` and `dθ∧du` to `−2π du`; the
   X-first orientation would give the opposite signs.
 
-*Needs:* Mathlib `DiffeologicalSpace`, `Diffeology.IsPlot`, `Diffeology.DSmooth`,
-`DiffeologicalSpace.CorePlotsOn`, `DiffeologicalSpace.ofCorePlotsOn`,
-`Diffeology.IsDTopologyCompatible`, `Diffeology.IsContDiffCompatible`,
-`ContMDiffMap`; DifferentialGeometry.
+*Needs:* Orbifolds O2 item 6; Mathlib `DiffeologicalSpace`, `Diffeology.IsPlot`,
+`Diffeology.DSmooth`, `DiffeologicalSpace.CorePlotsOn`,
+`DiffeologicalSpace.ofCorePlotsOn`, `Diffeology.IsDTopologyCompatible`,
+`Diffeology.IsContDiffCompatible`, `ContMDiffMap`; DifferentialGeometry.
 
 ### 3.6 Transgression (S3.6)
 
@@ -729,14 +781,19 @@ holonomy, and the unique connection over a point.
 
 ### Dependencies
 
-S1; DifferentialGeometry; RiemannianGeometry; CharacteristicClasses C4; Mathlib's
-submersion and diffeology files.
+S1; DifferentialGeometry; RiemannianGeometry; CharacteristicClasses C4, C4.1;
+Orbifolds O2 item 6; Mathlib's submersion and diffeology files.
 
 ## Layer 4: characteristic series and the integral Witten genus (S4)
 
 ### 4.1 The series Θ_q and Q (S4.1)
 
-Construct `Θ_q(V)=⊗_(n≥1)Sym_(qⁿ)(V_ℂ−rank V)` in completed K-theory, with
+Define the symmetric-power series of a virtual class V as
+`Sym_t(V)=λ_(−t)(V)⁻¹`, the inverse of TopologicalKTheory T2.3's λ-series
+evaluated at −t, a unit power series with constant term 1 by T2.3's inverse
+identity; it is multiplicative on sums, and on `V−rank V` it equals
+`λ_(−t)(V)⁻¹·(1−t)^(rank V)`. Construct
+`Θ_q(V)=⊗_(n≥1)Sym_(qⁿ)(V_ℂ−rank V)` in completed K-theory, with
 coefficientwise finiteness and product and naturality laws, and the scalar series Q
 of the Conventions with its expansions, logarithm and comparison with the Chern
 character of `Θ_q`.
@@ -748,10 +805,15 @@ character of `Θ_q`.
 - q⁰ and k=1: `log((x/2)/sinh(x/2))=−x²/24+…`, and `2G₂/2!` at q⁰ is
   `2·(−1/24)/2=−1/24`.
 - q¹: `Θ_q(V)=1+q(V_ℂ−rank V)+O(q²)`.
+- On a line bundle L, `λ_(−t)(L)=1−tL` and `Sym_t(L)=(1−tL)⁻¹=1+tL+t²L²+…`, the
+  symmetric powers of a line; on a trivial line `Sym_t(ε−1)=(1−t)⁻¹(1−t)=1`, so
+  trivial summands contribute nothing to `Θ_q`. The model `Sym_t:=λ_t⁻¹` gives
+  `(1+tL)⁻¹=1−tL+…`, with the wrong sign in degree 1.
 - k=2 at q⁰: `G₄=1/240`, and `log((x/2)/sinh(x/2))` has `x⁴`-coefficient
   `1/2880=2·(1/240)/24`.
 
-*Needs:* TopologicalKTheory (virtual bundles, symmetric powers); CharacteristicClasses.
+*Needs:* TopologicalKTheory T2.1 (virtual bundles), T2.3 (λ-series on virtual
+classes with product and inverse identities); CharacteristicClasses.
 
 ### 4.2 The integral genus and modularity (S4.2)
 
@@ -783,7 +845,8 @@ The OP² values `Â=0`, `L=1`, `φ_W=0`.
 
 ### Dependencies
 
-S2; TopologicalKTheory; CharacteristicClasses; IndexTheory I7; ModularForms.
+S2; TopologicalKTheory T2.1, T2.3; CharacteristicClasses; IndexTheory I7;
+ModularForms.
 
 ## Layer 5: Cayley-plane bundles and the kernel away from 6 (S5)
 
@@ -1023,7 +1086,7 @@ spinLambda_adjoint_eq_neg_two_cTwo).
   Wess-Zumino-Witten theories*](https://arxiv.org/abs/math/0410013)
   (cjmsw-bundle-gerbes), Proposition 4.8, Theorem 5.8.
 - Meinrenken, [*The basic gerbe over a compact simple Lie group*](https://arxiv.org/abs/math/0209194)
-  (meinrenken-basic-gerbe), §4.
+  (meinrenken-basic-gerbe), §5.2 and §5.4.
 - Cheeger–Simons, *Differential characters and geometric invariants*, Lecture
   Notes in Mathematics 1167, 1985, for differential characters (uncertified).
 - McTague, [*The Cayley plane and String bordism*](https://arxiv.org/abs/1111.4520)
