@@ -1,16 +1,16 @@
 import Mathlib
 
 /-!
-# P-adic differential equations, rigid cohomology and p-adic weights: headline targets
+# P-adic differential equations, rigid cohomology and p-adic weights: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline milestones; discharging
-all of them finishes neither a layer nor the roadmap.
+`README.md`. This file states the roadmap's headline theorems against the pinned Mathlib
+and Tau Ceti, each with `sorry`; discharging all of them finishes neither a layer nor the
+roadmap.
 
 The statements here are Arabia's controlled lifting for smooth algebras modulo an
-arbitrary ideal (RD.0.39), the cyclic-vector theorem for a nonzero derivation over any
-characteristic-zero field (RD.1.7), and the extraction of unique integral factors from
-distinct Weil weights over any characteristic-zero coefficient field (RD.7.5).
+arbitrary ideal (RD.0.39) and the cyclic-vector theorem for a nonzero derivation over any
+characteristic-zero field (RD.1.7).
 
 The analytic headline results of RD.0 require annular function rings, the Robba and
 Amice rings, weak completions and their topologies. These carriers are absent from the
@@ -35,8 +35,9 @@ CongruenceSpectralGap §§4.2a–4.2b; the Kloosterman F-isocrystal and its puri
 RD.6.97), which give a rigid proof of that bound, need the same absent carriers. RD.7's rigid–crystalline comparison with coefficients, equality of
 rigid, crystalline and étale Weil factors, abelian-variety comparison, crystalline
 lattice bounds and Kloosterman moment comparisons require the corresponding geometric
-cohomology and filtered comparison objects, also absent from the pins. Only their
-weight-separated polynomial extraction is stated here.
+cohomology and filtered comparison objects, also absent from the pins. The weight-separated
+extraction of integral factors that RD.7.5 adapts is `degreeFactorExtraction` of
+DeligneWeightsAndPurity §4.4 and is not restated here.
 -/
 
 namespace TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
@@ -92,30 +93,5 @@ theorem katz_cyclic_vector {K V : Type*} [Field K] [CharZero K]
   sorry
 
 end RD1
-
-namespace RD7
-
-open Polynomial
-
-/-- Pure factors of distinct degree weights in an integral rational zeta function
-come from unique normalized integer polynomials (RD.7.5). Purity includes algebraicity
-and all complex conjugates, over any characteristic-zero coefficient field. -/
-theorem weightSeparated_factor_extraction {L : Type*} [Field L] [CharZero L]
-    (q : ℕ) (hq : 1 < q) (N : ℕ)
-    (A B : ℤ[X]) (hA : A.coeff 0 = 1) (hB : B.coeff 0 = 1)
-    (hcop : IsCoprime (A.map (Int.castRingHom ℚ)) (B.map (Int.castRingHom ℚ)))
-    (P : Fin (N + 1) → L[X]) (hP0 : ∀ i, (P i).coeff 0 = 1)
-    (hprod : (∏ i ∈ Finset.univ.filter (fun i : Fin (N + 1) => Odd (i : ℕ)), P i) *
-        B.map (Int.castRingHom L) =
-      (∏ i ∈ Finset.univ.filter (fun i : Fin (N + 1) => Even (i : ℕ)), P i) *
-        A.map (Int.castRingHom L))
-    (hpure : ∀ i, ∀ α ∈ (P i).reverse.aroots (AlgebraicClosure L),
-      IsAlgebraic ℚ α ∧
-        ∀ β ∈ (minpoly ℚ α).aroots ℂ, ‖β‖ = (q : ℝ) ^ (((i : ℕ) : ℝ) / 2)) :
-    ∃! Fac : Fin (N + 1) → ℤ[X], ∀ i, (Fac i).coeff 0 = 1 ∧
-      (Fac i).map (Int.castRingHom L) = P i := by
-  sorry
-
-end RD7
 
 end TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
