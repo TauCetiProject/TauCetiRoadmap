@@ -3,6 +3,7 @@ import TauCeti.Analysis.Normed.Algebra.LogOneAdd.Basic
 import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.Padics.PadicIntegers
+import TauCeti.NumberTheory.Padics.RingHoms
 import TauCeti.NumberTheory.ModularForms.EisensteinSeries.Normalized
 
 /-!
@@ -10,8 +11,8 @@ import TauCeti.NumberTheory.ModularForms.EisensteinSeries.Normalized
 
 These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
 roadmap. The statements cover normalized Mellin continuation and algebraic Dirichlet values
-(§§0.1–0.4), existence of the Iwasawa logarithm (§0.6), arithmetic smoothing and tame interpolation
-(§§1.2 and 2.4), complex and p-adic logarithmic values and the Bernoulli residue limit
+(§§0.1–0.4), existence of the Iwasawa logarithm (§0.6), arithmetic smoothing, wild-character
+interpolation and tame interpolation (§§1.2, 2.2 and 2.4), complex and p-adic logarithmic values and the Bernoulli residue limit
 (§§3.4, 3.6–3.7), continuous and locally analytic Morita Gamma, Gross–Koblitz,
 Ferrero–Greenberg and the finite-level distribution rank theorem (Layer 4), and the full
 localized Eisenstein specialization and classical character q-expansion (§§5.5 and 5.9).
@@ -38,7 +39,7 @@ or presumed realizations are used here.
 
 noncomputable section
 
-open scoped BigOperators Topology AbstractMeasure PowerSeries
+open scoped BigOperators Topology AbstractMeasure PowerSeries ContDiff
 open Filter ValuativeRel
 
 namespace TauCetiRoadmap.DirichletPadicLFunctions
@@ -51,9 +52,11 @@ def bernoulliKernel (t : ℝ) : ℝ :=
 def smoothedMellinKernel (a t : ℝ) : ℝ :=
   if t = 0 then (a - 1) / 2 else (bernoulliKernel t - bernoulliKernel (a * t)) / t
 
-/-- The coherent normalized Mellin continuation has its negative-integer derivative values. -/
+/-- The coherent normalized Mellin continuation has its negative-integer derivative values. The
+smoothness order is `∞` (every finite order): the top order `ω` of `WithTop ℕ∞` would require
+real analyticity, which the theorem does not assume. -/
 theorem exists_normalizedMellinContinuation (f : ℝ → ℂ)
-    (hsmooth : ContDiffOn ℝ ⊤ f (Set.Ici 0))
+    (hsmooth : ContDiffOn ℝ ∞ f (Set.Ici 0))
     (hdecay : ∀ n : ℕ, ∃ C c : ℝ, 0 ≤ C ∧ 0 < c ∧
       ∀ᶠ t : ℝ in atTop,
         ‖iteratedDerivWithin n f (Set.Ici 0) t‖ ≤ C * Real.exp (-c * t)) :
@@ -144,6 +147,29 @@ theorem smoothedMeasure_moment (p : ℕ) [Fact p.Prime]
     algebraMap ℤ_[p] ℚ_[p]
         ((smoothedMeasure p a ha) ⟨fun x => x ^ k, by fun_prop⟩) =
       (smoothingMoment a k : ℚ_[p]) := by
+  sorry
+
+/-- The moment of an integral measure on `ℤ_[p]` against a Dirichlet character of `p`-power level,
+lifted through reduction modulo `p ^ n`, times a power of the coordinate: the finite sum over the
+residue classes of the character value times the class moment, mapped into the coefficient ring. -/
+def characterMoment (p : ℕ) [Fact p.Prime] {K : Type*} [CommRing K] [Algebra ℤ_[p] K]
+    (μ : AbstractMeasure ℤ_[p] ℤ_[p] ℤ_[p]) {n : ℕ} (χ : DirichletCharacter K (p ^ n)) (k : ℕ) :
+    K :=
+  ∑ c : ZMod (p ^ n), χ c * algebraMap ℤ_[p] K
+    (μ ⟨fun x => x ^ k * (if PadicInt.toZModPow n x = c then 1 else 0),
+      (continuous_pow k).mul ((continuous_of_discreteTopology
+        (f := fun d : ZMod (p ^ n) => if d = c then (1 : ℤ_[p]) else 0)).comp
+          (PadicInt.continuous_toZModPow n))⟩)
+
+/-- Kubota–Leopoldt interpolation for the smoothing measure: against every Dirichlet character of
+level `p ^ n` with `n ≥ 1` (primitive or not, the level-`p ^ n` generalized Bernoulli number carrying
+the Euler factor at `p`), the `k`-th character moment is the smoothed algebraic Dirichlet value
+`(χ(a)a^(k+1) − 1)·L(χ, −k)`. -/
+theorem smoothedMeasure_characterMoment (p : ℕ) [Fact p.Prime]
+    (a : ℕ) (ha : IsUnit (a : ℤ_[p])) {K : Type*} [Field K] [Algebra ℤ_[p] K] [Algebra ℚ K]
+    {n : ℕ} (hn : 0 < n) (χ : DirichletCharacter K (p ^ n)) (k : ℕ) :
+    characterMoment p (smoothedMeasure p a ha) χ k =
+      (χ a * (a : K) ^ (k + 1) - 1) * (-χ.generalizedBernoulli (k + 1) / (k + 1)) := by
   sorry
 
 /-- Finite character cancellation produces an integral polynomial numerator. -/
