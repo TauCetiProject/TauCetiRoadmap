@@ -20,12 +20,14 @@ from the pins. In particular:
 * The paired torsion twists, geometrically irreducible components and real and finite local
   points (H6.2–H6.8) require the paired Hilbert torsion moduli and its universal family;
   even the elliptic variant requires paired torsion moduli and finite étale descent.
-* The Hilbert derived-group, centre and type comparisons (H0) and the canonical quaternionic
+* The Hilbert centre and type comparisons (H0) and the canonical quaternionic
   curve and PEL bridge (R18.1) require Shimura data and canonical-model carriers.
 * Drinfeld representability, formal arithmetic quotients, Čerednik–Drinfeld uniformisation
-  and its level tower (R18.5.5, R18.5.7, R18.5.11, R18.5.13, R18.5.15, R18.5.21) require
+  and its level tower (R18.5.5, R18.5.7, R18.5.11, R18.5.12a–R18.5.12c, R18.5.13, R18.5.15, R18.5.21) require
   special formal quaternionic modules, the formal Drinfeld curve and its rigid generic fibre.
-  The set of nonrational projective points does not supply these spaces. The graph and
+  Basic PEL uniformisation also requires the auxiliary integral PEL moduli, its framed
+  polarized isogeny quotient and its Weil descent datum. The set of nonrational projective
+  points does not supply these spaces. The graph and
   monodromy comparisons (R18.5.17–R18.5.18) require their semistable models and Jacobians.
 * The integral quaternionic model tower, Hodge line, p-divisible group and Kodaira–Spencer
   comparisons (R18.2) require the canonical curves, their integral models and structured
