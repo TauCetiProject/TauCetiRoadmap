@@ -9,8 +9,8 @@ import TauCeti.AlgebraicGeometry.Cohomology.Genus
 `README.md`. These statements suggest Lean forms for headline milestones; discharging them
 finishes neither a layer nor the roadmap.
 
-The statements are Mordell–Weil (§1.7), Néron's theorem over finitely generated fields of
-characteristic zero (§5.13b), Mordell finiteness (§§4.6, 5.12, 6.4), Siegel finiteness (§4.8),
+The statements are Mordell–Weil (§1.7), Néron's theorem over fields finitely generated over
+their prime field (§5.13b), Mordell finiteness (§§4.6, 5.12, 6.4), Siegel finiteness (§4.8),
 characteristic-zero Manin–Mumford (§5.6), and finite-rank Mordell–Lang (§5.13), together with
 the genus-zero Hasse principle (§6.2). Number-field rational-point
 coset finiteness (§5.9) follows from Mordell–Weil and finite-rank Mordell–Lang. Points and
@@ -62,13 +62,15 @@ theorem AbelianVariety.fg_points {K : Type u} [Field K] [NumberField K]
     AddGroup.FG (AbelianVariety.Points A K) := by
   sorry
 
-/-- Néron's theorem over finitely generated fields of characteristic zero (§5.13b): the point
-group of every abelian variety over a field that is finitely generated as a field extension of ℚ
-is finitely generated. The hypothesis `Algebra.EssFiniteType ℚ K` is finite generation as a field
-extension (Mathlib's `IntermediateField.fg_top_iff`), not as a ℚ-algebra. Source: Conrad,
-*Chow's K/k-image and K/k-trace, and the Lang–Néron theorem*, Corollary 7.2. -/
-theorem AbelianVariety.finitelyGeneratedField_points_fg {K : Type u} [Field K] [CharZero K]
-    [Algebra.EssFiniteType ℚ K] (A : TauCeti.AlgebraicGeometry.AbelianVariety K) :
+/-- Néron's theorem over finitely generated fields (§5.13b): the point group of every abelian
+variety over a field finitely generated over its prime field, in any characteristic, is finitely
+generated. The hypothesis `Field.FG K` is finite generation of `K` as a field over its prime
+subfield (Mathlib's `Field.fg_iff_essFiniteType`); in characteristic zero it is finite generation
+of `K` as a field extension of ℚ, `Algebra.EssFiniteType ℚ K` by `IntermediateField.fg_top_iff`,
+not finite generation as a ℚ-algebra. Source: Conrad, *Chow's K/k-image and K/k-trace, and the
+Lang–Néron theorem*, Corollary 7.2. -/
+theorem AbelianVariety.finitelyGeneratedField_points_fg {K : Type u} [Field K] [Field.FG K]
+    (A : TauCeti.AlgebraicGeometry.AbelianVariety K) :
     AddGroup.FG (AbelianVariety.Points A K) := by
   sorry
 
