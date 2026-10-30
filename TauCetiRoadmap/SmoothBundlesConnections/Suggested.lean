@@ -11,11 +11,13 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`, together
 with the few definitions on native carriers that those statements need.
 
-Stated here (B1.0 and B6.0–B6.1):
+Stated here (B1.0, B1.4 and B6.0–B6.1):
 
 * a regular fibre of a smooth map between finite-dimensional boundaryless real manifolds
   admits a smooth atlas with smooth embedding into the source and tangent image equal to the
   derivative kernel, without any Hausdorff hypothesis;
+* the orbit space of a free proper smooth Lie-group action admits a smooth atlas for its
+  quotient topology, of dimension `dim M - dim G`, making the projection a submersion;
 * every open cover of a finite-dimensional Hausdorff second-countable boundaryless smooth
   manifold has a locally finite refinement by a smooth good cover, finite when the manifold is
   compact;
@@ -30,8 +32,9 @@ Headline theorems of the README that are not statable at the pins, with the miss
 * Ehresmann's fibration theorem (B1.5): the regular-fibre atlas is quantified existentially below,
   but the smooth manifold-fibre bundle and its compatible local-trivialization carrier are
   constructions of B1.1 and B1.5; the pins' topological `FiberBundle` does not include those data.
-* The free proper quotient theorem and `G → G/H` as a principal bundle (B1.4): the pins have no
-  smooth manifold structure on the orbit space of a free proper smooth action.
+* The principal-bundle consequence of the free proper quotient theorem and `G → G/H` as a
+  principal bundle (B1.4): the pins have no smooth principal-bundle/local-trivialization carrier.
+  The quotient atlas and submersion theorem itself is quantified existentially below.
 * Connections, curvature, the Atiyah sequence, Ambrose–Singer and the holonomy reductions
   (B3–B5): the pins have no differential forms on manifolds and no exterior derivative on them
   (Mathlib's `extDeriv` acts on functions between normed spaces only).
@@ -86,6 +89,34 @@ theorem exists_regularFiber_smoothEmbedding
       ∀ z : {x : X // f x = c},
         (mfderiv 𝓘(ℝ, Fin (Module.finrank ℝ E - Module.finrank ℝ F) → ℝ) I
           Subtype.val z).range = (mfderiv I J f z.1).ker := by
+  sorry
+
+/-- The orbit space of a free proper smooth action of a finite-dimensional real Lie group
+on a finite-dimensional boundaryless smooth real manifold admits a smooth atlas of dimension
+`finrank ℝ E - finrank ℝ EG`, with its quotient topology, for which the quotient projection
+is a submersion. Both manifolds are Hausdorff and second countable; the source may be empty
+(B1.4; Meinrenken, Theorem 1.21). -/
+theorem exists_freeProperQuotient_isSubmersion
+    {E EG H HG M G : Type*}
+    [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [NormedAddCommGroup EG] [NormedSpace ℝ EG] [FiniteDimensional ℝ EG]
+    [TopologicalSpace H] [TopologicalSpace HG]
+    (I : ModelWithCorners ℝ E H) (IG : ModelWithCorners ℝ EG HG)
+    [I.Boundaryless] [IG.Boundaryless]
+    [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+    [T2Space M] [SecondCountableTopology M]
+    [TopologicalSpace G] [ChartedSpace HG G] [Group G] [LieGroup IG ∞ G]
+    [T2Space G] [SecondCountableTopology G] [MulAction G M] [ProperSMul G M]
+    (hsm : ContMDiff (IG.prod I) I ∞ (fun gx : G × M => gx.1 • gx.2))
+    (hfree : ∀ (g : G) (x : M), g • x = x → g = 1) :
+    ∃ cs : ChartedSpace (Fin (Module.finrank ℝ E - Module.finrank ℝ EG) → ℝ)
+        (MulAction.orbitRel.Quotient G M),
+      letI := cs
+      IsManifold 𝓘(ℝ, Fin (Module.finrank ℝ E - Module.finrank ℝ EG) → ℝ) ∞
+        (MulAction.orbitRel.Quotient G M) ∧
+      Manifold.IsSubmersion I
+        𝓘(ℝ, Fin (Module.finrank ℝ E - Module.finrank ℝ EG) → ℝ) ∞
+        (Quotient.mk'' : M → MulAction.orbitRel.Quotient G M) := by
   sorry
 
 /-! ## Layer 6: Smooth good covers and Čech coordinates -/

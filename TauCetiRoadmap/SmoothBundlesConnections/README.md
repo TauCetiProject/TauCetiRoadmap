@@ -414,7 +414,14 @@ neighbourhood of the orbit, using properness for injectivity after shrinking. Th
 and orbit tubular-neighbourhood theorem (Meinrenken, Theorem 1.25 and proof, p. 12).
 Free proper actions give smooth
 quotient manifolds with surjective submersion projection and a principal bundle (Meinrenken,
-Theorem 1.21). For proper locally free actions with finite stabilizers, construct transverse slices
+Theorem 1.21). The headline `exists_freeProperQuotient_isSubmersion` quantifies over arbitrary
+finite-dimensional boundaryless real models for M and G, with both manifolds Hausdorff and
+second countable, a smooth action, `ProperSMul G M`, and freeness
+`∀ g x, g • x = x → g = 1`. It asserts existence of a `ChartedSpace` on
+`MulAction.orbitRel.Quotient G M`, retaining its quotient topology, modelled on
+`Fin (dim M - dim G) → ℝ`, making it a smooth manifold and `Quotient.mk''` a
+`Manifold.IsSubmersion`; surjectivity is intrinsic to the quotient map. The source may be empty.
+For proper locally free actions with finite stabilizers, construct transverse slices
 with finite isotropy actions and equivariant quotient-chart transitions. HamiltonianReduction owns
 gluing symplectic forms and its orbifold reduction theorem on these charts. Prove properness of the
 right action on any principal bundle over these bases: `(p,g) ↦ (p,pg)` is a homeomorphism onto
@@ -435,6 +442,11 @@ specialization.
 
 - For the coordinate-swapping action of `ℤ/2` on `ℝ²`, `h=diag(1,4)` is positive but
   not invariant; its Haar average is `(diag(1,4)+diag(4,1))/2=diag(5/2,5/2)`, fixed by the swap.
+- For the trivial group acting on M, the quotient is M, the projection is the identity and
+  its dimension is `dim M - 0 = dim M`; for translations of ℤ on ℝ, the quotient is `ℝ/ℤ`
+  with dimension `1 - 0 = 1` and a locally invertible projection.
+- For an empty source of model dimension 0 and G of dimension 1, the orbit space is empty;
+  natural subtraction gives `0 - 1 = 0`, and its atlas and submersion conditions are vacuous.
 - For the trivial H-action the average equals h because `μ_H(H)=1`; replacing Haar probability
   by twice that measure gives `2h` and fails this normalization.
 - For H trivial, the local exponential chart has derivative the identity; for the zero-dimensional
@@ -870,7 +882,10 @@ map, where `V_ξ(p)=ξ(p)#`, so its pointwise bracket agrees with the invariant-
 Connections correspond to smooth splittings `s(X)=X^h`; for the injection `j(ξ)=−V_ξ` prove
 `ω(j(ξ))=−ξ` and `[s(X),s(Y)]−s([X,Y])=j(F(X,Y))`. LieGroupoidsPoisson owns the resulting Lie
 algebroid structure and integration by the gauge groupoid. Prove the horizontal-field identity
-`[X^h,Y^h]=[X,Y]^h−V_(F(X,Y))`.
+`[X^h,Y^h]=[X,Y]^h−V_(F(X,Y))`. Obtain the sequence by descending the tangent and vertical
+bundle constructions (Kolář–Michor–Slovák, Theorem 10.18(1)–(2), pp. 98–99), its splittings
+from §11.1, pp. 99–100, and the bracket defect from the proof of Theorem 11.2, p. 101;
+the negative injection j fixes the bracket convention.
 
 - The quotient tangent bundle has the stated exact sequence, with injection `j(ξ)=−V_ξ`.
 - Its sections are invariant vector fields, and smooth splittings correspond to connections.
@@ -969,7 +984,10 @@ identified with `u:P→G`, `u(pg)=g⁻¹u(p)g`, acting by `p↦p u(p)` (Freed, e
 Kolář–Michor–Slovák §10.14). The left action on associated sections is
 `f↦ρ(u)f=(Φ_(u⁻¹))^*f`; prove covariance with the inverse-pullback connection action. Prove its
 actions on associated sections, connections and curvature, local formulas, composition, stabilizers
-and connection-preserving subgroup. For the pullback action by `u=exp(tξ)`, differentiate to
+and connection-preserving subgroup. In a local section the inverse-pullback left action is
+`u·A=Ad(u)A−du·u⁻¹` and `F_(u·A)=Ad(u)F_A`. The pullback right action instead has
+`A↦Ad(u⁻¹)A+u⁻¹du` and `F↦Ad(u⁻¹)F` (Freed, equations (1.18)–(1.19), p. 9, with u
+replaced by u⁻¹ for the left action). For the pullback action by `u=exp(tξ)`, differentiate to
 `δA=d_Aξ`; the inverse-pullback left action has generator `−d_Aξ`. For equivariant adjoint
 sections prove `[V_ξ,V_η]=−V_[ξ,η]`, `[−V_ξ,−V_η]=−V_[ξ,η]`, and `Φ_u∘Φ_v=Φ_(uv)` for
 `Φ_u(p)=p u(p)`; distinguish the derivative of this left evaluation action from the
@@ -997,6 +1015,11 @@ pullback/composition identities, for GeometricQuantization.
 - A constant central `u` acts trivially on connections and curvature; the stabilizer of a connection
   is the centralizer of its holonomy group (B5.2), which for an irreducible connection is the
   centre of G.
+- On the trivial SO(3)-bundle over the angular torus take `A=sin(x)X dy`, where X generates
+  rotations about the x-axis, and let g rotate by π/2 about z. Then `F_A=cos(x)X dx∧dy`;
+  at x=0 the left action gives `Ad(g)X=Y`, while pullback gives `Ad(g⁻¹)X=−Y`, with Y the
+  positive y-axis generator. Both have squared norm 1 for the rotation-vector metric, so a norm
+  check alone cannot distinguish the two actions.
 - On M a point, `[V_ξ,V_η] = −V_[ξ,η]` is the right-invariant bracket identity of B3.2.
 
 *Needs:* B3.1–B3.3, B4.1.
@@ -1004,7 +1027,8 @@ pullback/composition identities, for GeometricQuantization.
 ### Examples
 
 Gauge transformations of the trivial circle bundle over `T²` and their action on the flat
-real potentials `A=a dx+b dy`. The gauge `exp(i(mx+ny))`, for integers m,n, sends
+real potentials `A=a dx+b dy`. Under the pullback right action, the gauge `exp(i(mx+ny))`,
+for integers m,n, sends
 `A ↦ A+m dx+n dy`; hence coefficient classes form `(ℝ/ℤ)²`. Their period coordinates
 `(2πa,2πb)` identify the same quotient with `(ℝ/2πℤ)²` (B6.5). In particular `a=1,b=0`
 has holonomies `(exp(−2πi),1)=(1,1)` and is gauge-equivalent to `A=0`.
@@ -1169,8 +1193,15 @@ Associated vector bundles give the linear equivalence.
 Prove that the fundamental group of a connected, second-countable, locally path-connected and
 locally simply connected space is countable: choose a countable cover by simply connected
 path-connected opens, use the countably many path components of each pairwise intersection, and
-subdivide loops to obtain a countable generating family. A connected second-countable manifold
-satisfies the hypotheses, verified by sufficiently small convex coordinate neighbourhoods. This
+subdivide loops to obtain a countable generating family. Explicitly, choose a point in each
+cover member and each path component of every pairwise overlap, with paths in the cover members
+joining these chosen points. Each loop is homotopic to a finite word in the resulting countable
+set of connecting paths: local simple connectivity removes choices within a member, and paths
+inside overlap components remove choices of crossing points. Thus countably many finite words
+surject onto the based fundamental group. A connected second-countable manifold satisfies the
+hypotheses, verified by sufficiently small convex coordinate neighbourhoods (for this manifold
+case see Kolář–Michor–Slovák, proof of Theorem 9.11, Step 4, p. 85; the cover argument here
+also proves the stated topological generality without its Morse-theory route). This
 topological theorem uses no metric, connection or holonomy; OperatorAlgebraDynamics and
 LieGroupoidsPoisson consume it.
 
@@ -1431,7 +1462,11 @@ preorder of covers ordered by existence of a refinement, and its restriction to 
 manifold; cofinality of good covers among all covers is `exists_smoothGoodCover_refining`.
 TopologicalSheafCohomology's cover-colimit Čech cohomology on arbitrary and compact spaces and its
 derived comparison are not needed here and are not targets here. The refinement homotopy is the
-finite alternating insertion formula of the Stacks Project, §15, Tag 09UY, p. 24; its proof uses
+finite alternating insertion formula: for refinements r,s from V to U, let
+`(hα)_(j₀…j_p)=Σ_(a=0)^p (-1)^a α_(r j₀…r j_a,s j_a…s j_p)|_(V_j₀∩…∩V_j_p)`.
+It maps degree p+1 on U to degree p on V; in degree zero its target is zero. With this order
+of insertion, prove `T_s−T_r=δh+hδ` (Stacks Project, §15, Tag 09UY, p. 24, displayed insertion
+formula, with this sign convention). The cancellation proof uses
 only restrictions and addition and therefore applies to presheaves in any abelian category with
 the stated products, without a sheaf condition or exactness of infinite products.
 
@@ -1444,8 +1479,9 @@ the stated products, without a sheaf condition or exactness of infinite products
   induces the composite.
 - For the cover `U = (X, X)` with two copies of X and `V = (X)`, the two refinement functions
   `0 ↦ 0` and `0 ↦ 1` induce different cochain maps (they pick different degree-zero factors) but
-  the same map `H⁰ = P(X) → P(X)`, the identity; the refinement homotopy between them is the
-  witness.
+  the same map `H⁰ = P(X) → P(X)`, the identity. With constant ℤ coefficients, r selecting 0,
+  s selecting 1, and the degree-zero cochain `(2,5)`, the insertion gives
+  `hδ(2,5)=(δ(2,5))_(0,1)=5−2=3`, agreeing with `T_s−T_r` and excluding `T_r−T_s=−3`.
 - Refinement commutes with the coordinate identification: a coordinate cochain supported on
   nonempty intersections of a good cover pulls back to one supported on nonempty intersections of
   the finer good cover.
@@ -1840,7 +1876,10 @@ under oriented Riemannian isometries and bundle isomorphisms preserving B.
 - `YM(A) = 0` iff `F_A = 0`, since the integrand is pointwise nonnegative and continuous and the
   measure has full support; for the negative-definite Killing form of `𝔰𝔲(2)` the integrand would
   be nonpositive, which is why B is required positive.
-- Gauge invariance: `F_(u·A) = Ad(u⁻¹)F_A` pointwise and B is Ad-invariant, so `|F|²` is unchanged.
+- Gauge invariance for B4.2's left action: `F_(u·A) = Ad(u)F_A` pointwise and B is
+  Ad-invariant, so `|F|²` is unchanged. For its SO(3) torus example at x=0, the transformed
+  curvature coefficient is Y, while the pullback right action gives −Y; both squared norms
+  are 1. The curvature sign distinguishes the actions even though the energies agree.
 
 *Needs:* B2.2, B2.5, B4.1, B4.2; ComplexKahlerGeometry K5a (pointwise Hodge star); DifferentialGeometry
 5.3, 12.4.
@@ -1901,7 +1940,7 @@ dimension-specific constructions.
 
 For `g′=e^(2φ)g`, prove `*′=e^((n−2r)φ)*` on r-forms and the energy density scaling
 `|F|²_g′ dvol_g′=e^((n−4)φ)|F|²_g dvol_g`. In dimension 4 deduce conformal invariance of the energy
-and of its stationary equation (Donaldson §2.1). The self-dual/anti-self-dual energy and charge
+and of its stationary equation (Donaldson §2.2, p. 3). The self-dual/anti-self-dual energy and charge
 comparisons, BPST solution and moduli applications have the FourManifolds F5 owner. For `Circle`
 with B the ordinary real product, prove stationarity is harmonic curvature (Jiang, Exercise 2.11).
 After B6 and K5a's compact real Hodge theorem, construct a stationary connection on each fixed
@@ -1972,7 +2011,9 @@ equivalence.
   Ambrose–Singer generalization), §§10.2–10.3, 10.5, 10.7, 10.9, 10.11–10.14 (principal and
   associated bundles, homogeneous spaces, reductions, the bundle of gauges), §§11.1–11.8, 11.10,
   11.13, 11.15 (principal connections, curvature, local descriptions, covariant derivatives,
-  holonomy Theorem 11.7, induced connections).
+  holonomy Theorem 11.7, induced connections); Theorem 10.18(1)–(2), pp. 98–99, §11.1,
+  pp. 99–100, and Theorem 11.2, p. 101 (tangent/vertical bundles, splittings and curvature);
+  proof of Theorem 9.11, Step 4, p. 85 (countability of the manifold fundamental group).
 - E. Meinrenken, [*Group actions on manifolds*](https://www.math.utoronto.ca/mein/teaching/LectureNotes/action.pdf),
   lecture notes: Theorem 1.21 (free proper quotients) and Theorem 1.25 (slice theorem for proper
   actions).
@@ -1987,11 +2028,11 @@ equivalence.
   the journal publication is J. Homotopy Relat. Struct. 4 (2009).
 - D. S. Freed, [*Classical Chern–Simons theory, Part 1*](https://arxiv.org/abs/hep-th/9206021),
   Adv. Math. 113 (1995): §1, equations (1.5), (1.8)–(1.10), (1.13)–(1.16), for connections, curvature,
-  Bianchi and gauge transformations.
+  Bianchi, and equations (1.18)–(1.19), p. 9, for gauge transformations.
 - S. K. Donaldson, [*Mathematical uses of gauge theory*](https://cims.nyu.edu/~gromov/lectures%20on%20Curvature%202025/donaldson.pdf),
-  §1.2 (gauge transformations and gauge fixing) and §§2.1–2.3 (the Yang–Mills functional, the
-  gauge-fixed elliptic operator, conformal invariance), for B8; coefficients follow the energy
-  normalization fixed here.
+  §1.2 (gauge transformations and gauge fixing), §2.1 (the Yang–Mills functional and the
+  gauge-fixed elliptic operator), and §2.2, p. 3 (conformal invariance), for B8; coefficients follow
+  the energy normalization fixed here.
 - J. Jiang, [*Yang–Mills minicourse notes*](https://web.ma.utexas.edu/SMC/2020/notes/YangMillsMinicourse.pdf),
   Propositions 2.9 and 2.12 and Exercise 2.11, for B8's first and second variations and the circle
   example; stationarity is distinguished from minimality.
