@@ -52,6 +52,7 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   functor and Baker-Campbell-Hausdorff, Lie's third theorem, maximal-torus conjugacy and the general
   Weyl integration formula, complexification and real forms, Borel-Weil, and the Cartan/Iwasawa/KAK
   decompositions.
+- [**Smooth vectors in Banach representations of Lie groups**](SmoothBanachRepresentations/README.md) - compact-support integration for arbitrary strongly continuous Banach actions, closed infinitesimal generators and mixed domains, the complete smooth-vector topology, full finite-sum Dixmier–Malliavin, functorial exactness, and smooth Banach-algebra spectral invariance.
 - [**Clifford algebras, the Pin and Spin groups, and spin representations**](SpinRepresentations/README.md)
   - Clifford algebras and their structure, the Pin and Spin groups as double covers of O and SO, the
   spin and half-spin representations that supply the fundamental representations of types B and D, the
@@ -115,12 +116,13 @@ excluded material are welcome as separate future work.
   scope (the [modular-induction roadmap](ModularInduction/README.md)); but the modular theory
   proper — Brauer characters, decomposition matrices, blocks with defect, the modular representation
   theory of symmetric groups — is out of scope for every roadmap here.
-- **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
-  compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary
-  representations of noncompact groups, no Plancherel theory, no tempered spectrum. The *structure*
-  theory of noncompact real reductive groups (Cartan involutions, Iwasawa and KAK decompositions in
-  the Lie-groups roadmap) is in scope, because the compact theory consumes it; their unitary duals
-  are not.
+- **Harmonic decomposition stops at compact groups.** Peter-Weyl and compact Frobenius-Schur are
+  in scope. SmoothBanachRepresentations develops orbit regularity, infinitesimal domains and
+  compact-support factorization for arbitrary finite-dimensional real Lie groups and strong
+  Banach representations, including the unitary case. Plancherel theory, tempered spectra and
+  noncompact unitary-dual classification are outside this family. The structure theory of
+  noncompact real reductive groups (Cartan involutions, Iwasawa and KAK decompositions in
+  LieGroups) remains in scope.
 - **Finite-type root systems only.** The root-system and highest-weight roadmaps stop at the finite
   (Cartan-Killing) classification: no affine or general Kac-Moody theory, no quantum groups. The
   quiver roadmap's Gabriel dichotomy points at tame/wild phenomena but does not develop them.
