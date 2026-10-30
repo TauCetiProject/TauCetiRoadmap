@@ -27,8 +27,15 @@ the 7-connected-cover diagram that EllipticCohomology E5 Thomifies; geometric
 String bordism and its low-stem and framing comparisons; integral differential
 cohomology by differential characters, bundle gerbes and 2-gerbes, the basic
 gerbe and Chern–Simons 2-gerbe of Spin(n), geometric String structures, string
-connections and transgression; the bridges from Mathlib's diffeological spaces
-to manifolds and functional mapping spaces needed for transgression; the
+connections and transgression, with the smooth principal bundles, connections,
+good covers and submersion fibre products they are built on (S3.1–S3.2); the
+bridges from Mathlib's diffeological spaces to manifolds and functional mapping
+spaces needed for transgression; the octonionic projective plane OP² with its
+F₄/Spin(9) isotropy and characteristic classes (S1.5); the structured
+Pontryagin–Thom theorem for tangential structures given by bundle diagrams, rational
+characteristic-number detection and the odd-primary comparison of Spin and
+oriented bordism (S2.2, S5.3); the framed comparison `Ω^fr_n≅π_nS`, the stem
+`π₃S≅ℤ/24` with its generator ν and the stable J-homomorphism in degree 3 (S2.3); the
 characteristic series and the integral Witten genus on Spin and String bordism;
 Cayley-plane bundles, their family vanishing, McTague's generator criterion and
 the kernel theorem away from 6; and the curvature questions of S6.
@@ -43,24 +50,12 @@ It leaves to named roadmaps:
   complete coefficient computation, the lifts of Δ⁸, Δ³, Δ²⁴ and the
   localization `tmf[(Δ²⁴)⁻¹]≃TMF`; E6 owns the low-stem unit images and the
   localization criterion. S2 here does not build a second E∞ model.
-- TangentialBordism owns geometric cycles and bordism (B1–B2), the Adams towers
-  (B4.2), characteristic-number detection (B4.5), the odd-primary SO/Spin
-  comparison (B4.8), the generic structured Pontryagin–Thom theorem (B5.1–B5.4),
-  the framed comparison `Ω^fr_n≃π_n S` (B5.5), the idempotent Cayley plane OP²
-  (B3.6), its F₄/Spin(9) isotropy (B3.7), and its characteristic classes and
-  H³/H⁴ nullhomotopy calculation (B3.8). S1.5 and S5 use that carrier and do
-  not construct another octonionic projective plane.
 - GeneralizedCohomology G5.0 owns the stable Spin classifier, its finite-rank
   maps and the Hopf normalization `stableBSpin_hopfGenerator_cTwo`; G2 owns the
   mapping-path carrier and Hurewicz lifting; G3.8 owns connective covers.
-- HomotopySpheres Stage 9 owns `π₃ˢ≅ℤ/24` and the quaternionic class ν;
-  Stage 4C owns the stable J-homomorphism; Stage 4B owns the real Bott chain used
-  by G5.0's low-homotopy supplement.
 - CharacteristicClasses owns characteristic classes and Chern–Weil (C4);
   DifferentialGeometry owns forms, smooth-chain integration and Stokes;
-  SmoothBundlesConnections owns principal bundles, connections, good covers and
-  quotient/submersion adapters (B1.1, B1.5); LieGroupoidsPoisson G0.1 owns the
-  submersion normal form and submersion fibre products.
+  GeometricTopology Layer 1 owns collars and tubular neighbourhoods.
 - IndexTheory I7 owns the twisted Atiyah–Singer theorem and the L- and Â-index
   formulas; SpinGeometry G6 owns Lichnerowicz's theorem; ModularForms owns
   level-one modular forms and q-expansions; BordismFormalGroups F3–F5 owns BP,
@@ -69,7 +64,8 @@ It leaves to named roadmaps:
   A0 owns `complexProjectiveZeroLocus` and its Jacobian-rank submanifold test.
 - Mathlib owns `ContinuousMap.Homotopy`, the diffeology class and its plot API in
   `Mathlib/Geometry/Diffeology/Basic.lean`, `ContMDiffMap`, and the Levi-Civita
-  connection; Tau Ceti owns `CovariantDerivative.ricciTensor`.
+  connection, and the local-normal-form submersion `Manifold.IsSubmersion`; Tau
+  Ceti owns `CovariantDerivative.ricciTensor`.
 
 ## Conventions
 
@@ -82,8 +78,8 @@ It leaves to named roadmaps:
   `H⁴(BSpin;ℤ)≅ℤ` is torsion-free, this leaves no sign choice. On the underlying
   real bundle of the quaternionic Hopf line, `λ=−c₂(γ_H)`, so `⟨λ,hur(g)⟩=−1` for
   G5.0's quaternionic clutching generator g, against G5.0's
-  `⟨c₂(ℂγ_H),(h_S4)_*[S⁴]⟩=+1`. TangentialBordism's u-oriented S⁴ carries the
-  opposite fundamental class; the class λ is the same. For a space with 2-torsion
+  `⟨c₂(ℂγ_H),(h_S4)_*[S⁴]⟩=+1`. Reversing the orientation of S⁴ reverses the sign
+  of the pairing; the class λ is the same. For a space with 2-torsion
   in H⁴, λ of a bundle is the pullback of the universal class along its specified
   classifier, never an arbitrary solution of `2x=p₁`.
 - **Loops and endpoints.** `ΩK(ℤ,4)` is identified with `K(ℤ,3)` by AlgebraicTopology
@@ -132,6 +128,10 @@ It leaves to named roadmaps:
   bundled smooth maps between manifolds.
 - `CovariantDerivative.leviCivitaConnection`, `CovariantDerivative.IsLeviCivitaConnection`
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
+- `Manifold.IsSubmersion` (`Mathlib/Geometry/Manifold/Submersion.lean`): a map that
+  is, near every point, the projection `(u,v)↦u` in suitable charts, for some global
+  choice of complement. The file does not prove the equivalence with surjectivity of
+  `mfderiv` in finite dimension and constructs no fibre products; S3.2 does.
 
 ### From Tau Ceti
 
@@ -165,10 +165,8 @@ It leaves to named roadmaps:
 - **AffineMorseLefschetz** A0 `complexProjectiveZeroLocus`.
 - **EllipticCohomology** E4 (coefficients, Δ-power lifts, localization), E5
   (MString, σ, genus comparison), E6 (unit images, localization criterion).
-- **TangentialBordism** B3.6–B3.8, B4.2, B4.5, B4.8, B5.1–B5.5.
-- **HomotopySpheres** Stage 4B, Stage 4C, Stage 9 item 1.
-- **SmoothBundlesConnections** B1.1, B1.5.
-- **LieGroupoidsPoisson** G0.1.
+- **GeometricTopology** Layer 1 (collars, tubular neighbourhoods of closed
+  submanifolds).
 - **IndexTheory** I7.
 
 ## How to read the build
@@ -178,7 +176,7 @@ String structures and their laws, with no Thom spectrum, genus or coefficient
 input. S2 compares S1's classifier with EllipticCohomology's MString and with
 geometric bordism and computes the low stems. S3 depends only on S1 and the
 differential suppliers and builds the differential refinement. S4 builds the
-genus from S2 and the index theorem. S5 uses S2, S4 and TangentialBordism's
+genus from S2 and the index theorem. S5 uses S2, S4 and S1.5's
 Cayley plane for the kernel theorem away from 6. S6 uses S4 for the curvature
 questions and EllipticCohomology's coefficients for the framed counterexamples.
 No String genus theorem is an input to the obstruction theory.
@@ -220,7 +218,7 @@ sequence and the vanishing of H³ of these 3-connected stages over ℤ and 𝔽�
 
 *Needs:* GeneralizedCohomology G5.0 (`stableBSpin_hopfGenerator_cTwo`), G3;
 CharacteristicClasses (p₁, w₄, c₂ on finite classifying spaces); AlgebraicTopology
-Stage 8.10; HomotopySpheres Stage 4B (through G5.0's low-homotopy supplement).
+Stage 8.10.
 
 ### 1.2 BString, BString(n) and String(n) (S1.2)
 
@@ -332,19 +330,48 @@ and normal String structures along `TM⊕ν≃ε^N`.
 
 ### 1.5 The Cayley plane (S1.5)
 
-Prove that OP² with its unique Spin structure has exactly one String lift class:
-apply S1.3 to TangentialBordism B3.8's calculation that `λ∘c` is nullhomotopic
-on OP² with nullhomotopies forming one class (`H⁴(OP²;ℤ)=H³(OP²;ℤ)=0`). This is
-the String specialization of that carrier-specific calculation; no coefficient
-or genus calculation is an input.
+Let `J₃(𝕆)` be the 27-dimensional real Jordan algebra of 3×3 Hermitian matrices over
+the division octonions with product `x∘y=½(xy+yx)`. Define OP² as the set of
+idempotents of `J₃(𝕆)` of trace 1, and F₄ as the automorphism group of `J₃(𝕆)`.
+Prove that F₄ is a compact connected Lie group of dimension 52, that it acts
+transitively on OP² with isotropy Spin(9) at `diag(1,0,0)`, so that OP² is a closed
+smooth 16-manifold `F₄/Spin(9)`; that `H*(OP²;ℤ)=ℤ[u]/(u³)` with `|u|=8`, by the
+cell structure `S⁸∪e¹⁶` whose attaching map is the octonionic Hopf map `S¹⁵→S⁸`;
+and that `p(OP²)=1+6u+39u²` (Borel–Hirzebruch I, §19, uncertified), where u is the
+generator singled out by `p₂=6u` (the automorphism u↦−u of `H⁸` leaves `u²`
+fixed, so the sign of u is pinned by p₂) and OP² carries the orientation with
+`⟨u²,[OP²]⟩=1`. Then OP² has a unique Spin structure, since
+`H¹(OP²;𝔽₂)=H²(OP²;𝔽₂)=0`, and exactly one String lift class: apply S1.3 with
+`H⁴(OP²;ℤ)=0` for existence and `H³(OP²;ℤ)=0` for uniqueness. No coefficient or
+genus calculation is an input.
+
+- The F₄ action on OP² is smooth and transitive, and the stabilizer of `diag(1,0,0)`
+  is a subgroup isomorphic to Spin(9) acting on the complementary 16-dimensional
+  summand by the real spin representation.
+- `w(OP²)=1+ū+ū²` for the reduction ū of u mod 2 (Wu's formula with `Sq⁸ū=ū²`),
+  `p₁(OP²)=0`, `p₂(OP²)=6u`, `p₄(OP²)=39u²`, the Euler class is `3u²`, and the
+  signature is 1.
+- The quaternionic analogue HP² is the space of trace-1 idempotents of the 3×3
+  quaternionic Hermitian matrices, with `p(HP²)=1+2u+7u²` for its degree-4 generator.
 
 **Checks.**
-- `H³(OP²;ℤ)=0` gives a one-point torsor, and `H⁴=0` gives existence.
-- `p₁(OP²)=0` and `p₂=6u` (TangentialBordism B3.8): λ vanishes for the integral
-  reason `H⁴=0`, not because `p₁=0`.
-- HP² is Spin with `p₁=2u≠0`, so `λ≠0` and HP² has no String structure.
+- Dimension count: `dim F₄−dim Spin(9)=52−36=16=dim OP²`; the wrong isotropy
+  Spin(8) (dimension 28) would give a 24-dimensional orbit.
+- `H³(OP²;ℤ)=0` gives a one-point torsor, and `H⁴=0` gives existence. λ vanishes
+  for the integral reason `H⁴=0`, not because `p₁=0`.
+- Signature and Â: with `p₁=p₃=0`, `L₄=(381p₄−19p₂²)/14175` gives
+  `(381·39−19·36)/14175=1`, and
+  `Â₄=(−192p₄+512p₁p₃+208p₂²−904p₁²p₂+381p₁⁴)/464486400` gives
+  `(−192·39+208·36)/464486400=0`. The plausible wrong total class `1+6u+36u²` gives
+  signature `(381·36−684)/14175=13032/14175`, not an integer.
+- Euler characteristic: `w₁₆=ū²≠0` agrees with `χ(OP²)=3` odd; the model `w=1` would
+  force χ even.
+- HP² is Spin with `p₁=2u≠0`, so `λ=u≠0` and HP² has no String structure; its
+  signature `(7·7−1·4)/45=1` from `L₂=(7p₂−p₁²)/45` checks `p(HP²)`.
 
-*Needs:* S1.3; TangentialBordism B3.6, B3.8.
+*Needs:* S1.3; CharacteristicClasses (Pontryagin and Stiefel–Whitney classes,
+finite compact-Lie classifying spaces); AlgebraicTopology Stage 6 (cellular
+cohomology, fundamental classes), Stage 8.7 (finite CW models of compact Lie groups).
 
 ### Examples
 
@@ -354,8 +381,7 @@ S³ with its ℤ-torsor of String lifts, the quaternionic Hopf line on S⁴ with
 ### Dependencies
 
 GeneralizedCohomology G2, G3, G5.0, G5.6; AlgebraicTopology Stages 6 and 8;
-CharacteristicClasses; DGFloer Layer 1; HomotopySpheres Stage 4B; TangentialBordism
-B3.6, B3.8.
+CharacteristicClasses; DGFloer Layer 1.
 
 ## Layer 2: String bordism and the low stems (S2)
 
@@ -386,16 +412,35 @@ equivalence to S1's finite-rank diagram.
 
 ### 2.2 Geometric String bordism (S2.2)
 
-Apply TangentialBordism B5.1–B5.4's structured Pontryagin–Thom theorem to the
-BString(n)→BO(n) diagrams, including pairs, boundaries, products and changes of
-lift, and construct the ring isomorphism between geometric String bordism and
-`π_*MString`. Compute `H*(BString;ℚ)=ℚ[p₂,p₃,…]` by the Serre spectral sequence
+For a tangential structure given by a compatible diagram of maps `θ_n:B(n)→BO(n)`
+in GeneralizedCohomology G5's bundle-diagram interface, define a θ-manifold as a
+compact smooth manifold with a lift of the classifier of its stable normal bundle
+through the diagram, taken as data, and θ-bordism with boundaries, pairs, products
+and changes of lift. Prove the Pontryagin–Thom isomorphism `Ω_n^θ≅π_nMθ` onto the
+homotopy of G5.3's sequential Thom spectrum: the inverse collapses onto a tubular
+neighbourhood of an embedding in a sphere (GeometricTopology Layer 1), and
+surjectivity and well-definedness use Thom's transversality theorem for smooth
+maps into the Thom space of a smooth vector bundle (Stong, *Notes on Cobordism
+Theory*, Chapter II; Milnor–Stasheff §18 for the unoriented and oriented cases).
+The isomorphism is natural in maps of diagrams and multiplicative for product
+diagrams. Prove rational characteristic-number detection: π_*S⊗ℚ is ℚ in degree 0
+and zero otherwise (Serre), so the rational Hurewicz map of a connective spectrum
+of finite type is an isomorphism, and for an oriented diagram the composite with
+the Thom isomorphism sends a bordism class to its rational characteristic numbers
+(Milnor–Stasheff §18). Apply these to the BString(n)→BO(n) diagrams and construct
+the ring isomorphism between geometric String bordism and `π_*MString`. Compute `H*(BString;ℚ)=ℚ[p₂,p₃,…]` by the Serre spectral sequence
 with λ-normalized transgression, and derive that rational String bordism is
 polynomial on one generator in each degree 4k, k≥2, with the characteristic-number
 pairing and the forgetful map to rational Spin bordism.
 
+- For every tangential structure θ, geometric θ-bordism and `π_*Mθ` agree, as
+  rings when the diagram is multiplicative; the identity diagram of BO(n) gives
+  unoriented bordism, BSO(n) oriented bordism and the contractible `EO(n)→BO(n)`
+  framed bordism.
 - Geometric and homotopical String bordism agree as rings, compatibly with
   the forgetful maps to Spin bordism.
+- Rationally, an oriented θ-bordism class is zero iff all its rational
+  characteristic numbers pulled back from `H*(B;ℚ)` vanish.
 - `Ω_*^String⊗ℚ=ℚ[x₈,x₁₂,x₁₆,…]`.
 - Integral and rational String structures differ: rational `p₁=0` does not give a
   String lift.
@@ -408,23 +453,39 @@ pairing and the forgetful map to rational Spin bordism.
   separates `Ω₄^Spin⊗ℚ=ℚ` from `Ω₄^String⊗ℚ=0`.
 - OP² is String (S1.5) with `p₂=6u` and `⟨u²,[OP²]⟩=1`, a nonzero degree-16
   rational class.
+- Pontryagin–Thom in degree 0 for the identity diagram: `Ω₀^O=ℤ/2` (a finite set of
+  points modulo pairs) and `π₀MO=ℤ/2`; the oriented diagram gives ℤ (signed count),
+  so forgetting the lift is not injective in general.
+- Rational detection fails integrally: the framed S¹ with the Lie framing is
+  nonzero in `Ω₁^fr=ℤ/2` but has no rational characteristic numbers.
 
-*Needs:* S1.2, S2.1; TangentialBordism B5.1–B5.4, B4.5; GeneralizedCohomology G5.6.
+*Needs:* S1.2, S2.1; GeneralizedCohomology G5 (bundle-diagram interface), G5.3,
+G5.6; GeometricTopology Layer 1; CharacteristicClasses C2 (Thom isomorphism).
 
 ### 2.3 Low stems and framings (S2.3)
 
 The unit `S→MString` is an isomorphism on `π_i` for i≤6, because the reduced Thom
-cofibre has cells in degrees ≥8. Own `Ω₃^String≃Ω₃^fr` and its ℤ/24 normalization
-using HomotopySpheres Stage 9 item 1 and TangentialBordism B5.5. For a closed
+cofibre has cells in degrees ≥8. Prove `Ω_n^fr≅π_nS` as the case of S2.2 for the
+contractible diagram `EO(n)→BO(n)`, whose Thom spectrum is the sphere spectrum.
+Prove `π₃S≅ℤ/24`, generated by the stable class ν of the Hopf construction on
+quaternionic multiplication `S⁷→S⁴`, by the Serre spectral sequence computation of
+the 2- and 3-primary parts (Toda, *Composition Methods in Homotopy Groups of
+Spheres*, Chapters V and XIII, uncertified). Prove that the stable J-homomorphism
+`J:π₃SO→π₃S` is onto with kernel 24ℤ: the invariant `e(M)=½p₁(W,M) mod 24` of a
+framed 3-manifold M bounding a Spin 4-manifold W is well defined because the
+signature of a closed Spin 4-manifold is divisible by 16, so `½p₁` of a closed
+Spin 4-manifold lies in 24ℤ (IndexTheory I7 with the quaternionic structure of the
+4-dimensional spinors), and e takes the value ±1 on `J` of a generator. Own
+`Ω₃^String≃Ω₃^fr` with this ℤ/24 normalization. For a closed
 oriented 3-manifold M prove `[M,Spin]≃H³(M;ℤ)` by the 2-connectivity of stable
 Spin and the oriented top-cell collapse on each component. For a change of String
 structure `α∈H³(M;ℤ)` identify `β=(Ωλ)_*⁻¹α∈π₃Spin≃π₃SO`; with S1.4's gauge
 formula the tangent framing changes by −β, the inverse normal framing by β, and
-the framed bordism class by `J(β)` (HomotopySpheres Stage 4C). Compare G5.0's
-quaternionic generator with HomotopySpheres Stage 9's ν and export the sign
-conversion.
+the framed bordism class by `J(β)`. Compare G5.0's quaternionic generator with ν
+and export the sign conversion.
 
 - `π_i MString≅π_i S` for i≤6, and `π₇S→π₇MString` is onto.
+- `π₃S≅ℤ/24` with generator ν, and `J:π₃SO≅ℤ→π₃S` is onto with kernel 24ℤ.
 - For g with `Ωλ(g)=−1`, increasing the torsor coordinate on S³ by 1 changes the
   framed class by `−J(g)`.
 
@@ -432,9 +493,14 @@ conversion.
 - `π₃MString≅ℤ/24` while `π₃MSpin=0`; MSpin is the plausible wrong target.
 - `π₄=π₅=0` and `π₆=ℤ/2` on both sides of the unit.
 - `M=S¹×S²`: `[M,Spin]≅H³(M;ℤ)=ℤ`; `M=S³`: ℤ, matching `π₃Spin=ℤ`.
+- The e-invariant on the K3 surface minus a disc: `σ(K3)=−16` and `p₁=3σ=−48`, so
+  `½p₁=−24≡0 mod 24`, consistent with K3 being closed; dividing by 48 instead of 2
+  would give a ℤ/48-valued invariant and the wrong order.
+- `π₃S` has order 24, not 12 or 48: its 2-primary part is ℤ/8 and its 3-primary
+  part ℤ/3.
 
-*Needs:* S1.4, S2.1, S2.2; HomotopySpheres Stage 4C, Stage 9 item 1;
-TangentialBordism B5.5.
+*Needs:* S1.4, S2.1, S2.2; IndexTheory I7; SpinGeometry G4.1; GeneralizedCohomology
+G5.0, G5.6.
 
 ### Examples
 
@@ -443,10 +509,56 @@ generator of `Ω₃^String≅ℤ/24`, and K3 as a Spin manifold that is not Stri
 
 ### Dependencies
 
-S1; EllipticCohomology E5; GeneralizedCohomology G3.8, G5.0, G5.3, G5.6;
-TangentialBordism B4.5, B5.1–B5.5; HomotopySpheres Stage 4C, Stage 9.
+S1; EllipticCohomology E5; GeneralizedCohomology G3.8, G5, G5.0, G5.3, G5.6;
+GeometricTopology Layer 1; CharacteristicClasses; IndexTheory I7; SpinGeometry G4.1.
 
 ## Layer 3: differential String structures (S3)
+
+### 3.0 Principal bundles, connections, good covers and submersion fibre products (S3.0)
+
+For a Lie group G (Mathlib `LieGroup`) and a finite-dimensional smooth manifold M,
+define a smooth principal G-bundle `P→M` as a smooth free right action of G on P
+over M with local smooth sections over an open cover, each giving a G-equivariant
+diffeomorphism `U×G≅P|_U`. Define a connection as a 𝔤-valued 1-form A on P with
+`R_g*A=Ad(g⁻¹)A` and `A(ξ^#)=ξ` on fundamental vector fields, its curvature
+`F_A=dA+½[A∧A]`, pullback along smooth maps and gauge transformations. Connections
+exist, by gluing local trivial connections with Mathlib's
+`SmoothPartitionOfUnity.exists_isSubordinate`, and form an affine space over
+`Ω¹(M;ad P)`. Define a good cover as an open cover all of whose nonempty finite
+intersections are diffeomorphic to `ℝⁿ`; every Hausdorff second-countable manifold
+has a good cover refining any given open cover, by geodesically convex balls of a
+Riemannian metric (Bott–Tu, *Differential Forms in Algebraic Topology*, Theorem 5.1);
+the existence of convex balls of positive radius at every point (Whitehead's
+convexity theorem) is part of this target.
+For a surjective `Manifold.IsSubmersion` `π:Y→M` between finite-dimensional
+manifolds, prove that π has a smooth local section through every point of Y (from
+the local normal form), and that each iterated fibre product `Y^[k]` is a closed
+embedded submanifold of `Y^k`, as the preimage of the diagonal under a map
+transverse to it, with smooth projections that are again surjective submersions
+(Lee, *Introduction to Smooth Manifolds*, 2nd ed., Theorem 4.26 and Theorem 6.30).
+
+- `F_(g·A)=Ad(g⁻¹)F_A` under gauge, and `dF_A=[F_A∧A]` (Bianchi).
+- The face maps `Y^[k]→Y^[k−1]` omitting one factor and the diagonal degeneracies
+  are smooth, the face maps are surjective submersions, and together they satisfy
+  the simplicial identities.
+
+**Checks.**
+- Trivial bundle `M×G`: connections correspond to `Ω¹(M;𝔤)` by pulling back along
+  the unit section; the model "connections are closed forms" excludes the
+  non-flat `A=x dy` on `ℝ²×U(1)`, whose curvature `dx∧dy` is nonzero.
+- For abelian G the bracket term vanishes and `F_A=dA` descends to a closed 2-form
+  on M. For G=SU(2) on `ℝ²×SU(2)`, the constant form `A=τ₁dx+τ₂dy` with
+  `[τ₁,τ₂]=2τ₃` has `dA=0` but `F_A=[τ₁,τ₂]dx∧dy=2τ₃dx∧dy≠0`, so `F=dA` is the wrong
+  formula in the non-abelian case.
+- `S¹` with two arcs is a good cover only if each intersection is connected; the
+  standard two-arc cover has `U∩V` with two components, so it is not good, while
+  three arcs give a good cover.
+- The non-submersion `x↦x²` from ℝ onto `[0,∞)⊂ℝ` fails the local-section property
+  at 0, and its self fibre product `{(x,y):x²=y²}` is not a manifold at the origin.
+
+*Needs:* Mathlib `LieGroup`, `SmoothPartitionOfUnity.exists_isSubordinate`,
+`Manifold.IsSubmersion`; DifferentialGeometry (forms, exterior derivative);
+RiemannianGeometry (geodesics and exponential maps).
 
 ### 3.1 Differential characters and the refinement of λ (S3.1)
 
@@ -471,15 +583,14 @@ connections.
   kernel `H²(S³;ℝ/ℤ)=0`.
 
 *Needs:* DifferentialGeometry (smooth chains, Stokes, de Rham); CharacteristicClasses
-C4, C4.3; SmoothBundlesConnections B1.1; S1.1.
+C4, C4.3; S3.0; S1.1.
 
 ### 3.2 Bundle gerbes and 2-gerbes (S3.2)
 
 Construct smooth U(1) bundle gerbes on surjective submersions Y→M, their
 1-isomorphisms on common refinements and 2-isomorphisms, and bundle 2-gerbes with
 products, duals, associators, pentagons, trivializations and their 2-groupoids.
-Build each fibre product `Y^[k]` by LieGroupoidsPoisson G0.1's submersion fibre
-products, with the face and degeneracy maps smooth and simplicial. Prove the exact
+Build each fibre product `Y^[k]` by S3.0's submersion fibre products, with the face and degeneracy maps smooth and simplicial. Prove the exact
 alternating pullback complex `δ=Σ_(i=1)^k(−1)^(i−1)omit_i*` on forms, gerbe descent,
 independence of covers, and the classifications of gerbes and 2-gerbes with
 connection by `Ĥ³` and `Ĥ⁴` (cjmsw-bundle-gerbes Proposition 4.8, line 913).
@@ -496,8 +607,7 @@ connection by `Ĥ³` and `Ĥ⁴` (cjmsw-bundle-gerbes Proposition 4.8, line 913)
   `Y^[2]` the differential is `δ=pr₂*−pr₁*`; a pair of functions agreeing on both
   components of `U∩V` glues.
 
-*Needs:* LieGroupoidsPoisson G0.1; SmoothBundlesConnections B1.1, B1.5;
-DifferentialGeometry; S3.1.
+*Needs:* S3.0; DifferentialGeometry; S3.1.
 
 ### 3.3 The basic gerbe and the Chern–Simons 2-gerbe (S3.3)
 
@@ -619,8 +729,8 @@ holonomy, and the unique connection over a point.
 
 ### Dependencies
 
-S1; DifferentialGeometry; CharacteristicClasses C4; SmoothBundlesConnections B1.1,
-B1.5; LieGroupoidsPoisson G0.1; Mathlib's diffeology file.
+S1; DifferentialGeometry; RiemannianGeometry; CharacteristicClasses C4; Mathlib's
+submersion and diffeology files.
 
 ## Layer 4: characteristic series and the integral Witten genus (S4)
 
@@ -658,14 +768,14 @@ the String lift.
 - `φ_W(OP²)=0`.
 
 **Checks.**
-- OP² (TangentialBordism B3.8): `Â(OP²)=0`, so the weight-8 form `φ_W(OP²)` is a
+- OP² (S1.5): `Â(OP²)=0`, so the weight-8 form `φ_W(OP²)` is a
   multiple of `E₄²` with constant term 0, hence 0.
 - Dimension 4: weight-2 level-one forms are zero, so `φ_W=0`, consistent with
   `Â=−p₁/24=0`.
 - Signature check on OP²: `L₄=(381p₄−19p₂²)/14175` with `p₂=6u`, `p₄=39u²` gives
   `(381·39−19·36)/14175=14175/14175=1`, the signature.
 
-*Needs:* S4.1, S2.2; IndexTheory I7; ModularForms; TangentialBordism B3.8.
+*Needs:* S4.1, S2.2; IndexTheory I7; ModularForms; S1.5.
 
 ### Examples
 
@@ -680,7 +790,7 @@ S2; TopologicalKTheory; CharacteristicClasses; IndexTheory I7; ModularForms.
 ### 5.1 Cayley-plane bundles (S5.1)
 
 Construct OP² bundles with connected compact F₄ structure group from
-TangentialBordism B3.7's action, with vertical tangent bundle, induced Spin data
+S1.5's F₄ action, with vertical tangent bundle, induced Spin data
 and the obstruction to a String lift of the total space; the total-space lift is
 part of the cycle data. Develop pullback, products, bordism and structure-group
 reduction.
@@ -692,7 +802,7 @@ reduction.
   but its total space is not String because `λ(HP²)=u≠0` (`p₁(HP²)=2u`); the
   total-space lift is therefore part of the cycle data.
 
-*Needs:* TangentialBordism B3.6, B3.7; S1.3.
+*Needs:* S1.5; S1.3; S3.0 (principal bundles).
 
 ### 5.2 Family vanishing and the homogeneous pushforward (S5.2)
 
@@ -716,7 +826,7 @@ line 104).
 - Three Weyl cosets, matching `χ(OP²)=3`.
 - The fibre itself: `φ_W(OP²)=0` (S4.2).
 
-*Needs:* S4.2, S5.1; TangentialBordism B3.7; CharacteristicClasses.
+*Needs:* S4.2, S5.1; S1.5; CharacteristicClasses.
 
 ### 5.3 String bordism at primes above 3 (S5.3)
 
@@ -726,15 +836,22 @@ Hovey–Ravenel Corollary 1.5) and Hovey's ring presentation of `π_*MString_(p)
 its map to `π_*MSpin_(p)` (mctague-cayley-plane line 446, citing Hovey
 Theorem 2.4). Prove the absence of p-torsion and the forgetful injection for p>3,
 and that Pontryagin numbers detect `π_*MString[1/6]` (mctague-cayley-plane
-line 370), using TangentialBordism B4.5 and B4.8.
+line 370), using S2.2's rational detection and the odd-primary comparison of Spin
+and oriented bordism: the fibre of `BSpin→BSO` is `K(ℤ/2,1)`, whose reduced
+homology with `ℤ[1/2]` coefficients vanishes, so `BSpin→BSO` and, by the Thom
+isomorphism, `MSpin→MSO` are isomorphisms on homology with `ℤ[1/2]` coefficients
+and hence equivalences after inverting 2.
 
 **Checks.**
 - `π_*MString_(p)` for p≥5 is a sum of suspensions of BP, so it is torsion-free.
 - Rational ranks agree with S2.2's polynomial count.
 - The ring is not polynomial: it is a quotient of a polynomial ring by an
   infinite regular sequence (Hovey, abstract).
+- The odd-primary comparison fails at 2: `π₁MSpin=ℤ/2` while `π₁MSO=0`, so
+  `MSpin→MSO` is not an equivalence before inverting 2.
 
-*Needs:* BordismFormalGroups F3–F5; TangentialBordism B4.5, B4.8; S2.2.
+*Needs:* BordismFormalGroups F3–F5; S2.2; CharacteristicClasses C2 (Thom
+isomorphism); AlgebraicTopology Stage 8.5 (Whitehead).
 
 ### 5.4 McTague's generator criterion and the geometric families (S5.4)
 
@@ -794,7 +911,7 @@ complete-intersection families for n≥14.
 
 ### Dependencies
 
-S1–S4; TangentialBordism B3.6, B3.7, B4.5, B4.8; BordismFormalGroups F3–F5;
+S1–S4; BordismFormalGroups F3–F5;
 SchemeAndStackFoundations §4.13; AffineMorseLefschetz A0; EllipticCohomology E5.
 
 ## Layer 6: curvature questions and refined classes (S6)
@@ -884,7 +1001,19 @@ spinLambda_adjoint_eq_neg_two_cTwo).
 ## References
 
 - Milnor–Stasheff, *Characteristic Classes*, Annals of Mathematics Studies 76,
-  1974, §8 and §15, for w₄ and p₁.
+  1974, §8 and §15, for w₄ and p₁; §18 for the Pontryagin–Thom construction, Thom
+  transversality, Serre's rational stable stems and rational detection by
+  characteristic numbers.
+- Stong, *Notes on Cobordism Theory*, Princeton, 1968, Chapter II, for bordism of
+  manifolds with structure on the stable normal bundle (uncertified).
+- Bott–Tu, *Differential Forms in Algebraic Topology*, GTM 82, 1982, Theorem 5.1,
+  for good covers (uncertified).
+- Lee, *Introduction to Smooth Manifolds*, 2nd ed., GTM 218, 2013, Theorems 4.26
+  and 6.30, for local sections of submersions and transverse preimages
+  (uncertified).
+- Toda, *Composition Methods in Homotopy Groups of Spheres*, Annals of Mathematics
+  Studies 49, 1962, Chapters V and XIII, for the 2- and 3-primary parts of `π₃S`
+  (uncertified).
 - Waldorf, [*String Connections and Chern-Simons Theory*](https://arxiv.org/abs/0906.0117)
   (waldorf-string-connections), Theorems 1.3.3–1.3.4, Lemma 3.1.2,
   Proposition 3.3.4, Lemmas 4.3.2–4.3.3.
@@ -905,7 +1034,8 @@ spinLambda_adjoint_eq_neg_two_cTwo).
   Algebr. Geom. Topol. 8 (2008), Theorem 2.4; Hovey–Ravenel, *The 7-connected
   cobordism ring at p=3*, Corollary 1.5 (uncertified).
 - Borel–Hirzebruch, *Characteristic classes and homogeneous spaces I–II*,
-  Theorems 10.7 and 20.3 (uncertified).
+  Theorems 10.7 and 20.3, and §19 of part I for the Pontryagin classes of OP²
+  (uncertified).
 - Stolz, *A conjecture concerning positive Ricci curvature and the Witten genus*,
   Math. Ann. 304 (1996), §1 (uncertified).
 - Hopkins, [*Algebraic topology and modular forms*](https://arxiv.org/abs/math/0212397)
