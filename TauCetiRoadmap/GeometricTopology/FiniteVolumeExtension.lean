@@ -149,38 +149,6 @@ abbrev isometryContinuousMap
     ⟨g'.metric.toRiemannianMetric⟩
   exact ⟨Φ, Φ.toDiffeomorph.toHomeomorph.continuous⟩
 
-/-- HARD TARGET: the full finite-volume Mostow–Prasad statement with BOTH
-finite-volume witnesses and a specified based group isomorphism. A path to the
-chosen target basepoint encodes the inner-conjugacy ambiguity. Native group
-multiplication is reverse path concatenation; the native basepoint adapter is used.
-Completeness and curvature -1 are carried by g and g', not guessed from topology. -/
-theorem finiteVolumeMostowPrasad
-    [ConnectedSpace M] [ConnectedSpace N]
-    [BoundarylessManifold I M] [BoundarylessManifold J N]
-    (hdim : 3 ≤ Module.finrank ℝ E)
-    (g : HyperbolicMetric (I := I) (M := M))
-    (g' : HyperbolicMetric (I := J) (M := N))
-    (hg : g.HasFiniteVolume) (hg' : g'.HasFiniteVolume)
-    (x : M) (y : N) (φ : FundamentalGroup M x ≃* FundamentalGroup N y) :
-    ∃ Φ : MetricIsometry g g', ∃ p : Path (Φ x) y,
-      ∀ a : FundamentalGroup M x,
-        FundamentalGroup.fundamentalGroupMulEquivOfPath p
-          (FundamentalGroup.map (isometryContinuousMap g g' Φ) x a) = φ a := by
-  sorry
-
-/-- Volume consequence of the HARD target above. No compactness is assumed. -/
-theorem finiteVolume_eq_of_piOne_equiv
-    [ConnectedSpace M] [ConnectedSpace N]
-    [BoundarylessManifold I M] [BoundarylessManifold J N]
-    (hdim : 3 ≤ Module.finrank ℝ E)
-    (g : HyperbolicMetric (I := I) (M := M))
-    (g' : HyperbolicMetric (I := J) (M := N))
-    (hg : g.HasFiniteVolume) (hg' : g'.HasFiniteVolume)
-    (x : M) (y : N) (φ : FundamentalGroup M x ≃* FundamentalGroup N y) :
-    finiteVolume g hg = finiteVolume g' hg' := by
-  obtain ⟨Φ, _, _⟩ := finiteVolumeMostowPrasad hdim g g' hg hg' x y φ
-  exact finiteVolume_eq_of_isometry g g' hg hg' Φ
-
 /-- Arithmetic endpoint transport used only AFTER a genuine geometric interval
 has been certified. It does not certify root existence or identify a link. -/
 theorem enclosure_implies_truncation (v d lo hi : ℝ) (k : ℕ)

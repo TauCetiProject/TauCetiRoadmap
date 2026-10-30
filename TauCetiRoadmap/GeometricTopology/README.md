@@ -48,8 +48,11 @@ This roadmap owns the following, by layer.
   satellites, the Garside structure of braid groups, the Morton–Franks–Williams bound,
   Kondo's realization theorem, and exponential bounds on the number of knot types.
 - **Layer 5.** The compact exterior of a link, Dehn filling and surgery, surgery on framed
-  links, lens spaces as fillings, the Lickorish–Wallace theorem, and the statements of
-  Property P, Property R and the cyclic surgery theorem.
+  links, lens spaces as fillings, the Lickorish–Wallace theorem, Moser's classification of
+  the lens-space surgeries on torus knots, Mathieu's chirally cosmetic pairs, the Montesinos
+  trick, Scharlemann's theorem that unknotting-number-one knots are prime, the statements of
+  Property P, Property R and the cyclic surgery theorem, and the Kanenobu–Murakami criterion
+  derived from the cyclic surgery theorem as stated.
 - **Layer 6.** Smooth and topological concordance of knots, the concordance group, the
   Levine–Tristram signatures and their concordance invariance, torus-knot signatures and
   chirality, the signature bound on the unknotting number, Conway mutation and the statement
@@ -61,8 +64,10 @@ This roadmap owns the following, by layer.
   statement of its minimality, and the statements of the virtual fibering and virtual Haken
   theorems.
 - **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the Kneser–Milnor prime
-  decomposition, Kneser's finiteness, the Seifert fibration API, and the statements of the
-  Gordon–Luecke theorem, the JSJ theorem, geometrization and the Poincaré conjecture.
+  decomposition, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
+  Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
+  fibration API, and the statements of the Gordon–Luecke theorem, the JSJ theorem,
+  geometrization and the Poincaré conjecture.
 - **Layer 9.** Handlebodies, Heegaard splittings and the Heegaard genus, the inequality
   between rank and genus, Waldhausen's theorem on splittings of `S³`, and the statement of
   Li's theorem.
@@ -109,8 +114,10 @@ This roadmap leaves the following to other roadmaps.
   carriers of the end theorems, and owns their proofs that this roadmap does not: Cerf's
   theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), Mostow rigidity
   for closed hyperbolic manifolds with its consequences for volume and isometry groups (from
-  Layers 7.1 and 7.2), the Gordon–Luecke theorem with its corollary on `S³` fillings (from
-  Layers 5 and 8.1), and the JSJ theorem (from Layers 8.1–8.4). It also owns the developments
+  Layers 7.1 and 7.2), the cyclic surgery theorem (from Layers 5.2 and 8, through the
+  Culler–Shalen theory of essential surfaces at ideal points of the character variety), the
+  Gordon–Luecke theorem with its corollary on `S³` fillings (from Layers 5 and 8.1), and the
+  JSJ theorem (from Layers 8.1–8.4). It also owns the developments
   that consume roadmaps downstream of this one: the torus trick and the high-dimensional proof of the annulus theorem (surgery on
   homotopy tori and the Kirby–Siebenmann obstruction), topological microbundles, the TOP/PL
   comparison and the smoothing theory beyond dimension three; the Lee deformation of Khovanov
@@ -239,8 +246,10 @@ roadmap adds on top of each is said in the layer that uses it.
   `TauCeti.IsTubularNeighborhood`; for a smooth embedding `f : M → V` into a finite-dimensional
   inner product space the normal subspace `TauCeti.normalSubspace`, the tube
   `TauCeti.normalTube f ε` and `normalTubeOfRadius`, the compact-source open embedding
-  `TauCeti.exists_isOpenEmbedding_normalTube` and the positive-radius-function form
-  `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius` for non-compact sources, and the normal
+  `TauCeti.exists_isOpenEmbedding_normalTube`, the positive-radius-function form
+  `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius` for non-compact sources (a continuous
+  radius; `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius_contMDiff_subset` gives a smooth
+  one), and the normal
   bundle instances `TauCeti.normalFiberBundle`, `TauCeti.normalVectorBundle`,
   `TauCeti.normalContMDiffVectorBundle` (`VectorBundle.lean`).
 - **Immersions** (`Geometry/Manifold/Immersion.lean`): `TauCeti.isImmersion_iff_forall_isImmersionAt`.
@@ -458,7 +467,9 @@ radius `1 + δ` in `EuclideanSpace ℝ (Fin n)` into `M`, define the complement 
 closed unit ball as the subtype `M ∖ e(B°)`, with `B°` the open unit ball, and give it the
 structure of a smooth manifold with boundary whose boundary is `e(Sⁿ⁻¹)`: the interior points
 keep the charts of `M`, and near `e(Sⁿ⁻¹)` the chart is `e` composed with radial coordinates
-`(1 ≤ r < 1 + δ, θ ∈ Sⁿ⁻¹)`.
+`(1 ≤ r < 1 + δ, θ ∈ Sⁿ⁻¹)`: this is the collar of the collaring theorem (Hirsch, Chapter 4,
+Theorem 6.1) written explicitly through `e`, and the smooth structure is the one that collar
+induces.
 
 - The complement is compact when `M` is, connected when `M` is connected and `n ≥ 2`, and its
   boundary is diffeomorphic to `Sⁿ⁻¹` through `e`.
@@ -588,9 +599,11 @@ metric.
 - **Tubular neighbourhood theorem.** There is a smooth positive function `δ : S → ℝ` such
   that the normal exponential restricted to `{v : ‖v‖ < δ(x)}` is a diffeomorphism onto an
   open neighbourhood of `f(S)`; for compact `S` the radius may be taken constant (Lee,
-  *Introduction to Riemannian Manifolds*, Theorem 5.25; in Euclidean ambient space this is
-  `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius` and, for compact `S`,
-  `TauCeti.exists_isOpenEmbedding_normalTube`). The proof is the injectivity-radius argument:
+  *Introduction to Riemannian Manifolds*, Theorem 5.25; in Euclidean ambient space
+  `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius` gives a continuous positive radius for
+  a `C²` embedding, `TauCeti.exists_isOpenEmbedding_normalTubeOfRadius_contMDiff_subset` a
+  smooth one, and for compact `S` `TauCeti.exists_isOpenEmbedding_normalTube` a constant
+  one). The proof is the injectivity-radius argument:
   the normal exponential is a local diffeomorphism along the zero section by the direct-sum
   computation of its derivative, and `TauCeti.Manifold.edist_riemannianExp_le` bounds the
   base distance of two normal vectors with the same image. *Needs:* HopfRinow Layer 1
@@ -608,9 +621,12 @@ metric.
   specializes to the native one and no second Euclidean construction is made.
 
 **Checks.**
-- The unit circle in `ℝ²` has normal bundle the trivial line bundle and `ε`-tube the open
-  annulus `1 − ε < |z| < 1 + ε` for `ε < 1`; at `ε = 1` the tube map fails to be injective at
-  the origin, so the radius bound is necessary.
+- The unit circle in `ℝ²` has normal bundle the trivial line bundle, and for `ε ≤ 1` the tube
+  map `(x, v) ↦ x + v` is injective on the open tube `‖v‖ < ε`, with image the open annulus
+  `1 − ε < |z| < 1 + ε`; at `ε = 1` the image is the punctured disc `0 < |z| < 2`, the inward
+  vectors of length `1` being excluded by the strict inequality of `TauCeti.normalTube`. For
+  `ε > 1` every `(x, −x)` goes to the origin and injectivity fails, so the bound `ε ≤ 1` is
+  sharp; with the closed tube `‖v‖ ≤ ε` the failure already occurs at `ε = 1`.
 - A point `{p} ⊂ M` has normal bundle `TangentSpace p` and its tube is a normal neighbourhood of
   HopfRinow Layer 2; the identity embedding `M → M` has rank-`0` normal bundle and the tube is
   `M` itself.
@@ -936,14 +952,18 @@ compact-open topology.
 
 The map `Diffeomorph.ofSmoothFamily` sends a smooth `F : P × M → M`, each `F(p, ·)` a
 diffeomorphism, to a continuous `P → Diff(M)`. Prove that it is a bijection from the smooth
-families onto the continuous maps `P → Diff(M)` whose adjoint `P × M → M` is smooth, and that
-not every continuous map `P → Diff(M)` is in its image: a continuous map `P → Diff(M)` has a
-continuous adjoint which need not be smooth in `p`. No continuity of the inverse is claimed:
+families onto the continuous maps `P → Diff(M)` whose adjoint `P × M → M` is smooth (the
+adjoint of a continuous map is continuous, since evaluation `Diff(M) × M → M` is continuous
+for the weak topology, `Diffeomorph.continuousEval_weakWhitney`; Hirsch, Chapter 2 §1), and
+that not every continuous map `P → Diff(M)` is in its image: a continuous map `P → Diff(M)`
+has a continuous adjoint which need not be smooth in `p`. No continuity of the inverse is claimed:
 for compact `P` and `M` the compact-open topology on `C(P, Diff(M))` does not control the
 `p`-derivatives, so it induces on the smooth families a topology strictly coarser than the
 joint `C^∞` topology of the adjoints. The reference inclusion `O(n+1) → Diff(Sⁿ)` is
 `TauCeti.orthogonalToDiffSphere n ∞`, continuous by `TauCeti.continuous_orthogonalToDiffSphere`
-and injective by `TauCeti.orthogonalToDiffSphere_injective`; prove it is a closed embedding.
+and injective by `TauCeti.orthogonalToDiffSphere_injective`; prove it is a closed embedding
+(Mathlib `Continuous.isClosedEmbedding`: an injective continuous map from a compact space to a
+Hausdorff space).
 
 **Checks.**
 - The family `F(t, z) = e^{it} z` on `S¹` is smooth and `ofSmoothFamily F` is the rotation
@@ -959,9 +979,10 @@ and injective by `TauCeti.orthogonalToDiffSphere_injective`; prove it is a close
   not converge in `C¹(S¹ × S¹, S¹)`. A claim that the inverse of `ofSmoothFamily` is
   continuous for the joint `C^∞` topology fails on this sequence.
 
-*Needs:* Tau Ceti `Diffeomorph.ofSmoothFamily`, `TauCeti.orthogonalToDiffSphere`,
-`TauCeti.orthogonalToDiffSphere_injective`, `TauCeti.continuousOrthogonalToDiffSphere`; Mathlib
-`Matrix.orthogonalGroup`.
+*Needs:* Tau Ceti `Diffeomorph.ofSmoothFamily`, `Diffeomorph.continuousEval_weakWhitney`,
+`TauCeti.orthogonalToDiffSphere`, `TauCeti.orthogonalToDiffSphere_injective`,
+`TauCeti.continuousOrthogonalToDiffSphere`; Mathlib `Matrix.orthogonalGroup`,
+`Continuous.isClosedEmbedding`.
 
 ### 3.3 Isotopy extension
 
@@ -1175,9 +1196,13 @@ the tubing and band-move comparison of Seifert surfaces).
   surface would give the wrong value for split links, whose minimal surfaces are
   disconnected.
 - Push-off convention: for the positive Hopf link, the two components have linking number
-  `+1`, and the Seifert form of the annulus they bound is the `1 × 1` matrix `[−1]` or `[1]`
-  according to the orientation of the core; the convention is fixed by requiring the trefoil
-  matrix above.
+  `+1`, and the Seifert form of the annulus they bound is the `1 × 1` matrix `[−1]`, unchanged
+  by reversing the core since `θ(−x, −x) = θ(x, x)`; the negative Hopf link gives `[1]`. The
+  sign is fixed by the trefoil matrix above, whose diagonal entries `−1` are the forms of the
+  two positive Hopf bands inside its Seifert surface: a sign convention giving `[1]` for the
+  positive Hopf link would put `+1` on that diagonal, which is the matrix of the left-handed
+  trefoil. Changing the side of the push-off transposes the matrix and leaves the diagonal,
+  and this entry, unchanged.
 
 *Needs:* Layer 1.8 (surfaces and genus), Layer 1.5; Tau Ceti
 `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Mathlib singular homology.
@@ -1424,8 +1449,12 @@ numerator and denominator closures. Prove Conway's theorem that two rational tan
 isotopic rel boundary iff their fractions agree (Kauffman–Lambropoulou, *On the classification
 of rational knots*, L'Enseignement Math. 49 (2003), Theorem 1) and Schubert's classification:
 the numerator closures of `p/q` and `p'/q'`, `p, p' > 0`, are ambient isotopic as unoriented
-links iff `p = p'` and `q' ≡ q^{±1} (mod p)`, and for oriented knots iff `p = p'` and
-`q' ≡ q^{±1} (mod 2p)` (Kauffman–Lambropoulou, Theorems 2 and 3). Prove that the rational
+links iff `p = p'` and `q' ≡ q^{±1} (mod p)`, and, for fractions written with `q, q'` odd (the
+numerator closures are then orientation-compatible; for odd `p` an even `q` is replaced by
+`q + p`, which does not change the unoriented knot), as oriented knots iff `p = p'` and
+`q' ≡ q^{±1} (mod 2p)` (Kauffman–Lambropoulou, Theorems 2 and 3). The parity normalisation is
+part of the statement: `3/1` and `3/4` are the same unoriented knot, the trefoil, which is
+invertible, yet `4 ≢ 1^{±1} (mod 6)`. Prove that the rational
 knots are exactly the knots of bridge number at most two, that `p` is the determinant of the
 rational knot `p/q`, and that the mirror of `p/q` is `p/(−q)`.
 
@@ -1436,6 +1465,10 @@ rational knot `p/q`, and that the mirror of `p/q` is `p/(−q)`.
 - `7/2 ≇ 7/3` as `3 ≢ 2^{±1} (mod 7)`, while `7/3 ≅ 7/5 = 7/(−2)` because `3 · 5 ≡ 1 (mod 7)`:
   the knot `5₂ = 7/2` is chiral.
 - Determinants: `3`, `5`, `7` for `3/1`, `5/2`, `7/2`, matching `|Δ(−1)|` in Layer 4.4.
+- Oriented classification: `3/1` and `3/7` are isotopic as oriented knots, since `7 ≡ 1 (mod 6)`;
+  `3/1` and `3/5` are not, since `5 ≢ 1` and `5 · 1 ≢ 1 (mod 6)`, and indeed `5 ≡ −1 (mod 3)`
+  makes `3/5` the mirror trefoil, distinct already as an unoriented knot. The even-denominator
+  fraction `3/4` is normalised to `3/7` before the oriented test, and then agrees with `3/1`.
 
 *Needs:* Layer 4.2, Layer 4.4, Layer 4.8.
 
@@ -1511,7 +1544,7 @@ parameters solving the linear system of equation (8)). Deduce that the genus of 
 unknotting number one is unbounded, since `span Δ ≤ 2g`. The surgery-theoretic theorems
 about unknotting number one, that `u(K) = 1` implies `K` prime and the Kanenobu–Murakami
 criterion for two-bridge knots, are Layer 5.4's, since they rest on the cyclic surgery
-theorem.
+theorem stated there.
 
 **Checks.**
 - `Δ = 1` is realized by the untwisted Whitehead double of the trefoil, which has `u = 1` and
@@ -1680,11 +1713,13 @@ against Layer 5.2.
 
 ### 5.4 The cyclic surgery theorem and unknotting number one
 
-State and own the proof of the cyclic surgery theorem: if the exterior of a knot `K ⊂ S³` is
+State the cyclic surgery theorem: if the exterior of a knot `K ⊂ S³` is
 not Seifert fibred and two slopes give fillings with cyclic fundamental group, then the slopes
 have distance at most one, so two distinct such slopes have distance exactly one
 (Culler–Gordon–Luecke–Shalen, *Dehn surgery on knots*, Ann. of Math. 125 (1987), the Cyclic
-Surgery Theorem). Prove that a Seifert fibred exterior of a nontrivial knot is a torus-knot
+Surgery Theorem). Its proof, through the Culler–Shalen theory of essential surfaces at ideal
+points of the character variety, is GeometricTopology, Part II's; everything below that uses
+the theorem consumes it as stated. Prove that a Seifert fibred exterior of a nontrivial knot is a torus-knot
 exterior, and that for coprime `r, s` with `|r|, |s| ≥ 2` and a slope `p/q` (`p`, `q` coprime)
 the filling of `T(r, s)` along `p/q` is a lens space iff `|p − q r s| = 1` (Moser, Pacific J.
 Math. 38 (1971)). For the unknot every filling `p/q` is the lens space `L(p, q)`, with
@@ -1693,8 +1728,10 @@ knots are prime (Scharlemann 1985) by the sutured-manifold route, and the Montes
 if `u(K) = 1` then the double branched cover of `K` is `±(d/2)`-surgery on a knot in `S³`,
 `d` the determinant. Prove the Kanenobu–Murakami criterion for unknotting number one of
 two-bridge knots (Kanenobu–Murakami, *Two-bridge knots with unknotting number one*, Proc.
-Amer. Math. Soc. 98 (1986)), by the Montesinos trick, the cyclic surgery theorem and Moser's
-classification applied to the lens space that is the double branched cover.
+Amer. Math. Soc. 98 (1986)) from the cyclic surgery theorem as stated, by the Montesinos
+trick and Moser's classification applied to the lens space that is the double branched
+cover: the reduction is this roadmap's target, and the criterion is a consequence of the
+stated theorem.
 
 **Checks.**
 - The granny knot has `u = 2` and is composite, consistent with Scharlemann's theorem;
@@ -1712,8 +1749,8 @@ classification applied to the lens space that is the double branched cover.
   For `p/q = 6` the filling is `L(2, 1) # L(3, 1)`, a reducible manifold, which is why
   `|p − 6q| = 0` is excluded.
 - `8₃ = 17/4` has determinant `17` and double branched cover `L(17, 4)`; if `u(8₃)` were `1`,
-  `L(17, 4)` would be `±17/2`-surgery on a knot `J`, and the cyclic surgery theorem together
-  with Moser's classification excludes every `J`, so `u(8₃) = 2`.
+  `L(17, 4)` would be `±17/2`-surgery on a knot `J`, and the cyclic surgery theorem, consumed
+  as stated, together with Moser's classification excludes every `J`, so `u(8₃) = 2`.
 
 *Needs:* Layer 5.2, Layer 8.2, Layer 8.4 (Seifert fibred spaces), Layer 4.9, Layer 4.10.
 
@@ -1748,7 +1785,10 @@ class of the unknot (`K` is smoothly slice iff `K` is concordant to `TauCeti.unk
 the reverse of the mirror `−K̄` is an inverse: `K # (−K̄)` is slice, by the spun annulus. The
 concordance classes with connected sum form the abelian group `C` (Livingston, *A survey of
 classical knot concordance*, Theorem 2.2); the topological concordance group `C_top` receives
-`C` by a surjection whose kernel is the smoothly non-slice topologically slice knots.
+`C` by a surjection whose kernel is the subgroup of smooth concordance classes of topologically
+slice knots: the class of the unknot is its zero, and its nonzero elements are the classes of
+the smoothly non-slice topologically slice knots, such as the untwisted Whitehead double of
+the trefoil (Layer 6.4).
 
 - Ambient isotopic knots are concordant (`TauCeti.SmoothEmbedding.SmoothAmbientIsotopic.concordant`);
   the converse fails, since the square knot is slice and not the unknot.
@@ -2093,7 +2133,7 @@ homeomorphism of `S³`, hence are equivalent up to mirror image and reversal (Go
 states Alexander's theorem as `alexander_sphere_bounds_ball`, the knot-group theorem as
 `smoothAmbientIsotopic_unknot_of_knotGroup` and the Gordon–Luecke theorem as `gordon_luecke`;
 the proofs of the first two are targets of this layer, and the proof of the third, through
-the cyclic surgery theorem of Layer 5.4 and the analysis of reducible fillings, is
+the cyclic surgery theorem stated in Layer 5.4 and the analysis of reducible fillings, is
 GeometricTopology, Part II's.
 
 **Checks.**
@@ -2478,7 +2518,7 @@ foliation pulls back to a taut foliation under finite covers.
   `ℝ³`: it is irreducible by the theorem, its fundamental group is infinite since a closed
   transversal is essential, and the universal cover of a manifold with a Reebless foliation
   other than `S² × S¹` is `ℝ³` (Palmeira, *Open manifolds foliated by planes*, Ann. of Math.
-  108 (1978)).
+  108 (1978), 109–131; Calegari, Theorem 4.38).
 - The leaves of a taut foliation realize the Thurston norm of their homology class
   (Thurston); the norm itself is Part II.
 
@@ -2523,11 +2563,13 @@ Zeeman's conjecture.
 ### 11.1 The realization and its CW structure
 
 Prove, for an abstract simplicial complex `K`, that the realization `Realization K` is
-Hausdorff, that every compact subset lies in the realization of a finite subcomplex, that
+Hausdorff, that every compact subset lies in the realization of a finite subcomplex (Hatcher,
+*Algebraic Topology*, Appendix, Proposition A.1, for the CW structure built below), that
 simplicial maps realize to continuous maps functorially, that the realization of a stellar
 subdivision is canonically homeomorphic to the realization of `K`, and that for a face `σ`
 the closed star of `σ` is the join `σ ∗ Lk(σ)` and the boundary of a conical neighbourhood of
-the barycentre of `σ` is the join `∂σ ∗ Lk(σ)`, with the convention `∅ ∗ X = X`. For a vertex
+the barycentre of `σ` is the join `∂σ ∗ Lk(σ)`, with the convention `∅ ∗ X = X`
+(Rourke–Sanderson, Chapter 2, the star and link of a simplex and their joins). For a vertex
 `∂σ` is empty and this boundary is the realized link itself; for a face of positive
 dimension the link is only the part transverse to `σ`. Construct the
 CW structure on `Realization K` whose closed cells are the realized simplices, as an instance
@@ -2735,7 +2777,8 @@ and 8; Mathlib CW complexes.
   305–312. J. Cerf, *Topologie de certains espaces de plongements*, Bull. Soc. Math. France 89
   (1961), 227–380.
 - C. Rourke, B. Sanderson, *Introduction to Piecewise-Linear Topology*, Springer (1972),
-  Chapter 3. J. Munkres, *Elementary Differential Topology*, Ann. of Math. Stud. 54 (1966),
+  Chapters 2 and 3. A. Hatcher, *Algebraic Topology*, Cambridge (2002),
+  https://pi.math.cornell.edu/~hatcher/AT/AT.pdf, Appendix, Proposition A.1. J. Munkres, *Elementary Differential Topology*, Ann. of Math. Stud. 54 (1966),
   §10, Theorems 10.5 and 10.6. J. H. C. Whitehead, *On C¹-complexes*, Ann. of Math. 41 (1940),
   809–824. E. Moise, *Geometric Topology in Dimensions 2 and 3*, Springer GTM 47 (1977),
   Theorems 35.3 and 36.2. R. H. Bing, *An alternative proof that 3-manifolds can be
@@ -2826,7 +2869,9 @@ and 8; Mathlib CW complexes.
   and 3.2, Theorems 3.4 and 3.7. T. Li, *Rank and genus of 3-manifolds*, J. Amer. Math. Soc. 26
   (2013), 777–829, arXiv 1106.6302, Theorem 1.1.
 - D. Calegari, *Foliations and the Geometry of 3-Manifolds*, Oxford (2007),
-  https://math.uchicago.edu/~dannyc/books/foliations/oupbook.pdf, Theorems 4.5 and 4.35, §4.6.
+  https://math.uchicago.edu/~dannyc/books/foliations/oupbook.pdf, Theorems 4.5, 4.35 and 4.38,
+  §4.6. C. F. B. Palmeira, *Open manifolds foliated by planes*, Ann. of Math. 108 (1978),
+  109–131.
   S. Novikov, *The topology of foliations*, Trudy Moskov. Mat. Obšč. 14 (1965), 248–278.
   W. B. R. Lickorish, *A foliation for 3-manifolds*, Ann. of Math. 82 (1965), 414–420.
 - C. Manolescu, *Pin(2)-equivariant Seiberg–Witten Floer homology and the triangulation
