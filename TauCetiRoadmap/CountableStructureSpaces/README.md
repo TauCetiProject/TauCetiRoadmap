@@ -16,7 +16,7 @@ coded well-orders is not Borel.
 Mathlib supplies the ambient descriptive set theory: `PolishSpace`, `StandardBorelSpace`,
 `MeasureTheory.AnalyticSet` with Lusin's separation theorem and Suslin's theorem, trees
 (`Descriptive.tree`), group actions (`MulAction.orbitRel`, `fixingSubgroup`, `arrowAction`) and
-`MeasurableSpace.invariants`. The [InfinitaryLogic roadmap](../InfinitaryLogic/README.md),
+`MeasurableSpace.invariants`. The [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md),
 implemented in Tau Ceti, supplies Lω₁ω, back-and-forth equivalence, Karp's theorem, Scott
 sentences and the internal Scott rank. Nothing in Mathlib or Tau Ceti puts a topology on
 `Equiv.Perm ℕ`, codes structures as points of a space, or relates Lω₁ω to Borel sets.
@@ -113,7 +113,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib group actions | `Equiv.Perm.applyMulAction`, `arrowAction`, `MulAction.orbitRel`, `MulAction.stabilizer`, `fixingSubgroup`, `IsTopologicalGroup`, `ContinuousSMul` |
 | Mathlib measurable spaces | `MeasurableSpace.pi`, `MeasurableSpace.invariants`, `MeasurableSpace.measurableSet_iInf`, the measurable space on `SimpleGraph V` (`Mathlib/MeasureTheory/Constructions/SimpleGraph.lean`) |
 | Mathlib model theory | `Structure`, `Language.Equiv`, `Equiv.inducedStructure`, `Language.sum` with `sumStructure`, `BoundedFormula.IsQF`, `IsUniversal`, `IsExistential`, `BoundedFormula.alls`, `Language.graph` with `SimpleGraph.structure`, `Language.order` with `Theory.dlo` |
-| [InfinitaryLogic](../InfinitaryLogic/README.md), Layer 0, in `TauCeti/ModelTheory/Infinitary/` | `BoundedFormulaω`, `Sentenceω`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, the connectives, `iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, `toInf` with `realize_toInf`, realization invariance under isomorphism |
+| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0, in `TauCeti/ModelTheory/Infinitary/` | `BoundedFormulaω`, `Sentenceω`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, the connectives, `iInfAlong`/`iSupAlong`, `IndexCoding.ofEncodableWith`, `toInf` with `realize_toInf`, realization invariance under isomorphism |
 | InfinitaryLogic, Layer 1, in `TauCeti/ModelTheory/BackAndForth/` | `BFEquiv` with `refl`, `symm`, `trans` (across three structures), `mono`, `comp`, the successor and limit laws, `Language.Equiv.bfEquiv`, `potentialIso_iff_bfEquiv_all`, `countable_potentialIso_iff_iso` |
 | InfinitaryLogic, Layers 2–3, in `TauCeti/ModelTheory/Scott/` | `SelfStabilizesCompletely` with `bfEquiv_of_le`, `exists_complete_self_stabilization`, `selfStabilizationOrdinal` with its attainment and its bound below `ω₁`, `scottFormula` with `realize_scottFormula_iff_bfEquiv`, `scottSentence` with `realize_scottSentence_iff` and `scott_isomorphism` ([Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977)), `orbitRank`, `internalScottRank`, `selfStabilizationOrdinal_le_internalScottRank`, `internalScottRank_le_succ_selfStabilizationOrdinal`, `internalScottRank_pureSet` |
 | BorelEquivalenceRelations | Layer 0.2: `IsGδ.polishSpace` and `IsGδ.standardBorelSpace` (a Gδ subset of a Polish space is Polish, resp. standard Borel, in the subspace structures; the shape of Mathlib #42693). Layer 0.3: `MeasureTheory.AnalyticSet.prod`. Layer 2.2: `exists_invariant_measurableSet_separating` (for an analytic equivalence relation `E` on a Polish Borel space, an analytic `A` and an analytic `E`-saturated `B` disjoint from it, some `E`-saturated Borel `C` contains `A` and is disjoint from `B`). Nothing else |
@@ -709,7 +709,7 @@ These belong to separate roadmaps.
 ## Coordination
 
 - **InfinitaryLogic.** The syntax, back-and-forth relation and Scott analysis are the Tau Ceti
-  implementation of the [InfinitaryLogic roadmap](../InfinitaryLogic/README.md), under
+  implementation of the [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md), under
   `TauCeti/ModelTheory/{Infinitary,BackAndForth,Scott}`; Scott's isomorphism theorem is
   [Tau Ceti #18977](https://github.com/TauCetiProject/TauCeti/pull/18977). The external Scott
   height, excluded there, is specified here and leaves the internal objects unchanged. The

@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.InfinitaryLogic.Suggested
+import Completed.InfinitaryLogic.Suggested
 
 /-!
 # Spaces of countable structures and the López–Escobar theorem: suggested signatures
