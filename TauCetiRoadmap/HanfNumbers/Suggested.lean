@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.InfinitaryLogic.Suggested
+import Completed.InfinitaryLogic.Suggested
 
 /-!
 # Ehrenfeucht–Mostowski models and Hanf numbers for Lω₁ω: suggested signatures

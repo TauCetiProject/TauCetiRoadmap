@@ -28,7 +28,7 @@ expansions of a countable set of formulas, the Ehrenfeucht–Mostowski term mode
 lemma and functoriality, the Morley–Hanf theorem with exact cardinalities, the sharpness
 sentences, and the small-model and completion theory.
 
-It continues the [InfinitaryLogic roadmap](../InfinitaryLogic/README.md), whose "Out of scope"
+It continues the [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md), whose "Out of scope"
 list names Ehrenfeucht–Mostowski stretching, partition calculus and Morley–Hanf, and it consumes
 the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap for the specific interfaces listed under
 [Existing library and ownership](#existing-library-and-ownership).
@@ -126,7 +126,7 @@ The following are suppliers, not requests to rebuild their objects.
 | Mathlib von Neumann hierarchy | `ZFSet.vonNeumann` (`V_`), `ZFSet.vonNeumann_add_one`, `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `ZFSet.vonNeumann_subset_of_le`, `ZFSet.card_vonNeumann` (`card (V_ o) = preBeth o`), `ZFSet.card` |
 | Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |
 | Mathlib first-order logic | `FirstOrder.Language`, `Structure`, `Term`, `Term.realize`, `LHom` (`→ᴸ`) and `LHom.reduct`, `Language.sum`, `M ≃[L] N`, `Substructure.closure`; the first-order Skolem language `Language.skolem₁` fixes the shape of the Skolem functions of Layer 2 |
-| [InfinitaryLogic](../InfinitaryLogic/README.md), Layer 0 | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, `Realize` and its simp lemmas, `IndexCoding` and the coded connectives `iInfAlong`/`iSupAlong`, `subst`, `relabel`, `mapBound`, `castLE`, and the finitary embedding `toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); implemented in Tau Ceti as `TauCeti/ModelTheory/Infinitary/{Syntax, Semantics, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
+| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, `Realize` and its simp lemmas, `IndexCoding` and the coded connectives `iInfAlong`/`iSupAlong`, `subst`, `relabel`, `mapBound`, `castLE`, and the finitary embedding `toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); implemented in Tau Ceti as `TauCeti/ModelTheory/Infinitary/{Syntax, Semantics, CodedConnectives, Substitution, Operations}.lean` (Tau Ceti PRs [#17407](https://github.com/TauCetiProject/TauCeti/pull/17407), [#17576](https://github.com/TauCetiProject/TauCeti/pull/17576), [#17885](https://github.com/TauCetiProject/TauCeti/pull/17885)) |
 | InfinitaryLogic, Layers 1–3 | `BFEquiv`, `PotentialIso`, `TauCeti.potentialIso_iff_bfEquiv_all`, the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([#18194](https://github.com/TauCetiProject/TauCeti/pull/18194)), `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence`, which holds for a model of any cardinality |
 
 **From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) ([#1315](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1315)) roadmap** (IME)
