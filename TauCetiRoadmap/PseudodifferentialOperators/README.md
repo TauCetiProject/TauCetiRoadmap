@@ -1120,9 +1120,13 @@ kernel of Δ_j T Δ̃_k has L¹ bounds in each variable at most C_N 2^(−N|j−
 for every N, integrating by parts against the higher-frequency block, which is
 2^(−N·max(j,k)) times derivatives of a Schwartz function by its annular Fourier
 support, and using P2–P4's localized kernel estimates, distribution pullbacks
-and the chain rule for the composed factor. The Schur test converts these kernel
-bounds into one Lp→Lp bound for every 1≤p≤∞, and the convolution of the sequence
-2^(−N|j|) with the weighted block sequence gives the ℓ^q bound once N>|s|.
+and the chain rule for the composed factor. Prove the Lp Schur test as part of
+this target: an integral kernel whose L¹ norms in each variable are at most A
+defines an operator of norm at most A on Lp for every 1≤p≤∞, by Tonelli at p=1,
+the integral norm bound at p=∞ and Hölder's inequality with Tonelli in between.
+It converts the kernel bounds into one Lp→Lp bound for every 1≤p≤∞, and the
+ℓ^q triangle inequality applied to the shifted weighted block sequences, with the
+factors 2^(−N|j|), gives the ℓ^q bound once N>|s|.
 For s>0 the modulus-of-continuity norm of Bergh–Löfström, Theorem 6.2.5,
 pp. 144–146, with the chain rule and mean value theorem is an alternative route
 to the pullback bound; the general-s statement is the target.
@@ -1217,8 +1221,9 @@ The Besov and localized Bessel API includes:
 *Needs:* the real interpolation construction and weighted-sequence formula, dyadic partitions,
 the localized L¹ convolution-kernel bounds above, Tonelli, the integral norm bound
 and PDE Lane B.9's Riesz–Thorin theorem for the Euclidean real identity;
-P2–P4 localized kernel estimates and distribution pullbacks, the Schur test and
-finite-dimensional chart retractions for the Euclidean Besov transition estimates and
+P2–P4 localized kernel estimates and distribution pullbacks, Tonelli, the integral norm
+bound and Hölder's inequality for the Lp Schur test, and finite-dimensional chart retractions
+for the Euclidean Besov transition estimates and
 the bundle Besov carriers and comparisons at every 1≤p,q≤∞;
 the complex interpolation construction and PDE Lane B multiplier estimates for the
 interior-p bundle Bessel transitions.
