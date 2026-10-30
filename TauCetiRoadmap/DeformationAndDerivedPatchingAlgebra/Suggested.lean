@@ -3,17 +3,16 @@ import TauCeti.Algebra.Homology.LinearHomComplex.Basic
 import TauCeti.AlgebraicGeometry.LineBundle.Basic
 
 /-!
-# Deformation and derived patching algebra: headline theorems
+# Deformation and derived patching algebra: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements give Lean forms for headline results; discharging them
+`README.md`. These statements give Lean forms for headline results against the pinned APIs; discharging them
 finishes neither a layer nor the roadmap.
 
 The statements cover formal presentations and flat completion (§§1.9, 1.13),
 Auslander–Buchsbaum, Lescot's criterion, finite actions, top local cohomology and
 Hilbert–Samuel theory (§§3.1–3.3, 3.7, 3.11–3.13), integral points (§4.2),
-balanced and free-module patching (§§5.5–5.6), uniformizer cycle specialization and
-CI parafactoriality (§§6.7, 6.9), minimal representatives (§§7.3, 7.5),
+balanced and free-module patching (§§5.5–5.6), CI parafactoriality (§6.9), minimal representatives (§§7.3, 7.5),
 and codimension, CM concentration and regular-source canonical duals (§§9.2–9.3).
 Finite projective representatives express Tor amplitude on native cochain complexes;
 regular-base CM concentration is expressed by native local cohomology. Residue Ext
@@ -23,12 +22,11 @@ The hull equation bound (§2.5) needs labelled Artinian coefficient categories, 
 and complete socle obstruction theories, absent from the pins. The complete patch
 and its duality functor (§§8.4–8.6, 9.3) need decorated perfect systems and compatible
 actions, and normalized dualizing complexes for the canonical comparison; these
-carriers are also absent. Cycle specialization is stated coefficientwise using native
-localized lengths, as a form of PadicLocalLanglandsForGL2Qp §0.5's agreement theorem, and the
-Hilbert–Samuel polynomial is that section's; parafactoriality uses native invertible sheaves and a chosen
+carriers are also absent. The Hilbert–Samuel polynomial is that of
+PadicLocalLanglandsForGL2Qp §0.5; parafactoriality uses native invertible sheaves and a chosen
 regular presentation of the completion. Paired spectral support and survival (§§9.4–9.7) additionally need derived coefficient-action and isolated-block
-comparisons. These headline statements are deferred until those mathematical
-objects and constructions exist; coefficient-support equalities do not substitute
+comparisons. These headline statements are not statable at the pins without those mathematical
+objects and constructions; coefficient-support equalities do not substitute
 for the spectral support theorem.
 
 Mathlib 6b7abb3c7686292736be2955bd3eb9ebf63b456a;
@@ -116,12 +114,7 @@ def patchingAugmentation (O : Type u) [CommRing O] (r : ℕ) :
     Ideal (MvPowerSeries (Fin r) O) :=
   Ideal.span (Set.range fun i : Fin r => (MvPowerSeries.X i : MvPowerSeries (Fin r) O))
 
-/-- Native module length at a prime, before any finite-length conversion: the coefficient of the
-module cycles of PadicLocalLanglandsForGL2Qp §0.5. -/
-def localizedLength (p : PrimeSpectrum A) : ℕ∞ :=
-  Module.length (Localization.AtPrime p.asIdeal) (LocalizedModule p.asIdeal.primeCompl M)
-
-/-! ## Formal presentations and local algebra -/
+/-! ## Layer 1: Formal presentations and flat completion -/
 
 /-- Cotangent generators and a surjective residue map make the chosen series map surjective. -/
 theorem seriesPresentation_surjective
@@ -144,6 +137,8 @@ theorem flatCompletion_finiteComparison
       ∀ (m : M) (s : S), e (m ⊗ₜ[A] AdicCompletion.of I S s) =
         AdicCompletion.of I (M ⊗[A] S) (m ⊗ₜ[A] s) := by
   sorry
+
+/-! ## Layer 3: Homological dimension, local duality and multiplicity -/
 
 /-- Auslander–Buchsbaum for every nonzero finite module of finite projective dimension. -/
 theorem auslanderBuchsbaum [IsLocalRing A] [IsNoetherianRing A]
@@ -209,6 +204,8 @@ theorem multiplicityOne_regular [IsLocalRing A] [IsNoetherianRing A]
     IsRegularLocalRing A ↔ FormallyUnmixed A ∧ multiplicityCoefficient d P = 1 := by
   sorry
 
+/-! ## Layer 4: Integral points -/
+
 /-- A nonempty generic fibre has a point in a finite extension and its integral closure; characteristic zero ensures finite normalization. -/
 theorem exists_integral_point_of_not_nilpotent
     {O K B Ω : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
@@ -223,7 +220,7 @@ theorem exists_integral_point_of_not_nilpotent
          ∃ f : B →ₐ[O] integralClosure O E, IsLocalHom f.toRingHom) := by
   sorry
 
-/-! ## Module patching -/
+/-! ## Layer 5: Module patching -/
 
 /-- Balanced finite-level modules with compatible scalar images and augmentation give a free
 specialized module over the deformation quotient. -/
@@ -306,31 +303,7 @@ theorem patching_surjection_iso
         Nonempty (T ≃ₐ[O] (MvPowerSeries (Fin r) O ⧸ Ideal.span (Set.range g))) := by
   sorry
 
-/-! ## Specialization cycles and parafactoriality -/
-
-/-- The coefficientwise form, at each special generic point, of the agreement of
-PadicLocalLanglandsForGL2Qp §0.5's uniformizer specialization of module cycles with the cycle of
-the special fibre. The generic coefficients are lengths over local rings, including nonreduced
-rings. -/
-theorem moduleCycle_specialization_coeff
-    [IsLocalRing A] [IsNoetherianRing A] [IsAdicComplete (maximalIdeal A) A]
-    [Module.Finite A M]
-    (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-    [IsAdicComplete (maximalIdeal O) O]
-    [Algebra O A] [IsLocalHom (algebraMap O A)] [Module.Flat O A]
-    [Module O M] [IsScalarTower O A M] [Module.Flat O M]
-    (π : O) (hπ : Irreducible π) (d : ℕ)
-    (hequidim : ∀ p : PrimeSpectrum A, p.asIdeal ∈ minimalPrimes A →
-      ringKrullDim (A ⧸ p.asIdeal) = (d + 1 : ℕ))
-    (q : PrimeSpectrum A) (hπq : algebraMap O A π ∈ q.asIdeal)
-    (hq : ringKrullDim (A ⧸ q.asIdeal) = d) :
-    localizedLength A (QuotSMulTop (algebraMap O A π) M) q ≠ ⊤ ∧
-      localizedLength A (QuotSMulTop (algebraMap O A π) M) q =
-        ∑ᶠ p : {p : PrimeSpectrum A // p.asIdeal ∈ minimalPrimes A},
-          localizedLength A M p.1 *
-            localizedLength A
-              (QuotSMulTop (algebraMap O A π) (A ⧸ p.1.asIdeal)) q := by
-  sorry
+/-! ## Layer 6: Parafactoriality -/
 
 /-- Every line bundle on the punctured spectrum of a local complete intersection
 of dimension at least four is trivial. The completion presentation is explicit. -/
@@ -346,7 +319,7 @@ theorem localCI_parafactorial [IsLocalRing A] [IsNoetherianRing A]
       (U : AlgebraicGeometry.Scheme)) := by
   sorry
 
-/-! ## Minimal representatives -/
+/-! ## Layer 7: Minimal representatives -/
 
 /-- A bounded-above finite free complex admits a minimal finite free homotopy representative. -/
 theorem minimal_finiteFree_representative
@@ -369,7 +342,7 @@ theorem completeFlat_minimal_retract
       i ≫ s = 𝟙 Q ∧ Nonempty (Homotopy (s ≫ i) (𝟙 P)) := by
   sorry
 
-/-! ## Codimension, concentration and canonical duals -/
+/-! ## Layer 9: Codimension, concentration and canonical duals -/
 
 /-- Over a regular local ring, a nonzero finite-projective interval has support of codimension at most its width. -/
 theorem codimension_amplitude_inequality
