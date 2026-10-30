@@ -1,6 +1,6 @@
-# Stochastic calculus, Brownian motion and diffusions
+# Roadmap: stochastic calculus, Brownian motion and diffusions
 
-Build a usable theory of stochastic processes, continuous-time martingales, stochastic
+**Summary.** Build a usable theory of stochastic processes, continuous-time martingales, stochastic
 integration and finite-dimensional diffusions. The principal outputs are constructed Wiener
 laws and integrals, Itô and Stratonovich calculus, Brownian path and potential theory,
 Cameron–Martin and Girsanov changes of measure, martingale representation and time change,
@@ -8,23 +8,36 @@ strong and weak SDEs, and probabilistic representations of deterministic PDEs. T
 must have restriction, stopping, localization, congruence, naturality and integrability APIs;
 a predicate listing the desired properties is not a construction of the object.
 
-Suggested homes: `TauCeti/Probability/Process/`, `BrownianMotion/`, `Martingale/`,
-`StochasticIntegral/`, `SDE/` and `Diffusion/`. Mirror Mathlib's vocabulary and directories.
-The source acceptance spine is the MATH5695 stochastic differential equations course,
-including its exercises, reproduced Cameron–Martin chapter and the generic calculus used by
-the Sircar–Papanicolaou feedback article. The market model, trading/pricing, feedback PDE,
-calibration and reported simulations belong to FinancialMathematics/MarketImpact; this
-roadmap supplies their stochastic interfaces. Representative Lean carriers and prototypes live in
-[Suggested.lean](Suggested.lean), [IndependentLaws.lean](IndependentLaws.lean),
-[AutonomousODE.lean](AutonomousODE.lean), [RawLocalization.lean](RawLocalization.lean), and
-[PointProcessesAdapter.lean](PointProcessesAdapter.lean);
-the README remains the complete specification.
+[Suggested.lean](Suggested.lean) states headline acceptance signatures against the pinned
+APIs. The general vector, semimartingale, flow and diffusion targets have their mathematical
+specifications below, including constructions whose carriers are absent at the pins.
 
-## Conventions and generality
+## Scope and ownership
+
+This roadmap owns continuous-time stochastic calculus and its finite-dimensional diffusion
+applications, from regularization and Wiener construction to stochastic integration, Brownian
+path theory, changes of measure and SDEs. It imports the generic point-measure, Poisson-law and
+compensator theory from PointProcesses Layers 0, 4, 10 and 11; Layer 0.6 here owns the
+process-specific Unit-mark and indexing adapters. OrthogonalL2Bases Part D supplies Gaussian
+tensor bases. StandardDistributions §§8.1, 12.1–12.2 supplies the Bessel/sphere distribution
+identities. PDE Lanes C12 and C15 supply deterministic mean-value and subharmonic theory,
+OneParameterSemigroups Part A supplies C₀ generators and resolvents, and
+DifferentialGeometry §0.3 supplies differentials and pullbacks. The precise declarations
+consumed at the pins are recorded in Exact supplier contracts.
+
+Mathlib owns the vocabulary of measures, filtrations, native locality and Brownian laws;
+Tau Ceti's implemented submean inequality is used without a second construction. Stochastic
+chain rules, finite-measure harmonic boundary adapters and stochastic generator identification
+remain here. FinancialMathematics M0.1–M0.4 owns trading, assets and pricing; MarketImpact owns
+feedback market models. OptimalTransport §13C consumes Wiener laws and heat-generator
+identification and owns its scaled reference and reciprocal-process/entropy theory.
+General SPDEs and infinite-dimensional noise are outside this finite-dimensional roadmap.
+
+## Conventions
 
 - Define the progressive σ-algebra on `[0,T]×Ω` as the restriction of the σ-algebra of sets `A` such that for every `t≤T`, `A∩([0,t]×Ω)` belongs to `B([0,t])⊗F_t`; use the analogous half-line definition. Prove the equivalence between measurability of the evaluation map for this σ-algebra and native `IsProgressive`, whose definition tests every `Set.Iic t × Ω` with the product sigma algebra. S0.2 owns this conversion for `ℝ≥0` time.
 - Time is `ℝ≥0`, with PointProcesses' shared convention `nnvolume = Measure.comap ((↑) : ℝ≥0 → ℝ) volume`. The prototype uses that same concrete formula; the implementation provenance below distinguishes it from native declarations. Define `timeMeasure T := nnvolume.restrict (Set.Ioc 0 T)` locally; SC owns its finite-horizon restriction and trim lemmas, and claims no provider restriction API. Stopping times take values in `WithTop ℝ≥0`. Finite horizons are closed intervals and infinite time is a distinct value. Every stopped-value theorem at infinity either restricts to `{τ<∞}`, supplies a terminal limit, or uses an explicitly declared cemetery state. Mathlib's `stoppedValue` uses `untopA`, whose fallback is not a terminal martingale limit.
-- In S9.2, `IsStrongSolution` means a strongly adapted continuous real process with the initial condition, pathwise time-integrability of the drift, square-integrability of the diffusion on each finite horizon, and the stated integral equation outside one null set simultaneously for all times. The representative and indistinguishability conventions below apply.
+- In S9.1, `IsStrongSolution` means a strongly adapted continuous real process with the initial condition, pathwise time-integrability of the drift, square-integrability of the diffusion on each finite horizon, and the stated integral equation outside one null set simultaneously for all times. The representative and indistinguishability conventions below apply.
 - A stochastic basis uses a measure `P` with `[IsProbabilityMeasure P]` and a Mathlib
   `Filtration ℝ≥0 mΩ`. Adaptation, strong progressive measurability and predictability are
   `StronglyAdapted`, `IsStronglyProgressive` and `IsStronglyPredictable`. Usual conditions
@@ -65,7 +78,7 @@ the README remains the complete specification.
   integrals when the hypotheses allow it. C² noise regularity and C¹ finite-variation/time
   regularity are the final Itô target; a C³ bounded-derivative proof is a lemma on its route.
 
-## Foundations and supplier ownership
+## Exact supplier contracts
 
 Consume the following native APIs and supplier construction targets. A roadmap contract specifies
 work to build; only the entries explicitly identified as native assert an implemented declaration.
@@ -133,9 +146,9 @@ work to build; only the entries explicitly identified as native assert an implem
   exact adapter contract is S0.6 below. It yields a measurable
   `N : Ω → TemporalPointMeasure Unit`, almost surely the pushforward under `t ↦ (t,())`,
   with the zero-time repair, count identity, and filtration hypotheses; consume the supplier's
-  `eventTime` enumeration through the ground-measure dictionary. Layer 4 owns `nthPoint`, the origin sentinel, finite-arrival and
-  complete interarrival-family targets. Layer 10 owns `eraseMarks`, `eventTime`, and their
-  exact index dictionary. S0.6 owns the process-specific path regularization and Unit-mark transfer, and consumes the
+  `eventTime` enumeration through the ground-measure dictionary. Layer 4 owns `nthPoint`,
+  finite-arrival and interarrival-law targets; Layer 10 owns `eventTime`. S0.6 owns the
+  mark-erasure and count-level indexing adapters, including the initial waiting time. S0.6 owns the process-specific path regularization and Unit-mark transfer, and consumes the
   provider's point-law, simplicity, and interarrival results. A
   Poisson marginal law alone does not imply external-filtration adaptation or independent future
   increments.
@@ -165,7 +178,35 @@ work to build; only the entries explicitly identified as native assert an implem
   General SPDEs and infinite-dimensional noise are outside this finite-dimensional
   roadmap.
 
-### Reusable external implementations and current designs
+### From Tau Ceti: submean inequality
+
+`TauCeti.le_setAverage_ball_of_laplacian_nonneg` in
+`TauCeti/Analysis/InnerProductSpace/Harmonic/MeanValue/Basic.lean` takes C² regularity
+on a ball, continuity on its closed ball, a nonnegative Laplacian on the ball and a
+strictly positive radius. It gives the center-to-ball-average inequality. The real
+finite-dimensional inner-product, Borel and Haar-measure hypotheses are retained.
+`TauCeti.SubharmonicOn` in `TauCeti/Analysis/InnerProductSpace/Harmonic/Subharmonic.lean`
+means continuity and frequent positive small-radius submean inequalities; it does not
+mean an extended-real upper-semicontinuous subharmonic function.
+
+### From TauCetiRoadmap.PointProcesses
+
+Layer 0's count-evaluation measurable structure is used to build the random temporal
+measure. Layer 4's Build equivalence applies to a simple nonexplosive positive-rate
+count process; S0.6 supplies those hypotheses, and handles zero rate separately.
+Layers 4 and 10 supply occurrence enumeration and event times, compared through
+count thresholds in S0.6.1 without assuming an origin sentinel. Layers 10 and 11
+supply `TemporalPointMeasure`, `IsCompensator`, the predictable-integral identity,
+its finite-horizon-integrable compensated martingale consequence, and
+`IsAdaptedPoisson.isCompensator`. The latter consumes a measurable map into
+`TemporalPointMeasure E`, its underlying measure-valued `IsAdaptedPoisson` law,
+a sigma-finite intensity μ, and `μ(K × E)<∞` for every compact time set K; it
+returns the constant compensator with that locally finite intensity.
+The ground-measure and ground temporal adapters are Layer 0.6.1 targets here.
+The forward Poisson theorem is independent of the usual-basis Doob–Meyer dictionary
+in Layer 2.5; no later marked-batch existence theorem supplies that dictionary.
+
+### External implementation designs
 
 Shape ports to their source APIs and Mathlib's designs, preserve licenses/authors and record
 immutable provenance. Inspect theorem hypotheses and axiom dependency closures before treating
@@ -210,9 +251,22 @@ Mathlib supplies them.
   translation APIs in Tau Ceti using their conventions. For collaboration and design
   discussion, consult the [Brownian project channel](https://leanprover.zulipchat.com/#narrow/channel/509433-Brownian-motion).
 
-## S0. Process spaces, usual filtrations and stopping
+## How to read the build
 
-**S0.0 deterministic measure and variation adapters.** Use native set algebras,
+Layer 0 builds measurable process, stopping and augmentation adapters; Layer 1 constructs
+Wiener laws; Layer 2 regularizes and localizes martingales. Layer 3 constructs the integral,
+Layer 4 its brackets and maximal estimates, and Layer 5 the change-of-variables formulas.
+Layer 6 develops Brownian path and potential theory; Layers 7 and 8 develop clocks and
+changes of law. Layers 9 and 10 build SDEs and identify their diffusion generators and
+PDE representations. The direct Brownian integral uses Layers 0–1 and elementary conditional
+orthogonality, independently of Layer 2.5's Doob–Meyer theorem. Labels S0–S10 in internal
+references denote these same layers.
+
+## Layer 0: Process spaces, usual filtrations and stopping
+
+### 0.0 deterministic measure and variation adapters
+
+Use native set algebras,
 `MeasurableSpace.generateFrom`, Borel spaces, `Measure`, `SimpleFunc`, `lintegral`,
 Bochner integration and `Lp`. Prove the interval-algebra/Borel-generation and relative
 Borel adapters used on real compact intervals, including unbounded intervals and all
@@ -340,7 +394,9 @@ expanding-value truncation approximation for all L¹ integrands; fixed value win
 [−R,R] do not suffice; on the horizon [0,1], the window R=1 misses g(s)=s, f≡2. S3 consumes these deterministic
 constructions pathwise.
 
-1. **S0.1 path laws and random-variable spaces.** Continuous paths on finite horizons use `ContinuousMap` and the uniform
+### 0.1 path laws and random-variable spaces
+
+Continuous paths on finite horizons use `ContinuousMap` and the uniform
    topology; infinite horizons use compact-open topology. Construct based paths, Borel evaluation,
    restriction, time/spatial shift, concatenation and stopped paths. For a real random variable ξ
    and a countable Borel set S with P(ξ∈S)=1, prove its native pushforward law equals
@@ -357,11 +413,11 @@ constructions pathwise.
    equality. On finite measure spaces give convergence in measure its bounded metric
    presentation `d(f,g)=∫|f−g|/(1+|f−g|)dP`. Prove representative independence, the
    metric axioms, completeness and equivalence with native `MeasureTheory.TendstoInMeasure P`.
-   Use the distinct wrapper `RealL0 (P := P)` and its equivalence
-   `equivAEEqFun : RealL0 (P := P) ≃ AEEqFun Ω ℝ P`; no second a.e. quotient is constructed.
+   Use a distinct wrapper for real L⁰ and an equivalence with `AEEqFun Ω ℝ P`;
+   no second a.e. quotient is constructed.
    Give the wrapper its metric instance. Keep `AEEqFun` free of this metric instance,
    preserving the native Lp norm topology. For 1≤p prove continuity of
-   `equivAEEqFun.symm ∘ (↑) : Lp ℝ p P → RealL0 (P := P)` using native
+   the map from `Lp ℝ p P` to this L⁰ wrapper using native
    `tendstoInMeasure_of_tendsto_Lp`. That native convergence theorem needs no finite-measure
    hypothesis; finiteness is needed both for the bounded-integral metric axioms and for its
    equivalence with convergence in measure. On infinite measure spaces the metric formula
@@ -370,9 +426,15 @@ constructions pathwise.
    consume native Lp/a.e.-to-in-measure and subsequence a.e.-convergence results
    through their actual hypotheses. This random-variable metric does not give
    a pathwise or uniform-in-time convergence conclusion.
-2. **S0.2 regularity and measurability.** Construct the progressive sigma algebra and its
+
+### 0.2 regularity and measurability
+
+Construct the progressive sigma algebra and its
    evaluation-map equivalence with native `IsProgressive` under the conventions above.
-   Versions/indistinguishability, equivalence relations,
+   Define `Indistinguishable P X Y` by equality for every time on one common P-full
+   event. Prove its equivalence-relation and process-map laws.
+   `exists_stronglyPredictable_ae_of_progressive` is the predictable-representative
+   theorem below for real progressive inputs. Versions/indistinguishability, equivalence relations,
    representative replacement and maps of processes; continuous/right-continuous versions
    agreeing at a countable dense set are indistinguishable. Everywhere-continuous adapted and
    adapted left-continuous processes are predictable. Give a corrected explicit approximation for the source's measurability argument:
@@ -564,7 +626,10 @@ constructions pathwise.
    so this is the required optional-section estimate. Prove all restriction, graph,
    predictable-cover, projection and countable-union steps; neither an optional section
    theorem nor Doob–Meyer is a premise of this engine.
-3. **S0.3 augmentation.** Complete a probability space and transport laws and processes.
+
+### 0.3 augmentation
+
+Complete a probability space and transport laws and processes.
    In `RawLocalization.lean`, define `ambientNullAugmentation F P`
    on the original measurable space by adjoining every *ambient-measurable* P-null set to
    each `F_t`; prove `measurableSet_null_ambientNullAugmentation` at time zero and its
@@ -572,7 +637,10 @@ constructions pathwise.
    hull. This is null augmentation of a filtration, not completion of the ambient probability
    space; keep the two constructions and their transport maps distinct. Natural Brownian
    usual-filtration right continuity is proved in S1/S6, not assumed here.
-4. **S0.4 stopping.** Extend native hitting times to continuous-time entry/exit from open,
+
+### 0.4 stopping
+
+Extend native hitting times to continuous-time entry/exit from open,
    closed and Gδ sets under their actual path/filtration conditions. For everywhere-continuous
    adapted paths, closed-set hitting is a stopping time without assuming right continuity of the
    filtration: on [0,t], compactness and distance to the closed set give an event measurable
@@ -624,7 +692,10 @@ constructions pathwise.
    hitting infima approach1. It refutes the quantifier swap, not the stopping
    property of that path's infinite exit time. The continuous-path direct
    theorem above remains valid on arbitrary filtrations.
-5. **S0.5 predictable times.** Use S0.2's pointwise announceable-time definition,
+
+### 0.5 predictable times
+
+Use S0.2's pointwise announceable-time definition,
    elementary operations and predictable-ray generation. First prove the predictable section
    theorem from S0.2's filtration-aware E* paving, outer-projection capacity and compact-fiber
    section construction: for a predictable set E and ε>0,
@@ -675,11 +746,13 @@ constructions pathwise.
    for predictable η,τ. For an announcing sequence, use the intersection
    `⋂_n(τ_n,∞)` together with `{0}×{τ=0}` to obtain `[τ,∞)`.
 
-### S0.6 homogeneous Poisson Unit-mark adapter
+### 0.6 homogeneous Poisson Unit-mark adapter
 
 Fix `α>0` for the arrival/gap conclusions. Include the rate-zero boundary case as the deterministic zero counting measure, with no finite arrivals.
 
-**S0.6.0 process-to-point-measure construction.** Start from a real-valued counting process `N_t` with
+### 0.6.0 process-to-point-measure construction
+
+Start from a real-valued counting process `N_t` with
 `N_0=0`, independent stationary increments, and `N_t−N_s ∼ Poisson(α(t−s))` for `0≤s<t`.
 Construct a càdlàg integer-valued version on rational times, extend it to all times, and prove
 that on every bounded interval it has a càdlàg counting-measure realization, all jumps have
@@ -699,14 +772,19 @@ so `ξ_src({0})=0` for every ω. Prove a.s. simplicity and
 `IsPoissonPointProcess P ξ_src (ENNReal.ofReal α • nnvolume)`; for each fixed t the count
 `ξ_src((0,t])` equals the original `N_t` almost surely. The common path identity is with
 the chosen càdlàg version; do not assert indistinguishability of arbitrary raw finite-dimensional
-versions. Consume Layer 0's evaluation-sigma-field measurability and Layer 4's named
-`isPoissonPointProcess_of_Ioc_counts`: for a measurable point-measure map with a.s. zero
-mass at zero, its counts on each finite disjoint family of bounded `(s,t]` intervals
-are independent with the stated Poisson intensity parameters. Layer 4 owns the generating-ring,
-finite-measure uniqueness, and limiting arguments that extend these data to the point-process
-law. The zero-rate case uses the zero measure and has no finite-arrival conclusion.
+versions. Consume Layer 0's evaluation-sigma-field measurability and Layer 4's
+homogeneous count-process equivalence (the Build item immediately preceding Key declarations).
+Its inputs are a simple nonexplosive process and a positive rate. Supply simplicity and
+nonexplosion from the preceding regularization, and stationary independent increments
+from the original law. The interval-to-count-process specialization is owned here:
+finite families of disjoint bounded intervals give the finite increment vectors, while
+cumulative counts recover those increments by subtraction. The zero-rate case is proved
+separately: all rational-horizon counts vanish almost surely, hence the chosen point measure
+is zero. No positive-rate equivalence is applied at rate zero.
 
-**S0.6.1 marked carrier and event-time dictionary.** Consume PointProcesses' generic unmarked
+### 0.6.1 marked carrier and event-time dictionary
+
+Consume PointProcesses' generic unmarked
 Poisson point-measure law, `TemporalPointMeasure E`, `IsAdaptedPoisson`, `IsCompensator`, and
 predictable-integral identities. For `α>0`, start with a measurable
 `ξ_src : Ω → PointMeasure ℝ≥0` satisfying `IsPoissonPointProcess P ξ_src μ`.
@@ -725,29 +803,49 @@ prove adaptation of the repaired map. The repaired map is pointwise in the provi
 a.s. equal to the unrepaired pushforward. On that equality event prove equality of counts on
 `(0,t]` for all t; consume Layer 4's a.s. time-simplicity result for the diffuse intensity.
 
-Use the supplier's Layer 4 point-measure results, rather than proving them again in S0.6:
-`nthPoint ξ_src 0=0` is the origin sentinel, `nthPoint ξ_src (k+1)` is the first time the ground
-measure count on `(0,t]` reaches k+1, and the full family of gaps
-`nthPoint ξ_src (k+1)−nthPoint ξ_src k` (k≥0) is i.i.d. exponential for the homogeneous
-Poisson law.
-For a temporal measure N, Layer 10 defines `eraseMarks N` as its first-coordinate pushforward
-and `eventTime N k` as the corresponding count-level infimum. Its dictionary is
-`eventTime N k = nthPoint (eraseMarks N) (k+1)`. In this Unit-mark transfer, write `ξ_src`
-for the original unmarked measure and `ξ_ground := eraseMarks N`; then `ξ_ground=ξ_src` on
-the repair event, so the event-time comparison with `ξ_src` is asserted only there. The source
-p.178 `τ_j` (j≥1, the jth positive jump) corresponds to roadmap `τ_(j−1)`; the supplier's
-origin sentinel is not a positive jump. Prove the completed σ-algebra generated by
-`{N_s:s≤t}` agrees modulo null sets with the completion of the restriction σ-algebra generated
-by `ξ_src|_(0,t]`, using interval-count generators and the Unit-mark pushforward equality.
-S0.6 transfers the supplier's measurability, monotonicity, count-level, finite-arrival and full
-gap-family results through the a.s. equality event; it does not repeat the Borel–Cantelli,
-first-wait void-probability, or simplicity proofs. For external filtrations, S0.6.2 supplies
-adaptation and future independence under its stated restrictions. The source's origin convention
-is recorded by `T₀=τ₀`, `T_n=τ_n−τ_(n−1)` for n≥1; supplier gaps are converted to real values
-only on the common a.s. finite-arrival event. Summing through T_k gives the Erlang shape k+1
-law of τ_k.
+Define the ground-measure adapter from a temporal marked measure to an unmarked
+point measure by first-coordinate pushforward, and the ground temporal adapter to
+`TemporalPointMeasure Unit` by pushforward under `(t,e) ↦ (t,())`. These adapters
+are owned here. Local finiteness on compact time sets, integer-valuedness and zero mass
+at the origin follow from the input temporal carrier. Prove their measurability using
+count evaluations, their restriction identities, and preservation of adaptedness.
 
-**S0.6.2 external filtration and usual augmentation.** For the natural source history use
+Fix zero-based positive-occurrence indexing by the count-level formula
+`τ_k = inf {t : N((0,t] × E) ≥ k+1}`, with infimum ∞ for an empty set.
+Prove the adapter identities `eventTime N k = τ_k` and `nthPoint ξ_ground k = τ_k`
+for its ground measure ξ_ground, using zero-based occurrence indexing. These count-level
+comparison identities are targets here; the supplier's kth-occurrence descriptions do
+not assert an origin sentinel or justify shifting the index by one. Define the waiting times as `T_0=τ_0` and
+`T_(k+1)=τ_(k+1)−τ_k` on the common finite-arrival event. For positive homogeneous
+rate, consume Layer 4's equivalence with i.i.d. interarrival times, explicitly including
+the first wait; its displayed theorem about differences of successive occurrences alone
+does not assert independence of the first wait from the remaining gaps.
+The process-specific adapter identifies these waits by the count-level formula and
+transfers their laws through the almost-sure pushforward equality. For supplied realizations,
+the ground measure equals the original unmarked measure only on the repair event.
+Prove that the completed count history agrees with the completed restriction history by
+interval-count generation. The sum through T_k has Erlang shape k+1.
+
+**API.**
+
+- Mark erasure preserves every count on a bounded time interval and commutes with restriction.
+- The repaired Unit-mark map is measurable, is temporal everywhere, and agrees almost surely
+  with the original pushforward; the equality holds simultaneously for all interval counts.
+- Count-level event times are nondecreasing; the kth count threshold is k+1, and the initial
+  wait is the first positive event time. Positive rate gives almost-sure finiteness.
+
+**Checks.**
+
+- The measure δ₁+δ₃ has event times 1,3 and waits 1,2; no event occurs at 0.
+- At rate zero the measure is zero, every event time is ∞ and no real exponential-gap
+  claim is made; applying `toReal` to ∞ would incorrectly produce a zero waiting time.
+- If F₀ reveals whether the first wait exceeds 1 at rate 1, the future event has probability
+  e⁻¹ and its intersection with itself has probability e⁻¹, not e⁻²; the external-independence
+  hypothesis fails even though the marginal point-process law is Poisson.
+
+### 0.6.2 external filtration and usual augmentation
+
+For the natural source history use
 `F_t^src=σ(ξ_src|_[0,s] : s≤t)`, including the restriction to `{0}` at time zero.
 Thus the zero-atom repair event is `F_0^src`-measurable also for a supplied realization
 whose zero-origin property holds only almost surely. Distinguish this history from the raw positive-time
@@ -771,9 +869,11 @@ G. Since `F_∞=F_t∨G_t` and `F_t` is independent of `G_t`, testing on generat
 shows `E[1_A|F_∞]=E[1_A|F_t]`. As `A∈F_∞`, the left side is `1_A`, so A agrees modulo null
 sets with an `F_t` event. This proves the ambient-null-augmented hull identity. On an incomplete ambient space, transport to `P.completion` separately before calling it the completed filtration.
 
-**S0.6.3 compensator specialization.** Consume PointProcesses Layer 10's
+### 0.6.3 compensator specialization
+
+Consume PointProcesses Layer 10's
 `MarkedLocallyFiniteMeasure ℝ≥0 Unit` carrier and `IsCompensator` definition, and Layer 11's
-`isCompensator_of_isAdaptedPoisson`. Its input is a measurable temporal-point-measure-valued
+`IsAdaptedPoisson.isCompensator`. Its input is a measurable temporal-point-measure-valued
 process whose underlying measure is `IsAdaptedPoisson`, together with intensity finiteness on
 `K × Unit` for every compact time set `K`. Its output uses the constant subtype-valued
 marked measure `Aω=⟨μ.prod (Measure.dirac ()), h_local⟩`. Supply precisely these typed inputs
@@ -782,7 +882,7 @@ supplier theorem's two inputs: measurability of the temporal-point-measure-value
 underlying measure `IsAdaptedPoisson`, and
 `h_local : ∀ K, IsCompact K → (μ.prod (Measure.dirac ())) (K ×ˢ (Set.univ : Set Unit)) < ∞`.
 For `μ=ENNReal.ofReal α • nnvolume`, establish `h_local` by the finite-horizon measure
-calculation. Apply Layer 11's `isCompensator_of_isAdaptedPoisson`; its conclusion supplies the
+calculation. Apply Layer 11's `IsAdaptedPoisson.isCompensator`; its conclusion supplies the
 constant subtype-valued compensator, its measurability and predictability, and the expectation
 identity for every nonnegative predictable integrand. As a consumer corollary calculate
 `Aω((0,t]×B)=αt·1_B(())` for S2.1. Use `NullSingletonClass μ` only in the supplier-owned diffuse-time simplicity result and where
@@ -808,24 +908,51 @@ the first jump of a rate-α Poisson process, α>0, in every filtration F for whi
    its Unit-mark temporal point measure has compensator
    `(ENNReal.ofReal α • nnvolume).prod (dirac ())`, using PointProcesses'
    predictable-integral identity. For the constructed homogeneous example first
-   apply S0.6's Unit-mark adapter and PointProcesses Layer 11's `isCompensator_of_isAdaptedPoisson` in the ambient-null-augmented natural source history `F^src` just defined,
+   apply S0.6's Unit-mark adapter and PointProcesses Layer 11's `IsAdaptedPoisson.isCompensator` in the ambient-null-augmented natural source history `F^src` just defined,
 or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-time law alone does not give this
    arbitrary-filtration compensator hypothesis.
 
-## S1. Gaussian processes and constructed Brownian motion
+### Examples
 
-1. **S1.1 construction.** Extend the projective Gaussian family on nonnegative rational times
+The temporal measure δ₁+δ₃ has counts 0,1,2 at times 0,1,3, event times 1,3 and waits 1,2. For g(t)=t on [0,2], its Stieltjes mass is 2 and its atom at 0 is 0.
+
+### Dependencies
+
+*Needs:* Native measure, process, stopping and predictable APIs; Tau Ceti analytic-set null measurability; PointProcesses Layers 0, 4, 10 and 11 for the precise contracts above. The section engine precedes debut and uses its own compact-fiber capacity construction, not Doob–Meyer.
+
+## Layer 1: Gaussian processes and constructed Brownian motion
+
+### 1.1 construction
+
+Extend the projective Gaussian family on nonnegative rational times
    with the existing countable theorem, prove moment bounds, and extend it by Kolmogorov–Chentsov
    to real time. Build the metric-parameter, complete-metric-value version of Chentsov, assuming the pair map `ω↦(X_sω,X_tω)` is Borel measurable for each s,t, with bounded
    covering-number hypotheses: on each bounded parameter region `N(ε)≤Cε^(−d)`
    and increment p-moment `E dist(X_s,X_t)^p≤C dist(s,t)^q`, with `p>0` and `q>d≥0`,
-   obtain every Hölder exponent γ<(q−d)/p. For noncompact parameters use an increasing open exhaustion by totally bounded regions with the stated local bounds; expose the one-dimensional local corollary. Consume the [Krätschmer–Urusov Theorem 1.1/Lemma 1.3](https://link.springer.com/article/10.1007/s10959-022-01207-8) argument, with the native `IsKolmogorovProcess` edistance/lintegral-to-moment adapter owned here. Prove uniqueness
+   obtain every Hölder exponent γ<(q−d)/p. For noncompact parameters use an increasing open exhaustion by totally bounded regions with the stated local bounds; expose the one-dimensional local corollary. Consume the [Krätschmer–Urusov, arXiv:2107.13837v2, Theorem 1.1](https://arxiv.org/abs/2107.13837v2) argument, with the native `IsKolmogorovProcess` edistance/lintegral-to-moment adapter owned here. Prove uniqueness
    of continuous modification, Hölder exponents `<1/2` on compact horizons and an all-paths
    continuous measurable representative. For any indexed family of standard-Borel state spaces and consistent probability
    laws on its finite products, construct the unique law on the product sigma algebra;
    prove this arbitrary-index extension using Polish realizations and compact-system
    tightness, with countable specialization and law uniqueness.
-2. **S1.2 Wiener space.** For a process with a continuous modification and start zero almost
+
+### 1.2 Wiener space
+
+Prove `exists_wienerMeasure`: a probability measure on
+   `C(ℝ≥0, ℝ)` whose coordinate process satisfies `IsBrownianReal` (Lalley, Theorem 1).
+   The full uncountable function space with its product sigma algebra is not a substitute
+   for this continuous-path carrier: every product-measurable set depends on countably many
+   coordinates, so no nonempty such set can consist entirely of continuous paths.
+
+   **Checks.**
+
+   - The zero-path Dirac law has variance 0 at time 1, whereas Wiener variance is 1.
+   - Under Wiener law, the coordinate at time 0 is zero a.s. and the covariance at times
+     1 and 3 is min(1,3)=1; a family of independent marginal Gaussians would give 0.
+   - The difference between times 1 and 3 has variance 2; multiplying paths by 2 gives
+     variance 8 and fails the standard Brownian normalization.
+
+    For a process with a continuous modification and start zero almost
    surely, construct the measurable map into based continuous path space and define its path
    law by pushforward; this law is not necessarily Wiener measure. Call it Wiener measure only
    after proving the Brownian finite-dimensional laws (equivalently, the required centered
@@ -865,14 +992,37 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    characteristic functions; establish the separable-Hilbert isometry from a countable dense
    span/orthonormal basis, and derive independence of disjoint increments from joint Gaussianity
    and orthogonality.
-3. **S1.3 filtered laws.** Define filtration-relative Brownian predicates strengthening
+
+### 1.3 filtered laws
+
+Define `IsFilteredBrownian F P B` as the conjunction of `IsBrownianReal B P`,
+strong adaptation to F, and independence of every future increment from the earlier
+sigma algebra. No usual conditions are part of this definition.
+
+**API.**
+
+- Deterministic restriction and shifted increments preserve the Brownian covariance rule.
+- Enlargement by initial information independent of the whole path preserves the predicate.
+- An indistinguishable replacement preserves the predicate if it remains strongly adapted.
+
+**Checks.**
+
+- For B standard and s=1,t=3, the increment variance is 2 and the covariance with B₁ is 0.
+- For 2B the same variance is 8, so standard Brownian normalization fails.
+- If F₀ reveals the sign of B₁, the event B₁>0 has probability 1/2 and intersects itself
+  with probability 1/2 rather than 1/4; the required independence fails.
+
+Define filtration-relative Brownian predicates strengthening
    `IsBrownianReal`, prove natural-filtration and usual-augmentation adapters, independence
    from the entire past sigma algebra/process, finite increment joint densities and
    Gaussian covariance characterizations. Build Gaussian moment polynomial identities,
    MGF/characteristic-function conditional independence and a Hilbert isonormal Gaussian
    map from deterministic L² integrands. S3.3 proves its identification with the constructed
    stochastic integral after the predictable completion is available.
-4. **S1.4 transformations.** Spatial translation, orthogonal invariance, sign, deterministic
+
+### 1.4 transformations
+
+Spatial translation, orthogonal invariance, sign, deterministic
    time shift/scaling, independent products and Brownian bridges. Prove continuous time
    inversion `tB_{1/t}` at 0 by applying S1.1 Chentsov to its pre-Brownian law,
    comparing its continuous modification with the original inverse at rational positive
@@ -896,7 +1046,9 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    integration from the bounded horizon and Gaussian second moments. This uses
    S1.2–S1.3 Gaussian/path APIs; stochastic integration is not a prerequisite.
 
-5. **S1.5 random-walk approximation.** Make precise the source's assertion that Wiener measure is
+### 1.5 random-walk approximation
+
+Make precise the source's assertion that Wiener measure is
    a limit of random-walk laws. For i.i.d. real increments Y_k with E[Y₁]=0 and
    E[Y₁²]=σ²<∞ with σ≥0, define the polygonal partial-sum path on [0,1] by linear interpolation of
    `n⁻¹/² Σ_{k≤⌊nt⌋}Y_k`, including the fractional last increment. Prove weak convergence of its
@@ -935,9 +1087,19 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    path-space tightness and interpolation are the missing connecting results, not a new CLT,
    Prokhorov metric or double-limit approximation theorem.
 
-## S2. Continuous-time martingales and localization
+### Examples
 
-1. **S2.1 process operations.** Consume native martingale definitions and conditional expectation.
+Brownian covariance at times 1 and 3 is 1; the increment variance is 2. At scale ε=0, every increment is 0 while the initial law is retained.
+
+### Dependencies
+
+*Needs:* Layer 0 process/path adapters; Mathlib Gaussian projective families and scalar CLT; Tau Ceti countable projective existence. Chentsov and interpolation supply the path regularity, independently of Layers 2–5.
+
+## Layer 2: Continuous-time martingales and localization
+
+### 2.1 process operations
+
+Consume native martingale definitions and conditional expectation.
    Use `MeasureTheory.condLExp` from
    `Mathlib.MeasureTheory.Function.ConditionalLExpectation` for nonnegative
    `ℝ≥0∞`-valued conditional expectation. State `G≤mΩ` and the sigma-finiteness of
@@ -985,7 +1147,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    `E[X_{t_{n+1}} | σ(X_{t₁},…,X_{t_n})]=X_{t_n}` for every finite strictly increasing history
    `t₁<⋯<t_n<t_{n+1}`. Prove the extension from finite-coordinate events to the generated natural
    σ-algebra by a monotone-class argument; retain integrability and the all-times quantifiers.
-2. **S2.2 Doob theory.** For an integrable nonnegative discrete submartingale X and λ>0,
+
+### 2.2 Doob theory
+
+For an integrable nonnegative discrete submartingale X and λ>0,
    prove the source p.218 event refinement
    `λP(max_(k≤n)X_k≥λ)≤E[X_n 1_{ {max_(k≤n)X_k≥λ} }]`.
    Use bounded first-crossing sampling on the finite grid, then prove its real-time
@@ -1034,7 +1199,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    of each finite-prefix field F_n, so `E[1_A|F_n]=P(A)` a.s.; uniform integrability
    and the generated-field limit identify this constant with `1_A`, yielding
    `P(A)∈{0,1}`. This is an adapter and proof dictionary, not another zero–one API.
-3. **S2.3 optional sampling.** Dyadic ceiling of real stopping times, convergence of stopped
+
+### 2.3 optional sampling
+
+Dyadic ceiling of real stopping times, convergence of stopped
    values, bounded-time sampling, UI terminal sampling including infinity with explicit limit,
    stopped martingales in original/time-changed stopping filtrations, and Lp estimates.
    Formalize the doubling strategy counterexample and this discrete alternative to UI:
@@ -1054,7 +1222,13 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    probability `P(ξ_τ=r)=((q/p)^s−1)/((q/p)^(r+s)−1)`; for p=q=1/2
    prove `s/(r+s)` directly by sampling the bounded position martingale. The p=1,q=0
    endpoint is recorded separately as the p.1 source exception.
-4. **S2.4 local theory.** Define local/local-L² martingales through native `Locally`.
+
+### 2.4 local theory
+
+Use `IsLocalMartingale F P M` as the scalar specialization of native
+`Locally (fun Y => Martingale Y F P) F M P`, including its initial-time indicator.
+
+Define local/local-L² martingales through native `Locally`.
    Prove adaptation after usual completion and the centered initial-value dictionaries.
    Native `Locally` alone does not assert literal adaptation of the original process:
    its indicator can hide arbitrary values on null sets. On usual bases prove
@@ -1166,7 +1340,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    and are martingales, hence have every finite Lp moment. Add F₀ cutoffs for
    full native stopped-process bounds when M₀ is not integrable. On a usual basis use the adaptation result above; on a
    raw basis retain adaptation as a hypothesis rather than inferring it from `Locally`.
-5. **S2.5 Doob–Meyer.** On a usual basis, stated in the native typeclass form
+
+### 2.5 Doob–Meyer
+
+On a usual basis, stated in the native typeclass form
    `[P.IsComplete] [Filtration.IsRightContinuous 𝓕]` together with
    `hcomplete : ∀ A, MeasurableSet A → P A = 0 → MeasurableSet[𝓕 0] A`, construct the
    unique predictable càdlàg integrable increasing compensator starting at 0 for a càdlàg
@@ -1185,11 +1362,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    `NullMeasurableSpace Ω P` with `P.completion`, it must separately construct the same-space
    transfer to these typeclasses and this `hcomplete` premise; S2.5's statement uses the
    displayed interface directly.
-   For the counting-process/Stieltjes dictionary, consume PointProcesses Layer 10's
-   `groundTemporal : TemporalPointMeasure E → TemporalPointMeasure Unit`, its
-   temporal-carrier and measurability facts, adaptation of restrictions, and exact
-   count identity with `N((0,t]×E)`. PointProcesses owns this generic mark-erasure map;
-   S2.5 owns the counting-process/Stieltjes dictionary. On the same usual basis assumptions above, if
+   For the counting-process/Stieltjes dictionary, consume S0.6.1's ground temporal
+   adapter from `TemporalPointMeasure E` to `TemporalPointMeasure Unit`, its
+   measurability, adapted-restriction and count identities. S2.5 owns the
+   counting-process/Stieltjes dictionary. On the same usual basis assumptions above, if
    `N:Ω→TemporalPointMeasure Unit` is measurable and adapted and `E[N_t]<∞` on every finite
    horizon, construct its predictable increasing càdlàg Doob–Meyer process `A`, `A₀=0`.
    Turn each path into its locally finite Stieltjes measure `ν_A(ω)`, with
@@ -1218,9 +1394,37 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    counting process of a single jump and the predictable graph criterion,
    then apply S0.5's proved graph-to-announcement result.
 
-## S3. Stochastic integration and finite variation
+### Examples
 
-1. **S3.1 predictable measures.** On a usual basis construct the nonnegative
+For B, the martingale B²−t starts at 0 and has expectation 0; B² alone has expectation t. For a rate-2 Poisson count, N₃−6 has expectation 0 and variance 6.
+
+### Dependencies
+
+*Needs:* Layer 0 augmentation and stopping; Mathlib discrete martingales and sampling; Layer 1 Brownian laws for Brownian examples. Poisson examples use Layer 0.6 and PointProcesses Layer 10 compensated-integral identities. Doob–Meyer uses the complete right-continuous basis specified in §2.5.
+
+## Layer 3: Stochastic integration and finite variation
+
+### 3.1 predictable measures
+
+For the Brownian time measure, `predictable_le_prod` expresses that the predictable
+sigma algebra is contained in the ambient product sigma algebra. Define
+`predictableMeasure F P T` by trimming `(timeMeasure T).prod P` along that inclusion;
+Its predictable L² space is the native real `Lp` space with exponent 2.
+
+**API.**
+
+- Predictable rectangle mass is `(t−s)P(A)` for 0≤s≤t≤T and A∈F_s.
+- The time-zero slice has mass zero; restricting to a smaller horizon agrees with its trim.
+- Predictable L² classes are unchanged by equality almost everywhere for this measure.
+
+**Checks.**
+
+- At T=0 the measure is zero and every L² class is the zero class.
+- For P(Ω)=1 and T=2, the constant-one squared norm is 2, not 1.
+- For A∈F₁ of probability 1/2, the rectangle (1,3]×A has mass 1 at horizon 3;
+  using its right endpoint in place of its length would give 3/2.
+
+On a usual basis construct the nonnegative
    predictable measure of a càdlàg class-DL submartingale Z, with rectangle
    value `λ_Z((s,t]×A)=E[1_A(Z_t−Z_s)]` for A∈F_s and zero mass at time 0. Consume
    S2.5's compensator on each finite horizon, identify the measure with
@@ -1236,14 +1440,21 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    finite horizons for L² martingales, uniqueness and the predictable-bracket representation; its Brownian
    specialization on [0,T] is the trim of `(timeMeasure T).prod P` to
    `F.predictable`; the compensated rate-α Poisson specialization is α times that trim.
-2. **S3.2 simple-process completion.** Construct the Brownian integral directly on an arbitrary
+
+### 3.2 simple-process completion
+
+Construct the Brownian integral directly on an arbitrary
    filtration relative to which B is Brownian, independently of S2.5. Use finite-horizon
    dt×P restricted to the predictable sigma algebra, elementary predictable integrands and
    `E[(ξ(B_t−B_s))²]=E[ξ²](t−s)` for ξ∈L²(F_s) to prove orthogonality and the isometry.
    Complete and localize this construction with the stated representative and measurability
    adapters. Define `ElementaryIntegrand F` as a finite grid `s₀≤s₁≤…≤sₙ` with bounded
    `F_(sᵢ)`-measurable heights `ξᵢ`, its process `Σᵢ ξᵢ1_(sᵢ,sᵢ₊₁]` and its elementary
-   integral `Σᵢ ξᵢ(B_(t∧sᵢ₊₁)−B_(t∧sᵢ))`. Define `IsItoIntegral F P B H I` to mean that I has
+   integral `Σᵢ ξᵢ(B_(t∧sᵢ₊₁)−B_(t∧sᵢ))`, named `ElementaryIntegrand.toProcess`
+   and `ElementaryIntegrand.integral`. Empty grids give zero; repeated grid times
+   contribute zero; the one-step grid 1,3 with height 2 gives process 2 on (1,3]
+   and integral `2(B_(t∧3)−B_(t∧1))`. These distinguish left predictability from a
+   right-endpoint or closed-interval convention. Define `IsItoIntegral F P B H I` to require `IsStronglyPredictable F H`, that I has
    almost surely continuous paths and that for every t some elementary integrands Kₙ satisfy
    `∫_(0,t] |Kₙ−H|² ds → 0` in probability, the energy being a lower Lebesgue integral, while
    their elementary integrals at t converge in probability to `I_t`.
@@ -1262,6 +1473,14 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
      indistinguishability, and an arbitrary version need not be adapted to a raw filtration.
 
    **Checks.**
+
+   - A deterministic nonmeasurable indicator H=1_A, where A and its complement have
+     inner measure zero in every bounded positive-time interval, is excluded by
+     predictability. Without that requirement the lower square errors for both K=0
+     and K=1 would be zero, admitting the incompatible integrals 0 and B.
+   - For measurable H=0 the unit approximant has square error t; for H=1 the zero
+     approximant has square error t. At t=1 both errors equal 1, so neither wrong
+     constant sequence converges in energy to its proposed integrand.
    - At t=0 the horizon measure `timeMeasure 0` is zero and every elementary integral
      vanishes, so `IsItoIntegral` forces `I₀=0` a.s.
    - For H=1 the one-step integrand with grid `0≤t` and height 1 has zero energy and
@@ -1294,7 +1513,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    formulas to the selected predictable Brownian version and transfer to any
    indistinguishable raw version. For S9 equations, use the predictable representative of
    σ(t,X_t), retaining the declared Borel coefficient hypotheses and original initial data.
-3. **S3.3 integral process.** Truncation at t, mean-zero martingale, strongly progressive
+
+### 3.3 integral process
+
+Truncation at t, mean-zero martingale, strongly progressive
    selected continuous/càdlàg process,
    L² continuity in the continuous case, Doob uniform approximation, linearity, AE integrand
    congruence, indistinguishability, multiplier rule for bounded ℱ_s-measurable variables,
@@ -1306,7 +1528,28 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    predictable set, first on rectangles by conditional isometry, then by
    measure uniqueness. State the finite-horizon L² hypotheses and identify
    the actual with-density measure. This proof precedes S4's bracket formula.
-4. **S3.4 localization.** First work on a usual basis. Predictable integrands locally square integrable against the bracket;
+
+### 3.4 localization
+
+Define `BrownianIntegrable F P H` to require strong predictability and membership of
+`Function.uncurry H` in L² of each finite-horizon time-product measure.
+Define `LocallyBrownianIntegrable F P H` to require strong predictability and finite
+pathwise square energy on every finite horizon outside one common null set.
+
+**API.**
+
+- The expected-energy domain maps into the pathwise-energy domain by Tonelli and integer horizons.
+- Both domains are stable under addition, scalar multiplication and predictable stopping.
+- Product-a.e. equal predictable representatives yield the same integral up to indistinguishability.
+
+**Checks.**
+
+- H=2 has expected and pathwise energy 4T, hence belongs to both domains.
+- H(t)=1/sqrt(t) for t>0 has infinite energy on (0,1]; it belongs to neither domain.
+- For an independent F₀ Cauchy variable Z, H(t)=Z has finite pathwise energy TZ²,
+  but infinite expected energy at T=1; locality does not mean global L².
+
+First work on a usual basis. Predictable integrands locally square integrable against the bracket;
    construct integrals by compatible stopped integrals and prove independence of localizers,
    locality on stochastic intervals and substitution `∫Z d(∫X dM)=∫ZX dM` with its domain
    equivalence. Continuous adapted integrands are locally integrable against continuous local
@@ -1342,7 +1585,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    with the usual augmentation. The continuous-local-martingale and strong-solution adapters
    must likewise export raw adaptation and native localizing sequences; a construction on
    the completed space alone is insufficient.
-5. **S3.5 finite variation and Fubini.** Apply S0.0's native BV measure/integral adapters to
+
+### 3.5 finite variation and Fubini
+
+Apply S0.0's native BV measure/integral adapters to
    adapted càdlàg finite-variation paths; prove the resulting random-measure and integral
    measurability. Include the source's explicit Poisson finite-variation calculation: for a
    rate-α Poisson counting process N with locally finite jump times τ_k, M_t=N_t−αt and
@@ -1386,9 +1632,19 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    under explicit square-integrability (and its localized form), including matrix deterministic
    kernels used by linear SDEs. This is a connecting theorem beyond ordinary Bochner Fubini.
 
-## S4. Quadratic variation, covariation and semimartingales
+### Examples
 
-1. **S4.1 continuous brackets.** Define `IsQuadraticVariation F P M A` to mean that A is
+H=2 gives integral 2B and energy 4T. For T=3 the isometry gives 12 on both sides. The empty elementary grid and a repeated grid point both contribute 0.
+
+### Dependencies
+
+*Needs:* Layers 0–1, elementary conditional orthogonality and native Lp completion for the direct Brownian integral. The general predictable measure uses Layer 2.5; localization uses Layer 2.4. The deterministic finite-variation part uses Layer 0.0.
+
+## Layer 4: Quadratic variation, covariation and semimartingales
+
+### 4.1 continuous brackets
+
+Define `IsQuadraticVariation F P M A` to mean that A is
    strongly progressive, almost surely continuous, nondecreasing and zero at time 0, and that
    `M²−M₀²−A` is a native local martingale.
    - For an almost surely continuous native local martingale M on a raw filtration, prove
@@ -1400,6 +1656,7 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
      `IsQuadraticVariation F P B (fun t _ => t)`, since `B_t²−t` is a martingale.
 
    **Checks.**
+
    - For M=B the choice `A_t=2t` fails: `B_t²−2t` has drift −t, so it is a strict
      supermartingale and not a local martingale; `A=0` fails because `E[B_t²]=t≠0`.
    - For a process constant in time, `M_t=M₀`, the predicate holds with A=0.
@@ -1444,7 +1701,9 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    stopped-version adapter to its energy-stopped martingale versions. These steps supply
    the raw-F conclusions in S3–S4 without changing the ambient raw sigma-algebra.
 
-2. **S4.2 partition limits.** Deterministic vanishing-mesh sums of squared increments converge
+### 4.2 partition limits
+
+Deterministic vanishing-mesh sums of squared increments converge
    in probability to `[M]`; bounded continuous M gives L², L² martingales L¹. Prove uniform
    on compact time convergence in probability and weighted sums for bounded continuous adapted
    integrands, with localized extension. For standard Brownian motion on [0,T],
@@ -1488,12 +1747,16 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    sequence by summable second-moment errors. This polynomial example precedes
    and does not use S5's general Itô theorem. Treat T=0 by empty sums and zero
    integrals; strict finite partitions above are used for T>0.
-3. **S4.3 mutual variation.** Polarization, symmetry/bilinearity, partitions, Stieltjes finite
+
+### 4.3 mutual variation
+
+Polarization, symmetry/bilinearity, partitions, Stieltjes finite
    variation, Kunita–Watanabe variation bound, stochastic product decomposition,
    `[∫H dM,∫K dN]=∫HK d[M,N]` and vector/matrix versions. Adding continuous finite variation
    preserves QV; build semimartingale decomposition/congruence/localization rather than
    use local-martingale QV notation on an undefined larger class.
-   Own the Burkholder–Davis–Gundy inequalities here. For each p>0 choose constants
+   Prove `continuous_bdg`, the Burkholder–Davis–Gundy inequalities stated below
+   (Baudoin, Lecture 24, Theorem 1). For each p>0 choose constants
    0<c_p≤C_p<∞, depending only on p, such that every continuous real local
    martingale M with M₀=0 a.s. and stopping time τ satisfy, in extended nonnegative expectations,
    the following bounds. On a raw basis choose the progressive a.s.-continuous
@@ -1521,7 +1784,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    S4's square decomposition, so S5's general Itô theorem is not a prerequisite.
    Export the conjugate-martingale and stochastic-integral maximal bounds used by
    S6 local time/Hardy theory and S9–S10 moment, flow and generator estimates.
-4. **S4.4 jump compatibility.** For càdlàg locally L² martingales construct optional QV with
+
+### 4.4 jump compatibility
+
+For càdlàg locally L² martingales construct optional QV with
    `Δ[M]=(ΔM)²`, predictable compensator ⟨M⟩ and mutual brackets; integral isometry uses
    the predictable bracket, while semimartingale product/jump Itô uses optional QV. Give
    `[N−αt]=N` and `⟨N−αt⟩=αt` for the homogeneous rate-α process constructed in S0.6,
@@ -1529,21 +1795,42 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    semimartingale integration and jump correction are explicit targets, not an assumption
    that continuous formulas transfer unchanged.
 
-## S5. Itô, Stratonovich and exponential calculus
+### Examples
 
-1. **S5.1 Itô formula.** For continuous local martingales `M¹,…,Mᵐ` and continuous adapted
+For M=2B, the bracket at t=3 is 12. For compensated rate-2 Poisson counts at t=3, optional bracket is N₃ while predictable bracket is 6; the path with one jump distinguishes 1 from 6.
+
+### Dependencies
+
+*Needs:* Layer 3 integration and Layer 2 stopping/localization. The BDG route uses stopped L² estimates and the square decomposition; the general Itô formula in Layer 5 is not an input.
+
+## Layer 5: Itô, Stratonovich and exponential calculus
+
+### 5.1 Itô formula
+
+Prove `brownian_ito_C2` for scalar Brownian B and C² f, with a predictable
+representative of f′(B) as in Layer 3: `f(B_t)=f(0)+∫f′(B)dB+½∫f″(B)dt`
+(Karatzas–Shreve, §3.3). Its representative-level Lean statement assumes f′(B)
+is predictable; the general statement uses the adapter and indistinguishable transfer.
+
+For continuous local martingales `M¹,…,Mᵐ` and continuous adapted
    finite-variation processes `A¹,…,Aⁿ`, prove the C²/C¹ change-of-variables formula on an open
    domain, stopped before its boundary. Mixed second derivatives use mutual brackets; include
    time as a finite-variation coordinate. Prove Taylor remainder estimates first for bounded
    C³ derivatives, then localize and approximate C² functions with a controlled mollifier.
    Pass to simultaneous-time equality using continuous versions. Give Fréchet-derivative,
    coordinate and complex real/imaginary formulations and smooth-map naturality.
-2. **S5.2 semimartingale rules.** Product, chain and integration-by-parts identities;
+
+### 5.2 semimartingale rules
+
+Product, chain and integration-by-parts identities;
    vector stochastic integrals and transformed SDEs; càdlàg scalar jump Itô formula includes
    `Σ_{s≤t}(f(X_s)−f(X_{s−})−f'(X_{s−})ΔX_s)` with the correct continuous bracket term.
    Prove convergence of this sum under localization, not assume it is finite for infinitely
    many small jumps.
-3. **S5.3 Stratonovich.** For continuous semimartingales define
+
+### 5.3 Stratonovich
+
+For continuous semimartingales define
    `∫H∘dX=∫H dX+½[H,X]`, with H itself a continuous semimartingale. Prove chain/product
    rules, covariance under smooth changes of state and the coefficient drift correction.
    For all continuous semimartingales H,X, prove symmetric-endpoint sums converge in
@@ -1568,7 +1855,10 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    is p A(1) and its variance is at most 2 max_j ΔA_j A(1)→0.
    Hence temporal-midpoint sums for h(x)=x differ from the symmetric integral
    by (p−1/2)A(1). This example pins the Brownian hypotheses on temporal midpoints.
-4. **S5.4 stochastic exponentials.** Construct the continuous Doléans exponential
+
+### 5.4 stochastic exponentials
+
+Construct the continuous Doléans exponential
    `exp(M−M₀−½[M])`, its integral equation, positivity, inverse/product identities and stopped
    consistency. It is a local martingale; give true-martingale/L² criteria and the nonnegative
    supermartingale expectation bound. For jump extensions state the product correction and
@@ -1581,7 +1871,17 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    process `exp(αM−α²A/2)` is local for every real α. Also prove the source p.173 L² implication: when `A=[M]`, if M is an L² martingale, `Z₀^α∈L²`, and `E∫₀ᵗ(Z_s^α)²dA_s<∞` for every finite t, then `Z^α` is an L² martingale, by its stochastic-integral representation and Itô isometry. For the uncentered form,
    localize the F₀-measurable finite exponential initial value; no global integrability
    of that initial value is assumed. No measure change from a local density of expectation less than 1.
-5. **S5.5 Lévy characterization and Brownian versions.** For the original real process M,
+
+### 5.5 Lévy characterization and Brownian versions
+
+The original-process conclusion is `levy_characterization_adapted`;
+`exists_predictable_brownian_of_localMartingale` is its selected-version counterpart.
+`filteredBrownian_of_brownianLaw_localMartingale` uses the native Brownian law,
+literal strong adaptation and locality to deduce future independence.
+`exists_predictable_brownian_version` selects a predictable indistinguishable version
+of a filtration-relative Brownian motion. These are the four interfaces detailed below.
+
+For the original real process M,
    assume literal `StronglyAdapted F M`, native
    `Locally (fun Y => Martingale Y F P) F M P`, continuity outside one common null set,
    `M₀=0` a.s., and `IsQuadraticVariation F P M (fun t _ => t)`.
@@ -1619,7 +1919,15 @@ or in an external filtration satisfying S0.6.2's stated restrictions. A waiting-
    process's Brownian path law without claiming its literal raw adaptation. Preserve
    both interfaces under indistinguishable replacement at exactly these stated scopes.
 
-## S6. Brownian paths, Markov and potential theory
+### Examples
+
+For f(x)=x², Itô gives B_t²=2∫₀ᵗB_s dB_s+t. At T=1, ∫₀¹B_s dB_s has mean 0, whereas ∫₀¹B_s ∘dB_s=B₁²/2 has mean 1/2. For f=3 both derivative terms are 0.
+
+### Dependencies
+
+*Needs:* Layer 4 brackets, Layer 3 integration and Layer 0.0 finite-variation integration; DifferentialGeometry §0.3 for differential/pullback notation in coordinate changes. Taylor localization and C² approximation are supplied in §5.1.
+
+## Layer 6: Brownian paths, Markov and potential theory
 
 Before the strong-Markov kernel argument, prove the source p.19 Lemma 3.5.2 adapter. For measurable real random variables X₁,X₂ and a measurable event A, assume X₂ is
 independent of `σ(A,X₁)`. Define the finite restricted image measure
@@ -1630,7 +1938,16 @@ integrability. The source notation `P_{X₁|A}` denotes this unnormalized restri
 not division by P(A); the formula includes P(A)=0. Preserve the actual joint independence
 premise rather than replacing it by pairwise independence. Consume this adapter in the restart/kernel proof below.
 
-1. **S6.1 restart.** Let B be Brownian relative to the chosen arbitrary filtration,
+### 6.1 restart
+
+The headline `brownian_strongMarkov` gives the restarted
+   Brownian law and independence of the full future path from the stopped sigma algebra
+   at an almost-surely finite stopping time; Lalley, Theorem 5, p.13 states the natural-filtration case, and the deterministic-increment and decreasing-grid argument below supplies the extension to the declared filtration.
+   `brownian_martingaleRepresentation` states the terminal L² form: for T≥0 and an L²
+   variable ξ measurable in the natural Brownian filtration at T, find a predictable
+   finite-horizon L² integrand H with `ξ=Eξ+∫₀ᵀH dB` almost surely; set H to zero after T.
+   The completed-filtration form uses the same a.e. classes (Karatzas–Shreve, §3.4).
+    Let B be Brownian relative to the chosen arbitrary filtration,
    with a.s.-continuous adapted paths, B₀=0 a.s., and each increment B_t−B_s
    independent of F_s with centered Gaussian covariance (t−s)id. Select the
    predictable indistinguishable version supplied by S0.2 and use that version,
@@ -1715,9 +2032,20 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    and the Brownian past and extending by a monotone class. Extra independent initial sigma
    algebras receive the full product/disintegration adapter; representation is not asserted for
    arbitrary filtration enlargements.
-2. **S6.2 reflection and one-dimensional exits.** Reflection at a level, maximum law,
-   hitting/exit probabilities, interval exit mean `K²−x²` inside and0 outside, and hitting
-   level Laplace transform `exp(−√(2θ)|a−x|)`. The hitting density is
+
+### 6.2 reflection and one-dimensional exits
+
+The exit headlines `brownian_hitting_laplace` and `brownian_interval_exit` below
+state almost-sure finiteness together with the level Laplace transform and integrable
+interval-exit mean, respectively (Karatzas–Shreve, §2.8).
+
+Prove `brownian_reflection`:
+   for standard real Brownian B, a>0 and t≥0,
+   `P(∃s≤t, B_s≥a)=2P(B_t≥a)` (Lalley, equation (32), p.16).
+   At t=0 both probabilities are 0; allowing a=0 at t=0 would instead give 1=2.
+    Reflection at a level, maximum law,
+   hitting/exit probabilities, `brownian_interval_exit` with interval exit mean `K²−x²` inside and0 outside, and hitting
+   `brownian_hitting_laplace` with level Laplace transform `exp(−√(2θ)|a−x|)`. The hitting density is
    `|a−x| exp(−(a−x)²/(2t))/√(2πt³)` for x≠a; x=a gives Dirac0. Prove its transform and
    probability normalization analytically. Identify the law directly from the reflection
    CDF `P_x(τ_a≤t)=2P(B_t≥|a−x|)` for t>0 and x≠a, where B is centered Brownian;
@@ -1742,7 +2070,14 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
      =exp(αx)Φ((a−x−αt)/√t)`, using `Φ(x)=cdf (gaussianReal 0 1) x` from StandardDistributions, with the conventions consumed in S6.2.
    Complete the square with center x+αt and prove the Gaussian-tail limit used in
    the level-hit calculation; this gives the direct Gaussian-integral proof as well.
-3. **S6.3 path growth.** Gaussian tail/reflection estimates; consume S1.4’s infinity limit
+
+### 6.3 path growth
+
+Prove `brownian_lil`: outside one null set the
+   limsup and liminf of `B_t/sqrt(2t log log t)` at infinity are 1 and −1
+   (Karatzas–Shreve, §2.9). The normalization is used only for sufficiently large t;
+   the totalized logarithms and division at t=0 or t=1 do not affect these limits.
+    Gaussian tail/reflection estimates; consume S1.4’s infinity limit
    `B_t/t→0`. Prove the local law of iterated logarithm with exact two-sided constants and
    normalization: for each fixed deterministic `t`, almost surely the limsup and liminf of
    `(B_{t+h}−B_t)/sqrt(2h log log(1/h))` as `h↓0` are `+1` and `−1`. The exceptional null
@@ -1768,7 +2103,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    countable rational intervals. Formalize finite Gaussian moments
    and corrected square-increment estimates used by the course's stochastic-integral
    approximations.
-4. **S6.4 spatial behavior.** Harmonic radial annulus exit probabilities (logarithmic in
+
+### 6.4 spatial behavior
+
+Harmonic radial annulus exit probabilities (logarithmic in
    dimension 2, powers in higher dimensions), neighborhood recurrence in dimensions 1 and 2 and transience in
    dimensions≥3, and point polarity in dimensions≥2: for every deterministic start x and fixed target a,
    prove `P_x(∃t>0:B_t=a)=0`, including a=x; an initial hit at t=0 is kept separate.
@@ -1795,7 +2133,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    two-path intersection bounds and potential/capacity estimates, their independent-block
    amplification and zero–one step. This dimension threshold does not follow just from
    recurrence.
-5. **S6.5 harmonic measure.**
+
+### 6.5 harmonic measure
+
+
    **S6.5.0 exit kernels, ball exit law and Dirichlet comparison.** Construct exit kernels for domains, measurability in the start,
    stopped Markov/disintegration laws, Brownian occupation kernels and spatial null-set zero
    occupation time. For each bounded ball, prove finite exit almost surely and uniqueness of the rotation-invariant probability on its sphere by orthogonal-group averaging. For continuous boundary data, identify the Brownian exit expectation with the ball Dirichlet solution using stopped Itô/Kakutani under explicit regularity and integrability hypotheses. Dirichlet uniqueness identifies the exit law against every continuous test function; Riesz uniqueness gives equality of finite Borel measures. This establishes the center-start uniform exit law and the ball exit representation consumed below.
@@ -1930,10 +2271,22 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    `‖μ‖TV=sup{|∫f dμ| : f continuous, ‖f‖∞≤1}` on the compact boundary and use it
    for weak-* lower semicontinuity. Own the finite-positive-Borel-measure maximal function on
    `S¹` and its weak `(1,1)` bound; PDE Lane B8 provides a function maximal function only.
-   Own the circle-to-ball subharmonic implications used here: `C²` plus `Δ≥0` implies the native
-   continuous sub-mean predicate, frequent small-radius inequalities extend to every contained
-   ball, and locally uniform limits preserve the predicate. PDE Lane C15 does not provide
-   these bridges.
+   For an open U and a C² real function with nonnegative Laplacian on U, apply
+   `TauCeti.le_setAverage_ball_of_laplacian_nonneg` to each positive-radius ball whose
+   closed ball lies in U. Restrict C² regularity to the open ball and continuity to its
+   closure; these are the theorem's separate hypotheses. Openness supplies arbitrarily
+   small such radii, giving the frequent inequalities in `TauCeti.SubharmonicOn`.
+   The additional targets here are extension from frequent small-radius inequalities
+   to every contained ball, preservation under locally uniform limits, and the measurable-to-
+   continuous and finite-boundary-measure bridges used above.
+
+   **Checks.**
+
+   - On the unit disk, u(x)=‖x‖² has Δu=4 and center submean inequality 0≤1/2.
+   - The negative quadratic has Δu=−4 and center value 0 greater than its ball average −1/2;
+     it fails the nonnegative-Laplacian hypothesis.
+   - A constant u=3 has Δu=0 and both center and ball average 3 for every positive radius;
+     radius zero is excluded because the totalized empty-ball average is 0.
 
    **S6.5.2 harmonic Hardy boundary representation.** For p>1 prove radial Lp convergence, Poisson representation by the Lp boundary
    function, equality of its Lp norm with the supremum of radial Lp norms, and the
@@ -1959,7 +2312,7 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    argument yields a finite signed measure, not necessarily an L¹ density; a singular boundary
    measure shows why a radial H¹ bound alone does not imply an L¹ density.
    Consume PDE's deterministic kernel/continuous-data Dirichlet APIs; this roadmap owns the
-   finite-measure circle maximal theorem, subharmonic implications, Brownian comparison, and harmonic
+   finite-measure circle maximal theorem, the additional subharmonic bridges, Brownian comparison, and harmonic
    Hardy boundary representations. ConformalMapping supplies conformal
    maps where used and has no duplicate Hardy boundary target.
 
@@ -2008,12 +2361,13 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    BDG/good-λ bounds, first stopped at the exit τ_r from the radius-r disk, r<1,
    then by monotone convergence as r↑1. Prove the Burkholder–Gundy–Silverstein theorem on the disk:
    for real harmonic u and conjugate v normalized by v(0)=0, for every p>0,
-   `u+iv∈H^p ⇔ N_σu∈L^p(m) ⇔ u*∈L^p(P_0)`.
+   `u+iv∈H^p ⇔ N_σu∈L^p(m) ⇔ u*∈L^p(P_0)` (Burkholder–Gundy–Silverstein,
+   §5, Theorems 1′ and 3′, pp.150–151).
    For holomorphic F on open U⊆ℂ and q:ℝ with q>0 prove
    `TauCeti.SubharmonicOn (fun z => ‖F z‖ ^ q) U`, with Real.rpow and the native continuous sub-mean-value predicate. Consume the predicate and comparison theorem `TauCeti.SubharmonicOn.le_of_le_sphere` from the native `TauCeti/Analysis/InnerProductSpace/Harmonic/Subharmonic.lean`.
-   Use the SC-owned deterministic implications from C² and Δ≥0 to the native
-   predicate, from frequent small radii to all contained balls, and closure under locally
-   uniform limits. The all-radius implication uses the
+   Apply `TauCeti.le_setAverage_ball_of_laplacian_nonneg` with the contained closed-ball,
+   positive-radius and C² hypotheses of S6.5.1. Use the additional implications from
+   frequent small radii to all contained balls and closure under locally uniform limits. The all-radius implication uses the
    existing continuous-data Dirichlet theorem and SubharmonicOn.le_of_le_sphere
    before passing limits of normalized ball integrals; function-dependent
    good-radius witnesses are not intersected. Apply these implications to
@@ -2031,7 +2385,12 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    functions. For each unit ball in ℝ^d, d≥2, define real harmonic H^p, p>0,
    by finiteness of `sup_(0<r<1)∫_(S^(d−1))|u(rζ)|^p dσ(ζ)`, with normalized
    rotation-invariant surface measure `σ=σ_prob` defined above, and prove similarity transport to other balls.
-6. **S6.6 local time and reflected motion.** Construct jointly continuous real Brownian local time L_t^a with occupation
+
+### 6.6 local time and reflected motion
+
+Prove `exists_brownian_localTime`,
+   simultaneously constructing the occupation density and the Tanaka formula below
+   (Revuz–Yor, Chapter VI, §1).  Construct jointly continuous real Brownian local time L_t^a with occupation
    normalization `∫₀ᵗF(B_s)ds=∫ℝ F(a)L_t^a da` for nonnegative Borel F.
    Set sgn(0)=0 and prove
    `|B_t−a|=|B₀−a|+∫₀ᵗsgn(B_s−a)dB_s+L_t^a`, and the positive-part
@@ -2039,22 +2398,42 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    reflected Brownian barrier/rectangle models.
    The radial Brownian Bessel process is identified in S9. Do not treat mere absolute value
    as Brownian motion without its local-time correction.
-7. **S6.7 Brownian dynamical models.** Construct two-sided Wiener noise and measure-preserving
+
+### 6.7 Brownian dynamical models
+
+Construct two-sided Wiener noise and measure-preserving
    increments shift `θ_sω(t)=ω(t+s)−ω(s)`, its cocycle, ergodicity/mixing through cylinder
    approximation and independent separated increments. Overlapping interval increments use
    their induced joint law, not the product of all interval marginal laws. Brownian translation
    flow gives the basic measurable skew-product example and cocycle law; state
    the shift of noise when composing times.
 
-## S7. Clocks and changes of measure
+### Examples
 
-1. **S7.1 deterministic clock tools.** On a usual basis, for continuous adapted nondecreasing A with A₀=0 prove the
+At T=1, E[L₁⁰]=E|B₁|=sqrt(2/π); half that local time would fail Tanaka. For the constant harmonic function u=3, the Poisson integral, radial norm and Brownian exit value are all 3.
+
+### Dependencies
+
+*Needs:* Layers 0–2 for strong Markov and natural-filtration comparison; Gaussian tensor bases from OrthogonalL2Bases Part D and Layer 3 for representation. Layers 4–5 for local time and potential theory; PDE Lanes C12/C15 and the pinned Poisson/parametric integral APIs for deterministic harmonic inputs. The finite-measure and Hardy bridges are §6.5 targets here.
+
+## Layer 7: Clocks and changes of measure
+
+### 7.1 deterministic clock tools
+
+On a usual basis, for continuous adapted nondecreasing A with A₀=0 prove the
    strict inverse `T(s)=inf{t:A_t>s}` with values in `[0,∞]`, right continuity
    where finite, continuity when A is strictly increasing, and plateau identities,
    substitution between Lebesgue and Stieltjes measures, stopping-time and stopping-filtration
    constructions. A continuous local martingale is constant on its QV plateaus; prove this
    before asserting continuity of the time-changed process.
-2. **S7.2 Dambis–Dubins–Schwarz.** For centered continuous local M with `[M]_∞=∞` a.s.,
+
+### 7.2 Dambis–Dubins–Schwarz
+
+Prove `dambisDubinsSchwarz`: for a centered
+   continuous local martingale M with bracket A tending to infinity a.s., there is
+   a standard real Brownian B with `M_t=B_(A_t)` simultaneously for all t a.s.
+   (Karatzas–Shreve, §3.4). The nonnegative clock uses `Real.toNNReal`; its
+   nonnegativity follows from monotonicity and A₀=0.  For centered continuous local M with `[M]_∞=∞` a.s.,
    first use S2.4/S0.2's selected predictable indistinguishable version M̃. Construct
    `B_s=M̃_{T(s)}` in ℱ_(T(s)) and prove its literal strong adaptation there, common-null
    continuity and bracket s before applying S5.5's original-process characterization.
@@ -2085,13 +2464,55 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    `A_(τ_D−)=∫₀^τ_D|F′(B_s)|²ds`; state the terminal limit or independent
    extension separately. Prove the required geometric and
    radial interfaces here; S9's Bessel application consumes the clock/substitution API.
-3. **S7.3 density martingales.** Bayes conditional-expectation formula, restriction to
+
+### 7.3 density martingales
+
+Define `stochasticExponential I θ t ω = exp(I_t(ω)−½∫₀ᵗθ_s(ω)²ds)` when I
+is the integral of a locally Brownian-integrable θ. Prove `novikov_expectation`:
+finite expectation of `exp(½∫₀ᵀθ²)` implies the terminal density has expectation 1
+(Karatzas–Shreve, §3.5).
+
+**API.**
+
+- The exponential starts at 1, is positive and is a local martingale for the stated integral.
+- Stopping preserves the exponential identity and the same quadratic-energy normalization.
+- Under the expectation-one criterion the terminal density defines a probability measure.
+
+**Checks.**
+
+- θ=0 and I=0 give density 1 and expectation 1 on every horizon.
+- θ=2 at T=3 gives `exp(2B₃−6)`; its expectation is `exp(6−6)=1`.
+- Reversing the sign of the cross term changes the tilted mean from 6 to −6 at T=3;
+  omitting the half-energy term gives expectation e⁶ instead of 1.
+
+Bayes conditional-expectation formula, restriction to
    deterministic/stopping sigma algebras, density process `ρ_t=E[ρ|ℱ_t]`, UI/càdlàg version,
    equivalent-measure/localization and integrability transport. Prove M local under Q iff
    ρM local under P with the actual positive density/version/local conditions. A finite-horizon
    terminal density gives a measure on that horizon; consistency of horizon measures and an
    infinite-horizon extension/equivalence are separate assertions.
-4. **S7.4 Girsanov.** For continuous positive density martingale ρ and continuous local M,
+
+### 7.4 Girsanov
+
+Define `IsBrownianOn F Q T X` by a zero start Q-a.s., Q-a.s. continuous paths on
+[0,T], strong adaptation, and Gaussian increment laws with independence from F_s
+for s≤t≤T. Prove `girsanov_on_horizon`: under the expectation-one density above,
+`B_t−∫₀ᵗθ_s ds` satisfies this predicate under Q (Karatzas–Shreve, §3.5).
+
+**API.**
+
+- Restriction from T to S≤T preserves the horizon predicate and its increment laws.
+- The tilted terminal density is strictly positive, so P and Q have the same null events.
+- The drift correction has a minus sign for the positive-cross-term exponential.
+
+**Checks.**
+
+- θ=0 leaves both the measure and Brownian process unchanged.
+- θ=2, T=3 gives Q-mean B₃=6 and corrected mean 0, with variance 3.
+- Tilting only at T=1 by θ=1 gives Q-mean B₂=1; subtracting 2 yields −1,
+  so the Brownian conclusion cannot be extended past the declared horizon.
+
+For continuous positive density martingale ρ and continuous local M,
    define finite-variation correction `∫ρ⁻¹ d[ρ,M]`; prove existence by localization and
    `M−correction` Q-local with unchanged QV. For a predictable Brownian drift θ that is locally square-integrable in time, prove the change-of-measure conclusion. If θ is initially supplied only as adapted/progressive, consume S3.4's predictable-equivalence adapter before defining the stochastic exponential. Under a true density
    `Z_T=exp(∫θ·dB−½∫‖θ‖²dt)`, `B−∫θdt` is Brownian on[0,T]. Derive probability,
@@ -2114,7 +2535,9 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    (thus bounded) on [0,T]; this conclusion uses the linear-growth stopped argument, not a
    blanket Novikov assertion for arbitrary adapted drifts.
 
-5. **S7.5 finite versus infinite horizon.** Bounded drift gives each finite-horizon L² density.
+### 7.5 finite versus infinite horizon
+
+Bounded drift gives each finite-horizon L² density.
    For bounded Borel nonanticipative drift functionals on canonical Wiener paths,
    construct the infinite-path law by finite-time consistency and countable-projective
    restriction/continuity; this does not assert extension on an arbitrary original Ω. Infinite
@@ -2129,17 +2552,39 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    This equals E_(Q^x)f(B_t) under the drifted law; prove the needed moment/UI
    bounds for the bounded-f or bounded-f′ alternatives.
 
-## S8. Cameron–Martin and Wiener translations
+### Examples
 
-1. **S8.1 Gaussian supplier.** Construct the Gaussian Banach-space Cameron–Martin RKHS,
+For M_t=2B_t and A_t=4t, the DDS process W_s=2B_(s/4) has variance s and W_(A_t)=2B_t. With θ=2,T=3, the positive density tilts the Brownian mean to 6 and subtracting 6 restores zero.
+
+### Dependencies
+
+*Needs:* Layers 3–5 for integrals, brackets, Lévy and stochastic exponentials; Layer 1 for independent Brownian extensions when the clock stops. Deterministic inverse-clock and stopping-filtration constructions are §7.1 inputs to DDS.
+
+## Layer 8: Cameron–Martin and Wiener translations
+
+Prove `cameronMartin_equivalence` and `cameronMartin_singularity` for every finite
+horizon T≥0 and every continuous deterministic shift h on [0,T]. Mutual absolute
+continuity holds exactly when there exists a strongly measurable L² velocity u with
+`h(t)=∫₀ᵗu(s)ds` for all t≤T, expressed by `IsCameronMartinShift`; otherwise the
+translated and original laws are mutually singular (Revuz–Yor, Chapter VIII, §1).
+The density statement is `cameronMartin_pushforward`. At T=0 equivalence means
+h(0)=0; a nonzero h(0) gives two disjoint Dirac laws.
+
+
+### 8.1 Gaussian supplier
+
+Construct the Gaussian Banach-space Cameron–Martin RKHS,
    continuous injection and isonormal coordinates here, following the Mathlib Cameron–Martin proposal's design and
    names, including `cameronMartin` and `cmCoe`; adopt native declarations with this interface. Build the finite-moment dual
    closure, inner-product/completion/evaluation range identities, Gaussian coordinate laws,
    positive translation density and inverse/equivalence. Discharge missing total-variation
    distance bounds needed by non-RKHS translation singularity; there is no placeholder TV
    axiom in the completed theorem. Do not duplicate Mathlib's finite-dimensional Gaussian
-   transforms or the source PR's norms on a conflicting type.
-2. **S8.2 Wiener identification.** Prove that the Wiener RKHS consists exactly of
+   transforms or the external design's norms on a conflicting type.
+
+### 8.2 Wiener identification
+
+Prove that the Wiener RKHS consists exactly of
    `h(0)=0`, h absolutely continuous and h′∈L²(0,T), isometrically with norm²=∫‖h′‖².
    Its isonormal coordinate equals the deterministic S3 integral ∫h′·dB. Construct translation
    on based continuous paths and its cylinder/Borel measurability for every continuous based
@@ -2159,7 +2604,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    a pathwise derivative of Brownian motion.
    For an arbitrary continuous shift, transport completions with respect to its pushforward
    law; Borel measurability alone does not assert preservation of the original Wiener completion.
-3. **S8.3 constructive proof dictionary.** Polygonal interpolation through finite grids,
+
+### 8.3 constructive proof dictionary
+
+Polygonal interpolation through finite grids,
    uniform approximation, Gaussian finite-grid translation and energy convergence. Make the
    finite-grid-to-Wiener-density construction explicit for every Cameron–Martin h, with only
    h absolutely continuous and u=h′∈L²(0,T), T>0. On the dyadic grid
@@ -2275,10 +2723,26 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    extended F whenever its positive and negative integrals are not both infinite;
    for real Bochner integrals prove equivalence of absolute integrability.
 
+### Examples
 
-## S9. Strong and weak SDEs, flows and approximation
+For h(t)=2t on [0,3], the velocity is 2, energy is 12 and density is exp(2B₃−6). For h(t)=sqrt(t) on [0,1], the derivative-square integral is infinite; the translated law is singular. For h(0)=1, the initial evaluations already separate the two laws.
 
-1. **S9.1 solution theory.** Coefficients `b(t,x):V`, `σ(t,x):H→L[ℝ]V`, adapted initial
+### Dependencies
+
+*Needs:* Layers 1 and 3 for Wiener laws and deterministic Brownian integrals; §8.1 constructs the missing Gaussian RKHS translation interface in the stated external design. Layer 0.0 finite-measure uniqueness supplies the finite-grid extension route.
+
+## Layer 9: Strong and weak SDEs, flows and approximation
+
+### 9.1 solution theory
+
+Prove `exists_strongSolution` and
+   `strongSolution_pathwise_unique` for scalar Borel coefficients with spatial Lipschitz
+   and growth constants bounded on each finite time horizon, Brownian noise relative to F,
+   and arbitrary finite F₀-measurable initial data (Karatzas–Shreve, §5.2).
+   The uniqueness statement needs the Lipschitz hypothesis and two existing solutions;
+   it needs neither a separate growth premise nor a moment premise on their common initial data.
+   For b(t,x)=tx and σ=0, L_T=T is valid although there is no global time-uniform constant.
+    Coefficients `b(t,x):V`, `σ(t,x):H→L[ℝ]V`, adapted initial
    ξ and Brownian noise relative to the chosen basis; define the stochastic integral equation,
    solution law, stopping/restart and indistinguishability. Global spatial Lipschitz and linear
    growth, measurability in t and finite-horizon uniform constants give strong existence,
@@ -2330,14 +2794,20 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    gives equality up to that stop. Let R→∞ on each finite horizon, then m→∞. Record that the
    unlocalized estimate needs these localization and limit steps; do not assume the original
    random initial value is L² merely to make the proof estimate finite.
-2. **S9.2 local and maximal solutions.** Local spatial Lipschitz uniformly on compact
+
+### 9.2 local and maximal solutions
+
+Local spatial Lipschitz uniformly on compact
    time/state regions, locally bounded coefficients, exit-ball localization, compatible
    truncated solutions and explosion time. Prove maximality/uniqueness and no finite explosion
    under a coercive C² Lyapunov function with finite-horizon generator bound `L_tV≤C_T(1+V)` for t∈[0,T]; the source's
    `‖σ(x)‖_HS²≤C(1+‖x‖²)` and `⟨x,b(x)⟩≤C(1+‖x‖²)` is a corollary via1+‖x‖².
    This is weaker than imposing linear growth of the full drift. Initial moment estimates
    require corresponding moments; nonexplosion itself is localized in the initial state.
-3. **S9.3 weak theory.** Weak solutions as actual probability spaces/laws satisfying the
+
+### 9.3 weak theory
+
+Weak solutions as actual probability spaces/laws satisfying the
    integral identity. For finite-dimensional V construct weak solutions to
    `dX_t=b(t,X_t)dt+dW_t`, with standard V-valued Brownian W and diffusion id,
    by canonical Girsanov for bounded Borel b. Extend to locally bounded Borel b
@@ -2374,7 +2844,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    from the same compatibility lemma, giving a strong solution on any basis
    carrying the prescribed initial variable and Brownian noise, and uniqueness
    of the solution law for every prescribed initial law.
-4. **S9.4 named examples.** For the scalar OU equation `dX_t=−λX_tdt+σdB_t`, state and prove
+
+### 9.4 named examples
+
+For the scalar OU equation `dX_t=−λX_tdt+σdB_t`, state and prove
    `X_t=e^(−λt)X₀+σ∫₀ᵗe^(−λ(t−s))dB_s` for finite F₀-measurable X₀. For integrable X₀ prove `E[X_t|F₀]=e^(−λt)X₀`; no ordinary L¹ conditional expectation is asserted for an arbitrary finite nonintegrable initial value. With `Z_t=σ∫₀ᵗe^(−λ(t−s))dB_s`, for λ≠0 and s≤t its noise covariance `Cov(Z_s,Z_t)` is `σ²e^(−λ(t−s))(1−e^(−2λs))/(2λ)` (for λ=0 it is `σ²s`). When λ>0 and X₀ is independent centered Gaussian with variance `σ²/(2λ)`, prove the stationary covariance `Cov(X_s,X_t)=σ²e^(−λ|t−s|)/(2λ)`. Retain the general locally bounded drift/Lyapunov theorem as a separate result. Include deterministic
    matrix linear equations/variation of constants, and constant-coefficient GBM
    `dS_t=μS_tdt+σS_tdW_t` for μ,σ∈ℝ, including σ=0. For finite F₀-measurable
@@ -2536,7 +3009,9 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    `Real.besselI` and its series, recurrence and sphere-integral API are owned by
    StandardDistributions.
 
-5. **S9.5 solution maps and flows.** Under S9.1's global Lipschitz/linear-growth hypotheses,
+### 9.5 solution maps and flows
+
+Under S9.1's global Lipschitz/linear-growth hypotheses,
    construct jointly measurable nonanticipating dependence on time/start/noise, Lp stability
    under its stated moment hypotheses, and the restart identity by pathwise uniqueness and
    the post-stopping Brownian increments from S6.1. Localize this construction in S9.2's
@@ -2547,7 +3022,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    coordinate compatibility through S5. Translation flow is the basic acceptance case.
    Combine these flows with S6.7's two-sided Wiener shift to construct measurable
    skew-product examples, proving the cocycle law with the shifted noise.
-6. **S9.6 numerical supplier.** Euler–Maruyama recurrences and continuous interpolants on
+
+### 9.6 numerical supplier
+
+Euler–Maruyama recurrences and continuous interpolants on
    declared deterministic meshes, Gaussian increment independence and measurability. Under
    global Lipschitz/linear growth, time bound
    `‖b(t,x)−b(s,x)‖+‖σ(t,x)−σ(s,x)‖_HS≤C(1+‖x‖)|t−s|^(1/2)`
@@ -2561,9 +3039,19 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    Model-specific nonlinear PDE schemes and statistical market calibration remain the consumer's
    work, not unexplained consequences of generic Euler convergence.
 
-## S10. Diffusions, generators and probabilistic PDEs
+### Examples
 
-1. **S10.1 kernels and Markov theory.** Construct SDE solution-law kernels measurable in
+For b=σ=0, the solution is X_t=ξ without any moment bound on ξ. For b(t,x)=tx and σ=0, X_t=ξ exp(t²/2), with Lipschitz constant T on [0,T]. Without spatial Lipschitzness, b(x)=2sqrt(|x|),σ=0,ξ=0 admits both X=0 and X_t=t².
+
+### Dependencies
+
+*Needs:* Layers 3–5 and 7 for integral estimates, Itô and changes of measure; Layer 6.1 for strong Markov in the Bessel examples; StandardDistributions §§8.1 and 12.1–12.2 for Bessel/sphere normalizers. Maximal solutions and measurable solution maps are constructed in §§9.2–9.5.
+
+## Layer 10: Diffusions, generators and probabilistic PDEs
+
+### 10.1 kernels and Markov theory
+
+Construct SDE solution-law kernels measurable in
    initial state, transition/Chapman–Kolmogorov identities, independent initial mixtures,
    autonomous Markov semigroups and time-inhomogeneous two-parameter evolution kernels,
    strong Markov in the well-posed nonexplosive S9 regimes. For strong solutions use S9.5's
@@ -2583,7 +3071,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    continuity in the C₀ sup norm under those bounds, and construct killed/stopped kernels on
    domains with their Feller conditions. Consume generic kernel and semigroup structures; do not call every diffusion
    semigroup C₀ without verifying its function space and norm continuity.
-2. **S10.2 generators and martingale problems.** Define
+
+### 10.2 generators and martingale problems
+
+Define
    `Lf=⟨b,Df⟩+½trace(σσ*D²f)` on its declared smooth test domain and prove
    `f(X_t)−f(X₀)−∫Lf(X_s)ds` local martingale, integrable Dynkin identities and stopped
    occupation formulas. Equivalence of weak SDE laws with the specified martingale problem. For the reverse
@@ -2615,7 +3106,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    coefficients continuous in time, S9.5 flow derivatives and dominated differentiation
    construct the backward C^(1,2) solution for C_b^4 terminal data; prove the time
    derivative using the Markov/difference-quotient argument, not a missing PDE theorem.
-3. **S10.3 Feynman–Kac.** Write
+
+### 10.3 Feynman–Kac
+
+Write
    `L_tu=⟨b(t,x),∇u⟩+(1/2)tr(σ(t,x)σ(t,x)*D²u)` and fix the backward
    terminal-value convention `∂_t u+L_tu+q(t,x)u+f(t,x)=0`, `u(T,x)=φ(x)`.
    Prove, for the solution X started from x at time t,
@@ -2634,7 +3128,10 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    theorem, a supplied C^(1,2) solution and the proved moment/UI bounds remain hypotheses;
    smoothness of an arbitrary expectation is not inferred. Deterministic PDE supplies
    only its explicitly specified harmonic/elliptic/weak-parabolic tools.
-4. **S10.4 stopped Schrödinger/Dirichlet.** For relatively compact open E with closure inside D,
+
+### 10.4 stopped Schrödinger/Dirichlet
+
+For relatively compact open E with closure inside D,
    bounded Borel q and ψ∈C²(D), derive the stopped identity for `½Δψ+qψ=0` a.e., using the
    zero-occupation spatial-null-set theorem. Stopped Brownian coordinates are local martingales,
    not finite variation. For the representation on D assume separately
@@ -2676,54 +3173,50 @@ premise rather than replacing it by pairwise independence. Consume this adapter 
    Feynman–Kac target owns the bounded-potential stochastic representation;
    PDE's dispersive Schrödinger estimates are a separate interface.
 
-## Source comparison and small targets
+### Examples
 
-Keep literal transcript statements and the adopted theorem targets in separate fields. The following source discrepancies are retained for page-by-page comparison; a source discrepancy is not silently rewritten as a theorem:
+For standard Brownian motion, the generator sends x² to 1 because half its second derivative is 1. For a constant potential q=2 and payoff 1 at time T, the Feynman–Kac value is exp(2(T−t)); killing at rate 2 instead gives exp(−2(T−t)).
 
-| Transcript page(s) | Literal source statement to preserve | Adopted target/correction to prove |
-|---|---|---|
-| 1 | Part (a) assumes `p>0`, `q=1−p`, and asks whether `(q/p)^ξ_n`, indexed by `n=1,2,…`, is a martingale; part (b) asks for stopped expectation 1. | For `p=1,q=0`, `ξ_n=n` a.s., so the literal process is zero for every n≥1 and is a martingale on that index set. The exit time is τ=r a.s. and the stopped expectation is 0, so part (b) fails at this endpoint. If one extends the process to time zero by ξ₀=0 and M₀=1, the sequence 1,0,0,… fails the martingale identity from time zero to one. Prove the intended stopped-expectation and gambler’s-ruin targets under `0<p<1`; retain the literal indexing separately. |
-| 98 | The page identifies `f(x)=E^{P^x}[f(X_t)]` and then equates it to the weighted expression. | Under the drifted law `Q_t^x` on the time-t sigma-algebra, prove `f(x)=E^{Q_t^x}f(X_t)=E^{P^x}[ρ_t f(X_t)]`, with stated stopped/integrability hypotheses; do not omit `ρ_t`. |
-| 100 | The OU example prints `c=1` for `x·b(x)≤c(1+\|x\|²)` with `b(x)=αx`. | Use `c=max(α,0)`, which bounds `αx²` above by `c(1+x²)` for every real α; retain that the printed `c=1` is false for general α. |
-| 111 | The scaffold asks for strict `μ(C)<μ(D)` when `C⊆D`. | Finite additivity/nonnegativity proves `μ(C)≤μ(D)`; strictness needs `μ(D\C)>0`. Retain the false printed claim as an erratum. |
-| 130 | The literal strong-Markov display has a standalone `ξ` factor on the left of the event indicator. | Preserve literal formula in transcript; target the corrected conditional expectation without that factor, with `1_{ξ<∞}` and transition-kernel/integrability qualifications. |
-| 157 | The source says countably many values imply integrability, and prints `(n−k)/2` for the number of `+1` increments. | At fixed n the walk has finite range, giving integrability. If `ξ_n=ΣY_i`, the count at value k is `(n+k)/2`; retain the source's printed sign separately. |
-| 165 | The inverse-radius Gaussian example prints “t→0” before concluding a limit as t→∞. | In dimension three, split the normalized Gaussian expectation at a fixed radius R, bound its near part by O(R²t^(−3/2)) and its tail by 1/R; let t→∞, then R→∞. Preserve the conflicting printed limit separately. |
-| 176 | The Feynman–Kac argument calls the exceptional spatial set null for one-dimensional Lebesgue measure. | For Brownian motion in `ℝ^d`, require `d`-dimensional Lebesgue nullity; prove zero occupation by transition densities and Tonelli. Stopped-coordinate processes are local martingales, not finite variation. |
-| 204, 229 | The source gives `{α_k∧β_k≤t}` as an intersection and omits the initial-value term in a stopped L² bound. | The event is `{α_k≤t}∪{β_k≤t}`. Bound centered stopped increments or explicitly include `M₀`; prove both paths remain bounded on compact intervals in the divergence argument. |
-| 210, 231, 233, 242 | The notes claim `E[(B_t²−B_s²)²]=E[(B_t−B_s)^4]` by an antisymmetry cancellation. | Prove instead `E[(B_t²−B_s²)²]=4s(t−s)+3(t−s)²`; write ΔB=B_t−B_s, so `4E[B_s²(ΔB)²]=4s(t−s)` and `E[4B_s(ΔB)³]=0`. The L² approximation still needs its own corrected moment estimate. |
-| 224 | The hint uses right-continuous step approximants on `[t_j,t_{j+1})` as predictable. | Use left-continuous adapted step approximants on `(t_j,t_{j+1}]` (and the F₀ value at time zero), and prove the generated predictable-measurability statement. |
-| 231 | A barred Brownian process appears in the martingale/Jensen lines without definition, followed by an unbarred conditional-moment formula. | Keep the notation mismatch literal; do not use the displayed bound until the process and filtration are identified and the conditional moment is derived. |
-| 262–263 | With `T_h(ω)=ω+h`, the event and density signs are written for the inverse translation while the text labels the pushforward by `T_h`. | Preserve the conflict. Prove the Cameron–Martin density for the chosen map convention; positive cross term corresponds to `P∘T_h^{-1}` for `T_h(ω)=ω+h`, while the negative term is the inverse/change-of-variables convention. |
-| 265 | The final transformed equation prints `Y_s` in both drift integrands. | From `g′=f∘g`, the general drift terms are `f(Y_s)`, not `Y_s`; retain that the printed equality works in the specialization `f(y)=y`. |
-| 17 | The source states the `\|X_t\|^p` submartingale claim for p≥1 without pth-moment integrability. | State `X_t∈L^p` at every time for the ordinary integrable claim, or prove a separately formulated nonnegative extended conditional inequality with measurability hypotheses. |
-| 102 | The sixth Gaussian moment and Riemann-sum error are printed as `6(Δt)^3` and `T²/(2n)`. | Preserve those literals; prove the corrected values `15(Δt)^3` and `T³/(3n²)`. |
-| 112 | Problem 11(a) asserts uniform countable additivity implies uniform integrability. | Preserve the one-way printed claim; record the one-atom counterexample absent a uniform L¹ bound. |
-| 117, 119, 120, 121, 123 | Dyadic conditional expectations; maximal-L² inequality; defective upcrossing update; unclear first-upcrossing glyphs/hidden normalization; conditional Jensen hypotheses. | Prove the dyadic generating-field adapter; retain the maximal inequality and correct buy-low/hold strategy separately; preserve p.121 glyph uncertainty; state Jensen integrability. |
-| 148, 178 | Dyadic sums include the source's final overshooting increment; p.148 upper index is faint. | Preserve the index/uncertainty and prove convergence under the stated continuity/BV hypotheses; distinguish overshooting from truncated sums. |
-| 151–153 | The assignment uses FTC for continuous functions differentiable a.e. with integrable derivative; p.153 gives a purported Cantor-gap construction. | Require absolute continuity for FTC. Record the attempted p.153 extension as discontinuous at a gap endpoint, so it is not a valid continuous counterexample as printed. |
-| 161–163 | “Standard filtration” is used informally before completeness/right-continuity are defined. | State usual conditions explicitly; prove natural filtration augmentation rather than inferring completeness from the source label. |
-| 168 | “Continuous local martingale hence automatically L²” is overbroad. | Preserve the phrase; state only L² conclusions supported by fixed-time integrability/localization hypotheses. |
-| 173 | The source states an L² conclusion for `Z^α` with bracket `A`. | S5.4 states `A=[M]`, `M∈L²`, `Z₀^α∈L²`, and `E∫₀ᵗ(Z_s^α)²dA_s<∞` for each finite t, then derives the conclusion by Itô isometry. |
-| 175 | Lévy characterization centers increments at M₀. | S5.5's original-process theorem retains strong adaptation and centers at finite F₀-measurable M₀; bare native locality gives the separate indistinguishable predictable Brownian version. |
-| 176 | The Feynman–Kac argument uses a one-dimensional spatial-null-set condition in dimension d. | Require d-dimensional Lebesgue nullity for the zero-occupation argument; stopped Brownian coordinates are local martingales, not finite variation. |
-| 184 | The shares solution invokes a compressed rectangle-error expression `−(b−a)h y′(ξ)` and small individual shares. | Preserve the formula without inferring its unclear constant or subscript. The acceptance example specifies a sequential uniform finite-lot rule and proves an explicit 5/N conditional-mean error and its dollar scaling. |
-| 185 | The source gives biased and fair gambler's-ruin probabilities. | Prove the displayed biased formula for `0<p,q<1`, p≠q, positive integer distances, and the fair value `s/(r+s)` by bounded-exit sampling; preserve p.1's degenerate exception. |
-| 186 | The source decomposes an arbitrary stopping-time range as countable. | Preserve that source error; use S0.4's open-set hitting-time proof. |
-| 235 | Proposition 4.31 is applied to both endpoint sums, including the anticipative right endpoint. | Preserve the invocation; prove the difference bound and convergence in the explicit S4.2 target above before using the left-endpoint theorem. |
-| 246 | The assignment specifies Problem 5 under `μ=r=0`; Problem 4 prints `dU_s` and asks to calculate U. | Preserve the exact assumption and notation. The source's discount/drift inconsistency is not a pricing theorem; M0.4 owns corrected pricing, while SC owns the GBM/Gaussian-payoff interfaces. |
-| 247 | The solution gives a compressed two-dimensional recurrence proof for 1D exit finiteness from proper A. | Preserve the source route and separately prove the one-dimensional level-hitting comparison in S6.2. |
-| 252 | Reflection is written as if the same-start law from x to a equaled the law to −a. | Preserve the source shorthand; reflect both start and target, and prove the absolute-distance formula separately in S6.2. |
-| 264–265 | The source calls a BV-driven term absolutely continuous and prints `Y_s` in both drift integrands. | Preserve both; the general transformed drift uses `f(Y_s)`, and absolute continuity needs an additional AC hypothesis on U. |
-| 268–269 | The pages mix the discounted payoff, transformed drift, stock law and undiscounted strike tail. | Preserve the displayed formulas. Derive the corrected risk-neutral payoff from S9.4 and FinancialMathematics M0.4, not from the inconsistent displayed equality. |
+### Dependencies
 
-The page numbers refer to the source transcripts. Each row distinguishes the literal statement from the mathematical theorem to prove; retain both.
+*Needs:* Layers 4.3, 6 and 9 for moment bounds, restart and SDE laws; OneParameterSemigroups Part A for closed generator/resolvent theory and PDE Lanes C/F for deterministic Dirichlet/parabolic inputs. The stochastic generator and martingale-problem identification is built in §10.2.
 
-The remaining source-specific theorem targets are owned in the following milestones, with literal statements separated from corrected forms: p.16 conditional Jensen belongs to S2.1 with `X∈L¹`, `φ(X)∈L¹` (or a separately stated nonnegative extended-integral form); p.19 event-restricted product/iterated-integral identity belongs to S6.1 and uses the independent-law adapter immediately above; the Wiener-path-law F-martingale corollary belongs to S5.5 via quadratic variation and Lévy with literal strong adaptation for the original process and no assumed future independence; bare locality supplies the separate predictable Brownian version. Textbook Theorem 4.8.1 retains its standard-filtration source hypothesis, uses the centered Lévy statement and separately identifies M as Brownian started at its finite `F₀`-measurable M₀; textbook Theorem 6.2.3 belongs to S9.1–S9.2 with bounded Lipschitz coefficients, Brownian noise, F₀ initial data, uniqueness up to indistinguishability/law, and its displayed supremum estimate.
+## Worked examples: mathematical corrections
 
-The independent-sum martingale is an S2.1 application under integrability. The p.152 partition-refinement variation is S0.0; retain the source’s undefined `k=0` summand as an erratum. The three-dimensional inverse-radius limit for fixed deterministic `x≠0` is S6.4. The p.173 exponential L² implication is S5.4 with the explicit hypotheses stated there. The biased-ruin formula and fair-coin limit are S2.3 examples with bounded-exit conditions; retain the p.1 `p=1,q=0` degenerate exception. Open-set exit measurability is S0.4; proper-open-set one-dimensional exit finiteness is S6.2. The anticipative right-endpoint sum is the explicit S4.2 adapter above, consumed by S3.5. The rotation-invariant probability uniqueness and disk Poisson kernel with angular normalization are S6.5.0–S6.5.1. The OU explicit solution, Stratonovich `e^B` example, uncentered Lévy statement, Scheffé converse, event-form Doob inequalities, and strict p.101 localizer are separate adapters/examples in S9.4, S5.3/S5.5, S2.1/S2.2, and S3.4 respectively. Financial corrections are owned by FinancialMathematics M0.4; SC supplies the GBM and Gaussian-payoff interfaces. These are source-specific targets, not duplicate measure or finance libraries.
+The page labels below refer to MATH5695 in References. These are mathematical targets
+and counterexamples, stated independently of any transcription.
 
-## Acceptance examples and source corrections
+| Page locator | Mathematical target or counterexample |
+|---|---|
+| 1, 185 | For a walk with p=1,q=0 and time index starting at 1, (q/p)^ξₙ is constantly 0; its stopped expectation is 0. Gambler's-ruin sampling with expectation 1 requires 0<p<1. The fair exit probability is s/(r+s). |
+| 17 | The ordinary submartingale assertion for ‖X_t‖ᵖ requires finite pth moments for p≥1; a nonnegative extended conditional inequality is a different assertion. |
+| 98 | Under a density change Q with terminal density ρ, E^Q f equals E^P[ρf] under the stated integrability hypotheses. |
+| 100 | For drift b(x)=αx, c=max(α,0) gives αx²≤c(1+x²); α=3,x=1 refutes c=1. |
+| 102 | A centered Gaussian increment of variance Δt has sixth moment 15(Δt)³. The Brownian left-rectangle integral error on an equal mesh has variance T³/(3n²). |
+| 111 | For finite measures and C⊆D, μ(C)≤μ(D), with strictness exactly when μ(D∖C)>0. |
+| 112 | On a one-atom probability space, f_n=n satisfies uniform small-set absolute continuity but has L¹ norm n; a uniform L¹ bound is needed for the UI converse. |
+| 117, 119–123 | Derive dyadic conditional approximation from generating sigma algebras, retain the Doob L² inequality, use the buy-low/hold upcrossing strategy, and include both integrability assumptions in conditional Jensen. |
+| 130 | Strong Markov conditions on the stopped sigma algebra with the event {τ<∞} where needed; no standalone stopping-time factor multiplies the event indicator. |
+| 148, 178, 235 | Distinguish truncated endpoint sums from sums containing an overshooting increment. Prove the left/right-endpoint difference estimate in §4.2 before using its convergence. |
+| 151–153 | Absolute continuity supports FTC; continuous a.e. differentiability with integrable derivative alone does not. The Cantor function has derivative 0 a.e. and endpoint increment 1. |
+| 157 | At fixed n the ±1 walk has finite range; a value k requires (n+k)/2 positive steps. For n=3,k=1 this count is 2. |
+| 161–163 | Usual conditions include completed ambient measure, null sets at time zero and right continuity; natural-filtration right continuity requires proof. |
+| 165 | For three-dimensional Brownian start x≠0, split E[1/‖x+B_t‖] at radius R: the bounds are O(R²t^(−3/2)) and 1/R, giving limit 0 as t→∞ then R→∞. |
+| 168, 173 | Local martingales need not be L². For the exponential L² claim in §5.4 require its L² initial value and finite E∫Z²d[M] on each finite horizon. |
+| 175 | The original-process Lévy conclusion retains literal strong adaptation; bare locality yields a selected predictable indistinguishable version. |
+| 176 | In dimension d, Lebesgue-null spatial sets have zero Brownian occupation by d-dimensional transition densities. Stopped Brownian coordinates are local martingales. |
+| 184 | The finite-lot conditional-mean example below has error at most 5/N, with the stated dollar scaling. |
+| 186 | Real-time stopping requires the hitting/debut arguments in §0.4; a general stopping time can have uncountable range. |
+| 204, 229 | {α∧β≤t} is a union. Stopped L² bounds include the initial value or apply to centered increments. |
+| 210, 231, 233, 242 | E[(B_t²−B_s²)²]=4s(t−s)+3(t−s)². At s=1,t=2 this is 7, while E[(B₂−B₁)⁴]=3. Conditional moment estimates use a specified process and filtration. |
+| 224 | Predictable step heights measured at t_j occupy (t_j,t_(j+1)], with the F₀ value specified at zero. |
+| 246, 268–269 | FinancialMathematics M0.4 owns pricing; §§6.2 and 9.4 supply Gaussian payoff and GBM identities with their stated drifts and densities. |
+| 247 | Exit from a proper open subset of ℝ is finite a.s.: a missing point bounds the exit time by a one-dimensional level-hitting time. |
+| 252 | Reflection changes both the start x and target a to −x and −a; level-hitting laws depend on |a−x|. |
+| 262–263 | For T_h(ω)=ω+h, its pushforward has the positive Gaussian cross term; inverse translation has the negative cross term. |
+| 264–265 | If g′=f∘g, the transformed drift is f(Y), not Y in general. A BV-driven term is absolutely continuous only with the additional AC hypothesis on its driver. |
+
+## Worked examples
 
 The formalized examples are part of the scope, not substitutes for the preceding APIs.
 Each example below is an explicit target with the stated hypotheses, proved through the
@@ -2870,9 +3363,8 @@ corresponding API.
   `|E[1−x−y | A_N]−(1/(2 log2)−1/4)|≤5/N`.
   Derive these by finite conditional sums and `log2≤H_N≤log2+1/N`, retaining the
   nonuniform joint weights `1/((N+1)(N−i+1))`. Multiplication by D gives an absolute
-  dollar error at most 5D/N, five share lots. The grid rule is an explicit model,
-  not a uniquely determined reading of the source's compressed rectangle-error formula;
-  preserve that printed formula and its uncertainty separately.
+  dollar error at most 5D/N, five share lots. The grid rule specifies the sampling law
+  for this finite-lot model; changing that law changes the conditional expectation.
   As a separate model let x,y be independent uniform variables on [0,1/2], set
   s=1−x−y and prove E[s]=1/2. For independent ±1 increments with probabilities
   p,q>0, p+q=1, prove `(q/p)^(ξ_n)` is a martingale for the walk ξ starting at 0,
@@ -3026,7 +3518,7 @@ corresponding API.
   truncated-exponential identity
   `E_x[exp(αB_t−α²t/2)1_{B_t<a}]=exp(αx)Φ((a−x−αt)/√t)` for t>0 and α∈ℝ;
   identify it by that formula and the CDF `cdf (gaussianReal 0 1)`. FinancialMathematics M0.4
-  and MarketImpact consume the [shared payoff interface](SupplierDependencies.md#financial-consumers), including this truncated-exponential identity (using reflection/complements for the upper-tail call event)
+  and MarketImpact consume the shared payoff interface in Exact supplier contracts, including this truncated-exponential identity (using reflection/complements for the upper-tail call event)
   in addition to the full Gaussian expectation, so the discounted call/put derivation has an
   explicit stochastic-calculus interface.
   The source's Black–Scholes and feedback-model application belongs to FinancialMathematics;
@@ -3038,31 +3530,22 @@ corresponding API.
   theorem statements. The financial consumer records its experiment/data assumptions and
   uses the numerical and probabilistic contracts proved here.
 
-## Dependency order and references
+## Downstream consumers
 
-S0 uses native process/measure theory; S0.6 consumes the generic PointProcesses interfaces and
-owns the homogeneous Unit-mark adapter. S1 construction uses S0 and Gaussian/countable projective
-APIs, independent of stochastic integration. S2 uses S0 and discrete martingales, S1.3 for
-its Brownian examples and PointProcesses for its Poisson examples. S3 uses S2;
-its direct Brownian construction in S3.2 needs S0/S1 and elementary conditional
-orthogonality, independently of S2.5. The general predictable-measure construction S3.1
-uses S2.5; its Brownian compatibility follows once both constructions are available.
-S4 uses S3; S4.3's BDG/good-λ proof uses stopped L² estimates and the square decomposition,
-not S5. S5 uses S4. S6.1's natural-Brownian representation follows its usual
-natural-filtration theorem, using Gaussian density and the direct S3 Brownian integral.
-S6.1 strong Markov and usual natural-filtration follow S0/S1/S2. S6.2–S6.5 use S4/S5
-where Itô is used; S6.5 consumes the SC-owned finite-boundary-measure Poisson adapter and PDE
-continuous-data ball-Dirichlet APIs, with S4.3's BDG/good-λ for Hardy comparisons; S6.6 uses these same
-maximal inequalities for local time. Conformal time change is constructed in S7.2.
-S6.7's two-sided noise uses S1; the smooth-flow skew products are constructed in S9.5.
-S7 uses S4/S5 and the S1 Brownian construction for independent clock extensions. S8 uses S1/S3
-and the Gaussian RKHS supplier, with a direct finite-grid proof dictionary. S9 uses S3/S4.3 BDG/S5/S7; its radial Bessel examples additionally consume S5.5's
-Lévy characterization, S6.1's Brownian strong Markov theorem, S7.2's clock/substitution,
-S9.3's Yamada–Watanabe uniqueness-in-law implication and StandardDistributions' standard-normal CDF `Φ(x)=cdf (gaussianReal 0 1) x` from S6.2. Its kernels consume StandardDistributions' `Real.besselI` (§8.1), sphere surface
-mass (§12.1) and von Mises–Fisher normalizer identity (§12.2); S9.4a adds only the modified
-Bessel equation on positive arguments and the radial kernel theory.
-S10 uses S4.3 BDG/S6/S9 and the explicitly cited deterministic PDE/semigroup suppliers. Strong Markov
-must not be assumed in the Brownian construction or in proving usual natural-filtration laws.
+FinancialMathematics M0.1 uses the progressive-coefficient linear SDE in §9.4;
+M0.4 uses §6.2's full and truncated Gaussian exponential expectations. Its call/put
+results retain positive volatility, spot, strike and remaining maturity, while the
+zero-volatility asset remains an instance of the generic linear SDE. MarketImpact
+uses these financial contracts. OptimalTransport §13C uses §1.2's Wiener initial-law
+and scaling interfaces and Layer 10's heat-generator identification.
+
+## References
+
+- Steven P. Lalley, [*Introduction to Brownian Motion*](https://galton.uchicago.edu/~lalley/Courses/383/BrownianMotion.pdf),
+  Theorem 1 (existence), Theorem 5, p.13 (strong Markov), equation (32), p.16
+  (reflection), and Theorem 7 (quadratic variation along nested partitions).
+- Volker Krätschmer and Mikhail Urusov, [*A general Kolmogorov–Chentsov type theorem on general metric spaces with applications to limit theorems for Banach-valued processes*](https://arxiv.org/abs/2107.13837v2),
+  arXiv:2107.13837v2, Theorem 1.1 (metric-index continuity under covering and moment bounds).
 
 - Fabrice Baudoin, [*Lecture 24: Burkholder–Davis–Gundy inequalities*](https://fabricebaudoin.blog/2012/09/28/lecture-24-burkholder-davis-gundy-inequalities/),
   for the continuous-martingale p>0 theorem and its stochastic-calculus proof.
@@ -3081,8 +3564,8 @@ must not be assumed in the Brownian construction or in proving usual natural-fil
   Gaussian/projective and covering-number Chentsov architecture and immutable code references.
 - D. L. Burkholder, R. F. Gundy and M. L. Silverstein,
   [*A maximal function characterization of the class H^p*](https://doi.org/10.1090/S0002-9947-1971-0274767-6),
-  Transactions AMS 157 (1971), 137–153: S6.5’s disk distribution comparison and
-  Hardy-space boundary dictionary.
+  Transactions AMS 157 (1971), §5, Theorems 1′ and 3′, pp.150–151: §6.5’s disk
+  Hardy norm equivalence and Brownian/nontangential maximal distribution comparison.
 - Daniel Revuz and Marc Yor, *Continuous Martingales and Brownian Motion*, third edition:
   continuous/local martingale calculus, stochastic exponentials, local time and Bessel examples.
 - Stefanos Theodorakopoulos, [*New proofs to measurable, predictable and optional section theorems*](https://arxiv.org/html/2310.13086v2), arXiv:2310.13086v2 (2024), §§2–4: Souslin closure/strict-capacity approximation (Theorems 2.3–2.5), compact-fiber measurable sections (Lemma 3.5/Theorem 3.7), predictable paving and sections (Lemma 4.2/Theorem 4.4), and optional approximation/sections (Lemma 4.8/Theorem 4.9). Use this as a proof-route reference, not as a substitute for the explicitly stated Lean obligations; in particular prove the stopping-time decomposition and omitted closure steps rather than importing unstated claims.
@@ -3110,13 +3593,8 @@ The native PDE interfaces are pinned to Tau Ceti commit
   sub-mean-value functions, finite maxima and comparison; it is not an upper-semicontinuous
   extended-valued subharmonic theory.
 
-PointProcesses owns the generic temporal point-measure, `IsCompensator`, adapted-Poisson,
-Watanabe, random-time-change and Poisson-embedding contracts consumed here. SC owns only the
-homogeneous Unit-mark and stochastic-basis adapters stated in S0.6 and the usual-basis
-Doob–Meyer dictionary in S2.5. The supplier targets and their construction order are
-specified in [SupplierDependencies.md](SupplierDependencies.md); the cited PointProcesses
-proposal and its extensions are roadmap contracts to construct, not native declarations.
-The prototype's local `nnvolume` and PointProcesses' declaration both unfold to
-`Measure.comap ((↑) : ℝ≥0 → ℝ) volume`. [PointProcessesAdapter.lean](PointProcessesAdapter.lean)
-proves their equality and `timeMeasure T = PointProcesses.nnvolume.restrict (Ioc 0 T)`
-by definitional equality, including the corresponding predictable-measure trim identity.
+The half-line time normalization is the explicit comap formula in Conventions.
+The equality of two expansions of that formula is definitional; it does not establish
+any comparison with a PointProcesses declaration. The cross-roadmap adapters are the
+mathematical contracts in S0.6, including the finite-horizon and predictable-trim
+comparison required by S3.1.

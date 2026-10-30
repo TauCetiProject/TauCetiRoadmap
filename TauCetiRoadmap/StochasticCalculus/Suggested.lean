@@ -5,307 +5,39 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 
 /-!
-**This file is not the roadmap and is not exhaustive.** These are suggested forms;
-the README is the definitive specification.
+# Stochastic calculus: target signatures
 
-Representative construction interfaces for StochasticCalculus.
-These are proposed targets, not completed proofs. The README specifies the full vector,
-jump, localization, path-law, SDE and PDE APIs. Native objects are reused here. -/
+The roadmap is README.md; this file is not the roadmap. It states headline theorems
+against the pinned APIs, with real definitions only for the objects their statements use.
+
+The headline families are Wiener construction; stochastic integration, brackets and BDG;
+Itô and Stratonovich calculus; strong Markov and martingale representation; reflection,
+exits, LIL and local time; harmonic Hardy representation; DDS; Novikov and Girsanov;
+Cameron–Martin equivalence and singularity; SDE existence, uniqueness and flows; and
+diffusion generators, martingale problems and Feynman–Kac.
+
+The general semimartingale Itô/Stratonovich formulas lack a constructed semimartingale
+integral and covariation operator at the pins. Hilbert–Schmidt vector integration and the
+full finite-dimensional SDE and flow statements lack the vector integral and maximal
+solution/flow carriers. Harmonic Hardy boundary representation lacks the Hardy-space
+and boundary trace carriers. The general diffusion generator/martingale-problem and
+Feynman–Kac comparison lacks the constructed diffusion-law and generator-domain carriers.
+The independent-extension branch of DDS lacks the enlarged stochastic-basis construction.
+These remain README targets; no arbitrary predicate is substituted for those carriers.
+The scalar Brownian integral, bracket, density and strong-solution predicates below are
+concrete definitions on native functions, measures and filtrations.
+-/
 
 noncomputable section
 open MeasureTheory ProbabilityTheory
 open scoped NNReal ENNReal ProbabilityTheory
 namespace StochasticCalculusSuggested
 
+universe u
+
 variable {Ω : Type*} [mΩ : MeasurableSpace Ω]
 
-/-! The source p184 countable-exception caveat follows from native FTC and
-absolute continuity of indefinite Lebesgue integrals. -/
-namespace CountableDerivative
-open Set
-open scoped Interval
-
-theorem absolutelyContinuous_of_countable_exception
-    {f f' : ℝ → ℝ} {a b : ℝ} {s : Set ℝ}
-    (hab : a ≤ b) (hs : s.Countable) (hc : ContinuousOn f (Icc a b))
-    (hd : ∀ x ∈ Ioo a b \ s, HasDerivAt f (f' x) x)
-    (hi : IntervalIntegrable f' volume a b) :
-    AbsolutelyContinuousOnInterval f a b := by
-  have hp := hi.absolutelyContinuousOnInterval_intervalIntegral
-    (c := a) left_mem_uIcc
-  have hk : AbsolutelyContinuousOnInterval (fun _ : ℝ => f a) a b :=
-    (LipschitzWith.const (f a)).lipschitzOnWith.absolutelyContinuousOnInterval
-  apply (hp.add hk).congr
-  intro x hx
-  have hx' : x ∈ Icc a b := by simpa [uIcc_of_le hab] using hx
-  have he := integral_eq_of_hasDerivAt_off_countable_of_le f f' hx'.1 hs
-    (hc.mono (Icc_subset_Icc le_rfl hx'.2))
-    (fun y hy => hd y ⟨⟨hy.1.1, hy.1.2.trans_le hx'.2⟩, hy.2⟩)
-    (hi.mono_set (uIcc_subset_uIcc left_mem_uIcc hx))
-  change (∫ v in a..x, f' v) + f a = f x
-  linarith
-
-theorem boundedVariation_of_countable_exception
-    {f f' : ℝ → ℝ} {a b : ℝ} {s : Set ℝ}
-    (hab : a ≤ b) (hs : s.Countable) (hc : ContinuousOn f (Icc a b))
-    (hd : ∀ x ∈ Ioo a b \ s, HasDerivAt f (f' x) x)
-    (hi : IntervalIntegrable f' volume a b) :
-    BoundedVariationOn f (uIcc a b) :=
-  (absolutelyContinuous_of_countable_exception hab hs hc hd hi).boundedVariationOn
-
-end CountableDerivative
-
-/-! S0.1 uses Mathlib's existing a.e.-equivalence carrier as the underlying data, but places
-its L⁰ topology on a distinct wrapper. This prevents an L⁰ metric instance from changing the
-ambient metric/topology of `AEEqFun` (including instances used internally by `Lp`). -/
-namespace L0Metric
-
-open Filter
-
-variable (P : Measure Ω)
-
-/-- A dedicated real L⁰ carrier. The field is Mathlib's existing a.e.-equivalence class;
-this wrapper is intentionally a structure, not an abbreviation, so its metric cannot leak
-onto `AEEqFun`. -/
-structure RealL0 where
-  toAEEqFun : Ω →ₘ[P] ℝ
-
-namespace RealL0
-
-def ofAEEqFun (f : Ω →ₘ[P] ℝ) : RealL0 (P := P) := ⟨f⟩
-
-@[ext]
-theorem ext {f g : RealL0 (P := P)} (h : f.toAEEqFun = g.toAEEqFun) : f = g := by
-  cases f
-  cases g
-  cases h
-  rfl
-
-def equivAEEqFun : RealL0 (P := P) ≃ (Ω →ₘ[P] ℝ) where
-  toFun := RealL0.toAEEqFun
-  invFun := RealL0.ofAEEqFun P
-  left_inv := by intro f; cases f; rfl
-  right_inv := by intro f; rfl
-
-
-end RealL0
-
-/-- The bounded scalar kernel used for the L⁰ metric presentation. -/
-noncomputable def kernel (x y : ℝ) : ℝ := |x - y| / (1 + |x - y|)
-
-@[fun_prop]
-theorem continuous_kernel : Continuous (Function.uncurry kernel) := by
-  change Continuous (fun p : ℝ × ℝ => |p.1 - p.2| / (1 + |p.1 - p.2|))
-  have hn : Continuous (fun p : ℝ × ℝ => |p.1 - p.2|) :=
-    continuous_abs.comp (continuous_fst.sub continuous_snd)
-  have hd : Continuous (fun p : ℝ × ℝ => 1 + |p.1 - p.2|) :=
-    continuous_const.add hn
-  exact hn.div hd (by intro p; positivity)
-
-theorem kernel_nonneg (x y : ℝ) : 0 ≤ kernel x y := by
-  simp only [kernel]
-  positivity
-
-theorem kernel_le_one (x y : ℝ) : kernel x y ≤ 1 := by
-  simp only [kernel]
-  rw [div_le_one₀ (by positivity)]
-  linarith
-
-/-- Scalar triangle inequality for the bounded absolute-difference kernel. -/
-theorem kernel_triangle (x y z : ℝ) : kernel x z ≤ kernel x y + kernel y z := by
-  simp only [kernel]
-  have hxy : 0 ≤ |x - y| := abs_nonneg _
-  have hyz : 0 ≤ |y - z| := abs_nonneg _
-  calc
-    |x - z| / (1 + |x - z|) ≤
-        (|x - y| + |y - z|) / (1 + (|x - y| + |y - z|)) := by
-      rw [div_le_div_iff₀ (by positivity) (by positivity)]
-      nlinarith [abs_sub_le x y z]
-    _ ≤ |x - y| / (1 + |x - y|) + |y - z| / (1 + |y - z|) := by
-      have h1 : 0 < 1 + |x - y| := by positivity
-      have h2 : 0 < 1 + |y - z| := by positivity
-      have h3 : 0 < 1 + (|x - y| + |y - z|) := by positivity
-      field_simp
-      have hab : 0 ≤ |x - y| * |y - z| := mul_nonneg hxy hyz
-      nlinarith [hab]
-
-/-- The kernel applied to two AEEqFun representatives is integrable on a finite measure space. -/
-theorem kernel_integrable [IsFiniteMeasure P] (f g : Ω →ₘ[P] ℝ) :
-    Integrable (fun ω => kernel (f ω) (g ω)) P := by
-  have hf : AEStronglyMeasurable (fun ω => kernel (f ω) (g ω)) P := by
-    have hpair : Measurable (fun ω => (f ω, g ω)) :=
-      (f.stronglyMeasurable.prodMk g.stronglyMeasurable).measurable
-    exact (continuous_kernel.measurable.comp hpair).aestronglyMeasurable
-  apply Integrable.mono' (integrable_const (1 : ℝ)) hf
-  filter_upwards with ω
-  have hk := kernel_le_one (f ω) (g ω)
-  have hn := kernel_nonneg (f ω) (g ω)
-  rw [Real.norm_eq_abs, abs_of_nonneg hn]
-  exact hk
-
-/-- The bounded integral distance on existing a.e.-equivalence classes. This auxiliary
-function does not install a metric instance on `AEEqFun`. -/
-noncomputable def distance (f g : Ω →ₘ[P] ℝ) : ℝ :=
-  ∫ ω, kernel (f ω) (g ω) ∂P
-
-theorem distance_nonneg (f g : Ω →ₘ[P] ℝ) : 0 ≤ distance P f g := by
-  apply integral_nonneg
-  intro ω
-  exact kernel_nonneg _ _
-
-theorem distance_self (f : Ω →ₘ[P] ℝ) : distance P f f = 0 := by
-  simp [distance, kernel]
-
-theorem distance_comm (f g : Ω →ₘ[P] ℝ) : distance P f g = distance P g f := by
-  unfold distance
-  apply integral_congr_ae
-  filter_upwards with ω
-  simp [kernel, abs_sub_comm]
-
-theorem distance_le_one [IsProbabilityMeasure P] (f g : Ω →ₘ[P] ℝ) : distance P f g ≤ 1 := by
-  have hi := kernel_integrable P f g
-  calc
-    distance P f g ≤ ∫ _ : Ω, (1 : ℝ) ∂P :=
-      integral_mono_ae hi (integrable_const (1 : ℝ)) <| Filter.Eventually.of_forall fun ω => kernel_le_one (f ω) (g ω)
-    _ = 1 := by simp
-
-theorem distance_triangle [IsFiniteMeasure P] (f g h : Ω →ₘ[P] ℝ) :
-    distance P f h ≤ distance P f g + distance P g h := by
-  have hfg := kernel_integrable P f g
-  have hgh := kernel_integrable P g h
-  have hfh := kernel_integrable P f h
-  calc
-    distance P f h ≤ ∫ ω, (kernel (f ω) (g ω) + kernel (g ω) (h ω)) ∂P := by
-      unfold distance
-      exact integral_mono_ae hfh (hfg.add hgh) <| Filter.Eventually.of_forall fun ω => kernel_triangle (f ω) (g ω) (h ω)
-    _ = distance P f g + distance P g h := by
-      simp only [distance]
-      exact integral_add hfg hgh
-
-theorem kernel_eq_zero_iff (x y : ℝ) : kernel x y = 0 ↔ x = y := by
-  simp only [kernel, div_eq_zero_iff, abs_eq_zero]
-  constructor
-  · rintro (h | h)
-    · exact sub_eq_zero.mp h
-    · exfalso
-      have hn := abs_nonneg (x - y)
-      linarith
-  · intro h
-    subst y
-    left
-    simp
-
-theorem eq_of_distance_eq_zero [IsFiniteMeasure P] {f g : Ω →ₘ[P] ℝ}
-    (h : distance P f g = 0) : f = g := by
-  have hint := kernel_integrable P f g
-  have hnonneg : 0 ≤ᵐ[P] fun ω => kernel (f ω) (g ω) :=
-    Filter.Eventually.of_forall fun ω => kernel_nonneg (f ω) (g ω)
-  have hzero := (integral_eq_zero_iff_of_nonneg_ae hnonneg hint).mp h
-  apply AEEqFun.ext
-  filter_upwards [hzero] with ω hw
-  exact (kernel_eq_zero_iff (f ω) (g ω)).mp hw
-
-/-- The L⁰ metric lives globally on the distinct wrapper, never on Mathlib's `AEEqFun`. -/
-noncomputable instance metricSpaceRealL0 [IsFiniteMeasure P] : MetricSpace (RealL0 (P := P)) where
-  toPseudoMetricSpace := {
-    dist := fun f g => distance P f.toAEEqFun g.toAEEqFun
-    dist_self := fun f => distance_self P f.toAEEqFun
-    dist_comm := fun f g => distance_comm P f.toAEEqFun g.toAEEqFun
-    dist_triangle := fun f g h => distance_triangle P f.toAEEqFun g.toAEEqFun h.toAEEqFun
-  }
-  eq_of_dist_eq_zero := by
-    intro f g h
-    apply RealL0.ext
-    exact eq_of_distance_eq_zero P h
-
-/-- Lp convergence controls the wrapper's L⁰ metric through native convergence in measure.
-The finite-measure assumption also makes the bounded-integral metric well-defined. -/
-theorem continuous_equivAEEqFun_symm_coe [IsFiniteMeasure P] {p : ℝ≥0∞}
-    [Fact (1 ≤ p)] :
-    Continuous ((RealL0.equivAEEqFun (P := P)).symm ∘
-      (fun f : Lp ℝ p P => f.1)) := by
-  sorry
-
-/-- The distance between `mk` classes is the integral of the original representatives.
-This is the explicit `coeFn_mk` almost-everywhere rewrite used by the convergence bridge. -/
-theorem distance_mk_eq {f g : Ω → ℝ}
-    (hf : AEStronglyMeasurable f P) (hg : AEStronglyMeasurable g P) :
-    distance P (AEEqFun.mk f hf) (AEEqFun.mk g hg) = ∫ ω, kernel (f ω) (g ω) ∂P := by
-  unfold distance
-  apply integral_congr_ae
-  have h_f := AEEqFun.coeFn_mk f hf
-  have h_g := AEEqFun.coeFn_mk g hg
-  filter_upwards [h_f, h_g] with ω hωf hωg
-  rw [hωf, hωg]
-
-/-- Metric convergence of measurable representatives, stated on the distinct L⁰ carrier. -/
-theorem tendsto_iff_tendstoInMeasure [IsFiniteMeasure P] {ι : Type*} {l : Filter ι}
-    (f : ι → Ω → ℝ) (hf : ∀ i, AEStronglyMeasurable (f i) P)
-    (g : Ω → ℝ) (hg : AEStronglyMeasurable g P) :
-    Tendsto (fun i => RealL0.ofAEEqFun P (AEEqFun.mk (f i) (hf i))) l
-      (nhds (RealL0.ofAEEqFun P (AEEqFun.mk g hg))) ↔ TendstoInMeasure P f l g := by
-  rw [tendsto_iff_dist_tendsto_zero]
-  change Tendsto (fun i => distance P (AEEqFun.mk (f i) (hf i)) (AEEqFun.mk g hg)) l (nhds 0) ↔ _
-  simp_rw [distance_mk_eq P (hf _) hg]
-  sorry
-
-end L0Metric
-
-/-! Metric compatibility for the `Lp` subtype: `Lp.dist_eq_norm` identifies its ambient
-normed-space distance with the subtype metric used by the Itô integral interfaces. -/
-example (P : Measure Ω) [IsProbabilityMeasure P] (f g : Lp ℝ 2 P) :
-    dist f g = ‖-f + g‖ := by
-  exact Lp.dist_eq_norm f g
-
-/-- Conditional expectations of one integrable terminal variable dominate a uniformly
-integrable family, with no countability or ordering condition on the index. -/
-theorem uniformIntegrable_of_condExp_dom {ι : Type*} (P : Measure Ω) [IsFiniteMeasure P]
-    (F : ι → MeasurableSpace Ω) (hF : ∀ i, F i ≤ mΩ)
-    (Z : Ω → ℝ) (hZ : Integrable Z P) (Y : ι → Ω → ℝ)
-    (hY : ∀ i, AEStronglyMeasurable (Y i) P)
-    (hdom : ∀ i, (fun ω => ‖Y i ω‖ₑ) ≤ᵐ[P] fun ω => ‖(P[Z | F i]) ω‖ₑ) :
-    UniformIntegrable Y 1 P := by
-  have hUI := hZ.uniformIntegrable_condExp hF
-  refine ⟨hUI.1.ae_mono hY hdom, ?_⟩
-  obtain ⟨C, hC⟩ := hUI.2
-  refine ⟨C, fun i => ?_⟩
-  exact (eLpNorm_mono_enorm_ae (hY i) (hdom i)).trans (hC i)
-
-/-- S2.1 nonnegative tower law on the native conditional Lebesgue expectation. -/
-theorem condLExp_tower (P : Measure Ω) [IsProbabilityMeasure P]
-    (G H : MeasurableSpace Ω) (hGH : G ≤ H) (hHm : H ≤ mΩ)
-    (X : Ω → ℝ≥0∞) :
-    P⁻[P⁻[X | H] | G] =ᵐ[P] P⁻[X | G] := by
-  apply ae_eq_condLExp (hGH.trans hHm) P X (measurable_condLExp G P _)
-  intro s hs
-  rw [setLIntegral_condLExp (hGH.trans hHm) P _ hs,
-    setLIntegral_condLExp hHm P X (hGH s hs)]
-
-/-- S2.1 signed conditional expectation by a measurable integrable exhaustion.
-The conclusion uses actual native localized conditional expectations. -/
-theorem exists_sigmaIntegrable_condExp (P : Measure Ω) [IsProbabilityMeasure P]
-    (G : MeasurableSpace Ω) (hG : G ≤ mΩ) (X : Ω → ℝ) (hX : Measurable X)
-    (A : ℕ → Set Ω) (hA : ∀ n, MeasurableSet[G] (A n)) (hmono : Monotone A)
-    (hcover : ∀ᵐ ω ∂P, ∃ n, ω ∈ A n)
-    (hInt : ∀ n, Integrable ((A n).indicator X) P) :
-    ∃ Y : Ω → ℝ, Measurable[G] Y ∧
-      ∀ n, (A n).indicator Y =ᵐ[P] P[(A n).indicator X | G] := by
-  sorry
-
-/-- The localized identities determine the signed conditional expectation a.e. -/
-theorem sigmaIntegrable_condExp_unique (P : Measure Ω)
-    (G : MeasurableSpace Ω) (X Y Z : Ω → ℝ) (A : ℕ → Set Ω)
-    (hcover : ∀ᵐ ω ∂P, ∃ n, ω ∈ A n)
-    (hY : ∀ n, (A n).indicator Y =ᵐ[P] P[(A n).indicator X | G])
-    (hZ : ∀ n, (A n).indicator Z =ᵐ[P] P[(A n).indicator X | G]) :
-    Y =ᵐ[P] Z := by
-  have heq : ∀ᵐ ω ∂P, ∀ n, (A n).indicator Y ω = (A n).indicator Z ω := by
-    rw [ae_all_iff]
-    intro n
-    exact (hY n).trans (hZ n).symm
-  filter_upwards [hcover, heq] with ω hω he
-  obtain ⟨n, hn⟩ := hω
-  simpa [Set.indicator_of_mem hn] using he n
+/-! ## Layer 0: Process spaces, usual filtrations and stopping -/
 
 /-- Equality on one common full-measure set, stronger than equality of versions. -/
 def Indistinguishable (P : Measure Ω) (X Y : ℝ≥0 → Ω → ℝ) : Prop :=
@@ -318,14 +50,23 @@ def IsFilteredBrownian (F : Filtration ℝ≥0 mΩ)
     ∀ s t, s ≤ t → Indep (MeasurableSpace.comap (fun ω => B t ω - B s ω)
       (borel ℝ)) (F s) P
 
+/-! ## Layer 1: Gaussian processes and constructed Brownian motion -/
+
+/-- Wiener measure on continuous paths: its coordinate process has the native
+Brownian finite-dimensional laws and almost-sure continuity (Lalley, Theorem 1). -/
+theorem exists_wienerMeasure :
+    ∃ W : Measure C(ℝ≥0, ℝ), IsProbabilityMeasure W ∧
+      IsBrownianReal (fun t (ω : C(ℝ≥0, ℝ)) => ω t) W := by
+  sorry
+
+/-! ## Layer 3: Stochastic integration and finite variation -/
+
 /-- Native localization convention includes the indicator at initial time. -/
 abbrev IsLocalMartingale (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) (M : ℝ≥0 → Ω → ℝ) : Prop :=
   Locally (fun Y => Martingale Y F P) F M P
 
-/-- Proposed stand-in for PointProcesses' single shared `nnvolume` declaration (Layer 4).
-Consume that supplier and prove its restrictions to `Set.Ioc 0 T` agree with the
-finite-horizon time-measure carrier used by these stochastic integrals. -/
+/-- Lebesgue measure on nonnegative time, using the comap normalization. -/
 def nnvolume : Measure ℝ≥0 := Measure.comap ((↑) : ℝ≥0 → ℝ) volume
 
 /-- Lebesgue time measure on a finite positive-time interval. -/
@@ -345,11 +86,7 @@ def predictableMeasure (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) (T : ℝ≥0) : @Measure (ℝ≥0 × Ω) F.predictable :=
   ((timeMeasure T).prod P).trim (predictable_le_prod F)
 
-abbrev PredictableL2 (F : Filtration ℝ≥0 mΩ)
-    (P : Measure Ω) (T : ℝ≥0) :=
-  @Lp (ℝ≥0 × Ω) ℝ F.predictable inferInstance 2 (predictableMeasure F P T)
-
-/- Given a progressively measurable real process, produce a strongly predictable
+/-- Given a progressively measurable real process, produce a strongly predictable
 representative on every finite horizon, equal almost everywhere for the ambient
 Lebesgue-time × probability measure. The equality is deliberately not stated in the
 trimmed predictable measure: an ambient-null set need not have a predictable null envelope.
@@ -393,40 +130,22 @@ end ElementaryIntegrand
 /-- `I` is an Itô integral of `H` against `B`: its paths are almost surely continuous and, for
 every time `t`, some elementary integrands approximate `H` on `(0, t]` in the sense that
 `∫_(0,t] |Kₙ − H|² ds → 0` in probability, while their elementary integrals at `t` converge
-in probability to `I t`. The energy is a lower Lebesgue integral, so a non-integrable
-difference has infinite energy rather than the junk value zero. -/
+in probability to `I t`. The integrand is strongly predictable, so its time sections
+and the square errors are measurable. A non-integrable square error has infinite
+lower Lebesgue integral rather than the Bochner junk value zero. -/
 def IsItoIntegral (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
     (B H I : ℝ≥0 → Ω → ℝ) : Prop :=
+  IsStronglyPredictable F H ∧
   (∀ᵐ ω ∂P, Continuous fun t => I t ω) ∧
     ∀ t, ∃ K : ℕ → ElementaryIntegrand F,
       (∀ ε : ℝ≥0∞, 0 < ε → Filter.Tendsto (fun n => P {ω | ε ≤
         ∫⁻ s, ‖(K n).toProcess s ω - H s ω‖ₑ ^ 2 ∂timeMeasure t}) Filter.atTop (nhds 0)) ∧
       TendstoInMeasure P (fun n => (K n).integral B t) Filter.atTop (I t)
 
+/-- Predictable processes with finite expected square energy on every finite horizon. -/
 def BrownianIntegrable (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) (H : ℝ≥0 → Ω → ℝ) : Prop :=
   IsStronglyPredictable F H ∧ ∀ T, MemLp (Function.uncurry H) 2 ((timeMeasure T).prod P)
-
-/-- Predictable measurability transfers finite-horizon L² integrability to the trim. -/
-theorem predictable_memLp (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
-    (H : ℝ≥0 → Ω → ℝ) (hH : BrownianIntegrable F P H) (T : ℝ≥0) :
-    @MemLp (ℝ≥0 × Ω) ℝ F.predictable _ _
-      (Function.uncurry H) 2 (predictableMeasure F P T) := by
-  change eLpNorm _ _ _ < ∞
-  rw [predictableMeasure, eLpNorm_trim (predictable_le_prod F) hH.1]
-  exact hH.2 T
-
-/-- The predictable equivalence class, with its explicit representative theorem. -/
-def predictableClass (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
-    (H : ℝ≥0 → Ω → ℝ) (hH : BrownianIntegrable F P H) (T : ℝ≥0) :
-    PredictableL2 F P T :=
-  (predictable_memLp F P H hH T).toLp (Function.uncurry H)
-
-theorem predictableClass_coe (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
-    (H : ℝ≥0 → Ω → ℝ) (hH : BrownianIntegrable F P H) (T : ℝ≥0) :
-    (predictableClass F P H hH T : (ℝ≥0 × Ω) → ℝ) =ᵐ[predictableMeasure F P T]
-      Function.uncurry H := by
-  exact MemLp.coeFn_toLp (predictable_memLp F P H hH T)
 
 /-- Itô isometry and martingale property for an L² integrand: a strongly progressive Itô
 integral of a Brownian-integrable `H` is a martingale with `E[I_t²] = E ∫_(0,t] H² ds`. -/
@@ -482,6 +201,8 @@ theorem itoIntegral_local_congr (F : Filtration ℝ≥0 mΩ)
     Indistinguishable P I J := by
   sorry
 
+/-! ## Layer 4: Quadratic variation, covariation and semimartingales -/
+
 /-- `A` is a quadratic variation of `M` in the square-compensation sense: `A` is strongly
 progressive, almost surely continuous, nondecreasing and zero at time zero, and
 `M² − M₀² − A` is a local martingale. For continuous `M` this is the bracket `[M]`; for a
@@ -513,6 +234,27 @@ theorem brownian_quadraticVariation (F : Filtration ℝ≥0 mΩ)
     (hB : IsFilteredBrownian F P B) :
     IsQuadraticVariation F P B (fun t _ => (t : ℝ)) := by
   sorry
+
+/-- Burkholder–Davis–Gundy for centered continuous local martingales, with constants
+depending only on p. Both sides are extended expectations; an infinite stopping time
+uses the supremum of finite-time stopped brackets, never a totalized terminal value. -/
+theorem continuous_bdg (p : ℝ) (hp : 0 < p) :
+    ∃ c C : ℝ≥0, 0 < c ∧ c ≤ C ∧
+      ∀ {Ω : Type u} [mΩ : MeasurableSpace Ω] (F : Filtration ℝ≥0 mΩ)
+        (P : Measure Ω) [IsProbabilityMeasure P] (M A : ℝ≥0 → Ω → ℝ),
+        IsLocalMartingale F P M →
+        (∀ᵐ ω ∂P, Continuous (fun t => M t ω)) →
+        (∀ᵐ ω ∂P, M 0 ω = 0) → IsQuadraticVariation F P M A →
+        ∀ (τ : Ω → WithTop ℝ≥0), IsStoppingTime F τ →
+          (c : ℝ≥0∞) * (∫⁻ ω,
+            (⨆ t : ℝ≥0, ENNReal.ofReal (stoppedProcess A τ t ω)) ^ (p / 2) ∂P) ≤
+              ∫⁻ ω, (⨆ t : ℝ≥0, ‖stoppedProcess M τ t ω‖ₑ) ^ p ∂P ∧
+          (∫⁻ ω, (⨆ t : ℝ≥0, ‖stoppedProcess M τ t ω‖ₑ) ^ p ∂P) ≤
+            (C : ℝ≥0∞) * (∫⁻ ω,
+              (⨆ t : ℝ≥0, ENNReal.ofReal (stoppedProcess A τ t ω)) ^ (p / 2) ∂P) := by
+  sorry
+
+/-! ## Layer 5: Itô, Stratonovich and exponential calculus -/
 
 /-- S5.5 original-process Lévy characterization on a raw filtration. Bare native
 locality does not supply the literal strong-adaptation hypothesis. All time identities
@@ -569,17 +311,107 @@ theorem brownian_ito_C2 (F : Filtration ℝ≥0 mΩ)
         (1 / 2 : ℝ) * ∫ s, iteratedDeriv 2 f (B s ω) ∂timeMeasure t := by
   sorry
 
-/-- A finite-horizon Cameron–Martin path together with its specified velocity. -/
-def IsCameronMartinShift (T : ℝ≥0) (h u : ℝ≥0 → ℝ) : Prop :=
-  StronglyMeasurable u ∧ MemLp u 2 (timeMeasure T) ∧
-    ∀ t, t ≤ T → h t = ∫ s, u s ∂timeMeasure t
+/-! ## Layer 6: Brownian paths, Markov and potential theory -/
 
-/-- The Cameron–Martin path starts at zero because the time-zero measure is empty. -/
-theorem IsCameronMartinShift.initial_zero {T : ℝ≥0} {h u : ℝ≥0 → ℝ}
-    (hh : IsCameronMartinShift T h u) : h 0 = 0 := by
-  rcases hh with ⟨_, _, hpath⟩
-  rw [hpath 0 bot_le]
-  simp [timeMeasure, nnvolume]
+/-- Reflection gives the upper-maximum probability for every positive level;
+using an existential hitting event avoids a totalized real supremum. -/
+theorem brownian_reflection (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) (t : ℝ≥0)
+    (a : ℝ) (ha : 0 < a) :
+    P {ω | ∃ s ≤ t, a ≤ B s ω} = 2 * P {ω | a ≤ B t ω} := by
+  sorry
+
+/-- Every real level is hit almost surely, and its hitting time from x has
+Laplace transform exp(-sqrt(2 θ) |a-x|), including θ=0 and x=a. -/
+theorem brownian_hitting_laplace (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) (x a : ℝ) (θ : ℝ≥0) :
+    let τ := hittingAfter (fun t ω => x + B t ω) {a} 0
+    (∀ᵐ ω ∂P, τ ω ≠ ⊤) ∧
+      (∫ ω, Real.exp (-(θ : ℝ) * ((τ ω).untopA : ℝ)) ∂P) =
+        Real.exp (-Real.sqrt (2 * (θ : ℝ)) * |a-x|) := by
+  sorry
+
+/-- Exit from a bounded open interval is integrable, with mean K²-x² for an
+interior start and zero for a start on or outside the boundary. -/
+theorem brownian_interval_exit (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) (x K : ℝ) (hK : 0 < K) :
+    let τ := hittingAfter (fun t ω => x + B t ω) (Set.Ioo (-K) K)ᶜ 0
+    (∀ᵐ ω ∂P, τ ω ≠ ⊤) ∧ Integrable (fun ω => ((τ ω).untopA : ℝ)) P ∧
+      (∫ ω, ((τ ω).untopA : ℝ) ∂P) = max 0 (K^2 - x^2) := by
+  sorry
+
+/-- At an almost-surely finite stopping time, the restarted Brownian path is
+Brownian and independent of the stopped sigma algebra. Values on the event of
+an infinite stopping time are immaterial. -/
+theorem brownian_strongMarkov (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
+    (hB : IsFilteredBrownian F P B) (τ : Ω → WithTop ℝ≥0)
+    (hτ : IsStoppingTime F τ) (hfinite : ∀ᵐ ω ∂P, τ ω ≠ ⊤) :
+    IsBrownianReal (fun t ω => B ((τ ω).untopA + t) ω - B (τ ω).untopA ω) P ∧
+      Indep (MeasurableSpace.comap
+        (fun ω t => B ((τ ω).untopA + t) ω - B (τ ω).untopA ω)
+        (inferInstance : MeasurableSpace (ℝ≥0 → ℝ))) hτ.measurableSpace P := by
+  sorry
+
+/-- Brownian martingale representation in terminal form: every square-integrable
+variable measurable in the raw natural filtration at T is a constant plus a
+Brownian integral. Completion gives the same a.e. conclusion. -/
+theorem brownian_martingaleRepresentation (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P)
+    (hm : ∀ t, StronglyMeasurable (B t)) (T : ℝ≥0)
+    (ξ : Ω → ℝ) (hξ : StronglyMeasurable[Filtration.natural B hm T] ξ)
+    (hξ2 : MemLp ξ 2 P) :
+    ∃ H I : ℝ≥0 → Ω → ℝ,
+      BrownianIntegrable (Filtration.natural B hm) P H ∧
+      IsItoIntegral (Filtration.natural B hm) P B H I ∧
+      ξ =ᵐ[P] fun ω => (∫ ω', ξ ω' ∂P) + I T ω := by
+  sorry
+
+/-- The two-sided Brownian law of the iterated logarithm at infinity, with
+normalization sqrt(2 t log log t). Only the eventual positive-time expression matters. -/
+theorem brownian_lil (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) :
+    ∀ᵐ ω ∂P,
+      Filter.limsup (fun t : ℝ≥0 => B t ω /
+        Real.sqrt (2 * (t : ℝ) * Real.log (Real.log (t : ℝ)))) Filter.atTop = 1 ∧
+      Filter.liminf (fun t : ℝ≥0 => B t ω /
+        Real.sqrt (2 * (t : ℝ) * Real.log (Real.log (t : ℝ)))) Filter.atTop = -1 := by
+  sorry
+
+/-- Brownian local time is jointly continuous, increases in time, starts at zero,
+and has occupation-density normalization with respect to ordinary Lebesgue measure.
+Its Tanaka correction has coefficient one; the sign integrand passes through a
+predictable representative on each finite horizon. -/
+theorem exists_brownian_localTime (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
+    (hB : IsFilteredBrownian F P B) :
+    ∃ L : ℝ≥0 → ℝ → Ω → ℝ,
+      (∀ᵐ ω ∂P, Continuous (fun p : ℝ≥0 × ℝ => L p.1 p.2 ω) ∧
+        (∀ a, Monotone (fun t => L t a ω) ∧ L 0 a ω = 0) ∧
+        ∀ t (f : ℝ → ℝ≥0∞), Measurable f →
+          (∫⁻ s, f (B s ω) ∂timeMeasure t) =
+            ∫⁻ a, f a * ENNReal.ofReal (L t a ω)) ∧
+      ∀ a : ℝ, ∃ H I : ℝ≥0 → Ω → ℝ,
+        IsItoIntegral F P B H I ∧
+        (∀ T, Function.uncurry H =ᵐ[(timeMeasure T).prod P]
+          Function.uncurry (fun t ω =>
+            if a < B t ω then (1 : ℝ) else if B t ω < a then -1 else 0)) ∧
+        ∀ᵐ ω ∂P, ∀ t, |B t ω - a| = |B 0 ω - a| + I t ω + L t a ω := by
+  sorry
+
+/-! ## Layer 7: Clocks and changes of measure -/
+
+/-- Dambis–Dubins–Schwarz reconstruction for an unbounded bracket: a centered
+continuous local martingale is Brownian motion evaluated at its quadratic variation. -/
+theorem dambisDubinsSchwarz (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (M A : ℝ≥0 → Ω → ℝ)
+    (hM : IsLocalMartingale F P M)
+    (hCont : ∀ᵐ ω ∂P, Continuous (fun t => M t ω))
+    (hZero : ∀ᵐ ω ∂P, M 0 ω = 0) (hA : IsQuadraticVariation F P M A)
+    (hInfinity : ∀ᵐ ω ∂P, Filter.Tendsto (fun t => A t ω) Filter.atTop Filter.atTop) :
+    ∃ B : ℝ≥0 → Ω → ℝ, IsBrownianReal B P ∧
+      ∀ᵐ ω ∂P, ∀ t, M t ω = B (Real.toNNReal (A t ω)) ω := by
+  sorry
 
 /-- Candidate stochastic exponential `exp(I_t − ½ ∫_(0,t] θ² ds)` built from a given Itô
 integral `I` of `θ`; a true-density theorem requires additional criteria. -/
@@ -597,12 +429,6 @@ theorem novikov_expectation (F : Filtration ℝ≥0 mΩ)
       ∫ s, (θ s ω)^2 ∂timeMeasure T)) P) :
     (∫ ω, stochasticExponential I θ T ω ∂P) = 1 := by
   sorry
-
-/-- A nonzero Bochner integral cannot be the totalized value of a nonintegrable function. -/
-theorem integrable_of_ne_zero_integral {P : Measure Ω} {f : Ω → ℝ}
-    (h : (∫ ω, f ω ∂P) ≠ 0) : Integrable f P := by
-  by_contra hfi
-  exact h (integral_undef hfi)
 
 /-- Filtration-relative Brownian laws on one declared horizon. -/
 def IsBrownianOn (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
@@ -622,9 +448,14 @@ theorem girsanov_on_horizon (F : Filtration ℝ≥0 mΩ)
     IsBrownianOn F
       (P.withDensity (fun ω => ENNReal.ofReal (stochasticExponential I θ T ω))) T
       (fun t ω => B t ω - ∫ s, θ s ω ∂timeMeasure t) := by
-  have hInt : Integrable (stochasticExponential I θ T) P :=
-    integrable_of_ne_zero_integral (P := P) (by rw [hZ]; norm_num)
   sorry
+
+/-! ## Layer 8: Cameron–Martin and Wiener translations -/
+
+/-- A finite-horizon Cameron–Martin path together with its specified velocity. -/
+def IsCameronMartinShift (T : ℝ≥0) (h u : ℝ≥0 → ℝ) : Prop :=
+  StronglyMeasurable u ∧ MemLp u 2 (timeMeasure T) ∧
+    ∀ t, t ≤ T → h t = ∫ s, u s ∂timeMeasure t
 
 /-- Cameron–Martin pushforward dictionary on finite-horizon coordinates.
 The path-space Borel upgrade is S8.2. Cutoff makes the integrand a genuine global
@@ -639,6 +470,29 @@ theorem cameronMartin_pushforward (F : Filtration ℝ≥0 mΩ)
         (stochasticExponential I (fun s _ => if s ≤ T then u s else 0) T ω))).map
         (fun ω (t : Set.Iic T) => B t.val ω) := by
   sorry
+
+/-- A continuous deterministic translation of a finite-horizon Wiener law is
+mutually absolutely continuous with that law exactly for an absolutely continuous
+shift starting at zero whose velocity is square integrable. -/
+theorem cameronMartin_equivalence (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) (T : ℝ≥0)
+    (h : ℝ≥0 → ℝ) (hc : ContinuousOn h (Set.Iic T)) :
+    let μ := P.map (fun ω (t : Set.Iic T) => B t.val ω)
+    let ν := P.map (fun ω (t : Set.Iic T) => B t.val ω + h t.val)
+    (ν ≪ μ ∧ μ ≪ ν) ↔ ∃ u, IsCameronMartinShift T h u := by
+  sorry
+
+/-- A continuous translation outside the finite-horizon Cameron–Martin space
+produces a Wiener law mutually singular to the original law. -/
+theorem cameronMartin_singularity (P : Measure Ω) [IsProbabilityMeasure P]
+    (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) (T : ℝ≥0)
+    (h : ℝ≥0 → ℝ) (hc : ContinuousOn h (Set.Iic T))
+    (hout : ¬ ∃ u, IsCameronMartinShift T h u) :
+    (P.map (fun ω (t : Set.Iic T) => B t.val ω + h t.val)).MutuallySingular
+      (P.map (fun ω (t : Set.Iic T) => B t.val ω)) := by
+  sorry
+
+/-! ## Layer 9: Strong and weak SDEs, flows and approximation -/
 
 /-- Scalar strong-solution carrier with Borel coefficients and a predictable representative of
 `t ↦ σ(t, X_t)` in the finite-horizon `dt × P` classes. Thus a progressive, a.s.-continuous
@@ -660,149 +514,32 @@ def IsStrongSolution (F : Filtration ℝ≥0 mΩ) (P : Measure Ω)
       ∀ᵐ ω ∂P, ∀ t, X t ω = ξ ω +
         (∫ s, b s (X s ω) ∂timeMeasure t) + I t ω
 
-/-- Global-Lipschitz scalar existence, with a genuine joint measurability hypothesis.
-Here `L` is a uniform global Lipschitz bound and `K` a uniform bound at zero, hence the
-usual linear-growth control. This is a global-constant special case of the broader
-coefficient-general existence target, not its replacement. It allows arbitrary F₀-measurable
-initial values; moment bounds require extra moment hypotheses. The vector and local/explosion
-targets remain in S9. -/
+/-- Strong existence for Borel scalar coefficients with spatial Lipschitz and
+linear-growth constants uniform on each finite time horizon, and arbitrary finite
+F₀-measurable initial values. No initial moment is required. -/
 theorem exists_strongSolution (F : Filtration ℝ≥0 mΩ)
     (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
     (hB : IsFilteredBrownian F P B) (b σ : ℝ≥0 → ℝ → ℝ)
     (hb : Measurable (Function.uncurry b)) (hσ : Measurable (Function.uncurry σ))
-    (L K : ℝ≥0)
-    (hLip : ∀ t x y, |b t x - b t y| + |σ t x - σ t y| ≤ (L : ℝ) * |x-y|)
-    (hBound : ∀ t, |b t 0| + |σ t 0| ≤ K)
+    (hLip : ∀ T : ℝ≥0, ∃ L : ℝ≥0, ∀ t ≤ T, ∀ x y,
+      |b t x - b t y| + |σ t x - σ t y| ≤ (L : ℝ) * |x-y|)
+    (hBound : ∀ T : ℝ≥0, ∃ K : ℝ≥0, ∀ t ≤ T, |b t 0| + |σ t 0| ≤ K)
     (ξ : Ω → ℝ) (hξ : StronglyMeasurable[F 0] ξ) :
     ∃ X, IsStrongSolution F P B b σ ξ X := by
   sorry
 
-universe v
-
-variable {E : Type v} [TopologicalSpace E] [MeasurableSpace E]
-  [BorelSpace E] [PolishSpace E] [Nonempty E]
-
-/-- Fixed-time equality is a modification, not indistinguishability. -/
-def IsModification (P : Measure Ω) (X Y : ℝ≥0 → Ω → E) : Prop :=
-  ∀ t, Y t =ᵐ[P] X t
-
-def HasProgressiveModification (F : Filtration ℝ≥0 ‹MeasurableSpace Ω›)
-    (P : Measure Ω) (X : ℝ≥0 → Ω → E) : Prop :=
-  ∃ Y, IsProgressive F Y ∧ IsModification P X Y
-
-/-- Arbitrary-filtration Polish-valued progressive modification. Requires ambient product
-measurability and timewise adaptation; no usual conditions or path regularity. -/
-theorem exists_progressive_modification
-    (F : Filtration ℝ≥0 ‹MeasurableSpace Ω›) (P : Measure Ω)
-    [IsProbabilityMeasure P] (X : ℝ≥0 → Ω → E)
-    (h_joint : Measurable (Function.uncurry X))
-    (h_adapted : Adapted F X) :
-    HasProgressiveModification F P X := by
+/-- Two scalar strong solutions with the same initial variable and Brownian noise
+are indistinguishable under spatial Lipschitz bounds on each finite time horizon.
+No moment condition on the initial variable is needed. -/
+theorem strongSolution_pathwise_unique (F : Filtration ℝ≥0 mΩ)
+    (P : Measure Ω) [IsProbabilityMeasure P] (B : ℝ≥0 → Ω → ℝ)
+    (hB : IsFilteredBrownian F P B) (b σ : ℝ≥0 → ℝ → ℝ)
+    (hLip : ∀ T : ℝ≥0, ∃ L : ℝ≥0, ∀ t ≤ T, ∀ x y,
+      |b t x - b t y| + |σ t x - σ t y| ≤ (L : ℝ) * |x-y|)
+    (ξ : Ω → ℝ) (hξ : StronglyMeasurable[F 0] ξ)
+    (X Y : ℝ≥0 → Ω → ℝ)
+    (hX : IsStrongSolution F P B b σ ξ X) (hY : IsStrongSolution F P B b σ ξ Y) :
+    Indistinguishable P X Y := by
   sorry
-
-/-- Fubini consequence on each finite horizon. This yields product-a.e. equality, not
-indistinguishability or predictability. -/
-theorem modification_eq_ae_prod_on_horizon
-    (F : Filtration ℝ≥0 ‹MeasurableSpace Ω›) (P : Measure Ω)
-    [IsProbabilityMeasure P] (X Y : ℝ≥0 → Ω → E)
-    (hX : Measurable (Function.uncurry X))
-    (hY : IsProgressive F Y)
-    (hXY : IsModification P X Y) :
-    ∀ T, Function.uncurry X =ᵐ[(timeMeasure T).prod P] Function.uncurry Y := by
-  sorry
-
-/-- Already present pinned Brownian API: this is a proof, not a new proposed target. -/
-example (P : Measure Ω) (B : ℝ≥0 → Ω → ℝ) (hB : IsBrownianReal B P) (s : ℝ≥0) :
-    IsBrownianReal (fun t ω => B (s+t) ω - B s ω) P := hB.shift s
 
 end StochasticCalculusSuggested
-
-
-/-! ## Elementary native measure and generator lemmas
-
-These are proved lemmas for source-level interfaces. The generator bounds below are only
-scalar inequalities; they do not prove global existence or nonexplosion of an SDE.
--/
-namespace StochasticCalculusSuggested.ComplexMeasureBounds
-
-/-- For an integrable complex density, the native vector-measure variation is exactly
-Lebesgue measure with density `‖f‖`. -/
-theorem complexDensity_variation_eq {α : Type*} [MeasurableSpace α]
-    (μ : Measure α) (f : α → ℂ) (hf : Integrable f μ) :
-    (μ.withDensityᵥ f).variation = μ.withDensity (fun x => ‖f x‖ₑ) := by
-  exact MeasureTheory.Measure.variation_withDensityᵥ hf
-
-/-- The corresponding domination follows from the native exact density identity. -/
-theorem complexDensity_variation_le {α : Type*} [MeasurableSpace α]
-    (μ : Measure α) (f : α → ℂ) (hf : Integrable f μ) :
-    (μ.withDensityᵥ f).variation ≤ μ.withDensity (fun x => ‖f x‖ₑ) := by
-  rw [complexDensity_variation_eq μ f hf]
-
-
-end StochasticCalculusSuggested.ComplexMeasureBounds
-
-namespace StochasticCalculusSuggested.SpecialCoefficientNonexplosion
-
-/-- The logarithmic Lyapunov generator bound after setting `u = a/(1+x²)`.
-This is an elementary scalar inequality and makes no claim about SDE existence. -/
-theorem normalized_log_generator_le_two (x u : ℝ) (hx : 2 ≤ x ^ 2) :
-    2 * x * u + (1 - x ^ 2) * u ^ 2 ≤ 2 := by
-  have hprod : 0 ≤ (x ^ 2 - 2) * u ^ 2 :=
-    mul_nonneg (sub_nonneg.mpr hx) (sq_nonneg u)
-  nlinarith [sq_nonneg (x * u - 2)]
-
-/-- The corresponding bound in the original coefficient `a`. -/
-theorem log_generator_le_two (x a : ℝ) (hx : 2 ≤ x ^ 2) :
-    2 * x * a / (1 + x ^ 2) + (1 - x ^ 2) * a ^ 2 / (1 + x ^ 2) ^ 2 ≤ 2 := by
-  have hden : 1 + x ^ 2 ≠ 0 := ne_of_gt (by positivity)
-  have h := normalized_log_generator_le_two x (a / (1 + x ^ 2)) hx
-  convert h using 1
-  field_simp
-
-
-end StochasticCalculusSuggested.SpecialCoefficientNonexplosion
-
-/-! The declared tent-map conditional-expectation acceptance example. -/
-namespace StochasticCalculusSuggested.TentConditionalExample
-
-def tent (x : ℝ) : ℝ := max 0 (min x (1 - x))
-
-theorem continuous_tent : Continuous tent := by
-  unfold tent
-  fun_prop
-
-theorem tent_reflection (x : ℝ) : tent (1 - x) = tent x := by
-  unfold tent
-  rw [show (1 : ℝ) - (1 - x) = x by ring, min_comm]
-
-theorem tent_outside {x : ℝ} (hx : x ∉ Set.Icc (0 : ℝ) 1) : tent x = 0 := by
-  unfold tent
-  apply max_eq_left
-  by_cases h0 : 0 ≤ x
-  · have h1 : ¬ x ≤ 1 := fun h1 ↦ hx ⟨h0, h1⟩
-    exact (min_le_right x (1 - x)).trans (by linarith)
-  · exact (min_le_left x (1 - x)).trans (le_of_lt (lt_of_not_ge h0))
-
-/-- Any integrable variable under any Borel probability has a tent-conditioned
-version which is pointwise symmetric and constant outside the unit interval. -/
-theorem conditional_tent_factor (P : Measure ℝ) [IsProbabilityMeasure P]
-    (ξ : ℝ → ℝ) (_hξ : Integrable ξ P) :
-    ∃ g : ℝ → ℝ, Measurable g ∧
-      P[ξ | MeasurableSpace.comap tent (borel ℝ)] = g ∘ tent ∧
-      (∀ x : ℝ, P[ξ | MeasurableSpace.comap tent (borel ℝ)] (1 - x) =
-        P[ξ | MeasurableSpace.comap tent (borel ℝ)] x) ∧
-      (∀ x : ℝ, x ∉ Set.Icc (0 : ℝ) 1 →
-        P[ξ | MeasurableSpace.comap tent (borel ℝ)] x = g 0) := by
-  obtain ⟨g, hg, heq⟩ :=
-    (stronglyMeasurable_condExp (μ := P) (f := ξ)
-      (m := MeasurableSpace.comap tent (borel ℝ))).exists_eq_measurable_comp
-  refine ⟨g, hg.measurable, heq, ?_, ?_⟩
-  · intro x
-    rw [heq]
-    simp only [Function.comp_apply, tent_reflection]
-  · intro x hx
-    rw [heq]
-    simp only [Function.comp_apply, tent_outside hx]
-
-
-end StochasticCalculusSuggested.TentConditionalExample
