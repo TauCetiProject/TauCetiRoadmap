@@ -425,9 +425,11 @@ existence theorem is stated but flagged as the deep sublayer.
   `(1,0)`, `(0,1)`, `(1,1)` - the **three positive roots of `A₂`**, `α₁`, `α₂`, `α₁+α₂`. Acceptance:
   `gabriel_indecomposable_equiv_posRoot` restricts to this bijection; the reflection functor at the sink
   `2` is a functor from representations of `1 → 2` to representations of the **reflected quiver** `1 ← 2`,
-  killing the sink simple `S₂` and, under the vertex-identification of the two quivers, carrying `P₁ ↦ P₁`
-  and `S₁ ↦ S₂` - realizing `s₁` on `{(1,0),(0,1),(1,1)}` through the dimension-vector map. The AR quiver
-  is the three-vertex mesh `S₂ → P₁ → S₁` with `τ S₁ = S₂`.
+  killing the sink simple `S₂` and, under the vertex-identification of the two quivers, carrying
+  `S₁ = (k → 0)` to `(k ←^{id} k)` and `P₁ = (k →^{id} k)` to the simple `(k ← 0)` - realizing `s₂`, the
+  simple reflection at the sink (`dimVector_reflectionFunctor`), through the dimension-vector map:
+  `(1,0) ↦ (1,1)` and `(1,1) ↦ (1,0)`, while `s₂ (0,1) = (0,-1)` is not a positive root, matching the
+  killed `S₂`. The AR quiver is the three-vertex mesh `S₂ → P₁ → S₁` with `τ S₁ = S₂`.
 - **The Kronecker quiver `• ⇉ •` (type `Ã₁`).** Two vertices, two parallel arrows;
   `pathAlgebra k` is `4`-dimensional. This is the **boundary of Gabriel**: connected, not Dynkin, Tits
   form `titsForm (a,b) = a² + b² − 2ab = (a−b)²` positive **semi**definite (radical `(1,1)`), and
