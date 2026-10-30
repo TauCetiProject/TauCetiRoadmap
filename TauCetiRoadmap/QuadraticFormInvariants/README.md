@@ -53,9 +53,26 @@ and [`CrossedProduct/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob
 `TwoCocycle.ulift` lifts the cocycle; and `CrossedProduct.uliftEquiv` identifies its
 crossed product with the actual lift of the original algebra, with coefficient and basis
 coordinate formulas. These are parts of the required transport, independent of the Brauer
-comparison. Transport of CSA/Brauer quotient classes, the absolute Galois group and the
-coefficient/continuous-cohomology objects, together with their Brauer-comparison naturality
-square, remains open.
+comparison.
+
+At actual source `5a0e8244ee9f65172d1fa1bd06742600ff352154`,
+[`GaloisCohomology/Congr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/FieldTheory/GaloisCohomology/Congr.lean)
+supplies `RingEquiv.unitsCoeffCongr`, `unitsCocyclesCongr` and `unitsH2Congr`: direct
+transport of the actual separable-closure unit coefficients, continuous two-cocycles and
+explicit second cohomology across independently quantified field universes. These maps use
+the chosen separable-closure identification and absolute-Galois-group equivalence.
+[`AbsoluteGaloisGroup/Congr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Congr.lean)
+proves compatibility with restriction to identified normal subextensions, and
+[`CrossedProduct/FieldCongr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/Algebra/CrossedProduct/FieldCongr.lean)
+proves the corresponding finite-cocycle and cohomology inflation equations for compatible
+maps of finite normal subextensions.
+
+Stage 2 still requires the actual upward-`ULift` transport on CSA/Brauer quotient classes
+and its full Brauer/cohomology naturality square. `BrauerGroup.baseChange` and
+`brauerCohomologyEquiv_baseChange` retain their same-universe field parameters. The new
+group/coefficient/cohomology transports and finite-inflation equations are concrete progress
+toward the square; the roadmap remains active until the quotient transport and full square
+are constructed and proved.
 
 The inventory and checked proofs below describe only the covered targets. They do not claim
 this outstanding square or any equivalent cross-universe transport has been implemented.
