@@ -8,8 +8,8 @@ import TauCeti.NumberTheory.ModularForms.Newforms.Eigenform
 `README.md`; discharging these statements finishes neither a layer nor the roadmap.
 
 The statements are Ribet's weight-two level lowering (§2.10), removal of
-coefficient-prime level (§4.2), and congruent-nebentypus replacement (§4.1).
-They use native full eigenforms and rank-two representations of a finite Galois
+coefficient-prime level (§4.2), congruent-nebentypus replacement (§4.1), and the
+weight-two bridge at level `Nℓ` (§4.7). They use native full eigenforms and rank-two representations of a finite Galois
 extension of ℚ. Every continuous residual representation has such a finite model.
 The coefficient field k is algebraically closed, so irreducibility is absolute and
 finite coefficient extensions are allowed. A single ring homomorphism from
@@ -87,14 +87,15 @@ theorem ribet_level_lowering
         IsResidualEigenform ℓ ρ red g := by
   sorry
 
-/-- Removal of coefficient-prime level (README §4.2; Ribet, Theorem 2.1).
-The residual representation and tame level persist; weight and character may change. -/
+/-- Removal of coefficient-prime level (README §4.2; Ribet, Theorem 2.1), for a
+witness of weight at least two, as in the source. The residual representation and
+tame level persist; weight and character may change. -/
 theorem strip_coefficient_prime_powers
     (ℓ N r : ℕ) [NeZero N] [NeZero (N * ℓ ^ r)]
     [CharP k ℓ] [IsAlgClosed k] (hℓ : 3 ≤ ℓ) (hN : ¬ ℓ ∣ N)
     (ρ : Representation k (L ≃ₐ[ℚ] L) (Fin 2 → k))
     [Representation.IsIrreducible ρ]
-    (red : integralClosure ℤ ℂ →+* k) {w : ℤ}
+    (red : integralClosure ℤ ℂ →+* k) {w : ℤ} (hw : 2 ≤ w)
     (f : HeckeRing.GL2.Eigenform (N * ℓ ^ r) w)
     (hnorm : (qExpansion 1 f.toCuspForm).coeff 1 = 1)
     (hf : IsResidualEigenform ℓ ρ red f) :
@@ -118,5 +119,22 @@ theorem congruent_nebentypus
     ∃ g : HeckeRing.GL2.Eigenform N w,
       g.χ = ε' ∧ (qExpansion 1 g.toCuspForm).coeff 1 = 1 ∧
         IsResidualEigenform ℓ ρ red g := by
+  sorry
+
+/-- Weight two at level `Nℓ` (README §4.7; Ribet, Theorem 2.2): an irreducible
+residual eigensystem of weight `2 ≤ k ≤ ℓ + 1` at a level prime to `ℓ` occurs in
+weight two at level `Nℓ`, provided `ℓ > 3` or `N > 3`. No character is prescribed,
+and the witness need not be new at `ℓ`. -/
+theorem weight_two_at_level_mul_prime
+    (ℓ N : ℕ) [NeZero N] [NeZero (N * ℓ)] [CharP k ℓ] [IsAlgClosed k]
+    (hℓ : 3 ≤ ℓ) (hN : ¬ ℓ ∣ N) (hsmall : 3 < ℓ ∨ 3 < N)
+    (ρ : Representation k (L ≃ₐ[ℚ] L) (Fin 2 → k))
+    [Representation.IsIrreducible ρ]
+    (red : integralClosure ℤ ℂ →+* k) {w : ℤ} (hw : 2 ≤ w ∧ w ≤ ℓ + 1)
+    (f : HeckeRing.GL2.Eigenform N w)
+    (hnorm : (qExpansion 1 f.toCuspForm).coeff 1 = 1)
+    (hf : IsResidualEigenform ℓ ρ red f) :
+    ∃ g : HeckeRing.GL2.Eigenform (N * ℓ) 2,
+      (qExpansion 1 g.toCuspForm).coeff 1 = 1 ∧ IsResidualEigenform ℓ ρ red g := by
   sorry
 end TauCetiRoadmap.SerreWeightAndLevelOptimisation
