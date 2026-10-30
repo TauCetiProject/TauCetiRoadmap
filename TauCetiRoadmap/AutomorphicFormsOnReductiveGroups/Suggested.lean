@@ -3,20 +3,22 @@ import Mathlib
 /-!
 # Automorphic forms on reductive groups: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. The statements here suggest Lean forms for headline milestones;
-discharging them finishes neither a layer nor the roadmap.
+**This file is not the roadmap.** The roadmap is `README.md`. This file states the
+roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
-README §2.1's compact-finite density is stated for strongly continuous complex Banach
-representations of arbitrary compact Hausdorff groups and for continuous representations
-on complete Hausdorff locally convex complex spaces. Both use the same algebraic
-finite-orbit-span submodule. Local convexity is expressed on the underlying real space.
+README §2.1's locally convex compact-finite density is stated for continuous representations
+of compact Hausdorff groups on complete Hausdorff locally convex complex spaces with jointly
+continuous action, the finite-orbit-span condition being written out on the native carrier.
+Local convexity is expressed on the underlying real space. The topology-free orbit-span
+predicate, its submodule and the Banach density theorem that this extends are a
+CompactGroups Layer 5 gap and are not restated here.
 
-README §2.2 consumes the reductive centre and Harish-Chandra isomorphisms from
-LieHighestWeight Layer 9, reductive enveloping centers, with Layer 7's raw/dot and
-translated/ordinary invariant conventions.
+README §2.2 consumes the reductive centre and Harish-Chandra isomorphisms recorded as a
+LieHighestWeight Layer 9 gap, with Layer 7's raw/dot and translated/ordinary invariant
+conventions; they are not restated here.
 
-The other headline signatures require objects absent at the pins:
+The following headline theorems are not statable at the pins, because the named carriers
+are absent:
 * Layer 0's smoothing theorem needs the smooth adelic function and group Schwartz spaces.
 * Layer 1's van Est isomorphism needs compatible Lie/group pairs and their all-degree
   relative cochain complex, together with smooth group cochains.
@@ -35,73 +37,21 @@ The other headline signatures require objects absent at the pins:
   the Hermitian group datum, coherent cohomology and actual discrete occurrences.
 * Layer 7's GL₁, GL₂ and definite-group dictionaries and transport theorems need the
   automorphic carrier and the common coefficient-valued level-form carrier.
-
-These signatures are deferred until those carriers can express the stated mathematics.
 -/
 
 namespace TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 
-section CompactOrbits
-
-variable {𝕜 K V : Type*} [Field 𝕜] [Group K] [AddCommGroup V] [Module 𝕜 V]
-
-/-- A vector whose orbit has finite-dimensional linear span (README §2.1). -/
-def IsGFinite (ρ : Representation 𝕜 K V) (v : V) : Prop :=
-  FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k v))
-
-/-- The common algebraic submodule used by both compact-finite density theorems. -/
-def gFiniteSubmodule (ρ : Representation 𝕜 K V) : Submodule 𝕜 V where
-  carrier := {v | IsGFinite ρ v}
-  zero_mem' := by
-    apply Submodule.finiteDimensional_of_le (S₂ := (⊥ : Submodule 𝕜 V))
-    refine Submodule.span_le.mpr ?_
-    rintro _ ⟨k, rfl⟩
-    change ρ k 0 ∈ (⊥ : Submodule 𝕜 V)
-    rw [(ρ k).map_zero]
-    exact Submodule.zero_mem _
-  add_mem' := by
-    intro v w hv hw
-    have : FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k v)) := hv
-    have : FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k w)) := hw
-    apply Submodule.finiteDimensional_of_le (S₂ :=
-      Submodule.span 𝕜 (Set.range fun k : K => ρ k v) ⊔
-        Submodule.span 𝕜 (Set.range fun k : K => ρ k w))
-    refine Submodule.span_le.mpr ?_
-    rintro _ ⟨k, rfl⟩
-    simp only [LinearMap.map_add]
-    exact Submodule.add_mem_sup (Submodule.subset_span ⟨k, rfl⟩)
-      (Submodule.subset_span ⟨k, rfl⟩)
-  smul_mem' := by
-    intro a v hv
-    have : FiniteDimensional 𝕜 (Submodule.span 𝕜 (Set.range fun k : K => ρ k v)) := hv
-    apply Submodule.finiteDimensional_of_le (S₂ :=
-      Submodule.span 𝕜 (Set.range fun k : K => ρ k v))
-    refine Submodule.span_le.mpr ?_
-    rintro _ ⟨k, rfl⟩
-    simp only [LinearMap.map_smul]
-    exact Submodule.smul_mem _ a (Submodule.subset_span ⟨k, rfl⟩)
-
-end CompactOrbits
-
-/-- README §2.1: compact-finite vectors are dense for every strongly continuous complex
-Banach representation of a compact Hausdorff group. -/
-theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
-    [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
-    [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
-    (π : ContRepresentation ℂ K E) (hπ : ∀ v : E, Continuous fun k : K => π k v) :
-    Dense (gFiniteSubmodule π.toRepresentation : Set E) := by
-  sorry
-
-/-- README §2.1: compact-finite density on complete Hausdorff locally convex complex
-spaces, for a jointly continuous action. -/
-theorem gFiniteSubmodule_dense_locallyConvex {K E : Type*} [Group K] [TopologicalSpace K]
+/-- README §2.1: for a continuous representation of a compact Hausdorff group on a complete
+Hausdorff locally convex complex space with jointly continuous action, the vectors whose orbit
+has finite-dimensional linear span are dense. -/
+theorem compactFinite_dense_locallyConvex {K E : Type*} [Group K] [TopologicalSpace K]
     [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
     [AddCommGroup E] [UniformSpace E] [IsUniformAddGroup E] [T2Space E]
     [Module ℂ E] [ContinuousSMul ℂ E] [Module ℝ E] [IsScalarTower ℝ ℂ E]
     [LocallyConvexSpace ℝ E] [CompleteSpace E]
     (π : ContRepresentation ℂ K E)
     (hπ : Continuous fun p : K × E => π p.1 p.2) :
-    Dense (gFiniteSubmodule π.toRepresentation : Set E) := by
+    Dense {v : E | FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k : K => π k v))} := by
   sorry
 
 end TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
