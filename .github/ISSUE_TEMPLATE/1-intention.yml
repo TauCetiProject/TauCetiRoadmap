@@ -109,6 +109,7 @@ body:
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
+        - QuaternionicAnalysis
         - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
