@@ -157,7 +157,9 @@ functional calculus and positive-operator order on `H →L[ℂ] H`; `PositiveLin
 `LinearMap.dualEmbedding_surjective`, `LinearMap.rightDualEquiv`, the RCLike `SeparatingDual`
 instance and `SeparatingDual.eq_zero_of_forall_dual_eq_zero`; Banach–Alaoglu and
 `Analysis/Convex/KreinMilman`; `lp` with `lp.instInnerProductSpace`; `SymAlg` and `IsCommJordan`;
-`IsSimpleRing`; `ErgodicSMul`, Haar measure and `PontryaginDual`; the Riesz–Markov–Kakutani
+`IsSimpleRing`; `CompletelyPositiveMap`, with its underlying complex linear map and positivity
+of all finite `CStarMatrix` amplifications (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`);
+`ErgodicSMul`, Haar measure and `PontryaginDual`; the Riesz–Markov–Kakutani
 measure `RealRMK.rieszMeasure` with `RealRMK.integral_rieszMeasure`
 (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`) and `essSup`; the partial-map
 adjoint `LinearPMap.adjoint`, `LinearPMap.adjoint_isClosed` and `LinearPMap.isSelfAdjoint_def`
@@ -303,7 +305,10 @@ Use `PositiveLinearMap.GNS` and `gnsStarAlgHom` from
 `Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal` for the completed GNS construction.
 Add the canonical cyclic vector, recovery of the functional, unitary uniqueness and
 transport/restriction lemmas; prove state separation and construct the faithful direct-sum
-representation (Gelfand–Naimark) from these representations.
+representation (Gelfand–Naimark) from these representations (Peterson, Propositions 4.1.4–4.1.5,
+p. 56, Theorem 4.1.6, p. 57, and Corollary 4.1.7, p. 58; the theorem is stated for unital
+algebras; restrict a unitization representation to the closed span of A acting on its Hilbert
+space and use the approximate unit to obtain the nondegenerate nonunital construction).
 *Needs:* Mathlib `PositiveLinearMap`, `PositiveLinearMap.exists_norm_apply_le`, Banach–Alaoglu,
 `Analysis/Convex/KreinMilman` and `PositiveLinearMap.GNS`; BanachSpaceTheory B1's weak-dual
 comparison.
@@ -354,7 +359,9 @@ zero unital algebra. Do not claim a nondegenerate representation of
 A=0 on nonzero ℓ². For nonzero A the faithful nondegenerate
 representation on `lp (fun _ : ℕ => ℂ) 2` is
 `exists_injective_nondegenerate_representation_lp`. It has no pure-state, irreducibility or
-V12.J prerequisite.
+V12.J prerequisite. The separable faithful representation is Peterson, Corollary 4.1.7 and
+its proof, p. 58; state separation is Propositions 4.1.4–4.1.5, p. 56. The countable
+amplification and Hilbert-basis transport above give the ℓ² refinement, retaining A≠0.
 *Needs:* Mathlib `PositiveLinearMap.GNS`, `gnsStarAlgHom`, `gnsNonUnitalStarAlgHom`, the C*-algebra
 approximate unit and `lp`; the state separation and Gelfand–Naimark representation above.
 
@@ -1292,9 +1299,13 @@ finite-factor projection comparison explicitly: for the obtained projection p,
 choose n≥1 with 1/n≤τ(p), split1 into n orthogonal projections q_i of
 trace1/n, and choose partial isometries v_i with v_i*v_i=q_i and
 v_i v_i*≤p. Then q_i=v_i* p v_i∈I, so 1=Σ_i q_i∈I and I=M.
-No norm closure or star-invariance of I is assumed; this is `isSimpleRing_of_isTypeIIOne`. Prove that every finite-dimensional complex
-von Neumann algebra embeds unitally and normally into every II₁ factor via its block-matrix
-embedding. Prove a concrete diffuse factor contains no nonzero compact operator, by finite-rank
+No norm closure or star-invariance of I is assumed; this is `isSimpleRing_of_isTypeIIOne`. Prove that every nonzero finite-dimensional complex
+von Neumann algebra A embeds unitally and normally into every II₁ factor: write A as a finite
+direct sum of matrix blocks, partition the identity into nonzero corners, and split each corner
+into the required number of equivalent projections to obtain matrix units (Anantharaman–Popa,
+Corollary 2.4.11, p. 39, Proposition 4.1.6, p. 61, and the matrix-unit construction in the
+proof of Proposition 2.4.13, p. 39; the latter construction only uses equivalence and
+orthogonality of the chosen projections). Prove a concrete diffuse factor contains no nonzero compact operator, by finite-rank
 spectral projection extraction and the minimal-projection criterion.
 *Needs:* the comparison theory above, SelfAdjointSpectralTheory SA-B05 (for `f_ε(a)`), V2's membership results,
 V3's connecting corner, Mathlib `IsSimpleRing`; the sources named at each claim.
@@ -1344,6 +1355,10 @@ V2.NonmodularProjectionLattice; Mathlib `IsModularLattice`.
 - `M₂(ℂ)` on ℂ² is a factor; the diagonal algebra on ℂ² is not (`diag(1,0)` is central and not
   scalar); the zero algebra on the zero space is not a factor, which the condition `1≠0`
   enforces.
+- The zero algebra has only the zero map into a II₁ factor R; it is not unital since
+  `f(1)=f(0)=0≠1_R`. For A=ℂ the scalar embedding is unital. For `A=ℂ⊕M₂(ℂ)`,
+  use complementary corners of trace 1/2 and 1/2, and split the second into two equivalent
+  projections of trace 1/4; their units sum to `1_R`, so this embedding is unital.
 - `M_n(ℂ)` is finite, and `B(ℓ²)` is not: the unilateral shift S has `S*S=1` and `SS*≠1`.
 - `M_n(ℂ)` is not of type II₁ (rank-one projections are minimal) and `B(ℓ²)` is not finite; the
   hyperfinite factor R is of type II₁.
@@ -1876,9 +1891,12 @@ the group von Neumann algebra of this layer for the discrete comparison.
   and a definition making λ an isometry of `L¹` would be wrong.
 - For G=ℝ with Lebesgue measure, `s↦λ_s` is not norm continuous: after the Fourier transform λ_s
   is multiplication by `e^(isξ)`, so `‖λ_s−1‖=sup_ξ|e^(isξ)−1|=2` for every s≠0; strong
-  continuity is the right notion. The kernel `h_ε=(2ε)⁻¹1_[−ε,ε]` and `f=1_[0,1]` give
+  continuity is the right notion. For `0<ε≤1/2`, the kernel `h_ε=(2ε)⁻¹1_[−ε,ε]` and `f=1_[0,1]` give
   `‖λ(h_ε)f−f‖₂²=ε/3` (the difference is `(r+ε)/(2ε)` on `[−ε,0]`, `(r−ε)/(2ε)` on `[0,ε]`,
   and symmetrically at 1), which tends to 0 as the nondegeneracy statement requires.
+  Each of these four disjoint ramps contributes ε/12, giving 1/12 at ε=1/4. At ε=1 the
+  convolution equals 1/2 on [0,1], with linear tails on [−1,0] and [1,2], so the error is
+  `1/4+1/12+1/12=5/12`, not 1/3; the small-radius hypothesis cannot be dropped.
 - The adjoint convention is pinned on the affine group `{(a,b):a>0,b∈ℝ}`, `(a,b)(α,β)=(aα,aβ+b)`,
   with left Haar measure `da db/a²`: right translation by `g=(α,β)` multiplies the measure by
   `1/α`, so `c(α,β)=α` and `f*(α,β)=α·conj(f(1/α,−β/α))`; on a unimodular group (ℝ, ℤ, a compact
@@ -1960,13 +1978,20 @@ sources.
 
 For the ergodicity proof consume native `MeasureTheory.Lp.instContinuousSMulDomMulAct` for the norm-continuity of left translations on L¹, explicitly adapting its domain-action convention to `λ_gφ(x)=φ(g⁻¹x)`. Prove the L¹/L∞ integral pairing, its bound and separation, and `∫φ(x)α_g(f)(x)dμ=∫φ(gy)f(y)dμ`. Thus `g↦α_g(f)` is weak-star continuous and its stabilizer is closed; Γ-invariance and density imply invariance under every g∈G. For an invariant null-measurable event choose a Borel representative A, prove the restricted measure `ν=μ|_A` is inner regular, finite on compacts and left invariant, and apply native regular/inner-regular Haar uniqueness to obtain `ν=cμ` for a finite nonnegative scalar c. Own the restricted-measure, pairing-separation and equality-of-density lemmas yielding A null or conull, including ν=0. These are explicit adapters on the existing Haar/Lp/ergodic carriers. No simultaneous pointwise representative for all g or product-Borel equality is presumed. The finite-measure native dense-stabilizer and minimal-action theorems remain applicable in their own scope; they are not the noncompact-Haar proof.
 
-Recover the compact dense-subgroup and Γ=ℚ⊂(ℝ,+) examples through this same target. Under the earlier standard-measure-space hypotheses, consume V8's existing crossed-product and type criteria for their algebra models; do not infer standard Borelness or a nonmetrizable crossed-product classification from countable density alone.
-*Needs:* Mathlib `ErgodicSMul`, Haar uniqueness (`isMulLeftInvariant_eq_smul_of_regular`),
+The compact model is Jones, §11.2, p. 73 (the paragraph preceding Example 11.2.17), and
+Γ=ℚ⊂(ℝ,+) is Example 11.2.21, pp. 73–74. That example suggests the locally compact
+generalization; the L¹-continuity and restricted-Haar argument above supplies it without
+assuming metrizability. Its inputs are the pinned translation-continuity instance in
+Mathlib `MeasureTheory/Function/LpSpace/DomAct/Continuous.lean` and regular Haar uniqueness in
+`MeasureTheory/Measure/Haar/Unique.lean`. Recover these two examples through the same target. Under the earlier standard-measure-space hypotheses, consume V8's existing crossed-product and type criteria for their algebra models; do not infer standard Borelness or a nonmetrizable crossed-product classification from countable density alone.
+*Needs:* Mathlib `ErgodicSMul`, Haar uniqueness (`isMulLeftInvariant_eq_smul_of_innerRegular`),
 `Lp.instContinuousSMulDomMulAct`, the `L¹`/`L∞` pairing; V8.RegularL2; the crossed-product type
 criteria of this layer for the algebra models.
 
 **V8.BernoulliArbitraryDiscrete.** For every infinite discrete group Γ, with no countability assumption, let S be a finite set with its full powerset sigma-algebra and weights p_s≥0 summing to1, with at least two strictly positive weights; zero-weight points are allowed. Use its finite atomic probability measure μ and consume native `MeasureTheory.Measure.infinitePi (fun _ : Γ ↦ μ)` on the cylinder/product sigma-algebra, rather than reconstructing that measure. Consume [`infinitePi_pi`, `eq_infinitePi`, and `infinitePi_map_piCongrLeft`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/ProductMeasure.lean) for finite cylinders, uniqueness and reindexing, and [`ProbabilityTheory.iIndepFun_infinitePi`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Probability/Independence/InfinitePi.lean) for the measurable coordinate family; separately a.e.-measurable coordinates do not by themselves supply an a.e.-measurable uncountable joint map. Define the left Bernoulli shift `α_g(x)(h)=x(g⁻¹h)` and prove measurability, measure preservation, the action law and the induced normal star action on the actual L∞ quotient. Construct the finite-cylinder L² subspaces and prove their union dense by the product-sigma-algebra approximation theorem. Choose an orthonormal basis of the finite-base L² with constant vector1; the products of its nonconstant basis vectors at finitely many coordinates, together with1, form an orthonormal Hilbert basis of the product L². Prove orthonormality by finite-cylinder independence and completeness by cylinder density; no countable global basis is asserted.
 
+The finite-subset Hilbert-basis argument is Jones, Example 11.2.17, p. 73; the finite-base
+version uses the same argument with labels from a basis orthogonal to the constant function.
 For every nonempty finite labelled support, its translation stabilizer is finite: fixing one support point injects the stabilizer into the finite support. Thus its orbit is infinite. An invariant square-summable coefficient family is constant on each orbit, so every nonconstant coefficient vanishes; invariant L² vectors are scalar and the action is ergodic. Equivalently, for cylinder events controlled by finite F, choose g outside FF⁻¹; the events and their g-translates are independent. Use finite-cylinder approximation to extend this mixing/ergodicity argument to all measurable events.
 
 For every fixed g≠1 construct an explicitly product-measurable null set Z_g containing its pointwise fixed set. If g has infinite order use the equal-coordinate conditions on one countably infinite orbit; if it has finite order r>1 use a countable family of disjoint r-cycles, whose equal-coordinate probability is `Σ_i p_i^r<1`. Construct the countable witness coordinates explicitly and let the finite-product probability tend to zero. The full pointwise fixed set is an uncountable intersection when Γ is uncountable and is not presumed measurable on the raw product sigma-algebra: containment in Z_g proves outer measure zero, and it is measurable/null in the measure completion. Derive proper outerness of the L∞ automorphism directly from the same countable coordinate tests and the measurable null envelope, without needing raw fixed-set measurability. Distinguish this per-element measure-algebra assertion from existence of one common conull free set for an uncountable group; no uncountable union of null sets is taken.
@@ -2093,8 +2118,9 @@ holomorphic functions on the upper half-plane) and `UpperHalfPlane`; Goodman–d
 - For G=ℝ no irreducible unitary representation is square integrable (its characters are not in
   `L²`), so the discrete series is empty and no formal degree is defined; for `PSL₂(ℝ)` and even
   weight n≥2, in the normalization with `d_n=(n−1)/(4π)` and `covol(PSL₂(ℤ))=π/3`, the module
-  `H_n` over `L(PSL₂(ℤ))` has dimension `(n−1)/12`, and any rescaling of Haar measure multiplies
-  `d_n` and divides the covolume by the same constant.
+  `H_n` over `L(PSL₂(ℤ))` has dimension `(n−1)/12`. For c>0 and μ′=cμ, the orthogonality
+  integral multiplies by c, so `d′_n=d_n/c` and `covol′=c·covol`. At n=2 and c=2 these
+  become `d′_2=1/(8π)` and `covol′=2π/3`, whose product is still 1/12.
 
 ### Examples
 
@@ -3547,10 +3573,15 @@ cones. Construct its CP-map and restriction APIs. Prove Arveson's
 completely positive extension theorem for inclusions of concrete operator
 systems and B(K)-valued CP maps, using matrix-order separation and
 scalar/vector functional extension (Arveson, *Subalgebras of C*-algebras*, Acta Math. 123
-(1969), Theorem 1.2.3). Prove Tomiyama's theorem for norm-one
-projections onto C*-subalgebras, including positivity, bimodularity and
-complete positivity (Tomiyama, Proc. Japan Acad. 33 (1957), Theorem 1; Peterson, Theorem 6.2.1,
-p. 98). Define injectivity by CP extension and prove its
+(1969), Theorem 1.2.3). Prove Tomiyama's theorem, `tomiyama`, for a possibly nonunital
+complex C*-algebra A, a possibly nonunital star subalgebra S, and a bounded complex linear
+map P:A→A with P(A)⊆S, P(s)=s for every s∈S, and ‖P‖=1. Then P is positive,
+`P(axb)=aP(x)b` for every a,b∈S and x∈A, and P is completely positive, expressed by a
+`CompletelyPositiveMap A A` whose underlying linear map is P. The range and fixing conditions
+imply P²=P and S=ker(1−P), so S is automatically norm closed; no unitality or normality is
+assumed (Hiai, Theorem 6.5, pp. 55–56; Tomiyama, Proc. Japan Acad. 33 (1957), Theorem 1,
+pp. 608–609, for the unital ambient case; Peterson, Theorem 6.2.1, p. 98, for the unital
+inclusion case). Define injectivity by CP extension and prove its
 equivalence to a contractive projection B(H)→M, of norm one when M≠0, for a faithful normal
 representation; such a projection need not be normal. Prove injectivity
 passes to expected subalgebras, corners and type-I amplifications by
@@ -3567,7 +3598,13 @@ positivity and Banach–Alaoglu for point-ultraweak compactness.
   the definition does not require normality.
 - The map `x↦x₁₁e₁₁+x₂₂e₂₂` on `M₂(ℂ)` is a norm-one projection onto the diagonal subalgebra and
   is completely positive, as Tomiyama's theorem predicts; `x↦x₁₁e₁₁+x₂₂e₂₂+x₁₂e₂₁` is not a
-  projection onto a subalgebra and is not positive.
+  projection onto a subalgebra and is not positive. For diagonal a=diag(2,3), b=diag(5,7),
+  and x=[[1,2],[3,4]], both E(axb) and aE(x)b equal diag(10,84). At every matrix level E
+  is the sum of the two positive compressions by `1⊗e₁₁` and `1⊗e₂₂`. The zero map has norm
+  0, while transpose has range M₂ but sends e₁₂ to e₂₁, so fails the fixing hypothesis.
+- Nonunital subalgebras are included: `P(x)=e₁₁xe₁₁` maps M₂ onto ℂe₁₁, has norm 1 and
+  fixes its range although P(1)=e₁₁≠1; for c₀ the identity has norm 1 and is completely
+  positive. On the zero algebra every linear map has norm 0, so no norm-one projection exists.
 - Arveson's hypothesis is complete positivity, not positivity: the transpose of `M₂(ℂ)` is a
   positive unital map whose amplification sends the positive matrix `Σ_(i,j) e_(ij)⊗e_(ij)` to
   the flip, which has eigenvalue −1, so it is not completely positive and the theorem does not
@@ -3597,9 +3634,12 @@ are weak-star limits of vector functionals of π₁⊗π₂ on elementary tensor
 set of functionals, hence the supremum, is determined by the state spaces of A and B alone
 through V2's slice maps and polarization, so that it is the same for `(π₁,π₂)` and for the given
 inclusions. Prove the slice maps: for a positive functional ψ of B, `R_ψ(a⊗b)=ψ(b)a` extends to
-a bounded map `A⊗_min B→A` of norm ‖ψ‖, by realizing ψ as a vector state of the faithful
-representation `π_B⊕π_ψ` of B and using representation independence, and for ψ∈B* by its
-four-term decomposition into positive functionals; symmetrically for A. Prove isometric
+a bounded map `A⊗_min B→A` with `‖R_ψ‖≤‖ψ‖`, by realizing ψ as a vector functional of the
+faithful representation `π_B⊕π_ψ` of B and using representation independence. If A≠0, testing
+elementary tensors with a fixed norm-one a∈A gives `‖R_ψ‖=‖ψ‖`; if A=0, R_ψ has norm zero.
+For arbitrary ψ∈B*, obtain a bounded extension by its four-term decomposition into positive
+functionals. Symmetrically, for a positive functional φ of A, `L_φ:A⊗_min B→B` has norm at
+most ‖φ‖, equal to ‖φ‖ when B≠0 and zero when B=0; extend to arbitrary φ∈A* by decomposition. Prove isometric
 functoriality for inclusions `A₀⊆A`, `B₀⊆B`: `A₀⊗_min B₀⊆A⊗_min B` isometrically. Quotient
 behaviour (exactness) is not asserted here. For a von Neumann algebra M⊆B(H) with commutant M′
 this gives the concrete `M⊗_min M′⊆B(H)⊗_min M′⊆B(H⊗̂H)` used below, with the same norm on
@@ -3613,6 +3653,9 @@ element of A).
 
 **Checks.**
 
+- For `(A,B,ψ)=(0,ℂ,id)`, the slice map has norm 0 while ‖ψ‖=1; for
+  `(ℂ,ℂ,id)` both norms are 1; for ψ=0 both are 0. Exchanging the factors gives the same
+  three tests for L_φ and shows why its equality requires B≠0.
 - In `M₂(ℂ)⊙M₂(ℂ)=M₄(ℂ)`, `u=e₁₂⊗e₁₂+e₂₁⊗e₂₁` exchanges `e₁⊗e₁` and `e₂⊗e₂` and kills the
   other two basis vectors, so `u*u` is a rank-two projection and `‖u‖_min=1`, whereas the sum of
   the elementary-tensor norms is 2: the spatial norm of a sum is not the sum of cross norms.
@@ -4066,7 +4109,7 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
   §5.4 and §15.2 (V12); §§10.2–10.3, 11.1–11.2 and 12.5 (V13).
 - Fumio Hiai, [*Lectures on selected topics in von Neumann algebras*](https://arxiv.org/abs/2004.02383):
   Theorem 2.2 (Tomita), Theorem 2.14 (KMS characterization), Proposition 3.8 and Theorems
-  3.12–3.13 (standard form), §5, Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
+  3.12–3.13 (standard form), §5, Theorem 6.5, pp. 55–56 (Tomiyama), Theorem 6.6 (Takesaki's expectation theorem), Theorem 7.6
   (Connes cocycles), §8, Theorem 9.4 (Pedersen–Takesaki), Theorem 10.7 (Takesaki duality), §12 and
   §13 (relative modular operators and spatial derivatives).
 - William Arveson, *Subalgebras of C*-algebras*, Acta Math. 123 (1969), 141–224, Theorem 1.2.3,

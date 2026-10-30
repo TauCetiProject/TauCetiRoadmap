@@ -197,4 +197,19 @@ theorem ergodicSMul_dense_subgroup
     ErgodicSMul Γ G μ := by
   sorry
 
+/-! ## Layer 13: Hyperfiniteness and injective classification -/
+
+/-- **Tomiyama's theorem.** A norm-one projection of a possibly nonunital complex C*-algebra
+onto a star subalgebra is positive, bimodular over its range, and completely positive.
+Range containment and pointwise fixing specify the projection without a conditional-expectation
+carrier; they also imply its range is closed (Hiai, Theorem 6.5, pp. 55–56). -/
+theorem tomiyama
+    {A : Type*} [NonUnitalCStarAlgebra A] [PartialOrder A] [StarOrderedRing A]
+    (S : NonUnitalStarSubalgebra ℂ A) (P : A →L[ℂ] A)
+    (h_range : ∀ x, P x ∈ S) (h_fix : ∀ x ∈ S, P x = x) (h_norm : ‖P‖ = 1) :
+    (∀ x, 0 ≤ x → 0 ≤ P x) ∧
+      (∀ a ∈ S, ∀ b ∈ S, ∀ x, P (a * x * b) = a * P x * b) ∧
+      ∃ Φ : CompletelyPositiveMap A A, Φ.toLinearMap = P.toLinearMap := by
+  sorry
+
 end TauCetiRoadmap.VonNeumannAlgebras
