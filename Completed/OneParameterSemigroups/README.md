@@ -1,14 +1,12 @@
 # Roadmap: one-parameter semigroups, completely monotone and positive-definite functions, and Bochner-type representations
 
 Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck)
-and of Markov-process theory. Mathlib has the *static* functional-analysis
-stack — Banach/Hilbert spaces, bounded operators, `spectrum` and `resolvent`, the
-holomorphic functional calculus, the Bochner integral, Fourier theory, unbounded operators
-via `LinearPMap` — but **not the dynamical layer**: strongly continuous (C₀) semigroups,
-their generators and resolvents, the **Hille–Yosida** generation theorem, the theory of
-**completely monotone** functions and **Bernstein's** representation theorem, **continuous
-positive-definite functions** and **Bochner's** theorem, or the **Berg–Christensen–Ressel
-(BCR)** representation for positive-definite functions on involutive semigroups.
+and of Markov-process theory. This roadmap specifies their reusable theory together with
+completely monotone, Bernstein and positive-definite functions and their integral
+representations. Consume the Mathlib and Tau Ceti objects described below: Banach/Hilbert
+spaces, bounded and partial linear operators, resolvents, Bochner integrals, Fourier
+analysis, C₀ semigroups, and the native representation predicates. Develop and connect the
+full APIs and examples in Parts A–C.
 
 The goal is to **build the reusable theory of these objects**, not to race to a handful of
 named theorems. The bar for "done": a researcher in evolution equations, Markov semigroups,
@@ -30,8 +28,10 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
   silent default.
 - **Scalar field: real-Banach-first, stated explicitly.** Develop over a real Banach space
   `X` (`[NormedSpace ℝ X]`) — Hille–Yosida / Lumer–Phillips hold there, and a complex Hilbert
-  space is usable as a real Banach space for the semigroup action. Get the complex resolvent
-  set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`.
+  space carries the real action together with an explicit `S.IsComplexLinear` hypothesis.
+  Retain the complex generator and its scalar-restriction comparison. For a real X,
+  consume the normed **complexification** `TauCeti.Complexification X` and develop the
+  domain, action and complex-resolvent comparisons specified in Part A.
 - **C₀ groups.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the unitary
   `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API. Stone's
   theorem on Hilbert space is a milestone of
@@ -73,17 +73,20 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
 - **Measure theory:** `Measure`/`IsFiniteMeasure`, `charFun`
   (`MeasureTheory/Measure/CharacteristicFunction`), **Lévy continuity**, **Prokhorov**
   (`MeasureTheory/Measure/Prokhorov`), **Riesz–Markov–Kakutani**
-  (`MeasureTheory/Integral/RieszMarkovKakutani`) — the measure-extraction toolkit. *(Confirm
-  the exact module paths against the pinned Mathlib commit before relying on them.)*
+  (`MeasureTheory/Integral/RieszMarkovKakutani`) — the measure-extraction toolkit.
+  Use `Mathlib.MeasureTheory.Measure.LevyConvergence` for Lévy continuity.
 - **Real analysis:** `Real.exp`, Taylor's theorem with integral remainder, monotone/dominated
   convergence, `deriv`/iterated derivatives — for the completely-monotone theory.
 
-## What is missing (build here)
+## Programme and ownership
 
-The whole dynamical / representation-theoretic layer below is **absent upstream**. Build it
-as developed theories, in dependency order (this is not a strict schedule). Each part lists
-the **API to develop**, then the **representation theorem** as a milestone, then **acceptance
-examples**.
+The following are definitive targets, including the full basic theory of every object.
+Consume existing native declarations under their own names; develop the remaining
+comparisons and examples in the stated dependency order. Each part specifies its API,
+representation milestones and acceptance examples. The shared scalar-polymorphic partial
+operator resolvent core belongs to
+[`OperatorTheory/SelfAdjointSpectralTheory`](../../TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md);
+this roadmap owns general C₀ generation and its Banach-space complexification applications.
 
 ---
 
@@ -119,6 +122,45 @@ thin wrapper, not a parallel unbounded-operator API.
   - the **iterated-resolvent bounds** (for `λ > ω`, `n ≥ 1`) `‖R(λ,A)ⁿ‖ ≤ M / (λ − ω)ⁿ`
     (Hille–Yosida bound, general `(M, ω)`; contraction `‖R(λ,A)‖ ≤ 1/λ` is the corollary).
 
+**Complexification and complex actions.** Use the native
+`TauCeti.Complexification X`, whose elements have coordinates x+iy, complex scalar action
+`(a+ib)(x+iy)=(ax−by)+i(bx+ay)`, and Taylor norm
+`‖x+iy‖=sup_{|z|=1} ‖Re(z(x+iy))‖`. Its real embedding `ofRealLI` is isometric;
+`max(‖x‖,‖y‖)≤‖x+iy‖≤‖x‖+‖y‖`, `equivProd` is a real continuous linear
+equivalence with X×X, and completeness is inherited from X. Consume these native maps
+and `ContinuousLinearMap.complexify`, including preservation of norms, identities,
+composition and powers. A complex Banach space viewed over ℝ retains its given complex
+action; do not identify its Taylor complexification with the original space isometrically.
+
+For a densely defined real `LinearPMap` A, specify its complexification by the graph
+`((x+iy),(u+iv))∈graph(A_ℂ) ↔ (x,u)∈graph(A) ∧ (y,v)∈graph(A)`.
+Its domain is D(A)+iD(A), its action is Ax+iAy, and density and closedness transport
+through `equivProd`. Prove the inverse comparison for every real resolvent point:
+`λ∈ρ(A) ↔ (λ:ℂ)∈ρ(A_ℂ)` and `R(λ,A_ℂ)=R(λ,A).complexify`, with equal norms.
+The reverse implication uses conjugation, uniqueness of the inverse, and its restriction
+to the conjugation-fixed real subspace. This graph construction and its comparison API
+are targets here; use the shared `LinearPMap` resolvent definitions throughout.
+
+For a real C₀ semigroup S, consume `StronglyContinuousSemigroup.complexify`,
+`hasGrowthBound_complexify_iff`, `mem_complexify_domain_iff` and the native graph/action
+comparisons. Identify its complex generator with A_ℂ for A=S.generator, using the
+displayed graph equality. For an action on an already complex space, retain
+`S.IsComplexLinear`, `S.complexLinearOperator` and `S.complexGenerator`; its restriction
+to ℝ is exactly S.generator, with the same domain and action. Conversely, generation
+from a complex-linear A preserves complex linearity by generator uniqueness, using
+`isComplexLinear_of_generator_eq_restrictScalars`.
+
+For `Re z>ω`, use the native complex-resolvent theory to give
+`R(z,A_ℂ)u=∫₀^∞ exp(−zt) S_ℂ(t)u dt` as a **pointwise** vector-valued integral and
+`‖R(z,A_ℂ)^n‖≤M/(Re z−ω)^n` for n≥1. Consume
+`resolvent_complexify_complexGenerator_ofReal` for the real-axis comparison.
+The shared resolvent Neumann expansion gives operator-norm analyticity on the entire
+resolvent set; its restriction to this half-plane agrees with the integral construction.
+Give the resolvent identity, all complex derivative/power formulas, and the original
+complex-space version under `S.IsComplexLinear`. Prove the real Hille–Yosida theorem
+before applying this bridge, so complexification does not become a premise of real
+generation.
+
 **Milestone — Hille–Yosida generation theorem.** A densely-defined operator whose resolvent
 set contains `(ω,∞)` and whose powers satisfy `‖R(λ,A)ⁿ‖ ≤ M/(λ−ω)ⁿ` generates a C₀ semigroup
 of growth `(M, ω)`.
@@ -127,13 +169,23 @@ of growth `(M, ω)`.
 densely-defined **dissipative** operator with a **range condition** (`∃ λ₀ > 0` with `λ₀ − A`
 surjective) generates a **contraction** semigroup.
 
-⚠ **Both were open / build-here, now built**, via the same **Yosida approximation**:
-`Aλ = λ² R(λ,A) − λI` (bounded, by the resolvent API), each generating a uniformly continuous
-contraction semigroup `e^{tAλ}`. `S` does not exist yet, so do not phrase this as convergence
-"to `S(t)x`": prove the `e^{tAλ}x` are **Cauchy uniformly on compact `t`-intervals**, *define*
-`S(t)x` as the limit, then identify its generator as `A`. Sub-lemmas: generator-domain density;
-the stability/approximation estimates + the Cauchy property of the exponentials. Refs:
-Engel–Nagel II.3.5–3.8; Pazy Ch. 1.
+**Yosida construction and growth bounds.** Consume the native
+`TauCeti.Semigroups.hilleYosida_generation` and its exponent-zero approximation API.
+For general growth `(M,ω)`, with `1≤M`, first set `B=A−ωI` on the same dense domain.
+Transport the resolvent-power bounds to `‖R(λ,B)^n‖≤M/λ^n` for `λ>0`, and form
+`Bλ=λ²R(λ,B)−λI`. The native
+`TauCeti.Semigroups.norm_exp_smul_yosidaApproximation_le` gives
+`‖exp(t Bλ)‖≤M` for `t≥0`, using all resolvent-power estimates. Prove the orbits
+are Cauchy uniformly on compact time intervals, construct their strong limit T,
+identify its generator with B, and recover `S(t)=exp(ωt)T(t)` with
+`‖S(t)‖≤M exp(ωt)` and generator A. Use the native scalar-shift and exponential-shift
+comparisons throughout. At `M=1,ω=0` these are contraction approximants, as used
+in Lumer–Phillips. For the unshifted `Aλ=λ²R(λ,A)−λI`, also give the direct estimate
+`‖exp(t Aλ)‖≤M exp(t λω/(λ−ω))` for `λ>max(ω,0)` and `t≥0`, by the exponential
+power series and the general resolvent-power bounds. Carry the uniform bounds
+on compact time intervals in the Cauchy and limit arguments before S is defined.
+Include `X=ℝ,A=Id,M=1,ω=1,λ=2`: `Aλ=2Id` and `exp(t Aλ)=exp(2t)Id`.
+Refs: Engel–Nagel II.3.5–3.8; Pazy Ch. 1.
 
 **Milestone — abstract Cauchy problem.** `u(t) = S(t)x` is the solution of `u' = A u`,
 `u(0) = x`: a **classical** solution for `x ∈ D(A)` (`u(t) ∈ D(A)`, `u' = Au`), a **mild**
@@ -146,18 +198,25 @@ variable {X : Type*} [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X
 -- resolvent identity, analyticity, power bounds (the developed API), then:
 -- variable (M ω : ℝ)   -- growth constants; 1 ≤ M
 -- theorem hilleYosida_generation (A : DenseLinearOperator X)
+--     (hdense : Dense (A.domain : Set X))
 --     (hρ : ∀ l : ℝ, ω < l → l ∈ resolventSet A)          -- (ω,∞) ⊆ ρ(A)
 --     (hbound : ∀ n, 1 ≤ n → ∀ l : ℝ, ω < l → ‖resolvent A l ^ n‖ ≤ M / (l - ω) ^ n) :
---     ∃ S : StronglyContinuousSemigroup X, S.generator = A ∧ S.HasGrowthBound M ω
+--     ∃ S : StronglyContinuousSemigroup X, S.generator = A ∧ S.HasGrowthBound ω M
 -- theorem lumerPhillips (A : DenseLinearOperator X)
 --     (hd : A.IsDissipative)
 --     (hr : ∃ l₀ > 0, Surjective (l₀ • 1 - A))    -- surjectivity of (λ₀·I − A) : D(A) → X
 --     : ∃ S : ContractionSemigroup X, S.generator = A
 ```
 
-**Acceptance examples.** The multiplication semigroup `S t f = e^{−t·m} f` (generator `−m`)
-and `e^{tA}` for bounded `A`; the resolvent matches the Neumann series `R(λ) = (λ−A)⁻¹`; the
-resolvent identity and `‖R(λ)‖ ≤ 1/λ` hold on these concretely.
+**Acceptance examples.** On real `L^p`, `1≤p<∞`, construct
+`S(t)f=exp(−tm)f` for a measurable real multiplier m bounded below almost everywhere;
+identify the generator as multiplication by −m on `{f | mf∈L^p}`. When `m≥0` this
+is a contraction semigroup and `‖R(λ)‖≤1/λ` for `λ>0`. For a general lower bound,
+state the corresponding exponential growth and shifted resolvent bound. For every
+bounded operator A, construct `exp(tA)`, prove its generator and resolvent identity,
+and identify the resolvent with the Neumann series for `λ>‖A‖`. Keep the general
+bound `‖R(λ,A)‖≤M/(λ−ω)` under its declared growth hypotheses. Include `A=Id`
+on `ℝ`, where `R(λ,A)=(λ−1)⁻¹Id` for `λ>1`, as a positive-growth test.
 
 ## Part B — Completely monotone (and Bernstein) functions
 
@@ -169,17 +228,68 @@ a non-smooth `f` pass *vacuously*; the smoothness must be part of the predicate.
 smoothness on the open ray, not on `Set.Ici 0`. Demanding `ContDiffOn ℝ ⊤ f (Set.Ici 0)` makes the
 reverse direction of the milestone below false: take the finite measure with mass `∝ 1/n²` at each
 `n`, whose Laplace transform is continuous at `0` but has no finite right derivative there, so it
-is not `ContDiffOn` within `Set.Ici 0`. The related **Bernstein functions** (nonnegative, with
-completely monotone derivative).
+is not `ContDiffOn` within `Set.Ici 0`. Consume `TauCeti.IsBernsteinFunction`: f is continuous and nonnegative on `[0,∞)`,
+C∞ on `(0,∞)`, and `deriv f` is completely monotone on `(0,∞)`. Values on the
+negative ray are immaterial. Smoothness at0 is not required; sqrt is an acceptance
+example with a singular right derivative.
 
 **API to develop.**
-- Closure: completely monotone functions are closed under **sums, nonnegative scalar
-  multiples, products, and pointwise limits**; **composition** `g ∘ f` of completely monotone
-  `g` with a Bernstein function `f` is completely monotone; derivative/integral closure.
+- Closure: completely monotone functions on `(0,∞)` are closed under **sums,
+  nonnegative scalar multiples, products, and finite-valued pointwise limits**.
+  For the class continuous on `[0,∞)`, also require continuity of the limit at0
+  (or prove it from a stated uniform convergence hypothesis there).
+  Include `f_n(t)=exp(−nt)`: its pointwise limit on the closed ray is1 at0 and0
+  for `t>0`, and is discontinuous at0. **Composition** `g∘f` of a completely
+  monotone g with a Bernstein f is completely monotone wherever g is defined
+  on the range of f; include the zero value only when g has the required
+  continuous extension there. Supply derivative and integral closure with
+  their sign, finiteness and endpoint hypotheses.
 - The **extreme rays**: the functions `t ↦ e^{−tx}` (`x ≥ 0`) are the building blocks, and the
   representation below realizes a general completely monotone function as a mixture of them.
-- The **Stieltjes / Bernstein-function relationships** (completely monotone ↔ Bernstein via
-  the standard correspondences); the **Lévy–Khinchine representation** of Bernstein functions.
+- **Bernstein representation and basic theory.** Develop the nonnegative cone,
+  monotonicity, concavity, composition and the criterion that `exp(−s f)` is completely
+  monotone for every s≥0. State the criterion for continuous nonnegative f on `[0,∞)`;
+  its converse supplies the open-ray smoothness. The **Lévy–Khinchine representation** is
+  `f(t)=a+bt+∫(1−exp(−tx)) ν(dx)` for t≥0, with a,b≥0, ν a positive measure on
+  `ℝ≥0`, `ν{0}=0`, and `Integrable (fun x => min 1 (x:ℝ)) ν`.
+  Consume `IsBernsteinLevyMeasure` and the native exponent and unique-triplet theorem.
+  Give existence, uniqueness, a=f(0), b=lim_{t→∞} f(t)/t, and
+  `f'(t)=b+∫x exp(−tx)ν(dx)` for t>0, justifying each integral/differentiation.
+- **Stieltjes functions.** Consume `IsStieltjesFunction` and `RepresentsStieltjes`:
+  `g(t)=a/t+b+∫(t+x)⁻¹ ρ(dx)` for t>0, a,b≥0, `ρ:Measure ℝ≥0`, `ρ{0}=0`,
+  and `Integrable stieltjesWeight ρ`, where `stieltjesWeight x=(1+x)⁻¹`.
+  No finiteness of ρ or value/continuity at0 is implicit. Develop the cone, C∞ and
+  complete monotonicity on `(0,∞)`, uniqueness of (a,b,ρ), a=lim_{t↓0}t g(t),
+  b=lim_{t→∞}g(t), and the exact criterion for a finite continuous extension at0:
+  a=0 and `∫_{x>0} x⁻¹ρ(dx)<∞`, with value b plus that integral.
+- **Complete Bernstein functions.** Consume `IsCompleteBernsteinFunction` and
+  `RepresentsCompleteBernstein`: `f(t)=a+bt+∫t/(t+x)ρ(dx)` on `[0,∞)`,
+  with the same nonnegative coefficients, no-atom and weighted integrability convention.
+  Give uniqueness, closure, f(0)=a, the drift limit, and the inclusion in Bernstein
+  functions. Prove the equivalence with a Bernstein Lévy measure having a completely
+  monotone density m on `(0,∞)` relative to Lebesgue measure. Pin the conversion
+  `m(s)=∫_{x>0}x exp(−sx)ρ(dx)` and prove its integrability and uniqueness via the
+  Lévy triplet; build this bridge here on the native classes.
+- **Exact correspondences.** Stieltjes g iff t↦t g(t) on `(0,∞)` has a complete
+  Bernstein extension to `[0,∞)`, with extension value a at0; complete Bernstein f
+  implies f(t)/t is Stieltjes. A nonzero Stieltjes function is positive on `(0,∞)`
+  and its reciprocal has a complete Bernstein extension; conversely a nonzero complete
+  Bernstein function has Stieltjes reciprocal. Consume the native reciprocal theorems
+  with their explicit `EqOn (Ioi 0)` and right-continuity-at0 clauses. Record separately
+  their extension to the zero function under Lean's convention `0⁻¹=0`; it is not an
+  assertion of ordinary division by zero. Specify the remaining transformations on
+  `(0,∞)` with their continuous extensions: complete Bernstein f implies that
+  t/f(t) and t f(1/t) extend to complete Bernstein functions; Stieltjes g iff
+  g(1/t) has a complete Bernstein extension. The Stieltjes class itself is invariant
+  under g↦g(1/t)/t; this swaps a and b and carries ρ to the pushforward under
+  x↦1/x of the measure with density x⁻¹ relative to ρ. Consume the native
+  `Measure.stieltjesInversion` and its no-atom, integrability and involution lemmas.
+  All class equalities on the open ray use `EqOn`; endpoint values are supplied by
+  the indicated extension, including the separate zero convention. For the reciprocal proof,
+  consume the native slit-plane holomorphic Stieltjes transform, Pick characterization
+  and Nevanlinna/Herglotz representation, including positivity on `(0,∞)`, upper
+  half-plane sign and zero-free statements for nonzero data. These analytic suppliers
+  precede the reciprocal result; do not infer it from complete monotonicity alone.
 
 **Milestone — Bernstein's theorem.** `f` completely monotone **on the closed `[0,∞)`** (so
 `f(0⁺) < ∞`) **iff** it is the Laplace transform of a unique **finite** positive measure on
@@ -193,7 +303,7 @@ injectivity); measure extraction via Prokhorov tightness.
 
 ```lean
 -- theorem bernstein (f : ℝ → ℝ) :
---     IsCompletelyMonotone f ↔
+--     IsContinuousCompletelyMonotoneOnIoi f ↔
 --       ∃! μ : Measure ℝ≥0, IsFiniteMeasure μ ∧
 --         ∀ t ≥ 0, f t = ∫ x, Real.exp (-t * (x : ℝ)) ∂μ
 ```
@@ -203,22 +313,37 @@ completely monotone functions from these.
 
 ## Part C — Positive-definite functions and Bochner's theorem
 
-**Objects.** Continuous **positive-definite** functions. Define `IsPositiveDefinite`
-**generically on `[AddCommMonoid M] [StarAddMonoid M]`**, then instantiate: on a
-finite-dimensional real inner-product space `V` (involution `a⋆ = −a`), and on `ℝ≥0 × V`,
-where the **product `StarAddMonoid` automatically supplies the BCR involution** `(t,a)⋆ = (t,−a)`
-(`ℝ≥0` carries the trivial involution, `V` the negation) — no hand-coding. `IsSemigroupGroupPD`
-is then this predicate on `ℝ≥0 × V`. The condition itself: for every
-finite family `(cᵢ, aᵢ)`, `Σ_{i,j} cᵢ · conj(cⱼ) · F(aᵢ + aⱼ⋆) ≥ 0` — note the **involution**
-`aⱼ⋆`, not the group form `F(aᵢ − aⱼ)`; this is exactly what makes the product involution
-`(t,a)⋆ = (t,−a)` yield the intended BCR notion.
+**Objects.** Consume `TauCeti.IsPositiveDefinite` on an additive involutive
+monoid `[AddMonoid M] [StarAddMonoid M]`: every finite quadratic form
+`Σ_{i,j} cᵢ conj(cⱼ) F(aᵢ+star(aⱼ))` is nonnegative in ℂ.
+For a finite-dimensional real inner-product space V, use the native difference-kernel
+predicate `TauCeti.IsPositiveDefiniteSub`, with entries `F(vᵢ−vⱼ)`.
+For `ℝ≥0×V`, consume the public `TauCeti.IsSemigroupGroupPD`, whose entries are
+`F(tᵢ+tⱼ,vᵢ−vⱼ)`. Its native implementation supplies the involution `(t,v)↦(t,−v)`
+through a private wrapper; use the public predicate and its kernel comparison.
+Install no global negation-star instance on V, and require none from consumers.
+Continuity and, for BCR, boundedness remain separate hypotheses.
 
 **API to develop.**
-- Basic properties: **closure under sums, products, Schur (pointwise) products**; for
-  `F : M → ℂ`, conjugate symmetry, `(F 0).im = 0`, `0 ≤ (F 0).re`, and `‖F a‖ ≤ (F 0).re`
-  (the Lean-typed form of `F(0) ≥ |F(a)|`); **continuity at `0` ⇒ uniform continuity**.
-  ⚠ Pointwise limits preserve positive-definiteness but **not** continuity — that needs an
-  extra hypothesis (e.g. locally uniform convergence).
+- Basic properties: **closure under sums, nonnegative scalar multiples, and
+  Schur (pointwise) products**; conjugate symmetry, `(F 0).im=0`, and
+  `0≤(F 0).re`. On a general involutive monoid use the kernel Cauchy–Schwarz bound
+  `‖F(a+star b)‖²≤(F(a+star a)).re (F(b+star b)).re`.
+  On V with the difference kernel, prove `‖F(v)‖≤(F 0).re` and
+  **continuity at0 implies uniform continuity**. For BCR functions, carry the
+  boundedness hypothesis to obtain `‖F(t,v)‖≤(F(0,0)).re` independently of any
+  representing measure. Explicitly set g(t)=(F(t,0)).re, prove F(t,0) is real nonnegative
+  by the diagonal test at t/2, and iterate Cauchy–Schwarz
+  `g(t)^2≤g(0)g(2t)`. If g(0)>0, a global bound C gives
+  `g(t)≤g(0)^(1−2⁻ⁿ) C^(2⁻ⁿ)` for every n≥1 and hence g(t)≤g(0).
+  If g(0)=0, Cauchy–Schwarz with the origin forces F=0. The same inequality then
+  gives `‖F(t,v)‖²≤g(2t)g(0)≤g(0)²`. Only after this prerequisite derive uniform
+  continuity of a bounded continuous BCR function from its finite-measure
+  representation, without using that consequence as a premise of existence.
+  Include `F(t,v)=exp(t)`: its BCR quadratic form is `|Σᵢ cᵢ exp(tᵢ)|²`,
+  although F is unbounded and does not satisfy the bound by F(0,0).
+  Pointwise limits preserve positive-definiteness; continuity requires a separate
+  hypothesis such as locally uniform convergence.
 - The **PD-function ↔ PD-kernel** equivalence (`K(a,b) = F(a + b⋆)`; `F(a − b)` for a group),
   pullbacks, and the GNS/Kolmogorov decomposition; normalization `F(0) = 1`.
 - A stated **Fourier-convention conversion lemma** between Mathlib's `2π` form
@@ -232,12 +357,41 @@ inner-product space `V` is continuous and positive-definite **iff** it is the Fo
 transform of a finite positive measure on `V`. State it for general `V`, with `ℝᵈ` as a
 corollary.
 
-⚠ Mathlib's "Bochner" is the *integral*, and its
-positive-definiteness is only for *matrices* / quadratic forms — there is no
-continuous-positive-definite-*function* notion, and no Bochner representation. So this was
-build-here, **now built** by route (ii), `charFun` + Lévy/Prokhorov tightness; route (i), the
-positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, was the alternative not taken.
-The LCA-group form uses Pontryagin duality.
+Consume the native finite-dimensional `TauCeti.bochner` and its Fourier atom convention.
+Develop both the characteristic-function/Lévy–Prokhorov construction and its comparison
+with the positive-functional/Riesz–Markov construction wherever both apply, identifying
+the same unique measure. The measure-to-function direction, uniqueness and Fourier
+normalizations are common prerequisites.
+
+**Milestone 1L — Bochner on locally compact abelian groups.** For a locally compact
+Hausdorff abelian topological group G, use `PontryaginDual (Multiplicative G)` with its
+native compact-open topology and Borel measurable structure. A continuous
+`TauCeti.IsPositiveDefiniteSub` function φ:G→ℂ is exactly
+`φ(g)=∫χ, (χ (Multiplicative.ofAdd g):ℂ) dμ(χ)` for a unique **finite inner regular
+positive Borel measure** μ on the dual. Continuity at0 suffices on the PD side.
+Consume `TauCeti.Analysis.Bochner.LocallyCompactGroup`, the native
+`FiniteMeasure.pontryaginMeasureTransform`, its tight-measure continuity theorem and
+inner-regular uniqueness theorem. The countability-free statement must retain inner
+regularity; give the arbitrary-finite-Borel formulation when the dual is Polish.
+
+Develop the transform's mass, Dirac, sum, nonnegative scalar, convolution and pullback
+laws, conjugation, uniform continuity and norm bound by φ(0). Consume the native
+GNS construction and strongly continuous cyclic unitary representation spectral-measure
+theorem for existence, retaining the inverse/sign convention of its matrix coefficient.
+Use the native dual carrier, character evaluation and Haar integration APIs. Consume
+the independent harmonic-analysis prefix of the VonNeumannAlgebras roadmap, section V11,
+for character separation, the closed bidual embedding, Fourier inversion/Plancherel,
+and the topological group isomorphism `g↦(χ↦χ(g))`, with its inverse, naturality and
+Haar-rescaling comparisons for arbitrary locally compact Hausdorff abelian G.
+That prefix supplies general duality; this milestone owns its Bochner representation,
+transform laws and the following finite-dimensional application/comparison. The prefix
+is independent of V11's later normal crossed products, modular theory and uses of
+C₀ semigroups; none of those later conclusions or countability hypotheses is an input.
+Prove the finite-dimensional identification
+`q↦(a↦exp(−2πi⟨a,q⟩))` with this dual and transport the representing measure, showing
+that Milestone1 is the same theorem under that identification. Include G=ℤ
+(circle/Herglotz measures), compact G (discrete dual), and finite abelian G
+(finite Fourier sums), with total mass φ(0) and uniqueness in each case.
 
 **Milestone 2 — BCR semigroup–Bochner (Berg–Christensen–Ressel 4.1.13).** A bounded
 continuous positive-definite function on the involutive semigroup `[0,∞) × V` is the
@@ -249,7 +403,7 @@ variable {V : Type*} [NormedAddCommGroup V] [InnerProductSpace ℝ V] [FiniteDim
 -- Mathlib Fourier convention (e^{-2πi⟨·,·⟩}); the real inner product is coerced to ℂ.
 -- (Alternatively phrase via `fourierChar`/`charFun` directly.)
 
--- theorem bochner (F : V → ℂ) (hcont : Continuous F) (hpd : IsPositiveDefinite F) :
+-- theorem bochner (F : V → ℂ) (hcont : Continuous F) (hpd : IsPositiveDefiniteSub F) :
 --     ∃! μ : Measure V, IsFiniteMeasure μ ∧
 --       ∀ a, F a = ∫ q, Complex.exp (-2 * π * Complex.I * (⟪a, q⟫_ℝ : ℂ)) ∂μ
 -- -- time lives in ℝ≥0, so the representing measure has the right support automatically:
@@ -267,12 +421,20 @@ positive-definite, with the expected Gaussian representing measure.
 
 ## Dependency ordering
 
-Part A (semigroups) and Part B (completely monotone) are independent and can proceed in
-parallel; the Hille–Yosida resolvent API and the Bernstein representation are good early
-targets. Part A's **generation theorems** (Hille–Yosida and Lumer–Phillips) follow the resolvent
-API through Yosida approximation. Part C builds on B for the `V = 0` consistency check.
-Its **Bochner theorem on `V`** (Milestone 1) supplies the BCR existence theorem;
-BCR uniqueness uses Fourier/Laplace injectivity and is independent of that construction.
+Part A and Part B develop independently. Within A, the shared partial-operator
+resolvent and generator APIs precede real Hille–Yosida generation; complexification
+and complex scalar retention then identify the complex generator and its resolvent.
+Within B, open-ray Laplace representation and differentiation precede Bernstein
+Lévy–Khinchine existence/uniqueness; the Stieltjes integral theory precedes complete
+Bernstein comparisons, with the slit-plane/Pick suppliers preceding reciprocals.
+Part C uses generic positive-definite kernels and GNS. Finite-dimensional Bochner
+precedes BCR existence; the boundedness-to-origin estimate is proved directly first.
+The LCA representation uses the native GNS/cyclic spectral-measure suppliers and inner
+regular uniqueness. Its duality applications consume only V11's independent harmonic
+prefix, and include the explicit finite-dimensional Bochner comparison. V11's later
+C₀-semigroup and modular applications are not prerequisites of that prefix. BCR
+uniqueness uses Fourier/Laplace injectivity independently of existence. Its V=0
+acceptance example consumes Part B's finite-measure Bernstein theorem.
 
 ## References
 
