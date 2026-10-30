@@ -38,10 +38,7 @@ It leaves the following to the named owners and consumes them by section.
   polar factors in the generated von Neumann algebra, the canonical trace functional with its
   cyclicity and the trace-class duality, the inverse Cayley correspondence, the multiplier-form
   unbounded spectral theorem, polar decomposition of closed unbounded operators, affiliation,
-  antilinear extensions and modular consequences. The supply runs in one direction at the level
-  of targets: SA-B85–B86 consume V4.0.Fields, which uses no projection-valued-measure,
-  normal-operator or multiplicity input, and every target here that consumes SA-B85–B86 comes
-  after V4.0.Fields.
+  antilinear extensions and modular consequences.
 * [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md) owns C₀ semigroups, generators and
   resolvents. Stone's theorem is consumed from Tau Ceti. Modular automorphism groups and their
   KMS characterization belong here.
@@ -4082,9 +4079,7 @@ representatives, and apply it to the Borel corrections. Prove the resulting cocy
 - [BanachAlgebras](../BanachAlgebras/README.md) A7 consumes V11's closed double-dual embedding.
 - [TypeAHeckeAlgebras](../TypeAHeckeAlgebras/README.md) H3 consumes V2's reference-vector
   infinite tensor product.
-- CStarAlgebras consumes V0–V4 and V12.J; its C3–C4 consume V13a; its C5 consumes
-  V13b.SpatialNorm's spatial norm, its representation independence, slice maps and inclusion
-  functoriality, and adds the maximal norm and the comparison of C*-norms; its C6–C9 consume the
+- CStarAlgebras consumes V0–V4 and V12.J; its C3–C4 consume V13a; its C6–C9 consume the
   semidiscreteness theorems of V13b.
 
 ## References
