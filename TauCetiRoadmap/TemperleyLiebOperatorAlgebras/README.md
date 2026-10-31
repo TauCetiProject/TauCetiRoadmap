@@ -9,7 +9,10 @@ positivity theorem, the positive path models, the positive Jones quotients `Q_n`
 C*-tower `B_δ`). Layer 1 compares the two: the analytic adjoint against the vertical reflection of
 diagrams, the Hermitian cell forms against the bilinear cell forms and their Gram determinants, the
 trace radical against the negligible ideal, and the positive path model against the algebraic
-path and block idempotents. Layer 2 proves the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)`, classifies
+path and block idempotents; it then realises the tower concretely: on positive spin chains with the
+Powers product state (1.5), through the finite Potts, loop and ice partition functions (1.6), and
+at `δ = √2` and `δ = √3` as an even Clifford algebra and an inversion-fixed quantum torus with
+finite braid images (1.7–1.8). Layer 2 proves the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)`, classifies
 the negative loop parameters whose signed closure forms are positive at every level, and
 identifies the Bratteli diagram of the Jones tower. Layer 3 builds the unitary Temperley–Lieb
 category: the negligible quotient of the diagram category with its conjugate-linear dagger,
@@ -45,14 +48,14 @@ This roadmap owns:
   algebra of TemperleyLieb Layer 7's root-of-unity quotient (Layer 1);
 - the comparison of Subfactors 3.3's positive path model with the algebraic path and block
   idempotents of TemperleyLieb Layers 6–7 (Layer 1);
-- the positive-real spin/Powers-state comparison, its sided weighted slices, and its
-  trace-GNS cyclic-subspace and normal-representation comparisons (Layer 1.5);
-- finite Potts/FK partition functions, their planar medial-loop and six-vertex comparisons,
-  explicit transfer closures and free/noncrossing wired boundaries (Layer 1.6);
-- the sqrt(2) Jones quotient/even-Clifford comparison, scalar trace, Pauli blocks,
-  compatible towers and finite braid image (Layer 1.7);
-- the sqrt(3) Jones quotient/cubic Gaussian comparison, inversion-fixed blocks,
-  compatible expectations and finite full braid image (Layer 1.8);
+- the positive-real spin-chain realisation of the tower, its one-site slices, and the comparison of
+  the Powers product state with the trace-GNS representation of `B_δ` (1.5);
+- finite Potts and Fortuin–Kasteleyn partition functions, their planar loop and six-vertex
+  comparisons, planar closures and wired boundaries (1.6);
+- the identification of the Jones quotient at `δ = √2` with an even Clifford algebra, its blocks,
+  tower and braid image (1.7);
+- the identification of the Jones quotient at `δ = √3` with the inversion-fixed algebra of a
+  cubic quantum torus, its blocks, tower and finite braid image (1.8);
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
   and the positivity classification at negative loop parameters (Layer 2);
 - the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
@@ -94,12 +97,26 @@ The roadmap leaves the following to named roadmaps:
   Temperley–Lieb instance.
 - The Grothendieck group of an essentially small abelian category belongs to
   GrothendieckEulerForms Layer 2 and Tau Ceti's `TauCeti.CategoryTheory.GrothendieckGroup.Abelian`.
+- Walks, component counts and the simple-graph bridge of edge-labelled graphs belong to
+  GraphConnectivityAndFlows 1.1; bipartite ribbon graphs and their genus to BelyiMaps Layer 2
+  (formalised in Tau Ceti); 1.6 adds only the partition-function adapters.
+- Complexified Clifford algebras with their conjugation, analytic adjoint and scalar trace belong
+  to SpinGeometry G1; the structure of complex Clifford algebras and their gradings to
+  SpinRepresentations Layers 0–1; 1.7 supplies the Temperley–Lieb instance.
+- Hecke-algebra Markov traces, their positive quotients and atomic tensor models belong to
+  TypeAHeckeAlgebras H3 and H4a; 1.5 treats only the Temperley–Lieb spin chain.
+- GNS representations, incomplete tensor products, normal representations, modular theory and
+  completely positive maps belong to VonNeumannAlgebras V0, V2, V4, V10 and V13a.
+- Knot invariants from braid closures, including the Jones polynomial through the
+  Temperley–Lieb representation, belong to GeometricTopology Layer 4.
 
 Outside the roadmap: planar algebras, subfactor basic constructions, index restriction and
 realisation (Subfactors Layers 2–4); general C*- and W*-categories, Q-systems and categorical
 realisation (CategoricalOperatorAlgebras CA3–CA10); affine Hecke algebras and their quiver
 geometry; characteristic-p representation theory of ordinary or affine Temperley–Lieb algebras;
-braided TQFT; the classification of unitary annular representations. The algebraic affine simple
+braided TQFT; the classification of unitary annular representations; the Arf-invariant
+interpretation of the Jones polynomial at `t = i` and the identification of finite braid images
+with named finite groups. The algebraic affine simple
 modules of Layer 4 are included; no positivity is inferred from their bilinear pairings.
 
 No roadmap consumes this roadmap at present.
@@ -157,6 +174,14 @@ No roadmap consumes this roadmap at present.
 - `CategoryTheory.Idempotents.Karoubi` and `CategoryTheory.Mat_`, as plain categories; their
   monoidal and linear structures are TemperleyLieb Layer 7's.
 - `FreeAlgebra`, `RingQuot` and `RingQuot.lift`, underlying the native presentation.
+- `Matrix.kronecker`, `Matrix.PosDef`, `Fin.snoc` and `PMF` (1.5–1.6).
+- `Graph V E` (`Mathlib/Combinatorics/Graph/Basic.lean`), allowing loops and parallel edges;
+  `Graph.restrict` (`Delete.lean`, keeping every vertex), `Graph.map` (`Maps.lean`, creating loops
+  when ends are identified), `Graph.toSimpleGraph : SimpleGraph V(G)` (`Simple.lean`) and
+  `SimpleGraph.ConnectedComponent` (1.6).
+- `QuadraticMap.weightedSumSquares`, `CliffordAlgebra` with `ι`, `lift`, `map`, `even`,
+  `equivEven`, `ι_sq_scalar`, `ι_mul_ι_add_swap`, and the `star` `reverse ∘ involute` (1.7).
+- `AlgHom.equalizer`, `LinearMap.BilinForm`, `ZMod` (1.8).
 
 None of these supplies a Temperley–Lieb algebra, a diagram category, a C*-category or an affine
 diagram.
@@ -174,6 +199,25 @@ diagram.
   property). Its loop value is `−(q + q⁻¹)`.
 - `TauCeti.AbelianK0 C` with `AbelianK0.of`, `of_shortExact` and `of_biprod`, the Grothendieck group
   of an essentially small abelian category.
+- The spin model (`MarkovTrace.lean`): `spinCup`, `spinCap`, `markovWeight`, `spinGenerator`,
+  `spinRep` with `spinRep_e` and `spinRep_strandIncl`, `spinWeight`,
+  `diagonal_spinWeight_mul_spinGenerator`, `commute_diagonal_spinWeight_spinRep`,
+  `markovTrace_apply` (`markovTrace = trace (diagonal spinWeight * spinRep x)`), and
+  `Matrix.extendLast` (`TauCeti/LinearAlgebra/Matrix/ExtendLast.lean`).
+- `BraidGroup n` (`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`) and the Kauffman-bracket
+  representation `TemperleyLieb.jones a : BraidGroup n →* (TemperleyLieb R (jonesDelta a) n)ˣ` with
+  `jonesUnit a i = a • 1 + a⁻¹ • e i` and `jonesDelta a = −(a² + a⁻²)`
+  (`TauCeti/KnotTheory/TemperleyLieb.lean`).
+- `BipartiteRibbonGraph` with `facePerm = (rotW * rotB)⁻¹` and `IsConnected`
+  (`TauCeti/Combinatorics/RibbonGraph/Basic.lean`), and
+  `BipartiteRibbonGraph.IsConnected.two_sub_two_mul_genus` (`.../RibbonGraph/Genus.lean`).
+- `CliffordAlgebra.basis`, the ordered-monomial basis from a linearly ordered basis
+  (`TauCeti/LinearAlgebra/CliffordAlgebra/Dimension.lean`).
+- `IsFactorSet`, `twistedMonoidAlgebra`, `TwistedMonoidAlgebra.of`, `.basis`, `.lift`
+  (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`), `HeisenbergGroup`
+  (`TauCeti/GroupTheory/SpecificGroups/Heisenberg.lean`), and
+  `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`
+  (`TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean`).
 - No star structure, positivity, quotient, diagram category or affine algebra is supplied.
 
 **From TauCetiRoadmap.TemperleyLieb.** Cited as TemperleyLieb Layer k. Assumed of each layer:
@@ -257,6 +301,32 @@ matrices, and the recovery of a diagram from an AF presentation (2.2).
 
 **From TauCetiRoadmap.GrothendieckEulerForms.** Layer 2: abelian `K₀` as exact `K₀` of the
 canonical exact structure, its universal property and its functoriality under exact functors.
+
+**From TauCetiRoadmap.GraphConnectivityAndFlows.** 1.1: walks in edge-labelled graphs,
+`Graph.componentCount G = Nat.card G.toSimpleGraph.ConnectedComponent` for finite vertex sets,
+isolated vertices counted, and its invariance under isomorphism.
+
+**From TauCetiRoadmap.BelyiMaps.** Layer 2: finite bipartite ribbon graphs, faces as orbits of
+`facePerm`, connectedness and genus, formalised in Tau Ceti as listed above.
+
+**From TauCetiRoadmap.SpinGeometry.** G1 item 1: the complexification of a real quadratic space
+and its Clifford algebra; G1 item 3: the coefficient conjugation `κ_tens`, the positive-form
+adjoint `κ_tens ∘ (id ⊗ reverse)`, the scalar trace `cliffordScalarTrace = 2^(−dim V) Tr(L_a)`,
+its cyclicity, the ordered-product basis compared with `CliffordAlgebra.basis`, and
+`τ_ℂ(a* a) = Σ_I |a_I|² Π_(i ∈ I) b(e_i, e_i)`.
+
+**From TauCetiRoadmap.SpinRepresentations.** Layers 0–1: the Clifford algebra with its gradings,
+and the structure of complex Clifford algebras of even and odd dimension as matrix algebras and
+sums of two matrix algebras, with their even subalgebras.
+
+**From TauCetiRoadmap.VonNeumannAlgebras.** V0: GNS representations of states. V2: incomplete
+tensor products of Hilbert spaces with reference vectors, prefix and tail splittings and slice
+maps. V4: normal states and normal representations. V10: Tomita–Takesaki theory and the modular
+group of a faithful normal state. These are used only by the infinite-site statements of 1.5.
+
+**From TauCetiRoadmap.GeometricTopology.** Layer 4: braid closures, Markov moves and the Jones
+polynomial from the Kauffman bracket and from the Temperley–Lieb representation, fixing the
+closure normalisation used at the end of 1.7 and 1.8.
 
 ## How to read the build
 
@@ -453,710 +523,478 @@ Layers 6–7 (path and block idempotents); 1.3.
 
 ### 1.5 Positive spin matrices and the Powers-state comparison
 
-For `t>0` put `r=√t>0`, `δ=r+r⁻¹≥2` and
-`τ=δ⁻²=t/(1+t)²`. Use `false=0,true=1` for the one-site basis of
-`ℂ²`, and order the two-site basis as `00,01,10,11`. Define the faithful
-one-site density and the two-site orthogonal projection by
+This section realises the positive-parameter Temperley–Lieb tower on spin chains, following the
+statement that the Jones trace is the restriction of a Powers product state (Jones, *A polynomial
+invariant for knots via von Neumann algebras*, printed p. 104, crediting Temperley–Lieb and
+Pimsner–Popa). Fix `t > 0`, put `r = √t > 0`, `δ = r + r⁻¹ ≥ 2` and `τ = δ⁻² = t/(1+t)²`. The
+one-site basis of `ℂ²` is indexed by `Bool` with `false = 0`, `true = 1`, and the two-site basis is
+ordered `00, 01, 10, 11`. On `m` sites the configuration space is `Fin m → Bool`, of cardinality
+`2^m`, with its standard Hilbert norm.
 
-`D_t=diag(1,t)/(1+t)`,
-
-`p_t=(1/(1+t)) [[0,0,0,0],[0,1,r,0],[0,r,t,0],[0,0,0,0]]`.
-
-Prove `Tr D_t=1`, strict positivity of `D_t`, self-adjointness and
-idempotence of `p_t`, and its rank-one description as the projection onto
-`(0,1,r,0)`. On `m` physical sites use the actual configuration space
-`Fin m → Bool`, with its standard Hilbert norm, and let `p_i` act on
-adjacent sites and as the identity elsewhere. Prove the disjoint-site
-commutation and adjacent relation `p_i p_(i±1) p_i=τp_i` in both orders.
-Construct the generator-preserving comparison with the native
-`TauCeti.TemperleyLieb.spinRep` at `q=−r`: its unnormalized generator
-`e_i=δp_i` has block `[[r⁻¹,1],[1,r]]` on `01,10`. Prove the algebra
-map is compatible with the analytic adjoint and ordinary matrix conjugate
-transpose. The complex-parameter spin representation alone does not assert
-this self-adjoint positive-real interpretation.
-
-**Density, normalization and side of the slice.** Put
-`φ_m(X)=Tr(D_t^(⊗m) X)`. Prove positivity, faithfulness and normalization
-on the full matrix algebra, and commutation of `D_t^(⊗m)` with every
-generator and hence the whole TL image. Its restriction to that image is
-a trace; `φ_m` on all matrices is tracial exactly when `t=1` for `m≥1`.
-For zero sites the scalar state is tracial at every parameter. Derive
-the explicit right/last-site weighted slice
-
-`(id⊗φ_1)(p_t)=τ I₂`.
-
-The left/first-site slice instead is
-
-`(φ_1⊗id)(p_t)=diag(t²,1)/(1+t)²`.
-
-Prove both entry formulas and carry their different normalizations through
-all tensor reindexings. The last-site formula uses the physical ordering
-`Fin.snoc`; native `Matrix.extendLast`'s reindexed Kronecker convention
-must be compared with that ordering explicitly. For the TL images prove
-`φ_(m+1)(ι_m(x))=φ_m(x)` and
-`φ_(m+1)(ι_m(x)p_m)=τφ_m(x)`, with the initial scalar inclusions treated
-separately when needed. For the unnormalized native closure trace prove
-
-`T_m(x)=δ^m φ_m(spinRep_(−r)(x))`.
-
-Compare its spin weights `r,r⁻¹` with the density entries
-`t/(1+t),1/(1+t)` in native `true,false` order. Include the unit, arbitrary
-words, analytic adjoints and tower inclusions in this comparison. For
-`δ≥2`, identify the spin representation's kernel with the trace radical
-using the faithful matrix state, and consume the positive-parameter
-trace/path theorem to conclude that the kernel is zero. This comparison
-is a consequence of that theorem, not a replacement for its proof.
-
-**Powers product state and the trace-GNS subspace.** Consume
-VonNeumannAlgebras V2's reference-vector incomplete Hilbert tensor product,
-with one-site Hilbert space `HS(ℂ²)`, inner product `⟨A,B⟩=Tr(A*B)`
-using the unnormalized matrix trace, and unit vector `D_t^(1/2)`; the
-local `M₂(ℂ)` acts by left multiplication. Identify finite prefixes with
-the GNS representation of `φ_m`, and construct the compatible infinite
-product state `φ=⊗φ_1` on the resulting weak closure. Prove its local
-matrix formulas, faithfulness and cyclic/separating product vector using
-the general GNS/tensor suppliers, rather than introducing another generic
-infinite tensor carrier. The local modular action is
-`X↦D_t^(is) X D_t^(−is)`. Show each TL generator is fixed, so the product
-state restricts to a normal trace on the TL weak closure. For `t≠1` it
-is not a trace on the ambient product algebra.
-
-Let `K` be the closure of the TL algebra applied to the product vector.
-Construct the generator-preserving unitary from the abstract TL trace-GNS
-space onto `K`, and prove that it intertwines local inclusions, the
-norm-closed TL inductive limit and its weak closure. Compare the faithful
-normal trace on the ambient TL weak closure with the cyclic-subspace
-representation to obtain the normal *-isomorphism. Do not identify `K`
-with the whole ambient product-state Hilbert space. These are terminal
-representation comparisons; no positivity classification or basic
-construction takes this product-state comparison as an input.
-
-**Index and parameter checks.** Native `TL_m` has `m−1` generators on
-`m` physical sites; `TL_0` and `TL_1` have their separate scalar models.
-The course's `A_n` has `n` projections, so this realization uses `m=n+1`,
-physical Hilbert dimension `2^(n+1)`, and unnormalized trace factor
-`δ^(n+1)`. Its `A_0=ℂ` acts as scalars on one physical two-dimensional
-site. The full finite product-state GNS dimension is `4^m`, whereas the
-cyclic TL GNS space has its own dimension. These dimensions are distinct
-from the course scan's literal `ℂ^(2n+2)`; retain the scan reading and
-its intended-model comparison as source qualifications. The formulas here
-specify this tensor model without authenticating that printed exponent.
-At `t=1` check the projection onto `(01+10)/√2`, `δ=2`, `τ=1/4` and ordinary normalized
-matrix trace. Prove that simultaneous spin flip at every site carries
-`D_t,p_t` to `D_(1/t),p_(1/t)` and transports the full state/tower data;
-this pins the reciprocal-parameter convention. No type-III factor
-classification is part of this comparison.
-
-*Needs:* the analytic adjoint and positive trace/quotient/path theorems cited
-above, the existing TL trace-GNS tower, CStarAlgebras C1–C5's finite matrices
-and inductive limits, VonNeumannAlgebras V1/V2's GNS, normal closures and
-reference-vector tensors and V10's modular theory for the final modular
-comparison; Mathlib matrix Kronecker products, trace, positive forms and
-finite-dimensional Hilbert spaces. Use V2's generic slice maps and tensor
-coherence. The general signed/countable Hecke models remain with
-TypeAHeckeAlgebras H3; this target is the ordinary TL spin/Powers-state
-comparison. `PowersTensorTargets.lean` gives suggested finite-matrix and
-native trace interfaces. The source passage is the embedded Jones article
-in Knot Theory physical p91; the following finite partition-function
-comparison supplies its statistical-mechanics assertion.
-
-### 1.6 Finite Potts, planar loops and the ice-model comparison
-
-Specify the finite partition-function equivalence from the embedded Jones
-article in Knot Theory physical p91. This comparison is algebraic and needs
-neither an infinite-volume Gibbs state nor the Powers factor. Use the native
-TL spin representation and the ordinary diagram category, and build the
-following partition-specific graph/ribbon adapters here. Consume
-[GraphConnectivityAndFlows1.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f6b76780f3c3e16e87b17e1b32b3f50caa6f8185/TauCetiRoadmap/GraphConnectivityAndFlows/README.md)
-for general edge-labelled graph paths, component counts and their
-simple-graph bridge; those general objects retain that owner.
-
-**Potts and Fortuin–Kasteleyn sums.** Use Mathlib's `Graph V E`, retaining
-loops and distinct parallel edges. Write `V_G=G.vertexSet` and
-`E_G=G.edgeSet` for the actual subtypes, and assume these are finite; the
-ambient types need not be finite. For `A⊆E_G`, let `G_A` be the spanning
-restriction, retaining every vertex, and let `k(A)` count its connected
-components, including isolated vertices. Use `Graph.restrict`,
-`Graph.toSimpleGraph` and `SimpleGraph.ConnectedComponent` for this count;
-compare it with the supplier's graph paths and component API. Conversion
-to a simple graph is only for connectivity: edge products, contraction and
-ribbon data retain the original edge identities. Build the partition-specific finite
-component equivalences and counting lemmas, restriction functoriality,
-isomorphism invariance, disjoint-union and isolated-vertex formulas.
-
-For a commutative ring `R`, `Q∈R` and edge weights `v:E_G→R`, define
-
-`Z_FK(G;Q,v)=Σ_(A⊆E_G) Q^(k(A)) Π_(e∈A) v_e`.
-
-For `q∈ℕ`, sum over all colorings `σ:V_G→Fin q` and define
-
-`Z_Potts(G;q,v)=Σ_σ Π_(e=uv) (1+v_e [σ(u)=σ(v)])`.
-
-The factor is independent of the choice/order of endpoints, including a
-loop. Prove `Z_Potts(G;q,v)=Z_FK(G;(q:R),v)` by expanding edge subsets and
-identifying colorings constant on A-components with functions from those
-components to `Fin q`. Include `q=0`: the empty graph contributes1 and a
-nonempty vertex set contributes0. Give the multivariate polynomial form,
-base change/evaluation and graph-isomorphism transport. Prove the empty
-edge-set value `Q^|V_G|`, disjoint-union multiplicativity and
-nonloop deletion–contraction
-`Z_G=Z_(G\e)+v_e Z_(G/e)`; loops instead give
-`Z_G=(1+v_e)Z_(G\e)`, and bridges give
-`Z_G=(Q+v_e)Z_(G/e)`. Construct contraction by deleting its selected edge
-and applying `Graph.map` to the vertex quotient identifying its endpoints;
-retain all resulting loops and distinct parallel edges. Supply the
-component and weight transport that proves these identities, rather than
-using simple-graph contraction. Include relabelling and iterated quotient
-compatibility. For real inverse temperature β and couplings J_e, set
-`v_e=exp(βJ_e)−1` and compare with the usual Boltzmann spin sum. For
-`q≥1` this has a positive normalizer; random-cluster probability weights
-require `Q>0,v_e≥0`. Prove finite normalization and the spin/cluster
-coupling when `q≥1,v_e≥0`: conditionally on σ, equal-colored edges are
-independently occupied with probability `v_e/(1+v_e)` and unequal-colored
-edges are absent; conditionally on A, independently color its components
-uniformly in `Fin q`. Use finite `PMF`s and prove both marginals. No
-probability interpretation is asserted for arbitrary complex weights.
-
-**Ribbon boundary cycles and planar loops.** Equip G with orientable ribbon
-data: two darts per edge, the fixed-point-free edge involution, cyclic orders
-at vertices and explicit isolated vertices. Reuse native
-`TauCeti.BipartiteRibbonGraph` from
-`TauCeti.Combinatorics.RibbonGraph.Basic` on the incidence subdivision:
-black vertices are the nonisolated original vertices, white vertices are
-original edges, and its edges are original darts. A white vertex has
-degree2, including the two distinct darts of an original loop; its rotation
-is the edge involution. Build this adapter and its inverse, preserving
-incidences and cyclic orders. Reuse its `facePerm`, `Face`, connected
-components and isomorphism APIs; include isolated vertices separately,
-since its surjective endpoint maps exclude them. Build relabelling,
-deletion, nonloop contraction and restriction to spanning A through this
-adapter, including empty dart sets. Let `ell(A)` count boundary circles of the
-vertex-disc/edge-band neighbourhood of `G_A`; an isolated vertex contributes
-one circle. Construct these circles from boundary permutations and prove the
-regular-neighbourhood comparison and the Euler formula, in integers,
-
-`ell(A)=2k(A)+|A|−|V_G|−2g(A)`,
-
-where g(A) is the sum of genera of its connected neighbourhoods. For each
-nontrivial connected component consume native
-`BipartiteRibbonGraph.IsConnected.two_sub_two_mul_genus` from
-`TauCeti.Combinatorics.RibbonGraph.Genus`, and assign isolated vertices
-genus0. Build the componentwise sum and its regular-neighbourhood
-comparison. Native `BipartiteRibbonGraph.genus` on a disconnected graph
-is a truncated Euler quotient, so do not substitute it for this sum. A planar input
-has genus zero on every spanning restriction; prove this from a genus-zero
-ribbon certificate. An abstract planar underlying graph with an arbitrary
-rotation system is insufficient.
-
-Construct the medial network with a vertex for each original edge and the
-two noncrossing resolutions labelled **absent** and **occupied** by the
-vertex-disc/edge-band construction. Include crossing-free circle components,
-so an edgeless graph still has its vertex circles. Prove that choosing
-occupied resolutions at exactly A gives the boundary circles above.
-For a unit δ and `Q=δ²`, the planar identity is
-
-`Z_FK(G;δ²,v)=δ^|V_G| Σ_A δ^(ell(A)) Π_(e∈A)(v_e/δ)`.
-
-The sum on the right evaluates **every** closed circle as δ. It uses the
-unnormalized TL closure, not the Jones normalization assigning a single
-circle1. Prove it term by term from Euler's formula and compare the
-resulting TL diagram scalar, including all prefactors. Also give the
-orientable-ribbon scalar identity with exponent `ell(A)+2g(A)` in place
-of `ell(A)`, making the genus correction explicit. This identity does not
-identify a torus partition function with an ordinary planar closure.
-The division by δ requires a unit; the Potts/FK polynomial identity above
-continues to include Q=0 independently.
-
-**Six-vertex weights and the native spin model.** Over ℂ choose `r∈ℂˣ`,
-`δ=r+r⁻¹≠0` and native quantum parameter `q_native=−r`. Use `00,01,10,11`
-in the physical tensor order. For a straight two-input/two-output chart
-let I be the through resolution and E the cap/cup resolution. The local
-operator `L(a,b)=aI+bE` has matrix
+Define the one-site density `D_t = diag(1, t)/(1+t)` and the two-site matrix
 
 ```
-[[a, 0,       0,      0],
- [0, a+b/r,   b,      0],
- [0, b,       a+b*r,  0],
- [0, 0,       0,      a]].
+p_t = (1/(1+t)) [[0, 0, 0, 0],
+                 [0, 1, r, 0],
+                 [0, r, t, 0],
+                 [0, 0, 0, 0]].
 ```
 
-Prove this by the native `spinRep` generator formula, and identify the six
-allowed arrow configurations with the two-in/two-out ice rule, fixing
-which boundary legs are inputs. Define the ice partition function as the
-finite sum over internal Bool labels of the product of these vertex
-entries and the declared boundary tensors. In a chart where absent=I
-and occupied=E use `(a,b)=(1,v_e/δ)`; where those resolutions interchange
-use `(a,b)=(v_e/δ,1)`. Keep these homogeneous pairs, so a zero bond weight
-does not require division by v_e. Chart rotations use the actual cup/cap
-bending maps, not a raw permutation of matrix indices.
-
-Pin those maps by the native cup matrix and cap matrix, indexed by0,1:
-
-`C=[[0,1],[r,0]]`, `A=[[0,r⁻¹],[1,0]]=C⁻¹`.
-
-Prove both snake identities and `Σ_ab A_ab C_ab=δ`. For clockwise bending
-use the entry convention
-`Rot(T)_(ab,cd)=Σ_uv C_au T_(bv,uc) A_vd`; prove
-`Rot(I)=E`, `Rot(E)=I`, its iterates on these TL tensors and the resulting chart-change laws.
-On arbitrary four-leg tensors the fourth rotation is conjugation by
-`W_r⊗W_r`, not necessarily the identity; prove that it is the identity
-on the TL image using the native spin-weight centralizer lemma.
-The native cup/cap are algebraic duals. For real r>0, rescale them by
-`r^(−1/2)` and `r^(1/2)` respectively to make them Hilbert adjoints, and
-prove that snakes, E, the loop and closure weights are unchanged.
-Construct the planar diagram-to-spin tensor evaluation from these maps;
-prove independence of Morse slicing, height perturbations, inserted snakes
-and compatible chart changes, and compatibility with composition, tensor
-product and linear combinations. A checked finite slicing presentation
-records the ordered local vertices, cups, caps and identity strands, with
-its boundary matching and circle data, and must reconstruct the medial
-network. Supply such presentations for finite plane inputs and rectangular
-lattices with both horizontal and vertical bonds, including their two
-vertex types and zero-width/empty cases. This supplies an actual transfer
-network rather than a shared TL relation alone.
-
-Prove equality of the spin contraction and the TL loop sum, and hence
-`Z_Potts=Z_FK=δ^|V_G| Z_ice` at the compatible parameters. For open strips
-give the boundary matrix entries and gluing sums, with explicit cup/cap
-boundary vectors; compose the transfer matrices in the declared stacking
-order. For an m-strand endomorphism X closed in the plane, derive
-
-`Z_closed=Tr(W_r^(⊗m) spinRep_(−r)(X))`,
-`W_r=diag(r⁻¹,r)`.
-
-This is the native unnormalized Markov trace. If the closure is already
-contracted using its cups and caps, do not insert W a second time. Compare
-both descriptions, initial scalar levels, added strands and generator
-closures. For real r>0 compare `W_r=δD_(r²)` and the positive-spin density
-from the preceding section, giving `Z_closed=δ^m φ_m(spinRep X)`.
-The finite graph comparison itself uses no analytic-GNS prerequisite.
-Nonnegative local matrix weights hold for real r>0 and a,b≥0. Positive
-Potts weights for integer q<4 may require complex r in this presentation;
-no positive ice probability measure follows merely from the partition
-identity. A periodic cylindrical strip needs its specified seam closure;
-ordinary matrix trace or a torus identification is a different boundary
-model and does not replace the displayed planar closure.
-
-**Boundary conditions and checks.** Free boundary means all vertex colors
-are summed. For a noncrossing partition ξ of designated boundary vertices,
-wire each block by equality constraints, still summing each block's color
-freely; distinct blocks may take the same color. Realize the wiring by a
-specified noncrossing exterior forest and its planar quotient certificate.
-Prove `Z_wired=Z_FK(G/ξ;Q,v)` with exponent `k_ξ(A)` and planar prefactor
-`δ^|V_G/ξ|`, preserving the original edge weights and any quotient loops.
-Construct the corresponding medial caps and ice boundary tensors and prove
-their gluing/quotient compatibility. For a nonempty single wired block and
-q≥1, fixing its color instead divides the freely summed wired partition
-by q over ℂ; prove this by color symmetry. Do not apply that factor to
-several independently prescribed blocks.
-
-Check an edgeless v-vertex graph (`Q^v`), one nonloop edge
-(`Q²+Qv_e`), one loop (`Q(1+v_e)`), parallel edges and a rectangular
-plaquette. Wiring the one-edge endpoints gives the one-loop formula.
-Verify each through spin, FK, loop and ice contractions with its boundary
-normalization. Include r=1 (`δ=2,Q=4,W=I`) and reciprocal-r transport.
-
-*Needs:* Mathlib finite sets/sums and `PMF`, `Graph.restrict`, `Graph.map`,
-`Graph.toSimpleGraph`, `SimpleGraph.ConnectedComponent`, finite permutation
-orbits, matrices/Kronecker products and the native TL spin/Markov trace;
-TemperleyLieb Layers1–4's planar diagram, linear category, presentation
-and closure comparison. The general graph API retains its
-GraphConnectivityAndFlows1.1 owner, and native bipartite ribbon graphs
-retain their BelyiMaps Layer2 owner. The partition-specific component,
-incidence-subdivision, Euler, medial, boundary and tensor-evaluation
-adapters above belong to this section.
-Follow the native set-based graph design and the component direction of
-[Mathlib PR37861](https://github.com/leanprover-community/mathlib4/pull/37861)
-and endpoint API of
-[PR38325](https://github.com/leanprover-community/mathlib4/pull/38325),
-with the [multigraph design discussion](https://leanprover.zulipchat.com/#narrow/stream/252551-graph%20theory/topic/multigraph%20definition).
-Build required missing pieces in Tau Ceti and adopt Mathlib's API as it
-lands. `PottsIceTargets.lean` prototypes the finite sums, Euler-to-loop
-scalar identity, native six-vertex entries, duality contractions and
-weighted transfer closure; the full construction above remains definitive.
-Historical sources are Temperley–Lieb,
-[*Relations between the ‘percolation’ and ‘colouring’ problem…* (1971)](https://doi.org/10.1098/rspa.1971.0067),
-and Baxter–Kelland–Wu,
-[*Equivalence of the Potts model or Whitney polynomial with an ice-type model* (1976)](https://doi.org/10.1088/0305-4470/9/3/009).
-
-### 1.7 The sqrt(2) Jones quotient as an even Clifford algebra
-
-At `t=i`, choose `u=exp(πi/4)=(1+i)/√2`, so `δ=u+u⁻¹=√2` and
-`τ=δ⁻²=1/2`. Give the source's Clifford-algebra identification from
-Knot Theory physical p92 as a generator- and trace-preserving comparison
-of the positive Jones quotient, rather than of the full TL presentation.
-This section consumes the existing positive quotient and path theorems;
-it is not an input to their positivity proof.
-
-**Carriers and analytic adjoint.** Put `q_m(z)=Σ_(j<m) z_j²` on
-`Fin m→ℂ`, using `QuadraticMap.weightedSumSquares`. This is the complex
-bilinear sum of squares, not a Hermitian norm square. Use native
-`Cl_m=CliffordAlgebra q_m`, `Cl_m⁰=CliffordAlgebra.even q_m` and
-`c_j=CliffordAlgebra.ι q_m(e_j)`. Prove the coordinate formulas
-`c_j²=1` and `c_j c_k=−c_k c_j` for j≠k through the native universal
-property; the generators retain their native zero-based indices.
-
-Consume SpinGeometry G1.1/G1.3's positive-real-form complexification,
-scalar conjugation κ, analytic adjoint `a†=κ(reverse a)` and scalar trace.
-Build the coordinate isometry from the complexification of the real sum
-of squares to q_m, and transport all four maps explicitly. In particular
-`c_j†=c_j` and `i†=−i`. Use the supplier's analytic synonym/local adjoint
-API, with the even subalgebra invariant under it. Mathlib's native
-`CliffordAlgebra.star=reverse∘involute` instead negates c_j and fixes
-complex scalars; it is not the adjoint in the projection and positivity
-claims here.
-
-Use the ordered orthogonal monomials `c_S`, S an increasing finite subset
-of `Fin m`, compared with native `CliffordAlgebra.basis` under
-`equivExterior`. Let `s_m` be the scalar-coefficient trace: `s_m(c_∅)=1`
-and `s_m(c_S)=0` for nonempty S. Consume G1.3's basis independence,
-cyclicity and `s_m(a†a)=Σ_S|a_S|²`; specialize its regular-module formula
-`s_m(a)=2^(−m)Tr(L_a)` and prove compatibility with all coordinate maps
-below. The trace is faithful on both the full and even analytic algebras.
-Generic Clifford bases, scalar trace, conjugation and C*-models keep their
-supplier ownership; this section supplies their TL instance and comparison.
-
-**Adjacent projections, surjectivity and the quotient.** For `0≤j<m−1`
-define
-
-`d_j=c_j c_(j+1)`, `p_j=(1+i d_j)/2`, `E_j=√2 p_j`.
-
-Prove `d_j²=−1`, `d_j†=−d_j`, `p_j†=p_j`, `p_j²=p_j`, both adjacent
-relations `p_j p_(j±1) p_j=p_j/2`, and distant commutation. Their even
-membership and the scaled TL relations construct
-`F_m:TL_m(ℂ,√2)→ₐ[ℂ]Cl_m⁰` by native `TemperleyLieb.lift`, sending the
-native generator e_j to E_j. Prove generator evaluation, analytic-adjoint
-compatibility and uniqueness. Adjacent pairs generate the entire even
-algebra: explicitly express `c_a c_b` as the ordered product
-`d_a⋯d_(b−1)` for a<b, recover d_j from p_j, and obtain every even
-basis monomial. Prove surjectivity, including m=0,1 where both algebras
-are scalar.
-
-For the coordinate inclusion `J_m:Cl_m→Cl_(m+1)` fixing old Majoranas,
-prove injectivity, preservation of the even subalgebra, analytic adjoint
-and scalar trace, and
-
-`s_(m+1)(J_m(x)p_(m−1))=s_m(x)/2` for `x∈Cl_m⁰,m≥1`.
-
-The new-Majorana term has zero scalar coefficient. Handle the initial
-scalar inclusions separately. By Markov-trace uniqueness prove
-
-`T_m(x)=(√2)^m s_m(F_m(x))`.
-
-Compare with the native spin trace at quantum parameter `−u`, including
-unit, words, generator closures and strand inclusions. Prove
-`ker F_m=R_m`, where R_m is the existing bilinear trace radical: one
-inclusion uses the trace identity and the other uses positivity and
-faithfulness of s_m on `F_m(x)†F_m(x)`. Deduce the explicit analytic
-*-algebra equivalence `Q_m(√2)≃Cl_m⁰`, preserving the normalized trace,
-its finite C*-norm and inclusions. Match R_m with the supplier's negligible
-ideal and embedded f_3 generator for m≥3; no extra ideal generator occurs
-at m≤2. This compares the existing positive quotients rather than
-reclassifying their loop parameters.
-
-**Blocks, Pauli realization and the tower.** Compare the Clifford
-structure theorem from SpinRepresentations Layers0–1 with the A_3 path
-blocks. For m≥1 give
-
-- `m=2k+1`: `Cl_m⁰≃M_(2^k)(ℂ)`, with normalized matrix trace;
-- `m=2k≥2`: `Cl_m⁰≃M_(2^(k−1))(ℂ)⊕M_(2^(k−1))(ℂ)`, with one half of
-  each normalized matrix trace.
-
-Thus `dim Q_m=2^(m−1)` for m≥1. For m=0, `Q_0=Cl_0⁰=ℂ`, dimension1.
-In positive even m label the two blocks by the eigenvalues ±1 of
-`P_m=i^k c_0⋯c_(m−1)`; prove `P_m†=P_m`, `P_m²=1`, centrality in the
-even algebra and the projector formulas `(1±P_m)/2`. Both blocks are
-needed for faithfulness. In odd m either full-Clifford irreducible is
-faithful on the even algebra; a single one is not faithful on the full
-odd-dimensional Clifford algebra.
-
-Pin a concrete matrix check using Pauli matrices
-`X=[[0,1],[1,0]]`, `Y=[[0,−i],[i,0]]`, `Z=diag(1,−1)` and, on k qubits,
-
-`c_(2a)=Z^(⊗a)⊗X⊗I^(⊗(k−a−1))`,
-`c_(2a+1)=Z^(⊗a)⊗Y⊗I^(⊗(k−a−1))`.
-
-For m=2k use these 2k operators; for m=2k+1 add `c_(2k)=Z^(⊗k)`.
-The latter chooses one full odd-Clifford block. Prove these matrices
-realize the displayed even-algebra equivalences and analytic adjoints,
-and that their normalized full matrix trace is s_m on the even algebra.
-For even m compare the ±P_m subspaces with the two path labels0,2;
-for odd m use path label1. Pin the block-label choice by the actual
-projectors and intertwiner, allowing an explicitly stated exchange of
-path labels rather than asserting an unproved canonical labelling.
-
-Construct compatible block choices so `J_(2k)` is block-diagonal
-`M_d⊕M_d→M_(2d)` for k≥1, while `J_(2k+1)` is diagonal
-`M_d→M_d⊕M_d` for k≥0. Give the intertwining unitaries, diagram/Pauli/path
-matrix entries and induced Bratteli maps. The trace-preserving conditional
-expectation onto `Cl_m⁰` drops precisely the even monomials containing
-the newly added c_m. Prove bimodularity, positivity, complete positivity,
-faithfulness and the Jones expectation identity through the existing
-finite C*-tower/expectation supplier. Transport this model to the existing
-norm-closed inductive limit and trace-GNS representation by their
-compatible finite-stage equivalences; no factor classification is needed.
-
-**The source's n-generator convention.** Its A_n has n projections, so
-`A_n≃Q_(n+1)≃Cl_(n+1)⁰`, of complex dimension `2^n`. For m≥1 set
-`a_j=i c_j c_(m−1)`, `0≤j<m−1`; prove these self-adjoint elements
-satisfy the positive Clifford relations and induce the ungraded analytic
-*-equivalence `Cl_(m−1)≃Cl_m⁰`. In these coordinates the adjacent
-projections are `(1+i a_j a_(j+1))/2` for j<m−2, and the last is
-`(1+a_(m−2))/2` for m≥2. The old-Clifford tower map is
-`a_j↦i a_j a_(m−1)` in the next algebra, not the usual coordinate
-inclusion. Prove this map, its composition and trace identities. Ambient
-parity on the even algebra is trivial; the source identification introduces
-a different grading and is not declared grading-preserving. Compare
-Mathlib's `equivEven`, which adds a square−1 direction, by the supplier's
-explicit i/sign transport. Treat A_0 and all zero-dimensional forms.
-
-**Jones braid units.** For the declared square root u prove
-
-`g_j=u((1+i)p_j−1)=−(1+d_j)/√2`,
-`g_j⁻¹=−(1−d_j)/√2`, `g_j²=d_j`, `g_j⁴=−1`, `g_j⁸=1`.
-
-Construct the unitary `BraidGroup m` representation, compare it with the
-native signed-loop crossing and quotient braid representations, and
-preserve generator signs, word order and scalar phases. Conjugation sends
-`c_j↦−c_(j+1)`, `c_(j+1)↦c_j` and fixes the others. For m≥2 identify
-the conjugation image with the determinant-one signed permutation
-subgroup of the native real coordinate linear equivalences. Give its
-normal forms and order `2^(m−1)m!`; the kernel of its action on the real Majorana span, inside the generated
-Clifford-unit subgroup, is exactly the scalar group `{±1}`. Prove this using the real ordered
-coefficients, analytic unitarity and the Clifford centralizer, with −1
-present by g_j⁴. Thus the full faithful even-Clifford braid image has
-order `2^m m!`. For m=0,1 it is trivial. Do not apply this order to an
-individual irreducible block without computing that block's additional
-kernel. This finite image concerns t=i, separately from the source's
-cubic-Clifford/finite-image assertion at t=exp(πi/3).
-
-For an oriented closure of b on m≥1 strands, export the scalar evaluation
-`V_(closure b)(i)=(-√2)^(m−1) s_m(F_m(r_i(b)))`, where r_i is the
-Jones braid map before quotient. Geometric closure, Markov invariance and
-the comparison with a Seifert quadratic form and its Arf invariant belong
-to GeometricTopology4.5/4.7. The Clifford quotient alone does not supply
-that geometric dictionary.
-
-Check m=0,…,5 explicitly, giving the scalar, scalar, two scalar, M_2,
-two M_2 and M_4 stages. Include both normalized block traces, the first
-expectations, the one-generator eigenvalues `−u,iu`, and the native
-three-strand radical generator's zero image.
-
-*Needs:* native `CliffordAlgebra`, `ι`, `even`, `evenOdd`, `map`,
-`equivEven` and Tau Ceti's Clifford basis/dimension and spin-structure APIs;
-SpinRepresentations Layers0–1 for the algebraic basis and block comparisons;
-[SpinGeometry G1.1/G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/862de1b1cd4c726d0844267c7c18a369834a70fa/TauCetiRoadmap/SpinGeometry/README.md) for the positive-form,
-Pauli, complexification, analytic adjoint and faithful scalar trace;
-the existing TL diagram/presentation, Markov uniqueness and positive
-quotient/path/expectation contracts cited above. General finite C*-norms,
-CP maps, inductive limits and GNS keep their named owners.
-`CliffordJonesTargets.lean` prototypes the native sum-of-squares model,
-TL map, scalar coefficient, inclusion, trace-radical and braid-phase
-statements; the full comparisons above are required. Use the conventions
-of [Iohara–Lehrer–Zhang, §§5.3–5.4](https://arxiv.org/html/1702.08128#S5.SS3),
-Theorem5.4 and Proposition5.5, with `c_j=√2 γ_j` to convert their
-`γ_j²=1/2` to the positive unit Majoranas used here. Follow Mathlib's
-Clifford vocabulary and the
-[Clifford universal-property discussion](https://leanprover.zulipchat.com/#narrow/stream/217875-Is.20there.20code.20for.20X.3F/topic/Ideals.20over.20algebras/near/205790784).
-
-### 1.8 The sqrt(3) Jones quotient and cubic Gaussian braid model
-
-At `t=ζ=exp(πi/3)` fix `u=exp(πi/6)`, `δ=u+u⁻¹=√3` and
-`ω=ζ²=exp(2πi/3)`. Give Knot Theory physical p92's cubic-Clifford
-comparison and finite Jones braid image with these actual scalar phases.
-This comparison consumes the analytic adjoint, positive quotient and path
-contracts of Subfactors3.1–3.3, compared in Layer1; it does not supply their
-positivity proof. Use zero-based native indices throughout this subsection.
-
-**Finite quantum torus and its fixed algebra.** For `N≥0`, put
-`V_N=Fin N→ZMod 3` and define the alternating chain form
-
-`B(a,b)=Σ_(j<N−1)(a_j b_(j+1)−a_(j+1)b_j)`.
-
-Use native `TauCeti.IsFactorSet` and
-`TauCeti.twistedMonoidAlgebra ℂ (Multiplicative V_N) α`, with
-`α(a,b)=ω^(B(a,b)/2)` and `1/2=2` in `ZMod 3`; evaluation of an
-exponent uses its representative0,1,2. Prove normalization, the cocycle
-identity and invariance under simultaneous negation. Call this algebra
-`G_N` and its native `TwistedMonoidAlgebra.of` basis `W(a)`. Use the
-native basis, multiplication table and universal property rather than a
-second presented algebra. Export normal forms, coefficient extraction,
-`dim G_N=3^N`, and the generator presentation
-
-`U_j=W(e_j)`, `U_j³=1`, `U_j U_(j+1)=ω U_(j+1) U_j`,
-with distant generators commuting. Give the explicit scalar converting
-ordered products of U_j into W(a), and prove the converse universal
-property for families satisfying these relations.
-
-Construct the conjugate-linear analytic adjoint
-`(Σ_a z_a W(a))†=Σ_a conj(z_a)W(−a)`; prove involutivity,
-anti-multiplicativity and `U_j†=U_j⁻¹`. The scalar-coefficient trace
-`s_N(x)=coeff_0(x)` is normalized, cyclic and satisfies
-`s_N(x†x)=Σ_a|coeff_a(x)|²`, hence is faithful. Build the faithful left
-regular matrix model on the orthonormal W-basis, identify its adjoint,
-and give the normalized regular-trace formula. Transport its norm and
-finite C*-structure from CStarAlgebras C1–C4's matrix/subalgebra APIs;
-this subsection supplies the model-specific norm transport.
-
-Negation defines the **complex-linear algebra automorphism**
-`θ_N(W(a))=W(−a)`, commuting with † and squaring to the identity.
-Its fixed algebra is the native equalizer of θ_N and the identity,
-denoted `C_N`. Give its basis consisting of1 and
-`W(a)+W(−a)` for one representative of every nonzero ±-orbit, with
-the change-of-representative and multiplication formulas. Thus
-`dim C_N=(3^N+1)/2`, including `C_0=ℂ`. This fixed algebra, rather
-than all of G_N, is the Jones quotient below.
-
-**Projections, trace and quotient.** For m≥1 let N=m−1 and set
-
-`p_j=(1+U_j+U_j²)/3`, `E_j=√3 p_j` for j<N.
-
-Prove self-adjointness, idempotence, θ-invariance, both adjacent relations
-`p_j p_(j±1) p_j=p_j/3` and distant commutation. Use native
-`TemperleyLieb.lift` to construct `F_m:TL_m(ℂ,√3)→ₐ[ℂ]C_(m−1)`,
-sending the native e_j to E_j. Supply generator evaluation, uniqueness
-and analytic-adjoint compatibility. The map `I_N:W(a)↦W(a,0)` is an
-injective trace- and adjoint-preserving algebra homomorphism commuting
-with θ, and, for x∈G_N,
-
-`s_(N+1)(I_N(x)p_N)=s_N(x)/3`.
-
-The new-coordinate terms have zero scalar coefficient. Use Markov-trace
-uniqueness to prove `T_m(x)=(√3)^m s_(m−1)(F_m(x))`, including unit,
-words, closures and strand inclusions; compare with the native trace at
-quantum parameter −u. Faithfulness of s and adjoint compatibility give
-`ker F_m=R_m`, for the existing bilinear trace radical R_m.
-
-Prove surjectivity without assuming it in this kernel argument. The
-independent positive A_5 path theorem gives
-`dim Q_m=(3^(m−1)+1)/2` for m≥1: derive the path counts, or their
-sum-of-squares recurrence `D_1=1,D_2=2,D_m=4D_(m−1)−3D_(m−2)`
-for m≥3.
-The induced injective map from Q_m to C_(m−1) therefore has equal
-finite dimensions and is onto. Deduce the analytic *-algebra equivalence
-`Q_m(√3)≃C_(m−1)`, preserving normalized traces, finite C*-norms and
-tower maps. Match its kernel with the existing negligible ideal generated
-by embedded f_5 at m≥5; below that level the radical is zero. At m=0
-both the TL quotient and the comparison model are separately ℂ; the
-initial maps m=0→1 are scalar identities.
-
-**All blocks, qutrit matrices and expectations.** Construct a symplectic
-basis for B with its possible radical, using native `LinearMap.BilinForm`
-and Tau Ceti's symplectic-basis theorem on the nondegenerate complement;
-prove the chain-specific rank, radical and complement formulas here.
-Give explicit clock and shift matrices
-`Z e_x=ω^x e_x`, `X e_x=e_(x+1)` on `Fin 3` (equivalently `ZMod 3`),
-so `ZX=ωXZ`, and tensor products realizing the W multiplication and
-dagger. Supply the coordinate transport from the chain form to these
-matrices. For N=2k, `G_N≃M_(3^k)(ℂ)`; θ is implemented by qutrit
-parity `P e_x=e_(−x)` on `(ZMod 3)^k`, with trace1. Put
-`d_+=(3^k+1)/2` and `d_-=(3^k−1)/2`. Its fixed algebra is
-
-`C_(2k)≃M_(d_+)(ℂ)⊕M_(d_-)(ℂ)`,
-
-with normalized-trace weights `d_+/3^k,d_-/3^k`. Omit a zero-size
-block rather than treating it as a unital summand.
-
-For N=2k+1 the radical is generated by
-`r=(1,0,1,0,…,1)` and the full algebra is three M_(3^k) blocks,
-labelled by the central eigenvalues1,ω,ω² of W(r). Prove that θ
-exchanges the last two blocks and implements parity on the first. Thus
-
-`C_(2k+1)≃M_(d_+)(ℂ)⊕M_(d_-)(ℂ)⊕M_(3^k)(ℂ)`,
-
-with normalized-trace weights `d_+/3^(k+1),d_-/3^(k+1),2/3`.
-Identify these with the A_5 path blocks: for even m=2k+2 the labels
-0,2,4 have sizes d_+,3^k,d_-; for odd m=2k+1 the labels1,3 have
-sizes d_+,d_-. Supply actual intertwining unitaries, not just equality
-of dimensions. At m=1,…,6 the quotient dimensions are1,2,5,14,41,122;
-the m=2 trace weights are1/3,2/3.
-
-In these block coordinates compute the strand inclusions and their
-Bratteli multiplicities, preserving the labels and weights. The
-trace-preserving expectation G_(N+1)→G_N drops basis coefficients
-with nonzero last coordinate; prove that it restricts to C_(N+1)→C_N.
-Show bimodularity, positivity, complete positivity, faithfulness and the
-Jones expectation identity via Subfactors3.3’s finite tower/expectation
-contract and CStarAlgebras C1–C4’s matrix/subalgebra/CP APIs, with general CP
-foundations in VonNeumannAlgebras V13a. Transport the
-finite comparisons to the specified norm-closed tower and trace-GNS
-representation by compatible finite-stage equivalences. The fixed
-algebra's full faithful model uses all its nonzero simple blocks.
-
-**Gaussian braid units and a finite full image.** With the stated u,
-prove
-
-`g_j=u((1+ζ)p_j−1)=−(1+ω²(U_j+U_j²))/√3`
-`     =−(Σ_(r=0)^2 ω^(−r²)U_j^r)/√3`.
-
-These are analytic unitaries in C_N, satisfy the Artin braid relations
-and define the native `BraidGroup m` representation. Compare it with
-the Jones map and native signed-loop crossings, preserving scalar
-phases and product order. Their eigenvalues are i on p_j and −u on
-1−p_j; in particular `g_j³=−i·1`, `g_j^12=1`. The cubic relation
-holds projectively; the displayed units do not satisfy g_j³=1.
-
-Use the finite subgroup of ambient algebra units
-`H_N={ω^c W(a):c∈ZMod 3,a∈V_N}`, with its multiplication, inverse,
-normal forms and order `3^(N+1)`. It includes the scalar ω at N=0.
-This is the chain-form Heisenberg central extension; compare its
-symplectic-plane factors with native `TauCeti.HeisenbergGroup (ZMod 3)`
-through explicit central products and retain the radical factor when
-N is odd. No independent generic Heisenberg presentation is needed.
-Conjugation by g_j fixes U_j and distant U's, and sends
-
-`U_(j+1)↦ω U_(j+1) U_j⁻¹`,
-`U_(j−1)↦ω U_(j−1) U_j`.
-
-Prove these identities and construct the action of the generated braid
-image on H_N by native multiplicative automorphisms. Its action image
-is finite. Since H_N spans G_N, the action kernel lies in the center
-of G_N: one scalar block for even N, three scalar blocks for odd N.
-In each full simple block of size `D=3^⌊N/2⌋`, every generator has
-determinant of order dividing12. Hence a kernel scalar z satisfies
-`z^(12D)=1`. This gives a finite kernel and a finite **full faithful**
-braid image, including the empty-generator cases m=0,1. Export the
-induced finite-image theorem for every quotient block as well. Do not
-replace the kernel argument by the false assertion that a finitely
-generated torsion group is finite, or identify a single block with
-the full representation.
-
-Give exact multiplication/inversion and trace algorithms, using the
-W-basis or the explicit blocks, and a finite enumeration with a proof
-of completeness for each fixed m. For b∈B_m, m≥1, export
-
-`V_(closure b)(ζ)=(-√3)^(m−1) s_(m−1)(ρ(b))`.
-
-Geometric closure, Markov invariance and link-component evaluations
-retain their GeometricTopology owner; prove the adapter to that
-normalization. Check the one-generator eigenvalues and powers, adjacent
-three-strand braid relation, first trace/expectation maps, f_5's zero
-image and small-strand block traces. Fixed-strand finite-state evaluation
-does not assert a running time polynomial in the strand number.
-The separate five-strand Burau/Coxeter quotient and its projective
-25920-element group in GeometricTopology require their own phase and
-kernel comparison; finiteness here does not identify those groups.
-
-*Needs:* the analytic adjoint, positive quotient and path contracts of
-Subfactors3.1–3.3, compared in Layer1; Subfactors3.3’s finite
-tower/expectation contract and CStarAlgebras C1–C4’s matrix/subalgebra/CP
-APIs, with general CP foundations in VonNeumannAlgebras V13a; native
-`TauCeti.Algebra.MonoidAlgebra.Twisted.Basic` (`IsFactorSet`, `of`,
-`basis`, `lift`, dimension); native `AlgHom.equalizer`, matrix adjoints,
-finite alternating forms and `HeisenbergGroup`; RepresentationTheory's
-SemisimpleAlgebras and InductionRestriction for generic finite algebra,
-module and twisted-algebra theory. This subsection owns the chain
-cocycle, its analytic regular model, inversion-fixed blocks and the
-TL/Gaussian comparisons. `CubicJonesTargets.lean` prototypes those native
-carriers and trace/kernel/phase/finite-image interfaces; the full API
-above is required. Compare the Gaussian normalization with
-[Galindo–Rowell, §3, Proposition3.6](https://arxiv.org/html/1312.5557#S3),
-after Galois-conjugating their primitive parameter to q=ω², with
-g_j=−R_j. See also
-[Rowell–Wenzl, §4, Theorem4.9](https://doi.org/10.4171/QT/85)
-for the quantum-torus realization and finite-image framework.
-
-
+Let `p_i` act by `p_t` on the sites `i, i+1` and by the identity elsewhere. Prove that `p_t` is the
+orthogonal projection onto the line spanned by `(0, 1, r, 0)`, that the `p_i` satisfy
+`p_i p_(i±1) p_i = τ p_i` in both orders and commute at distance at least two, and that
+`δ p_i` is the native generator matrix `spinRep (−r) hδ (e δ i)` of Tau Ceti's spin
+representation: at `q = −r` the native cup and cap give `e_i` the block `[[r⁻¹, 1], [1, r]]` on
+`01, 10`. Prove that `spinRep` at `q = −r` intertwines Subfactors 3.1's adjoint `†` with the
+conjugate transpose of matrices; the native complex-parameter spin representation carries no
+star structure, and this compatibility is the positive-real input of the section.
+
+Define `φ_m(X) = Tr(D_t^(⊗m) X)` on `m`-site matrices, with `D_t^(⊗0) = 1`. Prove that `φ_m` is a
+faithful state, that `D_t^(⊗m)` commutes with every `spinRep (e δ i)` (Tau Ceti's
+`commute_diagonal_spinWeight_spinRep`, since the native weight matrix at `q = −r` is
+`diag(r⁻¹, r)^(⊗m) = δ^m D_t^(⊗m)`), and hence that `φ_m` restricts to a trace on the image of
+`TL_m`, while for `m ≥ 1` it is a trace on all `m`-site matrices exactly when `t = 1`. Prove the
+two one-site slices of `p_t`: the last-site slice `(id ⊗ φ_1)(p_t) = τ I₂` and the first-site slice
+`(φ_1 ⊗ id)(p_t) = diag(t², 1)/(1+t)²`. The last-site slice uses the ordering `Fin.snoc`, which is
+compared with Tau Ceti's `Matrix.extendLast` explicitly. Prove `φ_(m+1)(ι x) = φ_m(x)` and
+`φ_(m+1)(ι(x) p_m) = τ φ_m(x)` on the image of `TL_m`, and conclude
+
+```
+T_m(x) = δ^m φ_m(spinRep (−r) hδ x)      for x ∈ TL_m,
+```
+
+either from Markov uniqueness (Subfactors 3.2) or directly from Tau Ceti's `markovTrace_apply`.
+For `δ ≥ 2` identify `ker spinRep` with `R_m` by faithfulness of `φ_m`; with Subfactors 3.2–3.3
+(`R_m = 0` for `δ ≥ 2`) the spin representation is faithful. This deduction uses the positivity
+theorem and is not an input to it.
+
+Pass to infinitely many sites. On the one-site Hilbert–Schmidt space `HS(ℂ²)` with
+`⟨A, B⟩ = Tr(A* B)` and unit vector `D_t^(1/2)`, with `M₂(ℂ)` acting by left multiplication, take
+VonNeumannAlgebras V2's incomplete tensor product with reference vectors `D_t^(1/2)`. Identify
+its finite prefixes with the GNS representations of the `φ_m` (VonNeumannAlgebras V0), and define
+the Powers product state `φ = ⊗ φ_1` on the weak closure of the local algebras. Prove that the
+product vector is cyclic and separating, and that the modular group of `φ` acts locally by
+`X ↦ D_t^(is) X D_t^(−is)` (VonNeumannAlgebras V10); every `δ p_i` is fixed, so `φ` restricts to a
+normal faithful trace on the weak closure of the Temperley–Lieb tower, and for `t ≠ 1` it is not
+a trace on the ambient algebra. Let `K` be the closure of the Temperley–Lieb algebra applied to
+the product vector. Construct the generator-preserving unitary from the trace-GNS space of
+Subfactors 3.3's `B_δ` onto `K`, intertwining the local inclusions, the C*-inductive limit and its
+weak closure, and obtain the normal *-isomorphism of Subfactors 3.3's weak closure with the
+weak closure of the tower acting on `K`. `K` is a proper subspace of the product Hilbert space:
+already on two sites the cyclic subspace has dimension `2` inside a space of dimension `16`.
+
+- `p_t` is a rank-one orthogonal projection, `δ p_i = spinRep (−r) hδ (e δ i)`, and
+  `spinRep (−r) hδ (x†) = (spinRep (−r) hδ x)ᴴ`.
+- `φ_m` is a faithful state commuting with the Temperley–Lieb image; it is tracial on the image,
+  and tracial on all matrices exactly when `t = 1` or `m = 0`.
+- The last-site slice of `p_t` is `τ I₂`, the first-site slice is `diag(t², 1)/(1+t)²`, and the
+  Markov property `φ_(m+1)(ι(x) p_m) = τ φ_m(x)` holds on the image.
+- `T_m = δ^m · φ_m ∘ spinRep (−r) hδ` on `TL_m`, and `ker spinRep = R_m = 0` for `δ ≥ 2`.
+- The Powers state `φ` is faithful and normal with cyclic separating product vector, restricts to
+  a normal trace on the tower's weak closure, and the cyclic subspace `K` carries the trace-GNS
+  representation of `B_δ`, unitarily and compatibly with inclusions.
+
+**Checks.**
+
+- At `t = 1`: `r = 1`, `δ = 2`, `τ = 1/4`, `D_1 = I₂/2`, `p_1` is the projection onto
+  `(01 + 10)/√2` and `φ_m` is the normalised matrix trace. A convention putting `t` on the `0`
+  entry of `D_t` gives the same value here and is separated only by the next Check.
+- At `t = 4` (`r = 2`, `δ = 5/2`, `τ = 4/25`): the last-site slice of `p_4` is `(4/25) I₂`
+  (entries `p_(01,01) D_(1,1) = (1/5)(4/5)` and `p_(10,10) D_(0,0) = (4/5)(1/5)`), while the
+  first-site slice is `diag(16/25, 1/25)`; slicing on the wrong side gives a non-scalar matrix and
+  breaks the Markov property.
+- Simultaneous spin flip at every site sends `D_t` to `D_(1/t)` and `p_t` to `p_(1/t)` (the block
+  `[[t, r], [r, 1]]/(1+t)` is `[[1, r⁻¹], [r⁻¹, t⁻¹]]/(1 + t⁻¹)`), and sends `spinRep (−r)` to
+  `spinRep (−r⁻¹)`; the loop value `δ` is unchanged. This pins the reciprocal-parameter convention.
+- At `q = −r` the native weights are `markovWeight false = r⁻¹`, `markovWeight true = r`; dividing
+  by `δ` gives `1/(1+t)` and `t/(1+t)`, the diagonal of `D_t`. Using `q = r` instead gives the
+  loop value `−δ` and negative weights.
+- Dimensions: `TL_m` has `m − 1` generators on `m` sites, the spin space has dimension `2^m`, the
+  finite product-state GNS space has dimension `4^m`, and the cyclic subspace of `TL_m` has
+  dimension `dim TL_m = catalan m` for `δ ≥ 2`; at `m = 2` these are `4`, `16` and `2`. Jones's
+  `A_n` with `n` projections is `TL_(n+1)` here.
+
+*Needs:*
+
+- Subfactors 3.1 (`†`), 3.2 (Markov uniqueness, `R_n`), 3.3 (`B_δ`, its trace-GNS representation
+  and weak closure).
+- Tau Ceti `spinRep`, `spinGenerator`, `spinWeight`, `markovWeight`, `markovTrace_apply`,
+  `commute_diagonal_spinWeight_spinRep`, `Matrix.extendLast`, `spinRep_strandIncl`.
+- Mathlib `Matrix.kronecker`, `Matrix.trace`, `Matrix.PosDef`, `Fin.snoc`.
+- CStarAlgebras C1 (finite-dimensional C*-algebras) and C5 (inductive limits).
+- VonNeumannAlgebras V0 (GNS), V2 (incomplete tensor products with reference vectors and slice
+  maps), V4 (normal representations) and V10 (modular theory), for the infinite-site statements
+  only.
+
+### 1.6 Finite Potts models, planar loops and the ice-model comparison
+
+This section proves the finite partition-function identities behind the Temperley–Lieb
+equivalence of the Potts and ice-type models (Jones, printed p. 104; Temperley–Lieb 1971;
+Baxter–Kelland–Wu 1976). It is algebraic and finite: no infinite-volume state is used.
+
+**Potts and Fortuin–Kasteleyn sums.** A graph is Mathlib's `Graph V E`, which allows loops and
+parallel edges; write `V_G` and `E_G` for its vertex and edge sets and assume both finite (the
+ambient types need not be). For `A ⊆ E_G` let `G_A` be the spanning restriction `G.restrict A`,
+which keeps every vertex, and let `k(A)` be its number of connected components, isolated vertices
+included, computed as `Nat.card` of `SimpleGraph.ConnectedComponent` of `G_A.toSimpleGraph`
+(GraphConnectivityAndFlows 1.1's component count). Passing to the simple graph is used for
+connectivity only; edge products and contractions keep the original edges. For a commutative ring
+`R`, `Q ∈ R` and weights `v : E_G → R` define
+
+```
+Z_FK(G; Q, v)    = Σ_(A ⊆ E_G) Q^k(A) Π_(e ∈ A) v_e,
+Z_Potts(G; q, v) = Σ_(σ : V_G → Fin q) Π_(e ∈ E_G) (1 + v_e [σ(u_e) = σ(w_e)])    (q ∈ ℕ),
+```
+
+where `u_e, w_e` are the ends of `e` (the factor does not depend on their order, and is `1 + v_e`
+for a loop). Prove `Z_Potts(G; q, v) = Z_FK(G; q, v)` for every `q ∈ ℕ`, including `q = 0`, by
+expanding the product over edge subsets and counting colourings constant on the components of
+`G_A`. Prove invariance under graph isomorphism and base change, the empty-edge value `Q^|V_G|`,
+multiplicativity on disjoint unions, and the recursions
+
+```
+Z_G = Z_(G∖e) + v_e Z_(G/e)     (e not a loop),
+Z_G = (1 + v_e) Z_(G∖e)         (e a loop),
+Z_G = (Q + v_e) Z_(G/e)         (e a bridge),
+```
+
+where `G/e` deletes `e` and applies `Graph.map` to the quotient of `V_G` identifying the ends of
+`e`, keeping the loops and parallel edges this creates. For real `β`, couplings `J_e` and
+`v_e = exp(β J_e) − 1`, `Z_Potts` is the Boltzmann sum of the `q`-state Potts model. For `q ≥ 1`
+and `v_e ≥ 0` construct the Edwards–Sokal coupling as a finite `PMF` on pairs `(σ, A)` and prove
+both marginals: given `σ`, the edges with equal end colours are independently present with
+probability `v_e/(1+v_e)` and the others absent; given `A`, the components of `G_A` are coloured
+independently and uniformly.
+
+**Ribbon structure and planar loops.** A ribbon structure on `G` is a cyclic order of the
+half-edges at each vertex. Encode it by Tau Ceti's `BipartiteRibbonGraph` on the incidence
+subdivision: black vertices are the non-isolated vertices of `G`, white vertices are its edges
+(of degree two, a loop contributing its two half-edges), and the white rotation is the
+half-edge involution; isolated vertices are recorded separately, since the endpoint maps of
+`BipartiteRibbonGraph` are surjective. For `A ⊆ E_G` let `ell(A)` be the number of boundary
+circles of the surface obtained from a disc at each vertex and a band along each edge of `A`,
+computed from the orbits of `facePerm` of the restricted ribbon graph plus one circle per vertex
+of degree zero in `G_A`. Let `g(A)` be the sum of the genera of the connected components of this
+surface, an isolated vertex having genus zero. Prove the Euler relation
+
+```
+ell(A) = 2 k(A) + |A| − |V_G| − 2 g(A)
+```
+
+in ℤ, componentwise from Tau Ceti's `BipartiteRibbonGraph.IsConnected.two_sub_two_mul_genus`.
+`BipartiteRibbonGraph.genus` of a disconnected ribbon graph is not this sum and is not used for
+it. A plane graph (a ribbon structure of genus zero on `G = G_(E_G)`) has `g(A) = 0` for every `A`,
+since deleting bands does not increase genus. For a unit `δ` with `Q = δ²` conclude
+
+```
+Z_FK(G; δ², v) = δ^|V_G| Σ_(A ⊆ E_G) δ^ell(A) Π_(e ∈ A) (v_e / δ)     (G plane),
+```
+
+and for a general ribbon structure the same identity with `ell(A) + 2 g(A)` in place of `ell(A)`.
+Every closed circle is evaluated as `δ`, the unnormalised closure of Tau Ceti's `markovTrace`.
+
+**The medial network and the six-vertex model.** Over ℂ fix `r ∈ ℂˣ` with `δ = r + r⁻¹ ≠ 0`
+and native parameter `q = −r`, and order `ℂ² ⊗ ℂ²` as `00, 01, 10, 11`. For a four-leg vertex let
+`I` be the through resolution and `E` the cup–cap resolution, and put `L(a, b) = a I + b E`, so
+
+```
+L(a, b) = [[a, 0,         0,         0],
+           [0, a + b r⁻¹, b,         0],
+           [0, b,         a + b r,   0],
+           [0, 0,         0,         a]].
+```
+
+The native cup and cap at `q = −r` are `C = [[0, 1], [r, 0]]` and `A = [[0, r⁻¹], [1, 0]] = C⁻¹`,
+indexed by `0, 1`; they satisfy both snake identities and `Σ_(a,b) A_ab C_ab = δ`. Define the
+rotation of a four-leg tensor by `Rot(T)_(ab,cd) = Σ_(u,v) C_au T_(bv,uc) A_vd`. Prove
+`Rot(I) = E`, `Rot(E) = I`, and that `Rot⁴` is conjugation by `W_r ⊗ W_r` with
+`W_r = diag(r⁻¹, r)`, which is the identity on the span of `I` and `E` (Tau Ceti's
+`diagonal_spinWeight_mul_spinGenerator`). The medial graph of a plane graph has a vertex on each
+edge `e`; in a chart where "edge absent" is `I` and "edge present" is `E`, the vertex carries
+`L(1, v_e/δ)`, and in the rotated chart `L(v_e/δ, 1)`, so that `v_e = 0` needs no division.
+Construct the evaluation of planar Temperley–Lieb diagrams with these vertices as spin tensors
+from the cup, cap and `L` matrices, prove that it is independent of the decomposition into
+elementary slices, and compatible with composition, juxtaposition and the chart changes. Define the
+ice partition function `Z_ice` as the sum over edge labels of the medial graph of the product of
+the vertex entries and the boundary cups and caps; the nonzero entries of `L` are the six
+arrow configurations obeying the two-in two-out rule. Prove
+
+```
+Z_Potts(G; q, v) = Z_FK(G; q, v) = δ^|V_G| Z_ice      (G plane, q = δ² ∈ ℕ).
+```
+
+For an `m`-strand element `X` closed in the plane, prove that the closure equals
+`Tr(W_r^(⊗m) spinRep (−r) hδ X)`, which is `markovTrace (−r) hδ X`; if the closing cups and caps are
+contracted explicitly, `W_r` is not inserted again. For real `r > 0`, `W_r = δ D_(r²)` and this is
+`δ^m φ_m(spinRep X)` of 1.5. For real `r > 0` and `a, b ≥ 0` the entries of `L(a, b)` are
+nonnegative; for `0 < Q < 4` the solutions of `r + r⁻¹ = √Q` lie on the unit circle, so the local
+weights are complex.
+
+**Wired boundaries.** Free boundary sums over all colours. For a noncrossing partition `ξ` of a
+set of vertices on the outer face, the `ξ`-wired sum requires equal colours within each block,
+each block's colour still summed freely. Prove `Z_wired(G, ξ) = Z_FK(G/ξ; Q, v)`, where `G/ξ`
+identifies each block to a vertex (keeping loops and parallel edges), with planar prefactor
+`δ^|V_(G/ξ)|` in the loop identity, the noncrossing condition keeping `G/ξ` plane. Construct the
+matching medial caps and ice boundary tensors. For one nonempty wired block and `q ≥ 1`, fixing
+that block's colour divides `Z_wired` by `q`.
+
+- `Z_Potts(G; q, v) = Z_FK(G; q, v)` for `q ∈ ℕ`, with the deletion–contraction, loop and bridge
+  recursions and the Edwards–Sokal marginals.
+- `ell(A) = 2k(A) + |A| − |V_G| − 2g(A)`, and the loop expansion of `Z_FK(G; δ², v)` for plane `G`,
+  with the genus-corrected form for ribbon graphs.
+- `L(a, b)` is the spin image of `a·1 + b·e`, the rotation exchanges `I` and `E`, and
+  `Rot⁴ = Ad(W_r ⊗ W_r)`.
+- `Z_FK = δ^|V_G| Z_ice` for plane graphs, the planar closure of `X` is `markovTrace (−r) hδ X`, and
+  the wired identities hold.
+
+**Checks.**
+
+- An edgeless graph on `n` vertices: `Z_FK = Q^n`, `ell(∅) = n` and the loop sum is
+  `δ^n δ^n = Q^n`; a definition of `k` that ignored isolated vertices gives `1`.
+- One non-loop edge `e`: `Z_FK = Q² + Q v_e`; the loop sum gives `δ²(δ² + δ · v_e/δ)`, the same.
+  `Z_Potts` at `q = 0` is `0`, at `q = 1` is `1 + v_e`.
+- One loop: `Z_FK = Q(1 + v_e)`, and the band of an untwisted loop has two boundary circles, so
+  `ell({e}) = 2 = 2·1 + 1 − 1 − 0`; counting one circle would give `Q + δ v_e`.
+- Two parallel edges between two vertices: `Z_FK = Q² + 2Qv + Qv²` (equal weights `v`), and the
+  plane embedding gives `ell = 2, 1, 1, 2` on `∅, {e}, {f}, {e, f}`; a simple-graph model that
+  merged the edges would give `Q² + Qv`.
+- `Rot(I) = E` and `Rot(E) = I` at `r = 2`, while on the elementary tensor with the single entry
+  `T_(00,01) = 1` the fourth rotation multiplies by `w_0 w_0 / (w_0 w_1) = r⁻²` with
+  `w = (r⁻¹, r)`, so `Rot⁴ ≠ id`.
+- At `r = 1`: `δ = 2`, `Q = 4`, `W_r = I`, and the closure of `1 ∈ TL_m` is `2^m = δ^m`.
+- Wiring the two ends of a single edge gives `G/ξ` a vertex with a loop, and `Z_wired` is the
+  one-loop value `Q(1 + v_e)`.
+
+*Needs:*
+
+- Mathlib `Graph`, `Graph.restrict`, `Graph.map`, `Graph.toSimpleGraph`,
+  `SimpleGraph.ConnectedComponent`, `Finset.powerset`, `PMF`.
+- GraphConnectivityAndFlows 1.1 (component counts of edge-labelled graphs and the simple-graph
+  bridge).
+- Tau Ceti `BipartiteRibbonGraph`, `facePerm`, `BipartiteRibbonGraph.IsConnected.two_sub_two_mul_genus`
+  (BelyiMaps Layer 2 is the roadmap owning them).
+- Tau Ceti `spinRep`, `spinCup`, `spinCap`, `spinWeight`, `markovTrace_apply`,
+  `diagonal_spinWeight_mul_spinGenerator`.
+- TemperleyLieb Layers 2–4 (diagram category, linear category, presentation and closure trace).
+- 1.5 for the comparison with `φ_m` only.
+
+### 1.7 The Jones quotient at `δ = √2` as an even Clifford algebra
+
+At Jones's parameter `t = i` (Jones, printed p. 107) fix `u = exp(πi/4)`, so `δ = u + u⁻¹ = √2`
+and `τ = 1/2`; the native quantum parameter is `−u`. This section identifies Subfactors 3.3's
+quotient `Q_m` at `δ = √2` with an even Clifford algebra, preserving generators, traces and
+adjoints (Iohara–Lehrer–Zhang, *The Jones quotients of the Temperley–Lieb algebras*, §5.3,
+Theorem 5.4 and Proposition 5.5, where `γ_j = c_j/√2`). It consumes the positivity theorems of
+Subfactors 3.2–3.3 and is not an input to them.
+
+**Carriers.** Let `q_m = QuadraticMap.weightedSumSquares ℂ 1` on `Fin m → ℂ`, the complex
+bilinear sum of squares, `Cl_m = CliffordAlgebra q_m`, `Cl_m⁰ = CliffordAlgebra.even q_m` and
+`c_j = CliffordAlgebra.ι q_m (Pi.single j 1)` for `j : Fin m`. Then `c_j² = 1` and
+`c_j c_k = −c_k c_j` for `j ≠ k` (Mathlib `CliffordAlgebra.ι_sq_scalar`,
+`CliffordAlgebra.ι_mul_ι_add_swap`). Identify `q_m` with the complexification of the real sum
+of squares and transport SpinGeometry G1's conjugation `κ`, analytic adjoint
+`a† = κ(reverse a)` and scalar trace (G1 items 1 and 3) to `Cl_m`: `c_j† = c_j`, `(i·1)† = −i·1`,
+and `Cl_m⁰` is `†`-stable. Mathlib's `star` on `CliffordAlgebra` is `reverse ∘ involute`; it
+negates `c_j` and is complex-linear, so it is not `†`. Let `s_m` be the coefficient of `1` in the
+ordered monomial basis `c_S` (`S ⊆ Fin m` increasing), compared with Tau Ceti's
+`CliffordAlgebra.basis`; from SpinGeometry G1 item 3, `s_m` is cyclic, equals `2^(−m) Tr(L_a)`,
+and `s_m(a† a) = Σ_S |a_S|²`, so it is faithful on `Cl_m` and on `Cl_m⁰`.
+
+**The comparison map.** For `j < m − 1` put `d_j = c_j c_(j+1)`, `p_j = (1 + i d_j)/2` and
+`E_j = √2 p_j`. Prove `d_j² = −1`, `d_j† = −d_j`, `p_j† = p_j = p_j²`,
+`p_j p_(j±1) p_j = p_j/2`, and that `p_j, p_k` commute for `|j − k| ≥ 2`. Hence `TemperleyLieb.lift`
+gives `F_m : TL_m(√2) →ₐ[ℂ] Cl_m⁰` with `F_m(e δ j) = E_j`, compatible with `†`. Prove `F_m`
+surjective: for `a < b`, `c_a c_b = d_a d_(a+1) ⋯ d_(b−1)` (the inner factors square to `1`),
+and `d_j = −i(2p_j − 1)`, so the image contains every even monomial;
+for `m ≤ 1` both sides are ℂ. For the coordinate inclusion `J_m = CliffordAlgebra.map` of the
+isometry `Fin m → ℂ ↪ Fin (m+1) → ℂ`, prove injectivity, preservation of `Cl⁰`, `†` and `s`, and
+`s_(m+1)(J_m(x) p_(m−1)) = s_m(x)/2` for `x ∈ Cl_m⁰`, `m ≥ 1` (the terms containing `c_m` have
+no scalar coefficient). By Markov uniqueness (Subfactors 3.2)
+
+```
+T_m(x) = (√2)^m s_m(F_m x)        for x ∈ TL_m(√2).
+```
+
+Then `ker F_m = R_m`: `R_m ⊆ ker F_m` because `s_m` is faithful and `F_m` is surjective, and
+`ker F_m ⊆ R_m` from the trace identity. So `F_m` induces a trace-, adjoint- and
+inclusion-preserving *-isomorphism `Q_m ≅ Cl_m⁰`, and by 1.3 `ker F_m` is generated by the
+embedded `f_3` for `m ≥ 3` and is zero for `m ≤ 2`.
+
+**Blocks, Pauli matrices and the tower.** By SpinRepresentations Layers 0–1, for `m = 2k+1`,
+`Cl_m⁰ ≅ M_(2^k)(ℂ)` with `s_m` the normalised matrix trace, and for `m = 2k ≥ 2`,
+`Cl_m⁰ ≅ M_(2^(k−1))(ℂ) ⊕ M_(2^(k−1))(ℂ)` with `s_m` half the sum of the normalised traces; so
+`dim Q_m = 2^(m−1)` for `m ≥ 1` and `dim Q_0 = 1`. For even `m = 2k ≥ 2` the blocks are the
+eigenspaces of the central self-adjoint unitary `P_m = i^k c_0 c_1 ⋯ c_(m−1)`, with projections
+`(1 ± P_m)/2`. Realise `c_(2a) = Z^(⊗a) ⊗ X ⊗ I^(⊗(k−a−1))` and
+`c_(2a+1) = Z^(⊗a) ⊗ Y ⊗ I^(⊗(k−a−1))` on `k` qubits, with Pauli matrices `X = [[0,1],[1,0]]`,
+`Y = [[0,−i],[i,0]]`, `Z = diag(1,−1)`, and for `m = 2k+1` add `c_(2k) = Z^(⊗k)`; prove that this
+realises the block isomorphisms with `†` the conjugate transpose and `s_m` the normalised trace on
+`Cl_m⁰`. Identify the blocks with the path blocks of 1.4 on `A_3`: labels `0, 2` (the two signs of
+`P_m`, the correspondence fixed by explicit projections) for even `m`, label `1` for odd `m`.
+Compute the inclusions `J_m` on blocks (`M_d ⊕ M_d → M_(2d)` from even to odd `m`, diagonal
+`M_d → M_d ⊕ M_d` from odd to even), and prove that the trace-preserving conditional expectation
+`Cl_(m+1)⁰ → Cl_m⁰` deletes the monomials containing `c_m` and is Subfactors 3.3's `E_m`.
+
+**Jones's generator convention.** Jones's `A_n` with `n` projections is `Q_(n+1) ≅ Cl_(n+1)⁰`,
+of dimension `2^n`. For `m ≥ 1` the elements `a_j = i c_j c_(m−1)`, `j < m − 1`, are self-adjoint,
+square to `1` and anticommute, and give an ungraded *-isomorphism `Cl_(m−1) ≅ Cl_m⁰` under which
+`p_j = (1 + i a_j a_(j+1))/2` for `j < m − 2` and `p_(m−2) = (1 + a_(m−2))/2`; this is the sense in
+which "the `A_n` are Clifford algebras". The tower maps in these coordinates are not the coordinate
+inclusions of `Cl_(m−1)`. Compare with Mathlib's `CliffordAlgebra.equivEven`.
+
+**Braid units.** Put `g_j = u((1+i) p_j − 1) = −(1 + d_j)/√2`. Prove `g_j⁻¹ = −(1 − d_j)/√2`,
+`g_j² = d_j`, `g_j⁴ = −1`, `g_j⁸ = 1`, the eigenvalues `i u` on `p_j` and `−u` on `1 − p_j`, and the
+braid relations; this gives a unitary representation of Tau Ceti's `BraidGroup m` in `Cl_m⁰`. With
+Tau Ceti's Kauffman-bracket representation `TemperleyLieb.jones a` at a unit `a` with
+`a² = −u⁻¹` (so `jonesDelta a = √2`), `F_m(jonesUnit a j) = (−a/u) g_j`. Conjugation by `g_j`
+sends `c_j ↦ −c_(j+1)`, `c_(j+1) ↦ c_j` and fixes the other `c_k`, so for `m ≥ 2` the conjugation
+image is the group of signed permutation matrices of determinant `1`, of order `2^(m−1) m!`, and
+the kernel of conjugation on the group generated by the `g_j` is `{±1}` (it lies in the centre of
+`Cl_m⁰` and consists of real elements of norm one; `−1 = g_0⁴`). The image of `BraidGroup m` in
+`Cl_m⁰` therefore has order `2^m m!` for `m ≥ 2`, and is trivial for `m ≤ 1`. For a braid `b` on
+`m ≥ 1` strands, the Jones polynomial of its closure at `t = i` is
+`(−√2)^(m−1) s_m(F_m(ρ(b)))` with `ρ` Jones's braid representation including its writhe
+factor, the normalisation of the closure being GeometricTopology Layer 4's.
+
+- `F_m : TL_m(√2) → Cl_m⁰` is a surjective `†`-homomorphism with `F_m(e_j) = √2 p_j`,
+  `T_m = (√2)^m s_m ∘ F_m`, `ker F_m = R_m`, and `Q_m ≅ Cl_m⁰` as *-algebras with traces and
+  inclusions.
+- `Cl_m⁰` has the stated matrix blocks, Pauli realisation, path-label identification and tower
+  maps, and the expectation deletes monomials containing the new generator.
+- `g_j = −(1 + d_j)/√2` is unitary of order `8`, and the braid image has order `2^m m!` for
+  `m ≥ 2`.
+
+**Checks.**
+
+- `m = 0, …, 5`: `Cl_m⁰` is `ℂ`, `ℂ`, `ℂ ⊕ ℂ`, `M_2(ℂ)`, `M_2(ℂ) ⊕ M_2(ℂ)`, `M_4(ℂ)`, of dimensions
+  `1, 1, 2, 4, 8, 16`, matching `dim Q_3 = 4` of 1.3; a formula `dim Q_m = 2^m` fails at `m = 3`
+  against `dim TL_3 − 1 = 4`.
+- `s_2(p_0) = 1/2` and `T_2(e) = (√2)² · √2 · 1/2 = √2 = δ`; omitting the factor `(√2)^m` gives
+  `T_2(1) = 1 ≠ 2`.
+- `p_0 p_1 p_0 = p_0/2` in `Cl_3`, while with Mathlib's `star` in place of `†` one gets
+  `star(p_0) = (1 − i d_0)/2 ≠ p_0`, so `p_0` would not be a projection.
+- On `TL_2(√2)` the generator `g_0` has eigenvalues `−u` (on `1 − p_0`) and `i u` (on `p_0`), so
+  `g_0` has order `8` and the image of `BraidGroup 2` has order `8 = 2² · 2!`.
+- `F_3(f_3) = 0`: `f_3` spans `R_3` (1.3), and `F_3` maps the five-dimensional `TL_3` onto the
+  four-dimensional `Cl_3⁰`.
+- `a_j = i c_j c_(m−1)` satisfies `a_j² = −c_j c_(m−1) c_j c_(m−1) = 1`; without the factor `i`
+  the square is `−1`.
+
+*Needs:*
+
+- Mathlib `QuadraticMap.weightedSumSquares`, `CliffordAlgebra`, `CliffordAlgebra.ι`,
+  `CliffordAlgebra.even`, `CliffordAlgebra.map`, `CliffordAlgebra.equivEven`,
+  `CliffordAlgebra.ι_sq_scalar`, `CliffordAlgebra.ι_mul_ι_add_swap`.
+- Tau Ceti `CliffordAlgebra.basis` (`TauCeti/LinearAlgebra/CliffordAlgebra/Dimension.lean`),
+  `TemperleyLieb.lift`, `BraidGroup`, `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
+- SpinGeometry G1 items 1 and 3 (complexification, conjugation, analytic adjoint, scalar trace).
+- SpinRepresentations Layers 0–1 (gradings and the structure of complex Clifford algebras).
+- Subfactors 3.2 (Markov uniqueness, `R_m`), 3.3 (`Q_m`, `E_m`); 1.3 and 1.4.
+- GeometricTopology Layer 4, for the closure normalisation only.
+
+### 1.8 The Jones quotient at `δ = √3` and the cubic Gaussian braid model
+
+At Jones's parameter `t = ζ = exp(πi/3)` (Jones, printed p. 107, where the `A_n` are related to a
+"cubic Clifford algebra" and the braid image is finite) fix `u = exp(πi/6)`, `δ = u + u⁻¹ = √3`,
+`τ = 1/3` and `ω = ζ² = exp(2πi/3)`; the native quantum parameter is `−u`. Indices are zero-based.
+
+**The quantum torus.** For `N ≥ 0` let `V_N = Fin N → ZMod 3` and
+`B(a, b) = Σ_(j < N−1) (a_j b_(j+1) − a_(j+1) b_j)`, an alternating form on `V_N`. Put
+`α(a, b) = ω^(2 B(a, b))` (that is, `ω^(B/2)` with `1/2 = 2` in `ZMod 3`, exponents read in
+`ZMod 3`), a normalised factor set (`TauCeti.IsFactorSet`) since `B` is biadditive, and let
+`G_N = TauCeti.twistedMonoidAlgebra ℂ (Multiplicative V_N) α` with basis
+`W(a) = TwistedMonoidAlgebra.of a`. Then `dim G_N = 3^N`, `W(a) W(b) = α(a,b) W(a+b)`, and
+`U_j = W(e_j)` satisfy `U_j³ = 1`, `U_j U_(j+1) = ω U_(j+1) U_j` and commute at distance at least
+two; prove that `G_N` is the universal algebra with these relations (from Tau Ceti's
+`TwistedMonoidAlgebra.lift`). Define the conjugate-linear adjoint
+`(Σ z_a W(a))† = Σ conj(z_a) W(−a)` and the trace `s_N(x) = ` coefficient of `W(0)`; prove `†`
+is an anti-multiplicative involution with `U_j† = U_j⁻¹`, and `s_N(x† x) = Σ_a |x_a|²`, so `s_N`
+is a faithful normalised trace and the left regular representation on the `W`-basis makes `G_N`
+a finite-dimensional C*-algebra (CStarAlgebras C1). Negation gives the complex-linear involutive
+automorphism `θ_N(W(a)) = W(−a)` commuting with `†`; let `C_N = AlgHom.equalizer θ_N id`. It has
+basis `1` and `W(a) + W(−a)` over the nonzero pairs `{a, −a}`, so `dim C_N = (3^N + 1)/2`.
+
+**The comparison map.** For `m ≥ 1` put `N = m − 1`, `p_j = (1 + U_j + U_j²)/3` and `E_j = √3 p_j`
+for `j < N`. Prove `p_j† = p_j = p_j²`, `θ_N(p_j) = p_j`, `p_j p_(j±1) p_j = p_j/3` and commutation
+at distance at least two, and obtain `F_m : TL_m(√3) →ₐ[ℂ] C_(m−1)` with `F_m(e δ j) = E_j` by
+`TemperleyLieb.lift`, compatible with `†`. The inclusion `I_N : W(a) ↦ W(a, 0)` of `G_N` in
+`G_(N+1)` preserves `†`, `θ` and `s`, and `s_(N+1)(I_N(x) p_N) = s_N(x)/3`. By Markov uniqueness
+`T_m(x) = (√3)^m s_(m−1)(F_m x)`, and faithfulness of `s` with `†`-compatibility gives
+`ker F_m = R_m` (for `x ∈ R_m`, `s(F_m(x) F_m(x)†) = 0`), without using surjectivity. Surjectivity
+follows by dimension: Subfactors 3.3's path model on `A_5` gives `dim Q_m = D_m` with `D_1 = 1`,
+`D_2 = 2`, `D_m = 4 D_(m−1) − 3 D_(m−2)`, so `D_m = (3^(m−1) + 1)/2 = dim C_(m−1)`, and the injective
+map `Q_m → C_(m−1)` is onto. So `Q_m(√3) ≅ C_(m−1)` as *-algebras with traces and inclusions, and
+by 1.3 `R_m` is generated by the embedded `f_5` for `m ≥ 5` and is zero below; at `m = 0` both sides
+are `ℂ`.
+
+**Blocks.** Compute the radical of `B` (zero for `N` even, spanned by `ρ = (1, 0, 1, 0, …, 1)` for
+`N` odd) and a symplectic basis of a complement (Tau Ceti's
+`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`). With clock and shift matrices
+`Z e_x = ω^x e_x`, `X e_x = e_(x+1)` on `ℂ^(ZMod 3)` (`Z X = ω X Z`), realise `G_(2k) ≅ M_(3^k)(ℂ)`;
+then `θ` is implemented by the parity `e_x ↦ e_(−x)` on `(ZMod 3)^k`, and with
+`d_± = (3^k ± 1)/2`, `C_(2k) ≅ M_(d_+)(ℂ) ⊕ M_(d_−)(ℂ)` with trace weights `d_±/3^k` (the block
+`M_(d_−)` absent when `d_− = 0`). For `N = 2k+1`, `G_N` is three copies of `M_(3^k)(ℂ)` indexed by
+the eigenvalues `1, ω, ω²` of the central unitary `W(ρ)`; `θ` fixes the first and exchanges the
+others, so `C_(2k+1) ≅ M_(d_+)(ℂ) ⊕ M_(d_−)(ℂ) ⊕ M_(3^k)(ℂ)` with trace weights
+`d_+/3^(k+1)`, `d_−/3^(k+1)`, `2/3`. Identify these with the `A_5` path blocks of 1.4 by explicit
+intertwiners: for `m = 2k+1` the labels `1, 3` have sizes `d_+, d_−`; for `m = 2k+2` the labels
+`0, 2, 4` have sizes `d_+, 3^k, d_−`. The trace-preserving expectation `G_(N+1) → G_N` deletes the
+`W(a)` with `a_N ≠ 0`, restricts to `C_(N+1) → C_N`, and is Subfactors 3.3's `E_m`.
+
+**Gaussian braid units.** Put
+
+```
+g_j = u((1 + ζ) p_j − 1) = −(1 + ω²(U_j + U_j²))/√3 = −(Σ_(r ∈ ZMod 3) ω^(−r²) U_j^r)/√3.
+```
+
+Prove that the `g_j` are unitaries in `C_N` satisfying the braid relations, with eigenvalues `i`
+on `p_j` and `−u` on `1 − p_j`, so `g_j³ = −i` and `g_j^12 = 1`; with Tau Ceti's
+`TemperleyLieb.jones a` at `a² = −u⁻¹` (so `jonesDelta a = √3`), `F_m(jonesUnit a j) = (−a/u) g_j`.
+Let `H_N = {ω^c W(a)}` (order `3^(N+1)`), the Heisenberg group of `B`, compared with Tau Ceti's
+`HeisenbergGroup (ZMod 3)` on each symplectic plane. Conjugation by `g_j` fixes `U_j` and the
+distant `U_k`, and sends `U_(j+1) ↦ ω U_(j+1) U_j⁻¹`, `U_(j−1) ↦ ω U_(j−1) U_j`, so the braid group
+acts on the finite group `H_N`. Since `H_N` spans `G_N`, the kernel of this action consists of
+central elements of `G_N`, scalar on each simple block of size `D = 3^⌊N/2⌋`; the determinant of
+each `g_j` on a block has order dividing `12`, so a central element `z` of the image satisfies
+`z^(12D) = 1` blockwise. Hence the image of `BraidGroup m` in `C_(m−1)` is finite (Galindo–Rowell,
+Proposition 3.6, for the Gaussian representations, whose `R_j` at `q = ω` is the Galois conjugate
+of `−g_j`; Rowell–Wenzl, §4). For a braid `b` on `m ≥ 1` strands the Jones polynomial of its closure
+at `t = ζ` is `(−√3)^(m−1) s_(m−1)(F_m(ρ(b)))`, with GeometricTopology Layer 4's normalisation.
+
+- `G_N` is the twisted group algebra of `(ZMod 3)^N` for the chain form, with `dim G_N = 3^N`,
+  faithful trace `s_N` and C*-structure; `C_N` is its `θ`-fixed subalgebra of dimension
+  `(3^N + 1)/2`.
+- `F_m : TL_m(√3) → C_(m−1)` is a surjective `†`-homomorphism with `T_m = (√3)^m s_(m−1) ∘ F_m`
+  and `ker F_m = R_m`, so `Q_m ≅ C_(m−1)`.
+- `C_N` has the stated blocks and weights, identified with the `A_5` path blocks.
+- The `g_j` satisfy `g_j³ = −i`, and the image of `BraidGroup m` is finite.
+
+**Checks.**
+
+- `dim C_N` for `N = 0, …, 5` is `1, 2, 5, 14, 41, 122`, equal to `D_1, …, D_6` from the recurrence;
+  `dim Q_4 = 14 = catalan 4` (no radical below `f_5`) and `dim Q_5 = 41 = 42 − 1`. Taking all of
+  `G_N` gives `1, 3, 9, …` and fails at `m = 2`.
+- `m = 2`: `C_1 = span{1, U_0 + U_0²} ≅ ℂ ⊕ ℂ`, with trace weights `1/3` (on `p_0`) and `2/3`,
+  matching `[1]/δ² = 1/3` and `[3]/δ² = 2/3` for the path labels `0` and `2`.
+- `m = 3`: `C_2 ≅ M_2(ℂ) ⊕ M_1(ℂ)` (`d_+ = 2`, `d_− = 1`), with weights `2/3`, `1/3`; the paths of
+  length `3` from `0` on `A_5` end at `1` twice and at `3` once.
+- `U_0 U_1 = ω U_1 U_0` in `G_2` follows from `B(e_0, e_1) = 1` and `α(e_0, e_1)/α(e_1, e_0) = ω`;
+  the symmetric choice `α = ω^B` would give `ω²`, the relation for `ω⁻¹`.
+- `g_0` has eigenvalues `u ζ = i` and `−u`, so `g_0³ = −i·1` and `g_0³ ≠ 1`; the cubic relation
+  holds only projectively.
+- `s_1(p_0) = 1/3` and `T_2(e) = 3 · √3 · 1/3 = √3 = δ`.
+
+*Needs:*
+
+- Tau Ceti `IsFactorSet`, `twistedMonoidAlgebra`, `TwistedMonoidAlgebra.of`,
+  `TwistedMonoidAlgebra.basis`, `TwistedMonoidAlgebra.lift`
+  (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`), `HeisenbergGroup`,
+  `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`, `TemperleyLieb.lift`, `BraidGroup`,
+  `TemperleyLieb.jones`, `jonesUnit`, `jonesDelta`.
+- Mathlib `AlgHom.equalizer`, `LinearMap.BilinForm`, `ZMod`, `Matrix.kronecker`.
+- CStarAlgebras C1–C4 (finite-dimensional C*-algebras, completely positive maps).
+- Subfactors 3.2 (Markov uniqueness, `R_m`), 3.3 (`Q_m`, the `A_5` path model, `E_m`); 1.3 and 1.4.
+- GeometricTopology Layer 4, for the closure normalisation only.
 
 ### Examples
 
@@ -1165,11 +1003,20 @@ for the quantum-torus realization and finite-image framework.
 - `δ = √2`: `dim Q_2 = 2`, `dim Q_3 = 4`, `dim TL_3 = 5`, with `R_3 = ℂ f_3` and `[4] = 0`.
 - `δ = 1/2`: `det G_(3,1) = −3/4`, an indefinite nondegenerate Hermitian cell form.
 - `δ = i`: the conjugate-fiber map `κ : TL_2(i) → TL_2(−i)`.
+- `t = 1` (`δ = 2`): the spin chain with `D_1 = I₂/2` and `p_1` the projection onto
+  `(01 + 10)/√2`; `T_m = 2^m · (normalised trace) ∘ spinRep`.
+- A single loop: `Z_FK = Q(1 + v)`, with two boundary circles for its band.
+- `δ = √2`: `Q_3 ≅ Cl_3⁰ ≅ M_2(ℂ)`, and the braid image on two strands is cyclic of order `8`.
+- `δ = √3`: `Q_3 ≅ C_2 ≅ M_2(ℂ) ⊕ ℂ`, and `g_0³ = −i`.
 
 ### Dependencies
 
-Subfactors 3.1–3.3; TemperleyLieb Layers 1, 3–7; Tau Ceti `strandIncl`, `algEquivOfLeOne`,
-`e_ne_zero_two`, `markovTrace` and its trace lemmas; Mathlib `RingQuot.lift`, `TwoSidedIdeal`.
+Subfactors 3.1–3.3; TemperleyLieb Layers 1–7; Tau Ceti `strandIncl`, `algEquivOfLeOne`,
+`e_ne_zero_two`, `markovTrace` and its trace lemmas, the spin-model declarations of
+`TauCeti/Algebra/TemperleyLieb/MarkovTrace.lean`, `TemperleyLieb.jones`, `BipartiteRibbonGraph`,
+`CliffordAlgebra.basis` and `twistedMonoidAlgebra`; Mathlib `RingQuot.lift`, `TwoSidedIdeal`,
+`Graph`, `CliffordAlgebra`; GraphConnectivityAndFlows 1.1; SpinGeometry G1; SpinRepresentations
+Layers 0–1; CStarAlgebras C1–C5; VonNeumannAlgebras V0, V2, V4, V10; GeometricTopology Layer 4.
 
 ## Layer 2: Sign isomorphism, negative loop parameters and the Bratteli diagram
 
@@ -1804,6 +1651,10 @@ Temperley–Lieb material they need in Subfactors Layer 3 and consume it from th
 - D. Ridout and Y. Saint-Aubin, *Standard modules, induction and the structure of the Temperley–Lieb
   algebra* (arXiv:1204.4505): Theorem 4.7, equation (4.20), printed p. 20; Corollary 4.8 and
   Proposition 4.9, printed pp. 20–21.
+- K. Iohara, G. I. Lehrer and R. B. Zhang, *The Jones quotients of the Temperley–Lieb algebras*
+  (arXiv:1702.08128): §5.3, Theorem 5.4 (the Jones quotient at `ℓ = 4` is the even Clifford
+  algebra) and §5.4, Proposition 5.5 (the scalar coefficient is the Jones trace). Their
+  `γ_j² = 1/2`; loop value `−(q + q⁻¹)` with `q = −exp(πi/4)`.
 - K. Iohara, G. I. Lehrer and R. B. Zhang, *Temperley–Lieb algebras at roots of unity, a fusion
   category and the Jones quotient* (author's page): Proposition 3.1 and Remark 3.2 (the radical of
   the trace form is generated by the Jones–Wenzl idempotent). Loop value `−(q + q⁻¹)`.
@@ -1829,3 +1680,22 @@ Temperley–Lieb material they need in Subfactors Layer 3 and consume it from th
   Journal of Mathematics 191 (1999), 243–273 (arXiv:math/9811017): §2, printed pp. 3–10, affine
   diagrams, generators and relations, winding numbers, the ideals `I_t`, the finite cellular
   quotients and their standard modules.
+- V. F. R. Jones, *A polynomial invariant for knots via von Neumann algebras*, Bulletin of the
+  American Mathematical Society 12 (1985), 103–111, doi:10.1090/S0273-0979-1985-15304-2 (AMS open
+  archive): printed p. 104 (the algebras `A_n` with `n` projections and parameter `t`, the spin
+  representation of Temperley–Lieb, the Potts–ice equivalence, and the trace as the restriction of
+  the Powers state); printed p. 107 (the `A_n` at `t = i` are Clifford algebras; at `t = exp(πi/3)`
+  they are related to a cubic Clifford algebra and the braid image is finite).
+- H. N. V. Temperley and E. H. Lieb, *Relations between the 'percolation' and 'colouring' problem
+  and other graph-theoretical problems associated with regular planar lattices*, Proceedings of
+  the Royal Society A 322 (1971), 251–280, doi:10.1098/rspa.1971.0067 (uncertified, cited for the
+  Potts–ice equivalence of 1.6).
+- R. J. Baxter, S. B. Kelland and F. Y. Wu, *Equivalence of the Potts model or Whitney polynomial
+  with an ice-type model*, Journal of Physics A 9 (1976), 397–406, doi:10.1088/0305-4470/9/3/009
+  (uncertified, cited for the loop and six-vertex forms of 1.6).
+- C. Galindo and E. C. Rowell, *Braid representations from unitary braided vector spaces*
+  (arXiv:1312.5557): §3.1, Proposition 3.4 (the Gaussian operator `R`) and Proposition 3.6
+  (finiteness of the Gaussian braid image).
+- E. C. Rowell and H. Wenzl, *SO(N)_2 braid group representations are Gaussian*, Quantum Topology
+  8 (2017), doi:10.4171/QT/85 (read as arXiv:1401.5329v4): §4, Theorem 4.9 (quantum tori and
+  finite Gaussian braid images).
