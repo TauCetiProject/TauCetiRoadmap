@@ -302,3 +302,36 @@ simplifications within their special induction cases do not supply a global such
 between arbitrary isotopic diagrams. Ocneanu's algebraic trace remains independent of
 the geometric invariant; the source 88 analytic corrections have their existing Hecke
 owner.
+
+<a id="flyping-source"></a>
+## The spherical flyping theorem and Figure6.23
+
+*Knot Theory.pdf*, SHA256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical pp98–99,
+gives the alternating connected-sum argument, a local flype picture, and Exercise6.13
+asking for a flype sequence between the two projections in Figure6.23. Verified Luna's
+focused reread confirms that small crossing gaps encode over/under: absence of signs or
+arrows does not mean the diagrams are bare shadows. Its earlier contrary claim is
+superseded. Both endpoints have one component, but that reading does not certify their
+complete crossing counts, Gauss/PD words, cyclic slot orders or the local
+supports/intermediate diagrams of a solution. The complete native endpoint recovery and
+supported flype movie remain required targets, rather than an inferred standard-knot
+replacement.
+
+For the theorem use [Menasco–Thistlethwaite, *The Tait flyping conjecture*, Bull.
+AMS25(1991),403–412](https://www.researchgate.net/publication/240487410_The_Tait_flyping_conjecture),
+DOI10.1090/S0273-0979-1991-16083-0, Theorem1, and [*The classification of alternating
+links*, Annals138(1993),113–171](https://annals.math.princeton.edu/1993/138-1/p03),
+DOI10.2307/2946636. The original prime theorem factors a specified oriented pair
+homeomorphism up to pair isotopy; the source's composite-knot endpoint extension needs
+the separate factor-attachment bridge. The announcement sketches its rigid-vertex A/B/C
+induction; full pattern recovery, C attaching hypotheses and the exhaustive alternative
+are proof obligations, not supplied by the announcement's outline.
+
+[Kindred, *A geometric proof of the flyping theorem*, arXiv2008.06490v3,
+§§2.1–2.2](https://arxiv.org/html/2008.06490v3#S2.SS2) supplies a precise independent
+convention comparison: the entire-flype operation reverses both sphere orientation and
+crossing information. It preserves ambient S³ orientation and differs from a bare
+mirror. Its geometric endpoint proof is not substituted for the original
+prescribed-pair-map theorem. Spherical constant-crossing flype movies do not imply
+general plane/outerface or nonalternating crossing-nonincreasing movies.

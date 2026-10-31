@@ -5940,6 +5940,239 @@ PL/smooth transport, and native finite multisets/commutative monoids.
 Later signature checks consume 6.2 without feeding the early factorization.
 No crossing-number additivity or factor-crossing truncation is assumed.
 
+<a id="alternating-flyping"></a>
+### 4.9.1 Spherical flypes, alternating classification and the marked exercise
+
+Build the complete flyping library for *Knot Theory*, physical pp.98–99, including
+Exercise6.13 and Figures6.22–6.23. Work with 4.2's finite spherical oriented diagrams
+and their realized tame links in oriented S³; the projection sphere has no fixed outer
+face. The prime theorem concerns reduced alternating diagrams of a nontrivial nonsplit
+prime link, including multi-component examples such as the Hopf link. The unknot and
+crossingless unlinks are separate cases. “Prime” never includes the unknot or a split
+two-component unlink, and crossing-minimal diagrams are not automatically alternating.
+
+**Actual local moves and chart changes.** Define a marked flype chart by an embedded
+annulus around a circle in S² which meets the diagram at exactly one crossing and two
+regular points, with the precise transverse local crossing pattern. Its two
+complementary discs contain the four-ended tangles, with ordered ports, crossing/edge
+incidences, collars and the distinguished adjacent crossing. Compare this circle model
+with the standard ball model: rotate one tangle by 180° about an axis in the projection
+sphere, keep the complementary tangle fixed, and use the two half-twist collars to move
+the adjacent crossing to the other side. An arbitrary half-turn mutation or abstract
+four-edge cut is not yet a flype chart.
+
+Construct the output native matching, cyclic crossing slots and over/under data, along
+with the crossing and component bijections, and the inverse move. The rotated tangle's
+projected cyclic order is reflected **and** its internal over/under information is
+reversed. Give the exact port/sign dictionary for all rotated/reflected charts and
+compatible component orientations. Prove representative independence, relabeling
+naturality, composition with chart changes and a supported orientation-preserving
+ambient isotopy realizing the move. Preserve crossing count, component count, oriented
+crossing signs under the crossing bijection, positive/negative crossing counts and
+writhe. Prove preservation of alternation, reducedness and diagram primeness; include
+the trivial tangle and degenerate-support boundary cases with their actual admissibility
+conditions.
+
+Keep three operations distinct. An orientation-preserving homeomorphism of S², extended
+with unchanged normal coordinate, is a flat change of diagram chart. An
+orientation-reversing S² map combined with reversal of every over/under choice is the
+view from the other side, called an entire flype in [Kindred,
+§2.2](https://arxiv.org/html/2008.06490v3#S2.SS2); it also preserves ambient S³
+orientation. A bare sphere reflection or a bare over/under reversal is a mirror
+operation and is not an equivalence in this oriented ambient convention. Give the
+geometric adapter between these chart conventions and the original flat-map convention,
+rather than silently quotienting by every ribbon-graph isomorphism. Transport component
+directions and labels; independent component reversal is not an allowed relabeling. For
+native crossingless-circle Boolean labels choose an explicit planar-direction
+realization dictionary; chart reversal toggles those labels under that choice. Source
+spherical moves may pass a planar infinity, so they do not assert fixed-outerface plane
+equivalence.
+
+**The prime theorem, including a prescribed pair map.** Prove that any two connected
+reduced alternating diagrams D,E realizing the same nontrivial nonsplit prime oriented
+tame link are joined by a finite sequence of these marked flypes and compatible flat
+chart changes. Give the actual realized diagram-prime/link-prime comparison. Keep the
+stronger original theorem as well: for every specified orientation-preserving
+homeomorphism of oriented pairs `f:(S³,L_D)≅(S³,L_E)`, with its prescribed component
+correspondence, construct a flype/flat-map composite g and an **isotopy of pair
+homeomorphisms** from f to g. Every intermediate map sends L_D to L_E and preserves the
+required orientations/correspondence. This is not merely some ambient isotopy between
+endpoint links or a homotopy of underlying continuous maps.
+
+Use [Menasco–Thistlethwaite, *The Tait flyping conjecture*, Theorem1 and
+pp405–411](https://www.researchgate.net/publication/240487410_The_Tait_flyping_conjecture),
+with the full proof in [*The classification of alternating links*,
+Annals138(1993),113–171](https://annals.math.princeton.edu/1993/138-1/p03). Own the
+following original proof prefix; a finite graph search or the weaker endpoint theorem
+does not prove the prescribed-map statement.
+
+**Rigid vertices and the induction.** Construct embedded four-valent rigid-vertex graphs
+with a flat square disc and four ordered attachment ports at each vertex. Give their
+finite crossing/vertex codes, actual realizations, edge orientations, morphisms
+preserving the vertex frames, isotopies of such morphisms, local replacements and
+gluing. A graph vertex is distinct from an ordinary crossing. Extend reducedness,
+primeness and alternation: alternation means a compatible one-crossing replacement at
+every rigid vertex yields an alternating link diagram. Prove the replacement/realization
+and frame-transport APIs, including the exact finite crossing/tangle vignettes needed by
+the proof. Do not assume arbitrary edge orientations extend through every link
+replacement; state the orientation-compatible replacements, and use the appropriate
+unoriented polynomial where needed.
+
+Prove the zero-crossing rigid-graph base case, including straightening the actual
+spherical graph regions and extending their maps over the complementary balls. Induct on
+the number of **ordinary crossings**, retaining arbitrary rigid vertices and the given
+map. A replacement of a vertex by a five-crossing tangle increases that number and
+therefore cannot invoke the smaller-crossing induction hypothesis. Use such replacements
+only for separately proved comparison/detection lemmas. Matching a pair of crossing
+balls, replacing them by framed vertices, applying the induction and restoring the
+crossings must preserve every hypothesis and the pair-isotopy class of f. Prove these
+operations and their inverse gluing comparisons.
+
+**Simultaneous checkerboard geometry.** Construct both embedded checkerboard spanning
+surfaces, including nonorientable ones, their proper versions in the link/rigid-graph
+exterior, crossing-ball neighborhoods and the vertical intersection arcs. Prove the
+exact surface boundary/collar conditions, incompressibility/essentiality statements used
+in the induction, and the Euler-characteristic identities counting regions, crossings
+and rigid vertices. Own the relative normal-position theorem for the two transported
+surfaces against the two target surfaces: double arcs/circles, triple points, boundary
+incidences, allowed local models and an explicit decreasing intersection complexity.
+Generic transverse position is not this normal-position theorem. Construct the
+innermost/outermost surgeries and prove preservation of the realized pair map, vertex
+frames and peripheral boundary data.
+
+Prove the crossing-ball matching lemma: mapping a local ball together with the
+appropriate black or white surface patch to its target standard patch permits a pair
+isotopy making the ball map rigid. An excellent double arc has no triple point and has
+the full local quadruple `(N,N∩∂X,N∩F,N∩G)` of a standard crossing ball in the exterior,
+not just two abstract intersecting arcs. Construct and compare these models with native
+finite ports.
+
+**All three inductive alternatives.** Retain the complete A/B/C argument, with its
+hypotheses encoded by actual marked local data. For A, cut the relevant surfaces along
+an excellent arc, identify the resulting link/graph boundaries, and prove the
+polynomial/nugatory-crossing comparisons that produce matching crossing balls after
+flypes. For B, use precisely the marked vertex/crossing configuration of the original
+Figure3(i), with its boundary-port and smoothing vignette, not any circle through a
+vertex and crossing. Prove the corresponding configuration in the target, the flypes
+moving both crossings next to the vertices, the same-sense twist comparison, the
+rectangular checkerboard-patch matching and the resulting rigid ball match. Recover and
+verify the literal finite patterns from that figure as part of this owner.
+
+For C, define the essential visible Conway-sphere configuration, including the four
+punctures, the exterior essentiality predicate, both tangle attachments and the
+rigid-vertex frames, and prove the cut, induction and reassembly theorem with its full
+attaching hypotheses. Prove that every nonbase case satisfies one of these three
+alternatives, including production of an excellent arc when B and C fail. Conditional
+A/B/C lemmas without this exhaustion theorem leave the proof incomplete. Supply all
+exceptional low-crossing cases and the well-founded auxiliary complexities needed by the
+normal-position and local simplifications.
+
+Consume the independent Jones/bracket and Kauffman theories in 4.5/4.6.1 and 4.8.1's
+adequate/minimality lemmas. This owner supplies their rigid-vertex substitution and
+flype-detection adapters, including the actual theorem that switching one crossing of a
+reduced alternating n-crossing link diagram, if the resulting link is also alternating,
+gives crossing number at most n−2, with its applicable nonempty/low-crossing cases. Pin
+the coefficient/sign conventions of every detection polynomial; equal polynomials alone
+never authenticate a geometric flype. Reassemble the induction into the finite composite
+and pair isotopy required above. No hyperbolization, Mostow rigidity, late finite
+exterior classification or certified knot table enters this proof prefix.
+
+**Composite knots and the source crossing-additivity argument.** Prove Menasco's
+visible-decomposition theorem: every connected reduced alternating diagram of a
+composite knot has some transverse two-point projection circle with crossings on both
+sides, giving two nontrivial capped reduced alternating factor diagrams. Construct this
+actual sphere/circle/capping comparison. Recursively obtain a complete visible prime
+factor system with strictly smaller positive crossing counts. Use 4.9's independent
+marked Schubert sphere/capping/uniqueness prefix to match its oriented prime factors to
+any requested knot decomposition. This proves that factors of an alternating knot are
+alternating. A prescribed grouping of prime factors need not already be visible by one
+circle in the fixed endpoint diagram; realize that grouping after the factor-exchange
+movies below, preserving the requested capped factors.
+
+Turn that matching into an actual movie: lift every prime-factor flype/flat map through
+the punctures and connected-sum collars; give relative moves adjusting the attachment
+arcs and adjacent-factor exchanges; and prove that the recombined movie has the required
+endpoint diagram. Preserve orientations instead of independently reflecting or reversing
+prime factors. Equal prime-factor multisets alone do not give this movie. This proves
+endpoint flyping for arbitrary reduced alternating **knot** diagrams. A factorization of
+every given composite-pair homeomorphism would require additional
+sphere-slide/mapping-class control and is not inferred here from the prime theorem.
+
+Compare the visible-factor proof of `c(K#J)=c(K)+c(J)` whenever K#J is alternating with
+4.8.1's already owned adequate-sum minimality proof, including the unknot/empty-factor
+cases. The equality concerns minimum crossing number among all diagrams. It is not
+crossing additivity for arbitrary knots. Do not extend the knot-only reconstruction
+argument to composite multi-component links by forgetting selected components or
+attachment arcs:4.9's Hashizume/split data remain essential. The prime multi-component
+flyping theorem above is included independently of such a composite-link extension.
+
+**Finite orbit and certificates.** At fixed n>0 enumerate the actual native
+matching/rotation/over-pair data, finite component directions and requested labels,
+restricted to connected planar spherical diagrams with no crossingless extra components.
+`PDCode n` alone is infinite because its crossingless-component count is unbounded.
+Prove the explicit finite encoding and realization/relabeling dictionary; filter
+reducedness and alternation by complete finite tests, and filter diagram primeness only
+in the prime-link branch. The composite-knot orbit retains its nonprime reduced
+alternating states. The n=0 unknot uses one crossingless circle, and crossingless
+unlinks use their fixed component count, separately from this crossing-bearing carrier.
+
+Enumerate every admissible marked flype chart by normalized face/port data and disc-side
+witnesses. Prove both that each enumerated chart is geometrically valid and that every
+geometric chart is equivalent relative to the diagram to an enumerated one. An abstract
+graph cut without locality or the wrong outside-tangle placement is insufficient.
+Include orientation-compatible finite flat changes and the entire-flype adapter in the
+chosen chart convention. Prove inverse/naturality and that every edge stays at exactly n
+crossings. Quotient by the stated finite relabeling action or supply a verified
+canonical code for it.
+
+Use the existing finite-graph search/closed-set library to compute the whole flype
+orbit, with checkable supported-move paths, a canonical representative and closed-orbit
+nonreachability certificates. The geometric theorem makes this a complete
+oriented-link-equivalence decision for prime reduced alternating link inputs, and for
+the separately proved composite-knot extension. State those hypotheses on the
+completeness theorem. Soundness of a flype movie applies more generally; completeness
+for arbitrary nonalternating or arbitrary crossing-minimal diagrams does not follow.
+Derive constant-crossing movies, rather than merely a bound saying crossings never
+increase. This special theorem does not change 4.2.6's hard-unknot obstruction for
+general diagrams.
+
+For prime symmetries export the original factorization theorem as generation of
+pair-homeomorphism isotopy classes by actual flypes and flat diagram maps. Give
+chirality/reversibility tests by comparing the correctly marked global mirror/reverse
+diagrams, and retain explicit component correspondence. Do not identify the pair
+mapping-class group with a finite orbit or freely equate graph loops: a group
+presentation, loop-kernel decision or its order needs a separate relations theorem. An
+effective routine on input maps uses finite PL/simplicial map certificates, not an
+arbitrary black-box homeomorphism.
+
+**The literal exercise.** Recover the two actual Figure6.23 endpoint codes with crossing
+labels, cyclic orders and the over/under data carried by the small gaps, choose and
+record their component orientations, and prove their native spherical-realization
+comparisons. Supply the complete finite flype/flat-map list taking the first to the
+second, with every intermediate code, chart, port/crossing correspondence and endpoint
+relabeling. The book supplies endpoints and a task, not the intermediate movie; an
+abstract existence theorem or another familiar flype pair is not the exercise's
+certificate. Verify the exact crossing counts and every local move, giving its
+constant-crossing conclusion. Keep unresolved source incidences explicit until their
+visual recovery and geometric comparison; do not infer them from matching polynomials or
+a knot label. The [source note](source-inputs.md#flyping-source) distinguishes the
+literal exercise from the constructions required to solve it.
+
+*Needs:* 4.2's realized spherical diagrams, ambient pair maps and supported local moves;
+4.3's embedded band/checkerboard surfaces; 4.9's independent prime/split sphere, cap and
+uniqueness prefix; 2.2–2.3/3.3/11.2 for relative disc/ball topology, isotopy extension
+and PL/smooth comparison. This unit owns the rigid-vertex category, simultaneous surface
+normal position, full A/B/C detection and exhaustive induction, marked flype geometry,
+composite-knot lifting and finite-chart completeness. Polynomial inputs and adequate
+minimality come from 4.5/4.6.1/4.8.1 without a return edge to flyping. Later
+classification can consume these results; it supplies no premise here.
+
+[Native finite-code and sphere/height-reversal interfaces](FlypeDiagramTargets.lean)
+construct actual zero-extra-circle PD codes and the simultaneous chart/over-pair
+operation, with preservation of oriented crossing signs and writhe. They do not replace
+the geometric flype/realization comparison, the complete prime proof, or the exact
+exercise movie.
+
 ### 4.10 Rational tangles and two-bridge knots
 
 Define a rational tangle in a ball with four marked boundary points by the integer twist
