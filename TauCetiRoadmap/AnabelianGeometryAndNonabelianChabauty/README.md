@@ -8599,6 +8599,7 @@ The API has the following requirements.
 - SectionConjecture(Spec `k/k`) holds: both sides are one-point sets.
 - `SectionConjecture(P¹_Q/Q)` fails because `κ` is constant on the infinite set `P¹(Q)`; a statement without the genus bound is false.
 - `SectionConjecture(G_{m,Q}/Q)` fails because the Kummer map `Q^× → lim_n Q^×/Q^{×n}` is injective but not surjective; injectivity alone is not the conjecture.
+- For an abelian variety `A` of dimension `≥ 1` over a number field k, SectionConjecture(A/k) fails. The map `κ_A` is injective by [Injectivity of the section map](#injectivity-of-the-section-map), but `Sect(A/k) ≅ H¹(k, T̂A)` contains a copy of `Ẑ^d` with `d = [k:ℚ]·dim A`, so `κ_A` is never surjective, even when `A(k)` is finite; this is why the global propositions are restricted to curves of genus `≥ 2` ([Mirela Ciperiani and Jakob Stix](#reference-ciperiani-stix-2015), Theorem 1, p. 48).
 - Hoshi's pro-p non-example: for some prime p and number field k, a smooth projective geometrically connected curve `X/k` of genus `≥ 2` has a continuous section of `π₁(X)/ker(Δ → Δ^(p)) → Γ_k` whose `Δ^(p)`-conjugacy class comes from no point of `X(k)`, where `Δ = π₁(X_k̄)` and `Δ^(p)` is its maximal pro-p quotient. Thus the geometrically pro-p analogue of Grothendieck Section Conjecture fails surjectivity, with the full `Γ_k` retained: Yuichiro Hoshi, [*Existence of nongeometric pro-p Galois sections of hyperbolic curves*](https://ems.press/journals/prims/articles/4307), *Publ. RIMS* (2010).
 - SectionConjecture(X/k) is exactly bijectivity of `κ_X`; for an abstract section datum with a non-injective point map (two points with equal sections) it fails.
 - SectionConjecture(Spec `k/k`) holds for every field k.
@@ -8635,6 +8636,7 @@ The API has the following requirements.
 - For `U = ℙ¹_ℚ ∖ {0,1,∞}`, the inequality is `−2 + 3 > 0`. The points 2 and 3 give distinct interior section classes, and the three rational cusps give disjoint uncountable packets, each disjoint from those point classes. The assertion that these interior classes and three packets exhaust `Sect(U/ℚ)` is the conjecture, not a consequence of their construction.
 - A model section-class set `P ⊔ (D × ℤ)` with interior inclusion and packets `{(d,n) | n ∈ ℤ}` satisfies the abstract proposition: even three cusps can each retain many classes. Collapsing each packet to one class changes the assertion.
 - If two different cusp indices have overlapping packets, or an interior class lies in a packet, the abstract bijectivity proposition fails. For an empty cusp index set it is exactly bijectivity of the interior map.
+- For the affine Reichardt–Lind curve `U: 2Y² = Z⁴ − 17, Y ≠ 0` over `ℚ`, with genus-one compactification X and six geometric cusps, none rational, the arithmetic sequence of U has no section and `U(ℚ) = ∅`. Both sides of the bijection are empty, so CuspidalSectionConjecture(U/ℚ) holds ([Jakob Stix](#reference-stix-brauer-manin-2011), §5.1 and Theorem 27).
 - The nonhyperbolic example `U = G_m` has identical packets at 0 and `∞`, both equal to all of `Sect(G_m/k)`. It therefore fails the pairwise separation requirement; the hyperbolicity hypothesis cannot be discarded.
 
 The construction and its conventions follow [Jakob Stix](#reference-stix-cuspidal-2012), §1.2, Definition 1 and the affine-conjecture discussion, and §4.1, Theorem 17, Remark 18(3) and Corollary 19; [Jakob Stix](#reference-stix-2013), Introduction, Conjecture 6, p. xvi, with the accompanying cuspidal interpretation; [Alexander Grothendieck](#reference-grothendieck-faltings-1983), the third formulation and its discussion of packets at infinity.
@@ -9147,6 +9149,14 @@ A theorem identifying all rational points from these equations assumes the state
 #### Reference: stix-cuspidal-2012
 
 **Jakob Stix.** On cuspidal sections of algebraic fundamental groups. In Galois–Teichmüller Theory and Arithmetic Geometry, Advanced Studies in Pure Mathematics 63 (2012), 519–563. The §1.2 and §4.1 locators use the author version dated 24 February 2012, pp. 3 and 8–9, with Definition 1, Theorem 17 and Corollary 19. [Published source](https://doi.org/10.2969/aspm/06310519); [author version](https://www.math.uni-frankfurt.de/~stix/research/preprints/STIXcuspsec20120802homepage.pdf).
+
+#### Reference: ciperiani-stix-2015
+
+**Mirela Ciperiani and Jakob Stix.** Galois sections for abelian varieties over number fields. Journal de Théorie des Nombres de Bordeaux 27 (2015), 47–52; version of record, DOI 10.5802/jtnb.892. [Source](https://doi.org/10.5802/jtnb.892).
+
+#### Reference: stix-brauer-manin-2011
+
+**Jakob Stix.** The Brauer–Manin obstruction for sections of the fundamental group. arXiv:0910.5009v1 (2009); published in Journal of Pure and Applied Algebra 215 (2011), 1371–1397, DOI 10.1016/j.jpaa.2010.08.017. Locators use the arXiv v1 numbering. [Source](https://arxiv.org/pdf/0910.5009v1).
 
 #### Reference: sga1
 
