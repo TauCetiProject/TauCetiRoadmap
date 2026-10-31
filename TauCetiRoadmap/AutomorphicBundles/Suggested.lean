@@ -8,9 +8,12 @@ import TauCeti.Algebra.AlgebraicGroup.Representation.Faithful.Basic
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`; discharging these statements finishes neither a layer nor the roadmap.
 
-Layer B1.1's `finiteTensorStabilizer` states that every faithful representation of a reductive
-algebraic group in characteristic zero realizes that group as the pointwise stabilizer of finitely
-many mixed tensors. It uses Tau Ceti's coordinate Hopf algebras, comodules and scheme-theoretic
+Target 1.1's `finiteTensorStabilizer` states that every faithful representation of a connected
+reductive algebraic group in characteristic zero realizes that group as the pointwise stabilizer of
+finitely many mixed tensors. The pinned `TauCeti.reductiveCommHopfAlgProperty` is connected
+reductivity (smooth, geometrically connected, with no nontrivial connected normal smooth unipotent
+subgroup over an algebraic closure), so this is the connected case of the README's 1.1, whose
+general reductive form is not statable at the pins. It uses Tau Ceti's coordinate Hopf algebras, comodules and scheme-theoretic
 faithfulness. Mathlib's tensor algebra on `V × Module.Dual k V` packages finite sums of mixed tensor
 words. Testing the same tensors over every commutative coefficient algebra specifies the stabilizer
 as a group scheme, including its points over nonreduced algebras. A Tate line included in the
@@ -18,24 +21,24 @@ coefficient is part of `V` with its actual group action; it is not trivialized.
 
 The other headline results require objects absent from the pinned libraries:
 
-* B0's associated-coefficient descent and analytic comparison need geometric group torsors,
-  analytic Shimura quotients and ShimuraData's compact-dual, reflex-flag-descent and
-  homogeneous-variation objects.
-* B1 and B1.general's canonical principal-bundle existence, embedding independence and normalized
+* Layer 0's associated-coefficient descent and analytic comparison need geometric group torsors,
+  analytic Shimura quotients and ShimuraData's compact dual with its reflex-field descent and
+  ShimuraVarieties' homogeneous variations.
+* Layers 1 and 2's canonical principal-bundle existence, embedding independence and normalized
   conjugation need Shimura data, canonical models and their Hodge-tensor realizations, with the
   deligne-torus convention of ReductiveGroupsPartII.
-* B2 and B2.general's automorphic bundle and realization comparisons need those principal bundles,
+* Layers 3 and 4's automorphic bundle and realization comparisons need those principal bundles,
   arithmetic coefficient local systems and filtered de Rham realizations.
-* B3 and B3.general's canonical extensions, fan independence and logarithmic comparisons need
-  toroidal models, degeneration charts and automorphic boundary sheaves. B3.Hilbert's splitting-model
+* Layers 5 and 6's canonical extensions, fan independence and logarithmic comparisons need
+  toroidal models, degeneration charts and automorphic boundary sheaves. Layer 7's splitting-model
   compactification and cusp detection additionally need the ramified Hilbert moduli spaces.
-* B3.log's ordinary and compact-support period comparisons need logarithmic adic spaces,
-  pro-Kummer-étale coefficient systems and period sheaves. B3.BGG's relative resolution and geometric
+* Layer 8's ordinary and compact-support period comparisons need logarithmic adic spaces,
+  pro-Kummer-étale coefficient systems and period sheaves. Layer 9's relative resolution and geometric
   dual BGG comparison need algebraic `GSp₄` coefficient modules and relative parabolic complexes,
   together with their automorphic sheaves and logarithmic connections.
-* B3.HT's perfectoid towers, rational Levi torsor and algebraic coefficient descent need perfectoid
+* Layer 10's perfectoid towers, rational Levi torsor and algebraic coefficient descent need perfectoid
   Shimura towers and Hodge–Tate period maps.
-* B4's geometric–analytic comparison and classical VB normalization, and B5's geometric Hecke
+* Layer 11's geometric–analytic comparison and classical VB normalization, and Layer 12's geometric Hecke
   action, scalar and vector Fourier–Jacobi expansion principles, ramified Hilbert q-expansion
   principle and ordinary and compact-support Siegel decompositions need these automorphic
   coefficients, compactifications, expansion maps and cohomology comparisons.
@@ -67,10 +70,12 @@ noncomputable def mixedTensorAction {A W : Type u} [CommRing A]
   TensorAlgebra.lift A <|
     (TensorAlgebra.ι A).comp (g.toLinearMap.prodMap g.symm.toLinearMap.dualMap)
 
-/-- B1.1: a faithful representation of a reductive group in characteristic zero admits finitely
-many mixed tensors whose simultaneous pointwise stabilizer is exactly the represented group,
-over every commutative coefficient algebra ([Deligne], §3 Proposition 3.1(a–c), pp.22–23).
-The tensor family is chosen over the ground field, before coefficient extension. -/
+/-- 1.1, connected case: a faithful representation of a connected reductive group in
+characteristic zero admits finitely many mixed tensors whose simultaneous pointwise stabilizer is
+exactly the represented group, over every commutative coefficient algebra ([Deligne], §3
+Proposition 3.1(a–c), pp.22–23). The pinned reductivity predicate includes geometric connectedness;
+the README's 1.1 also covers disconnected reductive groups. The tensor family is chosen over the
+ground field, before coefficient extension. -/
 theorem finiteTensorStabilizer [CharZero k]
     (H : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} k)
     (hH : TauCeti.reductiveCommHopfAlgProperty k H)

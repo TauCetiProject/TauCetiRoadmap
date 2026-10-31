@@ -35,7 +35,7 @@ Pilloni–Stroh and Lan for rational towers, Diao–Lan–Liu–Zhu and Lan–Li
 logarithmic periods and supports, and Faltings–Chai and Boxer–Calegari–Gee–Pilloni
 for the classical Siegel comparisons. Source labels refer to the editions
 in the references; page numbers follow those editions. `Suggested.lean` states the finite
-tensor-stabilizer theorem of B1.1 against the pinned Mathlib and Tau Ceti. The geometric headline
+tensor-stabilizer theorem of 1.1, in its connected form, against the pinned Mathlib and Tau Ceti. The geometric headline
 results require the Shimura, boundary and period objects constructed in the layers below; this
 README is the specification.
 
@@ -46,62 +46,65 @@ The roadmap owns:
 - the representation-factorization adapter for ShimuraData's coefficient group `Gᶜ = G/Z_s`,
   ineffective-stabilizer descent, the comparison of its filtration parabolic with the opposite
   Hodge–Tate coefficient convention, the linear realization of associated coefficients, compact-dual coefficients and their analytic
-  and algebraic descents (Layer B0);
+  and algebraic descents (Layer 0);
 - the canonical principal bundle of Hodge and abelian type, through finite tensor stabilizers,
   the defining-tensor specialization of ShimuraVarieties §7.0i, the tensor-preserving de Rham frame torsor, its filtration reduction, the
-  special-point normalization and Hecke pullback (Layer B1), and its general-data version through
-  connected conjugation and second jets (Layer B1.general);
+  special-point normalization and Hecke pullback (Layer 1), and its general-data version through
+  connected conjugation and second jets (Layer 2);
 - the automorphic vector bundle functor, highest-weight conventions, the Betti, étale and filtered
-  de Rham realizations of full-group representations and their comparison (Layer B2), with the
-  general-data versions (Layer B2.general);
+  de Rham realizations of full-group representations and their comparison (Layer 3), with the
+  general-data versions (Layer 4);
 - canonical and subcanonical extensions over toroidal models, their behaviour under fan refinement,
   logarithmic extensions of full-group connections, coherent pushforward to the minimal model,
-  rationality, and the integral coefficients on good-prime PEL models (Layer B3), with the
-  general-data versions (Layer B3.general);
+  rationality, and the integral coefficients on good-prime PEL models (Layer 5), with the
+  general-data versions (Layer 6);
 - the ramified splitting-model compactifications, degeneration coefficient lines, formal cusp
-  descent and residue-component detection (Layer B3.Hilbert);
+  descent and residue-component detection (Layer 7);
 - the smooth-pair specialization of the shared log-adic and Kummer-étale carriers, its additional
   pro-Kummer-étale site and perfectoid basis, canonical coefficient systems, log periods and the ordinary and
-  compact-support comparisons (Layer B3.log), and the relative/geometric Siegel dual BGG
-  construction with coherent graded pieces and degeneration (Layer B3.BGG);
+  compact-support comparisons (Layer 8), and the relative/geometric Siegel dual BGG
+  construction with coherent graded pieces and degeneration (Layer 9);
 - the Siegel application of the shared small-Hasse canonical-subgroup package supplied by
   CohomologyComparisons §6.2, the rational Siegel and closed Hodge-type perfectoid toroidal
   towers, their rational Levi period torsor
-  and finite-algebraic `VB⁰` descent (Layer B3.HT);
+  and finite-algebraic `VB⁰` descent (Layer 10);
 - classical and cuspidal forms, the automorphy-factor adapter to Mathlib's `SlashAction`, the
   analytic comparison, the modular, Hilbert, Siegel and unitary weight conventions, integral forms
   with arbitrary coefficient modules, the ramified Hilbert weight line and the classical VB
-  normalization (Layer B4);
+  normalization (Layer 11);
 - geometric Hecke operators and their convolution law, the expansion principle with arbitrary
   coefficients, vector-valued Fourier–Jacobi expansions, Diamond's ramified Hilbert q-expansions,
-  the Hecke action on expansions, and the classical Siegel Hodge–Tate decompositions (Layer B5).
+  the Hecke action on expansions, and the classical Siegel Hodge–Tate decompositions (Layer 12).
 
 It leaves to other roadmaps:
 
 - **Shimura data and varieties.** The central quotient is ShimuraData §4.9; filtration parabolics,
-  their Hodge sign and Levi, compact duals, Borel embeddings, reflex flags and homogeneous
-  variations are ShimuraData Layer 3; the analytic tower, minimal compactification, CM reciprocity,
+  their Hodge sign and Levi, compact duals and reflex flags are ShimuraData §§3.7–3.9, and variations
+  of Hodge structure are its §§3.1–3.6; the Borel embedding into a representation's flag variety and
+  homogeneous variations are ShimuraVarieties §P.3; the analytic tower, minimal compactification, CM reciprocity,
   canonical models, conjugation and canonical towers are ShimuraVarieties Layers 1–8; PEL data and their
-  universal families are PELModuli M0, M3, M5; Hilbert data, Deligne–Pappas families, polarization/unit quotients and central kernels are
+  universal families are PELModuli M0, M1.7, M5; Hilbert data, Deligne–Pappas families, polarization/unit quotients and central kernels are
   HilbertModularVarietiesAndShimuraCurves H0–H4. Its H5.3–H5.4 supply the characteristic-zero
-  coefficient lines and their descent; B3.Hilbert constructs the ramified splitting model and cusps.
+  coefficient lines and their descent; Layer 7 constructs the ramified splitting model and cusps.
 - **Compactifications (bundle partner).** Fans, cusp labels, toroidal models, refinements, toroidal
   Hecke spans, degeneration families, good-prime PEL models and Hilbert cusp charts are
-  ShimuraCompactifications C0–C6, which supplies the finite-level boundary geometry. In particular
+  ShimuraCompactifications Layers 0–8, which supplies the finite-level boundary geometry. In particular
   the scalar Fourier–Jacobi expansion of Hodge-line sections — its coefficient modules, independence
   of the cone and of the cone decomposition, invariance under the cusp stabilizer, functoriality in
   the coefficient module and the restriction to a boundary stratum through the constant term — is
-  ShimuraCompactifications C5.15 (`HodgeLineFJ`), with coefficients tensored after pushforward.
-  B5.1a constructs the coefficient-inside-sheaf expansion used here for arbitrary modules,
-  compares the two under coefficient base change, and B5 proves its expansion principle and
-  vector extension. The refinement
+  ShimuraCompactifications §7.15 (`HodgeLineFJ`), valued in the base-level modules
+  `Γ(M^Z, p_*Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)` for every coefficient module `M`; that map is the definition.
+  12.2 is its torsor-level description: the comparison of those modules with the modules
+  `Γ(C_Φ, Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)` on the abelian torsor, the coefficient base-change lemma that
+  governs it, and the reading of the coefficients on the torsor; 12.3–12.10 and 12.15–12.16 are
+  theorems about `HodgeLineFJ` through that description. The refinement
   invariance of canonical and cuspidal cohomology with arbitrary coefficient modules is
-  ShimuraCompactifications C3 (C3.9 `ToroidalRefinement.cohomology_iso`), and Dimitrov's tame Hilbert
-  q-expansion principle is ShimuraCompactifications C6 (C6.40 `HilbertModular.qExpansion_injective`); Layer B5
-  treats Diamond's prime-to-`p` ramified setting, including `p = 2`, which C6 does not cover. The
+  ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`), and Dimitrov's tame Hilbert
+  q-expansion principle is ShimuraCompactifications Layer 8 (§8.42 `HilbertModular.qExpansion_injective`); Layer 12
+  treats Diamond's prime-to-`p` ramified setting, including `p = 2`, which its Layer 8 does not cover. The
   semiample Hodge line, finite generation of its section algebra and the ample positive power on
-  the minimal model are C5 (C5.13 `IntegralToroidalModel.hodgeLine_semiample`, C5.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`,
-  C5.17 `IntegralMinimalModel.hodgeLine_ample`); only their coefficient comparisons are used here.
+  the minimal model are ShimuraCompactifications Layer 7 (§7.13 `IntegralToroidalModel.hodgeLine_semiample`, §7.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`,
+  §7.17 `IntegralMinimalModel.hodgeLine_ample`); only their coefficient comparisons are used here.
 - **Tau Ceti roadmaps.** The analytic theory of elliptic modular forms, including the automorphy
   sheaf on the coarse curve and the dimension formulas, is ModularForms Layer 10C, and its Hecke
   ring and nebentypus action are ModularForms Layer 2; this roadmap compares its `GL₂` coefficients
@@ -125,16 +128,16 @@ It leaves to other roadmaps:
   completion along a closed subset is AdicSpacesPartIII F0.
 - **Log-adic foundations.** PrismaticCohomologyPartIV §8.60 owns log-adic structures,
   logification, pullback, integral fs charts, the Kummer-étale site and finite-free local systems
-  on it. B3.log uses these carriers on smooth pairs and their pulled-back closed strata and
+  on it. Layer 8 uses these carriers on smooth pairs and their pulled-back closed strata and
   constructs the additional pro-Kummer-étale site, all-root basis and period comparisons.
 - **Later work and neighbouring theories.** Higher integral coherent cohomology and
   Hecke-equivariant perfect complexes belong to AutomorphicBundlesPartII; locally analytic and
   overconvergent weights to OverconvergentAutomorphicForms. The rational Hodge-type tower,
-  Levi period torsor and finite-algebraic `VB⁰` used here are B3.HT. Integral Hodge–Tate refinements,
+  Levi period torsor and finite-algebraic `VB⁰` used here are Layer 10. Integral Hodge–Tate refinements,
   additional canonical-subgroup regions and general locally analytic VB theory belong to
   HodgeTateAndCanonicalSubgroups and PerfectoidShimuraVarieties. The shared cyclotomic-base
   abelian-family canonical-subgroup package is supplied by CohomologyComparisons §6.2 and
-  used in B3.HT.1; PerfectoidShimuraVarieties uses
+  used in 10.1; PerfectoidShimuraVarieties uses
   the rational tower and algebraic coefficient descent.
   Multiplicativity of Siegel Fourier–Jacobi expansions,
   their comparison with analytic Fourier series beyond rank one, and q-expansions of analytic
@@ -151,7 +154,7 @@ ramified Hilbert model explicitly.
 Use ShimuraData §4.9's `Gᶜ = G/Z_s`, where `Z_s` is the largest central `ℚ`-subtorus that is split
 over `ℝ` and has no nonzero `ℚ`-split subtorus. When `Z(G)°` splits over a CM field, `Gᶜ` is also
 the quotient by Lan's minimal central subtorus giving equal rational and real split ranks;
-without that hypothesis these constructions can differ (B0.1). Canonical principal-bundle existence for abelian and general
+without that hypothesis these constructions can differ (0.1). Canonical principal-bundle existence for abelian and general
 pure data carries Milne II (2.1), including the CM-split-centre condition; Hodge-type data satisfy
 that condition. The associated-coefficient and analytic fibre-descent constructions retain their
 stated wider range. Arithmetic
@@ -191,8 +194,8 @@ the **full** cusp stabilizer. The boundary determinant line is `L_Φ = det_ℤ(X
 relative invariant differential on a Tate fibre is `du/u`; `dq/q` lives on the base.
 
 Use `H_g = tr_{p₁} ∘ θ_g ∘ p₂^*` and `T_g = ν(g) H_g`, with `ν` a multiplicative `K`-bi-invariant
-character of the admissible monoid into `R^×`. Trace means the finite locally free trace, extended
-through the specified toric refinement comparison. For `GL₂` choose `ν(g) = det(g)⁻¹` when comparing
+character of the admissible monoid into `R^×`. Trace means the finite locally free trace of AdicSpacesPartIII R3.8, with the
+coefficient adapter of 12.1, extended through the specified toric refinement comparison. For `GL₂` choose `ν(g) = det(g)⁻¹` when comparing
 with the analytic normalization. An unramified modular `ℓ`-correspondence has degree `ℓ + 1`, so
 `T_ℓ(1) = (ℓ + 1)/ℓ` in weight zero. The numerical specialization requires
 `ℓ` prime; hence `ℓ ≠ 0` in `ℚ`, and it defines no correspondence at `ℓ = 0`. Use the transposed correspondence convention of
@@ -209,6 +212,13 @@ Suggested module homes are `TauCeti/Geometry/Shimura/AutomorphicBundles/`, with 
 `SiegelComparison` submodules. A functorial map API includes identity and composition laws with the
 datum, level, base and coefficient hypotheses held fixed; these laws also test independence of proof
 terms.
+
+Layers are numbered 0–12 and targets k.n within them. Where a consumer names this roadmap's layers
+by letter labels, they read: B0 = Layer 0, B1 = Layer 1, B1.general = Layer 2, B2 = Layer 3,
+B2.general = Layer 4, B3 = Layer 5 (its gluing target B3.3 = 5.2 precedes the canonical extension
+B3.2 = 5.3), B3.general = Layer 6 (B3.general.1a = 6.2), B3.Hilbert = Layer 7 (B3.Hilbert.0 = 7.1,
+B3.Hilbert.0a = 7.2, B3.Hilbert.n = 7.(n+2)), B3.log = Layer 8, B3.BGG = Layer 9, B3.HT = Layer 10,
+B4 = Layer 11 and B5 = Layer 12 (B5.1a = 12.2, B5.n = 12.(n+1) for n ≥ 2).
 
 ## Exact supplier contracts
 
@@ -256,153 +266,155 @@ terms.
 
 - **AlgebraicVectorBundles.** L0A (sheaf tensor, internal Hom, pullback and duality), L0B
   (finite locally free sheaves and their finite projective affine models), L0C (exterior,
-  symmetric and determinant operations). The new construction in B0.4 is descent of an
+  symmetric and determinant operations). The new construction in 0.4 is descent of an
   associated coefficient along a group torsor, not a second vector-bundle carrier.
 - **ReductiveGroups.** Layer 3 (normal subgroup quotients and their representability), Layer 7
   (parabolics, Levis and the dynamic route). ShimuraData §4.9 supplies the central quotient used
-  in B0.1; its §3.7 supplies the filtration parabolic used in B0.3's opposite-coefficient adapter.
+  in 0.1; its §3.7 supplies the filtration parabolic used in 0.3's opposite-coefficient adapter.
 
 - **ModularForms.** Layer 10C (the automorphy sheaf on the coarse curve `X(Γ)`) and Layer 2
-  (`heckeRingHomCharSpace` and the arithmetic normalization of `T_n`): the analytic side of B4.10
-  and B5.13.
+  (`heckeRingHomCharSpace` and the arithmetic normalization of `T_n`): the analytic side of 11.10
+  and 12.14.
 - **RepresentationTheory/ClassicalGroups.** Layer 2 (`schurFunctor`) and Layer 3 (`DominantWeight`,
-  the theorem of the highest weight for `GLₙ`): complex Schur coefficients of B4.16 and the
-  highest-weight labels of B2.3. The rational, nonsplit and integral forms needed for Levi
-  coefficients are additional and are specified in B2.3 and B3.10.
+  the theorem of the highest weight for `GLₙ`): complex Schur coefficients of 11.16 and the
+  highest-weight labels of 3.3. The rational, nonsplit and integral forms needed for Levi
+  coefficients are additional and are specified in 3.3 and 5.10.
 - **ReductiveGroupsPartII.** RG2.0a.3 (*deligne-torus*, the cocharacter `μ : z ↦ (z, 1)`): the
   convention for `μ_h`.
-- **AdelicAlgebraicGroups.** §4.3 (`Neat.IsNeatLevel`), §4.5 (*Hecke correspondences*,
-  `LevelMaps.hecke`; *Degree of a Hecke correspondence*; *Cartesian squares of level maps*, which
-  needs `U′L = U`): the group-theoretic part of the Hecke targets of Layer B5.
+- **AdelicAlgebraicGroups.** §4.3 (`Neat.IsNeatLevel`), §4.5 (*Hecke correspondences*;
+  *Degree of a Hecke correspondence*; *Cartesian squares of level maps*, which
+  needs `U′L = U`): the group-theoretic part of the Hecke targets of Layer 12.
 
 ### From other roadmaps
 
 | Roadmap and layer | Used for |
 |---|---|
 | SchemeAndStackFoundations §§1.1, 1.15–1.16, 1.22–1.23, 2.6, 2.18, 4.8–4.9 | torsors and geometric contracted products, fpqc descent, coherent sheaves on stacks, coarse spaces, formal functions and Stein factorization |
-| AlgebraicModuliForArithmeticGeometry §3.1 (`fpqcQuasicoherentDescent`), §5.3 (`ArithmeticModuli.tame_finite_flat_descent`, for finite algebras) | fpqc descent of coefficients and tame descent of finite algebras |
+| AlgebraicModuliForArithmeticGeometry §3.1 (`affineFpqcQuasicoherentDescent`, `spaceFpqcQuasicoherentDescent`), §5.3 (`ArithmeticModuli.tame_finite_flat_descent`, for finite algebras) | fpqc descent of coefficients and tame descent of finite algebras |
 | AdicSpacesPartIII F0 (`FormalScheme.completion`, `FormalScheme.completion.map`, completion of coherent sheaves, sections near a closed subset after EGA I (10.8.11)) | formal boundary charts |
-| ComplexComparisonPartII C0 (`CoherentAnalytification`, `coherentPullbackOperations`), C2 (`projectiveGeometricDictionaries`) | analytification and projective GAGA |
+| ComplexComparisonPartII C0 (`CoherentAnalytification`, `coherentPullbackOperations`), Layer 2 (`projectiveGeometricDictionaries`) | analytification and projective GAGA |
 | AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR`, `AbelianTate`, `exteriorCohomology`) | relative `H¹_dR`, Hodge sequence, Gauss–Manin, Tate modules |
-| ShimuraData Layer 3 (*compact-dual*, *filtration-parabolic*, *borel-embedding*, *homogeneous-variation*, *reflex-flag-descent*), §§4.2–4.3, 4.9 | filtration parabolic with its sign and Levi, compact duals, homogeneous variations, additional centre hypotheses and the shared `Z_s`, `Gᶜ` quotient |
+| ShimuraData §§3.1–3.6 (variations of Hodge structure), §§3.7–3.9 (parabolic of the Hodge filtration, compact dual, compact dual over the reflex field), §§4.2–4.3, 4.9 | filtration parabolic with its sign and Levi, compact duals and their reflex-field descent, rational variations, additional centre hypotheses and the shared `Z_s`, `Gᶜ` quotient |
 | AlgebraicModularFormsAndSerreWeights R15.1 (*Geometric modular forms*, *All-weight analytic comparison*), R15.2 (*The q-expansion principle*, *Integral geometric Hecke operators*, *The equivariant cuspidal sequence*) | the `GL₂` specialization |
-| ShimuraVarieties Layers 1–2, 4–8, §8.22 | towers, minimal compactification, CM reciprocity, canonical models, conjugation |
-| PELModuli M0, M3, M5 | PEL data, universal families, Siegel and `GU(1,1)` examples |
-| HilbertModularVarietiesAndShimuraCurves H0–H4 | Hilbert data, Deligne–Pappas families, polarization/unit quotients and central kernels; H5.3 `hodgeSplittingDescent` and H5.4 `algebraicWeightsUnits` supply characteristic-zero coefficients and descent |
+| ShimuraVarieties §P.3, Layers 1–2, 4–8, §8.22 | the Borel embedding into a representation's flag variety and homogeneous variations; towers, minimal compactification, CM reciprocity, canonical models, conjugation |
+| PELModuli M0, M1.7, M5 | PEL data, the moduli problem `M_H` with its universal family, the Siegel moduli `A_{g,D,n}` (M5.2) and the `GU(1,1)` example |
+| HilbertModularVarietiesAndShimuraCurves H0–H4 | Hilbert data, Deligne–Pappas families, polarization/unit quotients and central kernels; H5.3 (Hilbert Hodge splitting and descent) and H5.4 (algebraic Hilbert weights and central units) supply characteristic-zero coefficients and descent |
 
 ### From the logarithmic, perfectoid and derived suppliers
 
 | Roadmap and section | Exact input |
 |---|---|
-| PerfectoidSpaces Layers P0–P4, §§P6.8, P7.11–P7.12, P7.16 | Almost modules, perfectoid root algebras, tilting, almost purity (§§P3.11–P3.13), profinite products, represented tilde-limits and their gluing, and the pro-étale site. These supply the local algebras and sites; B3.log constructs their horizontal logarithmic extensions. |
-| PerfectoidTowers §§P8.14, P8.21 | Zariski-closed embeddings and the perfectoid closed-limit construction for compatible closed loci in a tower. B3.HT.6 supplies the strictly compatible Hodge-type toroidal embeddings to which this applies. |
-| AdicEtaleGeometry §§A1.2–A1.7, A1.12 | Finite étale chart algebras, stability, étale sites, points and descent, and the pro-étale site. B3.log uses these in the pro-Kummer construction over the shared Kummer-étale site. |
-| PrismaticCohomologyPartIV §8.60 | `TauCeti.LogAdic.LogStructure`, `logification`, `logPullback`, `IntegralChart`, `KummerEtaleSite`, and `NoetherianFsLogAdicSpace.kummerSite`, `.kummerTopology`, `.LocalSystem`, `.trivialLogSite`; the shared locally noetherian fs carriers specialized in B3.log.1. |
+| PerfectoidSpaces Layers P0–P4, §§P6.8, P7.11–P7.12, P7.16 | Almost modules, perfectoid root algebras, tilting, almost purity (§§P3.11–P3.13), profinite products, represented tilde-limits and their gluing, and the pro-étale site. These supply the local algebras and sites; Layer 8 constructs their horizontal logarithmic extensions. |
+| PerfectoidTowers §§P8.14, P8.21 | Zariski-closed embeddings and the perfectoid closed-limit construction for compatible closed loci in a tower. 10.6 supplies the strictly compatible Hodge-type toroidal embeddings to which this applies. |
+| AdicEtaleGeometry §§A1.2–A1.7, A1.12 | Finite étale chart algebras, stability, étale sites, points and descent, and the pro-étale site. Layer 8 uses these in the pro-Kummer construction over the shared Kummer-étale site. |
+| PrismaticCohomologyPartIV §8.60 | `TauCeti.LogAdic.LogStructure`, `logification`, `logPullback`, `IntegralChart`, `KummerEtaleSite`, and `NoetherianFsLogAdicSpace.kummerSite`, `.kummerTopology`, `.LocalSystem`, `.trivialLogSite`; the shared locally noetherian fs carriers specialized in 8.1. |
 | AdicSpacesPartII Layer R0; AdicSpacesPartIII Layers F0, R2 | Analytic morphisms and charts; formal completions of locally Noetherian schemes, coherent formal modules and sections near a closed subset; admissible blow-ups and generic fibres. Formal completion uses `FormalScheme.completion` and its map API, compatible with SchemeAndStackFoundations §4.8. |
-| PadicHodgeTheory §§0.1, 2.1–2.4, 2.7, 7.1–7.3 | Tate–Sen descent from PadicPeriodRings §§1.1–1.5, 2; completed structure and period sheaves on perfectoids and profinite products; filtered Poincaré and Faltings; finite-coefficient primitive comparison and finiteness; filtered connections, relative de Rham pairs and the relative Hodge–Tate filtration. The proper and smooth hypotheses are retained. B3.log constructs the horizontal-boundary and supported variants. |
-| FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.19, R07.2.21, R07.6.6 | The rational Hodge–Tate sequence, the `BT₁` Hasse invariant, and `illusieObstructionHomomorphisms` with its co-Lie cone, square-zero lifting criterion and functoriality. CohomologyComparisons §6.2 supplies the shared cyclotomic-base abelian-family small-Hasse subgroup and quotient package; B3.HT.1 applies it to Siegel families. |
+| PadicHodgeTheory §§0.1, 2.1–2.4, 2.7, 7.1–7.3 | Tate–Sen descent from PadicPeriodRings §§1.1–1.5, 2; completed structure and period sheaves on perfectoids and profinite products; filtered Poincaré and Faltings; finite-coefficient primitive comparison and finiteness; filtered connections, relative de Rham pairs and the relative Hodge–Tate filtration. The proper and smooth hypotheses are retained. Layer 8 constructs the horizontal-boundary and supported variants. |
+| FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.19, R07.2.21, R07.6.6 | The rational Hodge–Tate sequence, the `BT₁` Hasse invariant, and `illusieObstructionHomomorphisms` with its co-Lie cone, square-zero lifting criterion and functoriality. CohomologyComparisons §6.2 supplies the shared cyclotomic-base abelian-family small-Hasse subgroup and quotient package; 10.1 applies it to Siegel families. |
 | DerivedModuleAlgebra §§0.4, 0.8 | The full cotangent complex and transitivity triangle used by the co-Lie obstruction argument. |
-| DerivedDeRhamCohomology §§1.14–1.22 | Filtered derived categories, filtered completion, completed tensors, and the stated valid exchanges with derived operations. This is the filtered categorical infrastructure of B3.log and B3.BGG. |
+| DerivedDeRhamCohomology §§1.14–1.22 | Filtered derived categories, filtered completion, completed tensors, and the stated valid exchanges with derived operations. This is the filtered categorical infrastructure of Layers 8 and 9. |
 | EnhancedDerivedSheaves §§0.1–0.4, E1.1–E1.4, E1.8, E2:towers.1, E3.1–E3.4 | Enhanced ringed-site operations, extension by zero, quasi-coherent descent, derived inverse limits, coherent diagrams and colimits. Limits are taken in the enhancement. |
-| ClassicalAdicEtaleCohomology §8.2 | Proper algebraic/analytic finite-coefficient comparison on the normalized finite covers in B3.log, before derived inverse limits and rationalization. |
+| ClassicalAdicEtaleCohomology §8.2 | Proper algebraic/analytic finite-coefficient comparison on the normalized finite covers in Layer 8, before derived inverse limits and rationalization. |
 | AdicCoefficientsAndComparisons Layer L0 | Integral coefficient systems, rationalization and completed coefficient operations. |
-| EtaleCohomologyFoundations §§0.7, F.2.3, F.5; EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 | Localization and proper supports, the exceptional adjoint, finite-coefficient traces and duality, and the compatible recollement. B3.log.5 constructs the supported logarithmic period comparison and its compatibility with these maps. |
-| CohomologyComparisons §§6.1–6.2 | §6.1 supplies the one-boundary-variable modular-curve logarithmic period calculation, used as the compatibility specialization of B3.log, with no higher-dimensional logarithmic site. §6.2 supplies `smallHasseCanonicalSubgroups` for abelian families of arbitrary dimension, with weak/strong bounds, uniqueness, the point criterion, base change, functoriality, strong quotient identities and polarization compatibility, used by B3.HT.1. |
-| RepresentationTheory/LieHighestWeight Layers 2–7 | Highest weights, PBW and universal enveloping algebras, Verma modules and central characters. ArithmeticLocallySymmetricSpaces ALS.F.5 and ALS.4.5 supply the Chevalley–Eilenberg complex and `LocallySymmetric.kostant_splittingField`; B3.BGG specializes its weights and constructs the relative resolution. |
+| EtaleCohomologyFoundations §§0.7, F.2.3, F.5; EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 | Localization and proper supports, the exceptional adjoint, finite-coefficient traces and duality, and the compatible recollement. 8.5 constructs the supported logarithmic period comparison and its compatibility with these maps. |
+| CohomologyComparisons §§6.1–6.2 | §6.1 supplies the one-boundary-variable modular-curve logarithmic period calculation, used as the compatibility specialization of Layer 8, with no higher-dimensional logarithmic site. §6.2 supplies `smallHasseCanonicalSubgroups` for abelian families of arbitrary dimension, with weak/strong bounds, uniqueness, the point criterion, base change, functoriality, strong quotient identities and polarization compatibility, used by 10.1. |
+| RepresentationTheory/LieHighestWeight Layers 2–7 | Highest weights, PBW and universal enveloping algebras, Verma modules and central characters. ArithmeticLocallySymmetricSpaces ALS.F.5 and ALS.4.5 supply the Chevalley–Eilenberg complex and `LocallySymmetric.kostant_splittingField`; Layer 9 specializes its weights and constructs the relative resolution. |
 
 - **ShimuraVarieties §7.0i** (`TauCeti.Shimura.abelian_absolute_hodge`) supplies Deligne's
   theorem and its horizontal abelian-family form, with Betti, de Rham, étale and Tate transport.
-  B1.2 applies it to the defining tensor family; B1.3 adds canonical-reflex-field descent.
+  1.2 applies it to the defining tensor family; 1.3 adds canonical-reflex-field descent.
 - **AlgebraicModularFormsAndSerreWeights R15.1**, *Integral elliptic logarithmic de Rham
   extension*, supplies the integral rank-two elliptic bundle, Hodge sequence, connection and
-  Tate lattice. B3.7 compares its elliptic specialization with this input.
+  Tate lattice. 5.7 compares its elliptic specialization with this input.
 
 ### From the bundle partner ShimuraCompactifications
 
-The geometric inputs are C0.15 `ArithmeticFan.exists_smoothProjective_refinement` with its
-invariant integral piecewise-linear polarization, C0.8 `TauCeti.Toric.Relative.torusEmbedding`, C0.11
-`TauCeti.Toric.Relative.stratumQuotientIso`, C0.9 `TauCeti.Toric.Relative.faceOpenImmersion`;
-C1.4 `CuspLabel`, C1.5 `CuspLabel.arithmeticStabilizer`; C2.3 `ToroidalSpace`, C2.6
-`ToroidalSpace.smooth_normalCrossings`, C2.7 `ToroidalSpace.algebraization`, C2.8
-`ToroidalSpace.toMinimal`, C2.general.1 `ToroidalCanonicalModel.general`; C3.1
-`ToroidalRefinement`, C3.3 `ToroidalHeckeSpan`, C3.4 `ToroidalRefinement.choice_comparison`,
-C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`, C3.9 `ToroidalRefinement.cohomology_iso`,
-C3.general.1 `ToroidalCanonicalModel.general_functorial`; C4.1 `SemiAbelianScheme`, C4.7
-`UniversalDegeneration`, C4.12 `MumfordDegeneration.tate_compare`; C5.3 `IntegralToroidalModel`,
-C5.4 `IntegralToroidalModel.formalCompletion`, C5.10
-`IntegralToroidalModel.strata_detect_geometricComponents`, C5.11
-`IntegralToroidalModel.nonneat_descent`, C5.12 `IntegralToroidalModel.logKodairaSpencer`,
-C5.13 `IntegralToroidalModel.hodgeLine_semiample`, C5.14
-`IntegralToroidalModel.hodgeSectionAlgebra_fg`, C5.17 `IntegralMinimalModel.hodgeLine_ample`;
-C6.13 `HilbertCusp.Data`, C6.21 `HilbertModular.toroidal_exists`, C6.23
-`HilbertModular.boundary_formal`, C6.36 `HilbertModular.minimal_formal`, and C6.40
-`HilbertModular.qExpansion_injective`, on C6's stated tame-level range.
+The geometric inputs are §0.15 `ArithmeticFan.exists_smoothProjective_refinement` with its
+invariant integral piecewise-linear polarization, §0.8 `TauCeti.Toric.Relative.torusEmbedding`, §0.11
+`TauCeti.Toric.Relative.stratumQuotientIso`, §0.9 `TauCeti.Toric.Relative.faceOpenImmersion`;
+§1.4 `CuspLabel`, §1.5 `CuspLabel.arithmeticStabilizer`; §2.3 `ToroidalSpace`, §2.6
+`ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`, §2.8
+`ToroidalSpace.toMinimal`, §3.1 `ToroidalCanonicalModel.general`; §4.1
+`ToroidalRefinement`, §4.3 `ToroidalHeckeSpan`, §4.4 `ToroidalRefinement.choice_comparison`,
+§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`, §4.10 `ToroidalRefinement.cohomology_iso`,
+§5.1 `ToroidalCanonicalModel.general_functorial`; §6.1 `SemiAbelianScheme`, §6.7
+`UniversalDegeneration`, §6.12 `MumfordDegeneration.tate_compare`; §7.3 `IntegralToroidalModel`,
+§7.4 `IntegralToroidalModel.formalCompletion`, §7.10
+`IntegralToroidalModel.strata_detect_geometricComponents`, §7.11
+`IntegralToroidalModel.nonneat_descent`, §7.12 `IntegralToroidalModel.logKodairaSpencer`,
+§7.13 `IntegralToroidalModel.hodgeLine_semiample`, §7.14
+`IntegralToroidalModel.hodgeSectionAlgebra_fg`, §7.17 `IntegralMinimalModel.hodgeLine_ample`;
+§8.14 (cusp data and the trace pairing), §8.23 `HilbertModular.toroidal_exists`, §8.25
+`HilbertModular.boundary_formal`, §8.38 `HilbertModular.minimal_formal`, and §8.42
+`HilbertModular.qExpansion_injective`, on its Layer 8's stated tame-level range.
 
-C5.21 `IntegralToroidalModel.formallyCanonical` supplies the geometric criterion;
-B3.10 proves it for its additional general Levi coefficients. C3.9 applies to every
+ShimuraCompactifications §7.21 `IntegralToroidalModel.formallyCanonical` supplies the geometric criterion;
+5.10 proves it for its additional general Levi coefficients. Its §4.10 applies to every
 finite-rank locally free `E` with `E′=f^*E`; over its field or Dedekind good base it
-also allows arbitrary coefficient modules. B3.5 identifies the canonical extensions
-with this pullback when C3.9 is applied here. Formal canonicity is the separate
-C5.21 boundary property verified in B3.10.
-C3.general.1 supplies descended geometric maps; B3.general.1a supplies their
+also allows arbitrary coefficient modules. 5.5 identifies the canonical extensions
+with this pullback when §4.10 is applied here. Formal canonicity is the separate
+§7.21 boundary property verified in 5.10.
+ShimuraCompactifications §5.1 supplies descended geometric maps; 6.2 supplies their
 mixed-boundary coefficient comparison.
 
-C5.15 `HodgeLineFJ` places `M` after `p_*Ψ_Φ(ℓ)` on the lower boundary base.
-B5.1a `ScalarFourierJacobi.expansion` instead constructs the degree module
-`Γ(C_Φ, Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)` directly on the abelian torsor. Its comparison
-with C5.15 requires a proved coefficient base-change isomorphism; no such
-isomorphism for nonflat `M` is assumed from C5.15.
+§7.15 `HodgeLineFJ` is the scalar Fourier–Jacobi expansion, valued in the base-level
+modules `Γ(M^Z, p_*Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)`. 12.2 constructs the comparison of these
+modules with the torsor-level modules `Γ(C_Φ, Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)`, proves it bijective
+for flat `M` and under a local-freeness condition on the higher direct images of
+`Ψ_Φ(ℓ)`, and reads the coefficients of `HodgeLineFJ` on the torsor through it; no
+base-change isomorphism beyond those two cases is assumed from §7.15.
 
 ### Boundary and comparison suppliers used by the end theorems
 
 | End targets | Construction in this roadmap | Lower-tier or bundle input |
 |---|---|---|
-| B4.15, B5.16–B5.19 (ramified Hilbert) | B3.Hilbert.0–4: open splitting model, cusp classification, ordinary gluing, coefficient lines, completed descent and fibrewise cusp detection | HilbertModularVarietiesAndShimuraCurves H1–H3; ShimuraCompactifications C0–C5's generic toric and degeneration machinery |
-| B4.21, B5.20 | B3.HT.1–8: rational tower, period Levi torsor and finite-algebraic function/coefficient descent | CohomologyComparisons §6.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1/R07.2/R07.6; PerfectoidSpaces; PadicHodgeTheory §§2.1–2.4, 7.1–7.3; the partner's finite-level models |
-| B5.21 | B3.log.1–4 and B3.BGG.1–3: local system, ordinary log comparison, relative and geometric dual BGG, degeneration | lower-tier étale, local period, filtered-derived, LieHighestWeight and log Kodaira–Spencer inputs |
-| B5.22 | B3.log.5 and B3.BGG.2–3: supported period kernels, compact comparison, `−D` dual BGG and duality | EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 and the preceding local/ordinary constructions |
+| 11.15, 12.17–12.20 (ramified Hilbert) | 7.1–7.6: open splitting model, cusp classification, ordinary gluing, coefficient lines, completed descent and fibrewise cusp detection | HilbertModularVarietiesAndShimuraCurves H1–H3; ShimuraCompactifications Layers 0–7's generic toric and degeneration machinery |
+| 11.21, 12.21 | 10.1–10.8: rational tower, period Levi torsor and finite-algebraic function/coefficient descent | CohomologyComparisons §6.2; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1/R07.2/R07.6; PerfectoidSpaces; PadicHodgeTheory §§2.1–2.4, 7.1–7.3; the partner's finite-level models |
+| 12.22 | 8.1–8.4 and 9.1–9.3: local system, ordinary log comparison, relative and geometric dual BGG, degeneration | lower-tier étale, local period, filtered-derived, LieHighestWeight and log Kodaira–Spencer inputs |
+| 12.23 | 8.5 and 9.2–9.3: supported period kernels, compact comparison, `−D` dual BGG and duality | EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 and the preceding local/ordinary constructions |
 
-B3.log extends the smooth pro-étale period theory to horizontal boundary
+Layer 8 extends the smooth pro-étale period theory to horizontal boundary
 charts of arbitrary dimension; the modular-curve specialization in
 CohomologyComparisons §6.1 supplies the compatible one-variable calculation.
 It does not supply the higher-dimensional site or support construction.
-B3.BGG specializes ArithmeticLocallySymmetricSpaces ALS.4.5
-and adds the relative-resolution calculation beyond LieHighestWeight's Verma/PBW theory. B3.HT uses only the rational
+Layer 9 specializes ArithmeticLocallySymmetricSpaces ALS.4.5
+and adds the relative-resolution calculation beyond LieHighestWeight's Verma/PBW theory. Layer 10 uses only the rational
 local period theory from lower roadmaps and these horizontal local results.
 The finite-level cohomology decompositions use no completed-cohomology or
-perfectoid-tower theorem. The construction order within B3.HT reads the
-independent `qcqsSectionsColimit` (B4.19) and finite locally free trace
-(B5.1) before their uses; neither depends on any comparison target.
+perfectoid-tower theorem. The construction order within Layer 10 reads the
+independent `qcqsSectionsColimit` (11.19) and coefficient trace
+(12.1) before their uses; neither depends on any comparison target.
 
 ## How to read the build
 
 `README.md` is normative; `Suggested.lean` states headline theorems whose objects exist in the
 pinned Mathlib and Tau Ceti or admit short definitions on their native carriers. It contains
-`finiteTensorStabilizer` (B1.1), with `mixedTensorBaseChange` and `mixedTensorAction` to express its
+`finiteTensorStabilizer` (1.1), with `mixedTensorBaseChange` and `mixedTensorAction` to express its
 mixed tensors over coefficient algebras. Its module docstring identifies the missing objects for
 the geometric headline statements. Every target ends with a *Lean:* line naming its declarations
-in that file, or reading *Lean:* none when it is specified here only. API names and Check labels
-specify the intended library and its mathematical tests; they do not require Lean declarations in
-that file. In *Needs* clauses `B3.2` is a subsection of this roadmap and a name in backticks names
-the supplied or proposed declaration. Compactification inputs name the specified subsection and
-declaration of ShimuraCompactifications. The layers are built in order: B0 fixes the coefficient group and associated bundles;
-B1 builds the canonical principal bundle of Hodge and abelian type, B1.general that of general data;
-B2 and B2.general associate vector bundles and realizations to representations; B3 and B3.general
-extend them across the toroidal boundary. B3.Hilbert constructs the ramified cusp coefficients;
-B3.log and B3.BGG construct the finite-level log/BGG comparisons; B3.HT constructs the rational
-period tower and algebraic descent. B4 defines classical and cuspidal forms and fixes the
-explicit weight conventions; B5 equips them with Hecke operators, expansions and the Siegel
+in that file, or reading *Lean:* none when it is specified here only. API names
+specify the intended library; they do not require Lean declarations in that file, and Checks are
+prose tests that name no Lean counterpart. In *Needs* clauses a bare number such as 5.3 is a
+subsection of this roadmap, a number with a section sign is a section of the supplier named with it,
+and a name in backticks names the supplied or proposed declaration. Compactification inputs name the specified subsection and
+declaration of ShimuraCompactifications. The layers are built in order: Layer 0 fixes the coefficient group and associated bundles;
+Layer 1 builds the canonical principal bundle of Hodge and abelian type, Layer 2 that of general data;
+Layers 3 and 4 associate vector bundles and realizations to representations; Layers 5 and 6
+extend them across the toroidal boundary. Layer 7 constructs the ramified cusp coefficients;
+Layers 8 and 9 construct the finite-level log/BGG comparisons; Layer 10 constructs the rational
+period tower and algebraic descent. Layer 11 defines classical and cuspidal forms and fixes the
+explicit weight conventions; Layer 12 equips them with Hecke operators, expansions and the Siegel
 Hodge–Tate comparison.
 
-## Layer B0: coefficients, associated bundles and descent
+## Layer 0: coefficients, associated bundles and descent
 
 This layer uses the shared coefficient group and filtration parabolic, fixes their coefficient
-adapters and constructs algebraic and analytic descent. Associated bundles of torsors are constructed once, by fpqc descent (B0.4),
+adapters and constructs algebraic and analytic descent. Associated bundles of torsors are constructed once, by fpqc descent (0.4),
 and every later coefficient is an instance. The compact dual, its reflex flag and Borel embedding
 come from ShimuraData Layer 3 and the analytic tower from ShimuraVarieties Layer 1. The central and
 coefficient-field checks belong to the construction, before any weight is chosen.
 
-### B0.1 The coefficient quotient Gᶜ
+### 0.1 The coefficient quotient Gᶜ
 
 Construct `centralSplitQuotient`, the representation-factorization adapter for the algebraic
 quotient `Gᶜ = G/Z_s` supplied by ShimuraData §4.9. Use that same quotient morphism and kernel,
@@ -435,20 +447,20 @@ of tori, centre and central isogenies).
 
 **Checks.**
 
-- `centralSplitQuotient_test_gl2` (computation): For `G=GL2/Q`, ranks of its centre over Q and R
+- (computation) For `G=GL2/Q`, ranks of its centre over Q and R
   agree, so `Z_s=1` and `Gᶜ=G`.
-- `centralSplitQuotient_test_hilbert` (non-example): For `G=Res(F/Q)GL2` with `[F:Q]>1` totally real,
+- (non-example) For `G=Res(F/Q)GL2` with `[F:Q]>1` totally real,
   `Z_s` has dimension `[F:Q]−1`; replacing `Gᶜ` by G without a central condition admits forbidden
   coefficients.
-- `centralSplitQuotient_test_trivial` (degenerate): The trivial representation factors through `Gᶜ`
+- (degenerate) The trivial representation factors through `Gᶜ`
   and stays trivial.
 - For `F=ℚ(∛2)` and `T=Res¹_{F/ℚ}G_m` with trivial `h`, the rational character module is the
   irreducible two-dimensional standard `S₃`-module. Thus `Z_s(T)=1`, while
   `T_ℝ≃Res_{ℂ/ℝ}G_m` has real split rank one and rational split rank zero. Lan's rank-removal
   torus is all of `T`. The norm-one unit `∛2−1` has infinite order and survives Milne's quotient;
-  fibre-triviality in B0.2 remains a separate condition.
+  fibre-triviality in 0.2 remains a separate condition.
 
-### B0.2 Ineffective stabilizers and coefficient descent
+### 0.2 Ineffective stabilizers and coefficient descent
 
 Prove `ineffectiveFibreDescent`. Separate the arithmetic group from its effective action on the
 Hermitian domain. Check the action of its ineffective central kernel on every coefficient fibre
@@ -463,7 +475,7 @@ SchemeAndStackFoundations §1.23, with characteristic-zero averaging.
 
 *Source:* [Milne90], III §8, pp.63–64.
 
-*Needs:* B0.1 (`centralSplitQuotient`); AlgebraicModuliForArithmeticGeometry §5.3
+*Needs:* 0.1 (`centralSplitQuotient`); AlgebraicModuliForArithmeticGeometry §5.3
 `ArithmeticModuli.tame_finite_flat_descent` (finite-algebra descent); SchemeAndStackFoundations Layer 1
 (§1.23).
 *Lean:* none; specified in the README only.
@@ -477,7 +489,7 @@ SchemeAndStackFoundations §1.23, with characteristic-zero averaging.
 
 - At a stack point with stabilizer `μ₂` in characteristic zero, its sign line has no locally free coarse descent; its square has trivial stabilizer character and does descend.
 
-### B0.3 Hodge and opposite parabolic conventions
+### 0.3 Hodge and opposite parabolic conventions
 
 Construct `hodgeParabolicConvention`. Fix `μ_h(z)=h_ℂ(z,1)` acting by `z^(−p)` on `H^{p,q}`, with
 `F^a=⊕_{p≥a}H^{p,q}`. Use ShimuraData §3.7's `filtrationParabolic`, its representation independence,
@@ -492,10 +504,11 @@ on commutative algebras; they assert inversion and intersection, not representab
 structure on an arbitrary Hopf algebra.
 
 *Source:* [CS], §2.3, pp.669–671; [BCGP], §3.2.13–3.2.16, p.44; §4.8 before Remark 4.8.1, p.101;
-[ConradLuminy], Theorem 4.1.7 and its proof, pp.112–113 (the dynamic subgroups `P_G(λ)`,
-`Z_G(λ) = P_G(λ) ∩ P_G(−λ)` for an affine group over a ring).
+[ConradLuminy], Theorem 4.1.7, pp.112–113 (the dynamic subgroups `P_G(λ)`, `U_G(λ)` and `Z_G(λ)`
+of an affine group over a ring), and the proof of its part (1), p.113, where
+`Z_G(λ) = P_G(λ) ∩ P_G(−λ)` is stated.
 
-*Needs:* ShimuraData Layer 3 (*filtration-parabolic*, *compact-dual*); Tau Ceti
+*Needs:* ShimuraData §§3.7–3.9 (parabolic of the Hodge filtration and compact dual); Tau Ceti
 `TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.levi`, `TauCeti.Cocharacter.unipotent`;
 Mathlib `AddMonoidAlgebra.mapDomainBialgHom`; TauCetiRoadmap.ReductiveGroups Layers 7–8;
 TauCetiRoadmap.ReductiveGroupsPartII RG2.0a.3
@@ -506,18 +519,18 @@ TauCetiRoadmap.ReductiveGroupsPartII RG2.0a.3
 
 - For GL2 homology type `(−1,0),(0,−1)`, the stabilizer preserves `F⁰`, whereas the opposite stabilizes
   the complementary line.
-- `hodgeParabolic_test_levi` (compatibility): the Levi `Z_G(μ)` is contained in `P(μ⁻¹)`, since a
+- (compatibility) the Levi `Z_G(μ)` is contained in `P(μ⁻¹)`, since a
   cocharacter and its inverse centralize the same points.
-- `hodgeTateParabolic_test_levi` (compatibility): the same Levi is contained in `P(μ)`; together
+- (compatibility) the same Levi is contained in `P(μ)`; together
   with `hodgeParabolic_inf_hodgeTateParabolic` this pins the two parabolics as opposite.
-- `hodgeParabolic_test_gl2` (computation): for `GL₂` with `μ(z) = diag(z, 1)` acting on
+- (computation) for `GL₂` with `μ(z) = diag(z, 1)` acting on
   `H^{−1,0} ⊕ H^{0,−1}`, conjugation by `μ(t)` multiplies the lower-left entry by `t⁻¹`; so `P(μ)`
   is the upper-triangular Borel and `P(μ⁻¹)` the lower-triangular one. A convention that takes
   `P(μ)` as the stabilizer of the Hodge filtration picks the wrong Borel. The nonidentity lower
   shear belongs to `hodgeParabolic` and not `hodgeTateParabolic`; the upper shear has the opposite
   memberships, on Hopf-coordinate `GL₂(ℚ)` points.
 
-### B0.4 The linear associated-coefficient functor
+### 0.4 The linear associated-coefficient functor
 
 Construct `associatedCoefficient`, the quasi-coherent module realization of the geometric
 contracted product supplied by SchemeAndStackFoundations §1.16. Let `S₀` be a scheme, `G` a flat affine group scheme over `S₀` with
@@ -552,24 +565,24 @@ The API:
 - `associatedCoefficient_rank`: `P ×^G V` is locally free of rank `rk V`.
 
 *Needs:* SchemeAndStackFoundations Layer 1 (§1.15 (`Groups.IsTorsor`), §1.1);
-AlgebraicModuliForArithmeticGeometry §3.1 `fpqcQuasicoherentDescent`; Tau Ceti
+AlgebraicModuliForArithmeticGeometry §3.1 (`spaceFpqcQuasicoherentDescent`); Tau Ceti
 `TauCeti.CommHopfAlgCat.isPullback_fppfQuotientTorsor`.
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `associatedCoefficient_test_unit` (degenerate): the trivial one-dimensional representation gives
+- (degenerate) the trivial one-dimensional representation gives
   `O_S`.
-- `associatedCoefficient_test_line` (computation): for `G = 𝔾_m`, `P = Isom(O_S, 𝓛)` the frame torsor of
+- (computation) for `G = 𝔾_m`, `P = Isom(O_S, 𝓛)` the frame torsor of
   a line bundle `𝓛` with `η·g = η ∘ g`, and the character `χ(g) = g`, the map `[η, v] ↦ η(v)`
   identifies `P ×^G χ` with `𝓛`, and `χ⁻¹` gives `𝓛^∨`. A construction with `(t, v) ∼ (tg, ρ(g) v)`
   exchanges the two answers.
-- `associatedCoefficient_test_point` (compatibility): over `S = Spec k` with the trivial torsor,
+- (compatibility) over `S = Spec k` with the trivial torsor,
   `P ×^G V` is the underlying vector space of `V`; for the nontrivial line bundle `𝓛 = O(1)` on `ℙ¹`
   the weight-one and weight-zero characters, which have the same underlying space, give `O(1)` and
   `O`, so the bundle depends on `ρ` and not only on `V`.
 
-### B0.5 Equivariant coefficients on the compact dual
+### 0.5 Equivariant coefficients on the compact dual
 
 Construct `compactDualCoefficient`. Over the actual coefficient field L, let V be a
 finite-dimensional algebraic representation of `P_Hᶜ`. Define its `Gᶜ`-equivariant bundle on the compact
@@ -595,24 +608,24 @@ The API:
   map of v∘u is the composite of the induced map of v with the induced map of u; all datum, level,
   field and model hypotheses remain fixed.
 
-*Needs:* B0.1 (`centralSplitQuotient`); B0.3 (`hodgeParabolicConvention`); ShimuraData Layer 3
-(*reflex-flag-descent*); AlgebraicModuliForArithmeticGeometry §3.1 `fpqcQuasicoherentDescent`; B0.4
+*Needs:* 0.1 (`centralSplitQuotient`); 0.3 (`hodgeParabolicConvention`); ShimuraData §3.9
+(compact dual over the reflex field); AlgebraicModuliForArithmeticGeometry §3.1 (`spaceFpqcQuasicoherentDescent`); 0.4
 (`associatedCoefficient`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `compactDualCoefficient_test_unit` (degenerate): The trivial one-dimensional representation yields
+- (degenerate) The trivial one-dimensional representation yields
   `O_X̌`.
-- `compactDualCoefficient_test_gl2` (compatibility): For `G=GL2/L` and P the stabilizer of `Le₁`, the
+- (compatibility) For `G=GL2/L` and P the stabilizer of `Le₁`, the
   contracted-product bundle for `χ(p)=a` when `pe₁=ae₁` is `O_(P¹)(−1)`, via `[g,v]↦vge₁`; the inverse
   character `χ⁻¹` gives `O_(P¹)(1)`. The cohomological Hodge convention must declare which of these
   characters is used.
-- `compactDualCoefficient_test_unipotent` (non-example): The standard P representation with a
+- (non-example) The standard P representation with a
   nontrivial upper-triangular unipotent action is not isomorphic as P-module to its associated
   graded inflation.
 
-### B0.6 The analytic filtration torsor
+### 0.6 The analytic filtration torsor
 
 Construct `homogeneousHodgeTorsor`. Pull the compact-dual `P_Hᶜ`-torsor back along the actual Borel
 embedding `X→X̌`. Its quotient by the unipotent radical is the torsor of graded Hodge frames. Give the
@@ -630,20 +643,19 @@ The API:
 - `homogeneousHodgeTorsor_pullback_coefficient`: Associating a P coefficient to this torsor is the
   Borel pullback of its compact-dual bundle.
 
-*Needs:* B0.5 (`compactDualCoefficient`); ShimuraData Layer 3 (*borel-embedding*,
-*homogeneous-variation*).
+*Needs:* 0.5 (`compactDualCoefficient`); ShimuraVarieties §P.3 (Borel embedding and homogeneous variation).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `homogeneousHodgeTorsor_test_point` (computation): At the reference point the torsor has its
+- (computation) At the reference point the torsor has its
   reference frame.
-- `homogeneousHodgeTorsor_test_standard` (compatibility): For the symplectic standard representation
+- (compatibility) For the symplectic standard representation
   the associated filtration is the Hodge exact sequence.
-- `homogeneousHodgeTorsor_test_graded` (non-example): Two filtered frames differing by a nonidentity
+- (non-example) Two filtered frames differing by a nonidentity
   unipotent element have the same graded frame, but remain distinct filtered frames.
 
-### B0.7 Analytic arithmetic-quotient coefficients
+### 0.7 Analytic arithmetic-quotient coefficients
 
 Construct `analyticCoefficient`. For the actual arithmetic quotient of X, descend the Borel-pulled
 homogeneous coefficient through the effective group. Require a torsion-free effective action and
@@ -674,20 +686,20 @@ The API:
   of v∘u is the composite of the induced map of v with the induced map of u; all datum, level, field
   and model hypotheses remain fixed.
 
-*Needs:* B0.2 (`ineffectiveFibreDescent`); B0.6 (`homogeneousHodgeTorsor`).
+*Needs:* 0.2 (`ineffectiveFibreDescent`); 0.6 (`homogeneousHodgeTorsor`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `analyticCoefficient_test_trivial` (degenerate): The trivial representation gives the holomorphic
+- (degenerate) The trivial representation gives the holomorphic
   structure sheaf on `Γ_eff\X`.
-- `analyticCoefficient_test_odd` (non-example): The `−1` stabilizer acts by `−1` on an odd-weight GL2
+- (non-example) The `−1` stabilizer acts by `−1` on an odd-weight GL2
   coefficient, so that coefficient does not descend to the coarse quotient unless that stabilizer is
   removed.
-- `analyticCoefficient_test_rank` (characterisation): The local rank equals dim V, independent of
+- (characterisation) The local rank equals dim V, independent of
   the arithmetic component.
 
-### B0.8 Sections as equivariant functions
+### 0.8 Sections as equivariant functions
 
 Prove `sectionsEquivariant`. Identify sections of the associated bundle of a right P-torsor T with
 coefficient-valued functions satisfying `f(tp)=ρ(p)⁻¹f(t)`. In a local frame on a left arithmetic
@@ -697,7 +709,7 @@ frame changes.
 
 *Source:* [HarrisBundles], p.1, equation (1) and its consistency check.
 
-*Needs:* B0.5 (`compactDualCoefficient`); B0.7 (`analyticCoefficient`).
+*Needs:* 0.5 (`compactDualCoefficient`); 0.7 (`analyticCoefficient`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -708,7 +720,7 @@ frame changes.
 
 - On a line-frame torsor the weight-one relation is `f(tu)=u⁻¹f(t)`; changing a frame by `u=2` changes its coordinate by `1/2`, not `2`.
 
-### B0.9 Descent over the coefficient field
+### 0.9 Descent over the coefficient field
 
 Construct `coefficientGaloisDescent`. For a finite Galois splitting extension L/E, descend the
 equivariant coefficient using its actual semilinear transport maps and cocycle. Tensor, dual and
@@ -736,23 +748,23 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* AlgebraicModuliForArithmeticGeometry §3.1 `fpqcQuasicoherentDescent`; B0.5
+*Needs:* AlgebraicModuliForArithmeticGeometry §3.1 (`spaceFpqcQuasicoherentDescent`); 0.5
 (`compactDualCoefficient`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `coefficientGaloisDescent_test_identity` (degenerate): For `L=E` and the identity datum descent
+- (degenerate) For `L=E` and the identity datum descent
   returns J.
-- `coefficientGaloisDescent_test_parallel` (computation): For a real quadratic F split by L/E, the
+- (computation) For a real quadratic F split by L/E, the
   split tensor of the two embedding-labelled Hodge lines with equal exponent r admits the
   factor-swap descent isomorphism; applying the nontrivial permutation twice is identity. Retain the
   actual descent datum of the underlying HB family.
-- `coefficientGaloisDescent_test_nonparallel` (non-example): For a real quadratic F and weight
+- (non-example) For a real quadratic F and weight
   (k1,k2) with `k1≠k2`, the nontrivial embedding permutation does not fix the label; it cannot be
   descended by declaring all `d_σ` identities.
 
-### B0.10 Algebraic and analytic coefficient descent
+### 0.10 Algebraic and analytic coefficient descent
 
 Prove `geometricAnalyticCoefficients`. Compare the analytification of the actual algebraic
 associated coefficient with the holomorphic bundle constructed from the same torsor and
@@ -761,7 +773,7 @@ the named torsor charts; no assertion of coherent GAGA for a nonproper open vari
 
 *Source:* [Milne90], III §3, Lemma 3.1 and Propositions 3.2–3.5, pp.58–59.
 
-*Needs:* B0.9 (`coefficientGaloisDescent`); B0.7 (`analyticCoefficient`); ComplexComparisonPartII C0
+*Needs:* 0.9 (`coefficientGaloisDescent`); 0.7 (`analyticCoefficient`); ComplexComparisonPartII C0
 (`CoherentAnalytification`, `coherentPullbackOperations`).
 *Lean:* none; specified in the README only.
 
@@ -777,12 +789,12 @@ the named torsor charts; no assertion of coherent GAGA for a nonproper open vari
 ### Examples
 
 - For `G = GL₂` over `ℚ` the centres over `ℚ` and `ℝ` have the same split rank, so `Z_s = 1` and
-  `Gᶜ = G`; for `Res_{F/ℚ} GL₂` with `[F : ℚ] = d` totally real, `Z_s` has dimension `d − 1` (B0.1).
+  `Gᶜ = G`; for `Res_{F/ℚ} GL₂` with `[F : ℚ] = d` totally real, `Z_s` has dimension `d − 1` (0.1).
 - On the `GL₂` flag `ℙ¹`, with `P` the stabilizer of `L e₁` and `χ(p) = a` when `p e₁ = a e₁`, the
-  contracted product for `χ` is `O(−1)` and for `χ⁻¹` is `O(1)` (B0.5); the cohomological Hodge
+  contracted product for `χ` is `O(−1)` and for `χ⁻¹` is `O(1)` (0.5); the cohomological Hodge
   convention declares which character is used.
 - The stabilizer `−1` of `SL₂(ℤ)` acts by `(−1)^k` on the weight-`k` coefficient, so odd weights do
-  not descend to the coarse quotient (B0.7).
+  not descend to the coarse quotient (0.7).
 
 ### Dependencies
 
@@ -790,7 +802,7 @@ ShimuraData Layer 3 and §4.9; ShimuraVarieties Layer 1; SchemeAndStackFoundatio
 AlgebraicModuliForArithmeticGeometry §§3.1, 5.3; ComplexComparisonPartII C0; Tau Ceti dynamic
 parabolics and fppf quotients.
 
-## Layer B1: canonical principal bundles of Hodge and abelian type
+## Layer 1: canonical principal bundles of Hodge and abelian type
 
 Begin with the actual Hodge-type universal family and its degree-one comparisons. Finitely many
 tensors specify the group, absolute Hodge theory transports those tensors, and their de Rham frames
@@ -798,12 +810,17 @@ construct the torsor. The filtration reduction, the special-point normalization 
 the symplectic embedding identify its canonical rational model. Connected central-isogeny descent
 supplies the abelian-type extension.
 
-### B1.1 Reductive groups as tensor stabilizers
+### 1.1 Reductive groups as tensor stabilizers
 
 Prove `finiteTensorStabilizer`. For a faithful representation of a reductive group in characteristic
 zero, choose finitely many mixed tensors whose scheme-theoretic pointwise stabilizer is exactly the
 group. Include duals and the stated Tate-coordinate convention. Stabilizing a line up to scalar is a
-weaker condition and does not provide the tensor-preserving frame torsor used here.
+weaker condition and does not provide the tensor-preserving frame torsor used here. The target
+covers reductive groups that need not be connected, as in Deligne's Proposition 3.1(c). The pinned
+predicate `TauCeti.reductiveCommHopfAlgProperty` expresses smoothness, geometric connectedness and
+the absence of nontrivial connected normal smooth unipotent subgroups over an algebraic closure, so
+`finiteTensorStabilizer` in `Suggested.lean` states the connected case; the disconnected case is
+not statable at the pins and is specified here only.
 
 *Source:* [Deligne], §3 Proposition 3.1(a–c), pp.22–23; [CS], §2.3, p.667.
 
@@ -823,25 +840,25 @@ algebra, including nonreduced algebras; this is scheme-theoretic pointwise tenso
 
 - For a nondegenerate form, fixing its line permits similitudes whereas fixing its value excludes a transformation whose multiplier differs from `1`.
 
-### B1.2 Absolute Hodge tensors in abelian families
+### 1.2 Absolute Hodge tensors in abelian families
 
 Construct `absoluteHodgePropagation` by applying ShimuraVarieties §7.0i
 `TauCeti.Shimura.abelian_absolute_hodge`, including its family form. Fix a Hodge-type
 symplectic embedding and a neat level with its universal abelian family over a smooth connected
-complex component. Apply the supplied transport to B1.1's finite
+complex component. Apply the supplied transport to 1.1's finite
 rational defining tensors in the universal abelian family's degree-one realizations, duals
 and Tate lines. Identify the transported tensors with the defining family on each conjugate
 complex fibre. Retain horizontal algebraic de Rham and compatible Betti and étale sections,
-tensor relations, and identity/composition of transport. B1.3 constructs their additional
+tensor relations, and identity/composition of transport. 1.3 constructs their additional
 descent over the canonical reflex field. The abelian absolute-Hodge theorem and its family
 propagation are supplied by §7.0i.
 
 *Source:* [Deligne], Main Theorem 2.11, p.19; Principle B, Theorem 2.12, p.20, and Theorem 2.15,
 p.21; Proposition 6.1, pp.41–42; [CS], §2.3 Lemma 2.3.2, pp.668–669.
 
-*Needs:* B1.1 (`finiteTensorStabilizer`); ShimuraVarieties §7.0i
+*Needs:* 1.1 (`finiteTensorStabilizer`); ShimuraVarieties §7.0i
 (`TauCeti.Shimura.abelian_absolute_hodge`, including its family form), Layer 5
-(the chosen Hodge-type universal family); PELModuli M3 (universal Siegel family);
+(the chosen Hodge-type universal family); PELModuli M1.7 (the moduli problem `M_H` and its universal family), M5.2 (the Siegel moduli `A_{g,D,n}`);
 AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge sequence and Gauss–Manin
 connection, `AbelianTate`, `exteriorCohomology`).
 *Lean:* none; specified in the README only.
@@ -855,7 +872,7 @@ connection, `AbelianTate`, `exteriorCohomology`).
 
 - Parallel transport of the identity endomorphism of relative `H¹` remains the identity in all three realizations; a fibrewise Hodge class without horizontal transport is not covered by the propagation assertion.
 
-### B1.3 Descended Hodge-tensor realizations
+### 1.3 Descended Hodge-tensor realizations
 
 Construct `hodgeTensorRealizations`. For a Hodge-type datum with a chosen symplectic embedding and
 sufficiently small level, let A/S be the universal abelian scheme over the canonical reflex field E.
@@ -875,23 +892,23 @@ The API:
 - `hodgeTensorRealizations_galois`: After base change to Ebar the named tensor sections are fixed by
   Gal(Ebar/E), hence descend to E.
 
-*Needs:* B1.1 (`finiteTensorStabilizer`); B1.2 (`absoluteHodgePropagation`);
+*Needs:* 1.1 (`finiteTensorStabilizer`); 1.2 (`absoluteHodgePropagation`);
 AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge sequence and Gauss–Manin
-connection, `AbelianTate`, `exteriorCohomology`); PELModuli M3 (fine-level universal abelian
+connection, `AbelianTate`, `exteriorCohomology`); PELModuli M1.7 (fine-level universal abelian
 families); ShimuraVarieties Layer 5 (canonical Siegel and PEL models and their universal families);
 ShimuraVarieties Layer 8 (the canonical finite étale tower and Hecke spans over the reflex field).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `hodgeTensorRealizations_test_endomorphism` (compatibility): An algebraic endomorphism of A acts
+- (compatibility) An algebraic endomorphism of A acts
   compatibly in all three degree-one realizations.
-- `hodgeTensorRealizations_test_polarization` (characterisation): The polarization tensor is valued
+- (characterisation) The polarization tensor is valued
   in the specified Tate line; ignoring that line changes GSp to Sp.
-- `hodgeTensorRealizations_test_zero` (degenerate): Adding a zero tensor does not change the
+- (degenerate) Adding a zero tensor does not change the
   simultaneous stabilizer or the descended frame torsor.
 
-### B1.4 The tensor-preserving de Rham frame torsor
+### 1.4 The tensor-preserving de Rham frame torsor
 
 Construct `tensorFrameTorsor`. Define the de Rham frame functor by tensor-preserving isomorphisms
 `η:V⊗O→H_dR`. The right action is `η·g=η∘g`. Prove representability and local nonemptiness from the
@@ -907,21 +924,21 @@ The API:
 - `tensorFrameTorsor_right_action`: `η·g=η∘g`, and `T×G→T×_S T` is an isomorphism.
 - `tensorFrameTorsor_coefficient`: T×^G V identifies with `H_dR` for the chosen faithful coefficient.
 
-*Needs:* B1.1 (`finiteTensorStabilizer`); B1.3 (`hodgeTensorRealizations`); B0.1
+*Needs:* 1.1 (`finiteTensorStabilizer`); 1.3 (`hodgeTensorRealizations`); 0.1
 (`centralSplitQuotient`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `tensorFrameTorsor_test_identity` (computation): For a constant tensor-equipped bundle `V⊗O_S`,
+- (computation) For a constant tensor-equipped bundle `V⊗O_S`,
   identity is a global frame and `T≃G×S`.
-- `tensorFrameTorsor_test_sp` (non-example): For a polarization with a separately varying similitude
+- (non-example) For a polarization with a separately varying similitude
   line, the correct tensor frame group is GSp; fixing the alternating form with no Tate line
   incorrectly yields Sp.
-- `tensorFrameTorsor_test_rank` (characterisation): An isomorphism frame exists only between
+- (characterisation) An isomorphism frame exists only between
   equal-rank modules and must preserve all tensors, not just the polarization.
 
-### B1.5 The filtered frame reduction
+### 1.5 The filtered frame reduction
 
 Construct `filtrationReduction`. Construct the equivariant filtration map from the tensor frame
 torsor to the reflex-field compact dual. Over a field where the reference parabolic is defined,
@@ -939,22 +956,22 @@ The API:
 - `filtrationReduction_levi`: Quotienting the filtered-frame torsor by U identifies frames of `gr_F H`
   individually.
 
-*Needs:* B1.4 (`tensorFrameTorsor`); B0.6 (`homogeneousHodgeTorsor`); ShimuraData Layer 3
-(*reflex-flag-descent*).
+*Needs:* 1.4 (`tensorFrameTorsor`); 0.6 (`homogeneousHodgeTorsor`); ShimuraData §3.9
+(compact dual over the reflex field).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `filtrationReduction_test_siegel` (compatibility): For the standard Siegel family `γ` records the
+- (compatibility) For the standard Siegel family `γ` records the
   Hodge subbundle, with its actual Lagrangian condition.
-- `filtrationReduction_test_zero` (degenerate): For a rank-zero coefficient the induced filtration
+- (degenerate) For a rank-zero coefficient the induced filtration
   is zero, even though the principal datum remains the same.
-- `filtrationReduction_test_no_point` (non-example): For the quaternionic Shimura curve of the
+- (non-example) For the quaternionic Shimura curve of the
   division algebra `B=(−1,3)/Q`, the compact dual is the Severi–Brauer conic of B and has no Q-point;
   the rational `γ:Π→X̌_Q` does not furnish a section Spec `Q→X̌_Q`. B is split over R, while 3 is not a
   norm from Q(i), so this tests an actual nonsplit flag form.
 
-### B1.6 Canonical principal bundles of Hodge type
+### 1.6 Canonical principal bundles of Hodge type
 
 Prove `hodgeCanonicalPrincipalBundle`. For a Hodge-type Shimura datum in characteristic zero,
 construct the canonical Gᶜ-principal bundle over the reflex canonical model, its filtration map, its
@@ -965,7 +982,7 @@ good prime is additional model-specific work, not an all-prime consequence.
 *Source:* [Milne90], III §3, p.58; Theorem 4.3, pp.59–60; Example 4.4(a), p.60; [AG], §3.5,
 Proposition 3.5.1 and proof, pp.421–422.
 
-*Needs:* B1.4 (`tensorFrameTorsor`); B1.5 (`filtrationReduction`); ShimuraVarieties Layer 4 (special
+*Needs:* 1.4 (`tensorFrameTorsor`); 1.5 (`filtrationReduction`); ShimuraVarieties Layer 4 (special
 points and reciprocity).
 *Lean:* none; specified in the README only.
 
@@ -978,7 +995,7 @@ points and reciprocity).
 
 - At a CM point the comparison is the specified period-torsor comparison; changing it by an arbitrary scalar is not a second normalized canonical model.
 
-### B1.7 Independence of symplectic embedding
+### 1.7 Independence of symplectic embedding
 
 Prove `embeddingIndependence`. Compare the canonical principal bundles obtained from two faithful
 symplectic embeddings of the same Hodge-type datum. Use a common tensor realization and tensor
@@ -988,7 +1005,7 @@ compatibility with filtration, connection, Hecke maps and CM normalization.
 *Source:* [CS], Remark 2.3.3; Lemma 2.3.4, pp.669–670; [AG], §3.5, proof of Proposition 3.5.1,
 p.422.
 
-*Needs:* B1.6 (`hodgeCanonicalPrincipalBundle`); B1.3 (`hodgeTensorRealizations`); B1.1
+*Needs:* 1.6 (`hodgeCanonicalPrincipalBundle`); 1.3 (`hodgeTensorRealizations`); 1.1
 (`finiteTensorStabilizer`).
 *Lean:* none; specified in the README only.
 
@@ -1001,7 +1018,7 @@ p.422.
 
 - For three embeddings, the comparison from the first to the third is the composite through the second, also on the Hodge filtration and the CM fibre.
 
-### B1.8 The special-point normalization
+### 1.8 The special-point normalization
 
 Prove `cmPrincipalNormalization`. At a special point identify the principal-bundle fibre with the
 corresponding CM period torsor. Verify reciprocity compatibility with the actual special-point
@@ -1010,7 +1027,7 @@ preferred frame, a numerical period or a trivialization of the period torsor.
 
 *Source:* [Milne90], III Theorem 4.1, p.59; Example 4.2(b), p.59; Remark 4.5, p.60.
 
-*Needs:* B1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraVarieties Layer 4 (special points and
+*Needs:* 1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraVarieties Layer 4 (special points and
 reciprocity).
 *Lean:* none; specified in the README only.
 
@@ -1023,7 +1040,7 @@ reciprocity).
 
 - A nontrivial CM character has a period-torsor line with its reciprocity action; the normalization does not choose a nonzero rational vector in that line.
 
-### B1.9 Canonical principal bundles of abelian type
+### 1.9 Canonical principal bundles of abelian type
 
 Prove `abelianCanonicalPrincipalBundle`. For abelian-type data satisfying Milne II (2.1), including
 that `Z(G)°` splits over a CM field, pass from Hodge-type data through the
@@ -1034,8 +1051,8 @@ fibres. Compatibility with connected-component transport is part of the construc
 *Source:* [Milne88], §7, Lemmas 7.1–7.3 and Proposition 7.4, pp.29–31; [Milne90], III §4, Theorems
 4.1/4.3 and Remark 4.5(ii), pp.59–60.
 
-*Needs:* B1.6 (`hodgeCanonicalPrincipalBundle`); B1.7 (`embeddingIndependence`); B1.8
-(`cmPrincipalNormalization`); B0.2 (`ineffectiveFibreDescent`); ShimuraVarieties Layer 6 (connected and
+*Needs:* 1.6 (`hodgeCanonicalPrincipalBundle`); 1.7 (`embeddingIndependence`); 1.8
+(`cmPrincipalNormalization`); 0.2 (`ineffectiveFibreDescent`); ShimuraVarieties Layer 6 (connected and
 abelian-type canonical models).
 *Lean:* none; specified in the README only.
 
@@ -1048,16 +1065,16 @@ abelian-type canonical models).
 
 - For a central kernel of order two the unit and the square of a sign character pass the fibre test, while the sign character itself fails.
 
-### B1.10 Hecke pullback of the canonical torsor
+### 1.10 Hecke pullback of the canonical torsor
 
 Prove `principalHeckePullback`. Along the supplied finite étale arithmetic level maps and Hecke
 translations, construct the canonical isomorphisms between the pulled-back principal bundles. They
 preserve the filtration map, full-group connection and special-point normalization, and satisfy
-identity and composition laws. Trace on coherent sections is a separate B5 operation.
+identity and composition laws. Trace on coherent sections is a separate Layer 12 operation.
 
 *Source:* [Milne90], III Proposition 2.1(a), p.55; Proposition 3.2, p.58; Remark 4.5(i–ii), p.60.
 
-*Needs:* B1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties Layer 1 (the analytic tower, level
+*Needs:* 1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties Layer 1 (the analytic tower, level
 maps and Hecke translations); ShimuraVarieties Layer 8 (the canonical finite étale tower and Hecke spans
 over the reflex field).
 *Lean:* none; specified in the README only.
@@ -1074,17 +1091,17 @@ over the reflex field).
 ### Examples
 
 - For the Siegel datum the polarization tensor takes values in the Tate line; forgetting that line
-  replaces `GSp` by `Sp` (B1.4).
+  replaces `GSp` by `Sp` (1.4).
 - For the quaternionic Shimura curve of the division algebra `(−1, 3)/ℚ` the compact dual is the
   Severi–Brauer conic, which has no rational point; the filtration map exists without a rational
-  reference filtration (B1.5).
+  reference filtration (1.5).
 
 ### Dependencies
 
-Layer B0; AbelianSchemesAndArithmeticModuli A4; PELModuli M3; ShimuraVarieties Layers 1, 4–6, 8;
+Layer 0; AbelianSchemesAndArithmeticModuli A4; PELModuli M1.7, M5.2; ShimuraVarieties Layers 1, 4–6, 8;
 ShimuraData Layer 3.
 
-## Layer B1.general: canonical principal bundles for general data
+## Layer 2: canonical principal bundles for general data
 
 The general-data route first algebraizes the complex standard principal bundle and its structures,
 then uses conjugation of connected Shimura data and its principal-automorphism argument. The
@@ -1093,13 +1110,13 @@ effective descent. For full pure data assume Milne II (2.1), including the CM-sp
 the connected semisimple construction has no additional centre condition. This is a
 characteristic-zero construction without a universal abelian family.
 
-### B1.general.0 Algebraization of the complex standard principal bundle
+### 2.1 Algebraization of the complex standard principal bundle
 
 Construct `generalComplexStandardPrincipalBundle`. For a connected Shimura datum with semisimple
 `G`, construct on its sufficiently small arithmetic complex tower an algebraic `G_ℂ`-torsor whose
 analytification is `Γ∖(X⁺×G(ℂ))`. Equip it with the algebraic integrable flat connection, connected
 Hecke symmetries and an equivariant algebraic map to the compact dual, comparing all structures
-with their homogeneous analytic versions. Use the right-torsor convention of B0.4, converting
+with their homogeneous analytic versions. Use the right-torsor convention of 0.4, converting
 Milne's left action by inversion. Formation respects level maps, central covers and products.
 
 Supply the algebraization step of Milne's Proposition 3.2 within this target. For a `ℚ`-simple
@@ -1124,7 +1141,7 @@ Shimura compactifications, rather than an invocation of nonproper GAGA for an ar
 *Source:* [Milne88], Proposition 2.4, p.12; Propositions 3.1–3.2, Lemma 3.3 and Proposition 3.5,
 pp.15–17.
 
-*Needs:* B0.4, B0.6–B0.7, B1.1, B1.4–B1.6 (tensor frames and the elliptic case);
+*Needs:* 0.4, 0.6–0.7, 1.1, 1.4–1.6 (tensor frames and the elliptic case);
 ShimuraVarieties Layers 1–2 (arithmetic towers, algebraic datum maps and Baily–Borel boundary);
 ShimuraData Layer 3 (homogeneous variation and compact dual);
 ComplexComparisonPartII C0, C2 (coherent analytification and projective GAGA);
@@ -1142,7 +1159,7 @@ AbelianSchemesAndArithmeticModuli A4 (elliptic Gauss–Manin connection).
 - For `σ∈Aut(ℂ)` the resulting torsor, connection and flag map admit algebraic base change by
   `σ`; a merely holomorphic torsor has no such field-automorphism base change.
 
-### B1.general.1 Conjugation of connected principal bundles
+### 2.2 Conjugation of connected principal bundles
 
 Prove `connectedPrincipalConjugation`. Fix a connected datum (G,X) with G semisimple simply
 connected, `σ∈Aut(ℂ)`, and a special point x. Construct the algebraic isomorphism from the σ-conjugate
@@ -1154,9 +1171,9 @@ controls principal automorphisms.
 
 *Source:* [Milne88], Theorem 3.10 and Corollary 3.11, pp.18–20.
 
-*Needs:* B1.general.0 (`generalComplexStandardPrincipalBundle`);
-B1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties Layer 7 (conjugation of connected
-Shimura data); B1.general.3 (`generalConnectedReduction`).
+*Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
+1.9 (`abelianCanonicalPrincipalBundle`); ShimuraVarieties Layer 7 (conjugation of connected
+Shimura data); 2.4 (`generalConnectedReduction`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1167,7 +1184,7 @@ Shimura data); B1.general.3 (`generalConnectedReduction`).
 
 - Applying an associated adjoint representation intertwines the transported connection and second-jet action; an arbitrary pointwise torsor isomorphism need not do so.
 
-### B1.general.2 The adjoint bundle and second jets
+### 2.3 The adjoint bundle and second jets
 
 Prove `adjointJetRealization`. Realize the adjoint coefficient faithfully inside the second jets of
 the tangent bundle in the connected conjugation argument. Prove equivariance and the induced
@@ -1176,8 +1193,8 @@ restriction on principal automorphisms. Use the corrected order-two injection in
 
 *Source:* [Milne88], §9 Lemmas 9.3–9.4, pp.33–34.
 
-*Needs:* B1.general.0 (`generalComplexStandardPrincipalBundle`);
-ShimuraData Layer 3 (*compact-dual*); ShimuraVarieties Layer 7 (conjugation of connected Shimura
+*Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
+ShimuraData §§3.8–3.9 (compact dual); ShimuraVarieties Layer 7 (conjugation of connected Shimura
 data).
 *Lean:* none; specified in the README only.
 
@@ -1189,7 +1206,7 @@ data).
 
 - On the compact dual `ℙ¹`, in the affine coordinate near `0`, the Möbius map `z↦z/(cz+1)` fixes `0` and has derivative `1` there, but quadratic coefficient `−c`. The second jet distinguishes it from identity when `c≠0`.
 
-### B1.general.3 The general connected bundle reduction
+### 2.4 The general connected bundle reduction
 
 Prove `generalConnectedReduction`. Reduce the connected principal-bundle conjugation theorem to
 `type-A₁` subdata after the prescribed totally real auxiliary extension. Separate algebraic-group
@@ -1215,8 +1232,8 @@ Do not invoke the stronger rational-point assertion in §8.1, which its footnote
 
 *Source:* [Milne88], §9 Lemmas 9.1–9.5, pp.33–34.
 
-*Needs:* B1.general.0 (`generalComplexStandardPrincipalBundle`);
-B1.general.2 (`adjointJetRealization`); B1.9 (`abelianCanonicalPrincipalBundle`);
+*Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
+2.3 (`adjointJetRealization`); 1.9 (`abelianCanonicalPrincipalBundle`);
 ShimuraVarieties Layer 7 (conjugation of connected Shimura data).
 *Lean:* none; specified in the README only.
 
@@ -1227,7 +1244,7 @@ ShimuraVarieties Layer 7 (conjugation of connected Shimura data).
   kill it on rational points. Assuming an arbitrary rational central quotient is simple is invalid.
 - The proof never invokes a non-abelian-type family of motives.
 
-### B1.general.4 General canonical principal models
+### 2.5 General canonical principal models
 
 Prove `generalPrincipalModel`. For a general pure Shimura datum satisfying Milne II (2.1), including
 that `Z(G)°` splits over a CM field, descend
@@ -1239,9 +1256,9 @@ carrier for this construction.
 
 *Source:* [Milne90], III Theorem 4.3 and Example 4.4, pp.59–60.
 
-*Needs:* B1.general.0 (`generalComplexStandardPrincipalBundle`);
-B1.general.1 (`connectedPrincipalConjugation`); B1.general.3 (`generalConnectedReduction`);
-B0.1 (`centralSplitQuotient`); ShimuraVarieties
+*Needs:* 2.1 (`generalComplexStandardPrincipalBundle`);
+2.2 (`connectedPrincipalConjugation`); 2.4 (`generalConnectedReduction`);
+0.1 (`centralSplitQuotient`); ShimuraVarieties
 Layer 7 (conjugation of connected Shimura data); ShimuraVarieties §8.22 (canonical towers for
 general data).
 *Lean:* none; specified in the README only.
@@ -1251,11 +1268,11 @@ general data).
 - General models are characteristic-zero models over number fields; no integral or motivic upgrade
   follows.
 
-- On Hodge-type data the descended general construction compares with B1.6, including its flat connection and special-point normalization.
+- On Hodge-type data the descended general construction compares with 1.6, including its flat connection and special-point normalization.
 
 - The tensor unit on every connected component descends to the same structural coefficient; independently rescaling component identifications must still satisfy the Weil cocycle.
 
-### B1.general.5 The rational compact-dual map
+### 2.6 The rational compact-dual map
 
 Prove `generalCompactDualMap`. Descend the equivariant compact-dual map along the general
 principal-bundle descent datum. It is defined over E with its reflex flag target and is compatible
@@ -1264,7 +1281,7 @@ asserted by its existence.
 
 *Source:* [Milne90], III Theorem 4.6, pp.60–61.
 
-*Needs:* B1.general.4 (`generalPrincipalModel`); ShimuraData Layer 3 (*reflex-flag-descent*).
+*Needs:* 2.5 (`generalPrincipalModel`); ShimuraData §3.9 (compact dual over the reflex field).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1275,7 +1292,7 @@ asserted by its existence.
 
 - Transport under two coefficient-field embeddings agrees with transport of the flag variety and the principal torsor; keeping one unchanged flag fibre would fail equivariance.
 
-### B1.general.6 Normalized conjugation and its cocycle
+### 2.7 Normalized conjugation and its cocycle
 
 Prove `generalConjugationCocycle`. Prove the two-step cocycle for the special-point-normalized
 conjugation transports of general principal bundles and their compact-dual maps. Keep all
@@ -1284,8 +1301,8 @@ Milne III Theorem 6.2.
 
 *Source:* [Milne90], III Theorem 4.1, p.59; Remark 4.5, p.60; Theorem 6.2, p.62.
 
-*Needs:* B1.general.4 (`generalPrincipalModel`); B1.general.5 (`generalCompactDualMap`);
-B1.general.3 (`generalConnectedReduction`); ShimuraVarieties Layer 7 (conjugation of connected Shimura
+*Needs:* 2.5 (`generalPrincipalModel`); 2.6 (`generalCompactDualMap`);
+2.4 (`generalConnectedReduction`); ShimuraVarieties Layer 7 (conjugation of connected Shimura
 data).
 *Lean:* none; specified in the README only.
 
@@ -1300,15 +1317,15 @@ data).
 
 ### Examples
 
-- For `σ = id` the normalized conjugation is the identity and the cocycle is trivial (B1.general.6).
+- For `σ = id` the normalized conjugation is the identity and the cocycle is trivial (2.7).
 - An order-one tangent realization of the adjoint coefficient does not suffice; the corrected
-  order-two injection of Milne's Lemmas 9.3–9.4 is used (B1.general.2).
+  order-two injection of Milne's Lemmas 9.3–9.4 is used (2.3).
 
 ### Dependencies
 
-Layers B0–B1; ShimuraData Layer 3; ShimuraVarieties Layer 7, §8.22.
+Layers 0–1; ShimuraData Layer 3; ShimuraVarieties Layer 7, §8.22.
 
-## Layer B2: associated bundles and realizations
+## Layer 3: associated bundles and realizations
 
 Pull the compact-dual coefficient back to the canonical torsor and descend it along the group
 action. This gives the coherent automorphic bundle of a parabolic coefficient. Full-group
@@ -1316,11 +1333,11 @@ coefficients additionally receive arithmetic local systems and filtered connecti
 comparison keeps the representation field, the highest-weight label and the homology/cohomology
 switch.
 
-### B2.1 The automorphic coefficient functor
+### 3.1 The automorphic coefficient functor
 
 Construct `automorphicVectorBundle`. Use the canonical principal bundle and its equivariant
 compact-dual map to descend `γ*J` to an automorphic vector bundle V(J) over the actual coefficient
-field L. For a parabolic or Levi representation take J from B0. Give a tensor, dual, unit and
+field L. For a parabolic or Levi representation take J from Layer 0. Give a tensor, dual, unit and
 coefficient-map functor with base-field and level compatibility. A full-group representation is
 required for the additional flat realization; a `GL₂` parabolic Hodge-line character need not extend
 to a rank-one `GL₂` representation.
@@ -1343,31 +1360,31 @@ The API:
   map of v∘u is the composite of the induced map of v with the induced map of u; all datum, level,
   field and model hypotheses remain fixed.
 
-*Needs:* B1.9 (`abelianCanonicalPrincipalBundle`); B1.5 (`filtrationReduction`); B0.5
-(`compactDualCoefficient`); B0.9 (`coefficientGaloisDescent`); AlgebraicModuliForArithmeticGeometry
-§3.1 `fpqcQuasicoherentDescent`; B0.4 (`associatedCoefficient`).
+*Needs:* 1.9 (`abelianCanonicalPrincipalBundle`); 1.5 (`filtrationReduction`); 0.5
+(`compactDualCoefficient`); 0.9 (`coefficientGaloisDescent`); AlgebraicModuliForArithmeticGeometry
+§3.1 (`spaceFpqcQuasicoherentDescent`); 0.4 (`associatedCoefficient`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `automorphicVectorBundle_test_unit` (degenerate): For `J=O_X̌` with trivial fibre action, `V(J)=O_S`.
-- `automorphicVectorBundle_test_hodge` (compatibility): In the Siegel cohomology convention, the
+- (degenerate) For `J=O_X̌` with trivial fibre action, `V(J)=O_S`.
+- (compatibility) In the Siegel cohomology convention, the
   Hodge-line/standard Levi coefficient gives `e*Ω¹_A/S`, not its inverse.
-- `automorphicVectorBundle_test_nonflat` (non-example): For the upper-triangular P in GL2,
+- (non-example) For the upper-triangular P in GL2,
   `χ(diag(a,d))=a` defines a rank-one associated automorphic coefficient. It is not the restriction of
   a one-dimensional GL2 representation: `det^n` restricts to `a^n d^n` and cannot equal a for any n. The
   full-group flat-connection functor therefore cannot be applied to this coefficient by declaring `χ`
   to extend.
 
-### B2.2 The algebraic automorphic bundle comparison
+### 3.2 The algebraic automorphic bundle comparison
 
-Prove `automorphicAnalyticComparison`. After `L↪ℂ` identify V(J)^an with B0's holomorphic quotient
+Prove `automorphicAnalyticComparison`. After `L↪ℂ` identify V(J)^an with Layer 0's holomorphic quotient
 coefficient, using the same torsor, inverse fibre action and effective arithmetic descent. Check
 coefficient maps, tensors and the section transformation law under this identification.
 
 *Source:* [Milne90], III §3, Proposition 3.5, pp.58–59; III §5, Theorem 5.1, p.61.
 
-*Needs:* B2.1 (`automorphicVectorBundle`); B0.10 (`geometricAnalyticCoefficients`); B0.8
+*Needs:* 3.1 (`automorphicVectorBundle`); 0.10 (`geometricAnalyticCoefficients`); 0.8
 (`sectionsEquivariant`).
 *Lean:* none; specified in the README only.
 
@@ -1379,7 +1396,7 @@ coefficient maps, tensors and the section transformation law under this identifi
 
 - A character and its inverse compare with mutually dual holomorphic lines; replacing the inverse fibre action by the direct action exchanges them.
 
-### B2.3 Highest weights and coefficient conventions
+### 3.3 Highest weights and coefficient conventions
 
 Prove `leviHighestWeightConvention`. For a split Levi over L and a dominant weight `λ`, label the
 coefficient fibre by the actual representation `V_λ`. In BCGP's left-coset function realization its
@@ -1389,7 +1406,7 @@ datum for nonsplit forms.
 
 *Source:* [BCGP], §3.2.13–3.2.16, p.44; Example 3.2.18, p.45.
 
-*Needs:* B0.3 (`hodgeParabolicConvention`); B0.5 (`compactDualCoefficient`); B0.9
+*Needs:* 0.3 (`hodgeParabolicConvention`); 0.5 (`compactDualCoefficient`); 0.9
 (`coefficientGaloisDescent`); TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layer 3
 (`DominantWeight`, the theorem of the highest weight).
 *Lean:* none; specified in the README only.
@@ -1403,7 +1420,7 @@ datum for nonsplit forms.
 
 - A scalar weight `(r,r)` dualizes to `(−r,−r)` and its central character reverses; retaining the original central label fails this test.
 
-### B2.4 Betti coefficients of a full-group representation
+### 3.4 Betti coefficients of a full-group representation
 
 Construct `bettiCoefficientLocalSystem`. For a finite-dimensional rational full-group
 Gᶜ-representation W and a neat effective arithmetic component `Γ\X`, form the Betti local system
@@ -1429,21 +1446,21 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* B0.1 (`centralSplitQuotient`); B0.2 (`ineffectiveFibreDescent`); B2.2
-(`automorphicAnalyticComparison`); ShimuraData Layer 3 (*homogeneous-variation*).
+*Needs:* 0.1 (`centralSplitQuotient`); 0.2 (`ineffectiveFibreDescent`); 3.2
+(`automorphicAnalyticComparison`); ShimuraVarieties §P.3 (homogeneous variation) and ShimuraData §§3.1–3.6 (variations of Hodge structure).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `bettiCoefficientLocalSystem_test_unit` (degenerate): For `W=Q` with trivial action, `W_B` is the
+- (degenerate) For `W=Q` with trivial action, `W_B` is the
   constant rational local system.
-- `bettiCoefficientLocalSystem_test_standard` (compatibility): For the Siegel homology
+- (compatibility) For the Siegel homology
   representation, `W_B=H₁` of the actual universal abelian family, not `R¹π_*Q` without a dual.
-- `bettiCoefficientLocalSystem_test_levi` (non-example): The GL2 upper-triangular Levi character
+- (non-example) The GL2 upper-triangular Levi character
   `(a,d)↦a` is not the restriction of any one-dimensional GL2 representation (whose character is
   `det^n`). It cannot be supplied as a full-group rank-one Betti input without an extension.
 
-### B2.5 Étale coefficients from the canonical tower
+### 3.5 Étale coefficients from the canonical tower
 
 Construct `etaleCoefficientLocalSystem`. Choose a stable `ℤ_ℓ` lattice in a full-group `ℓ`-adic
 coefficient and compatible compact `ℓ`-levels. Descend its finite lattice quotients on the arithmetic
@@ -1470,30 +1487,30 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* B0.1 (`centralSplitQuotient`); B1.10 (`principalHeckePullback`); ShimuraVarieties Layer 8 (the
+*Needs:* 0.1 (`centralSplitQuotient`); 1.10 (`principalHeckePullback`); ShimuraVarieties Layer 8 (the
 canonical finite étale tower and Hecke spans over the reflex field); ShimuraVarieties Layer 1 (the
 analytic tower, level maps and Hecke translations).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `etaleCoefficientLocalSystem_test_unit` (degenerate): The trivial representation gives the
+- (degenerate) The trivial representation gives the
   constant `Q_ℓ` sheaf over E.
-- `etaleCoefficientLocalSystem_test_abelian` (compatibility): The symplectic homology coefficient
+- (compatibility) The symplectic homology coefficient
   gives `(R¹π_*Q_ℓ)∨` with its arithmetic action.
-- `etaleCoefficientLocalSystem_test_arithmetic` (non-example): Over Spec Q the étale coefficients
+- (non-example) Over Spec Q the étale coefficients
   `Q_ℓ` and `Q_ℓ(1)` have the same one-dimensional geometric/complex realization but different
   arithmetic Galois actions (trivial versus cyclotomic). Forgetting the arithmetic tower/action
   cannot characterize the descended coefficient.
 
-### B2.6 Filtered de Rham full-group coefficients
+### 3.6 Filtered de Rham full-group coefficients
 
 Construct `filteredDeRhamCoefficient`. Let W be an algebraic full-group Gᶜ-representation over a
 number field L containing E. The canonical principal bundle associates to W a locally free de Rham
 coefficient with integrable connection and Hodge filtration from `γ`. Prove Griffiths transversality
 and the corresponding analytic horizontal-section description. In Hodge type this agrees with the
 matching tensor construction in the universal family's relative `H₁,dR`; its regular-singular boundary
-extension is a B3 target. Parabolic or Levi-only coefficients use the associated-bundle functor
+extension is a Layer 5 target. Parabolic or Levi-only coefficients use the associated-bundle functor
 without this flat structure.
 
 *Source:* [Milne90], III §5, Theorem 5.1, p.61; III §6, pp.61–62; [AG], §3.5, Proposition 3.5.1,
@@ -1515,22 +1532,22 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* B2.1 (`automorphicVectorBundle`); B1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraData Layer 3
-(*homogeneous-variation*); AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge
+*Needs:* 3.1 (`automorphicVectorBundle`); 1.6 (`hodgeCanonicalPrincipalBundle`); ShimuraVarieties §P.3
+(homogeneous variation) and ShimuraData §§3.1–3.6 (variations of Hodge structure); AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge
 sequence and Gauss–Manin connection, `AbelianTate`, `exteriorCohomology`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `filteredDeRhamCoefficient_test_unit` (degenerate): The tensor unit is `(O_S,d)` with its
+- (degenerate) The tensor unit is `(O_S,d)` with its
   weight-zero filtration.
-- `filteredDeRhamCoefficient_test_hodge` (compatibility): For `H¹dR` of an abelian family `F¹=e*Ω¹_A/S`
+- (compatibility) For `H¹dR` of an abelian family `F¹=e*Ω¹_A/S`
   and the connection is Gauss–Manin.
-- `filteredDeRhamCoefficient_test_levi` (non-example): For the GL2 upper-triangular Levi, `(a,d)↦a`
+- (non-example) For the GL2 upper-triangular Levi, `(a,d)↦a`
   does not extend to a one-dimensional GL2 representation, since no `a^n d^n` equals a. Its associated
   line cannot be treated as a rank-one input to the full-group filtered connection functor.
 
-### B2.7 Betti, étale and de Rham comparison
+### 3.7 Betti, étale and de Rham comparison
 
 Prove `realizationComparison`. For a rational Gᶜ-representation W and an embedding `L↪ℂ`, identify
 `W_B⊗ℚ_ℓ≃W_ℓ|S_ℂ` under the algebraic/analytic étale comparison, and `W_B⊗O^an≃W_dR^an` as flat
@@ -1540,7 +1557,7 @@ twists and Hecke pullbacks. The comparison does not add crystalline or `B_dR` as
 
 *Source:* [AG], Proposition 3.3.1; Proposition 3.5.1, pp.418–422; [Milne90], III §6, pp.61–62.
 
-*Needs:* B2.4 (`bettiCoefficientLocalSystem`); B2.5 (`etaleCoefficientLocalSystem`); B2.6
+*Needs:* 3.4 (`bettiCoefficientLocalSystem`); 3.5 (`etaleCoefficientLocalSystem`); 3.6
 (`filteredDeRhamCoefficient`); AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge
 sequence and Gauss–Manin connection, `AbelianTate`, `exteriorCohomology`).
 *Lean:* none; specified in the README only.
@@ -1554,7 +1571,7 @@ sequence and Gauss–Manin connection, `AbelianTate`, `exteriorCohomology`).
 
 - A Tate character changes the filtration degree and its étale cyclotomic action together; the comparison of underlying unfiltered ranks cannot detect a reversed twist.
 
-### B2.8 Tensor and Hecke coherence of coefficients
+### 3.8 Tensor and Hecke coherence of coefficients
 
 Prove `coefficientTensorHecke`. Prove coherent compatibility of the associated-coefficient and
 full-group realization functors with tensor products, duals, units, coefficient maps and
@@ -1564,7 +1581,7 @@ or projectivity hypotheses.
 
 *Source:* [Milne90], III §3, Lemma 3.1, p.58; III §5, p.61; III §6, p.62.
 
-*Needs:* B2.1 (`automorphicVectorBundle`); B1.10 (`principalHeckePullback`); B2.7
+*Needs:* 3.1 (`automorphicVectorBundle`); 1.10 (`principalHeckePullback`); 3.7
 (`realizationComparison`).
 *Lean:* none; specified in the README only.
 
@@ -1577,7 +1594,7 @@ or projectivity hypotheses.
 
 - A composite pair of coefficient maps gives the composite realized maps in each of Betti, étale and de Rham realizations, including on a Tate line.
 
-### B2.9 The Siegel tautological coefficient sequence
+### 3.9 The Siegel tautological coefficient sequence
 
 Prove `siegelTautologicalSequence`. On the split opposite flag `P_HT\G` for `GSp_{2g}`, construct the
 sequence `0→L_(0,…,0,−1;1)→O⊗St→L_(1,0,…,0;1)→0`. Both outer terms have rank g. Compare it with the
@@ -1586,7 +1603,7 @@ realization in the solid analytic category is a separately supplied comparison.
 
 *Source:* [BCGP], Remark 3.2.19, p.45; Remark 4.8.1, p.101.
 
-*Needs:* B0.5 (`compactDualCoefficient`); B0.3 (`hodgeParabolicConvention`); B2.3
+*Needs:* 0.5 (`compactDualCoefficient`); 0.3 (`hodgeParabolicConvention`); 3.3
 (`leviHighestWeightConvention`); PELModuli M0 (PEL data and their compact duals).
 *Lean:* none; specified in the README only.
 
@@ -1603,37 +1620,37 @@ realization in the solid analytic category is a separately supplied comparison.
 
 - For the upper-triangular `P ⊂ GL₂`, the character `diag(a, d) ↦ a` gives a rank-one automorphic
   coefficient that is not the restriction of a one-dimensional `GL₂`-representation (`det^n`
-  restricts to `aⁿdⁿ`), so the full-group flat-connection construction does not apply (B2.1).
+  restricts to `aⁿdⁿ`), so the full-group flat-connection construction does not apply (3.1).
 - Over `Spec ℚ` the étale coefficients `ℚ_ℓ` and `ℚ_ℓ(1)` have the same geometric realization and
-  different Galois actions (B2.5).
+  different Galois actions (3.5).
 - On the `GSp_{2g}` flag the tautological sequence
-  `0 → L_{(0,…,0,−1;1)} → O ⊗ St → L_{(1,0,…,0;1)} → 0` has two outer terms of rank `g` (B2.9).
+  `0 → L_{(0,…,0,−1;1)} → O ⊗ St → L_{(1,0,…,0;1)} → 0` has two outer terms of rank `g` (3.9).
 
 ### Dependencies
 
-Layers B0–B1; ShimuraData Layer 3; ShimuraVarieties Layers 1, 8; AbelianSchemesAndArithmeticModuli A4;
+Layers 0–1; ShimuraData Layer 3; ShimuraVarieties Layers 1, 8; AbelianSchemesAndArithmeticModuli A4;
 PELModuli M0; AlgebraicModuliForArithmeticGeometry §3.1; TauCetiRoadmap
 RepresentationTheory/ClassicalGroups Layer 3.
 
-## Layer B2.general: associated coefficients for general data
+## Layer 4: associated coefficients for general data
 
 For pure data satisfying Milne II (2.1), including the CM-split-centre condition, use the general
-canonical principal bundle of Layer B1.general with the same associated-bundle
-functor as Layer B2. The new work is descent and conjugation compatibility of the realizations, not
+canonical principal bundle of Layer 2 with the same associated-bundle
+functor as Layer 3. The new work is descent and conjugation compatibility of the realizations, not
 a new representation category.
 
-### B2.general.1 General automorphic coefficient models
+### 4.1 General automorphic coefficient models
 
-Prove `generalAssociatedModel`. Apply the same associated-coefficient functor to B1.general's
+Prove `generalAssociatedModel`. Apply the same associated-coefficient functor to Layer 2's
 canonical principal bundle and compact-dual map. Obtain general-data V(J) over the actual field of
 definition, with tensor, dual, pullback, analytic and normalized conjugation compatibilities. This
-uses the associated-bundle construction of B0.4, without a second coefficient construction.
+uses the associated-bundle construction of 0.4, without a second coefficient construction.
 
 *Source:* [Milne90], III Theorem 5.1, p.61.
 
-*Needs:* B1.general.4 (`generalPrincipalModel`); B1.general.5 (`generalCompactDualMap`); B2.1
-(`automorphicVectorBundle`); B0.9 (`coefficientGaloisDescent`); B1.general.6
-(`generalConjugationCocycle`); B0.4 (`associatedCoefficient`).
+*Needs:* 2.5 (`generalPrincipalModel`); 2.6 (`generalCompactDualMap`); 3.1
+(`automorphicVectorBundle`); 0.9 (`coefficientGaloisDescent`); 2.7
+(`generalConjugationCocycle`); 0.4 (`associatedCoefficient`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1642,9 +1659,9 @@ uses the associated-bundle construction of B0.4, without a second coefficient co
 
 - The unit representation gives `O` over the actual coefficient field, not just after complexification.
 
-- Restricting to a Hodge-type subdatum agrees with B2.1, including duals and inverse fibre action.
+- Restricting to a Hodge-type subdatum agrees with 3.1, including duals and inverse fibre action.
 
-### B2.general.2 General full-group realizations
+### 4.2 General full-group realizations
 
 Prove `generalFlatRealizations`. For rational full-group coefficients on a general pure datum
 satisfying Milne II (2.1), including the CM-split-centre condition,
@@ -1654,8 +1671,8 @@ family of motives is assumed for the general datum.
 
 *Source:* [Milne90], III §6, pp.61–62; [LanIntro], §5.3, pp.63–64.
 
-*Needs:* B2.general.1 (`generalAssociatedModel`); B1.general.4 (`generalPrincipalModel`); B2.5
-(`etaleCoefficientLocalSystem`); B2.7 (`realizationComparison`); ShimuraVarieties §8.22
+*Needs:* 4.1 (`generalAssociatedModel`); 2.5 (`generalPrincipalModel`); 3.5
+(`etaleCoefficientLocalSystem`); 3.7 (`realizationComparison`); ShimuraVarieties §8.22
 (canonical towers for general data).
 *Lean:* none; specified in the README only.
 
@@ -1668,7 +1685,7 @@ family of motives is assumed for the general datum.
 
 - For a Tate character, the rational Betti rank is one and the filtered de Rham degree is shifted; giving every rank-one coefficient the unit filtration fails.
 
-### B2.general.3 Conjugation of rational realizations
+### 4.3 Conjugation of rational realizations
 
 Prove `generalRealizationConjugation`. Transport the general associated bundles and full-group
 realizations through normalized conjugation. Check their comparison cocycles, coefficient-field
@@ -1677,7 +1694,7 @@ absence cannot be repaired by simply forgetting the field of definition.
 
 *Source:* [Milne90], III Theorem 6.2, p.62.
 
-*Needs:* B2.general.2 (`generalFlatRealizations`); B1.general.6 (`generalConjugationCocycle`); B1.8
+*Needs:* 4.2 (`generalFlatRealizations`); 2.7 (`generalConjugationCocycle`); 1.8
 (`cmPrincipalNormalization`).
 *Lean:* none; specified in the README only.
 
@@ -1693,26 +1710,26 @@ absence cannot be repaired by simply forgetting the field of definition.
 ### Examples
 
 - Without a `ℚ`-defined weight the rational Betti comparison under conjugation is not available, and
-  forgetting the field of definition does not repair it (B2.general.3).
+  forgetting the field of definition does not repair it (4.3).
 
 ### Dependencies
 
-Layers B1.general and B2; ShimuraVarieties §8.22.
+Layers 2 and 3; ShimuraVarieties §8.22.
 
-## Layer B3: canonical and subcanonical boundary extensions
+## Layer 5: canonical and subcanonical boundary extensions
 
 Construct coefficients on the degeneration charts supplied by ShimuraCompactifications and glue them
 with their normalized boundary frames. Canonical and reduced-boundary extensions behave differently
-under refinement; section comparisons use the direct-image theorems of ShimuraCompactifications C3.
+under refinement; section comparisons use the direct-image theorems of ShimuraCompactifications Layer 4.
 Logarithmic connections belong to full-group coefficients. The minimal pushforward is coherent, with
 separate positivity requirements for scalar line descent. The last target gives the integral
-coefficients on good-prime PEL models used in Layer B5.
+coefficients on good-prime PEL models used in Layer 12.
 
-### B3.1 Coefficients on degeneration charts
+### 5.1 Coefficients on degeneration charts
 
 Construct `boundaryCoefficientChart`. On the supplied neat characteristic-zero Hodge/PEL toroidal
 chart, describe the coefficient using the actual semi-abelian degeneration or one-motive and its
-graded frames. Extend to the specified good integral PEL base only with C5's finite locally free
+graded frames. Extend to the specified good integral PEL base only with ShimuraCompactifications Layer 7's finite locally free
 representations. Identify the relative invariant differentials and coefficient transports on
 overlaps; the torus differential is du/u, not the base differential dq/q.
 
@@ -1734,26 +1751,50 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* B2.1 (`automorphicVectorBundle`); ShimuraCompactifications C4 (C4.1 `SemiAbelianScheme`,
-C4.7 `UniversalDegeneration`); ShimuraCompactifications C5 (C5.3 `IntegralToroidalModel`,
-C5.4 `IntegralToroidalModel.formalCompletion`).
+*Needs:* 3.1 (`automorphicVectorBundle`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
+§6.7 `UniversalDegeneration`); ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`,
+§7.4 `IntegralToroidalModel.formalCompletion`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `boundaryCoefficientChart_test_tate` (compatibility): The dimension-one Hodge frame at a
+- (compatibility) The dimension-one Hodge frame at a
   multiplicative fibre is generated by du/u.
-- `boundaryCoefficientChart_test_unit` (degenerate): The trivial coefficient extends to O of each
+- (degenerate) The trivial coefficient extends to O of each
   cusp chart.
-- `boundaryCoefficientChart_test_base` (non-example): The base logarithmic differential dq/q is not
+- (non-example) The base logarithmic differential dq/q is not
   identified with the relative invariant differential du/u.
 
-### B3.2 The canonical automorphic extension
+### 5.2 Gluing the canonical extension
+
+Prove `canonicalExtensionGluing`. Glue the chartwise canonical coefficient by the actual
+boundary-frame transition isomorphisms. Prove the overlap cocycle, compatibility with the open
+bundle and uniqueness among extensions with these normalized charts. Normality of the
+compactification alone does not establish the gluing or uniqueness.
+
+*Source:* [Milne90], V §6 Theorem 6.1, p.90.
+
+*Needs:* 5.1 (`boundaryCoefficientChart`); ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`,
+§2.6 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`); ShimuraCompactifications Layer 6
+(§6.1 `SemiAbelianScheme`, §6.7 `UniversalDegeneration`); AlgebraicModuliForArithmeticGeometry §3.1
+(`spaceFpqcQuasicoherentDescent`).
+*Lean:* none; specified in the README only.
+
+**Checks.**
+
+- A boundary twist cannot be glued in as an alternative normalization merely because it is trivial
+  on the open part.
+
+- For the unit coefficient the normalized chart identifications glue to `O` on the toroidal compactification.
+
+- Three intersecting cusp charts give equal maps under both compositions; pairwise isomorphism without that triple-overlap equality is not descent data.
+
+### 5.3 The canonical automorphic extension
 
 Construct `canonicalExtension`. Construct the locally free canonical extension `V^can_Σ` on the
-specified smooth toroidal model, characterized by canonical boundary frames and the corresponding
-growth normalization. Give its normalized coefficient-map and tensor functor. Use the Hodge/abelian
-characteristic-zero construction, and the specific C5 good-integral coefficients where stated.
+specified smooth toroidal model, glued from the chart coefficients of 5.1 by 5.2 and characterized by
+canonical boundary frames and the corresponding growth normalization. Give its normalized coefficient-map and tensor functor. Use the Hodge/abelian
+characteristic-zero construction, and the specific ShimuraCompactifications Layer 7 good-integral coefficients where stated.
 Equality on the open variety cannot characterize an extension, since boundary twists have the same
 restriction.
 
@@ -1778,48 +1819,24 @@ The API:
   of v∘u is the composite of the induced map of v with the induced map of u; all datum, level, field
   and model hypotheses remain fixed.
 
-*Needs:* B3.1 (`boundaryCoefficientChart`); B2.1 (`automorphicVectorBundle`);
-ShimuraCompactifications C2 (C2.3 `ToroidalSpace`, C2.6 `ToroidalSpace.smooth_normalCrossings`,
-C2.7 `ToroidalSpace.algebraization`); B3.3 (`canonicalExtensionGluing`).
+*Needs:* 5.1 (`boundaryCoefficientChart`); 3.1 (`automorphicVectorBundle`);
+ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.smooth_normalCrossings`,
+§2.7 `ToroidalSpace.algebraization`); 5.2 (`canonicalExtensionGluing`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `canonicalExtension_test_unit` (degenerate): The canonical extension of the unit coefficient is
+- (degenerate) The canonical extension of the unit coefficient is
   `O_SΣ`.
-- `canonicalExtension_test_hodge` (compatibility): For an elliptic/PEL Hodge coefficient it is the
+- (compatibility) For an elliptic/PEL Hodge coefficient it is the
   semi-abelian invariant-differential bundle.
-- `canonicalExtension_test_twist` (non-example): For the rank-one unit coefficient and a
+- (non-example) For the rank-one unit coefficient and a
   nonempty effective boundary divisor D, `O(D)` has the same open restriction as `O`, but no
   isomorphism equal to the identity on the open preserves the canonical boundary-frame
   normalization: at a boundary parameter q the two lattices are `q⁻¹O` and `O`.
   The zero coefficient has zero canonical extension and every boundary twist stays zero.
 
-### B3.3 Gluing the canonical extension
-
-Prove `canonicalExtensionGluing`. Glue the chartwise canonical coefficient by the actual
-boundary-frame transition isomorphisms. Prove the overlap cocycle, compatibility with the open
-bundle and uniqueness among extensions with these normalized charts. Normality of the
-compactification alone does not establish the gluing or uniqueness.
-
-*Source:* [Milne90], V §6 Theorem 6.1, p.90.
-
-*Needs:* B3.1 (`boundaryCoefficientChart`); ShimuraCompactifications C2 (C2.3 `ToroidalSpace`,
-C2.6 `ToroidalSpace.smooth_normalCrossings`, C2.7 `ToroidalSpace.algebraization`); ShimuraCompactifications C4
-(C4.1 `SemiAbelianScheme`, C4.7 `UniversalDegeneration`); AlgebraicModuliForArithmeticGeometry §3.1
-`fpqcQuasicoherentDescent`.
-*Lean:* none; specified in the README only.
-
-**Checks.**
-
-- A boundary twist cannot be glued in as an alternative normalization merely because it is trivial
-  on the open part.
-
-- For the unit coefficient the normalized chart identifications glue to `O` on the toroidal compactification.
-
-- Three intersecting cusp charts give equal maps under both compositions; pairwise isomorphism without that triple-overlap equality is not descent data.
-
-### B3.4 The subcanonical automorphic extension
+### 5.4 The subcanonical automorphic extension
 
 Construct `subcanonicalExtension`. For the reduced normal-crossings Cartier boundary `i:D↪S_Σ` set
 `V^sub_Σ=V^can_Σ⊗I_D=V^can_Σ(−D)`. Construct `0→V^sub_Σ→V^can_Σ→i_*i*V^can_Σ→0` with the applicable
@@ -1842,32 +1859,32 @@ The API:
   map of v∘u is the composite of the induced map of v with the induced map of u; all datum, level,
   field and model hypotheses remain fixed.
 
-*Needs:* B3.2 (`canonicalExtension`); ShimuraCompactifications C2 (C2.3 `ToroidalSpace`,
-C2.6 `ToroidalSpace.smooth_normalCrossings`, C2.7 `ToroidalSpace.algebraization`).
+*Needs:* 5.3 (`canonicalExtension`); ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`,
+§2.6 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `subcanonicalExtension_test_empty` (degenerate): For an empty boundary, `V^sub=V^can`.
-- `subcanonicalExtension_test_crossing` (computation): On Spec k[q1,q2] with reduced `D=V(q1q2)`, the
+- (degenerate) For an empty boundary, `V^sub=V^can`.
+- (computation) On Spec k[q1,q2] with reduced `D=V(q1q2)`, the
   unit subcanonical ideal is (q1q2), so sections vanish on both components.
-- `subcanonicalExtension_test_multiplicity` (non-example): For the unit coefficient and a
+- (non-example) For the unit coefficient and a
   nonempty reduced boundary divisor D, `O(−2D)` differs from the subcanonical ideal `O(−D)`
   under the comparison equal to the identity on the open: locally `(q²)` is strictly smaller
   than `(q)`. For empty D both are `O`; zero coefficients give zero in either case.
 
-### B3.5 Canonical coefficients under fan refinement
+### 5.5 Canonical coefficients under fan refinement
 
 Prove `refinementCanonicalExtension`. For a smooth fan refinement `f:S_Σ′→S_Σ` identify `f*V^can_Σ`
 with `V^can_Σ′` and construct the natural boundary-ideal map `f*V^sub_Σ→V^sub_Σ′`. In general `f*D≥D′`,
-so the latter map need not be an isomorphism. Use C3's `f_*O=O` and `f_*I_D′=I_D` to identify
+so the latter map need not be an isomorphism. Use ShimuraCompactifications Layer 4's `f_*O=O` and `f_*I_D′=I_D` to identify
 pushforwards and section spaces, with coherent composition laws.
 
 *Source:* [HarrisLoc], §1.4, Theorem 1.4.2 and (1.4.3), p.10.
 
-*Needs:* B3.2 (`canonicalExtension`); B3.4 (`subcanonicalExtension`); ShimuraCompactifications C3
-(C3.1 `ToroidalRefinement`, C3.4 `ToroidalRefinement.choice_comparison`, C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`,
-C3.9 `ToroidalRefinement.cohomology_iso`).
+*Needs:* 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`); ShimuraCompactifications Layer 4
+(§4.1 `ToroidalRefinement`, §4.4 `ToroidalRefinement.choice_comparison`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`,
+§4.10 `ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1879,7 +1896,7 @@ C3.9 `ToroidalRefinement.cohomology_iso`).
 
 - A pulled-back canonical unit remains `O`, whereas the pushed-forward reduced boundary ideal recovers the original cusp ideal; these are separate assertions.
 
-### B3.6 Fan independence of canonical and cusp sections
+### 5.6 Fan independence of canonical and cusp sections
 
 Prove `fanIndependentSections`. Use a common smooth projective refinement to identify `H⁰` of
 canonical extensions, and separately of subcanonical extensions, for different fans in
@@ -1889,8 +1906,8 @@ theorem about higher direct images.
 
 *Source:* [LanIntro], §4.2.7, p.49; [HarrisLoc], §1.4, (1.4.3), pp.10–11.
 
-*Needs:* B3.5 (`refinementCanonicalExtension`); ShimuraCompactifications C3 (C3.1 `ToroidalRefinement`,
-C3.4 `ToroidalRefinement.choice_comparison`, C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`, C3.9 `ToroidalRefinement.cohomology_iso`).
+*Needs:* 5.5 (`refinementCanonicalExtension`); ShimuraCompactifications Layer 4 (§4.1 `ToroidalRefinement`,
+§4.4 `ToroidalRefinement.choice_comparison`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`, §4.10 `ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -1901,13 +1918,13 @@ C3.4 `ToroidalRefinement.choice_comparison`, C3.8 `ToroidalRefinement.pushforwar
 
 - On a common refinement of three fans, the direct comparison equals the two successive comparisons, including for a section divisible by all boundary coordinates.
 
-### B3.7 The logarithmic full-group extension
+### 5.7 The logarithmic full-group extension
 
 Construct `logarithmicConnectionExtension`. For a full-group coefficient with regular singular
 connection and unipotent local monodromy, take Deligne's canonical logarithmic extension with
 nilpotent residues and the zero-exponent normalization (ComplexComparisonPartII C5.6
 `CanonicalLogExtension`). Identify its underlying bundle with the automorphic canonical extension of
-B3.2 and retain logarithmic Griffiths transversality. Nonunipotent monodromy requires a specified
+5.3 and retain logarithmic Griffiths transversality. Nonunipotent monodromy requires a specified
 residue interval and is outside this nilpotent-residue identification.
 
 *Source:* [LanIntro], §4.2.7, p.50; [Milne90], V §6, proof of Theorem 6.1, p.91.
@@ -1930,23 +1947,23 @@ The API:
   level, field and model hypotheses remain fixed.
 
 *Needs:* AlgebraicModularFormsAndSerreWeights R15.1 (*Integral elliptic logarithmic de Rham
-extension*, for the elliptic specialization comparison); B2.6 (`filteredDeRhamCoefficient`); B3.2 (`canonicalExtension`); B3.1
+extension*, for the elliptic specialization comparison); 3.6 (`filteredDeRhamCoefficient`); 5.3 (`canonicalExtension`); 5.1
 (`boundaryCoefficientChart`); ComplexComparisonPartII C5.6 (`RegularSingular`,
 `CanonicalLogExtension`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `logarithmicConnectionExtension_test_unit` (degenerate): The unit coefficient extends to `(O_SΣ,d)`
+- (degenerate) The unit coefficient extends to `(O_SΣ,d)`
   with zero residues.
-- `logarithmicConnectionExtension_test_tate` (computation): For a nodal elliptic degeneration the
+- (computation) For a nodal elliptic degeneration the
   rank-two coefficient has nonzero nilpotent monodromy residue, while its determinant has zero
   residue.
-- `logarithmicConnectionExtension_test_nonunipotent` (non-example): A rank-one local system with
+- (non-example) A rank-one local system with
   monodromy `−1` cannot be put in a nilpotent-residue normalization without a cover or a different
   exponent choice.
 
-### B3.8 Coherent coefficients on the minimal model
+### 5.8 Coherent coefficients on the minimal model
 
 Construct `minimalCoherentPushforward`. For the proper toroidal-to-minimal morphism between the
 specified Noetherian characteristic-zero models, form `π_*V^can`. Prove coherence, equality of global
@@ -1971,9 +1988,9 @@ The API:
   induced map of v∘u is the composite of the induced map of v with the induced map of u; all datum,
   level, field and model hypotheses remain fixed.
 
-*Needs:* B3.2 (`canonicalExtension`); B3.5 (`refinementCanonicalExtension`);
-ShimuraCompactifications C2 (C2.3 `ToroidalSpace`, C2.6 `ToroidalSpace.smooth_normalCrossings`,
-C2.7 `ToroidalSpace.algebraization`); Mathlib `AlgebraicGeometry.Scheme.Modules`; Mathlib
+*Needs:* 5.3 (`canonicalExtension`); 5.5 (`refinementCanonicalExtension`);
+ShimuraCompactifications Layer 2 (§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.smooth_normalCrossings`,
+§2.7 `ToroidalSpace.algebraization`); Mathlib `AlgebraicGeometry.Scheme.Modules`; Mathlib
 `AlgebraicGeometry.Scheme.Modules.presheaf`; Mathlib `SheafOfModules.sections`; Mathlib
 `AlgebraicGeometry.Scheme.Modules.pushforward`; Mathlib
 `AlgebraicGeometry.Scheme.Modules.pushforward_obj_obj`; ShimuraVarieties Layer 2 (the Baily–Borel minimal
@@ -1983,17 +2000,17 @@ reflex field).
 
 **Checks.**
 
-- `minimalCoherentPushforward_test_proper_open` (degenerate): When the Shimura variety is proper and
+- (degenerate) When the Shimura variety is proper and
   `π` is identity, the minimal coefficient is V.
-- `minimalCoherentPushforward_test_rank` (compatibility): On the open S the pushforward restricts to
+- (compatibility) On the open S the pushforward restricts to
   V.
-- `minimalCoherentPushforward_test_singular` (non-example): On the noetherian nodal affine scheme
+- (non-example) On the noetherian nodal affine scheme
   Spec L[x,y]/(xy), the ideal (x,y) is coherent but is not locally free at the origin: its generic
   rank is one and its fibre modulo (x,y) has dimension two. This non-example tests the inference
   from coherent pushforward to local freeness; it does not identify that ideal with every
   automorphic coefficient.
 
-### B3.9 Rationality of the canonical extension
+### 5.9 Rationality of the canonical extension
 
 Prove `canonicalRationalDescent`. Descend the chart-normalized canonical and reduced-boundary
 subcanonical extensions to their actual coefficient field L, and prove compatibility with field
@@ -2002,9 +2019,9 @@ all-prime integral extension follows from this rationality statement.
 
 *Source:* [Milne90], V §6 Theorem 6.2, p.91.
 
-*Needs:* B3.2 (`canonicalExtension`); B3.3 (`canonicalExtensionGluing`); B3.4
-(`subcanonicalExtension`); B0.9 (`coefficientGaloisDescent`); ShimuraCompactifications C2
-(C2.3 `ToroidalSpace`, C2.6 `ToroidalSpace.smooth_normalCrossings`, C2.7 `ToroidalSpace.algebraization`); B2.1
+*Needs:* 5.3 (`canonicalExtension`); 5.2 (`canonicalExtensionGluing`); 5.4
+(`subcanonicalExtension`); 0.9 (`coefficientGaloisDescent`); ShimuraCompactifications Layer 2
+(§2.3 `ToroidalSpace`, §2.6 `ToroidalSpace.smooth_normalCrossings`, §2.7 `ToroidalSpace.algebraization`); 3.1
 (`automorphicVectorBundle`).
 *Lean:* none; specified in the README only.
 
@@ -2016,7 +2033,7 @@ all-prime integral extension follows from this rationality statement.
 
 - A tower of field extensions `L⊂L′⊂L″` gives the same normalized coefficient after either base-change route, including the `−D` maps.
 
-### B3.10 Integral canonical coefficients on good-prime PEL models
+### 5.10 Integral canonical coefficients on good-prime PEL models
 
 Construct `integralLeviCoefficient`. On Lan's smooth projective toroidal compactification
 `M^tor_{H,Σ}` of a good-prime PEL moduli problem over `S₀ = Spec O_{F₀,(□)}`, whose boundary `D` is
@@ -2025,7 +2042,7 @@ extension of `F₀` over which the Hodge decomposition of `h₀` is defined) and
 the Levi group scheme `M₀` over `R` that is locally free of finite presentation over `R`. Let
 `E^can_{M₀}` be the canonical extension of the principal `M₀`-bundle: the scheme of isomorphisms
 from `(Lie^∨_{G^∨/M^tor}, O(1))` to `(L₀^∨(1), R(1)) ⊗ O_{M^tor}`, for the tautological semi-abelian
-scheme `G` and its dual. Define `Ecan(W) = E^can_{M₀} ×^{M₀} W` (an associated bundle as in B0.4)
+scheme `G` and its dual. Define `Ecan(W) = E^can_{M₀} ×^{M₀} W` (an associated bundle as in 0.4)
 and `Esub(W) = Ecan(W) ⊗ I_D`; both are locally free of finite rank. Along the completion at a point
 of a minimal-boundary stratum, the pullback of `Ecan(W)` to the formal chart `X` is the pullback of
 a canonically determined locally free sheaf `E₀(W)` on the abelian torsor `C`, and `E₀(W)` has a
@@ -2033,7 +2050,7 @@ filtration whose graded pieces are pulled back from the boundary moduli; this fi
 descend to `X/Γ`. Consequently the pullbacks of `Ecan(W)(nD′)` and `Esub(W)(nD′)` to the cone chart
 `V_σ` are the completed sums of `Ψ(ℓ) ⊗ E₀(W)` over `ℓ ∈ σ^∨(n)` and over `ℓ ∈ σ^∨(n)₊`
 respectively, so that `Ecan(W)` is formally canonical and `Esub(W)` formally subcanonical in the
-sense of ShimuraCompactifications C5 (C5.21 `IntegralToroidalModel.formallyCanonical`).
+sense of ShimuraCompactifications Layer 7 (§7.21 `IntegralToroidalModel.formallyCanonical`).
 
 *Hypotheses.* The cone decomposition `Σ` is smooth and projective, the level is neat, and `W` is
 locally free of finite presentation over `R`; infinite-dimensional or `p`-adic analytic
@@ -2054,66 +2071,66 @@ The API:
 - `integralLeviCoefficient_boundary`: the formal-chart description through `E₀(W)` and the completed
   sums over `σ^∨(n)` and `σ^∨(n)₊`.
 - `integralLeviCoefficient_charZero`: over a field of characteristic zero `Ecan(W)` and `Esub(W)`
-  are the extensions B3.2 and B3.4 of the automorphic bundle of `W`.
+  are the extensions 5.3 and 5.4 of the automorphic bundle of `W`.
 
-*Needs:* B0.4 (`associatedCoefficient`); B3.2 (`canonicalExtension`); B3.4 (`subcanonicalExtension`);
-ShimuraCompactifications C5 (C5.3 `IntegralToroidalModel`, C5.4 `IntegralToroidalModel.formalCompletion`,
-C5.21 `IntegralToroidalModel.formallyCanonical`); ShimuraCompactifications C4 (C4.1 `SemiAbelianScheme`,
-C4.7 `UniversalDegeneration`); ShimuraCompactifications C3 (C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`).
+*Needs:* 0.4 (`associatedCoefficient`); 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`);
+ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`, §7.4 `IntegralToroidalModel.formalCompletion`,
+§7.21 `IntegralToroidalModel.formallyCanonical`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
+§6.7 `UniversalDegeneration`); ShimuraCompactifications Layer 4 (§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `integralLeviCoefficient_test_unit` (degenerate): `W = R` with trivial action gives
+- (degenerate) `W = R` with trivial action gives
   `Ecan = O_{M^tor}` and `Esub = I_D`.
-- `integralLeviCoefficient_test_standard` (computation): for the defining representation
+- (computation) for the defining representation
   `W = L₀^∨(1)` of `M₀`, the map `[η, w] ↦ η⁻¹(w)` identifies `Ecan(W)` with `Lie^∨_{G^∨/M^tor}`,
   the cotangent sheaf of the dual tautological semi-abelian scheme along its unit section; its
   restriction to `M_H` is `Lie^∨_{A^∨/M_H}`, not its dual.
-- `integralLeviCoefficient_test_twist` (non-example): For the rank-one unit coefficient `W=R`,
+- (non-example) For the rank-one unit coefficient `W=R`,
   a nonempty effective boundary divisor D′ and `n ≠ 0`, `O(nD′)` has the same restriction to
   `M_H` as `O`, but the local lattices `q⁻ⁿO` and `O` differ under the identity on the open.
   Thus open restriction alone does not determine the normalized extension. The zero
   coefficient remains zero under every twist.
-- `integralLeviCoefficient_test_filtration` (non-example): the filtration of `E₀(W)` lives on the
+- (non-example) the filtration of `E₀(W)` lives on the
   torsor `C`; asserting that the pullback of `Ecan(W)` to `X/Γ` is filtered with these graded pieces
   is not part of the statement and fails in general.
 
 ### Examples
 
 - On `Spec k[q₁, q₂]` with reduced boundary `D = V(q₁q₂)` the subcanonical ideal is `(q₁q₂)`; the
-  ideal `(q₁, q₂)` and the twist by `2D` give different conditions (B3.4).
+  ideal `(q₁, q₂)` and the twist by `2D` give different conditions (5.4).
 - On the nodal chart `Spec L[x, y]/(xy)` the ideal `(x, y)` is coherent but not locally free at the
-  origin: generic rank one, fibre dimension two (B3.8).
+  origin: generic rank one, fibre dimension two (5.8).
 - For a nodal elliptic degeneration the rank-two coefficient has nonzero nilpotent residue while its
-  determinant has residue zero (B3.7).
+  determinant has residue zero (5.7).
 
 ### Dependencies
 
-Layers B0–B2; ShimuraCompactifications C2–C5; ShimuraVarieties Layers 2, 8;
+Layers 0–3; ShimuraCompactifications Layers 2–7; ShimuraVarieties Layers 2, 8;
 AlgebraicModuliForArithmeticGeometry §3.1; HilbertModularVarietiesAndShimuraCurves H2; Mathlib
 scheme modules.
 
-## Layer B3.general: general-data boundary extensions
+## Layer 6: general-data boundary extensions
 
-For the Milne II (2.1) data of B1.general, including their CM-split connected centre, use the
+For the Milne II (2.1) data of Layer 2, including their CM-split connected centre, use the
 general characteristic-zero boundary charts and transported fans. The canonical
 normalization, logarithmic comparison and ideal-pushforward rules have the same meaning as in Layer
-B3.
+Layer 5.
 
-### B3.general.1 General canonical automorphic extensions
+### 6.1 General canonical automorphic extensions
 
 Prove `generalCanonicalExtension`. Extend the general-data coefficient to the supplied
 characteristic-zero general toroidal model, using the general boundary chart and canonical
 normalization. Give gluing, rationality, canonical and subcanonical coefficients and their
-functorial maps. The construction uses C2.general's boundary data without asserting a universal
+functorial maps. The construction uses ShimuraCompactifications Layer 3's boundary data without asserting a universal
 abelian degeneration for general Shimura data.
 
 *Source:* [Milne90], V §6 Theorems 6.1–6.2, pp.90–91; [LanIntro], §4.2.7, pp.49–50.
 
-*Needs:* B2.general.1 (`generalAssociatedModel`); B3.2 (`canonicalExtension`); B3.4
-(`subcanonicalExtension`); B3.9 (`canonicalRationalDescent`); ShimuraCompactifications C2.general
-(C2.general.1 `ToroidalCanonicalModel.general`).
+*Needs:* 4.1 (`generalAssociatedModel`); 5.3 (`canonicalExtension`); 5.4
+(`subcanonicalExtension`); 5.9 (`canonicalRationalDescent`); ShimuraCompactifications Layer 3
+(§3.1 `ToroidalCanonicalModel.general`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -2122,14 +2139,14 @@ abelian degeneration for general Shimura data.
 
 - The unit canonical extension is `O` and its subcanonical extension is `O(−D)`, also outside Hodge type.
 
-- Restricting the general extension to a Hodge-type boundary chart agrees with B3.2 and its frame normalization, rather than with an arbitrary boundary twist.
+- Restricting the general extension to a Hodge-type boundary chart agrees with 5.3 and its frame normalization, rather than with an arbitrary boundary twist.
 
-### B3.general.1a Mixed-boundary coefficients for general data
+### 6.2 Mixed-boundary coefficients for general data
 
 Construct `generalBoundaryCoefficientComparison`. In characteristic zero, fix a neat general
 Shimura datum satisfying Milne II (2.1), including the CM-split-centre condition,
 a finite-dimensional algebraic parabolic coefficient over its field of definition,
-and the smooth projective toroidal model and mixed-boundary charts of C2.general.1. On each
+and the smooth projective toroidal model and mixed-boundary charts of ShimuraCompactifications §3.1. On each
 boundary abelian torsor `C_Φ`, construct the mixed-boundary coefficient `E₀` and identify the
 completed pullback of `generalCanonicalExtension` with the completed homogeneous family
 `Ψ_Φ(ℓ) ⊗ E₀`. Construct the full stabilizer and representative-change transports with their
@@ -2137,9 +2154,9 @@ cocycles. The completion uses the fan topology and permits infinite supported se
 
 Construct the boundary reduction of the canonical principal bundle on these charts and
 associate the same representation to obtain `E₀`. In complex boundary coordinates verify the canonical growth normalization and
-the homogeneous formula, then descend using B3.general.1's rational canonical extension and
+the homogeneous formula, then descend using 6.1's rational canonical extension and
 faithful completion on the supplied algebraic charts. Prove compatibility with the descended
-refinement, level, datum and Hecke maps of C3.general.1 by comparing their associated-torsor maps.
+refinement, level, datum and Hecke maps of ShimuraCompactifications §5.1 by comparing their associated-torsor maps.
 This coefficient comparison is a construction here; it is not a consequence of geometric maps
 alone. The coefficient filtration lies on `C_Φ` and need not descend through its stabilizer.
 
@@ -2147,9 +2164,9 @@ alone. The coefficient filtration lies on `C_Φ` and need not descend through it
 (the general analytic characterization in Remark 5.7); [Milne90], V §6, Theorem 6.1,
 pp.90–91, and VI §1.11, p.96 (boundary mixed datum).
 
-*Needs:* B1.general.4–6; B2.general.1 (`generalAssociatedModel`); B3.general.1
-(`generalCanonicalExtension`); B3.1 (`boundaryCoefficientChart`); ShimuraCompactifications
-C2.general.1 (`ToroidalCanonicalModel.general`), C3.general.1
+*Needs:* 2.5–2.7; 4.1 (`generalAssociatedModel`); 6.1
+(`generalCanonicalExtension`); 5.1 (`boundaryCoefficientChart`); ShimuraCompactifications
+§3.1 (`ToroidalCanonicalModel.general`), §5.1
 (`ToroidalCanonicalModel.general_functorial`); ComplexComparisonPartII C2;
 AdicSpacesPartIII F0 (coherent completion and its maps).
 *Lean:* none; specified in the README only.
@@ -2158,12 +2175,12 @@ AdicSpacesPartIII F0 (coherent completion and its maps).
 
 - The tensor unit gives `E₀=O` and the character-sheaf homogeneous decomposition of the boundary
   structure sheaf; a positive Hodge-line power gives the scalar boundary coefficient.
-- On a PEL boundary chart, the comparison agrees with B3.1 and Lan's `E₀`, including determinant
+- On a PEL boundary chart, the comparison agrees with 5.1 and Lan's `E₀`, including determinant
   and Tate lines; an arbitrary boundary twist fails this comparison.
 - An identity geometric map induces identity coefficient transport; two successive cusp changes
   compose on both the lattice degrees and the coefficient, before taking stabilizer invariants.
 
-### B3.general.2 General logarithmic realization comparison
+### 6.3 General logarithmic realization comparison
 
 Prove `generalLogarithmicComparison`. For a general full-group coefficient satisfying regular
 singularity and unipotence, compare the canonical extension with the zero-exponent logarithmic
@@ -2172,9 +2189,9 @@ Regular singularity and Deligne's canonical logarithmic extension are ComplexCom
 
 *Source:* [Milne90], V §6, Theorem 6.1(c) and proof, p.91; [LanIntro], §4.2.7, p.50.
 
-*Needs:* B2.general.2 (`generalFlatRealizations`); B3.general.1 (`generalCanonicalExtension`); B3.7
-(`logarithmicConnectionExtension`); B1.general.6 (`generalConjugationCocycle`);
-ShimuraCompactifications C2.general (C2.general.1 `ToroidalCanonicalModel.general`); ComplexComparisonPartII C5.6
+*Needs:* 4.2 (`generalFlatRealizations`); 6.1 (`generalCanonicalExtension`); 5.7
+(`logarithmicConnectionExtension`); 2.7 (`generalConjugationCocycle`);
+ShimuraCompactifications Layer 3 (§3.1 `ToroidalCanonicalModel.general`); ComplexComparisonPartII C5.6
 (`RegularSingular`, `CanonicalLogExtension`, `deligneRiemannHilbert`).
 *Lean:* none; specified in the README only.
 
@@ -2186,7 +2203,7 @@ ShimuraCompactifications C2.general (C2.general.1 `ToroidalCanonicalModel.genera
 
 - On a punctured disc with unipotent rank-two monodromy the canonical extension has the normalized nilpotent residue. Replacing it by the invariant rank-one stalk loses rank.
 
-### B3.general.3 General boundary and conjugation compatibility
+### 6.4 General boundary and conjugation compatibility
 
 Prove `generalBoundaryFunctoriality`. Prove that general canonical and subcanonical section spaces
 and coefficient maps respect compatible fan refinements, compactified Hecke maps and normalized
@@ -2196,10 +2213,10 @@ subcanonical pullback isomorphisms.
 
 *Source:* [HarrisLoc], Theorem 1.4.2 and (1.4.3), pp.10–11; [Milne90], V §6, p.91.
 
-*Needs:* B3.general.1 (`generalCanonicalExtension`); B3.general.1a
-(`generalBoundaryCoefficientComparison`); B3.5 (`refinementCanonicalExtension`); B3.6
-(`fanIndependentSections`); B1.general.6 (`generalConjugationCocycle`); ShimuraCompactifications
-C3.general (C3.general.1 `ToroidalCanonicalModel.general_functorial`).
+*Needs:* 6.1 (`generalCanonicalExtension`); 6.2
+(`generalBoundaryCoefficientComparison`); 5.5 (`refinementCanonicalExtension`); 5.6
+(`fanIndependentSections`); 2.7 (`generalConjugationCocycle`); ShimuraCompactifications
+Layer 5 (§5.1 `ToroidalCanonicalModel.general_functorial`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -2214,18 +2231,18 @@ C3.general (C3.general.1 `ToroidalCanonicalModel.general_functorial`).
 ### Examples
 
 - The unit and full-group coefficients receive the same normalization as on Hodge-type subdata
-  (B3.general.1).
+  (6.1).
 
 ### Dependencies
 
-Layers B1.general–B3; ShimuraCompactifications C2.general, C3.general.
+Layers 2–5; ShimuraCompactifications Layers 3 and 5.
 
-## Layer B3.Hilbert: the ramified splitting-model boundary
+## Layer 7: the ramified splitting-model boundary
 
 This layer constructs the full prime-to-`p` Deligne–Pappas family by level
 comparison and descent from H2.2–H2.2b, adjoins the Pappas–Rapoport splitting
 filtrations and extends the result across the boundary.
-It uses C0–C5's toric degeneration and gluing machinery; C6's Dimitrov-model
+It uses ShimuraCompactifications Layers 0–7's toric degeneration and gluing machinery; its Layer 8's Dimitrov-model
 comparison is not an identification of these models. Fix a totally real `F ≠ ℚ`,
 a prime `p` (including `2`), and the ring of integers `O` of a finite extension of
 `ℚ_p` containing all embeddings of `F` and the needed prime-to-`p` roots of unity.
@@ -2234,7 +2251,7 @@ Choose an ordering of the embeddings over each residue embedding. Initially
 unit quotients are obtained below. Tildes retain the polarization data before the
 positive-unit quotient.
 
-### B3.Hilbert.0 The open ramified splitting model
+### 7.1 The open ramified splitting model
 
 Construct `ramifiedHilbertOpenSplittingModel`. First construct the polarized Deligne–Pappas
 family at full prime-to-`p` level `U(N)` for every `N≥3`, including `N=3`. Choose an auxiliary
@@ -2263,13 +2280,13 @@ with prime-to-`p` level and isogeny maps. On the generic fibre these are the emb
 of H5.3; the integral construction uses filtration quotients.
 
 *Source:* [Diamond21], §2.2, pp.7–8, §§3.1–3.2, pp.9–12;
-[Diamond22], §2.3, pp.3–4, §2.7, p.6;
+[Diamond22], §2.3, pp.3–4, §2.7, p.5;
 [Stacks, tag 07S7](https://stacks.math.columbia.edu/tag/07S7) (free finite quotient) and
 [tag 0CCJ](https://stacks.math.columbia.edu/tag/0CCJ) (effective polarized-family descent).
 
-*Needs:* HilbertModularVarietiesAndShimuraCurves H2.2 (`DelignePappasHilbertModel`),
-H2.2a (`finiteEtaleAmpleDescent`), H2.2b (`dpHilbertModel_isScheme`), H2.6 (ordinary locus),
-H5.3 (`hodgeSplittingDescent`);
+*Needs:* HilbertModularVarietiesAndShimuraCurves H2.2 (the Deligne–Pappas integral Hilbert model),
+H2.2a (finite étale descent with an ample line), H2.2b (scheme representability of that model), H2.6
+(ordinary locus), H5.3 (Hilbert Hodge splitting and descent);
 AbelianSchemesAndArithmeticModuli A4 (polarized de Rham Hodge sequence);
 AlgebraicModuliForArithmeticGeometry §§1.3, 3.5 (relative flag schemes and polarized descent);
 AlgebraicVectorBundles L0A–L0C.
@@ -2287,7 +2304,7 @@ AlgebraicVectorBundles L0A–L0C.
 - Over the ordinary locus the flag fibre is one point, whereas the whole ramified
   Deligne–Pappas model need not be smooth; its forgetful map is not declared an isomorphism there.
 
-### B3.Hilbert.0a Cusps and stabilizers at prime-to-p level
+### 7.2 Cusps and stabilizers at prime-to-p level
 
 Construct `ramifiedHilbertCuspData`. For arbitrary totally real `F` and sufficiently small
 prime-to-`p` level `U`, classify the cusps by exact sequences `0→I→H→J→0` of projective
@@ -2299,7 +2316,8 @@ units and finite level actions), and all change-of-representative maps and cocyc
 At `U(N)`, identify the character lattice `Λ=d_F⁻¹I⁻¹J` and its trace-dual `J⁻¹I`, with
 series degrees in `N⁻¹Λ` and splitting-change pairing `Tr(βNt) mod N`. Prove integrality,
 perfectness and naturality of this pairing and compatibility with level change. Compare with
-C6.13 `HilbertCusp.Data` and its trace-pairing API on their stated tame-level range, translating
+ShimuraCompactifications §8.14's cusp data, lattice identity and trace-pairing naturality on their
+stated tame-level range, translating
 polarization, dual-lattice and level conventions. Construct these data at the additional
 prime-to-`p` levels directly from the lattice description and finite fine-level descent.
 H3 supplies the polarization/unit quotients, rather than this cusp classification.
@@ -2309,7 +2327,7 @@ H3 supplies the polarization/unit quotients, rather than this cusp classificatio
 
 *Needs:* HilbertModularVarietiesAndShimuraCurves H0.3–H0.5 (trace-dual lattices),
 H1 (level and polarization data), H3 (unit/polarization quotients);
-ShimuraCompactifications C6.13 (`HilbertCusp.Data`, `HilbertCusp.tracePairing_natural`);
+ShimuraCompactifications §8.14 (cusp data, the lattice identity and naturality of the trace pairing);
 AdelicAlgebraicGroups §§4.2–4.3; SchemeAndStackFoundations Layer 1 (quotient descent).
 *Lean:* none; specified in the README only.
 
@@ -2317,17 +2335,17 @@ AdelicAlgebraicGroups §§4.2–4.3; SchemeAndStackFoundations Layer 1 (quotient
 
 - At full prime-to-`p` level the polarized cusp retains its orientation; taking its positive-unit
   orbit recovers the unpolarized cusp with the actual residual stabilizer.
-- For `F=ℚ(√2)`, `p=2`, full fine level `N=3` is allowed although C6-a excludes
+- For `F=ℚ(√2)`, `p=2`, full fine level `N=3` is allowed although ShimuraCompactifications' hypothesis (8-a) excludes
   the tame ideal `(3)`; the character lattice retains the inverse-different factor.
 - Changing a splitting by `β` multiplies degree `t` by `ζ_N^{−Tr(βNt)}`. At `t=0` this phase
   is one; diagonal-unit coefficient characters remain and cannot be dropped.
 
-### B3.Hilbert.1 Ordinary gluing of the splitting compactifications
+### 7.3 Ordinary gluing of the splitting compactifications
 
 Construct `ramifiedHilbertBoundaryModel`. Choose complete smooth projective admissible cusp fans
 with compatible invariant integral piecewise-linear polarization functions, using
-ShimuraCompactifications C0.15. Starting with H2's open Deligne–Pappas model `Ỹ₋`, construct its boundary
-by C0–C4's polarized torus embeddings and semi-abelian degeneration charts:
+ShimuraCompactifications §0.15. Starting with H2's open Deligne–Pappas model `Ỹ₋`, construct its boundary
+by ShimuraCompactifications Layers 0–6's polarized torus embeddings and semi-abelian degeneration charts:
 the toric degeneration satisfies the Deligne–Pappas polarization condition,
 and its ordinary charts glue to `Ỹ₋` by that moduli interpretation. Contract
 to the normal minimal model using the parallel Hodge section algebra and
@@ -2337,7 +2355,7 @@ parallel product of the embedding lines is its pulled-back determinant
 Hodge line. Prove finiteness after the cusp contraction by the finite
 endomorphism/polarization data and the cusp lattice maps, so that the ample
 Siegel Hodge power supplies finite generation and projectivity. These are
-the Deligne–Pappas variants of C5's argument, without inverting the different.
+the Deligne–Pappas variants of ShimuraCompactifications Layer 7's argument, without inverting the different.
 Then glue `Ỹ` to the **ordinary** locus of
 `Ỹ₋^tor` along `Ỹ^ord ≃ Ỹ₋^ord`; do the same with `Ỹ₋^min`. Here the ordinary
 locus includes the whole boundary. Prove that this produces `Ỹ^tor`, `Ỹ^min`
@@ -2359,19 +2377,19 @@ filtration, also for the toric part of the degeneration. The scheme of admissibl
 filtrations is closed in a relative flag scheme over `Ỹ₋^tor`, hence projective;
 on the ordinary locus it has that unique section. This identifies its open and
 boundary charts with the asserted gluing and supplies properness, which gluing
-alone would not imply. Smoothness is checked on B3.Hilbert.0's open charts and C0's smooth
-toric boundary charts. The minimal contraction is formed using C5's parallel
+alone would not imply. Smoothness is checked on 7.1's open charts and ShimuraCompactifications Layer 0's smooth
+toric boundary charts. The minimal contraction is formed using its Layer 7's parallel
 Hodge section algebra and the ordinary identification; normality and
 `π_*O=O` follow from the completed charts and Stein factorization. No inverse
 of the different or of `p` is introduced.
 
-*Source:* [Diamond22], §§2.3–2.5, pp.3–5, §§2.7–2.9, pp.6–7;
+*Source:* [Diamond22], §§2.3–2.5, pp.3–5, §§2.7–2.9, pp.5–7;
 [Diamond21], §7.1, pp.31–33, §7.2, p.34;
-[LanPEL], Definition 7.3.1.3, Proposition 7.3.1.4, pp.566–567, Theorem 7.3.3.4, p.571.
+[LanPEL], Definition 7.3.1.3, Proposition 7.3.1.4, pp.566–567, Theorem 7.3.3.4, p.572.
 
 The API:
 
-- `ramifiedHilbertBoundaryModel_open`: the open piece is B3.Hilbert.0's splitting model,
+- `ramifiedHilbertBoundaryModel_open`: the open piece is 7.1's splitting model,
   and its map to the Deligne–Pappas model is the forgetful map.
 - `ramifiedHilbertBoundaryModel_ordinary`: the forgetful map is an isomorphism
   on the ordinary loci, including all boundary strata.
@@ -2379,20 +2397,20 @@ The API:
   family is the universal family and its cusp uniformization is the Tate
   semi-abelian degeneration with the given `O_F`-action and polarization.
 - `ramifiedHilbertBoundaryModel_refine`: a fan subdivision gives a proper map,
-  the same minimal model and the coefficient/refinement comparisons of C3 on
+  the same minimal model and the coefficient/refinement comparisons of ShimuraCompactifications Layer 4 on
   these actual charts.
 - `ramifiedHilbertBoundaryModel_level`: compatible fine level maps and
   prime-to-`p` isogenies extend, after refining fans; identities and compositions
   agree on the dense open and hence on the normal compactification.
 
-*Needs:* B3.Hilbert.0 (`ramifiedHilbertOpenSplittingModel`), B3.Hilbert.0a
+*Needs:* 7.1 (`ramifiedHilbertOpenSplittingModel`), 7.2
 (`ramifiedHilbertCuspData`); HilbertModularVarietiesAndShimuraCurves H2.2
 (Deligne–Pappas family), H3 (polarization/unit quotients);
-ShimuraCompactifications C0–C2 (torus embeddings, gluing and algebraization),
-C0.15 (`ArithmeticFan.exists_smoothProjective_refinement`, including polarization functions),
-C3 (C3.1 `ToroidalRefinement`, C3.3 `ToroidalHeckeSpan`), C4 (C4.1 `SemiAbelianScheme`,
-C4.7 `UniversalDegeneration`), C5 (C5.13 `IntegralToroidalModel.hodgeLine_semiample`,
-C5.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`, C5.17 `IntegralMinimalModel.hodgeLine_ample`);
+ShimuraCompactifications Layers 0–2 (torus embeddings, gluing and algebraization),
+§0.15 (`ArithmeticFan.exists_smoothProjective_refinement`, including polarization functions),
+Layer 4 (§4.1 `ToroidalRefinement`, §4.3 `ToroidalHeckeSpan`), Layer 6 (§6.1 `SemiAbelianScheme`,
+§6.7 `UniversalDegeneration`), Layer 7 (§7.13 `IntegralToroidalModel.hodgeLine_semiample`,
+§7.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`, §7.17 `IntegralMinimalModel.hodgeLine_ample`);
 SchemeAndStackFoundations Layer 4 (§4.9).
 *Lean:* none; specified in the README only.
 
@@ -2407,19 +2425,19 @@ SchemeAndStackFoundations Layer 4 (§4.9).
   and minimal models would fail this check.
 - On the quadrant subdivided by `(1,1)`, `pol(x,y)=x+y+min(x,y)` is integral and has the
   prescribed cones as its linearity domains. Its values `1,1,3` on `(1,0),(0,1),(1,1)` have
-  C0.15's superadditive sign. Smoothness of the two cones alone supplies no polarization data.
+  §0.15's superadditive sign. Smoothness of the two cones alone supplies no polarization data.
 
-### B3.Hilbert.2 Splitting-filtration lines on degeneration charts
+### 7.4 Splitting-filtration lines on degeneration charts
 
 Construct `ramifiedBoundaryCoefficientLines`. For a cusp
 `0→I→H→J→0`, with its orientation and level, put `Λ=d_F⁻¹ I⁻¹J`.
 On the formal torus-embedding cover `Ŝ_c`, the Tate family is the degeneration
 of `(d_F⁻¹ I ⊗ G_m)/q^{d_F⁻¹J}`. Its invariant differentials identify with
-`I⁻¹⊗O_{Ŝ_c}`. Extend the ordered B3.Hilbert.0 filtration on these differentials and the
+`I⁻¹⊗O_{Ŝ_c}`. Extend the ordered 7.1 filtration on these differentials and the
 dual family: if `τ` lies below the ordered embeddings `θ_{τ,1},…,θ_{τ,e}`,
 its filtration is given by the successive factors of the uniformizer
 polynomial, not by integral eigenspace idempotents. Its graded lines and their
-determinant partners, denoted `ω_θ^tor, δ_θ^tor`, restrict to B3.Hilbert.0's lines and have
+determinant partners, denoted `ω_θ^tor, δ_θ^tor`, restrict to 7.1's lines and have
 canonical cusp descriptions `(I⁻¹)_θ` and `(d_F(IJ)⁻¹)_θ` respectively.
 Here `d_F(IJ)⁻¹` means **the different multiplied by `(IJ)⁻¹`**.
 For arbitrary integer vectors `k,m`, the tensor product of these lines and
@@ -2438,12 +2456,12 @@ identifications are locally free before base change.
 
 *Source:* [Diamond21], §7.1, equations (17)–(20), pp.31–33,
 Proposition 7.1.1, p.34, and §7.2, equation (26), p.37;
-[Diamond22], §2.9, p.7, §6.2, pp.24–25.
+[Diamond22], §2.9, pp.6–7, §6.2, pp.23–25.
 
 The API:
 
 - `ramifiedBoundaryCoefficientLines_restrict`: the open restriction is the
-  B3.Hilbert.0 splitting-filtration coefficient, with its chosen ordering.
+  7.1 splitting-filtration coefficient, with its chosen ordering.
 - `ramifiedBoundaryCoefficientLines_tate`: the completed coefficient is
   `D_{k,m,c}⊗O_{Ŝ_c}`, including both different and determinant factors.
 - `ramifiedBoundaryCoefficientLines_tensor`: integer addition, duals and the
@@ -2451,12 +2469,12 @@ The API:
 - `ramifiedBoundaryCoefficientLines_baseChange`: base change commutes with
   the coefficient, filtration quotients and chart isomorphisms.
 - `ramifiedBoundaryCoefficientLines_transport`: the isogeny/level maps of
-  B3.Hilbert.1 act by their actual maps on `I,J` and the polarization;
+  7.3 act by their actual maps on `I,J` and the polarization;
   these maps compose and preserve the filtration order.
 
-*Needs:* B3.Hilbert.1 (`ramifiedHilbertBoundaryModel`);
-B3.Hilbert.0 (ordered splitting lines), B3.Hilbert.0a (cusp lattices and transport);
-HilbertModularVarietiesAndShimuraCurves H3 (polarization/unit quotients); B0.4 (`associatedCoefficient`); B3.1
+*Needs:* 7.3 (`ramifiedHilbertBoundaryModel`);
+7.1 (ordered splitting lines), 7.2 (cusp lattices and transport);
+HilbertModularVarietiesAndShimuraCurves H3 (polarization/unit quotients); 0.4 (`associatedCoefficient`); 5.1
 (`boundaryCoefficientChart`); AlgebraicVectorBundles L0A–L0C (tensor, dual,
 pullback and determinant of finite locally free sheaves).
 *Lean:* none; specified in the README only.
@@ -2473,11 +2491,11 @@ pullback and determinant of finite locally free sheaves).
 - A determinant exponent `m_θ=1`, with all other exponents zero, gives
   `(d_F(IJ)⁻¹)_θ`, not `(d_F IJ)⁻¹_θ`. These differ at a ramified prime.
 - Taking all `k_θ=1`, `m=0`, gives the determinant **over the base ring** of
-  the rank-`[F:ℚ]` differential module, consistent with B4.15.
+  the rank-`[F:ℚ]` differential module, consistent with 11.15.
 
-### B3.Hilbert.3 Completed cusps, units and the minimal coefficient
+### 7.5 Completed cusps, units and the minimal coefficient
 
-Construct `ramifiedHilbertFormalDescent`. With B3.Hilbert.1–2's model and
+Construct `ramifiedHilbertFormalDescent`. With 7.3–7.4's model and
 lines, choose a splitting of `H` and `ζ_N`. The formal torus-embedding cover
 has section ring `O[[q^t]]_{t∈N⁻¹Λ_+∪{0}}`, with the fan topology. Completing
 and gluing over the fan gives this completed series ring, rather than its
@@ -2511,7 +2529,7 @@ toric cover, so the coefficient/boundary sequence remains exact after
 arbitrary coefficient base change; taking invariants uses only left exactness.
 
 *Source:* [Diamond21], equations (18), (20)–(23), pp.32–36, and
-Proposition 7.2.1, p.37; [Diamond22], §§2.9–2.10, pp.7–8, §6.3, p.26.
+Proposition 7.2.1, p.37; [Diamond22], §§2.9–2.10, pp.6–8, §6.3, pp.25–26.
 
 The API:
 
@@ -2531,8 +2549,8 @@ The API:
   with restriction and coefficient extraction; no arbitrary-base-change
   isomorphism for invariant modules is asserted.
 
-*Needs:* B3.Hilbert.0a (`ramifiedHilbertCuspData`), B3.Hilbert.1–2; ShimuraCompactifications C0 (completed torus charts),
-C3 (C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`), C5 (formal functions and the Koecher argument
+*Needs:* 7.2 (`ramifiedHilbertCuspData`), 7.3–7.4; ShimuraCompactifications Layer 0 (completed torus charts),
+Layer 4 (§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`), Layer 7 (formal functions and the Koecher argument
 for formally canonical coefficients); AdicSpacesPartIII F0 (completion);
 SchemeAndStackFoundations §§1.1, 1.23 (quotient descent), §4.9 (proper formal functions);
 HilbertModularVarietiesAndShimuraCurves H3 (unit and level quotients).
@@ -2554,21 +2572,21 @@ HilbertModularVarietiesAndShimuraCurves H3 (unit and level quotients).
   ideal is `(xy)`, not `(x,y)`. Its quotient is flat over `O`, and a strictly
   positive Hilbert degree lies in that ideal on every such chart.
 
-### B3.Hilbert.4 Cusps detecting the residue components
+### 7.6 Cusps detecting the residue components
 
 Prove `ramifiedHilbertCuspDetection`. For fine prime-to-`p` level, a set of
 cusps whose determinants cover `F_+^×\A_{F,f}^×/det U` meets every geometric
 irreducible component of every fibre needed in the expansion principle,
 including fibres over characteristic `2` at a ramified prime. Use the smooth
-projective toroidal model of B3.Hilbert.1 with its chosen complete smooth projective fans and
+projective toroidal model of 7.3 with its chosen complete smooth projective fans and
 polarization functions; its geometric connected components
 are geometrically integral, have constant labels given by those determinant
 classes, and each has boundary cusps. Formal restriction of a section of a
 locally free coefficient to the selected completed cusp neighbourhoods is
 therefore jointly faithful on each geometric fibre. The same assertion over
 an integral coefficient base follows by localization and the Krull
-intersection argument of B5.4; finite prime filtrations and B5.5 then give the
-arbitrary-coefficient assertion of B5.17. The latter two steps are consumers,
+intersection argument of 12.5; finite prime filtrations and 12.6 then give the
+arbitrary-coefficient assertion of 12.18. The latter two steps are consumers,
 not prerequisites of this geometric target.
 
 To prove the geometric claim, compute the generic components by the Hilbert
@@ -2584,15 +2602,15 @@ residue fibre. The boundary lies in the ordinary locus where the splitting
 and Deligne–Pappas charts agree. This uses neither a characteristic-zero-only
 completion nor an assumption that every Iwahori component contains a cusp.
 
-*Source:* [Diamond22], §§2.7–2.10, pp.6–8, Proposition 6.2.1 and its proof
-and warning, p.25; [Diamond21], Proposition 7.2.2, p.37;
+*Source:* [Diamond22], §§2.7–2.10, pp.5–8, Proposition 6.2.1 and its proof
+and warning, p.24; [Diamond21], Proposition 7.2.2, p.37;
 [StacksConnected], Lemma 37.53.6, tag 0AY8. The smooth-proper Stein
 argument supplies the fibrewise form used here.
 
-*Needs:* B3.Hilbert.1, B3.Hilbert.3; HilbertModularVarietiesAndShimuraCurves
-H1 (adelic components); B3.Hilbert.0a (`ramifiedHilbertCuspData`); AdelicAlgebraicGroups §4.2 (strong
+*Needs:* 7.3, 7.5; HilbertModularVarietiesAndShimuraCurves
+H1 (adelic components); 7.2 (`ramifiedHilbertCuspData`); AdelicAlgebraicGroups §4.2 (strong
 approximation), §4.3 (arithmetic quotients); SchemeAndStackFoundations Layer 4
-(§4.9); ShimuraCompactifications C0–C2 (boundary incidence).
+(§4.9); ShimuraCompactifications Layers 0–2 (boundary incidence).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -2616,21 +2634,21 @@ Hodge bundle or by scalar series.
 
 ### Dependencies
 
-B0.4, B3.1; HilbertModularVarietiesAndShimuraCurves H1–H3;
-ShimuraCompactifications C0–C5; SchemeAndStackFoundations Layers 1–2, 4;
+0.4, 5.1; HilbertModularVarietiesAndShimuraCurves H1–H3;
+ShimuraCompactifications Layers 0–7; SchemeAndStackFoundations Layers 1–2, 4;
 AdicSpacesPartIII F0; AdelicAlgebraicGroups §§4.2–4.3; AlgebraicVectorBundles L0A–L0C.
 
-## Layer B3.log: horizontal logarithmic periods and support comparisons
+## Layer 8: horizontal logarithmic periods and support comparisons
 
 This layer supplies the horizontal boundary theory needed here, beyond the
 vertical semistable model-period complexes in PadicHodgeTheory. Let `k/ℚ_p`
 be finite, `C=Ĉk̄`, `X/k` smooth and proper and `D=∪D_i` a strict normal
 crossings divisor; put `U=X−D`. Use the associated fs log structure on
 `X^an`. A toroidal Shimura model is taken at neat level with smooth fans;
-passing to such a model and comparing refinements is part of B3.5.
+passing to such a model and comparing refinements is part of 5.5.
 All coefficient representations are finite-dimensional and algebraic.
 
-### B3.log.1 The boundary Kummer sites and their perfectoid basis
+### 8.1 The boundary Kummer sites and their perfectoid basis
 
 Construct `horizontalLogSites` on PrismaticCohomologyPartIV §8.60's shared carriers for a smooth
 pair and its closed strata. Use `TauCeti.LogAdic.LogStructure`, `logification`, `logPullback` and
@@ -2704,25 +2722,25 @@ almost purity), P7.11–P7.12 (limits and gluing), P6.8, P7.16
 - At a boundary stratum `T=0`, the root extension retains its log direction;
   replacing the stratum's log structure by the trivial one loses it.
 
-### B3.log.2 Canonical Kummer coefficient systems
+### 8.2 Canonical Kummer coefficient systems
 
 Construct `canonicalKummerCoefficient`. For an algebraic representation `V`
 of the coefficient group over a finite `p`-adic field `L`, choose a stable
-lattice at a sufficiently small `K_p` and use B2.5's canonical étale tower on
+lattice at a sufficiently small `K_p` and use 3.5's canonical étale tower on
 `U`. Extend every finite quotient of that lattice by `j_{két,*}` to `X_{két}`,
 then form the compatible `ℤ_p`-system and its rational pro-Kummer pullback.
 Prove the extensions are local systems and `R^{>0}j_{két,*}=0` for the finite
 quotients. The normal finite covers trivializing each quotient extend by
 the Kummer version of Abhyankar's lemma; after a root cover they are ordinary
 étale and the assertion reduces to purity of a constant sheaf. Thus the
-rational object is independent of the lattice and restricts to B2.5 on `U`.
+rational object is independent of the lattice and restricts to 3.5 on `U`.
 Its cohomology agrees with the ordinary étale cohomology of `U` by the site
 comparison, with derived inverse limits taken before rationalization.
 
 For the neat toroidal Shimura pair, prove geometric boundary monodromy is
 unipotent: on a cusp it is the image in `V` of the unipotent radical of the
 rational boundary group. The toric generators have commuting nilpotent
-logarithms, matching the residues of B3.7. This assertion concerns geometric
+logarithms, matching the residues of 5.7. This assertion concerns geometric
 boundary inertia; it does not assert that arithmetic Galois acts unipotently.
 
 *Source:* [DLLZ], Theorem 4.6.1 and Corollary 4.6.7, pp.68–69,
@@ -2742,9 +2760,9 @@ The API:
 - `canonicalKummerCoefficient_cohomology`: the finite-quotient comparison
   and its derived inverse-limit form identify cohomology on `U` and `X_{két}`.
 
-*Needs:* B2.5 (`etaleCoefficientLocalSystem`), B2.8 (`coefficientTensorHecke`),
-B3.7 (`logarithmicConnectionExtension`); B3.log.1; ShimuraCompactifications
-C1 (cusp unipotent groups), C4 (degeneration monodromy);
+*Needs:* 3.5 (`etaleCoefficientLocalSystem`), 3.8 (`coefficientTensorHecke`),
+5.7 (`logarithmicConnectionExtension`); 8.1; ShimuraCompactifications
+Layer 1 (cusp unipotent groups), Layer 6 (degeneration monodromy);
 AdicEtaleGeometry §§A1.2–A1.7 (finite étale charts and descent);
 ClassicalAdicEtaleCohomology Layer 8, §8.2 (proper algebraic/analytic
 comparison, applied to the normalized finite covers); SchemeAndStackFoundations
@@ -2762,11 +2780,11 @@ EnhancedDerivedSheaves §E2:towers.1 (derived limits).
 - Changing a lattice to `p` times that lattice changes the integral system
   but gives the same rational coefficient and comparison maps.
 - A nontrivial finite boundary character can extend on the Kummer site, but
-  does not satisfy the unipotent subcategory used by B3.log.3 below.
+  does not satisfy the unipotent subcategory used by 8.3 below.
 
-### B3.log.3 Logarithmic periods and the unipotent tensor comparison
+### 8.3 Logarithmic periods and the unipotent tensor comparison
 
-Construct `unipotentLogPeriodComparison`. On B3.log.1's basis form `A_inf`
+Construct `unipotentLogPeriodComparison`. On 8.1's basis form `A_inf`
 from `Ô^{♭+}`, `B_dR⁺` by completion along `ker θ`, and `B_dR=B_dR⁺[1/t]`.
 Construct the structural `O B_{dR,log}` by adjoining the logarithmic boundary
 ratios and completing for the period filtration. On a root chart it has the
@@ -2789,8 +2807,8 @@ nilpotent boundary logarithms; these give coherence and descent of the
 filtered module. Nilpotence removes the residue-exponent carries that would
 otherwise obstruct tensor compatibility.
 
-For B3.log.2's Hodge-type automorphic coefficients identify this object with
-B2.6/B3.7's canonical filtered log extension. Prove the identification first
+For 8.2's Hodge-type automorphic coefficients identify this object with
+3.6/5.7's canonical filtered log extension. Prove the identification first
 for relative `H¹` of the universal abelian family using the relative de Rham
 comparison on the open and the nilpotent-residue extension on the cusp
 uniformization, then for tensors, duals and their algebraic direct summands.
@@ -2818,8 +2836,8 @@ The API:
   coefficients commute with the construction; for finite étale maps the
   comparison also commutes with trace, checked after local trivialization.
 
-*Needs:* B3.log.1–2; B1.1, B1.4 (faithful tensors and frame torsors);
-B2.6–B2.8; B3.7; PadicHodgeTheory §§2.1–2.4
+*Needs:* 8.1–8.2; 1.1, 1.4 (faithful tensors and frame torsors);
+3.6–3.8; 5.7; PadicHodgeTheory §§2.1–2.4
 (completed structure sheaves, periods on affinoid perfectoids and profinite products,
 structural de Rham sheaves, rational acyclicity, Poincaré and Faltings),
 §0.1 (the Tate–Sen input from PadicPeriodRings §§1.1–1.5 and 2),
@@ -2844,7 +2862,7 @@ Hodge–Tate filtration, including its first step); ComplexComparisonPartII C5.6
   adds to `3/2`. This excludes a tensor assertion for all quasi-unipotent
   systems; the unipotence hypothesis is essential.
 
-### B3.log.4 Ordinary logarithmic cohomology comparison
+### 8.4 Ordinary logarithmic cohomology comparison
 
 Prove `ordinaryLogCohomologyComparison`. For the proper smooth pair and a
 stable lattice in an admitted de Rham, unipotent local system `L`, construct
@@ -2853,7 +2871,7 @@ canonical filtered isomorphisms
 after rationalization. Prove the log Hodge–de Rham spectral sequence
 degenerates at `E₁` and its degree-zero period graded comparison is
 `H^i_et(U_k̄,L)⊗C ≃ ⊕_a H^i(X,gr^a DR_log(D_{dR,log}(L)))⊗_k C(−a)`.
-Here the left side is also the Kummer cohomology of B3.log.2, not the étale
+Here the left side is also the Kummer cohomology of 8.2, not the étale
 cohomology of the compactification with an ordinary rank-deficient extension.
 All maps are `Gal(k̄/k)`-equivariant; automorphic coefficients retain their
 finite coefficient field, with scalar extensions along the chosen embedding.
@@ -2864,7 +2882,7 @@ and proper primitive comparison on their normal finite extensions over `X`.
 The resulting map from finite Kummer cohomology tensored with `O_C/p^n`
 to completed-structure-sheaf cohomology is almost an isomorphism. Finiteness
 and derived inverse limits give the rational period comparison, using the
-filtered resolution in B3.log.3. Strictness and degeneration are proved by
+filtered resolution in 8.3. Strictness and degeneration are proved by
 the period-filtration comparison and the cyclotomic graded calculation;
 taking `gr⁰` produces the canonical direct sum above. A mere degenerating
 algebraic spectral sequence would give only an associated graded vector
@@ -2875,7 +2893,7 @@ p.26, Corollary 3.2.10, p.27, §3.6, pp.41–43, and §4.1, pp.46–48; [LLZ],
 Theorem 3.1.10, p.18 (empty support subset), Theorem 5.5, p.49,
 Theorem 6.2.3, pp.54–55.
 
-*Needs:* B3.log.1–3; PadicHodgeTheory §2.7
+*Needs:* 8.1–8.3; PadicHodgeTheory §2.7
 (finite-coefficient primitive comparison and finiteness on proper smooth and
 singular spaces, using PerfectoidSpaces §§P3.11–P3.13 for almost purity);
 ClassicalAdicEtaleCohomology Layer 8, §8.2 (proper algebraic/analytic comparison);
@@ -2895,7 +2913,7 @@ completed coefficient operations).
 - For the proper point and coefficient `ℚ_p(1)`, the only graded term is
   degree `−1`, giving `C(1)` in cohomological degree zero.
 
-### B3.log.5 Boundary period kernels and compact supports
+### 8.5 Boundary period kernels and compact supports
 
 Construct `boundaryPeriodKernel`. For the full reduced boundary `D`, let
 `X^{∂(a)}` be the disjoint union of its `a`-fold intersections (with `a=0`
@@ -2950,7 +2968,7 @@ The API:
 - `boundaryPeriodKernel_duality`: coefficient evaluation and trace commute
   with period comparison, support-forgetting, and finite étale pullback/trace.
 
-*Needs:* B3.log.1–4; PadicHodgeTheory §2.7
+*Needs:* 8.1–8.4; PadicHodgeTheory §2.7
 (finite-coefficient primitive comparison and finiteness), §§2.2, 7.2
 (period completions and lisse integral systems);
 EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2 (traces and finite-coefficient duality);
@@ -2985,19 +3003,19 @@ arbitrary normalized residue exponents would break that tensor assertion.
 
 ### Dependencies
 
-B1.1, B1.4, B2.5–B2.8, B3.7; the named lower-tier period, étale, duality,
+1.1, 1.4, 3.5–3.8, 5.7; the named lower-tier period, étale, duality,
 logarithmic, filtered-derived and sheaf-cohomology suppliers above. These
 are horizontal-log constructions here; no period tower or BGG resolution
 is an input to this layer.
 
-## Layer B3.BGG: the Siegel dual BGG complex
+## Layer 9: the Siegel dual BGG complex
 
 Here `G=GSp₄`, `P_H` is the Hodge parabolic and `M≃GL₂×G_m` its Levi.
 Work in characteristic zero over a splitting field, with the coefficient
-field and the parabolic conventions of B0/B2. This layer constructs the
+field and the parabolic conventions of Layer 0/Layer 3. This layer constructs the
 representation-theoretic resolution as well as its geometric realization.
 
-### B3.BGG.1 Kostant cohomology and the relative resolution in type C₂
+### 9.1 Kostant cohomology and the relative resolution in type C₂
 
 Construct `siegelRelativeBGG`. Choose `P` containing the chosen positive Borel, its Levi positive system,
 a dominant integral full-group weight `λ`, the corresponding `V_λ`,
@@ -3053,7 +3071,7 @@ RepresentationTheory/ClassicalGroups Layers 2–3
 (the `GL₂` coefficient representations); ReductiveGroups Layers 7–8
 (parabolic and Levi Lie algebras); EnhancedDerivedSheaves Layers E0–E1
 (complexes, cones and derived categories); DerivedDeRhamCohomology §§1.14–1.22
-(filtered derived categories, filtered completion and completed tensors); B0.3 and B2.3 (opposite/dual conventions).
+(filtered derived categories, filtered completion and completed tensors); 0.3 and 3.3 (opposite/dual conventions).
 The relative BGG resolution, its explicit `C₂` weight specialization and filtered comparison
 are the constructions here; nilradical cohomology is supplied by ALS.4.5.
 *Lean:* none; specified in the README only.
@@ -3067,12 +3085,12 @@ are the constructions here; nilradical cohomology is supplied by ALS.4.5.
   Levi representations as well as the four lengths.
 - A nontrivial central similitude character changes the centre action on
   every term and not the length set. Discarding it cannot pass coefficient
-  descent or B5.21's weight `(0,−2;2)` test.
+  descent or 12.22's weight `(0,−2;2)` test.
 
-### B3.BGG.2 The geometric filtered dual BGG complex
+### 9.2 The geometric filtered dual BGG complex
 
 Construct `siegelDualBGGComplex` on a neat smooth toroidal Siegel model.
-Apply B3.BGG.1's dual resolution to the canonical principal bundle, use the
+Apply 9.1's dual resolution to the canonical principal bundle, use the
 logarithmic connection and Kodaira–Spencer identification, and construct a
 canonical filtered inclusion as a direct summand
 `BGG_log(V^can)→DR_log(V^can)`.
@@ -3111,10 +3129,10 @@ The API:
 - `siegelDualBGGComplex_field`: comparison and operators descend over the
   stated field; extending scalars and then comparing gives the same maps.
 
-*Needs:* B3.BGG.1; B1.6, B2.6, B3.2, B3.4, B3.7;
-ShimuraCompactifications C2 (log smooth toroidal charts), C3
-(C3.9 `ToroidalRefinement.cohomology_iso`, C3.3 `ToroidalHeckeSpan`), C5
-(C5.12 `IntegralToroidalModel.logKodairaSpencer`, on the higher-dimensional semi-abelian degeneration); AbelianSchemesAndArithmeticModuli
+*Needs:* 9.1; 1.6, 3.6, 5.3, 5.4, 5.7;
+ShimuraCompactifications Layer 2 (log smooth toroidal charts), Layer 4
+(§4.10 `ToroidalRefinement.cohomology_iso`, §4.3 `ToroidalHeckeSpan`), Layer 7
+(§7.12 `IntegralToroidalModel.logKodairaSpencer`, on the higher-dimensional semi-abelian degeneration); AbelianSchemesAndArithmeticModuli
 A4 (Gauss–Manin and Kodaira–Spencer); DerivedDeRhamCohomology §§1.14–1.22
 (filtered derived categories, filtered completion and completed tensors).
 *Lean:* none; specified in the README only.
@@ -3130,13 +3148,13 @@ A4 (Gauss–Manin and Kodaira–Spencer); DerivedDeRhamCohomology §§1.14–1.2
   ordinary differential matrix by `T` misses the induced connection term
   in the compact-support complex.
 
-### B3.BGG.3 Graded coherent pieces and degeneration
+### 9.3 Graded coherent pieces and degeneration
 
 Prove `siegelBGGGradedComparison`. The associated graded hypercohomology of
-B3.BGG.2 is the direct sum of coherent cohomology of its displayed terms,
+9.2 is the direct sum of coherent cohomology of its displayed terms,
 with shift `i−ℓ(w)`. Both the ordinary and `−D` Hodge–de Rham spectral
-sequences degenerate at `E₁`, using respectively B3.log.4 and B3.log.5 for
-the canonical automorphic local system identified in B3.log.3. Hence these
+sequences degenerate at `E₁`, using respectively 8.4 and 8.5 for
+the canonical automorphic local system identified in 8.3. Hence these
 coherent sums identify the Hodge graded pieces of de Rham cohomology; taking
 `gr⁰` of the corresponding `B_dR` comparisons gives the canonical
 Galois-equivariant `C`-decompositions, with Tate twist `(w·λ)(H)`.
@@ -3153,7 +3171,7 @@ unipotent roots, so `2ρ_U=(−3,−3;0)`. The coherent label is
 `w_{0,M}` interchanges the first two coordinates. The minimal left-coset
 representatives `1,s₂,s₂s₁,s₂s₁s₂` have lengths `0,1,2,3` and give
 `λ₃,λ₂,λ₁,λ₀`, respectively, with coherent cohomological degree
-`j=3−ℓ(w)` and Hodge degree `a_j` as in B5.21. In particular every central
+`j=3−ℓ(w)` and Hodge degree `a_j` as in 12.22. In particular every central
 label is `−w`. Prove this dictionary by the `C₂` root action and the
 Levi-dual highest weight. The bundle `ω^{λ_j}` here is untwisted; its Tate
 twist is applied once by the cohomology comparison.
@@ -3163,7 +3181,7 @@ Theorems 6.2.3 and 6.2.9, pp.54–55; [FC90], VI §5,
 Theorem 5.5, pp.233–234, VI §6, Theorem 6.2(i), p.241;
 [BCGP], §4.8 and Theorem 4.8.2, pp.101–102.
 
-*Needs:* B3.BGG.1–2; B3.log.2–5; B2.3; B3.5–B3.6;
+*Needs:* 9.1–9.2; 8.2–8.5; 3.3; 5.5–5.6;
 DerivedDeRhamCohomology §§1.14–1.22
 (filtered derived categories, filtered completion and completed tensors);
 ComplexComparisonPartII C0/C2 (coherent GAGA and scalar comparison).
@@ -3193,10 +3211,10 @@ weight tests the separate dual-weight and Tate conventions.
 
 ### Dependencies
 
-B1–B3; B3.log; the named generic representation-theory, log
+Layers 1–5; Layer 8; the named generic representation-theory, log
 Kodaira–Spencer, filtered-derived and coherent-GAGA suppliers above.
 
-## Layer B3.HT: rational Hodge–Tate towers and algebraic coefficient descent
+## Layer 10: rational Hodge–Tate towers and algebraic coefficient descent
 
 Fix a prime `p`, including `2`, a neat tame level and a complete algebraically
 closed extension `C/ℚ_p`. For Siegel space choose a prime-to-`p` full level
@@ -3206,93 +3224,71 @@ The construction starts with Siegel space and passes to Hodge type by closed
 toroidal embeddings. Only the rational tower and finite-dimensional algebraic
 coefficients are built here.
 
-The shared carriers of B3.HT.1–7 are used with the following downstream identifications.
-For the cyclotomic-base abelian-family range, `TauCeti.HodgeTate.canonicalSubgroup` denotes
-the `C_m` supplied by CohomologyComparisons §6.2 and used in B3.HT.1; the comparison with
-any pointwise construction is equality of finite flat subgroup schemes by Frobenius-congruent
-uniqueness, with `S_m=(p^m−1)/(p−1)` and the same
-weak/strong bounds. Equality in its point criterion requires `R′` integrally closed in `R′[1/p]`.
-Hasse charts, good triples and anticanonical Frobenius charts use B3.HT.2–3's completed rings,
+The shared carriers of 10.1–10.7 are used with the following downstream identifications.
+The canonical subgroups are those of CohomologyComparisons §6.2, applied to the Siegel family in
+10.1; equality in its point criterion requires `R′` integrally closed in `R′[1/p]`.
+Hasse charts, good triples and anticanonical Frobenius charts use 10.2–10.3's completed rings,
 boundary ideals and transition maps. The rational minimal and toroidal towers use
-B3.HT.4–6's represented tilde-limits, with identity on the finite-level moduli towers and
+10.4–10.6's represented tilde-limits, with identity on the finite-level moduli towers and
 compatible period maps. For the cyclotomic fixed-similitude presentation first retain its Weil
 pairing component; passage to the full tower restores all similitude components and their
-semilinear action. The Levi comparison is B3.HT.7's torsor isomorphism with B0.3's opposite/dual
+semilinear action. The Levi comparison is 10.7's torsor isomorphism with 0.3's opposite/dual
 dictionary and the central-cocharacter Tate twist. These are common objects for the downstream
 applications, while their additional integral estimates and wider datum ranges have their own
 hypotheses.
 
-### B3.HT.1 Shared small-Hasse canonical subgroups and their Siegel application
+### 10.1 Canonical subgroups of the Siegel family on the Hasse regions
 
-Use CohomologyComparisons §6.2's shared `smallHasseCanonicalSubgroups` for the
-Siegel family and period-map applications. Write `ℤ_p^cycl` for the completed
-ring of integers in the cyclotomic perfectoid extension of `ℚ_p`. For an
-abelian scheme `A/R` of relative dimension `g`, where `R` is a `p`-adically
-complete flat `ℤ_p^cycl`-algebra, an integer `m≥1`, and rational
-`0≤ε<1/2` with the required fractional powers of `p` in the base, suppose
-`Ha(A)^((p^m−1)/(p−1))` divides `p^ε` modulo `p`. The supplied finite flat
-subgroup `C_m⊂A[p^m]` reduces to `ker F^m` modulo `p^(1−ε)`, is unique
-among such lifts, commutes with flat base change and isomorphisms,
-and has degree `p^(mg)`. For every `p`-complete `ℤ_p^cycl`-flat `R`-algebra `R′`,
-the supplied point criterion gives the inclusion
-`{s∈A[p^m](R′) : s=0 mod p^((1−ε)/p^m)} ⊆ C_m(R′)`.
-If `R′` is integrally closed in `R′[1/p]`, this is equality. For this converse,
-Frobenius congruence gives divisibility of the `p^m`-th powers of the
-coordinates; the required coordinate quotients are integral in `R′[1/p]`,
-so integral closedness puts them in `R′`. Power divisibility alone does not
-give coordinate divisibility over an arbitrary flat test algebra.
-In the stronger small-Hasse regions `Ha(A)^(p^m)|p^ε`, use the supplied nesting
-and quotient identities in the anticanonical tower. A strong level
-`b` gives `C_a⊂C_b` for `a≤b`; given strong level `a`, the quotient
-`B=A/C_a` has strong level `b` exactly when `A` has strong level `a+b`,
-and then `0→C_a→C_{a+b}→C_b(B)→0` is exact. Morphisms between abelian
-schemes admitting strong level `m` preserve `C_m`. Under a principal
-polarization these subgroups are isotropic for the Weil pairing.
-These are assertions on the specified regions, not on all nonordinary points.
+Construct `siegelCanonicalSubgroups`, the restriction of CohomologyComparisons §6.2's
+`smallHasseCanonicalSubgroups` to the universal polarized Siegel family. Write `ℤ_p^cycl` for the
+completed ring of integers in the cyclotomic perfectoid extension of `ℚ_p`. The family is the
+universal principally polarized abelian scheme of relative dimension `g` with prime-to-`p` full level
+`N ≥ 3`, pulled back to the `p`-adically complete flat `ℤ_p^cycl`-algebras of the Hasse regions
+`X^*(p^(−ε))` of 10.2, for `m ≥ 1` and rational `0 ≤ ε < 1/2` with `Ha^((p^m−1)/(p−1))` dividing
+`p^ε` modulo `p` (the weak region) or `Ha^(p^m)` dividing `p^ε` (the strong region). On these bases
+§6.2 supplies the finite flat `C_m ⊂ A[p^m]` of degree `p^(mg)` lifting `ker F^m`, its uniqueness,
+its point criterion (inclusion of the sections congruent to zero for every `p`-complete flat test
+algebra, equality when the test algebra is integrally closed in its `p`-localization), its base
+change, functoriality, nesting and quotient identities on the strong regions, and its isotropy under
+the principal polarization; every property used below is cited there and none is restated as a
+target here.
 
-CohomologyComparisons §6.2 supplies the shared abelian-family weak/strong subgroup,
-uniqueness, point criterion, functoriality, isotropy and strong quotient package.
-B3.HT.1 applies this same subgroup to the universal polarized Siegel family on the
-Hasse regions of B3.HT.2. Identify its pullbacks along level maps and its iterated
-quotients using the supplied base-change and uniqueness statements, so the family
-used by the anticanonical tower and period-map constructions has these same groups.
-The additional pointwise Harder–Narasimhan construction, degree formula and integral
+The work here is the identification of these groups along the maps of the Siegel tower. Along the
+inclusions of Hasse regions and the prime-to-`p` level maps, the pullback of `C_m` is `C_m` of the
+pulled-back family, by §6.2's base change. Along the Frobenius quotient `A ↦ A/C_1` of 10.2, with
+`A` of strong level `a + 1`, the quotient has strong level `a` and `C_{a+1}(A)/C_1(A) = C_a(A/C_1)`,
+by §6.2's quotient identity, so the iterated quotients carry the canonical subgroups of the
+anticanonical tower, where `C_m` is complementary to the `Γ₀(p^m)`-level subgroup. Isotropy gives
+the polarized quotient isogeny `A → A/C_m`, so the quotient family is again principally polarized
+with its induced prime-to-`p` level structure, and every identification commutes with the
+`GSp_{2g}(ℤ/N)`-action. These are assertions on the specified regions, not on all nonordinary
+points. The additional pointwise Harder–Narasimhan construction, degree formula and integral
 Hodge–Tate estimates belong to HodgeTateAndCanonicalSubgroups §§3.6–3.9.
 
 *Source:* [Scholze15], III §2, Theorem III.2.1, Corollary III.2.2 and Lemma III.2.4, pp.31–33,
 Corollary III.2.6 and Definition III.2.7 with its following properties,
-pp.33–35 (including Proposition III.2.8).
+pp.33–35 (including Proposition III.2.8), applied to the Siegel family.
 
-The supplied API, used for the Siegel family:
+The API:
 
-- `smallHasseCanonicalSubgroups_reduction`: rank and reduction are as above.
-- `smallHasseCanonicalSubgroups_points`: for `p`-complete `ℤ_p^cycl`-flat `R`-algebras `R′`, the
-  congruent-to-zero sections belong to `C_m(R′)`; equality is asserted when
-  `R′` is integrally closed in `R′[1/p]`.
-- `smallHasseCanonicalSubgroups_unique`: two subgroup lifts satisfying
-  the stated reduction condition agree on the small-Hasse region.
-- `smallHasseCanonicalSubgroups_baseChange`: admissible base changes and
-  isomorphisms carry the canonical subgroup to the canonical subgroup;
-  morphisms of abelian schemes with strong level `m` preserve it.
-- `smallHasseCanonicalSubgroups_quotient`: nesting, quotient Hasse estimates
-  and canonical-subgroup identities hold on the stated stronger regions.
-- `smallHasseCanonicalSubgroups_polarization`: the principal polarization
-  gives isotropy, hence the required polarized quotient isogeny.
+- `siegelCanonicalSubgroups_levelMap`: the canonical subgroup commutes with Hasse-region
+  inclusions and with the prime-to-`p` level maps of the Siegel family.
+- `siegelCanonicalSubgroups_quotient`: on the strong regions `A/C_a` has canonical subgroups
+  `C_b(A/C_a) = C_{a+b}(A)/C_a(A)`, and the Frobenius quotient of 10.2 is the quotient by `C_1`.
+- `siegelCanonicalSubgroups_polarized`: the quotient by `C_m` is principally polarized through
+  isotropy and carries the induced prime-to-`p` level structure.
 
 *Needs:* CohomologyComparisons §6.2 (`smallHasseCanonicalSubgroups` and its
-abelian-family API); PELModuli M3 (abelian quotients and polarization moduli);
-AbelianSchemesAndArithmeticModuli A0–A4; ShimuraCompactifications C4–C5
-(the semi-abelian family and integral Hodge line).
+abelian-family API); PELModuli M1.7 (the moduli problem `M_H` and its universal family), M5.2
+(the Siegel moduli `A_{g,D,n}`); AbelianSchemesAndArithmeticModuli A0–A4;
+ShimuraCompactifications Layers 6–7 (the semi-abelian family and integral Hodge line).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- On the ordinary locus, `C_m` is the multiplicative subgroup of `A[p^m]`,
-  of degree `p^(mg)`; choosing the étale subgroup gives the wrong reduction.
-- At `m=1` the weak hypothesis has Hasse exponent `1`; iteration must
-  produce `(p^m−1)/(p−1)`, rather than reusing that exponent at every level.
-- At `p=2` and `ε<1/2` the obstruction and uniqueness estimates still apply.
-  A proof which divides by `2` on the integral base fails this case.
+- On the ordinary locus of the Siegel family `C_m` is the multiplicative subgroup of `A[p^m]`,
+  of degree `p^(mg)`; for `g = 2` and `m = 1` this degree is `p²`, whereas the Frobenius quotient
+  map of 10.2 has degree `p³`. Choosing the étale subgroup gives the wrong reduction.
 - For `p=2`, `m=1`, `ε=0`, put
   `R′={(a,b)∈O_C² : a≡b mod 2}` with diagonal base map. It is `2`-complete
   and torsion-free, hence flat over the cyclotomic valuation base. For an
@@ -3300,10 +3296,11 @@ AbelianSchemesAndArithmeticModuli A0–A4; ShimuraCompactifications C4–C5
   Its point `s=(−1,1)` has `s−1=(−2,0)∉√2 R′`: the prospective quotient
   `(−√2,0)` has coordinate difference not divisible by `2`. Thus point
   inclusion is strict over this nonnormal ring.
-- Outside the stated Hasse bound no canonical lift is asserted; an arbitrary
-  rank-`p^g` subgroup is insufficient for the quotient compatibility.
+- Outside the stated Hasse bound no canonical lift is asserted, and the quotient identity is
+  asserted only on the strong regions: a family of weak level `2` need not have `A/C_1` of weak
+  level `1`, and an arbitrary rank-`p^g` subgroup is insufficient for the quotient compatibility.
 
-### B3.HT.2 Anticanonical affinoids and the Frobenius tower
+### 10.2 Anticanonical affinoids and the Frobenius tower
 
 Construct `siegelAnticanonicalTower`. On the integral minimal Siegel model,
 form the Hasse blow-up regions `X^*(p^(−ε))`. Their local rings have the
@@ -3315,7 +3312,7 @@ the boundary. Use normality modulo `p`, nonvanishing of `f` on each relevant
 component, and the explicit presentation, not normality of a generic fibre
 alone. For genus one use the direct cusp charts instead.
 
-B3.HT.1's quotient by `C_1` defines a Frobenius lift
+10.1's quotient by `C_1` defines a Frobenius lift
 `X^*(p^(−ε/p))→X^*(p^(−ε))`, reducing to Frobenius modulo the indicated
 fractional power of `p`. Iterating, identify the source with the
 anticanonical region at `Γ₀(p^m)` level: the level subgroup is complementary
@@ -3344,9 +3341,9 @@ The API:
 - `siegelAnticanonicalTower_transition`: level, Hasse-region inclusions
   and changes of Hodge trivialization give the same glued tower maps.
 
-*Needs:* B3.HT.1; ShimuraCompactifications C2, C4, C5
-(C2.8 `ToroidalSpace.toMinimal`, C4.1 `SemiAbelianScheme`, C5.13 `IntegralToroidalModel.hodgeLine_semiample`,
-C5.17 `IntegralMinimalModel.hodgeLine_ample`); PerfectoidSpaces P1–P4, P7.11–P7.12
+*Needs:* 10.1; ShimuraCompactifications Layer 2, Layer 6, Layer 7
+(§2.8 `ToroidalSpace.toMinimal`, §6.1 `SemiAbelianScheme`, §7.13 `IntegralToroidalModel.hodgeLine_semiample`,
+§7.17 `IntegralMinimalModel.hodgeLine_ample`); PerfectoidSpaces P1–P4, P7.11–P7.12
 (completed Huber pairs, rational localizations, tilting and gluing);
 AdicSpacesPartII Layer R0 (adic morphisms);
 AdicSpacesPartIII Layers F0, R2 (formal blow-ups and generic fibres);
@@ -3362,9 +3359,9 @@ SchemeAndStackFoundations §§0.6, 4.13 (normality and extension of functions).
 - A finite-level torus ring without all `p`-power roots has nonsurjective
   Frobenius modulo `p` and cannot substitute for the completed tower ring.
 
-### B3.HT.3 Bounded extension and normalized traces at the minimal boundary
+### 10.3 Bounded extension and normalized traces at the minimal boundary
 
-Construct `siegelBoundaryHebbarkeit`. For the charts in B3.HT.2 prove
+Construct `siegelBoundaryHebbarkeit`. For the charts in 10.2 prove
 extension of bounded functions across the minimal boundary, and the
 corresponding almost assertions modulo every pseudouniformizer. Carry this
 property through the normal finite covers used to add `Γ₁` and full level.
@@ -3384,7 +3381,7 @@ and admits a resolution, `f` is a non-zero-divisor, the boundary ideal
 `V={|g|=1 for some g∈J}`. Use the root ideal `g^(1/p^∞)` and the almost
 isomorphism `ring/f→Hom(g^(1/p^∞),ring/f)`; prove this by flat
 Frobenius in the smooth case and coherent higher direct images on the
-resolution in the normal case. The toroidal resolution from C2 supplies
+resolution in the normal case. The toroidal resolution from ShimuraCompactifications Layer 2 supplies
 this hypothesis for the minimal Siegel charts at issue. Prove preservation
 under normal finite covers étale away from the boundary, with no
 irreducible component mapping entirely into the boundary, by the trace
@@ -3422,11 +3419,11 @@ The API:
 The trace construction is independent of the coefficient comparisons and
 uses no period tower.
 
-*Needs:* B3.HT.2; ShimuraCompactifications C2/C5 (toroidal resolution of the
+*Needs:* 10.2; ShimuraCompactifications Layer 2/Layer 7 (toroidal resolution of the
 minimal boundary); SchemeAndStackFoundations §§0.6, 2.6, 4.9, 4.13
 (normality, coherent proper direct images, formal functions and Hartogs);
 PerfectoidSpaces P0–P4, P7.11–P7.12 (almost modules, tilting and limits);
-PerfectoidSpaces §§P3.11–P3.13 (almost purity); B5.1 (finite locally free trace).
+PerfectoidSpaces §§P3.11–P3.13 (almost purity); 12.1 (`coefficientTrace`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -3445,10 +3442,10 @@ PerfectoidSpaces §§P3.11–P3.13 (almost purity); B5.1 (finite locally free tr
 - At `g=2`, the generic trace divisor is `p³`. Normalizing it by `p²` gives
   the wrong normalized operator already on constants.
 
-### B3.HT.4 Full-level Siegel minimal tower and its period map
+### 10.4 Full-level Siegel minimal tower and its period map
 
-Construct `siegelPerfectoidPeriodTower`. Over B3.HT.2's anticanonical regions
-add `Γ₁(p^∞)` level by normalizing the tilted rings, then use B3.HT.3 to
+Construct `siegelPerfectoidPeriodTower`. Over 10.2's anticanonical regions
+add `Γ₁(p^∞)` level by normalizing the tilted rings, then use 10.3 to
 identify their untilts with the actual finite-level limits. Add full level
 by almost purity for the finite étale map over the `Γ₁` tower. This yields
 perfectoid anticanonical charts at full level, including the boundary.
@@ -3470,7 +3467,7 @@ perfectoid minimal tower, with its finite-level tilde-limit property.
 
 Construct the analytic map `π_HT` to the Lagrangian flag variety on these
 charts, using the Hodge–Tate subbundle, and extend it across the minimal
-boundary by B3.HT.3. Prove agreement on overlaps and the `G(ℚ_p)` action,
+boundary by 10.3. Prove agreement on overlaps and the `G(ℚ_p)` action,
 prime-to-`p` Hecke invariance, Galois equivariance and strong closedness of
 the boundary. The action is over the reflex field with its cyclotomic
 structure; choosing a cyclotomic trivialization during a ring calculation
@@ -3494,13 +3491,13 @@ The API:
 - `siegelPerfectoidPeriodTower_boundary`: boundary restriction agrees with
   cusp degeneration and the boundary is strongly Zariski closed.
 
-*Needs:* B3.HT.1–3; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19
+*Needs:* 10.1–10.3; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19
 (rational Hodge–Tate sequence for `p`-divisible groups);
 PadicHodgeTheory §§2.7, 7.3 (primitive and relative comparison);
 PerfectoidSpaces §§P3.11–P3.13 (almost purity);
-PerfectoidSpaces P1–P4, P7.11–P7.12; ShimuraCompactifications C4–C5
+PerfectoidSpaces P1–P4, P7.11–P7.12; ShimuraCompactifications Layers 6–7
 (semi-abelian degeneration); ShimuraData Layer 3 (flag variety);
-B1.1/B2.9 (polarization and tautological Hodge sequence).
+1.1/3.9 (polarization and tautological Hodge sequence).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -3515,7 +3512,7 @@ B1.1/B2.9 (polarization and tautological Hodge sequence).
 - The full tower's boundary is included in the covering construction;
   an open Shimura tower alone does not prove the compactified assertion.
 
-### B3.HT.5 Perfectoid toroidal Siegel charts
+### 10.5 Perfectoid toroidal Siegel charts
 
 Construct `siegelPerfectoidToroidalTower`. Choose a complete smooth projective admissible fan
 at an initial principal `p`-level, with its polarization and trivial effective cone stabilizers.
@@ -3532,7 +3529,7 @@ finite-level toroidal spaces; the naive integral tower is not asserted to
 have the same Frobenius property. On their affine charts, prove that the
 completed integral rings identify with the power-bounded subrings and that
 Frobenius modulo `p` is surjective. Thus the generic-fibre limit is
-perfectoid. Glue with the open tower from B3.HT.4 using the actual
+perfectoid. Glue with the open tower from 10.4 using the actual
 degeneration identifications. Compose the map to the minimal tower with
 its period map; prove agreement with the Hodge–Tate filtration on the open
 and with the log Hodge filtration on cusp charts.
@@ -3554,7 +3551,7 @@ The API:
   the initial level and induce them throughout each tower. The resulting maps commute with level
   and prime-to-`p` Hecke maps; the refinement maps are proper and need not be finite.
 
-*Needs:* B3.HT.4; ShimuraCompactifications C0–C4
+*Needs:* 10.4; ShimuraCompactifications Layers 0–6
 (torus embeddings, cusp gluing, refinement and semi-abelian uniformization);
 AbelianSchemesAndArithmeticModuli A4 (Tate modules and isogenies);
 PerfectoidSpaces P1–P4, P7.11–P7.12 (root-monoid rings, limits and gluing).
@@ -3572,7 +3569,7 @@ PerfectoidSpaces P1–P4, P7.11–P7.12 (root-monoid rings, limits and gluing).
   map that is not finite. Such a subdivision is compared through a separately induced tower;
   inserting it as a level transition does not satisfy this target's induced-fan hypothesis.
 
-### B3.HT.6 Closed Hodge-type toroidal towers
+### 10.6 Closed Hodge-type toroidal towers
 
 Construct `hodgeTypePerfectoidToroidalTower`. Choose a symplectic embedding
 of a Hodge-type datum and sufficiently small tame levels for which the
@@ -3595,7 +3592,7 @@ a bare quotient of a perfectoid algebra need not itself be perfectoid.
 The result is the toroidal Hodge-type tower with the actual finite-level
 models, not an abstract space assumed to carry their functions.
 
-Construct its period map by restriction of the Siegel map. B1.1's defining
+Construct its period map by restriction of the Siegel map. 1.1's defining
 Hodge tensors are parallel in the relative comparison, hence the flag lies
 in the `G` compact dual, with its prescribed Hodge-parabolic type. Prove
 this factorization on the open and then on the whole toroidal tower by
@@ -3618,7 +3615,7 @@ The API:
 - `hodgeTypePerfectoidToroidalTower_change`: changing embedding, tame
   level or fans gives the canonical compatible maps on common refinements.
 
-*Needs:* B3.HT.5; B1.1, B1.3–B1.7; ShimuraCompactifications C0–C4
+*Needs:* 10.5; 1.1, 1.3–1.7; ShimuraCompactifications Layers 0–6
 (strictly compatible fans, toroidal gluing and maps);
 ShimuraData Layer 3; PerfectoidTowers §§P8.14, P8.21
 (Zariski-closed embeddings and inverse limits of compatible closed loci).
@@ -3630,7 +3627,7 @@ compatible fans alone do not give closed toroidal immersions.
 
 **Checks.**
 
-- For the identity Siegel embedding, the tower and flag map are B3.HT.5's.
+- For the identity Siegel embedding, the tower and flag map are 10.5's.
 - A compatible cone map which is not strictly compatible can fail to be a
   closed immersion, even in characteristic zero; the strict refinement is needed.
 - A perfectoid quotient construction must also take its perfectoidization;
@@ -3641,22 +3638,22 @@ compatible fans alone do not give closed toroidal immersions.
 - Changing a symplectic embedding preserves the tensor-defined `G` flag,
   rather than merely giving two unrelated Siegel flags.
 - A smooth strictly compatible pair at each level may still insert the quadrant blow-up of
-  B3.HT.5 between levels. Strict compatibility of the embeddings alone does not give finite
+  10.5 between levels. Strict compatibility of the embeddings alone does not give finite
   transitions; both towers must use the fans induced from the initial pair.
 
-### B3.HT.7 The rational Hodge–Tate Levi torsor
+### 10.7 The rational Hodge–Tate Levi torsor
 
-Construct `rationalHTLeviTorsor`. On B3.HT.6's tower pull back the principal
+Construct `rationalHTLeviTorsor`. On 10.6's tower pull back the principal
 Levi bundle on the flag variety by `π_HT`. Construct its comparison with
-the canonical de Rham Levi torsor `M_dR` from B1/B3:
+the canonical de Rham Levi torsor `M_dR` from Layer 1/Layer 5:
 `π_HT^*M_Fℓ ≃ π_level^*M_dR ×^{G_m,μ} G_m(−1)`.
 Here `G_m(−1)` is the Tate torsor of nonzero sections of `O(−1)` and the
 contracted product uses the central Hodge cocharacter of the Levi, with the
-Hodge/opposite identification of B0.3. This identity is on the ringed
+Hodge/opposite identification of 0.3. This identity is on the ringed
 pro-Kummer site and descends to the perfectoid tower. It is a rational
 identity, not an integral splitting of the Hodge filtration.
 
-Construct the map first from B3.log.3's structural period comparison and
+Construct the map first from 8.3's structural period comparison and
 its Hodge–Tate graded filtration on the faithful representation. Its
 horizontal Hodge tensors identify the two tensor-frame torsors, so it
 factors through `M` and is an isomorphism. Apply associated representations
@@ -3680,8 +3677,8 @@ The API:
 - `rationalHTLeviTorsor_boundary`: restriction to a cusp and common fan
   refinement commutes with the log-period construction.
 
-*Needs:* B3.HT.6; B3.log.1–3; B0.3–B0.5; B1.1–B1.6;
-B2.1, B2.3, B2.6–B2.8; B3.2, B3.7.
+*Needs:* 10.6; 8.1–8.3; 0.3–0.5; 1.1–1.6;
+3.1, 3.3, 3.6–3.8; 5.3, 5.7.
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -3694,7 +3691,7 @@ B2.1, B2.3, B2.6–B2.8; B3.2, B3.7.
 - The torsor identity is rational even at `p=2`; no integral Hodge splitting
   or integral exceptional-prime assertion is inferred from it.
 
-### B3.HT.8 Functions, algebraic VB⁰ and finite-level cohomology
+### 10.8 Functions, algebraic VB⁰ and finite-level cohomology
 
 Construct `algebraicVBZero` on the finite-dimensional algebraic subcategory
 of `M`-representations. On the tower write
@@ -3703,13 +3700,13 @@ of `M`-representations. On the tower write
 maps. For a finite algebraic coefficient `W` define
 `VB⁰(W)=colim_{K_p}(π_HT^*W⊗O_∞)^{K_p}` as a sheaf on the tower's finite-level
 site. Construct its comparison with the smooth colimit of the corresponding
-canonical automorphic bundles and the Tate twist from B3.HT.7. The cusp
+canonical automorphic bundles and the Tate twist from 10.7. The cusp
 version uses `I^sm` and the actual subcanonical finite-level system.
 
 Prove functions descend: the pullback of finite-level `O` is the fixed
 subsheaf of completed tower functions. Work on the Kummer root basis,
-use B3.log.1's arithmetic `ν_*Ô=O`, and descend through the finite-level
-torsor Čech complex. Then use B3.HT.7's tensor frames to reduce algebraic
+use 8.1's arithmetic `ν_*Ô=O`, and descend through the finite-level
+torsor Čech complex. Then use 10.7's tensor frames to reduce algebraic
 coefficient descent to this function calculation. Prove exactness and
 tensor compatibility on this finite algebraic subcategory. General
 locally analytic `VB` is only left exact; no extension to all such
@@ -3742,9 +3739,9 @@ The API:
 - `algebraicVBZero_actions`: group, Galois, prime-to-`p` Hecke and common
   fan-refinement maps commute with these comparisons and traces.
 
-*Needs:* B3.HT.6–7; B3.log.1; B3.2, B3.4–B3.6; B4.19;
-ShimuraCompactifications C3 (C3.9 `ToroidalRefinement.cohomology_iso`,
-C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`, C3.3 `ToroidalHeckeSpan`);
+*Needs:* 10.6–10.7; 8.1; 5.3, 5.4–5.6; 11.19;
+ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`,
+§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`, §4.3 `ToroidalHeckeSpan`);
 SchemeAndStackFoundations Layers 1–2 (descent and coherent cohomology);
 EnhancedDerivedSheaves Layers E1, E2:towers, E3 (derived sheaves, colimits and coherent descent).
 *Lean:* none; specified in the README only.
@@ -3770,15 +3767,15 @@ is the untwisted Hodge bundle.
 
 ### Dependencies
 
-B0–B3; B3.log.1–3; B4.19; B5.1; the named lower-tier flat-group,
+Layers 0–5; 8.1–8.3; 11.19; 12.1; the named lower-tier flat-group,
 perfectoid, local period, derived and sheaf suppliers and the bundle
-partner's finite-level compactification layers above. B3.HT.3 uses only
-B5.1's elementary finite locally free trace; it does not use B5.10 or
-B5.20. The finite-level B5.21–B5.22 chain uses B3.log and B3.BGG and
-is independent of B3.HT.
+partner's finite-level compactification layers above. 10.3 uses only
+12.1's coefficient trace; it does not use 12.11 or
+12.21. The finite-level 12.22–12.23 chain uses Layers 8 and 9 and
+is independent of Layer 10.
 
 
-## Layer B4: classical forms and explicit weights
+## Layer 11: classical forms and explicit weights
 
 Take global sections on the proper toroidal model and compare them with holomorphic transformation
 laws through the canonical boundary frame and projective GAGA. The functional automorphy-factor
@@ -3787,11 +3784,11 @@ differential, determinant and similitude conventions. Field base change, the int
 arbitrary coefficients, the ramified Hilbert weight line and the classical VB normalization complete
 the layer.
 
-### B4.1 Classical automorphic forms
+### 11.1 Classical automorphic forms
 
 Define `classicalForms`. For an automorphic coefficient on a smooth projective toroidal model `S_Σ/L`,
 define `M(J,K;L)=H⁰(S_Σ,V(J)^can)`. The definition applies to the Hodge/abelian and general
-coefficients through their corresponding B2–B3 layers. Use fan-independent sections for the level
+coefficients through their corresponding Layers 3–5 layers. Use fan-independent sections for the level
 space, proper coherent finiteness for finite dimension, and tensoring of sections for
 multiplication. `H⁰` on the nonproper open Shimura variety is not a substitute.
 
@@ -3812,30 +3809,30 @@ The API:
   v∘u is the composite of the induced map of v with the induced map of u; all datum, level, field
   and model hypotheses remain fixed.
 
-*Needs:* B3.2 (`canonicalExtension`); B3.6 (`fanIndependentSections`); B3.general.1
-(`generalCanonicalExtension`); B3.general.3 (`generalBoundaryFunctoriality`); Mathlib
+*Needs:* 5.3 (`canonicalExtension`); 5.6 (`fanIndependentSections`); 6.1
+(`generalCanonicalExtension`); 6.4 (`generalBoundaryFunctoriality`); Mathlib
 `AlgebraicGeometry.Scheme.Modules`; Mathlib `AlgebraicGeometry.Scheme.Modules.presheaf`; Mathlib
 `SheafOfModules.sections`.
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `classicalForms_test_unit` (degenerate): For a proper geometrically connected model and trivial
+- (degenerate) For a proper geometrically connected model and trivial
   coefficient, `M=L`.
-- `classicalForms_test_curve` (compatibility): For the modular Hodge coefficient `ω^k` the space
+- (compatibility) For the modular Hodge coefficient `ω^k` the space
   agrees with proper-curve sections of AlgebraicModularFormsAndSerreWeights R15.1.
-- `classicalForms_test_open` (non-example): For Spec L[t] with coefficient O, `H⁰=L[t]` has the
+- (non-example) For Spec L[t] with coefficient O, `H⁰=L[t]` has the
   infinite independent family `1,t,t²,…`; it cannot replace the proper geometrically connected model,
   whose unit coefficient has `H⁰=L`.
-- `classicalForms_test_map_id` (compatibility): For any supplied Scheme.Modules coefficient V and
+- (compatibility) For any supplied Scheme.Modules coefficient V and
   section s, the supplied-section forgetting sends the identity coefficient map to s.
-- `classicalForms_test_map_comp` (compatibility): For supplied Scheme.Modules maps `u:V→W` and `v:W→U`,
+- (compatibility) For supplied Scheme.Modules maps `u:V→W` and `v:W→U`,
   mapping a section by v∘u equals mapping first by u then by v.
-- `classicalForms_test_map_zero` (degenerate): For any supplied Scheme.Modules map `u:V→W`, its
+- (degenerate) For any supplied Scheme.Modules map `u:V→W`, its
   global-section map sends the compatible section whose value on every open is zero to the zero
   compatible section.
 
-### B4.2 Cuspidal automorphic forms
+### 11.2 Cuspidal automorphic forms
 
 Define `cuspForms`. Define `S(J,K;L)=H⁰(S_Σ,V(J)^sub)`. The boundary sequence identifies its image in
 M with the kernel of restriction to the reduced boundary. This means vanishing in every boundary
@@ -3860,20 +3857,20 @@ The API:
   the composite of the induced map of v with the induced map of u; all datum, level, field and model
   hypotheses remain fixed.
 
-*Needs:* B3.4 (`subcanonicalExtension`); B4.1 (`classicalForms`); B3.6 (`fanIndependentSections`);
+*Needs:* 5.4 (`subcanonicalExtension`); 11.1 (`classicalForms`); 5.6 (`fanIndependentSections`);
 Mathlib `AlgebraicGeometry.Scheme.Modules`; Mathlib `AlgebraicGeometry.Scheme.Modules.presheaf`;
 Mathlib `SheafOfModules.sections`.
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `cuspForms_test_empty` (degenerate): If `D=∅`, `S(J)=M(J)`.
-- `cuspForms_test_constant` (computation): For nonempty boundary and trivial coefficient on a proper
+- (degenerate) If `D=∅`, `S(J)=M(J)`.
+- (computation) For nonempty boundary and trivial coefficient on a proper
   geometrically connected model, a nonzero constant is not cuspidal.
-- `cuspForms_test_crossing` (characterisation): At a two-component crossing a holomorphic
+- (characterisation) At a two-component crossing a holomorphic
   coefficient is cuspidal iff it lies in the product ideal (q1q2), not merely (q1,q2).
 
-### B4.3 The normalized automorphy factor
+### 11.3 The normalized automorphy factor
 
 Define `AutomorphyFactor`. For a left group action on a complex domain X and a finite-dimensional
 complex coefficient V, define a holomorphic linear factor `J:Γ×X→GL_ℂ(V)` by holomorphy in x, `J(1,x)=1`
@@ -3908,17 +3905,17 @@ The API:
 - `AutomorphyFactor.changeFrame_comp`: Changing first by u and then by v equals changing by
   `x↦v(x)∘u(x)`. This is the displayed order of frame composition, not its reverse.
 
-*Needs:* B0.7 (`analyticCoefficient`); B0.8 (`sectionsEquivariant`); B3.2 (`canonicalExtension`);
-B3.4 (`subcanonicalExtension`); Mathlib `LinearEquiv.trans`.
+*Needs:* 0.7 (`analyticCoefficient`); 0.8 (`sectionsEquivariant`); 5.3 (`canonicalExtension`);
+5.4 (`subcanonicalExtension`); Mathlib `LinearEquiv.trans`.
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `AutomorphyFactor_test_unit` (degenerate): The constant identity coefficient is normalized and
+- (degenerate) The constant identity coefficient is normalized and
   satisfies the shifted cocycle.
-- `AutomorphyFactor_test_frame` (computation): For any factor J and invertible frame function u,
+- (computation) For any factor J and invertible frame function u,
   `J′(g,x)=u(gx)J(g,x)u(x)⁻¹` satisfies the shifted cocycle; at `J=1` this is `u(gx)u(x)⁻¹`.
-- `AutomorphyFactor_test_order` (non-example): For `Q²` let `Sx(a,b)=(a+b,b)`, `Sy(a,b)=(a,a+b)`. The
+- (non-example) For `Q²` let `Sx(a,b)=(a+b,b)`, `Sy(a,b)=(a,a+b)`. The
   constant functional factor `J(g,x)=g` for the evaluation action of `GL(Q²)` has `J(SxSy,x)(1,0)=(2,1)`
   and `J(SySx,x)(1,0)=(1,1)`. Reversing coefficient composition fails this test.
 - For the modular inversion matrix `S` at
@@ -3927,7 +3924,7 @@ B3.4 (`subcanonicalExtension`); Mathlib `LinearEquiv.trans`.
   frames `u(1)=id` and `u(t)=Sx` on `Q²`. Gauge-changing the identity factor gives `J(t²,1)(0,1)=(0,1)`,
   whereas the unshifted square `J(t,1)²(0,1)=(2,1)`. Thus the base-point shift is necessary.
 
-### B4.4 The convention adapter to SlashAction
+### 11.4 The convention adapter to SlashAction
 
 Construct `slashActionOfAutomorphyFactor`. Let `β` index weights, G be a monoid acting on X on the
 left, R a semiring and V an R-module. A family `J(k,g,x):V≃_R V` with the normalized shifted cocycle
@@ -3954,10 +3951,10 @@ Mathlib `LinearEquiv.symm_apply_eq`; Mathlib `LinearEquiv.automorphismGroup`; Ma
 
 **Checks.**
 
-- `slashActionOfAutomorphyFactor_test_trivial` (degenerate): For identity J, f|g is `x↦f(gx)`.
+- (degenerate) For identity J, f|g is `x↦f(gx)`.
 - The zero function is fixed for every
   normalized coefficient.
-- `slashActionOfAutomorphyFactor_test_frame` (characterisation): The frame change
+- (characterisation) The frame change
   `J′(g,x)=u(gx)J(g,x)u(x)⁻¹` yields exactly `u(x)J(g,x)⁻¹u(gx)⁻¹f(gx)`;
   at `J=1` this is `u(x)u(gx)⁻¹f(gx)`.
 - For the two rational shears,
@@ -3968,12 +3965,12 @@ Mathlib `LinearEquiv.symm_apply_eq`; Mathlib `LinearEquiv.automorphismGroup`; Ma
   `J(k,g,z)=denom(g,z)^k` as a scalar linear automorphism, the adapter equals Mathlib’s scalar slash
   action.
 - The normalized nonzero factor
-  on C2 with nonidentity value 2 transforms the zero section but fails `J(gh)=J(g)J(h)`; this is not
+  on `C₂` with nonidentity value 2 transforms the zero section but fails `J(gh)=J(g)J(h)`; this is not
   accepted as an adapter input.
 - The determinant-negative GL2(R)
   slash law has conjugated scalar multiplication and cannot be represented by this C-linear adapter.
 
-### B4.5 Evaluation of the slash adapter
+### 11.5 Evaluation of the slash adapter
 
 Prove `slashActionOfAutomorphyFactor_map_apply`. For exactly the family and hypotheses used in
 slashActionOfAutomorphyFactor, evaluate the map as `J(k,g,x)⁻¹(f(gx))`. This is the defining-map
@@ -3981,7 +3978,7 @@ formula, without an additional invertibility or nonzero-section assumption.
 
 *Source:* [LanIntro], §4.2.7, p.49.
 
-*Needs:* B4.4 (`slashActionOfAutomorphyFactor`).
+*Needs:* 11.4 (`slashActionOfAutomorphyFactor`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -3992,7 +3989,7 @@ formula, without an additional invertibility or nonzero-section assumption.
 
 - For a constant invertible scalar factor `a` at a fixed group element, the adapter evaluates as `a⁻¹f(gx)`, so `a=2` gives a factor `1/2`.
 
-### B4.6 Invariance and the transformation law
+### 11.6 Invariance and the transformation law
 
 Prove `slashActionOfAutomorphyFactor_invariant_iff`. For the same normalized linear family, prove
 that f|_k `g=f` for every g is equivalent to `f(gx)=J(k,g,x)f(x)` for every g,x. Apply the linear
@@ -4000,7 +3997,7 @@ equivalence at each point; no cancellation of a selected nonzero section is invo
 
 *Source:* [LanIntro], §4.2.7, p.49.
 
-*Needs:* B4.5 (`slashActionOfAutomorphyFactor_map_apply`); Mathlib `LinearEquiv.symm_apply_eq`.
+*Needs:* 11.5 (`slashActionOfAutomorphyFactor_map_apply`); Mathlib `LinearEquiv.symm_apply_eq`.
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4009,21 +4006,21 @@ equivalence at each point; no cancellation of a selected nonzero section is invo
 
 - With trivial factor and trivial base action every function is invariant and satisfies the transformation law.
 
-- `slashActionOfAutomorphyFactor_sign_invariant_iff` (boundary): If an element of the
+- (boundary) If an element of the
   acting monoid has coefficient `v ↦ −v` on a one-dimensional fibre over a point and the
   coefficient field has `2 ≠ 0`, invariance is equivalent to vanishing. This includes the
   sign action of `C₂` in characteristic zero; in characteristic two the sign acts trivially.
 
-### B4.7 The inverse-base right cocycle
+### 11.7 The inverse-base right cocycle
 
 Prove `inverse_base_action_cocycle`. If G and H are groups and `J:G×X→H` obeys the left shifted
 cocycle, the right base action `x·g=g⁻¹x` has factor `J_right(x,g)=J(g⁻¹,x)`. Its law is
 `J((gh)⁻¹,x)=J(h⁻¹,g⁻¹x)J(g⁻¹,x)`. This changes the action on the base; the right slash action on
-functions is the separate construction of B4.4.
+functions is the separate construction of 11.4.
 
 *Source:* [LanIntro], §4.2.7, p.49.
 
-*Needs:* B4.3 (`AutomorphyFactor`).
+*Needs:* 11.3 (`AutomorphyFactor`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4034,7 +4031,7 @@ functions is the separate construction of B4.4.
 
 - For a character `J(g,x)=χ(g)`, the right factor is `χ(g)⁻¹`; a character of order greater than two detects omission of the inverse.
 
-### B4.8 When a section detects a scalar cocycle
+### 11.8 When a section detects a scalar cocycle
 
 Prove `cocycle_at_of_automorphy_of_ne_zero`. For a monoid action, a field K and scalar functions
 `J:G×X→K` and `f:X→K` satisfying `f(gx)=J(g,x)f(x)`, prove the shifted cocycle at any x where `f(x)≠0`.
@@ -4048,14 +4045,14 @@ zero of f; the identically zero section imposes no cocycle condition.
 
 **Checks.**
 
-- For C2 acting trivially on a point, `J(nonidentity)=2` and `J(identity)=1` transforms zero but
+- For `C₂` acting trivially on a point, `J(nonidentity)=2` and `J(identity)=1` transforms zero but
   violates the cocycle because `4≠1`.
 
 - For a trivial action at a point with `f=1`, the transformation law forces `J(g)=1` for every `g`, hence the cocycle.
 
 - On a two-point free orbit a nowhere-zero function gives `J(g,x)=f(gx)/f(x)`; the intermediate values cancel in the shifted product.
 
-### B4.9 Geometric and analytic classical forms
+### 11.9 Geometric and analytic classical forms
 
 Prove `analyticClassicalComparison`. Under `L↪ℂ`, compare M with holomorphic equivariant sections of
 the analytic coefficient whose components extend holomorphically in canonical cusp frames. Compare S
@@ -4066,9 +4063,9 @@ kernel comparison in the course notes does not prove a full Dolbeault resolution
 
 *Source:* [LanIntro], §4.2.7, pp.49–50; [HarrisLog], p.3, degree-zero kernels only.
 
-*Needs:* B4.1 (`classicalForms`); B4.2 (`cuspForms`); B2.2 (`automorphicAnalyticComparison`); B0.8
-(`sectionsEquivariant`); B3.2 (`canonicalExtension`); B3.4 (`subcanonicalExtension`); ShimuraCompactifications C5
-(C5.17 `IntegralMinimalModel.hodgeLine_ample`, C5.13 `IntegralToroidalModel.hodgeLine_semiample`, C5.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`); ComplexComparisonPartII C2 (`projectiveGeometricDictionaries`);
+*Needs:* 11.1 (`classicalForms`); 11.2 (`cuspForms`); 3.2 (`automorphicAnalyticComparison`); 0.8
+(`sectionsEquivariant`); 5.3 (`canonicalExtension`); 5.4 (`subcanonicalExtension`); ShimuraCompactifications Layer 7
+(§7.17 `IntegralMinimalModel.hodgeLine_ample`, §7.13 `IntegralToroidalModel.hodgeLine_semiample`, §7.14 `IntegralToroidalModel.hodgeSectionAlgebra_fg`); ComplexComparisonPartII C2 (`projectiveGeometricDictionaries`);
 ComplexComparisonPartII §C1.9 (proper coherent GAGA).
 *Lean:* none; specified in the README only.
 
@@ -4081,7 +4078,7 @@ ComplexComparisonPartII §C1.9 (proper coherent GAGA).
 
 - At a two-divisor crossing, a holomorphic component divisible only by the first coordinate is not in the full reduced boundary ideal.
 
-### B4.10 The GL₂ Hodge-line specialization
+### 11.10 The GL₂ Hodge-line specialization
 
 Prove `gl2HodgeLineComparison`. At a fine modular level on the actual modular-curve model, identify
 `ω=e*Ω¹_{E/S}`, its generalized-elliptic canonical extension and weight-k coefficient `ω^k` for every
@@ -4092,7 +4089,7 @@ separate semilinear law for determinant-negative `GL₂`.
 
 *Source:* [LanIntro], §4.2.7, pp.49–50; [HarrisBundles], pp.1–2.
 
-*Needs:* B2.2 (`automorphicAnalyticComparison`); B4.9 (`analyticClassicalComparison`);
+*Needs:* 3.2 (`automorphicAnalyticComparison`); 11.9 (`analyticClassicalComparison`);
 AlgebraicModularFormsAndSerreWeights R15.1 (*Geometric modular forms*, *All-weight analytic
 comparison*); Mathlib `ModularForm`; Mathlib `CuspForm`; Mathlib `ModularForm.SL_slash_apply`;
 Mathlib `ModularForm.slash_action_eq'_iff`; Mathlib `ModularForm.smul_slash`; Mathlib
@@ -4109,7 +4106,7 @@ Mathlib `ModularForm.slash_action_eq'_iff`; Mathlib `ModularForm.smul_slash`; Ma
 
 - At non-full level the cusp condition is tested at every cusp; vanishing of one infinity constant does not replace the all-cusp comparison.
 
-### B4.11 Arithmetic Hilbert weights
+### 11.11 Arithmetic Hilbert weights
 
 Define `HilbertArithmeticWeight` for an index type `I` by integers `k_τ` and a common integer w
 with `k_τ≡w` mod 2. For an arithmetic Hilbert coefficient `I` is the finite set of real embeddings
@@ -4137,9 +4134,9 @@ The API:
 **Checks.**
 
 - `k=0,w=0` is an arithmetic weight and every `m_τ=0`.
-- `HilbertArithmeticWeight_test_negative` (computation): For one embedding, `k=4,w=2` gives `m=−1`, so
+- (computation) For one embedding, `k=4,w=2` gives `m=−1`, so
   forbidding negative determinant twists would lose an allowed weight.
-- `HilbertArithmeticWeight_test_parity` (non-example): `k=3,w=2` violates parity and is not an
+- (non-example) `k=3,w=2` violates parity and is not an
   arithmetic weight.
 - At one index, adding `(k,w) = (4,2)` to
   `(2,0)` gives `(6,2)` and determinant exponent `−2`, the sum of the two exponents `−1`.
@@ -4148,10 +4145,10 @@ The API:
   from that of `a`.
 
 
-### B4.12 The split Hilbert coefficient
+### 11.12 The split Hilbert coefficient
 
-Construct `hilbertCoefficient`, the identification of H5.3 `hodgeSplittingDescent` and
-H5.4 `algebraicWeightsUnits` with B2.1's uniform associated-bundle functor. Over a
+Construct `hilbertCoefficient`, the identification of H5.3's Hodge splitting and descent and
+H5.4's algebraic weight line with 3.1's uniform associated-bundle functor. Over a
 characteristic-zero splitting field L for F and the actual Hilbert–Blumenthal family, take a
 `HilbertArithmeticWeight (k,w)` and use `H¹_dR=⊕_τH_τ` and `ω=⊕_τω_τ`, with ranks two and one.
 Set `δ_τ=det H_τ` and identify the supplied line
@@ -4171,24 +4168,24 @@ The API:
 - `hilbertCoefficient_add`: Coefficient tensor products correspond to addition of arithmetic
   weights.
 
-*Needs:* B4.11 (`HilbertArithmeticWeight`); B2.1 (`automorphicVectorBundle`); B0.3
+*Needs:* 11.11 (`HilbertArithmeticWeight`); 3.1 (`automorphicVectorBundle`); 0.3
 (`hodgeParabolicConvention`); HilbertModularVarietiesAndShimuraCurves H1 (Hilbert–Blumenthal
-families and their `O_F ⊗ O`-modules), H5.3 (`hodgeSplittingDescent`),
-H5.4 (`algebraicWeightsUnits`).
+families and their `O_F ⊗ O`-modules), H5.3 (Hilbert Hodge splitting and descent),
+H5.4 (algebraic Hilbert weights and central units).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `hilbertCoefficient_test_rational` (compatibility): For `F=Q`, `(k,w=k)` has `m=0` and gives `ω^k`.
-- `hilbertCoefficient_test_determinant` (computation): For every embedding `k_τ=0,w=2`, the
+- (compatibility) For `F=Q`, `(k,w=k)` has `m=0` and gives `ω^k`.
+- (computation) For every embedding `k_τ=0,w=2`, the
   coefficient is `⊗_τdet H_τ`.
-- `hilbertCoefficient_test_negative` (non-example): At `k_τ=4,w=2` the determinant factor is `δ_τ⁻¹`;
+- (non-example) At `k_τ=4,w=2` the determinant factor is `δ_τ⁻¹`;
   replacing m by its absolute value changes the central character.
 
-### B4.13 The Hilbert central-action check
+### 11.13 The Hilbert central-action check
 
-Prove `hilbertCentralDescent`, identifying H5.4's scalar-stabilizer descent maps with B0.2
-and B2.1's uniform coefficient descent. For the actual `Res_{F/ℚ}GL₂` or `G*` quotient and its ineffective
+Prove `hilbertCentralDescent`, identifying H5.4's scalar-stabilizer descent maps with 0.2
+and 3.1's uniform coefficient descent. For the actual `Res_{F/ℚ}GL₂` or `G*` quotient and its ineffective
 central subgroup C, the split coefficient descends precisely when Norm(t)^w, or its homology
 inverse, is trivial on C. Totally positive norm-one units pass this test, but remaining signs and
 finite stabilizers need their own check. Use H0/H3/H4's true polarization and unit quotient for `G*`,
@@ -4197,10 +4194,10 @@ retaining the stack coefficient if descent fails.
 *Source:* [Milne90], III §8, pp.63–64; [Diamond21], §3.2, tensor coefficient formula, Definition
 3.2.1 and paritious-weight paragraph, p.12.
 
-*Needs:* B4.12 (`hilbertCoefficient`); B0.2 (`ineffectiveFibreDescent`);
+*Needs:* 11.12 (`hilbertCoefficient`); 0.2 (`ineffectiveFibreDescent`);
 HilbertModularVarietiesAndShimuraCurves H0 (Hilbert data, centres and effective quotients);
 HilbertModularVarietiesAndShimuraCurves H3 (polarization and unit quotients);
-HilbertModularVarietiesAndShimuraCurves H5.4 (`algebraicWeightsUnits`);
+HilbertModularVarietiesAndShimuraCurves H5.4 (algebraic Hilbert weights and central units);
 HilbertModularVarietiesAndShimuraCurves H4 (central level kernels and stabilizers).
 *Lean:* none; specified in the README only.
 
@@ -4213,23 +4210,23 @@ HilbertModularVarietiesAndShimuraCurves H4 (central level kernels and stabilizer
 
 - The weight `w=0` gives trivial central norm character, but passage to a coarse non-neat quotient still requires trivial finite stabilizer action.
 
-### B4.14 Hilbert coefficients without a global splitting
+### 11.14 Hilbert coefficients without a global splitting
 
 Prove `unsplitHilbertDescent`, comparing H5.3's semilinear embedding-permutation descent
-and H5.4's weight line with B0.9 and B2.1. Work in characteristic zero. Before a splitting extension use the `O_F⊗O`-linear Hodge and de Rham
+and H5.4's weight line with 0.9 and 3.1. Work in characteristic zero. Before a splitting extension use the `O_F⊗O`-linear Hodge and de Rham
 modules with their determinant/norm constructions, rather than global embedding idempotents. After
 splitting, descend the labelled tensor coefficient using the actual Galois permutation of embeddings
 and representation datum, together with the central descent condition. Its field is the
 weight/representation field and can exceed the reflex field. The comparison intertwines the
-supplied descent cocycles, tensor maps and central quotient. Ramified integral lines use B3.Hilbert.0
-and B4.15.
+supplied descent cocycles, tensor maps and central quotient. Ramified integral lines use 7.1
+and 11.15.
 
 *Source:* [Milne90], III §5, Theorem 5.1, p.61; III §8, pp.63–64.
 
-*Needs:* B4.12 (`hilbertCoefficient`); B0.9 (`coefficientGaloisDescent`); B4.13
+*Needs:* 11.12 (`hilbertCoefficient`); 0.9 (`coefficientGaloisDescent`); 11.13
 (`hilbertCentralDescent`); HilbertModularVarietiesAndShimuraCurves H1 (Hilbert–Blumenthal families
-and their `O_F ⊗ O`-modules), H5.3 (`hodgeSplittingDescent`), H5.4 (`algebraicWeightsUnits`);
-B2.1 (`automorphicVectorBundle`).
+and their `O_F ⊗ O`-modules), H5.3 (Hilbert Hodge splitting and descent), H5.4 (algebraic Hilbert weights and central units);
+3.1 (`automorphicVectorBundle`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4241,7 +4238,7 @@ B2.1 (`automorphicVectorBundle`).
 
 - Before splitting, the determinant over the base ring of the Hodge module has rank one; it is not formed using nonexistent global embedding projectors.
 
-### B4.15 The ramified Hilbert weight line
+### 11.15 The ramified Hilbert weight line
 
 Construct `ramifiedHilbertLine`. Let `F ≠ ℚ` be totally real, `p` a prime that may ramify in `F`
 (including `p = 2`), `O` the valuation ring of a sufficiently large `p`-adic field with the set `Θ`
@@ -4261,7 +4258,7 @@ some `n > 0` or `k_θ + 2m_θ` independent of `θ`.
 trivial-unit-character condition is part of the construction of `A_{k,m,R}` on `Y_R`. The
 pushforward to the minimal model is coherent and need not be invertible.
 
-*Source:* [Diamond22], §2.9, p.7, and §2.10, pp.7–8; §6.1, p.24; [Diamond21], §3.2, Definition 3.2.1
+*Source:* [Diamond22], §2.9, pp.6–7, and §2.10, pp.7–8; §6.1, p.23; [Diamond21], §3.2, Definition 3.2.1
 and the paritious-weight paragraph, p.12.
 
 The API:
@@ -4273,34 +4270,34 @@ The API:
   along the boundary as described by Diamond 2021, Proposition 7.2.1.
 - `ramifiedHilbertLine_minimal`: `i_*A_{k,m,R}` is coherent on `Y^min_R`.
 - `ramifiedHilbertLine_unramified`: where `p` is unramified, `ω_θ` and `δ_θ` are the embedding
-  components of B4.12, and for parallel `k + 2m = w` the line is that coefficient for the arithmetic
+  components of 11.12, and for parallel `k + 2m = w` the line is that coefficient for the arithmetic
   weight `(k, w)`.
 
-*Needs:* B3.Hilbert.1–3 (splitting-model compactifications, semi-abelian
-coefficient lines and completed descent); B3.Hilbert.0 (open splitting filtration);
-HilbertModularVarietiesAndShimuraCurves H3 (unit and polarization quotients); B4.11–B4.12
+*Needs:* 7.3–7.5 (splitting-model compactifications, semi-abelian
+coefficient lines and completed descent); 7.1 (open splitting filtration);
+HilbertModularVarietiesAndShimuraCurves H3 (unit and polarization quotients); 11.11–11.12
 (Hilbert arithmetic weight and its characteristic-zero coefficient comparison).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `ramifiedHilbertLine_test_zero` (degenerate): `(k, m) = (0, 0)` gives `O_Y`.
-- `ramifiedHilbertLine_test_parallel` (compatibility): for `k = (1, …, 1)` and `m = 0` over a
+- (degenerate) `(k, m) = (0, 0)` gives `O_Y`.
+- (compatibility) for `k = (1, …, 1)` and `m = 0` over a
   characteristic-zero `R`, `A_{k,m}` is `⊗_θ ω_θ = det_R(ω)`, the determinant of the
-  rank-`[F : ℚ]` Hodge bundle over the base ring, and agrees with B4.12 at `k_τ = 1`, `w = 1`.
-- `ramifiedHilbertLine_test_descent` (non-example): for `F` real quadratic, `R` nonzero and flat over `O` and
+  rank-`[F : ℚ]` Hodge bundle over the base ring, and agrees with 11.12 at `k_τ = 1`, `w = 1`.
+- (non-example) for `F` real quadratic, `R` nonzero and flat over `O` and
   `k + 2m = (1, 3)`, a unit `u` of norm one has `χ(u) = θ₁(u) θ₂(u)³ = θ₁(u)⁻²`, which is not `1`
   unless `u = ±1`; so the unit condition fails on every finite-index subgroup of `O_F^×` and
   `Ã_{k,m,R}` does not descend to `Y_R`. A definition that ignores the unit character produces a
   sheaf on the wrong space. For the zero `O`-algebra the model is empty and the line descends.
 
-### B4.16 Siegel Schur and determinant coefficients
+### 11.16 Siegel Schur and determinant coefficients
 
 Construct `siegelCoefficient`. For a rank-g cohomological Hodge bundle `ω` and dominant integer
 `λ₁≥⋯≥λ_g`, set `a_i=λ_i−λ_g` and define `S_a(ω)⊗det(ω)^{λ_g}` in characteristic zero. Declare the
 similitude/Tate character independently. For a good integral base require the actual integral Schur
 representation. Compare with BCGP's two tautological Levi coefficients using the opposite/dual
-switch from B2, without asserting a split Hodge sequence. Scalar `λ=(r,…,r)` gives `det(ω)^r`;
+switch from Layer 3, without asserting a split Hodge sequence. Scalar `λ=(r,…,r)` gives `det(ω)^r`;
 `λ=(1,0,…,0)` gives the rank-g `ω`.
 
 *Source:* [BCGP], §3.2.19, p.45; §4.8.1–4.8.2, pp.101–102; [HLTT], Appendix B.8, pp.270–271.
@@ -4312,7 +4309,7 @@ The API:
 - `siegelCoefficient_scalar`: For `λ=(r,…,r)` the coefficient is `det(ω)^r`.
 - `siegelCoefficient_standard`: For `λ=(1,0,…,0)` it is `ω`.
 
-*Needs:* B2.1 (`automorphicVectorBundle`); B2.3 (`leviHighestWeightConvention`); PELModuli M3
+*Needs:* 3.1 (`automorphicVectorBundle`); 3.3 (`leviHighestWeightConvention`); PELModuli M1.7
 (fine-level universal abelian families); PELModuli M5 (the Siegel and split `GU(1,1)` examples);
 AbelianSchemesAndArithmeticModuli A4 (`AbelianH1dR` with its Hodge sequence and Gauss–Manin
 connection, `AbelianTate`, `exteriorCohomology`);
@@ -4321,14 +4318,14 @@ TauCetiRoadmap.RepresentationTheory.ClassicalGroups Layer 2 (`schurFunctor`).
 
 **Checks.**
 
-- `siegelCoefficient_test_g1` (compatibility): For `g=1` the coefficient is the modular Hodge-line
+- (compatibility) For `g=1` the coefficient is the modular Hodge-line
   power `ω^{λ₁}`.
-- `siegelCoefficient_test_det` (computation): For `λ=(−1,…,−1)` it is `det(ω)⁻¹`, not a polynomial-only
+- (computation) For `λ=(−1,…,−1)` it is `det(ω)⁻¹`, not a polynomial-only
   Schur coefficient.
-- `siegelCoefficient_test_standard` (non-example): For g>1, `λ=(1,0,…,0)` yields rank g, so replacing
+- (non-example) For g>1, `λ=(1,0,…,0)` yields rank g, so replacing
   every Siegel coefficient by a scalar determinant power fails.
 
-### B4.17 A split unitary coefficient test
+### 11.17 A split unitary coefficient test
 
 Construct `unitaryCoefficient`. For the imaginary-quadratic `GU(1,1)` PEL datum over L containing the
 two labelled embeddings `τ` and `barτ`, take `H¹_dR=H_τ⊕H_barτ` with rank-two summands and rank-one Hodge
@@ -4345,20 +4342,20 @@ The API:
 - `unitaryCoefficient_conjugate`: The embedding permutation transports (k,l;n) to (l,k;n) and the
   transported PEL coefficient.
 
-*Needs:* B2.1 (`automorphicVectorBundle`); B0.9 (`coefficientGaloisDescent`); B0.2
-(`ineffectiveFibreDescent`); PELModuli M0 (PEL data and their compact duals); PELModuli M3
+*Needs:* 3.1 (`automorphicVectorBundle`); 0.9 (`coefficientGaloisDescent`); 0.2
+(`ineffectiveFibreDescent`); PELModuli M0 (PEL data and their compact duals); PELModuli M1.7
 (fine-level universal abelian families); PELModuli M5 (the Siegel and split `GU(1,1)` examples).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `unitaryCoefficient_test_unit` (degenerate): Weight `(0,0;0)` gives O.
-- `unitaryCoefficient_test_line` (computation): Weight `(1,0;0)` gives `ω_τ`, while `(0,1;0)` gives the
+- (degenerate) Weight `(0,0;0)` gives O.
+- (computation) Weight `(1,0;0)` gives `ω_τ`, while `(0,1;0)` gives the
   differently labelled `ω_barτ`.
-- `unitaryCoefficient_test_twist` (non-example): Weight `(0,0;1)` is `ν`, so erasing the formal
+- (non-example) Weight `(0,0;1)` is `ν`, so erasing the formal
   similitude/Tate line loses a coefficient even when `k=l=0`.
 
-### B4.18 Rational forms and field base change
+### 11.18 Rational forms and field base change
 
 Prove `numberFieldFormsBaseChange`. For a proper toroidal model over L and a coherent canonical or
 subcanonical coefficient F, prove finite dimension of `H⁰` and the field-extension isomorphism
@@ -4368,7 +4365,7 @@ base-change assertion would require different hypotheses.
 
 *Source:* [Milne90], III §7, Definition 7.1 and Proposition 7.2, p.62; Corollary 7.3, p.63.
 
-*Needs:* B4.1 (`classicalForms`); B4.2 (`cuspForms`); B3.9 (`canonicalRationalDescent`); B4.9
+*Needs:* 11.1 (`classicalForms`); 11.2 (`cuspForms`); 5.9 (`canonicalRationalDescent`); 11.9
 (`analyticClassicalComparison`).
 *Lean:* none; specified in the README only.
 
@@ -4381,7 +4378,7 @@ base-change assertion would require different hypotheses.
 
 - On `Spec L[t]` the unit section space has the independent powers of `t` and is not finite-dimensional; properness cannot be omitted from that conclusion.
 
-### B4.19 Sections on quasi-compact quasi-separated stacks and filtered colimits
+### 11.19 Sections on quasi-compact quasi-separated stacks and filtered colimits
 
 Prove `qcqsSectionsColimit`. On a quasi-compact and quasi-separated algebraic stack `𝒳`,
 homomorphisms out of a finitely presented `O_𝒳`-module `𝓖` commute with filtered colimits: for every
@@ -4403,14 +4400,14 @@ products is asserted.
 **Checks.**
 
 - For an infinite direct sum `M = ⊕_{n∈ℕ} R` the sections of `𝓔 ⊗_R M` are `⊕_n Γ(𝓔)`; for the
-  product `∏_n R` no such statement is made, and the expansion principle of Layer B5 never uses one.
+  product `∏_n R` no such statement is made, and the expansion principle of Layer 12 never uses one.
 - On a non-quasi-compact scheme `⊔_{n∈ℕ} Spec R` the global sections of `O ⊗ M` are `∏_n M`, and
   `colim` over finitely generated submodules of `M` fails to reach them when `M` is not finitely
   generated; the qcqs hypothesis is necessary.
 
 - On `Spec R` with finitely presented source `R^n`, a homomorphism into a filtered colimit is specified by `n` elements, which occur together at a finite stage. An infinitely generated free source need not have this property.
 
-### B4.20 Integral automorphic forms with arbitrary coefficient modules
+### 11.20 Integral automorphic forms with arbitrary coefficient modules
 
 Define `integralForms`. On Lan's good-prime PEL toroidal model `M^tor_H` over `O_{F₀,(□)}`, the
 proper smooth algebraic stack attached to a compatible choice of smooth projective cone
@@ -4418,13 +4415,13 @@ decompositions, let `ω_tor = ∧^top Lie^∨_{G^tor/M^tor}` be the Hodge invert
 tautological semi-abelian scheme. For `k ≥ 0` and an arbitrary `O_{F₀,(□)}`-module `M` define
 `AF(k, M) = Γ(M^tor_H, ω_tor^{⊗k} ⊗_{O_{F₀,(□)}} M)`, the automorphic forms of naive parallel weight
 `k` with coefficients in `M`. For vector coefficients put `AF(W, M) = Γ(M^tor_H, Ecan(W) ⊗_R M)` and
-`AF_cusp(W, M) = Γ(M^tor_H, Esub(W) ⊗_R M)`, with `Ecan` and `Esub` from B3.10. The coefficient
+`AF_cusp(W, M) = Γ(M^tor_H, Esub(W) ⊗_R M)`, with `Ecan` and `Esub` from 5.10. The coefficient
 module is tensored inside the sheaf: `Γ(Ecan(W)) ⊗_R M` is a different module in general. As a
 functor of `M`, `AF(W, −)` is left exact and commutes with filtered colimits, and it does not depend
 on the cone decomposition.
 
 *Hypotheses.* `M` is arbitrary: it need not be flat, finitely generated or an algebra. The weight is
-the naive parallel weight of the Hodge line or a representation `W` as in B3.10.
+the naive parallel weight of the Hodge line or a representation `W` as in 5.10.
 
 *Source:* [LanPEL], Definition 7.1.1.1 and Remark 7.1.1.3, p.532; Lemma 7.1.1.4, pp.532–533.
 
@@ -4433,36 +4430,36 @@ The API:
 - `integralForms_map`: an `R`-linear map `M → N` induces `AF(W, M) → AF(W, N)`, with identity and
   composition laws.
 - `integralForms_colimit`: `AF(W, colim_i M_i) = colim_i AF(W, M_i)` for a filtered system, by
-  B4.19.
+  11.19.
 - `integralForms_fan`: for a refinement `Σ′` of `Σ`, pullback gives `AF_Σ(W, M) ≅ AF_{Σ′}(W, M)` and
-  the same for cusp forms (ShimuraCompactifications C3.9 `ToroidalRefinement.cohomology_iso`).
+  the same for cusp forms (ShimuraCompactifications §4.10 `ToroidalRefinement.cohomology_iso`).
 - `integralForms_cusp_include`: `AF_cusp(W, M) → AF(W, M)`, induced by `I_D ⊂ O`, is injective.
 - `integralForms_charZero`: for `M = L` a characteristic-zero field over the base, `AF(W, L)` and
-  `AF_cusp(W, L)` are B4.1 and B4.2 of the automorphic bundle of `W`.
+  `AF_cusp(W, L)` are 11.1 and 11.2 of the automorphic bundle of `W`.
 
-*Needs:* B3.10 (`integralLeviCoefficient`); B4.1 (`classicalForms`); B4.2 (`cuspForms`); B4.19
-(`qcqsSectionsColimit`); ShimuraCompactifications C5 (C5.3 `IntegralToroidalModel`);
-ShimuraCompactifications C3 (C3.9 `ToroidalRefinement.cohomology_iso`).
+*Needs:* 5.10 (`integralLeviCoefficient`); 11.1 (`classicalForms`); 11.2 (`cuspForms`); 11.19
+(`qcqsSectionsColimit`); ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`);
+ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `integralForms_test_zero` (degenerate): `AF(k, 0) = 0`.
-- `integralForms_test_field` (compatibility): for `M` a characteristic-zero field the module is the
-  classical space `M(J, K; L)` of B4.1 for the determinant-Hodge coefficient of weight `k`.
-- `integralForms_test_leftExact` (characterisation): for `0 → R →^p R → R/p → 0` with `p` a
+- (degenerate) `AF(k, 0) = 0`.
+- (compatibility) for `M` a characteristic-zero field the module is the
+  classical space `M(J, K; L)` of 11.1 for the determinant-Hodge coefficient of weight `k`.
+- (characterisation) for `0 → R →^p R → R/p → 0` with `p` a
   nonzerodivisor on the flat model, the sequence `0 → AF(k, R) → AF(k, R) → AF(k, R/p)` is exact and
   the last map is onto exactly when `H¹(M^tor_H, ω_tor^k)` has no `p`-torsion. The alternative
   `AF(k, R) ⊗_R M` would make the last map onto in every case, so it fails as soon as that `H¹` has
   `p`-torsion.
-- `integralForms_test_fan` (compatibility): the module does not change when `Σ` is replaced by a
+- (compatibility) the module does not change when `Σ` is replaced by a
   smooth projective refinement.
 
-### B4.21 The classical VB coefficient normalization
+### 11.21 The classical VB coefficient normalization
 
 Prove `classicalVBTateNormalization`. In BCGP's Hodge-type setting, fix neat tame `K^p`, a p-adic
 field large enough for the split group and reflex embeddings, compatible toroidal fans, and the
-rational Hodge–Tate `M`-torsor and finite-algebraic `VB⁰` constructed in B3.HT.6–8. For an algebraic Levi
+rational Hodge–Tate `M`-torsor and finite-algebraic `VB⁰` constructed in 10.6–10.8. For an algebraic Levi
 coefficient `L_κ` identify `VB⁰_Σ(L_κ)≃ω^{κ,sm}(κ(μ))`, where `ω^{κ,sm}=colim_{K_p}ω^κ_{K_p}` has the
 classical rational structure. Transport the comparison when the group action moves fans, using
 compatible refinements. The `μ`-weight twist belongs to this identification; §4.8's coherent
@@ -4470,8 +4467,8 @@ convention is untwisted.
 
 *Source:* [BCGP], §4.5, proof end p.78.
 
-*Needs:* B3.HT.6–8 (actual Hodge-type toroidal tower, rational period torsor
-and algebraic descent); B2.1, B2.3; B1.5, B1.10; B3.2, B3.6.
+*Needs:* 10.6–10.8 (actual Hodge-type toroidal tower, rational period torsor
+and algebraic descent); 3.1, 3.3; 1.5, 1.10; 5.3, 5.6.
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4486,130 +4483,165 @@ and algebraic descent); B2.1, B2.3; B1.5, B1.10; B3.2, B3.6.
 ### Examples
 
 - For a proper geometrically connected model the unit coefficient has `H⁰ = L`, while on `Spec L[t]`
-  the sections `1, t, t², …` are independent; properness is essential (B4.1).
+  the sections `1, t, t², …` are independent; properness is essential (11.1).
 - For an arithmetic Hilbert weight with `k = 4`, `w = 2` at one embedding the determinant exponent
-  is `m = −1`; replacing it by its absolute value changes the central character (B4.11, B4.12).
+  is `m = −1`; replacing it by its absolute value changes the central character (11.11, 11.12).
 - For the rational shears `S_x(a, b) = (a + b, b)` and `S_y(a, b) = (a, a + b)` and the constant
   factor `J(g, x) = g`, `J(S_xS_y, x)(1, 0) = (2, 1)` while `J(S_yS_x, x)(1, 0) = (1, 1)`; the slash
-  adapter sends the constant `(1, 0)` to `(1, −1)` under `S_xS_y` (B4.3, B4.4).
+  adapter sends the constant `(1, 0)` to `(1, −1)` under `S_xS_y` (11.3, 11.4).
 - For `0 → ℤ_(p) → ℤ_(p) → 𝔽_p → 0` the map `AF(k, ℤ_(p)) → AF(k, 𝔽_p)` is onto exactly when
-  `H¹(ω_tor^k)` has no `p`-torsion (B4.20).
+  `H¹(ω_tor^k)` has no `p`-torsion (11.20).
 
 ### Dependencies
 
-Layers B0–B3.general; AlgebraicModularFormsAndSerreWeights R15.1; ComplexComparisonPartII C2;
-HilbertModularVarietiesAndShimuraCurves H0–H4; PELModuli M0, M3, M5; ShimuraCompactifications C3,
-C5, C6; TauCetiRoadmap RepresentationTheory/ClassicalGroups Layer 2; Mathlib `SlashAction`,
-`ModularForm`, `CuspForm`; B3.Hilbert.1–3 and B3.HT.6–8.
+Layers 0–6; AlgebraicModularFormsAndSerreWeights R15.1; ComplexComparisonPartII C2;
+HilbertModularVarietiesAndShimuraCurves H0–H4; PELModuli M0, M1.7, M5; ShimuraCompactifications Layer 4,
+Layer 7, Layer 8; TauCetiRoadmap RepresentationTheory/ClassicalGroups Layer 2; Mathlib `SlashAction`,
+`ModularForm`, `CuspForm`; 7.3–7.5 and 10.6–10.8.
 
-## Layer B5: Hecke action and Fourier expansions
+## Layer 12: Hecke action and Fourier expansions
 
 This layer works in four distinct geometric settings: determinant-weight good-prime PEL
 coefficients, finite projective vector coefficients on the same PEL models, prime-to-`p` ramified
 Hilbert coefficients, and the characteristic-zero classical Siegel comparison; each target names its
-base and model. B5.1a constructs the scalar expansion with degree modules
-`Γ(C_Φ, Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)` directly on the abelian torsor for arbitrary `M`.
-ShimuraCompactifications C5.15 `HodgeLineFJ` instead tensors after pushforward; comparison
-requires the coefficient base-change isomorphism specified in B5.1a.
-This layer proves the expansion principle for it — injectivity on prime quotients, then finite
+base and model. The scalar expansion is ShimuraCompactifications §7.15 `HodgeLineFJ`, valued in the base-level
+modules `Γ(M^Z, p_*Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)`; 12.2 reads its coefficients on the abelian torsor, in the
+modules `Γ(C_Φ, Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)`, through the coefficient base-change comparison.
+This layer proves the expansion principle for `HodgeLineFJ` through that description — injectivity on prime quotients, then finite
 modules by a prime filtration, then arbitrary modules by filtered colimits — and the geometric
 detection hypotheses are established before that algebraic reduction. It then constructs geometric
 Hecke operators, extends expansions to vector coefficients and to Diamond's ramified Hilbert
 setting, and states the classical Siegel Hodge–Tate decompositions.
 
-### B5.1 The trace of a finite locally free morphism
+### 12.1 The coefficient trace adapter
 
-For a finite locally free morphism `π : X → Y` of schemes, use AdicSpacesPartIII R3.8's
-`AlgebraicGeometry.Scheme.Hom.finiteTrace`, with `finiteLocallyFreeTrace` as a transparent alias:
-`finiteLocallyFreeTrace π = AlgebraicGeometry.Scheme.Hom.finiteTrace π`.
-The trace `Tr_π : π_*O_X → O_Y` sends a local section `f` to the trace of multiplication
-by `f` on the finite locally free `O_Y`-module `π_*O_X`. It is `O_Y`-linear and `Tr_π ∘ π^♯` is
-multiplication by the locally constant degree of `π`. Construct the coefficient adapter: for a finite
-locally free `O_Y`-module `𝓕`, the projection formula `π_*π^*𝓕 ≅ π_*O_X ⊗ 𝓕` gives
-`Tr_{π,𝓕} : π_*π^*𝓕 → 𝓕`. The trace is
-transitive along composites of finite locally free morphisms and commutes with base change along any
-`Y′ → Y`; on an affine open where `π_*O_X` is free with a basis it is the algebra trace computed in
-that basis. For finite locally free morphisms of algebraic stacks the trace is defined by descent
-along a flat atlas, by the base-change property.
+Construct `coefficientTrace`. For a finite locally free morphism `π : X → Y` of schemes the trace
+`Tr_π : π_*O_X → O_Y` is AdicSpacesPartIII R3.8's `AlgebraicGeometry.Scheme.Hom.finiteTrace`, with
+its `O_Y`-linearity, its unit law `Tr_π ∘ π^♯ = deg(π)·id`, its composition law and its base-change
+law supplied there. The targets here are its two extensions. For a finite locally free
+`O_Y`-module `𝓕` the projection formula `π_*π^*𝓕 ≅ π_*O_X ⊗ 𝓕` gives the coefficient trace
+`Tr_{π,𝓕} : π_*π^*𝓕 → 𝓕`, which is `Tr_π ⊗ id_𝓕` under that isomorphism, natural in `𝓕`,
+transitive along composites of finite locally free morphisms and compatible with base change along
+any `Y′ → Y`. For a representable finite locally free morphism of algebraic stacks `π : 𝒳 → 𝒴`
+and a finite locally free `𝓕` on `𝒴`, define `Tr_{π,𝓕}` by descent along a flat atlas of `𝒴`,
+gluing by the base-change law; it is independent of the atlas and restricts to the scheme-level map
+on every atlas chart.
 
-*Hypotheses.* `π` is finite and locally free; the trace of a finite morphism that is not flat is not
-defined by this construction. No averaging by the degree is involved, so the degree need not be
-invertible.
+*Hypotheses.* `π` is finite and locally free, and representable in the stack case; the trace of a
+finite morphism that is not flat is not defined by this construction. No averaging by the degree is
+involved, so the degree need not be invertible.
 
 *Source:* [StacksTrace], 0BVH, Section 49.3.
 
-The API, with the scheme-level scalar laws inherited from AdicSpacesPartIII R3.8:
+The API:
 
-- `finiteLocallyFreeTrace_linear`: `Tr_π` is `O_Y`-linear.
-- `finiteLocallyFreeTrace_unit`: `Tr_π(π^♯ a) = deg(π)·a`.
-- `finiteLocallyFreeTrace_comp`: `Tr_{π∘π′} = Tr_π ∘ π_*Tr_{π′}` for finite locally free
+- `coefficientTrace_tensor`: `Tr_{π,𝓕} = Tr_π ⊗ id_𝓕` under the projection formula, and
+  `Tr_{π,O_Y} = Tr_π`.
+- `coefficientTrace_natural`: a map `𝓕 → 𝓖` of finite locally free modules commutes with
+  `Tr_{π,𝓕}` and `Tr_{π,𝓖}`.
+- `coefficientTrace_comp`: `Tr_{π∘π′,𝓕} = Tr_{π,𝓕} ∘ π_*Tr_{π′,π^*𝓕}` for finite locally free
   `π′ : X′ → X`.
-- `finiteLocallyFreeTrace_baseChange`: formation commutes with base change along `Y′ → Y`.
-- `finiteLocallyFreeTrace_coefficient`: `Tr_{π,𝓕}` is natural in `𝓕` and equals `Tr_π ⊗ id_𝓕` under
-  the projection formula.
+- `coefficientTrace_baseChange`: formation commutes with base change along `Y′ → Y`.
+- `coefficientTrace_stack`: the descended trace on a stack is independent of the flat atlas and
+  satisfies the same laws.
 
-*Needs:* AdicSpacesPartIII R3.8 (`AlgebraicGeometry.Scheme.Hom.finiteTrace`, its finite-projective
-scalar trace, unit, composition and arbitrary-base-change laws);
-Mathlib `Algebra.trace_algebraMap_of_basis`, `Algebra.trace_trace`,
-`LinearMap.trace_baseChange`; SchemeAndStackFoundations Layer 1 (§1.1,
+*Needs:* AdicSpacesPartIII R3.8 (`AlgebraicGeometry.Scheme.Hom.finiteTrace`, `finiteTrace_comp_unit`,
+`finiteTrace_comp`, `finiteTrace_baseChange`); Mathlib `Algebra.trace_algebraMap_of_basis`,
+`Algebra.trace_trace`, `LinearMap.trace_baseChange`; SchemeAndStackFoundations Layer 1 (§1.1,
 §1.22).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `finiteLocallyFreeTrace_test_identity` (degenerate): for `π = id`, `Tr_π = id`.
-- `finiteLocallyFreeTrace_test_quadratic` (computation): for `X = Spec R[t]/(t² − a) → Y = Spec R`,
-  `Tr(1) = 2`, `Tr(t) = 0` and `Tr(t²) = 2a`; the trace is not divided by the degree.
-- `finiteLocallyFreeTrace_test_charP` (non-example): for the trivial cover `X = ⊔_{i=1}^{p} Y` over
-  an `𝔽_p`-scheme, `Tr(1) = p = 0`; an operator defined by averaging over the fibre does not exist
-  there, while the trace does.
+- (degenerate) for `π = id` and every `𝓕`, `Tr_{π,𝓕} = id_𝓕`.
+- (computation) for `X = Spec R[t]/(t² − a) → Y = Spec R` and `𝓕 = O_Y²`, the coefficient trace
+  sends `(1, t)` to `(2, 0)` and `(t, t²)` to `(0, 2a)`; it is not divided by the degree.
+- (non-example) for the trivial cover `X = ⊔_{i=1}^{p} Y` over an `𝔽_p`-scheme, `Tr_{π,O}(1) = p = 0`;
+  an operator defined by averaging over the fibre does not exist there, while the trace does.
+- (non-example) for the normalization of a nodal curve over a field, `π` is finite but not flat, and
+  no coefficient trace is defined by this construction.
 
-### B5.1a Scalar expansion with coefficients inside the sheaf
+### 12.2 The torsor-level description of the scalar expansion
 
-Construct `ScalarFourierJacobi.expansion`. On Lan's smooth good-prime PEL toroidal model
-flat over the allowed Noetherian coefficient algebra `R`, fix `k≥0` and any `R`-module `M`.
-For each cusp, restrict `ω_tor^k⊗_R M` to every finite boundary thickening. Use the homogeneous
-toric charts and the Hodge-line identification to extract sections of
-`Ψ_Φ(ℓ)⊗L_Φ^k⊗_R M` on `C_Φ`, then pass to the inverse limit of thickenings. The resulting
-map on `AF(k,M)` takes values in the full-stabilizer invariant family of these degree modules,
-with the fan's completion support. It is not defined by tensoring the completed `M=R` map.
+Prove `ScalarFourierJacobi.torsorDescription`. On Lan's smooth good-prime PEL toroidal model over the
+allowed Noetherian coefficient base `R`, a field or Dedekind domain, fix `k ≥ 0`, an `R`-module `M`,
+a cusp label `(Φ, δ)` with abelian torsor `p : C_Φ → M^Z` over the finite étale cover of the
+boundary moduli space, the character lines `Ψ_Φ(ℓ)` for `ℓ ∈ P_Φ^∨` and the boundary determinant
+line `L_Φ`. ShimuraCompactifications §7.15's `HodgeLineFJ` is the scalar expansion
+`AF(k, M) → [∏_ℓ Γ(M^Z, p_*Ψ_Φ(ℓ) ⊗ L_Φ^k ⊗_R M)]^{Γ_Φ}`, obtained by completed restriction along the
+stratum, the Hodge-line identification and the homogeneous decomposition of the completed charts.
+Construct the comparison `c_{ℓ,M} : p_*Ψ_Φ(ℓ) ⊗_R M → p_*(Ψ_Φ(ℓ) ⊗_R M)` of quasi-coherent modules
+on `M^Z`, natural in `M` with identity and composition laws, compatible with the cusp-representative
+transports and the `Γ_Φ`-action, and such that `Γ(M^Z, −)` of its target tensored with `L_Φ^k` is
+the torsor-level module `Γ(C_Φ, Ψ_Φ(ℓ) ⊗ p^*L_Φ^k ⊗_R M)`, by adjunction and the projection formula
+for the invertible `L_Φ^k`. Prove that `c_{ℓ,M}` is an isomorphism when `M` is flat over `R`, and,
+for every `M`, when `R^i p_*Ψ_Φ(ℓ)` is locally free over `M^Z` for every `i ≥ 0`: the derived
+projection formula gives `Rp_*(Ψ_Φ(ℓ) ⊗_R M) ≅ Rp_*Ψ_Φ(ℓ) ⊗^L_R M`, and local freeness kills the
+Tor terms in its degree-zero cohomology. For `ℓ` with `R^{>0} p_*Ψ_Φ(ℓ) = 0` and `p_*Ψ_Φ(ℓ)` locally
+free the second condition holds. The torsor-level description of the expansion is the identity
+`Γ(c_{ℓ,M}) ∘ HodgeLineFJ^{(ℓ)} = FJ^{C,(ℓ)}`, where
+`FJ^{C,(ℓ)} : AF(k, M) → Γ(C_Φ, Ψ_Φ(ℓ) ⊗ p^*L_Φ^k ⊗_R M)` is the coefficient of degree `ℓ` read on
+the torsor charts: restrict `ω_tor^k ⊗_R M` to every finite boundary thickening, use the homogeneous
+toric charts and the Hodge-line identification to extract the degree-`ℓ` section, and pass to the
+inverse limit of thickenings; no tensor product is interchanged with an infinite product or inverse
+limit. The family `FJ^C` is defined for every `M`, takes values in the full-stabilizer invariant
+family of these modules with the fan's completion support, and its constant term is restriction to
+the boundary stratum under the boundary Hodge-line identification; the coefficient modules of
+§7.15 are identified with the torsor-level modules exactly where `c_{ℓ,M}` is bijective, and the
+expansion principle of 12.3–12.10 is proved for `FJ^C` and inherited by `HodgeLineFJ` through the
+identity above.
 
-Prove agreement of completed restriction with this homogeneous description, independence of
-cone and fan through the common boundary completion, full-stabilizer and representative-change
-transport, naturality for all module maps, and identity/composition of those maps. The constant
-term is exactly restriction to the boundary stratum under the boundary Hodge-line identification.
-No tensor product is interchanged with an infinite product or inverse limit.
+*Hypotheses.* `R` is a field or a Dedekind domain of good characteristic for the PEL datum, the
+level is neat and `Σ` is smooth and projective. No flatness of `M` is assumed for `FJ^C`; the two
+sufficient conditions for `c_{ℓ,M}` are the only base-change assertions made, and `HodgeLineFJ` is
+used with §7.15's own construction.
 
-For `p:C_Φ→M^Z`, compare with C5.15 `HodgeLineFJ` only when the canonical map
-`p_*Ψ_Φ(ℓ)⊗_R M → p_*(Ψ_Φ(ℓ)⊗_R M)` is proved to be an isomorphism for every degree and
-coefficient used. Apply the projection formula for the invertible lower-base line `L_Φ^k`
-and identify the coefficient extraction maps under these isomorphisms. No flatness of `M`
-or unrestricted pushforward/base-change theorem is assumed by the direct construction.
+*Source:* [LanPEL], Definition 7.1.1.1 and Lemma 7.1.1.5, pp.532–533, Lemmas 7.1.2.1–7.1.2.2 and
+the composition (7.1.2.3), pp.534–535, whose last identification is the comparison `c_{ℓ,M}`, and
+Propositions 7.1.2.8–7.1.2.13, pp.537–538; [LanHigher], equation (5.5), Proposition 5.6 and
+Corollaries 5.8–5.9, pp.11–13.
 
-*Source:* [LanPEL], Definition 7.1.1.1 and Lemma 7.1.1.5, pp.532–533,
-Lemmas 7.1.2.1–7.1.2.13, pp.534–538 (formal restriction and homogeneous charts);
-[LanHigher], equation (5.5), Proposition 5.6 and Corollaries 5.8–5.9, pp.11–13.
+The API:
 
-*Needs:* B4.20 (`integralForms`); ShimuraCompactifications C0.8
-(`TauCeti.Toric.Relative.torusEmbedding`), C0.11 (`TauCeti.Toric.Relative.stratumQuotientIso`),
-C1.4 (`CuspLabel`), C1.5 (`CuspLabel.arithmeticStabilizer`), C3.9
-(`ToroidalRefinement.cohomology_iso`), C4.1 (`SemiAbelianScheme`), C4.7 (`UniversalDegeneration`),
-C5.3 (`IntegralToroidalModel`), C5.4 (`IntegralToroidalModel.formalCompletion`),
-C5.15 (`HodgeLineFJ`, for the conditional comparison); AdicSpacesPartIII F0;
-SchemeAndStackFoundations Layers 1–2 (quasi-coherent descent and module tensor products).
+- `ScalarFourierJacobi.comparison`: the map `c_{ℓ,M}`, with its naturality in `M`, its transport
+  under cusp representatives and its `Γ_Φ`-compatibility.
+- `ScalarFourierJacobi.comparison_flat`: `c_{ℓ,M}` is an isomorphism for `M` flat over `R`.
+- `ScalarFourierJacobi.comparison_locallyFree`: `c_{ℓ,M}` is an isomorphism for every `M` when
+  every `R^i p_*Ψ_Φ(ℓ)` is locally free.
+- `ScalarFourierJacobi.torsorCoefficient`: the torsor-level coefficient `FJ^{C,(ℓ)}` and the
+  identity `Γ(c_{ℓ,M}) ∘ HodgeLineFJ^{(ℓ)} = FJ^{C,(ℓ)}`.
+- `ScalarFourierJacobi.torsorCoefficient_map`: naturality of `FJ^C` in `M` with identity and
+  composition laws, cusp transport, independence of the cone and of the fan through the common
+  boundary completion, and the constant-term identification.
+
+*Needs:* 11.20 (`integralForms`); ShimuraCompactifications §0.8
+(`TauCeti.Toric.Relative.torusEmbedding`), §0.11 (`TauCeti.Toric.Relative.stratumQuotientIso`),
+§1.4 (`CuspLabel`), §1.5 (`CuspLabel.arithmeticStabilizer`), §4.10
+(`ToroidalRefinement.cohomology_iso`), §6.1 (`SemiAbelianScheme`), §6.7 (`UniversalDegeneration`),
+§7.3 (`IntegralToroidalModel`), §7.4 (`IntegralToroidalModel.formalCompletion`),
+§7.15 (`HodgeLineFJ`); AdicSpacesPartIII F0;
+SchemeAndStackFoundations Layers 1–2 (quasi-coherent descent, module tensor products and the
+projection formula).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- For `M=R/I`, including nonflat residue coefficients, the local section
-  `q^n(du/u)^k⊗m` has coefficient `m` at `n` and zero elsewhere.
+- For `M = R/I`, including nonflat residue coefficients, the local section
+  `q^n(du/u)^k ⊗ m` has torsor-level coefficient `m` at `n` and zero elsewhere.
 - On the rank-one formal chart over `R/I`, `(1−q)⁻¹` has coefficient `1` in every degree;
   finite-support extraction or tensoring an infinite coefficient product cannot replace completion.
 - For the tensor unit the constant term of `1` is `1`, and changing the cusp representative
-  transports it by the actual boundary-line map. At `M=R`, the identity base-change map gives
-  C5.15's expansion.
+  transports it by the actual boundary-line map; at `M = R` the comparison is the identity and the
+  torsor-level coefficients are those of §7.15.
+- (non-example) for an abelian scheme `p : A → Spec R` over a discrete valuation ring with
+  uniformizer `ϖ` and a line bundle `Ψ` on `A` that is nontrivial of degree zero on the generic
+  fibre and trivial on the special fibre, `p_*Ψ = 0`, since it is torsion-free with zero generic
+  fibre, while `p_*(Ψ ⊗_R R/ϖ) = H⁰(A_0, O) = R/ϖ`; so `c_{R/ϖ}` is not surjective, `R¹p_*Ψ` is
+  torsion rather than locally free, and neither sufficient condition applies. Tensoring a
+  base-level coefficient module with a nonflat `M` therefore does not compute the torsor-level
+  coefficient in general.
 
-### B5.2 Left exactness of Hodge-section coefficient change
+### 12.3 Left exactness of Hodge-section coefficient change
 
 Prove `integralForms_coefficient_leftExact`. For a short exact coefficient sequence `0→N→M→Q→0` on the
 supplied R-flat model, prove `0→AF(k,N)→AF(k,M)→AF(k,Q)` is left exact. Local freeness of the Hodge
@@ -4617,15 +4649,15 @@ coefficient and R-flatness on the atlas give exactness after tensoring; descend 
 sequence and take sections. Surjectivity onto `AF(k,Q)` is not asserted.
 
 *Hypotheses.* The toroidal model X is flat over R and `omega_tor^k` is locally free over `O_X`, as
-supplied by ShimuraCompactifications C5 and by B3.10 and B4.20. Sections and tensor products are
+supplied by ShimuraCompactifications Layer 7 and by 5.10 and 11.20. Sections and tensor products are
 taken on the actual algebraic stack or an equivalent descent presentation, not its coarse space.
 
 *Source:* [LanPEL], First paragraph of the proof of 7.1.2.14, printed p. 539.
 
-*Needs:* B5.1a (`ScalarFourierJacobi.expansion`); B4.20 (`integralForms`); ShimuraCompactifications C5 (C5.3 `IntegralToroidalModel`,
-C5.4 `IntegralToroidalModel.formalCompletion`); SchemeAndStackFoundations Layer 1 (§1.22, §1.1);
-Mathlib `Module.Flat` (tensoring with a flat module preserves injections); B3.2
-(`canonicalExtension`); B4.1 (`classicalForms`).
+*Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 11.20 (`integralForms`); ShimuraCompactifications Layer 7 (§7.3 `IntegralToroidalModel`,
+§7.4 `IntegralToroidalModel.formalCompletion`); SchemeAndStackFoundations Layer 1 (§1.22, §1.1);
+Mathlib `Module.Flat` (tensoring with a flat module preserves injections); 5.3
+(`canonicalExtension`); 11.1 (`classicalForms`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4636,7 +4668,7 @@ Mathlib `Module.Flat` (tensoring with a flat module preserves injections); B3.2
 - Dropping R-flatness is invalid: on Spec `F_p` over Z the locally free `O_X`-module `O_X` turns Z --p-->
   Z into the zero map. Local freeness over `O_X` alone is insufficient.
 
-### B5.3 Left exactness of invariant coefficient families
+### 12.4 Left exactness of invariant coefficient families
 
 Prove `FJCoefficient.invariantFamily_leftExact`. For the same short exact coefficient sequence,
 prove left exactness of `0→G(N)→G(M)→G(Q)`, including the products over character degrees and full
@@ -4646,17 +4678,17 @@ those lifts invariant. Neither right exactness of invariants nor their commutati
 colimits is used.
 
 *Hypotheses.* Each `C_Phi` is flat over R and each character-Hodge coefficient sheaf `Psi_Phi(ell)`
-tensor `L_Phi^k` is invertible on `C_Phi`. These geometric facts come from ShimuraCompactifications C4
-and C5. The full stabilizer actions are R-linear, preserve the transported coefficient sequence, and
-are the transported actions of B5.1a `ScalarFourierJacobi.expansion`. The stabilizer need not be finite or
+tensor `L_Phi^k` is invertible on `C_Phi`. These geometric facts come from ShimuraCompactifications Layer 6
+and Layer 7. The full stabilizer actions are R-linear, preserve the transported coefficient sequence, and
+are the transported actions of 12.2 `ScalarFourierJacobi.torsorCoefficient`. The stabilizer need not be finite or
 have invertible order.
 
 *Source:* [LanPEL], 7.1.2.14, first paragraph and exact-row diagram on printed p. 539.
 
-*Needs:* B5.1a (`ScalarFourierJacobi.expansion`); ShimuraCompactifications C5
-(C5.3 `IntegralToroidalModel`, C5.4 `IntegralToroidalModel.formalCompletion`); ShimuraCompactifications C1 (C1.4 `CuspLabel`,
-C1.5 `CuspLabel.arithmeticStabilizer`); ShimuraCompactifications C4 (C4.1 `SemiAbelianScheme`,
-C4.7 `UniversalDegeneration`); SchemeAndStackFoundations Layer 1 (§1.22,
+*Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); ShimuraCompactifications Layer 7
+(§7.3 `IntegralToroidalModel`, §7.4 `IntegralToroidalModel.formalCompletion`); ShimuraCompactifications Layer 1 (§1.4 `CuspLabel`,
+§1.5 `CuspLabel.arithmeticStabilizer`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
+§6.7 `UniversalDegeneration`); SchemeAndStackFoundations Layer 1 (§1.22,
 §1.1); Mathlib `Module.Flat` (tensoring with a flat module preserves injections).
 *Lean:* none; specified in the README only.
 
@@ -4670,20 +4702,20 @@ C4.7 `UniversalDegeneration`); SchemeAndStackFoundations Layer 1 (§1.22,
 - Infinite degree products are allowed here, but their interchange with a filtered union is not
   inferred.
 
-### B5.4 The prime-quotient coefficient case
+### 12.5 The prime-quotient coefficient case
 
 Prove `FourierJacobi.injective_primeQuotient`. For a prime ideal p of the field or Dedekind base R,
 including `p=0`, put `S=R/p`. Assume the chosen base-changed strata meet every irreducible component of
 the reduced model `X_S` and the completed coefficient charts are compatible with this base change.
-Then the joint expansion on `AF(k,S)` is injective. At neat level use ShimuraCompactifications C5
-(C5.10 `IntegralToroidalModel.strata_detect_geometricComponents`) with its good-prime regular base and
+Then the joint expansion on `AF(k,S)` is injective. At neat level use ShimuraCompactifications Layer 7
+(§7.10 `IntegralToroidalModel.strata_detect_geometricComponents`) with its good-prime regular base and
 fan/no-self-intersection assumptions; non-neat coverage requires a separate branch or level-descent
 comparison. Zero coefficients give zero completed sections, finite-stalk Krull separation gives zero
 near the selected strata, and reducedness plus component detection gives global zero.
 
-*Hypotheses.* The good-prime model of ShimuraCompactifications C5 is smooth over the regular base R;
+*Hypotheses.* The good-prime model of ShimuraCompactifications Layer 7 is smooth over the regular base R;
 hence X and each residue-field model used here are reduced and locally Noetherian, with locally free
-pulled-back Hodge line. ShimuraCompactifications C5 supplies separated homogeneous coefficient extraction and
+pulled-back Hodge line. ShimuraCompactifications Layer 7 supplies separated homogeneous coefficient extraction and
 its identification with completion of the actual Hodge sheaf; SchemeAndStackFoundations
 §§1.1, 1.22 supplies the passage through a flat atlas. Local adic separation of a finite stalk at a proper ideal is already a pinned Mathlib
 theorem, and ordinary coherent-section detection near a closed subset is AdicSpacesPartIII F0
@@ -4702,8 +4734,8 @@ actual flat atlas, without requiring every affine atlas chart to meet a selected
 00IP, Lemma 10.51.4; [StacksStein], 0A18, Theorem 76.36.4 and Lemma 76.36.9 (also tag 0E0D); [EGAI],
 Chapter I, Proposition 10.8.11 and proof, printed p. 197 (physical PDF 196).
 
-*Needs:* B5.1a (`ScalarFourierJacobi.expansion`); ShimuraCompactifications C5
-(C5.3 `IntegralToroidalModel`, C5.4 `IntegralToroidalModel.formalCompletion`, C5.10 `IntegralToroidalModel.strata_detect_geometricComponents`);
+*Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); ShimuraCompactifications Layer 7
+(§7.3 `IntegralToroidalModel`, §7.4 `IntegralToroidalModel.formalCompletion`, §7.10 `IntegralToroidalModel.strata_detect_geometricComponents`);
 AdicSpacesPartIII F0 (`FormalScheme.completion`, completion of coherent sheaves, sections near a
 closed subset, after EGA I (10.8.11)); SchemeAndStackFoundations Layer 1 (§1.22,
 §1.1); Mathlib `Module.Flat` (tensoring with a flat module preserves injections);
@@ -4729,22 +4761,22 @@ Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`; Mathlib `IsHausdorff.of_isL
 - For a nonzero module over `F₂`, completion at the unit ideal is zero and its canonical map is not
   injective. This rejects omitting the proper-ideal condition from the local finite-stalk argument.
 
-### B5.5 Propagation through a coefficient extension
+### 12.6 Propagation through a coefficient extension
 
 Prove `FourierJacobi.injective_of_extension`. For the two actual left-exact coefficient rows of
 `0→N→M→Q→0`, injectivity of FJ on `AF(k,N)` and `AF(k,Q)` implies injectivity on `AF(k,M)`. Apply Mathlib's
 short-complex monicity theorem to the natural expansion morphism; its first-row monomorphisms and
-exactness are B5.2 and B5.3. Nonsplit coefficient extensions and torsion are allowed. Surjectivity
+exactness are 12.3 and 12.4. Nonsplit coefficient extensions and torsion are allowed. Surjectivity
 of the last global-section map is unnecessary.
 
 *Hypotheses.* Use the exact section row, the monic first coefficient-family map, and the naturality
-squares supplied by B5.2, B5.3 and B5.1a `ScalarFourierJacobi.expansion`. Do not add a surjectivity assumption on `AF(k,M)` to
+squares supplied by 12.3, 12.4 and 12.2 `ScalarFourierJacobi.torsorCoefficient`. Do not add a surjectivity assumption on `AF(k,M)` to
 `AF(k,Q)`, or invert a coefficient characteristic or a stabilizer order.
 
 *Source:* [LanPEL], The left-exact coefficient functors in the proof of 7.1.2.14, pp.539–540.
 
-*Needs:* B5.1a (`ScalarFourierJacobi.expansion`); B5.2
-(`integralForms_coefficient_leftExact`); B5.3 (`FJCoefficient.invariantFamily_leftExact`); Mathlib
+*Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 12.3
+(`integralForms_coefficient_leftExact`); 12.4 (`FJCoefficient.invariantFamily_leftExact`); Mathlib
 `CategoryTheory.ShortComplex.mono_τ₂_of_exact_of_mono`.
 *Lean:* none; specified in the README only.
 
@@ -4754,7 +4786,7 @@ squares supplied by B5.2, B5.3 and B5.1a `ScalarFourierJacobi.expansion`. Do not
 - The argument still applies when the last section-row map is not surjective.
 - With `N=0` or `Q=0` it agrees with naturality under the induced coefficient isomorphism.
 
-### B5.6 Finite coefficients by a prime filtration
+### 12.7 Finite coefficients by a prime filtration
 
 Prove `FourierJacobi.injective_of_finite`. If the prime-quotient geometric hypotheses hold for every
 p, deduce FJ injectivity for every finitely generated R-module. Use the existing Noetherian
@@ -4773,8 +4805,8 @@ coefficient category is required.
 pp.532–533, 539–540; [MathlibPrime], `IsNoetherianRing.induction_on_isQuotientEquivQuotientPrime`,
 with its preceding RelSeries existence theorem, at the pinned Mathlib commit.
 
-*Needs:* B5.4 (`FourierJacobi.injective_primeQuotient`); B5.5
-(`FourierJacobi.injective_of_extension`); B5.1a (`ScalarFourierJacobi.expansion`); Mathlib
+*Needs:* 12.5 (`FourierJacobi.injective_primeQuotient`); 12.6
+(`FourierJacobi.injective_of_extension`); 12.2 (`ScalarFourierJacobi.torsorCoefficient`); Mathlib
 `IsNoetherianRing.exists_relSeries_isQuotientEquivQuotientPrime`; Mathlib
 `IsNoetherianRing.induction_on_isQuotientEquivQuotientPrime`.
 *Lean:* none; specified in the README only.
@@ -4787,12 +4819,15 @@ with its preceding RelSeries existence theorem, at the pinned Mathlib commit.
   asserting that it is free.
 - The zero module has the empty filtration and an injective expansion map.
 
-### B5.7 Joint injectivity at a component-detecting collection of cusps
+### 12.8 Joint injectivity at a component-detecting collection of cusps
 
 Prove `FourierJacobi.expansionPrinciple`. In Lan's setting choose finitely many nonempty strata
-whose union meets every irreducible component of X. Use ShimuraCompactifications C5.10 `IntegralToroidalModel.strata_detect_geometricComponents`
-and C5.11 `IntegralToroidalModel.nonneat_descent` to relate this total-space hypothesis to the
-prime-quotient detection used above, including non-neat descent. Then `FJ_I` on `AF(k,M)` is injective for every R-module M. A section comes from a finitely
+whose union meets every irreducible component of X. Use ShimuraCompactifications §7.10 `IntegralToroidalModel.strata_detect_geometricComponents`
+and §7.11 `IntegralToroidalModel.nonneat_descent` to relate this total-space hypothesis to the
+prime-quotient detection used above, including non-neat descent. Then the torsor-level family `FJ^C_I` of 12.2 on `AF(k,M)` is injective for every `R`-module `M`; through
+`Γ(c) ∘ HodgeLineFJ = FJ^C` this is injectivity of ShimuraCompactifications §7.15's `HodgeLineFJ_I`
+wherever 12.2 identifies its coefficient modules, in particular for flat `M` and, under 12.2's
+local-freeness condition, for every `M`. A section comes from a finitely
 generated submodule `N⊂M` by qcqs section-colimit compatibility. Naturality and injection `G(N)→G(M)`
 reduce its vanishing to the finite-coefficient theorem. There is no interchange of an infinite
 coefficient product with a filtered colimit.
@@ -4810,12 +4845,12 @@ colimit/product identity is needed for G.
 *Source:* [LanPEL], 7.1.2.14(1), proof, and the module reduction in 7.1.1.4, pp.532–533, 539–540;
 [StacksColimit], 0GQZ, Lemma 103.13.5, `G=O_X`.
 
-*Needs:* ShimuraCompactifications C5.10 (`IntegralToroidalModel.strata_detect_geometricComponents`),
-C5.11 (`IntegralToroidalModel.nonneat_descent`); B5.6 (`FourierJacobi.injective_of_finite`); B5.1a (`ScalarFourierJacobi.expansion`); ShimuraCompactifications C5
-(C5.3 `IntegralToroidalModel`,
-C5.4 `IntegralToroidalModel.formalCompletion`); B5.3 (`FJCoefficient.invariantFamily_leftExact`); B4.20 (`integralForms`);
+*Needs:* ShimuraCompactifications §7.10 (`IntegralToroidalModel.strata_detect_geometricComponents`),
+§7.11 (`IntegralToroidalModel.nonneat_descent`); 12.7 (`FourierJacobi.injective_of_finite`); 12.2 (`ScalarFourierJacobi.torsorCoefficient`); ShimuraCompactifications Layer 7
+(§7.3 `IntegralToroidalModel`,
+§7.4 `IntegralToroidalModel.formalCompletion`); 12.4 (`FJCoefficient.invariantFamily_leftExact`); 11.20 (`integralForms`);
 SchemeAndStackFoundations Layer 1 (§1.22, §1.1); Mathlib `Module.Flat`
-(tensoring with a flat module preserves injections); B4.1 (`classicalForms`); B4.19
+(tensoring with a flat module preserves injections); 11.1 (`classicalForms`); 11.19
 (`qcqsSectionsColimit`).
 *Lean:* none; specified in the README only.
 
@@ -4830,11 +4865,13 @@ SchemeAndStackFoundations Layer 1 (§1.22, §1.1); Mathlib `Module.Flat`
   the sequence of distinct basis vectors in the product `M^N` does not lie in `N^N` for any
   finite-dimensional submodule N. This rules out the unused interchange of these two operations.
 
-### B5.8 Recognition of a coefficient submodule from expansions
+### 12.9 Recognition of a coefficient submodule from expansions
 
 Prove `FourierJacobi.coefficientRecognition`. For `M₁⊂M` and the same detecting cusps, a section in
 `AF(k,M)` comes from `AF(k,M₁)` exactly when every chosen expansion lies in the corresponding image of
-the invariant coefficient family with `M₁` coefficients. Map the section to `M/M₁`, use naturality and
+the invariant coefficient family with `M₁` coefficients; the family is the torsor-level one of 12.2,
+and the statement transfers to `HodgeLineFJ` by the naturality of 12.2's comparison in the
+coefficient module. Map the section to `M/M₁`, use naturality and
 injectivity for that quotient, then the kernel/image equality of the AF row. The quotient need not
 be finite or flat, so the arbitrary-coefficient theorem is essential.
 
@@ -4844,8 +4881,8 @@ statement about scalar entries.
 
 *Source:* [LanPEL], 7.1.2.14(2) and its exact-row diagram, pp.539–540.
 
-*Needs:* B5.7 (`FourierJacobi.expansionPrinciple`); B5.1a (`ScalarFourierJacobi.expansion`); B5.2
-(`integralForms_coefficient_leftExact`); B5.3 (`FJCoefficient.invariantFamily_leftExact`).
+*Needs:* 12.8 (`FourierJacobi.expansionPrinciple`); 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 12.3
+(`integralForms_coefficient_leftExact`); 12.4 (`FJCoefficient.invariantFamily_leftExact`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4855,7 +4892,7 @@ statement about scalar entries.
 - For `M=R[1/p]` and `M1=R`, the quotient is torsion: injectivity only for torsion-free coefficients is
   inadequate for this application.
 
-### B5.9 Cuspidality from boundary restrictions
+### 12.10 Cuspidality from boundary restrictions
 
 Prove `FourierJacobi.cusp_iff_boundaryRestriction`. For a neat smooth toroidal model with reduced
 relative normal-crossings boundary D, suppose the boundary coefficient sequence remains exact after
@@ -4865,16 +4902,16 @@ vanishing of the required constant terms at all proper boundary labels. Over a n
 geometric-point vanishing is insufficient, and a single maximal-cusp constant term does not replace
 all boundary restrictions.
 
-*Hypotheses.* Neatness, smoothness and the stated relative normal-crossings boundary; use B3's
+*Hypotheses.* Neatness, smoothness and the stated relative normal-crossings boundary; use Layer 5's
 actual subcanonical extension. For nonflat M, retain the relative flatness/exactness checks of the
 boundary sequence. No general-coarse-space vector-bundle claim is included.
 
 *Source:* [LanIntro], 4.2.7, printed p. 50.
 
-*Needs:* B4.20 (`integralForms`); B5.1a (`ScalarFourierJacobi.expansion`); ShimuraCompactifications C5
-(C5.3 `IntegralToroidalModel`,
-C5.4 `IntegralToroidalModel.formalCompletion`); ShimuraCompactifications C4 (C4.1 `SemiAbelianScheme`,
-C4.7 `UniversalDegeneration`); B3.4 (`subcanonicalExtension`); B4.2 (`cuspForms`).
+*Needs:* 11.20 (`integralForms`); 12.2 (`ScalarFourierJacobi.torsorCoefficient`); ShimuraCompactifications Layer 7
+(§7.3 `IntegralToroidalModel`,
+§7.4 `IntegralToroidalModel.formalCompletion`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
+§6.7 `UniversalDegeneration`); 5.4 (`subcanonicalExtension`); 11.2 (`cuspForms`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4884,12 +4921,12 @@ C4.7 `UniversalDegeneration`); B3.4 (`subcanonicalExtension`); B4.2 (`cuspForms`
   even when a scalar constant at a deeper cusp is zero.
 - Koecher extension of sections does not force their boundary restriction to vanish.
 
-### B5.10 Geometric Hecke operators on classical sections
+### 12.11 Geometric Hecke operators on classical sections
 
 Construct `ClassicalHecke.operator`. For an admissible prime-to-characteristic g let `K_g=K∩gKg⁻¹` and
 use `X_K←p₁X_Kg→p₂X_K`. On compatible toroidal refinements the actual coefficient realization gives
 `θ_g:p₂*E→p₁*E`. Define `H_g=tr_p₁ θ_g p₂*` on `Γ(X_K,E⊗_R M)`, then `T_g=ν(g)H_g` for the specified
-K-bi-invariant multiplicative unit-valued character `ν`. Trace is finite locally free trace
+K-bi-invariant multiplicative unit-valued character `ν`. Trace is the coefficient trace of 12.1
 transported through the supplied toric-refinement comparison. Prove independence of representatives
 and refinement, coefficient-map compatibility and preservation of subcanonical sections using the
 reduced-boundary transport.
@@ -4901,7 +4938,7 @@ uses the right-translation and isogeny convention; `ν` is part of the level/wei
 division by every correspondence degree.
 
 *Source:* [LanPEL], 6.4.3.1–6.4.3.4, pp.527–530; [Diamond22], §6.1, weight/level pullback
-convention, p.24; [BCGP], §1.8, pp.17–18.
+convention, p.23; [BCGP], §1.8, pp.17–18.
 
 The API:
 
@@ -4909,35 +4946,35 @@ The API:
 - `ClassicalHecke.operator_one`: The identity correspondence with `ν(1)=1` acts as identity.
 - `ClassicalHecke.coefficient_map`: An R-linear coefficient map `M→N` commutes with `T_g`, by
   coefficient-compatible pullback, trace and `θ_g`.
-- `ClassicalHecke.refinement`: Transport across the B3 section comparison along a common fan
+- `ClassicalHecke.refinement`: Transport across the Layer 5 section comparison along a common fan
   refinement intertwines `T_g`, with identity and composition laws.
 
-*Needs:* TauCetiRoadmap.AdelicAlgebraicGroups §4.5 (*Hecke correspondences*, `LevelMaps.hecke`,
-*Degree of a Hecke correspondence*); B3.10 (`integralLeviCoefficient`); ShimuraCompactifications C3
-(C3.9 `ToroidalRefinement.cohomology_iso`, C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`, C3.1 `ToroidalRefinement`,
-C3.4 `ToroidalRefinement.choice_comparison`, C3.3 `ToroidalHeckeSpan`); B4.20 (`integralForms`); SchemeAndStackFoundations Layer 1
+*Needs:* TauCetiRoadmap.AdelicAlgebraicGroups §4.5 (*Hecke correspondences*,
+*Degree of a Hecke correspondence*); 5.10 (`integralLeviCoefficient`); ShimuraCompactifications Layer 4
+(§4.10 `ToroidalRefinement.cohomology_iso`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`, §4.1 `ToroidalRefinement`,
+§4.4 `ToroidalRefinement.choice_comparison`, §4.3 `ToroidalHeckeSpan`); 11.20 (`integralForms`); SchemeAndStackFoundations Layer 1
 (§1.22); Mathlib `Module.Flat` (tensoring with a flat module preserves injections);
-Mathlib `Algebra.trace_algebraMap_of_basis`; B2.1 (`automorphicVectorBundle`); B2.8
-(`coefficientTensorHecke`); B1.10 (`principalHeckePullback`); B3.2 (`canonicalExtension`); B3.4
-(`subcanonicalExtension`); B3.6 (`fanIndependentSections`); B3.general.3
-(`generalBoundaryFunctoriality`); B4.1 (`classicalForms`); B4.2 (`cuspForms`); B5.1
-(`finiteLocallyFreeTrace`); B4.15 (`ramifiedHilbertLine`).
+Mathlib `Algebra.trace_algebraMap_of_basis`; 3.1 (`automorphicVectorBundle`); 3.8
+(`coefficientTensorHecke`); 1.10 (`principalHeckePullback`); 5.3 (`canonicalExtension`); 5.4
+(`subcanonicalExtension`); 5.6 (`fanIndependentSections`); 6.4
+(`generalBoundaryFunctoriality`); 11.1 (`classicalForms`); 11.2 (`cuspForms`); 12.1
+(`coefficientTrace`); 11.15 (`ramifiedHilbertLine`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `ClassicalHecke.identity` (degenerate): The identity correspondence acts as identity on canonical
+- (degenerate) The identity correspondence acts as identity on canonical
   and subcanonical sections.
-- `ClassicalHecke.weightZeroTrace` (computation): For a finite-free degree-d chart and the trivial
+- (computation) For a finite-free degree-d chart and the trivial
   bundle, the raw operator on 1 is d, not 1; the normalized value is `ν(g)d`.
-- `ClassicalHecke.modularNormalization` (compatibility): Over C, after the imported modular
+- (compatibility) Over C, after the imported modular
   comparison and correct coset orientation, GL2 `det⁻¹`-scaled isogeny pull-identify-trace agrees with
   the existing HeckeRing.GL2.heckeRingHomCharSpace action; at an unramified prime its coefficients
   have the character-weighted `ℓ^(k−1)` term. At weight zero, `ℓ=2` gives `3/2`.
-- For `ClassicalHecke.modularNormalization` at `ℓ=3`, the value is `4/3`; the constant `3/2` fails.
+- For the same modular normalization at `ℓ=3`, the value is `4/3`; the constant `3/2` fails.
 - At `ℓ=5` the same normalization gives `6/5`, retaining the degree `ℓ+1` and its `ℓ⁻¹` factor.
 
-### B5.11 Convolution law for the geometric Hecke action
+### 12.12 Convolution law for the geometric Hecke action
 
 Prove `ClassicalHecke.convolution`. With these correspondence, coefficient-cocycle,
 trace/base-change and multiplicative-normalization hypotheses, extend `[KgK]↦T_g` to a unital ring
@@ -4949,13 +4986,13 @@ retain the integer multiplicities from the correspondence decomposition.
 Cartesian square for an arbitrary normal finer level. Coefficient traces satisfy composition and
 finite-flat base change; normalization `ν` is multiplicative and bi-K-invariant.
 
-*Source:* [BCGP], §1.8, Hecke conventions, pp.17–18; [Diamond22], §6.1, p.24.
+*Source:* [BCGP], §1.8, Hecke conventions, pp.17–18; [Diamond22], §6.1, p.23.
 
-*Needs:* B5.10 (`ClassicalHecke.operator`); TauCetiRoadmap.AdelicAlgebraicGroups §4.5 (*Cartesian
+*Needs:* 12.11 (`ClassicalHecke.operator`); TauCetiRoadmap.AdelicAlgebraicGroups §4.5 (*Cartesian
 squares of level maps*, with its hypothesis `U′L = U`); Tau Ceti
 `HeckeCosetModule.instRingHeckeRing`; Tau Ceti `HeckeRing.GL2.heckeRingHomCharSpace`;
 SchemeAndStackFoundations Layer 1 (§1.22); Mathlib `Module.Flat` (tensoring with a
-flat module preserves injections); B5.1 (`finiteLocallyFreeTrace`).
+flat module preserves injections); 12.1 (`coefficientTrace`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4966,7 +5003,7 @@ flat module preserves injections); B5.1 (`finiteLocallyFreeTrace`).
 - A normalization chosen by dividing each coset by its degree need not be a multiplicative
   character; the construction does not silently permit it.
 
-### B5.12 Hecke action at non-neat level
+### 12.13 Hecke action at non-neat level
 
 Prove `ClassicalHecke.nonNeatDescent`. For a normal neat K′⊲K with finite quotient `Γ`, identify
 sections of the actual equivariant coefficient on `[X_K′/Γ]` with `Γ(X_K′,E⊗_R M)^Γ`. Construct the
@@ -4979,14 +5016,14 @@ supply that square or its double coset.
 descent is assumed. No inversion of `|Γ|` is required for the equalizer. Hecke compatibility uses the
 refined correspondence and Mackey sum, not restriction of a single K′-double-coset operator.
 
-*Source:* [Diamond22], §6.1, non-small U and normal fine U′, p.24; §6.2, normal-level invariants
-argument immediately before Proposition 6.2.1, p.25; [LanPEL], 7.1.2.6–7.1.2.8, pp.536–537.
+*Source:* [Diamond22], §6.1, non-small U and normal fine U′, p.23; §6.2, normal-level invariants
+argument immediately before Proposition 6.2.1, p.24; [LanPEL], 7.1.2.6–7.1.2.8, pp.536–537.
 
-*Needs:* B5.10 (`ClassicalHecke.operator`); B5.11 (`ClassicalHecke.convolution`);
+*Needs:* 12.11 (`ClassicalHecke.operator`); 12.12 (`ClassicalHecke.convolution`);
 TauCetiRoadmap.AdelicAlgebraicGroups §4.5 (*Cartesian squares of level maps*, with its hypothesis
 `U′L = U`); SchemeAndStackFoundations Layer 1 (§1.1, §1.22);
-ShimuraCompactifications C3 (C3.1 `ToroidalRefinement`, C3.4 `ToroidalRefinement.choice_comparison`, C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`,
-C3.9 `ToroidalRefinement.cohomology_iso`).
+ShimuraCompactifications Layer 4 (§4.1 `ToroidalRefinement`, §4.4 `ToroidalRefinement.choice_comparison`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`,
+§4.10 `ToroidalRefinement.cohomology_iso`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -4997,7 +5034,7 @@ C3.9 `ToroidalRefinement.cohomology_iso`).
 - Do not assume `K′∩K_g=K′∩gK′g⁻¹`; AdelicAlgebraicGroups §4.5’s Cartesian theorem requires its additional product
   condition.
 
-### B5.13 Tate and analytic q-expansion comparison
+### 12.14 Tate and analytic q-expansion comparison
 
 Prove `FourierJacobi.modular_qExpansion_comparison`. Specialize rank-one FJ to R15.1's Tate
 q-expansion and its analytic comparison with UpperHalfPlane.qExpansion h at `q=exp(2πiτ/h)`, using the
@@ -5013,7 +5050,7 @@ infinity constant detects cuspidality only in the full modular group case alread
 
 *Source:* [LanPEL], 7.1.2.1–7.1.2.4, pp.534–535; [LanIntro], §4.2.7, pp.49–50.
 
-*Needs:* B5.1a (`ScalarFourierJacobi.expansion`); B5.10
+*Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 12.11
 (`ClassicalHecke.operator`); AlgebraicModularFormsAndSerreWeights R15.1 (*Geometric modular forms*,
 *All-weight analytic comparison*); AlgebraicModularFormsAndSerreWeights R15.2 (*The q-expansion
 principle*, *Integral geometric Hecke operators*, *The equivariant cuspidal sequence*); Mathlib
@@ -5030,15 +5067,15 @@ TauCetiRoadmap.ModularForms Layer 2 (`heckeRingHomCharSpace`).
 - Import the modular principle for one cusp per component and all-cusp cuspidality; analytic
   injection alone supplies neither statement over torsion coefficients.
 
-### B5.14 Fourier–Jacobi expansion with vector coefficients
+### 12.15 Fourier–Jacobi expansion with vector coefficients
 
 Construct `VectorFourierJacobi.expansion`. On Lan's neat good-prime PEL model over a Noetherian
 allowed coefficient algebra R, let W be a finite projective representation of the actual Levi.
 Import Ecan(W) and its boundary pullback identification with a locally free `E₀(W)` on the abelian
 torsor C. For any M define `degree-ℓ` coefficients `Γ(C,Ψ(ℓ)⊗E₀(W)⊗_R M)` and extract them by completed
 restriction. Keep the completion support and full stabilizer transports before taking invariants. In
-general characteristic zero use B3.general.1a `generalBoundaryCoefficientComparison`;
-C3.general.1 supplies its underlying descended geometric maps. The boundary filtration on C need not descend to its
+general characteristic zero use 6.2 `generalBoundaryCoefficientComparison`;
+ShimuraCompactifications §5.1 supplies its underlying descended geometric maps. The boundary filtration on C need not descend to its
 stabilizer quotient.
 
 *Hypotheses.* The PEL bundle W is finite projective and the fan smooth/projective as in Lan Higher
@@ -5063,44 +5100,44 @@ The API:
   coefficient map `M→M′` induce commuting degreewise maps, respecting identities and composition.
 - `VectorFourierJacobi.transport`: A cusp transport moves the lattice degree, `Ψ` and E0 together and
   intertwines extraction.
-- `VectorFourierJacobi.determinant`: The determinant-Hodge representation specializes to the scalar
-  FJ map, under B3’s supplied boundary bundle isomorphism.
+- `VectorFourierJacobi.determinant`: The determinant-Hodge representation specializes to the
+  torsor-level scalar coefficients of 12.2, under Layer 5’s supplied boundary bundle isomorphism.
 - `VectorFourierJacobi.refinement`: The canonical section comparison for a common fan refinement
   intertwines vector expansions and has its cocycle law.
 
-*Needs:* B5.1a (`ScalarFourierJacobi.expansion`); B3.10
-(`integralLeviCoefficient`); ShimuraCompactifications C3 (C3.9 `ToroidalRefinement.cohomology_iso`,
-C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`); B4.20 (`integralForms`); ShimuraCompactifications C3.general
-(C3.general.1 `ToroidalCanonicalModel.general_functorial`); ShimuraCompactifications C4 (C4.1 `SemiAbelianScheme`,
-C4.7 `UniversalDegeneration`); B2.1 (`automorphicVectorBundle`); B2.3
-(`leviHighestWeightConvention`); B3.2 (`canonicalExtension`); B3.1 (`boundaryCoefficientChart`);
-B3.general.1 (`generalCanonicalExtension`); B3.general.1a
-(`generalBoundaryCoefficientComparison`, for general data); B4.1 (`classicalForms`).
+*Needs:* 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 5.10
+(`integralLeviCoefficient`); ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`,
+§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`); 11.20 (`integralForms`); ShimuraCompactifications Layer 5
+(§5.1 `ToroidalCanonicalModel.general_functorial`); ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`,
+§6.7 `UniversalDegeneration`); 3.1 (`automorphicVectorBundle`); 3.3
+(`leviHighestWeightConvention`); 5.3 (`canonicalExtension`); 5.1 (`boundaryCoefficientChart`);
+6.1 (`generalCanonicalExtension`); 6.2
+(`generalBoundaryCoefficientComparison`, for general data); 11.1 (`classicalForms`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `VectorFourierJacobi.zeroRepresentation` (degenerate): For `W=0` or `M=0` every coefficient and
+- (degenerate) For `W=0` or `M=0` every coefficient and
   expansion is zero.
-- `VectorFourierJacobi.rankTwoMonomial` (computation): On a trivial rank-two local coefficient
+- (computation) On a trivial rank-two local coefficient
   bundle and rank-one chart, `q^n(v1,v2)` has vector coefficient (v1,v2) at n and zero at other
   degrees.
-- `VectorFourierJacobi.scalarSpecialization` (compatibility): For the determinant-Hodge
+- (compatibility) For the determinant-Hodge
   representation giving `ω^k` the expansion equals the scalar map after the actual boundary-line
   identification.
-- `VectorFourierJacobi.notFiniteSupport` (non-example): on the rank-one formal chart `R[[q]]` over a
+- (non-example) on the rank-one formal chart `R[[q]]` over a
   nonzero ring, `(1 − q)⁻¹` has coefficient `1` in every degree; a coefficient target with finite
   support loses valid completed sections.
-- `VectorFourierJacobi.commonCompletion` (non-example): on an affine toric surface the origin
+- (non-example) on an affine toric surface the origin
   completion of `k[x, y]` is `k[[x, y]]` and the completion of the face chart `D(y)` along `x = 0`
   is `k[y, y⁻¹][[x]]`; no ring map between them extends the face immersion, since `1 − y` is a unit
   in `k[[x, y]]` but its constant coefficient is not a unit in `k[y, y⁻¹]`. Cone expansions are
   compared through the common boundary completion and its maps to the stratum completions.
-- `VectorFourierJacobi.noAveraging` (non-example): for the trivial action of the cyclic group of
+- (non-example) for the trivial action of the cyclic group of
   order `p` on `𝔽_p` the invariants are all of `𝔽_p`; a construction that multiplies by the group
   sum or divides by `p` does not give the invariant coefficient family.
 
-### B5.15 Expansion principle for locally free automorphic coefficients
+### 12.16 Expansion principle for locally free automorphic coefficients
 
 Prove `VectorFourierJacobi.expansionPrinciple`. Let R be Noetherian and X qcqs smooth over R in the
 supplied setup. Require finite-rank locally free Ecan, R-flat abelian-torsor charts with locally
@@ -5120,15 +5157,15 @@ as a literal statement of either paper.
 *Source:* [LanPEL], Proposition 7.1.2.14, pp.539–540; [LanHigher], Author-hosted preprint,
 Proposition 5.6, p.11.
 
-*Needs:* B5.14 (`VectorFourierJacobi.expansion`); B5.1a (`ScalarFourierJacobi.expansion`); B5.2
-(`integralForms_coefficient_leftExact`); B5.3 (`FJCoefficient.invariantFamily_leftExact`); B5.6
-(`FourierJacobi.injective_of_finite`); B5.8 (`FourierJacobi.coefficientRecognition`); B5.9
+*Needs:* 12.15 (`VectorFourierJacobi.expansion`); 12.2 (`ScalarFourierJacobi.torsorCoefficient`); 12.3
+(`integralForms_coefficient_leftExact`); 12.4 (`FJCoefficient.invariantFamily_leftExact`); 12.7
+(`FourierJacobi.injective_of_finite`); 12.9 (`FourierJacobi.coefficientRecognition`); 12.10
 (`FourierJacobi.cusp_iff_boundaryRestriction`); AdicSpacesPartIII F0 (sections near a closed subset,
 after EGA I (10.8.11)); SchemeAndStackFoundations Layer 1 (§1.1,
-§1.22); ShimuraCompactifications C3 (C3.9 `ToroidalRefinement.cohomology_iso`,
-C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`); B3.10 (`integralLeviCoefficient`); B4.20 (`integralForms`); B3.2
-(`canonicalExtension`); B3.4 (`subcanonicalExtension`); B4.1 (`classicalForms`); B4.2 (`cuspForms`);
-B4.19 (`qcqsSectionsColimit`).
+§1.22); ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`,
+§4.9 `ToroidalRefinement.pushforward_boundaryIdeal`); 5.10 (`integralLeviCoefficient`); 11.20 (`integralForms`); 5.3
+(`canonicalExtension`); 5.4 (`subcanonicalExtension`); 11.1 (`classicalForms`); 11.2 (`cuspForms`);
+11.19 (`qcqsSectionsColimit`).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -5139,7 +5176,7 @@ B4.19 (`qcqsSectionsColimit`).
 - The nonsplit Z/4 extension is included. The Iwahori Hilbert special fibre with a component
   disjoint from all cusps fails the required hypothesis.
 
-### B5.16 Hilbert cusp q-expansions and coefficient lines
+### 12.17 Hilbert cusp q-expansions and coefficient lines
 
 Construct `HilbertQExpansion.map`. Let `F≠ℚ` be totally real, p possibly ramified, O the valuation
 ring of a sufficiently large p-adic field with embedding set `Θ`, and `U=U^p GL₂(O_F,p)`. For a
@@ -5153,12 +5190,12 @@ free.
 
 *Hypotheses.* All the weight, level and trivial-unit-character conditions are part of the
 definition; `p=2` and ramified p are not discarded. The ramified Pappas–Rapoport splitting model and
-its automorphic line are B3.Hilbert.0 and B4.15, and the Hilbert cusp
-geometry and semi-abelian coefficient comparison are B3.Hilbert.1–3. The series includes zero and totally positive degrees in
+its automorphic line are 7.1 and 11.15, and the Hilbert cusp
+geometry and semi-abelian coefficient comparison are 7.3–7.5. The series includes zero and totally positive degrees in
 the stated fractional lattice; the coefficient line and unit action cannot be replaced by a naked
 scalar monoid algebra.
 
-*Source:* [Diamond22], §6.1 and §6.2, pp.24–25.
+*Source:* [Diamond22], §6.1 and §6.2, pp.23–25.
 
 The API:
 
@@ -5172,45 +5209,45 @@ The API:
 - `HilbertQExpansion.fineLevel`: Restriction to a fine U(N) and any cusp above c gives the same
   expansion after the canonical line/lattice identifications.
 
-*Needs:* B3.Hilbert.1–3 (ramified boundary model, line-valued formal charts and
-unit descent); B3.Hilbert.0–0a (open filtration and cusp data);
-B4.11–B4.15 (weights, fields, unit characters and actual ramified line).
+*Needs:* 7.3–7.5 (ramified boundary model, line-valued formal charts and
+unit descent); 7.1–7.2 (open filtration and cusp data);
+11.11–11.15 (weights, fields, unit characters and actual ramified line).
 *Lean:* none; specified in the README only.
 
 **Checks.**
 
-- `HilbertQExpansion.zero` (degenerate): The zero form has zero coefficient in every degree; over
+- (degenerate) The zero form has zero coefficient in every degree; over
   the zero coefficient ring all forms and coefficients vanish.
-- `HilbertQExpansion.localMonomial` (computation): On a chosen formal cusp chart and
+- (computation) On a chosen formal cusp chart and
   coefficient-line trivialization, `q^t d` has coefficient d at t and zero elsewhere; no global form
   or unit invariance of this local monomial is asserted.
-- `HilbertQExpansion.unitTransport` (non-example): A family supported at a positive t moved to a
+- (non-example) A family supported at a positive t moved to a
   different degree by a cusp unit, with nonzero coefficient only at t, is not invariant unless its
   full transported orbit satisfies the unit relation. It cannot be declared the expansion of a
   descended form.
 
-### B5.17 Hilbert q-expansion principle
+### 12.18 Hilbert q-expansion principle
 
 Prove `HilbertQExpansion.expansionPrinciple`. In this prime-to-p Hilbert setting, take cusps S
 meeting every connected component of Ymin, equivalently surjecting onto `F_+×\A_F,f×/det(U)`.
 Diamond's `q_S` is injective. For a Noetherian O-subalgebra `R′⊂R`, coefficients in `D_c⊗_O` R′ at every
-`c∈S` recognize a form over R′. Use B3.Hilbert.3–4 for the actual formal charts and detection on every relevant
-geometric residue component, then B5.4–B5.8's finite-module devissage on those charts. For general U descend from a normal fine cover by invariants. General Iwahori special
+`c∈S` recognize a form over R′. Use 7.5–7.6 for the actual formal charts and detection on every relevant
+geometric residue component, then 12.5–12.9's finite-module devissage on those charts. For general U descend from a normal fine cover by invariants. General Iwahori special
 fibres can have irreducible components without cusps, so this detection principle does not extend to
 them.
 
 *Hypotheses.* Retain the weight/unit condition over both rings and the exact prime-to-p level U. The
 determinant surjectivity is the source’s component condition, not merely the choice of one
-representative in a polarization class. The smooth-proper Stein argument in B3.Hilbert.4 applies on a fine
+representative in a polarization class. The smooth-proper Stein argument in 7.6 applies on a fine
 prime-to-`p` splitting compactification. Descent from the normal fine cover uses
 left exactness of invariants and a faithful coefficient extension, not smoothness
 of a coarse quotient or exactness of its invariant functor.
 
-*Source:* [Diamond22], Proposition 6.2.1 and following Iwahori warning, p.25.
+*Source:* [Diamond22], Proposition 6.2.1 and following Iwahori warning, p.24.
 
-*Needs:* B5.16; B3.Hilbert.3–4 (completed coefficient descent and fibrewise cusp
-detection); B5.4–B5.8 (prime quotients, extensions, finite modules, filtered colimits
-and coefficient recognition), B5.3 (left exact invariants);
+*Needs:* 12.17; 7.5–7.6 (completed coefficient descent and fibrewise cusp
+detection); 12.5–12.9 (prime quotients, extensions, finite modules, filtered colimits
+and coefficient recognition), 12.4 (left exact invariants);
 HilbertModularVarietiesAndShimuraCurves H2–H3; SchemeAndStackFoundations Layer 1
 (§1.1, §1.22).
 *Lean:* none; specified in the README only.
@@ -5223,7 +5260,7 @@ HilbertModularVarietiesAndShimuraCurves H2–H3; SchemeAndStackFoundations Layer
 - For U0(P) the source explicitly warns that components may contain no cusp, so the same criterion
   is not available.
 
-### B5.18 Hilbert cusp forms and all cusp constants
+### 12.19 Hilbert cusp forms and all cusp constants
 
 Prove `HilbertQExpansion.cusp_iff_constantTerms`. Define the Hilbert cusp space as the kernel of the
 product of constant-term maps over all cusps, with each constant in its actual line `D_c⊗_O R` and
@@ -5233,14 +5270,14 @@ this equals the image of `Γ(Ytor,A_(k,m)(−D)⊗_O R)`. Constants are independ
 and every form is cuspidal; no such assertion is made for arbitrary torsion coefficients.
 
 *Hypotheses.* Use every required boundary component and its unit/line action. One infinity
-coefficient at arbitrary level is insufficient. B3.Hilbert.3 supplies the precise reduced boundary ideal and
+coefficient at arbitrary level is insufficient. 7.5 supplies the precise reduced boundary ideal and
 tensor exactness on the ramified toric cover before taking invariants; Koecher extension does not replace the cusp ideal.
 
-*Source:* [Diamond22], §6.3, p.26.
+*Source:* [Diamond22], §6.3, pp.25–26.
 
-*Needs:* B5.16; B3.Hilbert.1–3 (actual canonical extension, reduced boundary ideal
-and flat boundary sequence); B3.4 (subcanonical convention); B4.15;
-B5.3 and B5.9 (left exact descent and the all-boundary restriction criterion).
+*Needs:* 12.17; 7.3–7.5 (actual canonical extension, reduced boundary ideal
+and flat boundary sequence); 5.4 (subcanonical convention); 11.15;
+12.4 and 12.10 (left exact descent and the all-boundary restriction criterion).
 *Lean:* none; specified in the README only.
 
 **Checks.**
@@ -5252,7 +5289,7 @@ B5.3 and B5.9 (left exact descent and the all-boundary restriction criterion).
 - No automatic cusp assertion follows merely because the Hilbert minimal boundary has codimension
   greater than one.
 
-### B5.19 Hecke action on Fourier–Jacobi coefficients
+### 12.20 Hecke action on Fourier–Jacobi coefficients
 
 Prove `ClassicalHecke.expansion_compat`. Complete the actual Hecke correspondence at its cusps and
 define the coefficient operator `H_g^FJ` by its lattice transport, coefficient-bundle identification
@@ -5262,7 +5299,7 @@ coefficient zero if `ℓ∤n`. In Diamond's normalized Hilbert coefficients, for
 `r_m^t(T_v f)=r_m^(ϖ_v t)(f)+Nm(v)r_m^(ϖ_v⁻¹t)(S_v f)`; for `U₁(n)` and `v|n` omit the second term. Keep the
 coefficient-line/χ_m normalization and actual central correspondence `S_v`.
 
-*Hypotheses.* Require formal trace/base-change and actual degree/cusp maps from C3/C4; ordinary
+*Hypotheses.* Require formal trace/base-change and actual degree/cusp maps from ShimuraCompactifications Layers 4 and 6; ordinary
 toric inclusions alone do not give them. The modular geometric normalization requires `ℓ` invertible
 and the source’s good-prime hypotheses. Diamond’s displayed formulas use primes outside p; no saving
 trace or `U_p` at p is inferred. Retain the different cusp/component t in the Hilbert formula and its
@@ -5271,12 +5308,12 @@ character normalization.
 *Source:* [Diamond22], Proposition 6.5.1, equation (6.1) and Remark 6.5.2, pp.27–29; [LanPEL],
 5.4.3.8–5.4.3.10 and 6.4.3, pp.438–439 and 527–530.
 
-*Needs:* B5.10 (`ClassicalHecke.operator`); B5.12 (`ClassicalHecke.nonNeatDescent`); B5.13
-(`FourierJacobi.modular_qExpansion_comparison`); B5.16 (`HilbertQExpansion.map`); B5.14
-(`VectorFourierJacobi.expansion`); ShimuraCompactifications C3 (C3.1 `ToroidalRefinement`,
-C3.4 `ToroidalRefinement.choice_comparison`, C3.8 `ToroidalRefinement.pushforward_boundaryIdeal`, C3.9 `ToroidalRefinement.cohomology_iso`);
-ShimuraCompactifications C4 (C4.1 `SemiAbelianScheme`, C4.7 `UniversalDegeneration`);
-B3.Hilbert.1–3 (the actual ramified level/isogeny maps and completed coefficient transport); AlgebraicModularFormsAndSerreWeights R15.2 (*Integral
+*Needs:* 12.11 (`ClassicalHecke.operator`); 12.13 (`ClassicalHecke.nonNeatDescent`); 12.14
+(`FourierJacobi.modular_qExpansion_comparison`); 12.17 (`HilbertQExpansion.map`); 12.15
+(`VectorFourierJacobi.expansion`); ShimuraCompactifications Layer 4 (§4.1 `ToroidalRefinement`,
+§4.4 `ToroidalRefinement.choice_comparison`, §4.9 `ToroidalRefinement.pushforward_boundaryIdeal`, §4.10 `ToroidalRefinement.cohomology_iso`);
+ShimuraCompactifications Layer 6 (§6.1 `SemiAbelianScheme`, §6.7 `UniversalDegeneration`);
+7.3–7.5 (the actual ramified level/isogeny maps and completed coefficient transport); AlgebraicModularFormsAndSerreWeights R15.2 (*Integral
 geometric Hecke operators*); Tau Ceti `HeckeRing.GL2.twistedHeckeSlashSum_diagCosetGamma0_of_prime`.
 *Lean:* none; specified in the README only.
 
@@ -5291,25 +5328,25 @@ geometric Hecke operators*); Tau Ceti `HeckeRing.GL2.twistedHeckeSlashSum_diagCo
 - Higher-rank coefficients move through abelian-torsor sections, rather than being scalar Fourier
   coefficients.
 
-### B5.20 Classical algebraic bundles in the Hodge–Tate coefficient functor
+### 12.21 Classical algebraic bundles in the Hodge–Tate coefficient functor
 
-Prove `SiegelHT.classicalVB_equivariance`. Import B4's `μ`-normalized classical `VB⁰` identification for
+Prove `SiegelHT.classicalVB_equivariance`. Import Layer 11's `μ`-normalized classical `VB⁰` identification for
 finite-dimensional algebraic M-dominant `L_κ`, neat tame `K^p` and a sufficiently large p-adic field E.
 Compare coherent level cohomology with `colim_{K_p}RΓ(X_KpK^p,ω^κ_Kp)`, a complex of smooth admissible
 `G(ℚ_p)`-representations, with the corresponding normalization. Give the subcanonical version using
 the actual boundary ideal, and compatibility with level maps, prime-to-p Hecke maps and fan changes
-through common refinements. For `GSp₄` the `(1,0;−1)` check gives `ω_A(−1)⊗O^sm`. B3.HT.8 constructs the functor and proves its finite-dimensional descent by
+through common refinements. For `GSp₄` the `(1,0;−1)` check gives `ω_A(−1)⊗O^sm`. 10.8 constructs the functor and proves its finite-dimensional descent by
 function descent on the actual tower, and identifies its derived cohomology with this colimit.
 
 *Hypotheses.* The bundle is finite-dimensional and algebraic, not a locally analytic Coleman
 coefficient. Retain the `μ` normalization; §4.8 uses untwisted coherent bundles and applies its Tate
-twists separately. Use only B3.HT.8's finite-algebraic subcategory and retain its Tate action.
+twists separately. Use only 10.8's finite-algebraic subcategory and retain its Tate action.
 
 *Source:* [BCGP], §§4.6.1–4.6.2, pp.81–82; §§4.5.17–4.5.22 for refinement context.
 
-*Needs:* B3.HT.6–8 (tower, torsor, function/coefficient descent and cohomology);
-B4.21; B3.2, B3.4–B3.6; B3.general.3; B5.10;
-ShimuraCompactifications C3 (C3.9 `ToroidalRefinement.cohomology_iso`, C3.3 `ToroidalHeckeSpan`);
+*Needs:* 10.6–10.8 (tower, torsor, function/coefficient descent and cohomology);
+11.21; 5.3, 5.4–5.6; 6.4; 12.11;
+ShimuraCompactifications Layer 4 (§4.10 `ToroidalRefinement.cohomology_iso`, §4.3 `ToroidalHeckeSpan`);
 SchemeAndStackFoundations Layer 2 (§§2.6, 2.18).
 *Lean:* none; specified in the README only.
 
@@ -5321,7 +5358,7 @@ SchemeAndStackFoundations Layer 2 (§§2.6, 2.18).
 - The cusp comparison uses `ω_Kp^κ(−D_Kp)` on every finite model and the actual boundary maps, not
   ordinary `Γ` on the open Shimura variety.
 
-### B5.21 Classical Siegel Hodge–Tate decomposition
+### 12.22 Classical Siegel Hodge–Tate decomposition
 
 Prove `SiegelHT.decomposition`. For BCGP's finite-level `GSp₄` toroidal model, take an integral
 dominant `κ=(k₁,k₂;w)` with `0≥k₁≥k₂` and `k₁+k₂+w` even. Let `V_κ∨` be the actual canonical
@@ -5332,10 +5369,10 @@ logarithmic/pro-Kummer cohomology in the source, its actual comparison and dual 
 a spectral sequence alone does not establish the displayed decomposition.
 
 *Hypotheses.* Keep all four weights, central weight `−w`, shifts `i−j` and separate Tate twists `−a_j`.
-Parity makes every `a_j` integral. B3.log.2 constructs the canonical
-Kummer coefficient, B3.log.3 identifies its de Rham realization, and B3.log.4
+Parity makes every `a_j` integral. 8.2 constructs the canonical
+Kummer coefficient, 8.3 identifies its de Rham realization, and 8.4
 constructs the ordinary filtered period comparison and degeneration.
-B3.BGG.1–3 supplies the relative resolution, its geometric dual and the
+9.1–9.3 supplies the relative resolution, its geometric dual and the
 coherent graded pieces. The comparison is over the local reflex field `ℚ_p`
 with the rational `GSp₄` representation, so the displayed Galois action is
 `G_{ℚ_p}`. If coefficients are extended to a finite extension `L/ℚ_p`, extend both
@@ -5343,16 +5380,16 @@ sides along `ℚ_p→L→C_p`; do not replace the base Galois group without also
 changing the field of definition.
 For `κ=0` the four `λ_j` are `(0,0;0)`, `(2,0;0)`, `(3,1;0)`, `(3,3;0)` and `a_j=0,1,2,3`. At `i=0` only the `j=0`
 term can survive. The parity test excludes `(0,0;1)`, so half-weight division is exact integer
-division only under the hypothesis. B3.BGG.3 combines the ordinary log comparison with the
+division only under the hypothesis. 9.3 combines the ordinary log comparison with the
 coherent graded calculation to give this canonical decomposition. It is a
-finite-level construction, independent of B3.HT and B5.20.
+finite-level construction, independent of Layer 10 and 12.21.
 
 *Source:* [BCGP], §4.8.1 and Theorem 4.8.2, pp.101–102; [FC90], VI §6, Theorem 6.2(i),
 p.241 (the classical `p`-adic comparison), and VI §5, Theorem 5.5(i), pp.233–234
 (dual BGG degeneration).
 
-*Needs:* B3.log.2–4; B3.BGG.1–3; B2.3, B2.5–B2.6; B3.2, B3.7;
-B4.16; B5.11 (Hecke convolution); SchemeAndStackFoundations Layer 2
+*Needs:* 8.2–8.4; 9.1–9.3; 3.3, 3.5–3.6; 5.3, 5.7;
+11.16; 12.12 (Hecke convolution); SchemeAndStackFoundations Layer 2
 (§§2.6, 2.18).
 *Lean:* none; specified in the README only.
 
@@ -5360,9 +5397,9 @@ B4.16; B5.11 (Hecke convolution); SchemeAndStackFoundations Layer 2
 
 - For `κ = 0` the coherent weights are `(0,0;0)`, `(2,0;0)`,
   `(3,1;0)`, `(3,3;0)` and the doubled Tate exponents `0, 2, 4, 6`.
-- `SiegelHT.parity` (non-example): `(0, 0; 1)` fails the parity condition and its first doubled
+- (non-example) `(0, 0; 1)` fails the parity condition and its first doubled
   exponent is odd, so halving it is not integer division.
-- `SiegelHT.weights_nonzero` (computation): for `κ = (0,−2;2)`, the coherent weights are
+- (computation) for `κ = (0,−2;2)`, the coherent weights are
   `(0,−2;−2)`, `(2,−2;−2)`, `(5,1;−2)`, `(5,3;−2)` and doubled exponents `0,2,8,10`.
   This tests the sign of the central weight and distinguishes the four Weyl terms away from zero.
 
@@ -5371,17 +5408,17 @@ B4.16; B5.11 (Hecke convolution); SchemeAndStackFoundations Layer 2
 - For `κ=(0,0;1)`, parity fails and the integral GSp4 representation in this convention is
   unavailable; a formula using integer truncation of half-weights is rejected.
 
-### B5.22 Compact-support Siegel Hodge–Tate decomposition
+### 12.23 Compact-support Siegel Hodge–Tate decomposition
 
 Prove `SiegelHT.decomposition_compactSupport`. For exactly the datum, integral weight, coefficient
-and Tate convention of B5.21, specify `H_cⁱ(X,V_κ∨)⊗_ℚp C_p≃⊕_{j=0}³H^(i−j)(X,ω^λj(−D))(−a_j)`,
+and Tate convention of 12.22, specify `H_cⁱ(X,V_κ∨)⊗_ℚp C_p≃⊕_{j=0}³H^(i−j)(X,ω^λj(−D))(−a_j)`,
 equivariantly for `G_ℚp×T_KpK^p`. Here `X` in the coherent terms is the proper toroidal model, `U=X−D`, and
-the left side means `H_c^i(U_{ℚ̄_p},V_κ∨)`, constructed by B3.log.5. The latter
-constructs the supported period kernel and duality; B3.BGG.2–3 supplies the
+the left side means `H_c^i(U_{ℚ̄_p},V_κ∨)`, constructed by 8.5. The latter
+constructs the supported period kernel and duality; 9.2–9.3 supplies the
 `−D` dual BGG complex and degeneration.
 
 *Hypotheses.* Use the same four `λ_j` and `a_j`, all component boundary ideals and compact-support
-functoriality. Use B3.log.5's supported comparison and B3.BGG.3's compact-support graded
+functoriality. Use 8.5's supported comparison and 9.3's compact-support graded
 comparison, compatibly with the support-forgetting map and the dual-coefficient trace.
 Every coherent term carries `−D`, in addition to its Tate twist.
 
@@ -5389,9 +5426,9 @@ Every coherent term carries `−D`, in addition to its Tate twist.
 Theorem 6.2(i), p.241, and VI §5, Proposition 5.4(2) and Theorem 5.5(ii), pp.233–234
 (boundary ideal and compact-support dual BGG degeneration).
 
-*Needs:* B3.log.2–3, B3.log.5 (compact-support periods, comparison and duality);
-B3.BGG.2–3; B5.21 (the coefficient/weight convention); B5.11;
-B3.2, B3.4, B3.7; B4.16; EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2;
+*Needs:* 8.2–8.3, 8.5 (compact-support periods, comparison and duality);
+9.2–9.3; 12.22 (the coefficient/weight convention); 12.12;
+5.3, 5.4, 5.7; 11.16; EtaleDualityAndPerverseSheaves §§0.1–0.6, 2.2;
 SchemeAndStackFoundations Layer 2 (§§2.6, 2.18).
 *Lean:* none; specified in the README only.
 
@@ -5406,52 +5443,52 @@ SchemeAndStackFoundations Layer 2 (§§2.6, 2.18).
 ### Examples
 
 - The formal series `(1 − q)⁻¹` has coefficient `1` in every degree over a nonzero ring; a
-  finite-support coefficient target loses valid completed sections (B5.14).
+  finite-support coefficient target loses valid completed sections (12.15).
 - Over `ℤ/4` reduction to `ℤ/2` is not injective and `2` is a nonzero nilpotent; the expansion proof
-  uses both terms of an extension rather than testing residue fields only (B5.5).
+  uses both terms of an extension rather than testing residue fields only (12.6).
 - For the shear action of `C₂` on `(ℤ/2)²` the second-coordinate quotient is onto before invariants
-  and not after; only left exactness of invariants is used (B5.3).
+  and not after; only left exactness of invariants is used (12.4).
 - In the Siegel comparison `κ = 0` gives coherent weights `(0,0;0)`, `(2,0;0)`, `(3,1;0)`,
   `(3,3;0)`, Tate twists `0, −1, −2, −3` and coherent degrees `i, i−1, i−2, i−3`; every compactly
   supported term additionally carries the twist by `−D`, and the weight `(0,0;1)` fails the parity
-  condition (B5.21).
+  condition (12.22).
 - At a good prime `ℓ ∤ N` the modular Hecke operator acts on expansions by
-  `b_n = a_{ℓn} + χ(ℓ) ℓ^{k−1} a_{n/ℓ}`, with the second term zero when `ℓ ∤ n` (B5.19).
+  `b_n = a_{ℓn} + χ(ℓ) ℓ^{k−1} a_{n/ℓ}`, with the second term zero when `ℓ ∤ n` (12.20).
 
 ### Dependencies
 
-Layers B0–B4; ShimuraCompactifications C0–C6; AdelicAlgebraicGroups §4.5; AdicSpacesPartIII F0;
+Layers 0–11; ShimuraCompactifications Layers 0–8; AdelicAlgebraicGroups §4.5; AdicSpacesPartIII F0;
 SchemeAndStackFoundations Layers 1–2; AlgebraicModularFormsAndSerreWeights R15.1–R15.2;
 HilbertModularVarietiesAndShimuraCurves H2, H3; Tau Ceti Hecke rings;
-B3.Hilbert.1–4, B3.log.1–5, B3.BGG.1–3 and B3.HT.6–8.
+7.3–7.6, 8.1–8.5, 9.1–9.3 and 10.6–10.8.
 
 ## Worked examples
 
 - For `GL₂`, the tautological compact-dual line has degree `−1`, while the cohomological modular
   Hodge coefficient of weight `k` is `ω^k`. The coefficient/dual comparison determines the sign;
-  identifying both by an unqualified character would reverse a weight (B0.5, B4.10).
+  identifying both by an unqualified character would reverse a weight (0.5, 11.10).
 - On a proper geometrically connected model the unit coefficient has section space `L`. On
   `Spec L[t]` it has the infinite independent family `1, t, t², …`. Properness is essential to the
-  finite-dimensional statement (B4.1).
+  finite-dimensional statement (11.1).
 - At a two-component boundary crossing, cusp membership is divisibility by `q₁q₂`. After a blow-up
   the exceptional boundary can have a different pullback multiplicity; ideal pushforward compares
-  cusp sections (B3.4, B3.5).
+  cusp sections (5.4, 5.5).
 - For an arithmetic Hilbert weight with `k = 4`, `w = 2` at one embedding, the determinant exponent
-  is `−1`. Replacing it by a nonnegative exponent changes the central character (B4.11).
+  is `−1`. Replacing it by a nonnegative exponent changes the central character (11.11).
 - A formal series `(1 − q)⁻¹` has nonzero coefficients in all degrees over a nonzero ring. A
-  finite-support coefficient target loses valid completed sections (B5.14).
+  finite-support coefficient target loses valid completed sections (12.15).
 - Over `ℤ/4`, reduction to `ℤ/2` is not injective, and the coefficient `2` is a nonzero nilpotent.
-  The expansion proof uses both terms of an extension rather than testing only residue fields (B5.5,
-  B5.6).
+  The expansion proof uses both terms of an extension rather than testing only residue fields (12.6,
+  12.7).
 - For the shear action of `C₂` on `(ℤ/2)²`, the second-coordinate quotient is surjective before
-  invariants and not after. Only the left-exact invariant functor enters the argument (B5.3).
+  invariants and not after. Only the left-exact invariant functor enters the argument (12.4).
 - In the Siegel comparison `κ = 0` gives coherent weights `(0,0;0)`, `(2,0;0)`, `(3,1;0)`,
   `(3,3;0)`, Tate exponents `0, −1, −2, −3` and coherent degrees `i, i−1, i−2, i−3`. Every
   compact-support term additionally has the twist by `−D`. The putative weight `(0,0;1)` fails
-  parity and must not be accepted by integer division of a half-weight (B5.21).
+  parity and must not be accepted by integer division of a half-weight (12.22).
 - In weight zero the normalized modular Hecke operator at an unramified prime `ℓ` sends `1` to
-  `ν(g)·(ℓ + 1) = (ℓ + 1)/ℓ`, with `ν = det⁻¹`; the raw pull-trace operator gives `ℓ + 1` (B5.10).
-  The Checks of `ClassicalHecke.modularNormalization` give `3/2`, `4/3` and `6/5` at primes
+  `ν(g)·(ℓ + 1) = (ℓ + 1)/ℓ`, with `ν = det⁻¹`; the raw pull-trace operator gives `ℓ + 1` (12.11).
+  The Checks of 12.11 give `3/2`, `4/3` and `6/5` at primes
   `2`, `3` and `5` respectively.
 
 The roadmap's endpoint is usable classical and cuspidal coefficients over their actual number fields
@@ -5461,8 +5498,8 @@ and coefficient-detecting expansions.
 ## Downstream consumers
 
 - **HodgeTateAndCanonicalSubgroups** §§1–2, 7.29–7.30 use the Hodge tensors, principal
-  bundle, automorphic realizations and nilpotent-residue boundary extensions of B0–B3;
-  its Layers 6–7 compare their smooth-pair instance with B3.log.1–3. B3.HT.1 uses
+  bundle, automorphic realizations and nilpotent-residue boundary extensions of Layers 0–5;
+  its Layers 6–7 compare their smooth-pair instance with 8.1–8.3. 10.1 uses
   CohomologyComparisons §6.2's shared package and retains the identification for its
   §§3.4, 3.6–3.8 cyclotomic-base abelian-family weak/strong subgroup assertions: its
   `TauCeti.HodgeTate.canonicalSubgroup` is this finite flat subgroup with the same
@@ -5470,22 +5507,22 @@ and coefficient-detecting expansions.
   construction agrees on the overlap by subgroup uniqueness; its wider ranges, degree formula
   and integral Hodge–Tate estimates remain there.
 - **PerfectoidShimuraVarieties** (S6) uses the canonical principal bundle, automorphic
-  bundle functor, boundary extensions and classical VB normalization (B0–B4), and the
-  rational tower/Levi-torsor and finite-algebraic `VB⁰` constructions of B3.HT.2–8.
-  Its §§1.3–1.22 use B3.HT.2–3's Hasse charts, good triples and anticanonical Frobenius tower;
-  §§1.23–1.28 use B3.HT.4's minimal Siegel tower and period map; §1.29 uses B3.HT.5's toroidal
-  tower; §3.8(c) uses B3.HT.6's closed Hodge-type toroidal tower on the induced fan system.
+  bundle functor, boundary extensions and classical VB normalization (Layers 0–11), and the
+  rational tower/Levi-torsor and finite-algebraic `VB⁰` constructions of 10.2–10.8.
+  Its §§1.3–1.22 use 10.2–10.3's Hasse charts, good triples and anticanonical Frobenius tower;
+  §§1.23–1.28 use 10.4's minimal Siegel tower and period map; §1.29 uses 10.5's toroidal
+  tower; §3.8(c) uses 10.6's closed Hodge-type toroidal tower on the induced fan system.
   The identifications are over the same finite-level spaces, preserve the completed rings and
-  boundary ideals, and use the action and fixed/full-similitude dictionary of B3.HT above.
-  Its rational Levi comparison is B3.HT.7 with that same Tate twist. Genuine-minimal,
+  boundary ideals, and use the action and fixed/full-similitude dictionary of Layer 10 above.
+  Its rational Levi comparison is 10.7 with that same Tate twist. Genuine-minimal,
   pre-abelian and general-data extensions and locally analytic coefficients remain there.
 - **AutomorphicGaloisRepresentationsPartII** (AG2.1a, AG2.4) uses automorphic bundles and their
-  canonical and subcanonical extensions (Layers B2–B3).
+  canonical and subcanonical extensions (Layers 3–5).
 - **OverconvergentAutomorphicForms** (O1, O6, O8), **AbelianVarietiesIsogenousToNoJacobian**,
   **TorsionCohomologyInfrastructure** (TC.1), **AutomorphicBundlesPartII**, and the
   Iwasawa-theoretic roadmaps (AutomorphicPadicLFunctions, AutomorphicCongruences,
   IntegralIwasawaTheory, PadicFamilies) use classical forms, Hecke operators and the expansion
-  principle (Layers B4–B5).
+  principle (Layers 11–12).
 
 ## References
 
