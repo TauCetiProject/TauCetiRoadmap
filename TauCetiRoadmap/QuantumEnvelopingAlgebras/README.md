@@ -712,6 +712,113 @@ forms of degree `n`.
   `E(y²)=xy+v⁻¹yx=(v+v⁻¹)yx`, which pins the symmetric quantum integer
   rather than `1+v²+…+v^(2j−2)`.
 
+### QEA8.1. Integral monomials and the Weyl-to-dual comparison
+
+For the simply-connected rank-one datum, put `A=ℤ[v,v⁻¹]` and construct
+`P_A=A⟨x,y⟩/(xy−v yx)` with free ordered basis `y^j x^k` and product
+
+`(y^j x^k)(y^a x^b)=v^(ka)y^(j+a)x^(k+b)`.
+
+Construct its grading, unit, multiplication and base-change isomorphisms.
+Its degree-`n` monomial lattice `M_A(n)` has basis
+`w_j=y^j x^(n−j)`, `0≤j≤n`. Extend the QEA1 action to the full integral
+form of QEA3, proving, whenever the target index is in range,
+
+`E^(r)w_j=[j choose r]_v w_(j−r)`,
+`F^(r)w_j=[n−j choose r]_v w_(j+r)`,
+`K w_j=v^(n−2j)w_j`.
+
+The first two expressions are zero outside that range. For every `t,c∈ℤ`
+and `r≥0`, the toral binomial `[K_(th);c choose r]` acts on `w_j` by
+`[t(n−2j)+c choose r]_v`, with the signed-upper convention of QEA6.
+Prove the integral module-algebra laws using QEA3's divided-power coproduct,
+and compatibility of every operator with scalar extension. These formulas
+are Laurent-polynomial identities, so specialization never divides by a
+quantum factorial that has become zero.
+
+Write `Δ_A(n)=V_A(nω)` for QEA4's highest-vector-generated lattice and
+`b_j=F^(j)b_0`. Prove this is a basis, with
+
+`E^(r)b_j=[n−j+r choose r]_v b_(j−r)`,
+`F^(r)b_j=[j+r choose r]_v b_(j+r)`,
+
+again zero outside the index range and with the same labelled weights and
+toral characters as `w_j`. Construct the highest-normalized intertwiner
+
+`C_n:Δ_A(n)→M_A(n)`, `C_n(b_j)=[n choose j]_v w_j`.
+
+Prove equivariance for every divided power and full toral operator,
+injectivity over `A`, and the generic isomorphism over `ℚ(v)`. Its cokernel
+as an `A`-module is `⊕_(j=0)^n A/([n choose j]_v)`. The map is an integral
+isomorphism for `n=0,1` and is not one for `n≥2`: the diagonal entry
+`[n choose 1]_v=[n]_v` is not a unit. After any field specialization,
+identify the kernel basis by the vanishing diagonal coefficients and the
+image basis by the nonvanishing coefficients, rather than base-changing
+injectivity. At `v=1`, compare `C_n` with the map from the classical
+highest-generated lattice of ReductiveGroups9A.5 to integral binary forms:
+its diagonal entries are ordinary binomial coefficients. Equality of the
+rational modules does not identify these two integral lattices.
+
+Identify the second lattice intrinsically by an explicit integral dual
+isomorphism. For `φ_i` dual to `b_i`, give `Δ_A(n)^∨=Hom_A(Δ_A(n),A)` the
+left action `(u·φ)(z)=φ(S(u)z)`, with the actual QEA1 antipode
+`S(E)=−K⁻¹E`, `S(F)=−FK`. Prove that
+
+`T_n:M_A(n)≃Δ_A(n)^∨`,
+`T_n(w_j)=(-1)^j v^(j(j+1−n)) φ_(n−j)`
+
+intertwines every divided power and toral operator. Supply its inverse,
+base-change compatibility and the resulting dual description of `C_n`.
+All exponents in this formula are integers. The unit anti-diagonal of `T_n`
+and the Gaussian diagonal of `C_n` have different roles.
+
+### QEA8.2. The first root-of-unity extensions
+
+Specialize the same maps to `ℂ` at a primitive odd `ℓ`th root `ζ`, `ℓ≥3`,
+and take `n=ℓ`. Use QEA6's quantum-Lucas theorem to prove that the diagonal
+of `C_ℓ` is `1,0,…,0,1`. Thus its kernel has basis
+`b_1,…,b_(ℓ−1)` and its image is `W=span(w_0,w_ℓ)`.
+Identify `W` with `Fr^*L(ω)=L_ζ(ℓω)`, taking the classical highest/lowest
+basis to `w_0,w_ℓ`. Ordinary `E,F` vanish on `W`, while
+`F^(ℓ)w_0=w_ℓ` and `E^(ℓ)w_ℓ=w_0`. Retain the actual weights `ℓω,−ℓω`:
+although `K=1` on both, `[K;0 choose ℓ]` has eigenvalues `1,−1`.
+Verify all other divided-root and full toral actions in this identification.
+
+Prove `Δ_ζ((ℓ−2)ω)` is simple and identify it with
+`L_ζ((ℓ−2)ω)` from QEA6. If `a_k=F^(k)a_0`, `0≤k≤ℓ−2`, construct the
+isomorphism onto `ker C_ℓ` by
+
+`a_k↦[k+1]_ζ b_(k+1)`.
+
+Identify the quotient `M_ζ(ℓ)/W` with the same simple module by the map
+
+`a_k↦(-1)^k (w_(k+1)+W)`.
+
+Prove these are isomorphisms of full divided-power modules, including the
+vanishing coefficients at the endpoints, not just character equalities.
+Together with `C_ℓ` and the quotient map, obtain the nonsplit exact sequences
+
+`0→L_ζ((ℓ−2)ω)→Δ_ζ(ℓω)→Fr^*L(ω)→0`,
+`0→Fr^*L(ω)→M_ζ(ℓ)→L_ζ((ℓ−2)ω)→0`.
+
+For the first nonsplitting, a section must send the highest vector to `b_0`,
+but `F b_0=b_1≠0` whereas `F` kills its Frobenius pullback. For the second,
+a section of the quotient must send its highest vector to `w_1`, but
+`E w_1=w_0≠0`. Justify these forced lifts using the full toral weight
+characters. Compare the two sequences by `T_ℓ` and the pinned Hopf duality,
+with the explicit normalizations above. At `ℓ=3`, calibrate both four-
+dimensional modules and their two-dimensional simple factors, with
+`[3]_v=v²+1+v⁻²` specializing to zero. This supplies QEA6's concrete
+nonsimple Weyl example without identifying a specialized Weyl module with
+its simple head or a Frobenius pullback. The hypotheses here are the
+simply-connected odd-order branch of QEA5; no even-order extension is
+asserted by these examples.
+
+The native matrix targets in `QuantumPlaneLatticeTargets.lean` pin the
+Laurent-polynomial diagonal, operator intertwiners and specialized kernel
+and image. The module constructions and exact-sequence comparisons above
+remain part of the specification beyond those illustrative signatures.
+
 The Chevalley/Pieri divisor formula is a geometric statement owned by the
 finite SchubertGeometry layer with its codimension-one predecessor,
 normalized extremal section and coroot-coefficient inputs. QEA provides no
