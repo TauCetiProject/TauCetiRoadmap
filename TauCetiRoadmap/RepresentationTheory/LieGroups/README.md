@@ -1792,6 +1792,149 @@ formally-real Albert, triality, Layer7E and downstream symmetric-space targets u
   Neither a dimension equality nor unrelated degreewise isomorphisms supply this comparison.
   This application consumes the stated early coherent/GAGA contracts, not all of SchubertGeometry;
   its S7 and S9 compact/topological comparisons consume these LieGroups flags afterwards.
+- **Geometric big-cell restriction and polynomial weight bounds.** This construction is before
+  the degree-zero Borel–Weil identification and the Weyl character formula. Use the actual
+  connected linear complex reductive group and full lattice X specified at the start of
+  Layer8, with B+=T⋉N+, B− and a chosen longest representative n_0. Consume [ReductiveGroups Layer7C](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f536cbdd838fbcab0c7a88ba523382c56a57c397/TauCetiRoadmap/ReductiveGroups/README.md#layer-7c-ordered-unipotent-factors-and-the-contraction-proof-of-bruhat-coordinates)'s actual root/intersection coordinates, its independently constructed free dense
+  big cell, and its T-equivariant polynomial exp/log. These are algebraic maps transported
+  to this same complex flag; compact torus contraction or an unrelated real nilpotent group
+  is not substituted. The following finite-dimensional rational-module bound also has the
+  corresponding algebraically closed characteristic-zero algebraic version; its analytic
+  comparison is over C. Preserve central characters, products, a pure torus and the rank0
+  flag point. Do not extend the polynomial-exponential proof to characteristic p.
+
+  On X−=G/B−, take the associated line L(λ) of fibre character λ at eB−, using the
+  actual descent and linearization of [SchubertGeometry S3's early associated-line contract](https://github.com/TauCetiProject/TauCetiRoadmap/blob/f356f08f27f03da7c92341afd0ee485bb93934ca/TauCetiRoadmap/SchubertGeometry/README.md#s3-line-bundles-sections-and-rank-one-push-pull). N+ acts freely on the dense
+  open Ω=N+eB−. Construct the orbit isomorphism N+→Ω, its regular inverse, and the
+  line-bundle isomorphism
+  `N+×L(λ)_(eB−)→L(λ)|Ω, (n,v)↦n·v`,
+  including its inverse, fibrewise linearity, regularity, restriction, tensor/dual and
+  field-change laws. This trivialization retains the actual basepoint and fibre; choosing
+  a nonzero v0 in that fibre identifies it with the scalar trivial line and changes the
+  scalar functions by the inverse scalar if v0 is rescaled. It is N+-equivariant, while
+  the T action on its source is `(n,a)↦(tnt^−1,λ(t)a)`. It is generally not equivariant
+  for the untwisted scalar trivial line. Prove those equations from the G-linearization.
+
+  For an algebraic section s define its coefficient f_s by
+  `s(neB−)=n·(f_s(n)v0)`.
+  Restriction and the preceding inverse give an actual complex-linear map
+  `R_λ:H⁰(X−,L(λ))→O(N+)`, not all arbitrary functions. Prove injectivity using the
+  dense open, the integral/reduced flag, and local freeness of the line; no extension
+  of an arbitrary cell section is asserted. The section action is
+  `(t·s)(x)=t·s(t^−1x)` and the ordinary function action is
+  `(t·f)(n)=f(t^−1nt)`.
+  Prove the determining identity
+  `R_λ(t·s)=λ(t)(t·R_λ(s))`.
+  Hence if s has weight μ, then R_λ(s) has ordinary function weight μ−λ.
+  Equivalently R_λ is an ordinary intertwiner into O(N+)⊗C_λ, or from
+  H⁰(X−,L(λ))⊗C_(−λ) to O(N+). State these equations and actual twisting directions,
+  rather than deciding signs from the word covariance.
+
+  More generally, for a fibre-linear bundle map Φ over the identity of a T-space,
+  if `Φ_(tx)(t·v)=χ(t)t·Φ_x(v)`, prove its section map F satisfies
+  `F(t·s)=χ(t)t·F(s)` and `t·F(s)=χ(t)^−1 F(t·s)`.
+  Thus source weight μ becomes μ−χ. Under the definition
+  `Φ(t·v)=χ(t)t·Φ(v)`, this is the same covariance equation on F, although its
+  weight shift has the negative sign. For an actual linear map V→W the equivalent
+  ordinary intertwiner has domain V⊗C_(−χ) and codomain W, or domain V and
+  codomain W⊗C_χ. An arbitrary nonlinear map has no such linear tensor equivalence.
+  Include the unit, zero map, scalar change, inverse bundle isomorphism, composition
+  (characters add) and tensor/dual comparisons. The accompanying [BigCellCovarianceTargets.lean](BigCellCovarianceTargets.lean) action/covariance
+  examples retain these actual maps; their function action on all functions is only an
+  action model, not a claim of polynomiality or finite weight spaces for all functions.
+
+  Construct the early coefficient injection without assuming Borel–Weil equality,
+  a character formula, or the already classified highest line. For a nonzero
+  finite-dimensional rational irreducible V, apply ReductiveGroups Layer5's
+  Lie–Kolchin theorem to the rational B− representation on V*. It gives a nonzero
+  semi-invariant functional l0. The character of B− factors through its actual
+  torus quotient because its connected unipotent radical has no nontrivial rational
+  characters. Write that dual character as −λ, so
+  `l0(b−v)=λ(b−)l0(v)`.
+  Keep λ in the actual group character lattice, not an arbitrary Lie functional.
+  The matrix coefficient `v↦(g↦l0(g^−1v))` is regular, has the required right
+  B− covariance: writing F_v(g)=l0(g^−1v), prove the exact equations
+  `F_v(gb−)=λ(b−)^−1 F_v(g)` and `F_(h·v)(g)=F_v(h^−1g)`.
+  Here L(λ)=(G×C)/((g,z)·b−=(gb−,λ(b−)^−1z)), so these functions give
+  the actual sections with left translation action. This gives a nonzero
+  G-equivariant map V→H⁰(X−,L(λ)). It is injective
+  by irreducibility: evaluation at1 recovers the nonzero l0. Finite torus weight
+  decomposition shows λ actually occurs and l0 is nonzero on its weight space.
+  On the cell the coefficient function is explicitly `n↦l0(n^−1v)`. Prove its
+  action/weight equation directly and compare it with R_λ composed with the section
+  map. The count below shows all weights lie below λ and the λ weight space has
+  dimension1. Hence it is the highest line; positive root maps fix it, and its
+  normalized vector maps to1. Identify λ with the source's given highest weight
+  by these weight-order comparisons, not by a classification or character formula.
+  This supplies the needed section embedding before later Borel–Weil surjectivity.
+  For each simple root, restrict to the actual pinned rank-one SL2 map and its
+  finite-dimensional rational module. [LieHighestWeight Layer0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/797f5b74355c8cee4c8a2dfa1bb34bcb5c90ce69/TauCetiRoadmap/RepresentationTheory/LieHighestWeight/README.md)'s independent highest
+  sl2 string shows that its highest vector has nonnegative integral coroot weight
+  〈λ,α∨〉; the group character/cocharacter derivative dictionary identifies that
+  number with the actual lattice pairing. This proves dominance without general
+  highest-weight classification, Weyl character formula or later tensor examples.
+  Keep the finite-dimensional rational algebraic representation and actual group
+  character hypotheses; arbitrary Lie modules or abstract group representations
+  do not automatically have regular coefficient functions or Lie–Kolchin eigenlines.
+
+  Through equivariant polynomial log/exp identify O(N+) with Sym((Lie N+)*), with
+  explicit pullback/inverse algebra maps and restriction/naturality laws. Choose the pinned
+  root vectors and dual coordinate functions z_α. Their ordinary pullback weights are
+  −α: `t·z_α=α(t)^−1 z_α`. Prove the monomial basis and its actual character
+  `−sum_(α>0)m_α α`. Define K_Φ(ν) as the finite cardinal of exponent families
+  m:Φ+→N with sum m_α α=ν, including the actual lattice X, not only its real span.
+  Pair with a positive integral cocharacter c. Since each positive integer〈α,c〉>0,
+  an exponent family for ν satisfies m_α〈α,c〉≤〈ν,c〉; this gives explicit finite
+  enumeration and the zero cases when the pairing is negative, ν is outside the positive
+  root cone or ν is not in the root lattice. Identify this count with the existing
+  [`TauCeti.kostantPartition P b`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/LinearAlgebra/RootSystem/KostantPartition/Basic.lean)
+  for the actual root datum's root pairing on X over Z and its chosen base b. Construct
+  the equivalence of exponent families by extending by zero off the positive root indices
+  and restricting back. Reuse `finite_setOf_isKostantPartition` and
+  `kostantPartition_zero`; the positive-cocharacter calculation supplies the explicit
+  geometric enumeration bound, without introducing another partition function or using
+  Verma-module multiplicities. For an arbitrary finite
+  positive-weight T-module the same construction lists weights with their multiplicities;
+  repeated weights give distinct coordinate exponents. This is polynomial-weight theory,
+  not an inference that every function on affine space is polynomial.
+
+  Restrict the actual injection to each torus weight space and construct its induced
+  linear injection into the finite monomial-weight space. Therefore
+  `dim(V_λ)_μ ≤ K_Φ(λ−μ)`, equivalently
+  `dim(V_λ)_(λ−ν) ≤ K_Φ(ν)`.
+  Construct the finite-dimensional instances and actual dimension comparison, not merely
+  equality of formal characters. Central directions remain visible: polynomial functions
+  on N+ have zero central weight, so the bound is zero off the actual central-character
+  coset. For a pure torus N+=1 the coordinate algebra is C and the same formula gives
+  the one-dimensional single-weight case. The proof consumes highest-weight vectors and
+  rational coefficient functions, not PBW/Verma multiplicity bounds, Borel–Weil equality,
+  Weyl character formula or the later Fourier/Haar character comparisons.
+
+  For the positive-Borel flag use the actual map
+  `G/B+→G/B−, gB+↦gn_0B−`.
+  Prove its line and linearization comparison with the fixed lift: pullback of L(λ)
+  is E_(w0λ), and its fibre at n_0B+ has character λ. Transport the free cell to
+  n↦nn_0B+; it is not n↦nB+ with N+⊂B+. Record the possible n_0²∈T factor in
+  chosen fibre identifications, rather than identifying lifts by a Weyl-group equation.
+  The usual positive-Borel line E_(−λ) instead has sections V_λ*=V_(−w0λ);
+  compare this through the existing dual/opposition maps. For GL2 explicitly give
+  a↦[a:1] in P1 and the coefficient/line transitions. For GLn keep every integer
+  weight coordinate and determinant twist.
+
+  Use the existing all-degree equivariant projective GAGA comparison to identify the
+  algebraic section map with the holomorphic section map on this same projective flag.
+  Arbitrary holomorphic functions on N+ may be nonpolynomial and are not the coordinate
+  algebra used in the count. Show that restrictions of these global holomorphic sections
+  are the regular functions supplied by the GAGA comparison. Alternatively when checking
+  individual holomorphic weight vectors prove their finite weighted Taylor expansion under
+  the positive cocharacter; do not identify the whole space of entire functions with O(N+).
+  Finally construct the normalizer intertwiners giving Weyl invariance of actual weight
+  multiplicities. For each w this yields the W-indexed family
+  `dim(V_λ)_μ ≤ K_Φ(λ−wμ)`.
+  Equivalently change the positive root system and highest weight through the same
+  normalizer maps. GLn has n! indexed inequalities; their values can repeat, especially
+  on walls. This is a geometric proof and comparison separate from the existing PBW bound.
+
 <a id="big-cell-contragredient-verma"></a>
 - **The full big-cell module and its contragredient Verma pairing.**
   In the preceding negative-Borel chart put C_λ=Γ(Ω,L(λ)|Ω), identified
