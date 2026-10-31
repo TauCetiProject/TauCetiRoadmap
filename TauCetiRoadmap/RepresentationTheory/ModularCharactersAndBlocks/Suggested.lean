@@ -1,3 +1,4 @@
+import TauCeti.RingTheory.Idempotents.Primitive.Decomposition
 import Mathlib.Algebra.MonoidAlgebra.Basic
 import Mathlib.Data.Finsupp.Fintype
 import Mathlib.GroupTheory.PGroup
@@ -16,11 +17,9 @@ namespace TauCetiRoadmap.ModularCharactersAndBlocks
 
 variable {R G : Type*} [CommRing R] [Group G]
 
-/-- A primitive idempotent in the actual center of the group algebra. -/
-def IsBlockIdempotent (b : Subalgebra.center R (MonoidAlgebra R G)) : Prop :=
-  IsIdempotentElem b ∧ b ≠ 0 ∧
-    ∀ e : Subalgebra.center R (MonoidAlgebra R G),
-      IsIdempotentElem e → e * b = e → e = 0 ∨ e = b
+/-- Blocks use the native primitive-idempotent predicate in the actual centre. -/
+abbrev IsBlockIdempotent (b : Subalgebra.center R (MonoidAlgebra R G)) : Prop :=
+  TauCeti.IsPrimitiveIdempotent b
 
 variable {k : Type*} [Field k] [Finite G]
 
@@ -37,8 +36,12 @@ theorem brauerProjection_mul {p : ℕ} [Fact p.Prime] [CharP k p]
     (hy : ∀ a : P, ∀ g : G, y.coeff ((a : G) * g * (a : G)⁻¹) = y.coeff g) :
     brauerProjection P (x * y) = brauerProjection P x * brauerProjection P y := sorry
 
-theorem exists_complete_blockIdempotents :
-    ∃ (n : ℕ) (b : Fin n → Subalgebra.center k (MonoidAlgebra k G)),
-      (∀ i, IsBlockIdempotent (b i)) ∧ CompleteOrthogonalIdempotents b := sorry
+/-- Uniqueness is stronger than the native cardinality comparison. -/
+theorem complete_blockIdempotents_unique {ι κ : Type*} [Fintype ι] [Fintype κ]
+    (b : ι → Subalgebra.center k (MonoidAlgebra k G))
+    (c : κ → Subalgebra.center k (MonoidAlgebra k G))
+    (hb : CompleteOrthogonalIdempotents b) (hc : CompleteOrthogonalIdempotents c)
+    (hbp : ∀ i, IsBlockIdempotent (b i)) (hcp : ∀ j, IsBlockIdempotent (c j)) :
+    ∃ e : ι ≃ κ, ∀ i, b i = c (e i) := sorry
 
 end TauCetiRoadmap.ModularCharactersAndBlocks
