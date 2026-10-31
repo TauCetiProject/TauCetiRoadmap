@@ -787,35 +787,18 @@ contracts).
 ## Research context
 
 Not targets. The elliptic case of Grothendieck's period conjecture (transcendence degree `4`
-without complex multiplication) is open. Bost–Charles (arXiv:1307.1045v2) state the conjecture
-as Conjecture 2.12 (§2.2.2): the Zariski closure `Z_X` of the comparison isomorphism equals the
-motivic torsor of periods `Ω_X^mot`, equivalently every polynomial relation among the periods
-`(2πi)^{−j}∫_γ α` of the powers `Xⁿ` comes from algebraic cycles; they note that the case of an
-elliptic curve with complex multiplication is known, by Chudnovsky (the remark after
-Conjecture 2.12), and they do not treat the case without CM. Propositions 2.13 and 2.14 relate
-the torsor form to the statements `GPCᵏ(Xⁿ)` in each codimension, which concern single classes
-rather than algebraic independence (the discussion after Proposition 2.14). What they prove is
-in codimension `1`: `GPC¹` holds trivially for curves (§1.1.3); for abelian varieties `A, B` over
-`ℚ̄`, `Hom(A, B)` is isomorphic to the morphisms of the de Rham–Betti realisations of `H₁`
-(Theorem 3.8, 1)), hence `GPC¹(A)` (Corollary 3.9); `GPC¹(X × Y)` iff `GPC¹(X)` and `GPC¹(Y)`
-(Corollary 3.10), so `GPC¹` holds for products of curves, among them `E × E`. The transcendence
-input is Theorem 3.1, a Schneider–Lang description of morphisms of commutative algebraic groups
-over `ℚ̄` through their Lie algebras and period groups, and its Corollary 3.4,
-`Lie G ∩ Per G_ℂ = {0}`, which for `G = E` says that no nonzero period of `dx/y` is algebraic
-(Schneider's theorem below). None of these gives an algebraic-independence statement for
-elliptic periods, and nothing in Layers 0–5 depends on them. The established CM case, `trdeg = 2`
-(Layer 5), is used downstream, for instance by Kawabe (arXiv:2303.05030, §2.3) for CM Kummer
-surfaces. Nothing in this roadmap assumes or formalises the conjecture.
+without complex multiplication) is open; nothing in this roadmap assumes or formalises it.
+Bost–Charles state the conjecture in torsor form (Conjecture 2.12) and note that the CM case is
+known, by Chudnovsky; what they prove is in codimension `1`, for abelian varieties and products of
+curves (Corollaries 3.9 and 3.10), and gives no algebraic-independence statement for elliptic
+periods.
 
-The classical transcendence results below Layer 5 are not owned here. Schneider's theorem (1937),
-that a nonzero period of a lattice with algebraic `g₂, g₃` is transcendental, follows from the
-Schneider–Lang criterion for meromorphic functions of finite order applied to `℘` (Waldschmidt,
-*Diophantine Approximation on Linear Algebraic Groups*, Theorem 4.1). LinearFormsInLogarithms
-owns only the criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (its target 5.7) and lists the meromorphic form
-and its elliptic analogues as out of scope; no roadmap owns them. Grothendieck's notes ask, for an
-elliptic curve, whether the transcendence degree of the comparison point is `4` or `2`, and name
-Schneider's theorem as the first visible case for curves without complex multiplication
-(Montpellier fonds, folder 18, pp. 10–12, https://grothendieck.umontpellier.fr/18.pdf).
+Schneider's theorem (1937), that a nonzero period of a lattice with algebraic `g₂, g₃` is
+transcendental, follows from the Schneider–Lang criterion for meromorphic functions of finite order
+(Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Theorem 4.1); no roadmap owns
+that form of the criterion (LinearFormsInLogarithms 5.7 covers `ℂ^{d₀} × (ℂˣ)^{d₁}` only).
+Grothendieck's notes name it as the first visible case of the conjecture for curves without complex
+multiplication (Montpellier fonds, folder 18, pp. 10–12, https://grothendieck.umontpellier.fr/18.pdf).
 
 ## References
 
