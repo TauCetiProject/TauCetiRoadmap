@@ -466,3 +466,51 @@ isotopies, group/presentation maps, geometric surface/basis or infinite-cyclic-c
 comparisons required by the roadmap. Generic Fox and PD/Fitting theory is consumed from
 the existing signed-Fox producer; no matching generic Fox-calculus implementation was
 found in the bounded native/Mathlib/open-PR search.
+
+<a id="small-knot-group-inputs"></a>
+## Problem80: prime two-generator presentations and the composite correction
+
+*Knot Theory.pdf*, SHA256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical p122
+Problem80, literally asks for two-generator presentations and Alexander polynomials of
+each knot with fewer than eight crossings. The prime-under8 rows all have such
+presentations. The unrestricted wording is false: a six-crossing trefoil#trefoil diagram
+has a group requiring3 ordinary abstract generators. The public contract therefore
+includes this explicit obstruction, the unknot and correct larger composite
+presentations, preserving the original request rather than silently restricting it to
+primes.
+
+The fourteen standard native PD inputs and their prior independent Fox polynomials
+remain those of the4.4.6 dictionary. Primary Knot Atlas Conway strings
+are3,22,5,32,42,312,2112,7,52,43,313,322,2212,21112 in that order. The explicit
+right-nested positive continued fraction gives raw
+denominators1,2,1,2,2,3,5,1,2,3,4,5,8,8, with
+numerators3,5,5,7,9,11,13,7,11,13,15,17,19,21. In particular [21112]=21/8. For the
+marked Schubert word replace an even q₀ by odd q*=q₀+p, allowing p<q*<2p. The resulting
+odd denominators are1,7,1,9,11,3,5,1,13,3,19,5,27,29. This arithmetic and matching
+polynomials do not prove any native-PD/rational-diagram equivalence, its mirror signs or
+meridional paths; all are explicit required targets.
+
+For ε_i=(−1)^floor(iq*/p), W=b^ε₁a^ε₂⋯a^ε_(p−1) and R=aWb⁻¹W⁻¹, the exact specialized
+Fox row is(P,−P), P=Σ_(i=0)^(p−1)(−1)^i t^s_i. Writing e=Σ ε_i, the normalized symmetric
+polynomial is t^(−e/2)P. The exact h=e/2 values are1,0,2,−1,0,1,0,3,−1,2,−1,2,−1,0. All
+fourteen reproduce the already independently computed native-PD polynomial. The actual
+cover module is Λ/(P); native PD AlexanderModule is the unreduced Λ⊕Λ/(P), with its
+shifted Fitting indices. No generic cyclicity claim for all knot modules is made.
+
+[Hoste, Theorem1 and §4](https://arxiv.org/html/1907.03812#S2) gives the walk/Fox proof
+with reversed parameter names and a strict smaller-numerator range. If q*>p, fold to
+q′=2p−q*, negating ε and replacing P(t) by P(t⁻¹)=t^(−e)P(t). His ε₀=1 gives raw tP in
+range and t^(1−e)P after folding. These are explicit Laurent-unit/index/marked-diagram
+adapters. His general two-variable link formulas are not additional prerequisites for
+this knot-group unit.
+
+The order18 quotient uses actual native SemidirectProduct, with translations F₃² and
+parityC₂ acting by inversion. The t,a,b images are three reflections with translation
+parts0,e₁,e₂; at and bt produce basis translations. All18 elements have explicit
+preimage words. Pairs of translations miss C₂ and may generate order9; pairs with a
+reflection generate at most6. This proves failure of two ordinary generators, rather
+than only of two meridians. T#F retains its separate amalgamated three-generator
+presentation; it is not assigned the same quotient without proof. Whole4.10
+classification is not a supplier of the early marked presentation, and only the final
+all-input exhaustion consumes7.5's existing complete bounded diagram certificates.

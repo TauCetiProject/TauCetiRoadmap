@@ -3588,6 +3588,190 @@ braid-index classification of 4.8.2 consumes this family and is not a premise of
 construction. The Clifford-torus comparison in item 7 consumes only 4.11's explicit
 geometric-model prefix, independently of its group/invariant applications.
 
+<a id="small-knot-group-presentations"></a>
+### 4.4.8 Two-bridge group presentations and all knots below eight crossings
+
+Supply the full group and Alexander calculation requested in Knot Theory p122 Problem80.
+The fourteen prime inputs are precisely the already fixed standard oriented PD models of
+4.4.6. Construct their two-meridian presentations through a reusable marked
+Schubert-diagram producer, with actual generator maps. Include correct larger
+presentations for the composites and the unknot. The source's unrestricted request for
+two generators is false: the six-crossing connected sum of two trefoils below has
+ordinary abstract generator number three.
+
+1. **Marked two-bridge geometry.** For p>0 odd and q odd with `0<q<2p` and
+   `gcd(p,q)=1`, construct the marked Schubert knot diagram K(p,q), its two oriented
+   bridges, all crossing and arc labels, four closing ports and the basing paths to
+   positive meridians a,b. Construct the associated rational tangle/plat and its
+   numerator-closure comparison. Export this construction prefix independently of 4.10's
+   polynomial, bridge-minimum and rational-knot classification consumers: it uses only
+   4.2's realized diagrams and the integer twist/rotation/gluing operations of 4.10.1.
+   The rational-label convention is the right-nested continued fraction
+   `[c₁,…,c_r]=c₁+1/(c₂+…+1/c_r)`. Give explicit marked diagram maps for the
+   odd-denominator change `q₀↦q₀+p` when q₀ is even, bridge exchange, orientation
+   reversal and reflection; retain their basepoint conjugations and meridional signs.
+   These are actual isotopies or identified mirror maps, not deductions from equal
+   Alexander polynomials.
+
+2. **The presentation and its usable API.** Put
+   `ε_i=(−1)^floor(iq/p)`, `s_0=0`, `s_i=Σ_(j=1)^i ε_j`, for 1≤i≤p−1, and write
+
+   ```text
+   W=b^ε₁ a^ε₂ b^ε₃ a^ε₄ … a^ε_(p−1),
+   R=a W b⁻¹ W⁻¹,                 G(p,q)=⟨a,b | aW=Wb⟩.
+   ```
+
+   Use native `FreeGroup` and `PresentedGroup` with these literal signed words.
+   Propagate every Wirtinger meridian as an explicit conjugate word in a,b through the
+   actual diagram. Prove the remaining crossing relation is R, prove the redundancy of
+   the other closing relation, and construct inverse homomorphisms between G(p,q), the
+   full diagram group and the actual complement fundamental group. Check the relation
+   images and inverse equations on every original generator, including basing-path
+   changes and the native reverse-concatenation convention. At p=1 the empty W gives a=b
+   and the unknot group ℤ. Prove abelianization is ℤ with both meridians sent to1,
+   normal generation by either bridge meridian, invariance under free word cancellation
+   and reindexing, and the marked maps under the diagram operations in item1. The ε-word
+   is unchanged by q↦q+2p; prove the associated geometric/congruence adapters with
+   integer floor when extending q to ℤ. For odd inverse denominators modulo2p construct
+   the bridge-exchange maps explicitly. These comparisons precede the converse rational
+   classification.
+
+3. **Fox row and the integer walk.** Consume 4.4.2's group-ring Fox derivative
+   and actual native PD relation comparison. Specialize a,b to `t=T1` in
+   Λ=`LaurentPolynomial ℤ`. With α=(D_aW)|_t, β=(D_bW)|_t and e=s_(p−1), prove the exact
+   row
+
+   ```text
+   (D_aR,D_bR)|_t = (1+(t−1)α, (t−1)β−t^e) = (P,−P),
+   P=Σ_(i=0)^(p−1)(−1)^i t^s_i.
+   ```
+
+   Derive the second entry with the fundamental Fox identity, not an ordinary Leibniz
+   rule. Compare the signed-prefix evaluator with the group-ring derivative and prove
+   that free cancellation preserves it. Export the walk/partial-sum algorithm, its
+   coefficient counts and support, scalar-map compatibility, and an exact finite
+   certificate returning the whole row. Since every ε_i is ±1, `P(1)=1`, `P(−1)=p`.
+   Prove palindromy `ε_(p−i)=ε_i`, `s_(p−1−i)=e−s_i`; e is even and `P(t⁻¹)=t^(−e)P(t)`.
+   Therefore the actual normalized knot polynomial is `Δ=t^(−e/2)P`, with Δ(1)=1 and
+   `Δ(−1)=(−1)^(e/2)p`. Prove these Laurent identities coefficientwise, including
+   negative walk exponents; no floating-point root or sign calculation is involved.
+
+4. **Cover and module comparison.** Use the actual meridional infinite cyclic
+   cover from 4.4. With the presentation complex and chosen lift, retain
+   `∂₁(u,v)=(t−1)(u+v)` and `im∂₂=Λ·(P,−P)`. Compare first homology with the actual
+   cover through the constructed group maps; no general asphericity assertion about
+   presentation complexes is required. As in 4.4.7, prove `H₁(X∞;ℤ)≃ₗ[Λ]Λ/(P)` and
+   identify the native unreduced PD AlexanderModule with `Λ⊕Λ/(P)`. Export generator
+   formulas, the augmentation/positive-meridian section, inverse quotient maps and
+   presentation naturality. Its unreduced Fitting ideals are E₀=0, E₁=(P), E_j=Λ for
+   j≥2; the actual cover module's Fitting index starts with Fitt₀=(P). This
+   principality/cyclicity is for the two-bridge family. Compare the chosen Laurent unit
+   with the geometric Seifert and Conway normalization of 4.4.5, and recover unsigned
+   determinant p.
+
+5. **All fourteen literal inputs.** The following positive continued fractions
+   are the primary Conway labels; q* is the odd denominator used in W and h=e/2 gives
+   the exact raw unit `P=t^h Δ`. Keep the actual native PD inputs of 4.4.6 and give a
+   marked finite diagram/Tietze certificate to each chosen Schubert model. A global
+   mirror or whole-knot reversal in that comparison carries its actual group/meridian
+   and t↦t⁻¹ adapter. The table is a finite input dictionary and expected answer, not a
+   substitute for those maps.
+
+| Row | Conway word | p/q₀ | q* | h | Δ(t) |
+| --- | --- | --- | --- | --- | --- |
+| 3_1 | [3] | 3/1 | 1 | 1 | `t - 1 + t⁻¹` |
+| 4_1 | [2,2] | 5/2 | 7 | 0 | `-t + 3 - t⁻¹` |
+| 5_1 | [5] | 5/1 | 1 | 2 | `t^2 - t + 1 - t⁻¹ + t⁻²` |
+| 5_2 | [3,2] | 7/2 | 9 | -1 | `2*t - 3 + 2/t` |
+| 6_1 | [4,2] | 9/2 | 11 | 0 | `-2*t + 5 - 2/t` |
+| 6_2 | [3,1,2] | 11/3 | 3 | 1 | `-t^2 + 3*t - 3 + 3/t - t⁻²` |
+| 6_3 | [2,1,1,2] | 13/5 | 5 | 0 | `t^2 - 3*t + 5 - 3/t + t⁻²` |
+| 7_1 | [7] | 7/1 | 1 | 3 | `t^3 - t^2 + t - 1 + t⁻¹ - t⁻² + t⁻³` |
+| 7_2 | [5,2] | 11/2 | 13 | -1 | `3*t - 5 + 3/t` |
+| 7_3 | [4,3] | 13/3 | 3 | 2 | `2*t^2 - 3*t + 3 - 3/t + 2/t^2` |
+| 7_4 | [3,1,3] | 15/4 | 19 | -1 | `4*t - 7 + 4/t` |
+| 7_5 | [3,2,2] | 17/5 | 5 | 2 | `2*t^2 - 4*t + 5 - 4/t + 2/t^2` |
+| 7_6 | [2,2,1,2] | 19/8 | 27 | -1 | `-t^2 + 5*t - 7 + 5/t - t⁻²` |
+| 7_7 | [2,1,1,1,2] | 21/8 | 29 | 0 | `t^2 - 5*t + 9 - 5/t + t⁻²` |
+
+   Prove all fourteen word evaluations, normalized polynomials and exact units, and
+   compare them with the independent native PD/Fox and Seifert/Conway results of 4.4.6.
+   For 6₁ compare q*=11 with the existing 9/5 word by the explicit inverse-denominator
+   move `11·5≡1 mod18`; do not silently substitute a remembered denominator. The unknot
+   is the p=1 case. Mirrors and reversals retain marked group equivalences and the
+   symmetric normalized polynomial. Each prime row has exactly two ordinary group
+   generators: two are displayed; its nonunit Alexander polynomial excludes the
+   one-generator cyclic group by abelianization and the cover module. This proof uses no
+   later unknot recognition theorem. The explicit PD/continued-fraction maps also supply
+   the rational labels consumed by 7.5's finite classification.
+
+6. **The composite counterexample.** Join two realized trefoil diagrams away
+   from crossings to get a six-crossing connected-sum diagram. Its crossing number is at
+   most6, which suffices to refute the literal exercise without a minimality theorem.
+   Construct the meridional annulus and van Kampen/Tietze maps to
+
+   ```text
+   Γ=⟨t,a,b | tat=ata, tbt=btb⟩,
+   D=(F₃²)⋊C₂,       (v,ε)(w,η)=(v+(−1)^εw,ε+η).
+   ```
+
+   Use native `SemidirectProduct` on `Multiplicative (ZMod3×ZMod3)` and `Multiplicative
+   (ZMod2)`, with the nonidentity parity acting by negation. Prove |D|=18 and construct
+   the homomorphism Γ→D using `t↦(0,1)`, `a↦(e₁,1)`, `b↦(e₂,1)`. Verify both braid
+   relations and surjectivity: at and bt give the two basis translations, and t gives
+   the reflection. Export these generator images and a preimage word for every finite
+   element. A pair of translations misses the C₂ quotient, although it may generate the
+   entire order9 translation subgroup. Otherwise replace the pair by one reflection and
+   one translation; prove its translations lie on one F₃-line, so that generated
+   subgroup has order at most6. Thus every pair fails to generate D. Surjectivity
+   excludes every pair of ordinary abstract generators of Γ, while its three displayed
+   generators generate by native `PresentedGroup.closure_range_of`. This proves exact
+   generator number3; a meridional-rank obstruction alone would be insufficient.
+
+7. **The corrected composite answers and exhaustion.** Construct the actual
+   shared-meridian amalgamation and its forward/inverse presentation maps for T#T,
+   T#mirror(T) and T#F, with T the trefoil and F the figure-eight. The first two admit Γ
+   above, with their distinct peripheral mirror adapters retained. For T#F take `⟨t,a,u
+   | tat=ata, R_F(t,u)=1⟩`, where R_F is item2's p=5,q=7 relator. Prove the two-row Fox
+   matrix, its module splitting and polynomial products. The normalized values are Δ_T²,
+   Δ_T² and Δ_TΔ_F, respectively; the actual cover modules are the corresponding direct
+   sums of the two cyclic summand modules. Give the unreduced free summand and correct
+   Fitting indices rather than inferring module equality from the polynomial product.
+   The order18 argument applies to groups actually identified with Γ; the T#F
+   presentation is not assigned the same quotient without a proof.
+
+   After these individual geometric computations, apply 7.5's complete bounded diagram
+   classification to conclude that the unknot, fourteen prime rows and these three
+   composite rows, with their mirrors/reversals, answer every source knot below eight
+   crossings. This is its declared coarse equivalence; the fourteen rows do not count
+   distinct handedness/orientation types. The row proofs do not consume classification,
+   a factor-crossing bound or a general crossing-number-additivity theorem. Thus the
+   final corrected answer gives two-generator prime presentations and appropriate larger
+   composite presentations, with an explicit counterexample to the source's universal
+   two-generator conclusion.
+
+[Hoste, Theorem1 and §4](https://arxiv.org/html/1907.03812#S2) gives the
+integer-walk/Fox comparison with numerator and denominator named in the opposite order.
+To meet his range convention when p<q*<2p, first fold to `q′=2p−q*`, which is odd and
+lies between0 and p. Its ε signs are negated, so
+`P_(q′)(t)=P_(q*)(t⁻¹)=t^(−e)P_(q*)(t)`. His ε₀=1 then contributes a factor t: his raw
+polynomial is tP for q*<p, and `t^(1−e)P` after folding. Prove the marked
+fold/reflection and coefficient adapters rather than applying the primary formula
+outside its stated range. The fourteen Conway labels are the [Knot Atlas
+entries](https://katlas.org/wiki/The_Rolfsen_Knot_Table); exact PD inputs and source
+conventions remain in the existing 4.4.6 dictionary.
+
+*Needs:* 4.2's realized diagrams, Wirtinger/van Kampen and explicit group maps; 4.3's
+Seifert comparisons; 4.4.2's Fox/PD/Fitting producer; 4.4.5's fixed normalization;
+4.4.7's early augmentation/cover split; only 4.10.1's independent marked
+integer-tangle/plat construction prefix, excluding its invariant and classification
+consumers. The shared-meridian amalgamation and its group maps in items6–7 are owned
+here, using 4.1's connected-sum construction and Layer 1's relative gluing; 4.9's
+prime-factorization conclusions are not inputs. Only the final exhaustion uses 7.5.
+Native free/presented groups, group rings, Laurent polynomials, Fitting ideals, finite
+fields and semidirect products are the carriers; no replacement knot or group invariant
+is introduced.
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized
