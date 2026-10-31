@@ -375,6 +375,66 @@ neither discharge the remaining analytic/topological comparisons nor finish a la
   `∑ₖ (finrank R M).choose k`. Nontriviality is essential; no zero-ring rank
   identity is asserted.
 
+#### L0.Bogoliubov. Recovering isometries from Clifford automorphisms
+
+Let K be a field with2 invertible, V a finite-dimensional K-vector space
+and Q a quadratic form, including degenerate forms. Put C=CliffordAlgebra Q
+and W=range(CliffordAlgebra.ι Q). Use native `Q.IsometryEquiv Q` for
+isometries and native `AlgEquiv K C C` for algebra automorphisms, with
+multiplication in function-composition order. Construct the subgroup
+
+`B(Q)={φ : C≃ₐ[K]C | Submodule.map φ.toLinearMap W = W}`.
+
+Prove its identity, composition and inverse laws, and construct the group
+isomorphism from the isometry group of Q to B(Q) using the existing
+`CliffordAlgebra.equivOfIsometry`. Supply the group structure on the native
+self-isometry carrier from `refl`, `trans` and `symm`, with the same
+composition order. The inverse restricts φ to W and transports through the
+native `CliffordAlgebra.ιRangeEquiv`; prove linearity, bijectivity,
+`φ(ι(v))=ι(f(v))` and `Q(f(v))=Q(v)` using the generator square and the
+injective scalar map. Prove that every φ preserving W comes from a unique
+such f, and that the inverse constructions respect both composition and
+inverses. Equality of algebra automorphisms is tested on the generators.
+
+Give the equivalent word-filtration characterization:
+`φ∈B(Q) ↔ φ(F₁)=F₁ ↔ ∀m≥0, φ(F_m)=F_m`, where F_m is the actual native
+`CliffordAlgebra.filtration Q m` and each image is a submodule map. Prove
+`F₁=K·1⊕W` by the native PBW/exterior comparison. If φ preserves F₁, write
+`φ(ι(v))=a(v)·1+ι(T(v))`. Its induced map on F₁/F₀ makes T invertible;
+the degree-one part of the square relation is `2a(v)T(v)=0`, which forces
+a(v)=0 over K. This proves the converse without a nondegeneracy hypothesis.
+For isometry-induced maps prove preservation of every F_m, compatibility
+with `involute` and `reverse`, and that the associated-graded action is the
+native exterior action induced by f. Include conjugation/naturality under
+isometries between different forms, orthogonal-sum tensor comparisons and
+field-extension compatibility through `equivBaseChange`, with the generator
+squares commuting in each diagram. The scalar-extension statement compares
+the extended maps; it does not assert that all isometries over the larger
+field descend. Include V=0 and Q=0, where the construction agrees with the
+generator-preserving automorphisms of the exterior algebra. Preserve the
+word-filtration condition separately from the ℤ/2-grading.
+
+Calibrate the boundary with the real positive plane `Q(a,b)=a²+b²`.
+Construct directly, from the universal property and the ordered-product
+basis, the algebra equivalence C≃M₂(ℝ) taking the two generators to
+
+`Z=[[1,0],[0,−1]]`, `X=[[0,1],[1,0]]`.
+
+The generator plane becomes `W=span_ℝ{Z,X}`. The matrices
+`D=diag(2,1)` and `D⁻¹=diag(1/2,1)` define an inner algebra automorphism
+`A↦DAD⁻¹`; it fixes Z but takes X to `[[0,2],[1/2,0]]`, outside W.
+Prove the inverse, matrix identities and nonmembership, then transport this
+automorphism back to C to exhibit one not induced by an isometry. This
+simple model uses no real periodicity or later Pin/Spin classification.
+Thus B(Q) is the precise group in the Clifford/isometry correspondence;
+the full algebra automorphism group is a different object. These targets
+make the Bogoliubov construction usable without the unrestricted
+identification suggested by the quantum Riemannian course's p3.
+
+`BogoliubovTargets.lean` pins the native range/filtration criteria and the
+explicit real-plane model. The group, naturality and associated-graded
+comparisons above are part of the specification beyond those signatures.
+
 ### Layer 1: the structure theorem
 
 Consume `TauCeti/RepresentationTheory/Spin/Structure.lean` and `OddStructure.lean`.
