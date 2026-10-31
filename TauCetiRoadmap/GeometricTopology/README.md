@@ -1226,8 +1226,9 @@ Layer 3.3.
 
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
-Prove that every oriented link `L ⊂ S³` bounds a compact connected oriented surface, a Seifert
-surface, by Seifert's algorithm on any diagram (Lickorish, Theorem 2.2). Define the genus
+Prove that every nonempty oriented link `L ⊂ S³` bounds a compact connected oriented
+Seifert surface: construct the raw Seifert-algorithm surface, then join its distinct
+components by oriented interior tubes preserving the boundary (Lickorish, Theorem 2.2). Define the genus
 `g(L)` as the least genus of a Seifert surface (Layer 1.8 genus), and for a knot prove
 `g(K) = 0` iff `K` is the unknot, `g(K # J) = g(K) + g(J)` (Lickorish, Theorem 2.4, by cutting a
 minimal surface along a decomposing sphere), so that every knot is a finite connected sum of
@@ -1242,8 +1243,9 @@ the tubing and band-move comparison of Seifert surfaces).
   `rank H₁(F) = 2g + μ − 1`.
 - The linking number `lk(x, y⁺)` is computed from any diagram as half the signed sum of
   mixed crossings and equals the intersection number of `y⁺` with a surface bounded by `x`.
-- The Euler characteristic of the surface produced by Seifert's algorithm on a diagram with
-  `n` crossings and `s` Seifert circles is `s − n`, so a knot diagram gives genus `(n − s + 1)/2`,
+- The Euler characteristic of the raw surface produced by Seifert's algorithm on a diagram
+  with `n` crossings and `s` Seifert circles is `s − n`; it can be disconnected for links.
+  For a knot it is connected and has genus `(n − s + 1)/2`,
   and hence `2 g(K) ≤ c(K) − 1` for a nontrivial knot.
 
 **Checks.**
@@ -1267,7 +1269,7 @@ the tubing and band-move comparison of Seifert surfaces).
 *Needs:* Layer 1.8 (surfaces and genus), Layer 1.5; Tau Ceti
 `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Mathlib singular homology.
 
-#### Quadratic refinements and proper links
+### 4.3.1 Quadratic refinements and proper links
 
 For a nonempty oriented μ-component link and a compact connected oriented
 Seifert surface F of genus g, construct the quadratic refinement
@@ -1311,6 +1313,153 @@ geometric dictionaries belong here; the generic Arf constructor and its
 classification retain their TB owner and require no Jones-polynomial
 input. Preserve the determinant-Arf criterion for knots and export
 `alexanderOne_arf_eq_zero` for the existing four-manifold consumers.
+
+<a id="finite-disc-band-surfaces"></a>
+### 4.3.2 Finite disc-band surfaces and canonical Seifert surfaces
+
+Construct finite embedded disc-band presentations, using Layer1.8's
+compact-surface classification and Layer4.2's realized diagram conventions.
+The data contain d disjoint discs, b rectangular bands, their two distinct
+attaching interval occurrences, cyclic interval orders on each disc,
+side-pairing signs relative to chosen local disc orientations, and the
+actual projection/height/twist data needed for an embedding in oriented
+three-space. Interval occurrences are distinct even when both ends of a
+band meet the same disc. Parallel bands and loop bands are retained.
+Construct the collared surface with corners, its smoothing and embedded
+boundary link, with independence of the chosen collar smoothing. Abstract
+rotation and side-pairing data determine a surface type; the embedding data
+also determine its knotted placement and must be transported with it.
+
+**Finite boundary and orientation API.** Use native finite types and
+`Equiv.Perm`, with ports `P=Fin b × Bool` for band ends and corners
+`C=P × Bool`. The last bit names the start0/end1 of an attaching interval
+along the chosen positive disc boundary. Let σ be the port permutation
+whose cycles are exactly the incident-port fibers of the used discs;
+record discs with no ports separately. Let τ exchange the two ends of a
+band. If ε_e is the side-pairing bit of band e, define the fixed-point-free
+involutions
+
+```text
+D(p,1)=(σp,0),       D(p,0)=(σ⁻¹p,1),
+M(p,s)=(τp, s xor (not ε_e)).
+```
+
+Thus ε=0 joins opposite corner bits and ε=1 joins equal bits. It is a
+local orientation obstruction, not an unoriented count of visible twists.
+The native quotient by the join of the two matching relations is the
+boundary-component carrier for used discs; add one component for each
+isolated disc. Prove its geometric boundary comparison and the formula
+`r=orbitCount(M*D)/2+isolatedDiscs`. Each alternating matching cycle gives
+two orbits of the product, so prove evenness before the natural-number
+division. Include coincident matchings, empty corner types and isolated
+discs. Supply the generic finite-perfect-matching comparison
+`Nat.card(Quotient(SameCycle M ⊔ SameCycle D))=orbitCount(M*D)/2`
+as the shared adapter, specializing it here and in the later PD
+state-circle construction. Reuse native matching and orbit APIs.
+
+Use native `Graph` for the disc/band incidence multigraph, with all d
+vertices and all b edges, and compare its components to those of the
+surface. Express finite incidence connectivity by the native equivalence
+closure of `IsLink`. Compare this with `Graph.toSimpleGraph`, using its
+vertex subtype and retaining isolated vertices. Prove that a spanning tree
+from `SimpleGraph.Connected.exists_isTree_le` lifts by choosing one actual
+band for each selected edge; prove it has d−1 bands. Loops and repeated
+parallel edges are omitted only in this tree selection, not in the surface
+presentation. Prove orientability precisely when there is a function
+o from discs to `ZMod 2` with
+`ε_e=o(v₀(e))+o(v₁(e))` for every edge, including loops. Express this
+as membership in the range of the actual incidence coboundary linear map.
+Prove equivalent vanishing on closed walks, naturality under relabeling,
+and invariance under changing local disc orientations. Changing a disc
+orientation reverses its interval order and changes the incident signs;
+carry the corner relabeling too. For an orientable connected surface the
+two solutions differ by global reversal; do not discard that orientation
+data. These are adapters to native graph, linear and permutation APIs.
+
+**Euler characteristic and one-disc models.** Construct a deformation
+retraction to the embedded incidence spine and its finite cellular/singular
+comparison. Prove `χ=d−b`, with the integer subtraction explicit. For a
+connected orientable surface with r boundary components and genus g export
+`2g+d+r=b+2`; for a connected nonorientable surface with crosscap number k
+export `k+d+r=b+2`. Each nonempty component has boundary. Recover integral
+first homology, free of rank `b+1−d`, and the vanishing higher homology
+from the spine; handle disconnected components and the empty presentation
+separately. Do not replace the nonorientable crosscap number by an
+orientable genus. The division-free formulas include a lone disc.
+
+For a connected incidence graph choose a spanning tree. Its discs and tree
+bands form an embedded disc after smoothing corners. First repartition the
+given surface using that tree-disc, preserving its actual embedded subset
+and boundary; retain the remaining attaching intervals in their induced
+cyclic order. There are b' remaining bands, with `b'+d=b+1`, hence
+`b'=b+1−d` in natural numbers. Then construct an ambient isotopy supported
+in a containing ball straightening this disc to the standard disc and
+transporting all remaining bands, crossing/twist data and boundary marks.
+The boundary knot moves by the induced ambient isotopy. An abstract graph
+contraction is not this spatial straightening theorem.
+
+For an arbitrary compact connected surface with nonempty boundary, consume
+SurfaceTopology's classification and Layer1.8's smooth/PL comparison to
+construct a finite one-disc model. Its band count is `2g+r−1` in the
+orientable case and `k+r−1` in the nonorientable case. Prove that two
+one-disc finite band surfaces are homeomorphic as unmarked abstract
+surfaces iff their band counts, boundary counts and orientability agree.
+This classification does not identify their embedded placements. A
+noncompact surface such as `S¹×[0,∞)` is outside the finite-model theorem;
+closed surfaces use the separate standard models from Layer1.8.
+
+**Raw Seifert surfaces and genus minima.** For a nonempty oriented link
+diagram with n crossings, s Seifert circles and μ link components,
+construct the raw canonical surface with exactly s discs and n bands.
+Count its connected components c by the incidence graph. If G is the sum
+of their orientable genera, prove `2G+s+μ=n+2c` and `χ_raw=s−n`.
+Every raw component has nonempty boundary. Construct c−1 disjoint oriented
+interior tubes joining these components, preserving the boundary link,
+and prove the resulting connected surface has genus G and
+`χ_connected=s−n−2(c−1)`. Supply relative arc routing in the complement:
+start with a transverse polygonal path, slide each intersection to a free
+boundary interval along a surface arc and detour around its collar.
+Choose prescribed endpoint normal sides, avoid earlier tube arcs by
+general position, and use thin disjoint tubular neighborhoods. No routing
+statement for an arbitrary closed separating surface is assumed here.
+
+For a knot the raw surface is connected, so `2g(S_D)+s=n+1`, including
+the crossing-free unknot. This computes the chosen surface's genus.
+Use Layer4.3's ordinary genus minimum over all connected embedded oriented
+spanning surfaces. Separately define the canonical genus of a knot as the
+minimum genus among its diagram Seifert-algorithm surfaces; prove existence,
+attainment, isotopy invariance and `g(K)≤g_can(K)`. The genus of one chosen
+canonical surface need not be either minimum.
+
+**Checks.**
+
+- With one disc and no bands, r=1, χ=1 and g=0. With one band whose two
+  ports are on that disc, ε=0 gives an annulus with r=2, while ε=1 gives a
+  Möbius band with r=1 and crosscap number1. With two discs and one joining
+  band either side-pairing sign gives a disc; a local sign alone is not a
+  test for nonorientability.
+- On one disc, two untwisted bands with cyclic port order e₀,f₀,e₁,f₁ give
+  a once-punctured torus (r=1,g=1). The order e₀,e₁,f₀,f₁ gives a pair
+  of pants (r=3,g=0). Verify both boundary quotients and their geometric
+  standard-model comparisons, rather than inferring genus from b alone.
+- For the two-strand braid `β_j=σ₁³(σ₁σ₁⁻¹)^j`, j≥0, give the j explicit
+  RII cancellations identifying every boundary with the right-handed
+  trefoil. Oriented smoothing gives exactly two Seifert circles and
+  `3+2j` bands, so the chosen raw surface has genus `1+j`. The trefoil's
+  ordinary and canonical minimum genera are both1, using the j=0 surface
+  and its earlier nontriviality. The boundary cancellation does not assert
+  isotopy between surfaces of different genera.
+- The crossing-free two-component unlink gives two raw discs, c=2 and
+  G=0. One interior tube gives a connected annulus spanning the unlink;
+  its Euler characteristic is0, while the raw surface's is2.
+
+*Needs:* Layer1.8 (compact-surface classification and smooth/PL comparison),
+Layer1.5 (collars and tubes), Layer3.3 (supported ambient isotopy extension),
+Layer4.2 (realized diagrams and local Reidemeister moves), Layer4.3 (ordinary
+genus and the trefoil calibration); SurfaceTopology Layer8 and PlanarTopology
+Layers5,8; native `Graph`, `Equiv.Perm`, finite matching/orbit quotients and
+`ZMod 2` linear maps. The finite-presentation, embedded-spine and relative
+straightening adapters are constructed here.
 
 ### 4.4 The Alexander module and the Alexander polynomial
 
@@ -2346,7 +2495,8 @@ on the halfedges, and define the state-circle carrier as
 the existing `D.stateLoopCount s`, by comparing the alternating two-matching
 components with the two directed orbits of `D.statePerm s`. A quotient by
 the latter permutation alone counts two classes per circle and is not
-this carrier. Give representatives, incidence and traversal lemmas,
+this carrier. Consume the shared perfect-matching join-cardinality adapter
+of [the finite-band construction](#finite-disc-band-surfaces). Give representatives, incidence and traversal lemmas,
 finite decidability, natural equivalences under relabelling and mirror,
 and explicit merge/split maps for a prescribed state change. Include every
 crossing-free circle.
