@@ -2331,6 +2331,119 @@ construction does not consume an extension theorem for C⁰-continuous
 families of slicewise smooth embeddings.
 
 
+<a id="artin-action-and-tangle-faithfulness"></a>
+### 4.2.8 Artin action and relative tangle faithfulness
+
+Consume native `TauCeti.BraidGroup n`, `sigma`, `strand`, `strandSucc`, `permHom`,
+`pureSubgroup` and `BraidWord.toBraid`, together with Mathlib's `FreeGroup`, its
+reduced-word API and `MulAut`. The Artin presentation direction in [Mathlib
+#32941](https://github.com/leanprover-community/mathlib4/pull/32941) and its supporting
+#35217/#35219 determines the eventual imported API; use the implemented Tau Ceti carrier
+and supply the index adapters. For geometric braids and the presentation comparison
+consume [DiagrammaticCoherence
+C2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1710), and its G0/C6 geometric
+prefixes for relative tangles and framings. Those carriers and their
+Reidemeister/coherence theorems retain their existing owner. This prefix supplies the
+based action and the bridge from unrestricted relative tangle isotopy back to braid
+equality. [ArtinActionTargets.lean](ArtinActionTargets.lean) checks the elementary
+automorphisms, native braid-group target and marked-group transport.
+
+**Artin.A: the algebraic action.** Put `F_n=FreeGroup (Fin n)` and write
+`x_j=FreeGroup.of j`. For `i:Fin(n−1)`, let a,b be native `strand i`, `strandSucc i`.
+Construct the automorphism A_i by
+
+```
+x_a ↦ x_a x_b x_a⁻¹,    x_b ↦ x_a,    x_j ↦ x_j  (j≠a,b),
+```
+
+with inverse `x_a↦x_b`, `x_b↦x_b⁻¹ x_a x_b`. Prove its inverse identities on free
+generators, the distant commutation and adjacent braid relations, and obtain
+`ρ_n:BraidGroup n→*MulAut F_n` by the native universal property. Develop generator and
+inverse-generator formulas, word evaluation, multiplication, inversion and stabilization
+compatibility with `F_n→F_(n+1)`. Recover native `permHom` from the induced action on
+free abelianization. Prove preservation of the ordered boundary word `∂=x_0⋯x_(n−1)` and
+permutation of the positive meridian conjugacy classes. Include n=0,1 and the n=2
+infinite cyclic case.
+
+**Artin.G: marked geometric complements.** For n ordered interior points P of a disc,
+construct the standard based meridians and the free-group identification of the
+punctured disc. Prove the ordered boundary-word formula, deletion of a puncture and
+compatibility with orientation-preserving changes of marked coordinates. Use native
+fundamental groups and van Kampen, with the required deformation retractions and
+basepoint paths constructed here.
+
+Pin path multiplication: native `FundamentalGroup.mul_def` makes p*q traverse q and then
+p. Use `MulOpposite (FundamentalGroup X p)` for the meridian markings below, so the
+written free word traverses its letters from left to right. Give the adapter to the
+native group and its induced maps rather than introducing a new fundamental-group type.
+
+For a geometric braid β in `D²×[0,1]`, choose the basepoint on the outer bottom boundary
+and a fixed side-wall path to the top boundary. Construct the braid-straightening
+homeomorphism fixed on the side wall and lower face, using relative isotopy extension
+for the moving finite set of points. Deduce that the bottom and top inclusions, with the
+top basepoint transported along the specified side path, give isomorphisms
+`b_β,t_β:F_n≃π₁(complement β)ᵐᵒᵖ`. Define its pullback monodromy by `b_β⁻¹∘t_β`. Prove
+independence of the straightening and compatibility with marked coordinate changes. With
+bottom-to-top stacking β followed by γ, this pullback is `ρ(β)*ρ(γ)`, where automorphism
+multiplication is function composition. Its meridian permutation goes **top to bottom**;
+the physical endpoint permutation from bottom to top is its inverse. Calibrate a single
+positive crossing against Artin.A's formula and the C2 over/under convention, then prove
+the comparison for all braid words.
+
+**Artin.F: completeness and faithfulness.** Prove the centralizer of a free generator is
+its cyclic subgroup and identify the conjugator ambiguity modulo powers of that
+generator. Construct deletion on geometric pure braids and show that it kills the
+corresponding free generator in the marked action. For two braids with their first n−1
+strands fixed, prove that equality of marked meridian actions gives a relative homotopy
+of the remaining strand in the complement of those strands. After straightening those
+fixed strands, turn this path homotopy into a monotone braid isotopy, fixing the other
+strands and all boundary collars. Induction on n proves that the based action is a
+complete invariant of geometric braid isotopy (Artin Theorems8–13). This geometric
+prefix uses the geometric braid construction, not C2's full presentation-equivalence
+theorem.
+
+Combine it with C2's native Artin-word/geometric-braid equivalence to prove
+`Function.Injective ρ_n`. Prove Artin's image characterization: an automorphism φ
+belongs to its image exactly when `φ(∂)=∂` and there is a permutation π with `φ(x_j)=w_j
+x_(π j) w_j⁻¹` for every j. Construct the resulting subgroup and multiplicative
+equivalence with `BraidGroup n`; prove the pure-subgroup restriction and independence of
+the chosen conjugators. Supply the reduced-word cancellation induction for the converse
+criterion, as in Artin Theorems15–16.
+
+**Artin.T: forgetting monotonicity.** A relative ambient isotopy between two braid
+representatives need not remain monotone. It still induces an isomorphism of their
+complement groups carrying both b and t markings to the corresponding markings: extend
+an isotopy of tangle embeddings relative to its boundary collars to one fixed on the
+whole cylinder boundary, and retain the side-wall basepoint path. Prove the naturality
+squares for the two induced fundamental-group maps. Use native
+`TauCeti.FundamentalGroup.homeomorphMulEquivOfEq` for the complement homeomorphism and
+its adapter to the multiplicative opposite. Their pullback monodromies therefore agree;
+Artin.F identifies the original braids. Monodromy is used only for braid complements
+here; no invertibility of boundary maps for arbitrary tangles is assumed.
+
+Construct the inclusion of C2's braid category into the relative unframed tangle
+category and prove it faithful. Give the canonical untwisted framing on a braid,
+compatible with braid isotopy, stacking and juxtaposition, and deduce faithfulness into
+the framed oriented and framed unoriented tangle categories by forgetting framing and
+orientation. Construct the orientation-forgetting adapter on G0's
+embedded-arc/normal-field data, its compatibility with relative isotopy, stacking and
+tensor, and the geometric unoriented framed category. Give its braiding, chosen
+cups/caps and both snake identities; the object consisting of one unoriented point is
+self-dual. Transport the oriented conclusions through C2/C6's respective
+algebraic/geometric comparisons. The geometric-framing construction is independent of
+C6's free-ribbon coherence proof, avoiding a cycle. Verify a nontrivial pure braid, such
+as `σ_i²`, remains distinct from the identity after this inclusion. Closure, Markov
+equivalence and the Burau representation have their separate scopes and hypotheses.
+
+This prefix uses Layers 1.5/3.3/11.2's relative isotopy extension and smoothing,
+AlgebraicTopology's based fundamental groups/van Kampen, native free groups, C2's
+geometric prefix and then its presentation comparison. It does not assume a
+mapping-class theorem for punctured surfaces. The Brunnian/deletion producer in 4.12.1
+consumes its based markings. Reference: Artin, [*Theory of
+braids*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/artinbraids.pdf), Ann. of
+Math.48(1947), pp102–115, especially Theorems8–16. Artin's word order and generator
+formulas must be transported to the explicit pullback convention above.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic
@@ -8396,12 +8509,8 @@ left-weighted sequence of positive permutation braids (Garside, Quart. J. Math. 
 Epstein et al., *Word Processing in Groups*, Chapter 9). Deduce that two braid words represent
 the same braid iff they have the same normal form, and prove that the super summit set of a
 conjugacy class is finite, nonempty and connected under conjugation by simple elements, so
-that conjugacy of braids is decided by it (Elrifai–Morton, Quart. J. Math. 45 (1994)). Define
-strand deletion as a homomorphism on native `BraidGroup.pureSubgroup n`,
-using Layer 4.2.1's permutation-kernel and generator-square comparison. Define the Brunnian links `L_n` as the closures of the iterated commutators
-of `A_{1,n}, …, A_{n−1,n}` and prove that every proper sublink of `L_n` is an unlink while `L_n`
-is not, by the length-`n` Milnor invariant computed from the longitudes in the Magnus
-expansion.
+that conjugacy of braids is decided by it (Elrifai–Morton, Quart. J. Math. 45 (1994)). The strand-deletion, based-longitude/Magnus and Brunnian-family constructions
+are supplied by4.12.1, independently of these Garside algorithms.
 
 **Checks.**
 - `B₂ ≅ ℤ`, `Δ₂ = σ₁`, and the centre of `B₂` is everything; `Δ₃ = σ₁σ₂σ₁` and `Δ₃²` generates the
@@ -8417,6 +8526,148 @@ expansion.
 
 *Needs:* Tau Ceti `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.permHom`,
 `TauCeti.BraidWord`; Layer 4.2 (closures).
+
+<a id="brunnian-milnor-family"></a>
+### 4.12.1 Pure-strand deletion, Milnor invariants and complete Brunnian families
+
+Build the full producer for physical p2 Problem9 of *Knot Theory - problems.pdf*. Work
+with the existing finite ordered oriented tame-link carrier and its actual sublinks. For
+n≥2, Brunnian means not the n-component unlink, with every proper sublink an unlink.
+Prove this is equivalent to the nontriviality condition plus unlink after every
+single-component deletion, using the marked restriction maps and the actual sublinks of
+an unlink. Prove such a link is nonsplit: a splitting sphere would put proper unlink
+factors in disjoint balls, giving the full unlink.
+
+**Deletion and the concrete pure words.** Consume 4.2.8's geometric pure-braid and
+marked punctured-disc prefix, independently of Garside normal form. For each strand k
+give a homomorphism P_n→P_(n−1), with the order-preserving bijection on remaining
+endpoints. Compare it with actual geometric strand deletion and closed link-component
+restriction. Prove the iterated-deletion/reindexing laws, identity, stacking, inversion
+and the compatible strand-insertion maps. The closure of the identity pure braid is the
+marked unlink, by an actual isotopy.
+
+Use one-based indices and the exact zero-based native adapter. For1≤i<j≤n put
+
+```text
+A_(i,j)=σ_(j−1)…σ_(i+1) σ_i² σ_(i+1)⁻¹…σ_(j−1)⁻¹,
+[a,b]=aba⁻¹b⁻¹,
+β_n=[A_(1,n),[A_(2,n),…,[A_(n−2,n),A_(n−1,n)]…]],
+L_(n,r)=closure(β_n^r),       n≥2, r∈ℤ.
+```
+
+A one-term nested commutator is that term, so β₂=σ₁². Empty products in A are
+identities. Prove the generators are pure. Deletion kills A_(i,j) when deleting i or j
+and gives the correspondingly reindexed generator otherwise. Hence every single-strand
+deletion of β_n and β_n^r is the identity. Construct the resulting unlink movies with
+all component markings; the closure has exactly n components. For r=0 give the full
+unlink movie, rather than treating it as a Brunnian example.
+
+**The truncated Magnus algebra.** For every commutative coefficient ring R, finite
+generator type I and degree cap d≥0, use Mathlib FreeAlgebra R I and the two-sided ideal
+generated by words of length d+1. Form its native RingCon quotient through
+TwoSidedIdeal.ringCon. Construct the basis of words of length≤d, coefficient maps,
+finite concatenation/convolution, augmentation filtration, truncation maps, coefficient
+change and variable relabeling/deletion. Prove the universal property for substitutions
+whose every mixed word of length d+1 vanishes. Give the units1+X_i with inverse
+Σ_(k=0)^d(−X_i)^k and the actual FreeGroup I homomorphism into the unit group. Prove
+free cancellation, generator/inverse values, products, inverses and compatibility with
+every truncation. Use Mathlib Subgroup.lowerCentralSeries with the explicit index
+adapter Γ_(k+1)G=(⊤:Subgroup G).lowerCentralSeries k, so Γ₁G=G and Γ_(q+1)G=[G,Γ_qG].
+Prove its Magnus containment E(Γ_qF)⊆1+J^q and the leading commutator law: degrees a,b
+produce UV−VU in degree a+b. Do not replace the noncommuting words by ordinary
+commutative polynomial variables. The d=0 quotient and constant coefficient1 are
+retained; vanishing below means positive-degree coefficients, not that1=0.
+
+**Closed-link longitudes and indeterminacy.** Use G=π₁(X,p)ᵐᵒᵖ with 4.2.8's explicit
+path-word adapter, and transport the result to native π₁. Construct based positive
+meridians and preferred longitudes from 5.1's independent compact-exterior/peripheral
+construction and the existing linking and Wirtinger producers, with all basing paths and
+the self-linking-zero correction. For every q≥2 build the actual Chen–Milnor
+presentation
+
+```text
+G/Γ_qG ≅ ⟨x₁,…,x_n | Γ_qF_n, [x_i,λ_i^(q)] for1≤i≤n⟩,
+```
+
+with explicit inverse maps and longitude representatives, natural under based ambient
+isotopy, diagram moves and component deletion. This is a presentation comparison, not an
+assertion that a general link's nilpotent quotient is free. For each ordered
+nonrepeating index list I=(i₁,…,i_s),2≤s≤n, take the coefficient of X_(i₁)…X_(i_(s−1))
+in the Magnus expansion of λ_(i_s), with q≥s. Define δ_I as the nonnegative gcd of all
+coefficients for proper subsequences of I of length≥2 and their cyclic permutations,
+with gcd of the empty/all-zero family0. Prove that the residue μ̄_I∈ℤ/δ_Iℤ is
+independent of all longitude lifts, basing paths and q and is invariant under ambient
+isotopy. Export deletion, component permutation, reversal, cyclic symmetry and shuffle
+laws. Reversing a component occurring in I negates its invariant; reflection multiplies
+it by(−1)^(s−1). Give the induced coefficient/residue maps, plus the unlink value0 and
+the comparison μ̄_(i,j)=lk_(i,j). In particular δ_I=0 gives an actual integer, not an
+omitted invariant. These are the reusable nonrepeating Milnor invariants; no
+classification of arbitrary links by them is asserted.
+
+**The complete coefficient calculation.** Use 4.2.8's pullback monodromy φ_β and write
+φ_β(x_n)=c_β x_n c_β⁻¹. Normalize the conjugator by its self-meridian ambiguity. Give
+the based geometric closure/parallel-transport comparison with the preferred longitude.
+After killing x_n its image q(β) is the actual loop of component n in the complement of
+the other, straight unlink components. Calibrate β₂=σ₁² against the positive Hopf link:
+λ₂ maps to x₁ and μ̄₁₂=+1. This fixes the longitude sign; an inverse conjugator is not
+silently used instead.
+
+For the point-pushing kernel generated by A_(i,n), prove `c_(βγ)=φ_β(c_γ)c_β` modulo the
+self-meridian ambiguity and `q(βγ)=q(γ)q(β)`. Thus q is an ANTI-homomorphism in this
+pullback convention. Prove E(q(A_(i,n)))=1+X_i+terms of degree≥2. For right-nested Lie
+brackets, with [U,V]=UV−VU, compute
+
+```text
+E(q(β_n^r)) = 1 + r(−1)^(n−2)[X₁,[X₂,…,[X_(n−2),X_(n−1)]…]]
+                + terms of degree≥n,
+μ̄_(1,…,n)(L_(n,r)) = r(−1)^(n−2).
+```
+
+There are no positive degrees1,…,n−2. Prove the Lie polynomial has exactly 2^(n−2)
+distinct words with coefficients±1; the coefficient of X₁…X_(n−1) is1. For every
+nonrepeating length<n list, deletion puts its invariant in a proper unlink, so it is0
+and the displayed length-n invariant has δ=0. Transport the finite truncated calculation
+through the actual longitude and closed-link maps. As a separate geometric check, the
+nonzero leading term makes the loop q(β_n^r) nontrivial, which also obstructs the full
+unlink after filling component n. Braid nontriviality alone is not this closed-link
+argument.
+
+Give the full length-n tensor by cyclically moving its last label to n and reading the
+coefficients of the displayed Lie polynomial in every permutation of1,…,n−1. Its entries
+are0 or±r, with maximum absolute value|r|. Prove the relabeling/orientation/mirror
+transport of this tensor, so that maximum is preserved even on the unoriented,
+unlabelled, mirror-identified quotient. Thus r≠0 gives a nonsplit Brunnian link; r=1
+with varying n gives an infinite family, and for each fixed n the r≥1 links are pairwise
+distinct even in that coarse quotient. Do not deduce equality or classification from
+equal tensors.
+
+**Calibrations and the source drawing.** Give actual native braid/PD/realized
+comparisons of L_(2,r) with the (2,2r)-torus link, retaining its orientation. For
+a=σ₁,b=σ₂ prove the B₃ word identities
+
+```text
+[a²,b²]=(ab⁻¹)³,
+β₃=[b a² b⁻¹,b²]=b(ab⁻¹)³b⁻¹.
+```
+
+Use the supported braid relations and closure-conjugation movie to compare L_(3,1) with
+the six-crossing Borromean closure. The marked convention gives μ̄₁₂₃=−1; any standard
+diagram with value+1 needs its explicit orientation or label adapter. Recover the small
+three-loop drawing on Problems p2, its signed native code and actual component
+correspondence; give each of its three deletion movies and its comparison to this
+calibrated model. The [source note](source-inputs.md#problem9-brunnian-source) keeps its
+unreadable incidences separate from the preceding Whitehead-link drawing. An independent
+standard Borromean model does not authenticate that source-picture identity.
+
+[BrunnianTargets.lean](BrunnianTargets.lean) pins the native pure words, B₃ comparison
+and the noncommuting Lie coefficients. *Needs:* 4.2/4.2.8's actual braid/PD realization,
+based action, geometric deletion and closure comparisons; 4.1's sublinks; 4.3–4.4's
+linking and Wirtinger prefixes; 5.1's independent compact-exterior/peripheral-marking
+construction; Mathlib FreeAlgebra, FreeGroup, TwoSidedIdeal/RingCon, finite word bases
+and lower central series. The truncated algebra, Chen–Milnor presentation, indeterminacy
+and complete family calculation are targets here. Garside normal form, finite census and
+hyperbolicity are not prerequisites. For the invariant construction compare [Meilhan,
+§§3.1–3.3](https://arxiv.org/html/1812.03319v1#S3).
 
 ### 4.13 Prescribed Alexander polynomials and unknotting number one
 

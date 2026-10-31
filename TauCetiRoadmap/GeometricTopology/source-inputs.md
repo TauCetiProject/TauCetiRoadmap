@@ -1091,3 +1091,22 @@ and the sharp floor(n/2) bound, retaining the crossing-free exception. This does
 not identify that fixed-shadow minimum with a minimum over other knot diagrams.
 The generic ordered descending-unlink movie already supplies Problem13's unknot
 construction; the alternating-change bound is a different task.
+
+<a id="problem9-brunnian-source"></a>
+## Problem9: the Brunnian family and its actual drawing
+
+*Knot Theory - problems.pdf*, physical p2, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, names the
+illustrated three-component link Borromean, states that removing any component
+leaves two components that can be split apart, and asks for a Brunnian family.
+The small right-hand three-loop drawing has no component/crossing labels,
+orientation arrows or explicit crossing-sign marks. Its underpass gaps do not
+supply an authenticated complete cyclic code in this reading. Actual signed-code,
+component and deletion-movie comparisons remain mandatory roadmap outputs.
+
+The larger drawing above/left sits under the preceding Whitehead-link prompt.
+It is not explicitly identified as another Borromean drawing; do not count it
+as a second Problem9 occurrence or identify the two pictures. Likewise the
+separate Problem20/p4 Borromean drawing has its own source-input obligation.
+The explicit pure-braid family and standard six-crossing model are independent
+mathematical constructions until their source-picture comparisons are proved.
