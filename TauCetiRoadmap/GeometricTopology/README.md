@@ -8187,6 +8187,72 @@ pictured example. Preserve that string and recover the picture's marked
 crossing code and its comparison with D and E; the standard 10₈ example
 above does not establish that source-picture identity by its name alone.
 
+<a id="whitehead-component-exchange"></a>
+### 4.10.4 A marked Whitehead component exchange
+
+Construct W as the numerator closure of the marked rational tangle with source-order
+coefficients `[2,1,2]`, fraction8/3 and five crossings. Mark its two components W₀,W₁ by
+tracing the actual closure ports. Give the realized diagram comparison to the standard
+zero-twist Whitehead clasp link of4.11, with the clasp/mirror convention and component
+map explicit. This early construction also supplies the standard-model comparison
+consumed by7.6's Whitehead PD row in
+[TwoComponentTableTargets.lean](TwoComponentTableTargets.lean); give the actual marked
+realization map from W or its global mirror to that PD, deciding the branch from the
+crossing/port conventions. A global reflection R transports the exchange to R∘H∘R⁻¹,
+which is still an ambient isotopy starting at the identity. The late twenty-class
+classification supplies no premise here. Prove the diagram is connected, reduced and
+alternating, then consume4.8's bracket-span minimality to obtain c(W)=5. The component
+exchange below is independent of that lower bound.
+
+**The geometric exchange.** Supply a concrete finite sequence of realized diagrams
+starting at W and ending at its same geometric link with the two component markings
+transposed. For each RI/RII/RIII or planar/spherical isotopy step give its supported
+chart, boundary identification, height data and strand correspondence; propagate
+component identities through every step. Check the final marked diagram identification
+and prove the resulting native `TauCeti.AmbientIsotopy` H of S³ starts at the identity
+and satisfies H₁(Wᵢ)=W_(1−i). A spatial construction instead supplies explicit piecewise
+ambient-isotopy formulas, with joint continuity in space and time and
+homeomorphism/inverse checks, or an explicit continuous link isotopy with
+embedding/disjointness checks and3.3's ambient extension. Respect the existing smooth/PL
+comparison conventions. Extract a finite diagram movie by4.2's generic-position
+comparison. In either construction export the actual movie and ambient map. Exchanging
+labels on an unchanged diagram is not this output.
+
+Use4.2's marked-movie composition, inverse and realization maps. Export the inverse
+exchange, component maps of concatenations and transport under marked diagram
+equivalences: a comparison A from W to another model carries the exchange to A∘H₁∘A⁻¹,
+with its concatenated ambient isotopy. The exchange is a self-map of the whole
+two-component link; it is not required to fix the distinguished axis of the satellite
+pattern or to be an isotopy relative to that axis. No order-two claim about this
+self-map or its isotopy class is part of the exchange target.
+
+**Orientations and peripheral transport.** Choose and record orientations on W₀,W₁.
+Compute the signs sᵢ∈{−1,1} of H₁ on these oriented circles from the actual movie. For
+reorientations oᵢ∈{−1,1}, prove its signs are oᵢsᵢo_(1−i); distinguish transported
+orientations from an exchange preserving a fixed oriented marking. Give the inverse and
+composition laws for these signed component maps. With5.1's independent tube and
+peripheral-marking construction, carry each boundary torus to the other, and prove
+μᵢ↦sᵢμ_(1−i), λᵢ↦sᵢλ_(1−i) on H₁ in the positive-meridian, preferred-longitude bases.
+Supply the based fundamental-group comparison with explicit connecting paths, hence the
+simultaneous conjugacy of both peripheral generators. The peripheral calculation
+consumes the exchange and supplies no premise of its construction.
+
+**Problem8's actual input.** Recover the single large unlabeled diagram under the prompt
+on physical p2 of *Knot Theory – problems*, with its crossing incidence, cyclic order
+and underpass data. Give its realized marked comparison to W, transfer the movie by that
+comparison, and prove its crossing-number answer5. The adjacent small three-component
+drawing belongs to Problem9 and is not a second Whitehead input. No complete source code
+or intermediate exchange sequence is authenticated by the available reading; the
+source-to-model comparison is a required output. See the [source
+qualification](source-inputs.md#problem8-whitehead-source).
+
+*Needs:* 4.1–4.2's tame links, realized marked diagrams and supported movies; 3.3's
+ambient extension for the link-isotopy construction; 4.10–4.10.1's independent
+rational-port, twist and closure construction; 4.8's independent reduced-alternating
+minimum. The4.11 clasp construction and5.1 peripheral markings supply only their
+respective comparison outputs. Equal fractions, linking number0, invariant agreement and
+a coarse link-classification label do not replace the component-tracked movie.
+
 ### 4.11 Torus knots, satellites and Whitehead doubles
 
 Define the torus knot `T(p, q)` for coprime `p, q` as the image of `u ↦ 2⁻¹ᐟ² (u^p, u^q)` in the

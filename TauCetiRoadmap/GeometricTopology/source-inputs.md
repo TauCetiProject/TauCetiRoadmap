@@ -1110,3 +1110,20 @@ as a second Problem9 occurrence or identify the two pictures. Likewise the
 separate Problem20/p4 Borromean drawing has its own source-input obligation.
 The explicit pure-braid family and standard six-crossing model are independent
 mathematical constructions until their source-picture comparisons are proved.
+
+<a id="problem8-whitehead-source"></a>
+## Problem8: Whitehead component exchange
+
+*Knot Theory - problems.pdf*, physical p2, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, asks for a
+deformation interchanging the two Whitehead-link components and for its crossing number.
+There is one large unlabeled drawing below the prompt. It has underpass gaps but no
+component/crossing labels, orientation arrows, move arrows or intermediate stages. The
+reading does not authenticate every local incidence or a complete signed code, and the
+page gives no written minimum or exchange sequence.
+
+The adjacent small three-loop drawing is associated with Problem9's Borromean text. This
+supersedes older transcript counts of two Whitehead pictures or two Borromean
+occurrences on this page. Neither drawing supplies a crossing correspondence to the
+other. The roadmap constructs the standard rational model and exchange independently and
+requires an actual marked comparison for the single Problem8 source input.
