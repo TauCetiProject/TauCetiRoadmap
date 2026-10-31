@@ -5446,30 +5446,172 @@ matrix, polynomial solver, parameter conversion and sparse matrix interfaces.
 The surgery-theoretic results `u=1⇒prime` and the two-bridge criterion
 remain Layer5.4 targets and are not premises of this construction.
 
+<a id="gt4-knot-growth"></a>
 ### 4.14 Counting knots
 
-Prove that for `n ≥ 4` there are at least `(2^{n−2} − 1)/6` prime knot types of crossing number
-exactly `n` up to mirror image, by counting two-bridge knots `p/q` with `p` odd whose
-continued fraction has coefficient sum `n` (Ernst–Sumners, *The growth of the number of prime
-knots*, Math. Proc. Cambridge Philos. Soc. 102 (1987)): the positive continued-fraction
-diagrams are reduced alternating, so their crossing number is `n` by Layer 4.8, and each
-Schubert class contains at most four such fractions. Prove the exponential upper bound: the
-number of knot types with a diagram of `n` crossings is at most `2ⁿ` times the number of
-rooted connected four-valent plane maps with `n` vertices, which is at most `4 · 16^{2n}`:
-a rooted plane map with `s` edges has a spanning tree, and tree-rooted maps with `s` edges are
-counted by `Catalan(s) · Catalan(s+1) ≤ 4 · 16^s` through their encoding as shuffles of two
-Dyck words (Bernardi, *Bijective counting of tree-rooted maps*, Electron. J. Combin. 14
-(2007), Theorem 1).
+Define finite exact-crossing and bounded-crossing carriers of tame knot types using the
+earlier realized-diagram and ambient-isotopy comparisons. Keep four choices explicit:
+prime versus all knots, exact versus cumulative crossing number, oriented versus
+unoriented knots, and orientation-preserving ambient equivalence versus equivalence also
+allowing ambient reflection. Let `C_n` count unoriented prime knots of exact crossing
+number `n` under orientation-preserving ambient equivalence, and let `N_n` be its
+quotient also identifying mirrors. Let `O_n` count all oriented knots of exact crossing
+number `n` under orientation-preserving ambient equivalence. Construct the forgetful and
+mirror quotients and prove their fibre bounds, including invertible and amphicheiral
+fixed points. In particular `N_n≤C_n≤2N_n`; forgetting knot orientation has fibres of
+size at most two. Finiteness uses the early finite realized-diagram enumeration and its
+sound surjection onto knot types, not 8.7's classification/minimality decision
+procedure. The unknot has crossing number 0; the cases of no knots at crossings 1 or 2 and of the trefoil
+consume the earlier direct≤3 proof.
+
+Construct an explicit family using 4.10's rational-tangle realization and Schubert
+dictionaries. For a Boolean word `w` of length `m`, begin at `(p,q)=(2,1)` and read the
+word from left to right, applying `T₀(p,q)=(p+q,q)` and `T₁(p,q)=(p+q,p)`. Construct
+simultaneously a reversed continued-fraction list beginning with `[2]`: `T₀` increments
+its last entry, and `T₁` appends 1. Prove its slope is `p/q`, all entries are positive,
+its first entry is at least 2, and its coefficient sum is `m+2`. Define this canonical
+domain of reversed positive lists with first entry at least 2, and prove evaluation and
+expansion inverse on reduced fractions p/q>1. A last entry 1 is allowed. This is not the
+ordinary continued-fraction order; compare the append 1 operation with its actual
+reversed fraction rather than the redundant terminal 1 operation in the opposite
+convention.
+
+Prove positivity, `p>q>0`, coprimality, and injectivity of this actual pair map on all
+finite Boolean words. Give its terminating inverse: when `P>2Q` the last letter is 0
+with predecessor `(P−Q,Q)`; when `P<2Q` it is 1 with predecessor `(Q,P−Q)`. Each
+predecessor has smaller coordinate sum. The coprime boundary `P=2Q` is exactly the
+initial `(2,1)`. Identify the image and compare this inverse with the positive canonical
+continued-fraction expansion, its reversal and its coefficient sum. A cardinality
+estimate for bare words without this slope/realization comparison is insufficient.
+
+Construct the corresponding positive rational diagram with exactly `m+2` crossings and
+its numerator closure. Prove the canonical positive rational diagram is alternating and
+reduced, including first/last coefficient boundary cases, and use the earlier
+bracket-span theorem to prove its crossing number is exactly `m+2`. Use closure parity
+to restrict to odd `p`; for `m≥1` these are nontrivial knots. Construct bridge
+positions, their bridge-sphere dictionary and their relative boundary isotopies, and
+prove the bridge-number connected-sum formula `b(K#J)=b(K)+b(J)−1`. The upper bound
+joins explicit bridge positions; for the lower bound put a decomposing sphere in the
+required bridge-compatible position, with complete height/innermost-disc simplifications
+and the induced bridge positions on the factors. Combine this with bridge number 2, the
+bridge-one unknot theorem and the earlier prime decomposition to prove the family knots
+prime. Do not assume general crossing-number additivity or infer primeness solely from
+the word syntax. This proof belongs to the shared 4.8/4.9 bridge/prime interface,
+independently of late complete knot classification or hyperbolic geometry.
+
+Compute the number `a_m` of words with odd numerator through the full parity automaton.
+Its states are `(p mod2,q mod2)=A=(0,1),B=(1,0),D=(1,1)`, with initial populations
+`(1,0,0)`. One step sends populations to `(2D,A+B,A+B)`. Prove `B=D`, `a_m=B+D`,
+`a_0=0`, and `a_m+a_(m+1)=2^(m+1)`. In the integer ring prove `3a_m=2^(m+1)−2(−1)^m`.
+The values for `m=0,…,6` are `0,2,2,6,10,22,42`. Retain this integer equality before
+deriving rational inequalities; natural truncated subtraction is not the same formula.
+
+For fixed `n=m+2`, distinct words give distinct normalized pairs with `0<q<p`. In one
+orientation-preserving unoriented Schubert knot class, `p` is fixed and there are at
+most two such `q`, namely `q` and `q⁻¹ mod p`. Allowing ambient reflection gives at most
+four, including their negatives. Prove these bounds through the earlier full geometric
+classification; do not replace it by equality of numerators or by oriented congruences
+modulo 2p. Export `2C_(m+2)≥a_m` and `4N_(m+2)≥a_m` for `m≥1`. In particular, for `n≥4`
+prove the nonstrict bounds `3C_n≥2^(n−2)−1` and `6N_n≥2^(n−2)−1`, with exact ceiling
+versions. For `n≥5` export the useful integral exponential bound `N_n≥2^(n−5)`. Check
+low crossings and the fixed-point fibres separately. No strict inequality with the same
+right side follows merely from a fibre bound.
+
+For an exponential upper bound, construct rooted connected oriented sphere maps with
+loops and parallel edges retained, a distinguished spanning tree, and isomorphisms
+preserving cyclic orders, root and tree. Use actual dart rotations and a
+fixed-point-free edge involution. Compare with the existing native
+permutation-triple/bipartite-ribbon carriers by inserting one white degree-two vertex
+per edge: the original map darts are the subdivided edges, black rotation is the vertex
+rotation, and white rotation is the edge involution. The native subdivided edge count is 2s. Compare its
+`facePerm=(rotW*rotB)⁻¹` with the chosen map face walk by the actual
+inversion/conjugacy adapter. Prove the degree counts,
+connectedness, face cycles, Euler characteristic and relabeling dictionary in both
+directions. A native bipartite graph must not be identified with an unsubdivided
+arbitrary map. Consume 4.2's geometric sphere realization and uniqueness comparisons.
+Prove existence of a spanning tree for a finite connected map. For s>0, retain
+one-vertex maps with loops and their empty spanning tree. The native bipartite
+dictionary applies to s>0: its incidence-surjectivity fields exclude an isolated vertex.
+For s=0 use the unique terminal one-vertex map with a formal root corner, empty tree and
+empty code; do not identify it with a native bipartite graph having an isolated black
+vertex.
+
+Give the full contour coding and inverse on these actual maps. Cut along the spanning
+tree, start at the root corner, and record its directed tree-edge visits as `a,A` and
+the first/second encounters of each complementary edge as `b,B`. For a map with `s`
+edges this is a word of length `2s`; each of its two subwords is a Dyck word. Recover
+the rooted plane tree by stack matching `a,A`; place the complementary endpoints in the
+specified corners and recover the noncrossing complementary-edge pairing by stack
+matching `b,B` in the cut disc. Prove that gluing reconstructs the vertex cycles, edge
+involution, root and distinguished tree, including bridges, loops and an empty tree.
+Prove both inverse laws up to the specified isomorphism. Export the bijection with
+shuffles of two Dyck words, the exact count `Σ_(k=0)^s binom(2s,2k) Catalan(k)
+Catalan(s−k) = Catalan(s) Catalan(s+1)`, and its derivation from the shuffle bijection
+and the Vandermonde identity. Reuse Mathlib's actual Dyck words and Catalan numbers. The
+simpler injection into four-letter words gives the upper bound `4^(2s)=16^s` directly;
+no unproved asymptotic enumeration is needed.
+
+A connected `n≥1`-crossing knot shadow is a four-valent sphere map with `n` vertices and
+`s=2n` edges. Construct this dictionary with local opposite-dart pairing,
+regular-projection realization, root choice and the crossing-free exception. The root dart fixes a root face; realize that face as the planar
+outer face with the orientation-preserving sphere-to-plane comparison.
+Filter the map codes for four-valence and one immersed component, then add exactly one over/under
+bit per vertex. Give a deterministic vertex ordering from the contour code. Construct
+the link and prove the resulting finite code carrier surjects onto all knots having an
+`n`-crossing diagram. Orienting its single component adds at most a factor two. Thus
+prove `O_n≤2·2^n·16^(2n)=2·512^n` for `n≥1`, hence the same upper bound for `C_n,N_n`
+and their unoriented/all-knot quotients. Root and tree are part of the codes and
+overcount rather than remove knot types. Planar orientation-preserving reconstruction
+must give the declared ambient orientation-preserving equivalence. Prove the
+corresponding cumulative bounds by the finite geometric sum, with the separate crossing
+0 unknot term.
+
+Export liminf of the `n`th roots of these prime counts at least 2 and limsup at most
+512, and state the resulting genuine exponential-growth estimates. Do not assert
+existence of a single growth-rate limit or general crossing additivity from these two
+bounds. 8.7's exact-through 15 tables are separate consumers and never premises of these
+universal constructions.
+
+For the source's separate signed-Dowker `n!2^n` proposal, define the exact
+root/orientation/sign data being counted, prove the decoder and its ambiguity or fibre
+theorem on that precise universe, and determine whether the claimed constant survives.
+Retain additional required planar/connected-sum data rather than assuming every signed
+word has a unique realized diagram. Compare this claim independently with the
+exponential theorem. Likewise compare each printed `(2^(n−2)−1)/3`, `(2^(n−2)−3)/3`,
+`2^(n−2)/3`, strict/nonstrict, and `e^n` version with its own declared count convention
+and threshold. The source's mirror-identified exact-prime table contradicts several
+printed lower versions already at 4,6 or 8. The constructed mirror-sensitive nonstrict
+bound does not determine what the source intended. An upper bound with base 512 does not
+establish the printed base `e` bound. Keep false-literal/citation/setup branches separate
+from the corrected general-count theorems.
 
 **Checks.**
-- The numbers of prime knots of crossing number `3, 4, 5, 6, 7` up to mirror image are
-  `1, 1, 2, 3, 7`; the lower bound gives `1/6, 1/2, 7/6, 5/2, 31/6`, consistent.
-- There are no knots of crossing number `1` or `2`: every diagram with at most two crossings
-  is an unknot diagram.
-- The upper bound for `n = 3` is `2³ · 4 · 16⁶`, far from sharp; the theorem is about growth
-  rate, and neither bound claims the existence of a limit of `n`-th roots.
 
-*Needs:* Layer 4.2, Layer 4.8, Layer 4.10; Mathlib `Nat.catalan`, Dyck words.
+- The mirror-identified prime counts at crossings 3,4,5,6,7 are 1,1,2,3,7. There
+  are no knots of crossing number 1 or 2; crossing 0 has the unknot.
+
+- The odd-word counts for m=0,…,6 are 0,2,2,6,10,22,42. At n=4 the mirror-sensitive
+  bound `3C₄≥3` is equality, so its strict version fails.
+
+- The code bound for n=3 is `2·512³`, with component orientation retained. Omitting that
+  orientation gives the bound `512³`.
+
+- At s=0 there is one terminal map and one empty shuffle; a one-vertex positive-edge
+  loop map instead uses the ordinary native subdivision.
+
+*Needs:* 4.2's realized diagrams and sphere maps, 4.2.5's signed-Dowker comparison,
+4.10's rational tangles and Schubert classification, 4.8's shared bridge-number prefix
+and 4.9's prime decomposition. The bridge-formula proof above refines that shared
+prefix; neither finite growth counts nor 8.7 classifications feed it. Reuse native
+`TauCeti.BipartiteRibbonGraph` / `TauCeti.PermutationTriple`, Mathlib `DyckWord`,
+`DyckWord.card_dyckWord_semilength_eq_catalan`, root-level `catalan`, finite
+quotient/fibre cardinalities and real-power limit APIs. Supply the actual subdivision,
+geometric reconstruction, contour inverse and quotient maps here.
+
+References: [Kauffman–Lambropoulou, On the Classification of Rational Knots, Schubert
+classification and positive rational diagrams](https://arxiv.org/html/math/0212011), and
+[Bernardi, Bijective counting of tree-rooted maps and shuffles of parenthesis systems,
+§2](https://arxiv.org/html/math/0601684).
 
 ### Examples
 
