@@ -3,27 +3,47 @@ import Mathlib
 /-!
 # Elliptic functions, periods and complex multiplication: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
-The statements here suggest Lean forms for particular milestones, so that contributors and
-reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
-the roadmap.
+**This file is not the roadmap.** The definitive document is `README.md`. This file states the
+roadmap's headline theorems against the pinned Mathlib, each with `sorry`, together with the
+definitions their statements need and the intermediate statements the README names. The API of
+each definition and the Checks stay in the README.
 
 Everything is stated on Mathlib's `PeriodPair` (a pair of `ℝ`-linearly independent complex
 numbers, `Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`) and its `lattice`,
-`weierstrassP`, `derivWeierstrassP`, `G`, `g₂`, `g₃`. Only theorem statements are `sorry`.
+`weierstrassP`, `derivWeierstrassP`, `G`, `g₂`, `g₃`. Definitions have real bodies; only theorem
+statements are `sorry`. `quasiPeriod L l` is the value `ζ(ω₁/2 + l) − ζ(ω₁/2)`, read at the base
+point `ω₁/2`, which is off the lattice (`PeriodPair.ω₁_div_two_notMem_lattice`); on the lattice
+it is ModularCurvesPartII's `latticeQuasiPeriod` (README 2.3), so the two names denote one map.
 
-**Supplied by ModularCurvesPartII, not constructed here.** The Weierstrass `σ` function
-`latticeSigma`, the quasi-period map `latticeQuasiPeriod` and Legendre's relation
-`latticeQuasiPeriod_legendre` (its §1.4a), the nonvanishing of `g₂³ − 27g₃²` (§1.1) and the
-scaling of `g₂`, `g₃`, `℘` under homotheties (§1.3). `weierstrassZeta` is identified with `σ′/σ`
-by `weierstrassZeta_eq_logDeriv_latticeSigma` (README, Layer 2). `quasiPeriod L l` is the value
-`ζ(ω₁/2 + l) − ζ(ω₁/2)`, read at the base point `ω₁/2`, which is off the lattice
-(`PeriodPair.ω₁_div_two_notMem_lattice`); on the lattice it equals `latticeQuasiPeriod`
-(README, Layer 2), so the two names denote one map.
+Headline theorems stated here:
+
+* README 3.3, `trdeg_periodField_le`: the period field has transcendence degree at most `4`.
+* README 5.1, `chudnovsky`: for algebraic invariants and a nonzero period `l`, `l/π` and
+  `η(l)/π` are algebraically independent.
+* README 5.3, `two_le_trdeg_periodField`: for algebraic invariants, the transcendence degree is
+  at least `2`.
+* README 4.4, `trdeg_periodField_le_two_of_hasCM`: with complex multiplication and algebraic
+  invariants, it is at most `2`.
+* README 5.4, `trdeg_periodField_eq_two_of_hasCM`: in the CM case it is exactly `2`.
+
+Every headline of the Summary is statable and stated. The way there is stated too: Liouville,
+the zero–pole balance and the structure theorem for elliptic functions (README 1.2–1.4), the
+Laurent expansion of `℘` and `G_mem_adjoin` (1.6), the Weierstrass `ζ` and its quasi-periods
+(2.1, 2.2), the Eisenstein dictionary (2.4), Legendre's relation as `det_periodMatrix` (3.1),
+the period field and its Zariski closure (3.2, 3.4), the homotheties (3.5), the CM lattice
+statements `hasCM_iff`, `exists_weierstrassP_mul_eq`, `exists_quasiPeriod_mul` (4.1–4.3), and
+Chudnovsky's theorem without algebraic invariants, `two_le_trdeg_adjoin_invariants` (5.2).
+
+Not stated here: README 2.3, `weierstrassZeta_eq_logDeriv_latticeSigma` (`ζ = σ′/σ`). Its
+right-hand side is ModularCurvesPartII's `latticeSigma` (its §1.4a), which is not in the pinned
+libraries, so the identification is fixed in the README only; Legendre's relation is consumed
+through it and appears here only in its matrix form `det_periodMatrix`. Also kept in the README:
+the descent of 1.7, the half-period identities of 1.5, the multiplier ring of 4.1 and the
+corollaries of 5.5; they are steps or consequences, not headlines.
 
 Conventions (README, Standing conventions): a basis `(ω₁, ω₂)` is *positive* when
 `0 < (ω₂ / ω₁).im`; transcendence degrees are taken over `ℚ`; "algebraic" means `IsAlgebraic ℚ`
-inside `ℂ`.
+inside `ℂ`; `π` is `Real.pi`.
 -/
 
 open Complex
@@ -107,7 +127,7 @@ noncomputable def weierstrassZeta (L : PeriodPair) (z : ℂ) : ℂ :=
 
 /-- The quasi-period `η(l) = ζ(ω₁/2 + l) − ζ(ω₁/2)`. The base point `ω₁/2` is off the lattice,
 and for `l ∈ L.lattice` the value does not depend on it (`weierstrassZeta_add_coe`). On the
-lattice it is ModularCurvesPartII's `latticeQuasiPeriod` (README, Layer 2). -/
+lattice it is ModularCurvesPartII's `latticeQuasiPeriod` (README 2.3). -/
 noncomputable def quasiPeriod (L : PeriodPair) (l : ℂ) : ℂ :=
   weierstrassZeta L (L.ω₁ / 2 + l) - weierstrassZeta L (L.ω₁ / 2)
 
@@ -211,7 +231,7 @@ theorem hasCM_iff (L : PeriodPair) :
 theorem HasCM.smul {L : PeriodPair} (h : HasCM L) (c : ℂˣ) : HasCM (c • L) := sorry
 
 /-- For `α Λ ⊆ Λ` and algebraic invariants, `℘(αz)` is a rational function of `℘(z)` with
-algebraic coefficients (in `ℚ(g₂, g₃, α)`, by the Laurent descent of README Layer 1). -/
+algebraic coefficients (in `ℚ(g₂, g₃, α)`, by the Laurent descent of README 1.7). -/
 theorem exists_weierstrassP_mul_eq {L : PeriodPair} (h₂ : IsAlgebraic ℚ L.g₂)
     (h₃ : IsAlgebraic ℚ L.g₃) {α : ℂ} (hα : α ≠ 0) (hαL : ∀ l ∈ L.lattice, α * l ∈ L.lattice) :
     ∃ P Q : Polynomial ℂ, Q ≠ 0 ∧ (∀ n, IsAlgebraic ℚ (P.coeff n)) ∧
