@@ -9,7 +9,7 @@ KMS states, and the thermodynamic limit of quantum spin systems.
 
 ## Scope, conventions, and dependencies
 
-D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, and the antisymmetric and symmetric Hilbert Fock representations: the Fock carriers and vacuum, creation and annihilation operators, the bosonic finite-particle domain, the Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on that domain, its essential self-adjointness, and the identification of its closure with the Stone generator `Φ(f)` of the Fock Weyl representation. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and field operators, and of the antisymmetric and symmetric Hilbert Fock carriers with their vacuum, creation and annihilation operators, the bosonic finite-particle domain `D_fin`, the Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on `D_fin` with its commutator and vacuum-variance identities, the exponential vectors, and the Fock Weyl representation `π_F`, defined on exponential vectors, with its vacuum characteristic function. The essential self-adjointness of `Φ₀(f)` on `D_fin`, the identification of its closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum cyclicity and irreducibility of `π_F` belong to QuantumFoundations QF4, which consumes the D8 carriers and identities; D8 uses none of them. Quantum-statistical and quantum-field-theoretic developments consume these D8 results; unitary implementability of Bogoliubov automorphisms in Fock representations is not a target of this roadmap.
 
 C*-algebras are complex and may be nonunital. Groups in D1–D4 are arbitrary
 locally compact Hausdorff groups; separability and second countability are not
@@ -42,20 +42,49 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
 - [CStarAlgebras C1–C2](../CStarAlgebras/README.md) supplies representations,
   approximate units, multipliers, ideals and quotients; C5 supplies tensor
   products and analytic inductive limits; C6 supplies nuclearity and CP
-  approximation, and C7 supplies exactness. [HilbertModules H1–H4](../HilbertModules/README.md) supplies
-  adjointable operators, interior tensor products, induction, Morita
-  equivalence, and linking algebras.
-- [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) supplies states,
-  GNS, operator topologies and normal representations. D5 consumes
-  [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for independent measurable Hilbert/operator fields,
-  [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md) for the unit-space diagonal C₀ theorem, then
-  [VonNeumannAlgebras V4's separable commuting-representation reduction](../VonNeumannAlgebras/README.md)
-  (the V4.0.Decomposition contract) for reduction over that given diagonal.
-  V8 owns discrete von Neumann crossed products; V10–V11 owns modular theory
-  and normal locally compact crossed products. D2 proves the comparison
-  with their regular weak closures. D4 uses V11's harmonic-analysis layer:
-  dual Haar normalization, Plancherel and Pontryagin biduality for locally
-  compact abelian groups, independently of the normal crossed-product theorem.
+  approximation, and C7 supplies exactness.
+- Hilbert C*-module theory is not on the content repository's main branch;
+  the pinned Mathlib has only the `CStarModule` class
+  (`Mathlib.Analysis.CStarAlgebra.Module.Defs`), whose axioms D2's regular
+  module satisfies. What [HilbertModules](../HilbertModules/README.md) must
+  provide (gap:hilbert-module-adjointables): H1–H2's complete right Hilbert
+  A-modules in the second-variable-linear convention, their opposite-algebra
+  right-module implementation, adjointable operators and module compact
+  operators. What HilbertModules must provide (gap:hilbert-module-induction):
+  H3's interior tensor products, induction of representations along a
+  correspondence, imprimitivity bimodules with strong Morita equivalence, and
+  the linking algebra of an imprimitivity bimodule.
+- The pinned Mathlib has the GNS construction `PositiveLinearMap.GNS` with
+  `gnsNonUnitalStarAlgHom` (`Mathlib.Analysis.CStarAlgebra.GelfandNaimarkSegal`),
+  the concrete double-commutant `VonNeumannAlgebra`, the weak operator topology
+  `ContinuousLinearMapWOT` and positive functionals `A →P[ℂ] ℂ`; the rest of
+  the von Neumann theory used here is not on main. What
+  [VonNeumannAlgebras](../VonNeumannAlgebras/README.md) must provide
+  (gap:gns-states-and-bicommutant): V0–V1's norm-one state space with its
+  weak-* topology, the GNS cyclic vector with recovery of the functional and
+  unitary uniqueness, and the bicommutant theorem. What VonNeumannAlgebras
+  must provide (gap:normal-representations): V4's preduals, normal states and
+  normal representations with their σ-weak continuity. What
+  VonNeumannAlgebras must provide (gap:measurable-hilbert-fields):
+  V4.0.Fields' measurable fields of separable Hilbert spaces over standard
+  σ-finite measure spaces, their direct integrals, decomposable operators,
+  rectangular decomposable maps and change-of-measure unitaries, and
+  V4.0.Decomposition's reduction of a separable C*-representation commuting
+  with a given diagonal. What VonNeumannAlgebras must provide
+  (gap:von-neumann-crossed-products): V8's discrete and V11's normal locally
+  compact von Neumann crossed products with their canonical coefficient and
+  group generators, and V11's dual Haar normalization, Plancherel theorem and
+  Pontryagin biduality for locally compact abelian groups. What
+  VonNeumannAlgebras must provide (gap:modular-theory): V10's modular
+  operator and modular group of a faithful normal state, its W*-KMS
+  characterization and the standard form. D5 consumes the measurable fields
+  together with
+  [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
+  for the unit-space diagonal C₀ theorem, in the order V4.0.Fields → SA-B85 →
+  V4.0.Decomposition → D5. D2 proves the comparison of the reduced crossed
+  product with the regular weak closures of the von Neumann crossed products.
+  D4 uses the harmonic-analysis layer independently of the normal
+  crossed-product theorem.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   and [OneParameterSemigroups](../OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
@@ -65,12 +94,14 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   representations on separable Hilbert spaces, X second-countable locally
   compact Hausdorff. Its order is V4.0.Fields → SA-B85 →
   V4.0.Decomposition → D5; D5 is not a prerequisite for those suppliers.
-- Use the topological groupoid vocabulary shared with
+- Use the topological groupoid vocabulary of
   [LieGroupoidsPoisson G0](../LieGroupoidsPoisson/README.md):
   `CategoryTheory.Groupoid`, topology on the total `Arrow`, and continuous
   composition on composable arrows. Write `gh` for first h, then g
-  (`h ≫ g` in category notation). G0 owns the total-arrow and composable-arrow topologies and continuous
-  groupoid operations. D5 consumes that topological layer and builds Haar,
+  (`h ≫ g` in category notation). What LieGroupoidsPoisson must provide
+  (gap:topological-groupoid-vocabulary): G0's total-arrow and
+  composable-arrow topologies with continuous composition, inversion, range
+  and source. D5 consumes that topological layer and builds Haar,
   integration and representation interfaces; smooth structures are not
   prerequisites.
 
@@ -87,7 +118,7 @@ interacting continuum gases are outside this roadmap.
 Develop actions, equivariant *-homomorphisms, invariant subalgebras and ideals,
 quotient actions, conjugacy, restriction to closed subgroups, and induced
 actions on multipliers. Prove joint continuity from point-norm continuity,
-using the isometry of automorphisms. Extend nondegenerate representations to
+using the isometry of automorphisms (`continuous_action`). Extend nondegenerate representations to
 multipliers and relate strict continuity of multiplier unitaries to strong
 continuity in nondegenerate Hilbert-space representations.
 
@@ -105,10 +136,13 @@ and construct approximate units compatible with those of A. Include zero
 algebras, nonunital coefficients, restriction of compact supports, and the
 scalar trivial-action comparison with A7.
 
-A covariant pair `(π,U)` satisfies `U_s π(a)=π(α_s(a)) U_s`. Construct its
-integrated form by the vector formula
+A covariant pair `(π,U)` satisfies `U_s π(a)=π(α_s(a)) U_s` (`IsCovariant`).
+Construct its integrated form by the vector formula
 `(π⋊U)(f)ξ=∫ π(f(s))U_s ξ dμ(s)`. Establish integrability, boundedness by
-`‖f‖₁`, multiplicativity and preservation of star. Strong continuity alone
+`‖f‖₁` (the existence of the bounded operator with this vector formula and
+the bound `‖(π⋊U)(f)‖≤‖f‖₁`, for a unitary strongly continuous `U` and an
+integrable `f`, is `exists_integratedOperator`), multiplicativity and
+preservation of star. Strong continuity alone
 does not give norm continuity into B(H); the vector integral is the defining
 construction. Extend Tau Ceti's existing scalar integrated-representation
 API to these coefficient-valued integrands. Reuse
@@ -130,7 +164,8 @@ identities.
 
 Define the full norm as the supremum of the integrated representation norms.
 Control universes by a bounded-cardinality family of cyclic representations
-and prove that the resulting supremum agrees with all representations.
+(gap:gns-states-and-bicommutant) and prove that the resulting supremum agrees
+with all representations.
 Prove finiteness, definiteness using regular representations, the C*-identity,
 and independence of the indexing family; complete to `A⋊αG`. Construct its
 canonical nondegenerate coefficient map into `M(A⋊αG)` and strictly continuous
@@ -152,7 +187,7 @@ proving both universal properties induce inverse maps.
 
 ## D2. Regular representations, reduced products, and amenability
 
-Use D1's regular covariant representation. Build the regular Hilbert A-module by completing `C_c(G,A)` with
+Use D1's regular covariant representation. Build the regular Hilbert A-module (gap:hilbert-module-adjointables) by completing `C_c(G,A)` with
 right action `(f·a)(s)=f(s)α_s(a)` and inner product
 `⟨f,g⟩=∫ α_(s⁻¹)(f(s)*g(s)) dμ(s)`. Prove that
 `f(s)↦α_(s⁻¹)(f(s))` identifies it with the standard `L²(G,A)` module.
@@ -166,7 +201,7 @@ regular kernel. Develop its canonical multiplier maps, equivariant
 functoriality, and factorization of all regular representations. Prove
 `A⋊id,rG≃A⊗min Cr*(G)`. Show that the closure in the weak operator topology
 of the regular C*-representation agrees with the V8 or V11 von Neumann
-crossed product under the following hypotheses: ρ is nondegenerate,
+crossed product (gap:von-neumann-crossed-products) under the following hypotheses: ρ is nondegenerate,
 M=ρ(A)'', and there is a σ-weakly continuous normal action αbar on M
 with `αbar_s(ρ(a))=ρ(α_s(a))`. Here G is discrete for V8 or second
 countable for V11. Prove σ-weak continuity of this automorphism action
@@ -229,7 +264,7 @@ with `C₀(G/H,A)` carrying
 of unity lemmas used in density and fullness arguments.
 
 Prove Green imprimitivity for arbitrary closed H:
-`Ind_H^G(D,β)⋊G` is Morita equivalent to `D⋊H`. Construct the module on
+`Ind_H^G(D,β)⋊G` is Morita equivalent to `D⋊H` (gap:hilbert-module-induction). Construct the module on
 `C_c(G,D)` with its Haar integrals, actions and both inner products; prove
 positivity, norm estimates, compatibility, fullness and completion. For the
 restricted-action model fix `γ_H(h)=Δ_G(h)^(1/2)Δ_H(h)^(-1/2)` and
@@ -264,8 +299,8 @@ linking-algebra theory.
 ## D4. Dual actions and Takai duality
 
 For locally compact abelian G use `PontryaginDual G` with its compact-open
-topology. From V11's Fourier–Plancherel and evaluation biduality layer,
-construct the strongly continuous dual action
+topology. From V11's Fourier–Plancherel and evaluation biduality layer
+(gap:von-neumann-crossed-products), construct the strongly continuous dual action
 `α̂χ(f)(s)=χ(s)f(s)` and prove its multiplier formulae, functoriality and
 compatibility with full and reduced completions. Normalize the dual Haar
 measure so that the positive-character Fourier transform is unitary on L²;
@@ -287,7 +322,7 @@ specified maps, not merely an abstract Morita equivalence.
 ## D5. Haar groupoids, convolution, and disintegration
 
 Consume LieGroupoidsPoisson G0's unit/arrow and composable-pair topology
-and continuous operations. Develop the Haar-theoretic restrictions to
+and continuous operations (gap:topological-groupoid-vocabulary). Develop the Haar-theoretic restrictions to
 isotropy, invariant subsets, reductions, transformation groupoids and
 continuous groupoid actions on that interface. A Haar system is a family of positive Radon measures λᵘ with
 support exactly `Gᵘ=r⁻¹(u)`, continuous integration of compactly supported
@@ -327,11 +362,11 @@ For a nondegenerate representation L of C*(G) on separable H, put X=G⁰
 and let `ρ_L(h)=L̃(m(h))` for h∈C₀(G⁰), where m is the nondegenerate
 unit-space multiplier map constructed above and L̃ is L's multiplier extension.
 Prove ρ_L is nondegenerate: choose compactly supported unit-space cutoffs
-h_i with `0≤h_i≤1`, eventually equal to1 on each prescribed compact subset
+h_i with `0≤h_i≤1`, eventually equal to 1 on each prescribed compact subset
 of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
 `m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
 and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
-Consume [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) for measurable Hilbert fields, square-integrable
+Consume [VonNeumannAlgebras V4.0.Fields](../VonNeumannAlgebras/README.md) (gap:measurable-hilbert-fields) for measurable Hilbert fields, square-integrable
 sections, rectangular decomposable maps and RN measure-change/zero-extension
 unitaries, and [SelfAdjointSpectralTheory SA-B85](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
 for the diagonal spectral representation of this nondegenerate C₀(G⁰)
@@ -359,6 +394,31 @@ and the empty unit space, where nondegeneracy forces H=0; keep the onto
 zero-fibre transport in these cases. D5 proves quasi-invariance and constructs
 the inter-fibre unitaries U_γ, saturated conull reduction and disintegration
 below; continuous Hilbert fields in H5 alone do not supply these targets.
+
+**Checks.**
+- For the empty unit space, G is empty, `C_c(G)=0` and `C*(G)=0`; a
+  nondegenerate representation has dense span of `L(C*(G))H=0`, so H=0, and
+  ρ_L is the zero representation on the zero space. A definition that asked
+  only for `L(C*(G))H` to be nonzero or omitted nondegeneracy would admit a
+  nonzero H here.
+- For a group G regarded as a one-unit groupoid, `C₀(G⁰)=ℂ`, `m(1)` is the
+  unit of `M(C*(G))`, and ρ_L(λ)=λ·I for every nondegenerate L; the diagonal
+  algebra is ℂ, the spectral measure is a point mass and the multiplicity is
+  dim H. The candidate `ρ_L(h)=L(h∘r)` is undefined here for noncompact G,
+  since `h∘r` is the constant function, which is not in `C_c(G)`; the
+  multiplier extension is what makes ρ_L defined.
+- For the pair groupoid `X×X` of a second-countable locally compact Hausdorff X
+  with a full-support Radon measure μ, the identity representation of
+  `C*(X×X)=K(L²(X,μ))` on `L²(X,μ)` has `ρ_L(h)` equal to multiplication by h,
+  since `(m(h)f)(x,y)=h(x)f(x,y)` and `L(f)ξ(x)=∫ f(x,y)ξ(y) dμ(y)`; its
+  spectral measure class is that of μ with multiplicity one. For X infinite
+  no element of `C_c(X×X)` acts as the identity, so no candidate
+  `ρ_L(1)=L(f)` with `f∈C_c(X×X)` is available.
+- For `L₁=L₂=L` and `T=I`, the transported unit-space intertwiner is the
+  identity and the λ-fields for `λ=2μ` have densities `1/2` on both sides;
+  for `T=0` the transported fibre maps vanish almost everywhere. A transport
+  that used `μ₁` alone as control would be undefined when `μ₂` has mass off
+  the support of `μ₁`.
 
 A measurable unitary representation consists of such a field and measurable
 unitaries `U_γ:H_s(γ)→H_r(γ)` satisfying the groupoid laws on a saturated
@@ -522,10 +582,16 @@ time-shift and strip bounds, with the star relation
 For β>0 define a β-KMS state ω by bounded continuous functions on
 `0≤Im z≤β`, holomorphic in the interior, with boundary values
 `F_ab(t)=ω(a τ_t(b))` and `F_ab(t+iβ)=ω(τ_t(b)a)`. Prove the equivalent
-analytic identity `ω(a τ_(iβ)(b))=ω(ba)`, the norm bound
+analytic identity `ω(a τ_(iβ)(b))=ω(ba)` (for an entire extension of the
+orbit of b, `kms_entire_identity`), the norm bound
 `|F_ab(z)|≤‖a‖‖b‖`, and the sufficiency of checking on a norm-dense invariant
-algebra of entire elements. Treat β<0 on the reversed strip, and β=0 as
-the full space of tracial states. Prove invariance for β≠0; it is not a
+algebra of entire elements. Treat β<0 on the reversed strip
+`β≤Im z≤0` with the same boundary values, and β=0 as the full space of
+tracial states: the strip degenerates to the real line and the two boundary
+conditions become `ω(a τ_t(b))=ω(τ_t(b)a)` for all t, which for a point-norm
+continuous action is the tracial condition. The predicate `IsKMS` states all
+three cases at once, on the strip between the lines `Im z=0` and `Im z=β`.
+Prove invariance for β≠0 (`kms_invariant`); it is not a
 consequence of the β=0 trace condition. Develop pullback under equivariant
 quotients, tensor products of KMS states, restrictions to invariant
 subalgebras when the restriction has norm one, and stability under weak-*
@@ -614,11 +680,45 @@ build the Hilbert completion and norm estimates here. Show that finite
 subspace inclusions give the CAR inductive limit, including separable
 infinite-dimensional h and its matrix stages.
 
+**Checks.**
+- For h=0, `Λⁿ(0)=0` for n≥1, so `F_a(0)=ℂ` with Ω=1, every a(f) is the zero
+  operator on ℂ, and `CAR(0)=ℂ`; the vacuum state is the unique state. A
+  construction whose vacuum sector were 0 instead of ℂ would make the vacuum
+  state undefined.
+- For h=ℂ, `F_a(ℂ)=ℂ⊕ℂ`, `CAR(ℂ)≃M₂(ℂ)` with `a(1)` a matrix unit `E_12`, so
+  `‖a(f)‖=|f|=‖f‖`, `a(1)²=0` and `a(1)a(1)*+a(1)*a(1)=1`. The vacuum state
+  gives `ω₀(a(f)*a(g))=0` and `ω₀(a(f)a(g)*)=⟨f,g⟩`, the two-point function
+  of the quasi-free state with S=0; a candidate with S=1 would instead give
+  `ω(a(f)*a(g))=⟨g,f⟩`.
+- The factor √(n+1) in `a†(f)` is forced by the CAR: without it, for ψ=g∈Λ¹(h)
+  with g⊥f, the operator `b†(f)g=P_a(f⊗g)` has `‖b†(f)g‖²=‖f‖²‖g‖²/2` and
+  `b(f)b†(f)g+b†(f)b(f)g=‖f‖²g/2`, not `‖f‖²g`.
+- Antilinearity of a in f: with the second-variable-linear inner product,
+  `{a(λf),a(g)*}=⟨λf,g⟩1=λ̄⟨f,g⟩1`, so `a(λf)=λ̄a(f)`; a linear candidate
+  would violate `{a(f),a(g)*}=⟨f,g⟩1` for λ=i.
+
 For a complex pre-Hilbert space h, prove that the norm identity extends its antilinear generators uniquely to the Hilbert completion and induces the canonical generator-preserving isomorphism `CAR(h)≃CAR(completion h)`. State represented-family uniqueness for nonzero unital CAR families: universality and simplicity make the map onto the generated C*-algebra an isomorphism. Preserve the source's omitted zero-representation exception. For h=0 the universal unital algebra is ℂ; distinguish this from the nonunital closed algebra generated by only zero operators. Prove `CAR(h)` is separable iff h is separable, using the generator isometry in one direction and countably many star polynomials on dense generators in the other.
 
 For bounded complex-linear U and bounded antilinear V on the complete complex Hilbert carrier h (using its completion in the pre-Hilbert comparison), define the antilinear adjoint by `⟨V* x,y⟩=⟨V y,x⟩` in the second-linear convention. Prove that
 `V*U+U*V=0=UV*+VU*` and `U*U+V*V=1=UU*+VV*`
 are the components of the real-orthogonality identities for `T=U+V`. Under these four relations construct the unique CAR automorphism `γ(a(f))=a(Uf)+a(Vf)*`, with inverse obtained from the real adjoint `T*=U*+V*`. Pin the CAR calculation by `⟨Uf,Ug⟩+⟨Vg,Vf⟩=⟨f,g⟩` and `⟨Uf,Vg⟩+⟨Ug,Vf⟩=0`. The Majorana generators `c(f)=a(f)+a(f)*` give the equivalent real-orthogonal construction `c(f)↦c(Tf)`. D8 owns this universal CAR automorphism only; a criterion for its unitary implementation in the antisymmetric Fock representation is not a target here.
+
+**Checks.**
+- On h=ℂ with the antilinear V the complex conjugation `f↦f̄`, the antilinear
+  adjoint is `V*=V`, since `⟨V y,x⟩=yx=⟨V* x,y⟩` with `V* x=x̄`. The pair
+  U=0, V=conjugation satisfies all four relations (`V*U+U*V=0`, `U*U+V*V=1`,
+  and the two with the factors reversed) and gives the particle–hole
+  automorphism `γ(a(f))=a(f̄)*`, that is `a(1)↦a(1)*`, which preserves
+  `{a(f),a(g)*}=⟨f,g⟩1` because `{a(f̄)*,a(ḡ)}=⟨ḡ,f̄⟩1=⟨f,g⟩1`.
+- The pair U=1, V=conjugation fails `U*U+V*V=1` (the left side is 2), and the
+  candidate map `a(f)↦a(f)+a(f̄)*` fails the CAR: for f=g=1 its anticommutator
+  with itself is `2·1`, not 0.
+- The one-mode rotation U=cos θ, V=sin θ·conjugation fails `V*U+U*V=0` unless
+  `sin θ cos θ=0`, and `a(1)↦cos θ·a(1)+sin θ·a(1)*` squares to
+  `sin θ cos θ·1≠0`: the only one-mode Bogoliubov automorphisms are
+  `a(1)↦λa(1)` and `a(1)↦λa(1)*` with |λ|=1.
+- `T=U+V` is real-orthogonal for `Re⟨·,·⟩` exactly when the four relations
+  hold: for U=0, V=conjugation, `Re⟨Vf,Vg⟩=Re(f ḡ)=Re⟨f,g⟩`.
 
 Construct gauge-invariant quasi-free CAR states for every positive
 contraction S on h. Define them by vanishing of monomials with unequal
@@ -656,23 +756,63 @@ linearly and continuously on each Symⁿ(h). Prove that a(f) and a†(f) map
 D_fin into itself, that `⟨a†(f)φ,ψ⟩=⟨φ,a(f)ψ⟩` for φ,ψ∈D_fin, that
 `[a(f),a†(g)]=⟨f,g⟩` and `[a(f),a(g)]=0` on D_fin, and that
 `‖a(f)ψ‖≤√n‖f‖‖ψ‖` and `‖a†(f)ψ‖≤√(n+1)‖f‖‖ψ‖` for ψ∈Symⁿ(h). Define the
-Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on D_fin. Prove that every vector of
-D_fin is analytic for Φ₀(f), using `‖Φ₀(f)ᵏψ‖≤(√2‖f‖)ᵏ√((n+k)!/n!)‖ψ‖`
-for ψ∈Symⁿ(h); prove here Nelson's criterion that a symmetric operator with
-a dense invariant set of analytic vectors is essentially self-adjoint, in
-the `LinearPMap` graph-closure language of SelfAdjointSpectralTheory, and
-deduce that Φ₀(f) is essentially self-adjoint on D_fin; that the
-unitaries `W_F(f)=exp(i·closure(Φ₀(f)))` satisfy the Weyl relations above
-and define a regular representation π_F of the Weyl algebra of `(h_ℝ,σ)`;
-and that in π_F the Stone generator `Φ(f)` defined above equals
-`closure(Φ₀(f))`, so `π_F(W(tf))=exp(it·closure(Φ₀(f)))`. The factor 1/√2 is
-fixed by two computations on D_fin: `[Φ₀(f),Φ₀(g)]=i·Im⟨f,g⟩`, which is the
-commutator that the Weyl relation `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` forces on
-generators; and `⟨Ω,Φ₀(f)²Ω⟩=‖f‖²/2`, which gives the vacuum characteristic
-function `ω₀(W(f))=⟨Ω,π_F(W(f))Ω⟩=exp(−‖f‖²/4)` (Bratteli–Robinson 2,
-§5.2.1). The unnormalized field `a(f)+a†(f)` would give commutator
-`2i·Im⟨f,g⟩` and characteristic function `exp(−‖f‖²/2)`, and is excluded
-by both. For real symmetric covariance forms q require
+Segal field `Φ₀(f)=(a(f)+a†(f))/√2` on D_fin and prove
+`‖Φ₀(f)ᵏψ‖≤(√2‖f‖)ᵏ√((n+k)!/n!)‖ψ‖` for ψ∈Symⁿ(h), together with
+`[Φ₀(f),Φ₀(g)]=i·Im⟨f,g⟩` and `⟨Ω,Φ₀(f)²Ω⟩=‖f‖²/2` on D_fin. For g∈h define
+the exponential vector `e(g)=Σ_(n≥0) g^(⊗n)/√(n!)∈F_s(h)`; prove
+`⟨e(u),e(v)⟩=exp⟨u,v⟩`, that finite families of exponential vectors are
+linearly independent, that `u↦e(u)` is norm continuous, and that the span
+of the exponential vectors is dense in `F_s(h)`, by polarizing the symmetric
+powers and differentiating `t↦e(tu)` at t=0 (Attal, Fock spaces, Def. 8.4,
+Prop. 8.5 and Cor. 8.6, pp. 8–9; Attal's sector norm carries the factor n!,
+so his coherent vector is `Σ u^(⊗n)/n!`). Define the Fock Weyl operators on
+this span by
+`W_F(f)e(g)=exp(−‖f‖²/4+i⟨f,g⟩/√2)·e(g+if/√2)`,
+Attal's Weyl operator `W_u` with `u=if/√2`. Prove that W_F(f) preserves the
+inner products of exponential vectors, hence extends to an isometry of
+`F_s(h)`, that `W_F(0)=1`, `W_F(f)W_F(g)=exp(−i·Im⟨f,g⟩/2)W_F(f+g)` and
+`W_F(−f)=W_F(f)*`, so each W_F(f) is unitary (Attal, Def. 8.20, Prop. 8.21
+and (8.18), p. 18), and that `t↦W_F(tf)` is strongly continuous, from the
+continuity of `u↦e(u)` on the total set and uniform boundedness. Hence W_F
+is a regular representation π_F of the Weyl algebra of `(h_ℝ,σ)`, with
+vacuum characteristic function
+`ω₀(W(f))=⟨Ω,π_F(W(f))Ω⟩=exp(−‖f‖²/4)`, since `W_F(f)Ω=exp(−‖f‖²/4)e(if/√2)`
+and `⟨e(0),e(v)⟩=1` (Bratteli–Robinson 2, §5.2.1). The translation by
+`if/√2`, equivalently the factor 1/√2 in Φ₀, is fixed by three
+computations: `[Φ₀(f),Φ₀(g)]=i·Im⟨f,g⟩` on D_fin is the commutator that the
+Weyl relation `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` forces on generators;
+`⟨Ω,Φ₀(f)²Ω⟩=‖f‖²/2` equals minus the second derivative at t=0 of
+`exp(−t²‖f‖²/4)=⟨Ω,W_F(tf)Ω⟩`; and on an exponential vector,
+`(1/i)·d/dt W_F(tf)e(g)` at t=0 equals
+`(⟨f,g⟩e(g)+d/ds e(g+sf)|_(s=0))/√2`, whose n-th sector component is the
+D_fin formula for `(a(f)+a†(f))/√2` applied to the sector components of
+e(g) (Attal, Prop. 8.23, p. 19). The translation by `if`, that is the
+unnormalized field `a(f)+a†(f)`, would give the relation
+`W(f)W(g)=exp(−i·Im⟨f,g⟩)W(f+g)`, commutator `2i·Im⟨f,g⟩` and
+characteristic function `exp(−‖f‖²/2)`, and is excluded by all three. The
+essential self-adjointness of Φ₀(f) on D_fin, the identification of its
+closure with the Stone generator `Φ(f)` of `t↦π_F(W(tf))`, and the vacuum
+cyclicity and irreducibility of π_F are not targets here: QuantumFoundations
+QF4 proves them on these carriers, and nothing in D8 uses them.
+
+**Checks.**
+- For h=0, `F_s(0)=D_fin=ℂ`, Φ₀=0, the only exponential vector is e(0)=Ω,
+  `W_F(0)=1` and the Weyl algebra is ℂ.
+- For h=ℂ and f=1, `⟨Ω,W_F(1)Ω⟩=exp(−1/4)` and `W_F(1)Ω=exp(−1/4)e(i/√2)`;
+  the translation by `if` would give `exp(−1/2)`.
+- For h=ℂ, f=1 and g=i, `Im⟨1,i⟩=1`, so `W_F(1)W_F(i)=exp(−i/2)W_F(1+i)` and
+  `W_F(i)W_F(1)=exp(i/2)W_F(1+i)`: the two products differ by the phase
+  `exp(−i)`, as the commutator `[Φ₀(1),Φ₀(i)]=i` requires; a representation
+  with the opposite sign convention would give `exp(i)`.
+- On D_fin, `⟨Ω,Φ₀(f)²Ω⟩=⟨Ω,a(f)a†(f)Ω⟩/2=‖f‖²/2`, while
+  `⟨Ω,(a(f)+a†(f))²Ω⟩=‖f‖²`; only the former matches the second derivative
+  of `exp(−t²‖f‖²/4)`.
+- The inner-product identity `⟨e(u),e(v)⟩=Σ_n ⟨u,v⟩ⁿ/n!=exp⟨u,v⟩` uses
+  `‖u^(⊗n)‖=‖u‖ⁿ` in the tensor norm; with Attal's n!-weighted sector norm
+  the same identity holds for `Σ u^(⊗n)/n!`, so the two normalizations give
+  the same operators W_F(f).
+
+For real symmetric covariance forms q require
 `q(f,f)≥0` and `|σ(f,g)|²≤q(f,f)q(g,g)` for all f,g, and construct the
 quasi-free state with characteristic function `exp(−q(f,f)/4)`.
 Prove positivity, uniqueness from the characteristic function, regularity
@@ -810,8 +950,8 @@ the on-site model.
 - [Dana Williams, *Crossed Products of C*-Algebras*, draft 3.1](https://math.dartmouth.edu/~dana/cpcsa/draft3.1.pdf):
   Lemma 1.61 and §1.4 for Haar and Fourier conventions; Chapter 2 for
   covariant representations and the universal completion; Proposition 3.19
-  for full ideal exactness; Theorem 4.1, Corollary 4.17 and Theorems 4.22–4.24
-  for symmetric and Green imprimitivity; Theorem 5.9 for induction in
+  for full ideal exactness; Theorem 4.1, Corollary 4.17, Theorem 4.22,
+  Corollary 4.23 and Theorem 4.24 for symmetric and Green imprimitivity; Theorem 5.9 for induction in
   stages; Theorem 7.1, Lemma 7.8, Theorem
   7.13 and Corollary 7.18 for Takai, reduced norms, amenability and nuclearity.
 - Jean Renault, *A Groupoid Approach to C*-Algebras*, LNM 793 (1980):
@@ -828,9 +968,9 @@ the on-site model.
   Definition 2, Lemmas 3–5 and Theorems 13 and 17 for linking groupoids,
   reduced corner norms and the quotient of the full equivalence module.
 - [Takeishi, *On nuclearity of C*-algebras of Fell bundles over étale
-  groupoids*](https://arxiv.org/abs/1301.6883), Theorem5.4, for the nuclearity
+  groupoids*](https://arxiv.org/abs/1301.6883), Theorem 5.4, for the nuclearity
   converse and its compact-bisection/positive-definite approximation proof.
-  D6 uses the trivial line bundle. Renault ChapterIII Proposition2.7 gives
+  D6 uses the trivial line bundle. Renault Chapter III Proposition 2.7 gives
   the independent representation-theoretic Cuntz universal identification;
   D6's gauge-core route also constructs its injectivity proof.
 - [Aidan Sims, *Hausdorff étale groupoids and their C*-algebras*](https://www.aidansims.com/files/GroupoidsNotes-2017.pdf):
@@ -840,12 +980,19 @@ the on-site model.
 - Bratteli–Robinson, *Operator Algebras and Quantum Statistical Mechanics 2*,
   second edition: §§5.2–5.3 for CAR/CCR, analytic elements, KMS and ground
   states; Theorems 5.3.10 and 5.3.30 for modular characterization and the
-  simplex; Volume1 Lemma4.1.19, Definition4.1.20, Proposition4.1.22 and
-  Theorem4.1.25 for orthogonal measures and their commutant correspondence;
+  simplex; Volume 1 Lemma 4.1.19, Definition 4.1.20, Proposition 4.1.22 and
+  Theorem 4.1.25 for orthogonal measures and their commutant correspondence;
   Theorem 5.4.4 for bounded perturbations; Theorem 6.2.4,
   Definition 6.2.16 and Theorem 6.2.18 for spin dynamics and Gibbs/KMS;
   Theorems 6.2.40 and 6.2.42 for pressure and the variational principle;
   Proposition 6.2.45 for high-temperature uniqueness.
+- [Stéphane Attal, *Fock spaces* (Lectures in quantum noise theory, Lecture 8)](http://math.univ-lyon1.fr/~attal/Fock_Spaces.pdf):
+  Definition 8.4, Proposition 8.5 and Corollary 8.6 for exponential
+  (coherent) vectors, their inner products, linear independence and
+  totality; Definitions 8.19–8.20, Proposition 8.21, relation (8.18) and
+  Proposition 8.23 for the Weyl operators on exponential vectors, their
+  unitarity, the Weyl relation and the generator computation. His symmetric
+  tensor powers carry the n!-weighted norm; D8 converts to the tensor norm.
 
 Use Mathlib's star-algebra equivalences, nonunital star homomorphisms,
 positive continuous linear functionals, `ContinuousMap`, compactly supported
@@ -858,5 +1005,8 @@ The algebraic crossed products of Tau Ceti's `Algebra/CrossedProduct`
 (its Galois/Brauer development) do not supply the analytic norms or
 completions here. Preserve the C*-module conventions discussed in the
 [module-convention Zulip discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/redefining%20%60Inner%60%20in%20%60InnerProductSpace%20%F0%9D%95%9C%20%F0%9D%95%9C%60/with/487074289)
-and adopted in H1–H3. [Suggested.lean](Suggested.lean) prototypes the action,
-covariance, vector-integral and KMS interfaces; this README is definitive.
+and adopted in H1–H3. [Suggested.lean](Suggested.lean) states, against the
+pinned libraries, D1's joint continuity `continuous_action`, covariance
+`IsCovariant` and integrated form `exists_integratedOperator`, and D7's KMS
+predicate `IsKMS` with its invariance `kms_invariant` and analytic identity
+`kms_entire_identity`; this README is definitive.
