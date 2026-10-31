@@ -6478,6 +6478,92 @@ quotients. The admitted rank-one theorem is one representative target; the six-r
 algorithm, cyclicity proof, geometric adapter and all three independent existence routes
 above remain required specifications.
 
+<a id="polynomial-unknot-detection"></a>
+### 4.6.4 Polynomial unknot-detection propositions
+
+Use the nonempty tame oriented link types in oriented S³ constructed in 4.2, with
+orientation-preserving ambient isotopy and the one-component oriented unknot U.
+Formulate the following propositions, without asserting their truth:
+
+```text
+J: for every L, V_L=1 implies L≅U;
+H: for every L, ρ_L(l,m)=1 implies L≅U;
+D: for every L, ρ_L(s,s)=1 implies L≅U.
+```
+
+Here ρ_L(l,m)=P_L(l,l⁻¹,m) is 4.4.5's source HOMFLY convention, with `lρ₊+l⁻¹ρ₋+mρ₀=0`.
+J and D formulate the two assertions on physical p200; H supplies the full-polynomial
+comparison. Equality to 1 means equality of formal polynomials. These are propositions
+to state, not admitted theorems or assumptions of any invariant construction. Prove
+their equivalent contrapositive formulations using L≇U. The empty link is outside this
+domain; the source's symbol0 does not supply a normalization for it or identify all
+multi-component unlinks with U. The general Jones question is recorded in [Manolescu,
+§2](https://epubs.siam.org/doi/full/10.1137/25M1806703).
+
+**The actual diagonal map.** Represent ρ in the existing iterated native
+`LaurentPolynomial (LaurentPolynomial ℤ)`, with outer variable l and inner variable m.
+Construct the coefficient homomorphism to `LaurentPolynomial ℤ` sending both l and m to
+the formal unit s, both inverses to s⁻¹, and integers to themselves, using
+`LaurentPolynomial.eval₂`. Prove its generator, coefficient and composition laws, and
+its compatibility with the existing invariant and coefficient changes. This defines
+d_L(s)=ρ_L(s,s); it is not the standard minus-skein substitution a=z. Give the actual
+monomial rule l^r m^s↦s^(r+s), and extract each coefficient by the finite sum over
+support pairs with r+s=k. Prove surjectivity, with right inverse f↦C(f), and the
+noninjectivity certificate l−m≠0 with diagonal image0. The polynomial1+l−m has diagonal1
+and is not1, without claiming it is realized by a knot.
+
+Prove J is equivalent to its knot-only version: 4.5's evaluation `V_L(1)=(−2)^(μ−1)`
+excludes μ≥2 when V_L=1. Similarly use 4.6's full component-detection theorem to reduce
+H to knots. Prove the conditional implications J⇒H and D⇒H. For J⇒H first reduce a
+full-HOMFLY-one link to one component, then apply 4.4.5's actual Jones coefficient map,
+whose source component phase is then1. For D⇒H use the diagonal homomorphism. No
+implication between J and D is supplied merely by these specializations. The
+full-polynomial component theorem does not imply d_L≠1 for μ≥2; retain that branch in D.
+
+Construct the native Jones statement on every `OrientedPDCode n` with
+`D.toPDCode.IsPlanar` and `D.componentCount=1`, concluding Reidemeister equivalence to
+an oriented unknot code from `D.jonesPolynomial=1`. Prove its equivalence to geometric J
+by 4.2's realization and geometric Reidemeister theorems, and prove the reverse
+direction from existing native invariance. Use the full half-variable ring for links;
+the knot parity theorem supplies the ordinary-variable comparison. The unrestricted
+proposition is not a consequence of a finite list of computed knots.
+
+Under global mirror the source formula gives `d_(mirror L)(s)=ρ_L(s⁻¹,s)`. Prove this
+identity and retain the two different variable substitutions: it need not equal
+d_L(s⁻¹). Thus D's hypothesis does not automatically descend to 8.7's mirror-identified
+census. A bounded test there must retain the actual oriented representatives and both
+mirror values, or prove its required invariance separately. J has the usual mirror and
+knot-orientation-reversal transport from 4.5.
+
+**Proved classes and checks.** Prove Jones detection for every alternating knot: reduce
+an alternating diagram by the supported nugatory-removal procedure of 4.8.1, then use
+spanV=c to force crossing number0. Prove it for every torus knot using [the closed
+formula](#torus-jones-formula), including its unknot and mirror branches. These are
+restricted theorems, independent of J. Reuse the earlier actual-code computations to
+prove
+
+| Source polynomial/model | Diagonal d(s) |
+| --- | --- |
+| U | 1 |
+| Two-component unlink | −1−s⁻² |
+| Trefoil with ρ=−2l²−l⁴+l²m² | −2s² |
+| Its mirror | 1−2s⁻²−s⁻⁴ |
+| Figure-eight | −1−s⁻² |
+
+The last row equals the unlink's diagonal, while their component counts differ; none of
+these nontrivial examples has diagonal1. Supply their existing source/native crossing
+and variable adapters before transporting the values to named links. This collision does
+not refute D. Keep the Alexander-one examples of 4.4/6.3 separate from Jones-one
+examples.
+
+*Needs:* 4.2's realized oriented links and geometric Reidemeister theorem; 4.4.5's
+source/native coefficient maps; 4.5's Jones invariant, component evaluation and parity;
+4.6/4.6.3's independently constructed HOMFLY invariant; 4.8.1's alternating reduction
+and span theorem; 4.11's torus model and closed Jones calculation. No detection
+proposition is a prerequisite of any of these producers. [Native suggested
+forms](PolynomialDetectionTargets.lean) use the actual Jones polynomial, move
+equivalence and Laurent coefficient map.
+
 ### 4.7 Colourings, the determinant and the Arf invariant
 
 Define, for a diagram and a quandle `Q` (Mathlib's `Quandle`), the set of `Q`-colourings of
@@ -9360,6 +9446,43 @@ using the preferred longitude for the Seifert framing. Define geometric
 wrapping as the minimum meridional-disc intersection number, distinct from
 algebraic winding. For every tame pattern P and nontrivial tame companion J, prove
 Schubert's lower bound `br(P(J))≥w_geom(P)·br(J)` (Schubert 1954).
+
+<a id="torus-jones-formula"></a>
+**The closed Jones formula.** For every p,q≥1 with gcd(p,q)=1, compare the
+marked torus model with the actual native closure of
+`(σ₁⋯σ_(p−1))^q`, with positive generators and its coherent orientation.
+Put g=(p−1)(q−1)/2; prove integrality from coprimality and the parity of
+the two factors. Compute its Jones polynomial by the existing geometric
+trace comparison, with explicit strand/writhe normalization, and prove
+the identity in the integer polynomial/Laurent ring
+
+```text
+(1−t²)V_T(p,q)(t)=t^g(1−t^(p+1)−t^(q+1)+t^(p+q)).
+```
+
+Construct the quotient in ℤ[t], prove its uniqueness and its comparison with the native
+half-variable invariant by t=u². The native identity has factor1−u⁴ and shift
+u^((p−1)(q−1)); no half-integral exponent is hidden. Prove polynomial divisibility and
+cancel1−t² only as a nonzero polynomial in the integral domain. At numerical t=±1
+evaluate the already constructed polynomial, without dividing by0. For p=1 or q=1 the
+quotient is1. For p,q>1 its least exponent is g>0 with coefficient1, so V≠1. Transport
+negative parameters through the actual mirror and orientation comparisons above.
+Noncoprime torus links require their separate link formulas.
+
+For the trace computation use the independent generic Temperley–Lieb/ Hecke block and
+character suppliers already cited in 4.5/4.6.3. Compute the Coxeter-power character and
+trace weights for coprime q, retain every normalization factor, and descend the
+rational-function identity to the integral polynomial above. Generic block denominators
+are not evaluated at their zeros. This supplies the geometric Jones calculation; finite
+algebraic identities or the torus label alone do not replace it. Use [Jones,
+§7.5](https://math.berkeley.edu/~vfr/jonesakl.pdf#page=44) for the calculation and its
+convention comparison. The clipped source p200 formula is preserved separately in [the
+source note](source-inputs.md#polynomial-detection-source).
+
+Check T(2,3): V=t+t³−t⁴; T(2,5): V=t²+t⁴−t⁵+t⁶−t⁷; and T(3,4): V=t³+t⁵−t⁸, by the same
+normalization and exact identities.
+[PolynomialDetectionTargets.lean](PolynomialDetectionTargets.lean) records the formula
+for actual native braid closures and its nontriviality consequence.
 
 For ε=±1 and m∈ℤ, construct the marked Whitehead pattern W_(ε,m), with
 signed clasp, marked cut/ports and m full meridional twists relative to

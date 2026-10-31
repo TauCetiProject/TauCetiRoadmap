@@ -1442,3 +1442,26 @@ Existing raw-diagram enumeration and the direct at-most-three-crossing
 classification already specify p113 Exercise2.1's two-crossing drawings;
 its generic finiteness/descending and Bleiler requests retain their owners.
 No new image reading or invented source-code identification was used.
+
+<a id="polynomial-detection-source"></a>
+## Page200: two detection assertions and a clipped torus formula
+
+The main source has identity
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`.
+A verified-Luna reread of physical p200 confirms Conjecture8.11 literally
+reads L≠0⇒V_L≠1, and Conjecture8.13 reads L≠0⇒P_L(m,m)≠1, with both
+arguments m. The page does not locally define0. Its preceding sentence
+mentions links and Jones polynomial1. Proposition8.12 says that more than
+one component implies P_L≠1. Preserve these literal statements separately
+from the precise nonempty-oriented-link propositions and coefficient maps
+in [the detection target](README.md#polynomial-unknot-detection). In particular,
+the diagonal expression is not a typo to be silently replaced by P_L(l,m),
+and full-polynomial component detection does not settle the diagonal branch.
+
+Question8.14 begins a Jones torus-knot formula, but its lower part is
+clipped by the physical edge. Do not fill in unreadable source symbols.
+The independently specified positive-coprime formula uses Jones's own
+§7.5 calculation, with actual geometric/trace and variable comparisons;
+it is not a recovered transcription. The three general detection
+propositions are not admitted as theorems. Native and finite examples
+remain distinct from a universal unknot-detection result.
