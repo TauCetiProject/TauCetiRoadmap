@@ -65,8 +65,10 @@ construction is a supplier to this roadmap; StringOrientation supplies the
 sections named above and consumes nothing from here.
 
 Finite quadratic Arf classification and the Seifert knot/proper-link dictionary
-are GeometricTopology Layer 4.3.1; this roadmap owns their Spin-surface
-refinement and bordism applications.
+are GeometricTopology Layer 4.3.1; the finite algebra this roadmap needs is
+declared as the supplier gap gap:finite-quadratic-arf in the exact supplier
+contracts, the only gap this roadmap declares. This roadmap owns their
+Spin-surface refinement and bordism applications.
 SpinGeometry G4 supplies geometric Spin lifts. Generic bundle classifiers and
 Thom spectra remain CharacteristicClasses C1–C2 and GeneralizedCohomology G5.
 
@@ -121,10 +123,7 @@ B_k and its pulled-back bundle are continuous, as B5 requires.
 
 ### From Tau Ceti
 
-Use `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J` and
-`LinearMap.BilinForm.IsAlt.even_finrank` from
-`TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean` for the finite quadratic
-basis. Use `TauCeti.IsOrientedAtlas` and
+Use `TauCeti.IsOrientedAtlas` and
 `TauCeti.IsOrientedAtlas.det_fderivWithin_pos` from
 `TauCeti/Geometry/Manifold/Orientation.lean` for the chosen orientation in
 `orientedThreeManifold_parallelization`: the atlas covers the manifold,
@@ -138,23 +137,39 @@ retain their native hypotheses and chosen smooth structures.
 | --- | --- | --- |
 | [AlgebraicTopology](../AlgebraicTopology/README.md), Stages2–4,6,8 | arbitrary CW skeleta/cofibrations, ordinary chains/cochains/products, relative fundamental classes and duality, EM carriers and representability | B4 owns the integral higher diagonals and generic ordinary mod2 cup-i/Sq/Adem/Wu package; ordinary cohomology carriers remain AT |
 | [DifferentialGeometry](../DifferentialGeometry/README.md), 2.1, 2.2, 5.5, 10.2 | 2.1's manifold orientation `Manifold.Orientation` (the quotient of `OrientationLift`, a model orientation with locally constant chart signs obeying the transition-Jacobian rule); 2.2's orientation-preserving maps, product orientations and the oriented-atlas criterion for boundaryless manifolds; 5.5's face-indexed abstract boundary of a manifold with corners; 10.2's manifold Sard theorem `dense_isRegularValue` | B1.1 owns the comparisons of this one orientation with cycle and witness records, frames, local homology, half-space and corner atlases in dimension at least2, and the point sign σ; B1.6 derives transversality from 10.2 |
-| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11 and item1 of the smoothing-and-triangulation comparison | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
+| [GeometricTopology](../GeometricTopology/README.md), Layer1, Layer4.3.1, Layer11 and item1 of the smoothing-and-triangulation comparison | finite nonsingular-F₂ quadratic Arf algebra (Layer4.3.1, declared below as gap:finite-quadratic-arf); collar neighbourhoods, gluing along a codimension-zero piece of the boundary, handle attachment and tubular neighbourhoods with their normal bundles (Layer1); the CW structure on the realization `|K|` of a simplicial complex, one cell per simplex (Layer11); Whitehead's smooth triangulation of a smooth manifold (item1) | B1.6 owns neat embeddings, relative/parametric transversality with relative Whitney approximation, corner rounding, compact neighbourhoods, doubles; B1.5 owns the relative boundary triangulation |
 | [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), B1.4 | free proper smooth quotients, their principal projections and submersion uniqueness, homogeneous spaces and native discrete quotient comparison | B1.5 only adapts their tangent and structure data to cycles |
 | StringOrientation S1.3, S1.5, S2.2, S2.3, S5.3 | S1.3's existence criterion and H³-torsor of String lifts; S1.5's Cayley plane OP² (trace-one idempotents of the exceptional Jordan algebra), F₄ with its transitive action and Spin(9) isotropy, the cells, H*(OP²;ℤ)=ℤ[u]/(u³), p₂=6u, p₄=39u², the Euler class 3u², signature 1, the unique Spin structure and String lift class, and p(HP²)=1+2u+7u²; S2.2's isomorphism Ω^θ_n≅π_nMθ for every G5 bundle diagram θ, natural and multiplicative; S2.3's Ω^fr_n≅π_nS and π₃S≅ℤ/24 with generator ν; S5.3's equivalence MSpin[1/2]≃MSO[1/2] | B5 owns the finite-rank bijections, the theories over spaces and pairs and the comparison of their point specializations with S2.2–S2.3; B4.8 owns the odd-primary Adams and comodule-algebra refinement; Layer 9 owns the carrier identification, charts, Clifford module, sign witness and the HP^k Pontryagin formula |
 | [DGFloer](../DGFloer/README.md), Layer1 items2–3 | the ordinary homology and multiplicative cohomology Serre spectral sequence of a Serre fibration over a CW base, with local coefficients | B4.2 owns transgression, Kudo's theorem and Borel's transgression theorem, and B4.7 their odd-prime forms |
 | [GeneralizedCohomology](../GeneralizedCohomology/README.md), G1–G5 | actual spectral homology on pairs, G1.1 morphisms of theories, G3.3's arbitrary-CW comparison theorem, G3.8 connective covers, finite duality and G5.2's unframed Thom collapse with its stabilized embedding comparison, compatible universal bundle diagrams with cofinal reindexing, MO/MSO/MSpin/MU^(2) and quaternionic smooth carriers, G5.5's ABS orientation | geometric cycles, ξ-lifts and PT, coefficient rings and transfer/kernel calculations are here |
 | [TopologicalKTheory](../TopologicalKTheory/README.md), T1/T3–5/T7; [CharacteristicClasses](../CharacteristicClasses/README.md), C1–C4/C6, C1.3, C1.4, C7.3, C7.3a | fixed-rank classifiers, chosen ordinary Thom quotient, w/c/p/Euler classes, character/Thom corrections and algebraic ABS conventions; C1.3's finite faithful unitary representations of compact Lie groups and their smooth Stiefel approximations of BG; C1.4's smooth representatives of continuous principal bundles with compact structure group over smooth bases, with their relative homotopy versions; `TSⁿ⊕ε¹≅ε^(n+1)`, `w(T RP^m)=(1+a)^(m+1)` and the immersion normal bundle | B3.0 owns the Spin ABS genus comparison; B4 compares Sq with these same w classes; B6 supplies bordism calculations |
-| [SpinGeometry](../SpinGeometry/README.md), G4, G5.0, G6.0, G6.7 | Spin lifts and H1 torsors, circle/surface refinements; G5.0's `realCliffordSpinorBundle` P×_Spin(n)Cl(0,n) with its negative tangent and positive external Clifford actions and signed grading; G6.0's `realSpinDiracClosedRealization` on the H1 domain, `realSpinLichnerowiczFormula` and `realSpinDiracIndexClass` in KO_n through GeneralizedCohomology G5.5's `realMixedCliffordIndexClassification`; G6.7's equation `realSpinDiracIndexClass = α·a` in KO₄ for the quaternionic index α | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
+| [SpinGeometry](../SpinGeometry/README.md), G4, G5.0, G6.0, G6 item 5, G6.7 | Spin lifts (G4.3 existence, G4.4 the H¹ torsor) on every oriented base, in particular on closed surfaces; G6 item 5's two circle lifts (the trivial Spin(1)=ℤ/2 cover and the connected double cover of the oriented frame bundle) and all torus lifts through H¹; G5.0's `realCliffordSpinorBundle` P×_Spin(n)Cl(0,n) with its negative tangent and positive external Clifford actions and signed grading; G6.0's `realSpinDiracClosedRealization` on the H1 domain, `realSpinLichnerowiczFormula` and `realSpinDiracIndexClass` in KO_n through GeneralizedCohomology G5.5's `realMixedCliffordIndexClassification`; G6.7's equation `realSpinDiracIndexClass = α·a` in KO₄ for the quaternionic index α | B3.0 compares that analytic class with the geometric ABS/PT genus; B3 proves Spin bordism classifications |
 | [RiemannianGeometry](../RiemannianGeometry/README.md), R1 | the quotient metric on HP^d from the round S^(4d+3), its Riemannian submersion from Sp(d+1)/(Sp(d)×Sp(1)) and its sectional-curvature bounds 1 and 4 | B6.6 proves PSp3-invariance and positive scalar curvature on HP2 |
 | [ClassifyingSpaces](../ClassifyingSpaces/README.md), Stage4 | `H_*(BG;ℤ)` identified with Mathlib's `groupHomology` of the trivial module | B6.3 applies it to finite cyclic groups |
-| [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2(a) imports GeometricTopology Layer 4.3.1's finite-F₂ Arf invariant for the Spin-surface refinements |
+| [IntegralLattices](../IntegralLattices/README.md) | integral lattice and real intersection-form algebra | B3.2(a) imports the finite-F₂ Arf invariant of gap:finite-quadratic-arf for the Spin-surface refinements |
 | [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md), Layer 8 compact real algebra suppliers; [LieGroups](../RepresentationTheory/LieGroups/README.md), Layers2,4; [SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md), Layer7 | `TauCeti.DivisionOctonionReal` with positive conjugation, norm and two-generator associativity; `compactAlbertAlgebra` with positive trace form, Peirce decomposition and primitive = trace-one idempotents; `compactAlbertDerivation_complexification` and `compactAlbertDerivation_killing_negDef`; generic closed subgroup smooth charts; the real Clifford classification and `Spin(3)≃S³` | B3 owns their idempotent/F4–Spin9 geometry, distinct from native split Zorn/Albert forms; SmoothBundlesConnections B1.4 owns free proper smooth quotients as principal bundles |
 | IndexTheory, I1/I2/I3/I5, I7.2, I7.5; PseudodifferentialOperators; G5 graded operator comparison | compact elliptic/Dirac symbol-index and local regularity, Hilbert/Clifford configuration index; I7.2's `sign(M)=⟨L(TM),[M]⟩`; I7.5's `spinFour_signature_eq_neg_sixteen_mul_quaternionicIndex` and `rokhlin_signature_dvd_sixteen` | B3.0 owns the closed Spin ABS/real-Dirac comparison; B6 constructs the homogeneous HP2 associated-family comparison and global transfer nullhomotopy |
 | AffineMorseLefschetz A0, A5, A6; ComplexKahlerGeometry K7.1 | polynomial projective zero-locus carrier, smooth projective atlas, weak Lefschetz and Veronese comparison | B1.7 specializes them to the Fermat quartic and constructs its characteristic numbers |
 
+What GeometricTopology must provide (gap:finite-quadratic-arf): for a
+finite-dimensional F₂ vector space V with a quadratic form q whose polar
+bilinear form is nondegenerate, so that dim V = 2m with m ≥ 0, the Arf
+invariant Arf(q) ∈ F₂ given on a symplectic basis (a_i, b_i) by Σ q(a_i)q(b_i),
+with its independence of the symplectic basis, invariance under isometry and
+additivity under orthogonal sums; the decomposition of (V, q) into hyperbolic
+planes (q(x,y)=xy, Arf 0) and anisotropic planes (q(x,y)=x²+xy+y², Arf 1), with
+dimension and Arf classifying (V, q) up to isometry; the integer Gauss sum
+`Σ_v (−1)^(q v) = (−1)^Arf(q) · 2^m`; the q-zero count
+`2^(2m−1) + (−1)^Arf(q) · 2^(m−1)` for m ≥ 1, with count 1 for m = 0; and the
+equivalence of Arf(q) = 0 with the existence of an m-dimensional subspace on
+which q vanishes. Every use below names this slug; GeometricTopology Layer
+4.3.1 is where the algebra is specified, and nothing here derives it from the
+geometric theorems that consume it.
+
 ## How to read the build
 
-Layer 1 records the finite quadratic algebra consumed from GeometricTopology.
+Layer 1 records the finite quadratic algebra consumed from GeometricTopology
+under gap:finite-quadratic-arf.
 Layers 2–3 construct geometry,
 witnesses and the homology theory; Layer 4 constructs ordinary operations and
 Adams towers independently of bordism coefficients. Layer 5 proves the finite
@@ -174,13 +189,15 @@ it does not mean the nth subsection of the enclosing layer.
 ### 1.1 Arf interface for Spin surfaces (B3.2(a))
 
 Consume GeometricTopology Layer 4.3.1's finite nonsingular-F₂ quadratic
-Arf algebra on native quadratic forms. Its symplectic-basis formula, basis
+Arf algebra on native quadratic forms, declared as gap:finite-quadratic-arf
+in the exact supplier contracts. Its symplectic-basis formula, basis
 independence, isometry invariance, orthogonal-sum additivity, hyperbolic and
 anisotropic plane classification, integer Gauss sum, q-zero counts and
 q-zero Lagrangian criterion supply B3.2(b)–(c). The finite algebra precedes
 Seifert surfaces and geometric bordism; this roadmap constructs the
 Spin-surface quadratic refinement and the geometric surgery/filling
-comparison, using SpinGeometry's circle and surface lifts.
+comparison, using SpinGeometry's circle lifts (G6 item 5) and surface lifts
+(G4.3–G4.4).
 
 **Checks.**
 
@@ -191,7 +208,7 @@ comparison, using SpinGeometry's circle and surface lifts.
 - Two copies of the anisotropic plane have a q-zero diagonal subspace of
   dimension 2, as required by the surgery criterion in B3.2(c).
 
-*Needs:* GeometricTopology Layer 4.3.1 finite quadratic Arf algebra.
+*Needs:* GeometricTopology gap:finite-quadratic-arf (the Layer 4.3.1 finite quadratic Arf algebra).
 
 ### Examples
 
@@ -200,8 +217,8 @@ B3.2(b)–(c) construct its geometric Spin-surface realizations and fillings.
 
 ### Dependencies
 
-GeometricTopology Layer 4.3.1 finite quadratic algebra; SpinGeometry G4
-supplies the Spin lifts for the geometric applications.
+GeometricTopology gap:finite-quadratic-arf (Layer 4.3.1); SpinGeometry
+G4.3–G4.4 and G6 item 5 supply the Spin lifts for the geometric applications.
 
 ## Layer 2: cycles, structures and collared geometry
 
@@ -436,7 +453,7 @@ structures have the stated signs. Prove reflexivity, symmetry and
 transitivity by these witnesses, including their relative versions.
 
 The ordinary oriented witnesses and collar gluing are Milnor–Stasheff,
-§§17.1–17.2, Lemmas 17.1–17.2, pp.206–207; parameter maps occur in
+Chapter 17, Theorem 17.1 and Lemma 17.2, pp.206–207; parameter maps occur in
 Miller, Chapter 1, §1, Definitions 1.1–1.2, pp.1–2, and stable structure
 lifts in Chapter 2, §1, Definitions 1.1 and 1.3, pp.39–41. The simultaneous
 relative-face, structure-gluing and rounding comparisons here extend those
@@ -591,7 +608,7 @@ Its API includes:
 - In SO, (+pt)+(−pt)=0; (+pt)+(+pt) has signed count 2 and is nonzero.
 - In O, two points bound an interval and 1+1=0 in F₂.
 
-The classical coefficient relation is the cobordism relation of Milnor–Stasheff, Chapter 17, §17.2; the parameter and pair versions are constructed here from B1.
+The classical coefficient relation is the cobordism relation of Milnor–Stasheff, Chapter 17, Lemma 17.2; the parameter and pair versions are constructed here from B1.
 
 *Needs:* B1.1–B1.4 witnesses and small representatives.
 
@@ -613,7 +630,7 @@ connected-sum operation.
 
 For external products over spaces use Miller, Chapter 1, §1, p.2;
 for the oriented coefficient product and its interchange sign use
-Milnor–Stasheff, §17.2, pp.207–208. The relative structured products and
+Milnor–Stasheff, Chapter 17, pp.207–208. The relative structured products and
 connected-sum comparison here are additional geometric constructions:
 the latter attaches a single one-handle between the chosen balls on the
 outgoing boundary of the disjoint cylinders, using the selected path in X.
@@ -1823,7 +1840,9 @@ Layers 4–6 and B1.7; GeneralizedCohomology G3.8–G3.9 and G5.5; SpinGeometry 
 ### 8.1 Spin-surface quadratic refinement (B3.2(b))
 
 Consume SpinGeometry's actual two circle
-lifts and all Spin structures on a closed surface Σ. Construct the
+lifts (G6 item 5: the trivial Spin(1)=ℤ/2 cover and the connected double
+cover of the oriented frame bundle) and all Spin structures on a closed
+surface Σ (G4.3 for existence, G4.4 for the H¹(Σ;F₂)-torsor). Construct the
 induced quadratic form q on H1(Σ;F2) by restricting the Spin structure
 to embedded curves with their framing from Σ, with q=0 on a curve
 bounding an embedded disc and q=1 on the Lie-framed circle of the
@@ -1843,11 +1862,11 @@ Its API includes:
 - The Lie-spin torus has q(a)=q(b)=q(a+b)=1 and Arf 1.
 - S² has H₁=0 and Arf 0; disconnected surfaces use the orthogonal direct sum.
 
-*Needs:* B3.2(a); SpinGeometry G4 circle and surface lifts; AlgebraicTopology Stage 6 H₁ and mod2 duality. No bordism coefficient calculation is used.
+*Needs:* B3.2(a) (gap:finite-quadratic-arf); SpinGeometry G4.3–G4.4 existence and torsor of lifts on Σ, and G6 item 5 circle and torus lifts; AlgebraicTopology Stage 6 H₁ and mod2 duality. No bordism coefficient calculation is used.
 
 ### 8.2 Spin-surface filling classification (B3.2(c))
 
-Use B3.2(a), B3.2(b) and surgery on q-zero curves to
+Use B3.2(a) (gap:finite-quadratic-arf), B3.2(b) and surgery on q-zero curves to
 prove ΩSpin_2≃F2 by Arf(q): realize a q-zero Lagrangian by disjoint
 embedded curves, attach the corresponding two-handles to Σ×I and cap
 the resulting spheres; conversely, the kernel of H1(∂W;F2)→H1(W;F2) for a
@@ -1870,7 +1889,7 @@ classification alone is not cited as a proof of this filling theorem.
 - A torus refinement with q(a)=q(b)=0 has a q-zero line and the corresponding handlebody filling.
 - The product Lie-spin torus has Arf 1, so it cannot be the entire Spin boundary; two copies have Arf 0 and admit the surgery construction.
 
-*Needs:* B3.2(a)–(b); B1–B2; GeometricTopology Layer 1 handles; AlgebraicTopology Stage 6 relative duality.
+*Needs:* B3.2(a) (gap:finite-quadratic-arf) and B3.2(b); B1–B2; GeometricTopology Layer 1 handles; AlgebraicTopology Stage 6 relative duality.
 
 ### 8.3 Spin three-manifolds (B3.3)
 
@@ -2626,8 +2645,8 @@ Layers 2–8; CharacteristicClasses C1.3–C1.4; ClassifyingSpaces Stage 4; Gene
 
 ## Downstream consumers
 
-BordismFormalGroups and HomotopySpheres consume the ordinary operation, Adams,
-finite quadratic and framed PT interfaces. FourManifolds consumes B1.7's concrete
+BordismFormalGroups and HomotopySpheres consume the ordinary operation, Adams
+and framed PT interfaces and the Spin-surface quadratic refinement. FourManifolds consumes B1.7's concrete
 examples, B3.2's quadratic/filling results and B4's ordinary Wu package.
 StringOrientation and EllipticCohomology precede this roadmap and consume
 nothing from it. PositiveScalarCurvature consumes the associated-family transfer,
@@ -2694,11 +2713,6 @@ targets above.
   [publisher record](https://doi.org/10.2307/2946598), for the2-local
   HP2 transfer theorem and A(1) calculations.
 
-- A. Pyronneau, *The Arf and Rohklin’s invariant*, January 2024,
-  [institutional notes](https://web.ma.utexas.edu/SMC/2024/Rokhlin_s_Invariant.pdf),
-  §2.1, Lemmas 2.11–2.13, Corollary 2.14 and Theorem 2.15, pp.4–5.
-  The Gauss-sum and Lagrangian formulations here are consequences of the
-  paired-plane classification, with the zero-dimensional case included.
 - B. Guillou and C. Weibel, *Unstable operations in étale and motivic cohomology*,
   [arXiv:1301.0872v1](https://arxiv.org/abs/1301.0872v1), 2013,
   Definition 6.1, Theorem 6.2 and Theorem 6.5, pp.18–19. The algebra theorem

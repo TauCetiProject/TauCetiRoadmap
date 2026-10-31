@@ -6,7 +6,8 @@ import TauCeti.Geometry.Manifold.Orientation
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned
 Mathlib and Tau Ceti, smooth oriented three-manifold parallelization (Layer 8, B3.1).
-The finite quadratic algebra consumed by Layer 1 is specified in GeometricTopology.
+The finite quadratic Arf algebra consumed by Layer 1 is a declared supplier gap of
+GeometricTopology (gap:finite-quadratic-arf) and is not stated here.
 Parallelization uses native tangent bundles and a chosen native oriented atlas.
 
 The other headline theorems are not statable at the pins:
@@ -27,9 +28,6 @@ The other headline theorems are not statable at the pins:
 -/
 
 namespace TauCetiRoadmap.TangentialBordism
-
-/- The finite-F₂ Arf algebra is a prerequisite from GeometricTopology;
-its constructors and theorem targets are specified there. -/
 
 /-! ## Layer 8: smooth oriented three-manifold parallelization -/
 
