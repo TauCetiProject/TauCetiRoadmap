@@ -8,24 +8,24 @@ import TauCeti.NumberTheory.NumberField.TotallyPositive
 `README.md`. These statements suggest Lean forms for particular milestones; discharging them
 finishes neither a layer nor the roadmap.
 
-Two results can be stated on the pinned carriers: the arithmetic Koecher support theorem (C6.5),
-and the general scheme theorem used for global functions on the boundary (C6.53), including
+Two results can be stated on the pinned carriers: the arithmetic Koecher support theorem (8.5),
+and the general scheme theorem used for global functions on the boundary (8.55), including
 arbitrary base change and nonreduced bases. Neither requires a new definition.
 
 The geometric headline results have no signatures here because their prerequisite objects are
 absent at the pins:
-* C0's relative torus embeddings, properness criterion and smooth projective arithmetic refinements
+* Layer 0's relative torus embeddings, properness criterion and smooth projective arithmetic refinements
   need torus torsors and arithmetic cone systems; the supplied finite complex toric schemes do not
   provide these relative objects over arbitrary coefficient rings.
-* C1's finite-overlap theorem needs mixed Shimura boundary data and cusp stabilizers. The supplied
+* Layer 1's finite-overlap theorem needs mixed Shimura boundary data and cusp stabilizers. The supplied
   mixed Hodge structures alone do not provide those data.
-* C2 and C2.general's toroidal algebraization and canonical models, and C3 and C3.general's Hecke
+* Layer 2 and Layer 3's toroidal algebraization and canonical models, and Layer 4 and Layer 5's Hecke
   maps and independence of coherent cohomology, need Shimura varieties and their toroidal models.
-* C4's Mumford degeneration equivalence, extension theorems and boundary Hasse determinant need
+* Layer 6's Mumford degeneration equivalence, extension theorems and boundary Hasse determinant need
   semi-abelian families, polarized degeneration data and their Hodge bundles.
-* C5's integral toroidal and minimal compactifications, Hodge-line generation and integral Koecher
+* Layer 7's integral toroidal and minimal compactifications, Hodge-line generation and integral Koecher
   theorem need PEL moduli and the preceding degeneration objects.
-* C6's Hilbert compactifications, geometric Koecher and q-expansion principles, cusp-ideal
+* Layer 8's Hilbert compactifications, geometric Koecher and q-expansion principles, cusp-ideal
   comparison and ordinary boundary need Hilbert moduli, cusp charts and weight sheaves. Its formal
   gluing theorem needs formal algebraic spaces. The arithmetic support statement below does not
   assert extension of geometric sections; the general scheme theorem does not construct the
@@ -38,7 +38,7 @@ open NumberField NumberField.InfinitePlace
 
 namespace HilbertCusp
 
-/-- C6.5: unit covariance and a lower trace bound force Koecher support, over any commutative
+/-- 8.5: unit covariance and a lower trace bound force Koecher support, over any commutative
 coefficient ring (Dimitrov, proof of Théorème 8.3, p. 547). -/
 theorem bounded_cusp_support_is_positive
     {F : Type*} [Field F] [NumberField F] [IsTotallyReal F]
@@ -55,7 +55,7 @@ end HilbertCusp
 
 open CategoryTheory AlgebraicGeometry
 
-/-- C6.53: a proper flat morphism of finite presentation with geometrically reduced, connected
+/-- 8.55: a proper flat morphism of finite presentation with geometrically reduced, connected
 fibres has only base functions, on every open after every base change (Stacks, Tag 0E0L). -/
 theorem proper_flat_globalFunctions_baseChange
     {X S : Scheme} (f : X ⟶ S) [IsProper f] [Flat f]
