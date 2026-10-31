@@ -1095,6 +1095,57 @@ Freedman–Quinn §5.7's controlled separation estimates.
 
 ### 3.4 PL controlled h-cobordisms and isotopy
 
+<a id="radial-end-control"></a>
+**Radial control and extension across an end.**
+
+Build the quantitative radial-coordinate API used by the proper product and
+point-flattening constructions. For continuous nondecreasing a,b,c on (0,∞), each
+tending to0 at0, with a≥0 and 0<b(t)≤t≤c(t), and every continuous positive control d
+on (0,∞), prove that for every outer radius R>0 there are η∈(0,R) and an increasing
+order homeomorphism h:ℝ≃ℝ fixing (−∞,0] and [R,∞), such that for0<t<η,
+
+```text
+max(a(t), h(c(t))−h(b(t))) < d(h(t)).
+```
+
+No monotonicity, invertibility or positive lower bound near0 is required of d.
+Construct cofinal image radii r_n↓0 by subtracting `min(r_n/4, min_{[r_n/4,2r_n]} d
+/16)` at each step; prove cofinality from positivity on compact annuli. Choose
+cofinal domain radii γ_n↓0 with `γ_(n+1)<min(γ_n/2,b(γ_n))`, `c(γ_(n+1))<γ_n` and
+`a(γ_n)<(min_{[r_(n+1),r_n]} d)/2`. Interpolate h(γ_n)=r_n linearly, attach the fixed
+outer interval, and prove strict monotonicity, surjectivity, continuity and inverse
+continuity, including at0. The adjacent-annulus estimates must give the displayed
+strict bound. The coordinate is topological; no smoothness of h is assumed.
+
+For a proper control map p=(p₁,p₂) to a locally compact metric base times[0,∞), and
+the two end-deformation homotopies R₀,R₁ near its zero fibre, construct simultaneous
+envelopes satisfying `dist(p₁(R_i(x,u)),p₁(x))≤a(t)` and `b(t)≤p₂(R_i(x,u))≤c(t)` for
+t=p₂(x)>0. Require both deformations to preserve the complement of the zero fibre and
+to restrict on that fibre to the specified endpoint contractions, fixing p₁. Work
+uniformly over compact base subsets and all homotopy times after shrinking the tube.
+Properness gives upper bounds tending to0 from shrinking sublevel sets and positive
+lower bounds on compact annuli; construct continuous monotone majorants/minorants of
+these bounds. An infimum over a varying exact fibre need not be continuous. A
+compact-base minorant of the prescribed continuous positive control δ(y,s) supplies
+d, so replacing p₂ by h∘p₂ gives the required small tracks for both deformations.
+Over a point take a=0.
+
+Prove restriction to smaller radial tubes and preservation of prescribed outer
+collars. Use these estimates for the radial cobordism in the point-flattening proof,
+verifying its existing controlled connectivity hypotheses separately. For a product
+and its inverse controlled by ε(s)<s/10, prove that their end comparisons extend
+continuously and inversely over the zero section. This supplies an actual
+homeomorphism at the added point, rather than only a punctured product. Retain the
+separate ANR line-normal, smoothing and controlled-product constructions; this scalar
+lemma does not construct their geometric inputs.
+[RadialControlTargets.lean](RadialControlTargets.lean) prototypes its quantified
+statement using native real functions and `OrderIso`.
+
+The application is Teichner's September16 E₈-cap construction; the radial estimates
+follow the proof of Freedman–Quinn, [Theorem9.7, pp147–148](https://archive.mpim-bonn.mpg.de/4789/2/FreedmanQuinn-TopologyOf4Manifolds-Reformatted2013.pdf),
+with the compact-annulus envelope construction above. This real-analysis prefix uses
+no smoothing, cap or four-manifold classification theorem.
+
 Before §3.5, own
 the PL-input controlled h-cobordism theorems of Freedman–Quinn,
 Theorems 7.5–7.6, pp. 113–114. For a proper controlled cobordism over
@@ -1755,6 +1806,8 @@ ANR resolution/normal-approximation/engulfing result of Quinn, *Ends of
 maps I*, §3.4, specialized to the line, with actual neighborhood embedding
 and zero-section. Apply it to L={p}×ℝ; codimension 2 issues do not enter. Construct its normal bundle
 and zero-section map, boundary/relative restriction and tapering.
+Apply the [radial-control API](#radial-end-control) to both end deformations
+on a proper tube; verify controlled connectivity and smoothing separately.
 Intersect that model with W×[0,∞), reparametrize the radial coordinate
 to make the punctured comparison a δ-controlled 5-cobordism, and use
 §3.4 with control ε(r)<r/10 to descend the rank 4 normal chart. Supply
