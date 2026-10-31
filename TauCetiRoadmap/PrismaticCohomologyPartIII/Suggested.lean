@@ -23,7 +23,7 @@ Rham–Witt and nearby-cycle comparisons (§§6.16, 6.20), syntomic Tate compari
 discreteness (§§6.26, 6.28), and syntomic connectivity and rigidity (§6.31) are not
 stated: the pins do not provide prismatic complexes, Breuil–Kisin twists, the Nygaard
 filtration or syntomic complexes. The trace and Beilinson squares and the absolute
-curve comparisons (§7.0) also need cyclotomic trace theories, derived de Rham
+curve statements (§7.0) also need cyclotomic trace theories, derived de Rham
 complexes, the period eigensection ring and coherent sheaves on the schematic curve.
 Laurent realization (§7.8), the crystalline lattice equivalence (§7.22), and the
 Breuil–Kisin full-faithfulness and comparison theorems (§§7.23–7.25) need the
