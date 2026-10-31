@@ -30,10 +30,10 @@ This roadmap owns:
   the determinant-line gluing for Reeb ends (Layer 2);
 - augmented local gluing, orientation descent and the labelled/unlabelled count formulas
   (Layer 3);
-- the contact implicit atlases on the tree-indexed moduli problems, the proof that they satisfy
-  the axioms of the generic virtual-class engine, the cell-like stratification by a finite
-  category of tree types with its stratified virtual complex, and the application of the
-  engine's package to these atlases (Layer 4);
+- the contact implicit atlases on the tree-indexed moduli problems with their cell-like
+  stratification by a finite category of tree types, and the chain-level virtual fundamental
+  cycle package on them: virtual cochain complexes, pushforwards, the Čech comparison, the
+  category-stratified complex and the product map (Layer 4);
 - the coherent chain-level count diagrams, the contact differential, the exact cobordism maps
   and the contact homology functor (Layer 5);
 - augmentations, linearized contact homology, hypertight and ellipsoid examples (Layer 6);
@@ -56,19 +56,20 @@ It leaves to named owners, and imports from them by section:
   finite-dimensional zero-mode extensions. HeegaardFloer §§4.3–4.5 (F2.3–F2.5) supply ordinary
   curve regularity, compactness inputs and conditional gluing only at their stated hypotheses.
   Layers 1–3 construct the nonlinear Reeb-end and building adapters.
-- ImplicitAtlases Layers 0–6 (V0–V6): the generic virtual-class engine on an arbitrary compact
-  Hausdorff space with an implicit atlas, namely K-sheaves, Čech cohomology and finite-group
-  invariants (V0), implicit atlases with and without boundary (V1), deformation spaces and the
-  virtual cochain complex (V2), the virtual orientation sheaf and the Čech comparison (V3), the
-  obstruction complex, the global trace and the virtual class with finite-subatlas
-  independence (V4), the boundary, cobordism, refinement, pushforward and regular-manifold
-  normalization laws (V5), and cell-like stratified atlases over a finite poset with the
-  stratified virtual complex, product atlases and the product class (V6). None of it is
-  restated here. Layer 4 constructs the contact atlases on the tree-indexed moduli problems
-  and proves that they satisfy the axioms of ImplicitAtlases (4.1), owns the one extension the
-  engine does not state, the cell-like stratification by a finite category of tree types
-  rather than a poset, with its stratified virtual complex (4.2), and applies the engine's
-  package to these atlases (4.2–4.3). Layer 5 constructs the contact-specific coherent chain
+- ImplicitAtlases, later in the build, states the virtual-class engine for an arbitrary compact
+  Hausdorff space with an implicit atlas: K-sheaves and Čech cohomology, atlases with and
+  without boundary, deformation spaces and the virtual cochain complex, the virtual orientation
+  sheaf and the Čech comparison, the virtual class with its boundary, refinement, pushforward
+  and product laws, and atlases stratified by a finite poset with their stratified virtual
+  complex. This roadmap cites nothing from a roadmap later in the build, so none of that engine
+  is consumed here, and nothing here is stated for a general zero set: Layer 4 defines the
+  contact implicit atlases with their cell-like stratification by a finite category of tree
+  types (4.1) and states, for the contact moduli problems only, the chain-level virtual
+  fundamental cycle package that Pardon's construction uses (4.2), each statement cited at the
+  theorem of Pardon's 2016 paper that proves it. The general statements of ImplicitAtlases
+  specialise to those of 4.2 on these atlases, and a library that has them proves 4.2 by
+  specialisation; the stratification by a category rather than a poset is the one statement of
+  4.2 with no general counterpart. Layer 5 constructs the contact-specific coherent chain
   diagrams needed before extracting counts.
 - DGAInfinity Layers 0–1: generic graded modules, signed tensor operations and the DG/A∞
   algebra vocabulary. StablePeriodicCurved Layer 3: parity complexes and their integer/parity
@@ -144,6 +145,13 @@ q_γ⁻ (Layer 9.3).
   `Module ι (Additive ℤˣ)` structure.
 - `Int.negOnePow` (`Mathlib/Algebra/Ring/NegOnePow.lean`): the sign (−1)^n as a unit of ℤ, used
   for every Koszul sign in integer degree.
+- `CategoryTheory.cechComplexFunctor` (`Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean`):
+  the Čech complex of a presheaf on a family of objects. Layer 4.2 takes the Čech cohomology of
+  a compact moduli problem with coefficients in a locally constant sheaf as the colimit over
+  finite open covers of the cohomology of these complexes.
+- `Representation.invariants` (`Mathlib/RepresentationTheory/Invariants.lean`): the invariants of
+  a representation of a finite group, used for the covering-group and tree-automorphism
+  invariants of Layer 4.2.
 - Manifolds, vector bundles, flows, `ModuleCat`, quotients, direct sums, cochain complexes and
   homology, in their native forms.
 
@@ -183,28 +191,6 @@ Riemann–Roch on punctured surfaces with weighted ends `D=∂s−A_e` and the f
 zero-mode extensions. §§4.3–4.5 (F2.3–F2.5): ordinary compactness, transversality and gluing,
 consumed only at their stated hypotheses.
 
-### From TauCetiRoadmap.ImplicitAtlases
-
-§0.3 (finite-group invariants over ℚ), §0.7 (Čech cohomology with sheaf coefficients on a
-compact Hausdorff space, as the colimit over finite open covers), §0.8 (pure homotopy K-sheaves
-and the identification of their cohomology with the Čech cohomology of the degree-zero sheaf)
-and §0.9 (extension by zero). §1.1 (implicit atlases: covering groups, obstruction
-representations, thickenings, Kuranishi maps, footprints, footprint maps, regular loci and the
-compatibility and transversality axioms), §1.2 (atlases with boundary and the boundary
-restriction) and §1.4 (finite subatlases). §2.3 (the virtual cochain complex, absolute and
-relative to the boundary, as a complex of K-presheaves), §3.1 (local orientability and the
-virtual orientation sheaf), §3.4 (the Čech comparison), §4.1 (the obstruction complex), §4.2
-(the global relative trace) and §4.3 (the virtual class as a functional on degree-d Čech
-cohomology, finite-subatlas independence and the subatlas comparison maps). §§5.1–5.2 (the
-boundary triangle, the boundary law and cobordism), §5.3 (refinements, shrinkings and disjoint
-unions), §5.4 (pushforward) and §5.6 (regular-manifold normalization). §§6.1–6.2 (cell-like
-stratified atlases over a finite poset, normal lines and restricted atlases), §6.3 (the
-stratified virtual complex and its quasi-isomorphism), §6.4 (product atlases) and §6.5 (the
-Čech external product and the product class). Assumed: every statement about the orientation
-sheaf, the Čech comparison or the class is for a locally orientable atlas on a compact Hausdorff
-base, and the engine takes an atlas as input and constructs no moduli space, Fredholm operator,
-gluing map or compactification; Layers 1–4 construct those.
-
 ### From TauCetiRoadmap.DGAInfinity
 
 Layer 0: internal and Mathlib-graded presentations of ℤ-graded modules, homogeneous multilinear
@@ -235,9 +221,8 @@ buildings and proves compactness in both the retained-level and the smaller tree
 compactification. Layer 2 builds the weighted nonlinear Fredholm set-up and proves the punctured
 index formula and determinant gluing for Reeb ends. Layer 3 proves augmented local gluing and
 orientation descent, including the count formulas for repeated and covered ends. Layer 4
-constructs the contact implicit atlases, proves that they satisfy the axioms of ImplicitAtlases,
-adds the stratification by a finite category of tree types and applies the engine's virtual
-fundamental cycle package to them. Layer 5 constructs the
+constructs the contact implicit atlases with their stratification by a finite category of tree
+types and the chain-level virtual fundamental cycle package on them. Layer 5 constructs the
 coherent chain-level diagrams, extracts the counts, proves d²=0 and builds the exact cobordism
 maps and the symmetric monoidal functor. Layer 6 adds augmentations, linearization, hypertight
 and ellipsoid examples. Layer 7 is independent algebra: the Poisson, Weyl, potential and Fock
@@ -783,39 +768,66 @@ Layers 0 and 2; HeegaardFloer §2.2 (F0.0), §3.2 (F1.2), §4.4 (F2.4), §4.5 (F
 
 ## Layer 4: Contact implicit atlases
 
-### 4.1 Thickenings and the atlas axioms
+### 4.1 Contact implicit atlases with cell-like stratification
 
-For a bounded contact tree type T (Layer 1.5) with compact moduli problem M(T), construct the
-contact thickening data (Pardon §3.3, pp. 49–50, Definitions 3.9–3.12): a number r_α of added
-marked points constrained to a compact codimension-two submanifold D_α, the obstruction
-representation E_α=ℝ^(n_α) of the covering group S_(r_α), and an equivariant perturbation
-term ν_α of the Cauchy–Riemann equation depending on the added points, with the cylindrical and
-cobordism variants of Setups I–IV; the index sets Ā(T) (§3.4, pp. 50–52, Definitions
-3.13–3.16); the thickened moduli spaces M(T)_I for finite I⊆Ā(T), Hausdorff in the Gromov
-topology, acted on by the product of the covering groups, with the identification of the empty
-thickening with M(T) and the regular trivial-isotropy loci (§3.5, pp. 52–55, Definitions
-3.17–3.22); and the tautological Kuranishi maps, the open footprints and the forgetful
-footprint maps from the zero loci of the extra Kuranishi maps (§3.6, p. 55). Prove that these
-data form an implicit atlas of virtual dimension vdim(T) on M(T) in the sense of
-ImplicitAtlases §1.1 (Pardon Theorem 3.23, p. 55): the compatibility axioms (footprint maps
-compose and the identity one is the identity, Kuranishi maps are compatible with footprint
-maps, the footprint of a union is the intersection of the footprints, and a footprint map
-induces a homeomorphism from the zero locus modulo the extra covering group onto the
-footprint) from the definitions (§3.6, p. 55); the covering axiom by stabilization of curves
-(§3.7, pp. 55–57); and the openness of the regular loci, the freeness of the extra covering
-group on their preimages and the local product models, in which the regular part of a
-thickening is a topological manifold with boundary of dimension vdim(T) plus the obstruction
-dimension, by the local models of §3.8 (pp. 57–58), which use the gluing of Layer 3. Prove
-that the atlas is locally orientable in the sense of ImplicitAtlases §3.1, with virtual
-orientation sheaf the locally constant sheaf of the orientation line o_T of Layer 2.3, from the
-equivariant orientation of the regular loci with respect to o_T tensored with the obstruction
-line (Pardon Definition 3.2(ix), p. 47, and (2.64), p. 45), so that the engine's orientation
-hypothesis holds. Give the atlas with boundary of ImplicitAtlases §1.2 by taking as boundary
-the union of the strata of positive codimension (Pardon Definition 3.3 and Remark 3.4, p. 47).
-Include compact parameter families (Setups III–IV) and the identification of the boundary faces
-with product atlases of the pieces, with the cell-like face structure and normal orientation
-lines of the local models (Pardon §3.2, Lemmas 3.5–3.6, p. 47). The existence of a Fredholm
-section alone is not an implicit atlas.
+Define a cell-like stratification by a finite category 𝒯 with a final object t_max whose
+undercategories 𝒯_(t/) are posets, equipped with dimension and orientation data: a function
+dim : 𝒯 → ℤ that is non-decreasing along morphisms and strictly increasing along
+non-isomorphisms, orientation lines o_t of parity dim t carried along the isomorphisms of 𝒯,
+and normal identifications o_t⊗o_ℝ≅o_(t′) for the codimension-one morphisms t→t′ (Pardon
+§3.1 and Definition 3.1, pp. 45–46; stratifications by a category, Definition 2.15, p. 23).
+The strata of M(T) are indexed by the category S_(/T) of tree types over T, whose objects are
+the degenerations T′→T and whose closed strata are the images of M(T′)/Aut(T′/T), in general
+not embedded; it is not a poset, since exchanging two identical lower vertices of a
+degeneration is a nontrivial automorphism over T (Pardon Definitions 2.2–2.3 and Figure 6,
+p. 20; Definition 2.13 and (2.5), p. 23). Define an oriented implicit atlas with cell-like
+stratification by 𝒯 on the compact moduli problem M(T) of a bounded contact tree type T
+(Layer 1.5) as an index set of thickening data together with: a finite covering group and a
+finitely generated obstruction module over it for each datum; a Hausdorff thickened moduli
+space M(T)_I for each finite set I of data, acted on by the product of the covering groups,
+with an invariant stratification by 𝒯 and an identification of the empty thickening with M(T)
+respecting the stratification; equivariant Kuranishi maps to the obstruction modules;
+invariant open footprints and equivariant footprint maps from the zero loci of the extra
+Kuranishi maps; and regular trivial-isotropy loci. These satisfy the compatibility axioms
+(footprint maps compose and the identity one is the identity, Kuranishi maps are compatible
+with footprint maps, the footprint of a union is the intersection of the footprints, the
+stratification of a zero locus is identified with the pullback along the footprint map
+compatibly in triples, and a footprint map induces a homeomorphism from the zero locus modulo
+the extra covering group onto the footprint) and the transversality axioms (regular loci pull
+back into regular loci on which the extra covering group acts freely, regular loci are open,
+the regular locus of each thickening is cell-like of dimension dim t plus the obstruction
+dimension on the stratum t and oriented with respect to o_t tensored with the obstruction
+line, near a regular point the extra Kuranishi map is locally the projection of a product with
+the extra obstruction space compatibly with the oriented stratifications, and the footprints of
+the regular zero loci cover M(T)) (Pardon Definition 3.2, pp. 46–47). An atlas with boundary
+is the case of the two-element stratifying poset (Definition 3.3, p. 47), obtained from a
+cell-like one by collapsing the strata other than the final one into the boundary (Remark 3.4,
+p. 47); a finite subatlas is the restriction to a finite subset of the index set; the virtual
+dimension and virtual orientation line are those of the final object. For every bounded
+contact tree type construct the contact thickening data (Pardon §3.3, pp. 49–50, Definitions
+3.9–3.12): a number r_α of added marked points constrained to a compact codimension-two
+submanifold D_α, the obstruction representation E_α=ℝ^(n_α) of the covering group S_(r_α), and
+an equivariant perturbation term ν_α of the Cauchy–Riemann equation depending on the added
+points, with the cylindrical and cobordism variants of Setups I–IV; the index sets Ā(T) (§3.4,
+pp. 50–52, Definitions 3.13–3.16); the thickened moduli spaces M(T)_I for finite I⊆Ā(T),
+Hausdorff in the Gromov topology, with the identification of the empty thickening with M(T) and
+the regular trivial-isotropy loci (§3.5, pp. 52–55, Definitions 3.17–3.22); and the
+tautological Kuranishi maps, the open footprints and the forgetful footprint maps from the zero
+loci of the extra Kuranishi maps (§3.6, p. 55). Prove that these data form an oriented implicit
+atlas with cell-like stratification by the finite category of effective tree types over T
+(Pardon Definition 4.4, p. 63), with dim(T′→T)=vdim(T′), top stratum of dimension vdim(T),
+orientation lines the o_(T′) of Layer 2.3 and the normal identifications of (3.1)–(3.3)
+(Pardon §3.2, Lemmas 3.5–3.6, p. 47; Theorem 3.23, p. 55): the compatibility axioms from the
+definitions (§3.6, p. 55); the covering axiom by stabilization of curves (§3.7, pp. 55–57);
+and the openness and submersion axioms by the local models of §3.8 (pp. 57–58), which use the
+gluing of Layer 3 and give the equivariant orientation of the regular loci with respect to
+o_(T′) tensored with the obstruction line (Definition 3.2(ix), p. 47, and (2.64), p. 45).
+Prove that each closed stratum M(T)_(/T′) inherits the restricted atlas of dimension vdim(T′)
+from the thickenings (M(T)_I)_(/T′) (Pardon §4.1.3, p. 60). Include compact parameter
+families (Setups III–IV) and the identification of the boundary faces with product atlases of
+the pieces, with the cell-like face structure and normal orientation lines of the local models
+(Pardon §3.2, Lemmas 3.5–3.6, p. 47). The existence of a Fredholm section alone is not an
+implicit atlas.
 
 - The thickened moduli space for a finite set of thickening data is a topological manifold with
   boundary near its regular locus, of the expected dimension.
@@ -830,90 +842,97 @@ section alone is not an implicit atlas.
 - The double cover of a rigid plane has an atlas whose smallest thickening is nonempty; an
   "atlas" with only the empty thickening would not cover its zero set.
 - A family over [0,1] has a boundary atlas whose faces are the atlases at the endpoints.
+- For a degeneration T′→T of codimension one whose two lower vertices are identical,
+  Aut(T′/T)=ℤ/2 (Pardon Figure 6, p. 20), so the stratifying category has two morphisms
+  between these objects and is not a poset; a stratification indexed by the poset of closed
+  strata would record that face once and lose the automorphism that 4.2's invariants use.
 
-*Needs:* Layers 1.5, 2.3, 3.1–3.3; ImplicitAtlases §§1.1, 1.2, 1.4, 3.1.
+*Needs:* Layers 1.5, 2.3, 3.1–3.3.
 
-### 4.2 Category-stratified atlases and the virtual fundamental cycle package
+### 4.2 The virtual fundamental cycle package of a contact atlas
 
-The strata of M(T) are indexed by the category S_(/T) of tree types over T, whose objects are
-the degenerations T′→T, whose closed strata are the images of M(T′)/Aut(T′/T) and are in
-general not embedded, and which is not a poset: exchanging two identical lower vertices of a
-degeneration is a nontrivial automorphism over T (Pardon Definitions 2.2–2.3 and Figure 6,
-p. 20; Definition 2.13 and (2.5), p. 23). The engine of ImplicitAtlases §6.1 stratifies by a
-finite poset; this roadmap owns the extension. Define a cell-like stratification by a finite
-category 𝒯 with a final object whose undercategories 𝒯_(t/) are posets, with a dimension function
-that increases strictly along non-isomorphisms, orientation lines o_t of parity dim t on the
-isomorphisms of 𝒯, and normal identifications o_t⊗o_ℝ≅o_(t′) for codimension-one morphisms
-(Pardon §3.1 and Definition 3.1, pp. 45–46), and define an oriented implicit atlas with
-cell-like stratification by 𝒯 (Pardon Definition 3.2, pp. 46–47): the data of ImplicitAtlases
-§1.1 together with invariant stratifications of every thickening by 𝒯, identified on zero loci
-with the pullbacks along footprint maps compatibly in triples, and the submersion axiom that
-the regular locus of each thickening is cell-like of dimension dim t plus the obstruction
-dimension and oriented by o_t tensored with the obstruction line. When 𝒯 is a poset this is
-the notion of ImplicitAtlases §§6.1–6.2 with its normal lines. Prove that the contact atlas of
-4.1 is such an atlas for the finite category of effective tree types over T (Pardon Definition
-4.4, p. 63) with dim(T′→T)=vdim(T′) and the orientation data of (3.1)–(3.3) (Pardon §3.2,
-Lemmas 3.5–3.6, p. 47, and Theorem 3.23, p. 55), and that each closed stratum inherits the
-restricted atlas of dimension vdim(T′) from the thickenings (M(T)_I)_(/T′) (Pardon §4.1.3,
-p. 60). Construct the category-stratified virtual complex: the sum over objects t of the
-virtual complexes of the closed strata relative to their boundaries (ImplicitAtlases §2.3),
-twisted by o_t^∨⊗o_(t_max), with the invariants of the finite automorphism groups Aut(t) taken
-over ℚ (ImplicitAtlases §0.3), with differential the internal one plus the pushforwards along
-the codimension-one morphisms contracted with the normal orientation (Pardon (4.12), p. 61;
-Pardon 2016 Definition 6.2.2, p. 49), and its K-presheaf version on compact subsets ((4.14),
-p. 61). Prove that it is a pure homotopy K-sheaf whose degree-zero sheaf is the constant sheaf
-o_(t_max), so that its cohomology is the Čech cohomology of M(T) with coefficients in o_T
-((4.13)–(4.15), p. 61): the homotopy K-sheaf property and purity pass from the strata
-(Pardon 2016 Lemma A.2.11, p. 118; ImplicitAtlases §0.8), and the filtration by dimension, the
-stratum-by-stratum descent and the local generator cycles are those of the poset argument of
-ImplicitAtlases §6.3 (Pardon 2016 Proposition 6.2.3, p. 50) applied to the poset
-undercategories, which is the extension Pardon indicates (p. 61).
+For the contact atlas Ā(T) of 4.1 on M=M(T), with boundary the strata of positive codimension,
+construct the chain-level package that the coherent construction of Layer 5 uses (Pardon §4.1,
+pp. 58–62, recalls each statement from his 2016 paper, which is cited here at the statements
+Pardon names). For a finite subatlas A: the invariant obstruction complex, the chains of the
+total obstruction space relative to the complement of zero, shifted by its dimension, with
+coefficients in its dual orientation line and with the covering-group invariants taken, whose
+homology is ℚ in degree zero (Pardon 2016 Definition 4.2.4, p. 36; (4.1), p. 58); the virtual
+cochain complex of M relative to its boundary, a homotopy colimit over pairs of finite subsets
+of A of relative chain groups built from the regular loci of the thickenings, and the
+chain-level pushforward from it, shifted by vdim(T), to the obstruction complex (Pardon 2016
+Definitions 4.2.5–4.2.6, p. 36; (4.2)–(4.3), p. 59); its K-presheaf version on the compact
+subsets of M, which is a pure homotopy K-sheaf, namely acyclic on the empty set, Mayer–Vietoris
+exact on pairs of compact subsets, continuous from open neighbourhoods, with stalk cohomology
+in degree zero only and locally bounded below (Pardon 2016 Definitions A.2.5 and A.5.1,
+pp. 117 and 124, Proposition 4.3.3, p. 38; (hSh1)–(hSh3) and (4.8)–(4.9), p. 60), whose
+degree-zero sheaf is the extension by zero of o_T from the interior; and the resulting
+canonical isomorphism between its cohomology and the Čech cohomology of M with coefficients in
+that extension (Pardon 2016 Theorem 4.3.4, p. 39, from Proposition A.5.4, p. 124; (4.4),
+p. 59). For finite subatlases A⊆A′: quasi-isomorphisms of both complexes, compatible with the
+pushforwards and composing as expected, obtained from Pardon's maps by contracting with the
+chosen fundamental cycles of the extra obstruction spaces (Pardon 2016 Definition 4.2.7,
+p. 37; (4.6)–(4.7) and footnote 5, p. 59), and the direct limit over finite subatlases, which
+defines both complexes and the pushforward for the infinite index set Ā(T). Define the virtual
+fundamental class of M as the resulting ℚ-linear functional on the Čech cohomology of degree
+vdim(T) with coefficients in the extended orientation line. Prove that when M is its own
+regular trivial-isotropy locus the functional is evaluation on the ordinary fundamental class
+(Pardon 2016 Lemma 5.2.6, p. 43; Pardon Lemma 4.2, p. 59). Construct the category-stratified
+virtual complex: the sum over the objects t of the stratifying category of the virtual
+complexes of the closed strata relative to their boundaries, twisted by o_t^∨⊗o_(t_max), with
+the invariants of the finite automorphism groups Aut(t) taken over ℚ, with differential the
+internal one plus the pushforwards along the codimension-one morphisms contracted with the
+normal orientation ((4.12), p. 61; for a poset, Pardon 2016 Definition 6.2.2, p. 49), and its
+K-presheaf version ((4.14), p. 61). Prove that it is a pure homotopy K-sheaf whose degree-zero
+sheaf is the constant sheaf o_(t_max), so that its cohomology is the Čech cohomology of M with
+coefficients in o_T ((4.13)–(4.15), p. 61): the homotopy K-sheaf property and purity pass from
+the strata through the finite filtration by dimension (Pardon 2016 Lemma A.2.11, p. 118), and
+the stratum-by-stratum descent and the local generator cycles of the poset case (Pardon 2016
+Proposition 6.2.3, p. 50, with Example 6.2.1, p. 49, and Lemma 4.3.2, p. 38) apply to the
+poset undercategories, which is the extension Pardon indicates (p. 61). Construct the product
+map for two contact atlases, compatible with the pushforwards and the subatlas maps and
+extending to compact subsets compatibly with restriction (Pardon 2016 Definition 6.3.2,
+p. 51; (4.16)–(4.17), p. 61), and prove that under the Čech identifications it is the Künneth
+product, by the comparison of pure homotopy K-sheaves with their degree-zero sheaves (Pardon
+Lemma 4.3 and (4.18)–(4.19), p. 62). Every statement of this subsection is made for the
+atlases of 4.1 on the contact moduli problems; nothing is stated for an arbitrary compact
+Hausdorff space with an implicit atlas.
 
-Apply the engine of ImplicitAtlases to the contact atlas Ā(T) of 4.1, with boundary the strata
-of positive codimension: the virtual cochain complex relative to the boundary and the
-obstruction complex (§§2.3, 4.1); the global relative trace, which is Pardon's chain-level
-virtual fundamental cycle (§4.2; (4.2)–(4.3), p. 59); the comparison of its cohomology with
-the Čech cohomology of M(T) with coefficients in the extension by zero of o_T from the
-interior, using the local orientability of 4.1 (§3.4; (4.4), p. 59); the virtual fundamental
-class of M(T) as the resulting ℚ-linear functional on the Čech cohomology of degree vdim(T),
-together with the subatlas comparison maps for finite Ā′⊆Ā″⊆Ā(T), which compose as expected
-and are compatible with the traces, so that the class is independent of the finite subatlas and
-is defined for the infinite index set Ā(T) through them (§4.3; (4.6)–(4.7), p. 59); and the
-product map for two contact atlases, compatible with the traces and the subatlas maps and
-inducing the Künneth product on Čech cohomology (§§6.4–6.5; (4.16)–(4.18) and Lemma 4.3,
-pp. 61–62). Prove that when M(T) is its own regular trivial-isotropy locus the functional is
-evaluation on the ordinary fundamental class (§5.6; Pardon Lemma 4.2, p. 59). Every
-application is to the atlases of 4.1 on the contact moduli problems; nothing is stated for an
-arbitrary compact Hausdorff space with an implicit atlas.
-
-- The virtual class of M(T) is a ℚ-linear functional on the Čech cohomology of M(T) in degree
-  vdim(T) with coefficients in the extended orientation line, unchanged under enlarging the
-  finite subatlas.
-- The category-stratified complex computes the Čech cohomology of M(T) with coefficients in
-  o_T, absolute rather than relative to the boundary, and for a poset stratification it is the
-  complex of ImplicitAtlases §6.3.
+- The virtual class is a ℚ-linear functional on the Čech cohomology of M in degree vdim(T) with
+  coefficients in the extended orientation line, unchanged under enlarging the finite
+  subatlas.
+- The pushforward is a chain map and the subatlas quasi-isomorphisms commute with it, so the
+  functional does not depend on the finite subatlas used to compute it.
+- The category-stratified complex computes the Čech cohomology of M with coefficients in o_T,
+  absolute rather than relative to the boundary, and for a poset stratification it is Pardon's
+  stratified complex.
 - Under the Künneth product, the virtual class of a product atlas is the product of the virtual
   classes.
 
 **Checks.**
 
-- A regular rigid curve with trivial isotropy: M(T) is a point, the atlas of 4.1 can be taken
-  with the empty thickening only, the Čech cohomology is ℚ in degree 0, and the functional is
-  evaluation on the fundamental class of the oriented point, ±1 in the dual of o_T
-  (ImplicitAtlases §5.6); a package whose functional on such a point were not ±1 would be
+- A regular rigid curve with trivial isotropy: M is a point, the atlas of 4.1 can be taken with
+  the empty thickening only, the Čech cohomology is ℚ in degree 0, and the functional is
+  evaluation on the fundamental class of the oriented point, ±1 in the dual of o_T (Pardon
+  2016 Lemma 5.2.6, p. 43); a package whose functional on such a point were not ±1 would be
   misnormalised.
 - Enlarging a finite subatlas by one thickening datum changes both complexes but not the
-  functional, through the subatlas comparison of ImplicitAtlases §4.3; a count read from a
-  single thickening without that comparison would depend on the choice.
+  functional, through the subatlas quasi-isomorphisms; a count read from a single thickening
+  without that comparison would depend on the choice.
 - For a degeneration T′→T of codimension one whose two lower vertices are identical,
-  Aut(T′/T)=ℤ/2 (Pardon Figure 6, p. 20), so the index category is not a poset and the
-  stratified complex takes the ℤ/2-invariants of the stratum; the face then contributes half of
-  its own class to the boundary, the factor 1/|Aut(T′/T)| of (4.23), p. 63. A stratified
-  complex without the invariants would count the face twice, and the poset complex of
-  ImplicitAtlases §6.3 does not apply to this index category.
+  Aut(T′/T)=ℤ/2 (Pardon Figure 6, p. 20), so the stratified complex takes the ℤ/2-invariants
+  of the stratum; the face then contributes half of its own class to the boundary, the factor
+  1/|Aut(T′/T)| of (4.23), p. 63. A stratified complex without the invariants would count the
+  face twice, and the poset complex of Pardon 2016 Definition 6.2.2 does not apply to this
+  index category.
+- For a tree type with no degenerations the stratifying category has one object, the boundary
+  is empty, the category-stratified complex is the virtual cochain complex of M itself, and
+  its absolute Čech identification and the relative one of the plain complex agree; a
+  stratified complex that still shifted or twisted the single summand would compute a
+  different group.
 
-*Needs:* Layers 2.3, 4.1; HeegaardFloer §2.2 (F0.0); ImplicitAtlases §§0.3, 0.7, 0.8, 0.9,
-2.3, 3.4, 4.1–4.3, 5.6, 6.1–6.5.
+*Needs:* Layers 2.3, 4.1; HeegaardFloer §2.2 (F0.0); Mathlib `CategoryTheory.cechComplexFunctor`,
+`Representation.invariants`.
 
 ### 4.3 Restriction, product and concatenation diagrams and normalization
 
@@ -921,9 +940,9 @@ Construct compatible restriction, product, stabilization and tree-concatenation 
 atlases (Pardon §4.9, p. 76, the symmetric monoidal structure on the sets of thickening data).
 Auxiliary choices compare through specified common atlases, refinements or concordances;
 different arbitrary atlases on the same zero set need not have equal virtual weights. Apply the
-package of 4.2 to these inputs, with the refinement, disjoint-union and product laws of
-ImplicitAtlases §§5.3, 6.4–6.5. Prove the regular-locus count normalization (ImplicitAtlases
-§5.6; Pardon Lemma 4.2, p. 59) and the contact orientation comparison, including the
+package of 4.2 to these inputs, with its subatlas quasi-isomorphisms and product maps. Prove
+the regular-locus count normalization (Pardon Lemma 4.2, p. 59; Pardon 2016 Lemma 5.2.6,
+p. 43) and the contact orientation comparison, including the
 tree-automorphism factors of the boundary and concatenation laws ((4.23)–(4.24), p. 63) and
 the boundary-normal signs.
 
@@ -941,7 +960,7 @@ the boundary-normal signs.
 - Concordant atlases on the same zero set give the same count; two unrelated atlases need not,
   so the comparison is through the concordance, not by equality of zero sets.
 
-*Needs:* Layers 4.1, 4.2; ImplicitAtlases §§5.2–5.4, 6.4, 6.5.
+*Needs:* Layers 4.1, 4.2.
 
 ### Examples
 
@@ -951,7 +970,8 @@ the boundary-normal signs.
 
 ### Dependencies
 
-Layers 1, 2 and 3; HeegaardFloer §2.2 (F0.0); ImplicitAtlases Layers 0–6.
+Layers 1, 2 and 3; HeegaardFloer §2.2 (F0.0); Mathlib `CategoryTheory.cechComplexFunctor`,
+`Representation.invariants`.
 
 ## Layer 5: Coherent counts, the differential and the exact functor
 
@@ -980,7 +1000,7 @@ choices. Prove their required homotopies and independence on homology.
 - A family of cobordisms gives a homotopy whose boundary is the difference of the endpoint
   counts, the chain-homotopy identity of 5.3.
 
-*Needs:* Layers 4.1–4.3; ImplicitAtlases §§2.3, 4.3, 6.3.
+*Needs:* Layers 4.1–4.3.
 
 ### 5.2 Counts and the contact differential
 
@@ -1844,9 +1864,10 @@ Layers 1–3 and 7 at their stated hypotheses.
   coherent virtual systems, compactification and count identities.
 - J. Pardon, [An algebraic approach to virtual fundamental cycles on moduli spaces of
   pseudo-holomorphic curves](https://arxiv.org/abs/1309.2370), arXiv:1309.2370v6, Geom. Topol.
-  20 (2016): the stratified virtual cochain complex and its quasi-isomorphism, cited in
-  Layer 4.2 for the extension from poset to category stratifications; the rest of its engine is
-  consumed through ImplicitAtlases. Page numbers are those of arXiv v6.
+  20 (2016): the obstruction and virtual cochain complexes, pushforwards, subatlas maps, pure
+  homotopy K-sheaves and the Čech comparison, the stratified virtual complex and the product
+  map, cited in Layer 4.2 at the statements Pardon's 2015 review (§4.1) names. Page numbers
+  are those of arXiv v6.
 - Y. Eliashberg, A. Givental and H. Hofer,
   [Introduction to Symplectic Field Theory](https://arxiv.org/abs/math/0010059),
   arXiv:math/0010059v1: the Poisson/Weyl formalism and cobordism potentials.
