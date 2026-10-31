@@ -116,7 +116,7 @@ def complexPolylog (k : ℕ) (z : ℂ) : ℂ :=
 /-- L3.13 and L3.31: the complex Dirichlet L-value formula in every positive integer
 weight, for a nontrivial primitive character, with Mathlib's standard additive character. -/
 theorem LFunction_nat_eq_gaussSum_inv_mul_sum_complexPolylog {N : ℕ} [NeZero N]
-    (θ : DirichletCharacter ℂ N) (hθ : θ.IsPrimitive) (hne : θ ≠ 1)
+    (θ : DirichletCharacter ℂ N) (hθ : θ.IsPrimitive)
     (hN : 2 ≤ N) (k : ℕ) (hk : 1 ≤ k) :
     DirichletCharacter.LFunction θ k =
       (gaussSum θ⁻¹ ZMod.stdAddChar)⁻¹ *
