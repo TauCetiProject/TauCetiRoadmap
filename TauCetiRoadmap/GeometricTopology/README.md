@@ -1766,9 +1766,9 @@ coefficient `1`, so `[N]_q ≠ 0` over every field.
 - For a field homomorphism `K → L`, extending it to rational functions commutes with the
   substitution, with the same exponent `N` and indeterminate `q`.
 
-Prove existence and uniqueness of Kauffman's two-variable polynomial `F_L(a, x)` from the
-regular-isotopy invariant `Λ` with `Λ(L₊) + Λ(L₋) = x(Λ(L₀) + Λ(L∞))` and the curl factors
-`a^{±1}` (Lickorish, Chapter 15).
+Construct Kauffman's two-variable F and the absolute polynomial Q by the
+complete nonempty-diagram skein, curl, normalization and specialization
+contract in [Layer4.6.1](#kauffman-f-q).
 
 - `P_{L̄}(x, y, z) = P_L(y, x, z)`; `P_{L # J} = P_L P_J`; `P` of a split union is `−((x + y)/z)`
   times the product, and `P` of the `n`-component unlink is `(−(x + y)/z)^{n − 1}`.
@@ -1809,6 +1809,152 @@ regular-isotopy invariant `Λ` with `Λ(L₊) + Λ(L₋) = x(Λ(L₀) + Λ(L∞)
 
 *Needs:* Layer 4.2, Layer 4.4, Layer 4.5; TypeAHeckeAlgebras H1, H2; Mathlib
 `LaurentPolynomial.eval₂`, `LaurentPolynomial.eval₂_T`, `LaurentPolynomial.eval₂_C`, `RatFunc`.
+
+<a id="kauffman-f-q"></a>
+### 4.6.1 Kauffman's regular-isotopy polynomial and absolute Q
+
+Work on nonempty realized diagrams, including crossing-free circles, using
+Layer4.2's planar PD/outer-face carrier and geometric Reidemeister theorem.
+Use the coefficient ring `R=LaurentPolynomial (LaurentPolynomial ℤ)`:
+the outer variable is a and the inner variable x. Exponents in both
+variables are integral. Supply coefficient queries, finite support,
+monomial arithmetic and the universal evaluation map into a commutative
+ring with chosen unit images for a and x. Reuse native Laurent evaluation
+and inversion; do not construct a second multivariable polynomial theory.
+
+**Regular-isotopy construction.** Construct Λ on unoriented diagrams with
+`Λ(unknot)=1` and the local sum relation
+`Λ(D₊)+Λ(D₋)=x(Λ(D₀)+Λ(D∞))`. Here D₊ and D₋ differ by switching one
+crossing, and D₀,D∞ are its two unoriented smoothings; their order does
+not affect the sum. Give all four finite local PD/port models and their
+realization comparison. A positive curl, of local writhe change+1,
+multiplies Λ by a; the opposite curl multiplies it by a⁻¹. These are
+attached curls, not detached trivial components. Pin their signs by the
+standing crossing convention rather than an unlabelled sketch. Applying
+the sum relation to a curl gives `d=(a+a⁻¹)x⁻¹−1`; prove that adjoining
+a detached circle to a nonempty diagram multiplies Λ by d.
+
+Build a terminating skein algorithm with ordered components, traversal
+orientations and basepoints as auxiliary data, using the lexicographic
+measure (crossing count, number of bad crossings). Switch the first bad
+crossing to lower the second entry for the fixed traversal; either smoothing
+lowers the first entry. Evaluate descending leaves by an actual unlink
+reduction recording all curl factors. Prove independence of these auxiliary
+choices and resolution order, relabeling/plane-isotopy invariance, and
+invariance under every RII/RIII local model. Prove uniqueness among
+regular-isotopy invariants satisfying the normalization and these local
+relations. The algorithm is a finite coefficient computation, not just an
+existential invariant. Its correctness includes the geometric diagram
+comparisons; polynomial outputs alone do not identify a knot.
+
+**Writhe correction and Q.** For an oriented diagram D set
+`F_D=a^(−w(D))Λ_|D|`. The factor is a Laurent monomial; no inverse of
+Λ is needed. Prove the two RI corrections, RII/RIII invariance and descent
+to the oriented link type, with naturality under presentation changes.
+For arbitrary orientations on the four diagrams in the unoriented skein
+quadruple, export the weighted relation
+
+```text
+a^w₊ F₊ + a^w₋ F₋ = x(a^w₀ F₀ + a^w∞ F∞).
+```
+
+The second smoothing has no implicit compatible orientation; its chosen
+writhe is retained. In particular the unweighted Λ relation is not asserted
+unchanged for F. Define the ring homomorphism `ev₁:R→+*ℤ[x^{±1}]` by
+`a↦1,x↦x`, and set `Q_L=ev₁(F_L)`. Prove `ev₁(Λ)=ev₁(F)` and the
+unoriented skein relation, ambient invariance and normalization `Q(unknot)=1`.
+Prove the corresponding terminating construction and uniqueness for Q.
+
+For a subset S of ordered components let
+`C_S=Σ_{i∈S,j∉S}lk(L_i,L_j)`, each separated pair counted once, using the
+earlier oriented linking number. Reversing precisely S changes writhe by
+`−4C_S`, so prove `F_(L^S)=a^(4C_S)F_L`. Include empty/all S and successive
+reversals with linking numbers recomputed after the first reversal.
+Thus Q is independent of all component orientations. Reflection inverts
+a and fixes x: prove `Λ_mirror(a,x)=Λ(a⁻¹,x)` and the corresponding F law.
+Consequently Q is also mirror invariant. Preserve the distinction between
+these facts and simultaneous orientation reversal of F. The Jones
+component-reversal factor from Layer4.5 agrees after the comparison below.
+
+**Unlinks, joins and examples.** For μ≥1 prove
+`Λ(U_μ)=F(U_μ)=d^(μ−1)` and `Q(U_μ)=(2x⁻¹−1)^(μ−1)`.
+For nonempty factors prove the split-union laws with one factor d for Λ,F,
+and `2x⁻¹−1` for Q. Construct standard component connected sums in disjoint balls joined
+by the untwisted oriented band. Retain the chosen components and joining
+arcs; prove independence of standard joining data for those components,
+naturality under reindexing, multiplicativity and component count
+`μ(L)+μ(J)−1`. Arbitrary band sums are not assigned this formula.
+No empty-link value or split-union law with an empty factor is implicit.
+
+Compute the unknot, both curl models, the two-component unlink, positive
+Hopf link and both trefoils from realized codes, including the full skein
+trees and curl/port comparisons. For the closure of σ₁ⁿ set Λ_n to its
+regular polynomial. Prove Λ_0=d, Λ_1=a and, for n≥2,
+`Λ_n+Λ_(n−2)=x(Λ_(n−1)+a^(−(n−1)))`. The turnback smoothing
+is identified by a finite cup/cap isotopy with n−1 negative curls;
+include this certificate rather than guessing its framing. Negative powers
+follow by reflection. For the right-handed trefoil require
+
+```text
+F=(a⁻²+a⁻⁴)x²+(a⁻³+a⁻⁵)x−2a⁻²−a⁻⁴,
+Q=2x²+2x−3.
+```
+
+For the positive Hopf link require
+`F=(a⁻¹+a⁻³)(x−x⁻¹)+a⁻²`, hence `Q=2x−2x⁻¹+1`.
+Use these checks to verify the mirror and component-reversal factors.
+
+**Checks.**
+
+- Either attached curl leaves normalized F unchanged; a curled unknot has Q=1.
+- The crossing-free two-component unlink has F=d and Q=`2x⁻¹−1`.
+- The positive Hopf mirror has F equal to `a⁴F_Hopf`, matching reversal of
+  one component with linking number1, while Q is unchanged. Reflection
+  inverts a in the trefoil formula and leaves its Q unchanged.
+
+**Jones comparison with denominators.** Into native `RatFunc ℚ`, with
+indeterminate A, construct the coefficient map `a↦−A³,x↦A+A⁻¹` by two
+native Laurent evaluations. Prove both images nonzero and explicitly give
+their inverses; `A+A⁻¹` is not a unit in the integer Laurent ring, so that
+ring is not the target of a homomorphism on all R. The map sends d to
+`−A²−A⁻²`. Prove its value on Λ equals the native unknot-normalized
+`TauCeti.PDCode.kauffmanBracket` by the local skein/curl laws and uniqueness,
+and its value on F equals `TauCeti.OrientedPDCode.normalizedKauffmanBracket`.
+Use the native Jones comparison at `t=A⁻⁴`, with the half-variable
+`t¹ᐟ²=A⁻²`. These invariant values lie in the embedded integer Laurent
+subring; prove that descent before evaluating at numerical A. This does
+not extend coefficient evaluation through a zero denominator. The trefoil
+maps to `t+t³−t⁴`, and the Hopf link to `−t¹ᐟ²−t⁵ᐟ²`.
+
+**Separation computations.** Supply explicit realized PD/Gauss codes,
+finite skein certificates and complete coefficient lists for the two
+pairs below. For the first pair, use the representatives
+of [Lickorish–Millett, Example16](https://web.math.ucsb.edu/~millett/Papers/1987Millett9LickorishTopology.pdf):
+the same-HOMFLY pair is 8₈ and the obverse (mirror) of their 10₁₂₉.
+Prove the mirror/variable adapter to the HOMFLY convention here, then prove
+P equality and Q inequality; Q's mirror invariance makes that separation
+independent of this mirror choice. For the second pair use the alternating
+11-crossing knots numbered255 and257 in Conway's enumeration, as named in
+[Ng, §8.6](https://sites.math.duke.edu/~ng/math/papers/knotI.pdf).
+Give their exact diagram-to-enumeration identification and an explicit
+conversion before using a different modern table's indices. Prove equality
+of F and inequalities of P, Conway and normalized Alexander polynomials,
+with an explicit differing coefficient for each inequality. Retain the
+Conway-enumeration labels11₂₅₅/11₂₅₇ until this conversion is proved. Polynomial
+equality is not a certificate for these diagram identifications. These
+pairs prove that neither F nor P determines the other on knots; finite
+support/term counts are computed from their actual coefficient lists,
+not used as a general comparison of invariant strength.
+
+The plus-skein and curl
+convention is Kauffman's [regular-isotopy polynomial](https://homepages.math.uic.edu/~kauffman/IRH.pdf);
+use it consistently rather than the different Dubrovnik skein convention.
+
+*Needs:* Layer4.2 (realized planar diagrams and Reidemeister), Layer4.3
+(oriented linking), Layer4.5 (native bracket/Jones), Layer4.6 (HOMFLY and its
+mirror convention); Mathlib `LaurentPolynomial.eval₂`, `LaurentPolynomial.invert`,
+`RatFunc`; Tau Ceti `TauCeti.PDCode`, `TauCeti.OrientedPDCode` and their native
+bracket, writhe and normalized bracket APIs.
 
 ### 4.7 Colourings, the determinant and the Arf invariant
 
