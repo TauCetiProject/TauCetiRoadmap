@@ -1,13 +1,13 @@
 import Mathlib
 
 /-!
-# Prismatic cohomology, Part II: headline target statements
+# Prismatic cohomology, Part II: target signatures
 
-The roadmap is `README.md`. These are suggested forms, not an exhaustive checklist;
-discharging the statements in this file does not finish a layer or the roadmap.
-
-No headline theorem can be stated against the pinned Mathlib and Tau Ceti: their
-prismatic and cohomological objects are absent. The results requiring those objects are:
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, and
+nothing else. No headline theorem of this roadmap is statable at the pins: the
+prismatic and cohomological carriers are absent, so nothing is stated in their place.
+The headline theorems and the carriers each lacks are:
 
 * Layer 3: the Nygaard graded-piece comparisons (§§3.5, 3.13, 3.15), canonical
   Breuil–Kisin twists (§§3.8–3.9), Frobenius factorization through `Lη_I` (§3.16),
