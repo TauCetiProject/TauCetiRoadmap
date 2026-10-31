@@ -1251,10 +1251,12 @@ espaces de plongements*, Bull. Soc. Math. France 89 (1961)). Deduce:
   extends to a radial isotopy supported in a larger disc.
 - The family of embeddings of a point moving along a path in a connected manifold extends to
   an ambient isotopy; this is the homogeneity of connected manifolds.
-- For `N = S¹` and the family shrinking a trefoil to a round circle through non-embeddings
-  (a family that is an embedding for `t > 0` only), the theorem does not apply at `t = 0`: the
-  hypothesis that every `F_t` is an embedding is needed, since the trefoil and the unknot are
-  not ambient isotopic.
+- The [shrinking local trefoil](#gt4-shrinking-local-knot) is a jointly C⁰-continuous
+  family whose every time slice, including time0, is a smooth embedding. Its limit
+  is the unknot, while every positive-time knot is a trefoil. The derivative gap
+  prevents C¹ convergence, so it supplies neither a jointly smooth family nor a
+  continuous path in the declared C∞ embedding topology. Both forms above retain
+  their stated hypotheses.
 - The two embeddings `x ↦ x` and `x ↦ −x` of `D¹` into `ℝ` are not ambient isotopic: the
   orientation hypothesis of the disc theorem is needed.
 
@@ -2088,6 +2090,65 @@ signed input.
 [Native normalized-triangle and finite-set interfaces](HardUnknotMoveTargets.lean)
 record representative targets. The geometric support, complete chart enumeration,
 plane/sphere realization and source-input comparisons above remain required.
+
+<a id="gt4-shrinking-local-knot"></a>
+### 4.2.7 A continuous family of smooth knots with a different limiting knot type
+Make physical page140's shrinking warning precise on parametrized embeddings.
+Construct a smooth unknot `e:S¹→ℝ³` with a marked parameter chart `s` in
+which `e(s)=(s,0,0)` near `[-1,1]`; the complementary arc meets the closed
+unit ball only at the two marked endpoints. Construct a smooth proper long
+embedding `a:ℝ→ℝ³`, equal to
+`(u,0,0)` near and outside `|u|=1`, whose interior arc lies in the open unit
+ball and whose closure by the fixed exterior unknot arc is the positive
+trefoil. Obtain it by cutting the realized `σ₁³` model at a marked regular
+arc and straightening its endpoint collars. Give the actual relative ball,
+parameter and ambient-isotopy comparisons; a drawing of a small knot is
+not this construction.
+
+For `0<t≤1/2`, replace the marked straight arc by `t a(s/t)`, leaving `e`
+unchanged elsewhere; put `f₀=e`. The matching straight collars make this a
+well-defined parametrized map on the whole circle. Prove every `f_t` is a
+smooth embedding: the modified interior lies in the radius-t ball, the
+straight adjacent arcs meet it only through the prescribed endpoints, and
+the remaining exterior arc is disjoint. For positive times give explicit
+relative dilations and collar adjustments identifying the closure with the
+same trefoil. All embeddings agree with `e` away from `|s|<t`.
+
+Prove the quantitative bound `‖f_t(s)−e(s)‖≤2t` for every circle parameter,
+including the unmodified portion and `t=0`. Prove joint continuity on
+`S¹×[0,1/2]`, joint smoothness for positive times, and continuity of the
+path into the compact-open C⁰ embedding space. Thus the family limits to
+the unknot although every positive-time knot is a trefoil. The existing
+Jones value distinguishes these knot types, so no ambient isotopy carries
+`f₀(S¹)` to any `f_t(S¹)` with `t>0`.
+
+Pin the derivative failure as well. Choose an interior `u₀` with
+`a′(u₀)≠(1,0,0)`; prove such a point exists, since otherwise the long
+embedding is the straight axis. In the fixed parameter chart,
+`∂_s f_t(tu₀)=a′(u₀)` for every positive t, while `e′=(1,0,0)` there.
+Hence a fixed positive lower bound separates these derivatives on a fixed
+compact chart interval, so the path does not converge in C¹ and is not
+continuous in3.3’s declared compact-open C∞ embedding topology. Explain
+this failure using those actual mapping-space seminorms. Slicewise smoothness and joint C⁰ continuity do not
+supply the jointly smooth family or C∞-continuous path required by 3.3’s
+isotopy-extension theorems. Keep the ambient-isotopy equivalence already
+used by geometric knots.
+
+[`ShrinkingKnotTargets.lean`](ShrinkingKnotTargets.lean) gives the local
+rescaling formula, its joint-continuity/embedding targets and the quantitative
+derivative obstruction on native Euclidean and calculus carriers. The closed
+circle, trefoil realization and exterior-arc comparisons above remain geometric
+targets. For the distinction between continuous knot deformations and smooth
+isotopy, see [Bode, *Knotted fields and real algebraic links*, §2.1,
+Definitions2.2–2.4](https://research-information.bris.ac.uk/ws/portalfiles/portal/172921010/Final_Copy_2018_09_25_Bode_B_PhD.pdf).
+
+*Needs:*4.1–4.2’s actual smooth/PL knots, marked braid closures and relative
+arc straightening;3.1–3.3’s mapping-space topologies and seminorms;1.5’s
+tubular charts and3.3’s independent smooth-family isotopy extension;
+4.5’s native trefoil Jones calculation and geometric comparison. This
+construction does not consume an extension theorem for C⁰-continuous
+families of slicewise smooth embeddings.
+
 
 ### 4.3 Seifert surfaces, genus and the Seifert form
 

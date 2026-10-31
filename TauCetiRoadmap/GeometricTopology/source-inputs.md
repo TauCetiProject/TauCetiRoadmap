@@ -546,3 +546,33 @@ records these meridian/longitude sign laws. Native PD/Jones mirror,
 whole-orientation reversal and trefoil chirality calculations are existing
 inputs; their realized-knot and peripheral comparisons remain geometric
 roadmap targets. The existing native-presentation companion is unchanged.
+
+
+<a id="shrinking-local-knot-inputs"></a>
+## Page140: continuous families and knot equivalence
+
+*Knot Theory.pdf*, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+physical p140 warns that a homotopy which remains a knot at every time
+can tighten a trefoil to the unknot, and then turns to polygonal knots.
+The handwritten adjective in its alternative differentiability condition
+is uncertain. The [explicit local family](README.md#gt4-shrinking-local-knot)
+pins the distinction: f₀ is a smooth unknot, every f_t for t>0 is a smooth
+trefoil, and the parametrized family is jointly C⁰-continuous. No time
+slice is collapsed or allowed to self-intersect.
+
+The long-arc rescaling t·a(s/t) matches the fixed straight collars and
+satisfies the uniform displacement bound2t. At s=tu₀ its derivative is
+a′(u₀), giving a fixed positive C¹ gap from the limiting straight arc.
+Thus this C⁰ path is not a continuous path in the C∞ embedding topology
+used by3.3’s extension theorem. The local formula does not by itself
+construct the long trefoil, the ambient straightening or the closed-circle
+family; those are explicit geometric outputs. The existing
+ShrinkingKnotTargets companion states the Euclidean/calculus targets with
+two honest admissions and remains unchanged.
+
+[Bode, *Knotted fields and real algebraic links*, §2.1,
+Definitions2.2–2.4](https://research-information.bris.ac.uk/ws/portalfiles/portal/172921010/Final_Copy_2018_09_25_Bode_B_PhD.pdf)
+distinguishes continuous knot isotopy from smooth isotopy and ambient
+isotopy. The roadmap retains its geometric ambient equivalence and the
+actual hypotheses of its smooth and C∞-continuous extension theorems.
