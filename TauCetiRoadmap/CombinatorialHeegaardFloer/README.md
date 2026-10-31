@@ -177,10 +177,18 @@ rebuilt.
 - **τ on one diagram** (`Grid/Homology/Tau.lean`): `GridDiagram.IsKnot.tau`, its
   transfer along degree-zero isomorphisms (`GridDiagram.IsKnot.tau_eq_of_linearEquiv`)
   and along maps with a left inverse up to `U`-powers
-  (`GridDiagram.IsKnot.tau_le_tau_sub_of_comp_eq_X_pow_smul`), invariance under one
-  `X`-stabilization (`GridDiagram.IsKnot.tau_stabilizeX`), and the torus-link values
-  in `Grid/TorusLink/Tau.lean`. Invariance of `τ` under all grid moves is not at the
-  pin; it is the headline `tau_eq_of_movesTo` below.
+  (`GridDiagram.IsKnot.tau_le_tau_sub_of_comp_eq_X_pow_smul`); invariance of `τ` under
+  cyclic permutation of the rows and of the columns
+  (`GridDiagram.IsKnot.tau_relabelRows_finRotate`,
+  `GridDiagram.IsKnot.tau_relabelColumns_finRotate` in
+  `Grid/Homology/CyclicPermutation.lean`) and under the one `X`-stabilization that
+  inserts the new column and row immediately before the split column and its marking
+  (`GridDiagram.IsKnot.tau_stabilizeX` in `Grid/Stabilization/Homology.lean`; the other
+  three `X`-corner placements and the four `O`-corner placements of
+  `GridDiagram.IsXStabilization` and `GridDiagram.IsOStabilization` are not treated
+  there, nor are commutations); and the torus-link values in `Grid/TorusLink/Tau.lean`.
+  Invariance of `GH⁻` and of `τ` under all grid moves is not at the pin; it is the pair
+  of headlines `unblockedHomology_equiv_of_movesTo` and `tau_eq_of_movesTo` below.
 - **Seifert-matrix Alexander polynomial** (`TauCeti/KnotTheory/Alexander.lean`):
   `TauCeti.KnotTheory.alexander` on matrices; no grid diagram has a Seifert matrix at the pin.
 - **Heegaard region systems** (`TauCeti/LowDimTopology/Heegaard`):
@@ -210,7 +218,8 @@ rebuilt.
 ## Inventory: what is missing (build here)
 
 Knot theory beyond grid diagrams, braid words and Seifert matrices; invariance of
-`GH⁻` and `GĤ` under commutation and of `τ` under all grid moves; crossing-change
+`GH⁻` and `GĤ` under commutation and the remaining stabilization types, and of `τ`
+under all grid moves; crossing-change
 maps and the unknotting number on grid links; bigraded modules over
 `𝔽₂[V₁,…,Vₙ]` as a working API; the structure theorem for finitely generated
 bigraded `𝔽[U]`-modules (τ's home); filtered complexes and filtered homotopy type
@@ -235,7 +244,7 @@ already. Milestone order:
    and **empty** rectangles `Rect°(x, y)`. ⚠ Encoding choice (plain
    `Equiv.Perm (Fin n)` vs functions on `ZMod n` vs a `2n × 2n` double cover; cf.
    Kyle Miller's "pointed cyclic orders" suggestion) deserves a short experiment
-   before committing; the 2025 summer project (acknowledgements) tried all three.
+   before committing.
 2. **Gradings.** The `J`-function, `M_O`, `M_X`, `A`; integer-valuedness of `A`;
    grading-change formulas across a rectangle.
 3. **The complexes and `∂² = 0`.** Fully blocked `GC̃` over 𝔽₂ (rectangles avoiding
@@ -250,13 +259,21 @@ already. Milestone order:
    Stabilization: identify `GC⁻(G')` with the mapping cone of
    `V₁ − V₂ : GC⁻(G)[V₁] → GC⁻(G)[V₁]` (consume Mathlib's cones). ⚠ The homologies
    of the *blocked* theories depend on grid size through `⊗W` factors; only the
-   stabilization-quotient (or `GĤ`, `GH⁻`) is the link invariant. The headline
-   consequence for knots is `tau_eq_of_movesTo`: if `G` presents a knot and
-   `G.MovesTo G'`, then `τ(G') = τ(G)` over every commutative ring of characteristic
-   two (book Theorem 5.3.1 with Definition 6.1.5). Tau Ceti already proves the
-   `X`-stabilization case (`GridDiagram.IsKnot.tau_stabilizeX`); the remaining input is
-   the commutation and `O`-stabilization invariance of `GH⁻` as an Alexander-graded
-   `𝔽[U]`-module, transferred by `GridDiagram.IsKnot.tau_eq_of_linearEquiv`.
+   stabilization-quotient (or `GĤ`, `GH⁻`) is the link invariant. The headline for
+   knots is `unblockedHomology_equiv_of_movesTo`: if `G` presents a knot and
+   `G.MovesTo G'`, then `GH⁻(G) ≅ GH⁻(G')` as Alexander-graded `K[U]`-modules, with `U`
+   acting through any one variable, by an isomorphism of Alexander degree zero, over
+   every commutative ring `K` of characteristic two (book Theorem 5.3.1 in its
+   Alexander-graded knot form; the Maslov grading on `GH⁻` and the link form over
+   `𝔽[V₁,…,V_ℓ]` are targets of G.2 and G.6 on carriers the pin lacks). Its corollary
+   is `tau_eq_of_movesTo`: `τ(G') = τ(G)` (Definition 6.1.5), transferred by
+   `GridDiagram.IsKnot.tau_eq_of_linearEquiv`. Tau Ceti already proves cyclic
+   permutations (`GridDiagram.IsKnot.tau_relabelRows_finRotate` and its column
+   counterpart) and one `X`-stabilization corner placement
+   (`GridDiagram.IsKnot.tau_stabilizeX`); the remaining input is commutation
+   invariance and the remaining stabilization types (the other three `X`-corner
+   placements and the four `O`-corner placements) for `GH⁻` as an Alexander-graded
+   `𝔽[U]`-module.
 6. **Basepoint actions.** Within each link component, the corresponding `V`-actions
    are chain homotopic; variables attached to different components are not thereby
    identified. Retain the multivariable `𝔽[V₁,…,V_ℓ]` action until a stated
@@ -268,7 +285,7 @@ already. Milestone order:
    [arXiv:1011.5265](https://arxiv.org/abs/1011.5265)).
 8. **Symmetries and the genus bound** `g(K) ≥ max{s : GĤ(K, s) ≠ 0}`. ⚠ The book is
    explicit that the combinatorial treatment "falls short of showing these bounds
-   are sharp"; sharpness is holomorphic (the analytic roadmap's far future); state
+   are sharp"; sharpness is holomorphic (the analytic roadmap's); state
    the bound, not detection.
 9. **Skein exact sequence; alternating knots are thin; links.** Fix the
    symmetric Alexander-lattice and flavor conventions. For the hat theory the
@@ -289,7 +306,7 @@ already. Milestone order:
 11. **Legendrian and transverse GRID invariants** `λ^±`; reprove Chekanov's
     Legendrian non-simplicity of `m(5₂)` combinatorially.
 12. **ℤ coefficients** via sign assignments (existence and uniqueness up to gauge;
-    MOST §15.2, or Gallais's spin-extension construction).
+    book §15.2, MOST Theorem 4.2, or Gallais's spin-extension construction).
 13. **The filtered theory** (book Chapters 13–14): the Alexander filtration on the
     grid complex over `𝔽[V]`; invariant = filtered quasi-isomorphism type: the
     combinatorial counterpart of `CFK^∞`, and the door to Υ-type concordance
@@ -349,10 +366,15 @@ for a negative-definite `P` and every odd value `ε` on the exceptional class:
 `latticeChainHomology_blowUpVertex` (blow-up at a vertex, valence one) and
 `latticeChainHomology_blowUpEdge` (blow-up along an edge, valence two), each an
 isomorphism of `𝔽₂[U]`-modules in every cubical degree. Némethi's value is
-`ε = −1`, for which the blown-up weight is `χ_k(x) + s(s+1)/2` on `φ(x,s)`; any
-other odd `ε` lies in the same orbit after adding `2Q(mE_new)`, which changes
-`ε` by `−2m` and shifts every weight by a constant (Némethi Lemma 3.3.2), so the
-exponents of the differential, and the module, do not change.
+`ε = −1`, for which the blown-up weight is `χ_k(x) + s(s+1)/2` on the total transform
+`φ(x,s)` of `x` with exceptional multiplicity `s`; for a general odd `ε` it is
+`χ_k(x) + s(s−ε)/2`. The value `ε − 2m` lies in the same orbit, as `k' + 2Q(mE_new)`,
+and the covector shift is not a constant shift of the weight (it adds `ms` on
+`φ(x,s)`); translating the lattice by `mE_new` carries the weight function of `ε − 2m`
+to that of `ε` minus the constant `m(m−ε)/2` (Némethi Lemma 3.3.2,
+`χ_{k+2Q(l)}(y) = χ_k(y+l) − χ_k(l)`; Tau Ceti `Weight/Translation.lean`), and the
+translation is an isomorphism of cube complexes, so the exponents of the
+differential, and the module, do not change.
 
 1. **Némethi cohomological weight-function model.** On the negative-definite
    decorated-graph domain of Némethi §§3.1–3.2, retain the source's characteristic
@@ -370,6 +392,29 @@ exponents of the differential, and the module, do not change.
    one-vertex case is a required regression: for its canonical `K=-E`, both
    vertices of its edge have weight zero while the edge has weight one; replacing
    the source weight by the spherical maximum loses the reduced cohomology term.
+
+   *Needs:* Mathlib `FreeAbelianGroup` (or `Finsupp` over `ℤ`) for `C_q`,
+   `LaurentPolynomial ℤ` and its quotient by `U·ℤ[U]` for `T⁺`, `Module.End` for the
+   `U` action; Tau Ceti `PlumbingGraph.characteristicWeight` for `χ_k` on a graph
+   extended here by the genus decoration `g_v` that `TauCeti.PlumbingGraph` lacks;
+   Némethi §2.2.2 (`Char`), §3.1.4 (`F^q`, `δ_w`, the grading and the finiteness
+   condition (a) on sublevel sets), §3.2.1–3.2.2 (`M^g`, the edge weight), §3.2.3 (`m_k`).
+
+   **Checks.**
+   - Genus-one `(−1)` vertex, `K = −E`, that is `K(E) = 1` (Némethi Example 4.2.4):
+     `χ_K(xE) = x(x−1)/2`, so the vertices `0` and `E` have weight `0` and the segment
+     `[0,E]` has weight `0 + M¹(0) = 1`; `H⁰ = T⁺₀ ⊕ T₀(1)` and `H^q = 0` for `q > 0`.
+     The spherical rule (weight `max(0,0) = 0` on the segment) gives `H⁰ = T⁺₀` and
+     loses the summand `T₀(1)`.
+   - Genus-zero `(−1)` vertex, canonical `K(E) = −1`: `χ_K(xE) = x(x+1)/2`, the segment
+     `[−E,0]` has weight `0 + M⁰(0) = 0`, every `S_n` is a segment, `H⁰ = T⁺₀`,
+     `H⁰_red = 0` and `m_K = 0`: the genus correction is invisible exactly when `g = 0`,
+     which is why the native complex can omit it.
+   - Non-example: two `(−1)` vertices joined by an edge have intersection form
+     `[[−1,1],[1,−1]]`, which is singular; for `K = (−1,−1)` the weight
+     `χ_K(a,b) = t(t+1)/2 + b` with `t = a − b` takes every integer value, so the
+     finiteness condition (3.1.4)(a) fails and the graph lies outside this model's
+     domain, although `χ_K` itself is defined.
 2. **Spherical characteristic `[K,E]` model.** For a finite tree of genus-zero
    vertices with integral weights, a characteristic covector `K`, and a finite
    vertex subset `E`, use cube degree `|E|`. In the source normalization, for
@@ -385,6 +430,27 @@ exponents of the differential, and the module, do not change.
    degree—not only degree zero. State orientation and weight normalization. Signs
    and the integral coefficient system are separate targets; they are not supplied
    by this characteristic-two formula.
+
+   *Needs:* Mathlib `Finset.min'` over the subsets `I ⊆ E` and `Polynomial (ZMod 2)`;
+   Tau Ceti `TauCeti.PlumbingGraph`, `PlumbingGraph.characteristicVectors` for `K` and
+   `PlumbingGraph.characteristicWeight` for the dictionary `K = k + 2Qx`; Zemke §2.3 and
+   equation (2.3) (`A_v`, `B_v`, `g`).
+
+   **Checks.**
+   - One vertex of weight `w` with `K(v) = c` (`c ≡ w mod 2`): `f_K(∅) = 0`,
+     `f_K({v}) = (c+w)/2`, `g(K,{v}) = min(0,(c+w)/2)`, so `A_v − g = max(0,−(c+w)/2)`
+     and `B_v − g = max(0,(c+w)/2)`: both are nonnegative and at least one is zero. For
+     `w = −1`, `c = −1` the exponents are `1, 0`; a definition that forgets the `−g`
+     normalisation would give `0, −1`.
+   - Zero-framed vertex, `K = 0`: `v* = Q(v,·) = 0`, so the two faces of `[0,{v}]` are
+     both `[0,∅]` with exponent `0` and cancel over `𝔽₂`; `d = 0` and
+     `H₀ = H₁ = 𝔽₂[U]`. A definition that identified `[K,E]` with the native `(x,E)`
+     would instead give `H₀ = 𝔽₂[U]`, `H₁ = 0`.
+   - Dictionary with the native complex on the `(−1)` vertex: `K = −1 − 2x` has
+     `f_K({v}) = −1 − x`, so the exponents `max(0,1+x)` and `max(0,−1−x)` are the
+     native weight drops `max(χ(x),χ(x+1)) − χ(x)` and `max(χ(x),χ(x+1)) − χ(x+1)` for
+     `χ(x) = x(x+1)/2`, and the faces `[K,∅]`, `[K+2v*,∅] = [−1−2(x+1),∅]` are the
+     native vertices `x` and `x+1`.
 3. **General graph/surface integral cubical chain model and exact source overlap.** For a
    finite plumbing graph `Γ` with integral symmetric intersection form `Q` and a
    nonnegative genus `g_v` at each vertex (cycles are allowed), fix a characteristic
@@ -459,6 +525,29 @@ exponents of the differential, and the module, do not change.
    result is only the genus-zero `(-1)`-vertex blow-up/down of valence at most two;
    any broader move invariance is a separate target.
 
+   *Needs:* Mathlib `Finsupp` over `Polynomial ℤ` for `C_q`, `Finset.sup'` for the cube
+   weight and `(-1)^(j-1)` for the orientation sign; Tau Ceti
+   `PlumbingGraph.characteristicWeight` for `χ_K` on genus-zero vertices; item 1's
+   `M^g` and `T⁺` (Némethi §3.1.4, §3.2.1–3.2.2) and the finite-support `𝔽₂[U]`
+   coordinate complex `PlumbingGraph.latticeChainComplex` for the reduction target.
+
+   **Checks.**
+   - `A₂` (two `(−2)` vertices joined by an edge, genus `0`), `K = 0`:
+     `χ_K(x₁,x₂) = x₁² − x₁x₂ + x₂²`; the square at `(0,0)` has vertex weights
+     `0, 1, 1, 1`, every edge weight `1` (`M⁰ = 0`) and cube weight `1`, so
+     `∂(square) = (0,0;{v₂}) − (1,0;{v₂}) − (0,0;{v₁}) + (0,1;{v₁})` with every exponent
+     `0`, and `∂∂(square) = [U·(0,0) − (0,1)] − [(1,0) − (1,1)] − [U·(0,0) − (1,0)] +
+     [(0,1) − (1,1)] = 0`. Without the sign `(−1)^(j−1)` the same sum is
+     `2U·(0,0) − 2·(1,1) ≠ 0` in `ℤ[U]`, which vanishes only after reduction mod `2`:
+     the sign is what the native unsigned complex can omit and the integral one cannot.
+   - Genus-one `(−1)` vertex, `K(E) = 1`: `χ_K(xE) = x(x−1)/2`, the vertices `0` and `E`
+     have weight `0` and the edge `[0,E]` weight `0 + M¹(0) = 1`, so
+     `∂(0,{v}) = U·(0,∅) − U·(E,∅)` with both exponents `1`; the spherical rule gives
+     exponents `0, 0` and a different complex (item 1's regression at the chain level).
+   - Zero-framed vertex, `K = 0`, genus `0`: `χ_K = 0`, every exponent is `0`,
+     `∂(x,{v}) = (x,∅) − (x+1,∅)`, `H₀ = ℤ[U]` and `H₁ = 0`: the complex is defined,
+     while the graph lies outside Némethi's domain and no invariance is claimed for it.
+
 The Némethi-to-`[K,E]` comparison is a third, separate theorem on the exact overlap
 of its hypotheses. It must state whether it compares source cohomology with a dual or
 with homology, and give the coefficient, support, completion, degree, sign, grading,
@@ -466,7 +555,7 @@ and characteristic-covector translations. For nonsingular `Q`, the affine map
 `x ↦ K₀ + 2Qx` identifies the lattice points with characteristic covectors in its
 chosen orbit; for singular `Q`, specify the orbit or prove a different comparison.
 
-The current native coordinate chain module has finite-support generators `(x,E)`
+The native coordinate chain module has finite-support generators `(x,E)`
 over `𝔽₂[U]` and fixes a characteristic vector `k`. Its actual typed interface is
 `P.latticeChainComplex k : ChainComplex (ModuleCat PlumbingCoefficient) ℕ`, with
 degree object `(P.latticeChainComplex k).X q`, differential
@@ -561,13 +650,28 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   `latticeChainHomology_blowUpVertex` are `𝔽₂[U]` in cubical degree `0` and zero in
   higher degrees (Tau Ceti's one-vertex computation on one side, the two-vertex chain
   with framings `w−1, −1` on the other); the values `ε = 1` and `ε = −1` give the same
-  module. Negative control: the zero-framed vertex is not negative definite, its
-  native homology is `H₀ = 𝔽₂[U]`, `H₁ = 0`, and the headline does not apply to it.
+  module. Outside the source's domain: the zero-framed vertex is not negative
+  definite, so the headline's hypothesis fails, but its conclusion still holds there
+  (`k = 0`, `ε = −1`: the blown-up weight is `s(s+1)/2`, every sublevel set is a
+  contractible band, and both sides are `H₀ = 𝔽₂[U]`, `H₁ = H₂ = 0`); negative
+  definiteness is the source's standing hypothesis (Némethi §3.4.1), which the
+  projection argument of Proposition 3.4.2 does not use. Negative control on the move
+  itself: adjoining a `(−1)`-vertex to `oneVertexPlumbing (−1)` by an edge without
+  lowering the old framing gives the intersection form `[[−1,1],[1,−1]]`, singular, so
+  it is not `blowUpVertex`; for its canonical `k = (−1,−1)` the weight
+  `χ_k(a,b) = t(t+1)/2 + b` with `t = a − b` is unbounded below, every `S_n` for
+  `n ∈ ℤ` is nonempty and connected, `U` acts bijectively on `H₀ ≅ 𝔽₂[U,U⁻¹]`, and no
+  isomorphism with `H₀ = 𝔽₂[U]` of `oneVertexPlumbing (−1)` exists: the framing drop
+  in the blow-up is what makes the weight split as `χ_k(x) + s(s+1)/2`.
 - **τ is a knot invariant:** every unknot grid has `τ = 0`; the grids `torusLink 1 2`
-  (`5 × 5`) and `torusLink 2 1` both present the `(2,3)` torus knot, and
-  `GridDiagram.two_mul_tau_torusLink` (symmetric in `p, q`) gives `τ = −1` for both,
-  as `tau_eq_of_movesTo` requires; `torusLink 2 3` presents the `(3,4)` torus knot
-  with `τ = −3`, so it is related to neither by grid moves.
+  (`5 × 5`) and `torusLink 2 1` both present the mirror image of the positive `(2,3)`
+  torus knot (the left-handed trefoil: on `torusLink p q` the tower of `GH⁻` sits in
+  the top Alexander degree and `2τ = −pq`), and `GridDiagram.two_mul_tau_torusLink`
+  (symmetric in `p, q`) gives `τ = −1` for both, as `tau_eq_of_movesTo` requires;
+  `torusLink 2 3` (`7 × 7`) presents the mirror image of the positive `(3,4)` torus
+  knot with `τ = −3`, so it is related to neither by grid moves. The value
+  `τ(T_{3,4}) = 3` of the "τ bites" bullet is for the positive torus knot; `τ` changes
+  sign under mirroring.
 - **Seifert-fibered computations:** for normalized data `(g₀,b;(α₁,β₁),…,(αᵣ,βᵣ))`
   with `αᵢ>βᵢ>0`, `gcd(αᵢ,βᵢ)=1`, choose and retain this plumbing convention:
   write the unique negative continued fraction
@@ -667,9 +771,5 @@ them:
   (2026, Kevin Buzzard and others): Heegaard Floer homology and basic knot theory
   as recurring missing definitions in recent Annals papers; also raised in recent
   TauCetiProject target-selection discussions.
-- Hannah Fechtner's braid-group program
-  ([Lean Together 2025 talk](https://www.youtube.com/watch?v=qVzuTWycPaw)), whose
-  presented-monoid infrastructure is already in Mathlib and which Lane K should
-  build on rather than duplicate.
 
 Thanks to everyone who contributed to these discussions.
