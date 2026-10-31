@@ -1,0 +1,9 @@
+'TauCetiRoadmap.OrthogonalSpinGroups.NativeCompletion.no_injective_ratUnits_lipschitz_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCetiRoadmap.OrthogonalSpinGroups.NativeCompletion.realFourSquareDiscriminantEquivProd' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+TauCeti.realSpinFourEquivSpecialUnitaryProd :
+  ↥(spinGroup (TauCeti.realCliffordForm 4 0)) ≃*
+    ↥(Matrix.specialUnitaryGroup (Fin 2) ℂ) × ↥(Matrix.specialUnitaryGroup (Fin 2) ℂ)
