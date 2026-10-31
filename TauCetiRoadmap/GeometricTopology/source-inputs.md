@@ -1465,3 +1465,30 @@ The independently specified positive-coprime formula uses Jones's own
 it is not a recovered transcription. The three general detection
 propositions are not admitted as theorems. Native and finite examples
 remain distinct from a universal unknot-detection result.
+
+<a id="mutation166-source"></a>
+## Page166 and page88: marked mutations and relative skein theory
+
+The main *Knot Theory* source has identity
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`.
+A verified-Luna reread of physical p166 confirms two four-ended tangle
+sketches, the words “rotations and reflections, etc.” and the statement
+“The eight are called the mutants of the knot.” No axes, arrows or list
+of eight operations are supplied. The second sketch's short interior mark
+is not a secure label. Do not replace this source evidence with an invented
+eight-element action or assume that a planar reflection is a spatial flip.
+The [marked action](README.md#mutation-boundary-action) specifies the three
+orientation-preserving half-turns and identity, with exact port, crossing-
+height and orientation transport. A fixed-sphere orbit can have fewer than
+four types; this is not a bound on all mutations along all possible spheres.
+
+Physical p88, reproducing Freyd et al.'s two-string discussion, states
+HOMFLY mutation invariance and the denominator-cleared horizontal-composition
+formula for numerator/denominator closures. The two boundary-orientation
+sectors, relative skein-module bases, actual gluing/closure comparisons and
+base-change proof are supplied by
+[the two-tangle specification](README.md#two-tangle-homfly-skein).
+A closure determinant that vanishes after specialization does not prove
+or disprove freeness of the specialized relative skein module; use the
+universal basis and quotient base change. All source-picture and collar
+comparisons remain required geometric outputs.

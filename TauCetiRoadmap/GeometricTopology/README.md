@@ -6564,6 +6564,142 @@ proposition is a prerequisite of any of these producers. [Native suggested
 forms](PolynomialDetectionTargets.lean) use the actual Jones polynomial, move
 equivalence and Laurent coefficient map.
 
+<a id="two-tangle-homfly-skein"></a>
+### 4.6.5 Four-ended HOMFLY skein modules and mutation
+
+Use 4.2's relative realized oriented tangles and 4.10.1's independent four-port/gluing
+prefix, with fixed cyclic order NW,NE,SE,SW. This is the relative producer for the
+mutation and two-tangle applications cited in 4.6.3. The closed-link HOMFLY invariant of
+4.6 is already constructed; its existence does not depend on this module or mutation
+theorem.
+
+Over `Λ=ℤ[l^{±1},m^{±1}]`, put `μ=−(l+l⁻¹)/m`. Construct the relative oriented HOMFLY
+skein module of the four-ended realized tangles with the fixed boundary collars, using
+`lL₊+l⁻¹L₋+mL₀=0`, ambient Reidemeister moves and removal of a disjoint trivial circle
+with factor μ. Closed components are allowed; the two open strands remain after circle
+removal, so no empty-link convention is introduced. Prove gluing and closure descend to
+the quotient. Distinguish these two boundary sectors.
+
+For alternating incoming/outgoing endpoints in cyclic order NW,NE,SE,SW, let E join
+NW–NE and SW–SE without crossings, and F join NW–SW and NE–SE. Give their unique
+orientations from that marking. Prove they form a Λ-basis by descending skein resolution
+and the closure pairing below. Under horizontal composition E is the unit and `F²=μF`.
+For `S=aE+bF`, `T=cE+dF`, prove
+
+```
+ST=acE+(ad+bc+μbd)F,
+N(S)=μa+b,                 D(S)=a+μb,
+D(ST)=D(S)D(T),
+(1−μ²)N(ST)=N(S)D(T)+D(S)N(T)−μ[N(S)N(T)+D(S)D(T)].
+```
+
+Here N closes top and bottom endpoint pairs, and D closes left and right pairs by the
+fixed exterior crossing-free arcs. Their matrix is `[[μ,1],[1,μ]]`, with determinant
+μ²−1, nonzero in Λ. Use its adjugate and the integral-domain property to prove
+independence without division. Compare this algebra with the native
+`TauCeti.TemperleyLieb Λ μ 2`, sending E to1 and F to `TemperleyLieb.e μ 0`. For the
+two-dimensional native normal form use `e_mul_self` and `twoStrandRep` in
+`TauCeti.Algebra.TemperleyLieb.Basic`: the representation's first column recovers the
+coefficients of `a·1+b·e`. Prove spanning by reducing powers of the single generator,
+then prove the actual geometric comparison. This adapter uses no positive trace or
+C*-completion.
+
+For adjacent incoming endpoints NW,NE and outgoing endpoints SW,SE, use vertical
+stacking and the basis I,B of identity strands and the positive crossing. Prove spanning
+and independence, and `B²=−l⁻¹mB−l⁻²I`. The two linear functionals are ordinary braid
+closure τ and closure after stacking B: `τ(I)=μ`, `τ(B)=1`, and `τ(B²)=−l⁻¹m−l⁻²μ`.
+Their matrix on I,B is `[[μ,1],[1,−l⁻¹m−l⁻²μ]]`, with determinant `l⁻²(1−μ²)`. The same
+nonzero-determinant argument proves independence. Identify this algebra with native
+`AdjoinRoot` of the monic polynomial `X²+(m/l)X+l⁻²`; this sector requires neither an
+eigenvalue choice nor a coefficient extension splitting that quadratic.
+
+Construct cyclic rotations of the marked boundary and simultaneous orientation reversal
+identifying every two-input/two-output marking with one of these sectors; transport
+crossing heights by the actual spatial maps. The marked half-turn action below supplies
+the orientation and collar comparisons and fixes the two basis classes. Gluing to every
+compatible exterior gives the HOMFLY mutation-invariance theorem consumed by 6.3.
+Arbitrary independent component reversals are not asserted.
+
+For every commutative ring R and coefficient homomorphism Λ→R, construct the
+tensor-base-change isomorphism
+with the actual relative skein quotient over R. Transport the universal basis through
+this isomorphism to prove the specialized module is free of rank2, even when its closure
+pairing is singular. In particular, closure injectivity after specialization is not a
+freeness criterion.
+
+Prove coefficient base change for these quotient constructions. In the alternating
+sector, after localizing at1−μ² recover `a=(D−μN)/(1−μ²)` and `b=(N−μD)/(1−μ²)`. Over a
+specialized ring the closure kernel is exactly `{(a,−μa):(1−μ²)a=0}`. In particular at
+μ²=1 the two closures need not separate tangles, while the cleared composition identity
+still specializes. Prove it universally before making such specializations. This
+supplies the formula on course p88, reproduced in [Freyd et al.,
+p244](https://www.math.ucdavis.edu/~egorskiy/MAT280-s18/HOMFLY.pdf). Match p88's
+pictured oriented N/D closures with these functionals, transporting their arrows and
+boundary collars. A crossing-free closing arc cannot join two incoming endpoints; the
+adjacent sector uses its stated braid closures instead. Prove the actual
+source-to-sector adapter before applying the composition identity.
+
+[TwoTangleSkeinTargets.lean](TwoTangleSkeinTargets.lean) gives native algebra and
+coordinate signatures; the relative geometric skein comparisons remain required theorem
+targets.
+
+<a id="mutation-boundary-action"></a>
+**The marked half-turn action.** Put the four collared endpoints at
+NW=(−a,a,0), NE=(a,a,0), SE=(a,−a,0), SW=(−a,−a,0) on the ball centered at0 of
+radius√2a,
+with a>0 and z the crossing height. Construct the spatial rotations
+
+```text
+h_x(x,y,z)=(x,−y,−z),
+h_y(x,y,z)=(−x,y,−z),
+h_z(x,y,z)=(−x,−y,z).
+```
+
+Prove they are orientation-preserving isometries of the ball, of order2, with h_xh_y=h_z
+and pairwise commutation. In cyclic port order NW,NE,SE,SW, numbered0,1,2,3, their
+permutations are respectively(03)(12), (01)(23) and(02)(13). Include the identity to
+obtain the Klein-four action. Prove each map preserves every unoriented pairing of the
+four ports. Thus gluing to a fixed compatible exterior preserves the link component
+count, including all closed components inside or outside the mutation ball. For a knot
+the result is again a knot. Four operations do not imply four distinct knot types, and
+no fixed-sphere orbit count applies to all Conway spheres at once.
+
+For every boundary marking ε with exactly two incoming and two outgoing ports, prove
+each half-turn sends ε to ε or to its global negative. In the latter case reverse ALL
+tangle-component orientations, including closed components, before restoring the
+boundary collars. Prove the restore sign is a character of the Klein-four group, so
+these maps compose to an actual action on the appropriate oriented skein module. Give
+their signed crossing, height and collar adapters and prove the induced maps are linear
+and fix both stated basis classes. A turn can reverse horizontal or vertical composition
+order; record the resulting order-reversal law rather than requiring every map to be an
+algebra automorphism. Gluing to the unchanged exterior now proves HOMFLY mutation
+invariance, and the established coefficient maps give the Alexander and Jones
+comparisons with their phases. This argument permits the specified simultaneous
+reversal, not arbitrary independent reversals of components.
+
+For a calibration, the spatial quarter-turn(x,y,z)↦(−y,x,z) exchanges0 and infinity
+tangles. With the same numerator-closing exterior these give the two-component unlink
+and the unknot, with source HOMFLY values μ and1. Hence an arbitrary rotation preserving
+the endpoint set is not one of the three mutation operations. A planar reflection
+without its accompanying height change also has a different spatial orientation. On
+physical p166, the two unmarked sketches and the words “rotations and reflections” do
+not specify eight maps. Recover their actual source operations and compare their
+boundary, height, orientation and closure data before identifying any of them with these
+half-turns. Preserve the stated count and unresolved interpretation in [the source
+note](source-inputs.md#mutation166-source).
+
+The finite integral rotation matrices, port permutations and balanced orientation laws
+are recorded in [TwoTangleSkeinTargets.lean](TwoTangleSkeinTargets.lean). Their
+certificates do not replace the actual relative isotopies or geometric skein action.
+
+*Needs:* 4.2's relative code, collar, local-move and realization comparisons; 4.10.1's
+independent port/gluing prefix; 4.6/4.6.3's ambient HOMFLY skein construction and
+4.4.5's source/native coefficient maps. Build the relative quotient, descending basis
+theorem and geometric native-algebra adapters here, using Mathlib free modules,
+submodule quotients, `AdjoinRoot`, localizations and native `TemperleyLieb`. These
+finite two-strand adapters require no analytic positivity, C*-completion or factor
+classification.
+
 ### 4.7 Colourings, the determinant and the Arf invariant
 
 Define, for a diagram and a quandle `Q` (Mathlib's `Quandle`), the set of `Q`-colourings of

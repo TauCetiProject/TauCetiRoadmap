@@ -60,3 +60,56 @@ theorem adjacent_gram_det (l : Rˣ) (m μ : R)
   sorry
 
 end TauCetiRoadmap.GeometricTopology.TwoTangleSkein
+
+namespace TauCetiRoadmap.GeometricTopology.MutationBoundary
+
+open Matrix Equiv
+
+/-- Cyclic endpoint order NW, NE, SE, SW. -/
+def port (i : Fin 4) : Fin 3 → ℤ :=
+  ![![-1, 1, 0], ![1, 1, 0], ![1, -1, 0], ![-1, -1, 0]] i
+
+/-- These are spatial rotations, including the change in crossing height. -/
+def turnX : Matrix (Fin 3) (Fin 3) ℤ := !![1, 0, 0; 0, -1, 0; 0, 0, -1]
+def turnY : Matrix (Fin 3) (Fin 3) ℤ := !![-1, 0, 0; 0, 1, 0; 0, 0, -1]
+def turnZ : Matrix (Fin 3) (Fin 3) ℤ := !![-1, 0, 0; 0, -1, 0; 0, 0, 1]
+
+def portX : Perm (Fin 4) := swap 0 3 * swap 1 2
+def portY : Perm (Fin 4) := swap 0 1 * swap 2 3
+def portZ : Perm (Fin 4) := swap 0 2 * swap 1 3
+def turns : Fin 3 → Perm (Fin 4) := ![portX, portY, portZ]
+
+theorem rotation_matrices :
+    turnX.det = 1 ∧ turnY.det = 1 ∧ turnZ.det = 1 ∧
+      turnX.transpose * turnX = 1 ∧ turnY.transpose * turnY = 1 ∧
+      turnZ.transpose * turnZ = 1 ∧ turnX * turnY = turnZ := by
+  decide +kernel
+
+theorem port_comparison : ∀ i : Fin 4,
+    turnX *ᵥ port i = port (portX i) ∧
+      turnY *ᵥ port i = port (portY i) ∧
+      turnZ *ᵥ port i = port (portZ i) := by
+  decide +kernel
+
+/-- Identity and the three half-turns form the four-element boundary action.
+This is not a count of distinct mutant knot types. -/
+theorem klein_four_packet :
+    portX * portX = 1 ∧ portY * portY = 1 ∧ portZ * portZ = 1 ∧
+      portX * portY = portZ ∧ portY * portX = portZ ∧
+      portX ≠ 1 ∧ portY ≠ 1 ∧ portZ ≠ 1 ∧
+      portX ≠ portY ∧ portX ≠ portZ ∧ portY ≠ portZ := by
+  decide +kernel
+
+/-- The same three permutations are exactly the three boundary pairings.
+Their commutation expresses matching preservation by each half-turn. -/
+theorem matching_packet : ∀ i j : Fin 3, turns i * turns j = turns j * turns i := by
+  decide +kernel
+
+/-- Every two-input/two-output marking is preserved or globally reversed.
+The geometric mutation reverses all tangle orientations in the latter case. -/
+theorem orientation_packet : ∀ (ε : Fin 4 → Bool),
+    (Finset.univ.filter fun i => ε i).card = 2 → ∀ h : Fin 3,
+      (∀ i, ε (turns h i) = ε i) ∨ (∀ i, ε (turns h i) = !(ε i)) := by
+  decide +kernel
+
+end TauCetiRoadmap.GeometricTopology.MutationBoundary
