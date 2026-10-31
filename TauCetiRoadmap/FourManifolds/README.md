@@ -2170,8 +2170,9 @@ rank≥5 branch of the existing Postnikov construction, with the actual
 stabilization map; the rank3 coefficient −4 is not used in this branch.
 
 If multiplication by2 on H⁴(X;ℤ) is injective, deduce that two oriented
-bundles of the same rank are oriented-isomorphic when their positive-degree
-Stiefel–Whitney, Pontryagin and Euler classes agree. In rank3 use w₂,p₁;
+bundles of the same rank are oriented-isomorphic when their Stiefel–Whitney
+and Pontryagin classes and their Euler class (including degree zero) agree.
+In rank3 use w₂,p₁;
 in rank4 use w₂,e,p₁; in rank≥5 use w₂,w₄,p₁ and the preceding comparison.
 Include rank1 by oriented triviality; rank0 retains its locally constant
 orientation sign, detected by its degree-zero Euler class. Rank2 uses the
