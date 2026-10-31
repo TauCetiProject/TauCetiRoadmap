@@ -1,7 +1,5 @@
 import Mathlib
 
-set_option autoImplicit false
-
 /-!
 # Lefschetz structures and algebraic operators on cohomology: target signatures
 
@@ -10,21 +8,21 @@ The statements here suggest Lean forms for particular milestones, so that contri
 reviewers converge on names and signatures; discharging all of them finishes neither a layer nor
 the roadmap. `sorry` is allowed in this human-owned roadmap library: these are goals, not proofs.
 
-This file covers Layers 0 and 1, which need only Mathlib. Layer 2 (Lefschetz data on a Weil
-cohomology theory) consumes the Chow rings of SchemeAndStackFoundations Layer 5, which are not yet implemented in
-Tau Ceti; its signatures are specified in `README.md` and will be prototyped against that
-implementation. Definitions have real bodies; only theorem statements are `sorry`.
+Layer 0 (README §§0.1–0.5):
+* `LefschetzStructure`, `LefschetzStructure.primitive`, `IsGradeProjector`, `LowersDegreeBy`,
+  `IsLefschetzInverse`, `IsWeightOperator`, `IsCompatiblePairing`;
+* `grade_eq_iSup_primitive`, `existsUnique_isLefschetzInverse`, `lambda_pow_L_pow`,
+  `L_pow_lambda_pow`, `exists_sl2`.
 
-Owners consumed (README §Scope): the primitive decomposition and the pairing theory are
-DeligneWeightsAndPurity §9.7's `lefschetzDecomposition`, `lefschetzPairings` and `primitivePiece`
-(through the `ℕ → ℤ` grading extension there), with the categorical splitting of
-EtaleDualityAndPerverseSheaves §5.7; `𝔰𝔩₂` representation theory is LieHighestWeight Layer 0, on
-Mathlib's `IsSl2Triple`. `grade_eq_iSup_primitive` below is the adapter to that core.
+Layer 1 (README §§1.1–1.4):
+* `AlgebraicStructure`, `LambdaAlgebraic`, `ProjectorsAlgebraic`,
+  `PositiveOnAlgebraicPrimitive`, `PairingNondegenerateOnAlgebraic`;
+* `projectorsAlgebraic_of_inverses`, `lambdaAlgebraic_of_inverses`,
+  `projectorsAlgebraic_of_lambdaAlgebraic`, `inv_mem_of_charpoly`,
+  `exists_inverse_L_pow_of_charpoly`, `lambdaAlgebraic_of_charpoly`,
+  `pairingNondegenerate_of_lambdaAlgebraic_of_positive`.
 
-Conventions (README §Conventions): weight `2n`; `P^i = H^i ∩ ker L^{n−i+1}` for `i ≤ n` and `P^i = 0`
-for `i > n`; the Lefschetz
-inverse `Λ` is Kleiman's (`Λ (L^{k+1} x) = L^k x`, `Λ x = 0` on primitives), not the `𝔰𝔩₂`
-lowering operator `f`; the `𝔰𝔩₂` triple has `h = ⁅L, f⁆` acting on `H^i` by `i − n`.
+Layer 2 is specified in `README.md` only.
 -/
 
 namespace TauCetiRoadmap.LefschetzStructures
@@ -59,6 +57,11 @@ def primitive (i : ℕ) : Submodule K H :=
 def IsGradeProjector (i : ℕ) (π : Module.End K H) : Prop :=
   ∀ j x, x ∈ S.grade j → π x = if j = i then x else 0
 
+/-- `g` lowers degrees by `d`: it maps `H^a` to `H^{a−d}` for `d ≤ a`, and `H^a` to `0` for
+`a < d`. -/
+def LowersDegreeBy (d : ℕ) (g : Module.End K H) : Prop :=
+  ∀ a x, x ∈ S.grade a → g x ∈ (if d ≤ a then S.grade (a - d) else ⊥)
+
 /-- `Λ` is the Lefschetz inverse (Kleiman's normalization): `Λ (L^{k+1} x) = L^k x` and `Λ x = 0`
 for `x ∈ P^j`, `j ≤ n`, whenever `L^{k+1} x` lies in degree `≤ 2n − j`. Primitive sources above
 the middle degree are `0` by the definition of `primitive`. -/
@@ -70,6 +73,13 @@ def IsLefschetzInverse (Λ : Module.End K H) : Prop :=
 /-- `h` is the weight operator: it acts on `H^i` by `i − n`. -/
 def IsWeightOperator (h : Module.End K H) : Prop :=
   ∀ i x, x ∈ S.grade i → h x = ((i : K) - n) • x
+
+/-- A pairing compatible with the Lefschetz structure: `⟨H^i, H^j⟩ = 0` unless `i + j = 2n`, and
+`⟨L x, y⟩ = ⟨x, L y⟩`. A Poincaré pairing (README §0.5) is moreover nondegenerate and
+`(−1)^i`-symmetric; Layer 1 uses only these two conditions. -/
+def IsCompatiblePairing (pair : LinearMap.BilinForm K H) : Prop :=
+  (∀ i j x y, x ∈ S.grade i → y ∈ S.grade j → i + j ≠ 2 * n → pair x y = 0) ∧
+    ∀ x y, pair (S.L x) y = pair x (S.L y)
 
 /-- **Layer 0.2.** The primitive decomposition of each `H^i`: the adapter to
 DeligneWeightsAndPurity §9.7's `lefschetzDecomposition`, not a second proof. -/
@@ -83,26 +93,24 @@ theorem existsUnique_isLefschetzInverse [CharZero K] [FiniteDimensional K H] :
     ∃! Λ : Module.End K H, S.IsLefschetzInverse Λ := by
   sorry
 
-/-- **Layer 0.3, check.** `Λ^{n−i}` inverts `L^{n−i} : H^i → H^{2n−i}` (not `Λ` itself: on
+/-- **Layer 0.3.** `Λ^{n−i}` is a left inverse of `L^{n−i}` on `H^i` (not `Λ` itself: on
 `ℚ[ξ]/(ξ³)` with `n = 2`, `Λ L² 1 = ξ` while `Λ² L² 1 = 1`). -/
 theorem lambda_pow_L_pow [CharZero K] [FiniteDimensional K H] {Λ : Module.End K H}
     (hΛ : S.IsLefschetzInverse Λ) {i : ℕ} (hi : i ≤ n) {x : H} (hx : x ∈ S.grade i) :
     (Λ ^ (n - i)) ((S.L ^ (n - i)) x) = x := by
   sorry
 
-/-- **Layer 0.3.** The `𝔰𝔩₂` triple `(L, h, f)` with `h` the weight operator, built from the
+/-- **Layer 0.3.** `Λ^{n−i}` is a right inverse of `L^{n−i}` on `H^{2n−i}`. -/
+theorem L_pow_lambda_pow [CharZero K] [FiniteDimensional K H] {Λ : Module.End K H}
+    (hΛ : S.IsLefschetzInverse Λ) {i : ℕ} (hi : i ≤ n) {y : H} (hy : y ∈ S.grade (2 * n - i)) :
+    (S.L ^ (n - i)) ((Λ ^ (n - i)) y) = y := by
+  sorry
+
+/-- **Layer 0.4.** The `𝔰𝔩₂` triple `(L, h, f)` with `h` the weight operator, built from the
 Lefschetz data; its representation theory is LieHighestWeight's. -/
 theorem exists_sl2 [CharZero K] [FiniteDimensional K H] :
     ∃ f : Module.End K H, S.IsWeightOperator ⁅S.L, f⁆ ∧ ⁅⁅S.L, f⁆, S.L⁆ = 2 • S.L ∧
       ⁅⁅S.L, f⁆, f⁆ = -(2 • f) := by
-  sorry
-
-/-- **Layer 0.3, check.** On a primitive class the `𝔰𝔩₂` operator is not the Lefschetz inverse:
-`f (L x) = (n − j) x`. -/
-theorem sl2_lower_L_primitive [CharZero K] [FiniteDimensional K H] (f : Module.End K H)
-    (hf : S.IsWeightOperator ⁅S.L, f⁆ ∧ ⁅⁅S.L, f⁆, S.L⁆ = 2 • S.L ∧ ⁅⁅S.L, f⁆, f⁆ = -(2 • f))
-    {j : ℕ} {x : H} (hx : x ∈ S.primitive j) (hj : j < n) :
-    f (S.L x) = ((n : K) - j) • x := by
   sorry
 
 end LefschetzStructure
@@ -115,7 +123,8 @@ variable {K H} {n : ℕ} (S : LefschetzStructure K H n)
 
 /-- An algebraic structure on `S`: a subfield `F` (`ℚ` in the geometric case), a subring `𝒜` of
 « algebraic » endomorphisms containing `L` and stable under `F`-scalars, and additive subgroups
-`A i ⊆ H^{2i}` of « algebraic » classes, stable under `F`-scalars and under `𝒜`. -/
+`A i ⊆ H^{2i}` of « algebraic » classes, stable under `F`-scalars and `L`, whose sum is stable
+under `𝒜`. -/
 structure AlgebraicStructure where
   /-- The field of definition of algebraic classes. -/
   F : Subfield K
@@ -128,28 +137,49 @@ structure AlgebraicStructure where
   A_le : ∀ i x, x ∈ A i → x ∈ S.grade (2 * i)
   A_smul : ∀ i, ∀ c ∈ F, ∀ x ∈ A i, c • x ∈ A i
   A_L : ∀ i x, x ∈ A i → S.L x ∈ A (i + 1)
+  A_stable : ∀ g ∈ 𝒜, ∀ i, ∀ x ∈ A i, g x ∈ ⨆ j, A j
 
 variable {S} (𝔄 : S.AlgebraicStructure) (pair : LinearMap.BilinForm K H)
 
-/-- The Lefschetz inverse is algebraic (the abstract form of condition `B`). -/
+/-- The Lefschetz inverse is algebraic. -/
 def LambdaAlgebraic : Prop := ∃ Λ ∈ 𝔄.𝒜, S.IsLefschetzInverse Λ
 
-/-- Every grade projector is algebraic (the abstract form of condition `C`). -/
+/-- Every grade projector is algebraic. -/
 def ProjectorsAlgebraic : Prop := ∀ i, ∃ π ∈ 𝔄.𝒜, S.IsGradeProjector i π
 
-/-- Positivity on algebraic primitive classes (the abstract form of `Hdg`): for `2i ≤ n`, the form `(−1)^i ⟨L^{n−2i} x, x⟩` takes positive rational
-values on nonzero primitive algebraic classes of `H^{2i}`. -/
+/-- Positivity on algebraic primitive classes: for `2i ≤ n`, `(−1)^i ⟨L^{n−2i} x, x⟩` is a
+positive rational number for every nonzero algebraic primitive class `x ∈ H^{2i}`. No order on
+`K` is used. -/
 def PositiveOnAlgebraicPrimitive : Prop :=
   ∀ i, 2 * i ≤ n → ∀ x ∈ 𝔄.A i, x ∈ S.primitive (2 * i) → x ≠ 0 →
     ∃ q : ℚ, 0 < q ∧ (-1 : K) ^ i * pair ((S.L ^ (n - 2 * i)) x) x = (q : K)
 
-/-- Nondegeneracy on algebraic classes (the abstract form of `D`): the pairing between algebraic classes of complementary degrees is
-nondegenerate. -/
+/-- Nondegeneracy on algebraic classes: a nonzero algebraic class of `H^{2i}` pairs nontrivially
+with some algebraic class of the complementary degree `H^{2n−2i}`. -/
 def PairingNondegenerateOnAlgebraic : Prop :=
   ∀ i ≤ n, ∀ x ∈ 𝔄.A i, (∀ y ∈ 𝔄.A (n - i), pair x y = 0) → x = 0
 
-/-- **Layer 1.2.** An algebraic Lefschetz inverse makes every grade projector algebraic. -/
-theorem projectorsAlgebraic_of_lambdaAlgebraic [CharZero K] [FiniteDimensional K H] (hB : LambdaAlgebraic 𝔄) : ProjectorsAlgebraic 𝔄 := by
+/-- **Layer 1.2.** Algebraic two-sided inverses of the `L^{n−i}`, lowering degrees by
+`2(n − i)`, make every grade projector algebraic. -/
+theorem projectorsAlgebraic_of_inverses (w : ℕ → Module.End K H)
+    (hw𝒜 : ∀ i ≤ n, w i ∈ 𝔄.𝒜) (hw : ∀ i ≤ n, S.LowersDegreeBy (2 * (n - i)) (w i))
+    (h₁ : ∀ i ≤ n, ∀ x ∈ S.grade i, w i ((S.L ^ (n - i)) x) = x)
+    (h₂ : ∀ i ≤ n, ∀ y ∈ S.grade (2 * n - i), (S.L ^ (n - i)) (w i y) = y) :
+    ProjectorsAlgebraic 𝔄 := by
+  sorry
+
+/-- **Layer 1.2.** Under the same hypotheses the Lefschetz inverse is algebraic. -/
+theorem lambdaAlgebraic_of_inverses [FiniteDimensional K H] (w : ℕ → Module.End K H)
+    (hw𝒜 : ∀ i ≤ n, w i ∈ 𝔄.𝒜) (hw : ∀ i ≤ n, S.LowersDegreeBy (2 * (n - i)) (w i))
+    (h₁ : ∀ i ≤ n, ∀ x ∈ S.grade i, w i ((S.L ^ (n - i)) x) = x)
+    (h₂ : ∀ i ≤ n, ∀ y ∈ S.grade (2 * n - i), (S.L ^ (n - i)) (w i y) = y) :
+    LambdaAlgebraic 𝔄 := by
+  sorry
+
+/-- **Layer 1.2.** An algebraic Lefschetz inverse makes every grade projector algebraic (take
+`w i = Λ ^ (n − i)`). -/
+theorem projectorsAlgebraic_of_lambdaAlgebraic [CharZero K] [FiniteDimensional K H]
+    (hΛ : LambdaAlgebraic 𝔄) : ProjectorsAlgebraic 𝔄 := by
   sorry
 
 /-- **Layer 1.3.** The Cayley–Hamilton step: if characteristic polynomials of algebraic
@@ -160,16 +190,33 @@ theorem inv_mem_of_charpoly [FiniteDimensional K H]
     (hunit : IsUnit w) : ∃ g ∈ 𝔄.𝒜, g * w = 1 ∧ w * g = 1 := by
   sorry
 
-/-- **Layer 1.4.** An algebraic Lefschetz inverse and positivity give nondegeneracy on algebraic classes, for a pairing compatible with `L` and the grading. The
-hypothesis `hA` says that an algebraic endomorphism followed by an algebraic grade projector
-sends algebraic classes to algebraic classes (in the geometric case: correspondences act on
-cycle classes). -/
+/-- **Layer 1.3.** The Cayley–Hamilton criterion on graded pieces: if the algebraic
+endomorphisms preserving `H^i` have characteristic polynomials on `H^i` with coefficients in
+`F`, an algebraic bijection `u : H^{2n−i} → H^i` gives an algebraic inverse of
+`L^{n−i} : H^i → H^{2n−i}`. -/
+theorem exists_inverse_L_pow_of_charpoly [FiniteDimensional K H] {i : ℕ} (hi : i ≤ n)
+    (hD : ∀ g ∈ 𝔄.𝒜, ∀ hg : (∀ x ∈ S.grade i, g x ∈ S.grade i), ∀ j,
+      (LinearMap.restrict g hg).charpoly.coeff j ∈ 𝔄.F)
+    {u : Module.End K H} (hu : u ∈ 𝔄.𝒜) (hu_bij : Set.BijOn u (S.grade (2 * n - i)) (S.grade i)) :
+    ∃ w ∈ 𝔄.𝒜, Set.MapsTo w (S.grade (2 * n - i)) (S.grade i) ∧
+      (∀ x ∈ S.grade i, w ((S.L ^ (n - i)) x) = x) ∧
+      ∀ y ∈ S.grade (2 * n - i), (S.L ^ (n - i)) (w y) = y := by
+  sorry
+
+/-- **Layer 1.3.** With algebraic grade projectors, the criterion makes `Λ` algebraic. -/
+theorem lambdaAlgebraic_of_charpoly [FiniteDimensional K H] (hπ : ProjectorsAlgebraic 𝔄)
+    (hD : ∀ i, ∀ g ∈ 𝔄.𝒜, ∀ hg : (∀ x ∈ S.grade i, g x ∈ S.grade i), ∀ j,
+      (LinearMap.restrict g hg).charpoly.coeff j ∈ 𝔄.F)
+    (u : ℕ → Module.End K H) (hu : ∀ i ≤ n, u i ∈ 𝔄.𝒜)
+    (hu_bij : ∀ i ≤ n, Set.BijOn (u i) (S.grade (2 * n - i)) (S.grade i)) :
+    LambdaAlgebraic 𝔄 := by
+  sorry
+
+/-- **Layer 1.4.** An algebraic Lefschetz inverse and positivity give nondegeneracy on algebraic
+classes, for a pairing compatible with the grading and with `L`. -/
 theorem pairingNondegenerate_of_lambdaAlgebraic_of_positive [CharZero K] [FiniteDimensional K H]
-    (hpair_L : ∀ x y, pair (S.L x) y = pair x (S.L y))
-    (hpair_grade : ∀ i j x y, x ∈ S.grade i → y ∈ S.grade j → i + j ≠ 2 * n → pair x y = 0)
-    (hA : ∀ i, ∀ g ∈ 𝔄.𝒜, ∀ x ∈ 𝔄.A i, ∀ j, ∀ π ∈ 𝔄.𝒜, S.IsGradeProjector (2 * j) π →
-      π (g x) ∈ 𝔄.A j)
-    (hB : LambdaAlgebraic 𝔄) (hHdg : PositiveOnAlgebraicPrimitive 𝔄 pair) : PairingNondegenerateOnAlgebraic 𝔄 pair := by
+    (hpair : S.IsCompatiblePairing pair) (hΛ : LambdaAlgebraic 𝔄)
+    (hpos : PositiveOnAlgebraicPrimitive 𝔄 pair) : PairingNondegenerateOnAlgebraic 𝔄 pair := by
   sorry
 
 end LefschetzStructure
