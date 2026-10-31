@@ -9158,6 +9158,193 @@ minimum. The4.11 clasp construction and5.1 peripheral markings supply only their
 respective comparison outputs. Equal fractions, linking number0, invariant agreement and
 a coarse link-classification label do not replace the component-tracked movie.
 
+<a id="two-bridge-straightening"></a>
+### 4.10.5 Witnessed two-bridge straightening and the page116 exercises
+
+Supply the constructive conversion required by *Knot Theory* physical p116,
+Exercises3.4–3.6. The existing slope constructors and closed-knot classification in4.10
+have separate roles: this prefix converts an actual bridge presentation into those
+constructors. Export the construction independently of4.10's later polynomial,
+minimum-bridge and Schubert-classification consumers, so4.4.8's marked group producer
+can use it without a return dependency.
+
+**Witnessed input and the geometric output.** Accept an oriented realized plane diagram
+with two specified overpasses covering every overcrossing, their complementary
+underpasses and all crossing/endpoint data. Also accept a collared embedded bridge
+sphere in oriented S³, with two arcs in each complementary ball and a simultaneous
+boundary-parallelism disc system for each pair: disc interiors are disjoint from the
+whole tangle and the discs are pairwise disjoint on that side. Construct the
+diagram-to-sphere comparison, placing the overpasses and underpasses on opposite sides
+with disjoint endpoint collars. Conversely construct the actual bridge diagram from this
+witness. Individual unknottedness of the arcs is insufficient.
+
+Return a diagram with the chosen bridge arc straight and free of projected crossings, a
+four-plat diagram, a finite integer twist word, a primitive projective pair (p,q), and
+the actual supported isotopies and marked gluing maps comparing these presentations and
+the existing rational numerator closure. Keep all component orientations, labels and
+boundary-port maps. The straight strand is an arc in this presentation; it is not a
+separate crossing-free component of the knot. A four-plat closes adjacent pairs of four
+endpoints at both ends. It is different from the ordinary braid closure used in4.2; a
+crossing-free strand of its four-strand braid does not assert that every two-bridge knot
+has ordinary braid index at most3.
+
+**Relative straightening and the retained gluing map.** Triangulate the finite discs and
+collars after controlled approximation. Cut along a complete disc system, standardize
+the complementary ball pieces and reassemble to give a homeomorphism of each ball pair
+to the standard trivial two-string tangle. Supply the supported PL moves, relative
+extensions and smoothing comparisons. Record the induced boundary map on the four marked
+points and their collars. Use one side as the standard cap pair and transfer its
+boundary identification to the other side; retain the resulting four-point sphere gluing
+map g. This oriented ball-boundary gluing is orientation-reversing. Fix the standard
+orientation-reversing cap gluing J and take f=g∘J⁻¹; factor this orientation-preserving
+transition, with its actual port map. Two independent unmarked trivializations are not
+simultaneous trivializations relative to the same four fixed ports. Forgetting their
+transition map would erase the rational-tangle data.
+
+Give a finite factorization of this concrete orientation-preserving PL boundary map into
+half-twists and a residual map extending over the standard trivial tangle. First choose
+a small unmarked disc on the sphere. Normalize the map to be the identity on a whole
+collar of that disc by a controlled disc/collar isotopy keeping the four marked points
+fixed; record this correction. Restrict to the complementary disc, identified with a
+polygonal star-shaped disc, and use the explicit Alexander isotopy H_t(x)=t f(x/t) on
+tD, identity off tD. On the cone over an affine simplex f(x)=Ax+b it is Ax+tb; prove
+this gives a jointly finite PL family, with H_0=id and H_1=f. Reparameterize to be
+stationary near the two time endpoints. Prove that its four point trajectories are
+pairwise disjoint and piecewise linear on a finite subdivision of time. They form a
+progressive geometric four-braid. Use C2's relative generic projection and word
+comparison to extract its finite native half-twist word, with all crossing and endpoint
+records.
+
+Construct the point-and-collar isotopy-extension adapter carrying equality of these
+braid traces to an isotopy of actual boundary maps relative to the marked points. Extend
+the trace to a family K_t fixing the disc boundary, with K_t(p)=H_t(p) for each marked
+point p. Then K_t⁻¹H_t fixes P pointwise, starts at id and ends at K_1⁻¹f. Give this
+residual isotopy, its local point/collar lifts and the comparison of K_1 with the
+elementary half-twist maps read by C2. Retain the port permutation and collar rotations;
+prove that every remaining stabilizer map extends over the standard trivial tangle by
+cutting along its discs and extending over the resulting balls. Give a finite
+supported-move certificate for these constructions, not merely equality of integer
+matrices. Termination uses finite PL subdivisions, a finite crossing list and native
+finite-word extraction; arithmetic normalization then uses Euclid's decreasing
+remainder.
+
+Use [SurfaceTopology
+Layer9](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/SurfaceTopology/README.md#layer-9-curves-cutting-and-mapping-class-groups)
+for compact-surface curve/arc cuts, boundary-relative isotopy and mapping-class
+vocabulary, and PlanarTopology's separation, collars and disc straightening. This
+section supplies the four-marked-point specialization: replace the points by small
+boundary circles, compare the boundary-relative cut system after capping them again, and
+realize the permitted point permutations by actual half-twists with collar maps.
+SurfaceTopology's compact boundary-fixed theory does not already supply arbitrary
+puncture motion. Consume DiagrammaticCoherence G0/C2/C6 for geometric braids, relative
+tangles and cap/cup composition; retain its native `BraidWord` conventions.
+
+Interpret the resulting word by4.10.1's fixed integer twists, reciprocal charts and
+marked gluing. Prove the generator-by-generator port, crossing-sign and orientation
+dictionary, then use4.10's independently specified geometric rewrite/normalization
+prefix to produce a continued-fraction twist diagram. Choose an odd-length normalized
+outermost-first list c and use the native four-strand
+word
+
+```text
+B(c)=σ₂^{c₁} σ₃^{−c₂} σ₂^{c₃} ⋯ σ₂^{c_n},
+```
+
+Here σ₂ and σ₃ use native generator indices1 and2. Expand each integer power into its
+absolute number of positive or inverse letters. The word is read bottom-to-top, with
+adjacent cap pairings(1,2),(3,4) at both ends and strand1 unused. For an even-length
+positive canonical list split its last a into(a−1,1); for a negative list use(a+1,−1).
+Prove those arithmetic and relative geometric identities, treating0/∞ separately. Supply
+the explicit port/cap and coefficient-order adapter from this four-plat to F(c),
+recording any frame/global-mirror comparison; determine and prove whether the
+positive[3] plat is the chosen right-handed trefoil model or its global mirror,
+recording that flag in the adapter. Give the supported move straightening the selected
+bridge arc. Coefficients count alternating horizontal/vertical twist blocks with the
+displayed minus on even indices. List reversal, a mirror, a cap-pairing change and
+component reversal retain their separate maps. The primitive-pair calculation guides
+this reduction but never substitutes for its geometric moves or for extension of the
+residual stabilizer map.
+
+Retain geometric orientation in the rational-frame adapter. Translation and an
+orientation-preserving quarter-turn have arithmetic representatives x↦x+1 and x↦−1/x,
+with determinant+1 matrices. The existing recurrence `[[a,1],[1,0]]` has determinant−1
+and uses x↦1/x. Prove the alternating frame/reflection/sign dictionary between these
+conventions. A determinant−1 arithmetic step is not an orientation-preserving boundary
+mapping class; no branched-cover or lens-space classification is a premise of the finite
+Alexander-isotopy and C2 word extraction above.
+
+**The two source orders and the worked diagrams.** On p116 the right-nested value is
+F(c₁,…,c_n)=c₁+1/(c₂+⋯+1/c_n). Define it projectively by `F(w)=cf(reverse(w))`, where cf
+is4.10's existing evaluator for pp162–164. Thus F([])=∞ and all intermediate0/∞ remain
+valid. Use the native rational algorithm for normalization, with its existing
+zero/infinity and coefficient boundary cases. These are the required arithmetic rows:
+
+| Input | Page116 outermost-first list | F | Later-source cf list |
+| --- | --- | --- | --- |
+| p116's illustrated example | [2,2,3] | 17/7 | [3,2,2] |
+| chosen7₃ model | [4,3] | 13/3 | [3,4] |
+| chosen8₂ model | [5,1,2] | 17/3 | [2,1,5] |
+
+For7₃ reuse4.4.8's standard PD model and marked13/3 construction. For8₂ import the
+[Atlas512 entry](https://katlas.org/wiki/8_2) with its complete finite PD record, in the
+Atlas convention:
+
+```text
+(1,4,2,5), (5,12,6,13), (3,11,4,10), (11,3,12,2),
+(7,14,8,15), (9,16,10,1), (13,6,14,7), (15,8,16,9).
+```
+
+Construct its actual native cyclic-slot/over-pair/orientation adapter, prove planarity
+and connectedness, exhibit its two-bridge witness and run the straightening algorithm to
+the chosen twist model. Supply the global mirror flag and its actual geometric
+comparison when matching Atlas, the source table and the fixed numerator-port
+convention. Do not infer handedness or source identity from a determinant or an
+unoriented knot name. Construct the corresponding source-table7₃/8₂ comparisons and the
+literal Figure7.11 incidence/bridge data, preserving unauthenticated picture details as
+required future outputs. Display each finite twist word, slope and supported movie.
+The14-row table and later finite knot census are consumers of this construction, not
+premises of these individual comparisons.
+
+Evaluate the same literal lists in cf as17/5,13/4,17/6 respectively and prove these
+differ as marked rational tangles from their F rows. Since 5·7≡1 mod17 and6·3≡1 mod17,
+the first and third wrong-order fractions can have the same unoriented knot closures as
+their intended rows. By contrast, 3·4≡−1 mod13 gives a mirror branch for7₃. Prove those
+closure/mirror maps through4.10's marked adapters; a correct knot label alone does not
+validate the arithmetic order.
+[ReversedContinuedFractionTargets.lean](ReversedContinuedFractionTargets.lean) reuses
+the existing evaluator and checks all six values, the three exact negative-list values
+and these congruences, with no new geometric carrier.
+
+**Mirror and amphichirality, Exercise3.6.** Prove geometrically that negating all
+coefficients mirrors the fixed twist diagram and its numerator closure, so F(−w)=−F(w),
+represented by(p,−q) when p>0. For p odd, p>1 and gcd(p,q)=1, derive from the full
+Schubert theorem that K(p,q) is amphichiral precisely when q²≡−1 modp. Treat p=1 as the
+unknot. Preserve the source's literal q′≡q-only statement as incomplete; the
+inverse-denominator branch is needed. Use the odd-denominator normalization and modulo2p
+test before asserting oriented equivalence. The elementary bridge-to-rational producer
+uses none of these classification conclusions.
+
+Make the positive result constructive: in an amphichiral knot class choose a
+closure-equivalent reduced fraction with0<q≤p/2 and an even-length palindromic positive
+twist expansion. Prove existence from Euclidean reversal and the congruence, with the
+terminal-1 normalization accounted for; do not assert that the canonical list of every
+fixed denominator is already palindromic. Construct the half-turn and closing-arc slide
+giving the mirror isotopy, with explicit ports and transported orientation. Give the
+separate chart comparisons relating this movie back to the input bridge presentation.
+For a failing congruence return the classification obstruction. Use5/2 with[2,2] as the
+amphichiral check;13/3,17/3 and17/7 give chiral checks. Compare [Kauffman–Lambropoulou,
+rational knots, §§1/4](https://arxiv.org/html/math/0212011) with their distinct
+[rational-tangle normalization paper, §§2–4](https://arxiv.org/html/math/0311499).
+
+*Needs:*4.2's realized relative diagrams, supported isotopies and ambient
+extension;4.10.1's independent marked tangle operations;4.10's native
+projective/normalization prefix; the compact surface/planar suppliers above;
+DiagrammaticCoherence's geometric braid and cap/cup comparison. Export the witnessed
+conversion before4.4.8's group calculations,4.8's bridge minima and4.10's
+Schubert-classification/mirror consumers. Include two-component geometric inputs and
+p=1/zero/infinity boundary cases in the construction; the stated amphichirality
+criterion here is the odd-p knot application.
+
 ### 4.11 Torus knots, satellites and Whitehead doubles
 
 Define the torus knot `T(p, q)` for coprime `p, q` as the image of `u ↦ 2⁻¹ᐟ² (u^p, u^q)` in the

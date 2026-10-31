@@ -55,3 +55,49 @@ theorem source_examples :
   decide +kernel
 
 end TauCetiRoadmap.GeometricTopology.ReversedContinuedFraction
+
+
+namespace TauCetiRoadmap.GeometricTopology.ReversedContinuedFraction
+
+/-- The outermost-first convention on physical page116, implemented only by
+reversing the input to the existing projective evaluator. -/
+def outermostValue (w : List ℤ) : WithTop ℚ := value w.reverse
+
+/-- Exact arithmetic inputs for page116's illustration and the two named-knot
+exercises. The diagram-to-word identifications remain separate README targets.
+-/
+theorem outermost_source_examples :
+    outermostValue [2,2,3] = ((17/7 : ℚ) : WithTop ℚ) ∧
+    outermostValue [4,3] = ((13/3 : ℚ) : WithTop ℚ) ∧
+    outermostValue [5,1,2] = ((17/3 : ℚ) : WithTop ℚ) := by
+  decide +kernel
+
+/-- The same printed lists in the later source's innermost-first convention.
+These distinct marked fractions must not be silently identified as tangles.
+-/
+theorem inner_order_comparison_examples :
+    value [2,2,3] = ((17/5 : ℚ) : WithTop ℚ) ∧
+    value [4,3] = ((13/4 : ℚ) : WithTop ℚ) ∧
+    value [5,1,2] = ((17/6 : ℚ) : WithTop ℚ) := by
+  decide +kernel
+
+/-- Negating every coefficient negates these exact outermost-first fractions.
+The geometric mirror and port/orientation comparison is additional README work.
+-/
+theorem outermost_mirror_examples :
+    outermostValue [-2,-2,-3] = ((-17/7 : ℚ) : WithTop ℚ) ∧
+    outermostValue [-4,-3] = ((-13/3 : ℚ) : WithTop ℚ) ∧
+    outermostValue [-5,-1,-2] = ((-17/3 : ℚ) : WithTop ℚ) := by
+  decide +kernel
+
+/-- Arithmetic denominator guards for the closed two-bridge classification.
+These congruences alone assert neither marked-tangle equality nor a geometric
+identification of any source diagram.
+-/
+theorem denominator_congruences :
+    (5 : ZMod 17) * 7 = 1 ∧
+    (3 : ZMod 13) * 4 = -1 ∧
+    (6 : ZMod 17) * 3 = 1 := by
+  decide +kernel
+
+end TauCetiRoadmap.GeometricTopology.ReversedContinuedFraction

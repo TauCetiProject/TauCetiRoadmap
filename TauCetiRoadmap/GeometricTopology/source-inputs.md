@@ -1399,3 +1399,28 @@ Lambropoulou, arXiv:1811.11701, §3, and Morton, Threading knot diagrams,
 Math. Proc. Camb. Phil. Soc.99 (1986),247–260, §3/Theorem1,
 doi:10.1017/S0305004100064161. A threading comparison requires the actual
 geometric adapter; it is not inferred from a collection of simple strings.
+
+
+<a id="two-bridge-straightening-source"></a>
+## Two-bridge straightening and the two continued-fraction orders
+
+Knot Theory physical p116, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+Exercises3.4–3.6 require a witnessed bridge-to-standard-form construction.
+The input disc systems and their boundary transition map must be retained;
+unmarked trivialization of both balls loses the twist data. The source's
+straight strand belongs to a four-plat presentation, not an ordinary
+three-strand closure. The raw ball-boundary gluing reverses orientation;
+compose with the fixed standard cap gluing before using Alexander's disc
+isotopy and the native geometric braid comparison to read its half-twists.
+
+This page uses outermost-first lists, while pp162–164 read them in reverse.
+Its literal[2,2,3] has value17/7. The chosen7_3 and8_2 rational models use
+[4,3]→13/3 and[5,1,2]→17/3. The same lists under the later convention give
+17/5,13/4,17/6. Equivalent unoriented closures do not identify marked tangles
+or authenticate a list order. The actual Figure7.11 and source-table models,
+Atlas slot/mirror dictionary and geometric straightening movies remain outputs;
+the Atlas8_2 finite PD is supplied explicitly. Use the existing Luna Markdown,
+not an invented incidence reconstruction. Negating coefficients mirrors the
+twist convention. The printed q′≡q-only criterion omits the inverse branch;
+the full Schubert criterion and the odd-denominator oriented version are kept.
