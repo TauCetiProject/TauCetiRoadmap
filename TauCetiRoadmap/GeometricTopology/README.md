@@ -2578,6 +2578,59 @@ reflection laws through the geometric linking comparison. Ignore
 self-crossings. For a diagonal Seifert entry the disjoint pair is the
 curve and its positive push-off, so its framing comparison is required.
 
+<a id="linking-matrix-exercises"></a>
+
+**The unframed linking matrix and Problems18–20.** For a realized oriented μ-component
+link define A_L : `Matrix (Fin μ) (Fin μ) ℤ` by diagonal0 and off-diagonal entries
+lk(Lᵢ,Lⱼ). The zero diagonal is a convention for an unframed link, not a self-linking
+value. Prove symmetry; empty and one-component matrices are zero. Ordered sublinks give
+the corresponding principal `Matrix.submatrix`. Component reindexing gives simultaneous
+row/column reindexing; reorienting with signs oᵢ∈ℤˣ gives D A_L D for `D=Matrix.diagonal
+(fun i => (o i : ℤ))`, and ambient reflection gives−A_L. Prove identity, composition and
+inverse laws and naturality under marked diagram/isotopy maps. Diagonal reorientations
+commute with each other; global reflection commutes with reorientation and reindexing.
+Reindexing followed by reorientation agrees with reorienting first only after
+transporting the sign vector by that same component bijection. Prove this compatibility
+law. Derive the multiset of absolute unordered off-diagonal entries as an invariant
+after forgetting component order and orientations, while retaining the finer full-matrix
+orbit under these simultaneous actions. A global mirror negates the whole matrix at
+once.
+
+For every actual splitting sphere with nonempty component blocks I,J, prove lk(Lᵢ,Lⱼ)=0
+for i∈I,j∈J, with the actual ball/component and Seifert-surface comparison. A split
+union gives the block diagonal matrix, with its component identification. For μ≥2, the
+native `SimpleGraph (Fin μ)` with edges precisely the nonzero off-diagonal entries is
+connected only if the link is nonsplit. Prove this obstruction, without inferring
+splitting from a disconnected graph or block diagonal matrix. In particular, the
+positive Hopf link H together with a split unknot U has a nonzero Hopf block and a zero
+third row/column. It is split and has lk(H₀,H₁)=1. Problem18's vanishing statement holds
+when the two-component sublink M∪N is split, or when M,N lie on opposite sides of a
+specified split of L; splittability somewhere in a larger L does not suffice.
+
+For Problem19 recover both literal p4 plane codes and their source comparisons, prove
+each has two components, and choose orientations explicitly. Compute the complete signed
+mixed-crossing sums and their halves, then their absolute values. Give the exact
+unequal-absolute-value certificate proving these two links distinct, allowing component
+interchange, reorientation and one global mirror. The source prints no names or
+numerical answers; do not substitute another familiar pair.
+
+For Problem20 use the positive standard closures σ₀² and σ₀⁴ on two strands for Hopf and
+Solomon: prove their pairwise matrices have off-diagonal entries1 and2. For the standard
+Whitehead link prove the off-diagonal entry0; for the standard Borromean link prove
+every pairwise entry0. Give their full signed crossing/component dictionaries and
+orientation/reordering/mirror transports. Recover the four separate source pictures and
+their actual comparisons to these models; the unsigned source names do not choose an
+orientation or handedness.
+
+Supply Problem18(c)'s nonsplit zero-linking example from4.11's independently constructed
+Whitehead Fox3-coloring/nonsplitting certificate. Also prove the Borromean link is
+nonsplit from4.12.1's n=3 nontrivial Brunnian/deletion producer: any split partitions it
+into proper sublinks, each an unlink, so the whole link would be an unlink. Give the
+actual split-union/unlink comparison. These examples show that the entire zero pairwise
+matrix does not imply splittability. They consume the generic linking theory and the
+independent named-model producers; neither producer uses these worked applications as a
+premise. See the [source qualification](source-inputs.md#linking-exercises-source).
+
 Prove that every nonempty oriented link `L ⊂ S³` bounds a compact connected oriented
 Seifert surface: construct the raw Seifert-algorithm surface, then join its distinct
 components by oriented interior tubes preserving the boundary (Lickorish, Theorem 2.2). Define the genus
@@ -7581,6 +7634,49 @@ comparisons, 3.3 for supported isotopy extension, 11.2 for relative
 PL/smooth transport, and native finite multisets/commutative monoids.
 Later signature checks consume 6.2 without feeding the early factorization.
 No crossing-number additivity or factor-crossing truncation is assumed.
+
+<a id="problem14-prime-factors"></a>
+
+**Problem14: the three pictured composite knots.** For the three separate diagrams on
+physical p3 of *Knot Theory – problems*, indexed left to right, construct the actual
+native oriented plane codes and their realized source comparisons. Choose component
+orientations explicitly; the source supplies none. Recover every crossing, underpass and
+cyclic incidence, retaining the outer-face data. The [source
+note](source-inputs.md#problem14-source) records the present limits of the reading.
+
+For each input give a finite supported diagram movie exposing a two-point decomposition,
+with the actual embedded sphere, complementary ball/arc pairs, collars and marked
+endpoint maps. A spatial decomposing sphere need not already appear as a two-point
+circle in the original projection; supply the move to the cut diagram. Use this
+section's independent cap construction to extract the two actual capped knot codes, and
+give the orientation-compatible reconstruction movie. Prove both caps nontrivial, so
+this cut proves the requested compositeness. Continue with a finite disjoint sphere
+system until every capped factor is prime. Export the complete prime-factor multiset
+with multiplicities, together with the marked reconstruction and the invariance supplied
+by the prime-decomposition theorem.
+
+For every factor state its exact standard knot-table name, handedness and chosen
+orientation, construct that named model's realized code, and give an actual marked
+diagram movie to the capped factor. Supply nontriviality and primality proofs for those
+models. Consume4.4.8/7.5's independently constructed named-model certificates where
+applicable; construct any additional concrete factor model and its proofs within this
+finite three-input application. The catalogue's exhaustion theorem supplies no premise,
+and its proof must not consume this application. If a bounded table lookup is used,
+exhibit an actual capped diagram within that bound before applying it. No bound on
+summand crossing numbers or general crossing-number additivity is assumed.
+
+Keep the full oriented factor multiset and gluing maps. Reversing the source orientation
+reverses all factor orientations, and a global mirror reflects the whole factor list.
+Independent mirror-forgetting of the factors loses the granny/square distinction and is
+not the output. Equal Alexander polynomials or a coarse table label do not identify the
+source composites. Give each of the three answers separately even if two turn out to
+have the same prime multiset; the actual source-code and reconstruction maps remain
+distinct outputs.
+
+This is a consumer of4.2's realized marked movies, the independent two-point sphere/cap
+and complete prime-factor producers above, and the named-model certificates just
+specified. It adds no premise to the general existence, uniqueness or knot-monoid
+construction.
 
 <a id="alternating-flyping"></a>
 ### 4.9.1 Spherical flypes, alternating classification and the marked exercise

@@ -1146,3 +1146,35 @@ diagram or additional orientation prescription is printed. The roadmap states a 
 screen-frame convention and carries the printed arrows and gaps through its planar
 reflection, with explicit adapters for changed frames. Its spatial reflection/rotation
 and trigonometric embedding are mathematical constructions, not transcribed source data.
+
+<a id="problem14-source"></a>
+## Problem14: three composite-knot diagrams
+
+*Knot Theory - problems.pdf*, physical p3, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, asks to show that
+three pictured knots are composite and identify their prime factors from a knot table.
+Exactly three unlabeled diagrams appear in one left-to-right row. Underpass gaps are
+visible; no orientations, crossing/arc labels, crossing signs, factor-separating curves,
+names or move sequences are printed. This reading does not authenticate complete cyclic
+codes or specific factor names. The three source comparisons and the complete named
+decompositions are required outputs; the prompt's assertion of compositeness is not
+itself a geometric certificate.
+
+<a id="linking-exercises-source"></a>
+## Problems18–20: linking and the scope of splitting
+
+*Knot Theory - problems.pdf*, physical p4, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, introduces M,N as
+“two components in the link L,” without explicitly requiring L to have exactly two
+components. Problem18(c)'s splitting implication needs the two-component-sublink reading
+or a split separating M from N; a split elsewhere in L does not force their linking to
+vanish. The roadmap states both valid versions and the Hopf⊔unknot counterexample to the
+unrestricted version.
+
+Problem19 has two unlabeled two-component drawings without orientation arrows, crossing
+signs, numerical answers or knot names. Both actual crossing computations remain
+required. Problem20 labels four drawings Hopf, King Solomon's knot, Whitehead and
+Borromean rings, without orientation arrows or signs. Its literal inputs need separate
+source-to-model maps; standard-model signed values are not a reading of these unoriented
+pictures. The +1/−1 sign diagrams in Problem18 do have arrows and labels. The reading
+does not authenticate complete cyclic codes for19 or20.
