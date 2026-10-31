@@ -1,8 +1,6 @@
 import Mathlib
 import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 
-set_option autoImplicit false
-
 /-!
 # Grothendieck ∞-groupoids: globular theories, coherators and their models — target signatures
 
@@ -12,31 +10,35 @@ reviewers converge on names and signatures; discharging all of them finishes nei
 the roadmap. `sorry` is allowed in this human-owned roadmap library: these are goals, not proofs.
 
 Conventions follow Ara, *On the homotopy theory of Grothendieck ∞-groupoids*, J. Pure Appl.
-Algebra 217 (2013): globular sums of tables glued by target on the left and source on the right
-(1.3); admissible pairs `(f, g) : D_n → S` with `dim S ≤ n + 1` (2.3); coherators free and
-contractible (2.11); ∞-groupoids of type `C` are presheaves sending globular sums to globular
-products (1.8, 2.5). Globular extensions are prototyped with objects indexed by tables (Ara 2013,
-Remark 2.6), which is the case for free ones.
+Algebra 217 (2013): in the globular sum of a table, the left disk of each gluing is attached by
+its source face and the right disk by its target face (1.3); a globular extension is a category
+with a coglobular object in which every globular sum exists (1.4), here with a chosen globular
+sum for each table, which by Ara's Remark 1.7 is the same as a lifting of `Θ₀`, and with the sum
+of the one-disk table `(n)` the disk itself; admissible pairs `(f, g) : D_n → S` with
+`dim S ≤ n + 1` (2.3); ∞-groupoids of type `C` are presheaves sending globular sums to globular
+products (1.8, 2.5); homotopy groups and weak equivalences as in 4.11 and 4.17.
 
 The globe category `Globe` is the carrier that HomotopyTheoryOfCategories (Layer 8.6) proves
 direct; this file states nothing about direct or Reedy categories. The only Tau Ceti declaration
-consumed is `HomotopyGroup.map`. Weak homotopy equivalences are spelled out in `weTop` with the
-two fields of Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence` (the AlgebraicTopology
-roadmap's), which is not yet in the Tau Ceti revision this repository pins; `weTop` is to be
-replaced by that predicate when the pin moves. Definitions have real bodies; only theorem
-statements are `sorry`. The universal property of a globular sum is stated directly (unique
-factorization of compatible families) rather than through Mathlib's `IsColimit` on an explicit
-diagram, which Layer 1.2 builds. Not prototyped: the cellular towers that make a
-pseudo-coherator a coherator (Layer 2.4), the homotopy groups and weak equivalences of
-∞-groupoids (Layer 4) and cellular ∞-groupoids (Layer 6); the localized functor of Layer 7.1 is
-therefore stated for an abstract weak-equivalence class `W`, to be instantiated by Layer 4.
+consumed is `HomotopyGroup.map`. `weTop` repeats the body of `IsWeakHomotopyEquivalence`, which
+StableHomotopyKTheory §2.1 owns; it is that predicate, not a variant of it. Definitions have real
+bodies; only theorem statements are `sorry`.
+
+Not stated here: Ara's Theorem 8.7 and Corollaries 8.8–8.11. They are about `Π_∞^R` for a
+globular functor `R` into `TopCat` equipped with its coglobular space of disks and hemisphere
+inclusions (Ara 2013, Examples 1.5.2), and that coglobular space is data Layer 1.1 constructs
+on Mathlib's `TopCat.disk`, which this file does not build; Theorem 8.7
+moreover compares groups, and the group structure on `π_n` comes from the composition operations
+of Layer 3.2. The README states them in Layers 5.3, 5.4 and 7.2. Not prototyped either: the
+cellular towers that make a pseudo-coherator a coherator (Layer 2.4) and cellular ∞-groupoids
+(Layer 6).
 -/
 
 namespace TauCetiRoadmap.GrothendieckInfinityGroupoids
 
 open CategoryTheory Limits Opposite
 
-universe u v
+universe u v w
 
 /-! ## Layer 0: globular sets -/
 
@@ -80,10 +82,6 @@ def σ (n : ℕ) : (⟨n⟩ : Globe) ⟶ ⟨n + 1⟩ := Hom.side (Nat.lt_succ_se
 
 /-- The target `τ_n : n ⟶ n + 1`. -/
 def τ (n : ℕ) : (⟨n⟩ : Globe) ⟶ ⟨n + 1⟩ := Hom.side (Nat.lt_succ_self n) true
-
-theorem σ_comp_σ (n : ℕ) : σ n ≫ σ (n + 1) = σ n ≫ τ (n + 1) := rfl
-
-theorem τ_comp_σ (n : ℕ) : τ n ≫ σ (n + 1) = τ n ≫ τ (n + 1) := rfl
 
 end Globe
 
@@ -172,33 +170,48 @@ namespace CoglobularObject
 
 variable {K : Type u} [Category.{v} K] (D : CoglobularObject K)
 
-/-- A family of maps out of the disks of a table is compatible when it agrees on each gluing:
-target face on the left, source face on the right. -/
+/-- A family of maps out of the disks of a table is compatible when it agrees on each gluing, in
+Ara's orientation (2013, 1.3): the source face of the left disk equals the target face of the
+right disk. -/
 def Compatible (T : Table) {Y : K} (φ : ∀ k, D.disk (T.top k) ⟶ Y) : Prop :=
-  ∀ j, D.faceTo (T.bot_lt_left j) true ≫ φ j.castSucc =
-    D.faceTo (T.bot_lt_right j) false ≫ φ j.succ
+  ∀ j, D.faceTo (T.bot_lt_left j) false ≫ φ j.castSucc =
+    D.faceTo (T.bot_lt_right j) true ≫ φ j.succ
 
 end CoglobularObject
 
 /-! ## Layer 2: globular extensions and (pseudo-)coherators -/
 
-/-- A globular extension whose objects are tables (Ara 2013, 1.4, with Remark 2.6): disks, the
-inclusions of the disks of a table into its object, and the universal property of the globular
-sum. -/
+/-- **Layer 2.1.** A choice of globular sum for every table (Ara 2013, 1.3): an object, the
+inclusions of the disks of the table, and the universal property of the iterated pushout; the sum
+of the one-disk table `(n)` is `D n` itself. -/
+structure GlobularSums {K : Type u} [Category.{v} K] (D : CoglobularObject K) where
+  /-- The globular sum of a table. -/
+  sum : Table → K
+  /-- The inclusion of the `k`-th disk of a table. -/
+  incl : ∀ (T : Table) (k : Fin (T.width + 1)), D.disk (T.top k) ⟶ sum T
+  incl_compatible : ∀ T, D.Compatible T (incl T)
+  isGlobularSum : ∀ (T : Table) (Y : K) (φ : ∀ k, D.disk (T.top k) ⟶ Y),
+    D.Compatible T φ → ∃! u : sum T ⟶ Y, ∀ k, incl T k ≫ u = φ k
+  sum_globe : ∀ n, sum (Table.globe n) = D.disk n
+  incl_globe : ∀ n, incl (Table.globe n) ⟨0, Nat.zero_lt_succ 0⟩ = eqToHom (sum_globe n).symm
+
+/-- **Layer 1.2.** In a category with pushouts every coglobular object has globular sums (Ara
+2013, Examples 1.5.1); in particular `TopCat` with the coglobular space of disks of Layer 1.1. -/
+theorem GlobularSums.nonempty_of_hasPushouts {K : Type u} [Category.{v} K] [HasPushouts K]
+    (D : CoglobularObject K) : Nonempty (GlobularSums D) := by
+  sorry
+
+/-- **Layer 2.1.** A globular extension (Ara 2013, 1.4): a category with a coglobular object and
+a chosen globular sum for every table. No condition is put on the objects: `TopCat` with its
+disks is one, and so is every free globular extension. -/
 structure GlobularExtension where
   /-- The objects. -/
-  Obj : Type
-  [cat : Category.{0} Obj]
-  /-- The object of a table. -/
-  ofTable : Table → Obj
-  ofTable_bijective : Function.Bijective ofTable
+  Obj : Type u
+  [cat : Category.{v} Obj]
   /-- The disks. -/
   disks : CoglobularObject Obj
-  /-- The inclusion of the `k`-th disk of a table. -/
-  incl : ∀ (T : Table) (k : Fin (T.width + 1)), disks.disk (T.top k) ⟶ ofTable T
-  incl_compatible : ∀ T, disks.Compatible T (incl T)
-  isGlobularSum : ∀ (T : Table) (Y : Obj) (φ : ∀ k, disks.disk (T.top k) ⟶ Y),
-    disks.Compatible T φ → ∃! u : ofTable T ⟶ Y, ∀ k, incl T k ≫ u = φ k
+  /-- The chosen globular sums. -/
+  sums : GlobularSums disks
 
 attribute [instance] GlobularExtension.cat
 
@@ -206,10 +219,26 @@ namespace GlobularExtension
 
 variable (C : GlobularExtension)
 
+/-- The globular sum of a table. -/
+abbrev ofTable (T : Table) : C.Obj := C.sums.sum T
+
+/-- The inclusion of the `k`-th disk of a table into its globular sum. -/
+abbrev incl (T : Table) (k : Fin (T.width + 1)) : C.disks.disk (T.top k) ⟶ C.ofTable T :=
+  C.sums.incl T k
+
+/-- The globular sum of the one-disk table `(n)` is the disk `D_n`. -/
+theorem ofTable_globe (n : ℕ) : C.ofTable (Table.globe n) = C.disks.disk n :=
+  C.sums.sum_globe n
+
 /-- Two maps `D_n ⟶ S` are parallel: equal sources and targets (no condition for `n = 0`). -/
 def Parallel : (n : ℕ) → {S : C.Obj} → (C.disks.disk n ⟶ S) → (C.disks.disk n ⟶ S) → Prop
   | 0, _, _, _ => True
   | n + 1, _, f, g => C.disks.σ n ≫ f = C.disks.σ n ≫ g ∧ C.disks.τ n ≫ f = C.disks.τ n ≫ g
+
+/-- Every map is parallel to itself. -/
+theorem parallel_refl : ∀ (n : ℕ) {S : C.Obj} (f : C.disks.disk n ⟶ S), C.Parallel n f f
+  | 0, _, _ => True.intro
+  | _ + 1, _, _ => And.intro rfl rfl
 
 /-- An admissible pair (Ara 2013, 2.3): parallel `f, g : D_n ⟶ S` with `S` the globular sum of a
 table of dimension at most `n + 1`. -/
@@ -232,64 +261,130 @@ def IsLifting (p : C.AdmissiblePair) (h : C.disks.disk (p.n + 1) ⟶ C.ofTable p
 /-- Contractibility (Ara 2013, 2.4): every admissible pair has a lifting. -/
 def IsContractible : Prop := ∀ p : C.AdmissiblePair, ∃ h, C.IsLifting p h
 
+/-- The admissible pair `(1_{D_n}, 1_{D_n})`, whose liftings give the identity cells. -/
+def idPair (n : ℕ) : C.AdmissiblePair where
+  n := n
+  T := Table.globe n
+  dim_le := show Finset.univ.sup (fun _ : Fin 1 => n) ≤ n + 1 from
+    Finset.sup_le fun _ _ => Nat.le_succ n
+  f := eqToHom (C.ofTable_globe n).symm
+  g := eqToHom (C.ofTable_globe n).symm
+  parallel := C.parallel_refl n _
+
 end GlobularExtension
 
-/-- A contractible globular extension (Ara's « pseudo-coherator », 2013, 2.4). A coherator is a
-pseudo-coherator with a defining cellular tower (Ara 2013, 2.10–2.11); the tower is Layer 2.4's
-`CellularTower` and is not prototyped here, so this structure omits freeness. -/
+/-- A contractible globular extension, called a pseudo-coherator by Maltsiniotis (2010) and in
+Ara's thesis, as Ara 2013, 2.4, recalls. A coherator is a pseudo-coherator with a defining
+cellular tower (Ara 2013, 2.10–2.11); the tower is Layer 2.4's `CellularTower` and is not
+prototyped here, so this structure omits freeness. -/
 structure PseudoCoherator extends GlobularExtension where
   contractible : toGlobularExtension.IsContractible
 
 /-! ## Layer 3: ∞-groupoids of type `C` -/
 
 /-- A presheaf on `C` sends globular sums to globular products: every compatible family of
-elements on the disks of a table comes from a unique element on the table. -/
-def IsGlobularPresheaf (C : GlobularExtension) (X : C.Objᵒᵖ ⥤ Type) : Prop :=
+elements on the disks of a table comes from a unique element on the table (Ara 2013, 1.8). -/
+def IsGlobularPresheaf (C : GlobularExtension) (X : C.Objᵒᵖ ⥤ Type w) : Prop :=
   ∀ (T : Table) (v : ∀ k, X.obj (op (C.disks.disk (T.top k)))),
-    (∀ j, X.map (C.disks.faceTo (T.bot_lt_left j) true).op (v j.castSucc) =
-      X.map (C.disks.faceTo (T.bot_lt_right j) false).op (v j.succ)) →
+    (∀ j, X.map (C.disks.faceTo (T.bot_lt_left j) false).op (v j.castSucc) =
+      X.map (C.disks.faceTo (T.bot_lt_right j) true).op (v j.succ)) →
     ∃! a : X.obj (op (C.ofTable T)), ∀ k, X.map (C.incl T k).op a = v k
 
 /-- **Layer 3.1.** The category `∞-Gpd_C` of ∞-groupoids of type `C` (Ara 2013, 2.5). -/
-abbrev InfinityGroupoid (C : PseudoCoherator) : Type 1 :=
-  ObjectProperty.FullSubcategory (IsGlobularPresheaf C.toGlobularExtension)
+abbrev InfinityGroupoid (C : PseudoCoherator) :=
+  ObjectProperty.FullSubcategory
+    (fun X : C.Objᵒᵖ ⥤ Type w => IsGlobularPresheaf C.toGlobularExtension X)
+
+/-! ## Layer 4: homotopy groups and weak equivalences -/
+
+namespace GlobularExtension
+
+variable (C : GlobularExtension)
+
+/-- The `n`-cells `X(D_n)` of a presheaf on `C`. -/
+abbrev Cell (X : C.Objᵒᵖ ⥤ Type w) (n : ℕ) : Type w := X.obj (op (C.disks.disk n))
+
+/-- The source of an `(n+1)`-cell. -/
+abbrev cellSrc (X : C.Objᵒᵖ ⥤ Type w) (n : ℕ) : C.Cell X (n + 1) → C.Cell X n :=
+  fun a => X.map (C.disks.σ n).op a
+
+/-- The target of an `(n+1)`-cell. -/
+abbrev cellTgt (X : C.Objᵒᵖ ⥤ Type w) (n : ℕ) : C.Cell X (n + 1) → C.Cell X n :=
+  fun a => X.map (C.disks.τ n).op a
+
+/-- **Layer 4.1.** Two `n`-cells are homotopic, `a ∼_n b`: some `(n+1)`-cell goes from `a` to `b`
+(Ara 2013, 4.2). -/
+def CellJoined (X : C.Objᵒᵖ ⥤ Type w) (n : ℕ) (a b : C.Cell X n) : Prop :=
+  ∃ h : C.Cell X (n + 1), C.cellSrc X n h = a ∧ C.cellTgt X n h = b
+
+/-- `φ` induces a bijection `π₀ X → π₀ Y`, written out on `0`-cells modulo `∼₀` (Ara 2013, 4.11). -/
+def BijectiveOnComponents {X Y : C.Objᵒᵖ ⥤ Type w} (φ : X ⟶ Y) : Prop :=
+  (∀ y : C.Cell Y 0, ∃ x : C.Cell X 0, C.CellJoined Y 0 (φ.app _ x) y) ∧
+    ∀ x x' : C.Cell X 0, C.CellJoined Y 0 (φ.app _ x) (φ.app _ x') → C.CellJoined X 0 x x'
+
+/-- `φ` induces a bijection `π_{n+1}(X, u) → π_{n+1}(Y, φ u)` for an `n`-cell `u`, where
+`π_{n+1}(X, u)` is the set of `(n+1)`-cells from `u` to `u` modulo `∼_{n+1}` (Ara 2013, 4.11). -/
+def BijectiveOnLoops {X Y : C.Objᵒᵖ ⥤ Type w} (φ : X ⟶ Y) (n : ℕ) (u : C.Cell X n) : Prop :=
+  (∀ β : C.Cell Y (n + 1), C.cellSrc Y n β = φ.app _ u → C.cellTgt Y n β = φ.app _ u →
+      ∃ α : C.Cell X (n + 1), C.cellSrc X n α = u ∧ C.cellTgt X n α = u ∧
+        C.CellJoined Y (n + 1) (φ.app _ α) β) ∧
+    ∀ α α' : C.Cell X (n + 1), C.cellSrc X n α = u → C.cellTgt X n α = u →
+      C.cellSrc X n α' = u → C.cellTgt X n α' = u →
+      C.CellJoined Y (n + 1) (φ.app _ α) (φ.app _ α') → C.CellJoined X (n + 1) α α'
+
+end GlobularExtension
+
+namespace PseudoCoherator
+
+variable (C : PseudoCoherator)
+
+/-- **Layer 3.2.** The structural map `D_{n+1} ⟶ D_n` of identities: a chosen lifting of the
+admissible pair `(1_{D_n}, 1_{D_n})`. -/
+noncomputable def identityMap (n : ℕ) : C.disks.disk (n + 1) ⟶ C.disks.disk n :=
+  Classical.choose (C.contractible (C.idPair n)) ≫ eqToHom (C.ofTable_globe n)
+
+/-- **Layer 4.1.** The iterated identity `1^n_x` of a `0`-cell `x` (Ara's `k⁰_n(x)`, 2013, 4.11). -/
+noncomputable def iteratedIdentity (X : C.Objᵒᵖ ⥤ Type w) : (n : ℕ) → C.Cell X 0 → C.Cell X n
+  | 0, x => x
+  | n + 1, x => X.map (C.identityMap n).op (iteratedIdentity X n x)
+
+/-- **Layer 4.3.** Weak equivalences (Ara 2013, 4.17): a bijection on `π₀` and on every
+`π_{n+1}(X, x) = π_{n+1}(X, 1^n_x)`. Since `φ` commutes with the structural maps,
+`φ (1^n_x) = 1^n_{φ x}`, so the target loops are Ara's. -/
+def IsWeakEquivalence {X Y : C.Objᵒᵖ ⥤ Type w} (φ : X ⟶ Y) : Prop :=
+  C.BijectiveOnComponents φ ∧
+    ∀ (n : ℕ) (x : C.Cell X 0), C.BijectiveOnLoops φ n (C.iteratedIdentity X n x)
+
+/-- **Layer 4.3.** Ara 2013, Theorem 4.18, (1) ⇔ (2): between ∞-groupoids of type `C`, a weak
+equivalence is a bijection on `π₀` and on `π_{n+1}(X, u)` at every `n`-cell `u`. -/
+theorem isWeakEquivalence_iff {X Y : C.Objᵒᵖ ⥤ Type w}
+    (hX : IsGlobularPresheaf C.toGlobularExtension X)
+    (hY : IsGlobularPresheaf C.toGlobularExtension Y) (φ : X ⟶ Y) :
+    C.IsWeakEquivalence φ ↔
+      C.BijectiveOnComponents φ ∧ ∀ (n : ℕ) (u : C.Cell X n), C.BijectiveOnLoops φ n u := by
+  sorry
+
+/-- **Layer 7.1.** The class `W_C` of weak equivalences, on presheaves; `W_C` on `∞-Gpd_C` is its
+inverse image under the inclusion. -/
+def weakEquivalences : MorphismProperty (C.Objᵒᵖ ⥤ Type w) := fun _ _ φ => C.IsWeakEquivalence φ
+
+end PseudoCoherator
 
 /-! ## Layer 5: spaces and the fundamental ∞-groupoid -/
 
-/-- The weak homotopy equivalences of `TopCat.{0}`: surjective on path components and bijective on
-every `π_n(X, x)`. These are the fields of Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence`,
-which replaces this body once the pinned Tau Ceti contains it. -/
-def weTop : MorphismProperty TopCat.{0} := fun X Y f =>
-  (∀ y : Y, ∃ x : X, Joined (f.hom x) y) ∧
-    ∀ (n : ℕ) (x : X),
-      Function.Bijective (HomotopyGroup.map (N := Fin n) f.hom (rfl : f.hom x = f.hom x))
+/-- The weak homotopy equivalences `W_Top` of `TopCat.{0}`: bijective on path components and on
+every `π_{n+1}(X, x)`. The body is that of `IsWeakHomotopyEquivalence` (StableHomotopyKTheory
+§2.1), applied to `f.hom`. -/
+def weTop : MorphismProperty TopCat.{0} := fun X _ f =>
+  Function.Bijective (ZerothHomotopy.lift (fun x => ZerothHomotopy.mk (f.hom x))
+    (fun {_ _} p => ZerothHomotopy.sound (p.map f.hom.continuous))) ∧
+    ∀ (x : X) (n : ℕ),
+      Function.Bijective (HomotopyGroup.map (N := Fin (n + 1)) (x := x) f.hom rfl)
 
 /-- **Layer 5.2.** The fundamental ∞-groupoid presheaf `Π_∞^R(X) = TopCat(R(−), X)` for a functor
-`R : C ⥤ TopCat`. -/
+`R : C ⥤ TopCat` (Ara 2013, 5.2); when `R` is a globular functor it is an ∞-groupoid of type `C`. -/
 def piPresheaf (C : PseudoCoherator) (R : C.Obj ⥤ TopCat.{0}) :
     TopCat.{0} ⥤ (C.Objᵒᵖ ⥤ Type) :=
   yoneda ⋙ (Functor.whiskeringLeft _ _ _).obj R.op
-
-/-- **Layer 5.2.** When `R` sends the disks to the topological disks and preserves globular sums,
-`Π_∞^R(X)` is an ∞-groupoid of type `C`. The hypothesis is stated in the form Layer 5.1 proves:
-`R` carries each globular-sum cocone of `C` to a colimit cocone in `TopCat`. -/
-theorem piPresheaf_isGlobular (C : PseudoCoherator) (R : C.Obj ⥤ TopCat.{0})
-    (hR : ∀ (T : Table) (Y : TopCat.{0}) (φ : ∀ k, R.obj (C.disks.disk (T.top k)) ⟶ Y),
-      (∀ j, R.map (C.disks.faceTo (T.bot_lt_left j) true) ≫ φ j.castSucc =
-        R.map (C.disks.faceTo (T.bot_lt_right j) false) ≫ φ j.succ) →
-      ∃! u : R.obj (C.ofTable T) ⟶ Y, ∀ k, R.map (C.incl T k) ≫ u = φ k)
-    (X : TopCat.{0}) : IsGlobularPresheaf C.toGlobularExtension ((piPresheaf C R).obj X) := by
-  sorry
-
-/-! ## Layer 7: localizations -/
-
-/-- **Layer 7.1.** The functor `TopCat[W_Top⁻¹] ⥤ G[W⁻¹]` induced, through Mathlib's
-`Localization.lift`, by a functor `Pi : TopCat ⥤ G` inverting weak homotopy equivalences. For
-`G = ∞-Gpd_C`, `W` the weak equivalences of Layer 4 and `Pi = Π_∞^R`, this is the functor
-`Hot ⥤ Ho(∞-Gpd_C)` of Ara 2013, 8.13; the hypothesis `hPi` is Layer 5.4. -/
-noncomputable def localizedFunctor {G : Type 1} [Category.{0} G] (W : MorphismProperty G)
-    (Pi : TopCat.{0} ⥤ G) (hPi : weTop.IsInvertedBy (Pi ⋙ W.Q)) :
-    weTop.Localization ⥤ W.Localization :=
-  Localization.lift (Pi ⋙ W.Q) hPi weTop.Q
 
 end TauCetiRoadmap.GrothendieckInfinityGroupoids
