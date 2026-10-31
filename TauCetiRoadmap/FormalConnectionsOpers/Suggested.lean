@@ -47,7 +47,7 @@ open scoped TensorProduct
 
 universe u
 
-/-! ## Layer F2: algebraic differential operators and principal parts -/
+/-! ## Layer 2 (F2): algebraic differential operators and principal parts -/
 
 section PrincipalParts
 
@@ -105,7 +105,7 @@ theorem principalParts_universal (M N : Type u) [AddCommGroup M] [Module k M] [M
 
 end PrincipalParts
 
-/-! ## Layer F2: regular formal connections -/
+/-! ## Layer 2 (F2): regular formal connections -/
 
 section RegularConnections
 
@@ -134,7 +134,7 @@ theorem regularGauge_constantCoeff_bijective (R : Type u) [CommRing R] [Algebra 
 
 end RegularConnections
 
-/-! ## Layer F3A: polynomial and formal loops -/
+/-! ## Layer 3A (F3A): polynomial and formal loops -/
 
 section PolynomialLoops
 
