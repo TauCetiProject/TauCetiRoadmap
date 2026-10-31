@@ -68,14 +68,17 @@ This roadmap owns the following, by layer.
   spheres, and the statement of Freedman's theorem.
 - **Layer 7.** Hyperbolic manifolds, finite-volume Mostow–Prasad rigidity in every
   dimension≥3 with its closed/cusped volume and isometry-group consequences, the Margulis
-  and cusp theory, and the full Appendix classification/certified-volume programme in7.7;
+  and cusp theory, the full Appendix classification/certified-volume programme in7.7,
+  and canonical ideal cells with complete peripheral isometry actions in7.7.1;
   the Weeks manifold as a Dehn filling of the Whitehead link exterior and the statement of
   its minimality, and the statements of the virtual fibering and virtual Haken theorems.
 - **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the Kneser–Milnor prime
   decomposition, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
   Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
   fibration API, and the statements of the Gordon–Luecke theorem, the JSJ theorem,
-  geometrization and the Poincaré conjecture.
+  geometrization and the Poincaré conjecture. The relative torus-boundary JSJ and
+  marked-exterior comparison programme is8.5.1;8.7 certifies the complete
+  prime-knot counts through fifteen crossings.
 - **Layer 9.** Handlebodies, Heegaard splittings and the Heegaard genus, the inequality
   between rank and genus, Waldhausen's theorem on splittings of `S³`, and the statement of
   Li's theorem.
@@ -126,7 +129,10 @@ This roadmap leaves the following to other roadmaps.
   theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), the cyclic surgery theorem (from Layers 5.2 and 8, through the
   Culler–Shalen theory of essential surfaces at ideal points of the character variety), the
   Gordon–Luecke theorem with its corollary on `S³` fillings (from Layers 5 and 8.1), and the
-  JSJ theorem (from Layers 8.1–8.4). It also owns the developments
+  JSJ theorem, including its compact torus-boundary relative extension (from Layers 8.1–8.4
+  and11.2, with the precise construction in8.5.1). The normal-surface/JSJ and
+  Cerf proof prefixes used by8.7 consume none of its finite-count outputs.
+  It also owns the developments
   that consume roadmaps downstream of this one: the torus trick and the high-dimensional proof of the annulus theorem (surgery on
   homotopy tori and the Kirby–Siebenmann obstruction), topological microbundles, the TOP/PL
   comparison and the smoothing theory beyond dimension three; the Lee deformation of Khovanov
@@ -140,8 +146,9 @@ This roadmap leaves the following to other roadmaps.
   KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism,
   HomotopySpheres or FourManifolds, every one of which consumes this roadmap.
 - **Finite classifications and computation.** The classifications in7.5–7.7, all119
-  Appendix row obligations and their certified-volume comparisons in7.7, and finite
-  code certificates explicitly specified in Layer4 are targets. Other database
+  Appendix row obligations and their certified-volume comparisons in7.7, the complete
+  prime-knot counts through fifteen crossings in8.7, and finite code certificates
+  explicitly specified in Layer4 are targets. Other database
   tables remain reference data.
 
 ## Conventions
@@ -6158,6 +6165,99 @@ RealAlgebraicGeometry's Sturm–Tarski/Thom floor and native real measure/Haar
 integration. This unit constructs the rigidity, finite geometric-checker,
 exact-arithmetic/integral and row-classification bridges stated above.
 
+### 7.7.1 Canonical ideal cells and peripheral isometries
+
+Develop the canonical Epstein–Penner decomposition and its exact comparison API
+for orientable complete finite-volume hyperbolic 3-manifolds with torus cusps,
+using 7.7's geometric checker. This is the knot/JSJ-piece scope; its `GL₂(ℤ)`
+API does not assert a torus cusp on a nonorientable manifold.
+The input includes the actual marked compact core, its complete native metric,
+a finite geometric ideal-polyhedron presentation and exact algebraic developed
+vertices and side pairings. It is not just a list of approximate shapes.
+
+1. **Canonical cells and sound certificates.** Construct the decorated light-cone
+   cusp orbits in Minkowski space for any specified positive decoration and their
+   convex hull. Prove existence, local
+   finiteness, coverage and finiteness of the quotient face complex. Choose cusp
+   sections with the same area on every cusp; common rescaling preserves the
+   decomposition, and all isometries, including cusp permutations and orientation
+   reversal, preserve it. Prove these claims from the compact thick core and the
+   explicit complete cusp ends. Retain nonsimplicial cells and their entire face
+   posets when a convexity test is an equality.
+
+   Give a finite canonical-cell certificate and prove its local convexity tests
+   imply the global convex-hull property. In the developed Klein-ball model,
+   write the hull boundary as `V=t(u)(1,u)`, `u∈B³`, `t(u)>0`, and normalize
+   each supporting plane as `ℓ(V)=−1`, with the hull on `ℓ(V)≤−1`. The
+   function `F(u)=−1/t(u)=ℓ(1,u)` is affine on each radial cell; radial height
+   itself is not affine. Prove convexity of F along compact segments from the
+   local face inequalities on the complete locally finite cellulation, and
+   deduce that every decorated orbit point lies in each required supporting
+   half-space. Establish the properness and radial-coverage hypotheses
+   used in this argument. For a compatible positive ideal triangulation derive
+   the signed Weeks tilt formula from the shape/cusp data, pin its sign convention
+   and prove the inequalities and zero-face merging recover exactly this hull.
+   For original nonsimplicial polyhedra use their direct support-plane tests.
+   Do not assume that every geometric polyhedron admits a face-compatible positive
+   ideal triangulation. Use 7.7's exact number-field/root-isolation arithmetic for
+   every equality and sign; numerical tolerances cannot decide canonical faces.
+
+2. **All isometries, with peripheral actions.** For two such presentations,
+   use the isometry-invariant barycentric subdivision of the abstract face poset
+   and enumerate its finite flag correspondences, including every developed
+   ideal-vertex occurrence, face pairing and cusp correspondence. Fix one source
+   base-cell lift and enumerate target base-cell lifts modulo deck transformations.
+   Three distinct ideal vertices determine each Möbius candidate; also construct
+   the anti-Möbius candidate. Propagate lifts along a spanning tree of the finite
+   cell-adjacency presentation using its actual side-pairing words. Check the
+   remaining vertices, faces and all non-tree side-pairing intertwining equations
+   exactly. A combinatorial automorphism of the quotient or a permutation of cusp
+   labels alone is not an accepted isometry.
+
+   Prove accepted candidates extend equivariantly across the whole developed
+   cellulation, conjugate the deck lattices and descend to actual isometries.
+   Prove every isometry can be deck-adjusted to one enumerated base-cell choice
+   and hence appears. Include identity, inverses and composition; for a single
+   manifold identify the resulting full group with
+   `N_{Isom(H³)}(Γ)/Γ`, allowing both orientations. Prove faithfulness: fixing the
+   developed flags of a full-dimensional cell fixes four ideal vertices not on
+   one circle, excluding both a nonidentity Möbius map and an anti-Möbius map.
+   Thus the computed list is exactly the full finite group, not a larger finite
+   combinatorial group containing its image.
+
+   Compute every induced `GL₂(ℤ)` matrix on the marked cusp translation lattices,
+   with the cusp permutation and orientation sign. Prove the full parabolic cusp
+   stabilizers are self-normalizing in the torsion-free lattice and justify
+   independence of lift, basepoint and cusp-representative choices on peripheral
+   abelianization. Extend
+   the comparison to two manifolds with different cell presentations.
+
+3. **Topological and named-knot comparisons.** Prove the marked rigidity bridge:
+   a homeomorphism of compact cores gives an interior homotopy equivalence;
+   straighten cusp neighborhoods to obtain a proper homotopy to the 7.7 rigidity
+   isometry, preserving the maximal parabolic correspondences. Prove properly
+   homotopic maps have the same peripheral `H₁` action with those correspondences.
+   Conversely a meridian-preserving exterior map extends over meridional filling
+   to an ambient knot homeomorphism, with its stated orientation. Neither bridge
+   follows merely from equality of hyperbolic volumes.
+
+   For `GT7.KnotTable.NoninvertibilityByPeripheralAction`, use the actual source rows `8₁₇`, `9₃₂` and `9₃₃`, construct the native diagram,
+   prove its reference identity, and certify its complete metric, canonical cells
+   and full peripheral action list. Prove no orientation-preserving isometry has
+   matrix `−I` in the framed meridian-longitude basis. An ambient isotopy reversing
+   the oriented knot would induce exactly that matrix: prove this using tube
+   independence, isotopy extension and the rigidity bridge. This proves all three
+   noninvertibility results. Record orientation-reversing actions separately;
+   their boundary determinants have the opposite sign and they are not `−I`
+   inversion witnesses. Any positive invertibility or amphicheirality conclusion
+   requires the filling and ambient-isotopy comparison in addition to an action
+   matrix. Forgetting the knot orientation in a coarse catalogue never asserts
+   invertibility of its oriented representative.
+
+*Needs:* Layers 1–5,7.3,7.3.1,7.7; exact algebraic realization and finite-volume
+rigidity from 7.7; finite face complexes and the compact-core PL comparison in 11.2.
+This supplier does not consume finite knot-count or catalogue-completeness outputs.
+
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
 The decomposition theorems of `3`-manifold topology are statable at the pin:
@@ -6391,6 +6491,93 @@ Lemmas 1.16–1.18).
 *Needs:* Tau Ceti `TauCeti.JSJTheorem`, `TauCeti.IsJSJDecomposition`, `TauCeti.IsTorusDecomposition`,
 `TauCeti.IsAtoroidal`, `TauCeti.IsPeripheralTorus`; Layer 8.2, Layer 8.3, Layer 8.4; Layer 11.2.
 
+### 8.5.1 Compact torus-boundary JSJ and marked exterior comparisons
+
+Extend the 8.5 theorem and its proof to compact orientable irreducible
+3-manifolds with incompressible torus boundary, relative to specified boundary
+collars and peripheral markings. Build the actual finite cut-and-glue records,
+incompressibility and boundary-parallel tests, minimal characteristic torus
+family, Seifert pieces and atoroidal interiors. Prove existence and uniqueness
+up to ambient isotopy relative to the external boundary, and that every
+homeomorphism carries the characteristic family to the other up to such isotopy.
+The proof belongs to the independent normal-surface/characteristic-annulus prefix
+of GeometricTopology, Part II: extend the 8.5 Kneser, characteristic-Seifert and
+annulus arguments to boundary collars. This prefix consumes 8.1–8.4 and 11.2, not
+finite table classifications or any downstream use of them.
+
+The pinned `TauCeti.JSJTheorem` is a closed-manifold statement; it does not supply
+this extension. `TauCeti.IsPeripheralTorus` and `TauCeti.IsAtoroidal` describe
+noncompact ends through an embedded `T²×ℝ≥0`; use them on interiors and prove
+the equivalence to compact-core boundary parallelism. Applying that definition
+directly to a compact core would give the wrong boundary convention.
+
+For the finite knot-exterior application, certify each proposed decomposition
+and prove its JSJ character by this theorem. On every atoroidal non-Seifert
+piece provide an actual 7.7 complete finite-volume polyhedral metric certificate
+and a marked compact-core identification. Atoroidality alone supplies no metric.
+The bounded application requires those certificates on every catalogue piece;
+it does not assume universal positive ideal triangulations or a general
+hyperbolization theorem. Include actual satellite exteriors. For pieces cut
+from an exterior in `S³`, prove every cutting torus separates and the adjacency
+graph is a tree rooted at the distinguished external boundary.
+
+Construct a complete decision procedure for marked homeomorphisms between these
+certified exteriors, with a realized map on success and a mathematical
+nonequivalence proof on failure:
+
+1. Remove product `T²×I` collars from the reduced graph and record their boundary
+   identifications. Recognize solid tori in the separate unknot branch. Handle
+   every nonunique-fibration exception in 8.4 before assuming fibre preservation.
+   In the `S³`-embedded setting prove the exclusions used, including the twisted
+   `I`-bundle over the Klein bottle: its embedded closed Klein-bottle core cannot
+   occur in `S³`. No exceptional piece may be discarded just by its label.
+
+2. For hyperbolic pieces use 7.7.1's complete finite list of isometries and their
+   boundary actions, with all allowed cusp permutations and orientation signs.
+   For Seifert pieces use 8.4's actual normalized fibration models. After finite
+   choices of boundary and exceptional-fibre permutations and base/fibre signs,
+   compute the full set of boundary `H₁` actions as a finite union of realizable
+   affine integer lattices. Derive the lattice generators and relations from
+   base-surface maps, vertical twists, exceptional-fibre data and the Euler
+   obstruction; prove both construction and converse. Keep correlations between
+   all boundary components of the SAME piece. Arbitrary bounded samples of twists
+   do not describe this set. Restrict this theorem to the explicitly handled
+   reduced pieces; arbitrary `GL₂(ℤ)` actions of an unremoved product collar are
+   not an affine-lattice family to which linear elimination applies.
+
+3. Enumerate finite graph identifications, piece correspondences, the discrete
+   Seifert choices and hyperbolic isometries. Enforce one global 3-dimensional
+   orientation sign. Write each remaining boundary matrix in its proved affine
+   lattice form. For fixed edge gluings `G_e,G'_e`, require
+   `A_w,e G_e = G'_e A_v,e`, and on the external torus require
+   `A_root μ = ±μ'`, with the sign chosen finitely. These are integer LINEAR
+   equations in the twist parameters. Solve them using Smith normal form,
+   retaining its actual unimodular changes of basis and divisibility witnesses,
+   either to construct a solution or to prove none exists. Build the terminating
+   Euclidean integer row/column reduction and prove its correctness; compare its
+   output with Mathlib's `Module.Basis.SmithNormalForm` and
+   `Submodule.smithNormalForm`. Those noncomputable basis-existence interfaces
+   alone are not an executable integer solver. No determinant or
+   bilinear constraint may be silently passed to this linear solver: their
+   satisfaction is part of the previously proved piece-action parametrization.
+
+4. Equality of boundary `H₁` matrices means the torus maps are isotopic, not
+   literally equal. Use SurfaceTopology's classification of torus mapping
+   classes and collar adjustment to make the piece maps agree literally on
+   glued boundaries, then glue the homeomorphism. Prove the orientation and
+   meridian conditions survive. Extend over the meridional solid tori by 5.2,
+   carrying their cores, to obtain precisely the declared ambient knot
+   homeomorphism. Conversely relative JSJ uniqueness, marked rigidity and the
+   full Seifert action theorem force every such homeomorphism into an enumerated
+   case and a solution of these equations. Failure of every case therefore
+   proves nonequivalence. This avoids assuming completeness of a collection of
+   polynomial, volume or finite-quotient invariants.
+
+*Needs:* Layers 1–5,7.7,7.7.1,8.1–8.5,11.2; SurfaceTopology's boundary maps and
+isotopy classification; integer matrices and unimodular Smith normal form.
+The relative JSJ proof prefix is independent of 8.7; the comparison procedure
+consumes the explicit piece certificates, not the truth of any desired count.
+
 ### 8.6 Geometrization and the Poincaré conjecture
 
 The geometrization theorem is the pinned `TauCeti.GeometrizationConjecture`: every closed
@@ -6429,6 +6616,114 @@ surgery is RicciFlow's work; this roadmap owns the statement and every reduction
 *Needs:* Tau Ceti `TauCeti.GeometrizationConjecture`, `TauCeti.IsGeometricTorusDecomposition`,
 `TauCeti.IsFiniteVolumeHyperbolic`, `TauCeti.ModelGeometry`, `TauCeti.HasGeometricStructure`;
 Layer 7.1, Layer 7.3, Layer 8.2, Layer 8.4, Layer 8.5; Mathlib `SimplyConnectedSpace`.
+
+### 8.7 Certified prime-knot counts through fifteen crossings
+
+Prove the entire Knot Theory physical p.156 count table. Count NONTRIVIAL PRIME
+tame unoriented knot images in `S³` up to ambient homeomorphisms of either
+orientation, so global mirrors and reversal of parametrization are identified.
+The crossing number is the minimum over ALL regular diagrams of the class.
+At EXACT crossing number n the required counts are:
+
+| n | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| prime knots | 1 | 1 | 2 | 3 | 7 | 21 | 49 | 165 | 552 | 2176 | 9988 | 46972 | 253293 |
+
+Prove zero at n=0,1,2; the unknot is not included among prime knots. Retain the
+finer oriented and mirror-sensitive quotients and their forgetful maps. The
+coarse count convention supplies no oriented invertibility theorem. If an
+exact certified count contradicts a literal source count, retain the literal
+and prove the precise correction in this same quotient.
+
+1. **Complete raw input.** From 4.2 and 4.14 enumerate all native one-component
+   signed planar diagrams with 0≤c≤15, including loops, parallel edges and
+   nugatory crossings, and the crossing-free circle. Retain planar rotation,
+   outer-face and realization data, with sound and complete finite tests against
+   native `PDCode`, `OrientedPDCode` and `IsPlanar`. Prove every regular diagram
+   at the bound is represented. Prove rooting, spanning-tree, relabelling and
+   other pruning preserve this coverage. An arbitrary signed word need not be
+   planar, and an unadorned Dowker word need not specify a composite diagram
+   uniquely: provide a sound adapter with whatever rotation/realization data
+   are needed. No catalogue completeness theorem is a premise of enumeration.
+
+2. **Primeness and unknot recognition.** Construct each input's actual compact
+   exterior and its marked meridian and preferred longitude. Prove irreducibility
+   of knot exteriors in `S³` using connectedness and Schoenflies. Extend 8.3 and
+   7.7's sphere/meridional-annulus witness programme to essential compressing
+   discs: prove normalization and computable bounds for least-weight essential
+   witnesses via fundamental normal-surface/Haken-sum analysis, with the exact
+   boundary conditions and essentiality checks. Prove finite search detects
+   existence and absence; do not claim that every normal representative is
+   bounded. Prove the exterior boundary compresses exactly for the unknot,
+   with the solid-torus comparison. The compression disc in the unknot exterior
+   has preferred-LONGITUDE boundary, not knot-meridian boundary.
+
+   Prove a nontrivial knot is composite exactly when its exterior contains the
+   appropriate essential annulus with both boundary slopes meridional. Exclude
+   boundary-parallel annuli and trivial-factor spheres by explicit tests. Give
+   the corresponding decomposing sphere, both actual nontrivial summands and
+   the reconstruction homeomorphism. Normal witness search must be complete
+   for this essential meridional-annulus condition; absence certifies primality
+   only together with nontriviality. Certify each summand's nontriviality without
+   assuming it lies in the desired bounded catalogue. Neither crossing-number
+   additivity nor a bound on the crossing numbers of the summands is assumed.
+
+3. **Realized catalogue and comparisons.** Supply actual finite native codes for
+   every retained prime representative, with geometric realization, nontriviality
+   and primality certificates. For every raw input supply one of: an unknot
+   reduction, a certified nontrivial connected-sum decomposition, or an
+   equivalence to a retained prime representative. Positive certificates are
+   finite Reidemeister sequences (intermediate crossings unrestricted), or actual
+   meridian-preserving compact-exterior homeomorphisms with the 5.2 filling
+   extension. Keep global reflection and orientation choices explicit. A finite
+   movie conclusion additionally uses 4.2 and the independent 3.4 Cerf/isotopy
+   comparison; homeomorphism equivalence itself does not assert that a chosen
+   ambient map is already isotopic to the identity.
+
+   Each prime representative carries its certified 8.5.1 compact JSJ structure,
+   complete metrics and canonical cells on every hyperbolic piece, and actual
+   Seifert models on every other piece. Produce every such certificate, including
+   satellites; do not assert all low-crossing prime knots are hyperbolic or torus
+   knots. Compare distinct representatives by the complete marked-exterior
+   procedure of 8.5.1. Hyperbolic volumes and polynomial invariants can prune
+   comparisons but equality never proves equivalence and no finite list of them
+   is assumed complete. Meridian markings are essential; the comparison does
+   not silently invoke the Gordon–Luecke theorem on unmarked complements.
+
+4. **Minima, duplicates and exact cardinalities.** Use the all-input recognition
+   certificates to select the entire nontrivial-prime subset of the raw inputs.
+   Partition this subset by certified equivalence to the prime catalogue and its
+   complete pairwise comparisons. No composite-factor classification or bound on
+   its factor crossings is needed. The least crossing
+   count in each class is its true global minimum: any smaller diagram would
+   already occur in the complete raw input. Prove this explicitly for all prime
+   classes, including nonalternating cases. Reduced alternating span estimates
+   are shortcuts on their stated hypotheses, not a substitute for the remaining
+   minimum proofs. Pin a finite numeric code order and choose the least code
+   among the minimum diagrams for each class.
+
+   Check all positive identifications and negative comparisons, then construct
+   actual bijections from these finite prime catalogues to the intrinsic classes
+   of each exact crossing number. Evaluate their cardinalities to all thirteen
+   literals above. Historical labels are separate reference identifiers: detect
+   duplicate codes, including Perko identifications, rather than declaring all
+   table indices different or copying a reported cardinality. Likewise prove
+   every global mirror identification under the declared quotient. A finite
+   index type of size 253293 alone proves no knot count.
+
+The finite search, certificate data and soundness/completeness proofs are all
+required mathematical targets. The count table is not a claim that those checks
+have already been performed. Its source is p.156; p.157's growth estimates remain
+4.14's separate generic targets. Hoste–Thistlethwaite–Weeks,
+[*The First 1,701,936 Knots*](https://pzacad.pitzer.edu/~jhoste/HosteWebPages/downloads/HTW.pdf),
+Math. Intelligencer 20(4) (1998),33–48, DOI 10.1007/BF03025227, is a reference for
+independent tabulation and candidate data, not a replacement for the required
+Lean certificates.
+
+*Needs:*4.1,4.2,4.8,4.9,4.14, Layer 5,7.7–7.7.1,8.3–8.5.1 and 11.2. The
+normal-surface and relative JSJ proof prefixes and any 3.4 isotopy comparison
+used here consume no finite-count output; early diagram/invariant/exterior
+producers remain independent of this classification.
 
 ### Examples
 
@@ -6838,7 +7133,9 @@ and 8; Mathlib CW complexes.
 - **TangentialBordism** consumes Layer 1's gluing, Layer 4.3.1's finite quadratic
   Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
   refinement and Spin bordism classification remain its own constructions.
-- **GeometricTopology, Part II** consumes every layer and owns the developments listed under
+- **GeometricTopology, Part II** consumes the foundational layers needed by each of its
+  developments; its independent normal-surface/relative-JSJ and Cerf proof prefixes
+  supply8.7 without consuming finite table or count outputs. It owns the developments listed under
   *Scope and ownership*.
 
 ## References
