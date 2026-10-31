@@ -48,10 +48,12 @@ characteristic-`p` divided-power envelopes and their regular-sequence formulas
 for the modulo-`p` refinement.
 
 General perfectoidization of arbitrary animated rings, arc descent and
-`J`-almost purity belong to `PerfectoidQuotientsPartIIIntegralPerfectoidization`.
-General fibre-product and valuation methods, including the stronger ordinary
-ind-syntomic André theorem of Česnavičius–Scholze Theorem 2.3.4, pp.24–25, belong to
-`IntegralPerfectoidPartII`. Frobenius-controlled towers remain with
+`J`-almost purity belong to PrismaticCohomology §§2.0 and 2.22–2.31, a
+consumer of this roadmap. General fibre-product and valuation methods belong
+to PerfectoidQuotientsPartII, Layers Q5–Q6, and the stronger ordinary
+ind-syntomic André theorem of Česnavičius–Scholze Theorem 2.3.4, pp.24–25, to
+its Layers Q7–Q9; that Part II continues this roadmap's layer numbering and
+imports §§0.4–0.6. Frobenius-controlled towers remain with
 PerfectoidSpaces P7. None is an input here. In particular, Bhatt–Scholze
 Proposition 8.5 cannot prove their Theorem 7.4: it already uses that theorem.
 
@@ -170,12 +172,9 @@ comparison; it does not assert that every `ϖ` with `ϖ^p | p` satisfies
 `(ϖ^p)=(p)`. P1.24 supplies the BMS1 Lemma 3.10 criterion: under ordinary
 `ϖ`-completeness, `ϖ^p | p` and surjectivity of that power map, principal kernel implies that
 `R/ϖ → R/ϖ^p`, `x ↦ x^p`, is bijective; its converse requires regular `ϖ`.
-Use the compatible-root unit replacements supplied there. PerfectoidSpaces
-P1.24 also owns comparison with the
-[Mathlib integral-perfectoid interface](https://github.com/leanprover-community/mathlib4/pull/26385)
-when its specified topology is the complete separated adic topology for the
-same admissible element. Adopt Mathlib's resulting vocabulary through that
-single supplier. Sources: BMS1
+Use the compatible-root unit replacements supplied there, and adopt
+Mathlib's vocabulary for integral perfectoid rings through that single
+supplier. Sources: BMS1
 Definition 3.5, Lemmas 3.9–3.10 and Remark 3.11, pp.21–23; BMS2 Definition
 4.18, p.22; Česnavičius Definition 4.2 and Remarks 4.4–4.5, pp.7–8, for the
 `p`-torsion-free normalized specialization.
@@ -308,12 +307,13 @@ tag `04DZ`, and Lemma 41.14.3, tag `0EBS`.
 
 ### From CrystallineCohomology: finite Witt operators
 
-CrystallineCohomology §CR.4.4, *Finite-length Witt operators and their
-identities*, supplies `Crystalline.truncatedFrobenius`, the ring map
-`W_(r+1)(R) → W_r(R)` on Mathlib's `TruncatedWittVector p r R` for any
-commutative ring `R`. Its `truncatedFrobenius_truncate` identifies it with
-the quotient of infinite Witt Frobenius through truncation. This pins its
-compatibility with restriction: writing `F_r:W_(r+1)→W_r` and
+CrystallineCohomology §CR.4.4, *Inputs on Witt vectors* (its paragraph
+*Finite-length Witt operators and their identities*), constructs the finite
+Frobenius, a ring map `W_(r+1)(R) → W_r(R)` on Mathlib's
+`TruncatedWittVector p r R` for any commutative ring `R`, and proves that it
+is the quotient of the infinite Witt Frobenius through truncation. That
+compatibility pins the operator and its relation to restriction: writing
+`F_r:W_(r+1)→W_r` and
 `res_r:W_(r+1)→W_r`, require
 `res_r ∘ F_(r+1) = F_r ∘ res_(r+1)` and
 `F_r ∘ trunc_(r+1) = trunc_r ∘ F` from infinite Witt vectors. Its
@@ -572,8 +572,18 @@ the inverses of the coordinates themselves form a compatible root tower.
 
 For a complete nonzero ring of characteristic exactly `p`, principal `ker θ`
 already implies `ker θ = (p)` (`theta_kernel_charP`). Indeed `p` is in the
-kernel. Writing `p = ξa`, the first two Witt coordinates and the unit criteria
-show that `a` is a unit. The resulting factorization through the existing
+kernel. Write `p = ξa` with `ξ` a generator, and let `J` be the kernel of
+the zeroth projection `R♭ → R`. Since `θ` kills the Teichmüller lift `[j]` of
+every `j ∈ J`, each such `[j]` lies in `(ξ)`, so `J = (ξ₀)`. The first two
+Witt coordinates of `p = ξa` give `ξ₀a₀ = 0` and `ξ₀^p a₁ + ξ₁a₀^p = 1`;
+multiplying the second equation by `ξ₀` gives `ξ₀ = ξ₀e` with
+`e = ξ₀^p a₁`, an idempotent of `R♭` lying in `J`. An idempotent of the
+inverse perfection whose zeroth coordinate is zero is zero, since each of its
+coordinates is an idempotent with a `p`-power equal to the zeroth one. Hence
+`ξ₀ = 0` and `J = 0`, so `ξ₁a₀^p = 1`, and the unit criteria show that `a`
+is a unit. When `R♭` has zero divisors the two coordinate equations alone do
+not make `a₀` a unit, so the idempotent step is part of the route. The
+resulting factorization through the existing
 isomorphism `W(R♭)/(p) ≃ R♭` proves injectivity of the zeroth tilt projection
 (`tilt_projection_injective_charP`). Neither lemma assumes Frobenius
 surjective on `R/p` in addition to its stated principal-kernel premise.
@@ -596,6 +606,12 @@ surjective on the original ring.
   `2[T]` is `T²`, while its first Teichmüller digit is `T`. In particular,
   a coordinate-one unit criterion cannot be implemented using the unmodified
   Teichmüller digit formula.
+- `thetaKernelIdempotentStep` — In `W(F_p × F_p)`, the vectors `ξ` with
+  coordinates `((1,0),(0,1),0,…)` and `a` with coordinates
+  `((0,1),(1,0),0,…)` satisfy `ξ₀a₀ = 0` and
+  `ξ₀^p a₁ + ξ₁a₀^p = (1,0) + (0,1) = 1`, yet `a₀ = (0,1)` is not a unit.
+  The two coordinate equations alone do not prove the unit claim of
+  `theta_kernel_charP`; the equality `J = (ξ₀)` is what forces `ξ₀ = 0`.
 
 ### 0.2 Naturality, finite Witt maps and Fontaine generators
 
@@ -698,11 +714,10 @@ Let `k` be a perfect ring of characteristic `p`, and let `ξ ∈ W(k)` have unit
 Witt coordinate `ξ₁`. The following three lemmas retain this generality,
 including zero divisors and products in `k`.
 
-1. `Witt.witt_p_sq_dvd_mul_detects_p`: if `p² | ξg`, then `p | g`.
-2. `Witt.witt_principal_p_saturation`: if `p²f ∈ (ξ)`, then
-   `pf ∈ (ξ)`.
-3. `Witt.witt_principal_quotient_p_torsion`: in `W(k)/(ξ)`,
-   `p^n x=0` implies `px=0` for every natural `n`.
+1. If `p² | ξg`, then `p | g`.
+2. If `p²f ∈ (ξ)`, then `pf ∈ (ξ)`.
+3. In `W(k)/(ξ)`, `p^n x=0` implies `px=0` for every natural `n`
+   (`Witt.witt_principal_quotient_p_torsion`).
 
 The bound-one assertion is stated in Suggested.lean as
 `Witt.witt_principal_quotient_p_torsion`.
@@ -794,7 +809,7 @@ on the supplied integral-perfectoid carrier.
 The construction uses the actual localization kernel
 `ker(R → R[1/ϖ])` for power torsion and transports the quotient topology and
 completion. It is a specific decomposition theorem; generic fibre-product
-preservation results retain their `IntegralPerfectoidPartII` owner.
+preservation results belong to PerfectoidQuotientsPartII, Layer Q5.
 
 For `p`-torsion-free integral perfectoid `R`, choose `π` with `(π^p)=(p)`.
 Construct `π_n` for `n ≥ 1` with `π₁` a unit multiple of `π`,
@@ -1093,8 +1108,8 @@ Source: Bhatt–Scholze Remark 7.15 and its proof, p.62, refining Theorem
 complete-flatness/limit interfaces, DerivedDeRhamCohomology §PD.6's
 characteristic-`p` regular-immersion PD-envelope formula and §4.2's Frobenius
 base-change comparison
-in the exact contracts. The stronger ordinary ind-syntomic statement retains
-its `IntegralPerfectoidPartII` owner.
+in the exact contracts. The stronger ordinary ind-syntomic statement belongs
+to PerfectoidQuotientsPartII, Layer Q9.
 
 ### 1.3 Rational root neighborhoods and the saturated root extension
 
@@ -1361,8 +1376,8 @@ fixed-field root extensions provide almost faithfully flat monic-root covers
 for later perfectoid arguments. All these consumers obtain the integral
 predicate and universal perfectoidization directly from PerfectoidSpaces;
 there is no reverse dependency from that lower-tier roadmap to this one.
-The two integral-perfectoid Part II roadmaps add the larger descent and
-valuation scopes specified in the ownership boundaries.
+PerfectoidQuotientsPartII and PrismaticCohomology add the larger valuation
+and descent scopes specified in the ownership boundaries.
 
 ## References
 
