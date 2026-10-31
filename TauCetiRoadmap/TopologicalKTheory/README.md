@@ -1018,7 +1018,31 @@ comparisons, not an assumption on every K-object.
    This gives equivariant Thom for complex line bundles, and for their direct
    sums by the Koszul tensor identity. No assertion that an arbitrary
    equivariant bundle splits into lines on an invariant cover is used.
-4. Let H be a compact Lie group. For a free proper H-action whose quotient
+4. **Continuous principal-bundle foundation.** Construct the continuous
+   principal/associated-bundle category for Hausdorff topological structure
+   groups H, independently of equivariant K-theory. Use Mathlib's actual
+   `FiberBundle`, `Trivialization` and `Bundle.TotalSpace` with a right
+   `MulAction (MulOpposite H)` and equivariance of every atlas trivialization.
+   Supply bundle maps and isomorphisms, continuous division on a common fibre,
+   trivial bundles and sections, restrictions, products, pullbacks and their
+   universal properties. Construct bundles from continuous cocycles and
+   compare changes of section and cover refinement. Define numerability by
+   a locally finite partition of unity subordinate to a trivializing cover;
+   prove it for bundles over paracompact Hausdorff bases, its preservation by
+   pullback, and homotopy invariance of numerable principal bundles over X×I.
+   This proof uses local trivializations and partition gluing, independently
+   of a classifying space or a smooth connection.
+
+   Construct associated bundles for continuous left H-actions, and extension
+   along continuous homomorphisms H→K, with the balanced-product, identity,
+   composition, pullback and change-of-group comparisons. Compare the
+   smooth specialization with SmoothBundlesConnections B1–B2. This category
+   supplies CharacteristicClasses C1.1b's continuous join construction;
+   that classifier is not a prerequisite for the category. It asserts no
+   properness of a noncompact-group quotient without a properness hypothesis.
+
+   **Compact-group descent in K-theory.** Let H be a compact Lie group.
+   For a free proper H-action whose quotient
    map is a numerable principal
    bundle, construct equivariant-bundle descent and its inverse, retaining a
    commuting G-action, and prove
