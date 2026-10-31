@@ -5,7 +5,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 import Mathlib
 import TauCeti.Algebra.TemperleyLieb.MarkovTrace
 import TauCeti.Algebra.MonoidAlgebra.Twisted.Basic
-import TauCeti.LinearAlgebra.CliffordAlgebra.Dimension
 
 /-!
 # Temperley–Lieb operator algebras: target signatures
@@ -17,11 +16,10 @@ definitions those statements need; every definition has a real body on a native 
 Statable at the pins:
 
 * Layer 1's finite realisations of the tower: the Potts–Fortuin–Kasteleyn identity of 1.6
-  (`pottsPartition_eq_fkPartition`); the identification of the Jones quotient at `δ = √2` with the
-  even Clifford algebra of the sum of squares (1.7, `exists_evenCliffordModel`); the identification
-  of the Jones quotient at `δ = √3` with the inversion-fixed subalgebra of the cubic quantum torus
+  (`pottsPartition_eq_fkPartition`); the identification of the Jones quotient at `δ = √3`
+  with the inversion-fixed subalgebra of the cubic quantum torus
   (1.8, `exists_cubicFixedModel`), and the finiteness of the Gaussian braid image (1.8,
-  `finite_gaussianBraid_closure`). The two identifications are stated as the existence of the
+  `finite_gaussianBraid_closure`). The cubic identification is stated as the existence of the
   comparison map with its generator values, its surjectivity, the trace identity and the kernel
   `R_m = {x : ∀ y, T_m(x y) = 0}`; the map is unique by `TemperleyLieb.hom_ext`, and the trace
   radical is written out because Subfactors 3.2's `R_m` is not at the pins. The cubic quantum torus
@@ -109,54 +107,8 @@ theorem pottsPartition_eq_fkPartition (G : Graph V E) [Fintype G.vertexSet] [Fin
 
 end PottsFortuinKasteleyn
 
-section EvenClifford
-
-/-- The complex bilinear sum of squares `q_m` on `Fin m → ℂ`, the complexification of the real
-Euclidean form; it is not a Hermitian norm (1.7). -/
-def sumOfSquares (m : ℕ) : QuadraticForm ℂ (Fin m → ℂ) :=
-  QuadraticMap.weightedSumSquares ℂ (fun _ : Fin m ↦ (1 : ℂ))
-
-/-- The Majorana generators `c_j = ι(e_j)` of `Cl_m = CliffordAlgebra q_m`: `c_j² = 1` and
-`c_j c_k = −c_k c_j` for `j ≠ k` (1.7). -/
-def majorana (m : ℕ) (j : Fin m) : CliffordAlgebra (sumOfSquares m) :=
-  CliffordAlgebra.ι (sumOfSquares m) (Pi.single j 1)
-
-/-- The projections `p_j = (1 + i c_j c_(j+1))/2`, `j < m − 1`: idempotent, self-adjoint for the
-analytic adjoint of SpinGeometry G1, with `p_j p_(j±1) p_j = p_j/2` and commuting at distance at
-least two; `E_j = √2 p_j` are the Temperley–Lieb generators at `δ = √2` (1.7). -/
-def pairProjection (m : ℕ) (j : Fin (m - 1)) : CliffordAlgebra (sumOfSquares m) :=
-  (2 : ℂ)⁻¹ • (1 + Complex.I • (majorana m ⟨j, by omega⟩ * majorana m ⟨(j : ℕ) + 1, by omega⟩))
-
-local instance : Invertible (2 : ℂ) := invertibleOfNonzero two_ne_zero
-
-/-- The scalar coefficient `s_m(a)`: the coefficient of `1 = c_∅` in Tau Ceti's ordered-monomial
-basis `CliffordAlgebra.basis` of `Cl_m` attached to the standard basis of `Fin m → ℂ`. By
-SpinGeometry G1 item 3 it is cyclic and equals `2^(−m) Tr(L_a)`, and it is faithful on `Cl_m⁰`
-(1.7). -/
-def cliffordScalarCoefficient (m : ℕ) (a : CliffordAlgebra (sumOfSquares m)) : ℂ :=
-  (CliffordAlgebra.basis (sumOfSquares m) (Pi.basisFun ℂ (Fin m))).repr a ∅
-
-/-- **The Jones quotient at `δ = √2` is the even Clifford algebra** (Jones, *A polynomial
-invariant for knots via von Neumann algebras*, printed p. 107; Iohara–Lehrer–Zhang, Theorem 5.4).
-Let `q` be a unit with `√2 = −(q + q⁻¹)`, the sign convention of `markovTrace`. There is an
-algebra map `F_m : TL_m(√2) → Cl_m⁰ = CliffordAlgebra.even q_m` with `F_m(e_j) = √2 p_j` (unique by
-`TemperleyLieb.hom_ext`), which is surjective, satisfies `T_m(x) = (√2)^m s_m(F_m x)` for every
-`x`, and whose kernel is the trace radical `R_m = {x : ∀ y, T_m(x y) = 0}`; so `F_m` induces
-`Q_m ≅ Cl_m⁰`, of dimension `2^(m−1)` for `m ≥ 1`. The compatibility with the analytic adjoint and
-with the strand inclusions is a 1.7 target not statable at the pins. -/
-theorem exists_evenCliffordModel (m : ℕ) (q : ℂˣ)
-    (hq : (Real.sqrt 2 : ℂ) = -((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ))) :
-    ∃ F : TemperleyLieb ℂ (Real.sqrt 2 : ℂ) m →ₐ[ℂ] CliffordAlgebra.even (sumOfSquares m),
-      (∀ j : Fin (m - 1),
-        (F (e (Real.sqrt 2 : ℂ) j) : CliffordAlgebra (sumOfSquares m)) =
-          (Real.sqrt 2 : ℂ) • pairProjection m j) ∧
-      Function.Surjective F ∧
-      (∀ x, markovTrace q hq x =
-        (Real.sqrt 2 : ℂ) ^ m * cliffordScalarCoefficient m (F x)) ∧
-      (∀ x, F x = 0 ↔ ∀ y, markovTrace q hq (x * y) = 0) := by
-  sorry
-
-end EvenClifford
+/- The finite algebraic even-Clifford model is supplied by GeometricTopology.
+This roadmap constructs its analytic-adjoint and positive-quotient comparisons. -/
 
 section CubicQuantumTorus
 
