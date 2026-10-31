@@ -135,7 +135,7 @@ in EllipticCurves; if it is about modular values, it is in DiophantineApproximat
   `TauCeti.Contour.classicalResidueTheorem_nullHomologous`
   (`TauCeti/Analysis/Contour/Residue/Cycle.lean`), segment winding numbers
   (`TauCeti/Analysis/Contour/Winding/Number/Segment/`).
-- **Dimension.** The dimension–transcendence-degree comparison `ringKrullDim_eq_toNat_trdeg`
+- **Dimension.** The dimension–transcendence-degree comparison `TauCeti.ringKrullDim_eq_toNat_trdeg`
   (`TauCeti/RingTheory/KrullDimension/FiniteType.lean`) used by
   DiophantineApproximationAndTranscendence.
 
@@ -152,7 +152,7 @@ in EllipticCurves; if it is about modular values, it is in DiophantineApproximat
 The dependence is one-way: ModularCurvesPartII's lattice analysis first, this roadmap after it;
 its uniformisation, Weierstrass coordinates and level structures consume nothing from here. Here
 `quasiPeriod L` (2.2) is defined from `ζ` and proved equal to `latticeQuasiPeriod` on `Λ` (2.3),
-so the two names denote one map, written `η`; `legendre` denotes `latticeQuasiPeriod_legendre`.
+so the two names denote one map, written `η`.
 
 ### From DiophantineApproximationAndTranscendence
 
@@ -422,8 +422,9 @@ dependence of `ζ` on `L.lattice` only.
 
 ### 2.3 Compatibility with ModularCurvesPartII
 
-`weierstrassZeta_eq_logDeriv_latticeSigma`: `ζ = σ′/σ` off `Λ`, hence `quasiPeriod L l` equals
-`latticeQuasiPeriod` at `l` for every `l ∈ Λ`. Through this identity Legendre is
+`ζ = σ′/σ` off `Λ`, hence `quasiPeriod L l` equals `latticeQuasiPeriod` at `l` for every `l ∈ Λ`.
+Not statable in Suggested.lean until ModularCurvesPartII's `latticeSigma` exists at the pins; the
+identification is fixed here only. Through this identity Legendre is
 ModularCurvesPartII's `latticeQuasiPeriod_legendre`, not reproved; its corollaries used here:
 `η(ω₁), η(ω₂)` are not both `0`, and `ω ↦ η(ω)` is not `ℂ`-linear on `Λ`.
 
@@ -537,11 +538,11 @@ is algebraic over it.
 
 `periodIdeal L`, the kernel of evaluation `ℚ[X₁₁, X₁₂, X₂₁, X₂₂] → ℂ` at `P`, is prime, and
 `ringKrullDim_periodIdeal : dim ℚ[X]/periodIdeal = trdeg (periodField L)`, through Tau Ceti's
-`ringKrullDim_eq_toNat_trdeg`. Equivalences (`trdeg_periodField_eq_four_iff`): `trdeg = 4` iff
+`TauCeti.ringKrullDim_eq_toNat_trdeg`. Equivalences (`trdeg_periodField_eq_four_iff`): `trdeg = 4` iff
 the four entries are algebraically independent iff `periodIdeal L = ⊥` iff `ω₁, ω₂, η(ω₁), π`
 are algebraically independent.
 
-*Needs:* 3.1, 3.2, 3.3; Tau Ceti `ringKrullDim_eq_toNat_trdeg`; Mathlib `MvPolynomial.aeval`,
+*Needs:* 3.1, 3.2, 3.3; Tau Ceti `TauCeti.ringKrullDim_eq_toNat_trdeg`; Mathlib `MvPolynomial.aeval`,
 `RingHom.ker`, `isTranscendenceBasis_of_le_trdeg_of_finite`.
 
 **Checks.**
@@ -581,7 +582,7 @@ a ratio of algebraic numbers). So the transcendence degree is an invariant of th
 
 ### Dependencies
 
-Layers 0–2; Tau Ceti `ringKrullDim_eq_toNat_trdeg`.
+Layers 0–2; Tau Ceti `TauCeti.ringKrullDim_eq_toNat_trdeg`.
 
 ## Layer 4: complex multiplication
 
@@ -589,7 +590,7 @@ Layers 0–2; Tau Ceti `ringKrullDim_eq_toNat_trdeg`.
 
 `HasCM L`; `hasCM_iff`: `HasCM L ↔ τ = ω₂/ω₁` satisfies a nonzero integer quadratic equation (`τ`
 is imaginary quadratic); the multiplier ring `{α | αΛ ⊆ Λ}` is a subring of `ℂ`, equal to `ℤ`
-without CM and to an order in `ℚ(τ)` with CM; every multiplier is an algebraic integer of degree
+without CM and to an order in `ℚ(τ)` with CM; every nonzero multiplier is an algebraic integer of degree
 `≤ 2` with `[Λ : αΛ] = |α|²`, and a real multiplier is an integer; `HasCM.smul`, `HasCM`
 lattice-invariant.
 
@@ -781,8 +782,14 @@ statements only. Within the layer, 5.2 repeats the proof of 5.1, and 5.3–5.5 f
 
 ## Downstream consumers
 
-None known. ModularCurvesPartII's lattice analysis consumes nothing from here (Exact supplier
-contracts).
+- EllipticIntegrals defers the lattice functions, the quasi-periods and the lattice form of
+  Legendre's relation to the lattice roadmaps, this one among them (its Scope, under the old name
+  GrothendieckPeriodConjecture).
+- EllipticCurvePeriodsAndModularParametrizations (open) expects the Eisenstein dictionary (2.4)
+  and lattice invariance (0.2) from here; the `g₂, g₃` scaling and `Δ ≠ 0` it also asks for are
+  ModularCurvesPartII §§1.3 and 1.1.
+
+ModularCurvesPartII's lattice analysis consumes nothing from here (Exact supplier contracts).
 
 ## Research context
 
@@ -794,8 +801,10 @@ curves (Corollaries 3.9 and 3.10), and gives no algebraic-independence statement
 periods.
 
 Schneider's theorem (1937), that a nonzero period of a lattice with algebraic `g₂, g₃` is
-transcendental, follows from the Schneider–Lang criterion for meromorphic functions of finite order
-(Waldschmidt, *Diophantine Approximation on Linear Algebraic Groups*, Theorem 4.1); no roadmap owns
+transcendental, follows from the Schneider–Lang criterion for meromorphic functions of finite order (Lang,
+*Introduction to Transcendental Numbers*, 1966, Ch. IV §1, Theorem 1; Waldschmidt, *Diophantine
+Approximation on Linear Algebraic Groups*, Theorem 4.1 states the entire case and its footnote 10
+the meromorphic one); no roadmap owns
 that form of the criterion (LinearFormsInLogarithms 5.7 covers `ℂ^{d₀} × (ℂˣ)^{d₁}` only).
 Grothendieck's notes name it as the first visible case of the conjecture for curves without complex
 multiplication (Montpellier fonds, folder 18, pp. 10–12, https://grothendieck.umontpellier.fr/18.pdf).

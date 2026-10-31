@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Elliptic functions, periods and complex multiplication: target signatures
@@ -45,6 +47,8 @@ Conventions (README, Standing conventions): a basis `(ω₁, ω₂)` is *positiv
 `0 < (ω₂ / ω₁).im`; transcendence degrees are taken over `ℚ`; "algebraic" means `IsAlgebraic ℚ`
 inside `ℂ`; `π` is `Real.pi`.
 -/
+
+@[expose] public section
 
 open Complex
 open scoped Real
@@ -146,7 +150,7 @@ theorem weierstrassZeta_add_coe (L : PeriodPair) {z : ℂ} (hz : z ∉ L.lattice
 theorem quasiPeriod_add (L : PeriodPair) {l l' : ℂ} (hl : l ∈ L.lattice)
     (hl' : l' ∈ L.lattice) : quasiPeriod L (l + l') = quasiPeriod L l + quasiPeriod L l' := sorry
 
-theorem quasiPeriod_smul (c : ℂˣ) (L : PeriodPair) {l : ℂ} (hl : l ∈ L.lattice) :
+theorem quasiPeriod_smul (c : ℂˣ) (L : PeriodPair) {l : ℂ} :
     quasiPeriod (c • L) (c * l) = (c : ℂ)⁻¹ * quasiPeriod L l := sorry
 
 /-- `ζ` and `η` depend only on the lattice. -/
