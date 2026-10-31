@@ -1540,7 +1540,16 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
      (Proposition 3.44), which defines `i_{W*}`.
    - The long exact sequence (Proposition 3.45).
    - The Viterbo transfer (Proposition 3.46).
-   - The spectral sequence (Theorem 3.49).
+   - The spectral sequence (Theorem 3.49). For a Liouville domain `W` and a DG local system `𝓕`
+     on `𝓛W`:
+     - (i) *existence*: a canonical spectral sequence `E^r_{p,q}`, `r ≥ 2`, with
+       `E²_{p,q} = SH_p(W; H_q(𝓕))`, where `H_q(𝓕)` is the classical local system on `𝓛W`;
+     - (ii) *convergence to `SH_*(W; 𝓕)`* under either (A) `H_*(𝓕)` is bounded below and
+       `SH_*(W; H_q(𝓕))` is bounded below uniformly in `q`, or (B) both are bounded above
+       (uniformly in `q` for `SH`). Existence does not need the bounds.
+     - Check: `H_q(𝓕)` supported in `q ≥ 0` with `SH_p(W; H_q(𝓕))` supported in `p ≥ 0` satisfies
+       (A). Support on the line `p = −q` has no uniform lower bound in `q`, so it satisfies
+       neither (A) nor (B) and convergence is not claimed.
 8. Source: the source paper §§3.3--3.7.
 
 ## Layer 9: the Viterbo isomorphism
@@ -1596,11 +1605,21 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
 
 ## Layer 10: the criteria and their applications to cotangent bundles
 
-1. **Theorem L (= Theorem 5.1)**, through:
+1. **Theorem L (= Theorem 5.1)**: let `Σ ⊂ W` be a closed hypersurface in a Liouville domain
+   bounding a relatively compact open `U`. If some DG local system `𝓕` on `𝓛₀W` and class
+   `α ∈ H_*(W, ∂W; i_W^*𝓕)` satisfy `j_{U!}(α) ≠ 0` and `i_{W*}(α) = 0`, then the contractible
+   almost existence property holds near `Σ`: for almost every `c` in a neighborhood of the level,
+   the level set contains a periodic orbit contractible in `W` (for the Hamiltonians of
+   Layer 6 item 5). Check: `α = 0` has `j_{U!}(α) = 0`, so the criterion rejects it. Proof
+   through:
    - the relative capacity bound (Proposition 5.5);
    - the fast-orbit lemma (Lemma 5.7);
    - the spectral invariants `ρ(·, σ)` and their properties (Proposition 5.8).
-2. **Theorem M (= Theorem 6.4)**, through the capacity bound `c°_HZ(W) ≤ c(α)` (Proposition 6.6).
+2. **Theorem M (= Theorem 6.4)**: if some DG local system `𝓕` on `𝓛₀W` and class
+   `α ∈ H_*(W, ∂W; i_W^*𝓕)` satisfy `j_!(α) ≠ 0` and `i_{W*}(α) = 0`, then the
+   `π₁`-sensitive Hofer--Zehnder capacity is finite, `c°_HZ(W) < ∞`, and in particular the
+   contractible almost existence property holds in `W`. Check: `α = 0` is rejected. Proof through
+   the capacity bound `c°_HZ(W) ≤ c(α)` (Proposition 6.6).
    The cotangent form of Theorem M is Proposition 6.7.
 3. **The cotangent criterion** (Proposition 5.9).
 4. **The kernel of `i_{Q*}`.**
@@ -1627,7 +1646,13 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
 ## Layer 11: manifolds abundant with 2-spheres, and knotted hypersurfaces
 
 1. **Abundance** (Definitions 1.7 and 6.11), **Theorem H** (= Theorem 6.12), and stability under
-   products (Proposition 6.13).
+   products (Proposition 6.13). A closed connected oriented `n`-manifold `Q` is *abundant with
+   2-spheres* if there is a class `α ∈ H_*(Map(S²,Q))` in the total space of the evaluation
+   fibration `Map(S²,Q) → Q` such that (i) `α` lives over the fundamental class, i.e. the shriek
+   map to a point satisfies `j_!α ≠ 0` in `H_{*−n}(Map_*(S²,Q))`, and (ii) if `deg α = n`, then
+   `j_!α ≠ 0` in reduced homology `H̃₀(Map_*(S²,Q))`. Theorem H: if `Q` is abundant with
+   2-spheres, then `c°_HZ(D*Q) < ∞` and the contractible almost existence property holds in
+   `T*Q`. Check: `Q = Tⁿ` (a `K(π,1)`) has no such `α`, since `Map(S²,Tⁿ) ≃ Tⁿ`.
 2. **Fibered families of 2-spheres** (Definition 6.14, Proposition 6.15).
    - Even spheres: the Pontryagin ring `H_*(ΩSⁿ)` as a polynomial ring on the class of the DG
      Morse cocycle (Proposition 6.18). The ring itself is the homotopy spheres roadmap's James
@@ -1693,7 +1718,14 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
 
    For `S²=SO(3)/SO(2)`, take `α` in `H₀(Ω²S²;ℤ)` represented by a degree-one map. Compute its `SO(2)` action class `α′∈H₁(Ω²S²;ℤ)` and prove it is nonzero by identifying it with the cycle `σ_{p*}[Σ′_p]` of Remark6.19. Under `β_*:H₁(Ω²S²)→H₂(ΩS²)`, identify the class with the Pontryagin square of the generator of `H₁(ΩS²)`. Then compare the resulting `SO(3)` action class in `H₃(Map(S²,S²);ℤ)` with `σ_*[Σ′]`, including orientation choices and the evaluation shriek map. This is the worked instance of the general action/shriek construction, not an appeal to Proposition6.36 alone.
 5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` and the Cayley plane `𝕆P²` (Proposition 6.39), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
-6. **Knotted hypersurfaces.** **Theorem G** (= Theorem 7.1), through Proposition 7.5 and
+6. **Knotted hypersurfaces.** **Theorem G** (= Theorem 7.1): let `Q^n` be a closed orientable
+   manifold containing an embedded sphere `X` of dimension `k ≥ 2` and an orientable
+   `(n−k)`-submanifold `Y` with trivial normal bundle, meeting `X` transversely in one point,
+   with `Y` `ℓ`-connected for `ℓ = 2k−2` if `k` is even and `ℓ = k−1` if `k` is odd. If `S` is a
+   closed orientable `(n−k)`-manifold and `φ : S → π⁻¹(Y) ⊂ T*Q` is continuous with
+   `π∘φ : S → Y` of degree `d ≠ 0`, then every hypersurface `Σ ⊂ T*Q` bounding a relatively
+   compact domain `U ⊇ φ(S)` has the almost existence property for contractible closed
+   characteristics. Check: `d = 0` is excluded. Proof through Proposition 7.5 and
    Lemmas 7.6 and 7.7, using the Pontryagin--Thom collapse of Layer 1.
 7. Source: the source paper §§6.3--6.4 and §7.
 
