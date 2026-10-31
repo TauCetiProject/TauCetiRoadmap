@@ -14,8 +14,8 @@ import TauCeti.RepresentationTheory.Homological.TateCohomology.TrivialityCriteri
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
-import TauCetiRoadmap.LocalFieldsRamification.Suggested
-import TauCetiRoadmap.GlobalNumberFields.Suggested
+import Completed.LocalFieldsRamification.Suggested
+import Completed.GlobalNumberFields.Suggested
 import Completed.NumberFieldArithmetic.Suggested
 
 set_option autoImplicit false

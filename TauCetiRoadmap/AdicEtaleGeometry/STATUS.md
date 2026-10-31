@@ -1,43 +1,46 @@
-<!--tauceti-status:v1 {"roadmap":"AdicEtaleGeometry","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1","ts":"2026-10-21T07:26:02Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer A0","state":"untouched"},{"id":"Layer A1","remaining":"A1.0.2 onward: power-bounded henselian pairs, filtered-colimit descent, strongly sheafy rings, finite étale Huber pairs, the sites","state":"partial"},{"id":"Layer A2","state":"untouched"},{"id":"Layer A3","state":"untouched"},{"id":"Layer A4","remaining":"everything from finite étale torsors (A4.2) on; only the shared split-ring vocabulary of A4.1 exists","state":"partial"}],"readme_sha":"eff8e4260e91403aa0f1a314ace292c30247853485c065a4cf43bc885fcd6752","roadmap":"AdicEtaleGeometry","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1"}-->
+<!--tauceti-status:v1 {"roadmap":"AdicEtaleGeometry","to_sha":"93d1fe508e122e53ce5538a8a3994c290753f127","ts":"2026-10-26T01:30:01Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer A0","remaining":"A0.1-A0.7, and in A0.8 the open adic subspace of analytic points with restriction of adic morphisms","state":"partial"},{"id":"Layer A1","remaining":"A1.0.2, object descent in A1.0.3, A1.0.4-5, A1.1, A1.2 fibres and base change, A1.3 onward","state":"partial"},{"id":"Layer A2","state":"untouched"},{"id":"Layer A3","remaining":"A3.1 comparison with the bundled predicate, fpd modules, two-out-of-three, sheaves; all of A3.2","state":"partial"},{"id":"Layer A4","remaining":"everything from finite étale torsors (A4.2) on; only the shared split-ring vocabulary of A4.1 exists","state":"partial"}],"readme_sha":"eff8e4260e91403aa0f1a314ace292c30247853485c065a4cf43bc885fcd6752","roadmap":"AdicEtaleGeometry","to_sha":"93d1fe508e122e53ce5538a8a3994c290753f127"}-->
 # Status: AdicEtaleGeometry
 
-This file documents the status of the AdicEtaleGeometry roadmap up until `273ea28` (2026-10-21T07:26:02Z). There may have been subsequent updates.
+This file documents the status of the AdicEtaleGeometry roadmap up until `93d1fe5` (2026-10-26T01:30:01Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** The finite étale layer A1 has begun: its first two subsections are proved. These are the theory of rings without nonsplit finite étale covers and the stability of henselian pairs under directed colimits. Nothing has landed for the completed-tensor interface A0, the classical analytic geometry of A2, the pseudocoherent modules of A3, or the torsor towers of A4 beyond A4.1, which reuses the split-ring vocabulary.
+**At a glance.** The first finite étale results are in place: the split-ring vocabulary, its Checks, and henselian colimits. They now extend to the Huber pair of a finite algebra, with its universal property. Layers A0 and A3 have their first point-set and algebraic foundations. The completed pushout, the classical analytic geometry of A2 and the torsor towers of A4 have not begun.
 
 ### Named results
 
+- **The universal property of the Huber pair of a finite algebra** — for a finite `A`-algebra `B` with its natural topology, morphisms of Huber pairs `(B, B⁺) → (D, D⁺)` under `(A, A⁺)` are exactly the `A`-algebra maps `B → D` ([`finiteAlgebra.homEquiv`](https://taucetiproject.org/docs/TauCeti/RingTheory/Huber/ModuleTopology/Pair.html#TauCeti.Huber.Pair.finiteAlgebra.homEquiv)). Here `B⁺` is the integral closure of the image of `A⁺`, and no completeness is assumed.
+- **Finite algebras over Tate rings are Tate** — a finite algebra with its natural topology over a Tate ring is again Tate, with the image of a pseudouniformiser as pseudouniformiser ([`IsTateRing.of_isModuleTopology`](https://taucetiproject.org/docs/TauCeti/RingTheory/Huber/ModuleTopology/FiniteAlgebra.html#TauCeti.Huber.IsTateRing.of_isModuleTopology)).
 - **The section criterion for split rings** — a ring has no nonsplit finite étale covers exactly when every faithfully flat finite étale algebra over it has a section ([`isFiniteEtaleSplit_iff_exists_section`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.isFiniteEtaleSplit_iff_exists_section)). This is the form in which Scholze's Lemma 15.3 is used.
-- **Roots of separable polynomials** — over such a ring, every monic polynomial of positive degree whose derivative is a unit modulo it has a root ([`IsFiniteEtaleSplit.exists_root`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.IsFiniteEtaleSplit.exists_root)). This is the only consequence the perfectoid tower argument needs.
-- **Split fields are separably closed fields** — for a field, having no nonsplit finite étale covers is equivalent to being separably closed ([`isFiniteEtaleSplit_iff_isSepClosed`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.isFiniteEtaleSplit_iff_isSepClosed)).
-- **Invariance under finite étale equivalences** — if base change along a ring map is an equivalence of finite étale categories, the source has no nonsplit covers if and only if the target has none ([`isFiniteEtaleSplit_iff_of_isEquivalence`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.isFiniteEtaleSplit_iff_of_isEquivalence)). This is how the property will move from the tower's colimit to its completion.
+- **Strictly henselian rings split** — a henselian local ring with separably closed residue field has no nonsplit finite étale covers ([`IsFiniteEtaleSplit.of_henselianLocalRing`](https://taucetiproject.org/docs/TauCeti/RingTheory/Henselian/Etale.html#TauCeti.IsFiniteEtaleSplit.of_henselianLocalRing)). So the notion is not confined to fields.
 - **Henselian pairs under directed colimits** — a directed colimit of henselian pairs is henselian along the colimit ideal ([`Ring.DirectLimit.henselianRing`](https://taucetiproject.org/docs/TauCeti/RingTheory/Henselian/DirectLimit.html#Ring.DirectLimit.henselianRing)).
 
 ### Notable definitions and infrastructure
 
-- **Totally split algebras** ([`Algebra.IsTotallySplit`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.Algebra.IsTotallySplit)) are finite products of quotients of the base by idempotents. Unlike Mathlib's constant-rank `Algebra.IsFiniteSplit`, they let the number of sheets vary over clopen components. They are stable under base change, products and direct factors.
-- **Rings without nonsplit finite étale covers** ([`IsFiniteEtaleSplit`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.IsFiniteEtaleSplit)) are closed under arbitrary products. They include the zero ring and separably closed fields. This is the class A4's torsor tower is built to reach.
-- **Orthogonal refinement of idempotents** ([`exists_completeOrthogonalIdempotents_of_prod_one_sub_eq_zero`](https://taucetiproject.org/docs/TauCeti/RingTheory/Idempotents/Refinement.html#TauCeti.exists_completeOrthogonalIdempotents_of_prod_one_sub_eq_zero)) turns idempotents whose components cover the spectrum into a complete orthogonal family. Sections are assembled from such a family.
+- **Rings without nonsplit finite étale covers** ([`IsFiniteEtaleSplit`](https://taucetiproject.org/docs/TauCeti/RingTheory/Etale/FiniteEtaleSplit.html#TauCeti.IsFiniteEtaleSplit)) are the class A4's torsor tower is built to reach. They are closed under products, and they are invariant under any ring map along which base change of finite étale algebras is full and essentially surjective.
+- **Pseudocoherent modules** ([`IsPseudoCoherentOver`](https://taucetiproject.org/docs/TauCeti/Algebra/Module/PseudoCoherent.html#TauCeti.Huber.IsPseudoCoherentOver)) are defined by finite free resolutions exact up to a given degree. A one-degree-at-a-time criterion through kernels of surjections makes later induction on the degree possible.
+- **Analytic points of a pre-adic space** ([`PreAdicSpace.analyticPoints`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/Analytic.html#TauCeti.PreAdicSpace.analyticPoints)) are the points with a neighbourhood whose sections contain a topologically nilpotent unit. They form an open set, compatible with restriction, that agrees with the analytic locus on `Spa(A, A⁺)`.
 
 ### Roadmap coverage
 
-- **A0, A2 and A3 are untouched.** None of the declarations they name are in the library: the completed pushout, the analytic points, polydiscs, dimension, pseudocoherence and standard étale presentations are all missing.
 - **A1 is partial.**
-  - A1.0.0 (split rings) and A1.0.1 (henselian colimits) are done, apart from two Checks: the `ℚ_p` non-example and the strictly henselian local ring example are not yet written.
-  - From A1.0.2 onward, nothing has been proved for this roadmap.
-  - The library does already define strongly sheafy Tate rings, with sheafiness, the restricted power series case and the strongly noetherian case. A1.1's rational localisation, rational descent and space-level notion are not there.
-- **A4 is partial only in name.** A4.1 is a pointer to A1.0.0, and the finite étale torsors of A4.2 onward have not started.
+  - A1.0.0, including all its Checks, and A1.0.1 are done.
+  - A1.0.3 has its morphism half: maps from finitely presented algebras descend to a finite stage, and base change commutes with directed colimits. Object descent is missing.
+  - A1.2 has the pair `(B, B⁺)`, the finite étale morphism predicate and the universal property. Finiteness of the morphism, the fibre bound, surjectivity on spectra and base change are missing.
+  - A1.0.2, A1.0.4–A1.0.5, A1.1 beyond the library's existing strongly sheafy definition, and A1.3 onward have not started.
+- **A0 is partial.** Only the point-set part of A0.8 exists: analytic points, their openness, restriction, and the comparison on `Spa`. A0.1–A0.7 are untouched.
+- **A3 is partial.** The first target of A3.1 is partly done: the definition, the degree 0 and 1 identifications, `top_iff`, `mono`, the projective and noetherian cases, and kernels. Missing are the comparison with the bundled predicate, `Module.IsFPD`, tensor and base change, two-out-of-three, the sheaf theory, and all of A3.2.
+- **A2 is untouched.**
+- **A4 is partial only in name.** A4.1 points to A1.0.0, and nothing from A4.2 on exists.
 
 ## The frontier
 
-- **Power-bounded henselian pairs (A1.0.2)** — show that `(A°, ϖA°)` is henselian for a complete Tate ring by writing `A°` as the directed union of rings of definition. Its one roadmap prerequisite, the colimit theorem, is now in place.
-- **Finite étale algebras over filtered colimits (A1.0.3)** — descent of objects and morphisms from `colim R_i` to a finite stage. The stagewise lemmas for monic polynomials and units, and the transfer of splitting along essentially surjective base change, are ready for it. A1.0.3a, on locally constant functions with separably closed values, then follows from the product result.
-- **Finite étale torsors (A4.2)** — define the torsor class and its Galois map. The library's Chase–Harrison–Rosenberg map `TauCeti.MulSemiringAction.tensorToPi` is the supplier the README names.
-- **Strongly sheafy rings (A1.1)** — complete the existing definition with stability under rational localisation, rational descent, and locally strongly sheafy adic spaces.
-- **The completed pushout (A0.1)** — this rests on AdicSpacesPartII's completed tensor product of Huber pairs, which was not found in the library source.
+- **Object descent of finite étale algebras (A1.0.3)** — show that every finite étale algebra over a directed colimit comes from a finite stage. Morphism descent is in place. Together with the full-and-essentially-surjective invariance, object descent then gives A1.0.3a.
+- **Power-bounded henselian pairs (A1.0.2)** — `(A°, ϖA°)` is henselian for a complete Tate ring, by writing `A°` as the directed union of rings of definition. Its colimit prerequisite is done.
+- **The rest of the finite étale Huber pair (A1.2)** — finiteness of `(A, A⁺) → (B, B⁺)`, fibres of `Spa` bounded by the rank, and surjectivity for faithfully flat `B`. The base-change isomorphism needs AdicSpacesPartII's completed tensor product of pairs.
+- **The analytic locus as an adic space (A0.8)** — package the open set of analytic points as an open adic subspace, and restrict adic morphisms to it. The pullback of analytic points along adic maps is already proved.
+- **Pseudocoherence calculus (A3.1)** — two-out-of-three for short exact sequences, `Module.IsFPD`, and flat base change, ahead of pseudocoherent sheaves.
