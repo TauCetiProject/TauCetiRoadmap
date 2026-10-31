@@ -759,7 +759,7 @@ their comparisons with existing rectangle and manifold results. Layers
 5.3–5.5 retain manifold integration and Stokes; layer 12.5 retains Riemannian divergence and
 Green's integration-by-parts identities. The completed
 [contour integration roadmap](../../Completed/ContourIntegration/README.md) owns the contour
-and index APIs consumed above; [conformal mapping](../ConformalMapping/README.md), L5, owns
+and index APIs consumed above; [conformal mapping](../../Completed/ConformalMapping/README.md), L5, owns
 the filled-hull and planar-separation APIs consumed here. [PDE](../PDE/README.md) owns Green functions, boundary-value
 problems, and weak PDE solutions; [modular forms](../ModularForms/README.md) owns its
 Petersson/region-Stokes application and can consume these identities. Sequence 5.6.1's curve
