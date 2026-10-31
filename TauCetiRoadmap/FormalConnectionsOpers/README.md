@@ -82,14 +82,17 @@ intrinsic descriptions.
   as a milestone. §4.3 owns the holomorphic exponential chart of `G(ℂ)`, the comparison of the
   complex Lie algebra with its realification and the identification of a compact maximal torus
   with an algebraic torus: these are targets here, with their hypotheses, not inputs.
-- **FormalLaurentPuiseux L1–L4, L7** owns field-valued formal substitutions, the Laurent
-  derivation, residue, continuous differentials, finite ramified extensions and the procyclic
-  absolute Galois group of `ℂ((t))`. Layer 1 constructs the relative `R`-algebra extensions; it does
-  not infer them from field statements.
-- **PadicDifferentialEquationsAndRigidCohomology §§RD.1.2–RD.1.6 and §RD.6.52a** owns the
-  cyclic-vector theorem over characteristic-zero differential fields with nonzero derivation and
-  the finite-ramification formal normal forms, slopes and descent over `F((t))`. Layer 6 consumes the
-  `F = ℂ` specialization and owns the `GL_n` flag/oper equivalence and the oper lattice estimates.
+- **FormalLaurentPuiseux L1–L3, L7** owns field-valued formal substitutions, the Laurent
+  derivation, residue, continuous differentials and the procyclic absolute Galois group of
+  `ℂ((t))`. Layer 1 constructs the relative `R`-algebra extensions; it does not infer them from
+  field statements.
+- **§6.2** owns the cyclic-vector theorem for finite-dimensional differential modules over a
+  differential field of characteristic zero with nonzero derivation, since no roadmap earlier in
+  the merge order states it, together with the `GL_n` flag/oper equivalence and the oper lattice
+  estimates. The finite-ramification formal normal forms, slopes and ramified descent of
+  differential modules over `F((t))` are PadicDifferentialEquationsAndRigidCohomology's
+  (§RD.6.52a) and are not used here: the oper-reduction argument of §6.4 takes the leading
+  coefficient of a connection at an order below its pole order, where it is zero.
 - **SchemeAndStackFoundations §§1.1, 1.14–1.18** owns ordinary quasi-coherent fpqc module
   descent with its morphisms and coherence, groupoids, sheaf torsors, stackification and 2-fibre
   products. Layers 1–3 construct the completed Tate, loop and ind-formal extensions and the
@@ -221,9 +224,8 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
 ### From TauCetiRoadmap.FormalLaurentPuiseux
 
 L1 supplies field-valued formal substitutions with `σ_φ∘σ_ψ = σ_(ψ∘φ)` and the coefficient
-tower; L2 the Laurent derivation and continuous one-forms; L3 the residue; L4 finite ramified
-extensions; L7 the continuous profinite identification of the absolute Galois group of `ℂ((t))`
-with `TauCeti.zHat`. Layer 1 extends L1–L3 to arbitrary coefficient algebras `R` by construction.
+tower; L2 the Laurent derivation and continuous one-forms; L3 the residue; L7 the continuous
+profinite identification of the absolute Galois group of `ℂ((t))` with `TauCeti.zHat`. Layer 1 extends L1–L3 to arbitrary coefficient algebras `R` by construction.
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -332,14 +334,6 @@ homology, for the finite-stage affine Springer cycles of Layer 6.
 Layers 1 and 11: compatible-pair cohomology functoriality and the general cohomological-dimension
 definitions and vanishing criteria. Layer 6 transports Tau Ceti's `zHat` dimension theorems along
 its procyclic isomorphism.
-
-### From TauCetiRoadmap.PadicDifferentialEquationsAndRigidCohomology
-
-§§RD.1.2–RD.1.6: the cyclic-vector theorem for differential modules over a characteristic-zero
-differential field with nonzero derivation; §RD.6.52a: the finite-ramification formal normal form
-over `F((t))`, with slope decomposition, commuting semisimple irregular terms, regular singular
-residue and ramified descent. Layer 6 uses both at `F = ℂ`. That roadmap states no prerequisite
-from the oper development, so the supply has one direction.
 
 ### From TauCetiRoadmap.RootSystems
 
@@ -1748,18 +1742,31 @@ displayed quotient or from the finite-dimensional Kostant theorem.
 *Needs:* §§6.2–6.5; §4.3; Tau Ceti `zHat` and no-small-subgroups; Mathlib matrix norms and open
 subgroups.
 
-### 6.2 Cyclic vectors, normal forms and the `GL_n` flag/oper equivalence (F6.2)
+### 6.2 Cyclic vectors and the `GL_n` flag/oper equivalence (F6.2)
 
-Take the cyclic-vector theorem for differential modules over `ℂ((t))` with nonzero derivation from
-PadicDifferentialEquationsAndRigidCohomology §§RD.1.2–RD.1.6, and the finite-ramification formal
-normal-form theorem (slope decomposition, commuting semisimple irregular terms, regular singular
-residue and ramified descent) from its §RD.6.52a, both specialized to the field `ℂ`. Prove the
-`GL_n` flag/oper equivalence: an oper structure on a rank-`n` connection is a full flag with the
-transversality condition, equivalently a cyclic vector up to the Borel gauge. Derive the lattice
-estimate: `∇⁻¹(L)` is commensurable with `L` and its relative dimension is `≤ 0`. Spell out
-lattices as `ℂ`-subspaces commensurable with an `O`-lattice and prove finiteness of the horizontal
-kernel. FormalLaurentPuiseux supplies the fields.
+Define a differential module over a differential field `(F, ∂)` as a finite-dimensional
+`F`-vector space `V` with an additive map `D : V → V` satisfying `D(fv) = ∂(f)v + f·Dv`, and a
+cyclic vector of `V` as a `v ∈ V` whose iterates `v, Dv, …, D^(n−1)v`, `n = dim V`, form a basis.
+Prove the cyclic-vector theorem: if `F` has characteristic zero and `∂ ≠ 0`, every differential
+module over `F` has a cyclic vector (Deligne, *Équations différentielles à points singuliers
+réguliers*, Ch. II, Lemme 1.3, pp. 42–43, deligne-lnm163 lines 1367–1401: with `m` maximal such
+that some `e` has `e, De, …, D^(m−1)e` independent and `t ∈ F` with `∂t ≠ 0`, the vectors
+`e + λ t^k f` for rational `k` and scalars `λ` force `m = n`). Prove Katz's explicit form as a
+second route: if `(n−1)!` is invertible in `F`, `∂t = 1`, `e` is a basis and `a_0, …, a_(n(n−1))`
+are distinct constants, then one of the explicit candidates `c(e, t − a_i)` is cyclic (Katz,
+*A simple algorithm for cyclic vectors*, Theorems 1 and 2, pp. 65–66, katz-cyclic lines 38–44).
+Over `F = ℂ((t))` with `∂ = d/dt` the theorem is the `G = GL_n` case of §6.1 by an independent
+proof (Frenkel–Zhu, Remark 1, frenkel-zhu lines 80–85). Prove the `GL_n` flag/oper equivalence: an
+oper structure on a rank-`n` connection over `ℂ((t))` is a full flag with the transversality
+condition, equivalently a cyclic vector up to the Borel gauge. Derive the lattice estimate:
+`∇⁻¹(L)` is commensurable with `L` and its relative dimension is `≤ 0`. Spell out lattices as
+`ℂ`-subspaces commensurable with an `O`-lattice and prove finiteness of the horizontal kernel.
+FormalLaurentPuiseux supplies the field `ℂ((t))` and its derivation.
 
+- Every differential module over a differential field of characteristic zero with `∂ ≠ 0` has a
+  cyclic vector, hence a basis in which `D` is the companion matrix of one monic scalar
+  differential equation of order `dim V` (Deligne, p. 50, deligne-lnm163 lines 1621–1631);
+  neither hypothesis can be dropped.
 - For `GL_n`, the oper reduction theorem is the cyclic-vector theorem; the Borel is the
   stabilizer of the flag `⟨v⟩ ⊂ ⟨v, ∇v⟩ ⊂ ⋯`.
 - `[∇⁻¹(L) : L] ≤ 0` for every lattice `L`, with equality iff `L` is `∇`-stable up to the leading
@@ -1772,11 +1779,20 @@ kernel. FormalLaurentPuiseux supplies the fields.
 - `GL₂` with `∇ = ∂ + [[0, 0], [1, 0]]`: `e₁` is cyclic (`∇e₁ = e₂`), `e₂` is not
   (`∇e₂ = 0`); the flag `⟨e₁⟩ ⊂ ℂ((t))²` is the oper reduction, while `⟨e₂⟩` violates
   transversality.
+- `∂ = 0` is excluded: on `V = F²` with `D = 0` no vector is cyclic, whatever the
+  characteristic; a theorem without `∂ ≠ 0` is false.
+- Characteristic zero is needed: over `F = 𝔽_p(t)` with `∂ = d/dt`, `∂^p` is a derivation
+  vanishing on `𝔽_p[t]`, hence `∂^p = 0`; the trivial module `V = F^(p+1)`, `D = ∂` on
+  coordinates, has `D^p v = 0` for every `v`, so no `v` has `p + 1` independent iterates.
+- Katz's candidates for `n = 2` are `c(e, t − a) = e₀ + (t − a)(e₁ − De₀)`. On `ℂ((t))²` with
+  `D = ∂` on coordinates, `e₀ = (1, t)` and `e₁ = (−t⁻¹, 0)` (a basis, of determinant `1`), the
+  candidate at `a = 0` is `(1, t) + t(−t⁻¹, −1) = 0`, not cyclic, while at `a = 1` it is
+  `(t⁻¹, 1)` with derivative `(−t⁻², 0)`, independent of it: no single translate serves every
+  basis, and the theorem's `n(n − 1) + 1 = 3` translates do.
 - The horizontal kernel of `∂ + a` on `ℂ((t))` is `ℂ` if `a ∈ dlog(ℂ((t))ˣ)` and `0` otherwise,
   finite in both cases.
 
-*Needs:* PadicDifferentialEquationsAndRigidCohomology §§RD.1.2–RD.1.6, §RD.6.52a;
-FormalLaurentPuiseux L4; §2.2.
+*Needs:* FormalLaurentPuiseux L2; §2.2; Mathlib `Derivation` and `Module.Basis`.
 
 ### 6.3 Affine flag geometry, Cartan decomposition and the Kazhdan–Lusztig cycles (F6.3)
 
@@ -1876,9 +1892,10 @@ assumed from the name of an existing roadmap.
 
 - `SL₂`, `A = t^(−2) f`: the leading coefficient `f` is regular nilpotent, `X_A` is the single
   point of the flag fixed by `f`, and the oper condition holds already.
-- `SL₂`, `A = t^(−2) h`: the leading coefficient is semisimple, not nilpotent; the construction
-  does not apply to it directly and the central/semisimple reduction of the normal form of §6.2 is
-  used first.
+- `SL₂`, `A = t^(−2) h`: the leading coefficient at `r = −2` is semisimple, not nilpotent, so the
+  construction does not apply at `r = −2`; it applies at `r = −3`, where the leading coefficient
+  `A_(−3) = 0` is nilpotent (Frenkel–Zhu's choice of `r` below the pole order, frenkel-zhu
+  lines 107–110), at the price of a larger `X_A`. No formal normal form enters.
 - `A = 0` with `r = −2`: `X_0` contains every `t^λ I`, since `gauge(t^(−λ), 0) = λt⁻¹` has order
   `−1 ≥ −2`, but not the flag of `exp(t⁻³x)` for `x ∈ 𝔫`, whose gauge `3t⁻⁴x` has order `−4`; a
   definition without the order bound would make `X_A` all of `Fℓ` and infinite-dimensional.
@@ -1924,8 +1941,8 @@ singleton Springer fibre; the `r = −1`/`r = −2` witness for `Aut⁰(O)` vers
 
 ### Dependencies
 
-Layers 1–5; PadicDifferentialEquationsAndRigidCohomology §§RD.1.2–RD.1.6 and §RD.6.52a;
-FormalLaurentPuiseux L4 and L7; ReductiveGroups Layers 1, 6, 6B, 7, 9; AffineMorseLefschetz A4;
+Layers 1–5; FormalLaurentPuiseux L2 and L7; ReductiveGroups Layers 1, 6, 6B, 7, 9;
+AffineMorseLefschetz A4;
 ProfiniteCohomology Layers 1 and 11; Tau Ceti `zHat`. The order inside the layer is §6.5 and §6.2
 first, then §6.3's flag geometry and Cartan decomposition, then §6.4, then §6.1's assembly. This
 proof lane does not make opers depend on representation categories or critical centres.
@@ -2331,6 +2348,10 @@ GeometricRepresentationCategories.
 - **KacMoody KM8A** consumes Layer 3A's polynomial and formal loop functors, Iwahori and positive
   subgroups, full-cocharacter normalizer quotients and positive-orbit comparison, and compares its
   minimal derived affine group with them.
+- **PadicDifferentialEquationsAndRigidCohomology §§RD.1.2–RD.1.7 and §RD.6.52a** consume §6.2's
+  cyclic-vector theorem, at its full generality of differential fields of characteristic zero with
+  nonzero derivation, for its `p`-adic differential fields and for `F((t))`; its formal normal
+  forms, slopes and ramified descent over `F((t))` are its own.
 
 ## References
 
@@ -2373,6 +2394,11 @@ GeometricRepresentationCategories.
 - E. Frenkel and X. Zhu, [*Any flat bundle on a punctured disc has an oper structure*](https://arxiv.org/abs/0811.3186),
   Math. Res. Lett. 17 (2010): Theorem 1, Theorem 4, §5 Lemma 10, the reductive theorem and the
   explicit proof suppliers of Layer 6.
+- P. Deligne, [*Équations différentielles à points singuliers réguliers*](https://publications.ias.edu/sites/default/files/Number9.pdf),
+  Lecture Notes in Math. 163 (1970), Ch. II, Lemme 1.3: the cyclic-vector theorem over a
+  differential field of characteristic zero with nonzero derivation. N. Katz,
+  [*A simple algorithm for cyclic vectors*](https://web.math.princeton.edu/~nmk/old/simplealgorithm.pdf),
+  Amer. J. Math. 109 (1987), 65–70, Theorems 1–2: the explicit cyclic candidates of §6.2.
 - K. Česnavičius, [*The affine Grassmannian as a presheaf quotient*, v3](https://arxiv.org/abs/2401.04314v3),
   Theorems 16, 17 and 19; K. Česnavičius and R. Fedorov,
   [*A toral version of the Grothendieck–Serre conjecture*, v3](https://arxiv.org/abs/2311.08660v3),
