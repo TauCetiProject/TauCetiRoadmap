@@ -78,6 +78,12 @@ recompute their proofs by unfolding the four-way index.
 - Mathlib supplies the prime-order cyclic group theory, the simplicity of alternating groups of
   degree at least five, and `MulAction.IwasawaStructure.isSimpleGroup`. Reuse those results and
   prove the small transport lemmas needed by the exact CFSGStatement carriers.
+- Consume native `ValidLieTypeIndex.finite_fixedPoints` and
+  `ValidLieTypeIndex.finite` from
+  [`BasicProperties/LieTypeFinite`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/GroupTheory/SpecificGroups/CFSG/BasicProperties/LieTypeFinite.lean)
+  for the designated Lie-type carriers. Preserve the reusable fixed-point
+  criterion of F0 and its transport API; duplicating a proof of finiteness for
+  an isomorphic model does not replace the required comparison between carriers.
 - The existing finite-field and matrix-coordinate lemmas in the CFSG files, including the
   `fixedField` and Suzuki descent results, are inputs. Their existence alone does not make an
   algebraic-closure-valued point group finite.
@@ -92,7 +98,7 @@ the source calls it a finite group, does not discharge an item.
 | --- | --- | --- |
 | E0: elementary branches | CFSGStatement, Mathlib | `Finite` and `IsSimpleGroup` for every cyclic and alternating index |
 | F0: finite fixed-point criterion | Mathlib finite fields and matrices | a reusable theorem bounding Steinberg fixed points by finite matrix coordinates |
-| F1: all Lie-type groups finite | F0, actual-carrier coordinate/generation proof or compatible transport of Chevalley groups C4, CFSGStatement L1–L3 | `Finite d.FixedPoints` and `Finite d.Group` for each of the seventeen constructors |
+| F1: Lie-type finiteness interfaces | native LieTypeFinite, F0 transport, CFSGStatement L1–L3 | consume designated-carrier finiteness; compatible model comparisons and branch iterate formulas |
 | T0: abstract simplicity machinery | `TauCeti.TitsSystem`, Mathlib group actions | a normal-subgroup/simplicity criterion for a split BN-pair with root groups |
 | T1: fixed-point root calculus | T0, actual-carrier ambient calculus or compatible transport of Chevalley groups C2–C5, CFSGStatement L1–L3 | Steinberg descent, twisted root groups, BN-pairs, and root relations on the fixed points of the ordinary and graph-twisted families |
 | T2: ordinary and graph-twisted simplicity | T1, F1 | `IsSimpleGroup d.Group` on those thirteen constructors, including valid small fields |
@@ -124,7 +130,11 @@ across an intertwining `MulEquiv`. Give the induced `Finite` instances for a sub
 subgroup and its quotient by its centre. The latter transport is general group theory, not a
 Lie-specific calculation.
 
-Apply this criterion to the actual pair `(d.AmbientGroup, d.steinberg)`. If using a
+Consume the native `ValidLieTypeIndex.finite_fixedPoints` and
+`ValidLieTypeIndex.finite` for the designated carriers, including all retained
+small parameters. F1 does not repeat their existing finite-instance assembly.
+Use F0 when proving finiteness for a new realization or transporting it to the
+actual pair `(d.AmbientGroup, d.steinberg)`. If using a
 different matrix realization or pinned carrier, construct a `MulEquiv e` and prove
 `e (d.steinberg g) = F' (e g)` for the independently specified target endomorphism `F'`.
 Use native `TauCeti.fixedSubgroupCongr` and `TauCeti.FixedPointCandidate.congr` to transport
@@ -134,7 +144,7 @@ coordinate embedding and the iterate formula for that carrier itself. Neither ro
 finiteness or simplicity of the candidate. L5 is required only when its pinned comparison
 is actually used, not for a direct proof on the designated carrier.
 
-For each of the nine ordinary families (`A`, `B`, `C`, `D`, `E6`, `E7`, `E8`, `F4`, `G2`), prove
+For new realizations of the nine ordinary families (`A`, `B`, `C`, `D`, `E6`, `E7`, `E8`, `F4`, `G2`), prove
 the required coordinate formula for the CFSGStatement Steinberg map. For the four graph-twisted
 families (`twistedA`, `twistedD`, `twistedE6`, `trialityD4`), prove that the finite-order graph
 part commutes with Frobenius and that a positive iterate has the coordinate formula. For
@@ -144,10 +154,11 @@ formula merely on the named simple root subgroups is insufficient: it must hold 
 faithfully represented carrier or follow from a proved generation theorem, such as generation by
 root subgroups over an algebraically closed field (C4 of the Chevalley groups roadmap).
 
-Apply F0 to each branch to obtain `Finite d.FixedPoints` and `Finite d.Group`, and assemble
-`ValidLieTypeIndex.finite` by cases. This includes the Tits group and every small parameter
-retained by `LieTypeIndex.Valid`. Record the field size and the positive iterate in branch lemmas
-for use by the simplicity proofs without unfolding the entire dispatcher.
+Transport the native finiteness results through these proved comparisons where
+applicable, and apply F0 only where the realization requires a new coordinate
+argument. Record the field size and positive iterate in branch lemmas for the
+simplicity proofs without unfolding the entire dispatcher. Verify the same
+rank and field-validity ranges on both sides of each comparison.
 
 ## T0: a reusable simplicity criterion
 
@@ -732,6 +743,30 @@ one cyclic, one alternating, one ordinary Lie, one graph-twisted, each of Suzuki
 one P1 and one P2 sporadic entry; these are checks of the dispatcher, not replacements for
 the uniform proofs. Audit the endpoint's axioms and confirm that no case uses
 `ClassificationStatement` or assumes the corresponding basic property.
+
+## Existing formalizations and model comparisons
+
+The following are secondary proof sources for the specified endpoints. They do
+not change the ownership or the exact-carrier requirements above. Coordinate
+with the authors before adapting code, and express reusable lemmas through
+native presentation, character, action and Tits-system interfaces.
+
+- Axiom's [sporadic converse theorem](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_sporadic_converse.lean)
+  proves finiteness and simplicity of each exact `TauCeti.SporadicName.Group`
+  at its pinned Tau Ceti revision. P1–P2 can use its presentation/model
+  comparisons as proof sources; prove compatibility with the current recorded
+  relators and generators before transporting a result. Native-model simplicity
+  alone does not identify a presented group.
+- Its [native finite simple models](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/CAT_native_realization.lean)
+  and [Monster simplicity proof](https://github.com/AxiomMath/CFSG/blob/69cb972f587a3ecc035e092253167ff2e303c962/CFSG/Milestones/FAM_M_simplicity.lean)
+  supply family-level material for T2–T3 and P1–P2. A model theorem must be
+  connected by a proved `MulEquiv` to the exact indexed carrier. For Lie-type
+  models, prove compatibility with the specified Steinberg map as required
+  by F0–F1 and T1–T3.
+- Ordinary character theory, including Burnside, Frobenius kernels,
+  irreducible expansions and Frobenius–Schur theory, is supplied by the native
+  `RepresentationTheory/CharacterTable` and `RepresentationTheory/FrobeniusGroup/Basic`
+  libraries. Compare a source's private character objects with these once.
 
 ## References
 
