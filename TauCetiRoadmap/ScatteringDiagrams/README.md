@@ -29,7 +29,7 @@ functions with cluster variables. The skew-form inputs of Layer 7 are defined
 without reference to cluster objects.
 
 **Adjacent roadmaps.** The
-[AnalyticToricGeometry roadmap](../AnalyticToricGeometry/README.md)
+[AnalyticToricGeometry roadmap](../../Completed/AnalyticToricGeometry/README.md)
 owns the toric lattice, salient cone, finite fan and dual-semigroup interfaces
 consumed here; §1.1 adds affine cells and complexes allowing lineality and proves
 comparisons on the existing cone carriers. The

@@ -36,7 +36,7 @@ import Mathlib.Topology.Baire.Lemmas
 import Mathlib.Topology.Maps.Proper.Basic
 import Mathlib.Topology.PartialHomeomorph.Basic
 import TauCeti.Algebra.Module.Primitive
-import TauCeti.Analysis.Convex.Polyhedron
+import TauCeti.Analysis.Convex.Polyhedron.Basic
 import TauCeti.Geometry.Toric.Algebraic.Lattice
 
 /-!
