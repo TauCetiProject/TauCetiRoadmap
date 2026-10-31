@@ -2932,6 +2932,127 @@ rational knot `p/q`, and that the mirror of `p/q` is `p/(−q)`.
 
 *Needs:* Layer 4.2, Layer 4.4, Layer 4.8.
 
+<a id="positive-algebraic-tangles"></a>
+### 4.10.1 Algebraic tangle syntax and alternating closures
+
+Construct algebraic tangles as finite expressions in the integer tangles,
+horizontal sum and principal-diagonal reciprocal. The realized carrier is
+a compact properly embedded one-manifold in a ball with four marked collared endpoints:
+two open strands and finitely many closed components. Composition can
+create closed components, which remain part of the output. Give the
+relative planar code, its spatial realization, endpoint-fixing isotopy
+and the relative Reidemeister comparison from Layer 4.2. For n crossings
+use the native crossing slots plus four boundary slots, with a native
+`PerfectMatching` pairing edge ends, opposite slots continuing each
+crossing strand, crossing over-pair data and separate crossing-free circles.
+Require the planar realization witness with the four ports on the outer
+boundary in the declared cyclic order. Gluing identifies the selected
+boundary slots and contracts their degree-two seams. Prove the resulting
+edge matching and register every circle created without a crossing.
+Closure gives the native closed `PDCode`, preserving every component.
+Global component orientations are additional data, transported in
+oriented applications.
+
+Pin the boundary order as NW,NE,SE,SW. The integer 0 has horizontal strands;
+infinity has vertical strands. The primitive 1 has NW–SE over NE–SW.
+Horizontal sum A+B joins A.NE to B.NW and A.SE to B.SW, with the four
+outer ports retained and the standard crossing-free collars. Define
+I(A) by reflection in the vertical plane through the NW–SE diagonal:
+in coordinates `(x,y,z)↦(−y,−x,z)`, with z the crossing height. It fixes
+NW,SE, exchanges NE,SW and preserves over/under data. Prove I²=id,
+I(0)=infinity and I(infinity)=0, with code/realization and collar transport.
+The Conway product is `A·B=I(A)+B`. Define negative integers by the
+crossing-height mirror of positive integers; include signed, zero and
+infinity expressions in this full syntax. Give reindexing, substitution,
+mirror and gluing naturality, and associativity/unit isotopies for sum.
+
+Identify the integer-twist and reciprocal constructors with Layer 4.10's
+rational tangles and continued-fraction convention. On that rational
+subclass prove I sends fraction x to 1/x, including 0 and infinity.
+General algebraic expressions retain their actual tangles; rational
+fraction equality is used only within the classified rational subclass.
+Prove the noncommutative and nonassociative product checks below using
+that restricted comparison, rather than importing ring identities for ·.
+
+**Positive syntax and the boundary invariant.** Define the positive
+expressions inductively from 1 by sum and I; positive integers are
+nonempty sums of 1. Embed every rational word with strictly positive
+integer coefficients, in the declared continued-fraction order, and
+every algebraic expression in such rational leaves using sum and Conway
+product. The notation a0 for I(a) is a structural reciprocal operation;
+it introduces no zero integer coefficient into the positive grammar.
+The crossing count is 1 at the primitive, additive under sum and unchanged
+under I. Construct codes with exactly that count. Every positive boundary
+port reaches a crossing along its strand.
+
+For each boundary port record the over/under status of the first crossing
+encountered when entering the tangle. Prove simultaneously, by syntax
+induction, that each open strand's encounter word alternates, each closed
+component's cyclic encounter word alternates, and the boundary statuses
+are `(over,under,over,under)` in the specified cyclic order. Define these
+words from the actual code's strand traversal, using native
+`PDCode.isOver` on the resulting crossing slots. The event bit true means
+over; compute it from the slot and `overPair`, rather than identifying it
+with that pair-selection bit. Use native `List.IsChain (· ≠ ·)` for open
+words and include the last-to-first comparison for cyclic words; the empty
+word of a crossing-free circle is allowed. The primitive gives the base
+case. For sum, the seam
+pairs are under–over and over–under. Prove the word-concatenation and
+reversal lemmas and track complete strand paths, including paths that
+cross several seams or become closed components. For I the port
+permutation preserves the boundary tuple and crossing statuses, while
+any reversed traversal reverses its encounter word. Prove the finite
+path decomposition and its agreement with geometric components.
+
+Numerator closure joins NW–NE and SW–SE; denominator closure joins
+NW–SW and NE–SE. Both pair opposite boundary statuses. Prove their
+actual closed-diagram encounter words alternate, with every original
+and newly closed component retained. Consequently both closures are
+alternating links; in particular, if N(T) is a knot it is an alternating
+knot. This is a construction of an alternating representative. Reducedness,
+minimal crossing number and primeness require their separate hypotheses
+and proofs. Crossing-height mirroring gives the corresponding negative
+construction, with the complementary boundary tuple. Positivity here is
+the Conway integer/frame convention; compute oriented crossing signs
+only after choosing component orientations.
+
+**Checks.**
+
+- N(1) is the one-crossing unknot diagram: the alternating conclusion
+  does not assert that its one crossing is minimal.
+- N(I(2)+2) is the four-crossing alternating figure-eight diagram under
+  Layer 4.10's 5/2 dictionary. Transport an orientation and compute its two
+  positive and two negative crossing signs.
+- Identify N(I(3)+I(3)+I(2)) and N(I(3)+I(3)+I(3)) with the earlier
+  marked P(3,3,2) and P(3,3,3) models by actual port/crossing transport.
+  For the former, prove knotness, check reducedness and adequacy of its
+  eight-crossing diagram, and apply Layer 4.8.1 to obtain crossing number 8.
+  The latter's bridge number 3 from Layer 4.7.3 shows that positive
+  algebraic closures extend beyond rational knots.
+- On the rational integer examples, `1·2` has fraction 3 while `2·1`
+  has fraction 3/2; `(1·2)·3` has fraction 10/3 while `1·(2·3)` has
+  fraction 9/2. Give the actual rational normal forms and use relative
+  classification to distinguish these tangles.
+- In the mixed-sign diagram `1+mirror(1)`, trace the equal-status seam
+  encounters and its Reidemeister-II reduction to 0. Its displayed code
+  is not alternating, although its numerator closure is the unlink.
+  Zero and infinity remain valid in the full syntax; the positive
+  boundary theorem is applied to expressions in the positive grammar.
+- N(0) is the two-component unlink and D(0) the unknot; infinity
+  exchanges those closures. Infinity+infinity has the vertical open
+  strands and one additional crossing-free circle. Check its actual
+  matching and circle count through gluing and both closures.
+
+*Needs:* Layer 4.2 (relative realized codes, component traversal, gluing and
+Reidemeister moves), Layer 4.10 (integer/rational constructors and their
+relative classification), and native finite permutations and encounter
+words. The pretzel calibrations additionally use Layers 4.7.3 and 4.8.1.
+The finite syntax, boundary invariant, closed-component transport and alternating
+closure theorem are built here. Use [Conway, §1](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/conway.pdf)
+for the product/principal-diagonal convention and
+[Kauffman–Lambropoulou, §2](https://homepages.math.uic.edu/~kauffman/rattl.pdf)
+for the rational-tangle comparison.
+
 ### 4.11 Torus knots, satellites and Whitehead doubles
 
 Define the torus knot `T(p, q)` for coprime `p, q` as the image of `u ↦ 2⁻¹ᐟ² (u^p, u^q)` in the
