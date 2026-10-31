@@ -1076,3 +1076,18 @@ before planarity filtering, with the actual outer-face fibre for plane diagrams.
 It retains loops, bridges and nugatory crossings. Its n!·2^(n+1) and n!·4^n spherical
 bounds do not resolve the separate main-note n!2^n assertion under its own conventions.
 Unclear handwritten work below47 is not a readable formula for43.
+
+<a id="elementary-diagram-tasks"></a>
+## Problems3/11/12: elementary diagram operations
+
+*Knot Theory - problems.pdf*, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, physical
+p1 Problem3 asks for a diagram with over2000 crossings. Physical p3 Problem11
+asks for checkerboarding ANY link projection; this includes disconnected,
+nested and crossing-free components. Problem12 asks for crossing changes making
+a knot diagram alternating and a bound in terms of its crossing count. The
+roadmap gives its exact fixed-shadow minimum from the two alternating assignments
+and the sharp floor(n/2) bound, retaining the crossing-free exception. This does
+not identify that fixed-shadow minimum with a minimum over other knot diagrams.
+The generic ordered descending-unlink movie already supplies Problem13's unknot
+construction; the alternating-change bound is a different task.

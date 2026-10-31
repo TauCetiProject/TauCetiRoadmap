@@ -1927,6 +1927,61 @@ producers here, with no finite census or crossing minimality premise.
 [DowkerCountTargets.lean](DowkerCountTargets.lean) records the canonical native-code and
 alternating coordinate cardinalities.
 
+<a id="elementary-plane-diagram-operations"></a>
+**Elementary plane-diagram operations (Problems3/11/12).** Supply the following
+geometric and finite APIs on the realized diagrams above, including nugatory crossings,
+disconnected projections and crossing-free circles where stated. Use the existing plane
+region/nesting data, rather than treating the native face type of each crossing graph as
+the global region set.
+
+- For every nonempty oriented link diagram with c crossings and every r∈ℕ, construct a
+  diagram of the same oriented link with exactly c+r crossings by r supported type-I
+  moves on a chosen regular arc. Give the finite move sequence, crossing/strand maps and
+  actual ambient isotopy; keep a protected outside portion fixed. Include a
+  crossing-free circle and r=0. Thus every knot has a diagram with more crossings than
+  any prescribed bound, including2000, without changing its knot type.
+- Checkerboard every realized finite plane LINK projection, with the unbounded region
+  colored0. For any region choose a generic path to the unbounded region, avoiding
+  vertices, and count transverse strand intersections modulo2. Prove independence of
+  path by the even-intersection theorem above, applied to the closed difference path and
+  each closed immersed link component. Include the perturbations and intersection
+  bijections, self-intersections, disconnected/nested crossing graphs, arbitrarily many
+  crossing-free circles and the empty link. Prove adjacent regions across a regular
+  strand have opposite colors, every admissible coloring is determined by its value on
+  the unbounded region, and the two unnormalized colorings differ by one GLOBAL flip.
+  Export the actual finite face-adjacency solution and its geometric comparison,
+  relabeling/plane-isotopy naturality and change of distinguished region on the sphere.
+  The later knot checkerboard dependency vector and Goeritz constructions consume this
+  common region-parity producer.
+- For a one-component n≥1-crossing shadow, use the two alternating assignments above.
+  Write η_i for its current odd-visit over bit and b for the initial over bit of a
+  target alternating traversal. Return the actual crossing-change set `S_b={i | η_i≠b}`
+  and the switched native oriented PD code. Negate overPair exactly on S_b, preserving
+  the rotation system, edge matching, plane nesting/outer face and component traversal;
+  compare native signs using ρ_i=η_i, so switching negates that crossing's sign. Give
+  the supported spatial crossing-change construction. This is the independent diagram
+  operation consumed by the later Fox-rank estimate, without using that estimate as a
+  premise.
+
+Prove S₀ and S₁ partition the n crossings. Every change set that makes this fixed
+projection alternating is one of these two sets, so its exact minimum is
+`min(|S₀|,|S₁|)≤floor(n/2)`. Give the finite certificate and its inverse comparison with
+the actual switched diagrams. This is a statement about the fixed shadow, without
+minimizing over other diagrams. Prove sharpness for every n≥1: on any realized
+n-crossing knot shadow choose over bits with the two complementary distances floor(n/2)
+and ceil(n/2); changing over bits preserves that shadow's realization. For existence at
+every n, use the n-kink unknot diagram from the inflation construction. Export
+relabeling and basepoint/reversal transport of the unordered pair {S₀,S₁}. At n=0 there
+is one empty assignment and no changes. Multi-component shadows require their own
+compatibility equations; this knot bound is not asserted for them.
+
+These are the explicit outputs of
+[Problems3/11/12](source-inputs.md#elementary-diagram-tasks) in *Knot Theory -
+problems.pdf*, physical pp1/3. The shared plane parity, native crossing update and
+type-I construction use only this layer's realized-diagram, local-move and
+region/nesting theory. They use no knot census, polynomial invariant, minimal crossing
+number or later coloring estimate.
+
 <a id="gt4-dowker-source-completions"></a>
 **The four source Dowker words and the seven-crossing exercise.** Pin the
 one-based source convention: crossing i pairs visits `o_i=2i−1` and
