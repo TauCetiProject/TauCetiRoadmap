@@ -47,7 +47,10 @@ This roadmap owns the following, by layer.
   HOMFLY and Kauffman polynomials, Fox colourings and the determinant, knot/proper-link Arf,
   fourth-root evaluations and the integral W quotient. Layer 4.3.1 owns the finite
   nonsingular F₂ quadratic Arf algebra and its Seifert-form dictionary;
-  TangentialBordism and FourManifolds consume them. This layer also owns
+  TangentialBordism and FourManifolds consume them. Layer 4.5.3 owns the finite
+  algebraic Clifford/Temperley–Lieb specialization used in its Jones–Arf
+  comparison; TemperleyLiebOperatorAlgebras consumes it for analytic models.
+  This layer also owns
   the genus, crossing, unknotting, bridge and braid-index minima, prime decomposition of
   knots and of non-split links, rational tangles and two-bridge knots, torus knots and
   satellites, the Garside structure of braid groups, the Morton–Franks–Williams bound,
@@ -2006,8 +2009,7 @@ Prove `e≡n−1 (mod 2)` from the endpoint `n`-cycle. Construct the Laurent
 quotient, prove its symmetry, normalization, uniqueness and agreement with
 the Seifert/Fox invariant of the realized closure from Layer 4.4. This is an
 equality with the unit fixed, beyond association with the native unreduced
-corner minor. Consume the native reduced-determinant/corner-minor comparison
-where available; this layer supplies the geometric normalization and its fixed
+corner minor. Consume the native reduced-determinant/corner-minor comparison; this layer supplies the geometric normalization and its fixed
 unit. Use `u=t^(1/2)` in the native Jones ring: the Laurent exponent
 in the determinant numerator is then `n−1−e`, and the denominator is
 `Σ_(j<n) u^(2j)`. First prove the identities over the generic Laurent/fraction
@@ -2043,9 +2045,9 @@ the two-dimensional relation `tr R⁻¹=tr R/det R`, and the three-dimensional
 determinant expansion. They cancel the two-dimensional traces in the
 reciprocal combination and give the displayed identity after clearing
 denominators. Consume the generic block and trace theory from
-[TypeAHeckeAlgebras H1–H2](../TypeAHeckeAlgebras/README.md) and the positive
-quotient theory from
-[TemperleyLiebOperatorAlgebras A1–A3](../TemperleyLiebOperatorAlgebras/README.md);
+[TypeAHeckeAlgebras H1–H2](../TypeAHeckeAlgebras/README.md) and the algebraic
+Temperley–Lieb presentation, Markov trace, cellular blocks and semisimplicity
+of TemperleyLieb Layers 4–5;
 this layer owns their identification with the native Burau matrices and
 realized-closure Jones invariant, including the explicit block weights and
 all specialization adapters. Check `σ₁σ₂σ₃`, the four-strand unknot.
@@ -2089,6 +2091,13 @@ It has `Δ(1)=1` and
 these values for the realized `PDCode` closure of the word through the
 geometric closure invariance, in exact arithmetic. The literal threshold is a
 refuted source assertion, not a theorem target.
+
+*Needs:* Layers 4.2, 4.4 and 4.5 for realized braid closures, the normalized
+Alexander polynomial and the native Jones polynomial; TypeAHeckeAlgebras
+H1–H2; TemperleyLieb Layers 4–5; native reduced Burau matrices;
+Mathlib Hermitian matrices, positive definiteness and finite determinants.
+The positive Hermitian Burau forms and all root-specialization estimates
+are constructed in this section.
 
 ### 4.5.2 Signed braid Jones support and orientation scope
 
@@ -2188,6 +2197,109 @@ are planar classical diagrams; no assertion about arbitrary abstract PD
 codes substitutes for the geometric hypothesis. In particular a knot
 has a canonical integral Laurent polynomial V_K(t)=P_K(t).
 
+**Finite algebraic Clifford model.** Construct the following specialization
+here, before its geometric comparison. Fix u₄=(1+i)/√2=exp(πi/4)
+and δ=√2. Its inputs are the native Clifford
+algebra and basis and the algebraic Temperley–Lieb presentation and Markov
+trace; it has no analytic-adjoint, positive-quotient or bordism prerequisite.
+
+Put q_m(z)=Σ_(j<m)z_j² on Fin m→ℂ, using native
+`QuadraticMap.weightedSumSquares`, and put Cl_m=`CliffordAlgebra q_m`,
+Cl_m⁰=`CliffordAlgebra.even q_m` and c_j=ι(e_j). Prove c_j²=1 and
+c_j c_k=−c_k c_j for j≠k. For an increasing subset S⊆Fin m let c_S
+be the ordered product of its generators. Build the finite q_m-specific
+comparison with `CliffordAlgebra.basis q_m (Pi.basisFun ℂ (Fin m))`.
+The native basis is transported through `equivExterior`; it is not
+by definition an ordered product. Prove the equality for this orthogonal
+coordinate form before using its coefficients. This is a specialization
+of the native algebra, not a second generic Clifford construction.
+
+Define s_m as the coefficient at ∅ in that native basis. Prove linearity,
+s_m(1)=1, cyclicity and, for all ordered subsets S,T,
+
+`s_m(c_S c_T)=0` if S≠T,
+`s_m(c_S²)=(−1)^(|S|(|S|−1)/2)`.
+
+The diagonal entries are nonzero. Deduce that (x,y)↦s_m(xy) is a
+nondegenerate complex bilinear pairing on the full algebra and on its
+even subalgebra, including dimension zero. Prove
+`s_m(x)=2^(−m)Tr(L_x)`. Restricting to one simple block when m is
+positive and even would lose the required algebra and pairing; retain
+both blocks. Generic Clifford structure theory and analytic scalar-trace
+constructions retain their existing owners.
+
+For 0≤j<m−1 put d_j=c_j c_(j+1), p_j=(1+i d_j)/2 and E_j=√2 p_j.
+Prove d_j²=−1, p_j²=p_j, the two adjacent relations
+p_j p_(j±1) p_j=p_j/2 and distant commutation. Use native
+`TemperleyLieb.lift` to construct F_m:TL_m(ℂ,√2)→ₐ[ℂ]Cl_m⁰ with
+F_m(e_j)=E_j, with generator evaluation and uniqueness. Prove
+surjectivity by c_a c_b=d_a⋯d_(b−1) for a<b and
+d_j=−i(2p_j−1), then group each even ordered monomial into pairs.
+For m=0,1 both source and target are scalar; prove these cases separately.
+
+Use native `CliffordAlgebra.map` for the coordinate inclusion
+J_m:Cl_m→Cl_(m+1), and prove injectivity, even membership, identity and
+composition, compatibility with F_m and native strand inclusion, and
+preservation of s_m. Prove for x∈Cl_m⁰ and m≥1 that
+`s_(m+1)(J_m(x)p_(m−1))=s_m(x)/2`; the new-generator term has scalar
+coefficient zero. Apply TemperleyLieb Layer 4's algebraic Markov-trace
+uniqueness to prove
+
+`T_m(x)=(√2)^m s_m(F_m(x))`.
+
+Here T_m is native `markovTrace` with quantum parameter −u₄, and has
+T_m(1)=(√2)^m. Define its bilinear trace radical by
+`R_m={x | ∀ y, T_m(xy)=0}`. Prove R_m=ker F_m: surjectivity and the
+nondegenerate scalar pairing give the reverse inclusion without positivity
+or an adjoint. Prove the two-sided-ideal laws, construct the native
+algebra quotient and its trace-preserving equivalence with Cl_m⁰, and
+preserve inclusions. The positive analytic quotient is a downstream
+operator-algebra comparison. Export the existence of F_m with its generator
+values, surjectivity, trace identity and kernel characterization together.
+
+At u₄=(1+i)/√2 construct the braid units and their inverse words:
+
+`g_j=u₄((1+i)p_j−1)=−(1+d_j)/√2`,
+`g_j⁻¹=−(1−d_j)/√2`, `g_j²=d_j`, `g_j⁴=−1`, `g_j⁸=1`.
+
+Prove the braid relations and construct ρ_Cl:BraidGroup m→(Cl_m⁰)ˣ.
+Pin its comparison with native `TemperleyLieb.jones a`: choose a∈ℂˣ
+with a²=−u₄⁻¹, prove `jonesDelta a=√2`, and transport parameters to obtain
+`F_m(jonesUnit a j)=(−a/u₄)g_j`. For a word of exponent sum e, the
+factor is (−a/u₄)^e, also for negative letters. The native bracket
+closure is the unnormalized trace; divide by the nonzero loop value to
+get the reduced nonempty closure and apply its writhe factor (−a³)^(−e).
+Since the native half-variable a^(−2)=−u₄, this gives
+
+`H_L(−u₄)=(−1)^e (√2)^(m−1) s_m(ρ_Cl(b))`.
+
+Use H_L(−u₄)=(−1)^(μ−1)H_L(u₄) and the actual closure-permutation
+identity e≡m−μ mod2 to obtain
+`H_L(u₄)=(−√2)^(m−1)s_m(ρ_Cl(b))`. This step owns the signed-loop,
+root-branch, writhe and component-parity adapters; equality of abstract
+algebras does not replace them. The closure formula is for m≥1; m=0
+remains an algebraic scalar stage.
+
+**Finite-model checks.**
+
+- For m=0,1, F_m is the scalar isomorphism and s_m(1)=1. For m=2,
+  the even algebra has dimension2 and s_2(p_0)=1/2.
+- At m=3 the explicit element
+  `1−√2(e_0+e_1)+e_0e_1+e_1e_0` maps to zero. The native TL basis has
+  dimension5, the even Clifford algebra dimension4, and the kernel is
+  one-dimensional.
+- On two strands the traces of g_0, g_0², g_0³, g_0⁴ are respectively
+  −1/√2,0,1/√2,−1. The normalized closures give 1,0,−1,√2: the
+  unknot, positive Hopf link, right trefoil and positive T(2,4).
+
+*Needs:* native `CliffordAlgebra`, `ι`, `even`, `map`,
+`CliffordAlgebra.basis`, its native dimension theorems, `TemperleyLieb.lift`,
+`strandIncl`, `markovTrace`, `jonesUnit`, `jonesDelta` and `BraidGroup`;
+TemperleyLieb Layer 4 algebraic trace uniqueness; Mathlib finite sums,
+ordered products, bilinear nondegeneracy, algebra quotients and linear trace.
+The finite coordinate/basis, character and signed-closure adapters are
+constructed here.
+
 **Seifert Gauss sum and the fourth root.** Fix `t=i` and
 `u₄=exp(πi/4)`, with positive TL loop parameter `δ=√2`. The
 native Jones state-sum circle has value−√2. For F as above set
@@ -2216,9 +2328,8 @@ for a braid b on m≥1 strands realizing L,
 `(−√2)^(m−1) s_m(ρ_Cl(b)) =
    (−1)^(μ−1) (√2)^(−(2g+μ−1)) G(q_F)`.
 
-Consume the generator/trace-preserving even-Clifford model and exact
-Jones braid phases of
-[TemperleyLiebOperatorAlgebras §1.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/44be852bd3ac50b5d185d99bc798f1b2ebe0c1bb/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md#17-the-sqrt2-jones-quotient-as-an-even-clifford-algebra).
+Use the finite algebraic even-Clifford model, normalized scalar trace and
+exact native braid-phase comparison constructed above.
 Construct the finite disc-band/Clifford character-sum reduction and its
 comparison with the actual Seifert quadratic form; match the native
 closure order, crossing signs, component count and handle normalizations.
@@ -2285,8 +2396,23 @@ component-parity law and the descending skein computation. Knots give
 the usual signed `V_K(−1)=Δ_K(−1)` in both conventions. The positive
 Hopf link checks the conversion: Jones gives−2i while ∇(+2i)=+2i.
 
-Prove `V_K(ω)=1` for `ω=exp(2πi/3)` using the existing δ=1 positive
-trace quotient and the closure/permutation parity comparison. Deduce
+At `ω=exp(2πi/3)` put `u₃=exp(πi/3)`, so u₃²=ω and
+u₃+u₃⁻¹=1. Construct the native algebraic scalar character
+χ_m:TL_m(ℂ,1)→ₐ[ℂ]ℂ sending every e_j to1. Its defining relations
+hold also at m=0,1. Prove compatibility with inclusions and the algebraic
+Markov axioms, hence T_m=χ_m by TemperleyLieb Layer 4's uniqueness.
+Under χ_m the normalized braid unit u₃((1+ω)e_j−1) is u₃ω=−1,
+and its inverse is also−1. Use the same explicit signed-loop/writhe
+adapter as above; equivalently use TL_m(ℂ,−1)→ℂ, e_j↦−1,
+and the sign transport between the two presentations. Thus for a braid
+on m≥1 strands of exponent sum e and closure with μ components,
+
+`H_L(u₃)=(−1)^(m−1+e)=(−1)^(μ−1)`.
+
+The second equality uses e≡m−μ mod2 from the actual strand permutation.
+In particular prove `V_K(ω)=1` for every knot, including a nonempty
+braid presentation of the unknot. This calculation uses the algebraic scalar
+character. Deduce
 `Φ₃(t)=1+t+t²` divides `1−V_K(t)` integrally, including all negative
 powers. With `D(t)=(1−t³)(1−t)=(t−1)²Φ₃(t)`, prove existence and
 uniqueness of W_K∈ℤ[t,t⁻¹] satisfying
@@ -2331,7 +2457,7 @@ stabilizations, Layer 4.3.1's finite quadratic Arf classification, native
 `IntegralSquareMatrix.SEquivalent`, `Matrix.toQuadraticForm'`,
 `QuadraticMap.polarBilin`, `.radical` and `.lift`, native finite-quadratic-module
 Gauss sums, native Jones/bracket, geometric Markov/closure comparisons,
-the concrete TL Clifford model above, and Mathlib finite sums, polynomial
+the finite algebraic Clifford model constructed here, and Mathlib finite sums, polynomial
 monic division, Laurent evaluation and complex roots. The new finite
 coefficient, radical/fibre, Clifford-to-surface and Laurent-derivative
 adapters belong here; no later concordance or bordism-classification
@@ -5399,6 +5525,9 @@ and 8; Mathlib CW complexes.
   combinatorial presentations and the comparison theorems between them.
 - **FourManifolds** consumes Layers 1, 2 and 6 and Layer 4.3.1's knot/proper-link Arf invariant, and owns the four-dimensional theorems this
   roadmap states (the dimension-four annulus theorem and Freedman's theorem).
+- **TemperleyLiebOperatorAlgebras** consumes Layer 4.5.3's finite algebraic
+  Clifford map, scalar trace, radical quotient and braid phases; it owns the
+  analytic-adjoint, C*-quotient, block/path and tower comparisons.
 - **TangentialBordism** consumes Layer 1's gluing, Layer 4.3.1's finite quadratic
   Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
   refinement and Spin bordism classification remain its own constructions.
