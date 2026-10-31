@@ -1501,6 +1501,188 @@ theorem SheafOfModules.comp_val_app_apply {C : Type*} [Category C] {J : Grothend
 
 end EarlyAPI
 
+/-! ## Layer 4D: the strict henselization of a local ring
+
+The construction follows the henselization of a pair in Tau Ceti (`TauCeti.Henselization`:
+`IsNeighbourhood`, `Neighbourhood`, `diagram`, `algebra`, `stage`, `desc`, `exists_stage_eq`,
+`hom_ext`) and SchemeAndStackFoundations §0.12: a filtered colimit, over a small model, of a full
+subcategory of étale algebras. Here an object is an étale `R`-algebra together with an `R`-algebra
+map to a fixed separable closure `Ω` of the residue field. Its kernel is the prime `𝔮` and the
+induced embedding `κ(𝔮) → Ω` is the `φ` of Stacks, Lemma 10.155.11 (04GW). The signatures below
+use Mathlib only and mirror those names. "Strictly henselian" is `HenselianLocalRing S ∧ IsSepClosed (ResidueField S)`
+(Stacks, Definition 10.153.1 (04GF)); no new predicate is introduced. -/
+
+namespace StrictHenselization
+
+open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.IsLocalRing
+
+universe uS
+
+variable (R : Type uS) [CommRing R] [IsLocalRing R] (Ω : Type uS) [Field Ω] [Algebra R Ω]
+  [Algebra (ResidueField R) Ω] [IsScalarTower R (ResidueField R) Ω]
+  [IsSepClosure (ResidueField R) Ω]
+
+/-- An étale `R`-algebra with an `R`-algebra map to `Ω`: the triples `(S, 𝔮, φ)` of Stacks, Lemma
+10.155.11 (04GW), with `𝔮` the kernel of the map and `φ : κ(𝔮) → Ω` the induced embedding. -/
+def IsPointedNeighbourhood : ObjectProperty (Over (CommAlgCat.of R Ω)) :=
+  fun B ↦ Algebra.Etale R B.left
+
+/-- The category of pointed étale neighbourhoods of `(R, Ω)`. -/
+abbrev Neighbourhood := (IsPointedNeighbourhood R Ω).FullSubcategory
+
+/-- The category of pointed étale neighbourhoods is filtered. Stacks, Lemma 10.155.11 (04GW),
+first assertion. -/
+@[stacks 04GW "the category is filtered"]
+theorem neighbourhood_isFiltered : IsFiltered (Neighbourhood R Ω) := by
+  sorry
+
+attribute [instance] neighbourhood_isFiltered
+
+/-- The pointed étale neighbourhoods have a small model. -/
+theorem neighbourhood_essentiallySmall : EssentiallySmall.{uS} (Neighbourhood R Ω) := by
+  sorry
+
+attribute [instance] neighbourhood_essentiallySmall
+
+/-- The small diagram of pointed étale neighbourhoods. -/
+noncomputable abbrev diagram : SmallModel (Neighbourhood R Ω) ⥤ CommAlgCat.{uS} R :=
+  (equivSmallModel (Neighbourhood R Ω)).inverse ⋙ (IsPointedNeighbourhood R Ω).ι ⋙
+    Over.forget _
+
+/-- **The strict henselization** `R^{sh}` of `R` with respect to `κ → Ω`: the filtered colimit of
+the pointed étale neighbourhoods. Stacks, Definition 10.155.3 (04GQ), in the colimit form of
+Lemma 10.155.11 (04GW). -/
+@[stacks 04GQ "strict henselization, colimit form"]
+noncomputable def algebra : CommAlgCat.{uS} R :=
+  colimit (diagram R Ω)
+
+/-- The canonical map from a pointed étale neighbourhood to the strict henselization. -/
+noncomputable def stage (B : Neighbourhood R Ω) : B.obj.left →ₐ[R] algebra R Ω :=
+  ((equivSmallModel (Neighbourhood R Ω)).unitIso.hom.app B).hom.left ≫
+    colimit.ι (diagram R Ω) ((equivSmallModel (Neighbourhood R Ω)).functor.obj B) |>.hom
+
+/-- The stage maps form a cocone. -/
+theorem stage_naturality {B C : Neighbourhood R Ω} (f : B ⟶ C) :
+    (stage R Ω C).comp f.hom.left.hom = stage R Ω B := by
+  sorry
+
+/-- The map from the strict henselization induced by a cocone on all pointed neighbourhoods. -/
+noncomputable def desc (s : Cocone ((IsPointedNeighbourhood R Ω).ι ⋙ Over.forget _)) :
+    algebra R Ω →ₐ[R] s.pt :=
+  (colimit.desc (diagram R Ω) (s.whisker (equivSmallModel (Neighbourhood R Ω)).inverse)).hom
+
+/-- Every element of the strict henselization comes from a pointed neighbourhood: a consequence
+of the filtered-colimit description, Stacks, Lemma 10.155.2 (04GP), (3) and Lemma 10.155.11
+(04GW). -/
+theorem exists_stage_eq (x : algebra R Ω) :
+    ∃ (B : Neighbourhood R Ω) (b : B.obj.left), stage R Ω B b = x := by
+  sorry
+
+/-- Two maps out of the strict henselization agree if they agree on every stage. -/
+theorem hom_ext {S : Type*} [CommRing S] [Algebra R S] {f g : algebra R Ω →ₐ[R] S}
+    (h : ∀ B : Neighbourhood R Ω, f.comp (stage R Ω B) = g.comp (stage R Ω B)) : f = g := by
+  ext x
+  obtain ⟨B, b, rfl⟩ := exists_stage_eq R Ω x
+  exact DFunLike.congr_fun (h B) b
+
+/-- The map `R^{sh} → Ω` assembled from the pointings of the neighbourhoods. -/
+noncomputable def toSepClosure : algebra R Ω →ₐ[R] Ω :=
+  desc R Ω ((Over.forgetCocone (CommAlgCat.of R Ω)).whisker (IsPointedNeighbourhood R Ω).ι)
+
+/-- `toSepClosure` restricts to the pointing on every stage. -/
+theorem toSepClosure_comp_stage (B : Neighbourhood R Ω) :
+    (toSepClosure R Ω).comp (stage R Ω B) = B.obj.hom.hom := by
+  sorry
+
+/-- The strict henselization is a henselian local ring. Stacks, Lemma 10.155.2 (04GP), (2). -/
+@[stacks 04GP "(2), henselian"]
+theorem henselianLocalRing : HenselianLocalRing (algebra R Ω) := by
+  sorry
+
+attribute [instance] henselianLocalRing
+
+/-- The residue field of the strict henselization is separably closed. Stacks, Lemma 10.155.2
+(04GP), (2). -/
+@[stacks 04GP "(2), separably closed residue field"]
+theorem isSepClosed_residueField : IsSepClosed (ResidueField (algebra R Ω)) := by
+  sorry
+
+/-- `R → R^{sh}` is a local homomorphism. Stacks, Definition 10.155.3 (04GQ). -/
+@[stacks 04GQ "local ring map"]
+theorem isLocalHom_algebraMap : IsLocalHom (algebraMap R (algebra R Ω)) := by
+  sorry
+
+attribute [instance] isLocalHom_algebraMap
+
+/-- `𝔪 R^{sh}` is the maximal ideal of `R^{sh}`. Stacks, Lemma 10.155.2 (04GP), (4). -/
+@[stacks 04GP "(4)"]
+theorem maximalIdeal_eq_map :
+    maximalIdeal (algebra R Ω) = (maximalIdeal R).map (algebraMap R (algebra R Ω)) := by
+  sorry
+
+/-- The kernel of `R^{sh} → Ω` is the maximal ideal. Stacks, Lemma 10.155.2 (04GP), (5). -/
+@[stacks 04GP "(5), kernel"]
+theorem ker_toSepClosure : RingHom.ker (toSepClosure R Ω) = maximalIdeal (algebra R Ω) := by
+  sorry
+
+/-- `R^{sh} → Ω` is surjective, so the residue field of `R^{sh}` is `Ω` over `R`. Stacks, Lemma
+10.155.2 (04GP), (5). -/
+@[stacks 04GP "(5), surjective"]
+theorem toSepClosure_surjective : Function.Surjective (toSepClosure R Ω) := by
+  sorry
+
+/-- **Universal property.** For a ring map `R → S` into a henselian local ring and a field map
+`φ : Ω → κ_S` compatible with `R`, there is a unique `R`-algebra map `R^{sh} → S` reducing to
+`φ ∘ toSepClosure`. Stacks, Lemma 10.153.11 (08HQ) applied stagewise. -/
+@[stacks 08HQ "applied stagewise"]
+theorem existsUnique_lift (S : Type*) [CommRing S] [HenselianLocalRing S] [Algebra R S]
+    (φ : Ω →+* ResidueField S)
+    (hφ : ∀ r : R, φ (algebraMap R Ω r) = residue S (algebraMap R S r)) :
+    ∃! f : algebra R Ω →ₐ[R] S, ∀ x, residue S (f x) = φ (toSepClosure R Ω x) := by
+  sorry
+
+/-- **Maps to strictly henselian rings.** A local homomorphism `R → S` into a strictly henselian
+local ring extends to a local homomorphism `R^{sh} → S`. -/
+theorem exists_isLocalHom_lift (S : Type*) [CommRing S] [HenselianLocalRing S]
+    [IsSepClosed (ResidueField S)] [Algebra R S] [IsLocalHom (algebraMap R S)] :
+    ∃ f : algebra R Ω →ₐ[R] S, IsLocalHom (f : algebra R Ω →+* S) := by
+  sorry
+
+/-- **Stages, Stacks form.** For an étale `R`-algebra `A`, a prime `𝔮` of `A` over `𝔪`, and an
+`R`-embedding `φ : κ(𝔮) → Ω`, there is a unique `R`-algebra map `f : A → R^{sh}` with
+`f⁻¹(𝔪_{R^{sh}}) = 𝔮` inducing `φ` on residue fields. Stacks, Lemma 10.155.9 (04GT), with
+`S = R`. -/
+@[stacks 04GT "S = R"]
+theorem existsUnique_algHom_of_etale (A : Type*) [CommRing A] [Algebra R A] [Algebra.Etale R A]
+    (q : Ideal A) [q.IsPrime] (hq : q.comap (algebraMap R A) = maximalIdeal R)
+    (φ : q.ResidueField →ₐ[R] Ω) :
+    ∃! f : A →ₐ[R] algebra R Ω, (maximalIdeal (algebra R Ω)).comap f = q ∧
+      ∀ a : A, toSepClosure R Ω (f a) = φ (algebraMap A q.ResidueField a) := by
+  sorry
+
+/-- **Noetherianity.** `R` is Noetherian iff `R^{sh}` is. Stacks, Lemma 15.46.3 (06LJ), the
+equivalence (1) ⇔ (3); its other clauses are README targets. -/
+@[stacks 06LJ "(1) iff (3)"]
+theorem isNoetherianRing_algebra_iff :
+    IsNoetherianRing R ↔ IsNoetherianRing (algebra R Ω) := by
+  sorry
+
+end StrictHenselization
+
+/-- **Dimension of the completion.** Stacks, Lemma 15.44.1 (07NV). -/
+@[stacks 07NV]
+theorem ringKrullDim_adicCompletion (A : Type*) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] :
+    ringKrullDim (AdicCompletion (IsLocalRing.maximalIdeal A) A) = ringKrullDim A := by
+  sorry
+
+/-- **Regularity of the completion.** A Noetherian local ring is regular iff its completion is.
+Stacks, Lemma 15.44.4 (07NY). -/
+@[stacks 07NY]
+theorem isRegularLocalRing_adicCompletion_iff (A : Type*) [CommRing A] [IsLocalRing A]
+    [IsNoetherianRing A] :
+    IsRegularLocalRing A ↔ IsRegularLocalRing (AdicCompletion (IsLocalRing.maximalIdeal A) A) := by
+  sorry
+
 /-!
 ## Interfaces awaiting their prerequisite carriers
 
