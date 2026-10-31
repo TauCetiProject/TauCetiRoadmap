@@ -2259,6 +2259,124 @@ law. Follow the native quotient API of
 and the existing
 [Seifert-matrix API discussion](https://leanprover.zulipchat.com/#narrow/stream/610393-Tau.20Ceti/topic/PRs/near/617671438).
 
+<a id="universal-bracket-coefficients"></a>
+### 4.5.4 Universal bracket coefficients and writhe normalization
+
+Use the existing native `TauCeti.TemperleyLieb R c n` over every
+commutative ring R. In the two-strand algebra let I=1 and E=e₀, so
+E²=cE, and fix the two crossing expansions
+`r₊=aI+bE` and `r₋=bI+aE`. These are native `crossing` elements;
+construct their particular local matching/PD-slot comparisons, retaining
+the convention that the A-smoothing turns left off the over-strand.
+Prove the exact identity
+
+```text
+r₊r₋=ab I+(a²+b²+abc)E,
+r₊r₋=I ↔ ab=1 and a²+b²+abc=0.
+```
+
+For necessity use native `twoStrandRep`: E maps to `[[0,0],[1,c]]`,
+while I maps to the identity matrix. Its(0,0) and(1,0) entries recover
+the two coefficients, proving independence of I,E over R without a
+nonzero-divisor or field hypothesis. Reuse native
+`crossing_mul_crossing_swap_eq_one_of_polynomial` for sufficiency and
+`crossing_braid` for typeIII, with their actual polynomial hypotheses.
+Compare the finite two-/three-strand local expansions with the native
+PD Reidemeister maps. This uses the existing presented algebra and
+particular local matching calculations, without another generic diagram
+algebra, diagram-basis theorem or operator-algebraic prerequisite.
+
+**Universal coefficient ring.** In `MvPolynomial (Fin 3) ℤ` write A,B,C
+for the three variables. Form the native ideal quotient
+
+```text
+Q=ℤ[A,B,C]/(AB−1, A²+B²+ABC).
+```
+
+Construct a ring equivalence `Q ≃+* LaurentPolynomial ℤ` sending
+A↦T1, B↦T(−1), C↦−T2−T(−2). Construct its inverse from the
+unit represented by A with inverse B, prove both inverse laws, and give
+computing rules for all three generators and integer coefficients.
+Prove the universal mapping property: maps Q→R correspond exactly to
+units a∈Rˣ, with b=a⁻¹ and c=−a²−a⁻². Establish coefficient-map
+naturality and composition. In particular the open typeII condition
+forces the crossing coefficient to be a unit; no inverse of c is required.
+
+**State sums and the trace normalization.** For a finite PD diagram D,
+a state s chooses the native A- or B-smoothing at each crossing. Let
+α(s),β(s) be the corresponding crossing counts and ℓ(s) its native
+`stateLoopCount`, including all crossing-free circles. Define the
+unnormalized state sum on all diagrams by
+
+`Z_D(a,b,c)=Σ_s a^α(s)b^β(s)c^ℓ(s)`.
+
+For nonempty diagrams define the reduced bracket
+
+`S_D(a,b,c)=Σ_s a^α(s)b^β(s)c^(ℓ(s)−1)`.
+
+Prove ℓ(s)≥1 on this domain, the two local resolution laws, relabeling
+invariance and coefficient-map compatibility. Prove `Z_D=c·S_D` for
+nonempty D, without dividing by c. For μ≥1 crossing-free circles the
+values are c^μ and c^(μ−1), respectively. The empty diagram has Z=1;
+the reduced invariant here has nonempty domain. Native truncated-
+subtraction empty-code values are compared separately, rather than used
+to extend the nonempty disjoint-circle law to an empty factor.
+
+After the universal coefficient substitution, prove
+`S_D(a,a⁻¹,jonesDelta a)=D.kauffmanBracket a` with the actual native
+unit parameter a. Reuse native combinatorial typeII/III invariance and
+the geometric Reidemeister comparison to obtain regular-isotopy invariance.
+For a closed n-strand braid, n≥1, identify the native unnormalized
+Markov trace with Z of its realized closure, using its parameter q=a²
+and loop c=−(q+q⁻¹). Its writhe-corrected Jones trace is therefore c
+times the reduced normalized bracket. Prove this polynomial identity
+also at c=0; a vanishing trace factor is not canceled to define the bracket.
+
+**Curls and the ambient invariant.** The positive and negative local
+curl factors are `ac+b` and `bc+a`. In Q they are−a³ and−a⁻³,
+mutually inverse units. Prove their exact comparison with native signed
+kink insertion and the writhe changes+1 and−1. For every nonempty
+oriented diagram use
+
+`X_D=((-a³)^(-w(D)))·S_D`.
+
+Prove its equality with native `normalizedKauffmanBracket`, and reuse
+native signed move maps plus the geometric comparison for ambient-isotopy
+invariance. Writhe reversal under mirror gives a↦a⁻¹; retain the actual
+component-orientation transport. Compare with native Jones polynomials
+by the coefficient embedding sending the native variable u=t^(1/2) to
+A⁻². This is a formal Laurent comparison, not a choice of a fourth-root
+branch. The trefoil checks fix its normalization.
+
+**Checks.**
+
+- For the closure of the positive two-strand braid σ₁², prove the reduced
+  three-parameter expression `(a²+b²)c+2ab`. Under the universal
+  substitution it is−a⁴−a⁻⁴. Give the actual two-crossing Hopf-code
+  comparison and its oriented writhe correction.
+- Native `rightHandedTrefoilPDCode` has writhe+3 and raw bracket
+  `−A⁵−A⁻³+A⁻⁷`; its normalized bracket is
+  `A⁻⁴+A⁻¹²−A⁻¹⁶`. Its native mirror has writhe−3 and raw bracket
+  `A⁷−A³−A⁻⁵`, giving `−A¹⁶+A¹²+A⁴`. Under t=A⁻⁴ these give
+  the prescribed right/left trefoil Jones polynomials. Prove the mirror
+  comparison on the actual native diagrams.
+- In `ZMod 2` with a=1, the loop value is0. The unknot still has
+  reduced bracket1 and unnormalized trace0. Both state sums, curls and
+  local inverse identities remain defined at this specialization.
+- The scalar assignment(a,b,c)=(1,0,1) over ℤ gives reduced bracket1
+  on every nonempty closed diagram. Its open typeII product is E≠I,
+  as detected by `twoStrandRep`. Thus the universal ring above classifies
+  the specified open local inverse relation; closed scalar invariance
+  alone does not imply that relation.
+
+*Needs:* Layer4.2 (realized diagrams and geometric Reidemeister comparison),
+Layer4.5 (native bracket and Jones conventions); Mathlib `MvPolynomial`,
+`Ideal.Quotient`, `LaurentPolynomial` and units; native
+`TauCeti.Algebra.TemperleyLieb.Basic`, `TauCeti.KnotTheory.TemperleyLieb`,
+PD state counts, Kauffman brackets, signed kink and typeII/III APIs.
+Use [Kauffman, §2, Lemmas2.3–2.4 and Theorems2.6–2.8](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kauffmanjones.pdf)
+for the state model and regular-to-ambient normalization.
+
 ### 4.6 The HOMFLY and Kauffman polynomials
 
 Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero subring of
