@@ -90,3 +90,31 @@ literal reading separately from the corrected algebraic computation; the
 positive-cubic expression is not symmetric after the stated normalization.
 The matrix arithmetic and conditional knot conclusions do not resolve these
 source labels or complete the required geometric comparison.
+
+
+<a id="skein-source-conventions"></a>
+## Skein signs and the source's complex substitutions
+
+The main *Knot Theory* source
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical p192,
+writes A₊−A₋=(1−t)A₀ “up to units” and ∇₊−∇₋=−z∇₀. Its pictured Alexander triple is
+labelled L₋,L₊,L₀ from left to right. These signs are literal source data, rather than a
+reason to change the roadmap's native positive-crossing convention. The integral Conway
+contract supplies the marked crossing/Seifert and variable conversions, including the
+compatible raw determinant equation.
+
+On p199 the first Jones line has a visible plus between its first two terms. After
+“s=1/t,” a mark in the next line is overwritten and remains unresolved. Retain those
+readings separately from the native Jones skein identity; variable inversion alone does
+not reconcile a plus and a minus. The same page's HOMFLY relation is lP₊+l⁻¹P₋+mP₀=0,
+and its unlink factor is μ=−m⁻¹(l+l⁻¹), with value μ^(q−1) for q≥1 circles.
+
+P200 writes the Jones substitution (l,m)=(it⁻¹,i(t¹ᐟ²−t⁻¹ᐟ²)) and the Conway
+substitution ∇(z)=P(i,iz). Both second arguments have positive i as written. For a fixed
+native crossing and square-root convention these yield the component phase (−1)^(μ−1)
+relative to the roadmap's standard invariants. The ordinary-variable Conway sign is
+reversed, and the Jones phase agrees with changing the half-variable branch. The
+two-component unlink and positive Hopf link distinguish these conventions; knot examples
+alone do not. Construct the explicit local drawing adapter before assigning the source's
+pictured link to a native oriented code. The contract preserves the source formulas
+while pinning the modern coefficient maps and their integral descent.

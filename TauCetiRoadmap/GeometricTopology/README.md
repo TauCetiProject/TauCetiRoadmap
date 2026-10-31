@@ -2918,6 +2918,167 @@ reuse `Matrix.signature_congr` and `TauCeti.KnotTheory.signature_enlargeColumn` 
 `signature_enlargeRow` from `TauCeti.KnotTheory.Signature`. There is no dependency
 on finite knot classification or prime-group rigidity.
 
+<a id="conway-skein-normalization"></a>
+
+### 4.4.5 The integral Conway polynomial and coefficient comparisons
+
+Develop the polynomial-in-its-own-variable theory underlying *Knot Theory* physical p192
+and the specialization statements on pp199–200. Work with nonempty oriented tame links
+and4.2's realized oriented skein triples, with native right-handed crossing positive.
+Define ∇_L∈Polynomial ℤ by
+
+```text
+∇_U=1,      ∇_(L₊)−∇_(L₋)=z∇_(L₀).
+```
+
+Give a terminating based/ordered descending-resolution construction in ℤ[z], prove
+independence of the crossing choices, basepoints and component ordering, and prove every
+oriented Reidemeister move. Export existence, uniqueness, evaluation along any
+integer-coefficient ring map, and descent to ambient isotopy classes. This is the Conway
+invariant in the ordinary polynomial ring; negative powers of z are absent. The
+half-Laurent Alexander invariant of4.4 and this polynomial are related by the comparison
+below.
+
+Prove ∇_(U_μ)=0 for μ≥2 and vanishing on a split union of two nonempty links. Prove
+multiplicativity under4.3.4's selected-component connected sum, retaining its
+component/arc data. Prove simultaneous orientation reversal leaves ∇ unchanged, and
+mirror sends ∇_L(z) to ∇_L(−z). With μ=μ(L)≥1, prove z^(μ−1) divides ∇_L and every
+nonzero coefficient has degree congruent to μ−1 modulo2. Thus
+`∇_L(−z)=(−1)^(μ−1)∇_L(z)`. For a knot, ∇ has constant coefficient1 and only even
+powers; give its coefficient API, including a₂(K), the coefficient of z², used by the
+Gordian-family application in4.8.3.
+
+Prove the leading low-degree linking formula. Form the μ-by-μ weighted Laplacian with
+off-diagonal entry−lk(L_i,L_j) and diagonal the sum of all incident linking numbers. The
+coefficient of z^(μ−1) is any principal cofactor of this matrix, equivalently the sum
+over spanning trees of the component graph of the products of their edge linking
+numbers. Own the weighted matrix-tree identity over every commutative ring: for
+symmetric zero-diagonal weights on a finite nonempty vertex set, prove all principal
+cofactors of diag(row sums)−weights equal the weighted spanning-tree sum by determinant
+expansion and cancellation. Compare the zero/one adjacency specialization with native
+SimpleGraph.lapMatrix; build this weighted extension here. Prove the coefficient formula
+by skein induction with the actual component merging and linking updates. Include μ=1,
+whose empty cofactor and tree product are1, and split links, whose relevant tree sum
+is0. For μ=2 this says the z coefficient is the signed linking number, detecting the
+sign that all knot-only checks miss. For a connected genus-g spanning surface, prove
+degree(∇_L)≤2g+μ−1, using the zero-polynomial degree convention; for knots recover
+degree≤2g(K) after taking the minimum.
+
+**Half-Laurent descent and the realized Seifert form.** Let Λ_s=LaurentPolynomial ℤ,
+with s=T1. Construct the injective ring map `j:ℤ[z]→Λ_s`, z↦s−s⁻¹. Prove injectivity by
+the highest Laurent exponent of j(p), and give its coefficient/leading-term and parity
+rules. It is not a map onto every inversion-invariant Laurent polynomial: j(z) changes
+sign under s↦s⁻¹. Prove the exact image characterization
+
+```text
+range(j) = {f∈Λ_s : f(−s⁻¹)=f(s)}.
+```
+
+Construct the inverse on this fixed subring by removing the highest and lowest powers,
+prove its termination, uniqueness and compatibility with ring operations. Distinguish
+the involutions s↦s⁻¹, s↦−s and s↦−s⁻¹; prove their composites and their actions on
+j(z). These coefficient maps act on actual Laurent polynomials, including negative
+exponents.
+
+For4.3's positive-push-second Seifert matrix V of a connected oriented spanning surface,
+let r=2g+μ−1. In Λ_s form
+
+```text
+D_V(s)=det(s⁻¹ V−s Vᵀ),
+D_V(s)=(−1)^r det(s V−s⁻¹ Vᵀ).
+```
+
+Prove invariance under integral basis changes and both native elementary Seifert
+enlargements, using the geometric common-S-equivalence theorem for connected link
+spanning surfaces, including the odd-rank case. Compare actual local band surfaces at an
+oriented skein triple: choose the compatible bases for which the V₊ and V₋ matrices
+differ by−1 in one diagonal entry and their common deleted principal block is V₀. Prove
+this geometric sign from the positive push-off convention, then compute the determinant
+difference. Deduce `D_(L₊)−D_(L₋)=(s−s⁻¹)D_(L₀)` and D_U=1, hence
+
+```text
+D_V(s)=j(∇_L)=Δ_L(s²).
+```
+
+This proves the determinant lies in range(j), independently of arbitrary matrix inputs.
+For a knot, compare D_V to the native `TauCeti.KnotTheory.alexander V` by t↦s². Native
+even-rank normalization uses t^(−g). At arbitrary matrix size n, compare its floor-size
+formula by the exact adapter `D_V(s)=(−1)^n s^(−(n mod2))·(alexander V)(s²)`; thus its
+value alone is not the normalized link invariant at odd rank. At general rank the exact
+raw comparison is `D_V(s)=(−1)^r s^(−r) det(s²V−Vᵀ)`. The raw determinants of a
+compatible skein triple satisfy `det(tV₊−V₊ᵀ)−det(tV₋−V₋ᵀ)=(1−t)det(tV₀−V₀ᵀ)`. This
+supplies the precise representative choice behind p192's Alexander formula “up to
+units”; unrelated Laurent-unit choices do not preserve an exact three-term skein
+equality. Compare the resulting order with4.4's Fox/cover and Burau gcds, retaining zero
+orders and full link Fitting ideals.
+
+**HOMFLY, the source convention and native Jones.** Reuse4.6's one HOMFLY invariant P in
+the degree-zero part of ℤ[x±,y±,w±], with xP₊+yP₋+wP₀=0. Use w for this coefficient
+variable to keep it separate from the ordinary Conway variable z. Write
+`ρ_L(l,m)=P_L(l,l⁻¹,m)` as in the source. Besides the existing monomial constraint r≡s
+mod2, prove every nonzero l^r m^s coefficient of ρ_L has both r and s congruent to μ−1
+modulo2. This stronger component-parity theorem controls the following link phases.
+
+Construct all substitutions as coefficient homomorphisms into the rational function
+fields with the indicated unit images. For formulas involving i, use RatFunc ℂ with the
+fixed i²=−1 and formal variable; prove the invariant images descend to the stated
+integer polynomial or half-Laurent subrings. Give the commuting comparisons
+
+```text
+∇_L(z) = P_L(1,−1,−z) = ρ_L(i,−iz),
+∇⁻_L(z):=∇_L(−z) = P_L(1,−1,z) = ρ_L(i,iz),
+Δ_L(s²) = P_L(1,−1,s⁻¹−s),
+H_L(s):=V_L(s²) = P_L(s⁻²,−s²,s⁻¹−s)
+                    = ρ_L(is⁻²,−i(s−s⁻¹)),
+ρ_L(is⁻²,i(s−s⁻¹))=(−1)^(μ−1)H_L(s).
+```
+
+The scaled three-variable evaluations agree because P has total degree0; prove this
+coefficientwise with the actual Laurent exponents. The negative Conway convention
+satisfies ∇⁻₊−∇⁻₋=−z∇⁻₀ and `∇⁻_L=(−1)^(μ−1)∇_L`. It is the convention of p192 and the
+positive-iz formula on p200 once its pictured crossing labels have been compared with
+the native ones. The source's positive-i Jones second argument has the last displayed
+component phase at the fixed square-root branch, rather than being identified with
+native Jones for every link. Compare it also with the branch change s↦−s using4.5's
+parity theorem.
+
+The images of z or m need not be units in the integer polynomial/Laurent subring, so
+there is no such coefficient homomorphism on the entire HOMFLY Laurent ring with that
+target. Construct it in the fraction field, prove integrality and nonnegative Conway
+degree by the skein construction, then descend. Numerical evaluations at z=0 or s=±1 use
+the descended invariant, not a coefficient map taking a Laurent unit to zero. Prove
+naturality and agreement of the independently constructed invariants by skein
+uniqueness, preserving the full nonempty-link domain.
+
+**Checks.** From actual realized codes and marked Seifert surfaces, require ∇_U=1,
+∇_positiveHopf=z, ∇_negativeHopf=−z, ∇_rightTrefoil=1+z², and ∇_figureEight=1−z². The
+Hopf Seifert matrices are[−1] and[1]; the first gives D_V=s−s⁻¹ in the stated
+convention. The opposite half-determinant would give its negative. For the two-component
+unlink, ∇=0, while the source's positive-i Jones specialization is s+s⁻¹ and the native
+Jones value is−s−s⁻¹. For every knot both component phases are1. The four-band example
+in4.4.4 gives ∇=1−16z²+64z⁴ and a₂=−16. Verify the j-substitution in the actual native
+Laurent carrier. These are comparison tests, not a new polynomial carrier.
+
+*Needs:* 4.2's realized oriented diagrams and descending moves;4.3's connected link
+surfaces, linking and geometric S-equivalence;4.3.4's selected-component sums;4.4's
+Alexander-module comparisons;4.6's independent diagram-skein construction and
+coefficient ring, without its later quantum-group trace comparison; Mathlib Polynomial,
+LaurentPolynomial, RatFunc, integer matrices and finite graph/tree sums. The algebraic
+map j and matrix normalization are supplied here;4.5.3 and4.8.3 consume this Conway
+coefficient API without returning prerequisites. The bracket proofs in4.5.4 remain
+independent. Follow [Lickorish–Millett,
+§§0–2](https://web.math.ucsb.edu/~millett/Papers/1987Millett9LickorishTopology.pdf) with
+the explicit crossing/variable adapters above. For Lickorish's Chapter8 Seifert/Conway
+proof, construct the actual Figure3.2-to-native crossing/slot dictionary and compare his
+negative-push-first form with the positive-push-second form. Keep his half-variable
+s⁻¹−s distinct from s−s⁻¹; export the induced inversion/component phase, rather than
+using his link formula with an unconverted sign. The source's literal signs and
+unresolved p199 overwritten Jones coefficient are retained in [source
+inputs](source-inputs.md#skein-source-conventions).
+[ConwaySkeinTargets.lean](ConwaySkeinTargets.lean) gives native polynomial, half-Laurent
+and Seifert-matrix interfaces.
+
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized
@@ -3615,7 +3776,9 @@ contract in [Layer4.6.1](#kauffman-f-q).
   on two strands is `25/4` and that of one positive crossing is `10`. The normalized
   one-crossing closure has value `4⁻¹·10/(5/2)=1`, as does the unknot.
 
-*Needs:* Layer 4.2, Layer 4.4, Layer 4.5; TypeAHeckeAlgebras H1, H2; Mathlib
+*Needs:* Layer4.2 for the independent diagram-skein construction;
+Layers4.4–4.4.5 and4.5 for the Alexander/Jones comparisons after that
+construction; TypeAHeckeAlgebras H1,H2 for the trace comparison; Mathlib
 `LaurentPolynomial.eval₂`, `LaurentPolynomial.eval₂_T`, `LaurentPolynomial.eval₂_C`, `RatFunc`.
 
 <a id="kauffman-f-q"></a>
