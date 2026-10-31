@@ -7845,6 +7845,121 @@ and Seifert matrices*, §7.2](https://friedl.app.uni-regensburg.de/papers/genuso
 The cited matrix uses the push-first array W above; the native convention
 requires its transpose and the actual local normal/basis comparison.
 
+<a id="pretzel-parameter-permutations"></a>
+### 4.7.8 Arbitrary signed pretzels and parameter permutations
+
+For every r≥1 and a:Fin r→ℤ, construct the marked cyclic pretzel P(a).
+Extend [the signed three-box construction](#pretzel-transposition-colorings):
+each box is the downward local two-strand braid with a_i signed half twists;
+join its right endpoint to the next box's left endpoint at both top and
+bottom, including the outer cyclic caps. Zero is the two-strand identity
+box and remains in the attaching data. Negative integers use inverse
+crossings. Supply the actual finite planar code, its Σ_i|a_i| crossings,
+crossing-free circle records, heights, cap/port correspondences and spatial
+realization. Prove invariance under consistent relabeling of those records.
+For r=3 give the actual comparison to the existing marked construction,
+including the local sign and global component-orientation conventions.
+
+**Endpoint and small-length API.** Label ports (i,t,s), with t=false/true
+for top/bottom and s=false/true for left/right. The within-box pairing is
+(i,t,s)↦(i,!t,s xor odd(a_i)). The cap pairing sends (i,t,true) to
+(i+1,t,false), and (i,t,false) to (i−1,t,true), with indices modulo r.
+Both are fixed-point-free involutions. Prove that the orbits of the
+subgroup they generate are in bijection with the geometric components,
+even when a component has no crossings. Writing e for the number of even
+entries, prove the complete formula
+
+```text
+components(P(a)) = e                 if e>0;
+                  1                 if e=0 and r is odd;
+                  2                 if e=0 and r is even.
+```
+
+Thus the knot branch is exactly e=1 or (e=0 and r odd). Prove this criterion
+is invariant under every reindexing permutation, signed negation and cyclic
+shift. Give component representatives, port-to-component maps and their
+transport, rather than only a cardinality. The all-zero list gives the
+r-component unlink by actual disjoint spanning discs. For r=1 construct an
+embedded spanning disc for every integer parameter, so P(a₀) is always an
+unknot. For r=2 give a finite diagram/isotopy comparison with the closure
+of a two-strand braid whose signed exponent is the sum a₀+a₁; prove the
+sign adapter against the native positive generator from the actual local
+charts. In particular its knot branch is precisely an odd sum. Retain the
+zero-sum two-component unlink and the ±1-sum unknots. This construction has
+no empty-list convention. Its natural two-disc/r-band spanning surface
+is orientable exactly when all a_i have the same parity: prove this by
+the compatible orientation constraints between the two discs along every
+band. Mixed parities give a nonorientable spanning surface, so it is not a
+Seifert surface. These are properties of the displayed surface, without a
+minimal-genus claim for its boundary link.
+
+**Adjacent swaps as marked mutations.** For each 0≤j<r−1 construct a ball
+containing boxes j,j+1 and their joining strips, with exactly four boundary
+ports and no other strands. Supply its actual sphere, collar and gluing
+maps. Identify these ports with the
+[marked mutation action](#mutation-boundary-action), and use its h_z plane
+half-turn to reverse the two boxes' order. Prove the individual integer
+box flip is returned to its standard chart by relative local moves,
+retaining its integer sign, crossing heights and the zero case. Compose
+these chart corrections with the exterior identity to obtain the actual
+P(a∘swap(j,j+1)) diagram. The list transposition alone is not the geometric
+certificate. Where the half-turn negates the boundary orientation
+character, reverse all tangle components as prescribed by that action;
+retain the resulting exterior and component orientation maps.
+
+Factor every π:Equiv.Perm(Fin r) into neighboring transpositions by a finite
+sorting algorithm on labeled positions, prove termination by inversion
+count and prove the resulting product equals π. Repeated parameter values
+do not remove their position labels. Concatenate the constructed mutations
+and relative corrections to obtain a marked mutation chain from P(a) to
+P(a∘π), with each intermediate link's component map and final port/code
+comparison. For r≤1 this is the empty chain. The endpoint formula proves
+that the chain stays in the knot branch whenever P(a) is a knot.
+
+**Polynomial consequence and geometric symmetries.** Consume
+[the relative HOMFLY producer](#two-tangle-homfly-skein)'s orientation-compatible
+mutation theorem. For every a in the knot branch, every permutation π and
+any orientations of the two resulting knots, prove
+
+```text
+ρ(P(a))(l,m) = ρ(P(a∘π))(l,m).
+```
+
+Use the polynomial's global-reversal theorem to compare transported and
+chosen knot orientations; this step does not require an invertibility
+isotopy of either knot. Derive the normalized Jones, Alexander and Conway
+equalities through the existing coefficient maps, with the knot component
+normalization. For links with more components retain the equality for
+orientations transported along the actual mutation chain; arbitrary
+independent reorientations are not included in this conclusion.
+
+Separately construct ambient isotopies realizing cyclic shifts and order
+reversal of the list, with their crossing, cap and component maps and
+composition laws. For three boxes these recover the earlier S₃ symmetry.
+Construct reflection to P(−a), retaining its orientation and mirror maps.
+Arbitrary parameter permutations for larger r provide mutation chains,
+without a claim of isotopy or of pairwise distinct knot types. There is no
+general nontriviality, primality, reducedness or crossing-minimality
+assertion for signed lists with zeros.
+
+[PretzelPermutationTargets.lean](PretzelPermutationTargets.lean) prototypes
+the native finite endpoint permutations, generated subgroup and orbit
+quotient, their involution/fixed-point API, component-count target and
+proved reindexing consequences. Its quotient-to-realized-link comparison
+and all geometric mutations above remain required targets.
+
+*Needs:* the realized signed-box, relative local-move, component-tracing,
+collar/gluing and ambient-extension prefixes; the independent marked
+mutation/relative-skein producer; finite permutation sorting and the
+existing polynomial reversal/coefficient comparisons. These suppliers do
+not use the pretzel application. No knot census, positivity hypothesis or
+rational-knot classification is required.
+
+Source: the Knot Theory p88 Freyd et al. excerpt. For the general ordered-list,
+knot-parity, dihedral and mutation distinctions compare
+[Lecuona–Wand, *Fibered ribbon pretzels*, §2](https://arxiv.org/html/2408.03644#S2),
+with an explicit diagram/sign adapter to the convention fixed here.
+
 ### 4.8 Crossing, unknotting, bridge and braid numbers
 
 Use Layer4.7.1's unknotting number `u(K)` and bridge number `br(K)`.

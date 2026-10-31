@@ -1492,3 +1492,24 @@ A closure determinant that vanishes after specialization does not prove
 or disprove freeness of the specialized relative skein module; use the
 universal basis and quotient base change. All source-picture and collar
 comparisons remain required geometric outputs.
+
+<a id="pretzel-permutation-source"></a>
+## Page88: arbitrary-length pretzel permutations
+
+The main Knot Theory source has identity
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`.
+Its existing verified-Luna Markdown for physical p88 explicitly states
+that the HOMFLY polynomial of a pretzel knot K(a₁,…,a_r) is unchanged by
+permutation of its parameters, as a consequence of mutation. This is an
+arbitrary-length knot statement, beyond the signed three-box symmetry and
+the positive one-even families. The
+[arbitrary-list target](README.md#pretzel-parameter-permutations) constructs
+all nonempty signed integer lists, retains zero boxes and crossing-free
+components, proves the precise knot branch, and gives the actual adjacent
+mutation chain. Its link version uses transported component orientations;
+the source sentence does not assert invariance under arbitrary independent
+component reorientations or ambient isotopy of every reordered pretzel.
+Small-length and zero-parameter calibrations are specified independently
+from the source, with actual local-sign comparisons. The all-integer
+endpoint-count theorem and the geometric comparisons remain future proofs,
+not consequences of the finite examples checked during prototyping.
