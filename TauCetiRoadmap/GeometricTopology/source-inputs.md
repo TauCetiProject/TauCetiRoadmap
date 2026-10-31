@@ -1267,3 +1267,22 @@ coloring split-comparison**: Layer2 bicollar/Brown Schoenflies, Layer11.2's
 dimension≤3 relative Moise/smoothing, and Layer3 supported isotopy extension, with
 their actual category/collar hypotheses. This is not a generic unsupported
 splitting equivalence.
+
+<a id="seifert-operations-source"></a>
+## Problems66/70–72: surfaces, bases and mirrors
+
+*Knot Theory - problems.pdf*, source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`, physical p11
+Problem66 shows two side-by-side Seifert-surface drawings. Its wording names right and
+left trefoils in that order but gives no separate figure captions. Neither surface has a
+marked basis, orientation, normal, band labels, cyclic attachment order or twist-sign
+key. No matrices are printed. Actual attaching, normal and integral-basis comparisons
+remain required; a named knot does not identify the surface or select its exact matrix.
+
+Problem70 on p12 has one schematic surface and explicitly illustrates n=5. It gives no
+range or oddness restriction, no basis, normal convention or matrix. The roadmap
+distinguishes the standard two-strand knot/link branches and requires the literal
+surface comparison. Problems71/72 are text-only connected-sum and mirror questions with
+no basis convention. Their exact matrix formulas use the constructed joined surface or
+reflected surface and explicitly transported bases; arbitrary surfaces of the same
+boundary require the geometric S-equivalence theorem.

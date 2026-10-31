@@ -188,7 +188,8 @@ This roadmap leaves the following to other roadmaps.
 - **Seifert matrices.** For an oriented surface `F ⊂ S³` with positive normal `ν` (oriented
   tangent frame followed by `ν` is the ambient orientation) and classes `x, y ∈ H₁(F; ℤ)`, the
   Seifert form is `θ(x, y) = lk(x, y⁺)`, `y⁺` the push-off of `y` along `ν`. Then
-  `θ(x, y) − θ(y, x) = x · y` is the intersection form of `F`. The right-handed trefoil has
+  `θ(y, x) − θ(x, y) = x · y` is the ordered-tangent intersection form of `F`.
+  The right-handed trefoil has
   Seifert matrix `[[−1, 1], [0, −1]]`, which is `TauCeti.KnotTheory.trefoilSeifertMatrix`.
 - **Polynomial normalizations.** The Alexander polynomial of a knot is Conway-normalized:
   `Δ_K(t) = Δ_K(t⁻¹)` and `Δ_K(1) = 1`; the right-handed trefoil has `t − 1 + t⁻¹` and the
@@ -2639,7 +2640,7 @@ components by oriented interior tubes preserving the boundary (Lickorish, Theore
 minimal surface along a decomposing sphere, with the full geometric proof in 4.3.4), so that every knot is a finite connected sum of
 prime knots. Define the Seifert form on `H₁(F; ℤ)` of a Seifert surface by
 `θ(x, y) = lk(x, y⁺)` with the push-off convention of the *Conventions*, and its matrix with
-respect to a basis. Prove `θ(x, y) − θ(y, x) = x · y`, so that for a knot `V − Vᵀ` is
+respect to a basis. Prove `θ(y, x) − θ(x, y) = x · y`, so that for a knot `Vᵀ − V` is
 unimodular, and prove that the Seifert matrices of two Seifert surfaces of ambient isotopic
 links are `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent` (Lickorish, Chapter 8, through
 the tubing and band-move comparison of Seifert surfaces).
@@ -2655,7 +2656,7 @@ the tubing and band-move comparison of Seifert surfaces).
 
 **Checks.**
 - Seifert's algorithm on the standard trefoil diagram gives `s = 2`, `n = 3`, genus `1`, and
-  the Seifert matrix `[[−1, 1], [0, −1]]` in a suitable basis; `V − Vᵀ = [[0, 1], [−1, 0]]`
+  the Seifert matrix `[[−1, 1], [0, −1]]` in a suitable basis; `Vᵀ − V = [[0, −1], [1, 0]]`
   has determinant `1`.
 - The figure-eight has Seifert matrix `[[1, 1], [0, −1]]` and genus `1`; the unknot has the
   empty matrix and genus `0`.
@@ -2672,6 +2673,86 @@ the tubing and band-move comparison of Seifert surfaces).
   positive Hopf link would put `+1` on that diagonal, which is the matrix of the left-handed
   trefoil. Changing the side of the push-off transposes the matrix and leaves the diagonal,
   and this entry, unchanged.
+
+<a id="seifert-geometric-operations"></a>
+#### Basis, orientation and boundary sums (Problems66/70–72)
+
+Construct the full geometric transport API for the Seifert form of a compact connected
+oriented smoothly embedded surface F with nonempty boundary. Cycle orientations are
+chosen data independent of the orientation of F. Prove that positive and negative normal
+push-offs give well-defined integral bilinear forms on H₁(F;ℤ), with θ⁺(x,y)=lk(x,y⁺)
+and θ⁻(x,y)=θ⁺(y,x). Define x·y by the ordered tangent pair (tangent x,tangent y) in the
+orientation of F, and prove `θ⁺(y,x)−θ⁺(x,y)=x·y`. Pin this sign by an oriented local
+plane chart: for tangents +x,+y and normal +z, y⁺ crosses over x with negative native
+crossing sign and y⁻ crosses under x with positive sign. The local difference is−1; sum
+over intersections using the geometric linking/crossing comparison. Thus the
+intersection matrix in the chosen basis is J=Vᵀ−V. No assumption that this basis is a
+prescribed symplectic basis is made; for links J can be degenerate or have odd size.
+
+If the columns of an integral unimodular matrix P give the new basis in the old basis,
+prove the new form matrix is PᵀVP, with the actual cycle/homology maps and identity,
+composition, inverse and reindexing laws. Native `IntegralSquareMatrix.IsMove.congr`
+uses QVQᵀ; instantiate it with Q=Pᵀ. This is a convention adapter, not another
+equivalence relation or matrix carrier.
+
+Keep the same oriented cycles while reversing F's orientation, so its positive normal
+reverses. An ambient reflection r transports the surface orientation and cycles but
+changes its positive normal to−rν. Construct these actual surfaces, push-offs and
+boundary maps, and prove the following exact forms in those bases:
+
+| Surface operation | Boundary operation | Matrix |
+| --- | --- | --- |
+| reverse F's orientation | reverse every boundary orientation | Vᵀ |
+| reflect F with its transported orientation | mirror | −Vᵀ |
+| reflect and reverse the surface orientation | reverse the mirror | −V |
+
+Prove involution, commutation, basis-change and isotopy naturality. Reversing F also
+negates its ordered-tangent intersection form. If a standard symplectic basis is
+required afterward, supply the actual basis adapter; keeping cycles fixed does not keep
+that standard matrix. Reversing only selected boundary components is not the
+surface-orientation operation in this table.
+
+For connected oriented F,G in disjoint balls, form their standard boundary connected sum
+along chosen boundary arcs, using4.1/4.3.4's independent orientation-compatible
+product-band construction. Move cycle representatives and their push-offs off the
+attachment collars, keeping them in their original balls. Construct
+H₁(F#∂G;ℤ)≃H₁(F;ℤ)⊕H₁(G;ℤ) by the finite-band spine/gluing comparison. Prove no
+additional cycle is created by the joining band, and `χ(F#∂G)=χ(F)+χ(G)−1`, with
+boundary count μ_F+μ_G−1 and additive surface genus. Prove both mixed pairings vanish by
+the split-ball linking theorem. In the concatenated basis the actual matrix is
+`Matrix.fromBlocks V 0 0 W`. Give the Sum-index and Fin(m+n) reindexing maps,
+rank-zero/disc cases, and associativity, exchange, mirror and orientation-reversal
+transports. This exact block form concerns the constructed joined surface and basis.
+Other spanning surfaces for its knot boundary use4.3's geometric S-equivalence
+comparison; they are not asserted to have the same rank or a congruent matrix.
+
+For Problem66 recover both literal p11 surfaces, their boundary, attaching data and a
+chosen integral basis, and compute every entry by actual push-offs. The standard
+right-trefoil model has native matrix `V₊=[[-1,1],[0,-1]]`; its reflected surface in the
+transported basis has `V₋=−V₊ᵀ=[[1,0],[-1,1]]`. Give the actual source-surface/basis
+comparisons before assigning these arrays to either figure. A different source surface
+requires its own rank and matrix and an exhibited S-equivalence to the standard one; the
+knot name alone does not determine an exact matrix. The sources give no ordered bases,
+and a reordered basis can change the displayed triangular form.
+
+For Problem70 consume4.4.7's independently constructed two-disc/n-band family, its
+consecutive-band basis and actual matrix comparison. For n≥1 its positive model has rank
+n−1, diagonal−1 and superdiagonal1, with all other entries0; n=1 is the empty matrix.
+The n=5 model is `[[-1,1,0,0],[0,-1,1,0],[0,0,-1,1],[0,0,0,-1]]`. Recover the literal
+p12 surface's attaching data, basis and normal and its marked surface/matrix comparison.
+Compute its actual genus, homology rank and every matrix entry, retaining any actual
+stabilization required. Odd n gives a knot and even n a two-component link; the source's
+“knot” does not remove that branch. Reuse4.4.7's connected n=0 annulus and negative-n
+mirror branch. Problems71 and72 consume the general block-sum and reflection producers
+above. See the [source qualification](source-inputs.md#seifert-operations-source).
+
+Use4.3's independent linking/push-off construction,4.3.2's finite band/spine prefix
+and4.3.4's independent boundary gluing prefix. These supply the constructions
+independently of polynomial, genus-minimum and signature results. The two-strand and
+source-picture clauses are consumers of that API, with no return edge from their
+computed matrices. [SeifertOperationTargets.lean](SeifertOperationTargets.lean)
+prototypes the native matrix/congruence conventions; its algebra does not replace the
+geometric basis, normal or source-surface comparisons.
 
 *Needs:* Layer 1.8 (surfaces and genus), Layer 1.5; Tau Ceti
 `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Mathlib singular homology.
