@@ -1,0 +1,37 @@
+<!--tauceti-status:v1 {"roadmap":"GraphConnectivityAndFlows","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4","ts":"2026-10-25T09:09:58Z"}-->
+# Status: GraphConnectivityAndFlows
+
+This file documents the status of the GraphConnectivityAndFlows roadmap up until `d96e9ce` (2026-10-25T09:09:58Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The flow theory and the structure of minimum cuts are largely done: max-flow/min-cut with integrality, flow decomposition, the residual description of all minimum cuts and the non-crossing lemmas are proved. On the undirected side bridges, bonds, components and edge connectivity are in, but blocks, Menger's theorem, ear decompositions, circulations and Gomory–Hu trees have not begun.
+
+### Named results
+
+- **The max-flow/min-cut theorem** — for nonnegative capacities and distinct terminals, some flow has value equal to the capacity of some cut ([`TauCeti.Flow.exists_val_eq_arrowSum`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/ShortestAugmentation.html#TauCeti.Flow.exists_val_eq_arrowSum)), over any linearly ordered additive group, by termination of shortest-path augmentation. It holds for signed lower and upper bounds ([`TauCeti.BoundedFlow.exists_val_eq_cutBound`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/ShortestAugmentation.html#TauCeti.BoundedFlow.exists_val_eq_cutBound)) and with a maximum flow valued in any additive subgroup containing the capacities ([`TauCeti.Flow.exists_isMaximum_mem`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/ShortestAugmentation.html#TauCeti.Flow.exists_isMaximum_mem)).
+- **Path–cycle decomposition** — every nonnegative arrow assignment is a sum of positively weighted paths, from supply to demand vertices, and cycles ([`TauCeti.exists_pathCycleDecomposition`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/Decomposition.html#TauCeti.exists_pathCycleDecomposition)); every flow can therefore be replaced by an acyclic one of the same value ([`TauCeti.Flow.exists_isAcyclic`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/Acyclic.html#TauCeti.Flow.exists_isAcyclic)).
+- **The poset of minimum cuts** — for a maximum flow, the minimum cuts under inclusion are order-isomorphic to the upper sets of the poset of free residual strongly connected components ([`TauCeti.BoundedFlow.IsMaximum.minimizersOrderIso`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/MinimumCut/Poset.html#TauCeti.BoundedFlow.IsMaximum.minimizersOrderIso)), with the smallest and largest cuts given by residual reachability from the source and to the sink.
+- **The multi-cut non-crossing lemma** — for a symmetric submodular function, given a pairwise non-crossing family of minimum cuts, any two vertices separated by none of them have a minimum cut crossing none of them ([`TauCeti.TerminalCut.exists_isMinimum_forall_not_crosses`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/MinimumCut/Noncrossing.html#TauCeti.TerminalCut.exists_isMinimum_forall_not_crosses)); with the ultrametric inequality for minimum cut values ([`TauCeti.TerminalCut.min_pairMinimumValue_le`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/MinimumCut/Basic.html#TauCeti.TerminalCut.min_pairMinimumValue_le)) this is what the Gomory–Hu construction consumes.
+- **Bridges are the edges on no cycle** — in a multigraph with loops and parallel edges ([`Graph.isBridge_iff_forall_cycle_notMem`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Graph/Connectivity/Bridge.html#Graph.isBridge_iff_forall_cycle_notMem)), equivalently the edges whose deletion adds one component ([`Graph.isBridge_iff_componentCount_deleteEdges_eq_add_one`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Graph/Connectivity/Bridge.html#Graph.isBridge_iff_componentCount_deleteEdges_eq_add_one)).
+
+### Notable definitions and infrastructure
+
+- **Residual updates** ([`TauCeti.residualUpdate`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/Residual.html#TauCeti.residualUpdate)) — one operation updating any feasible assignment along forward and reverse residual arrows; augmentation, the termination arguments and the residual cut theory all specialise it.
+- **Vertex splitting and auxiliary terminals** ([`TauCeti.ArrowWalk.splitEquiv`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/VertexSplitting.html#TauCeti.ArrowWalk.splitEquiv), [`TauCeti.AuxTerminalHom`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Network/AuxiliaryTerminals.html#TauCeti.AuxTerminalHom)) — the two network constructions through which vertex-disjoint and set-to-set Menger reduce to max-flow; the auxiliary terminals already give max-flow/min-cut between vertex sets.
+- **Multigraph walks and their bridge to simple graphs** ([`Graph.Walk`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Graph/Connectivity/Walk/Basic.html#Graph.Walk), [`SimpleGraph.walkEquivOfSimpleGraph`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Graph/Connectivity/Walk/OfSimpleGraph.html#SimpleGraph.walkEquivOfSimpleGraph)) — edge-labelled walks on Mathlib's `Graph`, identified with `SimpleGraph` walks, on which components, bridges, bonds and edge connectivity are stated.
+
+### Roadmap coverage
+
+The roadmap has no machine-tracked layers; by its nine milestones: **Milestone 3** is mostly done: 3.1 (decomposition, acyclic flows, max-flow/min-cut, integrality, cyclic-subgroup termination) and 3.2 (capping) are proved, and the source also contains the mixed vertex-and-arrow capacity theorem of 3.5. In 3.3 the terminal-set half is done but undirected networks are not, and 3.4 (`Nonneg` interfaces) is untouched. **Milestone 4** has its main theorems for 4.1–4.4. **Milestone 1** is partial: excess calculus, residual updates, subnetworks, network isomorphisms, the `SimpleGraph` walk bridge, components and their count, all of 1.4, and the edge-connectivity predicates are in. Graph isomorphisms, orientations and the bidirected construction, the digraph bridge and vertex connectivity are missing. **Milestone 2** is partial: 2.1 (bridges, forests, bonds) is in apart from the transfer to Mathlib's `SimpleGraph.IsBridge`, and cut vertices, blocks, the block–cut forest and the bridge forest are untouched. **Milestone 8** has only the shift equivalences of 8.1. **Milestones 5, 6, 7 and 9** are untouched.
+
+## The frontier
+
+- **Menger's theorem** — path–separator duality and its reductions to max-flow (Milestone 5). Max-flow/min-cut, vertex splitting, auxiliary terminals and set-to-set flows are all in place, so this is now the nearest summit.
+- **Gomory–Hu cut trees** — the non-crossing lemmas and ultrametric inequality are proved; what remains is the weighted-tree API and the construction itself (Milestone 9).
+- **Undirected max-flow/min-cut** — flows of a weighted multigraph via its bidirected network, which first needs the orientation and bidirected constructions of 1.1 (3.3).
+- **Cut vertices, blocks and the two forests** — 2.2–2.5, now that components, their count and bridges are available.
+- **Hoffman's circulation theorem** — feasibility certificates for bounded circulations (8.2); the shift equivalences reducing prescribed excess to circulations are in.
