@@ -9,14 +9,13 @@ Clifford-algebra directory. It also has the quaternion algebras `ℍ[R,c₁,c₂
 conjugation and the `QuaternionAlgebra.Basis` universal property, and the rank-2
 `QuadraticAlgebra R a b` with its norm.
 
-Mathlib has none of the arithmetic theory of quadratic forms over a field. It has no
-hyperbolic-plane theory, no Witt decomposition, no Witt cancellation, no Witt ring, no
-Pfister forms, no classification by discriminant and Hasse invariant, no Hilbert
-symbol, no transfer of forms along a field extension, and no Stiefel-Whitney classes.
-
-This roadmap builds that theory over a field with `2` invertible. Tau Ceti has since built
-the form theory below the Brauer group, Layers 0 to 4, which this roadmap consumes. The high
-points are:
+The arithmetic theory is developed in Tau Ceti on Mathlib's carriers. Consume its
+hyperbolic and Witt theory, quaternion symbols and Brauer group, local Hilbert symbol
+and classification, crossed products, quadratic defect, Scharlau transfer and
+low-degree Stiefel–Whitney classes. The native interface table below fixes the objects
+and the scope of the declarations being reused. This roadmap retains the complete
+mathematical programme, including the comparisons and explicit computations that
+connect these objects and the degree-two relative transfer formula. Its high points are:
 
 - the four-fold splitting criterion for quaternion algebras;
 - the classification of forms over a nonarchimedean local field by `(dim, d, s)`;
@@ -30,6 +29,125 @@ norm-equation/quaternion Hilbert symbol and the comparison with the cohomologica
 pairing. Class Field Theory owns that pairing and Hilbert reciprocity; this roadmap
 derives the sign product formula from it. Hasse--Minkowski and every global
 classification or realization theorem belong to `GlobalQuadraticForms`.
+
+## Completion audit (2026-10-28)
+
+**Audit status: incomplete. This roadmap remains active.**
+The three implementation PRs below close specific examples and comparison gaps, but they do
+not discharge the full upward-`ULift` naturality square required by stage 2 of the retained
+three-stage universe programme. The roadmap must remain active until that square is proved
+for the independently transported field, CSA/Brauer classes, absolute Galois group and
+coefficient/cohomology objects. The transport constructions audited below are concrete progress
+toward that remaining comparison.
+
+The existing native `BrauerGroup.baseChange` and crossed-product naturality bind both fields
+to the same universe, and `ContinuousMulEquiv.continuousCohomologyIso` likewise binds the two
+groups to one universe. These cannot specialize directly to an actual larger-universe
+`ULift`. Direct polymorphic constructions at arbitrary `u` do not discharge that separate
+transport obligation. Defining a new transport by conjugating the comparison isomorphisms
+would make the square tautological and would not supply the required underlying maps.
+
+Actual algebra-level upward transport is now available in
+[`Algebra/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/8beb018f0e8958681cdd699e93b4da8e59f06f8d/TauCeti/Algebra/Algebra/ULift.lean)
+and [`CrossedProduct/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/8beb018f0e8958681cdd699e93b4da8e59f06f8d/TauCeti/Algebra/CrossedProduct/ULift.lean):
+`AlgEquiv.ulift` and `uliftAutEquiv` lift scalars, algebras and algebra automorphisms;
+`TwoCocycle.ulift` lifts the cocycle; and `CrossedProduct.uliftEquiv` identifies its
+crossed product with the actual lift of the original algebra, with coefficient and basis
+coordinate formulas. These are parts of the required transport, independent of the Brauer
+comparison.
+
+At actual source `5a0e8244ee9f65172d1fa1bd06742600ff352154`,
+[`GaloisCohomology/Congr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/FieldTheory/GaloisCohomology/Congr.lean)
+supplies `RingEquiv.unitsCoeffCongr`, `unitsCocyclesCongr` and `unitsH2Congr`: direct
+transport of the actual separable-closure unit coefficients, continuous two-cocycles and
+explicit second cohomology across independently quantified field universes. These maps use
+the chosen separable-closure identification and absolute-Galois-group equivalence.
+[`AbsoluteGaloisGroup/Congr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Congr.lean)
+proves compatibility with restriction to identified normal subextensions, and
+[`CrossedProduct/FieldCongr.lean`](https://github.com/TauCetiProject/TauCeti/blob/5a0e8244ee9f65172d1fa1bd06742600ff352154/TauCeti/Algebra/CrossedProduct/FieldCongr.lean)
+proves the corresponding finite-cocycle and cohomology inflation equations for compatible
+maps of finite normal subextensions.
+
+The reviewed source at
+[`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8)
+also supplies actual upward transport on Brauer quotient classes in
+[`BrauerGroup/ULift.lean`](https://github.com/TauCetiProject/TauCeti/blob/daa66339a578b8c1c41c20b94839ca25444cc1e8/TauCeti/Algebra/BrauerGroup/ULift.lean).
+`BrauerGroup.uliftEquiv` identifies `BrauerGroup.{u, u} K` with
+`BrauerGroup.{max u w, max u w} (ULift.{w} K)` for an arbitrary field `K : Type u`,
+without a smallness hypothesis on `K`. Its action on a central simple representative is
+scalar extension `ULift K ⊗[K] A`, by `uliftEquiv_mk`. Quotient well-definedness and
+multiplicativity are proved directly; injectivity uses splitting, and surjectivity derives
+smallness of a finite-dimensional representative and shrinks it to the original universe.
+[`Quaternion/BaseChange.lean`](https://github.com/TauCetiProject/TauCeti/blob/daa66339a578b8c1c41c20b94839ca25444cc1e8/TauCeti/Algebra/Quaternion/BaseChange.lean)
+proves `uliftEquiv_quaternionClass` and `uliftEquiv_quaternionClassOnSquareClasses`,
+compatibility with quaternion symbols and the actual map on square classes.
+
+Stage 2 still requires the full Brauer/cohomology naturality square for every Brauer class.
+For `e := (ULift.ringEquiv : ULift.{w} K ≃+* K).symm`, the required explicit comparison is
+`brauerExplicitH2Equiv (ULift K) (Additive.ofMul (BrauerGroup.uliftEquiv K x)) =
+e.unitsH2Congr (brauerExplicitH2Equiv K (Additive.ofMul x))` for every
+`x : BrauerGroup.{u, u} K`, together with its continuous-cohomology form through the
+canonical explicit-to-continuous comparison. `brauerCohomologyEquiv_baseChange` retains
+same-universe field parameters. The finite-inflation equations and quaternion formulas
+do not yet identify the independently defined quotient transport with the comparison on
+all classes. The cohomological `ClassFieldTheory.brCongr` alone does not supply this
+identification with actual CSA/Brauer quotient classes. The roadmap remains active until
+the full square is proved; no edge may be defined by conjugating the comparison maps.
+
+The inventory and checked proofs below describe only the covered targets. They do not claim
+the outstanding full comparison square has been implemented.
+
+The three independent implementation PRs that close the covered gaps are
+[TauCeti#22016](https://github.com/TauCetiProject/TauCeti/pull/22016),
+[TauCeti#22020](https://github.com/TauCetiProject/TauCeti/pull/22020), and
+[TauCeti#22022](https://github.com/TauCetiProject/TauCeti/pull/22022).
+The audit compared the layers and acceptance examples with Tau Ceti
+`cd83a3c6850b205de9e19206736a37bbdb7e79f8` together with commits
+`506afb054d52ec8631644ab4bee59954502c80b1`,
+`96bd0f474e68c05fd01274f26ff3f677f58302f5`, and
+`31cf538fcad7b23f519a7026577fb4cb18038e24` from those PRs.
+
+| Layer | Native implementation and completion evidence |
+|---|---|
+| 0: diagonal descent and chains | `LinearAlgebra/QuadraticForm/Diagonal/Chain/`; the rational `BinaryStep` example in [the checked interfaces](NativeCompletion.md) |
+| 1: hyperbolic and Witt decomposition | `LinearAlgebra/QuadraticForm/Hyperbolic.lean`, `Witt/Decomposition.lean`, the explicit rational non-isometry is checked in `NativeCompletion.md` |
+| 2: quaternion norm forms and splitting | `Algebra/Quaternion/SplittingCriterion.lean`, including the four-fold splitting criterion |
+| 3: discriminants | `LinearAlgebra/QuadraticForm/RegularFormClass/Discriminant.lean`; `Matrix.lean` gives full-polar matrix and determinant normalization; the multiplicative Gram adapters are in `Suggested.lean` |
+| 4: Witt ring and Pfister forms | `LinearAlgebra/QuadraticForm/Witt/`, including its `Pfister/` directory |
+| 5: Brauer-valued Hasse and Clifford invariants | `LinearAlgebra/QuadraticForm/RegularFormClass/Hasse/Basic.lean` and `Clifford.lean` |
+| 6: local symbols, defect, norm tables, classification and realization | `NumberTheory/LocalField/QuadraticForm/`; `Invariants.lean:172` is `localInvariantsEquiv`; `NativeCompletion.md` composes the Hasse-class invariant and uniformizer-unit decomposition formulas from the existing comparison and bimultiplicativity APIs |
+| 7: Brauer comparison, Kummer cups and norm equations | `Algebra/CrossedProduct/`, `FieldTheory/GaloisCohomology/MuTwo/`; `CupProduct.lean` identifies each symbol with its cup, and additivity yields the product-to-cups formula checked in `NativeCompletion.md`; the final five `LocalSymbol.lean` comparisons are universe polymorphic |
+| 8: Stiefel–Whitney classes and invariant comparisons | `FieldTheory/QuadraticForm/StiefelWhitney/`, including class descent, base change, Hasse and Clifford comparisons |
+| 9: Scharlau and trace transfer, Evens norm and Kahn formula | `LinearAlgebra/QuadraticForm/Transfer/` and `FieldTheory/QuadraticForm/StiefelWhitney/`; the latter's `QuadraticExtension.lean:249` gives the degree-two relative formula |
+
+All paths in this table are below `TauCeti/`. The general quadratic trace diagonalization
+already applies to every radicand. The complete proofs in `NativeCompletion.md` explicitly
+specialize it over `ℚ` and `ℚ₂` and compare its `ℂ/ℝ` instance with the EffectiveBounds trace
+discriminant. They also compose `discr_traceTransfer` for every twisted line, including the
+trace-zero case, from the existing generic Scharlau discriminant and quadratic trace APIs.
+
+The explicit dyadic controls are in
+[NormControl.lean](https://github.com/TauCetiProject/TauCeti/blob/31cf538fcad7b23f519a7026577fb4cb18038e24/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NormControl.lean)
+and [NegOne/Norm.lean](https://github.com/TauCetiProject/TauCeti/blob/31cf538fcad7b23f519a7026577fb4cb18038e24/TauCeti/NumberTheory/LocalField/WorkedExamples/DyadicSqrt/NegOne/Norm.lean).
+The first proves that `1 + √2` is a unit norm for radicand `5` over the ramified base
+`ℚ₂(√2)`, proves the even-valuation norm criterion for that radicand, and excludes every
+integral square-root-coordinate representation and both incorrect integral families.
+The second verifies the depth-two norm containment for `ℚ₂(i)`, the sum-of-two-squares
+representatives `1` and `5`, and the depth-one nonnorm `3`.
+The earlier `DyadicSqrt/Five/` trace, square-class, Stiefel–Whitney and relative-formula
+examples remain the eight-unit-class acceptance suite.
+
+The changed native modules and their dependency closures were built with Lean `4.36.0-rc1`.
+Their source-style, header and axiom checks passed; the new comparison and obstruction theorems
+use only `propext`, `Classical.choice` and `Quot.sound`.
+
+This is an inventory of covered native-source targets, separate from the prototype certificate
+and the outstanding upward-`ULift` comparison.
+The repository dependency pin remains `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`;
+`Suggested.lean` retains its prototype proof holes and is not represented as a compiled
+certificate for the newer native implementation. The two added multiplicative Gram adapters
+were independently elaborated against that existing pin with minimal imports.
+Historical status and progress reports retain their original source dates.
 
 ## Suggested homes
 
@@ -446,7 +564,7 @@ improvement through their own review rather than duplicating them.
 ### From other roadmaps in this repository
 
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../Completed/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field: the normalized valuation, the unit filtration with its
   graded pieces, the Teichmüller section, the ramification and residue degrees, power
   and square classes, and unramified extensions with their norm groups. Layer 6A
@@ -487,21 +605,18 @@ Where this roadmap and the semisimple-algebras roadmap name the same fact, the
 semisimple-algebras statement is the statement of record. Nothing here rebuilds
 Wedderburn theory, Skolem-Noether, centralizers, splitting fields, or the index.
 
-### Objects that Mathlib leaves incomplete
+### Canonical objects and consumed operations
 
-Three objects that Layers 5 to 9 consume exist in Mathlib as types and lack the
-operations that this roadmap uses. Every such operation is a **named canonical
-definition** of this roadmap, with the theorems that characterize it. No statement below
-quantifies over an arbitrary operation: an arbitrary bilinear pairing, or an arbitrary
-group law on the Brauer carrier, satisfies the same short list of axioms as the intended
-operation and falsifies the theorems.
+Layers 5–9 use the following canonical objects with their actual supplied operations.
+Each remaining adapter has a named definition and characterizing laws. No statement
+quantifies over an arbitrary pairing or group law: such a law on the same carrier can
+satisfy a short list of axioms while falsifying the intended comparison.
 
-- **The Brauer group.** The carrier is Mathlib's `BrauerGroup K`, and the group law is
-  the semisimple-algebras declaration `brauerCommGroup`, whose multiplication is induced
-  by `⊗_K`. Layer 5 adds the central simplicity of `ℍ[K,a,b]`, and then
-  `quaternionClass a b = ⟦ℍ[K,a,b]⟧` is a definition. Symmetry, 2-torsion, bilinearity,
-  the Steinberg relation, and invariance under binary equivalence are theorems about
-  that definition.
+- **The Brauer group.** The carrier is Mathlib's `BrauerGroup K`; consume
+  `TauCeti.BrauerGroup.instCommGroup`, whose multiplication is induced by `⊗_K`.
+  Consume the native quaternion central-simplicity and `quaternionClass` definition.
+  Symmetry, 2-torsion, bilinearity, the Steinberg relation and binary-equivalence
+  invariance are statements about that precise native class and tensor-product law.
 - **The local field.** The carrier is Mathlib's `IsNonarchimedeanLocalField`, and the
   valuation, the unit filtration and the level are the local-fields-ramification
   roadmap's `normalizedValuation`, `unitFiltration` and `natCastValuation`, the last of
@@ -534,7 +649,7 @@ declaration column says so. Such a row is still a contract, because the mileston
 named and its owner is fixed; what this roadmap then states locally is the specialized
 shape its own layers consume, marked as such at the point of use.
 
-**From the [local-fields-ramification roadmap](../LocalFieldsRamification/README.md)**,
+**From the [local-fields-ramification roadmap](../../Completed/LocalFieldsRamification/README.md)**,
 namespace `TauCetiRoadmap.LocalFieldsRamification`, over
 `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`. That
 roadmap re-exports Tau Ceti's local-field API under its own names, with the same explicit
@@ -637,7 +752,7 @@ roadmap](../RepresentationTheory/SemisimpleAlgebras/README.md).**
 |---|---|---|---|
 | Layer 5, the symbol | 4 | `tensorProduct_isSimpleRing` | a tensor product of central simple `K`-algebras is simple |
 | Layer 5, the symbol | 4 | `tensorOp_algEquiv_matrix` | `A ⊗_K Aᵒᵖ ≃ₐ[K] M_{finrank K A}(K)` |
-| Layer 5, the group law | 6 | `brauerCommGroup` | the `CommGroup` structure on `BrauerGroup K` |
+| Layer 5, the group law | Native `BrauerGroup/Group` | `TauCeti.BrauerGroup.instCommGroup` | the actual tensor-product `CommGroup` on `BrauerGroup.{u,u} K`; general CSA mathematics remains with SSA |
 | Layer 7B, splitting | 6 | `IsSplittingField` | a splitting field of a central simple algebra |
 
 Layer 7B also needs a finite **separable** splitting field, and then a finite **Galois**
@@ -648,7 +763,74 @@ target signature for it, so the shape Layer 7B consumes is frozen here as
 when that signature exists. The Galois refinement `exists_finiteGalois_splittingField` is
 this roadmap's own, because no other roadmap states it.
 
-## What is missing (build here)
+## Native interfaces and remaining comparisons
+
+The mathematical milestones below remain part of this owner even when their implementation
+is supplied by a native file. Reuse that implementation and prove only the stated adapter
+or comparison; the milestone is not a licence to construct a second public carrier.
+
+| Milestone | Native object and actual interface | Remaining owner comparison or computation |
+|---|---|---|
+| Quaternion Brauer symbol and tensor law | `TauCeti.Algebra.Quaternion.BrauerClass`: `TauCeti.BrauerGroup.quaternionCSA`, `quaternionClass`; `TauCeti.Algebra.BrauerGroup.Group`: `TauCeti.BrauerGroup.instCommGroup` | Read the tuple formulas in the same tensor-defined group; retain the general central-simple/Clifford and invariant identities below |
+| Quadratic defect | `TauCeti.NumberTheory.LocalField.QuadraticForm.Defect`: `quadraticDefect`, `defectExponent`, `isGLB_quadraticDefect`, attained approximation and square-scaling laws | The roadmap names are aliases of these objects; the direct integral-basis norm computations below use these exact exponents |
+| Classical local Hilbert symbol | `TauCeti.NumberTheory.HilbertSymbol.Basic`: `hilbertSymbol`, norm/splitting comparisons; `LocalField.QuadraticForm.Bimultiplicativity`: `quadraticNormSubgroup_index_eq_two_of_not_isSquare`, `hilbertSymbol_mul_right`, `exists_hilbertSymbol_eq_neg_one` | Preserve the explicit dyadic tables, defect/conductor witnesses and cohomological-normalization comparison as separate outputs |
+| Local classification | `LocalField.QuadraticForm.Classification`: `RegularFormClass.eq_iff_rank_eq_and_discr_eq_and_localHasse_eq`, under the actual local-field and invertible-two hypotheses | Compare the roadmap tuple and plain/signed discriminants with the native class-level invariants; retain realization and every rank boundary |
+| Crossed products | `TauCeti.Algebra.CrossedProduct.Basic`: `TwoCocycle`, `CrossedProduct`, `inc`, `basis`, `finrank_eq_finrank_mul_card`, `finrank_eq_finrank_sq` | Translate the existing public cocycle convention to the native one; use its finitely supported carrier and unnormalized scalar embedding |
+| Mod-two coefficients and cup norm | `TauCeti.FieldTheory.GaloisCohomology.MuTwo.Basic`: `mu2EquivZMod2`, `kummerCoeffIsoTrivialF2`; `MuTwo.CupNorm`: `cup_kummerClass_eq_zero_iff` | Retain the coefficient/group/ring dictionaries to CFT. The audited native Brauer and cup-norm comparisons bind `K : Type u`; the final local-symbol comparison exports are generalized by TauCeti#22016 |
+| Transfer and degree-one relative formula | `TauCeti.LinearAlgebra.QuadraticForm.Transfer.Basic`: `QuadraticMap.scharlauTransfer`; `StiefelWhitney.Transfer`: `sw1Class_traceTransfer_mk_rankOne` | The public argument-order wrapper consumes the native construction. The degree-two Evens/Kahn formula and its cochain-level value calculation remain explicit milestones |
+| Matrix Pin-plus model | `TauCeti.LinearAlgebra.Matrix.PinPlusPlane`: `pinE1`, `pinE2`, `pinVec`, `IsPinLift`, `pinT`, `pinDihedral`, `pinLift` | Compare the public total formulas and the matrix-orthogonality predicate with the native proof-parameterized maps before the Galois/descent calculation |
+
+For an arbitrary-universe cohomological statement, preserve the field and all module/group
+universes. Generalize the existing finite-Galois construction and its continuous-cochain
+comparison with the required universe parameters, then prove the same cocycle and inverse
+squares. No assumption `Small K` is inserted, and no equivalence of an arbitrary field with
+a universe-zero field is postulated. An actual `ULift` comparison is used only in the
+upward direction where its carrier exists. Native statements already polymorphic are
+consumed directly. The illustrative signatures keep these broader comparison targets
+explicit; an admitted adapter is not an implemented native result.
+
+The higher-universe comparison has three mandatory earlier stages, in this order.
+
+1. **Finite descent and continuous cochains.** For `K : Type u`, use its actual
+   `SeparableClosure K`, absolute Galois group and continuous discrete unit module.
+   Given a continuous cocycle on a profinite group with discrete coefficients, compactness
+   makes its image finite. Choose a common open normal subgroup on which the cocycle is
+   constant and which fixes its finitely many coefficient values. Put those values in a
+   finite Galois intermediate extension, increasing that extension and the quotient together
+   when necessary. Prove inflation, refinement and coboundary identities on these actual
+   cochains, with independent group, field and coefficient universes. A coboundary comparison
+   includes its own finite descent. This is a universe-polymorphic extension of the native
+   finite-Galois/cochain API, not a replacement absolute Galois group or a smallness axiom.
+2. **Brauer comparison and inverse squares.** Use the finite separable splitting field
+   and its finite Galois closure, then the native crossed product for the finite cocycle.
+   Prove the splitting, cohomologous-cocycle, tensor-product and inflation comparisons before
+   descending them to the continuous cohomology group. Construct both inverse maps and
+   check them on a split algebra and an inflated cocycle. When `u = 0`, compare these maps
+   with the existing native comparison by these generator formulas and inverse squares.
+   No equivalence from an arbitrary large field to a universe-zero field is used. For an
+   actual upward `ULift`, transport the field, algebra, Galois group and coefficient objects
+   together and prove the naturality square; a downward comparison requires an explicit
+   `Small.{0} K` hypothesis and is not a premise of the general theorem.
+3. **Cup and norm.** In the same universes, identify the Kummer cup cocycle of `(a),(b)`
+   with the quadratic crossed-product cocycle and hence the native quaternion class.
+   The splitting criterion gives the quadratic field norm equation; the square case is
+   handled by the split algebra. Prove restriction/corestriction and coefficient-transport
+   squares before using local invariant normalization. The audited native cup-norm theorem already preserves `K : Type u`; its universe-zero
+   instance is a specialization, and the broader comparison is supplied by that polymorphic
+   construction.
+
+These stages are retained proof obligations with their actual maps and laws. They precede
+arbitrary-universe Layers 7B/7C consumers; they neither assume the final cup-norm theorem nor
+change the scope of the existing native statements.
+
+The general central-simple mathematics remains owned by the semisimple-algebras owner.
+The executable Brauer law here is the native tensor-product law, not an arbitrary admitted
+`CommGroup` on the quotient. Splitting uses `TauCeti.Algebra.IsSplittingField`, the actual
+matrix-algebra predicate; its elementary agreement with the earlier roadmap spelling is
+by unfolding the two identical predicates. This does not assert equality between an opaque
+admitted group structure and the native group.
+
+## Remaining comparisons and computations
 
 Tau Ceti has the form theory below the Brauer group: Layers 0 to 4, that is the carrier and
 the chain theorem, hyperbolic planes and Witt theory, the quaternion norm form with the
@@ -656,19 +838,20 @@ four-fold splitting criterion, the discriminants, and the Witt ring with its fun
 and Pfister forms (see "From Tau Ceti"). What remains:
 
 - the milestones of Layers 0 to 4 that are marked there as built here: the contiguous-basis
-  comparison and the naturality of descent (Layer 0); the degenerate case of Witt
-  decomposition and the Witt index as the dimension of a maximal totally isotropic subspace
-  (Layer 1); the Gram-determinant description of the discriminant (Layer 3); and
+  comparison (Layer 0); the degenerate case of Witt decomposition (Layer 1);
+  the scalar-extension naturality and maximal-isotropic-dimension comparisons consume
+  the existing native declarations below, including the arbitrary-basis Gram-determinant
+  description of the discriminant (Layer 3); and
   `W(ℝ) ≅ ℤ` through the signature (Layer 4);
-- the Brauer-valued Hasse and Clifford invariants, and the classification in dimension
-  at most 3;
+- the tuple formulas and exact invariant dictionaries for the native Brauer-valued Hasse
+  and Clifford invariants, and the classification in dimension at most 3;
 - the uniformizer predicate of Layer 6A, its square-class representatives in odd residue
   characteristic, and the binary norm form `b = x² − Δ y²` that Layers 6B to 6D apply,
   each stated against the local-fields-ramification roadmap's valuation, filtration,
   and norm group;
-- the quadratic defect, the Hilbert symbol over a nonarchimedean local field with the
-  dyadic case, bimultiplicativity, and nondegeneracy, together with the identification
-  of the symbol with the mod-2 specialization of the local duality pairing;
+- the explicit integral-basis defect/norm tables and witnesses, the tuple/class dictionaries
+  for the native Hilbert symbol, bimultiplicativity and nondegeneracy, and identification
+  with the mod-2 specialization of the local duality pairing;
 - the local classification by `(dim, d, s)`, with `u(K) = 4` and the unique anisotropic
   quaternary form;
 - the `μ₂` coefficient identification of Layer 7A, and the mod-2 laws read through it:
@@ -691,8 +874,9 @@ and Pfister forms (see "From Tau Ceti"). What remains:
   Kummer classes through the `Pin⁺` lift of `C₂ ≀ C₂`, and the relative Stiefel-Whitney
   formula in degrees 1 and 2.
 
-None of this exists upstream as stated. Each object gets its complete basic theory, and
-not only the milestone that the headline needs.
+The native objects above are consumed with their complete basic theory. The remaining
+comparisons, explicit direct norm computations and relative-formula targets below are
+built on them, preserving every generality and worked example.
 
 `Suggested.lean` fixes Lean forms for the design decisions that are most likely to fork
 an implementation, together with the worked examples. It applies Tau Ceti's carrier for
@@ -723,8 +907,12 @@ Each prerequisite carries one of these sources:
   for a named layer of a roadmap this one consumes. Every such
   prerequisite appears as a row of the contract table above, with its exact declaration.
 
-Layers 0 to 6 use no cohomology, and only Layer 5 uses the Brauer group. There is one
-exception, stated where it occurs: the second milestone of sublayer 6E, which identifies
+The classical definitions in Layers 0 to 6 do not use the cohomological Brauer
+comparison. The native square-class-count route to the local index theorem is independent
+of that comparison. The retained alternative cyclic-index proof consumes its actual native
+local-cohomology supplier; it assumes no reciprocity or invariant-map normalization.
+Only Layer 5 introduces Brauer-valued form invariants. One later comparison is stated
+where its subject belongs: the second milestone of sublayer 6E, which identifies
 the Hasse invariant with the invariant map of local class field theory, uses Layer 7B and
 Class Field Theory's degree-two invariant, so it is placed after Layer 7B in the build order.
 
@@ -850,7 +1038,9 @@ as built here:
 - comparison lemmas: `DiagonalChain` against `Equivalent`, rank by rank; `IsSquare (a*b)`
   against equality in the square-class group (`squareClass_eq_iff_isSquare_mul`);
   contiguous orthogonal bases against `DiagonalChain`, built here;
-- naturality: the descent principle commutes with pushforward along `K →+* L`, built here:
+- naturality: consume `RegularFormClass.liftDiagonal_baseChange` from
+  `RegularFormClass/BaseChange.lean`: the descent principle commutes with pushforward
+  along `K →+* L`:
   if `g` on `L`-presentations and `f` on `K`-presentations satisfy the hypotheses and
   `g (p.baseChange L) = f p`, then the descended functions satisfy the same equation on
   `RegularFormClass.baseChange`;
@@ -868,7 +1058,7 @@ negative definite.
 ### Layer 1: hyperbolic planes and Witt theory
 
 Layer 1 is Tau Ceti's, and this roadmap consumes it. The milestones below name the Tau Ceti
-declarations that supply them; the two that remain to be built here are marked as such.
+declarations that supply them; the additional comparisons retain their stated domains.
 
 Prerequisites:
 
@@ -897,10 +1087,13 @@ Milestones:
   **Witt index** `TauCeti.RegularFormClass.wittIndex` and the **anisotropic part**
   `TauCeti.RegularFormClass.anisotropicPart` are determined by any such decomposition
   (`RegularFormClass.wittIndex_eq`, `RegularFormClass.anisotropicPart_eq`).
-  **Built here:** the decomposition `q ≅ q_t ⊥ (m × ℍ_q) ⊥ q_a` of a possibly degenerate
-  form, where `q_t` is the zero form on the radical, with all three parts unique up to
-  isometry; and, for regular `q`, the Witt index as the dimension of a maximal totally
-  isotropic subspace (Lam I.4.4).
+  **Additional comparison:** for a possibly degenerate form, choose a complement to
+  the radical, prove its restriction nondegenerate, split that restriction by the native
+  Witt decomposition, and obtain `q ≅ q_t ⊥ (m × ℍ_q) ⊥ q_a`. Here `q_t` is the zero
+  form on the radical; prove uniqueness of the three parts up to isometry by the
+  radical dimension and native cancellation. For regular `q`, consume
+  `QuadraticForm.finrank_eq_wittIndex_of_maximal` (Lam I.4.4) for the maximal
+  totally isotropic dimension, rather than commissioning the existing theorem again.
 - **Witt cancellation** (Lam I.4.2) [Tau Ceti]: `q ⊥ q₁ ≅ q ⊥ q₂ → q₁ ≅ q₂` for regular
   finite-dimensional `q`, with no hypothesis on `q₁` and `q₂`
   (`TauCeti.equivalent_of_equivalent_prod`, and `equivalent_of_equivalent_prod_right` for the
@@ -935,8 +1128,9 @@ Basic API, Tau Ceti's except where marked as built here:
   anisotropy-preservation hypothesis of `RegularFormClass.anisotropicPart_baseChange`.
   ⚠ Do not claim that `anisotropicPart` commutes with base change: `⟨1,1⟩` over `ℝ` has Witt
   index `0`, and over `ℂ` it is hyperbolic with Witt index `1` and zero anisotropic part;
-- comparison lemmas: the Witt index against the dimension of a maximal totally
-  isotropic subspace, built here; the `xy`-form against `⟨1,−1⟩`;
+- comparison lemmas: consume `QuadraticForm.finrank_eq_wittIndex_of_maximal` from
+  `Witt/TotallyIsotropic.lean`, for a nondegenerate finite-dimensional form with two
+  invertible and a maximal totally isotropic submodule; the `xy`-form against `⟨1,−1⟩`;
 - naturality: the anisotropic part of `q` represents its Witt class in the Witt ring of
   Layer 4 (`TauCeti.wittClass_anisotropicPart`);
 - edge cases: the zero form; a form on the zero space; rank 1, where isotropy fails
@@ -1050,7 +1244,8 @@ codomain exists.
 Everything here is a function of a diagonalization, well defined on `RegularFormClass K`,
 with values in `ℕ`, in `ZMod 2`, or in the square-class group. The Hasse invariant is not in
 this layer, because its codomain is a group of Brauer classes, which Layer 5 supplies. The
-layer is Tau Ceti's except for the two milestones marked as built here.
+layer consumes Tau Ceti's declarations; its invariant dictionary and boundary
+comparisons remain explicit below.
 
 Prerequisites:
 
@@ -1093,11 +1288,14 @@ Milestones:
   Values on the standard forms: `d±⟨a⟩ = a` (`signedDiscr_mk_rankOne`), `d±(ℍ_q) = 1`
   (`signedDiscr_hyperbolicClass`), and `d±⟨⟨a,b⟩⟩ = 1`, which Tau Ceti states in the Witt
   ring (`WittRing.signedDiscr_oneFoldPfisterClass_mul`).
-- **The Gram-determinant description**, built here. For a regular `Q` on a
-  finite-dimensional space and any basis of that space, `discr (formClass Q hQ)` is the
-  square class of the determinant of the Gram matrix of `Q` in that basis, that is Mathlib's
-  `discr'` transported by `basisRepr`. Tau Ceti runs this computation on diagonal
-  presentations to prove well-definedness, and does not state it for an arbitrary basis.
+- **The Gram-determinant description** [Tau Ceti]. Consume
+  `TauCeti.discr_formClass_eq_squareClass` in `RegularFormClass/Discriminant.lean`.
+  For a nondegenerate finite-dimensional `Q`, a finite basis `b` and a unit `u`
+  with `(u : K) = Q.discr b`, it identifies the class discriminant with `squareClass u`.
+  Thus the statement applies to an arbitrary basis, not only a diagonal presentation.
+  Transport through the existing multiplicative square-class equivalence for this
+  roadmap's `discr`, and use the stated rank sign for `signedDiscr`. Retain the
+  Gram/basis and full-polar-versus-quadratic matrix comparisons with these exact conventions.
 - **The binary quaternion lemma** [Tau Ceti],
   `TauCeti.QuaternionAlgebra.nonempty_algEquiv_of_equivalent_binary`: if `⟨a,b⟩ ≅ ⟨c,d⟩`,
   then `ℍ[K,a,b] ≃ₐ[K] ℍ[K,c,d]` (Lam III.2.11), through the functoriality of Clifford
@@ -1152,7 +1350,7 @@ Prerequisites:
 - **[Mathlib]** `Ideal`, `Ideal.Cotangent`, `AddSubgroup.closure`,
   `Algebra.GrothendieckAddGroup`;
 - **[Tau Ceti]** `Witt/Ring.lean`, `Witt/FundamentalIdeal.lean`, `Witt/Discriminant.lean`,
-  `Witt/Pfister.lean` (the directory `Witt/Pfister/` after the pin) and `Witt/Round.lean`;
+  the modules in `Witt/Pfister/` and `Witt/Round.lean`;
 - **[Layer 1]** Witt decomposition and cancellation;
 - **[Layer 2]** the norm form and the four-fold criterion;
 - **[Layer 3]** the discriminant formulas and the dimension map.
@@ -1181,10 +1379,9 @@ Milestones:
   its value on Witt classes `WittRing.baseChange_wittClass`, the functor laws
   `WittRing.baseChange_self` and `WittRing.baseChange_comp`, and
   `WittRing.map_fundamentalIdeal_pow_le`; these are the localization maps that
-  `GlobalQuadraticForms` composes over the completions. They landed in
-  `TauCeti/LinearAlgebra/QuadraticForm/Witt/BaseChange.lean` after this repository's Tau Ceti
-  pin, and no statement here applies them, so `Suggested.lean` declares no stand-in; when the
-  pin moves past them, they are consumed directly.
+  `GlobalQuadraticForms` composes over the completions. They are supplied by
+  `TauCeti/LinearAlgebra/QuadraticForm/Witt/BaseChange.lean`; consume them directly
+  and compare the existing public wrapper names where a consumer requires one.
 - **The fundamental ideal** [Tau Ceti]. `I(K) = ker(W(K) → ZMod 2)` is
   `TauCeti.fundamentalIdeal K`, and a Witt class lies in it exactly when the rank is even
   (`wittClass_mem_fundamentalIdeal_iff`). The generation statements:
@@ -1227,7 +1424,7 @@ Milestones:
   - `⟨⟨a,b⟩⟩` is isotropic if and only if it is hyperbolic, if and only if `ℍ[K,a,b]` splits,
     which is the four-fold criterion stated in the Witt ring: Tau Ceti's
     `pfisterFormClass_two_tfae`, with `pfisterClass_two_eq_zero_iff`, in
-    `Witt/Pfister/Hyperbolic.lean`, which landed after this repository's pin.
+    `Witt/Pfister/Hyperbolic.lean`.
 
   The general theory of `n`-fold Pfister forms, that is roundness in all degrees, the
   Arason-Pfister Hauptsatz, and function-field methods, is excluded. The four items
@@ -1239,16 +1436,16 @@ Basic API, Tau Ceti's except where marked as built here:
   `wittClass`, `fundamentalIdeal`, `oneFoldPfisterClass`, `pfisterForm`, `pfisterFormClass`,
   `pfisterClass`, with this roadmap's aliases `wittRing` and `toWittRing`;
 - examples: `W(K) ≅ ZMod 2` for `K` separably closed, so `W(ℂ) ≅ ZMod 2`
-  (`WittRing.equivZModTwoOfIsSepClosed`, after the pin); `W(ℝ) ≅ ℤ` through the signature,
+  (`WittRing.equivZModTwoOfIsSepClosed`); `W(ℝ) ≅ ℤ` through the signature,
   built here; `⟨⟨1⟩⟩ = ⟨1,−1⟩`, which is zero in `W(K)` (`oneFoldPfisterClass_one`);
 - morphisms: the dimension map `WittRing.dimMod2`; the discriminant map
-  `I/I² → Kˣ/(Kˣ)²`; `WittRing.baseChange`, after the pin;
+  `I/I² → Kˣ/(Kˣ)²`; `WittRing.baseChange`;
 - functoriality: `W` as a functor, with `I` and `Iⁿ` mapped into each other by a field
-  extension (`WittRing.map_fundamentalIdeal_pow_le`, after the pin);
+  extension (`WittRing.map_fundamentalIdeal_pow_le`);
 - comparison lemmas: a Witt class against its anisotropic representative; a Pfister form
   against a quaternion norm form;
 - naturality: the generation of `Iⁿ` by Pfister forms is stable under a field
-  extension (`WittRing.baseChange_pfisterClass`, after the pin);
+  extension (`WittRing.baseChange_pfisterClass`);
 - edge cases: `n = 0`, where `⟨⟨⟩⟩ = ⟨1⟩` (`pfisterClass_zero`); the hyperbolic class, which
   is zero in `W(K)` (`wittClass_hyperbolicClass`); the zero ring case, which does not occur
   for a field;
@@ -1262,11 +1459,11 @@ excluded general statement in a proof.
 
 ### Layer 5: the Brauer-valued invariants
 
-This is the first layer in which a symbol can be multiplied. The carrier is Mathlib's
-`BrauerGroup K`, and the group law is `brauerCommGroup` of the semisimple-algebras
-roadmap, whose multiplication is induced by `⊗_K`. What Mathlib lacks besides the law is
-the central simplicity of `ℍ[K,a,b]`, which is the first milestone below. The quaternion
-symbol is then the class of an algebra and not an abstract pairing.
+This layer multiplies quaternion symbols in Mathlib's `BrauerGroup K` with
+`TauCeti.BrauerGroup.instCommGroup`, the actual tensor-product group law. Consume
+the native quaternion central-simplicity theorem and class constructor. The remaining
+identities and comparisons are about that precise algebra class, never an arbitrary
+pairing or an admitted choice of group law.
 
 Prerequisites:
 
@@ -1274,8 +1471,8 @@ Prerequisites:
   `CliffordAlgebra` with its grading and even subalgebra;
 - **[SSA Layer 4]** the tensor product of two central simple algebras is central simple,
   with the finrank formula, and the opposite-algebra package;
-- **[SSA Layer 6]** the `CommGroup` structure on `BrauerGroup K` and the quotient API
-  for `Brauer.CSA_Setoid`;
+- **[Native Brauer/SSA]** the tensor-defined `TauCeti.BrauerGroup.instCommGroup`
+  and quotient API for `Brauer.CSA_Setoid`, with SSA retaining the general CSA programme;
 - **[Layer 2]** the symbol relations and the split-or-division dichotomy;
 - **[Layer 3]** the binary quaternion lemma and the chain-induction lemmas;
 - **[Layer 4]** Tau Ceti's fundamental ideal `TauCeti.fundamentalIdeal K`, its powers, and
@@ -1284,10 +1481,13 @@ Prerequisites:
 Milestones:
 
 - **Quaternion algebras are central simple.** For `a b : Kˣ` and `2` invertible,
-  `ℍ[K,a,b]` is central over `K`, is simple, and is finite-dimensional. This is a target
-  here, because `[(a,b)] ∈ BrauerGroup K` is undefined without it. State it for
-  `ℍ[K,a,b,c]` with `c·(b² + 4a) ≠ 0`, the generality in which the proof runs, and note
-  that `ℍ[K,a,b] = ℍ[K,a,0,b]` satisfies the hypothesis because `b·4a ≠ 0`.
+  `ℍ[K,a,b]` is central over `K`, simple and finite-dimensional by the existing native
+  `Quaternion/CentralSimple.lean` API. Retain the general presentation
+  `ℍ[K,a,b,c]` with `c·(b² + 4a) ≠ 0`: consume
+  `QuaternionAlgebra.completeSquareEquiv` in `Quaternion/SymbolEquiv.lean` and
+  transport centrality, simplicity and dimension from the symbol with parameters
+  `(b²+4a,c)`. Here `ℍ[K,a,b] = ℍ[K,a,0,b]` satisfies the hypothesis because
+  `b·4a ≠ 0`. The native group and class constructors use those actual instances.
 - **The quaternion symbol in `Br(K)`.** The class `[(a,b)] := ⟦ℍ[K,a,b]⟧`, which the
   central-simplicity milestone makes well formed, with the API that later layers
   cite:
@@ -1399,12 +1599,12 @@ Basic API:
 
 ### Layer 6: forms over a nonarchimedean local field
 
-Scope: `K` is a nonarchimedean local field of characteristic `0`, that is a finite
-extension of `ℚ_p`, for every prime `p` including `p = 2`. The dyadic case is included
-throughout, and it is not a hypothesis swap away from the `ℚ_2` case, because the number
-of square classes, the unit filtration, and the explicit formulas all depend on
-`[K : ℚ_2]`. The main theorems are therefore stated at that generality from the start.
-Serre's closed formulas and the `8 × 8` table over `ℚ_2` are the acceptance suite.
+Scope: `K` is a nonarchimedean local field with `2` invertible, with its actual
+`ValuativeRel`, topology and local-field instance. This includes finite extensions of
+`ℚ_p` for every prime, and local fields of positive odd characteristic. In residue
+characteristic two it is a finite extension of `ℚ_2`; its square-class count, unit
+filtration and computations depend on its actual ramification and residue degrees.
+Serre's closed formulas and the `8 × 8` table over `ℚ_2` remain the acceptance suite.
 
 The content of this layer is independent of Layer 5. The one theorem that relates them
 is stated at the end of 6C, with its own prerequisites.
@@ -1412,7 +1612,7 @@ is stated at the end of 6C, with its own prerequisites.
 #### 6A. The local-field substrate, consumed
 
 The general arithmetic of a nonarchimedean local field belongs to the
-[local-fields-ramification roadmap](../LocalFieldsRamification/README.md), and this sublayer consumes it. The
+[local-fields-ramification roadmap](../../Completed/LocalFieldsRamification/README.md), and this sublayer consumes it. The
 normalized valuation is that roadmap's `normalizedValuation`, the unit filtration is its
 `unitFiltration`, the level `e = v_K(2)` is its `natCastValuation K 2`, and the graded
 pieces, the power-class counts with the
@@ -1589,8 +1789,9 @@ Prerequisites:
 
 Milestones:
 
-- **The carrier.** For general `a : Kˣ` the defect is a fractional ideal and not an
-  ideal of `𝒪[K]`, because every `a − ξ²` has negative valuation when `v_K(a) < 0`. The
+- **The carrier.** For general `a : Kˣ` the defect uses a fractional ideal, because an element
+  of negative odd valuation has `δ(a)=v_K(a)<0`. Negative valuation alone does not
+  force this: over `ℚ_2`, `a=5/4` and `ξ=1/2` give `a−ξ²=1`, and `δ(5/4)=0`. The
   object is
 
   ```lean
@@ -1607,8 +1808,10 @@ Milestones:
   ∀ 𝔢, (∀ ξ : K, 𝔢 ≤ (a − ξ²) · 𝒪[K]) → 𝔢 ≤ 𝔡(a)
   ```
 
-  Uniqueness is antisymmetry. Existence is the first milestone. The fractional ideals
-  `(a − ξ²) · 𝒪[K]` are totally ordered, so the family has an infimum. That infimum is
+  Uniqueness is antisymmetry. Consume `TauCeti.isGLB_quadraticDefect` for existence:
+  for a nonsquare, compactness bounds the approximation orders and their integral
+  supremum is attained; for a square use its square root. Total ordering alone is
+  not an existence proof in an arbitrary lattice. The resulting infimum is
   `𝓂[K]^{δ(a)}` when the exponent is finite, and `0` when it is not. State both
   descriptions.
 - **The defect exponent.** `δ(a) = sup_ξ v_K(a − ξ²)` is unbounded exactly on squares,
@@ -1680,23 +1883,53 @@ Then the three symbol computations of O'Meara 63:11 to 63:13, each written out.
   - `(Kˣ)² ⊆ N(K(√a)ˣ)` and `−a ∈ N(K(√a)ˣ)`, the second because `−a = N(√a)`. So the
     norm group is a union of square classes, and the index is computed inside the finite
     group `Kˣ/(Kˣ)²` of 6A;
-  - after `a` is normalized in its square class so that `v_K(a) ∈ {0, 1}`, the unit
-    norms are exactly the units among
+  - normalize `a` in its square class so that `v_K(a)∈{0,1}`, and use an actual
+    integral basis of the maximal order of `L=K(√a)`. Construct a basis `(1,ω)` of
+    `𝒪[L]` over `𝒪[K]`, with `T=Tr(ω)` and `N=N(ω)` in `𝒪[K]`. The unit norms are
+    exactly the units among
 
     ```text
-    u² (1 − a t²)   and   u² (−a) (1 − a t²),      u : 𝒪[K]ˣ,  t : 𝒪[K],
+    u²(1 + Tt + Nt²),    u²(N + Tt + t²),    u∈𝒪[K]ˣ, t∈𝒪[K].
     ```
 
-    where the second family is `−a` times the first, and occurs only for `a` a unit.
-    (`x² − a y²` is a unit only when `min(v_K(x), v_K(y)) = 0`. Divide by the square of
-    whichever of `x` and `y` is a unit. For `v_K(a) = 1` the two valuations have
-    different parities, so `v_K(x) = 0` and only the first family survives.) The index
-    question is therefore a question about the unit values of one binary form.
+    Indeed, `N(X+Yω)=X²+TXY+NY²`. A unit norm has valuation zero in `L`, by
+    `v_K(Nz)=f·v_L(z)`, hence belongs to `𝒪[L]ˣ`. Its integral coordinates are primitive:
+    otherwise both lie in the maximal ideal and the norm is not a unit. Divide by
+    whichever coordinate is a unit to obtain one of the two displayed families.
+    Conversely, each displayed unit is the norm of its stated integral element.
+    This uses the maximal order, not the generally smaller order `𝒪[K][√a]`.
+
+    Construct the basis, its determinant and its norm polynomial from the existing
+    integral-closure/DVR and finite-extension APIs, before using the families. For
+    `v_K(a)=1`, the Eisenstein basis is `(1,√a)`, with `T=0,N=−a`. For a unit radicand
+    of odd defect `d=2k+1<2e`, choose an attained approximation `b²` with
+    `v_K(a−b²)=d` and put `ω=(√a−b)/π^k`. Its polynomial has trace
+    `T=−2b/π^k` and norm `N=(b²−a)/π^(2k)`; it is Eisenstein, so this is the full
+    ring of integers. For the nonsquare unit of maximal defect `2e`, put
+    `ω=(√a−b)/π^e`; prove integrality and irreducibility/separability of its residual
+    quadratic polynomial and use the unramified integral-basis comparison. The odd
+    residue-characteristic nonsquare-unit case uses its irreducible residual square-root
+    polynomial and Hensel. All choices, valuation equalities, basis comparisons and
+    transport of the algebra/field norm are separate named outputs.
+
+    In the ramified Eisenstein basis a unit norm requires the first coordinate to be
+    a unit. In the unramified basis every primitive pair has unit norm, by the residual
+    field norm. Retain the direct finite residue/defect computation, the norm-index
+    comparison, conductor threshold and explicit nonnorm witnesses in every case.
+    The integral-basis family statement replaces the incorrect square-root-coordinate
+    families; it does not delete that computation programme.
+
+    The ramified-base control is `K=ℚ_2(π)`, `π²=2`, `a=5`, with its unramified
+    quadratic extension. Here `(π+1/2)²−5(1/2)²=1+π` is a unit. The purported families
+    `u²(1−5t²)` and `−5u²(1−5t²)` with integral `t` reduce to `1` modulo `(2)`,
+    whereas `1+π` reduces to `1+ε` in `𝔽₂[ε]/(ε²)`. They therefore miss an actual
+    unit norm. This also prevents reintroducing the false assertion that a unit norm
+    has an integral representation in the basis `(1,√a)`.
 - **Nondegeneracy.** For `a : Kˣ` a nonsquare there is `b : Kˣ` with `(a,b)_K = −1`. The
   witness is read off the defect, in the same three cases into which the proof of the
   index theorem splits.
   1. `v_K(a)` odd: take `b = Δ`, by the evaluation formula and symmetry. The matching
-     upper bound is the unit-norm description above, applied to `a = π u`.
+     upper bound is the integral-basis unit-norm computation above, applied to `a = π u`.
   2. `a` a unit with `𝔡(a) = 4𝒪[K]`: take `b = π`, by the evaluation formula again,
      because `a` is `Δ` up to squares. Here `N(K(√a)ˣ) = {x : v_K(x) even}` exactly, so
      6A closes this case of the index theorem.
@@ -1750,6 +1983,13 @@ whatever route a later implementer takes to bimultiplicativity.
 
 #### 6C. The Hilbert symbol and the local Hasse invariant
 
+**6C alternative early norm-index construction, before cohomological normalization.** Let K be a nonarchimedean local field, with its specified ValuativeRel and topology, and assume 2 is invertible. For a nonzero nonsquare a, take L=K(s) with s²=a. Construct L as the irreducible quadratic quotient and prove [L:K]=2; separability uses 2≠0, normality the roots ±s, and the involution s↦−s generates its order-two Galois group. Install TauCeti.finiteExtensionValuativeRel, finiteExtensionNormedFieldTopology, finiteExtension_isNonarchimedeanLocalField and finiteExtension_valuativeExtension, or prove equality with already compatible structures. Construct the K-algebra equivalence QuadraticAlgebra K a 0 ≃ L by (x,y)↦x+ys, with inverse from the basis(1,s). In that basis multiplication by x+ys has matrix [[x,ay],[y,x]], hence Algebra.norm K(x+ys)=x²−ay². Consume QuadraticAlgebra.det_toLinearMap_eq_norm and the determinant definition of field norm; prove transport along the actual equivalence and its induced units map. The actual norm subgroup is TauCeti.normGroup K L, the range of TauCeti.Algebra.normUnits K, and membership is exactly existence of a nonzero pair(x,y) with b=x²−ay². The nonzero-pair condition and b≠0 are equivalent here because L is a field.
+
+Apply the already proved TauCeti.index_normGroup_of_isCyclic, with BOTH fields local, compatible ValuativeExtension, finite extension, IsGalois and IsCyclic on L≃ₐ[K]L. It gives index two with no reciprocity or characteristic-zero premise. Its own actual finite cyclic cohomology/Herbrand/valuation-unit proof is a separate selected native supplier. Thus the norm indicator Kˣ→{±1}, +1 on the subgroup and −1 outside, is a homomorphism. Squares are norms because N(c)=c². When a is a square, the split quadratic algebra K×K has surjective norm and the indicator is identically +1; this case is not passed to the field-extension theorem. Compare the indicator with the fourfold-isotropy/quaternion-splitting predicate of Layer2 by the actual norm-form equivalence, including the split case. Swapping a,b in the fourfold form gives symmetry, hence multiplicativity in the other slot; square-class descent and index-two properness give bimultiplicativity and nondegeneracy. Descend the diagonal Hasse product by Layer0/3's binary replacement and chain-induction proof, with the plain/signed discriminant dictionary fixed. This produces the classical part of6C and can precede6D without6E/7B or an invariant-map assumption. Odd-residue unit-unit values additionally consume Hensel/unramified-unit norm surjectivity; arbitrary dyadic matrix/defect tables are separate later computations.
+
+The full6B defect, maximal-order integral-basis norm computation and explicit-witness programme remains owned here. It is not supplied by this alternative, and no square-root-coordinate integrality is assumed. Only after the classical6D quaternion uniqueness theorem do6E/7B and the actual ClassFieldTheory local invariant, Kummer cup and cyclic norm comparison normalize the cohomological sign and obtain the global product law. This separates classical existence from cohomological normalization and creates no6D–6E cycle.
+
+
 **The Hilbert symbol is this roadmap's, in both halves.** The first half is the
 norm-criterion description of the mod-2 pairing, which is stated in Layer 7C over any
 field in which `2` is invertible. The second half is the identification of that
@@ -1764,6 +2004,9 @@ translates `ClassFieldTheory.hilbertProductFormula` into multiplicative signs.
 
 Prerequisites:
 
+- **[Tau Ceti]** `NumberTheory.HilbertSymbol.Basic` and
+  `LocalField.QuadraticForm.Bimultiplicativity`, including the actual square-class
+  counts over the quadratic field and its norm-subgroup cardinal identity;
 - **[Layer 2]** the four-fold splitting criterion;
 - **[Layer 3]** the binary quaternion lemma and the chain-induction lemmas;
 - **[Local Fields Ramification, Layers 0 and 1]** `normalizedValuation` and
@@ -1773,7 +2016,8 @@ Prerequisites:
   `tateDualityPairing_perfect_mixed`, for the comparison below;
 - **[Layer 6A]** the uniformizer predicate, the absolute ramification index, the local
   square theorem, the square-class counts, and the unramified norm description;
-- **[Layer 6B]** the defect computations.
+- **[Layer 6B]** the defect and integral-basis computations for the explicit direct
+  tables and witnesses. They are not a premise of the native square-class index route.
 
 Milestones, in this order:
 
@@ -1788,13 +2032,16 @@ Milestones, in this order:
 3. **Symmetry** `(a,b)_K = (b,a)_K`. After it, the two orientations of the symbol, by
    `b ∈ N(K(√a)ˣ)` and by `a ∈ N(K(√b)ˣ)`, are interchangeable, and a source may be read
    in either.
-4. **The defect computations** of 6B, ending in the norm-index theorem.
+4. **The norm index**, consumed from the native square-class-count proof, or compared
+   with the independently supplied cyclic norm-index theorem. The direct6B computation
+   remains a separate proof and explicit-evaluation output, using its corrected integral basis.
 5. **Bimultiplicativity** `(a, bc)_K = (a,b)_K · (a,c)_K`, with the dyadic case
    included. It follows from the index theorem and the indicator lemma in the second
    argument, and from symmetry in the first (O'Meara 63:11 to 63:13; Serre III Thm 2 for
    `K = ℚ_p`).
-6. **Nondegeneracy.** For a nonsquare `a` there is `b` with `(a,b)_K = −1`, with the
-   witnesses that 6B lists by defect.
+6. **Nondegeneracy.** For a nonsquare `a` there is `b` with `(a,b)_K = −1`, from
+   properness of the native index-two subgroup. The more explicit defect witnesses
+   of6B remain separately required.
 7. **The local Hasse invariant** `localHasse q = ∏_{i<j} (aᵢ, aⱼ)_K ∈ ℤˣ` for
    `q ≅ ⟨a₁,…,aₙ⟩`. It is well defined by Layer 0's descent principle, whose two step
    hypotheses are Layer 3's chain-induction lemmas with `M = ℤˣ`. Symmetry and
@@ -2157,8 +2404,9 @@ Basic API:
   `kummerIso`; `h2MuToUnits` against restriction;
 - naturality: each adapter law is the transport of the corresponding supplier theorem, and
   is named as such;
-- edge cases: `L = K`, where the supplier's subgroup is everything and its three
-  operations are the identity; a square `a`, where the Kummer class vanishes;
+- edge cases: `L = K`, where restriction and corestriction are the identity;
+  the Evens norm and the nontrivial conjugation/extension character are used only at
+  degree exactly two; a square `a`, where the Kummer class vanishes;
 - downstream interfaces: Layer 7B's comparison, Layer 7C's cup criterion, Layer 8's
   classes, and Layer 9's relative formula.
 
@@ -2166,7 +2414,9 @@ Basic API:
 
 Prerequisites:
 
-- **[SSA Layer 6]** `brauerCommGroup` and `IsSplittingField`;
+- **[Native Brauer/CSA]** `TauCeti.BrauerGroup.instCommGroup` and
+  `TauCeti.Algebra.IsSplittingField`; consume SSA's general finite-separable splitting
+  programme with the exact matrix-algebra predicate;
 - **[Layer 5]** the quaternion class and its bilinearity;
 - **[Layer 7A]** the carriers, the Kummer class, and `h2MuToUnits`;
 - **[Profinite Cohomology, Layer 12]** `cup` at `f2Pairing`, which is the cup product
@@ -2206,7 +2456,11 @@ Milestones:
       `u_σ · x = σ(x) · u_σ` (`basis_mul_inc`) and `u_σ · u_τ = c(σ,τ) · u_{στ}`
       (`basis_mul_basis`); the cocycle identity is exactly associativity. Its carrier is
       pinned as data, so that these two equations and
-      `finrank : dim_K (L,G,c) = [L:K]²` are statable. The theorem of the item is that it
+      `dim_K (L,G,c)=[L:K]·#Aut_K(L)` and its finite-Galois specialization
+      `finrank : dim_K (L,G,c)=[L:K]²` are statable. Arbitrary cocycles need not be
+      normalized: the identity is `c(1,1)⁻¹u_1` and the scalar embedding sends `x` to
+      `x c(1,1)⁻¹u_1`. Consume the native finitely supported construction; over a finite
+      Galois extension its coordinates are equivalent to the finite function carrier. The theorem of the item is that it
       is central simple over `K`, which is what makes `crossedProductClass` well formed.
    2. **Cohomologous cocycles give Brauer-equivalent algebras.** `Cohomologous z w` is
       `w(σ,τ) = z(σ,τ) · σ(b τ) · b(στ)⁻¹ · b(σ)` for some `b : Gal(L/K) → Lˣ`, and
@@ -2255,7 +2509,8 @@ Milestones:
       `groupCohomology.IsCocycle₂`, which is what makes the comparison sign-correct.
       `continuous_unitsCochain_inflate` is continuity: the cochain factors through the
       discrete finite `Gal(L/K)`, so ⚠ finiteness of `L/K` is used here and the same
-      formula over an infinite normal subextension is a cocycle but not a continuous one.
+      formula over an infinite normal subextension need not be continuous without a separate
+      continuity hypothesis.
       `inflateTwoCocycleZ2` is the resulting element of the supplier's `Z2`,
       `unitsClassOfZ2` its class, taken through the supplier's `H2pi` and
       `explicitH2IsoContinuousCohomology` and through nothing else, and
@@ -2429,6 +2684,16 @@ Prerequisites: **[Layer 2]**, **[Layer 6C]** for the local identification only,
   read through the Kummer isomorphism.
 
 ### Layer 8: Stiefel-Whitney classes
+
+Consume the actual native `FieldTheory/QuadraticForm/StiefelWhitney/` API.
+`Basic.lean` defines `TauCeti.sw1` and `sw2` on tuples with polymorphic field
+universes. At the audited native revision, `Class.lean` descends both `sw1Class` and
+`sw2Class` for `K : Type u`, and `Hasse.lean` states its comparisons in the same generality.
+Their permutation, binary-replacement and rank-one descent proofs consume the native
+universe-polymorphic Brauer/cup-norm construction. Use those canonical definitions and
+formulas; the public tuple/order wrappers below are comparisons with them and do not
+commission a second Stiefel–Whitney engine. No theorem restricted to universe zero is
+silently exported at arbitrary `Type u`.
 
 Prerequisites:
 
@@ -2614,9 +2879,8 @@ Milestones:
   this roadmap's `scharlauTransfer s q`, together with `traceTransfer`, `traceTransfer_sq`
   (the transfer of the unit line is the trace form) and
   `equivalent_traceTransfer_sq_weightedSumSquares_of_sq` (`⟨2, 2d⟩` for every `L` with
-  `[L : K] = 2`, `x ∉ K` and `x² = d`). It landed after this repository's Tau Ceti pin, so
-  the statements here keep this roadmap's spelling; when the pin moves past it, they are to
-  consume it by alias.
+  `[L : K] = 2`, `x ∉ K` and `x² = d`). Consume that native construction and
+  prove the exact public argument-order and trace/diagonal comparisons.
 - **The twisted trace form.** For `L = K(x)` with `x ∉ K` and `x² = d`, and `a : Lˣ`:
   - in square-root coordinates `N(u + v x) = u² − v² d` (`norm_add_mul_of_sq`, proved in
     `Suggested.lean`) and `Tr(u + v x) = 2u`. These are Tau Ceti's
@@ -3026,17 +3290,24 @@ consumes says what the later statements assume.
 Layers 0 to 4 are free of cohomology and of the Brauer group, and they are Tau Ceti's
 except for the milestones marked in them as built here, which can be built immediately.
 In the dependency order, Layer 0 comes first, because everything diagonal rests on it.
-Layers 1 and 2 are independent of each other. Layer 3 needs both, and Layer 4 needs
-Layers 1 to 3.
+Layer 1 follows Layer 0. The complete Layer 2 output uses Layer 1
+for the isotropic norm-form splitting argument; its elementary algebra formulas can be
+built earlier as a separate prefix. Layer 3 needs the stated earlier outputs, and Layer 4
+needs Layers 1 to 3.
 
-Layer 5 is the first layer that rests on another roadmap's code. It needs the
-semisimple-algebras roadmap's Layer 4 and Layer 6, because `BrauerGroup K` is a quotient
-and not a group without them. It also needs the quaternion central-simplicity theorem,
-which is proved here.
+Layer 5 consumes the native tensor-product Brauer group and quaternion central-simplicity
+API. The general central-simple and splitting programme remains with the
+semisimple-algebras owner; the comparisons below select its needed outputs individually.
+No arbitrary group structure on the Brauer quotient is used. The Hasse and Clifford
+class constructors are native; the tuple, discriminant and low-rank dictionaries here
+consume their actual definitions.
 
-Layer 6 has this internal order: 6A, then 6B, then 6C, then 6D, then 6E. Sublayer 6A
-consumes the local-fields-ramification roadmap, and 6B to 6D depend on Layers 0 to 3 and on nothing
-else outside this roadmap. Sublayer 6E has two milestones with different prerequisites:
+Layer 6 first consumes6A. The native classical6C index/symbol route can then
+feed6D; it uses the actual quadratic-field square-class/norm-subgroup identity, not
+the direct6B tables. The alternative cyclic-index route includes its earlier native
+local-cohomology supplier explicitly. The complete6B defect/integral-basis and explicit
+evaluation programme remains required and precedes the6C table outputs. Thus general
+classification does not depend on an unproved integral-coordinate reduction. Sublayer 6E has two milestones with different prerequisites:
 the first depends on Layer 5 and on 6D, and the second additionally on Layer 7B and on
 Class Field Theory's invariant normalization, so it is built after Layer 7B. Layer 6C's
 comparison milestone likewise comes after Layer 7C, because the identification of the
@@ -3051,7 +3322,7 @@ together with Layer 5; the relative-formula half needs Layers 7C and 8, the supp
 transfer along `L/K`, which Layer 7A consumes, and the supplier's `D₁₆` pullback formula.
 
 Every statement of a layer uses only earlier layers, Mathlib, landed Tau Ceti files, and
-the three roadmaps of the contract table. The two exceptions to the numbering, both named
+the individually selected supplier contracts in the contract table. The two exceptions to the numbering, both named
 above, are 6C's duality milestone and 6E's second milestone; each is stated where its
 subject matter belongs and built where its prerequisites are ready.
 
@@ -3117,7 +3388,7 @@ subject matter belongs and built where its prerequisites are ready.
   quadratic extensions. This roadmap owns the form theory of one quadratic step. The
   shared language is `TauCeti.SquareClassGroup`.
 - The [local-fields-ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the general arithmetic of a
+  roadmap](../../Completed/LocalFieldsRamification/README.md) owns the general arithmetic of a
   nonarchimedean local field. Sublayer 6A consumes it through the exact contract above:
   the normalized valuation, the unit filtration and its graded pieces, the Teichmüller
   section, the ramification and residue degrees, the power-class counts, the unramified

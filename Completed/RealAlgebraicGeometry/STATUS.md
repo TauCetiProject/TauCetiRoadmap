@@ -1,0 +1,35 @@
+<!--tauceti-status:v1 {"roadmap":"RealAlgebraicGeometry","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4","ts":"2026-10-25T09:09:58Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","state":"done"},{"id":"Layer 8","state":"done"}],"readme_sha":"90042ab5929cc7307e694c618e30bb9ee0d4d4e79b5e3c9c7bb1cc88f9567e24","roadmap":"RealAlgebraicGeometry","to_sha":"d96e9ceca01f4548b817649c5ae95e33c6fc3ae4"}-->
+# Status: RealAlgebraicGeometry
+
+This file documents the status of the RealAlgebraicGeometry roadmap up until `d96e9ce` (2026-10-25T09:09:58Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** All eight layers are done. Over `ℝ` the roadmap has the full Collins route to CAD and unconditional quantifier elimination. It also has McCallum's order-invariant projection under well-orientedness, and Lazard's valuation-invariant projection, which needs no such hypothesis.
+
+### Named results
+
+- **Validity of Lazard's projection**: every finite family of real polynomials in `n` variables has a CAD of `ℝⁿ` into analytic submanifolds on whose cells each member has constant Lazard valuation and constant sign. There is no well-orientedness hypothesis, and nullification over positive-dimensional cells is allowed: [`exists_isCAD_lazardValuationReindex_eq`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/Lazard/Existence.html#TauCeti.exists_isCAD_lazardValuationReindex_eq). The valuation is read with the coordinates in reverse, from the first one added to the last.
+- **Correctness of McCallum's projection**: a well-oriented family has a CAD into analytic submanifolds on which every member has constant order of vanishing: [`exists_isCAD_orderAt_eq_of_isMcCallumWellOriented`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/McCallum/Basic.html#TauCeti.exists_isCAD_orderAt_eq_of_isMcCallumWellOriented). In the [sign-invariant variant](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/McCallum/Existence.html#TauCeti.exists_isCAD_signInvariant_of_isMcCallumWellOriented_projection), well-orientedness is needed only below the top level.
+- **Existence of adapted CADs**: every finite family of real polynomials has a sign-invariant cylindrical algebraic decomposition, proved through Collins delineability: [`exists_isCAD_signInvariant`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/Existence.html#TauCeti.exists_isCAD_signInvariant).
+- **The Tarski–Seidenberg theorem**: projections of semialgebraic sets are semialgebraic. This is an [instance over `ℝ`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/Existence.html#TauCeti.instHasSemialgebraicProjectionsReal), so [quantifier elimination](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Semialgebraic/QuantifierElimination.html#TauCeti.exists_isQF_realize_iff) holds unconditionally there. Semialgebraic sets are also exactly the sets [definable in the field language](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Semialgebraic/RingLanguage.html#TauCeti.isSemialgebraic_iff_definable_ring_real), with no order symbol.
+- **The local discriminant theorem**: a polynomial of constant degree over a connected analytic submanifold, nowhere nullified there and with discriminant of constant order, is analytically delineable: [`exists_analytic_delineation_of_orderAt_discr_eq`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Stack/Discriminant/Global.html#TauCeti.exists_analytic_delineation_of_orderAt_discr_eq).
+
+### Notable definitions and infrastructure
+
+- **Squarefree bases.** [`IsSquarefreeBasis`](https://taucetiproject.org/docs/TauCeti/RingTheory/Polynomial/SquarefreeBasis.html#Finset.IsSquarefreeBasis) gives primitive, squarefree, pairwise coprime factors that reconstruct each input up to a constant. McCallum's projection, lifting and [well-orientedness](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/McCallum/Basic.html#TauCeti.IsMcCallumWellOriented) are now stated for such a basis, as the README specifies. Two counterexamples show the hypotheses are needed: lifting fails [over positive-dimensional nullifying cells](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/McCallum/Basic.html#TauCeti.exists_nullified_mcCallumProjection_orderAt_ne), and it fails when the projection is only [sign-invariant](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Projection/McCallum/SignInvariant.html#TauCeti.exists_signInvariant_mcCallumProjection_stackCells_not_signInvariant) rather than order-invariant.
+- **Lazard lifting.** A family has a Lazard delineation over a connected analytic submanifold on which its Lazard projection is [valuation-invariant](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Projection/Lazard/Lifting.html#TauCeti.nonempty_lazardDelineation_of_lazardProjection). Its [reordered-base CAD form](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/CAD/Lazard/Basic.html#TauCeti.IsCAD.exists_isCAD_lazardValuation_eq_of_lazardDelineation_reindex) is the inductive step of the Lazard recursion.
+- **Integer projection.** [`integerProjection`](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Projection/Integer.html#Finset.integerProjection) computes the Collins projection over `ℤ`, and its image in `ℝ` is [the real projection](https://taucetiproject.org/docs/TauCeti/Geometry/RealAlgebraic/Projection/Integer.html#Finset.image_map_integerProjection).
+
+### Roadmap coverage
+
+Layers 1–6 are done: real closures, Sturm–Tarski with the Cauchy index, Thom encodings, subresultants, BKR sign determination, root continuity and common matching, Collins delineability, CAD existence and quantifier elimination over `ℝ`. Layer 7 is done. The earlier caveat that McCallum's family theorem was stated only for an irreducible basis is resolved, because it now takes the squarefree, pairwise coprime basis the README asks for. Layer 8 is done: valuations, evaluators, the Lazard projection, the lifting theorems and the nullified example were already in, and CAD existence by recursive Lazard projection has now landed, with sign-invariance and the transfer from basis to family.
+
+## The frontier
+
+- **No README milestone remains open.** Every layer's targets are proved in the library. By the README's own scope choice, the topological and CAD results stay over `ℝ` rather than an arbitrary real closed field.
+- **Lazard's theorem in the native coordinate order**: optional. The validity theorem reads the Lazard valuation with the coordinates reversed. This matches how Lazard evaluation treats them during the recursion, and since Lazard valuation is not invariant under permuting coordinates, the order is part of the statement.
