@@ -10,6 +10,19 @@ import TauCeti.LinearAlgebra.CliffordAlgebra.StandardBivector
 import TauCeti.LinearAlgebra.CliffordAlgebra.Quadratic.Lie.LeftRegular
 import TauCeti.Algebra.Lie.GeneralLinear.Fock
 import TauCeti.LinearAlgebra.CliffordAlgebra.BottPeriodicity
+import TauCeti.LinearAlgebra.CliffordAlgebra.Dimension
+import TauCeti.LinearAlgebra.CliffordAlgebra.Vectors
+import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.DoubleCover
+import TauCeti.RepresentationTheory.Spin.Dimension
+import TauCeti.RepresentationTheory.Spin.Polarization.TypeD.HighestWeight
+import TauCeti.RepresentationTheory.Spin.Exceptional.Three.Group
+import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.LowRank.Six
+import TauCeti.LinearAlgebra.CliffordAlgebra.EightPeriodicity
+import TauCeti.LinearAlgebra.CliffordAlgebra.Spin.Real.Basic
+import TauCeti.Algebra.Lie.GeneralLinear.CAR.Decomposition
+import TauCeti.Algebra.Lie.D4.Tripled.Triality
+import TauCeti.Algebra.Lie.HighestWeight.Verma
+import TauCeti.LinearAlgebra.RootSystem.Weyl.Vector
 
 /-!
 # Clifford algebras, the Pin and Spin groups, and spin representations: target signatures
@@ -43,26 +56,103 @@ interfaces (`TauCeti.QuadraticMap.orthogonalGroup`, `CliffordAlgebra.ιRangeEqui
 surjectivity/kernel specializations), the Lie algebra `⋀²V`
 (`soEquivBivector`), the spin modules (`TauCeti.spinAction`, `TauCeti.spinRep`, `TauCeti.spinPlus`), the low-dimensional
 isomorphisms (`spin3_equiv_sl2`, `spin6_equiv_sl4`), the real forms and Bott periodicity
-(`realCliffordForm`, `cliff_bott`, `spinPQ`), triality (`trialityAut`), and Lie
+(`realCliffordForm`, `cliff_bott`, `spinPQ`), triality (`exists_trialityAut`), and Lie
 algebras acting through the Clifford algebra and Kostant's isotypy corollary (`cliffordBivector`,
 `soEquivQuadratic`, `cliffordInducedRep`, `adjointSO`, `kostant_isotypic`, `kostant_multiplicity`,
 and the CAR worked instance `traceQuadraticForm`, `glCliffordHom`, `car_isotypic`,
 `car_simple_highestWeight`). `README.md` remains the definitive document.
 -/
 
+/-! Exact native interfaces consumed by the inventory and full layers. These checks expose
+the actual hypotheses; they are not an imported-proof-closure or whole-roadmap acceptance. -/
+#check CliffordAlgebra.filtration
+#check CliffordAlgebra.filtration_mul
+#check CliffordAlgebra.filtrationGradedEquiv
+#check CliffordAlgebra.associatedGradedEquivExterior
+#check CliffordAlgebra.finrank_eq_two_pow
+#check TauCeti.ExteriorAlgebra.finrank_eq_two_pow
+#check CliffordAlgebra.ι_injective
+#check CliffordAlgebra.ιRangeEquiv
+#check TauCeti.QuadraticMap.orthogonalGroup
+#check TauCeti.QuadraticMap.specialOrthogonalGroup
+#check CliffordAlgebra.pinToOrthogonal
+#check CliffordAlgebra.spinToSpecialOrthogonal
+#check CliffordAlgebra.spinToSpecialOrthogonal_surjective
+#check CliffordAlgebra.card_ker_spinToSpecialOrthogonal
+#check CliffordAlgebra.spinDoubleCover
+#check CliffordAlgebra.ker_spinToSpecialOrthogonal_eq_bot_of_subsingleton
+#check CliffordAlgebra.spinToSpecialOrthogonal_bijective_of_subsingleton
+#check CliffordAlgebra.instSubsingletonSpinGroup
+#check CliffordAlgebra.lipschitzGroup_eq_bot
+#check CliffordAlgebra.bivector
+#check CliffordAlgebra.bivector_lie_ι
+#check CliffordAlgebra.bivectorLieRing
+#check CliffordAlgebra.bivectorLieAlgebra
+#check CliffordAlgebra.bivectorEquivSo
+#check CliffordAlgebra.bivectorEquivSo_apply_ιMulti_mulVec
+#check TauCeti.SpinPolarizationData
+#check TauCeti.SpinPolarizationData.ofNondegenerate
+#check TauCeti.SpinPolarizationData.finrank_W_eq_of_finrank_eq_two_mul
+#check TauCeti.SpinPolarizationData.finrank_W_eq_of_finrank_eq_two_mul_add_one
+#check TauCeti.spinAction
+#check TauCeti.spinRep
+#check TauCeti.pinRep
+#check TauCeti.spinPlus
+#check TauCeti.spinMinus
+#check TauCeti.spinPlus_invariant
+#check TauCeti.spinMinus_invariant
+#check TauCeti.spinPlusSubrep
+#check TauCeti.spinMinusSubrep
+#check TauCeti.spinRep_isIrreducible_of_odd
+#check CliffordAlgebra.span_spinGroup_eq_even
+#check CliffordAlgebra.span_spinGroup_eq_even_of_isSquare
+#check CliffordAlgebra.nonempty_algEquiv_matrix_of_finrank_eq_two_mul
+#check CliffordAlgebra.nonempty_algEquiv_matrix_prod_of_finrank_eq_two_mul_add_one
+#check CliffordAlgebra.nonempty_algEquiv_even_matrix_of_finrank_eq_two_mul_add_one
+#check TauCeti.SpinPolarizationData.evenCliffordEquivProdEnd
+#check TauCeti.finrank_spinPlus
+#check TauCeti.finrank_spinMinus
+#check TauCeti.SpinPolarizationData.isHighestWeightVector_typeDSpinPlusLieRep_exteriorBasis_univ_of_even
+#check TauCeti.SpinPolarizationData.isHighestWeightVector_typeDSpinMinusLieRep_exteriorBasis_univ_of_odd
+#check TauCeti.SpinPolarizationData.isHighestWeightVector_typeDSpinPlusLieRep_exteriorBasis_univ_erase_last_of_odd
+#check TauCeti.SpinPolarizationData.isHighestWeightVector_typeDSpinMinusLieRep_exteriorBasis_univ_erase_last_of_even
+#check TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_of_finrank_eq_three
+#check CliffordAlgebra.range_spinGroup_toUnits_ne_evenUnitaryGroup_of_six_le_finrank
+#check TauCeti.realCliffordBottEquiv
+#check TauCeti.nonempty_realCliffordEightPeriodicityEquiv
+#check CliffordAlgebra.realCliffordSpinGroup
+#check CliffordAlgebra.soEquivQuadratic
+#check CliffordAlgebra.soEquivQuadratic_lie_ι
+#check CliffordAlgebra.quadraticLieSubalgebra
+#check CliffordAlgebra.cliffordInducedRep
+#check CliffordAlgebra.cliffordInducedRep_apply
+#check CliffordAlgebra.cliffordDerivationRep
+#check TauCeti.LieAlgebra.adjointSO
+#check TauCeti.LieAlgebra.adjointSO_apply
+#check TauCeti.LieAlgebra.killingQuadraticForm
+#check TauCeti.LieAlgebra.killingQuadraticForm_apply
+#check CliffordAlgebra.adjointCliffordHom
+#check CliffordAlgebra.adjointCliffordHom_lie_ι
+#check CliffordAlgebra.kostantLieRingModule
+#check CliffordAlgebra.kostantLieModule
+#check CliffordAlgebra.kostant_lie_def
+#check TauCeti.traceQuadraticForm
+#check TauCeti.traceQuadraticForm_apply
+#check TauCeti.polarBilin_traceQuadraticForm
+#check TauCeti.glCliffordHom
+#check TauCeti.glCliffordHom_single
+#check TauCeti.glCliffordHom_lie_ι
+#check TauCeti.glCliffordHom_normalOrdering
+#check TauCeti.carLieRingModule
+#check TauCeti.carLieModule
+#check TauCeti.car_lie_def
+#check TauCeti.exists_isGlHighestWeightVector_glHalfStaircase_car
+#check TauCeti.isIsotypicOfType_glIrreducible_car
+#check TauCeti.nonempty_lieModuleEquiv_directSum_glIrreducible_car
+#check TauCeti.finrank_glIrreducible_glHalfStaircase
+
 namespace TauCetiRoadmap.RepresentationTheory.SpinRepresentations
 
-/-- The full normalized real Clifford cover, with concrete membership. Native `pinGroup`
-retains only norm +1. Group closure is a Layer7 target; the indefinite orthogonal covering
-and topology statements require the finite-dimensional nondegenerate hypotheses in README. -/
-def normalizedRealCliffordCover {M : Type*} [AddCommGroup M] [Module ℝ M]
-    (Q : QuadraticForm ℝ M) : Subgroup (CliffordAlgebra Q)ˣ where
-  carrier := {x | x ∈ lipschitzGroup Q ∧
-    ((x : CliffordAlgebra Q) * star (x : CliffordAlgebra Q) = 1 ∨
-     (x : CliffordAlgebra Q) * star (x : CliffordAlgebra Q) = -1)}
-  one_mem' := by simp
-  mul_mem' := by sorry
-  inv_mem' := by sorry
 
 
 open CliffordAlgebra
@@ -250,8 +340,8 @@ the differential of the actual group representation is compared with it in a sep
 not used to construct the highest-weight theorem. -/
 
 /-- The half-spin representation of `𝔰𝔬(2l)` has dimension `2^{l-1}`. The intended domain is
-`1 ≤ l`, carried explicitly: at `l = 0` the truncated subtraction would make the statement
-coincidentally true but meaningless (there is no half-spin split of a point). -/
+`1 ≤ l`, carried explicitly. At `l=0`, exterior parity still gives `S⁺=ℂ` and `S⁻=0`;
+the equal positive-half-spin dimension formula is not asserted for both parts. -/
 theorem finrank_spinPlus {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (Q : QuadraticForm ℂ V) (P : TauCeti.SpinPolarizationData Q) (l : ℕ) (hl : 1 ≤ l)
     (hW : Module.finrank ℂ P.W = l) :
@@ -275,7 +365,8 @@ includes evenness, the native norm/`star` condition and preservation of the vect
 refinements are owned separately in README's concrete Spin comparison branches. -/
 theorem spin3_equiv_sl2 {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 3) :
-    Nonempty (spinGroup Q ≃* Matrix.SpecialLinearGroup (Fin 2) ℂ) := sorry
+    Nonempty (spinGroup Q ≃* Matrix.SpecialLinearGroup (Fin 2) ℂ) := by
+  exact TauCeti.nonempty_spinGroup_mulEquiv_specialLinearGroup_of_finrank_eq_three hQ hV
 
 /-- **`Spin₆ ≅ SL₄`** (type `D₃ = A₃`); `S⁺ ≅ ℂ⁴` is standard and `S⁻ ≅ (ℂ⁴)*` is its dual
 under the chosen group isomorphism. The even Clifford algebra is
@@ -317,27 +408,33 @@ abbrev spinPQ (p q : ℕ) := spinGroup (TauCeti.realCliffordForm p q)
 
 /-! ### Triality for `Spin₈` -/
 
-/-- **Triality**: an order-three automorphism of `Spin₈` (`V = ℂ⁸`, type `D₄`) whose action on
-representations has the oriented pullback cycle V∘t≅S⁺, S⁺∘t≅S⁻, S⁻∘t≅V. Here S⁺ and S⁻
-are the native half-spin subrepresentations (each8-dimensional), not the16-dimensional full
-`TauCeti.spinRep Q P`; l=4 assigns weights ω₄ and ω₃ respectively. Stage one
-(cheaper) is representation-level: the order-three symmetry of the `D₄` Dynkin diagram from
-[`../RootSystems`](../RootSystems/README.md) permutes the three highest weights. Stage two, this group
-automorphism, lifts that diagram symmetry to the simply connected group and depends on an
-integration/classification theorem for simply connected semisimple groups. -/
-noncomputable def trialityAut {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
-    (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8) :
-    spinGroup Q ≃* spinGroup Q := sorry
-
-/-- **Triality has exact order three.** The nontriviality conjunct excludes the identity.
-The full oriented representation cycle is specified in the `trialityAut` docstring above
-and README Layer8 Stage2. That comparison and outerness are separate required targets:
-permuting the three nonisomorphic representations rules out an inner automorphism. -/
-theorem trialityAut_order_three {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
-    (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8) :
-    (trialityAut Q hQ hV).trans ((trialityAut Q hQ hV).trans (trialityAut Q hQ hV))
-      = MulEquiv.refl (spinGroup Q) ∧
-    trialityAut Q hQ hV ≠ MulEquiv.refl (spinGroup Q) := sorry
+/-- **Triality for `Spin₈`, compared with the native tripled carrier.** For a nondegenerate
+eight-dimensional complex quadratic space with an even polarization `P` (`P.line = ⊥`), there is an
+automorphism `t` of the native `spinGroup Q` with `t³ = 1` that is not inner, whose pullbacks cycle
+the vector representation (through `spinToSpecialOrthogonal`) and the two native half-spin
+subrepresentations as `V ∘ t ≅ S⁺`, `S⁺ ∘ t ≅ S⁻`, `S⁻ ∘ t ≅ V`, and which corresponds to the
+native triality `TauCeti.D4Tripled.trialityPoints ℂ` of the tripled type-`D₄` carrier under a group
+isomorphism `TauCeti.D4Tripled.points ℂ ≃* spinGroup Q`. README Layer 8 pins that isomorphism on
+the numbered root subgroups and the weight torus, and fixes the orientation by the inverse torus
+relabelling; reversing the diagram cycle replaces `t` by `t⁻¹` and reverses every pullback. -/
+theorem exists_trialityAut {V : Type v} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
+    (Q : QuadraticForm ℂ V) (hQ : Q.Nondegenerate) (hV : Module.finrank ℂ V = 8)
+    (P : TauCeti.SpinPolarizationData Q) (hline : P.line = ⊥) :
+    ∃ t : spinGroup Q ≃* spinGroup Q,
+      (∀ x, t (t (t x)) = x) ∧
+      (¬ ∃ g : spinGroup Q, ∀ x, t x = g * x * g⁻¹) ∧
+      (∃ K : (TauCeti.spinPlusSubrep P hline).toSubmodule ≃ₗ[ℂ] V, ∀ s v,
+        (spinToSpecialOrthogonal Q (t s) : V ≃ₗ[ℂ] V) (K v) =
+          K ((TauCeti.spinPlusSubrep P hline).toRepresentation s v)) ∧
+      (∃ K : (TauCeti.spinMinusSubrep P hline).toSubmodule ≃ₗ[ℂ]
+          (TauCeti.spinPlusSubrep P hline).toSubmodule, ∀ s v,
+        (TauCeti.spinPlusSubrep P hline).toRepresentation (t s) (K v) =
+          K ((TauCeti.spinMinusSubrep P hline).toRepresentation s v)) ∧
+      (∃ K : V ≃ₗ[ℂ] (TauCeti.spinMinusSubrep P hline).toSubmodule, ∀ s v,
+        (TauCeti.spinMinusSubrep P hline).toRepresentation (t s) (K v) =
+          K ((spinToSpecialOrthogonal Q s : V ≃ₗ[ℂ] V) v)) ∧
+      ∃ Ψ : TauCeti.D4Tripled.points ℂ ≃* spinGroup Q, ∀ g,
+        t (Ψ g) = Ψ (TauCeti.D4Tripled.trialityPoints ℂ g) := sorry
 
 -- The `Spin₈`-invariant trilinear form `V ⊗ S⁺ ⊗ S⁻ → ℂ` permuted by triality (the octonion
 -- multiplication as the triality form) is the concrete outcome; see the triality section of `README.md`.
@@ -351,14 +448,16 @@ invariant nondegenerate symmetric form, and Kostant's isotypy corollary. **Two d
 `x • c = ⁅q(x), c⁆` (`cliffordDerivationRep`) is the exterior extension of the adjoint
 representation and is **not** isotypic (`⋀𝔰𝔩₂ ≅ 1 ⊕ V(2) ⊕ V(2) ⊕ 1`), while the **left-regular**
 action `x • c = q(x) · c` is `L(ρ)`-isotypic; every isotypy and multiplicity statement below is
-about the left-regular module. Isotypicity is stated in Mathlib's `LieModule` vocabulary (the name
-`L(ρ)` lives in `../LieHighestWeight` and is not imported, so it is prose here); the highest weight
-itself is pinned only in the `gl_N` worked instance, where the Cartan and Borel are concrete. The
+about the left-regular module. The simple constituent is the native `L(ρ)`, `TauCeti.irreducibleQuotient b ρ` with
+`ρ = TauCeti.weylVector (LieAlgebra.IsKilling.rootSystem H) b`, for a Cartan subalgebra `H` and a
+base `b`; in the `gl_N` worked instance the reductive highest weight is pinned on the concrete
+Cartan and Borel. The
 carrier is the Clifford algebra itself; `CliffordAlgebra.equivExterior` and
 `finrank_cliffordAlgebra` identify it with `⋀𝔤` of dimension `2^d`. Kostant's full
-`ρ`-decomposition `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` (with the primitive subspace `P`) is the stronger
-bibliographical source of the isotypy/multiplicity and spin-module-variant targets specified here;
-this file does not assert that full primitive-subspace decomposition as an additional target.
+`ρ`-decomposition `C(𝔤) ≅ End(V_ρ) ⊗ C(P)` is also a required construction target.
+README Layer9 specifies E,I,P, normalized Chevalley quantization, the scalar-square form Q_P,
+the image A, its ordinary commutant B and the corrected odd-rank center comparison.
+No full primitive theorem is inferred from these corollaries or from the native CAR example.
 Independent of the exceptional isomorphisms, the real forms, and triality. -/
 
 /-- **The quadratic element of a pair of vectors**: `⅟2 • ⁅ι Q a, ι Q b⁆` in `CliffordAlgebra Q`
@@ -528,29 +627,34 @@ theorem kostant_lie_def (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimen
   exact CliffordAlgebra.kostant_lie_def (K := ℂ) (L := L) x c
 
 /-- **Kostant's isotypy corollary** (B. Kostant, Adv. Math. 125 (1997)): for Killing-semisimple
-`𝔤` over `ℂ`, any two simple submodules of the left-regular `Cliff(𝔤, κ)` are isomorphic.
-Nonvacuous because the carrier is finite-dimensional (`finrank_cliffordAlgebra`), so simple
-submodules exist. In the vocabulary of `../LieHighestWeight` the common simple constituent is
-`L(ρ)`, the irreducible of highest weight the half-sum of positive roots; that name is prose here,
-and this statement carries the content without it. -/
+`𝔤` over `ℂ`, a Cartan subalgebra `H` and a base `b` of its root system, every simple submodule
+of the left-regular `Cliff(𝔤, κ)` is isomorphic to `L(ρ)`, the native irreducible quotient
+`TauCeti.irreducibleQuotient b ρ` of the Verma module of highest weight the Weyl vector
+`ρ = TauCeti.weylVector (LieAlgebra.IsKilling.rootSystem H) b`. Nonvacuous because the carrier is
+finite-dimensional (`finrank_cliffordAlgebra`), so simple submodules exist. -/
 theorem kostant_isotypic (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimensional ℂ L]
-    [LieAlgebra.IsKilling ℂ L]
-    (S₁ S₂ : LieSubmodule ℂ L (CliffordAlgebra (killingQuadraticForm L)))
-    (h₁ : LieModule.IsIrreducible ℂ L S₁) (h₂ : LieModule.IsIrreducible ℂ L S₂) :
-    Nonempty (S₁ ≃ₗ⁅ℂ,L⁆ S₂) := sorry
+    [LieAlgebra.IsKilling ℂ L] (H : LieSubalgebra ℂ L) [H.IsCartanSubalgebra]
+    (b : (LieAlgebra.IsKilling.rootSystem H).Base)
+    (S : LieSubmodule ℂ L (CliffordAlgebra (killingQuadraticForm L)))
+    (hS : LieModule.IsIrreducible ℂ L S) :
+    Nonempty (S ≃ₗ⁅ℂ,L⁆ TauCeti.irreducibleQuotient b
+      (TauCeti.weylVector (LieAlgebra.IsKilling.rootSystem H) b)) := sorry
 
 /-- **The multiplicity, as a pinned decomposition equivalence** (the summit of the layer):
-`Cliff(𝔤, κ)` is a direct sum of `2^{(d+l)/2}` copies of one simple of dimension `2^{(d-l)/2}`,
-`d = dim 𝔤`, `l = rank 𝔤`. The divisions are exact by `finrank_eq_rank_add_two_mul_card_isPos`,
-and the bookkeeping check against `finrank_cliffordAlgebra` is `2^{(d-l)/2} · 2^{(d+l)/2} = 2^d =
-dim Cliff(𝔤, κ)`. -/
+`Cliff(𝔤, κ)` is a direct sum of `2^{(d+l)/2}` copies of `L(ρ)`, and `L(ρ)` has dimension
+`2^{(d-l)/2}`, `d = dim 𝔤`, `l = rank 𝔤`. The divisions are exact by
+`finrank_eq_rank_add_two_mul_card_isPos`, and the bookkeeping check against
+`finrank_cliffordAlgebra` is `2^{(d-l)/2} · 2^{(d+l)/2} = 2^d = dim Cliff(𝔤, κ)`. -/
 theorem kostant_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L] [FiniteDimensional ℂ L]
-    [LieAlgebra.IsKilling ℂ L] :
-    ∃ S : LieSubmodule ℂ L (CliffordAlgebra (killingQuadraticForm L)),
-      LieModule.IsIrreducible ℂ L S ∧
-      Module.finrank ℂ S = 2 ^ ((Module.finrank ℂ L - LieAlgebra.rank ℂ L) / 2) ∧
-      Nonempty ((CliffordAlgebra (killingQuadraticForm L)) ≃ₗ⁅ℂ,L⁆
-        ⨁ _ : Fin (2 ^ ((Module.finrank ℂ L + LieAlgebra.rank ℂ L) / 2)), S) := sorry
+    [LieAlgebra.IsKilling ℂ L] (H : LieSubalgebra ℂ L) [H.IsCartanSubalgebra]
+    (b : (LieAlgebra.IsKilling.rootSystem H).Base) :
+    Module.finrank ℂ (TauCeti.irreducibleQuotient b
+        (TauCeti.weylVector (LieAlgebra.IsKilling.rootSystem H) b)) =
+      2 ^ ((Module.finrank ℂ L - LieAlgebra.rank ℂ L) / 2) ∧
+    Nonempty ((CliffordAlgebra (killingQuadraticForm L)) ≃ₗ⁅ℂ,L⁆
+      ⨁ _ : Fin (2 ^ ((Module.finrank ℂ L + LieAlgebra.rank ℂ L) / 2)),
+        TauCeti.irreducibleQuotient b
+          (TauCeti.weylVector (LieAlgebra.IsKilling.rootSystem H) b)) := sorry
 
 /-- **The spin-module variant**: the **full spinor module** `⋀·W` of `Cliff(𝔤, κ)` (the spin module; in
 positive even dimension this is `S⁺ ⊕ S⁻`, with each half-spin summand half the dimension;
@@ -562,20 +666,21 @@ noncomputable def kostantSpinRep (L : Type u) [LieRing L] [LieAlgebra ℂ L]
     L →ₗ⁅ℂ⁆ Module.End ℂ (ExteriorAlgebra ℂ P.W) :=
   ((TauCeti.spinAction (killingQuadraticForm L) P).toLieHom).comp (adjointCliffordHom L)
 
-/-- The full spinor module is isotypic over `𝔤` with multiplicity `2^{⌊l/2⌋}`: a minimal invariant
-subspace of dimension `2^{(d-l)/2}` whose dimension divides the whole with quotient `2^{⌊l/2⌋}`.
-Stated with plain `Submodule` invariance because the module structure depends on the polarization
-data `P`, which an instance cannot carry. -/
+/-- **Kostant's spin-module multiplicity**: the full spinor module `⋀·W`, with `𝔤` acting through
+`kostantSpinRep`, is `L(ρ)`-isotypic with multiplicity `2^{⌊l/2⌋}`: a linear equivalence with a
+direct sum of `2^{⌊l/2⌋}` copies of the native `TauCeti.irreducibleQuotient b ρ` intertwines
+`kostantSpinRep` with the Lie action on the direct sum. It is stated through an explicit
+intertwining equivalence because the `𝔤`-action depends on the polarization data `P`, which an
+instance cannot carry. -/
 theorem kostantSpinRep_multiplicity (L : Type u) [LieRing L] [LieAlgebra ℂ L]
-    [FiniteDimensional ℂ L] [LieAlgebra.IsKilling ℂ L]
+    [FiniteDimensional ℂ L] [LieAlgebra.IsKilling ℂ L] (H : LieSubalgebra ℂ L)
+    [H.IsCartanSubalgebra] (b : (LieAlgebra.IsKilling.rootSystem H).Base)
     (P : TauCeti.SpinPolarizationData (killingQuadraticForm L)) :
-    ∃ S₀ : Submodule ℂ (ExteriorAlgebra ℂ P.W),
-      (∀ x : L, S₀.map (kostantSpinRep L P x) ≤ S₀) ∧ S₀ ≠ ⊥ ∧
-      (∀ N' : Submodule ℂ (ExteriorAlgebra ℂ P.W), N' < S₀ →
-        (∀ x : L, N'.map (kostantSpinRep L P x) ≤ N') → N' = ⊥) ∧
-      Module.finrank ℂ S₀ = 2 ^ ((Module.finrank ℂ L - LieAlgebra.rank ℂ L) / 2) ∧
-      Module.finrank ℂ (ExteriorAlgebra ℂ P.W)
-        = 2 ^ (LieAlgebra.rank ℂ L / 2) * Module.finrank ℂ S₀ := sorry
+    ∃ e : ExteriorAlgebra ℂ P.W ≃ₗ[ℂ]
+        ⨁ _ : Fin (2 ^ (LieAlgebra.rank ℂ L / 2)),
+          TauCeti.irreducibleQuotient b
+            (TauCeti.weylVector (LieAlgebra.IsKilling.rootSystem H) b),
+      ∀ (x : L) (w : ExteriorAlgebra ℂ P.W), e (kostantSpinRep L P x w) = ⁅x, e w⁆ := sorry
 
 /-! #### The worked instance: `gl_N` on `M_N(ℂ)` (the CAR algebra)
 
@@ -683,40 +788,62 @@ theorem car_lie_def (N : ℕ) (X : Matrix (Fin N) (Fin N) ℂ)
     ⁅X, c⁆ = glCliffordHom N X * c := by
   exact TauCeti.car_lie_def (K := ℂ) (n := Fin N) X c
 
-/-- **The CAR module is isotypic**: any two simple submodules of the left-regular `Cliff(M_N)` are
-isomorphic, the `gl_N` case of Kostant's corollary for a reductive Lie algebra with the trace form
-(Panyushev, Prop. 2.4, Ex. 2.5(1)). The name `L(ν)` is prose (`../LieHighestWeight`). -/
-theorem car_isotypic (N : ℕ)
-    (S₁ S₂ : LieSubmodule ℂ (Matrix (Fin N) (Fin N) ℂ)
-      (CliffordAlgebra (traceQuadraticForm N)))
-    (h₁ : LieModule.IsIrreducible ℂ (Matrix (Fin N) (Fin N) ℂ) S₁)
-    (h₂ : LieModule.IsIrreducible ℂ (Matrix (Fin N) (Fin N) ℂ) S₂) :
-    Nonempty (S₁ ≃ₗ⁅ℂ, Matrix (Fin N) (Fin N) ℂ⁆ S₂) := sorry
-
-/-- **The CAR multiplicity, as a pinned decomposition equivalence**: `2^{N(N+1)/2}` copies of one
-simple of dimension `2^{N(N-1)/2}` (so `2^{N²}` in total, the general `d = N²`, `l = N`
-bookkeeping). -/
-theorem car_multiplicity (N : ℕ) :
-    ∃ S : LieSubmodule ℂ (Matrix (Fin N) (Fin N) ℂ) (CliffordAlgebra (traceQuadraticForm N)),
-      LieModule.IsIrreducible ℂ (Matrix (Fin N) (Fin N) ℂ) S ∧
-      Module.finrank ℂ S = 2 ^ (N * (N - 1) / 2) ∧
-      Nonempty ((CliffordAlgebra (traceQuadraticForm N))
-        ≃ₗ⁅ℂ, Matrix (Fin N) (Fin N) ℂ⁆ ⨁ _ : Fin (2 ^ (N * (N + 1) / 2)), S) := sorry
-
-/-- **The highest weight `ν = (N - 1/2, …, 1/2)`, pinned locally** (the
-Cartan and Borel of `gl_N` are concrete, so the statement uses `Matrix.single` and no
-`../LieHighestWeight` vocabulary): every simple submodule contains a nonzero vector killed by the
-strictly upper-triangular `E_ij` with `E_ii`-eigenvalue `N - i - 1/2` (zero-based `i`). The
-half-integral entries are the normal-ordering constant (`glCliffordHom_normalOrdering`); the
-integer consecutive differences are what make `ν` dominant for `gl_N`. -/
-theorem car_simple_highestWeight (N : ℕ)
-    (S : LieSubmodule ℂ (Matrix (Fin N) (Fin N) ℂ) (CliffordAlgebra (traceQuadraticForm N)))
-    (hS : LieModule.IsIrreducible ℂ (Matrix (Fin N) (Fin N) ℂ) S) :
-    ∃ s ∈ S, s ≠ 0 ∧
-      (∀ i j : Fin N, i < j →
-        ⁅(Matrix.single i j 1 : Matrix (Fin N) (Fin N) ℂ), s⁆ = 0) ∧
-      ∀ i : Fin N,
-        ⁅(Matrix.single i i 1 : Matrix (Fin N) (Fin N) ℂ), s⁆
-          = (((N : ℂ) - ((i : ℕ) : ℂ)) - 1 / 2) • s := sorry
-
+/-! The old three admitted CAR corollaries are consumed through their actual native endpoints.
+The README retains the full concrete submodule/matrix-unit statements and their comparison:
+named-type isotypy identifies any two simple submodules, a coordinate summand in the native
+decomposition produces the old existential simple submodule, and unfolding the actual
+highest-vector/half-staircase definitions gives the old matrix-unit equations, including N=0.
+These are comparisons on the same left-regular carrier, not three missing generic CAR theorems. -/
 end TauCetiRoadmap.RepresentationTheory.SpinRepresentations
+
+/-! Zero-rank Clifford and exterior algebra interfaces.
+No field, characteristic or finite-dimensional premise is needed for a subsingleton module.
+These bounded results do not supply the positive-rank spin/classification theorems. -/
+namespace TauCetiRoadmap.RepresentationTheory.SpinRepresentations.ZeroRank
+universe u v
+variable {R : Type u} {M : Type v} [CommRing R] [AddCommGroup M] [Module R M] [Subsingleton M]
+
+/-- The universal map sends every zero-rank Clifford generator to zero. -/
+noncomputable def scalarProjection (Q : QuadraticForm R M) : CliffordAlgebra Q →ₐ[R] R :=
+  CliffordAlgebra.lift Q ⟨0, by
+    intro m
+    have hm : m = 0 := Subsingleton.elim _ _
+    simp [hm]⟩
+
+/-- On a subsingleton module, Clifford algebra and scalar ring are actual algebras. -/
+noncomputable def cliffordEquivScalars (Q : QuadraticForm R M) : CliffordAlgebra Q ≃ₐ[R] R :=
+  AlgEquiv.ofAlgHom (scalarProjection Q) (Algebra.ofId R (CliffordAlgebra Q))
+    (by ext)
+    (by
+      apply CliffordAlgebra.hom_ext
+      ext m
+      have hm : m = 0 := Subsingleton.elim _ _
+      simp [hm])
+
+/-- In rank zero the entire Clifford algebra lies in its even subalgebra. -/
+theorem even_eq_top (Q : QuadraticForm R M) : CliffordAlgebra.even Q = ⊤ := by
+  apply top_unique
+  intro a _
+  rw [← (cliffordEquivScalars Q).symm_apply_apply a]
+  exact (CliffordAlgebra.even Q).algebraMap_mem _
+
+/-- The even algebra in rank zero is the scalar algebra, with no second factor. -/
+noncomputable def evenEquivScalars (Q : QuadraticForm R M) : CliffordAlgebra.even Q ≃ₐ[R] R :=
+  AlgEquiv.ofAlgHom ((scalarProjection Q).comp (CliffordAlgebra.even Q).val)
+    (Algebra.ofId R (CliffordAlgebra.even Q))
+    (by ext)
+    (by
+      apply DFunLike.ext
+      intro a
+      apply Subtype.ext
+      exact (cliffordEquivScalars Q).symm_apply_apply (a : CliffordAlgebra Q))
+
+/-- Positive exterior degree vanishes in the zero-rank Fock carrier. -/
+theorem exteriorPower_succ_eq_bot (k : ℕ) : ExteriorAlgebra.exteriorPower R (k+1) M = ⊥ := by
+  have hi : (ExteriorAlgebra.ι R : M →ₗ[R] ExteriorAlgebra R M) = 0 := by
+    ext m
+    have hm : m = 0 := Subsingleton.elim _ _
+    simp [hm]
+  simp [ExteriorAlgebra.exteriorPower, hi]
+
+end TauCetiRoadmap.RepresentationTheory.SpinRepresentations.ZeroRank
