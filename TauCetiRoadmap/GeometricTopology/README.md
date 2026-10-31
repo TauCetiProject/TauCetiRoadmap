@@ -1224,6 +1224,89 @@ theorem, that two braids have ambient isotopic closures iff they are `TauCeti.Ma
 `TauCeti.MarkovBraid`, `TauCeti.MarkovEquiv`; Layer 1.5 (tubes, for general position);
 Layer 3.3.
 
+<a id="braid-square-quotients"></a>
+### 4.2.1 Strand permutations and square quotients of braid groups
+
+Use native `BraidGroup n`, with generators σ_i indexed by `Fin (n−1)`,
+and native `permHom n : BraidGroup n →* Equiv.Perm (Fin n)`. Retain its
+surjectivity, generator computation and actual strand-permutation
+comparison. Multiplication of permutations is from right to left.
+Distant commutation has `i+2≤j` or `j+2≤i`; adjacent generators satisfy
+the length-three braid relation. No involution relation is imposed on
+the braid generators, which have infinite order.
+
+**Generator squares and the pure braid group.** Define
+
+```text
+N_gen(n) = normalClosure {σ_i² | i∈Fin(n−1)} ⊆ B_n.
+```
+
+Prove `N_gen(n)=ker(permHom n)=pureSubgroup n` and construct the
+canonical group equivalence `B_n/N_gen(n) ≃* Equiv.Perm (Fin n)`, with
+its value on every quotient generator and commuting projection square.
+Build the finite type-A Coxeter comparison using the native
+`CoxeterMatrix.A (n−1)`, its presented group and adjacent transpositions.
+For n≥1 transport the rank n−1 to n strands; handle n=0 by an
+explicit trivial-group comparison. Give maps in both directions, prove
+every relation and both inverse laws,
+and identify the map with native `permHom` by generator extensionality.
+Use the existing Coxeter/Artin presentation API for the square-relator
+adapter; this stage owns its finite type-A permutation comparison.
+
+Export the universal property: for every group G and homomorphism
+f:B_n→G, a unique homomorphism S_n→G factors f through permHom iff
+`f(σ_i)²=1` for every i. Identity images are allowed in this condition.
+Prove the quotient has cardinality n!, and preserve the equations under
+native strand inclusion. These are presentation/normal-closure results;
+the later Garside and Milnor-invariant constructions do not enter them.
+
+**Squares of all elements and exponent parity.** Separately define
+
+```text
+N_all(n) = normalClosure {b² | b∈B_n}.
+e : B_n → ℤ = the native Artin exponent sum in additive notation,
+ε : B_n → Multiplicative (ZMod 2),  ε(b)=e(b) mod2.
+```
+
+Prove the homomorphism and generator rules for ε, its compatibility with
+strand inclusion, and the exact sign identity
+`sign(permHom n b)=(−1)^e(b)` in `ℤˣ`. Prove
+`N_gen(n)≤N_all(n)=ker ε`. For n≥2 construct the canonical equivalence
+`B_n/N_all(n) ≃* Multiplicative (ZMod 2)`, sending every σ_i to the
+nonidentity class. Give the quotient projection and factorization
+equations. Every square is trivial in this quotient; hence inversion
+fixes every element and the quotient is abelian. Use the adjacent braid
+relations and generation to prove that all generator classes coincide,
+then use ε to prove that this class is nontrivial.
+
+Identify N_all as the inverse image of the alternating subgroup under
+permHom and give the commuting quotient diagram B_n→S_n→C₂. The
+universal property of the all-square quotient is factorization for maps
+whose entire image satisfies x²=1, rather than just imposing that condition
+on a chosen generating family. This distinction permits a nonabelian S_n
+as the generator-square quotient for n≥3.
+
+**Checks.**
+
+- B₀ and B₁, both square quotients, and S₀ and S₁ are trivial. Their
+  parity maps have trivial image; the C₂ equivalence requires n≥2.
+- For B₂≃ℤ, both normal subgroups correspond to 2ℤ and both quotients
+  are C₂. Compare the generator and exponent maps explicitly.
+- For n≥3 put b=σ₀σ₁. Its permutation is a three-cycle, so b² has
+  nonidentity permutation. Prove b²∈N_all and b²∉N_gen, giving the
+  strict inclusion N_gen<N_all. In particular B₃/N_gen≃S₃ has order 6,
+  while B₃/N_all≃C₂ has order 2.
+- In B₄, σ₀ and σ₂ commute by the native distant-generator theorem.
+  Preserve the adjacent-generator noncommutation calibration as well.
+
+*Needs:* native `BraidGroup`, `sigma`, `permHom`, `pureSubgroup`,
+`ArtinGroup.exponentSum`, Coxeter/Artin presentations and finite
+permutation/sign APIs; `Subgroup.normalClosure`, `QuotientGroup`,
+`Multiplicative (ZMod 2)` and group-homomorphism extensionality.
+The finite type-A comparison, kernel identification, quotient maps and
+parity comparison are built here. For the standard presentations and
+strand map, see [Birman–Brendle, §1](https://www.math.columbia.edu/~jb/Handbook-21.pdf).
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 Prove that every nonempty oriented link `L ⊂ S³` bounds a compact connected oriented
@@ -3225,8 +3308,8 @@ Epstein et al., *Word Processing in Groups*, Chapter 9). Deduce that two braid w
 the same braid iff they have the same normal form, and prove that the super summit set of a
 conjugacy class is finite, nonempty and connected under conjugation by simple elements, so
 that conjugacy of braids is decided by it (Elrifai–Morton, Quart. J. Math. 45 (1994)). Define
-the pure braid group as `(TauCeti.BraidGroup.permHom n).ker` and strand deletion as a
-homomorphism on it. Define the Brunnian links `L_n` as the closures of the iterated commutators
+strand deletion as a homomorphism on native `BraidGroup.pureSubgroup n`,
+using Layer 4.2.1's permutation-kernel and generator-square comparison. Define the Brunnian links `L_n` as the closures of the iterated commutators
 of `A_{1,n}, …, A_{n−1,n}` and prove that every proper sublink of `L_n` is an unlink while `L_n`
 is not, by the length-`n` Milnor invariant computed from the longitudes in the Magnus
 expansion.
