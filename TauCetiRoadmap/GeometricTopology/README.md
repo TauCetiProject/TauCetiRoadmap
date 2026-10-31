@@ -2503,6 +2503,43 @@ Layers5,8; native `Graph`, `Equiv.Perm`, finite matching/orbit quotients and
 `ZMod 2` linear maps. The finite-presentation, embedded-spine and relative
 straightening adapters are constructed here.
 
+**Source exercises48–56.** Apply these constructions to the literal
+pictures in main *Knot Theory* pp117–118, reproduced in Problems pp8–9.
+The [input note](source-inputs.md#pictured-band-surfaces) retains their
+unresolved attaching data. Generic surface models do not identify them.
+
+- For52, give the actual finite disc/band occurrences, cyclic attaching
+  orders, side-pairing bits, twists and crossing/height data. Construct the
+  embedded surface, certify its component and boundary counts and
+  orientability, and compute the requested genus through the boundary
+  matching and Euler formulas, with [the branch determined by these
+  data](source-inputs.md#pictured-band-52-branches). Use the crosscap branch for any
+  nonorientable component; do not count projected arches as boundary
+  components or assume a disc/band count from the silhouette.
+- For53, supply finite models of BOTH pictured embeddings and an ambient
+  isotopy between them, supported in a containing ball. Give the surface
+  and boundary computing maps along the isotopy, transporting attaching
+  collars and every local band move. The intended abstract model is a
+  once-punctured torus. An abstract classification homeomorphism alone
+  does not prove the requested embedded isotopy.
+- For54, apply the earlier spanning-tree repartition and spatial
+  straightening to a nonempty connected input. For c components use a
+  spanning forest and obtain c discs with the remaining bands, with
+  `b′+d=b+c`; include the empty input. Transport every component and band
+  through the ambient isotopy. The [source wording lacks the connectedness
+  qualification](source-inputs.md#disc-band-exercise54-scope); two disjoint
+  discs cannot be isotopic to a connected one-disc band surface.
+- For55, recover the actual marked embedded surface, prove that it is
+  connected and orientable with one boundary component and genus1, and
+  extract that SAME boundary projection as a realized knot diagram D.
+  Compare its marked crossing/arc data with the input to Seifert's
+  algorithm. Compute its actual n crossings and s Seifert circles and
+  the resulting canonical surface genus h from `2h+s=n+1`. Give the
+  geometric boundary comparison for both surfaces. The source's genus1
+  assertion concerns the pictured surface; neither h=1 nor minimal knot
+  genus follows from it. The generic trefoil family is not this example.
+
+
 ### 4.3.3 Different spanning surfaces with the same boundary
 
 Construct a concrete pair of embedded surfaces bounding the SAME trefoil,

@@ -815,3 +815,73 @@ uncertain literal intermediate separately from the corrected theorem.
 The final permutation-symmetric source criterion agrees with the even-r
 condition. No new pretzel classification or source-picture identification
 is claimed by adding the separate exercise61 obligation.
+
+
+<a id="pictured-band-surfaces"></a>
+## Pictured band surfaces: exercises52,53,55
+
+The main *Knot Theory.pdf* source, SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+contains Problem Sheet2 exercise52 on physical page117, and exercises53
+and55 on physical page118. The finite-disc-band construction in the README
+owns their geometric comparisons. The text asks for the genus of52, an
+isotopy between the two pictured surfaces in53, and genus1 plus the genus
+of the boundary diagram's Seifert-algorithm surface in55.
+
+A bounded verified-Luna reread has not recovered a reliable attaching table
+for these pictures. No numerical band or boundary count is adopted from
+visual silhouettes or arch counts. In53 the phrase punctured torus gives
+the intended genus1, one-boundary-component model; its projection outline
+is not counted as another boundary circle. This abstract identification
+does not provide the requested embedded isotopy to the second picture.
+
+For52 and55 recover and validate the disc and band occurrences, cyclic
+attaching-interval orders, side-pairing bits relative to disc orientations,
+integer twist/endpoint charts and projection crossing/height data. Construct
+the actual embedded surface and its boundary code. For52 determine its
+connected components, orientability and boundary matching quotient before
+computing genus or crosscap number in the appropriate branch. For55 prove
+connectivity, orientability, one boundary component and genus1, then identify
+that same boundary projection with the diagram used
+in Seifert's algorithm; compute its Seifert circles and crossing bands.
+Do not substitute a different genus-one surface or the generic trefoil
+inverse-pair family for this literal occurrence. For53 supply finite models
+of both pictured embeddings and the relative ambient-isotopy movie,
+transporting attaching collars and the boundary throughout. A classification
+homeomorphism alone is not the requested isotopy. These data and comparisons
+remain mandatory, even though the general finite-band API is specified.
+
+
+
+<a id="pictured-band-52-branches"></a>
+## Exercise52: determine the surface branch from its actual input
+
+For52, compute connected components, orientability and boundary counts
+from the authenticated finite attachment data. Derive orientable genus
+or nonorientable crosscap number componentwise from those results.
+Connectivity and orientability are not predetermined conclusions for52.
+This qualifies the earlier joint52/55 wording: its requirement to prove
+a connected orientable genus1 surface with one boundary applies to55.
+Neither the silhouette nor the genus of a separate standard model
+establishes those properties for52.
+
+
+<a id="disc-band-exercise54-scope"></a>
+## Exercise54: connectedness and the empty presentation
+
+Main *Knot Theory* physical p118 and Problems physical p9 state that any
+finite disc-and-band surface is isotopic to one consisting of one disc
+with bands added. The source wording does not explicitly require
+connectedness. The correct one-disc conclusion requires a nonempty
+connected input: all bands attached to a single disc lie in its connected
+component. Isotopy preserves the number of components, so two disjoint
+discs give a counterexample if the wording is read without this hypothesis.
+
+The [finite-band target](README.md#finite-disc-band-surfaces) proves the
+connected theorem by its embedded spanning-tree repartition and spatial
+straightening. For c components a spanning forest gives c discs and
+b′ remaining bands with b′+d=b+c; the empty input gives no discs.
+The full embedded surface and its boundary are transported by ambient
+isotopy. This corrected scope is separate from the literal source text.
+Exercise56's genus formula computes a chosen Seifert-algorithm surface,
+not the minimum over all such surfaces or the minimum knot genus.
