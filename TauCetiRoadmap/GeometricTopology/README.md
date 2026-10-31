@@ -5226,6 +5226,113 @@ by the coefficient embedding sending the native variable u=t^(1/2) to
 A⁻². This is a formal Laurent comparison, not a choice of a fourth-root
 branch. The trefoil checks fix its normalization.
 
+**Worked state tables and the literal textbook exercises.** Carry out Knot Theory
+physical pp95–96's Equation6.1, Figures6.14–6.19 and Exercises6.8–6.9 on the actual
+source diagrams. The local A-split opens the channel between the two A regions;
+prove its native slot/over-pair dictionary, with state bit true=A and false=B.
+For each diagram give its crossing labels, plane realization and every smoothing's
+actual circle correspondence. A knot identification or equality of final polynomials
+does not identify its states crossing by crossing.
+
+For Exercise6.8 derive the displayed Jones skein relation from the two local bracket
+resolutions and the three actual writhe changes:
+
+`t⁻¹V(L₊)−tV(L₋)+(t⁻¹/²−t¹/²)V(L₀)=0`.
+
+Identify Figure6.13's oriented local triple with the native crossing/smoothing charts;
+retain the outside diagram, circle contributions and component orientations. This is
+the local proof of4.5's skein identity, including its half-variable substitution.
+
+For a native D:PDCode n define the joint state counts
+
+`h_D(b,ℓ)=#{s:Fin n→Bool | #{i | s(i)=false}=b and D.stateLoopCount(s)=ℓ}`.
+
+Give finite support, total count2^n, relabelling invariance and the mirror rule
+h_(mirror D)(b,ℓ)=h_D(n−b,ℓ) for b≤n, with zero outside0≤b≤n. Retain all
+crossing-free circles and compare the count with explicit resolution-circle
+bijections, rather than counting the two directed traversal orbits as two circles.
+For nonempty realized D, regroup the existing reduced state sum as
+
+`⟨D⟩=Σ_(b,ℓ) h_D(b,ℓ) A^(n−2b) δ^(ℓ−1)`, `δ=−A²−A⁻²`.
+
+The exponent n−2b is integral; prove ℓ≥1 on its nonzero support before replacing
+native truncated subtraction. This is the same native bracket, with coefficient-map
+naturality. Treat the empty code separately. Give every individual state and its
+summand before the histogram grouping; the histogram retains multiplicities but
+forgets which source crossing choices produced a row.
+
+For the source's three-crossing trefoil, produce all eight Boolean choices and match
+their resolved circles to Figure6.17's eight drawings. The printed loop counts, in
+figure order, are3,2,2,2,1,1,1,2; the worked algebra assigns their B counts
+0,1,1,1,2,2,2,3. Individual crossing-choice labels are not printed, so construct and
+check the state-to-row correspondence rather than treating that order as a supplied
+bit-vector enumeration. Include Figure6.16's particular one-A/two-B, one-circle
+state. The joint nonzero counts and bracket are
+
+| b | ℓ | h(b,ℓ) |
+| --- | --- | --- |
+| 0 | 3 | 1 |
+| 1 | 2 | 3 |
+| 2 | 1 | 3 |
+| 3 | 2 | 1 |
+
+`A³δ²+3Aδ+3A⁻¹+A⁻³δ=A⁷−A³−A⁻⁵`.
+
+Prove these counts for native `rightHandedTrefoilPDCode.mirror` and construct the
+source-to-model marked plane diagram comparison, preserving the A/B choices. A
+geometric mirror complements state bits and inverts A; record such a change explicitly
+rather than carrying the same table across a mirror. The native mirror has writhe−3
+and normalized bracket −A¹⁶+A¹²+A⁴. The source raw bracket is not the raw bracket
+of the native right-handed diagram. Choosing a component orientation does not repair
+a handedness or A/B mismatch.
+
+For a separate exact figure-eight calibration use the native four-letter closure
+of (σ₁σ₂⁻¹)² on three strands. Produce all sixteen states and the joint counts
+
+| b | ℓ | h(b,ℓ) |
+| --- | --- | --- |
+| 0 | 3 | 1 |
+| 1 | 2 | 4 |
+| 2 | 1 | 5 |
+| 2 | 3 | 1 |
+| 3 | 2 | 4 |
+| 4 | 3 | 1 |
+
+Thus its reduced bracket is
+
+`A⁴δ²+4A²δ+5+δ²+4A⁻²δ+A⁻⁴δ²`
+`=A⁸−A⁴+1−A⁻⁴+A⁻⁸`.
+
+Its writhe is0, so this is also its normalized bracket and gives
+V(t)=t²−t+1−t⁻¹+t⁻² under t=A⁻⁴. For Exercise6.9 recover the actual
+Figure6.18 crossing-resolved plane code and its complete2^n-state table; prove its
+comparison with this canonical model. The scan names a figure-eight projection but
+does not currently authenticate n=4, every local incidence or its writhe. If a
+supported move is needed in the comparison, compute its raw-bracket factor and the
+associated writhe correction. A general Reidemeister movie does not give a bijection
+of state tables of different diagrams; claim a direct sixteen-state identification
+only after the actual crossing/smoothing map is proved. The complete source table
+and bracket remain required outputs even when a different framing is recovered.
+
+For Figure6.19 recover each pictured local configuration and its intended reduction,
+with actual finite crossings, variable regions, local supports and crossing counts.
+Treat the right-hand Alt. regions as schematic alternating fillings, not specified
+knots.
+Recover their boundary ports and local crossings, including the one-strand curl and
+two-crossing connector, and prove the indicated reductions for every compatible
+alternating filling, with the actual port and orientation conditions. Give supported
+plane isotopies/Reidemeister movies and a strict decrease of the final crossing
+count. A nugatory crossing need not already bound an empty RI monogon, and a drawn
+two-crossing connector is not by itself a cancellable RII certificate. Compute raw
+curl factors and writhe changes in every chosen chart. These applications use the
+early realized-diagram and local-move theory; the general adequacy/minimality proof
+in4.8.1 consumes the bracket theory independently. Exercises6.10–6.12 and the
+flyping endpoints in6.13 retain their existing owners and full scope.
+
+The [source qualification](source-inputs.md#bracket-state-exercises) records which
+printed data are authenticated. `BracketStateTargets.lean` gives native canonical
+histogram and bracket targets; it supplies no source-picture identification.
+
 **Checks.**
 
 - For the closure of the positive two-strand braid σ₁², prove the reduced

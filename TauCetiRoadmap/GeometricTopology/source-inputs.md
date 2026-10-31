@@ -1322,3 +1322,26 @@ group has order155520. A projectively scalar Burau matrix does not determine a
 common scalar in every Jones block. The full-twist block/trace calibration and
 all-block comparisons in the roadmap are independent mathematical targets, not
 new readings of an illegible formula or claims that their Lean proofs exist.
+
+
+<a id="bracket-state-exercises"></a>
+## Printed bracket states and schematic alternating reductions
+
+Knot Theory physical pp95–96, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+gives Equation6.1 and Figures6.14–6.19. A focused Luna-only reread confirms
+Figure6.17's loop-count order3,2,2,2,1,1,1,2 and the displayed trefoil
+expansion A³δ²+3Aδ+3A⁻¹+A⁻³δ=A⁷−A³−A⁻⁵. Its individual state bit
+labels are not printed. The text names Figure6.18 a figure-eight projection;
+the reread does not authenticate its exact crossing set, all over/under
+incidences or writhe. The canonical sixteen-state calculation in the README
+is separate from the required actual source table and framing comparison.
+
+Figure6.19's Alt. circles are schematic alternating regions, not fully drawn
+finite knots. The locally depicted curl and two-crossing connector leave the
+internal fillings unspecified. Recover the boundary charts and prove the
+claimed reductions for compatible fillings; do not invent global knot codes,
+an intended pairing of all four drawings, or a cancellable RII move from the
+word connector. The two-matching native state enumeration verifies only the
+canonical models. Source-picture/state maps and supported geometric reductions
+remain required future outputs.
