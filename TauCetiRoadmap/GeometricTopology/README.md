@@ -2607,6 +2607,212 @@ rather than introduce a separate notion of knot or ambient isotopy.
 braid conjugators and the chart-reflection over-pair/sign/writhe laws. These finite
 identities do not supply the geometric movies or the source-diagram comparisons.
 
+<a id="constructive-alexander-braiding"></a>
+### 4.2.10 Constructive Alexander braiding and the disc-arc route
+
+Develop both constructive routes in *Knot Theory*, physical pp36–37 and114.
+The input is a finite realized regular oriented plane link diagram, including
+its crossing data, component orientations, outer face and component nesting.
+The output consists of a natural strand count n, a native `TauCeti.BraidWord n`
+and an oriented ambient isotopy from the input realization to that word's
+standard closure. Include component-label transport, not merely equality of
+unoriented link types. For a nonempty input prove n>0; the empty link has the
+empty word on zero strands. These constructions refine4.2's Alexander theorem.
+They do not assume Markov's theorem, Yamada's braid-index theorem or a search
+through all braid words.
+
+Use4.2.4's polygonal approximation, supported triangle moves and smoothing,
+Layer1.5's relative ambient extension and the plane separation/isotopy floor
+of [PlanarTopology Layers0/1/7/8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md). Consume the geometric braid
+and native Artin-word comparison of [DiagrammaticCoherence
+C2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1710), with its G0/C6
+relative tangle and boundary conventions, as in4.2.8. That supplier owns the
+geometric braid carrier and its presentation theorem. This section owns
+conversion of a general link to that carrier and the cut/closure adapters.
+[AlexanderBraidingTargets.lean](AlexanderBraidingTargets.lean) checks the
+local projected triangle. Spatial isotopy and the geometric braid conversion
+remain the geometric targets below.
+
+**Axis.A: angular preparation and supported replacement.** Choose a point o
+outside the projected link and its vertices. After a finite controlled
+perturbation arrange that no projected polygon edge lies on a line through o,
+no crossing or vertex lies on the chosen cut ray, and all diagram crossings
+are regular. Translate o to0 in the complex plane and choose clockwise as the
+good direction. Use native `Complex.orientation.areaForm a b`, identified
+with `im(conj(a)*b)` by `Complex.areaForm`. A directed straight edge a→b is
+good when this form is negative and bad when it is positive. Prove this agrees
+with strict decrease/increase of a continuous polar-angle lift along that
+edge, with no passage through0. State the angular lift on the interval; a
+global principal-argument function is discontinuous across its branch cut.
+
+Subdivide bad edges into finitely many pieces whose existing diagram
+crossings are all over or all under; pieces with no crossings allow either
+choice. Give a finite subdivision procedure with rational auxiliary points
+when the initial polygon and crossing witnesses have rational coordinates.
+For a bad edge construct a projected triangle across o whose other two
+oriented sides are good. The candidate c=−a−b has
+`im(conj(a)*c)=im(conj(c)*b)=−im(conj(a)*b)` and0 is the strict barycentre of
+a,b,c; use small admissible perturbations when further general position is
+needed. The plane calculation alone supplies no disjoint spatial triangle.
+
+Prove the local lifting lemma: after further finite subdivision and a
+supported height adjustment respecting the recorded original crossings,
+each selected bad piece bounds a spatial sliding disc with its two good
+replacement sides. Construct this disc as a height graph over the projected
+triangle. The homogeneous crossing condition gives clearance at its base;
+raise its interior above a finite global height bound, or lower it below
+that bound for an under piece, with controlled taper near the base. Its
+interior misses the whole remaining link and the replacement has the chosen
+crossing prescription. Supply endpoint-wedge and collar estimates at
+adjacent polygon edges, and clearance from every other link component.
+Use the disc and relative ambient extension to produce an actual supported
+ambient isotopy. The projection of the disc may meet other projected arcs;
+its three-dimensional interior must be disjoint. During this link isotopy
+the link may pass through the auxiliary axis: the axis is not a fixed
+component of the isotopy problem. Demanding isotopy in its complement would
+incorrectly preserve the initial winding degree.
+
+**Axis.B: termination and extraction.** Use a fixed finite list of the original
+bad straight edges as parent tags. At the start of a parent batch, list its
+current crossings, including those introduced by earlier good detours. Choose
+cut points in the intervening crossing-free intervals to make finitely many
+crossing-homogeneous children with the clearance needed by Axis.A. Process
+all these children before advancing to the next parent. Choose every sliding
+triangle apex in the open half-plane bounded by the parent supporting line
+and containing o. Prove its interior and replacement sides miss the other
+children on that line; shared endpoints are handled by disjoint relative
+collars. Thus processing a child creates no new crossings or subdivisions on
+its unprocessed siblings. Each batch decreases its finite child count, then
+the outer recursion decreases the number of original parent tags. Later
+parents can acquire finitely many crossings, but no new parent tag is ever
+created. Prove this two-level termination and the finite clearance preparation
+for each batch, rather than assuming that successive refinements terminate.
+Each sliding-disc move fixes the rest of the PL link pointwise, including
+unprocessed parent edges. Postpone smoothing until all batches finish.
+Crossing count need not decrease. Concatenate the finite local isotopies and
+smooth their corners, preserving strict angular monotonicity on the final
+link. Prove that the angular projection of each oriented final component is
+a finite covering of the circle with strictly positive degree when the
+circle is oriented clockwise. This is the closed-braid condition, stronger
+than positivity of total winding alone.
+
+Choose a regular angular page. Prove its finite transverse intersection set
+has size n, equal to the sum of the component covering degrees, independent
+of the page. In the chosen product coordinates select one compact disc core
+uniformly across all angular pages, with every braid point in its interior;
+prove its existence from compactness and separation from the axis. Cut this
+disc-core family and identify it with the standard marked disc times an
+interval to obtain a geometric n-braid. Specify the transported endpoint
+order and
+orientation, the sign of each crossing and the identification between
+increasing clockwise angle and C2's bottom-to-top parameter. Read the
+native word in bottom-to-top order, so successive pieces concatenate by
+`BraidWord.toBraid_append`. Construct the comparison with native
+`BraidWord.closure` including its crossing-free circles, and the actual
+closure ambient isotopy. Export component count as the cycle count of
+native `permHom`; relate each cycle length to that component's covering
+degree. Changing the regular cut page and its compatible markings gives
+conjugate braids after the stated identifications. Changing the braiding
+choices yields isotopic oriented closures; the resulting Markov comparison
+is a consumer of4.2's independently proved Markov theorem.
+
+**Disc.A: the region-visiting arc.** For the second route enclose the diagram
+in the interior of a closed disc and prescribe antipodal boundary endpoints.
+Construct a smooth proper embedded arc between them, radial near its ends,
+which avoids all diagram crossings, meets diagram edges transversely in
+finitely many points and enters every complementary region. Choose one
+point in each region, with distinct coordinates along the endpoint diameter;
+join these points in coordinate order as an embedded polygonal graph, add
+radial endpoint collars and smooth/perturb it while retaining each selected
+region visit. Prove the avoidance and transversality after this perturbation.
+Prove existence also for crossing-free circles and disconnected or nested
+nonempty links;
+keep their actual region-containment data. Prove that each component meets
+the arc a positive even number of times. Produce a disc isotopy fixed near
+the boundary taking the arc to the straight diameter, extended by the
+identity outside. Transport the diagram and all its crossing data. This
+preparation is plane isotopy and introduces no Reidemeister move.
+
+Along each oriented component mark successive diameter intersections
+alternately over and under relative to the auxiliary diameter. Original
+link crossings are unchanged. Define a string from one over mark to the
+next, with exactly one interior under mark. Prove its projection has no
+self-crossing: a subloop between two visits to a self-crossing has at most
+one interior diameter intersection, hence none by even intersection parity.
+Extract a Jordan cycle and a complementary face inside it, missed by the
+diameter. Prove the separation argument also when other components subdivide
+its interior. The source pictures' actual arc and string
+incidences must be encoded and compared separately; their illustrative
+appearance does not supply finite crossing data.
+
+**Disc.B: simultaneous braiding with a separating arc.** Strengthen the
+preparation in Disc.A. First choose finite sets S,F of start and finish
+points, alternating on each oriented component, so every S→F overpass
+contains no original undercrossing and every F→S underpass contains no
+original overcrossing. Construct these sets also for components whose
+crossings are all of one kind and for crossing-free circles. Then choose
+the region-visiting proper arc to separate S from F, and transport S,F with
+the disc isotopy. Prove this extra separation condition by an explicit
+relative regular-neighborhood construction: start with one boundary
+semicircle between the prescribed endpoints and attach an embedded tree
+at one interior point of that semicircle, otherwise in the disc interior,
+through S and one probe in each diagram region, avoiding F and crossing
+vertices. Show a sufficiently thin relative neighborhood has one proper
+interior frontier arc, with S on its chosen side and F on the other, and
+that this frontier still enters every probe's region. Supply endpoint
+collars and the perturbation to transverse intersection. This jointly
+chosen arc has both required properties; a region-visiting arc chosen
+without the separating condition need not supply an overpass separator.
+
+Complete the straightened diameter outside the enclosing disc to an
+unknotted axis in the projection plane, preserving the separation. At each
+intersection lift the link over the axis when it leaves the S-side and
+under when it leaves the F-side. Prove this common side rule alternates
+along each component; choose the initial phases in Disc.A accordingly.
+All original link crossings remain unchanged. Construct these local lifts
+simultaneously with disjoint collars and an oriented ambient isotopy of
+the original link when the auxiliary axis is forgotten.
+
+Build the product angular coordinate on the axis complement and Morton's
+simultaneous threading isotopy to a link locally monotone in that coordinate,
+nonconstant on each component. Prove a further small isotopy makes it
+strictly monotone, with disjoint strand motions, endpoint collars and
+transported cyclic orders; then use Axis.B's extraction. Give the exact
+adapter from the straightened separating diameter, its overpass partition
+and its common side marks to the threading data. Retain a common refinement
+with the source's marked simple strings and their component labels. The
+pair-isotopy in the axis complement uses this joint preparation and actual
+overpass hypotheses, not projected string simplicity or positive total
+winding alone. Export the final oriented closure isotopy of the link and
+its component-label map. Recover the source pictures' finite data and these
+comparisons without asserting that an arbitrary initial phase or an
+arbitrary region-visiting arc satisfies the stronger joint preparation.
+
+For the supported triangle method compare [Lambropoulou, §3](https://arxiv.org/html/1811.11701v1#S3).
+The axis-threading proof of [Morton, §3, Theorem1](https://doi.org/10.1017/S0305004100064161)
+provides a geometric comparison for completing the simultaneous construction;
+state and prove the precise adapter for the disc-arc strings rather than
+identifying them with a threading solely because they are simple.
+
+**Checks.** Treat empty and crossing-free multi-component diagrams directly.
+For a single bad projected edge check c=−a−b's two strict determinant signs
+and the interior barycentre; contrast this with a spatial triangle whose
+interior meets another strand and hence is inadmissible. Run the constructions
+on the actual page114 Figures7.4–7.5 and pp36–37 diagrams after recovering
+their full finite crossing/arc records. Record subdivision and move sequences,
+the resulting word and the oriented comparison back to each input. If a
+source incidence cannot be authenticated, retain the required geometric
+comparison as an explicit output rather than guessing a knot code. For the
+standard closures of the identity n-braid, `σ₁³` and `(σ₁σ₂⁻¹)²`, verify the
+cut/closure adapters recover their marked geometric braids and degree/cycle
+data. The procedure is not required to minimize strand count.
+
+*Needs:*4.2/4.2.4's finite realized diagrams, polygonal/smooth comparison and
+supported moves; Layer1.5's relative isotopy extension; PlanarTopology's
+separation and disc-isotopy API; DiagrammaticCoherence G0/C2/C6's geometric
+braids and native word comparison. Markov's theorem is used only by the final
+independence-of-choices consumer, never by either Alexander construction.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic

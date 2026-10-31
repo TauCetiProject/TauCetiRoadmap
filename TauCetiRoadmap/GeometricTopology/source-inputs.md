@@ -1370,3 +1370,32 @@ selected twist without its own matrix/framing calculation. The bounds stated
 for iterated square-knot unknotting number use Fox rank and actual switches;
 no general unknotting-number additivity is assumed. Every finite-prime rank
 prescription retains the forced-zero characteristic2 case.
+
+
+<a id="constructive-alexander-source"></a>
+## Constructive Alexander braiding
+
+Knot Theory physical pp36–37 and114, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+presents the handwritten region-visiting disc-arc route and the polygonal
+clockwise-axis route. The handwritten final simultaneous-string step is
+explicitly a sketch. Individual projected simplicity, positive total winding
+and a projected triangle each need their separate spatial/local-monotonicity
+proofs before they yield a geometric braid. The axis is auxiliary during
+polygonal braiding; the input link isotopy may cross it. The disc-arc route
+requires joint preparation of a region-visiting arc separating actual
+overpass starts and finishes, followed by the common side crossing rule.
+Alternating marks preserve original link crossings; arbitrary initial phases
+or arbitrary region-visiting arcs alone do not give the threading hypothesis.
+The relative-tree separator and simultaneous strand motions are targets.
+
+Use the existing Luna Markdown transcripts. Figures7.4–7.5 and the handwritten
+arc/string pictures have no authenticated complete finite incidence records;
+recovering and comparing their actual records remains a specified output.
+The general triangle calculation does not authenticate a source drawing.
+The geometric braid carrier and Artin presentation retain their independent
+DiagrammaticCoherence G0/C2/C6 owner. The supporting references are
+Lambropoulou, arXiv:1811.11701, §3, and Morton, Threading knot diagrams,
+Math. Proc. Camb. Phil. Soc.99 (1986),247–260, §3/Theorem1,
+doi:10.1017/S0305004100064161. A threading comparison requires the actual
+geometric adapter; it is not inferred from a collection of simple strings.
