@@ -417,7 +417,15 @@ its last step, as `full_simple`, both in its model of line-labelled maps (hypoth
 line, going straight, and for (ii) every vertex on two lines). Those proofs establish the
 statements above once 3.7 (iii) identifies `(χ.toGMap2, χ.line)` with such a map and its labelled
 skeleton isomorphisms with the edition's skeleton isomorphisms; until that comparison is proved
-here, the edition's files are evidence for (i) and (ii), not a proof of them. Whether (ii)
+here, the edition's files are evidence for (i) and (ii), not a proof of them.
+*Published background for (ii).* For a simple Euclidean arrangement of pseudolines, the graph
+obtained by adding one vertex joined to every vertex of degree less than four is 3-connected and
+planar (Bose–Everett–Wismath 2003, as used in the proof of Eppstein 2014, Lemma 1); by Whitney's
+theorem (Whitney 1932; Bondy–Murty 2008, Theorem 10.28) its embedding in the sphere is unique, and
+the pseudolines are the paths that leave each vertex through the edge opposite to the one they
+entered by (Eppstein 2014, Lemma 1 and its proof). Deleting one element of a simple projective
+arrangement leaves a simple Euclidean arrangement, which gives a second route to (ii) for the
+labelled skeleton; that reduction is not stated in these sources. Whether (ii)
 extends to non-uniform chirotopes with no bigonal element is Grothendieck's question (folder 80,
 pp. 39–54); it has no known proof, is motivation only, and is not a target of this roadmap.
 *Check:* for four elements in general position the skeleton is the octahedral graph (6 vertices,
@@ -694,6 +702,15 @@ reflection representation used for the icosahedral maps of 9.4 and 9.5.
 - A. Björner, P. H. Edelman, G. M. Ziegler, *Hyperplane arrangements with a lattice of regions*,
   Discrete Comput. Geom. 5 (1990), 263–288 (the tope graph determines a simple oriented matroid up
   to reorientation).
+- H. Whitney, *Congruent graphs and the connectivity of graphs*, Amer. J. Math. 54 (1932), 150–168
+  (a 3-connected planar graph has a unique embedding in the sphere; used in 3.9).
+- J. A. Bondy, U. S. R. Murty, *Graph Theory*, Graduate Texts in Mathematics 244, Springer, 2008,
+  Theorem 10.28 (Whitney's theorem in its current form).
+- P. Bose, H. Everett, S. Wismath, *Properties of arrangement graphs*, Internat. J. Comput. Geom.
+  Appl. 13 (2003), 447–462 (the arrangement graph with one added vertex is 3-connected and planar).
+- D. Eppstein, *Drawing arrangement graphs in small grids, or how to play Planarity*, J. Graph
+  Algorithms Appl. 18 (2014), 211–231, arXiv:1308.0066, Lemma 1 (unique embedding of an
+  arrangement graph; the pseudolines as paths through opposite edges).
 - Y. A. Radtke, S. Felsner, S. Roch, M. Scheucher, *Flip graph connectivity for arrangements of
   pseudolines and pseudocircles*, arXiv:2310.19711 (2023).
 - H. Bergold, L. Egeling, H. P. Hoang, *Signotopes with few plus signs*, SoCG 2025, LIPIcs 332
