@@ -4898,77 +4898,42 @@ are planar classical diagrams; no assertion about arbitrary abstract PD
 codes substitutes for the geometric hypothesis. In particular a knot
 has a canonical integral Laurent polynomial V_K(t)=P_K(t).
 
-**Finite algebraic Clifford model.** Construct the following specialization
-here, before its geometric comparison. Fix u₄=(1+i)/√2=exp(πi/4)
-and δ=√2. Its inputs are the native Clifford
-algebra and basis and the algebraic Temperley–Lieb presentation and Markov
-trace; it has no analytic-adjoint, positive-quotient or bordism prerequisite.
+**Finite algebraic Clifford model.** Consume the independently constructed algebraic
+prefix of [TemperleyLiebOperatorAlgebras1.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7a05bd01b87c5660bbd01856b345c4bddb061558/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md#even-clifford-jones-model).
+That prefix uses native Clifford algebras, the native TL presentation and algebraic
+Markov-trace uniqueness. Its analytic-adjoint, positive-quotient and geometric
+closure comparisons are subsequent consumers. Use its following complete interface,
+with u₄=(1+i)/√2=exp(πi/4) and δ=√2:
 
-Put q_m(z)=Σ_(j<m)z_j² on Fin m→ℂ, using native
-`QuadraticMap.weightedSumSquares`, and put Cl_m=`CliffordAlgebra q_m`,
-Cl_m⁰=`CliffordAlgebra.even q_m` and c_j=ι(e_j). Prove c_j²=1 and
-c_j c_k=−c_k c_j for j≠k. For an increasing subset S⊆Fin m let c_S
-be the ordered product of its generators. Build the finite q_m-specific
-comparison with `CliffordAlgebra.basis q_m (Pi.basisFun ℂ (Fin m))`.
-The native basis is transported through `equivExterior`; it is not
-by definition an ordered product. Prove the equality for this orthogonal
-coordinate form before using its coefficients. This is a specialization
-of the native algebra, not a second generic Clifford construction.
+- q_m(z)=Σ_(j<m)z_j², Cl_m=`CliffordAlgebra q_m` and Cl_m⁰ its native even
+  subalgebra; c_j²=1 and distinct c_j anticommute. The increasing products c_S are
+  proved equal to the native transported basis for this coordinate form.
+- s_m is its empty-monomial coefficient, cyclic with s_m(1)=1. Its Gram entries
+  are0 for S≠T and (−1)^(|S|(|S|−1)/2) for S=T, giving nondegeneracy of s_m(xy)
+  on the full and even algebras, including m=0. Retain s_m(x)=2^(−m)Tr(L_x).
+- d_j=c_jc_(j+1), p_j=(1+i d_j)/2, E_j=√2p_j and the surjection
+  F_m:TL_m(ℂ,√2)→ₐ[ℂ]Cl_m⁰ with F_m(e_j)=E_j. The supplier proves all TL
+  relations, surjectivity from c_a c_b=d_a⋯d_(b−1) and the scalar m=0,1 cases.
+- The native coordinate inclusions J_m preserve the even algebra and s_m and commute
+  with F_m and strand inclusion. For x∈Cl_m⁰ and m≥1 the new-projection identity is
+  `s_(m+1)(J_m(x)p_(m−1))=s_m(x)/2`. The unnormalized trace is
+  `T_m(x)=(√2)^m s_m(F_m(x))`, at native quantum parameter −u₄. Its bilinear
+  radical `R_m={x | ∀ y, T_m(xy)=0}` is ker F_m by surjectivity and nondegeneracy;
+  the algebra quotient and trace/inclusion-preserving equivalence are constructed
+  without analytic positivity.
+- The braid units are g_j=−(1+d_j)/√2, with inverse −(1−d_j)/√2, squares d_j,
+  fourth powers−1 and eighth powers1. They satisfy the braid relations and give
+  ρ_Cl:BraidGroup m→(Cl_m⁰)ˣ. For a∈ℂˣ with a²=−u₄⁻¹ the native parameter
+  comparison is `jonesDelta a=√2` and `F_m(jonesUnit a j)=(−a/u₄)g_j`.
 
-Define s_m as the coefficient at ∅ in that native basis. Prove linearity,
-s_m(1)=1, cyclicity and, for all ordered subsets S,T,
+Deduce the existence of F_m with its generator values, surjectivity, trace identity
+and kernel characterization by applying that supplier's headline theorem. This
+existence comparison remains required here; it does not commission a second model,
+Clifford basis or trace. The geometric target below uses every scalar, inclusion and
+phase in this interface, keeping both even-Clifford blocks when m is positive and even.
 
-`s_m(c_S c_T)=0` if S≠T,
-`s_m(c_S²)=(−1)^(|S|(|S|−1)/2)`.
-
-The diagonal entries are nonzero. Deduce that (x,y)↦s_m(xy) is a
-nondegenerate complex bilinear pairing on the full algebra and on its
-even subalgebra, including dimension zero. Prove
-`s_m(x)=2^(−m)Tr(L_x)`. Restricting to one simple block when m is
-positive and even would lose the required algebra and pairing; retain
-both blocks. Generic Clifford structure theory and analytic scalar-trace
-constructions retain their existing owners.
-
-For 0≤j<m−1 put d_j=c_j c_(j+1), p_j=(1+i d_j)/2 and E_j=√2 p_j.
-Prove d_j²=−1, p_j²=p_j, the two adjacent relations
-p_j p_(j±1) p_j=p_j/2 and distant commutation. Use native
-`TemperleyLieb.lift` to construct F_m:TL_m(ℂ,√2)→ₐ[ℂ]Cl_m⁰ with
-F_m(e_j)=E_j, with generator evaluation and uniqueness. Prove
-surjectivity by c_a c_b=d_a⋯d_(b−1) for a<b and
-d_j=−i(2p_j−1), then group each even ordered monomial into pairs.
-For m=0,1 both source and target are scalar; prove these cases separately.
-
-Use native `CliffordAlgebra.map` for the coordinate inclusion
-J_m:Cl_m→Cl_(m+1), and prove injectivity, even membership, identity and
-composition, compatibility with F_m and native strand inclusion, and
-preservation of s_m. Prove for x∈Cl_m⁰ and m≥1 that
-`s_(m+1)(J_m(x)p_(m−1))=s_m(x)/2`; the new-generator term has scalar
-coefficient zero. Apply TemperleyLieb Layer 4's algebraic Markov-trace
-uniqueness to prove
-
-`T_m(x)=(√2)^m s_m(F_m(x))`.
-
-Here T_m is native `markovTrace` with quantum parameter −u₄, and has
-T_m(1)=(√2)^m. Define its bilinear trace radical by
-`R_m={x | ∀ y, T_m(xy)=0}`. Prove R_m=ker F_m: surjectivity and the
-nondegenerate scalar pairing give the reverse inclusion without positivity
-or an adjoint. Prove the two-sided-ideal laws, construct the native
-algebra quotient and its trace-preserving equivalence with Cl_m⁰, and
-preserve inclusions. The positive analytic quotient is a downstream
-operator-algebra comparison. Export the existence of F_m with its generator
-values, surjectivity, trace identity and kernel characterization together.
-
-At u₄=(1+i)/√2 construct the braid units and their inverse words:
-
-`g_j=u₄((1+i)p_j−1)=−(1+d_j)/√2`,
-`g_j⁻¹=−(1−d_j)/√2`, `g_j²=d_j`, `g_j⁴=−1`, `g_j⁸=1`.
-
-Prove the braid relations and construct ρ_Cl:BraidGroup m→(Cl_m⁰)ˣ.
-Pin its comparison with native `TemperleyLieb.jones a`: choose a∈ℂˣ
-with a²=−u₄⁻¹, prove `jonesDelta a=√2`, and transport parameters to obtain
-`F_m(jonesUnit a j)=(−a/u₄)g_j`. For a word of exponent sum e, the
-factor is (−a/u₄)^e, also for negative letters. The native bracket
-closure is the unnormalized trace; divide by the nonzero loop value to
+For a word of exponent sum e, the factor is (−a/u₄)^e, also for negative letters. The
+native bracket closure is the unnormalized trace; divide by the nonzero loop value to
 get the reduced nonempty closure and apply its writhe factor (−a³)^(−e).
 Since the native half-variable a^(−2)=−u₄, this gives
 
@@ -4993,13 +4958,11 @@ remains an algebraic scalar stage.
   −1/√2,0,1/√2,−1. The normalized closures give 1,0,−1,√2: the
   unknot, positive Hopf link, right trefoil and positive T(2,4).
 
-*Needs:* native `CliffordAlgebra`, `ι`, `even`, `map`,
-`CliffordAlgebra.basis`, its native dimension theorems, `TemperleyLieb.lift`,
-`strandIncl`, `markovTrace`, `jonesUnit`, `jonesDelta` and `BraidGroup`;
-TemperleyLieb Layer 4 algebraic trace uniqueness; Mathlib finite sums,
-ordered products, bilinear nondegeneracy, algebra quotients and linear trace.
-The finite coordinate/basis, character and signed-closure adapters are
-constructed here.
+*Needs:* TemperleyLiebOperatorAlgebras1.7's algebraic prefix for the complete finite
+model interface; native `markovTrace`, `jonesUnit`, `jonesDelta` and `BraidGroup`;
+the independent geometric braid closure and Jones/bracket comparisons. The signed-loop,
+root-branch, writhe and component-parity adapters to realized links are constructed
+here.
 
 **Seifert Gauss sum and the fourth root.** Fix `t=i` and
 `u₄=exp(πi/4)`, with positive TL loop parameter `δ=√2`. The
