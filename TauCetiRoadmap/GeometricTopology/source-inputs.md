@@ -709,3 +709,42 @@ p177. The existing native generation proof is retained, and the companion
 adds proved finite three-/five-crossing and S₄ generation certificates.
 Full orbit/count proofs and all realized/literal diagram comparisons
 remain required roadmap outputs.
+
+
+<a id="ten-crossing-presentation-source"></a>
+## Pages180–181: seven eliminations and an unreadable relation connector
+
+*Knot Theory.pdf*, SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+p180 advertises a ten-crossing knot, three initial directed arcs x,y,z,
+seven propagation marks1–7 and three residual marks r₁,r₂,r₃. P181 says
+this gives three generators with two relations. That is a presentation-size
+claim, not a claim that either number is minimal. The
+[worked reduction](README.md#ten-crossing-wirtinger-elimination) requires
+all arc substitutions, the planar redundancy witness and actual native
+group maps.
+
+A fresh Luna-only inspection of p180 on1 November confirms the words
+u=yx⁻¹zxy⁻¹, v=yx⁻¹z⁻¹xy⁻¹ and w=xyx⁻¹. The handwritten connector
+between (u) and (v) cannot confidently be identified. The earlier
+transcription normalized it as multiplication; that interpretation is
+not securely literal. This qualification supersedes any earlier assertion
+in this note or its finite-conjugacy discussion that the source has a
+literal inconsistent r₁. Only the conditional statement is certified:
+if the equation is interpreted as uv=w, then v=u⁻¹ and it forces y=1,
+incompatible with the positive-meridian homomorphism to ℤ.
+
+The short arc labels yxy⁻¹, yzy⁻¹, z⁻¹yz and yx⁻¹zxy⁻¹ are legible.
+Two longer lower labels are tentative. The page does not give formulas
+for r₂ or r₃. Crowded marks obscure local incidences, and complete signed
+over/under and cyclic-traversal data are not authenticated. No printed
+knot-table label identifies the sketch. The required reconstruction is
+therefore distinct from independently supplied6₁/9₄₆ inputs and any
+standard ten-crossing model. Conditional algebra alone certifies neither
+the source's crossing relation nor the pictured knot.
+
+The inspected page image SHA-256 is
+`a22ced247bb10acde4e5952169c609a0795fb965074fde69bb6fef99b222ac33`.
+The new reading preserves the historical transcript and corrects its
+attribution through this explicit qualification. Images were inspected
+only by verified gpt-6-luna; all other agents consumed Markdown.
