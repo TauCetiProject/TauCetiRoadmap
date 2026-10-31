@@ -1500,6 +1500,89 @@ determinant `|Δ_K(−1)|` as the order of `H₁` of the double branched cover.
 `TauCeti.SmoothCircleEmbedding.KnotGroup`, `HasPerfectCommutatorSubgroup`; Mathlib
 `IsCoveringMap`, `FundamentalGroup`, `LaurentPolynomial`, `PresentedGroup`.
 
+<a id="seifert-determinant-normalizations"></a>
+### 4.4.1 Seifert determinants, degree and stabilization
+
+For an integral Seifert matrix V of a knot, in a basis of size2g, keep
+three distinct quantities: the ordinary polynomial
+`D_V(X)=det(XV−Vᵀ)∈ℤ[X]`, the native symmetric Laurent polynomial
+`Δ_V=T(−g)·D_V.toLaurent`, and the positive knot determinant
+`d(K)=|Δ_V(−1)|`. Prove the ordinary-to-Laurent comparison with native
+`alexanderMatrix` and `alexander`, with coefficient and evaluation maps.
+The geometric surface/basis and S-equivalence comparisons are supplied by
+Layer4.3; an arbitrary integral matrix is not thereby a knot presentation.
+
+**End coefficients and degree.** Reuse Mathlib's determinant-of-linear-
+polynomial lemmas to prove
+
+```text
+natDegree D_V ≤ 2g,
+coeff D_V 0 = coeff D_V (2g) = det V,
+coeff Δ_V (−g) = coeff Δ_V g = det V,
+support Δ_V ⊆ [−g,g].
+```
+
+Here the interval is an integer interval and Laurent support means native
+`coeff.support`. Prove D_V and Δ_V are nonzero from the unimodular skew
+pairing and Δ_V(1)=1. Include g=0, where the empty determinant is1.
+Prove that `det V≠0`, `natDegree D_V=2g`, and both Laurent endpoint
+coefficients being nonzero are equivalent. Thus det V≠0 gives span2g;
+when det V=0, the degree drops at both ends before translating exponents.
+
+For every nonzero inversion-symmetric integral Laurent polynomial Δ with
+Δ(1)=1, construct its least and greatest support exponents m,M and prove
+`m=−M` and `M≥0`. Show `T(−m)·Δ` is the Laurent image of a unique ordinary
+polynomial A with nonzero constant term and degree `M−m=2M`. This is the
+even degree of the polynomial obtained by shifting the least exponent to0;
+the greatest exponent of the symmetric Laurent polynomial need not be even.
+Transport the construction and its unit-normalization comparison to Δ_K.
+
+**Symmetrization and S-equivalence.** Put S_V=V+Vᵀ. Prove the determinant
+laws for native unimodular congruence and both native elementary
+enlargements: congruence multiplies det S_V by `(det P)²=1`, while each
+enlargement multiplies it by−1. Prove reindexing compatibility and descend
+`|det S_V|` through native `IntegralSquareMatrix.SEquivalent`, including
+singular matrices. For even sizes2g,2h strengthen this to invariance of
+`(−1)^g det S_V`; retain the genus factor when comparing different sizes.
+Prove the exact evaluation identity
+
+```text
+Δ_V(−1) = (−1)^g det(V+Vᵀ),
+d(K) = |det(V+Vᵀ)|.
+```
+
+Use reduction modulo2 and `det(V−Vᵀ)=1` to prove det S_V is odd and
+nonzero for knot Seifert matrices. The real symmetric form therefore has
+positive and negative inertia indices summing to2g, so its signature is
+even. Compare this signature with native `Matrix.signature` on the real
+Seifert matrix using its positive symmetrization law. Build this nonsingularity/parity adapter using the native real inertia
+API; the parameter-dependent Hermitian and
+concordance signatures of Layer6 consume it. Nondegeneracy, oddness and
+even signature are knot assertions; link Seifert matrices may have odd
+size or singular symmetrization.
+
+**Checks.**
+
+- The empty disc matrix has det V=1. Its native zero-vector column
+  enlargement, reindexed to `[[0,1],[0,0]]`, has det V=0 and is explicitly
+  S-equivalent to it. Realize this move by adding a standard untwisted, unknotted interior
+  tube to the embedded spanning disc, retaining the unknot boundary and
+  exhibiting the oriented basis curves and their push-off pairings. Both have Δ=1, positive determinant1 and signature0; their
+  symmetrization determinants are respectively1 and−1. This proves
+  det V is not invariant, including within actual surfaces for one knot.
+- The native trefoil has det V=1, Δ=T−1+T⁻¹ and det S_V=3; hence
+  Δ(−1)=−3. The native figure-eight has det V=−1,
+  Δ=−T+3−T⁻¹ and det S_V=−5; hence Δ(−1)=5.
+  Both symmetric Laurent polynomials have greatest exponent1 and span2.
+- The stabilized disc has size2 but Δ has span0; matrix size alone does
+  not force equality in the genus bound.
+
+*Needs:* Layer4.3 (embedded Seifert surfaces, skew pairing and geometric
+stabilization), Layer4.4 (native Alexander comparison);
+`IntegralSquareMatrix.SEquivalent`, `enlargeColumn`, `enlargeRow`,
+`LaurentPolynomial`, Mathlib's polynomial-matrix determinant lemmas,
+and native finite-dimensional real inertia and `Matrix.signature`.
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized
