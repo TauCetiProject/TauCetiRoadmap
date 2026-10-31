@@ -7786,6 +7786,157 @@ the geometric realization and clasp comparisons remain mandatory here.
 Whitehead-double construction. The star-label family here retains its
 own required clasp-port and framing comparisons.
 
+<a id="whitehead-seifert-family"></a>
+### 4.11.2 Signed Whitehead surfaces and their Seifert matrices
+
+Give the full marked surface and matrix producer for W_(ε,m)(J), for
+ε=±1, m∈ℤ and every tame oriented companion J. Consume4.11's finite
+pattern/cut/port construction. Use the preferred longitude of J: m is
+its annular framing, measured by the linking of the core with its parallel,
+not the number of wavy marks in a drawing. For a companion diagram of
+writhe w, prove that inserting m−w signed full twists into its blackboard
+parallel gives framing m. Each full twist changes this integer by1.
+Track this comparison through diagram changes and satellite gluing.
+
+**The actual two-band surface.** Construct the oriented annulus with
+core J and framing m and its marked plumbing with the ε-clasp Hopf band.
+Give an equivalent one-disc/two-band presentation with alternating cyclic
+ports, all orientations, heights and twist data, and the comparison to
+W_(ε,m)(J)'s boundary. Prove connectivity, orientability, one boundary
+component, χ=−1 and H₁≃ℤ². Let x₀ be the clasp core and x₁ the annular
+core, with x₀·x₁=−1. Construct their actual cycles, positive normal
+push-offs and basis equivalence. In the fixed native push-SECOND convention
+`V_ij=lk(x_i,x_j⁺)`, prove all four linking values give
+
+```text
+V_(ε,m) = [[−ε,0], [−1,m]],       Vᵀ−V = [[0,−1],[1,0]].
+```
+
+The mixed entries require the local plumbing/crossing computation, not
+only the intersection identity. Prove the identification with the native
+`IntegralSquareMatrix` and geometric Seifert presentation. Changing the
+companion leaves this marked array unchanged; it does not identify the
+satellite knot or its complement group with the unknot-companion model.
+A framing change m↦m+k adds k to the second diagonal entry.
+
+With `S_ε=[[1,0],[−ε,1]]`, prove det S_ε=1 and
+`S_ε V_(ε,m) S_εᵀ=[[−ε,1],[0,m]]`. Export basis computing maps.
+Construct the geometric mirror adapter
+`mirror(W_(ε,m)(J)) ≅ W_(−ε,−m)(mirror J)`, including all oriented
+boundary and longitude markings. Its transported surface has matrix
+−Vᵀ. The unimodular change `C_ε=[[-1,0],[ε,−1]]` satisfies
+`C_ε(−V_(ε,m)ᵀ)C_εᵀ=V_(−ε,−m)`. Prove the actual surface/basis
+comparison as well as this array identity.
+
+**Alexander modules and finite colors.** In the native Laurent ring Λ,
+with t=`T 1`, compute the actual matrix
+
+```text
+tV−Vᵀ = [[−ε(t−1),1], [−t,m(t−1)]],
+D_(ε,m)(t) = −εm(t−1)²+t,
+Δ_(ε,m)(t) = t⁻¹D_(ε,m)(t) = 1−εm(t+t⁻¹−2).
+```
+
+Prove exact equality with native `KnotTheory.alexander`, inversion symmetry
+and Δ(1)=1. The unit entry1 gives explicit row/column eliminations and
+inverse quotient maps identifying its cokernel with Λ/(Δ). Carry the
+pinned transpose convention through the geometric Seifert/cover map to
+H₁ of the meridional infinite cyclic cover. Compare the native unreduced
+PD Alexander module with Λ⊕Λ/(Δ), using the marked meridian splitting;
+the whole native PD module is not the reduced cyclic module.
+
+Compute `det(V+Vᵀ)=−(4εm+1)` and the unsigned knot determinant
+`d=|4εm+1|`, always odd. Give the integral unimodular elimination of the
+specialized reduced presentation to ℤ/(d). For every commutative ring R,
+construct the actual Fox-coloring equivalence
+`Col_R ≃ R × {a : R | (4εm+1)a=0}` with its marked constant coordinate
+and arc computing maps. Thus modulo n≥1 the full and nonconstant counts
+are `n·gcd(n,d)` and `n·(gcd(n,d)−1)`; over a prime field the based rank
+is1 exactly when the prime divides d, otherwise0. Include modulus1,
+characteristic2 and m=0. This uses the earlier geometric Fox/Seifert/base-
+change comparisons, rather than tensoring a kernel without justification.
+
+For m≠0 the Laurent span is2 and d≥3. The actual genus≤1 surface and
+clasp-change unknotting certificate therefore give g=u=1. Ordinary-genus
+additivity proves these knots prime. For fixed J and ε, different m give
+distinct normalized polynomials. At m=0 the reduced Alexander module is0
+and Δ=1; these facts alone do not prove that the knot is trivial. Give
+an actual unknotting movie for W_(ε,0)(unknot). For nontrivial J retain
+4.11's essential-companion-torus/bridge nontriviality proof before asserting
+g=u=1; these knots are prime by the same genus-additivity argument.
+Construct the marked rational-tangle comparison for every unknot-
+companion branch. Compare the m≥1 models with the earlier [2,2m] family
+using their actual coefficient order, ports and mirror/inversion adapters;
+a determinant match does not settle handedness.
+
+**Complete rank-two signature function.** Use the native real matrix
+signature and `tristramLevineForm`/`tristramLevineSignature`. For ω on
+the native `Circle`, put c=2−2Re(ω)=|1−ω|² and a=1+εmc. Prove
+
+```text
+H_ω = [[−εc, conj(ω)−1], [ω−1, mc]],     det H_ω = −c·a.
+```
+
+At ω=1 the matrix is0 with nullity2. Else its raw signature is0 when
+a>0, −ε when a=0, and −2ε when a<0; its nullity is1 exactly at a=0
+and otherwise0. Give the full positive/negative/zero inertia in each
+case. If εm≥0 there are no unit-circle Alexander roots and the signature
+is identically0. If εm<0 there are exactly two distinct roots, specified
+by c=−1/(εm); between them away from1 the signature is−2ε, and on the
+arc containing1 it is0. At each root its value−ε equals the mean of
+the two angular limits. At−1 recover the classical signature
+`σ(V)=−2ε` for εm<0 and0 otherwise. These matrix formulas are independent
+of the later concordance and torus-signature applications.
+
+**Calibrations and literal source surfaces.** For J the unknot, construct
+actual diagram/surface comparisons at (+,−1) with the positive trefoil
+and at (+,1) with the figure-eight. S₁ gives the native trefoil matrix;
+`Q=[[0,1],[−1,0]]` gives `Q V_(+,1) Qᵀ=figureEightSeifertMatrix`.
+The congruences are not by themselves knot-identification proofs.
+
+| ε,m | Native normalized Δ | d | Classical σ(V) |
+| --- | --- | ---: | ---: |
+| +1,−1 | t−1+t⁻¹ | 3 | −2 |
+| +1,0 | 1 | 1 | 0 |
+| +1,1 | −t+3−t⁻¹ | 5 | 0 |
+| +1,2 | −2t+5−2t⁻¹ | 9 | 0 |
+| +1,3 | −3t+7−3t⁻¹ | 13 | 0 |
+| +1,−3 | 3t−5+3t⁻¹ | 11 | −2 |
+
+Exercise68, Problems p12/main p121, calls its pictured surface's boundary
+“the 3-twisted double of the unknot.” Recover its full oriented band/port
+and crossing data, signed clasp, annular framing relative to the preferred
+longitude, positive normal and actual basis. Prove its embedded-surface
+comparison to the corresponding marked model and compute its matrix in
+that chosen basis, with explicit basis/transpose adapters. The literal3
+alone does not establish m=3, its sign, a half/full-twist unit or a knot-
+table name. The m=±3 rows above remain independent conditional calibrations
+until that comparison is proved. Likewise identify BOTH exercise57 doubled
+unknot/trefoil surface occurrences with their actual pattern and companion
+markings before using the genus≤1 theorem. The
+[source note](source-inputs.md#whitehead-seifert-source) retains these limits.
+[`WhiteheadSeifertTargets.lean`](WhiteheadSeifertTargets.lean) prototypes the
+native matrix and invariant statements; the geometric producers remain
+required in addition to the array calculations.
+
+For the plumbing matrix, compare
+[Balm–Friedl–Kalfagianni–Powell, §7.1](https://friedl.app.uni-regensburg.de/papers/genusone12.pdf);
+for preferred framing and the positive-clasp polynomial, compare
+[Hedden, pp2278–2279](https://msp.org/gt/2007/11-4/gt-v11-n4-p08-s.pdf).
+Retain the actual push-first/push-second and sign adapters when importing
+an external basis or diagram.
+
+*Needs:*4.11's independent marked-pattern/annular/clasp construction;
+4.2's realized diagrams and mirror movies;4.3/4.3.2's embedded bands,
+homology bases and linking/push-offs;4.4's geometric Seifert/cover and
+native PD module comparisons;4.4.2 and4.7's Fox specialization and
+marked constant split; the independent clasp-change and ordinary-genus
+prefixes of4.8 and4.3.4. Use native integral matrices, Laurent modules,
+quotients, `Matrix.signature` and the Hermitian signature API directly.
+The finite rank-two matrix calculations do not consume4.11.1's indexed
+bridge family or6.2's downstream geometric/concordance applications.
+
+
 ### 4.12 Braid groups, Garside structure and Brunnian links
 
 Consume `TauCeti.BraidGroup n` with its Artin generators `TauCeti.BraidGroup.sigma`. Define the

@@ -885,3 +885,49 @@ The full embedded surface and its boundary are transported by ambient
 isotopy. This corrected scope is separate from the literal source text.
 Exercise56's genus formula computes a chosen Seifert-algorithm surface,
 not the minimum over all such surfaces or the minimum knot genus.
+
+
+<a id="whitehead-seifert-source"></a>
+## Exercise68 and the signed Whitehead surface producer
+
+Exercise68 is Problems physical p12, source SHA-256
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+and main *Knot Theory* physical p121, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`.
+Luna's1 November report confirms their page images are byte-identical,
+SHA-256 `d8af02a9421f8fd2fc1f7c5733db83e721f4b37356094439da01d11b0a7d449e`.
+The exercise asks for the pictured surface's Seifert matrix and calls its
+boundary the “3-twisted double of the unknot.” No twist-unit/sign convention,
+positive normal or basis is printed.
+
+The drawing suggests a base disc and two ribbon regions, including a
+clasp-like left part and a longer right strip with roughly six undulations.
+That observation does not authenticate a signed full/half-twist count,
+complete attaching-port order, over/under code or marked homology basis.
+The intended knot boundary is not a recovered finite boundary traversal.
+Only verified gpt-6-luna inspected images; all other agents read Markdown.
+
+The [full matrix producer](README.md#whitehead-seifert-family) requires
+those geometric inputs and the actual source-to-model surface/basis map.
+Its ε=+1,m=3 row has matrix[[-1,0],[-1,3]], normalized polynomial
+−3t+7−3t⁻¹ and determinant13. The ε=+1,m=−3 row instead has
+3t−5+3t⁻¹ and determinant11. Neither is assigned to the literal source
+without its actual clasp/framing/normal/basis comparison. An unmarked
+congruent matrix or a named standard twist knot is not that identification.
+
+Exercise57, Problems p10/main p119, separately illustrates doubles of the
+unknot and trefoil and asks for genus≤1. Its two literal surface occurrences
+require their own marked pattern/companion and boundary comparisons;
+the source's shorthand does not select an unprinted clasp or framing.
+The universal punctured-torus construction gives the bound once those
+comparisons are established, while minimum genus needs nontriviality.
+
+The external matrix calibration is
+[Balm–Friedl–Kalfagianni–Powell, *Cosmetic crossings and Seifert matrices*,
+§7.1](https://friedl.app.uni-regensburg.de/papers/genusone12.pdf), using an
+annulus/Hopf-band plumbing. [Hedden, *Knot Floer homology of Whitehead
+doubles*, pp2278–2279](https://msp.org/gt/2007/11-4/gt-v11-n4-p08-s.pdf)
+fixes preferred Seifert framing and the positive-clasp polynomial.
+The new rank-two determinant, basis, color and signature calculations are
+independent mathematical outputs, not additional claims printed in the
+course problem or a certification of its unresolved picture.
