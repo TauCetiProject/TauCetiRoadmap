@@ -4693,6 +4693,209 @@ Markov comparison and Alexander/determinant normalization; native B₂
 normal form, `permHom` and exponent sum. The later torus and Arf checks
 consume4.11 and4.3.1/4.5.3, respectively, without feeding the early proof.
 
+<a id="unknotting-nonadditivity"></a>
+
+### 4.8.3 Gordian distance and nonadditivity of unknotting number
+
+Develop the library behind the additivity question on *Knot Theory*, physical p190. On
+oriented tame knot types modulo orientation-preserving ambient isotopy, define the
+Gordian distance d(K,J) as the least number of crossing changes in a finite realized
+diagram movie from K to J, with ambient isotopies between changes. Use4.2's native
+diagram/embedding comparisons and4.7.1's descending construction to prove existence and
+attainment of this minimum. Prove symmetry, the triangle inequality, d(K,J)=0 iff K=J,
+and u(K)=d(K,U). Prove simultaneous mirror and simultaneous orientation-reversal
+invariance, and the induced distance on unoriented knot types by minimizing over
+orientations. Ambient reflection is not identified with orientation-preserving isotopy
+in these carriers. Prove |u(K)−u(J)|≤d(K,J), the corresponding signature-distance bounds
+using6.2, and d(K#L,J#M)≤d(K,J)+d(L,M) by disjoint marked sum balls. Compare the movie
+minimum with4.10.3's one-diagram crossing-change formulation; a specified source diagram
+need not attain it.
+
+Define the reflexive Gordian order A≼K by `u(A)≤u(K) ∧ d(A,K)=u(K)−u(A)`. Prove its
+partial-order laws and equivalence to occurrence on a minimizing unknotting movie, with
+concatenation/submovie and mirror/reversal transport. Keep strict adjacency A≺K as A≼K
+and A≠K. In particular T(2,7)≼T(2,7) uses the identity movie. For natural δ with
+δ≤u(A)+u(B), prove the quantitative transport theorem
+
+```text
+A≼K, B≼J, u(A#mirror B)+δ≤u(A)+u(B)
+  ⇒ u(K#mirror J)+δ≤u(K)+u(J).
+```
+
+Construct the transported movie on actual summands; this also handles δ=0 and equal
+endpoints without unsafe natural subtraction. This is an application of the earlier
+connected-sum and unknotting API, not a premise of6.2's signature bound or of the
+prime-decomposition/surgery arguments.
+
+**The five-change certificate.** Prove `u(T#mirror T)≤5<6=u(T)+u(mirror T)` for
+T=T(2,7), following [Brittenham–Hermiller, *Unknotting number is not additive under
+connected sum*, Theorem1.2 and §2](https://arxiv.org/html/2506.24088v2). First compute
+σ(T)=−6 in6.2's convention and give three switches reducing σ₀⁷ to σ₀, hence
+u(T)=u(mirror T)=3. The paper uses the opposite signature convention; that alone does
+not prescribe a mirror of its braid or DT entries. Supply the local drawing adapter,
+including transverse strand ordering, word direction, handedness and the global
+mirror/orientation transport used. A plane rotation can change generator indexing
+without changing handedness.
+
+Retain these literal source inputs, with braid generators numbered1 through4, word read
+left to right, and all switch positions zero-based:
+
+```text
+b  = [1,-4,2,3,3,3,2,3,2,2,4,-3,-3,-3,-3,-1,-3,-2,-3,-3]
+b' = [-1,4,2,3,3,3,2,3,2,2,4,-3,-3,-3,-3,-1,-3,-2,-3,-3]
+dA = [4,-16,24,26,18,20,28,22,-2,10,12,30,6,8,14]
+dBa= [-4,-16,24,26,18,20,28,22,-2,10,12,30,6,8,14]
+dBb= [4,12,-24,14,18,2,20,26,8,10,-28,-30,16,-6,-22]
+dC = [4,12,-24,14,18,2,-20,26,8,10,-28,-30,16,-6,-22]
+dU = [4,12,-24,14,18,2,-20,26,8,10,-28,-30,16,6,-22]
+```
+
+The required marked path is
+
+```text
+T#mirror T ≅ closure(b)
+  -- switches0,1 --> closure(b') ≅ realization(dA)
+  -- switch0 --> realization(dBa) ≅ realization(dBb)
+  -- switch6 --> realization(dC)
+  -- switch13 --> realization(dU) ≅ U.
+```
+
+Construct the signed planar completions, distinguished outer faces, orientations, and
+actual native `BraidWord 5`/`OrientedPDCode` realizations. Adapt SnapPy's signed-even DT
+convention through4.2's existing encounter/rotation decoder; a signed DT entry is not an
+oriented crossing sign. Supply crossing dictionaries, local move discs, incidence
+checks, and relative planar-isotopy/Reidemeister certificates for every ≅, including the
+initial connected sum, closure(b') to dA, the two B diagrams, and the final unknot
+reduction. Figures1–6 locate these moves and switches; their selected snapshots are to
+be expanded into finite certified paths, including the unarrowed row join in Figure2.
+The intermediate labels are A=K14a18636, Ba=Bb=K15n81556 and C=K12n412; prove their
+source-code comparisons rather than using the common labels as isotopy certificates. The
+switch count is2+1+2. Deduce u(A)≤3, u(B)≤2 and u(C)≤1. The counterexample needs only
+u(T#mirror T)≤5, not equality5. SnapPy identification, floating-point exterior isometry
+and unmarked group presentations do not discharge these geometric certificates.
+
+**Group and torus consequences.** Prove u(T#T)=6 by the signature−12 and the six-switch
+upper bound. Construct an abstract group isomorphism between the groups of T#T and
+T#mirror T: realize the connected-sum groups as meridional amalgams and supply the
+mirror isomorphism and compatible meridian inversion on the other factor. Thus abstract
+knot group does not determine unknotting number. The groups are π₁(S³\K); the S² in the
+paper's introductory definition is not the ambient carrier. This composite example does
+not contradict8.5.2's prime-knot group theorem, and does not identify meridian–longitude
+marked exteriors.
+
+For k≥3 let K_k=T(2,2k+1). Prove σ(K_k)=−2k and u(K_k)=k by the explicit two-strand
+signature matrix and k switches. Give the k−3 switches and intervening Reidemeister-II
+cancellations to T. Consequently, for k,l≥3, `u(K_k#mirror K_l)≤k+l−1`. Keep the
+same-sign family separate: its signature bound gives u(K_k#K_l)=k+l.
+
+Extend this to every pair in `𝒯={T(p,q):2≤p<q, gcd(p,q)=1, (p,q)∉{(2,3),(2,5),(3,4)}}`.
+Consume the torus τ computation and |τ|≤u from [CombinatorialHeegaardFloer, Lane G
+item7](../CombinatorialHeegaardFloer/README.md#lane-g-grid-homology-the-spine), with the
+explicit canonical-grid to4.11's realized torus-knot comparison and standard unknotting
+movie, to obtain u(T(p,q))=(p−1)(q−1)/2. This lower-bound supplier is independent of
+nonadditivity. Build the coordinatewise Gordian adjacency construction for coprime
+positive parameter pairs a≤p,b≤q, and the explicit T(2,7)≼T(3,5) movie, from [Feller,
+Theorems2–3 and their thickened-torus proof](https://arxiv.org/html/1301.5248v2). Own
+the monotone lifted diagrams, local crossing changes and isotopy to the smaller torus
+knot; check the change count against the torus unknotting formula. The latter movie is
+the case n=7,m=5 of n≤(4m+1)/3 in Theorem3. For p≥3,q≥5, compose with T(3,5)≼T(p,q); the
+p=2 cases use the preceding explicit movies. This supplies T≼K throughout𝒯, including
+T(4,5), T(5,6) and the identity case K=T. Deduce `u(K#mirror J)+1≤u(K)+u(J)` for every
+K,J∈𝒯. The three excluded parameter pairs specify this theorem's domain, not a
+classification of all possible partners in nonadditivity examples.
+
+**The ten-crossing example and infinitely many intermediates.** Realize
+
+```text
+d10 = [12,14,-10,-20,-16,18,2,-8,4,-6]
+d10'= [12,14,-10,-20,16,18,2,-8,4,-6].
+```
+
+Certify that d10 is10₁₃₉, its index4 switch gives d10', and d10' realizes T with the
+same convention adapter and finite geometric comparisons. Prove |τ(10₁₃₉)|=4 by a native
+grid/filtered-complex computation and its comparison with the realized knot, using
+CombinatorialHeegaardFloer items1–7; include the filtered cycles, boundaries and
+nonvanishing certificates, not a table lookup. Together with its four-change movie this
+gives u(10₁₃₉)=4 and T≼10₁₃₉. Using that roadmap's item10 and the canonical genus-four
+surface, also prove g₄(10₁₃₉)=4. Thus the mixed mirrored sum has u≤6<7, and
+u(10₁₃₉#mirror10₁₃₉)≤7<8. This gives a concrete producer for the lower bound used in
+Brittenham–Hermiller Corollary2.2, independently of the earlier signature-only
+two-strand examples.
+
+Prove [Baader's intermediate-knot theorem](https://doi.org/10.1093/qmath/hai010): for
+knots at Gordian distance exactly2, construct infinitely many pairwise distinct knot
+types at distance1 from each endpoint. Use the concrete Conway-coefficient producer in
+[Baader, *Gordian distance and Vassiliev invariants*,
+§2](https://arxiv.org/html/math/0703786): for every integer N construct an intermediate
+I_N with Conway coefficient a₂(I_N)=N. Move a minimizing two-change movie to a diagram
+with neighboring marked crossings A,B. Give the signed slalom/twist replacement, the new
+marked crossing C, and the two one-change movies C→K₀ and B→K₁. For A positive, prove C
+negative and a₂(K₀)−a₂(I_N)=lk(L_C), where L_C is its oriented smoothing. Compute
+lk(L_C) from the actual strand components and signed twist parameter, and solve
+lk(L_C)=a₂(K₀)−N. Supply the negative-A version too. This consumes4.4's Conway skein
+relation and4.3's realized linking number; it does not require the higher finite-type
+theorem. Distinct a₂ values certify pairwise distinct types, including after mirror or
+orientation reversal (both preserve a₂). For n≥4 apply this to T(2,2n+3) and T(2,2n−1).
+The two-strand movies give distance≤2 and their unknotting-number difference gives
+distance≥2. Each intermediate K_i has u(K_i)=n and T≼K_i via the lower endpoint. Deduce
+`u(K_i#mirror K_j)≤2n−1` for all i,j. Prove only finitely many torus knots have u=n, by
+the torus formula and factor pairs of2n (including mirrors), and restrict the family to
+infinitely many non-torus types. Transport statements to unoriented types with a
+finite-orientation-fibre argument where needed.
+
+**Arbitrarily large deficits, including prime summands.** For r≥1 and m≥3 let Q_(r,m) be
+the r-fold connected sum of T(2,2m+1). Signature gives u(Q_(r,m))=rm. Rearrange the
+actual marked sums into r opposite-sign pairs and concatenate their movies to prove
+`u(Q_(r,m)#mirror Q_(r,m))≤r(2m−1)`. Thus the deficit is at least r, and varying m gives
+infinitely many distinct examples for each r, distinguished by u. This argument does not
+assume additivity of u on connected sums of arbitrary Gordian intermediates.
+
+Construct the prime pretzel knots P_n=P(7,…,7,2), with n copies of7, for n≥2. Fix the
+realized pretzel signs and orientations, prove the one-even-entry component criterion
+here, and certify that one switch in the2-box gives the standard P(7,…,7,0) diagram of
+the connected sum of n copies of T. Prove the reusable primality theorem for the
+standard pretzel knot P(a₁,…,a_m), where m≥3, every a_i≥2, and exactly one a_i is even
+(the others odd). Supply the prime-alternating-diagram criterion: a connected reduced
+alternating knot diagram with at least one crossing represents a prime knot iff every
+transverse simple circle in the projection sphere S² meeting it twice away from
+crossings bounds a disc on at least one side containing no crossings. Prove the
+criterion by normalizing a decomposing sphere against the projection sphere with
+crossing bubbles, preserving the two knot intersections and eliminating the other
+intersection curves, as in Menasco, *Closed incompressible surfaces in alternating knot
+and link complements*, Topology23(1984), Theorem1(b). This uses4.9's independent
+sphere/isotopy prefix, not hyperbolization. Prove the pretzel diagram connected, reduced
+and alternating; give the finite plane-graph/curve argument excluding a two-point circle
+with crossings on both sides. Apply the criterion to deduce primality. These are actual
+sphere and diagram proofs, not inferences from the pretzel name or from
+incompressibility of rational tangle pieces. Prove
+
+```text
+3n−1 ≤ u(P_n) ≤ 3n+1,
+u(P_n#mirror P_n) ≤ 5n+2,
+u(P_n#mirror P_n)+(n−4) ≤ 2u(P_n)  (n≥4).
+```
+
+For any r≥1, n≥r+4 gives prime summands with deficit at least r. Also prove the version
+for n≥2 arbitrary odd twist parameters2k_i+1≥7: write S=Σk_i, give the same
+primality/decomposition certificates, S−1≤u(P)≤S+1 and u(P#mirror P)≤2S−n+2, hence
+deficit at least n−4. No exact unknotting number of these pretzels is assumed.
+
+**Checks.** The native braid tuple has20 letters, exponent sum0, and permutation
+orbit0→4→2→1→3→0 after the direct zero-based encoding; its first two sign switches
+preserve that permutation. All five length15 DT words use each even encounter2,…,30
+exactly once. These finite checks are distinct from their planar realizations and marked
+knot comparisons. The signature lower bound for T#mirror T is zero, whereas that for T#T
+is6. The n=4 intermediate construction includes the identity T≼T at its lower endpoint.
+The prime-deficit construction uses n≥5 for a positive deficit. [Native finite-input
+calculations](UnknottingNonadditivityTargets.lean) check the braid permutation and exact
+switch/encounter data; the geometric certificates above remain required targets.
+
+*Needs:* Layers4.2–4.4,4.7.1,4.9–4.11 for realized diagrams, sum balls, finite
+crossing-change movies, Seifert matrices and torus/pretzel models; 6.2's signature
+bound; CombinatorialHeegaardFloer's independent item7 (and item10 for g₄). The Gordian
+core and five-change certificate do not require Floer homology or pretzel primality.
+
+
 ### 4.9 Prime decomposition of knots and links
 
 Prove Schubert's theorem: every nontrivial oriented knot is a connected sum
