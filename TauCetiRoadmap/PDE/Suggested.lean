@@ -6,7 +6,6 @@ public import TauCeti.Analysis.Sobolev.W1p.Restriction
 public import TauCeti.Analysis.Sobolev.Wkp.Basic
 public import TauCeti.Analysis.PDE.Ellipticity.Basic
 public import TauCeti.Analysis.PDE.EnergyForm.Sobolev
-public import TauCeti.MeasureTheory.Integral.MaximalFunction
 
 /-!
 # Partial differential equations: target signatures
@@ -21,13 +20,14 @@ every API bullet and every Check, lives in the README.
 Headline theorems stated here: Meyers–Serrin density in every order on an arbitrary open set
 (§1.2); the Poincaré–Wirtinger inequality on connected bounded Lipschitz domains (§1.5); the
 trace theorem with its kernel, the extension operator and Rellich compactness on bounded
-Lipschitz domains (§1.6); the strong-type maximal inequality (§2.1); Calderón–Zygmund
-`Lᵖ` and weak-`(1,1)` bounds (§2.3); the classical Hopf boundary-point lemma (§3.2); the
-Dirichlet problem with an `H¹` lifting and `H⁻¹` forcing (§4.2); the Fredholm compatibility
-condition for Gårding forms (§4.3); interior `H²` regularity for Lipschitz coefficients (§5.1);
-De Giorgi–Nash–Moser Hölder continuity in every dimension for non-symmetric inverse-coercive
-coefficients (§5.4); the Krylov–Safonov Hölder estimate for strong solutions (§5.5); and the
-interior Schauder estimate (§5.6).
+Lipschitz domains (§1.6); Calderón–Zygmund `Lᵖ` and weak-`(1,1)` bounds (§2.3); the classical
+Hopf boundary-point lemma (§3.2); the Dirichlet problem with an `H¹` lifting and `H⁻¹` forcing
+(§4.2); the Fredholm compatibility condition for Gårding forms (§4.3); interior `H²` regularity
+for Lipschitz coefficients (§5.1); De Giorgi–Nash–Moser Hölder continuity and the Harnack
+inequality in every dimension for non-symmetric inverse-coercive coefficients (§5.4); the
+Krylov–Safonov Hölder estimate and Harnack inequality for strong solutions (§5.5); and the
+interior Schauder estimate (§5.6). The strong-type maximal inequality of §2.1 is a theorem at
+the pin (`TauCeti.lintegral_rpow_maximalFunction_le`) and is not restated.
 
 Headline theorems not statable at the pins, and what each lacks:
 
@@ -35,9 +35,10 @@ Headline theorems not statable at the pins, and what each lacks:
   `1 < p < ∞`): the identification is statable only through the complex tempered
   distribution attached to a real `Lᵖ` function, whose `H^{k,2}` half exists at the pin; the
   general-`p` statement needs the real Bessel-potential carrier of §1.3.
-* §2.2 (Riesz–Thorin, off-diagonal Marcinkiewicz) and §2.3 (Mihlin–Hörmander): an operator
-  defined on `L^{p₀} + L^{p₁}`, respectively a Fourier multiplier acting on `Lᵖ`, has no
-  carrier at the pins beyond tempered distributions.
+* §2.1 (the Fefferman–Stein vector-valued inequality), §2.2 (Riesz–Thorin, off-diagonal
+  Marcinkiewicz) and §2.3 (Mihlin–Hörmander): a sequence-valued `Lᵖ` function with its square
+  function, an operator defined on `L^{p₀} + L^{p₁}`, respectively a Fourier multiplier acting on
+  `Lᵖ`, has no carrier at the pins beyond tempered distributions.
 * §4.4 (the Dirichlet spectrum): proved at the pin for symmetric coercive forms; its
   remaining targets are Checks and corollaries of §5.1, not new headlines.
 * §6.2 (Galerkin existence for parabolic equations) and §6.3 (the heat semigroup and its
@@ -172,23 +173,6 @@ theorem isCompactOperator_valueL_of_isLipschitzDomain
 end LipschitzDomains
 
 /-! ## Layer 2: harmonic-analysis estimates -/
-
-section Layer2
-
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasurableSpace E] [BorelSpace E]
-
-/-- **The strong-type maximal inequality** (§2.1). For `1 < p < ∞` the Hardy–Littlewood maximal
-operator is bounded on `Lᵖ`, with a constant depending only on `p` and the dimension
-(Stein, *Singular Integrals*, Chapter I, §1, Theorem 1). The weak-type `(1,1)` endpoint is the
-pinned `TauCeti.mul_measure_lt_maximalFunction_le`. -/
-theorem lintegral_maximalFunction_rpow_le (mu : Measure E) [mu.IsAddHaarMeasure] {p : ℝ}
-    (hp : 1 < p) :
-    ∃ C : ℝ≥0∞, C ≠ ⊤ ∧ ∀ f : E → ℝ, AEStronglyMeasurable f mu →
-      ∫⁻ x, maximalFunction mu f x ^ p ∂mu ≤ C * ∫⁻ x, ‖f x‖ₑ ^ p ∂mu := by
-  sorry
-
-end Layer2
 
 section CalderonZygmund
 
@@ -368,6 +352,30 @@ theorem exists_holderOnWith_of_isWeakSolution_ball (ratio : ℝ) :
             √(∫ y in ball x₀ (2 * r), W1p.value u y ^ 2 ∂mu))).toNNReal α v (ball x₀ r) := by
   sorry
 
+/-- **The Harnack inequality for weak solutions** (§5.4). Fix the ellipticity ratio `ratio`.
+There is `C > 0`, depending only on `ratio` and the dimension, such that for every
+inverse-coercive coefficient field `a` with constants `0 < λ ≤ Λ ≤ ratio·λ`, measurable and not
+necessarily symmetric, and every weak solution `u ∈ H¹(B(x₀, 4r))` of the homogeneous equation
+`−∂ⱼ(aⁱʲ∂ᵢu) = 0` that is nonnegative almost everywhere on `B(x₀, 4r)`, one has `u(x) ≤ C u(y)`
+for almost every `x` and almost every `y` in `B(x₀, r)`. This is
+`ess sup_{B(x₀,r)} u ≤ C ess inf_{B(x₀,r)} u`, written pairwise so that no junk value of a real
+essential supremum enters (Gilbarg–Trudinger, Theorem 8.20, with no lower-order terms, where
+the constant depends on `n` and `Λ/λ` only). -/
+theorem harnack_of_isWeakSolution_ball (ratio : ℝ) :
+    ∃ C : ℝ, 0 < C ∧
+      ∀ (lam Lam : ℝ) (x₀ : EuclideanSpace ℝ ι) (r : ℝ)
+        (a : EuclideanSpace ℝ ι → Matrix ι ι ℝ)
+        (u : W1p mu ⟨ball x₀ (4 * r), isOpen_ball⟩ 2),
+        0 < r → Lam ≤ ratio * lam →
+        IsUniformlyEllipticAE mu (ball x₀ (4 * r)) a lam Lam →
+        AEStronglyMeasurable a (mu.restrict (ball x₀ (4 * r))) →
+        (∀ᵐ x ∂(mu.restrict (ball x₀ (4 * r))), 0 ≤ W1p.value u x) →
+        (∀ v : W1p0 mu ⟨ball x₀ (4 * r), isOpen_ball⟩ 2,
+          energyFormH1 a 0 0 u (v : W1p mu ⟨ball x₀ (4 * r), isOpen_ball⟩ 2) = 0) →
+        ∀ᵐ x ∂(mu.restrict (ball x₀ r)), ∀ᵐ y ∂(mu.restrict (ball x₀ r)),
+          W1p.value u x ≤ C * W1p.value u y := by
+  sorry
+
 /-- **The Krylov–Safonov Hölder estimate** (§5.5). Let `n = card ι ≥ 1`, let `a` be measurable
 and uniformly elliptic on `B(x₀, 2r)` with constants `λ, Λ`, and let `u ∈ W^{2,n}(B(x₀, 2r))`
 be a strong solution of `−aⁱʲ∂ᵢⱼu = f` almost everywhere, with `f ∈ Lⁿ` and `|u| ≤ M` almost
@@ -392,6 +400,30 @@ theorem exists_holderOnWith_of_isStrongSolution_ball
           (Wkp.value 2 u : EuclideanSpace ℝ ι → ℝ) =ᵐ[mu.restrict (ball x₀ (2 * r))] v ∧
           HolderOnWith (C * r ^ (-(α : ℝ)) * (M + r * ‖f‖ / lam)).toNNReal α v
             (ball x₀ r) := by
+  sorry
+
+/-- **The Krylov–Safonov Harnack inequality** (§5.5). Let `n = card ι ≥ 1`, let `a` be
+measurable and uniformly elliptic on `B(x₀, 2r)` with constants `λ, Λ`, `Λ ≤ ratio·λ`, and let
+`u ∈ W^{2,n}(B(x₀, 2r))` be a strong solution of `−aⁱʲ∂ᵢⱼu = f` almost everywhere with `f ∈ Lⁿ`,
+nonnegative almost everywhere on the ball. Then `u(x) ≤ C (u(y) + r ‖f‖_{Lⁿ(B(x₀,2r))}/λ)` for
+almost every `x` and almost every `y` in `B(x₀, r)`, with `C` depending only on `n` and `Λ/λ`
+(Gilbarg–Trudinger, Theorem 9.22, with no lower-order terms). -/
+theorem harnack_of_isStrongSolution_ball
+    [Fact (1 ≤ (Fintype.card ι : ℝ≥0∞))] (ratio : ℝ) :
+    ∃ C : ℝ, 0 < C ∧
+      ∀ (lam Lam : ℝ) (x₀ : EuclideanSpace ℝ ι) (r : ℝ)
+        (a : EuclideanSpace ℝ ι → Matrix ι ι ℝ)
+        (f : Lp ℝ (Fintype.card ι) (mu.restrict (ball x₀ (2 * r))))
+        (u : Wkp mu ⟨ball x₀ (2 * r), isOpen_ball⟩ (Fintype.card ι) 2),
+        0 < r → Lam ≤ ratio * lam →
+        UniformlyEllipticOn (ball x₀ (2 * r)) a lam Lam →
+        AEStronglyMeasurable a (mu.restrict (ball x₀ (2 * r))) →
+        (∀ᵐ x ∂(mu.restrict (ball x₀ (2 * r))), 0 ≤ Wkp.value 2 u x) →
+        (∀ᵐ x ∂(mu.restrict (ball x₀ (2 * r))),
+          -(∑ i, ∑ j, a x i j * (Wkp.iteratedGradient 1 u x (EuclideanSpace.single j 1)) i) =
+            f x) →
+        ∀ᵐ x ∂(mu.restrict (ball x₀ r)), ∀ᵐ y ∂(mu.restrict (ball x₀ r)),
+          Wkp.value 2 u x ≤ C * (Wkp.value 2 u y + r * ‖f‖ / lam) := by
   sorry
 
 /-- **The interior Schauder estimate** (§5.6), in scaled form. Fix `0 < α < 1`, ellipticity
