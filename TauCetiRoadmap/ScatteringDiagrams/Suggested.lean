@@ -33,6 +33,8 @@ import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.RingTheory.Nilpotent.Exp
 import Mathlib.Topology.Baire.CompleteMetrizable
 import Mathlib.Topology.Baire.Lemmas
+import Mathlib.Topology.Maps.Proper.Basic
+import Mathlib.Topology.PartialHomeomorph.Basic
 import TauCeti.Algebra.Module.Primitive
 import TauCeti.Analysis.Convex.Polyhedron
 import TauCeti.Geometry.Toric.Algebraic.Lattice
@@ -724,6 +726,33 @@ noncomputable def GradedCorrespondence.transferRight [DecidableEq Γu]
     (S : GradedCorrespondence 𝒜u 𝒜v Mb) (η : Γv) (h : η ∈ S.admissibleRight) (γ : Γu) :
     𝒜v η →ₗ[R] Mu :=
   homogeneousImage 𝒜u (S.left.comp (S.liftRight η h)) γ
+
+/-- The finite support of the propagated whole homogeneous input. -/
+noncomputable def GradedCorrespondence.outputSupportLeft [DecidableEq Γv]
+    [DirectSum.Decomposition 𝒜v] (S : GradedCorrespondence 𝒜u 𝒜v Mb)
+    (γ : Γu) (h : γ ∈ S.admissibleLeft) (a : 𝒜u γ) : Finset Γv := by
+  classical
+  exact (DirectSum.decompose 𝒜v (S.right (S.liftLeft γ h a))).support
+
+/-- One reconstruction identity supplies the coefficient sum for both ordinary walls
+and slabs; the one-face geometric theorem identifies this support with the path fiber. -/
+theorem GradedCorrespondence.sum_transferLeft [DecidableEq Γv]
+    [DirectSum.Decomposition 𝒜v] (S : GradedCorrespondence 𝒜u 𝒜v Mb)
+    (γ : Γu) (h : γ ∈ S.admissibleLeft) (a : 𝒜u γ) :
+    ∑ η ∈ S.outputSupportLeft γ h a, S.transferLeft γ h η a =
+      S.right (S.liftLeft γ h a) := by
+  classical
+  change (∑ η ∈ (DirectSum.decompose 𝒜v (S.right (S.liftLeft γ h a))).support,
+    ((DirectSum.decompose 𝒜v (S.right (S.liftLeft γ h a))) η : Mv)) = _
+  exact DirectSum.sum_support_decompose 𝒜v _
+
+/-- The incoming lift is a common lift of the incoming coefficient and the outgoing sum. -/
+theorem GradedCorrespondence.lift_transfer_pair [DecidableEq Γv]
+    [DirectSum.Decomposition 𝒜v] (S : GradedCorrespondence 𝒜u 𝒜v Mb)
+    (γ : Γu) (h : γ ∈ S.admissibleLeft) (a : 𝒜u γ) :
+    (S.left.prod S.right) (S.liftLeft γ h a) =
+      ((a : Mu), ∑ η ∈ S.outputSupportLeft γ h a, S.transferLeft γ h η a) := by
+  exact Prod.ext (S.left_lift γ h a) (S.sum_transferLeft γ h a).symm
 
 /-- The image in `Mu × Mv`; joint injectivity identifies it with `Mb` (`README §0.8`). -/
 def GradedCorrespondence.toSubmodule (S : GradedCorrespondence 𝒜u 𝒜v Mb) :
@@ -1844,6 +1873,184 @@ def IsSegmentInterior {k : ℕ} (T : Fin k → ℝ) (j : Fin (k + 1)) (t : ℝ) 
 
 end BrokenLines
 
+section GeneralBrokenLines
+
+universe uS uD uM uF
+
+variable (R B V : Type*) [Semiring R] [TopologicalSpace B]
+  [NormedAddCommGroup V] [NormedSpace ℝ V]
+
+/-- The chart, face and coefficient data used by a broken line at one order and one
+refinement (`README §§1.5, 5.2`). A chart region may have several components carrying the
+same coefficient object. The span at an encounter includes its crossing orientation. -/
+structure BrokenLineData where
+  State : Type uS
+  Degree : State → Type uD
+  coefficient : State → SemimoduleCat.{uM} R
+  grading : ∀ u, Degree u → Submodule R (coefficient u)
+  decidableDegree : ∀ u, DecidableEq (Degree u)
+  decomposition : ∀ u, DirectSum.Decomposition (grading u)
+  chart : State → PartialHomeomorph B V
+  region : State → Set B
+  momentum : ∀ u, Degree u → V
+  Face : State → State → Type uF
+  faceCoefficient : ∀ {u v}, Face u v → SemimoduleCat.{uM} R
+  support : ∀ {u v}, Face u v → Set B
+  normals : ∀ {u v}, Face u v → B → Set (Module.Dual ℝ V × Module.Dual ℝ V)
+  span : ∀ {u v} (e : Face u v), B → Degree u →
+    GradedCorrespondence (grading u) (grading v) (faceCoefficient e)
+  singular : Set B
+
+attribute [instance] BrokenLineData.decidableDegree BrokenLineData.decomposition
+
+variable {R B V}
+
+def BrokenLineData.faceSupport (D : BrokenLineData R B V) : Set B :=
+  {x | ∃ (u v : D.State) (e : D.Face u v), x ∈ D.support e}
+
+/-- One carrier for decorated paths in a fixed chart presentation. All crossings, including
+chart faces in that presentation, are recorded. The refinement and coordinate-change laws
+of `README §5.2` identify presentations of the intrinsic broken line. -/
+structure BrokenLine (D : BrokenLineData R B V) where
+  numEvents : ℕ
+  eventTime : Fin numEvents → ℝ
+  eventTime_strictMono : StrictMono eventTime
+  eventTime_neg : ∀ j, eventTime j < 0
+  state : Fin (numEvents + 1) → D.State
+  degree : ∀ j, D.Degree (state j)
+  decoration : ∀ j, D.coefficient (state j)
+  decoration_mem : ∀ j, decoration j ∈ D.grading (state j) (degree j)
+  decoration_ne_zero : ∀ j, decoration j ≠ 0
+  direction_ne_zero : ∀ j, D.momentum (state j) (degree j) ≠ 0
+  path : Set.Iic (0 : ℝ) → B
+  proper : IsProperMap path
+  endpoint_off : path ⟨0, (le_rfl : (0 : ℝ) ≤ 0)⟩ ∉ D.faceSupport
+  endpoint_region : path ⟨0, (le_rfl : (0 : ℝ) ≤ 0)⟩ ∈ D.region (state (Fin.last numEvents))
+  avoids : ∀ t, path t ∉ D.singular
+  segment_chart : ∀ j (t : Set.Iic (0 : ℝ)), IsSegmentInterior eventTime j t →
+    path t ∈ (D.chart (state j)).source ∩ D.region (state j)
+  segment_affine : ∀ j (s t : Set.Iic (0 : ℝ)), IsSegmentInterior eventTime j s →
+    IsSegmentInterior eventTime j t →
+    D.chart (state j) (path t) = D.chart (state j) (path s) -
+      ((t : ℝ) - s) • D.momentum (state j) (degree j)
+  face : ∀ j : Fin numEvents, D.Face (state j.castSucc) (state j.succ)
+  event_on_face : ∀ j, path ⟨eventTime j, (eventTime_neg j).le⟩ ∈ D.support (face j)
+  event_charts : ∀ j, path ⟨eventTime j, (eventTime_neg j).le⟩ ∈
+    (D.chart (state j.castSucc)).source ∩ (D.chart (state j.succ)).source
+  event_crosses : ∀ j n, n ∈ D.normals (face j) (path ⟨eventTime j, (eventTime_neg j).le⟩) →
+    0 < n.1 (-D.momentum (state j.castSucc) (degree j.castSucc)) *
+      n.2 (-D.momentum (state j.succ) (degree j.succ))
+  normal_velocity : ∀ j n, n ∈ D.normals (face j) (path ⟨eventTime j, (eventTime_neg j).le⟩) →
+    n.1 (D.momentum (state j.castSucc) (degree j.castSucc)) =
+      n.2 (D.momentum (state j.succ) (degree j.succ))
+  admissible : ∀ j, degree j.castSucc ∈
+    (D.span (face j) (path ⟨eventTime j, (eventTime_neg j).le⟩) (degree j.castSucc)).admissibleLeft
+  propagate : ∀ j, decoration j.succ =
+    (D.span (face j) (path ⟨eventTime j, (eventTime_neg j).le⟩) (degree j.castSucc)).transferLeft
+      (degree j.castSucc) (admissible j) (degree j.succ)
+      ⟨decoration j.castSucc, decoration_mem j.castSucc⟩
+  all_encounters : ∀ j (t : Set.Iic (0 : ℝ)),
+    IsSegmentInterior eventTime j t → path t ∉ D.faceSupport
+
+def BrokenLine.endpoint {D : BrokenLineData R B V} (b : BrokenLine D) : B :=
+  b.path ⟨0, (le_rfl : (0 : ℝ) ≤ 0)⟩
+
+def BrokenLine.finalState {D : BrokenLineData R B V} (b : BrokenLine D) : D.State :=
+  b.state (Fin.last b.numEvents)
+
+def BrokenLine.finalDecoration {D : BrokenLineData R B V} (b : BrokenLine D) :
+    D.coefficient b.finalState := b.decoration (Fin.last b.numEvents)
+
+/-- Evaluate a finite family in a fixed terminal coefficient module. Evaluation fibers of
+the general carrier supply the indexing types; no special-case summation is needed. -/
+noncomputable def BrokenLine.weightedEvaluation {D : BrokenLineData R B V}
+    {ι : Type*} [Finite ι] (family : ι → BrokenLine D) (u : D.State)
+    (hu : ∀ j, (family j).finalState = u) : D.coefficient u := by
+  letI := Fintype.ofFinite ι
+  exact ∑ j, (congrArg (fun v => (D.coefficient v : Type _)) (hu j)) ▸
+    (family j).finalDecoration
+
+/-- Changing an enumeration does not introduce a second evaluation construction. -/
+theorem BrokenLine.weightedEvaluation_reindex {D : BrokenLineData R B V}
+    {ι κ : Type*} [Finite ι] [Finite κ] (e : ι ≃ κ)
+    (family : κ → BrokenLine D) (u : D.State) (hu : ∀ j, (family j).finalState = u) :
+    BrokenLine.weightedEvaluation (family ∘ e) u (fun j => hu (e j)) =
+      BrokenLine.weightedEvaluation family u hu := by
+  letI := Fintype.ofFinite ι
+  letI := Fintype.ofFinite κ
+  unfold BrokenLine.weightedEvaluation
+  exact Fintype.sum_equiv e _ _ (fun _ => rfl)
+
+/-- Reversing a slab uses the same span with its incidences and admissible lifts swapped. -/
+def GradedCorrespondence.symm {Γu Γv Mb Mu Mv : Type*}
+    [AddCommMonoid Mb] [Module R Mb] [AddCommMonoid Mu] [Module R Mu]
+    [AddCommMonoid Mv] [Module R Mv]
+    {𝒜u : Γu → Submodule R Mu} {𝒜v : Γv → Submodule R Mv}
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) : GradedCorrespondence 𝒜v 𝒜u Mb where
+  left := S.right
+  right := S.left
+  admissibleLeft := S.admissibleRight
+  liftLeft := S.liftRight
+  left_lift := S.right_lift
+  admissibleRight := S.admissibleLeft
+  liftRight := S.liftLeft
+  right_lift := S.left_lift
+
+inductive SlabFace : Bool → Bool → Type
+  | toRight : SlabFace false true
+  | toLeft : SlabFace true false
+
+/-- A slab supplies data for `BrokenLine`, including genuinely different chamber modules.
+Its broken lines and weighted evaluations are the general constructions above. -/
+@[reducible] def slabBrokenLineData {Γu Γv : Type uD} {Mb Mu Mv : Type uM}
+    [DecidableEq Γu] [DecidableEq Γv]
+    [AddCommMonoid Mb] [Module R Mb] [AddCommMonoid Mu] [Module R Mu]
+    [AddCommMonoid Mv] [Module R Mv]
+    {𝒜u : Γu → Submodule R Mu} {𝒜v : Γv → Submodule R Mv}
+    [DirectSum.Decomposition 𝒜u] [DirectSum.Decomposition 𝒜v]
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (μu : Γu → V) (μv : Γv → V)
+    (ν : Module.Dual ℝ V) (c : ℝ) (Z : Set V) : BrokenLineData R V V where
+  State := Bool
+  Degree := fun u => if u then Γv else Γu
+  coefficient := fun u => if u then SemimoduleCat.of R Mv else SemimoduleCat.of R Mu
+  grading u := by cases u <;> first | exact 𝒜u | exact 𝒜v
+  decidableDegree u := by cases u <;> dsimp <;> infer_instance
+  decomposition u := by cases u <;> dsimp <;> infer_instance
+  chart _ := PartialHomeomorph.refl V
+  region u := if u then {x | c < ν x} else {x | ν x < c}
+  momentum u := by cases u <;> first | exact μu | exact μv
+  Face := SlabFace
+  faceCoefficient _ := SemimoduleCat.of R Mb
+  support _ := {x | ν x = c}
+  normals _ _ := {(ν, ν)}
+  span e _ _ := by cases e; exact S; exact S.symm
+  singular := Z
+
+/-- One-face enumeration is a theorem about the general carrier. The geometric formula
+only parametrizes its fiber; it does not define a separate slab broken-line type. -/
+theorem singleFaceBrokenLines [FiniteDimensional ℝ V]
+    {Γu Γv : Type uD} {Mb Mu Mv : Type uM}
+    [DecidableEq Γu] [DecidableEq Γv]
+    [AddCommMonoid Mb] [Module R Mb] [AddCommMonoid Mu] [Module R Mu]
+    [AddCommMonoid Mv] [Module R Mv]
+    {𝒜u : Γu → Submodule R Mu} {𝒜v : Γv → Submodule R Mv}
+    [DirectSum.Decomposition 𝒜u] [DirectSum.Decomposition 𝒜v]
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (μu : Γu → V) (μv : Γv → V)
+    (ν : Module.Dual ℝ V) (c : ℝ) (Z : Set V) (hZ : Z ⊆ {x | ν x = c})
+    (γ : Γu) (hγ : γ ∈ S.admissibleLeft) (a : 𝒜u γ) (ha : (a : Mu) ≠ 0)
+    (hν : ν (μu γ) < 0)
+    (hnormal : ∀ η, S.transferLeft γ hγ η a ≠ 0 → ν (μv η) = ν (μu γ))
+    (Q : V) (hQ : c < ν Q) :
+    let D := slabBrokenLineData S μu μv ν c Z
+    let I := {η : Γv // S.transferLeft γ hγ η a ≠ 0 ∧
+      Q - ((ν Q - c) / ν (μv η)) • μv η ∉ Z}
+    let F := {b : BrokenLine D // b.endpoint = Q ∧ b.state 0 = false ∧
+      HEq (b.degree 0) γ ∧ HEq (b.decoration 0) (a : Mu)}
+    ∃ e : I ≃ F, ∀ η, HEq (e η).1.finalDecoration (S.transferLeft γ hγ η.1 a) := by
+  sorry
+
+end GeneralBrokenLines
+
 section FiniteCrossings
 
 variable {L Λ V G : Type*} [AddCommGroup L] [AddCommGroup Λ] [NormedAddCommGroup V] [NormedSpace ℝ V]
@@ -1901,44 +2108,44 @@ variable {R : Type*} [Semiring R]
   [AddCommGroup A] [Module R A] (𝒜 : L → Submodule R A)
   [DirectSum.Decomposition 𝒜]
 
-/-- The affine positive constructor: nonzero velocity `-i (ρ p)`, increments in `P`, and
-every active encounter recorded, including degree-preserving crossings (`README §5.2`). -/
-structure AffineBrokenLine {w : ℕ} (walls : Fin w → DirectedWall hi ρ D wallGroup)
-    (action : G →* (A ≃ₗ[R] A)) (k : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) where
-  numEvents : ℕ
-  eventTime : Fin numEvents → ℝ
-  eventTime_strictMono : StrictMono eventTime
-  eventTime_neg : ∀ j, eventTime j < 0
-  degree : Fin (numEvents + 1) → L
-  degree_zero : degree 0 = p
-  direction_ne_zero : ∀ j, ρ (degree j) ≠ 0
-  decoration : Fin (numEvents + 1) → A
-  decoration_zero : decoration 0 = a
-  decoration_mem : ∀ j, decoration j ∈ 𝒜 (degree j)
-  decoration_ne_zero : ∀ j, decoration j ≠ 0
-  endpoint : V
-  endpoint_off : endpoint ∉ activeWallSupport walls
-  increment_nonnegative : ∀ j : Fin numEvents,
-    degree j.succ - degree j.castSucc ∈ D.monoid
-  order_le : D.degree (degree (Fin.last numEvents) - p) ≤ (k : ℤ)
-  avoids : ∀ t ≤ 0,
-    brokenPath (i.comp ρ) endpoint eventTime degree t ∉ activeSingularSupport walls
-  event_on_wall : ∀ j : Fin numEvents, ∃ d,
-    (walls d).label.val ≠ 1 ∧
-    brokenPath (i.comp ρ) endpoint eventTime degree (eventTime j) ∈ (walls d).support
-  event_crosses : ∀ (j : Fin numEvents) (d : Fin w), (walls d).label.val ≠ 1 →
-    brokenPath (i.comp ρ) endpoint eventTime degree (eventTime j) ∈ (walls d).support →
-    0 < hi.realCharacter (walls d).normal (-i (ρ (degree j.castSucc))) *
-      hi.realCharacter (walls d).normal (-i (ρ (degree j.succ)))
-  event_action : ∀ j : Fin numEvents,
-    decoration j.succ = homogeneousImage 𝒜
-      (action (signedWallProduct walls
-        (brokenPath (i.comp ρ) endpoint eventTime degree (eventTime j))
-        (-i (ρ (degree j.castSucc))))).toLinearMap
-      (degree j.succ) (decoration j.castSucc)
-  all_encounters : ∀ (j : Fin (numEvents + 1)) (t : ℝ),
-    IsSegmentInterior eventTime j t →
-    brokenPath (i.comp ρ) endpoint eventTime degree t ∉ activeWallSupport walls
+/-- Ordinary walls supply graph correspondences to the general broken-line carrier.
+The signed action is selected by the encounter point and incoming velocity. -/
+@[reducible] noncomputable def affineBrokenLineData {w : ℕ}
+    (walls : Fin w → DirectedWall hi ρ D wallGroup) (action : G →* (A ≃ₗ[R] A)) :
+    BrokenLineData R V V where
+  State := Unit
+  Degree _ := L
+  coefficient _ := SemimoduleCat.of R A
+  grading _ := 𝒜
+  decidableDegree _ := inferInstance
+  decomposition _ := inferInstance
+  chart _ := PartialHomeomorph.refl V
+  region _ := Set.univ
+  momentum _ p := i (ρ p)
+  Face _ _ := Unit
+  faceCoefficient _ := SemimoduleCat.of R A
+  support _ := activeWallSupport walls
+  normals _ x := {n | ∃ d : Fin w, (walls d).label.val ≠ 1 ∧
+    x ∈ (walls d).support ∧
+    n = (hi.realCharacter (walls d).normal, hi.realCharacter (walls d).normal)}
+  span _ x p := GradedCorrespondence.graph 𝒜 𝒜
+    (action (signedWallProduct walls x (-i (ρ p))))
+  singular := activeSingularSupport walls
+
+/-- Fixed incoming decoration and positive cutoff, imposed on the general carrier.
+There is no separate affine path, propagation, or evaluation definition. -/
+abbrev AffineBrokenLine {w : ℕ} (walls : Fin w → DirectedWall hi ρ D wallGroup)
+    (action : G →* (A ≃ₗ[R] A)) (k : ℕ) {p : L} (a : A) (_ha : a ∈ 𝒜 p) :=
+  {b : BrokenLine (affineBrokenLineData hi ρ D wallGroup 𝒜 walls action) //
+    b.degree 0 = p ∧ b.decoration 0 = a ∧
+    (∀ j : Fin b.numEvents, b.degree j.succ - b.degree j.castSucc ∈ D.monoid) ∧
+    D.degree (b.degree (Fin.last b.numEvents) - p) ≤ (k : ℤ)}
+
+variable {hi ρ D wallGroup 𝒜} in
+noncomputable abbrev AffineBrokenLine.endpoint {w : ℕ}
+    {walls : Fin w → DirectedWall hi ρ D wallGroup}
+    {action : G →* (A ≃ₗ[R] A)} {k : ℕ} {p : L} {a : A} {ha : a ∈ 𝒜 p}
+    (b : AffineBrokenLine hi ρ D wallGroup 𝒜 walls action k a ha) : V := b.1.endpoint
 
 variable {hi ρ D wallGroup 𝒜} in
 /-- Forget geometric realization data, retaining every active encounter (`README §5.2`). -/
@@ -1951,15 +2158,15 @@ noncomputable def AffineBrokenLine.decoratedType {w : ℕ}
   exact
     { incomingDegree := p
       incomingCoefficient := a
-      numEvents := b.numEvents
-      degree := b.degree
-      degree_zero := b.degree_zero
+      numEvents := b.1.numEvents
+      degree := b.1.degree
+      degree_zero := b.2.1
       eventWalls := fun j => Finset.univ.filter fun d =>
         (walls d).label.val ≠ 1 ∧
-          brokenPath (i.comp ρ) b.endpoint b.eventTime b.degree (b.eventTime j) ∈ (walls d).support
+          b.1.path ⟨b.1.eventTime j, (b.1.eventTime_neg j).le⟩ ∈ (walls d).support
       eventWalls_nonempty := by
         intro j
-        obtain ⟨d, hd, hx⟩ := b.event_on_wall j
+        obtain ⟨d, hd, hx⟩ := b.1.event_on_face j
         exact ⟨d, by simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact ⟨hd, hx⟩⟩ }
 
 /-- Finitely many discrete types across all endpoints for fixed initial decoration
@@ -2023,42 +2230,42 @@ abbrev probeGroup : Type _ := Multiplicative A ⋊[probeAut action] G
 
 variable (ρ) in
 /-- The extended degree-to-tangent map (`README §5.5`). -/
-def probeProjection : L × ℤ × ℤ →+ Λ × ℤ × ℤ :=
-  AddMonoidHom.prodMap ρ (AddMonoidHom.id (ℤ × ℤ))
+def probeProjection : L × ℤ →+ Λ × ℤ :=
+  AddMonoidHom.prodMap ρ (0 : ℤ →+ ℤ)
 
 variable (i) in
-/-- The extended tangent lattice `Λ_ext = Λ ⊕ ℤe_y ⊕ ℤe_z → V × ℝ²` (`README §5.5`). -/
-noncomputable def probeLattice : Λ × ℤ × ℤ →+ V × ℝ × ℝ :=
-  AddMonoidHom.prodMap i (AddMonoidHom.prodMap (Int.castAddHom ℝ) (Int.castAddHom ℝ))
+/-- The extended tangent lattice `Λ_ext = Λ ⊕ ℤe_z → V × ℝ` (`README §5.5`). -/
+noncomputable def probeLattice : Λ × ℤ →+ V × ℝ :=
+  AddMonoidHom.prodMap i (Int.castAddHom ℝ)
 
 omit [DecidableEq L] in
-/-- `README §5.5`: `Λ_ext → V × ℝ²` is an integral lattice. -/
+/-- `README §5.5`: `Λ_ext → V × ℝ` is an integral lattice. -/
 theorem probeLattice_isIntegralLattice (h : TauCeti.Toric.IsIntegralLattice i) :
     TauCeti.Toric.IsIntegralLattice (probeLattice i) := by
   sorry
 
 variable (L) in
 /-- The module normal `e_z*`. -/
-def zCoord : L × ℤ × ℤ →+ ℤ := (AddMonoidHom.snd ℤ ℤ).comp (AddMonoidHom.snd L (ℤ × ℤ))
+def zCoord : L × ℤ →+ ℤ := AddMonoidHom.snd L ℤ
 
 variable (D) in
-/-- `δ_ext(x, c, l) = δ(x) + (1 − δ(p)) c`. -/
-def probeDegree : L × ℤ × ℤ →+ ℤ :=
+/-- `δ_ext(x, c) = δ(x) + (1 − δ(p)) c`. -/
+def probeDegree : L × ℤ →+ ℤ :=
   D.degree.comp (AddMonoidHom.fst _ _) +
-    (1 - D.degree p) • (AddMonoidHom.fst ℤ ℤ).comp (AddMonoidHom.snd _ _)
+    (1 - D.degree p) • AddMonoidHom.snd _ _
 
 omit [DecidableEq L] in
 theorem probeDegree_apply (n : L) (c : ℕ) :
-    probeDegree D p (n + c • p, (c : ℤ), 0) = D.degree n + c := by
+    probeDegree D p (n + c • p, (c : ℤ)) = D.degree n + c := by
   simp [probeDegree, map_nsmul]
   ring
 
 variable (D) in
-/-- `README §5.5`: the degree data `(L_ext, P_ext, δ_ext)` with `P_ext = {(n + cp, c, 0)}` and
+/-- `README §5.5`: the degree data `(L_ext, P_ext, δ_ext)` with `P_ext = {(n + cp, c)}` and
 `δ_ext = δ(n) + c` on `P_ext`. -/
-def probeDegrees : PositiveDegrees (L × ℤ × ℤ) where
+def probeDegrees : PositiveDegrees (L × ℤ) where
   monoid :=
-    { carrier := {x | ∃ n ∈ D.monoid, ∃ c : ℕ, x = (n + c • p, (c : ℤ), 0)}
+    { carrier := {x | ∃ n ∈ D.monoid, ∃ c : ℕ, x = (n + c • p, (c : ℤ))}
       zero_mem' := ⟨0, D.monoid.zero_mem, 0, by ext <;> simp⟩
       add_mem' := by
         rintro _ _ ⟨n, hn, c, rfl⟩ ⟨n', hn', c', rfl⟩
@@ -2080,7 +2287,7 @@ def probeDegrees : PositiveDegrees (L × ℤ × ℤ) where
     · omega
   finite_cutoff k := by
     refine (((D.finite_cutoff k).prod (Set.finite_Iic k)).image
-      fun x : L × ℕ => (x.1 + x.2 • p, (x.2 : ℤ), (0 : ℤ))).subset ?_
+      fun x : L × ℕ => (x.1 + x.2 • p, (x.2 : ℤ))).subset ?_
     rintro _ ⟨⟨n, hn, c, rfl⟩, hle⟩
     rw [probeDegree_apply] at hle
     have hnn : 0 ≤ D.degree n := by
@@ -2094,12 +2301,12 @@ variable (D wallGroup 𝒜) in
 open scoped Classical in
 /-- Probe wall groups: old wall groups in charge zero and `A_q` in charge one for `q - p ∈ P`
 and normal proportional to `e_z*`; trivial otherwise (`README §5.5`). -/
-noncomputable def probeWallGroup (n : L × ℤ × ℤ) (ν : Λ × ℤ × ℤ →+ ℤ) :
+noncomputable def probeWallGroup (n : L × ℤ) (ν : Λ × ℤ →+ ℤ) :
     Subgroup (probeGroup action) :=
-  if n.2 = (0, 0) ∧ ν (0, 1, 0) = 0 ∧ ν (0, 0, 1) = 0 then
-    (wallGroup n.1 (ν.comp (AddMonoidHom.inl Λ (ℤ × ℤ)))).map SemidirectProduct.inr
-  else if n.2 = (1, 0) ∧ n.1 - p ∈ D.monoid ∧ ν ≠ 0 ∧
-      ν.comp (AddMonoidHom.inl Λ (ℤ × ℤ)) = 0 ∧ ν (0, 1, 0) = 0 then
+  if n.2 = 0 ∧ ν (0, 1) = 0 then
+    (wallGroup n.1 (ν.comp (AddMonoidHom.inl Λ ℤ))).map SemidirectProduct.inr
+  else if n.2 = 1 ∧ n.1 - p ∈ D.monoid ∧ ν ≠ 0 ∧
+      ν.comp (AddMonoidHom.inl Λ ℤ) = 0 then
     (AddSubgroup.toSubgroup (𝒜 n.1).toAddSubgroup).map SemidirectProduct.inl
   else ⊥
 
@@ -2109,21 +2316,21 @@ abbrev ProbeDiagram (K' : OrderFiltration (probeGroup action)) (ι' : Type*) :=
   DirectedDiagram (probeLattice_isIntegralLattice hi) (probeProjection ρ) (probeDegrees D p)
     (probeWallGroup D wallGroup 𝒜 action p) K' ι'
 
-/-- `𝔡'` is the cylinder lift of `𝔡` (`README §5.5`): support `𝔡 × ℝ²`,
-normal `(m, 0, 0)`, degree `(n, 0, 0)`, label in charge zero. -/
+/-- `𝔡'` is the cylinder lift of `𝔡` (`README §5.5`): support `𝔡 × ℝ`,
+normal `(m, 0)`, degree `(n, 0)`, label in charge zero. -/
 def IsCylinderLiftWall (𝔡 : DirectedWall hi ρ D wallGroup)
     (𝔡' : DirectedWall (probeLattice_isIntegralLattice hi) (probeProjection ρ) (probeDegrees D p)
       (probeWallGroup D wallGroup 𝒜 action p)) : Prop :=
-  𝔡'.support = {x | x.1 ∈ 𝔡.support} ∧ 𝔡'.normal = 𝔡.normal.comp (AddMonoidHom.fst Λ (ℤ × ℤ)) ∧
-    𝔡'.ray.generator = (𝔡.ray.generator, 0, 0) ∧ 𝔡'.label.val = SemidirectProduct.inr 𝔡.label.val
+  𝔡'.support = {x | x.1 ∈ 𝔡.support} ∧ 𝔡'.normal = 𝔡.normal.comp (AddMonoidHom.fst Λ ℤ) ∧
+    𝔡'.ray.generator = (𝔡.ray.generator, 0) ∧ 𝔡'.label.val = SemidirectProduct.inr 𝔡.label.val
 
 variable (hi ρ) in
 /-- `𝔡'` is the probe wall for `a ∈ A_p` (`README §5.5`): the full hyperplane `z = 0`, degree
-`(p, 1, 0)`, normal `e_z*`, label `exp(a)`. -/
+`(p, 1)`, normal `e_z*`, label `exp(a)`. -/
 def IsProbeWall (a : A)
     (𝔡' : DirectedWall (probeLattice_isIntegralLattice hi) (probeProjection ρ) (probeDegrees D p)
       (probeWallGroup D wallGroup 𝒜 action p)) : Prop :=
-  𝔡'.support = {x | x.2.2 = 0} ∧ 𝔡'.normal = zCoord Λ ∧ 𝔡'.ray.generator = (p, 1, 0) ∧
+  𝔡'.support = {x | x.2 = 0} ∧ 𝔡'.normal = zCoord Λ ∧ 𝔡'.ray.generator = (p, 1) ∧
     𝔡'.label.val = SemidirectProduct.inl (Multiplicative.ofAdd a)
 
 variable (D 𝒜 K) in
@@ -2142,7 +2349,7 @@ def IsProbeCompletion {ι : Type*} (𝔇 : DirectedDiagram hi ρ D wallGroup K �
     (𝔇' : ProbeDiagram hi ρ D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)) : Prop :=
   (∀ k, IsCylinderLiftWall action p (𝔇.wall k) (𝔇'.wall (Sum.inl k))) ∧
     IsProbeWall hi ρ action p a (𝔇'.wall (Sum.inr (Sum.inl ()))) ∧
-    (∀ c, (𝔇'.wall (Sum.inr (Sum.inr c))).ray.generator.2 = (1, 0) ∧
+    (∀ c, (𝔇'.wall (Sum.inr (Sum.inr c))).ray.generator.2 = 1 ∧
       (𝔇'.wall (Sum.inr (Sum.inr c))).Outgoing) ∧
     𝔇'.Consistent
 
@@ -2150,15 +2357,15 @@ def IsProbeCompletion {ι : Type*} (𝔇 : DirectedDiagram hi ρ D wallGroup K �
 def InShiftedModule (Θ : A) : Prop := ∀ q, q - p ∉ D.monoid → homogeneousComponent 𝒜 q Θ = 0
 
 /-- `Θ ∈ M_p` represents the probe label at relative order `k`: an upward vertical segment
-through `(Q, y, 0)` has product `exp(−Θ)` at extended order `k + 1` (`README §5.5`). -/
+through `(Q, 0)` has product `exp(−Θ)` at extended order `k + 1` (`README §5.5`). -/
 def IsProbeLabelRep {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
     (𝔇' : ProbeDiagram hi ρ D wallGroup 𝒜 action p K' ι') (k : ℕ) (Q : V) (Θ : A) : Prop :=
-  InShiftedModule (D := D) (𝒜 := 𝒜) p Θ ∧ ∃ y ε : ℝ, 0 < ε ∧
-    𝔇'.IsAdmissiblePolygon (k + 1) ![(Q, y, -ε), (Q, y, ε)] ∧
+  InShiftedModule (D := D) (𝒜 := 𝒜) p Θ ∧ ∃ ε : ℝ, 0 < ε ∧
+    𝔇'.IsAdmissiblePolygon (k + 1) ![(Q, -ε), (Q, ε)] ∧
     (∀ d, (𝔇'.wall d).label.val ∉ K'.ker (k + 1) →
-      (segment ℝ (Q, y, -ε) (Q, y, ε) ∩ (𝔇'.wall d).support).Nonempty →
+      (segment ℝ (Q, -ε) (Q, ε) ∩ (𝔇'.wall d).support).Nonempty →
       ∃ c : ℤ, c ≠ 0 ∧ (𝔇'.wall d).normal = c • zCoord Λ) ∧
-    𝔇'.polygonProduct (k + 1) ![(Q, y, -ε), (Q, y, ε)] *
+    𝔇'.polygonProduct (k + 1) ![(Q, -ε), (Q, ε)] *
       SemidirectProduct.inl (Multiplicative.ofAdd Θ) ∈ K'.ker (k + 1)
 
 /-- Representatives of the same vertical product agree in relative degrees `≤ k`. -/
@@ -2193,12 +2400,15 @@ theorem probeLabel_spec {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
     (hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' k Q Θ) :
     IsProbeLabelRep action p 𝔇' k Q (probeLabel action p 𝔇' k Q hQ) := hQ.choose_spec
 
-/-- The sum of final decorations of order-`k` affine broken lines ending at `Q` (`README §5.2`).
-`finsum` returns zero on an infinite fiber; §5.3 proves finiteness at generic endpoints. -/
+/-- The affine theta sum is the general weighted evaluation on its endpoint fiber.
+The finite-fiber hypothesis is supplied by `README §5.3`. -/
 noncomputable def DirectedDiagram.thetaSum {ι : Type*} (𝔇 : DirectedDiagram hi ρ D wallGroup K ι)
-    (k : ℕ) (a : A) (ha : a ∈ 𝒜 p) (_hp : ρ p ≠ 0) (Q : V) : A :=
-  ∑ᶠ b : {b : AffineBrokenLine hi ρ D wallGroup 𝒜 (𝔇.activeFamily k) action k a ha // b.endpoint = Q},
-    b.1.decoration (Fin.last b.1.numEvents)
+    (k : ℕ) (a : A) (ha : a ∈ 𝒜 p) (_hp : ρ p ≠ 0) (Q : V)
+    [Finite {b : AffineBrokenLine hi ρ D wallGroup 𝒜 (𝔇.activeFamily k) action k a ha //
+      b.endpoint = Q}] : A :=
+  BrokenLine.weightedEvaluation
+    (fun b : {b : AffineBrokenLine hi ρ D wallGroup 𝒜 (𝔇.activeFamily k) action k a ha //
+      b.endpoint = Q} => b.1.1) () (fun _ => Subsingleton.elim _ _)
 
 /-- Hit times of the backward ray `Q + t i(ρ q)`, with a perturbation selecting the incoming
 side at transverse hits (`README §5.5`). -/
@@ -2459,34 +2669,6 @@ theorem modelToFiber_bijective (k : ℕ) : Function.Bijective (modelToFiber K k)
 noncomputable def focusFocusAlgebra (k : ℕ) : ModelAlgebra K k ≃+* fiberProduct K k :=
   RingEquiv.ofBijective (modelToFiber K k) (modelToFiber_bijective K k)
 
-/-- Laurent powers expressed using the two coordinate classes. -/
-def laurentPower {A : Type*} [Monoid A] (w wi : A) : ℤ → A
-  | .ofNat n => w ^ n
-  | .negSucc n => wi ^ (n + 1)
-
-/-- The theta candidate `X^(-n)w^b` for `n<0`, `Y^n w^b` for `n>0`, and `w^b` for `n=0`;
-identified with the decorated path sum in `README §6.3`. -/
-def focusFocusTheta (k : ℕ) (n b : ℤ) : ModelAlgebra K k :=
-  laurentPower (coordinate K (modelIdeal K k) w) (coordinate K (modelIdeal K k) wInv) b *
-    if n < 0 then coordinate K (modelIdeal K k) x ^ n.natAbs
-    else coordinate K (modelIdeal K k) y ^ n.toNat
-
-/-- The number of canceled opposite transverse factors. -/
-def cancellationOrder (n m : ℤ) : ℕ := (n.natAbs + m.natAbs - (n + m).natAbs) / 2
-
-/-- Theta multiplication with binomial structure constants (`README §6.3`). -/
-theorem focusFocusTheta_mul (k : ℕ) (n b m c : ℤ) :
-    focusFocusTheta K k n b * focusFocusTheta K k m c =
-      coordinate K (modelIdeal K k) t ^ cancellationOrder n m *
-        ∑ j ∈ Finset.range (cancellationOrder n m + 1),
-          (cancellationOrder n m).choose j • focusFocusTheta K k (n + m) (b + c + j) := by
-  sorry
-
-/-- The finite-order normal forms `t^r θ_(n,b)`, `0≤r≤k`, form a `K`-basis (`README §6.3`). -/
-theorem focusFocusTheta_basis (k : ℕ) :
-    ∃ B : Module.Basis (Fin (k + 1) × ℤ × ℤ) K (ModelAlgebra K k), ∀ r n b,
-      B (r, n, b) = coordinate K (modelIdeal K k) t ^ r.val * focusFocusTheta K k n b := by
-  sorry
 
 end
 

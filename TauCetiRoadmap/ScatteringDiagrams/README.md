@@ -457,6 +457,17 @@ scalar changes use restriction of scalars.
   `B'^{T_uγ,η'}(r_ua)=∑_{η:T_vη=η'}r_v(B^{γ,η}(a))` for admissible `a∈M_{u,γ}`,
   summing over the finite homogeneous support of `λ_v L_{u,γ}(a)`. Identity degree
   maps give truncation compatibility and compatibility along admissible sequences.
+- **Finite component expansion.** Successive homogeneous expansions along a finite
+  sequence of linear maps between direct sums give a finite sum of degree histories
+  equal to the composite, including after final projection. Prove regrouping,
+  identity insertion and concatenation laws. Uniform finite support on an input
+  submodule gives a linear-map identity. Apply this to transfers extended by zero
+  on inadmissible pieces; intertwining maps preserve expansion and injective output
+  maps reflect identities.
+- **Finite recursion.** For a linear endomorphism `U` of a semimodule with `U^r=0`,
+  prove that `x=a+U(x)` has unique solution `∑_{j<r}U^j(a)`. A filtration of length
+  `r` raised by `U` implies this nilpotence; component expansion identifies the
+  solution with its finite sum of histories.
 - **Graphs.** A linear equivalence `θ:M_u≃M_v` gives the *graph correspondence*
   with `N_b=M_u`, `λ_u=id`, `λ_v=θ`, all degrees admissible, and lifts
   `inclusion`, `θ⁻¹∘inclusion`. Prove joint injectivity; the transfers are the
@@ -480,8 +491,9 @@ scalar changes use restriction of scalars.
 - For `M_u=M_v=ℚ` concentrated in degree `0∈ℤ` and `θ(a)=2a`, the graph
   correspondence has `B^{0,0}(1)=2` and `B^{0,η}(1)=0` for `η≠0`.
 
-*Needs:* §0.7; `DirectSum.Decomposition`, `DirectSum.component`, linear maps and
-semilinear maps. Sources: MAN §2.2; GHS Definitions 3.1–3.3.
+*Needs:* §0.7; `DirectSum.Decomposition`, `DirectSum.component`,
+`DirectSum.sum_support_decompose`, linear and semilinear maps.
+Sources: MAN §2.2; GHS Definitions 3.1–3.3.
 
 ## Layer 1: polyhedral geometry and paths
 
@@ -1084,6 +1096,12 @@ The sweeps along `ρ(n)` and `ρ(w)` have the same support and outgoingness.
 - *exists_outgoingCompletion*: construct an outgoing completion at each finite
   order, compatibly with truncation, and assemble them for the stated input.
   Finite families are a special case; full-hyperplane supports remain required.
+- *relativeAbelianCompletion*: let `h=g⋉I` be a split positively graded Lie
+  extension with abelian ideal `I`, whose splitting and projection preserve the
+  directed wall spaces. Fix a consistent `g`-diagram and incoming full hyperplanes
+  labelled in `I`, finite at each order. Keeping the lifted `g`-diagram fixed,
+  construct a consistent extension by outgoing `I`-walls with pure birth logs,
+  compatibly with truncation. The fixed diagram may have arbitrary §3.2 supports.
 - *exists_chamberTrivialization*: construct an adapted finite complex, chamber
   lifts, oriented crossings and isolating joint meridians for every diagram consistent
   through order `k−1`. The lifts come from lower-order path independence and the
@@ -1102,7 +1120,9 @@ The sweeps along `ρ(n)` and `ρ(w)` have the same support and outgoingness.
 *Route:* Linear terms cancel on the initial full hyperplanes and have birth order
 below `k` on other walls. *zeroDirectionLieWord* kills tangent-degree components.
 Apply §1.4's sweep identity to the closed cochain `ζ_k`; strict outgoingness gives
-the new walls.
+the new walls. For *relativeAbelianCompletion*, quotient consistency puts every
+defect in `I`; apply the same induction to its components. The initial `I`-walls
+are full hyperplanes, and all new logarithms remain in the ideal.
 
 **Checks.**
 
@@ -1128,6 +1148,10 @@ its order-`k` class is taken modulo order-`k` equivalence.
 *Targets.*
 
 - *outgoingCompletion_unique*: two outgoing completions of one input are equivalent.
+- *relativeAbelianCompletion_unique*: relative completions with the same quotient
+  diagram and ideal inputs are equivalent. The resulting class depends only on the
+  quotient diagram's equivalence class and is natural under maps of split extensions
+  preserving wall spaces, inputs and cutoff moduli.
 - The order-`k` class of *Scat* depends only on that of the input. Mapping a
   completion along `g→g≤k` gives a completion of the truncated input.
 - *Scat* commutes with §0.5's *completedMap* along the fixed-degree morphisms of
@@ -1378,7 +1402,9 @@ exponent `κ_b∈Q` and a tangential function `f_b∈S[Λ_b]`, with `q_b=z^{κ_b
 - *slabNormalForm*: for arbitrary `q`, `N_b` is free over `S[Λ_b]` with basis
   `{X^a | a≥0} ∪ {Y^a | a≥1}`. The chamber maps are jointly injective; the
   lifts have the stated source images and define transfers compatible with
-  truncation.
+  scalar extension and truncation. Write `Z_n=X^{−n}` for `n<0`, `Z_n=Y^n`
+  for `n≥0`. Prove `Z_n Z_m=q^r Z_{n+m}`, `r=(|n|+|m|−|n+m|)/2∈ℕ`, and obtain
+  the homogeneous transfer coefficients by expanding `q^a` in the tangential basis.
 - The graph correspondences of §§4.1–4.3's tropical vertex, principal and quantum
   actions, and the slab correspondences, instantiate §0.8. For each pair of compared
   cutoffs, coefficient and degree maps give natural transformations on the common span
@@ -1441,30 +1467,35 @@ finitely many strictly increasing crossing times below `0` and nonzero homogeneo
 is an *IncomingTail* admitted by `(s,a)`. Record every encounter with an active
 ordinary wall or a slab face (§1.5); open segments miss these supports, crossings are
 transverse to every active normal encountered, and paths avoid `Σ_k`.
-The next decoration is an entire nonzero component of the propagated decoration: at a
-face `b` from chamber `u` to `v`, `pr_{v,η}(λ_{v,b}L_{u,b,p_i}(a_i))`, the §0.8
-transfer; at an ordinary wall, a component of the signed wall action. Use §1.5's
-admissibility and normal-velocity conditions. *Artificial subdivisions* insert or delete breakpoints away from encounters, preserving degree
-and decoration under chart identifications; they define the same line.
+The next decoration is an entire nonzero component
+`pr_{v,η}(λ_{v,b}L_{u,b,p_i}(a_i))` of the §0.8 transfer. Ordinary walls use the
+graph correspondence of the signed action. Use §1.5's admissibility and normal-velocity
+conditions. Affine and slab instances specialize this definition and its evaluation maps.
+*Artificial subdivisions* insert or delete breakpoints away from encounters, preserving
+degree and decoration under chart identifications; they define the same line.
 
-A *DecoratedType* records the selected *IncomingTypeDatum*, chamber, wall and slab-face
-itinerary, segment degrees and discrete chart/deck labels, modulo the specified coordinate
-identifications and artificial subdivisions. The initial coefficient and
-component maps determine its decorations. The broken lines
-of a given type are its *realizations*; endpoints, crossing times and affine tail
-positions belong only to them.
+A *DecoratedType* records *IncomingTypeDatum*, chamber/face itinerary, degrees and
+chart/deck labels modulo coordinate identifications and artificial subdivisions.
+Component maps determine its decorations. Its *realizations* additionally specify
+endpoints, crossing times and tail positions.
 
 *Targets.*
 
 - Path evaluation, the map to *DecoratedType*, initial and final decorations, and the
   component propagation maps, with their subdivision and truncation laws.
 - In §5.1's affine instance, every nonidentity component shift lies in `P\{0}`
-  and raises relative degree. At order `k` there are at most `k` such changes and
-  finitely many realized *DecoratedType*s across all endpoints for a fixed initial
-  decoration. Identity components fix the decoration; shifts in `ker ρ` are recorded.
-- At finite order, *weightedEvaluation* sums final decorations over an evaluation
-  fiber when it is finite. The completed theta series is the inverse limit of these
-  finite-order sums.
+  and raises relative degree, so at order `k` there are at most `k` such changes.
+  Identity components fix decorations; shifts in `ker ρ` are recorded.
+- *weightedEvaluation* sums final decorations over finite evaluation fibers.
+- *brokenLine_coefficientEmbedding*: over the same face presentation and incoming
+  records, a §0.8 morphism with injective chamber maps and degree isomorphisms
+  preserving `ρ` and admissibility gives a bijection of broken lines for an input
+  and its image. Construct the inverse by lifting successive components; retain
+  the whole path and incoming tail. The bijection respects endpoint, type and weight.
+- For general coefficient morphisms preserving velocities and incoming records,
+  §0.8's component expansion gives equality of finite weighted sums after grouping
+  degree histories and deleting zero components. Prove identity, composition,
+  subdivision and truncation laws for both comparisons.
 - For a *ConstantIncomingSection*, weighted evaluation is the corresponding constant
   section; in §5.1 this includes every `a∈A_p` with `ρ(p)=0`.
 
@@ -1488,75 +1519,73 @@ Proposition 3.4; GHS Definitions 3.1–3.3.
 
 ### 5.3 Endpoint evaluation, closed families and general position
 
-In §5.1's affine instance fix `a∈A_p`, order `k` and rational-normal wall
-presentations. For a *DecoratedType*, backward propagation from `X(Q)=Q` intersects
-`m=c` at time `τ=(c−m(X(Q)))/m(i(ρ(q)))` for segment degree `q` with nonzero
-denominator; otherwise incidence requires `m(X(Q))=c`. Encounter points and tail
-positions are affine in `Q`; crossing order and cell membership define the
-*valid endpoint domain*. The *endpoint discriminant* `Δ(a,k)` consists of zero
-sets of the nonconstant affine conditions for all types and affine spans of
-`σ−ℝ_{≥0}i(ρ(p+n))`, for `δ(n)≤k` and singular-support cells `σ` of codimension
-at least two. A *generic endpoint* is outside `Δ(a,k)`.
+Fix `(s,a,k)` on §1.5's base. The bounded-itinerary construction uses, near each
+regular endpoint, finitely many lifted polyhedral cells, face presentations and
+incoming records, with affine transitions extending to their closures in `B`.
+Every contributing path, including its incoming tail, must have a representative
+there with at most `L` encounters, counting changes of cell or chart.
 
-At `x=Q+τi(ρ(q))`, `τ>0`, the *incoming germ* is
-`x^-=x+ε(i(ρ(q))+r)` for small `ε>0`. Choose one `r` for all relevant degrees
-and normals so that `m(i(ρ(q))+r)m(i(ρ(q)))>0` when `m(i(ρ(q)))≠0`, and
-`i(ρ(q))+r` avoids every direction in `Δ(a,k)`.
-
-On a general base, a *FiniteClosedTypeFamily* for `(s,a,k)` gives, near each regular
-chamber or facet point, finitely many complete global *DecoratedType*s exhausting
-contributing paths. Weights, *IncomingTypeDatum* and chart/deck labels are constant
-under the specified identifications; tail positions vary. Each chart is the
-relative interior of a closed polyhedron, with endpoint map extending to a closed
-affine embedding into the final chamber closure, proper over compact subsets of
-the chosen relatively compact neighborhood. Valid endpoints are interior.
-At boundary points all encounters converge in `B`, crossing times have finite limits,
-and tail/chart identifications persist; zero-length segments and encounters with
-`Σ_k` are allowed.
-
-Codimension-one boundary events are artificial subdivisions, *terminal face
-crossing*s (endpoint crossing a regular facet with final encounter time tending to
-zero), finite joint/singular-locus degenerations, and incoming-record
-identifications including tangential source faces. All other degenerations have
-codimension at least two.
+For a fixed itinerary, reconstruct backwards from `X(Q)=Q`: intersection with
+`m=c` has parameter `τ=(c−m(X(Q)))/m(i(ρ(q)))` when the denominator is nonzero.
+Crossing order, cell membership and incoming-tail conditions give its *valid endpoint
+domain*. A *FiniteClosedTypeFamily* consists locally of finitely many complete
+*DecoratedType*s exhausting the paths, with these domains stratified into relative
+interiors of closed polyhedra. The endpoint maps extend to closed affine embeddings,
+proper over compact endpoint sets. Weights and discrete labels are constant on each
+branch; at its boundary encounters converge in `B`, with finite crossing times and
+the prescribed tail identifications. Zero-length segments and encounters with `Σ_k`
+are retained as degenerations.
 
 *Targets.*
 
-- *BrokenLineFamily a k*: in the affine instance, a §1.3 semilinear family with one
-  chart per *DecoratedType* and convex piece of its valid endpoint domain. Each domain
-  is a finite disjoint union of *LocallyClosedPolyhedron* sets. The family *IsFiniteBranch*:
-  endpoint and type determine a transverse line and its individual incoming tail by
-  backward propagation, with no genericity hypothesis.
-- *endpointDiscriminant*: `Δ(a,k)` is an *ExceptionalArrangement* containing
-  all domain frontiers and degenerations: zero-length segments and encounters with
-  wall boundaries, joints or singular points. Under the annihilation condition,
-  tangent ordinary-wall encounters act trivially, so the transverse formulation loses
-  no weighted contribution at generic endpoints.
-- *GenericEndpoint*: every nonempty open set contains generic endpoints; their fibers
-  are finite; and each has a neighborhood with the same realized types. Countably
-  many pairs `(a,k)` have a dense common generic locus. The chartwise statements
-  hold on a general base equipped with a *FiniteClosedTypeFamily*.
-- *incomingBranchGerm*: the incoming germs eventually avoid `Δ(a,k)`; the
-  construction works after any finite exceptional-arrangement refinement by choosing
-  `r` for that refinement.
-- *affine_finiteClosedTypeFamily*: construct the closed family for §5.1 using the
-  component-change bound and the fact that each straight segment meets each convex
-  active wall at most once.
-- *positiveKink_finiteClosedTypeFamily*: construct the closed family for §1.5/§4.4
-  monomial data on finitely many convex integral polyhedral cells, with singular locus
-  in their codimension-two skeleton and finitely many walls per cell at each order.
-  Let coefficients be `A[Q]/I`, with `A` Noetherian commutative, `Q` toric,
-  `I_0=√I/I⊆A[Q]/I` and `I_0^r=0`. Require §4.4 monomial slab data at each
-  interior base facet `b`, with `z^{κ_b}∈I_0`, ordinary wall functions `1` modulo `I_0`, and admissible propagation with finite homogeneous expansion.
-  Prove that base-facet crossings and ordinary-wall direction changes raise
-  coefficient order, hence fewer than `r` of each occur, and construct the complete
-  types and their closed degeneration charts for each global incoming monomial.
-- Refining endpoint charts, changing affine coordinates and applying a compatible
-  finite-order coefficient map preserve the finite-family and weighted-evaluation
-  constructions, after grouping coincident types and discarding zero weights.
-
-*Route:* Backward propagation supplies the affine charts; finite-type bounds,
-closed degeneration charts and §1.3 give properness, stability and genericity.
+- *boundedItineraries_finiteClosedTypeFamily*: enumerate the finite tree of face
+  choices and nonzero transfer components to depth `L`. Backward reconstruction and
+  §1.3 construct *BrokenLineFamily*, satisfying *IsFiniteBranch*, and its closed
+  family. Prove exhaustivity, uniqueness for fixed endpoint and type, and independence under
+  subdivision. Codimension-one boundary events are terminal crossings, collapsed
+  segments, joint/singular encounters and incoming-record identifications, including
+  tangential source faces; all remaining degenerations have codimension at least two.
+- *filtrationEncounterBound*: let component transfers preserve
+  `F^0M=M ⊇ ⋯ ⊇ F^rM=0` in each chamber.
+  Mark steps that raise filtration, and suppose each intervening block has at most
+  `h` unmarked encounters. A nonzero history has at most `r−1` marked steps and
+  at most `r h+r−1` encounters. This supplies `L` for the preceding construction.
+- *affine_finiteClosedTypeFamily*: apply this with relative degree, `r=k+1` and
+  marked nonidentity components. Between them the path is straight and meets each
+  convex active wall at most once. This gives finitely many complete types across
+  all endpoints and their closed realization family.
+- *positiveKink_finiteClosedTypeFamily*: for §4.4 monomial data over a commutative
+  ring `S` with homogeneous ideal `J`, `J^r=0`, require `z^{κ_b}∈J` at base facets
+  and ordinary wall functions `1` modulo `J`. On finitely many convex cells, walls
+  and incoming records, prove that facet crossings and degree changes
+  raise `J`-order; intervening straight segments supply `h`. Apply the same
+  construction. For Noetherian toric graded quotients `S=A[Q]/I`, take `J=√I/I`.
+- *singleFaceBrokenLines*: glue two affine half-spaces along `H={ν=c}`, with
+  singular set `Σ⊆H` closed polyhedral of ambient codimension at least two. Allow
+  finitely many affine transition maps fixing `H` pointwise and preserving `ν`.
+  In chamber coordinates the face pieces have the same §0.8 span and admissible
+  lifts; there are no other walls. For nonzero `a∈M_{u,γ}`, write `μ_i=i_i∘ρ_i`
+  and admit exactly all affine tails of velocity `−μ_u(γ)` in its half-space.
+  Require `ν(μ_u(γ))≠0` and `ν(μ_v(η))=ν(μ_u(γ))` for each nonzero
+  `a_η=B^{γ,η}(a)`.
+  Prove at most one crossing and apply the bounded-itinerary construction. Opposite
+  fibers are indexed by such `η` with `X∉Σ`, where
+  `T=(ν(Q)−c)/ν(μ_v(η))<0`, `X=Q−Tμ_v(η)`; incoming fibers are uniquely unbent.
+  Generic weighted values are `λ_v L_{u,γ}(a)` and `a`, respectively.
+- *endpointDiscriminant*: branch frontiers lie in a finite *ExceptionalArrangement*
+  `Δ(a,k)` in each endpoint chart. Its complement, the *GenericEndpoint*s, has
+  finite, locally stable fibers; countably many inputs have a dense common generic
+  locus. In the affine case include affine spans of the shadows
+  `σ−ℝ_{≥0}i(ρ(p+n))`, `δ(n)≤k`, of singular-support cells. Tangent ordinary walls
+  contribute trivially by §5.1's annihilation condition.
+- *incomingBranchGerm*: choose `r` so each `i(ρ(q))+r` avoids the arrangement
+  directions and preserves every nonzero `m(i(ρ(q)))` sign. Then
+  `x^-=x+ε(i(ρ(q))+r)` is generic for small positive `ε`, also after finite refinement.
+- Families glue on endpoint covers by identifying representatives of the same
+  complete global histories on overlaps. Construct common polyhedral refinements
+  and prove independence of cover and coordinates. §5.2's coefficient embeddings
+  transport closed families in both directions; general coefficient comparisons
+  preserve finite weighted evaluation by grouping histories.
 
 **Checks.**
 
@@ -1565,43 +1594,32 @@ closed degeneration charts and §1.3 give properness, stability and genericity.
 - The arrangements `{x=1/(j+1)}` in `ℝ` have common generic point `0`, but no
   neighborhood of `0` is generic for all of them.
 
-*Needs:* §§1.2–1.3, 1.5, 4.4 and 5.2.
+*Needs:* §§0.3, 0.8, 1.2–1.3, 1.5, 4.4 and 5.2.
 Sources: CPS Proposition 4.4 and Definition 4.6; N23 Definition 7.2 and the proof of
 Proposition 7.6; GHS Proposition 3.5, Remark 3.6 and Lemma 3.7.
 
-### 5.4 Coefficient local systems and local resolution identities
+### 5.4 Local resolutions and gluing of sections
 
-Fix finitely many cooriented walls in `V` labelled in a group `G` acting on a
-type `M`, with pairwise commuting labels for walls containing the same
-point outside *SingularSupport*. A simultaneous crossing uses the combined signed
-product; reversing it inverts the whole product. For walls of a polyhedral complex the
-commutation condition holds because regular wall germs are disjoint. On
-`V∖SingularSupport` the segment transport `P_{yz}` along `[y,z]` has factor
-`θ^{side(y)−side(z)}` for each wall `m=c` encountered, where `side=1` on
-`m>c` and `0` otherwise, with the first crossing rightmost.
-*coefficientPathTransport* composes these along an admissible PL path.
+Let finitely many cooriented walls in `V` have labels in a group `G` acting on `M`.
+Labels of coincident regular germs commute. Segment transport `P_{yz}` has factors
+`θ^{side(y)−side(z)}` in crossing order, first rightmost, with `side=1` on `m>c`
+and `0` otherwise. Simultaneous crossings combine these factors; reversal inverts
+their product. *coefficientPathTransport* composes segment transports along admissible
+PL paths in `V∖SingularSupport`.
 
 A sheaf of types is *IsLocallyConstantSheaf* if each point has a neighborhood whose
 restrictions to nonempty preconnected opens are bijective.
-*CoefficientLocalSystem* is the sheafification of the
-`M`-valued functions `s` satisfying `s(z)=P_{yz}·s(y)` for every segment
-`[y,z]` in their domain. The order-`k` action on a shifted module is one instance.
+*CoefficientLocalSystem* sheafifies the `M`-valued functions with
+`s(z)=P_{yz}·s(y)` for every segment in their domain; shifted modules give instances.
 
-At a generic boundary event of §5.3, fix the exterior path pieces and the incoming
-homogeneous degree. A *local resolution* is the finite family of admissible local
-histories on one side of a small transverse interval through that boundary stratum in
-endpoint space, exhausting the nearby realizations; it uses the active walls, slab
-faces and base cells incident to the limiting encounter, with their chart
-identifications. Each history carries its composite component map from an incoming
-module `H`; at source identifications use `H=E_s` and precompose with `α_e`.
-
-A *LocalResolutionCertificate* gives both families at every such event. For
-nonterminal events, fix the outgoing degree and require the sums of the composite component maps over the two local resolutions to agree
-under the coefficient identifications. At a
-terminal face `b`, the two sums are maps `R_u:H→M_u` and `R_v:H→M_v`, and the
-certificate supplies a §0.8 common lift `L:H→N_b` of them, including inputs from
-either side and tangential coefficients. If the face span is jointly injective,
-this lift is unique.
+At a codimension-one boundary event of a *FiniteClosedTypeFamily*, fix the exterior
+pieces. The nearby local histories on either side, with their composite component
+maps from an input module `H`, are its *local resolutions*. Require uniform finite
+contributing support on `H`; for arbitrary source modules test every finite list of
+inputs by a map `H=R^n→E_s`, followed by `α_e` at source identifications.
+A *LocalResolutionCertificate* gives equality of the two sums in each outgoing
+degree at nonterminal events, and a common lift `H→N_b` of the two chamber sums
+at terminal faces, including tangential inputs. Joint injectivity makes this lift unique.
 
 *Targets.*
 
@@ -1615,14 +1633,50 @@ this lift is unique.
   locally finite polyhedral stratification, locally constant sections of an
   *IsLocallyConstantSheaf* on the top strata extend uniquely if their continuations
   agree across every common facet.
-- Local resolutions respect concatenation, subdivision and linear coefficient maps.
-  Concatenation with fixed exterior path pieces gives exactly the nearby global types
-  with those pieces, with component map equal to the composite of the exterior and
-  local maps. Certificates are preserved by identity crossings, wall refinements
-  preserving propagation, and finite weighted refinements of local histories.
-- Under §5.2's admissibility and normal-velocity conditions, construct
-  single-face certificates from ordinary wall actions and terminal slab certificates
-  from §0.8's admissible lifts and agreement on tangential coefficients.
+- *localResolution_expansion*: restrict §5.3's closed polyhedral charts to a
+  transverse interval and group by exterior pieces. Construct both exhaustive local
+  resolutions and their concatenations with the exterior. Compute their sums by
+  §0.8's finite component expansion, retaining the incidence inequalities selecting
+  each itinerary. Thus equal local operator expressions give the nonterminal
+  identities; common lifts give the terminal ones.
+- Certificates respect subdivision, concatenation and coefficient morphisms.
+  Under *brokenLine_coefficientEmbedding*, reflect their identities through the
+  injective chamber maps; a terminal lift descends when it has a specified preimage
+  in the source face module. Compatible certificates glue on endpoint covers.
+- *singleFaceResolution*: for the families of *singleFaceBrokenLines*, the sum
+  of outgoing components is `λ_v L_{u,γ}(a)`, with source image `a`.
+  Component expansion supplies the terminal common lift and the identities across
+  singular-degeneration strata: the component maps in chamber coordinates agree
+  across face presentations. Tangential inputs use §1.5's common source lifts.
+  This constructs the certificate for graph and slab correspondences alike.
+- *finiteSum_matchingFamily*: on a locally finite polyhedral stratification of
+  §1.5's chambers, finite sums of linear maps `H→M_u` agreeing across interior
+  facets and admitting common face lifts extend uniquely to a matching family when
+  the spans are jointly injective. Prove compatibility with overlaps, coefficient
+  maps, refinement and regrouping.
+- *globalThetaSection*: apply *finiteSum_matchingFamily* to *weightedEvaluation*
+  using a closed family and its certificate, with `H=R` and `1` sent to each
+  branch weight. This gives the unique matching family `ϑ_{s,a,≤k}` extending
+  generic values. *globalTheta_transport* gives *coefficientPathTransport* along
+  ordinary paths and `ϑ_u=λ_u(ϑ_b)`, `ϑ_v=λ_v(ϑ_b)` at faces.
+- Prove linearity by common refinements for finite sets of inputs, and naturality
+  under coefficient maps, coordinate changes, weighted refinements and restrictions
+  retaining global histories. Truncation through §1.5's refinement isomorphisms
+  gives the completed section `ϑ_{s,a}=lim_k ϑ_{s,a,≤k}`.
+- *slabTheta_normalForm*: in the single-face setting with §4.4's span and full
+  half-space incoming data, transverse monomials and tangential records with common lifts `z^λ∈N_b`
+  give sections represented by `X^d z^λ`, `Y^d z^λ` and `z^λ`; zero velocities use
+  *ConstantIncomingSection*s.
+  Identify the matching-section algebra with `N_b` by §0.8; *slabNormalForm*
+  gives its theta basis and multiplication, compatibly with scalar extension and
+  truncation. In a tower, the inverse limit consists of coefficient families
+  with finite support at each order. Coefficient embeddings with a face isomorphism
+  transport this identification to the subdiagram whenever the chamber values lie
+  in the embedded modules.
+
+*Route:* A generic endpoint path meets finitely many boundary events. Apply
+*localResolution_expansion* at each, then *facetDescent* inside chambers and joint
+injectivity at coefficient faces.
 
 **Checks.**
 
@@ -1630,94 +1684,83 @@ this lift is unique.
   a family constant equal to `a` on both sides is not a section: the facet equation
   is `s(Q⁺)=θ^{-1}·s(Q⁻)` for `Q⁺` on the side `x>0`.
 
-*Needs:* §§0.8, 1.1–1.2, 1.5, 2.1, 3.2 and 5.1–5.3;
+*Needs:* §§0.7–0.8, 1.1–1.2, 1.5, 2.1, 3.2, 4.4 and 5.1–5.3;
 `TopCat.Sheaf`, `TopCat.PrelocalPredicate.sheafify`,
 `TopCat.subsheafToTypes`. Sources: Curry for *facetDescent*; GHS §3.2 for
-local identities at walls and slab lifts.
+local identities at walls and slab lifts; GHS Proposition 3.16 and Theorem 3.19,
+and CPS Lemmas 4.7 and 4.9 for gluing.
 
 ### 5.5 Module probes and affine theta transport
 
-Fix a §3.3 input `𝔇_in`, a representative `𝔇` of *Scat* `𝔇_in`, an
-`k` and `a∈A_p`. The *module probe* is `g⋉M_p`, with `M_p` abelian
-(`LieAlgebra.SemiDirectSum` along `LieDerivation R M_p M_p`). Set
-`Γ_ext=Γ⊕ℤe_y⊕ℤe_z`, `Λ_ext=Λ⊕ℤe_y⊕ℤe_z` and
-`ρ_ext(x,c,l)=(ρ(x),c,l)`. The pieces `g_n` and `A_{p+n}` have degrees
-`(n,0,0)` and `(p+n,1,0)`. Put
-`P_ext={(n+cp,c,0):n∈P,c∈ℕ}` and
-`δ_ext(x,c,l)=δ(x)+(1−δ(p))c`. For `P=C∩Γ`, its cone is spanned by
-`C×0×0` and `(p,1,0)`. Normals `(m,0,0)` carry the wall spaces of `g`,
-nonzero multiples of `e_z*` carry `A_{p+n}`, and all others carry zero.
-*Module charge* is the `e_y` coordinate: charge one through extended order
-`k+1` is relative order `k`.
-
-A wall lifts to the cylinder `𝔡×ℝe_y×ℝe_z`, with degree `(n,0,0)` and
-normal `(m,0,0)`. The *probe wall* is `z=0`, of degree `(p,1,0)`, normal
-`e_z*` and label `exp(a)`. A point `(Q,y,0)` is *vertically regular* if a
-short upward `z`-segment is admissible at extended order `k+1` and meets only
-module walls. Write `Θ_Q` for *weightedEvaluation* at `Q`.
+Fix a consistent §3.2 diagram `𝔇` acting as in §5.1, an order `k` and `a∈A_p`.
+The *module probe* is `g⋉M_p`, with `M_p` abelian. Set
+`Γ_ext=Γ⊕ℤ`, `Λ_ext=Λ⊕ℤe_z`, `ρ_ext(x,c)=(ρ(x),0)`,
+`P_ext={(n+cp,c):n∈P,c∈ℕ}` and `δ_ext(x,c)=δ(x)+(1−δ(p))c`.
+The pieces `g_n` and `A_{p+n}` have degrees `(n,0)` and `(p+n,1)`.
+Normals `(m,0)` carry the old wall spaces, nonzero multiples of `e_z*` carry the
+module pieces, and all other spaces vanish. *Module charge* is the second degree
+coordinate. Cylinder walls are `𝔡×ℝe_z`; the *probe wall* is `z=0`, with
+degree `(p,1)`, normal `e_z*` and label `exp(a)`. Write `Θ` for *weightedEvaluation*.
 
 *Targets.*
 
 - *moduleProbe*: the datum satisfies §3.1, the mixed bracket of `h_{n,m}` with
-  `A_{p+n'}` having normal `m(ρ(p+n'))e_z*`. Positivity and finite cutoffs of
-  `P_ext` follow from `δ_ext(n+cp,c,0)=δ(n)+c`; in the cone case
-  `P_ext=C_ext∩Γ_ext`. Supported rays of `P` lift by `w↦(w,0,0)`.
-  The ray group at `(q,1,0)` and normal `e_z*` is `exp(A_q)` when
-  `q−p∈P`, and trivial otherwise; its higher multiples have no module piece.
-  Charge one at extended order `k+1` is
-  `M_{p,≤k}`, with charge-zero action given by §5.1. Its geometric module
-  directions `(ρ(p+n),1,0)` are nonzero even when `ρ(p+n)=0`.
-  Cylinder lifts preserve consistency, incomingness and outgoingness.
-- *probeCompletion*: construct a consistent diagram with charge-zero part the
-  cylinder over `𝔇` and remaining walls the probe and outgoing charge-one walls.
-  At a vertically regular `(Q,y,0)`, its combined module label cooriented by
-  `e_z*` is `exp(F(Q))`, for `F(Q)∈M_{p,≤k}` independent of regular `y`
-  and short crossing. A normal `c e_z*` contributes `θ^{sgn(c)}`, so the
-  upward crossing is `exp(−F(Q))`.
-- A finite exceptional arrangement `Δ_pr(a,k)` refining `Δ(a,k)` makes
-  every endpoint outside it vertically regular for some `y`. For admissible
-  `γ` between such endpoints,
-  `F(Q')=𝔭_{γ,𝔇}·F(Q)`, where `𝔭` is the order-`k`
-  *levelPathProduct*. For `q=p+n` with `ρ(q)≠0`, at all sufficiently large
-  `T` the component `F_q(Q+Ti(ρ(q)))` is `a` if `n=0` and `0`
-  otherwise. Components with `ρ(q)=0` have these same constant values by
-  *zeroDirectionComponent*.
-- *probeWall_eq_brokenLineSum*: `F(Q)=Θ_Q` off `Δ_pr(a,k)`. These values
-  extend uniquely over `V∖Δ(a,k)` and equal *weightedEvaluation* there.
-- *affineLocalResolution*: construct §5.4's certificate for every incoming homogeneous
-  coefficient in the affine completion, extracting finite component-map identities
-  from the charge-one probe products and the recursion below.
-- *thetaSection*: `Θ` is locally constant off `Δ(a,k)` and obeys each
-  facet equation: the signed wall action at a wall crossing, the identity at other
-  facets. It extends uniquely by *facetDescent* to a section `ϑ_a` of
-  *CoefficientLocalSystem*, compatible with truncation. *theta_transport*:
-  `ϑ_{a,Q'}=𝔭_{γ,𝔇}(ϑ_{a,Q})` for an everywhere admissible path between
-  generic endpoints, at every finite order and in the inverse limit.
-- *theta_coeffMap*: on fixed degree and spatial lattices, let `f` be a §3.1
-  wall-space morphism and `φ` a degree-preserving filtered coefficient map, linear
-  after restriction along the specified scalar homomorphism and intertwining
-  actions. Then
-  `φ(ϑ_{𝔇,a,Q})=ϑ_{f_*𝔇,φ(a),Q}` at common generic endpoints, where
-  `f_*𝔇` maps labels by *completedMap* `f`. Prove equality of weighted sums
-  at every order and in the inverse limit, discarding zero decorations and identity
-  labels after specialization.
-
-*Route:* Complete the cylinders and probe by §3.3; §3.4 identifies charge zero
-with the cylinder over `𝔇`. Rectangles and `G exp(v)G⁻¹=exp(G·v)` give transport
-and height independence. For `Δ_pr`, add active old-wall hyperplanes and projections
-`π(affineSpan σ)` of module-wall boundary strata in `z=0` whose directions contain
-`e_y`, with `π:V×ℝe_y→V`. These projections are proper; other boundary spans meet
-a vertical line at most once, supplying a regular height and a short crossing
-avoiding `z=c≠0`. Use incoming germs for this refinement.
-
-Outgoingness makes every noninitial degree-`(q,1,0)` wall miss
-`(Q+Ti(ρ(q)),y+T,0)` for large `T`. For `q=p+n` with `ρ(q)≠0`, thin rectangles give
-`F_q(Q)=1_{n=0}a+Σ_xΣ_{δ(n')<δ(n)}pr_q(U_x^q F_{p+n'}(x^-))`,
-where `x` runs over backward-ray encounters and `U_x^q` is the combined signed
-action. Deleting the last positive-degree change, including shifts in `ker ρ`,
-gives the same recursion for *weightedEvaluation*. Degree induction and
-*zeroDirectionComponent* prove equality; local constancy removes the extra strata.
-Extract the finite local identities and apply *facetDescent*.
+  `A_{p+n'}` having normal `m(ρ(p+n'))e_z*`; when this normal is zero the bracket
+  vanishes by annihilation. Positivity follows from `δ_ext(n+cp,c)=δ(n)+c`.
+  For `P=C∩Γ`, set `C_ext=cone(C×0,(p,1))` and prove `P_ext=C_ext∩Γ_ext`.
+  Old rays lift by `w↦(w,0)`; the module ray group at
+  `(p+n,1)`, `n∈P`, is `exp(A_{p+n})`, with no higher-charge pieces.
+  Charge one through order `k+1` is `M_{p,≤k}`.
+  Cylinder lifting preserves consistency, incomingness and outgoingness.
+- *probeCompletion*: apply *relativeAbelianCompletion* with quotient the cylinder
+  diagram. Module walls lie in `z=0≃V`, and added walls are outgoing. At regular `Q`,
+  define `F(Q)∈M_{p,≤k}` by the upward crossing label `exp(−F(Q))`, independently
+  of the short segment. Regularity excludes old supports and module-wall boundaries.
+- *probeTransport*: rectangles and `G exp(v)G⁻¹=exp(G·v)` give
+  `F(Q')=𝔭_{γ,𝔇}·F(Q)` along admissible paths. Outgoingness gives
+  `F_{p+n}(Q+Ti(ρ(p+n)))=1_{n=0}a` for large `T` at regular points.
+  If `ρ(p+n)=0`, there is no outgoing wall of that degree and the component
+  is already `1_{n=0}a`.
+- *backwardRayOperator*: choose a finite exceptional arrangement containing the
+  old supports' affine hyperplanes, module-wall boundary spans and §5.3's
+  discriminant. On its complement `Ω`, for each `q=p+n` with `ρ(q)≠0`, list
+  the regular encounters `x` of `Q+ℝ_{>0}i(ρ(q))` and fix sufficiently close
+  incoming points `x^-∈Ω` by §5.3. Define a linear operator on `E=(Ω→M_{p,≤k})` by
+  `(Uf)_q(Q)=Σ_x Σ_{δ(n')<δ(n)}pr_q(U_x^q f_{p+n'}(x^-))`, where
+  `U_x^q` is the combined action crossing toward `Q`. Put `(Uf)_q=0` for
+  `ρ(q)=0`. Prove finiteness and filtration increase, hence `U^{k+1}=0`.
+- *brokenLine_recursion*: deleting the last positive-degree change gives a
+  weighted decomposition into the preceding evaluation fibers at `x^-` and their
+  nonzero output components. Normal-velocity equality identifies the incoming side.
+  For the inverse, deform the prefix to endpoint `x` in §5.3's closed chart and
+  attach the segment to `Q`, recording intervening identity crossings. Prove that
+  genericity excludes contributing singular degenerations. Retain shifts in `ker ρ`
+  and discard zero outputs. Thus `Θ=b+UΘ`,
+  where `b(Q)=a` in degree `p`, including §5.2's constant-section case.
+- *probe_recursion*: independently, sum the component jumps of *probeTransport*
+  along each backward ray and use its far-ray value to obtain `F=b+UF`.
+  §0.8's finite recursion now proves *probeWall_eq_brokenLineSum*, `F=Θ` on `Ω`.
+  §5.3's local stability extends the equality over the broken-line generic locus;
+  prove independence of the auxiliary arrangement and incoming-point choices.
+- *operatorProbe*: for any `R`-module `H`, replace the pieces by
+  `Hom_R(H,A_{p+n})`, with post-composition action and initial map `H→A_p`.
+  At finite order their direct sum is `Hom_R(H,M_{p,≤k})`. Evaluation preserves
+  probe labels and both recursions. Taking `H=A_p` and initial map `id`
+  gives identities of linear maps for all incoming coefficients simultaneously.
+- *affineLocalResolution*: at a codimension-two joint and fixed order, form the
+  incident tangent diagram and prove consistency by rescaling admissible loops. Apply
+  *operatorProbe* to this diagram, whose supports need not be full hyperplanes.
+  Identify its fibers with the local resolutions by rescaling §5.3's boundary charts;
+  *probeWall_eq_brokenLineSum* and *probeTransport* give their component-map
+  identities. Concatenate exterior pieces by *localResolution_expansion* to
+  construct the certificate; terminal events use graph lifts.
+- *thetaSection* is §5.4's *globalThetaSection* applied to
+  *affine_finiteClosedTypeFamily* and *affineLocalResolution*, valued in
+  *CoefficientLocalSystem*; *theta_transport* specializes *globalTheta_transport*.
+- *theta_coeffMap*: for a fixed-degree wall-space map `f` and intertwining filtered
+  coefficient map `φ` as in §5.1, after restriction of scalars, §5.4 gives
+  `φ(ϑ_{𝔇,a,Q})=ϑ_{f_*𝔇,φ(a),Q}` at finite order and after completion;
+  `f_*𝔇` maps labels by *completedMap* `f`.
 
 **Checks.**
 
@@ -1725,7 +1768,11 @@ Extract the finite local identities and apply *facetDescent*.
   `m(ρ(n))=0`, and initial `z^p` with `m(ρ(p))=1`, the chamber values
   are `ϑ_Q=z^p` for `Q_x>0` and `ϑ_Q=z^p−z^{p+n}` for `Q_x<0`.
 
-*Needs:* §§1.4, 3.1, 3.3–3.4 and 5.1–5.4;
+- Restricting this one-wall example to `U={x<−1}` gives `z^p−z^{p+n}`,
+  although the wall misses `U`: the family retains incoming tails and bends outside
+  `U`. For the empty full-space diagram with initial `z^p`, the theta is `z^p`.
+
+*Needs:* §§0.8, 1.4, 3.1, 3.3–3.4 and 5.1–5.4;
 `LieAlgebra.SemiDirectSum`, `LieDerivation`.
 Sources: MAN Theorem 2.14 and §3.3.3; LMY §3.
 
@@ -1758,78 +1805,24 @@ terms with the same `m` into one projected homogeneous component. The walls in
   contributing principal path arises from this lifting. Prove that at each cutoff a
   projected type has finitely many contributing principal refinements. Retain zero projected shifts as coefficient
   changes, using §5.2's evaluation of *ConstantIncomingSection*s for zero initial direction.
-- *theta_eq_monomialBrokenLineSum*: in a *MonomialPresentation* of §5.1,
-  §5.5's theta equals the sum of final monomial decorations from the signed action
-  components, at every finite order, compatibly with truncation and inverse limits.
+- *theta_eq_monomialBrokenLineSum*: express §5.4's weighted evaluation in a
+  *MonomialPresentation*. Its finite sums and completed sections are §5.5's
+  *thetaSection* in these bases.
 - *principalTheta_eq_projectedMonomialSum*: `z^{(m,n)}↦t^n z^m` sends §4.2's
   principal theta to the projected monomial sum. This is a weighted pushforward:
   several principal degree histories can combine into one projected homogeneous
   decoration. Prove equality at each finite order, then in the inverse limit.
-- *theta_presentationInvariant*: any two representatives of *Scat* `𝔇_in`
-  have equal theta sections for §5.1's general coefficient action, hence equal
+- *theta_presentationInvariant*: equivalent consistent §3.2 diagrams
+  have equal theta sections for §5.1's coefficient action, hence equal
   *homogeneousComponent* coefficients and, in a monomial presentation, equal monomial
-  sums at every common generic endpoint and order.
-- Compatible coefficient regradings on a fixed base preserve weighted evaluation
-  when component propagation intertwines and contributing refinements are finite.
-  Across different bases also require the geometric lift and incoming-tail
-  correspondence above.
-
-*Route:* Equivalent charge-zero diagrams give the same probe labels; apply
-*probeWall_eq_brokenLineSum*. Linearity groups the finite contributing histories; cylinder lifting supplies the geometric correspondence.
+  sums at common generic endpoints and orders, by relative uniqueness and
+  *probeWall_eq_brokenLineSum*.
+- Apply §§0.8 and 5.4 to coefficient regradings with finite contributing refinements;
+  base changes additionally use the geometric lift and incoming-tail correspondence above.
 
 *Needs:* §§4.2–4.3 and §§5.1–5.5.
 Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9 in
 2205.07753v2, PDF 11–18; N23 Proposition 7.6, Lemmas 7.7–7.8 and §7, PDF 96–98.
-
-### 5.7 Global theta sections from finite local resolutions
-
-Fix a semiring `R`, an `R`-semimodule `H`, and §1.5's regular coefficient diagram
-with semimodule values at one order. Refine each chamber by a locally finite
-polyhedral stratification. On each top
-stratum specify finitely many linear maps `H→M_u`. Require their sums to agree across
-interior facets and to admit common lifts across coefficient faces, compatible with
-the overlap maps. Face spans are jointly injective.
-
-*Targets.*
-
-- *finiteSum_matchingFamily*: these sums extend uniquely to a matching family of
-  linear maps from `H`. The construction commutes with coefficient maps preserving
-  the spans and lifts, stratification refinement and regrouping of finite sums.
-- *globalThetaSection*: apply this gluing theorem to §5.2's incoming data and
-  *weightedEvaluation*, taking `H=R` and sending `1` to each branch weight.
-  Truncation-compatible *FiniteClosedTypeFamily*s (§5.3) and
-  *LocalResolutionCertificate*s (§5.4) supply the finite strata and facet identities.
-  Finite-order *weightedEvaluation* is independent of generic
-  endpoint within each chamber and extends to a unique matching family
-  `ϑ_{s,a,≤k}`. It obeys signed transport at ordinary walls and
-  `ϑ_u=λ_u(ϑ_b)`, `ϑ_v=λ_v(ϑ_b)` at each face `b`.
-  *globalTheta_transport* comprises these equations and §0.7/§5.4 transport along
-  ordinary-wall paths; propagation across faces uses the admissible degrees of §0.8.
-- The sections commute with truncation through §1.5's refinement isomorphisms,
-  defining `ϑ_{s,a}=lim_k ϑ_{s,a,≤k}`.
-  Finite common refinements for finitely many inputs give linearity in the incoming
-  coefficient. The sections are natural under compatible coefficient
-  maps, affine coordinate changes, restrictions retaining global incoming histories,
-  and finite weighted refinements of path families.
-- *affine_finiteClosedTypeFamily* and *affineLocalResolution* instantiate the theorem
-  for §5.1 and identify its section with §5.5's *thetaSection*. A *MonomialPresentation*
-  gives §5.6's monomial sum; for the principal regrading, apply
-  *principalTheta_eq_projectedMonomialSum*.
-
-*Route:* Proper closed families reduce a generic endpoint path to finitely many
-declared events. Group by limiting local pieces and apply the resolution identities;
-at terminal faces sum common lifts and use joint injectivity. Perturb away from
-higher-codimension strata; compatibility of component maps and lifts gives truncation.
-
-**Checks.**
-
-- Restricting §5.5's one-wall example to `U={x<−1}` gives `z^p−z^{p+n}`,
-  although the wall misses `U`: the family retains incoming tails and bends outside
-  `U`. For the empty full-space diagram with initial `z^p`, the theta is `z^p`.
-
-*Needs:* §§0.7–0.8, 1.2–1.3, 1.5 and 5.2–5.6.
-Sources: GHS §3,
-especially Proposition 3.16 and Theorem 3.19; CPS Lemmas 4.7 and 4.9.
 
 ## Layer 6: integral-affine covariance, descent and a worked example
 
@@ -1840,12 +1833,12 @@ map `T:Λ≃Λ'`, a lattice isomorphism `S:Γ≃Γ'` with `T∘ρ=ρ'∘S` and `
 and a graded Lie isomorphism `φ` taking `h_{n,m}` onto `h'_{Sn,m∘T⁻¹}`,
 with cofinal filtration moduli in both directions. Supports move by `f`, degrees by
 `S`, tangent vectors by `T`, normals by the dual inverse and labels by *completedMap*.
-A *CoefficientIso* over these maps consists of §0.7 comparisons of diagrams and
-intertwiners in both directions, mutually inverse after compatible enlargement of the
-moduli. On regular coefficient towers they preserve the chosen §0.8 correspondences,
-and the gradings and lifts through `S`. For algebra actions it satisfies
-`ψ(A_q)=A'_{Sq}` and `ψ(x·a)=φ(x)·ψ(a)`. When `Γ=Λ`, `ρ=id` and `δ'∘S=δ`,
-these are the degree-preserving coordinate changes of §§3.1 and 5.1.
+A *CoefficientIso* over an integral-affine isomorphism of §1.5 bases consists of
+exponent-system isomorphisms commuting with `ρ` and mutually inverse §0.7 diagram
+comparisons after cofinal reindexing. They carry chambers and faces onto corresponding
+supports and preserve §0.8 spans, gradings, admissible lifts and incoming records.
+For algebra actions, `ψ(A_q)=A'_{Sq}` and `ψ(x·a)=φ(x)·ψ(a)` give the coefficient
+instance associated to a *DirectedAffineIso*.
 
 *Targets.*
 - *mapAffineDiagram*: transport preserves incoming/outgoing walls, equivalence,
@@ -1853,18 +1846,17 @@ these are the degree-preserving coordinate changes of §§3.1 and 5.1.
   both geometry and coefficients; on §2.1 complexes it is *image*. Restrictions
   transport wall germs and paths in their domains with the same product identity,
   using §1.5's unique affine extension on each connected overlap component.
-- *theta_affineCovariance*: isomorphisms preserving cutoffs give bijections of
-  evaluation fibers preserving weights and incoming data. Cofinal filtration
-  comparisons commute with truncation and give `ψ(ϑ_{a,Q})=ϑ_{ψ(a),f(Q)}` in the
-  completion. They transport *FiniteClosedTypeFamily*s and *LocalResolutionCertificate*s,
-  hence the affine and global theta sections of §§5.5 and 5.7.
+- *theta_affineCovariance*: pull back geometry by `f` and apply §§5.2–5.4's
+  coefficient comparison and family transport. Obtain
+  `ψ(ϑ_{a,Q})=ϑ_{ψ(a),f(Q)}`, with identity, composition, inverse and truncation
+  laws; cofinal reindexing gives the completed equality.
 
 **Checks.**
 - The swap `(x,y)↦(y,x)` of `ℤ²`, of determinant `−1`, sends `{x=0}` with normal
   `e_1*` to `{y=0}` with normal `e_2*`. The identity
   `⟨m∘T⁻¹,Tv⟩=⟨m,v⟩` preserves the crossing factor without a determinant sign.
 
-*Needs:* §§0.5, 0.7–0.8, 1.1–1.2, 1.5, 2.1, 3.1–3.2 and 5.1–5.7;
+*Needs:* §§0.5, 0.7–0.8, 1.1–1.2, 1.5, 2.1, 3.1–3.2 and 5.1–5.6;
 `AffineEquiv`, `IsIntegralLattice.extend`, `realCharacter_comp`.
 
 ### 6.2 Descent of coefficient diagrams and transport
@@ -1904,14 +1896,14 @@ compatibly on the tower `G≤k`, with chart-change lifts in `H` and transport gr
   the descent cocycle give coefficient local systems on the invertible locus,
   including §5.4's type, algebra and module instances. A prescribed degree `p` must be invariant; alternatively
   use the direct sum of modules, or disjoint union of types, over its monodromy orbit.
-- *globalTheta_descent*: under §5.7's joint-injectivity hypothesis, apply its gluing
-  theorem to the descended diagram with a global incoming
-  datum, *FiniteClosedTypeFamily* and *LocalResolutionCertificate*. Chart restrictions
-  are weighted sums of the same global paths, with §6.1 overlap covariance. The
-  section commutes with atlas refinement, compatible coefficient maps and truncation,
-  and satisfies *globalTheta_transport* on the invertible locus.
+- *globalTheta_descent*: for a global incoming datum, glue compatible local closed
+  families and certificates retaining whole global histories by §§5.3–5.4.
+  Their bounded-itinerary and component-expansion constructions commute with this
+  gluing. With jointly injective face spans, apply *globalThetaSection* to the
+  descended diagram. Prove atlas-refinement, coefficient-map and truncation laws,
+  and *globalTheta_transport* on the invertible locus.
 
-*Needs:* §§0.7–0.8, 1.5, 2.1, 5.3–5.4, 5.7 and 6.1;
+*Needs:* §§0.7–0.8, 1.5, 2.1, 5.3–5.4 and 6.1;
 `ChartedSpace`, `StructureGroupoid`, `SemidirectProduct`, `TopCat.Sheaf` and §5.4's
 *facetDescent*.
 
@@ -1971,54 +1963,46 @@ Composing with the projections of `A_k` gives §4.4's slab maps for `q=t(1+w)`.
 *Targets.*
 - *focusFocusAlgebra*: prove the `S_k`-algebra isomorphism
   `e:S_k[W^{±1},X,Y]/(XY−t(1+W)) ≃ A_k`, with the displayed generator images,
-  compatible with `K→K'` and `k+1→k`. The ring is free over `S_k` on
-  `{W^b : b∈ℤ} ∪ {X^d W^b,Y^d W^b : d≥1,b∈ℤ}`, hence flat over `S_k`.
+  compatible with `K→K'` and `k+1→k`; *slabNormalForm* gives its basis and flatness.
 - *focusFocusDatum*: construct the displayed atlas, exponent system, monoid algebras
   and chamber-order quotients, and the §0.7–0.8 coefficient diagram with its stated
-  admissible lifts. Prove the overlap and reduction squares, injectivity assertions,
-  and compatibility of lifts with both crossing descriptions. On the common span
+  admissible lifts and full half-space incoming data. Prove the overlap and reduction
+  squares, injectivity assertions and compatibility of lifts with both crossing descriptions. On the common span
   `b→u`, `b→v`, the maps `ι₋`, `e⁻¹` and `ι₊` form a natural transformation to
-  §4.4's slab diagram. It preserves lifts and homogeneous components and identifies
-  the incoming broken-line families and decorations of the two presentations.
-- *focusFocusBrokenLines*: for incoming `X^d W^b` from the left, `Y^d W^b` from
-  the right (`d≥1`), and invariant `W^b` (`b∈ℤ`), construct a
-  *FiniteClosedTypeFamily* and a *LocalResolutionCertificate*. Every
-  nonconstant line has at most one slab crossing. For endpoint `Q=(u,v)` in the
-  opposite chamber, the `j`-th branches, `0≤j≤d`, have decorations and crossing heights
+  §4.4's slab diagram, preserving lifts, exponent projections and incoming records.
+- *focusFocusBrokenLines*: apply *brokenLine_coefficientEmbedding* to the displayed
+  span comparison. In chamber coordinates, `T` fixes the slab pointwise and
+  `g_f h_II=g_f' h_III` identifies its two transfer presentations. Thus
+  *singleFaceBrokenLines* and *singleFaceResolution* give the global closed family
+  and certificate, including singular and terminal degenerations. For incoming
+  `X^d W^b` from the left and `Y^d W^b` from the right (`d≥1`), expand the §4.4 transfers.
+  At `Q=(u,v)` in the opposite chamber, branches `0≤j≤d` have decorations and heights
   `binom(d,j)x₂^d w^{b+j}`, `s_j=v+(b+j)u/d` for `X`, and
   `binom(d,j)y₁^d w^{b+j}`, `s_j=v−(b+j)u/d` for `Y`. Discard zero decorations.
   For `X`, the lower crossing uses term `j` of `f^d`; the upper uses term `d−j`
   of `(f')^d` after `h_III`. In the incoming chamber each nonzero decoration has
   one unbent line. For `W^b`, use the vertical line when `b≠0` and its decoration is nonzero;
-  for `b=0` use the *ConstantIncomingSection* `ϑ_1=1` of §§1.5 and 5.2. The generic enumeration excludes
-  `u=0` and `s_j=0`; construct their face and singular-degeneration data.
-- *focusFocusTheta*: identify §5.7's sections for these incoming data with
-  `X^d W^b`, `Y^d W^b` and `W^b` in `A_k` using the stated lifts. They form the
-  displayed `S_k`-basis compatibly in `k`. In the inverse limit, coefficient families
-  in `K[[t]]` are admitted exactly when only finitely many coefficients survive
-  modulo `t^{k+1}` at each `k`.
-- *focusFocusTheta_mul*: write `ϑ_{n,b}=X^{−n}W^b` for `n<0`, `ϑ_{0,b}=W^b`, and
-  `ϑ_{n,b}=Y^nW^b` for `n>0`. For `r=(|n|+|m|−|n+m|)/2∈ℕ`, prove
+  for `b=0` use the *ConstantIncomingSection* `ϑ_1=1`. The generic locus excludes
+  `u=0` and `s_j=0`; their boundary charts are those of the general construction.
+- *focusFocusTheta* is *globalThetaSection* for these data. Apply
+  *slabTheta_normalForm* through `e` to identify its values, basis and completion
+  with `X^d W^b`, `Y^d W^b` and `W^b` in `A_k` and its inverse limit.
+- *focusFocusTheta_mul*: index these sections by `ϑ_{n,b}`, with values
+  `X^{−n}W^b` for `n<0`, `W^b` for `n=0`, and `Y^nW^b` for `n>0`. Specialize
+  *slabNormalForm*'s product to `q=t(1+W)` and expand binomially to obtain
+  for `r=(|n|+|m|−|n+m|)/2∈ℕ`
   `ϑ_{n,b}ϑ_{m,c}=t^r Σ_{j=0}^r binom(r,j)ϑ_{n+m,b+c+j}`.
   Over `ℤ` its coefficients lie in the image of `ℕ[t]`; scalar extension gives
   the formula over `K`.
 
-*Route:* Eliminate `t=x_i y_i`; regularity of `1+w` in `K[w^{±1}]` gives the
-fiber-product normal forms and uniqueness of incoming lifts. For the `X` and `Y`
-inputs, constant nonzero horizontal velocity makes the one-crossing families
-exhaustive, with closed polyhedral charts cut out by the signs of `u` and `s_j`. At `s_j=0`, binomial
-symmetry and the overlap identity equate the upper and lower local resolutions.
-At `u=0`, use the admissible and common tangential lifts. Multiplication by `t^r`
-and `K`-linearity extend these identities to every admissible homogeneous local germ,
-proving the required component-map certificates. Apply §5.7; multiplication uses
-`XY=t(1+W)`.
+*Route:* Eliminate `t=x_i y_i`; regularity of `1+w` identifies the fiber product.
 
 **Checks.**
 - Over `K=ℤ` at `k=2`, `ϑ_{−1,0}ϑ_{1,0}=tϑ_{0,0}+tϑ_{0,1}`.
   At `Q=(1,1)`, incoming `X` and `X²` from the left have respectively two and
   three broken lines, with weights `1,1` and `1,2,1`.
 
-*Needs:* §§0.7–0.8, 1.5, 4.4, 5.2–5.4, 5.7 and 6.1–6.2;
+*Needs:* §§0.7–0.8, 1.5, 4.4, 5.2–5.4 and 6.1–6.2;
 `AddMonoidAlgebra`, `Ideal.Quotient`, `Localization.Away`, `MvPolynomial`,
 and `CategoryTheory.Limits`.
 Sources: GS §2.3; GHS Definition 3.3, Proposition 3.5 and Lemma 3.7.
@@ -2372,14 +2356,14 @@ monomial.
   *PositiveThetaSeries*: in §5.6's standard principal monomial presentation, every
   *homogeneousComponent* of *ShiftedCoefficients p* is `c·z^{p+n}` with `c∈ℕ[A]`,
   independent of the diagram representative. Under *principalProjectionComparison* and §5.6's finite
-  weighted cylinder comparison it is §5.7's positive section for the projected
+  weighted cylinder comparison it is §5.4's positive section for the projected
   principal coefficients, including coefficient degrees of zero spatial direction.
 
 *Route:* Finite evaluation fibers and *monomial_exponent_dictionary* express
 coefficients as sums of products of coefficients of `f^{|⟨κ(n)n,m⟩|}`; tangencies have
 exponent zero. Positivity survives these finite operations and the inverse limit.
 
-*Needs:* §§0.8, 4.4, 5.2–5.7, §7.1 and one of
+*Needs:* §§0.8, 4.4, 5.2–5.6, §7.1 and one of
 *ordinaryWall_positiveRepresentative* (§7.2),
 *polynomialWall_positiveRepresentative* (§7.5) or
 *adaptedPolynomialWall_positiveRepresentative* (§7.6).
