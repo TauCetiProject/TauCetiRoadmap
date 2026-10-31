@@ -4249,29 +4249,119 @@ expansion.
 *Needs:* Tau Ceti `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.permHom`,
 `TauCeti.BraidWord`; Layer 4.2 (closures).
 
-### 4.13 Unknotting number one and Kondo's theorem
+### 4.13 Prescribed Alexander polynomials and unknotting number one
 
-Prove Kondo's theorem: for every Laurent polynomial `Δ ∈ ℤ[t, t⁻¹]` with `Δ(t) = Δ(t⁻¹)` and
-`Δ(1) = 1` there is a knot with unknotting number one whose Alexander polynomial is `Δ`
-(Kondo, *Knots of unknotting number 1 and their Alexander polynomials*, Osaka J. Math. 16
-(1979), Theorem 3: the knot is a normal form built from one unknotting band with integer
-parameters solving Kondo's linear system (*), and his formula (8) for the Alexander
-polynomial of the normal form shows that such a solution gives the prescribed `Δ`). Deduce
-that the genus of knots with unknotting number one is unbounded, since `span Δ ≤ 2g`. The surgery-theoretic theorems
-about unknotting number one, that `u(K) = 1` implies `K` prime and the Kanenobu–Murakami
-criterion for two-bridge knots, are Layer 5.4's, since they rest on the cyclic surgery
-theorem stated there.
+For every integral Laurent polynomial Δ with `invert Δ=Δ` and `Δ(1)=1`,
+construct a finite realized oriented knot diagram, a marked crossing, and
+a finite Reidemeister certificate taking the switched diagram to the
+unknot, with normalized Alexander polynomial exactly Δ. Fix the diagram
+and all band ports, orientations, twists and closure data in the
+construction; integer linking parameters alone do not specify its knot
+type. For Δ≠1, its polynomial proves nontriviality, so the one-change
+certificate gives `u=1`. For Δ=1 use the untwisted Whitehead double of the
+right-handed trefoil: compute Δ=1, construct the clasp-change certificate
+and use its essential companion torus to prove nontriviality. Thus every
+permitted polynomial is realized by a knot of exact unknotting number1.
+No uniqueness of the realizing knot is asserted.
 
-**Checks.**
-- `Δ = 1` is realized by the untwisted Whitehead double of the trefoil, which has `u = 1` and
-  is nontrivial; the unknot also has `Δ = 1`, so Kondo's theorem does not give uniqueness.
-- `Δ = t − 1 + t⁻¹` is realized by the trefoil, `u = 1`.
-- For `Δ_k = 1 + (−1)^{k−1}(t + t⁻¹ − 2)^k`, which is symmetric with value `1` at `t = 1`, Kondo's
-  knot has `u = 1` and genus at least `k`.
-- `Δ = −t + 3 − t⁻¹` is realized by the figure-eight, `u = 1`; Kondo's normal form for it need
-  not be the figure-eight, since the theorem realizes the polynomial, not the knot.
+**The finite integer solver.** Choose n≥1 with Laurent support in [−n,n],
+form the ordinary reciprocal polynomial `p(t)=t^n Δ(t)` and write
 
-*Needs:* Layer 4.3, Layer 4.4, Layer 4.11.
+```text
+p(t)=Σ_(j=0)^(n−1) a_j(t^(2n−j)+t^j)+a_n t^n,
+β_j=Σ_(i=0)^j (j−i+1)a_i,
+Q_β(t)=Σ_(j=0)^(n−2) β_j(t^(2n−2−j)+t^j)+β_(n−1)t^(n−1).
+```
+
+Leading coefficients may vanish. Prove the unique coefficient expansion,
+the second-difference equations and `p=t^n+(t−1)^2 Q_β`. Normalization
+p(1)=1 supplies the central coefficient, which occurs once, not twice.
+The first sum in Q is empty for n=1, giving
+`p=t+β₀(t−1)^2` and `a₁=1−2a₀` in that branch.
+Kondo's parameters are `α_j=β_j` for j<n−1 and
+`α_(n−1)=β_(n−1)+(n−1)`. Set the symmetric band-parameter matrix by
+`λ_(1,j)=λ_(j,1)=α_(n−j)` for 1≤j≤n, and λ_ij=0 when i,j>1.
+Prove the exact comparison with equation(8): its α-polynomial carries
+`−(n−1)t^(n−1)(t−1)^2+t^n`, so the final α shift is necessary.
+
+Use native `Polynomial`, `LaurentPolynomial`, finite sums and integral
+matrices. Export coefficient recovery, the triangular recurrence and its
+uniqueness, the affine β-to-α conversion, λ's symmetry and sparse support,
+and their compatibility with adding zero leading coefficients. Padding
+from n to n+1 gives `a′₀=β′₀=0`, `a′_(j+1)=a_j`,
+`β′_(j+1)=β_j` and `Q_β′=t Q_β`; the last α increases by1.
+On zero-based `Fin n` indices the first row is `λ_(0,j)=α_(j.rev)`, including
+its diagonal; do not use α_j in that position. Retain the actual chosen n
+in the diagram construction and compare its polynomial normalization when
+padding, without asserting that padding preserves the resulting knot type.
+
+**Band realization and polynomial comparison.** Encode Kondo's oriented
+normal form with labelled band sections, attachment ports and the specified
+marked crossing. Construct an algorithm realizing every chosen symmetric
+integer parameter array by signed twists and inter-band linking boxes,
+with their closure and framing conventions fixed. Compute the resulting
+λ entries geometrically, including the diagonal twist convention and its
+comparison with the source, rather than identifying diagonal entries with
+an undefined self-linking number. Construct the one-crossing-change movie
+to the circle. Derive the signed Alexander/Fox equations of this actual
+finite diagram and equation(8), then apply the solver to prove its normalized
+polynomial is Δ. Construct the monomial/sign adapter from the source's
+ordinary polynomial to the native symmetric Laurent convention. This
+geometric comparison is required before assigning the computed polynomial
+to the realizing knot; the polynomial identity alone supplies no diagram.
+Use [Kondo, Theorem3, system(*) and equation(8), pp557–559](https://ir.library.osaka-u.ac.jp/repo/ouka/all/6492/ojm16_02_19.pdf).
+
+**The course-note family and its geometric scope.** For k≥1 take the
+specified `2k×2k` integral matrix V_k with endpoint diagonal entries1,
+subdiagonal entries−1, superdiagonal entries−1 in even 1-based rows,
+and all other entries0. In native zero-based indices those extra
+superdiagonal entries are in odd rows. Prove its source determinant
+
+`det(V_k−tV_kᵀ)=(-1)^(k−1)(1−t)^(2k)+t^k`.
+
+Use leading principal minors D₀=1 and the continuant recurrence; before the
+last endpoint, `D_(2m)=t^m` and
+`D_(2m+1)=(-1)^m(1−t)^(2m+1)`. The final recurrence is
+`D_(2k)=(1−t)D_(2k−1)+tD_(2k−2)`, including k=1.
+Export its extreme coefficients, degree, value at1 and native
+`alexanderMatrix`/`alexander` comparison by transpose and even-dimensional
+negation. Its normalized Laurent polynomial is
+`Δ_k=1+(-1)^(k−1)(t+t⁻¹−2)^k`, with nonzero endpoints at ±k.
+The realization above therefore gives knots J_k with `u(J_k)=1` and
+`g(J_k)≥k`; their distinct spans prove pairwise distinction and unbounded
+genus. No genus upper bound is inferred from their polynomial.
+
+Physical pp75–76 of *Knot Theory.pdf* supply the template and a schematic
+band picture, respectively. The literal picture still requires its actual
+oriented attachment/closure data, marked change, all 2k basis curves and
+their push-off pairing comparison with V_k. Explain its printed “k bands”:
+a connected surface formed from d≥1 discs and k ordinary one-handles has
+first Betti number k−d+1≤k, whereas a genus-k knot surface has first
+Betti number2k. A generic matrix
+realization or J_k with the same polynomial does not identify this picture
+or establish its claimed genus upper bound. The separate p74 six-circle
+matrix is `V₃−E_(4,4)`, with the matrix unit indexed from1: its fourth
+diagonal entry is−1, while V₃ has0 there. Retain these different inputs
+and their actual geometric comparisons.
+
+**Checks.** For n=1 and `(a₀,a₁)=(1,−1)`, β=α=(1) and λ=[1].
+For n=2 and a=(−1,4,−5), β=(−1,2), α=(−1,3) and the first λ row is
+(3,−1). For n=3 and a=(1,−6,15,−19), β=(1,−4,6), α=(1,−4,8) and
+the first row is (8,−4,1). Check all central coefficients and source shifts.
+For p=t^n the solver has every β_j=0 and α_(n−1)=n−1; that parameter
+calculation does not prove a nontrivial knot. The unit-polynomial branch
+uses the separate Whitehead construction above. The trefoil and
+figure-eight realize `t−1+t⁻¹` and `−t+3−t⁻¹`; the solver's normal forms
+need not be those named knots. The p74 matrix and V₃ have ordinary
+polynomials `1−5t+11t²−13t³+11t⁴−5t⁵+t⁶` and
+`1−6t+15t²−19t³+15t⁴−6t⁵+t⁶`, respectively.
+
+*Needs:* Layers4.2–4.4 (realized diagrams, crossing changes, Seifert/Fox
+comparison and genus bound) and4.11 (the nontrivial Whitehead double).
+[SeifertFamilyTargets.lean](SeifertFamilyTargets.lean) records the native
+matrix, polynomial solver, parameter conversion and sparse matrix interfaces.
+The surgery-theoretic results `u=1⇒prime` and the two-bridge criterion
+remain Layer5.4 targets and are not premises of this construction.
 
 ### 4.14 Counting knots
 

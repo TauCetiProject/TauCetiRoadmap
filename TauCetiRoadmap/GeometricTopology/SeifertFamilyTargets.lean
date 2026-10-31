@@ -7,7 +7,7 @@ These are suggested forms. The README is the definitive specification.
 These signatures specify the algebraic template from physical page75 of the course
 notes, using the source convention `V_ij = lk(x_i, x_j⁺)`. They do not identify the
 page76 band/closure diagram or supply its basis, surface or unknotting witnesses;
-those geometric comparisons are separate targets in the README and source-inputs.md.
+those geometric comparisons are separate required targets in the README.
 The admitted theorems below are proof targets.
 -/
 
@@ -93,6 +93,26 @@ alpha parameter additionally includes `n - 1`, as specified in the README. -/
 def kondoParameter (n : ℕ) (a : Fin (n + 1) → ℤ) (j : Fin n) : ℤ :=
   ∑ i : Fin (n + 1),
     if i.val ≤ j.val then ((j.val - i.val + 1 : ℕ) : ℤ) * a i else 0
+
+/-- Kondo's final parameter includes the source correction term. -/
+def kondoAlpha (n : ℕ) (a : Fin (n + 1) → ℤ) (j : Fin n) : ℤ :=
+  kondoParameter n a j + if j.val + 1 = n then (n : ℤ) - 1 else 0
+
+/-- The selected symmetric linking parameters, with reversed first row/column.
+The diagonal is a geometric twist parameter, interpreted by the README. -/
+def kondoBandLinking (n : ℕ) (a : Fin (n + 1) → ℤ) :
+    Matrix (Fin n) (Fin n) ℤ :=
+  fun i j => if i.val = 0 then kondoAlpha n a j.rev
+    else if j.val = 0 then kondoAlpha n a i.rev else 0
+
+theorem kondoBandLinking_symmetric (n : ℕ) (a : Fin (n + 1) → ℤ) :
+    (kondoBandLinking n a).transpose = kondoBandLinking n a := by
+  ext i j
+  by_cases hi : i.val = 0 <;> by_cases hj : j.val = 0
+  · have h : i = j := Fin.ext (hi.trans hj.symm)
+    subst h
+    rfl
+  all_goals simp [kondoBandLinking, Matrix.transpose_apply, hi, hj]
 
 /-- The reciprocal polynomial multiplying `(X - 1)^2`; the central monomial
 occurs once, including the `n = 1` case. -/
