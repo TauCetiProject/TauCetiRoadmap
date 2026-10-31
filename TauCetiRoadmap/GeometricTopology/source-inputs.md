@@ -56,3 +56,37 @@ a handedness convention. Its actual closure has the reciprocal of the
 Atlas representative's Jones polynomial. The target therefore specifies
 the mirror comparison, retaining the source label without identifying
 the two chiral representatives.
+
+<a id="problem67-surface-source"></a>
+## Problem 67 and the main four-band example
+
+Physical problem page 11 has source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`;
+main pp. 182–187 have source identity
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`.
+The [four-band target](README.md#gt4-problem67-seifert) retains their literal
+matrix, including its bottom-right entry −2. Problem 67 and main p. 183 match
+in curve labels/order, rightward lower-arc arrows and visible attachment,
+wavy-band and crossover positions. This line-art comparison does not prove
+ambient isotopy or supply a complete signed ribbon presentation. Neither
+figure gives a notation key for the wavy marks, exact twist counts/signs,
+a formal cyclic attaching order, or consistent signed ribbon crossings.
+Recover and compare the actual finite embedded data rather than fitting a
+surface to the printed matrix.
+
+Neither figure marks a positive normal. Main p. 185 chooses the front of the
+disc as top, takes x* just above F, and defines V_ij=lk(x_i,x_j*). Its
+three-curve illustration is not explicitly the four-band drawing. Compare
+this general convention with the marked four-band model before using it;
+Problem 67 alone does not choose that side. Main p. 186 gives V₂₂=−5, the
+full matrix and the overcrossing-only linking rule, whose signed convention
+must be pinned by the geometric linking comparison.
+
+The main p. 182 label literally reads “our 52 crossing knot”; the position of
+2 does not establish whether 5₂ is intended. It does not certify a table
+identification. Its polynomial line has cubic coefficient +272, whereas
+the determinant of its displayed matrix has coefficient −272. Preserve that
+literal reading separately from the corrected algebraic computation; the
+positive-cubic expression is not symmetric after the stated normalization.
+The matrix arithmetic and conditional knot conclusions do not resolve these
+source labels or complete the required geometric comparison.

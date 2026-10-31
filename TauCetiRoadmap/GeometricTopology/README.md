@@ -1971,6 +1971,17 @@ it. Define a framed knot's framing coefficient by lk(K,K⁺), compare it with
 the normal trivialization, and prove the Seifert longitude has coefficient0.
 The Seifert pairing below uses this same geometric linking number.
 
+For a generic regular projection of disjoint oriented closed curves J,K,
+prove that the signed sum of mixed crossings where J is OVER K is lk(J,K),
+with no factor 1/2; the K-over-J sum has the same value. Compare their
+difference with the algebraic intersection of the two projected closed
+1-cycles in the oriented plane, which vanishes, and their sum with the
+all-mixed-crossing sum 2lk. Pin the planar/crossing signs by the positive
+Hopf calibration. Prove projection invariance and the same orientation and
+reflection laws through the geometric linking comparison. Ignore
+self-crossings. For a diagonal Seifert entry the disjoint pair is the
+curve and its positive push-off, so its framing comparison is required.
+
 Prove that every nonempty oriented link `L ⊂ S³` bounds a compact connected oriented
 Seifert surface: construct the raw Seifert-algorithm surface, then join its distinct
 components by oriented interior tubes preserving the boundary (Lickorish, Theorem 2.2). Define the genus
@@ -2818,6 +2829,94 @@ no relators. Abstract countability is not the proof of finite presentation.
 `FreeGroup`, `Subgroup.normalClosure`, `Countable`, `Group.IsFinitelyPresented`
 and the geometric Wirtinger construction in Layer4.4; Layer4.4.2
 for the once-each relator identity and individual-relator deletion.
+
+<a id="gt4-problem67-seifert"></a>
+### 4.4.4 The marked four-band Seifert example
+
+Construct the marked surface in *Knot Theory* pp. 182–187 and Problem 67 (physical
+problem page 11), with its four oriented curves x₁,…,x₄. Use 4.3.2's finite embedded
+disc-band carrier and the positive-push-second convention of 4.3. The required matrix is
+
+```text
+V = [ 2  1  0  0
+      0 -5  1  0
+      0  1  2 -1
+      0  0 -2 -2 ].
+```
+
+1. **Marked geometry and all entries.** Give the actual signed attachment, twist and
+   ribbon-crossing data, construct the embedded surface F and prove it connected and
+   orientable with one boundary component. Prove the four marked curves form an integral
+   H₁ basis. Choose F's orientation, its positive normal and a disjoint collar push-off
+   of each curve, then compute every `V_ij=lk(x_i,x_j⁺)`. Compare the source's front/top
+   rule with this normal; translate a push-first convention by transpose. The one-over
+   crossing formula in 4.3 applies to the disjoint pair `(x_i,x_j⁺)`; a diagonal entry
+   is not the projected self-writhe of x_i. In particular, produce the actual push-off
+   diagram establishing V₂₂=−5 and V₂₃=1. The [source-input
+   note](source-inputs.md#problem67-surface-source) records which marked data the
+   drawings supply. An unrelated realization of V or fitting twists to its diagonal does
+   not identify this marked surface.
+
+2. **Exact determinant and normalization.** On the literal integral matrix, prove `Vᵀ−V`
+   is the direct sum of two `[[0,−1],[1,0]]` blocks, with determinant 1, and `det V=64`.
+   Use the leading-principal-minor recurrence for the tridiagonal matrix to prove
+
+   ```text
+   D(t) = det(tV−Vᵀ) = 64(t−1)⁴−16t(t−1)²+t²
+        = 64t⁴−272t³+417t²−272t+64,
+   Δ(t) = t⁻²D(t) = 64t²−272t+417−272t⁻¹+64t⁻².
+   ```
+
+   Identify Δ with native `TauCeti.KnotTheory.alexander` on the actual
+   `IntegralSquareMatrix`. Prove Δ(1)=1, exact support extremes −2 and 2, span 4 and
+   Δ(−1)=1089=33². Transpose or simultaneous negation of V leaves this even-rank
+   determinant unchanged, as does replacing `tV−Vᵀ` by `V−tVᵀ`. These identities do not
+   certify the marked geometry. The Conway polynomial in its own variable is
+   `∇(z)=1−16z²+64z⁴`; compare by `z²=t+t⁻¹−2`, keeping it distinct from the normalized
+   Laurent Δ.
+
+3. **Real signature certificate.** For S=V+Vᵀ, construct the rational matrix
+
+   ```text
+   P = [ 1       0       0      0
+        −1/4     1       0      0
+        −2/41    8/41    1      0
+        −1/30    2/15    41/60  1 ].
+   ```
+
+   Prove det P=1 and `P S Pᵀ=diag(4,−41/4,180/41,−121/20)`. Cast this certificate to ℝ
+   and use native `Matrix.signature_eq_of_congr_diagonal` and
+   `Matrix.signature_add_transpose` to obtain signature 0. This rational congruence
+   computes inertia; it is not an integral change of the marked homology basis. Its
+   pivot product also gives det S=1089.
+
+4. **Geometric consequences.** After the surface, basis and push-off comparison, the
+   rank-four basis gives genus(F)=2 and g(∂F)≤2; the span inequality in 4.3–4.4.1 gives
+   g(∂F)≥2. Thus the boundary knot has ordinary genus 2, determinant 1089 and signature
+   0. No minimum-genus assumption on F is needed. Consume 4.3's geometric S-equivalence
+   theorem and 4.4's cut-surface/Alexander-cover comparison to prove independence of
+   surface and basis. The example does not identify a knot-table label from these
+   invariants or assert primality from a polynomial factorization.
+
+**Checks.**
+
+- The recurrence, end coefficients and Δ(1)=1 must agree in the ordinary
+  polynomial and native Laurent APIs. The cubic coefficient is −272.
+
+- `D=(8t²−17t+8)²` and `Δ=(8t−17+8t⁻¹)²`; these factorizations alone
+  do not identify a connected-sum decomposition.
+
+- The rational and real congruences each have two positive and two negative
+  diagonal entries. The algebraic calculations apply before any geometric
+  identification; the knot conclusions require target 1.
+
+*Needs:* 4.3 linking, push-offs and geometric S-equivalence; 4.3.2 embedded band
+realization and homology; 4.4's geometric Alexander-module dictionary and 4.4.1's
+determinant/degree laws; the existing native `IntegralSquareMatrix`, `alexander` and
+`Matrix.signature` APIs. For signature invariance under geometric S-equivalence,
+reuse `Matrix.signature_congr` and `TauCeti.KnotTheory.signature_enlargeColumn` /
+`signature_enlargeRow` from `TauCeti.KnotTheory.Signature`. There is no dependency
+on finite knot classification or prime-group rigidity.
 
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
