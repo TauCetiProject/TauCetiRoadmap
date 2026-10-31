@@ -666,3 +666,46 @@ normal form. It explicitly declares crossing types opposite to Conway's.
 The roadmap requires both the numeric normalization comparison and the
 marked port/height/crossing adapter. The primary's tangle theorem is not
 a certificate for a guessed source drawing or an unconverted Atlas word.
+
+
+<a id="permutation-label-source"></a>
+## Page177: all three permutation-labeling examples
+
+*Knot Theory.pdf*, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+physical p177 first gives the trefoil's three transposition labels and
+three displayed conjugation equations. It then asks for S₄ labels, with
+a crowded diagram whose complete crossing/arc data are not authenticated.
+The lower example has the legible outer labels a=(45)(123), b=(35)(124)
+and handwritten “5”, but no secure subscript or complete interior labels.
+The [full worked specification](README.md#permutation-label-examples)
+retains all three literal diagram comparisons.
+
+The legible S₅ pair has a³=(45), b³=(35) and ab=(13425), with products
+read right to left. The five-cycle plus a³ proves full generation via
+native prime-cycle/swap theory. The cubes alone fix1,2 and generate only
+the six-element symmetric subgroup on3,4,5. This clarifies the obscured
+parenthetical generation argument without claiming a literal statement
+about which intermediate words the source intended.
+
+The same pair satisfies (ab)²a=b(ab)² and the positive Hurwitz action
+H⁵(a,b)=(a,b), so it gives a concrete coloring of the native standard
+T(2,5) closure once the actual group/diagram maps are supplied. This
+independent calibration does not identify the source's handwritten “5”
+as5₁ or5₂ or authenticate its pictured crossing relations. The original
+interior labels and signed plane code remain required source inputs.
+
+The S₄ trefoil calibration uses4-cycles s=(1234),t=(1243), with
+u=sts⁻¹=(1423), sts=tst and s²t=(14). The connected adjacent-swap
+criterion gives S₄ generation. The transposition-label bridge obstruction
+does not apply to this4-cycle labeling.
+
+The complete class-restricted calculations give9/6,30/24 and140/120
+full/generating incoming pairs for the S₃ trefoil, S₄ trefoil and S₅
+cinquefoil rows, respectively. Each row has one constant and one generating
+conjugation orbit; fixed-first-color fibers have sizes3/2,5/4 and7/6.
+These are independent finite calibration targets, not numbers printed on
+p177. The existing native generation proof is retained, and the companion
+adds proved finite three-/five-crossing and S₄ generation certificates.
+Full orbit/count proofs and all realized/literal diagram comparisons
+remain required roadmap outputs.
