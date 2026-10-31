@@ -1485,6 +1485,156 @@ normalized polynomials and4.10.2/4.11 for the same stevedore/torus models.
 The named-knot identifications, geometric torus comparison and invariant
 checks do not feed the earlier finite algebra or the construction of4.2.
 
+<a id="polygonal-projection-stability"></a>
+### 4.2.4 Polygonal perturbations and regular diagrams
+
+Build the geometric lemmas behind problems22–25 of *Knot Theory – problems*,
+physical page5, and the chapter1 statements on main-source pp140–142.
+Use finite tuples `p:Fin n→EuclideanSpace R (Fin 3)`, n≥3, their cyclic
+successor and native affine segments. Construct the continuous parametrized
+polygon on `AddCircle (1:R)`, affine on the n equal parameter intervals.
+Prove its embedding criterion from distinct vertices and the exact edge
+intersections: consecutive edges share just their common endpoint and
+nonconsecutive edges are disjoint. Keep cyclic reindexing, orientation
+reversal and affine subdivision maps. The source's minimal-vertex convention
+removes redundant collinear vertices; prove the subdivision/erasure comparison
+by finite nondegenerate triangle moves, rather than dropping that convention.
+No new quotient carrier for knot types is introduced.
+
+These finite geometric lemmas precede the generic Reidemeister/movie and
+Alexander/Markov completeness arguments of4.2. Prove the elementary triangle
+moves and actual ambient extensions here; do not use those completeness
+theorems as premises for the projection/diagram comparison.
+
+**A controlled ambient perturbation.** For a complete real normed space E
+and `u:E→E` with native `LipschitzWith c u`, c<1, construct
+`F_t(x)=x+t u(x)`, 0≤t≤1. Prove the uniform inequalities
+
+```text
+(1−c)‖x−y‖ ≤ ‖F_t(x)−F_t(y)‖ ≤ (1+c)‖x−y‖.
+```
+
+For each (t,y), construct the inverse by the native Banach fixed-point
+theorem applied to `x↦y−t u(x)`. Prove uniqueness and joint continuity
+of the inverse using the common bound c<1. Package the actual continuous
+map in `TauCeti.AmbientIsotopy E`: its level-preserving TOTAL map on
+I×E must be a homeomorphism. Slice-wise embeddings are insufficient.
+If u vanishes outside a fixed compact set, prove every F_t and its inverse
+fix the complement. Include identity, composition, inverse and restriction
+comparisons at the native maps, retaining the pointwise formula.
+
+For a fixed embedded polygon p construct a finite triangulation of a
+containing cube, with the polygon as a subcomplex after affine subdivision
+and disjoint from its boundary. Supply this particular compatible
+triangulation: cut the cube by two planes intersecting in each edge's supporting
+line, transverse planes at its endpoints and the cube boundary planes;
+form the bounded convex face complex,
+and triangulate compatibly by coning faces in increasing dimension.
+Prove its realization, finiteness and subcomplex comparison; an assumed
+unspecified triangulation is not a prerequisite. Reuse Layer11's native
+geometric-simplex/face carriers and early finite refinement operations,
+which are independent of its later manifold-classification results.
+
+Construct the barycentric hats for all triangulation vertices, whose sum
+is1 on the cube. The interior hats φ_v extend by zero outside the cube;
+prove their continuity, nodal laws, sum≤1 and explicit global Lipschitz
+constants from the finite affine charts. Boundary displacements are zero.
+For nearby original vertices q_i assign displacement q_i−p_i. At added
+vertices on an old edge interpolate the endpoint displacements affinely;
+assign zero at all other triangulation vertices. Prove consistency at
+polygon vertices and norm≤δ whenever every ‖q_i−p_i‖≤δ. Define the actual
+piecewise affine displacement `u_q=Σ_v φ_v d_v`. For a constant C≥1
+depending only on the fixed triangulation prove `Lip(u_q)≤Cδ` and exact
+edge interpolation. Choose δ>0 with Cδ<1/2. The preceding ambient isotopy
+then sends each original edge linearly to its moving edge with vertices
+`(1−t)p_i+tq_i`, for all t, and is supported in the cube. Thus every such
+q is an embedded polygon equivalent to p. Extract finite elementary
+triangle moves by moving vertices one at a time inside the controlled
+neighborhood, with generic auxiliary vertices to avoid degenerate moves.
+This supplies an actual permissible vertex radius, not a claim about
+arbitrary C0-close curves with unboundedly many vertices.
+
+**Density for the fixed projection.** Fix π(x,y,z)=(x,y). State the
+source's regularity exactly: every fibre of π restricted to the polygon
+has at most two points and a fibre containing a vertex contains only that
+vertex. Prove its equivalence to the finite geometric description: no
+vertical edge, distinct projected vertices, no projected vertex/edge
+collision except the prescribed incidence, and only finitely many
+transverse interior double crossings, with no triple crossings. Adjacent
+edges may project to a straight continuation; disjoint parallel projected
+edges are permitted. Do not silently strengthen this definition to a
+nonvanishing condition on every pair of supporting lines.
+
+In the fixed n-vertex configuration space construct a sufficient dense
+set by avoiding finitely many proper real polynomial zero sets: coincident
+projected vertices, collinear projected triples, parallel directions for
+nonadjacent edges, and concurrence of three pairwise nonadjacent supporting
+lines. The last factors have six distinct endpoints; adjacency-forced
+incidences are not nonzero discriminants. Prove each polynomial proper and
+the finite product nonzero, then prove the empty-interior zero-set lemma
+for a nonzero `MvPolynomial` over R. No linear independence of arbitrary
+vertex collections is assumed. For any ε>0 choose q in this dense set
+inside the controlled embedding radius and with ‖q_i−p_i‖<ε for every i.
+The ambient construction proves equivalence, and the projection is regular.
+The number and ordered correspondence of vertices stay fixed.
+
+**Openness at every regular polygon.** For a regular p give positive
+margins for projected edge lengths, nonincident vertex/edge separation,
+disjoint compact projected edge pairs, transverse crossing determinants,
+crossing parameters away from endpoints, distinct crossings along each
+edge, and their nonzero signed height gaps. Include the adjacent-ray
+separation at vertices and the spatial noncollinearity margins for the
+minimal-vertex convention. Handle empty crossing/pair lists separately.
+Use these margins and the controlled ambient radius to obtain ρ>0 such
+that every q with ‖q_i−p_i‖<ρ remains embedded, regular, equivalent to p
+and has the same oriented plane diagram up to plane isotopy/reindexing.
+Prove crossing locations and parameter/height order continuously from
+the two-segment intersection equations. The proof must also apply when
+p has disjoint parallel projected edges or a straight projected vertex;
+the stronger dense-set discriminant is not a hypothesis here.
+
+**Identical diagrams and the convex example.** For two regular polygonal
+knots with combinatorially equivalent diagrams, retain crossing data,
+orientation, rotation and outer face. Construct the plane isotopy matching
+the realized planar graphs, using vertex discs/edge strips and extending
+over complementary regions of their regular neighborhoods. Require a finite
+PL endpoint homeomorphism, with its compatible finite subdivision, so it
+sends these polygonal curves to polygonal curves. These boundaries
+are simple circles even when a face walk of the original graph repeats a
+cut vertex; do not assume every original face boundary is simple. Extend
+the plane isotopy to the ambient3-space, with its actual inverse, and
+subdivide to give both polygons a common projected parametrization.
+
+With that projection fixed interpolate the spatial heights linearly.
+At each crossing its two height differences have the same nonzero sign,
+so their convex combination stays nonzero. Prove that the whole path is
+through embeddings with the same diagram, not merely equality of its
+endpoints' crossing codes. Use a finite parameter subdivision and the
+controlled vertex construction above to extend this path to an actual
+ambient isotopy and produce finite elementary-deformation certificates.
+Construct finite corner roundings in disjoint vertex balls and smooth
+each elementary move relative its endpoint collars. In each vertex chart
+choose a local axis along which both oriented edge tangents have positive
+component; round by smooth graphs over that axis, and prove choice
+independence by graph interpolation and3.3's smooth isotopy extension.
+This gives the actual native smooth-circle embeddings and diffeotopies
+corresponding to these polygonal certificates. This proves problem25
+without assuming Reidemeister completeness.
+
+For problem22 triangulate a convex planar polygon by nonintersecting
+interior diagonals and remove ears until three vertices remain. Give the
+nondegenerate triangle moves, collision-free support and orientation
+comparisons, including the allowed collinear-subdivision convention.
+The result is an actual triangle/unknot equivalence, not only an abstract
+disc bounded by the polygon.
+
+*Needs:* native affine/convex and finite geometric-simplex APIs, real
+`MvPolynomial`, `LipschitzWith`, `ContractingWith.fixedPoint` and
+`TauCeti.AmbientIsotopy`; the early plane graph/Jordan and3.3 smooth-isotopy-extension
+contracts. The compatible cube triangulation, hat-function
+bounds, finite discriminants, regular margins and elementary-move
+certificates are explicitly built in this unit.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic
