@@ -1424,3 +1424,21 @@ the Atlas8_2 finite PD is supplied explicitly. Use the existing Luna Markdown,
 not an invented incidence reconstruction. Negating coefficients mirrors the
 twist convention. The printed q′≡q-only criterion omits the inverse branch;
 the full Schubert criterion and the odd-denominator oriented version are kept.
+
+
+<a id="alternating-prime-counts-source"></a>
+## Page108's alternating-prime counts
+
+Knot Theory physical p108, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+prints the rows1,1,2,3,7,21,49 and1,1,2,3,7,18,41 for crossing numbers3–9.
+They count nontrivial prime unoriented classes with mirrors identified, not
+all knots: composite granny/square classes already occur at six crossings.
+The intrinsic alternating subset needs a finite minimum-diagram completeness
+proof using supported alternating reductions and the reduced-alternating
+minimum theorem. The source's majority question has no specified asymptotic
+count or probability model; the finite rows alone give no such conclusion.
+Existing raw-diagram enumeration and the direct at-most-three-crossing
+classification already specify p113 Exercise2.1's two-crossing drawings;
+its generic finiteness/descending and Bleiler requests retain their owners.
+No new image reading or invented source-code identification was used.

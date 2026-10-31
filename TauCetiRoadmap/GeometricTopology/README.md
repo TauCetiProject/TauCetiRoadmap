@@ -13068,6 +13068,69 @@ and prove the precise correction in this same quotient.
    every global mirror identification under the declared quotient. A finite
    index type of size 253293 alone proves no knot count.
 
+<a id="alternating-prime-counts-through9"></a>
+5. **The alternating prime subset through nine crossings.** Certify both rows
+   of *Knot Theory* physical p108 in this same prime, unoriented,
+   mirror-identified quotient. The literal heading says “knots”; the row
+   excludes composite knots, including the six-crossing granny and square
+   knots. Do not interpret it as counting all knot types or as distinguishing
+   mirrors or orientations. At exact crossing number n prove:
+
+   | n | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+   | --- | --- | --- | --- | --- | --- | --- | --- |
+   | prime classes | 1 | 1 | 2 | 3 | 7 | 21 | 49 |
+   | alternating prime classes | 1 | 1 | 2 | 3 | 7 | 18 | 41 |
+   | nonalternating prime classes | 0 | 0 | 0 | 0 | 0 | 3 | 8 |
+
+   Define the alternating subset intrinsically by existence of a realized
+   alternating diagram, not by the appearance of one selected representative.
+   Prove this property descends through the actual global mirror, orientation
+   reversal and ambient-equivalence maps of this quotient. Reuse4.2.5's finite
+   native alternation test on the component encounter sequence, including its
+   cyclic last/first condition, and4.8/4.8.1's reduced-alternating minimality
+   theorem.
+
+   For each certified prime class of minimum n≤9, enumerate all realized
+   reduced alternating n-crossing inputs from item1 and map them into the
+   class using items3–4's complete equivalence certificates. Prove that the
+   image equals the intrinsic alternating subset. For the reverse inclusion,
+   start from an arbitrary alternating representative and remove every
+   nugatory crossing by actual supported reductions preserving alternation
+   and its realized knot class. Give each reduction's local disc and exterior
+   placement and prove strict crossing decrease; a nugatory crossing need
+   not already be an empty type-I curl in the initial plane picture. The
+   resulting reduced alternating representative has exactly n crossings by
+   the minimum theorem, so it occurs in the finite input. This is the
+   completeness bridge from an unbounded existential property to the bounded
+   filter. Do not assume that the catalogue's least minimum code itself is
+   alternating or apply a polynomial-coefficient sign heuristic instead.
+
+   Deduplicate the filtered inputs by the same intrinsic class map as the
+   full catalogue. Return an actual reduced alternating diagram, its
+   alternation/reducedness/realization witnesses and its equivalence map for
+   every positive class. For each negative class give the exhaustive finite
+   comparison showing that no reduced alternating minimum-n input represents
+   it. A single nonalternating drawing supplies no such certificate. Construct
+   bijections for the positive image and its complement and evaluate all
+   seven cardinalities in each row. The inherited primality and minimum
+   certificates remain required; counting raw diagrams, flype orbits without
+   their geometric comparison, or historical table indices is insufficient.
+
+   Reuse4.5.5's actual9₄₁ alternating diagram and4.6.2/4.5.5's9₄₂
+   nonalternation comparison as named calibrations inside their certified
+   classes, retaining all source-table discrepancies. For the remaining
+   classes the same native-code, class-map and negative-exhaustion outputs
+   are mandatory. The raw finite alternation carrier already has its native
+   prototype in [DowkerCountTargets.lean](DowkerCountTargets.lean); no second
+   generic knot recognizer or private count carrier is introduced.
+
+   This table proves a majority of alternating classes in its seven finite
+   prime rows. It supplies no asymptotic proportion or probability measure
+   on arbitrary links. The surrounding p108 reduced-alternating conjectures
+   are4.8/4.8.1's minimum/span theorems, not assumptions used to accept
+   candidate table data. The prime-count proof and this subset computation
+   retain their actual finite certificates and soundness/completeness proofs.
+
 The finite search, certificate data and soundness/completeness proofs are all
 required mathematical targets. The count table is not a claim that those checks
 have already been performed. Its source is p.156; p.157's growth estimates remain
