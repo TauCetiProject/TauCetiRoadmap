@@ -1312,6 +1312,82 @@ The finite type-A comparison, kernel identification, quotient maps and
 parity comparison are built here. For the standard presentations and
 strand map, see [Birman–Brendle, §1](https://www.math.columbia.edu/~jb/Handbook-21.pdf).
 
+<a id="perko-braid-calculation"></a>
+### 4.2.2 A signed three-strand braid calculation
+
+In native `BraidGroup 3`, write a=σ₀ and b=σ₁; these are the course's
+one-based σ₁ and σ₂. Use the following explicit inputs from the worked
+braid-closure argument on physical page206 of *Knot Theory*:
+
+```text
+β = b⁻² a⁻³ b⁻¹ a b⁻¹ a⁻²,
+Mβ = b² a³ b a⁻¹ b a²,
+γ = b² a³ b² a b⁻¹ a.
+```
+
+Construct the mirror automorphism M of the native braid group by sending
+each generator to its inverse. Prove the defining-relation, involution,
+product, strand-inclusion and exponent-sum laws. On native `BraidWord n`,
+negate every crossing sign in place, retaining the list order, and prove
+its `toBraid` comparison with M. Inversion instead negates signs and
+reverses the list. Compare the mirrored word's realized closure with
+Layer4.1's fixed geometric mirror, including the diagram reflection and
+component orientations; the exponent sum changes sign but is not a link
+isotopy invariant under Markov stabilization.
+
+Prove `Mβ=γ` in the native group by the actual Artin relation. From
+`aba=bab` derive `a⁻¹ba=bab⁻¹`, and use
+
+```text
+b a⁻¹ b a² = b (a⁻¹ b a) a = b² a b⁻¹ a.
+```
+
+Expand the powers into native signed words. The consecutive triple
+`a⁻¹ b a` has signs (−,+,+), an acyclic-height signed Reidemeister III
+instance, and changes to `b a b⁻¹` in the common word context. Supply
+this explicit local triangle and crossing-reindexing certificate, using
+the native signed braid-relation closure theorem. Transport it through
+the realized-diagram comparison of4.2, giving an ambient-isotopy
+certificate between the closure of γ and the mirror of the closure of β.
+A matrix representation or exponent-sum agreement alone does not prove
+this braid equality or its geometric comparison.
+
+For the pictured exercise on pp203–206, construct finite realized planar
+codes with outer faces, marked cuts and oriented crossing encounters for
+both source drawings. Prove that reading the indicated cut gives β and γ,
+with the necessary native bottom-to-top order conversion explicit. Give
+relative Reidemeister certificates for the pictured loop slides and
+closures. These source-diagram identifications are required in addition
+to the algebraic word identity. Retain the source's “Perko pair” label
+until it is compared with actual table diagrams; the label itself does
+not establish chirality or identify a historical knot-table entry. Prove
+that both closure permutations are three-cycles. In4.5's normalization
+`V(unknot)=1` and `V(right trefoil)=t+t³−t⁴`, compute
+
+```text
+V(closure γ;t) = t³+t⁶−t⁷+t⁸−t⁹+t¹⁰−t¹¹,
+V(closure β;t) = V(closure γ;t⁻¹).
+```
+
+Prove these formulas from the actual native closures and invariant
+comparison. Their unequal supports prove chirality of these closures and,
+after the marked-code comparisons, of the pictured exercise knots; they
+do not identify a historical table label.
+
+**Checks.**
+
+- The native Artin exponent sums of β, Mβ and γ are −8,8,8.
+- The first printed alpha line is `b⁻² a³ b a⁻¹ b a⁻²`, with exponent
+  sum0. It equals neither Mβ nor γ. Preserve it and the subsequent
+  printed reduction lines in [the source note](source-inputs.md#perko-braid-source),
+  separately from the corrected calculation above. Different exponent
+  sums distinguish braids, without asserting their closures differ.
+
+*Needs:* native `BraidGroup.sigma_braid`, `ArtinGroup.exponentSum`,
+`BraidWord.toBraid`, sign-negated words and the native signed braid-relation
+closure comparison; Layers4.1–4.2 for the fixed
+mirror, realized plane diagrams and relative Reidemeister certificates.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic
