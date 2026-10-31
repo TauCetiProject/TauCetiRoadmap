@@ -26,6 +26,10 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   and permutation classes, the reduction of `G`-modules modulo `ℓ`, and Artin's induction theorem in
   `G₀` in every characteristic, including the modular form consumed by the local Euler
   characteristic formula.
+- [**Modular characters and blocks**](ModularCharactersAndBlocks/README.md) - Brauer characters,
+  decomposition and Cartan matrices, projective characters, integral block idempotents, defect
+  groups, and Brauer's three main theorems, with the principal-block and section-orthogonality
+  interfaces used in finite-group theory.
 - [**Root systems, Weyl groups, and the Cartan-Killing classification**](RootSystems/README.md) - the
   shared combinatorial foundation: root systems, the Weyl group as a Coxeter system, positive roots and
   the fundamental domain, and the Dynkin-diagram classification.
@@ -64,6 +68,10 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 
 ## How they depend on one another
 
+- **Ordinary and modular character theory share the algebraic foundations.** ModularCharactersAndBlocks
+  consumes CharacterTheory's ordinary characters, ModularInduction's exact Grothendieck groups,
+  QuiverRepresentations Layer 3A's projective covers and Cartan matrix, and InductionRestriction
+  Layer 6's Brauer induction. It adds the modular systems, decomposition map and block correspondences.
 - **Semisimple algebras → character theory.** The Wedderburn structure of the group algebra and the
   count of irreducibles rest on the general semisimple-algebra theory.
 - **Induction/restriction and Schur-Weyl feed character theory.** Induced and permutation characters, and
@@ -105,16 +113,14 @@ Schur-Weyl roadmap borders [Temperley-Lieb](../TemperleyLieb/README.md).
 
 ## Scope and boundaries
 
-Three deliberate exclusions bound this family; they are choices, not omissions, and roadmaps for the
-excluded material are welcome as separate future work.
+The following ownership boundaries distinguish the modular and ordinary theories and bound
+the remaining subjects in this family.
 
-- **No modular representation theory proper.** Where individual roadmaps work over general fields
-  or rings they say so (the semisimple-algebra and quiver-representation theory is stated over
-  arbitrary fields, and the induction/restriction functorial layer over commutative rings), and
-  Grothendieck groups of modular representations, with the induction theorems stated in them, are in
-  scope (the [modular-induction roadmap](ModularInduction/README.md)); but the modular theory
-  proper — Brauer characters, decomposition matrices, blocks with defect, the modular representation
-  theory of symmetric groups — is out of scope for every roadmap here.
+- **Ordinary and modular representations have separate owners.** CharacterTheory owns ordinary
+  characters in nonmodular characteristic. ModularInduction owns exact Grothendieck groups and
+  modular Artin induction. [ModularCharactersAndBlocks](ModularCharactersAndBlocks/README.md)
+  consumes both and owns Brauer characters, decomposition matrices and blocks with defect.
+  Family-specific modular representation theory of symmetric groups is outside this family.
 - **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
   compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary
   representations of noncompact groups, no Plancherel theory, no tempered spectrum. The *structure*
