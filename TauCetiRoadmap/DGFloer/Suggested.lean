@@ -53,14 +53,18 @@ theorem mod2Vanishing (Y : Type) [TopologicalSpace Y] [SimplyConnectedSpace Y] (
     ∀ n : ℕ, Function.Bijective (fun g : π_ (n + 1) Y y => g * g) := by
   sorry
 
-/-- **Lemma 3.41**: a path-connected space is aspherical exactly when its double loop space has
-the homology of a point, for the fixed-interval loop model. -/
-theorem aspherical_iff_homology_loopSpace_loopSpace (Q : Type) [TopologicalSpace Q] (q : Q) :
-    (PathConnectedSpace Q ∧ ∀ n : ℕ, Subsingleton (π_ (n + 2) Q q)) ↔
-      ∀ i : ℕ, Subsingleton
-        (((AlgebraicTopology.singularHomologyFunctor.{0, 0, 1} (ModuleCat.{0} ℤ) (i + 1)).obj
-          (ModuleCat.of ℤ ℤ)).obj
-            (TopCat.of (LoopSpace (LoopSpace Q q) (Path.refl q)))) := by
+/-- **Lemma 3.41**: a path-connected space is aspherical exactly when its double loop space is
+path-connected with the homology of a point, for the fixed-interval loop model. The path-connected
+hypothesis on `Q` is needed on both sides: `Ω²Q` only sees the component of `q`, and `H₀` is
+what excludes `K(ℤ, 2)`. -/
+theorem aspherical_iff_homology_loopSpace_loopSpace (Q : Type) [TopologicalSpace Q]
+    [PathConnectedSpace Q] (q : Q) :
+    (∀ n : ℕ, Subsingleton (π_ (n + 2) Q q)) ↔
+      (PathConnectedSpace (LoopSpace (LoopSpace Q q) (Path.refl q)) ∧
+        ∀ i : ℕ, Subsingleton
+          (((AlgebraicTopology.singularHomologyFunctor.{0, 0, 1} (ModuleCat.{0} ℤ) (i + 1)).obj
+            (ModuleCat.of ℤ ℤ)).obj
+              (TopCat.of (LoopSpace (LoopSpace Q q) (Path.refl q))))) := by
   sorry
 
 /-- **Existence of `K(A, n + 1)`**: every abelian group is the unique nonvanishing homotopy group

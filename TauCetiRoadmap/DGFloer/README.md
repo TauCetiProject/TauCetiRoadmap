@@ -1580,7 +1580,7 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
    The cotangent form of Theorem M is Proposition 6.7.
 3. **The cotangent criterion** (Proposition 5.9).
 4. **The kernel of `i_{Q*}`.**
-   - `Ω²Q` has the homology of a point if and only if `Q` is a `K(π,1)` (Lemma 3.41).
+   - For a path-connected `Q`, `Ω²Q` is path-connected with the homology of a point if and only if `Q` is a `K(π,1)` (Lemma 3.41); the connectedness of `Ω²Q` supplies `H₀`.
    - Proposition 5.11: the kernel of `i_{Q*}` contains an infinite cyclic group, a copy of
      `π_k(Q)`, or a class that is not `d`-torsion, according to the first nonvanishing higher
      homotopy group.
