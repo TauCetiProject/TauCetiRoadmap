@@ -6253,6 +6253,183 @@ class/centralizer search. These constructions use no late knot-table
 exhaustion or assumption that finite group invariants classify knots.
 
 
+<a id="pretzel-seifert-goeritz"></a>
+### 4.7.7 Pretzel surfaces, Alexander modules and integer colorings
+
+Consume 4.7.3's independent signed three-box construction of P(p,q,r), p,q,r∈ℤ: its
+downward local braid frames, cyclic top/bottom cap pairing, finite spatial realization
+and component traversal. The boxes have |p|+|q|+|r| crossings, with actual zero and
+negative powers. Keep global component orientations distinct from these local frames.
+The complete parameter-permutation isotopies from that construction transport the
+boundary collars, orientations, basis cycles and meridians used here. No
+transposition-image classification is a prerequisite for this section.
+
+**The odd-parameter surface and its actual matrix.** For p,q,r all odd, construct the
+connected orientable two-disc/three-band pretzel surface and its boundary comparison to
+this realized P(p,q,r). Give every cyclic attaching port, signed half twist, band height
+and orientation extension. Prove that its boundary is one component and its Euler
+characteristic is −1, so its genus is 1. This is a chosen spanning surface; it does not
+establish minimum genus 1 when the boundary could be the unknot.
+
+Construct two oriented band-core cycles a,b as an actual integral basis of H₁ of the
+surface, with a·b=+1. Compute all four linking numbers using their positive normal
+push-offs and the signed local crossing charts. The push-FIRST matrix and the native
+push-SECOND matrix must be
+
+```
+W_ij=lk(x_i⁺,x_j),   W=[[(p+q)/2,(q+1)/2],[(q−1)/2,(q+r)/2]],
+V_ij=lk(x_i,x_j⁺),   V=Wᵀ.
+```
+
+Oddness makes the entries integral. Prove the transpose adapter by linking symmetry,
+with W−Wᵀ=J and Vᵀ−V=J in this same marked basis, where J=[[0,1],[−1,0]]. Identify the
+local push-offs before using the array as a geometric Seifert matrix. Give the actual
+reflected surface, normal and cycle maps yielding V(−p,−q,−r)=−V(p,q,r)ᵀ.
+
+Calibrate the signs against the actual ports: in the all-odd traversal the two strands
+of each box have opposite global orientations. Exhibit the diagram/ambient-isotopy
+comparisons identifying P(1,1,1) with the left-handed trefoil and P(−1,−1,−1) with the
+right-handed trefoil in the native convention σ(right trefoil)=−2. In the latter case
+the basis change diag(1,−1) takes V to the native trefoil matrix. Supply its actual
+cycle map. A matrix or determinant match alone is not this handedness calibration.
+
+**Alexander polynomial and the full presentation.** Write B=pq+pr+qr and A=(B+1)/4.
+Prove B≡3 mod4 and A∈ℤ, including negative parameters. In Λ=ℤ[t,t⁻¹], compute
+
+```
+det(W−tWᵀ)=det(tV−Vᵀ)=A(1−t)²+t,
+Δ_P(t)=t⁻¹det(tV−Vᵀ)=1+A(t+t⁻¹−2),   Δ_P(1)=1.
+```
+
+Consume 4.3/4.4's actual surface-cut/infinite-cyclic-cover comparison, with the positive
+meridian fixed. Give the explicit Λ-module isomorphism from the cokernel of tV−Vᵀ to the
+reduced Alexander module. Pin whether the chosen presentation uses rows or columns, and
+supply the transpose and generator maps to the native convention. Compare this with the
+marked Wirtinger/Fox presentation; for its native unreduced module, exhibit the actual
+split constant/free Λ summand. Prove invariance under the parameter isotopies and mirror
+with their coefficient involutions.
+
+Compute both Fitting ideals: Fitt₀=(Δ_P) and Fitt₁=(t+1,p,q,r)=(t+1,g), where
+g=gcd(|p|,|q|,|r|). For the entry-ideal calculation, subtract the two off-diagonal
+entries to obtain t+1 and reduce the remaining entries modulo that element. For g>1 the
+proper first ideal proves that the reduced module is not cyclic. Do not infer cyclicity
+from g=1: Λ is not a PID, and its presentation is not replaced by the single polynomial
+relation.
+
+**All integer parameters: the geometric Goeritz and Fox comparisons.** For every p,q,r,
+construct a connected checkerboard spanning surface with two discs and three signed
+twisted bands. Prove its boundary is the same marked pretzel link, without assuming
+orientability. Construct its rank-two integral H₁ basis and compare it to the reduced
+region basis of the signed diagram. In the fixed shading/incidence convention compute
+
+```
+G=[[p+q,−q],[−q,q+r]],   det G=B.
+```
+
+The actual band/cycle model must survive zero twists: supply the region subdivision,
+reduction and basis maps when a zero box merges visible regions or gives a crossing-free
+component. At p=q=r=0 this is a pair-of-pants surface with G=0 and boundary the
+three-component unlink. For the all-odd branch, give the congruence between this pairing
+and S=V+Vᵀ=[[p+q,q],[q,q+r]] via diag(1,−1), with its geometric basis map. The
+normal-double-cover pairing and its region identification are owned by the independent
+6.2 checkerboard prefix below; its signature theorem is not a prerequisite for the
+Fox/determinant proof.
+
+Over every commutative ring R, use the additive Fox operation x▷y=2y−x. For the ordered
+downward box ports prove the signed transfer formula H^k(x,y)=((k+1)x−ky,kx+(1−k)y) for
+every integer k, including inverse and zero powers. Give the actual restriction and
+propagation maps on all arcs. Write the incoming pairs as (x,y),(y,z),(z,x). The three
+cap equations are
+
+```
+(p+r)x−py−rz=0,
+−rx−qy+(q+r)z=0,
+−px+(p+q)y−qz=0.
+```
+
+Their sum is zero. With c=x,u=y−x,v=z−x, the last two are exactly G·(u,v)=0; the first
+follows. Construct inverse R-linear maps from the entire diagram-coloring module to
+R×ker(G_R), retaining c as the marked constant color. Prove independence of the chosen
+base arc via the actual color-translation and transport maps. This uses no division by 2
+and works also in characteristic 2 and every degenerate component branch. Relate the
+based presentation/cokernel and its Hom into R to these colorings; use presentation base
+change, without asserting that kernels commute with arbitrary base change.
+
+Compute the integral Smith form with explicit unimodular row/column matrices or a
+certified Euclidean reduction and its inverse maps:
+
+| Parameters | Smith diagonal | Based integer cokernel |
+| --- | --- | --- |
+| B≠0 | (g,|B|/g), with g>0 and g² dividing |B| | ℤ/g ⊕ ℤ/(|B|/g) |
+| B=0,g>0 | (g,0) | ℤ/g ⊕ ℤ |
+| p=q=r=0 | (0,0) | ℤ² |
+
+The entries' gcd is g, including its zero convention; prove the positive divisibility
+chain in the nonsingular case. Interpret determinant for all these links as the absolute
+reduced Fox/Goeritz determinant, with value 0 for a singular presentation. Compare this
+definition to the oriented-link Alexander specialization, including the exact
+Laurent-unit and component normalization. For knots it is |Δ_P(−1)|=|B| in the odd
+branch; an even/mixed branch does not use the odd surface's Δ formula.
+
+For n≥1 prove the complete number of ZMod n colorings is respectively
+n·gcd(n,g)·gcd(n,|B|/g), n²·gcd(n,g), or n³ in the three rows. Subtract n to count
+nonconstant colorings, retaining the actual module maps as well as the count. Over a
+prime field of characteristic ℓ, the based dimension is 2 if ℓ divides g (including
+g=0), 1 if ℓ does not divide g but divides B, and 0 otherwise. At ℓ=2 compare this with
+the actual component traversal: the dimension is μ−1 and the full coloring count is 2^μ
+for μ components. No knot-only oddness assertion is applied to a link with two or three
+components.
+
+**Signature and the worked exercises.** In the all-odd branch S has determinant B, which
+is nonzero. Prove its real inertia directly: σ=0 if B<0 and σ=2 sign(p+q) if B>0. If
+p+q=0, then B=−q²<0; this excludes an unhandled pivot-zero case. Identify this matrix
+signature with the geometric classical signature through 6.2's independent Seifert-form
+comparison. For every other component/parity branch use the actual normal-Euler
+correction from that layer to compute the oriented-link signature from G. Supply the
+finite crossing-type table in the chosen port charts and evaluate its correction for
+each orientation assignment; bare sign(G) is not the general link signature.
+
+1. For P(−3,5,7), give V=[[1,2],[3,6]], A=0, raw determinant t,
+   normalized Δ=1, determinant1 and signature0. Exercise41 asks only
+   for the polynomial. A unit Alexander polynomial does not identify
+   the knot as the unknot.
+2. For P(3,5,−7), give V=[[4,2],[3,−1]], A=−10,
+   Δ=−10t+21−10t⁻¹, S=[[8,5],[5,−2]], det S=−41,
+   determinant41 and inertia(1,1,0), hence exercise75's signature0.
+3. For P(3,3,3), give G=[[6,−3],[−3,6]] and Smith diagonal(3,9),
+   using 4.7.1's actual matrices and geometric coloring comparison.
+   The based ZMod n module is Ann(3)×Ann(9), not Ann(27).
+   Its based mod3 dimension2 agrees with the earlier bridge example.
+
+For exercise69 recover the actual surfaces meant by its unspecified “previous exercise,”
+and compute their marked matrices in their actual bases. Do not presume they are this
+genus-one model: larger surfaces require explicit stabilizations/S-equivalence maps
+rather than a 2×2 basis congruence. Exercise73 literally refers to “question64”;
+preserve that text separately from the canonical odd-parameter calculation. Exercise76
+has no printed odd-parameter restriction: give the full all-integer determinant and
+component branches above. Record any needed source-to-signed-box/orientation comparison
+rather than replacing an unidentified source surface by its named boundary.
+
+[KnotGrowthTargets.lean](KnotGrowthTargets.lean) already defines the rational push-first
+helper W and integer G and proves their determinant identities. Reuse it with the
+explicit transpose/integrality adapter.
+[PretzelSeifertTargets.lean](PretzelSeifertTargets.lean) gives native integral
+push-second, normalized Alexander, signature and Smith forms; its algebra does not
+identify the source surfaces.
+
+*Needs:* 4.2's realized diagrams, component tracing and signed local moves; 4.3's finite
+embedded bands, homology bases, push-offs and Seifert forms; 4.4's geometric
+Alexander/Fox comparison; 4.7.1's rectangular Smith theory; 4.7.3's independent
+signed-pretzel prefix; 6.2's independent classical-signature and checkerboard-form
+prefixes. None uses this section's worked applications in constructing those prefixes.
+The normal-Euler correction does not feed the odd Seifert or all-integer Fox/determinant
+calculations.
+
+Matrix calibration: [Balm–Friedl–Kalfagianni–Powell, *Cosmetic crossings
+and Seifert matrices*, §7.2](https://friedl.app.uni-regensburg.de/papers/genusone12.pdf).
+The cited matrix uses the push-first array W above; the native convention
+requires its transpose and the actual local normal/basis comparison.
+
 ### 4.8 Crossing, unknotting, bridge and braid numbers
 
 Use Layer4.7.1's unknotting number `u(K)` and bridge number `br(K)`.
@@ -8803,6 +8980,59 @@ example of Layer 4.5.
 *Needs:* Tau Ceti `TauCeti.KnotTheory.tristramLevineForm`, `TauCeti.KnotTheory.tristramLevineSignature`,
 `Matrix.IsHermitian.signature`, `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Layer 4.3,
 Layer 4.11, Layer 6.1.
+
+<a id="gordon-litherland-prefix"></a>
+**Checkerboard forms and the normal-Euler correction.** Independently
+of the pretzel applications, construct the Gordon–Litherland pairing
+for every nonempty oriented tame link L⊂S³ and compact connected locally flat PL
+embedded spanning surface F with boundary L, allowing F nonorientable and L
+disconnected. Build its
+normal interval bundle, boundary double cover F̃→F and the integral
+homology transfer τ. Define G_F(x,y)=lk(x,τy), using the embedded transfer
+cycles in the complement of F. Prove independence of representatives,
+integral bilinearity, symmetry, naturality and the actual finite free
+H₁ basis/matrix comparisons. On an oriented surface identify G_F with
+V+Vᵀ in the native push-second convention.
+
+Push each boundary component into its surface collar and then off F, preserving its
+chosen orientation, to obtain a disjoint parallel L_F. Prove independence of the
+collar/parallel choices in this surface framing. Define e(F,L)=−lk(L,L_F), where this is
+the linking of the TOTAL oriented links: sum over all ordered component pairs, including
+cross terms. Prove it is even. In particular it is not merely the sum of the individual
+component self-framings. On an oriented Seifert surface with its induced boundary
+orientation prove e(F,L)=0.
+
+Own the relative spanning-surface S*-equivalence theorem in S³: two such surfaces with
+the same boundary are related by a finite sequence of ambient isotopies, tube
+additions/removals and local half-twisted-band additions/removals, with the boundary
+tracked. Give each move's actual homology/basis and linking/Euler changes. Prove that
+sign(G_F)+e(F,L)/2 is preserved, including degenerate pairings; tubes contribute their
+explicitly computed zero-signature block, and a crosscap's signature change is
+compensated by its Euler change. Compare with an oriented Seifert surface to prove
+σ(L)=sign(G_F)+e(F,L)/2. Calibrate the signs by that orientable comparison and the two
+one-half-twisted Möbius bands bounding the unknot: their pairings [±1] have correction
+∓1. This is a 3-dimensional proof supplier, with no unowned four-manifold signature
+theorem.
+
+For a finite checkerboard diagram construct F, its actual region cycles and the reduced
+Goeritz matrix from the signed band charts. Derive an explicit finite table from the
+four oriented ports, over/under choice and shading: η(c)∈{±1} is the local Goeritz
+incidence, while the boundary parallel contributes either 0 or 2η(c) to lk(L,L_F). Call
+these two cases type I and type II, respectively, and identify them in those port
+charts. Prove e(F,L)/2=−Σ_typeII η(c) and thus σ(L)=sign(G)−Σ_typeII η(c). Include
+component-orientation reversal, mirror/shading/basis changes and region
+subdivisions/reductions. If the diagram has crossing-free components or disconnected
+region graphs, retain the required zero blocks and joining-band maps rather than
+silently discarding them. No nonsingularity, odd determinant or knot-only evenness
+hypothesis is imposed on this link theory.
+
+*Needs:* the independent finite-band/homology/normal/linking theory of
+4.2–4.3 and this layer's classical link-signature and real inertia
+prefix. The relative S*-equivalence moves and their compensation
+proofs are targets here, not presumed from Seifert S-equivalence.
+Reference: [Boden–Chrisman–Karimi, *The Gordon–Litherland pairing for
+links in thickened surfaces*, §2.2–2.3](https://arxiv.org/abs/2107.00426),
+specialized to S³ with the explicit native sign adapter above.
 
 <a id="signature-function-producer"></a>
 ### 6.2.1 Signature functions, angular averages and surface comparisons

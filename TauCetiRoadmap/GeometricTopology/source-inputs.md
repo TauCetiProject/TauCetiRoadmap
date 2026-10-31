@@ -931,3 +931,40 @@ fixes preferred Seifert framing and the positive-clasp polynomial.
 The new rank-two determinant, basis, color and signature calculations are
 independent mathematical outputs, not additional claims printed in the
 course problem or a certification of its unresolved picture.
+
+
+<a id="pretzel-seifert-source"></a>
+## Pretzel exercises41,69,73,75,76: surface and convention scope
+
+Problems physical pp7/12, SHA-256
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+ask for Δ(P(−3,5,7))=1, the matrix of previously constructed pretzel
+surfaces, the all-odd Alexander polynomial, σ(P(3,5,−7)), and the general
+pretzel determinant. Exercise69 does not identify the previous surface
+or print a parameter qualification;73 explicitly restricts to odd
+p,q,r but literally references “question64.” Exercise76 prints no odd
+restriction. These are separate source facts, not corrected numbering.
+
+The [full pretzel producer](README.md#pretzel-seifert-goeritz) constructs
+its own marked genus-one model for all odd parameters, computes the
+push-first W and native push-second V=Wᵀ, and requires actual comparisons
+to69's surfaces and73's intended reference. A higher-genus source surface
+needs an actual stabilization/S-equivalence comparison; its matrix is
+not asserted to have size2. The canonical sign and handedness are fixed
+by the signed box ports and explicit trefoil/mirror geometry.
+
+The all-integer determinant/coloring branch uses its independently
+constructed checkerboard surface and cap-transfer/Goeritz comparison,
+including even, zero, singular and multicomponent cases. Its oriented
+signature uses the separate normal-Euler correction producer. It does
+not apply the odd genus-one Seifert matrix outside its domain. The
+Alexander-module/Fitting and complete Smith/color counts are specified
+mathematical extensions, not claims printed in these exercises.
+
+External calibrations: [Balm–Friedl–Kalfagianni–Powell, *Cosmetic crossings
+and Seifert matrices*, §7.2](https://friedl.app.uni-regensburg.de/papers/genusone12.pdf)
+gives the odd pretzel array; [Boden–Chrisman–Karimi, *The Gordon–Litherland
+pairing for links in thickened surfaces*, §2.2–2.3](https://arxiv.org/abs/2107.00426)
+supplies the transfer and total oriented-boundary correction conventions.
+These texts were read as extracted text. Existing Luna Markdown supplies
+the course exercises; no non-Luna agent inspected any image.
