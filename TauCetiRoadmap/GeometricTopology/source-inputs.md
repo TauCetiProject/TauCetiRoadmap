@@ -1306,3 +1306,19 @@ with determined mirror flags. Neither a familiar diagram silhouette nor the hand
 word identity authenticates those comparisons. This supersedes any reading of the
 earlier p206 source entry as already specifying or proving the printed pair's ordinary
 equivalence.
+
+
+<a id="jones-kernel-source"></a>
+## Jones trace, common exponents and finite-group normalization
+
+Knot Theory physical pp91–92 reproduce Jones's printed pp104–107. The Luna
+transcripts give Theorems7–11 and the literal four-strand word σ₁⁻¹σ₂σ₃.
+Corollary9 says greatest common divisor of the exponents, without a formal word
+convention. The roadmap states a proved-target version for a specified product of
+integer generator powers; no gcd of individual ±1 letters or braid-invariant gcd
+is inferred. The historical wording and its source crosswalk remain distinct.
+The finite simple order25920 is projective: the specified five-strand cubic linear
+group has order155520. A projectively scalar Burau matrix does not determine a
+common scalar in every Jones block. The full-twist block/trace calibration and
+all-block comparisons in the roadmap are independent mathematical targets, not
+new readings of an illegible formula or claims that their Lean proofs exist.

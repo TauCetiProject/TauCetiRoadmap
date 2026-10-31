@@ -47,9 +47,11 @@ This roadmap owns the following, by layer.
   HOMFLY and Kauffman polynomials, Fox colourings and the determinant, knot/proper-link Arf,
   fourth-root evaluations and the integral W quotient. Layer 4.3.1 owns the finite
   nonsingular F₂ quadratic Arf algebra and its Seifert-form dictionary;
-  TangentialBordism and FourManifolds consume them. Layer 4.5.3 owns the finite
-  algebraic Clifford/Temperley–Lieb specialization used in its Jones–Arf
-  comparison; TemperleyLiebOperatorAlgebras consumes it for analytic models.
+  TangentialBordism and FourManifolds consume them. Layer 4.5.3 owns the
+  geometric Jones–Arf comparison, consuming the independent algebraic Clifford/TL
+  model and braid phases of TemperleyLiebOperatorAlgebras1.7. Layer4.5.6 supplies
+  positive-trace kernel and braid-index certificates;4.5.7 supplies the nonexchange
+  families and the five-strand cubic/Burau group comparison.
   This layer also owns
   the genus, crossing, unknotting, bridge and braid-index minima, prime decomposition of
   knots and of non-split links, rational tangles and two-bridge knots, torus knots and
@@ -5394,6 +5396,222 @@ code/geometry comparisons and source corrections above remain required. The [sou
 note](source-inputs.md#jones-table109-source) preserves all four literal rows and the
 overwritten coefficient.
 
+### 4.5.6 Positive Jones traces, kernels and braid-index certificates
+
+Develop Knot Theory physical pp91–92's trace construction and Theorems8–11 on the
+actual native TL algebra and realized oriented braid closures. Algebraic trace and
+braid-phase comparisons precede analytic positivity. Consume TemperleyLieb Layers4–5
+for the diagram basis, base change, algebraic Markov uniqueness and generic blocks;
+[Subfactors3.2–3.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/deecc6ba6658ab339b020d38b355827577397c9a/TauCetiRoadmap/Subfactors/README.md)
+for positive trace quotients, positive path weights and finite-level faithfulness;
+and [TemperleyLiebOperatorAlgebras1.5–1.8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7a05bd01b87c5660bbd01856b345c4bddb061558/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md)
+for their spin/Powers-state, statistical and finite-model comparisons. The geometric
+trace and braid-index applications belong here. Keep the complete block, expectation,
+inductive-limit and trace-GNS comparisons supplied by those owners.
+
+**Source and native normalization.** Fix u≠0, t=u², δ=u+u⁻¹. Write E_i for the
+native generator satisfying E_i²=δE_i. When δ≠0 put p_i=E_i/δ, so
+p_i²=p_i and p_i p_(i±1) p_i=δ⁻²p_i. Construct the native braid homomorphism
+ρ_u:B_n→(TL_n(ℂ,δ))ˣ with
+
+`g_i=u((1+t)p_i−1)=u²E_i−u`,
+`g_i⁻¹=u⁻²E_i−u⁻¹`.
+
+Prove the inverse and braid laws, generator computing rules and compatibility with
+strand inclusion. The second formula constructs the algebraic map even when δ=0;
+the p_i notation and normalized trace are restricted to δ≠0. Let T_n be native
+`markovTrace` at quantum parameter −u, with T_n(1)=δ^n, and tr_n=δ^(−n)T_n.
+Prove tr_n(g_i)=tr_n(g_i⁻¹)=−1/δ. Compare with native `TemperleyLieb.jones a`
+for a²=−u⁻¹: jonesDelta a=δ and jonesUnit(a,i)=(−a/u)g_i. Preserve the
+word exponent, including inverse letters, in this comparison.
+
+For every b∈B_n, n≥1, prove the realized closure formula
+
+`H_cl(b)(u)=(-δ)^(n−1) tr_n(ρ_u(b))`.
+
+Here H is4.5.3's Jones polynomial in its half-variable. Derive the formula by the
+native bracket trace and writhe comparison, or equivalently by both stabilization
+signs, conjugation and the geometric Markov theorem. Prove agreement over the Laurent
+coefficient ring before evaluation. Source A_r has r projections and corresponds to
+the (r+1)-strand algebra; its indexing cannot be substituted for the closure's n.
+Use the existing component-parity and orientation formulas of4.5 and4.5.3.
+
+**Positive analytic comparison.** For real t>0 choose u=√t>0, and for
+k≥3 choose u=exp(πi/k), t=exp(2πi/k), δ=2cos(π/k). Include conjugate
+roots and transport a different square-root sign through the supplier's sign
+isomorphism. Use the actual quotient Q_n=TL_n/R_n with its faithful normalized
+positive trace. Construct the quotient braid map and identify the matrix/path
+blocks and positive trace weights with the suppliers' models. A faithful quotient
+trace does not assert faithfulness on the unquotiented root algebra. For positive
+real t retain the explicit two-site projection/density, last-site slice and
+Powers-state trace-GNS comparison of1.5, and the distinct physical, full-GNS and
+cyclic-TL dimensions. Retain1.6's finite Potts/FK/loop/six-vertex identities and
+boundary tensors. The scan's tensor exponent remains a literal source question.
+
+**Braid-index prefix.** For every nonempty tame oriented link L, use4.2's
+Alexander theorem to prove that the set of positive strand counts of realized braid
+closures isotopic to L is nonempty. Define braidIndex(L) as its least element and
+construct a minimizing braid. Prove positivity, the upper bound from every braid
+representative, componentCount(L)≤braidIndex(L), and invariance under oriented
+ambient isotopy and component relabelling. Simultaneous reversal of all component
+orientations and global reflection give
+the corresponding bijections of representatives. The empty link has the separate value0
+from the zero-strand braid. Layer4.8 consumes this minimum and its elementary API.
+
+**Rigidity and sharp braid-index bounds.** At the unit roots prove that the quotient
+braid map is unitary. For any unitary U in any finite direct sum of matrix algebras
+with faithful normalized positive trace, prove
+
+`|tr U|≤1`,
+`tr U=1 ↔ U=1`,
+`|tr U|=1 ↔ ∃λ∈ℂ, |λ|=1 and U=λ·1`.
+
+Give the weighted-block formulas and their compatibility with the path quotient.
+For trace1 use tr((U−1)†(U−1))=2−2Re(tr U); for modulus1 use
+λ=tr U and apply faithfulness to (U−λ1)†(U−λ1). In a direct sum the
+same λ must work in every block of positive weight.
+
+Deduce the source's exact criterion
+
+`H_cl(b)(exp(πi/k))=(-2cos(π/k))^(n−1) ↔ ρ_u(b)=1 in Q_n`.
+
+For k>3, δ>1, prove the stronger braid-index certificate: if ρ_u(b)=λ1
+with |λ|=1, then the realized closure has braid index exactly n. Any m-strand
+representative has Jones modulus at most δ^(m−1), whereas this closure has
+modulus δ^(n−1), forcing m≥n. Include every component count and n=1.
+At k=3 the strict comparison fails: σ₁σ₂ on three strands has quotient image1
+and unknot closure. It therefore supplies an explicit failure of minimality when
+δ=1. Identity braids give n-component unlinks and the sharp bound at every k>3.
+
+**A precise common-exponent corollary.** For a specified finite syllable word
+b=∏_j σ_(i_j)^(e_j) on n≥1 strands, with integer exponents, prove that any
+common divisor d>1 of every e_j forces its closure to have braid index n. If d
+is even, the endpoint permutation is trivial, so the closure has n components.
+If d is odd, d≥3; take u=exp(πi/(2d)), k=2d. The two eigenvalues of g_i
+are u³ and −u, and both have d-th power −i. Prove g_i^d=−i·1 in the
+whole positive quotient, also for negative syllable exponents, so ρ_u(b) is a
+scalar unitary and the preceding bound applies. Include empty words and zero
+exponents. This theorem concerns the displayed syllables; it does not attach a
+word-independent gcd to a braid, or take the gcd of its individual ±1 letters.
+Keep the exact historical exponent convention of Corollary9 separately qualified.
+
+**Transcendental parameters.** Construct the generic algebra TL_n(ℚ(u),u+u⁻¹)
+and its source-normalized braid map on the flat diagram basis. Specify evaluation
+at every transcendental u₀∈ℂ, prove that it is defined on all rational functions
+and injective, and identify the specialized braid map with the actual native complex
+TL algebra by base change. Consequently generic and specialized braid kernels agree.
+For n≥1 prove the additional trace criterion
+
+`H_cl(b)(u₀)=(-(u₀+u₀⁻¹))^(n−1) ↔ ρ_(u₀)(b)=1`.
+
+For the forward direction inject the evaluated trace equality back to ℚ(u).
+Specialize at infinitely many distinct u_k=exp(πi/k) with k>n+1, excluding
+zeros of the finitely many relevant denominators. At these levels the positive
+trace is faithful on the whole TL_n, because no first negligible idempotent has
+appeared. Unitarity and trace1 give ρ_(u_k)(b)=1 in that whole algebra.
+Every diagram-basis coefficient of ρ_u(b)−1 has infinitely many zeros and hence
+vanishes as a rational function. Transport the result to u₀. Prove the converse
+directly. Supply the flat-basis, rational-evaluation, nonvanishing and finite-level
+faithfulness adapters; faithfulness only after a root quotient is insufficient.
+A transcendental t has transcendental square roots, giving source Corollary11.
+Record the source's conjectured generic faithfulness as a historical problem;
+none of these theorems assumes or asserts that all such kernels are trivial.
+
+*Needs:*4.2's geometric braid closure, Alexander/Markov theorems and
+endpoint/component comparison; the strand minimum constructed above;4.5's geometric
+Jones invariant; the named algebraic and
+analytic suppliers above; native `BraidGroup`, `TemperleyLieb` and `markovTrace`;
+Mathlib matrices, positive forms, rational functions and transcendence.
+`JonesTraceTargets.lean` gives suggested native algebra and trace-rigidity forms.
+
+### 4.5.7 Nonexchange links and the five-strand cubic quotient
+
+Give Knot Theory physical p92's Theorem7 and finite-group examples as concrete
+geometric and representation-theoretic outputs, with the conventions of4.5.6.
+
+**All-strand geometric family.** For n≥1, m=n+1, put c_m=σ₁⋯σ_(m−1)
+and β_(n,p)=c_m^(mp) for p≥1. Construct the ordered native braid words and
+prove that their endpoint permutations are trivial. During m successive blocks
+each label moves across every other label once as the first label, so every
+unordered pair crosses exactly twice positively. The realized closure has m
+components and every pairwise linking number p. Prove this from4.2's actual
+strand/component dictionary and geometric signed-crossing formula, including its
+closure arcs. Absolute pairwise linking multisets distinguish all p, also after
+component reorientation or ambient reflection.
+
+For U,V∈B_n embedded in B_(n+1), consider Uσ_n⁻¹Vσ_n. If its closure has
+n+1 components, its endpoint permutation is the identity. Tracking the last two
+strands through the two swaps shows that both old-strand factors fix the old last
+endpoint. The components starting at those last two endpoints meet only at the
+displayed negative and positive crossings: during each old factor one is stationary
+at the new last endpoint. Their linking number is therefore0. Prove all endpoint,
+closure-arc and linking comparisons. No β_(n,p) closure can be isotopic to any such
+exchange-shaped closure, even forgetting component orientations. For n=1 the
+exchange-shaped closure is the two-component unlink and β_(1,p)=σ₁^(2p).
+This proves pairwise inequivalent links, and hence infinitely many source words,
+using only the earlier braid and linking theory. `ExchangeFamily.lean` supplies
+native ordered-word and endpoint interfaces; its geometric linking outputs remain
+required here.
+
+Also treat the source's particular four-strand word w=σ₁⁻¹σ₂σ₃. Produce an
+explicit finite set E⊂ℤ and a proof that for every p∉E its realized closure
+cl(w^p) is inequivalent to every cl(Uσ₃⁻¹Vσ₃), U,V∈B₃. Construct the actual
+Jones/trace obstruction, its effective bound and the finitely many excluded powers;
+the all-strand family above does not identify these powers. State how mirror and
+inversion transport the signed powers and how the source's closed-braid equivalence
+compares with the realized-link equivalence being used. A word outside the displayed
+exchange syntax alone is not an obstruction to an isotopic closure of that syntax.
+
+**The full cubic group and its projective quotient.** Set ζ=exp(πi/3),
+u=exp(πi/6), and use the actual native four-dimensional reduced Burau matrix
+representation of B₅ at ζ, in the column basis of4.5.1. Prove that each generator
+has eigenvalues1 and −ζ and cube1. Construct the quotient
+
+`C₅=B₅/⟨⟨σ_i³ : i=1,…,4⟩⟩`
+
+using native normal closure and quotient groups. Prove that Burau descends to a
+faithful representation of C₅, identify C₅ with the finite complex reflection
+group G₃₂, and prove its order155520. Identify its scalar centre of order6
+and its projective quotient with PSp₄(𝔽₃), proving simplicity and order25920.
+Give exact generator matrices, change-of-basis maps, forward/inverse group maps,
+normal-closure kernel equality and finite enumeration/completeness certificates.
+The quotient and order are the cubic specialization of
+[Marin, Introduction and Theorem1.2](https://arxiv.org/html/1110.6621#S1).
+The historical clipped representation citation still requires its own source crosswalk.
+
+Compare with the complete positive Jones model from
+[TemperleyLiebOperatorAlgebras1.8](https://github.com/TauCetiProject/TauCetiRoadmap/blob/7a05bd01b87c5660bbd01856b345c4bddb061558/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md).
+For its source-normalized g_i, set h_i=(−u⁻¹)g_i=1−(1+ζ)p_i and prove
+h_i³=1. The full h representation factors through C₅. Give the explicit
+four-dimensional block intertwiner with native Burau, and all comparisons with the
+other surviving five-dimensional Jones block. For every braid b, with exponent e,
+prove ρ_u(b)=(-u)^e h(b). Thus a Burau matrix-kernel witness, by faithfulness
+on C₅, gives h(b)=1 in the full Jones model; exact Jones-kernel membership then
+requires (-u)^e=1. For braid-index minimality the scalar unitary already suffices.
+
+A projective Burau-kernel witness instead gives a central C₅ element. Compute its
+action in every surviving block and the same exponent phase. A scalar in the
+four-dimensional block alone need not be a common scalar in the four- and
+five-dimensional blocks. Use4.5.6's exact kernel criterion only after every block
+is the identity, and its modulus criterion only after they share one scalar.
+As a calibration, let z=(σ₁σ₂σ₃σ₄)^5 be the full twist. Its Burau matrix is
+ζ^5 I₄, hence projectively trivial, while its full source-normalized Jones image
+is (−I₄,I₅). At this level the normalized trace is (Tr₄+Tr₅)/9, so tr ρ_u(z)=1/9.
+Prove these exact block formulas: this projective witness meets neither rigidity
+criterion. Its square has full Jones image1. Also give the knot example
+b=σ₁³σ₂³σ₃³σ₄³. Each source generator has cube−i, so ρ_u(b)=1; its
+endpoint permutation is a five-cycle and its exponent is12, proving it is a
+nonidentity braid with knot closure of braid index5. Supply the actual native words,
+component and trace comparisons. Keep full linear image, projective simple quotient
+and the full Jones image distinct.
+
+*Needs:*4.2's native/geometric braid and linking interfaces;4.5.1's reduced Burau
+convention and4.5.6's trace/minimality comparisons; the independent algebraic cubic
+model of TemperleyLiebOperatorAlgebras1.8; Mathlib presented groups, normal closures,
+finite matrices and symplectic/projective groups. The concrete C₅ presentation,
+faithfulness, centre, projective identification and all-block adapters are targets
+here; no new generic cubic Hecke algebra or positive Jones-quotient owner is introduced.
+
 ### 4.6 The HOMFLY and Kauffman polynomials
 
 Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero subring of
@@ -7096,7 +7314,7 @@ requires its transpose and the actual local normal/basis comparison.
 
 Use Layer4.7.1's unknotting number `u(K)` and bridge number `br(K)`.
 Define the crossing number `c(L)` as the least number of crossings of a diagram of `L`,
-and the braid index as the least number of strands of a braid whose closure is `L`.
+and use4.5.6's braid-index minimum and its elementary representative/component API.
 Prove the basic theorems: `c(K) = 0` iff `K` is the unknot;
 `br(K) = 1` iff `K` is the unknot and `br(K # J) = br(K) + br(J) − 1` (Schubert, *Über eine
 numerische Knoteninvariante*, Math. Z. 61 (1954)); `u(K # J) ≤ u(K) + u(J)`; braid index is
