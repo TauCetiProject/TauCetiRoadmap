@@ -33,10 +33,8 @@ Headline theorems stated here:
   in `ẑ × F̂₂`, and `GT̂` is a closed topological subgroup of `ContinuousAut F̂₂` with its
   congruence topology. The topology on `Param` is the one induced from `Additive zHat × F̂₂`.
 
-Not stated here: README 3.5, the five-term form of relation (III) in the profinite completion of
-`K(0,5) = P₄ / Z(P₄)`. Its statement needs the words in `σ₀, σ₁, σ₂` that represent `x₄₅` and `x₅₁`
-in `P₄ / Z(P₄)`; README 3.5 pins them from Schneps 1997, §1, as a definition of Layer 3, and the
-equivalence is stated there. The monoid laws of `Param` and `beta_mul`, `beta_one`, `isGT_one`,
+Not stated here: README 3.5, the five-term form of relation (III). It is not a headline of the
+Summary and is kept in the README. The monoid laws of `Param` and `beta_mul`, `beta_one`, `isGT_one`,
 `IsGT.mul` are not headlines: they are stated because the instance `Monoid Param`, the submonoid
 `gtMonoid` and `GTHat.betaEquiv` use them, so these definitions rest on `sorry`'d proofs.
 
