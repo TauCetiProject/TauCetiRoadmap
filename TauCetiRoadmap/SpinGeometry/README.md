@@ -290,6 +290,46 @@ from the native complex-linear Clifford `star` and the conjugate-linear
    choosing the other central factor, not an even-dimensional chirality
    splitting for an ungraded odd irreducible module.
 
+<a id="source-ordered-pauli-comparisons"></a>
+
+### Source-ordered Pauli and small Clifford comparisons
+
+Use the standard matrices
+`X=[[0,1],[1,0]]`, `Y=[[0,−i],[i,0]]`, `Z=diag(1,−1)`.
+Compare the source order `S₁=Z,S₂=Y,S₃=X` with this standard order.
+Prove `S_j²=Id`, pairwise anticommutation and
+`S₁S₂=−iS₃,S₂S₃=−iS₁,S₃S₁=−iS₂`.
+The real span of the S_j is the Hermitian traceless matrices; the iS_j
+form a real basis of the traceless skew-Hermitian matrices, with cyclic
+`[iS_j,iS_k]=2iS_l`. Keep the source's statement that the displayed S_j
+form a basis of su(2) separate from this specified conventional dictionary.
+
+Pin the low-dimensional generator comparisons. For the positive real plane
+send the ordered generators to `e₁=X,e₂=Z`, so `e₁e₂=−iY` is real.
+Show that `Id,X,Z,XZ` is a real basis of M₂(ℝ) and compare the universal
+map from native `CliffordAlgebra (TauCeti.realCliffordForm 2 0)` with the
+existing positive-plane model. For the negative real plane compare its
+native quaternion equivalence with `Quaternion.toComplexMatrix`:
+quaternion i,j,k map exactly to `iZ,iY,iX`. Prove the squares and cyclic
+quaternion products and the real span/image comparison; retain the real
+scalar field. These are comparisons with the existing Clifford classifiers,
+not another algebra or Lie-group construction.
+
+In G1.1's positive complex recurrence compare the source new pair `(S₂,S₃)`
+with the valid old-generator assignment `e_j⊗S₁`. Retain the quadratic
+coordinate signs and ordered orientation in the standard-Pauli comparison;
+an odd permutation of all three Pauli matrices is not simultaneous unitary
+conjugation without a sign change. The source's obscured quotient relation,
+unspecified su(2) convention and unread first Pauli subscript remain
+unresolved source inputs. This valid recurrence assignment does not
+identify the unread subscript. The literal matrices and these qualifications
+refer to the Rieffel quantum Riemannian notes' physical pages2 and5.
+
+[`SourcePauliTargets.lean`](SourcePauliTargets.lean) gives finite matrix,
+native quaternion and positive-form generator certificates. The basis,
+isomorphism and coordinate/orientation comparisons above remain required
+beyond those selected forms.
+
 ## G2. Volume, chirality and exterior-form comparisons
 
 Consume K5's pointwise real Hodge star, characterized by
