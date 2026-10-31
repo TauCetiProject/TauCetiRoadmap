@@ -1570,6 +1570,62 @@ Construct the holomorphic isomorphism `K_(ℂP¹)≃O(−2)` from
 `dz=−w⁻²dw`, keeping the transition-frame convention. With K5b's Serre
 duality deduce H¹(O(−1))=0 and `h⁰(O(−1))−h¹(O(−1))=0`, independently of
 Riemann–Roch or classification of Pic(ℂP¹) by degree.
+<a id="fubini-study-projective-unitary"></a>
+**Fubini–Study form and projective unitary symmetry.** On K7.1's projective
+carrier, construct the action induced by each complex-linear unitary map of
+ℂ^(n+1), compare it with the general linear projective action, and prove the
+composition, identity, inverse and chart-transport laws. Use
+`Projectivization.map` and the existing native unitary/linear-isometry APIs,
+transporting through K7.1's linear identification with `EuclideanSpace ℂ (Fin
+(n+1))`; do not introduce a second projective carrier.
+
+Fix the normalization
+`ω_FS=(i/(2π))∂∂bar log ||z||²` for a local nonzero holomorphic lift z. In
+the chart z=(1,w), set r=1+Σ_i|w_i|² and prove
+`ω_FS=(i/(2π))Σ_ij(δij/r−bar(w_i)w_j/r²)dw_i∧dbar(w_j)`.
+Keep this coefficient order tied to the displayed wedge order. With the
+conjugate-linear-first Hermitian convention and `h=g+iω`, the corresponding
+Hermitian matrix is
+`h(e_i,e_j)=(δij/r−w_i bar(w_j)/r²)/π`. Prove both formulas and their
+compatibility with the real fundamental form, not just an unindexed Hessian
+identity. The homogeneous tangent formula, for z≠0, is
+`H_z(v,w)=(||z||²⟨v,w⟩−⟨v,z⟩⟨z,w⟩)/(π||z||⁴)`.
+Prove it is Hermitian, has kernel ℂz, is positive on the quotient, is
+unchanged by adding multiples of z to tangent representatives, and satisfies
+`H_(cz)(cv,cw)=H_z(v,w)` for c≠0. Identify it with the chart Hermitian
+form using the derivative of the projectivization map. These lift and
+quotient identities supply the representative-independent tangent metric.
+
+Prove `H_(Uz)(Uv,Uw)=H_z(v,w)` and hence the induced projective action
+satisfies `U*ω_FS=ω_FS`. Scalar unitary maps act trivially; prove they are
+exactly the kernel of this action and construct its descent to
+`PU(n+1)=U(n+1)/{λI:|λ|=1}` using native quotient-group vocabulary. Prove
+transitivity by extending normalized representatives to orthonormal bases.
+Identify the stabilizer of the standard line in U(n+1) with U(1)×U(n),
+and its descended stabilizer with `(U(1)×U(n))/U(1)_diag ≃ U(n)`; state
+these as explicit subgroup/action comparisons with their maps. This makes
+checking positivity at one point valid. Include n=0: CP⁰ is a point, its
+tangent space and FS form are zero, positivity is vacuous, the full U(1)
+action is the scalar kernel and PU(1) is trivial. Retain K7.2's integral
+normalization `∫_(CP¹)ω_FS=1` and `∫_(CPⁿ)ω_FS^n=1`.
+
+Prove the contrasting CP¹ calculation for the projective linear map induced
+by diag(1,2): in the chart w↦2w, its pullback at 0 is `4ω_FS(0)`, and
+`ω_FS(0)≠0`. Thus projective unitary invariance does not assert invariance
+under all projective linear automorphisms. Keep the source page 21's
+“projective transformations” wording and transposed mixed coefficient in
+the source comparison, with these corrected formulas; they do not change
+the normalization or the global FS construction.
+
+Suggested native homogeneous Gram, coordinate and dilation checks are in
+[FubiniStudyTargets.lean](FubiniStudyTargets.lean).
+
+**Needs:** K7.1's projective charts and linear-action naturality, K4's
+Hermitian convention, the local differential/type calculus and native
+finite-dimensional complex inner-product/orthonormal-basis theory. This is
+a finite projective metric/action bridge inside K7.2, independent of later
+Hodge or projective cohomology calculations.
+
 Compute the projective Dolbeault/Hodge groups and cup
 ring: construct on this same carrier Mathlib's `CWComplex` structure with
 one cell in each even dimension 0,2,…,2n and none in odd dimensions, specifying
