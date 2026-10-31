@@ -2292,6 +2292,78 @@ retain that earlier owner. Prove it is `0` iff `Δ_K(−1) ≡ ±1 (mod8)` (Lick
 Chapter10), with the signed normalization and absolute-determinant comparison of
 Layer4.5.3. Proper links use the earlier polar-radical quotient constructor.
 
+**Checkerboard row dependencies and reduced presentations.** For a realized
+oriented knot diagram with c≥1 crossings, construct the arcs between
+successive undercrossings and prove there are exactly c arcs. Define its
+integer crossing matrix by `2·over−under_in−under_out`, adding coefficients
+when arc indices coincide. Thus A·1=0. Construct the linear comparison
+with the native half-edge Fox constraints by restriction and unique
+propagation along each arc, including every overstrand and repeated slot.
+Use native PD faces and the outer face to construct the checkerboard parity of every region: a generic path
+to the unbounded region counts transverse strand intersections modulo 2.
+Prove independence of that path, including its local perturbations, and
+comparison with the finite face/edge adjacency equations.
+
+At each crossing mark the sector just before the oriented overcrossing
+and to its right. Set ε_i=+1 for odd region parity and −1 for even parity.
+Prove that this gives a unit-valued vector and `εᵀA=0`. Track the right-hand
+region along an entire oriented arc: at an undercrossing its sign is −ε
+just before and +ε just after, while an overcrossing changes it from +ε
+to −ε. The resulting telescoping equation is
+`2Σ ε_over−ε_start−ε_end=0`. Include every repeated incidence and arcs
+with no interior overcrossing. Prove naturality under code relabeling and
+plane isotopy. Global orientation reversal preserves ε; reversing the
+checkerboard choice negates the whole vector. These are actual marked-
+sector and traversal comparisons, not an assumed row-dependency vector.
+
+For every square integer matrix A of positive size with A·1=0 and a left-kernel
+vector ε valued in `ℤˣ`, let B_ij be the matrix obtained by deleting row i
+and column j, with the remaining indices in increasing order. Construct
+explicit integral matrices P,Q with unit determinants satisfying
+`B_kl=P B_ij Q` for any two deletions. Prove the exact signed
+cofactor identity, with zero-based indices,
+
+```text
+(-1)^(i+j) det B_ij = ε_i κ
+```
+
+for a common integer κ. Thus all reduced determinants have the same
+absolute value. No rank or nonsingularity premise is needed for these
+transport statements; singular minors give κ=0. Reuse the existing
+integer-presentation/Smith API to transport the presented abelian group
+and invariant factors. The row-relation convention presents the cokernel
+of the transpose; retain this convention in the basis-change maps.
+On the full row-presentation module P=coker(Aᵀ), construct the augmentation
+to ℤ sending every arc generator to 1, and its section from a chosen arc j.
+Identify `P/ℤ·[arc_j]` with its augmentation kernel and with coker(B_ijᵀ),
+giving `P≃ℤ⊕coker(B_ijᵀ)` and its coloring comparison via Hom(P,R).
+
+Over every commutative ring R, construct the linear equivalence between
+`ker(B_ij:R^(c−1)→R^(c−1))` and the full coloring kernel modulo its
+global constants. Extend the reduced vector with color 0 at arc j; the
+unit coefficient ε_i reconstructs the omitted row equation. Restriction
+is its inverse on normalized colorings. For a change of base arc j to l,
+give the explicit map `x↦x−x_l·1`, its inverse and the corresponding
+reduced-coordinate matrix. Prove relabeling and entrywise coefficient-map
+naturality, with each kernel constructed over its stated coefficient ring. This supplies row/column independence over composite moduli
+as well as fields; singularity of A alone is insufficient to justify
+deleting an arbitrary row.
+
+Include the one-crossing kink: all three arc indices agree, A=[0],
+and its reduced matrix is empty with determinant 1 and zero-dimensional
+based coloring space. The crossing-free unknot instead has one arc and
+no crossing relation; its reduced presentation is also empty. Keep the
+general-link half-edge/crossing-free-component presentation: an over-only
+component can contribute an arc without an undercrossing, so the square
+c-by-c arc convention is a knot branch.
+
+The checkerboard construction consumes Layer 4.2's actual planar faces,
+outer region and strand traversal. Reuse native `PDCode.face`/`facePerm`,
+finite matrix submatrices and `Fin.succAbove`, unit-valued vectors and
+native kernels/quotients. Build the marked-sector adapter and cofactor
+transports here, before the based-rank applications. Compare the
+all-ones dependency special case with [Kolay, §4, Proposition 4](https://arxiv.org/html/1910.08044#S4).
+
 - Colourings of a split union are products; colourings of a connected sum are the fibre
   product over a common arc, so the reduced nullities add.
 - For a link, the determinant may be `0`, in which case the colouring module is infinite over
