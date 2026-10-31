@@ -778,3 +778,40 @@ The inspected p11 image SHA-256 is
 Only verified gpt-6-luna inspected images and returned Markdown. Exercise65's
 general redundancy statement is already supplied by the planar once-each
 relator identity; it does not identify either exercise64 diagram.
+
+
+<a id="problem61-prescribed-labels"></a>
+## Exercise61: prescribed transpositions on a separate pictured knot
+
+The source locations are *Knot Theory — problems* physical p10, source
+SHA-256 `06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+and main *Knot Theory* physical p119, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`.
+Luna confirms their rendered images are byte-identical, with SHA-256
+`30e2f3287931d084bc6aabafbb349dd8fb66b530ef55f6539966ff5c2bacfeb1`.
+They reproduce one literal exercise61 drawing. Its printed labels are
+(12) above the small upper curl and(13) beside the upper-right outer arc.
+It asks to complete the labeling; no ambient S_N, basepoint, orientation
+or full-generation requirement is printed in that exercise.
+
+The upper crossing has a clear underpass gap. The central wavy pieces
+and crowded lower joins do not authenticate a full component trace in
+Luna's1 November reading. Ordinary gap notation and a chosen orientation
+can determine signs; the unresolved local branch pairings are the missing
+data. No complete crossing count, derived-label map or knot name is
+inferred. The [prescribed-label target](README.md#problem61-prescribed-completions)
+requires the exact source code and its completion sets. Its S₃/S₄
+instantiations are explicit mathematical output requirements, not a claim
+that the source printed a choice of ambient group.
+
+Exercises62–63 are separate pretzel tasks. Their full-S₄-image criterion
+must not be confused with mere transposition membership: constant
+labelings exist for all parameters. The source's handwritten solution
+on main pp61–65 has an uncertain intermediate `r≡2mod3` reading, while
+the ordered path(12),(23),(34) actually requires3∣p,3∣q and r even.
+The existing complete signed classification proves this condition; the
+cases r=0,−2,6 with p=q=3 are valid, and r=5 is not. Preserve the
+uncertain literal intermediate separately from the corrected theorem.
+The final permutation-symmetric source criterion agrees with the even-r
+condition. No new pretzel classification or source-picture identification
+is claimed by adding the separate exercise61 obligation.

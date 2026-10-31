@@ -5981,6 +5981,38 @@ coloring equivalences); native `Group.Presentation`, `PresentedGroup`,
 finite permutation cycle types, finite matrix groups and Burnside counting.
 The induced-set, joint-centralizer and finite-search comparisons are built here.
 
+<a id="problem61-prescribed-completions"></a>
+**Exercise61's prescribed labels.** Construct the realized code and
+complete the labeling of the separate pictured knot in Problems p10,
+reproduced in main *Knot Theory* p119. Preserve the two marked arc
+occurrences with labels(12),(13), and recover every crossing, component
+traversal and seed correspondence. The identical rendered input at the
+two source locations gives one literal diagram obligation with a recorded
+location correspondence, not two independently guessed standard knots.
+Do not assume the two marked arcs alone determine all remaining labels.
+
+Use4.7.4's finite search with these two prescribed arc values. Compute
+separately the complete transposition-label completion sets in S₃ and S₄,
+with exact counts, explicit solutions or emptiness certificates, every
+crossing equation and the image subgroup of each solution. These are
+specified finite instantiations; the exercise itself names no ambient
+symmetric group or full-generation premise. In S₃ every completion
+generates S₃ because the prescribed swaps already do. In S₄ the
+transposition-graph theorem leaves precisely two possible images: the
+S₃ subgroup fixing4 or all S₄. Prove which occur for this actual diagram.
+A proof that every arc is a word in the two prescribed labels would
+force the first image; that assertion requires a verified schedule.
+
+Compare the prescribed-label sets with the corresponding fibers of the
+actual complement-group Hom sets, preserving all generator values and
+image data. Their residual simultaneous conjugation group is the joint
+centralizer of(12),(13), which is trivial in both S₃ and S₄; do not divide
+their counts again by the ambient group order. Transport the completed
+labels through the signed realized-diagram comparisons. The
+[source note](source-inputs.md#problem61-prescribed-labels) retains the
+unresolved local pairings. Neither a generic pretzel witness nor a
+coloring of another diagram with the same two labels completes this task.
+
 <a id="gt4-five-two-coloring"></a>
 ### 4.7.5 The complete `5₂` coloring calculation
 
