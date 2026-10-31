@@ -51,6 +51,8 @@ This roadmap owns:
   explicit transfer closures and free/noncrossing wired boundaries (Layer 1.6);
 - the sqrt(2) Jones quotient/even-Clifford comparison, scalar trace, Pauli blocks,
   compatible towers and finite braid image (Layer 1.7);
+- the sqrt(3) Jones quotient/cubic Gaussian comparison, inversion-fixed blocks,
+  compatible expectations and finite full braid image (Layer 1.8);
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
   and the positivity classification at negative loop parameters (Layer 2);
 - the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
@@ -956,6 +958,205 @@ Theorem5.4 and Proposition5.5, with `c_j=√2 γ_j` to convert their
 `γ_j²=1/2` to the positive unit Majoranas used here. Follow Mathlib's
 Clifford vocabulary and the
 [Clifford universal-property discussion](https://leanprover.zulipchat.com/#narrow/stream/217875-Is.20there.20code.20for.20X.3F/topic/Ideals.20over.20algebras/near/205790784).
+
+### 1.8 The sqrt(3) Jones quotient and cubic Gaussian braid model
+
+At `t=ζ=exp(πi/3)` fix `u=exp(πi/6)`, `δ=u+u⁻¹=√3` and
+`ω=ζ²=exp(2πi/3)`. Give Knot Theory physical p92's cubic-Clifford
+comparison and finite Jones braid image with these actual scalar phases.
+This comparison consumes the analytic adjoint, positive quotient and path
+contracts of Subfactors3.1–3.3, compared in Layer1; it does not supply their
+positivity proof. Use zero-based native indices throughout this subsection.
+
+**Finite quantum torus and its fixed algebra.** For `N≥0`, put
+`V_N=Fin N→ZMod 3` and define the alternating chain form
+
+`B(a,b)=Σ_(j<N−1)(a_j b_(j+1)−a_(j+1)b_j)`.
+
+Use native `TauCeti.IsFactorSet` and
+`TauCeti.twistedMonoidAlgebra ℂ (Multiplicative V_N) α`, with
+`α(a,b)=ω^(B(a,b)/2)` and `1/2=2` in `ZMod 3`; evaluation of an
+exponent uses its representative0,1,2. Prove normalization, the cocycle
+identity and invariance under simultaneous negation. Call this algebra
+`G_N` and its native `TwistedMonoidAlgebra.of` basis `W(a)`. Use the
+native basis, multiplication table and universal property rather than a
+second presented algebra. Export normal forms, coefficient extraction,
+`dim G_N=3^N`, and the generator presentation
+
+`U_j=W(e_j)`, `U_j³=1`, `U_j U_(j+1)=ω U_(j+1) U_j`,
+with distant generators commuting. Give the explicit scalar converting
+ordered products of U_j into W(a), and prove the converse universal
+property for families satisfying these relations.
+
+Construct the conjugate-linear analytic adjoint
+`(Σ_a z_a W(a))†=Σ_a conj(z_a)W(−a)`; prove involutivity,
+anti-multiplicativity and `U_j†=U_j⁻¹`. The scalar-coefficient trace
+`s_N(x)=coeff_0(x)` is normalized, cyclic and satisfies
+`s_N(x†x)=Σ_a|coeff_a(x)|²`, hence is faithful. Build the faithful left
+regular matrix model on the orthonormal W-basis, identify its adjoint,
+and give the normalized regular-trace formula. Transport its norm and
+finite C*-structure from CStarAlgebras C1–C4's matrix/subalgebra APIs;
+this subsection supplies the model-specific norm transport.
+
+Negation defines the **complex-linear algebra automorphism**
+`θ_N(W(a))=W(−a)`, commuting with † and squaring to the identity.
+Its fixed algebra is the native equalizer of θ_N and the identity,
+denoted `C_N`. Give its basis consisting of1 and
+`W(a)+W(−a)` for one representative of every nonzero ±-orbit, with
+the change-of-representative and multiplication formulas. Thus
+`dim C_N=(3^N+1)/2`, including `C_0=ℂ`. This fixed algebra, rather
+than all of G_N, is the Jones quotient below.
+
+**Projections, trace and quotient.** For m≥1 let N=m−1 and set
+
+`p_j=(1+U_j+U_j²)/3`, `E_j=√3 p_j` for j<N.
+
+Prove self-adjointness, idempotence, θ-invariance, both adjacent relations
+`p_j p_(j±1) p_j=p_j/3` and distant commutation. Use native
+`TemperleyLieb.lift` to construct `F_m:TL_m(ℂ,√3)→ₐ[ℂ]C_(m−1)`,
+sending the native e_j to E_j. Supply generator evaluation, uniqueness
+and analytic-adjoint compatibility. The map `I_N:W(a)↦W(a,0)` is an
+injective trace- and adjoint-preserving algebra homomorphism commuting
+with θ, and, for x∈G_N,
+
+`s_(N+1)(I_N(x)p_N)=s_N(x)/3`.
+
+The new-coordinate terms have zero scalar coefficient. Use Markov-trace
+uniqueness to prove `T_m(x)=(√3)^m s_(m−1)(F_m(x))`, including unit,
+words, closures and strand inclusions; compare with the native trace at
+quantum parameter −u. Faithfulness of s and adjoint compatibility give
+`ker F_m=R_m`, for the existing bilinear trace radical R_m.
+
+Prove surjectivity without assuming it in this kernel argument. The
+independent positive A_5 path theorem gives
+`dim Q_m=(3^(m−1)+1)/2` for m≥1: derive the path counts, or their
+sum-of-squares recurrence `D_1=1,D_2=2,D_m=4D_(m−1)−3D_(m−2)`
+for m≥3.
+The induced injective map from Q_m to C_(m−1) therefore has equal
+finite dimensions and is onto. Deduce the analytic *-algebra equivalence
+`Q_m(√3)≃C_(m−1)`, preserving normalized traces, finite C*-norms and
+tower maps. Match its kernel with the existing negligible ideal generated
+by embedded f_5 at m≥5; below that level the radical is zero. At m=0
+both the TL quotient and the comparison model are separately ℂ; the
+initial maps m=0→1 are scalar identities.
+
+**All blocks, qutrit matrices and expectations.** Construct a symplectic
+basis for B with its possible radical, using native `LinearMap.BilinForm`
+and Tau Ceti's symplectic-basis theorem on the nondegenerate complement;
+prove the chain-specific rank, radical and complement formulas here.
+Give explicit clock and shift matrices
+`Z e_x=ω^x e_x`, `X e_x=e_(x+1)` on `Fin 3` (equivalently `ZMod 3`),
+so `ZX=ωXZ`, and tensor products realizing the W multiplication and
+dagger. Supply the coordinate transport from the chain form to these
+matrices. For N=2k, `G_N≃M_(3^k)(ℂ)`; θ is implemented by qutrit
+parity `P e_x=e_(−x)` on `(ZMod 3)^k`, with trace1. Put
+`d_+=(3^k+1)/2` and `d_-=(3^k−1)/2`. Its fixed algebra is
+
+`C_(2k)≃M_(d_+)(ℂ)⊕M_(d_-)(ℂ)`,
+
+with normalized-trace weights `d_+/3^k,d_-/3^k`. Omit a zero-size
+block rather than treating it as a unital summand.
+
+For N=2k+1 the radical is generated by
+`r=(1,0,1,0,…,1)` and the full algebra is three M_(3^k) blocks,
+labelled by the central eigenvalues1,ω,ω² of W(r). Prove that θ
+exchanges the last two blocks and implements parity on the first. Thus
+
+`C_(2k+1)≃M_(d_+)(ℂ)⊕M_(d_-)(ℂ)⊕M_(3^k)(ℂ)`,
+
+with normalized-trace weights `d_+/3^(k+1),d_-/3^(k+1),2/3`.
+Identify these with the A_5 path blocks: for even m=2k+2 the labels
+0,2,4 have sizes d_+,3^k,d_-; for odd m=2k+1 the labels1,3 have
+sizes d_+,d_-. Supply actual intertwining unitaries, not just equality
+of dimensions. At m=1,…,6 the quotient dimensions are1,2,5,14,41,122;
+the m=2 trace weights are1/3,2/3.
+
+In these block coordinates compute the strand inclusions and their
+Bratteli multiplicities, preserving the labels and weights. The
+trace-preserving expectation G_(N+1)→G_N drops basis coefficients
+with nonzero last coordinate; prove that it restricts to C_(N+1)→C_N.
+Show bimodularity, positivity, complete positivity, faithfulness and the
+Jones expectation identity via Subfactors3.3’s finite tower/expectation
+contract and CStarAlgebras C1–C4’s matrix/subalgebra/CP APIs, with general CP
+foundations in VonNeumannAlgebras V13a. Transport the
+finite comparisons to the specified norm-closed tower and trace-GNS
+representation by compatible finite-stage equivalences. The fixed
+algebra's full faithful model uses all its nonzero simple blocks.
+
+**Gaussian braid units and a finite full image.** With the stated u,
+prove
+
+`g_j=u((1+ζ)p_j−1)=−(1+ω²(U_j+U_j²))/√3`
+`     =−(Σ_(r=0)^2 ω^(−r²)U_j^r)/√3`.
+
+These are analytic unitaries in C_N, satisfy the Artin braid relations
+and define the native `BraidGroup m` representation. Compare it with
+the Jones map and native signed-loop crossings, preserving scalar
+phases and product order. Their eigenvalues are i on p_j and −u on
+1−p_j; in particular `g_j³=−i·1`, `g_j^12=1`. The cubic relation
+holds projectively; the displayed units do not satisfy g_j³=1.
+
+Use the finite subgroup of ambient algebra units
+`H_N={ω^c W(a):c∈ZMod 3,a∈V_N}`, with its multiplication, inverse,
+normal forms and order `3^(N+1)`. It includes the scalar ω at N=0.
+This is the chain-form Heisenberg central extension; compare its
+symplectic-plane factors with native `TauCeti.HeisenbergGroup (ZMod 3)`
+through explicit central products and retain the radical factor when
+N is odd. No independent generic Heisenberg presentation is needed.
+Conjugation by g_j fixes U_j and distant U's, and sends
+
+`U_(j+1)↦ω U_(j+1) U_j⁻¹`,
+`U_(j−1)↦ω U_(j−1) U_j`.
+
+Prove these identities and construct the action of the generated braid
+image on H_N by native multiplicative automorphisms. Its action image
+is finite. Since H_N spans G_N, the action kernel lies in the center
+of G_N: one scalar block for even N, three scalar blocks for odd N.
+In each full simple block of size `D=3^⌊N/2⌋`, every generator has
+determinant of order dividing12. Hence a kernel scalar z satisfies
+`z^(12D)=1`. This gives a finite kernel and a finite **full faithful**
+braid image, including the empty-generator cases m=0,1. Export the
+induced finite-image theorem for every quotient block as well. Do not
+replace the kernel argument by the false assertion that a finitely
+generated torsion group is finite, or identify a single block with
+the full representation.
+
+Give exact multiplication/inversion and trace algorithms, using the
+W-basis or the explicit blocks, and a finite enumeration with a proof
+of completeness for each fixed m. For b∈B_m, m≥1, export
+
+`V_(closure b)(ζ)=(-√3)^(m−1) s_(m−1)(ρ(b))`.
+
+Geometric closure, Markov invariance and link-component evaluations
+retain their GeometricTopology owner; prove the adapter to that
+normalization. Check the one-generator eigenvalues and powers, adjacent
+three-strand braid relation, first trace/expectation maps, f_5's zero
+image and small-strand block traces. Fixed-strand finite-state evaluation
+does not assert a running time polynomial in the strand number.
+The separate five-strand Burau/Coxeter quotient and its projective
+25920-element group in GeometricTopology require their own phase and
+kernel comparison; finiteness here does not identify those groups.
+
+*Needs:* the analytic adjoint, positive quotient and path contracts of
+Subfactors3.1–3.3, compared in Layer1; Subfactors3.3’s finite
+tower/expectation contract and CStarAlgebras C1–C4’s matrix/subalgebra/CP
+APIs, with general CP foundations in VonNeumannAlgebras V13a; native
+`TauCeti.Algebra.MonoidAlgebra.Twisted.Basic` (`IsFactorSet`, `of`,
+`basis`, `lift`, dimension); native `AlgHom.equalizer`, matrix adjoints,
+finite alternating forms and `HeisenbergGroup`; RepresentationTheory's
+SemisimpleAlgebras and InductionRestriction for generic finite algebra,
+module and twisted-algebra theory. This subsection owns the chain
+cocycle, its analytic regular model, inversion-fixed blocks and the
+TL/Gaussian comparisons. `CubicJonesTargets.lean` prototypes those native
+carriers and trace/kernel/phase/finite-image interfaces; the full API
+above is required. Compare the Gaussian normalization with
+[Galindo–Rowell, §3, Proposition3.6](https://arxiv.org/html/1312.5557#S3),
+after Galois-conjugating their primitive parameter to q=ω², with
+g_j=−R_j. See also
+[Rowell–Wenzl, §4, Theorem4.9](https://doi.org/10.4171/QT/85)
+for the quantum-torus realization and finite-image framework.
+
+
 
 ### Examples
 
