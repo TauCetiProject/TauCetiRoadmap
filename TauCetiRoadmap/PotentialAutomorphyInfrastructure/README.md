@@ -22,6 +22,8 @@ Several inputs of the arguments are not stated by those roadmaps and are targets
 
 Continuous nonabelian first cohomology belongs to **AnabelianGeometryAndNonabelianChabauty**, §§0.1–0.4 and 0.18: continuous cocycles of a topological group acting continuously on a topological group, their gauge classes as a pointed set, the comparison with the abelian continuous cohomology of the pinned Tau Ceti modules, coefficient and source maps on cocycles and classes, and the finite-quotient description for a compact source acting on discrete coefficients. The Galois cohomology set `H¹(k, G)` of a smooth affine group `G` over a field, its functoriality, and the classification of forms by `H¹` of the automorphism group belong to **PELModuli**, §M0.9. Section 2.10 applies these to the automorphism group `PGL₂^r ⋊ S_r` and owns only the resulting description of the forms of `PGL₂^r`.
 
+Kostant representatives of a standard parabolic in a split reductive group, as the minimal-length left-coset representatives with their root criterion, belong to **ShimuraData**, §3.10; the positive torus monoid of a maximal torus in a `ℚ_p`-Borel of a quasi-split group belongs to **LocallyAnalyticDistributions**, §4.17. Conventions and §1.1 apply the former to the Siegel pair `GL_{2n} ⊃ GL_n×GL_n`, and §3.3 applies the latter to the diagonal torus of `GL_n` over `F_p`; neither object is defined again here.
+
 Applications to Dwork families, construction of potential automorphy witnesses, abelian surfaces and their separate real-multiplication large-image arguments remain with their own roadmaps. This roadmap supplies the lifting and transport interfaces they use.
 
 ## Conventions
@@ -29,6 +31,8 @@ Applications to Dwork families, construction of potential automorphy witnesses, 
 Write `F⁺` for the maximal totally real subfield of an imaginary CM field `F`, `c` for complex conjugation, and `f=[F⁺:Q]`. Arithmetic ranks `n` are positive; rank zero is allowed in the separate finite combinatorial and matrix-congruence signatures. Frobenius and Artin reciprocity are geometric, and `HT(ε)={−1}`. Dominant `GLₙ` rows are descending. For an algebraic weight `λ` the labelled Hodge–Tate multiset is `{λτ,i+n−i : 1≤i≤n}`. The rank-`n` ordinary diagonal character indexed by `i` uses `λτ,n−i+1`, so its order is part of the convention.
 
 `O` is the ring of integers of a finite `p`-adic field `E` containing the required embeddings, `varpi` (also written `ϖ`) is its coefficient uniformizer, and `k` its residue field. A local field uniformizer `ϖv` is a separate choice. Write `Sₚ` for places of `F` above `p` and `S̄ₚ` for places of `F⁺` above `p`. Chosen lifts above `p` identify the split rank-`2n` unitary factors with `GL₂ₙ`; choose `ϖ_{vᶜ}=c(ϖ_v)` compatibly with conjugation. The unitary group is `G̃`, its Siegel parabolic is `P=GU`, and `G` is the `GLₙ` Levi viewed over `F⁺`. At other parabolics the unipotent radical is written `N`. All derived categories and tensor products retain the coefficient ring in their subscript.
+
+Kostant representatives are those of ShimuraData §3.10: for a split reductive group with `T ⊂ B ⊂ P` and Levi `M`, `^MW` is the set of unique minimal-length representatives of the left cosets `W_M∖W`, the `w` with `w⁻¹Φ_M⁺ ⊂ Φ⁺`; this is ACC's `W^P(G,T)`, the `w` carrying `B`-dominant weights to `(B∩M)`-dominant weights (ACC §1.2, p. 906). For `GL_{2n} ⊃ GL_n×GL_n` these are the Siegel shuffles, the permutations `w` of `{0,…,2n−1}` whose inverse is increasing on each of the blocks `{0,…,n−1}` and `{n,…,2n−1}`, with length the number of inversions. For `v̄ ∈ S̄_p`, `W^P_v̄` is the product over the embeddings of `F⁺_v̄` into `E` of the Siegel shuffles, `l` is the summed length, and `W^P = ∏_{v̄∈S̄_p} W^P_v̄`; the relative sets `^rW^P_v̄` and `^rW^P` of §3.23 take one shuffle per place instead of one per embedding.
 
 Put `d=n²f`, so `dim Xₖ=d−1`. For rational `GLₙ` cohomology put `qGL=n(n−1)f/2` and `ℓ₀=nf−1`. Its range is `[qGL,qGL+ℓ₀]`. The dual arithmetic complex is `RHom(RΓ,O)[−d]`. After extending scalars to `E`, its `i`-th cohomology is `Hom_E(Hᵈ⁻ⁱ(RΓ⊗_O E),E)`; over `O` retain derived Hom, including its Ext contributions. Consequently its rational range is `[qpatch,qpatch+ℓ₀]`, where `qpatch=qGL+1` and `2qGL+ℓ₀=d−1`. The `q₀` in the abstract patching hypotheses below means `qpatch`. It is unrelated to the number `q` of Taylor–Wiles places or to a residue cardinality `qv`.
 
@@ -166,8 +170,6 @@ Use Mathlib `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti `a91d3aafa8c
 | `Module.support` | `Mathlib.RingTheory.Support` | Primes with nonzero localization; the support target is not a ring isomorphism. |
 | `Matrix.charpoly` | `Mathlib.LinearAlgebra.Matrix.Charpoly.Basic` | `det(XI−M)` over a commutative coefficient ring. |
 | `Subgroup.goursat_surjective` | `Mathlib.GroupTheory.Goursat` | A subdirect subgroup gives an isomorphism of quotient groups; arithmetic composita require Layer 2's field step. |
-| `Equiv.Perm.permGroup` | `Mathlib.Algebra.Group.End` | Permutation multiplication by composition, with the inverse convention used by left Levi shuffles. |
-| `finAddFlip` | `Mathlib.Logic.Equiv.Fin.Basic` | Exchange of the two finite blocks. |
 | `Matrix.ProjectiveSpecialLinearGroup.rank_two_simple` | `Mathlib.LinearAlgebra.Projectivization.PSL.PSL2` | Simplicity of `PSL₂` over a finite field with at least four elements. |
 | `IntermediateField.LinearDisjoint`, `IsGalois`, `IsSimpleGroup` | `Mathlib.FieldTheory.LinearDisjoint`, `Mathlib.FieldTheory.Galois.Basic`, `Mathlib.GroupTheory.Subgroup.Simple` | Linear disjointness of intermediate fields, finite Galois extensions and simple groups, for `simple_galois_composita`. |
 | `CategoryTheory.Retract.refl` | `Mathlib.CategoryTheory.Retract` | The identity retract underlying the identity equivariant retract of §0.2. |
@@ -224,7 +226,9 @@ The targets import general theories from their owners. The rows below give, for 
 | `ArithmeticGaloisRepresentations:§7.6` | The characteristic-zero algebraic two-factor product-or-graph theorem for `PGL₂`, the algebraic monodromy predicates and the connected-monodromy characterization of absolute strong irreducibility. Sections 2.11–2.12 iterate these exports over a finite product and add form descent. |
 | `ArithmeticGaloisRepresentations:§7.10, Enormous symmetric powers`, `§7.12, Taylor–Wiles image conditions` | The finite-image symmetric-power and scalar calculations used by ACC Lemmas 7.1.4 and 7.1.6. Layer 2 imports these rather than rebuilding their general finite-group theory. |
 | `PadicFamilies:Layer 0a`, `ArithmeticGaloisRepresentations:§§4.3–4.7,7.7,7.10–7.12`, Layer 2 auxiliary CM extension construction | Respectively the Artinian ordinary projector, finite-group image calculations, and soluble local prescriptions or split cyclic CM auxiliaries. |
-| `ReductiveGroups`, Layer 7, `ReductiveGroups`, Layer 9 | General roots, Weyl groups, parabolics, Levi decompositions and pinned split integral group schemes. Layer 1 adds Siegel shuffles and the linkage bounds. Integral dual Weyl modules, their Levi splitting and lowest-weight projections are the Layer 0 targets `IntegralDualWeylModule`, `dual_weyl_levi_splitting` and `dual_weyl_bottom_alcove_duality`. |
+| `ReductiveGroups`, Layer 7, `ReductiveGroups`, Layer 9 | General roots, Weyl groups, parabolics, Levi decompositions and pinned split integral group schemes. Layer 1 adds the linkage bounds; the Siegel Kostant representatives are ShimuraData §3.10, applied as in Conventions. Integral dual Weyl modules, their Levi splitting and lowest-weight projections are the Layer 0 targets `IntegralDualWeylModule`, `dual_weyl_levi_splitting` and `dual_weyl_bottom_alcove_duality`. |
+| `ShimuraData`, §3.10 | `kostantRepresentatives`: for a split reductive group with `T ⊂ B ⊂ P` and Levi `M`, the unique minimal-length representatives `^MW` of the left cosets `W_M∖W`, characterised by `w⁻¹Φ_M⁺ ⊂ Φ⁺` (`kostantPositive`), together with their identification with the index set `W^P` of ArithmeticLocallySymmetricSpaces §ALS.4.5 (`kostantIndexComparison`); unique factorisation `w = uv` with `u ∈ W_M`, `v ∈ ^MW` and `l(uv) = l(u) + l(v)`. Applied to `GL_{2n} ⊃ GL_n×GL_n` in the split pinned model of ReductiveGroups Layer 9, where `^MW` is the set of permutations whose inverse is increasing on each block, with `C(2n,n)` elements of lengths `0` to `n²`. Conventions fixes `W^P_v̄`, `W^P` and `^rW^P` as products of these representatives; §§1.1–1.2, 1.4–1.5, 3.23 and 3.36–3.37 consume them. |
+| `LocallyAnalyticDistributions`, §4.17 | The positive torus monoid of a maximal torus `T` in a `ℚ_p`-Borel of a quasi-split reductive group: the `t ∈ T(ℚ_p)` with `⟨α, w(t)⟩ ≥ 0` for every positive root `α`, where `w` is the character-valuation adapter with `⟨χ, w(t)⟩ = v_p(χ(t))`; membership is this root-pairing condition, the set is a monoid, and its valuation image is the lattice meeting the closed dominant chamber. Applied in §3.3 to the diagonal torus of `∏_{v∈S_p} Res_{F_v/ℚ_p} GL_n` with its upper-triangular Borel, where the condition reads `v(t_i) ≥ v(t_j)` for `i < j`. The congruence quotients, `u_p`, `B_n(F_p)^+`, `Δ_p` and the Hecke homomorphism of §3.3 are this roadmap's. |
 | `ReductiveGroupsPartII`, RG2.0a | Weil restriction of a reductive group along a finite separable extension, its splitting over a normal closure as a product indexed by embeddings, and the Galois permutation of the factors (ACC Lemma 7.1.3, fact (6), p. 1088). |
 | `AnabelianGeometryAndNonabelianChabauty`, §§0.1–0.4, 0.18 | Continuous 1-cocycles of a topological group `Γ` acting continuously on a topological group `A`, their gauge classes as a pointed set with the trivial class as base point, coefficient and source maps on cocycles and on classes, the comparison with Tau Ceti's abelian continuous cohomology, and the finite-quotient description for compact `Γ` and discrete `A`. Section 2.10 uses it with `Γ = Gal(k̄/k)` and `A = H(k̄)` discrete, for an affine algebraic group `H` over a characteristic-zero field `k`; the maps induced by `PGL₂^r → PGL₂^r ⋊ S_r → S_r` are its coefficient maps. |
 | `PELModuli`, §M0.9 | The Galois cohomology pointed set `H¹(k, G)` of a smooth affine group of finite type over a field, possibly disconnected, as continuous cocycles of the profinite Galois group with values in the discrete group of separable points modulo gauge equivalence, functorial in `G` and in `k`; and the classification of forms of a structure with automorphism group scheme `G` by `H¹(k, G)`, with its inner-twist comparison (`twist_bijection`). Section 2.10 applies this to `G = PGL₂^r ⋊ S_r`. |
@@ -246,7 +250,7 @@ Uniform free diamond-cell models, common bounds on minimal ranks and compatible 
 
 ## How to read the build
 
-Layer 0 fixes the integral coefficients: the arithmetic cohomology models, equivariant retracts, the unitary weight dictionary, integral dual Weyl modules with their Levi splitting and bottom-alcove duality, and the Hecke algebras of positive monoids; it then splits `GLₙ` cohomology off the Siegel boundary and descends the Satake map. Layer 1 establishes Fontaine–Laffaille compatibility, using Kostant shuffles, degree shifting into the unitary middle degree and the image of a residually multiplicity-free pair. Layer 2 constructs the field transport and the rank-two compatible-system tools independently of automorphy lifting, including forms of products of `PGL₂` and the irreducibility of pure unramified principal series, using AGR's density-one recognition theorem with the convention comparison of §2.16. Layer 3 builds smooth modules over open monoids, ordinary parts, completed cohomology, the Bruhat filtration and ordinary local–global compatibility, using the transport of Layer 2 when the split-field restrictions are removed. Layer 4 constructs the Hida dual and weight twist, then the arithmetic deformation actions and the conditional support criterion. Layer 5 adds the residual Iwahori Hecke algebra at Taylor–Wiles places, constructs the patched pairs, verifies that criterion and proves both lifting theorems. The conditional criterion takes a patched pair as input; it does not construct that pair or assume the lifting theorem.
+Layer 0 fixes the integral coefficients: the arithmetic cohomology models, equivariant retracts, the unitary weight dictionary, integral dual Weyl modules with their Levi splitting and bottom-alcove duality, and the Hecke algebras of positive monoids; it then splits `GLₙ` cohomology off the Siegel boundary and descends the Satake map. Layer 1 establishes Fontaine–Laffaille compatibility, using the imported Kostant representatives, degree shifting into the unitary middle degree and the image of a residually multiplicity-free pair. Layer 2 constructs the field transport and the rank-two compatible-system tools independently of automorphy lifting, including forms of products of `PGL₂` and the irreducibility of pure unramified principal series, using AGR's density-one recognition theorem with the convention comparison of §2.16. Layer 3 builds smooth modules over open monoids, ordinary parts, completed cohomology, the Bruhat filtration and ordinary local–global compatibility, using the transport of Layer 2 when the split-field restrictions are removed. Layer 4 constructs the Hida dual and weight twist, then the arithmetic deformation actions and the conditional support criterion. Layer 5 adds the residual Iwahori Hecke algebra at Taylor–Wiles places, constructs the patched pairs, verifies that criterion and proves both lifting theorems. The conditional criterion takes a patched pair as input; it does not construct that pair or assume the lifting theorem.
 
 The supplying order is HodgeTateAndCanonicalSubgroups → PerfectoidShimuraVarieties → TorsionCohomologyInfrastructure → IgusaVarietiesAndTorsionConcentration → this roadmap. Within Layer 0 consume residual systems before the supplied boundary-length obstruction and generic-vanishing results.
 
@@ -274,10 +278,10 @@ For ALS.5b.8 instantiate `GaloisInput.GL(F,m)` for every `1≤m≤n` using AG2.4
 
 **Checks.**
 
-- `arithmetic_finite_cell_models.cover`: a base cell with coefficient lattice `O²` lifts to `|Δ|` cells and a free `O[Δ]-term` of rank 2. Monodromy changes the differentials, not this rank. If `V=0` the perfect complex is zero; perfectness alone does not give the nonzero input of Layer 5.
-- `arithmetic_finite_cell_models.stabilizer`: a point with stabilizer `C_p` has mod-p group cohomology in arbitrarily high degrees, so compactness without neatness cannot supply the finite free assertion. For a noncompact smooth manifold, smooth triangulability alone does not imply a finite triangulation.
+- A base cell with coefficient lattice `O²` lifts to `|Δ|` cells and a free `O[Δ]-term` of rank 2. Monodromy changes the differentials, not this rank. If `V=0` the perfect complex is zero; perfectness alone does not give the nonzero input of Layer 5.
+- A point with stabilizer `C_p` has mod-p group cohomology in arbitrarily high degrees, so compactness without neatness cannot supply the finite free assertion. For a noncompact smooth manifold, smooth triangulability alone does not imply a finite triangulation.
 - For `GL₂` with trivial coefficients, unnormalized induction from trivial Levi characters has polynomial `(X−q_v)(X−1)`, with Hecke trace `1+q_v`. Omitting the cyclotomic twist gives `(X−1)²`. At `q_v=5` their traces are 6 and 2. This eigensystem is excluded only after the non-Eisenstein hypothesis is imposed.
-- `arithmetic_franke_inputs.siegel`: for `U(1,1)` the only proper parabolic is Siegel; its two rank-one Galois pieces satisfy the two-constituent condition. The separate Kostant-weight exclusion is therefore necessary even at rank one.
+- For `U(1,1)` the only proper parabolic is Siegel; its two rank-one Galois pieces satisfy the two-constituent condition. The separate Kostant-weight exclusion is therefore necessary even at rank one.
 
 ### 0.2 Equivariant direct summands
 
@@ -372,7 +376,7 @@ Prove `dual_weyl_bottom_alcove_duality`. Let `λ` be a descending weight of `GL�
 
 ### 0.7 Hecke algebras of positive monoids
 
-Prove `positive_monoid_hecke_restriction`. Let `G` be a reductive group over a nonarchimedean local field with residue cardinality `q, P =` MN a parabolic subgroup with opposite `P̄ = MN̄`, and `U` an open compact subgroup with an Iwahori decomposition: the products `U_N × U_M × U_N̄ → U` and `U_N̄ × U_M × U_N → U` are bijective. Let `Δ_M` be the set of `m ∈ M` with `m U_N m⁻¹ ⊆ U_N` and `U_N̄ ⊆ m U_N̄ m⁻¹`, and `Δ = U_N Δ_M U_N̄`. Then: (1) `Δ_M` and `Δ` are open submonoids of `M` and `G, UΔU = Δ` and `Δ ∩ M = Δ_M`, so the Hecke algebras `H(Δ,U), H(Δ_P,U_P)` with `Δ_P = Δ ∩ P`, and `H(Δ_M,U_M)` of functions supported on the monoids are subalgebras of the full Hecke algebras. (2) Restriction to `P, r_P: H(Δ,U) → H(Δ_P,U_P)`, and integration along `U_N, r_M: H(Δ_P,U_P) → H(Δ_M,U_M)`, are algebra homomorphisms, with `r_P[UmU] = [U_P m U_P]` and `r_M r_P[UmU] = #(U_N/mU_Nm⁻¹)[U_M m U_M] = ∣δ_P(m)∣⁻¹[U_M m U_M]` for `m ∈ Δ_M`. (3) For a ring `R`, an R[P]-module `W` and `V = Ind_P^G W`, evaluation at 1 is a map `V^U → r_P^*W^{U_P}` of `H(Δ,U)⊗``R`-modules; as `R`-modules `V^U` is the direct sum, over representatives `g_1 = 1, g_2, …` of `P\G/U`, of the invariants `W^{g_iUg_i⁻¹∩P}`, and evaluation is the projection onto the first summand, so it is split functorially in `W`. The splitting is not Hecke-equivariant.
+Prove `positive_monoid_hecke_restriction`. Let `G` be a reductive group over a nonarchimedean local field with residue cardinality `q, P =` MN a parabolic subgroup with opposite `P̄ = MN̄`, and `U` an open compact subgroup with an Iwahori decomposition: the products `U_N × U_M × U_N̄ → U` and `U_N̄ × U_M × U_N → U` are bijective. Let `Δ_M` be the set of `m ∈ M` with `m U_N m⁻¹ ⊆ U_N` and `U_N̄ ⊆ m U_N̄ m⁻¹`, and `Δ = U_N Δ_M U_N̄`. Then: (1) `Δ_M` and `Δ` are open submonoids of `M` and `G, UΔU = Δ` and `Δ ∩ M = Δ_M`, so the Hecke algebras `H(Δ,U), H(Δ_P,U_P)` with `Δ_P = Δ ∩ P`, and `H(Δ_M,U_M)` of functions supported on the monoids are subalgebras of the full Hecke algebras. (2) Restriction to `P, r_P: H(Δ,U) → H(Δ_P,U_P)`, and integration along `U_N, r_M: H(Δ_P,U_P) → H(Δ_M,U_M)`, are algebra homomorphisms, with `r_P[UmU] = [U_P m U_P]` and `r_M r_P[UmU] = #(U_N/mU_Nm⁻¹)[U_M m U_M] = ∣δ_P(m)∣⁻¹[U_M m U_M]` for `m ∈ Δ_M`. (3) For a ring `R`, an R[P]-module `W` and `V = Ind_P^G W`, evaluation at 1 is a map `V^U → r_P^*W^{U_P}` of `H(Δ,U)⊗R`-modules; as `R`-modules `V^U` is the direct sum, over representatives `g_1 = 1, g_2, …` of `P\G/U`, of the invariants `W^{g_iUg_i⁻¹∩P}`, and evaluation is the projection onto the first summand, so it is split functorially in `W`. The splitting is not Hecke-equivariant.
 
 (ACC, §2.1.9, Lemmas 2.1.10, 2.1.11 and 2.1.14, pp. 913–915). *Needs:* `SR:SR.1.4`; `SR:SR.2.1`.
 
@@ -546,33 +550,26 @@ Use IG.7.6 for the integral consequences and successive extensions of `V/ϖ` for
 
 **Siegel shuffles and integral Kostant theory**
 
-Use minimal representatives for left Levi cosets. The inverse-increasing condition fixes the convention needed for the dot action. Integral Kostant decomposition and formality turn the coefficient splitting into a direct summand in each indicated degree.
+The Siegel Kostant representatives are imported from ShimuraData §3.10 as fixed in Conventions; their left-coset, inverse-increasing convention is the one the dot action needs. Integral Kostant decomposition and formality turn the coefficient splitting into a direct summand in each indicated degree.
 
-### 1.1 Kostant representatives
+### 1.1 Siegel Kostant representatives
 
-Define `KostantShuffle`. For the Siegel Levi `GL_n×GL_n` in `GL_{2n}`, define `KostantShuffle(n)` as permutations `w` of `{0,…,2n−1}` whose inverse is increasing on each block `{0,…,n−1}` and `{n,…,2n−1}`. These are the minimal representatives for `(S_n×S_n)∖S_{2n}`; length is the number of inversions of `w`. For `Res_{F⁺/Q}` use one shuffle per embedding and sum lengths. General Weyl groups, roots, dominant weights and highest-weight modules are imported, not defined here.
+The Siegel shuffles of Conventions are the Kostant representatives `^MW` of ShimuraData §3.10 for `GL_{2n}` with its upper-triangular Borel and the Siegel Levi `GL_n×GL_n`, and are not defined again: `w ∈ S_{2n}` is a representative iff `w⁻¹` is increasing on `{0,…,n−1}` and on `{n,…,2n−1}`, each left coset `(S_n×S_n)w` contains exactly one, and its length is its number of inversions. ACC's defining condition, that `w` carry `B`-dominant weights to Levi-dominant weights, is `kostantPositive` for this pair: for a dominant `λ`, `⟨wλ, α^∨⟩ ≥ 0` for every positive root `α` of the Levi iff `w⁻¹α > 0`. For `Res_{F⁺/Q}` take one representative per embedding and sum the lengths. General Weyl groups, roots, dominant weights and highest-weight modules are imported, not defined here.
 
-(ACC, §1.2 Notation, pp. 905–906). *Needs:* `Tau Ceti ReductiveGroups L7`; `mathlib:Equiv.Perm.permGroup`; `mathlib:finAddFlip`.
-
-Its interface includes:
-
-- The underlying permutation lies in `S_{2n}`.
-- Membership is precisely strict increase of the inverse on each of the two Levi blocks.
-- Length is the cardinality of {`(i,j):i<j` and `w(j)<w(i)`}.
-- The shuffle is the unique minimum-length representative of its left Levi coset.
+(ACC, §1.2 Notation, pp. 905–906). *Needs:* ShimuraData §3.10 (`kostantRepresentatives`, `kostantPositive`, `kostantIndexComparison`); ArithmeticLocallySymmetricSpaces §ALS.4.5; Tau Ceti ReductiveGroups L7 and L9.
 
 **Checks.**
 
-- For `n=1` the two shuffles have lengths 0 and 1.
-- For `n=0` the unique shuffle has length 0.
-- The permutation exchanging the two blocks, preserving order inside each block, is a shuffle of length `n²`.
-- For `n=2` the transposition (0 1) is not a shuffle.
+- For `n=1` the two representatives of `(S₁×S₁)∖S₂` are the identity and the transposition, of lengths 0 and 1.
+- For `n=0` the group is trivial and the unique representative has length 0 (the case `P=G` of the supplier).
+- The permutation exchanging the two blocks, preserving order inside each block, is a representative of length `n²`, the longest one; it is `w_0^P` of §3.23.
+- For `n=2` the transposition `(0 1)` lies in the Levi `S₂×S₂`, so it is not a representative; the representative of its coset is the identity.
 
 ### 1.2 Integral Kostant decomposition
 
 Prove `integral_kostant_decomposition`. Let `v̄ ∈ S̄_p, K = F^+_v̄` unramified over `ℚ_p`, and assume `p ≥ 2n − 1`. For `w ∈ W^P_v̄` put `λ_w = w(ρ_v̄) − ρ_v̄ ∈ (Z^n_+)^{Hom_{Q_p}(F⊗_{F^+}F^+_v̄, E)}` (via (ACC (2.2.2))). For each `i ≥ 0` there is a `G(O_K)-equivariant` isomorphism `Hom_O(∧^i_O(U(O_K) ⊗_{Z_p} O), O) ≅ ⊕_{w ∈ W^P_v̄, l(w) = i} V_{λ_w}` (`V_{λ_w}` the integral dual Weyl module lattice).
 
-(ACC, §4 standing hypotheses, p. 965, and §4.2, Lemma 4.2.2(2), pp. 970–971). *Needs:* `KostantShuffle`; `unipotent_exterior_cohomology`; the closed-alcove simplicity and `Ext¹`-vanishing of `IntegralDualWeylModule` (§0.4); Tau Ceti ReductiveGroups L7 and L9.
+(ACC, §4 standing hypotheses, p. 965, and §4.2, Lemma 4.2.2(2), pp. 970–971). *Needs:* the Siegel Kostant representatives (ShimuraData §3.10, as fixed in Conventions); `unipotent_exterior_cohomology`; the closed-alcove simplicity and `Ext¹`-vanishing of `IntegralDualWeylModule` (§0.4); Tau Ceti ReductiveGroups L7 and L9.
 
 **Checks.**
 
@@ -594,7 +591,7 @@ Prove `unipotent_derived_formality`. Let `v̄ ∈ S̄_p, K = F^+_v̄` unramified
 
 ### 1.4 Boundary degree shifting
 
-Prove `boundary_degree_retract`. Assume `p > n²` and `p` unramified in `F`. Write `W^P_v̄` for the product, over the embeddings of `F⁺_v̄` into `E`, of the Siegel Kostant shuffles (`KostantShuffle`), `l` for the summed length, and `ρ_v̄` for the sum over those embeddings of the half-sums of positive roots of `GL_{2n}`. Let `K̃ ⊂ G̃(𝔸^∞_{F⁺})` be a good subgroup decomposed with respect to `P` whose unipotent part at each `v̄ ∈ S̄_p` is all of `U(O_{F⁺_v̄}), K = K̃ ∩ G(𝔸^∞_{F⁺}), 𝔪 ⊂ T^S` non-Eisenstein and `𝔪̃ = 𝒮*(𝔪)`. Split `S̄_p = S̄₁ ⊔ S̄₂` and let `λ` and `λ̃` be dominant weights of `G` and `G̃` such that `λ̃_v̄` is the unitary weight of `λ_v̄` for `v̄ ∈ S̄₁` (`UnitaryLeviWeight`), `λ̃_v̄ = 0` for `v̄ ∈ S̄₂`, and for each `v̄ ∈ S̄₂` there is `w_v̄ ∈ W^P_v̄` with `λ_v̄ = w_v̄(ρ_v̄) − ρ_v̄`. Put `w_v̄ = 1` for `v̄ ∈ S̄₁` and `w = (w_v̄)`. Then for every `m ≥ 1` the shifted complex `RΓ(X_K, V_λ/ϖ^m)_𝔪[−l(w)]` is a direct summand of `RΓ(∂X̃_K̃, V_λ̃/ϖ^m)_𝔪̃`, equivariantly for `T̃^S` acting on the first through `𝒮`.
+Prove `boundary_degree_retract`. Assume `p > n²` and `p` unramified in `F`. Write `W^P_v̄` for the product, over the embeddings of `F⁺_v̄` into `E`, of the Siegel Kostant representatives of ShimuraData §3.10 (as fixed in Conventions), `l` for the summed length, and `ρ_v̄` for the sum over those embeddings of the half-sums of positive roots of `GL_{2n}`. Let `K̃ ⊂ G̃(𝔸^∞_{F⁺})` be a good subgroup decomposed with respect to `P` whose unipotent part at each `v̄ ∈ S̄_p` is all of `U(O_{F⁺_v̄}), K = K̃ ∩ G(𝔸^∞_{F⁺}), 𝔪 ⊂ T^S` non-Eisenstein and `𝔪̃ = 𝒮*(𝔪)`. Split `S̄_p = S̄₁ ⊔ S̄₂` and let `λ` and `λ̃` be dominant weights of `G` and `G̃` such that `λ̃_v̄` is the unitary weight of `λ_v̄` for `v̄ ∈ S̄₁` (`UnitaryLeviWeight`), `λ̃_v̄ = 0` for `v̄ ∈ S̄₂`, and for each `v̄ ∈ S̄₂` there is `w_v̄ ∈ W^P_v̄` with `λ_v̄ = w_v̄(ρ_v̄) − ρ_v̄`. Put `w_v̄ = 1` for `v̄ ∈ S̄₁` and `w = (w_v̄)`. Then for every `m ≥ 1` the shifted complex `RΓ(X_K, V_λ/ϖ^m)_𝔪[−l(w)]` is a direct summand of `RΓ(∂X̃_K̃, V_λ̃/ϖ^m)_𝔪̃`, equivariantly for `T̃^S` acting on the first through `𝒮`.
 
 (ACC, §4.2, Theorem 4.2.1, pp. 968–970). *Needs:* `Layer 0`; `Layer 1`; `mathlib:DerivedCategory`.
 
@@ -606,7 +603,7 @@ Cuspidal-triviality exclusion is a predicate on the computed Kostant weight tabl
 
 ### 1.5 Cuspidal-triviality exclusion for Kostant weights
 
-Define `CTGWeight`. Given the actual finite set `W^P` of Siegel shuffles, the embedding involution `τ↦τc` and the Levi weight table `μ(w,τ,i)=λ_{w,τ,i}`, define `CTGWeight(μ)` by: for every `w∈W^P` and `a∈Z` there exists `τ` for which the vector `(μ(w,τ,i)+μ(w,τc,n−1−i))_i` is not the constant a vector. Here `λ_w=w(λ̃+ρ)−ρ` and the conjugate dual row is `−reverse(λ_{w,τc})`. This predicate on the computed table is `CTGWeight`; it uses the Kostant weight calculation, rather than an arbitrary table of parallel-trace inequalities.
+Define `CTGWeight`. Given the finite set `W^P` of Siegel Kostant representatives (Conventions), the embedding involution `τ↦τc` and the Levi weight table `μ(w,τ,i)=λ_{w,τ,i}`, define `CTGWeight(μ)` by: for every `w∈W^P` and `a∈Z` there exists `τ` for which the vector `(μ(w,τ,i)+μ(w,τc,n−1−i))_i` is not the constant a vector. Here `λ_w=w(λ̃+ρ)−ρ` and the conjugate dual row is `−reverse(λ_{w,τc})`. This predicate on the computed table is `CTGWeight`; it uses the Kostant weight calculation, rather than an arbitrary table of parallel-trace inequalities.
 
 (ACC, §4.3, Definition 4.3.5 and following paragraph, p. 974). *Needs:* `Layer 1`; `Layer 0`.
 
@@ -777,7 +774,7 @@ Prove `fontaine_laffaille_local_global`. Let `K ⊂ GL_n(A_F^∞)` be a good sub
 
 ### Examples
 
-At rank one the two shuffles have lengths 0 and 1; exchanging two blocks of size `n` has length `n²`. The zero weight table fails CTG, whereas two conjugate pairs with sums 0 and 1 satisfy it. The cohomological duality has degree `d−1−q`, with its coefficient twist retained.
+At rank one the two Siegel Kostant representatives have lengths 0 and 1; exchanging two blocks of size `n` has length `n²`. The zero weight table fails CTG, whereas two conjugate pairs with sums 0 and 1 satisfy it. The cohomological duality has degree `d−1−q`, with its coefficient twist retained.
 
 ### Dependencies
 
@@ -899,10 +896,10 @@ The comparison target `rational_abelian_is_locally_algebraic` has the following 
 
 **Checks.**
 
-- `rational_abelian_is_locally_algebraic.repeated``: 1⊕1` is abelian, semisimple and Q-rational; it gives two identical weak character systems, both of Hodge–Tate weight 0. No distinct-character hypothesis is allowed.
-- `rational_abelian_is_locally_algebraic.finite`: a finite-order abelian representation is locally constant at `ℓ`, hence locally algebraic of weight 0, even if it is ramified at `ℓ`. Crystalline at every place is not a conclusion.
+- `1⊕1` is abelian, semisimple and Q-rational; it gives two identical weak character systems, both of Hodge–Tate weight 0. No distinct-character hypothesis is allowed.
+- A finite-order abelian representation is locally constant at `ℓ`, hence locally algebraic of weight 0, even if it is ramified at `ℓ`. Crystalline at every place is not a conclusion.
 - For `1⊕ε`, geometric good Frobenius polynomials are `(X−1)(X−q_v⁻¹)` and the true weights are `{0,−1}`. The extremely weak metadata `{2,−3}` has the same sum `−1` and is allowed, but is not the true Hodge multiset. The character systems recover the representations, not this arbitrary table.
-- `rational_abelian_is_locally_algebraic.rationality`: continuity alone is insufficient. Choose `a∈Z₅` such that `11^a` is transcendental over `Q`; this is possible because exponentiation by 11 has uncountable image. The cyclotomic principal-unit character `⟨ε⟩^a` of `G_Q` is continuous and unramified away from 5, but its value at geometric Frobenius at 11 is the transcendental number `11^{−a}`. It fails the number-field rationality hypothesis; an arbitrary 5-adic exponent is not an algebraic Hecke weight.
+- Continuity alone is insufficient. Choose `a∈Z₅` such that `11^a` is transcendental over `Q`; this is possible because exponentiation by 11 has uncountable image. The cyclotomic principal-unit character `⟨ε⟩^a` of `G_Q` is continuous and unramified away from 5, but its value at geometric Frobenius at 11 is the transcendental number `11^{−a}`. It fails the number-field rationality hypothesis; an arbitrary 5-adic exponent is not an algebraic Hecke weight.
 
 ### 2.9 Rank-two trichotomy
 
@@ -957,9 +954,9 @@ Strong irreducibility forces each rank-two connected projection to contain `SL�
 **Checks.**
 
 - For `M=Q(√2)` and `Q_v=X²−√2` X+1, the rationalized polynomial is `(X²−√2 X+1)(X²+√2 X+1)=X⁴+1`. Its degree is 4 at both split and inert `ℓ`. Using `Q_v` as a rational polynomial fails.
-- `extremely_weak_rational_maximality.centre`: for a finite-image character the connected monodromy and its simply connected derived cover are trivial. Maximality there is automatic; it does not assert that the character's original image is a maximal compact subgroup of `G_m`.
-- `rank_two_large_residual_image.small_prime``: SL₂(F₂)≅S₃` and `SL₂(F₃)` have nontrivial abelianization. The perfection argument is used only after excluding `ℓ≤3`; no uniform assertion at every prime is made.
-- `rank_two_large_residual_image.prime_field`: when the coefficient residue field is `F_{ℓ²}`, a conjugate of `SL₂(F_ℓ)` is a proper subgroup of `SL₂(F_{ℓ²})`. The conclusion retains exactly the first subgroup.
+- For a finite-image character the connected monodromy and its simply connected derived cover are trivial. Maximality there is automatic; it does not assert that the character's original image is a maximal compact subgroup of `G_m`.
+- `SL₂(F₂)≅S₃` and `SL₂(F₃)` have nontrivial abelianization. The perfection argument is used only after excluding `ℓ≤3`; no uniform assertion at every prime is made.
+- When the coefficient residue field is `F_{ℓ²}`, a conjugate of `SL₂(F_ℓ)` is a proper subgroup of `SL₂(F_{ℓ²})`. The conclusion retains exactly the first subgroup.
 
 **Galois composita, genericity and avoidance**
 
@@ -1187,16 +1184,14 @@ Its interface includes:
 
 ### 3.3 Positive torus monoid
 
-Define `PositiveTorusMonoid`. `T_n(F_p)^+ ⊂ T_n(F_p)` is the open submonoid of `t` with `t N_n(O_{F,p}) t^{-1} ⊂ N_n(O_{F,p}); T_n(F_v)^+ = T_n(F_v) ∩ T_n(F_p)^+; Δ_p = ∏_{v|p} Iw_v T_n(F_v)^+ Iw_v` (§2.2.5). For `b ≥ 0: T_n(O_{F,p})(b) = ∏_{v∈S_p} ker(T_n(O_{F_v}) → T_n(O_{F_v}/ϖ_v^b)), T_n(O_{F,p})_b = T_n(O_{F,p})/T_n(O_{F,p})(b), T_n(F_p)^+_b = T_n(F_p)^+/T_n(O_{F,p})(b), T_n(F_p)_b = T_n(F_p)/T_n(O_{F,p})(b)`. `u_p = (p^{n−1}, p^{n−2}, …, 1) ∈ T_n(Q_p) ⊂ T_n(F_p)` lies in `T_n(F_p)^+`. `B_n(F_p)^+ = N_n(O_{F,p})·T_n(F_p)^+ ⊂ Δ_p; B_n(O_{F,p})(b)` is the preimage of `T_n(O_{F,p})(b)` in `B_n(O_{F,p})`. Every `C ∈ D_sm(O/ϖ^m[T_n(F_p)^+_b])` carries a functorial homomorphism `O⟦T_n(O_{F,p})⟧[{U_{v,1},…,U_{v,n},U_{v,n}^{-1}}_{v∈S_p}] → End(C)`, via `O⟦T_n(O_{F,p})⟧ → O/ϖ^m[T_n(O_{F,p})_b]` and `U_{v,i} ↦ diag(ϖ_v,…,ϖ_v,1,…,1) ∈ T_n(F_v)` (`i` entries `ϖ_v`); hence a `T^``S`-action on `C` extends to a `T^{S,ord}-action`.
+Define `PositiveTorusMonoid`. `T_n(F_p)^+ ⊂ T_n(F_p)` is the positive torus monoid of LocallyAnalyticDistributions §4.17 for the diagonal torus of `∏_{v∈S_p} Res_{F_v/ℚ_p} GL_n` with its upper-triangular Borel: the `t` with `v(t_i) ≥ v(t_j)` for `i<j` at every `v ∈ S_p`. It is the set of `t` with `t N_n(O_{F,p}) t^{-1} ⊂ N_n(O_{F,p})` of ACC §5.2.1, since conjugating the `(i,j)` entry `x` of a unipotent matrix gives `t_i x t_j^{-1}`; it is a union of cosets of the compact open subgroup `T_n(O_{F,p})`, hence an open submonoid. `T_n(F_v)^+ = T_n(F_v) ∩ T_n(F_p)^+; Δ_p = ∏_{v|p} Iw_v T_n(F_v)^+ Iw_v` (§2.2.5). For `b ≥ 0: T_n(O_{F,p})(b) = ∏_{v∈S_p} ker(T_n(O_{F_v}) → T_n(O_{F_v}/ϖ_v^b)), T_n(O_{F,p})_b = T_n(O_{F,p})/T_n(O_{F,p})(b), T_n(F_p)^+_b = T_n(F_p)^+/T_n(O_{F,p})(b), T_n(F_p)_b = T_n(F_p)/T_n(O_{F,p})(b)`. `u_p = (p^{n−1}, p^{n−2}, …, 1) ∈ T_n(Q_p) ⊂ T_n(F_p)` lies in `T_n(F_p)^+`. `B_n(F_p)^+ = N_n(O_{F,p})·T_n(F_p)^+ ⊂ Δ_p; B_n(O_{F,p})(b)` is the preimage of `T_n(O_{F,p})(b)` in `B_n(O_{F,p})`. Every `C ∈ D_sm(O/ϖ^m[T_n(F_p)^+_b])` carries a functorial homomorphism `O⟦T_n(O_{F,p})⟧[{U_{v,1},…,U_{v,n},U_{v,n}^{-1}}_{v∈S_p}] → End(C)`, via `O⟦T_n(O_{F,p})⟧ → O/ϖ^m[T_n(O_{F,p})_b]` and `U_{v,i} ↦ diag(ϖ_v,…,ϖ_v,1,…,1) ∈ T_n(F_v)` (`i` entries `ϖ_v`); hence a `T^S`-action on `C` extends to a `T^{S,ord}-action`.
 
-(ACC, §5.2.1, pp. 992–993). *Needs:* `IwahoriLevelTower`; `SmoothMonoidModules`; `SR:SR.1.4`.
+(ACC, §5.2.1, pp. 992–993). *Needs:* LocallyAnalyticDistributions §4.17 (positive torus monoid); `IwahoriLevelTower`; `SmoothMonoidModules`; `SR:SR.1.4`.
 
 Its interface includes:
 
-- For a diagonal torus element, contraction of upper unipotents is equivalent to `valuation(t_i)≥valuation(t_j)` for `i<j`.
 - The local-uniformizer row `(n−1,n−2,…,0)` is positive; `u_p` has this row multiplied by `v(p)`.
-- Every diagonal unit belongs to the cone, and zero valuations recover the compact torus.
-- Componentwise products preserve the cone, so it is an open submonoid of the diagonal torus.
+- Every diagonal unit belongs to the cone: `T_n(O_{F,p})` is the kernel of the supplier's valuation adapter, so the cone is the preimage of the closed chamber under a map constant on `T_n(O_{F,p})`-cosets.
 
 **Checks.**
 
@@ -1281,7 +1276,7 @@ Its interface includes:
 
 - The action on `N(O)-invariants` is `t·v=Σ_{n∈N(O)/tN(O)t^{-1}}` ntv.
 - Ordinary parts are the localization from the positive-torus monoid algebra to the group algebra after `N`-invariants.
-- On finite `O/varpi^``m`-modules this localization is the PadicFamilies:Layer `0a` ordinary summand.
+- On finite `O/varpi^m`-modules this localization is the PadicFamilies:Layer `0a` ordinary summand.
 - Equivariant module maps induce ordinary maps and preserve identity/composition.
 - Derive `N`-invariants in the smooth monoid category, then apply exact localization.
 
@@ -1337,7 +1332,7 @@ Keep the finite-level coefficient reduction, level transition maps and continuou
 
 ### 3.13 Completed arithmetic cohomology
 
-Define `CompletedArithmeticCohomology`. For `K ⊂ GL_n(A_F^∞)` good there are functors `Γ_{K^p,sm}: Mod(O/ϖ^m[G^∞]) → Mod_sm(O/ϖ^m[G(F_p^+)])` and `Mod(O/ϖ^m[G^{p,∞}×Δ_p]) → Mod_sm(O/ϖ^m[Δ_p]), M ↦ Γ(K^p,M)^sm`. For `λ ∈ (Z^n_+)^{Hom(F,E)}, π(K^p,λ,m) := RΓ_{K^p,sm} RΓ(𝔛_G, V_λ/ϖ^m) ∈ D_sm(O/ϖ^m[Δ_p])`. If `K^S = ∏_{v∉S} GL_n(O_{F_v})` it carries `T^S → End_{D_sm(O/ϖ^m[Δ_p])}(π(K^p,λ,m))` (ACC (5.2.11)), and for `K_p ⊂ Δ_p` a canonical `T^``S`-equivariant isomorphism `RΓ(K_p, π(K^p,λ,m)) ≅ RΓ(X_K, V_λ/ϖ^m)` in `D(O/ϖ^m)` (ACC (5.2.12)). `π(K^p,m) := RΓ_{K^p,sm} RΓ(𝔛_G, O/ϖ^m) ∈ D_sm(O/ϖ^m[G(F_p^+)])` carries `T^S → End_{D_sm(O/ϖ^m[G(F_p^+)])}(π(K^p,m))` (ACC (5.2.13)), recovering (ACC (5.2.11)) for `λ = 0; T^S(K^p,m) :=` image of (ACC (5.2.13)).
+Define `CompletedArithmeticCohomology`. For `K ⊂ GL_n(A_F^∞)` good there are functors `Γ_{K^p,sm}: Mod(O/ϖ^m[G^∞]) → Mod_sm(O/ϖ^m[G(F_p^+)])` and `Mod(O/ϖ^m[G^{p,∞}×Δ_p]) → Mod_sm(O/ϖ^m[Δ_p]), M ↦ Γ(K^p,M)^sm`. For `λ ∈ (Z^n_+)^{Hom(F,E)}, π(K^p,λ,m) := RΓ_{K^p,sm} RΓ(𝔛_G, V_λ/ϖ^m) ∈ D_sm(O/ϖ^m[Δ_p])`. If `K^S = ∏_{v∉S} GL_n(O_{F_v})` it carries `T^S → End_{D_sm(O/ϖ^m[Δ_p])}(π(K^p,λ,m))` (ACC (5.2.11)), and for `K_p ⊂ Δ_p` a canonical `T^S`-equivariant isomorphism `RΓ(K_p, π(K^p,λ,m)) ≅ RΓ(X_K, V_λ/ϖ^m)` in `D(O/ϖ^m)` (ACC (5.2.12)). `π(K^p,m) := RΓ_{K^p,sm} RΓ(𝔛_G, O/ϖ^m) ∈ D_sm(O/ϖ^m[G(F_p^+)])` carries `T^S → End_{D_sm(O/ϖ^m[G(F_p^+)])}(π(K^p,m))` (ACC (5.2.13)), recovering (ACC (5.2.11)) for `λ = 0; T^S(K^p,m) :=` image of (ACC (5.2.13)).
 
 (ACC, §5.2.10, (5.2.11)–(5.2.13), p. 998). *Needs:* `Layer 0`; `mathlib:DerivedCategory`; `SmoothMonoidModules`; `SR:SR.0d`.
 
@@ -1408,7 +1403,7 @@ Prove `ordinary_level_control`. Let `K ⊂ GL_n(A_F^∞)` be good with `K_v = Iw
 
 ### 3.17 Completed ordinary weight control
 
-Prove `completed_ordinary_weight_control`. Let `K ⊂ GL_n(A_F^∞)` be good with `K^S = ∏_{v∉S} GL_n(O_{F,v})` and `λ ∈ (Z^n_+)^{Hom(F,E)}`. There are `T^``S`-equivariant isomorphisms in `D(O/ϖ^m[T_n(F_p)]): π^ord(K^p,λ,m) ≅ ord RΓ(N_n(O_{F,p}), RΓ_{K^p,sm} RΓ(𝔛_G, O(w_0^G λ)/ϖ^m)) ≅ π^ord(K^p,m) ⊗_O O(w_0^G λ)`.
+Prove `completed_ordinary_weight_control`. Let `K ⊂ GL_n(A_F^∞)` be good with `K^S = ∏_{v∉S} GL_n(O_{F,v})` and `λ ∈ (Z^n_+)^{Hom(F,E)}`. There are `T^S`-equivariant isomorphisms in `D(O/ϖ^m[T_n(F_p)]): π^ord(K^p,λ,m) ≅ ord RΓ(N_n(O_{F,p}), RΓ_{K^p,sm} RΓ(𝔛_G, O(w_0^G λ)/ϖ^m)) ≅ π^ord(K^p,m) ⊗_O O(w_0^G λ)`.
 
 (ACC, §5.2.10, Proposition 5.2.17, p. 1000). *Needs:* `Layer 3`.
 
@@ -1489,9 +1484,9 @@ Filter parabolic induction by relative length, using compact charts for the loca
 
 ### 3.23 Relative Bruhat cells
 
-Define `RelativeBruhatCells`. For a `p`-adic place `v̄` of `F^+: ^rW_v̄ = W(G̃_{F^+_v̄}, T_{F^+_v̄}) (≅ S_{2n}), ^rW_{P,v̄} = W(G_{F^+_v̄}, T_{F^+_v̄}) (≅ S_n × S_n), ^rW^P_v̄ ⊂ ^rW_v̄` the representatives of `^rW_{P,v̄}∖^rW_v̄` attached to `B_{F^+_v̄}; ^rW, ^rW_P, ^rW^P` are the products over `v̄ ∈ S̄_p; ^rW ⊂ W` (absolute Weyl group), `l_r =` relative length, `l =` absolute length; `w_0^P = w_0^G w_0^G̃`, the longest element of `W^P` (equivalently of `^rW^P`), has `l(w_0^P) = [F^+:Q]n^2` and `l_r(w_0^P) = |S̄_p|n^2; ρ =` half-sum of `(Res_{F^+/Q}B)_E-positive` roots. `^rW` is identified with permutation matrices in `G̃(F_p^+) = ∏_{ṽ∈S̃_p} GL_{2n}(F_ṽ); G̃(F_p^+) = ⊔_{w∈^rW^P} P(F_p^+) w B(F_p^+)` Borel–Tits, Corollary 5.20. For `w ∈ ^rW^P: S_w = P(F_p^+) w N(F_p^+), S_w° = P(F_p^+) w N(O_{F^+,p}) ⊂ S_w`; the closure of `S_w` is `⊔_{w'≤w} S_{w'}` (Bruhat order on `^rW^P`), and `w' < w ⇒ l_r(w') < l_r(w)`. For `i ≥ 0, G̃_{≥i} = ⊔_{w∈^rW^P, l_r(w)≥i} S_w` is open in `G̃(F_p^+)`, left `P(F_p^+)-` and right `B(F_p^+)-invariant`.
+Define `RelativeBruhatCells`. For a `p`-adic place `v̄` of `F^+: ^rW_v̄ = W(G̃_{F^+_v̄}, T_{F^+_v̄}) (≅ S_{2n}), ^rW_{P,v̄} = W(G_{F^+_v̄}, T_{F^+_v̄}) (≅ S_n × S_n), ^rW^P_v̄ ⊂ ^rW_v̄` the Kostant representatives of ShimuraData §3.10 for `^rW_{P,v̄}∖^rW_v̄` with respect to `B_{F^+_v̄}` (one Siegel shuffle per place, where `W^P_v̄` of Conventions has one per embedding); `^rW, ^rW_P, ^rW^P` are the products over `v̄ ∈ S̄_p; ^rW ⊂ W` (absolute Weyl group), `l_r =` relative length, `l =` absolute length; `w_0^P = w_0^G w_0^G̃`, the longest element of `W^P` (equivalently of `^rW^P`), has `l(w_0^P) = [F^+:Q]n^2` and `l_r(w_0^P) = |S̄_p|n^2; ρ =` half-sum of `(Res_{F^+/Q}B)_E-positive` roots. `^rW` is identified with permutation matrices in `G̃(F_p^+) = ∏_{ṽ∈S̃_p} GL_{2n}(F_ṽ); G̃(F_p^+) = ⊔_{w∈^rW^P} P(F_p^+) w B(F_p^+)` Borel–Tits, Corollary 5.20. For `w ∈ ^rW^P: S_w = P(F_p^+) w N(F_p^+), S_w° = P(F_p^+) w N(O_{F^+,p}) ⊂ S_w`; the closure of `S_w` is `⊔_{w'≤w} S_{w'}` (Bruhat order on `^rW^P`), and `w' < w ⇒ l_r(w') < l_r(w)`. For `i ≥ 0, G̃_{≥i} = ⊔_{w∈^rW^P, l_r(w)≥i} S_w` is open in `G̃(F_p^+)`, left `P(F_p^+)-` and right `B(F_p^+)-invariant`.
 
-(ACC, §5.3, pp. 1003–1004). *Needs:* `Layer 1`; `Layer 3`; `Tau Ceti ReductiveGroups L7`.
+(ACC, §5.3, pp. 1003–1004). *Needs:* `Layer 1`; `Layer 3`; ShimuraData §3.10; `Tau Ceti ReductiveGroups L7`.
 
 Its interface includes:
 
@@ -1632,7 +1627,7 @@ The completed boundary retract gives a map onto the image of the unitary Satake 
 
 ### 3.34 Completed boundary induction retract
 
-Prove `completed_boundary_induction_retract`. Let `K̃ ⊂ G̃(A^∞_{F^+})` be a good subgroup decomposed with respect to `P (K = K̃ ∩ G(A^∞_{F^+}))`; let `𝔪 ⊂ T^S` be a non-Eisenstein maximal ideal and `𝔪̃ = S^*(𝔪) ⊂ T̃^S`. Then `Ind_{P(F_p^+)}^{G̃(F_p^+)} (Inf_{G(F_p^+)}^{P(F_p^+)} π(K^p,m)_𝔪)` is a `T̃^``S`-equivariant direct summand (`T̃^S` acting through `S`) of `π̃_∂(K̃^p,m)_{𝔪̃}` in `D_sm(O/ϖ^m[G̃(F_p^+)])`.
+Prove `completed_boundary_induction_retract`. Let `K̃ ⊂ G̃(A^∞_{F^+})` be a good subgroup decomposed with respect to `P (K = K̃ ∩ G(A^∞_{F^+}))`; let `𝔪 ⊂ T^S` be a non-Eisenstein maximal ideal and `𝔪̃ = S^*(𝔪) ⊂ T̃^S`. Then `Ind_{P(F_p^+)}^{G̃(F_p^+)} (Inf_{G(F_p^+)}^{P(F_p^+)} π(K^p,m)_𝔪)` is a `T̃^S`-equivariant direct summand (`T̃^S` acting through `S`) of `π̃_∂(K̃^p,m)_{𝔪̃}` in `D_sm(O/ϖ^m[G̃(F_p^+)])`.
 
 (ACC, §5.4, Theorem 5.4.1, pp. 1011–1013). *Needs:* `Layer 3`; `Layer 0`; `residual_unitary_galois_inputs`; `finite_coefficient_gln_galois_inputs`; `SR:SR.2.1`.
 
