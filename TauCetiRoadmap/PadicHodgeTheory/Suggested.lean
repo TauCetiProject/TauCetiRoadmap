@@ -12,16 +12,24 @@ discharging them finishes neither a layer nor the roadmap.
 
 Section 9.3's `potentiallyMultiplicativeTwistReduction` states the unique twisted
 Tate presentation and its multiplicative, split, nonsplit and additive reduction
-criteria. It uses the native Tate equation, quadratic twist, inertia subgroup and
-minimal-model reduction predicates. Characteristic-zero nonarchimedean local
-fields include every finite extension of ℚ_p, also for p = 2. `IsTateTwist` records
-the twisting character by its action on an actual square root.
+criteria as one acceptance test. Its first conjunct, the unique positive-valuation
+Tate parameter, and its multiplicative, split and nonsplit conjuncts for an
+unramified twisting character restate the supplied `multiplicativeTateParameter`
+of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.5.4 and the unramified
+splitting character of ArithmeticGaloisRepresentations §6.3; the ramified
+(additive) case and the conjunction are the roadmap's own. It uses the native
+Tate equation, quadratic twist, inertia subgroup and minimal-model reduction
+predicates. Characteristic-zero nonarchimedean local fields include every finite
+extension of ℚ_p, also for p = 2. `IsTateTwist` records the twisting character by
+its action on an actual square root; with a nonsquare unit it is that splitting
+character.
 
 The other headline signatures require objects absent from the pinned libraries.
 Layers 0–1 need relative crystalline and completed semistable period rings and
 cyclotomic analytic annuli. Layers 3–6 need arithmetic period functors, filtered
 (φ,N)-modules, Sen operators, Robba modules and B-pairs to state Hodge–Tate
-descent, ordinary semistability, Berger's equivalence and p-adic monodromy.
+descent, ordinary semistability, Berger's equivalence and the localization
+presentation of the de Rham differential lattice.
 Section 5.3's completed-constants and normalization comparisons use
 NoncommutativeAndEquivariantIwasawa §F.6's generic period realization with native
 absolute monodromy. Section 5.5's finite-type tensor-torsor specialization uses
