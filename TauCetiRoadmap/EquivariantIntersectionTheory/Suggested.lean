@@ -1,6 +1,6 @@
-import Mathlib
+module
 
-set_option autoImplicit false
+public import Mathlib
 
 /-!
 # Equivariant intersection theory: target signatures for Layer 0
@@ -21,6 +21,8 @@ generator exists when `A` has no idempotents other than `0` and `1`
 the group of all gradings (`k × k` with the trivial grading: `ℤ` against `ℤ²`). For `Spec A`
 connected with `Pic A = 0`, `ShiftClassGroup 𝒜` is `Pic [Spec A / 𝔾_m]` (README, 1.2 and 1.4).
 -/
+
+@[expose] public section
 
 namespace TauCetiRoadmap.EquivariantIntersectionTheory
 
