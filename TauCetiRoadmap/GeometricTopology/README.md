@@ -1854,13 +1854,230 @@ Layer4.5.3. Proper links use the earlier polar-radical quotient constructor.
 
 *Needs:* Mathlib `Quandle`, `Quandle.Dihedral`, `ZMod`; Layer 4.2, Layer 4.3, Layer 4.4.
 
+### 4.7.1 Based Fox colorings, numerical bounds and independent prime ranks
+
+Supply the linear and geometric proofs used in *Knot Theory*, physical
+pp100–104: bridge index versus maximal overpasses, mod-p rank versus bridge
+and unknotting number, the square-knot obstruction, and independence of
+the ranks at different odd primes. Use the existing general quandle,
+Fox/Goeritz and integral-presentation contracts; this stage makes their
+linear carriers and numerical comparison maps explicit.
+
+**Native kernel and normalization.** For `D:PDCode n` put
+`S_D=Fin(4n) ⊕ Fin D.crossinglessComponentCount`. Over a commutative ring
+R define `Col_R(D)` as the kernel of a linear constraint map on
+`S_D→R`. Its equations identify the two ends of every native `edgePair`
+arc, identify the two opposite overpassing slots at each crossing, and
+impose `2 over=under₁+under₂`. For `overPair=false` the over-slots are0,2
+and under-slots1,3; for true they exchange roles. Prove the equation and
+coefficient formulas, finite row indexing, coordinate evaluations and
+the explicit R-linear equivalence with the earlier arc-coloring module.
+Every crossing-free circle contributes one coordinate. For R=`ZMod m`
+compare the equations with native `Quandle.Dihedral m`, whose operation
+is `2a−b`; no second dihedral-quandle construction is needed.
+
+For a chosen site a let `Based_R(D,a)=ker(ev_a:Col_R(D)→ₗ[R]R)`.
+Global constant colorings give a section of ev_a, and construct
+
+`Col_R(D)≃ₗ[R]R×Based_R(D,a)`,
+`Based_R(D,a)≃ₗ[R]Col_R(D)/globalConstants`.
+
+Use `f↦(f(a),f−constant(f(a)))` and its explicit inverse. Give change of
+base-site isomorphisms, naturality and composition. Coefficient-ring maps
+give the pointwise semilinear maps between the color kernels. The quotient
+is by global constants; arbitrary
+per-component constants need not satisfy the equations. Include the empty
+diagram, whose full module is0 and has no base site, and the crossing-free
+unknot, whose full module is R and based module0. For a nonempty link over
+`F_p=ZMod p`, p prime, define `r_p(D)=finrank Based_(F_p)(D,a)`, prove
+independence of a, and export full dimension `r_p+1` and coloring count
+`p^(r_p+1)`. In characteristic2 the equations make color constant along
+each physical component; give the equivalence `Col_(F₂)(D)≃F₂^μ` and
+`r_2=μ−1`. Thus r_2=0 for every knot.
+
+Prove relabelling, mirror and component-reversal transport, and upgrade
+the earlier Reidemeister color bijections to linear equivalences carrying
+constants to constants. If a base site is carried outside a local move,
+preserve its evaluation; otherwise give the base-change adapter. Descend
+r_p to the realized tame link using the earlier diagram/isotopy theorem.
+Use the integral matrix/Smith equivalences already required here to
+identify this rank with the source's reduced-matrix nullity.
+Expose the universal abelian presentation of any such finite linear
+system: coordinate generators and the rows of its constraint matrix as
+relations give `coker(Aᵀ)`, whose additive homomorphisms to R are its
+R-colorings. Supply this adapter for the cut tangles below as well as
+closed diagrams. Use native PID/submodule and Smith APIs, and build the
+remaining rectangular integer-presentation adapter here: unimodular
+row/column equivalences, positive divisibility-ordered invariant factors,
+free rank and torsion decomposition, allowing zero rows/columns. Prove
+`P⊗_ℤ R≃coker(A_Rᵀ)` for the presentation and derive finite-field color
+dimensions by duality with that cokernel. The tensor comparison concerns
+presentations; colorings are their Hom modules, including new torsion
+solutions after coefficient reduction. This is the same
+integral presentation theory used by the determinant/Smith comparisons,
+not a second matrix convention.
+
+**One crossing changes rank by at most one.** A crossing change at i
+updates only `D.overPair i` to its negation. Keep halfedges, arc matching
+and crossing-free coordinates fixed, so both coloring modules are
+submodules of the same R-module. Define the local difference
+`d_i(f)=f(slot0)−f(slot1)`. Within either coloring space, d_i=0 is
+equivalent to equality of all four local colors: over-continuity and the
+Fox equation force the remaining equality without dividing by2. Prove
+
+`Col_R(D)∩ker d_i = Col_R(change_i D)∩ker d_i`.
+
+Intersect with the same base evaluation kernel. Over every field the
+common subspace has codimension at most1 in each based coloring space,
+by the kernel/range dimension theorem for a functional to that field.
+Export both natural-number inequalities and the integer absolute bound
+`|r_p(D)−r_p(change_i D)|≤1`. This argument includes p=2 and needs no
+choice of a deleted arc, a nonzero local difference, or a nonsingular
+matrix. Transport the update to the actual geometric crossing-change
+movie; planarity, component count and the underlying oriented strands
+are preserved.
+
+For knots, give the geometric/combinatorial path characterization of
+unknotting number u: a finite path of realized diagrams uses Reidemeister
+moves freely and counts just its crossing changes. Prove equality with
+the minimum, over all representative diagrams, of the number of crossing
+changes made in that diagram. Supply the geometric path-to-one-diagram
+comparison, existence by the descending-diagram construction and attainment by
+well-ordering. Iterate the rank bound along the path from K to the
+unknot to obtain `r_p(K)≤u(K)`. This proves the source's arbitrary-u
+inequality as well as its stated u=1 special case, independently of the
+signature bound.
+
+**Bridge restriction.** Supply the equivalence from physical p101's
+Proposition7.4 between the minimum number of maximal overpasses and the
+minimum number of Morse height maxima in a knot representative. Give
+both normal-form isotopies and the overpass/underpass decomposition,
+retaining the marked arcs needed for labels. The no-crossing unknot has
+one bridge, not zero. Prove the existence and attained minimum b(K),
+with every b-bridge presentation satisfying b≥1.
+Write `b(K)=br(K)` for this invariant; the notes call its height version
+brg(K).
+
+In a b-overpass diagram restrict colors to the b overpass labels. Along
+an underpass, starting from its adjoining overpass, use
+`out=2 over−in` to reconstruct each subsequent label. Prove this walks
+every arc and yields an injective linear restriction
+`Col_(F_p)(D)→ₗ[F_p](Fin b→F_p)`. Normalize at one overpass: its based
+image lies in that coordinate hyperplane, giving
+
+`r_p(K)+1≤b(K)`, equivalently `r_p(K)≤b(K)−1`.
+
+The proof uses an actual overpass presentation obtained from a bridge
+position, not the count of arbitrarily designated arcs in a diagram.
+Schubert's connected-sum lower bound is a separate theorem and is not
+an input to this coloring bound. These minima are the bridge and
+unknotting invariants used by the subsequent numerical-invariant stage.
+
+**Cut ends and connected sum over every coefficient ring.** Construct
+the colored cut-knot 1-tangle and prove its two boundary colors agree
+before asserting a restriction map back to closed summands. At odd
+characteristic the auxiliary unknot sliding beneath the tangle gives
+`2c(left)=2c(right)` and hence equality; in characteristic2 use continuity
+along its single interval. Give the actual relative Reidemeister movie
+and extension/restriction of labels, including a crossing-free interval.
+
+To retain the all-ring Fox-module and even-modulus statements, construct
+the universal finite abelian presentation
+`P=coker(A_tangleᵀ)`, so its labelings in R are
+`Hom_ℤ(P,R_add)`, not P itself. If d is the difference of its two boundary
+generator classes, the same auxiliary movie gives `2d=0`. Over ℚ the
+ends then agree, so closing the tangle adds no rational relation; the
+earlier nonzero knot determinant gives `rank_ℤ P=1`. Modulo2 its single
+interval gives one-dimensional colorings. Use finite-dimensional duality
+to identify these dimensions with `P⊗ℚ` and `P⊗F₂`, then the earlier
+finite-presentation Smith theorem excludes even torsion invariant
+factors. Thus multiplication by2 is injective on P, d=0 integrally and
+every R-labeling has equal cut-end colors. Include the zero ring. This
+uses the already prior closed-knot determinant and Smith producers,
+without assuming the connected-sum formula being proved.
+
+Now construct the evaluation-preserving linear fiber-product comparison
+for marked connected sums. Restriction to the two closed summands is
+inverse to gluing their equal-colored marked arcs. Normalize both marked
+colors to0 to obtain
+
+`Based_R(K#J)≃ₗ[R]Based_R(K)×Based_R(J)`.
+
+Give the actual finite diagram and ambient-isotopy transports, associativity,
+base changes, unknot identity and iteration over finite families. Deduce
+`r_p(K#J)=r_p(K)+r_p(J)`. Disjoint union instead gives the product of
+full color modules and the global-constant quotient adds one to the sum
+of the two based dimensions; keep these two operations distinct.
+
+**Explicit independent-prime families.** For each odd prime q use the
+realized closure of the positive two-braid `σ₁^q`, namely T(2,q).
+The odd endpoint permutation proves it is a knot. In column coordinates
+its crossing transfer is the native unreduced Burau matrix at t=−1,
+
+`M=[[2,−1],[1,0]]=I+N`, `N=[[1,−1],[1,−1]]`, `N²=0`.
+
+Compare its generator order with the chosen braid/PD closure by actual
+label propagation, including the inverse crossing. Prove `M^m=I+mN`
+integrally for m≥0, and the signed-power version for reversed twists.
+The fixed-color closure condition is `m(x−y)=0`. Give the all-ring
+linear equivalence of the full two-braid coloring module with
+`R×ker(m·:R→ₗ[R]R)`. This is more precise than inferring dimension
+from determinant alone. Hence for every prime p,
+
+`r_p(T(2,q))=1` if p=q, and0 otherwise.
+
+For a finite set S of odd primes and natural multiplicities k_q, construct
+the actual iterated marked connected sum of k_q copies of T(2,q).
+Its ranks are k_p for p∈S and0 at every other prime, and its determinant
+is `∏_(q∈S)q^(k_q)`. Empty S and all-zero multiplicities give the
+unknot. Conversely prove the contributing primes of any knot form a
+finite set of odd divisors of its nonzero determinant, via the actual
+integral presentation. The source's finite-prime independence has the
+necessary p=2 forced-zero qualification. For pp104's concrete two-prime
+example use k trefoils and j cinquefoils T(2,5), giving r_3=k and r_5=j.
+Its “5-twist” shorthand does not denote5₂, whose determinant is7.
+
+**Finite geometric calibrations.** For the square knot
+`T(2,3)#mirror(T(2,3))`, prove r_3=2 and therefore u≥2. Change one
+crossing in each ±3 two-braid factor to obtain exponent±1; give the
+Reidemeister reductions to unknots and the connected-sum gluing, proving
+u≤2 and hence u=2. Its zero signature is a separate comparison with
+the signature stage, not a premise of this obstruction.
+
+For the standard P(3,3,3) three-twist-box diagram construct a realized
+nine-crossing plane code, its twist/arc identification and component
+count1. Prove its based mod3 coloring dimension2. One explicit route
+compares the reduced Fox presentation with the checkerboard Goeritz
+matrix `G=[[6,−3],[−3,6]]` and certifies
+
+`[[-1,0],[2,1]] G [[0,1],[1,2]]=diag(3,9)`,
+
+with both changes of basis unimodular. Give the actual arc/region
+presentation equivalences; determinant27 alone does not prove nullity2.
+A realized three-overpass presentation gives b≤3; r_3+1≤b gives b≥3.
+Thus b(P(3,3,3))=3, including the precise source lower-bound argument.
+
+*Needs:* native PD pairing/overpass/component data, native
+`Quandle.Dihedral`, `Submodule`, `LinearMap.ker/range`, finite-dimensional
+rank-nullity and rectangular integral Smith presentations; the earlier
+coloring/Reidemeister and nonzero knot-determinant comparisons; realized
+diagrams, relative tangle moves, marked connected sums and two-braid
+closure. The geometric minimum/overpass and crossing-path adapters,
+based normalization, rank comparisons and finite family certificates
+are targets here. `ColorRankTargets.lean` prototypes the native kernel,
+constant split, common crossing kernel, rank bounds and two-strand
+transfer; the full geometric and independence APIs above are required.
+Compare [Przytycki, Lemmas1.5 and2.2](https://arxiv.org/html/math/0608172#S2)
+for the coloring, connected-sum and numerical bounds, while retaining
+the explicit prime/ring hypotheses and native coordinate adapters here.
+
+
 ### 4.8 Crossing, unknotting, bridge and braid numbers
 
-Define the crossing number `c(L)` as the least number of crossings of a diagram of `L`, the
-unknotting number `u(K)` as the least number of crossing changes in some diagram turning `K`
-into the unknot, the bridge number `br(K)` as the least number of local maxima of a height
-function on a representative of `K`, and the braid index as the least number of strands of a
-braid whose closure is `L`. Prove the basic theorems: `c(K) = 0` iff `K` is the unknot;
+Use Layer4.7.1's unknotting number `u(K)` and bridge number `br(K)`.
+Define the crossing number `c(L)` as the least number of crossings of a diagram of `L`,
+and the braid index as the least number of strands of a braid whose closure is `L`.
+Prove the basic theorems: `c(K) = 0` iff `K` is the unknot;
 `br(K) = 1` iff `K` is the unknot and `br(K # J) = br(K) + br(J) − 1` (Schubert, *Über eine
 numerische Knoteninvariante*, Math. Z. 61 (1954)); `u(K # J) ≤ u(K) + u(J)`; braid index is
 subadditive under connected sum. Prove the Kauffman–Murasugi–Thistlethwaite theorem: a
