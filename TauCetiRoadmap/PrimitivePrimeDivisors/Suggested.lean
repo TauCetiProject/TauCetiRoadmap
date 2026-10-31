@@ -1,3 +1,5 @@
+import Mathlib.Algebra.Polynomial.Homogenize
+import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
 import Mathlib.Data.Nat.Prime.Basic
 import Mathlib.FieldTheory.Finite.Basic
 
@@ -10,6 +12,23 @@ Every `sorry` is a mathematical target.
 -/
 
 namespace TauCetiRoadmap.PrimitivePrimeDivisors
+
+/-- Integer evaluation; the first coordinate is X and the second is Y. -/
+noncomputable def homogeneousCyclotomic (n : ℕ) (a b : ℤ) : ℤ :=
+  MvPolynomial.eval ![a,b] ((Polynomial.cyclotomic n ℤ).homogenize n.totient)
+
+theorem homogeneousCyclotomic_pos {a b n : ℕ} (hb : 0 < b) (hba : b < a)
+    (hn : 1 ≤ n) : 0 < homogeneousCyclotomic n a b := sorry
+
+theorem pow_sub_pow_eq_prod {a b n : ℕ} (hn : 0 < n) :
+    (a : ℤ)^n - (b : ℤ)^n = ∏ d ∈ n.divisors, homogeneousCyclotomic d a b := sorry
+
+theorem sub_pow_totient_lt {a b n : ℕ} (hb : 0 < b) (hba : b < a)
+    (hn : 2 ≤ n) : ((a : ℤ) - b)^n.totient < homogeneousCyclotomic n a b := sorry
+
+theorem pow_eq_neg_one_iff {K : Type*} [CommRing K] [IsDomain K]
+    (u : K) {n : ℕ} (hn : 0 < n) (heven : Even n) (horder : orderOf u = n) (k : ℕ) :
+    u^k = -1 ↔ n/2 ∣ k ∧ ¬ n ∣ k := sorry
 
 theorem exists_prime_dvd_pow_sub_pow {a b n : ℕ}
     (hb : 0 < b) (hba : b < a) (hab : a.Coprime b) (hn : 2 ≤ n)

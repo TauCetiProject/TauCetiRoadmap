@@ -17,13 +17,19 @@ Mathlib supplies `Polynomial.cyclotomic`, its factorization of `X^n - 1`,
 exponent, `Nat.Coprime`, `Nat.ModEq`, `ZMod` and `orderOf`. Use these definitions.
 Search their current APIs before adding a lemma; in particular use the existing
 cyclotomic evaluation bounds and valuation lemmas rather than proving private
-versions in a finite-group file.
+versions in a finite-group file. Native
+[`Polynomial/Homogenize`](https://github.com/TauCetiProject/TauCeti/blob/d7dad3786f4cb95dbc0b2f5a2e47a989c1ebadad/TauCeti/Algebra/Polynomial/Homogenize.lean)
+supplies `eval_homogenize_natDegree_of_card_roots`, giving the product of
+`a-ζb` over complex roots without dividing by `b`. Reuse this for the bounds,
+and the existing `TauCeti/Data/ZMod/OrderOf.lean` API for order comparisons.
+Mathlib's `isRoot_cyclotomic_prime_pow_mul_iff_of_charP` supplies the
+characteristic-`p` root criterion used in P1.
 
 [Mathlib PR #28895](https://github.com/leanprover-community/mathlib4/pull/28895)
 contains a full two-variable development, including a homogenized `cyclotomic₂`
-and `Nat.exists_prime_orderOf_div_eq`; it closed without merging. Follow its
-mathematical interfaces and the current homogenization API, adopting Mathlib's
-definitions if equivalent material is present. This proposal is a proof source,
+and `Nat.exists_prime_orderOf_div_eq`; it closed without merging. Treat its interfaces as prior art; the integer
+evaluation convention below fixes this roadmap's object and names. Adopt
+Mathlib definitions if equivalent material is present. This proposal is a proof source,
 not a reason to wait for another PR. The
 [Zulip discussion](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/Zsigmondy's.20theorem/with/535984787)
 records that source. Coordinate with its author before adapting code, following
@@ -65,18 +71,27 @@ prime-power divisor or with an arbitrary prime divisor of a cyclotomic value.
 
 ### P0: homogeneous cyclotomic arithmetic
 
-Construct the degree-`φ(n)` homogenization `Φ_n(X,Y)` of `Polynomial.cyclotomic n ℤ`
-using Mathlib's homogenization; at `n = 0` use Mathlib's `cyclotomic 0 = 1`.
-Prove its evaluation
-at `(a,1)`, symmetry with the correct small-index signs, coefficient and base-change
-formulas, and
-`a^n - b^n = ∏ d ∈ n.divisors, Φ_d(a,b)` for `n > 0`.
-Prove each factor divides the difference, and the coprimality of any prime divisor
-of `Φ_n(a,b)` with `a*b` when `a` and `b` are coprime. For `a > b > 0`, prove
-`(a-b)^φ(n) < Φ_n(a,b)` for `n ≥ 2`, and
-`Φ_n(a,b) < (a+b)^φ(n)` for `n ≥ 3`, by homogenizing Mathlib's cyclotomic
-evaluation bounds. Include `n = 1, 2, 3, 6` and powers of a prime. The estimate
-for consecutive `a,b` needed by P2 is a separate target there.
+Define the integer-valued `homogeneousCyclotomic n a b` as
+`MvPolynomial.eval ![a,b] ((Polynomial.cyclotomic n ℤ).homogenize n.totient)`,
+with `a,b : ℤ`, variable 0 the first input and variable 1 the second. Write
+`Φ_n(a,b)` for this value. At `n=0` use `cyclotomic 0 = 1`.
+For natural `a>b>0` prove positivity for `n≥1`; its natural value for
+`padicValNat` is explicitly `Int.natAbs (Φ_n(a,b))`. Relate that value to
+the integer evaluation before switching valuation types.
+
+Prove evaluation at `(a,1)`, coefficient transport along ring homomorphisms,
+and symmetry `Φ_n(b,a)=Φ_n(a,b)` for `n≥2`, with a minus sign for `n=1`.
+Export the forms `a-b`, `a+b`, `a²+ab+b²`, `a²-ab+b²` for `n=1,2,3,6`,
+and the geometric-sum form for prime powers. Prove
+`a^n-b^n = ∏ d ∈ n.divisors, Φ_d(a,b)` for `n>0`, divisibility of each
+factor, and coprimality of its prime divisors with `ab` for coprime inputs.
+
+Homogenize Mathlib's expansion identities: for a prime `p` and `n≥1`,
+`Φ_{np}(a,b)=Φ_n(a^p,b^p)` if `p∣n`, and
+`Φ_{np}(a,b)Φ_n(a,b)=Φ_n(a^p,b^p)` otherwise. For positive `a>b`, prove
+`(a-b)^φ(n)<Φ_n(a,b)` for `n≥2`,
+`Φ_n(a,b)<(a+b)^φ(n)` for `n≥3`, and the non-strict upper bound for
+all `n≥1`, by the root-product formula and Mathlib's evaluation bounds.
 
 ### P1: multiplicative orders and valuations
 
@@ -88,20 +103,38 @@ therefore `n ∣ p-1` and `n < p`. Prove the converse with the unit hypotheses.
 Describe the nonprimitive primes dividing `Φ_n(a,b)`: their order is the
 prime-to-`p` part of `n`, and `n` is that order times a power of `p`.
 For `n ≥ 3`, prove a nonprimitive prime divisor of `Φ_n(a,b)` must be the
-largest prime factor of `n` and has valuation exactly one. Compute the other
-valuations by lifting the exponent; separate `p = 2`, `n = 1,2`,
-and higher powers of two. Supply exact valuation formulas, not only bounds,
-and comparisons between natural and integer valuations. These results must be
-usable independently of P2.
+largest prime factor of `n` and has valuation exactly one.
+For `p∤ab`, put `d=orderOf(a/b mod p)` and take `k>0`. Prove
+`v_p(a^k-b^k)=0` if `d∤k`; for odd `p` and `d∣k` it equals
+`v_p(a^d-b^d)+v_p(k)`. For `p=2` (so `a,b` odd), the values are
+`v₂(a-b)` for odd `k`, and `v₂(a²-b²)+v₂(k)-1` for even `k`.
+For `n≥1`, prove `v_p(Φ_n(a,b))` equals `v_p(a^d-b^d)` when `n=d`,
+equals one when `n=d p^e`, `e≥1`, except `(p,n)=(2,2)` where it equals
+`v₂(a+b)`, and is zero otherwise. Consume Mathlib's
+`padicValNat.pow_sub_pow` and `pow_two_sub_pow` for the lifting steps;
+prove the required natural/integer comparisons. These results are independent
+of P2.
 
 ### P2: existence and exact exceptions
 
 First prove `Φ_n(a,b) > P(n)` for `n ≥ 3`, except at `(a,b,n) = (2,1,6)`,
 where `P(n)` is the largest prime factor of `n` and the cyclotomic value equals
 three. This includes `a-b = 1`; the lower bound in P0 alone does not settle
-that case. Prove the additional cyclotomic estimates and finite small-index
-checks needed for this bound. P1 then shows that an absence of primitive
-prime factors would force `Φ_n(a,b) = P(n)`, a contradiction.
+that case. For `a-b≥2`, use `Φ_n>2^φ(n)≥2^{P(n)-1}≥P(n)`.
+For consecutive inputs, analyze the only possible obstruction from P1:
+if `Φ_n` has no primitive prime factor, write `n=p^e m`, where `p=P(n)`,
+`e≥1`, `m` is the prime-to-`p` part and `m∣p-1`. This last divisibility
+is justified by the residue order in P1, not asserted for arbitrary `n`.
+If `e≥2`, expansion reduces to `Φ_{pm}(a^{p^{e-1}},b^{p^{e-1}})`,
+whose base difference is at least three. If `e=1,m=1`, use the geometric
+sum `Φ_p(a,b)=∑_{i<p}a^i b^{p-1-i}>p` (here `p≥3`). If `e=1,m≥2`,
+the expansion quotient and P0 bounds give
+`Φ_{pm}(a,b)>((a^p-b^p)/(a+b))^φ(m)`. Prove this exceeds `p` except
+for `p=3,(a,b)=(2,1)`; `m∣p-1` then leaves `m=2`, the stated exception.
+Discharge these inequalities, including the small `p=2` cases. P1 shows
+that absence of primitive prime factors forces `Φ_n=P(n)`, contradicting
+the estimates. For the unconditional bound at an index with a primitive
+factor, use `p_primitive>n≥P(n)` and positivity/integrality.
 Prove that a primitive prime divisor exists whenever neither exceptional case
 holds, and prove nonexistence in each exception. Export the resulting iff
 characterization of existence for all coprime `a > b > 0` and `n ≥ 2`.
@@ -111,20 +144,25 @@ cyclotomic value has a primitive prime factor is not the existence theorem.
 
 ### P3: reusable corollaries
 
+- Export the two-variable order form `∃ p, p.Prime ∧ p∤a*b ∧
+  orderOf ((a : ZMod p)/b)=n` under P2's exact hypotheses.
 - Specialize to `b = 1`, obtaining a prime of order exactly `n` for the residue
   of `a`, with the `n = 2` and `(a,n) = (2,6)` exceptions stated explicitly.
 - Export existence for `a ≥ 3, n ≥ 3`, and for `a = 2, n ≥ 2, n ≠ 6`.
 - If a prime has order `2n` on `a/b`, prove that it divides `a^n + b^n` and
   does not divide `a^k - b^k` for `0 < k < 2n`. Obtain existence by applying
-  P2 at `2n`, retaining its exceptions. Do not infer order `2n` merely from
+  P2 at `2n` for `n>0`: the exceptions are `n=1` with `a+b` a power
+  of two, and `(a,b,n)=(2,1,3)`. Do not infer order `2n` merely from
   divisibility of the sum.
 - For a prime `p`, a positive base `q`, and `orderOf (q : ZMod p) = n`, prove
   `p ∣ q^k - 1 ↔ n ∣ k`. If additionally `0 < n` and `Even n`, prove
-  `p ∣ q^k + 1 ↔ n/2 ∣ k ∧ ¬ n ∣ k`. For a unit `u : (ZMod p)ˣ`, export
-  the equivalent criterion `u^k = 1 ↔ orderOf u ∣ k`, and its `-1` analogue
-  when the order is positive and even. Transport these equality statements
-  along multiplicative group equivalences induced by field isomorphisms.
-  Finite classical-group files consume these arithmetic exports.
+  `p ∣ q^k + 1 ↔ n/2 ∣ k ∧ ¬ n ∣ k`. First prove the equality
+  criterion for any integral domain `K`: if `orderOf u=n`, `0<n`,
+  and `Even n`, then `u^k=-1 ↔ n/2∣k ∧ ¬n∣k`. Derive the modular
+  divisibility statement from it. Consume Mathlib's
+  `orderOf_dvd_iff_pow_eq_one` and `MulEquiv.orderOf_eq` for the existing
+  power-one and transport laws.
+
 
 ## Checks
 
