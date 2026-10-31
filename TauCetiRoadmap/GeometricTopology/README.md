@@ -7667,6 +7667,201 @@ example of Layer 4.5.
 `Matrix.IsHermitian.signature`, `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Layer 4.3,
 Layer 4.11, Layer 6.1.
 
+<a id="signature-function-producer"></a>
+### 6.2.1 Signature functions, angular averages and surface comparisons
+
+Build the complete knot signature-function interface on the native `tristramLevineForm`,
+`tristramLevineSignature` and `Matrix.IsHermitian.signature`. The inputs are realized
+oriented knots, a connected genus-g Seifert surface and its integral homology basis from
+4.3. Transport all matrix constructions through those geometric comparisons. The
+finite-root, evenness and near-1 assertions here are for knots; the positive-braid link
+theory in 6.2 retains its separate scope.
+
+1. **Determinant normalization.** Consume
+   `TauCeti.KnotTheory.det_tristramLevineForm_of_card` and
+   `det_tristramLevineForm_int_ne_zero_iff` from
+   `TauCeti.KnotTheory.TristramLevine.Alexander`. With the native normalized Laurent
+   Alexander polynomial and the real image of the integral matrix V, these give `det
+   H_V(ω)=(-|ω−1|²)^g Δ_V(ω)` and, for `ω≠1`, nonsingularity exactly when `Δ_V(ω)≠0`.
+   Include the actual coefficient-map and geometric Alexander comparisons from 4.4. The
+   exceptional candidate set is `E_K={1}∪{ω:Δ_K(ω)=0}`. At 1 the positive-sized matrix
+   is zero although `Δ_K(1)=1`; the empty matrix has determinant 1 and signature 0.
+   Prove finiteness by clearing the Laurent monomial, using `Δ_K(1)=1` to exclude the
+   zero polynomial, and restricting its finite complex root set to `Circle`. No
+   determinant or finite-root argument may assume that V itself is invertible.
+
+2. **Continuous inertia.** Own the finite-dimensional Hermitian perturbation API
+   using Mathlib's spectral theorem and the native signature. Define positive and
+   negative indices by the corresponding eigenvalue counts, and nullity by kernel
+   dimension; prove their sum is the dimension, signature is their difference,
+   congruence and block-sum laws, and signature parity equals rank parity. For a
+   continuous Hermitian family, prove that both indices are locally constant at a
+   nonsingular member. Supply the stability estimate using a positive lower bound on its
+   absolute eigenvalues and a sufficiently small operator-norm perturbation;
+   equivalently prove preservation of its maximal positive and negative subspaces.
+   Transfer between the finite-entry topology and the Euclidean operator norm.
+   Continuous eigenvectors are not an input. Prove positive real scaling preserves
+   inertia, negative scaling exchanges its signs, and connected nonsingular parameter
+   sets have constant signature. Apply entrywise continuity of H_V to every connected
+   arc in `Circle\E_K`.
+
+3. **The parameter 1.** For a real matrix with nonsingular skew part, prove that
+   `H_V(exp(iθ))/θ` extends continuously at θ=0 with value `i(Vᵀ−V)`. That limiting
+   Hermitian matrix is nonsingular and entrywise conjugation negates it, so its positive
+   and negative eigenvalues pair and its signature is zero. Apply the preceding
+   stability and scaling laws on each side of zero to obtain raw signature zero on a
+   neighborhood of 1, including the native raw value at 1. Layer 4.3 supplies the actual
+   unimodular skew Seifert pairing for a knot. Include g=0. Matrix nullity at 1 is 2g
+   and changes under enlargement; it is not a surface-independent knot nullity there.
+
+4. **Angular sides and average.** At each `ω : Circle` construct unique integers
+   `σ₊(K,ω)` and `σ₋(K,ω)` that equal the raw signature at `ω*Circle.exp θ` and
+   `ω*Circle.exp(-θ)`, respectively, for all sufficiently small positive θ. Choose arcs
+   avoiding the other finitely many points of E_K and use their connectedness. Prove
+   independence of arc size, angular lift and Seifert presentation, including at roots,
+   using the native S-equivalence signature law at every parameter. These adjacent
+   nonsingular signatures are even, so define `σ̄(K,ω)=(σ₊+σ₋)/2` in ℤ and prove
+   `2σ̄=σ₊+σ₋`. The mean may be odd. Prove agreement with raw signature off E_K and at
+   1, where both sides vanish. Define the half-jump `(σ₊−σ₋)/2`, prove its integrality,
+   and export constancy on complementary arcs, finite support of half-jumps and the
+   circle's telescoping sum of jumps. Exceptional points need not be genuine
+   discontinuities, and an exceptional raw value can be an isolated spike with equal
+   values on both sides. No equality of raw and averaged values at a root is presumed.
+
+5. **Slice disks and concordance.** From an actual smooth or locally flat slice
+   disk D, construct the geometric stabilization of the chosen surface F used in the
+   proof. If r enlargements are used, set `g′=g+r`, write F′ for this genus-g′ surface,
+   and construct a primitive rank-g′ integral direct summand of its size-2g′ Seifert
+   presentation on which the pairing vanishes. Construct an oriented three-dimensional
+   Seifert hypersurface R with `∂R=F′∪_K D`, retaining the collars along F′ and the
+   disk. Own its existence through the exterior meridian map, the required relative
+   transverse-level construction and normal-framing comparison in each category.
+   Half-lives-half-dies duality gives rank g′ for `ker[H₁(F′;ℚ)≅H₁(F′∪D;ℚ)→H₁(R;ℚ)]`.
+   Use pushed-off bounding chains in R to prove vanishing of the Seifert pairing, then
+   take the integral saturation in the free surface homology. Prove rank, primitivity
+   and the integral pairing equations; account for torsion in the hypersurface homology
+   instead of assuming its integral kernel is primitive. The locally flat
+   normal-neighborhood input is [FourManifolds
+   F3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/c889a5beb172bc1339a815edfd763f8b465443f1/TauCetiRoadmap/FourManifolds/README.md#f3-topological-surgery-realization-and-classification)'s
+   `locallyFlatNormalBundle_topFour`, restricted to its independent neighborhood
+   construction; no signature or knot-concordance classification is an input. Prove the
+   nonsingular Hermitian Witt-index theorem: a half-rank isotropic subspace forces equal
+   positive and negative indices. Apply it only away from 1 and the Alexander roots. For
+   concordant K,J use 6.1's actual slice disk of `K#reverse(mirror J)` and 4.3's
+   block-sum surface comparison; avoid the finite union of both root sets to compare raw
+   signatures. Compare each angular side on such small arcs, obtaining concordance
+   invariance of σ̄ at every unit parameter, extending the same off-1 average of 6.2 by
+   zero at 1. Descend to homomorphisms from both smooth and locally flat knot
+   concordance groups. Prove connected-sum additivity, reversal invariance, mirror
+   negation, slice vanishing and the classical `ω=−1` comparison. Conjugating ω
+   exchanges σ₊ and σ₋, preserving the average and negating the half-jump. Pass the
+   existing all-parameter raw crossing-change estimate to both angular sides and their
+   mean, giving `|σ̄(K₊,ω)−σ̄(K₋,ω)|≤2` and `|σ̄(K,ω)|≤2u(K)` at every ω. Consume the
+   common-surface/rank-one producer without changing its raw bound, including at roots.
+
+6. **A surface of positive genus.** Supply the separate proof of the genus bound
+   in 6.2 for a connected oriented genus-h surface Σ properly embedded in D⁴ with
+   boundary K, in both categories. Put `Y=D⁴\int νΣ`. Cap Σ by a disc and identify that
+   closed surface with the boundary of a genus-h three-dimensional handlebody G. Choose
+   its meridian Lagrangian inside the kernel of the induced integral meridian map on
+   `H₁(Σ)`, so the map to `Bℤ` extends in the gluing `W_Σ=Y∪_(S¹×Σ)(S¹×G)`. The
+   remaining boundary is the zero-framed surgery M_K. Construct all
+   boundary/longitude/framing identifications, the map to Bℤ and its compatibility under
+   normal-framing and handlebody choices at the marked bordism and signature-defect
+   level. Prove by Mayer–Vietoris that `H_*(W_Σ;ℚ)=(ℚ,ℚ,ℚ^(2h),0,…)` and `χ(W_Σ)=2h`.
+   Prove that `H₁(M_K;ℚ)→H₁(W_Σ;ℚ)` is an isomorphism and use duality to show the
+   ordinary intersection form is nonsingular. Construct its half-dimensional isotropic
+   summand, obtaining ordinary signature zero.
+
+   Own the needed finite cellular chain and local-coefficient pairing adapters for these
+   compact manifold pairs via finite CW homotopy models, without assuming a
+   triangulation of a TOP four-manifold, using AlgebraicTopology's relative homology,
+   products, universal coefficients and manifold duality. Over `F=ℚ(t)` with involution
+   `t↦t⁻¹`, prove that M_K is acyclic using the Alexander torsion presentation and the
+   meridional-circle Mayer–Vietoris sequence. Prove the augmentation-to-F chain-rank
+   lemma for ℚ[t,t⁻¹] complexes and apply it to the relative pair to get
+   `H₁(W_Σ,M_K;F)=0`. The exact sequence gives `H₁(W_Σ;F)=0`; duality gives vanishing in
+   degrees 0,3,4, and the Euler calculation gives `dim_F H₂(W_Σ;F)=2h`. Construct its
+   nonsingular Hermitian intersection pairing, proving nonsingularity from boundary
+   acyclicity. These chain, rank and duality comparisons are targets here, not
+   consequences of merely naming an exterior.
+
+7. **Signature defect and dimension bound.** For oriented null-bordisms over Bℤ
+   of M_K, construct the F-intersection pairing on `H₂(W;F)` and prove its radical is
+   `im H₂(M_K;F)`. Induce the nonsingular pairing on `H₂(W;F)/im H₂(M_K;F)`. Develop the
+   Witt group of nonsingular Hermitian F-forms and the additive signature of their
+   finite rational matrices, with congruence, hyperbolic stabilization, direct sum and
+   negation laws. Evaluate only off the finite union of denominators and determinant
+   roots; use angular sides to define the signature at all unit parameters. Prove it is
+   independent of the rational representative. Bound it in absolute value by the
+   dimension of each representative, without treating rank as a Witt-class invariant. In
+   this bounded geometric setting own the bordism comparison: the kernel of middle
+   homology into a bounding five-manifold is a Lagrangian by relative duality; gluing
+   along M_K gives the direct-sum Witt identity. Prove that the F-form of a closed
+   oriented topological four-manifold mapped to Bℤ has the Witt class of its ordinary
+   rational form extended to F. Supply the required bordism calculation that forgetting
+   the map induces `Ω₄^STOP(Bℤ)≅Ω₄^STOP`, using `Bℤ≃S¹` and oriented topological
+   3-bordism vanishing. This special comparison and its proof ingredients are owned
+   here; no later knot concordance classification is an input.
+
+   It follows that the averaged signature defect `sign_ω(λ_W)−sign(W)` is independent of
+   W. For a pushed-in Seifert surface construct the bounding manifold and the basis
+   identifying its F-form with `(1−t)V+(1−t⁻¹)Vᵀ`, fixing the sign by the actual
+   oriented intersections. Thus the defect equals σ̄(K,ω). Apply W_Σ, its ordinary
+   signature zero and its rank 2h form to obtain `|σ̄(K,ω)|≤2h` for every ω, then
+   minimize over surfaces. Agreement away from roots gives the raw bound there,
+   including the universal safe set `S¹_!` from 6.2. In the knot case its raw nullity is
+   zero at every such safe parameter. A slice-disk metabolizer alone does not prove this
+   genus-h comparison. No assumption of concordance to a Seifert-genus-h knot is used.
+
+8. **Certified evaluation.** For integral matrices develop a finite exact evaluator
+   at algebraic unit parameters, with their certified complex embeddings, root isolation
+   and exact zero tests. Compute inertia by exact Hermitian congruence or the native
+   realification with its factor of two; prove its output equals the native signature
+   and accounts for nullity, including singular parameters. Construct a cyclic piecewise
+   table by substituting the real Cayley parameter into the Alexander polynomial,
+   clearing denominators with the excluded poles recorded, isolating its real roots and
+   choosing exact rational samples in the complementary intervals. Handle the Cayley
+   pole separately and retain 1 in the candidate set. Export soundness of the cyclic
+   order, interval values, exact raw root values, both sides, half-jumps and integer
+   averages. Prove independence of samples and certified isolation refinements, and
+   transport the table through the geometric Seifert comparison. This interface takes
+   finite algebraic certificates; it does not require deciding signs of arbitrary real
+   inputs. Consume [RealAlgebraicGeometry Layer
+   1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a08dc283184a9ec4d6c7fab2fb2b41866801994a/TauCetiRoadmap/RealAlgebraicGeometry/README.md#layer-1-univariate-real-algebra)
+   for ordered real closures, Sturm–Tarski root isolation and Thom sign tests. The
+   Cayley, matrix-inertia and certificate adapters and their soundness proofs belong
+   here and use that independent algebraic floor.
+
+**Checks.** With the native sign the realized trefoil has raw values 0 on the arc
+through 1 and −2 on the arc through −1. At `exp(±iπ/3)` the adjacent values are 0 and
+−2, giving σ̄=−1; compute its actual singular raw value −1 by the zero determinant and
+negative trace, independently of the averaging definition. The figure-eight has no unit
+Alexander roots and raw and averaged functions identically zero. Stabilization preserves
+both functions, including at roots, while it increases the chosen matrix's nullity at 1
+by two.
+
+Retain the integral algebraic regression `A=[[0,−1],[1,1]]`, `V=[[0₂,A],[Aᵀ−I₂,I₂]]`.
+Verify its skew form is standard symplectic, the first ℤ² summand is primitive
+Seifert-isotropic and `Δ_V=(t−1+t⁻¹)²`. At `ω=exp(iπ/3)` the Hermitian matrix is
+`[[0₂,A−ωI₂],[(A−ωI₂)*,I₂]]`; its inertia is (2 positive,1 negative,1 zero), so raw
+signature is +1, whereas both side values and its mean are zero. This is a matrix
+regression for singular isotropic forms, not a claimed slice-disk realization. Geometric
+realizations require the preceding producers.
+
+[Conway, §§2.1–2.4](https://arxiv.org/html/1903.04477v1#S2) records the raw/averaged
+distinction. The explicit knot surface-exterior and zero-surgery proof route is [Powell,
+§§3–5](https://arxiv.org/html/1605.06833v3#S3). Knot Theory p122 Problem78 supplies the
+finite-exceptional-set exercise; its determinant assertion requires the qualification at
+1 above.
+
+*Needs:* native `TauCeti.KnotTheory.TristramLevine.Basic`, `.Alexander`,
+`.SEquivalence`; `TauCeti.Analysis.Matrix.HermitianSignature`; Mathlib's finite
+Hermitian spectral theorem, polynomial roots and `Circle.exp`; the independent
+RealAlgebraicGeometry Layer 1 supplier above; 1.3, 1.5, Layer 2, 4.3, 4.4 and 6.1;
+[AlgebraicTopology Stage
+6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/50af6084a401dffe3db1e50dac46fe4bca36f4fd/TauCetiRoadmap/AlgebraicTopology/README.md#stage-6-cohomology-products-and-manifold-duality).
+
 ### 6.3 Mutation and the Conway knot
 
 Define Conway mutation: a Conway sphere meets `K` in four points and bounds a ball; cut the

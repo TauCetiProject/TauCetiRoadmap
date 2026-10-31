@@ -380,3 +380,44 @@ named-knot realization comparisons, which remain required roadmap targets. The
 all-prime-under8 completeness corollary uses the separate late small-knot classification
 after these early row results; fourteen is not a count of mirror-sensitive oriented
 types.
+
+<a id="signature-function-inputs"></a>
+## Problem78: finite exceptional set and the full-circle average
+
+*Knot Theory.pdf*, SHA256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical p122
+Problem78, asks for nonsingularity of `(1−ω)V+(1−ω⁻¹)Vᵀ` away from Alexander roots and
+deduces piecewise constancy. Its first statement needs `ω≠1`: a positive-sized H(1) is
+zero although normalized Δ(1)=1. The empty determinant is1. Its finite-jump wording must
+allow equal side values and an isolated raw exceptional value. The signature function is
+constant on the complementary open arcs of the finite candidate set `{1}∪{unit Alexander
+roots}`; it need not jump at every candidate.
+
+The determinant and raw S-equivalence results already exist in native
+`TauCeti.KnotTheory.TristramLevine.Alexander` and `.SEquivalence`. The reusable
+additional targets are nonsingular Hermitian inertia stability, angular side values and
+their integer mean, presentation/geometric descent, the slice-disk integral metabolizer,
+and the separate genus-h surface/intersection-form comparison. [Conway
+§§2.1–2.4](https://arxiv.org/html/1903.04477v1#S2) fixes the raw/averaged distinction.
+The knot specialization of [Powell §§3–5](https://arxiv.org/html/1605.06833v3#S3) fixes
+the surface-exterior, zero-surgery signature defect and twisted dimension proof.
+Rational-function matrices are evaluated only away from denominators and determinant
+roots; angular sides supply exceptional values, without claiming a field homomorphism
+ℚ(t)→ℂ at algebraic t.
+
+The exact algebraic regression is `A=[[0,−1],[1,1]]`, `V=[[0₂,A],[Aᵀ−I₂,I₂]]`. It has
+standard symplectic skew part, a primitive top-half Seifert-isotropic summand and
+normalized Alexander polynomial `(t−1+t⁻¹)²`. At `(1+i√3)/2` its off-diagonal Hermitian
+block `A−ωI₂` has rank1 and bottom block is I₂, giving inertia(2,1,1) by its Schur
+complement. Both nearby nonsingular signatures are0, but the raw root value is+1. This
+is a matrix test, not an identified slice knot. For the native trefoil, at that root H
+has determinant0 and trace−2, so raw signature−1; its side values0,−2 also average−1.
+That coincidence at a trefoil root is not a general root-value definition. Nullity at1
+belongs to a chosen matrix size, not a presentation-invariant knot nullity.
+
+Mathlib's finite Hermitian spectrum and native Hermitian signature are the carriers. A
+bounded local/API search and open Mathlib PR searches for Hermitian eigenvalues and
+eigenvalue continuity found no matching inertia-continuity theorem; PR42931 concerns
+simultaneous diagonalization/generalized eigenvalues. The producer develops the missing
+results using those carriers. This does not move work to Mathlib or require waiting for
+it.
