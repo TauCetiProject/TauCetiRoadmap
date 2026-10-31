@@ -4,7 +4,7 @@ import Mathlib
 **This file is not the roadmap and is not exhaustive.**
 These are suggested forms; the README is the definitive specification.
 
-Integer continuants for the Nakanishi–Bleiler diagrams. Primitive pairs retain
+Integer continuants for rational unknotting and Nakanishi–Bleiler diagrams. Primitive pairs retain
 zero and infinity; division in `ℚ` is not used to represent projective slopes.
 The geometric twist-box, crossing-switch and minimal-diagram classification
 comparisons are additional README targets. The `sorry` proofs are future targets.
@@ -22,7 +22,11 @@ def step (a : ℤ) : Matrix (Fin 2) (Fin 2) ℤ := !![a, 1; 1, 0]
 
 theorem continuant_eq_matrix_product (w : List ℤ) :
     continuant w = ((w.map step).prod 0 0, (w.map step).prod 1 0) := by
-  sorry
+  induction w with
+  | nil => simp [continuant]
+  | cons a w ih =>
+    simp [continuant, ih, List.map_cons, List.prod_cons,
+      step, Matrix.mul_apply, Fin.sum_univ_two]
 
 theorem continuant_primitive (w : List ℤ) :
     Int.gcd (continuant w).1 (continuant w).2 = 1 := by
@@ -63,6 +67,43 @@ theorem example_pairs :
 
 /-- The inverse-denominator test is for unoriented rational knots. -/
 theorem inverse_denominator : (5 * 6 : ZMod 29) = 1 := by
+  decide
+
+/-- Zeroing the middle two-twist box cancels the reverse-negated word.
+This matrix identity does not supply the geometric crossing-change comparison. -/
+theorem palindromic_zero_product (w : List ℤ) :
+    ((w ++ [0] ++ w.reverse.map (fun a => -a)).map step).prod = step 0 := by
+  induction w with
+  | nil => simp
+  | cons a w ih =>
+    calc
+      _ = step a * ((w ++ [0] ++ w.reverse.map (fun b => -b)).map step).prod *
+          step (-a) := by
+        simp [List.reverse_cons, List.map_append, List.prod_append, mul_assoc]
+      _ = step a * step 0 * step (-a) := by rw [ih]
+      _ = step 0 := by
+        ext i j
+        fin_cases i <;> fin_cases j <;>
+          simp [step, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- The switched rational normal form has primitive numerator one. -/
+theorem palindromic_zero_pair (a : ℤ) (w : List ℤ) :
+    continuant (a :: (w ++ [0] ++ w.reverse.map (fun b => -b))) = (1, 0) := by
+  rw [continuant_eq_matrix_product]
+  simp only [List.map_cons, List.prod_cons, palindromic_zero_product]
+  simp [step, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- The literal [4,4] model and the two-same-box / one-each-box switches. -/
+theorem eight_three_pairs :
+    continuant [4, 4] = (17, 4) ∧
+    continuant [0, 4] = (1, 4) ∧
+    continuant [2, 2] = (5, 2) := by
+  norm_num [continuant]
+
+/-- The lens-space parameter orbit of 2 excludes 4, including global reflection. -/
+theorem lens_seventeen_residues :
+    (2 * 9 : ZMod 17) = 1 ∧
+    (4 : ZMod 17) ∉ ({2, -2, 9, -9} : Finset (ZMod 17)) := by
   decide
 
 end TauCetiRoadmap.GeometricTopology.BleilerDiagram

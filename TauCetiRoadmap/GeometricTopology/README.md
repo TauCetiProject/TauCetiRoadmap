@@ -5768,6 +5768,23 @@ trick and Moser's classification applied to the lens space that is the double br
 cover: the reduction is this roadmap's target, and the criterion is a consequence of the
 stated theorem.
 
+**Independent CGLS proof prefix.** From a finite geometric knot-group presentation
+construct the SL₂(ℂ) representation variety, its finitely generated trace/character
+coordinate algebra and peripheral restriction. Build algebraic curves and their
+projective normalizations, the valuations at ideal points, actions on the associated
+trees and the dual essential surfaces. Prove the boundary-slope, norm and intersection
+estimates that give the cyclic-surgery distance bound, including the reducible-character
+branches and every non-Seifert knot exterior. Reuse finite-presentation, affine-algebra
+and tree APIs and build their missing trace/valuation/geometric comparisons here. The
+proof consumes 8.1–8.3's independent sphere/loop and essential-surface hierarchy,
+5.1–5.2 and 8.4's Seifert recognition, not hyperbolization, Whitten rigidity or a finite
+knot catalogue. The Moser prefix owns the marked torus-exterior/fibre-slope filling
+computation: for a finite lens filling choose its primitive representative a/b with a>0
+by simultaneous negation when necessary, and prove the marked comparison with L(a,b s²)
+in the fixed gluing orientation convention. Retain the |a−brs|=0 reducible case and the
+meridian separately. A character variety's mere existence is not the cyclic-surgery
+proof.
+
 **Checks.**
 - The granny knot has `u = 2` and is composite, consistent with Scharlemann's theorem;
   `u(8₃) = 2` and `8₃` is prime, so the converse fails.
@@ -5788,6 +5805,218 @@ stated theorem.
   as stated, together with Moser's classification excludes every `J`, so `u(8₃) = 2`.
 
 *Needs:* Layer 5.2, Layer 8.2, Layer 8.4 (Seifert fibred spaces), Layer 4.9, Layer 4.10.
+
+<a id="generalized-unknotting-prime"></a>
+
+### 5.4.1 Rational replacement and generalized unknotting
+
+Prove that no generalized crossing change on a composite tame knot produces the unknot.
+Here a generalized crossing change is ±1/n surgery, n≥1, on C=∂D for an embedded disc D
+meeting the knot twice with opposite signs. Use 5.1–5.2's actual compact exteriors,
+framed boundary tori and slopes, and 4.10's marked rational tangles. The
+rational-replacement distance is 2n; it is distinct from the slope distance n on the
+crossing-circle torus. These applications supply no premise to the earlier genus or
+prime theory.
+
+**Sutured and replacement proof supplier.** Build compact oriented sutured manifolds
+with their annular/toroidal sutures, oriented R₊/R₋ regions and product collars;
+properly embedded oriented decomposing and conditioned surfaces; relative isotopy,
+gluing and the boundary-compression API. Own the shared integral surface-minimum prefix:
+for a compact oriented N, minimize χ₋ over embedded oriented representatives of each
+class in H₂(N,∂N;ℤ). Construct representatives by duality, circle-valued maps and
+relative regular values, prove the minimum exists in ℕ and export orientation-compatible
+homeomorphism naturality. Refine and export this same prefix of Layer 10's Thurston-norm
+theory independently of its foliation, real-seminorm and polar consequences. Use the
+actual relative classes and boundary patterns to define sutured irreducibility and
+tautness; this is not a second norm construction. Include the arc version of tautness
+and the arc-to-suture conversion law. Construct taut conditioned representatives, the
+finite hierarchy with its decreasing complexity and terminal products, and the
+parameterizing-surface index estimates for attaching a 2-handle. A conditioned surface
+retains coherently oriented parallel essential boundary circles on toroidal sutures,
+coherently oriented essential arcs or parallel circles on annular sutures, and the
+relative-homology condition that no nonempty subcollection of its boundary circles in
+R(γ) represents zero in H₁(R(γ),∂R(γ);ℤ). Prove the actual norm/Euler/genus comparisons
+used for links, including disconnected surfaces and disc terms; connected knot surfaces
+give the ordinary genus from 4.3.4. These are combinatorial sutured manifolds, not an
+invocation of a taut foliation.
+
+For c components, total genus G and μ boundary curves, retain `χ=2c−2G−μ` and `χ₋=Σ_i
+max(2g_i+μ_i−2,0)`. Interior tubing preserves G and reduces χ by 2(c−1); it does not
+identify genus with sutured norm. In the link theorem below, minimum means 4.3's
+connected oriented Seifert minimum with the fixed oriented preferred longitude on every
+boundary component and no closed surface components. Export this as a derived form of
+Taylor's theorem only after proving the source conditioned/norm comparison. Arc-avoiding
+interior tubes compare the minimum total genus of possibly disconnected surfaces with
+the connected genus minimum; they do not prove a χ₋-minimum or tautness assertion. Keep
+the component and disc terms in the separate conditioned-surface argument. The
+knot/unknot application uses ordinary spanning discs.
+
+Begin with a common marked replacement ball B′, the same collared outside tangle, and
+two rational tangles rα,rβ in B′ with matching four endpoints. Construct its compatible
+genus-two handlebody W⊂S³ and the two trivializing discs α,β; prove the identifications
+with the rational-tangle constructors. Keep this rational-pair data: an arbitrary boring
+pair of handlebody discs is not a rational replacement merely because its boundary
+intersection is 2d. Set N=closure(S³ minus W), with a=∂α,b=∂β minimally and nontrivially
+intersecting. Define N[a],N[b] by the actual 2-handle attachments and identify the links
+Lα,Lβ as cores of the remaining solid torus/tori. Keep the co-core arcs ᾱ,β̄ distinct
+from the discs and boundary curves. The rational-tangle dictionary identifies
+`i(a,b)=2d` with replacement distance d. Prove Taylor's meridional planar-surface
+theorem: assume N irreducible, d≥1, either Lα is a knot or `∂W−∂α` is incompressible in
+N, and independently either Lα is split or no minimum-genus Seifert surface of Lα has
+interior disjoint from ᾱ. An essential properly embedded meridional planar surface with
+m boundary curves in the Lβ exterior can be replaced by such a surface Q with `|∂Q|≤m`
+and either Q disjoint from β̄ or `|Q∩β̄|(d−1)≤|∂Q|−2`. Prove the parameterizing-surface
+reductions, 2-handle index inequality, boundary compressions and rational-distance
+calculation giving this result; the nonseparating-disc condition does not replace its
+independent Seifert-surface hypothesis. Use the fixed [version-two statement, Theorem
+5.12](https://arxiv.org/html/0806.1572v2).
+
+**A marked reverse crossing model.** On the unknot U take the reverse crossing disc D
+and C=∂D, with slope μ+kλ, |k|=n, recovering K; λ is C's disc longitude. Construct the
+inverse peripheral dictionary: `μ*=μ+kλ`, `λ*=λ`, so the old meridian is `μ*−kλ*`.
+Adjoin the radial longitude annulus in the filling solid torus to the punctured disc to
+identify the reverse crossing disc, its strand markings and framing. A homeomorphism of
+the unmarked filled S³ alone is insufficient.
+
+Choose η⊂D joining its two U-punctures and W=ν(U∪η). Its central-rung co-core m_U cuts W
+to the actual ν(U). Prove N irreducible by Schoenflies: connected W lies on one side of
+every sphere disjoint from W, so the other ball misses W. Choose a thin subdisc P⊂D
+around η compatibly with W. The opposite puncture signs and one-component U force the
+outside strand pairing top-to-top and bottom-to-bottom; thus its proper middle disc P_W
+separates W into two solid tori. For γ=∂P_W prove `i(m_U,γ)=2`: the displayed
+representatives give two intersections, the homology class of m_U has nonzero projection
+to both once-punctured-torus summands of ∂W−γ, and separating-curve parity gives the
+lower bound.
+
+Construct B′=ν(P) as the common marked replacement ball, identify its U strands and
+k-twisted K strands with rational tangles, and retain the same outside tangle with its
+four collared endpoints. Construct the signed k-fold proper-disc twist on W. The same
+cut/rotation/regluing map inserts the marked full twists, takes the U core to K and its
+meridian to `m_K=T_γ^k(m_U)`. Identify N[m_U],N[m_K] with the actual U,K exteriors.
+Prove the annular twist/no-bigon formula `i(m_U,m_K)=|k|i(m_U,γ)²=4n`, giving rational
+distance 2n. Here ᾱ is this chosen U-side η, not an arbitrary tunnel with its
+endpoints.
+
+**The spanning-disc dichotomy.** If U has a spanning disc E disjoint from int η, make
+E,D transverse in their endpoint collars. Compact separation away from the endpoints
+lets P be narrowed so C₀=∂P meets E exactly twice. The annulus D−int P avoids U and
+isotopes C to C₀ preserving disc framing; this isotopy need not fix E, and at its end
+use the original E spanning U. The two signs are opposite since `lk(C₀,U)=D·U=0`. Remove
+the two small discs in E and attach an oriented tube along a C₀ subarc with interior
+disjoint from E. The resulting embedded surface has boundary U, χ=−1 and lies in the
+surgery exterior. It survives the coefficient 1/k filling to span K, so g(K)≤1. Ordinary
+genus additivity and positivity give g(K)≥2 for a composite nontrivial K. Supply all
+collar, framing, annulus, tube and filling comparisons. E restricts in the unknot
+exterior to a proper disc bounded by the preferred longitude, not the meridian.
+
+Otherwise every minimum-genus surface of U is a spanning disc meeting η. The actual
+marked model therefore meets the independent hypotheses of the planar-surface theorem. A
+composite K has an essential meridional annulus; its replacement has at most two
+boundary curves. Exclude an essential sphere by the actual knot-exterior irreducibility
+theorem, and an essential meridional disc by its nonzero meridian class in H₁ (also
+compatible with the nontrivial-knot boundary-compression criterion). Thus Q is an
+essential meridional annulus. With d=2n≥2, the inequality forces zero β̄ intersections.
+Track this annulus and its capped decomposing sphere through the local replacement: one
+nontrivial summand is unchanged, contradicting the unknot output. This proves the
+generalized theorem and `u(K)=1⇒K prime`. For u(K)=u(J)=1 the separate two-change upper
+certificate and primeness obstruction give u(K#J)=2.
+
+*Needs:* 4.3.4 ordinary genus, 4.9 prime/decomposing spheres, 4.10 relative rational
+tangles, 5.1–5.2 marked exteriors/fillings, 8.1–8.2 sphere/loop and essential-surface
+theory and 11.2's independent relative PL/smooth comparison. The sutured norm/hierarchy
+and replacement comparison are owned here; no hyperbolization, closed rigidity or finite
+catalogue is a premise. This refines 5.4's existing sutured proof owner.
+
+<a id="two-bridge-unknotting-criterion"></a>
+
+### 5.4.2 Two-bridge unknotting and the eight-crossing example
+
+**Native lens models and their full homeomorphism test.** For p≥1 and coprime p,q
+compare 5.2's gluing model L(p,q) with native `TauCeti.LensSpace p ℓ` in dimension
+three, with weights `ℓ=![1,q_unit]:Fin 2→(ZMod p)ˣ`. Pin the covering/deck generator and
+the orientation comparison, rather than replacing the native quotient with a private
+lens carrier. Reuse its analytic manifold and fundamental-group APIs. Supply the marked
+solid-torus decomposition, finite CW structure and gluing comparison. In the cellular
+chain complex of the cyclic cover, choose the convention `d₁=t−1`,
+`d₂=Σ_(j=0)^(p−1)t^j`, `d₃=t^r−1`, where rq≡1 mod p, and prove this convention matches
+the chosen quotient.
+
+Build based finite acyclic twisted-chain torsion, basis-change and simple-subdivision
+invariance, and its comparison under the independent relative PL/smooth triangulations.
+For every nontrivial character t↦ζ of C_p, including nonprimitive characters for
+composite p, compute the torsion class `((ζ−1)(ζ^r−1))⁻¹` with its ±ζ^h ambiguity. Prove
+the Franz independence lemma and use the complete character/deck-generator comparison to
+obtain the necessary congruences. Construct coordinate/solid-torus maps for sufficiency.
+Thus, for positive p and units q,q′, prove the unoriented homeomorphism criterion
+`L(p,q)≅L(p,q′) iff q′≡±q^(±1) mod p`, with orientation-preserving comparison and the
+p=1 sphere case stated separately. The p=0 gluing gives S¹×S² and does not use a free
+finite-group quotient. This finite lens-classification prefix owns its torsion proof; it
+assumes no global geometrization or classification of branched-cover involutions.
+
+**Montesinos and the precise criterion.** Construct the double cover of a marked
+rational tangle branched along its two strands as a solid torus. Compute the boundary
+marking and prove that replacement distance is the intersection distance of its two
+lifted meridian slopes. Glue these local covers to the fixed outside cover. The unknot
+cover is S³; a single crossing change lifts to distance-two filling on the actual
+exterior of a knot J in S³. Its filled first homology and the determinant comparison
+give the surgery coefficient ±d/2, d=det K. Prove each cover, marking, deck and filling
+comparison, including `Σ₂(S(p,q))≅L(p,q)` for 4.10's actual rational knot. The choice of
+sign and knot orientation remains explicit.
+
+For every nontrivial rational knot S(p,q), with odd p>1, gcd(p,q)=1, prove the
+Kanenobu–Murakami equivalence
+
+```text
+u(S(p,q))=1
+  iff ∃ m,n>0, gcd(m,n)=1, (2mn=p−1 or 2mn=p+1),
+       q≡±(2n²)^(±1) mod p.
+```
+
+Here inversion is in `(ZMod p)ˣ`. Prove 2n² is a unit from the parameter conditions. The
+four residues encode the unoriented Schubert comparison allowing a global mirror; u is
+invariant under that mirror. The unknot p=1 is a separate u=0 branch. For necessity,
+combine the actual ±p/2 Montesinos filling with 5.4's cyclic-surgery theorem. Handle the
+nontrivial torus-knot and unknot J branches separately; Moser's computation gives
+L(p,2n²) with 2mn=p±1. Apply the lens homeomorphism test, then the independent Schubert
+theorem to return to knots. An unmarked cover homeomorphism alone is not a
+branch-preserving equivalence.
+
+For sufficiency construct the complete Conway family `[a,a₁,…,a_k,±2,−a_k,…,−a₁]` in the
+right-nested convention of 4.10.3, including k=0. Given m,n, use a signed Euclidean
+expansion of n/t with m=an+t, 0<|t|<n for n>1; treat n=1 separately. Use the actual
+integer matrices `M(x)=[[x,1],[1,0]]` to compute the primitive fraction, the middle sign
+and any simultaneous numerator/denominator negation giving `(p,2n²)`. Switching one of
+the two middle crossings changes that entry to 0 after Reidemeister II. Prove
+`M(a)·M(w)·M(0)·M(−reverse(w))=M(a)·M(0)`, whose first column is (1,0), and supply the
+relative tangle isotopies and numerator-closure comparison. This gives an actual
+one-change unknotting certificate; p>1 excludes u=0. Conversely prove every nontrivial
+knot represented by this signed palindromic family has u=1, retaining zero and infinite
+intermediate slopes through the primitive-pair convention. Export the full Conway-form
+equivalence. See [Kanenobu–Murakami, Theorem 1](https://doi.org/10.2307/2046210).
+
+**The source's 8₃ example.** Construct the marked rational diagram [4,4], with primitive
+pair (17,4), and its table/source comparison. Its double branched cover is L(17,4). If
+u=1, the Montesinos lift gives ±17/2 surgery on J. The meridian and that filling have
+cyclic groups at distance 2, so CGLS excludes non-Seifert J. In the nontrivial torus
+case `|±17−2rs|=1` forces |rs|=8 or 9; neither product has coprime factors of absolute
+values ≥2. For the unknot case the filling is L(17,±2); its full unoriented parameter
+orbit is {2,15,9,8}, which excludes 4. Thus u≥2.
+
+For the upper bound number the four crossings in the first box in their twist-word
+order. Switch the second and fourth: the word becomes σσ⁻¹σσ⁻¹, and two Reidemeister-II
+cancellations give [0,4], primitive pair (1,4), an unknot. Carry the crossing
+identifications through the signed Conway/PD and spatial realization dictionaries.
+Conclude u(8₃)=2. Switching one crossing in each box instead gives [2,2], primitive pair
+(5,2), the figure-eight; that pair of switches is not an upper certificate. Every
+diagram, cover, slope and filling identity is a separate required comparison, rather
+than a consequence of the label 8₃ or determinant 17.
+
+*Needs:* 4.2 realized diagrams, 4.4 determinant/branched-cover homology, 4.10 Schubert
+classification, 4.10.3's integral continuants, 5.1–5.2, 5.4's CGLS/Moser prefix, the
+native lens quotient and slope APIs, AlgebraicTopology's finite cellular chains/covers
+and 11.2's independent triangulation comparison. The finite torsion, lens classification
+and Montesinos dictionaries are built here. This supplies no premise back to early
+rational-tangle classification or the genus/prime constructions.
 
 ### Examples
 
@@ -8044,7 +8273,8 @@ foliation pulls back to a taut foliation under finite covers.
   that is not finitely covered by `S² × S¹` is `ℝ³` (Palmeira, *Open manifolds foliated by
   planes*, Ann. of Math. 108 (1978), 109–131; Calegari, Theorem 4.38).
 - The leaves of a taut foliation realize the Thurston norm of their homology class
-  (Thurston); the norm itself is Part II.
+  (Thurston); 5.4.1 exports the shared integral surface-minimum prefix
+  independently of the foliation applications.
 
 **Checks.**
 - `S³` is simply connected, so a taut foliation of `S³` would have simply connected leaves and
