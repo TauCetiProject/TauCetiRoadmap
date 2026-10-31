@@ -1388,6 +1388,102 @@ do not identify a historical table label.
 closure comparison; Layers4.1–4.2 for the fixed
 mirror, realized plane diagrams and relative Reidemeister certificates.
 
+<a id="braid-exercise-29"></a>
+### 4.2.3 Finite braid drawings and closure identification
+
+Give the following explicit word-to-diagram and closure certificates for
+problem29 of *Knot Theory – problems*, physical page5, and its answers on
+*Knot Theory*, physical page208. The displayed σ indices are one-based;
+native `BraidGroup n` and `BraidWord n` use generator index i−1. Keep the
+native bottom-to-top word order and the actual crossing orientations in
+every drawing comparison. Use the common realized-diagram and Markov
+construction of4.2, rather than a second braid or knot carrier. Its generic
+realization/Markov theory is independent of these examples. Construct the
+finite word identities and permutation counts first. The named-table,
+torus-model and polynomial comparisons below are downstream verification
+targets after4.4–4.5,4.10.2 and4.11 supply their respective constructions;
+none is a premise for that earlier theory.
+
+**Five strands and distant commutation.** Draw and realize the actual word
+`w=σ₁σ₂σ₃σ₂⁻¹σ₄σ₁⁻¹` in B₅. Exhibit its five labeled strands,
+six crossings, and native PD closure. Apply σ₂⁻¹σ₄=σ₄σ₂⁻¹ in its
+actual local word context. Prove
+`w=(σ₁σ₂)(σ₃σ₄)(σ₁σ₂)⁻¹`.
+Its strand permutation has one three-cycle and two fixed points. Give
+the conjugation and two positive Markov destabilizations from σ₃σ₄
+in B₅ to the identity in B₃, so its closure is the three-component
+unlink. Retain the separated circles and orientations in the realized
+certificate. An expression using σ₄ is not a braid on four strands.
+
+**The four-strand stevedore example.** On B₄ construct
+`z=(σ₁⁻¹σ₂σ₃⁻¹)²σ₃³`, with its nine-letter native signed word.
+Prove its permutation is a four-cycle and its closure has one component.
+After [4.10.2](#stevedore-pretzel-label-separation), let S be its Atlas
+stevedore representative with signed DT row `(4,8,12,10,2,6)` and
+Jones polynomial `V_S=t²−t+2−2t⁻¹+t⁻²−t⁻³+t⁻⁴` in4.5's
+positive-trefoil normalization. Pin this handedness in the actual
+Atlas/native slot dictionary. Give explicit relative Reidemeister/Markov
+moves identifying closure z with the fixed geometric mirror of S, with
+the corresponding knot orientation. Compute
+`V_z=t⁻²−t⁻¹+2−2t+t²−t³+t⁴=V_S(t⁻¹)` from the native closure,
+and prove it differs from V_S. Thus the source's unqualified6₁ answer
+uses a mirror-insensitive label; do not silently identify the two chiral
+representatives. Compute the normalized Alexander polynomial
+`−2t+5−2t⁻¹` and determinant9 through4.4's geometric Burau/Fox
+comparison, and compare the two-bridge9/5 model with the fixed reflection
+where required. These equal Alexander data do not identify handedness
+or replace the geometric certificate. The nine-crossing braid diagram
+is not asserted minimal; the comparison gives a six-crossing diagram.
+The Atlas polynomial and DT data are in [its6₁ entry](https://katlas.org/wiki/6_1).
+
+**The two proposed answers for6₃.** On B₃ write a=σ₁, b=σ₂ and set
+
+```text
+u=a⁻² b⁻² a⁻¹ b⁻¹,
+v=b⁻² a b⁻¹ a².
+```
+
+Both permutations are three-cycles. For v, conjugation by Δ=aba
+interchanges a and b and gives `a⁻² b a⁻¹ b²`, the signed braid row
+`(−1,−1,2,−1,2,2)` in the [Knot Atlas6₃ data](https://katlas.org/wiki/6_3).
+Construct the native signed-word, PD and realized-closure comparison to
+that table entry, with signed DT row `(4,8,10,2,12,6)`. Its Atlas PD
+quartets are `(4,2,5,1),(8,4,9,3),(12,9,1,10),(10,5,11,6),
+(6,11,7,12),(2,8,3,7)`; export the actual slot/orientation adapter to
+the native code rather than copying an external X convention unchanged.
+This supplies the named-knot identification, independently of polynomial
+coincidence. Prove from the native closures, in4.5's normalization,
+
+```text
+V(closure u;t) = t⁻²+t⁻⁴−t⁻⁵+t⁻⁶−t⁻⁷,
+V(closure v;t) = −t⁻³+2t⁻²−2t⁻¹+3−2t+2t²−t³.
+```
+
+Their determinants are respectively5 and13, using the knot-only
+Jones/Alexander value comparison at t=−1. Thus u is not a valid answer
+for6₃. Preserve the literal claim that both words are correct and the
+old transcript's missing minus in [the source note](source-inputs.md#braid29-source).
+Do not replace the source's first word by a guessed correction or infer
+a named knot from the polynomial of u alone. In native Jones Laurent
+polynomials T=t^(1/2), double every displayed exponent.
+
+**Cyclic braid closures.** For n≥1 and m∈Z, prove that
+`(σ₁⋯σ_(n−1))^m` has exactly gcd(n,|m|) closure components, by the
+orbits of its native strand permutation. Therefore it is a knot iff
+that gcd is1. Supply the actual component indexing and compare with
+4.11's realized torus links, retaining orientations and signed m.
+For m=0 there are n components; for n=1 the empty generator product
+has one component for every m. No σ with an invalid index or a zero-
+strand Markov knot is introduced.
+
+*Needs:* native braid generators, distant/adjacent Artin relations,
+`BraidWord.toBraid`, `BraidWord.closure`, `permHom` and component counts;
+Layer4.2's realized Markov/Reidemeister comparison. After this generic
+floor, the downstream verification targets consume Layers4.4–4.5 for
+normalized polynomials and4.10.2/4.11 for the same stevedore/torus models.
+The named-knot identifications, geometric torus comparison and invariant
+checks do not feed the earlier finite algebra or the construction of4.2.
+
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
 For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic
