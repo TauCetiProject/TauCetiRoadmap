@@ -6897,6 +6897,29 @@ predicate on `C^k` structures with `k ≥ 1`; by Layer 11.2 it costs no generali
 two-sidedness is automatic for a sphere in an orientable manifold. Its proof is a target of
 this layer.
 
+**Meridian uniqueness and actual filling extensions.** Prove the full Gordon–Luecke
+filling statement: for every nontrivial tame knot K in `S³` and every slope r on its
+compact exterior, `X_K(r)≅S³` implies `r=μ_K`. The meridian filling supplies the
+converse. This theorem has no prime restriction. Own its nonmeridional-filling
+exclusion: construct the actual punctured planar surfaces, filling caps and oriented
+intersection graphs of the surgery proof, prove the parity, parallel-edge and
+Scharlemann-cycle arguments with their precise hypotheses, and discharge the torus,
+cable and remaining satellite cases. The filling and slope comparisons come from 5.2;
+justified 5.4 surgery lemmas can be consumed. The cyclic-surgery distance bound alone
+does not exclude every nonmeridional `S³` filling and is not this proof.
+
+For nontrivial K,J and an actual exterior homeomorphism `h:X_K≃ₜX_J`, transport the
+meridian filling to obtain `X_J(h_*μ_K)≅S³`; apply uniqueness on J to prove
+`h_*μ_K=μ_J`. Use the marked solid-torus extension of 5.2, adjusting boundary collars
+before literal gluing, to extend THIS h over the filled manifolds and carry one core
+knot onto the other. Prove its orientation and core-parametrization laws. A separate
+existential ambient equivalence would not already extend a prescribed exterior map.
+Treat solid-torus/unknot inputs separately: the unknot admits other `S³` fillings, so
+the nontriviality hypothesis cannot be removed. This proof and its extension theorem are
+independent of 8.5.2's group rigidity and all bounded classification outputs. Reference:
+[Gordon–Luecke, *Knots are determined by their complements*, J. Amer. Math. Soc. 2
+(1989), 371–415](https://doi.org/10.1090/S0894-0347-1989-0965210-7).
+
 **Checks.**
 - The unknot has group `ℤ` and is the unknot; the trefoil has group `⟨x, y | xyx = yxy⟩`, which
   is not abelian, so Dehn's lemma does not apply, consistent with the trefoil being knotted.
@@ -6999,6 +7022,78 @@ Its proof is a target of this layer.
 `TauCeti.IsPossiblyNonorientableHakenThreeManifold`,
 `TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold`, `TauCeti.Orientable`; Layer 8.2,
 Layer 11.2.
+
+<a id="relative-haken-rigidity"></a>
+### 8.3.1 Compact Haken manifolds and relative rigidity
+
+Build the compact-boundary counterpart of 8.3's closed Waldhausen theorem. Its proof is
+a topological supplier for prime-knot groups and the later marked geometric
+applications; it does not assume hyperbolization or a finite knot catalogue.
+
+1. **Collared cores and hierarchies.** Work with actual compact connected orientable
+   irreducible sufficiently large 3-manifolds with collared, incompressible nonempty
+   boundary and no spherical boundary components. Incompressibility is native
+   `TauCeti.IsIncompressible`; retain the actual properly embedded two-sided essential
+   surfaces witnessing the Haken condition. Use 11.2's relative triangulations to give
+   finite CW models with boundary subcomplexes, and extend 8.1's sphere/loop and
+   covering arguments to these collared manifolds. Prove asphericity of these cores and
+   of their nonspherical boundary components.
+
+   Construct finite essential-surface hierarchies, with all boundary patterns created by
+   cutting, collars, product regions and inverse gluing maps. Prove the normalization
+   and well-founded complexity reduction to balls and product pieces. A cut piece need
+   not retain incompressibility of its entire new boundary; track the pattern and
+   appropriate essentiality conditions rather than assuming it does. The normal-surface
+   and annulus theory here supplies the topological prefix of 8.5.1; its metric
+   certificates and finite decision applications are not premises of this hierarchy
+   construction.
+
+2. **Relative Waldhausen realization.** For such M,N and a homotopy equivalence `f:M→N`
+   whose restriction is a prescribed homeomorphism `b:∂M≃ₜ∂N` of the ENTIRE boundary,
+   construct `h:M≃ₜN` with `h|∂M=b` and a homotopy from f to h relative to that
+   boundary. Prove collar straightening, the hierarchy induction, compatibility of the
+   induced cutting-surface maps, removal of product-region discrepancies and literal
+   gluing after collar adjustment. Keep a prescribed boundary pattern when its maps and
+   homotopies satisfy these same conditions. Export inverse/composition and
+   change-of-collar comparisons.
+
+   Include product and twisted I-bundle cases; they are not deleted by a caveat from a
+   weaker boundary-into-boundary theorem. In particular retain `T²×I` and the orientable
+   twisted I-bundle over the Klein bottle. A compatible smooth/PL realization
+   additionally uses 11.2's relative pair comparison; no stronger smooth conclusion
+   follows just by renaming the homeomorphism.
+
+3. **From peripheral group systems to maps of pairs.** For torus-boundary inputs, choose
+   a basepoint, a basepoint on every boundary component, and paths defining its
+   inclusion subgroup `P_i≤π₁(M)`. Retain the INDEXED boundary system, not just a set of
+   subgroup conjugacy classes. Given a group isomorphism φ, a boundary-component
+   bijection σ and conjugators with `φ(P_i)=g_i Q_(σ i) g_i⁻¹`, construct the
+   restriction isomorphisms on boundary groups and their `GL₂(ℤ)` matrices. Realize
+   these matrices by actual torus homeomorphisms b_i, with the basepoint paths and
+   orientation signs explicitly compared.
+
+   Construct the core map realizing φ by cellular extension into the aspherical target;
+   build its inverse from φ⁻¹ and prove the homotopies by the same cellular obstruction
+   argument. Prove the boundary maps are homotopic to its restrictions using the
+   conjugator paths. Relative homotopy extension and collars then give a homotopy
+   equivalence of pairs with boundary exactly the disjoint union of b_i. Apply item 2 to
+   produce the compact homeomorphism inducing φ after the stated basepoint transport.
+   Prove naturality under basepoint/path changes. This is the missing
+   group-to-map-to-homeomorphism bridge; a peripheral subgroup equation alone is not
+   already a map of manifolds.
+
+   For `T²×I` the two boundary subgroup images both equal the whole fundamental group.
+   This verifies why the boundary-component bijection and multiplicity cannot be
+   forgotten. Unrestricted orientation is permitted; an orientation-preserving output
+   requires the compatible relative orientation/degree data in this construction.
+
+*Needs:* 8.1–8.2 and 8.3's Haken/normal-surface prefix, independently of its closed
+rigidity conclusion; 11.1–11.2 for finite relative CW/PL models; collars, gluing and
+supported isotopy from Layers 1–3; native fundamental groups, basepoint-path
+equivalences, higher homotopy and homotopy extension; SurfaceTopology's compact-surface
+classification and torus mapping classes. The characteristic-submanifold extension of
+8.5–8.5.1, closed hyperbolization, complete metric certificates and table outputs
+consume this hierarchy and relative-rigidity prefix and supply no premise back to it.
 
 ### 8.4 Seifert fibred spaces
 
@@ -7176,6 +7271,111 @@ nonequivalence proof on failure:
 isotopy classification; integer matrices and unimodular Smith normal form.
 The relative JSJ proof prefix is independent of 8.7; the comparison procedure
 consumes the explicit piece certificates, not the truth of any desired count.
+
+<a id="gt8-prime-knot-group-rigidity"></a>
+### 8.5.2 Prime-knot groups and exterior rigidity
+
+Prove the full prime-exterior statement in Knot Theory physical p. 182: for nontrivial
+prime tame knots `K,J⊂S³`, an abstract group isomorphism `π₁(X_K)≃*π₁(X_J)` implies
+existence of a homeomorphism of their actual COMPACT exteriors. Here `X_K=S³\int ν(K)`,
+with its boundary torus and collar; no orientation or meridian marking is imposed on the
+output. The prime predicate is 4.9's nontrivial connected-sum primeness. Use the
+existing native `SmoothCircleEmbedding`, `KnotGroup` and the actual exterior
+construction of 5.1; do not replace knots by their presentations.
+
+**Topological and peripheral preparation.** Prove independence of the
+tubular-neighborhood choices and the compact-exterior/open-complement homotopy
+comparison, including basepoints and peripheral subgroups. For a nontrivial knot prove
+irreducibility, boundary incompressibility and the Haken hypotheses for 8.3.1. A minimum
+Seifert surface gives the proper essential surface after trimming its boundary collar;
+use 8.1's loop theorem to upgrade 4.3.4's geometric disc-incompressibility to native
+π₁-injectivity. None of these arguments uses the prime rigidity conclusion.
+
+Write P_K for the image of `π₁(∂X_K)` in `π₁(X_K)`, with a path to the chosen basepoint.
+Prove Whitten's peripheral-recovery lemma: from the given abstract isomorphism construct
+SOME isomorphism ψ and a conjugator g with `ψ(P_K)=g P_J g⁻¹`. The chosen ψ may differ
+from the input isomorphism. Own this lemma's group/characteristic-submanifold proof;
+homeomorphism-natural JSJ alone does not compare arbitrary group isomorphisms, and the
+closed Waldhausen theorem does not supply it.
+
+**Full recovery proof, including cables.** Build the algebraic comparison of the actual
+annulus/torus splittings with their injective vertex/edge groups and gluing
+homomorphisms, using van Kampen and the normal forms for amalgams/HNN extensions.
+Construct the characteristic annulus and Seifert/I-bundle data and the isomorphism
+comparison needed to recover an external peripheral system. Consume 8.5–8.5.1's
+independent compact topological prefix; its finite decision procedure on supplied
+geometric piece certificates is a different application and cannot prove this universal
+statement.
+
+- Prove the center criterion for nontrivial knot groups and the torus branch: a
+  nontrivial center characterizes torus knots. From `⟨u,v | u^p=v^q⟩`, recover the
+  center and quotient `C_|p| * C_|q|`, and hence the unordered coprime multiplicities
+  `|p|,|q|≥2`. Compare with 4.11's actual torus models, allowing the global mirror, and
+  obtain the peripheral-system isomorphism in this branch.
+
+- For the annulus-free branch, prove the group/peripheral recognition and realization
+  argument with the full characteristic-submanifold hypotheses. An arbitrary maximal
+  rank-two abelian subgroup need not be the outer peripheral subgroup of a satellite
+  exterior.
+
+- Prove the essential-annulus classification at the outer boundary: an essential annulus
+  gives a nontrivial connected sum or a cable structure, including a torus knot as a
+  cable of the unknot. Primeness excludes the first possibility at the OUTER boundary.
+  Treat every cable winding number, including the two-strand case; prove the actual
+  annulus, slope and Dehn-filling comparisons resolving peripheral ambiguity there. When
+  using 5.4's cyclic-surgery theorem, establish its non-Seifert hypotheses and the
+  precise cyclic fillings and slope distance; treat Seifert/torus companions by their
+  separate models. No unproved universal property-P assumption is introduced.
+
+- Retain arbitrary satellite characteristic pieces and their gluing. A prime
+  cable/satellite may have a COMPOSITE companion. Internal composing/keychain Seifert
+  pieces are therefore retained, and the argument must not require every companion
+  exterior to be prime. Prove the needed finite hierarchy/characteristic decomposition
+  comparisons and the reconstruction of the outer peripheral system. Hyperbolic Mostow
+  rigidity alone does not cover these cases.
+
+Apply 8.3.1's group/peripheral-system realization to ψ to obtain the compact exterior
+homeomorphism. This proves existence of a suitable homeomorphism; it does not assert
+that every original group isomorphism realizes a chosen peripheral marking. Carry the
+actual chosen map and its basepoint comparison into the next step.
+
+**Knot equivalence and sharp scope.** Apply 8.1's independent Gordon–Luecke
+nonmeridional-`S³`-filling exclusion to the chosen exterior homeomorphism: filling its
+image of the source meridian gives `S³`, so that image is the target meridian slope. Its
+actual-map extension theorem then extends this homeomorphism over the meridional
+solid-torus fillings. Thus K and J are carried onto one another by an ambient
+homeomorphism allowing reflection and knot orientation reversal. Conversely an ambient
+knot homeomorphism gives the abstract group isomorphism. Keep this equivalence in the
+same coarse quotient as 8.7; no finite list of quotient groups is asserted complete.
+
+**Checks.**
+
+- The unknot has group ℤ and solid-torus exterior. Treat it using 8.1's unknot
+  criterion, separately from nontrivial prime objects.
+
+- A trefoil and its mirror have isomorphic groups via reflection but opposite nonzero
+  signatures. Prime rigidity does not identify them in the orientation-preserving
+  quotient. Derive any smooth ambient isotopy comparison only with 11.2 and 3.4's
+  category/Cerf bridges.
+
+- Construct the explicit meridional amalgam presentations of the granny and square
+  knots, both abstractly `⟨a,b,c | aba=bab, aca=cac⟩`, and their isomorphism. Their
+  signatures have absolute values 4 and 0, so they are inequivalent even after global
+  reflection; Gordon–Luecke therefore gives nonhomeomorphic exteriors. These actual
+  composite examples show why primeness cannot be dropped.
+
+References: [Whitten, *Knot complements and groups*, Topology 26 (1987),
+41–44](https://doi.org/10.1016/0040-9383(87)90019-X), and [Friedl, *Topology*, Theorem
+16.11 and footnote
+115](https://friedl.app.uni-regensburg.de/papers/2024_knot-theory-final.pdf) for the
+compact-exterior formulation; Lemma 7.3 there records the separate meridian/longitude
+orientation laws.
+
+*Needs:* 4.1, 4.3.4, 4.4, 4.9, 4.11; 5.1–5.2 and 5.4; 6.2; 8.1–8.5.1 and 11.2, with the
+relative Haken/peripheral realization of 8.3.1 and independent
+characteristic-submanifold proof prefix. No general geometrization, closed
+hyperbolization, finite metric-certificate table or knot-count theorem is a premise of
+this universal rigidity proof.
 
 ### 8.6 Geometrization and the Poincaré conjecture
 
