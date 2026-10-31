@@ -3966,6 +3966,96 @@ classification and bridge presentation); native `FreeGroup`,
 The explicit rational-group elimination, finite table-code comparisons,
 marked surfaces and their pairings are built here.
 
+<a id="bleiler-minimal-diagrams"></a>
+### 4.10.3 Diagram unknotting numbers and the Nakanishi–Bleiler example
+
+For a realized knot diagram D, define its diagram unknotting number u_D as
+`min{|S| : S is a subset of its crossings and switching S gives an unknot}`.
+Construct the switched native PD code and its spatial realization, with the
+crossing bijection, orientations and unchanged component traversal. Prove
+switching the empty set is the identity, switching twice is symmetric
+difference, and switching commutes with reindexing, planar equivalence and
+mirror. A descending-diagram certificate proves the minimum exists.
+Export `u(K)≤u_D≤c(D)` and `u(K)=min_D u_D` for diagrams realizing K,
+using the finite-movie definition of u from the numerical-invariant stage.
+The movie-to-one-diagram comparison must carry each crossing change through
+the intervening isotopies; it is not part of the definition of u_D.
+
+**Explicit rational diagrams.** Here `[a₀,…,a_r]` means the right-nested
+fraction `a₀+1/(a₁+…+1/a_r)` and its realized twist-box numerator closure.
+Translate explicitly from any reversed Conway-word convention used by the
+rational constructors. Retain intermediate zero and infinity: compute the
+primitive integer pair by `P([])=(1,0)` and
+`P(a::w)=(a p+q,p)` when `P(w)=(p,q)`. This is the first column of the
+ordered product of the integral matrices `[[a,1],[1,0]]`; prove primitivity,
+nonvanishing and the projective-slope comparison. A rational numerator
+closure is an unknot exactly when `|p|=1`, including `(p,q)=(1,0)`;
+`p=0` gives the two-component unlink and is a separate branch.
+
+Construct the reduced alternating ten-crossing diagram
+`D=[5,1,4]`, with fraction 29/5, and identify its unoriented knot K with
+10₈, recording the ambient mirror convention in the table comparison.
+For any subset S of its crossings let k₀,k₁,k₂ count the switches in the
+three twist boxes. Give explicit Reidemeister-II cancellations and relative
+tangle isotopies identifying the switched closure with
+`[5−2k₀,1−2k₁,4−2k₂]`. For `|S|≤2`, the nine possible count triples
+have absolute primitive numerators in `{3,5,9,11,17,19,29}`. Prove all
+nine calculations and the geometric reduction for every subset, rather than
+checking only adjacent switches. None is an unknot. Switching one crossing
+in each box gives `[3,−1,2]` with pair `(−1,−1)`, hence `u_D=3`.
+
+Construct the fourteen-crossing diagram
+`E=[4,2,−2,2,−2,2]`, with pair `(29,6)`. Since `5·6≡1 mod 29`, the
+rational-knot classification identifies its closure with K by an ambient
+orientation-preserving equivalence; supply that equivalence with the knot
+orientation forgotten. Switch one crossing in box 2 and one in box 4,
+numbering boxes from 1. The same local cancellation construction gives
+`[4,0,−2,0,−2,2]`, with pair `(1,2)`, and a realized unknot certificate.
+Thus `u(K)≤2`. Compute `|σ(K)|=4` from an actual marked Seifert surface
+and its push-off pairings, using the native real matrix signature.
+The classical signature bound of the concordance-signature stage gives
+`u(K)≥2`; no surgery or unknotting-number-one classification is a premise.
+Export `c(K)=10`, `u(K)=2`, `u_D=3` and `u_E=2`.
+
+**Every minimal diagram.** Prove `u_F≥3` for every diagram F of K with
+exactly 10 crossings. Construct a finite list of marked ten-crossing
+plane-diagram representatives and a complete classification certificate:
+every realized ten-crossing diagram of K is related to a listed one by
+planar equivalence, crossing reindexing and knot-orientation reversal.
+Build the finite plane-map enumeration from the realized-code stage,
+with its planarity/completeness proof; reject other candidates by certified
+invariants or give the required ambient equivalence. For each retained
+representative, certify every subset of at most two crossing switches is
+nontrivial, and transport these certificates along the marked equivalences.
+This finite classification is a target here, not a premise imported from an
+uncertified knot table. A classification only up to flypes requires an explicit marked
+crossing-set transport theorem; the finite classification here instead
+uses planar equivalence and reindexing. Conclude that no minimal-crossing diagram realizes u(K), without
+claiming all knots' minimal diagrams have the same diagram unknotting number.
+
+**Checks.** The empty-circle diagram has u_D=0. The standard three-crossing
+trefoil diagram has u_D=u(K)=1. The minimal-example switch counts
+`(0,1,1)` give numerator −3, while `(1,1,1)` gives −1. The alternative
+word E has 14 crossings, not 10; its switched zero boxes must not be
+discarded before projective evaluation. The unmodified pair `(29,6)` has
+coprime coordinates and the same inverse-denominator knot as `(29,5)`.
+
+*Needs:* realized diagrams, Reidemeister equivalence and finite plane codes;
+the earlier numerical-invariant minimum/movie and descending constructions;
+Seifert surfaces and pairings, rational-tangle realization/classification,
+and the signature crossing-change bound. Native `Finset`, `Fin`,
+`Matrix (Fin 2) (Fin 2) ℤ`, `Int.gcd` and the generalized continued-fraction
+continuant recurrences supply the finite algebra. The switch/realization,
+movie comparison and finite marked classification are built here.
+[BleilerDiagramTargets.lean](BleilerDiagramTargets.lean) prototypes the
+integer calculations; those calculations alone do not certify the diagrams.
+See [Bleiler, *A note on unknotting number*, Math. Proc. Cambridge Philos.
+Soc. 96 (1984), 469–471](https://doi.org/10.1017/S0305004100062381).
+Physical page 189 of *Knot Theory.pdf* literally writes “574” beside its
+pictured example. Preserve that string and recover the picture's marked
+crossing code and its comparison with D and E; the standard 10₈ example
+above does not establish that source-picture identity by its name alone.
+
 ### 4.11 Torus knots, satellites and Whitehead doubles
 
 Define the torus knot `T(p, q)` for coprime `p, q` as the image of `u ↦ 2⁻¹ᐟ² (u^p, u^q)` in the
