@@ -103,7 +103,10 @@ This roadmap leaves the following to other roadmaps.
 - **SurfaceTopology** owns the classification of compact surfaces and surface mapping class
   groups; **PlanarTopology** owns Radó's theorem, the two-dimensional Hauptvermutung and the
   two-dimensional Schoenflies theorem. **TypeAHeckeAlgebras** owns the Hecke algebras and
-  the Ocneanu trace.
+  the Ocneanu trace. **SuccessiveMinima** owns the successive minima of a discrete full
+  lattice for a convex body and their attainment by a real basis of lattice vectors; Layer 7.3.1
+  uses the first two minima of a cusp lattice for the closed unit disc of `ℂ` and adds only the
+  two-dimensional facts that the two witnesses form a `ℤ`-basis and the treatment of ties.
 - **Proofs of the end theorems owned elsewhere.** The proof of geometrization, hence of the
   Poincaré conjecture, is Ricci-flow analysis (RicciFlow). The proof of Freedman's theorem is
   the disc embedding theorem in dimension four (FourManifolds), which also owns the
@@ -404,6 +407,15 @@ theorem, and Layer 8 the uniqueness of PL and smooth structures in dimension two
 H1 supplies the finite type-A Hecke algebras and H2 the Ocneanu trace and its braid-closure
 invariance. Layer 4 consumes them for the HOMFLY trace theorem and the low-strand
 Jones/Burau block comparisons; it owns the geometric closure and native-matrix adapters.
+
+### From TauCetiRoadmap.SuccessiveMinima
+
+Layer 1: the successive minima `λ_i(L, K)` of a discrete full lattice `L` in a finite-dimensional
+real normed space for a convex body `K` with `0` in its interior, their positivity, the threshold
+characterization by independent lattice vectors, and target 1.5 `exists_successiveMin_witnesses`
+(a real basis of lattice vectors `b_i` with gauge `λ_i`, every lattice vector of gauge `< λ_i`
+lying in the span of the earlier `b_j`). Layer 7.3.1 consumes them for `E = ℂ` and `K` the closed
+unit disc, where the gauge is the norm.
 
 ## How to read the build
 
@@ -1402,9 +1414,8 @@ contrapositives as obstructions to *any* three- or four-strand presentation
 of the knot, through the geometric closure invariance. These uniform bounds
 are not claims of optimality, and no nondegenerate Hermitian form is called
 positive without the principal-minor proof. The invariant-form construction
-follows Squier,
-[*The Burau representation is unitary*](https://doi.org/10.1090/S0002-9939-1984-0727232-8),
-Proc. AMS 90 (1984), 199–202, with the stated native-basis adapter.
+follows Squier (*The Burau representation is unitary*), with the stated
+native-basis adapter.
 
 The course's embedded Jones article, physical p93, Corollary 24, asserts
 the stronger one-sided threshold `Δ(ζ)>6.5`. This claim is false in the
@@ -1420,15 +1431,10 @@ knot. Prove its exact native determinant/normalized Alexander calculation
 `Δ(t)=27−17(t+t⁻¹)+(t²+t⁻²)+5(t³+t⁻³)−3(t⁴+t⁻⁴)+(t⁵+t⁻⁵)`.
 
 It has `Δ(1)=1` and
-`Δ(ζ)=36−13√5>13/2`, with the inequality certified by
-`59²>26²·5`. Supply the actual finite braid/PD realization and determinant
-certificates; a numerical evaluation is not the counterexample proof.
-Retain the literal threshold as a refuted source assertion, not a theorem
-target. The historical statement that the three-braid test settles 43 of
-59 listed cases still requires the individual finite table identifications
-and root evaluations; a uniform obstruction alone proves no such count.
-`LowStrandBurauTargets.lean` suggests native polynomial and matrix interfaces
-for these targets.
+`Δ(ζ)=36−13√5>13/2`, the inequality being equivalent to `59²>26²·5`. Prove
+these values for the realized `PDCode` closure of the word through the
+geometric closure invariance, in exact arithmetic. The literal threshold is a
+refuted source assertion, not a theorem target.
 
 ### 4.5.2 Signed braid Jones support and orientation scope
 
@@ -1506,8 +1512,6 @@ dependency on that later signature theorem.
 transport; Layer 4.5's native Jones state sum, mirror inversion and value at
 one; native `PDCode` perfect matchings and state traversal; Mathlib finite
 sets, permutation orbits, `Finsupp` support and Laurent arithmetic.
-`BraidJonesSupportTargets.lean` gives suggested forms for the circle-count,
-state-weight, support and polynomial-obstruction targets.
 
 ### 4.6 The HOMFLY and Kauffman polynomials
 
@@ -2145,12 +2149,10 @@ nonidentity braid word. This supplies the positive-word signature argument
 cited on Knot Theory physical p91, while the signed-word Jones support
 argument in Layer 4.5 is independent of it.
 
-Use Rudolph,
-[*Non-trivial positive braids have positive signature*](https://doi.org/10.1016/0040-9383(82)90014-3),
-Topology 21 (1982), 325–327, with the explicit opposite-sign adapter;
-the first-Betti-number convention is also recorded in Feller,
-[*On the signature of positive braids*](https://boristheses.unibe.ch/958/1/14feller_p.pdf),
-p. 22. Consume Layer 4.3's realized band surfaces and Seifert matrices and
+Use Rudolph (*Nontrivial positive braids have positive signature*) with the
+explicit opposite-sign adapter; the first-Betti-number convention is also
+recorded in Feller (*On the signature of positive braids*, p. 22).
+Consume Layer 4.3's realized band surfaces and Seifert matrices and
 this layer's integral-form invariance/inertia theory. No signature
 calculation may replace the component-orientation distinction in the Hopf
 example of Layer 4.5.
@@ -2398,10 +2400,14 @@ prove that a translation `v∈L` has length `‖v‖/h`, the horotorus has area
 area. Prove these by quotient integration and the upper-half-space density
 `h^(−3)`, including finiteness, positivity and change-of-height formulas.
 For a `ℤ`-basis with complex periods `(a,b)`, identify the covolume with
-`|Im (conj a * b)|`. Prove existence of a shortest nonzero lattice vector,
-positivity of its length, and attainment of the shortest length among vectors
-real-linearly independent of a chosen shortest vector. Prove these two vectors
-form a `ℤ`-basis in dimension two. Retain the set of tied minimizing bases;
+`|Im (conj a * b)|`. A shortest nonzero lattice vector and a shortest lattice
+vector real-linearly independent of it exist, with positive lengths `λ₀ ≤ λ₁`:
+they are the witnesses of the first two successive minima of `L` for the closed
+unit disc of `ℂ` (SuccessiveMinima, Layer 1, `exists_successiveMin_witnesses`).
+Deduce from the threshold characterization of `λ₁` that for *every* chosen
+shortest vector `v` the least length of a lattice vector outside `ℝ v` is `λ₁`
+and is attained. Prove these two vectors form a `ℤ`-basis in dimension two.
+Retain the set of tied minimizing bases;
 the minimum length is independent of the tie. Prove invariance under a change
 of lift and upper-half-space normalization, with the stated similarity scaling
 for length and area. Thus the shortest parabolic translation is the systole
@@ -2449,24 +2455,17 @@ under the peripheral lattice and the diameter/separation inequalities coming
 from disjointness. For `0<α<1`, define the pattern modulo that lattice using
 exactly the balls of diameter **strictly greater than `α`**. Prove finiteness
 in a fundamental parallelogram by the induced packing/separation bound, including
-the fundamental-domain boundary identifications. Give finite enumeration and
-coverage certificates from a finite ideal triangulation with certified shapes
-and cusp data: bounds on how far the vertex horoballs extend beyond incident
-opposite faces must justify a terminating lift traversal that contains every
-ball above the cutoff. An uncertified traversal or a numerical picture is not
-coverage. Exact threshold equality must be handled explicitly. Prove independence
+the fundamental-domain boundary identifications. Prove independence
 of the triangulation for the same geometric cusp data and transport under
 isometries; normalized patterns are considered up to the induced Euclidean
 isometries and peripheral change of basis. For several cusps the pattern also
 depends on the specified cusp collection, including its sequential expansion
 order when that construction is used.
 
-**Source adapter and checks.** Adams–Hildebrand–Weeks,
-[*Hyperbolic invariants of knots and links*](https://doi.org/10.1090/S0002-9947-1991-0994161-2),
-Trans. AMS 326 (1991), 1–56, §2 and Tables 1–2, is the definition source.
-Its Table 1 lists individual maximal-cusp volumes; its multi-cusp Table 2
-pictures use sequential expansion, with cutoff `α=1/10`. Its reported
-`10^(−15)` volume accuracy supplies no per-row proof certificate. For the
+**Source adapter and checks.** The definitions follow Adams–Hildebrand–Weeks
+(§2, pp. 2–4, Tables 1–2). Its Table 1 lists individual maximal-cusp volumes;
+its multi-cusp Table 2 pictures use sequential expansion, with cutoff `α=1/10`.
+For the
 abstract square lattice with periods `(1,i)`, check covolume `1`, shortest
 length `1`, raw ratio `−i`, area `1/h²` and cusp-model volume `1/(2h²)`;
 this is a local cusp-model check, not a claim that it is a particular manifold's
@@ -2477,21 +2476,10 @@ neither the lattice nor its conformal orbit. Check strict exclusion at diameter
 `α`, and that independently maximal cusps cannot be presumed disjoint.
 
 *Needs:* this layer's finite-volume cusp decomposition, native hyperbolic metric
-and Riemannian measure; its ideal-triangulation geometry for enumeration
-certificates; Mathlib `ZLattice`/`ZSpan`, `ZLattice.covolume`, quotient additive
-groups, Haar measure, complex real-linear algebra and `UpperHalfPlane` actions.
-Follow the quotient-torus design in
-[Mathlib PR 39460](https://github.com/leanprover-community/mathlib4/pull/39460)
-and its [torus discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/What.20Is.20A.20Torus.3F/with/595553420),
-the successive-minima design of
-[PR 35812](https://github.com/leanprover-community/mathlib4/pull/35812), and
-the full-lattice distinction in
-[PR 44365](https://github.com/leanprover-community/mathlib4/pull/44365).
-Build the required comparisons and missing lemmas here using those designs;
-adopt the Mathlib declarations when available. The associated
-`CuspInvariantTargets.lean` prototypes the lattice and model-volume interfaces;
-the geometric constructions and certified finite enumeration above are also
-required targets.
+and Riemannian measure; SuccessiveMinima Layer 1 (1.5
+`exists_successiveMin_witnesses`); Mathlib `ZLattice`/`ZSpan`, `ZLattice.covolume`,
+`UnitAddTorus`, quotient additive groups, Haar measure, complex real-linear algebra
+and `UpperHalfPlane` actions.
 
 ### 7.4 The Weeks manifold, virtual fibering and virtual Haken
 
@@ -3280,6 +3268,10 @@ and 8; Mathlib CW complexes.
   J. 10 (1958), 283–300. S. Melikhov, *Local knots and the prime factorization of links*,
   arXiv 2511.19579, §§2–3.
 - F. Garside, *The braid group and other groups*, Quart. J. Math. Oxford 20 (1969), 235–254.
+  C. Squier, *The Burau representation is unitary*, Proc. Amer. Math. Soc. 90 (1984),
+  199–202. L. Rudolph, *Nontrivial positive braids have positive signature*, Topology 21
+  (1982), 325–327. P. Feller, *On the signature of positive braids*, BORIS Theses, Universität
+  Bern, p. 22.
   D. Epstein et al., *Word Processing in Groups*, Jones and Bartlett (1992), Chapter 9.
   E. Elrifai, H. Morton, *Algorithms for positive braids*, Quart. J. Math. Oxford 45 (1994),
   479–497.
@@ -3312,7 +3304,9 @@ and 8; Mathlib CW complexes.
   Manifolds*, 3rd ed., Springer GTM 149 (2019), Theorem 11.8.5, Chapter 12. W. Thurston, *The
   Geometry and Topology of Three-Manifolds*, Princeton lecture notes (1980),
   https://library.slmath.org/nonmsri/gt3m/, Chapters 3, 5, 6. P. Scott, *The geometries of
-  3-manifolds*, Bull. London Math. Soc. 15 (1983), 401–487.
+  3-manifolds*, Bull. London Math. Soc. 15 (1983), 401–487. C. Adams, M. Hildebrand,
+  J. Weeks, *Hyperbolic invariants of knots and links*, Trans. Amer. Math. Soc. 326 (1991),
+  1–56, §2 (pp. 2–4), Tables 1–2.
 - D. Gabai, R. Meyerhoff, P. Milley, *Minimum volume cusped hyperbolic three-manifolds*,
   J. Amer. Math. Soc. 22 (2009), 1157–1215, arXiv 0705.4325; *Mom technology and hyperbolic
   3-manifolds*, arXiv 0910.5043, Theorem 1.1. I. Agol, *The virtual Haken conjecture* (with an

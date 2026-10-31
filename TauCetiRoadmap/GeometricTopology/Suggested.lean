@@ -1,19 +1,19 @@
 module
-import Mathlib
-import TauCeti.Geometry.Diffeomorphism.Smale
-import TauCeti.Geometry.Diffeomorphism.Disc
-import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
-import TauCeti.Geometry.Manifold.Irreducible
-import TauCeti.Geometry.Manifold.Haken
-import TauCeti.Geometry.Manifold.Orientation
-import TauCeti.KnotTheory.Slice.Freedman
-import TauCeti.KnotTheory.SmoothLink.Isotopy
-import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
-import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualFibering
-import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualHaken
-import TauCeti.LowDimTopology.JSJDecomposition
-import TauCeti.LowDimTopology.Geometrization
-import TauCeti.Topology.TriangulationConjecture
+public import Mathlib
+public import TauCeti.Geometry.Diffeomorphism.Smale
+public import TauCeti.Geometry.Diffeomorphism.Disc
+public import TauCeti.Geometry.Manifold.LocallyFlat.Annulus
+public import TauCeti.Geometry.Manifold.Irreducible
+public import TauCeti.Geometry.Manifold.Haken
+public import TauCeti.Geometry.Manifold.Orientation
+public import TauCeti.KnotTheory.Slice.Freedman
+public import TauCeti.KnotTheory.SmoothLink.Isotopy
+public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.Mostow
+public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualFibering
+public import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.VirtualHaken
+public import TauCeti.LowDimTopology.JSJDecomposition
+public import TauCeti.LowDimTopology.Geometrization
+public import TauCeti.Topology.TriangulationConjecture
 
 /-!
 # Geometric topology: target signatures
@@ -54,6 +54,8 @@ Not statable at the pins:
 * Zeeman's conjecture (Layer 11.5) is statable, `TauCeti.ZeemanConjecture`, but open, so it is
   not asserted here.
 -/
+
+public section
 
 namespace TauCetiRoadmap.GeometricTopology
 
