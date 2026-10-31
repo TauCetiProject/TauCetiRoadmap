@@ -103,7 +103,10 @@ Hilbert schemes of points on a surface and moduli of stable sheaves on an abelia
 ## Conventions
 
 - `K` is a field of characteristic `0` (the coefficient field), `F ⊆ K` a subfield (`ℚ` in the
-  geometric case). `H` is a finite-dimensional `K`-vector space.
+  geometric case). `H` is a finite-dimensional `K`-vector space. The Lean statements of 0.3 and
+  0.4 carry `[CharZero K]` only to match this standing hypothesis: they hold over any field, and
+  characteristic `0` is first used by the `𝔰𝔩₂` formula of 0.4 and the comparison with
+  LieHighestWeight.
 - Lefschetz structure of weight `2n`: a grading `H = ⊕_{i ∈ ℕ} H^i` (`DirectSum.IsInternal`) with
   `H^i = 0` for `i > 2n`, and `L ∈ End_K H` with `L(H^i) ⊆ H^{i+2}` such that
   `L^{n−i} : H^i → H^{2n−i}` is bijective for `i ≤ n` (hard Lefschetz).
@@ -164,11 +167,6 @@ Layer 5 (Scope and ownership).
 §9.7 (Primitive decomposition for a graded operator satisfying hard Lefschetz): `primitivePiece`,
 `lefschetzDecomposition`, `lefschetzPairings` and the `ℕ → ℤ` grading extension identifying
 `P^j = primitivePiece 𝒱 L n (n − j)` for `0 ≤ j ≤ n`. Used by 0.2 and 0.5.
-
-### From EtaleDualityAndPerverseSheaves
-
-§5.7 (Graded Lefschetz objects in an abelian category): `gradedLefschetz_vectorSpace_compat`, the
-comparison of the categorical decomposition with the vector-space one. Used by 0.2.
 
 ### From LieHighestWeight
 
@@ -240,8 +238,7 @@ and is unique. *Needs:* Mathlib (`DirectSum.IsInternal`).
 `L^k : P^j → H^{j+2k}` injective for `j + k ≤ n`: the adapter from this roadmap's `ℕ`-graded
 `LefschetzStructure` to DeligneWeightsAndPurity §9.7's `lefschetzDecomposition`, through its
 grading extension. No second proof. *Needs:* 0.1; DeligneWeightsAndPurity §9.7
-(`lefschetzDecomposition`, `primitivePiece` and the grading extension), with
-EtaleDualityAndPerverseSheaves §5.7 (`gradedLefschetz_vectorSpace_compat`).
+(`lefschetzDecomposition`, `primitivePiece` and the grading extension).
 
 **Checks.**
 
@@ -307,8 +304,8 @@ DeligneWeightsAndPurity §9.7 (`lefschetzPairings`).
 ### Dependencies
 
 Mathlib: `DirectSum.IsInternal`, `Module.End` with its Lie bracket, `IsSl2Triple` and
-`lie_e_pow_succ_toEnd_f`, `LinearMap.BilinForm`. DeligneWeightsAndPurity §9.7 (0.2, 0.5),
-EtaleDualityAndPerverseSheaves §5.7 (0.2) and LieHighestWeight Layer 0 (0.4). Within the layer,
+`lie_e_pow_succ_toEnd_f`, `LinearMap.BilinForm`. DeligneWeightsAndPurity §9.7 (0.2, 0.5) and LieHighestWeight Layer 0
+(0.4). Within the layer,
 0.2 uses 0.1, and 0.3, 0.4 and 0.5 use 0.2.
 
 ## Layer 1: algebraic structures and the conditional theorems
@@ -430,14 +427,18 @@ MotivesAndAlgebraicCycles' shared core by name.
 
 ### 2.1 Weil cohomology theories with Lefschetz data
 
-`structure WeilCohomologyLefschetz k K` extending MotivesAndAlgebraicCycles §2.2's minimal
-classical Weil theory by weak Lefschetz for a smooth hyperplane section and hard Lefschetz for
-every ample class. The forgetful map to the minimal theory keeps grading, cycle maps, traces and
+A Weil cohomology theory with Lefschetz data is MotivesAndAlgebraicCycles §2.2's minimal
+classical Weil theory together with weak Lefschetz for a smooth hyperplane section and hard
+Lefschetz for every ample class. The forgetful map to the minimal theory keeps grading, cycle maps, traces and
 the Tate marking. *Needs:* MotivesAndAlgebraicCycles §2.2.
 
 **Checks.**
 
 - Forgetting and re-adding the Lefschetz data is the identity on the underlying minimal theory.
+- Hard Lefschetz is asked for ample classes only: on `ℙ¹ × ℙ¹` the class `ξ = a` is not ample,
+  and `L² = a² ∪ − = 0` is not bijective `H⁰ → H⁴`.
+- Weak Lefschetz for a line `ℙ¹ ⊂ ℙ²`: restriction is an isomorphism on `H⁰` and injective on
+  `H¹(ℙ²) = 0 → H¹(ℙ¹) = 0`.
 
 ### 2.2 Correspondences and the algebraic ring
 
@@ -452,19 +453,32 @@ MotivesAndAlgebraicCycles §§0.1–0.2, 2.3.
 - On `ℙ¹`, `L` and the inverse of `L : H⁰ → H²` come from correspondences of degrees `1` and `−1`,
   so both lie in `𝒜(ℙ¹)`; the image of `CH¹(ℙ¹ × ℙ¹)_ℚ` alone (degree `0`) contains neither
   (MotivesAndAlgebraicCycles §2.3, third Check).
+- On a curve `X`, `[X × X]` has degree `−1` and acts by `α ↦ (∫_X α)·1`, and `[pt × X]` has
+  degree `0` and acts by the Künneth projector onto `H⁰` (2.4); so `𝒜(X)` has elements of
+  nonzero degree and is not its degree-`0` part.
+- The degree of a composite is the sum of the degrees: `[X × X] ∘ (Δ_*ξ)` has degree `0` on a
+  curve and acts on `H⁰` by multiplication by `deg ξ`.
 
 ### 2.3 The Lefschetz structure of `X`
 
-For `X` of dimension `d` with an ample class `ξ`, `L = γ(ξ) ∪ −` makes `H(X)` a Lefschetz
-structure of weight `2d` by the hard Lefschetz datum of 2.1, the cup-product pairing
+For `X` of dimension `d` with an ample class `ξ`, `H(X)` is `⊕_i H^i(X)` with the Tate twists
+trivialised through the marking `e` of MotivesAndAlgebraicCycles §2.3, and `L = γ(ξ) ∪ −` makes it
+a Lefschetz structure of weight `2d` by the hard Lefschetz datum of 2.1, the cup-product pairing
 `⟨a, b⟩ = Tr(a ∪ b)` is a Poincaré pairing, and `(𝒜(X), A(X))` is an algebraic structure in the
 sense of 1.1 (`A_stable` because correspondences act on cycle classes). *Needs:* 0.5, 1.1, 2.1,
-2.2; MotivesAndAlgebraicCycles §2.2.
+2.2; MotivesAndAlgebraicCycles §2.2. Nothing here depends on `e`: under `e ↦ λe`,
+MotivesAndAlgebraicCycles §2.3 gives `cl^r ↦ λ^{−r} cl^r` and `Tr_X ↦ λ^d Tr_X`, so `L ↦ λ⁻¹L`,
+`Λ ↦ λΛ`, `𝒜(X)` and `A(X)` are unchanged as sets, and the positivity form
+`(−1)^i Tr(η^{d−2i} ∪ x ∪ x)` on `x = cl^i(z)` is multiplied by `λ^{d − (d−2i) − 2i} = 1`.
 
 **Checks.**
 
 - For `ℙ^d` with `ξ` the hyperplane class, `H(ℙ^d)` is `K[ξ]/(ξ^{d+1})` of 0.1 and
   `A^i(ℙ^d) = ℚξ^i`.
+- On `ℙ¹ × ℙ¹` with `H² = Ka ⊕ Kb`, `a² = b² = 0` and `ξ = a + b`: `L(xa + yb) = (x + y)ab`, so
+  `P² = ℚ(a − b)` and `A¹ ∩ P² = P²`.
+- With `ξ = 2a + b` instead, `P² = ℚ(2a − b)`: the primitive part depends on `ξ`, the algebraic
+  classes do not.
 
 ### 2.4 Comparison with MotivesAndAlgebraicCycles §7.3
 

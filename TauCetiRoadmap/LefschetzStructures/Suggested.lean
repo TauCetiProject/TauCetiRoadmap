@@ -1,4 +1,6 @@
-import Mathlib
+module
+
+public import Mathlib
 
 /-!
 # Lefschetz structures and algebraic operators on cohomology: target signatures
@@ -42,6 +44,8 @@ Conventions (README §Conventions): `H = ⊕_{i ≤ 2n} H^i` graded by `ℕ`, `L
 hard Lefschetz; `P^i = H^i ∩ ker L^{n−i+1}` for `i ≤ n` and `0` above; `Λ` in Kleiman's
 normalization; positivity rational-valued, with no order on `K`.
 -/
+
+public section
 
 namespace TauCetiRoadmap.LefschetzStructures
 
@@ -101,7 +105,7 @@ def IsCompatiblePairing (pair : LinearMap.BilinForm K H) : Prop :=
 
 /-- **Layer 0.2.** The primitive decomposition of each `H^i`: the adapter to
 DeligneWeightsAndPurity §9.7's `lefschetzDecomposition`, not a second proof. -/
-theorem grade_eq_iSup_primitive (i : ℕ) :
+theorem grade_eq_iSup_primitive [FiniteDimensional K H] (i : ℕ) :
     S.grade i = ⨆ (k : ℕ) (_ : 2 * k ≤ i) (_ : i - 2 * k ≤ n),
       (S.primitive (i - 2 * k)).map (S.L ^ k) := by
   sorry
