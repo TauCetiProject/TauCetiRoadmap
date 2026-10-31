@@ -44,7 +44,8 @@ This roadmap owns the following, by layer.
   presentation and its combinatorial presentations (diagrams, braid closures, polygons), the
   equivalence relations in each presentation and the theorems comparing them (Reidemeister,
   Alexander, Markov), Seifert surfaces, the Alexander module and polynomial, the Conway, Jones,
-  HOMFLY and Kauffman polynomials, Fox colourings and the determinant, the Arf invariant,
+  HOMFLY and Kauffman polynomials, Fox colourings and the determinant, knot/proper-link Arf,
+  fourth-root evaluations and the integral W quotient,
   the genus, crossing, unknotting, bridge and braid-index minima, prime decomposition of
   knots and of non-split links, rational tangles and two-bridge knots, torus knots and
   satellites, the Garside structure of braid groups, the Morton–Franks–Williams bound,
@@ -1266,6 +1267,51 @@ the tubing and band-move comparison of Seifert surfaces).
 *Needs:* Layer 1.8 (surfaces and genus), Layer 1.5; Tau Ceti
 `TauCeti.KnotTheory.IntegralSquareMatrix.SEquivalent`; Mathlib singular homology.
 
+#### Quadratic refinements and proper links
+
+For a nonempty oriented μ-component link and a compact connected oriented
+Seifert surface F of genus g, construct the quadratic refinement
+`q_F(x)=lk(x,x⁺) mod2` on `H₁(F;𝔽₂)`. Build coefficient change from an
+integral H₁ basis, including its comparison with singular homology over
+𝔽₂. With the declared Seifert matrix S, use native
+`(S.map (Int.castRingHom (ZMod 2))).toQuadraticForm'`, so
+`q_F(x)=xᵀ(S mod2)x`. Prove its equality with geometric push-off linking,
+its polarization and basis/isotopy/stabilization transport. Its polar
+matrix is `(S+Sᵀ) mod2`; do not symmetrize S before constructing q_F,
+which would erase the quadratic refinement in characteristic two.
+
+Let `R=q_F.polarBilin.ker`. Prove `dim H₁=2g+μ−1`,
+`dim R=μ−1`, and that the boundary classes generate R with the single
+relation `Σ_j[L_j]=0`. Prove
+
+`q_F([L_j])=Σ_(k≠j) lk(L_j,L_k) mod2`.
+
+Define a proper link by the evenness of each displayed total linking
+number. Prove properness is equivalent to q_F vanishing on R. Keep R
+distinct from native `q_F.radical`, which also imposes `q_F(x)=0`.
+For a proper link prove `R≤q_F.radical`, use native `QuadraticMap.lift`
+to descend q_F to `H₁/R`, and prove that its **polar bilinear form** is
+nonsingular, of dimension2g. Native quadratic `Nondegenerate` alone is
+insufficient in characteristic two because it permits a one-dimensional
+anisotropic polar radical.
+
+Consume [TangentialBordism B3.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4a5e27d2dd1b94abcca3e9b2151e9adf460a8a2f/TauCetiRoadmap/TangentialBordism/README.md)
+for `finiteQuadraticArf`, its paired-basis formula, isometry/orthogonal-sum
+laws and plane classification. This early finite algebra depends on the
+native symplectic-basis API, independently of GT's surfaces and TB's
+geometric bordism applications. Define `properLinkArfInvariant` from the
+descended form and `knotArfInvariant` as its μ=1 case. Prove independence
+of surface, basis and component labelling by the geometric common
+stabilization and native integral `SEquivalent` moves: an enlargement
+adds a hyperbolic plane to the nonsingular quadratic quotient. Prove
+additivity for component-chosen connected sum, preservation under oriented
+band fusion of proper links, and mirror/global-reversal invariance. No
+Arf value is assigned to an improper link by this constructor. These
+geometric dictionaries belong here; the generic Arf constructor and its
+classification retain their TB owner and require no Jones-polynomial
+input. Preserve the determinant-Arf criterion for knots and export
+`alexanderOne_arf_eq_zero` for the existing four-manifold consumers.
+
 ### 4.4 The Alexander module and the Alexander polynomial
 
 Define the infinite cyclic cover `X∞` of the exterior `X = S³ ∖ ν(K)` of a knot (Layer 5.1) as
@@ -1513,6 +1559,184 @@ transport; Layer 4.5's native Jones state sum, mirror inversion and value at
 one; native `PDCode` perfect matchings and state traversal; Mathlib finite
 sets, permutation orbits, `Finsupp` support and Laurent arithmetic.
 
+### 4.5.3 Fourth-root evaluation, the Arf invariant and the integral W quotient
+
+Specify Knot Theory physical p92's Theorems14–20 on the actual coefficient
+rings and realized oriented links. The geometric Seifert quadratic
+refinement and proper-link Arf invariant are supplied by the earlier
+Seifert-surface stage, independently of these Jones evaluations.
+
+**Integral and half-variable conventions.** Write H_L(u) for native
+`OrientedPDCode.jonesPolynomial`, whose variable is `u=t^(1/2)`. For
+μ≥1 prove its component-parity support and extract the unique
+`P_L∈ℤ[t,t⁻¹]` such that
+
+`H_L(u)=P_L(u²)` for odd μ,
+`H_L(u)=u P_L(u²)` for even μ.
+
+Construct this extraction by its coefficient map and prove uniqueness,
+relabel/isotopy transport and all evaluation identities. Diagrams here
+are planar classical diagrams; no assertion about arbitrary abstract PD
+codes substitutes for the geometric hypothesis. In particular a knot
+has a canonical integral Laurent polynomial V_K(t)=P_K(t).
+
+**Seifert Gauss sum and the fourth root.** Fix `t=i` and
+`u₄=exp(πi/4)`, with positive TL loop parameter `δ=√2`. The
+native Jones state-sum circle has value−√2. For F as above set
+
+`G(q_F)=Σ_(x∈H₁(F;𝔽₂)) (−1)^(q_F(x)) ∈ ℤ`.
+
+The exponent uses the explicit0/1 lift of 𝔽₂, not a ring map to ℤ or ℂ.
+Use the native `TauCeti.FiniteQuadraticModule.gaussSum` through the
+additive value map `𝔽₂→ℚ/ℤ`, `0↦0,1↦1/2`, and prove that its complex
+character sum equals this integer sum. Build this Seifert-form adapter;
+no second generic finite quadratic-module carrier or Arf invariant is
+introduced. Compare its radical reduction with native
+`gaussSum_eq_card_mul_gaussSum_quotientOfLeQuadraticRadical`.
+
+If q_F is nonzero on R, choose r∈R with q_F(r)=1 and prove cancellation
+by the translation `x↦x+r`, hence G=0. If q_F vanishes on R, construct
+the quotient-fibre equivalence and prove
+`G(q_F)=2^(μ−1)G(q̄_F)`. Evaluate the paired quadratic planes using TB
+B3.2's Arf normal form to obtain
+
+`G(q_F)=2^(g+μ−1)(−1)^Arf(L)` for proper L.
+
+Prove the geometric Clifford-trace comparison, with every scalar factor:
+for a braid b on m≥1 strands realizing L,
+
+`(−√2)^(m−1) s_m(ρ_Cl(b)) =
+   (−1)^(μ−1) (√2)^(−(2g+μ−1)) G(q_F)`.
+
+Consume the generator/trace-preserving even-Clifford model and exact
+Jones braid phases of
+[TemperleyLiebOperatorAlgebras §1.7](https://github.com/TauCetiProject/TauCetiRoadmap/blob/44be852bd3ac50b5d185d99bc798f1b2ebe0c1bb/TauCetiRoadmap/TemperleyLiebOperatorAlgebras/README.md#17-the-sqrt2-jones-quotient-as-an-even-clifford-algebra).
+Construct the finite disc-band/Clifford character-sum reduction and its
+comparison with the actual Seifert quadratic form; match the native
+closure order, crossing signs, component count and handle normalizations.
+Prove invariance under the relevant band slides, common stabilizations
+and braid moves. Equality of abstract Clifford algebras alone does not
+prove this trace-to-surface identity. It is a required comparison owned
+here, and yields, equivalently,
+
+`V_L(i;u₄)=(−√2)^(μ−1) 2^(−(g+μ−1)) G(q_F)`.
+
+Conclude the exact proper/improper-link formula
+
+`V_L(i;u₄)=(−√2)^(μ−1)(−1)^Arf(L)` if L is proper,
+`V_L(i;u₄)=0` otherwise.
+
+Give the nonempty unlink, positive Hopf link and positive `T(2,4)` checks:
+values `(−√2)^(μ−1)`,0 and `+√2`, respectively; the latter proper link
+has Arf1. A knot gives `V_K(i)=(−1)^Arf(K)`. For odd μ a nonzero link
+value is a signed integer power of2; for even μ it is a signed √2
+multiple of an integer power of2. Thus the two-component unlink is the
+explicit boundary case for an unqualified integer-power-of-two claim.
+
+For a proper link L, prove properness is unchanged by reversing a component. If its total
+linking with the rest is the even integer ℓ, the native reversal factor
+`i^(−3ℓ)=(−1)^(ℓ/2)` gives
+`Arf(L_reversed)=Arf(L)+ℓ/2 mod2`. Preserve component order and the
+specified root branch in this comparison. Replacing u₄ by−u₄ changes
+the Jones value by `(−1)^(μ−1)`; compare conjugate roots explicitly.
+The source comparison is with the finite quotient and s_m, not an
+unquotiented TL representation with a purported faithful trace.
+
+**Derivative and integral divisibility.** Build the ordinary Laurent
+derivative `∂(t^k)=k t^(k−1)` on the native integral Laurent carrier,
+including negative exponents, linearity, Leibniz, powers, substitutions
+and evaluation. Relate it to analytic differentiation away from0 and,
+for half-variable expressions near t=1, to the local square root u(1)=1.
+For a nonempty link put `λ=Σ_(j<k)lk(L_j,L_k)`. Prove
+
+`H_L(1)=(−2)^(μ−1)`,
+`(∂H_L)(1)=3(−2)^(μ−1)λ`.
+
+Differentiate the pinned native skein relation: a self-crossing change
+preserves this derivative, while a mixed crossing change changes it by
+`3(−2)^(μ−1)` and changes λ by1. Reduce to the unlink through the
+existing finite descending-diagram procedure. For a knot, use
+`H_K(u)=V_K(u²)` to deduce `V_K(1)=1` and `(∂V_K)(1)=0` over ℤ,
+not by dividing an integer coefficient without justification.
+
+Also own the Jones–Conway specialization with its link phase. Use the
+standard-skein normalization `∇_+−∇_−=z∇_0`, obtained from the existing
+Conway specialization by the following explicit coefficient conversion.
+
+Here `Δ_L(s²)=∇_L(s−s⁻¹)` is the Conway convention of Layer4.4,
+so `H_L(i)=(−1)^(μ−1)Δ_L(−1;s=i)`, equivalently
+`H_L(i)=Δ_L(−1;s=−i)`. Retain Layer4.6's compatible HOMFLY substitution.
+
+Prove for every nonempty link
+
+`H_L(i)=∇_L(−2i)=(−1)^(μ−1)∇_L(2i)`.
+
+The native Jones skein at u=i has difference `−2i H_0`, which fixes
+this sign. Compare the split-unlink initial values, the Conway
+component-parity law and the descending skein computation. Knots give
+the usual signed `V_K(−1)=Δ_K(−1)` in both conventions. The positive
+Hopf link checks the conversion: Jones gives−2i while ∇(+2i)=+2i.
+
+Prove `V_K(ω)=1` for `ω=exp(2πi/3)` using the existing δ=1 positive
+trace quotient and the closure/permutation parity comparison. Deduce
+`Φ₃(t)=1+t+t²` divides `1−V_K(t)` integrally, including all negative
+powers. With `D(t)=(1−t³)(1−t)=(t−1)²Φ₃(t)`, prove existence and
+uniqueness of W_K∈ℤ[t,t⁻¹] satisfying
+
+`D W_K=1−V_K`.
+
+For an integral proof, clear negative powers, factor `(t−1)²` by
+monic division using the value and derivative at1, then divide the
+remaining polynomial by the monic minimal polynomial Φ₃ of ω. Restore
+the Laurent unit and prove independence of the clearing exponent.
+Do not assert that `(t−1)` and Φ₃ generate the unit ideal over ℤ:
+`Φ₃(1)=3`. The construction is an integral quotient, not division of
+specialized complex values where D may vanish. Export its defining
+identity, uniqueness, coefficient transport and evaluation at all units;
+its values at roots of D come from the Laurent polynomial itself.
+
+Prove
+
+`W_(mirror K)(t)=t^(−4) W_K(t⁻¹)`,
+`W_(K#J)=W_K+W_J−D W_K W_J`.
+
+Check W_unknot=0 and W_right-trefoil=1 in the native Jones convention.
+Since D(i)=2, prove `W_K(i)` equals exactly the explicit0/1 integer
+lift of Arf(K), not merely its class modulo2. With the signed symmetric
+Alexander normalization `Δ_K(1)=1`, the Jones–Conway comparison above
+at−1 gives
+
+`Δ_K(−1)=1−4W_K(−1)`,
+`W_K(−1)≡Arf(K) mod2`,
+`Δ_K(−1)≡1−4Arf(K) mod8`.
+
+Prove the middle congruence by the Gaussian-integer evaluation map
+`ℤ[i]→𝔽₂`, `i↦1`, and integral Laurent evaluation; it is not a ring
+map from 𝔽₂ to ℂ. Thus the signed value is1 mod8 for Arf0 and5 mod8
+for Arf1. Compare the absolute determinant separately, where the usual
+criterion is `±1` versus `±3` mod8. Check the trefoil's signed value−3,
+figure-eight5 and unknot1. The empty link is outside this Arf constructor;
+its existing normalized-bracket convention stays separate.
+
+*Needs:* the earlier Seifert-surface/quadratic dictionary, finite common
+stabilizations, TB B3.2's early finite Arf classification, native
+`IntegralSquareMatrix.SEquivalent`, `Matrix.toQuadraticForm'`,
+`QuadraticMap.polarBilin`, `.radical` and `.lift`, native finite-quadratic-module
+Gauss sums, native Jones/bracket, geometric Markov/closure comparisons,
+the concrete TL Clifford model above, and Mathlib finite sums, polynomial
+monic division, Laurent evaluation and complex roots. The new finite
+coefficient, radical/fibre, Clifford-to-surface and Laurent-derivative
+adapters belong here; no later concordance or bordism-classification
+result is a prerequisite. `JonesArfTargets.lean` gives suggested native
+matrix, radical quotient and Laurent interfaces. The source's knot
+claims and its link-value remark are compared with
+[Murakami, *A recursive calculation of the Arf invariant of a link* (1986)](https://www.jstage.jst.go.jp/article/jmath1948/38/2/38_2_335/_pdf),
+with the square-root branch converted using the displayed component-parity
+law. Follow the native quotient API of
+[Mathlib quadratic radical/lift API](https://leanprover-community.github.io/mathlib4_docs/Mathlib/LinearAlgebra/QuadraticForm/Radical.html)
+and the existing
+[Seifert-matrix API discussion](https://leanprover.zulipchat.com/#narrow/stream/610393-Tau.20Ceti/topic/PRs/near/617671438).
+
 ### 4.6 The HOMFLY and Kauffman polynomials
 
 Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero subring of
@@ -1601,10 +1825,11 @@ knot and `n ≥ 1`, let `d₁, …, d_k` be the invariant factors of a reduced c
 `p · p^r` with `r` the nullity over `𝔽_p` of the reduced matrix, and `K` is non-trivially
 `p`-colourable iff `p` divides `det K`. For `n = 1` there is exactly one colouring, and for
 `n = 0`, where `ZMod 0 = ℤ`, a knot has only the constant colourings, since `det K` is odd and
-in particular nonzero. Define the Arf invariant of a knot as the Arf invariant of the quadratic form
-`q(x) = θ(x, x) mod 2` on `H₁(F; 𝔽₂)`, which is nonsingular with associated bilinear form the
-intersection form, and prove it is independent of the Seifert surface, additive under
-connected sum, and equal to `0` iff `Δ_K(−1) ≡ ±1 (mod 8)` (Lickorish, Chapter 10).
+in particular nonzero. Use Layer 4.3's `knotArfInvariant`, constructed from the nonsingular Seifert quadratic
+refinement `q(x)=θ(x,x) mod2`; its surface independence and connected-sum additivity
+retain that earlier owner. Prove it is `0` iff `Δ_K(−1) ≡ ±1 (mod8)` (Lickorish,
+Chapter10), with the signed normalization and absolute-determinant comparison of
+Layer4.5.3. Proper links use the earlier polar-radical quotient constructor.
 
 - Colourings of a split union are products; colourings of a connected sum are the fibre
   product over a common arc, so the reduced nullities add.
