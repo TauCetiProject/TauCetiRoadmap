@@ -1,0 +1,15 @@
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Automorphism
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Basic
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Conjugator
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Correction
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Diagonal
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Dyadic
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Group
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Identity
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Lifting
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Nonunit
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Permutation
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.RankOne
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Reflection
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Section
+TauCeti.Topology.Algebra.Group.Profinite.Free.Peripheral.Topology
