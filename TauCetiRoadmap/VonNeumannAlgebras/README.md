@@ -191,8 +191,9 @@ zero algebra has no state with this convention, and the zero functional is posit
 - On `A = ℂ` the only state is the identity; the functional `z ↦ 2z` is positive with norm two and
   is not a state, which a definition omitting the norm condition would accept.
 - On `A = ℂ²` the states are exactly `(z, w) ↦ tz + (1−t)w` with `0 ≤ t ≤ 1`; the functional
-  `(z, w) ↦ z − w` has norm one but is not positive, which a definition omitting positivity would
-  accept.
+  `(z, w) ↦ (z − w)/2` has norm one, attained at `(1, −1)`, and is not positive, since its value at
+  `(0, 1)` is `−1/2`; a definition omitting positivity would accept it. (The functional
+  `(z, w) ↦ z − w` has norm `2`, attained at `(1, −1)`, so it is not a norm-one witness.)
 - On the zero algebra the only functional is `0`, of norm `0`: there is no state; a definition
   requiring `f(1) = 1` agrees, since `1 = 0` there.
 - Cauchy–Schwarz on `M₂(ℂ)` with `f = ω_{e₁}` (`f(x) = x₁₁`) and `x = e₁₁ + e₁₂`: `|f(x)|² = 1`,
@@ -261,11 +262,14 @@ of `x ↦ x*`, and the joint strong continuity of products on norm-bounded sets 
 3.4.1, p. 19; Peterson, Exercises 2.4.6–2.4.7, p. 27). Prove that weak and ultraweak, and strong and
 ultrastrong, coincide on norm-bounded sets (Houdayer, Exercise 2.7, p. 8; Peterson, Corollary 2.4.5,
 p. 27; Jones, Exercise 3.3.12, p. 18), and exhibit their difference on all of `B(H)` for
-infinite-dimensional `H` (Jones, Corollary 5.1.4, p. 32): the functional `φ(x) = Σ_n n⁻² ⟪e_n, xe_n⟫`
-for an orthonormal sequence `(e_n)` is ultraweakly continuous and not weakly continuous. For
-separable infinite-dimensional `H`, direct the finite-dimensional subspaces `F` by inclusion, choose
-a unit vector `η_F ⊥ F` and put `T_F = φ(P_{η_F})⁻¹ P_{η_F}` with `P_η` the projection onto `ℂη`:
-`φ` is faithful and positive, `T_F → 0` strongly, and `φ(T_F) = 1`, so the net does not converge
+infinite-dimensional `H` (Jones, Corollary 5.1.4, p. 32): the functional
+`φ(x) = Σ_{n ≥ 1} n⁻² ⟪e_n, xe_n⟫` for an orthonormal sequence `(e_n)_{n ≥ 1}` is positive,
+ultraweakly continuous and not weakly continuous. For separable infinite-dimensional `H` take
+`(e_n)` an orthonormal basis, so that `φ` is faithful: `φ(P_η) = Σ_{n ≥ 1} n⁻² |⟪e_n, η⟫|²` for the
+projection `P_η` onto `ℂη` vanishes only when `η ⊥ e_n` for every `n`, that is for `η = 0`, whereas
+for a mere orthonormal sequence a unit vector `η` orthogonal to every `e_n` has `φ(P_η) = 0`. Direct
+the finite-dimensional subspaces `F` by inclusion, choose a unit vector `η_F ⊥ F` and put
+`T_F = φ(P_{η_F})⁻¹ P_{η_F}`: `T_F → 0` strongly and `φ(T_F) = 1`, so the net does not converge
 ultrastrongly. Prove that none of the four topologies is metrizable on `B(H)` when `H` is
 infinite-dimensional, using the family `e_m + m e_n` (`m ≠ n`) of operators built from the rank-one
 projections `e_n` onto an orthonormal sequence: `0` is in its ultrastrong closure but no sequence from
@@ -278,9 +282,10 @@ norm topology of `B(H)` is nonseparable when `H` is infinite-dimensional (Jones,
   `‖(S*)ⁿ‖ = 1`; the forward powers `Sⁿ` satisfy `‖Sⁿξ‖ = ‖ξ‖`, so they do not converge strongly to
   `0`, although `⟪η, Sⁿξ⟫ → 0`, so they converge weakly to `0`.
 - The rank-one family `T_n e₀ = n^(−1/2) Σ_{k=1}^n e_k`, vanishing on the other basis vectors, has
-  `‖T_n e₀‖ = 1` and `⟪η, T_n ξ⟫ = ⟪ξ, e₀⟫ n^(−1/2) Σ_{k ≤ n} ⟪η, e_k⟫ → 0`, so it converges weakly
-  but not strongly to `0`.
-- `φ(x) = Σ n⁻² ⟪e_n, xe_n⟫` on the projection `p` onto the orthogonal complement of finitely many
+  `‖T_n e₀‖ = 1` and, since `T_n ξ = ⟪e₀, ξ⟫ T_n e₀` with the inner product conjugate-linear in its
+  first variable, `⟪η, T_n ξ⟫ = ⟪e₀, ξ⟫ n^(−1/2) Σ_{k ≤ n} ⟪η, e_k⟫ → 0`, so it converges weakly but
+  not strongly to `0`.
+- `φ(x) = Σ_{n ≥ 1} n⁻² ⟪e_n, xe_n⟫` on the projection `p` onto the orthogonal complement of finitely many
   vectors `ν_i`: a weakly continuous functional `Σ_{i ≤ k} ⟪ν_i, · η_i⟫` vanishes on such a `p`,
   while `φ(p) > 0` since `pe_n ≠ 0` for some `n`; so `φ` is not weakly continuous.
 - `e_m + m e_n` with `m ≠ n`: for an ultrastrong neighbourhood of `0` given by `ε` and `(ξ_i)` with
@@ -309,17 +314,30 @@ convex separation: `geometric_hahn_banach_closed_point` in `H →Lₚₜ[ℂ] H`
 `LocallyConvexSpace` instance and real scalar continuity from `UniformConvergenceCLM.continuousSMul`
 through `IsScalarTower.continuousSMul`; in `H →WOT[ℂ] H` the instance suffices; the ultraweak and
 ultrastrong cases use the wrappers' own locally convex structure. State the hypotheses on
-subspaces explicitly: a subspace is weakly closed iff strongly closed iff its intersection with the
-unit ball is. Prove that the unit ball of `B(H)` is weakly compact (Houdayer, Theorem 2.4, pp. 7–8;
-Peterson, Corollary 2.4.4, p. 27).
+subspaces explicitly: a linear subspace, being convex, is weakly closed iff strongly closed, and
+ultraweakly closed iff ultrastrongly closed. Weak closedness of a subspace is not decided by its
+intersection with the unit ball (the kernel of `φ` in the Checks); ultraweak closedness is, by the
+Krein–Šmulian theorem for the duality between `S₁(H)` and `B(H)`, a criterion stated and proved in
+V4.Core. Prove that a linear functional on `B(H)` is continuous for one of the four topologies iff
+its kernel is closed in that topology (Houdayer, proof of Proposition 2.3, p. 7). Prove that the
+unit ball of `B(H)` is weakly compact (Houdayer, Theorem 2.4, pp. 7–8; Peterson, Corollary 2.4.4,
+p. 27).
 
 **Checks.**
 - Forward shift `S` on `ℓ²(ℕ)`: `0` lies in the weak closure of `{Sⁿ : n ≥ 1}` but not in its strong
   closure (`‖Sⁿξ‖ = ‖ξ‖`), so the set, which is not convex, separates the two closures; its convex
   hull contains `(1/N) Σ_{n ≤ N} Sⁿ` with `‖(1/N) Σ_{n ≤ N} Sⁿ e₀‖² = 1/N → 0`, so `0` lies in both
   closures of the hull.
-- The functional `x ↦ ⟪e₁, xe₀⟫` is given by one matrix coefficient; `φ = Σ n⁻² ⟪e_n, · e_n⟫` is an
-  `ℓ²`-pairing with `ξ_n = η_n = n⁻¹ e_n` and is not a finite sum (V1.1).
+- The functional `x ↦ ⟪e₁, xe₀⟫` is given by one matrix coefficient; `φ = Σ_{n ≥ 1} n⁻² ⟪e_n, · e_n⟫`
+  is an `ℓ²`-pairing with `ξ_n = η_n = n⁻¹ e_n` and is not a finite sum (V1.1).
+- Negative control for a unit-ball criterion: `V = ker φ` for the same `φ`. On the weakly compact
+  unit ball weak and ultraweak agree, so `φ` is weakly continuous there and `V ∩ ball` is weakly
+  closed; but `V` is not weakly closed, since a linear functional with closed kernel is continuous
+  and `φ` is not weakly continuous, and `V` is not strongly closed either, since the strong and
+  weak closures of the convex set `V` coincide.
+  Concretely `φ(1) = Σ_{n ≥ 1} n⁻² = π²/6 ≠ 0`, so `1 ∉ V` while `1` lies in the weak closure of the
+  dense hyperplane `V`; a wrong definition deciding weak closedness of a subspace on the unit ball
+  alone would declare `V` weakly closed.
 - `H = 0`: the unit ball is a point, compact; every functional is `0`.
 
 *Needs:* V1.1; Mathlib `geometric_hahn_banach_closed_point`,
@@ -342,9 +360,8 @@ its canonical complete normed star algebra and `CStarAlgebra` instances on the s
 with `toStarSubalgebra`. Define `W*(S)` for a set `S ⊆ B(H)` as the double commutant of `S ∪ S*`
 (Jones, Example 3.3.4, p. 13) and prove leastness, monotonicity, intersections, closure
 (`W*(W*(S)) = W*(S)`), commutant reversal (`S ⊆ T ⇒ T' ⊆ S'`) and the lattice operations
-`M ∧ N = M ∩ N`, `M ∨ N = W*(M ∪ N)`, with `(M ∨ N)' = M' ∩ N'`. Prove that a unital star
-subalgebra is a von Neumann algebra iff its norm unit ball is weakly compact (Jones, Corollary
-5.2.2, p. 33). For a nonunital star subalgebra `A`, separate the common annihilator
+`M ∧ N = M ∩ N`, `M ∨ N = W*(M ∪ N)`, with `(M ∨ N)' = M' ∩ N'`. For a nonunital star
+subalgebra `A`, separate the common annihilator
 `W = ⋂_{a ∈ A} ker a` and prove that on `K = W⊥` the strong closure of `A|_K` is a von Neumann
 algebra with unit `1_K`, equal to the bicommutant of `A|_K` in `B(K)` (Jones, EP6, pp. 20–21), so
 that the correct supported algebra on `H` is this one and not `A''` computed in `B(H)`, which
@@ -384,7 +401,11 @@ Theorem 5.2.1, pp. 32–33). Since `M = A''` by V1.3, the unit-ball form is
 `y = f(Y)`; the general case by the matrix amplification `[[0, x], [x*, 0]]` in `M₂(M)`; the positive
 case by `x ↦ x*x` applied to self-adjoint approximants of `√x`. Give the strong-star form, and the
 useful criterion that an operator lies in `W*(A)` as soon as it is the strong limit of a norm-bounded
-net from `A`.
+net from `A`. Deduce that a unital star subalgebra `A` is a von Neumann algebra iff its norm unit
+ball is weakly compact (Jones, Corollary 5.2.2, p. 33): a von Neumann algebra is weakly closed and
+the unit ball of `B(H)` is weakly compact by V1.2; conversely a weakly compact unit ball of `A` is
+weakly closed and, containing a strongly dense subset of the unit ball of `A''`, is that unit ball,
+so `A = A''`.
 
 **Checks.**
 - `A = ℂ·1`: both unit balls are the closed disc `{c·1 : |c| ≤ 1}`.
@@ -852,12 +873,16 @@ p. 53). For an ultraweakly closed linear subspace `V ⊆ B(H)`, construct its pr
 `S₁(H)/V_⊥` by the preannihilator, prove the closedness of `V_⊥`, the completeness of the quotient,
 the isometric dual identification `V ≅ (S₁(H)/V_⊥)*` and the agreement of the weak-star and
 ultraweak topologies (Jones, Theorems 8.1.13 and 8.1.15, p. 53; Peterson, Proposition 2.6.7, p. 31;
-Houdayer, Theorem 3.11, p. 15). Denote the ultraweakly continuous functionals on `M` by `M_*` and
-identify them isometrically with this quotient. For a von Neumann algebra `N` on `H` this gives the
-predual theorem `exists_predual`: there is a Banach space `X` with a conjugate-linear isometric
-isomorphism `StrongDual ℂ X ≃ₗᵢ⋆[ℂ] N`, namely `X` the conjugate Banach space of `N_*`, on which a
-continuous linear functional is a conjugate-linear functional on `N_*`, whose conjugate is evaluation
-at a unique `x ∈ N`; so every concrete von Neumann algebra satisfies Mathlib's `WStarAlgebra`
+Houdayer, Theorem 3.11, p. 15). Deduce from BanachSpaceTheory B2's Krein–Šmulian theorem, applied
+to the dual pair `S₁(H)* ≅ B(H)`, the unit-ball criterion: a linear subspace of `B(H)` is
+ultraweakly closed iff its intersection with the norm unit ball is ultraweakly closed, equivalently
+weakly closed, the two topologies agreeing on the ball by V1.1; V1.2's hyperplane `ker φ` shows that
+the weak topology admits no such criterion. Denote the ultraweakly continuous functionals on `M` by
+`M_*` and identify them isometrically with this quotient. For a von Neumann algebra `N` on `H` this
+gives the predual theorem `exists_predual`: there is a Banach space `X` with a conjugate-linear
+isometric isomorphism `StrongDual ℂ X ≃ₗᵢ⋆[ℂ] N`, namely `X` the conjugate Banach space of `N_*`, on
+which a continuous linear functional is a conjugate-linear functional on `N_*`, whose conjugate is
+evaluation at a unique `x ∈ N`; so every concrete von Neumann algebra satisfies Mathlib's `WStarAlgebra`
 axiom. Prove the intrinsic uniqueness of the predual (Peterson, Theorem 4.4.4, p. 65) and Sakai's
 theorem, the equivalence with Mathlib's `WStarAlgebra` definition: every C*-algebra `M` with
 `WStarAlgebra M` is star-isomorphic to a concrete von Neumann algebra `N` on some Hilbert space,
@@ -865,12 +890,15 @@ theorem, the equivalence with Mathlib's `WStarAlgebra` definition: every C*-alge
 B2's Krein–Šmulian theorem and owning its W*-algebra specialisation: the weak-star closedness of
 the positive cone (Peterson, Lemma 4.4.1, pp. 63–64), the separation of positive elements by
 positive elements of the predual (Lemma 4.4.2, p. 64), the weak-star convergence of bounded
-increasing nets to their least upper bound (Lemma 4.4.3, p. 64), the separate weak-star continuity
-of multiplication (by Krein–Šmulian, since `x ↦ ax` is weak-star continuous on the unit ball), the
-Kadison–Pedersen monotone-closure criterion (Proposition 4.4.5, p. 65), and the faithful
-ultraweakly continuous concrete representation on the direct sum of the GNS spaces of the states in
-the predual, inducing the given predual for each abstract W*-algebra; Mathlib's conjugate-linear
-isometry is turned into the complex-linear `X̄* ≅ M` by conjugating scalars on `X`. In the
+increasing nets to their least upper bound (Lemma 4.4.3, p. 64), the Kadison–Pedersen
+monotone-closure criterion (Proposition 4.4.5, p. 65), and the faithful ultraweakly continuous
+concrete representation on the direct sum of the GNS spaces of the states in the predual, inducing
+the given predual for each abstract W*-algebra; Mathlib's conjugate-linear isometry is turned into
+the complex-linear `X̄* ≅ M` by conjugating scalars on `X`. Separate weak-star continuity of
+multiplication on an abstract W*-algebra `M` is not an input of this route: it follows from the
+conclusion, since the star isomorphism `M ≅ N` carries the given predual onto `N_*` by the
+uniqueness of the predual, so the weak-star topology of `M` is the ultraweak topology of `N`, on
+which multiplication is separately continuous by V1.1. In the
 quotient-dual argument consume the native `LinearMap.dualEmbedding_surjective` and
 `LinearMap.rightDualEquiv` for the pairing `topDualPairing ℂ B`, where `B` is the Banach predual
 (first `S₁(H)`, then its quotient), with `WeakDual ℂ B = WeakBilin (topDualPairing ℂ B)`; right
@@ -911,12 +939,20 @@ norm-one definition.
 - `S₁(H)* ≅ B(H)` isometrically by `x ↦ Tr(x ·)`; `V ≅ (S₁(H)/V_⊥)*` for ultraweakly closed `V`.
 - `M_*` is a norm-closed subspace of `M*` (Houdayer, Proposition 3.10, pp. 14–15), isometric to
   `S₁(H)/M_⊥`, and `(M_*)* ≅ M` with weak-star = ultraweak.
+- A linear subspace of `B(H)` is ultraweakly closed iff its intersection with the unit ball is
+  ultraweakly closed; a linear functional on `B(H)` is ultraweakly continuous iff its restriction to
+  the unit ball is weakly continuous (Houdayer, Proposition 2.8, (3) ⟺ (5), pp. 8–9).
+- Multiplication on an abstract W*-algebra is separately weak-star continuous.
 - Ultraweakly continuous positive ⟹ normal ⟹ completely additive.
 
 **Checks.**
 - `h = diag(1/n²)` on `ℓ²(ℕ)`: `h ∈ S₁` with `‖h‖₁ = π²/6`, and `φ_h` is the functional of V1.1,
   with `‖φ_h‖ = π²/6`; `h = diag(1/n)` is Hilbert–Schmidt but not trace class, so `x ↦ Tr(xh)`
   is not defined on all of `B(H)` although `x ↦ ⟪h, x⟫₂` is defined on `S₂(H)`.
+- Unit-ball criterion on `V = ker φ_h` with `h = diag(1/n²)`: `V` is ultraweakly closed, being the
+  kernel of a member of `B(H)_*`, and `V ∩ ball` is ultraweakly closed, as the criterion requires;
+  V1.2 shows `V ∩ ball` weakly closed with `V` not weakly closed, so a criterion phrased for the
+  weak topology would wrongly declare the dense hyperplane `V` weakly closed.
 - Group algebra annihilator for `Γ` with `g ≠ e`: `h = δ_e ⊗ δ_e* − δ_g ⊗ δ_g*` is trace class and
   nonzero, and for `x = Σ_s x_s λ_s` in `W*(λ(Γ))`, `Tr(xh) = ⟪δ_e, xδ_e⟫ − ⟪δ_g, xδ_g⟫ = x_e − x_e = 0`.
 - Conjugate-linearity witness in Mathlib's `WStarAlgebra`: for `N = ℂ` on `H = ℂ`, `N_* = ℂ`, `X`
@@ -1060,8 +1096,8 @@ of its image, with kernel a central summand `Mz` (Jones, Theorem 7.2.1, p. 46; P
 For standard σ-finite measure spaces `(X, μ)` construct measurable fields of separable Hilbert
 spaces `x ↦ H_x` from countable fundamental sequences of sections, measurable sections,
 square-integrable sections modulo almost-everywhere equality, and their complete direct-integral
-Hilbert space `∫^⊕ H_x dμ(x)` (Dixmier, Part II, Chapter 1, §§1–4, uncertified; Takesaki I,
-Chapter IV, §8, uncertified). If every member of one fundamental family is measurable for another,
+Hilbert space `∫^⊕ H_x dμ(x)` (Dixmier, Part II, Chapter 1, §§1–4; Takesaki I, Chapter IV, §8). If
+every member of one fundamental family is measurable for another,
 prove that the two families define the same measurable sections, the same square-integrable sections
 and the same direct integral, by measurable Gram–Schmidt on the first family and expansion of the
 coefficients of the second in the resulting orthonormal sections. Construct measurable essentially
@@ -1146,6 +1182,5 @@ V0–V2; OperatorTheory/OperatorIdeals OI-B29–OI-B41; BanachSpaceTheory B1, B2
   author's page.
 - V. F. R. Jones, *Von Neumann algebras*, lecture notes, 2009, author's page.
 - J. Dixmier, *Von Neumann algebras*, North-Holland Mathematical Library 27, 1981, Part II,
-  Chapters 1–2 (uncertified: cited by locator).
-- M. Takesaki, *Theory of Operator Algebras I*, Springer, 1979, Chapter IV, §8 (uncertified: cited
-  by locator).
+  Chapters 1–2.
+- M. Takesaki, *Theory of Operator Algebras I*, Springer, 1979, Chapter IV, §8.
