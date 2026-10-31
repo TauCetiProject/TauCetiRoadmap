@@ -1,11 +1,11 @@
 import Mathlib
 
 /-!
-# p-adic cohomology comparisons: headline targets
+# p-adic cohomology comparisons: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. Statements here suggest Lean forms for headline theorems; discharging them
-finishes neither a layer nor the roadmap.
+**This file is not the roadmap.** The roadmap is `README.md`, which carries every target,
+API list and Check. This file is the roadmap's acceptance test: it states the headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`; it states no theorem because none is statable at the pins.
 
 No headline theorem can be stated against the pinned Mathlib and Tau Ceti libraries.
 The missing objects are mathematical constructions, rather than abbreviations of the
