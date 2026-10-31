@@ -3906,6 +3906,147 @@ PD state counts, Kauffman brackets, signed kink and typeII/III APIs.
 Use [Kauffman, §2, Lemmas2.3–2.4 and Theorems2.6–2.8](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kauffmanjones.pdf)
 for the state model and regular-to-ambient normalization.
 
+<a id="jones-table109"></a>
+
+### 4.5.5 The four-row Jones table and its exact comparisons
+
+Construct the complete model/computation comparison for *Knot Theory*, physical p109.
+The literal rows are 3₁,4₁,9₄₁ and 9₄₂, with “Non-Alternating” beside the last. Preserve
+those labels. In the source's ordinary knot variable t the first two entries are
+
+```text
+V_3₁=−t⁻⁴+t⁻³+t⁻¹,
+V_4₁=t⁻²−t⁻¹+1−t+t².
+```
+
+The 9₄₁ entry is E(t) below. The 9₄₂ entry is R_c(t), where the coefficient of t is
+overwritten and c remains an independent integer:
+
+```text
+E(t)=−t⁻¹³+t⁻¹²−t⁻¹¹+t⁻¹⁰−t⁻⁹+t⁻⁸−t⁻⁷+t⁻⁶+t⁻⁴,
+R_c(t)=−t⁻⁵+2t⁻⁴−2t⁻³+3t⁻²−3t⁻¹+3+c t+t².
+```
+
+Use 4.5.3's coefficient extraction from the native half-variable s=t^(1/2). The native
+representative of every displayed t^k is T(2k). Give exact coefficient/support
+comparisons, relabelling, source crossing/slot maps and the geometric mirror adapter.
+The normalized Jones invariant has no arbitrary Laurent-unit ambiguity. Keep any
+monomial factor from a raw bracket/framing calculation explicitly tracked until
+normalization.
+
+**The two existing models.** Reuse 4.5's native positive trefoil model and its geometric
+mirror. The source 3₁ row agrees with the negative trefoil value; its bare table label
+does not choose handedness. Its support endpoints are−4,−1 and span3. Reuse 4.4.2's
+three-strand figure-eight word `(σ₁σ₂⁻¹)²`, its actual PD/rational comparison and 4.10's
+mirror equivalence. Its direct native state sum is the second literal row, with
+endpoints−2,2 and span4. Compare the source choice of mirror and orientation with these
+models by the local geometric dictionary, rather than choosing signs to fit the
+polynomial.
+
+**An actual9₄₁ producer.** Pin K₄₁ as the native oriented closure of the five-strand
+word
+
+```text
+b41=[−1,−1,−2,1,3,2,2,−4,−3,2,−3,−4],
+```
+
+with one-based displayed generator j represented by native index j−1. The [Knot Atlas9₄₁
+inputs](https://katlas.org/wiki/9_41) give DT `[6,10,14,12,16,2,18,4,8]`, Gauss
+`[1,−5,4,−6,3,−1,2,−7,8,−4,5,−2,9,−3,6,−8,7,−9]`, and PD rows
+
+```text
+(6,2,7,1), (12,8,13,7), (14,5,15,6),
+(10,3,11,4), (2,11,3,12), (4,15,5,16),
+(8,17,9,18), (16,9,17,10), (18,14,1,13).
+```
+
+Construct their signed planar completions, outer faces, component orientation,
+encounter/over-under and crossing-slot dictionaries. Give finite marked
+code/Reidemeister comparisons with b41's native closure, recording the single mirror
+choice induced by the actual conventions. The twelve-letter braid and the nine-crossing
+PD are different presentations whose equality needs this certificate. The native braid
+permutation is0→2→3→1→4→0 and its writhe is−2. Compute the complete native state sum of
+this declared braid closure and prove
+
+```text
+F(t)=V_K₄₁(t)=−t³+3t²−5t+8−8t⁻¹+8t⁻²−7t⁻³+5t⁻⁴−3t⁻⁵+t⁻⁶.
+```
+
+Independently compute on the nine-crossing PD after the convention map, obtaining F or
+its reciprocal as dictated by that map, not by a table-value lookup. Retain the
+smoothing-circle counts, weight coefficients and all cancellations. Prove its connected
+nine-crossing projection is reduced alternating from the actual encounters and plane
+faces. Its native support endpoints are−12,6, hence ordinary endpoints−6,3 and span9.
+Use 4.8's support lower bound and the nine-crossing realization to prove c(K₄₁)=9;
+compare with the reduced-alternating theorem. Check F(1)=1, F(−1)=49 and F≠F(t⁻¹), so
+this representative is chiral by the generic mirror obstruction.
+
+For the literal E compute endpoints−13,−4, span9 and E(−1)=9. Thus E is neither F nor
+F(t⁻¹). Absolute evaluation at−1 also excludes explanation by a monomial unit ±t^k. As a
+separate actual braid computation, the negative two-strand nine-letter word has Jones
+polynomial E. Compare that closure with 4.8.2/4.11's signed T(2,−9) model. This
+algebraic coincidence does not rename the source 9₄₁ row to 9₁ or identify a source
+drawing: p109 contains no drawn9₄₁ diagram.
+
+**The 9₄₂ comparison for every overwritten coefficient.** Reuse 4.6.2's declared native
+four-strand word, all code/geometry dictionaries and its direct native Jones
+computation. Its ordinary value is
+
+```text
+G(t)=t³−t²+t−1+t⁻¹−t⁻²+t⁻³.
+```
+
+It is mirror invariant, has endpoints−3,3 and span6, with G(1)=1 and G(−1)=−7. Prove R_c
+has endpoints−5,2 and span7 for EVERY c∈ℤ; those coefficients cannot be cancelled by the
+overwritten degree1 term. Consequently no value of c repairs the source's9₄₂ row in
+either mirror convention, even allowing a monomial unit. Prove
+
+```text
+R_c(1)=3+c,   R_c'(1)=2+c,   R_c(−1)=15−c.
+```
+
+If all other terms were correct and R_c were a normalized knot Jones polynomial, the
+first identity would force c=−2. The derivative-at1 test would then pass, but
+R_(−2)(−1)=17 and its span remains7. This conditional deduction is not a reading of the
+overwritten glyph, and the two passed scalar tests do not authenticate the polynomial.
+Retain the source uncertainty and the full discrepancy certificate without substituting
+another knot whose polynomial happens to match R_(−2).
+
+**The evaluation and alternating annotations.** For every tame knot prove the signed
+Jones/Alexander comparison `V_K(−1)=Δ_K(−1)` and hence `|V_K(−1)|=det K`. Use 4.4.5's
+Conway/HOMFLY specialization maps and 4.6's exponent parity: at s=i the Jones
+specialization has H parameter a=−1 and z=2i; knot parity identifies H(−1,2i) with
+H(1,2i), and the Conway/Seifert comparison gives Δ(−1). Carry the actual complex
+coefficient maps and their integral descent. In the native half-variable ring this
+evaluation is s=i or−i, NOT s=−1. Reversing the square-root choice agrees by even
+support. Give naturality, mirror/reversal and connected-sum transport of this
+comparison. The generic state-sum construction is independent of this later
+specialization theorem.
+
+The actual3₁,4₁ and 9₄₁ models have reduced alternating diagrams and spans equal to
+crossing numbers3,4,9. Certify the source's stronger knot-type nonalternation annotation
+for9₄₂ as well. Use 8.7's independent all-input/minimality prefix to exclude equivalence
+of4.6.2's fixed K with EVERY diagram having at most8 crossings; combine this with its
+nine-crossing realization to get c(K)=9. Then4.8's span converse and span6 prove
+nonalternation. A nonalternating projection alone does not prove this statement about
+the knot type. The finite exclusion consumes the independently constructed code/Jones
+invariant and the generic recognition/minimality library; it does not assume this table
+application or its nonalternation conclusion. Its full-input completeness and geometric
+inequivalence certificates are required, rather than an appeal to the leading9 in a
+table name.
+
+*Needs:* 4.2/4.2.5's native realized word/PD/DT/Gauss and finite move
+comparisons;4.4.2's figure-eight and 4.5's trefoil models;4.5.3's integral knot-variable
+extraction;4.5's independent state sum, mirror and support APIs;4.6.2's independent9₄₂
+producer. The signed evaluation additionally consumes4.4.5 and 4.6's polynomial/parity
+comparison; the alternating/minimality conclusions consume4.8,4.8.2,4.10–4.11 and 8.7's
+explicitly independent prefix. These later comparisons supply no premise back to the
+polynomial constructions. [Native finite-input and polynomial
+targets](JonesTable109Targets.lean) record representative computations; the full
+code/geometry comparisons and source corrections above remain required. The [source
+note](source-inputs.md#jones-table109-source) preserves all four literal rows and the
+overwritten coefficient.
+
 ### 4.6 The HOMFLY and Kauffman polynomials
 
 Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero subring of

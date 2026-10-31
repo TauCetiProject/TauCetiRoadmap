@@ -245,3 +245,33 @@ and requires the actual source-convention comparison. A planar obstruction alone
 no spherical obstruction. Local absence of decreasing/typeIII moves forces the first
 genuine move to increase; a general absence of nonincreasing paths is weaker than a
 bounded-peak certificate.
+
+<a id="jones-table109-source"></a>
+## The four Jones examples on physical page109
+
+The main source is *Knot Theory.pdf*,
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`. A focused
+verified-Luna reading confirms the four table labels3₁,4₁,9₄₁ and9₄₂, with
+“Non-Alternating” aligned to9₄₂. The9₄₁ formula wraps onto its own second line; no arrow
+transfers it to another row. The literal entries in the ordinary knot variable are
+
+```text
+3₁: −t⁻⁴+t⁻³+t⁻¹;
+4₁: t⁻²−t⁻¹+1−t+t²;
+9₄₁: −t⁻¹³+t⁻¹²−t⁻¹¹+t⁻¹⁰−t⁻⁹+t⁻⁸−t⁻⁷+t⁻⁶+t⁻⁴;
+9₄₂: −t⁻⁵+2t⁻⁴−2t⁻³+3t⁻²−3t⁻¹+3+c t+t².
+```
+
+Only c is materially overwritten; it may read−2 but remains unresolved as a source
+glyph. The fourth row's extreme coefficients and endpoints−5,2 are clear. Normalization
+conditionally forcing c=−2 is not a visual reading and does not correct the rest of that
+row. The page has no drawn9₄₁ or9₄₂ diagram fixing another representative.
+
+The complete table target compares every row with actual native knot models and their
+marked code dictionaries. The9₄₁ row has absolute value9 at−1 instead of49 for the
+declared native model. The9₄₂ row has span7 for every c, while the independently
+constructed model has span6. Neither mismatch is repaired by mirroring, reversing the
+knot orientation or a monomial-unit convention. The third expression's equality with the
+Jones value of a signed two-strand nine-letter closure is a separate computation, not
+grounds to replace the literal9₄₁ label by9₁. The earlier source198 mirror-blind example
+and this erroneous table retain distinct source obligations.
