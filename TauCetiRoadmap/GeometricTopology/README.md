@@ -973,6 +973,29 @@ References for explicit Veronese and crosscap constructions include
 and [Levine's standard embedded crosscaps](https://services.math.duke.edu/~alevine/slides/UVa.pdf).
 The constructions, separation, quotient and gluing proofs above are targets here.
 
+**Checks.**
+
+- The torus (`p = 1, q = 0, r = 0`) has `χ = 0`; a handle with a crosscap (`p = 1, q = 1`,
+  `r = 0`) has `χ = −1` and nonorientable genus `k = 3`, so the renamed formula gives
+  `2 − 3 = −1`, whereas reading the old `q = 1` in `χ = 2 − q − r` would give `1`.
+- Gluing along a boundary interval: two discs give `χ = 1 + 1 − 1 = 1`, `b = 1`, a disc; two
+  annuli give `χ = −1`, `b = 3`, a pair of pants; two Möbius bands give `χ = −1`, `b = 1`,
+  nonorientable with `k = 2`, a once-punctured Klein bottle. Identifying two whole boundary
+  circles of two annuli gives an annulus, `χ = 0`, `b = 2`: the interval and circle gluings
+  are different operations.
+- The two tetrahedron boundaries sharing one vertex have `7` vertices, `12` edges and `8`
+  triangles, every edge in exactly two triangles, and `χ = 3`, impossible for a closed
+  connected surface; the link of the shared vertex is two disjoint circles, so an
+  edge-incidence definition alone would wrongly accept it.
+- On a unit vector `v` the matrix `vvᵀ − I/3` has Frobenius norm `sqrt(1 − 2/3 + 1/3) =
+  sqrt(2/3)`, so `Q([v])` has norm `1`, with eigenvalues `2/sqrt 6` (simple) and
+  `−1/sqrt 6` (double); the pole `P = diag(1, 0, −1)/sqrt 2` has norm `1`, trace `0` and
+  three distinct eigenvalues, so it is not in the image. Without the factor `sqrt(3/2)`
+  the image would miss the unit sphere.
+- The Klein bottle, closed and nonorientable, does not embed in `ℝ³`, while the Möbius
+  band, nonorientable with nonempty boundary, does: the separation argument needs the
+  surface closed, and the embedding criterion constrains only closed components.
+
 *Needs:* 1.1–1.5,1.7–1.8, the independent two-dimensional triangulation/smoothing
 prefix of 11.3 and the relative collared-pair adapter from11.2; SurfaceTopology's compact classification, PlanarTopology's
 surface/plane comparisons; finite simplicial complexes, normal-position and
@@ -1697,6 +1720,21 @@ For m=0 there are n components; for n=1 the empty generator product
 has one component for every m. No σ with an invalid index or a zero-
 strand Markov knot is introduced.
 
+**Checks.**
+
+- The permutation of `w = σ₁σ₂σ₃σ₂⁻¹σ₄σ₁⁻¹` is a three-cycle with two fixed points,
+  conjugate to that of `σ₃σ₄`; the closure of `σ₃σ₄` in `B₅` has the three orbits
+  `{1}, {2}, {3, 4, 5}`, so three components, and two destabilizations reduce it to the
+  identity of `B₃`.
+- `z = (σ₁⁻¹σ₂σ₃⁻¹)²σ₃³` has exponent sum `1` and a four-cycle permutation, so its closure
+  is a knot; its determinant `9` is both `|V_S(−1)| = 1 + 1 + 2 + 2 + 1 + 1 + 1` and
+  `|Δ(−1)| = |2 + 5 + 2|`.
+- At `t = −1` the two proposed `6₃` words give `|V(closure u; −1)| = 5` and
+  `|V(closure v; −1)| = 13`; `13` is the determinant of `6₃` and `5` is not, so `u` is
+  excluded without reading any diagram.
+- `(σ₁⋯σ_(n−1))^m` has `gcd(n, |m|)` closure components: `n = 3, m = 2` gives one component,
+  the trefoil `T(3, 2)`; `n = 2, m = 2` gives two, the Hopf link; `m = 0` gives `n`.
+
 *Needs:* native braid generators, distant/adjacent Artin relations,
 `BraidWord.toBraid`, `BraidWord.closure`, `permHom` and component counts;
 Layer4.2's realized Markov/Reidemeister comparison. After this generic
@@ -1846,6 +1884,20 @@ comparisons, including the allowed collinear-subdivision convention.
 The result is an actual triangle/unknot equivalence, not only an abstract
 disc bounded by the polygon.
 
+**Checks.**
+
+- The contraction bound needs `c < 1`: on `ℝ` the map `u(x) = −x` is `1`-Lipschitz and
+  `F₁ = 0` is not injective, while for `u(x) = −x/2` every `F_t` is a homeomorphism with
+  `‖F_t(x) − F_t(y)‖ ≥ ‖x − y‖/2`.
+- The planar square with vertices `(±1, ±1, 0)` is a regular polygon with no crossings;
+  the same square tilted so that one vertex lies vertically above another is not regular,
+  although every pair of projected edges is still transverse or disjoint.
+- For `n = 3` every pair of edges is adjacent, so the parallel-direction and
+  three-line-concurrence discriminants are vacuous and the dense set is cut out by the
+  coincidence and collinearity conditions alone.
+- A convex `n`-gon reaches a triangle after exactly `n − 3` ear removals; for `n = 3` no
+  move is needed.
+
 *Needs:* native affine/convex and finite geometric-simplex APIs, real
 `MvPolynomial`, `LipschitzWith`, `ContractingWith.fixedPoint` and
 `TauCeti.AmbientIsotopy`; the early plane graph/Jordan and3.3 smooth-isotopy-extension
@@ -1871,7 +1923,7 @@ The n=0 case is vacuous; the crossing-free code still realizes one circle.
 Its outer region is extra realization data: native `PDCode.Face` only counts
 faces of the crossing graph and is empty in this case.
 
-Own the planar proof suggested by p.159's loop fragment. Smooth the selected
+Own the planar proof. Smooth the selected
 crossing in a small disc so the two intervening traversal arcs become two
 closed immersed plane curves, with no new intersections. Prove that the
 number of transverse intersections between ANY two generic closed plane
@@ -1888,8 +1940,8 @@ realizability criterion.
 For a signed word d of length n require its absolute entries to be a
 permutation of 2,4,…,2n. Pair odd visit `o_i=2i−1` with `e_i=|d_i|`.
 A positive entry makes the even visit over and a negative entry makes it
-under, exactly the convention on p.158. These signs are NOT the oriented
-crossing signs. Build the native perfect matching, visits and over bits,
+under; this is the sign convention of signed Dowker words here. These signs are NOT
+the oriented crossing signs. Build the native perfect matching, visits and over bits,
 then enumerate all oriented-sign/rotation assignments in `Fin n→ℤˣ` and
 retain exactly the native planar completions. Prove decoder soundness and
 completeness against extraction from an actual based oriented plane diagram,
@@ -1911,7 +1963,7 @@ possible equivalences; the word alone specifies no unbounded region.
 Parity is necessary, not sufficient. Give the word `(4,10,8,2,6)`: its
 partner matching has opposite parity at every visit, but all 32 oriented-sign
 assignments have face counts 3 or5, never the required 7. Prove its converted
-shadow connected and all these checks exhaustive, hence no planar completion.
+shadow connected and that no sign assignment is a planar completion.
 Nor is uniqueness up to one global mirror asserted for arbitrary valid words;
 composite words can have independent factor choices. In the four-row table below,
 the exact two-completion claim is limited to those displayed inputs. Keep any unreadable
@@ -2058,9 +2110,8 @@ rotation completion on native `BasedOrientedGaussCode` and `OrientedPDCode`.
 | C (seven crossings) | `(8,10,12,2,14,6,4)` | `(+,+,+,+,+,+,+)` |
 | D | `(6,-14,16,-12,2,4,-8,10)` | `(+,+,+,+,+,-,+,+)` |
 
-For each row prove that the planar sign vectors are EXACTLY ε and −ε.
-Use a finite check over all `2^n` assignments with its exhaustive proof,
-not a drawing heuristic. A visit v has incoming/outgoing half-edges
+For each row prove that the planar sign vectors are exactly ε and −ε.
+A visit v has incoming/outgoing half-edges
 `(v,false)` and `(v,true)`; the edge involution pairs outgoing v with
 incoming `v+1 mod 2n`. For sign+, the counterclockwise crossing slots are
 `(over,in),(under,in),(over,out),(under,out)`; for sign− interchange the
@@ -2274,6 +2325,19 @@ Burton et al., *Hard diagrams of the unknot*, §§1.1–1.2, record diagrams of 
 whose every simplification must first increase the crossing count; the local obstruction
 above is the elementary form of that phenomenon.
 
+**Checks.**
+
+- A type I move changes the crossing count by `±1`, type II by `±2`, type III by `0`; a
+  crossing switch in the standard trefoil diagram gives a three-crossing diagram of the
+  unknot and is not a Reidemeister move, since the trefoil and the unknot have different
+  Jones polynomials.
+- With `B = 0` and `μ = 2` there are two plane classes, two nested circles and two
+  side-by-side circles, but one spherical class: the region-containment record is what
+  separates them in the plane.
+- The standard trefoil diagram has least peak `⊤` to the one-component zero-crossing
+  target, since it represents no unlink; the one-crossing kink has least peak `1`, equal to
+  its starting count, with extra-crossing count `0`.
+
 *Needs:* 4.2's finite plane/sphere realization and local ambient-move comparisons;
 PlanarTopology's separation/Schoenflies and3.3's relative isotopy extension; native PD
 faces, crossings, orientations and Reidemeister operations; Mathlib finite types, finite
@@ -2332,6 +2396,17 @@ targets. For the distinction between continuous knot deformations and smooth
 isotopy, see [Bode, *Knotted fields and real algebraic links*, §2.1,
 Definitions2.2–2.4](https://research-information.bris.ac.uk/ws/portalfiles/portal/172921010/Final_Copy_2018_09_25_Bode_B_PhD.pdf).
 
+**Checks.**
+
+- For `|s| < t` both `f_t(s)` and `e(s) = (s, 0, 0)` lie in the closed ball of radius `t`,
+  so `‖f_t(s) − e(s)‖ ≤ 2t`; outside that chart interval the difference is `0`.
+- By the chain rule `∂_s f_t(t u₀) = a′(u₀)` for every `t > 0`, so the C¹ distance to
+  `e′ = (1, 0, 0)` at the parameter `t u₀` is the fixed positive number
+  `‖a′(u₀) − (1, 0, 0)‖`, independent of `t`.
+- `f₀` is the round unknot with Jones polynomial `1`, and every `f_t` with `t > 0` is the
+  positive trefoil with Jones polynomial `t + t³ − t⁴` in 4.5's normalization, so the
+  family is not an isotopy although it is a continuous path of smooth embeddings.
+
 *Needs:*4.1–4.2’s actual smooth/PL knots, marked braid closures and relative
 arc straightening;3.1–3.3’s mapping-space topologies and seminorms;1.5’s
 tubular charts and3.3’s independent smooth-family isotopy extension;
@@ -2344,12 +2419,50 @@ families of slicewise smooth embeddings.
 Consume native `TauCeti.BraidGroup n`, `sigma`, `strand`, `strandSucc`, `permHom`,
 `pureSubgroup` and `BraidWord.toBraid`, together with Mathlib's `FreeGroup`, its
 reduced-word API and `MulAut`. Use the pinned Tau Ceti braid-group carrier and supply
-the index adapters. For geometric braids and the presentation comparison consume
-DiagrammaticCoherence C2, and its G0/C6 geometric prefixes for relative tangles and
-framings. Those carriers and their
-Reidemeister/coherence theorems retain their existing owner. This prefix supplies the
-based action and the bridge from unrestricted relative tangle isotopy back to braid
-equality.
+the index adapters. This section owns the geometric braid carrier, its isotopy
+relation, its comparison with the native presented braid group (Artin.P) and the based
+action; it supplies the bridge from unrestricted relative tangle isotopy back to braid
+equality. The tangle categories and coherence theorems built on these carriers are the
+work of the consumer listed under *Downstream consumers*.
+
+**Artin.P: geometric braids and the presentation comparison.** Fix n ordered interior
+points P of the closed disc. A geometric braid on n strands is a disjoint union of n
+smooth arcs in `D²×[0,1]`, each meeting every level `D²×{t}` in exactly one point, with
+endpoint sets `P×{0}` and `P×{1}`, and straight in collars of the two faces. Two
+geometric braids are isotopic when a continuous family of geometric braids, fixed on both
+faces, joins them; prove that this is an equivalence relation and that it coincides with
+ambient isotopy of `D²×[0,1]` fixed on the side wall and on both faces, by relative
+isotopy extension (Artin, Theorems 1–7 and 12, which compare his s-isotopy with
+isotopy). Stacking β below γ and rescaling the height defines a product on isotopy
+classes; prove associativity, that the straight braid is the identity, that the
+reflection in the height is the inverse, and that the endpoint permutation is a
+homomorphism to `Equiv.Perm (Fin n)`. The elementary braid `σ_i` exchanges the points at
+positions `i` and `i+1`, the strand leaving position `i` passing in front of the strand
+leaving position `i+1`, and leaves the other strands straight. Pin this front/back
+convention against the pinned closure `TauCeti.BraidWord.closure`
+(`TauCeti/KnotTheory/BraidWord/PDCode.lean`), which reads the strands upward and makes
+the strand entering a positive letter at its lower position the over-strand, so that the
+closure of `σ_i` has a positive crossing.
+
+Realize a native `TauCeti.BraidWord n` letter by letter and prove that the native
+relations hold between realizations: distant letters commute by an isotopy supported in
+two disjoint vertical slabs, and `σ_i σ_(i+1) σ_i` and `σ_(i+1) σ_i σ_(i+1)` are isotopic
+by sliding the middle strand across the crossing of the other two, the type III move of
+4.2 read as a braid. Hence `BraidWord.toBraid` descends to a homomorphism from
+`TauCeti.BraidGroup n` to isotopy classes of geometric braids. Prove it surjective: by
+4.2.4's polygonal perturbation a geometric braid is isotopic to one whose projection to
+the first disc coordinate and the height is generic, with crossings at distinct heights,
+and reading the crossings upward gives a word realizing it (Artin, Theorem 16: the
+`σ_i` generate the braid group). Prove it injective: if two words have isotopic
+realizations, their pullback monodromies of Artin.G agree, these monodromies are
+`ρ_n` of the words by the calibration there, and `Function.Injective ρ_n` (Artin.F)
+gives equality in the native group. The comparison is therefore an isomorphism of groups
+between isotopy classes of geometric braids and `TauCeti.BraidGroup n`, compatible with
+the endpoint permutation and `permHom`; the presentation is the one stated in
+Birman–Brendle, §1.2, whose proofs are Artin (1925) and Bohnenblust (1947) under
+*References*. Birman–Brendle, §1.1, defines the same group as the fundamental group of
+the configuration space of n unordered points of the plane; give that comparison as an
+API bullet, since a geometric braid is a loop of configurations.
 
 **Artin.A: the algebraic action.** Put `F_n=FreeGroup (Fin n)` and write
 `x_j=FreeGroup.of j`. For `i:Fin(n−1)`, let a,b be native `strand i`, `strandSucc i`.
@@ -2391,8 +2504,8 @@ independence of the straightening and compatibility with marked coordinate chang
 bottom-to-top stacking β followed by γ, this pullback is `ρ(β)*ρ(γ)`, where automorphism
 multiplication is function composition. Its meridian permutation goes **top to bottom**;
 the physical endpoint permutation from bottom to top is its inverse. Calibrate a single
-positive crossing against Artin.A's formula and the C2 over/under convention, then prove
-the comparison for all braid words.
+positive crossing against Artin.A's formula and the front/back convention of Artin.P,
+then prove the comparison for all braid words.
 
 **Artin.F: completeness and faithfulness.** Prove the centralizer of a free generator is
 its cyclic subgroup and identify the conjugator ambiguity modulo powers of that
@@ -2402,12 +2515,17 @@ strands fixed, prove that equality of marked meridian actions gives a relative h
 of the remaining strand in the complement of those strands. After straightening those
 fixed strands, turn this path homotopy into a monotone braid isotopy, fixing the other
 strands and all boundary collars. Induction on n proves that the based action is a
-complete invariant of geometric braid isotopy (Artin Theorems8–13). This geometric
-prefix uses the geometric braid construction, not C2's full presentation-equivalence
-theorem.
+complete invariant of geometric braid isotopy (Artin Theorems 8–13). This geometric
+completeness theorem uses only the geometric braid carrier of Artin.P, not the
+presentation comparison.
 
-Combine it with C2's native Artin-word/geometric-braid equivalence to prove
-`Function.Injective ρ_n`. Prove Artin's image characterization: an automorphism φ
+Prove `Function.Injective ρ_n` on the native presented group: the two native relations
+are a complete set of defining relations for the group of automorphisms generated by the
+`A_i` (Birman–Brendle, §1.2; Artin, *Theory of braids*, the remark after Theorem 16;
+Bohnenblust, *The algebraical braid group*, Ann. of Math. 48 (1947), 127–136, whose proof
+is algebraic). Together with the calibration of Artin.G and the isotopy invariance of
+the pullback monodromy this gives the injectivity half of Artin.P's comparison. Prove Artin's image
+characterization: an automorphism φ
 belongs to its image exactly when `φ(∂)=∂` and there is a permutation π with `φ(x_j)=w_j
 x_(π j) w_j⁻¹` for every j. Construct the resulting subgroup and multiplicative
 equivalence with `BraidGroup n`; prove the pure-subgroup restriction and independence of
@@ -2425,28 +2543,36 @@ its adapter to the multiplicative opposite. Their pullback monodromies therefore
 Artin.F identifies the original braids. Monodromy is used only for braid complements
 here; no invertibility of boundary maps for arbitrary tangles is assumed.
 
-Construct the inclusion of C2's braid category into the relative unframed tangle
-category and prove it faithful. Give the canonical untwisted framing on a braid,
-compatible with braid isotopy, stacking and juxtaposition, and deduce faithfulness into
-the framed oriented and framed unoriented tangle categories by forgetting framing and
-orientation. Construct the orientation-forgetting adapter on G0's
-embedded-arc/normal-field data, its compatibility with relative isotopy, stacking and
-tensor, and the geometric unoriented framed category. Give its braiding, chosen
-cups/caps and both snake identities; the object consisting of one unoriented point is
-self-dual. Transport the oriented conclusions through C2/C6's respective
-algebraic/geometric comparisons. The geometric-framing construction is independent of
-C6's free-ribbon coherence proof, avoiding a cycle. Verify a nontrivial pure braid, such
-as `σ_i²`, remains distinct from the identity after this inclusion. Closure, Markov
-equivalence and the Burau representation have their separate scopes and hypotheses.
+State the conclusion on tangles. A relative tangle in `D²×[0,1]` is a compact properly
+embedded smooth one-manifold meeting the two faces exactly in the marked points and
+straight in their collars, and a relative isotopy is an ambient isotopy fixed on the side
+wall and on both faces. Prove that two geometric braids that are relatively isotopic as
+tangles, through tangles that need not be monotone, are isotopic as braids; this is the
+faithfulness of braids among relative tangles. Give the blackboard framing of a geometric
+braid, the normal field along the first disc coordinate, compatible with braid isotopy,
+stacking and juxtaposition, so that the same conclusion holds for framed and for
+unoriented relative tangles by forgetting the framing and the orientation. Verify that a
+nontrivial pure braid, such as `σ_i²`, remains distinct from the identity as a relative
+tangle. Closure, Markov equivalence and the Burau representation have their separate
+scopes and hypotheses. Tangle categories, their cups and caps and the coherence theorems
+built on these carriers are not constructed here.
 
 This prefix uses Layers 1.5/3.3/11.2's relative isotopy extension and smoothing, the
-pinned fundamental group and van Kampen theorem of Tau Ceti, native free groups,
-DiagrammaticCoherence C2's geometric prefix and then its presentation comparison. It does not assume a
+pinned fundamental group and van Kampen theorem of Tau Ceti, native free groups and
+4.2.4's generic projections. It does not assume a
 mapping-class theorem for punctured surfaces. The Brunnian/deletion producer in 4.12.1
 consumes its based markings. Reference: Artin, [*Theory of
 braids*](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/artinbraids.pdf), Ann. of
 Math.48(1947), pp102–115, especially Theorems8–16. Artin's word order and generator
 formulas must be transported to the explicit pullback convention above.
+
+- Isotopy classes of geometric braids on n strands form a group isomorphic to
+  `TauCeti.BraidGroup n` by the word-realization map, and to the fundamental group of
+  the configuration space of n unordered points of the plane (Birman–Brendle, §1.1).
+- The endpoint permutation of a geometric braid is `permHom` of the corresponding native
+  element; a pure geometric braid corresponds to an element of `pureSubgroup n`.
+- A relative isotopy of tangles between two geometric braids induces a braid isotopy
+  (Artin.T), so the map from braid classes to relative tangle classes is injective.
 
 **Checks.**
 
@@ -2462,6 +2588,19 @@ formulas must be transported to the explicit pullback convention above.
 - For `n = 0` and `n = 1` the free group is trivial and `ρ_n` is the trivial map on the
   trivial braid group; for `n = 2` the braid group is infinite cyclic and `ρ_2` is
   injective, since `A_0^k(x_1)` has reduced length `2k − 1`.
+- The closure of the one-letter word `σ_0` on two strands is the one-crossing diagram with
+  `overPair = true` and writhe `+1` in the pinned closure, and the closure of `σ_0³` is
+  the positive trefoil with Jones polynomial `t + t³ − t⁴` in 4.5's normalization; the
+  opposite front/back convention would realize `σ_0⁻³` instead, whose closure has Jones
+  polynomial `t⁻¹ + t⁻³ − t⁻⁴`.
+- The two sides of the braid relation `σ_0 σ_1 σ_0 = σ_1 σ_0 σ_1` on three strands have the
+  same endpoint permutation `(0 2)` and exponent sum `3`; the adjacent generators do not
+  commute, since `σ_0 σ_1` and `σ_1 σ_0` have the two different three-cycles as
+  permutations, so a presentation making adjacent generators commute would not map to
+  geometric braids.
+- For `n = 2` the geometric braid group is infinite cyclic, generated by `σ_0`, and the
+  isotopy class of a two-strand geometric braid is determined by its signed crossing
+  count; for `n = 0` and `n = 1` the only geometric braid is the straight one.
 
 ### 4.2.9 Figure-eight inversion, reflection and projected transparencies
 
@@ -2583,15 +2722,14 @@ and an oriented ambient isotopy from the input realization to that word's
 standard closure. Include component-label transport, not merely equality of
 unoriented link types. For a nonempty input prove n>0; the empty link has the
 empty word on zero strands. These constructions refine4.2's Alexander theorem.
-They do not assume Markov's theorem, Yamada's braid-index theorem or a search
-through all braid words.
+They do not assume Markov's theorem, Yamada's braid-index theorem or any enumeration
+of braid words.
 
 Use4.2.4's polygonal approximation, supported triangle moves and smoothing,
 Layer1.5's relative ambient extension and the plane separation/isotopy floor
-of PlanarTopology Layers 0, 1, 7 and 8. Consume the geometric braid and native
-Artin-word comparison of DiagrammaticCoherence C2, with its G0/C6 relative tangle and
-boundary conventions, as in4.2.8. That supplier owns the
-geometric braid carrier and its presentation theorem. This section owns
+of PlanarTopology Layers 0, 1, 7 and 8. Consume the geometric braid carrier, its
+relative tangle and boundary conventions and its native-word comparison from 4.2.8,
+which owns that carrier and its presentation theorem. This section owns
 conversion of a general link to that carrier and the cut/closure adapters.
 Spatial isotopy and the geometric braid conversion are the geometric targets below.
 
@@ -2667,7 +2805,7 @@ disc-core family and identify it with the standard marked disc times an
 interval to obtain a geometric n-braid. Specify the transported endpoint
 order and
 orientation, the sign of each crossing and the identification between
-increasing clockwise angle and C2's bottom-to-top parameter. Read the
+increasing clockwise angle and 4.2.8's bottom-to-top height parameter. Read the
 native word in bottom-to-top order, so successive pieces concatenate by
 `BraidWord.toBraid_append`. Construct the comparison with native
 `BraidWord.closure` including its crossing-free circles, and the actual
@@ -2767,8 +2905,8 @@ data. The procedure is not required to minimize strand count.
 
 *Needs:*4.2/4.2.4's finite realized diagrams, polygonal/smooth comparison and
 supported moves; Layer1.5's relative isotopy extension; PlanarTopology's
-separation and disc-isotopy API; DiagrammaticCoherence G0/C2/C6's geometric
-braids and native word comparison. Markov's theorem is used only by the final
+separation and disc-isotopy API; 4.2.8's geometric braids and native word
+comparison. Markov's theorem is used only by the final
 independence-of-choices consumer, never by either Alexander construction.
 
 ### 4.3 Seifert surfaces, genus and the Seifert form
@@ -3296,6 +3434,17 @@ characteristic, hence not ambient isotopic relative to their common
 boundary. This is distinct from classifying all spanning surfaces of a
 knot or all their ambient isotopy types.
 
+**Checks.**
+
+- The Möbius strip has `χ = 0` and one boundary component, so its nonorientable genus is
+  `k = 2 − 0 − 1 = 1`; the orientable formula would give `g = 1/2`, which is why it is not
+  applied.
+- The canonical surface of the closure of `σ₁³` has two discs and three bands, so
+  `χ = 2 − 3 = −1`, `b = 1` and `g = (2 + 1 − 1)/2 = 1`.
+- With `3s/2` replaced by `s/2` the strip has one half twist and its boundary winds once
+  around the core, an unknot; with `3s/2` the boundary winds twice around the core and
+  three times in the meridional direction, the torus knot `T(2, 3)`.
+
 *Needs:* 1.8–1.8.1,4.2,4.3,4.3.2 and the marked torus-knot construction of 4.11.
 The explicit trefoil applications consume the early surface prefix; they
 supply no premise of1.8.1 or of generic disc-band classification.
@@ -3308,7 +3457,10 @@ embedded spanning surfaces. The minimum over diagram Seifert-algorithm
 surfaces is the separate canonical genus of 4.3.2. In particular,
 the proof below does not assume every spanning surface is canonical,
 `g=g_can`, or an additivity theorem for canonical genus. Use ordinary
-genus in the prime-decomposition argument.
+genus in the prime-decomposition argument (Lickorish, Theorem 2.4 and its
+proof, which is the innermost-circle surgery below; the compression step is
+Lickorish, Chapter 2, and Hatcher, *Notes on Basic 3-Manifold Topology*,
+§1.1, on surgery along a disc).
 
 Develop the embedded disc-band, raw Seifert-surface and free-boundary
 routing prefix of 4.3.2 independently of minimum genus and trefoil
@@ -3424,6 +3576,21 @@ impossibility of `K#J=unknot` when K is nontrivial, and primeness of every
 genus-one knot. These supply the existence part of 4.9. Full cancellation
 and uniqueness require the sphere-system argument there, not genus alone.
 No crossing-number additivity or bound on factor crossing numbers follows.
+
+**Checks.**
+
+- The two-component unlink is spanned by a connected annulus with `g = 0`, `μ = 2` and
+  `β = 2·0 + 2 − 1 = 1`; its core compresses the annulus to two discs, so a minimum
+  connected link surface need not be incompressible, and the knot argument does not apply.
+  The Hopf link has `g = 0` and `β = 1` as well, so `β` alone does not separate the two.
+- `g(T # T) = 1 + 1 = 2` for two trefoils, with `β = 4`; the boundary connected sum of two
+  genus-one surfaces along an interval has `χ = −1 − 1 − 1 = −3`, `b = 1` and genus `2`,
+  realizing the upper bound.
+- Compressing a once-punctured torus along a nonseparating curve gives a disc: `χ` rises
+  from `−1` to `1` and the genus drops from `1` to `0`; compressing an annulus along its
+  core gives two discs, `χ` from `0` to `2`, the separating case with `b₁ + b₂ = 2`.
+- A genus-one knot is prime: a factorization `K = K₁ # K₂` with both factors nontrivial
+  would need `g(K₁) + g(K₂) = 1` with both summands at least `1`.
 
 *Needs:* 1.1–1.5, 1.8–1.8.1, 2.2–2.3, 3.3, 4.1; the basic Seifert/linking
 carriers of 4.3 and the independent embedded disc-band, raw-surface and
@@ -3858,6 +4025,22 @@ with c≥1 crossings, consume the planar once-each relator identity built
 in Layer4.4.2 to remove any one relation. The crossing-free unknot has one generator and
 no relators. Abstract countability is not the proof of finite presentation.
 
+**Eliminating arcs.** Let the arcs of a realized oriented diagram be the generators and
+Layer4.4.2's signed crossing relators `r=o^ε u o^(−ε) v⁻¹`, ε=±1, the relations. If
+the overarc `o` and one underarc of a crossing are already expressed as words in a
+chosen set of seed arcs, that crossing's relator expresses the other underarc:
+`v=o^ε u o^(−ε)` or `u=o^(−ε) v o^ε`. Prove that deleting the generator together with
+this relator and substituting its word into every other relator is a Tietze
+transformation, so the smaller presentation presents the same group, and that the
+deleted generator equals its word modulo the original relations. Iterating along a
+sequence of crossings, each used once and each with its overarc and one underarc already
+expressed, reduces the Wirtinger presentation to one on the seed arcs with the remaining
+rewritten relators; the once-each identity then exhibits one remaining relator in the
+normal closure of the others. Prove that every substituted word has exponent sum1 and
+every rewritten relator exponent sum0, so the homomorphism to `Multiplicative ℤ` sending
+every arc to1 descends to the reduced presentation. A set of seed arcs need not admit
+such a sequence; the sequence is part of the data.
+
 **Checks.**
 
 - `FreeGroup ℕ` is countable and has the empty relator presentation on
@@ -3873,11 +4056,23 @@ no relators. Abstract countability is not the proof of finite presentation.
   presentation. The crossing-free μ-component unlink has the free group
   on `Fin μ` with no relators. The one-crossing kink presents ℤ with its
   sole Wirtinger relator already equal to1 as a free word.
+- In the standard trefoil diagram with arcs `x,y,z` and relators `z=xyx⁻¹`,
+  `x=yzy⁻¹`, `y=zxz⁻¹`, eliminating `z` through the first crossing rewrites
+  the other two relators to `xyx=yxy` twice; one copy is redundant, as the
+  once-each identity predicts, and the substituted word `xyx⁻¹` has
+  exponent sum1. The single seed `x` admits no elimination step, since every
+  crossing involves three distinct arcs, consistent with `x` not generating
+  the nonabelian trefoil group.
+- For the Hopf link with one arc per component there is no step to take; the
+  map sending both arcs to1 is the total linking map onto ℤ and not the
+  abelianization ℤ², so the exponent-sum statement is about a homomorphism
+  to ℤ, not about the abelianization of a link group.
 
 *Needs:* native `Group.Presentation`, `Group.Generators`, `PresentedGroup`,
 `FreeGroup`, `Subgroup.normalClosure`, `Countable`, `Group.IsFinitelyPresented`
 and the geometric Wirtinger construction in Layer4.4; Layer4.4.2
-for the once-each relator identity and individual-relator deletion.
+for the signed relators, the once-each relator identity and individual-relator
+deletion. The elimination lemma is built here.
 
 ### 4.4.4 The marked four-band Seifert example
 
@@ -4051,9 +4246,9 @@ formula by the exact adapter `D_V(s)=(−1)^n s^(−(n mod2))·(alexander V)(s²
 value alone is not the normalized link invariant at odd rank. At general rank the exact
 raw comparison is `D_V(s)=(−1)^r s^(−r) det(s²V−Vᵀ)`. The raw determinants of a
 compatible skein triple satisfy `det(tV₊−V₊ᵀ)−det(tV₋−V₋ᵀ)=(1−t)det(tV₀−V₀ᵀ)`. This
-supplies the precise representative choice behind p192's Alexander formula “up to
-units”; unrelated Laurent-unit choices do not preserve an exact three-term skein
-equality. Compare the resulting order with4.4's Fox/cover and Burau gcds, retaining zero
+supplies the precise representative choice behind the Alexander polynomial's usual
+“up to units” normalization; unrelated Laurent-unit choices do not preserve an exact
+three-term skein equality. Compare the resulting order with4.4's Fox/cover and Burau gcds, retaining zero
 orders and full link Fitting ideals.
 
 **HOMFLY, the source convention and native Jones.** Reuse4.6's one HOMFLY invariant P in
@@ -4079,12 +4274,12 @@ H_L(s):=V_L(s²) = P_L(s⁻²,−s²,s⁻¹−s)
 
 The scaled three-variable evaluations agree because P has total degree0; prove this
 coefficientwise with the actual Laurent exponents. The negative Conway convention
-satisfies ∇⁻₊−∇⁻₋=−z∇⁻₀ and `∇⁻_L=(−1)^(μ−1)∇_L`. It is the convention of p192 and the
-positive-iz formula on p200 once its pictured crossing labels have been compared with
-the native ones. The source's positive-i Jones second argument has the last displayed
-component phase at the fixed square-root branch, rather than being identified with
-native Jones for every link. Compare it also with the branch change s↦−s using4.5's
-parity theorem.
+satisfies ∇⁻₊−∇⁻₋=−z∇⁻₀ and `∇⁻_L=(−1)^(μ−1)∇_L`. It is the convention under which the
+substitution is written with the positive second argument `iz`; the last displayed
+comparison shows that the positive-argument Jones substitution `ρ_L(is⁻²,i(s−s⁻¹))`
+carries the component phase `(−1)^(μ−1)` at the fixed square-root branch and is not the
+native Jones polynomial for every link. Compare it also with the branch change s↦−s
+using4.5's parity theorem.
 
 The images of z or m need not be units in the integer polynomial/Laurent subring, so
 there is no such coefficient homomorphism on the entire HOMFLY Laurent ring with that
@@ -4232,11 +4427,20 @@ diagram's Seifert surface is minimal, nor that a surface homeomorphic to F has t
 knotted boundary. Consuming a later general alternating-surface minimality theorem gives
 a comparison with these certificates, not an input to their proofs.
 
-Give total finite evaluators/certificates for input decoding, oriented smoothing, circle
-sets, incidence/tree data and matrix/determinant calculations. Prove their soundness and
-naturality on these actual native carriers. The connected-surface, H₁-basis and linking
+The connected-surface, H₁-basis and linking
 producers are genuine geometric targets, not fields assuming the desired genus or matrix
 identity.
+
+**Checks.**
+
+- `2g = n − s + 1` holds in every row: `3₁` has `n = 3, s = 2, g = 1`; `5₁` has
+  `n = 5, s = 2, g = 2`; `7₁` has `n = 7, s = 2, g = 3`; `7₂` has `n = 7, s = 6, g = 1`.
+- Each tabulated `∇` has degree `2g`, nonzero leading coefficient and `∇(0) = 1`, and its
+  value at `z = 2i` has absolute value the determinant: `3₁` gives `|1 − 4| = 3`, `4₁`
+  gives `|1 + 4| = 5`, `7₄` gives `|1 − 16| = 15`.
+- The six-crossing three-strand braid surface of `5₂` has genus `2`, while the standard
+  five-crossing surface has genus `1 = g(5₂)`: the algorithm genus depends on the diagram,
+  and only the universal lower bound makes the second surface minimal.
 
 *Needs:* 4.2's realized PD and named-model comparison prefix; 4.3/4.3.2's linking,
 embedded Seifert surfaces and relative tree moves; 4.4/4.4.1/4.4.2/4.4.5's independent
@@ -4335,8 +4539,8 @@ linking number is n/2.
    only one cofactor. No minor of size −1 is formed at n=0.
 
    In ℤ[t] prove `(1+t)F_n=1−(−t)^n`, constant coefficient1, leading coefficient
-   (−1)^(n−1) and degree n−1 for n≥1, together with `F_n(−1)=n`. The quotient formulas
-   on p155 mean this division-free identity; t=−1 is included. Compare with native
+   (−1)^(n−1) and degree n−1 for n≥1, together with `F_n(−1)=n`. This division-free
+   identity replaces the quotient `(1−(−t)^n)/(1+t)`; t=−1 is included. Compare with native
    unreduced Burau matrices: for the positive power its corner minor is `−t F_n`, and
    for σ₁^(−m) it is `t(−t)^(−m)F_m` for m>0. Prove these exact factors and their unit
    status before transporting to `MarkovBraid.burauAlexander`. All three Seifert, Fox
@@ -4403,6 +4607,21 @@ linking number is n/2.
    Compare the source row determinant with the reduced-coloring order, while keeping the
    two-component unlink's determinant/order0 branch distinct from an empty knot
    determinant. Over finite fields these are exact finite computations.
+
+**Checks.**
+
+- `F_1 = 1`, `F_2 = 1 − t`, `F_3 = 1 − t + t²` and `F_5 = 1 − t + t² − t³ + t⁴`, with
+  `F_n(−1) = n` and `(1 + t)F_n = 1 − (−t)^n`; the quotient form fails at `t = −1`, the
+  identity does not.
+- `C_1 = 1`, `C_2 = z`, `C_3 = z² + 1`, `C_4 = z³ + 2z`, `C_5 = z⁴ + 3z² + 1`: the odd
+  members are the Conway polynomials of the unknot, trefoil and cinquefoil rows of 4.4.6,
+  and `C_4` is the coherently oriented `L_4`, whose one-component reversal gives `−2z`.
+- The presentations at `n = 1` and `n = 2` give `x = y` (the group `ℤ`) and `xy = yx` (the
+  group `ℤ²` of the Hopf link); `a² = b²` presents the Klein bottle group, not the Hopf link
+  group, which is why `a² = bⁿ` is used only for odd `n`.
+- `5₁` has `25` full and `20` nonconstant `5`-colourings, the trefoil `9` and `6`
+  `3`-colourings, and `T(2, n)` has `m·gcd(m, |n|)` colourings modulo `m`, so `T(2, 5)` has
+  only the `3` constant colourings modulo `3`.
 
 *Needs:* 4.2's native braid/PD realizations; 4.3's disc-band Seifert producer; 4.4's
 covers and Alexander modules; 4.4.2's generic Fox/PD/Fitting comparison; 4.4.5's fixed
@@ -4587,6 +4806,19 @@ outside its stated range. The fourteen Conway labels are the [Knot Atlas
 entries](https://katlas.org/wiki/The_Rolfsen_Knot_Table); exact PD inputs and source
 conventions remain in the existing 4.4.6 dictionary.
 
+**Checks.**
+
+- For `3₁` with `p = 3`, `q* = 1` the signs are `ε₁ = ε₂ = +1`, the walk is `0, 1, 2`,
+  `P = 1 − t + t²`, `e = 2`, `h = 1` and `Δ = t − 1 + t⁻¹`; for `4₁` with `p = 5`, `q* = 7`
+  the signs are `−, +, +, −`, the walk `0, −1, 0, 1, 0`, `P = 3 − t − t⁻¹`, `e = 0` and
+  `Δ = −t + 3 − t⁻¹`. Both satisfy `P(1) = 1` and `P(−1) = p`.
+- Every tabulated `Δ` has `Δ(1) = 1` and `|Δ(−1)| = p`: `7₄` gives `|−4 − 7 − 4| = 15`,
+  `6₃` gives `1 + 3 + 5 + 3 + 1 = 13`, `7₇` gives `1 + 5 + 9 + 5 + 1 = 21`.
+- In `D = (F₃²) ⋊ C₂` with `t ↦ (0, 1)`, `a ↦ (e₁, 1)`, `b ↦ (e₂, 1)`, both `tat` and `ata`
+  equal `(−e₁, 1)` (since `2e₁ = −e₁`), `at = (e₁, 0)` and `bt = (e₂, 0)` are the two
+  basis translations, and the translations form the index-two subgroup of order `9`: no
+  pair of translations generates `D`, and `t, a` alone generate a subgroup of order `6`.
+
 *Needs:* 4.2's realized diagrams, Wirtinger/van Kampen and explicit group maps; 4.3's
 Seifert comparisons; 4.4.2's Fox/PD/Fitting producer; 4.4.5's fixed normalization;
 4.4.7's early augmentation/cover split; only 4.10.1's independent marked
@@ -4643,73 +4875,25 @@ needed to construct or distinguish these two marked examples.
 For the peripheral signs, see
 [Friedl, Lemma7.3](https://friedl.app.uni-regensburg.de/papers/2024_knot-theory-final.pdf).
 
+**Checks.**
+
+- The assignment `x ↦ x⁻¹`, `y ↦ y⁻¹` sends `xyx` to `(xyx)⁻¹` and `yxy` to `(yxy)⁻¹`, so
+  it preserves the relation and is an involutive automorphism of `G`; the assignment
+  `x ↦ y`, `y ↦ x` is also an automorphism, but it preserves the meridian class and is not
+  the reflection.
+- Conjugation by `xyx` exchanges `x` and `y`, since `(xyx)x(xyx)⁻¹ = (yxy)x(yxy)⁻¹ = y`, so
+  `z = (xy)³ = (xyx)²` is central; under abelianization `z ↦ 6` and `λ₊ = zx⁻⁶ ↦ 0`, as a
+  longitude must, whereas `zx⁻⁵` would map to `1`.
+- The Jones values `t + t³ − t⁴` and `t⁻¹ + t⁻³ − t⁻⁴` both have `V(1) = 1` and
+  `V(−1) = −3`, so neither the values at `±1` nor the determinant `3` separates the two
+  trefoils; the supports `{1, 3, 4}` and `{−4, −3, −1}` do.
+
 *Needs:*4.2’s realized braid/PD diagrams, mirror and complement maps;4.4 and
 4.4.7’s positive-meridian Wirtinger identifications;4.3’s linking and marked
 boundary push-offs;4.3.4’s genus0 criterion and ordinary-genus additivity;
 4.9’s independent connected-sum/prime definition prefix;4.5’s independent native Jones calculation, mirror formula
 and geometric invariance. Prime-factorization and classification are not inputs.
 The group map and Jones distinction do not consume8.5.2’s rigidity theorem.
-
-### 4.4.10 Marked Wirtinger presentation reductions
-
-Construct a complete presentation reduction for a realized ten-crossing knot diagram
-with three marked seed arcs x,y,z, seven ordered propagation crossings1–7 and three
-remaining crossings r₁,r₂,r₃, with all cyclic slots, over/under data, orientations and
-the bijections with these marks. There are ten crossings and ten Wirtinger arcs. The
-claim is an
-explicit presentation with three generators and two relators; it asserts
-neither minimal generator number nor minimal relator number.
-
-**A verified elimination schedule.** Use the native `FreeGroup` and
-`PresentedGroup` carriers and4.4.2's signed crossing relators
-`r=o^ε u o^(−ε) v⁻¹`, where ε=±1. Build a reusable finite elimination
-procedure with the following certificate at every step: one previously
-unassigned underarc, a distinct crossing not used earlier, and both its
-overarc and its other underarc already expressed in the retained generators.
-If the new arc is v, set its word to `W_o^ε W_u W_o^(−ε)`; if it is u,
-use `W_o^(−ε) W_v W_o^ε`. Retained arcs have their own generator words.
-Check incidences, signs, uniqueness and the strict dependency order; an
-arbitrary choice of three arcs need not admit this schedule.
-
-Produce the seven steps in the given order and all
-ten words W_a in `FreeGroup (Fin 3)`, identifying0,1,2 with x,y,z.
-Substitute them into every original crossing relator. Prove the seven
-selected relations become1 as free words, and list the exact three
-remaining words q₁,q₂,q₃, indexed by the residual marks. Give both native
-homomorphisms between the ten-generator presentation and
-`⟨x,y,z | q₁,q₂,q₃⟩`: every original arc maps to its W_a, and each seed
-maps back to its original arc. Prove the relations and the mutual inverse
-laws on every generator. This includes a certificate that each eliminated
-generator equals its prescribed word modulo the original relations.
-
-**The third residual relation.** Substitute the same W_a into4.4.2's
-planar free-group identity in which every crossing relator occurs once,
-conjugated and with exponent±1. The seven eliminated factors become1.
-Use the remaining three factors to give an explicit product-of-conjugates
-certificate that q₃ lies in the normal closure of q₁,q₂. Construct the
-inverse native maps deleting q₃, with their computing rules on x,y,z;
-likewise prove that either other residual word may be deleted instead.
-Transport the result through the geometric Wirtinger equivalence to an
-actual three-generator/two-relator presentation of this knot complement.
-Do not discard a residual relation merely because a count of crossings
-suggests redundancy: the substituted planar identity supplies the proof.
-
-For every target group G, construct the restriction/extension equivalence
-between full crossing labelings and triples solving the two retained
-words, naturally under homomorphisms of G. Prove the subgroup generated
-by all arc labels equals that generated by the seed triple, so this
-comparison preserves surjectivity. Layer4.7.4 consumes this producer for
-its finite searches. Show each W_a has total exponent1 and each genuine
-residual word has total exponent0. Construct the resulting epimorphism
-to `Multiplicative ℤ` sending every positive meridian to1 in additive
-notation, and identify it with the knot's meridional abelianization.
-
-*Needs:*4.2's realized oriented diagrams and geometric Wirtinger theorem;
-4.4.2's signed relators and planar once-each identity;4.4.3's native
-presentations, normal-closure criterion and generator computing maps;
-the earlier meridional abelianization. The finite elimination schedule and its
-verification are built here. No finite-group search, knot classification or word-problem oracle
-is an input.
 
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
@@ -4840,6 +5024,21 @@ these values for the realized `PDCode` closure of the word through the
 geometric closure invariance, in exact arithmetic. The literal threshold is a
 refuted source assertion, not a theorem target.
 
+**Checks.**
+
+- For `σ₁σ₂` in `B₃`, `e = 2` and `Δ = 1`: the displayed formula gives
+  `t(t + t⁻¹ + 1 + t² − (1 + t + t²)) = 1`, the unknot value; without the `+t` term it
+  would give `0`.
+- For `σ₁³σ₂`, `e = 4` and `Δ = t − 1 + t⁻¹`: `(1 + t + t²)Δ = t³ + t + t⁻¹`, the bracket is
+  `t + t⁻¹ + 1 + t⁴ − t(t³ + t + t⁻¹) = t + t⁻¹ − t²`, and `t²` times it is `t + t³ − t⁴`,
+  the positive trefoil.
+- The three-strand Hermitian form at `t = i` has leading minors `1, 1/2` and the
+  four-strand form at `ζ = exp(2πi/5)` has `1, (√5 − 1)/2, √5 − 2`, all positive; at
+  `t = −1` the entry `−t/(1 + t)` is undefined, which is why `t ≠ −1` is required.
+- The word `[2,2,−3,2,3,1,2,2,1,3,−1,3,2,2,1,−2,−3,−3,1]` has `14` positive and `5` negative
+  letters, so exponent sum `9`; its `Δ` has `Δ(1) = 27 − 34 + 2 + 10 − 6 + 2 = 1` and
+  `Δ(ζ) = 36 − 13√5 ≈ 6.93`, above `6.5` and below the valid bound `8`.
+
 *Needs:* Layers 4.2, 4.4 and 4.5 for realized braid closures, the normalized
 Alexander polynomial and the native Jones polynomial; TypeAHeckeAlgebras
 H1–H2; TemperleyLieb Layers 4–5; native reduced Burau matrices;
@@ -4898,15 +5097,8 @@ For links with several components the conclusion concerns oriented links;
 independent reversal of some components requires its actual linking-number
 phase and does not preserve the Jones polynomial in general.
 
-**Checks and source convention.** The empty word on `n≥1` strands has
-Jones polynomial `(-u−u⁻¹)^(n−1)` and reaches both support endpoints.
-The positive one-letter word on two strands has lower endpoint `0` and
-unknot polynomial `1`; it must not be declared chiral merely because the
-word is a nonidentity braid. The three-positive-letter trefoil has lower
-endpoint `2` and native polynomial `u²+u⁶−u⁸`. Swapping positive and
-negative letters under mirroring negates the support interval endpoints.
-
-For `σ₁²`, prove `p=2,q=0,n=2`, Jones polynomial `−u−u⁵` and lower
+**The Hopf link and the source convention.** For `σ₁²`, prove `p=2,q=0,n=2`, Jones
+polynomial `−u−u⁵` and lower
 endpoint `1`, and identify its closure with the oriented positive Hopf link.
 At the same time identify the underlying Hopf link with the coordinate
 circles in `S³⊂ℂ²` and construct the ambient orientation-reversing symmetry
@@ -4918,6 +5110,19 @@ word-count hypothesis above; its amphicheirality wording carries this
 explicit orientation distinction. Its cited positive-braid signature route
 is additionally specified in Layer 6.2; the state-sum proof here has no
 dependency on that later signature theorem.
+
+**Checks.**
+
+- The empty word on `n ≥ 1` strands has Jones polynomial `(−u − u⁻¹)^(n−1)`, which reaches
+  both endpoints `±(n − 1)` of the bound with `p = q = 0`.
+- The positive one-letter word on two strands has `p = 1`, `q = 0`, lower endpoint `0` and
+  unknot polynomial `1`; a nonidentity braid word does not make its closure chiral.
+- The three-positive-letter trefoil has lower endpoint `3 − 2 + 1 = 2` and native polynomial
+  `u² + u⁶ − u⁸`; swapping positive and negative letters under mirroring negates both
+  endpoints.
+- `σ₁²` has lower endpoint `2 − 2 + 1 = 1` and upper endpoint `7`, and its polynomial
+  `−u − u⁵` has support `{1, 5}`; its oriented mirror has polynomial `−u⁻¹ − u⁻⁵`, so the
+  oriented Hopf link is chiral while the unoriented one is amphicheiral.
 
 *Needs:* Layers 4.1–4.2 for realized braid closures and mirror/orientation
 transport; Layer 4.5's native Jones state sum, mirror inversion and value at
@@ -5158,6 +5363,20 @@ for Arf1. Compare the absolute determinant separately, where the usual
 criterion is `±1` versus `±3` mod8. Check the trefoil's signed value−3,
 figure-eight5 and unknot1. The empty link is outside this Arf constructor;
 its existing normalized-bracket convention stays separate.
+
+**Checks.**
+
+- The nonempty `μ`-component unlink has `V(i; u₄) = (−√2)^(μ−1)`, the positive Hopf link
+  `0` (it is improper, its linking number `1` being odd) and the positive `T(2, 4)` `+√2`
+  with Arf `1`; the two-component unlink value `−√2` is not an integer power of `2`.
+- `W_unknot = 0` and `W_(right trefoil) = 1`: `D·1 = (1 − t³)(1 − t) = 1 − t − t³ + t⁴`
+  equals `1 − V` for `V = t + t³ − t⁴`.
+- The signed values `Δ(−1)` are `−3` for the trefoil, `5` for the figure-eight and `1` for
+  the unknot, respectively `5, 5, 1 mod 8`, matching Arf `1, 1, 0`; the unsigned
+  determinants `3, 5, 1` are `3, 5, 1 mod 8`, so the signed criterion (`1` versus `5`) and the
+  unsigned one (`±1` versus `±3`) must not be mixed.
+- The positive Hopf link has `H(i) = −2i` while `∇(2i) = 2i`, which fixes the sign in
+  `H_L(i) = (−1)^(μ−1)∇_L(2i)`.
 
 *Needs:* the earlier Seifert-surface/quadratic dictionary, finite common
 stabilizations, Layer 4.3.1's finite quadratic Arf classification, native
@@ -5457,8 +5676,8 @@ For the literal E compute endpoints−13,−4, span9 and E(−1)=9. Thus E is ne
 F(t⁻¹). Absolute evaluation at−1 also excludes explanation by a monomial unit ±t^k. As a
 separate actual braid computation, the negative two-strand nine-letter word has Jones
 polynomial E. Compare that closure with 4.8.2/4.11's signed T(2,−9) model. This
-algebraic coincidence does not rename the source 9₄₁ row to 9₁ or identify a source
-drawing: p109 contains no drawn9₄₁ diagram.
+algebraic coincidence does not rename the tabulated 9₄₁ row to 9₁: E is the Jones
+polynomial of `T(2,−9)`, and no diagram of 9₄₁ realizes it.
 
 **The 9₄₂ comparison for every overwritten coefficient.** Reuse 4.6.2's declared native
 four-strand word, all code/geometry dictionaries and its direct native Jones
@@ -5502,6 +5721,17 @@ equal to its crossing number (4.8), so an alternating representative would have 
 six crossings; that 9₄₂ is none of the knots with at most eight crossings is tabulated
 knowledge (its crossing number 9 is read from the table, not proved here). A
 nonalternating projection alone does not prove this statement about the knot type.
+
+**Checks.**
+
+- `F(1) = −1 + 3 − 5 + 8 − 8 + 8 − 7 + 5 − 3 + 1 = 1` and
+  `F(−1) = 1 + 3 + 5 + 8 + 8 + 8 + 7 + 5 + 3 + 1 = 49`, so `det 9₄₁ = 49 = 7²`; the support
+  `[−6, 3]` is not symmetric, so `F ≠ F(t⁻¹)`.
+- `E(−1) = 9` and `E` has span `9` with support `[−13, −4]`: it is `V_(T(2,−9))`, of
+  determinant `9`, and no monomial unit `±t^k` carries it to `F`, since `9 ≠ 49`.
+- `R_c(1) = 3 + c`, `R_c(−1) = 15 − c` and `R_c′(1) = 2 + c`: `c = −2` is forced by
+  `R_c(1) = 1`, but then `R_(−2)(−1) = 17` and the span stays `7`, whereas `9₄₂` has
+  `G(−1) = −7` and span `6`.
 
 *Needs:* 4.2/4.2.5's native realized word/PD/DT/Gauss and finite move
 comparisons;4.4.2's figure-eight and 4.5's trefoil models;4.5.3's integral knot-variable
@@ -5735,6 +5965,20 @@ endpoint permutation is a five-cycle and its exponent is12, proving it is a
 nonidentity braid with knot closure of braid index5. Supply the actual native words,
 component and trace comparisons. Keep full linear image, projective simple quotient
 and the full Jones image distinct.
+
+**Checks.**
+
+- `β_(1,p) = σ₁^(2p)` has trivial permutation, two components and linking number `p`; the
+  exchange-shaped closure on two strands is the two-component unlink with linking `0`, so
+  no `β_(1,p)` with `p ≥ 1` is exchange-shaped.
+- In `C₅` each generator has order `3`, since its Burau eigenvalues `1` and `−ζ` satisfy
+  `(−ζ)³ = −ζ³ = 1`; the orders `155520 = 2⁷·3⁵·5` and `25920 = 155520/6` are those of
+  `G₃₂` and `PSp₄(𝔽₃)`.
+- `b = σ₁³σ₂³σ₃³σ₄³` has exponent sum `12` and a five-cycle permutation, each `σ_i³` acting
+  as the transposition `(i i+1)`, so its closure is a knot; `ρ_u(b) = 1` since each cube
+  of a source generator is `−i` and `(−i)⁴ = 1`.
+- For the full twist `tr ρ_u(z) = (−4 + 5)/9 = 1/9`, so neither rigidity criterion of
+  4.5.6 applies to this projective witness, while `z²` has full Jones image `1`.
 
 *Needs:*4.2's native/geometric braid and linking interfaces;4.5.1's reduced Burau
 convention and4.5.6's trace/minimality comparisons and positive quotient at k=6;
@@ -6077,6 +6321,18 @@ bound gives u(K_n)≥n and Gordian distance `d(K_n,mirror K_n)≥2n`. These are 
 applications of the existing sum and distance APIs; no unknotting-number additivity is
 assumed.
 
+**Checks.**
+
+- `det(V − Vᵀ) = 1` and `det P = 1` (unit lower-triangular); the diagonal
+  `(−2, −3/2, 2/3, 1/2, −4, −7/4)` has two positive and four negative entries, so
+  `σ(K) = 2 − 4 = −2`.
+- `Δ(1) = −1 + 2 − 1 + 2 − 1 = 1`, `Δ(−1) = −1 − 2 − 1 − 2 − 1 = −7`, determinant `7`, and
+  `V(−1) = −7 = Δ(−1)`, consistent with 4.5.5's signed comparison.
+- `ρ_K(l⁻¹, m) = ρ_K(l, m)` and `V_K(t⁻¹) = V_K(t)` term by term, while `σ(mirror K) = +2`:
+  polynomial symmetry does not detect this chirality.
+- The signature bound gives `u(K_n) ≥ |σ(K_n)|/2 = n` and the Gordian distance
+  `d(K_n, mirror K_n) ≥ |−2n − 2n|/2 = 2n`.
+
 *Needs:* 4.2's realized words/PD/DT and local moves;4.3.2 and4.3.5's marked surfaces and
 integral cycle matrices;4.4–4.4.5,4.5 and4.6's independent polynomial constructions and
 coefficient comparisons; 6.2's independent signature invariance and crossing bound;4.8.3
@@ -6260,11 +6516,26 @@ universal ring contains no implicit square roots. Generic trace identities hold 
 their denominators are units; singular specializations require an algebraically proved
 regular/integral expression and agreement with T, never an evaluation sending a Laurent
 unit to 0. Analytic positivity, C*-quotients and factor classifications remain their
-later owners and are not prerequisites for existence. Retain H2's corrected source 88
-exponential/sign/tan-versus-tanh comparisons and 4.4.5/4.5's established
-Conway/native-Jones dictionary; a source convention must not silently replace it.
-Mutation, two-tangle composition and the distinguishing examples on pp.88–89 retain their
-existing 4.10/6.3 owners, downstream of existence.
+later owners and are not prerequisites for existence. Retain H2's exponential, sign and
+tan-versus-tanh comparisons and 4.4.5/4.5's established Conway/native-Jones dictionary;
+a source convention must not silently replace it. Mutation, two-tangle composition and
+the mutant and two-tangle examples retain their existing 4.10/6.3 owners, downstream of
+existence.
+
+**Checks.**
+
+- The closures of `a²b²` and `(ab)²` in `B₃` have three and one components, their
+  permutations being the identity and a three-cycle; a rule `[ab] = [ba]` applied inside
+  words would identify them, which is why M1 is a relation on whole words only.
+- S6 on the empty one-strand word gives `[ι[ ]]₂ = δ[ ]₁`, so the two-component unlink has
+  value `δ = −(x + y)z⁻¹`, which at `x = l`, `y = l⁻¹`, `z = m` is `−(l + l⁻¹)/m`, the
+  unlink value in the source convention.
+- Every rule lowers the measure: S3 lowers the negative-letter count by one, S4 the length
+  by two, S5 and S6 the strand count by one, and S1/S2 the positional code at fixed
+  strand count, negative count and length; no rule raises an earlier coordinate.
+- For the standard trefoil diagram with a suitable basepoint exactly one crossing is bad in
+  Hoste's descending convention; switching it gives an unknot diagram and smoothing it the
+  Hopf link, so `P(3₁)` is determined by `P(unknot) = 1` and `P(Hopf)` through P1.
 
 *Needs:* 4.2's finite oriented diagrams and realized local moves,
 Artin/Alexander/geometric Markov prefix and relative isotopy extension; this unit owns
@@ -6831,10 +7102,10 @@ Its ranks are k_p for p∈S and0 at every other prime, and its determinant
 is `∏_(q∈S)q^(k_q)`. Empty S and all-zero multiplicities give the
 unknot. Conversely prove the contributing primes of any knot form a
 finite set of odd divisors of its nonzero determinant, via the actual
-integral presentation. The source's finite-prime independence has the
-necessary p=2 forced-zero qualification. For pp104's concrete two-prime
-example use k trefoils and j cinquefoils T(2,5), giving r_3=k and r_5=j.
-Its “5-twist” shorthand does not denote5₂, whose determinant is7.
+integral presentation. The finite-prime independence statement carries the
+necessary p=2 forced-zero qualification. As a concrete two-prime example
+use k trefoils and j cinquefoils T(2,5), giving r_3=k and r_5=j; the
+cinquefoil here is T(2,5), not 5₂, whose determinant is7.
 
 **Finite geometric calibrations.** For the square knot
 `T(2,3)#mirror(T(2,3))`, prove r_3=2 and therefore u≥2. Change one
@@ -6855,6 +7126,20 @@ with both changes of basis unimodular. Give the actual arc/region
 presentation equivalences; determinant27 alone does not prove nullity2.
 A realized three-overpass presentation gives b≤3; r_3+1≤b gives b≥3.
 Thus b(P(3,3,3))=3, including the precise source lower-bound argument.
+
+**Checks.**
+
+- `M = [[2, −1], [1, 0]] = I + N` with `N² = 0`, so `M^m = I + mN` and the closure condition
+  of `σ₁^m` is `m(x − y) = 0`: `T(2, 3)` has `r_3 = 1` and `r_5 = 0`, `T(2, 5)` has `r_5 = 1`
+  and `r_3 = 0`, and `r_2 = 0` for both.
+- The square knot `T(2, 3) # mirror(T(2, 3))` has `r_3 = 1 + 1 = 2`, hence `u ≥ 2`, and the
+  two single crossing changes give `u = 2`; its signature is `−2 + 2 = 0`, so the signature
+  bound alone gives nothing here.
+- `G = [[6, −3], [−3, 6]]` has determinant `27` and Smith form `diag(3, 9)`: the based mod-`3`
+  colouring dimension of `P(3, 3, 3)` is `2`, not `1`, which the determinant alone cannot
+  show; with `r_3 + 1 ≤ b` and a three-overpass diagram, `b(P(3, 3, 3)) = 3`.
+- The crossing-free unknot has full module `R`, based module `0` and one bridge, not zero;
+  counting designated arcs of a diagram instead of overpasses would give the wrong `b`.
 
 *Needs:* native PD pairing/overpass/component data, native
 `Quandle.Dihedral`, `Submodule`, `LinearMap.ker/range`, finite-dimensional
@@ -6919,6 +7204,20 @@ support. Include unused letters as isolated vertices. Hence transitivity
 of the cycles implies that their factors generate S_N; the even cycles
 themselves need not generate S_N. Use native support, `MulAction.orbitRel`
 and swap-factor APIs, without a second hypergraph or permutation theory.
+
+**Checks.**
+
+- For the positive trefoil with incoming pair `((12), (23))`: `H` gives `((13), (12))`,
+  `H²` gives `((23), (13))` and `H³` returns `((12), (23))`, so the three arc labels are
+  `(12), (23), (13)`, which generate `S₃`; the labelling is nonconstant and `br = 2 = 3 − 1`.
+- The constant labelling by one transposition satisfies every crossing equation but
+  generates a group of order `2`, so it yields no bound: generation is the hypothesis.
+- For `N = 0` and `N = 1` the empty set of transpositions generates `S_N`, the graph is
+  connected, and `N − 1 ≤ S.ncard` reads `−1 ≤ 0` in `ℤ` for `N = 0`, which is why that case
+  is separated from the natural-number statement.
+- The three-cycles `(123)` and `(345)` act transitively on five letters but generate only
+  `A₅`, of order `60`, while their transposition factors `(13), (12), (35), (34)` form a tree
+  on five vertices and generate `S₅`, of order `120`.
 
 ### 4.7.3 Signed pretzel diagrams and transposition labelings
 
@@ -7043,13 +7342,13 @@ native `Equiv.Perm.IsSwap`, `Subgroup.closure`, `Quandle.Conj`, dihedral
 colorings and `ZMod 3` linear algebra. The marked pretzel code, cap/component
 comparison, signed transfer and complete finite classification are built here.
 
-### 4.7.4 Finite conjugacy-class searches
+### 4.7.4 Conjugation orbits of finite colourings
 
-For every finite group G and finite realized link diagram, enumerate the
-actual signed Wirtinger colorings from Layer4.7. Use the finite native
-`Group.Presentation`: filter generator assignments by evaluation of its
-relator words in G, and prove the resulting finite set is equivalent to
-homomorphisms from the complement group to G. The subset whose labels
+For every finite group G and finite realized link diagram, the signed
+Wirtinger colorings of Layer4.7 form a finite set. Through the finite native
+`Group.Presentation`, a generator assignment is a coloring exactly when every
+relator word evaluates to1 in G; prove that this finite set is equivalent to
+the homomorphisms from the complement group to G. The subset whose labels
 generate G corresponds exactly to surjective homomorphisms. Construct
 restriction/extension maps for an explicitly verified arc-elimination
 schedule, carrying every residual equation and inverse substitution.
@@ -7093,11 +7392,11 @@ link without a marked arc. Component reversal inverts the corresponding
 meridian label, with the earlier signed coloring transport; record its
 map of conjugacy classes before comparing class-restricted counts.
 
-**Finite instantiations.** The coloring set is finite, and its exact counts come
-with explicit witnesses: compute conjugacy classes and centralizers, fix a marked
-representative, evaluate all residual words, and test the subgroup generated by each
-solution using finite subgroup closure. Transport results under generator changes, class-representative
-changes, Reidemeister moves and mirror/orientation adapters. Keep raw
+**Finite instantiations.** The coloring set is finite, and its exact counts follow
+from the conjugacy classes, centralizers and marked representatives above, with the
+generated subgroup of each coloring recorded. Transport results under generator
+changes, class-representative changes, Reidemeister moves and mirror/orientation
+adapters. Keep raw
 coloring counts, generating counts, conjugation orbits and image-subgroup
 data as separate outputs. No one of these identifies a knot type completely.
 Instantiate this for S₃,S₄,S₅ and the native finite matrix group
@@ -7153,7 +7452,7 @@ subgroup-conjugacy strata. These are generic finite-group outputs.
 coloring equivalences); native `Group.Presentation`, `PresentedGroup`,
 `ConjAct`, `ConjClasses`, `MulAction.orbitRel`, subgroup centralizers,
 finite permutation cycle types, finite matrix groups and Burnside counting.
-The induced-set, joint-centralizer and finite-search comparisons are built here.
+The induced-set and joint-centralizer comparisons are built here.
 
 ### 4.7.5 The complete `5₂` coloring calculation
 
@@ -7234,6 +7533,17 @@ before assigning them to the geometric source knot.
 This is an arc matrix. Keep the signed checkerboard region (Goeritz) matrix distinct,
 with the comparison owned by4.7.
 
+**Checks.**
+
+- Every row and column of `A` sums to `0`; deleting row `1` and column `1` leaves
+  `[[0, 2, −1, 0], [0, 0, 2, −1], [−1, 0, −1, 2], [2, −1, 0, −1]]`, of determinant `−7`, and
+  every signed cofactor equals `−7`.
+- `det P = −1`, `det Q = 1` and `PAQ = diag(1, 1, 1, 7, 0)`: the invariant factors are
+  `1, 1, 1, 7` with one zero, so `coker(Aᵀ) = ℤ ⊕ ℤ/7`.
+- `A(c, c + a, c − a, c − 2a, c − 4a) = (0, 0, 0, −7a, 7a)`, so the kernel over `R` is cut
+  out by `7a = 0`: modulo `7` there are `49` colourings and `42` nonconstant ones, modulo
+  `3` only the `3` constant ones, and modulo `14` there are `14·7 = 98`.
+
 *Needs:*4.2’s realized PD/arc and relative diagram comparisons;4.4.6’s
 fixed standard5₂ model;4.7’s all-ring checkerboard/cofactor/normalization
 producer and4.7.1’s independent rectangular integer-presentation prefix.
@@ -7307,11 +7617,10 @@ T(2,5) model. Its meridians have cycle type(3,2) and order6, rather than
 being transpositions or individual3-cycles. This is a concrete geometric
 calibration.
 
-**Complete finite counts.** Instantiate4.7.4's class-restricted search on
-the specified native closures. For each row, the incoming meridians must
-both lie in the single stated conjugacy class C. Prove the following
-counts by complete enumeration or an exhaustive residual-centralizer
-argument, with actual witnesses.
+**Complete finite counts.** Instantiate4.7.4's class-restricted orbit
+description on the specified native closures. For each row, the incoming
+meridians must both lie in the single stated conjugacy class C. Prove the
+following counts by the centralizer argument, with explicit witnesses.
 
 | Model | Group and class C | Size of C | All pairs | Generating | Fiber: all | Fiber: generating |
 | --- | --- | ---: | ---: | ---: | ---: | ---: |
@@ -7330,10 +7639,26 @@ actual centralizer action of orders2,4,6, not independent conjugations of
 the two incoming labels. Transport all counts and image data through the
 actual closure/diagram maps and their mirror/orientation counterparts.
 
+**Checks.**
+
+- `H((12),(23)) = ((13),(12))`, `H²((12),(23)) = ((23),(13))` and `H³((12),(23)) = ((12),(23))`:
+  the fixed-pair condition `H³(s, t) = (s, t)` is the braid relation `sts = tst`, and for
+  `s = (12)`, `t = (23)` both sides equal `(13)`.
+- In `S₄`, `s = (1234)` and `t = (1243)` satisfy `sts = tst`, and `s²t = (14)`; the
+  conjugates of `(14)` by the powers of `s` are `(14), (12), (23), (34)`, the edges of a
+  four-cycle, so `s, t` generate `S₄`.
+- In `S₅`, `a = (45)(123)` and `b = (35)(124)` have `a³ = (45)`, `b³ = (35)` and
+  `ab = (13425)`; the cubes alone generate the order-`6` group of permutations of
+  `{3, 4, 5}`, while the five-cycle `ab` with the transposition `a³` generates `S₅`.
+- The three rows satisfy `|all pairs| = |C|·|fibre: all|` and
+  `|generating| = |C|·|fibre: generating|`: `9 = 3·3`, `6 = 3·2`; `30 = 6·5`, `24 = 6·4`;
+  `140 = 20·7`, `120 = 20·6`; and `|all| − |generating| = |C|` in every row, the constant
+  pairs.
+
 *Needs:*4.2's realized diagrams and
 relative moves;4.4/4.4.7's geometric meridional group comparisons;
-4.7.2's independent signed conjugation-coloring prefix and4.7.4's finite
-class/centralizer search. These constructions use no late knot-table
+4.7.2's independent signed conjugation-coloring prefix and4.7.4's
+class/centralizer theory. These constructions use no late knot-table
 exhaustion or assumption that finite group invariants classify knots.
 
 ### 4.7.7 Pretzel surfaces, Alexander modules and integer colorings
@@ -7481,6 +7806,22 @@ each orientation assignment; bare sign(G) is not the general link signature.
    using 4.7.1's actual matrices and geometric coloring comparison.
    The based ZMod n module is Ann(3)×Ann(9), not Ann(27).
    Its based mod3 dimension2 agrees with the earlier bridge example.
+
+**Checks.**
+
+- `P(1, 1, 1)`: `B = 3`, `A = 1`, `W = [[1, 1], [0, 1]]`, `V = Wᵀ`, `det(tV − Vᵀ) = (t − 1)² + t`,
+  `Δ = t − 1 + t⁻¹`, `S = V + Vᵀ = [[2, 1], [1, 2]]` with `det S = 3 > 0` and
+  `σ = 2·sign(2) = 2`: the left-handed trefoil; its mirror `P(−1, −1, −1)` has `σ = −2`, the
+  native right trefoil.
+- `P(−3, 5, 7)`: `B = −15 − 21 + 35 = −1`, `A = 0`, `Δ = 1`, `det S = −1 < 0`, `σ = 0`;
+  `P(3, 5, −7)`: `B = 15 − 21 − 35 = −41`, `A = −10`, `Δ = −10t + 21 − 10t⁻¹`, `Δ(−1) = 41`,
+  `σ = 0`. A unit Alexander polynomial does not make `P(−3, 5, 7)` the unknot.
+- `B ≡ 3 mod 4` for odd parameters: `3`, `−1` and `−41` are all `≡ 3`, so `A = (B + 1)/4`
+  is `1, 0, −10`.
+- `P(3, 3, 3)`: `G = [[6, −3], [−3, 6]]`, `B = 27`, `g = 3`, Smith form `(3, 9)`; `P(2, 2, 2)`
+  is a three-component link with `G = [[4, −2], [−2, 4]]`, `B = 12`, `g = 2`, Smith form
+  `(2, 6)` and `2³ = 8` colourings modulo `2`, one per component orientation class; `P(0, 0, 0)`
+  has `G = 0` and `n³` colourings modulo `n`.
 
 *Needs:* 4.2's realized diagrams, component tracing and signed local moves; 4.3's finite
 embedded bands, homology bases, push-offs and Seifert forms; 4.4's geometric
@@ -7846,6 +8187,20 @@ deduce crossing additivity for connected sums of adequate knots, with
 the unknot as identity. This does not prove the source's general crossing
 additivity conjecture for arbitrary knots.
 
+**Checks.**
+
+- The standard trefoil diagram (`n = 3`) has `{s_A, s_B} = {2, 3}`, so the bracket has
+  `maxdeg = 3 + 4 − 2 = 5` and `mindeg = −3 − 6 + 2 = −7` (or the mirror values), breadth
+  `12 = 4n`, the alternating equality; the one-crossing kink is not adequate, since one of
+  its two states has a loop edge.
+- `F_1(K) = δ V_K(A⁻⁴)`: for the unknot `F_1 = −(A² + A⁻²) = δ`, and
+  `F_r(unknot)(1) = (−1)^r(r + 1)`, the sum having `r + 1` terms equal to `1`.
+- `S_2 = x² − 1` and `S_3 = x³ − 2x`, so `C_2(D) = B(D²) − 1`; the kink eigenvalues are
+  `θ_1 = −A³`, the ordinary normalized-bracket kink factor, and `θ_2 = A⁸`.
+- For the trefoil diagram `D` with `n = 3`, `w = 3` and any diagram `E` of the same knot,
+  `n_D − w_D = 0 ≤ n_E − w_E` and `n_D + w_D = 6 ≤ n_E + w_E`; the mirror diagram has
+  `w = −3` and the two inequalities exchange roles.
+
 *Needs:* earlier realized plane diagrams, Reidemeister/Markov comparison,
 tubular neighbourhoods and marked connected sums; native PD state permutations/counts,
 `Graph`, `Setoid` join, `LaurentPolynomial.degree`, `.coeff` and `.invert`;
@@ -7885,7 +8240,7 @@ braidIndex(L_m)=2  otherwise.
 Hence for every nonempty oriented tame link L prove
 `braidIndex(L)=2 ↔ ∃m∈Z, m≠1 ∧ m≠−1 ∧ L≅oriented L_m`.
 Construct the actual equivalence from a minimizing two-strand braid and
-its unique exponent. This is an exhaustive classification, including the
+its unique exponent. This is a complete classification, including the
 index-two unlink; an available two-strand drawing alone does not establish
 minimality. The polynomial proof uses the early4.4 construction, without
 later torus classification, Garside theory or trace positivity. After4.11's
@@ -7910,6 +8265,17 @@ but L_(-4) is the mirror of L₄ and has Arf1. Thus its oriented braid
 index is at least3, while its underlying unoriented link has index2.
 This later check consumes the preceding elementary classification; it is
 not a premise for it.
+
+**Checks.**
+
+- `L_0` is the two-component unlink with braid index `2`, since every one-strand closure is
+  a knot; `L_(±1)` are unknots of index `1`; `L_(±2)` are the two Hopf links, of index `2`.
+- For odd `|m| ≥ 3` the determinant is `|m|`: `L_3` has determinant `3` and `L_5`
+  determinant `5`, so neither is the unknot; for even `m` the two components have linking
+  number `m/2`, so `L_4` and `L_(−4)` are separated by linking `2` and `−2`.
+- `L_4` has Arf `1`, and its one-component reversal has Arf `0` by the reversal law
+  `Arf(L_rev) = Arf(L) + ℓ/2` with `ℓ = 2`; the reversed link has linking `−2`, so a coherent
+  two-braid representative would be `L_(−4)`, of Arf `1`: the oriented index is at least `3`.
 
 *Needs:* Layers4.1–4.4 for realized closures, component/linking data,
 Markov comparison and Alexander/determinant normalization; native B₂
@@ -7959,40 +8325,29 @@ including transverse strand ordering, word direction, handedness and the global
 mirror/orientation transport used. A plane rotation can change generator indexing
 without changing handedness.
 
-Retain these literal source inputs, with braid generators numbered1 through4, word read
-left to right, and all switch positions zero-based:
+The theorem's data are the two five-strand braid words, with generators numbered1
+through4, read left to right, and switch positions zero-based:
 
 ```text
 b  = [1,-4,2,3,3,3,2,3,2,2,4,-3,-3,-3,-3,-1,-3,-2,-3,-3]
 b' = [-1,4,2,3,3,3,2,3,2,2,4,-3,-3,-3,-3,-1,-3,-2,-3,-3]
-dA = [4,-16,24,26,18,20,28,22,-2,10,12,30,6,8,14]
-dBa= [-4,-16,24,26,18,20,28,22,-2,10,12,30,6,8,14]
-dBb= [4,12,-24,14,18,2,20,26,8,10,-28,-30,16,-6,-22]
-dC = [4,12,-24,14,18,2,-20,26,8,10,-28,-30,16,-6,-22]
-dU = [4,12,-24,14,18,2,-20,26,8,10,-28,-30,16,6,-22]
 ```
 
-The required marked path is
-
-```text
-T#mirror T ≅ closure(b)
-  -- switches0,1 --> closure(b') ≅ realization(dA)
-  -- switch0 --> realization(dBa) ≅ realization(dBb)
-  -- switch6 --> realization(dC)
-  -- switch13 --> realization(dU) ≅ U.
-```
-
-Construct the signed planar completions, distinguished outer faces, orientations, and
-actual native `BraidWord 5`/`OrientedPDCode` realizations. Adapt SnapPy's signed-even DT
-convention through4.2's existing encounter/rotation decoder; a signed DT entry is not an
-oriented crossing sign. Supply crossing dictionaries, local move discs, incidence
-checks, and relative planar-isotopy/Reidemeister certificates for every ≅, including the
-initial connected sum, closure(b') to dA, the two B diagrams, and the final unknot
-reduction. Figures1–6 locate these moves and switches; their selected snapshots are to
-be expanded into finite certified paths, including the unarrowed row join in Figure2.
-The intermediate labels are A=K14a18636, Ba=Bb=K15n81556 and C=K12n412; prove their
-source-code comparisons rather than using the common labels as isotopy certificates. The
-switch count is2+1+2. Deduce u(A)≤3, u(B)≤2 and u(C)≤1. The counterexample needs only
+The closure of b is `T#mirror T`, and b' differs from b by switching its first two
+letters. The marked path of five crossing changes passes through three named knots:
+the closure of b' is a diagram of `K14a18636` (Brittenham–Hermiller, Figure3), one
+further switch gives `K15n81556` (Figure4, with the isotopy between its two diagrams in
+Figure5), one more gives `K12n412`, and the last gives the unknot (Figure6). Realize
+each diagram of the path as a native `BraidWord 5` or `OrientedPDCode` realization with
+its planar completion, outer face and orientations, and prove each identification by a
+relative planar isotopy and Reidemeister moves: the initial connected sum, the
+identification of the closure of b' with the fourteen-crossing diagram, the isotopy
+between the two fifteen-crossing diagrams, and the final unknot reduction. A signed
+Dowker–Thistlethwaite entry of the paper is read through4.2.5's decoder; it is not an
+oriented crossing sign.
+Prove the comparisons with the paper's diagrams rather than using the knot names as
+isotopy certificates. The switch count is2+1+2. Deduce `u(K14a18636)≤3`,
+`u(K15n81556)≤2` and `u(K12n412)≤1`. The counterexample needs only
 u(T#mirror T)≤5, not equality5. SnapPy identification, floating-point exterior isometry
 and unmarked group presentations do not discharge these geometric certificates.
 
@@ -8208,6 +8563,11 @@ The quotient identifies ONE global reflection or reversal, not arbitrary
 reflections of individual prime summands. Its correct equivalence tests
 use the full oriented factor multiset with those simultaneous actions.
 
+Unknotting-number-one knots are prime (Scharlemann, *Unknotting number one
+knots are prime*, Invent. Math. 82 (1985), 37–55); the theorem is stated and
+proved in 5.4 and 5.4.1 by the sutured-manifold argument, and it is not a
+premise of this elementary factorization prefix.
+
 **Checks.**
 
 - The trefoil and figure-eight are prime by ordinary genus 1; the square
@@ -8218,10 +8578,6 @@ use the full oriented factor multiset with those simultaneous actions.
   three-component chain with two prime factors, g=0 and β=2.
 - Every nontrivial knot K and every J satisfy `K#J≠unknot`; the empty
   product represents the unknot and is not an extra prime factorization.
-- Prove that unknotting-number-one knots are prime
-  (Scharlemann, *Unknotting number one knots are prime*, Invent. Math. 82
-  (1985), 37–55). Its surgery-theoretic proof belongs to 5.4's later
-  application and is not a premise of this elementary factorization prefix.
 
 *Needs:* 4.1, 4.3.4; 2.2–2.3 for Schoenflies/annulus and relative ball/cap
 comparisons, 3.3 for supported isotopy extension, 11.2 for relative
@@ -8289,8 +8645,8 @@ endpoint links or a homotopy of underlying continuous maps.
 Use Menasco–Thistlethwaite, *The Tait flyping conjecture*, Bull. Amer. Math. Soc. 25
 (1991), 403–412, Theorem 1, with the full proof in *The classification of alternating
 links*, Ann. of Math. 138 (1993), 113–171. Own the
-following original proof prefix; a finite graph search or the weaker endpoint theorem
-does not prove the prescribed-map statement.
+following original proof prefix; a finite graph enumeration or the weaker endpoint
+theorem does not prove the prescribed-map statement.
 
 **Rigid vertices and the induction.** Construct embedded four-valent rigid-vertex graphs
 with a flat square disc and four ordered attachment ports at each vertex. Give their
@@ -8392,24 +8748,22 @@ argument to composite multi-component links by forgetting selected components or
 attachment arcs:4.9's Hashizume/split data remain essential. The prime multi-component
 flyping theorem above is included independently of such a composite-link extension.
 
-**Finite orbit.** At fixed n>0 enumerate the actual native
-matching/rotation/over-pair data, finite component directions and requested labels,
-restricted to connected planar spherical diagrams with no crossingless extra components.
-`PDCode n` alone is infinite because its crossingless-component count is unbounded.
-Prove the explicit finite encoding and realization/relabeling dictionary; filter
-reducedness and alternation by complete finite tests, and filter diagram primeness only
-in the prime-link branch. The composite-knot orbit retains its nonprime reduced
-alternating states. The n=0 unknot uses one crossingless circle, and crossingless
-unlinks use their fixed component count, separately from this crossing-bearing carrier.
+**Finite orbit.** At fixed n>0 and fixed component count, the connected planar
+spherical diagrams with no crossingless extra components form a finite set up to
+relabelling, by 4.2.6's finite carrier; `PDCode n` alone is infinite because its
+crossingless-component count is unbounded. Reducedness, alternation and, in the
+prime-link branch, diagram primeness are properties of this finite data. The
+composite-knot orbit retains its nonprime reduced alternating states. The n=0 unknot
+uses one crossingless circle, and crossingless unlinks use their fixed component count,
+separately from this crossing-bearing carrier.
 
-Enumerate every admissible marked flype chart by normalized face/port data and disc-side
-witnesses. Prove both that each enumerated chart is geometrically valid and that every
-geometric chart is equivalent relative to the diagram to an enumerated one. An abstract
-graph cut without locality or the wrong outside-tangle placement is insufficient.
-Include orientation-compatible finite flat changes and the entire-flype adapter in the
-chosen chart convention. Prove inverse/naturality and that every edge stays at exactly n
-crossings. Quotient by the stated finite relabeling action or supply a verified
-canonical code for it.
+Define the marked flype charts of a diagram by their face/port data and disc-side
+witnesses, and prove that every geometric flype chart is equivalent relative to the
+diagram to one given by such data, and that each such datum is geometrically valid. An
+abstract graph cut without locality or the wrong outside-tangle placement is not a
+chart. Include orientation-compatible flat changes and the entire-flype adapter in the
+chosen chart convention. Prove that a flype has a flype as inverse, is natural under
+relabelling, and keeps exactly n crossings.
 
 Prove that the flype orbit of a reduced alternating diagram is finite. The geometric
 theorem then reduces oriented-link equivalence of prime reduced alternating link
@@ -8450,7 +8804,7 @@ presentation, loop-kernel decision or its order needs a separate relations theor
 4.3's embedded band/checkerboard surfaces; 4.9's independent prime/split sphere, cap and
 uniqueness prefix; 2.2–2.3/3.3/11.2 for relative disc/ball topology, isotopy extension
 and PL/smooth comparison. This unit owns the rigid-vertex category, simultaneous surface
-normal position, full A/B/C detection and exhaustive induction, marked flype geometry,
+normal position, full A/B/C detection and the complete induction, marked flype geometry,
 composite-knot lifting and finite-chart completeness. Polynomial inputs and adequate
 minimality come from 4.5/4.6.1/4.8.1 without a return edge to flyping. Later
 classification can consume these results; it supplies no premise here.
@@ -8543,7 +8897,7 @@ horizontal pairing, q even gives the vertical pairing, and p,q odd gives
 the diagonal pairing. Give the matching/closure maps and prove N(T) is
 a knot iff p is odd and D(T) is a knot iff q is odd. Include slopes0
 and∞, represented by (0,1) and (1,0). Coprimality excludes both even,
-so at least one closure is a knot, as asserted on p164. This producer
+so at least one closure is a knot. This producer
 uses the marked endpoint construction, independently of Schubert's
 closed-knot classification or determinant calculations.
 
@@ -8818,7 +9172,7 @@ representative P=`2t²−5t+2` satisfies `P=−t·Δ` and
   statement by finite permutation computation; identify the actual
   source meridians before transporting the coloring to the diagram.
 - Certify the9₄₆ star coloring at every signed box and cap, including
-  the negative box, and its full S₄ image. Apply the conjugacy-search
+  the negative box, and its full S₄ image. Apply the conjugacy-orbit
   normalization with its residual centralizer rather than discarding
   stabilizers.
 - The common Alexander polynomial and the existence of unrestricted
@@ -8827,8 +9181,8 @@ representative P=`2t²−5t+2` satisfies `P=−t·Δ` and
   those two tests.
 
 *Needs:* Layers4.3–4.4 (geometric Seifert and Alexander comparisons),
-4.7.2–4.7.4 (transposition bridge bound, signed pretzel transfer and finite
-conjugacy searches), and4.10 (realized rational tangles, inverse-slope
+4.7.2–4.7.4 (transposition bridge bound, signed pretzel transfer and
+conjugation orbits), and4.10 (realized rational tangles, inverse-slope
 classification and bridge presentation); native `FreeGroup`,
 `Group.Presentation`, finite permutations and integral Seifert matrices.
 The explicit rational-group elimination, finite table-code comparisons,
@@ -9031,8 +9385,8 @@ tD, identity off tD. On the cone over an affine simplex f(x)=Ax+b it is Ax+tb; p
 this gives a jointly finite PL family, with H_0=id and H_1=f. Reparameterize to be
 stationary near the two time endpoints. Prove that its four point trajectories are
 pairwise disjoint and piecewise linear on a finite subdivision of time. They form a
-progressive geometric four-braid. Use C2's relative generic projection and word
-comparison to extract its finite native half-twist word, with all crossing and endpoint
+progressive geometric four-braid. Use 4.2.8's generic projection and word comparison
+(Artin.P) to extract its finite native half-twist word, with all crossing and endpoint
 records.
 
 Construct the point-and-collar isotopy-extension adapter carrying equality of these
@@ -9040,7 +9394,8 @@ braid traces to an isotopy of actual boundary maps relative to the marked points
 the trace to a family K_t fixing the disc boundary, with K_t(p)=H_t(p) for each marked
 point p. Then K_t⁻¹H_t fixes P pointwise, starts at id and ends at K_1⁻¹f. Give this
 residual isotopy, its local point/collar lifts and the comparison of K_1 with the
-elementary half-twist maps read by C2. Retain the port permutation and collar rotations;
+elementary half-twist maps read by Artin.P's word comparison. Retain the port
+permutation and collar rotations;
 prove that every remaining stabilizer map extends over the standard trivial tangle by
 cutting along its discs and extending over the resulting balls. Give a finite
 supported-move certificate for these constructions, not merely equality of integer
@@ -9055,8 +9410,9 @@ section supplies the four-marked-point specialization: replace the points by sma
 boundary circles, compare the boundary-relative cut system after capping them again, and
 realize the permitted point permutations by actual half-twists with collar maps.
 SurfaceTopology's compact boundary-fixed theory does not already supply arbitrary
-puncture motion. Consume DiagrammaticCoherence G0/C2/C6 for geometric braids, relative
-tangles and cap/cup composition; retain its native `BraidWord` conventions.
+puncture motion. Consume 4.2.8's geometric braids and relative tangles with their native
+`BraidWord` conventions; the cap and cup composition closing a four-strand braid by two
+arcs on each face is the four-plat closure, built here from 4.10.1's marked gluing.
 
 Interpret the resulting word by4.10.1's fixed integer twists, reciprocal charts and
 marked gluing. Prove the generator-by-generator port, crossing-sign and orientation
@@ -9090,11 +9446,11 @@ with determinant+1 matrices. The existing recurrence `[[a,1],[1,0]]` has determi
 and uses x↦1/x. Prove the alternating frame/reflection/sign dictionary between these
 conventions. A determinant−1 arithmetic step is not an orientation-preserving boundary
 mapping class; no branched-cover or lens-space classification is a premise of the finite
-Alexander-isotopy and C2 word extraction above.
+Alexander-isotopy and braid-word extraction above.
 
 **The two continued-fraction orders.** The right-nested value is
 F(c₁,…,c_n)=c₁+1/(c₂+⋯+1/c_n). Define it projectively by `F(w)=cf(reverse(w))`, where cf
-is4.10's existing evaluator. Thus F([])=∞ and all intermediate0/∞ remain
+is4.10's existing continued-fraction value. Thus F([])=∞ and all intermediate0/∞ remain
 valid. Use the native rational algorithm for normalization, with its existing
 zero/infinity and coefficient boundary cases. These are the required arithmetic rows:
 
@@ -9170,7 +9526,7 @@ rational knots, §§1/4](https://arxiv.org/html/math/0212011) with their distinc
 *Needs:*4.2's realized relative diagrams, supported isotopies and ambient
 extension;4.10.1's independent marked tangle operations;4.10's native
 projective/normalization prefix; the compact surface/planar suppliers above;
-DiagrammaticCoherence's geometric braid and cap/cup comparison. Export the witnessed
+4.2.8's geometric braid comparison and the four-plat closure built here. Export the witnessed
 conversion before4.4.8's group calculations,4.8's bridge minima and4.10's
 Schubert-classification/mirror consumers. Include two-component geometric inputs and
 p=1/zero/infinity boundary cases in the construction; the stated amphichirality
@@ -9364,6 +9720,18 @@ Compare Baader–Kjuchukova,
 Whitehead-double construction. The star-label family here retains its
 own required clasp-port and framing comparisons.
 
+**Checks.**
+
+- `β_k` has exponent sum `5k` and the permutation `(12)(23)⋯(k k+1)`, a `(k+1)`-cycle, so
+  its closure is a knot; `k = 1` gives `T(2, 5)` with `N = 5` and `b = 2`.
+- The pair `c₀ = (123)`, `c₁ = (345)` satisfies `c₀c₁c₀c₁c₀ = c₁c₀c₁c₀c₁` and is fixed by
+  `H⁵`; the transposition edges `{1,2}, {1,3}, {3,4}, {3,5}` form a tree on five vertices, so
+  the factors generate `S₅`, while `c₀, c₁` generate only `A₅`.
+- `H` cycles the three ordered factorizations of `(123)`:
+  `((13),(12)) ↦ ((23),(13)) ↦ ((12),(23)) ↦ ((13),(12))`, so `H³` fixes each and `H⁶ = 1` on
+  them; three added full twists preserve the labels, which is why `m` is reduced modulo `3`.
+- `b(D_k) = 2k + 2` is unbounded while `g(D_k) = u(D_k) = 1`; for `k = 1`, `b(D_1) = 4 = N − 1`.
+
 ### 4.11.2 Signed Whitehead surfaces and their Seifert matrices
 
 Give the full marked surface and matrix producer for W_(ε,m)(J), for
@@ -9486,6 +9854,20 @@ for preferred framing and the positive-clasp polynomial, compare
 [Hedden, pp2278–2279](https://msp.org/gt/2007/11-4/gt-v11-n4-p08-s.pdf).
 Retain the actual push-first/push-second and sign adapters when importing
 an external basis or diagram.
+
+**Checks.**
+
+- `V_(ε,m) = [[−ε, 0], [−1, m]]` has `Vᵀ − V = [[0, −1], [1, 0]]`, `S_ε V S_εᵀ = [[−ε, 1], [0, m]]`
+  and `det(V + Vᵀ) = −4εm − 1`; the table rows follow: `(+, −1)` gives `t − 1 + t⁻¹`, `d = 3`,
+  `(+, 3)` gives `−3t + 7 − 3t⁻¹`, `d = 13`, `(+, −3)` gives `3t − 5 + 3t⁻¹`, `d = 11`.
+- At `ω = −1`, `c = 4` and `H_(−1) = [[−4ε, −2], [−2, 4m]]` with determinant `−4(4εm + 1)`;
+  for `εm ≥ 0` it is indefinite with signature `0`, for `εm < 0` it is `ε` times a negative
+  definite matrix, signature `−2ε`, matching the classical column.
+- At `(ε, m) = (+, −1)` the unit-circle Alexander roots have `c = 1`, that is
+  `ω = exp(±πi/3)`, the roots of `t − 1 + t⁻¹`; at `(+, 1)` there is none, since
+  `3 − t − t⁻¹ = 0` would force `t + t⁻¹ = 3 > 2`.
+- `m = 0` gives `Δ = 1` for every companion, so the Alexander polynomial does not detect
+  `W_(ε,0)(J)` for nontrivial `J`; the companion-torus argument is what proves `g = u = 1`.
 
 *Needs:*4.11's independent marked-pattern/annular/clasp construction;
 4.2's realized diagrams and mirror movies;4.3/4.3.2's embedded bands,
@@ -9932,7 +10314,7 @@ For p=t^n the solver has every β_j=0 and α_(n−1)=n−1; that parameter
 calculation does not prove a nontrivial knot. The unit-polynomial branch
 uses the separate Whitehead construction above. The trefoil and
 figure-eight realize `t−1+t⁻¹` and `−t+3−t⁻¹`; the solver's normal forms
-need not be those named knots. The p74 matrix and V₃ have ordinary
+need not be those named knots. The six-circle matrix `V₃−E_(4,4)` and V₃ have ordinary
 polynomials `1−5t+11t²−13t³+11t⁴−5t⁵+t⁶` and
 `1−6t+15t²−19t³+15t⁴−6t⁵+t⁶`, respectively.
 
@@ -10608,6 +10990,22 @@ nontrivial summand is unchanged, contradicting the unknot output. This proves th
 generalized theorem and `u(K)=1⇒K prime`. For u(K)=u(J)=1 the separate two-change upper
 certificate and primeness obstruction give u(K#J)=2.
 
+**Checks.**
+
+- The reverse crossing disc of one crossing meets the knot twice with opposite signs, so
+  `lk(C, U) = 0`; `±1` surgery on `C` is the crossing change, `±1/n` surgery the
+  generalized change, and the rational-replacement distance `2n` is twice the slope
+  distance `n`.
+- The tubed surface built from a spanning disc with two punctures has
+  `χ = 1 − 2 + 0 = −1`, one boundary component and genus `1`, so a knot obtained from the
+  unknot by one generalized crossing change has `g ≤ 1`, while a composite knot has `g ≥ 2`
+  by genus additivity with both factors of genus at least `1`.
+- `i(m_U, m_K) = |k|·i(m_U, γ)² = 4n`: for `n = 1` the two meridians meet four times and the
+  replacement distance is `2`, that of a crossing change; for `k = 0` the distance is `0`.
+- `χ₋` is `0` for a disc (`max(0 + 1 − 2, 0)`), `0` for an annulus and `1` for a
+  once-punctured torus: the norm discards discs and annuli, while the connected Seifert
+  genus of 4.3 does not.
+
 *Needs:* 4.3.4 ordinary genus, 4.9 prime/decomposing spheres, 4.10 relative rational
 tangles, 5.1–5.2 marked exteriors/fillings, 8.1–8.2 sphere/loop and essential-surface
 theory and 11.2's independent relative PL/smooth comparison. The sutured norm/hierarchy
@@ -10699,12 +11097,27 @@ Conclude u(8₃)=2. Switching one crossing in each box instead gives [2,2], prim
 diagram, cover, slope and filling identity is a separate required comparison, rather
 than a consequence of the label 8₃ or determinant 17.
 
+**Checks.**
+
+- The unoriented parameter orbit of `L(17, 2)` is `{2, 15, 9, 8}`: `−2 ≡ 15`, `2⁻¹ ≡ 9`
+  (`2·9 = 18 ≡ 1`) and `−9 ≡ 8`; it does not contain `4`, so `L(17, 4)` is not `L(17, ±2)`.
+- `[4, 4]` has primitive pair `(17, 4)`, since `4 + 1/4 = 17/4`; `[0, 4]` gives `1/4`, pair
+  `(1, 4)`, the unknot; `[2, 2]` gives `5/2`, the figure-eight. Two switches in one box
+  reach the unknot, one switch in each box does not.
+- In the torus-knot branch `|±17 − 2rs| = 1` forces `|rs| ∈ {8, 9}`, and neither `8 = 2·4`
+  nor `9 = 3·3` is a product of coprime absolute values at least `2`.
+- `d₂d₁ = (Σ_j t^j)(t − 1) = t^p − 1 = 0` and `d₃d₂ = (t^r − 1)Σ_j t^j = 0` in `ℤ[C_p]`, so
+  the displayed differentials form a complex; for `p = 17` the Kanenobu–Murakami parameters
+  `2mn ∈ {16, 18}` with coprime `m, n` give `2n² ∈ {2, 128 ≡ 9, 162 ≡ 9}` modulo `17`, and
+  `±2^(±1), ±9^(±1)` is again `{2, 15, 9, 8}`, which excludes `q = 4`.
+
 *Needs:* 4.2 realized diagrams, 4.4 determinant/branched-cover homology, 4.10 Schubert
 classification, 4.10.3's integral continuants, 5.1–5.2, 5.4's CGLS/Moser prefix, the
 native lens quotient and slope APIs, Layer 11.1's finite CW structures with Mathlib's
 singular homology, the lens-space classification consumed as stated, and 11.2's
-independent triangulation comparison. The finite torsion, lens classification
-and Montesinos dictionaries are built here. This supplies no premise back to early
+independent triangulation comparison. The cellular chain complexes, the sufficiency
+direction of the lens classification and the Montesinos dictionaries are built here;
+the necessity direction is consumed as stated. This supplies no premise back to early
 rational-tangle classification or the genus/prime constructions.
 
 ### Examples
@@ -11376,18 +11789,25 @@ isometries and peripheral change of basis. For several cusps the pattern also
 depends on the specified cusp collection, including its sequential expansion
 order when that construction is used.
 
-**Source adapter and checks.** The definitions follow Adams–Hildebrand–Weeks
+**Source adapter.** The definitions follow Adams–Hildebrand–Weeks
 (§2, pp. 2–4, Tables 1–2). Its Table 1 lists individual maximal-cusp volumes;
 its multi-cusp Table 2 pictures use sequential expansion, with cutoff `α=1/10`.
-For the
-abstract square lattice with periods `(1,i)`, check covolume `1`, shortest
-length `1`, raw ratio `−i`, area `1/h²` and cusp-model volume `1/(2h²)`;
-this is a local cusp-model check, not a claim that it is a particular manifold's
-maximal cusp. For periods `(1,2i)` at height `1`, check area `2` and the
-unequal coordinate-loop lengths `1` and `2` in the transported torus metric.
-Check that swapping periods inverts the raw ratio and changes
-neither the lattice nor its conformal orbit. Check strict exclusion at diameter
-`α`, and that independently maximal cusps cannot be presumed disjoint.
+
+**Checks.**
+
+- The square lattice with periods `(1, i)` has covolume `|Im(conj(1)·i)| = 1`, shortest
+  length `1`, raw ratio `1/i = −i`, horotorus area `1/h²` at height `h` and cusp volume
+  `1/(2h²)`, half the area; this is a local cusp-model check, not a claim about a
+  particular manifold's maximal cusp.
+- Periods `(1, 2i)` at height `1` give area `2` and coordinate-loop lengths `1` and `2` in
+  the transported metric, so the standard product metric on `UnitAddTorus (Fin 2)` is not
+  the induced one.
+- Swapping the two periods inverts the raw ratio (`−i ↦ i`) and leaves the lattice and its
+  `PGL(2, ℤ)` orbit unchanged; conjugating the ratio changes the oriented class but not the
+  unoriented one.
+- A ball of diameter exactly `α` is excluded from the pattern at cutoff `α`, and two cusps
+  that are each maximal on their own need not have disjoint maximal horoballs, so the total
+  maximum is not the sum of the individual maxima.
 
 *Needs:* this layer's finite-volume cusp decomposition, native hyperbolic metric
 and Riemannian measure; SuccessiveMinima Layer 1 (1.5
@@ -11510,7 +11930,7 @@ independent of 8.5.2's group rigidity. Reference:
 - `S² × S¹` has `π₂ ≠ 0` and the sphere `S² × {pt}` is essential and two-sided; `ℝP³` has
   `π₂ = 0` and is irreducible.
 - `S¹ × ℝP²` has `π₂ ≅ ℤ`, being double covered by `S¹ × S²`, but it is irreducible, so every
-  embedded sphere in it bounds a ball and is null-homotopic (Hatcher, Proposition 1.12 and the
+  embedded sphere in it bounds a ball and is null-homotopic (Hatcher, Proposition 1.13 and the
   remark after Theorem 3.8): the orientability hypothesis of the sphere theorem cannot be
   dropped, and the non-orientable form allows a two-sided projective plane instead.
 - The granny and square knots have isomorphic knot groups but are not equivalent even up to
@@ -11713,9 +12133,9 @@ Seifert fibred space every essential surface (a connected compact properly embed
 that is incompressible and `∂`-incompressible, or a sphere not bounding a ball, or a disc
 that is not `∂`-parallel, incompressibility being Hatcher's notion of Layer 8.2) is isotopic
 to a vertical surface, a union of regular fibres, or a horizontal one, transverse to all
-fibres (Hatcher, Proposition 1.11, with the definitions of `∂`-incompressible and essential
+fibres (Hatcher, Proposition 1.12, with the definitions of `∂`-incompressible and essential
 surfaces in §1.2). Prove that a compact connected Seifert fibred space is irreducible unless
-it is `S¹ × S²`, `S¹ ×̃ S²` or `ℝP³ # ℝP³` (Hatcher, Proposition 1.12), and that Seifert
+it is `S¹ × S²`, `S¹ ×̃ S²` or `ℝP³ # ℝP³` (Hatcher, Proposition 1.13), and that Seifert
 fibrations of compact connected orientable Seifert fibred spaces are unique up to
 fibre-preserving homeomorphism except for the fibrations listed in Hatcher, Theorem 2.3: the
 model fibrations of `S¹ × D²`, two fibrations each of `S¹ ×̃ S¹ ×̃ [0, 1]` and of
@@ -11755,12 +12175,13 @@ State `TauCeti.JSJTheorem`: every closed orientable irreducible `3`-manifold has
 tori whose complementary components are Seifert fibred or atoroidal, and any two such
 families are carried onto each other by an ambient isotopy (Jaco–Shalen, Mem. Amer. Math.
 Soc. 220 (1979); Johannson, Lecture Notes in Math. 761 (1979); Hatcher, Theorem 1.9, with
-the proof through Lemmas 1.10 and 1.14–1.16). `Suggested.lean` states it as `jsj_theorem`. The proof is
+the proof through Lemma 1.11, Proposition 1.14 and Lemmas 1.16–1.18). `Suggested.lean` states it as `jsj_theorem`. The proof is
 GeometricTopology, Part II's, by Hatcher's route from Layers 8.1–8.4: Kneser finiteness bounds a maximal system of incompressible tori, the
-irreducibility of the Seifert pieces is Proposition 1.12, and uniqueness follows from
-the analysis of annuli in the pieces (Lemmas 1.10 and 1.14–1.16: annuli are vertical,
-boundary restrictions of two fiberings are isotopic, and an atoroidal piece with an
-essential annulus is Seifert fibred).
+irreducibility of the Seifert pieces is Proposition 1.13, and uniqueness follows from
+the analysis of annuli in the pieces (Lemma 1.11, that an incompressible surface with
+boundary on tori is `∂`-incompressible or a `∂`-parallel annulus, and Lemmas 1.16–1.18:
+annuli are vertical, boundary restrictions of two fiberings are isotopic, and an
+atoroidal piece with an essential annulus is Seifert fibred).
 
 - The number of tori of a JSJ decomposition is an invariant (`TauCeti.JSJTheorem.card_eq`).
 - The empty family is a JSJ decomposition exactly when `M` itself is Seifert fibred or
@@ -11802,6 +12223,18 @@ this extension. `TauCeti.IsPeripheralTorus` and `TauCeti.IsAtoroidal` describe
 noncompact ends through an embedded `T²×ℝ≥0`; use them on interiors and prove
 the equivalence to compact-core boundary parallelism. Applying that definition
 directly to a compact core would give the wrong boundary convention.
+
+**Checks.**
+
+- The exterior of the Hopf link is `T² × [0, 1]`, Seifert fibred with two parallel
+  boundary tori and an empty characteristic family; applying the noncompact-end
+  definition to the compact core would count a boundary-parallel torus as essential.
+- The exterior of a hyperbolic knot has no essential torus and an empty characteristic
+  family; the exterior of a satellite knot with hyperbolic pattern and companion has the
+  companion torus as its one characteristic torus.
+- A manifold with empty boundary is the closed case, so the pinned `TauCeti.JSJTheorem` is
+  the special case of the relative statement; the solid torus `S¹ × D²` lies outside the
+  hypotheses because its boundary torus compresses.
 
 *Needs:* Layers 1–5, 8.1–8.5, 11.2; SurfaceTopology's boundary maps and isotopy
 classification. The relative JSJ proof is GeometricTopology, Part II's, as for the closed
@@ -12356,6 +12789,11 @@ and 8; Mathlib CW complexes.
 - **TangentialBordism** consumes Layer 1's gluing, Layer 4.3.1's finite quadratic
   Arf algebra and Layer 11.3's smooth triangulations; its Spin-surface
   refinement and Spin bordism classification remain its own constructions.
+- **DiagrammaticCoherence** consumes Layers 1–4: the manifold, embedding and isotopy
+  foundations, the knot presentations of Layer 4.2 and, from Layer 4.2.8, the geometric
+  braid group with its presentation comparison and its faithfulness among relative
+  tangles; it owns the tangle categories, their cups and caps and the coherence theorems
+  built on these carriers.
 - **GeometricTopology, Part II** consumes the foundational layers needed by each of its
   developments and owns the developments listed under *Scope and ownership*.
 
@@ -12373,8 +12811,10 @@ and 8; Mathlib CW complexes.
   conjecture), 5.2 (Zeeman's conjecture).
 - A. Hatcher, *Notes on Basic 3-Manifold Topology*, https://pi.math.cornell.edu/~hatcher/3M/3Mfds.pdf:
   Theorem 1.1, Proposition 1.4, Theorem 1.5 (with the Basic Fact in its proof),
-  Proposition 1.7, Theorem 1.9, Lemma 1.10, Propositions 1.11–1.13, Lemmas 1.14–1.16,
-  Theorem 2.3, Theorem 2.5, Chapter 3.
+  Proposition 1.7, Theorem 1.9, Lemma 1.11, Propositions 1.12–1.14, Lemmas 1.16–1.18,
+  Theorem 2.3, Theorem 2.5, Chapter 3 (the numbering is that of this file, `3Mfds.pdf`;
+  the shorter `3M.pdf` on the same page numbers the same statements differently from
+  Proposition 1.12 on).
 - M. Hirsch, *Differential Topology*, Springer GTM 33 (1976): Chapter 2 §1; Chapter 4,
   Theorems 5.3, 6.1, 6.3, 6.6; Chapter 8, Theorems 1.3 and 3.1. J. Lee, *Introduction to
   Smooth Manifolds*, 2nd ed., Springer GTM 218 (2013): Theorems 6.24, 9.25, 9.26. J. Lee,
@@ -12416,7 +12856,12 @@ and 8; Mathlib CW complexes.
   Soc. 12 (1985), 103–111, Theorems 5, 7–11 and 14–24 (Corollary 24 is in error: the
   bound `6.5` must be `8`). V. Jones, *Hecke algebra representations of braid groups and
   link polynomials*, Ann. of Math. 126 (1987), 335–388, §7.5 (author's page). E. Artin,
-  *Theory of braids*, Ann. of Math. 48 (1947), 101–126, Theorems 8–16. S. Lambropoulou,
+  *Theory of braids*, Ann. of Math. 48 (1947), 101–126, Theorems 8–16 (copy on A. Ranicki's
+  page at the University of Edinburgh). E. Artin, *Theorie der Zöpfe*, Abh. Math. Sem. Univ.
+  Hamburg 4 (1925), 47–72 (the defining relations). H. Bohnenblust, *The algebraical
+  braid group*, Ann. of Math. 48 (1947), 127–136 (the algebraic proof that the relations
+  are complete). J. Birman, T. Brendle, *Braids: a survey*, in *Handbook of Knot Theory*
+  (2005), §§1.1–1.2 (author's page). S. Lambropoulou,
   *Braid structures in knot complements, handlebodies and 3-manifolds*, arXiv 1811.11701,
   §3. H. Morton, *Threading knot diagrams*, Math. Proc. Cambridge Philos. Soc. 99 (1986),
   247–260, Theorem 1. K. Perko, *On the classification of knots*, Proc. Amer. Math. Soc.
