@@ -2262,6 +2262,91 @@ supplies the relative section obstruction and difference-cochain construction. T
 local-coefficient extension retains the stated fibre transport rather than assuming
 trivial monodromy.
 
+<a id="ordinary-homotopy-acceptance-applications"></a>
+### 8.14. Ordinary homotopy acceptance applications
+
+These are consequences of the existing ordinary CW, cover, relative homotopy and
+cohomology constructions, on those same carriers. For connected Hausdorff CW complexes
+X,Y of dimension≤n, prove that an actual map f:X→Y inducing isomorphisms on π_i for1≤i≤n
+is a homotopy equivalence. Retain both dimension bounds and the component condition; n=0
+is the connected discrete case. Use the induced universal-cover map, relative Hurewicz
+and homology vanishing above n before homological Whitehead. This finite-dimensional
+criterion does not weaken ordinary Whitehead for general CW spaces.
+
+For n≥1, a pointed (n−1)-connected CW source X and a pointed path-connected target Y
+with π_iY=0 for i>n, prove that the actual induced-map function [X,Y]_*→Hom(π_nX,π_nY)
+is a bijection, natural in both variables. In n=1 use the nonabelian group-homomorphism
+target and the existing K(π,1) classifier. In higher degrees use high-cell replacement
+of X, the actual cell extension/homotopy procedure, Hurewicz and coefficient UCT; do not
+assume that Y's universal cover has no lower homotopy. For unbased classes retain the
+target π₁ action. Deduce the existing EM uniqueness comparison with its prescribed group
+isomorphism.
+
+As a surface acceptance case, prove that every closed connected surface with infinite
+fundamental group has contractible universal cover, hence is K(π₁,1). The cover is
+noncompact because it is infinite-sheeted over a compact base. Use ordinary top-homology
+vanishing on the cover, its2-dimensional CW comparison and Hurewicz/Whitehead; include
+the nonorientable branch. This consumes the existing surface/cover/duality machinery and
+does not depend on3-dimensional geometrization.
+
+<a id="finite-group-geometric-acceptance"></a>
+### 8.15. Finite-group geometric acceptance
+
+Consume the native cyclic two-periodic resolution and comparison in Tau Ceti's
+`RepresentationTheory.Homological.GroupCohomology.FiniteCyclic`, Stage5's algebraic
+tensor/Künneth maps and Stage8.8/ClassifyingSpaces' normalized topological comparison.
+For a prime p and trivial F_p coefficients prove dim H^d(BC_p;F_p)=1 and dim
+H^d(B(C_p×C_p);F_p)=d+1 for every d≥0, through the actual comparison and Künneth maps.
+Reuse those owners' cochains and resolutions.
+
+For a connected finite-dimensional CW complex X with universal cover Xtilde, put G=π₁X.
+Prove X and Xtilde×BG have isomorphic abstract homotopy groups in every degree. If G
+contains a nonidentity element of finite order, prove they are not homotopy equivalent.
+Choose a prime-order subgroup and lift any proposed equivalence to the corresponding
+covers, retaining its induced group isomorphism and transported subgroup. The product
+cover retracts onto BC_p; its nonzero cohomology in unbounded degrees contradicts the
+lifted finite-dimensional CW structure. No map realizing all abstract isomorphisms is
+supplied by their existence.
+
+For every prime p and n≥0 prove that no continuous action of C_p×C_p on the standard S^n
+is free. Finite freeness supplies the actual quotient covering and local topological
+manifold charts. Build the needed cohomological bound for this actual compact TOP
+quotient M: prove H^k(M;F_p)=0 for k>n. Construct a compatible compact metric and, for
+every finite open cover, a finite open refinement of order≤n+1 using finite Euclidean
+chart shrinkings and their dimension-n refinement bounds. On this locally contractible
+quotient, construct the natural Čech-to-singular comparison by the
+subordinate-chain/nerve double complex and subdivision. The refined nerves have no
+cochains above n, giving the asserted bound. These quotient-specific refinement and
+comparison arguments are targets here; no smooth atlas, equivariant triangulation or
+dimension bound on an arbitrary CW approximation is assumed. For n>1 attach one
+(n+1)-cell to its quotient along S^n→M, a generator of π_nM, then higher cells to form
+its K(C_p×C_p,1); carry this out through the actual CW approximation and normalized
+comparison. The relative cohomology sequence and top-manifold cohomological-dimension
+bound imply dim H^(n+1)(B(C_p×C_p);F_p)≤1, contradicting n+2. Handle S¹ by the cyclic
+deck group of a connected finite circle cover and S⁰ by its two-point cardinality. No
+smoothness, linearity or cellularity of the original action is assumed. Reuse the native
+cyclic resolution and the existing tensor-complex comparison; no new general resolution
+theory or spectral sequence is needed for this argument.
+[KirbyHatcherApplicationsTargets.lean](KirbyHatcherApplicationsTargets.lean) states the
+conclusion for native continuous actions on the actual Euclidean sphere, including S⁰.
+
+<a id="essential-torus-hopf-composite"></a>
+### 8.16. An essential map invisible to homotopy and reduced homology
+
+On the actual product T³=S¹×S¹×S¹ choose an oriented embedded chart ball and construct
+the quotient collapse q:T³→S³ of degree+1, based at its collapsed complement. Use
+CharacteristicClasses C1 item5's N=1 principal Circle model S³→CP¹ and
+ComplexKahlerGeometry K7.1's CP¹≃S² to construct the actual Hopf projection p:S³→S² with
+the corresponding basepoint, and put f=p∘q. Its numerable Hurewicz lifting interface is
+GeneralizedCohomology G2.10, independently of HS3C. Prove that all induced positive
+homotopy-group maps and all induced reduced integral homology maps of f are zero, while
+f is not homotopic, even unbased, to a constant map. Use torus asphericity and the
+sphere homology groups for the vanishings. If f had a nullhomotopy, lift it through the
+Hopf bundle with initial lift q. The endpoint lands in one S¹ fibre and has zero H₃ map,
+contradicting degree+1. Construct the collapse, orientation, lift and endpoint
+factorization explicitly. This uses the existing quotient, degree, torus-cover and
+Hopf-lifting interfaces and does not change HS3C's EHP/Toda scope.
+
 ## Dependency order
 
 In the table below, bare references to Stage6 mean the ordinary 6.0–6.5
