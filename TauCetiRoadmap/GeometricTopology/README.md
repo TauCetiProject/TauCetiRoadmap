@@ -5388,6 +5388,36 @@ solutions after coefficient reduction. This is the same
 integral presentation theory used by the determinant/Smith comparisons,
 not a second matrix convention.
 
+
+For every rectangular integer matrix A with chosen finite row/column
+enumerations, including empty types, build the complete signed/unimodular Smith adapter
+of physical p151. Return P,Q and their inverses with `PAQ=D`, positive
+nonzero diagonal entries d₁∣⋯∣d_r and zero remainder. Prove the rank,
+free/torsion decomposition and invariant-factor uniqueness, and interpret
+every basis change on the native transpose-cokernel presentation. For
+m rows, n columns and rank r, identify it with
+`ℤ^(n−r) ⊕ ⨁_(i<r) ZMod(d_i)`, including unit factors and zero free rank.
+For every commutative ring R, give the natural coloring comparison with
+`R^(n−r) × ∏_(i<r) ker(d_i·:R→R)`. Over a prime field its dimension is
+`n−r+#{i<r : p∣d_i}`; state coefficient-reduction and basis transports.
+Use Mathlib’s `Module.Basis.SmithNormalForm`/`Submodule.smithNormalForm`
+for the PID basis theory and native
+`Matrix.exists_smith_normal_form_of_det_ne_zero` for its nonsingular
+square branch. Build the rectangular/singular and zero-size comparisons
+here, following those APIs; the nonsingular theorem does not cover the
+full5×5 coloring matrix.
+
+Give a terminating Euclidean row/column algorithm on the actual entries
+that returns the matrices, inverse matrices and ordered diagonal, and a
+finite certificate checker. Prove each elementary operation preserves
+the presented module, the pivot/divisibility complexity decreases and
+the final certificate satisfies the displayed equation. Uniqueness of
+the positive invariant factors is independent of pivot choices. Include
+zero matrices and singular rectangular inputs. The noncomputable PID
+basis-existence theorem alone does not supply this executable algorithm.
+This is the shared integer-presentation primitive for the earlier reduced
+coloring matrices; its construction uses no knot diagram or rank bound.
+
 **One crossing changes rank by at most one.** A crossing change at i
 updates only `D.overPair i` to its negation. Keep halfedges, arc matching
 and crossing-free coordinates fixed, so both coloring modules are
@@ -5837,6 +5867,97 @@ coloring equivalences); native `Group.Presentation`, `PresentedGroup`,
 `ConjAct`, `ConjClasses`, `MulAction.orbitRel`, subgroup centralizers,
 finite permutation cycle types, finite matrix groups and Burnside counting.
 The induced-set, joint-centralizer and finite-search comparisons are built here.
+
+<a id="gt4-five-two-coloring"></a>
+### 4.7.5 The complete `5₂` coloring calculation
+
+Use the arc order
+`x₁,…,x₅` of physical pages147–148 of *Knot Theory.pdf*. Construct the
+realized marked diagram and compare its arcs and crossings with the source
+picture. The five equations have overarc/underarc triples
+`(1;2,3)`, `(3;1,4)`, `(4;1,5)`, `(5;2,4)`, `(2;3,5)`.
+The unordered underarc pairs specify these Fox equations, not the full planar
+crossing data; supply the cyclic/over-under realization as well. The literal
+integer arc matrix is
+
+```text
+A = [ 2 -1 -1  0  0
+     -1  0  2 -1  0
+     -1  0  0  2 -1
+      0 -1  0 -1  2
+      0  2 -1  0 -1 ].
+```
+
+Use the existing standard5₂ PD model of4.4.6 as a comparison model, with
+its Atlas cyclic-slot and orientation dictionary. In its fixed tuple order,
+its five rows are
+
+```text
+X[1,4,2,5], X[3,8,4,9], X[5,10,6,1], X[9,6,10,7], X[7,2,8,3].
+```
+
+The source-order arc coordinates correspond to edge-label sets
+`x₁={2,3}`, `x₂={6,7}`, `x₃={8,9}`, `x₄={4,5}`, `x₅={1,10}`;
+the source crossing order is PD rows `(5,2,1,3,4)`. Prove that restriction
+to these arcs and propagation over the paired over-slots identifies its
+native half-edge Fox coloring module with the displayed matrix kernel.
+Retain every cyclic slot, strand direction and possible mirror adapter
+in the realized comparison to the source drawing. This finite equation
+dictionary alone does not authenticate that drawing or its planar isotopy.
+
+Give the explicit integral Smith certificate `PAQ=diag(1,1,1,7,0)`, with
+
+```text
+P = [ 1  0  0  0  0      Q = [ 0  0  0  0  1
+      0  1  0  0  0            0  0  0  1  1
+      0  0  1  0  0           -1  0  0 -1  1
+     -6 -3 -2 -1  0           -2 -1  0 -2  1
+      1  1  1  1  1 ]         -4 -2 -1 -4  1 ].
+```
+
+Prove `det(P)=−1`, `det(Q)=1`, and interpret the changes of bases on the
+actual integer row-relation module `coker(Aᵀ)`. The generator-coordinate
+map Qᵀ carries its relation subgroup onto that of Dᵀ, where D=PAQ.
+Give its inverse and both quotient-map laws. Its full group is `ℤ⊕ℤ/7`;
+normalizing a chosen arc to zero gives the reduced group `ℤ/7`. Every row sum and every
+column sum of `A` is zero, so here the signed row-dependency vector can be
+chosen to be all ones. Prove every signed cofactor
+`(−1)^(i+j)det(A with row i and column j deleted)=−7`, using one-based
+indices. In particular each unsigned reduced determinant has absolute value7.
+Compare these cofactors and the Smith certificate with the general normalized
+presentation equivalences, rather than treating a named determinant as input.
+
+For every commutative ring `R`, prove the complete solution formula
+
+`A_R x=0 ↔ ∃ c,a∈R, 7a=0 ∧ x=(c,c+a,c−a,c−2a,c−4a)`.
+
+The parameters are unique, with `c=x₁`, `a=x₂−x₁`. The first three rows
+recover the other coordinates, and substitution gives
+`A(c,c+a,c−a,c−2a,c−4a)=(0,0,0,−7a,7a)`. Compare the parametrization
+with x=Qy in Smith coordinates y=(0,0,0,a,c). Construct the resulting
+`R`-linear equivalence with `R × ker(7·)` and its quotient-by-global-constants
+comparison. This includes rings of characteristic7 and rings with7-torsion;
+no field hypothesis is needed for the formula. For every modulus `m≥1`,
+prove the number of full `ZMod m` colourings is `m gcd(m,7)` and the number
+of nonconstant ones is `m(gcd(m,7)−1)`. The one-element `m=1` case has one
+full colouring and no nonconstant one. For prime p, the reduced dimension
+is1 exactly at p=7 and0 otherwise. Thus there are49 full7-colourings and42
+nonconstant ones, and `5₂` is p-colourable exactly at p=7. Compare the trefoil's
+p=3 criterion and the unknot's constant-only space to distinguish the three
+knot types. Transport these results through the realized diagram comparison
+before assigning them to the geometric source knot.
+
+[`FiveTwoColoringTargets.lean`](FiveTwoColoringTargets.lean) uses the literal
+matrix, the integral basis-change certificate and the all-ring kernel formula.
+The source calls this an arc/Goeritz matrix. Keep its signed checkerboard
+region matrix distinct, with the comparison owned by4.7.
+
+*Needs:*4.2’s realized PD/arc and relative diagram comparisons;4.4.6’s
+fixed standard5₂ model;4.7’s all-ring checkerboard/cofactor/normalization
+producer and4.7.1’s independent rectangular integer-presentation prefix.
+Use native Matrix, integer general-linear changes of basis, LinearMap
+kernels, quotient modules, ZMod and finite-field dimensions. Neither the
+prime-table exhaustion nor a guessed source crossing code is an input.
 
 ### 4.8 Crossing, unknotting, bridge and braid numbers
 

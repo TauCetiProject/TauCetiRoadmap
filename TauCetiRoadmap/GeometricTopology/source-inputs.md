@@ -576,3 +576,49 @@ Definitions2.2–2.4](https://research-information.bris.ac.uk/ws/portalfiles/por
 distinguishes continuous knot isotopy from smooth isotopy and ambient
 isotopy. The roadmap retains its geometric ambient equivalence and the
 actual hypotheses of its smooth and C∞-continuous extension theorems.
+
+
+<a id="five-two-coloring-inputs"></a>
+## Pages147–151: the full5₂ coloring calculation and Smith theorem
+
+*Knot Theory.pdf*, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+physical pp147–148 gives the literal five-row matrix reproduced in the
+[complete worked contract](README.md#gt4-five-two-coloring). The displayed
+rows, in source x₁,…,x₅ order, have over/under triples
+`(1;2,3),(3;1,4),(4;1,5),(5;2,4),(2;3,5)`. These underarc pairs are
+unordered and do not supply the source drawing's full cyclic crossing
+slots, orientations or plane placement. Their realized comparison is an
+explicit target, not certified by the matrix or a determinant alone.
+
+For the fixed Atlas5₂ PD input already used by the fourteen-surface
+library, arc sets `{2,3},{6,7},{8,9},{4,5},{1,10}` and crossing rows
+`(5,2,1,3,4)` recover this exact integer matrix. This is an independently
+checked finite equation dictionary to an existing comparison model. It
+retains the separate geometric task of identifying the literal drawing,
+including any mirror/orientation adapter.
+
+The P,Q matrices in the contract give PAQ=diag(1,1,1,7,0), with detP=−1
+and detQ=1; they are supplied certificates rather than a claim that the
+source printed them. Every signed4×4 cofactor is−7. The all-ring solution
+is `(c,c+a,c−a,c−2a,c−4a)`, with7a=0 and unique c=x₁,a=x₂−x₁. The
+native companion already proves the finite Smith identity and both unit
+determinants; its general all-ring kernel formula is one honest theorem
+admission. The companion stays unchanged.
+
+P148's normalization x₂=1,x₁=α is an affine translation of colors; it
+does not divide by a nonzero color. In the fixed matrix order the
+remaining coordinates are `2α−1,3α−2,5α−4`, with `7(α−1)=0`.
+The pictured placement of the source's arc labels still requires the
+marked diagram comparison. For prime p, nonconstant solutions exist
+exactly at p=7. Composite moduli instead use gcd(m,7); modulus1 has one
+full coloring and no nonconstant coloring.
+
+Pp149–151 supply the marked-sector row dependency, arbitrary deleted
+row/column comparisons and diagram invariance. Those are already owned
+by4.7's general checkerboard/cofactor producer. P151's Smith theorem is
+rectangular and permits zero diagonal entries: the full5×5 matrix is
+singular, so native nonsingular-square Smith existence alone cannot be
+applied to it. The independent integer-presentation prefix of4.7.1 owns
+the rectangular/singular adapter, invariant-factor comparisons and
+terminating Euclidean algorithm, using the existing PID and matrix APIs.
