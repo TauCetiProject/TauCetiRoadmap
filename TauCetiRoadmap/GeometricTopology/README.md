@@ -66,11 +66,11 @@ This roadmap owns the following, by layer.
   chirality, the signature bound on the unknotting number, Conway mutation and the statement
   that it does not preserve smooth concordance, Levine's theorem on knots in homology
   spheres, and the statement of Freedman's theorem.
-- **Layer 7.** The statement of Mostow rigidity for closed hyperbolic manifolds, finite-volume
-  hyperbolic 3-manifolds (the Margulis lemma, the thick–thin decomposition and the cusp
-  structure), the Weeks manifold as a Dehn filling of the Whitehead link exterior and the
-  statement of its minimality, and the statements of the virtual fibering and virtual Haken
-  theorems.
+- **Layer 7.** Hyperbolic manifolds, finite-volume Mostow–Prasad rigidity in every
+  dimension≥3 with its closed/cusped volume and isometry-group consequences, the Margulis
+  and cusp theory, and the full Appendix classification/certified-volume programme in7.7;
+  the Weeks manifold as a Dehn filling of the Whitehead link exterior and the statement of
+  its minimality, and the statements of the virtual fibering and virtual Haken theorems.
 - **Layer 8.** The sphere theorem, Dehn's lemma and the loop theorem, the Kneser–Milnor prime
   decomposition, Kneser's finiteness, incompressible and normal surfaces, the Haken hierarchy,
   Waldhausen's theorem on homotopy equivalences of closed Haken manifolds, the Seifert
@@ -123,9 +123,7 @@ This roadmap leaves the following to other roadmaps.
   every topological reduction named in the layers below.
 - **GeometricTopology, Part II** starts where this roadmap stops, at the statements and
   carriers of the end theorems, and owns their proofs that this roadmap does not: Cerf's
-  theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), Mostow rigidity
-  for closed hyperbolic manifolds with its consequences for volume and isometry groups (from
-  Layers 7.1 and 7.2), the cyclic surgery theorem (from Layers 5.2 and 8, through the
+  theorem and Hatcher's proof of the Smale conjecture (from Layers 3.1–3.3), the cyclic surgery theorem (from Layers 5.2 and 8, through the
   Culler–Shalen theory of essential surfaces at ideal points of the character variety), the
   Gordon–Luecke theorem with its corollary on `S³` fillings (from Layers 5 and 8.1), and the
   JSJ theorem (from Layers 8.1–8.4). It also owns the developments
@@ -135,17 +133,16 @@ This roadmap leaves the following to other roadmaps.
   homology and Rasmussen's invariant with the Conway-knot and zero-shake-genus applications;
   the connected-sum and descent adapter for the grid invariant of CombinatorialHeegaardFloer;
   the Thurston norm, the Euler class of a foliation and the Euler-class-one counterexamples;
-  the constructive hyperbolization of closed Haken manifolds and the finite-volume
-  Mostow–Prasad theorem with its Kleinian-group inputs; disc bundles, clutching, plumbing and
+  the constructive hyperbolization of closed Haken manifolds; disc bundles, clutching, plumbing and
   intersection forms; and sphere-target transversality with the Pontryagin–Thom
   construction. Those developments need AlgebraicTopology, CharacteristicClasses,
   GeneralizedCohomology, TopologicalKTheory, MorseTheory, RiemannianGeometry,
   KhovanovHomology, CombinatorialHeegaardFloer, TeichmullerGeometry, TangentialBordism,
   HomotopySpheres or FourManifolds, every one of which consumes this roadmap.
-- **Finite classifications and computation.** The small-knot classification in7.5,
-  the two-component classification through six crossings in7.6 and finite code
-  certificates explicitly specified in Layer4 are targets. Other tabulated volumes
-  and database tables are reference data.
+- **Finite classifications and computation.** The classifications in7.5–7.7, all119
+  Appendix row obligations and their certified-volume comparisons in7.7, and finite
+  code certificates explicitly specified in Layer4 are targets. Other database
+  tables remain reference data.
 
 ## Conventions
 
@@ -5171,21 +5168,28 @@ sectional curvature `−1`), with `TauCeti.IsHyperbolic`, `TauCeti.hypVolumeOfMe
 `TauCeti.MostowRigidity`, `TauCeti.VirtualFiberingConjecture`, `TauCeti.VirtualHakenConjecture`,
 the upper half space `TauCeti.UpperHalfSpace E`, the model geometries `TauCeti.ModelGeometry`
 and `TauCeti.HasGeometricStructure`. The volume measure is `TauCeti.riemannianVolume`. This
-layer states Mostow rigidity, develops finite-volume hyperbolic `3`-manifolds and states the
-Weeks and Agol theorems.
+layer proves finite-volume Mostow–Prasad rigidity and its closed/cusped consequences,
+develops finite-volume hyperbolic `3`-manifolds and the Appendix certificates, and states
+the Weeks and Agol theorems.
 
 ### 7.1 Hyperbolic space and its isometries
 
-Prove that `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n−1)))` with the metric
-`(dx² + dy²)/y²` is a `TauCeti.HyperbolicMetric`, is the hyperbolic model space of
-`TauCeti.ModelGeometry`, and that its isometry group `TauCeti.Isom` acts transitively on
-orthonormal frames; identify `Isom(ℍ³)` with `PSL₂(ℂ) ⋊ ℤ/2` acting on the Riemann sphere by
-Möbius and anti-Möbius transformations. Prove the Cartan–Hadamard property of `ℍⁿ`
-(the exponential map at any point is a diffeomorphism) from the explicit geodesics, and the
-structure of a complete hyperbolic manifold as a quotient `ℍⁿ / Γ` by a discrete torsion-free
-subgroup `Γ ≤ Isom(ℍⁿ)` acting freely, through the developing map, with the converse that
-every such quotient carries a hyperbolic metric (`TauCeti.hasGeometricStructure_quotient`
-for the geometric structure, and the metric descends).
+Consume RiemannianGeometryR4.3,R4.4,R4.7's generic complete-cover,
+Cartan–Hadamard, model/isometry-germ and quotient-atlas constructions. They consume
+this layer's native curvature/metric floor and do not depend on7.7's rigidity or tables.
+Own the explicit metric/model comparisons and the following specializations.
+
+Construct `TauCeti.UpperHalfSpace (EuclideanSpace ℝ (Fin (n−1)))` with tensor
+`(dx² + dy²)/y²` as a native `TauCeti.HyperbolicMetric`, identify it with
+`TauCeti.ModelGeometry`, and identify its tensor isometries with the native model
+isometries `TauCeti.Isom`, acting transitively on orthonormal frames. Identify
+`Isom(ℍ³)` with `PSL₂(ℂ) ⋊ ℤ/2` acting by Möbius/anti-Möbius transformations.
+Specialize R4.4 to the explicit geodesic/exponential formulas, proving that the
+model's exponential map is a diffeomorphism. Specialize R4.7's developing-map
+and quotient-atlas construction to present every complete hyperbolic manifold
+as `ℍⁿ / Γ` for a free discrete torsion-free subgroup of the model isometry group,
+with the converse descended hyperbolic metric and the native
+`TauCeti.hasGeometricStructure_quotient` comparison.
 
 - The volume of `ℍⁿ / Γ` is the volume of a fundamental domain; the volume form in the upper
   half space is `y⁻ⁿ dx dy`.
@@ -5213,15 +5217,13 @@ any two hyperbolic metrics on the same manifold are related by an isometry; more
 a homotopy equivalence between closed hyperbolic manifolds of dimension `n ≥ 3` is homotopic
 to an isometry (Mostow, *Quasi-conformal mappings in n-space and the rigidity of hyperbolic
 space forms*, Publ. Math. IHÉS 34 (1968); Ratcliffe, *Foundations of Hyperbolic Manifolds*,
-3rd ed., Theorem 11.8.5). `Suggested.lean` states it as `mostow_rigidity`. The proof is
-GeometricTopology, Part II's, by Gromov–Thurston's route for `n = 3` (Thurston, *The Geometry
-and Topology of Three-Manifolds*, Chapter 6): the lift of the homotopy equivalence extends to a
-quasi-conformal homeomorphism of the sphere at infinity, straightening of singular chains and
-the volume of ideal simplices show that it carries regular ideal simplices to regular ideal
-simplices almost everywhere, hence is Möbius. Its consequences, that `TauCeti.hypVolume` does
-not depend on the metric, that the isometry group of a closed hyperbolic manifold of
-dimension `≥ 3` is finite and equals `Out(π₁)`, and that the volume is a topological
-invariant, are stated here and proved there.
+3rd ed., Theorem 11.8.5). `Suggested.lean` states it as `mostow_rigidity`.
+Prove it as the closed specialization of7.7's full finite-volume rigidity theorem.
+That unit owns the dimension-three straightening/smearing route, the all-dimensional
+boundary-rigidity route, and the uniqueness/normalizer comparisons. Deduce here that
+`TauCeti.hypVolume` is metric independent and a topological invariant, and that the
+full isometry group is finite and isomorphic as a group to `Out(π₁)`, using the
+actual isometry and basepoint-conjugacy maps from7.7.
 
 - Rigidity fails in dimension two: a closed surface of genus `g ≥ 2` has a `(6g − 6)`-dimensional
   space of hyperbolic metrics up to isotopy.
@@ -5251,8 +5253,8 @@ Ratcliffe, Chapter 12). For an orientable manifold every cross-section `F` is a 
 Mostow–Prasad theorem for `3`-manifolds: a homotopy equivalence between complete finite-volume
 hyperbolic `3`-manifolds is homotopic to an isometry, so that the volume of such a manifold
 is a topological invariant (Prasad, *Strong rigidity of Q-rank 1 lattices*, Invent. Math. 21
-(1973); Thurston, Chapter 6); its proof needs the Kleinian-group analysis of the cusps and is
-GeometricTopology, Part II's, as is the closed case stated in Layer 7.2. Prove that the
+(1973); Thurston, Chapter 6). Its proof and all cusp/boundary-rigidity comparisons
+are targets of7.7, following the independent model/cusp prefix here. Prove that the
 complement of the figure-eight knot carries a
 complete finite-volume hyperbolic metric, built from two regular ideal tetrahedra (Thurston,
 Chapter 3), of volume `2 v₃ = 2.0298…`, and that the volume of a nonempty finite-volume
@@ -5704,6 +5706,457 @@ traversals, faces, `IsPlanar` and Jones state sums; the geometric diagram,
 linking, split/connected-sum, rational, alternating and7.5 contracts named
 above. No hyperbolic-volume table or general crossing-additivity result
 is a prerequisite.
+
+<a id="appendix-volume-certificates"></a>
+### 7.7 Complete Appendix classification and certified volumes
+
+Build the full finite-volume programme for the119 rows of Colin Adams's
+*The Knot Book*, Appendix printed pp279–290, appearing as physical pp8–19
+of the course source. The [row obligations](references/finite-volume-table-obligations.md)
+are part of this specification:84 knot rows,31 two-component rows and
+four three-component rows, with107 positive decimal strings and12 zero
+sentinels. Every row requires the constructions and comparison branches
+below; no small-crossing sample substitutes for this finite scope.
+
+The dependency prefix is the native `HyperbolicMetric`/curvature/measure
+floor, then RiemannianGeometryR4.3,R4.4,R4.7's generic covering,
+Cartan–Hadamard and model/quotient/isometry interfaces, then7.1's explicit
+model comparisons and7.3's cusp/lattice constructions, then the rigidity
+proof here. The late row certificates consume that prefix, Layers4–5's
+realized diagrams/exteriors and the independent finite PL/smoothing floor
+in11.1–11.2. Neither rigidity nor any row classification/numerical output
+feeds the native floor, generic RG producers, diagrams or exterior theory.
+
+**Finite row-input producer.** Before any exterior classification or volume
+calculation, build the KT001–KT119 native PD/rotation codes and their actual
+realizations using the generic Layer4.2–4.6 APIs. Record crossing signs,
+over/under slots, component labels/orientations and the meridian/longitude
+conventions transported by Layer5's exterior stage. For every source picture
+and repeated/cropped occurrence construct its marked crossing/arc comparison
+with that code, and a finite geometric comparison to its printed Conway and
+named reference model, or an explicit proved discrepancy. Preserve uncertain
+source fragments as qualified input; a guessed completion or invariant match
+is not an identity certificate. These are newly required finite input
+constructions, not assumed products of a prior table audit. Their geometric
+producer uses no late row-classification, rigidity or numerical-volume result.
+
+**Realized complements.**
+  A link complement is the open interior of its compact exterior from Layer 5. Use the smooth
+  structure obtained by the verified exterior collar and the Layer4 diagram-to-link realization;
+  do not assume that an unproved row label already identifies a link. The volume is a metric
+  invariant of the underlying complement, unchanged by mirror image or component reorientation
+  once the corresponding complement diffeomorphism is established.
+
+  **Native metric and finite real mass.** The representative interfaces are
+  in `FiniteVolumeExtension.lean`; the README remains definitive. Use the actual `TauCeti.HyperbolicMetric`,
+  `HyperbolicMetric.HasFiniteVolume` and `IsFiniteVolumeHyperbolic`; no second hyperbolic
+  metric or finite-measure predicate is defined. The native witness carries its smooth
+  tensor, completeness for its OWN intrinsic metric and constant-curvature tensor−1.
+  Retain finite-dimensional real model, T3/preconnected smooth manifold, Borel measurable
+  structure and Lindelöf hypotheses. The link complements in scope are connected,
+  nonempty and boundaryless. Install only `g.metric.toRiemannianMetric` and its actual
+  continuous-bundle instance locally when forming `TauCeti.riemannianVolume I M`.
+  The native prototype's `metricVolume g` is exactly that measure, and
+  `finiteVolume g hg` requires `hg : g.HasFiniteVolume` before converting total mass.
+  Prove mass≠∞, nonnegativity, recovery by `ENNReal.ofReal` and proof-witness independence.
+  Prove strict positivity by taking a nonempty coordinate ball, using positive continuous
+  Gram determinant density bounded below on a smaller closed ball and its positive
+  Euclidean measure. An arbitrary finite measure is not necessarily nonzero.
+
+  Prove agreement with native compact `hypVolumeOfMetric` and chosen-metric `hypVolume`.
+  Their compact metric-independence lemmas assume `IsMostowRigid`, which is not a proof
+  of rigidity. Consume the implemented `RiemannianIsometry.measurePreserving_riemannianVolume`
+  with its actual continuous-bundle, C1, Borel and Lindelöf hypotheses; it needs no compactness.
+  Deduce equality of ENNReal masses, transport of the native finite-volume witness, and
+  equality of finite real masses. Include orientation-reversing isometries, since the
+  positive density measure acquires no sign. Never give a nonhyperbolic complement the
+  artificial value `ENNReal.toReal ⊤ = 0`.
+
+  Prove the dimension-three finite-volume Mostow–Prasad theorem for connected, orientable,
+  complete finite-volume hyperbolic 3-manifolds: a homotopy equivalence is homotopic to an
+  isometry. The resulting map is a smooth `RiemannianIsometry`; consequently the total masses
+  agree. Consume the early7.3 Margulis, thick–thin and finite-volume cusp contracts;
+  their geometric development precedes this rigidity proof.
+  Follow the volume/straightening route: build real singular chains with their ℓ¹ norm,
+  straightening and chain homotopy, the maximal-volume regular ideal tetrahedron theorem,
+  Haar smearing, and the fundamental-class comparison with Riemannian volume. For cusps,
+  prove compact-core relative fundamental classes, norm-controlled filling on boundary tori,
+  and cusp truncation with vanishing boundary error. Prove that a homotopy equivalence
+  preserves maximal parabolic subgroups, can be made proper on the cusp ends, and induces
+  the relative fundamental-class isomorphism. Then prove the boundary-extension and equality-
+  rigidity steps: the equivariant sphere map preserves regular ideal tetrahedra almost
+  everywhere and agrees almost everywhere with a Möbius or anti-Möbius transformation.
+  Descend that transformation to the smooth quotient isometry and identify its homotopy
+  class via the induced fundamental-group map. These are 7.7 targets, consuming AlgebraicTopology Stage 6's
+  relative fundamental-class comparison and existing real measure/Haar integration; they
+  do not assume a bounded-cohomology or simplicial-volume library. Thurston,
+  *The Geometry and Topology of Three-Manifolds*, §§6.1–6.5, gives the straightening,
+  smearing and relative-volume route; the finite-volume boundary/equality adapters stated
+  here are also owned targets. Consume
+  RiemannianGeometry4.3 (complete local isometry is a covering), RiemannianGeometry4.4 (Cartan–Hadamard),
+  RiemannianGeometry4.7 (hyperbolic quotient/isometry classification), and the isometry-germ and quotient-atlas
+  interfaces. Order these after this layer's curvature and `HyperbolicMetric` contracts so the
+  dependency graph remains acyclic.
+
+**Same-dimension finite-volume Mostow–Prasad.** For two connected boundaryless
+complete native hyperbolic metrics g on M and g' on N of the same real dimension n≥3,
+quantify independently over `hg : g.HasFiniteVolume` and `hg' : g'.HasFiniteVolume`.
+Given actual basepoints x,y and a specified native `FundamentalGroup M x ≃* FundamentalGroup N y`,
+construct a native Riemannian isometry for THESE tensors and a path from its image of x
+to y whose native basepoint transport induces that isomorphism. The prototype uses
+Mathlib's reverse-concatenation convention and `fundamentalGroupMulEquivOfPath`.
+
+In every n≥3, build the Margulis/thick–thin/cusp and constant-curvature
+space-form prefix, extending7.3's three-dimensional case, with faithful
+holonomy and finite-volume-to-lattice measure comparison.
+Construct the measurable equivariant boundary sphere map for the specified lattice
+isomorphism, with parabolic control for nonuniform lattices. Prove nondegeneracy,
+measurable boundary rigidity and agreement almost everywhere with a Möbius or anti-Möbius
+map. Promote almost-everywhere equivariance to exact conjugacy using continuity and
+full-support boundary measure; descend smoothly through quotient atlases, prove the
+tangent inner-product identity and recover the specified group map/basepoint path.
+The dimension-three straightening/smearing route above supplies its own
+boundary/equality prerequisites; it does not alone establish the general n theorem.
+For nonorientable manifolds construct the common finite-cover reduction:
+intersect the source orientation subgroup with the pullback of the target
+orientation subgroup, obtaining index at most4. Prove rigidity upstairs,
+then use uniqueness/trivial centralizer to descend equivariantly; do not
+assume the original abstract group isomorphism preserves orientation characters. Requiring an orientation-preserving output needs the corresponding
+orientation/fundamental-class sign premise.
+
+The prototype uses a shared real vector model. For different finite-dimensional models,
+choose explicit linear coordinates to the same real n-model and prove transport of
+charts, metrics, measures and basepoint maps. RiemannianGeometry4.3, RiemannianGeometry4.4 and RiemannianGeometry4.7
+supply complete-local-isometry covering, Cartan–Hadamard, model/isometry-germ/quotient-atlas
+targets. The order is native curvature/metric floor → generic RG constructions →
+7.1/7.3 model/cusp comparisons → this late
+finite-volume application, not a whole-layer cycle. Given rigidity define volume from
+a native finite-volume existence witness, prove equality with EVERY such metric's mass,
+and transport it along actual complement equivalences. End count alone gives no metric.
+
+**Rigidity consequences as a usable API.** Construct the group homomorphism
+from the actual isometry group of a fixed complete finite-volume metric
+to `Out(π₁)`, with all basepoint-path and conjugacy comparisons. Prove
+that an isometry homotopic to the identity lifts, after a deck adjustment,
+to an isometry centralizing the lattice. A finite-covolume hyperbolic
+lattice in dimension≥3 has full boundary limit set; its centralizer in
+the full model isometry group is trivial. This proves uniqueness of the
+isometry in a homotopy class. Together with the specified-group-map
+existence theorem, give the group isomorphism `Isom(M)≃Out(π₁ M)` and
+its multiplication/inverse naturality, not just a bijection of sets.
+
+Identify this isometry group with the lattice normalizer modulo the
+lattice. Prove normalizer discreteness using finite generation from the
+compact cusp core and the trivial-centralizer lemma; include the closed
+case. Prove that a discrete overgroup of a finite-covolume lattice has
+finite index by the positive Haar-covolume/index formula, with finite
+stabilizers in its possible orbifold quotient accounted for. Deduce
+finiteness of the full isometry group and of `Out(π₁)`. Transport all
+these conclusions and the metric-independent mass through the actual
+Riemannian isometries. These targets supply the volume and isometry-group
+consequences of7.2 as well as the cusped applications.
+
+  **From a link diagram to a certified metric.** Consume Layer4's row-specific diagram encoding, Conway realization and identity audit. On a matching branch use the stated link; on a discrepancy branch use the certified actual class and preserve the printed reference outcome as a separate conditional source claim. Consume Layer 5's
+  compact exterior and prove its interior is diffeomorphic to the link complement using its
+  torus-boundary collar, then consume Layer 3's existing compact-ambient continuous-parameter isotopy-extension theorem and let Layer 5 own exterior naturality and tube independence: extend ambient isotopies over tubular neighborhoods and prove the induced compact-exterior diffeomorphism is independent of tube choice up to the specified isotopy. Construct a finite relative PL starting complex from each row's PD/rotation-system code. Realize the diagram polygonally as a subcomplex of a triangulated cube `B³`, and form `S³` by attaching the cone on `∂B³`; triangulate this cone compatibly. Take a derived regular neighborhood of the link subcomplex and triangulate its complement in all of `S³`; its boundary tori are the exterior boundary, with no extra `S²` component. Prove regular-neighborhood uniqueness identifies this PL neighborhood with Layer 5's smooth tubular neighborhood, and use the relative PL-to-smooth comparison in Layer11.2 to identify the resulting core with the smooth exterior. Existence of an unspecified triangulation is not certificate input.
+  Consume8.3's generic incompressible-surface normalization. Before row certificates,
+  7.7 builds its effective compact-exterior/peripheral adapter, including
+  essential-sphere normalization in the reducible case: triangulate the boundary-peripheral problem, prove Haken normalisation for embedded spheres and meridional annuli with both meridional boundaries on the same component torus, derive computable bounds for least-weight essential witnesses through fundamental normal-surface/Haken-sum analysis and prove bounded search detects existence. Exclude boundary-parallel/trivial-factor cases. Do not assert all normal representatives are bounded; enumerate the finite witness candidates and prove decision completeness. The row-level prime/split result is then a finite certificate checked against the compact exterior. This target consumes the actual-class diagram identity from Layer4 and the exterior construction below; it has no edge back to Layer4 or Layer 5.
+
+  Construct a finite special spine of this triangulated compact exterior: specify its local
+  disk, triple-line and true-vertex models, the subdivision and spine moves, and the
+  homeomorphism between its regular neighborhood and the exterior. Dualize the spine to a
+  finite ideal face-pairing complex; prove that deleting its ideal vertices gives the
+  exterior's interior and that ideal vertices correspond to the boundary tori. This is
+  the special-spine route of Jaco–Rubinstein–Spreer–Tillmann, *On minimal ideal triangulations
+  of cusped hyperbolic 3-manifolds*, Proposition 3, using Matveev's special-spine construction.
+  It does not follow just by collapsing the boundary of an arbitrary triangulation.
+  Own finite move certificates from that explicit starting complex to each chosen row complex, with a verified PL homeomorphism at every move. Truncating ideal tetrahedra produces compact polyhedra with triangular and hexagonal faces, not simplices or the open finite-volume manifold. Subdivide each truncation compatibly into simplices, glue the compact truncated pieces to obtain the compact core, and attach the product cusp collars to recover its interior. Prove the induced smooth triangulation and its boundary-collar compatibility, then compare its PL structure with the core above using Layer11.2 before identifying the resulting interior with the hyperbolic manifold. Track Layer 5's
+  `FramedBoundaryTorus` meridian/longitude through these identifications. This gives a
+  reusable diagram-to-ideal-triangulation route without a geometric decomposition claim.
+
+  An ideal-triangulation certificate records finitely many oriented ideal tetrahedra, face
+  pairings yielding a 3-manifold, ideal vertices in bijection with boundary tori of the compact
+  core, exact shapes in the upper half-plane, all edge equations, and peripheral completeness
+  equations for a named meridian/longitude basis at each cusp. Exact edge products together with
+  positive dihedral angles and the ideal-triangulation Euler count force the total angle at each
+  edge to be `2π`; include the angle identity as a checked certificate consequence, not on the
+  false ground that the equations permit arbitrary `2πk`. Peripheral equations are stated in
+  multiplicative form (holonomy `1`) or an exactly equivalent specified logarithmic form, with
+  branch data, and prove complete flat-torus cusp links. The geometric gluing theorem constructs
+  a connected complete finite-volume metric on the ideal realization. Construct its
+  developing map using RiemannianGeometry4.7's continuation of isometry germs and quotient atlas, and use
+  RiemannianGeometry4.3's complete-local-isometry covering theorem for the completeness comparison.
+  Truncate the cells to a PL core and apply Layer11.2 relative Moise/smoothing theorem
+  along its collared boundary to upgrade the proved PL identification with the smooth
+  link exterior to a diffeomorphism of interiors. Transport the assembled metric along
+  that diffeomorphism and compare the native Riemannian measures by chart characterization
+  and smooth isometry invariance. Thus the output metric lives on the specified complement.
+
+  Permit a second, explicitly finite constructor from positively oriented ideal polyhedra whose
+  exact shapes and face isometries satisfy edge-cycle angles `2π` and whose cusp-link quotients
+  are certified complete flat tori. Apply the same assembly, smoothing, completeness and volume
+  proofs. Supply the same exact algebraic vertex/face data and a certified PL identification
+  with the exterior interior. Assemble the metric on the original polyhedra, checking
+  their actual face isometries, edge angles and complete cusp links. For the volume
+  integral triangulate each convex ideal polyhedron independently by nondegenerate
+  positive ideal tetrahedra and prove volume additivity. The volume triangulations
+  need not agree across glued faces: their subdivisions affect only measure-zero
+  faces and do not construct the glued metric. For the compact PL core instead use
+  compatible subdivisions of the truncated cells, allowing new finite vertices.
+  Prove that comparison with the original polyhedral gluing separately. Do not claim
+  every finite-volume cusped manifold has a positive ideal triangulation or a
+  two-polyhedron decomposition.
+
+  For exact shape data, use a common number field for the finite shape tuple, with each
+  tetrahedron shape represented as `z_t = g_t(θ)` for the same root `θ` of a
+  specified irreducible `f ∈ ℤ[X]`, together with rational isolating data selecting the root and
+  proving `Im(z_t)>0`. Check gluing, peripheral and nonvanishing-denominator equations by exact
+  polynomial reduction in `ℚ[X]/(f)`.
+
+  **Real-algebraic certificates and effective isolation (7.7 owner).** Use Mathlib's
+  existing intermediate field `algebraicClosure ℚ ℝ` as the semantic real-algebraic
+  carrier, with its actual inclusion into `ℝ` and `mem_algebraicClosure_iff`.
+  The semantic realization and interval-refinement adapter has suggested forms in
+  [`RealAlgebraicRealization.lean`](RealAlgebraicRealization.lean).
+  Finite polynomial/interval/Thom records are representations of its elements, not
+  a replacement field. Consume Real Algebraic Geometry Layer 1's polynomial
+  IVT/Rolle, Sturm–Tarski and Thom-encoding theorems. Build here the finite
+  certificate and effective-isolation adapters required by shape computations.
+  A certificate binds a nonzero integer polynomial, its squarefree reduction,
+  a signed remainder chain with checked identities and signs, and rational dyadic
+  intervals `(a,b]`. Check each interval has exactly one distinct real root,
+  the intervals are ordered/disjoint, and their total covers every real root.
+  Specify zero-skipping sign variations and the one-sided/endpoint contributions
+  giving this HALF-OPEN convention: roots at b are included and roots at a are
+  excluded, including a root hit exactly during bisection. Prove soundness,
+  uniqueness and algebraicity of every interpreted root, and completeness for
+  every nonzero polynomial; nonzero constants return no roots and zero is rejected.
+  Multiplicity is recorded separately from distinct-root isolation and recovered
+  from the squarefree factorization. Clear rational denominators with the exact
+  coefficient map and a nonzero scaling proof before applying the integer checker.
+
+  Prove a finite rational root bound and an effective positive separation bound
+  for distinct roots of the squarefree polynomial. Use these to prove termination
+  of exact Sturm bisection and refinement to any specified positive rational width;
+  an optional search heuristic must still pass the same finite checks. Export
+  representation-to-native-carrier evaluation, invariance under valid refinement
+  and change of defining polynomial, and completeness of finite representations
+  for elements of `algebraicClosure ℚ ℝ`. Build certified addition, subtraction,
+  multiplication, rational embedding and inversion with an explicit nonzero
+  premise. Use elimination polynomials plus isolation to select the actual result;
+  prove each operation agrees with the existing field operation. Decide equality,
+  order and signs of rational-polynomial expressions at represented roots by
+  exact common-root/gcd and Sturm–Tarski/Thom tests. Equality and zero cases need
+  these algebraic tests; disjoint-interval refinement alone does not decide them.
+  Supply the denominator-nonvanishing tests needed for rational expressions.
+
+  Follow the half-open interval and ordinary-polynomial interface of the existing
+  [Hex real-root work](https://github.com/leanprover/hex-real-roots) and its
+  [theory companion](https://github.com/leanprover/hex-real-roots-mathlib/blob/e869b0f6c1e45199498994faf0de1b01786a97a7/HexRealRootsTheory/IsolateRoots.lean), whose
+  `Hex.IsolatedRealRoots` exposes uniqueness, coverage and ordering. Prove the
+  adapter from accepted finite checks to those semantics and the native
+  algebraic-closure carrier; the arithmetic and sign adapters above remain 7.7
+  targets. Coordinate any code integration under the repository's porting rules.
+
+  7.7 also owns complex-root isolation and the complex-to-real sign adapter.
+  In the resultant route substitute `θ=x+iy` into f, derive the coupled real and
+  imaginary polynomial equations, isolate the finitely many candidate coordinate
+  roots and check the ORIGINAL coupled equations to exclude extraneous resultant
+  pairs. Prove existence, uniqueness and exhaustion for the selected complex root;
+  couple every `g_t(θ)` to that same root and certify its positive imaginary part.
+  Alternatively own a complex-box root-count theorem with the same existence and
+  uniqueness guarantees. Rational boxes alone are not certificates. State the full
+  error-controlled integral construction for `Λ(θ)=−∫₀^θ log(2 sin t) dt`, including directed
+  enclosures for branch-controlled shape angles and improper endpoint integrals. HIKMOT
+  §§2–4 is a reference for interval verification of gluing and hyperbolicity, not a volume
+  integral or exact algebraic root certificate; use Ratcliffe's ideal-tetrahedron volume
+  formula as the geometric reference.
+
+  Prove that a positively oriented ideal tetrahedron with dihedral angles `(α,β,γ)` has
+  hyperbolic Riemannian volume `Λ(α)+Λ(β)+Λ(γ)`, that the triangulation 2-skeleton has measure
+  zero, and that summing these terms equals the integral of the installed metric's
+  `TauCeti.riemannianVolume` on the link complement. Do not assume an existing dilogarithm,
+  shape-equation or interval-arithmetic API. A certificate returns rational bounds `a < b` with
+  `a < vol(M) < b`; Mostow–Prasad makes the value independent of the chosen metric certificate.
+
+  **Appendix.RowExteriorClassification.** After the row diagram is identified
+  and its compact exterior constructed, use the preceding8.3/7.7 effective
+  normal-surface adapter to prove a decision procedure
+  for splitting spheres and meridional annuli. State normal matching equations and
+  embeddedness/Euler-characteristic constraints; prove the least-weight
+  essential-witness bounds, normalization and Haken-sum reductions, including
+  essentiality and boundary-parallel exclusions. Enumerate bounded witnesses and
+  prove existence detection rather than bounding all normal representatives.
+  Classify the actual exterior on the diagram branch and, separately, the named
+  reference exterior when its identity is certified.
+
+  Pin equivalence to unoriented ambient homeomorphism of `S³` carrying the link
+  setwise, allowing either ambient orientation; thus mirrors are identified,
+  component orientations are forgotten and component ordering is forgotten.
+  Crossing number is the minimum over all regular diagrams in that class, not
+  the number of crossings in a chosen picture. A reference prime link is nonsplit,
+  nontrivial, and prime under connected sum along any component: every sphere
+  meeting the link transversely in two points cuts off a ball whose intersection
+  with the link is a single unknotted arc. The ball contains no other components.
+  Distinguish this from mere nonsplittability and from primeness of a diagram.
+
+  Define three intrinsic reference classes at the fixed bounds from the Appendix:
+  prime knots with crossing number at most9 (equivalently3–9), prime two-component
+  links with crossing number at most8, and prime three-component links with crossing
+  number at most7. The intended finite comparisons are respectively the84 knot
+  rows, the30 non-unlink two-component rows, and the four three-component rows.
+  The31 two-component rows comprise those30 reference rows plus the explicit
+  two-component unlink exception. Prove distinctness, crossing minimality and
+  exhaustion for these intrinsic classes by comparison with the Layer4 finite
+  enumeration; an index set of the advertised size is not a completeness theorem.
+  Reference diagrams, labels and the source-picture identity branch require their
+  separate Layer4 checks under exactly this equivalence relation. If a reference or
+  source identity fails, classify the actual diagram and prove the discrepancy
+  rather than imposing the advertised class on it.
+
+  Refute the introduction's unrestricted completeness assertion by explicit
+  omitted types: the unknot at the knot bound, T⊔U at the two-component
+  bound and the three-component unlink at the three-component bound.
+  Prove they lie within the respective bounds and differ from every
+  advertised reference row in the declared quotient. Then classify ALL
+  omitted types at the SAME bounds: knots≤9, two-component links≤8 and
+  three-component links≤7, including connected sums, split/disjoint unions
+  and componentwise composite links. The output is a finite catalogue of
+  actual realized representatives, with exact per-crossing counts, an
+  assignment of every bounded realized diagram to its representative by
+  finite geometric moves, and verified pairwise nonequivalence certificates.
+  Pin a finite numeric encoding order and choose the least bounded code
+  in each class as its canonical index; identify every reference row and
+  every missing type in that catalogue. Invariant equality alone does not
+  decide the assignment or prove distinctness.
+  Use Layer4's generic prime-decomposition and finite-diagram enumeration
+  targets, prove the splitting/connected-sum reconstruction exhaustive, and
+  check each crossing bound by the full finite enumeration/minimum proofs.
+  Do not assume crossing-number additivity to truncate factor combinations.
+  This unit owns the row-specific exterior certificates and finite
+  comparison; Layer4 owns generic link prime decomposition and diagram
+  enumeration. No output of this classification is a prerequisite of
+  those early producers or of Layer5.
+  **Complete source ledger and WITHOUT ROUNDING.** Colin Adams's *The Knot Book*
+  Appendix, printed pp.279–290 (physical pp.8–19 of the source extract), contains all 119
+  retained row obligations: 84 knots, 31 two-component links, 4 three-component links;
+  107 positive decimal strings and 12 `0.0` sentinels. The full ledger is
+  [`references/finite-volume-table-obligations.md`](references/finite-volume-table-obligations.md).
+  Keep every literal label, Conway string, decimal, fractional digit count, Layer4 row ID,
+  picture-identification obligation and qualification, including all cropped/repeated
+  occurrences. This is the whole finite Appendix, not a small-crossing sample. Its 84 knot
+  reference rows have the prime-knot conventions and omissions specified above; the
+  broader literal introduction is retained separately, not silently reinterpreted.
+
+  The stated display rule is WITHOUT ROUNDING to eight decimal places. A matching
+  positive ordinary eight-place row with exact rational d requires `d ≤ Vol < d+10⁻⁸`.
+  A symmetric tolerance or nearest rounding does not discharge this. If a rigorous
+  interval proves the literal claim false, prove a source discrepancy with the corrected
+  interval instead of asserting a false theorem. Keep `5₂ = 2.8281220` with seven places
+  and `8₈ = 7.801341224` with nine places. For those exceptions test displayed-k truncation
+  `d ≤ Vol < d+10⁻ᵏ` AND adjudicate the conflicting general eight-place assertion separately.
+  A seven-place success is not eight-place source closure. Keep competing readings
+  and their uncertainties in the source evidence; infer no missing digit and
+  discard no ninth digit.
+
+  First prove the actual diagram-to-reference identity. On a matching branch certify
+  the reference complete finite-volume metric and truncation bound, or a proved decimal
+  discrepancy; sentinel rows require their separate reference obstruction. On a mismatch
+  branch certify the actual class either finite-volume hyperbolic with a rigorous interval
+  or with no complete finite-volume metric, then report the reference claim separately
+  and conditionally. Do not force a reference value or obstruction on another actual class.
+  A `0.0` row asserts absence of COMPLETE FINITE VOLUME metrics, not all infinite-volume
+  hyperbolic metrics. Applying the introduction's knot sentinel convention to link rows
+  remains the explicit interpretation being tested. Produce rigorous comparison intervals;
+  repeated printed decimals alone do not assert exact equality, and any claimed equality
+  needs its own geometric or analytic proof. Finite row-list equality is not tabulation
+  completeness, crossing minimality or distinctness: the retained downstream classification
+  programme remains substantive and has no 7.7-to-Layer4 dependency.
+
+  On a matching identity branch, each of the 12 `0.0` reference rows requires a separate
+  `¬TauCeti.IsFiniteVolumeHyperbolic` theorem on the specified complement,
+  not an equality saying volume is zero. If identity fails, prove the actual class either has a complete finite-volume hyperbolic structure with exact interval or admits no complete finite-volume hyperbolic metric; the printed sentinel and the routes below remain reference-class claims. The reference obstruction alternatives are: (a) a
+  diagram-certified split sphere, contradicted by irreducibility of a finite-volume hyperbolic
+  3-manifold; (b) a diagram-certified torus-knot/link or Seifert fibration with nontrivial
+  central fibre, contradicted by the centerless lattice theorem; (c) a diagram-certified
+  essential interior torus, contradicted by the finite-volume lattice's peripheral subgroup
+  structure. Prove the lattice facts used here: finite covolume implies non-elementarity, and
+  a torsion-free non-elementary lattice has trivial center and no normal infinite cyclic
+  subgroup. Prove hyperbolic irreducibility using the universal cover `ℍ³ ≃ ℝ³` and
+  Brown–Schoenflies. Since `S²` is simply connected, its inclusion lifts to an embedded sphere in the universal cover `ℍ³ ≃ ℝ³`; Schoenflies bounds that lift by a compact ball `B`. Distinct deck translates of the lifted sphere are disjoint, so their Schoenflies balls are disjoint or nested. A strict nesting `γB ⊊ B` (or `B ⊊ γB`) would make infinitely many iterates meet `B`, contrary to proper discontinuity. Equality gives a compact-set stabilizer, which is finite by proper discontinuity and trivial because the lattice is torsion-free. Thus distinct translates of `B` are disjoint, and `B` projects to an embedded ball bounded by the original sphere. This proves irreducibility rather than citing it as a label. Prove the essential-torus obstruction by identifying its injected `ℤ²` subgroup and proving the geometric peripheral/atoroidality theorem. Prove an embedded incompressible torus homotopic into a cusp is boundary-parallel using the irreducible-exterior product/annulus comparison; mere placement in the interior is not an obstruction. Consume Layer4's
+  Wirtinger presentation and the diagram-identification targets only after the row diagram has been identified. Layer4 owns explicit PD/Reidemeister certificates identifying the listed torus knots, torus links, and pretzel diagrams; 7.7 owns their exterior homeomorphisms, Seifert/torus-fibration models and central-fibre computations. Neither follows from a label or Conway string alone.
+
+  The ledger assigns the torus-knot route to `3₁`, `5₁`, `7₁`, and `9₁`; the torus-link route
+  to `2₁²`, `4₁²`, `6₁²`, and `8₁²`; the splitting-sphere route to `0₁²`; and the
+  Seifert-fibration route to `7₇²`. For the three pretzel-coded rows, first prove
+  the Layer4 Conway/diagram identifications `8₁₉ ≅ P(−2,3,3)`, `7₇² ≅ P(−2,2,3)`, and
+  `6₂³ ≅ P(−2,2,2)` (allowing mirror and component reorientation, which preserve the
+  complement volume). Then use Stoimenow, [“On the crossing number of semiadequate links”](https://stoimenov.net/stoimeno/homepage/papers/adeq2.pdf), §4.3, Corollary 4.3 and Proposition 4.3 for the pretzel-form identifications: respectively `T(3,4)`, a Seifert-fibered Montesinos link, and `T(3,3)`. Layer4 must still give finite Reidemeister/code certificates from the literal row diagrams to those pretzel diagrams; the citation does not certify that encoding step. The remaining torus knot/link and unlink identifications are likewise finite Layer4 diagram theorems, and 7.7 supplies their group/exterior models. No row's topology is inferred from a label or Conway string alone.
+
+
+**Checker and analytic soundness programme.** Define finite records of oriented face
+permutations, cusp links/peripheral curves, exact polynomial systems, rational interval
+boxes, integer edge/peripheral exponents and logarithmic branch counts, and a finite PL
+move certificate from the actual exterior starting complex. A checker returns an error
+or structured certified data; an unchecked Boolean is not geometric validity. Prove
+rational interval operations outward enclosing, with denominator zero exclusion.
+The exact-algebraic branch proves irreducibility, complex-root isolation and shape
+substitution identities; the analytic branch proves a concrete interval Newton/Krawczyk
+inclusion theorem with rational preconditioner, derivative bounds and an actual root.
+Prove all omitted equation dependencies and cusp relations. Zero in an interval alone
+proves neither existence nor equality. Certify the branches and full angle sums; the
+retained positive-shape/Euler-count lemma justifies any omitted angle tests under its
+precise ideal-torus-triangulation hypotheses, not for arbitrary polyhedral input.
+
+Pin ordered ideal vertices `(∞,0,1,z)`, `Im z>0`, edge shapes z,1/(1−z),(z−1)/z and their
+face-order/orientation convention. Prove the three positive dihedral angles sumπ and
+that the native curvature−1 half-space measure gives the Λ-sum. Define Λ by its
+convergent improper integral; prove the equivalently normalized Bloch–Wigner identity,
+branch-controlled log/sin/argument estimates, and explicit integrable endpoint-tail
+bounds. Prove the 2-skeleton null and finite-volume additivity, not just a formal sum.
+For a flat cusp section of area A prove the metric `dt²+exp(−2t)ds²` has density
+exp(−2t), end mass A/2 at height0, tail A exp(−2T)/2 after heightT and complete escape
+distance. Finitely many cusp ends plus the compact thick core prove completeness and
+finite positive mass of the assembled metric.
+
+Soundness returns the actual native HyperbolicMetric, its own HasFiniteVolume witness,
+a proved topological/smooth identification with the marked complement, and rigorous
+bounds on that exact metric's mass. Failure gives no nonhyperbolicity conclusion.
+No universal positive geometric ideal-triangulation existence theorem is assumed;
+alternative polyhedral certificates need the same topology, completeness and volume
+checks. Exact-boundary decimal cases require an equality/one-sided proof when an open interval
+cannot decide them; numerical refinement alone does not decide equality. All 119 rows
+still require concrete certificates or explicit alternative proved
+constructions. The native measure adapters, rigidity interface and geometric checker
+must be connected by the soundness theorems above.
+
+**References and exact claims.** Ratcliffe, Theorem11.8.5, is a reference
+for closed rigidity; the finite-volume boundary/equality proof obligations
+are specified above. Thurston's structure/developing-map construction alone
+does not discharge rigidity. [SnapPy verification internals](https://snappy.computop.org/verify_internals.html)
+and its [verified interface](https://snappy.computop.org/verify.html) guide separation of
+root, geometric and interval checks; external computations are not Lean certificates.
+Adams–Hildebrand–Weeks, *Hyperbolic invariants of knots and links*, Trans. AMS 326(1) (1991),
+1–56, DOI 10.1090/S0002-9947-1991-0994161-2, is an identified related primary article.
+Printed pp1–4 specify Table1's knots through ten crossings and two-, three-
+and four-component links through nine crossings, its row codes and invariant
+columns, and Table2's horoball display threshold α=0.1. The invariant data
+include hyperbolic/maximal-cusp volumes, the stated conditional symmetry counts,
+shortest parabolic translations and both homological/geometrical cusp shapes.
+The reported volume precision10^(−15) is not a rigorous error certificate or
+a decimal-rounding theorem. Individual numerical cells and the course's missing
+Chapter5 key crosswalk retain their verification obligations; these article
+conventions authenticate no course appendix number. Preserve the remaining
+source/glyph/intent/proof qualifications separately from corrected targets.
+
+*Needs:* the early model/cusp and RiemannianGeometry interfaces named above;
+Layers3–5's isotopy/diagram/exterior contracts,8.3–8.4's independent normal-surface/
+Seifert prefix and11.1–11.2's independent finite
+PL/smoothing prefix, AlgebraicTopology's relative fundamental-class comparison,
+RealAlgebraicGeometry's Sturm–Tarski/Thom floor and native real measure/Haar
+integration. This unit constructs the rigidity, finite geometric-checker,
+exact-arithmetic/integral and row-classification bridges stated above.
 
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
