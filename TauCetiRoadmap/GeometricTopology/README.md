@@ -3413,6 +3413,181 @@ The four annotated cases are named evaluations of the full theorem, not a reduce
 Late 7.5 consumes these row results for the all-input classification corollary and
 contributes no prerequisite back to them.
 
+<a id="two-strand-alexander-family"></a>
+### 4.4.7 Two-strand torus links and the cinquefoil group
+
+Develop the complete meridional presentation, infinite-cyclic module and Alexander
+calculation for the realized closure L_n of `σ₁ⁿ∈B₂`, for every integer n. Use native
+`TauCeti.BraidWord.closure` with upward strands, its ordered letters and side closing
+arcs, with component orientations, mirror and basing paths. Supply the dictionary from
+the repeated twist drawing of Knot Theory p155 rather than assuming a schematic matrix
+authenticates the realized link. The closure has one component for odd n and two for
+even n; L_0 is the two-component unlink and L_±1 are unknots. At even n the signed
+linking number is n/2.
+
+1. **The full two-meridian presentation.** Construct the free-group automorphism
+   `φ(x)=xyx⁻¹`, `φ(y)=x`, its inverse and the geometric action of a specified positive
+   elementary braid on the twice-punctured disc. Compare the native fundamental-group
+   multiplication and braid-reading order with these words; provide the inverse-action
+   adapter where needed. With C=xy, prove φ(C)=C and `φ²(g)=CgC⁻¹`, hence the formulas
+   for every integer power. Derive the closure presentation by the actual meridian paths
+   and van Kampen, then give the relator eliminations yielding
+
+   ```text
+   n=2k:     ⟨x,y | C^k=(yx)^k⟩,
+   n=2k+1:   ⟨x,y | C^k x=y C^k⟩,             k∈ℤ.
+   ```
+
+   Use native `FreeGroup`, `PresentedGroup` and homomorphisms with explicit
+   forward/inverse generator images, relation checks and inverse equations. At n=0
+   remove the tautological relator to obtain the free group on x,y; at n=1 obtain x=y
+   and at n=2 obtain xy=yx. For odd n the abelianization is ℤ; for even n it is ℤ². In
+   every case construct the surjective total-linking map ℓ sending both positive
+   meridians to 1. At even n it is the sum of the two abelianization coordinates, and
+   its kernel is not the commutator subgroup.
+
+2. **Problem79 as an actual group computation.** Match the native five-crossing
+   closure to 4.4.6's standard 5₁ PD input by explicit slot/relabeling and
+   ambient-isotopy comparisons before assigning its group to that named row. Specialize
+   to L_5=5₁ with `R=xyxyx y⁻¹x⁻¹y⁻¹x⁻¹y⁻¹`, so `xyxyx=yxyxy`. Identify it with `⟨a,b |
+   a²=b⁵⟩` by `a=xyxyx`, `b=xy`, with inverse `x=b⁻²a`, `y=a⁻¹b³`. Prove both relations
+   and all four generator identities. The total-linking values of a,b are 5,2. Compare
+   the maps to the actual complement fundamental group using the geometric presentation,
+   not just an abstract torus-group name. Retain the two meridians and peripheral basing
+   information in these maps. The presentation `a²=bⁿ` is not asserted for even n: it
+   would already give the wrong Hopf-link group at n=2.
+
+3. **Fox and chain conventions.** Consume 4.4.2's free-group-ring Fox calculus
+   and signed local PD comparison. In Λ=`LaurentPolynomial ℤ`, t=T1, put
+   `F_n=Σ_(j=0)^(n−1)(−t)^j` for n≥0 and `F_(−m)=−(−t)^(−m)F_m` for m>0. For the relator
+   read as left word times inverse right word above, compute the meridionally
+   specialized Fox row exactly as `(F_n,−F_n)`. Derive the signed-word rule that a
+   positive letter with preceding exponent sum s contributes t^s and a negative letter
+   contributes −t^(s−1); prove free cancellation and its agreement with the generic
+   derivative. For n=5 this is `(A,−A)` with `A=t⁴−t³+t²−t+1`. Retain the augmentation
+   differential `∂₁(u,v)=(t−1)(u+v)` and identify the row relation as the image of ∂₂. A
+   matrix whose rows are relations presents the cokernel of its transpose.
+
+4. **Reduced and unreduced modules.** Construct X_n^∞ using ℓ and its positive
+   deck generator, and compute `M_n=H₁(X_n^∞;ℤ)` over Λ. Compare its lifted cellular
+   chain complex with the presentation complex through the geometric group maps; no
+   asphericity assumption about an arbitrary presentation complex is needed for this
+   first-homology comparison. Use the non-zero-divisor t−1 to identify ker∂₁ with the
+   sum-zero pairs. Prove
+
+   ```text
+   M_n ≃ₗ[Λ] Λ/(F_n),
+   N_n := (Λ²)/Λ·(F_n,−F_n) ≃ₗ[Λ] Λ ⊕ Λ/(F_n),
+   [u,v] ↦ (u+v,[−v]),       (c,[d]) ↦ [c+d,−d].
+   ```
+
+   Prove well-definedness, linearity, inverse laws and compatibility with the
+   augmentation and chosen-meridian splitting. Identify the native
+   `OrientedPDCode.AlexanderModule` with N_n by explicit arc/generator and relation
+   maps, preserving the free summand. The actual cover module M_n has Fitting ideal0
+   equal to (F_n), and higher Fitting ideals equal to Λ; the unreduced N_n has E₀=0,
+   E₁=(F_n), E_j=Λ for j≥2. Export their exact sequence, naturality under basing and
+   Laurent-unit/presentation changes, and generator formulas. For n=0 get M_0=Λ and
+   N_0=Λ²; for n=1 get M_1=0 and N_1=Λ; for n=2 get M_2=Λ/(1−t). For two-component links
+   use kerℓ throughout, instead of importing the knot-only commutator/abelianization
+   comparison as if ℓ were the entire abelianization.
+
+5. **The cyclic matrix and continuants.** For n≥1 number the n Wirtinger arcs
+   and crossings so the source row matrix is
+   `A_n(i,j)=(1−t)δ_(i,j)+tδ_(j,i+1)−δ_(j,i−1)`, with indices modulo n. Prove the actual
+   oriented arc dictionary and all Fox row signs, using the source drawing adapter and
+   the native crossing relations. At coincident indices add coefficients, giving A_1=[0]
+   and `A_2=[[1−t,t−1],[t−1,1−t]]`. Delete the last row and column to get the
+   tridiagonal matrix with diagonal 1−t, superdiagonal t and subdiagonal −1. Prove the
+   continuant recurrence `D_0=1`, `D_1=1−t`, `D_(r+2)=(1−t)D_(r+1)+tD_r`, then
+   `D_(n−1)=F_n`. Give explicit unit row/column eliminations and their generator maps
+   reducing the full row presentation to N_n. This identifies its elementary ideals, not
+   only one cofactor. No minor of size −1 is formed at n=0.
+
+   In ℤ[t] prove `(1+t)F_n=1−(−t)^n`, constant coefficient1, leading coefficient
+   (−1)^(n−1) and degree n−1 for n≥1, together with `F_n(−1)=n`. The quotient formulas
+   on p155 mean this division-free identity; t=−1 is included. Compare with native
+   unreduced Burau matrices: for the positive power its corner minor is `−t F_n`, and
+   for σ₁^(−m) it is `t(−t)^(−m)F_m` for m>0. Prove these exact factors and their unit
+   status before transporting to `MarkovBraid.burauAlexander`. All three Seifert, Fox
+   and Burau computations use the actual geometric dictionaries.
+
+6. **The normalized oriented-link family.** Use the standard Conway polynomial
+   of 4.4.5 and Λ_s with t=s², z=s−s⁻¹. For n≥1 prove
+
+   ```text
+   Δ_(L_n)(s²)=C_n(s)=(−1)^(n−1)s^(−(n−1))F_n(s²),
+   C_0=0,  C_1=1,  C_2=z,  C_(n+2)=zC_(n+1)+C_n,
+   C_n(s⁻¹)=(−1)^(n−1)C_n(s).
+   ```
+
+   Construct the actual two-disc/n-band Seifert surface and ordered basis; identify its
+   positive-push-second matrix with `V=−B_(n−1)`, where B has diagonal1 and
+   superdiagonal−1, all other entries zero, up to an explicitly exhibited integral basis
+   change. Compute `det(s⁻¹V−sVᵀ)` to get C_n and the exact comparison to the native
+   floor-size Alexander normalization of 4.4.5. For n=1 use the empty matrix. For n=0
+   construct a connected untwisted annulus spanning the unlink, with Seifert matrix [0]
+   and determinant invariant0; the disconnected raw pair of discs does not give an empty
+   determinant formula for this connected-surface link invariant. The odd-knot formula
+   n=2k+1 is `t⁻ᵏF_n(t)`, symmetric with value1 at1 and `Δ_(L_(2k+1))(−1)=(−1)^k(2k+1)`;
+   the unsigned knot determinant is 2k+1. Even n retains half-integer powers in t and
+   its Hopf sign. Export the Conway polynomial recurrence in ℤ[z], its coefficient
+   parity, degree and leading coefficient, and agreement under z↦s−s⁻¹.
+
+   Retain the opposite-skein expression `C_n⁻=s^(−(n−1))F_n(s²)` with C_2⁻=−z and its
+   minus recurrence as a separate coefficient adapter: `C_n=(−1)^(n−1)C_n⁻` for n≥1,
+   both zero at n=0. This is the component phase `(−1)^(μ(L_n)−1)` from 4.4.5. It is not
+   the standard positive-link normalization. For negative n use actual mirror transport
+   with the component orientations: `Δ_(L_(−m))(s²)=C_m(s⁻¹)` for m>0. Construct the
+   reflected band surface and basis giving Seifert matrix −Vᵀ and prove this determinant
+   comparison directly with the chosen push-off and component orientations. Extend the
+   recurrence across all integer indices with C_0=0 and C_(−m)=(−1)^(m−1)C_m; compare
+   this signed family to F_(−m) with its explicit Laurent-unit factors. Uniformly for
+   every integer n the formula is `C_n(s)=(−1)^(n−1)s^(1−n)F_n(s²)`, with integer powers
+   interpreted as Laurent units and both sides zero at n=0. In particular
+   `C_(−m)=(−1)^(m+1)s^(m+1)F_(−m)(s²)` for m>0.
+
+7. **Geometric and coloring applications.** Prove the standard diagrams are
+   reduced alternating for |n|≥2, hence have crossing number |n| by the independent
+   bracket-span theory. L_0,L_±1 have crossing number0 by actual isotopies. For odd
+   |n|≥3 the canonical surface has genus (|n|−1)/2, and its Alexander span proves
+   ordinary-genus minimality. Include the trefoil and cinquefoil; at n=5 get
+   Δ=t²−t+1−t⁻¹+t⁻² and determinant5. At an even n retain both components and their
+   signed linking number. After 4.11's independent Clifford-torus construction, prove
+   the ambient comparison with T(2,n), including even parameters and component
+   orientations. This comparison uses the explicit spatial braid in a solid torus; no
+   torus-link classification or algebraic calculation is a premise of that isotopy.
+   Prove simultaneous orientation reversal preserves these formulas. For an individual
+   component reversal in the even branch construct its separately marked Seifert matrix
+   and coefficient-system comparison: it changes which geometric meridians map to t. As
+   a check, the coherently oriented L_4 has Conway polynomial z³+2z, while reversing one
+   component gives the annular representative with polynomial −2z. These are distinct
+   oriented inputs.
+
+   For any commutative ring R, use the explicit arc equations at t=−1 to identify the
+   full Fox-coloring module with `R ⊕ {d∈R : n·d=0}`, and the based module with its
+   second summand. Give the actual maps, not an arbitrary tensor/kernel base-change
+   assertion. For prime p this gives dimension2 if p divides n and1 otherwise, including
+   n=0. For modulus m≥1 prove the coloring count `m*gcd(m,|n|)` and subtract m for
+   nonconstant colorings. In particular 5₁ has25 full and20 nonconstant5-colorings.
+   Compare the source row determinant with the reduced-coloring order, while keeping the
+   two-component unlink's determinant/order0 branch distinct from an empty knot
+   determinant. Over finite fields these are exact finite computations.
+
+*Needs:* 4.2's native braid/PD realizations; 4.3's disc-band Seifert producer; 4.4's
+covers and Alexander modules; 4.4.2's generic Fox/PD/Fitting comparison; 4.4.5's fixed
+Conway/half-Laurent normalization; Mathlib free groups, presented groups, polynomial and
+Laurent rings, quotients and Fitting ideals; native
+`TauCeti.KnotTheory.BraidWord.PDCode`, `TauCeti.KnotTheory.PDCode.Alexander.Basic`,
+`TauCeti.KnotTheory.Burau.Alexander`. Items 1–6 use these early algebraic/geometric
+suppliers. Only item 7 consumes 4.7's independently constructed
+quandle/Fox-specialization prefix, excluding its downstream Alexander applications, and
+4.5/4.8.1's independent bracket-span and adequacy prefix for crossing minimality. The
+applications do not feed back into the elementary matrix/module computations. The
+braid-index classification of 4.8.2 consumes this family and is not a premise of its
+construction. The Clifford-torus comparison in item 7 consumes only 4.11's explicit
+geometric-model prefix, independently of its group/invariant applications.
+
 ### 4.5 The Kauffman bracket and the Jones polynomial
 
 The state sum `TauCeti.PDCode.kauffmanBracket` and the normalized

@@ -421,3 +421,48 @@ eigenvalue continuity found no matching inertia-continuity theorem; PR42931 conc
 simultaneous diagonalization/generalized eigenvalues. The producer develops the missing
 results using those carriers. This does not move work to Mathlib or require waiting for
 it.
+
+<a id="two-strand-alexander-inputs"></a>
+## Problems79 and the p155 two-strand family
+
+*Knot Theory.pdf*, SHA256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, physical p122
+Problem79, gives the cinquefoil relator `xyxyxy⁻¹x⁻¹y⁻¹x⁻¹y⁻¹`. It is the equality
+xyxyx=yxyxy; its signed Fox row is (F₅,−F₅), F₅=1−t+t²−t³+t⁴. The maps a=xyxyx,b=xy and
+x=b⁻²a,y=a⁻¹b³ identify the presentation with a²=b⁵, preserving the total-linking
+homomorphism. Actual diagram, basepoint and meridian comparisons remain required.
+
+Physical p155 draws the repeated two-strand twisting pattern and a schematic cyclic
+Alexander matrix, then the explicit tridiagonal cofactor and the even/odd rational
+expressions. The banded cofactor has diagonal1−t, superdiagonalt, subdiagonal−1. Its
+empty n1 determinant is1; n0 is the unlink and has no negative-sized minor. Coincident
+modular indices are added at n1/2. The exact identity (1+t)F_n=1−(−t)^n includes t=−1,
+where F_n(−1)=n; no division at that parameter is permitted. The full source-to-native
+upward-strand/slot/orientation dictionary remains a geometric producer, rather than an
+inference from the schematic drawing.
+
+The existing companion's normalized expression s^(1−n)F_n(s²) uses the negative Conway
+skein: its coherent positive Hopf value is−z. The definitive standard Conway theory
+instead has Δ₊−Δ₋=zΔ₀, so the actual positive-link invariant is
+C_n=(−1)^(n−1)s^(1−n)F_n(s²), with C₂=+z and C_(n+2)=zC_(n+1)+C_n. The old expression
+remains an explicit opposite-skein branch, differing by (−1)^(μ−1). Both current root
+and public standard Conway definitions use the plus skein; the old two-strand
+paragraph/doc was inconsistent with them. The superdiagonal Seifert matrix
+V=−I+superdiagonal1 gives det(s⁻¹V−sVᵀ) with exactly the standard sign.
+
+The native unreduced Burau corner minor is−tF_n for positive powers, and t(−t)^(−m)F_m
+for σ₁^(−m), m>0. These are Laurent-unit multiples, not literal F_n. The native PD
+AlexanderModule and coker of the transpose of the Fox row matrix are unreduced,
+isomorphic to Λ⊕Λ/(F_n). Actual H₁ of the infinite cyclic cover is the augmentation
+kernel Λ/(F_n). For even n use the total-linking homomorphism π→ℤ sending every positive
+meridian to1; abelianization itself is ℤ². Knot-only commutator comparisons do not apply
+to that link branch. Individual component reversal changes the coefficient system:
+coherent L₄ has Conway z³+2z, while the component-reversed annular model has−2z.
+
+The finite signed-word, matrix determinant, Burau and Seifert computations independently
+agree for n through12 (and signed Fox/Conway/mirror indices−10,…,12). Finite coloring
+counts over moduli1,…,12 match m*gcd(m,|n|). These checks do not supply the ambient
+isotopies, group/presentation maps, geometric surface/basis or infinite-cyclic-chain
+comparisons required by the roadmap. Generic Fox and PD/Fitting theory is consumed from
+the existing signed-Fox producer; no matching generic Fox-calculus implementation was
+found in the bounded native/Mathlib/open-PR search.
