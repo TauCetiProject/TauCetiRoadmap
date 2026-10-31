@@ -5256,6 +5256,100 @@ bound; CombinatorialHeegaardFloer's independent item7 (and item10 for g₄). The
 core and five-change certificate do not require Floer homology or pretzel primality.
 
 
+<a id="gt4-two-marked-crossing-changes"></a>
+
+### 4.8.4 Marked unknotting changes in the eleven-crossing example
+
+Construct the realized oriented native PD/plane diagram of the eleven-crossing knot K in
+physical-page1 problem4 of *Knot Theory – problems.pdf* (source identity
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`). Give all crossing,
+over/under, cyclic edge and outer-face data, and identify the marked crossings in
+physical pp20–22 and201–202 of *Knot Theory.pdf*
+(`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`). Retain the chosen
+orientation through every diagram comparison. A knot-table label or an arbitrary diagram
+with the desired invariant does not supply this input.
+
+For the page20 change, give a finite realized Reidemeister movie to the unknot,
+expanding the indicated strand slides and repeated moves into individual supported local
+moves. For the different page21 change, construct its Alexander presentation from the
+actual arc/crossing relations, compute its Laurent unit class and prove nontriviality.
+Compare the result with the literal page22 expression
+
+```text
+Q(t)=t²−5t³+10t⁴−13t⁵+10t⁶−5t⁷+t⁸,
+Δ_Q(t)=−t⁻⁵Q(t),  Δ_Q(1)=1,  |Δ_Q(−1)|=45.
+```
+
+Prove the displayed algebraic checks and reciprocal symmetry of Δ_Q. If the code
+computation differs, identify the source error rather than impose Q on the diagram.
+Recover the presentation from the marked diagram instead of guessing overwritten matrix
+cells.
+
+**Conditional recorded cofactor.** Use the exact eight-by-eight M(t,z) in the
+[source-input note](source-inputs.md#page22-recorded-cofactor): row9 and column9 are
+deleted, and the uncertain row8 column7 remains the independent entry z. Over every
+commutative coefficient ring prove
+
+```text
+det M(t,z)=Q(t)+z(−2t⁴+3t⁵−2t⁶),
+det M(−1,z)=45−7z.
+```
+
+The full recorded eighth row has deleted entry0 and sum z. From4.4.2's fundamental Fox
+identity derive the meridionally specialized row-sum identity over ℤ[t,t⁻¹]: `(t−1)Σ_j
+a_j=0`, hence `Σ_j a_j=0` by the domain property and t−1≠0. Thus a genuine Alexander row
+agreeing with the other recorded entries forces z=0. This uses the row relation, not the
+printed answer as an interpolation condition. Compute the cofactor without the
+unreadable ninth row. Prove naturality under coefficient homomorphisms, and retain z
+until the actual row is compared: the row-sum cancellation is not asserted over every
+ring where t−1 may be a zero divisor. Neither this conditional arithmetic nor reciprocal
+symmetry identifies the changed knot.
+
+**The later A/B/C marking.** Realize pp201–202's marked diagram and give its actual
+crossing correspondence with the earlier drawings wherever it can be established.
+Construct an unknot movie for A. For B and C give actual nontriviality certificates. In
+particular record the page202 B-changed diagram's nonconstant ZMod3 Fox coloring on its
+native arcs, check every crossing relation, and compare the marked colors through the
+indicated strand slide. Use4.7.1's invariant color module to prove it is not the unknot.
+Give the explicit diagram moves and marked decomposing sphere for the asserted `3₁ # 6₃`
+decomposition, comparing each capped factor with its named native model. Compute the
+factors' Alexander invariants from those models. If this identification holds,
+multiplicativity gives determinant3·13=39; that changed knot cannot also have the
+Laurent unit class of Q. Determine whether distinct marked changes explain45 and39;
+otherwise correct the offending source computation by the actual geometric and
+polynomial certificates. The page21 circled crossing has no established identification
+with B or C.
+
+For the original K, independently prove nontriviality by an invariant computed from its
+recovered native diagram, retaining the actual coefficient, nonconstant coloring or
+nonabelian image that distinguishes it from the unknot. In particular compute its exact
+native Jones state sum and compare it with1; a nonzero coefficient of V_K−1 supplies
+such a certificate. This is a computation for the specified diagram, without a claim
+that Jones detects every unknot. This is a required certificate, separate from those for
+B and C. The A movie then proves u(K)=1 by4.8.3's attained crossing-change minimum.
+Nontrivial outcomes after B or C alone do not prove that the original K is nontrivial.
+Problem4 asks for a successful change and an unsuccessful change; the later text's
+“appears” to have only A does not establish uniqueness among all eleven crossings. The
+targets here require the named changes and their outcomes, without asserting that every
+other crossing fails.
+
+**Checks.** The literal Q has Q(1)=−1 and Q(−1)=45, and Δ_Q is symmetric. The6₃ factor
+has Δ=t²−3t+5−3t⁻¹+t⁻² and determinant13, with the [Knot Atlas
+value](https://katlas.org/wiki/6_3) serving as a reference comparison rather than the
+proof or a diagram identification. A valid nonconstant3-coloring gives a separate
+nontriviality certificate even if a handwritten polynomial calculation is wrong.
+Recovering the signed codes, crossing marks and moves is required work; these are not
+supplied by a matrix with a matching determinant.
+
+*Needs:* 4.2's realized native diagrams, code relabellings and supported local
+moves;4.4.2's Fox/presentation/cofactor comparison;4.3.4's marked connected-sum surfaces
+and4.9's independent sphere/capping prefix;4.5's native Jones state sum;4.7.1's
+Fox-color module and unknot calibration;4.7.4's finite group/color certificates;4.8.3's
+unknotting minimum. No Scharlemann theorem, finite knot-table completeness, signature or
+hyperbolic classification is needed for this example. [Native recorded-matrix
+targets](MarkedAlexanderMinorTargets.lean) state the all-ring cofactor and row-sum
+identities; the complete diagram and geometric certificates remain required.
+
 ### 4.9 Prime decomposition of knots and links
 
 Prove Schubert's theorem: every nontrivial oriented knot is a connected sum

@@ -145,3 +145,77 @@ geometric certificate for the literal matrix in the roadmap. The stated matrix i
 follows the direct marked Collins cycles, with an exact rational congruence. Its
 canonical surface has genus3; that count is not an assertion that the knot's minimum
 genus is3.
+
+<a id="marked-crossing-changes"></a>
+## Marked crossing changes
+
+The source diagram is physical-page1 problem4 of *Knot Theory - problems.pdf*.
+In *Knot Theory.pdf*, pages20–22 contain a worked unknotting change followed
+by a different marked crossing change and an incomplete Alexander matrix.
+The latter calculation prints
+
+```text
+Q(t) = t² − 5t³ + 10t⁴ − 13t⁵ + 10t⁶ − 5t⁷ + t⁸,
+Δ_Q(t) = −t⁻⁵Q(t),    Δ_Q(1) = 1,    |Δ_Q(−1)| = 45.
+```
+
+Pages201–202 label crossings of an eleven-crossing diagram A, B and C.
+The text asserts that reversing A gives the unknot, and reversing B or C
+leaves a nontrivial knot. For B it displays a nonconstant 3-colouring and
+asserts a decomposition `3₁ # 6₃`, whose determinant would be `3·13=39`.
+The [Knot Atlas's 6₃ entry](https://katlas.org/wiki/6_3) gives the normalized
+polynomial `t²−3t+5−3t⁻¹+t⁻²` and determinant13. Use an actual named-knot
+presentation and the Alexander computation to certify this value locally;
+the table is a reference value, not the geometric identification.
+The page21 circled crossing has no established A/B/C correspondence. Do not
+identify that change with B, or assign both determinant45 and determinant39
+to the same realized knot. The unreadable/overwritten page22 matrix entries
+must be recovered from the actual diagram and its arc relations. Q is a
+literal source polynomial, not a certified invariant of that diagram.
+
+The complete targets are the actual diagram realizations, crossing
+correspondences, finite unknotting/connected-sum movies, 3-colouring and
+Alexander computations. Determine whether different marked changes account
+for the different values; otherwise identify and correct the source error
+by those geometric and algebraic computations. Neither fitting a missing
+matrix entry to Q nor replacing the drawn knot by an arbitrary knot with
+that polynomial supplies the required comparison.
+
+<a id="page22-recorded-cofactor"></a>
+### Page22: the recorded cofactor
+
+The first eight recorded rows determine the following cofactor after
+row9 and column9 are deleted, apart from the overwritten row8 column7.
+Retain that entry as z, with no assertion about its literal glyph:
+
+```text
+M(t,z) =
+[  0,   0,   0,  -1,    t,  0,    0,    0 ]
+[ -1, 1-t,   0,   0,    0,  0,    0,    0 ]
+[1-t,   0,   t,  -1,    0,  0,    0,    0 ]
+[  t,  -1,   0, 1-t,    0,  0,    0,    0 ]
+[  0,   t,  -1,   0,    0,  0,  1-t,    0 ]
+[  0,   0, 1-t,   0,    0,  t,   -1,    0 ]
+[  0,   0,   0,   0,  1-t,  0,   -1,    t ]
+[  0,   0,   0,   0,   -1,  t,    z,  1-t ]
+```
+
+Prove the exact polynomial identity
+`det M(t,z)=Q(t)+z(−2t⁴+3t⁵−2t⁶)`, naturally over every commutative
+coefficient ring. In particular `det M(−1,z)=45−7z`.
+The full recorded eighth row has ninth entry0, so its row sum is z.
+A meridionally specialized Fox relation row has sum0: the fundamental Fox
+identity gives `(t−1)Σ_j a_j=0`, and ℤ[t,t⁻¹] is a domain. Consequently
+any actual Alexander row matching the other recorded entries forces z=0.
+This deduction uses the row relation, not the printed Q as an interpolation
+condition. No entry of the unreadable ninth row is needed to calculate this
+particular cofactor.
+
+All these conclusions are conditional on the remaining recorded entries
+matching the actual arc relations. The current monochrome diagram does not
+yield a reliable complete crossing code; neither this algebraic consistency
+nor the printed Q identifies the changed knot. Recover and compare the
+actual presentation and crossing correspondence required above. The literal
+source entries and their uncertainty remain distinct from the conditional
+row-sum deduction. [MarkedAlexanderMinorTargets.lean](MarkedAlexanderMinorTargets.lean)
+states this matrix calculation on native matrix and coefficient carriers.
