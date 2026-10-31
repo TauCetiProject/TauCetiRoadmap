@@ -1522,7 +1522,7 @@ stabilized map to a germ morphism with inverse image P×0 fixed at every
 time, exactly as in Marin's Definition 1.6.
 For codimension≥3 and expected preimage dimension≠4 consume Marin's
 theorem from that gap, including domain dimension 4; that case requires no
-FQ adaptation. For expected preimage dimension 4 adapt the ordinary proof
+adaptation of Freedman–Quinn's argument. For expected preimage dimension 4 adapt the ordinary proof
 with Freedman–Quinn 8.19's relative product structure and stable-germ uniqueness/symmetry.
 For codimension 1–2 stabilize the preceding ordinary normal-microbundle
 theorem and compare stable germs. In codimension 2 with ambient target
