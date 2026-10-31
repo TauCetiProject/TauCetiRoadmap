@@ -49,6 +49,8 @@ This roadmap owns:
   trace-GNS cyclic-subspace and normal-representation comparisons (Layer 1.5);
 - finite Potts/FK partition functions, their planar medial-loop and six-vertex comparisons,
   explicit transfer closures and free/noncrossing wired boundaries (Layer 1.6);
+- the sqrt(2) Jones quotient/even-Clifford comparison, scalar trace, Pauli blocks,
+  compatible towers and finite braid image (Layer 1.7);
 - the sign isomorphism `TL_n(δ) ≅ TL_n(−δ)` over every commutative ring, its trace relation,
   and the positivity classification at negative loop parameters (Layer 2);
 - the Bratteli diagram of the Jones tower and the AF presentation of `B_δ` (Layer 2);
@@ -774,6 +776,186 @@ Historical sources are Temperley–Lieb,
 [*Relations between the ‘percolation’ and ‘colouring’ problem…* (1971)](https://doi.org/10.1098/rspa.1971.0067),
 and Baxter–Kelland–Wu,
 [*Equivalence of the Potts model or Whitney polynomial with an ice-type model* (1976)](https://doi.org/10.1088/0305-4470/9/3/009).
+
+### 1.7 The sqrt(2) Jones quotient as an even Clifford algebra
+
+At `t=i`, choose `u=exp(πi/4)=(1+i)/√2`, so `δ=u+u⁻¹=√2` and
+`τ=δ⁻²=1/2`. Give the source's Clifford-algebra identification from
+Knot Theory physical p92 as a generator- and trace-preserving comparison
+of the positive Jones quotient, rather than of the full TL presentation.
+This section consumes the existing positive quotient and path theorems;
+it is not an input to their positivity proof.
+
+**Carriers and analytic adjoint.** Put `q_m(z)=Σ_(j<m) z_j²` on
+`Fin m→ℂ`, using `QuadraticMap.weightedSumSquares`. This is the complex
+bilinear sum of squares, not a Hermitian norm square. Use native
+`Cl_m=CliffordAlgebra q_m`, `Cl_m⁰=CliffordAlgebra.even q_m` and
+`c_j=CliffordAlgebra.ι q_m(e_j)`. Prove the coordinate formulas
+`c_j²=1` and `c_j c_k=−c_k c_j` for j≠k through the native universal
+property; the generators retain their native zero-based indices.
+
+Consume SpinGeometry G1.1/G1.3's positive-real-form complexification,
+scalar conjugation κ, analytic adjoint `a†=κ(reverse a)` and scalar trace.
+Build the coordinate isometry from the complexification of the real sum
+of squares to q_m, and transport all four maps explicitly. In particular
+`c_j†=c_j` and `i†=−i`. Use the supplier's analytic synonym/local adjoint
+API, with the even subalgebra invariant under it. Mathlib's native
+`CliffordAlgebra.star=reverse∘involute` instead negates c_j and fixes
+complex scalars; it is not the adjoint in the projection and positivity
+claims here.
+
+Use the ordered orthogonal monomials `c_S`, S an increasing finite subset
+of `Fin m`, compared with native `CliffordAlgebra.basis` under
+`equivExterior`. Let `s_m` be the scalar-coefficient trace: `s_m(c_∅)=1`
+and `s_m(c_S)=0` for nonempty S. Consume G1.3's basis independence,
+cyclicity and `s_m(a†a)=Σ_S|a_S|²`; specialize its regular-module formula
+`s_m(a)=2^(−m)Tr(L_a)` and prove compatibility with all coordinate maps
+below. The trace is faithful on both the full and even analytic algebras.
+Generic Clifford bases, scalar trace, conjugation and C*-models keep their
+supplier ownership; this section supplies their TL instance and comparison.
+
+**Adjacent projections, surjectivity and the quotient.** For `0≤j<m−1`
+define
+
+`d_j=c_j c_(j+1)`, `p_j=(1+i d_j)/2`, `E_j=√2 p_j`.
+
+Prove `d_j²=−1`, `d_j†=−d_j`, `p_j†=p_j`, `p_j²=p_j`, both adjacent
+relations `p_j p_(j±1) p_j=p_j/2`, and distant commutation. Their even
+membership and the scaled TL relations construct
+`F_m:TL_m(ℂ,√2)→ₐ[ℂ]Cl_m⁰` by native `TemperleyLieb.lift`, sending the
+native generator e_j to E_j. Prove generator evaluation, analytic-adjoint
+compatibility and uniqueness. Adjacent pairs generate the entire even
+algebra: explicitly express `c_a c_b` as the ordered product
+`d_a⋯d_(b−1)` for a<b, recover d_j from p_j, and obtain every even
+basis monomial. Prove surjectivity, including m=0,1 where both algebras
+are scalar.
+
+For the coordinate inclusion `J_m:Cl_m→Cl_(m+1)` fixing old Majoranas,
+prove injectivity, preservation of the even subalgebra, analytic adjoint
+and scalar trace, and
+
+`s_(m+1)(J_m(x)p_(m−1))=s_m(x)/2` for `x∈Cl_m⁰,m≥1`.
+
+The new-Majorana term has zero scalar coefficient. Handle the initial
+scalar inclusions separately. By Markov-trace uniqueness prove
+
+`T_m(x)=(√2)^m s_m(F_m(x))`.
+
+Compare with the native spin trace at quantum parameter `−u`, including
+unit, words, generator closures and strand inclusions. Prove
+`ker F_m=R_m`, where R_m is the existing bilinear trace radical: one
+inclusion uses the trace identity and the other uses positivity and
+faithfulness of s_m on `F_m(x)†F_m(x)`. Deduce the explicit analytic
+*-algebra equivalence `Q_m(√2)≃Cl_m⁰`, preserving the normalized trace,
+its finite C*-norm and inclusions. Match R_m with the supplier's negligible
+ideal and embedded f_3 generator for m≥3; no extra ideal generator occurs
+at m≤2. This compares the existing positive quotients rather than
+reclassifying their loop parameters.
+
+**Blocks, Pauli realization and the tower.** Compare the Clifford
+structure theorem from SpinRepresentations Layers0–1 with the A_3 path
+blocks. For m≥1 give
+
+- `m=2k+1`: `Cl_m⁰≃M_(2^k)(ℂ)`, with normalized matrix trace;
+- `m=2k≥2`: `Cl_m⁰≃M_(2^(k−1))(ℂ)⊕M_(2^(k−1))(ℂ)`, with one half of
+  each normalized matrix trace.
+
+Thus `dim Q_m=2^(m−1)` for m≥1. For m=0, `Q_0=Cl_0⁰=ℂ`, dimension1.
+In positive even m label the two blocks by the eigenvalues ±1 of
+`P_m=i^k c_0⋯c_(m−1)`; prove `P_m†=P_m`, `P_m²=1`, centrality in the
+even algebra and the projector formulas `(1±P_m)/2`. Both blocks are
+needed for faithfulness. In odd m either full-Clifford irreducible is
+faithful on the even algebra; a single one is not faithful on the full
+odd-dimensional Clifford algebra.
+
+Pin a concrete matrix check using Pauli matrices
+`X=[[0,1],[1,0]]`, `Y=[[0,−i],[i,0]]`, `Z=diag(1,−1)` and, on k qubits,
+
+`c_(2a)=Z^(⊗a)⊗X⊗I^(⊗(k−a−1))`,
+`c_(2a+1)=Z^(⊗a)⊗Y⊗I^(⊗(k−a−1))`.
+
+For m=2k use these 2k operators; for m=2k+1 add `c_(2k)=Z^(⊗k)`.
+The latter chooses one full odd-Clifford block. Prove these matrices
+realize the displayed even-algebra equivalences and analytic adjoints,
+and that their normalized full matrix trace is s_m on the even algebra.
+For even m compare the ±P_m subspaces with the two path labels0,2;
+for odd m use path label1. Pin the block-label choice by the actual
+projectors and intertwiner, allowing an explicitly stated exchange of
+path labels rather than asserting an unproved canonical labelling.
+
+Construct compatible block choices so `J_(2k)` is block-diagonal
+`M_d⊕M_d→M_(2d)` for k≥1, while `J_(2k+1)` is diagonal
+`M_d→M_d⊕M_d` for k≥0. Give the intertwining unitaries, diagram/Pauli/path
+matrix entries and induced Bratteli maps. The trace-preserving conditional
+expectation onto `Cl_m⁰` drops precisely the even monomials containing
+the newly added c_m. Prove bimodularity, positivity, complete positivity,
+faithfulness and the Jones expectation identity through the existing
+finite C*-tower/expectation supplier. Transport this model to the existing
+norm-closed inductive limit and trace-GNS representation by their
+compatible finite-stage equivalences; no factor classification is needed.
+
+**The source's n-generator convention.** Its A_n has n projections, so
+`A_n≃Q_(n+1)≃Cl_(n+1)⁰`, of complex dimension `2^n`. For m≥1 set
+`a_j=i c_j c_(m−1)`, `0≤j<m−1`; prove these self-adjoint elements
+satisfy the positive Clifford relations and induce the ungraded analytic
+*-equivalence `Cl_(m−1)≃Cl_m⁰`. In these coordinates the adjacent
+projections are `(1+i a_j a_(j+1))/2` for j<m−2, and the last is
+`(1+a_(m−2))/2` for m≥2. The old-Clifford tower map is
+`a_j↦i a_j a_(m−1)` in the next algebra, not the usual coordinate
+inclusion. Prove this map, its composition and trace identities. Ambient
+parity on the even algebra is trivial; the source identification introduces
+a different grading and is not declared grading-preserving. Compare
+Mathlib's `equivEven`, which adds a square−1 direction, by the supplier's
+explicit i/sign transport. Treat A_0 and all zero-dimensional forms.
+
+**Jones braid units.** For the declared square root u prove
+
+`g_j=u((1+i)p_j−1)=−(1+d_j)/√2`,
+`g_j⁻¹=−(1−d_j)/√2`, `g_j²=d_j`, `g_j⁴=−1`, `g_j⁸=1`.
+
+Construct the unitary `BraidGroup m` representation, compare it with the
+native signed-loop crossing and quotient braid representations, and
+preserve generator signs, word order and scalar phases. Conjugation sends
+`c_j↦−c_(j+1)`, `c_(j+1)↦c_j` and fixes the others. For m≥2 identify
+the conjugation image with the determinant-one signed permutation
+subgroup of the native real coordinate linear equivalences. Give its
+normal forms and order `2^(m−1)m!`; the kernel of its action on the real Majorana span, inside the generated
+Clifford-unit subgroup, is exactly the scalar group `{±1}`. Prove this using the real ordered
+coefficients, analytic unitarity and the Clifford centralizer, with −1
+present by g_j⁴. Thus the full faithful even-Clifford braid image has
+order `2^m m!`. For m=0,1 it is trivial. Do not apply this order to an
+individual irreducible block without computing that block's additional
+kernel. This finite image concerns t=i, separately from the source's
+cubic-Clifford/finite-image assertion at t=exp(πi/3).
+
+For an oriented closure of b on m≥1 strands, export the scalar evaluation
+`V_(closure b)(i)=(-√2)^(m−1) s_m(F_m(r_i(b)))`, where r_i is the
+Jones braid map before quotient. Geometric closure, Markov invariance and
+the comparison with a Seifert quadratic form and its Arf invariant belong
+to GeometricTopology4.5/4.7. The Clifford quotient alone does not supply
+that geometric dictionary.
+
+Check m=0,…,5 explicitly, giving the scalar, scalar, two scalar, M_2,
+two M_2 and M_4 stages. Include both normalized block traces, the first
+expectations, the one-generator eigenvalues `−u,iu`, and the native
+three-strand radical generator's zero image.
+
+*Needs:* native `CliffordAlgebra`, `ι`, `even`, `evenOdd`, `map`,
+`equivEven` and Tau Ceti's Clifford basis/dimension and spin-structure APIs;
+SpinRepresentations Layers0–1 for the algebraic basis and block comparisons;
+[SpinGeometry G1.1/G1.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/862de1b1cd4c726d0844267c7c18a369834a70fa/TauCetiRoadmap/SpinGeometry/README.md) for the positive-form,
+Pauli, complexification, analytic adjoint and faithful scalar trace;
+the existing TL diagram/presentation, Markov uniqueness and positive
+quotient/path/expectation contracts cited above. General finite C*-norms,
+CP maps, inductive limits and GNS keep their named owners.
+`CliffordJonesTargets.lean` prototypes the native sum-of-squares model,
+TL map, scalar coefficient, inclusion, trace-radical and braid-phase
+statements; the full comparisons above are required. Use the conventions
+of [Iohara–Lehrer–Zhang, §§5.3–5.4](https://arxiv.org/html/1702.08128#S5.SS3),
+Theorem5.4 and Proposition5.5, with `c_j=√2 γ_j` to convert their
+`γ_j²=1/2` to the positive unit Majoranas used here. Follow Mathlib's
+Clifford vocabulary and the
+[Clifford universal-property discussion](https://leanprover.zulipchat.com/#narrow/stream/217875-Is.20there.20code.20for.20X.3F/topic/Ideals.20over.20algebras/near/205790784).
 
 ### Examples
 
