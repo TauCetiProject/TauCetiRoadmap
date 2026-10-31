@@ -1004,3 +1004,41 @@ comparison and11/9-crossing rational models are mathematical targets,
 not additional labels read in the source. Exercise47 consumes the existing
 fourteen prime dictionary, with actual course-table row maps and source/
 outermost-first reversal adapters; no duplicate table owner is created.
+
+
+<a id="small-crossing-invariants-source"></a>
+## Problems33/36: full component and orientation scope
+
+Problems physical p6, SHA-256
+`06c19def0f01d6e74a1ee99bd448bd3731e101377deddb5aa573943898afb3b1`,
+asks for Smith forms and coloring primes of all knots below eight
+crossings(33), and Alexander polynomials of those knots and all links
+below seven crossings(36). Neither question restricts to prime objects;
+36 prints no bound on link components or orientation convention. The
+empty-link order1 branch is an explicit library extension, not a printed
+source convention.
+The [complete small-crossing output](README.md#small-crossing-smith-alexander)
+therefore includes the unknot and all three composite knot types,
+the nonprime two-/three-component link models, two four-component
+Hopf trees and every split union, including arbitrary extra unknots.
+
+Only the nonsplit factors obey μ≤4 at the link bound. A split union
+may have arbitrarily many components; its Alexander/Conway value is0.
+The full square knot Fox matrix retains one zero/global constant
+factor and diagram-dependent unit padding. Granny and square have
+based factors(3,3), unlike the cyclic9 of6₁; T#figure-eight has
+specialized factors(15), without asserting Laurent-module cyclicity.
+
+The polynomial table uses explicit marked component orientations and
+integer polynomial representatives up to±t^k, keeping coefficients'
+contents. Reversing one component can change degree, as in Solomon
+and T(3,3); the signed half-Laurent/Conway normalization has its separate
+surface/unit comparison. The three extra native PD inputs are primary
+Knot Atlas data [L6a4](https://katlas.org/wiki/L6a4),
+[L6a5](https://katlas.org/wiki/L6a5), [L6n1](https://katlas.org/wiki/L6n1).
+Their named-model identifications require actual diagram movies. L6n1
+uses the negative torus braid; its comparison to the positive native
+T(3,3) includes one global mirror, not just component reversals.
+Existing Luna Markdown supplies the course wording; the new code and
+matrix calculations are mathematical outputs, not source-picture readings.
+No non-Luna agent inspected any image.

@@ -10517,6 +10517,203 @@ vertices and side pairings. It is not just a list of approximate shapes.
 rigidity from 7.7; finite face complexes and the compact-core PL comparison in 11.2.
 This supplier does not consume finite knot-count or catalogue-completeness outputs.
 
+<a id="small-crossing-smith-alexander"></a>
+### 7.7.2 Complete small-crossing Smith and Alexander outputs
+
+Give the full outputs of Problems33/36: all knots below eight crossings, and all links
+below seven crossings, with every component count and component orientation. Consume the
+already owned knot catalogue of 7.5, two-component catalogue of 7.6 and three-component
+catalogue of 7.7. The individual module/polynomial computations use the independent
+4.4/4.7 producers; only exhaustion consumes the catalogues. Neither these tables nor
+their completeness is a premise of those earlier constructions.
+
+**The eighteen knot classes and their actual Smith forms.** Use 4.4.8's fourteen marked
+prime inputs, U, T#T, T#mirror(T) and T#F, with T the trefoil and F the figure-eight.
+This is the coarse convention allowing one global mirror and whole-knot reversal; it
+does not identify granny and square. From the actual cover modules and their
+presentation maps, specialize t↦−1 and compare to the integral Fox presentation. Give
+explicit unimodular reductions and inverse generator maps, not only determinant values.
+The based finite group K and odd coloring primes are:
+
+| Knot rows | Nonunit invariant factors of K | Nonconstant coloring primes |
+| --- | --- | --- |
+| U | none | none |
+| 3₁ | (3) | 3 |
+| 4₁,5₁ | (5) | 5 |
+| 5₂,7₁ | (7) | 7 |
+| 6₁ | (9) | 3 |
+| 6₂,7₂ | (11) | 11 |
+| 6₃,7₃ | (13) | 13 |
+| 7₄,T#F | (15) | 3,5 |
+| 7₅ | (17) | 17 |
+| 7₆ | (19) | 19 |
+| 7₇ | (21) | 3,7 |
+| T#T,T#mirror(T) | (3,3) | 3 |
+
+For a c-crossing knot diagram with c≥1, its full square Fox matrix has Smith form
+diag(1,…,1,d₁,…,d_k,0), with c−1−k unit entries and K the sum of ℤ/d_i. Its reduced
+cofactor removes the final zero. Keep this diagram-size padding distinct from K. For the
+crossing-free unknot use its one-generator/no-relation presentation and empty based
+matrix. The two-bridge module comparison makes each prime K cyclic; determinant 9 alone
+does not distinguish 6₁ from the two composites with K=(ℤ/3)². For T#F use the actual
+sum ℤ/3⊕ℤ/5 and a unimodular adapter to ℤ/15. This is a specialized integer-module
+statement, not a claim that its unspecialized Laurent Alexander module is cyclic.
+
+Over every commutative ring R export the actual full coloring module R×Π_i Ann_R(d_i),
+including the empty product for U. For n≥1 the number of ZMod n colorings is nΠ_i
+gcd(n,d_i); subtract n for nonconstant ones. Over a prime field, the based dimension is
+the number of factors divisible by that prime. In particular the granny/square mod3
+dimension is 2, while 6₁'s is 1; characteristic 2 gives no nonconstant knot colorings.
+Reuse 4.4.8's fourteen normalized Alexander values and the exact products
+Δ_T²,Δ_T²,Δ_TΔ_F for the composites. These are the complete knot outputs for33/36, with
+mirror/reversal maps retained.
+
+**There is no global component bound for36.** Adding split unknot components adds no
+crossings. Use 4.4.5's vanishing on a split union of two nonempty links to give
+Alexander order 0 and Conway polynomial 0 for EVERY such link, including arbitrarily
+large unlinks. U itself has polynomial 1. Keep an explicit empty-link branch: the
+trivial principal ℤ-cover S³×ℤ→S³ has H₁=0, so its Alexander-module order is 1. The
+native empty PD module is 0 with zeroth Fitting ideal the unit ideal, and has no extra
+constant-generator summand or base site. This is the library's explicit empty-link order
+convention; source36 prints no empty-link normalization. 4.4.5's Conway polynomial
+retains its stated nonempty domain. Prove c(A⊔B)=c(A)+c(B) by deleting the other sublink
+in any projection for the lower bound and adjoining disjoint minimal projections for the
+upper bound. This concerns split union, not connected-sum crossing additivity.
+
+For a nonsplit μ-component link, define the interaction graph of a realized projection:
+vertices are physical components and edges are pairs with at least one mixed crossing.
+Prove the graph is connected: a disconnected graph, with the full plane nesting data,
+gives a geometric splitting sphere. Each interacting pair has at least two crossings by
+4.2.5's even intersection theorem for closed immersed plane curves. Hence c≥2(μ−1), and
+a nonsplit link with c≤6 has μ≤4. This bound concerns each nonsplit factor, not the
+total component count of a split link: even H⊔H⊔H has six components and six crossings.
+
+**All nonsplit models at the link bound.** The two-component models are 7.6's six prime
+PD rows plus H#T and H#F. The three-component models are exactly H#H, H#S, B, P and Q,
+where H is Hopf, S is Solomon, B is Borromean, P=P(2,2,2), and Q=mirror(T(3,3)). Supply
+the actual finite comparison from 7.7's bounded catalogue to these five models, with
+splitting and componentwise connected-sum certificates; a prime-row list alone does not
+prove exhaustion. Their crossing minima are 4 for H#H and 6 for the other four. Use
+actual reduced alternating diagrams for B and the bound 2Σ_(i<j)|lk_ij| for H#H,H#S,P,Q.
+Q's coherent torus diagram is not asserted alternating.
+
+Use 7.6's fixed six two-component PD inputs. Pin the three additional six-crossing
+inputs below in the same under-first counterclockwise convention, slots0/2 under and1/3
+over. Each arc label occurs twice. Convert these labels to the native half-edge
+matching, with identity halfEdge and no crossing-free circles; prove planarity,
+component count and actual geometric identity with the named model.
+
+| Model / Atlas row | PD tuples |
+| --- | --- |
+| B / L6a4 | (6,1,7,2),(12,8,9,7),(4,12,1,11),(10,5,11,6),(8,4,5,3),(2,9,3,10) |
+| P / L6a5 | (6,1,7,2),(10,3,11,4),(12,7,9,8),(8,11,5,12),(2,5,3,6),(4,9,1,10) |
+| Q / L6n1 | (6,1,7,2),(12,8,9,7),(4,12,1,11),(5,11,6,10),(3,8,4,5),(9,3,10,2) |
+
+For B compare to the closure(σ₁σ₂⁻¹)³; for P compare to 4.7.3's signed boxes; for Q
+compare to the negative closure(σ₁⁻¹σ₂⁻¹)³. Its comparison to the positive native T(3,3)
+must include one global ambient reflection: the product of its three pairwise linking
+signs is −1 for every component orientation, versus +1 for that positive torus model.
+Give the actual diagram movies and component/orientation maps.
+
+The primary code sources
+are [L6a4](https://katlas.org/wiki/L6a4), [L6a5](https://katlas.org/wiki/L6a5)
+and [L6n1](https://katlas.org/wiki/L6n1); invariant agreement does not
+authenticate the named-link comparison.
+
+**The missing four-component cases.** Define Hopf-tree links by attaching actual
+oriented Hopf summands along specified components according to a finite tree, using
+4.9's selected-component sum and its collar maps. Construct diagrams with two crossings
+per tree edge, their component bijection, and all sign/orientation variants. For e edges
+construct the genus-zero spanning surface by boundary sums of the e Hopf annuli, its
+actual integral basis and push-second matrix diag(−ℓ₁,…,−ℓ_e), where ℓ_i=±1 is that
+edge's oriented linking number. Prove the resulting Conway polynomial is (Π_i ℓ_i)z^e
+and the based Fox group is(ℤ/2)^e, with all-ring coloring maps. Include the one-vertex
+tree U and e=0.
+
+For nonsplit μ=4,c≤6 the interaction bound is an equality: there are no self crossings,
+the interaction graph is a tree and every edge has two crossings. Own the geometric
+equality-case reduction for completed plane codes with 2≤μ≤4 satisfying those
+combinatorics: a connected interaction tree, no self crossings and exactly two crossings
+per edge. Straighten a leaf component and its incident pair of crossings, tracking
+nested components. Construct either an actual separating sphere in the split branch, or
+an actual two-point sphere whose Hopf-summand ball contains exactly the leaf circle and
+one specified arc of its neighboring component, with all other components outside. Do
+not assume the apparent bigon is empty. In the Hopf branch return the actual
+leaf-deleted smaller code with μ−1 components, no self crossings and two crossings per
+remaining tree edge, together with its spatial comparison. Iterate down to the
+two-component Hopf/split test and the one-component crossing-free base case, carrying
+all ambient isotopies and boundary maps. For μ=4 compare the output to the path and
+three-leaf star on four vertices. Intermediate movies may have more crossings. This
+leaf/isolation proof is a target here, not a consequence of the abstract interaction
+graph. Prove both models have minimum crossing 6 and are distinct by their absolute
+component-linking graphs, whose degree lists are(2,2,1,1) and(3,1,1,1). This completes
+the μ=4 seam independently of hyperbolicity.
+
+**Every oriented Alexander output.** Give all component orientations explicitly. For
+each fixed PD input number its half-edges4c+s. Choose the least unassigned half-edge as
+an incoming end, traverse through the opposite slot then its paired edge, and continue
+until that component closes. Order components by these chosen starts. A mask m reverses
+the components whose bits are1; this is the canonical orientation dictionary for the
+following table. Put f=t−1. A(t) is the ordinary integer polynomial with positive
+leading coefficient and no t factor representing the Alexander order up to±t^k. It is
+NOT the signed, balanced half-Laurent Conway normalization.
+
+| Fixed PD model | Orientation condition | A(t) | Based Fox factors |
+| --- | --- | --- | --- |
+| H | every mask | f | (2) |
+| S | m₀=m₁ | 2f | (4) |
+| S | m₀≠m₁ | f(t²+1) | (4) |
+| W | every mask | f³ | (8) |
+| L6a1 | m₀=m₁ | f(t²−4t+1) | (12) |
+| L6a1 | m₀≠m₁ | 2f(t²−t+1) | (12) |
+| L6a2 | every mask | f(2t²−t+2) | (10) |
+| L6a3 | m₀=m₁ | f(t⁴+t²+1) | (6) |
+| L6a3 | m₀≠m₁ | 3f | (6) |
+| B | every mask | f⁴ | (4,4) |
+| P | all three bits equal | 3f² | (2,6) |
+| P | otherwise | f²(t²−t+1) | (2,6) |
+| Q | m₀=m₁≠m₂ | f²(t²+t+1) | (2,2) |
+| Q | otherwise | f² | (2,2) |
+
+For H#T and H#F multiply the Hopf row by t²−t+1 and t²−3t+1, respectively; their based
+Fox groups are cyclic 6 and 10. For H#H the order is f² and factors(2,2). For H#S
+multiply the appropriate oriented S row by f, with factors(2,4). Keep the actual
+gluing's component-orientation maps; the masks are not reset after a connected sum. Both
+four-component tree models have order f³ and factors(2,2,2). All oriented versions and
+global mirrors are covered by these marked maps; no orientation-independent Conway value
+is assigned to an unoriented link. For example Q's coherent torus orientation has
+∇=z⁴+3z², while its other mask branch has∇=−z². The P constant-mask branch has∇=3z² and
+its other branch has∇=−(z⁴+z²).
+
+For every row construct all arc relations and their inverse comparison with the native
+half-edge AlexanderModule and elementaryIdeal. Prove each component has an under-visit
+before using a square arc matrix. At a crossing of sign ε the native incoming-under
+relation is out−t^ε in−(1−t^ε)over. The calculation rows are (1−t)over+t in−out for
+ε=+1, and(t−1)over+in−t out for ε=−1; their native adapters are diagonal units−1 and−t,
+respectively. Compute all maximal minors and export every elementary ideal as a finite
+checked minor-generator list in the fixed row/column orders, retaining content factors
+such as2 or3; prove the stated gcd/unit representative and explicit integer Smith
+reductions at t=−1. For all nine prime PD inputs and all 48 orientation masks, certify
+every nonzero maximal cofactor is ±t^k times the displayed A and at least one is such a
+unit multiple. Transport these certificates through the actual presentation eliminations
+to prove elementaryIdeal 1=(A), rather than inferring a principal ideal from its gcd
+alone. Give the actual surface and coefficient-unit maps to 4.4.5's normalized
+half-determinant and Conway polynomial. Do not fix its sign by positive-leading gcd
+alone. For each listed based group export R×Π_i Ann_R(d_i), prime dimensions and nΠ_i
+gcd(n,d_i) color counts as in the knot branch. The extra unreduced constant summand is
+retained, rather than confused with the geometric cover module. Equal invariants do not
+replace the catalogue's pairwise nonequivalence and realized assignment certificates.
+
+[SmallCrossingInvariantTargets.lean](SmallCrossingInvariantTargets.lean) fixes the three
+native oriented inputs and their first elementary-ideal targets, integer Fox Smith
+forms, the Hopf-tree diagonal calculation and the coprime 3/5 Smith adapter. *Needs:*
+4.2's realized diagrams, plane parity and nesting; 4.3–4.4.5's linking, surface,
+Fox/cover and coefficient comparisons; 4.7.1's full rectangular Smith/presentation API;
+4.9's actual split and selected-component sums; 7.5–7.7's already owned finite
+catalogues only for final exhaustion. The split deletion bound, interaction graph and
+bounded leaf-isolation proof belong here and do not feed those catalogues or the early
+invariant definitions.
+
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
 The decomposition theorems of `3`-manifold topology are statable at the pin:
