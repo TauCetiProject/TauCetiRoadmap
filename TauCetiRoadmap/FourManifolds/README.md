@@ -2149,6 +2149,40 @@ The Pontryagin-square construction and low bundle lifts have the following API.
 comparison; AlgebraicTopology cochain coefficients and Stage 8's
 Postnikov lifts; CharacteristicClasses C2–C3; SpinGeometry G4–G6.
 
+**All-rank oriented determination in dimension four.** On a CW complex
+X of dimension≤4, make the preceding H¹ action explicit as
+`σ_w(x)=β(x)∪β(x)+β(x∪w)`, for w=w₂ and x∈H¹(X;F₂),
+with the integral Bockstein β. In rank3 it translates the difference
+coordinate by σ_w(x); in the rank4 half-spin coordinates (a,b) it
+translates both coordinates by σ_w(x). Construct these comparisons from
+the actual cochain Postnikov invariant, retaining the chosen w₂ map and
+its nullhomotopy before passing to absolute isomorphism classes.
+
+For every n≥5 construct the finite-to-stable SO(n) classifier comparison
+on dimension≤4 bases using the existing Stiefel connectivity and bundle
+classification. Prove that it induces a bijection on oriented rank-n
+bundle isomorphism classes and stable oriented classes of virtual rank n,
+with actual finite-rank cancellation and pullback naturality. In the
+same-w₂ degree-four difference coordinate d, prove
+`Δp₁=−2d`, `Δw₄=ρ₂d`, and absolute equivalence iff d=0.
+Export `ρ₄p₁=P(w₂)+j(w₄)`, with j(1)=2 as above. This is the
+rank≥5 branch of the existing Postnikov construction, with the actual
+stabilization map; the rank3 coefficient −4 is not used in this branch.
+
+If multiplication by2 on H⁴(X;ℤ) is injective, deduce that two oriented
+bundles of the same rank are oriented-isomorphic when their positive-degree
+Stiefel–Whitney, Pontryagin and Euler classes agree. In rank3 use w₂,p₁;
+in rank4 use w₂,e,p₁; in rank≥5 use w₂,w₄,p₁ and the preceding comparison.
+Include rank1 by oriented triviality; rank0 retains its locally constant
+orientation sign, detected by its degree-zero Euler class. Rank2 uses the
+existing Euler/complex-line classification. Prove the assertions
+directly for dimension≤4, with pullback and isomorphism invariance. This
+is a sufficient no-2-torsion hypothesis, not an assertion that every base
+with2-torsion has a counterexample. The theorem concerns SO(n) bundles;
+nonoriented bundles require determinant systems and twisted Euler data.
+See Dold–Whitney, *Classification of Oriented Sphere Bundles Over a
+4-Complex*, Theorems1–2 and the corollary, printed671–674.
+
 Construct the source's explicit characteristic-invisible rank 3 bundle over
 RP²×RP² on AT's actual projective carriers. If a,b are the pullbacks of the
 nonzero integral H²(RP²;ℤ) classes, prove a∪b generates
