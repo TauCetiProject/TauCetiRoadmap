@@ -1345,3 +1345,28 @@ an intended pairing of all four drawings, or a cancellable RII move from the
 word connector. The two-matching native state enumeration verifies only the
 canonical models. Source-picture/state maps and supported geometric reductions
 remain required future outputs.
+
+
+<a id="numerical-independence-source"></a>
+## Bridge comparisons and independent-invariant families
+
+Knot Theory physical pp100–106, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+gives the overpass/height comparison, Schubert sums and numerical-independence
+examples. The p100 handwritten trefoil annotations are cropped; preserve their
+recorded inequalities without reconstructing missing dots or arcs. Figure7.9
+illustrates the sum upper bound, not Schubert's geometric lower bound.
+The p1008₅ claim is made precise through the marked P(3,3,2) model and a
+three-meridian generating S₄ coloring; identifying the first such prime-table
+entry also needs the independent earlier table rows. A finite permutation
+assignment or determinant21 does not perform those diagram identifications.
+
+The native signature of a positive T(2,2r+1) is−2r, opposite to the source's
+printed positive sign. Its magnitude is the quantity used in the independence
+argument. The polynomial-one connected-sum family, the untwisted doubles of
+iterated trefoils and the source's indexed selected-twist cinquefoil doubles
+are distinct constructions. No polynomial-one conclusion is attached to a
+selected twist without its own matrix/framing calculation. The bounds stated
+for iterated square-knot unknotting number use Fox rank and actual switches;
+no general unknotting-number additivity is assumed. Every finite-prime rank
+prescription retains the forced-zero characteristic2 case.

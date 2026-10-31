@@ -9264,6 +9264,154 @@ The finite rank-two matrix calculations do not consume4.11.1's indexed
 bridge family or6.2's downstream geometric/concordance applications.
 
 
+<a id="numerical-invariant-families"></a>
+### 4.11.3 Bridge calibrations and independent numerical invariants
+
+Make the relationships and independence examples of Knot Theory physical pp100–106
+explicit on realized tame knots. Use the existing genus, bridge, unknotting, Alexander,
+Fox-rank and signature invariants; this stage supplies concrete families, sharp
+bounds and their comparison maps. Write d(K)∈ℕ for the breadth of Δ_K, where
+Δ_K is the normalized symmetric Laurent polynomial, and σ(K)=σ(K,−1) in the
+native sign.
+The source's positive torus-knot signature uses the opposite sign; its independence
+arguments concern |σ| or zero and are unaffected.
+In the natural-number bounds below, |σ(K)| means `Int.natAbs (σ(K))`.
+
+**Elementary comparison certificates.** In a Morse height position of an embedded
+circle, give the cyclic ordered critical-point list and prove that maxima and minima
+alternate, with equal positive counts. Compare the actual Figure7.8 extrema and the
+handwritten trefoil positions of p100 with the overpass/height normal forms of4.7.1,
+retaining the cropped annotation qualifications. The unknot has bridge1; the trefoil's
+explicit two-bridge position and nontriviality give bridge2. For Figure7.9 construct
+the marked connected-sum bridge position, cancel one chosen maximum/minimum pair
+through an actual gluing isotopy, and obtain a+b−1 bridges from a and b. In
+particular the depicted two- and three-maximum positions give at most four bridges.
+When a=b(K) and b=b(J) are the certified bridge minima of the input knots, Schubert's
+independent lower bound in4.8 proves equality a+b−1. Thus equality4 in the source
+example requires the actual bridge2/bridge3 certificates for its fillings; the
+picture alone supplies only the upper bound.
+
+For a nontrivial knot use the realized Seifert algorithm and its actual circle/band
+incidences to prove that a crossing-bearing plane diagram has at least two Seifert
+circles. Supply the planar no-loop argument; this assertion is not imposed on arbitrary
+abstract ribbon PD codes. The algorithm surface has 2g_D=n−s+1≤n−1, and g(K)≤g_D.
+Apply this to a crossing-minimizing diagram to obtain2g(K)≤c(K)−1. Compare the
+Alexander support bound d(K)≤2g(K), the trefoil equality and the source's
+T(2,2r+1) examples. The independent rank inequalities r_p≤b−1, r_p≤u and
+|σ|≤2u retain their existing proofs in4.7.1/6.2. Reuse the full common-surface,
+rank-one crossing-change comparison, including the separating-band case.
+
+**The first listed three-bridge example.** Construct the actual standard8₅ model
+as the marked pretzel P(3,3,2), with a three-overpass position and explicit isotopy to
+the source/table diagram. Give its component, crossing-sign and port dictionaries;
+record the induced global mirror rather than choosing one from a signature value.
+Use [Teragaito, §4.1, equation4.1](https://doi.org/10.1017/S0004972718000539)
+for the following three meridians and two group relations:
+
+```text
+a b a⁻¹ = (b c b)c(b c b)⁻¹,
+(b a⁻¹)⁻¹ a(b a⁻¹) = (a c)⁻¹ c(a c).
+```
+
+Prove the actual marked Wirtinger/Tietze comparison with that presentation. Map
+(a,b,c) to ((12),(34),(23)) in S₄. Check both relators, extend to every diagram
+arc by conjugation, and prove that the generated subgroup is S₄: these are the
+three adjacent-transposition edges of a connected path on four letters. Thus4.7.2
+forces bridge≥3 and the constructed position gives bridge≤3. The native finite
+certificates in `NumericalFamilyTargets.lean` do not identify a diagram by themselves.
+
+For p100's word first, additionally identify every prime knot below eight crossings
+and8₁,…,8₄ with its actual rational-knot model and two-bridge position, using the
+independent finite classification only for exhaustion. The preceding8₅ bridge proof
+uses no such exhaustion. Keep the unknot bridge1 branch in the rational/bridge
+comparison; exact bridge2 characterizes nontrivial rational knots. Schubert's sum
+formula and the bridge1 unknot characterization then prove that every bridge2 knot
+is prime, as in p101.
+
+**The full family constructions.** Let T be the positive trefoil T(2,3), let
+S=T#mirror(T) be the square knot, and let W=W_(+,0)(T) be the untwisted
+positive-clasp Whitehead double with its preferred longitude. For r≥1 construct
+
+`A_r=T(2,2r+1)`, `B_r=#^r S`, `C_r=#^r W`,
+`J_r=#^r T`, `E_r=W_(+,0)(J_r)`.
+
+Every sum includes marked joining balls/arcs, component orientations and an actual
+finite diagram/bridge position. Give the iterated word/diagram gluing maps and prove
+naturality under the choices. The empty iterated sum is the unknot, but the torus
+and satellite formulas below retain r≥1. Establish all these values:
+
+| Family | Normalized Alexander polynomial | b | g | u | σ |
+| --- | --- | --- | --- | --- | --- |
+| A_r | Σ_(j=0)^(2r)(−1)^j t^(j−r) | 2 | r | r | −2r |
+| B_r | (t−1+t⁻¹)^(2r) | 2r+1 | 2r | 2r | 0 |
+| C_r | 1 | 3r+1 | r | 1≤u≤r | 0 |
+| E_r | 1 | 2r+2 | 1 | 1 | 0 |
+
+For A_r use the independent two-braid/rational model for bridge2, the explicit
+genus-r surface and Alexander breadth2r for genus, and6.2's actual torus signature
+matrix for −2r. Change r chosen positive crossings so the two-braid exponent becomes1;
+supply cancellations and its unknot isotopy, proving u≤r. The signature bound gives
+the opposite inequality. No unknotting-additivity assertion is used.
+
+For B_r use Schubert for bridge2r+1 and genus additivity for genus2r. Its additive
+based mod3 rank is2r, giving u≥2r, while one change in each of the2r trefoil
+or mirror-trefoil factors gives u≤2r. Prove its zero signature and the displayed
+Alexander polynomial by the actual block-sum surface and marked gluing comparisons.
+Do not use zero signature to infer a small unknotting number.
+
+The seed W has bridge4 by the genuine satellite lower bound and doubled bridge
+position, genus=u=1 by its surface/clasp certificate and nontriviality, and Δ=1.
+Use4.11.2's m=0 Seifert matrix to prove signature0; then Schubert and genus
+additivity give the C_r values. Its clasp witnesses give u≤r and its bridge
+number proves u≥1. No exact unknotting number of C_r is asserted here.
+
+For E_r, Schubert gives b(J_r)=r+1 and its nontriviality. Apply4.11's untwisted
+satellite construction and essential-companion lower bound to obtain bridge2r+2;
+the genus-one surface and one-clasp-change certificate give g=u=1. Its marked
+m=0 matrix gives Δ=1 and signature0. Consequently every based Fox rank of C_r
+and E_r is0, including p=2, since their determinant is1. The increasing bridge
+numbers distinguish the members of each family; d(A_r)=2r distinguishes A_r.
+These are the source's literal connected-sum-of-polynomial-one examples and a
+separate stronger untwisted-double family.
+
+Keep4.11.1's source-indexed colored doubles D_k as well: they have bridge2k+2 and
+g=u=1 with an algorithmically selected framing m∈{0,1,2}. Their proof through a
+generating transposition labeling is independent of the general satellite lower
+bound. Neither the numerical coincidence with E_r nor that framing range identifies
+them with E_r or makes their Alexander polynomial1. Retain every return-port,
+clasp and framing comparison in that construction.
+
+**Precise independence conclusions.** For every function F:ℕ→ℕ, construct knots
+violating each proposed universal bound
+
+`d(K)≤F(b(K))`, `|σ(K)|≤F(b(K))`, `g(K)≤F(b(K))`, `u(K)≤F(b(K))`,
+`b(K)≤F(d(K))`, `b(K)≤F(|σ(K)|)`, `b(K)≤F(g(K))`, `b(K)≤F(u(K))`.
+
+Use A_r with F(2) for the first four, C_r with F(0) for the fifth, B_r with
+F(0) for the sixth, and E_r with F(1) for the last two. Give the explicit natural
+index choice and proof in each case. These are statements about bounds on all
+knots, not assertions that all tuples of numerical invariants can be prescribed.
+The known genus, signature and coloring inequalities are retained.
+
+For p104's separate prime-rank independence use4.7.1's actual finite connected sums
+of T(2,q), with q odd prime and arbitrary finite multiplicities. Retain its exact
+rank function at every prime, determinant, the k-trefoil/j-cinquefoil calibration
+and p=2 forced-zero case. For each individual knot only finitely many prime ranks
+are positive, all at odd divisors of its nonzero determinant. A finite prescription
+does not prescribe infinitely many nonzero prime ranks.
+
+*Needs:*4.1–4.4's realized marked sums, genus and Alexander/surface comparisons;
+4.7.1–4.7.3's overpass/minimum, Fox rank, transposition and signed-pretzel interfaces;
+4.8's Schubert bridge theorem;4.10's independent rational-knot models;
+4.11–4.11.2's marked satellite, surface and doubled-position constructions;
+6.2's independent classical-signature and crossing-change prefix. The final
+first-in-the-table statement consumes7.5's independent finite enumeration, which
+supplies no premise to the individual model or family constructions. Existing
+`TorusKnotTargets.lean`, `ColorRankTargets.lean` and `WhiteheadSeifertTargets.lean`
+provide the native algebraic forms; the geometric family comparisons above remain
+required. The [source qualification](source-inputs.md#numerical-independence-source)
+retains the printed conventions and the distinction between the two double families.
+
 ### 4.12 Braid groups, Garside structure and Brunnian links
 
 Consume `TauCeti.BraidGroup n` with its Artin generators `TauCeti.BraidGroup.sigma`. Define the
