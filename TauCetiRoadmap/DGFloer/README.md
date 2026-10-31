@@ -46,8 +46,6 @@ Out of scope, so nobody mistakes them for later stages:
   property when `Q` is not a `K(π,1)`). It is open.
 - **Corollary F.** It consumes the Ginzburg--Niche theorem on uniquely ergodic Hamiltonian
   structures, which nothing here builds.
-- **The Cayley plane** in Proposition 6.39. It needs the octonionic projective plane as a
-  Riemannian manifold. The quaternionic half of Proposition 6.39 is in scope.
 - **The finite-rank and compact-Lie applications of §§6.4.3–6.4.4 are in scope.** Layer 11.3
   constructs Lemma 6.35's complete odd-rank `π_(n−1)(SO(n))` torsion proof and both proofs of
   Proposition 6.34, and constructs the finite-cover and higher-homotopy comparison that makes
@@ -1076,7 +1074,7 @@ corner structures.
      speed as a Moore loop. Both systems have the colimit property of BDHO §13 for `𝓛Q`, by the
      weak equivalence of Layer 9 item 3, so the DG Morse homology of `𝓛Q` is the same through
      either; the cut is a choice of cutoff, not a third model.
-7. **Based-loop Morse–Bott energy on CPᵈ and HPᵈ.** Use the actual Riem R1 metrics, R2 Jacobi ODE/endpoint data and R3 index form/finite-node comparison, and MorseTheory M5's compact-band normal attachment theorem. On the finite approximations to Ω_p construct the critical manifolds of constant and iterated geodesics, calculate their negative bundles, indices and nullities on that same metric, and identify their Thom orientation systems and attachment maps. HS4B's Bott-chain computations are comparisons on their stated examples, not the generic owner of these constructions.
+7. **Based-loop Morse–Bott energy on CPᵈ, HPᵈ and the Cayley plane.** Use the actual Riem R1 metrics, R2 Jacobi ODE/endpoint data and R3 index form/finite-node comparison, and MorseTheory M5's compact-band normal attachment theorem. On the finite approximations to Ω_p construct the critical manifolds of constant and iterated geodesics, calculate their negative bundles, indices and nullities on that same metric, and identify their Thom orientation systems and attachment maps. HS4B's Bott-chain computations are comparisons on their stated examples, not the generic owner of these constructions.
 
    For d≥1 prove the integral perfectness and calibrate the explicit generators H_(2d)(ΩCPᵈ)=ℤ and H_(4d+2)(ΩHPᵈ)=ℤ. In the CP calculation the cells have degrees a_k=2d(k−1)+1 and b_k=2dk, k≥1, with the constant cell in degree0. Since a_(k+1)−b_k=1 for every d≥1, zero boundary is proved by the following homology/attachment comparison, not a lacunarity inference.
 
@@ -1084,13 +1082,39 @@ corner structures.
 
    For HPᵈ the analogous cell degrees have within-level gap3 and successive-level gap4d−1; prove the actual negative-bundle/Thom model before using these gaps to infer vanishing boundaries and identify its calibrated generator. The case d=0 is the constant point space. The free-loop extension in item6 is a separate construction; the based Hopf calculation alone does not give it.
 
+   **The Cayley plane `𝕆P²`.** No roadmap owns the octonions, the Albert algebra or `F₄`, so build
+   the bounded carrier here. Construct the octonions by Cayley--Dickson doubling of `ℍ`, prove the
+   norm is multiplicative and that the algebra is alternative, and form the real vector space `J`
+   of Hermitian `3×3` octonionic matrices with `x∘y=(xy+yx)/2` and the trace form. Define
+   `𝕆P²={x∈J : x∘x=x, tr x=1}`, the rank-one idempotents. Prove it is a closed smooth
+   `16`-manifold, homogeneous under the automorphism group `F₄` of `J` with stabilizer `Spin(9)`,
+   and give it the `F₄`-invariant metric of diameter `π/2` and maximal sectional curvature `4`
+   (the same normalization as `ℍPᵈ`). Prove the rank-one facts used below: for `p∈𝕆P²` and a unit
+   `u∈T_p𝕆P²` there is a unique totally geodesic octonionic line `L_(p,u)≅S⁸` through `p` tangent
+   to `u`; the geodesics from `p` are the great circles of these lines, all closed of length `π`
+   (the cut locus of `p` is a line). On `Ω_p𝕆P²` the critical set of the energy is the constant
+   loop and, for every `k≥1`, the manifold `C_k≅T¹_p𝕆P²≅S¹⁵` of `k`-fold great circles. Compute on
+   this same metric, by R2/R3 as for `ℍPᵈ`, the index `ind C_k=7k+15(k−1)=22k−15` of `C_k`
+   (conjugate points of multiplicity `7` at `π/2+jπ` and `15` at `jπ`), so `ind C_1=7`, with
+   nullity `15`; identify the negative-bundle orientation systems and the attachment maps of the
+   oriented Morse–Bott Thom/CW model, and prove perfectness by the completing-manifold argument of
+   Ziller (a completing manifold for each `C_k`, exhibited and not asserted). Conclude
+   `H_*(Ω𝕆P²;ℤ)` is `ℤ` in degrees `22k` and `22k+7`, `k≥0`, and zero elsewhere, matching
+   `Ω𝕆P²≃S⁷×ΩS²³`, with the generator of `H₂₂` represented by the fundamental class of `C_1` with
+   its index-`7` cell. Test: `H_7=ℤ`, `H_14=0`, `H_22=ℤ`. For the sphere-family application of
+   Proposition 6.39, take `Σ_p={(u,v)∈S¹⁵×S⁶ : v⊥u, v∈T_pL_(p,u)}`, the map `σ_p:Σ_p→Ω²_p𝕆P²` onto
+   the unit round `2`-spheres of the lines, and `φ:Σ_p×S¹→Σ′_p`; prove `φ` has fibrewise degree
+   `±2` as in the sphere case, so `β_*(σ_p)_*[Σ_p]=±2g` in `H₂₂(Ω𝕆P²)`, `g` the generator, and
+   `(σ_p)_*[Σ_p]≠0`. The free-loop extension of item 6 is a separate construction, as for the
+   other projective spaces.
+
    **Fibre representatives and the distinct path-loop total-space comparison.** For B=CPᵈ or HPᵈ construct a chain comparison from the oriented Morse–Bott energy/Thom model E_B to C_*(Ω_p B;ℤ), carrying the chosen completing cycles and calibrated generators to designated singular/cubical representatives. Prove it by the actual finite-energy attachment maps, compact-band comparison and filtered colimit; retain its energy-filtration statement only on this fibre model. It computes H_*(Ω_p B), not H_*(P_p B). Its perfectness and generator proof above remains independent of the following comparison.
 
    Use Layer4.5's genuine augmented semi-free P_B and item4's fibration-chain theorem for Ω_p B→P_p B→B. Here the total complex C_*(Ω_p B)`⊗_{C_*(Ω_p B)}`P_B is compared with C_*(P_p B), with base-cell filtration. If replacing the fibre chains by E_B, construct the compatible homotopy-coherent loop action and its DG-module rectification first, with actual integral split/free chain data and the DG supplier's bar/module comparisons. Justify the chosen chain contractions from the free integral fibre homology and the calibrated chain comparison, keep the higher module coherence, and prove the required degreewise finiteness of the bar/perturbation formulas before base change. Construct the coefficient maps, relative attaching comparisons and filtration-preserving homotopies that compare the resulting two total-space models. Their total-space spectral sequences agree from the proved page onward and abut to H_*(P_p B), which is trivial in positive degrees. Do not identify that sequence or its abutment with the energy-filtered fibre sequence. A plain derived-module equivalence, without these action and filtered maps, is insufficient. Name the actual page comparison and the edge/fibre inclusion squares used on representatives.
 
    On the designated projective carriers, normalize the base cell/cup/Thom classes using GC G4.0/G4.3–5 and AT. Calculate the primary d₂ for CPᵈ and d₄ for HPᵈ and construct the subsequent mixed-bidegree relative-boundary maps: d_(2d):E_(2d,1)→E_(0,2d) for CPᵈ and d_(4d):E_(4d,3)→E_(0,4d+2) for HPᵈ. Identify the surviving source/target representatives, their unit integer coefficient and sign by the actual total-space/fibre comparison and chosen orientations. For d=1 these maps occur on the same page as the primary differential and must be computed together, not assumed to survive an earlier distinct page. For d=0 retain the separate point case. Ordinary base-to-fibre transgression from a nonexistent H_(2d+1)(CPᵈ) or H_(4d+3)(HPᵈ) is not the higher-generator construction.
 
-   For Propositions6.38/6.39 construct the actual map from the geometric sphere family to the completing manifold, its fibrewise degree±2 and its compatibility with β under sphere-loop adjunction. With g the calibrated generator, prove β_*(σ_p)_*[Σ_p]=±2g in degree2d for CPᵈ and4d+2 for HPᵈ, fixing the sign by the stated orientations; do not relabel this nonprimitive class as g. Keep the projective-line geometric construction, the independent based Hopf/perfectness proof, and the separate free-loop and Cayley applications with their own hypotheses. Equality of abstract copies of ℤ does not supply any of these representative, action or filtration maps.
+   For Propositions6.38/6.39 construct the actual map from the geometric sphere family to the completing manifold, its fibrewise degree±2 and its compatibility with β under sphere-loop adjunction. With g the calibrated generator, prove β_*(σ_p)_*[Σ_p]=±2g in degree2d for CPᵈ and4d+2 for HPᵈ, fixing the sign by the stated orientations; do not relabel this nonprimitive class as g. Keep the projective-line geometric construction, the independent based Hopf/perfectness proof, and the separate free-loop application with its own hypotheses. Equality of abstract copies of ℤ does not supply any of these representative, action or filtration maps.
 8. Source: BDHO Chapters 5--13; the source paper §§2.1--2.4 and 4.3--4.4; Bott, *The stable
    homotopy of the classical groups*, §§1--3; Ziller, *The free loop space of globally symmetric
    spaces*.
@@ -1668,8 +1692,7 @@ Retain the separate connected zero-dimensional model: M is a point, f=id, C has 
    Form `β=Φ_*([G]_τ×α)` in `H_(dimG+degα)(Map(S²,M);ev*or_M)` using the actual action coefficient map, and prove the same square gives `j_!β=(Φ_H)_*([H]×α)` in ordinary homology after the chosen basepoint-fibre identification. Because `dim H>0`, the class has degree above `dim M` and its nonzero shriek has positive degree. Construct the twisted abundance implication by tensoring the path-fibration DG coefficient system in the Theorem6.12 proof with the evaluation-pullback `or_M`, including its restriction along constant loops and the actual chain/transport comparison. Identify the total path-space readout with `H_*(M;or_M)`, whose groups above `dim M` vanish; then apply the already stated nonorientable form of Proposition6.7 with the resulting nonzero shriek and zero constant-loop image. This is an assigned coefficient construction and proof, not an assumption that the oriented theorem already applies. Recover the ordinary oriented statement by an orientation trivialization; no connectedness of `H` is imposed.
 
    For `S²=SO(3)/SO(2)`, take `α` in `H₀(Ω²S²;ℤ)` represented by a degree-one map. Compute its `SO(2)` action class `α′∈H₁(Ω²S²;ℤ)` and prove it is nonzero by identifying it with the cycle `σ_{p*}[Σ′_p]` of Remark6.19. Under `β_*:H₁(Ω²S²)→H₂(ΩS²)`, identify the class with the Pontryagin square of the generator of `H₁(ΩS²)`. Then compare the resulting `SO(3)` action class in `H₃(Map(S²,S²);ℤ)` with `σ_*[Σ′]`, including orientation choices and the evaluation shriek map. This is the worked instance of the general action/shriek construction, not an appeal to Proposition6.36 alone.
-5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` (Proposition 6.39 without the Cayley
-   plane), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
+5. **Projective spaces.** `CPᵈ` (Proposition 6.38) and `HPᵈ` and the Cayley plane `𝕆P²` (Proposition 6.39), from Layer 5 item 7. These give **Theorem I** within the scope boundary.
 6. **Knotted hypersurfaces.** **Theorem G** (= Theorem 7.1), through Proposition 7.5 and
    Lemmas 7.6 and 7.7, using the Pontryagin--Thom collapse of Layer 1.
 7. Source: the source paper §§6.3--6.4 and §7.
@@ -1750,7 +1773,7 @@ version (TeX source of 13 May 2026, compiled).
 | Cor F | out of scope |
 | Thm G | 11.6 (Thm 7.1) |
 | Def 1.7, Thm H | 11.1 (Def 6.11, Thm 6.12) |
-| Thm I | 11.2--11.5, without `CaP²` |
+| Thm I | 11.2--11.5 |
 | Def 1.8 | 3.1 |
 | Defs 1.9--1.11 | 4.1, 4.3 |
 | Thm J | 8.6 |
@@ -1787,7 +1810,7 @@ version (TeX source of 13 May 2026, compiled).
 | Prop 6.34 | 11.3, both the Lemma6.35/LES proof and the independent degree-computation proof (1.8) |
 | Lem 6.35 | 11.3, low ranks and stable-plus-Stiefel finite-rank comparison; used by the first proof of Prop6.34 |
 | Prop 6.36 | 11.4 |
-| Props 6.38, 6.39 | 11.5, consuming 5.7's Riem R2/R3 and MorseTheory M5 based-loop application and its actual index/perfectness/generators; without `CaP²` |
+| Props 6.38, 6.39 | 11.5, consuming 5.7's Riem R2/R3 and MorseTheory M5 based-loop application and its actual index/perfectness/generators, including `𝕆P²` |
 | Thm 7.1, Prop 7.5, Lems 7.6, 7.7 | 11.6 (collapse 1.5) |
 
 ### Classical capped-source requirements
