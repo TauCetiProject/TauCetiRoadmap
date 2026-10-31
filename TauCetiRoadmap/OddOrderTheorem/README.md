@@ -124,7 +124,7 @@ Bender–Glauberman's prime-length and uniqueness analysis. In particular:
   assumption of that property. Build the necessary faithful chief-factor
   representations and coprime fixed-space and extraspecial-module estimates.
 - If `Y = J ⋊ A` is solvable of odd order with `(|J|,|A|)=1`, `A₀ ≤ A`
-  has prime order, and every Sylow subgroup of `C_J(A₀)` is cyclic, prove
+  has prime order, and `C_J(A₀)` satisfies Mathlib's `IsZGroup` (every Sylow subgroup is cyclic), prove
   `[J,A]` has `p`-length at most one for every prime `p`.
 
 LocalFiniteGroupTheory L3 supplies Thompson's `A × B` lemma and generation
@@ -147,18 +147,21 @@ saturation. Prove it is well-defined, linear, support-preserving and an
 isometry. Its integral domain is `ℤ[Irr L] ∩ CF(L,A)` and its integral image
 lies in `ℤ[Irr G]`. Its image functions are supported on `⋃_{a∈A}(aH_a)^G`.
 Prove `H_a` is the unique normal Hall complement to `C_L(a)` in `C_G(a)`;
-the extension is independent of choices in that complement and of packet
-representatives.
+the extension is independent of packet representatives.
 For arbitrary supported class functions this is the normalized Hermitian
 isometry. On virtual characters compare it with the native bilinear pairing
 by evaluating the second character at inverse group elements.
 
-Consume the elementary character statements of §1 from CharacterTheory where
-available and prove the remaining restriction, degree and low-norm character
-lemmas here with explicit statements. Prove the general T.I.-subset
-isometry of §3, its cyclic-subgroup specializations and its relation to ordinary
-induction. In the general Dade theorem, prove that when every `H_a = 1`,
+Consume CharacterTheory's Burnside theorem,
+`TauCeti.exists_eq_irreducibleCharacter_or_neg` and
+`mem_irreducibleCharacters_of_characterPairing_self_eq_one`. F2 owns the
+remaining norm-two and low-norm virtual-character decompositions, restriction
+and degree inequalities of Peterfalvi §1, with their hypotheses explicit.
+The general T.I.-subset and induction arguments belong to the §2 Dade library. In the general Dade theorem, prove that when every `H_a = 1`,
 the Dade map equals ordinary induction on the supported domain. This
+Use native `TauCeti.IsTISet` for these subsets. This general comparison
+does not require `IsTISubgroup` of the normalizer, an extra hypothesis in
+the existing `characterPairing_ind_ind_of_isTISet`. The
 comparison applies to arbitrary T.I. subsets whose element centralizers
 are contained in their normalizer, without cyclic-factor or odd-order
 hypotheses. Develop the integral-span and degree-zero-subspace APIs, coherent
@@ -170,6 +173,20 @@ criteria and inequalities of §§5–6, including
 the subcoherence estimates used by the five-type analysis. Each inequality
 must carry its numerical hypotheses explicitly. No target asserts coherence
 of an arbitrary family without the stated group and degree conditions.
+For §3 separately, let `W=W₁×W₂` be cyclic of odd order with both factors
+nontrivial, and `A=W\(W₁∪W₂)` nonempty and satisfying
+`TauCeti.IsTISet A W`. Construct the cyclic T.I. isometry
+`σ : ℤ[Irr W] → ℤ[Irr G]` and its complex-linear extension. It preserves
+the normalized pairing, extends ordinary induction on the supported domain,
+maps each irreducible to a signed irreducible, and maps the trivial character
+to the trivial character. For irreducibles `α_i` of `W₁` and `β_j` of `W₂`,
+inflate them to `W` and put `w_ij=(α_i-1)(β_j-1)`. These vanish off `A`;
+prove the rectangle identities for `σ(w_ij)=Ind_W^G(w_ij)`, and construct
+the orthonormal signed array indexed by `(i,j)` with principal entry one.
+Prove existence and uniqueness with those normalizations, sign laws,
+conjugate-pair and power-map compatibility. These cyclic-factor theorems
+are distinct from the general Dade/induction comparison consumed by Z*.
+
 Implement the generic §1–§6 exports without importing F0, F3–F6 or any final
 odd-order theorem. Other finite-group developments, including the
 Brauer–Suzuki proof, consume the general Dade/induction comparison directly;
@@ -264,9 +281,10 @@ For nontrivial cyclic subgroups `W₁,W₂`, define a **P-configuration**
 - `W = W₁ × W₂` is the internal direct product, and
   `W \ (W₁ ∪ W₂)` is a T.I. subset with exact normalizer `W`.
 
-For a set `D`, T.I. with exact normalizer `N` means `D` is nonempty,
-`1 ∉ D`, it is invariant under `N`, and it has disjoint conjugates under
-every element outside `N`. Define the
+Use native `TauCeti.IsTISet D N` together with nonemptiness and
+`1∉D` for T.I. data. Every set here is contained in its stated normalizer;
+prove `N_G(D)=N` from these data and use this equivalence wherever the
+phrase “T.I. with exact normalizer” occurs. Define the
 types of a proper subgroup as follows:
 
 | Type | Defining data |
@@ -283,6 +301,7 @@ exist distinct maxima `S,T` of types II–V and nontrivial cyclic `W₁,W₂`
 such that `W=W₁×W₂` is cyclic, `S=S'⋊W₁`, `T=T'⋊W₂`,
 `S∩T=W`, `W\(W₁∪W₂)` is T.I. with normalizer `W`, at least one of
 `S,T` is type II, and every non-type-I maximum is conjugate to `S` or `T`.
+Deduce `gcd(|W₁|,|W₂|)=1` from the cyclic internal direct product.
 F3 constructs this supporting pair. F4 supplies its character-theoretic
 properties and the compatible P-configuration witnesses.
 
@@ -301,7 +320,9 @@ Develop the arguments of Peterfalvi Part I §§7 and 9–13 in these sublayers:
   norm-one classification are consumed from Tau Ceti.
 - **F4b, type-I Frobenius theorem (§12).** For every type-I maximal `M`,
   prove there is a nontrivial complement `E` with `M=H(M)⋊E` such that
-  every nonidentity `e∈E` fixes only the identity of `H(M)`. This strengthens
+  every nonidentity `e∈E` fixes only the identity of `H(M)`. State the result
+through native `TauCeti.IsFrobeniusComplement E` in `M` and identify its
+Frobenius kernel with `H(M)`, so the native character API applies. This strengthens
   F3d's Frobenius-type data and is not true by definition of type I.
 - **F4c, exclusion of the all-type-I case (§12).** Prove the concrete
   endpoint `∃ M maximal, ¬ TypeI(M)`. Construct the type-I Dade families
@@ -310,8 +331,8 @@ Develop the arguments of Peterfalvi Part I §§7 and 9–13 in these sublayers:
   the premise selecting the supporting-pair alternative of F3d.
 - **F4d, reciprocal supporting maxima (§13).** For the pair of F3d, construct
   nilpotent subgroups `U,V` such that `(S,U,W₁,W₂)` and `(T,V,W₂,W₁)`
-  are P-configurations. Prove `(|W₁|,|W₂|)=1`, so their nontrivial orders
-  are unequal. Orient them by `|W₁|<|W₂|` and prove both maxima are type
+  are P-configurations. Use F3d's coprimality corollary, so their nontrivial
+  orders are unequal. Orient them by `|W₁|<|W₂|` and prove both maxima are type
   II, together with the character-degree inequalities and field-model
   conditions used in F5. Prove these identifications and inequalities from
   the constructed families; none is an arbitrary field of a pair structure.
@@ -325,15 +346,50 @@ Assume `gcd((p^q-1)/(p-1), p-1) = 1`. In a finite ambient group suppose
 `P ⋊ U` embeds with `U` acting by multiplication. Let `P₀` be the embedded
 additive prime field. If an abelian `p'`-subgroup `Q` and `y ∈ Q` satisfy
 `P₀ ≤ N_G(Q)` and `P₀^y ≤ N_G(U)`, prove `p ≤ q`.
+Identify `rootsOfUnity ((p^q-1)/(p-1)) F` with the kernel of the norm on
+`Fˣ` to `𝔽_pˣ`, including the norm's exponent formula and surjectivity.
+This compares the Lean prototype with the norm-one formulation.
 Build the norm-fibre, field-automorphism and word identities this proof needs;
 none of these conclusions is supplied as a configuration field.
 
-Apply the theorem and the character inequalities to the two orientations of
-the supporting pair from F4, obtaining the contradiction of Peterfalvi §14.
-Prove the pair's primes, orders, coprimality, faithful linear realizations and
-normalizer conditions before instantiating the finite-field theorem. This
-layer owns all arithmetic and finite-field comparison lemmas not already
-provided by the dependencies.
+For the already oriented pair of F4d, put `q=|W₁|<p=|W₂|`,
+`P=H(S)` and `Q=H(T)`. The final comparison has these explicit stages:
+
+1. **Supporting overgroups.** From F3's core and normalizer theorems, prove
+   that every maximal `L≥N_G(U)` is type I, with `U≤H(L)`, and has
+   Frobenius complement either `W₁` or `W₁W₂^y` for some `y∈Q`.
+   This uses F4b for actual Frobeniusness, not a definition-level assertion.
+   Use F4's coherent type-I/P-configuration packet inequalities to rule out
+   the `W₁`-only complement. Construct `y` and prove the full complement
+   has order `pq` and the required fixed-point-free action.
+2. **Appendix C obstruction.** Prove `|P|=p^q`, that `Q` is abelian of
+   order prime to `p`, and that `W₂≤N_G(Q)`. Prove the conjugation action
+   of `U` on the elementary abelian `P` is faithful and irreducible.
+   Analyze whether `U` is characteristic in `H(L)`: in that case
+   `W₂^y≤N_G(U)`. The field-action and degree estimates give either
+   `q∣p-1` with `q|U|=(p^q-1)/(p-1)`, or
+   `|U|=(p^q-1)/(p-1)`. Exclude the first branch using the free action and
+   the associated order inequalities. In the remaining branch prove
+   `q∤p-1` and `gcd((p^q-1)/(p-1),p-1)=1`.
+   Construct `F=𝔽_{p^q}`, an additive equivalence `F≃P`, and identify
+   `U` with norm-one scalars and `W₂` with the additive prime-field line.
+   With `P₀=W₂`, `Q=H(T)` and this `y`, verify every normalizer and action
+   hypothesis in Appendix C. It gives `p≤q`, contradicting `q<p`.
+   Thus `U` is not characteristic in `H(L)`.
+3. **Kernel comparison and exclusion.** Choose also a maximal `M≥N_G(V)`.
+   Construct its opposite supporting configuration and prove it is type I
+   with `H(M)=V` and complement index `pq`. Build the ordinary core-character
+   packets for `L,M`. Prove their induced-family separation, nonconjugacy
+   and action-kernel ratio comparisons, and use the matching index `pq`
+   and F4's character inequalities to force `H(L)=U`. Then `U` is
+   characteristic in `H(L)`, contradicting stage 2. This excludes the
+   ordered supporting pair and completes Peterfalvi §14.
+
+Each field model, kernel equality, packet comparison and normalizer statement
+in these stages is a theorem to prove from the earlier layers. None is an
+unproved field of a supporting-pair structure. Put the generic Appendix C
+arithmetic in `TauCeti/GroupTheory/OddOrder/FiniteFieldComparison/`, independently
+of the final odd-order assembly.
 
 ### F6: assembly and reusable consequences
 
