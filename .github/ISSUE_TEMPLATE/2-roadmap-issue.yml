@@ -25,7 +25,6 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AmenableGroups
-        - AnalyticToricGeometry
         - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
@@ -34,6 +33,7 @@ body:
         - CFSGBasicProperties
         - CFSGStatement
         - CharacteristicClasses
+        - ChevalleyGroups
         - ClassFieldTheory
         - ClassicalArithmeticCompletion
         - ClassifyingSpaces
@@ -44,14 +44,14 @@ body:
         - ComplexManifolds
         - ComplexTori
         - ComputabilityTheory
-        - ConformalMapping
         - CountableModelCounting
         - DGAInfinity
         - DGFloer
         - DerivedModuleAlgebra
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
-        - EffectiveBounds
+        - ECM
+        - EllipticCohomology
         - EllipticCurves
         - EllipticIntegrals
         - EnhancedDerivedSheaves
@@ -66,15 +66,12 @@ body:
         - GeometricMeasureTheory
         - GeometricRepresentationCategories
         - GeometricTopology
-        - GlobalNumberFields
         - GlobalQuadraticForms
         - GraphConnectivityAndFlows
         - GroebnerGeometry
         - GrothendieckEulerForms
         - HamiltonianFloerOperations
         - HeegaardFloer
-        - HeightsAndUnits
-        - HopfRinow
         - Hyperfunctions
         - ImaginaryQuadraticClassNumber
         - InfinitaryModelExistence
@@ -82,7 +79,7 @@ body:
         - Isoperimetry
         - JacobianChallenge
         - KhovanovHomology
-        - LocalFieldsRamification
+        - LFunctions
         - LocalPurity
         - MarkovChainsAndRenewal
         - MassFormula
@@ -98,21 +95,22 @@ body:
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
-        - OrthogonalSpinGroups
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
         - PerfectoidSpaces
-        - PeripheralActions
         - PivotalSpherical
         - PositiveScalarCurvature
         - ProfiniteCohomology
         - PurityOfBranchLocus
         - QuadraticFormInvariants
         - QuantumGroups
+        - QuaternionicAnalysis
+        - RandomMatrices
         - Rank24LatticeConstructions
         - RealAnalyticGeometry
         - ReductiveGroups
+        - ReductiveGroupsPartII
         - ReflectionInvariantTheory
         - Regularity
         - RepresentationTheory
@@ -122,7 +120,9 @@ body:
         - SchemeAndStackFoundations
         - SchubertGeometry
         - SeibergWittenTheory
+        - SmoothBundlesConnections
         - SpinGeometry
+        - SporadicOrders
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
@@ -131,8 +131,10 @@ body:
         - SymplecticGeometry
         - TauberianBoundaryConvergence
         - TaubesGromov
+        - TemperleyLieb
         - ThetaSeries
         - TopologicalKTheory
+        - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
