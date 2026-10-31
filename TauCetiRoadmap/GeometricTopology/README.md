@@ -1314,6 +1314,17 @@ strand map, see [Birman–Brendle, §1](https://www.math.columbia.edu/~jb/Handbo
 
 ### 4.3 Seifert surfaces, genus and the Seifert form
 
+For disjoint oriented knots J,K in S³ define lk(J,K) by algebraic
+intersection of J with a Seifert surface of K, after transverse positioning.
+Prove independence of the surface and positioning, invariance under ambient
+isotopy of the disjoint pair, symmetry, and bilinearity on disjoint integral
+1-cycles. Prove equality with half the signed mixed-crossing count, including
+its integrality, and normalize the positive Hopf value to+1. Reversing one
+component negates lk; reversing both preserves it; ambient reflection negates
+it. Define a framed knot's framing coefficient by lk(K,K⁺), compare it with
+the normal trivialization, and prove the Seifert longitude has coefficient0.
+The Seifert pairing below uses this same geometric linking number.
+
 Prove that every nonempty oriented link `L ⊂ S³` bounds a compact connected oriented
 Seifert surface: construct the raw Seifert-algorithm surface, then join its distinct
 components by oriented interior tubes preserving the boundary (Lickorish, Theorem 2.2). Define the genus
@@ -1442,6 +1453,12 @@ integral H₁ basis, including its comparison with singular homology over
 its polarization and basis/isotopy/stabilization transport. Its polar
 matrix is `(S+Sᵀ) mod2`; do not symmetrize S before constructing q_F,
 which would erase the quadratic refinement in characteristic two.
+
+For a simple band-core curve on F, identify q_F of its mod2 class with
+the parity of the full twists of its ribbon framing relative to the zero
+Seifert framing. Compare the in-surface ribbon push-off with the positive
+normal push-off by rotating the normal framing; prove invariance under
+ribbon-chart changes and changes of the homology representative.
 
 Let `R=q_F.polarBilin.ker`. Prove `dim H₁=2g+μ−1`,
 `dim R=μ−1`, and that the boundary classes generate R with the single
@@ -1647,6 +1664,23 @@ agreement of the Seifert, Fox and Burau routes (`TauCeti.MarkovBraid.burauAlexan
 units. Prove the Conway skein relation `Δ(L₊) − Δ(L₋) = (t¹ᐟ² − t⁻¹ᐟ²) Δ(L₀)` for the
 normalized polynomial of links (Lickorish, Theorem 8.6) and the characterization of the
 determinant `|Δ_K(−1)|` as the order of `H₁` of the double branched cover.
+
+Construct the deck-equivariant Crowell comparison. With a basepoint and lift chosen, identify π₁(X∞) with the
+commutator subgroup π′ of the knot group π, using the covering projection.
+First-degree Hurewicz gives the additive isomorphism
+`H₁(X∞;ℤ) ≃+ Additive (Abelianization π′)`.
+Choose the positive deck generator D to send the chosen lift to the endpoint
+of the lifted positive meridian μ. For its lifted path μ̃, transport D_* back
+by `(fundamentalGroupMulEquivOfPath μ̃).symm`. Native fundamental-group
+multiplication is reverse path concatenation: `p*q=q.trans p`. Thus this
+based deck action projects to the chronological path μ, then k, then μ⁻¹,
+which is `μ⁻¹*k*μ` in native group multiplication. Equip the right-hand
+abelianization with the Laurent action induced by this automorphism, and prove
+the displayed comparison is Laurent-linear. Prove independence of meridian
+representative and compatible basepoint/lift changes. Using native conjugation
+k↦μ*k*μ⁻¹ instead requires the inverse deck generator and t↦t⁻¹; export
+that explicit conversion as well. Combine the comparison with the square
+Seifert presentation to prove the trivial-module/perfect-commutator criterion.
 
 - `Δ_K(1) = ±1` for every knot, so the normalization is possible; `Δ_{K # J} = Δ_K Δ_J` and
   `Δ_{K̄}(t) = Δ_K(t)` for the mirror.
