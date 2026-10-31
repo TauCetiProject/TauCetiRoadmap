@@ -6920,6 +6920,102 @@ invertible, yet `4 ≢ 1^{±1} (mod 6)`. Prove that the rational
 knots are exactly the knots of bridge number at most two, that `p` is the determinant of the
 rational knot `p/q`, and that the mirror of `p/q` is `p/(−q)`.
 
+<a id="rational-tangle-continued-fractions"></a>
+**Projective fractions, coefficient order and the canonical domain.**
+Make the coefficient convention of physical pp162–164 explicit. Use native
+`WithTop ℚ` for slopes, with its added point denoted∞. Define reciprocal
+by 0↦∞,∞↦0 and q↦1/q for nonzero rational q. Define translation by an
+integer a on finite slopes as q↦q+a, fixing∞. Prove reciprocal
+involutivity, integer-translation composition and inverses, and transport
+under sign reversal, which fixes∞. No field addition or field inverse on
+the whole extended carrier is asserted.
+
+For a source list w=(a₁,…,a_n), start with∞ and successively apply
+`x↦a_i+1/x`. Thus cf([])=∞, cf([a])=a and
+`cf(w++[a])=a+1/cf(w)`, interpreted by the declared projective operations.
+Intermediate0 and∞ remain valid. Prove that this is the ordinary
+outermost-first continued fraction of reverse(w). Distinguish this list
+reversal from reciprocal, mirror or reversal of the geometric knot.
+Export prepend/append formulas and the arithmetic reversal adapter.
+Transport them through the marked geometric constructors before assigning
+a rational-knot label.
+
+For every positive rational x, the unique normalized source list is:
+
+- A single [a] with a>0, for positive integers, including [1].
+- A list of length n≥2 with a₁≥2, a_i≥1 for1<i<n and a_n≥0.
+
+The outermost coefficient a_n is0 exactly when0<x<1. For a noninteger
+x>1 it is positive. Strict positivity of every coefficient alone cannot
+cover all positive rationals: cf([2,0])=1/2. For negative x, negate the
+positive canonical list for−x; its first coefficient is≤−2 when n≥2,
+its internal coefficients are≤−1 and its outermost coefficient is≤0.
+Single-entry negative integers include [−1]. Treat0 by [0] and∞ by the
+empty list, as distinct normal forms. Prove existence, uniqueness and
+finite decidability on these exact domains, including all boundary cases.
+
+Use Mathlib's `GenContFract.of`, `GenContFract.terminates_of_rat` and
+`GenContFract.of_correctness_of_terminates` for the ordinary rational
+algorithm and convergent correctness. Extract its finite integer partial
+denominators, reverse their order, and prove the displayed source-list
+comparison. For negative slopes apply it to−x before negating the list;
+a floor-based expansion of a negative number need not have every
+coefficient negative. Prove the sign, zero/infinity and integer branches.
+Any alternative expansion ending in1 in the ordinary convention is
+normalized by replacing its final pair (b,1) with b+1; in source order
+this is `[1,b]++v ↦ [b+1]++v`. Prove the value and normalization laws.
+This is an adapter to the native algorithm, with no second Euclidean stream.
+
+Give the denominator/numerator recurrence and integer matrix certificate
+for each step `[[a,1],[1,0]]`, acting on a primitive pair (p,q) for p/q.
+The source word acts by the product M_(a_n)⋯M_(a₁) on (1,0).
+Prove primitiveness, determinant(−1)^n, projective representative
+independence and finite equality by cross multiplication, retaining q=0.
+Relate these integer certificates to the native continued-fraction
+convergents and their exact unit/sign normalizations.
+
+Construct the matching marked integer-twist/reciprocal tangle sequence
+using4.10.1's independent ports and relative gluing prefix. Prove the
+source recurrence agrees with its actual boundary/height dictionary.
+Keep the Kauffman–Lambropoulou outermost-first list and crossing-type
+convention explicit when applying their rational-tangle theorem; they
+state that their crossing types are opposite to Conway's. Compare their
+odd-length normal form with this terminal-coefficient normalization by
+the actual coefficient identities and relative tangle moves. Equal
+rational arithmetic alone does not prove a source-diagram identification
+or the endpoint-fixed tangle classification.
+
+
+Prove that these rational constructors retain exactly two open strands
+and no closed components. Track their boundary matching by the three
+nonzero parity classes of the primitive pair (p,q): p even gives the
+horizontal pairing, q even gives the vertical pairing, and p,q odd gives
+the diagonal pairing. Give the matching/closure maps and prove N(T) is
+a knot iff p is odd and D(T) is a knot iff q is odd. Include slopes0
+and∞, represented by (0,1) and (1,0). Coprimality excludes both even,
+so at least one closure is a knot, as asserted on p164. This producer
+uses the marked endpoint construction, independently of Schubert's
+closed-knot classification or determinant calculations.
+
+**Source computations.** cf([2,1,1])=5/3, cf([3,2])=7/3 and
+cf([3,2,−4])=cf([−3,−1,−1,−3])=−25/7. Prove the corresponding relative
+tangle equality in the last example. Also cf([2,0])=1/2,
+cf([−2,0])=−1/2, cf([0])=0 and cf([0,0])=∞. Prove all computations on
+the actual projective operations; using the field convention0⁻¹=0 would
+lose the last distinction. Compare the right-nested Atlas lists in4.4.8
+by reversing the arithmetic coefficient order and supplying the separate
+marked port/mirror adapter, rather than identifying the two word conventions.
+
+[Suggested native arithmetic targets](ReversedContinuedFractionTargets.lean)
+pin this convention. The numeric construction and normalization require
+only native rational/continued-fraction, integer-matrix and finite-list
+APIs. The geometric adapter consumes the independently constructed
+4.10.1 port/twist/gluing prefix and4.2's relative diagram theory. It does
+not consume later polynomial, bridge-minimum or rational-knot classification
+results. For the primary comparison, use [Kauffman–Lambropoulou,
+§§2–4](https://arxiv.org/html/math/0311499#S3).
+
+
 **Checks.**
 - `3/1` is the trefoil and `5/2` the figure-eight; `2/1` is the Hopf link and `1/1` the unknot.
 - `5/2 ≅ 5/3` because `2 · 3 = 6 ≡ 1 (mod 5)`, and `5/3 = 5/(−2)` is the mirror of `5/2`: the

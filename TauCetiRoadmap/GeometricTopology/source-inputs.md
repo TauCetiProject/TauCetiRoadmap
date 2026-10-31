@@ -622,3 +622,47 @@ singular, so native nonsingular-square Smith existence alone cannot be
 applied to it. The independent integer-presentation prefix of4.7.1 owns
 the rectangular/singular adapter, invariant-factor comparisons and
 terminating Euclidean algorithm, using the existing PID and matrix APIs.
+
+
+<a id="reversed-fraction-inputs"></a>
+## Pages162–164: coefficient order and the missing outermost zero
+
+*Knot Theory.pdf*, source SHA-256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`,
+physical p162 excludes0 and∞ from a rational-tangle coefficient word;
+p163 then permits integer coefficients. P163 explicitly evaluates
+cf(a₁,…,a_n) with a_n outermost. Its written canonical-positive rule
+uses all a_i>0 and a₁≠1; its negative rule puts the exceptional−1
+restriction on a_n. These literal rules are not silently adopted as a
+complete normalization of every nonzero rational.
+
+The [continued-fraction contract](README.md#rational-tangle-continued-fractions)
+allows an outermost zero: cf([2,0])=1/2, and cf([−2,0])=−1/2.
+Strictly positive entries yield values≥1 and omit all positive slopes
+below1. For length≥2 the uniqueness restriction is on the innermost
+coefficient a₁, with |a₁|≥2; single-entry±1 remain valid. The ordinary
+outermost-first native continued fraction uses the reversed list.
+Zero has normal word[0]; infinity has the separate empty normal word.
+The unrestricted signed word[0,0] also evaluates to∞, so ordinary field
+inversion0⁻¹=0 cannot be used at intermediate zero slopes.
+
+P164 also says a rational tangle has at least one knot closure. The
+marked endpoint-parity producer proves N is a knot iff p is odd and D
+iff q is odd for a primitive pair(p,q), including0 and∞. It does not
+extend this conclusion to arbitrary algebraic tangles with extra circles.
+
+P163's cf([2,1,1])=5/3 is correct; its second overwritten example is
+unresolved and arithmetically inconsistent as transcribed. P164's two
+words [3,2,−4] and [−3,−1,−1,−3] both evaluate to−25/7. Their geometric
+tangle identification remains an actual relative-move target. The native
+arithmetic companion proves these finite evaluations and consumes
+Mathlib's rational termination theorem; the full canonical uniqueness
+statement is one honest admission.
+
+[Kauffman–Lambropoulou, *On the classification of rational tangles*,
+§§2–4](https://arxiv.org/html/math/0311499#S3) uses the outermost-first
+order, allows its outermost coefficient0, and chooses an odd-length
+normal form. It explicitly declares crossing types opposite to Conway's.
+The roadmap requires both the numeric normalization comparison and the
+marked port/height/crossing adapter. The primary's tangle theorem is not
+a certificate for a guessed source drawing or an unconverted Atlas word.
