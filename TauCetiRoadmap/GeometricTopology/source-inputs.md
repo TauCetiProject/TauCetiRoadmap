@@ -275,3 +275,30 @@ knot orientation or a monomial-unit convention. The third expression's equality 
 Jones value of a signed two-strand nine-letter closure is a separate computation, not
 grounds to replace the literal9₄₁ label by9₁. The earlier source198 mirror-blind example
 and this erroneous table retain distinct source obligations.
+
+<a id="homfly-constructions-source"></a>
+## The four HOMFLY constructions, physical pp.86–88
+
+The main source is *Knot Theory.pdf*, SHA256
+`ea4ad43f0788c1949274f3869045793f193a562f1c6f35cb05307c302e7185fa`, reproducing Freyd,
+Yetter, Hoste, Lickorish, Millett and Ocneanu, *A new polynomial invariant of knots and
+links*, Bull. Amer. Math. Soc.12(2)(1985),239–246, DOI10.1090/S0273-0979-1985-15361-3.
+The [primary PDF](https://www.math.ucdavis.edu/~egorskiy/MAT280-s18/HOMFLY.pdf) has
+SHA256 `bf76c6c1bda967e5f0cf46ef7d498d916b281a8fd59fe8fac88f68c21d26a06d`. A fresh
+verified-Luna comparison of primary printed 241 and course 86 confirms the scalar
+generator is the empty word `[ ]₁`, and S4 is `[u a a v]_n→−x⁻¹y[uv]_n−x⁻¹z[u a v]_n`:
+two a's on the left, zero and one in the two right-hand words. Earlier `[1]₁` and
+triple-a transcriptions were errors in our transcript, not printed source errors. The
+final focused S4 reread supersedes the reader's initial mistaken second-right-hand
+transcription.
+
+Printed242 states the separate full-word cyclicity lemma `T([uv]_k)=T([vu]_k)`; the old
+course 87 self-equality is a transcription failure. The full FY specification
+distinguishes typed module relations from collected-form normalization, owns the 21
+parametric rule-pair families, and does not assume that each intermediate form has only
+one redex. Hoste and Lickorish–Millett retain their distinct first-under diagram
+inductions and all pointing/order independence arguments. Crossing-nonincreasing
+simplifications within their special induction cases do not supply a global such path
+between arbitrary isotopic diagrams. Ocneanu's algebraic trace remains independent of
+the geometric invariant; the source 88 analytic corrections have their existing Hecke
+owner.

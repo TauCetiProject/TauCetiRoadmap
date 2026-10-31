@@ -4050,9 +4050,8 @@ overwritten coefficient.
 ### 4.6 The HOMFLY and Kauffman polynomials
 
 Prove existence and uniqueness of the HOMFLY polynomial `P_L` in the degree-zero subring of
-`ℤ[x^±, y^±, z^±]` with `x P(L₊) + y P(L₋) + z P(L₀) = 0` and `P(unknot) = 1`, by induction on
-crossing number and a descending resolution of based diagrams (Lickorish, Chapter 15; Freyd,
-Yetter, Hoste, Lickorish, Millett, Ocneanu, Bull. Amer. Math. Soc. 12 (1985)), and the
+`ℤ[x^±, y^±, z^±]` with `x P(L₊) + y P(L₋) + z P(L₀) = 0` and `P(unknot) = 1`, by the complete
+independent word-module and diagram constructions in [4.6.3](#homfly-constructions), and the
 specializations `Δ_L(t) = P_L(1, −1, t⁻¹ᐟ² − t¹ᐟ²)` and `V_L(t) = P_L(t⁻¹, −t, t⁻¹ᐟ² − t¹ᐟ²)`.
 In the two-variable convention `a P(L₊) − a⁻¹ P(L₋) = z P(L₀)`, set `a = v⁻¹` and use
 `ℤ[a,a⁻¹,z,z⁻¹]`, represented by an iterated `LaurentPolynomial`, as coefficient ring.
@@ -4395,6 +4394,211 @@ is needed to identify or distinguish these two marked knots. [Native matrix and
 finite-input targets](MirrorBlindChiralityTargets.lean) record the arithmetic and actual
 braid inputs. The [source note](source-inputs.md#mirror-blind-source) retains the
 corrected p198 reading and the distinction from a software-derived matrix.
+
+<a id="homfly-constructions"></a>
+### 4.6.3 Four constructions of the common HOMFLY invariant
+
+Supply the complete independent existence proofs in Freyd–Yetter, Hoste and
+Lickorish–Millett, *A new polynomial invariant of knots and links*, printed pp.241–244
+(course physical pp.86–88), and compare the independent algebraic Ocneanu construction.
+They produce the same normalized invariant of nonempty oriented tame links in 4.6.
+Construct the following objects and comparison maps. The [source
+note](source-inputs.md#homfly-constructions-source) fixes the literal empty-word and S4
+conventions.
+
+**The actual word-module quotient.** Set `R=ℤ[x±¹,y±¹,z±¹]`, represented by
+`LaurentPolynomial (LaurentPolynomial (LaurentPolynomial ℤ))`, with outer variable x,
+middle y and inner z. Supply the three unit inclusions, coefficient/monomial dictionary,
+total-degree grading and iterated evaluation maps. Work over the full ring, proving that
+individual link values have degree zero afterward. For n≥1 let W_n be native signed
+`BraidWord n`, source generator a corresponding to native index a−1; let `W=Σ n:ℕ+,
+BraidWord n` and `F=W→₀R`. Write `[u]_n` for its basis vector. The scalar map sends 1 to
+`e=[ ]₁`, the empty one-strand word whose closure is the unknot. It is not a letter1 or
+an empty link.
+
+Define `N≤F` as the R-submodule spanned by precisely these typed relation vectors, and
+`M=F⧸N`. In A0/A1/A2/P1, u,v are arbitrary same-stage contexts; positive indices
+satisfy 1≤b<a<n where needed. In M2, u,v∈W_n are included by ι into W_(n+1).
+
+```text
+A0  [u a(−a)v]_n = [uv]_n = [u(−a)a v]_n;
+A1  [u a b v]_n = [u b a v]_n                 (b<a−1);
+A2  [u a(a−1)a v]_n = [u(a−1)a(a−1)v]_n;
+M1  [uv]_n = [vu]_n;
+M2  [ιu n ιv]_(n+1) = [uv]_n = [ιu(−n)ιv]_(n+1);
+P1  x[u a v]_n + y[u(−a)v]_n + z[uv]_n = 0.
+```
+
+Here a native crossing sign is an integer unit ε∈ℤˣ; the opposite sign is −ε, not ε⁻¹=ε.
+M1 and M2 are relations on whole typed words, not substitution rules in arbitrary
+surrounding word contexts. In particular do not replace this submodule quotient by a
+two-sided ideal or a presented algebra. Contextualizing `[ab]=[ba]` in B₃ would falsely
+identify closures of a²b² and (ab)², which have three and one components. The target is
+the scalar **R-linear equivalence** `R≃ₗ[R]M`, induced by `r↦r·[e]`; no multiplication
+on M is assumed.
+
+**All six directed rules.** Let `d(a,b)=a,(a−1),…,b` and `δ=−(x+y)z⁻¹`. For every
+admissible context and index implement these literal rules:
+
+```text
+S1  [u a b v]_n → [u b a v]_n                    (b<a−1);
+S2  [u d(a,b) a v]_n → [u(a−1)a d(a−1,b)v]_n    (1≤b<a<n);
+S3  [u(−a)v]_n → −xy⁻¹[u a v]_n − y⁻¹z[uv]_n;
+S4  [u a a v]_n → −x⁻¹y[uv]_n − x⁻¹z[u a v]_n;
+S5  [ιu n ιv]_(n+1) → [uv]_n                    (u,v∈W_n);
+S6  [ιw]_(n+1) → δ[w]_n                         (w∈W_n).
+```
+
+S5 has exactly one occurrence of the new generator and S6 none; n≥1 includes the
+two-to-one-strand boundary. Prove each rule difference lies in N. For S2 commute the
+final a left past b,…,a−2 and apply the adjacent Artin relation, including b=a−1. Derive
+S3/S4 by solving P1 and using A0, and S6 from P1 and both signs of M2. Never divide by δ
+or x+y: δ can vanish under a valid specialization.
+
+A strict directed step on a collected finite form f selects an actual `w∈f.support` and
+replaces its **whole coefficient** by `f.erase w + f(w) • rhs(w)`, then collects terms.
+Zero-coefficient applications are not steps. Arbitrary partial-coefficient rewriting in
+a linear context is forbidden: from e₂→r=δe₁ it permits the cycle e₂→−e₂+2r→e₂. The
+quotient relations nevertheless remain fully R-linear.
+
+Prove well-foundedness using lexicographic `(strand count, negative-letter count, word
+length, fixed-length word code)`, with increasing positive generator indices in the
+final coordinate. At fixed n and length the signed alphabet is finite, so its positional
+natural-number code supplies the required well-founded lexicographic comparison. S1/S2
+lower that code, S3 lowers the negative count, S4 lowers length, S5/S6 lower strand
+count. Lift to the multiset order on the actual nonzero support of f; coefficient
+collection/cancellation only removes extra support. Scalar Laurent-monomial count is not
+this measure.
+
+Own every parametric local fork: the 21 unordered pairs of the six **rule families**,
+including self-pairs, with all indices/contexts, disjoint, overlapping and included
+redexes, variable-length S2 blocks, stage-lowering S5/S6 and coefficient-cancellation
+forks. These are quantified joining lemmas, not 21 bounded word examples. Prove the
+collected linear local-confluence theorem and the well-founded local-to-global
+confluence adapter, then existence and uniqueness of terminal forms. Do not assume each
+intermediate form has a unique available rule. For the terminal classification prove
+that a positive word irreducible under S1/S2/S4 has its largest generator at most once;
+at stage>1, S5 or S6 therefore applies. Exactly the forms r·e, including 0, are terminal.
+
+Construct the scalar normalizer `T:F→ₗ[R]R`, its total terminating reduction algorithm
+and its proof independent of any pre-existing link polynomial. Prove linearity,
+`T(e)=1`, reduction invariance, `f−T(f)·e∈N`, and vanishing on every original relation
+vector. In particular prove the separate full-word cyclicity `T([uv]_n)=T([vu]_n)`:
+Artin equality and confluence alone do not supply it. Retain the source's
+descending-positive-block argument, empty/singleton cases and separate longer cases,
+with explicit joining sequences. Prove both signs of M2 (the negative one uses
+S3/S5/S6), `ker(T)=N`, `q(f)=q(g)↔T(f)=T(g)`, and the scalar linear equivalence.
+Existence may not be proved by assuming the invariant this construction is meant to
+produce.
+
+Give effective R-coefficients by finite-support integer exponent triples, their verified
+ring operations and an equivalence with the iterated native Laurent ring. Supply an
+executable reduction strategy with proof that its output equals T; noncomputable support
+alone is not an evaluator. Prove base-change naturality to every commutative coefficient
+ring carrying chosen unit images of x,y,z. A coefficient map may kill the selected
+coefficient, so it sends a step to zero or finitely many steps, not invariably one
+strict step. Obtain total-degree-zero values on basis words and all scalar, unlink,
+skein, mirror, simultaneous-reversal and marked connected-sum APIs. For δ=0 use the same
+normalization, without cancellation by δ.
+
+**From words to every geometric skein triple.** Compare A0/A1/A2 with the actual native
+Artin braid group and the full signed-word equality presentation. Compare
+closure/conjugation with M1, and both geometric Markov stabilizations with typed M2.
+Consume 4.2's realized PD closure, Artin, Alexander and geometric Markov theorems; an
+algebraic `MarkovEquiv` definition is not itself the geometric theorem. Own the missing
+**relative simultaneous Alexander braiding**: for every realized oriented local skein
+triple, braid outside its fixed local box and produce common n≥2, u,v and i whose
+closures realize `uσᵢv`, `uσᵢ⁻¹v`, `uv` as the prescribed L₊,L₋,L₀, with all local
+orientation and ambient identifications. Braiding three links separately is insufficient
+for P1.
+
+Using this adapter, construct the free R-module on nonempty oriented realized-link
+classes modulo the actual local skein vectors. Prove closure induces a linear
+equivalence from M to this link skein module, and both scalar maps are linear
+equivalences. Establish the common invariant's normalization, skein relation, uniqueness
+and coefficient dictionary. Do not implicitly add the empty link or demand that δ be
+invertible. The four-ended relative skein module in 4.10 may share generic
+module-quotient helpers, but is not needed to prove FY existence; general three-manifold
+skein modules are outside this prefix.
+
+**Hoste's distinct diagram construction.** Define ordered diagrams with one regular
+basepoint on every component. Pin the source's descending convention: each crossing is
+first encountered as an **underpass** while traversing components in order from those
+points; supply an explicit convention adapter if using first-over internally. Give the
+distinguished resolution at the first bad crossing, with prescribed inherited
+order/basepoints on both switching and oriented smoothing, including component
+merge/split cases. The lexicographic `(crossing number, bad first-encounter count)`
+decreases: switching reduces the latter for the fixed traversal, smoothing the former.
+Prove descending diagrams realize the appropriate unlink by an actual ambient movie and
+assign δ^(μ−1).
+
+Prove independence of resolution order, including change-and-change-back and
+interchanging two changed/smoothed crossings; sliding a basepoint through one crossing;
+and adjacent component-order swaps, including the difficult descending two-component
+case. Account for every choice of smoothing points and induced ordering. Prove the skein
+identity at every crossing, all oriented Reidemeister I/II/III cases,
+relabeling/naturality, actual ambient descent and agreement with every finite complete
+unlink-resolution tree. Switching a crossing in the recursion is not an ambient move.
+The source's special descending-to-split simplification is a restricted movie lemma
+within this induction, not a crossing-nonincreasing theorem for arbitrary isotopic
+diagrams.
+
+**Lickorish–Millett's bounded induction.** Retain the separate construction `P_n` on all
+ordered/basepointed oriented diagrams with at most n crossings. Define the first-under
+ascending αL and its unlink value, solve the skein relations backward along the
+prescribed crossing-change sequence, and prove independence of that sequence and its
+induced pointing/order choices. Within the induction prove skein identities and
+invariance for every local move whose two sides lie inside the cap, then basepoint and
+component-order independence; include the move sequence to a suitable ascending
+projection of fewer crossings used in the component-order step. Prove
+`P_(n+1)|_(≤n)=P_n`.
+
+Deduce unrestricted Reidemeister invariance by working at a cap at least the maximum
+crossing count of the two move diagrams; a finite global movie uses the maximum over all
+its frames. This does not assert a nonincreasing path for arbitrary isotopic diagrams
+and must not bypass 4.2.6's hard-unknot obstruction. Compare Hoste, Lickorish–Millett and
+FY by explicit normalization/uniqueness maps. They are independent proof routes with
+common value P, not private link or coefficient carriers.
+
+**Ocneanu's independent algebraic route.** Consume the full [TypeAHeckeAlgebras
+H1–H4a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/632834b86fde0501e5e376aa30bc650e02732160/TauCetiRoadmap/TypeAHeckeAlgebras/README.md)
+suppliers: the universal type-A Hecke quotient and permutation basis;
+split-semisimplicity criterion over fields `∏_(r=1)^n [r]_(q²)≠0` in the declared
+parameter convention; Specht/Young modules, tableau bases, branching and Wedderburn
+decomposition; the generic q-Frobenius character formula; the compatible normalized
+Ocneanu trace; and its finite-color character weights/weighted-Jimbo comparison. H2
+constructs its trace, braid invariant and both stabilization normalizations
+algebraically, independently of geometric P. GT owns geometric closure/descent and
+comparison with the preceding invariant, with exact writhe/strand factors and
+coefficient maps as in 4.6.
+
+Keep every required normalization unit, root extension and descent explicit; the
+universal ring contains no implicit square roots. Generic trace identities hold where
+their denominators are units; singular specializations require an algebraically proved
+regular/integral expression and agreement with T, never an evaluation sending a Laurent
+unit to 0. Analytic positivity, C*-quotients and factor classifications remain their
+later owners and are not prerequisites for existence. Retain H2's corrected source 88
+exponential/sign/tan-versus-tanh comparisons and 4.4.5/4.5's established
+Conway/native-Jones dictionary; a source convention must not silently replace it.
+Mutation, two-tangle composition and the distinguishing examples on pp.88–89 retain their
+existing 4.10/6.3 owners, downstream of existence.
+
+*Needs:* 4.2's finite oriented diagrams and realized local moves,
+Artin/Alexander/geometric Markov prefix and relative isotopy extension; this unit owns
+the simultaneous local-box braiding adapter and complete FY/Hoste/LM normalization
+proofs. Use native `BraidWord.toBraid`, `toBraid_surjective`, `strandIncl`, `stabilize`,
+their closure comparisons, Mathlib `Finsupp`, submodule quotients, iterated
+`LaurentPolynomial` and well-founded orders, adding a local confluence adapter where
+needed. TypeAHeckeAlgebras H1/H2 supplies the separate algebraic trace comparison; no
+dependency returns from its existence proof to geometric P. Later Alexander/Jones,
+tangle and positivity comparisons consume this prefix without being needed for its
+existence.
+
+[Native word-module, typed relation and scalar-equivalence
+targets](HomflyWordTargets.lean) use actual signed braid words, free modules and
+quotients. The admitted rank-one theorem is one representative target; the six-rule
+algorithm, cyclicity proof, geometric adapter and all three independent existence routes
+above remain required specifications.
 
 ### 4.7 Colourings, the determinant and the Arf invariant
 
